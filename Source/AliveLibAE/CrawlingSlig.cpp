@@ -230,7 +230,7 @@ s32 CrawlingSlig::CreateFromSaveState(const u8* pBuffer)
 {
     auto pState = reinterpret_cast<const CrawlingSligSaveState*>(pBuffer);
 
-    auto pTlv = static_cast<relive::Path_CrawlingSlig*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pState->mCrawlingSligTlvId));
+    auto pTlv = static_cast<relive::Path_CrawlingSlig*>(gPathInfo->TLV_From_Offset_Lvl_Cam(pState->mCrawlingSligTlvId));
 
     auto pCrawlingSlig = relive_new CrawlingSlig(pTlv, pState->mCrawlingSligTlvId);
     if (pCrawlingSlig)
@@ -410,7 +410,7 @@ void CrawlingSlig::UpdateAnimBlock()
 
 u8** CrawlingSlig::GetAnimBlock(s32 /*currentMotion*/)
 {
-    return field_10_resources_array.ItemAt(0);
+    return mBaseGameObjectResArray.ItemAt(0);
 }
 
 s16 CrawlingSlig::NextRandom()
@@ -451,7 +451,7 @@ void CrawlingSlig::VUpdate()
             mSligButtonId = RefreshId(mSligButtonId);
         }
 
-        if (!Input_IsChanting_45F260())
+        if (!Input_IsChanting())
         {
             mChanting = false;
         }
@@ -465,7 +465,7 @@ void CrawlingSlig::VUpdate()
 
         if (oldX != mXPos || oldY != mYPos)
         {
-            auto pTlv = sPathInfo->TlvGetAt(
+            auto pTlv = gPathInfo->TlvGetAt(
                 nullptr,
                 mXPos,
                 mYPos,
@@ -497,7 +497,7 @@ s16 CrawlingSlig::HandleEnemyStopper(FP /*velX*/)
     }
 
     const FP gridSize = ScaleToGridSize(GetSpriteScale());
-    auto pSlamDoor = static_cast<relive::Path_SlamDoor*>(sPathInfo->TLV_Get_At(
+    auto pSlamDoor = static_cast<relive::Path_SlamDoor*>(gPathInfo->TLV_Get_At(
         FP_GetExponent(mXPos),
         FP_GetExponent(mYPos),
         FP_GetExponent(mXPos + gridSizeDirected),
@@ -510,7 +510,7 @@ s16 CrawlingSlig::HandleEnemyStopper(FP /*velX*/)
         return 1;
     }
 
-    auto pStopper = static_cast<relive::Path_EnemyStopper*>(sPathInfo->TLV_Get_At(
+    auto pStopper = static_cast<relive::Path_EnemyStopper*>(gPathInfo->TLV_Get_At(
         FP_GetExponent(mXPos),
         FP_GetExponent(mYPos),
         FP_GetExponent(mXPos + gridSizeDirected),
@@ -523,14 +523,14 @@ s16 CrawlingSlig::HandleEnemyStopper(FP /*velX*/)
 
 relive::Path_TLV* CrawlingSlig::FindPantsOrWings()
 {
-    relive::Path_TLV* pTlvIter = sPathInfo->TlvGetAt(nullptr, mXPos, mYPos, mXPos, mYPos);
+    relive::Path_TLV* pTlvIter = gPathInfo->TlvGetAt(nullptr, mXPos, mYPos, mXPos, mYPos);
     while (pTlvIter)
     {
         if (pTlvIter->mTlvType == ReliveTypes::eSligGetPants || pTlvIter->mTlvType == ReliveTypes::eSligGetWings)
         {
             return pTlvIter;
         }
-        pTlvIter = sPathInfo->TlvGetAt(pTlvIter, mXPos, mYPos, mXPos, mYPos);
+        pTlvIter = gPathInfo->TlvGetAt(pTlvIter, mXPos, mYPos, mXPos, mYPos);
     }
     return nullptr;
 }
@@ -565,12 +565,12 @@ void CrawlingSlig::VOnTlvCollision(relive::Path_TLV* pTlv)
                 mVelY = FP_FromInteger(0);
                 mVelX = FP_FromInteger(0);
                 EventBroadcast(kEventMudokonComfort, this);
-                Slig_GameSpeak_SFX_4C04F0(SligSpeak::eHelp_10, 0, 0, this);
+                Slig_GameSpeak_SFX(SligSpeak::eHelp_10, 0, 0, this);
                 mMultiUseTimer = sGnFrame + 60;
             }
         }
 
-        pTlv = sPathInfo->TlvGetAt(
+        pTlv = gPathInfo->TlvGetAt(
             pTlv,
             mXPos,
             mYPos,
@@ -602,7 +602,7 @@ s16 CrawlingSlig::VTakeDamage(BaseGameObject* pFrom)
                 return 1;
 
             case ReliveTypes::eElectricWall:
-                Slig_GameSpeak_SFX_4C04F0(SligSpeak::eHelp_10, 0, 0, this);
+                Slig_GameSpeak_SFX(SligSpeak::eHelp_10, 0, 0, this);
                 return 1;
 
             case ReliveTypes::eSlig:
@@ -619,7 +619,7 @@ s16 CrawlingSlig::VTakeDamage(BaseGameObject* pFrom)
                 }
 
                 Set_AnimAndMotion(CrawlingSligMotion::Motion_7_ToShakingToIdle, true);
-                Slig_GameSpeak_SFX_4C04F0(SligSpeak::eHelp_10, 0, 0, this);
+                Slig_GameSpeak_SFX(SligSpeak::eHelp_10, 0, 0, this);
 
                 if (BrainIs(&CrawlingSlig::Brain_2_PanicGetALocker))
                 {
@@ -1046,7 +1046,7 @@ s16 CrawlingSlig::Brain_3_Possessed()
             return Brain_2_Possessed::eBrain3_Possessed_1;
 
         case Brain_2_Possessed::eBrain3_Possessed_1:
-            if (!Input_IsChanting_45F260() || mChanting)
+            if (!Input_IsChanting() || mChanting)
             {
                 return mBrainSubState;
             }
@@ -1056,7 +1056,7 @@ s16 CrawlingSlig::Brain_3_Possessed()
             return Brain_2_Possessed::eBrain3_Unpossessing_2;
 
         case Brain_2_Possessed::eBrain3_Unpossessing_2:
-            if (Input_IsChanting_45F260())
+            if (Input_IsChanting())
             {
                 if (!(static_cast<s32>(sGnFrame) % 4))
                 {
@@ -1213,7 +1213,7 @@ s16 CrawlingSlig::Brain_4_GetKilled()
             {
                 if (!(static_cast<s32>(mMultiUseTimer - sGnFrame) % 15))
                 {
-                    Slig_GameSpeak_SFX_4C04F0(
+                    Slig_GameSpeak_SFX(
                         SligSpeak::eHelp_10,
                         // TODO: revisit the logic below
                         static_cast<s16>(2 * (mMultiUseTimer & (0xFFFF - sGnFrame))),
@@ -1299,7 +1299,7 @@ void CrawlingSlig::Motion_1_UsingButton()
 
                 SfxPlayMono(relive::SoundEffects::SligSpawn, 0);
 
-                auto pWalkingSlig = relive_new Slig(static_cast<relive::Path_Slig*>(mTlvHeader), sPathInfo->TLVInfo_From_TLVPtr(mTlvHeader));
+                auto pWalkingSlig = relive_new Slig(static_cast<relive::Path_Slig*>(mTlvHeader), gPathInfo->TLVInfo_From_TLVPtr(mTlvHeader));
                 if (pWalkingSlig)
                 {
                     mTransformedSligId = pWalkingSlig->mBaseGameObjectId;
@@ -1328,7 +1328,7 @@ void CrawlingSlig::Motion_1_UsingButton()
 
                 SfxPlayMono(relive::SoundEffects::FlyingSligSpawn, 0);
 
-                auto pFlyingSlig = relive_new FlyingSlig(static_cast<relive::Path_FlyingSlig*>(mTlvHeader), sPathInfo->TLVInfo_From_TLVPtr(mTlvHeader));
+                auto pFlyingSlig = relive_new FlyingSlig(static_cast<relive::Path_FlyingSlig*>(mTlvHeader), gPathInfo->TLVInfo_From_TLVPtr(mTlvHeader));
                 if (pFlyingSlig)
                 {
                     mTransformedSligId = pFlyingSlig->mBaseGameObjectId;
@@ -1534,7 +1534,7 @@ void CrawlingSlig::Motion_8_Speaking()
     {
         if (gMap.mCurrentPath == mCurrentPath && gMap.mCurrentLevel == mCurrentLevel && Is_In_Current_Camera() == CameraPos::eCamCurrent_0)
         {
-            Slig_GameSpeak_SFX_4C04F0(mSpeak, 0, 0, this);
+            Slig_GameSpeak_SFX(mSpeak, 0, 0, this);
         }
         mSpeak = SligSpeak::eNone;
     }
@@ -1683,7 +1683,7 @@ void CrawlingSlig::Motion_16_IdleToPushingWall()
 {
     if (GetAnimation().GetIsLastFrame())
     {
-        Slig_GameSpeak_SFX_4C04F0(static_cast<SligSpeak>(Math_RandomRange(static_cast<s32>(SligSpeak::eOuch1_13), static_cast<s32>(SligSpeak::eOuch2_14))), 0, 0, this);
+        Slig_GameSpeak_SFX(static_cast<SligSpeak>(Math_RandomRange(static_cast<s32>(SligSpeak::eOuch1_13), static_cast<s32>(SligSpeak::eOuch2_14))), 0, 0, this);
         Set_AnimAndMotion(CrawlingSligMotion::Motion_10_PushingWall, true);
     }
 }
@@ -1875,7 +1875,7 @@ s16 CrawlingSlig::CanCrawl()
         Set_AnimAndMotion(CrawlingSligMotion::Motion_10_PushingWall, true);
         const s32 snappedX = SnapToXGrid(GetSpriteScale(), FP_GetExponent(mXPos));
         mVelX = ((FP_FromInteger(snappedX) - mXPos) / FP_FromInteger(4));
-        Slig_GameSpeak_SFX_4C04F0(static_cast<SligSpeak>(Math_RandomRange(static_cast<s32>(SligSpeak::eOuch1_13), static_cast<s32>(SligSpeak::eOuch2_14))), 0, 0, this);
+        Slig_GameSpeak_SFX(static_cast<SligSpeak>(Math_RandomRange(static_cast<s32>(SligSpeak::eOuch1_13), static_cast<s32>(SligSpeak::eOuch2_14))), 0, 0, this);
         return false;
     }
     else

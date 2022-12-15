@@ -14,10 +14,11 @@
 #include "../AliveLibCommon/PathDataExtensionsTypes.hpp"
 #include "PathData.hpp"
 #include "Path.hpp"
+#include "Map.hpp"
 
 namespace AO {
 
-static const char_type* sLCDMessageTable_4C7420[90] = {
+static const char_type* sLCDMessageTable[90] = {
     "",
     "                               The profits justify the means.",
     "                               You are who you eat.",
@@ -80,7 +81,7 @@ static const char_type* sLCDMessageTable_4C7420[90] = {
     "                               Sneak to shadows by holding " kAO_Sneak " while you move.   Stand still in shadows while Slig is facing you, or you will be seen.  Sneak behind Slig when it walks away from you.",
     "                               To get a grenade from the Boom Machine, stand in front of it and press " kAO_Up ".   To pick up a grenade, crouch next to it and press " kAO_Action ".   To throw the grenade, hold " kAO_Throw ", then press any directional button.   Different directions will throw at different angles.",
     "                               It is possible to throw while crouching.",
-    "                               To alert a Mudokon, mSay hello by holding " kAO_Speak1 " and pressing " kAO_Jump_Or_Hello ".   Then, talk to Mudokons by holding " kAO_Speak1 " or " kAO_Speak2 " and pressing the " kAO_Jump_Or_Hello ", " kAO_Action ", " kAO_Throw ", or " kAO_Crouch " button.   Experiment!",
+    "                               To alert a Mudokon, say hello by holding " kAO_Speak1 " and pressing " kAO_Jump_Or_Hello ".   Then, talk to Mudokons by holding " kAO_Speak1 " or " kAO_Speak2 " and pressing the " kAO_Jump_Or_Hello ", " kAO_Action ", " kAO_Throw ", or " kAO_Crouch " button.   Experiment!",
     "                               Possess Sligs by chanting.   Chant by holding " kAO_Speak1 " and " kAO_Speak2 " at the same time or pressing (0) (zero) on the keyboard.",
     "                               To help Mudokons escape from slavery in Rupture Farms, chant when you see a circle of birds.   To chant, hold " kAO_Speak1 " and " kAO_Speak2 " at the same time or pressing (0) on the keyboard.",
     "                               To roll, first crouch by pressing " kAO_Down ".   Then roll left or right by pressing " kAO_Left " or " kAO_Right ".",
@@ -135,14 +136,14 @@ public:
             }
         }
 
-        if (msgId < ALIVE_COUNTOF(sLCDMessageTable_4C7420))
+        if (msgId < ALIVE_COUNTOF(sLCDMessageTable))
         {
-            return sLCDMessageTable_4C7420[msgId];
+            return sLCDMessageTable[msgId];
         }
         else
         {
             LOG_WARNING("LCD message out of bounds using original message table id: %d", msgId);
-            return sLCDMessageTable_4C7420[0];
+            return sLCDMessageTable[0];
         }
     }
 };
@@ -151,51 +152,55 @@ static LCDMessages gLCDMessages;
 LCDScreen::LCDScreen(relive::Path_LCDScreen* pTlv, const Guid& tlvId)
     : BaseGameObject(true, 0)
 {
-    field_2BC_tlv = pTlv;
+    mTlvTopLeft.x = pTlv->mTopLeftX;
+    mTlvTopLeft.y = pTlv->mTopLeftY;
 
-    field_2B8_tlv_item_info = tlvId;
+    mTlvBottomRight.x = pTlv->mBottomRightX;
+    mTlvBottomRight.y = pTlv->mBottomRightY;
 
-    field_2AC_message_1_id = pTlv->mMessageId1;
+    mTlvId = tlvId;
 
-    field_50_FontContext.LoadFontType(FontType::LcdFont);
+    mMessageId1 = pTlv->mMessageId1;
+
+    mFontContext.LoadFontType(FontType::LcdFont);
 
     mPal1 = ResourceManagerWrapper::LoadPal(PalId::LedFont_1);
     mPal2 = ResourceManagerWrapper::LoadPal(PalId::LedFont_2);
 
-    field_60_font.Load(60, mPal1, &field_50_FontContext);
+    mFont.Load(60, mPal1, &mFontContext);
 
-    if (Input_JoyStickEnabled() || field_2AC_message_1_id != 62)
+    if (Input_JoyStickEnabled() || mMessageId1 != 62)
     {
-        String_FormatString(gLCDMessages.GetMessage(gMap.mCurrentLevel, gMap.mCurrentPath, field_2AC_message_1_id), field_AC_message_buffer);
+        String_FormatString(gLCDMessages.GetMessage(gMap.mCurrentLevel, gMap.mCurrentPath, mMessageId1), mMessageBuffer);
     }
     else
     {
-        strcpy(field_AC_message_buffer,
-               "                               To alert a Mudokon, mSay hello by holding (1) on the keyboard.   Then, talk to"
+        strcpy(mMessageBuffer,
+               "                               To alert a Mudokon, say hello by holding (1) on the keyboard.   Then, talk to"
                " Mudokons by using the keyboard numbers (1) thru (8).   Experiment!");
     }
 
-    field_A0_message = field_AC_message_buffer;
-    field_A4_message_cutoff_ptr = 0;
-    field_2B0_x_offset = 0;
+    mActiveMessage = mMessageBuffer;
+    mMessageCutoffPtr = 0;
+    mOffsetX = 0;
 
     SetDrawable(true);
 
-    field_2D8_message_rand_min = pTlv->mMessageRandMinId;
-    field_2DC_message_rand_max = pTlv->mMessageRandMaxId;
+    mMessageRandMinId = pTlv->mMessageRandMinId;
+    mMessageRandMaxId = pTlv->mMessageRandMaxId;
 
-    sFontDrawScreenSpace = 1;
-    field_2B4_character_width = field_60_font.MeasureCharacterWidth(field_AC_message_buffer[0]);
-    sFontDrawScreenSpace = 0;
+    gFontDrawScreenSpace = true;
+    mCharacterWidth = mFont.MeasureCharacterWidth(mMessageBuffer[0]);
+    gFontDrawScreenSpace = false;
 
-    field_2D4 = 0;
+    mShowRandomMessage = 0;
     gObjListDrawables->Push_Back(this);
 }
 
 LCDScreen::~LCDScreen()
 {
     gObjListDrawables->Remove_Item(this);
-    Path::TLV_Reset(field_2B8_tlv_item_info, -1, 0, 0);
+    Path::TLV_Reset(mTlvId, -1, 0, 0);
 }
 
 void LCDScreen::VScreenChanged()
@@ -211,78 +216,78 @@ void LCDScreen::VUpdate()
     }
 
 #if LCD_PS1_SPEED
-    field_2B0_x_offset += 6;
+    mOffsetX += 6;
 #else
-    field_2B0_x_offset += 3;
+    mOffsetX += 3;
 #endif
 
-    if (field_2B0_x_offset > field_2B4_character_width)
+    if (mOffsetX > mCharacterWidth)
     {
-        field_2B0_x_offset -= field_2B4_character_width;
-        char_type* pMsg = field_A0_message;
-        field_A0_message++;
+        mOffsetX -= mCharacterWidth;
+        char_type* pMsg = mActiveMessage;
+        mActiveMessage++;
         if (!*pMsg)
         {
-            field_A0_message = field_AC_message_buffer;
-            field_2D4++;
-            if (field_2D4 == 1)
+            mActiveMessage = mMessageBuffer;
+            mShowRandomMessage++;
+            if (mShowRandomMessage == 1)
             {
                 const auto rangedRandom = Math_RandomRange(
-                    field_2D8_message_rand_min,
-                    field_2DC_message_rand_max);
+                    mMessageRandMinId,
+                    mMessageRandMaxId);
 
                 if (Input_JoyStickEnabled() || rangedRandom != 62)
                 {
-                    String_FormatString(gLCDMessages.GetMessage(gMap.mCurrentLevel, gMap.mCurrentPath, rangedRandom), field_AC_message_buffer);
+                    String_FormatString(gLCDMessages.GetMessage(gMap.mCurrentLevel, gMap.mCurrentPath, rangedRandom), mMessageBuffer);
                 }
                 else
                 {
                     strcpy(
-                        field_AC_message_buffer,
-                        "                               To alert a Mudokon, mSay hello by holding (1) on the keyboard.   Then, talk to Mudokons by using the keyboard numbers (1) thru (8).   Experiment!");
+                        mMessageBuffer,
+                        "                               To alert a Mudokon, say hello by holding (1) on the keyboard.   Then, talk to Mudokons by using the keyboard numbers (1) thru (8).   Experiment!");
                 }
 
                  // Change pal
-                field_60_font.field_34_FontContext->field_C_resource_id.mCurPal = mPal2.mPal;
+                mFont.mFontContext->mFntResource.mCurPal = mPal2.mPal;
             }
             else
             {
-                field_2D4 = 0;
+                mShowRandomMessage = 0;
 
-                if (Input_JoyStickEnabled() || field_2AC_message_1_id != 62)
+                if (Input_JoyStickEnabled() || mMessageId1 != 62)
                 {
                     String_FormatString(
-                        gLCDMessages.GetMessage(gMap.mCurrentLevel, gMap.mCurrentPath, field_2AC_message_1_id),
-                        field_AC_message_buffer);
+                        gLCDMessages.GetMessage(gMap.mCurrentLevel, gMap.mCurrentPath, mMessageId1),
+                        mMessageBuffer);
                 }
                 else
                 {
                     strcpy(
-                        field_AC_message_buffer,
-                        "                               To alert a Mudokon, mSay hello by holding (1) on the keyboard.   Then, talk to Mudokons by using the keyboard numbers (1) thru (8).   Experiment!");
+                        mMessageBuffer,
+                        "                               To alert a Mudokon, say hello by holding (1) on the keyboard.   Then, talk to Mudokons by using the keyboard numbers (1) thru (8).   Experiment!");
                 }
 
                 // Change pal
-                field_60_font.field_34_FontContext->field_C_resource_id.mCurPal = mPal1.mPal;
+                mFont.mFontContext->mFntResource.mCurPal = mPal1.mPal;
             }
         }
-        sFontDrawScreenSpace = 1;
-        field_2B4_character_width = field_60_font.MeasureCharacterWidth(*field_A0_message);
+        gFontDrawScreenSpace = true;
+        mCharacterWidth = mFont.MeasureCharacterWidth(*mActiveMessage);
     }
-    sFontDrawScreenSpace = 1;
+    gFontDrawScreenSpace = true;
 
-    auto screenLeft = field_2BC_tlv->mTopLeftX - FP_GetExponent(pScreenManager->mCamPos->x);
-    auto screenRight = field_2BC_tlv->mBottomRightX - FP_GetExponent(pScreenManager->mCamPos->x);
+    auto screenLeft = mTlvTopLeft.x - FP_GetExponent(gScreenManager->mCamPos->x);
+    auto screenRight = mTlvBottomRight.x - FP_GetExponent(gScreenManager->mCamPos->x);
 
-    const char_type* slicedText = field_60_font.SliceText(
-        field_A0_message,
-        PsxToPCX(screenLeft - pScreenManager->mCamXOff, 11) - field_2B0_x_offset,
+    const char_type* slicedText = mFont.SliceText(
+        mActiveMessage,
+        PsxToPCX(screenLeft - gScreenManager->mCamXOff, 11) - mOffsetX,
         FP_FromInteger(1),
-        screenRight - pScreenManager->mCamXOff);
-    sFontDrawScreenSpace = 0;
-    if (slicedText != field_A4_message_cutoff_ptr)
+        screenRight - gScreenManager->mCamXOff);
+    gFontDrawScreenSpace = false;
+    if (slicedText != mMessageCutoffPtr)
     {
-        field_A4_message_cutoff_ptr = slicedText;
+        mMessageCutoffPtr = slicedText;
         if (*slicedText != ' ')
         {
             SfxPlayMono(relive::SoundEffects::LCDScreen, 0);
@@ -294,13 +299,13 @@ void LCDScreen::VRender(PrimHeader** ppOt)
 {
     if (gNumCamSwappers == 0)
     {
-        const FP_Point* camPos = pScreenManager->mCamPos;
+        const FP_Point* camPos = gScreenManager->mCamPos;
 
-        auto endY = field_2BC_tlv->mTopLeftY + field_2BC_tlv->mBottomRightY;
-        auto endX = pScreenManager->mCamXOff + field_2BC_tlv->mBottomRightX;
+        auto endY = mTlvTopLeft.y + mTlvBottomRight.y;
+        auto endX = gScreenManager->mCamXOff + mTlvBottomRight.x;
 
-        const s32 screenX = field_2BC_tlv->mTopLeftX - FP_GetExponent(camPos->x - FP_FromInteger(pScreenManager->mCamXOff));
-        const s32 screenY = endY / 2 - FP_GetExponent(camPos->y - FP_FromInteger(pScreenManager->mCamYOff)) - 7;
+        const s32 screenX = mTlvTopLeft.x - FP_GetExponent(camPos->x - FP_FromInteger(gScreenManager->mCamXOff));
+        const s32 screenY = endY / 2 - FP_GetExponent(camPos->y - FP_FromInteger(gScreenManager->mCamYOff)) - 7;
         const s32 maxWidth = FP_GetExponent(FP_FromInteger(endX) - camPos->x);
 
         PSX_RECT clipRect = {
@@ -309,14 +314,14 @@ void LCDScreen::VRender(PrimHeader** ppOt)
             640,
             static_cast<s16>(gPsxDisplay.mHeight)};
 
-        auto* pClippers = &field_10_prim_clippers[0][gPsxDisplay.mBufferIndex];
+        auto* pClippers = &mPrimClippers[0][gPsxDisplay.mBufferIndex];
         Init_PrimClipper(
             pClippers,
             &clipRect);
         OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_BeforeWell_22), &pClippers->mBase);
 
         auto fontFlickerAmount = 50;
-        if (sDisableFontFlicker)
+        if (gDisableFontFlicker)
         {
             fontFlickerAmount = 0;
         }
@@ -325,11 +330,11 @@ void LCDScreen::VRender(PrimHeader** ppOt)
             fontFlickerAmount = 40;
         }
 
-        sFontDrawScreenSpace = 1;
-        field_60_font.DrawString(
+        gFontDrawScreenSpace = true;
+        mFont.DrawString(
             ppOt,
-            field_A0_message,
-            static_cast<s16>(PsxToPCX(screenX, 11) - field_2B0_x_offset),
+            mActiveMessage,
+            static_cast<s16>(PsxToPCX(screenX, 11) - mOffsetX),
             static_cast<s16>(screenY),
             TPageAbr::eBlend_1,
             1,
@@ -342,7 +347,7 @@ void LCDScreen::VRender(PrimHeader** ppOt)
             FP_FromInteger(1),
             maxWidth,
             static_cast<s16>(fontFlickerAmount));
-        sFontDrawScreenSpace = 0;
+        gFontDrawScreenSpace = false;
 
         PSX_RECT clipRect2 = {};
 
@@ -351,7 +356,7 @@ void LCDScreen::VRender(PrimHeader** ppOt)
         clipRect2.w = static_cast<s16>(PsxToPCX(maxWidth - screenX, 51));
         clipRect2.h = 48;
 
-        auto* clipper = &field_10_prim_clippers[1][gPsxDisplay.mBufferIndex];
+        auto* clipper = &mPrimClippers[1][gPsxDisplay.mBufferIndex];
         Init_PrimClipper(clipper, &clipRect2);
         OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_BeforeWell_22), &clipper->mBase);
     }

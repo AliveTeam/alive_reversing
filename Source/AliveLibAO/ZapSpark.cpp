@@ -22,7 +22,7 @@ ZapSpark::ZapSpark(FP xpos, FP ypos, FP scale)
 
     Animation_Init(GetAnimRes(AnimId::ChantOrb_Particle_Small));
 
-    mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
+    SetApplyShadowZoneColour(false);
 
     GetAnimation().SetRenderLayer(Layer::eLayer_FG1_37);
     GetAnimation().SetRenderMode(TPageAbr::eBlend_1);

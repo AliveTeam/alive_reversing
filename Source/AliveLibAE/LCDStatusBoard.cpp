@@ -30,8 +30,8 @@ LCDStatusBoard::LCDStatusBoard(relive::Path_LCDStatusBoard* pTlv, const Guid& tl
 
     SetDrawable(true);
     gObjListDrawables->Push_Back(this);
-    mXPos = FP_GetExponent(FP_FromInteger(static_cast<s32>(pTlv->mTopLeftX)) - pScreenManager->CamXPos());
-    mYPos = FP_GetExponent(FP_FromInteger(static_cast<s32>(pTlv->mTopLeftY)) - pScreenManager->CamYPos());
+    mXPos = FP_GetExponent(FP_FromInteger(static_cast<s32>(pTlv->mTopLeftX)) - gScreenManager->CamXPos());
+    mYPos = FP_GetExponent(FP_FromInteger(static_cast<s32>(pTlv->mTopLeftY)) - gScreenManager->CamYPos());
     gMudokonsInArea = pTlv->mNumberOfMuds;
     mHideBoard = static_cast<s16>(pTlv->mHideBoard);
     gZulagNumber = static_cast<s8>(pTlv->mZulagNumber);
@@ -65,7 +65,7 @@ void LCDStatusBoard::VRender(PrimHeader** ppOt)
         s32 maxWidth = mMudsInLevelFont.MeasureTextWidth(text);
 
         s16 flickerAmount = 50; // ax
-        if (sDisableFontFlicker)
+        if (gDisableFontFlicker)
         {
             flickerAmount = 0;
         }
@@ -112,7 +112,7 @@ void LCDStatusBoard::VRender(PrimHeader** ppOt)
         maxWidth = std::max(font4Width, maxWidth);
 
         // Rescued Mudokons
-        sprintf(text, "%3d", sRescuedMudokons);
+        sprintf(text, "%3d", gRescuedMudokons);
         const s32 font2Width = mRescuedMudsFont.MeasureTextWidth(text);
         mRescuedMudsFont.DrawString(
             ppOt,
@@ -133,7 +133,7 @@ void LCDStatusBoard::VRender(PrimHeader** ppOt)
         maxWidth = std::max(font2Width, maxWidth);
 
         // Killed mudokons
-        sprintf(text, "%3d", sKilledMudokons);
+        sprintf(text, "%3d", gKilledMudokons);
         const s32 font1Width = mKilledMudsFont.MeasureTextWidth(text);
         mKilledMudsFont.DrawString(
             ppOt,

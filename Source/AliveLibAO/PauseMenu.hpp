@@ -27,30 +27,21 @@ public:
     };
     void DrawEntries(PrimHeader** ppOt, PauseEntry* entries, s16 compilerhack, s32 polyOffset);
 
-    s32 field_D4[4] = {};
-
     FontContext mFontContext;
     PalResource mPal;
     AliveFont field_E4_font;
     s16 field_11C = 0;
     s16 field_11E_selected_glow = 0;
     s16 field_120_selected_glow_counter = 0;
-    s16 field_122 = 0;
     s16 field_124 = 0;
     s16 field_126_page = 0;
     s16 field_128_controller_id = 0;
-    s16 field_12A = 0;
     s16 field_12C = 0;
-    s16 field_12E = 0;
-    s16 field_130 = 0;
-    s16 field_132_always_0 = 0;
     s16 field_134 = 0;
-    s16 field_136 = 0;
     Prim_SetTPage field_138_tPage[2] = {};
     Poly_G4 field_158[2] = {};
 };
 
 extern PauseMenu* gPauseMenu;
-extern s8 byte_A88B90;
 
 } // namespace AO

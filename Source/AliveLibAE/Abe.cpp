@@ -359,7 +359,7 @@ s32 Environment_SFX_457A40(EnvironmentSfx sfxId, s32 volume, s32 pitchMin, BaseA
             }
             else
             {
-                return SFX_SfxDefinition_Play_Mono(sSFXList_555160[2], sSFXList_555160[2].field_C_default_volume / 2, static_cast<s16>(pitchMin), 0x7FFF) | SFX_SfxDefinition_Play_Mono(sAbeSFXList_555250[16], sSFXList_555160[16].field_C_default_volume / 2, static_cast<s16>(pitchMin), 0x7FFF);
+                return SFX_SfxDefinition_Play_Mono(sSFXList_555160[2], sSFXList_555160[2].mDefaultVolume / 2, static_cast<s16>(pitchMin), 0x7FFF) | SFX_SfxDefinition_Play_Mono(sAbeSFXList_555250[16], sSFXList_555160[16].mDefaultVolume / 2, static_cast<s16>(pitchMin), 0x7FFF);
             }
 
         case EnvironmentSfx::eHitGroundSoft_6:
@@ -429,7 +429,7 @@ s32 Environment_SFX_457A40(EnvironmentSfx sfxId, s32 volume, s32 pitchMin, BaseA
 
     if (!sndVolume)
     {
-        sndVolume = sSFXList_555160[sndIndex].field_C_default_volume;
+        sndVolume = sSFXList_555160[sndIndex].mDefaultVolume;
     }
 
     if (!pAliveObj)
@@ -748,8 +748,8 @@ s32 Abe::CreateFromSaveState(const u8* pData)
     {
         u32 id = sAbeResourceIDTable_554D60[sActiveHero->field_128.field_10_resource_index];
         // ResourceManager::LoadResourceFile_49C170(sAbe_ResNames_545830[sActiveHero->field_128.field_10_resource_index], 0);
-        sActiveHero->field_10_resources_array.SetAt(sActiveHero->field_128.field_10_resource_index, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, id, true, false));
-        animFromState = sActiveHero->field_10_resources_array.ItemAt(sActiveHero->field_128.field_10_resource_index);
+        sActiveHero->mBaseGameObjectResArray.SetAt(sActiveHero->field_128.field_10_resource_index, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, id, true, false));
+        animFromState = sActiveHero->mBaseGameObjectResArray.ItemAt(sActiveHero->field_128.field_10_resource_index);
     }*/
 
     sActiveHero->GetAnimation().Set_Animation_Data(sActiveHero->GetAnimRes(sAbeAnimIdTable[sActiveHero->mCurrentMotion]));
@@ -798,7 +798,7 @@ s32 Abe::CreateFromSaveState(const u8* pData)
 
     if (sActiveHero->mRingPulseTimer && sActiveHero->mHaveShrykull)
     {
-        if (!sActiveHero->field_10_resources_array.ItemAt(25))
+        if (!sActiveHero->mBaseGameObjectResArray.ItemAt(25))
         {
 
             
@@ -806,7 +806,7 @@ s32 Abe::CreateFromSaveState(const u8* pData)
     }
     else
     {
-        if (sActiveHero->field_10_resources_array.ItemAt(25))
+        if (sActiveHero->mBaseGameObjectResArray.ItemAt(25))
         {
             sActiveHero->Free_Shrykull_Resources_45AA90();
         }
@@ -1009,12 +1009,12 @@ void Abe::VUpdate()
         mHealth = FP_FromDouble(1.0);
     }
 
-    if (!Input_IsChanting_45F260())
+    if (!Input_IsChanting())
     {
         mPreventChanting = false;
     }
 
-    const s32 totalAliveSavedMuds = sRescuedMudokons - sKilledMudokons;
+    const s32 totalAliveSavedMuds = gRescuedMudokons - gKilledMudokons;
     if (totalAliveSavedMuds > 0)
     {
         // "Happy" voice
@@ -1062,7 +1062,7 @@ void Abe::VUpdate()
         if (oldXPos != mXPos || oldYPos != mYPos)
         {
             // Get the TLV we are on
-            BaseAliveGameObjectPathTLV = sPathInfo->TlvGetAt(
+            BaseAliveGameObjectPathTLV = gPathInfo->TlvGetAt(
                 nullptr,
                 mXPos,
                 mYPos,
@@ -1278,10 +1278,10 @@ void Abe::VUpdate()
         if (mDoQuicksave)
         {
             mDoQuicksave = false;
-            sActiveQuicksaveData.field_204_world_info.mSaveFileId = mSaveFileId;
-            Quicksave_SaveWorldInfo(&sActiveQuicksaveData.field_244_restart_path_world_info);
-            VGetSaveState(reinterpret_cast<u8*>(&sActiveQuicksaveData.field_284_restart_path_abe_state));
-            sActiveQuicksaveData.field_35C_restart_path_switch_states = gSwitchStates;
+            gActiveQuicksaveData.field_204_world_info.mSaveFileId = mSaveFileId;
+            Quicksave_SaveWorldInfo(&gActiveQuicksaveData.field_244_restart_path_world_info);
+            VGetSaveState(reinterpret_cast<u8*>(&gActiveQuicksaveData.field_284_restart_path_abe_state));
+            gActiveQuicksaveData.field_35C_restart_path_switch_states = gSwitchStates;
             DoQuicksave();
         }
     }
@@ -1855,7 +1855,7 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
             // The zap makes Abe drop his stuff everywhere
             for (s32 i = 0; i < mBaseThrowableCount; i++)
             {
-                BaseThrowable* pThrowable = Make_Throwable_49AF30(
+                BaseThrowable* pThrowable = Make_Throwable(
                     mXPos,
                     mYPos - FP_FromInteger(30),
                     0);
@@ -2100,7 +2100,7 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
 
 void Abe::VOnTlvCollision(relive::Path_TLV* pTlv)
 {
-    for (; pTlv; pTlv = sPathInfo->TlvGetAt(
+    for (; pTlv; pTlv = gPathInfo->TlvGetAt(
                      pTlv,
                      mXPos,
                      mYPos,
@@ -2249,11 +2249,11 @@ IBaseAliveGameObject* Abe::FindObjectToPossess_44B7B0()
 
 void Abe::Free_Resources_44D420()
 {
-    if (field_10_resources_array.field_4_used_size)
+    if (mBaseGameObjectResArray.mUsedSize)
     {
-        if (field_10_resources_array.ItemAt(0))
+        if (mBaseGameObjectResArray.ItemAt(0))
         {
-            field_10_resources_array.SetAt(0, nullptr);
+            mBaseGameObjectResArray.SetAt(0, nullptr);
         }
     }
 }
@@ -2279,11 +2279,11 @@ bool Abe::IsStanding_449D30()
 
 void Abe::Free_Shrykull_Resources_45AA90()
 {
-    field_10_resources_array.SetAt(25, nullptr);
+    mBaseGameObjectResArray.SetAt(25, nullptr);
 
-    field_10_resources_array.SetAt(26, nullptr);
+    mBaseGameObjectResArray.SetAt(26, nullptr);
 
-    field_10_resources_array.SetAt(27, nullptr);
+    mBaseGameObjectResArray.SetAt(27, nullptr);
 }
 
 
@@ -2347,7 +2347,7 @@ static bool isEdgeGrabbable(relive::Path_Edge* pEdge, BaseAliveGameObject* pObj)
 
 void Abe::Motion_0_Idle_44EEB0()
 {
-    if (Input_IsChanting_45F260() && !mPreventChanting)
+    if (Input_IsChanting() && !mPreventChanting)
     {
         if (mRingPulseTimer && mHaveShrykull)
         {
@@ -2424,7 +2424,7 @@ void Abe::Motion_0_Idle_44EEB0()
         }
 
         // Look below for a down hoist
-        relive::Path_Hoist* pHoist = static_cast<relive::Path_Hoist*>(sPathInfo->TLV_Get_At(
+        relive::Path_Hoist* pHoist = static_cast<relive::Path_Hoist*>(gPathInfo->TLV_Get_At(
             FP_GetExponent(mXPos),
             FP_GetExponent(mYPos) + 16,
             FP_GetExponent(mXPos),
@@ -2470,7 +2470,7 @@ void Abe::Motion_0_Idle_44EEB0()
     {
         // Do the fart sound
         Mudokon_SFX(MudSounds::eFart_7, 0, 0, this);
-        gEventSystem->PushEvent(GameSpeakEvents::eFart_3);
+        gEventSystem->PushEvent(GameSpeakEvents::eAbe_Fart_3);
 
         // Let others hear the fart
         EventBroadcast(kEventNoise, this);
@@ -2526,7 +2526,7 @@ void Abe::Motion_0_Idle_44EEB0()
         }
 
         // Get the first TLV
-        relive::Path_TLV* pTlv = sPathInfo->TlvGetAt(
+        relive::Path_TLV* pTlv = gPathInfo->TlvGetAt(
             nullptr,
             mXPos,
             mYPos,
@@ -2678,7 +2678,7 @@ void Abe::Motion_0_Idle_44EEB0()
             }
 
             // To next TLV (if any)
-            pTlv = sPathInfo->TlvGetAt(
+            pTlv = gPathInfo->TlvGetAt(
                 pTlv,
                 mXPos,
                 mYPos,
@@ -2702,13 +2702,13 @@ void Abe::Motion_0_Idle_44EEB0()
         {
             if (mBaseThrowableCount > 0 || gInfiniteThrowables)
             {
-                mThrowableId = Make_Throwable_49AF30(
+                mThrowableId = Make_Throwable(
                                              mXPos,
                                              mYPos - FP_FromInteger(40),
                                              0)
                                              ->mBaseGameObjectId;
 
-                if (!bThrowableIndicatorExists_5C112C)
+                if (!gThrowableIndicatorExists)
                 {
                     const FP xOffSet = ((GetAnimation().GetFlipX()) ? FP_FromInteger(15) : FP_FromInteger(-15)) * GetSpriteScale();
                     relive_new ThrowableTotalIndicator(
@@ -2934,7 +2934,7 @@ void Abe::Motion_3_Fall_459B60()
     SetActiveCameraDelayedFromDir();
 
     // Are we falling into a local well?
-    BaseAliveGameObjectPathTLV = sPathInfo->TLV_Get_At(
+    BaseAliveGameObjectPathTLV = gPathInfo->TLV_Get_At(
         FP_GetExponent(mXPos),
         FP_GetExponent(mYPos),
         FP_GetExponent(mXPos),
@@ -2944,7 +2944,7 @@ void Abe::Motion_3_Fall_459B60()
     if (!BaseAliveGameObjectPathTLV)
     {
         // No, are we falling into an express well?
-        BaseAliveGameObjectPathTLV = sPathInfo->TLV_Get_At(
+        BaseAliveGameObjectPathTLV = gPathInfo->TLV_Get_At(
             FP_GetExponent(mXPos),
             FP_GetExponent(mYPos),
             FP_GetExponent(mXPos),
@@ -2987,7 +2987,7 @@ void Abe::Motion_3_Fall_459B60()
                 field_124_timer = sGnFrame + 30;
 
                 // See if there is a soft landing at our feet (given we known we just hit the floor)
-                relive::Path_SoftLanding* pSoftLanding = static_cast<relive::Path_SoftLanding*>(sPathInfo->TLV_Get_At(
+                relive::Path_SoftLanding* pSoftLanding = static_cast<relive::Path_SoftLanding*>(gPathInfo->TLV_Get_At(
                     FP_GetExponent(mXPos),
                     FP_GetExponent(mYPos),
                     FP_GetExponent(mXPos),
@@ -3043,7 +3043,7 @@ void Abe::Motion_3_Fall_459B60()
     }
 
     // Look down 75 for an edge
-    relive::Path_Edge* pEdge = static_cast<relive::Path_Edge*>(sPathInfo->TLV_Get_At(
+    relive::Path_Edge* pEdge = static_cast<relive::Path_Edge*>(gPathInfo->TLV_Get_At(
         FP_GetExponent(mXPos),
         FP_GetExponent(mYPos - (GetSpriteScale() * FP_FromInteger(75))),
         FP_GetExponent(mXPos),
@@ -3062,7 +3062,7 @@ void Abe::Motion_3_Fall_459B60()
     else // Didn't find and edge to grab so check if falling onto a hoist
     {
         // Look down 20 for a hoist
-        relive::Path_Hoist* pHoist = static_cast<relive::Path_Hoist*>(sPathInfo->TLV_Get_At(
+        relive::Path_Hoist* pHoist = static_cast<relive::Path_Hoist*>(gPathInfo->TLV_Get_At(
             FP_GetExponent(mXPos),
             FP_GetExponent(mYPos - GetSpriteScale() * FP_FromInteger(20)),
             FP_GetExponent(mXPos),
@@ -3310,7 +3310,7 @@ void Abe::Motion_14_HoistIdle_452440()
         mPullRingRopeId = Guid{};
     }
 
-    relive::Path_Hoist* pHoist = static_cast<relive::Path_Hoist*>(sPathInfo->TLV_Get_At(
+    relive::Path_Hoist* pHoist = static_cast<relive::Path_Hoist*>(gPathInfo->TLV_Get_At(
         FP_GetExponent(mXPos),
         FP_GetExponent(mYPos),
         FP_GetExponent(mXPos),
@@ -3341,7 +3341,7 @@ void Abe::Motion_14_HoistIdle_452440()
             {
                 if (gMap.SetActiveCameraDelayed(MapDirections::eMapTop_2, this, -1))
                 {
-                    PSX_Prevent_Rendering_4945B0();
+                    PSX_Prevent_Rendering();
                     mCurrentMotion = eAbeMotions::Motion_68_ToOffScreenHoist_454B80;
                     return;
                 }
@@ -3411,7 +3411,7 @@ void Abe::Motion_14_HoistIdle_452440()
     }
     else
     {
-        BaseAliveGameObjectPathTLV = sPathInfo->TlvGetAt(
+        BaseAliveGameObjectPathTLV = gPathInfo->TlvGetAt(
             nullptr,
             mXPos,
             mYPos,
@@ -3529,8 +3529,8 @@ void Abe::Motion_17_CrouchIdle_456BC0()
         && mCurrentMotion == eAbeMotions::Motion_17_CrouchIdle_456BC0
         && (mBaseThrowableCount > 0 || gInfiniteThrowables))
     {
-        mThrowableId = Make_Throwable_49AF30(mXPos, mYPos - FP_FromInteger(40), 0)->mBaseGameObjectId;
-        if (!bThrowableIndicatorExists_5C112C)
+        mThrowableId = Make_Throwable(mXPos, mYPos - FP_FromInteger(40), 0)->mBaseGameObjectId;
+        if (!gThrowableIndicatorExists)
         {
             const FP yOff = mYPos + (GetSpriteScale() * FP_FromInteger(-30));
             const FP xOff = GetSpriteScale() * (GetAnimation().GetFlipX() ? FP_FromInteger(-10) : FP_FromInteger(10));
@@ -3562,7 +3562,7 @@ void Abe::Motion_17_CrouchIdle_456BC0()
         // Crouching farts
         if (sInputKey_FartRoll & Input().mPads[sCurrentControllerIndex].mHeld)
         {
-            gEventSystem->PushEvent(GameSpeakEvents::eFart_3);
+            gEventSystem->PushEvent(GameSpeakEvents::eAbe_Fart_3);
 
             Mudokon_SFX(MudSounds::eFart_7, 0, 0, this);
 
@@ -3571,9 +3571,9 @@ void Abe::Motion_17_CrouchIdle_456BC0()
                 mHasEvilFart = 0;
                 Create_Fart_421D20();
 
-                if (field_10_resources_array.ItemAt(22))
+                if (mBaseGameObjectResArray.ItemAt(22))
                 {
-                    field_10_resources_array.SetAt(22, nullptr);
+                    mBaseGameObjectResArray.SetAt(22, nullptr);
                 }
             }
             else
@@ -4000,7 +4000,7 @@ void Abe::Motion_28_HopMid_451C50()
         }
 
         // Check for an edge
-        relive::Path_Edge* pEdgeTlv = static_cast<relive::Path_Edge*>(sPathInfo->TLV_Get_At(
+        relive::Path_Edge* pEdgeTlv = static_cast<relive::Path_Edge*>(gPathInfo->TLV_Get_At(
             FP_GetExponent(mXPos),
             FP_GetExponent(mYPos - (GetSpriteScale() * FP_FromInteger(75))),
             FP_GetExponent(mXPos),
@@ -4166,7 +4166,7 @@ void Abe::Motion_31_RunJumpMid_452C10()
     }
     else
     {
-        relive::Path_Hoist* pHoist = static_cast<relive::Path_Hoist*>(sPathInfo->TLV_Get_At(
+        relive::Path_Hoist* pHoist = static_cast<relive::Path_Hoist*>(gPathInfo->TLV_Get_At(
             FP_GetExponent(mXPos - mVelX),
             FP_GetExponent(mYPos),
             FP_GetExponent(mXPos - mVelX),
@@ -4187,7 +4187,7 @@ void Abe::Motion_31_RunJumpMid_452C10()
         }
         else
         {
-            relive::Path_Edge* pEdgeTlv = static_cast<relive::Path_Edge*>(sPathInfo->TLV_Get_At(
+            relive::Path_Edge* pEdgeTlv = static_cast<relive::Path_Edge*>(gPathInfo->TLV_Get_At(
                 FP_GetExponent(mXPos),
                 FP_GetExponent(mYPos - (GetSpriteScale() * FP_FromInteger(60))),
                 FP_GetExponent(mXPos),
@@ -4253,7 +4253,7 @@ void Abe::Motion_31_RunJumpMid_452C10()
         }
         else
         {
-            BaseAliveGameObjectPathTLV = sPathInfo->TlvGetAt(
+            BaseAliveGameObjectPathTLV = gPathInfo->TlvGetAt(
                 nullptr,
                 mXPos,
                 mYPos,
@@ -4994,7 +4994,7 @@ void Abe::Motion_57_Dead_4589A0()
         }
         else if (pLiftPoint->Type() == ReliveTypes::eLiftPoint)
         {
-            static_cast<LiftPoint*>(pLiftPoint)->vMove_4626A0(FP_FromInteger(0), FP_FromInteger(0), 0);
+            static_cast<LiftPoint*>(pLiftPoint)->Move(FP_FromInteger(0), FP_FromInteger(0), 0);
         }
     }
 
@@ -5134,10 +5134,10 @@ void Abe::Motion_57_Dead_4589A0()
             {
                 return;
             }
-            Make_Circular_Fade_4CE8C0(
-                FP_FromInteger(sActiveQuicksaveData.field_204_world_info.field_C_controlled_x),
-                FP_FromInteger(sActiveQuicksaveData.field_204_world_info.field_E_controlled_y),
-                sActiveQuicksaveData.field_204_world_info.field_10_controlled_scale != 0 ? FP_FromDouble(1.0) : FP_FromDouble(0.5),
+            Make_Circular_Fade(
+                FP_FromInteger(gActiveQuicksaveData.field_204_world_info.field_C_controlled_x),
+                FP_FromInteger(gActiveQuicksaveData.field_204_world_info.field_E_controlled_y),
+                gActiveQuicksaveData.field_204_world_info.field_10_controlled_scale != 0 ? FP_FromDouble(1.0) : FP_FromDouble(0.5),
                 0,
                 1,
                 true);
@@ -5328,7 +5328,7 @@ void Abe::Motion_66_LedgeDescend_454970()
     }
     else if (curFrameNum == 21)
     {
-        relive::Path_Hoist* pHoist = static_cast<relive::Path_Hoist*>(sPathInfo->TLV_Get_At(
+        relive::Path_Hoist* pHoist = static_cast<relive::Path_Hoist*>(gPathInfo->TLV_Get_At(
             FP_GetExponent(mXPos),
             FP_GetExponent(mYPos + FP_FromInteger(16)),
             FP_GetExponent(mXPos),
@@ -5397,7 +5397,7 @@ void Abe::Motion_68_ToOffScreenHoist_454B80()
     BaseGameObject* pLiftPoint = sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId);
 
     // Get the current hoist - even though there is no need to?
-    relive::Path_TLV* pHoist = sPathInfo->TLV_Get_At(
+    relive::Path_TLV* pHoist = gPathInfo->TLV_Get_At(
         FP_GetExponent(mXPos),
         FP_GetExponent(mYPos),
         FP_GetExponent(mXPos),
@@ -5410,7 +5410,7 @@ void Abe::Motion_68_ToOffScreenHoist_454B80()
     GetShadow()->mShadowAtBottom = true;
 
     const FP ypos = FP_FromInteger(BaseAliveGameObjectPathTLV->mTopLeftY) - (FP_FromInteger(40) * GetSpriteScale());
-    pHoist = sPathInfo->TLV_Get_At(
+    pHoist = gPathInfo->TLV_Get_At(
         FP_GetExponent(mXPos),
         FP_GetExponent(ypos),
         FP_GetExponent(mXPos),
@@ -5670,7 +5670,7 @@ void Abe::Motion_78_WellBegin_45C810()
         GetShadow()->mEnabled = false;
 
         // Get a local well
-        BaseAliveGameObjectPathTLV = sPathInfo->TLV_Get_At(
+        BaseAliveGameObjectPathTLV = gPathInfo->TLV_Get_At(
             FP_GetExponent(mXPos),
             FP_GetExponent(mYPos),
             FP_GetExponent(mXPos),
@@ -5680,7 +5680,7 @@ void Abe::Motion_78_WellBegin_45C810()
         if (!BaseAliveGameObjectPathTLV)
         {
             // No local well, must be an express well
-            BaseAliveGameObjectPathTLV = sPathInfo->TLV_Get_At(
+            BaseAliveGameObjectPathTLV = gPathInfo->TLV_Get_At(
                 FP_GetExponent(mXPos),
                 FP_GetExponent(mYPos),
                 FP_GetExponent(mXPos),
@@ -5718,7 +5718,7 @@ void Abe::Motion_78_WellBegin_45C810()
 
         SfxPlayMono(relive::SoundEffects::WellEnter, 0, GetSpriteScale());
 
-        if (sPathInfo->TLV_Get_At(
+        if (gPathInfo->TLV_Get_At(
                 FP_GetExponent(mXPos),
                 FP_GetExponent(mYPos),
                 FP_GetExponent(mXPos),
@@ -5740,7 +5740,7 @@ void Abe::Motion_79_InsideWellLocal_45CA60()
     field_124_timer = gnFrame - 1;
     if (!gnFrame)
     {
-        BaseAliveGameObjectPathTLV = sPathInfo->TLV_Get_At(
+        BaseAliveGameObjectPathTLV = gPathInfo->TLV_Get_At(
             FP_GetExponent(mXPos),
             FP_GetExponent(mYPos),
             FP_GetExponent(mXPos),
@@ -5749,7 +5749,7 @@ void Abe::Motion_79_InsideWellLocal_45CA60()
 
         if (!BaseAliveGameObjectPathTLV)
         {
-            BaseAliveGameObjectPathTLV = sPathInfo->TLV_Get_At(
+            BaseAliveGameObjectPathTLV = gPathInfo->TLV_Get_At(
                 FP_GetExponent(mXPos),
                 FP_GetExponent(mYPos),
                 FP_GetExponent(mXPos),
@@ -5836,7 +5836,7 @@ void Abe::Motion_80_WellShotOut_45D150()
 
         SetActiveCameraDelayedFromDir();
 
-        BaseAliveGameObjectPathTLV = sPathInfo->TlvGetAt(
+        BaseAliveGameObjectPathTLV = gPathInfo->TlvGetAt(
             nullptr,
             mXPos,
             mYPos,
@@ -5872,7 +5872,7 @@ void Abe::jMotion_81_WellBegin_45C7F0()
 
 void Abe::Motion_82_InsideWellExpress_45CC80()
 {
-    BaseAliveGameObjectPathTLV = sPathInfo->TLV_Get_At(
+    BaseAliveGameObjectPathTLV = gPathInfo->TLV_Get_At(
         FP_GetExponent(mXPos),
         FP_GetExponent(mYPos),
         FP_GetExponent(mXPos),
@@ -5881,7 +5881,7 @@ void Abe::Motion_82_InsideWellExpress_45CC80()
 
     if (!BaseAliveGameObjectPathTLV)
     {
-        BaseAliveGameObjectPathTLV = sPathInfo->TLV_Get_At(
+        BaseAliveGameObjectPathTLV = gPathInfo->TLV_Get_At(
             FP_GetExponent(mXPos),
             FP_GetExponent(mYPos),
             FP_GetExponent(mXPos),
@@ -5960,7 +5960,7 @@ void Abe::Motion_83_WellExpressShotOut_45CF70()
     relive::Path_WellBase* pWell = nullptr;
     for (;;)
     {
-        pTlvIter = sPathInfo->TlvGetAt(
+        pTlvIter = gPathInfo->TlvGetAt(
             pTlvIter,
             FP_FromInteger(camPos.x),
             FP_FromInteger(camPos.y),
@@ -6056,7 +6056,7 @@ void Abe::Motion_86_HandstoneBegin()
         case StoneStates::eHandstoneBegin_0:
             if (GetAnimation().GetForwardLoopCompleted())
             {
-                CircularFade* pCircularFade2 = Make_Circular_Fade_4CE8C0(
+                CircularFade* pCircularFade2 = Make_Circular_Fade(
                     mXPos,
                     mYPos,
                     GetSpriteScale(),
@@ -6078,7 +6078,7 @@ void Abe::Motion_86_HandstoneBegin()
 
                 SfxPlayMono(relive::SoundEffects::IngameTransition, 90);
 
-                BaseAliveGameObjectPathTLV = sPathInfo->TLV_Get_At(
+                BaseAliveGameObjectPathTLV = gPathInfo->TLV_Get_At(
                     FP_GetExponent(mXPos),
                     FP_GetExponent(mYPos),
                     FP_GetExponent(mXPos),
@@ -6091,7 +6091,7 @@ void Abe::Motion_86_HandstoneBegin()
                 relive::Path_MovieStone* pMovieStoneTlv = static_cast<relive::Path_MovieStone*>(BaseAliveGameObjectPathTLV);
                 if (!pMovieStoneTlv)
                 {
-                    relive::Path_HandStone* pHandStoneTlv = static_cast<relive::Path_HandStone*>(sPathInfo->TLV_Get_At(
+                    relive::Path_HandStone* pHandStoneTlv = static_cast<relive::Path_HandStone*>(gPathInfo->TLV_Get_At(
                         FP_GetExponent(mXPos),
                         FP_GetExponent(mYPos),
                         FP_GetExponent(mXPos),
@@ -6141,7 +6141,7 @@ void Abe::Motion_86_HandstoneBegin()
             {
                 if (mHandStoneType == ReliveTypes::eMovieHandStone)
                 {
-                    pScreenManager->EnableRendering();
+                    gScreenManager->EnableRendering();
 
                     FmvInfo* pFmvRec = Path_Get_FMV_Record(gMap.mCurrentLevel, mFmvId);
                     sLevelId_dword_5CA408 = static_cast<u32>(MapWrapper::ToAE(gMap.mCurrentLevel));
@@ -6169,11 +6169,11 @@ void Abe::Motion_86_HandstoneBegin()
             break;
 
         case StoneStates::eHandstoneMovieDone_2:
-            if (sMovie_ref_count_BB4AE4 == 0)
+            if (gMovieRefCount == 0)
             {
                 gPsxDisplay.PutCurrentDispEnv();
-                pScreenManager->DecompressCameraToVRam(gMap.field_2C_camera_array[0]->field_C_pCamRes);
-                pScreenManager->EnableRendering();
+                gScreenManager->DecompressCameraToVRam(gMap.field_2C_camera_array[0]->mCamRes);
+                gScreenManager->EnableRendering();
                 pCircularFade->VFadeIn(0, 0);
                 field_120_state.stone = StoneStates::eHandstoneEnd_3;
             }
@@ -6257,7 +6257,7 @@ void Abe::Motion_86_HandstoneBegin()
             pFade->SetDead(true);
             mFadeId = Guid{};
 
-            CircularFade* pCircularFade2 = Make_Circular_Fade_4CE8C0(mXPos, mYPos, GetSpriteScale(), 0, 0, false);
+            CircularFade* pCircularFade2 = Make_Circular_Fade(mXPos, mYPos, GetSpriteScale(), 0, 0, false);
             if (GetAnimation().GetFlipX())
             {
                 pCircularFade2->GetAnimation().SetFlipX(true);
@@ -6699,7 +6699,7 @@ void Abe::Motion_110_ZShot()
             BaseGameObject* pLiftPoint = sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId);
             if (pLiftPoint->Type() == ReliveTypes::eLiftPoint)
             {
-                static_cast<LiftPoint*>(pLiftPoint)->vMove_4626A0(FP_FromInteger(0), FP_FromInteger(0), 0);
+                static_cast<LiftPoint*>(pLiftPoint)->Move(FP_FromInteger(0), FP_FromInteger(0), 0);
             }
             VOnTrapDoorOpen();
         }
@@ -6848,7 +6848,7 @@ void Abe::Motion_112_Chant()
             }
 
             // Stopped chanting?
-            if ((GetAnimation().GetIsLastFrame() || GetAnimation().GetCurrentFrame() == 3) && !Input_IsChanting_45F260())
+            if ((GetAnimation().GetIsLastFrame() || GetAnimation().GetCurrentFrame() == 3) && !Input_IsChanting())
             {
                 mCurrentMotion = eAbeMotions::Motion_113_ChantEnd;
                 mPossessedObjectId = Guid{};
@@ -7092,7 +7092,7 @@ void Abe::Motion_114_DoorEnter()
 
         case AbeDoorStates::eSetNewActiveCamera_4:
         {
-            relive::Path_Door* pDoorTlv = static_cast<relive::Path_Door*>(sPathInfo->TLV_Get_At(
+            relive::Path_Door* pDoorTlv = static_cast<relive::Path_Door*>(gPathInfo->TLV_Get_At(
                 FP_GetExponent(mXPos),
                 FP_GetExponent(mYPos),
                 FP_GetExponent(mXPos),
@@ -7172,7 +7172,7 @@ void Abe::Motion_114_DoorEnter()
             mCurrentLevel = gMap.mCurrentLevel;
             mCurrentPath = gMap.mCurrentPath;
 
-            relive::Path_Door* pDoorTlv2 = static_cast<relive::Path_Door*>(sPathInfo->TLV_First_Of_Type_In_Camera(ReliveTypes::eDoor, 0));
+            relive::Path_Door* pDoorTlv2 = static_cast<relive::Path_Door*>(gPathInfo->TLV_First_Of_Type_In_Camera(ReliveTypes::eDoor, 0));
             BaseAliveGameObjectPathTLV = pDoorTlv2;
             relive::Path_Door* pTargetDoorTlv = pDoorTlv2;
             if (pTargetDoorTlv->mDoorId != field_1A0_door_id)
@@ -7292,7 +7292,7 @@ void Abe::Motion_115_DoorExit()
     if (GetAnimation().GetIsLastFrame())
     {
         // Now that we've exited the door, should it close behind us?
-        if (static_cast<relive::Path_Door*>(sPathInfo->TLV_Get_At(
+        if (static_cast<relive::Path_Door*>(gPathInfo->TLV_Get_At(
                                         FP_GetExponent(mXPos),
                                         FP_GetExponent(mYPos),
                                         FP_GetExponent(mXPos),
@@ -7328,7 +7328,7 @@ void Abe::Motion_115_DoorExit()
             }
         }
 
-        BaseAliveGameObjectPathTLV = sPathInfo->TlvGetAt(
+        BaseAliveGameObjectPathTLV = gPathInfo->TlvGetAt(
             nullptr,
             mXPos,
             mYPos,
@@ -7433,7 +7433,7 @@ void Abe::Motion_121_LiftGrabBegin()
     auto pLiftPoint = static_cast<LiftPoint*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
     if (pLiftPoint)
     {
-        pLiftPoint->vMove_4626A0(FP_FromInteger(0), FP_FromInteger(0), 0);
+        pLiftPoint->Move(FP_FromInteger(0), FP_FromInteger(0), 0);
     }
 
     mVelY = FP_FromInteger(0);
@@ -7461,7 +7461,7 @@ void Abe::Motion_123_LiftGrabIdle()
 
     if (pLiftPoint)
     {
-        pLiftPoint->vMove_4626A0(FP_FromInteger(0), FP_FromInteger(0), 0);
+        pLiftPoint->Move(FP_FromInteger(0), FP_FromInteger(0), 0);
     }
 
     mVelY = FP_FromInteger(0);
@@ -7516,7 +7516,7 @@ void Abe::Motion_127_TurnWheelLoop()
 {
     if (field_120_state.wheel == WorkWheelStates::eTurningWheel_0 || field_120_state.wheel == WorkWheelStates::eCheckForNoLongerTurningWheel_1) // The state we enter the main state at.
     {
-        relive::Path_LevelLoader* pLevelLoader = static_cast<relive::Path_LevelLoader*>(sPathInfo->TLV_First_Of_Type_In_Camera(ReliveTypes::eLevelLoader, 0));
+        relive::Path_LevelLoader* pLevelLoader = static_cast<relive::Path_LevelLoader*>(gPathInfo->TLV_First_Of_Type_In_Camera(ReliveTypes::eLevelLoader, 0));
         if (pLevelLoader && SwitchStates_Get(pLevelLoader->mSwitchId))
         {
             field_120_state.wheel = WorkWheelStates::eMapChanging_2;
@@ -7564,7 +7564,7 @@ void Abe::Motion_127_TurnWheelLoop()
             }
             mWorkWheelId = Guid{};
 
-            auto pPathAbeStart = static_cast<relive::Path_AbeStart*>(sPathInfo->TLV_First_Of_Type_In_Camera(ReliveTypes::eAbeStart, 0));
+            auto pPathAbeStart = static_cast<relive::Path_AbeStart*>(gPathInfo->TLV_First_Of_Type_In_Camera(ReliveTypes::eAbeStart, 0));
             mXPos = FP_FromInteger((pPathAbeStart->mTopLeftX + pPathAbeStart->mBottomRightX) / 2);
             mYPos = FP_FromInteger(pPathAbeStart->mBottomRightY);
             BaseAliveGameObjectLastLineYPos = FP_FromInteger(pPathAbeStart->mBottomRightY);
@@ -7715,7 +7715,7 @@ void Abe::PickUpThrowabe_Or_PressBomb_454090(FP fpX, s32 fpY, s32 bStandToCrouch
             case ReliveTypes::eRock:
                 mCurrentMotion = eAbeMotions::Motion_111_PickupItem;
                 mBaseThrowableCount += static_cast<s8>(static_cast<BaseThrowable*>(pSlappableOrCollectable)->VGetCount()); // TODO: Check types are correct.
-                if (!bThrowableIndicatorExists_5C112C)
+                if (!gThrowableIndicatorExists)
                 {
                     const FP yoff = (GetSpriteScale() * FP_FromInteger(-30)) + mYPos;
                     const FP xoff = GetSpriteScale() * FP_FromInteger(0);
@@ -7821,7 +7821,7 @@ void Abe::TryHoist_44ED30()
     const FP xpos = mXPos;
     const FP ypos = mYPos - FP_FromInteger(10); // Look up 10 for a hoist.
 
-    relive::Path_Hoist* pHoist = static_cast<relive::Path_Hoist*>(sPathInfo->TLV_Get_At(
+    relive::Path_Hoist* pHoist = static_cast<relive::Path_Hoist*>(gPathInfo->TLV_Get_At(
         FP_GetExponent(xpos),
         FP_GetExponent(ypos),
         FP_GetExponent(xpos),
@@ -7912,7 +7912,7 @@ s32 Abe::NearDoorIsOpen_44EE10()
 
 s16 Abe::HandleDoAction_455BD0()
 {
-    relive::Path_TLV* pTlv = sPathInfo->TlvGetAt(
+    relive::Path_TLV* pTlv = gPathInfo->TlvGetAt(
         nullptr,
         mXPos,
         mYPos,
@@ -7974,7 +7974,7 @@ s16 Abe::HandleDoAction_455BD0()
 
             default:
                 // Next TLV, exit if we're at the end.
-                pTlv = sPathInfo->TlvGetAt(
+                pTlv = gPathInfo->TlvGetAt(
                     pTlv,
                     mXPos,
                     mYPos,
@@ -8089,21 +8089,21 @@ s16 Abe::CrouchingGameSpeak_453E10()
 
     if (sInputKey_GameSpeak2 & mPrevHeld)
     {
-        gEventSystem->PushEvent(GameSpeakEvents::eFollowMe_10);
+        gEventSystem->PushEvent(GameSpeakEvents::eAbe_FollowMe_10);
         Mudokon_SFX(MudSounds::eFollowMe_4, 0, 0, this);
         mCurrentMotion = eAbeMotions::Motion_20_CrouchSpeak_454550;
         return true;
     }
     else if (sInputKey_GameSpeak3 & mPrevHeld)
     {
-        gEventSystem->PushEvent(GameSpeakEvents::eWait_12);
+        gEventSystem->PushEvent(GameSpeakEvents::eAbe_Wait_12);
         Mudokon_SFX(MudSounds::eWait_6, 0, 0, this);
         mCurrentMotion = eAbeMotions::jMotion_21_ToCrouchSpeak_4545E0;
         return true;
     }
     else if (mPrevHeld & sInputKey_GameSpeak1)
     {
-        gEventSystem->PushEvent(GameSpeakEvents::eHello_9);
+        gEventSystem->PushEvent(GameSpeakEvents::eAbe_Hello_9);
 
         if (field_128.mMood == Mud_Emotion::eHappy_5 || field_128.mMood == Mud_Emotion::eWired_6)
         {
@@ -8126,7 +8126,7 @@ s16 Abe::CrouchingGameSpeak_453E10()
     }
     else if (mPrevHeld & sInputKey_GameSpeak4)
     {
-        gEventSystem->PushEvent(GameSpeakEvents::eWork_21);
+        gEventSystem->PushEvent(GameSpeakEvents::eAbe_Work_21);
         Mudokon_SFX(MudSounds::eWork_25, 0, 0, this);
         mCurrentMotion = eAbeMotions::jMotion_21_ToCrouchSpeak_4545E0;
         return true;
@@ -8134,28 +8134,28 @@ s16 Abe::CrouchingGameSpeak_453E10()
     else if (mPrevHeld & sInputKey_GameSpeak6)
     {
         Mudokon_SFX(MudSounds::eAllOYa_17, 0, 0, this);
-        gEventSystem->PushEvent(GameSpeakEvents::eAllYa_23);
+        gEventSystem->PushEvent(GameSpeakEvents::eAbe_AllYa_23);
         mCurrentMotion = eAbeMotions::jMotion_21_ToCrouchSpeak_4545E0;
         return true;
     }
     else if (mPrevHeld & sInputKey_GameSpeak5)
     {
         Mudokon_SFX(MudSounds::eAnger_5, 0, 0, this);
-        gEventSystem->PushEvent(GameSpeakEvents::eAnger_11);
+        gEventSystem->PushEvent(GameSpeakEvents::eAbe_Anger_11);
         mCurrentMotion = eAbeMotions::Motion_20_CrouchSpeak_454550;
         return true;
     }
     else if (mPrevHeld & sInputKey_GameSpeak8)
     {
         Mudokon_SFX(MudSounds::eStopIt_26, 0, 0, this);
-        gEventSystem->PushEvent(GameSpeakEvents::eStopIt_22);
+        gEventSystem->PushEvent(GameSpeakEvents::eAbe_StopIt_22);
         mCurrentMotion = eAbeMotions::jMotion_21_ToCrouchSpeak_4545E0;
         return true;
     }
     else if (mPrevHeld & sInputKey_GameSpeak7)
     {
         Mudokon_SFX(MudSounds::eSadUgh_28, 0, 0, this);
-        gEventSystem->PushEvent(GameSpeakEvents::eSorry_24);
+        gEventSystem->PushEvent(GameSpeakEvents::eAbe_Sorry_24);
         mCurrentMotion = eAbeMotions::Motion_20_CrouchSpeak_454550;
         return true;
     }
@@ -8228,7 +8228,7 @@ s16 Abe::RunTryEnterDoor_451220()
     }
 
     // Are we actually on a door?
-    relive::Path_TLV* pDoorTlv = sPathInfo->TLV_Get_At(
+    relive::Path_TLV* pDoorTlv = gPathInfo->TLV_Get_At(
         FP_GetExponent(mXPos),
         FP_GetExponent(mYPos),
         FP_GetExponent(mXPos),
@@ -8260,7 +8260,7 @@ s16 Abe::RunTryEnterWell_451060()
         return 0;
     }
 
-    auto pWellLocal = static_cast<relive::Path_WellLocal*>(sPathInfo->TLV_Get_At(
+    auto pWellLocal = static_cast<relive::Path_WellLocal*>(gPathInfo->TLV_Get_At(
         FP_GetExponent(mXPos),
         FP_GetExponent(mYPos),
         FP_GetExponent(mXPos),
@@ -8279,7 +8279,7 @@ s16 Abe::RunTryEnterWell_451060()
         }
     }
 
-    auto pWellExpress = static_cast<relive::Path_WellExpress*>(sPathInfo->TLV_Get_At(
+    auto pWellExpress = static_cast<relive::Path_WellExpress*>(gPathInfo->TLV_Get_At(
         FP_GetExponent(mXPos),
         FP_GetExponent(mYPos),
         FP_GetExponent(mXPos),
@@ -8325,7 +8325,7 @@ void Abe::ToDieFinal_458910()
 s16 Abe::DoGameSpeak_45AB70(s32 input)
 {
     s16 nextMotion = -1;
-    if (Input_IsChanting_45F260())
+    if (Input_IsChanting())
     {
         // Fixes an OG bug where Abe doesn't transform into Shrykull when you immediately chant after using GameSpeak.
         if (!(mRingPulseTimer && mHaveShrykull))
@@ -8339,18 +8339,18 @@ s16 Abe::DoGameSpeak_45AB70(s32 input)
     else if (input & sInputKey_GameSpeak2)
     {
         Mudokon_SFX(MudSounds::eFollowMe_4, 0, 0, this);
-        gEventSystem->PushEvent(GameSpeakEvents::eFollowMe_10);
+        gEventSystem->PushEvent(GameSpeakEvents::eAbe_FollowMe_10);
         nextMotion = eAbeMotions::Motion_7_Speak_45B140;
     }
     else if (input & sInputKey_GameSpeak3)
     {
         Mudokon_SFX(MudSounds::eWait_6, 0, 0, this);
-        gEventSystem->PushEvent(GameSpeakEvents::eWait_12);
+        gEventSystem->PushEvent(GameSpeakEvents::eAbe_Wait_12);
         nextMotion = eAbeMotions::Motion_8_Speak_45B160;
     }
     else if (input & sInputKey_GameSpeak1)
     {
-        gEventSystem->PushEvent(GameSpeakEvents::eHello_9);
+        gEventSystem->PushEvent(GameSpeakEvents::eAbe_Hello_9);
         if (field_128.mMood == Mud_Emotion::eHappy_5 || field_128.mMood == Mud_Emotion::eWired_6)
         {
             Mudokon_SFX(MudSounds::eHiHappy_19, 0, 0, this);
@@ -8371,14 +8371,14 @@ s16 Abe::DoGameSpeak_45AB70(s32 input)
     }
     else if (input & sInputKey_GameSpeak4)
     {
-        gEventSystem->PushEvent(GameSpeakEvents::eWork_21);
+        gEventSystem->PushEvent(GameSpeakEvents::eAbe_Work_21);
         Mudokon_SFX(MudSounds::eWork_25, 0, 0, this);
         nextMotion = eAbeMotions::Motion_10_Fart_45B1A0;
     }
     else if (input & sInputKey_GameSpeak6)
     {
         Mudokon_SFX(MudSounds::eAllOYa_17, 0, 0, this);
-        gEventSystem->PushEvent(GameSpeakEvents::eAllYa_23);
+        gEventSystem->PushEvent(GameSpeakEvents::eAbe_AllYa_23);
         nextMotion = eAbeMotions::Motion_9_Speak_45B180;
     }
     else if (input & sInputKey_GameSpeak5)
@@ -8429,7 +8429,7 @@ s16 Abe::DoGameSpeak_45AB70(s32 input)
             {
                 // Didn't hit anything, just anger.
                 Mudokon_SFX(MudSounds::eAnger_5, 0, 0, this);
-                gEventSystem->PushEvent(GameSpeakEvents::eAnger_11);
+                gEventSystem->PushEvent(GameSpeakEvents::eAbe_Anger_11);
                 nextMotion = eAbeMotions::Motion_8_Speak_45B160;
             }
         }
@@ -8437,7 +8437,7 @@ s16 Abe::DoGameSpeak_45AB70(s32 input)
     else if (input & sInputKey_GameSpeak8)
     {
         Mudokon_SFX(MudSounds::eStopIt_26, 0, 0, this);
-        gEventSystem->PushEvent(GameSpeakEvents::eStopIt_22);
+        gEventSystem->PushEvent(GameSpeakEvents::eAbe_StopIt_22);
         nextMotion = eAbeMotions::Motion_7_Speak_45B140;
     }
     else if (input & sInputKey_GameSpeak7)
@@ -8452,7 +8452,7 @@ s16 Abe::DoGameSpeak_45AB70(s32 input)
             gridSize = ScaleToGridSize(GetSpriteScale());
         }
 
-        gEventSystem->PushEvent(GameSpeakEvents::eSorry_24);
+        gEventSystem->PushEvent(GameSpeakEvents::eAbe_Sorry_24);
         if (FindObjectOfType(ReliveTypes::eMudokon, mXPos + gridSize, mYPos - (GetSpriteScale() * FP_FromInteger(40))))
         {
             nextMotion = eAbeMotions::Motion_63_Sorry_454670;
@@ -8951,7 +8951,7 @@ s16 Abe::MoveLiftUpOrDown_45A7E0(FP yVelocity)
         return eAbeMotions::Motion_123_LiftGrabIdle;
     }
 
-    pLiftPoint->vMove_4626A0(FP_FromInteger(0), yVelocity, 0);
+    pLiftPoint->Move(FP_FromInteger(0), yVelocity, 0);
     FollowLift_45A500();
 
     if (sControlledCharacter == this && !(GetAnimation().GetIsLastFrame()) && GetAnimation().GetCurrentFrame() != 5)
@@ -9003,7 +9003,7 @@ s16 Abe::MoveLiftUpOrDown_45A7E0(FP yVelocity)
         return eAbeMotions::Motion_122_LiftGrabEnd;
     }
 
-    pLiftPoint->vMove_4626A0(FP_FromInteger(0), FP_FromInteger(0), 0);
+    pLiftPoint->Move(FP_FromInteger(0), FP_FromInteger(0), 0);
     return eAbeMotions::Motion_123_LiftGrabIdle;
 }
 
@@ -9139,7 +9139,7 @@ void Mudokon_SFX(MudSounds idx, s16 volume, s32 pitch, BaseAliveGameObject* pHer
             auto idxToVal = static_cast<u8>(idx);
             if (!volume)
             {
-                volume = sAbeSFXList_555250[idxToVal].field_C_default_volume;
+                volume = sAbeSFXList_555250[idxToVal].mDefaultVolume;
             }
 
             // OG bug - isn't null checked in other cases before de-ref?

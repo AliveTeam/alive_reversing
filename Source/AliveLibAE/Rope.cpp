@@ -9,7 +9,7 @@
 #include "../relive_lib/AnimationUnknown.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
 
-const TintEntry kRopeTints_55FD68[16] = {
+static const TintEntry kRopeTints[16] = {
     {EReliveLevelIds::eMenu, 127u, 127u, 127u},
     {EReliveLevelIds::eMines, 127u, 127u, 127u},
     {EReliveLevelIds::eNecrum, 127u, 127u, 127u},
@@ -27,7 +27,7 @@ const TintEntry kRopeTints_55FD68[16] = {
     {EReliveLevelIds::eBonewerkz_Ender, 127u, 127u, 127u},
     {EReliveLevelIds::eCredits, 127u, 127u, 127u}};
 
-void ClipPoly_Vertically_4A09E0(Poly_FT4* pPoly, s32 minY, s32 maxY)
+void ClipPoly_Vertically(Poly_FT4* pPoly, s32 minY, s32 maxY)
 {
     const s32 d1 = minY - Y0(pPoly);
     const s16 polyHeight = Y3(pPoly) - Y0(pPoly);
@@ -59,20 +59,20 @@ Rope::Rope(s32 left, s32 top, s32 bottom, FP scale)
     mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::AE_Rope));
     Animation_Init(GetAnimRes(AnimId::AE_Rope));
 
-    SetTint(kRopeTints_55FD68, gMap.mCurrentLevel);
+    SetTint(kRopeTints, gMap.mCurrentLevel);
 
     GetAnimation().SetSpriteScale(scale);
     SetSpriteScale(scale);
 
     if (scale == FP_FromInteger(1))
     {
-        field_F6_rope_length = 15;
+        mRopeLength = 15;
         GetAnimation().SetRenderLayer(Layer::eLayer_RopeWebDrillMeatSaw_24);
         SetScale(Scale::Fg);
     }
     else
     {
-        field_F6_rope_length = 7;
+        mRopeLength = 7;
         GetAnimation().SetRenderLayer(Layer::eLayer_RopeWebDrillMeatSaw_Half_5);
         GetAnimation().SetSpriteScale(FP_FromDouble(0.7));
         SetSpriteScale(FP_FromDouble(0.7));
@@ -81,27 +81,25 @@ Rope::Rope(s32 left, s32 top, s32 bottom, FP scale)
 
     GetAnimation().SetRGB(mRGB.r, mRGB.g, mRGB.b);
 
-    field_102_top = static_cast<s16>(top);
-    field_106_bottom = static_cast<s16>(bottom);
-    field_100_left = static_cast<s16>(left);
-    field_104_right = static_cast<s16>(left);
+    mTop = static_cast<s16>(top);
+    mBottom = static_cast<s16>(bottom);
 
     mXPos = FP_FromInteger(left);
     mYPos = FP_FromInteger(bottom);
 
-    field_F4_rope_segment_count = (240 / field_F6_rope_length) + 1; // psx screen height
+    mRopeSegmentCount = (240 / mRopeLength) + 1; // psx screen height
 
 
-    field_FC_pRopeRes = relive_new AnimationUnknown[field_F4_rope_segment_count];
-    if (field_FC_pRopeRes)
+    mRopeAnim = relive_new AnimationUnknown[mRopeSegmentCount];
+    if (mRopeAnim)
     {
-        for (s32 i = 0; i < field_F4_rope_segment_count; i++)
+        for (s32 i = 0; i < mRopeSegmentCount; i++)
         {
-            AnimationUnknown* pSegment = &field_FC_pRopeRes[i];
+            AnimationUnknown* pSegment = &mRopeAnim[i];
             pSegment->SetRender(true);
-            pSegment->field_68_anim_ptr = &GetAnimation();
+            pSegment->mAnimPtr = &GetAnimation();
             pSegment->SetRenderLayer(GetAnimation().GetRenderLayer());
-            pSegment->field_6C_scale = scale;
+            pSegment->mSpriteScale = scale;
             pSegment->SetSemiTrans(false);
             pSegment->SetBlending(false);
         }
@@ -115,7 +113,7 @@ void Rope::VUpdate()
 
 Rope::~Rope()
 {
-    relive_delete[] field_FC_pRopeRes;
+    relive_delete[] mRopeAnim;
 }
 
 void Rope::VRender(PrimHeader** ppOt)
@@ -128,16 +126,16 @@ void Rope::VRender(PrimHeader** ppOt)
         // In the current camera x range?
         if (mXPos >= FP_FromInteger(camPos.x) && mXPos <= FP_FromInteger(camPos.x + 375))
         {
-            const FP camXPos = pScreenManager->CamXPos();
-            const FP camYPos = pScreenManager->CamYPos();
+            const FP camXPos = gScreenManager->CamXPos();
+            const FP camYPos = gScreenManager->CamYPos();
 
-            s16 minY = FP_GetExponent(FP_FromInteger(field_102_top) - camYPos);
-            s16 maxY = FP_GetExponent(FP_FromInteger(field_106_bottom) - camYPos);
+            s16 minY = FP_GetExponent(FP_FromInteger(mTop) - camYPos);
+            s16 maxY = FP_GetExponent(FP_FromInteger(mBottom) - camYPos);
 
             s16 ypos = FP_GetExponent(mYPos);
-            if (ypos > field_106_bottom)
+            if (ypos > mBottom)
             {
-                ypos = field_106_bottom + ((ypos - field_106_bottom) % field_F6_rope_length);
+                ypos = mBottom + ((ypos - mBottom) % mRopeLength);
             }
 
             s16 screenX = FP_GetExponent(mXPos - camXPos);
@@ -145,7 +143,7 @@ void Rope::VRender(PrimHeader** ppOt)
 
             if (screenY > 240)
             {
-                screenY = (screenY % field_F6_rope_length) + 240;
+                screenY = (screenY % mRopeLength) + 240;
                 ypos = FP_GetExponent(camYPos + (FP_FromInteger(screenY)));
             }
 
@@ -163,7 +161,7 @@ void Rope::VRender(PrimHeader** ppOt)
 
             if (screenY >= minY)
             {
-                for (s32 idx = 0; idx < field_F4_rope_segment_count; idx++)
+                for (s32 idx = 0; idx < mRopeSegmentCount; idx++)
                 {
                     // Apply shadow to the segments colour
                     s16 r = mRGB.r;
@@ -172,28 +170,28 @@ void Rope::VRender(PrimHeader** ppOt)
 
                     ShadowZone::ShadowZones_Calculate_Colour(
                         FP_GetExponent(mXPos),
-                        ypos - (idx * field_F6_rope_length),
+                        ypos - (idx * mRopeLength),
                         GetScale(),
                         &r,
                         &g,
                         &b);
 
-                    field_FC_pRopeRes[idx].SetRGB(r, g, b);
+                    mRopeAnim[idx].SetRGB(r, g, b);
 
                     // Render the segment
-                    field_FC_pRopeRes[idx].VRender(
+                    mRopeAnim[idx].VRender(
                         screenX,
                         screenY,
                         ppOt,
                         0,
                         0);
 
-                    ClipPoly_Vertically_4A09E0(
-                        &field_FC_pRopeRes[idx].field_10_polys[gPsxDisplay.mBufferIndex],
+                    ClipPoly_Vertically(
+                        &mRopeAnim[idx].mPolys[gPsxDisplay.mBufferIndex],
                         minY,
                         maxY);
 
-                    screenY -= field_F6_rope_length;
+                    screenY -= mRopeLength;
 
                     if (screenY < minY)
                     {

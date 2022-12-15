@@ -35,7 +35,7 @@ s32 FlyingSligSpawner::CreateFromSaveState(const u8* pBuffer)
 {
     const auto pState = reinterpret_cast<const FlyingSligSpawnerSaveState*>(pBuffer);
 
-    auto pTlv = static_cast<relive::Path_FlyingSligSpawner*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pState->field_4_tlvInfo));
+    auto pTlv = static_cast<relive::Path_FlyingSligSpawner*>(gPathInfo->TLV_From_Offset_Lvl_Cam(pState->field_4_tlvInfo));
 
     auto pFlyingSligSpawner = relive_new FlyingSligSpawner(pTlv, pState->field_4_tlvInfo);
     if (pFlyingSligSpawner)
@@ -92,7 +92,7 @@ void FlyingSligSpawner::VUpdate()
         }
         else if (SwitchStates_Get(field_28_spawner_switch_id))
         {
-            auto pFlyingSligTlv = static_cast<relive::Path_FlyingSlig*>(sPathInfo->TLV_Get_At(
+            auto pFlyingSligTlv = static_cast<relive::Path_FlyingSlig*>(gPathInfo->TLV_Get_At(
                 field_2C_tlv_header->mTopLeftX,
                 field_2C_tlv_header->mTopLeftY,
                 field_2C_tlv_header->mTopLeftX + 25,

@@ -86,20 +86,20 @@ public:
     s16 mDoorTransition = 0;
     s16 mTeleporterTransition = 0;
 
-    FP_Point field_24_camera_offset = {};
-    s16 mFreeAllAnimAndPalts = 0;
+    FP_Point mCameraOffset = {};
+    bool mFreeAllAnimAndPalts = false;
 
     s16 mCamIdxOnX = 0;
     s16 mCamIdxOnY = 0;
 
     const PathData* mPathData = nullptr;
-    u8* mRestoreQuickSaveData = nullptr;
+    u8* mSaveData = nullptr;
 
     std::vector<std::unique_ptr<BinaryPath>> mLoadedPaths;
 };
 
 extern Map gMap;
-extern s16 sMap_bDoPurpleLightEffect;
+extern bool gMap_bDoPurpleLightEffect;
 extern const CameraSwapEffects kPathChangeEffectToInternalScreenChangeEffect[10];
 
 s32 MaxGridBlocks(FP scale);

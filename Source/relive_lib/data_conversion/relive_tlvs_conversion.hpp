@@ -2476,8 +2476,8 @@ public:
     {
         Path_MovingBombStopper r;
         BaseConvert(r, tlv, tlvId);
-        r.mMinDelay = tlv.mMinDelay;
-        r.mMaxDelay = tlv.mMaxDelay;
+        r.mMinStopTime = tlv.mMinStopTime;
+        r.mMaxStopTime = tlv.mMaxStopTime;
         return r;
     }
 
@@ -2485,8 +2485,8 @@ public:
     {
         Path_MovingBombStopper r;
         BaseConvert(r, tlv, tlvId);
-        r.mMinDelay = tlv.mMinDelay;
-        r.mMaxDelay = tlv.mMaxDelay;
+        r.mMinStopTime = tlv.mMinStopTime;
+        r.mMaxStopTime = tlv.mMaxStopTime;
         return r;
     }
 };

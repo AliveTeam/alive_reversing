@@ -301,10 +301,14 @@ SET(AliveLibAESrc
     BoomMachine.cpp
     Meat.hpp
     Meat.cpp
+    MeatSack.hpp
+    MeatSack.cpp
     Grenade.hpp
     Grenade.cpp
     Bone.hpp
     Bone.cpp
+    BoneBag.hpp
+    BoneBag.cpp
     Rock.hpp
     Rock.cpp
     RockSack.hpp

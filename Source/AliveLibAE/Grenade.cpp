@@ -18,23 +18,23 @@
 s32 Grenade::CreateFromSaveState(const u8* pBuffer)
 {
     auto pState = reinterpret_cast<const GrenadeSaveState*>(pBuffer);
-    auto pGrenade = relive_new Grenade(pState->field_8_xpos, pState->field_C_ypos, pState->field_2A_savedcount, 0, nullptr);
+    auto pGrenade = relive_new Grenade(pState->mXPos, pState->mYPos, pState->mThrowableCount, 0, nullptr);
 
-    pGrenade->mBaseGameObjectTlvInfo = pState->field_4_obj_id;
+    pGrenade->mBaseGameObjectTlvInfo = pState->mTlvInfo;
 
-    pGrenade->mXPos = pState->field_8_xpos;
-    pGrenade->mYPos = pState->field_C_ypos;
+    pGrenade->mXPos = pState->mXPos;
+    pGrenade->mYPos = pState->mYPos;
 
     pGrenade->mCollectionRect.x = pGrenade->mXPos - (ScaleToGridSize(pGrenade->GetSpriteScale()) / FP_FromInteger(2));
     pGrenade->mCollectionRect.w = pGrenade->mXPos + (ScaleToGridSize(pGrenade->GetSpriteScale()) / FP_FromInteger(2));
     pGrenade->mCollectionRect.h = pGrenade->mYPos;
     pGrenade->mCollectionRect.y = pGrenade->mYPos - ScaleToGridSize(pGrenade->GetSpriteScale());
 
-    pGrenade->mVelX = pState->field_10_velx;
-    pGrenade->mVelY = pState->field_14_vely;
-    pGrenade->mCurrentPath = pState->field_1C_path_number;
-    pGrenade->mCurrentLevel = pState->field_1E_lvl_number;
-    pGrenade->SetSpriteScale(pState->field_18_sprite_scale);
+    pGrenade->mVelX = pState->mVelX;
+    pGrenade->mVelY = pState->mVelY;
+    pGrenade->mCurrentPath = pState->mCurrentPath;
+    pGrenade->mCurrentLevel = pState->mCurrentLevel;
+    pGrenade->SetSpriteScale(pState->mSpriteScale);
 
     pGrenade->GetAnimation().SetLoop(pState->mLoop);
     pGrenade->GetAnimation().SetRender(pState->mRender);
@@ -43,17 +43,17 @@ s32 Grenade::CreateFromSaveState(const u8* pBuffer)
     pGrenade->SetInteractive(pState->mInteractive);
 
     pGrenade->SetRestoredFromQuickSave(true);
-    pGrenade->BaseAliveGameObjectCollisionLineType = pState->field_28_line_type;
-    pGrenade->mBaseThrowableCount = pState->field_2A_savedcount;
-    pGrenade->mState = pState->field_2C_state;
-    pGrenade->field_124 = pState->field_2E;
-    pGrenade->mPreviousXPos = pState->field_34_xpos;
-    pGrenade->mPreviousYPos = pState->field_38_ypos;
+    pGrenade->BaseAliveGameObjectCollisionLineType = pState->mCollisionLineType;
+    pGrenade->mBaseThrowableCount = pState->mThrowableCount;
+    pGrenade->mState = pState->mState;
+    pGrenade->mBounceCount = pState->mBounceCount;
+    pGrenade->mPreviousXPos = pState->mPreviousXPos;
+    pGrenade->mPreviousYPos = pState->mPreviousYPos;
 
     pGrenade->mExplodeNow = pState->mExplodeNow;
     pGrenade->mBlowUpOnCollision = pState->mBlowUpOnCollision;
 
-    pGrenade->mExplodeCountdown = pState->field_30_explode_timer;
+    pGrenade->mExplodeCountdown = pState->mExplodeCountdown;
 
     return sizeof(GrenadeSaveState);
 }
@@ -62,18 +62,18 @@ s32 Grenade::VGetSaveState(u8* pSaveBuffer)
 {
     auto pState = reinterpret_cast<GrenadeSaveState*>(pSaveBuffer);
 
-    pState->field_0_type = ReliveTypes::eGrenade;
+    pState->mType = ReliveTypes::eGrenade;
 
-    pState->field_4_obj_id = mBaseGameObjectTlvInfo;
+    pState->mTlvInfo = mBaseGameObjectTlvInfo;
 
-    pState->field_8_xpos = mXPos;
-    pState->field_C_ypos = mYPos;
-    pState->field_10_velx = mVelX;
-    pState->field_14_vely = mVelY;
+    pState->mXPos = mXPos;
+    pState->mYPos = mYPos;
+    pState->mVelX = mVelX;
+    pState->mVelY = mVelY;
 
-    pState->field_1C_path_number = mCurrentPath;
-    pState->field_1E_lvl_number = mCurrentLevel;
-    pState->field_18_sprite_scale = GetSpriteScale();
+    pState->mCurrentPath = mCurrentPath;
+    pState->mCurrentLevel = mCurrentLevel;
+    pState->mSpriteScale = GetSpriteScale();
 
     pState->mLoop = GetAnimation().GetLoop();
     pState->mDrawable = GetDrawable();
@@ -82,24 +82,24 @@ s32 Grenade::VGetSaveState(u8* pSaveBuffer)
 
     if (BaseAliveGameObjectCollisionLine)
     {
-        pState->field_28_line_type = BaseAliveGameObjectCollisionLine->mLineType;
+        pState->mCollisionLineType = BaseAliveGameObjectCollisionLine->mLineType;
     }
     else
     {
-        pState->field_28_line_type = -1;
+        pState->mCollisionLineType = -1;
     }
 
-    pState->field_24_base_id = BaseAliveGameObject_PlatformId;
-    pState->field_2A_savedcount = mBaseThrowableCount;
-    pState->field_2C_state = mState;
-    pState->field_2E = field_124;
-    pState->field_34_xpos = mPreviousXPos;
-    pState->field_38_ypos = mPreviousYPos;
+    pState->mPlatformId = BaseAliveGameObject_PlatformId;
+    pState->mThrowableCount = mBaseThrowableCount;
+    pState->mState = mState;
+    pState->mBounceCount = mBounceCount;
+    pState->mPreviousXPos = mPreviousXPos;
+    pState->mPreviousYPos = mPreviousYPos;
 
     pState->mExplodeNow = mExplodeNow;
     pState->mBlowUpOnCollision = mBlowUpOnCollision;
 
-    pState->field_30_explode_timer = mExplodeCountdown;
+    pState->mExplodeCountdown = mExplodeCountdown;
 
     return sizeof(GrenadeSaveState);
 }
@@ -156,7 +156,7 @@ void Grenade::Init(FP xpos, FP ypos)
     mVelX = FP_FromInteger(0);
     mVelY = FP_FromInteger(0);
     mBaseThrowableCount = 0;
-    field_124 = 0;
+    mBounceCount = 0;
     mExplodeNow = false;
 }
 
@@ -389,7 +389,7 @@ s16 Grenade::InTheAir(s16 blowUpOnFloorTouch)
     mYPos += mVelY;
 
     // Kill the nade if it hits a death drop
-    BaseAliveGameObjectPathTLV = sPathInfo->TlvGetAt(
+    BaseAliveGameObjectPathTLV = gPathInfo->TlvGetAt(
         nullptr,
         mXPos,
         mYPos,
@@ -404,7 +404,7 @@ s16 Grenade::InTheAir(s16 blowUpOnFloorTouch)
             return 1;
         }
 
-        BaseAliveGameObjectPathTLV = sPathInfo->TlvGetAt(
+        BaseAliveGameObjectPathTLV = gPathInfo->TlvGetAt(
             BaseAliveGameObjectPathTLV,
             mXPos,
             mYPos,
@@ -429,7 +429,7 @@ s16 Grenade::InTheAir(s16 blowUpOnFloorTouch)
             mXPos = hitX;
             mYPos = hitY;
             mVelY = (-mVelY / FP_FromInteger(2));
-            s16 vol = 75 - 20 * field_124;
+            s16 vol = 75 - 20 * mBounceCount;
             if (vol < 40)
             {
                 vol = 40;
@@ -461,16 +461,16 @@ s16 Grenade::InTheAir(s16 blowUpOnFloorTouch)
                 return 1;
             }
 
-            if (field_124 <= 4)
+            if (mBounceCount <= 4)
             {
-                s16 vol = 75 - 20 * field_124;
+                s16 vol = 75 - 20 * mBounceCount;
                 if (vol < 40)
                 {
                     vol = 40;
                 }
 
                 SfxPlayMono(relive::SoundEffects::GrenadeBounce, vol);
-                field_124++;
+                mBounceCount++;
 
                 EventBroadcast(kEventNoise, this);
                 EventBroadcast(kEventSuspiciousNoise, this);
@@ -498,7 +498,7 @@ s16 Grenade::InTheAir(s16 blowUpOnFloorTouch)
                     mYPos = hitY;
                     mXPos = hitX;
                     mVelX = (-mVelX / FP_FromInteger(2));
-                    s16 vol = 75 - 20 * field_124;
+                    s16 vol = 75 - 20 * mBounceCount;
                     if (vol < 40)
                     {
                         vol = 40;
@@ -517,7 +517,7 @@ s16 Grenade::InTheAir(s16 blowUpOnFloorTouch)
                     mXPos = hitX;
                     mYPos = hitY;
                     mVelX = (-mVelX / FP_FromInteger(2));
-                    s16 vol = 75 - 20 * field_124;
+                    s16 vol = 75 - 20 * mBounceCount;
                     if (vol < 40)
                     {
                         vol = 40;

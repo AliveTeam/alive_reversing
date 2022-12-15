@@ -268,7 +268,7 @@ void BirdPortal::VUpdate()
 
                         if (pParticle)
                         {
-                            pParticle->mVisualFlags.Clear(BaseAnimatedWithPhysicsGameObject::VisualFlags::eApplyShadowZoneColour);
+                            pParticle->SetApplyShadowZoneColour(false);
                             pParticle->GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
                             pParticle->SetType(ReliveTypes::eBirdPortalTerminator);
                             pParticle->SetSpriteScale(mSpriteScale);
@@ -384,7 +384,7 @@ void BirdPortal::VUpdate()
                     pTerminator2->mYPos,
                     GetAnimRes(AnimId::BirdPortal_Flash));
                 pParticle->GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
-                pParticle->mVisualFlags.Clear(BaseAnimatedWithPhysicsGameObject::VisualFlags::eApplyShadowZoneColour);
+                pParticle->SetApplyShadowZoneColour(false);
                 pParticle->SetSpriteScale(mSpriteScale);
 
                 mState = PortalStates::StopSound_11;
@@ -447,7 +447,7 @@ void BirdPortal::VUpdate()
 
         case PortalStates::PortalExit_SetPosition_17:
         {
-            pScreenManager->EnableRendering();
+            gScreenManager->EnableRendering();
 
             CreateTerminators();
 
@@ -669,7 +669,7 @@ void BirdPortal::VStopAudio()
 s32 BirdPortal::VGetSaveState(u8* pBuffer)
 {
     auto pState = reinterpret_cast<BirdPortalSaveState*>(pBuffer);
-    auto pTlv = static_cast<relive::Path_BirdPortal*>(sPathInfo->TLV_From_Offset_Lvl_Cam(mTlvInfo));
+    auto pTlv = static_cast<relive::Path_BirdPortal*>(gPathInfo->TLV_From_Offset_Lvl_Cam(mTlvInfo));
 
     s16 numMudsForShrykull = 0;
     if (pTlv)
@@ -693,7 +693,7 @@ void BirdPortal::VRender(PrimHeader** /*ppOt*/)
 s32 BirdPortal::CreateFromSaveState(const u8* pBuffer)
 {
     auto pSaveState = reinterpret_cast<const BirdPortalSaveState*>(pBuffer);
-    auto pTlv = static_cast<relive::Path_BirdPortal*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pSaveState->mTlvInfo));
+    auto pTlv = static_cast<relive::Path_BirdPortal*>(gPathInfo->TLV_From_Offset_Lvl_Cam(pSaveState->mTlvInfo));
     if (!pTlv)
     {
         return sizeof(BirdPortalSaveState);
@@ -768,12 +768,12 @@ s16 BirdPortal::VPortalClipper(s16 bIgnoreClipping)
         xy.x = 0;
         xy.y = 0;
 
-        wh.x = PsxToPCX(FP_GetExponent(mXPos - pScreenManager->CamXPos()), 11);
+        wh.x = PsxToPCX(FP_GetExponent(mXPos - gScreenManager->CamXPos()), 11);
         wh.y = 240;
     }
     else
     {
-        xy.x = PsxToPCX(FP_GetExponent(mXPos - pScreenManager->CamXPos()), 11);
+        xy.x = PsxToPCX(FP_GetExponent(mXPos - gScreenManager->CamXPos()), 11);
         xy.y = 0;
 
         wh.x = 640;
@@ -851,7 +851,7 @@ void BirdPortal::VExitPortal()
     mCurrentPath = gMap.mCurrentPath;
     mCurrentLevel = gMap.mCurrentLevel;
 
-    auto pPortalExitTlv = static_cast<relive::Path_BirdPortalExit*>(sPathInfo->TLV_First_Of_Type_In_Camera(ReliveTypes::eBirdPortalExit, 0));
+    auto pPortalExitTlv = static_cast<relive::Path_BirdPortalExit*>(gPathInfo->TLV_First_Of_Type_In_Camera(ReliveTypes::eBirdPortalExit, 0));
     if (pPortalExitTlv)
     {
         // TODO: Clean up this hack by having a better way to match "any" type of line
@@ -1077,7 +1077,7 @@ BirdPortalTerminator::BirdPortalTerminator(FP xpos, FP ypos, FP scale, relive::P
         GetAnimation().SetRenderLayer(Layer::eLayer_Above_FG1_Half_20);
     }
 
-    mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
+    SetApplyShadowZoneColour(false);
 
     mYPos = ypos;
     mXPos = xpos;

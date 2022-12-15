@@ -61,10 +61,10 @@ struct Path_SwitchStateBooleanLogic final : public ReliveAPI::TlvObjectBaseAO
 
     CTOR_AO(Path_SwitchStateBooleanLogic, "SwitchStateBooleanLogic", AO::TlvTypes::SwitchStateBooleanLogic_104)
     {
-        ADD("Input Switch ID 1", mTlv.field_18_input1);
-        ADD("Input Switch ID 2", mTlv.field_1A_input2);
-        ADD("Output Switch ID", mTlv.field_1C_output);
-        ADD("Operator", mTlv.field_1E_operator);
+        ADD("Input Switch ID 1", mTlv.mInput1);
+        ADD("Input Switch ID 2", mTlv.mInput2);
+        ADD("Output Switch ID", mTlv.mOutput);
+        ADD("Operator", mTlv.mOperator);
     }
 };
 
@@ -880,8 +880,8 @@ struct Path_MovingBombStopper final : public ReliveAPI::TlvObjectBaseAO
 {
     CTOR_AO(Path_MovingBombStopper, "MovingBombStopper", AO::TlvTypes::MovingBombStopper_87)
     {
-        ADD("Min Delay", mTlv.mMinDelay);
-        ADD("Max Delay", mTlv.mMaxDelay);
+        ADD("Min Delay", mTlv.mMinStopTime);
+        ADD("Max Delay", mTlv.mMaxStopTime);
     }
 };
 

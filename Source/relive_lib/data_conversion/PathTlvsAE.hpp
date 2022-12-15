@@ -1337,8 +1337,8 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_ShadowZone, 0x20);
 
 struct Path_MovingBombStopper final : public Path_TLV
 {
-    s16 mMinDelay;
-    s16 mMaxDelay;
+    s16 mMinStopTime;
+    s16 mMaxStopTime;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_MovingBombStopper, 0x14);
 

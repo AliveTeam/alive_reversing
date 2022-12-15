@@ -47,7 +47,7 @@ MineCar::MineCar(relive::Path_MineCar* pTlv, const Guid& tlvId, s32 /*a4*/, s32 
     mXPos = FP_FromInteger(pTlv->mTopLeftX);
     mYPos = FP_FromInteger(pTlv->mTopLeftY);
 
-    mVisualFlags.Set(VisualFlags::eDoPurpleLightEffect);
+    SetDoPurpleLightEffect(true);
     field_1BE_unused = 0;
     GetAnimation().SetRenderLayer(Layer::eLayer_Shadow_26);
     SetSpriteScale(FP_FromInteger(1));
@@ -115,7 +115,7 @@ const AnimId sMineCarAnimIdTable[7] = {
 s32 MineCar::CreateFromSaveState(const u8* pBuffer)
 {
     auto pState = reinterpret_cast<const MineCarSaveState*>(pBuffer);
-    auto pTlv = static_cast<relive::Path_MineCar*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pState->field_4C_tlvInfo));
+    auto pTlv = static_cast<relive::Path_MineCar*>(gPathInfo->TLV_From_Offset_Lvl_Cam(pState->field_4C_tlvInfo));
 
     auto pMineCar = relive_new MineCar(pTlv, pState->field_4C_tlvInfo, 0, 0, 0);
     if (pMineCar)
@@ -364,7 +364,7 @@ void MineCar::VRender(PrimHeader** ppOt)
 
         const PSX_RECT bRect = VGetBoundingRect();
 
-        if (mVisualFlags.Get(VisualFlags::eApplyShadowZoneColour))
+        if (GetApplyShadowZoneColour())
         {
             ShadowZone::ShadowZones_Calculate_Colour(
                 FP_GetExponent(mXPos),
@@ -380,8 +380,8 @@ void MineCar::VRender(PrimHeader** ppOt)
         if (gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos + FP_FromInteger(30), mYPos, 0) || gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos - (GetSpriteScale() * FP_FromInteger(60)), 0) || gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos - FP_FromInteger(30), mYPos, 0))
         {
             mTreadAnim.VRender(
-                FP_GetExponent(mXPos - pScreenManager->CamXPos()),
-                FP_GetExponent(mYPos - pScreenManager->CamYPos()),
+                FP_GetExponent(mXPos - gScreenManager->CamXPos()),
+                FP_GetExponent(mYPos - gScreenManager->CamYPos()),
                 ppOt,
                 0,
                 0);

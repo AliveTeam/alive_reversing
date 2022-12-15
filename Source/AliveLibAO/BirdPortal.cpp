@@ -55,7 +55,7 @@ BirdPortalTerminator::BirdPortalTerminator(FP xpos, FP ypos, FP scale, relive::P
         GetAnimation().SetRenderLayer(Layer::eLayer_Above_FG1_Half_20);
     }
 
-    mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
+    SetApplyShadowZoneColour(false);
 
     mYPos = ypos;
     mXPos = xpos;
@@ -112,7 +112,7 @@ BirdPortal::~BirdPortal()
             pObj->SetDead(true);
         }
 
-        mDovesArray->field_4_used_size = 0;
+        mDovesArray->mUsedSize = 0;
 
         relive_delete mDovesArray;
     }
@@ -327,7 +327,7 @@ void BirdPortal::VUpdate()
                         pDove->FlyAway(1);
                     }
 
-                    mDovesArray->field_4_used_size = 0;
+                    mDovesArray->mUsedSize = 0;
                     relive_delete mDovesArray;
                     mDovesArray = nullptr;
 
@@ -395,7 +395,7 @@ void BirdPortal::VUpdate()
                     pDove->SetDead(true);
                 }
 
-                mDovesArray->field_4_used_size = 0;
+                mDovesArray->mUsedSize = 0;
                 relive_delete mDovesArray;
                 mDovesArray = nullptr;
                 mState = PortalStates::CreateTerminators_4;
@@ -438,7 +438,7 @@ void BirdPortal::VUpdate()
 
                     if (pParticle)
                     {
-                        pParticle->mVisualFlags.Clear(BaseAnimatedWithPhysicsGameObject::VisualFlags::eApplyShadowZoneColour);
+                        pParticle->SetApplyShadowZoneColour(false);
                         pParticle->GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
                         pParticle->SetType(ReliveTypes::eBirdPortalTerminator);
                         pParticle->SetSpriteScale(mSpriteScale);
@@ -552,7 +552,7 @@ void BirdPortal::VUpdate()
                     GetAnimRes(AnimId::BirdPortal_Flash));
                 if (pParticle_1)
                 {
-                    pParticle_1->mVisualFlags.Clear(BaseAnimatedWithPhysicsGameObject::VisualFlags::eApplyShadowZoneColour);
+                    pParticle_1->SetApplyShadowZoneColour(false);
                     pParticle_1->GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
                     pParticle_1->SetSpriteScale(mSpriteScale);
                 }
@@ -617,7 +617,7 @@ void BirdPortal::VUpdate()
 
         case PortalStates::PortalExit_SetPosition_17:
         {
-            pScreenManager->EnableRendering();
+            gScreenManager->EnableRendering();
 
             CreateTerminators();
 
@@ -960,7 +960,7 @@ s16 BirdPortal::VPortalClipper(s16 bUnknown)
         return 1;
     }
 
-    const s16 portalX = static_cast<s16>(PsxToPCX(pScreenManager->mCamXOff + FP_GetExponent(mXPos) - FP_GetExponent(pScreenManager->mCamPos->x), 11));
+    const s16 portalX = static_cast<s16>(PsxToPCX(gScreenManager->mCamXOff + FP_GetExponent(mXPos) - FP_GetExponent(gScreenManager->mCamPos->x), 11));
 
     PSX_Point xy = {};
     PSX_Point wh = {};
@@ -983,11 +983,11 @@ s16 BirdPortal::VPortalClipper(s16 bUnknown)
     {
         if (mSpriteScale == FP_FromInteger(1))
         {
-            mScreenClipper1->field_38_ot_layer = Layer::eLayer_BirdPortal_29;
+            mScreenClipper1->mOtLayer = Layer::eLayer_BirdPortal_29;
         }
         else
         {
-            mScreenClipper1->field_38_ot_layer = Layer::eLayer_BirdPortal_Half_10;
+            mScreenClipper1->mOtLayer = Layer::eLayer_BirdPortal_Half_10;
         }
     }
 
@@ -996,11 +996,11 @@ s16 BirdPortal::VPortalClipper(s16 bUnknown)
     {
         if (mSpriteScale == FP_FromInteger(1))
         {
-            mScreenClipper2->field_38_ot_layer = Layer::eLayer_FallingItemDoorFlameRollingBallPortalClip_Half_31;
+            mScreenClipper2->mOtLayer = Layer::eLayer_FallingItemDoorFlameRollingBallPortalClip_Half_31;
         }
         else
         {
-            mScreenClipper2->field_38_ot_layer = Layer::eLayer_DoorFlameRollingBallFallingItemPortalClip_Half_12;
+            mScreenClipper2->mOtLayer = Layer::eLayer_DoorFlameRollingBallFallingItemPortalClip_Half_12;
         }
     }
 

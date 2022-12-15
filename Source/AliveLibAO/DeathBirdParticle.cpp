@@ -31,7 +31,7 @@ DeathBirdParticle::DeathBirdParticle(FP xpos, FP ypos, s32 startTimer, bool play
     }
     else
     {
-        mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
+        SetApplyShadowZoneColour(false);
         GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
         SetSpriteScale(scale);
         GetAnimation().SetSpriteScale(scale);

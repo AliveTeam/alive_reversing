@@ -94,9 +94,9 @@ FallingItem::FallingItem(relive::Path_FallingItem* pTlv, const Guid& tlvId)
     mXPos = FP_FromInteger(pTlv->mTopLeftX);
     mYPos = FP_FromInteger(pTlv->mTopLeftY);
 
-    if (mYPos > pScreenManager->CamYPos())
+    if (mYPos > gScreenManager->CamYPos())
     {
-        mYPos = pScreenManager->CamYPos();
+        mYPos = gScreenManager->CamYPos();
     }
 
     mTlvXPos = FP_FromInteger((pTlv->mTopLeftX + pTlv->mBottomRightX) / 2);

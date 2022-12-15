@@ -32,7 +32,7 @@ ElectricWall::ElectricWall(relive::Path_ElectricWall* pTlv, const Guid& tlvId)
         GetAnimation().SetFrame(sElecticWallFrames_55165C[Math_RandomRange(0, 4)]);
     }
 
-    mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
+    SetApplyShadowZoneColour(false);
     mRGB.SetRGB(80, 80, 80);
 
     mGuid = tlvId;

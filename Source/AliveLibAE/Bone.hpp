@@ -2,11 +2,6 @@
 
 #include "Throwable.hpp"
 
-namespace relive
-{
-    struct Path_BoneBag;
-}
-
 enum class BoneStates : s16
 {
     eSpawned_0 = 0,
@@ -20,7 +15,6 @@ enum class BoneStates : s16
 struct BoneSaveState final
 {
     ReliveTypes mType;
-    s16 field_2_padding;
     Guid mBaseTlvId;
     FP mXPos;
     FP mYPos;
@@ -34,7 +28,6 @@ struct BoneSaveState final
     bool mLoop;
     bool mInteractive;
     bool mHitObject;
-    s16 field_22_padding;
     Guid mPlatformId;
     s16 mCollisionLineType;
     s16 mBaseThrowableCount;
@@ -78,28 +71,8 @@ private:
     s16 mVolumeModifier = 0;
     FP mInitialXPos = {};
     FP mInitialYPos = {};
-    s32 mShineTimer = 0;
-    s32 mTimeToLiveTimer = 0;
+    s32 mShimmerTimer = 0;
+    s32 mDeadTimer = 0;
     bool mHitObject = false;
 };
 
-class BoneBag final : public BaseAliveGameObject
-{
-public:
-    BoneBag(relive::Path_BoneBag* pTlv, const Guid& tlvId);
-    ~BoneBag();
-
-    void LoadAnimations();
-
-    virtual void VUpdate() override;
-    virtual void VScreenChanged() override;
- 
-private:
-    Guid mTlvInfo;
-    bool mIsBagHit = false;
-    s16 mBoneAmount = 0;
-    bool mAllowSound = false;
-    bool mForcePlayWobbleSound = false;
-    FP mVelX = {};
-    FP mVelY = {};
-};

@@ -35,9 +35,8 @@ PauseMenu::PauseMenu()
     mPal = ResourceManagerWrapper::LoadPal(PalId::MainMenuFont_PauseMenu);
     mFontContext.LoadFontType(FontType::PauseMenu);
     field_E4_font.Load(175, mPal, &mFontContext);
-    field_130 = 0;
     field_11C = 0;
-    sDisableFontFlicker = false;
+    gDisableFontFlicker = false;
 }
 
 PauseMenu::~PauseMenu()
@@ -119,14 +118,13 @@ void PauseMenu::VUpdate()
         field_124 = 0;
         field_126_page = PauseMenuPages::ePause_0;
         Reset_Unknown_45A5B0();
-        field_132_always_0 = 0;
         field_11E_selected_glow = 52;
         field_120_selected_glow_counter = 8;
 
         // This is bad, let's nuke it later :)
         while (1)
         {
-            sDisableFontFlicker = 1;
+            gDisableFontFlicker = true;
             SYS_EventsPump();
 
             for (s32 idx = 0; idx < gObjListDrawables->Size(); idx++)
@@ -144,7 +142,7 @@ void PauseMenu::VUpdate()
                     }
                 }
             }
-            pScreenManager->VRender(
+            gScreenManager->VRender(
                 gPsxDisplay.mDrawEnvs[gPsxDisplay.mBufferIndex].mOrderingTable);
             gPsxDisplay.RenderOrderingTable();
             Input().Update(GetGameAutoPlayer());
@@ -233,7 +231,6 @@ void PauseMenu::VUpdate()
                             {
                                 field_126_page = PauseMenuPages::eSave_1;
                                 field_12C = 0;
-                                field_12E = 0;
                                 field_134 = 1;
                                 SfxPlayMono(relive::SoundEffects::IngameTransition, 90);
                                 s32 tmp = static_cast<s32>(MapWrapper::ToAO(gMap.mCurrentLevel));
@@ -309,8 +306,6 @@ void PauseMenu::VUpdate()
                             {
                                 SaveGame::SaveToFile(&saveNameBuffer_5080C6.characters[2]);
                                 field_12C = 5;
-                                field_12A = 13;
-                                field_122 = 120;
                             }
                         }
                         else if (field_12C == 5)
@@ -366,7 +361,6 @@ void PauseMenu::VUpdate()
                             SfxPlayMono(relive::SoundEffects::IngameTransition, 90);
                             saveNameBuffer_5080C6.characters[string_len_no_nullterminator + 1] = 0;
                             field_12C = 4;
-                            field_12A = 11;
                             field_134 = 1;
                             Input_Reset();
                             break;
@@ -460,9 +454,9 @@ void PauseMenu::VUpdate()
                         {
                             SetDead(true);
                         }
-                        gPauseMenu = 0;
+                        gPauseMenu = nullptr;
                         gMap.SetActiveCam(EReliveLevelIds::eMenu, 1, CameraIds::Menu::eMainMenu_1, CameraSwapEffects::eInstantChange_0, 0, 0);
-                        gMap.field_DC_free_all_anim_and_palts = 1;
+                        gMap.mFreeAllAnimAndPalts = true;
                         Input().SetCurrentController(InputObject::PadIndex::First);
                     }
                     break;
@@ -481,11 +475,9 @@ void PauseMenu::VUpdate()
             }
         }
 
-        sDisableFontFlicker = 0;
+        gDisableFontFlicker = false;
     }
 }
-
-s8 byte_A88B90 = 0;
 
 PauseMenu::PauseEntry pauseEntries_4CDE50[6] = {
     {184, 85, "CONTINUE", 128u, 16u, 255u, '\x01'},
@@ -580,7 +572,7 @@ void PauseMenu::DrawEntries(PrimHeader** ppOt, PauseEntry* entry, s16 selectedEn
     for (s16 entryId = 0; entry[entryId].field_4_strBuf; ++entryId)
     {
         s16 colourOffset;
-        if (entryId == selectedEntryId && (field_126_page != 1 || field_132_always_0))
+        if (entryId == selectedEntryId && field_126_page != 1)
         {
             colourOffset = field_11E_selected_glow;
         }
@@ -647,7 +639,7 @@ void PauseMenu::DrawEntries(PrimHeader** ppOt, PauseEntry* entry, s16 selectedEn
     SetXY2(pPrim, 0, 240);
     SetXY3(pPrim, 640, 240);
     Prim_SetTPage* prim_tpage = &field_138_tPage[gPsxDisplay.mBufferIndex];
-    Init_SetTPage(prim_tpage, 0, 0, PSX_getTPage(TPageAbr::eBlend_2));
+    Init_SetTPage(prim_tpage, PSX_getTPage(TPageAbr::eBlend_2));
     OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_Menu_41), &pPrim->mBase.header);
     OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_Menu_41), &prim_tpage->mBase);
 }

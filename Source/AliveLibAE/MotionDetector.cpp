@@ -49,15 +49,15 @@ MotionDetector::MotionDetector(relive::Path_MotionDetector* pTlv, const Guid& tl
 
     mRGB.SetRGB(64, 0, 0);
 
-    field_178_bObjectInLaser = 0;
+    mObjectInLaser = false;
 
     if (!pOwner)
     {
-        field_110_bDontComeBack = 1;
-        field_10E_bUnknown = 0;
-        field_FC_owner_id = Guid{};
+        mDontComeBack = true;
+        mHasOwner = false;
+        mOwnerId = Guid{};
 
-        field_F4_tlvInfo = tlvId;
+        mTlvId = tlvId;
         SetSpriteScale(FP_FromInteger(1));
 
         if (pTlv->mScale != relive::reliveScale::eFull)
@@ -65,10 +65,10 @@ MotionDetector::MotionDetector(relive::Path_MotionDetector* pTlv, const Guid& tl
             SetSpriteScale(FP_FromDouble(0.5));
         }
 
-        field_114_x1_fp = FP_FromInteger(pTlv->mTopLeftX);
-        field_11C_y1_fp = FP_FromInteger(pTlv->mBottomRightX);
-        field_118_x2_fp = FP_FromInteger(pTlv->mTopLeftY);
-        field_120_y2_fp = FP_FromInteger(pTlv->mBottomRightY);
+        mTopLeftX = FP_FromInteger(pTlv->mTopLeftX);
+        mBottomRightX = FP_FromInteger(pTlv->mBottomRightX);
+        mTopLeftY = FP_FromInteger(pTlv->mTopLeftY);
+        mBottomRightY = FP_FromInteger(pTlv->mBottomRightY);
 
         PSX_Point pos = {};
         gMap.Get_Abe_Spawn_Pos(&pos);
@@ -83,18 +83,18 @@ MotionDetector::MotionDetector(relive::Path_MotionDetector* pTlv, const Guid& tl
             mYPos = FP_FromInteger(pTlv->mTopLeftY);
         }
 
-        field_174_speed = FP_FromRaw((u16) pTlv->mSpeedx256 << 8);
+        mSpeed = FP_FromRaw((u16) pTlv->mSpeedx256 << 8);
 
         MotionDetectorLaser* pLaser = nullptr;
         if (pTlv->mInitialMoveDirection == relive::Path_MotionDetector::InitialMoveDirection::eLeft)
         {
-            field_100_state = States::eMoveLeft_2;
-            pLaser = relive_new MotionDetectorLaser(field_11C_y1_fp, field_120_y2_fp, GetSpriteScale(), Layer::eLayer_Foreground_36);
+            mState = States::eMoveLeft_2;
+            pLaser = relive_new MotionDetectorLaser(mBottomRightX, mBottomRightY, GetSpriteScale(), Layer::eLayer_Foreground_36);
         }
         else if (pTlv->mInitialMoveDirection == relive::Path_MotionDetector::InitialMoveDirection::eRight)
         {
-            field_100_state = States::eMoveRight_0;
-            pLaser = relive_new MotionDetectorLaser(field_114_x1_fp, field_120_y2_fp, GetSpriteScale(), Layer::eLayer_Foreground_36);
+            mState = States::eMoveRight_0;
+            pLaser = relive_new MotionDetectorLaser(mTopLeftX, mBottomRightY, GetSpriteScale(), Layer::eLayer_Foreground_36);
         }
         else
         {
@@ -112,10 +112,10 @@ MotionDetector::MotionDetector(relive::Path_MotionDetector* pTlv, const Guid& tl
 
         if (pLaser)
         {
-            field_F8_laser_id = pLaser->mBaseGameObjectId;
-            field_108_disable_switch_id = pTlv->mDisableSwitchId;
+            mLaserId = pLaser->mBaseGameObjectId;
+            mDisableSwitchId = pTlv->mDisableSwitchId;
 
-            if (SwitchStates_Get(field_108_disable_switch_id) == 0)
+            if (SwitchStates_Get(mDisableSwitchId) == 0)
             {
                 pLaser->GetAnimation().SetRender(true);
             }
@@ -125,52 +125,52 @@ MotionDetector::MotionDetector(relive::Path_MotionDetector* pTlv, const Guid& tl
             }
         }
 
-        field_10A_alarm_switch_id = pTlv->mAlarmSwitchId;
-        field_10C_alarm_duration = pTlv->mAlarmDuration;
+        mAlarmSwitchId = pTlv->mAlarmSwitchId;
+        mAlarmDuration = pTlv->mAlarmDuration;
         return;
     }
 
-    field_10E_bUnknown = 1;
+    mHasOwner = true;
     SetSpriteScale(pOwner->GetSpriteScale());
 
-    field_114_x1_fp = pOwner->mXPos - (GetSpriteScale() * FP_FromInteger(75));
-    field_11C_y1_fp = (GetSpriteScale() * FP_FromInteger(75)) + pOwner->mXPos;
-    field_118_x2_fp = pOwner->mYPos - (GetSpriteScale() * FP_FromInteger(20));
-    field_120_y2_fp = pOwner->mYPos;
+    mTopLeftX = pOwner->mXPos - (GetSpriteScale() * FP_FromInteger(75));
+    mBottomRightX = (GetSpriteScale() * FP_FromInteger(75)) + pOwner->mXPos;
+    mTopLeftY = pOwner->mYPos - (GetSpriteScale() * FP_FromInteger(20));
+    mBottomRightY = pOwner->mYPos;
 
     mXPos = pOwner->mXPos;
     mYPos = pOwner->mYPos - (GetSpriteScale() * FP_FromInteger(20));
 
-    field_174_speed = FP_FromInteger(2);
-    field_100_state = States::eMoveRight_0;
+    mSpeed = FP_FromInteger(2);
+    mState = States::eMoveRight_0;
 
     auto pLaserMem = relive_new MotionDetectorLaser(pOwner->mXPos, pOwner->mYPos, GetSpriteScale(), Layer::eLayer_Foreground_36);
     if (pLaserMem)
     {
-        field_F8_laser_id = pLaserMem->mBaseGameObjectId;
+        mLaserId = pLaserMem->mBaseGameObjectId;
     }
 
     GetAnimation().SetRender(true);
-    field_FC_owner_id = pOwner->mBaseGameObjectId;
-    field_10A_alarm_switch_id = 0;
-    field_10C_alarm_duration = 0;
+    mOwnerId = pOwner->mBaseGameObjectId;
+    mAlarmSwitchId = 0;
+    mAlarmDuration = 0;
 }
 
 MotionDetector::~MotionDetector()
 {
-    if (!field_10E_bUnknown)
+    if (!mHasOwner)
     {
-        if (field_110_bDontComeBack)
+        if (mDontComeBack)
         {
-            Path::TLV_Reset(field_F4_tlvInfo, -1, 0, 0);
+            Path::TLV_Reset(mTlvId, -1, 0, 0);
         }
         else
         {
-            Path::TLV_Reset(field_F4_tlvInfo, -1, 0, 1);
+            Path::TLV_Reset(mTlvId, -1, 0, 1);
         }
     }
 
-    BaseGameObject* pLaser = sObjectIds.Find_Impl(field_F8_laser_id);
+    BaseGameObject* pLaser = sObjectIds.Find_Impl(mLaserId);
     if (pLaser)
     {
         pLaser->SetDead(true);
@@ -181,7 +181,7 @@ void MotionDetector::VScreenChanged()
 {
     BaseGameObject::VScreenChanged();
 
-    BaseGameObject* pOwner = sObjectIds.Find_Impl(field_FC_owner_id);
+    BaseGameObject* pOwner = sObjectIds.Find_Impl(mOwnerId);
     if (!pOwner)
     {
         SetDead(true);
@@ -235,8 +235,8 @@ s16 MotionDetector::IsInLaser(IBaseAliveGameObject* pWho, IBaseAliveGameObject* 
 
 void MotionDetector::VUpdate()
 {
-    MotionDetectorLaser* pLaser = static_cast<MotionDetectorLaser*>(sObjectIds.Find(field_F8_laser_id, ReliveTypes::eRedLaser));
-    Greeter* pOwner = static_cast<Greeter*>(sObjectIds.Find(field_FC_owner_id, ReliveTypes::eGreeter));
+    MotionDetectorLaser* pLaser = static_cast<MotionDetectorLaser*>(sObjectIds.Find(mLaserId, ReliveTypes::eRedLaser));
+    Greeter* pOwner = static_cast<Greeter*>(sObjectIds.Find(mOwnerId, ReliveTypes::eGreeter));
 
     if (EventGet(kEventDeathReset))
     {
@@ -248,7 +248,7 @@ void MotionDetector::VUpdate()
         if (!pOwner)
         {
             // A laser not part of greeter and disabled, do nothing.
-            if (SwitchStates_Get(field_108_disable_switch_id))
+            if (SwitchStates_Get(mDisableSwitchId))
             {
                 pLaser->GetAnimation().SetRender(false);
                 return;
@@ -258,7 +258,7 @@ void MotionDetector::VUpdate()
 
         const PSX_RECT bLaserRect = pLaser->VGetBoundingRect();
 
-        field_178_bObjectInLaser = 0;
+        mObjectInLaser = false;
 
         for (s32 idx = 0; idx < gBaseAliveGameObjects->Size(); idx++)
         {
@@ -289,14 +289,14 @@ void MotionDetector::VUpdate()
 
                     if (IsInLaser(pObj, pOwner))
                     {
-                        field_178_bObjectInLaser = 1;
+                        mObjectInLaser = true;
 
                         if (pOwner == nullptr)
                         {
                             // Trigger alarms if its not already blasting
                             if (gAlarmInstanceCount == 0)
                             {
-                                relive_new Alarm(field_10C_alarm_duration, field_10A_alarm_switch_id, 0, Layer::eLayer_Above_FG1_39);
+                                relive_new Alarm(mAlarmDuration, mAlarmSwitchId, 0, Layer::eLayer_Above_FG1_39);
 
                                 if (IsActiveHero(pObj) && pObj->mHealth > FP_FromInteger(0))
                                 {
@@ -332,10 +332,10 @@ void MotionDetector::VUpdate()
 
             pLaser->mXPos += pOwner->mVelX;
 
-            field_114_x1_fp = pOwner->mXPos - (GetSpriteScale() * FP_FromInteger(75));
-            field_11C_y1_fp = (GetSpriteScale() * FP_FromInteger(75)) + pOwner->mXPos;
-            field_118_x2_fp = pOwner->mYPos - (GetSpriteScale() * FP_FromInteger(20));
-            field_120_y2_fp = pOwner->mYPos;
+            mTopLeftX = pOwner->mXPos - (GetSpriteScale() * FP_FromInteger(75));
+            mBottomRightX = (GetSpriteScale() * FP_FromInteger(75)) + pOwner->mXPos;
+            mTopLeftY = pOwner->mYPos - (GetSpriteScale() * FP_FromInteger(20));
+            mBottomRightY = pOwner->mYPos;
 
             if (pOwner->mBrainState == GreeterBrainStates::eBrain_0_Patrol || pOwner->mBrainState == GreeterBrainStates::eBrain_1_PatrolTurn)
             {
@@ -351,13 +351,13 @@ void MotionDetector::VUpdate()
             }
         }
 
-        switch (field_100_state)
+        switch (mState)
         {
             case States::eMoveRight_0:
-                if (pLaser->mXPos >= field_11C_y1_fp)
+                if (pLaser->mXPos >= mBottomRightX)
                 {
-                    field_100_state = States::eWaitThenMoveLeft_1;
-                    field_104_timer = sGnFrame + 15;
+                    mState = States::eWaitThenMoveLeft_1;
+                    mPauseTimer = sGnFrame + 15;
                     const CameraPos soundDirection = gMap.GetDirection(
                         mCurrentLevel,
                         mCurrentPath,
@@ -367,22 +367,22 @@ void MotionDetector::VUpdate()
                 }
                 else
                 {
-                    pLaser->mXPos += field_174_speed;
+                    pLaser->mXPos += mSpeed;
                 }
                 break;
 
             case States::eWaitThenMoveLeft_1:
-                if (static_cast<s32>(sGnFrame) > field_104_timer)
+                if (static_cast<s32>(sGnFrame) > mPauseTimer)
                 {
-                    field_100_state = States::eMoveLeft_2;
+                    mState = States::eMoveLeft_2;
                 }
                 break;
 
             case States::eMoveLeft_2:
-                if (pLaser->mXPos <= field_114_x1_fp)
+                if (pLaser->mXPos <= mTopLeftX)
                 {
-                    field_100_state = States::eWaitThenMoveRight_3;
-                    field_104_timer = sGnFrame + 15;
+                    mState = States::eWaitThenMoveRight_3;
+                    mPauseTimer = sGnFrame + 15;
                     const CameraPos soundDirection = gMap.GetDirection(
                         mCurrentLevel,
                         mCurrentPath,
@@ -392,14 +392,14 @@ void MotionDetector::VUpdate()
                 }
                 else
                 {
-                    pLaser->mXPos -= field_174_speed;
+                    pLaser->mXPos -= mSpeed;
                 }
                 break;
 
             case States::eWaitThenMoveRight_3:
-                if (static_cast<s32>(sGnFrame) > field_104_timer)
+                if (static_cast<s32>(sGnFrame) > mPauseTimer)
                 {
-                    field_100_state = States::eMoveRight_0;
+                    mState = States::eMoveRight_0;
                 }
                 break;
         }
@@ -412,11 +412,11 @@ void MotionDetector::VRender(PrimHeader** ppOt)
 
     if (GetAnimation().GetRender())
     {
-        auto pLaser = static_cast<MotionDetectorLaser*>(sObjectIds.Find(field_F8_laser_id, ReliveTypes::eRedLaser));
+        auto pLaser = static_cast<MotionDetectorLaser*>(sObjectIds.Find(mLaserId, ReliveTypes::eRedLaser));
         const PSX_RECT bLaserRect = pLaser->VGetBoundingRect();
 
-        const FP camXFp = pScreenManager->CamXPos();
-        const FP camYFp = pScreenManager->CamYPos();
+        const FP camXFp = gScreenManager->CamXPos();
+        const FP camYFp = gScreenManager->CamYPos();
 
         const s16 screenX = FP_GetExponent(mXPos) - FP_GetExponent(camXFp);
 
@@ -426,7 +426,7 @@ void MotionDetector::VRender(PrimHeader** ppOt)
         const s16 y2 = y1 + bLaserRect.y - bLaserRect.h;
         const s16 x1 = PsxToPCX(FP_GetExponent(pLaser->mXPos - camXFp), 11);
 
-        Poly_G3* pPrim = &field_124_prims[gPsxDisplay.mBufferIndex];
+        Poly_G3* pPrim = &mPrims[gPsxDisplay.mBufferIndex];
         PolyG3_Init(pPrim);
 
         SetXY0(pPrim, x0, y0);
@@ -442,9 +442,9 @@ void MotionDetector::VRender(PrimHeader** ppOt)
         OrderingTable_Add(OtLayer(ppOt, GetAnimation().GetRenderLayer()), &pPrim->mBase.header);
 
         // Add tpage
-        const s32 tpage = PSX_getTPage(field_178_bObjectInLaser != 0 ? TPageAbr::eBlend_1 : TPageAbr::eBlend_3); // When detected transparency is off, gives the "solid red" triangle
-        Prim_SetTPage* pTPage = &field_154_tPage[gPsxDisplay.mBufferIndex];
-        Init_SetTPage(pTPage, 0, 0, tpage);
+        const s32 tpage = PSX_getTPage(mObjectInLaser ? TPageAbr::eBlend_1 : TPageAbr::eBlend_3); // When detected transparency is off, gives the "solid red" triangle
+        Prim_SetTPage* pTPage = &mTPage[gPsxDisplay.mBufferIndex];
+        Init_SetTPage(pTPage, tpage);
         OrderingTable_Add(OtLayer(ppOt, GetAnimation().GetRenderLayer()), &pTPage->mBase);
     }
 }

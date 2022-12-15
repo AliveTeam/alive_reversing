@@ -2,11 +2,6 @@
 
 #include "Throwable.hpp"
 
-namespace relive
-{
-    struct Path_MeatSack;
-}
-
 enum class MeatStates : s16
 {
     eCreated_0 = 0,
@@ -19,29 +14,26 @@ enum class MeatStates : s16
 
 struct MeatSaveState final
 {
-    ReliveTypes field_0_type;
-    s16 field_2_pad;
-    Guid field_4_obj_id;
-    FP field_8_xpos;
-    FP field_C_ypos;
-    FP field_10_velx;
-    FP field_14_vely;
-    FP field_18_sprite_scale;
-    s16 field_1C_path_number;
-    EReliveLevelIds field_1E_lvl_number;
+    ReliveTypes mType;
+    Guid mTlvId;
+    FP mXPos;
+    FP mYPos;
+    FP mVelX;
+    FP mVelY;
+    FP mSpriteScale;
+    s16 mCurrentPath;
+    EReliveLevelIds mCurrentLevel;
     bool mRender;
     bool mDrawable;
     bool mLoop;
     bool mInteractive;
-    s16 field_22_pad;
-    Guid field_24_base_id;
-    s16 field_28_line_type;
-    s16 field_2A_count;
-    MeatStates field_2C_state;
-    s16 field_2E_pad;
-    FP field_30_xpos;
-    FP field_34_ypos;
-    s32 field_38_deadtimer;
+    Guid mPlatformId;
+    s16 mLineType;
+    s16 mThrowableCount;
+    MeatStates mState;
+    FP mPreviousXPos;
+    FP mPreviousYPos;
+    s32 mDeadTimer;
 };
 
 class Meat final : public BaseThrowable
@@ -74,32 +66,13 @@ private:
     s16 OnCollision(BaseGameObject* pHit);
 
 private:
-    MeatStates field_11C_state = MeatStates::eCreated_0;
-    FP field_120_xpos = {};
-    FP field_124_ypos = {};
-    s32 field_128_timer = 0;
-    s32 field_12C_deadtimer = 0;
+    MeatStates mState = MeatStates::eCreated_0;
+    FP mPreviousXPos = {};
+    FP mPreviousYPos = {};
+    s32 mShimmerTimer = 0;
+    s32 mDeadTimer = 0;
 
 public:
-    PathLine* field_130_pLine = nullptr;
+    PathLine* mPathLine = nullptr;
 };
 
-class MeatSack final : public BaseAliveGameObject
-{
-public:
-    MeatSack(relive::Path_MeatSack* pTlv, const Guid& tlvId);
-    ~MeatSack();
-
-    void LoadAnimations();
-
-    virtual void VScreenChanged() override;
-    virtual void VUpdate() override;
-
-private:
-    Guid field_118_tlvInfo;
-    s16 field_11C_bDoMeatSackIdleAnim = 0;
-    s16 field_11E_amount_of_meat = 0;
-    s16 field_120_bPlayWobbleSound = 0;
-    FP field_124_velX = {};
-    FP field_128_velY = {};
-};

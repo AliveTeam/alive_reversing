@@ -229,11 +229,11 @@ static ::GameSpeakEvents From(const GameSpeakEvents event)
         case GameSpeakEvents::eUnknown_1:
             return ::GameSpeakEvents::eUnknown_1;
         case GameSpeakEvents::eUnknown_2:
-            return ::GameSpeakEvents::eUnknown_2;
+            ALIVE_FATAL("GameSpeakEvents %d isn't used", static_cast<s32>(event));
         case GameSpeakEvents::eFart_3:
-            return ::GameSpeakEvents::eFart_3;
+            return ::GameSpeakEvents::eAbe_Fart_3;
         case GameSpeakEvents::eUnknown_4:
-            return ::GameSpeakEvents::eUnknown_4;
+            ALIVE_FATAL("GameSpeakEvents %d isn't used", static_cast<s32>(event));
         case GameSpeakEvents::Slig_BS_5:
             return ::GameSpeakEvents::Slig_BS_5;
         case GameSpeakEvents::Slig_LookOut_6:
@@ -243,97 +243,97 @@ static ::GameSpeakEvents From(const GameSpeakEvents event)
         case GameSpeakEvents::Slig_Laugh_8:
             return ::GameSpeakEvents::Slig_Laugh_8;
         case GameSpeakEvents::eHello_9:
-            return ::GameSpeakEvents::eHello_9;
+            return ::GameSpeakEvents::eAbe_Hello_9;
         case GameSpeakEvents::eFollowMe_10:
-            return ::GameSpeakEvents::eFollowMe_10;
+            return ::GameSpeakEvents::eAbe_FollowMe_10;
         case GameSpeakEvents::eAnger_11:
-            return ::GameSpeakEvents::eAnger_11;
+            return ::GameSpeakEvents::eAbe_Anger_11;
         case GameSpeakEvents::eWait_12:
-            return ::GameSpeakEvents::eWait_12;
+            return ::GameSpeakEvents::eAbe_Wait_12;
         case GameSpeakEvents::eUnknown_13:
-            return ::GameSpeakEvents::eUnknown_13;
+            ALIVE_FATAL("GameSpeakEvents %d isn't used", static_cast<s32>(event));
         case GameSpeakEvents::eUnknown_14:
-            return ::GameSpeakEvents::eUnknown_14;
+            ALIVE_FATAL("GameSpeakEvents %d isn't used", static_cast<s32>(event));
         case GameSpeakEvents::eUnknown_15:
-            return ::GameSpeakEvents::eUnknown_15;
+            ALIVE_FATAL("GameSpeakEvents %d isn't used", static_cast<s32>(event));
         case GameSpeakEvents::eUnknown_16:
-            return ::GameSpeakEvents::eUnknown_16;
+            ALIVE_FATAL("GameSpeakEvents %d isn't used", static_cast<s32>(event));
         case GameSpeakEvents::eUnknown_17:
-            return ::GameSpeakEvents::eUnknown_17;
+            ALIVE_FATAL("GameSpeakEvents %d isn't used", static_cast<s32>(event));
         case GameSpeakEvents::eUnknown_18:
-            return ::GameSpeakEvents::eUnknown_18;
+            ALIVE_FATAL("GameSpeakEvents %d isn't used", static_cast<s32>(event));
         case GameSpeakEvents::eUnknown_19:
-            return ::GameSpeakEvents::eUnknown_19;
+            ALIVE_FATAL("GameSpeakEvents %d isn't used", static_cast<s32>(event));
         case GameSpeakEvents::eUnknown_20:
-            return ::GameSpeakEvents::eUnknown_20;
+            ALIVE_FATAL("GameSpeakEvents %d isn't used", static_cast<s32>(event));
         case GameSpeakEvents::eWork_21:
-            return ::GameSpeakEvents::eWork_21;
+            return ::GameSpeakEvents::eAbe_Work_21;
         case GameSpeakEvents::eStopIt_22:
-            return ::GameSpeakEvents::eStopIt_22;
+            return ::GameSpeakEvents::eAbe_StopIt_22;
         case GameSpeakEvents::eAllYa_23:
-            return ::GameSpeakEvents::eAllYa_23;
+            return ::GameSpeakEvents::eAbe_AllYa_23;
         case GameSpeakEvents::eSorry_24:
-            return ::GameSpeakEvents::eSorry_24;
+            return ::GameSpeakEvents::eAbe_Sorry_24;
         case GameSpeakEvents::eUnknown_25:
-            return ::GameSpeakEvents::eUnknown_25;
+            ALIVE_FATAL("GameSpeakEvents %d isn't used", static_cast<s32>(event));
         case GameSpeakEvents::eUnknown_26:
-            return ::GameSpeakEvents::eUnknown_26;
+            ALIVE_FATAL("GameSpeakEvents %d isn't used", static_cast<s32>(event));
         case GameSpeakEvents::Slig_Hi_27:
-            return ::GameSpeakEvents::Slig_Hi_27;
+            return ::GameSpeakEvents::eSlig_Hi_27;
         case GameSpeakEvents::Slig_HereBoy_28:
-            return ::GameSpeakEvents::Slig_HereBoy_28;
+            return ::GameSpeakEvents::eSlig_HereBoy_28;
         case GameSpeakEvents::Slig_GetEm_29:
-            return ::GameSpeakEvents::Slig_GetEm_29;
+            return ::GameSpeakEvents::eSlig_GetEm_29;
         case GameSpeakEvents::eUnknown_30:
-            return ::GameSpeakEvents::eUnknown_30;
+            ALIVE_FATAL("GameSpeakEvents %d isn't used", static_cast<s32>(event));
         case GameSpeakEvents::Slig_Freeze_31:
-            return ::GameSpeakEvents::Slig_Freeze_31;
+            return ::GameSpeakEvents::eSlig_Freeze_31;
         case GameSpeakEvents::eUnknown_32:
-            return ::GameSpeakEvents::eUnknown_32;
+            ALIVE_FATAL("GameSpeakEvents %d isn't used", static_cast<s32>(event));
         case GameSpeakEvents::eUnknown_33:
-            return ::GameSpeakEvents::eUnknown_33;
+            ALIVE_FATAL("GameSpeakEvents %d isn't used", static_cast<s32>(event));
         case GameSpeakEvents::eUnknown_34:
-            return ::GameSpeakEvents::eUnknown_34;
+            ALIVE_FATAL("GameSpeakEvents %d isn't used", static_cast<s32>(event));
         case GameSpeakEvents::eUnknown_35:
-            return ::GameSpeakEvents::eUnknown_35;
+            return ::GameSpeakEvents::eGlukkon_None_35;
         case GameSpeakEvents::Glukkon_Hey_36:
-            return ::GameSpeakEvents::Glukkon_Hey_36;
+            return ::GameSpeakEvents::eGlukkon_Hey_36;
         case GameSpeakEvents::Glukkon_DoIt_37:
-            return ::GameSpeakEvents::Glukkon_DoIt_37;
+            return ::GameSpeakEvents::eGlukkon_DoIt_37;
         case GameSpeakEvents::Glukkon_StayHere_38:
-            return ::GameSpeakEvents::Glukkon_StayHere_38;
+            return ::GameSpeakEvents::eGlukkon_StayHere_38;
         case GameSpeakEvents::Glukkon_Commere_39:
-            return ::GameSpeakEvents::Glukkon_Commere_39;
+            return ::GameSpeakEvents::eGlukkon_Commere_39;
         case GameSpeakEvents::Glukkon_AllOYa_40:
-            return ::GameSpeakEvents::Glukkon_AllOYa_40;
+            return ::GameSpeakEvents::eGlukkon_AllOYa_40;
         case GameSpeakEvents::Glukkon_Heh_41:
-            return ::GameSpeakEvents::Glukkon_Heh_41;
+            return ::GameSpeakEvents::eGlukkon_Heh_41;
         case GameSpeakEvents::Glukkon_Help_42:
-            return ::GameSpeakEvents::Glukkon_Help_42;
+            return ::GameSpeakEvents::eGlukkon_Help_42;
         case GameSpeakEvents::Glukkon_Laugh_43:
-            return ::GameSpeakEvents::Glukkon_Laugh_43;
+            return ::GameSpeakEvents::eGlukkon_Laugh_43;
         case GameSpeakEvents::Glukkon_KillEm_44:
-            return ::GameSpeakEvents::Glukkon_KillEm_44;
+            return ::GameSpeakEvents::eGlukkon_KillEm_44;
         case GameSpeakEvents::Glukkon_Unknown_45:
-            return ::GameSpeakEvents::Glukkon_Unknown_45;
+            return ::GameSpeakEvents::eGlukkon_Unknown_45;
         case GameSpeakEvents::Glukkon_Unknown_46:
-            return ::GameSpeakEvents::Glukkon_Unknown_46;
+            ALIVE_FATAL("GameSpeakEvents %d isn't used", static_cast<s32>(event));
         case GameSpeakEvents::Glukkon_What_47:
-            return ::GameSpeakEvents::Glukkon_What_47;
+            return ::GameSpeakEvents::eGlukkon_What_47;
         case GameSpeakEvents::Paramite_Howdy_48:
-            return ::GameSpeakEvents::Paramite_Howdy_48;
+            return ::GameSpeakEvents::eParamite_Howdy_48;
         case GameSpeakEvents::Paramite_Stay_49:
-            return ::GameSpeakEvents::Paramite_Stay_49;
+            return ::GameSpeakEvents::eParamite_Stay_49;
         case GameSpeakEvents::Paramite_CMon_or_Attack_50:
-            return ::GameSpeakEvents::Paramite_CMon_or_Attack_50;
+            return ::GameSpeakEvents::eParamite_CMon_or_Attack_50;
         case GameSpeakEvents::Paramite_DoIt_51:
-            return ::GameSpeakEvents::Paramite_DoIt_51;
+            return ::GameSpeakEvents::eParamite_DoIt_51;
         case GameSpeakEvents::Paramite_AllYa_52:
-            return ::GameSpeakEvents::Paramite_AllYa_52;
+            return ::GameSpeakEvents::eParamite_AllYa_52;
         case GameSpeakEvents::Scrab_Howl_53:
-            return ::GameSpeakEvents::Scrab_Howl_53;
+            return ::GameSpeakEvents::eScrab_Howl_53;
         case GameSpeakEvents::Scrab_Shriek_54:
-            return ::GameSpeakEvents::Scrab_Shriek_54;
+            return ::GameSpeakEvents::eScrab_Shriek_54;
         default:
             // For bad OG save data
             LOG_WARNING("Bad gamespeak event value %d", static_cast<u32>(event));
@@ -1075,7 +1075,7 @@ struct FleechSaveState final
     static ::FleechSaveState From(const FleechSaveState& data)
     {
         ::FleechSaveState d;
-        d.field_0_type = BaseGameObject::FromAE(data.field_0_type);
+        d.mType = BaseGameObject::FromAE(data.field_0_type);
         d.field_2 = data.field_2;
         d.field_4_obj_id = Guid::NewGuidFromTlvInfo(data.field_4_obj_id);
         d.mXPos = data.mXPos;
@@ -1085,15 +1085,15 @@ struct FleechSaveState final
         d.mPathNumber = data.mPathNumber;
         d.mLvlNumber = MapWrapper::FromAESaveData(data.mLvlNumber);
         d.mSpriteScale = data.mSpriteScale;
-        d.mRingRed = data.mRingRed;
-        d.mRingGreen = data.mRingGreen;
-        d.mRingBlue = data.mRingBlue;
-        d.field_26_bFlipX = data.field_26_bFlipX;
+        d.mRed = data.mRingRed;
+        d.mGreen = data.mRingGreen;
+        d.mBlue = data.mRingBlue;
+        d.mFlipX = data.field_26_bFlipX;
         d.field_28_current_motion = data.field_28_current_motion;
         d.field_2A_anim_current_frame = data.field_2A_anim_current_frame;
         d.field_2C_frame_change_counter = data.field_2C_frame_change_counter;
-        d.field_2E_bRender = data.field_2E_bRender;
-        d.field_2F_bDrawable = data.field_2F_bDrawable;
+        d.mRender = data.field_2E_bRender;
+        d.mDrawable = data.field_2F_bDrawable;
         d.mHealth = data.mHealth;
         d.mCurrentMotion = data.mCurrentMotion;
         d.mNextMotion = data.mNextMotion;
@@ -1111,8 +1111,8 @@ struct FleechSaveState final
         d.mTongueDestinationX = data.mTongueDestinationX;
         d.mTongueDestinationY = data.mTongueDestinationY;
         d.field_5A = data.field_5A;
-        d.field_5C_tongue_active_flag = data.field_5C_tongue_active_flag;
-        d.field_5D_render_flag = data.field_5D_render_flag;
+        d.mTongueActive = data.field_5C_tongue_active_flag;
+        d.mRenderTongue = data.field_5D_render_flag;
         d.field_5E_brain_state = data.field_5E_brain_state;
         d.field_60_state = data.field_60_state;
         d.field_62 = data.field_62;
@@ -1610,29 +1610,29 @@ struct GrenadeSaveState final
     static ::GrenadeSaveState From(const GrenadeSaveState& data)
     {
         ::GrenadeSaveState d;
-        d.field_0_type = BaseGameObject::FromAE(data.field_0_type);
-        d.field_4_obj_id = Guid::NewGuidFromTlvInfo(data.field_4_obj_id);
-        d.field_8_xpos = data.field_8_xpos;
-        d.field_C_ypos = data.field_C_ypos;
-        d.field_10_velx = data.field_10_velx;
-        d.field_14_vely = data.field_14_vely;
-        d.field_18_sprite_scale = data.field_18_sprite_scale;
-        d.field_1C_path_number = data.field_1C_path_number;
-        d.field_1E_lvl_number = MapWrapper::FromAESaveData(data.field_1E_lvl_number);
+        d.mType = BaseGameObject::FromAE(data.field_0_type);
+        d.mTlvInfo = Guid::NewGuidFromTlvInfo(data.field_4_obj_id);
+        d.mXPos = data.field_8_xpos;
+        d.mYPos = data.field_C_ypos;
+        d.mVelX = data.field_10_velx;
+        d.mVelY = data.field_14_vely;
+        d.mSpriteScale = data.field_18_sprite_scale;
+        d.mCurrentPath = data.field_1C_path_number;
+        d.mCurrentLevel = MapWrapper::FromAESaveData(data.field_1E_lvl_number);
         d.mRender = data.field_20_flags.Get(Flags_20::eBit1_bRender);
         d.mDrawable = data.field_20_flags.Get(Flags_20::eBit2_bDrawable);
         d.mLoop = data.field_20_flags.Get(Flags_20::eBit3_bLoop);
         d.mInteractive = data.field_20_flags.Get(Flags_20::eBit4_bInteractive);
         d.mExplodeNow = data.field_20_flags.Get(Flags_20::eBit6_bExplodeNow);
         d.mBlowUpOnCollision = data.field_20_flags.Get(Flags_20::eBit7_bBlowUpOnCollision);
-        d.field_24_base_id = Guid::NewGuidFromTlvInfo(data.field_24_base_id);
-        d.field_28_line_type = data.field_28_line_type;
-        d.field_2A_savedcount = data.field_2A_savedcount;
-        d.field_2C_state = From(data.field_2C_state);
-        d.field_2E = data.field_2E;
-        d.field_30_explode_timer = data.field_30_explode_timer;
-        d.field_34_xpos = data.field_34_xpos;
-        d.field_38_ypos = data.field_38_ypos;
+        d.mPlatformId = Guid::NewGuidFromTlvInfo(data.field_24_base_id);
+        d.mCollisionLineType = data.field_28_line_type;
+        d.mThrowableCount = data.field_2A_savedcount;
+        d.mState = From(data.field_2C_state);
+        d.mBounceCount = data.field_2E;
+        d.mExplodeCountdown = data.field_30_explode_timer;
+        d.mPreviousXPos = data.field_34_xpos;
+        d.mPreviousYPos = data.field_38_ypos;
         return d;
     }
 
@@ -1820,15 +1820,15 @@ struct GlukkonSaveState final
             case GlukkonSpeak::Unused_9:
                 return ::GlukkonSpeak::Unused_9;
             case GlukkonSpeak::Unused_10:
-                return ::GlukkonSpeak::Unused_10;
+                ALIVE_FATAL("GlukkonSpeak %d is unused", static_cast<s32>(speak));
             case GlukkonSpeak::What_11:
                 return ::GlukkonSpeak::What_11;
             case GlukkonSpeak::Unused_12:
-                return ::GlukkonSpeak::Unused_12;
+                ALIVE_FATAL("GlukkonSpeak %d is unused", static_cast<s32>(speak));
             case GlukkonSpeak::Unused_13:
-                return ::GlukkonSpeak::Unused_13;
+                ALIVE_FATAL("GlukkonSpeak %d is unused", static_cast<s32>(speak));
             case GlukkonSpeak::Unused_14:
-                return ::GlukkonSpeak::Unused_14;
+                ALIVE_FATAL("GlukkonSpeak %d is unused", static_cast<s32>(speak));
         }
         ALIVE_FATAL("Bad glukkon speak value");
     }
@@ -2096,13 +2096,13 @@ struct LiftPointSaveState final
     static ::LiftPointSaveState From(const LiftPointSaveState& data)
     {
         ::LiftPointSaveState d;
-        d.field_0_type = BaseGameObject::FromAE(data.field_0_type);
-        d.field_4_xpos = data.field_4_xpos;
-        d.field_8_ypos = data.field_8_ypos;
-        d.field_C_tlvInfo = Guid::NewGuidFromTlvInfo(data.field_C_tlvInfo);
-        d.field_10_pTlv = Guid::NewGuidFromTlvInfo(data.field_10_pTlv);
-        d.field_14_floorYLevel = data.field_14_floorYLevel;
-        d.field_18_lift_point_stop_type = From(data.field_18_lift_point_stop_type);
+        d.mType = BaseGameObject::FromAE(data.field_0_type);
+        d.mXPos = data.field_4_xpos;
+        d.mYPos = data.field_8_ypos;
+        d.mPlatformId = Guid::NewGuidFromTlvInfo(data.field_C_tlvInfo);
+        d.mTlvId = Guid::NewGuidFromTlvInfo(data.field_10_pTlv);
+        d.mFloorLevelY = data.field_14_floorYLevel;
+        d.mLiftPointStopType = From(data.field_18_lift_point_stop_type);
         d.mMoving = data.field_1A.Get(Flags::eBit1_bMoving);
         d.mTopFloor = data.field_1A.Get(Flags::eBit2_bTopFloor);
         d.mMiddleFloor = data.field_1A.Get(Flags::eBit3_bMiddleFloor);
@@ -2570,26 +2570,26 @@ struct MeatSaveState final
     static ::MeatSaveState From(const MeatSaveState& data)
     {
         ::MeatSaveState d;
-        d.field_0_type = BaseGameObject::FromAE(data.field_0_type);
-        d.field_4_obj_id = Guid::NewGuidFromTlvInfo(data.field_4_obj_id);
-        d.field_8_xpos = data.field_8_xpos;
-        d.field_C_ypos = data.field_C_ypos;
-        d.field_10_velx = data.field_10_velx;
-        d.field_14_vely = data.field_14_vely;
-        d.field_18_sprite_scale = data.field_18_sprite_scale;
-        d.field_1C_path_number = data.field_1C_path_number;
-        d.field_1E_lvl_number = MapWrapper::FromAESaveData(data.field_1E_lvl_number);
+        d.mType = BaseGameObject::FromAE(data.field_0_type);
+        d.mTlvId = Guid::NewGuidFromTlvInfo(data.field_4_obj_id);
+        d.mXPos = data.field_8_xpos;
+        d.mYPos = data.field_C_ypos;
+        d.mVelX = data.field_10_velx;
+        d.mVelY = data.field_14_vely;
+        d.mSpriteScale = data.field_18_sprite_scale;
+        d.mCurrentPath = data.field_1C_path_number;
+        d.mCurrentLevel = MapWrapper::FromAESaveData(data.field_1E_lvl_number);
         d.mRender = data.field_20_flags.Get(MeatStateFlags::eBit1_bRender);
         d.mDrawable = data.field_20_flags.Get(MeatStateFlags::eBit2_bDrawable);
         d.mLoop = data.field_20_flags.Get(MeatStateFlags::eBit3_bLoop);
         d.mInteractive = data.field_20_flags.Get(MeatStateFlags::eBit4_bInteractive);
-        d.field_24_base_id = Guid::NewGuidFromTlvInfo(data.field_24_base_id);
-        d.field_28_line_type = data.field_28_line_type;
-        d.field_2A_count = data.field_2A_count;
-        d.field_2C_state = From(data.field_2C_state);
-        d.field_30_xpos = data.field_30_xpos;
-        d.field_34_ypos = data.field_34_ypos;
-        d.field_38_deadtimer = data.field_38_deadtimer;
+        d.mPlatformId = Guid::NewGuidFromTlvInfo(data.field_24_base_id);
+        d.mLineType = data.field_28_line_type;
+        d.mThrowableCount = data.field_2A_count;
+        d.mState = From(data.field_2C_state);
+        d.mPreviousXPos = data.field_30_xpos;
+        d.mPreviousYPos = data.field_34_ypos;
+        d.mDeadTimer = data.field_38_deadtimer;
         return d;
     }
 
@@ -2891,7 +2891,7 @@ struct ThrowableArraySaveState final
     static ::ThrowableArraySaveState From(const ThrowableArraySaveState& data)
     {
         ::ThrowableArraySaveState d;
-        d.field_2_item_count = data.field_2_item_count;
+        d.mCount = data.field_2_item_count;
         return d;
     }
 };

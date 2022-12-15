@@ -138,7 +138,7 @@ const u16 sSineTable_5466C4[64] = {
     61004, 61582, 62122, 62623, 63085, 63508, 63891, 64235,
     64539, 64803, 65026, 65209, 65351, 65453, 65514, 65535};
 
-FP Math_Cosine_496CD0(u8 v)
+FP Math_Cosine(u8 v)
 {
     if (v < 64u)
     {
@@ -158,7 +158,7 @@ FP Math_Cosine_496CD0(u8 v)
     return FP_FromRaw(sSineTable_5466C4[255 - v]);
 }
 
-FP Math_Cosine_496D60(FP fp)
+FP Math_Cosine(FP fp)
 {
     if (fp < FP_FromInteger(0))
     {
@@ -172,19 +172,19 @@ FP Math_Cosine_496D60(FP fp)
         fp.fpValue += 0xFF000000 * ((u32)(fp.fpValue + 0xFFFF) >> 24);
     }
 
-    return Math_Cosine_496CD0(static_cast<u8>(FP_GetExponent(fp)));
+    return Math_Cosine(static_cast<u8>(FP_GetExponent(fp)));
 }
 
-FP Math_Sine_496DF0(FP fp)
+FP Math_Sine(FP fp)
 {
     // May actually be Cosine -> Sine here ?? Damn maths :(
-    return Math_Cosine_496D60(fp + FP_FromInteger(64));
+    return Math_Cosine(fp + FP_FromInteger(64));
 }
 
-FP Math_Sine_496DD0(u8 v)
+FP Math_Sine(u8 v)
 {
     // TODO: Relies on underflow
-    return Math_Cosine_496CD0(v - 64);
+    return Math_Cosine(v - 64);
 }
 
 s32 Math_Distance(s32 x1, s32 y1, s32 x2, s32 y2)
@@ -211,7 +211,7 @@ s32 Math_Distance(s32 x1, s32 y1, s32 x2, s32 y2)
     }
 }
 
-FP Math_Tan_496F70(const FP value1, const FP value2)
+FP Math_Tan(const FP value1, const FP value2)
 {
     FP value1abs = FP_Abs(value1);
     FP value2abs = FP_Abs(value2);
@@ -285,7 +285,7 @@ s32 Math_SquareRoot_Shifted_496E20(u32 value, s16 iterations)
     return ret;
 }
 
-s32 Math_SquareRoot_Int_496E70(s32 value)
+s32 Math_SquareRoot_Int(s32 value)
 {
     return Math_SquareRoot_Shifted_496E20(value, 0); // 15 iterations
 }

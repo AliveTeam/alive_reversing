@@ -127,9 +127,9 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, u32 numOfParticles, FP scale, Bur
 
             for (u32 i = 0; i < numOfParticles; i++)
             {
-                field_F8_pRes[i].field_18_animation.field_68_anim_ptr = &GetAnimation();
+                field_F8_pRes[i].field_18_animation.mAnimPtr = &GetAnimation();
                 field_F8_pRes[i].field_18_animation.SetRenderLayer(GetAnimation().GetRenderLayer());
-                field_F8_pRes[i].field_18_animation.field_6C_scale = FP_FromDouble(0.95) * GetSpriteScale();
+                field_F8_pRes[i].field_18_animation.mSpriteScale = FP_FromDouble(0.95) * GetSpriteScale();
 
                 field_F8_pRes[i].field_18_animation.SetRender(true);
                 //field_F8_pRes[i].field_18_animation.mFlags.Set(AnimFlags::eBit25_bDecompressDone); // TODO: HIWORD &= ~0x0100u ??
@@ -184,8 +184,8 @@ void ParticleBurst::VRender(PrimHeader** ppOt)
     if (gNumCamSwappers == 0)
     {
         GetAnimation().SetSpriteScale(GetSpriteScale());
-        const FP camX = pScreenManager->CamXPos();
-        const FP camY = pScreenManager->CamYPos();
+        const FP camX = gScreenManager->CamXPos();
+        const FP camY = gScreenManager->CamYPos();
 
         for (s32 i = 0; i < field_FC_number_of_particles; i++)
         {
@@ -265,11 +265,11 @@ void ParticleBurst::VRender(PrimHeader** ppOt)
             }
             else
             {
-                field_F8_pRes[i].field_18_animation.field_6C_scale = FP_FromInteger(100) / (zPos + FP_FromInteger(300));
-                field_F8_pRes[i].field_18_animation.field_6C_scale *= GetSpriteScale();
-                field_F8_pRes[i].field_18_animation.field_6C_scale *= FP_FromInteger(field_106_count) / FP_FromInteger(13);
+                field_F8_pRes[i].field_18_animation.mSpriteScale = FP_FromInteger(100) / (zPos + FP_FromInteger(300));
+                field_F8_pRes[i].field_18_animation.mSpriteScale *= GetSpriteScale();
+                field_F8_pRes[i].field_18_animation.mSpriteScale *= FP_FromInteger(field_106_count) / FP_FromInteger(13);
 
-                if (field_F8_pRes[i].field_18_animation.field_6C_scale <= FP_FromInteger(1))
+                if (field_F8_pRes[i].field_18_animation.mSpriteScale <= FP_FromInteger(1))
                 {
                     field_F8_pRes[i].field_18_animation.VRender(
                         FP_GetExponent(field_F8_pRes[i].x - camX),

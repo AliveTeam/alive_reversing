@@ -209,22 +209,22 @@ void QuikSave_RestoreBlyData(const u8* pSaveData)
 }
 
 
-Quicksave sActiveQuicksaveData = {};
-SaveFileRec sSaveFileRecords_BB31D8[128] = {};
-s32 sSavedGameToLoadIdx_BB43FC = 0;
-s32 sTotalSaveFilesCount_BB43E0 = 0;
+Quicksave gActiveQuicksaveData = {};
+SaveFileRec gSaveFileRecords[128] = {};
+s32 gSavedGameToLoadIdx = 0;
+s32 gTotalSaveFilesCount = 0;
 
-extern s32 sAccumulatedObjectCount_5C1BF4;
+extern s32 gAccumulatedObjectCount;
 
 void Quicksave_LoadFromMemory_4C95A0(Quicksave* quicksaveData)
 {
-    sAccumulatedObjectCount_5C1BF4 = quicksaveData->field_200_accumulated_obj_count;
-    DestroyObjects_4A1F20();
+    gAccumulatedObjectCount = quicksaveData->field_200_accumulated_obj_count;
+    DestroyObjects();
     EventsReset();
-    bSkipGameObjectUpdates = 1;
+    gSkipGameObjectUpdates = true;
     Quicksave_ReadWorldInfo(&quicksaveData->field_204_world_info);
     gSwitchStates = quicksaveData->field_45C_switch_states;
-    gMap.mRestoreQuickSaveData = reinterpret_cast<u8*>(quicksaveData->field_55C_objects_state_data);
+    gMap.mSaveData = reinterpret_cast<u8*>(quicksaveData->field_55C_objects_state_data);
     gMap.SetActiveCam(
         MapWrapper::FromAE(quicksaveData->field_204_world_info.field_4_level),
         quicksaveData->field_204_world_info.field_6_path,
@@ -238,7 +238,7 @@ void Quicksave_LoadFromMemory_4C95A0(Quicksave* quicksaveData)
 void Quicksave_LoadActive()
 {
     Game_ShowLoadingIcon_482D80();
-    Quicksave_LoadFromMemory_4C95A0(&sActiveQuicksaveData);
+    Quicksave_LoadFromMemory_4C95A0(&gActiveQuicksaveData);
 }
 
 static void WriteChars(u8*& pDst, u8 v1, u8 v2)
@@ -443,7 +443,7 @@ void Quicksave_SaveToMemory_4C91A0(Quicksave* pSave)
 {
     if (sActiveHero->mHealth > FP_FromInteger(0))
     {
-        pSave->field_200_accumulated_obj_count = sAccumulatedObjectCount_5C1BF4;
+        pSave->field_200_accumulated_obj_count = gAccumulatedObjectCount;
 
         // Don't really know what the point of doing this is? Might as well just memset the pSave header?
         Quicksave_PSX_Header* pHeaderToUse = nullptr;
@@ -497,7 +497,7 @@ void DoQuicksave()
 {
     Game_ShowLoadingIcon_482D80();
     Path_Get_Bly_Record(gMap.mCurrentLevel, gMap.mCurrentPath);
-    Quicksave_SaveToMemory_4C91A0(&sActiveQuicksaveData);
+    Quicksave_SaveToMemory_4C91A0(&gActiveQuicksaveData);
 }
 
 void Quicksave_ReadWorldInfo(const Quicksave_WorldInfo* pInfo)
@@ -515,11 +515,11 @@ void Quicksave_ReadWorldInfo(const Quicksave_WorldInfo* pInfo)
 
     sActiveHero->SetRestoredFromQuickSave(true);
     gZulagNumber = pInfo->field_2C_current_zulag_number;
-    sKilledMudokons = pInfo->field_14_killed_muds;
-    sRescuedMudokons = pInfo->field_12_saved_muds;
+    gKilledMudokons = pInfo->field_14_killed_muds;
+    gRescuedMudokons = pInfo->field_12_saved_muds;
     gMudokonsInArea = pInfo->field_16_muds_in_area; // TODO: Check types
-    gTotalMeterBars_5C1BFA = pInfo->field_2D_total_meter_bars;
-    gbDrawMeterCountDown_5C1BF8 = pInfo->field_30_bDrawMeterCountDown;
+    gTotalMeterBars = pInfo->field_2D_total_meter_bars;
+    gbDrawMeterCountDown = pInfo->field_30_bDrawMeterCountDown;
     gGasTimer = pInfo->mGasTimer;
     gAbeInvincible = pInfo->mAbeInvincible;
     gVisitedBonewerkz = pInfo->mVisitedBonewerkz;
@@ -546,11 +546,11 @@ void Quicksave_SaveWorldInfo(Quicksave_WorldInfo* pInfo)
     pInfo->field_17_last_saved_killed_muds_per_path = sSavedKilledMudsPerZulag_5C1B50.mData[ALIVE_COUNTOF(sSavedKilledMudsPerZulag_5C1B50.mData) - 1];
 
     pInfo->field_2C_current_zulag_number = gZulagNumber;
-    pInfo->field_12_saved_muds = sRescuedMudokons;
-    pInfo->field_14_killed_muds = sKilledMudokons;
+    pInfo->field_12_saved_muds = gRescuedMudokons;
+    pInfo->field_14_killed_muds = gKilledMudokons;
     pInfo->field_16_muds_in_area = static_cast<s8>(gMudokonsInArea); // TODO: Check types
-    pInfo->field_2D_total_meter_bars = gTotalMeterBars_5C1BFA;
-    pInfo->field_30_bDrawMeterCountDown = gbDrawMeterCountDown_5C1BF8;
+    pInfo->field_2D_total_meter_bars = gTotalMeterBars;
+    pInfo->field_30_bDrawMeterCountDown = gbDrawMeterCountDown;
     pInfo->mAbeInvincible = gAbeInvincible;
     pInfo->mVisitedBonewerkz = gVisitedBonewerkz;
     pInfo->mVisitedBarracks = gVisitedBarracks;
@@ -563,8 +563,8 @@ void Quicksave_SaveWorldInfo(Quicksave_WorldInfo* pInfo)
 
 s32 Sort_comparitor_4D42C0(const void* pSaveRecLeft, const void* pSaveRecRight)
 {
-    const s32 leftTime = reinterpret_cast<const SaveFileRec*>(pSaveRecLeft)->field_20_lastWriteTimeStamp;
-    const s32 rightTime = reinterpret_cast<const SaveFileRec*>(pSaveRecRight)->field_20_lastWriteTimeStamp;
+    const s32 leftTime = reinterpret_cast<const SaveFileRec*>(pSaveRecLeft)->mLastWriteTimeStamp;
+    const s32 rightTime = reinterpret_cast<const SaveFileRec*>(pSaveRecRight)->mLastWriteTimeStamp;
 
     if (leftTime <= rightTime)
     {
@@ -578,11 +578,11 @@ s32 Sort_comparitor_4D42C0(const void* pSaveRecLeft, const void* pSaveRecRight)
 
 void Quicksave_FindSaves()
 {
-    sTotalSaveFilesCount_BB43E0 = 0;
+    gTotalSaveFilesCount = 0;
 
     IO_EnumerateDirectory("*.sav", [](const char_type* fileName, u32 lastWriteTime)
                           {
-                              if (sTotalSaveFilesCount_BB43E0 < 128)
+                              if (gTotalSaveFilesCount < 128)
                               {
                                   size_t fileNameLen = strlen(fileName) - 4;
                                   if (fileNameLen > 0)
@@ -593,28 +593,28 @@ void Quicksave_FindSaves()
                                           fileNameLen = 20;
                                       }
 
-                                      SaveFileRec* pRec = &sSaveFileRecords_BB31D8[sTotalSaveFilesCount_BB43E0];
-                                      memcpy(pRec->field_0_fileName, fileName, fileNameLen);
-                                      pRec->field_0_fileName[fileNameLen] = 0;
+                                      SaveFileRec* pRec = &gSaveFileRecords[gTotalSaveFilesCount];
+                                      memcpy(pRec->mFileName, fileName, fileNameLen);
+                                      pRec->mFileName[fileNameLen] = 0;
 
-                                      pRec->field_20_lastWriteTimeStamp = lastWriteTime;
-                                      sTotalSaveFilesCount_BB43E0++;
+                                      pRec->mLastWriteTimeStamp = lastWriteTime;
+                                      gTotalSaveFilesCount++;
                                   }
                               }
                           });
 
     // Sort all we've found by time stamp, users probably want to load their last save first
-    qsort(sSaveFileRecords_BB31D8, sTotalSaveFilesCount_BB43E0, sizeof(SaveFileRec), Sort_comparitor_4D42C0);
+    qsort(gSaveFileRecords, gTotalSaveFilesCount, sizeof(SaveFileRec), Sort_comparitor_4D42C0);
 
     // Underflow
-    if (sSavedGameToLoadIdx_BB43FC < 0)
+    if (gSavedGameToLoadIdx < 0)
     {
-        sSavedGameToLoadIdx_BB43FC = 0;
+        gSavedGameToLoadIdx = 0;
     }
 
     // Overflow
-    if (sSavedGameToLoadIdx_BB43FC >= sTotalSaveFilesCount_BB43E0)
+    if (gSavedGameToLoadIdx >= gTotalSaveFilesCount)
     {
-        sSavedGameToLoadIdx_BB43FC = sTotalSaveFilesCount_BB43E0 - 1;
+        gSavedGameToLoadIdx = gTotalSaveFilesCount - 1;
     }
 }

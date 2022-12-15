@@ -1242,8 +1242,8 @@ struct Path_MovingBombStopper final : public Path_TLV
         mTlvType = ReliveTypes::eMovingBombStopper;
         mAttribute = QuiksaveAttribute::eDoNothing_0;
     }
-    s16 mMinDelay = 0;
-    s16 mMaxDelay = 0;
+    s16 mMinStopTime = 0;
+    s16 mMaxStopTime = 0;
 };
 
 struct Path_DoorFlame final : public Path_TLV

@@ -52,24 +52,26 @@ public:
         mPreviousMotion = static_cast<s16>(motion);
     }
 
-    bool GetCanBePossessed() const { return mCanBePossessed; }
+    const bool& GetCanBePossessed() const { return mCanBePossessed; }
     void SetCanBePossessed(bool val) { mCanBePossessed = val; }
-    bool GetPossessed() const { return mPossessed; }
+    const bool& GetPossessed() const { return mPossessed; }
     void SetPossessed(bool val) { mPossessed = val; }
-    bool GetZappedByShrykull() const { return mZappedByShrykull; }
+    const bool& GetZappedByShrykull() const { return mZappedByShrykull; }
     void SetZappedByShrykull(bool val) { mZappedByShrykull = val; }
-    bool GetCanSetOffExplosives() const { return mCanSetOffExplosives; }
+    const bool& GetCanSetOffExplosives() const { return mCanSetOffExplosives; }
     void SetCanSetOffExplosives(bool val) { mCanSetOffExplosives = val; }
-    bool GetElectrocuted() const { return mElectrocuted; }
+    const bool& GetElectrocuted() const { return mElectrocuted; }
     void SetElectrocuted(bool val) { mElectrocuted = val; }
-    bool GetInvisible() const { return mInvisible; }
+    const bool& GetInvisible() const { return mInvisible; }
     void SetInvisible(bool val) { mInvisible = val; }
-    bool GetRestoredFromQuickSave() const { return mRestoredFromQuickSave; }
+    const bool& GetRestoredFromQuickSave() const { return mRestoredFromQuickSave; }
     void SetRestoredFromQuickSave(bool val) { mRestoredFromQuickSave = val; }
-    bool GetTeleporting() const { return mTeleporting; }
+    const bool& GetTeleporting() const { return mTeleporting; }
     void SetTeleporting(bool val) { mTeleporting = val; }
-    bool GetElectrocuting() const { return mElectrocuting; }
+    const bool& GetElectrocuting() const { return mElectrocuting; }
     void SetElectrocuting(bool val) { mElectrocuting = val; }
+    const bool& GetCanBeesChase() const { return mCanBeesChase; }
+    void SetCanBeesChase(bool val) { mCanBeesChase = val; }
 protected:
 
     template <class T>
@@ -102,7 +104,6 @@ public:
     bool mbGotShot = false;
     bool mbMotionChanged = false;
     Guid BaseAliveGameObject_PlatformId;
-    s16 field_EC_bBeesCanChase = 0;      // AO only: can the bees attack - can be above the value 1 but bee swarm only checks for non zero
 
 private:
     bool mCanBePossessed = false;
@@ -114,6 +115,8 @@ private:
     bool mRestoredFromQuickSave = false;
     bool mTeleporting = false;
     bool mElectrocuting = false;
+    bool mCanBeesChase = false;      // AO only: can the bees attack - can be above the value 1 but bee swarm only checks for non zero
+
 };
 
 extern DynamicArrayT<IBaseAliveGameObject>* gBaseAliveGameObjects;

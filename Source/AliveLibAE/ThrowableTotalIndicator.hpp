@@ -39,4 +39,4 @@ private:
     s16 mFade = 0;
 };
 
-extern u16 bThrowableIndicatorExists_5C112C;
+extern u16 gThrowableIndicatorExists;

@@ -20,17 +20,12 @@ public:
     virtual void VUpdate() override;
 
     Guid mTlvId;
-    /* enum Flags_14
-    {
-        eBit1_Unknown = 0x1,
-        eBit2_Unknown = 0x2,
-        eBit3_Unknown = 0x4,
-    };*/
-    s16 field_14_flags = 0;
-    s16 field_16 = 0;
-    s32 field_18_counter = 0;
-    MusicController::MusicTypes field_1C_music_type = MusicController::MusicTypes::eType0;
-    u16 field_1E_switch_id = 0;
+    bool mHasSwitchId = false;
+    bool mSetMusicToNoneOnDtor = false;
+    bool mUnknown = false;
+    s32 mCounter = 0;
+    MusicController::MusicTypes mMusicType = MusicController::MusicTypes::eType0;
+    u16 mSwitchId = 0;
 };
 
 } // namespace AO

@@ -446,11 +446,11 @@ void UXB::VRender(PrimHeader** ppOt)
     {
         mFlashAnim.VRender(
             FP_GetExponent(mXPos
-                           + FP_FromInteger(pScreenManager->mCamXOff)
-                           - pScreenManager->mCamPos->x),
+                           + FP_FromInteger(gScreenManager->mCamXOff)
+                           - gScreenManager->mCamPos->x),
             FP_GetExponent(mYPos
-                           + (FP_FromInteger(pScreenManager->mCamYOff) - FP_NoFractional(GetSpriteScale() * FP_FromInteger(12)))
-                           - pScreenManager->mCamPos->y),
+                           + (FP_FromInteger(gScreenManager->mCamYOff) - FP_NoFractional(GetSpriteScale() * FP_FromInteger(12)))
+                           - gScreenManager->mCamPos->y),
             ppOt,
             0,
             0);

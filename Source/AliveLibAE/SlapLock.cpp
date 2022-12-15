@@ -107,7 +107,7 @@ s32 SlapLock::CreateFromSaveState(const u8* pBuffer)
 {
     auto pState = reinterpret_cast<const SlapLockSaveState*>(pBuffer);
 
-    auto pTlv = static_cast<relive::Path_SlapLock*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pState->mTlvInfo));
+    auto pTlv = static_cast<relive::Path_SlapLock*>(gPathInfo->TLV_From_Offset_Lvl_Cam(pState->mTlvInfo));
 
     auto pSlapLock = relive_new SlapLock(pTlv, pState->mTlvInfo);
     if (pSlapLock)
@@ -138,7 +138,7 @@ void SlapLock::VScreenChanged()
 
 void SlapLock::GiveInvisibility()
 {
-    mSlapLockTlv = static_cast<relive::Path_SlapLock*>(sPathInfo->TLV_From_Offset_Lvl_Cam(mTlvInfo));
+    mSlapLockTlv = static_cast<relive::Path_SlapLock*>(gPathInfo->TLV_From_Offset_Lvl_Cam(mTlvInfo));
     if (sActiveHero)
     {
         sActiveHero->mInvisibilityDuration = mSlapLockTlv->mInvisibilityDuration;
@@ -155,7 +155,7 @@ s32 SlapLock::VGetSaveState(u8* pSaveBuffer)
     pState->mType = ReliveTypes::eSlapLock;
     pState->mAnimRender = GetAnimation().GetRender() & 1;
     pState->mTlvInfo = mTlvInfo;
-    pState->mTlvState = sPathInfo->TLV_From_Offset_Lvl_Cam(mTlvInfo)->mTlvSpecificMeaning;
+    pState->mTlvState = gPathInfo->TLV_From_Offset_Lvl_Cam(mTlvInfo)->mTlvSpecificMeaning;
     pState->mState = mState;
     pState->mTimer1 = mTimer1;
     pState->mShinyParticleTimer = mShinyParticleTimer;
@@ -176,7 +176,7 @@ s32 SlapLock::VGetSaveState(u8* pSaveBuffer)
 
 void SlapLock::VUpdate()
 {
-    mSlapLockTlv = static_cast<relive::Path_SlapLock*>(sPathInfo->TLV_From_Offset_Lvl_Cam(mTlvInfo));
+    mSlapLockTlv = static_cast<relive::Path_SlapLock*>(gPathInfo->TLV_From_Offset_Lvl_Cam(mTlvInfo));
 
     if (EventGet(kEventDeathReset))
     {
@@ -425,7 +425,7 @@ void SlapLock::SetInvisibilityTarget()
 
 s16 SlapLock::VTakeDamage(BaseGameObject* pFrom)
 {
-    mSlapLockTlv = static_cast<relive::Path_SlapLock*>(sPathInfo->TLV_From_Offset_Lvl_Cam(mTlvInfo));
+    mSlapLockTlv = static_cast<relive::Path_SlapLock*>(gPathInfo->TLV_From_Offset_Lvl_Cam(mTlvInfo));
 
     if (pFrom->Type() != ReliveTypes::eAbe)
     {

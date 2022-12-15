@@ -4,7 +4,7 @@
 
 // 0xxx xxxx = string of literals (1 to 128)
 // 1xxx xxyy yyyy yyyy = copy from y bytes back, x bytes
-void CompressionType_4Or5_Decompress(const u8* pData, u8* decompressedData)
+void CompressionType_4Or5_Decompress_Impl(const u8* pData, u8* decompressedData)
 {
     PtrStream stream(&pData);
 

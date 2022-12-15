@@ -20,13 +20,13 @@ private:
     bool mFadeIn = false;
     bool mDone = false;
     bool mDestroyOnDone = false;
-    Poly_G4 field_F8_tile1[2] = {};
-    Poly_G4 field_120_tile2[2] = {};
-    Poly_G4 field_148_tile3[2] = {};
-    Poly_G4 field_170_tile4[2] = {};
-    Prim_SetTPage field_198_tPages[2] = {};
-    s16 field_1B8_fade_colour = 0;
-    s16 field_1BA_speed = 0;
+    Poly_G4 mTile1[2] = {};
+    Poly_G4 mTile2[2] = {};
+    Poly_G4 mTile3[2] = {};
+    Poly_G4 mTile4[2] = {};
+    Prim_SetTPage mTPages[2] = {};
+    s16 mFadeColour = 0;
+    s16 mSpeed = 0;
 };
 
-CircularFade* Make_Circular_Fade_4CE8C0(FP xpos, FP ypos, FP scale, s16 direction, s8 destroyOnDone, bool surviveDeathReset);
+CircularFade* Make_Circular_Fade(FP xpos, FP ypos, FP scale, s16 direction, s8 destroyOnDone, bool surviveDeathReset);

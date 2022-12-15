@@ -20,11 +20,11 @@ ParamiteWeb::ParamiteWeb(FP xpos, s32 bottom, s32 top, FP scale)
 
     if (scale == FP_FromInteger(1))
     {
-        field_E6_segment_length = 15;
+        mSegmentLength = 15;
     }
     else
     {
-        field_E6_segment_length = 7;
+        mSegmentLength = 7;
     }
 
     mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::ParamiteWeb));
@@ -47,40 +47,40 @@ ParamiteWeb::ParamiteWeb(FP xpos, s32 bottom, s32 top, FP scale)
     GetAnimation().SetRGB(128, 128, 128);
 
     mXPos = xpos;
-    field_EA_ttl_remainder = static_cast<s16>(top);
+    mTtlRemainder = top;
     mYPos = FP_FromInteger(top);
-    field_E8_ttl = static_cast<s16>(bottom);
+    mTtl = bottom;
 
-    field_E4_number_of_segments = 240 / field_E6_segment_length;
+    mSegmentsCount = 240 / mSegmentLength;
 
-    field_EC_pRes = relive_new AnimationUnknown[field_E4_number_of_segments];
-    if (field_EC_pRes)
+    mWebRes = relive_new AnimationUnknown[mSegmentsCount];
+    if (mWebRes)
     {
-        for (s32 i = 0; i < field_E4_number_of_segments; i++)
+        for (s32 i = 0; i < mSegmentsCount; i++)
         {
-            AnimationUnknown* pSegment = &field_EC_pRes[i];
+            AnimationUnknown* pSegment = &mWebRes[i];
             pSegment->SetRender(true);
-            pSegment->field_68_anim_ptr = &GetAnimation();
+            pSegment->mAnimPtr = &GetAnimation();
             pSegment->SetRenderLayer(GetAnimation().GetRenderLayer());
-            pSegment->field_6C_scale = GetSpriteScale();
+            pSegment->mSpriteScale = GetSpriteScale();
             pSegment->SetSemiTrans(false);
             pSegment->SetBlending(false);
         }
     }
 
-    field_F0_bEnabled = 0;
+    mEnabled = false;
 }
 
 ParamiteWeb::~ParamiteWeb()
 {
-    relive_delete[] field_EC_pRes;
+    relive_delete[] mWebRes;
 }
 void ParamiteWeb::VUpdate()
 {
-    if (field_F0_bEnabled == 1)
+    if (mEnabled)
     {
-        field_EA_ttl_remainder -= 8;
-        if (field_EA_ttl_remainder <= field_E8_ttl)
+        mTtlRemainder -= 8;
+        if (mTtlRemainder <= mTtl)
         {
             SetDead(true);
         }
@@ -104,25 +104,25 @@ void ParamiteWeb::VRender(PrimHeader** ppOt)
     {
         if (mXPos >= FP_FromInteger(camCoords.x) && mXPos <= FP_FromInteger(camCoords.x + 1024))
         {
-            const FP cam_y = pScreenManager->mCamPos->y;
-            const FP cam_x = pScreenManager->mCamPos->x;
+            const FP cam_y = gScreenManager->mCamPos->y;
+            const FP cam_x = gScreenManager->mCamPos->x;
 
-            s16 minY = FP_GetExponent(FP_FromInteger(pScreenManager->mCamYOff + field_E8_ttl) - cam_y);
-            s16 maxY = FP_GetExponent(FP_FromInteger(pScreenManager->mCamYOff + field_EA_ttl_remainder) - cam_y);
+            s16 minY = FP_GetExponent(FP_FromInteger(gScreenManager->mCamYOff + mTtl) - cam_y);
+            s16 maxY = FP_GetExponent(FP_FromInteger(gScreenManager->mCamYOff + mTtlRemainder) - cam_y);
 
-            s16 ypos_int = FP_GetExponent(mYPos);
-            if (ypos_int > field_EA_ttl_remainder)
+            s32 ypos_int = FP_GetExponent(mYPos);
+            if (ypos_int > mTtlRemainder)
             {
-                ypos_int = field_EA_ttl_remainder + (ypos_int - field_EA_ttl_remainder) % field_E6_segment_length;
+                ypos_int = mTtlRemainder + (ypos_int - mTtlRemainder) % mSegmentLength;
             }
 
-            const s16 x_start = PsxToPCX<s16>(FP_GetExponent(mXPos + FP_FromInteger(pScreenManager->mCamXOff) - cam_x));
+            const s16 x_start = PsxToPCX<s16>(FP_GetExponent(mXPos + FP_FromInteger(gScreenManager->mCamXOff) - cam_x));
 
-            s16 y_start = FP_GetExponent(FP_FromInteger(pScreenManager->mCamYOff + ypos_int) - cam_y);
+            s16 y_start = FP_GetExponent(FP_FromInteger(gScreenManager->mCamYOff + ypos_int) - cam_y);
             if (mYOffset + y_start > 240)
             {
-                y_start = y_start % field_E6_segment_length + 240;
-                ypos_int = FP_GetExponent(cam_y + FP_FromInteger(y_start - pScreenManager->mCamYOff));
+                y_start = y_start % mSegmentLength + 240;
+                ypos_int = FP_GetExponent(cam_y + FP_FromInteger(y_start - gScreenManager->mCamYOff));
             }
 
             if (minY < 0)
@@ -139,16 +139,16 @@ void ParamiteWeb::VRender(PrimHeader** ppOt)
 
             if (y_start >= minY)
             {
-                for (s32 idx = 0; idx < field_E4_number_of_segments; ++idx)
+                for (s32 idx = 0; idx < mSegmentsCount; ++idx)
                 {
                     s16 r = 128;
                     s16 g = 128;
                     s16 b = 128;
-                    ShadowZone::ShadowZones_Calculate_Colour(FP_GetExponent(mXPos), ypos_int - (idx * field_E6_segment_length), GetScale(), &r, &g, &b);
-                    field_EC_pRes[idx].SetRGB(r, g, b);
-                    field_EC_pRes[idx].VRender(x_start, y_start + mYOffset, ppOt, 0, 0);
-                    ClipPoly_Vertically_4584B0(&field_EC_pRes[idx].field_10_polys[gPsxDisplay.mBufferIndex], mYOffset + minY, mYOffset + maxY);
-                    y_start -= field_E6_segment_length;
+                    ShadowZone::ShadowZones_Calculate_Colour(FP_GetExponent(mXPos), ypos_int - (idx * mSegmentLength), GetScale(), &r, &g, &b);
+                    mWebRes[idx].SetRGB(r, g, b);
+                    mWebRes[idx].VRender(x_start, y_start + mYOffset, ppOt, 0, 0);
+                    ClipPoly_Vertically(&mWebRes[idx].mPolys[gPsxDisplay.mBufferIndex], mYOffset + minY, mYOffset + maxY);
+                    y_start -= mSegmentLength;
                     if (y_start < minY)
                     {
                         break;

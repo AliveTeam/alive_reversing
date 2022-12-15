@@ -145,7 +145,7 @@ Mudokon::Mudokon(relive::Path_TLV* pTlv, const Guid& tlvId)
     field_1C0_timer = 0;
     field_1B8_brain_state = 0;
     field_1BA_brain_sub_state = 0;
-    field_EC_bBeesCanChase = 3;
+    SetCanBeesChase(true);
     field_1BC = 0;
     field_124_voice_pitch = 0;
     field_148_res_array = {};
@@ -156,7 +156,7 @@ Mudokon::Mudokon(relive::Path_TLV* pTlv, const Guid& tlvId)
     GetAnimation().SetSemiTrans(true);
 
     SetCanSetOffExplosives(true);
-    mVisualFlags.Set(VisualFlags::eDoPurpleLightEffect);
+    SetDoPurpleLightEffect(true);
 
     mPersist = false;
     mBit7_Unknown = false;
@@ -1104,9 +1104,9 @@ GameSpeakEvents Mudokon::LastGameSpeak()
         return GameSpeakEvents::eNone_m1;
     }
 
-    if (field_128 == gEventSystem->field_18_last_event_index)
+    if (field_128 == gEventSystem->mLastEventIndex)
     {
-        if (gEventSystem->field_10_last_event == GameSpeakEvents::eNone_m1)
+        if (gEventSystem->mLastEvent == GameSpeakEvents::eNone_m1)
         {
             return GameSpeakEvents::eNone_m1;
         }
@@ -1116,9 +1116,9 @@ GameSpeakEvents Mudokon::LastGameSpeak()
         }
     }
 
-    field_128 = gEventSystem->field_18_last_event_index;
+    field_128 = gEventSystem->mLastEventIndex;
 
-    return gEventSystem->field_10_last_event;
+    return gEventSystem->mLastEvent;
 }
 
 void Mudokon::AddAlerted()
@@ -2727,9 +2727,9 @@ s16 Mudokon::Brain_2_SingSequenceIdle()
                 || sActiveHero->GetAnimation().GetFlipX() != GetAnimation().GetFlipX())
             {
                 GameSpeakEvents last_speak = {};
-                if (field_128 == gEventSystem->field_18_last_event_index)
+                if (field_128 == gEventSystem->mLastEventIndex)
                 {
-                    if (gEventSystem->field_10_last_event == GameSpeakEvents::eNone_m1)
+                    if (gEventSystem->mLastEvent == GameSpeakEvents::eNone_m1)
                     {
                         last_speak = GameSpeakEvents::eNone_m1;
                     }
@@ -2740,11 +2740,11 @@ s16 Mudokon::Brain_2_SingSequenceIdle()
                 }
                 else
                 {
-                    last_speak = gEventSystem->field_10_last_event;
-                    field_128 = gEventSystem->field_18_last_event_index;
+                    last_speak = gEventSystem->mLastEvent;
+                    field_128 = gEventSystem->mLastEventIndex;
                 }
 
-                if (last_speak == GameSpeakEvents::eHello_9)
+                if (last_speak == GameSpeakEvents::eAbe_Hello_9)
                 {
                     field_1C0_timer = sGnFrame + 20;
                     return 3;
@@ -2785,22 +2785,22 @@ s16 Mudokon::Brain_3_SingSequenceSing()
         case 1:
             switch (Code_LookUp(field_1A4_code_converted, field_19E_code_idx, field_1A8_code_length))
             {
-                case GameSpeakEvents::eWhistleHigh_1:
+                case GameSpeakEvents::eAbe_WhistleHigh_1:
                     SetNextMotion(eMudMotions::Motion_4_Speak);
                     Mudokon_SFX(MudSounds::eWhistleHigh_1, 0, 0, this);
                     break;
 
-                case GameSpeakEvents::eWhistleLow_2:
+                case GameSpeakEvents::eAbe_WhistleLow_2:
                     SetNextMotion(eMudMotions::Motion_5_Speak);
                     Mudokon_SFX(MudSounds::eWhistleLow_2, 0, 0, this);
                     break;
 
-                case GameSpeakEvents::eFart_3:
+                case GameSpeakEvents::eAbe_Fart_3:
                     SetNextMotion(eMudMotions::Motion_6_Speak);
                     Mudokon_SFX(MudSounds::eFart_7, 0, 300, this);
                     break;
 
-                case GameSpeakEvents::eLaugh_4:
+                case GameSpeakEvents::eAbe_Laugh_4:
                     SetNextMotion(eMudMotions::Motion_3_Speak);
                     Mudokon_SFX(MudSounds::eLaugh1_8, 0, 300, this);
                     break;
@@ -2826,9 +2826,9 @@ s16 Mudokon::Brain_3_SingSequenceSing()
         case 2:
         {
             GameSpeakEvents last_speak = {};
-            if (field_128 == gEventSystem->field_18_last_event_index)
+            if (field_128 == gEventSystem->mLastEventIndex)
             {
-                if (gEventSystem->field_10_last_event == GameSpeakEvents::eNone_m1)
+                if (gEventSystem->mLastEvent == GameSpeakEvents::eNone_m1)
                 {
                     last_speak = GameSpeakEvents::eNone_m1;
                 }
@@ -2839,8 +2839,8 @@ s16 Mudokon::Brain_3_SingSequenceSing()
             }
             else
             {
-                last_speak = gEventSystem->field_10_last_event;
-                field_128 = gEventSystem->field_18_last_event_index;
+                last_speak = gEventSystem->mLastEvent;
+                field_128 = gEventSystem->mLastEventIndex;
             }
 
             if (last_speak == GameSpeakEvents::eNone_m1 || last_speak == GameSpeakEvents::eSameAsLast_m2)
@@ -2862,9 +2862,9 @@ s16 Mudokon::Brain_3_SingSequenceSing()
         case 3:
         {
             GameSpeakEvents last_speak = {};
-            if (field_128 == gEventSystem->field_18_last_event_index)
+            if (field_128 == gEventSystem->mLastEventIndex)
             {
-                if (gEventSystem->field_10_last_event == GameSpeakEvents::eNone_m1)
+                if (gEventSystem->mLastEvent == GameSpeakEvents::eNone_m1)
                 {
                     last_speak = GameSpeakEvents::eNone_m1;
                 }
@@ -2875,13 +2875,13 @@ s16 Mudokon::Brain_3_SingSequenceSing()
             }
             else
             {
-                field_128 = gEventSystem->field_18_last_event_index;
-                last_speak = gEventSystem->field_10_last_event;
+                field_128 = gEventSystem->mLastEventIndex;
+                last_speak = gEventSystem->mLastEvent;
             }
 
             if (last_speak != GameSpeakEvents::eNone_m1 && last_speak != GameSpeakEvents::eSameAsLast_m2)
             {
-                field_13E = static_cast<s16>(gEventSystem->field_18_last_event_index);
+                field_13E = static_cast<s16>(gEventSystem->mLastEventIndex);
                 field_118 = sGnFrame + 60;
                 return 4;
             }
@@ -2891,9 +2891,9 @@ s16 Mudokon::Brain_3_SingSequenceSing()
         case 4:
         {
             GameSpeakEvents last_speak = {};
-            if (field_128 == gEventSystem->field_18_last_event_index)
+            if (field_128 == gEventSystem->mLastEventIndex)
             {
-                if (gEventSystem->field_10_last_event == GameSpeakEvents::eNone_m1)
+                if (gEventSystem->mLastEvent == GameSpeakEvents::eNone_m1)
                 {
                     last_speak = GameSpeakEvents::eNone_m1;
                 }
@@ -2904,8 +2904,8 @@ s16 Mudokon::Brain_3_SingSequenceSing()
             }
             else
             {
-                field_128 = gEventSystem->field_18_last_event_index;
-                last_speak = gEventSystem->field_10_last_event;
+                field_128 = gEventSystem->mLastEventIndex;
+                last_speak = gEventSystem->mLastEvent;
             }
 
 
@@ -2996,9 +2996,9 @@ s16 Mudokon::Brain_4_SingSequencePassword()
         case 2:
         {
             GameSpeakEvents last_speak = {};
-            if (field_128 == gEventSystem->field_18_last_event_index)
+            if (field_128 == gEventSystem->mLastEventIndex)
             {
-                if (gEventSystem->field_10_last_event == GameSpeakEvents::eNone_m1)
+                if (gEventSystem->mLastEvent == GameSpeakEvents::eNone_m1)
                 {
                     last_speak = GameSpeakEvents::eNone_m1;
                 }
@@ -3009,13 +3009,13 @@ s16 Mudokon::Brain_4_SingSequencePassword()
             }
             else
             {
-                field_128 = gEventSystem->field_18_last_event_index;
-                last_speak = gEventSystem->field_10_last_event;
+                field_128 = gEventSystem->mLastEventIndex;
+                last_speak = gEventSystem->mLastEvent;
             }
 
             if (last_speak != GameSpeakEvents::eNone_m1 && last_speak != GameSpeakEvents::eSameAsLast_m2)
             {
-                field_13E = static_cast<s16>(gEventSystem->field_18_last_event_index);
+                field_13E = static_cast<s16>(gEventSystem->mLastEventIndex);
                 field_118 = sGnFrame + 60;
                 return 3;
             }
@@ -3025,9 +3025,9 @@ s16 Mudokon::Brain_4_SingSequencePassword()
         case 3:
         {
             GameSpeakEvents last_speak = {};
-            if (field_128 == gEventSystem->field_18_last_event_index)
+            if (field_128 == gEventSystem->mLastEventIndex)
             {
-                if (gEventSystem->field_10_last_event == GameSpeakEvents::eNone_m1)
+                if (gEventSystem->mLastEvent == GameSpeakEvents::eNone_m1)
                 {
                     last_speak = GameSpeakEvents::eNone_m1;
                 }
@@ -3038,8 +3038,8 @@ s16 Mudokon::Brain_4_SingSequencePassword()
             }
             else
             {
-                field_128 = gEventSystem->field_18_last_event_index;
-                last_speak = gEventSystem->field_10_last_event;
+                field_128 = gEventSystem->mLastEventIndex;
+                last_speak = gEventSystem->mLastEvent;
             }
 
             if (last_speak != GameSpeakEvents::eNone_m1 && last_speak != GameSpeakEvents::eSameAsLast_m2)
@@ -3159,7 +3159,7 @@ s16 Mudokon::Brain_5_LiftUse()
             if (pObj->Type() == ReliveTypes::eLiftPoint)
             {
                 auto pLiftPoint = static_cast<LiftPoint*>(pObj);
-                if (field_110_lift_switch_id == pLiftPoint->field_278_lift_point_id)
+                if (field_110_lift_switch_id == pLiftPoint->mLiftPointId)
                 {
                     field_194_pLiftPoint = pLiftPoint;
                     pObj->mBaseGameObjectRefCount++;
@@ -3306,7 +3306,7 @@ s16 Mudokon::Brain_8_StandScrub()
             return 1;
 
         case 1:
-            if (last_speak == GameSpeakEvents::eHello_9 && sAlertedMudCount_507B90 == 0 && IAmNearestToAbe())
+            if (last_speak == GameSpeakEvents::eAbe_Hello_9 && sAlertedMudCount_507B90 == 0 && IAmNearestToAbe())
             {
                 AddAlerted();
                 SetNextMotion(eMudMotions::Motion_21_StandScrubToIdle);
@@ -3328,7 +3328,7 @@ s16 Mudokon::Brain_8_StandScrub()
             return field_1BA_brain_sub_state;
 
         case 2:
-            if (last_speak == GameSpeakEvents::eHello_9 && sAlertedMudCount_507B90 == 0 && IAmNearestToAbe())
+            if (last_speak == GameSpeakEvents::eAbe_Hello_9 && sAlertedMudCount_507B90 == 0 && IAmNearestToAbe())
             {
                 AddAlerted();
                 SetNextMotion(eMudMotions::Motion_21_StandScrubToIdle);
@@ -3438,7 +3438,7 @@ s16 Mudokon::Brain_9_CrouchScrub()
             return 2;
 
         case 1:
-            if (last_speak == GameSpeakEvents::eHello_9 && sAlertedMudCount_507B90 == 0 && IAmNearestToAbe())
+            if (last_speak == GameSpeakEvents::eAbe_Hello_9 && sAlertedMudCount_507B90 == 0 && IAmNearestToAbe())
             {
                 AddAlerted();
                 field_1C0_timer = sGnFrame + 15;
@@ -3464,7 +3464,7 @@ s16 Mudokon::Brain_9_CrouchScrub()
             return 2;
 
         case 2:
-            if (last_speak != GameSpeakEvents::eHello_9 || sAlertedMudCount_507B90 || !IAmNearestToAbe())
+            if (last_speak != GameSpeakEvents::eAbe_Hello_9 || sAlertedMudCount_507B90 || !IAmNearestToAbe())
             {
                 if (GetCurrentMotion() == eMudMotions::Motion_23_CrouchIdle)
                 {
@@ -3514,7 +3514,7 @@ s16 Mudokon::Brain_9_CrouchScrub()
             break;
 
         case 4:
-            if (last_speak != GameSpeakEvents::eHello_9 || sAlertedMudCount_507B90 || !IAmNearestToAbe())
+            if (last_speak != GameSpeakEvents::eAbe_Hello_9 || sAlertedMudCount_507B90 || !IAmNearestToAbe())
             {
                 if (static_cast<s32>(sGnFrame) > field_1C0_timer)
                 {
@@ -3651,9 +3651,9 @@ s16 Mudokon::Brain_10_ListeningToAbe()
                     }
                     else
                     {
-                        if (field_128 == gEventSystem->field_18_last_event_index)
+                        if (field_128 == gEventSystem->mLastEventIndex)
                         {
-                            if (gEventSystem->field_10_last_event == GameSpeakEvents::eNone_m1)
+                            if (gEventSystem->mLastEvent == GameSpeakEvents::eNone_m1)
                             {
                                 last_speak = GameSpeakEvents::eNone_m1;
                             }
@@ -3664,8 +3664,8 @@ s16 Mudokon::Brain_10_ListeningToAbe()
                         }
                         else
                         {
-                            last_speak = gEventSystem->field_10_last_event;
-                            field_128 = gEventSystem->field_18_last_event_index;
+                            last_speak = gEventSystem->mLastEvent;
+                            field_128 = gEventSystem->mLastEventIndex;
                         }
                     }
 
@@ -3692,23 +3692,23 @@ s16 Mudokon::Brain_10_ListeningToAbe()
 
                     switch (last_speak)
                     {
-                        case GameSpeakEvents::eWhistleHigh_1:
+                        case GameSpeakEvents::eAbe_WhistleHigh_1:
                             return 17;
 
-                        case GameSpeakEvents::eWhistleLow_2:
+                        case GameSpeakEvents::eAbe_WhistleLow_2:
                             return 18;
 
-                        case GameSpeakEvents::eFart_3:
+                        case GameSpeakEvents::eAbe_Fart_3:
                             field_1C0_timer = sGnFrame + 30;
                             return 13;
 
-                        case GameSpeakEvents::eLaugh_4:
+                        case GameSpeakEvents::eAbe_Laugh_4:
                             return 16;
 
-                        case GameSpeakEvents::eHello_9:
+                        case GameSpeakEvents::eAbe_Hello_9:
                             return 11;
 
-                        case GameSpeakEvents::eFollowMe_10:
+                        case GameSpeakEvents::eAbe_FollowMe_10:
                             if (bHitWall)
                             {
                                 return 9;
@@ -3716,10 +3716,10 @@ s16 Mudokon::Brain_10_ListeningToAbe()
                             field_1B0 = 2;
                             return 10;
 
-                        case GameSpeakEvents::eAnger_11:
+                        case GameSpeakEvents::eAbe_Anger_11:
                             return 14;
 
-                        case GameSpeakEvents::eWait_12:
+                        case GameSpeakEvents::eAbe_Wait_12:
                             if (BetweenCameras_418500() == BetweenCamPos::None_0)
                             {
                                 field_1B0 = 6;
@@ -3802,9 +3802,9 @@ s16 Mudokon::Brain_10_ListeningToAbe()
             }
 
             GameSpeakEvents last_speak = {};
-            if (field_128 == gEventSystem->field_18_last_event_index)
+            if (field_128 == gEventSystem->mLastEventIndex)
             {
-                if (gEventSystem->field_10_last_event == GameSpeakEvents::eNone_m1)
+                if (gEventSystem->mLastEvent == GameSpeakEvents::eNone_m1)
                 {
                     last_speak = GameSpeakEvents::eNone_m1;
                 }
@@ -3815,11 +3815,11 @@ s16 Mudokon::Brain_10_ListeningToAbe()
             }
             else
             {
-                last_speak = gEventSystem->field_10_last_event;
-                field_128 = gEventSystem->field_18_last_event_index;
+                last_speak = gEventSystem->mLastEvent;
+                field_128 = gEventSystem->mLastEventIndex;
             }
 
-            if (last_speak == GameSpeakEvents::eWait_12
+            if (last_speak == GameSpeakEvents::eAbe_Wait_12
                 && BetweenCameras_418500() == BetweenCamPos::None_0)
             {
                 SetNextMotion(eMudMotions::Motion_0_Idle);
@@ -3964,30 +3964,30 @@ s16 Mudokon::Brain_10_ListeningToAbe()
 
                 switch (speak)
                 {
-                    case GameSpeakEvents::eWhistleHigh_1:
+                    case GameSpeakEvents::eAbe_WhistleHigh_1:
                         return 17;
 
-                    case GameSpeakEvents::eWhistleLow_2:
+                    case GameSpeakEvents::eAbe_WhistleLow_2:
                         return 18;
 
-                    case GameSpeakEvents::eFart_3:
+                    case GameSpeakEvents::eAbe_Fart_3:
                         field_1C0_timer = sGnFrame + 30;
                         return 13;
 
-                    case GameSpeakEvents::eLaugh_4:
+                    case GameSpeakEvents::eAbe_Laugh_4:
                         return 16;
 
-                    case GameSpeakEvents::eHello_9:
+                    case GameSpeakEvents::eAbe_Hello_9:
                         return 11;
 
-                    case GameSpeakEvents::eFollowMe_10:
+                    case GameSpeakEvents::eAbe_FollowMe_10:
                         field_1B0 = 3;
                         return 10;
 
-                    case GameSpeakEvents::eAnger_11:
+                    case GameSpeakEvents::eAbe_Anger_11:
                         return 14;
 
-                    case GameSpeakEvents::eWait_12:
+                    case GameSpeakEvents::eAbe_Wait_12:
                         return 15;
 
                     default:
@@ -4374,7 +4374,7 @@ s16 Mudokon::Brain_14_Chant()
                 return 3;
             }
 
-            if (lastSpeak == GameSpeakEvents::eHello_9 && sAlertedMudCount_507B90 == 0 && IAmNearestToAbe())
+            if (lastSpeak == GameSpeakEvents::eAbe_Hello_9 && sAlertedMudCount_507B90 == 0 && IAmNearestToAbe())
             {
                 AddAlerted();
                 field_1C0_timer = sGnFrame + 15;

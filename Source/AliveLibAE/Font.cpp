@@ -7,8 +7,8 @@
 #include "../AliveLibCommon/Primitives_common.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
 
-s8 sDisableFontFlicker = 0;
-u8 sFontDrawScreenSpace = 0;
+bool gDisableFontFlicker = false;
+bool gFontDrawScreenSpace = false;
 
 const char_type* kEmptyString = "";
 
@@ -593,20 +593,20 @@ AliveFont::AliveFont(s32 maxCharLength, const PalResource& pal, FontContext* fon
 
 void AliveFont::Load(s32 maxCharLength, const PalResource& pal, FontContext* fontContext)
 {
-    field_34_FontContext = fontContext;
-    field_34_FontContext->field_C_resource_id.mCurPal = pal.mPal;
-    field_30_poly_count = maxCharLength;
-    field_24_fnt_poly_array = relive_new Poly_FT4[maxCharLength * 2];
+    mFontContext = fontContext;
+    mFontContext->mFntResource.mCurPal = pal.mPal;
+    mPolyCount = maxCharLength;
+    mFntPolyArray = relive_new Poly_FT4[maxCharLength * 2];
 }
 
 AliveFont::~AliveFont()
 {
-    relive_delete[] field_24_fnt_poly_array;
+    relive_delete[] mFntPolyArray;
 }
 
 s32 AliveFont::DrawString(PrimHeader** ppOt, const char_type* text, s32 x, s16 y, TPageAbr abr, s32 bSemiTrans, s32 blendMode, Layer layer, u8 r, u8 g, u8 b, s32 polyOffset, FP scale, s32 maxRenderWidth, s16 colorRandomRange)
 {
-    if (!sFontDrawScreenSpace)
+    if (!gFontDrawScreenSpace)
     {
         x = static_cast<s32>(x / 0.575); // 368 to 640. Convert world space to screen space coords.
     }
@@ -615,7 +615,7 @@ s32 AliveFont::DrawString(PrimHeader** ppOt, const char_type* text, s32 x, s16 y
     const s32 maxRenderX = static_cast<s32>(maxRenderWidth / 0.575);
     s16 offsetX = static_cast<s16>(x);
     s32 charInfoIndex = 0;
-    auto poly = &field_24_fnt_poly_array[gPsxDisplay.mBufferIndex + (2 * polyOffset)];
+    auto poly = &mFntPolyArray[gPsxDisplay.mBufferIndex + (2 * polyOffset)];
 
     for (u32 i = 0; i < strlen(text); i++)
     {
@@ -629,7 +629,7 @@ s32 AliveFont::DrawString(PrimHeader** ppOt, const char_type* text, s32 x, s16 y
         {
             if (c < 7u || c > 31)
             {
-                offsetX += field_34_FontContext->field_8_atlas_array[1].mWidth;
+                offsetX += mFontContext->mAtlasArray[1].mWidth;
                 continue;
             }
             charInfoIndex = c + 137;
@@ -639,8 +639,8 @@ s32 AliveFont::DrawString(PrimHeader** ppOt, const char_type* text, s32 x, s16 y
             charInfoIndex = c - 31;
         }
 
-        const auto fContext = field_34_FontContext;
-        const auto atlasEntry = &fContext->field_8_atlas_array[charInfoIndex];
+        const auto fContext = mFontContext;
+        const auto atlasEntry = &fContext->mAtlasArray[charInfoIndex];
 
         const s8 charWidth = atlasEntry->mWidth;
         const auto charHeight = atlasEntry->mHeight;
@@ -689,14 +689,14 @@ s32 AliveFont::DrawString(PrimHeader** ppOt, const char_type* text, s32 x, s16 y
         u16 tpageEmptyBlend = GetTPage(poly) & 0xFFCF;
         u16 blendModeBit = ((u16) abr) << 4;
         SetTPage(poly, tpageEmptyBlend | blendModeBit);
-        poly->mFont = field_34_FontContext;
+        poly->mFont = mFontContext;
         // TPage blend mode start
 
         OrderingTable_Add(OtLayer(ppOt, layer), &poly->mBase.header);
 
         ++characterRenderCount;
 
-        offsetX += widthScaled + FP_GetExponent(FP_FromInteger(field_34_FontContext->field_8_atlas_array[0].mWidth) * scale);
+        offsetX += widthScaled + FP_GetExponent(FP_FromInteger(mFontContext->mAtlasArray[0].mWidth) * scale);
 
         poly += 2;
     }
@@ -717,7 +717,7 @@ s32 AliveFont::MeasureTextWidth(const char_type* text)
         {
             if (c < 7 || c > 31)
             {
-                result += field_34_FontContext->field_8_atlas_array[1].mWidth;
+                result += mFontContext->mAtlasArray[1].mWidth;
                 continue;
             }
             else
@@ -730,11 +730,11 @@ s32 AliveFont::MeasureTextWidth(const char_type* text)
             charIndex = c - 31;
         }
 
-        result += field_34_FontContext->field_8_atlas_array[0].mWidth;
-        result += field_34_FontContext->field_8_atlas_array[charIndex].mWidth;
+        result += mFontContext->mAtlasArray[0].mWidth;
+        result += mFontContext->mAtlasArray[charIndex].mWidth;
     }
 
-    if (!sFontDrawScreenSpace)
+    if (!gFontDrawScreenSpace)
     {
         result = static_cast<s32>(result * 0.575); // Convert screen space to world space.
     }
@@ -759,7 +759,7 @@ s32 AliveFont::MeasureCharacterWidth(char_type character)
     {
         if (character < 7 || character > 31)
         {
-            return field_34_FontContext->field_8_atlas_array[1].mWidth;
+            return mFontContext->mAtlasArray[1].mWidth;
         }
         charIndex = character + 137;
     }
@@ -767,9 +767,9 @@ s32 AliveFont::MeasureCharacterWidth(char_type character)
     {
         charIndex = character - 31;
     }
-    result = field_34_FontContext->field_8_atlas_array[charIndex].mWidth;
+    result = mFontContext->mAtlasArray[charIndex].mWidth;
 
-    if (!sFontDrawScreenSpace)
+    if (!gFontDrawScreenSpace)
     {
         result = static_cast<s32>(result * 0.575); // Convert screen space to world space.
     }
@@ -783,7 +783,7 @@ const char_type* AliveFont::SliceText(const char_type* text, s32 left, FP scale,
     s32 xOff = 0;
     s32 rightWorldSpace = static_cast<s32>(right * 0.575);
 
-    if (sFontDrawScreenSpace)
+    if (gFontDrawScreenSpace)
     {
         xOff = left;
     }
@@ -806,7 +806,7 @@ const char_type* AliveFont::SliceText(const char_type* text, s32 left, FP scale,
         {
             if (character < 7 || character > 31)
             {
-                xOff += field_34_FontContext->field_8_atlas_array[1].mWidth;
+                xOff += mFontContext->mAtlasArray[1].mWidth;
                 continue;
             }
             atlasIdx = character + 137;
@@ -816,7 +816,7 @@ const char_type* AliveFont::SliceText(const char_type* text, s32 left, FP scale,
             atlasIdx = character - 31;
         }
 
-        xOff += static_cast<s32>(field_34_FontContext->field_8_atlas_array[atlasIdx].mWidth * FP_GetDouble(scale)) + field_34_FontContext->field_8_atlas_array->mWidth;
+        xOff += static_cast<s32>(mFontContext->mAtlasArray[atlasIdx].mWidth * FP_GetDouble(scale)) + mFontContext->mAtlasArray->mWidth;
     }
 
     return text;
@@ -825,17 +825,17 @@ const char_type* AliveFont::SliceText(const char_type* text, s32 left, FP scale,
 void FontContext::LoadFontType(FontType resourceID)
 {
     FontResource fontRes = ResourceManagerWrapper::LoadFont(resourceID);
-    field_C_resource_id = fontRes;
+    mFntResource = fontRes;
 
     // TODO: Will get moved to a json file in FontResource
     // which will remove the need for GetGameType() in here also
     switch (resourceID)
     {
         case FontType::PauseMenu:
-            field_8_atlas_array = GetGameType() == GameType::eAe ? sPauseMenuFontAtlas : AO::sPauseMenuFontAtlas;
+            mAtlasArray = GetGameType() == GameType::eAe ? sPauseMenuFontAtlas : AO::sPauseMenuFontAtlas;
             break;
         case FontType::LcdFont:
-            field_8_atlas_array = GetGameType() == GameType::eAe ? sLcdFontAtlas : AO::sLcdFontAtlas;
+            mAtlasArray = GetGameType() == GameType::eAe ? sLcdFontAtlas : AO::sLcdFontAtlas;
             break;
         default:
             ALIVE_FATAL("Unknown font resource ID !!!");

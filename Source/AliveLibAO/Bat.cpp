@@ -114,7 +114,7 @@ void Bat::FlyTo(FP xpos, FP ypos, FP* xSpeed, FP* ySpeed)
 
     const s32 ySpeedi = FP_GetExponent(*ySpeed);
     const s32 xSpeedi = FP_GetExponent(*xSpeed);
-    FP x_final = FP_FromInteger(Math_SquareRoot_Int_4511B0((ySpeedi * ySpeedi) + (xSpeedi * xSpeedi)));
+    FP x_final = FP_FromInteger(Math_SquareRoot_Int((ySpeedi * ySpeedi) + (xSpeedi * xSpeedi)));
     if (FP_GetExponent(x_final) == 0)
     {
         LOG_WARNING("Fixing divide by zero crash");

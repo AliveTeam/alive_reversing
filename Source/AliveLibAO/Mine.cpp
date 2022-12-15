@@ -20,8 +20,8 @@ static Mine* sMinePlayingSound = nullptr;
 
 void Mine::LoadAnimations()
 {
-    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Mine));
     mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Mine_Flash));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Mine));
 }
 
 Mine::Mine(relive::Path_Mine* pTlv, const Guid& tlvId)
@@ -32,10 +32,8 @@ Mine::Mine(relive::Path_Mine* pTlv, const Guid& tlvId)
     LoadAnimations();
     Animation_Init(GetAnimRes(AnimId::Mine));
     
-    SetCanExplode(true);
     SetInteractive(true);
-
-    mDetonating = false;
+    SetCanExplode(true);
 
     if (pTlv->mScale == relive::reliveScale::eHalf)
     {
@@ -57,17 +55,19 @@ Mine::Mine(relive::Path_Mine* pTlv, const Guid& tlvId)
 
     mFlashAnim.Init(GetAnimRes(AnimId::Mine_Flash), this);
 
-    mFlashAnim.SetRenderLayer(GetAnimation().GetRenderLayer());
-    mFlashAnim.SetBlending(true);
     mFlashAnim.SetSemiTrans(true);
-    mFlashAnim.SetSpriteScale(GetSpriteScale());
+    mFlashAnim.SetBlending(true);
 
+    mFlashAnim.SetRenderLayer(GetAnimation().GetRenderLayer());
+    mFlashAnim.SetSpriteScale(GetSpriteScale());
     mFlashAnim.SetRGB(128, 128, 128);
 
     mFlashAnim.SetRenderMode(TPageAbr::eBlend_0);
 
-    // TODO
-    field_1B0_flags = 2 * (pTlv->mPersistOffscreen == relive::reliveChoice::eYes) | (field_1B0_flags & ~2);
+    if (pTlv->mPersistOffscreen == relive::reliveChoice::eYes)
+    {
+        mPersistOffscreen = true;
+    }
 
     if (gMap.mCurrentLevel == EReliveLevelIds::eStockYards || gMap.mCurrentLevel == EReliveLevelIds::eStockYardsReturn)
     {
@@ -77,12 +77,12 @@ Mine::Mine(relive::Path_Mine* pTlv, const Guid& tlvId)
         //ResourceManager::GetLoadedResource(ResourceManager::Resource_Palt, AOResourceID::kSlogBlowAOResID, 1, 0);
     }
 
+    SetInteractive(true);
+
     mCollectionRect.x = mXPos - (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(2));
     mCollectionRect.y = mYPos - ScaleToGridSize(GetSpriteScale());
     mCollectionRect.w = mXPos + (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(2));
     mCollectionRect.h = mYPos;
-
-    SetInteractive(true);
 }
 
 Mine::~Mine()
@@ -108,7 +108,7 @@ Mine::~Mine()
 
 void Mine::VScreenChanged()
 {
-    if (gMap.mCurrentLevel != gMap.mNextLevel || gMap.mCurrentPath != gMap.mNextPath || !(field_1B0_flags & 2))
+    if (gMap.mCurrentLevel != gMap.mNextLevel || gMap.mCurrentPath != gMap.mNextPath || !mPersistOffscreen)
     {
         SetDead(true);
     }
@@ -128,8 +128,8 @@ s16 Mine::VTakeDamage(BaseGameObject* pFrom)
         case ReliveTypes::eAirExplosion:
         case ReliveTypes::eShrykull:
         {
-            SetDead(true);
             relive_new GroundExplosion(mXPos, mYPos, GetSpriteScale());
+            SetDead(true);
             mDetonating = true;
             mExplosionTimer = sGnFrame;
             return 1;
@@ -165,8 +165,8 @@ void Mine::VRender(PrimHeader** ppOt)
             0))
     {
         mFlashAnim.VRender(
-            FP_GetExponent(mXPos + (FP_FromInteger(pScreenManager->mCamXOff) - pScreenManager->mCamPos->x)),
-            FP_GetExponent(mYPos + (FP_FromInteger(pScreenManager->mCamYOff + mYOffset)) - pScreenManager->mCamPos->y),
+            FP_GetExponent(mXPos + (FP_FromInteger(gScreenManager->mCamXOff) - gScreenManager->mCamPos->x)),
+            FP_GetExponent(mYPos + (FP_FromInteger(gScreenManager->mCamYOff + mYOffset)) - gScreenManager->mCamPos->y),
             ppOt,
             0,
             0);
@@ -193,16 +193,13 @@ void Mine::VUpdate()
     }
     else
     {
-        if (GetAnimation().GetCurrentFrame() == 1)
+        if (GetAnimation().GetCurrentFrame() == 1 && (sMinePlayingSound == nullptr || sMinePlayingSound == this))
         {
-            if (sMinePlayingSound == nullptr || sMinePlayingSound == this)
+            if (bInCamera)
             {
-                if (bInCamera)
-                {
-                    SfxPlayMono(relive::SoundEffects::RedTick, 35);
-                }
-                sMinePlayingSound = this;
+                SfxPlayMono(relive::SoundEffects::RedTick, 35);
             }
+            sMinePlayingSound = this;
         }
 
         if (IsColliding())
@@ -223,8 +220,7 @@ void Mine::VUpdate()
 
 s16 Mine::IsColliding()
 {
-    const PSX_RECT bRect = VGetBoundingRect();
-
+    const PSX_RECT mineBound = VGetBoundingRect();
     for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
     {
         IBaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
@@ -233,16 +229,15 @@ s16 Mine::IsColliding()
             break;
         }
 
-        if (pObj->GetCanSetOffExplosives())
+        if (pObj->GetCanSetOffExplosives() && pObj->GetAnimation().GetRender())
         {
-            if (pObj->GetAnimation().GetRender())
-            {
-                const PSX_RECT bObjRect = pObj->VGetBoundingRect();
+            const PSX_RECT objBound = pObj->VGetBoundingRect();
+            const s32 objX = FP_GetExponent(pObj->mXPos);
+            const s32 objY = FP_GetExponent(pObj->mYPos);
 
-                if (FP_GetExponent(pObj->mXPos) > bRect.x && FP_GetExponent(pObj->mXPos) < bRect.w && FP_GetExponent(pObj->mYPos) < bRect.h + 5 && bRect.x <= bObjRect.w && bRect.w >= bObjRect.x && bRect.h >= bObjRect.y && bRect.y <= bObjRect.h && pObj->GetSpriteScale() == GetSpriteScale())
-                {
-                    return 1;
-                }
+            if (objX > mineBound.x && objX < mineBound.w && objY < mineBound.h + 5 && mineBound.x <= objBound.w && mineBound.w >= objBound.x && mineBound.h >= objBound.y && mineBound.y <= objBound.h && pObj->GetSpriteScale() == GetSpriteScale())
+            {
+                return 1;
             }
         }
     }

@@ -6,20 +6,20 @@
 #include "../relive_lib/PsxDisplay.hpp"
 #include "stdlib.hpp"
 
-u16 bThrowableIndicatorExists_5C112C = 0;
+u16 gThrowableIndicatorExists = 0;
 
-const s16 kNum_0_551994[17] = {
+static const s16 kNumber_0[17] = {
     4,
     -3, -4, 3, -4,
     3, -3, 3, 3,
     3, 4, -3, 4,
     -3, 3, -3, -3};
 
-const s16 kNum_1_5519B8[5] = {
+static const s16 kNumber_1[5] = {
     1,
     2, -4, 2, 4};
 
-const s16 kNum_2_5519C4[21] = {
+static const s16 kNumber_2[21] = {
     5,
     -5, -4, 5, -4,
     5, -3, 5, -1,
@@ -27,7 +27,7 @@ const s16 kNum_2_5519C4[21] = {
     -5, 1, -5, 3,
     -5, 4, 5, 4};
 
-const s16 kNum_3_5519F0[17] = {
+static const s16 kNumber_3[17] = {
     4,
     -5,
     -4,
@@ -47,13 +47,13 @@ const s16 kNum_3_5519F0[17] = {
     0,
 };
 
-const s16 kNum_4_551A14[13] = {
+static const s16 kNumber_4[13] = {
     3,
     -5, -4, -5, -1,
     -5, 0, 4, 0,
     5, -4, 5, 4};
 
-const s16 kNum_5_551A30[21] = {
+static const s16 kNumber_5[21] = {
     5,
     5, -4, -5, -4,
     -5, -3, -5, -1,
@@ -61,19 +61,19 @@ const s16 kNum_5_551A30[21] = {
     5, 1, 5, 3,
     5, 4, -5, 4};
 
-const s16 kNum_6_551A5C[21] = {
+static const s16 kNumber_6[21] = {
     5,
     5, -4, -5, -4, -5,
     -3, -5, 3, -5, 4,
     5, 4, 5, 3, 5,
     1, 5, 0, -4, 0};
 
-const s16 kNum_7_551A88[9] = {
+static const s16 kNumber_7[9] = {
     2,
     -5, -4, 5, -4,
     5, -3, 0, 4};
 
-const s16 kNum_8_551A9C[21] = {
+static const s16 kNumber_8[21] = {
     5,
     -5, -4, 5, -4,
     5, -3, 5, 3,
@@ -81,14 +81,14 @@ const s16 kNum_8_551A9C[21] = {
     -5, 3, -5, -3,
     -4, 0, 4, 0};
 
-const s16 kNum_9_551AC8[17] = {
+static const s16 kNumber_9[17] = {
     4,
     5, 4, 5, -3,
     5, -4, -5, -4,
     -5, -3, -5, -1,
     -5, 0, 4, 0};
 
-const s16 kInfinity_551AEC[25] = {
+static const s16 kInfinity[25] = {
     6,
     -3, -2, -5, 0,
     -5, 1, -3, 3,
@@ -97,18 +97,18 @@ const s16 kInfinity_551AEC[25] = {
     5, 1, 3, 3,
     2, 3, -2, -2};
 
-const s16* kNumbersArray[11] = {
-    kNum_0_551994,
-    kNum_1_5519B8,
-    kNum_2_5519C4,
-    kNum_3_5519F0,
-    kNum_4_551A14,
-    kNum_5_551A30,
-    kNum_6_551A5C,
-    kNum_7_551A88,
-    kNum_8_551A9C,
-    kNum_9_551AC8,
-    kInfinity_551AEC};
+static const s16* kNumbersArray[11] = {
+    kNumber_0,
+    kNumber_1,
+    kNumber_2,
+    kNumber_3,
+    kNumber_4,
+    kNumber_5,
+    kNumber_6,
+    kNumber_7,
+    kNumber_8,
+    kNumber_9,
+    kInfinity};
 
 ThrowableTotalIndicator::ThrowableTotalIndicator(FP xpos, FP ypos, Layer layer, FP /*scale*/, s32 count, bool bFade)
     : BaseGameObject(true, 0)
@@ -162,7 +162,7 @@ ThrowableTotalIndicator::ThrowableTotalIndicator(FP xpos, FP ypos, Layer layer, 
 
     if (bFade)
     {
-        bThrowableIndicatorExists_5C112C++;
+        gThrowableIndicatorExists++;
     }
 }
 
@@ -175,7 +175,7 @@ ThrowableTotalIndicator::~ThrowableTotalIndicator()
 
     if (mFade)
     {
-        bThrowableIndicatorExists_5C112C--;
+        gThrowableIndicatorExists--;
     }
 }
 
@@ -200,10 +200,10 @@ void ThrowableTotalIndicator::VUpdate()
     {
         case ThrowableTotalIndicatorState::eCreated:
         {
-            mXPos = mStartXPos - (FP_FromInteger(12) * Math_Sine_496DD0(static_cast<u8>(2 * sGnFrame)));
-            mYPos = (FP_FromInteger(12) * Math_Cosine_496CD0(static_cast<u8>(2 * sGnFrame))) + mStartYPos;
+            mXPos = mStartXPos - (FP_FromInteger(12) * Math_Sine(static_cast<u8>(2 * sGnFrame)));
+            mYPos = (FP_FromInteger(12) * Math_Cosine(static_cast<u8>(2 * sGnFrame))) + mStartYPos;
 
-            const s16 rgb = FP_GetExponent(FP_FromInteger(48) * Math_Sine_496DD0(static_cast<u8>(3 * sGnFrame))) + 80;
+            const s16 rgb = FP_GetExponent(FP_FromInteger(48) * Math_Sine(static_cast<u8>(3 * sGnFrame))) + 80;
 
             mRGB.SetRGB(rgb, rgb, rgb);
         }
@@ -253,8 +253,8 @@ void ThrowableTotalIndicator::VRender(PrimHeader** ppOt)
         return;
     }
 
-    const FP camX = FP_NoFractional(pScreenManager->CamXPos());
-    const FP camY = FP_NoFractional(pScreenManager->CamYPos());
+    const FP camX = FP_NoFractional(gScreenManager->CamXPos());
+    const FP camY = FP_NoFractional(gScreenManager->CamYPos());
 
     s16 xpos = 0;
     s16 ypos = 0;
@@ -285,7 +285,7 @@ void ThrowableTotalIndicator::VRender(PrimHeader** ppOt)
     }
 
     Prim_SetTPage* pTPage = &mTPage[gPsxDisplay.mBufferIndex];
-    Init_SetTPage(pTPage, 1, 0, PSX_getTPage(TPageAbr::eBlend_1));
+    Init_SetTPage(pTPage, PSX_getTPage(TPageAbr::eBlend_1));
 
     OrderingTable_Add(OtLayer(ppOt, mOtLayer), &pTPage->mBase);
 }

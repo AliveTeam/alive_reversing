@@ -12,7 +12,6 @@ namespace AO {
 void PlatformBase::VAdd(BaseAliveGameObject* /*pObj*/)
 {
     mPlatformBaseCount++;
-    field_110 = 1;
 
     if (mPlatformBaseCollisionLine)
     {
@@ -37,10 +36,9 @@ void PlatformBase::AddDynamicCollision(AnimId animId, relive::Path_TLV* pTlv, Ma
     mVelX = FP_FromInteger(0);
     mVelY = FP_FromInteger(0);
 
-    field_10C = 0;
+    mUnknown = 0;
     mYOffset = 0;
 
-    field_110 = 0;
     mPlatformBaseCount = 0;
 
     Animation_Init(GetAnimRes(animId));

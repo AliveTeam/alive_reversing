@@ -39,7 +39,7 @@ GroundExplosion::GroundExplosion(FP xpos, FP ypos, FP scale)
         GetAnimation().SetRenderLayer(Layer::eLayer_Foreground_Half_17);
     }
 
-    mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
+    SetApplyShadowZoneColour(false);
     SetSpriteScale(scale * FP_FromDouble(2.75));
 
     mXPos = xpos;
@@ -149,7 +149,7 @@ void GroundExplosion::VUpdate()
         if (pParticle)
         {
             pParticle->GetAnimation().SetFlipX(true);
-            pParticle->mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
+            pParticle->SetApplyShadowZoneColour(false);
             pParticle->GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
             pParticle->SetSpriteScale(GetSpriteScale() * FP_FromDouble(0.7));
         }

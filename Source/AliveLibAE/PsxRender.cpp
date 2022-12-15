@@ -6,13 +6,6 @@
 #include "Renderer/IRenderer.hpp"
 #include "../AliveLibCommon/FatalError.hpp"
 
-struct OtUnknown final
-{
-    s32** field_0_pOtStart;
-    s32** field_4;
-    s32** field_8_pOt_End;
-};
-
 static void DrawOTag_HandlePrimRendering(IRenderer& renderer, PrimAny& any)
 {
     switch (PSX_Prim_Code_Without_Blending_Or_SemiTransparency(any.mPrimHeader->rgb_code.code_or_pad))
@@ -102,8 +95,8 @@ static bool Pop_OTInformation(PrimHeader** otBuffer, OTInformation& info)
     return false;
 }
 
-s32 sScreenXOffSet_BD30E4 = 0;
-s32 sScreenYOffset_BD30A4 = 0;
+s32 gScreenXOffset = 0;
+s32 gScreenYOffset = 0;
 
 void PSX_ClearOTag(PrimHeader** otBuffer, s32 otBufferSize)
 {
@@ -125,8 +118,8 @@ void PSX_ClearOTag(PrimHeader** otBuffer, s32 otBufferSize)
 
 static bool DrawOTagImpl(PrimHeader** ppOt)
 {
-    sScreenXOffSet_BD30E4 = 0;
-    sScreenYOffset_BD30A4 = 0;
+    gScreenXOffset = 0;
+    gScreenYOffset = 0;
 
     OTInformation otInfo = {};
     if (!Pop_OTInformation(ppOt, otInfo))
@@ -168,8 +161,8 @@ static bool DrawOTagImpl(PrimHeader** ppOt)
                 case PrimTypeCodes::eScreenOffset:
                     // NOTE: Conditional on dword_55EF94 removed as it is constant 1
                     renderer.SetScreenOffset(*any.mScreenOffset);
-                    sScreenXOffSet_BD30E4 = any.mScreenOffset->field_C_xoff * 2;
-                    sScreenYOffset_BD30A4 = any.mScreenOffset->field_E_yoff;
+                    gScreenXOffset = any.mScreenOffset->field_C_xoff * 2;
+                    gScreenYOffset = any.mScreenOffset->field_E_yoff;
                     break;
 
                 case PrimTypeCodes::eLaughingGas:
@@ -195,7 +188,7 @@ static bool DrawOTagImpl(PrimHeader** ppOt)
 
 void PSX_DrawOTag(PrimHeader** ppOt)
 {
-    if (turn_off_rendering_BD0F20)
+    if (gTurnOffRendering)
     {
         return;
     }

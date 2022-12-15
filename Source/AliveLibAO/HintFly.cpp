@@ -15,7 +15,7 @@
 
 namespace AO {
 
-const char_type* gHintFlyMessages_4C6A10[] = {
+static const char_type* sHintFlyMessages[36] = {
     "SNEAK TO BOMB",
     "ABE WAS HERE",
     "TEST THREE",
@@ -79,14 +79,14 @@ public:
             }
         }
 
-        if (msgId < ALIVE_COUNTOF(gHintFlyMessages_4C6A10))
+        if (msgId < ALIVE_COUNTOF(sHintFlyMessages))
         {
-            return gHintFlyMessages_4C6A10[msgId];
+            return sHintFlyMessages[msgId];
         }
         else
         {
             LOG_WARNING("HintFly message out of bounds using original message table id: %d", msgId);
-            return gHintFlyMessages_4C6A10[0];
+            return sHintFlyMessages[0];
         }
     }
 };
@@ -94,24 +94,21 @@ static HintFlyMessages gHintFlyMessages;
 
 struct HintFlyParticle final
 {
-    FP field_0_xpos;
-    FP field_4_ypos;
-    s8 field_8_state;
-    s16 field_A;
-    FP field_C_velx;
-    FP field_10_vely;
-    FP field_14_targetX;
-    FP field_18_targetY;
-    s16 field_1C_sound_pitch;
-    s16 field_1E_sound_pitch_speed;
-    s8 field_20_angle;
-    s8 field_21_angle_speed;
-    s8 field_22_timer;
-    Poly_FT4 field_24_sprt[2];
+    FP mXPos;
+    FP mYPos;
+    s8 mState;
+    FP mVelX;
+    FP mVelY;
+    FP mTargetX;
+    FP mTargetY;
+    s16 mSoundPitch;
+    s16 mSoundPitchSpeed;
+    s8 mAngle;
+    s8 mAngleSpeed;
+    Poly_FT4 mSprt[2];
 };
-ALIVE_ASSERT_SIZEOF(HintFlyParticle, 0x54);
 
-const u8 HintFlyLetter_A_4C6DB0[20] = {
+static const u8 sHintFlyLetter_A[20] = {
     19u,
     15u,
     29u,
@@ -133,7 +130,7 @@ const u8 HintFlyLetter_A_4C6DB0[20] = {
     221u,
     239u};
 
-const u8 HintFlyLetter_B_4C6DC8[32] = {
+static const u8 sHintFlyLetter_B[32] = {
     31u,
     17u,
     19u,
@@ -167,7 +164,7 @@ const u8 HintFlyLetter_B_4C6DC8[32] = {
     234u,
     236u};
 
-const u8 HintFlyLetter_C_4C6DE8[17] = {
+static const u8 sHintFlyLetter_C[17] = {
     16u,
     21u,
     23u,
@@ -187,7 +184,7 @@ const u8 HintFlyLetter_C_4C6DE8[17] = {
     221u,
 };
 
-const u8 HintFlyLetter_D_4C6E00[26] = {
+static const u8 sHintFlyLetter_D[26] = {
     25u,
     17u,
     19u,
@@ -216,7 +213,7 @@ const u8 HintFlyLetter_D_4C6E00[26] = {
     236u,
 };
 
-const u8 HintFlyLetter_E_4C6E20[27] = {
+static const u8 sHintFlyLetter_E[27] = {
     26u,
     17u,
     19u,
@@ -246,7 +243,7 @@ const u8 HintFlyLetter_E_4C6E20[27] = {
     223u,
 };
 
-const u8 HintFlyLetter_F_4C6E40[21] = {
+static const u8 sHintFlyLetter_F[21] = {
     20u,
     17u,
     19u,
@@ -270,7 +267,7 @@ const u8 HintFlyLetter_F_4C6E40[21] = {
     209u,
 };
 
-const u8 HintFlyLetter_G_4C6E58[22] = {
+static const u8 sHintFlyLetter_G[22] = {
     21u,
     21u,
     23u,
@@ -295,7 +292,7 @@ const u8 HintFlyLetter_G_4C6E58[22] = {
     221u,
 };
 
-const u8 HintFlyLetter_H_4C6E70[23] = {
+static const u8 sHintFlyLetter_H[23] = {
     22u,
     17u,
     19u,
@@ -321,7 +318,7 @@ const u8 HintFlyLetter_H_4C6E70[23] = {
     223u,
 };
 
-const u8 HintFlyLetter_I_4C6E88[21] = {
+static const u8 sHintFlyLetter_I[21] = {
     20u,
     17u,
     31u,
@@ -345,7 +342,7 @@ const u8 HintFlyLetter_I_4C6E88[21] = {
     223u,
 };
 
-const u8 HintFlyLetter_J_4C6EA0[15] = {
+static const u8 sHintFlyLetter_J[15] = {
     14u,
     27u,
     29u,
@@ -363,7 +360,7 @@ const u8 HintFlyLetter_J_4C6EA0[15] = {
     221u,
 };
 
-const u8 HintFlyLetter_K_4C6EB0[23] = {
+static const u8 sHintFlyLetter_K[23] = {
     22u,
     17u,
     19u,
@@ -389,7 +386,7 @@ const u8 HintFlyLetter_K_4C6EB0[23] = {
     255u,
 };
 
-const u8 HintFlyLetter_L_4C6EC8[16] = {
+static const u8 sHintFlyLetter_L[16] = {
     14u,
     17u,
     19u,
@@ -407,7 +404,7 @@ const u8 HintFlyLetter_L_4C6EC8[16] = {
     223u,
 };
 
-const u8 HintFlyLetter_M_4C6ED8[25] = {
+static const u8 sHintFlyLetter_M[25] = {
     24u,
     17u,
     19u,
@@ -435,7 +432,7 @@ const u8 HintFlyLetter_M_4C6ED8[25] = {
     223u,
 };
 
-const u8 HintFlyLetter_N_4C6EF8[23] = {
+static const u8 sHintFlyLetter_N[23] = {
     22u,
     17u,
     19u,
@@ -461,7 +458,7 @@ const u8 HintFlyLetter_N_4C6EF8[23] = {
     223u,
 };
 
-const u8 HintFlyLetter_O_4C6F10[21] = {
+static const u8 sHintFlyLetter_O[21] = {
     20u,
     21u,
     23u,
@@ -485,7 +482,7 @@ const u8 HintFlyLetter_O_4C6F10[21] = {
     235u,
 };
 
-const u8 HintFlyLetter_P_4C6F28[23] = {
+static const u8 sHintFlyLetter_P[23] = {
     22u,
     17u,
     19u,
@@ -511,7 +508,7 @@ const u8 HintFlyLetter_P_4C6F28[23] = {
     230u,
 };
 
-const u8 HintFlyLetter_Q_4C6F40[24] = {
+static const u8 sHintFlyLetter_Q[24] = {
     23u,
     21u,
     23u,
@@ -537,7 +534,7 @@ const u8 HintFlyLetter_Q_4C6F40[24] = {
     235u,
     239u};
 
-const u8 HintFlyLetter_R_4C6F58[27] = {
+static const u8 sHintFlyLetter_R[27] = {
     26u,
     17u,
     19u,
@@ -567,7 +564,7 @@ const u8 HintFlyLetter_R_4C6F58[27] = {
     255u,
 };
 
-const u8 HintFlyLetter_S_4C6F78[21] = {
+static const u8 sHintFlyLetter_S[21] = {
     20u,
     21u,
     35u,
@@ -591,7 +588,7 @@ const u8 HintFlyLetter_S_4C6F78[21] = {
     221u,
 };
 
-const u8 HintFlyLetter_T_4C6F90[15] = {
+static const u8 sHintFlyLetter_T[15] = {
     14u,
     17u,
     49u,
@@ -609,7 +606,7 @@ const u8 HintFlyLetter_T_4C6F90[15] = {
     209u,
 };
 
-const u8 HintFlyLetter_U_4C6FA0[20] = {
+static const u8 sHintFlyLetter_U[20] = {
     19u,
     17u,
     19u,
@@ -632,7 +629,7 @@ const u8 HintFlyLetter_U_4C6FA0[20] = {
     221u,
 };
 
-const u8 HintFlyLetter_V_4C6FB8[16] = {
+static const u8 sHintFlyLetter_V[16] = {
     15u,
     17u,
     35u,
@@ -650,7 +647,7 @@ const u8 HintFlyLetter_V_4C6FB8[16] = {
     195u,
     209u};
 
-const u8 HintFlyLetter_W_4C6FC8[25] = {
+static const u8 sHintFlyLetter_W[25] = {
     24u,
     16u,
     18u,
@@ -678,7 +675,7 @@ const u8 HintFlyLetter_W_4C6FC8[25] = {
     222u,
 };
 
-const u8 HintFlyLetter_X_4C6FE8[17] = {
+static const u8 sHintFlyLetter_X[17] = {
     16u,
     17u,
     31u,
@@ -698,7 +695,7 @@ const u8 HintFlyLetter_X_4C6FE8[17] = {
     255u,
 };
 
-const u8 HintFlyLetter_Y_4C7000[13] = {
+static const u8 sHintFlyLetter_Y[13] = {
     12u,
     17u,
     51u,
@@ -714,7 +711,7 @@ const u8 HintFlyLetter_Y_4C7000[13] = {
     225u,
 };
 
-const u8 HintFlyLetter_Z_4C7010[22] = {
+static const u8 sHintFlyLetter_Z[22] = {
     21u,
     17u,
     31u,
@@ -1311,32 +1308,32 @@ const u8 HintFlyLetter_Z_4C7010[22] = {
 
 
 const u8* pHintFlyAlphabet_4C7268[] = {
-    HintFlyLetter_A_4C6DB0,
-    HintFlyLetter_B_4C6DC8,
-    HintFlyLetter_C_4C6DE8,
-    HintFlyLetter_D_4C6E00,
-    HintFlyLetter_E_4C6E20,
-    HintFlyLetter_F_4C6E40,
-    HintFlyLetter_G_4C6E58,
-    HintFlyLetter_H_4C6E70,
-    HintFlyLetter_I_4C6E88,
-    HintFlyLetter_J_4C6EA0,
-    HintFlyLetter_K_4C6EB0,
-    HintFlyLetter_L_4C6EC8,
-    HintFlyLetter_M_4C6ED8,
-    HintFlyLetter_N_4C6EF8,
-    HintFlyLetter_O_4C6F10,
-    HintFlyLetter_P_4C6F28,
-    HintFlyLetter_Q_4C6F40,
-    HintFlyLetter_R_4C6F58,
-    HintFlyLetter_S_4C6F78,
-    HintFlyLetter_T_4C6F90,
-    HintFlyLetter_U_4C6FA0,
-    HintFlyLetter_V_4C6FB8,
-    HintFlyLetter_W_4C6FC8,
-    HintFlyLetter_X_4C6FE8,
-    HintFlyLetter_Y_4C7000,
-    HintFlyLetter_Z_4C7010,
+    sHintFlyLetter_A,
+    sHintFlyLetter_B,
+    sHintFlyLetter_C,
+    sHintFlyLetter_D,
+    sHintFlyLetter_E,
+    sHintFlyLetter_F,
+    sHintFlyLetter_G,
+    sHintFlyLetter_H,
+    sHintFlyLetter_I,
+    sHintFlyLetter_J,
+    sHintFlyLetter_K,
+    sHintFlyLetter_L,
+    sHintFlyLetter_M,
+    sHintFlyLetter_N,
+    sHintFlyLetter_O,
+    sHintFlyLetter_P,
+    sHintFlyLetter_Q,
+    sHintFlyLetter_R,
+    sHintFlyLetter_S,
+    sHintFlyLetter_T,
+    sHintFlyLetter_U,
+    sHintFlyLetter_V,
+    sHintFlyLetter_W,
+    sHintFlyLetter_X,
+    sHintFlyLetter_Y,
+    sHintFlyLetter_Z,
 };
 
 u8 sHintFlyRndSeed_4C6AA4 = 37;
@@ -1353,18 +1350,18 @@ HintFly::HintFly(relive::Path_HintFly* pTlv, const Guid& tlvId)
     Animation_Init(GetAnimRes(AnimId::HintFly));
 
     GetAnimation().SetSemiTrans(false);
-    field_124_tlvInfo = tlvId;
-    field_11E_msg_idx = 0;
+    mTlvId = tlvId;
+    mMsgIdx = 0;
 
-    field_11C_message_id = pTlv->mMessageId;
+    mMessageId = pTlv->mMessageId;
 
     mXPos = FP_FromInteger(pTlv->mTopLeftX);
     mYPos = FP_FromInteger(pTlv->mTopLeftY);
 
     const char_type* pMsg = gHintFlyMessages.GetMessage(gMap.mCurrentLevel, gMap.mCurrentPath, pTlv->mMessageId);
 
-    field_118_counter = 20;
-    field_11A_msg_len = 0;
+    mCounter = 20;
+    mMsgLength = 0;
 
     // Find the length of the longest word (in particles)
     s16 longestWordLen = 0;
@@ -1391,24 +1388,24 @@ HintFly::HintFly(relive::Path_HintFly* pTlv, const Guid& tlvId)
         pMsg++;
     }
 
-    field_11A_msg_len = longestWordLen;
-    field_11A_msg_len += 12;
+    mMsgLength = longestWordLen;
+    mMsgLength += 12;
 
-    field_E8_pRes = relive_new HintFlyParticle[field_11A_msg_len];
-    if (field_E8_pRes)
+    mHintFlyParticle = relive_new HintFlyParticle[mMsgLength];
+    if (mHintFlyParticle)
     {
-        field_112_state = State::eIdleWaitForChanting_1;
-        field_10C_timer = 0;
+        mState = State::eIdleWaitForChanting_1;
+        mTimer = 0;
 
         const s32 vram_x = 0 /* mAnim.mVramRect.x & 0x3F*/;
 
         const auto pHeader = GetAnimation().Get_FrameHeader(-1);
 
-        for (s32 i = 0; i < field_11A_msg_len; i++)
+        for (s32 i = 0; i < mMsgLength; i++)
         {
             for (s32 j = 0; j < 2; j++)
             {
-                Poly_FT4* pSprt = &field_E8_pRes[i].field_24_sprt[j];
+                Poly_FT4* pSprt = &mHintFlyParticle[i].mSprt[j];
 
                 PolyFT4_Init(pSprt);
 
@@ -1423,12 +1420,12 @@ HintFly::HintFly(relive::Path_HintFly* pTlv, const Guid& tlvId)
         }
 
 
-        field_114_xScreen = FP_GetExponent(mXPos + FP_FromInteger(pScreenManager->mCamXOff) - pScreenManager->mCamPos->x);
-        field_116_yScreen = FP_GetExponent(mYPos + FP_FromInteger(pScreenManager->mCamYOff) - pScreenManager->mCamPos->y);
+        mScreenX = FP_GetExponent(mXPos + FP_FromInteger(gScreenManager->mCamXOff) - gScreenManager->mCamPos->x);
+        mScreenY = FP_GetExponent(mYPos + FP_FromInteger(gScreenManager->mCamYOff) - gScreenManager->mCamPos->y);
 
-        for (s32 i = 0; i < field_118_counter; i++)
+        for (s32 i = 0; i < mCounter; i++)
         {
-            HintFlyParticle* pParticle = &field_E8_pRes[i];
+            HintFlyParticle* pParticle = &mHintFlyParticle[i];
             InitParticle(pParticle);
         }
     }
@@ -1440,14 +1437,14 @@ HintFly::HintFly(relive::Path_HintFly* pTlv, const Guid& tlvId)
 
 void HintFly::InitParticle(HintFlyParticle* pParticle)
 {
-    pParticle->field_8_state = 3;
-    pParticle->field_0_xpos = FP_FromInteger((HintFly_NextRandom() & 0x1F) + field_114_xScreen - 16);
-    pParticle->field_4_ypos = FP_FromInteger((HintFly_NextRandom() & 0x1F) + field_116_yScreen - 16);
-    pParticle->field_20_angle = HintFly_NextRandom();
-    pParticle->field_21_angle_speed = (HintFly_NextRandom() % 4) + 12;
+    pParticle->mState = 3;
+    pParticle->mXPos = FP_FromInteger((HintFly_NextRandom() & 0x1F) + mScreenX - 16);
+    pParticle->mYPos = FP_FromInteger((HintFly_NextRandom() & 0x1F) + mScreenY - 16);
+    pParticle->mAngle = HintFly_NextRandom();
+    pParticle->mAngleSpeed = (HintFly_NextRandom() % 4) + 12;
     if (HintFly_NextRandom() % 2)
     {
-        pParticle->field_21_angle_speed = -pParticle->field_21_angle_speed;
+        pParticle->mAngleSpeed = -pParticle->mAngleSpeed;
     }
 }
 
@@ -1458,13 +1455,13 @@ void HintFly::VScreenChanged()
 
 HintFly::~HintFly()
 {
-    relive_delete[] field_E8_pRes;
-    Path::TLV_Reset(field_124_tlvInfo, -1, 0, 0);
+    relive_delete[] mHintFlyParticle;
+    Path::TLV_Reset(mTlvId, -1, 0, 0);
 }
 
 void HintFly::FormWordAndAdvanceToNextWord()
 {
-    const char_type* msgPtr = &gHintFlyMessages.GetMessage(gMap.mCurrentLevel, gMap.mCurrentPath, field_11C_message_id)[field_11E_msg_idx];
+    const char_type* msgPtr = &gHintFlyMessages.GetMessage(gMap.mCurrentLevel, gMap.mCurrentPath, mMessageId)[mMsgIdx];
     LOG_INFO("Word is %s", msgPtr);
 
     // Find how long the word is
@@ -1480,16 +1477,16 @@ void HintFly::FormWordAndAdvanceToNextWord()
     }
 
     // Next time start at the next word
-    field_11E_msg_idx += letterCount;
+    mMsgIdx += letterCount;
 
     // Also skip the space if we had one else display will be screwed
     if (*pEndWord == ' ')
     {
-        field_11E_msg_idx++;
+        mMsgIdx++;
     }
 
-    const s32 xBase = field_114_xScreen - (16 * letterCount) / 2;
-    const s32 yBase = field_116_yScreen - 8;
+    const s32 xBase = mScreenX - (16 * letterCount) / 2;
+    const s32 yBase = mScreenY - 8;
 
     FP xBaseFP = FP_FromInteger(xBase);
     const FP yBaseFP = FP_FromInteger(yBase);
@@ -1504,61 +1501,61 @@ void HintFly::FormWordAndAdvanceToNextWord()
         for (s32 j = 0; j < total; j++)
         {
             // Position each "pixel" of the word
-            HintFlyParticle* pParticleIter = &field_E8_pRes[particleIdx++];
+            HintFlyParticle* pParticleIter = &mHintFlyParticle[particleIdx++];
 
             auto xVal = FP_FromInteger(pArray[j + 1] >> 4);
             auto yVal = FP_FromInteger((pArray[j + 1]) & 0xF);
 
-            pParticleIter->field_14_targetX = (FP_FromDouble(0.8) * xVal) + xBaseFP;
-            pParticleIter->field_18_targetY = (FP_FromDouble(0.8) * yVal) + yBaseFP;
-            pParticleIter->field_C_velx = FP_FromRaw((pParticleIter->field_14_targetX.fpValue - pParticleIter->field_0_xpos.fpValue) >> 4);
-            pParticleIter->field_10_vely = FP_FromRaw((pParticleIter->field_18_targetY.fpValue - pParticleIter->field_4_ypos.fpValue) >> 4);
-            pParticleIter->field_8_state = 1;
+            pParticleIter->mTargetX = (FP_FromDouble(0.8) * xVal) + xBaseFP;
+            pParticleIter->mTargetY = (FP_FromDouble(0.8) * yVal) + yBaseFP;
+            pParticleIter->mVelX = FP_FromRaw((pParticleIter->mTargetX.fpValue - pParticleIter->mXPos.fpValue) >> 4);
+            pParticleIter->mVelY = FP_FromRaw((pParticleIter->mTargetY.fpValue - pParticleIter->mYPos.fpValue) >> 4);
+            pParticleIter->mState = 1;
 
-            pParticleIter->field_1C_sound_pitch = Math_RandomRange(-127, 127);
-            pParticleIter->field_1E_sound_pitch_speed = pParticleIter->field_1C_sound_pitch >> 4;
+            pParticleIter->mSoundPitch = Math_RandomRange(-127, 127);
+            pParticleIter->mSoundPitchSpeed = pParticleIter->mSoundPitch >> 4;
         }
         xBaseFP += FP_FromInteger(16);
     }
 
-    while (particleIdx < field_118_counter)
+    while (particleIdx < mCounter)
     {
-        field_E8_pRes[particleIdx++].field_8_state = 3;
+        mHintFlyParticle[particleIdx++].mState = 3;
     }
 }
 
 void HintFly::UpdateParticles()
 {
-    for (s32 i = 0; i < field_118_counter; i++)
+    for (s32 i = 0; i < mCounter; i++)
     {
-        HintFlyParticle* pParticle = &field_E8_pRes[i];
-        if (pParticle->field_8_state == 1)
+        HintFlyParticle* pParticle = &mHintFlyParticle[i];
+        if (pParticle->mState == 1)
         {
-            const FP xTargetDelta = FP_Abs(pParticle->field_14_targetX - pParticle->field_0_xpos);
-            const FP yTargetDelta = FP_Abs(pParticle->field_18_targetY - pParticle->field_4_ypos);
+            const FP xTargetDelta = FP_Abs(pParticle->mTargetX - pParticle->mXPos);
+            const FP yTargetDelta = FP_Abs(pParticle->mTargetY - pParticle->mYPos);
 
             if (xTargetDelta >= FP_FromInteger(1) || yTargetDelta >= FP_FromInteger(1))
             {
-                pParticle->field_0_xpos += pParticle->field_C_velx;
-                pParticle->field_4_ypos += pParticle->field_10_vely;
-                pParticle->field_1C_sound_pitch += pParticle->field_1E_sound_pitch_speed;
+                pParticle->mXPos += pParticle->mVelX;
+                pParticle->mYPos += pParticle->mVelY;
+                pParticle->mSoundPitch += pParticle->mSoundPitchSpeed;
             }
             else
             {
-                pParticle->field_8_state = 2;
-                pParticle->field_1C_sound_pitch = 0;
+                pParticle->mState = 2;
+                pParticle->mSoundPitch = 0;
             }
 
             if (i < 1 && Math_RandomRange(0, 100) < 40)
             {
-                SFX_Play_Pitch(relive::SoundEffects::HintFly, Math_RandomRange(24, 30), pParticle->field_1C_sound_pitch);
+                SFX_Play_Pitch(relive::SoundEffects::HintFly, Math_RandomRange(24, 30), pParticle->mSoundPitch);
             }
         }
-        else if (pParticle->field_8_state == 2)
+        else if (pParticle->mState == 2)
         {
             if (!(HintFly_NextRandom() & 3))
             {
-                pParticle->field_0_xpos = pParticle->field_14_targetX + FP_FromInteger(HintFly_NextRandom() & 1);
+                pParticle->mXPos = pParticle->mTargetX + FP_FromInteger(HintFly_NextRandom() & 1);
             }
 
             if (i < 1 && Math_RandomRange(0, 100) < 40)
@@ -1566,11 +1563,11 @@ void HintFly::UpdateParticles()
                 SFX_Play_Pitch(relive::SoundEffects::HintFly, Math_RandomRange(24, 30), 0);
             }
         }
-        else if (pParticle->field_8_state == 3)
+        else if (pParticle->mState == 3)
         {
-            pParticle->field_20_angle = pParticle->field_20_angle + pParticle->field_21_angle_speed;
-            pParticle->field_0_xpos += (Math_Sine(pParticle->field_20_angle) * FP_FromInteger(5));
-            pParticle->field_4_ypos += (Math_Cosine(pParticle->field_20_angle) * FP_FromInteger(2));
+            pParticle->mAngle = pParticle->mAngle + pParticle->mAngleSpeed;
+            pParticle->mXPos += (Math_Sine(pParticle->mAngle) * FP_FromInteger(5));
+            pParticle->mYPos += (Math_Cosine(pParticle->mAngle) * FP_FromInteger(2));
             if (i < 1 && Math_RandomRange(0, 100) < 20)
             {
                 SfxPlayMono(relive::SoundEffects::HintFly, Math_RandomRange(18, 24));
@@ -1586,63 +1583,63 @@ void HintFly::VUpdate()
         SetDead(true);
     }
 
-    switch (field_112_state)
+    switch (mState)
     {
         case State::eIdleWaitForChanting_1:
             UpdateParticles();
 
             if (EventGet(kEventAbeOhm))
             {
-                field_11E_msg_idx = 0;
-                field_112_state = State::eState_3;
-                field_10C_timer = sGnFrame + 15;
+                mMsgIdx = 0;
+                mState = State::eState_3;
+                mTimer = sGnFrame + 15;
             }
             return;
 
         case State::eState_2:
-            if (field_118_counter == field_122_target_count)
+            if (mCounter == mTargetCount)
             {
                 UpdateParticles();
 
                 if (!EventGet(kEventAbeOhm))
                 {
-                    for (s32 i = 0; i < field_118_counter; i++)
+                    for (s32 i = 0; i < mCounter; i++)
                     {
-                        if (field_E8_pRes[i].field_8_state == 3)
+                        if (mHintFlyParticle[i].mState == 3)
                         {
                             break;
                         }
-                        field_E8_pRes[i].field_8_state = 3;
+                        mHintFlyParticle[i].mState = 3;
                     }
-                    field_120_idx = 0;
-                    field_112_state = State::eState_5;
+                    mHintFlyIdx = 0;
+                    mState = State::eState_5;
                     return;
                 }
 
-                if (field_118_counter == field_122_target_count)
+                if (mCounter == mTargetCount)
                 {
                     FormWordAndAdvanceToNextWord();
-                    field_112_state = State::eState_4;
-                    field_10C_timer = sGnFrame + 30;
+                    mState = State::eState_4;
+                    mTimer = sGnFrame + 30;
                 }
             }
 
             for (s32 i = 0; i < 8; i++)
             {
-                if (field_118_counter < field_122_target_count)
+                if (mCounter < mTargetCount)
                 {
-                    InitParticle(&field_E8_pRes[field_118_counter++]);
+                    InitParticle(&mHintFlyParticle[mCounter++]);
                 }
                 else
                 {
-                    field_118_counter--;
-                    if (field_120_idx < field_118_counter)
+                    mCounter--;
+                    if (mHintFlyIdx < mCounter)
                     {
-                        InitParticle(&field_E8_pRes[field_120_idx++]);
+                        InitParticle(&mHintFlyParticle[mHintFlyIdx++]);
                     }
                 }
 
-                if (field_118_counter == field_122_target_count)
+                if (mCounter == mTargetCount)
                 {
                     break;
                 }
@@ -1653,24 +1650,24 @@ void HintFly::VUpdate()
 
             if (!EventGet(kEventAbeOhm))
             {
-                for (s32 i = 0; i < field_118_counter; i++)
+                for (s32 i = 0; i < mCounter; i++)
                 {
-                    if (field_E8_pRes[i].field_8_state == 3)
+                    if (mHintFlyParticle[i].mState == 3)
                     {
                         break;
                     }
-                    field_E8_pRes[i].field_8_state = 3;
+                    mHintFlyParticle[i].mState = 3;
                 }
-                field_120_idx = 0;
-                field_112_state = State::eState_5;
+                mHintFlyIdx = 0;
+                mState = State::eState_5;
                 return;
             }
 
-            if (field_118_counter == field_122_target_count)
+            if (mCounter == mTargetCount)
             {
                 FormWordAndAdvanceToNextWord();
-                field_112_state = State::eState_4;
-                field_10C_timer = sGnFrame + 30;
+                mState = State::eState_4;
+                mTimer = sGnFrame + 30;
             }
             break;
 
@@ -1679,31 +1676,31 @@ void HintFly::VUpdate()
 
             if (!EventGet(kEventAbeOhm))
             {
-                for (s32 i = 0; i < field_118_counter; i++)
+                for (s32 i = 0; i < mCounter; i++)
                 {
-                    if (field_E8_pRes[i].field_8_state == 3)
+                    if (mHintFlyParticle[i].mState == 3)
                     {
                         break;
                     }
-                    field_E8_pRes[i].field_8_state = 3;
+                    mHintFlyParticle[i].mState = 3;
                 }
-                field_120_idx = 0;
-                field_112_state = State::eState_5;
+                mHintFlyIdx = 0;
+                mState = State::eState_5;
                 return;
             }
 
-            if (static_cast<s32>(sGnFrame) > field_10C_timer)
+            if (static_cast<s32>(sGnFrame) > mTimer)
             {
                 s16 len = 0;
-                const char_type* pMsgIter = gHintFlyMessages.GetMessage(gMap.mCurrentLevel, gMap.mCurrentPath, field_11C_message_id) + field_11E_msg_idx;
+                const char_type* pMsgIter = gHintFlyMessages.GetMessage(gMap.mCurrentLevel, gMap.mCurrentPath, mMessageId) + mMsgIdx;
                 while (*pMsgIter != ' ' && *pMsgIter != '\0')
                 {
                     len += pHintFlyAlphabet_4C7268[(*pMsgIter) - 'A'][0];
                     pMsgIter++;
                 }
-                field_120_idx = 0;
-                field_122_target_count = len + 12;
-                field_112_state = State::eState_2;
+                mHintFlyIdx = 0;
+                mTargetCount = len + 12;
+                mState = State::eState_2;
             }
             return;
 
@@ -1712,63 +1709,63 @@ void HintFly::VUpdate()
 
             if (EventGet(kEventAbeOhm))
             {
-                if (static_cast<s32>(sGnFrame) > field_10C_timer)
+                if (static_cast<s32>(sGnFrame) > mTimer)
                 {
-                    for (s32 i = 0; i < field_118_counter; i++)
+                    for (s32 i = 0; i < mCounter; i++)
                     {
-                        if (field_E8_pRes[i].field_8_state == 3)
+                        if (mHintFlyParticle[i].mState == 3)
                         {
                             break;
                         }
-                        field_E8_pRes[i].field_8_state = 3;
+                        mHintFlyParticle[i].mState = 3;
                     }
-                    field_112_state = State::eState_3;
-                    field_10C_timer = sGnFrame + 15;
+                    mState = State::eState_3;
+                    mTimer = sGnFrame + 15;
                 }
             }
             else
             {
-                for (s32 i = 0; i < field_118_counter; i++)
+                for (s32 i = 0; i < mCounter; i++)
                 {
-                    if (field_E8_pRes[i].field_8_state == 3)
+                    if (mHintFlyParticle[i].mState == 3)
                     {
                         break;
                     }
-                    field_E8_pRes[i].field_8_state = 3;
+                    mHintFlyParticle[i].mState = 3;
                 }
-                field_120_idx = 0;
-                field_112_state = State::eState_5;
+                mHintFlyIdx = 0;
+                mState = State::eState_5;
             }
             return;
 
         case State::eState_5:
-            if (field_118_counter == 20)
+            if (mCounter == 20)
             {
                 if (EventGet(kEventAbeOhm))
                 {
-                    field_112_state = State::eIdleWaitForChanting_1;
+                    mState = State::eIdleWaitForChanting_1;
                 }
             }
             [[fallthrough]];
 
         case State::eState_6:
             UpdateParticles();
-            if (field_120_idx >= 20)
+            if (mHintFlyIdx >= 20)
             {
-                field_118_counter -= 8;
-                if (field_118_counter < 20)
+                mCounter -= 8;
+                if (mCounter < 20)
                 {
-                    field_118_counter = 20;
+                    mCounter = 20;
                 }
             }
             else
             {
-                InitParticle(&field_E8_pRes[field_120_idx++]);
+                InitParticle(&mHintFlyParticle[mHintFlyIdx++]);
             }
 
-            if (field_118_counter == 20 && !EventGet(kEventAbeOhm))
+            if (mCounter == 20 && !EventGet(kEventAbeOhm))
             {
-                field_112_state = State::eIdleWaitForChanting_1;
+                mState = State::eIdleWaitForChanting_1;
             }
             return;
 
@@ -1779,13 +1776,13 @@ void HintFly::VUpdate()
 
 void HintFly::VRender(PrimHeader** ppOt)
 {
-    for (s32 i = 0; i < field_118_counter; i++)
+    for (s32 i = 0; i < mCounter; i++)
     {
-        HintFlyParticle* pParticle = &field_E8_pRes[i];
-        Poly_FT4* pSprt = &pParticle->field_24_sprt[gPsxDisplay.mBufferIndex];
+        HintFlyParticle* pParticle = &mHintFlyParticle[i];
+        Poly_FT4* pSprt = &pParticle->mSprt[gPsxDisplay.mBufferIndex];
 
-        const s16 flyX = FP_GetExponent(PsxToPCX(pParticle->field_0_xpos, FP_FromInteger(11)));
-        const s16 flyY = FP_GetExponent(pParticle->field_4_ypos);
+        const s16 flyX = FP_GetExponent(PsxToPCX(pParticle->mXPos, FP_FromInteger(11)));
+        const s16 flyY = FP_GetExponent(pParticle->mYPos);
 
         const s16 flyW = static_cast<s16>(abs(X0(&pSprt[0]) - X3(&pSprt[0])));
         const s16 flyH = static_cast<s16>(abs(Y0(&pSprt[0]) - Y3(&pSprt[0])));

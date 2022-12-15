@@ -22,8 +22,7 @@ enum class LiftMoverStates : s16
 
 struct LiftMoverSaveState final
 {
-    ReliveTypes mType; // never read?
-    s16 field_2_padding;
+    ReliveTypes mType;
     Guid mTlvId;
     LiftMoverStates mState;
 };
@@ -49,5 +48,5 @@ private:
     Guid mTargetLiftId;
     FP mLiftSpeed = {};
     LiftMoverStates mState = LiftMoverStates::eInactive_0;
-    s16 field_32_bMoveInProgress = 0;
+    bool mMoving = false;
 };

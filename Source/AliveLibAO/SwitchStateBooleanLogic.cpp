@@ -17,30 +17,30 @@ void SwitchStateBooleanLogic::VScreenChanged()
 
 SwitchStateBooleanLogic::~SwitchStateBooleanLogic()
 {
-    Path::TLV_Reset(field_18_tlvInfo, -1, 0, 0);
+    Path::TLV_Reset(mTlvId, -1, 0, 0);
 }
 
 SwitchStateBooleanLogic::SwitchStateBooleanLogic(Path_SwitchStateBooleanLogic* pTlv, const Guid& tlvId)
     : BaseGameObject(true, 0)
 {
-    field_18_tlvInfo = tlvId;
+    mTlvId = tlvId;
 
-    field_10_input_1 = pTlv->field_18_input1;
-    field_12_input_2 = pTlv->field_1A_input2;
+    mInput1 = pTlv->mInput1;
+    mInput2 = pTlv->mInput2;
 
-    field_14_output = pTlv->field_1C_output;
+    mOutput = pTlv->mOutput;
 
-    field_16_operator = pTlv->field_1E_operator;
+    mOperator = pTlv->mOperator;
 }
 
 
 void SwitchStateBooleanLogic::VUpdate()
 {
-    const s32 id1_value = SwitchStates_Get(field_10_input_1);
-    const s32 id2_value = SwitchStates_Get(field_12_input_2);
+    const s32 id1_value = SwitchStates_Get(mInput1);
+    const s32 id2_value = SwitchStates_Get(mInput2);
 
     s8 id_value = 0;
-    switch (field_16_operator)
+    switch (mOperator)
     {
         case Path_SwitchStateBooleanLogic::BooleanOperatorType::eAllOn_0:
             if (id1_value && id2_value)
@@ -91,7 +91,7 @@ void SwitchStateBooleanLogic::VUpdate()
             break;
     }
 
-    SwitchStates_Set(field_14_output, id_value);
+    SwitchStates_Set(mOutput, id_value);
 
     if (EventGet(kEventDeathReset))
     {

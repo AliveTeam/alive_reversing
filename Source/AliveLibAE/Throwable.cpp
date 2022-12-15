@@ -11,10 +11,10 @@
 #include "Game.hpp"
 #include "Map.hpp"
 
-u16 gInfiniteThrowables = 0;
+bool gInfiniteThrowables = false;
 
 // Overlay to throwable type table ??
-const AETypes throwable_types_55FAFC[252] = {
+const AETypes gThrowableFromOverlayId[252] = {
     AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0, AETypes::eRock_105, AETypes::eRock_105, AETypes::eRock_105, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0,
     AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0, AETypes::eRock_105, AETypes::eNone_0,
     AETypes::eNone_0, AETypes::eNone_0, AETypes::eRock_105, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0, AETypes::eRock_105, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0,
@@ -42,9 +42,9 @@ const AETypes throwable_types_55FAFC[252] = {
     AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0,
     AETypes::eNone_0, AETypes::eNone_0};
 
-BaseThrowable* Make_Throwable_49AF30(FP xpos, FP ypos, s16 count)
+BaseThrowable* Make_Throwable(FP xpos, FP ypos, s16 count)
 {
-    switch (throwable_types_55FAFC[gMap.mOverlayId])
+    switch (gThrowableFromOverlayId[gMap.mOverlayId])
     {
         case AETypes::eBone_11:
             return relive_new Bone(xpos, ypos, count);

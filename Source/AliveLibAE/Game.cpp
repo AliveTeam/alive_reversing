@@ -40,9 +40,9 @@ u32 sGnFrame = 0;
 // Arrays of things
 DynamicArrayT<BaseGameObject>* gPlatformsArray = nullptr;
 
-s16 sBreakGameLoop = 0;
+bool gBreakGameLoop = false;
 s16 gNumCamSwappers = 0;
-s16 bSkipGameObjectUpdates = 0;
+bool gSkipGameObjectUpdates = false;
 
 bool sCommandLine_ShowFps = false;
 bool gDDCheatOn = false;
@@ -57,7 +57,7 @@ u16 gAttract = 0;
 Abe* sActiveHero = nullptr;
 
 
-void DestroyObjects_4A1F20()
+void DestroyObjects()
 {
     pResourceManager->LoadingLoop(false);
     for (s32 iterations = 0; iterations < 2; iterations++)
@@ -111,11 +111,11 @@ void Draw_Debug_Strings_4F2800()
     // TODO
 }
 
-s32 Game_End_Frame_4950F0(u32 flags)
+s32 Game_End_Frame(u32 flags)
 {
     if (flags & 1)
     {
-        turn_off_rendering_BD0F20 = 0;
+        gTurnOffRendering = false;
         return 0;
     }
 
@@ -128,7 +128,7 @@ s32 Game_End_Frame_4950F0(u32 flags)
     Draw_Debug_Strings_4F2800();
     ++sFrameCount_5CA300;
 
-    if (Sys_PumpMessages_4EE4F4())
+    if (Sys_PumpMessages())
     {
         exit(0);
     }
@@ -148,7 +148,7 @@ void Main_ParseCommandLineArguments(const char_type* pCommandLine)
 
         if (strstr(pCommandLine, "-ddnoskip"))
         {
-            sCommandLine_NoFrameSkip = true;
+            gCommandLine_NoFrameSkip = true;
         }
 
         if (strstr(pCommandLine, "-ddcheat") || _strcmpi(pCommandLine, "-it_is_me_your_father") == 0)
@@ -163,19 +163,19 @@ void Main_ParseCommandLineArguments(const char_type* pCommandLine)
 
     VGA_CreateRenderer(WindowTitleAE());
 
-    PSX_EMU_SetCallBack_4F9430(Game_End_Frame_4950F0);
+    PSX_EMU_SetCallBack_4F9430(Game_End_Frame);
 }
 
 void Init_GameStates()
 {
-    sKilledMudokons = gFeeco_Restart_KilledMudCount;
-    sRescuedMudokons = gFeecoRestart_SavedMudCount;
+    gKilledMudokons = gFeeco_Restart_KilledMudCount;
+    gRescuedMudokons = gFeecoRestart_SavedMudCount;
 
     gGasOn = 0;
     gGasTimer = 0;
 
-    gbDrawMeterCountDown_5C1BF8 = false;
-    gTotalMeterBars_5C1BFA = 0;
+    gbDrawMeterCountDown = false;
+    gTotalMeterBars = 0;
 
     gAbeInvincible = false;
 
@@ -207,7 +207,7 @@ void Init_Sound_DynamicArrays_And_Others()
 
 void SYS_EventsPump()
 {
-    if (Sys_PumpMessages_4EE4F4())
+    if (Sys_PumpMessages())
     {
         exit(0);
     }
@@ -248,7 +248,7 @@ void Game_Shutdown()
 
 void Game_Loop()
 {
-    sBreakGameLoop = 0;
+    gBreakGameLoop = false;
     bool bPauseMenuObjectFound = false;
     while (!gBaseGameObjects->IsEmpty())
     {
@@ -256,7 +256,7 @@ void Game_Loop()
 
         EventsResetActive();
         Slurg::Clear_Slurg_Step_Watch_Points();
-        bSkipGameObjectUpdates = 0;
+        gSkipGameObjectUpdates = false;
 
         // Update objects
         GetGameAutoPlayer().SyncPoint(SyncPoints::ObjectsUpdateStart);
@@ -264,7 +264,7 @@ void Game_Loop()
         {
             BaseGameObject* pBaseGameObject = gBaseGameObjects->ItemAt(baseObjIdx);
 
-            if (!pBaseGameObject || bSkipGameObjectUpdates)
+            if (!pBaseGameObject || gSkipGameObjectUpdates)
             {
                 break;
             }
@@ -326,7 +326,7 @@ void Game_Loop()
         GetGameAutoPlayer().SyncPoint(SyncPoints::DrawAllEnd);
 
         DebugFont_Flush();
-        pScreenManager->VRender(ppOt);
+        gScreenManager->VRender(ppOt);
         SYS_EventsPump(); // Exit checking?
 
         GetGameAutoPlayer().SyncPoint(SyncPoints::RenderOT);
@@ -368,7 +368,7 @@ void Game_Loop()
             sGnFrame++;
         }
 
-        if (sBreakGameLoop)
+        if (gBreakGameLoop)
         {
             GetGameAutoPlayer().SyncPoint(SyncPoints::MainLoopExit);
             break;
@@ -378,7 +378,7 @@ void Game_Loop()
 
     } // Main loop end
 
-    PSX_VSync_4F6170(0);
+    PSX_VSync(0);
 
     // Destroy all game objects
     for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
@@ -428,7 +428,7 @@ void Game_Run()
 
     // Not technically needed yet but will de-sync if not instantiated here
     CamResource nullCamRes;
-    pScreenManager = relive_new ScreenManager(nullCamRes, &gMap.field_24_camera_offset);
+    gScreenManager = relive_new ScreenManager(nullCamRes, &gMap.mCameraOffset);
 
     Input_Init();
 

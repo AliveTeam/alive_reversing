@@ -19,7 +19,7 @@
 #include "../relive_lib/Collisions.hpp"
 #include "FixedPoint.hpp"
 
-static const TintEntry kMovingBombTints_55C734[16] = {
+static const TintEntry kMovingBombTints[16] = {
     {EReliveLevelIds::eMenu, 127u, 127u, 127u},
     {EReliveLevelIds::eMines, 127u, 127u, 127u},
     {EReliveLevelIds::eNecrum, 127u, 127u, 127u},
@@ -51,7 +51,7 @@ MovingBomb::MovingBomb(relive::Path_MovingBomb* pTlv, const Guid& tlvId)
 
     GetAnimation().SetSemiTrans(true);
     GetAnimation().SetRenderMode(TPageAbr::eBlend_0);
-    field_118_state = States::eTriggeredBySwitch_1;
+    mState = States::eTriggeredBySwitch_1;
 
     if (pTlv->mScale == relive::reliveScale::eHalf)
     {
@@ -69,23 +69,23 @@ MovingBomb::MovingBomb(relive::Path_MovingBomb* pTlv, const Guid& tlvId)
     mXPos = FP_FromInteger(pTlv->mTopLeftX);
     mYPos = FP_FromInteger(pTlv->mTopLeftY);
 
-    field_124_speed = FP_FromRaw(pTlv->mSpeed << 8);
+    mSpeed = FP_FromRaw(pTlv->mSpeed << 8);
     mVelX = FP_FromRaw(pTlv->mStartSpeed << 8);
-    field_128_start_moving_switch_id = pTlv->mStartMovingSwitchId;
-    field_120_timer = sGnFrame;
-    field_11C_tlvInfo = tlvId;
-    field_12C_max = 0;
-    field_12A_min = 0;
-    field_136_persist_offscreen = pTlv->mPersistOffscreen;
-    field_130_sound_channels = 0;
+    mStartMovingSwitchId = pTlv->mStartMovingSwitchId;
+    mTimer = sGnFrame;
+    mTlvId = tlvId;
+    mMaxStopTime = 0;
+    mMinStopTime = 0;
+    mPersistOffscreen = pTlv->mPersistOffscreen;
+    mChannelMask = 0;
 
     if (pTlv->mTriggeredByAlarm == relive::reliveChoice::eYes)
     {
-        field_118_state = States::eTriggeredByAlarm_0;
+        mState = States::eTriggeredByAlarm_0;
         GetAnimation().SetRender(false);
     }
 
-    SetTint(&kMovingBombTints_55C734[0], gMap.mCurrentLevel);
+    SetTint(&kMovingBombTints[0], gMap.mCurrentLevel);
 
     FP hitX = {};
     FP hitY = {};
@@ -115,32 +115,32 @@ MovingBomb::~MovingBomb()
         BaseAliveGameObject_PlatformId = Guid{};
     }
 
-    if (field_118_state >= States::eBlowingUp_6)
+    if (mState >= States::eBlowingUp_6)
     {
-        Path::TLV_Reset(field_11C_tlvInfo, -1, 0, 1);
+        Path::TLV_Reset(mTlvId, -1, 0, 1);
     }
     else
     {
-        Path::TLV_Reset(field_11C_tlvInfo, -1, 0, 0);
+        Path::TLV_Reset(mTlvId, -1, 0, 0);
     }
 
     if (sMovingBomb == this)
     {
-        if (field_130_sound_channels)
+        if (mChannelMask)
         {
-            SND_Stop_Channels_Mask(field_130_sound_channels);
-            field_130_sound_channels = 0;
+            SND_Stop_Channels_Mask(mChannelMask);
+            mChannelMask = 0;
         }
-        sMovingBomb = 0;
+        sMovingBomb = nullptr;
     }
 }
 
 void MovingBomb::BlowUp()
 {
     SetCanExplode(false);
-    field_118_state = States::eBlowingUp_6;
+    mState = States::eBlowingUp_6;
     mVelY = FP_FromInteger(0);
-    field_120_timer = sGnFrame + 1;
+    mTimer = sGnFrame + 1;
     SfxPlayMono(relive::SoundEffects::GreenTick, 100, GetSpriteScale());
 }
 
@@ -156,7 +156,7 @@ void MovingBomb::VScreenChanged()
 {
     BaseGameObject::VScreenChanged();
 
-    if (field_136_persist_offscreen == relive::reliveChoice::eNo)
+    if (mPersistOffscreen == relive::reliveChoice::eNo)
     {
         SetDead(true);
         return;
@@ -203,15 +203,15 @@ s16 MovingBomb::VTakeDamage(BaseGameObject* pFrom)
 
             relive_new Gibs(GibType::Metal_5, mXPos, mYPos, FP_FromInteger(0), FP_FromInteger(5), GetSpriteScale(), 0);
 
-            field_118_state = States::eKillMovingBomb_7;
+            mState = States::eKillMovingBomb_7;
 
             GetAnimation().SetRender(false);
-            field_120_timer = sGnFrame + 4;
+            mTimer = sGnFrame + 4;
         }
             return 0;
 
         case ReliveTypes::eElectrocute:
-            field_118_state = States::eKillMovingBomb_7;
+            mState = States::eKillMovingBomb_7;
             return 0;
 
         default:
@@ -263,7 +263,7 @@ void MovingBomb::VUpdate()
         SetDead(true);
     }
 
-    if (field_118_state < States::eBlowingUp_6)
+    if (mState < States::eBlowingUp_6)
     {
         if (HitObject())
         {
@@ -282,9 +282,9 @@ void MovingBomb::VUpdate()
         }
         else
         {
-            if (field_130_sound_channels)
+            if (mChannelMask)
             {
-                SND_Stop_Channels_Mask(field_130_sound_channels);
+                SND_Stop_Channels_Mask(mChannelMask);
             }
 
             if (VIsObjNearby(FP_FromInteger(700), sActiveHero))
@@ -292,26 +292,26 @@ void MovingBomb::VUpdate()
                 const FP yDelta = FP_Abs(sActiveHero->mYPos - mYPos);
                 if (yDelta <= FP_FromInteger(700))
                 {
-                    if (field_118_state == States::eWaitABit_4)
+                    if (mState == States::eWaitABit_4)
                     {
-                        field_130_sound_channels = SfxPlayMono(relive::SoundEffects::SecurityOrb, 55, GetSpriteScale());
+                        mChannelMask = SfxPlayMono(relive::SoundEffects::SecurityOrb, 55, GetSpriteScale());
                     }
                     else
                     {
-                        field_130_sound_channels = SfxPlayMono(relive::SoundEffects::SecurityOrb, 80, GetSpriteScale());
+                        mChannelMask = SfxPlayMono(relive::SoundEffects::SecurityOrb, 80, GetSpriteScale());
                     }
                     sMovingBomb = this;
                 }
                 else
                 {
-                    if (field_118_state == States::eWaitABit_4)
+                    if (mState == States::eWaitABit_4)
                     {
-                        field_130_sound_channels = 0;
+                        mChannelMask = 0;
                         sMovingBomb = this;
                     }
                     else
                     {
-                        field_130_sound_channels = SfxPlayMono(relive::SoundEffects::SecurityOrb, 12, GetSpriteScale());
+                        mChannelMask = SfxPlayMono(relive::SoundEffects::SecurityOrb, 12, GetSpriteScale());
                         sMovingBomb = this;
                     }
                 }
@@ -319,32 +319,32 @@ void MovingBomb::VUpdate()
         }
     }
 
-    switch (field_118_state)
+    switch (mState)
     {
         case States::eTriggeredByAlarm_0:
             if (EventGet(kEventAlarm))
             {
                 GetAnimation().SetRender(true);
-                field_118_state = States::eMoving_2;
+                mState = States::eMoving_2;
             }
             break;
 
         case States::eTriggeredBySwitch_1:
-            if (SwitchStates_Get(field_128_start_moving_switch_id))
+            if (SwitchStates_Get(mStartMovingSwitchId))
             {
-                field_118_state = States::eMoving_2;
+                mState = States::eMoving_2;
             }
             break;
 
         case States::eMoving_2:
-            if (mVelX < field_124_speed)
+            if (mVelX < mSpeed)
             {
                 mVelX += (GetSpriteScale() * FP_FromDouble(0.5));
             }
 
             FollowLine();
 
-            BaseAliveGameObjectPathTLV = sPathInfo->TLV_Get_At(
+            BaseAliveGameObjectPathTLV = gPathInfo->TLV_Get_At(
                 FP_GetExponent(mXPos),
                 FP_GetExponent(mYPos),
                 FP_GetExponent(mXPos),
@@ -354,9 +354,9 @@ void MovingBomb::VUpdate()
             if (BaseAliveGameObjectPathTLV)
             {
                 auto pStopper = static_cast<relive::Path_MovingBombStopper*>(BaseAliveGameObjectPathTLV);
-                field_12A_min = pStopper->mMinDelay;
-                field_12C_max = pStopper->mMaxDelay;
-                field_118_state = States::eStopMoving_3;
+                mMinStopTime = pStopper->mMinStopTime;
+                mMaxStopTime = pStopper->mMaxStopTime;
+                mState = States::eStopMoving_3;
             }
             break;
 
@@ -364,29 +364,29 @@ void MovingBomb::VUpdate()
             mVelX -= (GetSpriteScale() * FP_FromDouble(0.5));
             if (mVelX < FP_FromInteger(0))
             {
-                field_118_state = States::eWaitABit_4;
-                field_120_timer = sGnFrame + Math_RandomRange(field_12A_min, field_12C_max);
+                mState = States::eWaitABit_4;
+                mTimer = sGnFrame + Math_RandomRange(mMinStopTime, mMaxStopTime);
             }
 
             FollowLine();
             break;
 
         case States::eWaitABit_4:
-            if (field_120_timer <= static_cast<s32>(sGnFrame))
+            if (mTimer <= static_cast<s32>(sGnFrame))
             {
-                field_118_state = States::eToMoving_5;
+                mState = States::eToMoving_5;
             }
             break;
 
         case States::eToMoving_5:
-            if (mVelX < field_124_speed)
+            if (mVelX < mSpeed)
             {
                 mVelX += (GetSpriteScale() * FP_FromDouble(0.5));
             }
 
             FollowLine();
 
-            BaseAliveGameObjectPathTLV = sPathInfo->TLV_Get_At(
+            BaseAliveGameObjectPathTLV = gPathInfo->TLV_Get_At(
                 FP_GetExponent(mXPos),
                 FP_GetExponent(mYPos),
                 FP_GetExponent(mXPos),
@@ -395,12 +395,12 @@ void MovingBomb::VUpdate()
 
             if (!BaseAliveGameObjectPathTLV)
             {
-                field_118_state = States::eMoving_2;
+                mState = States::eMoving_2;
             }
             break;
 
         case States::eBlowingUp_6:
-            if (field_120_timer <= static_cast<s32>(sGnFrame))
+            if (mTimer <= static_cast<s32>(sGnFrame))
             {
                 SfxPlayMono(relive::SoundEffects::GreenTick, 100, GetSpriteScale());
 
@@ -421,14 +421,14 @@ void MovingBomb::VUpdate()
                     GetSpriteScale(),
                     0);
 
-                field_118_state = States::eKillMovingBomb_7;
+                mState = States::eKillMovingBomb_7;
                 GetAnimation().SetRender(false);
-                field_120_timer = sGnFrame + 4;
+                mTimer = sGnFrame + 4;
             }
             break;
 
         case States::eKillMovingBomb_7:
-            if (field_120_timer <= static_cast<s32>(sGnFrame))
+            if (mTimer <= static_cast<s32>(sGnFrame))
             {
                 SetDead(true);
             }

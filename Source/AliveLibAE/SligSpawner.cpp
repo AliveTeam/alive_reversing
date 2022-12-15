@@ -23,12 +23,12 @@ SligSpawner::SligSpawner(relive::Path_Slig* pTlv, const Guid& tlvId)
     mTlvInfo = tlvId;
     mPathTlv = *pTlv;
 
-    mSpawnerFlags.Set(SpawnerFlags::eBit1_DontDestroyTLV);
+    mDontDestroyTLV = true;
 
     mSligSpawnerSwitchId = pTlv->mData.mSligSpawnerSwitchId;
     mFindSpawnedSlig = 0;
 
-    mSpawnerFlags.Set(SpawnerFlags::eBit2_UnlimitedSpawns, pTlv->mData.mUnlimitedSpawns == relive::reliveChoice::eYes);
+    mUnlimitedSpawns = pTlv->mData.mUnlimitedSpawns == relive::reliveChoice::eYes ? true : false;
 
     mState = SpawnerStates::eInactive_0;
     mSpawnedSligId = Guid{};
@@ -36,7 +36,7 @@ SligSpawner::SligSpawner(relive::Path_Slig* pTlv, const Guid& tlvId)
 
 SligSpawner::~SligSpawner()
 {
-    if (mSpawnerFlags.Get(SpawnerFlags::eBit1_DontDestroyTLV))
+    if (mDontDestroyTLV)
     {
         Path::TLV_Reset(mTlvInfo, -1, 0, 0);
     }
@@ -99,7 +99,7 @@ void SligSpawner::VUpdate()
     {
         if (SwitchStates_Get(mSligSpawnerSwitchId))
         {
-            relive::Path_TLV* pSpawnerTlv = sPathInfo->TLV_Get_At(mPathTlv.mTopLeftX, mPathTlv.mTopLeftY, mPathTlv.mTopLeftX, mPathTlv.mTopLeftY, ReliveTypes::eSligSpawner);
+            relive::Path_TLV* pSpawnerTlv = gPathInfo->TLV_Get_At(mPathTlv.mTopLeftX, mPathTlv.mTopLeftY, mPathTlv.mTopLeftX, mPathTlv.mTopLeftY, ReliveTypes::eSligSpawner);
             if (pSpawnerTlv)
             {
                 auto pSligMem = relive_new Slig(static_cast<relive::Path_Slig*>(pSpawnerTlv), mTlvInfo);
@@ -112,10 +112,10 @@ void SligSpawner::VUpdate()
                 SfxPlayMono(relive::SoundEffects::SligSpawn, 0);
             }
 
-            if (!mSpawnerFlags.Get(SpawnerFlags::eBit2_UnlimitedSpawns))
+            if (!mUnlimitedSpawns)
             {
                 SetDead(true);
-                mSpawnerFlags.Clear(SpawnerFlags::eBit1_DontDestroyTLV);
+                mDontDestroyTLV = false;
             }
         }
     }
@@ -145,7 +145,7 @@ s32 SligSpawner::VGetSaveState(u8* pSaveBuffer)
 s32 SligSpawner::CreateFromSaveState(const u8* pBuffer)
 {
     auto pState = reinterpret_cast<const SligSpawnerSaveState*>(pBuffer);
-    auto pTlv = static_cast<relive::Path_Slig*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pState->mTlvId));
+    auto pTlv = static_cast<relive::Path_Slig*>(gPathInfo->TLV_From_Offset_Lvl_Cam(pState->mTlvId));
     auto pSpawner = relive_new SligSpawner(pTlv, pState->mTlvId);
     if (pSpawner)
     {

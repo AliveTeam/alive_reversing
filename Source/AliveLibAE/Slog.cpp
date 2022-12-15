@@ -328,7 +328,7 @@ s32 Slog::VGetSaveState(u8* pSaveBuffer)
 s32 Slog::CreateFromSaveState(const u8* pBuffer)
 {
     auto pState = reinterpret_cast<const SlogSaveState*>(pBuffer);
-    auto pTlv = static_cast<relive::Path_Slog*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pState->mSlogTlvId));
+    auto pTlv = static_cast<relive::Path_Slog*>(gPathInfo->TLV_From_Offset_Lvl_Cam(pState->mSlogTlvId));
 
     Slog* pSlog = nullptr;
     if (pState->mSlogTlvId == Guid{})
@@ -1412,9 +1412,9 @@ s16 Slog::Brain_ListeningToSligSaveState_2_Listening(const FP xpos1GridAHead, IB
     }
 
     GameSpeakEvents speakValue = GameSpeakEvents::eNone_m1;
-    if (field_134_last_event_index == gEventSystem->field_28_last_event_index)
+    if (field_134_last_event_index == gEventSystem->mLastEventIndex)
     {
-        if (gEventSystem->field_20_last_event == GameSpeakEvents::eNone_m1)
+        if (gEventSystem->mLastEvent == GameSpeakEvents::eNone_m1)
         {
             speakValue = GameSpeakEvents::eNone_m1;
         }
@@ -1425,8 +1425,8 @@ s16 Slog::Brain_ListeningToSligSaveState_2_Listening(const FP xpos1GridAHead, IB
     }
     else
     {
-        field_134_last_event_index = gEventSystem->field_28_last_event_index;
-        speakValue = gEventSystem->field_20_last_event;
+        field_134_last_event_index = gEventSystem->mLastEventIndex;
+        speakValue = gEventSystem->mLastEvent;
     }
 
     switch (speakValue)
@@ -1435,7 +1435,7 @@ s16 Slog::Brain_ListeningToSligSaveState_2_Listening(const FP xpos1GridAHead, IB
             DelayedResponse(2);
             return 6;
 
-        case GameSpeakEvents::Slig_Hi_27:
+        case GameSpeakEvents::eSlig_Hi_27:
             mWaitingCounter++;
             if (static_cast<s32>(sGnFrame) % 2)
             {
@@ -1443,12 +1443,12 @@ s16 Slog::Brain_ListeningToSligSaveState_2_Listening(const FP xpos1GridAHead, IB
             }
             [[fallthrough]];
 
-        case GameSpeakEvents::Slig_HereBoy_28:
+        case GameSpeakEvents::eSlig_HereBoy_28:
             mMultiUseTimer = sGnFrame - Math_NextRandom() % 8 + 15;
             mWaitingCounter++;
             break;
 
-        case GameSpeakEvents::Slig_GetEm_29:
+        case GameSpeakEvents::eSlig_GetEm_29:
         {
             auto pTarget = FindTarget(1, 0);
             if (pTarget)
@@ -1477,10 +1477,6 @@ s16 Slog::Brain_ListeningToSligSaveState_2_Listening(const FP xpos1GridAHead, IB
             }
             break;
         }
-
-        case GameSpeakEvents::eUnknown_33:
-            DelayedResponse(0);
-            return 6;
 
         default:
             break;
@@ -1596,10 +1592,10 @@ s16 Slog::Brain_1_Idle()
         mTargetId = Guid{};
     }
 
-    if (field_134_last_event_index != gEventSystem->field_28_last_event_index)
+    if (field_134_last_event_index != gEventSystem->mLastEventIndex)
     {
-        field_134_last_event_index = gEventSystem->field_28_last_event_index;
-        if (gEventSystem->field_20_last_event == GameSpeakEvents::Slig_HereBoy_28 && sControlledCharacter->Type() == ReliveTypes::eSlig)
+        field_134_last_event_index = gEventSystem->mLastEventIndex;
+        if (gEventSystem->mLastEvent == GameSpeakEvents::eSlig_HereBoy_28 && sControlledCharacter->Type() == ReliveTypes::eSlig)
         {
             mBrainState = 0;
             mTargetId = Guid{};
@@ -1808,10 +1804,10 @@ s16 Slog::Brain_2_ChasingAbe()
     auto pTarget = static_cast<IBaseAliveGameObject*>(sObjectIds.Find_Impl(mTargetId));
     if (mListenToSligs)
     {
-        if (field_134_last_event_index != gEventSystem->field_28_last_event_index)
+        if (field_134_last_event_index != gEventSystem->mLastEventIndex)
         {
-            field_134_last_event_index = gEventSystem->field_28_last_event_index;
-            if (gEventSystem->field_20_last_event == GameSpeakEvents::Slig_HereBoy_28 && sControlledCharacter->Type() == ReliveTypes::eSlig)
+            field_134_last_event_index = gEventSystem->mLastEventIndex;
+            if (gEventSystem->mLastEvent == GameSpeakEvents::eSlig_HereBoy_28 && sControlledCharacter->Type() == ReliveTypes::eSlig)
             {
                 mBrainState = 0;
                 mTargetId = Guid{};
@@ -2700,36 +2696,36 @@ u8** Slog::ResBlockForMotion(s16 motion)
     if (slogMotion < eSlogMotions::Motion_14_AngryBark)
     {
         field_130_motion_resource_block_index = 0;
-        return field_10_resources_array.ItemAt(field_130_motion_resource_block_index);
+        return mBaseGameObjectResArray.ItemAt(field_130_motion_resource_block_index);
     }
 
     if (slogMotion < eSlogMotions::Motion_18_JumpForwards)
     {
         field_130_motion_resource_block_index = 1;
-        return field_10_resources_array.ItemAt(field_130_motion_resource_block_index);
+        return mBaseGameObjectResArray.ItemAt(field_130_motion_resource_block_index);
     }
 
     if (slogMotion < eSlogMotions::Motion_21_Dying)
     {
         field_130_motion_resource_block_index = 2;
-        return field_10_resources_array.ItemAt(field_130_motion_resource_block_index);
+        return mBaseGameObjectResArray.ItemAt(field_130_motion_resource_block_index);
     }
 
     if (slogMotion < eSlogMotions::Motion_22_Scratch)
     {
         field_130_motion_resource_block_index = 3;
-        return field_10_resources_array.ItemAt(field_130_motion_resource_block_index);
+        return mBaseGameObjectResArray.ItemAt(field_130_motion_resource_block_index);
     }
 
     if (motion < 24) // last + 1
     {
         field_130_motion_resource_block_index = 4;
-        return field_10_resources_array.ItemAt(field_130_motion_resource_block_index);
+        return mBaseGameObjectResArray.ItemAt(field_130_motion_resource_block_index);
     }
     else
     {
         field_130_motion_resource_block_index = 0;
-        return field_10_resources_array.ItemAt(field_130_motion_resource_block_index);
+        return mBaseGameObjectResArray.ItemAt(field_130_motion_resource_block_index);
     }
 }
 
@@ -2767,7 +2763,7 @@ void Slog::Init()
     mHitByAbilityRing = false;
     mHungry = true;
 
-    mVisualFlags.Set(VisualFlags::eDoPurpleLightEffect);
+    SetDoPurpleLightEffect(true);
     GetAnimation().SetFnPtrArray(kSlog_Anim_Frame_Fns_55EFBC);
     mMultiUseTimer = 0;
     mBrainSubState = 0;
@@ -2864,7 +2860,7 @@ void Slog::VUpdate()
 
         const auto oldMotion = mCurrentMotion;
         mBrainSubState = InvokeMemberFunction(this, sSlogBrainTable, mBrainState);
-        if (sDDCheat_ShowAI_Info)
+        if (gDDCheat_ShowAI_Info)
         {
             DDCheat::DebugStr("Slog:  Motion=%d  BrainState=%d\n", mCurrentMotion, mBrainSubState);
         }
@@ -2876,7 +2872,7 @@ void Slog::VUpdate()
 
         if (oldXPos != mXPos || oldYPos != mYPos)
         {
-            BaseAliveGameObjectPathTLV = sPathInfo->TlvGetAt(
+            BaseAliveGameObjectPathTLV = gPathInfo->TlvGetAt(
                 nullptr,
                 mXPos,
                 mYPos,
@@ -2942,7 +2938,7 @@ void Slog::Sfx(SlogSound effectId)
     PSX_RECT pRect = {};
     gMap.Get_Camera_World_Rect(direction, &pRect);
 
-    const s16 defaultSndIdxVol = effectDef.field_C_default_volume;
+    const s16 defaultSndIdxVol = effectDef.mDefaultVolume;
     volumeRight = defaultSndIdxVol;
     switch (direction)
     {
@@ -2980,8 +2976,8 @@ void Slog::Sfx(SlogSound effectId)
             effectDef,
             volumeLeft,
             volumeRight,
-            effectDef.field_E_pitch_min + 1524,
-            effectDef.field_10_pitch_max + 1524);
+            effectDef.mPitchMin + 1524,
+            effectDef.mPitchMax + 1524);
     }
     else
     {
@@ -2989,8 +2985,8 @@ void Slog::Sfx(SlogSound effectId)
             effectDef,
             volumeLeft,
             volumeRight,
-            effectDef.field_E_pitch_min,
-            effectDef.field_10_pitch_max);
+            effectDef.mPitchMin,
+            effectDef.mPitchMax);
     }
 }
 
@@ -3272,7 +3268,7 @@ void Slog::VOnTlvCollision(relive::Path_TLV* pTlv)
             mHealth = FP_FromInteger(0);
             SetDead(true);
         }
-        pTlv = sPathInfo->TlvGetAt(pTlv, mXPos, mYPos, mXPos, mYPos);
+        pTlv = gPathInfo->TlvGetAt(pTlv, mXPos, mYPos, mXPos, mYPos);
     }
 }
 
@@ -3453,7 +3449,7 @@ s16 Slog::HandleEnemyStopper()
     }
 
     const auto stopperPath = static_cast<relive::Path_EnemyStopper*>(
-        sPathInfo->TLV_Get_At(
+        gPathInfo->TLV_Get_At(
             FP_GetExponent(xToUse), FP_GetExponent(mYPos),
             FP_GetExponent(width), FP_GetExponent(mYPos), ReliveTypes::eEnemyStopper));
 

@@ -24,7 +24,8 @@ public:
 public:
     s16 mCount = 0;
 private:
-    s16 field_12_flags = 0;
+    bool mThrowableTypeChanged = false;
+    bool mNewThrowableTypeLoaded = false;
 };
 
 extern ThrowableArray* gThrowableArray;

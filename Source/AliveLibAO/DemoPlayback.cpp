@@ -13,39 +13,38 @@ extern u8 sRandomSeed; //Math.cpp
 
 namespace AO {
 
-DemoPlayback::DemoPlayback(u8** ppPlaybackData, s32 bFromHandStone)
+DemoPlayback::DemoPlayback(u8** ppPlaybackData)
     : BaseGameObject(true, 0)
 {
     SetDrawable(false);
     SetSurviveDeathReset(true);
     SetType(ReliveTypes::eDemoPlayback);
-    field_1C_bFromHandStone = static_cast<s16>(bFromHandStone);
     gDDCheat_FlyingEnabled = false;
     if (gAttract == 0)
     {
-        field_18_ppRes = relive_new SaveData();
-        if (!field_18_ppRes)
+        mSaveData = relive_new SaveData();
+        if (!mSaveData)
         {
             SetDead(false);
         }
-        SaveGame::SaveToMemory(field_18_ppRes);
+        SaveGame::SaveToMemory(mSaveData);
     }
     else
     {
-        field_18_ppRes = nullptr;
+        mSaveData = nullptr;
     }
 
     auto pd = reinterpret_cast<PlaybackData*>(*ppPlaybackData);
     SaveGame::LoadFromMemory(&pd->saveData, 1);
     sRandomSeed = pd->randomSeed;
-    field_10_state = States::eState_0_Init;
-    field_14_ppDemoRes = ppPlaybackData;
+    mState = States::eInit_0;
+    mDemoRes = ppPlaybackData;
     SetUpdateDelay(1);
 }
 
 DemoPlayback::~DemoPlayback()
 {
-    relive_delete field_18_ppRes;
+    relive_delete mSaveData;
 }
 
 void DemoPlayback::VScreenChanged()
@@ -62,19 +61,19 @@ void DemoPlayback::VUpdate()
 {
     //nullsub_59(nullsub_59);
 
-    switch (field_10_state)
+    switch (mState)
     {
-        case States::eState_0_Init:
+        case States::eInit_0:
             sActiveHero->SetDrawable(true);
             sActiveHero->GetAnimation().SetRender(true);
 
-            Input().SetDemoRes(reinterpret_cast<u32**>(field_14_ppDemoRes));
+            Input().SetDemoRes(reinterpret_cast<u32**>(mDemoRes));
 
             SetDrawable(true);
-            field_10_state = States::eState_1_Playing;
+            mState = States::ePlaying_1;
             break;
 
-        case States::eState_1_Playing:
+        case States::ePlaying_1:
             if (!Input().IsDemoPlaying())
             {
                 if (gAttract)
@@ -89,21 +88,21 @@ void DemoPlayback::VUpdate()
                         gJoyResId = 0;
                     }
                     gMap.SetActiveCam(EReliveLevelIds::eMenu, 1, CameraIds::Menu::eMainMenu_1, CameraSwapEffects::eInstantChange_0, 0, 0);
-                    gMap.field_DC_free_all_anim_and_palts = 1;
+                    gMap.mFreeAllAnimAndPalts = true;
                 }
                 else
                 {
-                    SaveGame::LoadFromMemory(field_18_ppRes, 1);
+                    SaveGame::LoadFromMemory(mSaveData, 1);
                 }
 
-                field_10_state = States::eState_2_Done;
+                mState = States::eDone_2;
                 SetUpdateDelay(2);
                 SetDrawable(false);
                 SetDead(true);
             }
             break;
 
-        case States::eState_2_Done:
+        case States::eDone_2:
             SetDead(true);
             break;
     }

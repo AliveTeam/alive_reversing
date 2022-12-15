@@ -256,11 +256,11 @@ public:
     u16 mCamsOnX = 0;
     u16 mCamsOnY = 0;
     const PathData* mPathData = nullptr;
-    BinaryPath* field_10_ppRes = nullptr; // Non owning ptr
+    BinaryPath* mBinaryPath = nullptr; // Non owning ptr
 };
 
 enum class CameraPos : s16;
 
 void Stop_slig_sounds(CameraPos direction, s8 kZero);
 
-extern Path* sPathInfo;
+extern Path* gPathInfo;

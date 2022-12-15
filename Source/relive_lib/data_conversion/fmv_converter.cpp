@@ -62,7 +62,7 @@ private:
         Masher* pMasher = relive_new Masher;
         if (pMasher)
         {
-            *errCode = pMasher->Init_4E6770(pFileName);
+            *errCode = pMasher->Init(pFileName);
             if (*errCode)
             {
                 relive_delete pMasher;
@@ -102,7 +102,7 @@ private:
 
     void Masher_DecodeVideoFrame(Masher* pMasher, RGBA32* pSurface)
     {
-        pMasher->VideoFrameDecode_4E6C60(pSurface);
+        pMasher->VideoFrameDecode(pSurface);
     }
 
     void Masher_DeAlloc(Masher* pMasher)

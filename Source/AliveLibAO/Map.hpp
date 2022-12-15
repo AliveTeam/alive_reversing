@@ -135,16 +135,14 @@ public:
     s16 field_1E_door = 0;
     s16 mCamIdxOnX = 0;
     s16 mCamIdxOnY = 0;
-    u16 field_24_max_cams_x = 0;
-    u16 field_26_max_cams_y = 0;
-    s16 field_2A = 0;
-    FP_Point field_2C_camera_offset = {};
+    u16 mMaxCamsX = 0;
+    u16 mMaxCamsY = 0;
+    FP_Point mCameraOffset = {};
 
     const PathData* mPathData = nullptr;
-    s16 field_DA_bMapChanged = 0;
-    s16 field_DC_free_all_anim_and_palts = 0;
-    s16 field_DE = 0;
-    u8* field_E0_save_data = nullptr;
+    s16 mMapChanged = 0;
+    bool mFreeAllAnimAndPalts = false;
+    u8* mSaveData = nullptr;
 
     std::vector<std::unique_ptr<class BinaryPath>> mLoadedPaths;
 };
@@ -156,4 +154,4 @@ s32 MaxGridBlocks(FP scale);
 
 } // namespace AO
 
-extern s16 sMap_bDoPurpleLightEffect;
+extern bool gMap_bDoPurpleLightEffect;

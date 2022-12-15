@@ -332,7 +332,7 @@ void BeeSwarm::VUpdate()
 
                 if (pObjIter != mChaseTarget)
                 {
-                    if (pObjIter->field_EC_bBeesCanChase) // can be chased
+                    if (pObjIter->GetCanBeesChase()) // can be chased
                     {
                         const PSX_RECT objRect = pObjIter->VGetBoundingRect();
                         if (FP_FromInteger(objRect.x) <= mRectW && FP_FromInteger(objRect.w) >= mRectX && FP_FromInteger(objRect.h) >= mRectY && FP_FromInteger(objRect.y) <= mRectH)
@@ -494,8 +494,8 @@ void BeeSwarm::VUpdate()
         pBee->field_10_anim.SetRender(true);
         pBee->field_10_anim.SetBlending(true); // TODO: or higher byte
 
-        pBee->field_10_anim.field_68_anim_ptr = &GetAnimation();
-        pBee->field_10_anim.field_6C_scale = GetSpriteScale();
+        pBee->field_10_anim.mAnimPtr = &GetAnimation();
+        pBee->field_10_anim.mSpriteScale = GetSpriteScale();
 
         pBee->field_10_anim.SetRenderLayer(Layer::eLayer_MainMenuButtonBees_38);
 
@@ -535,10 +535,10 @@ void BeeSwarm::VRender(PrimHeader** ppOt)
     GetAnimation().SetRGB(mRGB.r, mRGB.g, mRGB.b);
     GetAnimation().SetSpriteScale(GetSpriteScale());
 
-    const auto campos_x_delta = pScreenManager->mCamPos->x - FP_FromInteger(pScreenManager->mCamXOff);
-    const auto campos_y_delta = pScreenManager->mCamPos->y - FP_FromInteger(pScreenManager->mCamYOff);
-    const auto cam_x_abs = pScreenManager->mCamPos->x + FP_FromInteger(pScreenManager->mCamXOff);
-    const auto cam_y_abs = pScreenManager->mCamPos->y + FP_FromInteger(pScreenManager->mCamYOff);
+    const auto campos_x_delta = gScreenManager->mCamPos->x - FP_FromInteger(gScreenManager->mCamXOff);
+    const auto campos_y_delta = gScreenManager->mCamPos->y - FP_FromInteger(gScreenManager->mCamYOff);
+    const auto cam_x_abs = gScreenManager->mCamPos->x + FP_FromInteger(gScreenManager->mCamXOff);
+    const auto cam_y_abs = gScreenManager->mCamPos->y + FP_FromInteger(gScreenManager->mCamYOff);
 
     PSX_Point xy = {32767, 32767};
     PSX_Point wh = {-32767, -32767};

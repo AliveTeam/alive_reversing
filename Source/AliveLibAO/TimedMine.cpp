@@ -39,7 +39,7 @@ TimedMine::TimedMine(relive::Path_TimedMine* pTlv, const Guid& tlvId)
     Animation_Init(GetAnimRes(AnimId::TimedMine_Idle));
 
     SetInteractive(true);
-    mTimedMineFlags.Clear(TimedMineFlags::eStickToLiftPoint);
+    mStickToLiftPoint = false;
     mSlappedMine = 0;
 
     if (pTlv->mScale == relive::reliveScale::eHalf)
@@ -146,9 +146,9 @@ void TimedMine::VRender(PrimHeader** ppOt)
             0))
     {
         mTickAnim.VRender(
-            FP_GetExponent(mXPos + FP_FromInteger(pScreenManager->mCamXOff) - pScreenManager->mCamPos->x),
-            FP_GetExponent(mYPos + FP_FromInteger(pScreenManager->mCamYOff - FP_GetExponent(GetSpriteScale() * FP_FromInteger(14)))
-                           - pScreenManager->mCamPos->y),
+            FP_GetExponent(mXPos + FP_FromInteger(gScreenManager->mCamXOff) - gScreenManager->mCamPos->x),
+            FP_GetExponent(mYPos + FP_FromInteger(gScreenManager->mCamYOff - FP_GetExponent(GetSpriteScale() * FP_FromInteger(14)))
+                           - gScreenManager->mCamPos->y),
             ppOt,
             0,
             0);
@@ -179,7 +179,7 @@ void TimedMine::StickToLiftPoint()
     FP hitX = {};
     FP hitY = {};
     PathLine* pLine = nullptr;
-    mTimedMineFlags.Set(TimedMineFlags::eStickToLiftPoint);
+    mStickToLiftPoint = true;
     if (sCollisions->Raycast(
             mXPos,
             mYPos - FP_FromInteger(20),
@@ -228,7 +228,7 @@ void TimedMine::VUpdate()
         SetDead(true);
     }
 
-    if (!mTimedMineFlags.Get(TimedMineFlags::eStickToLiftPoint))
+    if (!mStickToLiftPoint)
     {
         StickToLiftPoint();
     }

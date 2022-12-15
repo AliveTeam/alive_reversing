@@ -24,36 +24,36 @@ public:
 
     AnimResource mAnimRes;
 
-    bool GetIgnorePosOffset() const { return mIgnorePosOffset; }
+    const bool& GetIgnorePosOffset() const { return mIgnorePosOffset; }
     void SetIgnorePosOffset(bool val) { mIgnorePosOffset = val; }
-    bool GetLoopBackwards() const { return mLoopBackwards; }
+    const bool& GetLoopBackwards() const { return mLoopBackwards; }
     void SetLoopBackwards(bool val) { mLoopBackwards = val; }
-    bool GetIsLastFrame() const { return mIsLastFrame; }
+    const bool& GetIsLastFrame() const { return mIsLastFrame; }
     void SetIsLastFrame(bool val) { mIsLastFrame = val; }
-    bool GetBlending() const { return mBlending; }
+    const bool& GetBlending() const { return mBlending; }
     void SetBlending(bool val) { mBlending = val; }
-    bool GetSemiTrans() const { return mSemiTrans; }
+    const bool& GetSemiTrans() const { return mSemiTrans; }
     void SetSemiTrans(bool val) { mSemiTrans = val; }
-    bool GetForwardLoopCompleted() const { return mForwardLoopCompleted; }
+    const bool& GetForwardLoopCompleted() const { return mForwardLoopCompleted; }
     void SetForwardLoopCompleted(bool val) { mForwardLoopCompleted = val; }
-    bool GetLoop() const { return mLoop; }
+    const bool& GetLoop() const { return mLoop; }
     void SetLoop(bool val) { mLoop = val; }
-    bool GetSwapXY() const { return mSwapXY; }
+    const bool& GetSwapXY() const { return mSwapXY; }
     void SetSwapXY(bool val) { mSwapXY = val; }
-    bool GetFlipY() const { return mFlipY; }
+    const bool& GetFlipY() const { return mFlipY; }
     void SetFlipY(bool val) { mFlipY = val; }
     void ToggleFlipX() { mFlipX = !mFlipX; }
-    bool GetFlipX() const { return mFlipX; }
+    const bool& GetFlipX() const { return mFlipX; }
     void SetFlipX(bool val) { mFlipX = val; }
-    bool GetRender() const { return mRender; }
+    const bool& GetRender() const { return mRender; }
     void SetRender(bool val) { mRender = val; }
-    bool GetAnimate() const { return mAnimate; }
+    const bool& GetAnimate() const { return mAnimate; }
     void SetAnimate(bool val) { mAnimate = val; }
-    TPageAbr GetRenderMode() const { return mRenderMode; }
+    const TPageAbr& GetRenderMode() const { return mRenderMode; }
     void SetRenderMode(TPageAbr val) { mRenderMode = val; }
-    Layer GetRenderLayer() const { return mRenderLayer; }
+    const Layer& GetRenderLayer() const { return mRenderLayer; }
     void SetRenderLayer(Layer val) { mRenderLayer = val; }
-    u32 GetFrameChangeCounter() const { return mFrameChangeCounter; }
+    const u32& GetFrameChangeCounter() const { return mFrameChangeCounter; }
     void SetFrameChangeCounter(u32 val) { mFrameChangeCounter = val; }
     void SetRGB(s16 rValue, s16 gValue, s16 bValue) { mRgb.SetRGB(rValue, gValue, bValue); }
     void SetRGB(const RGB16& rgb) { mRgb = rgb; }

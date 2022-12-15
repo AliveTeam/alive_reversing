@@ -31,16 +31,15 @@ public:
         eBlowingUp_6 = 6,
         eKillMovingBomb_7 = 7
     };
-    States field_10C_state = States::eTriggeredByAlarm_0;
-    Guid field_110_tlvInfo;
-    s32 field_114_timer = 0;
-    FP field_118_speed = {};
-    u16 field_11C_switch_id = 0;
-    s16 field_11E_min = 0;
-    s16 field_120_max = 0;
-    s32 field_124_sound_channels = 0;
-    s16 field_128_disabled_resources = 0;
-    relive::reliveChoice field_12A_persist_offscreen = relive::reliveChoice::eNo;
+    States mState = States::eTriggeredByAlarm_0;
+    Guid mTlvId;
+    s32 mTimer = 0;
+    FP mSpeed = {};
+    u16 mStartMovingSwitchId = 0;
+    s16 mMinStopTime = 0;
+    s16 mMaxStopTime = 0;
+    s32 mChannelMask = 0;
+    relive::reliveChoice mPersistOffscreen = relive::reliveChoice::eNo;
 };
 
 } // namespace AO

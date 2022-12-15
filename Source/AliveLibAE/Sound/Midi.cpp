@@ -238,17 +238,17 @@ s32 SFX_SfxDefinition_Play_Mono(const relive::SfxDefinition& sfxDef, s32 volume,
 {
     if (!volume)
     {
-        volume = sfxDef.field_C_default_volume;
+        volume = sfxDef.mDefaultVolume;
     }
 
     if (pitch_min == 0x7FFF)
     {
-        pitch_min = sfxDef.field_E_pitch_min;
+        pitch_min = sfxDef.mPitchMin;
     }
 
     if (pitch_max == 0x7FFF)
     {
-        pitch_max = sfxDef.field_10_pitch_max;
+        pitch_max = sfxDef.mPitchMax;
     }
 
     if (volume < 1)
@@ -263,8 +263,8 @@ s32 SFX_SfxDefinition_Play_Mono(const relive::SfxDefinition& sfxDef, s32 volume,
     // Note: Inlined in psx
     auto ptr = GetMidiVars()->sLastLoadedSoundBlockInfo().lock();
     auto midiHandle = MIDI_Play_Single_Note_4CA1B0(
-        sfxDef.field_4_program | (ptr->mVabId << 8),
-        sfxDef.field_8_note << 8,
+        sfxDef.mProgram | (ptr->mVabId << 8),
+        sfxDef.mNote << 8,
         volume,
         volume);
 
@@ -305,7 +305,7 @@ void SFX_SetPitch_4CA510(const relive::SfxDefinition& pSfx, s32 channelsBits, s1
         {
             const s16 vabId = 0;   // Not used by target func
             const s16 program = 0; // Not used by target func
-            SsUtChangePitch_4FDF70(i, program, vabId, static_cast<s16>(pSfx.field_8_note), 0, static_cast<s16>(static_cast<s32>(pSfx.field_8_note) + v3), v4);
+            SsUtChangePitch_4FDF70(i, program, vabId, static_cast<s16>(pSfx.mNote), 0, static_cast<s16>(static_cast<s32>(pSfx.mNote) + v3), v4);
         }
     }
 }
@@ -365,12 +365,12 @@ s32 SFX_SfxDefinition_Play_Stereo(const relive::SfxDefinition& sfxDef, s16 volLe
 {
     if (pitch_min == 0x7FFF)
     {
-        pitch_min = sfxDef.field_E_pitch_min;
+        pitch_min = sfxDef.mPitchMin;
     }
 
     if (pitch_max == 0x7FFF)
     {
-        pitch_max = sfxDef.field_10_pitch_max;
+        pitch_max = sfxDef.mPitchMax;
     }
 
     if (volLeft < 10)
@@ -393,8 +393,8 @@ s32 SFX_SfxDefinition_Play_Stereo(const relive::SfxDefinition& sfxDef, s16 volLe
 
     // Note: Inlined in psx
     auto midiHandle = MIDI_Play_Single_Note_4CA1B0(
-        sfxDef.field_4_program | (GetMidiVars()->sLastLoadedSoundBlockInfo().lock()->mVabId << 8),
-        sfxDef.field_8_note << 8,
+        sfxDef.mProgram | (GetMidiVars()->sLastLoadedSoundBlockInfo().lock()->mVabId << 8),
+        sfxDef.mNote << 8,
         volLeft,
         volRight);
 

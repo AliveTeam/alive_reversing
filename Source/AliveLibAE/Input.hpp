@@ -11,11 +11,11 @@ void Input_SaveSettingsIni_Common();
 void Input_SaveSettingsIni_492840();
 void Input_DisableInputForPauseMenuAndDebug_4EDDC0();
 void Input_Init();
-void Input_SetKeyState_4EDD80(s32 key, s8 bIsDown);
+void Input_SetKeyState(s32 key, s8 bIsDown);
 bool Input_IsVKPressed_4EDD40(s32 key);
 u32 Input_GetLastPressedKey_492610();
 void Input_Reset_492660();
-u32 Input_IsChanting_45F260();
+u32 Input_IsChanting();
 void Input_Pads_Reset_4FA960();
 void Input_Init_Names_491870();
 const char_type* Input_GetButtonString_492530(const char_type* idx, s32 controllerType);
@@ -130,7 +130,7 @@ extern const InputCommands::Enum sInputKey_Chant;
 
 s32 Input_Remap_492680(InputCommands::Enum inputCmd);
 void Input_ResetBinding_4925A0(s32 input_command, s32 bIsGamePad);
-s32 Input_Read_Pad_4FA9C0(s32 padNum);
+s32 Input_Read_Pad(s32 padNum);
 
 
 enum PsxButtonBits : u32

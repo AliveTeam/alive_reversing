@@ -9,7 +9,7 @@
 
 ThrowableArray* gpThrowableArray = nullptr;
 
-void FreeResourceArray_49AEC0(DynamicArrayT<u8*>* pArray)
+void FreeResourceArray(DynamicArrayT<u8*>* pArray)
 {
     while (pArray->Size())
     {
@@ -18,12 +18,12 @@ void FreeResourceArray_49AEC0(DynamicArrayT<u8*>* pArray)
     }
 }
 
-void LoadRockTypes_49AB30(EReliveLevelIds levelNumber, u16 pathNumber)
+void LoadRockTypes(EReliveLevelIds levelNumber, u16 pathNumber)
 {
     bool bDoLoadingLoop = false;
-    const u8 throwableTypeIdx = Path_Get_Bly_Record(levelNumber, pathNumber)->field_C_overlay_id & 0xFF;
+    const u8 throwableTypeIdx = Path_Get_Bly_Record(levelNumber, pathNumber)->mOverlayId & 0xFF;
 
-    switch (throwable_types_55FAFC[throwableTypeIdx])
+    switch (gThrowableFromOverlayId[throwableTypeIdx])
     {
         case AETypes::eBone_11:
             break;
@@ -59,15 +59,12 @@ ThrowableArray::ThrowableArray()
     SetUpdatable(false);
     mCount = 0;
     gpThrowableArray = this;
-    field_22_flags.Clear(Flags_22::eBit1_Unknown);
-    field_22_flags.Clear(Flags_22::eBit2_Unknown);
-    field_22_flags.Clear(Flags_22::eBit3_Unknown);
 }
 
 ThrowableArray::~ThrowableArray()
 {
     gpThrowableArray = nullptr;
-    FreeResourceArray_49AEC0(&field_24_throwables);
+    FreeResourceArray(&field_24_throwables);
 }
 
 void ThrowableArray::Remove(s16 count)
@@ -75,10 +72,10 @@ void ThrowableArray::Remove(s16 count)
     mCount -= count;
     if (mCount > 0)
     {
-        if (field_22_flags.Get(Flags_22::eBit1_Unknown) && field_22_flags.Get(Flags_22::eBit2_Unknown))
+        if (mThrowableTypeChanged && mNewThrowableTypeLoaded)
         {
-            FreeResourceArray_49AEC0(&field_10_resources_array);
-            field_22_flags.Clear(Flags_22::eBit2_Unknown);
+            FreeResourceArray(&mBaseGameObjectResArray);
+            mNewThrowableTypeLoaded = false;
         }
     }
     else
@@ -89,11 +86,11 @@ void ThrowableArray::Remove(s16 count)
 
 void ThrowableArray::VUpdate()
 {
-    if (field_22_flags.Get(Flags_22::eBit1_Unknown))
+    if (mThrowableTypeChanged)
     {
-        LoadRockTypes_49AB30(gMap.mCurrentLevel, gMap.mCurrentPath);
+        LoadRockTypes(gMap.mCurrentLevel, gMap.mCurrentPath);
         Add(0);
-        field_22_flags.Clear(Flags_22::eBit1_Unknown);
+        mThrowableTypeChanged = false;
         SetUpdatable(false);
     }
 }
@@ -102,7 +99,7 @@ s32 ThrowableArray::VGetSaveState(u8* pSaveBuffer)
 {
     ThrowableArraySaveState* pState = reinterpret_cast<ThrowableArraySaveState*>(pSaveBuffer);
     pState->mType = ReliveTypes::eThrowableArray;
-    pState->field_2_item_count = mCount;
+    pState->mCount = mCount;
     return sizeof(ThrowableArraySaveState);
 }
 
@@ -110,12 +107,12 @@ void ThrowableArray::VScreenChanged()
 {
     if (gMap.mNextLevel != EReliveLevelIds::eMenu && gMap.mNextLevel != EReliveLevelIds::eCredits)
     {
-        if (throwable_types_55FAFC[gMap.mOverlayId] != throwable_types_55FAFC[gMap.GetOverlayId()])
+        if (gThrowableFromOverlayId[gMap.mOverlayId] != gThrowableFromOverlayId[gMap.GetOverlayId()])
         {
-            if (!(field_22_flags.Get(Flags_22::eBit1_Unknown)))
+            if (!mThrowableTypeChanged)
             {
                 SetUpdatable(true);
-                field_22_flags.Set(Flags_22::eBit1_Unknown);
+                mThrowableTypeChanged = true;
                 Remove(0);
             }
         }
@@ -133,21 +130,11 @@ void ThrowableArray::Add(s16 count)
         SetDead(false);
     }
 
-    if (mCount == 0)
+    if (mCount == 0 || mThrowableTypeChanged)
     {
-        if (!field_22_flags.Get(Flags_22::eBit3_Unknown))
+        if (!mNewThrowableTypeLoaded)
         {
-
-
-            field_22_flags.Set(Flags_22::eBit3_Unknown);
-        }
-    }
-
-    if (mCount == 0 || field_22_flags.Get(Flags_22::eBit1_Unknown))
-    {
-        if (!field_22_flags.Get(Flags_22::eBit2_Unknown))
-        {
-            switch (throwable_types_55FAFC[gMap.mOverlayId])
+            switch (gThrowableFromOverlayId[gMap.mOverlayId])
             {
                 case AETypes::eBone_11:
                     break;
@@ -168,7 +155,7 @@ void ThrowableArray::Add(s16 count)
                     break;
             }
 
-            field_22_flags.Set(Flags_22::eBit2_Unknown);
+            mNewThrowableTypeLoaded = true;
         }
     }
 
@@ -177,9 +164,9 @@ void ThrowableArray::Add(s16 count)
 
 s32 ThrowableArray::CreateFromSaveState(const u8* pState)
 {
-    LoadRockTypes_49AB30(gMap.mCurrentLevel, gMap.mCurrentPath);
+    LoadRockTypes(gMap.mCurrentLevel, gMap.mCurrentPath);
     auto pArray = relive_new ThrowableArray();
-    pArray->Add(reinterpret_cast<const ThrowableArraySaveState*>(pState)->field_2_item_count);
+    pArray->Add(reinterpret_cast<const ThrowableArraySaveState*>(pState)->mCount);
     return sizeof(ThrowableArraySaveState);
 }
 

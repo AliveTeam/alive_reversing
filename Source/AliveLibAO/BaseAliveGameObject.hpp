@@ -35,8 +35,8 @@ protected:
     bool InAirCollision(PathLine** ppLine, FP* hitX, FP* hitY, FP vely);
     BaseGameObject* FindObjectOfType(ReliveTypes typeToFind, FP xpos, FP ypos);
 
-    void UsePathTransScale_4020D0();
-    static void OnResourceLoaded_4019A0(BaseAliveGameObject* ppRes);
+    void UsePathTransScale();
+    static void OnResourceLoaded(BaseAliveGameObject* ppRes);
 };
 
 } // namespace AO

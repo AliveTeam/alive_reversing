@@ -17,6 +17,6 @@ private:
     const char_type* mFmvName = nullptr;
 };
 
-extern s32 sMovie_ref_count_9F309C;
+extern s32 gMovieRefCount;
 
 } // namespace AO

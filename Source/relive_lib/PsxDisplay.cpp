@@ -9,7 +9,7 @@
 PsxDisplay gPsxDisplay = {};
 
 
-void PSX_Calc_FrameSkip_4945D0()
+void PSX_Calc_FrameSkip()
 {
     static u32 delta_time_ring_buffer_5CA310[10] = {};
     static u32 sPreviousTime_5CA4C8 = 0;
@@ -29,100 +29,98 @@ void PSX_Calc_FrameSkip_4945D0()
 
     if (ticks <= 400)
     {
-        sbDisplayRenderFrame = 1;
+        gDisplayRenderFrame = true;
     }
     else
     {
-        sbDisplayRenderFrame = sbDisplayRenderFrame == 0;
+        gDisplayRenderFrame = gDisplayRenderFrame == false;
     }
 
     sLastTicks_5CA4CC = ticks;
     sPreviousTime_5CA4C8 = currentTime;
 
     // Override if frame skip is off
-    if (sCommandLine_NoFrameSkip)
+    if (gCommandLine_NoFrameSkip)
     {
-        sbDisplayRenderFrame = 1;
+        gDisplayRenderFrame = true;
     }
 }
 
 struct TextRecords final
 {
-    char_type field_0_src_txt[1024];
-    char_type field_400_dst_txt[1027];
+    char_type mSrcTxt[1024];
+    char_type mDstTxt[1027];
 };
-ALIVE_ASSERT_SIZEOF(TextRecords, 0x803);
 
 struct DebugTexts final
 {
-    u8 field_0_xMargin;
-    u8 field_1_yMargin;
-    u8 field_2_displayWidth;
-    u8 field_3_displayHeight;
-    u32 field_4_max_len;
-    TextRecords field_9_text;
+    u8 mMarginX;
+    u8 mMarginY;
+    u8 mDisplayWidth;
+    u8 mDisplayHeight;
+    u32 mMaxLength;
+    TextRecords mText;
 };
-ALIVE_ASSERT_SIZEOF(DebugTexts, 0x80C);
 
-s32 sFntCount_BD0F28 = 0;
-DebugTexts sTexts_C27640[4] = {};
+static s32 sFntCount = 0;
+static DebugTexts sDebugTexts[4] = {};
 
 void DebugFont_Reset_4F8B40()
 {
-    memset(sTexts_C27640, 0, sizeof(DebugTexts) * 4); // 8240u
-    sFntCount_BD0F28 = 0;
+    memset(sDebugTexts, 0, sizeof(DebugTexts) * 4); // 8240u
+    sFntCount = 0;
 }
 
 void DebugFont_Update_Text_4F8BE0(s32 idx)
 {
     if (idx >= 0 && idx <= 3)
     {
-        strcpy(sTexts_C27640[idx].field_9_text.field_400_dst_txt, sTexts_C27640[idx].field_9_text.field_0_src_txt);
-        sTexts_C27640[idx].field_9_text.field_0_src_txt[0] = 0;
+        strcpy(sDebugTexts[idx].mText.mDstTxt, sDebugTexts[idx].mText.mSrcTxt);
+        sDebugTexts[idx].mText.mSrcTxt[0] = 0;
     }
 }
 
-char_type sDebugFontTmpBuffer_BB47CC[600] = {};
-s16 sbDebugFontLoaded = 0;
-s32 sDebugTextIdx_BB47C8 = 0;
+static char_type sDebugFontTmpBuffer[600] = {};
+bool gDebugFontLoaded = false;
+static s32 sDebugTextIdx = 0;
 
 
 s32 DebugFont_Open_4F8AB0(u8 xMargin, u8 yMargin, u8 displayWidth, u8 displayHeight, u32 maxLenChars)
 {
-    const s32 idx = sFntCount_BD0F28;
-    if (sFntCount_BD0F28 == 4)
+    const s32 idx = sFntCount;
+    if (sFntCount == 4)
     {
         return -1;
     }
 
-    ++sFntCount_BD0F28;
+    ++sFntCount;
 
-    sTexts_C27640[idx].field_0_xMargin = xMargin;
-    sTexts_C27640[idx].field_1_yMargin = yMargin;
-    sTexts_C27640[idx].field_2_displayWidth = displayWidth;
-    sTexts_C27640[idx].field_3_displayHeight = displayHeight;
-    sTexts_C27640[idx].field_9_text.field_0_src_txt[0] = 0;
-    sTexts_C27640[idx].field_9_text.field_400_dst_txt[0] = 0;
+    sDebugTexts[idx].mMarginX = xMargin;
+    sDebugTexts[idx].mMarginY = yMargin;
+    sDebugTexts[idx].mDisplayWidth = displayWidth;
+    sDebugTexts[idx].mDisplayHeight = displayHeight;
+    sDebugTexts[idx].mText.mSrcTxt[0] = 0;
+    sDebugTexts[idx].mText.mDstTxt[0] = 0;
 
     s32 limitedMaxLen = maxLenChars;
     if (maxLenChars > 1023)
     {
         limitedMaxLen = 1023;
     }
-    sTexts_C27640[idx].field_4_max_len = limitedMaxLen;
+    sDebugTexts[idx].mMaxLength = limitedMaxLen;
     return idx;
 }
 
 s32 DebugFont_Init() // Font
 {
-    if (!sbDebugFontLoaded)
+    if (!gDebugFontLoaded)
     {
-        sbDebugFontLoaded = 1;
+        gDebugFontLoaded = true;
     }
     DebugFont_Reset_4F8B40();
-    sDebugTextIdx_BB47C8 = DebugFont_Open_4F8AB0(8, 16, static_cast<u8>(gPsxDisplay.mWidth), 200, 600u);
+    sDebugTextIdx = DebugFont_Open_4F8AB0(8, 16, static_cast<u8>(gPsxDisplay.mWidth), 200, 600u);
     //nullsub_7(sTextIdx_BB47C8);
-    sDebugFontTmpBuffer_BB47CC[0] = 0;
+    sDebugFontTmpBuffer[0] = 0;
     return 0;
 }
 
@@ -138,20 +136,20 @@ s32 DebugFont_Printf(s32 idx, const char_type* formatStr, ...)
 
     char_type buffer[1024] = {};
     vsprintf(buffer, formatStr, va);
-    strncat(sTexts_C27640[idx].field_9_text.field_0_src_txt, buffer, sTexts_C27640[idx].field_4_max_len);
-    return static_cast<s32>(strlen(sTexts_C27640[idx].field_9_text.field_0_src_txt));
+    strncat(sDebugTexts[idx].mText.mSrcTxt, buffer, sDebugTexts[idx].mMaxLength);
+    return static_cast<s32>(strlen(sDebugTexts[idx].mText.mSrcTxt));
 }
 
 void DebugFont_Flush()
 {
-    DebugFont_Printf(sDebugTextIdx_BB47C8, sDebugFontTmpBuffer_BB47CC);
-    DebugFont_Update_Text_4F8BE0(sDebugTextIdx_BB47C8);
-    sDebugFontTmpBuffer_BB47CC[0] = 0;
+    DebugFont_Printf(sDebugTextIdx, sDebugFontTmpBuffer);
+    DebugFont_Update_Text_4F8BE0(sDebugTextIdx);
+    sDebugFontTmpBuffer[0] = 0;
 }
 
 void PSX_DrawDebugTextBuffers()
 {
-    if (sFntCount_BD0F28 <= 0)
+    if (sFntCount <= 0)
     {
         return;
     }
@@ -160,12 +158,12 @@ void PSX_DrawDebugTextBuffers()
     {
         /*
         const LONG fontHeight = BMP_Get_Font_Height_4F21F0(pBmp);
-        for (s32 i = 0; i < sFntCount_BD0F28; i++)
+        for (s32 i = 0; i < sFntCount; i++)
         {
-            DebugTexts* pRecord = &sTexts_C27640[i];
-            const s32 xpos = rect.left + pRecord->field_0_xMargin;
-            s32 ypos = rect.top + pRecord->field_1_yMargin;
-            for (char_type* j = strtok(pRecord->field_9_text.field_400_dst_txt, "\n\r"); j; j = strtok(0, "\n\r"))
+            DebugTexts* pRecord = &sDebugTexts[i];
+            const s32 xpos = rect.left + pRecord->mMarginX;
+            s32 ypos = rect.top + pRecord->mMarginY;
+            for (char_type* j = strtok(pRecord->mText.mDstTxt, "\n\r"); j; j = strtok(0, "\n\r"))
             {
                 BMP_Draw_String_4F2230(pBmp, xpos, ypos, j);
                 ypos += fontHeight;
@@ -176,7 +174,7 @@ void PSX_DrawDebugTextBuffers()
 
 void PsxDisplay::Init()
 {
-    PSX_VSync_4F6170(0);
+    PSX_VSync(0);
 
     mBufferIndex = 0;
     mBitsPerPixel = 16;
@@ -202,7 +200,7 @@ void PsxDisplay::Init()
 
    // PSX_PutDispEnv_4F5890();
 
-    PSX_VSync_4F6170(0);
+    PSX_VSync(0);
 }
 
 void PsxDisplay::PutCurrentDispEnv()
@@ -210,30 +208,30 @@ void PsxDisplay::PutCurrentDispEnv()
     PSX_PutDispEnv_4F5890();
 }
 
-bool sCommandLine_NoFrameSkip = false;
-s32 sbDisplayRenderFrame = 1;
+bool gCommandLine_NoFrameSkip = false;
+bool gDisplayRenderFrame = true;
 
 void PsxDisplay::RenderOrderingTable()
 {
     if (mMaxBuffers <= 1)
     {
         // Single buffered rendering
-        PSX_Calc_FrameSkip_4945D0();
-        if (sCommandLine_NoFrameSkip)
+        PSX_Calc_FrameSkip();
+        if (gCommandLine_NoFrameSkip)
         {
             PSX_DrawOTag(mDrawEnvs[0].mOrderingTable);
         }
         else
         {
-            if (sbDisplayRenderFrame)
+            if (gDisplayRenderFrame)
             {
                 PSX_DrawOTag(mDrawEnvs[0].mOrderingTable);
             }
             else
             {
-                turn_off_rendering_BD0F20 = 1;
+                gTurnOffRendering = true;
             }
-            PSX_VSync_4F6170(2);
+            PSX_VSync(2);
         }
         PSX_PutDispEnv_4F58E0();
         PSX_ClearOTag(mDrawEnvs[0].mOrderingTable, mBufferSize);

@@ -161,7 +161,7 @@ FlyingSlig::FlyingSlig(relive::Path_FlyingSlig* pTlv, const Guid& tlvId)
     SetCanExplode(true);
 
     field_14C_timer = 0;
-    mVisualFlags.Set(VisualFlags::eDoPurpleLightEffect);
+    SetDoPurpleLightEffect(true);
 
     field_15C_voice_pitch_min = 45 * ((Math_NextRandom() % 5) - 2);
 
@@ -259,7 +259,7 @@ s32 FlyingSlig::CreateFromSaveState(const u8* pBuffer)
 {
     auto pSaveState = reinterpret_cast<const FlyingSligSaveState*>(pBuffer);
 
-    auto pTlv = static_cast<relive::Path_FlyingSlig*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pSaveState->field_3C_tlvInfo));
+    auto pTlv = static_cast<relive::Path_FlyingSlig*>(gPathInfo->TLV_From_Offset_Lvl_Cam(pSaveState->field_3C_tlvInfo));
 
     auto pFlyingSlig = relive_new FlyingSlig(pTlv, pSaveState->field_3C_tlvInfo);
     if (pFlyingSlig)
@@ -496,7 +496,7 @@ FlyingSlig::~FlyingSlig()
         }
     }
 
-    relive::Path_TLV* pTlv = sPathInfo->TLV_From_Offset_Lvl_Cam(field_148_tlvInfo);
+    relive::Path_TLV* pTlv = gPathInfo->TLV_From_Offset_Lvl_Cam(field_148_tlvInfo);
     if (pTlv)
     {
         if (pTlv->mTlvType != ReliveTypes::eSligGetWings && pTlv->mTlvType != ReliveTypes::eFlyingSligSpawner)
@@ -594,7 +594,7 @@ void FlyingSlig::sub_4348A0()
     sub_437C70(BaseAliveGameObjectCollisionLine);
     const s16 v5 = FP_GetExponent(mYPos - field_1A4_rect.y);
     const s16 v6 = FP_GetExponent(mXPos - field_1A4_rect.x);
-    field_194 = FP_FromInteger(Math_SquareRoot_Int_496E70(v5 * v5 + v6 * v6));
+    field_194 = FP_FromInteger(Math_SquareRoot_Int(v5 * v5 + v6 * v6));
     mUnknown2 = field_118_data.mFacing == relive::reliveXDirection::eLeft;
 }
 
@@ -691,7 +691,7 @@ void FlyingSlig::Movement()
     }
     else
     {
-        const s32 newVel = Math_SquareRoot_Int_496E70(FP_GetExponent((mVelY * mVelY) + (mVelX * mVelX)));
+        const s32 newVel = Math_SquareRoot_Int(FP_GetExponent((mVelY * mVelY) + (mVelX * mVelX)));
         if (FP_Abs(FP_FromInteger(newVel)) > FP_FromDouble(0.05))
         {
             mVelX = mVelX - ((mVelX / FP_FromInteger(newVel)) * field_2B4_max_slow_down) + field_184_xSpeed;
@@ -711,7 +711,7 @@ void FlyingSlig::Movement()
             }
         }
 
-        const FP v15 = FP_FromInteger(Math_SquareRoot_Int_496E70(FP_GetExponent((mVelY * mVelY) + (mVelX * mVelX))));
+        const FP v15 = FP_FromInteger(Math_SquareRoot_Int(FP_GetExponent((mVelY * mVelY) + (mVelX * mVelX))));
         if (v15 > field_2A8_max_x_speed)
         {
             mVelX = ((mVelX / v15) * field_2A8_max_x_speed);
@@ -867,7 +867,7 @@ s16 FlyingSlig::VTakeDamage(BaseGameObject* pFrom)
                 relive::Path_TLV* pTlv = nullptr;
                 do
                 {
-                    pTlv = sPathInfo->TlvGetAt(pTlv,
+                    pTlv = gPathInfo->TlvGetAt(pTlv,
                                                                  mXPos,
                                                                  FP_FromInteger(bRect.y),
                                                                  mXPos,
@@ -915,7 +915,7 @@ s16 FlyingSlig::VTakeDamage(BaseGameObject* pFrom)
         }
 
         case ReliveTypes::eElectricWall:
-            Slig_GameSpeak_SFX_4C04F0(SligSpeak::eHelp_10, 0, field_15C_voice_pitch_min, this);
+            Slig_GameSpeak_SFX(SligSpeak::eHelp_10, 0, field_15C_voice_pitch_min, this);
             break;
 
         case ReliveTypes::eGroundExplosion:
@@ -1134,13 +1134,13 @@ void FlyingSlig::Brain_12_Possessed()
 
     if (!mChanting)
     {
-        if (Input_IsChanting_45F260())
+        if (Input_IsChanting())
         {
             ToChantShake();
         }
     }
 
-    if (!Input_IsChanting_45F260())
+    if (!Input_IsChanting())
     {
         mChanting = false;
     }
@@ -1159,7 +1159,7 @@ void FlyingSlig::Brain_13_Possession()
 
 void FlyingSlig::Brain_14_DePossession()
 {
-    if (!Input_IsChanting_45F260())
+    if (!Input_IsChanting())
     {
         ToPlayerControlled();
         return;
@@ -1511,13 +1511,13 @@ void FlyingSlig::Motion_8_GameSpeak()
             switch (field_17D_next_speak)
             {
                 case SligSpeak::eHi_0:
-                    gEventSystem->PushEvent(GameSpeakEvents::Slig_Hi_27);
+                    gEventSystem->PushEvent(GameSpeakEvents::eSlig_Hi_27);
                     break;
                 case SligSpeak::eHereBoy_1:
-                    gEventSystem->PushEvent(GameSpeakEvents::Slig_HereBoy_28);
+                    gEventSystem->PushEvent(GameSpeakEvents::eSlig_HereBoy_28);
                     break;
                 case SligSpeak::eGetHim_2:
-                    gEventSystem->PushEvent(GameSpeakEvents::Slig_GetEm_29);
+                    gEventSystem->PushEvent(GameSpeakEvents::eSlig_GetEm_29);
                     break;
                 case SligSpeak::eLaugh_3:
                     gEventSystem->PushEvent(GameSpeakEvents::Slig_Laugh_8);
@@ -1532,13 +1532,13 @@ void FlyingSlig::Motion_8_GameSpeak()
                     gEventSystem->PushEvent(GameSpeakEvents::Slig_BS2_7);
                     break;
                 case SligSpeak::eFreeze_8:
-                    gEventSystem->PushEvent(GameSpeakEvents::Slig_Freeze_31);
+                    gEventSystem->PushEvent(GameSpeakEvents::eSlig_Freeze_31);
                     break;
                 default:
                     break;
             }
         }
-        Slig_GameSpeak_SFX_4C04F0(field_17D_next_speak, 0, field_160_voice_pitch_min, this);
+        Slig_GameSpeak_SFX(field_17D_next_speak, 0, field_160_voice_pitch_min, this);
         EventBroadcast(kEventSpeaking, this);
     }
     else if (GetAnimation().GetIsLastFrame())
@@ -2180,7 +2180,7 @@ void FlyingSlig::ThrowGrenade()
 
     if (IsPossessed() == 0 && Math_NextRandom() < 168u)
     {
-        Slig_GameSpeak_SFX_4C04F0(SligSpeak::eHereBoy_1, 0, field_15C_voice_pitch_min, this);
+        Slig_GameSpeak_SFX(SligSpeak::eHereBoy_1, 0, field_15C_voice_pitch_min, this);
     }
 }
 
@@ -2253,7 +2253,7 @@ void FlyingSlig::ToSpottedEnemy()
     }
     else
     {
-        Slig_GameSpeak_SFX_4C04F0(SligSpeak::eFreeze_8, 0, field_15C_voice_pitch_min, this);
+        Slig_GameSpeak_SFX(SligSpeak::eFreeze_8, 0, field_15C_voice_pitch_min, this);
         ToChase();
     }
 }
@@ -2296,7 +2296,7 @@ void FlyingSlig::ToChantShake()
 
 void FlyingSlig::ToPossesed()
 {
-    Slig_GameSpeak_SFX_4C04F0(SligSpeak::eHelp_10, 0, field_15C_voice_pitch_min, this);
+    Slig_GameSpeak_SFX(SligSpeak::eHelp_10, 0, field_15C_voice_pitch_min, this);
     SetMotionHelper(eFlyingSligMotions::Motion_9_Possession);
     SetBrain(&FlyingSlig::Brain_13_Possession);
     field_14C_timer = sGnFrame + 35;
@@ -2505,7 +2505,7 @@ s16 FlyingSlig::sub_437C70(PathLine* pLine)
 
     field_182_bound1 = FindLeftOrRightBound(field_1A4_rect.w, field_1A4_rect.h);
     field_180_bound2 = FindLeftOrRightBound(field_1A4_rect.x, field_1A4_rect.y);
-    field_1BC = Math_Tan_496F70(field_1A4_rect.y - field_1A4_rect.h, field_1A4_rect.w - field_1A4_rect.x);
+    field_1BC = Math_Tan(field_1A4_rect.y - field_1A4_rect.h, field_1A4_rect.w - field_1A4_rect.x);
 
     field_1C0 = field_1BC + FP_FromInteger(128);
 
@@ -2528,11 +2528,11 @@ ReliveTypes FlyingSlig::FindLeftOrRightBound(FP xOrY, FP wOrH)
     // TODO: Check left is really Abs'd.
     ReliveTypes found_type = ReliveTypes::eNone;
 
-    if (sPathInfo->TLV_Get_At(FP_GetExponent(FP_Abs(left)), FP_GetExponent(top), FP_GetExponent(right), FP_GetExponent(bottom), ReliveTypes::eSligBoundLeft))
+    if (gPathInfo->TLV_Get_At(FP_GetExponent(FP_Abs(left)), FP_GetExponent(top), FP_GetExponent(right), FP_GetExponent(bottom), ReliveTypes::eSligBoundLeft))
     {
         found_type = ReliveTypes::eSligBoundLeft;
     }
-    else if (sPathInfo->TLV_Get_At(FP_GetExponent(left), FP_GetExponent(top), FP_GetExponent(right), FP_GetExponent(bottom), ReliveTypes::eSligBoundRight))
+    else if (gPathInfo->TLV_Get_At(FP_GetExponent(left), FP_GetExponent(top), FP_GetExponent(right), FP_GetExponent(bottom), ReliveTypes::eSligBoundRight))
     {
         found_type = ReliveTypes::eSligBoundRight;
     }
@@ -2682,13 +2682,13 @@ s16 FlyingSlig::sub_436C60(PSX_RECT* pRect, s16 arg_4)
             FP sqrt2 = {};
             if (bRightInRect)
             {
-                sqrt1 = FP_FromInteger(Math_SquareRoot_Int_496E70(
+                sqrt1 = FP_FromInteger(Math_SquareRoot_Int(
                     FP_GetExponent(yOff1 - field_1A4_rect.y) * (FP_GetExponent(yOff1 - field_1A4_rect.y)) + FP_GetExponent(rRight - field_1A4_rect.x) * (FP_GetExponent(rRight - field_1A4_rect.x))));
             }
 
             if (bLeftInRect)
             {
-                const s32 sqrt2_int = Math_SquareRoot_Int_496E70(
+                const s32 sqrt2_int = Math_SquareRoot_Int(
                     FP_GetExponent(yOff2 - field_1A4_rect.y) * (FP_GetExponent(yOff2 - field_1A4_rect.y)) + FP_GetExponent(rLeft - field_1A4_rect.x) * (FP_GetExponent(rLeft - field_1A4_rect.x)));
 
                 sqrt2 = FP_FromInteger(sqrt2_int);
@@ -2836,7 +2836,7 @@ bool FlyingSlig::sub_436B20()
 
 void FlyingSlig::sub_4373B0()
 {
-    const FP calc = Math_Tan_496F70(mYPos - sControlledCharacter->mYPos, sControlledCharacter->mXPos - mXPos);
+    const FP calc = Math_Tan(mYPos - sControlledCharacter->mYPos, sControlledCharacter->mXPos - mXPos);
     FP value1 = FP_Abs(field_1BC - calc);
     if (value1 > FP_FromInteger(128))
     {
@@ -2921,7 +2921,7 @@ s16 FlyingSlig::CollisionUp(FP velY)
 
         if (static_cast<s32>(sGnFrame) > field_154_collision_reaction_timer)
         {
-            Slig_GameSpeak_SFX_4C04F0(sGnFrame & 1 ? SligSpeak::eOuch2_14 : SligSpeak::eOuch1_13, 127, Math_RandomRange(256, 512), this);
+            Slig_GameSpeak_SFX(sGnFrame & 1 ? SligSpeak::eOuch2_14 : SligSpeak::eOuch1_13, 127, Math_RandomRange(256, 512), this);
             field_154_collision_reaction_timer = (Math_NextRandom() & 3) + sGnFrame + 10;
             relive_new ParticleBurst(
                 mXPos,
@@ -2995,7 +2995,7 @@ s16 FlyingSlig::CollisionDown(FP velY)
 
         if (static_cast<s32>(sGnFrame) > field_154_collision_reaction_timer)
         {
-            Slig_GameSpeak_SFX_4C04F0(sGnFrame & 1 ? SligSpeak::eOuch2_14 : SligSpeak::eOuch1_13, 127, Math_RandomRange(256, 512), this);
+            Slig_GameSpeak_SFX(sGnFrame & 1 ? SligSpeak::eOuch2_14 : SligSpeak::eOuch1_13, 127, Math_RandomRange(256, 512), this);
             field_154_collision_reaction_timer = (Math_NextRandom() & 3) + sGnFrame + 10;
         }
 
@@ -3080,7 +3080,7 @@ s16 FlyingSlig::CollisionLeftRight(FP velX)
     {
         if (static_cast<s32>(sGnFrame) > field_154_collision_reaction_timer)
         {
-            Slig_GameSpeak_SFX_4C04F0(sGnFrame & 1 ? SligSpeak::eOuch2_14 : SligSpeak::eOuch1_13, 127, Math_RandomRange(256, 512), this);
+            Slig_GameSpeak_SFX(sGnFrame & 1 ? SligSpeak::eOuch2_14 : SligSpeak::eOuch1_13, 127, Math_RandomRange(256, 512), this);
             field_154_collision_reaction_timer = (Math_NextRandom() & 3) + sGnFrame + 10;
             relive_new ParticleBurst(sparkX, hitY + (FP_FromInteger(16) * GetSpriteScale()), 5u, GetSpriteScale(), BurstType::eSmallPurpleSparks_6, 9);
         }

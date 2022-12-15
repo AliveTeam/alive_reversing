@@ -32,11 +32,11 @@ Water::Water(relive::Path_Water* pTlv, const Guid& tlvId)
     field_108_bottom_right.x = pTlv->mBottomRightX;
     field_108_bottom_right.y = pTlv->mBottomRightY;
 
-    field_104_top_left.x += -FP_GetExponent(pScreenManager->CamXPos());
-    field_104_top_left.y += -FP_GetExponent(pScreenManager->CamYPos());
+    field_104_top_left.x += -FP_GetExponent(gScreenManager->CamXPos());
+    field_104_top_left.y += -FP_GetExponent(gScreenManager->CamYPos());
 
-    field_108_bottom_right.x += -FP_GetExponent(pScreenManager->CamXPos());
-    field_108_bottom_right.y += -FP_GetExponent(pScreenManager->CamYPos());
+    field_108_bottom_right.x += -FP_GetExponent(gScreenManager->CamXPos());
+    field_108_bottom_right.y += -FP_GetExponent(gScreenManager->CamYPos());
 
     field_124_tlv_data = *pTlv;
 
@@ -101,8 +101,8 @@ Water::Water(relive::Path_Water* pTlv, const Guid& tlvId)
             SetUV3(pPoly, u1, v1);
         }
 
-        field_100_screen_x = FP_GetExponent(mXPos - pScreenManager->CamXPos());
-        field_102_screen_y = FP_GetExponent(mYPos - pScreenManager->CamYPos());
+        field_100_screen_x = FP_GetExponent(mXPos - gScreenManager->CamXPos());
+        field_102_screen_y = FP_GetExponent(mYPos - gScreenManager->CamYPos());
 
         /*
         // TODO: Move to data conversion
@@ -206,8 +206,8 @@ void Water::Add_Water_Particle()
         const FP rand2 = FP_FromRaw(Math_NextRandom() << 8);
         const FP xRand = (rand2 * field_118_radius) + FP_FromInteger(1);
 
-        pWaterRes->field_0_xpos = (Math_Sine_496DD0(rand1) * xRand) + field_11C_centre;
-        pWaterRes->field_8_zpos = (Math_Cosine_496CD0(rand1) * rand2) * field_118_radius;
+        pWaterRes->field_0_xpos = (Math_Sine(rand1) * xRand) + field_11C_centre;
+        pWaterRes->field_8_zpos = (Math_Cosine(rand1) * rand2) * field_118_radius;
         pWaterRes->field_4_ypos = FP_FromInteger(field_104_top_left.y);
 
         pWaterRes->field_C_delta_x = field_134_emit_x_vel;
@@ -444,8 +444,8 @@ void Water::VUpdate()
 
                         if (!(old_splash_time % 4) && !field_13C_not_in_camera_count)
                         {
-                            relive_new Particle(FP_NoFractional(pWaterRes->field_0_xpos) + pScreenManager->CamXPos(),
-                                                              FP_NoFractional(pWaterRes->field_4_ypos) + pScreenManager->CamYPos() + FP_FromInteger(Math_NextRandom() % 4) - FP_FromInteger(2),
+                            relive_new Particle(FP_NoFractional(pWaterRes->field_0_xpos) + gScreenManager->CamXPos(),
+                                                              FP_NoFractional(pWaterRes->field_4_ypos) + gScreenManager->CamYPos() + FP_FromInteger(Math_NextRandom() % 4) - FP_FromInteger(2),
                                                                GetAnimRes(AnimId::WaterSplash));
                         }
                     }

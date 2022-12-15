@@ -31,25 +31,22 @@ u8 gRandomBytes[256] =
 
 u8 Math_NextRandom()
 {
-    return ::Math_NextRandom(); // Ae ver
+    return ::Math_NextRandom();
 }
 
 s16 Math_RandomRange(s16 min, s16 max)
 {
-    // AE_IMPLEMENTED();
     return ::Math_RandomRange(min, max);
 }
 
 FP Math_Sine(u8 v)
 {
-    // AE_IMPLEMENTED();
-    return Math_Sine_496DD0(v);
+    return ::Math_Sine(v);
 }
 
 FP Math_Cosine(u8 v)
 {
-    // AE_IMPLEMENTED();
-    return Math_Cosine_496CD0(v);
+    return ::Math_Cosine(v);
 }
 
 
@@ -77,10 +74,10 @@ s32 Math_Distance(s32 x1, s32 y1, s32 x2, s32 y2)
     }
 }
 
-s32 Math_SquareRoot_Int_4511B0(s32 a1)
+s32 Math_SquareRoot_Int(s32 v)
 {
     // AE_IMPLEMENTED();
-    return Math_SquareRoot_Int_496E70(a1);
+    return ::Math_SquareRoot_Int(v);
 }
 
 FP Math_SquareRoot_FP(FP v)

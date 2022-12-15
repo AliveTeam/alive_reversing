@@ -12,23 +12,23 @@ CircularFade::CircularFade(FP xpos, FP ypos, FP scale, s16 direction, s8 destroy
 {
     if (direction)
     {
-        field_1A8_fade_colour = 0;
+        mFadeColour = 0;
     }
     else
     {
-        field_1A8_fade_colour = 255;
+        mFadeColour = 255;
     }
 
     // NOTE: Inlined
     VFadeIn(static_cast<s8>(direction), destroyOnDone);
 
-    const u8 fade_rgb = static_cast<u8>((field_1A8_fade_colour * 60) / 100);
+    const u8 fade_rgb = static_cast<u8>((mFadeColour * 60) / 100);
     mRGB.SetRGB(fade_rgb, fade_rgb, fade_rgb);
 
     mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Circular_Fade));
     Animation_Init(GetAnimRes(AnimId::Circular_Fade));
 
-    mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
+    SetApplyShadowZoneColour(false);
 
     GetAnimation().SetBlending(false);
     SetSpriteScale(scale * FP_FromInteger(2));
@@ -38,23 +38,23 @@ CircularFade::CircularFade(FP xpos, FP ypos, FP scale, s16 direction, s8 destroy
     mYPos = ypos;
     GetAnimation().SetRenderMode(TPageAbr::eBlend_2);
     GetAnimation().SetRenderLayer(Layer::eLayer_FadeFlash_40);
-    mRGB.SetRGB(field_1A8_fade_colour, field_1A8_fade_colour, field_1A8_fade_colour);
+    mRGB.SetRGB(mFadeColour, mFadeColour, mFadeColour);
 
-    Init_SetTPage(&field_188_tPage[0], 0, 0, PSX_getTPage(TPageAbr::eBlend_2));
-    Init_SetTPage(&field_188_tPage[1], 0, 0, PSX_getTPage(TPageAbr::eBlend_2));
+    Init_SetTPage(&mTPages[0], PSX_getTPage(TPageAbr::eBlend_2));
+    Init_SetTPage(&mTPages[1], PSX_getTPage(TPageAbr::eBlend_2));
 }
 
 void CircularFade::VRender(PrimHeader** ppOt)
 {
-    const u8 fade_rgb = static_cast<u8>((field_1A8_fade_colour * 60) / 100);
+    const u8 fade_rgb = static_cast<u8>((mFadeColour * 60) / 100);
 
     mRGB.SetRGB(fade_rgb, fade_rgb, fade_rgb);
 
     GetAnimation().SetRGB(fade_rgb, fade_rgb, fade_rgb);
 
     GetAnimation().VRender(
-        FP_GetExponent(mXPos + (FP_FromInteger(pScreenManager->mCamXOff + mXOffset)) - pScreenManager->mCamPos->x),
-        FP_GetExponent(mYPos + (FP_FromInteger(pScreenManager->mCamYOff + mYOffset)) - pScreenManager->mCamPos->y),
+        FP_GetExponent(mXPos + (FP_FromInteger(gScreenManager->mCamXOff + mXOffset)) - gScreenManager->mCamPos->x),
+        FP_GetExponent(mYPos + (FP_FromInteger(gScreenManager->mCamYOff + mYOffset)) - gScreenManager->mCamPos->y),
         ppOt,
         0,
         0);
@@ -85,9 +85,9 @@ void CircularFade::VRender(PrimHeader** ppOt)
         frameRect.h = 240;
     }
 
-    const u8 fadeColour = static_cast<u8>(field_1A8_fade_colour);
+    const u8 fadeColour = static_cast<u8>(mFadeColour);
 
-    Poly_G4* pTile = &field_E8[gPsxDisplay.mBufferIndex];
+    Poly_G4* pTile = &mTile1[gPsxDisplay.mBufferIndex];
     PolyG4_Init(pTile);
     SetRGB0(pTile, fadeColour, fadeColour, fadeColour);
     SetRGB1(pTile, fadeColour, fadeColour, fadeColour);
@@ -98,7 +98,7 @@ void CircularFade::VRender(PrimHeader** ppOt)
     Poly_Set_SemiTrans(&pTile->mBase.header, 1);
     OrderingTable_Add(OtLayer(ppOt, GetAnimation().GetRenderLayer()), &pTile->mBase.header);
 
-    Poly_G4* pTile2_1 = &field_110[gPsxDisplay.mBufferIndex];
+    Poly_G4* pTile2_1 = &mTile2[gPsxDisplay.mBufferIndex];
     PolyG4_Init(pTile2_1);
     SetRGB0(pTile2_1, fadeColour, fadeColour, fadeColour);
     SetRGB1(pTile2_1, fadeColour, fadeColour, fadeColour);
@@ -109,7 +109,7 @@ void CircularFade::VRender(PrimHeader** ppOt)
     Poly_Set_SemiTrans(&pTile2_1->mBase.header, 1);
     OrderingTable_Add(OtLayer(ppOt, GetAnimation().GetRenderLayer()), &pTile2_1->mBase.header);
 
-    Poly_G4* pTile2 = &field_138[gPsxDisplay.mBufferIndex];
+    Poly_G4* pTile2 = &mTile3[gPsxDisplay.mBufferIndex];
     PolyG4_Init(pTile2);
     SetRGB0(pTile2, fadeColour, fadeColour, fadeColour);
     SetRGB1(pTile2, fadeColour, fadeColour, fadeColour);
@@ -120,7 +120,7 @@ void CircularFade::VRender(PrimHeader** ppOt)
     Poly_Set_SemiTrans(&pTile2->mBase.header, 1);
     OrderingTable_Add(OtLayer(ppOt, GetAnimation().GetRenderLayer()), &pTile2->mBase.header);
 
-    Poly_G4* pTile3 = &field_160[gPsxDisplay.mBufferIndex];
+    Poly_G4* pTile3 = &mTile4[gPsxDisplay.mBufferIndex];
     PolyG4_Init(pTile3);
     SetRGB0(pTile3, fadeColour, fadeColour, fadeColour);
     SetRGB1(pTile3, fadeColour, fadeColour, fadeColour);
@@ -130,9 +130,9 @@ void CircularFade::VRender(PrimHeader** ppOt)
 
     Poly_Set_SemiTrans(&pTile3->mBase.header, 1);
     OrderingTable_Add(OtLayer(ppOt, GetAnimation().GetRenderLayer()), &pTile3->mBase.header);
-    OrderingTable_Add(OtLayer(ppOt, GetAnimation().GetRenderLayer()), &field_188_tPage[gPsxDisplay.mBufferIndex].mBase);
+    OrderingTable_Add(OtLayer(ppOt, GetAnimation().GetRenderLayer()), &mTPages[gPsxDisplay.mBufferIndex].mBase);
 
-    if ((field_1A8_fade_colour == 255 && mFadeIn) || (field_1A8_fade_colour == 0 && !mFadeIn))
+    if ((mFadeColour == 255 && mFadeIn) || (mFadeColour == 0 && !mFadeIn))
     {
         mDone = true;
 
@@ -147,17 +147,17 @@ void CircularFade::VUpdate()
 {
     if (!mDone)
     {
-        field_1A8_fade_colour += field_1AA_speed;
+        mFadeColour += mSpeed;
         if (mFadeIn)
         {
-            if (field_1A8_fade_colour > 255)
+            if (mFadeColour > 255)
             {
-                field_1A8_fade_colour = 255;
+                mFadeColour = 255;
             }
         }
-        else if (field_1A8_fade_colour < 0)
+        else if (mFadeColour < 0)
         {
-            field_1A8_fade_colour = 0;
+            mFadeColour = 0;
         }
     }
 }
@@ -172,11 +172,11 @@ void CircularFade::VFadeIn(u8 direction, s8 destroyOnDone)
 
     if (mFadeIn)
     {
-        field_1AA_speed = 12;
+        mSpeed = 12;
     }
     else
     {
-        field_1AA_speed = -12;
+        mSpeed = -12;
     }
 }
 

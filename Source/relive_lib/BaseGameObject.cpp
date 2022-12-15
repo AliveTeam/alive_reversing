@@ -9,10 +9,10 @@
 #include "../AliveLibCommon/FatalError.hpp"
 
 DynamicArrayT<BaseGameObject>* gBaseGameObjects = nullptr;
-s32 sAccumulatedObjectCount_5C1BF4 = 0;
+s32 gAccumulatedObjectCount = 0;
 
 BaseGameObject::BaseGameObject(s16 bAddToObjectList, s16 resourceArraySize)
-    : field_10_resources_array(resourceArraySize)
+    : mBaseGameObjectResArray(resourceArraySize)
 {
     // Pre-allocate the array with nullptr entries so that it can be
     // used like a fixed size array in the derived type.
@@ -20,7 +20,7 @@ BaseGameObject::BaseGameObject(s16 bAddToObjectList, s16 resourceArraySize)
     // compile time sized array at some point.
     for (s32 i = 0; i < resourceArraySize; i++)
     {
-        field_10_resources_array.Push_Back(nullptr);
+        mBaseGameObjectResArray.Push_Back(nullptr);
     }
 
     SetType(ReliveTypes::eNone);
@@ -49,7 +49,7 @@ BaseGameObject::BaseGameObject(s16 bAddToObjectList, s16 resourceArraySize)
     mBaseGameObjectId = nextId;
     sObjectIds.Insert(nextId, this);
 
-    sAccumulatedObjectCount_5C1BF4++; // TODO: probably no longer needed
+    gAccumulatedObjectCount++; // TODO: probably no longer needed
 }
 
 BaseGameObject::~BaseGameObject()

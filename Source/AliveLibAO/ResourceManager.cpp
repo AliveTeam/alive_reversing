@@ -73,7 +73,7 @@ void ResourceManager::LoadingLoop(s16)
         }
 
         Odd_Sleep_48DD90(16u);
-        PSX_VSync_4F6170(0);
+        PSX_VSync(0);
 
         loading_ticks_5076A4++;
 

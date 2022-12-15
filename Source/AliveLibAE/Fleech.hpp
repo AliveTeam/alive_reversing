@@ -33,7 +33,7 @@ enum class FleechSound : u8
 
 struct FleechSaveState final
 {
-    ReliveTypes field_0_type;
+    ReliveTypes mType;
     s16 field_2;
     Guid field_4_obj_id;
     FP mXPos;
@@ -43,15 +43,15 @@ struct FleechSaveState final
     s16 mPathNumber;
     EReliveLevelIds mLvlNumber;
     FP mSpriteScale;
-    s16 mRingRed;
-    s16 mRingGreen;
-    s16 mRingBlue;
-    s16 field_26_bFlipX;
+    s16 mRed;
+    s16 mGreen;
+    s16 mBlue;
+    bool mFlipX;
     s16 field_28_current_motion;
     s16 field_2A_anim_current_frame;
     s16 field_2C_frame_change_counter;
-    s8 field_2E_bRender;
-    s8 field_2F_bDrawable;
+    bool mRender;
+    bool mDrawable;
     FP mHealth;
     s16 mCurrentMotion;
     s16 mNextMotion;
@@ -70,8 +70,8 @@ struct FleechSaveState final
     s16 mTongueDestinationX;
     s16 mTongueDestinationY;
     s16 field_5A;
-    s8 field_5C_tongue_active_flag;
-    s8 field_5D_render_flag;
+    bool mTongueActive;
+    bool mRenderTongue;
     s16 field_5E_brain_state;
     s16 field_60_state;
     s16 field_62;
@@ -272,13 +272,8 @@ private:
     s16 mTongueDestinationX = 0;
     s16 mTongueDestinationY = 0;
     s16 field_188 = 0;
-
-    enum TongueFlags
-    {
-        eTongueActive = 0x1,
-        eRender = 0x2,
-    };
-    BitField16<TongueFlags> mTongueFlags = {};
+    bool mTongueActive = false;
+    bool mRenderTongue = false;
     Poly_G4 mTonguePolys1[4][2] = {};
     Poly_G4 mTonguePolys2[4][2] = {};
     Prim_SetTPage field_40C[2] = {};

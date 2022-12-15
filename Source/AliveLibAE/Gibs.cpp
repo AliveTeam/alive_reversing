@@ -335,8 +335,8 @@ void Gibs::VRender(PrimHeader** ppOt)
     // Head part rendering
     BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
 
-   const FP camXPos = pScreenManager->CamXPos();
-    const FP camYPos = pScreenManager->CamYPos();
+   const FP camXPos = gScreenManager->CamXPos();
+    const FP camYPos = gScreenManager->CamYPos();
 
     for (s32 i = 0; i < mPartsUsedCount; i++)
     {

@@ -19,17 +19,15 @@ public:
     virtual void VScreenChanged() override;
 
 private:
-    s16 PlayerNearMe();
+    bool PlayerNearMe();
 
 private:
-    Guid field_F4_tlvInfo;
-    s16 field_F8_state = 0;
-    s16 field_FA_ok_switch_id = 0;
-    s16 field_FC_fail_switch_id = 0;
-    s32 field_100_last_event_idx = 0;
-    s16 field_114 = 0;
-    s16 field_116 = 0;
-    PSX_Point field_118_top_left = {};
-    PSX_Point field_11C_bottom_right = {};
-    s32 field_120_timer = 0;
+    Guid mTlvId;
+    s16 mState = 0; // TODO: state enum
+    s16 mOkSwitchId = 0;
+    s16 mFailSwitchId = 0;
+    s32 mLastEventIdx = 0;
+    PSX_Point mTlvTopLeft = {};
+    PSX_Point mTlvBottomRight = {};
+    s32 mTimer = 0;
 };

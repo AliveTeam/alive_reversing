@@ -12,8 +12,8 @@
 #include "GameAutoPlayer.hpp"
 
 
-static bool sAppIsActivated_BBBA00 = false;
-static TWindowHandleType sHwnd_BBB9F4 = nullptr;
+static bool sAppIsActivated = false;
+static TWindowHandleType sHwnd = nullptr;
 
 #if AUTO_SWITCH_CONTROLLER // OG Change - Used for Auto-switching active controller (gamepad/keyboard)
 static int totalConnectedJoysticks = 0;
@@ -31,7 +31,7 @@ void setSaveMenuOpen(bool val)
 
 TWindowHandleType Sys_GetHWnd()
 {
-    return sHwnd_BBB9F4;
+    return sHwnd;
 }
 
 bool Sys_IsAnyKeyDown()
@@ -53,7 +53,7 @@ bool Sys_IsMouseButtonDown(MouseButtons button)
     return !!(SDL_GetMouseState(nullptr, nullptr) & SDL_BUTTON(SDL_BUTTON_LEFT));
 }
 
-SoundEntry* sMovieSoundEntry_5CA230 = nullptr;
+SoundEntry* gMovieSoundEntry = nullptr;
 
 static s32 sdl_key_to_win32_vkey(SDL_Scancode key)
 {
@@ -508,9 +508,9 @@ static s32 sdl_key_to_win32_vkey(SDL_Scancode key)
 
 static bool bNeedToQuit = false;
 
-bool Sys_IsAppActive_4EDF30()
+bool Sys_IsAppActive()
 {
-    return sAppIsActivated_BBBA00;
+    return sAppIsActivated;
 }
 
 static void KeyDownEvent(SDL_Scancode scanCode)
@@ -575,17 +575,17 @@ static void KeyDownEvent(SDL_Scancode scanCode)
         const s32 vk = sdl_key_to_win32_vkey(scanCode);
         // LOG_INFO("Key down " << vk);
 
-        Input_SetKeyState_4EDD80(vk, 1);
+        Input_SetKeyState(vk, 1);
 
         if (vk == VK_F5)
         {
             LOG_INFO("Save next frame for %d", VK_F5);
-            sQuicksave_SaveNextFrame_5CA4D8 = 1;
+            gQuicksave_SaveNextFrame = true;
         }
         else if (vk == VK_F6)
         {
             LOG_INFO("Load next frame for %d", VK_F6);
-            sQuicksave_LoadNextFrame_5CA4D9 = 1;
+            gQuicksave_LoadNextFrame = true;
         }
         else if (vk == VK_F10)
         {
@@ -614,17 +614,17 @@ static void KeyUpEvent(SDL_Scancode scanCode)
 {
     const s32 vk = sdl_key_to_win32_vkey(scanCode);
     // LOG_INFO("Key up " << vk);
-    Input_SetKeyState_4EDD80(vk, 0);
+    Input_SetKeyState(vk, 0);
     sIsAKeyDown = false;
     sLastPressedKey = 0;
 }
 
 static void QuitEvent(bool isRecordedEvent, bool isRecording)
 {
-    if (sMovieSoundEntry_5CA230)
+    if (gMovieSoundEntry)
     {
 #if !USE_SDL2_SOUND
-        LPDIRECTSOUNDBUFFER pDSoundBuffer = sMovieSoundEntry_5CA230->field_4_pDSoundBuffer;
+        LPDIRECTSOUNDBUFFER pDSoundBuffer = gMovieSoundEntry->field_4_pDSoundBuffer;
         if (pDSoundBuffer)
         {
             pDSoundBuffer->Stop();
@@ -672,15 +672,15 @@ static void QuitEvent(bool isRecordedEvent, bool isRecording)
     }
 
 #if !USE_SDL2_SOUND
-    if (sMovieSoundEntry_5CA230 && sMovieSoundEntry_5CA230->field_4_pDSoundBuffer)
+    if (gMovieSoundEntry && gMovieSoundEntry->field_4_pDSoundBuffer)
     {
-        sMovieSoundEntry_5CA230->field_4_pDSoundBuffer->Play(0, 0, 1);
+        gMovieSoundEntry->field_4_pDSoundBuffer->Play(0, 0, 1);
     }
 #endif
 
     if (button == MessageBoxButton::eYes)
     {
-        // So Sys_PumpMessages_4EE4F4 thinks we got an quit
+        // So Sys_PumpMessages thinks we got an quit
         bNeedToQuit = true;
     }
     else
@@ -692,7 +692,7 @@ static void QuitEvent(bool isRecordedEvent, bool isRecording)
     }
 }
 
-s8 Sys_PumpMessages_4EE4F4()
+s8 Sys_PumpMessages()
 {
     GetGameAutoPlayer().SyncPoint(SyncPoints::PumpEventsStart);
 
@@ -797,11 +797,11 @@ s8 Sys_PumpMessages_4EE4F4()
         {
             if (event.window.type == SDL_WINDOWEVENT_FOCUS_GAINED)
             {
-                sAppIsActivated_BBBA00 = true;
+                sAppIsActivated = true;
             }
             else if (event.window.type == SDL_WINDOWEVENT_FOCUS_LOST)
             {
-                sAppIsActivated_BBBA00 = false;
+                sAppIsActivated = false;
             }
             else if (event.window.type == SDL_WINDOWEVENT_EXPOSED)
             {
@@ -846,7 +846,7 @@ s8 Sys_PumpMessages_4EE4F4()
 
 TWindowHandleType Sys_GetWindowHandle()
 {
-    return sHwnd_BBB9F4;
+    return sHwnd;
 }
 
 void Sys_SetWindowPos_4EE1B1(s32 width, s32 height)
@@ -857,24 +857,24 @@ void Sys_SetWindowPos_4EE1B1(s32 width, s32 height)
 
 void Sys_DestroyWindow()
 {
-    if (sHwnd_BBB9F4)
+    if (sHwnd)
     {
-        SDL_DestroyWindow(sHwnd_BBB9F4);
-        sHwnd_BBB9F4 = nullptr;
+        SDL_DestroyWindow(sHwnd);
+        sHwnd = nullptr;
     }
 }
 
 bool Sys_WindowClass_Register(LPCSTR lpWindowName, s32 x, s32 y, s32 nWidth, s32 nHeight, s32 extraAttributes)
 {
-    sHwnd_BBB9F4 = SDL_CreateWindow(lpWindowName, x, y, nWidth, nHeight, SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI | SDL_WINDOW_HIDDEN | extraAttributes);
-    if (sHwnd_BBB9F4)
+    sHwnd = SDL_CreateWindow(lpWindowName, x, y, nWidth, nHeight, SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI | SDL_WINDOW_HIDDEN | extraAttributes);
+    if (sHwnd)
     {
         Input_InitKeyStateArray_4EDD60();
 
         SDL_ShowCursor(SDL_DISABLE);
 
         // SDL will not send a window focused message on start up, so default to activated
-        sAppIsActivated_BBBA00 = true;
+        sAppIsActivated = true;
     }
-    return sHwnd_BBB9F4 != nullptr;
+    return sHwnd != nullptr;
 }

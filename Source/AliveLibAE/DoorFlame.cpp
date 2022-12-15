@@ -27,7 +27,7 @@ public:
         mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Door_FireBackgroundGlow));
         Animation_Init(GetAnimRes(AnimId::Door_FireBackgroundGlow));
 
-        mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
+        SetApplyShadowZoneColour(false);
 
         GetAnimation().SetBlending(false);
         GetAnimation().SetSemiTrans(true);
@@ -61,8 +61,8 @@ public:
         GetAnimation().Get_Frame_Width_Height(&frameW, &frameH);
         GetAnimation().Get_Frame_Offset(&xy.x, &xy.y);
 
-        const FP screenX = mXPos - pScreenManager->CamXPos();
-        const FP screenY = mYPos - pScreenManager->CamYPos();
+        const FP screenX = mXPos - gScreenManager->CamXPos();
+        const FP screenY = mYPos - gScreenManager->CamYPos();
 
         const FP frameWScaled = (FP_FromInteger(frameW) * GetSpriteScale());
         const FP frameHScaled = (FP_FromInteger(frameH) * GetSpriteScale());
@@ -131,7 +131,7 @@ public:
 
         GetAnimation().SetSemiTrans(true);
 
-        mVisualFlags.Set(VisualFlags::eApplyShadowZoneColour);
+        SetApplyShadowZoneColour(true);
         GetAnimation().SetRenderLayer(Layer::eLayer_Foreground_Half_17);
 
         mXPos = xpos;
@@ -143,7 +143,7 @@ public:
 
         for (auto& anim : mSparks)
         {
-            anim.field_14.field_68_anim_ptr = &GetAnimation();
+            anim.field_14.mAnimPtr = &GetAnimation();
 
             anim.field_14.SetRender(true);
             anim.field_14.SetBlending(true);
@@ -151,7 +151,7 @@ public:
             // TODO: clean this up
             const s32 rndLayer = static_cast<s32>(GetAnimation().GetRenderLayer()) + Math_RandomRange(-1, 1);
             anim.field_14.SetRenderLayer(static_cast<Layer>(rndLayer));
-            anim.field_14.field_6C_scale = GetSpriteScale();
+            anim.field_14.mSpriteScale = GetSpriteScale();
 
             anim.x = mXPos;
             anim.y = mYPos;
@@ -228,8 +228,8 @@ private:
                 GetAnimation().SetRGB(240, 32, 32);
 
                 GetAnimation().VRender(
-                    FP_GetExponent(mXPos - pScreenManager->CamXPos()),
-                    FP_GetExponent(mYPos - pScreenManager->CamYPos()),
+                    FP_GetExponent(mXPos - gScreenManager->CamXPos()),
+                    FP_GetExponent(mYPos - gScreenManager->CamYPos()),
                     ppOt,
                     0,
                     0);
@@ -239,13 +239,13 @@ private:
                     if (anim.field_12_bVisible)
                     {
                         // In screen bounds?
-                        if (anim.x >= pScreenManager->CamXPos() && anim.x <= pScreenManager->CamXPos() + FP_FromInteger(368))
+                        if (anim.x >= gScreenManager->CamXPos() && anim.x <= gScreenManager->CamXPos() + FP_FromInteger(368))
                         {
-                            if (anim.y >= pScreenManager->CamYPos() && anim.y <= pScreenManager->CamYPos() + FP_FromInteger(240))
+                            if (anim.y >= gScreenManager->CamYPos() && anim.y <= gScreenManager->CamYPos() + FP_FromInteger(240))
                             {
                                 anim.field_14.VRender(
-                                    FP_GetExponent(anim.x - pScreenManager->CamXPos()),
-                                    FP_GetExponent(anim.y - pScreenManager->CamYPos()),
+                                    FP_GetExponent(anim.x - gScreenManager->CamXPos()),
+                                    FP_GetExponent(anim.y - gScreenManager->CamYPos()),
                                     ppOt, 0, 0);
                             }
                         }
@@ -272,7 +272,7 @@ DoorFlame::DoorFlame(relive::Path_DoorFlame* pTlv, const Guid& tlvId)
     Animation_Init(GetAnimRes(AnimId::Fire));
 
     GetAnimation().SetSemiTrans(true);
-    mVisualFlags.Set(VisualFlags::eApplyShadowZoneColour);
+    SetApplyShadowZoneColour(true);
     GetAnimation().SetRenderLayer(Layer::eLayer_Foreground_Half_17);
     mFrameCount = static_cast<s16>(GetAnimation().Get_Frame_Count());
     GetAnimation().SetFrame(Math_RandomRange(0, mFrameCount - 1));

@@ -13,7 +13,7 @@
 #include "Path.hpp"
 #include "FixedPoint.hpp"
 
-const TintEntry sPullRingRopeTints_55FD1C[16] = {
+static const TintEntry sPullRingRopeTints[16] = {
     {EReliveLevelIds::eMenu, 127u, 127u, 127u},
     {EReliveLevelIds::eMines, 127u, 127u, 127u},
     {EReliveLevelIds::eNecrum, 127u, 127u, 127u},
@@ -47,17 +47,17 @@ PullRingRope::PullRingRope(relive::Path_PullRingRope* pTlv, const Guid& tlvId)
 
     Animation_Init(GetAnimRes(AnimId::PullRingRope_Idle));
 
-    SetTint(sPullRingRopeTints_55FD1C, gMap.mCurrentLevel);
+    SetTint(sPullRingRopeTints, gMap.mCurrentLevel);
 
     GetAnimation().SetSemiTrans(true);
     mXPos = FP_FromInteger((pTlv->mTopLeftX + pTlv->mBottomRightX) / 2);
     mYPos = FP_FromInteger(pTlv->mTopLeftY + 24);
 
-    field_102_switch_id = pTlv->mSwitchId;
-    field_104_action = pTlv->mAction;
-    field_110_tlvInfo = tlvId;
-    field_100_state = States::eIdle_0;
-    field_F4_stay_in_state_ticks = 0;
+    mSwitchId = pTlv->mSwitchId;
+    mAction = pTlv->mAction;
+    mTlvId = tlvId;
+    mState = States::eIdle_0;
+    mStayInStateTicks = 0;
 
     mYPos += FP_FromInteger(pTlv->mRopeLength);
 
@@ -76,10 +76,10 @@ PullRingRope::PullRingRope(relive::Path_PullRingRope* pTlv, const Guid& tlvId)
 
     mXPos = FP_FromInteger(SnapToXGrid(GetSpriteScale(), FP_GetExponent(mXPos)));
 
-    field_106_on_sound = pTlv->mOnSound;
-    field_108_off_sound = pTlv->mOffSound;
-    field_10A_sound_direction = pTlv->mSoundDirection;
-    field_FC_ring_puller_id = Guid{};
+    mOnSound = pTlv->mOnSound;
+    mOffSound = pTlv->mOffSound;
+    mSoundDirection = pTlv->mSoundDirection;
+    mRingPullerId = Guid{};
 
     auto pRope = relive_new Rope(FP_GetExponent(mXPos + FP_FromInteger(2)),
                               FP_GetExponent(mYPos) - pTlv->mRopeLength,
@@ -87,18 +87,18 @@ PullRingRope::PullRingRope(relive::Path_PullRingRope* pTlv, const Guid& tlvId)
                               GetSpriteScale());
     if (pRope)
     {
-        field_F8_rope_id = pRope->mBaseGameObjectId;
+        mRopeId = pRope->mBaseGameObjectId;
         pRope->mYPos = FP_NoFractional(mYPos - (GetSpriteScale() * FP_FromInteger(16)));
     }
 
-    mVisualFlags.Set(VisualFlags::eDoPurpleLightEffect);
+    SetDoPurpleLightEffect(true);
 }
 
 PullRingRope::~PullRingRope()
 {
-    Path::TLV_Reset(field_110_tlvInfo, -1, 0, 0);
+    Path::TLV_Reset(mTlvId, -1, 0, 0);
 
-    BaseGameObject* pRope = sObjectIds.Find(field_F8_rope_id, ReliveTypes::eRope);
+    BaseGameObject* pRope = sObjectIds.Find(mRopeId, ReliveTypes::eRope);
     if (pRope)
     {
         pRope->SetDead(true);
@@ -107,8 +107,8 @@ PullRingRope::~PullRingRope()
 
 void PullRingRope::VUpdate()
 {
-    auto pRingPuller = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(field_FC_ring_puller_id));
-    auto pRope = static_cast<Rope*>(sObjectIds.Find(field_F8_rope_id, ReliveTypes::eRope));
+    auto pRingPuller = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(mRingPullerId));
+    auto pRope = static_cast<Rope*>(sObjectIds.Find(mRopeId, ReliveTypes::eRope));
 
     if (EventGet(kEventDeathReset))
     {
@@ -118,10 +118,10 @@ void PullRingRope::VUpdate()
     // Invalidate ring puller if they've died
     if (pRingPuller && pRingPuller->GetDead())
     {
-        field_FC_ring_puller_id = Guid{};
+        mRingPullerId = Guid{};
     }
 
-    switch (field_100_state)
+    switch (mState)
     {
         case States::eBeingPulled_1:
             if (GetAnimation().GetCurrentFrame() == 2)
@@ -131,13 +131,13 @@ void PullRingRope::VUpdate()
 
             mYPos += mVelY;
             pRingPuller->mYPos += mVelY;
-            field_F4_stay_in_state_ticks--;
+            mStayInStateTicks--;
 
-            if (field_F4_stay_in_state_ticks == 0)
+            if (mStayInStateTicks == 0)
             {
                 mVelY = FP_FromInteger(0);
-                field_10C_is_pulled &= ~1u;
-                field_100_state = States::eTriggerEvent_2;
+                mIsPulled = false;
+                mState = States::eTriggerEvent_2;
 
                 if (gMap.mCurrentLevel == EReliveLevelIds::eMines || gMap.mCurrentLevel == EReliveLevelIds::eBonewerkz || gMap.mCurrentLevel == EReliveLevelIds::eFeeCoDepot || gMap.mCurrentLevel == EReliveLevelIds::eBarracks || gMap.mCurrentLevel == EReliveLevelIds::eBrewery)
                 {
@@ -147,26 +147,26 @@ void PullRingRope::VUpdate()
             break;
 
         case States::eTriggerEvent_2:
-            if (field_10C_is_pulled & 1)
+            if (mIsPulled)
             {
                 mVelY = FP_FromInteger(4) * GetSpriteScale();
-                field_FC_ring_puller_id = Guid{};
-                field_100_state = States::eReturnToIdle_3;
-                field_F4_stay_in_state_ticks = 3;
+                mRingPullerId = Guid{};
+                mState = States::eReturnToIdle_3;
+                mStayInStateTicks = 3;
                 GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::PullRingRope_UseEnd));
 
-                const s32 oldSwitchValue = SwitchStates_Get(field_102_switch_id);
-                SwitchStates_Do_Operation(field_102_switch_id, field_104_action);
-                if (oldSwitchValue != SwitchStates_Get(field_102_switch_id))
+                const s32 oldSwitchValue = SwitchStates_Get(mSwitchId);
+                SwitchStates_Do_Operation(mSwitchId, mAction);
+                if (oldSwitchValue != SwitchStates_Get(mSwitchId))
                 {
                     s32 leftVol = 0;
                     s32 rightVol = 0;
-                    if (field_10A_sound_direction == relive::Path_PullRingRope::PullRingSoundDirection::eLeft)
+                    if (mSoundDirection == relive::Path_PullRingRope::PullRingSoundDirection::eLeft)
                     {
                         leftVol = 1;
                         rightVol = 0;
                     }
-                    else if (field_10A_sound_direction == relive::Path_PullRingRope::PullRingSoundDirection::eRight)
+                    else if (mSoundDirection == relive::Path_PullRingRope::PullRingSoundDirection::eRight)
                     {
                         leftVol = 0;
                         rightVol = 1;
@@ -177,9 +177,9 @@ void PullRingRope::VUpdate()
                         rightVol = 1;
                     }
 
-                    if (SwitchStates_Get(field_102_switch_id))
+                    if (SwitchStates_Get(mSwitchId))
                     {
-                        switch (field_106_on_sound)
+                        switch (mOnSound)
                         {
                             case relive::Path_PullRingRope::PullRingSwitchSound::eNone:
                                 // don't play additional sound effects
@@ -197,7 +197,7 @@ void PullRingRope::VUpdate()
                     }
                     else
                     {
-                        switch (field_108_off_sound)
+                        switch (mOffSound)
                         {
                             case relive::Path_PullRingRope::PullRingSwitchSound::eNone:
                                 // don't play additional sound effects
@@ -219,11 +219,11 @@ void PullRingRope::VUpdate()
 
         case States::eReturnToIdle_3:
             mYPos -= mVelY;
-            field_F4_stay_in_state_ticks--;
-            if (field_F4_stay_in_state_ticks == 0)
+            mStayInStateTicks--;
+            if (mStayInStateTicks == 0)
             {
                 mVelY = FP_FromInteger(0);
-                field_100_state = States::eIdle_0;
+                mState = States::eIdle_0;
                 GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::PullRingRope_Idle));
             }
             break;
@@ -241,7 +241,7 @@ void PullRingRope::VUpdate()
 void PullRingRope::VScreenChanged()
 {
     // If the person pulling the rope is gone then so are we
-    if (!sObjectIds.Find_Impl(field_FC_ring_puller_id))
+    if (!sObjectIds.Find_Impl(mRingPullerId))
     {
         SetDead(true);
     }
@@ -249,15 +249,15 @@ void PullRingRope::VScreenChanged()
 
 s16 PullRingRope::VPull(BaseGameObject* pObj)
 {
-    if (!pObj || field_100_state != States::eIdle_0)
+    if (!pObj || mState != States::eIdle_0)
     {
         return 0;
     }
 
-    field_FC_ring_puller_id = pObj->mBaseGameObjectId;
-    field_100_state = States::eBeingPulled_1;
+    mRingPullerId = pObj->mBaseGameObjectId;
+    mState = States::eBeingPulled_1;
     mVelY = FP_FromInteger(2) * GetSpriteScale();
-    field_F4_stay_in_state_ticks = 6;
+    mStayInStateTicks = 6;
     GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::PullRingRope_UseBegin));
     SfxPlayMono(relive::SoundEffects::RingRopePull, 0);
     return 1;
@@ -265,10 +265,10 @@ s16 PullRingRope::VPull(BaseGameObject* pObj)
 
 bool PullRingRope::VIsNotBeingPulled()
 {
-    return field_100_state != States::eBeingPulled_1;
+    return mState != States::eBeingPulled_1;
 }
 
 void PullRingRope::VMarkAsPulled()
 {
-    field_10C_is_pulled |= 1u;
+    mIsPulled = true;
 }

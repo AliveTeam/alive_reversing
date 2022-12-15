@@ -27,19 +27,14 @@ public:
     s16 ApplysToScale(Scale scale);
 
     Guid mTlvId;
-    EReliveLevelIds field_14_level = EReliveLevelIds::eNone;
-    s16 field_16_path = 0;
-    s32 field_18_centre_x = 0;
-    s32 field_1A_centre_y = 0;
-    s16 field_1C_centre_mid_x = 0;
-    s16 field_1E_centre_mid_y = 0;
-    s16 field_20_mid_x = 0;
-    s16 field_22_mid_y = 0;
-    s16 field_24_id = 0;
+    s32 mCentreX = 0;
+    s32 mCentreY = 0;
+    s16 mCentreMidX = 0;
+    s16 mCentreMidY = 0;
+    s16 mMidX = 0;
+    s16 mMidY = 0;
     relive::Path_ShadowZone::Scale mScale = relive::Path_ShadowZone::Scale::eBoth;
-    FP field_28_r = {};
-    FP field_2C_g = {};
-    FP field_30_b = {};
+    FP mRed = {};
+    FP mGreen = {};
+    FP mBlue = {};
 };
-
-extern DynamicArrayT<ShadowZone>* sShadowZoneArray;

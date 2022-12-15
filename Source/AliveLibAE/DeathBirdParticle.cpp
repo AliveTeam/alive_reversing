@@ -29,7 +29,7 @@ DeathBirdParticle::DeathBirdParticle(FP xpos, FP ypos, s32 startTimer, bool play
     }
     else
     {
-        mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
+        SetApplyShadowZoneColour(false);
         GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
         SetSpriteScale(scale);
         GetAnimation().SetSpriteScale(scale);
@@ -96,7 +96,7 @@ void DeathBirdParticle::VUpdate()
             break;
     }
 
-    mXPos += FP_FromInteger(2) * Math_Sine_496DD0(mRandom);
+    mXPos += FP_FromInteger(2) * Math_Sine(mRandom);
     mYPos -= FP_FromInteger(2);
     mRandom += 5;
 }

@@ -6,63 +6,46 @@ enum class GameSpeakEvents : s16
 {
     eSameAsLast_m2 = -2,
     eNone_m1 = -1,
-    eUnknown_0 = 0,
-    eUnknown_1 = 1,
-    eUnknown_2 = 2,
-    eFart_3 = 3,
-    eUnknown_4 = 4,
+    eUnknown_0 = 0, // used
+    eUnknown_1 = 1, // used
+    eAbe_Fart_3 = 3,
     Slig_BS_5 = 5,
     Slig_LookOut_6 = 6,
     Slig_BS2_7 = 7,
     Slig_Laugh_8 = 8,
-    eHello_9 = 9,
-    eFollowMe_10 = 10,
-    eAnger_11 = 11,
-    eWait_12 = 12,
-    eUnknown_13 = 13,
-    eUnknown_14 = 14,
-    eUnknown_15 = 15,
-    eUnknown_16 = 16,
-    eUnknown_17 = 17,
-    eUnknown_18 = 18,
-    eUnknown_19 = 19,
-    eUnknown_20 = 20,
-    eWork_21 = 21,
-    eStopIt_22 = 22,
-    eAllYa_23 = 23,
-    eSorry_24 = 24,
-    eUnknown_25 = 25,
-    eUnknown_26 = 26,
-    Slig_Hi_27 = 27,
-    Slig_HereBoy_28 = 28,
-    Slig_GetEm_29 = 29,
-    eUnknown_30 = 30,
-    Slig_Freeze_31 = 31,
-    eUnknown_32 = 32,
-    eUnknown_33 = 33,
-    eUnknown_34 = 34,
-    eUnknown_35 = 35, //Glukkon_None_35?
-    Glukkon_Hey_36 = 36,
-    Glukkon_DoIt_37 = 37,
-    Glukkon_StayHere_38 = 38,
-    Glukkon_Commere_39 = 39,
-    Glukkon_AllOYa_40 = 40,
-    Glukkon_Heh_41 = 41,
-    Glukkon_Help_42 = 42,
-    Glukkon_Laugh_43 = 43,
-    Glukkon_KillEm_44 = 44,
-    Glukkon_Unknown_45 = 45,
-    Glukkon_Unknown_46 = 46,
-    Glukkon_What_47 = 47,
+    eAbe_Hello_9 = 9,
+    eAbe_FollowMe_10 = 10,
+    eAbe_Anger_11 = 11,
+    eAbe_Wait_12 = 12,
+    eAbe_Work_21 = 21,
+    eAbe_StopIt_22 = 22,
+    eAbe_AllYa_23 = 23,
+    eAbe_Sorry_24 = 24,
+    eSlig_Hi_27 = 27,
+    eSlig_HereBoy_28 = 28,
+    eSlig_GetEm_29 = 29,
+    eSlig_Freeze_31 = 31,
+    eGlukkon_None_35 = 35,
+    eGlukkon_Hey_36 = 36,
+    eGlukkon_DoIt_37 = 37,
+    eGlukkon_StayHere_38 = 38,
+    eGlukkon_Commere_39 = 39,
+    eGlukkon_AllOYa_40 = 40,
+    eGlukkon_Heh_41 = 41,
+    eGlukkon_Help_42 = 42,
+    eGlukkon_Laugh_43 = 43,
+    eGlukkon_KillEm_44 = 44,
+    eGlukkon_Unknown_45 = 45, // no sound
+    eGlukkon_What_47 = 47,
 
-    Paramite_Howdy_48 = 48,
-    Paramite_Stay_49 = 49,
-    Paramite_CMon_or_Attack_50 = 50,
-    Paramite_DoIt_51 = 51,
-    Paramite_AllYa_52 = 52,
+    eParamite_Howdy_48 = 48,
+    eParamite_Stay_49 = 49,
+    eParamite_CMon_or_Attack_50 = 50,
+    eParamite_DoIt_51 = 51,
+    eParamite_AllYa_52 = 52,
 
-    Scrab_Howl_53 = 53,
-    Scrab_Shriek_54 = 54,
+    eScrab_Howl_53 = 53,
+    eScrab_Shriek_54 = 54,
 };
 
 enum class GameSpeakMatch : s16
@@ -92,10 +75,10 @@ private:
     void PushEvent_Impl(GameSpeakEvents event);
 
 public:
-    GameSpeakEvents field_20_last_event = GameSpeakEvents::eUnknown_0;
-    u32 field_24_last_event_frame = 0;
-    s32 field_28_last_event_index = 0;
-    s8 field_2C_event_buffer[32] = {};
+    GameSpeakEvents mLastEvent = GameSpeakEvents::eUnknown_0;
+    u32 mLastEventFrame = 0;
+    s32 mLastEventIndex = 0;
+    s8 mEventBuffer[32] = {};
 };
 
 extern GameSpeak* gEventSystem;

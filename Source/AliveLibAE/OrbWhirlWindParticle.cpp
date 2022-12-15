@@ -132,8 +132,8 @@ void OrbWhirlWindParticle::Update()
                     const FP v25 = FP_FromInteger(16 - (mPositionTimer - sGnFrame)) / FP_FromInteger(16);
                     mXPosOffset2 = ((xpos - mXPosOffset) * v25) + mXPosOffset;
                     mYPosOffset2 = ((ypos - mYPosOffset) * v25) + mYPosOffset;
-                    mXPosMid = (FP_FromInteger(32) * mCurrentScale) * Math_Sine_496DF0(FP_FromInteger(128) * v25) + mXPosOffset2;
-                    mYPosMid = (FP_FromInteger(32) * mCurrentScale) * Math_Cosine_496D60(FP_FromInteger(128) * v25) + mYPosOffset2;
+                    mXPosMid = (FP_FromInteger(32) * mCurrentScale) * Math_Sine(FP_FromInteger(128) * v25) + mXPosOffset2;
+                    mYPosMid = (FP_FromInteger(32) * mCurrentScale) * Math_Cosine(FP_FromInteger(128) * v25) + mYPosOffset2;
                 }
                 else
                 {
@@ -158,7 +158,7 @@ void OrbWhirlWindParticle::Update()
                 mIsActive = true;
             }
 
-            mYPosMid = (mScaleOffsetSpinAtTarget * Math_Cosine_496D60((FP_FromInteger(128) * FP_FromInteger(32 - (mPositionTimer - sGnFrame)) / FP_FromInteger(32)))) + mYPosOffset2;
+            mYPosMid = (mScaleOffsetSpinAtTarget * Math_Cosine((FP_FromInteger(128) * FP_FromInteger(32 - (mPositionTimer - sGnFrame)) / FP_FromInteger(32)))) + mYPosOffset2;
             mRadiusX -= mRadiusOffsetX;
             CalculateRenderProperties(1);
             break;
@@ -178,25 +178,25 @@ void OrbWhirlWindParticle::Update()
 
 void OrbWhirlWindParticle::Render(PrimHeader** ppOt)
 {
-    const FP x = std::min(pScreenManager->CamXPos(),
-                          pScreenManager->CamXPos() + FP_FromInteger(367));
+    const FP x = std::min(gScreenManager->CamXPos(),
+                          gScreenManager->CamXPos() + FP_FromInteger(367));
 
-    const FP w = std::max(pScreenManager->CamXPos(),
-                          pScreenManager->CamXPos() + FP_FromInteger(367));
+    const FP w = std::max(gScreenManager->CamXPos(),
+                          gScreenManager->CamXPos() + FP_FromInteger(367));
 
-    const FP y = std::min(pScreenManager->CamYPos(),
-                          pScreenManager->CamYPos() + FP_FromInteger(239));
+    const FP y = std::min(gScreenManager->CamYPos(),
+                          gScreenManager->CamYPos() + FP_FromInteger(239));
 
-    const FP h = std::max(pScreenManager->CamYPos(),
-                          pScreenManager->CamYPos() + FP_FromInteger(239));
+    const FP h = std::max(gScreenManager->CamYPos(),
+                          gScreenManager->CamYPos() + FP_FromInteger(239));
 
     if (mXPosRenderOffset >= x && mXPosRenderOffset <= w)
     {
         if (mYPosRenderOffset + FP_FromInteger(5) >= y && mYPosRenderOffset + FP_FromInteger(5) <= h)
         {
             mAnim.SetSpriteScale(mRenderAsScale);
-            const FP xpos = mXPosRenderOffset - pScreenManager->CamXPos();
-            const FP ypos = mYPosRenderOffset - pScreenManager->CamYPos() + FP_FromInteger(5);
+            const FP xpos = mXPosRenderOffset - gScreenManager->CamXPos();
+            const FP ypos = mYPosRenderOffset - gScreenManager->CamYPos() + FP_FromInteger(5);
 
             mAnim.VRender(
                 FP_GetExponent(xpos),
@@ -230,8 +230,8 @@ void OrbWhirlWindParticle::CalculateRenderProperties(s16 bStarted)
         mRadiusX += FP_FromInteger(4);
     }
 
-    mXPosRenderOffset = ((mCurrentScale * mRadiusX) * Math_Sine_496DD0(static_cast<u8>(mRenderAngle))) + mXPosMid;
-    mYPosRenderOffset = ((mCurrentScale * mRadiusY) * Math_Cosine_496CD0(static_cast<u8>(mRenderAngle))) + mYPosMid;
+    mXPosRenderOffset = ((mCurrentScale * mRadiusX) * Math_Sine(static_cast<u8>(mRenderAngle))) + mXPosMid;
+    mYPosRenderOffset = ((mCurrentScale * mRadiusY) * Math_Cosine(static_cast<u8>(mRenderAngle))) + mYPosMid;
     mRenderAsScale = mCurrentScale * mRandomScale;
 
     if (mCurrentScale > FP_FromDouble(0.599)) // TODO: Check VS 39321

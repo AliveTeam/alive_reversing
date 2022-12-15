@@ -51,9 +51,9 @@ public:
 };
 
 extern PsxDisplay gPsxDisplay;
-extern bool sCommandLine_NoFrameSkip;
-extern s16 sbDebugFontLoaded;
-extern s32 sbDisplayRenderFrame;
+extern bool gCommandLine_NoFrameSkip;
+extern bool gDebugFontLoaded;
+extern bool gDisplayRenderFrame;
 
 void DebugFont_Flush();
 s32 DebugFont_Printf(s32 idx, const char_type* formatStr, ...);

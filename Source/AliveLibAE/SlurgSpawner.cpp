@@ -30,7 +30,7 @@ SlurgSpawner::SlurgSpawner(relive::Path_SlurgSpawner* pTlv, const Guid& tlvId)
 
 void SlurgSpawner::VUpdate()
 {
-    if (sDDCheat_ShowAI_Info)
+    if (gDDCheat_ShowAI_Info)
     {
         DDCheat::DebugStr("SPAWNER EXISTS/n");
     }

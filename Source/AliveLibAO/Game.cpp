@@ -47,11 +47,6 @@ s16 gAttract = 0;
 
 s8 gDDCheatOn = 0;
 
-s32 Game_End_Frame_4505D0(u32 bSkip)
-{
-    return Game_End_Frame_4950F0(bSkip);
-}
-
 void Main_ParseCommandLineArguments(const char_type* pCommandLine)
 {
     IO_Init_494230();
@@ -70,7 +65,7 @@ void Main_ParseCommandLineArguments(const char_type* pCommandLine)
 
     VGA_CreateRenderer(WindowTitleAO());
 
-    PSX_EMU_SetCallBack_4F9430(Game_End_Frame_4505D0);
+    PSX_EMU_SetCallBack_4F9430(Game_End_Frame);
 }
 
 void Init_GameStates()
@@ -224,7 +219,7 @@ void Game_Loop()
         GetGameAutoPlayer().SyncPoint(SyncPoints::DrawAllEnd);
 
         DebugFont_Flush();
-        pScreenManager->VRender(ppOt);
+        gScreenManager->VRender(ppOt);
         SYS_EventsPump(); // Exit checking?
 
         GetGameAutoPlayer().SyncPoint(SyncPoints::RenderOT);
@@ -276,7 +271,7 @@ void Game_Loop()
 
     } // Main loop end
 
-    PSX_VSync_4F6170(0);
+    PSX_VSync(0);
 
     // Destroy all game objects
     for (s32 i = 0; i < gBaseGameObjects->Size(); i++)

@@ -10,7 +10,7 @@ PossessionFlicker::PossessionFlicker(IBaseAliveGameObject* pToApplyFlicker, s32 
  : BaseGameObject(true, 0)
 {
     SetType(ReliveTypes::ePossessionFlicker);
-    field_30_obj_id = pToApplyFlicker->mBaseGameObjectId;
+    mTargetObjId = pToApplyFlicker->mBaseGameObjectId;
 
     // Check if another PossessionFlicker is already applying flicker to pToApplyFlicker
     for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
@@ -21,46 +21,46 @@ PossessionFlicker::PossessionFlicker(IBaseAliveGameObject* pToApplyFlicker, s32 
             break;
         }
 
-        if (pObj != this && pObj->Type() == ReliveTypes::ePossessionFlicker && static_cast<PossessionFlicker*>(pObj)->ObjectId() == field_30_obj_id)
+        if (pObj != this && pObj->Type() == ReliveTypes::ePossessionFlicker && static_cast<PossessionFlicker*>(pObj)->ObjectId() == mTargetObjId)
         {
             // It is so don't store the id as the first update will destroy this object
-            field_30_obj_id = Guid{};
+            mTargetObjId = Guid{};
             return;
         }
     }
 
-    field_24_r = static_cast<s16>(r);
-    field_26_g = static_cast<s16>(g);
-    field_28_b = static_cast<s16>(b);
+    mNewRed = static_cast<s16>(r);
+    mNewGreen = static_cast<s16>(g);
+    mNewBlue = static_cast<s16>(b);
 
-    field_2A_old_r = pToApplyFlicker->mRGB.r;
-    field_2C_old_g = pToApplyFlicker->mRGB.g;
-    field_2E_old_b = pToApplyFlicker->mRGB.b;
+    mOldRed = pToApplyFlicker->mRGB.r;
+    mOldGreen = pToApplyFlicker->mRGB.g;
+    mOldBlue = pToApplyFlicker->mRGB.b;
 
     pToApplyFlicker->GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
 
-    field_20_time_to_flicker = duration + sGnFrame;
+    mTimeToFlicker = duration + sGnFrame;
 }
 
 PossessionFlicker::~PossessionFlicker()
 {
     // Restore the original non flickering colour
-    BaseAnimatedWithPhysicsGameObject* pToApplyFlicker = static_cast<BaseAnimatedWithPhysicsGameObject*>(sObjectIds.Find_Impl(field_30_obj_id));
+    BaseAnimatedWithPhysicsGameObject* pToApplyFlicker = static_cast<BaseAnimatedWithPhysicsGameObject*>(sObjectIds.Find_Impl(mTargetObjId));
     if (pToApplyFlicker)
     {
         pToApplyFlicker->GetAnimation().SetRenderMode(TPageAbr::eBlend_0);
-        pToApplyFlicker->mRGB.SetRGB(field_2A_old_r, field_2C_old_g, field_2E_old_b);
+        pToApplyFlicker->mRGB.SetRGB(mOldRed, mOldGreen, mOldBlue);
     }
 }
 
 Guid PossessionFlicker::ObjectId() const
 {
-    return field_30_obj_id;
+    return mTargetObjId;
 }
 
 void PossessionFlicker::VScreenChanged()
 {
-    if (!sObjectIds.Find_Impl(field_30_obj_id))
+    if (!sObjectIds.Find_Impl(mTargetObjId))
     {
         SetDead(true);
     }
@@ -68,8 +68,8 @@ void PossessionFlicker::VScreenChanged()
 
 void PossessionFlicker::VUpdate()
 {
-    BaseAnimatedWithPhysicsGameObject* pToApplyFlicker = static_cast<BaseAnimatedWithPhysicsGameObject*>(sObjectIds.Find_Impl(field_30_obj_id));
-    if (!pToApplyFlicker || static_cast<s32>(sGnFrame) > field_20_time_to_flicker)
+    BaseAnimatedWithPhysicsGameObject* pToApplyFlicker = static_cast<BaseAnimatedWithPhysicsGameObject*>(sObjectIds.Find_Impl(mTargetObjId));
+    if (!pToApplyFlicker || static_cast<s32>(sGnFrame) > mTimeToFlicker)
     {
         SetDead(true);
         return;
@@ -78,11 +78,11 @@ void PossessionFlicker::VUpdate()
     if (sGnFrame % 2)
     {
         // Flicker to original colour
-        pToApplyFlicker->mRGB.SetRGB(field_24_r, field_26_g, field_28_b);
+        pToApplyFlicker->mRGB.SetRGB(mNewRed, mNewGreen, mNewBlue);
     }
     else
     {
         // Flicker to new colour
-        pToApplyFlicker->mRGB.SetRGB(field_2A_old_r, field_2C_old_g, field_2E_old_b);
+        pToApplyFlicker->mRGB.SetRGB(mOldRed, mOldGreen, mOldBlue);
     }
 }

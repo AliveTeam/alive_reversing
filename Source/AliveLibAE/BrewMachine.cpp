@@ -18,7 +18,7 @@ BrewMachine::BrewMachine(relive::Path_BrewMachine* pTlv, const Guid& tlvId)
     mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::BrewMachine_Button));
     Animation_Init(GetAnimRes(AnimId::BrewMachine_Button));
 
-    mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
+    SetApplyShadowZoneColour(false);
     mTlvInfo = tlvId;
     GetAnimation().SetRenderLayer(Layer::eLayer_Well_23);
     mRemainingBrewCount = pTlv->mBrewCount;
@@ -37,8 +37,8 @@ BrewMachine::BrewMachine(relive::Path_BrewMachine* pTlv, const Guid& tlvId)
         mTotalBrewCount = savedBrewCount;
     }
 
-    mTextX = FP_GetExponent((FP_FromInteger(pTlv->mTopLeftX + 5) - pScreenManager->CamXPos()));
-    mTextY = FP_GetExponent((FP_FromInteger(pTlv->mTopLeftY + 10) - pScreenManager->CamYPos()));
+    mTextX = FP_GetExponent((FP_FromInteger(pTlv->mTopLeftX + 5) - gScreenManager->CamXPos()));
+    mTextY = FP_GetExponent((FP_FromInteger(pTlv->mTopLeftY + 10) - gScreenManager->CamYPos()));
     mXPos = FP_FromInteger((pTlv->mTopLeftX + pTlv->mBottomRightX) / 2);
     mYPos = FP_FromInteger(pTlv->mTopLeftY);
 
@@ -52,7 +52,7 @@ BrewMachine::~BrewMachine()
 
 void BrewMachine::VUpdate()
 {
-    relive::Path_BrewMachine* pTlv = static_cast<relive::Path_BrewMachine*>(sPathInfo->TLV_From_Offset_Lvl_Cam(mTlvInfo));
+    relive::Path_BrewMachine* pTlv = static_cast<relive::Path_BrewMachine*>(gPathInfo->TLV_From_Offset_Lvl_Cam(mTlvInfo));
     if (mTotalBrewCount > 0)
     {
         pTlv->mTlvSpecificMeaning = static_cast<u8>(mTotalBrewCount);
@@ -76,7 +76,7 @@ void BrewMachine::VRender(PrimHeader** ppOt)
         sprintf(text, "%02d", mTotalBrewCount);
         const s32 textWidth = mFont.MeasureTextWidth(text);
         s16 flickerAmount = 50;
-        if (sDisableFontFlicker)
+        if (gDisableFontFlicker)
         {
             flickerAmount = 0;
         }

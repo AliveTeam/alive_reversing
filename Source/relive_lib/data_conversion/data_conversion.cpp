@@ -28,7 +28,7 @@
 #include "fmv_converter.hpp"
 
 // Bump this if any data format breaks are made so that OG/mod data is re-converted/upgraded
-const u32 DataConversion::kVersion = 2;
+const u32 DataConversion::kVersion = 3;
 
 static bool ReadLvlFileInto(ReliveAPI::LvlReader& archive, const char_type* fileName, std::vector<u8>& fileBuffer)
 {
@@ -931,7 +931,7 @@ static void ConvertPath(FileSystem& fs, const FileSystem::Path& path, const Reli
 
     if (isAo)
     {
-        const AO::PathBlyRec* pBlyRec = AO::Path_Get_Bly_Record_434650(reliveLvl, static_cast<u16>(pathBndChunk.Id()));
+        const AO::PathBlyRec* pBlyRec = AO::Path_Get_Bly_Record(reliveLvl, static_cast<u16>(pathBndChunk.Id()));
 
         // Save cameras and map objects
         width = (pBlyRec->field_4_pPathData->field_8_bTop - pBlyRec->field_4_pPathData->field_4_bLeft) / pBlyRec->field_4_pPathData->field_C_grid_width;
@@ -1075,7 +1075,7 @@ static void SaveLevelInfoJson(const FileSystem::Path& dataDir, EReliveLevelIds /
                             {
                                 rBlyRec.field_4_pPathData = &GetPathData(lvlIdx)[pExt->mPathId];
                                 // HACK: Set throwable type in this path to grenades
-                                rBlyRec.field_C_overlay_id = 3;
+                                rBlyRec.mOverlayId = 3;
                                 rPath.field_18_num_paths++;
                             }
                             PathData& rPathData = *rBlyRec.field_4_pPathData;
@@ -1162,7 +1162,7 @@ static void SaveLevelInfoJson(const FileSystem::Path& dataDir, EReliveLevelIds /
                             {
                                 rBlyRec.field_4_pPathData = &GetPathData(lvlIdx)[pExt->mPathId];
                                 // HACK: Set throwable type in this path to grenades
-                                rBlyRec.field_C_overlay_id = 100;
+                                rBlyRec.mOverlayId = 100;
                                 rPath.field_18_num_paths++;
                             }
                             PathData& rPathData = *rBlyRec.field_4_pPathData;
@@ -1478,7 +1478,7 @@ static void ConvertFont(const FileSystem::Path& dataDir, const std::string& file
 
      for (s32 i = 0; i < 16; i++)
      {
-         RGBA32 pixel = RGBConversion::RGBA555ToRGBA888Components(fontFile->field_8_palette[i]);
+         RGBA32 pixel = RGBConversion::RGBA555ToRGBA888Components(fontFile->mPalette[i]);
 
          pal.mPal[i].r = pixel.r;
          pal.mPal[i].g = pixel.g;
@@ -1493,8 +1493,8 @@ static void ConvertFont(const FileSystem::Path& dataDir, const std::string& file
      std::size_t dst = 0;
      while (dst < newData.size())
      {
-         newData[dst++] = (fontFile->field_28_pixel_buffer[src] & 0xF);
-         newData[dst++] = ((fontFile->field_28_pixel_buffer[src++] & 0xF0) >> 4);
+         newData[dst++] = (fontFile->mPixelBuffer[src] & 0xF);
+         newData[dst++] = ((fontFile->mPixelBuffer[src++] & 0xF0) >> 4);
      }
 
      if (!isPauseMenuFont)

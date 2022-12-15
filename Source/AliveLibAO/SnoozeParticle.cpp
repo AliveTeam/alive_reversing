@@ -183,14 +183,14 @@ const s16 zVerts[8] = {
 
 void SnoozeParticle::VRender(PrimHeader** ppOt)
 {
-    //Identical to AE except xInScreen, yInScreen are offset by pScreenManager positions
-    FP_Point* pCamPos = pScreenManager->mCamPos;
+    //Identical to AE except xInScreen, yInScreen are offset by gScreenManager positions
+    FP_Point* pCamPos = gScreenManager->mCamPos;
     const s16 bufIdx = gPsxDisplay.mBufferIndex;
 
     if (mState == SnoozeParticleState::eBlowingUp_2)
     {
-        const s16 xInScreen = FP_GetExponent(mXPos - pCamPos->x) + pScreenManager->mCamXOff;
-        const s16 yInScreen = FP_GetExponent(mYPos - pCamPos->y) + pScreenManager->mCamYOff;
+        const s16 xInScreen = FP_GetExponent(mXPos - pCamPos->x) + gScreenManager->mCamXOff;
+        const s16 yInScreen = FP_GetExponent(mYPos - pCamPos->y) + gScreenManager->mCamYOff;
 
         for (s32 i = 0; i < ALIVE_COUNTOF(explosionVerts); i++)
         {
@@ -226,8 +226,8 @@ void SnoozeParticle::VRender(PrimHeader** ppOt)
         Line_G4* pZLine = &field_3C_lines[bufIdx];
         LineG4_Init(pZLine);
 
-        const s16 xInScreen = FP_GetExponent(mXPos - pCamPos->x) + pScreenManager->mCamXOff;
-        const s16 yInScreen = FP_GetExponent(mYPos - pCamPos->y) + pScreenManager->mCamYOff;
+        const s16 xInScreen = FP_GetExponent(mXPos - pCamPos->x) + gScreenManager->mCamXOff;
+        const s16 yInScreen = FP_GetExponent(mYPos - pCamPos->y) + gScreenManager->mCamYOff;
 
         const s16 RectX_v_Psx = xInScreen + FP_GetExponent(FP_FromInteger(zVerts[0]) * mSpriteScale);
         const s16 RectW_v_Psx = xInScreen + FP_GetExponent(FP_FromInteger(zVerts[5]) * mSpriteScale);
@@ -272,7 +272,7 @@ void SnoozeParticle::VRender(PrimHeader** ppOt)
     }
     Prim_SetTPage* thisTPage = &field_1B4_tPage[bufIdx];
     const s32 tPage = PSX_getTPage(TPageAbr::eBlend_1);
-    Init_SetTPage(thisTPage, 1, 0, tPage);
+    Init_SetTPage(thisTPage, tPage);
     OrderingTable_Add(OtLayer(ppOt, mOtLayer), &thisTPage->mBase);
 }
 

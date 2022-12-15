@@ -15,10 +15,10 @@ public:
     virtual void VRender(PrimHeader** ppOt) override;
 
 public:
-    s16 field_F4_number_of_segments = 0;
-    s16 field_F6_segment_length = 0;
-    s16 field_F8_ttl = 0;
-    s16 field_FA_ttl_remainder = 0;
-    AnimationUnknown* field_100_pRes = nullptr;
-    s16 field_104_bEnabled = 0;
+    s16 mSegmentsCount = 0;
+    s16 mSegmentLength = 0;
+    s32 mTtl = 0;
+    s32 mTtlRemainder = 0;
+    AnimationUnknown* mWebRes = nullptr;
+    bool mEnabled = false;
 };

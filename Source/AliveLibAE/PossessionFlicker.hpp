@@ -16,15 +16,15 @@ public:
     Guid ObjectId() const;
 
 private:
-    s32 field_20_time_to_flicker = 0;
+    s32 mTimeToFlicker = 0;
 
-    s16 field_24_r = 0;
-    s16 field_26_g = 0;
-    s16 field_28_b = 0;
+    s16 mNewRed = 0;
+    s16 mNewGreen = 0;
+    s16 mNewBlue = 0;
 
-    s16 field_2A_old_r = 0;
-    s16 field_2C_old_g = 0;
-    s16 field_2E_old_b = 0;
+    s16 mOldRed = 0;
+    s16 mOldGreen = 0;
+    s16 mOldBlue = 0;
 
-    Guid field_30_obj_id;
+    Guid mTargetObjId;
 };

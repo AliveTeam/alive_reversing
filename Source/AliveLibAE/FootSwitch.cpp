@@ -98,7 +98,7 @@ FootSwitch::FootSwitch(relive::Path_FootSwitch* pTlv, const Guid& tlvId)
     mTriggeredBy = pTlv->mTriggeredBy;
     mXPos = FP_FromInteger((pTlv->mTopLeftX + pTlv->mBottomRightX) / 2);
     mState = States::eWaitForStepOnMe;
-    mVisualFlags.Set(VisualFlags::eDoPurpleLightEffect);
+    SetDoPurpleLightEffect(true);
     mYPos = FP_FromInteger(pTlv->mBottomRightY);
     mCreateSparks = false;
     mTlvId = tlvId;

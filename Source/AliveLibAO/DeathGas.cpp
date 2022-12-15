@@ -47,7 +47,7 @@ DeathGas::DeathGas(Layer layer, s32 amount)
 
     for (s32 i = 0; i < 2; i++)
     {
-        Init_SetTPage(&gGasTPages_5008E8[i], 0, 1, PSX_getTPage(TPageAbr::eBlend_1));
+        Init_SetTPage(&gGasTPages_5008E8[i], PSX_getTPage(TPageAbr::eBlend_1));
     }
 
     for (s32 i = 0; i < 2; i++)

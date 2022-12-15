@@ -119,7 +119,7 @@ TrapDoor::TrapDoor(relive::Path_TrapDoor* pTlv, Map* pMap, const Guid& tlvId)
     mBoundingRect.w = pTlv->mBottomRightX;
     mBoundingRect.h = pTlv->mBottomRightY;
 
-    field_10C = 4;
+    mUnknown = 4;
 }
 
 void TrapDoor::VRender(PrimHeader** ppOt)

@@ -28,7 +28,7 @@ public:
         mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Door_FireBackgroundGlow));
         Animation_Init(GetAnimRes(AnimId::Door_FireBackgroundGlow));
 
-        mVisualFlags.Set(VisualFlags::eApplyShadowZoneColour);
+        SetApplyShadowZoneColour(true);
 
         GetAnimation().SetBlending(false);
         GetAnimation().SetSemiTrans(true);
@@ -62,9 +62,9 @@ public:
         GetAnimation().Get_Frame_Width_Height(&frameW, &frameH);
         GetAnimation().Get_Frame_Offset(&xy.x, &xy.y);
 
-        const auto& pCamPos = pScreenManager->mCamPos;
-        const FP screenX = FP_FromInteger(pScreenManager->mCamXOff) + mXPos - pCamPos->x;
-        const FP screenY = FP_FromInteger(pScreenManager->mCamYOff) + mYPos - pCamPos->y;
+        const auto& pCamPos = gScreenManager->mCamPos;
+        const FP screenX = FP_FromInteger(gScreenManager->mCamXOff) + mXPos - pCamPos->x;
+        const FP screenY = FP_FromInteger(gScreenManager->mCamYOff) + mYPos - pCamPos->y;
 
         const FP frameWScaled = (FP_FromInteger(frameW) * GetSpriteScale());
         const FP frameHScaled = (FP_FromInteger(frameH) * GetSpriteScale());
@@ -131,7 +131,7 @@ public:
 
         GetAnimation().SetSemiTrans(true);
 
-        mVisualFlags.Set(VisualFlags::eApplyShadowZoneColour);
+        SetApplyShadowZoneColour(true);
         GetAnimation().SetRenderLayer(Layer::eLayer_Foreground_Half_17);
 
         mXPos = xpos;
@@ -143,7 +143,7 @@ public:
 
         for (auto& anim : mSparks)
         {
-            anim.field_14.field_68_anim_ptr = &GetAnimation();
+            anim.field_14.mAnimPtr = &GetAnimation();
 
             anim.field_14.SetRender(true);
             anim.field_14.SetBlending(true);
@@ -151,7 +151,7 @@ public:
             // TODO: clean this up
             const s32 rndLayer = static_cast<s32>(GetAnimation().GetRenderLayer()) + Math_RandomRange(-1, 1);
             anim.field_14.SetRenderLayer(static_cast<Layer>(rndLayer));
-            anim.field_14.field_6C_scale = GetSpriteScale();
+            anim.field_14.mSpriteScale = GetSpriteScale();
 
             anim.x = mXPos;
             anim.y = mYPos;
@@ -221,12 +221,12 @@ private:
             {
                 GetAnimation().SetRGB(240, 32, 32);
 
-                const FP_Point* pCamPos = pScreenManager->mCamPos;
+                const FP_Point* pCamPos = gScreenManager->mCamPos;
 
-                const FP screen_left = pCamPos->x - FP_FromInteger(pScreenManager->mCamXOff);
-                const FP screen_right = pCamPos->x + FP_FromInteger(pScreenManager->mCamXOff);
-                const FP screen_top = pCamPos->y - FP_FromInteger(pScreenManager->mCamYOff);
-                const FP screen_bottom = pCamPos->y + FP_FromInteger(pScreenManager->mCamYOff);
+                const FP screen_left = pCamPos->x - FP_FromInteger(gScreenManager->mCamXOff);
+                const FP screen_right = pCamPos->x + FP_FromInteger(gScreenManager->mCamXOff);
+                const FP screen_top = pCamPos->y - FP_FromInteger(gScreenManager->mCamYOff);
+                const FP screen_bottom = pCamPos->y + FP_FromInteger(gScreenManager->mCamYOff);
 
                 GetAnimation().VRender(
                     FP_GetExponent(PsxToPCX(mXPos - screen_left)),
@@ -272,7 +272,7 @@ DoorFlame::DoorFlame(relive::Path_DoorFlame* pTlv, const Guid& tlvId)
     Animation_Init(GetAnimRes(AnimId::Fire));
 
     GetAnimation().SetSemiTrans(true);
-    mVisualFlags.Set(VisualFlags::eApplyShadowZoneColour);
+    SetApplyShadowZoneColour(true);
     GetAnimation().SetRenderLayer(Layer::eLayer_Foreground_Half_17);
     mFrameCount = GetAnimation().Get_Frame_Count();
     mSwitchId = pTlv->mSwitchId;

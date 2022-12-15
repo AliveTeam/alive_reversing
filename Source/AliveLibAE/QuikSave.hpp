@@ -58,15 +58,15 @@ ALIVE_ASSERT_SIZEOF(Quicksave, 0x2000);
 
 struct SaveFileRec final
 {
-    char_type field_0_fileName[32];
-    u32 field_20_lastWriteTimeStamp;
+    char_type mFileName[32];
+    u32 mLastWriteTimeStamp;
 };
 ALIVE_ASSERT_SIZEOF(SaveFileRec, 0x24);
 
-extern SaveFileRec sSaveFileRecords_BB31D8[128];
-extern Quicksave sActiveQuicksaveData;
-extern s32 sSavedGameToLoadIdx_BB43FC;
-extern s32 sTotalSaveFilesCount_BB43E0;
+extern SaveFileRec gSaveFileRecords[128];
+extern Quicksave gActiveQuicksaveData;
+extern s32 gSavedGameToLoadIdx;
+extern s32 gTotalSaveFilesCount;
 extern u16 sQuickSave_saved_switchResetters_count_BB234C;
 
 void Quicksave_LoadActive();

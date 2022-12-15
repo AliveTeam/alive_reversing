@@ -63,38 +63,38 @@ GameSpeak::GameSpeak()
     : BaseGameObject(true, 0)
 {
     SetSurviveDeathReset(true); // Dont destroy on loading save
-    field_2C_event_buffer[0] = -1;
-    field_20_last_event = GameSpeakEvents::eNone_m1;
+    mEventBuffer[0] = -1;
+    mLastEvent = GameSpeakEvents::eNone_m1;
     SetType(ReliveTypes::eGameSpeak);
-    field_28_last_event_index = 0;
+    mLastEventIndex = 0;
 }
 
 GameSpeakMatch GameSpeak::MatchBuffer(u8* pBuffer, s16 max_idx, s16 src_idx)
 {
     if (src_idx == -1)
     {
-        src_idx = static_cast<s16>(field_28_last_event_index - max_idx);
+        src_idx = static_cast<s16>(mLastEventIndex - max_idx);
         if (src_idx < 0)
         {
-            src_idx += ALIVE_COUNTOF(field_2C_event_buffer);
+            src_idx += ALIVE_COUNTOF(mEventBuffer);
         }
     }
 
     s16 dst_idx = 0;
     while (1)
     {
-        if (field_2C_event_buffer[src_idx] == static_cast<s8>(GameSpeakEvents::eNone_m1))
+        if (mEventBuffer[src_idx] == static_cast<s8>(GameSpeakEvents::eNone_m1))
         {
             bool bContinue = true;
-            while (src_idx != field_28_last_event_index)
+            while (src_idx != mLastEventIndex)
             {
                 src_idx++;
-                if (src_idx == ALIVE_COUNTOF(field_2C_event_buffer))
+                if (src_idx == ALIVE_COUNTOF(mEventBuffer))
                 {
                     src_idx = 0;
                 }
 
-                if (field_2C_event_buffer[src_idx] != -1)
+                if (mEventBuffer[src_idx] != -1)
                 {
                     bContinue = false;
                     break;
@@ -107,7 +107,7 @@ GameSpeakMatch GameSpeak::MatchBuffer(u8* pBuffer, s16 max_idx, s16 src_idx)
             }
         }
 
-        if (pBuffer[dst_idx] != field_2C_event_buffer[src_idx])
+        if (pBuffer[dst_idx] != mEventBuffer[src_idx])
         {
             return GameSpeakMatch::eNoMatch_0;
         }
@@ -117,13 +117,13 @@ GameSpeakMatch GameSpeak::MatchBuffer(u8* pBuffer, s16 max_idx, s16 src_idx)
             return GameSpeakMatch::eFullMatch_1;
         }
 
-        if (src_idx == field_28_last_event_index)
+        if (src_idx == mLastEventIndex)
         {
             return GameSpeakMatch::ePartMatch_2;
         }
 
         src_idx++;
-        if (src_idx == ALIVE_COUNTOF(field_2C_event_buffer))
+        if (src_idx == ALIVE_COUNTOF(mEventBuffer))
         {
             src_idx = 0;
         }
@@ -159,7 +159,7 @@ void GameSpeak::VScreenChanged()
 
 void GameSpeak::VUpdate()
 {
-    if (field_20_last_event != GameSpeakEvents::eNone_m1 && sGnFrame > field_24_last_event_frame)
+    if (mLastEvent != GameSpeakEvents::eNone_m1 && sGnFrame > mLastEventFrame)
     {
         PushEvent_Impl(GameSpeakEvents::eNone_m1);
     }
@@ -168,20 +168,20 @@ void GameSpeak::VUpdate()
 void GameSpeak::PushEvent(GameSpeakEvents event)
 {
     PushEvent_Impl(event);
-    field_24_last_event_frame = sGnFrame + 60;
+    mLastEventFrame = sGnFrame + 60;
 }
 
 void GameSpeak::PushEvent_Impl(GameSpeakEvents event)
 {
-    field_28_last_event_index++;
+    mLastEventIndex++;
 
     // Wrap around
-    if (field_28_last_event_index >= ALIVE_COUNTOF(field_2C_event_buffer))
+    if (mLastEventIndex >= ALIVE_COUNTOF(mEventBuffer))
     {
-        field_28_last_event_index = 0;
+        mLastEventIndex = 0;
     }
 
     // TODO: This isn't ever used ??
-    field_2C_event_buffer[field_28_last_event_index] = static_cast<s8>(event);
-    field_20_last_event = event;
+    mEventBuffer[mLastEventIndex] = static_cast<s8>(event);
+    mLastEvent = event;
 }

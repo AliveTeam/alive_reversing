@@ -67,7 +67,7 @@ SecurityOrb::SecurityOrb(relive::Path_SecurityOrb* pTlv, const Guid& tlvId)
         GetAnimation().SetRenderLayer(Layer::eLayer_27);
     }
 
-    mVisualFlags.Set(VisualFlags::eDoPurpleLightEffect);
+    SetDoPurpleLightEffect(true);
     mState = States::eIdle_0;
     mSoundChannelsMask = 0;
 }

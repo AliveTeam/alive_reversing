@@ -33,7 +33,7 @@ RockSack::RockSack(relive::Path_RockSack* pTlv, const Guid& tlvId)
 
     field_10C_tlvInfo = tlvId;
     field_110_has_been_hit = 0;
-    mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
+    SetApplyShadowZoneColour(false);
     mXPos = FP_FromInteger(pTlv->mTopLeftX);
     mYPos = FP_FromInteger(pTlv->mTopLeftY);
     field_118_x_vel = FP_FromRaw(pTlv->mVelX << 8);

@@ -18,21 +18,21 @@ public:
     virtual void VScreenChanged() override;
 
 private:
-    s16 field_10_switch_id = 0;
-    relive::reliveSwitchOp field_12_action = relive::reliveSwitchOp::eSetTrue;
-    Guid field_14_tlvInfo;
-    s32 field_18_delay_timer = 0;
-    s32 field_1C_delay = 0;
-    PSX_Point field_20_top_left = {};
-    PSX_Point field_24_bottom_right = {};
+    s16 mSwitchId = 0;
+    relive::reliveSwitchOp mAction = relive::reliveSwitchOp::eSetTrue;
+    Guid mTlvId;
+    s32 mDelayTimer = 0;
+    s32 mActivationDelay = 0;
+    PSX_Point mTlvTopLeft = {};
+    PSX_Point mTlvBottomRight = {};
     enum class States : u16
     {
         eWaitForTrigger_0 = 0,
         eWaitForDelayTimer_1 = 1,
     };
-    States field_28_state = States::eWaitForTrigger_0;
+    States mState = States::eWaitForTrigger_0;
     relive::reliveChoice mSetOffAlarm = relive::reliveChoice::eNo;
-    relive::Path_InvisibleSwitch::InvisibleSwitchScale field_2C_scale = relive::Path_InvisibleSwitch::InvisibleSwitchScale::eFull;
+    relive::Path_InvisibleSwitch::InvisibleSwitchScale mScale = relive::Path_InvisibleSwitch::InvisibleSwitchScale::eFull;
 };
 
 

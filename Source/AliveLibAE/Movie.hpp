@@ -22,4 +22,4 @@ private:
     const char_type* mName = nullptr;
 };
 
-extern s32 sMovie_ref_count_BB4AE4;
+extern s32 gMovieRefCount;

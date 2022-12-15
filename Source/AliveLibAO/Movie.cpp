@@ -18,22 +18,22 @@
 
 namespace AO {
 
-s32 sMovie_ref_count_9F309C = 0;
+s32 gMovieRefCount = 0;
 
-SoundEntry fmv_sound_entry;
+static SoundEntry sFmvSoundEntry;
 
 
-const int kXaFrameDataSize = 2016;
+static const int kXaFrameDataSize = 2016;
 
-const int num_frames_interleave = 5; // maybe 20 ?? AE uses 5
-const int fmv_single_audio_frame_size_in_samples = 2016; // AE uses 2940
-const auto fmv_sound_entry_size = fmv_single_audio_frame_size_in_samples * (num_frames_interleave + 6);
-const int kSamplesPerSecond = 37800; // AE uses 44100
-const int kFmvFrameRate = 15;
+static const int num_frames_interleave = 5; // maybe 20 ?? AE uses 5
+static const int fmv_single_audio_frame_size_in_samples = 2016; // AE uses 2940
+static const auto fmv_sound_entry_size = fmv_single_audio_frame_size_in_samples * (num_frames_interleave + 6);
+static const int kSamplesPerSecond = 37800; // AE uses 44100
+static const int kFmvFrameRate = 15;
 
-int bNoAudioOrAudioError = 0;
-int fmv_audio_sample_offset = 0;
-bool bStartedPlayingSound = false;
+static bool sNoAudioOrAudioError = false;
+static int sFmvAudioSampleOffset = 0;
+static bool bStartedPlayingSound = false;
 
 class PsxStr
 {
@@ -115,33 +115,33 @@ public:
                 outPtr.resize(2016*2);
                 mAdpcm.DecodeFrameToPCM(outPtr, (uint8_t*)&w.mAkikMagic);
 
-                if (!bNoAudioOrAudioError)
+                if (!sNoAudioOrAudioError)
                 {
                     // Push new samples into the buffer
-                    if (GetSoundAPI().SND_LoadSamples(&fmv_sound_entry, fmv_audio_sample_offset, (unsigned char*)outPtr.data(), fmv_single_audio_frame_size_in_samples) < 0)
+                    if (GetSoundAPI().SND_LoadSamples(&sFmvSoundEntry, sFmvAudioSampleOffset, (unsigned char*)outPtr.data(), fmv_single_audio_frame_size_in_samples) < 0)
                     {
                         // Reload with data fail
-                        bNoAudioOrAudioError = 1;
+                        sNoAudioOrAudioError = true;
                     }
 
-                    fmv_audio_sample_offset += fmv_single_audio_frame_size_in_samples;
+                    sFmvAudioSampleOffset += fmv_single_audio_frame_size_in_samples;
 
                     // Loop back to the start of the audio buffer
-                    if (fmv_audio_sample_offset >= fmv_sound_entry_size)
+                    if (sFmvAudioSampleOffset >= fmv_sound_entry_size)
                     {
-                        fmv_audio_sample_offset = 0;
+                        sFmvAudioSampleOffset = 0;
                     }
 
                     // If this is the first time then start to play the buffer
-                    if (!bStartedPlayingSound && !bNoAudioOrAudioError)
+                    if (!bStartedPlayingSound && !sNoAudioOrAudioError)
                     {
                         // TODO: PSX Version would allow some sounds / bg music to play over certain FMV transitions
                         SND_StopAll();
 
                         bStartedPlayingSound = true;
-                        if (FAILED(SND_PlayEx_4EF740(&fmv_sound_entry, 116, 116, 1.0, 0, 1, 100)))
+                        if (FAILED(SND_PlayEx_4EF740(&sFmvSoundEntry, 116, 116, 1.0, 0, 1, 100)))
                         {
-                            bNoAudioOrAudioError = 1;
+                            sNoAudioOrAudioError = true;
                         }
                     }
                 }
@@ -208,13 +208,13 @@ Movie::Movie(const char_type* pFmvName)
 
     IO_Init_494230(); // Set up IO funcs
 
-    sMovie_ref_count_9F309C++;
+    gMovieRefCount++;
 }
 
 Movie::~Movie()
 {
     LOG_INFO("Destroy movie %s", mFmvName);
-    sMovie_ref_count_9F309C--;
+    gMovieRefCount--;
 }
 
 void Movie::VScreenChanged()
@@ -327,20 +327,20 @@ void Movie::VUpdate()
     PsxStr psxStr;
     psxStr.mFile = hMovieFile;
 
-    bNoAudioOrAudioError = 0;
-    fmv_audio_sample_offset = 0;
+    sNoAudioOrAudioError = false;
+    sFmvAudioSampleOffset = 0;
     bStartedPlayingSound = false;
 
     if (GetSoundAPI().SND_New(
-        &fmv_sound_entry,
+        &sFmvSoundEntry,
         fmv_sound_entry_size,
         kSamplesPerSecond,
         16,
         7) < 0)
     {
         // SND_New failed
-        fmv_sound_entry.field_4_pDSoundBuffer = nullptr;
-        bNoAudioOrAudioError = 1;
+        sFmvSoundEntry.field_4_pDSoundBuffer = nullptr;
+        sNoAudioOrAudioError = true;
     }
 
     int fmv_num_read_frames = 0;
@@ -406,15 +406,15 @@ void Movie::VUpdate()
         }
 
         SYS_EventsPump();
-        PSX_VSync_4F6170(0);
+        PSX_VSync(0);
     }
 
-    if (fmv_sound_entry.field_4_pDSoundBuffer)
+    if (sFmvSoundEntry.field_4_pDSoundBuffer)
     {
-        fmv_sound_entry.field_4_pDSoundBuffer->Stop();
+        sFmvSoundEntry.field_4_pDSoundBuffer->Stop();
 
-        GetSoundAPI().SND_Free(&fmv_sound_entry);
-        fmv_sound_entry.field_4_pDSoundBuffer = nullptr;
+        GetSoundAPI().SND_Free(&sFmvSoundEntry);
+        sFmvSoundEntry.field_4_pDSoundBuffer = nullptr;
     }
 
     //Bmp_Free_4F1950(&tmpBmp);

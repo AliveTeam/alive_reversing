@@ -81,6 +81,8 @@
 #include "LaughingGas.hpp"
 #include "ResourceManager.hpp"
 #include "Game.hpp"
+#include "MeatSack.hpp"
+#include "BoneBag.hpp"
 
 template <size_t arraySize>
 struct CompileTimeResourceList final
@@ -294,7 +296,7 @@ static void Factory_LiftPoint(relive::Path_TLV* pTlv, Path*, const Guid& tlvId, 
                 // Is there already an existing LiftPoint object for this TLV?
                 LiftPoint* pLiftPoint = static_cast<LiftPoint*>(pObj);
                 const s16 xpos = FP_GetExponent(pLiftPoint->mXPos);
-                if (pTlv->mTopLeftX <= xpos && xpos <= pTlv->mBottomRightX && pLiftPoint->field_278_lift_point_id == pLiftTlv->mLiftPointId && pLiftPoint->mCurrentLevel == gMap.mCurrentLevel && pLiftPoint->mCurrentPath == gMap.mCurrentPath)
+                if (pTlv->mTopLeftX <= xpos && xpos <= pTlv->mBottomRightX && pLiftPoint->mLiftPointId == pLiftTlv->mLiftPointId && pLiftPoint->mCurrentLevel == gMap.mCurrentLevel && pLiftPoint->mCurrentPath == gMap.mCurrentPath)
                 {
                     // Yes so just reset its data
                     Path::TLV_Reset(tlvId, -1, 0, 0);
@@ -315,7 +317,7 @@ static void Factory_LiftPoint(relive::Path_TLV* pTlv, Path*, const Guid& tlvId, 
             s16 pointNumber = 1;
             while (pointNumber < 8)
             {
-                relive::Path_TLV* pTlvIter = sPathInfo->Get_First_TLV_For_Offsetted_Camera(
+                relive::Path_TLV* pTlvIter = gPathInfo->Get_First_TLV_For_Offsetted_Camera(
                     0,
                     pointNumber / 2 * (pointNumber % 2 != 0 ? -1 : 1));
 
@@ -787,7 +789,7 @@ static void Factory_SligBoundLeft(relive::Path_TLV* pTlv, Path*, const Guid& /*t
 
         for (s16 camX_idx = -2; camX_idx < 3; camX_idx++)
         {
-            relive::Path_TLV* pTlvIter = sPathInfo->Get_First_TLV_For_Offsetted_Camera(camX_idx, 0);
+            relive::Path_TLV* pTlvIter = gPathInfo->Get_First_TLV_For_Offsetted_Camera(camX_idx, 0);
             pTlvIter = FindMatchingSligTLV(pTlvIter, pBound);
             if (pTlvIter)
             {
@@ -1333,7 +1335,7 @@ static void Factory_DemoSpawnPoint(relive::Path_TLV*, Path*, const Guid& /*tlvId
     {
         if (gAttract)
         {
-            if (!sDemoObj_dword_5D1E20)
+            if (!gActiveDemoPlayback)
             {
                 relive_new DemoPlayback();
             }

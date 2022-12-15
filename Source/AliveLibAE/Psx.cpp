@@ -14,7 +14,7 @@ static s32 sVSyncLastMillisecond_BD0F2C = 0;
 static s32 sLastFrameTimestampMilliseconds_BD0F24 = 0;
 static TPsxEmuCallBack sPsxEmu_put_disp_env_callback_C1D184 = nullptr;
 
-u8 turn_off_rendering_BD0F20 = 0;
+bool gTurnOffRendering = false;
 
 void PSX_EMU_SetCallBack_4F9430(TPsxEmuCallBack fnPtr)
 {
@@ -25,7 +25,7 @@ static void PSX_PutDispEnv_Impl_4F5640()
 {
     SsSeqCalledTbyT_4FDC80();
 
-    if (!turn_off_rendering_BD0F20)
+    if (!gTurnOffRendering)
     {
         PSX_DrawDebugTextBuffers();
         VGA_EndFrame();
@@ -88,13 +88,13 @@ bool PSX_Rects_overlap_4FA0B0(const PSX_RECT* pRect1, const PSX_RECT* pRect2)
 }
 
 
-void PSX_Prevent_Rendering_4945B0()
+void PSX_Prevent_Rendering()
 {
-    turn_off_rendering_BD0F20 = 1;
+    gTurnOffRendering = true;
 }
 
 // If mode is 1, game doesn't frame cap at all. If it is greater than 1, then it caps to (60 / mode) fps.
-void PSX_VSync_4F6170(s32 mode)
+void PSX_VSync(s32 mode)
 {
     SsSeqCalledTbyT_4FDC80();
 

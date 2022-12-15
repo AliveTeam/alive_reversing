@@ -185,7 +185,7 @@ s8 Display_Full_Screen_Message_Blocking(s32 /*not_used*/, MessageType messageTyp
     }
 
     //Add_Dirty_Area_4ED970(0, 0, 640, 240);
-    sbDisplayRenderFrame = 0;
+    gDisplayRenderFrame = false;
     gPsxDisplay.RenderOrderingTable();
 
     if (SND_Seq_Table_Valid())
@@ -257,7 +257,7 @@ s8 Display_Full_Screen_Message_Blocking(s32 /*not_used*/, MessageType messageTyp
 
     SYS_EventsPump();
 
-    sbDisplayRenderFrame = 0;
+    gDisplayRenderFrame = false;
     gPsxDisplay.RenderOrderingTable();
 
     if (pTextObj)

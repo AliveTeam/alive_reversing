@@ -51,8 +51,8 @@ Blood::Blood(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s32 count)
         mXPos = xpos - FP_FromInteger(12);
         mYPos = ypos - FP_FromInteger(12);
 
-        mBloodXPos = FP_GetExponent(xpos - FP_FromInteger(12) + FP_FromInteger(pScreenManager->mCamXOff) - pScreenManager->mCamPos->x);
-        mBloodYPos = FP_GetExponent(ypos - FP_FromInteger(12) + FP_FromInteger(pScreenManager->mCamYOff) - pScreenManager->mCamPos->y);
+        mBloodXPos = FP_GetExponent(xpos - FP_FromInteger(12) + FP_FromInteger(gScreenManager->mCamXOff) - gScreenManager->mCamPos->x);
+        mBloodYPos = FP_GetExponent(ypos - FP_FromInteger(12) + FP_FromInteger(gScreenManager->mCamYOff) - gScreenManager->mCamPos->y);
 
         const u8 u0 = 0;// mAnim.mVramRect.x & 0x3F;
         const u8 v0 = 0;//mAnim.mVramRect.y & 0xFF;

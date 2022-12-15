@@ -12,19 +12,19 @@
 
 namespace AO {
 
-u16 bThrowableIndicatorExists_504C70 = 0;
-const s16 kNum_0[17] = {
+u16 gThrowableIndicatorExists = 0;
+static const s16 kNumber_0[17] = {
     4,
     -3, -4, 3, -4,
     3, -3, 3, 3,
     3, 4, -3, 4,
     -3, 3, -3, -3};
 
-const s16 kNum_1[5] = {
+static const s16 kNumber_1[5] = {
     1,
     2, -4, 2, 4};
 
-const s16 kNum_2[21] = {
+static const s16 kNumber_2[21] = {
     5,
     -5, -4, 5, -4,
     5, -3, 5, -1,
@@ -32,7 +32,7 @@ const s16 kNum_2[21] = {
     -5, 1, -5, 3,
     -5, 4, 5, 4};
 
-const s16 kNum_3[17] = {
+static const s16 kNumber_3[17] = {
     4,
     -5,
     -4,
@@ -52,13 +52,13 @@ const s16 kNum_3[17] = {
     0,
 };
 
-const s16 kNum_4[13] = {
+static const s16 kNumber_4[13] = {
     3,
     -5, -4, -5, -1,
     -5, 0, 4, 0,
     5, -4, 5, 4};
 
-const s16 kNum_5[21] = {
+static const s16 kNumber_5[21] = {
     5,
     5, -4, -5, -4,
     -5, -3, -5, -1,
@@ -66,19 +66,19 @@ const s16 kNum_5[21] = {
     5, 1, 5, 3,
     5, 4, -5, 4};
 
-const s16 kNum_6[21] = {
+static const s16 kNumber_6[21] = {
     5,
     5, -4, -5, -4, -5,
     -3, -5, 3, -5, 4,
     5, 4, 5, 3, 5,
     1, 5, 0, -4, 0};
 
-const s16 kNum_7[9] = {
+static const s16 kNumber_7[9] = {
     2,
     -5, -4, 5, -4,
     5, -3, 0, 4};
 
-const s16 kNum_8[21] = {
+static const s16 kNumber_8[21] = {
     5,
     -5, -4, 5, -4,
     5, -3, 5, 3,
@@ -86,14 +86,14 @@ const s16 kNum_8[21] = {
     -5, 3, -5, -3,
     -4, 0, 4, 0};
 
-const s16 kNum_9[17] = {
+static const s16 kNumber_9[17] = {
     4,
     5, 4, 5, -3,
     5, -4, -5, -4,
     -5, -3, -5, -1,
     -5, 0, 4, 0};
 
-const s16 kInfinity[25] = {
+static const s16 kInfinity[25] = {
     6,
     -3, -2, -5, 0,
     -5, 1, -3, 3,
@@ -102,7 +102,7 @@ const s16 kInfinity[25] = {
     5, 1, 3, 3,
     2, 3, -2, -2};
 
-const s16 kCheckpoint[36] = {
+static const s16 kCheckpoint[36] = {
     8, 0, -6, 1,
     -6,
     12,
@@ -137,17 +137,17 @@ const s16 kCheckpoint[36] = {
     0,
     0};
 
-const s16* kNumbersArray[12] = {
-    kNum_0,
-    kNum_1,
-    kNum_2,
-    kNum_3,
-    kNum_4,
-    kNum_5,
-    kNum_6,
-    kNum_7,
-    kNum_8,
-    kNum_9,
+static const s16* kNumbersArray[12] = {
+    kNumber_0,
+    kNumber_1,
+    kNumber_2,
+    kNumber_3,
+    kNumber_4,
+    kNumber_5,
+    kNumber_6,
+    kNumber_7,
+    kNumber_8,
+    kNumber_9,
     kInfinity,
     kCheckpoint};
 
@@ -203,7 +203,7 @@ ThrowableTotalIndicator::ThrowableTotalIndicator(FP xpos, FP ypos, Layer layer, 
 
     if (bFade)
     {
-        bThrowableIndicatorExists_504C70++;
+        gThrowableIndicatorExists++;
     }
 }
 
@@ -216,7 +216,7 @@ ThrowableTotalIndicator::~ThrowableTotalIndicator()
 
     if (mFade)
     {
-        bThrowableIndicatorExists_504C70--;
+        gThrowableIndicatorExists--;
     }
 }
 
@@ -293,9 +293,9 @@ void ThrowableTotalIndicator::VRender(PrimHeader** ppOt)
         return;
     }
 
-    const FP_Point* camPos = pScreenManager->mCamPos;
-    const FP camX = FP_FromInteger(FP_GetExponent(camPos->x - FP_FromInteger(pScreenManager->mCamXOff)));
-    const FP camY = FP_FromInteger(FP_GetExponent(camPos->y - FP_FromInteger(pScreenManager->mCamYOff)));
+    const FP_Point* camPos = gScreenManager->mCamPos;
+    const FP camX = FP_FromInteger(FP_GetExponent(camPos->x - FP_FromInteger(gScreenManager->mCamXOff)));
+    const FP camY = FP_FromInteger(FP_GetExponent(camPos->y - FP_FromInteger(gScreenManager->mCamYOff)));
 
     s16 xpos = 0;
     s16 ypos = 0;
@@ -337,7 +337,7 @@ void ThrowableTotalIndicator::VRender(PrimHeader** ppOt)
         OrderingTable_Add(OtLayer(ppOt, mOtLayer), &pLine->mBase.header);
     }
 
-    Init_SetTPage(&mTPage[gPsxDisplay.mBufferIndex], 1, 0, PSX_getTPage(TPageAbr::eBlend_1));
+    Init_SetTPage(&mTPage[gPsxDisplay.mBufferIndex], PSX_getTPage(TPageAbr::eBlend_1));
     OrderingTable_Add(OtLayer(ppOt, mOtLayer), &mTPage->mBase);
 }
 

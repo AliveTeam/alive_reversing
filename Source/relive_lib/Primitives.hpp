@@ -16,7 +16,6 @@ void PolyG3_Init(Poly_G3* pPoly);
 void PolyG4_Init(Poly_G4* pPoly);
 
 
-void Init_SetTPage(Prim_SetTPage* pPrim, s32 /*notUsed1*/, s32 /*notUsed2*/, s32 tpage);
 void Init_PrimClipper(Prim_PrimClipper* pPrim, const PSX_RECT* pClipRect);
 void InitType_ScreenOffset(Prim_ScreenOffset* pPrim, const PSX_Pos16* pOffset);
 
@@ -34,5 +33,5 @@ enum class TPageAbr : s8
     eBlend_3 = 3,
 };
 
-void Init_SetTPage(Prim_SetTPage* pPrim, s32 /*notUsed1*/, s32 /*notUsed2*/, s32 tpage);
+void Init_SetTPage(Prim_SetTPage* pPrim, s32 tpage);
 s32 PSX_getTPage(TPageAbr abr);

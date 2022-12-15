@@ -121,10 +121,10 @@ void Spark::VUpdate()
             for (s32 idx = 0; idx < mSparkCount; idx++)
             {
                 SparkRes* pSpark = &mSparkRes[idx];
-                pSpark->mX0 = pSpark->mRadius * Math_Sine_496DD0(pSpark->mAng);
-                pSpark->mY0 = pSpark->mRadius * Math_Cosine_496CD0(pSpark->mAng);
-                pSpark->mX1 = (pSpark->mRadius + pSpark->mLen) * Math_Sine_496DD0(pSpark->mAng);
-                pSpark->mY1 = (pSpark->mRadius + pSpark->mLen) * Math_Cosine_496CD0(pSpark->mAng);
+                pSpark->mX0 = pSpark->mRadius * Math_Sine(pSpark->mAng);
+                pSpark->mY0 = pSpark->mRadius * Math_Cosine(pSpark->mAng);
+                pSpark->mX1 = (pSpark->mRadius + pSpark->mLen) * Math_Sine(pSpark->mAng);
+                pSpark->mY1 = (pSpark->mRadius + pSpark->mLen) * Math_Cosine(pSpark->mAng);
                 pSpark->mRadius = pSpark->mLen + FP_FromInteger(Math_RandomRange(2, 5));
                 pSpark->mLen = pSpark->mLen + FP_FromInteger(2);
             }
@@ -148,8 +148,8 @@ void Spark::VRender(PrimHeader** ppOt)
         PSX_Point xy = {32767, 32767};
         PSX_Point wh = {-32767, -32767};
 
-        const s32 xOrg = FP_GetExponent(mXPos) - FP_GetExponent(pScreenManager->CamXPos());
-        const s32 yOrg = FP_GetExponent(mYPos) - FP_GetExponent(pScreenManager->CamYPos());
+        const s32 xOrg = FP_GetExponent(mXPos) - FP_GetExponent(gScreenManager->CamXPos());
+        const s32 yOrg = FP_GetExponent(mYPos) - FP_GetExponent(gScreenManager->CamYPos());
 
         for (s32 i = 0; i < mSparkCount; i++)
         {
@@ -249,7 +249,7 @@ void Spark::VRender(PrimHeader** ppOt)
         }
 
         Prim_SetTPage* pTPage = &mTPage[gPsxDisplay.mBufferIndex];
-        Init_SetTPage(pTPage, 1, 0, PSX_getTPage(TPageAbr::eBlend_1));
+        Init_SetTPage(pTPage, PSX_getTPage(TPageAbr::eBlend_1));
         OrderingTable_Add(OtLayer(ppOt, mLayer), &pTPage->mBase);
     }
 }

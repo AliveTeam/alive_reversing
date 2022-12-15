@@ -412,7 +412,7 @@ void AnimationConverter::DecompressAnimFrame(std::vector<u8>& decompressionBuffe
         }
 
         case CompressionType::eType_2_ThreeToFourBytes:
-            CompressionType2_Decompress_40AA50(
+            CompressionType2_Decompress(
                 reinterpret_cast<const u8*>(&pFrameHeader[1]),
                 decompressionBuffer.data(),
                 CalcWidthAdjustedForBPP(pFrameHeader) * pFrameHeader->field_5_height * 2);
@@ -430,7 +430,7 @@ void AnimationConverter::DecompressAnimFrame(std::vector<u8>& decompressionBuffe
             }
             else
             {
-                CompressionType_3Ae_Decompress_40A6A0(reinterpret_cast<const u8*>(&pFrameHeader->field_8_width2), decompressionBuffer.data());
+                CompressionType_3Ae_Decompress(reinterpret_cast<const u8*>(&pFrameHeader->field_8_width2), decompressionBuffer.data());
             }
             // renderer.Upload(AnimFlagsToBitDepth(mFlags), *mDbuf);
 
@@ -439,13 +439,13 @@ void AnimationConverter::DecompressAnimFrame(std::vector<u8>& decompressionBuffe
         case CompressionType::eType_4_RLE:
         case CompressionType::eType_5_RLE:
            // ALIVE_FATAL("todo");
-            CompressionType_4Or5_Decompress_4ABAB0(reinterpret_cast<const u8*>(&pFrameHeader->field_8_width2), decompressionBuffer.data());
+            CompressionType_4Or5_Decompress(reinterpret_cast<const u8*>(&pFrameHeader->field_8_width2), decompressionBuffer.data());
             // renderer.Upload(AnimFlagsToBitDepth(mFlags), vram_rect, *mDbuf);
             break;
 
         case CompressionType::eType_6_RLE:
             //ALIVE_FATAL("todo");
-            CompressionType6Ae_Decompress_40A8A0(reinterpret_cast<const u8*>(&pFrameHeader->field_8_width2), decompressionBuffer.data());
+            CompressionType6Ae_Decompress(reinterpret_cast<const u8*>(&pFrameHeader->field_8_width2), decompressionBuffer.data());
             // renderer.Upload(AnimFlagsToBitDepth(mFlags), vram_rect, *mDbuf);
             break;
 

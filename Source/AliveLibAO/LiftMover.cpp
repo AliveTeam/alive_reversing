@@ -12,11 +12,11 @@ namespace AO {
 LiftMover::LiftMover(relive::Path_LiftMover* pTlv, const Guid& tlvId)
     : BaseGameObject(true, 0)
 {
-    field_14_tlvInfo = tlvId;
+    mTlvId = tlvId;
     mTargetLift = nullptr;
     SetType(ReliveTypes::eLiftMover);
 
-    field_10_lift_mover_switch_id = pTlv->mLiftMoverSwitchId;
+    mLiftMoverSwitchId = pTlv->mLiftMoverSwitchId;
     mTargetLiftPointId = pTlv->mTargetLiftPointId;
 
     if (pTlv->mMoveDirection == relive::Path_LiftMover::YDirection::eUp)
@@ -28,7 +28,7 @@ LiftMover::LiftMover(relive::Path_LiftMover* pTlv, const Guid& tlvId)
         mLiftSpeed = FP_FromInteger(4);
     }
 
-    mState = 0;
+    mState = LiftMoverStates::eInactive_0;
 }
 
 LiftMover::~LiftMover()
@@ -38,7 +38,7 @@ LiftMover::~LiftMover()
         mTargetLift->mBaseGameObjectRefCount--;
         mTargetLift = nullptr;
     }
-    Path::TLV_Reset(field_14_tlvInfo, -1, 0, 0);
+    Path::TLV_Reset(mTlvId, -1, 0, 0);
 }
 
 void LiftMover::VUpdate()
@@ -56,12 +56,12 @@ void LiftMover::VUpdate()
 
     switch (mState)
     {
-        case 0:
-            if (SwitchStates_Get(field_10_lift_mover_switch_id))
+        case LiftMoverStates::eInactive_0:
+            if (SwitchStates_Get(mLiftMoverSwitchId))
             {
                 if (pLiftPoint)
                 {
-                    mState = 1;
+                    mState = LiftMoverStates::eStartMovingDown_1;
                 }
                 else
                 {
@@ -72,9 +72,9 @@ void LiftMover::VUpdate()
                     {
                         // Load lift point objects (I guess in case for some reason it got unloaded ??)
                         // AE doesn't do this.
-                        for (s16 y = 0; y < gMap.field_26_max_cams_y; y++)
+                        for (s16 y = 0; y < gMap.mMaxCamsY; y++)
                         {
-                            for (s16 x = 0; x < gMap.field_24_max_cams_x; x++)
+                            for (s16 x = 0; x < gMap.mMaxCamsX; x++)
                             {
                                 gMap.Loader(x, y, LoadMode::ConstructObject_0, ReliveTypes::eLiftPoint);
                             }
@@ -87,17 +87,17 @@ void LiftMover::VUpdate()
                     if (mTargetLift)
                     {
                         mTargetLift->mBaseGameObjectRefCount++;
-                        mState = 1;
+                        mState = LiftMoverStates::eStartMovingDown_1;
                     }
                 }
             }
             break;
 
-        case 1:
+        case LiftMoverStates::eStartMovingDown_1:
             if (!pLiftPoint->OnAnyFloor())
             {
                 pLiftPoint->mKeepOnMiddleFloor = true;
-                mState = 2;
+                mState = LiftMoverStates::eMovingDown_2;
             }
             else
             {
@@ -105,12 +105,12 @@ void LiftMover::VUpdate()
 
                 if ((mLiftSpeed > FP_FromInteger(0) && pLiftPoint->OnBottomFloor()) || (mLiftSpeed < FP_FromInteger(0) && pLiftPoint->OnTopFloor()))
                 {
-                    mState = 2;
+                    mState = LiftMoverStates::eMovingDown_2;
                 }
             }
             break;
 
-        case 2:
+        case LiftMoverStates::eMovingDown_2:
             if (!pLiftPoint->OnAFloorLiftMoverCanUse())
             {
                 pLiftPoint->Move(FP_FromInteger(0), mLiftSpeed, 0);
@@ -118,32 +118,32 @@ void LiftMover::VUpdate()
             else
             {
                 pLiftPoint->Move(FP_FromInteger(0), FP_FromInteger(0), 0);
-                mState = 5;
+                mState = LiftMoverStates::eMovingDone_5;
             }
             break;
 
-        case 3:
+        case LiftMoverStates::eStartMovingUp_3:
             if (pLiftPoint->OnAFloorLiftMoverCanUse())
             {
                 pLiftPoint->Move(FP_FromInteger(0), mLiftSpeed, 0);
 
                 if ((mLiftSpeed > FP_FromInteger(0) && pLiftPoint->OnBottomFloor()) || (mLiftSpeed < FP_FromInteger(0) && pLiftPoint->OnTopFloor()))
                 {
-                    mState = 2;
+                    mState = LiftMoverStates::eMovingDown_2;
                 }
             }
             else
             {
                 pLiftPoint->mKeepOnMiddleFloor = true;
-                mState = 4;
+                mState = LiftMoverStates::eMovingUp_4;
             }
             break;
 
-        case 4:
+        case LiftMoverStates::eMovingUp_4:
             if (pLiftPoint->OnAFloorLiftMoverCanUse())
             {
                 pLiftPoint->Move(FP_FromInteger(0), FP_FromInteger(0), 0);
-                mState = 0;
+                mState = LiftMoverStates::eInactive_0;
                 mLiftSpeed = -mLiftSpeed;
             }
             else
@@ -152,10 +152,10 @@ void LiftMover::VUpdate()
             }
             break;
 
-        case 5:
-            if (!SwitchStates_Get(field_10_lift_mover_switch_id))
+        case LiftMoverStates::eMovingDone_5:
+            if (!SwitchStates_Get(mLiftMoverSwitchId))
             {
-                mState = 3;
+                mState = LiftMoverStates::eStartMovingUp_3;
                 mLiftSpeed = -mLiftSpeed;
             }
             break;
@@ -183,7 +183,7 @@ LiftPoint* LiftMover::FindLiftPointWithId(s16 id)
         if (pItem->Type() == ReliveTypes::eLiftPoint)
         {
             auto pLiftPoint = static_cast<LiftPoint*>(pItem);
-            if (pLiftPoint->field_278_lift_point_id == id)
+            if (pLiftPoint->mLiftPointId == id)
             {
                 return pLiftPoint;
             }

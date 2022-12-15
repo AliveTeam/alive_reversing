@@ -58,10 +58,10 @@ GameSpeak::GameSpeak()
     : BaseGameObject(true, 0)
 {
     SetSurviveDeathReset(true);
-    field_1C_event_buffer[0] = -1;
-    field_10_last_event = GameSpeakEvents::eNone_m1;
+    mEventBuffer[0] = -1;
+    mLastEvent = GameSpeakEvents::eNone_m1;
     SetType(ReliveTypes::eGameSpeak);
-    field_18_last_event_index = 0;
+    mLastEventIndex = 0;
 }
 
 void GameSpeak::VScreenChanged()
@@ -77,30 +77,30 @@ GameSpeak::~GameSpeak()
 void GameSpeak::VPushEvent(GameSpeakEvents event)
 {
     PushEvent_Impl(event);
-    field_14_last_event_frame = sGnFrame + 60;
+    mLastEventFrame = sGnFrame + 60;
 }
 
 
 void GameSpeak::PushEvent_Impl(GameSpeakEvents event)
 {
-    field_18_last_event_index++;
+    mLastEventIndex++;
 
     // Wrap around
-    if (field_18_last_event_index >= ALIVE_COUNTOF(field_1C_event_buffer))
+    if (mLastEventIndex >= ALIVE_COUNTOF(mEventBuffer))
     {
-        field_18_last_event_index = 0;
+        mLastEventIndex = 0;
     }
 
-    field_1C_event_buffer[field_18_last_event_index] = static_cast<s8>(event);
-    field_10_last_event = event;
+    mEventBuffer[mLastEventIndex] = static_cast<s8>(event);
+    mLastEvent = event;
 }
 
 void GameSpeak::VUpdate()
 {
     // If the last thing pushed wasn't nothing and its been around for a while then set the last event to nothing
-    if (field_10_last_event != GameSpeakEvents::eNone_m1)
+    if (mLastEvent != GameSpeakEvents::eNone_m1)
     {
-        if (sGnFrame > field_14_last_event_frame)
+        if (sGnFrame > mLastEventFrame)
         {
             PushEvent_Impl(GameSpeakEvents::eNone_m1);
         }
@@ -121,20 +121,20 @@ GameSpeakMatch GameSpeak::MatchBuffer(u8* pBuffer, s16 bufferLen, s16 bufferStar
 {
     if (bufferStartIdx == -1)
     {
-        bufferStartIdx = static_cast<s16>(field_18_last_event_index - bufferLen);
+        bufferStartIdx = static_cast<s16>(mLastEventIndex - bufferLen);
         if (bufferStartIdx < 0)
         {
-            bufferStartIdx += ALIVE_COUNTOF(field_1C_event_buffer);
+            bufferStartIdx += ALIVE_COUNTOF(mEventBuffer);
         }
     }
 
     s16 pBufferIdx = 0;
     while (1)
     {
-        while (field_1C_event_buffer[bufferStartIdx] == static_cast<s8>(GameSpeakEvents::eNone_m1))
+        while (mEventBuffer[bufferStartIdx] == static_cast<s8>(GameSpeakEvents::eNone_m1))
         {
             // Hit the end of events?
-            if (bufferStartIdx == field_18_last_event_index)
+            if (bufferStartIdx == mLastEventIndex)
             {
                 // Partial match as we got to the end but ran out of events
                 return GameSpeakMatch::ePartMatch_2;
@@ -142,13 +142,13 @@ GameSpeakMatch GameSpeak::MatchBuffer(u8* pBuffer, s16 bufferLen, s16 bufferStar
 
             // To next event
             bufferStartIdx++;
-            if (bufferStartIdx == ALIVE_COUNTOF(field_1C_event_buffer))
+            if (bufferStartIdx == ALIVE_COUNTOF(mEventBuffer))
             {
                 bufferStartIdx = 0;
             }
         }
 
-        if (pBuffer[pBufferIdx] != field_1C_event_buffer[bufferStartIdx])
+        if (pBuffer[pBufferIdx] != mEventBuffer[bufferStartIdx])
         {
             // Buffers didn't match
             return GameSpeakMatch::eNoMatch_0;
@@ -161,7 +161,7 @@ GameSpeakMatch GameSpeak::MatchBuffer(u8* pBuffer, s16 bufferLen, s16 bufferStar
         }
 
         // Hit the end of events?
-        if (bufferStartIdx == field_18_last_event_index)
+        if (bufferStartIdx == mLastEventIndex)
         {
             // Partial match as we got to the end but ran out of events
             return GameSpeakMatch::ePartMatch_2;
@@ -169,7 +169,7 @@ GameSpeakMatch GameSpeak::MatchBuffer(u8* pBuffer, s16 bufferLen, s16 bufferStar
 
         // To next event
         bufferStartIdx++;
-        if (bufferStartIdx == ALIVE_COUNTOF(field_1C_event_buffer))
+        if (bufferStartIdx == ALIVE_COUNTOF(mEventBuffer))
         {
             bufferStartIdx = 0;
         }

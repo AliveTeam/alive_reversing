@@ -20,11 +20,11 @@ public:
 
 private:
 
-    Prim_PrimClipper field_10_clippers[2] = {};
-    PSX_RECT field_30_rect = {};
+    Prim_PrimClipper mClippers[2] = {};
+    PSX_RECT mRect = {};
 
 public:
-    Layer field_38_ot_layer = Layer::eLayer_0;
+    Layer mOtLayer = Layer::eLayer_0;
 
 };
 

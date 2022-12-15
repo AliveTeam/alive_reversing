@@ -32,13 +32,13 @@ private:
         eBlowingUp_6 = 6,
         eKillMovingBomb_7 = 7
     };
-    States field_118_state = States::eTriggeredByAlarm_0;
-    Guid field_11C_tlvInfo;
-    s32 field_120_timer = 0;
-    FP field_124_speed = {};
-    s16 field_128_start_moving_switch_id = 0;
-    s16 field_12A_min = 0;
-    s16 field_12C_max = 0;
-    s32 field_130_sound_channels = 0;
-    relive::reliveChoice field_136_persist_offscreen = relive::reliveChoice::eNo;
+    States mState = States::eTriggeredByAlarm_0;
+    Guid mTlvId;
+    s32 mTimer = 0;
+    FP mSpeed = {};
+    s16 mStartMovingSwitchId = 0;
+    s16 mMinStopTime = 0;
+    s16 mMaxStopTime = 0;
+    s32 mChannelMask = 0;
+    relive::reliveChoice mPersistOffscreen = relive::reliveChoice::eNo;
 };

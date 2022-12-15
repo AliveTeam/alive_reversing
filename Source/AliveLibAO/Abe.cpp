@@ -500,12 +500,12 @@ s32 Environment_SFX_42A220(EnvironmentSfx sfxId, s32 volume, s32 pitchMin, BaseA
             {
                 v4 = SFX_SfxDefinition_Play_Mono(
                     sSFXList_4C6638[2],
-                    sSFXList_4C6638[2].field_C_default_volume / 2,
+                    sSFXList_4C6638[2].mDefaultVolume / 2,
                     pitchMin,
                     0x7FFF);
                 v5 = SFX_SfxDefinition_Play_Mono(
                     sSFXList_4C6638[48],
-                    sSFXList_4C6638[18].field_C_default_volume / 2,
+                    sSFXList_4C6638[18].mDefaultVolume / 2,
                     pitchMin,
                     0x7FFF);
             }
@@ -578,7 +578,7 @@ s32 Environment_SFX_42A220(EnvironmentSfx sfxId, s32 volume, s32 pitchMin, BaseA
     }
     if (volume == 0)
     {
-        volume = sSFXList_4C6638[sndIndex].field_C_default_volume;
+        volume = sSFXList_4C6638[sndIndex].mDefaultVolume;
     }
     if (pAliveObj)
     {
@@ -617,7 +617,7 @@ s32 Mudokon_SFX(MudSounds idx, s32 volume, s32 pitch, BaseAliveGameObject* pHero
         auto idxShort = static_cast<s16>(idx);
         if (volume == 0)
         {
-            volume = sSFXList_4C6638[idxShort + 30].field_C_default_volume;
+            volume = sSFXList_4C6638[idxShort + 30].mDefaultVolume;
         }
         if (pHero)
         {
@@ -755,7 +755,7 @@ Abe::Abe()
     field_160_pRope = nullptr;
     field_130_say = -1;
     field_134_auto_say_timer = 0;
-    field_EC_bBeesCanChase = 1;
+    SetCanBeesChase(true);
 
     // Set Abe to be the current player controlled object
     sControlledCharacter = this;
@@ -1508,7 +1508,7 @@ s16 Abe::DoGameSpeak_42F5C0(u16 input)
     {
         if (input & sInputKey_GameSpeak2)
         {
-            gEventSystem->VPushEvent(GameSpeakEvents::eFollowMe_10);
+            gEventSystem->VPushEvent(GameSpeakEvents::eAbe_FollowMe_10);
             Mudokon_SFX(MudSounds::eFollowMe_4, 0, 0, this);
             if (mCurrentMotion == eAbeMotions::Motion_14_Speak)
             {
@@ -1518,7 +1518,7 @@ s16 Abe::DoGameSpeak_42F5C0(u16 input)
         }
         if (input & sInputKey_GameSpeak4)
         {
-            gEventSystem->VPushEvent(GameSpeakEvents::eWait_12);
+            gEventSystem->VPushEvent(GameSpeakEvents::eAbe_Wait_12);
             Mudokon_SFX(MudSounds::eWait_6, 0, 0, this);
             if (mCurrentMotion == eAbeMotions::Motion_14_Speak)
             {
@@ -1528,7 +1528,7 @@ s16 Abe::DoGameSpeak_42F5C0(u16 input)
         }
         if (input & sInputKey_GameSpeak1)
         {
-            gEventSystem->VPushEvent(GameSpeakEvents::eHello_9);
+            gEventSystem->VPushEvent(GameSpeakEvents::eAbe_Hello_9);
             Mudokon_SFX(MudSounds::eHello_3, 0, 0, this);
             if (mCurrentMotion == eAbeMotions::Motion_9_Speak)
             {
@@ -1538,7 +1538,7 @@ s16 Abe::DoGameSpeak_42F5C0(u16 input)
         }
         if (input & sInputKey_GameSpeak3)
         {
-            gEventSystem->VPushEvent(GameSpeakEvents::eAnger_11);
+            gEventSystem->VPushEvent(GameSpeakEvents::eAbe_Anger_11);
             Mudokon_SFX(MudSounds::eAngry_5, 0, 0, this);
             if (mCurrentMotion == eAbeMotions::Motion_10_Speak)
             {
@@ -1552,7 +1552,7 @@ s16 Abe::DoGameSpeak_42F5C0(u16 input)
     {
         if (input & sInputKey_GameSpeak6)
         {
-            gEventSystem->VPushEvent(GameSpeakEvents::eWhistleHigh_1);
+            gEventSystem->VPushEvent(GameSpeakEvents::eAbe_WhistleHigh_1);
             Mudokon_SFX(MudSounds::eWhistleHigh_1, 0, 0, this);
             if (mCurrentMotion == eAbeMotions::Motion_9_Speak)
             {
@@ -1562,7 +1562,7 @@ s16 Abe::DoGameSpeak_42F5C0(u16 input)
         }
         if (input & sInputKey_GameSpeak5)
         {
-            gEventSystem->VPushEvent(GameSpeakEvents::eWhistleLow_2);
+            gEventSystem->VPushEvent(GameSpeakEvents::eAbe_WhistleLow_2);
             Mudokon_SFX(MudSounds::eWhistleLow_2, 0, 0, this);
             if (mCurrentMotion == eAbeMotions::Motion_8_Speak)
             {
@@ -1572,7 +1572,7 @@ s16 Abe::DoGameSpeak_42F5C0(u16 input)
         }
         if (input & sInputKey_GameSpeak8)
         {
-            gEventSystem->VPushEvent(GameSpeakEvents::eLaugh_4);
+            gEventSystem->VPushEvent(GameSpeakEvents::eAbe_Laugh_4);
             Mudokon_SFX(MudSounds::eLaugh1_8, 0, 0, this);
             if (mCurrentMotion == eAbeMotions::Motion_12_Speak)
             {
@@ -1582,7 +1582,7 @@ s16 Abe::DoGameSpeak_42F5C0(u16 input)
         }
         if (input & sInputKey_GameSpeak7)
         {
-            gEventSystem->VPushEvent(GameSpeakEvents::eFart_3);
+            gEventSystem->VPushEvent(GameSpeakEvents::eAbe_Fart_3);
             Mudokon_SFX(MudSounds::eFart_7, 0, 0, this);
             if (gEnableFartGasCheat)
             {
@@ -1824,7 +1824,7 @@ void Abe::PickUpThrowabe_Or_PressBomb_428260(FP fpX, s32 fpY, s16 bStandToCrouch
                 mCurrentMotion = eAbeMotions::Motion_149_PickupItem;
                 field_19C_throwable_count += static_cast<s8>(static_cast<BaseThrowable*>(field_15C_pThrowable)->VGetCount());
 
-                if (!bThrowableIndicatorExists_504C70)
+                if (!gThrowableIndicatorExists)
                 {
                     const FP v16 = (GetSpriteScale() * FP_FromInteger(-30)) + mYPos;
                     relive_new ThrowableTotalIndicator(
@@ -1873,25 +1873,25 @@ void Abe::CrouchingGameSpeak_427F90()
     {
         if (field_10C_prev_held & sInputKey_GameSpeak2)
         {
-            gEventSystem->VPushEvent(GameSpeakEvents::eFollowMe_10);
+            gEventSystem->VPushEvent(GameSpeakEvents::eAbe_FollowMe_10);
             Mudokon_SFX(MudSounds::eFollowMe_4, 0, 0, this);
             mCurrentMotion = eAbeMotions::Motion_22_CrouchSpeak;
         }
         else if (field_10C_prev_held & sInputKey_GameSpeak4)
         {
-            gEventSystem->VPushEvent(GameSpeakEvents::eWait_12);
+            gEventSystem->VPushEvent(GameSpeakEvents::eAbe_Wait_12);
             Mudokon_SFX(MudSounds::eWait_6, 0, 0, this);
             mCurrentMotion = eAbeMotions::Motion_23_CrouchSpeak;
         }
         else if (field_10C_prev_held & sInputKey_GameSpeak1)
         {
-            gEventSystem->VPushEvent(GameSpeakEvents::eHello_9);
+            gEventSystem->VPushEvent(GameSpeakEvents::eAbe_Hello_9);
             Mudokon_SFX(MudSounds::eHello_3, 0, 0, this);
             mCurrentMotion = eAbeMotions::Motion_22_CrouchSpeak;
         }
         else if (field_10C_prev_held & sInputKey_GameSpeak3)
         {
-            gEventSystem->VPushEvent(GameSpeakEvents::eAnger_11);
+            gEventSystem->VPushEvent(GameSpeakEvents::eAbe_Anger_11);
             Mudokon_SFX(MudSounds::eAngry_5, 0, 0, this);
             mCurrentMotion = eAbeMotions::Motion_23_CrouchSpeak;
         }
@@ -1900,25 +1900,25 @@ void Abe::CrouchingGameSpeak_427F90()
     {
         if (field_10C_prev_held & sInputKey_GameSpeak6)
         {
-            gEventSystem->VPushEvent(GameSpeakEvents::eWhistleHigh_1);
+            gEventSystem->VPushEvent(GameSpeakEvents::eAbe_WhistleHigh_1);
             Mudokon_SFX(MudSounds::eWhistleHigh_1, 0, 0, this);
             mCurrentMotion = eAbeMotions::Motion_23_CrouchSpeak;
         }
         else if (field_10C_prev_held & sInputKey_GameSpeak5)
         {
-            gEventSystem->VPushEvent(GameSpeakEvents::eWhistleLow_2);
+            gEventSystem->VPushEvent(GameSpeakEvents::eAbe_WhistleLow_2);
             Mudokon_SFX(MudSounds::eWhistleLow_2, 0, 0, this);
             mCurrentMotion = eAbeMotions::Motion_22_CrouchSpeak;
         }
         else if (field_10C_prev_held & sInputKey_GameSpeak8)
         {
-            gEventSystem->VPushEvent(GameSpeakEvents::eLaugh_4);
+            gEventSystem->VPushEvent(GameSpeakEvents::eAbe_Laugh_4);
             Mudokon_SFX(MudSounds::eLaugh1_8, 0, 0, this);
             mCurrentMotion = eAbeMotions::Motion_23_CrouchSpeak;
         }
         else if (field_10C_prev_held & sInputKey_GameSpeak7)
         {
-            gEventSystem->VPushEvent(GameSpeakEvents::eFart_3);
+            gEventSystem->VPushEvent(GameSpeakEvents::eAbe_Fart_3);
             Mudokon_SFX(MudSounds::eFart_7, 0, 0, this);
             if (gEnableFartGasCheat)
             {
@@ -2540,7 +2540,7 @@ void Abe::VOnTlvCollision(relive::Path_TLV* pTlv)
 
                 SaveGame::SaveToMemory(&gSaveBuffer);
 
-                const FP camXPos = FP_NoFractional(pScreenManager->CamXPos());
+                const FP camXPos = FP_NoFractional(gScreenManager->CamXPos());
 
                 FP indicator_xpos = {};
                 if (mXPos - camXPos >= FP_FromInteger(384 / 2)) // mid screen x
@@ -3455,7 +3455,7 @@ void Abe::Motion_0_Idle()
                     mYPos - FP_FromInteger(40),
                     0);
 
-                if (bThrowableIndicatorExists_504C70 == 0)
+                if (gThrowableIndicatorExists == 0)
                 {
                     const FP xOffSet = GetAnimation().GetFlipX() ? FP_FromInteger(15) : FP_FromInteger(-15) * GetSpriteScale();
 
@@ -4179,7 +4179,7 @@ void Abe::Motion_17_HoistIdle()
                 {
                     if (gMap.SetActiveCameraDelayed(MapDirections::eMapTop_2, this, -1))
                     {
-                        PSX_Prevent_Rendering_4945B0();
+                        PSX_Prevent_Rendering();
                         mCurrentMotion = eAbeMotions::Motion_67_ToOffScreenHoist;
                         return;
                     }
@@ -4346,7 +4346,7 @@ void Abe::Motion_19_CrouchIdle()
                     mYPos - FP_FromInteger(40),
                     0);
 
-                if (!bThrowableIndicatorExists_504C70)
+                if (!gThrowableIndicatorExists)
                 {
                     const FP yOff = mYPos + (GetSpriteScale() * FP_FromInteger(-30));
                     const FP xOff = GetSpriteScale() * (GetAnimation().GetFlipX() ? FP_FromInteger(-10) : FP_FromInteger(10));
@@ -6289,7 +6289,7 @@ void Abe::Motion_61_Respawn()
                 SaveGame::LoadFromMemory(&gSaveBuffer, 0);
                 if (field_19C_throwable_count)
                 {
-                    LoadRockTypes(MapWrapper::FromAO(gSaveBuffer.field_234_current_level), gSaveBuffer.field_236_current_path);
+                    LoadRockTypes(MapWrapper::FromAO(gSaveBuffer.mCurrentLevel), gSaveBuffer.mCurrentPath);
                     if (!gThrowableArray)
                     {
                         gThrowableArray = relive_new ThrowableArray();
@@ -6359,8 +6359,8 @@ void Abe::Motion_61_Respawn()
         {
             if (static_cast<s32>(sGnFrame) > field_118_timer)
             {
-                auto xDiff = pScreenManager->CamXPos();
-                auto yDiff = pScreenManager->CamYPos();
+                auto xDiff = gScreenManager->CamXPos();
+                auto yDiff = gScreenManager->CamYPos();
 
                 for (s32 i = 0; i < 8; i++)
                 {
@@ -6431,8 +6431,8 @@ void Abe::Motion_62_LoadedSaveSpawn()
     if (field_114_gnFrame)
     {
         auto pSaveData = field_2AC_pSaveData;
-        mYPos = FP_FromInteger(pSaveData->field_228_ypos);
-        mXPos = FP_FromInteger(pSaveData->field_224_xpos);
+        mYPos = FP_FromInteger(pSaveData->mActiveHero_YPos);
+        mXPos = FP_FromInteger(pSaveData->mActiveHero_XPos);
 
         PathLine* pLine2 = nullptr;
         FP hitX2 = {};
@@ -6459,15 +6459,15 @@ void Abe::Motion_62_LoadedSaveSpawn()
         sActiveHero->BaseAliveGameObjectLastLineYPos = sActiveHero->mYPos;
         sActiveHero->field_110_state.raw = static_cast<s16>(pSaveData->field_244_stone_state);
         sActiveHero->field_114_gnFrame = pSaveData->field_248_gnFrame;
-        sActiveHero->mBaseAliveGameObjectLastAnimFrame = pSaveData->field_240_last_anim_frame;
-        sActiveHero->GetAnimation().SetFlipX(pSaveData->field_23C_ah_flipX & 1);
+        sActiveHero->mBaseAliveGameObjectLastAnimFrame = pSaveData->mActiveHero_CurrentFrame;
+        sActiveHero->GetAnimation().SetFlipX(pSaveData->mActiveHero_FlipX & 1);
         sActiveHero->MapFollowMe(true);
         sActiveHero->GetAnimation().SetRender(true);
         if (sActiveHero->field_19C_throwable_count)
         {
             if (!gThrowableArray)
             {
-                LoadRockTypes(MapWrapper::FromAO(gSaveBuffer.field_234_current_level), gSaveBuffer.field_236_current_path);
+                LoadRockTypes(MapWrapper::FromAO(gSaveBuffer.mCurrentLevel), gSaveBuffer.mCurrentPath);
 
                 gThrowableArray = relive_new ThrowableArray();
             }
@@ -7493,11 +7493,11 @@ void Abe::Motion_88_HandstoneBegin()
         }
         case StoneStates::eHandstoneMovieDone_2:
         {
-            if (sMovie_ref_count_9F309C == 0)
+            if (gMovieRefCount == 0)
             {
                 gPsxDisplay.PutCurrentDispEnv();
-                pScreenManager->DecompressCameraToVRam(gMap.field_2C_camera_array[0]->field_C_pCamRes);
-                pScreenManager->EnableRendering();
+                gScreenManager->DecompressCameraToVRam(gMap.field_2C_camera_array[0]->mCamRes);
+                gScreenManager->EnableRendering();
                 mCircularFade->VFadeIn(0, 0);
                 field_110_state.stone = StoneStates::eHandstoneEnd_5;
             }
@@ -7823,22 +7823,22 @@ void Abe::Motion_103_ElumIdle()
         {
             if (Input().IsAnyHeld(sInputKey_GameSpeak2))
             {
-                gEventSystem->VPushEvent(GameSpeakEvents::eFollowMe_10);
+                gEventSystem->VPushEvent(GameSpeakEvents::eAbe_FollowMe_10);
                 Mudokon_SFX(MudSounds::eFollowMe_4, 0, 0, this);
             }
             else if (Input().IsAnyHeld(sInputKey_GameSpeak4))
             {
-                gEventSystem->VPushEvent(GameSpeakEvents::eWait_12);
+                gEventSystem->VPushEvent(GameSpeakEvents::eAbe_Wait_12);
                 Mudokon_SFX(MudSounds::eWait_6, 0, 0, this);
             }
             else if (Input().IsAnyHeld(sInputKey_GameSpeak1))
             {
-                gEventSystem->VPushEvent(GameSpeakEvents::eHello_9);
+                gEventSystem->VPushEvent(GameSpeakEvents::eAbe_Hello_9);
                 Mudokon_SFX(MudSounds::eHello_3, 0, 0, this);
             }
             else if (Input().IsAnyHeld(sInputKey_GameSpeak3))
             {
-                gEventSystem->VPushEvent(GameSpeakEvents::eAnger_11);
+                gEventSystem->VPushEvent(GameSpeakEvents::eAbe_Anger_11);
                 Mudokon_SFX(MudSounds::eAngry_5, 0, 0, this);
             }
         }
@@ -7847,22 +7847,22 @@ void Abe::Motion_103_ElumIdle()
         {
             if (Input().IsAnyHeld(sInputKey_GameSpeak6))
             {
-                gEventSystem->VPushEvent(GameSpeakEvents::eWhistleHigh_1);
+                gEventSystem->VPushEvent(GameSpeakEvents::eAbe_WhistleHigh_1);
                 Mudokon_SFX(MudSounds::eWhistleHigh_1, 0, 0, this);
             }
             else if (Input().IsAnyHeld(sInputKey_GameSpeak5))
             {
-                gEventSystem->VPushEvent(GameSpeakEvents::eWhistleLow_2);
+                gEventSystem->VPushEvent(GameSpeakEvents::eAbe_WhistleLow_2);
                 Mudokon_SFX(MudSounds::eWhistleLow_2, 0, 0, this);
             }
             else if (Input().IsAnyHeld(sInputKey_GameSpeak8))
             {
-                gEventSystem->VPushEvent(GameSpeakEvents::eLaugh_4);
+                gEventSystem->VPushEvent(GameSpeakEvents::eAbe_Laugh_4);
                 Mudokon_SFX(MudSounds::eLaugh1_8, 0, 0, this);
             }
             else if (Input().IsAnyHeld(sInputKey_GameSpeak7))
             {
-                gEventSystem->VPushEvent(GameSpeakEvents::eFart_3);
+                gEventSystem->VPushEvent(GameSpeakEvents::eAbe_Fart_3);
                 Mudokon_SFX(MudSounds::eFart_7, 0, 0, this);
             }
         }
@@ -8342,7 +8342,7 @@ void Abe::Motion_139_ElumMountBegin()
         field_1A4_resources.res[61] = {};
         field_104_pending_resource_count = 1;
 
-        ResourceManager::LoadResourceFile("ABEWELM.BND", BaseAliveGameObject::OnResourceLoaded_4019A0, this);
+        ResourceManager::LoadResourceFile("ABEWELM.BND", BaseAliveGameObject::OnResourceLoaded, this);
         */
         VOnTrapDoorOpen();
         mCurrentMotion = eAbeMotions::Motion_136_ElumMountEnd;

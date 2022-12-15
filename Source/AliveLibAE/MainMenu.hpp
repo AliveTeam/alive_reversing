@@ -1,11 +1,7 @@
 #pragma once
 
-#include "../AliveLibCommon/BitField.hpp"
-#include "../relive_lib/BaseGameObject.hpp"
-#include "../relive_lib/Animation.hpp"
 #include "Font.hpp"
 #include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
-#include "Factory.hpp"
 #include "Input.hpp"
 #include "PathData.hpp"
 #include <functional>
@@ -324,35 +320,6 @@ private:
     void HandleMainMenuUpdate();
 
 public:
-    enum Flags : u32
-    {
-        eBit1_padding = 0x1,
-        eBit2_padding = 0x2,
-        eBit3_padding = 0x4,
-        eBit4_padding = 0x8,
-        eBit5_padding = 0x10,
-        eBit6_padding = 0x20,
-        eBit7_padding = 0x40,
-        eBit8_padding = 0x80,
-        eBit9_padding = 0x100,
-        eBit10_padding = 0x200,
-        eBit11_padding = 0x400,
-        eBit12_padding = 0x800,
-        eBit13_padding = 0x1000,
-        eBit14_padding = 0x2000,
-        eBit15_unused = 0x4000,
-        eBit16_padding = 0x8000,
-        eBit17_bDisableChangingSelection = 0x10000,
-        eBit18_Loading = 0x20000,
-        eBit19_unused = 0x40000,
-        eBit20_padding = 0x80000,
-        eBit21_LoadingSave = 0x100000,
-        eBit22_GameSpeakPlaying = 0x200000,
-        eBit23_unused = 0x400000,
-        eBit24_Chant_Seq_Playing = 0x800000,
-        eBit25_CheatLevelSelectLoading = 0x1000000,
-    };
-
     PalResource mPal;
     FontContext mFontContext;
     AliveFont field_120_font = {};
@@ -388,7 +355,12 @@ public:
     const char_type* field_234_pStr = nullptr;
     s16 field_238_unused = 0;
     s16 field_23A_Inside_LoadGame_Screen = 0;
-    BitField32<Flags> field_23C_T80 = {};
+    bool mDisableChangingSelection = false;
+    bool mLoading = false;
+    bool mLoadingSave = false;
+    bool mGameSpeakPlaying = false;
+    bool mChantSeqPlaying = false;
+    bool mCheatLevelSelectLoading = false;
     s32 field_240_credits_current_cam = 0;
     EReliveLevelIds field_244_lvl_id = EReliveLevelIds::eNone;
     s16 field_246_path_id = 0;

@@ -26,13 +26,13 @@ ExplosionSet::ExplosionSet()
     {
         gExplosionSet = this;
         SetDrawable(true);
-        field_50_scale = FP_FromInteger(1);
-        field_40 = 0;
-        field_42 = 1;
-        field_44_start_delay = 0;
-        field_46_spacing_multiplicator = 0;
+        mSpriteScale = FP_FromInteger(1);
+        mScreenShakeIdx = 0;
+        mScreenShakeIdxModifier = 1;
+        mStartDelay = 0;
+        mSpacingMultiplicator = 0;
         gExplosionSetEnabled = false;
-        field_5C_flags.Clear(Flags_5C::eBit3_Active);
+        mActive = false;
         gObjListDrawables->Push_Back(this);
     }
 }
@@ -44,32 +44,32 @@ void ExplosionSet::Start()
 
 void ExplosionSet::Init(relive::Path_ExplosionSet* pTlv)
 {
-    field_48_tlv_rect.x = pTlv->mTopLeftX;
-    field_48_tlv_rect.y = pTlv->mTopLeftY;
-    field_48_tlv_rect.w = pTlv->Width();
-    field_48_tlv_rect.h = pTlv->Height();
+    mTlvRect.x = pTlv->mTopLeftX;
+    mTlvRect.y = pTlv->mTopLeftY;
+    mTlvRect.w = pTlv->Width();
+    mTlvRect.h = pTlv->Height();
 
     if (pTlv->mScale != relive::reliveScale::eFull)
     {
-        field_50_scale = FP_FromDouble(0.5);
+        mSpriteScale = FP_FromDouble(0.5);
     }
 
-    field_44_start_delay = pTlv->mStartDelay;
+    mStartDelay = pTlv->mStartDelay;
 
-    field_5C_flags.Set(Flags_5C::eBit1_spawn_assets, pTlv->mSpawnAssets == relive::reliveChoice::eYes);
-    field_5C_flags.Set(Flags_5C::eBit2_flipX, pTlv->mStartDirection == relive::reliveXDirection::eRight);
-    field_56_asset_interval = pTlv->mAssetInterval;
-    field_58_grid_spacing = FP_GetExponent(FP_FromInteger(pTlv->mGridSpacing) * ScaleToGridSize(field_50_scale));
-    field_5A_increasing_grid_spacing = FP_GetExponent(FP_FromInteger(pTlv->mIncreasingGridSpacing) * ScaleToGridSize(field_50_scale));
-    field_54_switch_id = pTlv->mSwitchId;
+    mSpawnAssets = pTlv->mSpawnAssets == relive::reliveChoice::eYes ? true : false;
+    mFlipX = pTlv->mStartDirection == relive::reliveXDirection::eRight ? true : false;
+    mAssetInterval = pTlv->mAssetInterval;
+    mGridSpacing = FP_GetExponent(FP_FromInteger(pTlv->mGridSpacing) * ScaleToGridSize(mSpriteScale));
+    mIncreasingGridSpacing = FP_GetExponent(FP_FromInteger(pTlv->mIncreasingGridSpacing) * ScaleToGridSize(mSpriteScale));
+    mSwitchId = pTlv->mSwitchId;
 
     if (!gExplosionSetEnabled)
     {
         gExplosionSetEnabled = static_cast<s16>(pTlv->mStartEnabled);
     }
 
-    field_5C_flags.Set(Flags_5C::eBit3_Active);
-    field_46_spacing_multiplicator = 0;
+    mActive = true;
+    mSpacingMultiplicator = 0;
 }
 
 ExplosionSet::~ExplosionSet()
@@ -82,7 +82,7 @@ void ExplosionSet::VScreenChanged()
 {
     if (gMap.mCurrentLevel == gMap.mNextLevel && gMap.mCurrentPath == gMap.mNextPath)
     {
-        field_5C_flags.Clear(Flags_5C::eBit3_Active);
+        mActive = false;
     }
     else
     {
@@ -95,7 +95,7 @@ struct Point2 final
     s8 x, y;
 };
 
-const Point2 stru_550F38[12] = {
+static const Point2 mScreenShakeOffsets[12] = {
     {0, -2},
     {-2, 0},
     {2, -2},
@@ -113,11 +113,11 @@ void ExplosionSet::VRender(PrimHeader** ppOt)
 {
     if (gExplosionSetEnabled)
     {
-        Prim_ScreenOffset* pScreenOff = &field_20[gPsxDisplay.mBufferIndex];
+        Prim_ScreenOffset* pScreenOff = &mScreenOffset[gPsxDisplay.mBufferIndex];
 
         PSX_Pos16 point = {};
-        point.x = stru_550F38[field_40].x;
-        point.y = stru_550F38[field_40].y;
+        point.x = mScreenShakeOffsets[mScreenShakeIdx].x;
+        point.y = mScreenShakeOffsets[mScreenShakeIdx].y;
         if (gPsxDisplay.mBufferIndex)
         {
             point.y += 256;
@@ -137,61 +137,61 @@ void ExplosionSet::VUpdate()
 
     if (gExplosionSetEnabled)
     {
-        field_40 += field_42;
+        mScreenShakeIdx += mScreenShakeIdxModifier;
 
-        if (field_40 >= 7 || field_40 <= 0)
+        if (mScreenShakeIdx >= 7 || mScreenShakeIdx <= 0)
         {
-            field_42 = -field_42;
+            mScreenShakeIdxModifier = -mScreenShakeIdxModifier;
         }
 
-        if (field_5C_flags.Get(Flags_5C::eBit3_Active) && field_5C_flags.Get(Flags_5C::eBit1_spawn_assets))
+        if (mActive && mSpawnAssets)
         {
-            if (field_44_start_delay > 0)
+            if (mStartDelay > 0)
             {
-                field_44_start_delay--;
+                mStartDelay--;
                 return;
             }
 
             s16 xpos = 0;
-            if (field_5C_flags.Get(Flags_5C::eBit2_flipX))
+            if (mFlipX)
             {
-                xpos = field_48_tlv_rect.w + field_48_tlv_rect.x - (field_46_spacing_multiplicator * field_5A_increasing_grid_spacing) - field_58_grid_spacing;
-                if (xpos <= field_48_tlv_rect.x)
+                xpos = mTlvRect.w + mTlvRect.x - (mSpacingMultiplicator * mIncreasingGridSpacing) - mGridSpacing;
+                if (xpos <= mTlvRect.x)
                 {
-                    xpos = field_48_tlv_rect.w + field_48_tlv_rect.x - field_58_grid_spacing;
-                    field_46_spacing_multiplicator = 0;
+                    xpos = mTlvRect.w + mTlvRect.x - mGridSpacing;
+                    mSpacingMultiplicator = 0;
                 }
             }
             else
             {
-                xpos = field_58_grid_spacing + field_48_tlv_rect.x + (field_46_spacing_multiplicator * field_5A_increasing_grid_spacing);
-                if (xpos >= field_48_tlv_rect.x + field_48_tlv_rect.w)
+                xpos = mGridSpacing + mTlvRect.x + (mSpacingMultiplicator * mIncreasingGridSpacing);
+                if (xpos >= mTlvRect.x + mTlvRect.w)
                 {
-                    xpos = field_48_tlv_rect.x + field_58_grid_spacing;
-                    field_46_spacing_multiplicator = 0;
+                    xpos = mTlvRect.x + mGridSpacing;
+                    mSpacingMultiplicator = 0;
                 }
             }
 
-            relive_new FallingItem(xpos, field_48_tlv_rect.y, field_50_scale < FP_FromInteger(1), 0, 0, 1, 0);
+            relive_new FallingItem(xpos, mTlvRect.y, mSpriteScale < FP_FromInteger(1), 0, 0, 1, 0);
 
-            field_46_spacing_multiplicator++;
-            field_44_start_delay = field_56_asset_interval;
+            mSpacingMultiplicator++;
+            mStartDelay = mAssetInterval;
 
             if (gMap.mCurrentLevel == EReliveLevelIds::eMines && Math_RandomRange(1, 5) >= 4)
             {
-                const FP explodeX = FP_FromInteger(Math_RandomRange(field_48_tlv_rect.y + 20, field_48_tlv_rect.y + 230));
-                const FP explodeY = FP_FromInteger(Math_RandomRange(field_48_tlv_rect.x, xpos));
-                relive_new AirExplosion(explodeY, explodeX, field_50_scale, 0);
+                const FP explodeX = FP_FromInteger(Math_RandomRange(mTlvRect.y + 20, mTlvRect.y + 230));
+                const FP explodeY = FP_FromInteger(Math_RandomRange(mTlvRect.x, xpos));
+                relive_new AirExplosion(explodeY, explodeX, mSpriteScale, 0);
             }
         }
     }
     else
     {
-        if (field_5C_flags.Get(Flags_5C::eBit3_Active))
+        if (mActive)
         {
-            if (field_54_switch_id > 0)
+            if (mSwitchId > 0)
             {
-                if (SwitchStates_Get(field_54_switch_id))
+                if (SwitchStates_Get(mSwitchId))
                 {
                     gExplosionSetEnabled = true;
                 }

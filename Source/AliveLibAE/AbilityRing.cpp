@@ -50,8 +50,8 @@ AbilityRing::AbilityRing(FP xpos, FP ypos, RingTypes ringType, FP scale)
         mRingXPos = xpos;
         mRingYPos = ypos;
 
-        mRingScreenX = FP_GetExponent(pScreenManager->CamXPos());
-        mRingScreenY = FP_GetExponent(pScreenManager->CamYPos());
+        mRingScreenX = FP_GetExponent(gScreenManager->CamXPos());
+        mRingScreenY = FP_GetExponent(gScreenManager->CamYPos());
 
         mRingScreenXPos = FP_GetExponent(xpos) - mRingScreenX;
         mRingScreenYPos = FP_GetExponent(ypos) - mRingScreenY;
@@ -233,7 +233,7 @@ AbilityRing::AbilityRing(FP xpos, FP ypos, RingTypes ringType, FP scale)
                 SetRGB3(pPoly, mRingRed & 255, mRingGreen & 255, mRingBlue & 255);
                 Poly_Set_SemiTrans(&pPoly->mBase.header, mRingSemiTrans);
             }
-            Init_SetTPage(&mRingPrimSetTPage[y], 0, 0, PSX_getTPage(TPageAbr::eBlend_1));
+            Init_SetTPage(&mRingPrimSetTPage[y], PSX_getTPage(TPageAbr::eBlend_1));
         }
         mRingCount = 64;
     }
@@ -288,11 +288,11 @@ void AbilityRing::VRender(PrimHeader** ppOt)
         u8 ang = angIncrement;
         for (s32 i = 0; i < mRingCount; i++)
         {
-            const s16 x1 = (s16) PsxToPCX(mRingScreenXPos + FP_GetExponent(mRingLeft * Math_Sine_496DD0(ang) * mRingScaleX), 11);
-            const s16 x2 = (s16) PsxToPCX(mRingScreenXPos + FP_GetExponent(mRingRight * Math_Sine_496DD0(ang) * mRingScaleX), 11);
+            const s16 x1 = (s16) PsxToPCX(mRingScreenXPos + FP_GetExponent(mRingLeft * Math_Sine(ang) * mRingScaleX), 11);
+            const s16 x2 = (s16) PsxToPCX(mRingScreenXPos + FP_GetExponent(mRingRight * Math_Sine(ang) * mRingScaleX), 11);
 
-            const s16 y1 = mRingScreenYPos + FP_GetExponent(mRingLeft * Math_Cosine_496CD0(ang) * mRingScaleY);
-            const s16 y2 = mRingScreenYPos + FP_GetExponent(mRingRight * Math_Cosine_496CD0(ang) * mRingScaleY);
+            const s16 y1 = mRingScreenYPos + FP_GetExponent(mRingLeft * Math_Cosine(ang) * mRingScaleY);
+            const s16 y2 = mRingScreenYPos + FP_GetExponent(mRingRight * Math_Cosine(ang) * mRingScaleY);
 
             const s16 x = std::min(std::min(x1, x3), std::min(x2, x4));
             const s16 y = std::min(std::min(y1, y3), std::min(y2, y4));
@@ -352,8 +352,8 @@ void AbilityRing::VUpdate()
         }
         else
         {
-            mRingScreenX = FP_GetExponent(pScreenManager->CamXPos());
-            mRingScreenY = FP_GetExponent(pScreenManager->CamYPos());
+            mRingScreenX = FP_GetExponent(gScreenManager->CamXPos());
+            mRingScreenY = FP_GetExponent(gScreenManager->CamYPos());
             const PSX_RECT bRect = pTarget->VGetBoundingRect();
             mRingScreenXPos = (bRect.x + bRect.w) / 2 - mRingScreenX;
             mRingScreenYPos = (bRect.y + bRect.h) / 2 - mRingScreenY;

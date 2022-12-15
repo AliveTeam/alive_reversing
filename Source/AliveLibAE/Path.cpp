@@ -7,12 +7,12 @@
 #include "Path.hpp"
 #include "Factory.hpp"
 
-Path* sPathInfo = nullptr;
+Path* gPathInfo = nullptr;
 
 Path::Path()
 {
     mPathData = nullptr;
-    field_10_ppRes = nullptr;
+    mBinaryPath = nullptr;
     mCamsOnY = 0;
     mCamsOnX = 0;
     mCameraId = 0;
@@ -28,7 +28,7 @@ Path::~Path()
 void Path::Free()
 {
     mPathData = 0;
-    field_10_ppRes = nullptr;
+    mBinaryPath = nullptr;
     mCamsOnY = 0;
     mCamsOnX = 0;
     mCameraId = 0;
@@ -38,7 +38,7 @@ void Path::Free()
 
 void Path::Init(const PathData* pPathData, EReliveLevelIds level, s16 path, s16 cameraId, BinaryPath* ppPathRes)
 {
-    field_10_ppRes = ppPathRes;
+    mBinaryPath = ppPathRes;
 
     mCameraId = cameraId;
     mLevelId = level;
@@ -51,7 +51,7 @@ void Path::Init(const PathData* pPathData, EReliveLevelIds level, s16 path, s16 
 
 void Path::Loader_4DB800(s16 xpos, s16 ypos, LoadMode loadMode, ReliveTypes typeToLoad)
 {
-    relive::Path_TLV* pPathTLV = field_10_ppRes->TlvsForCamera(xpos, ypos);
+    relive::Path_TLV* pPathTLV = mBinaryPath->TlvsForCamera(xpos, ypos);
     while (pPathTLV)
     {
         if (typeToLoad == ReliveTypes::eNone || typeToLoad == pPathTLV->mTlvType)
@@ -247,7 +247,7 @@ relive::Path_TLV* Path::TlvGetAt(relive::Path_TLV* pTlv, FP xpos, FP ypos, FP w,
 
 relive::Path_TLV* Path::TLV_From_Offset_Lvl_Cam(const Guid& tlvId)
 {
-    return field_10_ppRes->TlvsById(tlvId);
+    return mBinaryPath->TlvsById(tlvId);
 }
 
 Guid Path::TLVInfo_From_TLVPtr(relive::Path_TLV* pTlv)
@@ -301,7 +301,7 @@ void Path::TLV_Reset(const Guid& tlvId, s16 hiFlags, s8 bSetCreated, s8 bSetDest
 
 void Path::Start_Sounds_For_Objects_In_Camera(CameraPos direction, s16 cam_x_idx, s16 cam_y_idx)
 {
-    relive::Path_TLV* pTlv = sPathInfo->Get_First_TLV_For_Offsetted_Camera(cam_x_idx, cam_y_idx);
+    relive::Path_TLV* pTlv = gPathInfo->Get_First_TLV_For_Offsetted_Camera(cam_x_idx, cam_y_idx);
     while (pTlv)
     {
         if (!(pTlv->mTlvFlags.Get(relive::TlvFlags::eBit1_Created) || (pTlv->mTlvFlags.Get(relive::TlvFlags::eBit2_Destroyed))))

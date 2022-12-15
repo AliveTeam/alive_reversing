@@ -15,8 +15,8 @@ void Sys_DestroyWindow();
 bool Sys_WindowClass_Register(const char_type* lpWindowName, s32 x, s32 y, s32 nWidth, s32 nHeight, s32 extraAttributes);
 TWindowHandleType Sys_GetWindowHandle();
 bool Sys_IsAnyKeyDown();
-bool Sys_IsAppActive_4EDF30();
-s8 Sys_PumpMessages_4EE4F4();
+bool Sys_IsAppActive();
+s8 Sys_PumpMessages();
 
 #if ORIGINAL_PS1_BEHAVIOR // OG Change - Allow for exiting save menu using controller
 void setSaveMenuOpen(bool val);
@@ -24,4 +24,4 @@ void setSaveMenuOpen(bool val);
 
 struct SoundEntry;
 
-extern SoundEntry* sMovieSoundEntry_5CA230;
+extern SoundEntry* gMovieSoundEntry;

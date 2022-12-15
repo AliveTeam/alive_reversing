@@ -71,6 +71,7 @@
 #include "../relive_lib/ShadowZone.hpp"
 #include "LiftPoint.hpp"
 #include "RockSack.hpp"
+#include "MeatSack.hpp"
 
 namespace AO {
 
@@ -1399,7 +1400,7 @@ static void Factory_KillUnsavedMuds(relive::Path_TLV* /*pTlv*/, Map* pMap, const
         // OG bug fix - added an extra check that checks if the map has changed
         // which prevents that the killed mudokon count becomes inaccurate or even negative.
         if (!gbKillUnsavedMudsDone &&
-            pMap->field_DA_bMapChanged)
+            pMap->mMapChanged)
         {
             gbKillUnsavedMudsDone = true;
             sKilledMudokons = 28 - sRescuedMudokons;

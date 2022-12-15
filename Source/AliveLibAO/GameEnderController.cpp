@@ -160,7 +160,7 @@ void GameEnderController::VUpdate()
             if (Input().IsAnyHeld(sInputKey_FartRoll))
             {
                 gMap.SetActiveCam(EReliveLevelIds::eMenu, 1, CameraIds::Menu::eFmvSelect_30, CameraSwapEffects::eInstantChange_0, 0, 0);
-                gMap.field_DC_free_all_anim_and_palts = 1;
+                gMap.mFreeAllAnimAndPalts = true;
                 mState = GameEnderControllerStates::eFinish_2;
             }
             break;

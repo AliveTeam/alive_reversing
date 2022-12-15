@@ -13,7 +13,7 @@
 #include "../relive_lib/Collisions.hpp"
 #include "../AliveLibAE/FixedPoint.hpp"
 
-Mine* sMineSFXOwner_5C3008 = nullptr;
+static Mine* sMinePlayingSound = nullptr;
 
 void Mine::LoadAnimations()
 {
@@ -21,7 +21,7 @@ void Mine::LoadAnimations()
     mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Mine));
 }
 
-Mine::Mine(relive::Path_Mine* pPath, const Guid& tlv)
+Mine::Mine(relive::Path_Mine* pTlv, const Guid& tlvId)
     : BaseAliveGameObject(0)
 {
     SetType(ReliveTypes::eMine);
@@ -29,29 +29,25 @@ Mine::Mine(relive::Path_Mine* pPath, const Guid& tlv)
     LoadAnimations();
     Animation_Init(GetAnimRes(AnimId::Mine));
 
-    mDetonating = false;
     SetInteractive(true);
     SetCanExplode(true);
 
-    if (pPath->mScale != relive::reliveScale::eFull)
+    if (pTlv->mScale == relive::reliveScale::eHalf)
     {
-        if (pPath->mScale == relive::reliveScale::eHalf)
-        {
-            SetSpriteScale(FP_FromDouble(0.5));
-            GetAnimation().SetRenderLayer(Layer::eLayer_RollingBallBombMineCar_Half_16);
-            SetScale(Scale::Bg);
-        }
+        SetSpriteScale(FP_FromDouble(0.5));
+        GetAnimation().SetRenderLayer(Layer::eLayer_RollingBallBombMineCar_Half_16);
+        SetScale(Scale::Bg);
     }
     else
     {
-        SetSpriteScale(FP_FromDouble(1));
+        SetSpriteScale(FP_FromInteger(1));
         GetAnimation().SetRenderLayer(Layer::eLayer_RollingBallBombMineCar_35);
         SetScale(Scale::Fg);
     }
 
-    const s32 v7 = pPath->mTopLeftX + pPath->mBottomRightX;
+    const s32 v7 = pTlv->mTopLeftX + pTlv->mBottomRightX;
     mXPos = FP_FromInteger(v7 / 2);
-    const FP v8 = FP_FromInteger(pPath->mTopLeftY);
+    const FP v8 = FP_FromInteger(pTlv->mTopLeftY);
     mYPos = v8;
 
     FP hitY;
@@ -70,7 +66,7 @@ Mine::Mine(relive::Path_Mine* pPath, const Guid& tlv)
     {
         mYPos = hitY;
     }
-    mTlvId = tlv;
+    mTlvId = tlvId;
     mExplosionTimer = sGnFrame;
     mFlashAnim.Init(GetAnimRes(AnimId::Mine_Flash), this);
 
@@ -81,22 +77,20 @@ Mine::Mine(relive::Path_Mine* pPath, const Guid& tlv)
     mFlashAnim.SetSpriteScale(GetSpriteScale());
     mFlashAnim.SetRGB(128, 128, 128);
 
-    field_1BC_flags.Clear(Mine_Flags_1BC::eBit1_PersistOffscreen);
-    if (pPath->mPersistOffscreen == relive::reliveChoice::eYes)
+    if (pTlv->mPersistOffscreen == relive::reliveChoice::eYes)
     {
-        field_1BC_flags.Set(Mine_Flags_1BC::eBit1_PersistOffscreen);
+        mPersistOffscreen = true;
     }
 
     const FP gridSnap = ScaleToGridSize(GetSpriteScale());
     SetInteractive(true);
-    mVisualFlags.Set(VisualFlags::eDoPurpleLightEffect);
+    SetDoPurpleLightEffect(true);
 
     mCollectionRect.x = mXPos - (gridSnap / FP_FromDouble(2.0));
     mCollectionRect.y = mYPos - gridSnap;
     mCollectionRect.w = (gridSnap / FP_FromDouble(2.0)) + mXPos;
     mCollectionRect.h = mYPos;
 }
-
 
 Mine::~Mine()
 {
@@ -112,15 +106,90 @@ Mine::~Mine()
     mFlashAnim.VCleanUp();
     SetInteractive(false);
 
-    if (sMineSFXOwner_5C3008 == this)
+    if (sMinePlayingSound == this)
     {
-        sMineSFXOwner_5C3008 = nullptr;
+        sMinePlayingSound = nullptr;
+    }
+}
+
+void Mine::VScreenChanged()
+{
+    if (gMap.mCurrentLevel != gMap.mNextLevel || gMap.mCurrentPath != gMap.mNextPath || !mPersistOffscreen)
+    {
+        SetDead(true);
+    }
+}
+
+s16 Mine::VTakeDamage(BaseGameObject* pFrom)
+{
+    if (GetDead())
+    {
+        return 0;
+    }
+
+    switch (pFrom->Type())
+    {
+        case ReliveTypes::eGreeter:
+        case ReliveTypes::eAbe:
+        case ReliveTypes::eMineCar:
+        case ReliveTypes::eAbilityRing:
+        case ReliveTypes::eAirExplosion:
+        case ReliveTypes::eMudokon:
+        case ReliveTypes::eShrykull:
+        {
+            relive_new GroundExplosion(mXPos, mYPos, GetSpriteScale());
+            SetDead(true);
+            mDetonating = true;
+            mExplosionTimer = sGnFrame;
+            return 1;
+        }
+
+        default:
+            return 0;
+    }
+}
+
+void Mine::VOnThrowableHit(BaseGameObject* /*pFrom*/)
+{
+    relive_new GroundExplosion(mXPos, mYPos, GetSpriteScale());
+    SetDead(true);
+    mDetonating = true;
+}
+
+void Mine::VOnPickUpOrSlapped()
+{
+    if (mDetonating != true)
+    {
+        mDetonating = true;
+        mExplosionTimer = sGnFrame + 5;
+    }
+}
+
+void Mine::VRender(PrimHeader** ppOt)
+{
+    if (GetAnimation().GetRender())
+    {
+        if (gMap.Is_Point_In_Current_Camera(
+            mCurrentLevel,
+            mCurrentPath,
+            mXPos,
+            mYPos,
+            0))
+        {
+            mFlashAnim.VRender(FP_GetExponent(mXPos - gScreenManager->CamXPos()),
+                FP_GetExponent(FP_FromInteger(mYOffset) + mYPos - gScreenManager->CamYPos()),
+                ppOt,
+                0,
+                0);
+
+            BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
+        }
     }
 }
 
 void Mine::VUpdate()
 {
-    const s16 onScreen = gMap.Is_Point_In_Current_Camera(
+    const s16 bInCamera = gMap.Is_Point_In_Current_Camera(
         mCurrentLevel,
         mCurrentPath,
         mXPos,
@@ -137,17 +206,16 @@ void Mine::VUpdate()
     }
     else
     {
-        if (GetAnimation().GetCurrentFrame() == 1
-            && (!sMineSFXOwner_5C3008 || sMineSFXOwner_5C3008 == this))
+        if (GetAnimation().GetCurrentFrame() == 1 && (!sMinePlayingSound || sMinePlayingSound == this))
         {
-            if (onScreen)
+            if (bInCamera)
             {
                 SfxPlayMono(relive::SoundEffects::RedTick, 35);
-                sMineSFXOwner_5C3008 = this;
+                sMinePlayingSound = this;
             }
             else
             {
-                sMineSFXOwner_5C3008 = nullptr;
+                sMinePlayingSound = nullptr;
             }
         }
         if (Mine::IsColliding())
@@ -166,85 +234,9 @@ void Mine::VUpdate()
     }
 }
 
-void Mine::VRender(PrimHeader** ppOt)
-{
-    if (GetAnimation().GetRender())
-    {
-        if (gMap.Is_Point_In_Current_Camera(
-                mCurrentLevel,
-                mCurrentPath,
-                mXPos,
-                mYPos,
-                0))
-        {
-            this->mFlashAnim.VRender(FP_GetExponent(mXPos - pScreenManager->CamXPos()),
-                                                     FP_GetExponent(FP_FromInteger(mYOffset) + mYPos - pScreenManager->CamYPos()),
-                                                     ppOt,
-                                                     0,
-                                                     0);
-
-            BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
-        }
-    }
-}
-
-void Mine::VScreenChanged()
-{
-    if (gMap.mCurrentLevel != gMap.mNextLevel
-        || gMap.mCurrentPath != gMap.mNextPath
-        || !field_1BC_flags.Get(Mine_Flags_1BC::eBit1_PersistOffscreen))
-    {
-        SetDead(true);
-    }
-}
-
-void Mine::VOnPickUpOrSlapped()
-{
-    if (mDetonating != true)
-    {
-        mDetonating = true;
-        mExplosionTimer = sGnFrame + 5;
-    }
-}
-
-void Mine::VOnThrowableHit(BaseGameObject* /*pFrom*/)
-{
-    relive_new GroundExplosion(mXPos, mYPos, GetSpriteScale());
-    SetDead(true);
-    mDetonating = true;
-}
-
-s16 Mine::VTakeDamage(BaseGameObject* pFrom)
-{
-    if (GetDead())
-    {
-        return 0;
-    }
-
-    switch (pFrom->Type())
-    {
-        default:
-            return 0;
-
-        case ReliveTypes::eGreeter:
-        case ReliveTypes::eAbe:
-        case ReliveTypes::eMineCar:
-        case ReliveTypes::eAbilityRing:
-        case ReliveTypes::eAirExplosion:
-        case ReliveTypes::eMudokon:
-        case ReliveTypes::eShrykull:
-            relive_new GroundExplosion(mXPos, mYPos, GetSpriteScale());
-            SetDead(true);
-            mDetonating = true;
-            mExplosionTimer = sGnFrame;
-            return 1;
-    }
-}
-
 bool Mine::IsColliding()
 {
     const PSX_RECT mineBound = VGetBoundingRect();
-
     for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
     {
         IBaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
@@ -257,9 +249,8 @@ bool Mine::IsColliding()
         if (pObj->GetCanSetOffExplosives() && pObj->GetAnimation().GetRender())
         {
             const PSX_RECT objBound = pObj->VGetBoundingRect();
-
-            s32 objX = FP_GetExponent(pObj->mXPos);
-            s32 objY = FP_GetExponent(pObj->mYPos);
+            const s32 objX = FP_GetExponent(pObj->mXPos);
+            const s32 objY = FP_GetExponent(pObj->mYPos);
 
             if (objX > mineBound.x && objX < mineBound.w && objY < mineBound.h + 12 && mineBound.x <= objBound.w && mineBound.w >= objBound.x && mineBound.h >= objBound.y && mineBound.y <= objBound.h && pObj->GetSpriteScale() == GetSpriteScale())
             {

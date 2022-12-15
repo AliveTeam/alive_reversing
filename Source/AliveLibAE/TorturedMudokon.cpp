@@ -81,16 +81,16 @@ void TorturedMudokon::VScreenChanged()
 void TorturedMudokon::VRender(PrimHeader** ppOt)
 {
     mTearsAnim.VRender(
-        FP_GetExponent(mXPos - pScreenManager->CamXPos()),
-        FP_GetExponent(mYPos - pScreenManager->CamYPos()),
+        FP_GetExponent(mXPos - gScreenManager->CamXPos()),
+        FP_GetExponent(mYPos - gScreenManager->CamYPos()),
         ppOt,
         0,
         0);
     if (mTearsAnim.GetRender())
     {
         mZapAnim.VRender(
-            FP_GetExponent(mXPos - pScreenManager->CamXPos()),
-            FP_GetExponent(mYPos - pScreenManager->CamYPos()),
+            FP_GetExponent(mXPos - gScreenManager->CamXPos()),
+            FP_GetExponent(mYPos - gScreenManager->CamYPos()),
             ppOt,
             0,
             0);
@@ -222,7 +222,7 @@ void TorturedMudokon::VUpdate()
         GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Tortured_Mudokon_Released));
         mTearsAnim.SetRender(false);
         mZapAnim.SetRender(false);
-        relive::Path_TLV* pTlv = sPathInfo->TLV_From_Offset_Lvl_Cam(mTlvInfo);
+        relive::Path_TLV* pTlv = gPathInfo->TLV_From_Offset_Lvl_Cam(mTlvInfo);
         if (pTlv)
         {
             pTlv->mTlvSpecificMeaning = 1;

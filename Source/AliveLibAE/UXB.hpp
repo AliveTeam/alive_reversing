@@ -32,12 +32,6 @@ struct UXBSaveState final
     u16 mIsRed;
 };
 
-enum UXB_Flags_1C8
-{
-    eUnused_Bit0 = 0x1,
-    eIsRed_Bit1 = 0x2,
-};
-
 class UXB final : public BaseAliveGameObject
 {
 public:

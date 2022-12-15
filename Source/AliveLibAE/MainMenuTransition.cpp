@@ -45,7 +45,7 @@ const MainMenu_TransitionData stru_55C038[24] = // 3 x 8's ?
         {65520U, 0, 256, 1},
 };
 
-MainMenuTransition::MainMenuTransition(Layer layer, s32 fadeDirection, s32 bKillWhenDone, s32 fadeSpeed, TPageAbr abr)
+MainMenuTransition::MainMenuTransition(Layer layer, s32 fadeDirection, bool killWhenDone, s32 fadeSpeed, TPageAbr abr)
     : BaseGameObject(true, 0)
 {
     SetType(ReliveTypes::eMainMenuTransistion);
@@ -54,19 +54,19 @@ MainMenuTransition::MainMenuTransition(Layer layer, s32 fadeDirection, s32 bKill
 
     SetDrawable(true);
 
-    Init_SetTPage(&field_22C_tPage[0], 0, 1, PSX_getTPage(abr));
-    Init_SetTPage(&field_22C_tPage[1], 0, 1, PSX_getTPage(abr));
+    Init_SetTPage(&mTPage[0], PSX_getTPage(abr));
+    Init_SetTPage(&mTPage[1], PSX_getTPage(abr));
 
     for (s32 i = 0; i < 8; i++)
     {
-        PolyG3_Init(&field_2C_polys[0].field_0_polys[i]);
-        Poly_Set_SemiTrans(&field_2C_polys[0].field_0_polys[i].mBase.header, 1);
+        PolyG3_Init(&field_2C_polys[0].mPolys[i]);
+        Poly_Set_SemiTrans(&field_2C_polys[0].mPolys[i].mBase.header, 1);
 
-        PolyG3_Init(&field_2C_polys[1].field_0_polys[i]);
-        Poly_Set_SemiTrans(&field_2C_polys[1].field_0_polys[i].mBase.header, 1);
+        PolyG3_Init(&field_2C_polys[1].mPolys[i]);
+        Poly_Set_SemiTrans(&field_2C_polys[1].mPolys[i].mBase.header, 1);
     }
 
-    field_24C_layer = layer;
+    mLayer = layer;
 
     if (fadeDirection)
     {
@@ -81,14 +81,14 @@ MainMenuTransition::MainMenuTransition(Layer layer, s32 fadeDirection, s32 bKill
     field_colour_fade_value = 0;
     field_24E_width = 320;
     field_250_k120 = 120;
-    StartTrans(layer, static_cast<s16>(fadeDirection), static_cast<s16>(bKillWhenDone), static_cast<s16>(fadeSpeed));
+    StartTrans(layer, static_cast<s16>(fadeDirection), killWhenDone, static_cast<s16>(fadeSpeed));
 }
 
-void MainMenuTransition::StartTrans(Layer layer, s16 fadeDirection, s16 bKillWhenDone, s16 speed)
+void MainMenuTransition::StartTrans(Layer layer, s16 fadeDirection, bool killWhenDone, s16 speed)
 {
-    field_24C_layer = layer;
+    mLayer = layer;
     field_24_fade_direction = fadeDirection;
-    field_26_bDone = 0;
+    mDone = 0;
 
     if (speed)
     {
@@ -99,7 +99,7 @@ void MainMenuTransition::StartTrans(Layer layer, s16 fadeDirection, s16 bKillWhe
         field_2A = 1;
     }
 
-    field_28_bKillOnDone = bKillWhenDone;
+    mKillWhenDone = killWhenDone;
 
     if (fadeDirection)
     {
@@ -114,7 +114,7 @@ void MainMenuTransition::StartTrans(Layer layer, s16 fadeDirection, s16 bKillWhe
 
 void MainMenuTransition::VUpdate()
 {
-    if (!field_26_bDone && !field_2A)
+    if (!mDone && !field_2A)
     {
         field_20_current_value += field_22_change_by_speed;
         if (field_24_fade_direction)
@@ -156,8 +156,8 @@ void MainMenuTransition::VRender(PrimHeader** ppOt)
     }
 
     s32 op1 = currentValue << 12;
-    s32 val1 = Math_Cosine_496CD0(field_colour_fade_value).fpValue;
-    s32 val2 = Math_Sine_496DD0(field_colour_fade_value).fpValue;
+    s32 val1 = Math_Cosine(field_colour_fade_value).fpValue;
+    s32 val2 = Math_Sine(field_colour_fade_value).fpValue;
     s32 r0g0 = -64 / ((v5 >> 2) + 1);
     for (s32 i = 0; i < 8; i++)
     {
@@ -218,7 +218,7 @@ void MainMenuTransition::VRender(PrimHeader** ppOt)
         s32 v27 = v26 + Math_FixedPoint_Multiply(v36, val1);
         s32 v28 = Math_FixedPoint_Multiply(op1, y1);
         y1 = this->field_250_k120 + (Math_FixedPoint_Multiply(v27, v28) >> 16); // LOWORD
-        Poly_G3* pPoly = &field_2C_polys[gPsxDisplay.mBufferIndex].field_0_polys[i];
+        Poly_G3* pPoly = &field_2C_polys[gPsxDisplay.mBufferIndex].mPolys[i];
 
         SetRGB0(pPoly, static_cast<u8>(r0g0), static_cast<u8>(r0g0), 255);
         SetRGB1(pPoly, static_cast<u8>(rgValue), static_cast<u8>(rgValue), static_cast<u8>(bValue));
@@ -228,15 +228,15 @@ void MainMenuTransition::VRender(PrimHeader** ppOt)
         SetXY1(pPoly, x0, y0);
         SetXY2(pPoly, static_cast<s16>(x1), static_cast<s16>(y1));
 
-        OrderingTable_Add(OtLayer(ppOt, field_24C_layer), &pPoly->mBase.header);
+        OrderingTable_Add(OtLayer(ppOt, mLayer), &pPoly->mBase.header);
     }
 
-    OrderingTable_Add(OtLayer(ppOt, field_24C_layer), &field_22C_tPage[gPsxDisplay.mBufferIndex].mBase);
+    OrderingTable_Add(OtLayer(ppOt, mLayer), &mTPage[gPsxDisplay.mBufferIndex].mBase);
 
     if ((field_20_current_value == 255 && field_24_fade_direction) || (field_20_current_value == 0 && !field_24_fade_direction))
     {
-        field_26_bDone = 1;
-        if (field_28_bKillOnDone)
+        mDone = 1;
+        if (mKillWhenDone)
         {
             SetDead(true);
         }

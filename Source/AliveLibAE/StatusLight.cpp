@@ -19,7 +19,7 @@ StatusLight::StatusLight(relive::Path_StatusLight* pTlv, const Guid& tlvId)
 {
     LoadAnimations();
 
-    field_F4_tlvInfo = tlvId;
+    mTlvId = tlvId;
     mInputSwitchId = pTlv->mInputSwitchId;
 
     if (pTlv->mScale != relive::reliveScale::eFull)
@@ -47,7 +47,7 @@ StatusLight::StatusLight(relive::Path_StatusLight* pTlv, const Guid& tlvId)
 
     Animation_Init(GetAnimRes(AnimId::Status_Light_Red));
 
-    mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
+    SetApplyShadowZoneColour(false);
     GetAnimation().SetRender(false);
 
     mXPos = FP_FromInteger((pTlv->mTopLeftX + pTlv->mBottomRightX) / 2);
@@ -80,8 +80,8 @@ StatusLight::StatusLight(relive::Path_StatusLight* pTlv, const Guid& tlvId)
         }
     }
 
-    field_108_xpos = mXPos;
-    field_10C_ypos = mYPos;
+    mUntweakedXPos = mXPos;
+    mUntweakedYPos = mYPos;
 }
 
 bool StatusLight::isLinkedAndDisabled(s16 switchId)
@@ -93,8 +93,8 @@ void StatusLight::VUpdate()
 {
     // TODO: Document how this works
 
-    mXPos = FP_FromInteger(gTweakX) + field_108_xpos;
-    mYPos = FP_FromInteger(gTweakY) + field_10C_ypos;
+    mXPos = FP_FromInteger(gTweakX) + mUntweakedXPos;
+    mYPos = FP_FromInteger(gTweakY) + mUntweakedYPos;
 
     if (SwitchStates_Get(mInputSwitchId))
     {
@@ -138,7 +138,7 @@ void StatusLight::VUpdate()
 
 StatusLight::~StatusLight()
 {
-    Path::TLV_Reset(field_F4_tlvInfo, -1, 0, 0);
+    Path::TLV_Reset(mTlvId, -1, 0, 0);
 }
 
 void StatusLight::VScreenChanged()

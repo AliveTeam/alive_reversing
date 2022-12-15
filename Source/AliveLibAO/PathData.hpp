@@ -55,7 +55,7 @@ struct PathBlyRec final
     const char_type* field_0_blyName;
     PathData* field_4_pPathData;
     CollisionInfo* field_8_pCollisionData;
-    u16 field_C_overlay_id;
+    u16 mOverlayId;
     u16 field_E;
 };
 
@@ -104,7 +104,7 @@ struct PathRootContainer final
     PathRoot paths[16];
 };
 
-const PathBlyRec* Path_Get_Bly_Record_434650(EReliveLevelIds level, u16 path);
+const PathBlyRec* Path_Get_Bly_Record(EReliveLevelIds level, u16 path);
 
 FmvInfo* Path_Get_FMV_Record_434680(EReliveLevelIds levelId, u16 fmvId);
 

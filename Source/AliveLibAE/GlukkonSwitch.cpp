@@ -21,9 +21,7 @@ void GlukkonSwitch::LoadAnimations()
 GlukkonSwitch::GlukkonSwitch(relive::Path_GlukkonSwitch* pTlv, const Guid& tlvId)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
-    field_100_last_event_idx = -1;
-    field_114 = 0;
-    field_116 = -1;
+    mLastEventIdx = -1;
 
     SetType(ReliveTypes::eHelpPhone);
 
@@ -32,7 +30,7 @@ GlukkonSwitch::GlukkonSwitch(relive::Path_GlukkonSwitch* pTlv, const Guid& tlvId
     Animation_Init(GetAnimRes(AnimId::Security_Door_Idle));
 
     GetAnimation().SetRender(false);
-    field_F4_tlvInfo = tlvId;
+    mTlvId = tlvId;
     GetAnimation().SetRenderLayer(Layer::eLayer_BeforeWell_22);
 
     if (pTlv->mScale == relive::reliveScale::eFull)
@@ -46,12 +44,12 @@ GlukkonSwitch::GlukkonSwitch(relive::Path_GlukkonSwitch* pTlv, const Guid& tlvId
         SetScale(Scale::Bg);
     }
 
-    field_FA_ok_switch_id = pTlv->mOkSwitchId;
-    field_FC_fail_switch_id = pTlv->mFailSwitchId;
-    field_118_top_left.x = pTlv->mTopLeftX;
-    field_118_top_left.y = pTlv->mTopLeftY;
-    field_11C_bottom_right.x = pTlv->mBottomRightX;
-    field_11C_bottom_right.y = pTlv->mBottomRightY;
+    mOkSwitchId = pTlv->mOkSwitchId;
+    mFailSwitchId = pTlv->mFailSwitchId;
+    mTlvTopLeft.x = pTlv->mTopLeftX;
+    mTlvTopLeft.y = pTlv->mTopLeftY;
+    mTlvBottomRight.x = pTlv->mBottomRightX;
+    mTlvBottomRight.y = pTlv->mBottomRightY;
 
     mXPos = FP_FromInteger(pTlv->mXPos);
     mYPos = FP_FromInteger(pTlv->mYPos);
@@ -78,22 +76,22 @@ GlukkonSwitch::GlukkonSwitch(relive::Path_GlukkonSwitch* pTlv, const Guid& tlvId
 
     if (pTlv->mTlvSpecificMeaning)
     {
-        field_F8_state = pTlv->mTlvSpecificMeaning - 1;
+        mState = pTlv->mTlvSpecificMeaning - 1;
     }
     else
     {
-        field_F8_state = 0;
+        mState = 0;
     }
 
-    if (field_F8_state != 1)
+    if (mState != 1)
     {
-        field_120_timer = sGnFrame + 10;
+        mTimer = sGnFrame + 10;
     }
 }
 
 GlukkonSwitch::~GlukkonSwitch()
 {
-    Path::TLV_Reset(field_F4_tlvInfo, -1, 0, 0);
+    Path::TLV_Reset(mTlvId, -1, 0, 0);
 }
 
 void GlukkonSwitch::VScreenChanged()
@@ -101,17 +99,17 @@ void GlukkonSwitch::VScreenChanged()
     SetDead(true);
 }
 
-s16 GlukkonSwitch::PlayerNearMe()
+bool GlukkonSwitch::PlayerNearMe()
 {
     const s16 playerXPos = FP_GetExponent(sControlledCharacter->mXPos);
     const s16 playerYPos = FP_GetExponent(sControlledCharacter->mYPos);
 
-    if ((playerXPos >= field_118_top_left.x && playerXPos <= field_11C_bottom_right.x) && (playerYPos >= field_118_top_left.y && playerYPos <= field_11C_bottom_right.y))
+    if ((playerXPos >= mTlvTopLeft.x && playerXPos <= mTlvBottomRight.x) && (playerYPos >= mTlvTopLeft.y && playerYPos <= mTlvBottomRight.y))
     {
-        return 1;
+        return true;
     }
 
-    return 0;
+    return false;
 }
 
 void GlukkonSwitch::VUpdate()
@@ -121,11 +119,11 @@ void GlukkonSwitch::VUpdate()
         SetDead(true);
     }
 
-    const s32 lastEventIdx = gEventSystem->field_28_last_event_index;
+    const s32 lastEventIdx = gEventSystem->mLastEventIndex;
     GameSpeakEvents lastEventIdx2 = GameSpeakEvents::eNone_m1;
-    if (field_100_last_event_idx == lastEventIdx)
+    if (mLastEventIdx == lastEventIdx)
     {
-        if (gEventSystem->field_20_last_event == GameSpeakEvents::eNone_m1)
+        if (gEventSystem->mLastEvent == GameSpeakEvents::eNone_m1)
         {
             lastEventIdx2 = GameSpeakEvents::eNone_m1;
         }
@@ -136,14 +134,14 @@ void GlukkonSwitch::VUpdate()
     }
     else
     {
-        field_100_last_event_idx = lastEventIdx;
-        lastEventIdx2 = gEventSystem->field_20_last_event;
+        mLastEventIdx = lastEventIdx;
+        lastEventIdx2 = gEventSystem->mLastEvent;
     }
 
-    switch (field_F8_state)
+    switch (mState)
     {
         case 0:
-            if (static_cast<s32>(sGnFrame) <= field_120_timer)
+            if (static_cast<s32>(sGnFrame) <= mTimer)
             {
                 return;
             }
@@ -151,7 +149,7 @@ void GlukkonSwitch::VUpdate()
             if (PlayerNearMe())
             {
                 GetAnimation().SetRender(true);
-                field_F8_state = 2;
+                mState = 2;
             }
             else
             {
@@ -160,13 +158,13 @@ void GlukkonSwitch::VUpdate()
             return;
 
         case 1:
-            if (static_cast<s32>(sGnFrame) == field_120_timer)
+            if (static_cast<s32>(sGnFrame) == mTimer)
             {
                 SND_SEQ_Play(SeqId::SaveTriggerMusic_31, 1, 127, 127);
             }
-            else if (static_cast<s32>(sGnFrame) > field_120_timer && !PlayerNearMe())
+            else if (static_cast<s32>(sGnFrame) > mTimer && !PlayerNearMe())
             {
-                field_F8_state = 0;
+                mState = 0;
             }
             return;
 
@@ -174,43 +172,43 @@ void GlukkonSwitch::VUpdate()
         {
             Glukkon::PlaySound_GameSpeak(GlukkonSpeak::Hey_0, 127, -200, 0);
             GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Security_Door_Speak));
-            field_F8_state = 3;
-            field_120_timer = sGnFrame + 150;
+            mState = 3;
+            mTimer = sGnFrame + 150;
             return;
         }
         case 3:
             if (!PlayerNearMe())
             {
-                field_F8_state = 0;
-                field_120_timer = sGnFrame - 1;
+                mState = 0;
+                mTimer = sGnFrame - 1;
                 return;
             }
 
             if (lastEventIdx2 == GameSpeakEvents::eNone_m1 || lastEventIdx2 == GameSpeakEvents::eSameAsLast_m2)
             {
-                if (static_cast<s32>(sGnFrame) > field_120_timer)
+                if (static_cast<s32>(sGnFrame) > mTimer)
                 {
-                    field_F8_state = 0;
+                    mState = 0;
                 }
             }
             else
             {
-                if (lastEventIdx2 == GameSpeakEvents::Glukkon_Hey_36)
+                if (lastEventIdx2 == GameSpeakEvents::eGlukkon_Hey_36)
                 {
-                    field_F8_state = 4;
-                    field_120_timer = sGnFrame + 30;
+                    mState = 4;
+                    mTimer = sGnFrame + 30;
                 }
                 else
                 {
-                    if (lastEventIdx2 < GameSpeakEvents::Glukkon_Hey_36)
+                    if (lastEventIdx2 < GameSpeakEvents::eGlukkon_Hey_36)
                     {
-                        field_F8_state = 8;
-                        field_120_timer = sGnFrame + 30;
+                        mState = 8;
+                        mTimer = sGnFrame + 30;
                     }
 
-                    if (static_cast<s32>(sGnFrame) > field_120_timer)
+                    if (static_cast<s32>(sGnFrame) > mTimer)
                     {
-                        field_F8_state = 0;
+                        mState = 0;
                     }
                 }
             }
@@ -218,14 +216,14 @@ void GlukkonSwitch::VUpdate()
 
         case 4:
         {
-            if (static_cast<s32>(sGnFrame) <= field_120_timer)
+            if (static_cast<s32>(sGnFrame) <= mTimer)
             {
                 return;
             }
             Glukkon::PlaySound_GameSpeak(GlukkonSpeak::What_11, 127, -200, 0);
             GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Security_Door_Speak));
-            field_F8_state = 5;
-            field_120_timer = sGnFrame + 60;
+            mState = 5;
+            mTimer = sGnFrame + 60;
             return;
         }
         case 5:
@@ -233,72 +231,72 @@ void GlukkonSwitch::VUpdate()
             {
                 if (lastEventIdx2 == GameSpeakEvents::eNone_m1 || lastEventIdx2 == GameSpeakEvents::eSameAsLast_m2)
                 {
-                    if (static_cast<s32>(sGnFrame) > field_120_timer)
+                    if (static_cast<s32>(sGnFrame) > mTimer)
                     {
-                        field_F8_state = 7;
-                        field_120_timer = sGnFrame + 15;
+                        mState = 7;
+                        mTimer = sGnFrame + 15;
                     }
                 }
-                else if (lastEventIdx2 == GameSpeakEvents::Glukkon_DoIt_37)
+                else if (lastEventIdx2 == GameSpeakEvents::eGlukkon_DoIt_37)
                 {
-                    field_F8_state = 6;
-                    field_120_timer = sGnFrame + 30;
+                    mState = 6;
+                    mTimer = sGnFrame + 30;
                 }
-                else if (lastEventIdx2 < GameSpeakEvents::Glukkon_Hey_36)
+                else if (lastEventIdx2 < GameSpeakEvents::eGlukkon_Hey_36)
                 {
-                    field_F8_state = 8;
-                    field_120_timer = sGnFrame + 30;
+                    mState = 8;
+                    mTimer = sGnFrame + 30;
                 }
                 else
                 {
-                    field_F8_state = 7;
-                    field_120_timer = sGnFrame + 15;
+                    mState = 7;
+                    mTimer = sGnFrame + 15;
                 }
             }
             else
             {
-                field_F8_state = 0;
-                field_120_timer = sGnFrame - 1;
+                mState = 0;
+                mTimer = sGnFrame - 1;
             }
             return;
 
         case 6:
         {
-            if (static_cast<s32>(sGnFrame) != field_120_timer)
+            if (static_cast<s32>(sGnFrame) != mTimer)
             {
                 return;
             }
             SFX_Play_Pitch(relive::SoundEffects::GlukkonSwitchBleh, 127, -700); // Bleh!
             Glukkon::PlaySound_GameSpeak(GlukkonSpeak::Laugh_7, 127, -200, 0);
             GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Security_Door_Speak));
-            SwitchStates_Do_Operation(field_FA_ok_switch_id, relive::reliveSwitchOp::eToggle);
-            field_F8_state = 1;
-            field_120_timer = sGnFrame + 15;
+            SwitchStates_Do_Operation(mOkSwitchId, relive::reliveSwitchOp::eToggle);
+            mState = 1;
+            mTimer = sGnFrame + 15;
             return;
         }
         case 7:
         {
-            if (static_cast<s32>(sGnFrame) != field_120_timer)
+            if (static_cast<s32>(sGnFrame) != mTimer)
             {
                 return;
             }
             Glukkon::PlaySound_GameSpeak(GlukkonSpeak::Heh_5, 127, -200, 0);
             GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Security_Door_Speak));
-            field_F8_state = 0;
-            field_120_timer = sGnFrame + 90;
+            mState = 0;
+            mTimer = sGnFrame + 90;
             return;
         }
         case 8:
         {
-            if (static_cast<s32>(sGnFrame) != field_120_timer)
+            if (static_cast<s32>(sGnFrame) != mTimer)
             {
                 return;
             }
             Glukkon::PlaySound_GameSpeak(GlukkonSpeak::Heh_5, 127, -200, 0);
             GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Security_Door_Speak));
-            SwitchStates_Do_Operation(field_FC_fail_switch_id, relive::reliveSwitchOp::eSetTrue);
-            field_F8_state = 0;
-            field_120_timer = sGnFrame + 90;
+            SwitchStates_Do_Operation(mFailSwitchId, relive::reliveSwitchOp::eSetTrue);
+            mState = 0;
+            mTimer = sGnFrame + 90;
             return;
         }
         default:

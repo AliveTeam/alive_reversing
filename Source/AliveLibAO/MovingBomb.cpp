@@ -41,7 +41,7 @@ MovingBomb::MovingBomb(relive::Path_MovingBomb* pTlv, const Guid& tlvId)
 
     GetAnimation().SetSemiTrans(true);
     GetAnimation().SetRenderMode(TPageAbr::eBlend_0);
-    field_10C_state = States::eTriggeredBySwitch_1;
+    mState = States::eTriggeredBySwitch_1;
 
     if (pTlv->mScale == relive::reliveScale::eHalf)
     {
@@ -59,20 +59,20 @@ MovingBomb::MovingBomb(relive::Path_MovingBomb* pTlv, const Guid& tlvId)
     mXPos = FP_FromInteger(pTlv->mTopLeftX);
     mYPos = FP_FromInteger(pTlv->mTopLeftY);
 
-    field_118_speed = FP_FromRaw(pTlv->mSpeed << 8);
+    mSpeed = FP_FromRaw(pTlv->mSpeed << 8);
     mVelX = FP_FromRaw(pTlv->mStartSpeed << 8);
-    field_11C_switch_id = pTlv->mStartMovingSwitchId;
-    field_114_timer = sGnFrame;
+    mStartMovingSwitchId = pTlv->mStartMovingSwitchId;
+    mTimer = sGnFrame;
     mYOffset = 0;
-    field_110_tlvInfo = tlvId;
-    field_120_max = 0;
-    field_11E_min = 0;
-    field_12A_persist_offscreen = pTlv->mPersistOffscreen;
-    field_124_sound_channels = 0;
+    mTlvId = tlvId;
+    mMaxStopTime = 0;
+    mMinStopTime = 0;
+    mPersistOffscreen = pTlv->mPersistOffscreen;
+    mChannelMask = 0;
 
     if (pTlv->mTriggeredByAlarm == relive::reliveChoice::eYes)
     {
-        field_10C_state = States::eTriggeredByAlarm_0;
+        mState = States::eTriggeredByAlarm_0;
         GetAnimation().SetRender(false);
     }
 
@@ -106,21 +106,21 @@ MovingBomb::~MovingBomb()
         BaseAliveGameObject_PlatformId = Guid{};
     }
 
-    if (field_10C_state == States::eBlowingUp_6 || field_10C_state == States::eKillMovingBomb_7)
+    if (mState == States::eBlowingUp_6 || mState == States::eKillMovingBomb_7)
     {
-        Path::TLV_Reset(field_110_tlvInfo, -1, 0, 1);
+        Path::TLV_Reset(mTlvId, -1, 0, 1);
     }
     else
     {
-        Path::TLV_Reset(field_110_tlvInfo, -1, 0, 0);
+        Path::TLV_Reset(mTlvId, -1, 0, 0);
     }
 
     if (sMovingBomb == this)
     {
-        if (field_124_sound_channels)
+        if (mChannelMask)
         {
-            SND_Stop_Channels_Mask(field_124_sound_channels);
-            field_124_sound_channels = 0;
+            SND_Stop_Channels_Mask(mChannelMask);
+            mChannelMask = 0;
         }
         sMovingBomb = nullptr;
     }
@@ -128,7 +128,7 @@ MovingBomb::~MovingBomb()
 
 void MovingBomb::VScreenChanged()
 {
-    if (field_12A_persist_offscreen == relive::reliveChoice::eNo || gMap.mCurrentLevel != gMap.mNextLevel || gMap.mCurrentPath != gMap.mNextPath)
+    if (mPersistOffscreen == relive::reliveChoice::eNo || gMap.mCurrentLevel != gMap.mNextLevel || gMap.mCurrentPath != gMap.mNextPath)
     {
         SetDead(true);
     }
@@ -166,9 +166,9 @@ s16 MovingBomb::VTakeDamage(BaseGameObject* pFrom)
         FP_FromInteger(5),
         GetSpriteScale());
 
-    field_10C_state = States::eKillMovingBomb_7;
+    mState = States::eKillMovingBomb_7;
     GetAnimation().SetRender(false);
-    field_114_timer = sGnFrame + 4;
+    mTimer = sGnFrame + 4;
     return 0;
 }
 
@@ -183,9 +183,9 @@ void MovingBomb::VRender(PrimHeader** ppOt)
 void MovingBomb::VOnThrowableHit(BaseGameObject* /*pFrom*/)
 {
     SetCanExplode(false);
-    field_10C_state = States::eBlowingUp_6;
+    mState = States::eBlowingUp_6;
     mVelY = FP_FromInteger(0);
-    field_114_timer = sGnFrame + 1;
+    mTimer = sGnFrame + 1;
     SfxPlayMono(relive::SoundEffects::GreenTick, 100);
 }
 
@@ -280,14 +280,14 @@ void MovingBomb::VUpdate()
         SetDead(true);
     }
 
-    if (field_10C_state == States::eTriggeredByAlarm_0 || field_10C_state == States::eTriggeredBySwitch_1 || field_10C_state == States::eMoving_2 || field_10C_state == States::eStopMoving_3 || field_10C_state == States::eWaitABit_4 || field_10C_state == States::eToMoving_5)
+    if (mState == States::eTriggeredByAlarm_0 || mState == States::eTriggeredBySwitch_1 || mState == States::eMoving_2 || mState == States::eStopMoving_3 || mState == States::eWaitABit_4 || mState == States::eToMoving_5)
     {
         if (HitObject())
         {
             SetCanExplode(false);
-            field_10C_state = States::eBlowingUp_6;
+            mState = States::eBlowingUp_6;
             mVelY = FP_FromInteger(0);
-            field_114_timer = sGnFrame + 1;
+            mTimer = sGnFrame + 1;
             SfxPlayMono(relive::SoundEffects::GreenTick, 100);
         }
     }
@@ -300,60 +300,60 @@ void MovingBomb::VUpdate()
         }
         else
         {
-            if (field_124_sound_channels)
+            if (mChannelMask)
             {
-                SND_Stop_Channels_Mask(field_124_sound_channels);
+                SND_Stop_Channels_Mask(mChannelMask);
             }
 
             if (VIsObjNearby(FP_FromInteger(700), sActiveHero))
             {
                 if (FP_Abs(sActiveHero->mYPos - mYPos) <= FP_FromInteger(700))
                 {
-                    if (field_10C_state == States::eWaitABit_4)
+                    if (mState == States::eWaitABit_4)
                     {
-                        field_124_sound_channels = SfxPlayMono(relive::SoundEffects::SecurityOrb, 55);
+                        mChannelMask = SfxPlayMono(relive::SoundEffects::SecurityOrb, 55);
                     }
                     else
                     {
-                        field_124_sound_channels = SfxPlayMono(relive::SoundEffects::SecurityOrb, 80);
+                        mChannelMask = SfxPlayMono(relive::SoundEffects::SecurityOrb, 80);
                     }
                 }
             }
             else
             {
-                if (field_10C_state == States::eWaitABit_4)
+                if (mState == States::eWaitABit_4)
                 {
-                    field_124_sound_channels = 0;
+                    mChannelMask = 0;
                     sMovingBomb = this;
                 }
                 else
                 {
-                    field_124_sound_channels = SfxPlayMono(relive::SoundEffects::SecurityOrb, 12);
+                    mChannelMask = SfxPlayMono(relive::SoundEffects::SecurityOrb, 12);
                     sMovingBomb = this;
                 }
             }
         }
     }
 
-    switch (field_10C_state)
+    switch (mState)
     {
         case States::eTriggeredByAlarm_0:
             if (EventGet(kEventAlarm))
             {
                 GetAnimation().SetRender(true);
-                field_10C_state = States::eMoving_2;
+                mState = States::eMoving_2;
             }
             break;
 
         case States::eTriggeredBySwitch_1:
-            if (SwitchStates_Get(field_11C_switch_id))
+            if (SwitchStates_Get(mStartMovingSwitchId))
             {
-                field_10C_state = States::eMoving_2;
+                mState = States::eMoving_2;
             }
             break;
 
         case States::eMoving_2:
-            if (mVelX < field_118_speed)
+            if (mVelX < mSpeed)
             {
                 mVelX += (GetSpriteScale() * FP_FromDouble(0.5));
             }
@@ -370,9 +370,9 @@ void MovingBomb::VUpdate()
             if (BaseAliveGameObjectPathTLV)
             {
                 auto pStopper = static_cast<relive::Path_MovingBombStopper*>(BaseAliveGameObjectPathTLV);
-                field_11E_min = pStopper->mMinDelay;
-                field_120_max = pStopper->mMaxDelay;
-                field_10C_state = States::eStopMoving_3;
+                mMinStopTime = pStopper->mMinStopTime;
+                mMaxStopTime = pStopper->mMaxStopTime;
+                mState = States::eStopMoving_3;
             }
             break;
 
@@ -380,22 +380,22 @@ void MovingBomb::VUpdate()
             mVelX -= (GetSpriteScale() * FP_FromDouble(0.5));
             if (mVelX < FP_FromInteger(0))
             {
-                field_10C_state = States::eWaitABit_4;
-                field_114_timer = sGnFrame + Math_RandomRange(field_11E_min, field_120_max);
+                mState = States::eWaitABit_4;
+                mTimer = sGnFrame + Math_RandomRange(mMinStopTime, mMaxStopTime);
             }
 
             FollowLine();
             break;
 
         case States::eWaitABit_4:
-            if (field_114_timer <= static_cast<s32>(sGnFrame))
+            if (mTimer <= static_cast<s32>(sGnFrame))
             {
-                field_10C_state = States::eToMoving_5;
+                mState = States::eToMoving_5;
             }
             break;
 
         case States::eToMoving_5:
-            if (mVelX < field_118_speed)
+            if (mVelX < mSpeed)
             {
                 mVelX += (GetSpriteScale() * FP_FromDouble(0.5));
             }
@@ -410,12 +410,12 @@ void MovingBomb::VUpdate()
                 ReliveTypes::eMovingBombStopper);
             if (!BaseAliveGameObjectPathTLV)
             {
-                field_10C_state = States::eMoving_2;
+                mState = States::eMoving_2;
             }
             break;
 
         case States::eBlowingUp_6:
-            if (field_114_timer <= static_cast<s32>(sGnFrame))
+            if (mTimer <= static_cast<s32>(sGnFrame))
             {
                 SfxPlayMono(relive::SoundEffects::GreenTick, 100);
 
@@ -434,14 +434,14 @@ void MovingBomb::VUpdate()
                     FP_FromInteger(5),
                     GetSpriteScale());
 
-                field_10C_state = States::eKillMovingBomb_7;
+                mState = States::eKillMovingBomb_7;
                 GetAnimation().SetRender(false);
-                field_114_timer = sGnFrame + 4;
+                mTimer = sGnFrame + 4;
             }
             break;
 
         case States::eKillMovingBomb_7:
-            if (field_114_timer <= static_cast<s32>(sGnFrame))
+            if (mTimer <= static_cast<s32>(sGnFrame))
             {
                 SetDead(true);
             }

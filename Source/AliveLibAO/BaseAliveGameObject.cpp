@@ -34,7 +34,7 @@ BaseAliveGameObject::BaseAliveGameObject()
     BaseAliveGameObject_PlatformId = Guid{};
     mbGotShot = false;
     mbMotionChanged = false;
-    field_EC_bBeesCanChase = 0;
+    SetCanBeesChase(false);
     mCurrentMotion = 0;
     mNextMotion = 0;
     mPreviousMotion = 0;
@@ -530,7 +530,7 @@ s16 BaseAliveGameObject::MapFollowMe(s16 snapToGrid)
                 const s32 camXIndex = x_i % 1024;
                 if (x_i > 1024)
                 {
-                    UsePathTransScale_4020D0();
+                    UsePathTransScale();
 
                     // Put at the right side of the camera to the left
                     const s32 cam1GridBeforeRight = XGrid_Index_To_XPos(GetSpriteScale(), (MaxGridBlocks(GetSpriteScale()) - 1));
@@ -559,7 +559,7 @@ s16 BaseAliveGameObject::MapFollowMe(s16 snapToGrid)
                 gMap.Get_map_size(&camCoords);
                 if (x_i < (camCoords.x - 1024))
                 {
-                    UsePathTransScale_4020D0();
+                    UsePathTransScale();
 
                     // Put at the left side of the camera to the right
                     const s32 cam1GridAfterLeft = XGrid_Index_To_XPos(GetSpriteScale(), 1);
@@ -587,7 +587,7 @@ s16 BaseAliveGameObject::MapFollowMe(s16 snapToGrid)
         {
             if (x_i > 1024)
             {
-                UsePathTransScale_4020D0();
+                UsePathTransScale();
 
                 const s32 camRightGrid = XGrid_Index_To_XPos(GetSpriteScale(), MaxGridBlocks(GetSpriteScale()));
                 const s32 camRightEdge = x_i - camXIndex - 1024;
@@ -602,7 +602,7 @@ s16 BaseAliveGameObject::MapFollowMe(s16 snapToGrid)
             gMap.Get_map_size(&camCoords);
             if (x_i < (camCoords.x - 1024))
             {
-                UsePathTransScale_4020D0();
+                UsePathTransScale();
 
                 const s32 camLeftGrid = XGrid_Index_To_XPos(GetSpriteScale(), 0);
                 const s32 camLeftEdge = x_i - camXIndex + 1024;
@@ -656,12 +656,12 @@ bool BaseAliveGameObject::InAirCollision(PathLine** ppLine, FP* hitX, FP* hitY, 
         GetSpriteScale() != FP_FromDouble(0.5) ? kFgWallsOrFloor : kBgWallsOrFloor) ? 1 : 0;
 }
 
-void BaseAliveGameObject::OnResourceLoaded_4019A0(BaseAliveGameObject* /*ppRes*/)
+void BaseAliveGameObject::OnResourceLoaded(BaseAliveGameObject* /*ppRes*/)
 {
     //ppRes->field_104_pending_resource_count--;
 }
 
-void BaseAliveGameObject::UsePathTransScale_4020D0()
+void BaseAliveGameObject::UsePathTransScale()
 {
     auto pPathTrans = static_cast<relive::Path_PathTransition*>(gMap.VTLV_Get_At(
         FP_GetExponent(mXPos),

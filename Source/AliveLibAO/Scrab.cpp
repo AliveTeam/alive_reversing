@@ -145,7 +145,7 @@ Scrab::Scrab(relive::Path_Scrab* pTlv, const Guid& tlvId)
         field_188_flags |= 8u;
     }
 
-    mVisualFlags.Set(VisualFlags::eDoPurpleLightEffect);
+    SetDoPurpleLightEffect(true);
 
     mRGB.SetRGB(127, 127, 127);
 
@@ -561,7 +561,7 @@ s32 Scrab::Scrab_SFX(ScrabSounds soundId, s32 /*vol*/, s32 pitch, s16 applyDirec
     s32 volumeLeft = 0;
     s32 volumeRight = 0;
 
-    auto defaultSndIdxVol = sScrabSfx_4CF798[static_cast<s32>(soundId)].field_C_default_volume;
+    auto defaultSndIdxVol = sScrabSfx_4CF798[static_cast<s32>(soundId)].mDefaultVolume;
     if (GetSpriteScale() == FP_FromInteger(1))
     {
         volumeRight = defaultSndIdxVol;

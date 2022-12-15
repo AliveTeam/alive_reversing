@@ -22,7 +22,7 @@ Rock::Rock(FP xpos, FP ypos, s16 count)
     mBaseThrowableDead = 0;
 
     // Note: Loaded check removed
-    LoadRockTypes_49AB30(mCurrentLevel, mCurrentPath);
+    LoadRockTypes(mCurrentLevel, mCurrentPath);
 
     mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Rock));
     Animation_Init(GetAnimRes(AnimId::Rock));

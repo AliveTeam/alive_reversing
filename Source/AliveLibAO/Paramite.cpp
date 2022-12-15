@@ -108,7 +108,7 @@ Paramite::Paramite(relive::Path_Paramite* pTlv, const Guid& tlvId)
     field_114_timer = 0;
     mBrainSubState = 0;
     SetNextMotion(eParamiteMotions::Motion_0_Idle);
-    field_EC_bBeesCanChase = 3;
+    SetCanBeesChase(true);
 
     SetCurrentMotion(eParamiteMotions::Motion_0_Idle);
     field_140_use_prev_motion = 0;
@@ -178,7 +178,7 @@ Paramite::Paramite(relive::Path_Paramite* pTlv, const Guid& tlvId)
 
     VStackOnObjectsOfType(ReliveTypes::eParamite);
 
-    mVisualFlags.Set(VisualFlags::eDoPurpleLightEffect);
+    SetDoPurpleLightEffect(true);
 
     CreateShadow();
 }
@@ -652,7 +652,7 @@ Meat* Paramite::FindMeat()
                         0)
                     && !WallHit(mYPos, pMeat->mXPos - mXPos))
                 {
-                    if (!pMeat->field_124_pLine)
+                    if (!pMeat->mPathLine)
                     {
                         return pMeat;
                     }
@@ -738,7 +738,7 @@ void Paramite::Sound(ParamiteSpeak idx)
         mXPos,
         mYPos);
 
-    s16 volRight = stru_4CDD98[static_cast<s16>(idx)].field_C_default_volume;
+    s16 volRight = stru_4CDD98[static_cast<s16>(idx)].mDefaultVolume;
     s16 volLeft = 0;
 
     PSX_RECT rect = {};
@@ -753,7 +753,7 @@ void Paramite::Sound(ParamiteSpeak idx)
         case CameraPos::eCamTop_1:
         case CameraPos::eCamBottom_2:
         {
-            const FP tempVol = (FP_FromRaw(stru_4CDD98[static_cast<s16>(idx)].field_C_default_volume) / FP_FromInteger(3));
+            const FP tempVol = (FP_FromRaw(stru_4CDD98[static_cast<s16>(idx)].mDefaultVolume) / FP_FromInteger(3));
             volLeft = FP_GetExponent(tempVol);
             volRight = FP_GetExponent(tempVol);
             break;
@@ -1442,11 +1442,11 @@ s16 Paramite::Brain_1_SurpriseWeb()
             return Brain_1_SurpriseWeb::eBrain1_StateLoop1_4;
 
         case Brain_1_SurpriseWeb::eBrain1_StateLoop1_4:
-            mParamiteWeb->field_EA_ttl_remainder = FP_GetExponent(FP_Abs(mYPos)) - 10;
-            mParamiteWeb->mYPos = FP_FromInteger(mParamiteWeb->field_EA_ttl_remainder);
+            mParamiteWeb->mTtlRemainder = FP_GetExponent(FP_Abs(mYPos)) - 10;
+            mParamiteWeb->mYPos = FP_FromInteger(mParamiteWeb->mTtlRemainder);
             if (GetCurrentMotion() == eParamiteMotions::Motion_0_Idle)
             {
-                mParamiteWeb->field_F0_bEnabled = true;
+                mParamiteWeb->mEnabled = true;
                 mParamiteWeb->mBaseGameObjectRefCount--;
                 mParamiteWeb = nullptr;
                 SetBrain(&Paramite::Brain_0_Patrol);
@@ -1461,8 +1461,8 @@ s16 Paramite::Brain_1_SurpriseWeb()
             return Brain_1_SurpriseWeb::eBrain1_StateLoop2_5;
 
         case Brain_1_SurpriseWeb::eBrain1_StateLoop2_5:
-            mParamiteWeb->field_EA_ttl_remainder = FP_GetExponent(FP_Abs(mYPos)) - 10;
-            mParamiteWeb->mYPos = FP_FromInteger(mParamiteWeb->field_EA_ttl_remainder);
+            mParamiteWeb->mTtlRemainder = FP_GetExponent(FP_Abs(mYPos)) - 10;
+            mParamiteWeb->mYPos = FP_FromInteger(mParamiteWeb->mTtlRemainder);
             if (GetCurrentMotion() != eParamiteMotions::Motion_0_Idle)
             {
                 if (mVelY <= (GetSpriteScale() * FP_FromInteger(-1)))
@@ -1477,7 +1477,7 @@ s16 Paramite::Brain_1_SurpriseWeb()
             }
             else
             {
-                mParamiteWeb->field_F0_bEnabled = true;
+                mParamiteWeb->mEnabled = true;
                 mParamiteWeb->mBaseGameObjectRefCount--;
                 mParamiteWeb = nullptr;
                 SetBrain(&Paramite::Brain_0_Patrol);
@@ -2177,7 +2177,7 @@ s16 Paramite::Brain_5_SpottedMeat()
         return Brain_0_Patrol::eBrain0_Inactive_0;
     }
 
-    if (mMeat->field_124_pLine)
+    if (mMeat->mPathLine)
     {
         if (FP_Abs(mMeat->mYPos - mYPos) > FP_FromInteger(20))
         {
@@ -2241,7 +2241,7 @@ s16 Paramite::Brain_5_SpottedMeat()
                     return Brain_5_SpottedMeat::eBrain5_Walking_2;
                 }
 
-                if (!mMeat->field_124_pLine || !BaseAliveGameObjectCollisionLine)
+                if (!mMeat->mPathLine || !BaseAliveGameObjectCollisionLine)
                 {
                     SetNextMotion(eParamiteMotions::Motion_0_Idle);
                     return Brain_5_SpottedMeat::eBrain5_AttentiveToMeat_5;
@@ -2289,7 +2289,7 @@ s16 Paramite::Brain_5_SpottedMeat()
 
             if (VIsObjNearby(GetSpriteScale() * FP_FromInteger(40), mMeat))
             {
-                if (mMeat->field_124_pLine)
+                if (mMeat->mPathLine)
                 {
                     SetNextMotion(eParamiteMotions::Motion_23_Eating);
                     field_114_timer = sGnFrame + mMeatEatingTime;
@@ -2343,7 +2343,7 @@ s16 Paramite::Brain_5_SpottedMeat()
                 return mBrainSubState;
             }
 
-            if (mMeat->field_124_pLine)
+            if (mMeat->mPathLine)
             {
                 SetNextMotion(eParamiteMotions::Motion_23_Eating);
                 field_114_timer = sGnFrame + mMeatEatingTime;
@@ -2427,7 +2427,7 @@ s16 Paramite::Brain_5_SpottedMeat()
                 return Brain_5_SpottedMeat::eBrain5_Walking_2;
             }
 
-            if (!mMeat->field_124_pLine || !BaseAliveGameObjectCollisionLine)
+            if (!mMeat->mPathLine || !BaseAliveGameObjectCollisionLine)
             {
                 return Brain_5_SpottedMeat::eBrain5_AttentiveToMeat_5;
             }

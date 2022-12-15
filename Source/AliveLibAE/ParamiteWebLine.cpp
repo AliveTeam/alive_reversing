@@ -63,7 +63,7 @@ ParamiteWebLine::ParamiteWebLine(relive::Path_ParamiteWebLine* pTlv, const Guid&
     {
         mXPos = FP_FromInteger(pLine->mRect.x);
 
-        const FP screenTop = pScreenManager->CamYPos();
+        const FP screenTop = gScreenManager->CamYPos();
         if (FP_FromInteger(pLine->mRect.y) >= screenTop)
         {
             field_F8_top = pLine->mRect.y;
@@ -73,7 +73,7 @@ ParamiteWebLine::ParamiteWebLine(relive::Path_ParamiteWebLine* pTlv, const Guid&
             field_F8_top = FP_GetExponent(screenTop);
         }
 
-        const FP screenBottom = pScreenManager->CamYPos() + FP_FromInteger(240);
+        const FP screenBottom = gScreenManager->CamYPos() + FP_FromInteger(240);
         if (FP_FromInteger(pLine->mRect.h) <= screenBottom)
         {
             field_FA_bottom = pLine->mRect.h;
@@ -97,9 +97,9 @@ ParamiteWebLine::ParamiteWebLine(relive::Path_ParamiteWebLine* pTlv, const Guid&
         for (s32 i = 0; i < field_F4_anim_segment_count; i++)
         {
             field_FC_pRes[i].SetRender(true);
-            field_FC_pRes[i].field_68_anim_ptr = &GetAnimation();
+            field_FC_pRes[i].mAnimPtr = &GetAnimation();
             field_FC_pRes[i].SetRenderLayer(GetAnimation().GetRenderLayer());
-            field_FC_pRes[i].field_6C_scale = GetSpriteScale();
+            field_FC_pRes[i].mSpriteScale = GetSpriteScale();
             field_FC_pRes[i].SetSemiTrans(false);
             field_FC_pRes[i].SetBlending(false);
         }
@@ -204,8 +204,8 @@ void ParamiteWebLine::VRender(PrimHeader** ppOt)
     if (!field_104_wobble_idx && !field_1A4_delay_counter)
     {
         field_108_anim_flare.VRender(
-            FP_GetExponent(mXPos - pScreenManager->CamXPos()),
-            FP_GetExponent(FP_FromInteger(field_1A0_pulse_position) - pScreenManager->CamYPos()),
+            FP_GetExponent(mXPos - gScreenManager->CamXPos()),
+            FP_GetExponent(FP_FromInteger(field_1A0_pulse_position) - gScreenManager->CamYPos()),
             ppOt, 0, 0);
     }
 
@@ -230,7 +230,7 @@ void ParamiteWebLine::VRender(PrimHeader** ppOt)
                 }
                 const FP bottomDiff = FP_FromInteger(field_FA_bottom - field_106_wobble_pos);
                 const FP ang = FP_FromInteger(field_FA_bottom - render_ypos) * FP_FromInteger(128);
-                xVal = mXPos - (Math_Cosine_496D60(ang / bottomDiff) * FP_FromInteger(word_563A8C[field_104_wobble_idx]));
+                xVal = mXPos - (Math_Cosine(ang / bottomDiff) * FP_FromInteger(word_563A8C[field_104_wobble_idx]));
             }
             else
             {
@@ -240,7 +240,7 @@ void ParamiteWebLine::VRender(PrimHeader** ppOt)
                 }
                 const FP topDiff = FP_FromInteger(field_106_wobble_pos - field_F8_top);
                 const FP ang = FP_FromInteger(field_106_wobble_pos - render_ypos) * FP_FromInteger(128);
-                xVal = (Math_Cosine_496D60(ang / topDiff) * FP_FromInteger(word_563A8C[field_104_wobble_idx])) + mXPos;
+                xVal = (Math_Cosine(ang / topDiff) * FP_FromInteger(word_563A8C[field_104_wobble_idx])) + mXPos;
             }
         }
 
@@ -249,14 +249,14 @@ void ParamiteWebLine::VRender(PrimHeader** ppOt)
         field_FC_pRes[idx].SetRGB(r, g, b);
 
         field_FC_pRes[idx].VRender(
-            FP_GetExponent(FP_FromInteger(render_xpos) - pScreenManager->CamXPos()),
-            FP_GetExponent(FP_FromInteger(render_ypos) - pScreenManager->CamYPos()),
+            FP_GetExponent(FP_FromInteger(render_xpos) - gScreenManager->CamXPos()),
+            FP_GetExponent(FP_FromInteger(render_ypos) - gScreenManager->CamYPos()),
             ppOt, 0, 0);
 
-        ClipPoly_Vertically_4A09E0(
-            &field_FC_pRes[idx].field_10_polys[gPsxDisplay.mBufferIndex],
-            FP_GetExponent(FP_FromInteger(field_F8_top) - pScreenManager->CamYPos()),
-            FP_GetExponent(FP_FromInteger(field_FA_bottom) - pScreenManager->CamYPos()));
+        ClipPoly_Vertically(
+            &field_FC_pRes[idx].mPolys[gPsxDisplay.mBufferIndex],
+            FP_GetExponent(FP_FromInteger(field_F8_top) - gScreenManager->CamYPos()),
+            FP_GetExponent(FP_FromInteger(field_FA_bottom) - gScreenManager->CamYPos()));
 
         render_ypos -= field_F6_piece_length;
         idx++;

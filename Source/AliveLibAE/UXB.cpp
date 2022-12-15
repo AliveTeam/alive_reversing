@@ -190,7 +190,7 @@ UXB::UXB(relive::Path_UXB* pTlv, const Guid& tlvId)
 
     const FP gridSnap = ScaleToGridSize(GetSpriteScale());
     SetInteractive(true);
-    mVisualFlags.Set(VisualFlags::eDoPurpleLightEffect);
+    SetDoPurpleLightEffect(true);
 
     mCollectionRect.x = mXPos - (gridSnap / FP_FromInteger(2));
     mCollectionRect.y = mYPos - gridSnap;
@@ -482,8 +482,8 @@ void UXB::VRender(PrimHeader** ppOt)
                 0))
         {
             mFlashAnim.VRender(
-                FP_GetExponent((mXPos - pScreenManager->CamXPos())),
-                FP_GetExponent((mYPos - pScreenManager->CamYPos() - FP_NoFractional(GetSpriteScale() * FP_FromInteger(17)))),
+                FP_GetExponent((mXPos - gScreenManager->CamXPos())),
+                FP_GetExponent((mYPos - gScreenManager->CamYPos() - FP_NoFractional(GetSpriteScale() * FP_FromInteger(17)))),
                 ppOt,
                 0,
                 0);
@@ -513,7 +513,7 @@ s32 UXB::CreateFromSaveState(const u8* __pSaveState)
 {
     const UXBSaveState* pSaveState = reinterpret_cast<const UXBSaveState*>(__pSaveState);
 
-    relive::Path_UXB* uxbPath = reinterpret_cast<relive::Path_UXB*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pSaveState->mTlvInfo));
+    relive::Path_UXB* uxbPath = reinterpret_cast<relive::Path_UXB*>(gPathInfo->TLV_From_Offset_Lvl_Cam(pSaveState->mTlvInfo));
 
     UXB* pUXB = relive_new UXB(uxbPath, pSaveState->mTlvInfo);
 

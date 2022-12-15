@@ -29,7 +29,7 @@ RockSack::RockSack(relive::Path_RockSack* pTlv, const Guid& tlvId)
 
     GetAnimation().SetSemiTrans(false);
 
-    mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
+    SetApplyShadowZoneColour(false);
 
     field_118_tlvInfo = tlvId;
     field_11C_has_been_hit = 0;
@@ -60,7 +60,7 @@ RockSack::RockSack(relive::Path_RockSack* pTlv, const Guid& tlvId)
 
     CreateShadow();
 
-    mVisualFlags.Set(VisualFlags::eDoPurpleLightEffect);
+    SetDoPurpleLightEffect(true);
 }
 
 RockSack::~RockSack()

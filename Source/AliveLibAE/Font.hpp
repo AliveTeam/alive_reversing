@@ -9,10 +9,10 @@ struct File_Font final
 {
     s16 mWidth;
     s16 mHeight;
-    s16 field_4_color_depth;
-    s16 field_6_palette_size;
-    u16 field_8_palette[32/2];
-    u8 field_28_pixel_buffer[1];
+    s16 mColorDepth;
+    s16 mPaletteSize;
+    u16 mPalette[32/2];
+    u8 mPixelBuffer[1];
 };
 //ALIVE_ASSERT_SIZEOF(File_Font, 0x28);
 // Can vary in size
@@ -29,8 +29,8 @@ struct Font_AtlasEntry final
 class FontContext final
 {
 public:
-    const Font_AtlasEntry* field_8_atlas_array = nullptr;
-    FontResource field_C_resource_id;
+    const Font_AtlasEntry* mAtlasArray = nullptr;
+    FontResource mFntResource;
 
     void LoadFontType(FontType resourceID);
 
@@ -54,10 +54,10 @@ public:
     const char_type* SliceText(const char_type* text, s32 left, FP scale, s32 right);
 
 public:
-    Poly_FT4* field_24_fnt_poly_array = nullptr;
-    s32 field_30_poly_count = 0;
-    FontContext* field_34_FontContext = nullptr;
+    Poly_FT4* mFntPolyArray = nullptr;
+    s32 mPolyCount = 0;
+    FontContext* mFontContext = nullptr;
 };
 
-extern s8 sDisableFontFlicker;
-extern u8 sFontDrawScreenSpace;
+extern bool gDisableFontFlicker;
+extern bool gFontDrawScreenSpace;

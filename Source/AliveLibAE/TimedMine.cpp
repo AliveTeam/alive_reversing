@@ -15,7 +15,7 @@
 #include "../relive_lib/Collisions.hpp"
 #include "../AliveLibAE/FixedPoint.hpp"
 
-static TintEntry sTimedMineTint_550EB8[16] = {
+static TintEntry sTimedMineTint[16] = {
     {EReliveLevelIds::eMenu, 127u, 127u, 127u},
     {EReliveLevelIds::eMines, 127u, 127u, 127u},
     {EReliveLevelIds::eNecrum, 127u, 127u, 127u},
@@ -51,7 +51,7 @@ TimedMine::TimedMine(relive::Path_TimedMine* pTlv, const Guid& tlvId)
     Animation_Init(GetAnimRes(AnimId::TimedMine_Idle));
 
     SetInteractive(true);
-    mTimedMineFlags.Clear(TimedMineFlags::eStickToLiftPoint);
+    mStickToLiftPoint = false;
     mSlappedMine = 0;
 
     if (pTlv->mScale == relive::reliveScale::eHalf)
@@ -92,11 +92,11 @@ TimedMine::TimedMine(relive::Path_TimedMine* pTlv, const Guid& tlvId)
 
     mTlvInfo = tlvId;
     mExplosionTimer = sGnFrame;
-    SetBaseAnimPaletteTint(sTimedMineTint_550EB8, gMap.mCurrentLevel, PalId::Default); // TODO: Bomb pal removed, check correct
+    SetBaseAnimPaletteTint(sTimedMineTint, gMap.mCurrentLevel, PalId::Default); // TODO: Bomb pal removed, check correct
  
     const FP gridSnap = ScaleToGridSize(GetSpriteScale());
     SetInteractive(true);
-    mVisualFlags.Set(VisualFlags::eDoPurpleLightEffect);
+    SetDoPurpleLightEffect(true);
 
     mCollectionRect.x = mXPos - (gridSnap / FP_FromDouble(2.0));
     mCollectionRect.y = mYPos - gridSnap;
@@ -178,8 +178,8 @@ void TimedMine::VRender(PrimHeader** ppOt)
             0))
     {
         mTickAnim.VRender(
-            FP_GetExponent((mXPos - pScreenManager->CamXPos())),
-            FP_GetExponent((mYPos - pScreenManager->CamYPos() - FP_NoFractional(GetSpriteScale() * FP_FromDouble(14)))),
+            FP_GetExponent((mXPos - gScreenManager->CamXPos())),
+            FP_GetExponent((mYPos - gScreenManager->CamYPos() - FP_NoFractional(GetSpriteScale() * FP_FromDouble(14)))),
             ppOt,
             0,
             0);
@@ -210,7 +210,7 @@ void TimedMine::StickToLiftPoint()
     FP hitX = {};
     FP hitY = {};
     PathLine* pLine = nullptr;
-    mTimedMineFlags.Set(TimedMineFlags::eStickToLiftPoint);
+    mStickToLiftPoint = true;
     if (sCollisions->Raycast(
             mXPos,
             mYPos - FP_FromInteger(20),
@@ -259,7 +259,7 @@ void TimedMine::VUpdate()
         SetDead(true);
     }
 
-    if (!mTimedMineFlags.Get(TimedMineFlags::eStickToLiftPoint))
+    if (!mStickToLiftPoint)
     {
         StickToLiftPoint();
     }

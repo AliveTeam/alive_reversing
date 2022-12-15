@@ -571,7 +571,7 @@ void DirectX9Renderer::Draw(Poly_FT4& poly)
     {
         mDevice->SetPixelShader(mPixelShader);
 
-        std::shared_ptr<TgaData> pTga = poly.mFont->field_C_resource_id.mTgaPtr;
+        std::shared_ptr<TgaData> pTga = poly.mFont->mFntResource.mTgaPtr;
 
         float u0 = U0(&poly) / (f32)pTga->mWidth;
         float v0 = V0(&poly) / (f32) pTga->mHeight;
@@ -579,7 +579,7 @@ void DirectX9Renderer::Draw(Poly_FT4& poly)
         float u1 = U3(&poly) / (f32) pTga->mWidth;
         float v1 = V3(&poly) / (f32) pTga->mHeight;
 
-        FontResource& fontRes = poly.mFont->field_C_resource_id;
+        FontResource& fontRes = poly.mFont->mFntResource;
         IDirect3DTexture9* pTextureToUse = MakeCachedIndexedTexture(fontRes.mUniqueId.Id(), pTga->mPixels, pTga->mWidth, pTga->mHeight, pTga->mWidth, pTga->mHeight);
         auto vi = VertexInfo::FQuad(1, PreparePalette(*fontRes.mCurPal), poly);
         DrawTris(pTextureToUse, mSpriteUnit, vi, u0, v0, u1, v1);

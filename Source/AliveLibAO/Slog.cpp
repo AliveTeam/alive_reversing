@@ -477,7 +477,7 @@ void Slog::Init()
     field_124 = -1;
     field_116_brain_sub_state = 0;
     mNextMotion = -1;
-    field_EC_bBeesCanChase = 3;
+    SetCanBeesChase(true);
     field_13C_res_idx = 0;
     SetType(ReliveTypes::eSlog);
     BaseAliveGameObject_PlatformId = Guid{};
@@ -489,7 +489,7 @@ void Slog::Init()
     field_10C_pTarget = 0;
 
     SetCanSetOffExplosives(true);
-    mVisualFlags.Set(VisualFlags::eDoPurpleLightEffect);
+    SetDoPurpleLightEffect(true);
 
     field_178_bShot = 0;
     field_16C_pUnknown = nullptr;
@@ -660,7 +660,7 @@ void Slog::Sfx(s32 soundId)
     s32 volumeRight = 0;
 
     const relive::SfxDefinition& sndDef = sSlogSfx_4CFE40[static_cast<s32>(soundId)];
-    const auto defaultSndIdxVol = sndDef.field_C_default_volume;
+    const auto defaultSndIdxVol = sndDef.mDefaultVolume;
     if (GetSpriteScale() == FP_FromInteger(1))
     {
         volumeRight = defaultSndIdxVol;
@@ -711,8 +711,8 @@ void Slog::Sfx(s32 soundId)
     SFX_SfxDefinition_Play_477330(sndDef,
                                   static_cast<s16>(volumeLeft),
                                   static_cast<s16>(volumeRight),
-                                  static_cast<s16>(sndDef.field_E_pitch_min),
-                                  static_cast<s16>(sndDef.field_10_pitch_max));
+                                  static_cast<s16>(sndDef.mPitchMin),
+                                  static_cast<s16>(sndDef.mPitchMax));
 }
 
 s16 Slog::IsPlayerNear()
@@ -1830,9 +1830,9 @@ s16 Slog::Brain_0_ListeningToSlig_472450()
                 return field_116_brain_sub_state;
             }
 
-            if (field_148 == gEventSystem->field_18_last_event_index)
+            if (field_148 == gEventSystem->mLastEventIndex)
             {
-                if (gEventSystem->field_10_last_event == GameSpeakEvents::eNone_m1)
+                if (gEventSystem->mLastEvent == GameSpeakEvents::eNone_m1)
                 {
                     speak = GameSpeakEvents::eNone_m1;
                 }
@@ -1843,8 +1843,8 @@ s16 Slog::Brain_0_ListeningToSlig_472450()
             }
             else
             {
-                field_148 = gEventSystem->field_18_last_event_index;
-                speak = gEventSystem->field_10_last_event;
+                field_148 = gEventSystem->mLastEventIndex;
+                speak = gEventSystem->mLastEvent;
             }
             // Down to game speak handler
             break;
@@ -1957,7 +1957,7 @@ s16 Slog::Brain_0_ListeningToSlig_472450()
             field_11C_timer = sGnFrame - (Math_NextRandom() % 8) + 15;
             break;
 
-        case GameSpeakEvents::eUnknown_25:
+        case GameSpeakEvents::eSlig_GetHim_25:
         {
             field_10C_pTarget = FindAbeMudOrSlig();
             if (field_10C_pTarget)
@@ -1988,10 +1988,6 @@ s16 Slog::Brain_0_ListeningToSlig_472450()
             }
             break;
         }
-
-        case GameSpeakEvents::eUnknown_29:
-            DelayedResponse(0);
-            return 6;
 
         default:
             break;
@@ -2080,9 +2076,9 @@ s16 Slog::Brain_1_Idle_4719C0()
 
     GameSpeakEvents speak = GameSpeakEvents::eNone_m1;
 
-    if (field_148 == gEventSystem->field_18_last_event_index)
+    if (field_148 == gEventSystem->mLastEventIndex)
     {
-        if (gEventSystem->field_10_last_event == GameSpeakEvents::eNone_m1)
+        if (gEventSystem->mLastEvent == GameSpeakEvents::eNone_m1)
         {
             speak = GameSpeakEvents::eNone_m1;
         }
@@ -2093,8 +2089,8 @@ s16 Slog::Brain_1_Idle_4719C0()
     }
     else
     {
-        speak = gEventSystem->field_10_last_event;
-        field_148 = gEventSystem->field_18_last_event_index;
+        speak = gEventSystem->mLastEvent;
+        field_148 = gEventSystem->mLastEventIndex;
     }
 
     if (speak == GameSpeakEvents::Slig_HereBoy_24)
@@ -2312,13 +2308,13 @@ s16 Slog::Brain_1_Idle_4719C0()
 
 s16 Slog::Brain_2_ChasingAbe_470F50()
 {
-    const s32 lastIdx = gEventSystem->field_18_last_event_index;
+    const s32 lastIdx = gEventSystem->mLastEventIndex;
 
     GameSpeakEvents speak = GameSpeakEvents::eNone_m1;
 
     if (field_148 == lastIdx)
     {
-        if (gEventSystem->field_10_last_event == GameSpeakEvents::eNone_m1)
+        if (gEventSystem->mLastEvent == GameSpeakEvents::eNone_m1)
         {
             speak = GameSpeakEvents::eNone_m1;
         }
@@ -2330,7 +2326,7 @@ s16 Slog::Brain_2_ChasingAbe_470F50()
     else
     {
         field_148 = lastIdx;
-        speak = gEventSystem->field_10_last_event;
+        speak = gEventSystem->mLastEvent;
     }
 
     if (field_176 && speak == GameSpeakEvents::Slig_HereBoy_24)

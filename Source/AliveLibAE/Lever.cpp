@@ -98,7 +98,7 @@ Lever::Lever(relive::Path_Lever* pTlv, const Guid& tlvId)
     mSoundDirection = pTlv->mSoundDirection;
 
     mState = LeverState::eWaiting_0;
-    mVisualFlags.Set(VisualFlags::eDoPurpleLightEffect);
+    SetDoPurpleLightEffect(true);
 }
 
 Lever::~Lever()

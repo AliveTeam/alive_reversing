@@ -15,15 +15,13 @@ public:
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
 
-    s16 field_E4_rope_segment_count = 0;
-    s16 field_E6_rope_length = 0;
-    AnimationUnknown* field_E8_pRopeRes;
-    s16 field_EC_left = 0;
-    s16 field_EE_top = 0;
-    s16 field_F0_right = 0;
-    s16 field_F2_bottom = 0;
+    s16 mRopeSegmentCount = 0;
+    s16 mRopeLength = 0;
+    AnimationUnknown* mRopeAnim;
+    s16 mTop = 0;
+    s16 mBottom = 0;
 };
 
-void ClipPoly_Vertically_4584B0(Poly_FT4* pPoly, s32 minY, s32 maxY);
+void ClipPoly_Vertically(Poly_FT4* pPoly, s32 minY, s32 maxY);
 
 } // namespace AO

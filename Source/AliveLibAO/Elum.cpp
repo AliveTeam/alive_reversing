@@ -454,12 +454,12 @@ void Elum::SetAbeAsPlayer(s16 abeMotion)
 
     ResourceManager::LoadResourceFile(
         "ELMALONE.BAN",
-        BaseAliveGameObject::OnResourceLoaded_4019A0,
+        BaseAliveGameObject::OnResourceLoaded,
         this);
 
     ResourceManager::LoadResourceFile(
         "ELMPRMNT.BAN",
-        BaseAliveGameObject::OnResourceLoaded_4019A0,
+        BaseAliveGameObject::OnResourceLoaded,
         this);
     */
 }
@@ -540,7 +540,7 @@ s16 Elum::ToNextMotionAbeControlled_411E40()
     auto pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
     if (pPlatform && pPlatform->Type() == ReliveTypes::eLiftPoint)
     {
-        if (pPlatform->field_10C == 1)
+        if (pPlatform->mUnknown == 1)
         {
             if (!static_cast<LiftPoint*>(pPlatform)->OnAnyFloor())
             {
@@ -816,7 +816,7 @@ s16 Elum::NearHoney_411DA0()
     if (mFoundHoney)
     {
         auto pLiftPoint = static_cast<LiftPoint*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
-        if (pLiftPoint && pLiftPoint->field_10C == 1 && !pLiftPoint->OnAnyFloor())
+        if (pLiftPoint && pLiftPoint->mUnknown == 1 && !pLiftPoint->OnAnyFloor())
         {
             // We're on a lift that isn't on a floor
             return 0;
@@ -829,22 +829,22 @@ s16 Elum::NearHoney_411DA0()
 
 s16 Elum::Brain_0_WithoutAbe_416190()
 {
-    const s32 last_event_index = gEventSystem->field_18_last_event_index;
+    const s32 last_event_index = gEventSystem->mLastEventIndex;
 
     GameSpeakEvents last_event_v1;
     GameSpeakEvents last_event_v2;
 
     if (field_158_last_event_idx == last_event_index)
     {
-        const bool bLastEventMinus1 = gEventSystem->field_10_last_event == GameSpeakEvents::eNone_m1;
+        const bool bLastEventMinus1 = gEventSystem->mLastEvent == GameSpeakEvents::eNone_m1;
         last_event_v2 = bLastEventMinus1 ? GameSpeakEvents::eNone_m1 : GameSpeakEvents::eSameAsLast_m2;
         last_event_v1 = bLastEventMinus1 ? GameSpeakEvents::eNone_m1 : GameSpeakEvents::eSameAsLast_m2;
     }
     else
     {
         field_158_last_event_idx = last_event_index;
-        last_event_v1 = gEventSystem->field_10_last_event;
-        last_event_v2 = gEventSystem->field_10_last_event;
+        last_event_v1 = gEventSystem->mLastEvent;
+        last_event_v2 = gEventSystem->mLastEvent;
     }
 
     if (mStrugglingWithBees)
@@ -933,7 +933,7 @@ s16 Elum::Brain_0_WithoutAbe_416190()
             auto pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
             if (pPlatform)
             {
-                if (pPlatform->field_10C == 1)
+                if (pPlatform->mUnknown == 1)
                 {
                     auto pLift = static_cast<LiftPoint*>(pPlatform);
                     if (!pLift->OnAnyFloor()) // TODO: Check logic
@@ -961,7 +961,7 @@ s16 Elum::Brain_0_WithoutAbe_416190()
                 return 16;
             }
 
-            if (last_event_v1 == GameSpeakEvents::eFollowMe_10)
+            if (last_event_v1 == GameSpeakEvents::eAbe_FollowMe_10)
             {
                 if (gMap.mCurrentLevel == mCurrentLevel
                     && gMap.mCurrentPath == mCurrentPath)
@@ -977,7 +977,7 @@ s16 Elum::Brain_0_WithoutAbe_416190()
                 }
             }
 
-            if (last_event_v1 == GameSpeakEvents::eHello_9
+            if (last_event_v1 == GameSpeakEvents::eAbe_Hello_9
                 && gMap.mCurrentLevel == mCurrentLevel
                 && gMap.mCurrentPath == mCurrentPath)
             {
@@ -988,7 +988,7 @@ s16 Elum::Brain_0_WithoutAbe_416190()
                 }
             }
 
-            if (last_event_v1 == GameSpeakEvents::eFart_3
+            if (last_event_v1 == GameSpeakEvents::eAbe_Fart_3
                 && gMap.mCurrentLevel == mCurrentLevel
                 && gMap.mCurrentPath == mCurrentPath)
             {
@@ -999,7 +999,7 @@ s16 Elum::Brain_0_WithoutAbe_416190()
                 }
             }
 
-            if (last_event_v1 == GameSpeakEvents::eWait_12
+            if (last_event_v1 == GameSpeakEvents::eAbe_Wait_12
                 && gMap.mCurrentLevel == mCurrentLevel
                 && gMap.mCurrentPath == mCurrentPath
                 && Is_In_Current_Camera() == CameraPos::eCamCurrent_0)
@@ -1098,7 +1098,7 @@ s16 Elum::Brain_0_WithoutAbe_416190()
                 return 16;
             }
 
-            if (last_event_v2 == GameSpeakEvents::eFollowMe_10 && gMap.mCurrentLevel == mCurrentLevel && gMap.mCurrentPath == mCurrentPath)
+            if (last_event_v2 == GameSpeakEvents::eAbe_FollowMe_10 && gMap.mCurrentLevel == mCurrentLevel && gMap.mCurrentPath == mCurrentPath)
             {
                 if (Is_In_Current_Camera() == CameraPos::eCamCurrent_0)
                 {
@@ -1113,7 +1113,7 @@ s16 Elum::Brain_0_WithoutAbe_416190()
                 }
             }
 
-            if (last_event_v2 == GameSpeakEvents::eWait_12
+            if (last_event_v2 == GameSpeakEvents::eAbe_Wait_12
                 && gMap.mCurrentLevel == mCurrentLevel
                 && gMap.mCurrentPath == mCurrentPath)
             {
@@ -1125,7 +1125,7 @@ s16 Elum::Brain_0_WithoutAbe_416190()
                 }
             }
 
-            if (last_event_v2 == GameSpeakEvents::eHello_9
+            if (last_event_v2 == GameSpeakEvents::eAbe_Hello_9
                 && gMap.mCurrentLevel == mCurrentLevel
                 && gMap.mCurrentPath == mCurrentPath)
             {
@@ -1136,7 +1136,7 @@ s16 Elum::Brain_0_WithoutAbe_416190()
                 }
             }
 
-            if (last_event_v2 == GameSpeakEvents::eFart_3
+            if (last_event_v2 == GameSpeakEvents::eAbe_Fart_3
                 && gMap.mCurrentLevel == mCurrentLevel
                 && gMap.mCurrentPath == mCurrentPath
                 && Is_In_Current_Camera() == CameraPos::eCamCurrent_0)
@@ -1236,7 +1236,7 @@ s16 Elum::Brain_0_WithoutAbe_416190()
 
         case 14:
         {
-            if (last_event_v2 == GameSpeakEvents::eWait_12)
+            if (last_event_v2 == GameSpeakEvents::eAbe_Wait_12)
             {
                 mDontFollowAbe = 1;
                 SetNextMotion(eElumMotions::Motion_1_Idle);
@@ -3583,7 +3583,7 @@ Elum::Elum(const Guid& tlvInfo)
     mDontFollowAbe = 0;
     field_124_bShould_IdleToWalk1 = 1;
     field_10E_pressed = 0;
-    field_EC_bBeesCanChase = 2;
+    SetCanBeesChase(true);
     mBaseAliveGameObjectLastAnimFrame = 0;
 
     mPreviousContinueZoneNumber = 0;
@@ -3593,7 +3593,7 @@ Elum::Elum(const Guid& tlvInfo)
     mBrainIdx = 0;
     mBrainSubState = 0;
 
-    mVisualFlags.Set(VisualFlags::eDoPurpleLightEffect);
+    SetDoPurpleLightEffect(true);
 
 
     mStrugglingWithBees = false;

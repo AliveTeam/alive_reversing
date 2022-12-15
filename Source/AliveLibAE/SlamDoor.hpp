@@ -34,15 +34,11 @@ private:
     void ClearInsideSlamDoor(IBaseAliveGameObject* pObj, s16 xPosition, s16 width);
 
 private:
-    enum SlamDoorFlags
-    {
-        eClosed = 0x1,
-        eOpen = 0x2,
-        eLastFrame = 0x4,
-        eSlamDoorFlipY = 0x8,
-        eDelete = 0x10,
-    };
-    BitField16<SlamDoorFlags> mSlamDoorFlags = {};
+    bool mClosed = false;
+    bool mOpen = false;
+    bool mLastFrame = false;
+    bool mSlamDoorFlipY = false;
+    bool mDelete = false;
     PathLine* mCollisionLine1 = nullptr;
     PathLine* mCollisionLine2 = nullptr;
     s16 mCollisionX = 0;

@@ -58,7 +58,7 @@ struct PathBlyRec final
     const char_type* field_0_blyName;
     PathData* field_4_pPathData;
     CollisionInfo* field_8_pCollisionData;
-    u16 field_C_overlay_id;
+    u16 mOverlayId;
     u16 field_E_padding;
 };
 

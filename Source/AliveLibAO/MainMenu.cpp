@@ -26,6 +26,7 @@
 #include "Input.hpp"
 #include "Path.hpp"
 #include "../AliveLibAE/Psx.hpp"
+#include "MainMenuTransition.hpp"
 
 namespace AO {
 
@@ -362,252 +363,6 @@ void MainMenuFade::VRender(PrimHeader** ppOt)
     GetAnimation().Get_Frame_Rect(&rect);
 }
 
-struct MainMenu_TransitionData final
-{
-    u16 field_0;
-    u16 field_2;
-    u16 field_4;
-    s16 field_6;
-};
-ALIVE_ASSERT_SIZEOF(MainMenu_TransitionData, 0x8);
-
-const MainMenu_TransitionData stru_55C038[24] = // 3 x 8's ?
-    {
-        {65528U, 65528U, 384, 1},
-        {0, 65504U, 256, 1},
-        {8, 65528U, 384, 1},
-        {32, 0, 256, 1},
-        {8, 8, 384, 1},
-        {0, 32, 256, 1},
-        {65528U, 8, 384, 1},
-        {65504U, 0, 256, 1},
-
-        {65520U, 65520U, 256, 1},
-        {0, 65513U, 256, 1},
-        {16, 65520U, 256, 1},
-        {23, 0, 256, 1},
-        {16, 16, 256, 1},
-        {0, 23, 256, 1},
-        {65520U, 16, 256, 1},
-
-        {65513U, 0, 256, 1},
-        {65520U, 65520U, 256, 1},
-        {0, 65520U, 256, 1},
-        {16, 65520U, 256, 1},
-        {16, 0, 256, 1},
-        {16, 16, 256, 1},
-        {0, 16, 256, 1},
-        {65520U, 16, 256, 1},
-        {65520U, 0, 256, 1},
-};
-
-void MainMenuTransition::VScreenChanged()
-{
-    if (gMap.LevelChanged() || gMap.PathChanged())
-    {
-        SetDead(true);
-    }
-}
-
-void MainMenuTransition::VUpdate()
-{
-    if (!field_16_bDone)
-    {
-        field_10_current_Value += field_12_change_by_speed;
-        if (field_14_fade_direction)
-        {
-            if (field_10_current_Value > 255)
-            {
-                field_10_current_Value = 255;
-                field_246_colour_fade_value--;
-                return;
-            }
-        }
-        else if (field_10_current_Value < 0)
-        {
-            field_10_current_Value = 0;
-        }
-        field_246_colour_fade_value--;
-    }
-}
-
-MainMenuTransition::MainMenuTransition(Layer layer, s32 fadeDirection, s32 bKillWhenDone, s32 speed, TPageAbr abr)
-    : BaseGameObject(true, 0)
-{
-    SetType(ReliveTypes::eFade);
-
-    gObjListDrawables->Push_Back(this);
-
-    SetDrawable(true);
-
-    for (s32 i = 0; i < 2; i++)
-    {
-        Init_SetTPage(&field_21C_tPage[i], 0, 1, PSX_getTPage(abr));
-    }
-
-    for (s32 i = 0; i < 8; i++)
-    {
-        PolyG3_Init(&field_1C_polys[0].field_0_polys[i]);
-        Poly_Set_SemiTrans(&field_1C_polys[0].field_0_polys[i].mBase.header, 1);
-
-        PolyG3_Init(&field_1C_polys[1].field_0_polys[i]);
-        Poly_Set_SemiTrans(&field_1C_polys[1].field_0_polys[i].mBase.header, 1);
-    }
-
-    field_23C_layer = layer;
-
-    if (fadeDirection)
-    {
-        field_10_current_Value = 0;
-    }
-    else
-    {
-        field_10_current_Value = 255;
-    }
-
-    field_242_idx = 0;
-    field_246_colour_fade_value = 0;
-    field_23E_width = 320;
-    field_240_k120 = 120;
-    StartTrans_436560(layer, static_cast<s16>(fadeDirection), static_cast<s16>(bKillWhenDone), static_cast<s16>(speed));
-}
-
-MainMenuTransition::~MainMenuTransition()
-{
-    gObjListDrawables->Remove_Item(this);
-}
-
-void MainMenuTransition::StartTrans_436560(Layer layer, s16 fadeDirection, s16 bKillWhenDone, s16 speed)
-{
-    field_23C_layer = layer;
-    field_14_fade_direction = fadeDirection;
-    field_16_bDone = 0;
-
-    field_18_bKillOnDone = bKillWhenDone;
-
-    if (!fadeDirection)
-    {
-        field_12_change_by_speed = -2 * speed;
-    }
-    else
-    {
-        field_12_change_by_speed = 2 * speed;
-    }
-
-    if (fadeDirection)
-    {
-        SfxPlayMono(relive::SoundEffects::MenuTransition, 0);
-    }
-}
-
-void MainMenuTransition::VRender(PrimHeader** ppOt)
-{
-    // TODO: The fixed point math/var needs cleaning up/refactoring in here
-    s32 currentValue = field_10_current_Value;
-    s32 v4 = (currentValue + 1) >> 4;
-    s32 v5 = v4 * v4 * v4 * v4 >> 8;
-
-    s32 bValue = v4 * v4 * v4 * v4 >> 8;
-    if (v5 > 255)
-    {
-        bValue = -1; // LOBYTE
-        v5 = 255;
-    }
-
-    s32 rgValue = v5 * v5 >> 8;
-    if (rgValue > 255)
-    {
-        rgValue = -1; // LOBYTE
-    }
-
-    s32 op1 = currentValue << 12;
-    s32 val1 = Math_Cosine(field_246_colour_fade_value).fpValue;
-    s32 val2 = Math_Sine(field_246_colour_fade_value).fpValue;
-    s32 r0g0 = -64 / ((v5 >> 2) + 1);
-    for (s32 i = 0; i < 8; i++)
-    {
-        s32 idx = i + (8 * field_242_idx);
-        s32 v8 = stru_55C038[idx].field_4 << 8;
-        s32 v9 = stru_55C038[idx].field_2 << 16;
-        s32 v10 = static_cast<s32>(stru_55C038[idx].field_0 << 16);
-        s32 v11 = Math_FixedPoint_Multiply(v9, val1);
-        s32 v12 = Math_FixedPoint_Multiply(v10, val2) - v11;
-        s32 v13 = Math_FixedPoint_Multiply(op1, v8);
-        s16 x0 = field_23E_width + 640 * ((s32) Math_FixedPoint_Multiply(v12, v13) >> 16) / 368;
-        s32 v14 = Math_FixedPoint_Multiply(v9, val2);
-        s32 v15 = Math_FixedPoint_Multiply(v10, val1) + v14;
-        s32 v16 = Math_FixedPoint_Multiply(op1, v8);
-        s16 y0 = field_240_k120 + (Math_FixedPoint_Multiply(v15, v16) >> 16);
-
-        s32 v17 = 0;
-        if (i < 7)
-        {
-            v17 = i + 1;
-        }
-        else
-        {
-            v17 = 0;
-        }
-
-        s32 idx2 = (8 * field_242_idx);
-        s32 v36 = static_cast<s32>(stru_55C038[idx2 + v17].field_0 << 16);
-        s32 v19 = 0;
-        if (i < 7)
-        {
-            v19 = i + 1;
-        }
-        else
-        {
-            v19 = 0;
-        }
-
-        s32 v20 = stru_55C038[idx2 + v19].field_2 << 16;
-        s32 v38 = v20;
-        s32 v21 = 0;
-        if (i < 7)
-        {
-            v21 = i + 1;
-        }
-        else
-        {
-            v21 = 0;
-        }
-        s32 y1 = stru_55C038[v21 + idx2].field_4 << 8;
-
-        s32 v23 = Math_FixedPoint_Multiply(v20, val1);
-        s32 x1 = Math_FixedPoint_Multiply(v36, val2) - v23;
-        s32 v25 = Math_FixedPoint_Multiply(op1, y1);
-        // TODO: Use PsxToPCX
-        x1 = field_23E_width + 40 * ((s32) Math_FixedPoint_Multiply(x1, v25) >> 16) / 23; // LOWORD
-        s32 v26 = Math_FixedPoint_Multiply(v38, val2);
-        s32 v27 = v26 + Math_FixedPoint_Multiply(v36, val1);
-        s32 v28 = Math_FixedPoint_Multiply(op1, y1);
-        y1 = field_240_k120 + (Math_FixedPoint_Multiply(v27, v28) >> 16); // LOWORD
-        Poly_G3* pPoly = &field_1C_polys[gPsxDisplay.mBufferIndex].field_0_polys[i];
-
-        SetRGB0(pPoly, static_cast<u8>(r0g0), static_cast<u8>(r0g0), 255);
-        SetRGB1(pPoly, static_cast<u8>(rgValue), static_cast<u8>(rgValue), static_cast<u8>(bValue));
-        SetRGB2(pPoly, static_cast<u8>(rgValue), static_cast<u8>(rgValue), static_cast<u8>(bValue));
-
-        SetXY0(pPoly, field_23E_width, field_240_k120);
-        SetXY1(pPoly, x0, y0);
-        SetXY2(pPoly, static_cast<s16>(x1), static_cast<s16>(y1));
-
-        OrderingTable_Add(OtLayer(ppOt, field_23C_layer), &pPoly->mBase.header);
-    }
-
-    OrderingTable_Add(OtLayer(ppOt, field_23C_layer), &field_21C_tPage[gPsxDisplay.mBufferIndex].mBase);
-
-    if ((field_10_current_Value == 255 && field_14_fade_direction) || (field_10_current_Value == 0 && !field_14_fade_direction))
-    {
-        field_16_bDone = 1;
-        if (field_18_bKillOnDone)
-        {
-            SetDead(true);
-        }
-    }
-}
-
 void Menu::LoadAnimations()
 {
     static AnimId animIds[] =
@@ -868,7 +623,7 @@ void Menu::FMV_Select_Update()
     gEnableCheatFMV = false;
     gEnableCheatLevelSelect = false;
 
-    if (sMovie_ref_count_9F309C == 0)
+    if (gMovieRefCount == 0)
     {
         if (Input().IsAnyPressed(InputObject::PadIndex::First, InputCommands::eUp)) // TODO: Input constants
         {
@@ -914,7 +669,7 @@ void Menu::FMV_Select_Update()
                     const FmvInfo* pFmvRec = Path_Get_FMV_Record_434680(sActiveList[mSelectedButtonIndex.raw].mLevel, sActiveList[mSelectedButtonIndex.raw].mFmvId);
                     relive_new Movie(pFmvRec->field_0_pName);
 
-                    while (sMovie_ref_count_9F309C)
+                    while (gMovieRefCount)
                     {
                         for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
                         {
@@ -938,8 +693,8 @@ void Menu::FMV_Select_Update()
                     }
 
                     gPsxDisplay.PutCurrentDispEnv();
-                    pScreenManager->DecompressCameraToVRam(gMap.field_2C_camera_array[0]->field_C_pCamRes);
-                    pScreenManager->EnableRendering();
+                    gScreenManager->DecompressCameraToVRam(gMap.field_2C_camera_array[0]->mCamRes);
+                    gScreenManager->EnableRendering();
                     SND_Restart();
                 }
                 else
@@ -1924,12 +1679,12 @@ void Menu::NewGameStart()
 
     if (gAttract)
     {
-        // OG bug fix: the demo will load a save which will call Kill_Objects_451720 which will delete this object
+        // OG bug fix: the demo will load a save which will call Kill_Objects which will delete this object
         // resulting in a crash when we try access any member vars at the end. Bump the ref count so we can kill ourselves instead.
         mBaseGameObjectRefCount++;
         // TODO: The ctor of the playback should load the demo res itself
         u8** ppRes = nullptr; //ResourceManager::GetLoadedResource(ResourceManager::Resource_Plbk, gJoyResId, 1, 0);
-        relive_new DemoPlayback(ppRes, 0);
+        relive_new DemoPlayback(ppRes);
         mBaseGameObjectRefCount--;
     }
     else
@@ -2443,8 +2198,8 @@ void Menu::GameSpeak_Update()
     {
         if (mSelectedButtonIndex.gamespeak_menu == GameSpeakOptions::eChant_8 && !(sGnFrame % 8))
         {
-            const FP screen_y = pScreenManager->mCamPos->y - FP_FromInteger(pScreenManager->mCamYOff);
-            const FP screen_x = pScreenManager->mCamPos->x - FP_FromInteger(pScreenManager->mCamXOff);
+            const FP screen_y = gScreenManager->mCamPos->y - FP_FromInteger(gScreenManager->mCamYOff);
+            const FP screen_x = gScreenManager->mCamPos->x - FP_FromInteger(gScreenManager->mCamXOff);
 
             const FP x = screen_x + (FP_FromInteger(Math_RandomRange(-40, 40) + 184));
             const FP y = screen_y + (FP_FromInteger(162 - Math_RandomRange(30, 90)));
@@ -3441,7 +3196,7 @@ void Menu::ToggleMotions_Update()
             // Go to game speak toggle
             mFnUpdate = &Menu::Toggle_Motions_Screens_Update;
             mSelectedButtonIndex.motions_menu = MotionsOptions::eGameSpeak_1;
-            PSX_Prevent_Rendering_4945B0();
+            PSX_Prevent_Rendering();
             SFX_Play_Pitch(relive::SoundEffects::MenuNavigation, 45, 400);
         }
 
@@ -3482,7 +3237,7 @@ void Menu::Toggle_Motions_Screens_Update()
 
             mFnUpdate = &Menu::ToggleMotions_Update;
             mSelectedButtonIndex.motions_menu = MotionsOptions::eMotions_0;
-            PSX_Prevent_Rendering_4945B0();
+            PSX_Prevent_Rendering();
             SFX_Play_Pitch(relive::SoundEffects::MenuNavigation, 45, 400);
         }
 
@@ -3631,8 +3386,8 @@ void Menu::RenderElement(s32 xpos, s32 ypos, s32 input_command, PrimHeader** ot,
     const s16 text_y = static_cast<s16>(ypos + FP_GetExponent((FP_FromInteger(-9) * scale_fp)) + 1);
     const s16 converted_x = static_cast<s16>(PsxToPCX(xpos - text_width / 2, 11));
 
-    const u8 bOldValue = sFontDrawScreenSpace;
-    sFontDrawScreenSpace = 1;
+    const bool bOldValue = gFontDrawScreenSpace;
+    gFontDrawScreenSpace = true;
 
     s32 offset = pFont->DrawString(
         ot,
@@ -3687,7 +3442,7 @@ void Menu::RenderElement(s32 xpos, s32 ypos, s32 input_command, PrimHeader** ot,
         640,
         0);
 
-    sFontDrawScreenSpace = bOldValue;
+    gFontDrawScreenSpace = bOldValue;
 }
 
 } // namespace AO

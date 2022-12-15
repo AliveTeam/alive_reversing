@@ -289,8 +289,8 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_MovingBomb, 0x28);
 
 struct Path_MovingBombStopper final : public Path_TLV
 {
-    s16 mMinDelay;
-    s16 mMaxDelay;
+    s16 mMinStopTime;
+    s16 mMaxStopTime;
 };
 // TODO: size
 
@@ -1008,10 +1008,10 @@ struct Path_SwitchStateBooleanLogic final : public Path_TLV
         e1Or2On_2 = 2,
         e1OnOr2Off_3 = 3,
     };
-    s16 field_18_input1;
-    s16 field_1A_input2;
-    s16 field_1C_output;
-    BooleanOperatorType field_1E_operator;
+    s16 mInput1;
+    s16 mInput2;
+    s16 mOutput;
+    BooleanOperatorType mOperator;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_SwitchStateBooleanLogic, 0x20);
 
@@ -1272,5 +1272,11 @@ struct Path_ContinuePoint final : public Path_TLV
     s16 field_22_pad;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_ContinuePoint, 0x24);
+
+struct Path_OneShotSwitchIdSetter final : public Path_TLV
+{
+    s16 mIdsToClear[8];
+};
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_OneShotSwitchIdSetter, 0x28);
 
 } // namespace AO

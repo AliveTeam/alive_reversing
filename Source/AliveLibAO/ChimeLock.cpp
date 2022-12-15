@@ -108,16 +108,16 @@ ChimeLock::ChimeLock(relive::Path_ChimeLock* pTlv, const Guid& tlvId)
     mTargetX = FP_FromInteger(pTlv->mTopLeftX);
     mXPos = FP_FromInteger(pTlv->mTopLeftX);
 
-    mSongMatching = false;
+    mHasBellSong = false;
     if (SwitchStates_Get(pTlv->mPasswordSwitchId))
     {
         if (!SwitchStates_Get(pTlv->mSolveSwitchId))
         {
-            mSongMatching = true;
+            mHasBellSong = true;
         }
     }
 
-    field_138_flags &= ~2u;
+    mHitAllBells = false;
 
     SetPossessed(false);
     SetCanBePossessed(true);
@@ -188,7 +188,7 @@ void ChimeLock::VUnPosses()
 
 s16 ChimeLock::DoNote(s16 note)
 {
-    if ((mSongMatching || gVoiceCheat) && field_124_code1 / dword_4C5054[field_120_max_idx - field_128_idx] % 10 == note)
+    if ((mHasBellSong || gVoiceCheat) && field_124_code1 / dword_4C5054[field_120_max_idx - field_128_idx] % 10 == note)
     {
         field_128_idx++;
         if (field_128_idx >= field_120_max_idx)
@@ -198,7 +198,7 @@ s16 ChimeLock::DoNote(s16 note)
         return 0;
     }
 
-    if ((!mSongMatching && !gVoiceCheat) || (field_124_code1 / dword_4C5054[field_120_max_idx]) != note)
+    if ((!mHasBellSong && !gVoiceCheat) || (field_124_code1 / dword_4C5054[field_120_max_idx]) != note)
     {
         field_128_idx = 0;
         return 0;
@@ -348,7 +348,7 @@ void ChimeLock::VUpdate()
                 {
                     case BellPositions::eLeftBell_1:
                         mLeftBell->Ring();
-                        if ((field_138_flags >> 1) & 1)
+                        if (mHitAllBells)
                         {
                             SetTargetBellIfSpace(2);
                         }
@@ -356,7 +356,7 @@ void ChimeLock::VUpdate()
 
                     case BellPositions::eCenterBell_2:
                         mCenterBell->Ring();
-                        if ((field_138_flags >> 1) & 1)
+                        if (mHitAllBells)
                         {
                             SetTargetBellIfSpace(3);
                         }
@@ -364,9 +364,9 @@ void ChimeLock::VUpdate()
 
                     case BellPositions::eRightBell_3:
                         mRightBell->Ring();
-                        if ((field_138_flags >> 1) & 1)
+                        if (mHitAllBells)
                         {
-                            field_138_flags &= ~2u;
+                            mHitAllBells = false;
                         }
                         break;
                 }
@@ -454,14 +454,14 @@ void ChimeLock::VUpdate()
                 }
             }
 
-            if (!mSongMatching && !gVoiceCheat)
+            if (!mHasBellSong && !gVoiceCheat)
             {
                 if (!Input_IsChanting())
                 {
-                    field_138_flags |= 1u;
+                    mCanUnpossess = true;
                 }
 
-                if (field_138_flags & 1 && Input_IsChanting())
+                if (mCanUnpossess && Input_IsChanting())
                 {
                     mUnpossessionCountdown = 30;
                     mChimeLockState = ChimeLockStates::eUnPossessing_3;
@@ -500,7 +500,7 @@ void ChimeLock::VUpdate()
                 {
                     // hit all 3 bells from left to right
                     SetTargetBellIfSpace(1);
-                    field_138_flags |= 2u;
+                    mHitAllBells = true;
                     field_134_pressed = pressed;
                     return;
                 }
@@ -530,7 +530,7 @@ void ChimeLock::VUpdate()
                 {
                     // hit all 3 bells from left to right
                     SetTargetBellIfSpace(1);
-                    field_138_flags |= 2u;
+                    mHitAllBells = true;
                 }
                 field_134_pressed = pressed;
                 return;
@@ -619,7 +619,8 @@ void ChimeLock::SetTargetBellIfSpace(s16 targetNum)
 
 void ChimeLock::VPossessed()
 {
-    field_138_flags &= ~3u;
+    mCanUnpossess = false;
+    mHitAllBells = false;
     SetPossessed(true);
     mChimeLockState = ChimeLockStates::ePossessed_2;
     field_128_idx = 0;
