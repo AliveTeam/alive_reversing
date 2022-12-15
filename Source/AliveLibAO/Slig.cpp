@@ -249,7 +249,7 @@ void Slig::Slig_SoundEffect(SligSfx sfxIdx)
     }
     auto pitch = Math_RandomRange(
         sSligSfxSounds[sfxIdxInt].mPitchMin,
-        sSligSfxSounds[sfxIdxInt].mPitchMin);
+        sSligSfxSounds[sfxIdxInt].mPitchMax);
     SFX_SfxDefinition_Play_477330(sSligSfxSounds[sfxIdxInt], static_cast<s16>(volLeft), static_cast<s16>(volRight), pitch, pitch);
 }
 
