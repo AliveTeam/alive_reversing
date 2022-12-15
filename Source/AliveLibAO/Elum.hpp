@@ -14,8 +14,8 @@ enum class EnvironmentSfx : u8;
     ENTRY(Motion_4_Turn)                 \
     ENTRY(Motion_5_WalkToIdle)           \
     ENTRY(Motion_6_MidWalkToIdle)        \
-    ENTRY(Motion_7_IdleToWalk1_413200)          \
-    ENTRY(Motion_8_IdleToWalk2_413270)          \
+    ENTRY(Motion_7_IdleToWalk1)          \
+    ENTRY(Motion_8_IdleToWalk2)          \
     ENTRY(Motion_9_ToYell)               \
     ENTRY(Motion_10_Yell)                \
     ENTRY(Motion_11_Unknown)             \
@@ -24,8 +24,8 @@ enum class EnvironmentSfx : u8;
     ENTRY(Motion_14_Speak)               \
     ENTRY(Motion_15_Speak)               \
     ENTRY(Motion_16_Speak)               \
-    ENTRY(Motion_17_WalkToHop_413620)           \
-    ENTRY(Motion_18_MidWalkToHop_4136A0)        \
+    ENTRY(Motion_17_WalkToHop)           \
+    ENTRY(Motion_18_MidWalkToHop)        \
     ENTRY(Motion_19_Dead)                \
     ENTRY(Motion_20_Fall)                \
     ENTRY(Motion_21_Land)                \
@@ -80,18 +80,7 @@ enum class ElumSounds : u8
 
 class Elum final : public BaseAliveGameObject
 {
-private:
-    eElumMotions GetNextMotion() const
-    {
-        return static_cast<eElumMotions>(mNextMotion);
-    }
-
 public:
-    eElumMotions GetCurrentMotion() const
-    {
-        return static_cast<eElumMotions>(mCurrentMotion);
-    }
-
     static void Spawn(const Guid& tlvInfo);
 
     virtual void VUpdate() override;
@@ -107,31 +96,16 @@ public:
     virtual void VOnTrapDoorOpen() override;
 
     void Vsub_416120();
-    void ToKnockback();
-    void MidWalkToNextMotion_412FA0();
-    void WalkToNextMotion_4130D0();
-    void SlowOnX_414210(FP amount);
-    void CheckLiftPointGoneAndSetCamera();
-    void MoveOnLine(s16 xLookAhead);
-    void SetAbeAsPlayer(s16 abeMotion);
-    s16 ToNextMotion_4120F0();
-    s16 ToNextMotionAbeControlled_411E40();
-    void HandleElumPathTrans_411460();
-    static void Elum_SFX_416E10(ElumSounds soundId, BaseAliveGameObject* pObj);
-    void FindHoney_411600();
-    s16 NearHoney_411DA0();
 
-    // Brains
-    s16 Brain_0_WithoutAbe_416190();
-    s16 Brain_1_HoneyAddiction_411730();
-
-    enum class MidType
+    eElumMotions GetCurrentMotion() const
     {
-        eHopMid = 0,
-        eRunJumpMid = 1
-    };
+        return static_cast<eElumMotions>(mCurrentMotion);
+    }
 
-    void RunJumpMidAndHopMid(MidType midType);
+    eElumMotions GetNextMotion() const
+    {
+        return static_cast<eElumMotions>(mNextMotion);
+    }
 
     // Motions
     void Motion_0_Respawn();
@@ -191,34 +165,65 @@ public:
     void Motion_49_AbeUnmountingBegin();
     void Motion_50_Knockback();
 
+    // Brains
+    s16 Brain_0_WithoutAbe();
+    s16 Brain_1_HoneyAddiction();
+
+private:
+    void ToKnockback();
+    void MidWalkToNextMotion();
+    void WalkToNextMotion();
+    void SlowOnX(FP amount);
+    void CheckLiftPointGoneAndSetCamera();
+    void MoveOnLine(s16 xLookAhead);
+    void SetAbeAsPlayer(s16 abeMotion);
+    bool ToNextMotion();
+    bool ToNextMotionAbeControlled();
+    void HandleElumPathTrans();
+    static void Elum_SFX(ElumSounds soundId, BaseAliveGameObject* pObj);
+    void FindHoney();
+    bool NearHoney();
+
+    enum class MidType
+    {
+        eHopMid = 0,
+        eRunJumpMid = 1
+    };
+
+    void RunJumpMidAndHopMid(MidType midType);
+
+public:
+
+    s16 field_154_bAbeForcedDownFromElum = 0;
+    s16 mBrainIdx = 0;
+    bool mStrugglingWithBees = false;
+    s16 mRespawnOnDead = 0;
+    PSX_RECT mContinueRect = {};
+    s16 mPreviousContinueZoneNumber = 0;
+    s16 mAbeZoneNumber = 0;
+    EReliveLevelIds mContinueLevel = EReliveLevelIds::eNone;
+    s16 mContinuePath = 0;
+    s16 mContinueCamera = 0;
+    s16 mHoneyXPos = 0;
+    s16 mDontFollowAbe = 0;
+    bool mStungByBees = false;
+    bool mFoundHoney = false;
+    s16 field_120_bUnknown = 0;
+    s16 mBrainSubState = 0;
+    FP mContinueSpriteScale = {};
+    bool mFalling = false; // falling straight down?
+    s16 mHoneyCamera = 0;
+
+private:
     s16 field_10C_bFootStep2 = 0;
     s16 field_10E_pressed = 0;
     s32 field_110_timer = 0;
     s32 field_114_respond_timer = 0;
     FP field_118_jump_velx = {};
-    s16 field_120_bUnknown = 0;
-    s16 mDontFollowAbe = 0;
     s16 field_124_bShould_IdleToWalk1 = 0;
     //s16 field_126_res_idx = 0;
-    s16 mBrainIdx = 0;
-    s16 mBrainSubState = 0;
-    s16 mHoneyXPos = 0;
     s16 mHoneyYPos = 0;
-    PSX_RECT mContinueRect = {};
-    s16 mPreviousContinueZoneNumber = 0;
-    s16 mAbeZoneNumber = 0;
-    s16 mRespawnOnDead = 0;
-    s16 mHoneyCamera = 0;
-    s16 mContinuePath = 0;
-    EReliveLevelIds mContinueLevel = EReliveLevelIds::eNone;
-    s16 mContinueCamera = 0;
-    FP mContinueSpriteScale = {};
-    s16 field_154_bAbeForcedDownFromElum = 0;
     s32 field_158_last_event_idx = 0;
-    bool mStrugglingWithBees = false;
-    bool mStungByBees = false;
-    bool mFalling = false; // falling straight down?
-    bool mFoundHoney = false;
     bool mChangedPathNotMounted = false;
     bool mCanSpeak = false;
     bool mChangedPathMounted = false;

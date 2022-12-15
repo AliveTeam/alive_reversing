@@ -42,7 +42,7 @@ public:
     };
     States mState = States::eFallingToBeCollected_0;
     s16 mExplodeCountdown = 0;
-    s16 field_118 = 0;
+    s16 mBounceCount = 0;
     BaseGameObject* mExplosionObj = nullptr;
     FP mPreviousXPos = {};
     FP mPreviousYPos = {};

@@ -2776,7 +2776,7 @@ void Paramite::Motion_3_Running()
     if (GetAnimation().GetCurrentFrame() == 10)
     {
         Sound(ParamiteSpeak::LoudStep_3);
-        Environment_SFX_42A220(EnvironmentSfx::eHitGroundSoft_6, 50, 600, 0);
+        Environment_SFX(EnvironmentSfx::eHitGroundSoft_6, 50, 600, 0);
 
         if (GetNextMotion() == eParamiteMotions::Motion_2_Walking)
         {
@@ -3547,7 +3547,7 @@ void Paramite::Motion_21_WebLeaveDown()
 {
     if (GetAnimation().GetCurrentFrame() == 2)
     {
-        Environment_SFX_42A220(EnvironmentSfx::eHitGroundSoft_6, 50, 600, 0);
+        Environment_SFX(EnvironmentSfx::eHitGroundSoft_6, 50, 600, 0);
     }
 
     if (GetAnimation().GetIsLastFrame())

@@ -86,7 +86,6 @@ Scrab::Scrab(relive::Path_Scrab* pTlv, const Guid& tlvId)
     mBrainSubState = 0;
     mNextMotion = 0;
     mCurrentMotion = 1;
-    field_112 = 0;
 
     SetFightTarget(nullptr);
     SetTarget(nullptr);
@@ -275,13 +274,6 @@ void Scrab::VUpdate()
             {
                 GetAnimation().SetFrame(mBaseAliveGameObjectLastAnimFrame);
             }
-        }
-        else if (field_112)
-        {
-            mCurrentMotion = mPreviousMotion;
-            vUpdateAnim();
-            GetAnimation().SetFrame(mBaseAliveGameObjectLastAnimFrame);
-            field_112 = 0;
         }
     }
 }
@@ -2228,7 +2220,7 @@ s16 Scrab::Brain_Fighting()
 
             Scrab_SFX(ScrabSounds::eDeathHowl_1, 0, -1571, 1);
             Scrab_SFX(ScrabSounds::eYell_8, 0, -1571, 1);
-            Environment_SFX_42A220(EnvironmentSfx::eHitGroundSoft_6, 0, -383, 0);
+            Environment_SFX(EnvironmentSfx::eHitGroundSoft_6, 0, -383, 0);
             if (GetAnimation().GetRender())
             {
                 SetFightTarget(nullptr);

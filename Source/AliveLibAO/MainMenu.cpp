@@ -666,7 +666,7 @@ void Menu::FMV_Select_Update()
                 {
                     SND_StopAll();
 
-                    const FmvInfo* pFmvRec = Path_Get_FMV_Record_434680(sActiveList[mSelectedButtonIndex.raw].mLevel, sActiveList[mSelectedButtonIndex.raw].mFmvId);
+                    const FmvInfo* pFmvRec = Path_Get_FMV_Record(sActiveList[mSelectedButtonIndex.raw].mLevel, sActiveList[mSelectedButtonIndex.raw].mFmvId);
                     relive_new Movie(pFmvRec->field_0_pName);
 
                     while (gMovieRefCount)

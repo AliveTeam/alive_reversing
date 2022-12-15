@@ -161,4 +161,4 @@ void Path_SetMudsInLevel(EReliveLevelIds lvlId, u32 pathId, u32 count);
 
 s16 Path_GetMudsInLevel(EReliveLevelIds lvlId, u32 pathId);
 
-extern SeqHandleTable sSeqData_558D50;
+extern SeqHandleTable gSeqData;

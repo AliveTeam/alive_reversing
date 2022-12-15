@@ -679,7 +679,7 @@ void Map::GoTo_Camera()
 
             // TODO: This data is now per path rather than lvl - logic needs updating to reflect this
             SND_Load_VABS(mLoadedPaths[0]->GetSoundInfo(), Path_Get_Reverb(mNextLevel)); // TODO: Remove hard coded data
-            SND_Load_Seqs(sSeqData_558D50.mSeqs, mLoadedPaths[0]->GetSoundInfo());
+            SND_Load_Seqs(gSeqData.mSeqs, mLoadedPaths[0]->GetSoundInfo());
 
             // TODO: Remove hard coded data
             relive_new BackgroundMusic(Path_Get_BackGroundMusicId(mNextLevel));

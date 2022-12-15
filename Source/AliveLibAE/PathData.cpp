@@ -2139,7 +2139,7 @@ SeqHandleTable sSeqData = {
      {"MI_10_1.SEQ", 0, 0u, 100u, -1, {}},
      {nullptr, 0, 0u, 0u, 0, {}}}};
 
-SeqHandleTable sSeqData_558D50 = sSeqData;
+SeqHandleTable gSeqData = sSeqData;
 
 const static PerLvlData gMovieMenuInfos_561540[28] = {
     {"GT Logo", EReliveLevelIds::eMenu, 65535, 65535, 3u, 65535, 65535},

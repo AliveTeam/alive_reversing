@@ -54,7 +54,7 @@ Grenade::Grenade(FP xpos, FP ypos, s16 numGrenades)
         mExplodeCountdown = 90;
     }
 
-    field_118 = 0;
+    mBounceCount = 0;
     mExplosionObj = 0;
 }
 
@@ -287,16 +287,16 @@ s16 Grenade::InTheAir()
             mYPos = hitY;
             mVelY = (-mVelY / FP_FromInteger(2));
             mVelX = (mVelX / FP_FromInteger(2));
-            if (field_118 <= 4)
+            if (mBounceCount <= 4)
             {
-                s16 vol = 75 - 20 * field_118;
+                s16 vol = 75 - 20 * mBounceCount;
                 if (vol < 40)
                 {
                     vol = 40;
                 }
 
                 SfxPlayMono(relive::SoundEffects::GrenadeBounce, vol);
-                field_118++;
+                mBounceCount++;
 
                 EventBroadcast(kEventNoise, this);
                 EventBroadcast(kEventSuspiciousNoise, this);
@@ -324,7 +324,7 @@ s16 Grenade::InTheAir()
                     mYPos = hitY;
                     mXPos = hitX;
                     mVelX = (-mVelX / FP_FromInteger(2));
-                    s16 vol = 75 - 20 * field_118;
+                    s16 vol = 75 - 20 * mBounceCount;
                     if (vol < 40)
                     {
                         vol = 40;
@@ -343,7 +343,7 @@ s16 Grenade::InTheAir()
                     mXPos = hitX;
                     mYPos = hitY;
                     mVelX = (-mVelX / FP_FromInteger(2));
-                    s16 vol = 75 - 20 * field_118;
+                    s16 vol = 75 - 20 * mBounceCount;
                     if (vol < 40)
                     {
                         vol = 40;

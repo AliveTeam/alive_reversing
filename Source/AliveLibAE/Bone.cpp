@@ -31,8 +31,8 @@ Bone::Bone(FP xpos, FP ypos, s16 countId)
 
     mXPos = xpos;
     mYPos = ypos;
-    mInitialXPos = xpos;
-    mInitialYPos = ypos;
+    mPreviousXPos = xpos;
+    mPreviousYPos = ypos;
     mVelX = FP_FromInteger(0);
     mVelY = FP_FromInteger(0);
     SetInteractive(false);
@@ -43,7 +43,7 @@ Bone::Bone(FP xpos, FP ypos, s16 countId)
     mDeadTimer = sGnFrame + 300;
     mBaseThrowableCount = countId;
     mState = BoneStates::eSpawned_0;
-    mVolumeModifier = 0;
+    mBounceCount = 0;
 
     CreateShadow();
 }
@@ -57,7 +57,7 @@ s32 Bone::CreateFromSaveState(const u8* pData)
 {
     auto pState = reinterpret_cast<const BoneSaveState*>(pData);
 
-    auto pBone = relive_new Bone(pState->mXPos, pState->mYPos, pState->mBaseThrowableCount);
+    auto pBone = relive_new Bone(pState->mXPos, pState->mYPos, pState->mThrowableCount);
 
     pBone->mBaseGameObjectTlvInfo = pState->mBaseTlvId;
 
@@ -89,12 +89,12 @@ s32 Bone::CreateFromSaveState(const u8* pData)
     pBone->mShimmerTimer = sGnFrame;
 
     pBone->BaseAliveGameObjectCollisionLineType = pState->mCollisionLineType;
-    pBone->mBaseThrowableCount = pState->mBaseThrowableCount;
+    pBone->mBaseThrowableCount = pState->mThrowableCount;
     pBone->mState = pState->mState;
 
-    pBone->mVolumeModifier = pState->mVolumeModifier;
-    pBone->mInitialXPos = pState->mInitialXPos;
-    pBone->mInitialYPos = pState->mInitialYPos;
+    pBone->mBounceCount = pState->mBounceCount;
+    pBone->mPreviousXPos = pState->mPreviousXPos;
+    pBone->mPreviousYPos = pState->mPreviousYPos;
 
     pBone->mDeadTimer = pState->mTimeToLiveTimer;
 
@@ -184,7 +184,7 @@ s16 Bone::OnCollision(BaseAnimatedWithPhysicsGameObject* pObj)
 
     const PSX_RECT bRect = pObj->VGetBoundingRect();
 
-    if (mInitialXPos < FP_FromInteger(bRect.x) || mInitialXPos > FP_FromInteger(bRect.w))
+    if (mPreviousXPos < FP_FromInteger(bRect.x) || mPreviousXPos > FP_FromInteger(bRect.w))
     {
         mXPos -= mVelX;
         mVelX = (-mVelX / FP_FromInteger(2));
@@ -261,13 +261,13 @@ s32 Bone::VGetSaveState(u8* pSaveBuffer)
     }
 
     pState->mPlatformId = BaseAliveGameObject_PlatformId;
-    pState->mBaseThrowableCount = mBaseThrowableCount;
+    pState->mThrowableCount = mBaseThrowableCount;
     pState->mState = mState;
 
-    pState->mVolumeModifier = mVolumeModifier;
-    pState->mInitialXPos = mInitialXPos;
+    pState->mBounceCount = mBounceCount;
+    pState->mPreviousXPos = mPreviousXPos;
 
-    pState->mInitialYPos = mInitialYPos;
+    pState->mPreviousYPos = mPreviousYPos;
     pState->mTimeToLiveTimer = mDeadTimer;
 
     return sizeof(BoneSaveState);
@@ -275,8 +275,8 @@ s32 Bone::VGetSaveState(u8* pSaveBuffer)
 
 void Bone::InTheAir()
 {
-    mInitialXPos = mXPos;
-    mInitialYPos = mYPos;
+    mPreviousXPos = mXPos;
+    mPreviousYPos = mYPos;
 
     if (mVelY > FP_FromInteger(30))
     {
@@ -290,8 +290,8 @@ void Bone::InTheAir()
     FP hitX = {};
     FP hitY = {};
     if (sCollisions->Raycast(
-            mInitialXPos,
-            mInitialYPos,
+            mPreviousXPos,
+            mPreviousYPos,
             mXPos,
             mYPos,
             &BaseAliveGameObjectCollisionLine,
@@ -335,7 +335,7 @@ void Bone::InTheAir()
                     mYPos -= FP_FromDouble(0.1);
                     mVelY = (-mVelY / FP_FromInteger(2));
                     mVelX = (mVelX / FP_FromInteger(2));
-                    s16 vol = 20 * (4 - mVolumeModifier);
+                    s16 vol = 20 * (4 - mBounceCount);
                     if (vol < 40)
                     {
                         vol = 40;
@@ -343,7 +343,7 @@ void Bone::InTheAir()
                     SfxPlayMono(relive::SoundEffects::RockBounce, vol);
                     EventBroadcast(kEventNoise, this);
                     EventBroadcast(kEventSuspiciousNoise, this);
-                    mVolumeModifier++;
+                    mBounceCount++;
                 }
                 break;
 
@@ -353,7 +353,7 @@ void Bone::InTheAir()
                 {
                     mYPos = hitY;
                     mVelY = (-mVelY / FP_FromInteger(2));
-                    s16 vol = 20 * (4 - mVolumeModifier);
+                    s16 vol = 20 * (4 - mBounceCount);
                     if (vol < 40)
                     {
                         vol = 40;
@@ -366,7 +366,7 @@ void Bone::InTheAir()
         }
     }
 
-    if (sCollisions->Raycast(mInitialXPos, mInitialYPos, mXPos, mYPos, &BaseAliveGameObjectCollisionLine, &hitX, &hitY, GetScale() == Scale::Fg ? kFgWalls : kBgWalls) == 1)
+    if (sCollisions->Raycast(mPreviousXPos, mPreviousYPos, mXPos, mYPos, &BaseAliveGameObjectCollisionLine, &hitX, &hitY, GetScale() == Scale::Fg ? kFgWalls : kBgWalls) == 1)
     {
         switch (BaseAliveGameObjectCollisionLine->mLineType)
         {
@@ -377,7 +377,7 @@ void Bone::InTheAir()
                     mVelX = (-mVelX / FP_FromInteger(2));
                     mXPos = hitX;
                     mYPos = hitY;
-                    s16 vol = 20 * (4 - mVolumeModifier);
+                    s16 vol = 20 * (4 - mBounceCount);
                     if (vol < 40)
                     {
                         vol = 40;
@@ -396,7 +396,7 @@ void Bone::InTheAir()
                     mVelX = (-mVelX / FP_FromInteger(2));
                     mXPos = hitX;
                     mYPos = hitY;
-                    s16 vol = 20 * (4 - mVolumeModifier);
+                    s16 vol = 20 * (4 - mBounceCount);
                     if (vol < 40)
                     {
                         vol = 40;

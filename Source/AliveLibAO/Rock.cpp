@@ -30,16 +30,16 @@ Rock::Rock(FP xpos, FP ypos, s16 count)
     GetAnimation().SetSemiTrans(false);
 
     mXPos = xpos;
-    field_11C_xpos = xpos;
+    mPreviousXPos = xpos;
 
     mYPos = ypos;
-    field_120_ypos = ypos;
+    mPreviousYPos = ypos;
 
     mVelX = FP_FromInteger(0);
     mVelY = FP_FromInteger(0);
 
     mBaseThrowableCount = count;
-    field_110_state = States::eNone_0;
+    mState = States::eNone_0;
 
     mLoadedPals.push_back(ResourceManagerWrapper::LoadPal(PalId::BlueRock));
 
@@ -54,7 +54,7 @@ Rock::Rock(FP xpos, FP ypos, s16 count)
         GetAnimation().ReloadPal();
     }
 
-    field_118_vol = 0;
+    mBounceCount = 0;
 
     CreateShadow();
 }
@@ -77,7 +77,7 @@ void Rock::VUpdate()
         SetDead(true);
     }
 
-    switch (field_110_state)
+    switch (mState)
     {
         case States::eFallingOutOfRockSack_1:
             InTheAir();
@@ -95,14 +95,14 @@ void Rock::VUpdate()
                     mVelX -= FP_FromDouble(0.01);
                 }
 
-                field_114_pLine->MoveOnLine(
+                mPathLine->MoveOnLine(
                     &mXPos,
                     &mYPos,
                     mVelX);
 
-                if (!field_114_pLine)
+                if (!mPathLine)
                 {
-                    field_110_state = States::eBouncing_4;
+                    mState = States::eBouncing_4;
                     GetAnimation().SetLoop(true);
                 }
             }
@@ -112,13 +112,13 @@ void Rock::VUpdate()
                 const s32 xSnapped = (x_exp & 0xFC00) + SnapToXGrid(GetSpriteScale(), x_exp & 0x3FF);
                 if (abs(xSnapped - x_exp) > 1)
                 {
-                    field_114_pLine = field_114_pLine->MoveOnLine(
+                    mPathLine = mPathLine->MoveOnLine(
                         &mXPos,
                         &mYPos,
                         mVelX);
-                    if (!field_114_pLine)
+                    if (!mPathLine)
                     {
-                        field_110_state = States::eBouncing_4;
+                        mState = States::eBouncing_4;
                         GetAnimation().SetLoop(true);
                     }
                 }
@@ -133,21 +133,21 @@ void Rock::VUpdate()
                     GetAnimation().SetLoop(false);
                     mCollectionRect.y = mYPos - ScaleToGridSize(GetSpriteScale());
                     mCollectionRect.h = mYPos;
-                    field_110_state = States::eOnGround_3;
-                    field_124_shimmer_timer = sGnFrame;
+                    mState = States::eOnGround_3;
+                    mShimmerTimer = sGnFrame;
                 }
             }
             break;
 
         case States::eOnGround_3:
-            if (static_cast<s32>(sGnFrame) > field_124_shimmer_timer)
+            if (static_cast<s32>(sGnFrame) > mShimmerTimer)
             {
                 New_TintShiny_Particle(
                     (GetSpriteScale() * FP_FromInteger(1)) + mXPos,
                     (GetSpriteScale() * FP_FromInteger(-7)) + mYPos,
                     FP_FromDouble(0.3),
                     Layer::eLayer_Foreground_36);
-                field_124_shimmer_timer = (Math_NextRandom() % 16) + sGnFrame + 60;
+                mShimmerTimer = (Math_NextRandom() % 16) + sGnFrame + 60;
             }
             break;
 
@@ -161,7 +161,7 @@ void Rock::VUpdate()
 
             if (mVelY > FP_FromInteger(30))
             {
-                field_110_state = States::eFallingOutOfWorld_5;
+                mState = States::eFallingOutOfWorld_5;
             }
         }
         break;
@@ -205,23 +205,23 @@ void Rock::VThrow(FP velX, FP velY)
 
     if (mBaseThrowableCount == 0)
     {
-        field_110_state = States::eBouncing_4;
+        mState = States::eBouncing_4;
     }
     else
     {
-        field_110_state = States::eFallingOutOfRockSack_1;
+        mState = States::eFallingOutOfRockSack_1;
     }
 }
 
 s16 Rock::VCanThrow()
 {
-    return field_110_state == States::eBouncing_4;
+    return mState == States::eBouncing_4;
 }
 
 void Rock::InTheAir()
 {
-    field_11C_xpos = mXPos;
-    field_120_ypos = mYPos;
+    mPreviousXPos = mXPos;
+    mPreviousYPos = mYPos;
 
     if (mVelY > FP_FromInteger(30))
     {
@@ -240,16 +240,16 @@ void Rock::InTheAir()
     FP hitX = {};
     FP hitY = {};
     if (sCollisions->Raycast(
-            field_11C_xpos,
-            field_120_ypos,
+            mPreviousXPos,
+            mPreviousYPos,
             mXPos,
             mYPos,
-            &field_114_pLine,
+            &mPathLine,
             &hitX,
             &hitY,
             GetSpriteScale() == FP_FromInteger(1) ? kFgWallsOrFloor : kBgWallsOrFloor))
     {
-        switch (field_114_pLine->mLineType)
+        switch (mPathLine->mLineType)
         {
             case eLineTypes::eFloor_0:
             case eLineTypes::eBackgroundFloor_4:
@@ -257,14 +257,14 @@ void Rock::InTheAir()
             case eLineTypes::eBackgroundDynamicCollision_36:
                 if (mVelY > FP_FromInteger(0))
                 {
-                    if (field_110_state != States::eBouncing_4 || mVelY >= FP_FromInteger(5))
+                    if (mState != States::eBouncing_4 || mVelY >= FP_FromInteger(5))
                     {
-                        if (field_110_state != States::eFallingOutOfRockSack_1 || mVelY >= FP_FromInteger(1))
+                        if (mState != States::eFallingOutOfRockSack_1 || mVelY >= FP_FromInteger(1))
                         {
                             mYPos = hitY;
                             mVelY = (-mVelY / FP_FromInteger(2));
                             mVelX = (mVelX / FP_FromInteger(2));
-                            s32 vol = 20 * (4 - field_118_vol);
+                            s32 vol = 20 * (4 - mBounceCount);
                             if (vol < 40)
                             {
                                 vol = 40;
@@ -272,11 +272,11 @@ void Rock::InTheAir()
                             SfxPlayMono(relive::SoundEffects::RockBounce, vol);
                             EventBroadcast(kEventNoise, this);
                             EventBroadcast(kEventSuspiciousNoise, this);
-                            field_118_vol++;
+                            mBounceCount++;
                         }
                         else
                         {
-                            field_110_state = States::eRolling_2;
+                            mState = States::eRolling_2;
                             if (mVelX >= FP_FromInteger(0) && mVelX < FP_FromInteger(1))
                             {
                                 mVelX = FP_FromInteger(1);
@@ -290,7 +290,7 @@ void Rock::InTheAir()
                     }
                     else
                     {
-                        field_110_state = States::eFallingOutOfWorld_5;
+                        mState = States::eFallingOutOfWorld_5;
                     }
                 }
                 break;
@@ -322,7 +322,7 @@ void Rock::BounceHorizontally( FP hitX, FP hitY )
     mVelX = (-mVelX / FP_FromInteger(2));
     mXPos = hitX;
     mYPos = hitY;
-    s32 vol = 20 * (4 - field_118_vol);
+    s32 vol = 20 * (4 - mBounceCount);
     if (vol < 40)
     {
         vol = 40;
@@ -343,7 +343,7 @@ s16 Rock::OnCollision(BaseAnimatedWithPhysicsGameObject* pObj)
 
     const PSX_RECT bRect = pObj->VGetBoundingRect();
 
-    if (field_11C_xpos < FP_FromInteger(bRect.x) || field_11C_xpos > FP_FromInteger(bRect.w))
+    if (mPreviousXPos < FP_FromInteger(bRect.x) || mPreviousXPos > FP_FromInteger(bRect.w))
     {
         mXPos -= mVelX;
         mVelX = (-mVelX / FP_FromInteger(2));
@@ -364,7 +364,7 @@ s16 Rock::VIsFalling()
 {
     // Same as meat falling func - compiler seems to have made them both
     // use the same func, or should it go in the base ??
-    return field_110_state == States::eFallingOutOfWorld_5;
+    return mState == States::eFallingOutOfWorld_5;
 }
 
 void Rock::VTimeToExplodeRandom()

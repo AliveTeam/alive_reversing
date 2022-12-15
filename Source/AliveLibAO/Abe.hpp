@@ -324,38 +324,38 @@ public:
 
 
     bool CheckForPortalAndRunJump();
-    void FreeElumRes_420F80();
-    void ToDeathDropFall_42C3D0();
-    bool IsStanding_41FC10();
-    void FollowLift_42EE90();
-    void ExitShrykull_42F440(s16 bResetRingTimer);
-    s16 RunTryEnterWell_425880();
-    void ChangeChantState_430510(s16 bKeepChanting);
-    static IBaseAliveGameObject* FindObjectToPossess_421410();
-    void ToDieFinal_42C400();
-    void ToKnockback_422D90(s16 bUnknownSound, s16 bDelayedAnger);
-    void ToIdle_422D50();
-    void MoveForward_422FC0();
-    s16 MoveLiftUpOrDown_42F190(FP ySpeed);
-    void ElumFree_4228F0();
-    s16 DoGameSpeak_42F5C0(u16 input);
+    void FreeElumRes();
+    void ToDeathDropFall();
+    bool IsStanding();
+    void FollowLift();
+    void ExitShrykull(s16 bResetRingTimer);
+    s16 RunTryEnterWell();
+    void ChangeChantState(s16 bKeepChanting);
+    static IBaseAliveGameObject* FindObjectToPossess();
+    void ToDieFinal();
+    void ToKnockback(s16 bUnknownSound, s16 bDelayedAnger);
+    void ToIdle();
+    void MoveForward();
+    s16 MoveLiftUpOrDown(FP ySpeed);
+    void ElumFree();
+    s16 DoGameSpeak(u16 input);
     void SyncToElum(s16 elumMotion);
-    void PickUpThrowabe_Or_PressBomb_428260(FP fpX, s32 fpY, s16 bStandToCrouch);
-    void CrouchingGameSpeak_427F90();
-    void FallOnBombs_4231B0();
-    s16 ToLeftRightMovement_422AA0();
-    void MoveWithVelocity_4257F0(FP speed);
+    void PickUpThrowabe_Or_PressBomb(FP fpX, s32 fpY, s16 bStandToCrouch);
+    void CrouchingGameSpeak();
+    void FallOnBombs(); // TODO: this has nothing to do with falling
+    s16 ToLeftRightMovement();
+    void MoveWithVelocity(FP speed);
     void ToNewElumSyncMotion(s32 elum_frame);
-    void SetActiveControlledCharacter_421480();
-    PullRingRope* GetPullRope_422580();
-    void ElumKnockForward_42E780(s32 not_used);
-    s16 TryMountElum_42E600();
-    void BulletDamage_4220B0(Bullet* a2);
-    s16 RunTryEnterDoor_4259C0();
+    void SetActiveControlledCharacter();
+    PullRingRope* GetPullRope();
+    void ElumKnockForward(s32 not_used);
+    s16 TryMountElum();
+    void BulletDamage(Bullet* a2);
+    s16 RunTryEnterDoor();
     bool NearDoorIsOpen();
-    void IntoPortalStates_4262A0();
-    void TryHoist_423420();
-    s16 HandleDoAction_429A70();
+    void IntoPortalStates();
+    void TryHoist();
+    s16 HandleDoAction();
 
     // Motions
     void Motion_0_Idle();
@@ -592,7 +592,7 @@ extern Abe* sActiveHero;
 extern s16 gAbeInvulnerableCheat;
 extern s16 gAbeInvisibleCheat;
 
-s32 Environment_SFX_42A220(EnvironmentSfx sfxId, s32 volume, s32 pitchMin, BaseAliveGameObject* pAliveObj);
+s32 Environment_SFX(EnvironmentSfx sfxId, s32 volume, s32 pitchMin, BaseAliveGameObject* pAliveObj);
 
 s32 Mudokon_SFX(MudSounds idx, s32 volume, s32 pitch, BaseAliveGameObject* pHero);
 

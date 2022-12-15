@@ -136,7 +136,6 @@ public:
 
     TBrainType mBrainState = nullptr;
     s16 mBrainSubState = 0;
-    s16 field_112 = 0;
     s16 mAttackDelay = 0;
     relive::Path_Scrab::ScrabPatrolType mPatrolType = relive::Path_Scrab::ScrabPatrolType::eWalk;
     s32 field_118_timer = 0;
@@ -152,9 +151,8 @@ public:
     s16 mPauseLeftMax = 0;
     s16 mPauseRightMin = 0;
     s16 mPauseRightMax = 0;
-    s32 field_14C = 0;
+    s32 field_14C = 0; // scrab sfx channel mask
     s16 field_188_flags = 0;
-    s16 field_18A = 0;
 };
 
 } // namespace AO

@@ -337,11 +337,11 @@ inline void to_json(nlohmann::json& j, const BoneSaveState& p)
         {"hit_object", p.mHitObject},
         {"platform_id", p.mPlatformId},
         {"collision_line_type", p.mCollisionLineType},
-        {"base_throwable_count", p.mBaseThrowableCount},
+        {"base_throwable_count", p.mThrowableCount},
         {"state", p.mState},
-        {"volume_modifier", p.mVolumeModifier},
-        {"initial_xpos", p.mInitialXPos},
-        {"initial_ypos", p.mInitialYPos},
+        {"volume_modifier", p.mBounceCount},
+        {"initial_xpos", p.mPreviousXPos},
+        {"initial_ypos", p.mPreviousYPos},
         {"time_to_live_timer", p.mTimeToLiveTimer},
     };
 }
@@ -364,11 +364,11 @@ inline void from_json(const nlohmann::json& j, BoneSaveState& p)
     j.at("hit_object").get_to(p.mHitObject);
     j.at("platform_id").get_to(p.mPlatformId);
     j.at("collision_line_type").get_to(p.mCollisionLineType);
-    j.at("base_throwable_count").get_to(p.mBaseThrowableCount);
+    j.at("base_throwable_count").get_to(p.mThrowableCount);
     j.at("state").get_to(p.mState);
-    j.at("volume_modifier").get_to(p.mVolumeModifier);
-    j.at("initial_xpos").get_to(p.mInitialXPos);
-    j.at("initial_ypos").get_to(p.mInitialYPos);
+    j.at("volume_modifier").get_to(p.mBounceCount);
+    j.at("initial_xpos").get_to(p.mPreviousXPos);
+    j.at("initial_ypos").get_to(p.mPreviousYPos);
     j.at("time_to_live_timer").get_to(p.mTimeToLiveTimer);
 }
 
@@ -473,9 +473,9 @@ inline void from_json(const nlohmann::json& j, CrawlingSligSaveState& p)
 }
 
 NLOHMANN_JSON_SERIALIZE_ENUM(DrillStates, {
-    {DrillStates::State_0_Restart_Cycle, "restart_cycle"},
-    {DrillStates::State_1_Going_Down, "going_down"},
-    {DrillStates::State_2_GoingUp, "going_up"},
+    {DrillStates::eRestartCycle_0, "restart_cycle"},
+    {DrillStates::eGoingDown_1, "going_down"},
+    {DrillStates::eGoingUp_2, "going_up"},
 })
 
 inline void to_json(nlohmann::json & j, const DrillSaveState& p)
@@ -2059,51 +2059,51 @@ NLOHMANN_JSON_SERIALIZE_ENUM(RockStates, {
 inline void to_json(nlohmann::json& j, const RockSaveState& p)
 {
     j = nlohmann::json{
-        {"type", p.field_0_type},
-        {"obj_id", p.field_4_obj_id},
-        {"field_8_xpos", p.field_8_xpos},
-        {"field_c_ypos", p.field_C_ypos},
-        {"velx", p.field_10_velx},
-        {"vely", p.field_14_vely},
-        {"sprite_scale", p.field_18_sprite_scale},
-        {"path_number", p.field_1C_path_number},
-        {"lvl_number", p.field_1E_lvl_number},
+        {"type", p.mType},
+        {"obj_id", p.mTlvId},
+        {"field_8_xpos", p.mXPos},
+        {"field_c_ypos", p.mYPos},
+        {"velx", p.mVelX},
+        {"vely", p.mVelY},
+        {"sprite_scale", p.mSpriteScale},
+        {"path_number", p.mCurrentPath},
+        {"lvl_number", p.mCurrentLevel},
         {"render", p.mRender},
         {"drawable", p.mDrawable},
         {"loop", p.mLoop},
         {"interactive", p.mInteractive},
-        {"id", p.field_24_id},
-        {"line_type", p.field_28_line_type},
-        {"count", p.field_2A_count},
-        {"state", p.field_2C_state},
-        {"volume", p.field_2E_volume},
-        {"field_30_xpos", p.field_30_xpos},
-        {"field_34_ypos", p.field_34_ypos},
+        {"id", p.mPlatformId},
+        {"line_type", p.mCollisionLineType},
+        {"count", p.mThrowableCount},
+        {"state", p.mState},
+        {"volume", p.mBounceCount},
+        {"field_30_xpos", p.mPreviousXPos},
+        {"field_34_ypos", p.mPreviousYPos},
     };
 }
 
 inline void from_json(const nlohmann::json& j, RockSaveState& p)
 {
-    j.at("type").get_to(p.field_0_type);
-    j.at("obj_id").get_to(p.field_4_obj_id);
-    j.at("field_8_xpos").get_to(p.field_8_xpos);
-    j.at("field_c_ypos").get_to(p.field_C_ypos);
-    j.at("velx").get_to(p.field_10_velx);
-    j.at("vely").get_to(p.field_14_vely);
-    j.at("sprite_scale").get_to(p.field_18_sprite_scale);
-    j.at("path_number").get_to(p.field_1C_path_number);
-    j.at("lvl_number").get_to(p.field_1E_lvl_number);
+    j.at("type").get_to(p.mType);
+    j.at("obj_id").get_to(p.mTlvId);
+    j.at("field_8_xpos").get_to(p.mXPos);
+    j.at("field_c_ypos").get_to(p.mYPos);
+    j.at("velx").get_to(p.mVelX);
+    j.at("vely").get_to(p.mVelY);
+    j.at("sprite_scale").get_to(p.mSpriteScale);
+    j.at("path_number").get_to(p.mCurrentPath);
+    j.at("lvl_number").get_to(p.mCurrentLevel);
     j.at("render").get_to(p.mRender);
     j.at("drawable").get_to(p.mDrawable);
     j.at("loop").get_to(p.mLoop);
     j.at("interactive").get_to(p.mInteractive);
-    j.at("id").get_to(p.field_24_id);
-    j.at("line_type").get_to(p.field_28_line_type);
-    j.at("count").get_to(p.field_2A_count);
-    j.at("state").get_to(p.field_2C_state);
-    j.at("volume").get_to(p.field_2E_volume);
-    j.at("field_30_xpos").get_to(p.field_30_xpos);
-    j.at("field_34_ypos").get_to(p.field_34_ypos);
+    j.at("id").get_to(p.mPlatformId);
+    j.at("line_type").get_to(p.mCollisionLineType);
+    j.at("count").get_to(p.mThrowableCount);
+    j.at("state").get_to(p.mState);
+    j.at("volume").get_to(p.mBounceCount);
+    j.at("field_30_xpos").get_to(p.mPreviousXPos);
+    j.at("field_34_ypos").get_to(p.mPreviousYPos);
 }
 
 inline void to_json(nlohmann::json& j, const ScrabSaveState& p)

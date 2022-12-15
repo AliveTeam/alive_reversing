@@ -819,12 +819,12 @@ const PathBlyRec* Path_Get_Bly_Record(EReliveLevelIds level, u16 path)
     return &gMapData_4CAB58.paths[static_cast<s32>(MapWrapper::ToAO(level))].field_0_pBlyArrayPtr[path];
 }
 
-FmvInfo* Path_Get_FMV_Record_434680(EReliveLevelIds levelId, u16 fmvId)
+FmvInfo* Path_Get_FMV_Record(EReliveLevelIds levelId, u16 fmvId)
 {
     return &gMapData_4CAB58.paths[static_cast<s32>(MapWrapper::ToAO(levelId))].field_4_pFmvArray[fmvId];
 }
 
-s32 Path_Format_CameraName_4346B0(char_type* pNameBuffer, EReliveLevelIds level, s16 path, s16 camera)
+s32 Path_Format_CameraName(char_type* pNameBuffer, EReliveLevelIds level, s16 path, s16 camera)
 {
     return ::sprintf(pNameBuffer, "%sP%02dC%02d.CAM", gMapData_4CAB58.paths[static_cast<s32>(MapWrapper::ToAO(level))].field_14_lvl_name, path, camera);
 }

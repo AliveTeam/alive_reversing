@@ -30,11 +30,11 @@ struct BoneSaveState final
     bool mHitObject;
     Guid mPlatformId;
     s16 mCollisionLineType;
-    s16 mBaseThrowableCount;
+    s16 mThrowableCount;
     BoneStates mState;
-    s16 mVolumeModifier;
-    FP mInitialXPos;
-    FP mInitialYPos;
+    s16 mBounceCount;
+    FP mPreviousXPos;
+    FP mPreviousYPos;
     s32 mTimeToLiveTimer;
 };
 
@@ -68,9 +68,9 @@ private:
 
 private:
     BoneStates mState = BoneStates::eSpawned_0;
-    s16 mVolumeModifier = 0;
-    FP mInitialXPos = {};
-    FP mInitialYPos = {};
+    s16 mBounceCount = 0;
+    FP mPreviousXPos = {};
+    FP mPreviousYPos = {};
     s32 mShimmerTimer = 0;
     s32 mDeadTimer = 0;
     bool mHitObject = false;

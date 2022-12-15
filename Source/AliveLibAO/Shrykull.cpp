@@ -250,7 +250,7 @@ void Shrykull::VUpdate()
 
             if (GetAnimation().GetForwardLoopCompleted())
             {
-                sActiveHero->ExitShrykull_42F440(mResetRingTimer);
+                sActiveHero->ExitShrykull(mResetRingTimer);
                 SetDead(true);
             }
             break;

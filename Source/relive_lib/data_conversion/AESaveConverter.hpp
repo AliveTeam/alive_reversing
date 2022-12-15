@@ -704,11 +704,11 @@ struct BoneSaveState final
         d.mHitObject = data.field_20_flags.Get(BoneStateFlags::eBit5_bHitObject);
         d.mPlatformId = Guid::NewGuidFromTlvInfo(data.mPlatformTlvInfo);
         d.mCollisionLineType = data.mCollisionLineType;
-        d.mBaseThrowableCount = data.mBaseThrowableCount;
+        d.mThrowableCount = data.mBaseThrowableCount;
         d.mState = From(data.mState);
-        d.mVolumeModifier = data.mVolumeModifier;
-        d.mInitialXPos = data.mInitialXPos;
-        d.mInitialYPos = data.mInitialYPos;
+        d.mBounceCount = data.mVolumeModifier;
+        d.mPreviousXPos = data.mInitialXPos;
+        d.mPreviousYPos = data.mInitialYPos;
         d.mTimeToLiveTimer = data.mTimeToLiveTimer;
         return d;
     }
@@ -883,11 +883,11 @@ struct DrillSaveState final
         switch (state)
         {
             case DrillStates::State_0_Restart_Cycle:
-                return ::DrillStates::State_0_Restart_Cycle;
+                return ::DrillStates::eRestartCycle_0;
             case DrillStates::State_1_Going_Down:
-                return ::DrillStates::State_1_Going_Down;
+                return ::DrillStates::eGoingDown_1;
             case DrillStates::State_2_GoingUp:
-                return ::DrillStates::State_2_GoingUp;
+                return ::DrillStates::eGoingUp_2;
         }
         ALIVE_FATAL("Bad drill states value");
     }
@@ -3036,26 +3036,26 @@ struct RockSaveState final
     static ::RockSaveState From(const RockSaveState& data)
     {
         ::RockSaveState d;
-        d.field_0_type = BaseGameObject::FromAE(data.field_0_type);
-        d.field_4_obj_id = Guid::NewGuidFromTlvInfo(data.field_4_obj_id);
-        d.field_8_xpos = data.field_8_xpos;
-        d.field_C_ypos = data.field_C_ypos;
-        d.field_10_velx = data.field_10_velx;
-        d.field_14_vely = data.field_14_vely;
-        d.field_18_sprite_scale = data.field_18_sprite_scale;
-        d.field_1C_path_number = data.field_1C_path_number;
-        d.field_1E_lvl_number = MapWrapper::FromAESaveData(data.field_1E_lvl_number);
+        d.mType = BaseGameObject::FromAE(data.field_0_type);
+        d.mTlvId = Guid::NewGuidFromTlvInfo(data.field_4_obj_id);
+        d.mXPos = data.field_8_xpos;
+        d.mYPos = data.field_C_ypos;
+        d.mVelX = data.field_10_velx;
+        d.mVelY = data.field_14_vely;
+        d.mSpriteScale = data.field_18_sprite_scale;
+        d.mCurrentPath = data.field_1C_path_number;
+        d.mCurrentLevel = MapWrapper::FromAESaveData(data.field_1E_lvl_number);
         d.mRender = data.field_20_flags.Get(RockStateFlags::eBit1_bRender);
         d.mDrawable = data.field_20_flags.Get(RockStateFlags::eBit2_bDrawable);
         d.mLoop = data.field_20_flags.Get(RockStateFlags::eBit3_bLoop);
         d.mInteractive = data.field_20_flags.Get(RockStateFlags::eBit4_bInteractive);
-        d.field_24_id = Guid::NewGuidFromTlvInfo(data.field_24_id);
-        d.field_28_line_type = data.field_28_line_type;
-        d.field_2A_count = data.field_2A_count;
-        d.field_2C_state = From(data.field_2C_state);
-        d.field_2E_volume = data.field_2E_volume;
-        d.field_30_xpos = data.field_30_xpos;
-        d.field_34_ypos = data.field_34_ypos;
+        d.mPlatformId = Guid::NewGuidFromTlvInfo(data.field_24_id);
+        d.mCollisionLineType = data.field_28_line_type;
+        d.mThrowableCount = data.field_2A_count;
+        d.mState = From(data.field_2C_state);
+        d.mBounceCount = data.field_2E_volume;
+        d.mPreviousXPos = data.field_30_xpos;
+        d.mPreviousYPos = data.field_34_ypos;
         return d;
     }
 

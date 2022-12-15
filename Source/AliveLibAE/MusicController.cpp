@@ -716,21 +716,21 @@ void MusicController::UpdateMusic()
                 idx = pRecord->field_0_seq_id_idx;
                 mAmbientMusicEnabled = false;
                 mAmbientMusicEnabled = pRecord->field_2_bAmbient_music_enabled == AmbientMusic::eOn ? true : false;
-                SetMusicVolumeDelayed(sSeqData_558D50.mSeqs[stru_55D008[pRecord->field_0_seq_id_idx].field_0_idx].field_9_volume, 0);
+                SetMusicVolumeDelayed(gSeqData.mSeqs[stru_55D008[pRecord->field_0_seq_id_idx].field_0_idx].field_9_volume, 0);
                 break;
             case MusicTypes::eIntenseChase_7: // chase music
                 pRecord = &slogChase_55D3E0[static_cast<s32>(MapWrapper::ToAE(field_24_currentLevelID))];
                 idx = pRecord->field_0_seq_id_idx;
                 mAmbientMusicEnabled = false;
                 mAmbientMusicEnabled = pRecord->field_2_bAmbient_music_enabled == AmbientMusic::eOn ? true : false;
-                SetMusicVolumeDelayed(sSeqData_558D50.mSeqs[stru_55D008[idx].field_0_idx].field_9_volume, 0);
+                SetMusicVolumeDelayed(gSeqData.mSeqs[stru_55D008[idx].field_0_idx].field_9_volume, 0);
                 break;
             case MusicTypes::eSoftChase_8: // slig chase?
                 pRecord = &chase_55D314[static_cast<s32>(MapWrapper::ToAE(field_24_currentLevelID))];
                 idx = pRecord->field_0_seq_id_idx;
                 mAmbientMusicEnabled = false;
                 mAmbientMusicEnabled = pRecord->field_2_bAmbient_music_enabled == AmbientMusic::eOn ? true : false;
-                SetMusicVolumeDelayed(sSeqData_558D50.mSeqs[stru_55D008[idx].field_0_idx].field_9_volume, 0);
+                SetMusicVolumeDelayed(gSeqData.mSeqs[stru_55D008[idx].field_0_idx].field_9_volume, 0);
                 break;
             case MusicTypes::ePossessed_9: // slig possesed
                 if (mUnPause)
@@ -739,7 +739,7 @@ void MusicController::UpdateMusic()
                     idx = possessed_55D358[static_cast<s32>(MapWrapper::ToAE(field_24_currentLevelID))].field_0_seq_id_idx;
                     mAmbientMusicEnabled = false;
                     mAmbientMusicEnabled = pRecord->field_2_bAmbient_music_enabled == AmbientMusic::eOn ? true : false;
-                    SetMusicVolumeDelayed(sSeqData_558D50.mSeqs[stru_55D008[idx].field_0_idx].field_9_volume, 0);
+                    SetMusicVolumeDelayed(gSeqData.mSeqs[stru_55D008[idx].field_0_idx].field_9_volume, 0);
                 }
                 else
                 {

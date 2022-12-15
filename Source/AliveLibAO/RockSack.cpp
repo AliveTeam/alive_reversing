@@ -145,7 +145,7 @@ void RockSack::VUpdate()
                 }
 
                 SfxPlayMono(relive::SoundEffects::SackHit, 0);
-                Environment_SFX_42A220(EnvironmentSfx::eDeathNoise_7, 0, 0x7FFF, 0);
+                Environment_SFX(EnvironmentSfx::eDeathNoise_7, 0, 0x7FFF, 0);
             }
 
             if (sActiveHero->mCurrentMotion == eAbeMotions::Motion_33_RunJumpMid)
