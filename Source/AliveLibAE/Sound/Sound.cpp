@@ -2,7 +2,7 @@
 #include "Sound.hpp"
 #include "../../relive_lib/Function.hpp"
 #include "../stdlib.hpp"
-#include "../Sys.hpp"
+#include "../../relive_lib/Sys.hpp"
 #include <mutex>
 #include "SoundSDL.hpp"
 #include "SDLSoundBuffer.hpp"

@@ -9,7 +9,7 @@
 #include "ParticleBurst.hpp"
 #include "../relive_lib/Flash.hpp"
 #include "../relive_lib/Particle.hpp"
-#include "../AliveLibAE/FixedPoint.hpp"
+#include "../relive_lib/FixedPoint.hpp"
 #include "../relive_lib/IBaseAliveGameObject.hpp"
 
 GroundExplosion::GroundExplosion(FP x, FP y, FP scale)

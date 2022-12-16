@@ -6,7 +6,7 @@
 #include "Input.hpp"
 #include "Sound/Midi.hpp"
 #include "Sound/Sound.hpp"
-#include "Sys.hpp"
+#include "../relive_lib/Sys.hpp"
 #include "GameAutoPlayer.hpp"
 #include "../relive_lib/ResourceManagerWrapper.hpp"
 #include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"

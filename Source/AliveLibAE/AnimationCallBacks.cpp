@@ -10,7 +10,7 @@
 #include "../relive_lib/Particle.hpp"
 #include "../relive_lib/ObjectIds.hpp"
 #include "../relive_lib/FatalError.hpp"
-#include "FixedPoint.hpp"
+#include "../relive_lib/FixedPoint.hpp"
 #include "../relive_lib/Collisions.hpp"
 
 void Animation_OnFrame_Common_Null_455F40(BaseGameObject*, u32&, const IndexedPoint&)

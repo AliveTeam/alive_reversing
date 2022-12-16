@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../relive_lib/Primitives_common.hpp"
-#include "../relive_lib/FixedPoint_common.hpp"
+#include "../relive_lib/Primitives.hpp"
+#include "../relive_lib/FixedPoint.hpp"
 #include "../relive_lib/BaseGameObject.hpp"
 #include "../relive_lib/Layer.hpp"
 

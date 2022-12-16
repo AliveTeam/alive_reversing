@@ -1,9 +1,9 @@
 #pragma once
 
 #include "../relive_lib/BaseGameObject.hpp"
-#include "../relive_lib/FixedPoint_common.hpp"
+#include "../relive_lib/FixedPoint.hpp"
 #include "../relive_lib/MapWrapper.hpp"
-#include "Psx.hpp"
+#include "../relive_lib/Psx.hpp"
 
 class PathLine;
 

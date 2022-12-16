@@ -15,7 +15,7 @@
 #include "Path.hpp"
 #include "PathData.hpp"
 #include "../relive_lib/Collisions.hpp"
-#include "FixedPoint.hpp"
+#include "../relive_lib/FixedPoint.hpp"
 #include "Math.hpp"
 
 Bone::Bone(FP xpos, FP ypos, s16 countId)

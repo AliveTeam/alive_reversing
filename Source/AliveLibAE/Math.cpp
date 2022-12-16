@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "Math.hpp"
-#include "FixedPoint.hpp"
+#include "../relive_lib/FixedPoint.hpp"
 #include <gmock/gmock.h>
 #include "GameAutoPlayer.hpp"
 

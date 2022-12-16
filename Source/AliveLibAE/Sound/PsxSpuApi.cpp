@@ -5,7 +5,7 @@
 #include "../stdlib.hpp"
 #include "../ResourceManager.hpp"
 #include "Sound.hpp"    // SoundEntry structure
-#include "../Sys.hpp"      // SYS_GetTicks
+#include "../../relive_lib/Sys.hpp"      // SYS_GetTicks
 #include <assert.h>
 #include "../../relive_lib/FatalError.hpp"
 #include <algorithm>

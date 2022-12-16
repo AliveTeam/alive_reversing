@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "ScreenManager.hpp"
-#include "../relive_lib/GameType.hpp"
+#include "GameType.hpp"
 #include "ResourceManagerWrapper.hpp"
 #include "Layer.hpp"
 #include "Primitives.hpp"

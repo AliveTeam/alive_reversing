@@ -13,7 +13,7 @@
 #include "Map.hpp"
 #include "../relive_lib/Collisions.hpp"
 #include "Path.hpp"
-#include "FixedPoint.hpp"
+#include "../relive_lib/FixedPoint.hpp"
 
 s32 Grenade::CreateFromSaveState(const u8* pBuffer)
 {

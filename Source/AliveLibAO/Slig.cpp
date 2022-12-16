@@ -31,13 +31,13 @@
 #include "ScreenShake.hpp"
 #include "../relive_lib/SwitchStates.hpp"
 #include <algorithm>
-#include "../relive_lib/Psx_common.hpp"
+#include "../relive_lib/Psx.hpp"
 #include "AnimationCallBacks.hpp"
 #include "Grid.hpp"
 #include "../AliveLibAE/Sound/Midi.hpp"
 #include "../relive_lib/BaseGameAutoPlayer.hpp"
 #include "../relive_lib/ObjectIds.hpp"
-#include "../AliveLibAE/FixedPoint.hpp"
+#include "../relive_lib/FixedPoint.hpp"
 #include "Path.hpp"
 #include "ScopedSeq.hpp"
 

@@ -10,7 +10,7 @@
 #include "Grenade.hpp"
 #include "Grid.hpp"
 #include "Path.hpp"
-#include "FixedPoint.hpp"
+#include "../relive_lib/FixedPoint.hpp"
 
 const static AnimId sBoomMachineNozzleAnimIds[] =
 {

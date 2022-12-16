@@ -13,7 +13,7 @@
 #include "ExplosionSet.hpp"
 #include "Path.hpp"
 #include <algorithm>
-#include "FixedPoint.hpp"
+#include "../relive_lib/FixedPoint.hpp"
 #include "../relive_lib/IBaseAliveGameObject.hpp"
 
 AirExplosion::AirExplosion(FP xpos, FP ypos, FP scale, bool bSmall)

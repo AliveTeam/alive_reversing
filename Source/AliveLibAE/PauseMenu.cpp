@@ -11,7 +11,7 @@
 #include "ThrowableArray.hpp"
 #include "QuikSave.hpp"
 #include "Mudokon.hpp"
-#include "Sys.hpp"
+#include "../relive_lib/Sys.hpp"
 #include "PathDataExtensions.hpp"
 #include "GameAutoPlayer.hpp"
 #include "EvilFart.hpp"

@@ -26,7 +26,7 @@
 #include "Sfx.hpp"
 #include "Grid.hpp"
 #include "Path.hpp"
-#include "FixedPoint.hpp"
+#include "../relive_lib/FixedPoint.hpp"
 #include "Game.hpp"
 
 const static TintEntry kCrawlingSligTints[16] = {

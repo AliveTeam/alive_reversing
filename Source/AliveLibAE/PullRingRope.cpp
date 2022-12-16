@@ -11,7 +11,7 @@
 #include "Grid.hpp"
 #include "Map.hpp"
 #include "Path.hpp"
-#include "FixedPoint.hpp"
+#include "../relive_lib/FixedPoint.hpp"
 
 static const TintEntry sPullRingRopeTints[16] = {
     {EReliveLevelIds::eMenu, 127u, 127u, 127u},

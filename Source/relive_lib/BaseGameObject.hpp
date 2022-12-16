@@ -1,10 +1,10 @@
 #pragma once
 
-#include "../relive_lib/Types.hpp"
+#include "Types.hpp"
 #include "DynamicArray.hpp"
-#include "../relive_lib/data_conversion/guid.hpp"
-#include "../relive_lib/ResourceManagerWrapper.hpp"
-#include "../relive_lib/ObjectTypes.hpp"
+#include "data_conversion/guid.hpp"
+#include "ResourceManagerWrapper.hpp"
+#include "ObjectTypes.hpp"
 
 extern u32 sGnFrame;
 

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../relive_lib/Function.hpp"
+#include "Function.hpp"
 #include "Types.hpp"
 
 struct Movie_IO final

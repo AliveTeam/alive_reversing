@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../relive_lib/AnimationBase.hpp"
-#include "../relive_lib/Primitives_common.hpp"
+#include "AnimationBase.hpp"
+#include "Primitives.hpp"
 
 enum class AnimId;
 struct AnimRecord;

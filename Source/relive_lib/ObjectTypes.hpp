@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../relive_lib/Types.hpp"
+#include "Types.hpp"
 
 enum class ReliveTypes : s16
 {

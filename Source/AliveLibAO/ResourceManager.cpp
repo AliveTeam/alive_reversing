@@ -4,7 +4,7 @@
 #include "../relive_lib/Particle.hpp"
 #include "../AliveLibAE/stdlib.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
-#include "../AliveLibAE/Psx.hpp"
+#include "../relive_lib/Psx.hpp"
 #include "../AliveLibAE/PsxRender.hpp"
 #include "GameAutoPlayer.hpp"
 

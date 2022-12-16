@@ -10,7 +10,7 @@
 #include "Grid.hpp"
 #include "Map.hpp"
 #include "Path.hpp"
-#include "FixedPoint.hpp"
+#include "../relive_lib/FixedPoint.hpp"
 
 static bool bTheOneControllingTheMusic = false;
 static DynamicArrayT<Dove> gDovesArray{3};

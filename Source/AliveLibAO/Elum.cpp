@@ -21,7 +21,7 @@
 #include "Grid.hpp"
 #include "../AliveLibAE/Sound/Midi.hpp"
 #include "../relive_lib/ObjectIds.hpp"
-#include "../AliveLibAE/FixedPoint.hpp"
+#include "../relive_lib/FixedPoint.hpp"
 
 namespace AO {
 

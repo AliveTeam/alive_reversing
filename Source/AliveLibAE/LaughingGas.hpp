@@ -2,7 +2,7 @@
 
 #include "../relive_lib/Function.hpp"
 #include "../relive_lib/BaseGameObject.hpp"
-#include "../relive_lib/Primitives_common.hpp"
+#include "../relive_lib/Primitives.hpp"
 #include "Path.hpp" // only for Choice_short
 
 // TODO: These can be combined

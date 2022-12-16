@@ -1,10 +1,10 @@
 #include "stdafx.h"
 #include "Font.hpp"
 #include "../relive_lib/Function.hpp"
-#include "FixedPoint.hpp"
+#include "../relive_lib/FixedPoint.hpp"
 #include "../relive_lib/FatalError.hpp"
 #include "../relive_lib/GameType.hpp"
-#include "../relive_lib/Primitives_common.hpp"
+#include "../relive_lib/Primitives.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
 
 bool gDisableFontFlicker = false;

@@ -2,7 +2,7 @@
 
 
 #include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
-#include "../relive_lib/Primitives_common.hpp"
+#include "../relive_lib/Primitives.hpp"
 
 namespace relive
 {

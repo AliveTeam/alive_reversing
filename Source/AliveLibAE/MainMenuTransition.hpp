@@ -2,7 +2,7 @@
 
 #include "Sfx.hpp"
 #include "../relive_lib/BaseGameObject.hpp"
-#include "../relive_lib/Primitives_common.hpp"
+#include "../relive_lib/Primitives.hpp"
 #include "../relive_lib/Layer.hpp"
 
 enum class TPageAbr : s8;

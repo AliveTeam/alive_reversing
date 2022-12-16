@@ -11,7 +11,7 @@
 #include "../relive_lib/FatalError.hpp"
 #include "Path.hpp"
 #include "../relive_lib/data_conversion/relive_tlvs.hpp"
-#include "../AliveLibAE/FixedPoint.hpp"
+#include "../relive_lib/FixedPoint.hpp"
 
 namespace AO {
 

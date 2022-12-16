@@ -2,10 +2,10 @@
 
 #include "guid.hpp"
 #include "../ObjectTypes.hpp"
-#include "../../relive_lib/FixedPoint_common.hpp"
-#include "../../relive_lib/BitField.hpp"
+#include "../FixedPoint.hpp"
+#include "../BitField.hpp"
 #include "../../AliveLibAE/PathData.hpp"
-#include "../../relive_lib/FatalError.hpp"
+#include "../FatalError.hpp"
 
 #include "relive_tlvs.hpp"
 

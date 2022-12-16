@@ -12,7 +12,7 @@
 #include "Blood.hpp"
 #include "Map.hpp"
 #include "Path.hpp"
-#include "FixedPoint.hpp"
+#include "../relive_lib/FixedPoint.hpp"
 #include "Math.hpp"
 
 static const TintEntry kDrillTints[16] = {

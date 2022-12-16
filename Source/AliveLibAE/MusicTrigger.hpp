@@ -3,7 +3,7 @@
 #include "../relive_lib/BaseGameObject.hpp"
 #include "MusicController.hpp"
 #include "../relive_lib/data_conversion/relive_tlvs.hpp"
-#include "../relive_lib/Psx_common.hpp"
+#include "../relive_lib/Psx.hpp"
 
 class MusicTrigger final : public BaseGameObject
 {

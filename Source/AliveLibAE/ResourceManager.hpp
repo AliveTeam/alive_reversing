@@ -2,7 +2,7 @@
 
 #include "../relive_lib/BaseGameObject.hpp"
 #include "../relive_lib/AddPointer.hpp"
-#include "../relive_lib/Psx_common.hpp"
+#include "../relive_lib/Psx.hpp"
 
 class Camera;
 

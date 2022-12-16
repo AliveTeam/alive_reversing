@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../relive_lib/BaseGameObject.hpp"
-#include "FixedPoint.hpp"
+#include "../relive_lib/FixedPoint.hpp"
 #include "OrbWhirlWindParticle.hpp"
 
 class OrbWhirlWind final : public BaseGameObject

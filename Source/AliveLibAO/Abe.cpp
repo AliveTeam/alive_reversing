@@ -57,7 +57,7 @@
 #include "../relive_lib/FatalError.hpp"
 #include "../relive_lib/ObjectIds.hpp"
 #include "../relive_lib/SwitchStates.hpp"
-#include "../AliveLibAE/Psx.hpp"
+#include "../relive_lib/Psx.hpp"
 #include "Path.hpp"
 #include "../relive_lib/data_conversion/PathTlvsAO.hpp"
 

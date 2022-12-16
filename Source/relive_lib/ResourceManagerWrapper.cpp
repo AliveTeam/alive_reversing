@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "ResourceManagerWrapper.hpp"
 #include "GameType.hpp"
-#include "../AliveLibAE/Psx.hpp"
+#include "Psx.hpp"
 #include "../AliveLibAE/ResourceManager.hpp"
 #include "../AliveLibAO/ResourceManager.hpp"
 
@@ -12,7 +12,7 @@
 #include "data_conversion/PNGFile.hpp"
 
 #include "BinaryPath.hpp"
-#include "../relive_lib/BaseGameAutoPlayer.hpp"
+#include "BaseGameAutoPlayer.hpp"
 
 #include "nlohmann/json.hpp"
 

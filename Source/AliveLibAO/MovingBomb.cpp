@@ -18,8 +18,8 @@
 #include "Grid.hpp"
 #include "../relive_lib/ObjectIds.hpp"
 #include "Path.hpp"
-#include "../relive_lib/FixedPoint_common.hpp"
-#include "../AliveLibAE/FixedPoint.hpp"
+#include "../relive_lib/FixedPoint.hpp"
+#include "../relive_lib/FixedPoint.hpp"
 
 namespace AO {
 

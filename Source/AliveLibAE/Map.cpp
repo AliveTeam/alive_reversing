@@ -18,11 +18,11 @@
 #include "../relive_lib/Events.hpp"
 #include "../relive_lib/Particle.hpp"
 #include "Sound/PsxSpuApi.hpp"
-#include "Sys.hpp"
+#include "../relive_lib/Sys.hpp"
 #include <assert.h>
 #include "../relive_lib/Camera.hpp"
 #include "Path.hpp"
-#include "FixedPoint.hpp"
+#include "../relive_lib/FixedPoint.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
 #include "Factory.hpp"
 

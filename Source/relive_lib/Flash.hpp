@@ -1,7 +1,7 @@
 #pragma once
 
 #include "EffectBase.hpp"
-#include "../relive_lib/Layer.hpp"
+#include "Layer.hpp"
 
 class Flash final : public EffectBase
 {

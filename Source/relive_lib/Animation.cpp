@@ -1,12 +1,12 @@
 #include "stdafx.h"
 #include "Animation.hpp"
 #include "../AliveLibAE/Compression.hpp"
-#include "../relive_lib/Compression.hpp"
+#include "Compression.hpp"
 #include "PsxDisplay.hpp"
 #include "../AliveLibAE/Renderer/IRenderer.hpp"
-#include "../relive_lib/GameType.hpp"
-#include "../relive_lib/ResourceManagerWrapper.hpp"
-#include "../relive_lib/AnimResources.hpp"
+#include "GameType.hpp"
+#include "ResourceManagerWrapper.hpp"
+#include "AnimResources.hpp"
 #include <algorithm>
 
 const AnimRecord PerGameAnimRec(AnimId id)

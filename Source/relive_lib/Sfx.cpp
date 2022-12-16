@@ -2,7 +2,7 @@
 #include "GameType.hpp"
 #include "../AliveLibAE/Math.hpp"
 #include "../AliveLibAE/Sound/Midi.hpp"
-#include "../relive_lib/FatalError.hpp"
+#include "FatalError.hpp"
 
 namespace AO {
 

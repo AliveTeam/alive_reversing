@@ -5,7 +5,7 @@
 #include "Movie.hpp"
 #include "Map.hpp"
 #include "../AliveLibAE/stdlib.hpp"
-#include "../AliveLibAE/Psx.hpp"
+#include "../relive_lib/Psx.hpp"
 #include "ScreenClipper.hpp"
 #include "MusicController.hpp"
 #include "BackgroundMusic.hpp"
@@ -13,7 +13,7 @@
 #include "../relive_lib/PsxDisplay.hpp"
 #include "Sfx.hpp"
 #include "../relive_lib/FatalError.hpp"
-#include "../relive_lib/Sys_common.hpp"
+#include "../relive_lib/Sys.hpp"
 #include "../relive_lib/BaseGameAutoPlayer.hpp"
 
 namespace AO {

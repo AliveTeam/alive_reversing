@@ -94,16 +94,11 @@ SET(relive_lib_src
     ObjectTypes.hpp
     Clamp.hpp
     Types.hpp
-    Sys_common.hpp
-    Sys_common.cpp
-    Primitives_common.hpp
-    Primitives_common.cpp
     Masher.hpp
     Masher.cpp
     FatalError.hpp
     FatalError.cpp
     masher_tables.hpp
-    Psx_common.hpp
     RGB16.hpp
     CamDecompressor.cpp
     CamDecompressor.hpp
@@ -112,7 +107,6 @@ SET(relive_lib_src
     PtrStream.hpp
     CompressionType_4Or5.cpp
     CompressionType_4Or5.hpp
-    FixedPoint_common.hpp
     W32CrashHandler.hpp
     BitField.hpp
     FG1Reader.hpp
@@ -127,6 +121,12 @@ SET(relive_lib_src
     logger.hpp
     AddPointer.hpp
     Function.hpp
+    Sys.hpp
+    Sys.cpp
+    Psx.hpp
+    Psx.cpp
+    FixedPoint.hpp
+    FixedPoint.cpp
 )
 
 add_library(relive_lib ${relive_lib_src})

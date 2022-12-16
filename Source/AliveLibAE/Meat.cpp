@@ -14,7 +14,7 @@
 #include "Map.hpp"
 #include "Path.hpp"
 #include "PathData.hpp"
-#include "FixedPoint.hpp"
+#include "../relive_lib/FixedPoint.hpp"
 #include "Math.hpp"
 
 Meat::Meat(FP xpos, FP ypos, s16 count)

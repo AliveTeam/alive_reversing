@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../relive_lib/data_conversion/guid.hpp"
+#include "data_conversion/guid.hpp"
 
 class BaseGameObject;
 

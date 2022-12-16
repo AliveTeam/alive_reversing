@@ -30,7 +30,7 @@
 #include "../relive_lib/FatalError.hpp"
 #include <algorithm>
 #include "Input.hpp"
-#include "FixedPoint.hpp"
+#include "../relive_lib/FixedPoint.hpp"
 #include "Path.hpp"
 
 // Warning, index is saved, order matters here

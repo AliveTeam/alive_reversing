@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../relive_lib/FixedPoint_common.hpp"
-#include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
+#include "FixedPoint.hpp"
+#include "BaseAnimatedWithPhysicsGameObject.hpp"
 
 // Note, names taken from Abe's Exoddus PC Demo
 enum Event : s16

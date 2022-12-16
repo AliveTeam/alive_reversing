@@ -1,9 +1,9 @@
 #include "stdafx.h"
 #include "Collisions.hpp"
-#include "../relive_lib/Math.hpp"
-#include "../relive_lib/FatalError.hpp"
+#include "Math.hpp"
+#include "FatalError.hpp"
 #include <algorithm>
-#include "../AliveLibAE/FixedPoint.hpp"
+#include "FixedPoint.hpp"
 
 Collisions* sCollisions = nullptr;
 

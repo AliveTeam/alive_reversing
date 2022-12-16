@@ -16,8 +16,8 @@
 #include "Grid.hpp"
 #include "Map.hpp"
 #include "Path.hpp"
-#include "Psx.hpp"
-#include "FixedPoint.hpp"
+#include "../relive_lib/Psx.hpp"
+#include "../relive_lib/FixedPoint.hpp"
 
 const FP mineCarHeightUnscaled = FP_FromInteger(60);
 const FP mineCarWidthUnscaled = FP_FromInteger(12);

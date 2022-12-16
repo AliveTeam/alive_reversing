@@ -3,8 +3,8 @@
 #include "relive_tlvs_serialization.hpp"
 #include "PathTlvsAO.hpp"
 #include "PathTlvsAE.hpp"
-#include "../relive_lib/SwitchStates.hpp"
-#include "../relive_lib/FatalError.hpp"
+#include "SwitchStates.hpp"
+#include "FatalError.hpp"
 #include "../AliveLibAO/Path.hpp"
 #include "../AliveLibAE/Path.hpp"
 

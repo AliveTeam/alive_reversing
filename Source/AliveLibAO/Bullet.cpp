@@ -10,7 +10,7 @@
 #include "../relive_lib/Collisions.hpp"
 #include "Elum.hpp"
 #include "Math.hpp"
-#include "../AliveLibAE/FixedPoint.hpp"
+#include "../relive_lib/FixedPoint.hpp"
 #include "../relive_lib/data_conversion/relive_tlvs.hpp"
 
 namespace AO {

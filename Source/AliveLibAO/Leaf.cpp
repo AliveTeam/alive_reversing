@@ -5,7 +5,7 @@
 #include "Sfx.hpp"
 #include "../relive_lib/Collisions.hpp"
 #include "Map.hpp"
-#include "../AliveLibAE/FixedPoint.hpp"
+#include "../relive_lib/FixedPoint.hpp"
 
 namespace AO {
 

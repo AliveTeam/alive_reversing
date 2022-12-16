@@ -34,7 +34,7 @@
 #include "AnimationCallBacks.hpp"
 #include "../relive_lib/FatalError.hpp"
 #include <algorithm>
-#include "../AliveLibAE/FixedPoint.hpp"
+#include "../relive_lib/FixedPoint.hpp"
 #include "Input.hpp"
 #include "Path.hpp"
 #include "../relive_lib/SwitchStates.hpp"

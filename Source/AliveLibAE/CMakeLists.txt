@@ -33,12 +33,8 @@ SET(AliveLibAESrc
     PathDataExtensions.hpp
     Input.cpp
     Input.hpp
-    Sys.cpp
-    Sys.hpp
     VGA.cpp
     VGA.hpp
-    Psx.cpp
-    Psx.hpp
     PsxRender.cpp
     PsxRender.hpp
     Math.cpp
@@ -89,8 +85,6 @@ SET(AliveLibAESrc
     PathData.hpp
     Io.cpp
     Io.hpp
-    FixedPoint.hpp
-    FixedPoint.cpp
     Resources.hpp
     Resources.cpp
     Font.hpp

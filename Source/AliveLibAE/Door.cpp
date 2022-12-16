@@ -13,7 +13,7 @@
 #include "Map.hpp"
 #include "Path.hpp"
 #include "../relive_lib/Collisions.hpp"
-#include "FixedPoint.hpp"
+#include "../relive_lib/FixedPoint.hpp"
 
 static const AnimId sDoorAnimIdTable[16][2] = {
     {AnimId::Door_Mines_Closed, AnimId::Door_Mines_Open},

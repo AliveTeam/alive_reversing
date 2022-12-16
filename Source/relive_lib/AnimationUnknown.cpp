@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "../relive_lib/AnimationUnknown.hpp"
+#include "AnimationUnknown.hpp"
 #include "PsxDisplay.hpp"
 #include "GameType.hpp"
 

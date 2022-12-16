@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../relive_lib/FixedPoint_common.hpp"
+#include "../relive_lib/FixedPoint.hpp"
 
 namespace AO {
 

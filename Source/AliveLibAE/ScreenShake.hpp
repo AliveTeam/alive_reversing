@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../relive_lib/Primitives_common.hpp"
+#include "../relive_lib/Primitives.hpp"
 #include "../relive_lib/BaseGameObject.hpp"
 
 class ScreenShake final : public BaseGameObject

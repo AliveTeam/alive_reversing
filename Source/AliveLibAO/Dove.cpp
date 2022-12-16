@@ -9,7 +9,7 @@
 #include "../relive_lib/ScreenManager.hpp"
 #include "Sfx.hpp"
 #include "Abe.hpp"
-#include "../AliveLibAE/FixedPoint.hpp"
+#include "../relive_lib/FixedPoint.hpp"
 #include "Path.hpp"
 
 namespace AO {

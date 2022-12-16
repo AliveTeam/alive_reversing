@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "PsxRender.hpp"
 #include "../relive_lib/Function.hpp"
-#include "Psx.hpp"
+#include "../relive_lib/Psx.hpp"
 #include "Sound/PsxSpuApi.hpp"
 #include "Renderer/IRenderer.hpp"
 #include "../relive_lib/FatalError.hpp"

@@ -7,7 +7,7 @@
 #include "../AliveLibAE/stdlib.hpp"
 #include "CameraSwapper.hpp"
 #include "../relive_lib/ScreenManager.hpp"
-#include "../AliveLibAE/FixedPoint.hpp"
+#include "../relive_lib/FixedPoint.hpp"
 
 namespace AO {
 

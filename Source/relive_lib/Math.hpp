@@ -1,6 +1,7 @@
 #pragma once
 
-#include "../relive_lib/FixedPoint_common.hpp"
+struct FixedPoint;
+using FP = FixedPoint;
 
 // For some reason OWI decided to change how square root works between games, call the right one to
 // keep the same results for now

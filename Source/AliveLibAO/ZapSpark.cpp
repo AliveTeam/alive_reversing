@@ -3,7 +3,7 @@
 #include "Math.hpp"
 #include "Map.hpp"
 #include "../AliveLibAE/stdlib.hpp"
-#include "../AliveLibAE/FixedPoint.hpp"
+#include "../relive_lib/FixedPoint.hpp"
 
 namespace AO {
 

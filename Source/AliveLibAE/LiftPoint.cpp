@@ -15,7 +15,7 @@
 #include "Map.hpp"
 #include "Path.hpp"
 #include "PathData.hpp"
-#include "FixedPoint.hpp"
+#include "../relive_lib/FixedPoint.hpp"
 
 struct LiftPointData final
 {

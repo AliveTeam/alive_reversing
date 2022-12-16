@@ -4,7 +4,7 @@
 #include "../relive_lib/Collisions.hpp"
 #include "Game.hpp"
 #include "../AliveLibAE/stdlib.hpp"
-#include "../AliveLibAE/FixedPoint.hpp"
+#include "../relive_lib/FixedPoint.hpp"
 
 namespace AO {
 

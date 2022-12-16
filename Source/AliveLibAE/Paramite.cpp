@@ -28,7 +28,7 @@
 #include "Grid.hpp"
 #include "Path.hpp"
 #include "PathData.hpp"
-#include "FixedPoint.hpp"
+#include "../relive_lib/FixedPoint.hpp"
 #include "Input.hpp"
 
 const AnimId sParamiteMotionAnimIds[44] = {
