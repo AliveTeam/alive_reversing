@@ -165,4 +165,6 @@ private:
     std::vector<vk::raii::Semaphore> mRenderFinishedSemaphores;
     std::vector<vk::raii::Fence> mInFlightFences;
     uint32_t mCurrentFrame = 0;
+
+    u16 mIndexBufferIndex = 0;
 };

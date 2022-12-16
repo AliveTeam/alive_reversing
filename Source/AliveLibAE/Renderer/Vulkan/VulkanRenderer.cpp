@@ -121,8 +121,9 @@ struct UniformBufferObject
     alignas(16) glm::mat4 proj;
 };
 
-const static std::vector<Vertex> vertices = 
+static std::vector<Vertex> vertices = 
 {
+    /*
     // Quad 1
     {{0.0f, 480.0f / 2.0f}, {1.0f, 1.0f, 1.0f}, {1.0f, 0.0f}, 0},
     {{640.0f / 2.0f, 480.0f / 2.0f}, {1.0f, 1.0f, 1.0f}, {0.0f, 0.0f}, 0},
@@ -134,11 +135,14 @@ const static std::vector<Vertex> vertices =
     {{(640.0f / 2.0f) - 50.0f, (480.0f / 2.0f) + 150.0f}, {1.0f, 1.0f, 1.0f}, {0.0f, 0.0f}, 1},
     {{(640.0f / 2.0f) - 50.0f, 0.0f + 150.0f}, {1.0f, 1.0f, 1.0f}, {0.0f, 1.0f}, 1},
     {{0.0f + 50.0f, 0.0f + 150.0f}, {1.0f, 1.0f, 1.0f}, {1.0f, 1.0f}, 1}
+    */
 };
 
-const static std::vector<uint16_t> gIndices = { 
+static std::vector<uint16_t> gIndices = { 
+    /*
     0, 1, 2, 2, 3, 0,
     0 + 4, 1 + 4, 2 + 4, 2 + 4, 3 + 4, 0 + 4
+    */
 };
 
 void VulkanRenderer::initVulkan()
@@ -160,8 +164,8 @@ void VulkanRenderer::initVulkan()
 
     createTextureImageView();
     createTextureSampler();
-    createVertexBuffer();
-    createIndexBuffer();
+    //createVertexBuffer();
+    //createIndexBuffer();
     createUniformBuffers();
     createDescriptorPool();
     createDescriptorSets();
@@ -260,28 +264,18 @@ void VulkanRenderer::createInstance()
     appInfo.engineVersion = VK_MAKE_VERSION(1, 0, 0);
     appInfo.apiVersion = VK_API_VERSION_1_0;
 
-    vk::InstanceCreateInfo createInfo;
-    createInfo.pApplicationInfo = &appInfo;
-
     const std::vector<const char*> extensions = getRequiredExtensions();
-    createInfo.enabledExtensionCount = static_cast<uint32_t>(extensions.size());
-    createInfo.ppEnabledExtensionNames = extensions.data();
+    vk::InstanceCreateInfo createInfo = vk::InstanceCreateInfo(
+        vk::InstanceCreateFlags(),
+        &appInfo,
+        0, nullptr,                                                 // enabled layers
+        static_cast<uint32_t>(extensions.size()), extensions.data() // enabled extensions
+    );
 
-    vk::DebugUtilsMessengerCreateInfoEXT debugCreateInfo{};
     if (enableValidationLayers)
     {
         createInfo.enabledLayerCount = static_cast<uint32_t>(kValidationLayers.size());
         createInfo.ppEnabledLayerNames = kValidationLayers.data();
-
-        debugCreateInfo.setMessageSeverity(
-            vk::DebugUtilsMessageSeverityFlagBitsEXT::eError | vk::DebugUtilsMessageSeverityFlagBitsEXT::eWarning | vk::DebugUtilsMessageSeverityFlagBitsEXT::eInfo | vk::DebugUtilsMessageSeverityFlagBitsEXT::eVerbose);
-        debugCreateInfo.setMessageType(
-            vk::DebugUtilsMessageTypeFlagBitsEXT::eGeneral | vk::DebugUtilsMessageTypeFlagBitsEXT::eValidation | vk::DebugUtilsMessageTypeFlagBitsEXT::ePerformance);
-
-        debugCreateInfo.pfnUserCallback = debugCallback;
-
-        // TODO: Use raii template wrapper
-        createInfo.pNext = (VkDebugUtilsMessengerCreateInfoEXT*) &debugCreateInfo;
     }
 
     mContext = std::make_unique<vk::raii::Context>();
@@ -579,7 +573,7 @@ void VulkanRenderer::createGraphicsPipeline()
     colorBlending.blendConstants[2] = 0.0f;
     colorBlending.blendConstants[3] = 0.0f;
 
-    std::vector<vk::DynamicState> dynamicStates = {
+    const std::vector<vk::DynamicState> dynamicStates = {
         vk::DynamicState::eViewport,
         vk::DynamicState::eScissor};
 
@@ -1073,15 +1067,18 @@ void VulkanRenderer::recordCommandBuffer(vk::raii::CommandBuffer& commandBuffer,
     scissor.extent = mSwapChainExtent;
     commandBuffer.setScissor(0, scissor);
 
-    vk::Buffer vertexBuffers[] = {**mVertexBuffer};
-    vk::DeviceSize offsets[] = {0};
-    commandBuffer.bindVertexBuffers(0, vertexBuffers, offsets);
+    if (!vertices.empty() && mVertexBuffer && mIndexBuffer)
+    {
+        vk::Buffer vertexBuffers[] = {**mVertexBuffer};
+        vk::DeviceSize offsets[] = {0};
+        commandBuffer.bindVertexBuffers(0, vertexBuffers, offsets);
 
-    commandBuffer.bindIndexBuffer(**mIndexBuffer, 0, vk::IndexType::eUint16);
+        commandBuffer.bindIndexBuffer(**mIndexBuffer, 0, vk::IndexType::eUint16);
 
-    commandBuffer.bindDescriptorSets(vk::PipelineBindPoint::eGraphics, **mPipelineLayout, 0, *mDescriptorSets[mCurrentFrame], {});
+        commandBuffer.bindDescriptorSets(vk::PipelineBindPoint::eGraphics, **mPipelineLayout, 0, *mDescriptorSets[mCurrentFrame], {});
 
-    commandBuffer.drawIndexed(static_cast<uint32_t>(gIndices.size()), 1, 0, 0, 0);
+        commandBuffer.drawIndexed(static_cast<uint32_t>(gIndices.size()), 1, 0, 0, 0);
+    }
 
     commandBuffer.endRenderPass();
 
@@ -1161,6 +1158,7 @@ void VulkanRenderer::drawFrame()
     submitInfo.pSignalSemaphores = signalSemaphores;
 
     mGraphicsQueue->submit(submitInfo, *mInFlightFences[mCurrentFrame]);
+    mGraphicsQueue->waitIdle(); // TODO: crashes uploading the index buffer without this wait, not sure if this is just masking a bug ??
 
     vk::PresentInfoKHR presentInfo;
     presentInfo.waitSemaphoreCount = 1;
@@ -1390,7 +1388,7 @@ bool VulkanRenderer::checkValidationLayerSupport()
 
 /*static*/ VKAPI_ATTR VkBool32 VKAPI_CALL VulkanRenderer::debugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT /*messageSeverity*/, VkDebugUtilsMessageTypeFlagsEXT /*messageType*/, const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData, void* /*pUserData*/)
 {
-    std::cerr << "validation layer: " << pCallbackData->pMessage << std::endl;
+    LOG_ERROR("validation layer: %s", pCallbackData->pMessage);
 
     return VK_FALSE;
 }
@@ -1440,8 +1438,22 @@ void VulkanRenderer::EndFrame()
 {
     if (mFrameStarted)
     {
+        if (!vertices.empty() && !gIndices.empty())
+        {
+            this->createVertexBuffer();
+            this->createIndexBuffer();
+        }
+
         this->drawFrame();
         mFrameStarted = false;
+
+        vertices.clear();
+        gIndices.clear();
+        mIndexBufferIndex = 0;
+        this->mVertexBuffer.reset();
+        this->mVertexBufferMemory.reset();
+        this->mIndexBuffer.reset();
+        this->mIndexBufferMemory.reset();
     }
 
     // Always decrease resource lifetimes regardless of drawing to prevent
@@ -1502,9 +1514,35 @@ void VulkanRenderer::SetupBlendMode(u16 blendMode)
     }
 }*/
 
-void VulkanRenderer::Draw(Poly_FT4&)
+void VulkanRenderer::Draw(Poly_FT4& poly)
 {
 
+    if (poly.mAnim)
+    {
+        vertices.push_back({{0.0f, 480.0f / 2.0f}, {1.0f, 1.0f, 1.0f}, {1.0f, 0.0f}, 0});
+        vertices.push_back({{640.0f / 2.0f, 480.0f / 2.0f}, {1.0f, 1.0f, 1.0f}, {0.0f, 0.0f}, 0});
+        vertices.push_back({{640.0f / 2.0f, 0.0f}, {1.0f, 1.0f, 1.0f}, {0.0f, 1.0f}, 0});
+        vertices.push_back({{0.0f, 0.0f}, {1.0f, 1.0f, 1.0f}, {1.0f, 1.0f}, 0});
+        gIndices.emplace_back((u16) (mIndexBufferIndex + 0));
+        gIndices.emplace_back((u16) (mIndexBufferIndex + 1));
+        gIndices.emplace_back((u16) (mIndexBufferIndex + 2));
+        gIndices.emplace_back((u16) (mIndexBufferIndex + 2));
+        gIndices.emplace_back((u16) (mIndexBufferIndex + 3));
+        gIndices.emplace_back((u16) (mIndexBufferIndex + 0));
+        mIndexBufferIndex += 4;
+
+        vertices.push_back({{0.0f + 50.0f, (480.0f / 2.0f) + 150.0f}, {1.0f, 1.0f, 1.0f}, {1.0f, 0.0f}, 1});
+        vertices.push_back({{(640.0f / 2.0f) - 50.0f, (480.0f / 2.0f) + 150.0f}, {1.0f, 1.0f, 1.0f}, {0.0f, 0.0f}, 1});
+        vertices.push_back({{(640.0f / 2.0f) - 50.0f, 0.0f + 150.0f}, {1.0f, 1.0f, 1.0f}, {0.0f, 1.0f}, 1});
+        vertices.push_back({{0.0f + 50.0f, 0.0f + 150.0f}, {1.0f, 1.0f, 1.0f}, {1.0f, 1.0f}, 1});
+        gIndices.emplace_back((u16) (mIndexBufferIndex + 0));
+        gIndices.emplace_back((u16) (mIndexBufferIndex + 1));
+        gIndices.emplace_back((u16) (mIndexBufferIndex + 2));
+        gIndices.emplace_back((u16) (mIndexBufferIndex + 2));
+        gIndices.emplace_back((u16) (mIndexBufferIndex + 3));
+        gIndices.emplace_back((u16) (mIndexBufferIndex + 0));
+        mIndexBufferIndex += 4;
+    }
 }
 
 void VulkanRenderer::Draw(Poly_G4&)
