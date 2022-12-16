@@ -551,8 +551,7 @@ void VulkanRenderer::createGraphicsPipeline()
     rasterizer.polygonMode = vk::PolygonMode::eFill;
     rasterizer.lineWidth = 1.0f;
     rasterizer.cullMode = vk::CullModeFlagBits::eBack;
-    // rasterizer.frontFace = VK_FRONT_FACE_COUNTER_CLOCKWISE;
-    rasterizer.frontFace = vk::FrontFace::eClockwise; // TODO: Required for ortho ??
+    rasterizer.frontFace = vk::FrontFace::eCounterClockwise; 
     rasterizer.depthBiasEnable = VK_FALSE;
 
     vk::PipelineMultisampleStateCreateInfo multisampling;
@@ -1110,7 +1109,7 @@ void VulkanRenderer::updateUniformBuffer(uint32_t currentImage)
     UniformBufferObject ubo{};
     ubo.model = glm::mat4(1.0f);
     ubo.view = glm::lookAt(glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-    ubo.proj = glm::ortho(0.0F, 640.0f, 0.0f, 480.0f);
+    ubo.proj = glm::ortho(0.0F, 640.0f, 0.0f, 240.0f); // TODO double height
 
     memcpy(mUniformBuffersMapped[currentImage], &ubo, sizeof(ubo));
 }
@@ -1217,7 +1216,7 @@ vk::PresentModeKHR VulkanRenderer::chooseSwapPresentMode(const std::vector<vk::P
         }
     }
 
-    return vk::PresentModeKHR::eFifo;
+    return vk::PresentModeKHR::eFifo; // use eImmediate to disable vsync, not all modes are supported on all devices
 }
 
 VkExtent2D VulkanRenderer::chooseSwapExtent(const VkSurfaceCapabilitiesKHR& capabilities)
@@ -1519,17 +1518,19 @@ void VulkanRenderer::Draw(Poly_FT4& poly)
 
     if (poly.mAnim)
     {
-        vertices.push_back({{static_cast<f32>(poly.mBase.vert.x), static_cast<f32>(poly.mBase.vert.y)}, {1.0f, 1.0f, 1.0f}, {1.0f, 0.0f}, 1});
-        vertices.push_back({{static_cast<f32>(poly.mVerts[0].mVert.x), static_cast<f32>(poly.mVerts[0].mVert.y)}, {1.0f, 1.0f, 1.0f}, {0.0f, 0.0f}, 1 });
+        vertices.push_back({{static_cast<f32>(poly.mBase.vert.x), static_cast<f32>(poly.mBase.vert.y)}, {1.0f, 1.0f, 1.0f}, {0.0f, 0.0f}, 1});
+        vertices.push_back({{static_cast<f32>(poly.mVerts[0].mVert.x), static_cast<f32>(poly.mVerts[0].mVert.y)}, {1.0f, 1.0f, 1.0f}, {1.0f, 0.0f}, 1});
+      
         vertices.push_back({{static_cast<f32>(poly.mVerts[1].mVert.x), static_cast<f32>(poly.mVerts[1].mVert.y)}, {1.0f, 1.0f, 1.0f}, {0.0f, 1.0f}, 1});
         vertices.push_back({{static_cast<f32>(poly.mVerts[2].mVert.x), static_cast<f32>(poly.mVerts[2].mVert.y)}, {1.0f, 1.0f, 1.0f}, {1.0f, 1.0f}, 1});
-
-        gIndices.emplace_back((u16) (mIndexBufferIndex + 0));
+      
         gIndices.emplace_back((u16) (mIndexBufferIndex + 1));
-        gIndices.emplace_back((u16) (mIndexBufferIndex + 2));
-        gIndices.emplace_back((u16) (mIndexBufferIndex + 2));
+        gIndices.emplace_back((u16) (mIndexBufferIndex + 0));
+        gIndices.emplace_back((u16) (mIndexBufferIndex + 3));
+
         gIndices.emplace_back((u16) (mIndexBufferIndex + 3));
         gIndices.emplace_back((u16) (mIndexBufferIndex + 0));
+        gIndices.emplace_back((u16) (mIndexBufferIndex + 2));
 
         mIndexBufferIndex += 4;
     }
