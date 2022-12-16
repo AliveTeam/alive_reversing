@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "MainMenuTransition.hpp"
-#include "Function.hpp"
+#include "../relive_lib/Function.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
 #include "stdlib.hpp"
 #include "Map.hpp"

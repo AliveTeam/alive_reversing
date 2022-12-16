@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "Throwable.hpp"
-#include "Function.hpp"
+#include "../relive_lib/Function.hpp"
 #include "Bone.hpp"
 #include "Grenade.hpp"
 #include "Rock.hpp"

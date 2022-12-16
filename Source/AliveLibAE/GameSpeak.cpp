@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "GameSpeak.hpp"
 #include "stdlib.hpp"
-#include "Function.hpp"
+#include "../relive_lib/Function.hpp"
 
 const s32 code_base_560F0C[12] = {
     0,

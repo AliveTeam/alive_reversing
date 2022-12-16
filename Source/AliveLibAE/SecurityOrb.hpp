@@ -19,7 +19,7 @@ public:
     {
         // Empty
     }
-    virtual s16 VTakeDamage(BaseGameObject* pFrom) override;
+    virtual bool VTakeDamage(BaseGameObject* pFrom) override;
 
 private:
     Guid mTlvInfo;

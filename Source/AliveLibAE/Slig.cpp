@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "Slig.hpp"
-#include "Function.hpp"
+#include "../relive_lib/Function.hpp"
 #include "../relive_lib/Collisions.hpp"
 #include "../relive_lib/Shadow.hpp"
 #include "../relive_lib/ShadowZone.hpp"
@@ -32,7 +32,7 @@
 #include "Electrocute.hpp"
 #include "Grid.hpp"
 #include "AnimationCallBacks.hpp"
-#include "../AliveLibCommon/FatalError.hpp"
+#include "../relive_lib/FatalError.hpp"
 #include <algorithm>
 #include "../AliveLibAE/FixedPoint.hpp"
 #include "Input.hpp"
@@ -571,16 +571,6 @@ void Slig::VRender(PrimHeader** ot)
     const s16 eyeIndices[] = {61, 62};
 
     renderWithGlowingEyes(ot, this, field_178_mPal, 64, field_200_red, field_202_green, field_204_blue, &eyeIndices[0], ALIVE_COUNTOF(eyeIndices));
-}
-
-s16 Slig::VIsFacingMe(BaseAnimatedWithPhysicsGameObject* pOther)
-{
-    return vIsFacingMe_4B23D0(pOther);
-}
-
-s16 Slig::VOnSameYLevel(BaseAnimatedWithPhysicsGameObject* pOther)
-{
-    return vOnSameYLevel_4BB6C0(pOther);
 }
 
 s32 Slig::VGetSaveState(u8* pSaveBuffer)
@@ -6484,11 +6474,11 @@ s16 Slig::HeardGlukkonToListenTo_4B9690(GameSpeakEvents glukkonSpeak)
     return 1;
 }
 
-s16 Slig::VTakeDamage(BaseGameObject* pFrom)
+bool Slig::VTakeDamage(BaseGameObject* pFrom)
 {
     if (GetTeleporting())
     {
-        return 0;
+        return false;
     }
 
     switch (pFrom->Type())
@@ -6497,7 +6487,7 @@ s16 Slig::VTakeDamage(BaseGameObject* pFrom)
         {
             if (mHealth <= FP_FromInteger(0) && sControlledCharacter != this)
             {
-                return 0;
+                return false;
             }
 
             auto pBullet = static_cast<Bullet*>(pFrom);
@@ -6542,7 +6532,7 @@ s16 Slig::VTakeDamage(BaseGameObject* pFrom)
                         {
                             mbGotShot = false;
                             mHealth = FP_FromInteger(1);
-                            return 0;
+                            return false;
                         }
                     }
 
@@ -6550,7 +6540,7 @@ s16 Slig::VTakeDamage(BaseGameObject* pFrom)
                     {
                         mbGotShot = false;
                         mHealth = FP_FromInteger(1);
-                        return 0;
+                        return false;
                     }
 
                     relive_new Blood(mXPos, mYPos - (FP_FromInteger(25) * GetSpriteScale()), FP_FromInteger(0), FP_FromInteger(0), GetSpriteScale(), 25);
@@ -6584,7 +6574,7 @@ s16 Slig::VTakeDamage(BaseGameObject* pFrom)
                         mVelX = FP_FromDouble(-0.001);
                         mHealth = FP_FromInteger(0);
                         EventBroadcast(kEventMudokonComfort, this);
-                        return 1;
+                        return true;
                     }
                     mVelX = FP_FromDouble(0.001);
                 }
@@ -6592,7 +6582,7 @@ s16 Slig::VTakeDamage(BaseGameObject* pFrom)
 
             mHealth = FP_FromInteger(0);
             EventBroadcast(kEventMudokonComfort, this);
-            return 1;
+            return true;
         }
 
         case ReliveTypes::eDrill:
@@ -6601,7 +6591,7 @@ s16 Slig::VTakeDamage(BaseGameObject* pFrom)
         {
             if (!GetAnimation().GetRender())
             {
-                return 1;
+                return true;
             }
 
             relive_new Gibs(GibType::Slig_1, mXPos, mYPos, mVelX, mVelY, GetSpriteScale(), 0);
@@ -6614,23 +6604,23 @@ s16 Slig::VTakeDamage(BaseGameObject* pFrom)
             mCurrentMotion = eSligMotions::M_StandIdle_0_4B4EC0;
             vUpdateAnim_4B1320();
             EventBroadcast(kEventMudokonComfort, this);
-            return 1;
+            return true;
         }
 
         case ReliveTypes::eElectricWall:
             Slig_GameSpeak_SFX(SligSpeak::eHelp_10, 0, field_11E_pitch_min, this);
-            return 1;
+            return true;
 
         case ReliveTypes::eAbe:
         {
             if (mHealth <= FP_FromInteger(0))
             {
-                return 1;
+                return true;
             }
 
             if (mCurrentMotion == eSligMotions::M_Knockback_34_4B68A0 || mCurrentMotion == eSligMotions::M_Smash_44_4B6B90 || mCurrentMotion == eSligMotions::M_KnockbackToStand_35_4B6A30)
             {
-                return 1;
+                return true;
             }
 
             if (!VIsFacingMe(sActiveHero) || IsInInvisibleZone(sActiveHero) || sActiveHero->GetInvisible() || IsAbeEnteringDoor_4BB990(sControlledCharacter))
@@ -6654,17 +6644,17 @@ s16 Slig::VTakeDamage(BaseGameObject* pFrom)
             }
             FallKnockBackOrSmash_4B4A90();
             mVelX = FP_FromInteger(0);
-            return 1;
+            return true;
         }
 
         case ReliveTypes::eAbilityRing:
-            return 1;
+            return true;
 
         case ReliveTypes::eSlog:
         {
             if (mHealth <= FP_FromInteger(0) && (mCurrentMotion == eSligMotions::M_Knockback_34_4B68A0 || mCurrentMotion == eSligMotions::M_Smash_44_4B6B90))
             {
-                return 1;
+                return true;
             }
 
             mbGotShot = true;
@@ -6698,23 +6688,23 @@ s16 Slig::VTakeDamage(BaseGameObject* pFrom)
                 mNextMotion = eSligMotions::M_Smash_44_4B6B90;
                 field_136_shot_motion = eSligMotions::M_Smash_44_4B6B90;
             }
-            return 1;
+            return true;
         }
 
         case ReliveTypes::eElectrocute:
             if (mHealth <= FP_FromInteger(0))
             {
-                return 1;
+                return true;
             }
             SetDead(true);
             mHealth = FP_FromInteger(0);
             EventBroadcast(kEventMudokonComfort, this);
-            return 1;
+            return true;
 
         default:
             if (mHealth <= FP_FromInteger(0))
             {
-                return 1;
+                return true;
             }
             SfxPlayMono(relive::SoundEffects::KillEffect, 127);
             SfxPlayMono(relive::SoundEffects::FallingItemHit, 90);
@@ -6723,7 +6713,7 @@ s16 Slig::VTakeDamage(BaseGameObject* pFrom)
 
     if (mHealth <= FP_FromInteger(0))
     {
-        return 1;
+        return true;
     }
 
     mbGotShot = true;
@@ -6731,39 +6721,39 @@ s16 Slig::VTakeDamage(BaseGameObject* pFrom)
     mNextMotion = eSligMotions::M_Smash_44_4B6B90;
     field_136_shot_motion = eSligMotions::M_Smash_44_4B6B90;
     EventBroadcast(kEventMudokonComfort, this);
-    return 1;
+    return true;
 }
 
-s16 Slig::vIsFacingMe_4B23D0(BaseAnimatedWithPhysicsGameObject* pWho)
+bool Slig::VIsFacingMe(BaseAnimatedWithPhysicsGameObject* pWho)
 {
     if (mCurrentMotion != eSligMotions::M_TurnAroundStanding_5_4B6390 || GetAnimation().GetCurrentFrame() < 6)
     {
         if (pWho->mXPos <= mXPos && GetAnimation().GetFlipX())
         {
-            return 1;
+            return true;
         }
 
         if (pWho->mXPos >= mXPos && !GetAnimation().GetFlipX())
         {
-            return 1;
+            return true;
         }
     }
     else
     {
         if (pWho->mXPos <= mXPos && !GetAnimation().GetFlipX())
         {
-            return 1;
+            return true;
         }
 
         if (pWho->mXPos >= mXPos && GetAnimation().GetFlipX())
         {
-            return 1;
+            return true;
         }
     }
-    return 0;
+    return false;
 }
 
-s16 Slig::vOnSameYLevel_4BB6C0(BaseAnimatedWithPhysicsGameObject* pOther)
+bool Slig::VOnSameYLevel(BaseAnimatedWithPhysicsGameObject* pOther)
 {
     const PSX_RECT bOurRect = VGetBoundingRect();
     const PSX_RECT bTheirRect = pOther->VGetBoundingRect();

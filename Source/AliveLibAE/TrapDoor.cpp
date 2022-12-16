@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "TrapDoor.hpp"
-#include "Function.hpp"
+#include "../relive_lib/Function.hpp"
 #include "../relive_lib/Collisions.hpp"
 #include "Game.hpp"
 #include "Map.hpp"

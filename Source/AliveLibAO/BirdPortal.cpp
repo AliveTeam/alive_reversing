@@ -1,5 +1,5 @@
 #include "stdafx_ao.h"
-#include "Function.hpp"
+#include "../relive_lib/Function.hpp"
 #include "BirdPortal.hpp"
 #include "../AliveLibAE/stdlib.hpp"
 #include "../relive_lib/Collisions.hpp"
@@ -311,7 +311,7 @@ void BirdPortal::VUpdate()
                 mTimer = sGnFrame + Math_RandomRange(24, 40);
             }
 
-            auto pTarget = Abe::FindObjectToPossess_421410();
+            auto pTarget = Abe::FindObjectToPossess();
             if (!EventGet(kEventAbeOhm) || pTarget)
             {
                 if (IsScaredAway() || EventGet(kEventShooting) || (EventGet(kEventAbeOhm) && pTarget))
@@ -535,7 +535,7 @@ void BirdPortal::VUpdate()
                 mState = PortalStates::CollapseTerminators_10;
 				if (sActiveHero->mCurrentMotion == eAbeMotions::Motion_150_Chant)
                 {
-                    sActiveHero->ChangeChantState_430510(0);
+                    sActiveHero->ChangeChantState(0);
                 }
             }
             break;
@@ -740,7 +740,7 @@ void BirdPortal::VGiveShrykull(s16 bPlaySound)
 
         if (sActiveHero->mCurrentMotion == eAbeMotions::Motion_150_Chant)
         {
-            sActiveHero->ChangeChantState_430510(1);
+            sActiveHero->ChangeChantState(1);
         }
     }
     else
@@ -748,7 +748,7 @@ void BirdPortal::VGiveShrykull(s16 bPlaySound)
         mState = PortalStates::CollapseTerminators_10;
         if ((mPortalType == relive::Path_BirdPortal::PortalType::eWorker || mPortalType == relive::Path_BirdPortal::PortalType::eShrykull) && sActiveHero->mCurrentMotion == eAbeMotions::Motion_150_Chant)
         {
-            sActiveHero->ChangeChantState_430510(0);
+            sActiveHero->ChangeChantState(0);
         }
     }
 

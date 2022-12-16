@@ -3,7 +3,7 @@
 #include <GL/glew.h>
 #include <SDL_opengl.h>
 
-#include "../AliveLibCommon/Types.hpp"
+#include "../../../relive_lib/Types.hpp"
 
 class GLShader final
 {

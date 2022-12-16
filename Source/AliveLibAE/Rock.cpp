@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "Rock.hpp"
-#include "Function.hpp"
+#include "../relive_lib/Function.hpp"
 #include "ThrowableArray.hpp"
 #include "Game.hpp"
 #include "stdlib.hpp"
@@ -34,14 +34,14 @@ Rock::Rock(FP xpos, FP ypos, s16 count)
     mXPos = xpos;
     mYPos = ypos;
 
-    field_120_xpos = xpos;
-    field_124_ypos = ypos;
+    mPreviousXPos = xpos;
+    mPreviousYPos = ypos;
 
     mVelX = FP_FromInteger(0);
     mVelY = FP_FromInteger(0);
 
     mBaseThrowableCount = count;
-    field_11C_state = RockStates::eNone_0;
+    mState = RockStates::eNone_0;
 
      /*
     mLoadedPals.push_back(ResourceManagerWrapper::LoadPal(PalId::BlueRock));
@@ -60,7 +60,7 @@ Rock::Rock(FP xpos, FP ypos, s16 count)
         mAnim.ReloadPal();
     }*/
 
-    field_11E_volume = 0;
+    mBounceCount = 0;
 
     CreateShadow();
 }
@@ -82,12 +82,12 @@ void Rock::VScreenChanged()
 
 bool Rock::VIsFalling()
 {
-    return field_11C_state == RockStates::eFallingOutOfWorld_5;
+    return mState == RockStates::eFallingOutOfWorld_5;
 }
 
 bool Rock::VCanThrow()
 {
-    return field_11C_state == RockStates::eBouncing_4;
+    return mState == RockStates::eBouncing_4;
 }
 
 Rock::~Rock()
@@ -111,18 +111,18 @@ void Rock::VThrow(FP velX, FP velY)
 
     if (mBaseThrowableCount == 0)
     {
-        field_11C_state = RockStates::eBouncing_4;
+        mState = RockStates::eBouncing_4;
     }
     else
     {
-        field_11C_state = RockStates::eFallingOutOfRockSack_1;
+        mState = RockStates::eFallingOutOfRockSack_1;
     }
 }
 
 void Rock::InTheAir()
 {
-    field_120_xpos = mXPos;
-    field_124_ypos = mYPos;
+    mPreviousXPos = mXPos;
+    mPreviousYPos = mYPos;
 
     if (mVelY > FP_FromInteger(30))
     {
@@ -137,8 +137,8 @@ void Rock::InTheAir()
     FP hitX = {};
     FP hitY = {};
     if (sCollisions->Raycast(
-            field_120_xpos,
-            field_124_ypos,
+            mPreviousXPos,
+            mPreviousYPos,
             mXPos,
             mYPos,
             &BaseAliveGameObjectCollisionLine,
@@ -163,15 +163,15 @@ void Rock::InTheAir()
                     return;
                 }
 
-                if (field_11C_state == RockStates::eBouncing_4 && mVelY < FP_FromInteger(5))
+                if (mState == RockStates::eBouncing_4 && mVelY < FP_FromInteger(5))
                 {
-                    field_11C_state = RockStates::eFallingOutOfWorld_5;
+                    mState = RockStates::eFallingOutOfWorld_5;
                     return;
                 }
 
-                if (field_11C_state == RockStates::eFallingOutOfRockSack_1 && mVelY < FP_FromInteger(1))
+                if (mState == RockStates::eFallingOutOfRockSack_1 && mVelY < FP_FromInteger(1))
                 {
-                    field_11C_state = RockStates::eRolling_2;
+                    mState = RockStates::eRolling_2;
 
                     if (mVelX >= FP_FromInteger(0) && mVelX < FP_FromInteger(1))
                     {
@@ -192,7 +192,7 @@ void Rock::InTheAir()
                     mVelX = (mVelX / FP_FromInteger(2));
                     mVelY = (-mVelY / FP_FromInteger(2));
 
-                    s16 vol = 20 * (4 - field_11E_volume);
+                    s16 vol = 20 * (4 - mBounceCount);
                     if (vol < 40)
                     {
                         vol = 40;
@@ -201,7 +201,7 @@ void Rock::InTheAir()
                     SfxPlayMono(relive::SoundEffects::RockBounce, vol);
                     EventBroadcast(kEventNoise, this);
                     EventBroadcast(kEventSuspiciousNoise, this);
-                    field_11E_volume++;
+                    mBounceCount++;
                 }
                 break;
 
@@ -211,7 +211,7 @@ void Rock::InTheAir()
                 {
                     mYPos = hitY;
                     mVelY = (-mVelY / FP_FromInteger(2));
-                    s16 vol = 20 * (4 - field_11E_volume);
+                    s16 vol = 20 * (4 - mBounceCount);
                     if (vol < 40)
                     {
                         vol = 40;
@@ -224,7 +224,7 @@ void Rock::InTheAir()
         }
     }
 
-    if (sCollisions->Raycast(field_120_xpos, field_124_ypos, mXPos, mYPos, &BaseAliveGameObjectCollisionLine, &hitX, &hitY, GetScale() == Scale::Fg ? kFgWalls : kBgWalls) == 1)
+    if (sCollisions->Raycast(mPreviousXPos, mPreviousYPos, mXPos, mYPos, &BaseAliveGameObjectCollisionLine, &hitX, &hitY, GetScale() == Scale::Fg ? kFgWalls : kBgWalls) == 1)
     {
         switch (BaseAliveGameObjectCollisionLine->mLineType)
         {
@@ -253,7 +253,7 @@ void Rock::BounceHorizontally( FP hitX, FP hitY )
     mVelX = (-mVelX / FP_FromInteger(2));
     mXPos = hitX;
     mYPos = hitY;
-    s16 vol = 20 * (4 - field_11E_volume);
+    s16 vol = 20 * (4 - mBounceCount);
     if (vol < 40)
     {
         vol = 40;
@@ -264,16 +264,16 @@ void Rock::BounceHorizontally( FP hitX, FP hitY )
 }
 
 //TODO Identical to AO - merge
-s16 Rock::OnCollision(BaseAnimatedWithPhysicsGameObject* pObj)
+bool Rock::OnCollision(BaseAnimatedWithPhysicsGameObject* pObj)
 {
     if (!pObj->GetCanExplode())
     {
-        return 1;
+        return true;
     }
 
     const PSX_RECT bRect = pObj->VGetBoundingRect();
 
-    if (field_120_xpos < FP_FromInteger(bRect.x) || field_120_xpos > FP_FromInteger(bRect.w))
+    if (mPreviousXPos < FP_FromInteger(bRect.x) || mPreviousXPos > FP_FromInteger(bRect.w))
     {
         mXPos -= mVelX;
         mVelX = (-mVelX / FP_FromInteger(2));
@@ -287,7 +287,7 @@ s16 Rock::OnCollision(BaseAnimatedWithPhysicsGameObject* pObj)
     pObj->VOnThrowableHit(this);
 
     SfxPlayMono(relive::SoundEffects::RockBounceOnMine, 80);
-    return 0;
+    return false;
 }
 
 void Rock::VUpdate()
@@ -320,7 +320,7 @@ void Rock::VUpdate()
         BaseAliveGameObjectCollisionLineType = 0;
     }
 
-    switch (field_11C_state)
+    switch (mState)
     {
         case RockStates::eNone_0:
             break;
@@ -352,9 +352,9 @@ void Rock::VUpdate()
                     SetInteractive(true);
                     mCollectionRect.h = mYPos;
                     mCollectionRect.y = mYPos - ScaleToGridSize(GetSpriteScale());
-                    field_11C_state = RockStates::eOnGround_3;
+                    mState = RockStates::eOnGround_3;
                     GetAnimation().SetLoop(false);
-                    field_128_shimmer_timer = sGnFrame;
+                    mShimmerTimer = sGnFrame;
                     return;
                 }
                 BaseAliveGameObjectCollisionLine = BaseAliveGameObjectCollisionLine->MoveOnLine(&mXPos, &mYPos, mVelX);
@@ -366,11 +366,11 @@ void Rock::VUpdate()
             }
 
             GetAnimation().SetLoop(true);
-            field_11C_state = RockStates::eBouncing_4;
+            mState = RockStates::eBouncing_4;
             return;
 
         case RockStates::eOnGround_3:
-            if (static_cast<s32>(sGnFrame) <= field_128_shimmer_timer || pObj)
+            if (static_cast<s32>(sGnFrame) <= mShimmerTimer || pObj)
             {
                 return;
             }
@@ -380,7 +380,7 @@ void Rock::VUpdate()
                 (GetSpriteScale() * FP_FromInteger(-7)) + mYPos,
                 FP_FromDouble(0.3),
                 Layer::eLayer_Foreground_36);
-            field_128_shimmer_timer = (Math_NextRandom() % 16) + sGnFrame + 60;
+            mShimmerTimer = (Math_NextRandom() % 16) + sGnFrame + 60;
             return;
 
         case RockStates::eBouncing_4:
@@ -393,7 +393,7 @@ void Rock::VUpdate()
 
             if (mVelY > FP_FromInteger(30))
             {
-                field_11C_state = RockStates::eFallingOutOfWorld_5;
+                mState = RockStates::eFallingOutOfWorld_5;
             }
         }
             return;
@@ -414,19 +414,19 @@ s32 Rock::VGetSaveState(u8* pSaveBuffer)
 {
     auto pState = reinterpret_cast<RockSaveState*>(pSaveBuffer);
 
-    pState->field_0_type = ReliveTypes::eRock;
-    pState->field_4_obj_id = mBaseGameObjectTlvInfo;
+    pState->mType = ReliveTypes::eRock;
+    pState->mTlvId = mBaseGameObjectTlvInfo;
 
-    pState->field_8_xpos = mXPos;
-    pState->field_C_ypos = mYPos;
+    pState->mXPos = mXPos;
+    pState->mYPos = mYPos;
 
-    pState->field_10_velx = mVelX;
-    pState->field_14_vely = mVelY;
+    pState->mVelX = mVelX;
+    pState->mVelY = mVelY;
 
-    pState->field_1C_path_number = mCurrentPath;
-    pState->field_1E_lvl_number = mCurrentLevel;
+    pState->mCurrentPath = mCurrentPath;
+    pState->mCurrentLevel = mCurrentLevel;
 
-    pState->field_18_sprite_scale = GetSpriteScale();
+    pState->mSpriteScale = GetSpriteScale();
 
     pState->mRender = GetAnimation().GetRender();
     pState->mDrawable = GetDrawable();
@@ -436,18 +436,18 @@ s32 Rock::VGetSaveState(u8* pSaveBuffer)
 
     if (BaseAliveGameObjectCollisionLine)
     {
-        pState->field_28_line_type = BaseAliveGameObjectCollisionLine->mLineType;
+        pState->mCollisionLineType = BaseAliveGameObjectCollisionLine->mLineType;
     }
     else
     {
-        pState->field_28_line_type = -1;
+        pState->mCollisionLineType = -1;
     }
-    pState->field_24_id = BaseAliveGameObject_PlatformId;
-    pState->field_2A_count = mBaseThrowableCount;
-    pState->field_2C_state = field_11C_state;
-    pState->field_2E_volume = field_11E_volume;
-    pState->field_30_xpos = field_120_xpos;
-    pState->field_34_ypos = field_124_ypos;
+    pState->mPlatformId = BaseAliveGameObject_PlatformId;
+    pState->mThrowableCount = mBaseThrowableCount;
+    pState->mState = mState;
+    pState->mBounceCount = mBounceCount;
+    pState->mPreviousXPos = mPreviousXPos;
+    pState->mPreviousYPos = mPreviousYPos;
     return sizeof(RockSaveState);
 }
 
@@ -455,26 +455,26 @@ s32 Rock::CreateFromSaveState(const u8* pData)
 {
     auto pState = reinterpret_cast<const RockSaveState*>(pData);
 
-    auto pRock = relive_new Rock(pState->field_8_xpos, pState->field_C_ypos, pState->field_2A_count);
+    auto pRock = relive_new Rock(pState->mXPos, pState->mYPos, pState->mThrowableCount);
 
-    pRock->mBaseGameObjectTlvInfo = pState->field_4_obj_id;
+    pRock->mBaseGameObjectTlvInfo = pState->mTlvId;
 
-    pRock->mXPos = pState->field_8_xpos;
-    pRock->mYPos = pState->field_C_ypos;
+    pRock->mXPos = pState->mXPos;
+    pRock->mYPos = pState->mYPos;
 
     pRock->mCollectionRect.x = pRock->mXPos - (ScaleToGridSize(pRock->GetSpriteScale()) / FP_FromInteger(2));
     pRock->mCollectionRect.w = pRock->mXPos + (ScaleToGridSize(pRock->GetSpriteScale()) / FP_FromInteger(2));
     pRock->mCollectionRect.h = pRock->mYPos;
     pRock->mCollectionRect.y = pRock->mYPos - ScaleToGridSize(pRock->GetSpriteScale());
 
-    pRock->mVelX = pState->field_10_velx;
-    pRock->mVelY = pState->field_14_vely;
+    pRock->mVelX = pState->mVelX;
+    pRock->mVelY = pState->mVelY;
 
-    pRock->mCurrentPath = pState->field_1C_path_number;
-    pRock->mCurrentLevel = pState->field_1E_lvl_number;
+    pRock->mCurrentPath = pState->mCurrentPath;
+    pRock->mCurrentLevel = pState->mCurrentLevel;
 
-    pRock->SetSpriteScale(pState->field_18_sprite_scale);
-    pRock->SetScale(pState->field_18_sprite_scale > FP_FromDouble(0.75) ? Scale::Fg : Scale::Bg);
+    pRock->SetSpriteScale(pState->mSpriteScale);
+    pRock->SetScale(pState->mSpriteScale > FP_FromDouble(0.75) ? Scale::Fg : Scale::Bg);
 
     pRock->GetAnimation().SetRender(pState->mRender);
     pRock->GetAnimation().SetLoop(pState->mLoop);
@@ -484,17 +484,17 @@ s32 Rock::CreateFromSaveState(const u8* pData)
 
     pRock->SetRestoredFromQuickSave(true);
 
-    pRock->field_128_shimmer_timer = sGnFrame;
+    pRock->mShimmerTimer = sGnFrame;
 
-    pRock->BaseAliveGameObjectCollisionLineType = pState->field_28_line_type;
+    pRock->BaseAliveGameObjectCollisionLineType = pState->mCollisionLineType;
 
-    pRock->mBaseThrowableCount = pState->field_2A_count;
-    pRock->field_11C_state = pState->field_2C_state;
+    pRock->mBaseThrowableCount = pState->mThrowableCount;
+    pRock->mState = pState->mState;
 
-    pRock->field_11E_volume = pState->field_2E_volume;
+    pRock->mBounceCount = pState->mBounceCount;
 
-    pRock->field_120_xpos = pState->field_30_xpos;
-    pRock->field_124_ypos = pState->field_34_ypos;
+    pRock->mPreviousXPos = pState->mPreviousXPos;
+    pRock->mPreviousYPos = pState->mPreviousYPos;
 
     return sizeof(RockSaveState);
 }

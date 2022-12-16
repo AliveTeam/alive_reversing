@@ -1,5 +1,5 @@
 #include "stdafx_ao.h"
-#include "Function.hpp"
+#include "../relive_lib/Function.hpp"
 #include "Blood.hpp"
 #include "../relive_lib/ScreenManager.hpp"
 #include "Game.hpp"
@@ -7,7 +7,7 @@
 #include "Map.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
 #include "../AliveLibAE/stdlib.hpp"
-#include "Primitives_common.hpp"
+#include "../relive_lib/Primitives_common.hpp"
 #include <algorithm>
 
 #undef min

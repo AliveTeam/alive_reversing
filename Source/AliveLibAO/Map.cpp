@@ -1,6 +1,6 @@
 #include "stdafx_ao.h"
 #include "Map.hpp"
-#include "Function.hpp"
+#include "../relive_lib/Function.hpp"
 #include "../AliveLibAE/stdlib.hpp"
 #include "ResourceManager.hpp"
 #include "../relive_lib/ScreenManager.hpp"
@@ -25,7 +25,7 @@
 
 #include "../relive_lib/data_conversion/relive_tlvs.hpp"
 #include "../relive_lib/BaseGameObject.hpp"
-#include "../AliveLibCommon/FatalError.hpp"
+#include "../relive_lib/FatalError.hpp"
 #include "../relive_lib/BinaryPath.hpp"
 #include "../AliveLibAE/PathData.hpp"
 #include "Path.hpp"
@@ -900,7 +900,7 @@ void Map::GoTo_Camera()
     mMaxCamsY = (mPathData->field_A_bBottom - mPathData->field_6_bRight) / mPathData->field_E_grid_height;
 
     char_type camNameBuffer[20] = {};
-    Path_Format_CameraName_4346B0(camNameBuffer, mNextLevel, mNextPath, mNextCamera);
+    AO::Path_Format_CameraName(camNameBuffer, mNextLevel, mNextPath, mNextCamera);
 
     mCamIdxOnX = 0;
     mCamIdxOnY = 0;
@@ -1698,9 +1698,9 @@ CameraSwapper* Map::FMV_Camera_Change(CamResource& ppBits, Map* pMap, EReliveLev
 
     if (fmvBaseId > 10000u)
     {
-        FmvInfo* pFmvRec1 = Path_Get_FMV_Record_434680(levelId, fmvBaseId / 10000);
-        FmvInfo* pFmvRec2 = Path_Get_FMV_Record_434680(levelId, fmvBaseId % 100);
-        FmvInfo* pFmvRec3 = Path_Get_FMV_Record_434680(levelId, fmvBaseId / 100 % 100);
+        FmvInfo* pFmvRec1 = AO::Path_Get_FMV_Record(levelId, fmvBaseId / 10000);
+        FmvInfo* pFmvRec2 = AO::Path_Get_FMV_Record(levelId, fmvBaseId % 100);
+        FmvInfo* pFmvRec3 = AO::Path_Get_FMV_Record(levelId, fmvBaseId / 100 % 100);
 
         if (pFmvRec1->field_8_stop_music || pFmvRec2->field_8_stop_music || pFmvRec3->field_8_stop_music)
         {
@@ -1720,8 +1720,8 @@ CameraSwapper* Map::FMV_Camera_Change(CamResource& ppBits, Map* pMap, EReliveLev
     else if (fmvBaseId > 100u)
     {
         // Double FMV
-        FmvInfo* pFmvRec1 = Path_Get_FMV_Record_434680(levelId, fmvBaseId / 100);
-        FmvInfo* pFmvRec2 = Path_Get_FMV_Record_434680(levelId, fmvBaseId % 100);
+        FmvInfo* pFmvRec1 = AO::Path_Get_FMV_Record(levelId, fmvBaseId / 100);
+        FmvInfo* pFmvRec2 = AO::Path_Get_FMV_Record(levelId, fmvBaseId % 100);
         if (pFmvRec1->field_8_stop_music || pFmvRec2->field_8_stop_music)
         {
             BackgroundMusic::Stop();
@@ -1738,7 +1738,7 @@ CameraSwapper* Map::FMV_Camera_Change(CamResource& ppBits, Map* pMap, EReliveLev
     else // < 100
     {
         // Single FMV
-        FmvInfo* pFmvRecord = Path_Get_FMV_Record_434680(levelId, fmvBaseId);
+        FmvInfo* pFmvRecord = AO::Path_Get_FMV_Record(levelId, fmvBaseId);
         if (pFmvRecord->field_8_stop_music)
         {
             BackgroundMusic::Stop();

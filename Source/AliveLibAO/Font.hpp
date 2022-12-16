@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FixedPoint_common.hpp"
+#include "../relive_lib/FixedPoint_common.hpp"
 #include "../relive_lib/Primitives.hpp"
 #include "../relive_lib/ResourceManagerWrapper.hpp"
 #include "../AliveLibAE/Font.hpp"

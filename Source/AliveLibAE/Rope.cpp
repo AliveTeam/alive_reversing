@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "Rope.hpp"
-#include "Function.hpp"
+#include "../relive_lib/Function.hpp"
 #include "../relive_lib/Animation.hpp"
 #include "stdlib.hpp"
 #include "../relive_lib/ScreenManager.hpp"

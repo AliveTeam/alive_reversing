@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "MovingBomb.hpp"
-#include "Function.hpp"
+#include "../relive_lib/Function.hpp"
 #include "Game.hpp"
 #include "Map.hpp"
 #include "../relive_lib/Shadow.hpp"
@@ -185,11 +185,11 @@ void MovingBomb::FollowLine()
     }
 }
 
-s16 MovingBomb::VTakeDamage(BaseGameObject* pFrom)
+bool MovingBomb::VTakeDamage(BaseGameObject* pFrom)
 {
     if (GetDead() || mHealth <= FP_FromInteger(0))
     {
-        return 1;
+        return true;
     }
 
     switch (pFrom->Type())
@@ -208,14 +208,14 @@ s16 MovingBomb::VTakeDamage(BaseGameObject* pFrom)
             GetAnimation().SetRender(false);
             mTimer = sGnFrame + 4;
         }
-            return 0;
+            return false;
 
         case ReliveTypes::eElectrocute:
             mState = States::eKillMovingBomb_7;
-            return 0;
+            return false;
 
         default:
-            return 1;
+            return true;
     }
 }
 

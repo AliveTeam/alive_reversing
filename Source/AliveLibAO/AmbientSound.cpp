@@ -1,6 +1,6 @@
 #include "stdafx_ao.h"
 #include "AmbientSound.hpp"
-#include "Function.hpp"
+#include "../relive_lib/Function.hpp"
 #include "../AliveLibAE/stdlib.hpp"
 #include "ScopedSeq.hpp"
 #include "MusicTrigger.hpp"

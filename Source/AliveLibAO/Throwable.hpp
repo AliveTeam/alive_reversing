@@ -18,8 +18,8 @@ public:
 
     // New virtuals for throwables
     virtual void VThrow(FP velX, FP velY) = 0;
-    virtual s16 VCanThrow() = 0;
-    virtual s16 VIsFalling() = 0;
+    virtual bool VCanThrow() = 0;
+    virtual bool VIsFalling() = 0;
     virtual void VTimeToExplodeRandom() = 0;
 
     virtual s16 VGetCount();

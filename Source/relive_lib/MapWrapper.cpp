@@ -3,7 +3,7 @@
 #include "../AliveLibAO/Map.hpp"
 #include "../AliveLibAO/PathData.hpp"
 #include "../AliveLibAE/PathData.hpp"
-#include "../AliveLibCommon/FatalError.hpp"
+#include "../relive_lib/FatalError.hpp"
 #include "IBaseAliveGameObject.hpp"
 #include "../relive_lib/data_conversion/relive_tlvs.hpp"
 

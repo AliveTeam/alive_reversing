@@ -3,7 +3,7 @@
 #include "BaseAliveGameObject.hpp"
 #include "../relive_lib/ObjectIds.hpp"
 #include "stdlib.hpp"
-#include "Function.hpp"
+#include "../relive_lib/Function.hpp"
 #include "Map.hpp"
 
 #define kPalDepth 64

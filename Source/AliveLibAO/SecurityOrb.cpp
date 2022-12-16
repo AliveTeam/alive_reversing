@@ -1,5 +1,5 @@
 #include "stdafx_ao.h"
-#include "Function.hpp"
+#include "../relive_lib/Function.hpp"
 #include "SecurityOrb.hpp"
 #include "Midi.hpp"
 #include "../AliveLibAE/stdlib.hpp"
@@ -71,11 +71,11 @@ void SecurityOrb::VScreenChanged()
     SetDead(true);
 }
 
-s16 SecurityOrb::VTakeDamage(BaseGameObject* pFrom)
+bool SecurityOrb::VTakeDamage(BaseGameObject* pFrom)
 {
     if (GetDead())
     {
-        return 0;
+        return false;
     }
 
     switch (pFrom->Type())
@@ -106,7 +106,7 @@ s16 SecurityOrb::VTakeDamage(BaseGameObject* pFrom)
 
     SetDead(true);
 
-    return 1;
+    return true;
 }
 
 void SecurityOrb::VUpdate()

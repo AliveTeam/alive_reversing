@@ -2,7 +2,7 @@
 #include "TypesCollectionAO.hpp"
 #include "TypesCollectionAE.hpp"
 
-#include "../../AliveLibCommon/stdafx_common.h"
+#include "../../relive_lib/stdafx.h"
 
 #include "../../relive_lib/data_conversion/guid.hpp"
 #include "../../relive_lib/data_conversion/PathTlvsAE.hpp"

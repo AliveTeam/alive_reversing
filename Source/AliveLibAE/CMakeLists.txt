@@ -392,7 +392,6 @@ else()
 endif()
 
 target_link_libraries(AliveLibAE
-    AliveLibCommon
     googletest
     Cinder
     libglew_static

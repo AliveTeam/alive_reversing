@@ -1,6 +1,6 @@
 #include "../../stdafx.h"
 #include "DirectX9Renderer.hpp"
-#include "../../../AliveLibCommon/FatalError.hpp"
+#include "../../../relive_lib/FatalError.hpp"
 #include "../../../relive_lib/ResourceManagerWrapper.hpp"
 #include "../../../relive_lib/Animation.hpp"
 #include "../../Font.hpp"

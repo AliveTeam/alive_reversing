@@ -4,9 +4,9 @@
 #include "imgui_impl_sdl.h"
 #include "imgui_impl_opengl3.h"
 
-#include "../AliveLibCommon/FatalError.hpp"
-#include "../AliveLibCommon/logger.hpp"
-#include "../AliveLibCommon/Types.hpp"
+#include "../../../relive_lib/FatalError.hpp"
+#include "../../../relive_lib/logger.hpp"
+#include "../../../relive_lib/Types.hpp"
 #include "GLContext.hpp"
 #include "SDL.h"
 

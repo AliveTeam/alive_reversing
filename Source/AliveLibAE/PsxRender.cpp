@@ -1,10 +1,10 @@
 #include "stdafx.h"
 #include "PsxRender.hpp"
-#include "Function.hpp"
+#include "../relive_lib/Function.hpp"
 #include "Psx.hpp"
 #include "Sound/PsxSpuApi.hpp"
 #include "Renderer/IRenderer.hpp"
-#include "../AliveLibCommon/FatalError.hpp"
+#include "../relive_lib/FatalError.hpp"
 
 static void DrawOTag_HandlePrimRendering(IRenderer& renderer, PrimAny& any)
 {

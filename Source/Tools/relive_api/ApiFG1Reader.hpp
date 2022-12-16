@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../AliveLibCommon/FG1Reader.hpp"
+#include "../../relive_lib/FG1Reader.hpp"
 #include <string>
 #include <memory>
 

@@ -1,12 +1,12 @@
 #include <algorithm>
 
-#include "../relive_lib/data_conversion/rgb_conversion.hpp"
-#include "../relive_lib/Primitives.hpp"
-#include "../relive_lib/Animation.hpp"
+#include "../../../relive_lib/data_conversion/rgb_conversion.hpp"
+#include "../../../relive_lib/Primitives.hpp"
+#include "../../../relive_lib/Animation.hpp"
 #include "../../Compression.hpp"
 #include "../../Font.hpp"
-#include "../AliveLibCommon/BaseGameAutoPlayer.hpp"
-#include "../AliveLibCommon/FatalError.hpp"
+#include "../../../relive_lib/BaseGameAutoPlayer.hpp"
+#include "../../../relive_lib/FatalError.hpp"
 #include "GLDebug.hpp"
 #include "GLFramebuffer.hpp"
 #include "GLShader.hpp"

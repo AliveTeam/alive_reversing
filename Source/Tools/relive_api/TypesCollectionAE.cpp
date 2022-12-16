@@ -8,7 +8,7 @@
 #include "../../AliveLibAE/Path.hpp"
 #include "../../AliveLibAE/Map.hpp"
 
-#include "../../AliveLibCommon/stdafx_common.h"
+#include "../../relive_lib/stdafx.h"
 
 namespace ReliveAPI {
 TypesCollectionAE::TypesCollectionAE()

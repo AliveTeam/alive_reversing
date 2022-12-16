@@ -1,6 +1,6 @@
 #include "stdafx_ao.h"
 #include "ResourceManager.hpp"
-#include "Function.hpp"
+#include "../relive_lib/Function.hpp"
 #include "../relive_lib/Particle.hpp"
 #include "../AliveLibAE/stdlib.hpp"
 #include "../relive_lib/PsxDisplay.hpp"

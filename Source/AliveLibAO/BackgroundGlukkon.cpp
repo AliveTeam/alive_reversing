@@ -1,5 +1,5 @@
 #include "stdafx_ao.h"
-#include "Function.hpp"
+#include "../relive_lib/Function.hpp"
 #include "BackgroundGlukkon.hpp"
 #include "../AliveLibAE/stdlib.hpp"
 #include "AirExplosion.hpp"
@@ -8,7 +8,7 @@
 #include "Abe.hpp"
 #include "../relive_lib/Events.hpp"
 #include "Game.hpp"
-#include "../AliveLibCommon/FatalError.hpp"
+#include "../relive_lib/FatalError.hpp"
 #include "Path.hpp"
 #include "../relive_lib/data_conversion/relive_tlvs.hpp"
 #include "../AliveLibAE/FixedPoint.hpp"
@@ -85,11 +85,11 @@ void BackgroundGlukkon::VScreenChanged()
     SetDead(true);
 }
 
-s16 BackgroundGlukkon::VTakeDamage(BaseGameObject* pFrom)
+bool BackgroundGlukkon::VTakeDamage(BaseGameObject* pFrom)
 {
     if (GetDead())
     {
-        return 0;
+        return false;
     }
 
     if (pFrom->Type() == ReliveTypes::eShrykull)
@@ -121,7 +121,7 @@ s16 BackgroundGlukkon::VTakeDamage(BaseGameObject* pFrom)
 
         SetDead(true);
     }
-    return 1;
+    return true;
 }
 
 void BackgroundGlukkon::VUpdate()

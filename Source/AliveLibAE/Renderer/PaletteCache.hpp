@@ -1,8 +1,8 @@
 #pragma once
 
-#include "../../AliveLibCommon/Types.hpp"
+#include "../../relive_lib/Types.hpp"
 #include "../../relive_lib/data_conversion/AnimationConverter.hpp"
-#include "../../AliveLibCommon/FatalError.hpp"
+#include "../../relive_lib/FatalError.hpp"
 #include <map>
 
 class PaletteCache final

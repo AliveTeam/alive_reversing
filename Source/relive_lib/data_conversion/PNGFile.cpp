@@ -1,8 +1,8 @@
 #include "PNGFile.hpp"
 #include "rgb_conversion.hpp"
 #include "file_system.hpp"
-#include "../../AliveLibCommon/logger.hpp"
-#include "../../AliveLibCommon/FatalError.hpp"
+#include "../../relive_lib/logger.hpp"
+#include "../../relive_lib/FatalError.hpp"
 #include "AnimationConverter.hpp"
 #include <spng/spng.h>
 

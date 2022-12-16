@@ -1,6 +1,6 @@
 #include "stdafx_ao.h"
 #include "CameraSwapper.hpp"
-#include "Function.hpp"
+#include "../relive_lib/Function.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
 #include "Movie.hpp"
 #include "Map.hpp"
@@ -12,9 +12,9 @@
 #include "../relive_lib/ScreenManager.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
 #include "Sfx.hpp"
-#include "../AliveLibCommon/FatalError.hpp"
-#include "Sys_common.hpp"
-#include "BaseGameAutoPlayer.hpp"
+#include "../relive_lib/FatalError.hpp"
+#include "../relive_lib/Sys_common.hpp"
+#include "../relive_lib/BaseGameAutoPlayer.hpp"
 
 namespace AO {
 

@@ -12,10 +12,10 @@
 #include "Greeter.hpp"
 #include "Sfx.hpp"
 #include "Alarm.hpp"
-#include "Function.hpp"
+#include "../relive_lib/Function.hpp"
 #include "Map.hpp"
 #include "Path.hpp"
-#include "../AliveLibCommon/FatalError.hpp"
+#include "../relive_lib/FatalError.hpp"
 #include "Game.hpp"
 
 MotionDetectorLaser::MotionDetectorLaser(FP xpos, FP ypos, FP scale, Layer layer)

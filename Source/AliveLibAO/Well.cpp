@@ -1,5 +1,5 @@
 #include "stdafx_ao.h"
-#include "Function.hpp"
+#include "../relive_lib/Function.hpp"
 #include "Well.hpp"
 #include "Math.hpp"
 #include "../AliveLibAE/stdlib.hpp"

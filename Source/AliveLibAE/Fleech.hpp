@@ -134,7 +134,7 @@ public:
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
     virtual void VOnTlvCollision(relive::Path_TLV* pTlv) override;
-    virtual s16 VTakeDamage(BaseGameObject* pFrom) override;
+    virtual bool VTakeDamage(BaseGameObject* pFrom) override;
     virtual void VOnTrapDoorOpen() override;
     virtual void VOnThrowableHit(BaseGameObject* pFrom) override;
     virtual s32 VGetSaveState(u8* pSaveBuffer) override;

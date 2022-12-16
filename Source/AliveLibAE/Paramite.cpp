@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "Paramite.hpp"
-#include "Function.hpp"
+#include "../relive_lib/Function.hpp"
 #include "stdlib.hpp"
 #include "../relive_lib/Collisions.hpp"
 #include "Game.hpp"
@@ -5346,7 +5346,7 @@ s16 Paramite::IsNear(Paramite* pOther)
     return FP_Abs(pOther->mYPos - mYPos) < GetSpriteScale() * FP_FromInteger(100);
 }
 
-s16 Paramite::VOnSameYLevel(BaseAnimatedWithPhysicsGameObject* pOther)
+bool Paramite::VOnSameYLevel(BaseAnimatedWithPhysicsGameObject* pOther)
 {
     if (pOther)
     {
@@ -5354,10 +5354,10 @@ s16 Paramite::VOnSameYLevel(BaseAnimatedWithPhysicsGameObject* pOther)
 
         if ((FP_Abs(mYPos - FP_FromInteger(bRect.h)) < GetSpriteScale() * FP_FromInteger(40)) || (pOther->Type() == ReliveTypes::eParamite && static_cast<Paramite*>(pOther)->GetCurrentMotion() == eParamiteMotions::Motion_13_JumpUpMidair))
         {
-            return 1;
+            return true;
         }
     }
-    return 0;
+    return false;
 }
 
 void Paramite::VUnPosses()
@@ -5382,11 +5382,11 @@ void Paramite::VPossessed()
     mAbeCamera = gMap.mCurrentCamera;
 }
 
-s16 Paramite::VTakeDamage(BaseGameObject* pFrom)
+bool Paramite::VTakeDamage(BaseGameObject* pFrom)
 {
     if (mHealth <= FP_FromInteger(0))
     {
-        return 1;
+        return true;
     }
 
     mMeatGuid = Guid{};
@@ -5404,11 +5404,11 @@ s16 Paramite::VTakeDamage(BaseGameObject* pFrom)
             GetAnimation().SetRender(false);
             if (sControlledCharacter != this)
             {
-                return 1;
+                return true;
             }
             SND_SEQ_Play(SeqId::DeathDrums_29, 1, 127, 127);
         }
-            return 1;
+            return true;
 
         case ReliveTypes::eFleech:
         {
@@ -5433,7 +5433,7 @@ s16 Paramite::VTakeDamage(BaseGameObject* pFrom)
 
             if (mHealth > FP_FromInteger(0))
             {
-                return 1;
+                return true;
             }
 
             EventBroadcast(kScrabOrParamiteDied, this);
@@ -5449,10 +5449,10 @@ s16 Paramite::VTakeDamage(BaseGameObject* pFrom)
                 SND_SEQ_Play(SeqId::DeathDrums_29, 1, 127, 127);
             }
         }
-            return 0;
+            return false;
 
         case ReliveTypes::eAbilityRing:
-            return 0;
+            return false;
 
         default:
         {
@@ -5469,11 +5469,11 @@ s16 Paramite::VTakeDamage(BaseGameObject* pFrom)
 
             if (sControlledCharacter != this)
             {
-                return 1;
+                return true;
             }
 
             SND_SEQ_Play(SeqId::DeathDrums_29, 1, 127, 127);
-            return 1;
+            return true;
         }
     }
 }
@@ -6163,7 +6163,7 @@ void Paramite::Sound(ParamiteSpeak soundId, s16 pitch_min)
     }
     else if (soundId == ParamiteSpeak::AllYa_9)
     {
-        volRight = sSeqData_558D50.mSeqs[20].field_9_volume;
+        volRight = gSeqData.mSeqs[20].field_9_volume;
     }
     else
     {

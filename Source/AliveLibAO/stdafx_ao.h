@@ -8,6 +8,6 @@
 #include <iostream>
 #include <memory>
 #include <map>
-#include "../AliveLibCommon/logger.hpp"
-#include "../AliveLibCommon/pch_shared.h"
-#include "../AliveLibCommon/relive_config.h"
+#include "../relive_lib/logger.hpp"
+#include "../relive_lib/pch_shared.h"
+#include "../relive_lib/relive_config.h"

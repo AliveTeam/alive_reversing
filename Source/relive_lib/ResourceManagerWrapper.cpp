@@ -12,7 +12,7 @@
 #include "data_conversion/PNGFile.hpp"
 
 #include "BinaryPath.hpp"
-#include "../AliveLibCommon/BaseGameAutoPlayer.hpp"
+#include "../relive_lib/BaseGameAutoPlayer.hpp"
 
 #include "nlohmann/json.hpp"
 

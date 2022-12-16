@@ -1,6 +1,6 @@
 #include "stdafx_ao.h"
 #include "RollingBallShaker.hpp"
-#include "Function.hpp"
+#include "../relive_lib/Function.hpp"
 #include "../AliveLibAE/stdlib.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
 #include "../relive_lib/Primitives.hpp"

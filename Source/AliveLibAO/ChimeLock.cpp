@@ -1,5 +1,5 @@
 #include "stdafx_ao.h"
-#include "Function.hpp"
+#include "../relive_lib/Function.hpp"
 #include "ChimeLock.hpp"
 #include "Bells.hpp"
 #include "../AliveLibAE/stdlib.hpp"
@@ -14,7 +14,7 @@
 #include "MusicTrigger.hpp"
 #include "Input.hpp"
 #include "../relive_lib/Particle.hpp"
-#include "../AliveLibCommon/FatalError.hpp"
+#include "../relive_lib/FatalError.hpp"
 #include "Path.hpp"
 #include "../AliveLibAE/FixedPoint.hpp"
 
@@ -182,7 +182,7 @@ void ChimeLock::VUnPosses()
 {
     SetPossessed(false);
     mChimeLockState = ChimeLockStates::eIdle_0;
-    sActiveHero->SetActiveControlledCharacter_421480();
+    sActiveHero->SetActiveControlledCharacter();
     SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 70, 400);
 }
 

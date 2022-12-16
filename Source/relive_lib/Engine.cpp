@@ -4,7 +4,7 @@
 #include "../AliveLibAO/Game.hpp"
 #include "PsxDisplay.hpp"
 #include "../AliveLibAE/VGA.hpp"
-#include "../AliveLibCommon/BaseGameAutoPlayer.hpp"
+#include "../relive_lib/BaseGameAutoPlayer.hpp"
 
 void SYS_EventsPump();
 

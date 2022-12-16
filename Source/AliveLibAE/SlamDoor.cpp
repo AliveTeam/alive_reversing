@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "SlamDoor.hpp"
-#include "Function.hpp"
+#include "../relive_lib/Function.hpp"
 #include "stdlib.hpp"
 #include "../relive_lib/SwitchStates.hpp"
 #include "../relive_lib/Events.hpp"

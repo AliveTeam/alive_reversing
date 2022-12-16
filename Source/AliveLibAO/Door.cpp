@@ -1,5 +1,5 @@
 #include "stdafx_ao.h"
-#include "Function.hpp"
+#include "../relive_lib/Function.hpp"
 #include "Door.hpp"
 #include "Abe.hpp"
 #include "../relive_lib/SwitchStates.hpp"

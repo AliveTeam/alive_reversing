@@ -1,5 +1,5 @@
 #include "stdafx_ao.h"
-#include "Function.hpp"
+#include "../relive_lib/Function.hpp"
 #include "SlingMudokon.hpp"
 #include "GameSpeak.hpp"
 #include "../relive_lib/Collisions.hpp"

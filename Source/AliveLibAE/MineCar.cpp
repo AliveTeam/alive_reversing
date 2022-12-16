@@ -8,7 +8,7 @@
 #include "Sound/Midi.hpp"
 #include "../relive_lib/ShadowZone.hpp"
 #include "../relive_lib/ScreenManager.hpp"
-#include "Function.hpp"
+#include "../relive_lib/Function.hpp"
 #include "Sfx.hpp"
 #include "../relive_lib/Events.hpp"
 #include "ParticleBurst.hpp"
@@ -663,7 +663,7 @@ void MineCar::RunThingsOver()
     }
 }
 
-s16 MineCar::VTakeDamage(BaseGameObject* /*pFrom*/)
+bool MineCar::VTakeDamage(BaseGameObject* /*pFrom*/)
 {
     return !GetDead();
 }

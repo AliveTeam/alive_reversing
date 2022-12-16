@@ -5,7 +5,7 @@
 #include "../../AliveLibAO/Map.hpp"
 #include "../../AliveLibAE/Path.hpp"
 
-#include "../../AliveLibCommon/Types.hpp"
+#include "../../relive_lib/Types.hpp"
 
 #include <jsonxx/jsonxx.h>
 

@@ -1,7 +1,7 @@
 #include "stdafx_ao.h"
 #include "Fade.hpp"
 #include "../AliveLibAE/stdlib.hpp"
-#include "../AliveLibCommon/FatalError.hpp"
+#include "../relive_lib/FatalError.hpp"
 
 namespace AO {
 

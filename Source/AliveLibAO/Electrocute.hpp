@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../relive_lib/BaseGameObject.hpp"
-#include "../AliveLibCommon/Psx_common.hpp"
+#include "../relive_lib/Psx_common.hpp"
 
 class IBaseAliveGameObject;
 

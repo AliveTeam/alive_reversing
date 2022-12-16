@@ -1,7 +1,7 @@
 #include <GL/glew.h>
 
-#include "../AliveLibCommon/FatalError.hpp"
-#include "../AliveLibCommon/Types.hpp"
+#include "../../../relive_lib/FatalError.hpp"
+#include "../../../relive_lib/Types.hpp"
 #include "GLDebug.hpp"
 #include "GLShader.hpp"
 

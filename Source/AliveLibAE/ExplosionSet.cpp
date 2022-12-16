@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "ExplosionSet.hpp"
-#include "Function.hpp"
+#include "../relive_lib/Function.hpp"
 #include "stdlib.hpp"
 #include "Map.hpp"
 #include "../relive_lib/PsxDisplay.hpp"

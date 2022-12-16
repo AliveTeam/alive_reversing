@@ -10,7 +10,7 @@
 #include "Sound/Midi.hpp"
 #include "AirExplosion.hpp"
 #include "Sfx.hpp"
-#include "Function.hpp"
+#include "../relive_lib/Function.hpp"
 #include "Map.hpp"
 #include "Input.hpp"
 #include "FixedPoint.hpp"
@@ -269,11 +269,11 @@ void EvilFart::ResetFartColour()
     mRGB.SetRGB(greenFart.r, greenFart.g, greenFart.b);
 }
 
-s16 EvilFart::VTakeDamage(BaseGameObject* pFrom)
+bool EvilFart::VTakeDamage(BaseGameObject* pFrom)
 {
     if (GetDead())
     {
-        return 0;
+        return false;
     }
 
     if (pFrom->Type() == ReliveTypes::eElectricWall)
@@ -281,7 +281,7 @@ s16 EvilFart::VTakeDamage(BaseGameObject* pFrom)
         mPossessedAliveTimer = 0;
     }
 
-    return 1;
+    return true;
 }
 
 void EvilFart::VUpdate()

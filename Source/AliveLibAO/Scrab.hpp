@@ -64,11 +64,11 @@ public:
 
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VUpdate() override;
-    virtual s16 VTakeDamage(BaseGameObject* pFrom) override;
+    virtual bool VTakeDamage(BaseGameObject* pFrom) override;
     virtual void VOnTlvCollision(relive::Path_TLV* pTlv) override;
     virtual void VScreenChanged() override;
     virtual void VOnTrapDoorOpen() override;
-    virtual s16 VOnSameYLevel(BaseAnimatedWithPhysicsGameObject* pOther) override;
+    virtual bool VOnSameYLevel(BaseAnimatedWithPhysicsGameObject* pOther) override;
 
     s16 CanSeeAbe(BaseAliveGameObject* pObj);
     void vUpdateAnim();
@@ -81,8 +81,8 @@ public:
 
 
     Scrab* FindScrabToFight();
-    s16 FindAbeOrMud();
-    s16 HandleRunning();
+    bool FindAbeOrMud();
+    s16 HandleRunning(); // returns the brain sub state
     s16 GetMotionForPatrolType(relive::Path_Scrab::ScrabPatrolType ScrabPatrolType);
 
     // Motions
@@ -136,7 +136,6 @@ public:
 
     TBrainType mBrainState = nullptr;
     s16 mBrainSubState = 0;
-    s16 field_112 = 0;
     s16 mAttackDelay = 0;
     relive::Path_Scrab::ScrabPatrolType mPatrolType = relive::Path_Scrab::ScrabPatrolType::eWalk;
     s32 field_118_timer = 0;
@@ -152,9 +151,8 @@ public:
     s16 mPauseLeftMax = 0;
     s16 mPauseRightMin = 0;
     s16 mPauseRightMax = 0;
-    s32 field_14C = 0;
+    s32 field_14C = 0; // scrab sfx channel mask
     s16 field_188_flags = 0;
-    s16 field_18A = 0;
 };
 
 } // namespace AO

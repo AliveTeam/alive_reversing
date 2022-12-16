@@ -1,4 +1,4 @@
-#include "stdafx_common.h"
+#include "stdafx.h"
 #include "Sys_common.hpp"
 #include "FatalError.hpp"
 

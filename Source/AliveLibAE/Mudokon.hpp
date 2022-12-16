@@ -227,7 +227,7 @@ public:
     virtual s32 VGetSaveState(u8* pSaveBuffer) override;
 
     virtual void VPossessed() override;
-    virtual s16 VTakeDamage(BaseGameObject* pFrom) override;
+    virtual bool VTakeDamage(BaseGameObject* pFrom) override;
     virtual void VOnTlvCollision(relive::Path_TLV* pTlv) override;
     virtual void VOnTrapDoorOpen() override;
 

@@ -117,7 +117,7 @@ public:
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
-    virtual s16 VTakeDamage(BaseGameObject* pFrom) override;
+    virtual bool VTakeDamage(BaseGameObject* pFrom) override;
     virtual void VPossessed() override;
     virtual void VSetMotion(s16 newMotion) override;
     virtual s32 VGetSaveState(u8* pSaveBuffer) override;

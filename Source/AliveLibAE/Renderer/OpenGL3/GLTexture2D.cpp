@@ -1,8 +1,8 @@
 #include <GL/glew.h>
 
-#include "../AliveLibCommon/FatalError.hpp"
-#include "../AliveLibCommon/Types.hpp"
-#include "../relive_lib/data_conversion/rgb_conversion.hpp"
+#include "../../../relive_lib/FatalError.hpp"
+#include "../../../relive_lib/Types.hpp"
+#include "../../../relive_lib/data_conversion/rgb_conversion.hpp"
 #include "GLDebug.hpp"
 #include "GLTexture2D.hpp"
 

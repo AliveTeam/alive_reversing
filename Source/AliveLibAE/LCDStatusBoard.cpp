@@ -1,13 +1,13 @@
 #include "stdafx.h"
 #include "LCDStatusBoard.hpp"
-#include "Function.hpp"
+#include "../relive_lib/Function.hpp"
 #include "stdlib.hpp"
 #include "../relive_lib/Events.hpp"
 #include "MainMenu.hpp"
 #include "Map.hpp"
 #include "DDCheat.hpp" // only mud info
 #include "Path.hpp"
-#include "../AliveLibCommon/FatalError.hpp"
+#include "../relive_lib/FatalError.hpp"
 #include <algorithm>
 #include "../relive_lib/ScreenManager.hpp"
 

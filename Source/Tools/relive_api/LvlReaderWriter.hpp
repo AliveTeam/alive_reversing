@@ -3,7 +3,7 @@
 #include "ByteStream.hpp"
 
 
-#include "../../AliveLibCommon/Function.hpp"
+#include "../../relive_lib/Function.hpp"
 #include "../../relive_lib/ResourceManagerWrapper.hpp"
 
 #include "relive_api_exceptions.hpp"

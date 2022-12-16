@@ -2,7 +2,7 @@
 
 #include <GL/glew.h>
 
-#include "../AliveLibCommon/Types.hpp"
+#include "../../../relive_lib/Types.hpp"
 
 class GLTexture2D final
 {

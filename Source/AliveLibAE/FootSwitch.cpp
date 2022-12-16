@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "Function.hpp"
+#include "../relive_lib/Function.hpp"
 #include "FootSwitch.hpp"
 #include "../relive_lib/SwitchStates.hpp"
 #include "stdlib.hpp"

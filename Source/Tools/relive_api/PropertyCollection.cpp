@@ -4,7 +4,7 @@
 #include "BaseProperty.hpp"
 #include "TypedProperty.hpp"
 
-#include "../../AliveLibCommon/stdafx_common.h"
+#include "../../relive_lib/stdafx.h"
 
 #include <jsonxx/jsonxx.h>
 

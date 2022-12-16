@@ -4,7 +4,7 @@
 #include "HintFly.hpp"
 #include "ResourceManager.hpp"
 #include "../relive_lib/Collisions.hpp"
-#include "../AliveLibCommon/PathDataExtensionsTypes.hpp"
+#include "../relive_lib/PathDataExtensionsTypes.hpp"
 
 namespace AO {
 

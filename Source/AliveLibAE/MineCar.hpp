@@ -83,7 +83,7 @@ public:
     virtual void VScreenChanged() override;
     virtual void VStopAudio() override;
     virtual s32 VGetSaveState(u8* pSaveBuffer) override;
-    virtual s16 VTakeDamage(BaseGameObject* pFrom) override;
+    virtual bool VTakeDamage(BaseGameObject* pFrom) override;
 
     static s32 CreateFromSaveState(const u8* pBuffer);
 

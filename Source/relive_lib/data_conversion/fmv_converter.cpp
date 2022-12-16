@@ -1,6 +1,6 @@
 #include "fmv_converter.hpp"
 #include "../../AliveLibAE/PathData.hpp"
-#include "../../AliveLibCommon/FatalError.hpp"
+#include "../../relive_lib/FatalError.hpp"
 
 #ifdef _MSC_VER
     #pragma warning(push)
@@ -18,7 +18,7 @@
 
 #include "aom/common/av1_config.h"
 
-#include "../../AliveLibCommon/Masher.hpp"
+#include "../../relive_lib/Masher.hpp"
 
 // TODO: An interface around masher + mdec reading
 class IDDVReader

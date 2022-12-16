@@ -1,5 +1,5 @@
 #include "stdafx_ao.h"
-#include "Function.hpp"
+#include "../relive_lib/Function.hpp"
 #include "Shrykull.hpp"
 #include "Map.hpp"
 #include "../AliveLibAE/stdlib.hpp"
@@ -250,7 +250,7 @@ void Shrykull::VUpdate()
 
             if (GetAnimation().GetForwardLoopCompleted())
             {
-                sActiveHero->ExitShrykull_42F440(mResetRingTimer);
+                sActiveHero->ExitShrykull(mResetRingTimer);
                 SetDead(true);
             }
             break;

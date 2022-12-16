@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "SligSpawner.hpp"
-#include "Function.hpp"
+#include "../relive_lib/Function.hpp"
 #include "Slig.hpp"
 #include "stdlib.hpp"
 #include "../relive_lib/Events.hpp"

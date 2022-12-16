@@ -2,7 +2,7 @@
 #include "PullRingRope.hpp"
 #include "BaseAliveGameObject.hpp"
 #include "Rope.hpp"
-#include "Function.hpp"
+#include "../relive_lib/Function.hpp"
 #include "../relive_lib/ObjectIds.hpp"
 #include "Sfx.hpp"
 #include "../relive_lib/Events.hpp"

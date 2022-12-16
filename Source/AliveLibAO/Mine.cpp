@@ -1,5 +1,5 @@
 #include "stdafx_ao.h"
-#include "Function.hpp"
+#include "../relive_lib/Function.hpp"
 #include "Mine.hpp"
 #include "Game.hpp"
 #include "../AliveLibAE/stdlib.hpp"
@@ -114,11 +114,11 @@ void Mine::VScreenChanged()
     }
 }
 
-s16 Mine::VTakeDamage(BaseGameObject* pFrom)
+bool Mine::VTakeDamage(BaseGameObject* pFrom)
 {
     if (GetDead())
     {
-        return 0;
+        return false;
     }
 
     switch (pFrom->Type())
@@ -132,11 +132,11 @@ s16 Mine::VTakeDamage(BaseGameObject* pFrom)
             SetDead(true);
             mDetonating = true;
             mExplosionTimer = sGnFrame;
-            return 1;
+            return true;
         }
 
         default:
-            return 0;
+            return false;
     }
 }
 

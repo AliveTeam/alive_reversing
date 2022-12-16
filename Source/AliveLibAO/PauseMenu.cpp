@@ -657,7 +657,7 @@ void PauseMenu::VRender(PrimHeader** ppOt)
                 entries = &pauseEntries_4CDE50[0];
             }
             char_type cameraNameBuffer[48] = {};
-            Path_Format_CameraName_4346B0(
+            Path_Format_CameraName(
                 cameraNameBuffer,
                 gMap.mCurrentLevel,
                 gMap.mCurrentPath,

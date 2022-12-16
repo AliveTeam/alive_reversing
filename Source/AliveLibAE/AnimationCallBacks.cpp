@@ -9,7 +9,7 @@
 #include "Blood.hpp"
 #include "../relive_lib/Particle.hpp"
 #include "../relive_lib/ObjectIds.hpp"
-#include "../AliveLibCommon/FatalError.hpp"
+#include "../relive_lib/FatalError.hpp"
 #include "FixedPoint.hpp"
 #include "../relive_lib/Collisions.hpp"
 

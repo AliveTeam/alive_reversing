@@ -12,7 +12,7 @@
 #include "../relive_lib/Events.hpp"
 #include "Grid.hpp"
 #include "Path.hpp"
-#include "../AliveLibCommon/FatalError.hpp"
+#include "../relive_lib/FatalError.hpp"
 #include "../AliveLibAE/FixedPoint.hpp"
 
 BaseAliveGameObject::BaseAliveGameObject(s16 resourceArraySize)
@@ -50,7 +50,7 @@ BaseAliveGameObject::~BaseAliveGameObject()
 
 }
 
-s16 BaseAliveGameObject::IsInInvisibleZone(IBaseAliveGameObject* pObj)
+bool BaseAliveGameObject::IsInInvisibleZone(IBaseAliveGameObject* pObj)
 {
     if (EventGet(kEventAbeOhm))
     {
@@ -369,7 +369,7 @@ BaseAliveGameObject* BaseAliveGameObject::GetStackedSlapTarget(const Guid& idToF
     return nullptr;
 }
 
-s16 BaseAliveGameObject::MapFollowMe(s16 snapToGrid)
+bool BaseAliveGameObject::MapFollowMe(bool snapToGrid)
 {
     const s32 xposSnapped = SnapToXGrid(GetSpriteScale(), FP_GetExponent(mXPos));
     if (snapToGrid)
@@ -387,7 +387,7 @@ s16 BaseAliveGameObject::MapFollowMe(s16 snapToGrid)
         {
             mCurrentLevel = gMap.mCurrentLevel;
             mCurrentPath = gMap.mCurrentPath;
-            return 1;
+            return true;
         }
     }
     // Gone off the right edge of the current screen
@@ -397,10 +397,10 @@ s16 BaseAliveGameObject::MapFollowMe(s16 snapToGrid)
         {
             mCurrentLevel = gMap.mCurrentLevel;
             mCurrentPath = gMap.mCurrentPath;
-            return 1;
+            return true;
         }
     }
-    return 0;
+    return false;
 }
 
 bool BaseAliveGameObject::WallHit(FP offY, FP offX)
@@ -521,17 +521,17 @@ BaseGameObject* BaseAliveGameObject::FindObjectOfType(ReliveTypes typeToFind, FP
     return nullptr;
 }
 
-s16 BaseAliveGameObject::VOnPlatformIntersection(BaseAnimatedWithPhysicsGameObject* pPlatform)
+bool BaseAliveGameObject::VOnPlatformIntersection(BaseAnimatedWithPhysicsGameObject* pPlatform)
 {
     const PSX_RECT bRect = pPlatform->VGetBoundingRect();
 
     if (FP_GetExponent(mXPos) < bRect.x || FP_GetExponent(mXPos) > bRect.w || FP_GetExponent(mYPos) > bRect.h)
     {
-        return 1;
+        return true;
     }
 
     static_cast<PlatformBase*>(pPlatform)->VAdd(this);
 
     BaseAliveGameObject_PlatformId = pPlatform->mBaseGameObjectId;
-    return 1;
+    return true;
 }

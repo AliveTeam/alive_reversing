@@ -1,7 +1,7 @@
 #include "stdafx_ao.h"
 #include "DDCheat.hpp"
 #include "DemoPlayback.hpp"
-#include "Function.hpp"
+#include "../relive_lib/Function.hpp"
 #include "Game.hpp"
 #include "SaveGame.hpp"
 #include "../AliveLibAE/stdlib.hpp"

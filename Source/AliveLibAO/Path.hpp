@@ -1,8 +1,8 @@
 #pragma once
 
-#include "../AliveLibCommon/BitField.hpp"
+#include "../relive_lib/BitField.hpp"
 #include "../relive_lib/data_conversion/relive_tlvs.hpp"
-#include "../AliveLibCommon/Psx_common.hpp"
+#include "../relive_lib/Psx_common.hpp"
 
 namespace AO {
 

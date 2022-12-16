@@ -1,12 +1,12 @@
 #pragma once
 
 #include "../relive_lib/BaseGameObject.hpp"
-#include "../AliveLibCommon/FixedPoint_common.hpp"
+#include "../relive_lib/FixedPoint_common.hpp"
 #include "../relive_lib/Animation.hpp"
 #include "BaseGameObject.hpp"
 #include "MapWrapper.hpp"
 #include "../relive_lib/Animation.hpp"
-#include "../AliveLibCommon/RGB16.hpp"
+#include "../relive_lib/RGB16.hpp"
 
 namespace relive {
     class Path_TLV;
@@ -42,10 +42,10 @@ public:
     virtual void VRender(PrimHeader** ppOt) override;
 
     virtual PSX_RECT VGetBoundingRect();
-    virtual s16 VIsObjNearby(FP radius, BaseAnimatedWithPhysicsGameObject* pObj);
-    virtual s16 VIsObj_GettingNear_On_X(BaseAnimatedWithPhysicsGameObject* pObj);
-    virtual s16 VIsFacingMe(BaseAnimatedWithPhysicsGameObject* pOther);
-    virtual s16 VOnSameYLevel(BaseAnimatedWithPhysicsGameObject* pOther);
+    virtual bool VIsObjNearby(FP radius, BaseAnimatedWithPhysicsGameObject* pObj);
+    virtual bool VIsObj_GettingNear_On_X(BaseAnimatedWithPhysicsGameObject* pObj);
+    virtual bool VIsFacingMe(BaseAnimatedWithPhysicsGameObject* pOther);
+    virtual bool VOnSameYLevel(BaseAnimatedWithPhysicsGameObject* pOther);
     virtual void VStackOnObjectsOfType(ReliveTypes typeToFind);
     virtual void VOnPickUpOrSlapped();
     virtual void VOnThrowableHit(BaseGameObject* pFrom);

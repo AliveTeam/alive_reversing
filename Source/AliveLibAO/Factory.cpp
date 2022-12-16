@@ -1,6 +1,6 @@
 #include "stdafx_ao.h"
 #include "Factory.hpp"
-#include "Function.hpp"
+#include "../relive_lib/Function.hpp"
 #include "GasCountDown.hpp"
 #include "ResourceManager.hpp"
 #include "../AliveLibAE/stdlib.hpp"

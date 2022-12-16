@@ -7,7 +7,7 @@
 #include "../relive_lib/SwitchStates.hpp"
 #include "../relive_lib/Flash.hpp"
 #include "Sfx.hpp"
-#include "Function.hpp"
+#include "../relive_lib/Function.hpp"
 #include "Abe.hpp"
 #include "Path.hpp"
 #include "Math.hpp"

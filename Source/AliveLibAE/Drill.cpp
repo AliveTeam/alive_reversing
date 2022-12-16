@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "Drill.hpp"
-#include "Function.hpp"
+#include "../relive_lib/Function.hpp"
 #include "stdlib.hpp"
 #include "../relive_lib/Shadow.hpp"
 #include "Sfx.hpp"
@@ -15,7 +15,7 @@
 #include "FixedPoint.hpp"
 #include "Math.hpp"
 
-const TintEntry kDrillTints_551548[16] = {
+static const TintEntry kDrillTints[16] = {
     {EReliveLevelIds::eMenu, 127u, 127u, 127u},
     {EReliveLevelIds::eMines, 127u, 127u, 127u},
     {EReliveLevelIds::eNecrum, 137u, 137u, 137u},
@@ -61,7 +61,7 @@ Drill::Drill(relive::Path_Drill* pTlv, const Guid& tlvId)
     GetAnimation().SetSemiTrans(true);
     GetAnimation().SetRenderMode(TPageAbr::eBlend_0);
 
-    SetTint(kDrillTints_551548, gMap.mCurrentLevel);
+    SetTint(kDrillTints, gMap.mCurrentLevel);
     relive::Path_Drill tlvData = *pTlv;
 
     mToggleStartState_StartOn = false;
@@ -111,11 +111,11 @@ Drill::Drill(relive::Path_Drill* pTlv, const Guid& tlvId)
     {
         if (mStartPosIsBottom)
         {
-            mState = DrillStates::State_2_GoingUp;
+            mState = DrillStates::eGoingUp_2;
         }
         else
         {
-            mState = DrillStates::State_1_Going_Down;
+            mState = DrillStates::eGoingDown_1;
         }
 
         const CameraPos direction = gMap.GetDirection(
@@ -209,8 +209,8 @@ Drill::Drill(relive::Path_Drill* pTlv, const Guid& tlvId)
             break;
     }
 
-    mMaxOffTime = tlvData.mOnMaxPauseTime;
-    mMinOffTime = tlvData.mOnMinPauseTime;
+    mOnMinPauseTime = tlvData.mOnMinPauseTime;
+    mOnMaxPauseTime = tlvData.mOnMaxPauseTime;
     switch (tlvData.mDrillBehavior)
     {
         case relive::Path_Drill::DrillBehavior::eToggle:
@@ -242,10 +242,10 @@ Drill::Drill(relive::Path_Drill* pTlv, const Guid& tlvId)
         mOffSpeed = FP_FromDouble(0.2);
     }
 
-    field_100_min_off_time_speed_change = tlvData.mOffMinPauseTime;
-    field_102_max_off_time_speed_change = tlvData.mOffMaxPauseTime;
+    mOffMinPauseTime = tlvData.mOffMinPauseTime;
+    mOffMaxPauseTime = tlvData.mOffMaxPauseTime;
     mOffTimer = 0;
-    mState = DrillStates::State_0_Restart_Cycle;
+    mState = DrillStates::eRestartCycle_0;
     mTlvInfo = tlvId;
     mAudioChannelsMask = 0;
 
@@ -258,7 +258,7 @@ s32 Drill::CreateFromSaveState(const u8* pData)
     auto pTlv = static_cast<relive::Path_Drill*>(gPathInfo->TLV_From_Offset_Lvl_Cam(pState->mDrillTlvId));
     auto pDrill = relive_new Drill(pTlv, pState->mDrillTlvId);
 
-    if (pState->mState != DrillStates::State_0_Restart_Cycle)
+    if (pState->mState != DrillStates::eRestartCycle_0)
     {
         switch (pDrill->mDrillDirection)
         {
@@ -293,12 +293,12 @@ void Drill::VUpdate()
 
     switch (mState)
     {
-        case DrillStates::State_0_Restart_Cycle:
+        case DrillStates::eRestartCycle_0:
             if (Expired(mOffTimer) || mToggle)
             {
                 if (!mUseId || (!!SwitchStates_Get(mDrillSwitchId) == mStartOff))
                 {
-                    mState = DrillStates::State_1_Going_Down;
+                    mState = DrillStates::eGoingDown_1;
 
                     switch (mDrillDirection)
                     {
@@ -324,7 +324,7 @@ void Drill::VUpdate()
 
             if (mUseId && !mToggle && FP_GetExponent(mOffSpeed) > 0 && Expired(mOffTimer))
             {
-                mState = DrillStates::State_1_Going_Down;
+                mState = DrillStates::eGoingDown_1;
 
                 switch (mDrillDirection)
                 {
@@ -354,7 +354,7 @@ void Drill::VUpdate()
             }
             break;
 
-        case DrillStates::State_1_Going_Down:
+        case DrillStates::eGoingDown_1:
             if (!mAudioChannelsMask)
             {
                 mAudioChannelsMask = SFX_Play_Camera(relive::SoundEffects::DrillMovement, 25, soundDirection);
@@ -365,13 +365,13 @@ void Drill::VUpdate()
             mXYOff -= mCurrentSpeed;
             if (mXYOff <= FP_FromInteger(0))
             {
-                mState = DrillStates::State_2_GoingUp;
+                mState = DrillStates::eGoingUp_2;
                 SFX_Play_Camera(relive::SoundEffects::DrillCollision, 50, soundDirection, FP_FromInteger(1));
             }
             EmitSparks();
             break;
 
-        case DrillStates::State_2_GoingUp:
+        case DrillStates::eGoingUp_2:
             if (!mAudioChannelsMask)
             {
                 mAudioChannelsMask = SFX_Play_Camera(relive::SoundEffects::DrillMovement, 25, soundDirection);
@@ -388,20 +388,20 @@ void Drill::VUpdate()
                     mAudioChannelsMask = 0;
                 }
 
-                mState = DrillStates::State_0_Restart_Cycle;
+                mState = DrillStates::eRestartCycle_0;
                 SFX_Play_Camera(relive::SoundEffects::DrillCollision, 50, soundDirection);
 
-                s16 max_off = 0;
                 s16 min_off = 0;
+                s16 max_off = 0;
                 if (mSpeedChange)
                 {
-                    max_off = field_102_max_off_time_speed_change;
-                    min_off = field_100_min_off_time_speed_change;
+                    min_off = mOffMinPauseTime;
+                    max_off = mOffMaxPauseTime;
                 }
                 else
                 {
-                    max_off = mMaxOffTime;
-                    min_off = mMinOffTime;
+                    min_off = mOnMinPauseTime;
+                    max_off = mOnMaxPauseTime;
                 }
 
                 mOffTimer = MakeTimer(Math_RandomRange(min_off, max_off));
@@ -446,7 +446,7 @@ Drill::~Drill()
 
 void Drill::VScreenChanged()
 {
-    if (mState != DrillStates::State_0_Restart_Cycle)
+    if (mState != DrillStates::eRestartCycle_0)
     {
         if (mStartPosIsBottom)
         {
@@ -546,11 +546,11 @@ void Drill::EmitSparks()
     if (gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0))
     {
         s32 speed = 0;
-        if (mState == DrillStates::State_1_Going_Down)
+        if (mState == DrillStates::eGoingDown_1)
         {
             speed = -FP_GetExponent(mCurrentSpeed - FP_FromInteger(2));
         }
-        else if (mState == DrillStates::State_2_GoingUp)
+        else if (mState == DrillStates::eGoingUp_2)
         {
             speed = FP_GetExponent(mCurrentSpeed);
         }

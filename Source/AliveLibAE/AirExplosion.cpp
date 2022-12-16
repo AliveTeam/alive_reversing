@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "AirExplosion.hpp"
-#include "Function.hpp"
+#include "../relive_lib/Function.hpp"
 #include "Map.hpp"
 #include "../relive_lib/Particle.hpp"
 #include "../relive_lib/Flash.hpp"

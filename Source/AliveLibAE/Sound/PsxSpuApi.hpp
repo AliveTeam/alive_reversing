@@ -1,8 +1,8 @@
 #pragma once
 
-#include "../AliveLibCommon/Function.hpp"
-#include "../AliveLibAE/Sound/Sound.hpp"
-#include "../AliveLibAE/Io.hpp"
+#include "../../relive_lib/Function.hpp"
+#include "Sound.hpp"
+#include "../Io.hpp"
 
 struct ProgAtr final
 {

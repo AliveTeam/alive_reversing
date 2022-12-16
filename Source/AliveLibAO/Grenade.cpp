@@ -1,5 +1,5 @@
 #include "stdafx_ao.h"
-#include "Function.hpp"
+#include "../relive_lib/Function.hpp"
 #include "Grenade.hpp"
 #include "../AliveLibAE/stdlib.hpp"
 #include "ThrowableArray.hpp"
@@ -54,7 +54,7 @@ Grenade::Grenade(FP xpos, FP ypos, s16 numGrenades)
         mExplodeCountdown = 90;
     }
 
-    field_118 = 0;
+    mBounceCount = 0;
     mExplosionObj = 0;
 }
 
@@ -246,7 +246,7 @@ void Grenade::VUpdate()
 }
 
 
-s16 Grenade::InTheAir()
+bool Grenade::InTheAir()
 {
     mPreviousXPos = mXPos;
     mPreviousYPos = mYPos;
@@ -280,23 +280,23 @@ s16 Grenade::InTheAir()
                 {
                     AddToPlatform();
                 }
-                return 0;
+                return false;
             }
 
             mXPos = hitX;
             mYPos = hitY;
             mVelY = (-mVelY / FP_FromInteger(2));
             mVelX = (mVelX / FP_FromInteger(2));
-            if (field_118 <= 4)
+            if (mBounceCount <= 4)
             {
-                s16 vol = 75 - 20 * field_118;
+                s16 vol = 75 - 20 * mBounceCount;
                 if (vol < 40)
                 {
                     vol = 40;
                 }
 
                 SfxPlayMono(relive::SoundEffects::GrenadeBounce, vol);
-                field_118++;
+                mBounceCount++;
 
                 EventBroadcast(kEventNoise, this);
                 EventBroadcast(kEventSuspiciousNoise, this);
@@ -324,7 +324,7 @@ s16 Grenade::InTheAir()
                     mYPos = hitY;
                     mXPos = hitX;
                     mVelX = (-mVelX / FP_FromInteger(2));
-                    s16 vol = 75 - 20 * field_118;
+                    s16 vol = 75 - 20 * mBounceCount;
                     if (vol < 40)
                     {
                         vol = 40;
@@ -343,7 +343,7 @@ s16 Grenade::InTheAir()
                     mXPos = hitX;
                     mYPos = hitY;
                     mVelX = (-mVelX / FP_FromInteger(2));
-                    s16 vol = 75 - 20 * field_118;
+                    s16 vol = 75 - 20 * mBounceCount;
                     if (vol < 40)
                     {
                         vol = 40;
@@ -357,18 +357,18 @@ s16 Grenade::InTheAir()
                 break;
 
             default:
-                return 1;
+                return true;
         }
     }
 
-    return 1;
+    return true;
 }
 
-s16 Grenade::OnCollision_BounceOff(BaseGameObject* pHit)
+bool Grenade::OnCollision_BounceOff(BaseGameObject* pHit)
 {
     if (!pHit->GetCanExplode())
     {
-        return 1;
+        return true;
     }
 
     auto pHit2 = static_cast<BaseAliveGameObject*>(pHit);
@@ -389,10 +389,10 @@ s16 Grenade::OnCollision_BounceOff(BaseGameObject* pHit)
     pHit2->VOnThrowableHit(this);
 
     SfxPlayMono(relive::SoundEffects::RockBounceOnMine, 0);
-    return 0;
+    return false;
 }
 
-s16 Grenade::BlowUpAfterCountdown()
+bool Grenade::BlowUpAfterCountdown()
 {
     mExplodeCountdown--;
     const s16 timer = mExplodeCountdown;
@@ -403,7 +403,7 @@ s16 Grenade::BlowUpAfterCountdown()
 
     if (timer)
     {
-        return 0;
+        return false;
     }
 
     auto pExplosion = relive_new AirExplosion(
@@ -419,15 +419,15 @@ s16 Grenade::BlowUpAfterCountdown()
     }
 
     relive_new Gibs(GibType::Metal_5, mXPos, mYPos, FP_FromInteger(0), FP_FromInteger(5), GetSpriteScale());
-    return 1;
+    return true;
 }
 
-s16 Grenade::VCanThrow()
+bool Grenade::VCanThrow()
 {
     return false;
 }
 
-s16 Grenade::VIsFalling()
+bool Grenade::VIsFalling()
 {
     return false;
 }

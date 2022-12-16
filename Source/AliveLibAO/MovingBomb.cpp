@@ -1,5 +1,5 @@
 #include "stdafx_ao.h"
-#include "Function.hpp"
+#include "../relive_lib/Function.hpp"
 #include "MovingBomb.hpp"
 #include "../AliveLibAE/stdlib.hpp"
 #include "Map.hpp"
@@ -18,7 +18,7 @@
 #include "Grid.hpp"
 #include "../relive_lib/ObjectIds.hpp"
 #include "Path.hpp"
-#include "../AliveLibCommon/FixedPoint_common.hpp"
+#include "../relive_lib/FixedPoint_common.hpp"
 #include "../AliveLibAE/FixedPoint.hpp"
 
 namespace AO {
@@ -134,21 +134,21 @@ void MovingBomb::VScreenChanged()
     }
 }
 
-s16 MovingBomb::VTakeDamage(BaseGameObject* pFrom)
+bool MovingBomb::VTakeDamage(BaseGameObject* pFrom)
 {
     if (GetDead())
     {
-        return 1;
+        return true;
     }
 
     if (mHealth <= FP_FromInteger(0))
     {
-        return 1;
+        return true;
     }
 
     if (pFrom->Type() != ReliveTypes::eAbilityRing && pFrom->Type() != ReliveTypes::eAirExplosion && pFrom->Type() != ReliveTypes::eShrykull)
     {
-        return 0;
+        return false;
     }
 
     mHealth = FP_FromInteger(0);
@@ -169,7 +169,7 @@ s16 MovingBomb::VTakeDamage(BaseGameObject* pFrom)
     mState = States::eKillMovingBomb_7;
     GetAnimation().SetRender(false);
     mTimer = sGnFrame + 4;
-    return 0;
+    return false;
 }
 
 void MovingBomb::VRender(PrimHeader** ppOt)

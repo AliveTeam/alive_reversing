@@ -1,10 +1,10 @@
 #include "stdafx_ao.h"
 #include "Font.hpp"
-#include "../AliveLibCommon/Primitives_common.hpp"
+#include "../relive_lib/Primitives_common.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
-#include "../AliveLibCommon/Function.hpp"
+#include "../relive_lib/Function.hpp"
 #include "Math.hpp"
-#include "../AliveLibCommon/FatalError.hpp"
+#include "../relive_lib/FatalError.hpp"
 
 namespace AO {
 

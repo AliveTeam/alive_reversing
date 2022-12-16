@@ -12,7 +12,7 @@
 #include "Sfx.hpp"
 #include "AirExplosion.hpp"
 #include "ZapLine.hpp"
-#include "Function.hpp"
+#include "../relive_lib/Function.hpp"
 #include "ZapSpark.hpp"
 #include "Map.hpp"
 #include "Path.hpp"
@@ -94,11 +94,11 @@ void SecurityOrb::VScreenChanged()
     SetDead(true);
 }
 
-s16 SecurityOrb::VTakeDamage(BaseGameObject* pFrom)
+bool SecurityOrb::VTakeDamage(BaseGameObject* pFrom)
 {
     if (GetDead())
     {
-        return 0;
+        return false;
     }
 
     mHealth = FP_FromInteger(0);
@@ -123,7 +123,7 @@ s16 SecurityOrb::VTakeDamage(BaseGameObject* pFrom)
 
     SetDead(true);
 
-    return 1;
+    return true;
 }
 
 void SecurityOrb::VUpdate()

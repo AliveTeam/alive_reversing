@@ -26,7 +26,7 @@
 #include "Slurg.hpp"
 #include "PathDataExtensions.hpp"
 #include "GameAutoPlayer.hpp"
-#include "Function.hpp"
+#include "../relive_lib/Function.hpp"
 #include "../relive_lib/ShadowZone.hpp"
 #include "../relive_lib/ResourceManagerWrapper.hpp"
 #include "GameEnderController.hpp"

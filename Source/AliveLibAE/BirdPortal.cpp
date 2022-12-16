@@ -6,7 +6,7 @@
 #include "../relive_lib/ObjectIds.hpp"
 #include "../relive_lib/SwitchStates.hpp"
 #include "Sound/Midi.hpp"
-#include "Function.hpp"
+#include "../relive_lib/Function.hpp"
 #include "BaseAliveGameObject.hpp"
 #include "Dove.hpp"
 #include "ThrowableTotalIndicator.hpp"
@@ -23,7 +23,7 @@
 #include "AbilityRing.hpp"
 #include "Map.hpp"
 #include "Path.hpp"
-#include "../AliveLibCommon/FatalError.hpp"
+#include "../relive_lib/FatalError.hpp"
 
 void BirdPortal::LoadAnimations()
 {

@@ -1,5 +1,5 @@
 #include "AnimationBase.hpp"
-#include "../AliveLibCommon/Function.hpp"
+#include "../relive_lib/Function.hpp"
 
 DynamicArrayT<AnimationBase>* AnimationBase::gAnimations;
 

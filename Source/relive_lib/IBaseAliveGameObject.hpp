@@ -15,7 +15,7 @@ public:
 
     virtual void VUnPosses();
     virtual void VPossessed();
-    virtual s16 VTakeDamage(BaseGameObject* pFrom);
+    virtual bool VTakeDamage(BaseGameObject* pFrom);
     virtual void VOnTlvCollision(relive::Path_TLV* pTlv);
     virtual void VOnTrapDoorOpen();
     virtual void VSetMotion(s16 state);
@@ -36,7 +36,7 @@ public:
 
     // TODO: Impl here after merge
     virtual void VOnPathTransition(s32 camWorldX, s32 camWorldY, CameraPos direction) = 0;
-    virtual s16 VOnPlatformIntersection(BaseAnimatedWithPhysicsGameObject* pPlatform) = 0;
+    virtual bool VOnPlatformIntersection(BaseAnimatedWithPhysicsGameObject* pPlatform) = 0;
 
     void SetActiveCameraDelayedFromDir();
 

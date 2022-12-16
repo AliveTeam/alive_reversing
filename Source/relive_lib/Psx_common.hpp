@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../AliveLibCommon/Types.hpp"
-#include "../AliveLibCommon/Function.hpp"
+#include "../relive_lib/Types.hpp"
+#include "../relive_lib/Function.hpp"
 #include "FixedPoint_common.hpp"
 
 struct CdlLOC final

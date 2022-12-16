@@ -23,11 +23,11 @@ public:
     virtual void VOnPathTransition(s32 cameraWorldXPos, s32 cameraWorldYPos, CameraPos direction) override;
     virtual void VCheckCollisionLineStillValid(s32 distance);
 
-    static s16 IsInInvisibleZone(IBaseAliveGameObject* pObj);
+    static bool IsInInvisibleZone(IBaseAliveGameObject* pObj);
     virtual BirdPortal* VIntoBirdPortal(s16 gridBlocks);
-    s16 MapFollowMe(s16 snapToGrid);
+    bool MapFollowMe(bool snapToGrid);
 
-    virtual s16 VOnPlatformIntersection(BaseAnimatedWithPhysicsGameObject* pPlatform) override;
+    virtual bool VOnPlatformIntersection(BaseAnimatedWithPhysicsGameObject* pPlatform) override;
 
 protected:
 

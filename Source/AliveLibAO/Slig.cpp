@@ -1,6 +1,6 @@
 #include "stdafx_ao.h"
 #include "AmbientSound.hpp"
-#include "Function.hpp"
+#include "../relive_lib/Function.hpp"
 #include "Slig.hpp"
 #include "Lever.hpp"
 #include "../AliveLibAE/stdlib.hpp"
@@ -31,11 +31,11 @@
 #include "ScreenShake.hpp"
 #include "../relive_lib/SwitchStates.hpp"
 #include <algorithm>
-#include "Psx_common.hpp"
+#include "../relive_lib/Psx_common.hpp"
 #include "AnimationCallBacks.hpp"
 #include "Grid.hpp"
 #include "../AliveLibAE/Sound/Midi.hpp"
-#include "BaseGameAutoPlayer.hpp"
+#include "../relive_lib/BaseGameAutoPlayer.hpp"
 #include "../relive_lib/ObjectIds.hpp"
 #include "../AliveLibAE/FixedPoint.hpp"
 #include "Path.hpp"
@@ -166,7 +166,7 @@ const AnimId sSligMotionAnimIds[] = {
     AnimId::Slig_Beat,
     AnimId::None};
 
-const relive::SfxDefinition sSligSounds_4CFB30[] = {
+static const relive::SfxDefinition sSligSfxSounds[6] = {
     {0, 1, 58, 40, -256, -256},
     {0, 1, 58, 50, 0, 0},
     {0, 1, 59, 60, 0, 0},
@@ -174,7 +174,7 @@ const relive::SfxDefinition sSligSounds_4CFB30[] = {
     {0, 1, 60, 60, 0, 0},
     {0, 1, 61, 60, 0, 0}};
 
-const relive::SfxDefinition sSligSounds2[] = {
+static const relive::SfxDefinition sSligGameSpeakSounds[13] = {
     {0, 62, 60, 127, 0, 0},
     {0, 62, 62, 127, 0, 0},
     {0, 62, 61, 127, 0, 0},
@@ -204,11 +204,11 @@ void Slig::Slig_SoundEffect(SligSfx sfxIdx)
     auto sfxIdxInt = static_cast<s32>(sfxIdx);
     if (GetSpriteScale() == FP_FromInteger(1))
     {
-        volRight = sSligSounds_4CFB30[sfxIdxInt].mDefaultVolume;
+        volRight = sSligSfxSounds[sfxIdxInt].mDefaultVolume;
     }
     else
     {
-        volRight = sSligSounds_4CFB30[sfxIdxInt].mDefaultVolume / 2;
+        volRight = sSligSfxSounds[sfxIdxInt].mDefaultVolume / 2;
     }
     gMap.Get_Camera_World_Rect(dir, &worldRect);
     switch (dir)
@@ -221,7 +221,7 @@ void Slig::Slig_SoundEffect(SligSfx sfxIdx)
         case CameraPos::eCamTop_1:
         case CameraPos::eCamBottom_2:
         {
-            volLeft = sSligSounds_4CFB30[sfxIdxInt].mDefaultVolume * 2 / 3;
+            volLeft = sSligSfxSounds[sfxIdxInt].mDefaultVolume * 2 / 3;
             volRight = volLeft;
             break;
         }
@@ -248,9 +248,9 @@ void Slig::Slig_SoundEffect(SligSfx sfxIdx)
         volRight = volRight * 2 / 3;
     }
     auto pitch = Math_RandomRange(
-        sSligSounds_4CFB30[sfxIdxInt].mPitchMin,
-        sSligSounds_4CFB30[sfxIdxInt].mPitchMin);
-    SFX_SfxDefinition_Play_477330(sSligSounds_4CFB30[sfxIdxInt], static_cast<s16>(volLeft), static_cast<s16>(volRight), pitch, pitch);
+        sSligSfxSounds[sfxIdxInt].mPitchMin,
+        sSligSfxSounds[sfxIdxInt].mPitchMax);
+    SFX_SfxDefinition_Play_477330(sSligSfxSounds[sfxIdxInt], static_cast<s16>(volLeft), static_cast<s16>(volRight), pitch, pitch);
 }
 
 void Slig::LoadAnimations()
@@ -730,7 +730,7 @@ void Slig::VPossessed()
     MusicController::static_PlayMusic(MusicController::MusicTypes::ePossessed_6, this, 1, 0);
 }
 
-s16 Slig::VTakeDamage(BaseGameObject* pFrom)
+bool Slig::VTakeDamage(BaseGameObject* pFrom)
 {
     switch (pFrom->Type())
     {
@@ -790,7 +790,7 @@ s16 Slig::VTakeDamage(BaseGameObject* pFrom)
 
             if (mHealth <= FP_FromInteger(0))
             {
-                return GetAnimation().GetRender() ? 1 : 0;
+                return GetAnimation().GetRender();
             }
 
             if (mCurrentMotion != eSligMotions::Motion_45_Smash && mCurrentMotion != eSligMotions::Motion_35_Knockback)
@@ -800,12 +800,12 @@ s16 Slig::VTakeDamage(BaseGameObject* pFrom)
             }
             mHealth = FP_FromInteger(0);
             EventBroadcast(kEventMudokonComfort, sActiveHero);
-            return 1;
+            return true;
         }
 
         case ReliveTypes::eElectricWall:
             Slig_GameSpeak_SFX(SligSpeak::eHelp_10, 0, mGameSpeakPitchMin, this);
-            return 1;
+            return true;
 
         case ReliveTypes::eGroundExplosion:
         case ReliveTypes::eMeatSaw:
@@ -830,21 +830,21 @@ s16 Slig::VTakeDamage(BaseGameObject* pFrom)
                 VUpdateAnimData();
                 EventBroadcast(kEventMudokonComfort, sActiveHero);
             }
-            return 1;
+            return true;
 
         case ReliveTypes::eAbilityRing:
-            return 1;
+            return true;
 
         case ReliveTypes::eSlog:
             if (mHealth <= FP_FromInteger(0)
                 && (mCurrentMotion == eSligMotions::Motion_35_Knockback || mCurrentMotion == eSligMotions::Motion_45_Smash))
             {
-                return 1;
+                return true;
             }
             mHealth = FP_FromInteger(0);
             SetBrain(&Slig::Brain_Death_46C3A0);
             mbGotShot = true;
-            Environment_SFX_42A220(EnvironmentSfx::eKnockback_13, 0, 0x7FFF, this);
+            Environment_SFX(EnvironmentSfx::eKnockback_13, 0, 0x7FFF, this);
             if (VIsFacingMe(static_cast<BaseAnimatedWithPhysicsGameObject*>(pFrom)))
             {
                 if (GetAnimation().GetFlipX())
@@ -866,7 +866,7 @@ s16 Slig::VTakeDamage(BaseGameObject* pFrom)
                 mNextMotion = eSligMotions::Motion_45_Smash;
                 field_13A_shot_motion = eSligMotions::Motion_45_Smash;
             }
-            return 1;
+            return true;
 
         case ReliveTypes::eBeeSwarm:
             if (mHealth > FP_FromInteger(0))
@@ -881,7 +881,7 @@ s16 Slig::VTakeDamage(BaseGameObject* pFrom)
                     field_13A_shot_motion = eSligMotions::Motion_35_Knockback;
                 }
             }
-            return 1;
+            return true;
 
         case ReliveTypes::eElectrocute:
             if (mHealth > FP_FromInteger(0))
@@ -890,7 +890,7 @@ s16 Slig::VTakeDamage(BaseGameObject* pFrom)
                 mHealth = FP_FromInteger(0);
                 EventBroadcast(kEventMudokonComfort, sActiveHero);
             }
-            return 1;
+            return true;
 
         case ReliveTypes::eBat:
             break;
@@ -911,7 +911,7 @@ s16 Slig::VTakeDamage(BaseGameObject* pFrom)
         field_13A_shot_motion = eSligMotions::Motion_45_Smash;
         mbGotShot = true;
     }
-    return 1;
+    return true;
 }
 
 enum Brain_DeathDropDeath
@@ -948,41 +948,41 @@ void Slig::VOnTlvCollision(relive::Path_TLV* pTlv)
     }
 }
 
-s16 Slig::VOnSameYLevel(BaseAnimatedWithPhysicsGameObject* pOther)
+bool Slig::VOnSameYLevel(BaseAnimatedWithPhysicsGameObject* pOther)
 {
     PSX_RECT ourRect = VGetBoundingRect();
     PSX_RECT objRect = pOther->VGetBoundingRect();
     return ((objRect.y + objRect.h) / 2) <= ourRect.h && objRect.h >= ourRect.y;
 }
 
-s16 Slig::VIsFacingMe(BaseAnimatedWithPhysicsGameObject* pWho)
+bool Slig::VIsFacingMe(BaseAnimatedWithPhysicsGameObject* pWho)
 {
     if (mCurrentMotion != eSligMotions::Motion_5_TurnAroundStanding
         || GetAnimation().GetCurrentFrame() < 6)
     {
         if (pWho->mXPos <= mXPos && GetAnimation().GetFlipX())
         {
-            return 1;
+            return true;
         }
 
         if (pWho->mXPos >= mXPos && !GetAnimation().GetFlipX())
         {
-            return 1;
+            return true;
         }
     }
     else
     {
         if (pWho->mXPos <= mXPos && !GetAnimation().GetFlipX())
         {
-            return 1;
+            return true;
         }
 
         if (pWho->mXPos >= mXPos && GetAnimation().GetFlipX())
         {
-            return 1;
+            return true;
         }
     }
-    return 0;
+    return false;
 }
 
 void Slig::VUpdateAnimData()
@@ -1607,7 +1607,7 @@ void Slig::Slig_GameSpeak_SFX(SligSpeak effectId, s32 defaultVol, s32 pitch_min,
     s32 volume = defaultVol;
     if (defaultVol == 0)
     {
-        volume = sSligSounds2[static_cast<s32>(effectId)].mDefaultVolume;
+        volume = sSligGameSpeakSounds[static_cast<s32>(effectId)].mDefaultVolume;
     }
     if (pObj)
     {
@@ -1616,7 +1616,7 @@ void Slig::Slig_GameSpeak_SFX(SligSpeak effectId, s32 defaultVol, s32 pitch_min,
             volume = FP_GetExponent(FP_FromInteger(volume * 2) / FP_FromInteger(3));
         }
     }
-    SFX_SfxDefinition_Play_Mono(sSligSounds2[static_cast<s32>(effectId)], volume, pitch_min, pitch_min);
+    SFX_SfxDefinition_Play_Mono(sSligGameSpeakSounds[static_cast<s32>(effectId)], volume, pitch_min, pitch_min);
 }
 
 s16 Slig::IsInInvisibleZone(BaseAnimatedWithPhysicsGameObject* pObj)
@@ -2331,7 +2331,7 @@ s16 Slig::MainMovement()
 
 void Slig::ToKnockBack()
 {
-    Environment_SFX_42A220(EnvironmentSfx::eKnockback_13, 0, 0x7FFF, this);
+    Environment_SFX(EnvironmentSfx::eKnockback_13, 0, 0x7FFF, this);
 
     mXPos -= mVelX;
 
@@ -2951,7 +2951,7 @@ void Slig::Motion_9_SlidingToStand()
             {
                 if (GetAnimation().GetIsLastFrame())
                 {
-                    Environment_SFX_42A220(EnvironmentSfx::eSlideStop_0, 0, 0x7FFF, this);
+                    Environment_SFX(EnvironmentSfx::eSlideStop_0, 0, 0x7FFF, this);
                     MapFollowMe(1);
                     MainMovement();
                 }
@@ -3406,7 +3406,7 @@ void Slig::Motion_35_Knockback()
          || gMap.mCurrentLevel == EReliveLevelIds::eBoardRoom)
         && GetAnimation().GetCurrentFrame() == 4)
     {
-        Environment_SFX_42A220(EnvironmentSfx::eHitGroundSoft_6, 80, -200, this);
+        Environment_SFX(EnvironmentSfx::eHitGroundSoft_6, 80, -200, this);
     }
 
     if (GetAnimation().GetForwardLoopCompleted())
@@ -3647,7 +3647,7 @@ void Slig::Motion_41_LandingSoft()
 {
     if (!GetAnimation().GetCurrentFrame())
     {
-        Environment_SFX_42A220(EnvironmentSfx::eHitGroundSoft_6, 0, 0x7FFF, 0);
+        Environment_SFX(EnvironmentSfx::eHitGroundSoft_6, 0, 0x7FFF, 0);
     }
 
     if (GetAnimation().GetIsLastFrame())
@@ -3730,7 +3730,7 @@ void Slig::Motion_45_Smash()
     {
         if (GetAnimation().GetCurrentFrame() == 4)
         {
-            Environment_SFX_42A220(EnvironmentSfx::eHitGroundSoft_6, 80, -200, this);
+            Environment_SFX(EnvironmentSfx::eHitGroundSoft_6, 80, -200, this);
         }
     }
     else
@@ -4476,7 +4476,7 @@ s16 Slig::Brain_DeathDropDeath()
                 return mBrainSubState;
             }
 
-            Environment_SFX_42A220(EnvironmentSfx::eFallingDeathScreamHitGround_15, 0, 32767, this);
+            Environment_SFX(EnvironmentSfx::eFallingDeathScreamHitGround_15, 0, 32767, this);
 
             relive_new ScreenShake(0);
             field_114_timer = sGnFrame + 30;

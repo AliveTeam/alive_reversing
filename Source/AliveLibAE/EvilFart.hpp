@@ -46,7 +46,7 @@ public:
     EvilFart();
 
     virtual void VUpdate() override;
-    virtual s16 VTakeDamage(BaseGameObject* pFrom) override;
+    virtual bool VTakeDamage(BaseGameObject* pFrom) override;
     virtual void VPossessed() override;
     virtual s32 VGetSaveState(u8* pSaveBuffer) override;
 

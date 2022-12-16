@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "CrawlingSlig.hpp"
-#include "Function.hpp"
+#include "../relive_lib/Function.hpp"
 #include "../relive_lib/Shadow.hpp"
 #include "stdlib.hpp"
 #include "../relive_lib/Collisions.hpp"
@@ -579,7 +579,7 @@ void CrawlingSlig::VOnTlvCollision(relive::Path_TLV* pTlv)
     }
 }
 
-s16 CrawlingSlig::VTakeDamage(BaseGameObject* pFrom)
+bool CrawlingSlig::VTakeDamage(BaseGameObject* pFrom)
 {
     if (!BrainIs(&CrawlingSlig::Brain_5_Transformed))
     {
@@ -599,11 +599,11 @@ s16 CrawlingSlig::VTakeDamage(BaseGameObject* pFrom)
                     mBrainSubState = Brain_4_GetKilled::eBrain4_GibsDeath_2;
                     EventBroadcast(kEventMudokonComfort, this);
                 }
-                return 1;
+                return true;
 
             case ReliveTypes::eElectricWall:
                 Slig_GameSpeak_SFX(SligSpeak::eHelp_10, 0, 0, this);
-                return 1;
+                return true;
 
             case ReliveTypes::eSlig:
             {
@@ -615,7 +615,7 @@ s16 CrawlingSlig::VTakeDamage(BaseGameObject* pFrom)
                 {
                     SetBrain(&CrawlingSlig::Brain_4_GetKilled);
                     mBrainSubState = Brain_4_GetKilled::eBrain4_GibsDeath_2;
-                    return 0;
+                    return false;
                 }
 
                 Set_AnimAndMotion(CrawlingSligMotion::Motion_7_ToShakingToIdle, true);
@@ -635,7 +635,7 @@ s16 CrawlingSlig::VTakeDamage(BaseGameObject* pFrom)
                     mBrainSubState = Brain_2_PanicGetALocker::eBrain2_BeatBySlig_10;
                 }
             }
-                return 1;
+                return false;
 
             case ReliveTypes::eSlog:
                 if (!BrainIs(&CrawlingSlig::Brain_4_GetKilled))
@@ -650,7 +650,7 @@ s16 CrawlingSlig::VTakeDamage(BaseGameObject* pFrom)
                     Set_AnimAndMotion(CrawlingSligMotion::Motion_13_Empty, true);
                     EventBroadcast(kEventMudokonComfort, this);
                 }
-                return 1;
+                return false;
 
             case ReliveTypes::eElectrocute:
                 if (!BrainIs(&CrawlingSlig::Brain_4_GetKilled))
@@ -662,13 +662,13 @@ s16 CrawlingSlig::VTakeDamage(BaseGameObject* pFrom)
                     mBrainSubState = Brain_4_GetKilled::eBrain4_SetDead_3;
                     EventBroadcast(kEventMudokonComfort, this);
                 }
-                return 1;
+                return true;
 
             default:
-                return 1;
+                return true;
         }
     }
-    return 1;
+    return true;
 }
 
 void CrawlingSlig::SetBrain(TCrawlingSligBrainFn fn)

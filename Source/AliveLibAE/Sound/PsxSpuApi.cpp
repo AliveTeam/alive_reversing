@@ -1,13 +1,13 @@
 #include "../stdafx.h"
 #include "PsxSpuApi.hpp"
-#include "Function.hpp"
+#include "../../relive_lib/Function.hpp"
 #include "../Io.hpp"
 #include "../stdlib.hpp"
 #include "../ResourceManager.hpp"
 #include "Sound.hpp"    // SoundEntry structure
 #include "../Sys.hpp"      // SYS_GetTicks
 #include <assert.h>
-#include "../AliveLibCommon/FatalError.hpp"
+#include "../../relive_lib/FatalError.hpp"
 #include <algorithm>
 
 // TODO: Refactor + remove these

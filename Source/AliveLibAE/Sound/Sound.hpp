@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../AliveLibCommon/Function.hpp"
-#include "relive_config.h"
+#include "../../relive_lib/Function.hpp"
+#include "../../relive_lib/relive_config.h"
 
 
 #if !USE_SDL2_SOUND

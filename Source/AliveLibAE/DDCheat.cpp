@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "DDCheat.hpp"
 #include "stdlib.hpp"
-#include "Function.hpp"
+#include "../relive_lib/Function.hpp"
 #include "Map.hpp"
 #include "Movie.hpp"
 #include "PathData.hpp"

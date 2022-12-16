@@ -1,4 +1,4 @@
-#include "../../AliveLibCommon/stdafx_common.h"
+#include "../../relive_lib/stdafx.h"
 #include "TypesCollectionBase.hpp"
 #include "TlvObjectBase.hpp"
 #include "../../AliveLibAO/PathData.hpp"

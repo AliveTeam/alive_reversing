@@ -2,7 +2,7 @@
 
 #include <GL/glew.h>
 
-#include "../AliveLibCommon/Types.hpp"
+#include "../../../relive_lib/Types.hpp"
 
 struct SDL_Window;
 

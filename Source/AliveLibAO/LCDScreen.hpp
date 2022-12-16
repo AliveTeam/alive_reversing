@@ -3,7 +3,7 @@
 #include "../relive_lib/BaseGameObject.hpp"
 #include "PathData.hpp"
 #include "Font.hpp"
-#include "../AliveLibCommon/Primitives_common.hpp"
+#include "../relive_lib/Primitives_common.hpp"
 
 struct StringTable;
 

@@ -5,16 +5,14 @@
 
 enum class DrillStates : s16
 {
-    State_0_Restart_Cycle = 0,
-    State_1_Going_Down = 1,
-    State_2_GoingUp = 2,
+    eRestartCycle_0 = 0,
+    eGoingDown_1 = 1,
+    eGoingUp_2 = 2,
 };
 
 struct DrillSaveState final
 {
     ReliveTypes mType;
-    s16 field_2_padding;
-    s32 field_4_padding;
     Guid mDrillTlvId;
     s32 mOffTimer;
     DrillStates mState;
@@ -41,14 +39,14 @@ private:
     s16 DamageTouchingObjects();
 
 private:
-    DrillStates mState = DrillStates::State_0_Restart_Cycle;
+    DrillStates mState = DrillStates::eRestartCycle_0;
     s16 mDrillDistance = 0;
     s16 mDrillSwitchId = 0;
     relive::Path_Drill::DrillDirection mDrillDirection = relive::Path_Drill::DrillDirection::eDown;
-    s16 mMinOffTime = 0;
-    s16 mMaxOffTime = 0;
-    s16 field_100_min_off_time_speed_change = 0;
-    s16 field_102_max_off_time_speed_change = 0;
+    s16 mOnMinPauseTime = 0;
+    s16 mOnMaxPauseTime = 0;
+    s16 mOffMinPauseTime = 0;
+    s16 mOffMaxPauseTime = 0;
     Guid mTlvInfo;
     s32 mOffTimer = 0;
     s32 mAudioChannelsMask = 0;

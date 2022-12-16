@@ -1,11 +1,11 @@
 #include "stdafx.h"
-#include "relive_config.h"
+#include "../relive_lib/relive_config.h"
 #include "Io.hpp"
-#include "Function.hpp"
+#include "../relive_lib/Function.hpp"
 #include "stdlib.hpp"
-#include "Masher.hpp"
+#include "../relive_lib/Masher.hpp"
 #include <gmock/gmock.h>
-#include "../AliveLibCommon/FatalError.hpp"
+#include "../relive_lib/FatalError.hpp"
 
 #if !_WIN32
     #include <dirent.h>

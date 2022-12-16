@@ -5,7 +5,7 @@
 #include "Math.hpp"
 #include "stdlib.hpp"
 #include "../relive_lib/ScreenManager.hpp"
-#include "AnimResources.hpp"
+#include "../relive_lib/AnimResources.hpp"
 #include "Map.hpp"
 #include "FixedPoint.hpp"
 

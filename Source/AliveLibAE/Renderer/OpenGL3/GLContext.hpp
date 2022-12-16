@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/Sys_common.hpp"
+#include "../../../relive_lib/Sys_common.hpp"
 
 typedef void* SDL_GLContext;
 

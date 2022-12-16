@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../relive_lib/MapWrapper.hpp"
-#include "../AliveLibCommon/FixedPoint_common.hpp"
+#include "../relive_lib/FixedPoint_common.hpp"
 
 enum class ReliveTypes : s16;
 class CamResource;

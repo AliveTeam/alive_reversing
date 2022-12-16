@@ -2,7 +2,7 @@
 
 #include <vector>
 #include <string>
-#include "../../AliveLibCommon/Types.hpp"
+#include "../Types.hpp"
 
 class string_util final
 {

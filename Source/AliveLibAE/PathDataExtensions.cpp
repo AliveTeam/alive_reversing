@@ -1,6 +1,6 @@
 #include "PathDataExtensions.hpp"
 #include "LCDScreen.hpp"
-#include "../AliveLibCommon/PathDataExtensionsTypes.hpp"
+#include "../relive_lib/PathDataExtensionsTypes.hpp"
 #include "../relive_lib/MapWrapper.hpp"
 
 struct MudCounts final

@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "UXB.hpp"
-#include "Function.hpp"
+#include "../relive_lib/Function.hpp"
 #include "stdlib.hpp"
 #include "../relive_lib/Events.hpp"
 #include "Sfx.hpp"
@@ -290,11 +290,11 @@ void UXB::VScreenChanged()
     }
 }
 
-s16 UXB::VTakeDamage(BaseGameObject* pFrom)
+bool UXB::VTakeDamage(BaseGameObject* pFrom)
 {
     if (GetDead())
     {
-        return 0;
+        return false;
     }
 
     switch (pFrom->Type())
@@ -303,7 +303,7 @@ s16 UXB::VTakeDamage(BaseGameObject* pFrom)
         case ReliveTypes::eMudokon:
             if (mCurrentState == UXBState::eDeactivated)
             {
-                return 0;
+                return false;
             }
             break;
 
@@ -314,7 +314,7 @@ s16 UXB::VTakeDamage(BaseGameObject* pFrom)
             break;
 
         default:
-            return 0;
+            return false;
     }
 
     SetDead(true);
@@ -324,7 +324,7 @@ s16 UXB::VTakeDamage(BaseGameObject* pFrom)
     mCurrentState = UXBState::eExploding;
     mNextStateTimer = sGnFrame;
 
-    return 1;
+    return true;
 }
 
 void UXB::VOnThrowableHit(BaseGameObject* /*pFrom*/)

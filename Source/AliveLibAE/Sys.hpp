@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/Sys_common.hpp"
+#include "../relive_lib/Sys_common.hpp"
 
 void Sys_SetWindowText(TWindowHandleType windowHandle, const char_type* title);
 enum class MouseButtons

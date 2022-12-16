@@ -12,8 +12,7 @@ compile_commands.json
 *.db
 **/build*
 CMakeSettings.json
-Source/AliveLibCommon/relive_config.h
+Source/relive_lib/relive_config.h
 Scripts/Hex2Bits.py
 
-/Source/AliveExe/resource.aps
 /Source/relive/resource.aps

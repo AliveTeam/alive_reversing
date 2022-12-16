@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/Types.hpp"
+#include "../relive_lib/Types.hpp"
 #include "DynamicArray.hpp"
 #include "../relive_lib/data_conversion/guid.hpp"
 #include "../relive_lib/ResourceManagerWrapper.hpp"

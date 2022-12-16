@@ -4,7 +4,7 @@
 
 #include "../../AliveLibAO/Path.hpp"
 
-#include "../../AliveLibCommon/Types.hpp"
+#include "../../relive_lib/Types.hpp"
 
 #include <string>
 #include <utility>

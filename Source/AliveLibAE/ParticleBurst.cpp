@@ -2,7 +2,7 @@
 #include "ParticleBurst.hpp"
 #include "Math.hpp"
 #include "Game.hpp"
-#include "Function.hpp"
+#include "../relive_lib/Function.hpp"
 #include "../relive_lib/Events.hpp"
 #include "Sfx.hpp"
 #include "../relive_lib/ScreenManager.hpp"

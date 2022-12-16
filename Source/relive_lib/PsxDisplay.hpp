@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../AliveLibCommon/pch_shared.h"
-#include "../AliveLibCommon/Psx_common.hpp"
+#include "../relive_lib/pch_shared.h"
+#include "../relive_lib/Psx_common.hpp"
 #include "../AliveLibAE/FixedPoint.hpp"
 
 // 368*40/23 =640

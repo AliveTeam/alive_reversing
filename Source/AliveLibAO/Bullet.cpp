@@ -1,7 +1,7 @@
 #include "stdafx_ao.h"
 #include "Abe.hpp"
 #include "Bullet.hpp"
-#include "Function.hpp"
+#include "../relive_lib/Function.hpp"
 #include "Map.hpp"
 #include "../AliveLibAE/stdlib.hpp"
 #include "Spark.hpp"

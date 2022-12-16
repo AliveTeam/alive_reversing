@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "DoorFlame.hpp"
-#include "Function.hpp"
+#include "../relive_lib/Function.hpp"
 #include "../relive_lib/SwitchStates.hpp"
 #include "stdlib.hpp"
 #include "../relive_lib/SwitchStates.hpp"

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "BaseGameAutoPlayer.hpp"
+#include "../relive_lib/BaseGameAutoPlayer.hpp"
 
 class BaseGameObject;
 

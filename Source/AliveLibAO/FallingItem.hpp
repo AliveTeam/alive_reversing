@@ -1,8 +1,8 @@
 #pragma once
 
-#include "../AliveLibCommon/Function.hpp"
+#include "../relive_lib/Function.hpp"
 #include "BaseAliveGameObject.hpp"
-#include "../AliveLibCommon/AnimResources.hpp"
+#include "../relive_lib/AnimResources.hpp"
 #include "../relive_lib/data_conversion/relive_tlvs.hpp"
 
 namespace AO {

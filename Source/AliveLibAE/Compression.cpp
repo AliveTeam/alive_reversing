@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Compression.hpp"
-#include "PtrStream.hpp"
-#include "CompressionType_4Or5.hpp"
+#include "../relive_lib/PtrStream.hpp"
+#include "../relive_lib/CompressionType_4Or5.hpp"
 
 static bool Expand3To4Bytes(s32& remainingCount, PtrStream& stream, u8* ret, u32& dstPos)
 {

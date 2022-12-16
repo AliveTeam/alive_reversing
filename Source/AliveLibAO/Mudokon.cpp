@@ -1,5 +1,5 @@
 #include "stdafx_ao.h"
-#include "Function.hpp"
+#include "../relive_lib/Function.hpp"
 #include "Mudokon.hpp"
 #include "GameSpeak.hpp"
 #include "../relive_lib/Shadow.hpp"
@@ -28,7 +28,7 @@
 #include "AbilityRing.hpp"
 #include "CheatController.hpp"
 #include "Grid.hpp"
-#include "../AliveLibCommon/FatalError.hpp"
+#include "../relive_lib/FatalError.hpp"
 #include "../relive_lib/ObjectIds.hpp"
 #include "Path.hpp"
 
@@ -592,7 +592,7 @@ void Mudokon::VScreenChanged()
     }
 }
 
-s16 Mudokon::VTakeDamage(BaseGameObject* pFrom)
+bool Mudokon::VTakeDamage(BaseGameObject* pFrom)
 {
     switch (pFrom->Type())
     {
@@ -602,11 +602,11 @@ s16 Mudokon::VTakeDamage(BaseGameObject* pFrom)
                 field_1B8_brain_state = 15;
                 field_1BA_brain_sub_state = 0;
             }
-            return 1;
+            return true;
 
         case ReliveTypes::eElectricWall:
             Mudokon_SFX(MudSounds::eDeathDropScream_17, 0, 0, this);
-            return 1;
+            return true;
 
         case ReliveTypes::eGroundExplosion:
         case ReliveTypes::eMeatSaw:
@@ -634,10 +634,10 @@ s16 Mudokon::VTakeDamage(BaseGameObject* pFrom)
                 SetDead(true);
                 EventBroadcast(kEventMudokonDead, sActiveHero);
             }
-            return 1;
+            return true;
 
         case ReliveTypes::eAbilityRing:
-            return 0;
+            return false;
 
         case ReliveTypes::eBullet:
             mbGotShot = true;
@@ -666,7 +666,7 @@ s16 Mudokon::VTakeDamage(BaseGameObject* pFrom)
                 EventBroadcast(kEventMudokonDead, sActiveHero);
                 return DoSmashDamage();
             }
-            return 1;
+            return true;
 
         case ReliveTypes::eRockSpawner:
             EventBroadcast(kEventMudokonDead, sActiveHero);
@@ -682,7 +682,7 @@ s16 Mudokon::VTakeDamage(BaseGameObject* pFrom)
                 SetDead(true);
                 mHealth = FP_FromInteger(0);
             }
-            return 1;
+            return true;
 
         case ReliveTypes::eSlog:
             if (mHealth > FP_FromInteger(0))
@@ -694,7 +694,7 @@ s16 Mudokon::VTakeDamage(BaseGameObject* pFrom)
                 SetCurrentMotion(eMudMotions::Motion_46_FallLandDie);
                 VUpdateResBlock();
             }
-            return 1;
+            return true;
 
         case ReliveTypes::eBeeSwarm:
             if (mHealth > FP_FromInteger(0))
@@ -708,7 +708,7 @@ s16 Mudokon::VTakeDamage(BaseGameObject* pFrom)
                 else
                 {
                     Mudokon_SFX(MudSounds::eKnockbackOuch_10, 0, 1000, this);
-                    Environment_SFX_42A220(EnvironmentSfx::eDeathNoise_7, 0, 0x7FFF, this);
+                    Environment_SFX(EnvironmentSfx::eDeathNoise_7, 0, 0x7FFF, this);
                     mPersist = false;
                     mHealth = FP_FromInteger(0);
                     field_1B8_brain_state = 11;
@@ -718,7 +718,7 @@ s16 Mudokon::VTakeDamage(BaseGameObject* pFrom)
                     VUpdateResBlock();
                 }
             }
-            return 1;
+            return true;
 
         default:
             if (mHealth > FP_FromInteger(0))
@@ -741,11 +741,11 @@ s16 Mudokon::VTakeDamage(BaseGameObject* pFrom)
                     field_1C0_timer = sGnFrame + 90;
                 }
             }
-            return 1;
+            return true;
     }
 }
 
-s16 Mudokon::DoSmashDamage()
+bool Mudokon::DoSmashDamage()
 {
     if (mHealth > FP_FromInteger(0))
     {
@@ -757,9 +757,9 @@ s16 Mudokon::DoSmashDamage()
         SetNextMotion(-1);
         VUpdateResBlock();
         Mudokon_SFX(MudSounds::eKnockbackOuch_10, 0, Math_RandomRange(-127, 127), this);
-        return 1;
+        return true;
     }
-    return 0;
+    return false;
 }
 
 void Mudokon::KillBirdPortal()
@@ -949,7 +949,7 @@ s16 Mudokon::CanAbeSneak(Mudokon* /*pMud*/)
 
 void Mudokon::ToKnockback()
 {
-    Environment_SFX_42A220(EnvironmentSfx::eKnockback_13, 0, 0x7FFF, this);
+    Environment_SFX(EnvironmentSfx::eKnockback_13, 0, 0x7FFF, this);
 
     if (mVelX > FP_FromInteger(0))
     {
@@ -971,7 +971,7 @@ void Mudokon::ToKnockback()
         mVelY = FP_FromInteger(0);
     }
 
-    Environment_SFX_42A220(EnvironmentSfx::eKnockback_13, 0, 0x7FFF, this);
+    Environment_SFX(EnvironmentSfx::eKnockback_13, 0, 0x7FFF, this);
     SetCurrentMotion(eMudMotions::Motion_47_Knockback);
 }
 
@@ -1064,7 +1064,7 @@ s16 Mudokon::FindBirdPortal()
     {
         if (field_1AC_pBirdPortal->mPortalType == relive::Path_BirdPortal::PortalType::eWorker || field_1AC_pBirdPortal->mPortalType == relive::Path_BirdPortal::PortalType::eShrykull)
         {
-            sActiveHero->ChangeChantState_430510(1);
+            sActiveHero->ChangeChantState(1);
             field_1AC_pBirdPortal->mBaseGameObjectRefCount++;
             sMudRunningToPortalCount_507B94++;
             return 1;
@@ -1320,7 +1320,7 @@ void Mudokon::Motion_1_WalkLoop()
                     break;
 
                 case 5:
-                    Environment_SFX_42A220(EnvironmentSfx::eWalkingFootstep_1, 0, 0x7FFF, this);
+                    Environment_SFX(EnvironmentSfx::eWalkingFootstep_1, 0, 0x7FFF, this);
                     if (!mBit7_Unknown)
                     {
                         mBit7_Unknown = true;
@@ -1348,7 +1348,7 @@ void Mudokon::Motion_1_WalkLoop()
                     break;
 
                 case 14:
-                    Environment_SFX_42A220(EnvironmentSfx::eWalkingFootstep_1, 0, 0x7FFF, this);
+                    Environment_SFX(EnvironmentSfx::eWalkingFootstep_1, 0, 0x7FFF, this);
                     if (!mBit7_Unknown)
                     {
                         mBit7_Unknown = true;
@@ -1381,7 +1381,7 @@ void Mudokon::Motion_2_StandingTurn()
 
     if (GetAnimation().GetCurrentFrame() == 0)
     {
-        Environment_SFX_42A220(EnvironmentSfx::eGenericMovement_9, 0, 0x7FFF, this);
+        Environment_SFX(EnvironmentSfx::eGenericMovement_9, 0, 0x7FFF, this);
     }
 
     if (GetAnimation().GetIsLastFrame())
@@ -1457,7 +1457,7 @@ void Mudokon::Motion_8_WalkToIdle()
 
         if (GetAnimation().GetCurrentFrame() == 0)
         {
-            Environment_SFX_42A220(EnvironmentSfx::eWalkingFootstep_1, 0, 0x7FFF, this);
+            Environment_SFX(EnvironmentSfx::eWalkingFootstep_1, 0, 0x7FFF, this);
             return;
         }
 
@@ -1783,7 +1783,7 @@ void Mudokon::Motion_29_RunLoop()
         }
         else if (GetAnimation().GetCurrentFrame() == 4 || GetAnimation().GetCurrentFrame() == 12)
         {
-            Environment_SFX_42A220(EnvironmentSfx::eRunningFootstep_2, 0, 0x7FFF, this);
+            Environment_SFX(EnvironmentSfx::eRunningFootstep_2, 0, 0x7FFF, this);
             if (!mBit7_Unknown)
             {
                 mBit7_Unknown = true;
@@ -1814,13 +1814,13 @@ void Mudokon::Motion_29_RunLoop()
                 case eMudMotions::Motion_0_Idle:
                     SetCurrentMotion(eMudMotions::Motion_32_RunSlideStop);
                     SetNextMotion(-1);
-                    Environment_SFX_42A220(EnvironmentSfx::eRunSlide_4, 0, 0x7FFF, this);
+                    Environment_SFX(EnvironmentSfx::eRunSlide_4, 0, 0x7FFF, this);
                     return;
 
                 case eMudMotions::Motion_33_RunSlideTurn:
                     SetCurrentMotion(eMudMotions::Motion_33_RunSlideTurn);
                     SetNextMotion(-1);
-                    Environment_SFX_42A220(EnvironmentSfx::eRunSlide_4, 0, 0x7FFF, this);
+                    Environment_SFX(EnvironmentSfx::eRunSlide_4, 0, 0x7FFF, this);
                     return;
 
                 case eMudMotions::Motion_44_RunJumpMid:
@@ -1913,7 +1913,7 @@ void Mudokon::Motion_32_RunSlideStop()
         {
             if (GetAnimation().GetIsLastFrame())
             {
-                Environment_SFX_42A220(EnvironmentSfx::eWalkingFootstep_1, 0, 0x7FFF, this);
+                Environment_SFX(EnvironmentSfx::eWalkingFootstep_1, 0, 0x7FFF, this);
                 MapFollowMe(mSnapToGrid);
                 ToStand();
             }
@@ -1997,7 +1997,7 @@ void Mudokon::Motion_35_SneakLoop()
                     break;
 
                 case 6:
-                    Environment_SFX_42A220(EnvironmentSfx::eSneakFootstep_3, 0, 0x7FFF, this);
+                    Environment_SFX(EnvironmentSfx::eSneakFootstep_3, 0, 0x7FFF, this);
                     MapFollowMe(mSnapToGrid);
 
                     if (GetNextMotion() == eMudMotions::Motion_1_WalkLoop || GetNextMotion() == eMudMotions::Motion_29_RunLoop)
@@ -2016,7 +2016,7 @@ void Mudokon::Motion_35_SneakLoop()
                     break;
 
                 case 16:
-                    Environment_SFX_42A220(EnvironmentSfx::eSneakFootstep_3, 0, 0x7FFF, this);
+                    Environment_SFX(EnvironmentSfx::eSneakFootstep_3, 0, 0x7FFF, this);
                     MapFollowMe(mSnapToGrid);
 
                     if (GetNextMotion() == eMudMotions::Motion_1_WalkLoop || GetNextMotion() == eMudMotions::Motion_29_RunLoop)
@@ -2188,7 +2188,7 @@ void Mudokon::Motion_43_RunJumpBegin()
 
     if (GetAnimation().GetCurrentFrame() == 0)
     {
-        Environment_SFX_42A220(EnvironmentSfx::eRunJumpOrLedgeHoist_11, 0, 0x7FFF, this);
+        Environment_SFX(EnvironmentSfx::eRunJumpOrLedgeHoist_11, 0, 0x7FFF, this);
     }
 
     if (GetAnimation().GetIsLastFrame())
@@ -2280,7 +2280,7 @@ void Mudokon::Motion_46_FallLandDie()
 {
     if (GetAnimation().GetCurrentFrame() == 4)
     {
-        Environment_SFX_42A220(EnvironmentSfx::eKnockback_13, 0, 0x7FFF, this);
+        Environment_SFX(EnvironmentSfx::eKnockback_13, 0, 0x7FFF, this);
     }
 
     if ((gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarms
@@ -2288,7 +2288,7 @@ void Mudokon::Motion_46_FallLandDie()
          || gMap.mCurrentLevel == EReliveLevelIds::eBoardRoom)
         && GetAnimation().GetCurrentFrame() == 7)
     {
-        Environment_SFX_42A220(EnvironmentSfx::eHitGroundSoft_6, 80, -200, this);
+        Environment_SFX(EnvironmentSfx::eHitGroundSoft_6, 80, -200, this);
     }
 
     CheckFloorGone();
@@ -2310,7 +2310,7 @@ void Mudokon::Motion_47_Knockback()
          || gMap.mCurrentLevel == EReliveLevelIds::eBoardRoom)
         && GetAnimation().GetCurrentFrame() == 7)
     {
-        Environment_SFX_42A220(EnvironmentSfx::eHitGroundSoft_6, 80, -200, this);
+        Environment_SFX(EnvironmentSfx::eHitGroundSoft_6, 80, -200, this);
     }
 
     if (!BaseAliveGameObjectCollisionLine)
@@ -2362,11 +2362,11 @@ void Mudokon::Motion_50_LandSoft()
     {
         if (GetPreviousMotion() == eMudMotions::Motion_51_Fall)
         {
-            Environment_SFX_42A220(EnvironmentSfx::eLandingSoft_5, 0, 0x7FFF, this);
+            Environment_SFX(EnvironmentSfx::eLandingSoft_5, 0, 0x7FFF, this);
         }
         else
         {
-            Environment_SFX_42A220(EnvironmentSfx::eHitGroundSoft_6, 0, 0x7FFF, this);
+            Environment_SFX(EnvironmentSfx::eHitGroundSoft_6, 0, 0x7FFF, this);
         }
     }
 
@@ -2593,7 +2593,7 @@ void Mudokon::Motion_61_DuckKnockback()
 {
     if (GetAnimation().GetCurrentFrame() == 1)
     {
-        Environment_SFX_42A220(EnvironmentSfx::eGenericMovement_9, 0, 0x7FFF, this);
+        Environment_SFX(EnvironmentSfx::eGenericMovement_9, 0, 0x7FFF, this);
     }
 
     CheckFloorGone();
@@ -4328,7 +4328,7 @@ s16 Mudokon::Brain_13_FallAndSmackDeath()
 
             if (static_cast<s32>(sGnFrame) > field_1C0_timer)
             {
-                Environment_SFX_42A220(EnvironmentSfx::eFallingDeathScreamHitGround_15, 0, 0x7FFF, this);
+                Environment_SFX(EnvironmentSfx::eFallingDeathScreamHitGround_15, 0, 0x7FFF, this);
                 relive_new ScreenShake(0);
                 SetDead(true);
             }
