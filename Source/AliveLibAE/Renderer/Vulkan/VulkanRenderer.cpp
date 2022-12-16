@@ -1110,7 +1110,7 @@ void VulkanRenderer::updateUniformBuffer(uint32_t currentImage)
     UniformBufferObject ubo{};
     ubo.model = glm::mat4(1.0f);
     ubo.view = glm::lookAt(glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-    ubo.proj = glm::ortho(0.0F, 640.0f, 480.0f, 0.0F);
+    ubo.proj = glm::ortho(0.0F, 640.0f, 0.0f, 480.0f);
 
     memcpy(mUniformBuffersMapped[currentImage], &ubo, sizeof(ubo));
 }
