@@ -1519,28 +1519,18 @@ void VulkanRenderer::Draw(Poly_FT4& poly)
 
     if (poly.mAnim)
     {
-        vertices.push_back({{0.0f, 480.0f / 2.0f}, {1.0f, 1.0f, 1.0f}, {1.0f, 0.0f}, 0});
-        vertices.push_back({{640.0f / 2.0f, 480.0f / 2.0f}, {1.0f, 1.0f, 1.0f}, {0.0f, 0.0f}, 0});
-        vertices.push_back({{640.0f / 2.0f, 0.0f}, {1.0f, 1.0f, 1.0f}, {0.0f, 1.0f}, 0});
-        vertices.push_back({{0.0f, 0.0f}, {1.0f, 1.0f, 1.0f}, {1.0f, 1.0f}, 0});
-        gIndices.emplace_back((u16) (mIndexBufferIndex + 0));
-        gIndices.emplace_back((u16) (mIndexBufferIndex + 1));
-        gIndices.emplace_back((u16) (mIndexBufferIndex + 2));
-        gIndices.emplace_back((u16) (mIndexBufferIndex + 2));
-        gIndices.emplace_back((u16) (mIndexBufferIndex + 3));
-        gIndices.emplace_back((u16) (mIndexBufferIndex + 0));
-        mIndexBufferIndex += 4;
+        vertices.push_back({{static_cast<f32>(poly.mBase.vert.x), static_cast<f32>(poly.mBase.vert.y)}, {1.0f, 1.0f, 1.0f}, {1.0f, 0.0f}, 1});
+        vertices.push_back({{static_cast<f32>(poly.mVerts[0].mVert.x), static_cast<f32>(poly.mVerts[0].mVert.y)}, {1.0f, 1.0f, 1.0f}, {0.0f, 0.0f}, 1 });
+        vertices.push_back({{static_cast<f32>(poly.mVerts[1].mVert.x), static_cast<f32>(poly.mVerts[1].mVert.y)}, {1.0f, 1.0f, 1.0f}, {0.0f, 1.0f}, 1});
+        vertices.push_back({{static_cast<f32>(poly.mVerts[2].mVert.x), static_cast<f32>(poly.mVerts[2].mVert.y)}, {1.0f, 1.0f, 1.0f}, {1.0f, 1.0f}, 1});
 
-        vertices.push_back({{0.0f + 50.0f, (480.0f / 2.0f) + 150.0f}, {1.0f, 1.0f, 1.0f}, {1.0f, 0.0f}, 1});
-        vertices.push_back({{(640.0f / 2.0f) - 50.0f, (480.0f / 2.0f) + 150.0f}, {1.0f, 1.0f, 1.0f}, {0.0f, 0.0f}, 1});
-        vertices.push_back({{(640.0f / 2.0f) - 50.0f, 0.0f + 150.0f}, {1.0f, 1.0f, 1.0f}, {0.0f, 1.0f}, 1});
-        vertices.push_back({{0.0f + 50.0f, 0.0f + 150.0f}, {1.0f, 1.0f, 1.0f}, {1.0f, 1.0f}, 1});
         gIndices.emplace_back((u16) (mIndexBufferIndex + 0));
         gIndices.emplace_back((u16) (mIndexBufferIndex + 1));
         gIndices.emplace_back((u16) (mIndexBufferIndex + 2));
         gIndices.emplace_back((u16) (mIndexBufferIndex + 2));
         gIndices.emplace_back((u16) (mIndexBufferIndex + 3));
         gIndices.emplace_back((u16) (mIndexBufferIndex + 0));
+
         mIndexBufferIndex += 4;
     }
 }
