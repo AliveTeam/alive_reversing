@@ -56,12 +56,8 @@ private:
     PaletteCache mPaletteCache;
     //DirectX9TextureCache mTextureCache;
 
-
-    void framebufferResizeCallback();
-
     void initVulkan();
 
-    void mainLoop();
     void cleanupSwapChain();
     void cleanup();
     void recreateSwapChain();
@@ -117,29 +113,29 @@ private:
     static VKAPI_ATTR VkBool32 VKAPI_CALL debugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT /*messageSeverity*/, VkDebugUtilsMessageTypeFlagsEXT /*messageType*/, const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData, void* /*pUserData*/);
 
     std::unique_ptr<vk::raii::Context> mContext;
-    std::unique_ptr<vk::raii::Instance> instance;
-    std::unique_ptr<vk::raii::DebugUtilsMessengerEXT> debugMessenger;
-    std::unique_ptr<vk::raii::SurfaceKHR> surface;
+    std::unique_ptr<vk::raii::Instance> mInstance;
+    std::unique_ptr<vk::raii::DebugUtilsMessengerEXT> mDebugMessenger;
+    std::unique_ptr<vk::raii::SurfaceKHR> mSurface;
 
-    std::unique_ptr<vk::raii::PhysicalDevice> physicalDevice;
-    std::unique_ptr<vk::raii::Device> device;
+    std::unique_ptr<vk::raii::PhysicalDevice> mPhysicalDevice;
+    std::unique_ptr<vk::raii::Device> mDevice;
 
-    std::unique_ptr<vk::raii::Queue> graphicsQueue;
-    std::unique_ptr<vk::raii::Queue> presentQueue;
+    std::unique_ptr<vk::raii::Queue> mGraphicsQueue;
+    std::unique_ptr<vk::raii::Queue> mPresentQueue;
 
-    std::unique_ptr<vk::raii::SwapchainKHR> swapChain;
-    std::vector<vk::Image> swapChainImages;
-    vk::Format swapChainImageFormat;
-    vk::Extent2D swapChainExtent;
-    std::vector<vk::raii::ImageView> swapChainImageViews;
-    std::vector<vk::raii::Framebuffer> swapChainFramebuffers;
+    std::unique_ptr<vk::raii::SwapchainKHR> mSwapChain;
+    std::vector<vk::Image> mSwapChainImages;
+    vk::Format mSwapChainImageFormat;
+    vk::Extent2D mSwapChainExtent;
+    std::vector<vk::raii::ImageView> mSwapChainImageViews;
+    std::vector<vk::raii::Framebuffer> mSwapChainFramebuffers;
 
-    std::unique_ptr<vk::raii::RenderPass> renderPass;
-    std::unique_ptr<vk::raii::DescriptorSetLayout> descriptorSetLayout;
-    std::unique_ptr<vk::raii::PipelineLayout> pipelineLayout;
-    std::unique_ptr<vk::raii::Pipeline> graphicsPipeline;
+    std::unique_ptr<vk::raii::RenderPass> mRenderPass;
+    std::unique_ptr<vk::raii::DescriptorSetLayout> mDescriptorSetLayout;
+    std::unique_ptr<vk::raii::PipelineLayout> mPipelineLayout;
+    std::unique_ptr<vk::raii::Pipeline> mGraphicsPipeline;
 
-    std::unique_ptr<vk::raii::CommandPool> commandPool;
+    std::unique_ptr<vk::raii::CommandPool> mCommandPool;
 
     std::unique_ptr<vk::raii::Image> mTextureImage;
     std::unique_ptr<vk::raii::DeviceMemory> mTextureImageMemory;
@@ -160,15 +156,15 @@ private:
     std::vector<std::unique_ptr<vk::raii::DeviceMemory>> mUniformBuffersMemory;
     std::vector<void*> mUniformBuffersMapped;
 
-    std::unique_ptr<vk::raii::DescriptorPool> descriptorPool;
-    std::vector<vk::raii::DescriptorSet> descriptorSets;
+    std::unique_ptr<vk::raii::DescriptorPool> mDescriptorPool;
+    std::vector<vk::raii::DescriptorSet> mDescriptorSets;
 
-    std::vector<std::unique_ptr<vk::raii::CommandBuffer>> commandBuffers;
+    std::vector<std::unique_ptr<vk::raii::CommandBuffer>> mCommandBuffers;
 
-    std::vector<vk::raii::Semaphore> imageAvailableSemaphores;
-    std::vector<vk::raii::Semaphore> renderFinishedSemaphores;
-    std::vector<vk::raii::Fence> inFlightFences;
-    uint32_t currentFrame = 0;
+    std::vector<vk::raii::Semaphore> mImageAvailableSemaphores;
+    std::vector<vk::raii::Semaphore> mRenderFinishedSemaphores;
+    std::vector<vk::raii::Fence> mInFlightFences;
+    uint32_t mCurrentFrame = 0;
 
-    bool framebufferResized = false;
+    u16 mIndexBufferIndex = 0;
 };

@@ -30,17 +30,13 @@
 #include "fragment_shader.h"
 #include "vertex_shader.h"
 
-
-const uint32_t WIDTH = 640;
-const uint32_t HEIGHT = 480;
-
-const int MAX_FRAMES_IN_FLIGHT = 2;
+static constexpr int MAX_FRAMES_IN_FLIGHT = 2;
 
 
-const std::vector<const char*> validationLayers = {
+const std::vector<const char*> kValidationLayers = {
     "VK_LAYER_KHRONOS_validation"};
 
-const std::vector<const char*> deviceExtensions = {
+const std::vector<const char*> kDeviceExtensions = {
     VK_KHR_SWAPCHAIN_EXTENSION_NAME};
 
 #ifdef NDEBUG
@@ -125,8 +121,9 @@ struct UniformBufferObject
     alignas(16) glm::mat4 proj;
 };
 
-const static std::vector<Vertex> vertices = 
+static std::vector<Vertex> vertices = 
 {
+    /*
     // Quad 1
     {{0.0f, 480.0f / 2.0f}, {1.0f, 1.0f, 1.0f}, {1.0f, 0.0f}, 0},
     {{640.0f / 2.0f, 480.0f / 2.0f}, {1.0f, 1.0f, 1.0f}, {0.0f, 0.0f}, 0},
@@ -138,19 +135,15 @@ const static std::vector<Vertex> vertices =
     {{(640.0f / 2.0f) - 50.0f, (480.0f / 2.0f) + 150.0f}, {1.0f, 1.0f, 1.0f}, {0.0f, 0.0f}, 1},
     {{(640.0f / 2.0f) - 50.0f, 0.0f + 150.0f}, {1.0f, 1.0f, 1.0f}, {0.0f, 1.0f}, 1},
     {{0.0f + 50.0f, 0.0f + 150.0f}, {1.0f, 1.0f, 1.0f}, {1.0f, 1.0f}, 1}
+    */
 };
 
-const static std::vector<uint16_t> gIndices = { 
+static std::vector<uint16_t> gIndices = { 
+    /*
     0, 1, 2, 2, 3, 0,
     0 + 4, 1 + 4, 2 + 4, 2 + 4, 3 + 4, 0 + 4
+    */
 };
-
-
-void VulkanRenderer::framebufferResizeCallback()
-{
-    // TODO: redundant
-    framebufferResized = true;
-}
 
 void VulkanRenderer::initVulkan()
 {
@@ -171,8 +164,8 @@ void VulkanRenderer::initVulkan()
 
     createTextureImageView();
     createTextureSampler();
-    createVertexBuffer();
-    createIndexBuffer();
+    //createVertexBuffer();
+    //createIndexBuffer();
     createUniformBuffers();
     createDescriptorPool();
     createDescriptorSets();
@@ -180,56 +173,25 @@ void VulkanRenderer::initVulkan()
     createSyncObjects();
 }
 
-void VulkanRenderer::mainLoop()
-{
-    SDL_Event event; //   event handle
-    bool running = true;
-    while (running)
-    {
-        // OS Events
-        while (SDL_PollEvent(&event))
-        {
-            if (event.type == SDL_QUIT)
-            {
-                running = false;
-                break;
-            }
-            else if (event.type == SDL_WINDOWEVENT)
-            {
-                if (event.window.event == SDL_WINDOWEVENT_RESIZED)
-                {
-                    this->framebufferResizeCallback();
-                }
-            }
-        }
-
-        // Acquire the right swapchain to be used for rendering. the swapchain buffer index is used for rendering
-        // renderer.AcquireNextSwapchain();
-        drawFrame();
-    }
-
-    device->waitIdle();
-}
-
 void VulkanRenderer::cleanupSwapChain()
 {
-    swapChainFramebuffers.clear();
-    swapChainImageViews.clear();
-    swapChain->clear();
+    mSwapChainFramebuffers.clear();
+    mSwapChainImageViews.clear();
+    mSwapChain->clear();
 }
 
 void VulkanRenderer::cleanup()
 {
     cleanupSwapChain();
 
-    graphicsPipeline->clear();
-    pipelineLayout->clear();
-    renderPass->clear();
+    mGraphicsPipeline->clear();
+    mPipelineLayout->clear();
+    mRenderPass->clear();
 
     mUniformBuffers.clear();
     mUniformBuffersMemory.clear();
 
-    descriptorPool->clear();
+    mDescriptorPool->clear();
 
     mTextureSampler->clear();
     mTextureImageView->clear();
@@ -241,7 +203,7 @@ void VulkanRenderer::cleanup()
     mTextureImageMemory->clear();
     mTextureImageMemory2->clear();
 
-    descriptorSetLayout->clear();
+    mDescriptorSetLayout->clear();
 
     mIndexBuffer->clear();
     mIndexBufferMemory->clear();
@@ -249,20 +211,20 @@ void VulkanRenderer::cleanup()
     mVertexBuffer->clear();
     mVertexBufferMemory->clear();
 
-    renderFinishedSemaphores.clear();
-    imageAvailableSemaphores.clear();
-    inFlightFences.clear();
+    mRenderFinishedSemaphores.clear();
+    mImageAvailableSemaphores.clear();
+    mInFlightFences.clear();
 
-    commandPool->clear();
-    device->clear();
+    mCommandPool->clear();
+    mDevice->clear();
 
     if (enableValidationLayers)
     {
-        debugMessenger->clear();
+        mDebugMessenger->clear();
     }
 
-    surface->clear();
-    instance->clear();
+    mSurface->clear();
+    mInstance->clear();
 }
 
 void VulkanRenderer::recreateSwapChain()
@@ -279,7 +241,7 @@ void VulkanRenderer::recreateSwapChain()
         SDL_WaitEvent(&event);
     }
 
-    device->waitIdle();
+    mDevice->waitIdle();
 
     cleanupSwapChain();
 
@@ -302,42 +264,34 @@ void VulkanRenderer::createInstance()
     appInfo.engineVersion = VK_MAKE_VERSION(1, 0, 0);
     appInfo.apiVersion = VK_API_VERSION_1_0;
 
-    vk::InstanceCreateInfo createInfo;
-    createInfo.pApplicationInfo = &appInfo;
-
     const std::vector<const char*> extensions = getRequiredExtensions();
-    createInfo.enabledExtensionCount = static_cast<uint32_t>(extensions.size());
-    createInfo.ppEnabledExtensionNames = extensions.data();
+    vk::InstanceCreateInfo createInfo = vk::InstanceCreateInfo(
+        vk::InstanceCreateFlags(),
+        &appInfo,
+        0, nullptr,                                                 // enabled layers
+        static_cast<uint32_t>(extensions.size()), extensions.data() // enabled extensions
+    );
 
-    vk::DebugUtilsMessengerCreateInfoEXT debugCreateInfo{};
     if (enableValidationLayers)
     {
-        createInfo.enabledLayerCount = static_cast<uint32_t>(validationLayers.size());
-        createInfo.ppEnabledLayerNames = validationLayers.data();
-
-        debugCreateInfo.setMessageSeverity(
-            vk::DebugUtilsMessageSeverityFlagBitsEXT::eError | vk::DebugUtilsMessageSeverityFlagBitsEXT::eWarning | vk::DebugUtilsMessageSeverityFlagBitsEXT::eInfo | vk::DebugUtilsMessageSeverityFlagBitsEXT::eVerbose);
-        debugCreateInfo.setMessageType(
-            vk::DebugUtilsMessageTypeFlagBitsEXT::eGeneral | vk::DebugUtilsMessageTypeFlagBitsEXT::eValidation | vk::DebugUtilsMessageTypeFlagBitsEXT::ePerformance);
-
-        debugCreateInfo.pfnUserCallback = debugCallback;
-
-        // TODO: Use raii template wrapper
-        createInfo.pNext = (VkDebugUtilsMessengerCreateInfoEXT*) &debugCreateInfo;
+        createInfo.enabledLayerCount = static_cast<uint32_t>(kValidationLayers.size());
+        createInfo.ppEnabledLayerNames = kValidationLayers.data();
     }
 
     mContext = std::make_unique<vk::raii::Context>();
 
-    instance = std::make_unique<vk::raii::Instance>(*mContext, createInfo);
+    mInstance = std::make_unique<vk::raii::Instance>(*mContext, createInfo);
 
-    volkLoadInstance(**instance);
+    volkLoadInstance(**mInstance);
 }
 
 
 void VulkanRenderer::setupDebugMessenger()
 {
     if (!enableValidationLayers)
+    {
         return;
+    }
 
     vk::DebugUtilsMessengerCreateInfoEXT createInfo;
     createInfo.setMessageSeverity(
@@ -347,22 +301,22 @@ void VulkanRenderer::setupDebugMessenger()
 
     createInfo.pfnUserCallback = debugCallback;
 
-    debugMessenger = std::make_unique<vk::raii::DebugUtilsMessengerEXT>(instance->createDebugUtilsMessengerEXT(createInfo));
+    mDebugMessenger = std::make_unique<vk::raii::DebugUtilsMessengerEXT>(mInstance->createDebugUtilsMessengerEXT(createInfo));
 }
 
 void VulkanRenderer::createSurface()
 {
     VkSurfaceKHR tmpSurace{};
-    if (!SDL_Vulkan_CreateSurface(mWindow, **instance, &tmpSurace))
+    if (!SDL_Vulkan_CreateSurface(mWindow, **mInstance, &tmpSurace))
     {
         throw std::runtime_error("failed to create window surface!");
     }
-    surface = std::make_unique<vk::raii::SurfaceKHR>(*instance, tmpSurace);
+    mSurface = std::make_unique<vk::raii::SurfaceKHR>(*mInstance, tmpSurace);
 }
 
 void VulkanRenderer::pickPhysicalDevice()
 {
-    vk::raii::PhysicalDevices physicalDevices(*instance);
+    vk::raii::PhysicalDevices physicalDevices(*mInstance);
     if (physicalDevices.empty())
     {
         throw std::runtime_error("failed to find GPUs with Vulkan support!");
@@ -372,7 +326,7 @@ void VulkanRenderer::pickPhysicalDevice()
     {
         if (isDeviceSuitable(physicalDevices[i]))
         {
-            physicalDevice = std::make_unique<vk::raii::PhysicalDevice>(std::move(physicalDevices[i]));
+            mPhysicalDevice = std::make_unique<vk::raii::PhysicalDevice>(std::move(physicalDevices[i]));
             return;
         }
     }
@@ -382,7 +336,7 @@ void VulkanRenderer::pickPhysicalDevice()
 
 void VulkanRenderer::createLogicalDevice()
 {
-    QueueFamilyIndices indices = findQueueFamilies(*physicalDevice);
+    QueueFamilyIndices indices = findQueueFamilies(*mPhysicalDevice);
 
     std::vector<vk::DeviceQueueCreateInfo> queueCreateInfos;
     std::set<uint32_t> uniqueQueueFamilies = {indices.graphicsFamily.value(), indices.presentFamily.value()};
@@ -407,24 +361,24 @@ void VulkanRenderer::createLogicalDevice()
 
     createInfo.pEnabledFeatures = &deviceFeatures;
 
-    createInfo.enabledExtensionCount = static_cast<uint32_t>(deviceExtensions.size());
-    createInfo.ppEnabledExtensionNames = deviceExtensions.data();
+    createInfo.enabledExtensionCount = static_cast<uint32_t>(kDeviceExtensions.size());
+    createInfo.ppEnabledExtensionNames = kDeviceExtensions.data();
 
     if (enableValidationLayers)
     {
-        createInfo.enabledLayerCount = static_cast<uint32_t>(validationLayers.size());
-        createInfo.ppEnabledLayerNames = validationLayers.data();
+        createInfo.enabledLayerCount = static_cast<uint32_t>(kValidationLayers.size());
+        createInfo.ppEnabledLayerNames = kValidationLayers.data();
     }
 
-    device = std::make_unique<vk::raii::Device>(physicalDevice->createDevice(createInfo));
+    mDevice = std::make_unique<vk::raii::Device>(mPhysicalDevice->createDevice(createInfo));
 
-    graphicsQueue = std::make_unique<vk::raii::Queue>(device->getQueue(indices.graphicsFamily.value(), 0));
-    presentQueue = std::make_unique<vk::raii::Queue>(device->getQueue(indices.presentFamily.value(), 0));
+    mGraphicsQueue = std::make_unique<vk::raii::Queue>(mDevice->getQueue(indices.graphicsFamily.value(), 0));
+    mPresentQueue = std::make_unique<vk::raii::Queue>(mDevice->getQueue(indices.presentFamily.value(), 0));
 }
 
 void VulkanRenderer::createSwapChain()
 {
-    SwapChainSupportDetails swapChainSupport = querySwapChainSupport(*physicalDevice);
+    SwapChainSupportDetails swapChainSupport = querySwapChainSupport(*mPhysicalDevice);
 
     vk::SurfaceFormatKHR surfaceFormat = chooseSwapSurfaceFormat(swapChainSupport.formats);
     vk::PresentModeKHR presentMode = chooseSwapPresentMode(swapChainSupport.presentModes);
@@ -437,7 +391,7 @@ void VulkanRenderer::createSwapChain()
     }
 
     vk::SwapchainCreateInfoKHR createInfo;
-    createInfo.surface = **surface;
+    createInfo.surface = **mSurface;
 
     createInfo.minImageCount = imageCount;
     createInfo.imageFormat = surfaceFormat.format;
@@ -446,7 +400,7 @@ void VulkanRenderer::createSwapChain()
     createInfo.imageArrayLayers = 1;
     createInfo.imageUsage = vk::ImageUsageFlagBits::eColorAttachment;
 
-    QueueFamilyIndices indices = findQueueFamilies(*physicalDevice);
+    QueueFamilyIndices indices = findQueueFamilies(*mPhysicalDevice);
     uint32_t queueFamilyIndices[] = {indices.graphicsFamily.value(), indices.presentFamily.value()};
 
     if (indices.graphicsFamily != indices.presentFamily)
@@ -465,27 +419,27 @@ void VulkanRenderer::createSwapChain()
     createInfo.presentMode = presentMode;
     createInfo.clipped = VK_TRUE;
 
-    swapChain = std::make_unique<vk::raii::SwapchainKHR>(device->createSwapchainKHR(createInfo));
+    mSwapChain = std::make_unique<vk::raii::SwapchainKHR>(mDevice->createSwapchainKHR(createInfo));
 
-    swapChainImages = swapChain->getImages(); // TODO: non raii ??
+    mSwapChainImages = mSwapChain->getImages(); // TODO: non raii ??
 
-    swapChainImageFormat = surfaceFormat.format;
-    swapChainExtent = extent;
+    mSwapChainImageFormat = surfaceFormat.format;
+    mSwapChainExtent = extent;
 }
 
 void VulkanRenderer::createImageViews()
 {
-    swapChainImageViews.clear();
-    for (size_t i = 0; i < swapChainImages.size(); i++)
+    mSwapChainImageViews.clear();
+    for (size_t i = 0; i < mSwapChainImages.size(); i++)
     {
-        swapChainImageViews.emplace_back(createImageView(swapChainImages[i], swapChainImageFormat));
+        mSwapChainImageViews.emplace_back(createImageView(mSwapChainImages[i], mSwapChainImageFormat));
     }
 }
 
 void VulkanRenderer::createRenderPass()
 {
     vk::AttachmentDescription colorAttachment;
-    colorAttachment.format = swapChainImageFormat;
+    colorAttachment.format = mSwapChainImageFormat;
     colorAttachment.samples = vk::SampleCountFlagBits::e1;
     colorAttachment.loadOp = vk::AttachmentLoadOp::eClear;
     colorAttachment.storeOp = vk::AttachmentStoreOp::eStore;
@@ -519,7 +473,7 @@ void VulkanRenderer::createRenderPass()
     renderPassInfo.dependencyCount = 1;
     renderPassInfo.pDependencies = &dependency;
 
-    renderPass = std::make_unique<vk::raii::RenderPass>(device->createRenderPass(renderPassInfo));
+    mRenderPass = std::make_unique<vk::raii::RenderPass>(mDevice->createRenderPass(renderPassInfo));
 }
 
 void VulkanRenderer::createDescriptorSetLayout()
@@ -550,7 +504,7 @@ void VulkanRenderer::createDescriptorSetLayout()
     layoutInfo.bindingCount = static_cast<uint32_t>(bindings.size());
     layoutInfo.pBindings = bindings.data();
 
-    descriptorSetLayout = std::make_unique<vk::raii::DescriptorSetLayout>(device->createDescriptorSetLayout(layoutInfo));
+    mDescriptorSetLayout = std::make_unique<vk::raii::DescriptorSetLayout>(mDevice->createDescriptorSetLayout(layoutInfo));
 }
 
 void VulkanRenderer::createGraphicsPipeline()
@@ -619,7 +573,7 @@ void VulkanRenderer::createGraphicsPipeline()
     colorBlending.blendConstants[2] = 0.0f;
     colorBlending.blendConstants[3] = 0.0f;
 
-    std::vector<vk::DynamicState> dynamicStates = {
+    const std::vector<vk::DynamicState> dynamicStates = {
         vk::DynamicState::eViewport,
         vk::DynamicState::eScissor};
 
@@ -629,9 +583,9 @@ void VulkanRenderer::createGraphicsPipeline()
 
     vk::PipelineLayoutCreateInfo pipelineLayoutInfo;
     pipelineLayoutInfo.setLayoutCount = 1;
-    pipelineLayoutInfo.pSetLayouts = &**descriptorSetLayout;
+    pipelineLayoutInfo.pSetLayouts = &**mDescriptorSetLayout;
 
-    pipelineLayout = std::make_unique<vk::raii::PipelineLayout>(device->createPipelineLayout(pipelineLayoutInfo));
+    mPipelineLayout = std::make_unique<vk::raii::PipelineLayout>(mDevice->createPipelineLayout(pipelineLayoutInfo));
 
     vk::GraphicsPipelineCreateInfo pipelineInfo;
     pipelineInfo.stageCount = 2;
@@ -643,44 +597,44 @@ void VulkanRenderer::createGraphicsPipeline()
     pipelineInfo.pMultisampleState = &multisampling;
     pipelineInfo.pColorBlendState = &colorBlending;
     pipelineInfo.pDynamicState = &dynamicState;
-    pipelineInfo.layout = **pipelineLayout;
-    pipelineInfo.renderPass = **renderPass;
+    pipelineInfo.layout = **mPipelineLayout;
+    pipelineInfo.renderPass = **mRenderPass;
     pipelineInfo.subpass = 0;
     pipelineInfo.basePipelineHandle = VK_NULL_HANDLE;
 
     vk::Optional<const vk::raii::PipelineCache> cache(nullptr); // TODO: Check
-    auto pipelines = device->createGraphicsPipelines(cache, vk::ArrayProxy(pipelineInfo));
+    auto pipelines = mDevice->createGraphicsPipelines(cache, vk::ArrayProxy(pipelineInfo));
 
-    this->graphicsPipeline = std::make_unique<vk::raii::Pipeline>(std::move(pipelines[0]));
+    mGraphicsPipeline = std::make_unique<vk::raii::Pipeline>(std::move(pipelines[0]));
 }
 
 void VulkanRenderer::createFramebuffers()
 {
-    for (size_t i = 0; i < swapChainImageViews.size(); i++)
+    for (size_t i = 0; i < mSwapChainImageViews.size(); i++)
     {
-        vk::ImageView attachments[] = { *swapChainImageViews[i]};
+        vk::ImageView attachments[] = {*mSwapChainImageViews[i]};
 
         vk::FramebufferCreateInfo framebufferInfo;
-        framebufferInfo.renderPass = **renderPass;
+        framebufferInfo.renderPass = **mRenderPass;
         framebufferInfo.attachmentCount = 1;
         framebufferInfo.pAttachments = attachments;
-        framebufferInfo.width = swapChainExtent.width;
-        framebufferInfo.height = swapChainExtent.height;
+        framebufferInfo.width = mSwapChainExtent.width;
+        framebufferInfo.height = mSwapChainExtent.height;
         framebufferInfo.layers = 1;
 
-        swapChainFramebuffers.emplace_back(device->createFramebuffer(framebufferInfo));
+        mSwapChainFramebuffers.emplace_back(mDevice->createFramebuffer(framebufferInfo));
     }
 }
 
 void VulkanRenderer::createCommandPool()
 {
-    QueueFamilyIndices queueFamilyIndices = findQueueFamilies(*physicalDevice);
+    QueueFamilyIndices queueFamilyIndices = findQueueFamilies(*mPhysicalDevice);
 
     vk::CommandPoolCreateInfo poolInfo;
     poolInfo.flags = vk::CommandPoolCreateFlagBits::eResetCommandBuffer;
     poolInfo.queueFamilyIndex = queueFamilyIndices.graphicsFamily.value();
 
-    commandPool = std::make_unique<vk::raii::CommandPool>(device->createCommandPool(poolInfo));
+    mCommandPool = std::make_unique<vk::raii::CommandPool>(mDevice->createCommandPool(poolInfo));
 }
 
 
@@ -726,7 +680,7 @@ void VulkanRenderer::createTextureImageView()
 
 void VulkanRenderer::createTextureSampler()
 {
-    vk::PhysicalDeviceProperties properties = physicalDevice->getProperties();
+    vk::PhysicalDeviceProperties properties = mPhysicalDevice->getProperties();
 
     vk::SamplerCreateInfo samplerInfo;
     samplerInfo.magFilter = vk::Filter::eLinear;
@@ -742,7 +696,7 @@ void VulkanRenderer::createTextureSampler()
     samplerInfo.compareOp = vk::CompareOp::eAlways;
     samplerInfo.mipmapMode = vk::SamplerMipmapMode::eLinear;
 
-    mTextureSampler = std::make_unique<vk::raii::Sampler>(device->createSampler(samplerInfo));
+    mTextureSampler = std::make_unique<vk::raii::Sampler>(mDevice->createSampler(samplerInfo));
 }
 
 vk::raii::ImageView VulkanRenderer::createImageView(vk::Image image, vk::Format format)
@@ -757,7 +711,7 @@ vk::raii::ImageView VulkanRenderer::createImageView(vk::Image image, vk::Format 
     viewInfo.subresourceRange.baseArrayLayer = 0;
     viewInfo.subresourceRange.layerCount = 1;
 
-    return device->createImageView(viewInfo);
+    return mDevice->createImageView(viewInfo);
 }
 
 std::pair<std::unique_ptr<vk::raii::Image>, std::unique_ptr<vk::raii::DeviceMemory>> VulkanRenderer::createImage(uint32_t width, uint32_t height, vk::Format format, vk::ImageTiling tiling, vk::ImageUsageFlags usage, vk::MemoryPropertyFlags properties)
@@ -776,7 +730,7 @@ std::pair<std::unique_ptr<vk::raii::Image>, std::unique_ptr<vk::raii::DeviceMemo
     imageInfo.samples = vk::SampleCountFlagBits::e1;
     imageInfo.sharingMode = vk::SharingMode::eExclusive;
 
-    vk::raii::Image image = device->createImage(imageInfo);
+    vk::raii::Image image = mDevice->createImage(imageInfo);
 
     vk::MemoryRequirements memRequirements = image.getMemoryRequirements();
 
@@ -785,7 +739,7 @@ std::pair<std::unique_ptr<vk::raii::Image>, std::unique_ptr<vk::raii::DeviceMemo
     allocInfo.allocationSize = memRequirements.size;
     allocInfo.memoryTypeIndex = findMemoryType(memRequirements.memoryTypeBits, properties);
 
-    vk::raii::DeviceMemory imageMemory = device->allocateMemory(allocInfo);
+    vk::raii::DeviceMemory imageMemory = mDevice->allocateMemory(allocInfo);
     image.bindMemory(*imageMemory, 0);
 
     return std::make_pair(std::make_unique<vk::raii::Image>(std::move(image)), std::make_unique<vk::raii::DeviceMemory>(std::move(imageMemory)));
@@ -933,18 +887,18 @@ void VulkanRenderer::createDescriptorPool()
     poolInfo.pPoolSizes = poolSizes.data();
     poolInfo.maxSets = static_cast<uint32_t>(MAX_FRAMES_IN_FLIGHT);
 
-    descriptorPool = std::make_unique<vk::raii::DescriptorPool>(device->createDescriptorPool(poolInfo));
+    mDescriptorPool = std::make_unique<vk::raii::DescriptorPool>(mDevice->createDescriptorPool(poolInfo));
 }
 
 void VulkanRenderer::createDescriptorSets()
 {
-    std::vector<vk::DescriptorSetLayout> layouts(MAX_FRAMES_IN_FLIGHT, **descriptorSetLayout);
+    std::vector<vk::DescriptorSetLayout> layouts(MAX_FRAMES_IN_FLIGHT, **mDescriptorSetLayout);
     vk::DescriptorSetAllocateInfo allocInfo;
-    allocInfo.descriptorPool = **descriptorPool;
+    allocInfo.descriptorPool = **mDescriptorPool;
     allocInfo.descriptorSetCount = static_cast<uint32_t>(MAX_FRAMES_IN_FLIGHT);
     allocInfo.pSetLayouts = layouts.data();
 
-    descriptorSets = device->allocateDescriptorSets(allocInfo);
+    mDescriptorSets = mDevice->allocateDescriptorSets(allocInfo);
 
     for (size_t i = 0; i < MAX_FRAMES_IN_FLIGHT; i++)
     {
@@ -955,7 +909,7 @@ void VulkanRenderer::createDescriptorSets()
         bufferInfo.offset = 0;
         bufferInfo.range = sizeof(UniformBufferObject);
 
-        descriptorWrites[0].dstSet = *descriptorSets[i];
+        descriptorWrites[0].dstSet = *mDescriptorSets[i];
         descriptorWrites[0].dstBinding = 0;
         descriptorWrites[0].dstArrayElement = 0;
         descriptorWrites[0].descriptorType = vk::DescriptorType::eUniformBuffer;
@@ -967,7 +921,7 @@ void VulkanRenderer::createDescriptorSets()
         imageInfo.imageView = **mTextureImageView;
         imageInfo.sampler = **mTextureSampler;
 
-        descriptorWrites[1].dstSet = *descriptorSets[i];
+        descriptorWrites[1].dstSet = *mDescriptorSets[i];
         descriptorWrites[1].dstBinding = 1;
         descriptorWrites[1].dstArrayElement = 0;
         descriptorWrites[1].descriptorType = vk::DescriptorType::eCombinedImageSampler;
@@ -979,14 +933,14 @@ void VulkanRenderer::createDescriptorSets()
         imageInfo2.imageView = **mTextureImageView2;
         imageInfo2.sampler = **mTextureSampler;
 
-        descriptorWrites[2].dstSet = *descriptorSets[i];
+        descriptorWrites[2].dstSet = *mDescriptorSets[i];
         descriptorWrites[2].dstBinding = 2;
         descriptorWrites[2].dstArrayElement = 0;
         descriptorWrites[2].descriptorType = vk::DescriptorType::eCombinedImageSampler;
         descriptorWrites[2].descriptorCount = 1;
         descriptorWrites[2].pImageInfo = &imageInfo2;
 
-        device->updateDescriptorSets(descriptorWrites, {});
+        mDevice->updateDescriptorSets(descriptorWrites, {});
     }
 }
 
@@ -997,7 +951,7 @@ std::pair<std::unique_ptr<vk::raii::Buffer>, std::unique_ptr<vk::raii::DeviceMem
     bufferInfo.usage = usage;
     bufferInfo.sharingMode = vk::SharingMode::eExclusive;
 
-    vk::raii::Buffer buffer = device->createBuffer(bufferInfo);
+    vk::raii::Buffer buffer = mDevice->createBuffer(bufferInfo);
 
     vk::MemoryRequirements memRequirements = buffer.getMemoryRequirements();
 
@@ -1006,7 +960,7 @@ std::pair<std::unique_ptr<vk::raii::Buffer>, std::unique_ptr<vk::raii::DeviceMem
     allocInfo.allocationSize = memRequirements.size;
     allocInfo.memoryTypeIndex = findMemoryType(memRequirements.memoryTypeBits, properties);
 
-    vk::raii::DeviceMemory bufferMemory = device->allocateMemory(allocInfo);
+    vk::raii::DeviceMemory bufferMemory = mDevice->allocateMemory(allocInfo);
 
     buffer.bindMemory(*bufferMemory, 0);
 
@@ -1017,10 +971,10 @@ vk::raii::CommandBuffer VulkanRenderer::beginSingleTimeCommands()
 {
     vk::CommandBufferAllocateInfo allocInfo;
     allocInfo.level = vk::CommandBufferLevel::ePrimary;
-    allocInfo.commandPool = **commandPool;
+    allocInfo.commandPool = **mCommandPool;
     allocInfo.commandBufferCount = 1;
 
-    std::vector<vk::raii::CommandBuffer> commandBuffer = device->allocateCommandBuffers(allocInfo);
+    std::vector<vk::raii::CommandBuffer> commandBuffer = mDevice->allocateCommandBuffers(allocInfo);
 
     vk::CommandBufferBeginInfo beginInfo;
     beginInfo.flags = vk::CommandBufferUsageFlagBits::eOneTimeSubmit;
@@ -1038,8 +992,8 @@ void VulkanRenderer::endSingleTimeCommands(vk::raii::CommandBuffer& commandBuffe
     submitInfo.commandBufferCount = 1;
     submitInfo.pCommandBuffers = &*commandBuffer;
 
-    graphicsQueue->submit(submitInfo);
-    graphicsQueue->waitIdle();
+    mGraphicsQueue->submit(submitInfo);
+    mGraphicsQueue->waitIdle();
 }
 
 void VulkanRenderer::copyBuffer(vk::Buffer srcBuffer, vk::Buffer dstBuffer, vk::DeviceSize size)
@@ -1055,7 +1009,7 @@ void VulkanRenderer::copyBuffer(vk::Buffer srcBuffer, vk::Buffer dstBuffer, vk::
 
 uint32_t VulkanRenderer::findMemoryType(uint32_t typeFilter, vk::MemoryPropertyFlags properties)
 {
-    vk::PhysicalDeviceMemoryProperties memProperties = physicalDevice->getMemoryProperties();
+    vk::PhysicalDeviceMemoryProperties memProperties = mPhysicalDevice->getMemoryProperties();
     for (uint32_t i = 0; i < memProperties.memoryTypeCount; i++)
     {
         if ((typeFilter & (1 << i)) && (memProperties.memoryTypes[i].propertyFlags & properties) == properties)
@@ -1070,14 +1024,14 @@ uint32_t VulkanRenderer::findMemoryType(uint32_t typeFilter, vk::MemoryPropertyF
 void VulkanRenderer::createCommandBuffers()
 {
     vk::CommandBufferAllocateInfo allocInfo;
-    allocInfo.commandPool = **commandPool;
+    allocInfo.commandPool = **mCommandPool;
     allocInfo.level = vk::CommandBufferLevel::ePrimary;
     allocInfo.commandBufferCount = MAX_FRAMES_IN_FLIGHT;
 
-    auto tmp = device->allocateCommandBuffers(allocInfo);
+    auto tmp = mDevice->allocateCommandBuffers(allocInfo);
     for (std::size_t i = 0; i < tmp.size(); i++)
     {
-        commandBuffers.emplace_back(std::make_unique<vk::raii::CommandBuffer>(std::move(tmp[i])));
+        mCommandBuffers.emplace_back(std::make_unique<vk::raii::CommandBuffer>(std::move(tmp[i])));
     }
 }
 
@@ -1087,10 +1041,10 @@ void VulkanRenderer::recordCommandBuffer(vk::raii::CommandBuffer& commandBuffer,
     commandBuffer.begin(beginInfo);
 
     vk::RenderPassBeginInfo renderPassInfo;
-    renderPassInfo.renderPass = **renderPass;
-    renderPassInfo.framebuffer = *swapChainFramebuffers[imageIndex];
+    renderPassInfo.renderPass = **mRenderPass;
+    renderPassInfo.framebuffer = *mSwapChainFramebuffers[imageIndex];
     renderPassInfo.renderArea.offset = vk::Offset2D {0, 0};
-    renderPassInfo.renderArea.extent = swapChainExtent;
+    renderPassInfo.renderArea.extent = mSwapChainExtent;
 
     vk::ClearValue clearColor(vk::ClearColorValue(0.4f, 0.4f, 0.4f, 1.0f));
     renderPassInfo.clearValueCount = 1;
@@ -1098,31 +1052,33 @@ void VulkanRenderer::recordCommandBuffer(vk::raii::CommandBuffer& commandBuffer,
 
     commandBuffer.beginRenderPass(renderPassInfo, vk::SubpassContents::eInline);
 
-    commandBuffer.bindPipeline(vk::PipelineBindPoint::eGraphics, **graphicsPipeline);
+    commandBuffer.bindPipeline(vk::PipelineBindPoint::eGraphics, **mGraphicsPipeline);
 
     vk::Viewport viewport;
     viewport.x = 0.0f;
     viewport.y = 0.0f;
-    viewport.width = (float) swapChainExtent.width;
-    viewport.height = (float) swapChainExtent.height;
+    viewport.width = (float) mSwapChainExtent.width;
+    viewport.height = (float) mSwapChainExtent.height;
     viewport.minDepth = 0.0f;
     viewport.maxDepth = 1.0f;
     commandBuffer.setViewport(0, viewport);
 
     vk::Rect2D scissor({0,0});
-    scissor.extent = swapChainExtent;
+    scissor.extent = mSwapChainExtent;
     commandBuffer.setScissor(0, scissor);
 
-    vk::Buffer vertexBuffers[] = {**mVertexBuffer};
-    vk::DeviceSize offsets[] = {0};
-    commandBuffer.bindVertexBuffers(0, vertexBuffers, offsets);
+    if (!vertices.empty() && mVertexBuffer && mIndexBuffer)
+    {
+        vk::Buffer vertexBuffers[] = {**mVertexBuffer};
+        vk::DeviceSize offsets[] = {0};
+        commandBuffer.bindVertexBuffers(0, vertexBuffers, offsets);
 
-    commandBuffer.bindIndexBuffer(**mIndexBuffer, 0, vk::IndexType::eUint16);
+        commandBuffer.bindIndexBuffer(**mIndexBuffer, 0, vk::IndexType::eUint16);
 
-   // vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayout, 0, 1, &descriptorSets[currentFrame], 0, nullptr);
-    commandBuffer.bindDescriptorSets(vk::PipelineBindPoint::eGraphics, **pipelineLayout, 0, *descriptorSets[currentFrame], {});
+        commandBuffer.bindDescriptorSets(vk::PipelineBindPoint::eGraphics, **mPipelineLayout, 0, *mDescriptorSets[mCurrentFrame], {});
 
-    commandBuffer.drawIndexed(static_cast<uint32_t>(gIndices.size()), 1, 0, 0, 0);
+        commandBuffer.drawIndexed(static_cast<uint32_t>(gIndices.size()), 1, 0, 0, 0);
+    }
 
     commandBuffer.endRenderPass();
 
@@ -1138,9 +1094,9 @@ void VulkanRenderer::createSyncObjects()
 
     for (size_t i = 0; i < MAX_FRAMES_IN_FLIGHT; i++)
     {
-        imageAvailableSemaphores.emplace_back(device->createSemaphore(semaphoreInfo));
-        renderFinishedSemaphores.emplace_back(device->createSemaphore(semaphoreInfo));
-        inFlightFences.emplace_back(device->createFence(fenceInfo));
+        mImageAvailableSemaphores.emplace_back(mDevice->createSemaphore(semaphoreInfo));
+        mRenderFinishedSemaphores.emplace_back(mDevice->createSemaphore(semaphoreInfo));
+        mInFlightFences.emplace_back(mDevice->createFence(fenceInfo));
     }
 }
 
@@ -1154,20 +1110,20 @@ void VulkanRenderer::updateUniformBuffer(uint32_t currentImage)
     UniformBufferObject ubo{};
     ubo.model = glm::mat4(1.0f);
     ubo.view = glm::lookAt(glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-    ubo.proj = glm::ortho(0.0F, 640.0f, 480.0f, 0.0F);
+    ubo.proj = glm::ortho(0.0F, 640.0f, 0.0f, 480.0f);
 
     memcpy(mUniformBuffersMapped[currentImage], &ubo, sizeof(ubo));
 }
 
 void VulkanRenderer::drawFrame()
 {
-    auto x = device->waitForFences(*inFlightFences[currentFrame], VK_TRUE, UINT64_MAX);
+    auto x = mDevice->waitForFences(*mInFlightFences[mCurrentFrame], VK_TRUE, UINT64_MAX);
     if (x != vk::Result::eSuccess)
     {
 
     }
 
-    auto [result, imageIndex] = swapChain->acquireNextImage(UINT64_MAX, *imageAvailableSemaphores[currentFrame]);
+    auto [result, imageIndex] = mSwapChain->acquireNextImage(UINT64_MAX, *mImageAvailableSemaphores[mCurrentFrame]);
 
     if (result == vk::Result::eErrorOutOfDateKHR)
     {
@@ -1179,45 +1135,45 @@ void VulkanRenderer::drawFrame()
         throw std::runtime_error("failed to acquire swap chain image!");
     }
 
-    updateUniformBuffer(currentFrame);
+    updateUniformBuffer(mCurrentFrame);
 
-    device->resetFences(*inFlightFences[currentFrame]);
+    mDevice->resetFences(*mInFlightFences[mCurrentFrame]);
 
-    commandBuffers[currentFrame]->reset();
-    recordCommandBuffer(*commandBuffers[currentFrame], imageIndex);
+    mCommandBuffers[mCurrentFrame]->reset();
+    recordCommandBuffer(*mCommandBuffers[mCurrentFrame], imageIndex);
 
     vk::SubmitInfo submitInfo;
 
-    vk::Semaphore waitSemaphores[] = {*imageAvailableSemaphores[currentFrame]};
+    vk::Semaphore waitSemaphores[] = {*mImageAvailableSemaphores[mCurrentFrame]};
     vk::PipelineStageFlags waitStages[] = {vk::PipelineStageFlagBits::eColorAttachmentOutput};
     submitInfo.waitSemaphoreCount = 1;
     submitInfo.pWaitSemaphores = waitSemaphores;
     submitInfo.pWaitDstStageMask = waitStages;
 
     submitInfo.commandBufferCount = 1;
-    submitInfo.pCommandBuffers = &**commandBuffers[currentFrame];
+    submitInfo.pCommandBuffers = &**mCommandBuffers[mCurrentFrame];
 
-    vk::Semaphore signalSemaphores[] = {*renderFinishedSemaphores[currentFrame]};
+    vk::Semaphore signalSemaphores[] = {*mRenderFinishedSemaphores[mCurrentFrame]};
     submitInfo.signalSemaphoreCount = 1;
     submitInfo.pSignalSemaphores = signalSemaphores;
 
-    graphicsQueue->submit(submitInfo, *inFlightFences[currentFrame]);
+    mGraphicsQueue->submit(submitInfo, *mInFlightFences[mCurrentFrame]);
+    mGraphicsQueue->waitIdle(); // TODO: crashes uploading the index buffer without this wait, not sure if this is just masking a bug ??
 
     vk::PresentInfoKHR presentInfo;
     presentInfo.waitSemaphoreCount = 1;
     presentInfo.pWaitSemaphores = signalSemaphores;
 
-    vk::SwapchainKHR swapChains[] = {**swapChain};
+    vk::SwapchainKHR swapChains[] = {**mSwapChain};
     presentInfo.swapchainCount = 1;
     presentInfo.pSwapchains = swapChains;
 
     presentInfo.pImageIndices = &imageIndex;
 
-    result = presentQueue->presentKHR(presentInfo);
+    result = mPresentQueue->presentKHR(presentInfo);
 
-    if (result == vk::Result::eErrorOutOfDateKHR || result == vk::Result::eSuboptimalKHR || framebufferResized)
+    if (result == vk::Result::eErrorOutOfDateKHR || result == vk::Result::eSuboptimalKHR)
     {
-        framebufferResized = false;
         recreateSwapChain();
     }
     else if (result != vk::Result::eSuccess)
@@ -1225,7 +1181,7 @@ void VulkanRenderer::drawFrame()
         throw std::runtime_error("failed to present swap chain image!");
     }
 
-    currentFrame = (currentFrame + 1) % MAX_FRAMES_IN_FLIGHT;
+    mCurrentFrame = (mCurrentFrame + 1) % MAX_FRAMES_IN_FLIGHT;
 }
 
 vk::raii::ShaderModule VulkanRenderer::createShaderModule(const std::vector<char>& code)
@@ -1234,7 +1190,7 @@ vk::raii::ShaderModule VulkanRenderer::createShaderModule(const std::vector<char
     createInfo.codeSize = code.size();
     createInfo.pCode = reinterpret_cast<const uint32_t*>(code.data());
 
-    vk::raii::ShaderModule shaderModule(*device, createInfo);
+    vk::raii::ShaderModule shaderModule(*mDevice, createInfo);
     return shaderModule;
 }
 
@@ -1289,9 +1245,9 @@ VkExtent2D VulkanRenderer::chooseSwapExtent(const VkSurfaceCapabilitiesKHR& capa
 VulkanRenderer::SwapChainSupportDetails VulkanRenderer::querySwapChainSupport(vk::raii::PhysicalDevice& vkDevice)
 {
     SwapChainSupportDetails details;
-    details.capabilities = vkDevice.getSurfaceCapabilitiesKHR(**surface);
-    details.formats = vkDevice.getSurfaceFormatsKHR(**surface);
-    details.presentModes = vkDevice.getSurfacePresentModesKHR(**surface);
+    details.capabilities = vkDevice.getSurfaceCapabilitiesKHR(**mSurface);
+    details.formats = vkDevice.getSurfaceFormatsKHR(**mSurface);
+    details.presentModes = vkDevice.getSurfacePresentModesKHR(**mSurface);
     return details;
 }
 
@@ -1317,7 +1273,7 @@ bool VulkanRenderer::checkDeviceExtensionSupport(vk::raii::PhysicalDevice& vkDev
 {
     std::vector<vk::ExtensionProperties> availableExtensions = vkDevice.enumerateDeviceExtensionProperties();
 
-    std::set<std::string> requiredExtensions(deviceExtensions.begin(), deviceExtensions.end());
+    std::set<std::string> requiredExtensions(kDeviceExtensions.begin(), kDeviceExtensions.end());
     for (const auto& extension : availableExtensions)
     {
         requiredExtensions.erase(extension.extensionName);
@@ -1340,7 +1296,7 @@ VulkanRenderer::QueueFamilyIndices VulkanRenderer::findQueueFamilies(vk::raii::P
             indices.graphicsFamily = i;
         }
 
-        VkBool32 presentSupport = vkDevice.getSurfaceSupportKHR(i, **surface); // TODO: leak ?
+        VkBool32 presentSupport = vkDevice.getSurfaceSupportKHR(i, **mSurface); // TODO: leak ?
         if (presentSupport)
         {
             indices.presentFamily = i;
@@ -1388,7 +1344,7 @@ bool VulkanRenderer::checkValidationLayerSupport()
     std::vector<VkLayerProperties> availableLayers(layerCount);
     vkEnumerateInstanceLayerProperties(&layerCount, availableLayers.data());
 
-    for (const char* layerName : validationLayers)
+    for (const char* layerName : kValidationLayers)
     {
         bool layerFound = false;
 
@@ -1432,7 +1388,7 @@ bool VulkanRenderer::checkValidationLayerSupport()
 
 /*static*/ VKAPI_ATTR VkBool32 VKAPI_CALL VulkanRenderer::debugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT /*messageSeverity*/, VkDebugUtilsMessageTypeFlagsEXT /*messageType*/, const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData, void* /*pUserData*/)
 {
-    std::cerr << "validation layer: " << pCallbackData->pMessage << std::endl;
+    LOG_ERROR("validation layer: %s", pCallbackData->pMessage);
 
     return VK_FALSE;
 }
@@ -1482,8 +1438,22 @@ void VulkanRenderer::EndFrame()
 {
     if (mFrameStarted)
     {
+        if (!vertices.empty() && !gIndices.empty())
+        {
+            this->createVertexBuffer();
+            this->createIndexBuffer();
+        }
+
         this->drawFrame();
         mFrameStarted = false;
+
+        vertices.clear();
+        gIndices.clear();
+        mIndexBufferIndex = 0;
+        this->mVertexBuffer.reset();
+        this->mVertexBufferMemory.reset();
+        this->mIndexBuffer.reset();
+        this->mIndexBufferMemory.reset();
     }
 
     // Always decrease resource lifetimes regardless of drawing to prevent
@@ -1544,9 +1514,25 @@ void VulkanRenderer::SetupBlendMode(u16 blendMode)
     }
 }*/
 
-void VulkanRenderer::Draw(Poly_FT4&)
+void VulkanRenderer::Draw(Poly_FT4& poly)
 {
 
+    if (poly.mAnim)
+    {
+        vertices.push_back({{static_cast<f32>(poly.mBase.vert.x), static_cast<f32>(poly.mBase.vert.y)}, {1.0f, 1.0f, 1.0f}, {1.0f, 0.0f}, 1});
+        vertices.push_back({{static_cast<f32>(poly.mVerts[0].mVert.x), static_cast<f32>(poly.mVerts[0].mVert.y)}, {1.0f, 1.0f, 1.0f}, {0.0f, 0.0f}, 1 });
+        vertices.push_back({{static_cast<f32>(poly.mVerts[1].mVert.x), static_cast<f32>(poly.mVerts[1].mVert.y)}, {1.0f, 1.0f, 1.0f}, {0.0f, 1.0f}, 1});
+        vertices.push_back({{static_cast<f32>(poly.mVerts[2].mVert.x), static_cast<f32>(poly.mVerts[2].mVert.y)}, {1.0f, 1.0f, 1.0f}, {1.0f, 1.0f}, 1});
+
+        gIndices.emplace_back((u16) (mIndexBufferIndex + 0));
+        gIndices.emplace_back((u16) (mIndexBufferIndex + 1));
+        gIndices.emplace_back((u16) (mIndexBufferIndex + 2));
+        gIndices.emplace_back((u16) (mIndexBufferIndex + 2));
+        gIndices.emplace_back((u16) (mIndexBufferIndex + 3));
+        gIndices.emplace_back((u16) (mIndexBufferIndex + 0));
+
+        mIndexBufferIndex += 4;
+    }
 }
 
 void VulkanRenderer::Draw(Poly_G4&)
