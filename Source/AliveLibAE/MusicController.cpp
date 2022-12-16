@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "MusicController.hpp"
-#include "Function.hpp"
+#include "../relive_lib/Function.hpp"
 #include "stdlib.hpp"
 #include "Sound/Midi.hpp"
 #include "../relive_lib/Events.hpp"
@@ -8,7 +8,7 @@
 #include "Map.hpp"
 #include "../relive_lib/ObjectIds.hpp"
 #include "PathData.hpp"
-#include "BaseGameAutoPlayer.hpp"
+#include "../relive_lib/BaseGameAutoPlayer.hpp"
 #include "Math.hpp"
 
 MusicController* gMusicController = nullptr;

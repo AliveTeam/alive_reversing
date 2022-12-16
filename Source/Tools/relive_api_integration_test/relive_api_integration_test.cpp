@@ -3,8 +3,8 @@
 #include "TlvsAO.hpp"
 #include "TypesCollectionAO.hpp"
 
-#include "../../AliveLibCommon/stdafx_common.h"
-#include "../../AliveLibCommon/logger.hpp"
+#include "../../relive_lib/stdafx.h"
+#include "../../relive_lib/logger.hpp"
 
 #include "LvlReaderWriter.hpp"
 #include "CamConverter.hpp"

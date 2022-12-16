@@ -1,6 +1,6 @@
 #include "stdafx_ao.h"
 
-#include "relive_config.h"
+#include "../relive_lib/relive_config.h"
 
 #include "Midi.hpp"
 #include "PathData.hpp"
@@ -19,7 +19,7 @@
 #include "../AliveLibAE/PathData.hpp"
 
 #include "../relive_lib/BinaryPath.hpp"
-#include "../AliveLibCommon/FatalError.hpp"
+#include "../relive_lib/FatalError.hpp"
 
 // TODO: Refactor + remove these
 #define BYTEn(x, n) (*((u8*) &(x) + n))

@@ -6,7 +6,7 @@
 #include "ObjectIds.hpp"
 #include "Events.hpp"
 #include "GameType.hpp"
-#include "../AliveLibCommon/FatalError.hpp"
+#include "../relive_lib/FatalError.hpp"
 
 DynamicArrayT<BaseGameObject>* gBaseGameObjects = nullptr;
 s32 gAccumulatedObjectCount = 0;

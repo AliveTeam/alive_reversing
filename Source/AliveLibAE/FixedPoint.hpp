@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Math.hpp"
-#include "../AliveLibCommon/FixedPoint_common.hpp"
+#include "../relive_lib/FixedPoint_common.hpp"
 
 inline FixedPoint& operator*=(FixedPoint& lhs, const FixedPoint& rhs)
 {

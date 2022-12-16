@@ -1,4 +1,4 @@
-#include "../../AliveLibCommon/stdafx_common.h"
+#include "../../relive_lib/stdafx.h"
 #include "relive_api.hpp"
 #include "../../AliveLibAE/Path.hpp"
 #include "../../AliveLibAE/PathData.hpp"
@@ -17,8 +17,8 @@
 #include "TypesCollectionAE.hpp"
 #include "TypesCollectionAO.hpp"
 #include "ApiContext.hpp"
-#include "../../AliveLibCommon/FG1Reader.hpp"
-#include "../../AliveLibCommon/PathDataExtensionsTypes.hpp"
+#include "../../relive_lib/FG1Reader.hpp"
+#include "../../relive_lib/PathDataExtensionsTypes.hpp"
 #include "../../relive_lib/data_conversion/rgb_conversion.hpp"
 #include "../../relive_lib/data_conversion/PNGFile.hpp"
 #include <iostream>

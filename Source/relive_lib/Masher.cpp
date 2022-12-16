@@ -1,4 +1,4 @@
-#include "stdafx_common.h"
+#include "stdafx.h"
 #include "Masher.hpp"
 #include "masher_tables.hpp"
 #include <array>

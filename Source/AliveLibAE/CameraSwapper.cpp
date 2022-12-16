@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "CameraSwapper.hpp"
-#include "Function.hpp"
+#include "../relive_lib/Function.hpp"
 #include "Game.hpp"
 #include "Map.hpp"
 #include "BackgroundMusic.hpp"
@@ -12,7 +12,7 @@
 #include "Sfx.hpp"
 #include "Movie.hpp"
 #include "ScreenClipper.hpp"
-#include "../AliveLibCommon/FatalError.hpp"
+#include "../relive_lib/FatalError.hpp"
 
 CameraSwapper::CameraSwapper(CamResource& camRes, bool bPutDispEnv1, const char_type* pFmv1, bool bPutDispEnv2, const char_type* pFmv2, bool bPutDispEnv3, const char_type* pFmv3)
     : BaseGameObject(true, 0)

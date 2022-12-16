@@ -12,7 +12,7 @@
 #include "Sfx.hpp"
 #include "AirExplosion.hpp"
 #include "ZapLine.hpp"
-#include "Function.hpp"
+#include "../relive_lib/Function.hpp"
 #include "ZapSpark.hpp"
 #include "Map.hpp"
 #include "Path.hpp"

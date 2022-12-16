@@ -1,6 +1,6 @@
 #include "stdafx_ao.h"
 #include "GameSpeak.hpp"
-#include "Function.hpp"
+#include "../relive_lib/Function.hpp"
 #include "Game.hpp"
 #include "../AliveLibAE/stdlib.hpp"
 

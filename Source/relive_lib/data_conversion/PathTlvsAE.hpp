@@ -1,8 +1,8 @@
 #pragma once
 
-#include "../../AliveLibCommon/Types.hpp"
+#include "../../relive_lib/Types.hpp"
 #include "../../AliveLibAE/Path.hpp"
-#include "../../AliveLibCommon/Psx_common.hpp"
+#include "../../relive_lib/Psx_common.hpp"
 
 enum class SwitchOp : s16;
 enum class TPageAbr : s8;

@@ -2,7 +2,7 @@
 
 #include <GL/glew.h>
 
-#include "../AliveLibCommon/Types.hpp"
+#include "../../../relive_lib/Types.hpp"
 #include "GLShader.hpp"
 
 class GLShaderProgram final

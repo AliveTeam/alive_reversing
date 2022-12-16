@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/Types.hpp"
+#include "../relive_lib/Types.hpp"
 
 // TODO: Can be made into a template when all usages are reversed.
 class DynamicArray

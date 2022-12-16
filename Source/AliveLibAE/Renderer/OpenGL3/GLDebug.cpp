@@ -1,8 +1,8 @@
 #include <GL/glew.h>
 #include <string>
 
-#include "../AliveLibCommon/FatalError.hpp"
-#include "../AliveLibCommon/Types.hpp"
+#include "../../../relive_lib/FatalError.hpp"
+#include "../../../relive_lib/Types.hpp"
 #include "GLDebug.hpp"
 
 bool gGlDebug = true;

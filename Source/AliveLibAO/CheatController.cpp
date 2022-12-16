@@ -1,6 +1,6 @@
 #include "stdafx_ao.h"
 #include "CheatController.hpp"
-#include "Function.hpp"
+#include "../relive_lib/Function.hpp"
 #include "../AliveLibAE/stdlib.hpp"
 #include "Map.hpp"
 #include "Input.hpp"

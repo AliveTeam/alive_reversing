@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "Slurg.hpp"
-#include "Function.hpp"
+#include "../relive_lib/Function.hpp"
 #include "../relive_lib/Shadow.hpp"
 #include "../relive_lib/Collisions.hpp"
 #include "Blood.hpp"

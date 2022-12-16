@@ -12,9 +12,9 @@
 #include "imgui_impl_sdl.h"
 #include "imgui_impl_opengl3.h"
 
-#include "../relive_lib/data_conversion/rgb_conversion.hpp"
-#include "../relive_lib/Animation.hpp"
-#include "../relive_lib/ResourceManagerWrapper.hpp"
+#include "../../../relive_lib/data_conversion/rgb_conversion.hpp"
+#include "../../../relive_lib/Animation.hpp"
+#include "../../../relive_lib/ResourceManagerWrapper.hpp"
 #include "GLContext.hpp"
 #include "GLFramebuffer.hpp"
 #include "GLShader.hpp"

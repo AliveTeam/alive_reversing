@@ -6,10 +6,10 @@
 #include "RockSack.hpp"
 #include "Sfx.hpp"
 #include "ThrowableArray.hpp"
-#include "AnimResources.hpp"
-#include "FixedPoint_common.hpp"
+#include "../relive_lib/AnimResources.hpp"
+#include "../relive_lib/FixedPoint_common.hpp"
 #include "Abe.hpp"
-#include "Function.hpp"
+#include "../relive_lib/Function.hpp"
 #include "../relive_lib/Shadow.hpp"
 
 namespace AO {

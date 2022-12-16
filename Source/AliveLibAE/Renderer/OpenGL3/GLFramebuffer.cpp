@@ -1,6 +1,6 @@
 #include <GL/glew.h>
 
-#include "../AliveLibCommon/Types.hpp"
+#include "../../../relive_lib/Types.hpp"
 #include "GLDebug.hpp"
 #include "GLFramebuffer.hpp"
 #include "SDL.h"

@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Map.hpp"
 #include "PathData.hpp"
-#include "Function.hpp"
+#include "../relive_lib/Function.hpp"
 #include "../relive_lib/ScreenManager.hpp"
 #include "ResourceManager.hpp"
 #include "Sound/Midi.hpp"
@@ -27,7 +27,7 @@
 #include "Factory.hpp"
 
 #include "../relive_lib/data_conversion/relive_tlvs.hpp"
-#include "../AliveLibCommon/FatalError.hpp"
+#include "../relive_lib/FatalError.hpp"
 #include "../relive_lib/BinaryPath.hpp"
 
 u32 sSoundChannelsMask = 0;

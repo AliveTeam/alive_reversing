@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "Water.hpp"
-#include "Function.hpp"
+#include "../relive_lib/Function.hpp"
 #include "../relive_lib/ScreenManager.hpp"
 #include "Game.hpp"
 #include "Sound/Midi.hpp"

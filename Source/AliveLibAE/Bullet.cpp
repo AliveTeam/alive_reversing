@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Abe.hpp"
 #include "Bullet.hpp"
-#include "Function.hpp"
+#include "../relive_lib/Function.hpp"
 #include "Map.hpp"
 #include "stdlib.hpp"
 #include "Slig.hpp"

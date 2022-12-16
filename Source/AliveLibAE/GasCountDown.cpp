@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "GasCountDown.hpp"
-#include "Function.hpp"
+#include "../relive_lib/Function.hpp"
 #include "Alarm.hpp"
 #include "Map.hpp"
 #include "../relive_lib/SwitchStates.hpp"

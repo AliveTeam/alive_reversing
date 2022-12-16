@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Types.hpp"
+#include "../relive_lib/Types.hpp"
 
 enum class EReliveLevelIds : s16;
 

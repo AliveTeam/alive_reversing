@@ -1,5 +1,5 @@
 #include "stdafx_ao.h"
-#include "Function.hpp"
+#include "../relive_lib/Function.hpp"
 #include "Slog.hpp"
 #include "Abe.hpp"
 #include "MusicController.hpp"

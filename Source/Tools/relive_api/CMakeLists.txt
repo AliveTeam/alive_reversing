@@ -44,17 +44,17 @@ target_include_directories(AliveLibAE_reliveapi PUBLIC
 export(TARGETS AliveLibAE_reliveapi FILE AliveLibAE_reliveapi.cmake)
 set_property(TARGET AliveLibAE_reliveapi PROPERTY FOLDER "ReliveAPI")
 
-add_library(AliveLibCommon_reliveapi
-    ../../AliveLibCommon/AnimResources.cpp
-    ../../AliveLibCommon/CamDecompressor.cpp
-    ../../AliveLibCommon/CompressionType_4Or5.cpp
+add_library(relive_lib_reliveapi
+    ../../relive_lib/AnimResources.cpp
+    ../../relive_lib/CamDecompressor.cpp
+    ../../relive_lib/CompressionType_4Or5.cpp
     )
-target_include_directories(AliveLibCommon_reliveapi PUBLIC
+target_include_directories(relive_lib_reliveapi PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>/../../../3rdParty/EasyLogging++/EasyLogging/src
     $<INSTALL_INTERFACE:include>
     PRIVATE ${CMAKE_BINARY_DIR})
-export(TARGETS AliveLibCommon_reliveapi FILE AliveLibCommon_reliveapi.cmake)
-set_property(TARGET AliveLibCommon_reliveapi PROPERTY FOLDER "ReliveAPI")
+export(TARGETS relive_lib_reliveapi FILE relive_lib_reliveapi.cmake)
+set_property(TARGET relive_lib_reliveapi PROPERTY FOLDER "ReliveAPI")
 
 set(relive_api_src
     ApiContext.hpp
@@ -128,7 +128,7 @@ set(relive_api_src
 )
 add_library(relive_api ${relive_api_src})
 target_link_libraries(relive_api 
-    AliveLibCommon_reliveapi
+    relive_lib_reliveapi
     AliveLibAO_reliveapi
     AliveLibAE_reliveapi
     jsonxx_reliveapi)

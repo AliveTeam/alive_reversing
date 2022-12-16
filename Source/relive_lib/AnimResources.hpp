@@ -1,5 +1,5 @@
 #pragma once
-#include "../AliveLibCommon/Types.hpp"
+#include "../relive_lib/Types.hpp"
 
 enum class AnimId
 {

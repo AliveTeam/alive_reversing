@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "LaughingGas.hpp"
-#include "Function.hpp"
+#include "../relive_lib/Function.hpp"
 #include "../relive_lib/SwitchStates.hpp"
 #include "../relive_lib/ScreenManager.hpp"
 #include "stdlib.hpp"

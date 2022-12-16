@@ -27,9 +27,9 @@ target_compile_definitions(relive_api_integration_test PRIVATE "_CRT_SECURE_NO_W
 if (NOT MSVC)
     set(THREADS_PREFER_PTHREAD_FLAG ON)
     find_package(Threads REQUIRED)
-    target_link_libraries(relive_api_integration_test relive_api relive_lib AliveLibCommon googletest jsonxx_reliveapi libglew_static project_warnings Threads::Threads)
+    target_link_libraries(relive_api_integration_test relive_api relive_lib googletest jsonxx_reliveapi libglew_static project_warnings Threads::Threads)
 else()
-    target_link_libraries(relive_api_integration_test relive_api relive_lib AliveLibCommon googletest jsonxx_reliveapi libglew_static project_warnings)
+    target_link_libraries(relive_api_integration_test relive_api relive_lib googletest jsonxx_reliveapi libglew_static project_warnings)
 endif()
 
 export(TARGETS relive_api_integration_test FILE relive_api_integration_test.cmake)

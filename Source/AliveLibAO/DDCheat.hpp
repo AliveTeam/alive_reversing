@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../relive_lib/BaseGameObject.hpp"
-#include "../AliveLibCommon/Function.hpp"
+#include "../relive_lib/Function.hpp"
 
 struct FixedPoint;
 using FP = FixedPoint;

@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "Slig.hpp"
-#include "Function.hpp"
+#include "../relive_lib/Function.hpp"
 #include "../relive_lib/Collisions.hpp"
 #include "../relive_lib/Shadow.hpp"
 #include "../relive_lib/ShadowZone.hpp"
@@ -32,7 +32,7 @@
 #include "Electrocute.hpp"
 #include "Grid.hpp"
 #include "AnimationCallBacks.hpp"
-#include "../AliveLibCommon/FatalError.hpp"
+#include "../relive_lib/FatalError.hpp"
 #include <algorithm>
 #include "../AliveLibAE/FixedPoint.hpp"
 #include "Input.hpp"

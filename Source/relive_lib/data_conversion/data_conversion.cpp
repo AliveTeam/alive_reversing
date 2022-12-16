@@ -4,7 +4,7 @@
 #include "../../AliveLibAO/PathData.hpp"
 #include "../../AliveLibAO/Path.hpp"
 #include "../../AliveLibAE/Font.hpp"
-#include "../../AliveLibCommon/AnimResources.hpp"
+#include "../../relive_lib/AnimResources.hpp"
 #include "../Animation.hpp"
 #include "../MapWrapper.hpp"
 #include <algorithm>

@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "ScrabSpawner.hpp"
-#include "Function.hpp"
+#include "../relive_lib/Function.hpp"
 #include "stdlib.hpp"
 #include "../relive_lib/ObjectIds.hpp"
 #include "../relive_lib/Events.hpp"

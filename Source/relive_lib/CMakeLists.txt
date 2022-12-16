@@ -93,6 +93,40 @@ SET(relive_lib_src
     stdafx.h
     ObjectTypes.hpp
     Clamp.hpp
+    Types.hpp
+    Sys_common.hpp
+    Sys_common.cpp
+    Primitives_common.hpp
+    Primitives_common.cpp
+    Masher.hpp
+    Masher.cpp
+    FatalError.hpp
+    FatalError.cpp
+    masher_tables.hpp
+    Psx_common.hpp
+    RGB16.hpp
+    CamDecompressor.cpp
+    CamDecompressor.hpp
+    BaseGameAutoPlayer.cpp
+    BaseGameAutoPlayer.hpp
+    PtrStream.hpp
+    CompressionType_4Or5.cpp
+    CompressionType_4Or5.hpp
+    FixedPoint_common.hpp
+    W32CrashHandler.hpp
+    BitField.hpp
+    FG1Reader.hpp
+    PSXMDECDecoder.cpp
+    PSXMDECDecoder.h
+    PSXADPCMDecoder.cpp
+    PSXADPCMDecoder.h
+    PathDataExtensionsTypes.hpp
+    vlctable.hpp
+    AnimResources.hpp
+    AnimResources.cpp
+    logger.hpp
+    AddPointer.hpp
+    Function.hpp
 )
 
 add_library(relive_lib ${relive_lib_src})

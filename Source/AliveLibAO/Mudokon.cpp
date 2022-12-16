@@ -1,5 +1,5 @@
 #include "stdafx_ao.h"
-#include "Function.hpp"
+#include "../relive_lib/Function.hpp"
 #include "Mudokon.hpp"
 #include "GameSpeak.hpp"
 #include "../relive_lib/Shadow.hpp"
@@ -28,7 +28,7 @@
 #include "AbilityRing.hpp"
 #include "CheatController.hpp"
 #include "Grid.hpp"
-#include "../AliveLibCommon/FatalError.hpp"
+#include "../relive_lib/FatalError.hpp"
 #include "../relive_lib/ObjectIds.hpp"
 #include "Path.hpp"
 

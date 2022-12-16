@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "FlyingSligSpawner.hpp"
-#include "Function.hpp"
+#include "../relive_lib/Function.hpp"
 #include "../relive_lib/Events.hpp"
 #include "stdlib.hpp"
 #include "Math.hpp"

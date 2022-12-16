@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../AliveLibCommon/Function.hpp"
-#include "../AliveLibCommon/Types.hpp"
+#include "../relive_lib/Function.hpp"
+#include "../relive_lib/Types.hpp"
 
 enum class EReliveLevelIds : s16;
 

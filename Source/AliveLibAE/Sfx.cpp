@@ -1,11 +1,11 @@
 #include "stdafx.h"
 #include "Sfx.hpp"
-#include "Function.hpp"
+#include "../relive_lib/Function.hpp"
 #include "Sound/Midi.hpp"
 #include "Map.hpp"
 #include <assert.h>
 #include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
-#include "../AliveLibCommon/FixedPoint_common.hpp"
+#include "../relive_lib/FixedPoint_common.hpp"
 #include "../AliveLibAE/FixedPoint.hpp"
 
 s32 SFX_Play_Stereo(relive::SoundEffects sfxId, s32 leftVol, s32 rightVol, FP scale)

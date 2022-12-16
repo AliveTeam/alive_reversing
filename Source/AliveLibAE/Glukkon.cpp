@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "Glukkon.hpp"
-#include "Function.hpp"
+#include "../relive_lib/Function.hpp"
 #include "Abe.hpp"
 #include "stdlib.hpp"
 #include "../relive_lib/Events.hpp"

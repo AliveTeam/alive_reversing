@@ -1,9 +1,9 @@
 #ifdef _WIN32
 #include <windows.h>
 #endif
-#include "relive_config.h"
+#include "../../relive_lib/relive_config.h"
 #include "logger.hpp"
-#include "../../AliveLibCommon/Function.hpp"
+#include "../../relive_lib/Function.hpp"
 #include "SDL_main.h"
 #include "../../AliveLibAE/Io.hpp"
 #include "../../AliveLibAE/Sys.hpp"

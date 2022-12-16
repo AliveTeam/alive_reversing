@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "Grenade.hpp"
-#include "Function.hpp"
+#include "../relive_lib/Function.hpp"
 #include "ThrowableArray.hpp"
 #include "stdlib.hpp"
 #include "PlatformBase.hpp"

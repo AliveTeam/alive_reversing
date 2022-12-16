@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../BaseGameObject.hpp"
-#include "../../AliveLibCommon/Primitives_common.hpp"
+#include "../../relive_lib/Primitives_common.hpp"
 #include "../../AliveLibAE/Font.hpp"
 #include "../../AliveLibAE/LCDScreen.hpp"
 #include "../../AliveLibAE/LCDStatusBoard.hpp"

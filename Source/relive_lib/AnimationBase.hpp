@@ -4,7 +4,7 @@
 #include "Layer.hpp"
 #include "ResourceManagerWrapper.hpp"
 #include "DynamicArray.hpp"
-#include "../AliveLibCommon/RGB16.hpp"
+#include "../relive_lib/RGB16.hpp"
 
 class AnimationBase
 {

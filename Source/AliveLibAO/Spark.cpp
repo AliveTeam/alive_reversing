@@ -1,7 +1,7 @@
 #include "stdafx_ao.h"
 #include "CameraSwapper.hpp"
 #include "../relive_lib/Events.hpp"
-#include "Function.hpp"
+#include "../relive_lib/Function.hpp"
 #include "Spark.hpp"
 #include "Game.hpp"
 #include "Math.hpp"

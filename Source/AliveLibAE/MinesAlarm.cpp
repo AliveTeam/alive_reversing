@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "MinesAlarm.hpp"
-#include "Function.hpp"
+#include "../relive_lib/Function.hpp"
 #include "ExplosionSet.hpp"
 #include "stdlib.hpp"
 #include "Map.hpp"

@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../AliveLibCommon/Types.hpp"
-#include "../AliveLibCommon/FixedPoint_common.hpp"
+#include "../relive_lib/Types.hpp"
+#include "../relive_lib/FixedPoint_common.hpp"
 
 namespace relive {
 

@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "Scrab.hpp"
-#include "Function.hpp"
+#include "../relive_lib/Function.hpp"
 #include "Game.hpp"
 #include "Map.hpp"
 #include "stdlib.hpp"

@@ -1,6 +1,6 @@
 #include "stdafx_ao.h"
 #include "AbilityRing.hpp"
-#include "Function.hpp"
+#include "../relive_lib/Function.hpp"
 #include "../relive_lib/ScreenManager.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
 #include "../relive_lib/PsxDisplay.hpp"

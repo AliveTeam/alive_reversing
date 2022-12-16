@@ -8,9 +8,9 @@
 #include "Game.hpp"
 #include "BirdPortal.hpp"
 #include "Grid.hpp"
-#include "../AliveLibCommon/FatalError.hpp"
+#include "../relive_lib/FatalError.hpp"
 #include "../relive_lib/ObjectIds.hpp"
-#include "../AliveLibCommon/FixedPoint_common.hpp"
+#include "../relive_lib/FixedPoint_common.hpp"
 #include "../AliveLibAE/FixedPoint.hpp"
 
 namespace AO {

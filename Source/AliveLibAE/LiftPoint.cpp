@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "LiftPoint.hpp"
-#include "Function.hpp"
+#include "../relive_lib/Function.hpp"
 #include "Rope.hpp"
 #include "../relive_lib/Collisions.hpp"
 #include "stdlib.hpp"

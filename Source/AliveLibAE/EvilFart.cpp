@@ -10,7 +10,7 @@
 #include "Sound/Midi.hpp"
 #include "AirExplosion.hpp"
 #include "Sfx.hpp"
-#include "Function.hpp"
+#include "../relive_lib/Function.hpp"
 #include "Map.hpp"
 #include "Input.hpp"
 #include "FixedPoint.hpp"

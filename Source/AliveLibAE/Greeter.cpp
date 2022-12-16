@@ -15,7 +15,7 @@
 #include "ZapLine.hpp"
 #include "../relive_lib/Events.hpp"
 #include "MotionDetector.hpp"
-#include "Function.hpp"
+#include "../relive_lib/Function.hpp"
 #include "Bullet.hpp"
 #include "Map.hpp"
 #include "Path.hpp"

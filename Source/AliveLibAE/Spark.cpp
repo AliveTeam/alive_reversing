@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "Spark.hpp"
-#include "Function.hpp"
+#include "../relive_lib/Function.hpp"
 #include "Game.hpp"
 #include "../relive_lib/Particle.hpp"
 #include "stdlib.hpp"

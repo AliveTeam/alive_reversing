@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Collisions.hpp"
 #include "../relive_lib/Math.hpp"
-#include "../AliveLibCommon/FatalError.hpp"
+#include "../relive_lib/FatalError.hpp"
 #include <algorithm>
 #include "../AliveLibAE/FixedPoint.hpp"
 

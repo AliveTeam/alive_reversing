@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../relive_lib/BaseGameObject.hpp"
-#include "../AliveLibCommon/Primitives_common.hpp"
+#include "../relive_lib/Primitives_common.hpp"
 
 class ScreenManager final : public BaseGameObject
 {

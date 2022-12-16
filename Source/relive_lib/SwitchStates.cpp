@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "SwitchStates.hpp"
-#include "../AliveLibCommon/Function.hpp"
+#include "../relive_lib/Function.hpp"
 
 SwitchStates gSwitchStates = {};
 

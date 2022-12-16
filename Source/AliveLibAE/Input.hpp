@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/Function.hpp"
+#include "../relive_lib/Function.hpp"
 
 typedef s32 (*t_InputCallback)();
 

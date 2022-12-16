@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "Meat.hpp"
-#include "Function.hpp"
+#include "../relive_lib/Function.hpp"
 #include "ThrowableArray.hpp"
 #include "Game.hpp"
 #include "stdlib.hpp"

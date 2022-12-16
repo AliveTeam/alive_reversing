@@ -4,7 +4,7 @@
 #include "PathTlvsAO.hpp"
 #include "PathTlvsAE.hpp"
 #include "../relive_lib/SwitchStates.hpp"
-#include "../AliveLibCommon/FatalError.hpp"
+#include "../relive_lib/FatalError.hpp"
 #include "../AliveLibAO/Path.hpp"
 #include "../AliveLibAE/Path.hpp"
 

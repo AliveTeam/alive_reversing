@@ -11,9 +11,9 @@
 #include "../PathData.hpp"
 
 #include "PsxSpuApi.hpp"
-#include "../relive_lib/BinaryPath.hpp"
-#include "../AliveLibAE/AmbientSound.hpp"
-#include "../AliveLibCommon/FatalError.hpp"
+#include "../../relive_lib/BinaryPath.hpp"
+#include "../../AliveLibAE/AmbientSound.hpp"
+#include "../../relive_lib/FatalError.hpp"
 #include "../Math.hpp"
 
 void SFX_SetPitch_4CA510(const relive::SfxDefinition& pSfx, s32 channelsBits, s16 pitch);

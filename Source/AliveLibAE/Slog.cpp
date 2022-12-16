@@ -22,7 +22,7 @@
 #include "../relive_lib/PsxDisplay.hpp"
 #include "Mudokon.hpp"
 #include "Grid.hpp"
-#include "Function.hpp"
+#include "../relive_lib/Function.hpp"
 #include "AnimationCallBacks.hpp"
 #include "Path.hpp"
 #include "Game.hpp"

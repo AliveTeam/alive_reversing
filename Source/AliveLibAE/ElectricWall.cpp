@@ -9,7 +9,7 @@
 #include "../relive_lib/Flash.hpp"
 #include "Abe.hpp"
 #include "Electrocute.hpp"
-#include "Function.hpp"
+#include "../relive_lib/Function.hpp"
 #include "Map.hpp"
 #include "Path.hpp"
 #include "Math.hpp"

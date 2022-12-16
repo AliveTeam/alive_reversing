@@ -1,7 +1,7 @@
 //#include "stdafx_ao.h"
 #include "ShadowZone.hpp"
 #include "../AliveLibAE/stdlib.hpp"
-#include "../AliveLibCommon/FixedPoint_common.hpp"
+#include "../relive_lib/FixedPoint_common.hpp"
 #include "../relive_lib/Events.hpp"
 #include "../AliveLibAE/FixedPoint.hpp"
 

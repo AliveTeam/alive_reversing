@@ -2,8 +2,8 @@
 #include "PsxDisplay.hpp"
 #include <type_traits>
 #include "../AliveLibAE/PsxRender.hpp"
-#include "../AliveLibCommon/Sys_common.hpp"
-#include "../AliveLibCommon/FatalError.hpp"
+#include "../relive_lib/Sys_common.hpp"
+#include "../relive_lib/FatalError.hpp"
 #include "../AliveLibAE/Psx.hpp"
 
 PsxDisplay gPsxDisplay = {};

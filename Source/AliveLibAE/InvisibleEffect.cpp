@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "InvisibleEffect.hpp"
-#include "Function.hpp"
+#include "../relive_lib/Function.hpp"
 #include "PossessionFlicker.hpp"
 #include "../relive_lib/Clamp.hpp"
 #include "../relive_lib/Events.hpp"

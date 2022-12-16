@@ -7,7 +7,7 @@
 #include "../../AliveLibAO/PathData.hpp"
 #include "../../AliveLibAE/Path.hpp"
 
-#include "../../AliveLibCommon/stdafx_common.h"
+#include "../../relive_lib/stdafx.h"
 
 #include "../../relive_lib/Collisions.hpp"
 

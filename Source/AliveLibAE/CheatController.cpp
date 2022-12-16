@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "CheatController.hpp"
-#include "Function.hpp"
+#include "../relive_lib/Function.hpp"
 #include "stdlib.hpp"
 #include "Game.hpp"
 #include "Map.hpp"

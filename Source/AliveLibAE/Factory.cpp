@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "Factory.hpp"
-#include "Function.hpp"
+#include "../relive_lib/Function.hpp"
 #include "MainMenu.hpp"
 #include "Map.hpp"
 #include "LCDScreen.hpp"

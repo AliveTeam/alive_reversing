@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "LevelLoader.hpp"
-#include "Function.hpp"
+#include "../relive_lib/Function.hpp"
 #include "../relive_lib/Events.hpp"
 #include "../relive_lib/SwitchStates.hpp"
 #include "Fade.hpp"

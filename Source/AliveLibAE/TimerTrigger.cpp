@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "TimerTrigger.hpp"
-#include "Function.hpp"
+#include "../relive_lib/Function.hpp"
 #include "../relive_lib/SwitchStates.hpp"
 #include "Game.hpp"
 #include "stdlib.hpp"

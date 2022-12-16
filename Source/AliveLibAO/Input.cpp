@@ -2,8 +2,8 @@
 #include "Input.hpp"
 #include "Game.hpp"
 #include "../AliveLibAE/Input.hpp"
-#include "BitField.hpp"
-#include "BaseGameAutoPlayer.hpp"
+#include "../relive_lib/BitField.hpp"
+#include "../relive_lib/BaseGameAutoPlayer.hpp"
 
 namespace AO {
 

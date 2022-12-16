@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "Mudokon.hpp"
-#include "Function.hpp"
+#include "../relive_lib/Function.hpp"
 #include "../relive_lib/Shadow.hpp"
 #include "stdlib.hpp"
 #include "../relive_lib/Collisions.hpp"
@@ -33,7 +33,7 @@
 #include "Grid.hpp"
 #include "AnimationCallBacks.hpp"
 #include "Map.hpp"
-#include "../AliveLibCommon/FatalError.hpp"
+#include "../relive_lib/FatalError.hpp"
 #include "FixedPoint.hpp"
 
 s16 sGoingToBirdPortalMudCount_5C3012 = 0;

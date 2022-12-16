@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "Sys.hpp"
-#include "Function.hpp"
+#include "../relive_lib/Function.hpp"
 #include "Input.hpp"
 #include <assert.h>
 #include "../relive/resource.h"

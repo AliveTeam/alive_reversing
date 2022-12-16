@@ -1,4 +1,4 @@
-#include "../../AliveLibCommon/stdafx_common.h"
+#include "../../relive_lib/stdafx.h"
 #include "TlvObjectBase.hpp"
 
 namespace ReliveAPI {

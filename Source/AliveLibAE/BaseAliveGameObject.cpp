@@ -12,7 +12,7 @@
 #include "../relive_lib/Events.hpp"
 #include "Grid.hpp"
 #include "Path.hpp"
-#include "../AliveLibCommon/FatalError.hpp"
+#include "../relive_lib/FatalError.hpp"
 #include "../AliveLibAE/FixedPoint.hpp"
 
 BaseAliveGameObject::BaseAliveGameObject(s16 resourceArraySize)

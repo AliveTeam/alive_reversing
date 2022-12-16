@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "MovingBomb.hpp"
-#include "Function.hpp"
+#include "../relive_lib/Function.hpp"
 #include "Game.hpp"
 #include "Map.hpp"
 #include "../relive_lib/Shadow.hpp"

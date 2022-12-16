@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../AliveLibCommon/Types.hpp"
-#include "../AliveLibCommon/AddPointer.hpp"
+#include "../relive_lib/Types.hpp"
+#include "../relive_lib/AddPointer.hpp"
 
 struct PSX_DISPENV;
 struct PSX_RECT;

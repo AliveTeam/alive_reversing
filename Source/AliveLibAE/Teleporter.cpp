@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "Teleporter.hpp"
-#include "Function.hpp"
+#include "../relive_lib/Function.hpp"
 #include "../relive_lib/ScreenManager.hpp"
 #include "../relive_lib/SwitchStates.hpp"
 #include "stdlib.hpp"

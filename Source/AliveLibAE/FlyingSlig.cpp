@@ -25,9 +25,9 @@
 #include "ParticleBurst.hpp"
 #include "Lever.hpp"
 #include "Grid.hpp"
-#include "Function.hpp"
+#include "../relive_lib/Function.hpp"
 #include "AnimationCallBacks.hpp"
-#include "../AliveLibCommon/FatalError.hpp"
+#include "../relive_lib/FatalError.hpp"
 #include <algorithm>
 #include "Input.hpp"
 #include "FixedPoint.hpp"

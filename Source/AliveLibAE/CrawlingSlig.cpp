@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "CrawlingSlig.hpp"
-#include "Function.hpp"
+#include "../relive_lib/Function.hpp"
 #include "../relive_lib/Shadow.hpp"
 #include "stdlib.hpp"
 #include "../relive_lib/Collisions.hpp"

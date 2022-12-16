@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "Fleech.hpp"
-#include "Function.hpp"
+#include "../relive_lib/Function.hpp"
 #include "../relive_lib/SwitchStates.hpp"
 #include "Game.hpp"
 #include "Abe.hpp"

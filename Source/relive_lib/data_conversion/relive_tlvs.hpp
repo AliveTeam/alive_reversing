@@ -2,8 +2,8 @@
 
 #include "../../AliveLibAO/Slig_DisabledResources.hpp"
 #include "../MapWrapper.hpp"
-#include "../../AliveLibCommon/RGB16.hpp"
-#include "../../AliveLibCommon/BitField.hpp"
+#include "../../relive_lib/RGB16.hpp"
+#include "../../relive_lib/BitField.hpp"
 #include "../Primitives.hpp"
 #include "guid.hpp"
 #include "../ObjectTypes.hpp"

@@ -4,8 +4,8 @@
 #include "OpenGL3/OpenGLRenderer.hpp"
 #include "Vulkan/VulkanRenderer.hpp"
 
-#include "../AliveLibCommon/FatalError.hpp"
-#include "../AliveLibCommon/Sys_common.hpp"
+#include "../../relive_lib/FatalError.hpp"
+#include "../../relive_lib/Sys_common.hpp"
 #include "../Sys.hpp"
 
 static IRenderer* gRenderer = nullptr;

@@ -1,12 +1,12 @@
 #include "stdafx.h"
 #include "ResourceManager.hpp"
-#include "Function.hpp"
+#include "../relive_lib/Function.hpp"
 #include "Psx.hpp"
 #include "stdlib.hpp"
 #include "../relive_lib/Particle.hpp"
 #include "PsxRender.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
-#include "BaseGameAutoPlayer.hpp"
+#include "../relive_lib/BaseGameAutoPlayer.hpp"
 
 ResourceManager* pResourceManager = nullptr;
 

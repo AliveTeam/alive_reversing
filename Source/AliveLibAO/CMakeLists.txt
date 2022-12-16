@@ -323,7 +323,6 @@ endif()
 
 target_link_libraries(AliveLibAO
     AliveLibAE
-    AliveLibCommon
     googletest
     Cinder
     libglew_static

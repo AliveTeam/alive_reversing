@@ -1,5 +1,5 @@
 #include "stdafx_ao.h"
-#include "Function.hpp"
+#include "../relive_lib/Function.hpp"
 #include "MotionDetector.hpp"
 #include "../AliveLibAE/stdlib.hpp"
 #include "../relive_lib/SwitchStates.hpp"
@@ -12,7 +12,7 @@
 #include "Alarm.hpp"
 #include "../relive_lib/ScreenManager.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
-#include "../AliveLibCommon/FatalError.hpp"
+#include "../relive_lib/FatalError.hpp"
 #include "../relive_lib/ObjectIds.hpp"
 #include "Path.hpp"
 

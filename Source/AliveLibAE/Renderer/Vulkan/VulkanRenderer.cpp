@@ -1,6 +1,6 @@
 #include "VulkanRenderer.hpp"
 
-#include "../../../AliveLibCommon/FatalError.hpp"
+#include "../../../relive_lib/FatalError.hpp"
 #include "../../../relive_lib/ResourceManagerWrapper.hpp"
 #include "../../../relive_lib/Animation.hpp"
 #include "../../Font.hpp"

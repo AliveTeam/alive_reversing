@@ -2,7 +2,7 @@
 #include "VGA.hpp"
 #include "Sys.hpp"
 #include "Renderer/IRenderer.hpp"
-#include "../AliveLibCommon/BaseGameAutoPlayer.hpp"
+#include "../relive_lib/BaseGameAutoPlayer.hpp"
 
 static bool sbRendererCreated = false;
 

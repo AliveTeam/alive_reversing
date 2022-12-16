@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "TimedMine.hpp"
-#include "Function.hpp"
+#include "../relive_lib/Function.hpp"
 #include "stdlib.hpp"
 #include "../relive_lib/Events.hpp"
 #include "Sfx.hpp"

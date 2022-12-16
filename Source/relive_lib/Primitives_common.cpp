@@ -1,4 +1,4 @@
-#include "stdafx_common.h"
+#include "stdafx.h"
 #include "Primitives_common.hpp"
 
 void SetCode(PrimHeader* pPrim, u8 code)

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FixedPoint_common.hpp"
+#include "../relive_lib/FixedPoint_common.hpp"
 
 // For some reason OWI decided to change how square root works between games, call the right one to
 // keep the same results for now

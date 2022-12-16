@@ -1,6 +1,6 @@
 #include "../stdafx.h"
 #include "Sound.hpp"
-#include "Function.hpp"
+#include "../../relive_lib/Function.hpp"
 #include "../stdlib.hpp"
 #include "../Sys.hpp"
 #include <mutex>
@@ -8,7 +8,7 @@
 #include "SDLSoundBuffer.hpp"
 #include "SDLSoundSystem.hpp"
 #include "PsxSpuApi.hpp"
-#include "../../AliveLibCommon/FatalError.hpp"
+#include "../../relive_lib/FatalError.hpp"
 
 s32 sLoadedSoundsCount_BBC394 = 0;
 s32 sLastNotePlayTime_BBC33C = 0;
