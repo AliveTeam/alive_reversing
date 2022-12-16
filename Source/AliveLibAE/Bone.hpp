@@ -56,14 +56,14 @@ public:
     virtual s16 VGetCount() override;
     static s32 CreateFromSaveState(const u8* pData);
 
-    virtual s16 VOnPlatformIntersection(BaseAnimatedWithPhysicsGameObject* pPlatform) override
+    virtual bool VOnPlatformIntersection(BaseAnimatedWithPhysicsGameObject* pPlatform) override
     {
         return OnCollision(pPlatform);
     }
 
 private:
     void AddToPlatform();
-    s16 OnCollision(BaseAnimatedWithPhysicsGameObject* pObj);
+    bool OnCollision(BaseAnimatedWithPhysicsGameObject* pObj);
     void InTheAir();
 
 private:

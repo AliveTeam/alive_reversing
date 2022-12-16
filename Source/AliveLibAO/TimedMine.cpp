@@ -110,11 +110,11 @@ void TimedMine::VScreenChanged()
     }
 }
 
-s16 TimedMine::VTakeDamage(BaseGameObject* pFrom)
+bool TimedMine::VTakeDamage(BaseGameObject* pFrom)
 {
     if (GetDead())
     {
-        return 0;
+        return false;
     }
 
     switch (pFrom->Type())
@@ -128,11 +128,11 @@ s16 TimedMine::VTakeDamage(BaseGameObject* pFrom)
             relive_new GroundExplosion(mXPos, mYPos, GetSpriteScale());
             mSlappedMine = 1;
             mExplosionTimer = sGnFrame;
-            return 1;
+            return true;
         }
 
         default:
-            return 0;
+            return false;
     }
 }
 

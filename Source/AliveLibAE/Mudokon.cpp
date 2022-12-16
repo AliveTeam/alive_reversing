@@ -1276,7 +1276,7 @@ void Mudokon::VPossessed()
     }
 }
 
-s16 Mudokon::VTakeDamage(BaseGameObject* pFrom)
+bool Mudokon::VTakeDamage(BaseGameObject* pFrom)
 {
     switch (pFrom->Type())
     {
@@ -1285,7 +1285,7 @@ s16 Mudokon::VTakeDamage(BaseGameObject* pFrom)
             mbGotShot = true;
             if (mHealth <= FP_FromInteger(0))
             {
-                return 1;
+                return true;
             }
 
             auto pBullet = static_cast<Bullet*>(pFrom);
@@ -1319,7 +1319,7 @@ s16 Mudokon::VTakeDamage(BaseGameObject* pFrom)
                     // ZCover saved us, or somehow we've not in the current camera
                     mbGotShot = false;
                     mHealth = FP_FromInteger(1);
-                    return 0;
+                    return false;
                 }
 
                 // Nothing saved us, get shot
@@ -1345,7 +1345,7 @@ s16 Mudokon::VTakeDamage(BaseGameObject* pFrom)
         case ReliveTypes::eScrab:
             if (mHealth <= FP_FromInteger(0))
             {
-                return 0;
+                return false;
             }
             mPersistAndResetOffscreen = false;
             mHealth = FP_FromInteger(0);
@@ -1364,7 +1364,7 @@ s16 Mudokon::VTakeDamage(BaseGameObject* pFrom)
                 Mudokon_SFX(MudSounds::eHurt2_9, 0, Math_RandomRange(-127, 127), this);
             }
             SetPal(Mud_Emotion::eNormal_0);
-            return 1;
+            return true;
 
         case ReliveTypes::eDrill:
         case ReliveTypes::eGroundExplosion:
@@ -1372,66 +1372,43 @@ s16 Mudokon::VTakeDamage(BaseGameObject* pFrom)
         case ReliveTypes::eAirExplosion:
             if (mHealth <= FP_FromInteger(0) || (FindObjectOfType(ReliveTypes::eTorturedMud, mXPos, mYPos - FP_FromInteger(50)) && mBrainState == Mud_Brain_State::Brain_9_Sick))
             {
-                return 1;
+                return true;
             }
 
             mHealth = FP_FromInteger(0);
 
-            if (mBlind)
-            {
-                relive_new Gibs(
-                    GibType::BlindMud_4,
-                    mXPos,
-                    mYPos,
-                    FP_FromInteger(0),
-                    FP_FromInteger(0),
-                    GetSpriteScale(),
-                    0);
+            relive_new Gibs(
+                mBlind ? GibType::BlindMud_4 : GibType::Mud_3,
+                mXPos,
+                mYPos,
+                FP_FromInteger(0),
+                FP_FromInteger(0),
+                GetSpriteScale(),
+                0);
 
-                relive_new Gibs(
-                    GibType::BlindMud_4,
-                    mXPos,
-                    mYPos,
-                    FP_FromInteger(0),
-                    FP_FromInteger(0),
-                    GetSpriteScale(),
-                    0);
-            }
-            else
-            {
-                relive_new Gibs(
-                    GibType::Mud_3,
-                    mXPos,
-                    mYPos,
-                    FP_FromInteger(0),
-                    FP_FromInteger(0),
-                    GetSpriteScale(),
-                    0);
-
-                relive_new Gibs(
-                    GibType::Mud_3,
-                    mXPos,
-                    mYPos,
-                    FP_FromInteger(0),
-                    FP_FromInteger(0),
-                    GetSpriteScale(),
-                    0);
-            }
+            relive_new Gibs(
+                mBlind ? GibType::BlindMud_4 : GibType::Mud_3,
+                mXPos,
+                mYPos,
+                FP_FromInteger(0),
+                FP_FromInteger(0),
+                GetSpriteScale(),
+                0);
 
             SetDead(true);
             SetPal(Mud_Emotion::eNormal_0);
             EventBroadcast(kEventMudokonDied, sActiveHero);
-            return 1;
+            return true;
 
         case ReliveTypes::eElectricWall:
             Mudokon_SFX(MudSounds::eDeathDropScream_15, 0, 0, this);
             EventBroadcast(kEventMudokonDied, this);
-            return 1;
+            return true;
 
         case ReliveTypes::eFleech:
             if (mHealth <= FP_FromInteger(0))
             {
-                return 1;
+                return true;
             }
 
             mHealth -= FP_FromDouble(0.200988769531); // TODO Do we need this level of accuracy?? 0x3374;
@@ -1469,7 +1446,7 @@ s16 Mudokon::VTakeDamage(BaseGameObject* pFrom)
             {
                 HurtSoundPitchedToHealth();
             }
-            return 1;
+            return true;
 
         case ReliveTypes::eAbe:
             if (sActiveHero->mCurrentMotion == eAbeMotions::Motion_62_Punch_454750)
@@ -1484,45 +1461,45 @@ s16 Mudokon::VTakeDamage(BaseGameObject* pFrom)
             {
                 field_17E_delayed_speak = MudAction::eSorry_8;
             }
-            return 1;
+            return true;
 
         case ReliveTypes::eAbilityRing:
-            return 0;
+            return false;
 
         case ReliveTypes::eMudokon:
             if (static_cast<Mudokon*>(pFrom)->mCurrentMotion != eMudMotions::Motion_38_Punch || mHealth <= FP_FromInteger(0))
             {
-                return 1;
+                return true;
             }
             SetPal(Mud_Emotion::eNormal_0);
             TakeASlap(pFrom);
-            return 1;
+            return true;
 
         case ReliveTypes::eShrykull:
         case ReliveTypes::eElectrocute:
             if (mHealth <= FP_FromInteger(0))
             {
-                return 1;
+                return true;
             }
             mHealth = FP_FromInteger(0);
             EventBroadcast(kEventMudokonDied, this);
             SetPal(Mud_Emotion::eNormal_0);
             SetDead(true);
-            return 1;
+            return true;
 
         case ReliveTypes::eSlamDoor:
             if (mHealth <= FP_FromInteger(0) || mCurrentMotion == eMudMotions::Motion_36_RunJumpMid)
             {
-                return 1;
+                return true;
             }
             ToKnockback();
             VUpdateResBlock();
-            return 1;
+            return true;
 
         case ReliveTypes::eSlog:
             if (mHealth <= FP_FromInteger(0))
             {
-                return 1;
+                return true;
             }
             mPersistAndResetOffscreen = false;
             mHealth = FP_FromInteger(0);
@@ -1532,12 +1509,12 @@ s16 Mudokon::VTakeDamage(BaseGameObject* pFrom)
             EventBroadcast(kEventMudokonDied, this);
             VUpdateResBlock();
             SetPal(Mud_Emotion::eNormal_0);
-            return 1;
+            return true;
 
         default:
             if (mHealth <= FP_FromInteger(0))
             {
-                return 1;
+                return true;
             }
             HurtSoundPitchedToHealth();
             mCurrentMotion = eMudMotions::Motion_45_KnockForward;
@@ -1575,7 +1552,7 @@ s16 Mudokon::VTakeDamage(BaseGameObject* pFrom)
                 }
             }
             SetPal(Mud_Emotion::eNormal_0);
-            return 1;
+            return true;
     }
 }
 

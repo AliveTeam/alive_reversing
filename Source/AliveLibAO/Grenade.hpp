@@ -10,8 +10,8 @@ public:
     Grenade(FP xpos, FP ypos, s16 numGrenades);
     ~Grenade();
 
-    virtual s16 VCanThrow() override;
-    virtual s16 VIsFalling() override;
+    virtual bool VCanThrow() override;
+    virtual bool VIsFalling() override;
     virtual void VTimeToExplodeRandom() override;
     virtual void VThrow(FP velX, FP velY) override;
     virtual void VOnTrapDoorOpen() override;
@@ -19,11 +19,11 @@ public:
     virtual void VScreenChanged() override;
 
     void AddToPlatform();
-    s16 BlowUpAfterCountdown();
-    s16 OnCollision_BounceOff(BaseGameObject* pHit);
-    s16 InTheAir();
+    bool BlowUpAfterCountdown();
+    bool OnCollision_BounceOff(BaseGameObject* pHit);
+    bool InTheAir();
     
-    virtual s16 VOnPlatformIntersection(BaseAnimatedWithPhysicsGameObject* pPlatform) override
+    virtual bool VOnPlatformIntersection(BaseAnimatedWithPhysicsGameObject* pPlatform) override
     {
         return OnCollision_BounceOff(pPlatform);
     }

@@ -592,7 +592,7 @@ void Mudokon::VScreenChanged()
     }
 }
 
-s16 Mudokon::VTakeDamage(BaseGameObject* pFrom)
+bool Mudokon::VTakeDamage(BaseGameObject* pFrom)
 {
     switch (pFrom->Type())
     {
@@ -602,11 +602,11 @@ s16 Mudokon::VTakeDamage(BaseGameObject* pFrom)
                 field_1B8_brain_state = 15;
                 field_1BA_brain_sub_state = 0;
             }
-            return 1;
+            return true;
 
         case ReliveTypes::eElectricWall:
             Mudokon_SFX(MudSounds::eDeathDropScream_17, 0, 0, this);
-            return 1;
+            return true;
 
         case ReliveTypes::eGroundExplosion:
         case ReliveTypes::eMeatSaw:
@@ -634,10 +634,10 @@ s16 Mudokon::VTakeDamage(BaseGameObject* pFrom)
                 SetDead(true);
                 EventBroadcast(kEventMudokonDead, sActiveHero);
             }
-            return 1;
+            return true;
 
         case ReliveTypes::eAbilityRing:
-            return 0;
+            return false;
 
         case ReliveTypes::eBullet:
             mbGotShot = true;
@@ -666,7 +666,7 @@ s16 Mudokon::VTakeDamage(BaseGameObject* pFrom)
                 EventBroadcast(kEventMudokonDead, sActiveHero);
                 return DoSmashDamage();
             }
-            return 1;
+            return true;
 
         case ReliveTypes::eRockSpawner:
             EventBroadcast(kEventMudokonDead, sActiveHero);
@@ -682,7 +682,7 @@ s16 Mudokon::VTakeDamage(BaseGameObject* pFrom)
                 SetDead(true);
                 mHealth = FP_FromInteger(0);
             }
-            return 1;
+            return true;
 
         case ReliveTypes::eSlog:
             if (mHealth > FP_FromInteger(0))
@@ -694,7 +694,7 @@ s16 Mudokon::VTakeDamage(BaseGameObject* pFrom)
                 SetCurrentMotion(eMudMotions::Motion_46_FallLandDie);
                 VUpdateResBlock();
             }
-            return 1;
+            return true;
 
         case ReliveTypes::eBeeSwarm:
             if (mHealth > FP_FromInteger(0))
@@ -718,7 +718,7 @@ s16 Mudokon::VTakeDamage(BaseGameObject* pFrom)
                     VUpdateResBlock();
                 }
             }
-            return 1;
+            return true;
 
         default:
             if (mHealth > FP_FromInteger(0))
@@ -741,11 +741,11 @@ s16 Mudokon::VTakeDamage(BaseGameObject* pFrom)
                     field_1C0_timer = sGnFrame + 90;
                 }
             }
-            return 1;
+            return true;
     }
 }
 
-s16 Mudokon::DoSmashDamage()
+bool Mudokon::DoSmashDamage()
 {
     if (mHealth > FP_FromInteger(0))
     {
@@ -757,9 +757,9 @@ s16 Mudokon::DoSmashDamage()
         SetNextMotion(-1);
         VUpdateResBlock();
         Mudokon_SFX(MudSounds::eKnockbackOuch_10, 0, Math_RandomRange(-127, 127), this);
-        return 1;
+        return true;
     }
-    return 0;
+    return false;
 }
 
 void Mudokon::KillBirdPortal()

@@ -252,18 +252,18 @@ void Meat::InTheAir()
     }
 }
 
-s16 Meat::OnCollision(BaseGameObject* pHit)
+bool Meat::OnCollision(BaseGameObject* pHit)
 {
     // TODO: Check if pHit type is correct for all throwables
 
     if (!pHit->GetCanExplode())
     {
-        return 1;
+        return true;
     }
 
     if (pHit->Type() == ReliveTypes::eMine || pHit->Type() == ReliveTypes::eUXB || pHit->Type() == ReliveTypes::eTimedMine_or_MovingBomb)
     {
-        return 1;
+        return true;
     }
 
     const PSX_RECT bRect = static_cast<BaseAliveGameObject*>(pHit)->VGetBoundingRect();
@@ -283,7 +283,7 @@ s16 Meat::OnCollision(BaseGameObject* pHit)
 
     SFX_Play_Pitch(relive::SoundEffects::MeatBounce, 0, -650);
 
-    return 0;
+    return false;
 }
 
 void Meat::VUpdate()

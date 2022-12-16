@@ -2905,11 +2905,11 @@ void Glukkon::VOnTrapDoorOpen()
     }
 }
 
-s16 Glukkon::VTakeDamage(BaseGameObject* pFrom)
+bool Glukkon::VTakeDamage(BaseGameObject* pFrom)
 {
     if (BrainIs(&Glukkon::Brain_4_Death))
     {
-        return 1;
+        return true;
     }
 
     switch (pFrom->Type())
@@ -2972,7 +2972,7 @@ s16 Glukkon::VTakeDamage(BaseGameObject* pFrom)
             {
                 mHealth = FP_FromInteger(0);
                 EventBroadcast(kEventMudokonComfort, this);
-                return 1;
+                return true;
             }
 
             if (GetCurrentMotion() == eGlukkonMotions::Motion_3_KnockBack)
@@ -2984,7 +2984,7 @@ s16 Glukkon::VTakeDamage(BaseGameObject* pFrom)
                 }
                 mHealth = FP_FromInteger(0);
                 EventBroadcast(kEventMudokonComfort, this);
-                return 1;
+                return true;
             }
 
             mGettingShotTimer = sGnFrame + 20;
@@ -3017,7 +3017,7 @@ s16 Glukkon::VTakeDamage(BaseGameObject* pFrom)
 
         case ReliveTypes::eElectricWall:
             Glukkon::PlaySound_GameSpeak(GlukkonSpeak::Unused_9, 0, mGamespeakPitch, this);
-            return 1;
+            return true;
 
         case ReliveTypes::eRockSpawner:
         case ReliveTypes::eMineCar:
@@ -3072,8 +3072,8 @@ s16 Glukkon::VTakeDamage(BaseGameObject* pFrom)
             break;
 
         default:
-            return 1;
+            return true;
     }
 
-    return 1;
+    return true;
 }

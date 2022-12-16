@@ -12,7 +12,7 @@ public:
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VOnThrowableHit(BaseGameObject* pFrom) override;
-    virtual s16 VTakeDamage(BaseGameObject* pFrom) override;
+    virtual bool VTakeDamage(BaseGameObject* pFrom) override;
     virtual void VScreenChanged() override;
 
 private:

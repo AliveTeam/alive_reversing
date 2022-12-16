@@ -54,14 +54,14 @@ public:
 
     static s32 CreateFromSaveState(const u8* pData);
 
-    virtual s16 VOnPlatformIntersection(BaseAnimatedWithPhysicsGameObject* pPlatform) override
+    virtual bool VOnPlatformIntersection(BaseAnimatedWithPhysicsGameObject* pPlatform) override
     {
         return OnCollision(pPlatform);
     }
 
 private:
     void InTheAir();
-    s16 OnCollision(BaseAnimatedWithPhysicsGameObject* pObj);
+    bool OnCollision(BaseAnimatedWithPhysicsGameObject* pObj);
 
     void BounceHorizontally( FP hitX, FP hitY );
 

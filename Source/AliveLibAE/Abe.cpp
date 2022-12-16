@@ -1715,7 +1715,7 @@ s32 Abe::VGetSaveState(u8* pSaveBuffer)
     return sizeof(AbeSaveState);
 }
 
-s16 Abe::VTakeDamage(BaseGameObject* pFrom)
+bool Abe::VTakeDamage(BaseGameObject* pFrom)
 {
     // Stop chant sound music.
     SND_SEQ_Stop(SeqId::MudokonChant1_10);
@@ -1732,21 +1732,21 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
 
     if (CantBeDamaged_44BAB0())
     {
-        return 0;
+        return false;
     }
 
     if (gAbeInvincible)
     {
-        return 0;
+        return false;
     }
 
     if (GetTeleporting())
     {
-        return 0;
+        return false;
     }
 
     field_128.mRegenHealthTimer = sGnFrame + 180;
-    s16 ret = mHealth > FP_FromInteger(0);
+    bool ret = mHealth > FP_FromInteger(0);
 
     switch (pFrom->Type())
     {
@@ -1755,7 +1755,7 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
             {
                 if (ForceDownIfHoisting_44BA30())
                 {
-                    return 1;
+                    return true;
                 }
 
                 if (IsStanding_449D30())
@@ -1780,7 +1780,7 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
         {
             if (mHealth <= FP_FromInteger(0))
             {
-                return 0;
+                return false;
             }
 
             mbMotionChanged = true;
@@ -1797,7 +1797,6 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
                 GetSpriteScale(),
                 false);
 
-            // Note Check on word_5CC88C <= 3846 appeared always true, removed.
             relive_new Gibs(GibType::Abe_0,
                 mXPos,
                 mYPos,
@@ -1880,7 +1879,7 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
 
                 if (ForceDownIfHoisting_44BA30())
                 {
-                    return 1;
+                    return true;
                 }
                 ToKnockback_44E700(1, 1);
                 SfxPlayMono(relive::SoundEffects::KillEffect, 127);
@@ -1909,7 +1908,7 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
                         40 * (5 * (FP_GetExponent(hpRandSoundRange)) + 5));
 
                     Mudokon_SFX(MudSounds::eHurt2_9, 0, pitchRand, this);
-                    return 1;
+                    return true;
                 }
 
                 const PSX_RECT bRect = VGetBoundingRect();
@@ -1925,7 +1924,7 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
 
                 if (ForceDownIfHoisting_44BA30())
                 {
-                    return 1;
+                    return true;
                 }
 
                 ToKnockback_44E700(1, 1);
@@ -1972,7 +1971,7 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
             {
                 break;
             }
-            return 1;
+            return true;
 
         case ReliveTypes::eParamite:
         case ReliveTypes::eScrab:
@@ -1996,7 +1995,7 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
 
                 if (ForceDownIfHoisting_44BA30())
                 {
-                    return 1;
+                    return true;
                 }
 
                 ToKnockback_44E700(1, 1);
@@ -2037,7 +2036,7 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
             break;
 
         case ReliveTypes::eAbilityRing:
-            return 0;
+            return false;
 
         case ReliveTypes::eMudokon:
             if (mHealth > FP_FromInteger(0) && mCurrentMotion != eAbeMotions::Motion_71_Knockback_455090)
@@ -2079,7 +2078,7 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
             BulletDamage_44C980(static_cast<Bullet*>(pFrom));
             if (!mbGotShot)
             {
-                ret = 0;
+                ret = false;
                 field_128.mSay = oldSay;
             }
             break;
@@ -3280,7 +3279,7 @@ void Abe::Motion_14_HoistIdle_452440()
                 mXPos = hitX;
                 mYPos = FP_NoFractional(hitY + FP_FromDouble(0.5));
 
-                MapFollowMe(1);
+                MapFollowMe(true);
 
                 BaseAliveGameObjectCollisionLine = pLine;
 

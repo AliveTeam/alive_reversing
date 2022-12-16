@@ -855,7 +855,7 @@ void FlyingSlig::Movement()
     field_190 = FP_FromInteger(0);
 }
 
-s16 FlyingSlig::VTakeDamage(BaseGameObject* pFrom)
+bool FlyingSlig::VTakeDamage(BaseGameObject* pFrom)
 {
     switch (pFrom->Type())
     {
@@ -884,7 +884,7 @@ s16 FlyingSlig::VTakeDamage(BaseGameObject* pFrom)
                             // Top/bottom in cover
                             if (bRect.w >= pTlv->mTopLeftX && bRect.w <= pTlv->mBottomRightX && bRect.h >= pTlv->mTopLeftY && bRect.h <= pTlv->mBottomRightY)
                             {
-                                return 0;
+                                return false;
                             }
                         }
                     }
@@ -903,15 +903,15 @@ s16 FlyingSlig::VTakeDamage(BaseGameObject* pFrom)
         {
             if (BrainIs(&FlyingSlig::Brain_1_Death))
             {
-                return 1;
+                return true;
             }
             BlowUp();
             auto pExplosion = relive_new AirExplosion(mXPos, mYPos - (GetSpriteScale() * FP_FromInteger(5)), GetSpriteScale(), 1);
             if (!pExplosion)
             {
-                return 1;
+                return true;
             }
-            return 1;
+            return true;
         }
 
         case ReliveTypes::eElectricWall:
@@ -937,9 +937,9 @@ s16 FlyingSlig::VTakeDamage(BaseGameObject* pFrom)
             break;
 
         default:
-            return 1;
+            return true;
     }
-    return 1;
+    return true;
 }
 
 void FlyingSlig::Brain_0_Inactive()

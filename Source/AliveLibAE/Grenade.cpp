@@ -538,17 +538,17 @@ s16 Grenade::InTheAir(s16 blowUpOnFloorTouch)
     return 1;
 }
 
-s16 Grenade::OnCollision_BounceOff(BaseGameObject* pHit)
+bool Grenade::OnCollision_BounceOff(BaseGameObject* pHit)
 {
     if (!pHit->GetCanExplode())
     {
-        return 1;
+        return true;
     }
 
     auto pHit2 = static_cast<BaseAliveGameObject*>(pHit);
     if (pHit2->GetSpriteScale() != GetSpriteScale())
     {
-        return 1;
+        return true;
     }
 
     const PSX_RECT bRect = pHit2->VGetBoundingRect();
@@ -567,7 +567,7 @@ s16 Grenade::OnCollision_BounceOff(BaseGameObject* pHit)
     pHit2->VOnThrowableHit(this);
 
     SfxPlayMono(relive::SoundEffects::RockBounceOnMine, 0);
-    return 0;
+    return false;
 }
 
 s16 Grenade::TimeToBlowUp()
@@ -646,19 +646,19 @@ Grenade::~Grenade()
     }
 }
 
-s16 Grenade::OnCollision_InstantExplode(BaseGameObject* pHit)
+bool Grenade::OnCollision_InstantExplode(BaseGameObject* pHit)
 {
     if (pHit == mGrenadeOwner)
     {
         // Don't do anything if hit the person who threw it
-        return 1;
+        return true;
     }
 
     if (pHit->GetCanExplode() && static_cast<BaseAliveGameObject*>(pHit)->GetSpriteScale() == GetSpriteScale())
     {
         mExplodeNow = true;
-        return 0;
+        return false;
     }
 
-    return 1;
+    return true;
 }

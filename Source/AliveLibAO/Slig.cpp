@@ -730,7 +730,7 @@ void Slig::VPossessed()
     MusicController::static_PlayMusic(MusicController::MusicTypes::ePossessed_6, this, 1, 0);
 }
 
-s16 Slig::VTakeDamage(BaseGameObject* pFrom)
+bool Slig::VTakeDamage(BaseGameObject* pFrom)
 {
     switch (pFrom->Type())
     {
@@ -790,7 +790,7 @@ s16 Slig::VTakeDamage(BaseGameObject* pFrom)
 
             if (mHealth <= FP_FromInteger(0))
             {
-                return GetAnimation().GetRender() ? 1 : 0;
+                return GetAnimation().GetRender();
             }
 
             if (mCurrentMotion != eSligMotions::Motion_45_Smash && mCurrentMotion != eSligMotions::Motion_35_Knockback)
@@ -800,12 +800,12 @@ s16 Slig::VTakeDamage(BaseGameObject* pFrom)
             }
             mHealth = FP_FromInteger(0);
             EventBroadcast(kEventMudokonComfort, sActiveHero);
-            return 1;
+            return true;
         }
 
         case ReliveTypes::eElectricWall:
             Slig_GameSpeak_SFX(SligSpeak::eHelp_10, 0, mGameSpeakPitchMin, this);
-            return 1;
+            return true;
 
         case ReliveTypes::eGroundExplosion:
         case ReliveTypes::eMeatSaw:
@@ -830,16 +830,16 @@ s16 Slig::VTakeDamage(BaseGameObject* pFrom)
                 VUpdateAnimData();
                 EventBroadcast(kEventMudokonComfort, sActiveHero);
             }
-            return 1;
+            return true;
 
         case ReliveTypes::eAbilityRing:
-            return 1;
+            return true;
 
         case ReliveTypes::eSlog:
             if (mHealth <= FP_FromInteger(0)
                 && (mCurrentMotion == eSligMotions::Motion_35_Knockback || mCurrentMotion == eSligMotions::Motion_45_Smash))
             {
-                return 1;
+                return true;
             }
             mHealth = FP_FromInteger(0);
             SetBrain(&Slig::Brain_Death_46C3A0);
@@ -866,7 +866,7 @@ s16 Slig::VTakeDamage(BaseGameObject* pFrom)
                 mNextMotion = eSligMotions::Motion_45_Smash;
                 field_13A_shot_motion = eSligMotions::Motion_45_Smash;
             }
-            return 1;
+            return true;
 
         case ReliveTypes::eBeeSwarm:
             if (mHealth > FP_FromInteger(0))
@@ -881,7 +881,7 @@ s16 Slig::VTakeDamage(BaseGameObject* pFrom)
                     field_13A_shot_motion = eSligMotions::Motion_35_Knockback;
                 }
             }
-            return 1;
+            return true;
 
         case ReliveTypes::eElectrocute:
             if (mHealth > FP_FromInteger(0))
@@ -890,7 +890,7 @@ s16 Slig::VTakeDamage(BaseGameObject* pFrom)
                 mHealth = FP_FromInteger(0);
                 EventBroadcast(kEventMudokonComfort, sActiveHero);
             }
-            return 1;
+            return true;
 
         case ReliveTypes::eBat:
             break;
@@ -911,7 +911,7 @@ s16 Slig::VTakeDamage(BaseGameObject* pFrom)
         field_13A_shot_motion = eSligMotions::Motion_45_Smash;
         mbGotShot = true;
     }
-    return 1;
+    return true;
 }
 
 enum Brain_DeathDropDeath
@@ -948,41 +948,41 @@ void Slig::VOnTlvCollision(relive::Path_TLV* pTlv)
     }
 }
 
-s16 Slig::VOnSameYLevel(BaseAnimatedWithPhysicsGameObject* pOther)
+bool Slig::VOnSameYLevel(BaseAnimatedWithPhysicsGameObject* pOther)
 {
     PSX_RECT ourRect = VGetBoundingRect();
     PSX_RECT objRect = pOther->VGetBoundingRect();
     return ((objRect.y + objRect.h) / 2) <= ourRect.h && objRect.h >= ourRect.y;
 }
 
-s16 Slig::VIsFacingMe(BaseAnimatedWithPhysicsGameObject* pWho)
+bool Slig::VIsFacingMe(BaseAnimatedWithPhysicsGameObject* pWho)
 {
     if (mCurrentMotion != eSligMotions::Motion_5_TurnAroundStanding
         || GetAnimation().GetCurrentFrame() < 6)
     {
         if (pWho->mXPos <= mXPos && GetAnimation().GetFlipX())
         {
-            return 1;
+            return true;
         }
 
         if (pWho->mXPos >= mXPos && !GetAnimation().GetFlipX())
         {
-            return 1;
+            return true;
         }
     }
     else
     {
         if (pWho->mXPos <= mXPos && !GetAnimation().GetFlipX())
         {
-            return 1;
+            return true;
         }
 
         if (pWho->mXPos >= mXPos && GetAnimation().GetFlipX())
         {
-            return 1;
+            return true;
         }
     }
-    return 0;
+    return false;
 }
 
 void Slig::VUpdateAnimData()

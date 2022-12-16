@@ -58,7 +58,7 @@ void Meat::VThrow(FP velX, FP velY)
     }
 }
 
-s16 Meat::VCanThrow()
+bool Meat::VCanThrow()
 {
     return mState == 2;
 }
@@ -68,7 +68,7 @@ bool Meat::VCanEatMe()
     return mState != 0;
 }
 
-s16 Meat::VIsFalling()
+bool Meat::VIsFalling()
 {
     return mState == 5;
 }
@@ -309,16 +309,16 @@ void Meat::VUpdate()
     }
 }
 
-s16 Meat::OnCollision(BaseAnimatedWithPhysicsGameObject* pHit)
+bool Meat::OnCollision(BaseAnimatedWithPhysicsGameObject* pHit)
 {
     if (!pHit->GetCanExplode())
     {
-        return 1;
+        return true;
     }
 
     if (pHit->Type() == ReliveTypes::eMine || pHit->Type() == ReliveTypes::eUXB || pHit->Type() == ReliveTypes::eTimedMine)
     {
-        return 1;
+        return true;
     }
 
     const PSX_RECT bRect = pHit->VGetBoundingRect();
@@ -336,7 +336,7 @@ s16 Meat::OnCollision(BaseAnimatedWithPhysicsGameObject* pHit)
 
     pHit->VOnThrowableHit(this);
     SFX_Play_Pitch(relive::SoundEffects::MeatBounce, 0, -650);
-    return 0;
+    return false;
 }
 
 void Meat::AddToPlatform()

@@ -359,11 +359,11 @@ void Greeter::HandleRollingAlong()
     }
 }
 
-s16 Greeter::VTakeDamage(BaseGameObject* pFrom)
+bool Greeter::VTakeDamage(BaseGameObject* pFrom)
 {
     if (GetDead() || FP_GetExponent(mHealth) == 0)
     {
-        return 0;
+        return false;
     }
 
     switch (pFrom->Type())
@@ -386,7 +386,7 @@ s16 Greeter::VTakeDamage(BaseGameObject* pFrom)
         {
             BlowUp();
         }
-        return 1;
+        return true;
 
         case ReliveTypes::eDrill:
         case ReliveTypes::eElectricWall:
@@ -396,20 +396,20 @@ s16 Greeter::VTakeDamage(BaseGameObject* pFrom)
         case ReliveTypes::eMineCar:
         case ReliveTypes::eAirExplosion:
             BlowUp();
-            return 1;
+            return true;
 
         case ReliveTypes::eSlamDoor:
             BounceBackFromShot();
-            return 1;
+            return true;
 
         case ReliveTypes::eElectrocute:
             GetAnimation().SetRender(false);
             BlowUp();
-            return 1;
+            return true;
 
         default:
             BlowUp();
-            return 1;
+            return true;
     }
 }
 

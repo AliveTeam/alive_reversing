@@ -47,7 +47,7 @@ public:
     Slog(FP xpos, FP ypos, FP scale);
     ~Slog();
 
-    virtual s16 VTakeDamage(BaseGameObject* pFrom) override;
+    virtual bool VTakeDamage(BaseGameObject* pFrom) override;
     virtual void VOnTlvCollision(relive::Path_TLV* pTlv) override;
     virtual void VScreenChanged() override;
     virtual void VRender(PrimHeader** ppOt) override;

@@ -22,7 +22,7 @@ public:
     virtual void VScreenChanged() override;
     virtual void VOnPickUpOrSlapped() override;
     virtual void VOnThrowableHit(BaseGameObject* pFrom) override;
-    virtual s16 VTakeDamage(BaseGameObject* pFrom) override;
+    virtual bool VTakeDamage(BaseGameObject* pFrom) override;
 
 private:
     bool IsColliding();

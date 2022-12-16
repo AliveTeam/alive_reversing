@@ -61,7 +61,7 @@ public:
 
     static s32 CreateFromSaveState(const u8* pBuffer);
 
-    virtual s16 VOnPlatformIntersection(BaseAnimatedWithPhysicsGameObject* pPlatform) override
+    virtual bool VOnPlatformIntersection(BaseAnimatedWithPhysicsGameObject* pPlatform) override
     {
         if (mDoBounceOff)
         {
@@ -79,8 +79,8 @@ private:
     s16 TimeToBlowUp();
     s16 InTheAir(s16 blowUpOnFloorTouch);
     void AddToPlatform();
-    s16 OnCollision_BounceOff(BaseGameObject* pHit);
-    s16 OnCollision_InstantExplode(BaseGameObject* pHit);
+    bool OnCollision_BounceOff(BaseGameObject* pHit);
+    bool OnCollision_InstantExplode(BaseGameObject* pHit);
 
 
 private:

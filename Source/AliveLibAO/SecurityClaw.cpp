@@ -162,7 +162,7 @@ void SecurityClaw::VScreenChanged()
     SetDead(true);
 }
 
-s16 SecurityClaw::VTakeDamage(BaseGameObject* pFrom)
+bool SecurityClaw::VTakeDamage(BaseGameObject* pFrom)
 {
     if (!GetDead())
     {
@@ -207,7 +207,7 @@ s16 SecurityClaw::VTakeDamage(BaseGameObject* pFrom)
             SetDead(true);
         }
     }
-    return 1;
+    return true;
 }
 
 void SecurityClaw::VUpdate()

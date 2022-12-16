@@ -287,7 +287,7 @@ enum Brain_BatDeath
     eDie_4 = 4
 };
 
-s16 Scrab::VTakeDamage(BaseGameObject* pFrom)
+bool Scrab::VTakeDamage(BaseGameObject* pFrom)
 {
     if (mHealth > FP_FromInteger(0))
     {
@@ -296,14 +296,14 @@ s16 Scrab::VTakeDamage(BaseGameObject* pFrom)
             case ReliveTypes::eBat:
                 if (BrainIs(&Scrab::Brain_BatDeath))
                 {
-                    return 1;
+                    return true;
                 }
 
                 mHealth = FP_FromInteger(0);
                 mNextMotion = eScrabMotions::Motion_1_Stand;
                 SetBrain(&Scrab::Brain_BatDeath);
                 mBrainSubState = Brain_BatDeath::eStartHowling_0;
-                return 1;
+                return true;
 
             case ReliveTypes::eBullet:
             case ReliveTypes::eRollingBall:
@@ -326,11 +326,11 @@ s16 Scrab::VTakeDamage(BaseGameObject* pFrom)
                     GetSpriteScale());
 
                 SetDead(true);
-                return 1;
+                return true;
             }
 
             case ReliveTypes::eAbilityRing:
-                return 0;
+                return false;
 
             default:
                 SfxPlayMono(relive::SoundEffects::KillEffect, 127);
@@ -343,7 +343,7 @@ s16 Scrab::VTakeDamage(BaseGameObject* pFrom)
                 break;
         }
     }
-    return 1;
+    return true;
 }
 
 void Scrab::VOnTlvCollision(relive::Path_TLV* pTlv)
@@ -677,7 +677,7 @@ void Scrab::MoveOnLine()
     }
 }
 
-s16 Scrab::VOnSameYLevel(BaseAnimatedWithPhysicsGameObject* pObj)
+bool Scrab::VOnSameYLevel(BaseAnimatedWithPhysicsGameObject* pObj)
 {
     const PSX_RECT ourRect = VGetBoundingRect();
     const PSX_RECT otherRect = pObj->VGetBoundingRect();
@@ -756,12 +756,12 @@ Scrab* Scrab::FindScrabToFight()
 }
 
 
-s16 Scrab::FindAbeOrMud()
+bool Scrab::FindAbeOrMud()
 {
     if (CanSeeAbe(sActiveHero) && sActiveHero->mHealth > FP_FromInteger(0) && sActiveHero->GetSpriteScale() == GetSpriteScale() && !WallHit(sActiveHero->mXPos - mXPos, GetSpriteScale() * FP_FromInteger(35)))
     {
         SetTarget(sActiveHero);
-        return 1;
+        return true;
     }
 
     for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
@@ -781,12 +781,12 @@ s16 Scrab::FindAbeOrMud()
                 if (CanSeeAbe(pObj) && pObj->mHealth > FP_FromInteger(0) && pObj->GetSpriteScale() == GetSpriteScale() && !WallHit(pObj->mXPos - mXPos, GetSpriteScale() * FP_FromInteger(35)))
                 {
                     SetTarget(pObj);
-                    return 1;
+                    return true;
                 }
             }
         }
     }
-    return 0;
+    return false;
 }
 
 s16 Scrab::CanSeeAbe(BaseAliveGameObject* pObj)

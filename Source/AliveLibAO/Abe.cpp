@@ -2680,7 +2680,7 @@ s16 Abe::HandleDoAction()
     return eAbeMotions::Motion_36_DunnoBegin;
 }
 
-s16 Abe::VTakeDamage(BaseGameObject* pFrom)
+bool Abe::VTakeDamage(BaseGameObject* pFrom)
 {
     SND_Seq_Stop_477A60(SeqId::eMudokonChant1_11);
 
@@ -2718,12 +2718,12 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
         case eAbeMotions::Motion_157_DoorExit:
         case eAbeMotions::Motion_162_ToShrykull:
         case eAbeMotions::Motion_163_ShrykullEnd:
-            return 0;
+            return false;
     }
 
     if (gAbeInvulnerableCheat || mShrivel || !GetAnimation().GetRender())
     {
-        return 0;
+        return false;
     }
 
     field_11C_regen_health_timer = sGnFrame + 900;
@@ -2762,7 +2762,7 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
                         mbMotionChanged = true;
                         mbGotShot = false;
                         field_114_gnFrame = 0;
-                        return 1;
+                        return true;
                     }
                 }
             }
@@ -2781,7 +2781,7 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
                     mbGotShot = false;
                     field_114_gnFrame = 0;
                     mbMotionChanged = true;
-                    return 1;
+                    return true;
                 }
 
                 if (IsStanding())
@@ -2868,7 +2868,7 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
                     mbMotionChanged = true;
                     mbGotShot = false;
                     field_114_gnFrame = 0;
-                    return 1;
+                    return true;
                 }
                 ToKnockback(1, 1);
                 SfxPlayMono(relive::SoundEffects::KillEffect, 127);
@@ -2942,7 +2942,7 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
                     mbMotionChanged = true;
                     mbGotShot = false;
                     field_114_gnFrame = 0;
-                    return 1;
+                    return true;
                 }
 
                 if (mCurrentMotion >= eAbeMotions::Motion_102_ElumWalkLoop
@@ -2951,7 +2951,7 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
                     mNextMotion = eAbeMotions::Motion_148_Shot;
                     field_112_prev_motion = eAbeMotions::Motion_148_Shot;
                     mbGotShot = true;
-                    return 1;
+                    return true;
                 }
 
                 ToKnockback(1, 1);
@@ -2990,7 +2990,7 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
             break;
 
         case ReliveTypes::eAbilityRing:
-            return 0;
+            return false;
 
         case ReliveTypes::eRollingBall:
             if (mHealth > FP_FromInteger(0))
@@ -3007,7 +3007,7 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
                     mbMotionChanged = true;
                     mbGotShot = false;
                     field_114_gnFrame = 0;
-                    return 1;
+                    return true;
                 }
 
                 auto pAliveObj = static_cast<BaseAliveGameObject*>(pFrom);
@@ -3092,7 +3092,7 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
                         mbMotionChanged = true;
                         mbGotShot = false;
                         field_114_gnFrame = 0;
-                        return 1;
+                        return true;
                     }
 
                     if (mRidingElum)
@@ -3139,7 +3139,7 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
         }
     }
 
-    return oldHp > FP_FromInteger(0) ? 1 : 0;
+    return oldHp > FP_FromInteger(0);
 }
 
 static bool IsSameScaleAsHoist(relive::Path_Hoist* pHoist, BaseAliveGameObject* pObj)

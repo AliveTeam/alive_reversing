@@ -18,7 +18,7 @@ public:
     void LoadAnimations();
 
     virtual void VScreenChanged() override;
-    virtual s16 VTakeDamage(BaseGameObject* pFrom) override;
+    virtual bool VTakeDamage(BaseGameObject* pFrom) override;
     virtual void VUpdate() override;
 
     Guid field_10C_tlvInfo;

@@ -30,10 +30,10 @@ void IBaseAliveGameObject::VPossessed()
     // Empty
 }
 
-s16 IBaseAliveGameObject::VTakeDamage(BaseGameObject* /*pFrom*/)
+bool IBaseAliveGameObject::VTakeDamage(BaseGameObject* /*pFrom*/)
 {
     // Defaults to no damage.
-    return 0;
+    return false;
 }
 
 void IBaseAliveGameObject::VOnTlvCollision(relive::Path_TLV* /*pTlv*/)

@@ -213,14 +213,14 @@ void BaseAnimatedWithPhysicsGameObject::DeathSmokeEffect(bool bPlaySound)
             2,
             RGB16{128, 128, 128});
 
-        if (bPlaySound == true)
+        if (bPlaySound)
         {
             SFX_Play_Pitch(relive::SoundEffects::Vaporize, 25, FP_GetExponent(FP_FromInteger(2200) * GetSpriteScale()));
         }
     }
 }
 
-s16 BaseAnimatedWithPhysicsGameObject::VIsObjNearby(FP radius, BaseAnimatedWithPhysicsGameObject* pOtherObj)
+bool BaseAnimatedWithPhysicsGameObject::VIsObjNearby(FP radius, BaseAnimatedWithPhysicsGameObject* pOtherObj)
 {
     FP distance = FP_Abs(pOtherObj->mXPos - mXPos);
     // TODO: Factor out
@@ -234,7 +234,7 @@ s16 BaseAnimatedWithPhysicsGameObject::VIsObjNearby(FP radius, BaseAnimatedWithP
     return distance <= radius;
 }
 
-s16 BaseAnimatedWithPhysicsGameObject::VIsObj_GettingNear_On_X(BaseAnimatedWithPhysicsGameObject* pOther)
+bool BaseAnimatedWithPhysicsGameObject::VIsObj_GettingNear_On_X(BaseAnimatedWithPhysicsGameObject* pOther)
 {
     if (pOther->mXPos < mXPos && pOther->mVelX > mVelX)
     {
@@ -253,7 +253,7 @@ s16 BaseAnimatedWithPhysicsGameObject::VIsObj_GettingNear_On_X(BaseAnimatedWithP
 }
 
 // Muds use this to face "away" from Abe when stood on the same grid block. Also used to follow Abe in the correct direction etc.
-s16 BaseAnimatedWithPhysicsGameObject::VIsFacingMe(BaseAnimatedWithPhysicsGameObject* pOther)
+bool BaseAnimatedWithPhysicsGameObject::VIsFacingMe(BaseAnimatedWithPhysicsGameObject* pOther)
 {
     if (pOther->mXPos == mXPos
         && pOther->GetAnimation().GetFlipX() != GetAnimation().GetFlipX())
@@ -277,7 +277,7 @@ s16 BaseAnimatedWithPhysicsGameObject::VIsFacingMe(BaseAnimatedWithPhysicsGameOb
 }
 
 // This is how Scrabs, Fleeches (and probably other stuff) know you are on the same "floor"
-s16 BaseAnimatedWithPhysicsGameObject::VOnSameYLevel(BaseAnimatedWithPhysicsGameObject* pOther)
+bool BaseAnimatedWithPhysicsGameObject::VOnSameYLevel(BaseAnimatedWithPhysicsGameObject* pOther)
 {
     // Get bounding rects
     const PSX_RECT ourRect = VGetBoundingRect();

@@ -190,10 +190,10 @@ public:
     virtual void VUnPosses() override;
     virtual void VOnTlvCollision(relive::Path_TLV* pTlv) override;
     virtual void VOnTrapDoorOpen() override;
-    virtual s16 VTakeDamage(BaseGameObject* pFrom) override;
+    virtual bool VTakeDamage(BaseGameObject* pFrom) override;
 
-    virtual s16 VIsFacingMe(BaseAnimatedWithPhysicsGameObject* pOther) override;
-    virtual s16 VOnSameYLevel(BaseAnimatedWithPhysicsGameObject* pOther) override;
+    virtual bool VIsFacingMe(BaseAnimatedWithPhysicsGameObject* pOther) override;
+    virtual bool VOnSameYLevel(BaseAnimatedWithPhysicsGameObject* pOther) override;
     virtual s32 VGetSaveState(u8* pSaveBuffer) override;
 
     static s32 CreateFromSaveState(const u8* pBuffer);
@@ -368,8 +368,6 @@ private:
     static bool RenderLayerIs_4BBBC0(IBaseAliveGameObject* pThis);
     void NextCommand_4B9A00(s16 speakTableIndex, s16 responseState);
     s16 HeardGlukkonToListenTo_4B9690(GameSpeakEvents glukkonSpeak);
-    s16 vIsFacingMe_4B23D0(BaseAnimatedWithPhysicsGameObject* pWho);
-    s16 vOnSameYLevel_4BB6C0(BaseAnimatedWithPhysicsGameObject* pOther);
     s16 FindLiftPoint_4B9B40();
     AnimId MotionToAnimId(u32 motion);
 

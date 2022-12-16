@@ -24,14 +24,14 @@ public:
     virtual void VSetYSpawn(s32 camWorldY, s16 bLeft) override;
     virtual BirdPortal* VIntoBirdPortal(s16 distance);
 
-    s16 MapFollowMe(s16 snapToGrid);
+    bool MapFollowMe(bool snapToGrid);
 
-    virtual s16 VOnPlatformIntersection(BaseAnimatedWithPhysicsGameObject* pPlatform) override;
+    virtual bool VOnPlatformIntersection(BaseAnimatedWithPhysicsGameObject* pPlatform) override;
 
 protected:
 
     bool Check_IsOnEndOfLine(s16 direction, s16 distance);
-    s16 WallHit(FP offY, FP offX);
+    bool WallHit(FP offY, FP offX);
     bool InAirCollision(PathLine** ppLine, FP* hitX, FP* hitY, FP vely);
     BaseGameObject* FindObjectOfType(ReliveTypes typeToFind, FP xpos, FP ypos);
 

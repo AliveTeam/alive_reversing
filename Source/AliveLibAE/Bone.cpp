@@ -165,21 +165,21 @@ bool Bone::VCanThrow()
     return mState != BoneStates::eSpawned_0 && mState != BoneStates::eAirborne_1;
 }
 
-s16 Bone::OnCollision(BaseAnimatedWithPhysicsGameObject* pObj)
+bool Bone::OnCollision(BaseAnimatedWithPhysicsGameObject* pObj)
 {
     if (!pObj->GetCanExplode())
     {
-        return 1;
+        return true;
     }
 
-    if (pObj->Type() != ReliveTypes::eMine && pObj->Type() != ReliveTypes::eUXB && (mHitObject & 1))
+    if (pObj->Type() != ReliveTypes::eMine && pObj->Type() != ReliveTypes::eUXB && mHitObject)
     {
-        return 1;
+        return true;
     }
 
     if (pObj->Type() == ReliveTypes::eSecurityOrb && sControlledCharacter->GetScale() != pObj->GetScale())
     {
-        return 1;
+        return true;
     }
 
     const PSX_RECT bRect = pObj->VGetBoundingRect();
@@ -201,7 +201,7 @@ s16 Bone::OnCollision(BaseAnimatedWithPhysicsGameObject* pObj)
 
     pObj->VOnThrowableHit(this);
 
-    mHitObject |= 1u;
+    mHitObject = true;
     SfxPlayMono(relive::SoundEffects::RockBounceOnMine, 80);
 
     if (pObj->Type() == ReliveTypes::eMine || pObj->Type() == ReliveTypes::eUXB)
@@ -209,7 +209,7 @@ s16 Bone::OnCollision(BaseAnimatedWithPhysicsGameObject* pObj)
         SetDead(true);
     }
 
-    return 0;
+    return false;
 }
 
 void Bone::VScreenChanged()

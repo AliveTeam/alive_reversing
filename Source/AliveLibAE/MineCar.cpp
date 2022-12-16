@@ -663,7 +663,7 @@ void MineCar::RunThingsOver()
     }
 }
 
-s16 MineCar::VTakeDamage(BaseGameObject* /*pFrom*/)
+bool MineCar::VTakeDamage(BaseGameObject* /*pFrom*/)
 {
     return !GetDead();
 }

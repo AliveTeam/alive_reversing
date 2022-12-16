@@ -85,11 +85,11 @@ void BackgroundGlukkon::VScreenChanged()
     SetDead(true);
 }
 
-s16 BackgroundGlukkon::VTakeDamage(BaseGameObject* pFrom)
+bool BackgroundGlukkon::VTakeDamage(BaseGameObject* pFrom)
 {
     if (GetDead())
     {
-        return 0;
+        return false;
     }
 
     if (pFrom->Type() == ReliveTypes::eShrykull)
@@ -121,7 +121,7 @@ s16 BackgroundGlukkon::VTakeDamage(BaseGameObject* pFrom)
 
         SetDead(true);
     }
-    return 1;
+    return true;
 }
 
 void BackgroundGlukkon::VUpdate()

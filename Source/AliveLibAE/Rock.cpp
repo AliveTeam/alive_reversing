@@ -264,11 +264,11 @@ void Rock::BounceHorizontally( FP hitX, FP hitY )
 }
 
 //TODO Identical to AO - merge
-s16 Rock::OnCollision(BaseAnimatedWithPhysicsGameObject* pObj)
+bool Rock::OnCollision(BaseAnimatedWithPhysicsGameObject* pObj)
 {
     if (!pObj->GetCanExplode())
     {
-        return 1;
+        return true;
     }
 
     const PSX_RECT bRect = pObj->VGetBoundingRect();
@@ -287,7 +287,7 @@ s16 Rock::OnCollision(BaseAnimatedWithPhysicsGameObject* pObj)
     pObj->VOnThrowableHit(this);
 
     SfxPlayMono(relive::SoundEffects::RockBounceOnMine, 80);
-    return 0;
+    return false;
 }
 
 void Rock::VUpdate()

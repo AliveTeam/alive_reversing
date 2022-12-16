@@ -134,21 +134,21 @@ void MovingBomb::VScreenChanged()
     }
 }
 
-s16 MovingBomb::VTakeDamage(BaseGameObject* pFrom)
+bool MovingBomb::VTakeDamage(BaseGameObject* pFrom)
 {
     if (GetDead())
     {
-        return 1;
+        return true;
     }
 
     if (mHealth <= FP_FromInteger(0))
     {
-        return 1;
+        return true;
     }
 
     if (pFrom->Type() != ReliveTypes::eAbilityRing && pFrom->Type() != ReliveTypes::eAirExplosion && pFrom->Type() != ReliveTypes::eShrykull)
     {
-        return 0;
+        return false;
     }
 
     mHealth = FP_FromInteger(0);
@@ -169,7 +169,7 @@ s16 MovingBomb::VTakeDamage(BaseGameObject* pFrom)
     mState = States::eKillMovingBomb_7;
     GetAnimation().SetRender(false);
     mTimer = sGnFrame + 4;
-    return 0;
+    return false;
 }
 
 void MovingBomb::VRender(PrimHeader** ppOt)

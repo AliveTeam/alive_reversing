@@ -423,30 +423,30 @@ void SlapLock::SetInvisibilityTarget()
     pRing->VSetTarget(sActiveHero);
 }
 
-s16 SlapLock::VTakeDamage(BaseGameObject* pFrom)
+bool SlapLock::VTakeDamage(BaseGameObject* pFrom)
 {
     mSlapLockTlv = static_cast<relive::Path_SlapLock*>(gPathInfo->TLV_From_Offset_Lvl_Cam(mTlvInfo));
 
     if (pFrom->Type() != ReliveTypes::eAbe)
     {
         // Only Abe can slap me up
-        return 0;
+        return false;
     }
 
     if (sActiveHero->mCurrentMotion != eAbeMotions::Motion_62_Punch_454750)
     {
         // If Abe isn't slapping then he can't hurt me
-        return 0;
+        return false;
     }
 
     if (mState != SlapLockStates::eShaking_0 && mState != SlapLockStates::eIdle_1)
     {
-        return 0;
+        return false;
     }
 
     if (GetDead())
     {
-        return 0;
+        return false;
     }
 
     sActiveHero->ToKnockback_44E700(1, 0);
@@ -483,5 +483,5 @@ s16 SlapLock::VTakeDamage(BaseGameObject* pFrom)
     GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::SlapLock_Punched));
 
     mSlapLockTlv->mTlvSpecificMeaning = 1;
-    return 1;
+    return true;
 }

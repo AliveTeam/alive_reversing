@@ -504,7 +504,7 @@ void BaseAliveGameObject::VOnPathTransition(s32 camWorldX, s32 camWorldY, Camera
 }
 
 
-s16 BaseAliveGameObject::MapFollowMe(s16 snapToGrid)
+bool BaseAliveGameObject::MapFollowMe(bool snapToGrid)
 {
     PSX_Point camCoords = {};
     gMap.GetCurrentCamCoords(&camCoords);
@@ -522,7 +522,7 @@ s16 BaseAliveGameObject::MapFollowMe(s16 snapToGrid)
             {
                 mCurrentPath = gMap.mCurrentPath;
                 mCurrentLevel = gMap.mCurrentLevel;
-                return 1;
+                return true;
             }
             else
             {
@@ -549,7 +549,7 @@ s16 BaseAliveGameObject::MapFollowMe(s16 snapToGrid)
             {
                 mCurrentPath = gMap.mCurrentPath;
                 mCurrentLevel = gMap.mCurrentLevel;
-                return 1;
+                return true;
             }
             else
             {
@@ -575,7 +575,7 @@ s16 BaseAliveGameObject::MapFollowMe(s16 snapToGrid)
             // Not in the voids of the camera, just snap to the x grid
             mXPos = FP_FromInteger(snappedXLocalCoords + camCoords.x);
         }
-        return 0;
+        return false;
     }
     else
     {
@@ -611,11 +611,11 @@ s16 BaseAliveGameObject::MapFollowMe(s16 snapToGrid)
                 VCheckCollisionLineStillValid(40);
             }
         }
-        return 0;
+        return false;
     }
 }
 
-s16 BaseAliveGameObject::WallHit(FP offY, FP offX)
+bool BaseAliveGameObject::WallHit(FP offY, FP offX)
 {
     PathLine* pLine = nullptr;
     return sCollisions->Raycast(
@@ -720,12 +720,12 @@ BaseGameObject* BaseAliveGameObject::FindObjectOfType(ReliveTypes typeToFind, FP
     return nullptr;
 }
 
-s16 BaseAliveGameObject::VOnPlatformIntersection(BaseAnimatedWithPhysicsGameObject* pPlatform)
+bool BaseAliveGameObject::VOnPlatformIntersection(BaseAnimatedWithPhysicsGameObject* pPlatform)
 {
     const PSX_RECT rect = pPlatform->VGetBoundingRect();
     if (FP_GetExponent(mXPos) < rect.x || FP_GetExponent(mXPos) > rect.w || FP_GetExponent(mYPos) > rect.h)
     {
-        return 1;
+        return true;
     }
 
     // OG bug fix, when we call VCheckCollisionLineStillValid it can place us on a new lift
@@ -742,7 +742,7 @@ s16 BaseAliveGameObject::VOnPlatformIntersection(BaseAnimatedWithPhysicsGameObje
         LOG_WARNING("Trying to add to a platform we are already on");
     }
 
-    return 1;
+    return true;
 }
 
 } // namespace AO

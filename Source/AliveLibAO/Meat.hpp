@@ -12,15 +12,15 @@ public:
 
     virtual void VScreenChanged() override;
     virtual void VThrow(FP velX, FP velY) override;
-    virtual s16 VCanThrow() override;
+    virtual bool VCanThrow() override;
     virtual bool VCanEatMe();
-    virtual s16 VIsFalling() override;
+    virtual bool VIsFalling() override;
     virtual void VTimeToExplodeRandom() override;
     virtual void VUpdate() override;
     virtual void VOnTrapDoorOpen() override;
     virtual s16 VGetCount() override;
 
-    s16 VOnPlatformIntersection(BaseAnimatedWithPhysicsGameObject* pPlatform) override
+    bool VOnPlatformIntersection(BaseAnimatedWithPhysicsGameObject* pPlatform) override
     {
         return OnCollision(pPlatform);
     }
@@ -28,7 +28,7 @@ public:
 private:
     void InTheAir();
     void AddToPlatform();
-    s16 OnCollision(BaseAnimatedWithPhysicsGameObject* pObj);
+    bool OnCollision(BaseAnimatedWithPhysicsGameObject* pObj);
 
 private:
     s16 mState = 0; // TODO: enum - we can probably use the AE enum

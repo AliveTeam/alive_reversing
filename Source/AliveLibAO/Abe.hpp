@@ -320,7 +320,7 @@ public:
     virtual void VOnTlvCollision(relive::Path_TLV* pTlv) override;
     BirdPortal* VIntoBirdPortal(s16 gridBlocks) override;
     virtual void VOnTrapDoorOpen() override;
-    virtual s16 VTakeDamage(BaseGameObject* pFrom) override;
+    virtual bool VTakeDamage(BaseGameObject* pFrom) override;
 
 
     bool CheckForPortalAndRunJump();

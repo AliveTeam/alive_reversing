@@ -221,11 +221,11 @@ Slog::~Slog()
     MusicController::ClearObject(this);
 }
 
-s16 Slog::VTakeDamage(BaseGameObject* pFrom)
+bool Slog::VTakeDamage(BaseGameObject* pFrom)
 {
     if (mHealth <= FP_FromInteger(0))
     {
-        return 1;
+        return true;
     }
 
     switch (pFrom->Type())
@@ -266,7 +266,7 @@ s16 Slog::VTakeDamage(BaseGameObject* pFrom)
             GetAnimation().SetAnimate(true);
             gNumSlogs_9F11C8--;
             field_178_bShot = 1;
-            return 1;
+            return true;
         }
 
         case ReliveTypes::eGroundExplosion:
@@ -292,21 +292,21 @@ s16 Slog::VTakeDamage(BaseGameObject* pFrom)
                 GetSpriteScale(),
                 50);
             SetDead(true);
-            return 1;
+            return true;
         }
 
         case ReliveTypes::eAbilityRing:
         case ReliveTypes::eSlig:
             if (field_17C_res)
             {
-                return 1;
+                return true;
             }
             field_17C_res = 1;
             Sfx(9);
             break;
 
         case ReliveTypes::eZBall:
-            return 1;
+            return true;
 
         case ReliveTypes::eRockSpawner:
         case ReliveTypes::eRollingBall:
@@ -329,7 +329,7 @@ s16 Slog::VTakeDamage(BaseGameObject* pFrom)
             Sfx(9);
             break;
     }
-    return 1;
+    return true;
 }
 
 void Slog::VOnTlvCollision(relive::Path_TLV* pTlv)

@@ -222,11 +222,11 @@ void Paramite::VRender(PrimHeader** ppOt)
     }
 }
 
-s16 Paramite::VTakeDamage(BaseGameObject* pFrom)
+bool Paramite::VTakeDamage(BaseGameObject* pFrom)
 {
     if (mHealth <= FP_FromInteger(0))
     {
-        return 1;
+        return true;
     }
 
     if (mMeat)
@@ -251,11 +251,11 @@ s16 Paramite::VTakeDamage(BaseGameObject* pFrom)
             SetDead(true);
             GetAnimation().SetRender(false);
             mHealth = FP_FromInteger(0);
-            return 1;
+            return true;
         }
 
         case ReliveTypes::eAbilityRing:
-            return 0;
+            return false;
 
         case ReliveTypes::eBeeSwarm:
             mHealth -= FP_FromDouble(0.2);
@@ -296,7 +296,7 @@ s16 Paramite::VTakeDamage(BaseGameObject* pFrom)
             break;
         }
     }
-    return 1;
+    return true;
 }
 
 void Paramite::VOnTlvCollision(relive::Path_TLV* pTlv)
@@ -320,7 +320,7 @@ void Paramite::VScreenChanged()
     }
 }
 
-s16 Paramite::VOnSameYLevel(BaseAnimatedWithPhysicsGameObject* pOther)
+bool Paramite::VOnSameYLevel(BaseAnimatedWithPhysicsGameObject* pOther)
 {
     return FP_Abs(pOther->mYPos - mYPos) < (GetSpriteScale() * FP_FromInteger(40));
 }

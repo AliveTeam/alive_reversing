@@ -55,7 +55,7 @@ public:
 
     static s32 CreateFromSaveState(const u8* pBuffer);
 
-    virtual s16 VOnPlatformIntersection(BaseAnimatedWithPhysicsGameObject* pPlatform) override
+    virtual bool VOnPlatformIntersection(BaseAnimatedWithPhysicsGameObject* pPlatform) override
     {
         return OnCollision(pPlatform);
     }
@@ -63,7 +63,7 @@ public:
 private:
     void AddToPlatform();
     void InTheAir();
-    s16 OnCollision(BaseGameObject* pHit);
+    bool OnCollision(BaseGameObject* pHit);
 
 private:
     MeatStates mState = MeatStates::eCreated_0;

@@ -213,7 +213,7 @@ void Rock::VThrow(FP velX, FP velY)
     }
 }
 
-s16 Rock::VCanThrow()
+bool Rock::VCanThrow()
 {
     return mState == States::eBouncing_4;
 }
@@ -334,11 +334,11 @@ void Rock::BounceHorizontally( FP hitX, FP hitY )
 }
 
 //TODO Identical to AE - merge
-s16 Rock::OnCollision(BaseAnimatedWithPhysicsGameObject* pObj)
+bool Rock::OnCollision(BaseAnimatedWithPhysicsGameObject* pObj)
 {
     if (!pObj->GetCanExplode())
     {
-        return 1;
+        return true;
     }
 
     const PSX_RECT bRect = pObj->VGetBoundingRect();
@@ -357,10 +357,10 @@ s16 Rock::OnCollision(BaseAnimatedWithPhysicsGameObject* pObj)
     pObj->VOnThrowableHit(this);
 
     SfxPlayMono(relive::SoundEffects::RockBounceOnMine, 80);
-    return 0;
+    return false;
 }
 
-s16 Rock::VIsFalling()
+bool Rock::VIsFalling()
 {
     // Same as meat falling func - compiler seems to have made them both
     // use the same func, or should it go in the base ??

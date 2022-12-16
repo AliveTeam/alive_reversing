@@ -100,7 +100,7 @@ public:
     virtual void VOnTrapDoorOpen() override;
     virtual void VOnTlvCollision(relive::Path_TLV* pTlv) override;
     virtual void VScreenChanged() override;
-    virtual s16 VTakeDamage(BaseGameObject* pFrom) override;
+    virtual bool VTakeDamage(BaseGameObject* pFrom) override;
 
     virtual void VUpdateResBlock();
 
@@ -117,7 +117,7 @@ public:
         return static_cast<eMudMotions>(mPreviousMotion);
     }
 
-    s16 DoSmashDamage();
+    bool DoSmashDamage();
     void KillBirdPortal();
     u8** GetResBlockForMotion(s16 motion);
     void DoPathTrans();

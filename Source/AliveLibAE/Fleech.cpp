@@ -2119,11 +2119,11 @@ s32 Fleech::UpdateWakeUpSwitchValue()
     }
 }
 
-s16 Fleech::VTakeDamage(BaseGameObject* pFrom)
+bool Fleech::VTakeDamage(BaseGameObject* pFrom)
 {
     if (mHealth <= FP_FromInteger(0))
     {
-        return 0;
+        return false;
     }
 
     sub_42B8C0();
@@ -2214,7 +2214,7 @@ s16 Fleech::VTakeDamage(BaseGameObject* pFrom)
             sub_42B8C0();
             break;
     }
-    return 1;
+    return true;
 }
 
 void Fleech::VOnTrapDoorOpen()

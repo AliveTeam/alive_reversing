@@ -246,11 +246,11 @@ void UXB::VScreenChanged()
     }
 }
 
-s16 UXB::VTakeDamage(BaseGameObject* pFrom)
+bool UXB::VTakeDamage(BaseGameObject* pFrom)
 {
     if (GetDead())
     {
-        return 0;
+        return false;
     }
 
     switch (pFrom->Type())
@@ -258,7 +258,7 @@ s16 UXB::VTakeDamage(BaseGameObject* pFrom)
         case ReliveTypes::eAbe:
             if (mCurrentState == UXBState::eDeactivated)
             {
-                return 0;
+                return false;
             }
             break;
 
@@ -268,7 +268,7 @@ s16 UXB::VTakeDamage(BaseGameObject* pFrom)
             break;
 
         default:
-            return 0;
+            return false;
     }
 
     SetDead(true);
@@ -278,7 +278,7 @@ s16 UXB::VTakeDamage(BaseGameObject* pFrom)
     mCurrentState = UXBState::eExploding;
     mNextStateTimer = sGnFrame;
 
-    return 1;
+    return true;
 }
 
 void UXB::VOnThrowableHit(BaseGameObject* /*pFrom*/)

@@ -13,15 +13,15 @@ public:
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
     virtual void VThrow(FP velX, FP velY) override;
-    virtual s16 VCanThrow() override;
-    virtual s16 VIsFalling() override;
+    virtual bool VCanThrow() override;
+    virtual bool VIsFalling() override;
     virtual void VTimeToExplodeRandom() override;
 
     void InTheAir();
-    s16 OnCollision(BaseAnimatedWithPhysicsGameObject* pObj);
+    bool OnCollision(BaseAnimatedWithPhysicsGameObject* pObj);
     void BounceHorizontally( FP hitX, FP hitY );
 
-    virtual s16 VOnPlatformIntersection(BaseAnimatedWithPhysicsGameObject* pPlatform) override
+    virtual bool VOnPlatformIntersection(BaseAnimatedWithPhysicsGameObject* pPlatform) override
     {
         return OnCollision(pPlatform);
     }

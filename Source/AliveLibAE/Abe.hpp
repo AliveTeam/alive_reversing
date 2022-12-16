@@ -401,7 +401,7 @@ public:
     virtual void VOnTlvCollision(relive::Path_TLV* pTlv) override;
     virtual BirdPortal* VIntoBirdPortal(s16 gridBlocks) override;
     virtual void VOnTrapDoorOpen() override;
-    virtual s16 VTakeDamage(BaseGameObject* pFrom) override;
+    virtual bool VTakeDamage(BaseGameObject* pFrom) override;
 
     s16 CantBeDamaged_44BAB0();
     void ChangeChantState_45BB90(s16 bLaughAtChantEnd);

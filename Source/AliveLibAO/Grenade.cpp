@@ -246,7 +246,7 @@ void Grenade::VUpdate()
 }
 
 
-s16 Grenade::InTheAir()
+bool Grenade::InTheAir()
 {
     mPreviousXPos = mXPos;
     mPreviousYPos = mYPos;
@@ -280,7 +280,7 @@ s16 Grenade::InTheAir()
                 {
                     AddToPlatform();
                 }
-                return 0;
+                return false;
             }
 
             mXPos = hitX;
@@ -357,18 +357,18 @@ s16 Grenade::InTheAir()
                 break;
 
             default:
-                return 1;
+                return true;
         }
     }
 
-    return 1;
+    return true;
 }
 
-s16 Grenade::OnCollision_BounceOff(BaseGameObject* pHit)
+bool Grenade::OnCollision_BounceOff(BaseGameObject* pHit)
 {
     if (!pHit->GetCanExplode())
     {
-        return 1;
+        return true;
     }
 
     auto pHit2 = static_cast<BaseAliveGameObject*>(pHit);
@@ -389,10 +389,10 @@ s16 Grenade::OnCollision_BounceOff(BaseGameObject* pHit)
     pHit2->VOnThrowableHit(this);
 
     SfxPlayMono(relive::SoundEffects::RockBounceOnMine, 0);
-    return 0;
+    return false;
 }
 
-s16 Grenade::BlowUpAfterCountdown()
+bool Grenade::BlowUpAfterCountdown()
 {
     mExplodeCountdown--;
     const s16 timer = mExplodeCountdown;
@@ -403,7 +403,7 @@ s16 Grenade::BlowUpAfterCountdown()
 
     if (timer)
     {
-        return 0;
+        return false;
     }
 
     auto pExplosion = relive_new AirExplosion(
@@ -419,15 +419,15 @@ s16 Grenade::BlowUpAfterCountdown()
     }
 
     relive_new Gibs(GibType::Metal_5, mXPos, mYPos, FP_FromInteger(0), FP_FromInteger(5), GetSpriteScale());
-    return 1;
+    return true;
 }
 
-s16 Grenade::VCanThrow()
+bool Grenade::VCanThrow()
 {
     return false;
 }
 
-s16 Grenade::VIsFalling()
+bool Grenade::VIsFalling()
 {
     return false;
 }

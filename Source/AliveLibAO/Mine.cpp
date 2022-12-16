@@ -114,11 +114,11 @@ void Mine::VScreenChanged()
     }
 }
 
-s16 Mine::VTakeDamage(BaseGameObject* pFrom)
+bool Mine::VTakeDamage(BaseGameObject* pFrom)
 {
     if (GetDead())
     {
-        return 0;
+        return false;
     }
 
     switch (pFrom->Type())
@@ -132,11 +132,11 @@ s16 Mine::VTakeDamage(BaseGameObject* pFrom)
             SetDead(true);
             mDetonating = true;
             mExplosionTimer = sGnFrame;
-            return 1;
+            return true;
         }
 
         default:
-            return 0;
+            return false;
     }
 }
 

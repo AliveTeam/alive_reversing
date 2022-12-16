@@ -195,7 +195,7 @@ void Elum::VOnTlvCollision(relive::Path_TLV* pTlv)
     }
 }
 
-s16 Elum::VTakeDamage(BaseGameObject* pFrom)
+bool Elum::VTakeDamage(BaseGameObject* pFrom)
 {
     switch (pFrom->Type())
     {
@@ -234,10 +234,10 @@ s16 Elum::VTakeDamage(BaseGameObject* pFrom)
                 GetAnimation().SetRender(false);
                 GetAnimation().Set_Animation_Data(GetAnimRes(gElumMotionAnimIds[mCurrentMotion]));
             }
-            return 1;
+            return true;
 
         case ReliveTypes::eAbilityRing:
-            return 0;
+            return false;
 
         case ReliveTypes::eBeeSwarm:
             if (sControlledCharacter != this)
@@ -247,9 +247,9 @@ s16 Elum::VTakeDamage(BaseGameObject* pFrom)
             break;
 
         default:
-            return 1;
+            return true;
     }
-    return 1;
+    return true;
 }
 
 void Elum::ToKnockback()

@@ -3181,7 +3181,7 @@ void Scrab::Motion_32_AttackSpin()
         }
     }
 
-    MapFollowMe(0);
+    MapFollowMe(false);
 
     if (WallHit(GetSpriteScale() * FP_FromInteger(45), mVelX))
     {
@@ -3281,7 +3281,7 @@ void Scrab::Motion_39_DeathBegin()
     }
 }
 
-s16 Scrab::VOnSameYLevel(BaseAnimatedWithPhysicsGameObject* pOther)
+bool Scrab::VOnSameYLevel(BaseAnimatedWithPhysicsGameObject* pOther)
 {
     const PSX_RECT ourRect = VGetBoundingRect();
     const PSX_RECT otherRect = pOther->VGetBoundingRect();
@@ -3760,11 +3760,11 @@ void Scrab::ToJump()
     BaseAliveGameObjectCollisionLine = nullptr;
 }
 
-s16 Scrab::VTakeDamage(BaseGameObject* pFrom)
+bool Scrab::VTakeDamage(BaseGameObject* pFrom)
 {
     if (mHealth <= FP_FromInteger(0))
     {
-        return 0;
+        return false;
     }
 
     switch (pFrom->Type())
@@ -3778,7 +3778,7 @@ s16 Scrab::VTakeDamage(BaseGameObject* pFrom)
 
             if (mHealth > FP_FromInteger(0))
             {
-                return 1;
+                return true;
             }
 
             if (static_cast<BaseAliveGameObject*>(pFrom)->mXPos >= mXPos)
@@ -3799,10 +3799,10 @@ s16 Scrab::VTakeDamage(BaseGameObject* pFrom)
             {
                 SND_SEQ_Play(SeqId::DeathDrums_29, 1, 127, 127);
             }
-            return 0;
+            return false;
 
         case ReliveTypes::eAbilityRing:
-            return 0;
+            return false;
 
         case ReliveTypes::eBullet:
         //case ReliveTypes::eNeverSet:
@@ -3827,7 +3827,7 @@ s16 Scrab::VTakeDamage(BaseGameObject* pFrom)
         SND_SEQ_Play(SeqId::DeathDrums_29, 1, 127, 127);
     }
 
-    return 1;
+    return true;
 }
 
 void Scrab::KnockBack()

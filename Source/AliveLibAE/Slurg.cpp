@@ -269,16 +269,16 @@ void Slurg::VUpdate()
     }
 }
 
-s16 Slurg::VTakeDamage(BaseGameObject* pFrom)
+bool Slurg::VTakeDamage(BaseGameObject* pFrom)
 {
     // Slurgs are tough little dudes, only Paramites can smack 'em up.
     if (pFrom->Type() == ReliveTypes::eParamite)
     {
         Burst();
-        return 1;
+        return true;
     }
 
-    return 0;
+    return false;
 }
 
 void Slurg::VOnTlvCollision(relive::Path_TLV* pTlv)

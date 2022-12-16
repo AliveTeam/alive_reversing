@@ -3272,11 +3272,11 @@ void Slog::VOnTlvCollision(relive::Path_TLV* pTlv)
     }
 }
 
-s16 Slog::VTakeDamage(BaseGameObject* pFrom)
+bool Slog::VTakeDamage(BaseGameObject* pFrom)
 {
     if (mHealth <= FP_FromInteger(0))
     {
-        return 0;
+        return false;
     }
 
     switch (pFrom->Type())
@@ -3382,9 +3382,9 @@ s16 Slog::VTakeDamage(BaseGameObject* pFrom)
             break;
 
         default:
-            return 1;
+            return true;
     }
-    return 1;
+    return true;
 }
 
 void Slog::VOnThrowableHit(BaseGameObject* /*pFrom*/)

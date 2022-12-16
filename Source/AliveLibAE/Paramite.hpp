@@ -150,11 +150,11 @@ public:
     void LoadAnimations();
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
-    virtual s16 VOnSameYLevel(BaseAnimatedWithPhysicsGameObject* pOther) override;
+    virtual bool VOnSameYLevel(BaseAnimatedWithPhysicsGameObject* pOther) override;
 
     virtual void VUnPosses() override;
     virtual void VPossessed() override;
-    virtual s16 VTakeDamage(BaseGameObject* pFrom) override;
+    virtual bool VTakeDamage(BaseGameObject* pFrom) override;
     virtual void VOnTlvCollision(relive::Path_TLV* pTlv) override;
     virtual void VOnTrapDoorOpen() override;
     virtual s32 VGetSaveState(u8* pSaveBuffer) override;
