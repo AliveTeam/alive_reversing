@@ -10,7 +10,7 @@
 #include "../AliveLibAE/Sound/Midi.hpp"
 #include "../AliveLibAE/PauseMenu.hpp"
 #include "../AliveLibAE/GameAutoPlayer.hpp"
-
+#include "relive_config.h"
 
 static bool sAppIsActivated = false;
 static TWindowHandleType sHwnd = nullptr;
@@ -28,6 +28,40 @@ void setSaveMenuOpen(bool val)
 }
 #endif
 
+std::string BuildString()
+{
+#ifdef BUILD_NUMBER
+    // Automated AppVeyor build title
+    return std::string("(") + CI_PROVIDER + " Build: " + std::to_string(BUILD_NUMBER) + ")";
+#else
+    return "";
+#endif
+}
+
+std::string BuildAndBitnesString()
+{
+    std::string buildAndBitness;
+    std::string buildStr = BuildString();
+    if (!buildStr.empty())
+    {
+        buildAndBitness += " ";
+        buildAndBitness += buildStr;
+    }
+
+    std::string kBitness = sizeof(void*) == 4 ? " (32 bit)" : " (64 bit)";
+    buildAndBitness += kBitness;
+    return buildAndBitness;
+}
+
+std::string WindowTitleAO()
+{
+    return "R.E.L.I.V.E. Oddworld Abe's Oddysee" + BuildAndBitnesString();
+}
+
+std::string WindowTitleAE()
+{
+    return "R.E.L.I.V.E. Oddworld Abe's Exoddus" + BuildAndBitnesString();
+}
 
 TWindowHandleType Sys_GetHWnd()
 {

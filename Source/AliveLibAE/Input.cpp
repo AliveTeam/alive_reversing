@@ -53,10 +53,7 @@ s32 sJoystickCapFlags_5C2EDC = 0;
 bool sJoyStateIsInit_5C2EE0 = 0;
 s32 sJoyLastTick_5C2EEC = 0;
 s32 sGamepadCapFlags_5C2EF8 = 0;
-#if !USE_SDL2 && _WIN32
-tagJOYCAPSA sJoystickCaps_5C2D10 = {};
-joyinfoex_tag sJoystickInfo_5C2EA8 = {};
-#endif
+
 
 u8 sInputKeyStates_BD2F60[256] = {};
 u8 sInputEnabled_BBB9D0 = 0;
@@ -1372,7 +1369,6 @@ void Input_InitJoyStick_460080()
 #endif
 
     sJoystickAvailable = false;
-#if USE_SDL2
 
     sGamepadCapFlags_5C2EF8 |= eDisableAutoRun;
  
@@ -1403,74 +1399,6 @@ void Input_InitJoyStick_460080()
             LOG_INFO("Item %d is not a game controller", i);
         }
     }
-
-#elif _WIN32
-    const u32 count = joyGetNumDevs();
-    for (u32 i = 0; i < count; i++)
-    {
-        LOG_INFO("Calling joyGetDevCapsA for " << i << " of " << count);
-        if (!joyGetDevCapsA(i, &sJoystickCaps_5C2D10, sizeof(tagJOYCAPSA)))
-        {
-            sJoystickAvailable = true;
-            sJoystickID_5C2F00 = i;
-            break;
-        }
-    }
-
-    if (_strnicmp(sJoystickCaps_5C2D10.szPname, "Microsoft PC Joystick Driver", 0xCu))
-    {
-        if (_strnicmp(sJoystickCaps_5C2D10.szPname, "Custom", 6u))
-        {
-            if (_strnicmp(sJoystickCaps_5C2D10.szPname, "Generic", 7u))
-            {
-                strncpy(sGamePadStr_555708, sJoystickCaps_5C2D10.szPname, 0x20u);
-            }
-        }
-    }
-
-    s32 joyFlags = 0xC83;
-
-    if (sJoystickCaps_5C2D10.wCaps & JOYCAPS_HASZ)
-    {
-        joyFlags = 0xC87;
-    }
-    if (sJoystickCaps_5C2D10.wCaps & JOYCAPS_HASR)
-    {
-        joyFlags |= 8u;
-    }
-    if (sJoystickCaps_5C2D10.wCaps & JOYCAPS_POV4DIR)
-    {
-        joyFlags |= 0x40u;
-    }
-
-    sJoystickCapFlags_5C2EDC = joyFlags;
-    if (joyFlags & 0x40)
-    {
-        sGamepadCapFlags_5C2EF8 |= eHasDPad;
-    }
-    sJoystickNumButtons_5C2EFC = sJoystickCaps_5C2D10.wNumButtons;
-    if (sJoystickCaps_5C2D10.wNumButtons <= 2
-        || sJoystickCaps_5C2D10.wNumButtons > 4 && sJoystickCaps_5C2D10.wNumAxes > 2)
-    {
-        sGamepadCapFlags_5C2EF8 |= eDisableAutoRun;
-    }
-    if (sJoystickCaps_5C2D10.wNumButtons == 4)
-    {
-        if (joyFlags & 0xC)
-        {
-            f32 pY2;      // [esp+Ch] [ebp-14h]
-            f32 pX2;      // [esp+10h] [ebp-10h]
-            u32 pButtons; // [esp+14h] [ebp-Ch]
-            f32 pY1;      // [esp+18h] [ebp-8h]
-            f32 pX1;      // [esp+1Ch] [ebp-4h]
-
-            Input_GetJoyState_460280(&pX1, &pY1, &pX2, &pY2, &pButtons);
-            Input_45FDF0(pX2, pY2, (sJoystickCapFlags_5C2EDC & 4) != 0, (sJoystickCapFlags_5C2EDC & 8) != 0);
-        }
-    }
-
-    DEV_CONSOLE_PRINTF("Joystick Initialized: Buttons: %i", sJoystickNumButtons_5C2EFC);
-#endif
 }
 
 void Input_Init()

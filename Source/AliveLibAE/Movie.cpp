@@ -229,10 +229,8 @@ s8 DDV_Play_Impl(const char_type* pMovieName)
     // NOTE: Call to Masher_Tables_Init_4EA880 as the whole masher code for audio has been replaced
     sFmvNumReadFrames = 0;
 
-#if USE_SDL2
     //Bitmap tmpBmp = {};
     //BMP_New_4F1990(&tmpBmp, 640, 480, 15, 0);
-#endif
 
     CamResource fmvFrame;
     fmvFrame.mData.mWidth = 640;

@@ -2,10 +2,7 @@
 
 #include "../relive_lib/Function.hpp"
 #include <atomic>
-
-#if USE_SDL2
-    #include "SDL.h"
-#endif
+#include "SDL.h"
 
 #if USE_SDL2_IO
 using IO_FileHandleType = struct SDL_RWops*;

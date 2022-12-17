@@ -470,18 +470,13 @@ void Game_Run()
 
 u32 SYS_GetTicks()
 {
-#if USE_SDL2
     // Using this instead of SDL_GetTicks resolves a weird x64 issue on windows where
     // the tick returned is a lot faster on some machines.
     return static_cast<u32>(SDL_GetPerformanceCounter() / (SDL_GetPerformanceFrequency() / 1000));
-#else
-    return timeGetTime();
-#endif
 }
 
 MessageBoxButton Sys_MessageBox(TWindowHandleType windowHandle, const char_type* message, const char_type* title, MessageBoxType type)
 {
-#if USE_SDL2
     SDL_MessageBoxData data = {};
     data.title = title;
     data.message = message;
@@ -538,32 +533,6 @@ MessageBoxButton Sys_MessageBox(TWindowHandleType windowHandle, const char_type*
     }
 
     return MessageBoxButton::eOK;
-#else
-    u32 w32type = MB_OK;
-    switch (type)
-    {
-    case MessageBoxType::eStandard:
-        w32type = MB_OK;
-        break;
-    case MessageBoxType::eError:
-        w32type = MB_OK | MB_ICONERROR;
-        break;
-    case MessageBoxType::eQuestion:
-        w32type = MB_YESNO | MB_ICONQUESTION;
-        break;
-    }
-    const s32 button = ::MessageBoxA(windowHandle, message, title, w32type);
-    switch (button)
-    {
-    case IDNO:
-        return MessageBoxButton::eNo;
-    case IDYES:
-        return MessageBoxButton::eYes;
-    case IDOK:
-    default:
-        return MessageBoxButton::eOK;
-    }
-#endif
 }
 
 void Alive_Show_ErrorMsg(const char_type* msg)

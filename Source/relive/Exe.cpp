@@ -151,7 +151,6 @@ static void PrintSDL2Versions()
 
 static void SDL2_Init()
 {
-#if USE_SDL2
     PrintSDL2Versions(); // Ok to call before init
 
     if (SDL_Init(SDL_INIT_TIMER | SDL_INIT_VIDEO | SDL_INIT_EVENTS | SDL_INIT_HAPTIC | SDL_INIT_JOYSTICK | SDL_INIT_GAMECONTROLLER) != 0)
@@ -159,7 +158,6 @@ static void SDL2_Init()
         LOG_ERROR(SDL_GetError());
         ALIVE_FATAL(SDL_GetError());
     }
-#endif
 }
 
 static void GameDirListing()
