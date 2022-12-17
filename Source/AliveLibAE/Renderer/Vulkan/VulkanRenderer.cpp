@@ -1062,7 +1062,7 @@ void VulkanRenderer::recordCommandBuffer(vk::raii::CommandBuffer& commandBuffer,
     viewport.maxDepth = 1.0f;
     commandBuffer.setViewport(0, viewport);
 
-    vk::Rect2D scissor({0,0});
+    vk::Rect2D scissor{0,0};
     scissor.extent = mSwapChainExtent;
     commandBuffer.setScissor(0, scissor);
 
@@ -1216,7 +1216,8 @@ vk::PresentModeKHR VulkanRenderer::chooseSwapPresentMode(const std::vector<vk::P
         }
     }
 
-    return vk::PresentModeKHR::eFifo; // use eImmediate to disable vsync, not all modes are supported on all devices
+    // eFifo
+    return vk::PresentModeKHR::eImmediate; // use eImmediate to disable vsync, not all modes are supported on all devices
 }
 
 VkExtent2D VulkanRenderer::chooseSwapExtent(const VkSurfaceCapabilitiesKHR& capabilities)
