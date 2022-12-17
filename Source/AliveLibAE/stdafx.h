@@ -6,4 +6,3 @@
 #pragma once
 
 #include "../relive_lib/pch_shared.h"
-#include "../relive_lib/relive_config.h"
