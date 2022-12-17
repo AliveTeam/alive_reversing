@@ -5,7 +5,7 @@
 #include "stdlib.hpp"
 #include "Map.hpp"
 #include "../relive_lib/data_conversion/relive_tlvs.hpp"
-#include "FixedPoint.hpp"
+#include "../relive_lib/FixedPoint.hpp"
 
 PlatformBase::PlatformBase()
     : BaseAliveGameObject(0)

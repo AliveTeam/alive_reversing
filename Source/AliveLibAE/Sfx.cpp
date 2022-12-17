@@ -5,8 +5,8 @@
 #include "Map.hpp"
 #include <assert.h>
 #include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
-#include "../relive_lib/FixedPoint_common.hpp"
-#include "../AliveLibAE/FixedPoint.hpp"
+#include "../relive_lib/FixedPoint.hpp"
+#include "../relive_lib/FixedPoint.hpp"
 
 s32 SFX_Play_Stereo(relive::SoundEffects sfxId, s32 leftVol, s32 rightVol, FP scale)
 {

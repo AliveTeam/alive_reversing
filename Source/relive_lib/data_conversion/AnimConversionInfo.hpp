@@ -1,5 +1,5 @@
 #pragma once
-#include "../../relive_lib/AnimResources.hpp"
+#include "../AnimResources.hpp"
 #include "../MapWrapper.hpp"
 
 enum class EAnimGroup

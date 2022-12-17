@@ -1,6 +1,6 @@
 #include "AnimationConverter.hpp"
 #include "nlohmann/json.hpp"
-#include "../../relive_lib/BaseGameAutoPlayer.hpp"
+#include "../BaseGameAutoPlayer.hpp"
 #include "../Compression.hpp"
 #include "../../AliveLibAE/Compression.hpp" // TODO: combine with common compression files
 #include "../PsxDisplay.hpp" // PsxToPCX

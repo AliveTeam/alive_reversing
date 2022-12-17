@@ -5,8 +5,7 @@
 #include "Vulkan/VulkanRenderer.hpp"
 
 #include "../../relive_lib/FatalError.hpp"
-#include "../../relive_lib/Sys_common.hpp"
-#include "../Sys.hpp"
+#include "../../relive_lib/Sys.hpp"
 
 static IRenderer* gRenderer = nullptr;
 

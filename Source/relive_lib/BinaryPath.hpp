@@ -1,7 +1,7 @@
 #pragma once
 
 // TODO: consider not using STL in her
-#include "../relive_lib/Types.hpp"
+#include "Types.hpp"
 #include "nlohmann/json_fwd.hpp"
 
 #include "Collisions.hpp"

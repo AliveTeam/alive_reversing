@@ -17,7 +17,7 @@
 #include "Grid.hpp"
 #include "PathData.hpp"
 #include "../relive_lib/ObjectIds.hpp"
-#include "../AliveLibAE/FixedPoint.hpp"
+#include "../relive_lib/FixedPoint.hpp"
 #include "Path.hpp"
 
 namespace AO {

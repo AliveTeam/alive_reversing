@@ -1,8 +1,8 @@
 #pragma once
 
-#include "../relive_lib/pch_shared.h"
-#include "../relive_lib/Psx_common.hpp"
-#include "../AliveLibAE/FixedPoint.hpp"
+#include "pch_shared.h"
+#include "Psx.hpp"
+#include "FixedPoint.hpp"
 
 // 368*40/23 =640
 // This seems to convert from PSX coordinate space to PC coordinate space

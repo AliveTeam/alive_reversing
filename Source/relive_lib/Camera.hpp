@@ -1,9 +1,9 @@
 #pragma once
 
-#include "../relive_lib/Primitives.hpp"
-#include "../relive_lib/MapWrapper.hpp"
-#include "../relive_lib/DynamicArray.hpp"
-#include "../relive_lib/ResourceManagerWrapper.hpp"
+#include "Primitives.hpp"
+#include "MapWrapper.hpp"
+#include "DynamicArray.hpp"
+#include "ResourceManagerWrapper.hpp"
 
 enum class LevelIds : s16;
 

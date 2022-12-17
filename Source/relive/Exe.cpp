@@ -5,7 +5,7 @@
 #endif
 
 #include "W32CrashHandler.hpp"
-#include "Sys_common.hpp"
+#include "../relive_lib/Sys.hpp"
 
 #include "../AliveLibAE/Map.hpp"
 #include "../AliveLibAE/Abe.hpp"

@@ -13,7 +13,7 @@
 #include "../relive_lib/Function.hpp"
 #include "Map.hpp"
 #include "Input.hpp"
-#include "FixedPoint.hpp"
+#include "../relive_lib/FixedPoint.hpp"
 #include "Math.hpp"
 
 struct Colour final

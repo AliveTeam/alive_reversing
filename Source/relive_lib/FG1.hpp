@@ -2,7 +2,7 @@
 
 #include "BaseGameObject.hpp"
 #include "DynamicArray.hpp"
-#include "../relive_lib/Primitives_common.hpp"
+#include "Primitives.hpp"
 #include "MapWrapper.hpp"
 #include "Layer.hpp"
 

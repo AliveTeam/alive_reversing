@@ -2,7 +2,7 @@
 
 #include "../relive_lib/BaseGameObject.hpp"
 #include "../relive_lib/MapWrapper.hpp"
-#include "../relive_lib/FixedPoint_common.hpp"
+#include "../relive_lib/FixedPoint.hpp"
 #include "../relive_lib/Layer.hpp"
 
 enum class EReliveLevelIds : s16;

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../relive_lib/data_conversion/relive_tlvs.hpp"
+#include "data_conversion/relive_tlvs.hpp"
 
 void SwitchStates_ClearRange(u16 start, u16 end);
 void SwitchStates_Set(u16 idx, s8 value);

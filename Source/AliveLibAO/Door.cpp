@@ -10,7 +10,7 @@
 #include "../relive_lib/Events.hpp"
 #include "MusicTrigger.hpp"
 #include "Grid.hpp"
-#include "../AliveLibAE/FixedPoint.hpp"
+#include "../relive_lib/FixedPoint.hpp"
 #include "Path.hpp"
 
 namespace AO {

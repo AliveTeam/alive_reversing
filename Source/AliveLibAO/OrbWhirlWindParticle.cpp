@@ -6,7 +6,7 @@
 #include "../relive_lib/ScreenManager.hpp"
 #include "Math.hpp"
 #include "../relive_lib/IBaseAliveGameObject.hpp"
-#include "../AliveLibAE/FixedPoint.hpp"
+#include "../relive_lib/FixedPoint.hpp"
 
 namespace AO {
 

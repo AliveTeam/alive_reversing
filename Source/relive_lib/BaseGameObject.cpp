@@ -1,12 +1,12 @@
 #include "stdafx.h"
-#include "../relive_lib/BaseGameObject.hpp"
+#include "BaseGameObject.hpp"
 #include "../AliveLibAE/Map.hpp"
 #include "../AliveLibAO/Map.hpp"
 #include "ResourceManagerWrapper.hpp"
 #include "ObjectIds.hpp"
 #include "Events.hpp"
 #include "GameType.hpp"
-#include "../relive_lib/FatalError.hpp"
+#include "FatalError.hpp"
 
 DynamicArrayT<BaseGameObject>* gBaseGameObjects = nullptr;
 s32 gAccumulatedObjectCount = 0;

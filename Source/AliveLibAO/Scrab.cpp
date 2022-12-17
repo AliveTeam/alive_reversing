@@ -19,7 +19,7 @@
 #include "../relive_lib/SwitchStates.hpp"
 #include "Grid.hpp"
 #include "../relive_lib/ObjectIds.hpp"
-#include "../AliveLibAE/FixedPoint.hpp"
+#include "../relive_lib/FixedPoint.hpp"
 #include "Path.hpp"
 #include "Abe.hpp"
 

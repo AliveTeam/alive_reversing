@@ -4,7 +4,7 @@
 #include "../relive_lib/Collisions.hpp"
 #include "Sfx.hpp"
 #include "Map.hpp"
-#include "FixedPoint.hpp"
+#include "../relive_lib/FixedPoint.hpp"
 #include "Math.hpp"
 
 static s16 sShellCount = 0;

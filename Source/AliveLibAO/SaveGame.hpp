@@ -2,7 +2,7 @@
 
 #include "../relive_lib/Function.hpp"
 #include "PathData.hpp"
-#include "../relive_lib/Psx_common.hpp"
+#include "../relive_lib/Psx.hpp"
 
 namespace AO {
 

@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
-#include "../relive_lib/Layer.hpp"
+#include "BaseAnimatedWithPhysicsGameObject.hpp"
+#include "Layer.hpp"
 
 class Particle final : public BaseAnimatedWithPhysicsGameObject
 {

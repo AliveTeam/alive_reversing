@@ -1,8 +1,26 @@
 #pragma once
 
-#include "../relive_lib/Types.hpp"
-#include "../relive_lib/Function.hpp"
-#include "FixedPoint_common.hpp"
+#include "Types.hpp"
+#include "AddPointer.hpp"
+#include "Function.hpp"
+#include "FixedPoint.hpp"
+
+struct PSX_DISPENV;
+struct PSX_RECT;
+
+using TPsxEmuCallBack = AddPointer_t<s32(u32)>;
+
+void PSX_VSync(s32 mode);
+void PSX_SetDefDispEnv_4F55A0(PSX_DISPENV* pOutEnv);
+void PSX_PutDispEnv_4F5890();
+void PSX_PutDispEnv_4F58E0();
+void PSX_EMU_SetCallBack_4F9430(TPsxEmuCallBack fnPtr);
+
+bool PSX_Rects_overlap_no_adjustment(const PSX_RECT* pRect1, const PSX_RECT* pRect2);
+
+bool PSX_Rects_overlap_4FA0B0(const PSX_RECT* pRect1, const PSX_RECT* pRect2);
+
+void PSX_Prevent_Rendering();
 
 struct CdlLOC final
 {
@@ -13,7 +31,6 @@ struct CdlLOC final
 };
 ALIVE_ASSERT_SIZEOF(CdlLOC, 0x4);
 
-
 struct CdlFILE final
 {
     CdlLOC field_0_loc;
@@ -21,7 +38,6 @@ struct CdlFILE final
     s8 field_8_name[16];
 };
 ALIVE_ASSERT_SIZEOF(CdlFILE, 24);
-
 
 struct PSX_RECT final
 {
@@ -71,3 +87,5 @@ inline bool PSX_Rects_overlap_no_adjustment(const PSX_RECT* pRect1, const PSX_RE
 {
     return (pRect1->x <= pRect2->w && pRect1->w >= pRect2->x && pRect1->y <= pRect2->h && pRect1->h >= pRect2->y);
 }
+
+extern bool gTurnOffRendering;

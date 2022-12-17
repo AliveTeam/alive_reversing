@@ -19,7 +19,7 @@
 #include "Bullet.hpp"
 #include "Map.hpp"
 #include "Path.hpp"
-#include "FixedPoint.hpp"
+#include "../relive_lib/FixedPoint.hpp"
 #include "Math.hpp"
 
 void Greeter::LoadAnimations()

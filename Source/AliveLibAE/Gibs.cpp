@@ -7,7 +7,7 @@
 #include "../relive_lib/ScreenManager.hpp"
 #include "../relive_lib/AnimResources.hpp"
 #include "Map.hpp"
-#include "FixedPoint.hpp"
+#include "../relive_lib/FixedPoint.hpp"
 
 const TintEntry kGibTints_55C744[16] = {
     {EReliveLevelIds::eMenu, 87u, 103u, 67u},

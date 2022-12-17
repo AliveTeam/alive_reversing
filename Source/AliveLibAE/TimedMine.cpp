@@ -13,7 +13,7 @@
 #include "Map.hpp"
 #include "Path.hpp"
 #include "../relive_lib/Collisions.hpp"
-#include "../AliveLibAE/FixedPoint.hpp"
+#include "../relive_lib/FixedPoint.hpp"
 
 static TintEntry sTimedMineTint[16] = {
     {EReliveLevelIds::eMenu, 127u, 127u, 127u},

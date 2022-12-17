@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../relive_lib/Function.hpp"
-#include "../relive_lib/Psx_common.hpp"
+#include "Function.hpp"
+#include "Psx.hpp"
 #include <vector>
 
 enum eLineTypes : u8

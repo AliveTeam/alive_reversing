@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../relive_lib/Types.hpp"
+#include "Types.hpp"
 #include <limits>
 
 template<class T> T Clamp(T val, T lowerBound, T upperBound)

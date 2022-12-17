@@ -11,7 +11,7 @@
 #include "../relive_lib/Particle.hpp"
 #include "Grid.hpp"
 #include "Map.hpp"
-#include "../AliveLibAE/FixedPoint.hpp"
+#include "../relive_lib/FixedPoint.hpp"
 
 namespace AO {
 

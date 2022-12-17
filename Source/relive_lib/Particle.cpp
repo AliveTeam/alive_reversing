@@ -2,7 +2,7 @@
 #include "Particle.hpp"
 #include "ResourceManagerWrapper.hpp"
 #include "GameType.hpp"
-#include "../AliveLibAE/FixedPoint.hpp"
+#include "FixedPoint.hpp"
 
 // TODO: Make this the only ctor
 Particle::Particle(FP xpos, FP ypos, AnimResource& res, bool explosionSizeHack)

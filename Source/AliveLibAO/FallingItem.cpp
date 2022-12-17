@@ -13,7 +13,7 @@
 #include "Midi.hpp"
 #include "../relive_lib/SwitchStates.hpp"
 #include "Path.hpp"
-#include "../AliveLibAE/FixedPoint.hpp"
+#include "../relive_lib/FixedPoint.hpp"
 
 namespace AO {
 

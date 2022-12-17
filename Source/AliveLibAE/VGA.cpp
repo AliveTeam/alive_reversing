@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "VGA.hpp"
-#include "Sys.hpp"
+#include "../relive_lib/Sys.hpp"
 #include "Renderer/IRenderer.hpp"
 #include "../relive_lib/BaseGameAutoPlayer.hpp"
 

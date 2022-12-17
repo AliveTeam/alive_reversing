@@ -6,7 +6,7 @@
 #include "../../relive_lib/Function.hpp"
 #include "SDL_main.h"
 #include "../../AliveLibAE/Io.hpp"
-#include "../../AliveLibAE/Sys.hpp"
+#include "../../relive_lib/Sys.hpp"
 #include "../../AliveLibAE/Sound/PsxSpuApi.hpp"
 #include "imgui.h"
 #include "imgui_impl_sdl.h"

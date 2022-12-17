@@ -12,7 +12,7 @@
 #include "../relive_lib/ObjectIds.hpp"
 #include "Map.hpp"
 #include "Path.hpp"
-#include "FixedPoint.hpp"
+#include "../relive_lib/FixedPoint.hpp"
 
 const TintEntry sFootSwitchTints_5639F4[16] = {
     {EReliveLevelIds::eMenu, 127u, 127u, 127u},

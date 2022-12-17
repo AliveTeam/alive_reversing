@@ -20,7 +20,7 @@
 #include "../relive_lib/SwitchStates.hpp"
 #include "Sfx.hpp"
 #include "Elum.hpp"
-#include "../AliveLibAE/Sys.hpp"
+#include "../relive_lib/Sys.hpp"
 #include "../relive_lib/Camera.hpp"
 
 #include "../relive_lib/data_conversion/relive_tlvs.hpp"

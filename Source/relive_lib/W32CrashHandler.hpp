@@ -11,7 +11,7 @@
     #include <stdio.h>
     #include "SDL.h"
     #include "relive_config.h"
-    #include "Sys_common.hpp"
+    #include "Sys.hpp"
 
     #ifndef __MINGW32__
 

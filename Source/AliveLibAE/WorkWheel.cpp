@@ -9,7 +9,7 @@
 #include "GameEnderController.hpp"
 #include "Map.hpp"
 #include "Path.hpp"
-#include "FixedPoint.hpp"
+#include "../relive_lib/FixedPoint.hpp"
 
 void WorkWheel::LoadAnimations()
 {

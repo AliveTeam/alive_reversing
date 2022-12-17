@@ -1,5 +1,5 @@
 #include "AnimConversionInfo.hpp"
-#include "../../relive_lib/FatalError.hpp"
+#include "../FatalError.hpp"
 
 AnimRecConversionInfo kAnimRecConversionInfo[1023] = {
     { AnimId::Abe_Head_Gib, EAnimGroup::Gibs, EReliveLevelIds::eMines, EReliveLevelIds::eRuptureFarms, false },

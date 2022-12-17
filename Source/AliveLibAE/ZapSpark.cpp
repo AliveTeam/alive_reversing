@@ -3,7 +3,7 @@
 #include "stdlib.hpp"
 #include "Map.hpp"
 #include "Math.hpp"
-#include "../AliveLibAE/FixedPoint.hpp"
+#include "../relive_lib/FixedPoint.hpp"
 
 void ZapSpark::LoadAnimations()
 {

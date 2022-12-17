@@ -11,7 +11,7 @@
 #include "../relive_lib/ScreenManager.hpp"
 #include "Grid.hpp"
 #include "../relive_lib/Collisions.hpp"
-#include "../AliveLibAE/FixedPoint.hpp"
+#include "../relive_lib/FixedPoint.hpp"
 #include "Math.hpp"
 #include "Path.hpp"
 

@@ -4,7 +4,7 @@
 #include <array>
 #include <assert.h>
 #include "FatalError.hpp"
-#include "../relive_lib/data_conversion/rgb_conversion.hpp"
+#include "data_conversion/rgb_conversion.hpp"
 
 Movie_IO sMovie_IO_BBB314 = {};
 

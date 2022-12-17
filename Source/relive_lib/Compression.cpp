@@ -1,5 +1,5 @@
 #include "Compression.hpp"
-#include "../relive_lib/PtrStream.hpp"
+#include "PtrStream.hpp"
 #include "../AliveLibAE/Compression.hpp"
 
 namespace AO {

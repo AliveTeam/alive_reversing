@@ -2,7 +2,7 @@
 #include "SDLSoundSystem.hpp"
 #include "SDLSoundBuffer.hpp"
 #include "Reverb.hpp"
-#include "../Sys.hpp"
+#include "../../relive_lib/Sys.hpp"
 #include <functional>
 
 extern bool gLatencyHack;

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../relive_lib/BaseGameObject.hpp"
-#include "Psx.hpp"
+#include "../relive_lib/Psx.hpp"
 #include "Slig.hpp"
 
 enum class SpawnerStates : s16

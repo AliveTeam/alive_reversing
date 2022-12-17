@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "file_system.hpp"
-#include "../../relive_lib/FatalError.hpp"
+#include "../FatalError.hpp"
 
 #if !_WIN32
     #include <sys/stat.h>

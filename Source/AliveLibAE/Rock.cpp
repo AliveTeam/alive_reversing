@@ -12,7 +12,7 @@
 #include "Map.hpp"
 #include <assert.h>
 #include "../relive_lib/Collisions.hpp"
-#include "FixedPoint.hpp"
+#include "../relive_lib/FixedPoint.hpp"
 
 Rock::Rock(FP xpos, FP ypos, s16 count)
     : BaseThrowable(0)

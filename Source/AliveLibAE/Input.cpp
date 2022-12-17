@@ -3,11 +3,10 @@
 #include "../relive_lib/logger.hpp"
 #include "../relive_lib/Function.hpp"
 #include "Game.hpp"
-#include "Sys.hpp"
+#include "../relive_lib/Sys.hpp"
 #include "Sound/Sound.hpp"
 #include "../relive_lib/Events.hpp"
 #include "PsxRender.hpp"
-#include "Sys.hpp"
 #include "GameAutoPlayer.hpp"
 #include "../relive_lib/data_conversion/string_util.hpp"
 #include <sstream>

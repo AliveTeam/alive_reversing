@@ -8,7 +8,7 @@
 #include "../relive_lib/ScreenManager.hpp"
 #include "stdlib.hpp"
 #include "../relive_lib/AnimationUnknown.hpp"
-#include "FixedPoint.hpp"
+#include "../relive_lib/FixedPoint.hpp"
 
 struct ParticleBurst_Item final
 {

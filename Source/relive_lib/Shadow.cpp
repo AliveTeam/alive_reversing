@@ -4,10 +4,10 @@
 #include "ResourceManagerWrapper.hpp"
 #include "GameType.hpp"
 #include "Collisions.hpp"
-#include "../relive_lib/AnimResources.hpp"
+#include "AnimResources.hpp"
 #include <algorithm>
 #include "BaseAnimatedWithPhysicsGameObject.hpp" // only for the Scale enum
-#include "../AliveLibAE/FixedPoint.hpp"
+#include "FixedPoint.hpp"
 
 Shadow::Shadow()
 {

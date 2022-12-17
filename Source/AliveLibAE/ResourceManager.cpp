@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "ResourceManager.hpp"
 #include "../relive_lib/Function.hpp"
-#include "Psx.hpp"
+#include "../relive_lib/Psx.hpp"
 #include "stdlib.hpp"
 #include "../relive_lib/Particle.hpp"
 #include "PsxRender.hpp"

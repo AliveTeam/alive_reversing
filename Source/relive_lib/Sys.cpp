@@ -1,15 +1,15 @@
 #include "stdafx.h"
 #include "Sys.hpp"
-#include "../relive_lib/Function.hpp"
-#include "Input.hpp"
+#include "Function.hpp"
+#include "../AliveLibAE/Input.hpp"
 #include <assert.h>
 #include "../relive/resource.h"
-#include "Renderer/IRenderer.hpp"
+#include "../AliveLibAE/Renderer/IRenderer.hpp"
 
-#include "Sound/Sound.hpp"
-#include "Sound/Midi.hpp"
-#include "PauseMenu.hpp"
-#include "GameAutoPlayer.hpp"
+#include "../AliveLibAE/Sound/Sound.hpp"
+#include "../AliveLibAE/Sound/Midi.hpp"
+#include "../AliveLibAE/PauseMenu.hpp"
+#include "../AliveLibAE/GameAutoPlayer.hpp"
 
 
 static bool sAppIsActivated = false;

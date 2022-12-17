@@ -9,7 +9,7 @@
 #include "LCDScreen.hpp"
 #include "../AliveLibAE/stdlib.hpp"
 #include "StringFormatters.hpp"
-#include "../relive_lib/Primitives_common.hpp"
+#include "../relive_lib/Primitives.hpp"
 #include "Input.hpp"
 #include "../relive_lib/PathDataExtensionsTypes.hpp"
 #include "PathData.hpp"

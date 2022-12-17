@@ -4,7 +4,7 @@
 #include "../relive_lib/Collisions.hpp"
 #include "stdlib.hpp"
 #include "Map.hpp"
-#include "FixedPoint.hpp"
+#include "../relive_lib/FixedPoint.hpp"
 
 u8 sLeafRandIdx_563AA4 = 8;
 

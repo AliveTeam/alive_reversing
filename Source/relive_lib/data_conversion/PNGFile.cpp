@@ -1,8 +1,8 @@
 #include "PNGFile.hpp"
 #include "rgb_conversion.hpp"
 #include "file_system.hpp"
-#include "../../relive_lib/logger.hpp"
-#include "../../relive_lib/FatalError.hpp"
+#include "../logger.hpp"
+#include "../FatalError.hpp"
 #include "AnimationConverter.hpp"
 #include <spng/spng.h>
 

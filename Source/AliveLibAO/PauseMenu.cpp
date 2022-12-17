@@ -10,13 +10,9 @@
 #include "Sound.hpp"
 #include "../AliveLibAE/stdlib.hpp"
 #include "Sfx.hpp"
-#include "../AliveLibAE/Sys.hpp"
+#include "../relive_lib/Sys.hpp"
 #include "Map.hpp"
 #include "GameAutoPlayer.hpp"
-
-#if ORIGINAL_PS1_BEHAVIOR
-    #include "../AliveLibAE/Sys.hpp"
-#endif
 
 namespace AO {
 

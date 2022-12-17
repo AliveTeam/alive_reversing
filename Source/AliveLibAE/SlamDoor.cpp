@@ -8,7 +8,7 @@
 #include "Grid.hpp"
 #include "Map.hpp"
 #include "Path.hpp"
-#include "FixedPoint.hpp"
+#include "../relive_lib/FixedPoint.hpp"
 #include "../relive_lib/Collisions.hpp"
 
 struct SlamDoor_Data final

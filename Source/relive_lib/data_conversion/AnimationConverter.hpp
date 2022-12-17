@@ -2,7 +2,7 @@
 
 #include "file_system.hpp"
 #include "rgb_conversion.hpp"
-#include "../../relive_lib/AnimResources.hpp"
+#include "../AnimResources.hpp"
 #include <vector>
 
 struct AnimationPal final

@@ -4,7 +4,7 @@
 #include <type_traits>
 #include "FatalError.hpp"
 #include "Types.hpp"
-#include "../relive_lib/data_conversion/file_system.hpp"
+#include "data_conversion/file_system.hpp"
 
 enum RecordTypes : u32
 {

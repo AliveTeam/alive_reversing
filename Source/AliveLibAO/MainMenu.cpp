@@ -25,7 +25,7 @@
 #include "../AliveLibAE/Io.hpp"
 #include "Input.hpp"
 #include "Path.hpp"
-#include "../AliveLibAE/Psx.hpp"
+#include "../relive_lib/Psx.hpp"
 #include "MainMenuTransition.hpp"
 
 namespace AO {

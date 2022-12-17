@@ -20,7 +20,7 @@
 #include "Io.hpp"
 #include "GameEnderController.hpp"
 #include "Glukkon.hpp"
-#include "Sys.hpp"
+#include "../relive_lib/Sys.hpp"
 #include "../relive_lib/BaseGameAutoPlayer.hpp"
 #include "../relive_lib/Camera.hpp"
 #include "Path.hpp"

@@ -1,7 +1,7 @@
 #include "stdafx_ao.h"
 #include "Math.hpp"
 #include "../AliveLibAE/Math.hpp"
-#include "../AliveLibAE/FixedPoint.hpp" // TODO: Move Square root funcs
+#include "../relive_lib/FixedPoint.hpp" // TODO: Move Square root funcs
 
 namespace AO {
 

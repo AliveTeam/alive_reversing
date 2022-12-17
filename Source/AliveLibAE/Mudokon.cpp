@@ -34,7 +34,7 @@
 #include "AnimationCallBacks.hpp"
 #include "Map.hpp"
 #include "../relive_lib/FatalError.hpp"
-#include "FixedPoint.hpp"
+#include "../relive_lib/FixedPoint.hpp"
 
 s16 sGoingToBirdPortalMudCount_5C3012 = 0;
 
