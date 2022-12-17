@@ -42,6 +42,9 @@ void Engine::Run()
     // Moved from PsxDisplay init to prevent desync
     PSX_PutDispEnv_4F5890();
 
+    // Another hack till refactor branch replaces master
+    GetGameAutoPlayer().Pause(true);
+
     DataConversionUI dcu(mGameType);
     if (dcu.ConversionRequired())
     {
@@ -62,7 +65,8 @@ void Engine::Run()
         LOG_INFO("Data is up to date, skip conversion");
     }
 
-   
+    GetGameAutoPlayer().Pause(false);
+
     if (mGameType == GameType::eAe)
     {
         LOG_INFO("AE standalone starting...");

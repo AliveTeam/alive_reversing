@@ -160,7 +160,22 @@ public:
 
     std::vector<u8> RestoreFileBuffer(const std::vector<u8>& buffer);
 
+    void Pause(bool pause)
+    {
+        if (pause && mMode == Mode::Play && !mPlayingPaused)
+        {
+            mPlayingPaused = true;
+            mMode = Mode::None;
+        }
+        else if (!pause && mMode == Mode::None && mPlayingPaused)
+        {
+            mPlayingPaused = false;
+            mMode = Mode::Play;
+        }
+    }
+
 private:
+    bool mPlayingPaused = false;
 
     enum class Mode
     {
