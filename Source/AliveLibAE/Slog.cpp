@@ -8,7 +8,7 @@
 #include "DDCheat.hpp"
 #include "../relive_lib/Shadow.hpp"
 #include "Map.hpp"
-#include "Sound/Midi.hpp"
+#include "../relive_lib/Sound/Midi.hpp"
 #include "../relive_lib/ObjectIds.hpp"
 #include "PlatformBase.hpp"
 #include "Bone.hpp"

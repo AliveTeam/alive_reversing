@@ -13,9 +13,9 @@
 #include "Sfx.hpp"
 #include "../AliveLibAE/Sfx.hpp"
 
-#include "../AliveLibAE/Sound/PsxSpuApi.hpp"
-#include "../AliveLibAE/Sound/Midi.hpp"
-#include "../AliveLibAE/Sound/Sound.hpp"
+#include "../relive_lib/Sound/PsxSpuApi.hpp"
+#include "../relive_lib/Sound/Midi.hpp"
+#include "../relive_lib/Sound/Sound.hpp"
 #include "../AliveLibAE/PathData.hpp"
 
 #include "../relive_lib/BinaryPath.hpp"

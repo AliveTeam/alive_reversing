@@ -5,14 +5,14 @@
 #include "stdlib.hpp"
 #include "Text.hpp"
 #include "MainMenu.hpp"
-#include "Sound/Midi.hpp"
+#include "../relive_lib/Sound/Midi.hpp"
 #include "../relive_lib/Sys.hpp"
-#include "Sound/Sound.hpp"
+#include "../relive_lib/Sound/Sound.hpp"
 #include "../relive_lib/Masher.hpp"
 #include "VGA.hpp"
 #include "GameAutoPlayer.hpp"
 #include "Game.hpp"
-#include "Renderer/IRenderer.hpp"
+#include "../relive_lib/Renderer/IRenderer.hpp"
 
 // Inputs on the controller that can be used for aborting skippable movies
 const u32 MOVIE_SKIPPER_GAMEPAD_INPUTS = (InputCommands::Enum::eUnPause_OrConfirm | InputCommands::Enum::eBack | InputCommands::Enum::ePause);

@@ -5,7 +5,7 @@
 #include "Input.hpp"
 #include "../relive_lib/Psx.hpp"
 #include "../relive_lib/DynamicArray.hpp"
-#include "Sound/Sound.hpp" // for shut down func
+#include "../relive_lib/Sound/Sound.hpp" // for shut down func
 #include "AmbientSound.hpp"
 #include "ResourceManager.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
@@ -16,7 +16,7 @@
 #include "GameSpeak.hpp"
 #include "DDCheat.hpp"
 #include "Io.hpp"
-#include "Sound/Midi.hpp"
+#include "../relive_lib/Sound/Midi.hpp"
 #include <fstream>
 #include "../relive_lib/Events.hpp"
 #include "Abe.hpp"

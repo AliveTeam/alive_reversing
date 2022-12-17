@@ -3,7 +3,7 @@
 #include "../AliveLibAE/Compression.hpp"
 #include "Compression.hpp"
 #include "PsxDisplay.hpp"
-#include "../AliveLibAE/Renderer/IRenderer.hpp"
+#include "Renderer/IRenderer.hpp"
 #include "GameType.hpp"
 #include "ResourceManagerWrapper.hpp"
 #include "AnimResources.hpp"

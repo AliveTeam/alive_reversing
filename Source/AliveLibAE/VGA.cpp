@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "VGA.hpp"
 #include "../relive_lib/Sys.hpp"
-#include "Renderer/IRenderer.hpp"
+#include "../relive_lib/Renderer/IRenderer.hpp"
 #include "../relive_lib/BaseGameAutoPlayer.hpp"
 
 static bool sbRendererCreated = false;

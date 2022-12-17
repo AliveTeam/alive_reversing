@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "SecurityOrb.hpp"
-#include "Sound/Midi.hpp"
+#include "../relive_lib/Sound/Midi.hpp"
 #include "stdlib.hpp"
 #include "Gibs.hpp"
 #include "ScreenShake.hpp"

@@ -7,6 +7,46 @@ SET(relive_lib_src
     ../Tools/relive_api/CamConverter.hpp
     ../Tools/relive_api/ApiFG1Reader.cpp
     ../Tools/relive_api/ApiFG1Reader.hpp
+    Renderer/IRenderer.hpp
+    Renderer/IRenderer.cpp
+    Renderer/Vulkan/VulkanRenderer.hpp
+    Renderer/Vulkan/VulkanRenderer.cpp
+    Renderer/DirectX9/DirectX9Renderer.hpp
+    Renderer/DirectX9/DirectX9Renderer.cpp
+    Renderer/PaletteCache.hpp
+    Renderer/TextureCache.hpp
+    Renderer/OpenGL3/GLContext.hpp
+    Renderer/OpenGL3/GLContext.cpp
+    Renderer/OpenGL3/GLDebug.hpp
+    Renderer/OpenGL3/GLDebug.cpp
+    Renderer/OpenGL3/GLFramebuffer.hpp
+    Renderer/OpenGL3/GLFramebuffer.cpp
+    Renderer/OpenGL3/GLShader.hpp
+    Renderer/OpenGL3/GLShader.cpp
+    Renderer/OpenGL3/GLShaderProgram.hpp
+    Renderer/OpenGL3/GLShaderProgram.cpp
+    Renderer/OpenGL3/GLTexture2D.hpp
+    Renderer/OpenGL3/GLTexture2D.cpp
+    Renderer/OpenGL3/OpenGLRenderer.hpp
+    Renderer/OpenGL3/OpenGLRenderer.cpp
+    Renderer/OpenGL3/Shaders/ShaderPassthru.cpp
+    Renderer/OpenGL3/Shaders/ShaderPsx.cpp
+    Sound/PsxSpuApi.cpp
+    Sound/PsxSpuApi.hpp
+    Sound/Midi.cpp
+    Sound/Midi.hpp
+    Sound/Sound.cpp
+    Sound/Sound.hpp
+    Sound/Reverb.hpp
+    Sound/Reverb.cpp
+    Sound/SoundDSound.cpp
+    Sound/SoundDSound.hpp
+    Sound/SoundSDL.hpp
+    Sound/SoundSDL.cpp
+    Sound/SDLSoundBuffer.hpp
+    Sound/SDLSoundBuffer.cpp
+    Sound/SDLSoundSystem.hpp
+    Sound/SDLSoundSystem.cpp
     IBaseAliveGameObject.hpp
     IBaseAliveGameObject.cpp
     EffectBase.hpp
@@ -142,7 +182,8 @@ target_include_directories(relive_lib PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/../../3rdParty
     ${CMAKE_CURRENT_SOURCE_DIR}/../../3rdParty/aom
     ${CMAKE_CURRENT_SOURCE_DIR}/../../3rdParty/aom/third_party/libwebm
-    ${CMAKE_CURRENT_SOURCE_DIR}/../../3rdParty/json/single_include>
+    ${CMAKE_CURRENT_SOURCE_DIR}/../../3rdParty/json/single_include
+    ${CMAKE_CURRENT_SOURCE_DIR}/../../3rdParty/DX9_SDK_Aug09/Include>
     $<INSTALL_INTERFACE:include>
     PRIVATE src ${CMAKE_BINARY_DIR})
 
@@ -163,6 +204,18 @@ target_compile_features(relive_lib
     PRIVATE cxx_auto_type
     PRIVATE cxx_variadic_templates)
 
+if (MINGW)
+    set(WIN32_LIBS "imm32")
+else()
+    if (WIN32)
+        set(WIN32_LIBS
+            Winmm
+            dsound
+            xinput
+        )
+    endif()
+endif()
+
 target_link_libraries(relive_lib
     shelf-pack-cpp
     project_warnings
@@ -171,6 +224,22 @@ target_link_libraries(relive_lib
     aom
     webm
     aom_common_app_util
+    Cinder
+    libglew_static
+    imgui
+    glm
+    volk
+    Vulkan::Headers
+    ${WIN32_LIBS}
+    ${SDL2_LIBRARIES}
     )
+
+if (WIN32)
+    if (CMAKE_SIZEOF_VOID_P EQUAL 4)
+        target_link_libraries(relive_lib ${CMAKE_CURRENT_SOURCE_DIR}/../../3rdParty/DX9_SDK_Aug09/Lib/x86/D3dx9.lib)
+    else()
+        target_link_libraries(relive_lib ${CMAKE_CURRENT_SOURCE_DIR}/../../3rdParty/DX9_SDK_Aug09/Lib/x64/D3dx9.lib)
+    endif()
+endif()
 
 export(TARGETS relive_lib FILE relive_lib.cmake)

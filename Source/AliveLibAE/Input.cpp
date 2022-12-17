@@ -4,7 +4,7 @@
 #include "../relive_lib/Function.hpp"
 #include "Game.hpp"
 #include "../relive_lib/Sys.hpp"
-#include "Sound/Sound.hpp"
+#include "../relive_lib/Sound/Sound.hpp"
 #include "../relive_lib/Events.hpp"
 #include "PsxRender.hpp"
 #include "GameAutoPlayer.hpp"

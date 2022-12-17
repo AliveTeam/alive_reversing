@@ -8,7 +8,7 @@
 #include "../relive_lib/Events.hpp"
 #include "Sfx.hpp"
 #include "../relive_lib/SwitchStates.hpp"
-#include "Sound/Midi.hpp"
+#include "../relive_lib/Sound/Midi.hpp"
 #include "ParticleBurst.hpp"
 #include "../relive_lib/Particle.hpp"
 #include "ScreenShake.hpp"

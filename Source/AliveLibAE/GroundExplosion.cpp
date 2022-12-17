@@ -4,7 +4,7 @@
 #include "stdlib.hpp"
 #include "../relive_lib/Events.hpp"
 #include "Sfx.hpp"
-#include "Sound/Midi.hpp"
+#include "../relive_lib/Sound/Midi.hpp"
 #include "ScreenShake.hpp"
 #include "ParticleBurst.hpp"
 #include "../relive_lib/Flash.hpp"

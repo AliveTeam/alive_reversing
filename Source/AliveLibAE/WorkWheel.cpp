@@ -5,7 +5,7 @@
 #include "stdlib.hpp"
 #include "../relive_lib/Events.hpp"
 #include "../relive_lib/SwitchStates.hpp"
-#include "Sound/Midi.hpp"
+#include "../relive_lib/Sound/Midi.hpp"
 #include "GameEnderController.hpp"
 #include "Map.hpp"
 #include "Path.hpp"

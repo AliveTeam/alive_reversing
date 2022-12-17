@@ -5,7 +5,7 @@
 #include "Midi.hpp"
 #include "BackgroundMusic.hpp"
 
-#include "../AliveLibAE/Sound/Sound.hpp"
+#include "../relive_lib/Sound/Sound.hpp"
 
 namespace AO {
 void SND_SsQuit()

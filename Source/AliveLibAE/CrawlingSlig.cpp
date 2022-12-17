@@ -19,7 +19,7 @@
 #include "Gibs.hpp"
 #include "Blood.hpp"
 #include "ScreenShake.hpp"
-#include "Sound/Midi.hpp"
+#include "../relive_lib/Sound/Midi.hpp"
 #include "Slig.hpp"
 #include "FlyingSlig.hpp"
 #include "CrawlingSligButton.hpp"

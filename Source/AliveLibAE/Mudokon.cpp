@@ -17,7 +17,7 @@
 #include "Math.hpp"
 #include "Sfx.hpp"
 #include "Spark.hpp"
-#include "Sound/Midi.hpp"
+#include "../relive_lib/Sound/Midi.hpp"
 #include "../relive_lib/ScreenManager.hpp"
 #include "Lever.hpp"
 #include "../relive_lib/Particle.hpp"

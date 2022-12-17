@@ -1,9 +1,9 @@
 #include "../stdafx.h"
 #include "PsxSpuApi.hpp"
 #include "../../relive_lib/Function.hpp"
-#include "../Io.hpp"
-#include "../stdlib.hpp"
-#include "../ResourceManager.hpp"
+#include "../../AliveLibAE/Io.hpp"
+#include "../../AliveLibAE/stdlib.hpp"
+#include "../../AliveLibAE/ResourceManager.hpp"
 #include "Sound.hpp"    // SoundEntry structure
 #include "../../relive_lib/Sys.hpp"      // SYS_GetTicks
 #include <assert.h>

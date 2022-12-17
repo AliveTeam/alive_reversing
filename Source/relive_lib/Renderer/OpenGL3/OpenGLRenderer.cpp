@@ -4,7 +4,7 @@
 #include "../../../relive_lib/Primitives.hpp"
 #include "../../../relive_lib/Animation.hpp"
 #include "../../Compression.hpp"
-#include "../../Font.hpp"
+#include "../../../AliveLibAE/Font.hpp"
 #include "../../../relive_lib/BaseGameAutoPlayer.hpp"
 #include "../../../relive_lib/FatalError.hpp"
 #include "GLDebug.hpp"

@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "BackgroundMusic.hpp"
-#include "Sound/Midi.hpp"
+#include "../relive_lib/Sound/Midi.hpp"
 #include "Map.hpp"
 #include "stdlib.hpp"
 

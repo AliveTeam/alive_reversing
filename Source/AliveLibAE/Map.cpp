@@ -4,7 +4,7 @@
 #include "../relive_lib/Function.hpp"
 #include "../relive_lib/ScreenManager.hpp"
 #include "ResourceManager.hpp"
-#include "Sound/Midi.hpp"
+#include "../relive_lib/Sound/Midi.hpp"
 #include "../relive_lib/SwitchStates.hpp"
 #include "Game.hpp"
 #include "Abe.hpp"
@@ -17,7 +17,7 @@
 #include "MainMenu.hpp"
 #include "../relive_lib/Events.hpp"
 #include "../relive_lib/Particle.hpp"
-#include "Sound/PsxSpuApi.hpp"
+#include "../relive_lib/Sound/PsxSpuApi.hpp"
 #include "../relive_lib/Sys.hpp"
 #include <assert.h>
 #include "../relive_lib/Camera.hpp"

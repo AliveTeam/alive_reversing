@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "ScopedSeq.hpp"
 #include "Map.hpp"
-#include "Sound/Midi.hpp"
+#include "../relive_lib/Sound/Midi.hpp"
 #include "stdlib.hpp"
 
 ScopedSeq::ScopedSeq(s32 ambianceId, CameraPos direction)

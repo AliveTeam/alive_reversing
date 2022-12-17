@@ -5,7 +5,7 @@
 #include "stdlib.hpp"
 #include "../relive_lib/ObjectIds.hpp"
 #include "../relive_lib/SwitchStates.hpp"
-#include "Sound/Midi.hpp"
+#include "../relive_lib/Sound/Midi.hpp"
 #include "../relive_lib/Function.hpp"
 #include "BaseAliveGameObject.hpp"
 #include "Dove.hpp"

@@ -34,7 +34,7 @@
 #include "../relive_lib/Psx.hpp"
 #include "AnimationCallBacks.hpp"
 #include "Grid.hpp"
-#include "../AliveLibAE/Sound/Midi.hpp"
+#include "../relive_lib/Sound/Midi.hpp"
 #include "../relive_lib/BaseGameAutoPlayer.hpp"
 #include "../relive_lib/ObjectIds.hpp"
 #include "../relive_lib/FixedPoint.hpp"

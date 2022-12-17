@@ -3,7 +3,7 @@
 #include "../../../relive_lib/FatalError.hpp"
 #include "../../../relive_lib/ResourceManagerWrapper.hpp"
 #include "../../../relive_lib/Animation.hpp"
-#include "../../Font.hpp"
+#include "../../../AliveLibAE/Font.hpp"
 #include "pixel_shader.h"
 #include "cam_fg1_shader.h"
 #include "flat_shader.h"
@@ -13,7 +13,6 @@
 
     #undef DIRECT3D_VERSION
     #define DIRECT3D_VERSION 0x0900
-    #include <d3dx9.h>
 
 #pragma comment(lib, "D3d9.lib")
 

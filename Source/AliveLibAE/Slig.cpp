@@ -17,7 +17,7 @@
 #include "Blood.hpp"
 #include "Gibs.hpp"
 #include "../relive_lib/Particle.hpp"
-#include "Sound/Midi.hpp"
+#include "../relive_lib/Sound/Midi.hpp"
 #include "../relive_lib/ObjectIds.hpp"
 #include "PlatformBase.hpp"
 #include "ScreenShake.hpp"

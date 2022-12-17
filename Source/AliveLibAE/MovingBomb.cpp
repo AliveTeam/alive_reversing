@@ -5,7 +5,7 @@
 #include "Map.hpp"
 #include "../relive_lib/Shadow.hpp"
 #include "stdlib.hpp"
-#include "Sound/Midi.hpp"
+#include "../relive_lib/Sound/Midi.hpp"
 #include "../relive_lib/ObjectIds.hpp"
 #include "PlatformBase.hpp"
 #include "Sfx.hpp"

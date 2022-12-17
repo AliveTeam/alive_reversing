@@ -7,7 +7,7 @@
 #include "Sfx.hpp"
 #include "Abe.hpp"
 #include "MusicTrigger.hpp"
-#include "Sound/Midi.hpp"
+#include "../relive_lib/Sound/Midi.hpp"
 #include "DDCheat.hpp"
 #include "Grid.hpp"
 #include "Map.hpp"

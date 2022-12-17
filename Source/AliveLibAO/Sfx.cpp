@@ -2,7 +2,7 @@
 #include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
 #include "Sfx.hpp"
 #include "Midi.hpp"
-#include "../AliveLibAE/Sound/Midi.hpp"
+#include "../relive_lib/Sound/Midi.hpp"
 
 namespace AO {
 

@@ -3,7 +3,7 @@
 #include "../../../relive_lib/FatalError.hpp"
 #include "../../../relive_lib/ResourceManagerWrapper.hpp"
 #include "../../../relive_lib/Animation.hpp"
-#include "../../Font.hpp"
+#include "../../../AliveLibAE/Font.hpp"
 #include <SDL_syswm.h>
 #include <cmath>
 

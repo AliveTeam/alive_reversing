@@ -5,7 +5,7 @@
 #include "stdlib.hpp"
 #include "Game.hpp"
 #include "Abe.hpp"
-#include "Sound/Midi.hpp"
+#include "../relive_lib/Sound/Midi.hpp"
 #include "../relive_lib/ShadowZone.hpp"
 #include "../relive_lib/ScreenManager.hpp"
 #include "../relive_lib/Function.hpp"

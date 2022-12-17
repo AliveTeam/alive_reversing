@@ -3,7 +3,7 @@
 #include "../relive_lib/Function.hpp"
 #include "../relive_lib/ScreenManager.hpp"
 #include "Game.hpp"
-#include "Sound/Midi.hpp"
+#include "../relive_lib/Sound/Midi.hpp"
 #include "../relive_lib/Events.hpp"
 #include "../relive_lib/SwitchStates.hpp"
 #include "Sfx.hpp"

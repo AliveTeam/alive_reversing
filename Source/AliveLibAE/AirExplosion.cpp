@@ -8,7 +8,7 @@
 #include "Gibs.hpp"
 #include "../relive_lib/Events.hpp"
 #include "ParticleBurst.hpp"
-#include "Sound/Midi.hpp"
+#include "../relive_lib/Sound/Midi.hpp"
 #include "stdlib.hpp"
 #include "ExplosionSet.hpp"
 #include "Path.hpp"

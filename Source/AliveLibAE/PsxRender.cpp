@@ -2,8 +2,8 @@
 #include "PsxRender.hpp"
 #include "../relive_lib/Function.hpp"
 #include "../relive_lib/Psx.hpp"
-#include "Sound/PsxSpuApi.hpp"
-#include "Renderer/IRenderer.hpp"
+#include "../relive_lib/Sound/PsxSpuApi.hpp"
+#include "../relive_lib/Renderer/IRenderer.hpp"
 #include "../relive_lib/FatalError.hpp"
 
 static void DrawOTag_HandlePrimRendering(IRenderer& renderer, PrimAny& any)

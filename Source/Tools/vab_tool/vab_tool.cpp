@@ -7,7 +7,7 @@
 #include "SDL_main.h"
 #include "../../AliveLibAE/Io.hpp"
 #include "../../relive_lib/Sys.hpp"
-#include "../../AliveLibAE/Sound/PsxSpuApi.hpp"
+#include "../../relive_lib/Sound/PsxSpuApi.hpp"
 #include "imgui.h"
 #include "imgui_impl_sdl.h"
 #include "imgui_impl_opengl3.h"

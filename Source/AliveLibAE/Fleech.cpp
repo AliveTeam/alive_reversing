@@ -18,7 +18,7 @@
 #include "PlatformBase.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
 #include "Sfx.hpp"
-#include "Sound/Midi.hpp"
+#include "../relive_lib/Sound/Midi.hpp"
 #include "Grid.hpp"
 #include "../relive_lib/Math.hpp"
 #include "AnimationCallBacks.hpp"

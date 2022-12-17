@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "Psx.hpp"
-#include "../AliveLibAE/Sound/PsxSpuApi.hpp"
+#include "Sound/PsxSpuApi.hpp"
 #include "PsxDisplay.hpp"
 #include "../AliveLibAE/VGA.hpp"
 #include "../AliveLibAE/stdlib.hpp"

@@ -2,7 +2,7 @@
 #include "MusicController.hpp"
 #include "../relive_lib/Function.hpp"
 #include "stdlib.hpp"
-#include "Sound/Midi.hpp"
+#include "../relive_lib/Sound/Midi.hpp"
 #include "../relive_lib/Events.hpp"
 #include "Abe.hpp"
 #include "Map.hpp"

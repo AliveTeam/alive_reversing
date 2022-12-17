@@ -2,7 +2,7 @@
 #include "Abe.hpp"
 #include "../relive_lib/Function.hpp"
 #include "Map.hpp"
-#include "Sound/Midi.hpp"
+#include "../relive_lib/Sound/Midi.hpp"
 #include "Sfx.hpp"
 #include "stdlib.hpp"
 #include "../relive_lib/Shadow.hpp"

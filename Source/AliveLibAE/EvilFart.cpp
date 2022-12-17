@@ -7,7 +7,7 @@
 #include "Game.hpp"
 #include "ThrowableTotalIndicator.hpp"
 #include "../relive_lib/Particle.hpp"
-#include "Sound/Midi.hpp"
+#include "../relive_lib/Sound/Midi.hpp"
 #include "AirExplosion.hpp"
 #include "Sfx.hpp"
 #include "../relive_lib/Function.hpp"

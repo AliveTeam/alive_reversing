@@ -13,7 +13,7 @@
 #include "DDCheat.hpp"
 #include "../relive_lib/Particle.hpp"
 #include "Sfx.hpp"
-#include "Sound/Midi.hpp"
+#include "../relive_lib/Sound/Midi.hpp"
 #include "GameSpeak.hpp"
 #include "../relive_lib/SwitchStates.hpp"
 #include "LiftPoint.hpp"

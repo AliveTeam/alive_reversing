@@ -7,7 +7,7 @@
 #include "Abe.hpp"
 #include "../relive_lib/ObjectIds.hpp"
 #include "MusicController.hpp"
-#include "Sound/Midi.hpp"
+#include "../relive_lib/Sound/Midi.hpp"
 #include "../relive_lib/Events.hpp"
 #include "DDCheat.hpp"
 #include "Throwable.hpp"

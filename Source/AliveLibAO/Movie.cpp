@@ -9,12 +9,12 @@
 #include "../relive_lib/Psx.hpp"
 #include "../AliveLibAE/VGA.hpp"
 #include "../AliveLibAE/Input.hpp"
-#include "../AliveLibAE/Sound/SDLSoundBuffer.hpp"
+#include "../relive_lib/Sound/SDLSoundBuffer.hpp"
 #include "GameAutoPlayer.hpp"
 #include "Midi.hpp"
 
 #define NO_WAVE
-#include "../AliveLibAE/Sound/Sound.hpp"
+#include "../relive_lib/Sound/Sound.hpp"
 
 namespace AO {
 

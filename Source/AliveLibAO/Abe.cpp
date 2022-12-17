@@ -53,7 +53,7 @@
 #include "../relive_lib/Camera.hpp"
 #include "AnimationCallBacks.hpp"
 #include "Grid.hpp"
-#include "../AliveLibAE/Sound/Midi.hpp"
+#include "../relive_lib/Sound/Midi.hpp"
 #include "../relive_lib/FatalError.hpp"
 #include "../relive_lib/ObjectIds.hpp"
 #include "../relive_lib/SwitchStates.hpp"

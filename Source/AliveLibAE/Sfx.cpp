@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Sfx.hpp"
 #include "../relive_lib/Function.hpp"
-#include "Sound/Midi.hpp"
+#include "../relive_lib/Sound/Midi.hpp"
 #include "Map.hpp"
 #include <assert.h>
 #include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"

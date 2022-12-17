@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "Dove.hpp"
-#include "Sound/Midi.hpp"
+#include "../relive_lib/Sound/Midi.hpp"
 #include "Math.hpp"
 #include "Game.hpp"
 #include "../relive_lib/Events.hpp"

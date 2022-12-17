@@ -1,30 +1,6 @@
 project(AliveLibAE VERSION 0.1 LANGUAGES CXX)
 
 SET(AliveLibAESrc
-    Renderer/IRenderer.hpp
-    Renderer/IRenderer.cpp
-    Renderer/Vulkan/VulkanRenderer.hpp
-    Renderer/Vulkan/VulkanRenderer.cpp
-    Renderer/DirectX9/DirectX9Renderer.hpp
-    Renderer/DirectX9/DirectX9Renderer.cpp
-    Renderer/PaletteCache.hpp
-    Renderer/TextureCache.hpp
-    Renderer/OpenGL3/GLContext.hpp
-    Renderer/OpenGL3/GLContext.cpp
-    Renderer/OpenGL3/GLDebug.hpp
-    Renderer/OpenGL3/GLDebug.cpp
-    Renderer/OpenGL3/GLFramebuffer.hpp
-    Renderer/OpenGL3/GLFramebuffer.cpp
-    Renderer/OpenGL3/GLShader.hpp
-    Renderer/OpenGL3/GLShader.cpp
-    Renderer/OpenGL3/GLShaderProgram.hpp
-    Renderer/OpenGL3/GLShaderProgram.cpp
-    Renderer/OpenGL3/GLTexture2D.hpp
-    Renderer/OpenGL3/GLTexture2D.cpp
-    Renderer/OpenGL3/OpenGLRenderer.hpp
-    Renderer/OpenGL3/OpenGLRenderer.cpp
-    Renderer/OpenGL3/Shaders/ShaderPassthru.cpp
-    Renderer/OpenGL3/Shaders/ShaderPsx.cpp
     Grid.hpp
     Grid.cpp
     GameAutoPlayer.hpp
@@ -47,22 +23,6 @@ SET(AliveLibAESrc
     Sfx.cpp
     Game.cpp
     Game.hpp
-    Sound/PsxSpuApi.cpp
-    Sound/PsxSpuApi.hpp
-    Sound/Midi.cpp
-    Sound/Midi.hpp
-    Sound/Sound.cpp
-    Sound/Sound.hpp
-    Sound/Reverb.hpp
-    Sound/Reverb.cpp
-    Sound/SoundDSound.cpp
-    Sound/SoundDSound.hpp
-    Sound/SoundSDL.hpp
-    Sound/SoundSDL.cpp
-    Sound/SDLSoundBuffer.hpp
-    Sound/SDLSoundBuffer.cpp
-    Sound/SDLSoundSystem.hpp
-    Sound/SDLSoundSystem.cpp
     stdlib.cpp
     stdlib.hpp
     AmbientSound.cpp
@@ -348,7 +308,6 @@ add_library(AliveLibAE ${AliveLibAESrc})
 target_include_directories(AliveLibAE PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR},
     ${CMAKE_CURRENT_SOURCE_DIR}/../../3rdParty/json/single_include
-    ${CMAKE_CURRENT_SOURCE_DIR}/../../3rdParty/DX9_SDK_Aug09/Include>
     $<INSTALL_INTERFACE:include>
     PRIVATE src ${CMAKE_BINARY_DIR})
 
@@ -387,24 +346,9 @@ endif()
 
 target_link_libraries(AliveLibAE
     googletest
-    Cinder
-    libglew_static
-    imgui
-    glm
-    volk
-    Vulkan::Headers
     ${WIN32_LIBS}
     ${SDL2_LIBRARIES}
     project_warnings
     )
-
-
-if (WIN32)
-    if (CMAKE_SIZEOF_VOID_P EQUAL 4)
-        target_link_libraries(AliveLibAE ${CMAKE_CURRENT_SOURCE_DIR}/../../3rdParty/DX9_SDK_Aug09/Lib/x86/D3dx9.lib)
-    else()
-        target_link_libraries(AliveLibAE ${CMAKE_CURRENT_SOURCE_DIR}/../../3rdParty/DX9_SDK_Aug09/Lib/x64/D3dx9.lib)
-    endif()
-endif()
 
 export(TARGETS AliveLibAE FILE AliveLibAE.cmake)
