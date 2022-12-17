@@ -5,7 +5,7 @@
 #include "../relive_lib/Function.hpp"
 #include "../relive_lib/Events.hpp"
 #include "Sfx.hpp"
-#include "../relive_lib/ScreenManager.hpp"
+#include "../relive_lib/GameObjects/ScreenManager.hpp"
 #include "stdlib.hpp"
 #include "../relive_lib/AnimationUnknown.hpp"
 #include "../relive_lib/FixedPoint.hpp"

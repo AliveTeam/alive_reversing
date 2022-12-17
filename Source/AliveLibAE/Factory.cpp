@@ -19,7 +19,7 @@
 #include "InvisibleSwitch.hpp"
 #include "Lever.hpp"
 #include "MultiSwitchController.hpp"
-#include "../relive_lib/ShadowZone.hpp"
+#include "../relive_lib/GameObjects/ShadowZone.hpp"
 #include "Drill.hpp"
 #include "Teleporter.hpp"
 #include "Well.hpp"

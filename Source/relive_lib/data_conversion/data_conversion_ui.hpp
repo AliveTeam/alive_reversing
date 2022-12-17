@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../BaseGameObject.hpp"
+#include "../GameObjects/BaseGameObject.hpp"
 #include "../Primitives.hpp"
 #include "../../AliveLibAE/Font.hpp"
 #include "../../AliveLibAE/LCDScreen.hpp"

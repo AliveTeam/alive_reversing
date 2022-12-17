@@ -7,7 +7,7 @@
 #include "Slog.hpp"
 #include "Sfx.hpp"
 #include "Blood.hpp"
-#include "../relive_lib/Particle.hpp"
+#include "../relive_lib/GameObjects/Particle.hpp"
 #include "../relive_lib/ObjectIds.hpp"
 #include "../relive_lib/FatalError.hpp"
 #include "../relive_lib/FixedPoint.hpp"

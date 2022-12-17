@@ -2,7 +2,7 @@
 #include "CameraSwapper.hpp"
 #include "../relive_lib/Events.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
-#include "../relive_lib/ScreenManager.hpp"
+#include "../relive_lib/GameObjects/ScreenManager.hpp"
 #include "Math.hpp"
 #include "Sfx.hpp"
 #include "../relive_lib/Function.hpp"

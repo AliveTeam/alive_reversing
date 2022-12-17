@@ -6,7 +6,7 @@
 #include "Midi.hpp"
 #include "Game.hpp"
 #include "../relive_lib/Events.hpp"
-#include "../relive_lib/ScreenManager.hpp"
+#include "../relive_lib/GameObjects/ScreenManager.hpp"
 #include "Sfx.hpp"
 #include "Abe.hpp"
 #include "../relive_lib/FixedPoint.hpp"

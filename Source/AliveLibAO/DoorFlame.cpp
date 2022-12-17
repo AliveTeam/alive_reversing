@@ -7,7 +7,7 @@
 #include "Math.hpp"
 #include "Map.hpp"
 #include "Sfx.hpp"
-#include "../relive_lib/ScreenManager.hpp"
+#include "../relive_lib/GameObjects/ScreenManager.hpp"
 #include "CameraSwapper.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
 #include "../relive_lib/AnimationUnknown.hpp"

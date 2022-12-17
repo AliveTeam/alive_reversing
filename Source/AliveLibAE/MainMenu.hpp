@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Font.hpp"
-#include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
+#include "../relive_lib/GameObjects/BaseAnimatedWithPhysicsGameObject.hpp"
 #include "Input.hpp"
 #include "PathData.hpp"
 #include <functional>

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../relive_lib/BaseGameObject.hpp"
+#include "../relive_lib/GameObjects/BaseGameObject.hpp"
 #include "MusicController.hpp"
 #include "../relive_lib/data_conversion/relive_tlvs.hpp"
 #include "../relive_lib/Psx.hpp"

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../relive_lib/BaseGameObject.hpp"
+#include "../relive_lib/GameObjects/BaseGameObject.hpp"
 #include "../AliveLibAE/Slurg.hpp"
 #include "../relive_lib/data_conversion/PathTlvsAE.hpp"
 

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../relive_lib/BaseGameObject.hpp"
+#include "../relive_lib/GameObjects/BaseGameObject.hpp"
 #include "../relive_lib/Layer.hpp"
 #include "../relive_lib/Primitives.hpp"
 

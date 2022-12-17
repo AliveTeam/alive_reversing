@@ -4,7 +4,7 @@
 #include "../relive_lib/Animation.hpp"
 #include "../relive_lib/Function.hpp"
 #include "Font.hpp"
-#include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
+#include "../relive_lib/GameObjects/BaseAnimatedWithPhysicsGameObject.hpp"
 
 
 class PauseMenu;

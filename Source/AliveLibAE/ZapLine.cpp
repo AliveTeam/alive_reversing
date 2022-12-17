@@ -2,7 +2,7 @@
 #include "ZapLine.hpp"
 #include "../relive_lib/Function.hpp"
 #include "stdlib.hpp"
-#include "../relive_lib/ScreenManager.hpp"
+#include "../relive_lib/GameObjects/ScreenManager.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
 #include "Game.hpp"
 #include "Map.hpp"

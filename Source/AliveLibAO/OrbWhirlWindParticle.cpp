@@ -1,11 +1,11 @@
 #include "stdafx_ao.h"
 #include "OrbWhirlWindParticle.hpp"
-#include "../relive_lib/BaseGameObject.hpp"
+#include "../relive_lib/GameObjects/BaseGameObject.hpp"
 #include "Game.hpp"
 #include "../AliveLibAE/stdlib.hpp"
-#include "../relive_lib/ScreenManager.hpp"
+#include "../relive_lib/GameObjects/ScreenManager.hpp"
 #include "Math.hpp"
-#include "../relive_lib/IBaseAliveGameObject.hpp"
+#include "../relive_lib/GameObjects/IBaseAliveGameObject.hpp"
 #include "../relive_lib/FixedPoint.hpp"
 
 namespace AO {

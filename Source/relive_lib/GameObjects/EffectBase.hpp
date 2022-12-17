@@ -1,9 +1,9 @@
 #pragma once
 
 #include "BaseGameObject.hpp"
-#include "Primitives.hpp"
-#include "Layer.hpp"
-#include "MapWrapper.hpp"
+#include "../Primitives.hpp"
+#include "../Layer.hpp"
+#include "../MapWrapper.hpp"
 
 enum class TPageAbr : s8;
 

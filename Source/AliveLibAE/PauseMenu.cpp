@@ -19,7 +19,7 @@
 #include "DDCheat.hpp"
 #include "../relive_lib/Sound/Midi.hpp"
 #include "ResourceManager.hpp"
-#include "../relive_lib/ScreenManager.hpp"
+#include "../relive_lib/GameObjects/ScreenManager.hpp"
 #include "Game.hpp"
 
 bool gQuicksave_SaveNextFrame = false;

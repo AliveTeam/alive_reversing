@@ -1,10 +1,10 @@
 #pragma once
 
-#include "Types.hpp"
-#include "DynamicArray.hpp"
-#include "data_conversion/guid.hpp"
-#include "ResourceManagerWrapper.hpp"
-#include "ObjectTypes.hpp"
+#include "../Types.hpp"
+#include "../DynamicArray.hpp"
+#include "../data_conversion/guid.hpp"
+#include "../ResourceManagerWrapper.hpp"
+#include "../ObjectTypes.hpp"
 
 extern u32 sGnFrame;
 

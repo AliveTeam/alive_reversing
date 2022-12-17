@@ -6,7 +6,7 @@
 #include "Math.hpp"
 #include "Midi.hpp"
 #include "GasCountDown.hpp"
-#include "../relive_lib/Particle.hpp"
+#include "../relive_lib/GameObjects/Particle.hpp"
 #include "Path.hpp"
 
 namespace AO {

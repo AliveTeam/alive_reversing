@@ -10,7 +10,7 @@
 #include "../relive_lib/Events.hpp"
 #include "Math.hpp"
 #include "Blood.hpp"
-#include "../relive_lib/ScreenManager.hpp"
+#include "../relive_lib/GameObjects/ScreenManager.hpp"
 #include "Path.hpp"
 
 namespace AO {

@@ -1,6 +1,6 @@
 #include "stdafx_ao.h"
 #include "CircularFade.hpp"
-#include "../relive_lib/ScreenManager.hpp"
+#include "../relive_lib/GameObjects/ScreenManager.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
 #include "../AliveLibAE/stdlib.hpp"
 #include "../relive_lib/Primitives.hpp"

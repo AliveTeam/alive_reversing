@@ -68,7 +68,7 @@
 #include "Scrab.hpp"
 #include "Paramite.hpp"
 #include "MovingBomb.hpp"
-#include "../relive_lib/ShadowZone.hpp"
+#include "../relive_lib/GameObjects/ShadowZone.hpp"
 #include "LiftPoint.hpp"
 #include "RockSack.hpp"
 #include "MeatSack.hpp"

@@ -20,7 +20,7 @@
 #include "PullRingRope.hpp"
 #include "Sfx.hpp"
 #include "Slurg.hpp"
-#include "../relive_lib/Particle.hpp"
+#include "../relive_lib/GameObjects/Particle.hpp"
 #include "GameSpeak.hpp"
 #include "ParamiteWeb.hpp"
 #include "ParamiteWebLine.hpp"

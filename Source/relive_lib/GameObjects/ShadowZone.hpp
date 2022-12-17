@@ -2,7 +2,7 @@
 
 #include "BaseGameObject.hpp"
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
-#include "data_conversion/relive_tlvs.hpp"
+#include "../data_conversion/relive_tlvs.hpp"
 
 enum class EReliveLevelIds : s16;
 

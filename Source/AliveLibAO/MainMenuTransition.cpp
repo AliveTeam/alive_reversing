@@ -1,7 +1,7 @@
 #include "stdafx_ao.h"
 #include "MainMenuTransition.hpp"
 #include "Map.hpp"
-#include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
+#include "../relive_lib/GameObjects/BaseAnimatedWithPhysicsGameObject.hpp"
 #include "Sfx.hpp"
 #include "Math.hpp"
 #include "../relive_lib/PsxDisplay.hpp"

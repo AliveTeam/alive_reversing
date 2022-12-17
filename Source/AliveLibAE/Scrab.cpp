@@ -11,7 +11,7 @@
 #include "PlatformBase.hpp"
 #include "../relive_lib/Events.hpp"
 #include "DDCheat.hpp"
-#include "../relive_lib/Particle.hpp"
+#include "../relive_lib/GameObjects/Particle.hpp"
 #include "Sfx.hpp"
 #include "../relive_lib/Sound/Midi.hpp"
 #include "GameSpeak.hpp"

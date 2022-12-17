@@ -1,5 +1,5 @@
 #include "stdafx_ao.h"
-#include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
+#include "../relive_lib/GameObjects/BaseAnimatedWithPhysicsGameObject.hpp"
 #include "Sfx.hpp"
 #include "Midi.hpp"
 #include "../relive_lib/Sound/Midi.hpp"

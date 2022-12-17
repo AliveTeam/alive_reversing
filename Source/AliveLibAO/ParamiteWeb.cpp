@@ -5,8 +5,8 @@
 #include "../AliveLibAE/stdlib.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
 #include "Rope.hpp"
-#include "../relive_lib/ScreenManager.hpp"
-#include "../relive_lib/ShadowZone.hpp"
+#include "../relive_lib/GameObjects/ScreenManager.hpp"
+#include "../relive_lib/GameObjects/ShadowZone.hpp"
 #include "../relive_lib/AnimationUnknown.hpp"
 
 namespace AO {

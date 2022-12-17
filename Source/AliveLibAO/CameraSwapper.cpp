@@ -9,7 +9,7 @@
 #include "ScreenClipper.hpp"
 #include "MusicController.hpp"
 #include "BackgroundMusic.hpp"
-#include "../relive_lib/ScreenManager.hpp"
+#include "../relive_lib/GameObjects/ScreenManager.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
 #include "Sfx.hpp"
 #include "../relive_lib/FatalError.hpp"

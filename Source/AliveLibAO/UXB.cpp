@@ -6,7 +6,7 @@
 #include "Game.hpp"
 #include "GroundExplosion.hpp"
 #include "../relive_lib/Events.hpp"
-#include "../relive_lib/ScreenManager.hpp"
+#include "../relive_lib/GameObjects/ScreenManager.hpp"
 #include "Grid.hpp"
 #include <math.h>
 #include "../relive_lib/FixedPoint.hpp"

@@ -1,7 +1,7 @@
 #include "stdafx_ao.h"
 #include "ResourceManager.hpp"
 #include "../relive_lib/Function.hpp"
-#include "../relive_lib/Particle.hpp"
+#include "../relive_lib/GameObjects/Particle.hpp"
 #include "../AliveLibAE/stdlib.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
 #include "../relive_lib/Psx.hpp"

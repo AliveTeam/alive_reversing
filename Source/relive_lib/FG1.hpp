@@ -1,6 +1,6 @@
 #pragma once
 
-#include "BaseGameObject.hpp"
+#include "GameObjects/BaseGameObject.hpp"
 #include "DynamicArray.hpp"
 #include "Primitives.hpp"
 #include "MapWrapper.hpp"

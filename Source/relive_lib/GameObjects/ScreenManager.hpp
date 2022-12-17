@@ -1,7 +1,7 @@
 #pragma once
 
 #include "BaseGameObject.hpp"
-#include "Primitives.hpp"
+#include "../Primitives.hpp"
 
 class ScreenManager final : public BaseGameObject
 {

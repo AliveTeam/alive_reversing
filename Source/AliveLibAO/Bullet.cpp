@@ -6,7 +6,7 @@
 #include "../AliveLibAE/stdlib.hpp"
 #include "Spark.hpp"
 #include "Sfx.hpp"
-#include "../relive_lib/Particle.hpp"
+#include "../relive_lib/GameObjects/Particle.hpp"
 #include "../relive_lib/Collisions.hpp"
 #include "Elum.hpp"
 #include "Math.hpp"

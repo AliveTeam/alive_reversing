@@ -11,7 +11,7 @@
 #include "Map.hpp"
 #include "Path.hpp"
 #include "Input.hpp"
-#include "../relive_lib/ScreenManager.hpp"
+#include "../relive_lib/GameObjects/ScreenManager.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
 
 // TODO: Remove spaces and add them at runtime.

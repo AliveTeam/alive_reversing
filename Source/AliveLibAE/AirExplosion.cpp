@@ -2,8 +2,8 @@
 #include "AirExplosion.hpp"
 #include "../relive_lib/Function.hpp"
 #include "Map.hpp"
-#include "../relive_lib/Particle.hpp"
-#include "../relive_lib/Flash.hpp"
+#include "../relive_lib/GameObjects/Particle.hpp"
+#include "../relive_lib/GameObjects/Flash.hpp"
 #include "ScreenShake.hpp"
 #include "Gibs.hpp"
 #include "../relive_lib/Events.hpp"
@@ -14,7 +14,7 @@
 #include "Path.hpp"
 #include <algorithm>
 #include "../relive_lib/FixedPoint.hpp"
-#include "../relive_lib/IBaseAliveGameObject.hpp"
+#include "../relive_lib/GameObjects/IBaseAliveGameObject.hpp"
 
 AirExplosion::AirExplosion(FP xpos, FP ypos, FP scale, bool bSmall)
     : BaseAnimatedWithPhysicsGameObject(0)

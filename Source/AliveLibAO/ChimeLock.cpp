@@ -13,7 +13,7 @@
 #include "../relive_lib/Events.hpp"
 #include "MusicTrigger.hpp"
 #include "Input.hpp"
-#include "../relive_lib/Particle.hpp"
+#include "../relive_lib/GameObjects/Particle.hpp"
 #include "../relive_lib/FatalError.hpp"
 #include "Path.hpp"
 #include "../relive_lib/FixedPoint.hpp"

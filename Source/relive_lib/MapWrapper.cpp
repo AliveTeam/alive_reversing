@@ -4,7 +4,7 @@
 #include "../AliveLibAO/PathData.hpp"
 #include "../AliveLibAE/PathData.hpp"
 #include "FatalError.hpp"
-#include "IBaseAliveGameObject.hpp"
+#include "GameObjects/IBaseAliveGameObject.hpp"
 #include "data_conversion/relive_tlvs.hpp"
 
 bool gMap_bDoPurpleLightEffect = false;

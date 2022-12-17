@@ -4,7 +4,7 @@
 #include "../relive_lib/Sound/Midi.hpp"
 #include "Map.hpp"
 #include <assert.h>
-#include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
+#include "../relive_lib/GameObjects/BaseAnimatedWithPhysicsGameObject.hpp"
 #include "../relive_lib/FixedPoint.hpp"
 #include "../relive_lib/FixedPoint.hpp"
 

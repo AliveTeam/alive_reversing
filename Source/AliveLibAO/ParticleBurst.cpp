@@ -5,7 +5,7 @@
 #include "../AliveLibAE/stdlib.hpp"
 #include "Map.hpp"
 #include "Game.hpp"
-#include "../relive_lib/ScreenManager.hpp"
+#include "../relive_lib/GameObjects/ScreenManager.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
 #include "CameraSwapper.hpp"
 #include "../relive_lib/Events.hpp"

@@ -2,7 +2,7 @@
 #include "OrbWhirlWind.hpp"
 #include "../relive_lib/Function.hpp"
 #include "stdlib.hpp"
-#include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
+#include "../relive_lib/GameObjects/BaseAnimatedWithPhysicsGameObject.hpp"
 
 OrbWhirlWind::OrbWhirlWind(FP xpos, FP ypos, FP scale, bool bIsMudokonSpirit)
     : BaseGameObject(true, 0)

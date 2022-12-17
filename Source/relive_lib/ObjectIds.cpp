@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "ObjectIds.hpp"
-#include "BaseGameObject.hpp"
+#include "GameObjects/BaseGameObject.hpp"
 #include "FatalError.hpp"
 
 ObjectIds sObjectIds;

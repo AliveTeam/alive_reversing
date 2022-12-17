@@ -32,7 +32,7 @@
 #include "QuikSave.hpp"
 #include "DeathBirdParticle.hpp"
 #include "WorkWheel.hpp"
-#include "../relive_lib/Particle.hpp"
+#include "../relive_lib/GameObjects/Particle.hpp"
 #include "Lever.hpp"
 #include "Throwable.hpp"
 #include "LiftPoint.hpp"
@@ -40,7 +40,7 @@
 #include "BrewMachine.hpp"
 #include "MineCar.hpp"
 #include "EvilFart.hpp"
-#include "../relive_lib/Particle.hpp"
+#include "../relive_lib/GameObjects/Particle.hpp"
 #include "Mudokon.hpp"
 #include "Electrocute.hpp"
 #include "BirdPortal.hpp"
@@ -57,7 +57,7 @@
 #include "Path.hpp"
 #include "Game.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
-#include "../relive_lib/ScreenManager.hpp"
+#include "../relive_lib/GameObjects/ScreenManager.hpp"
 
 const relive::SfxDefinition sAbeSFXList_555250[41] = {
     {0u, 0u, 0u, 0u, 0, 0},

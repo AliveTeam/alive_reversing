@@ -3,7 +3,7 @@
 #include "../AliveLibAE/stdlib.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
 #include "../relive_lib/Primitives.hpp"
-#include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
+#include "../relive_lib/GameObjects/BaseAnimatedWithPhysicsGameObject.hpp"
 
 #undef min
 #undef max

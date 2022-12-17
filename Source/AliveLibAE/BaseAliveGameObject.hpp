@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../relive_lib/IBaseAliveGameObject.hpp"
+#include "../relive_lib/GameObjects/IBaseAliveGameObject.hpp"
 
 namespace relive {
 class Path_TLV;

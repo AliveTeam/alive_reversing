@@ -4,7 +4,7 @@
 #include "Map.hpp"
 #include "Game.hpp"
 #include "../AliveLibAE/stdlib.hpp"
-#include "../relive_lib/ScreenManager.hpp"
+#include "../relive_lib/GameObjects/ScreenManager.hpp"
 #include "../relive_lib/Events.hpp"
 #include "../relive_lib/SwitchStates.hpp"
 #include "Abe.hpp"

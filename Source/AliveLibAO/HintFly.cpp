@@ -4,7 +4,7 @@
 #include "Math.hpp"
 #include "Sfx.hpp"
 #include "../AliveLibAE/stdlib.hpp"
-#include "../relive_lib/ScreenManager.hpp"
+#include "../relive_lib/GameObjects/ScreenManager.hpp"
 #include "Game.hpp"
 #include "../relive_lib/Events.hpp"
 #include "../relive_lib/PsxDisplay.hpp"

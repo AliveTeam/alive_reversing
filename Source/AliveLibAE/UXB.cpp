@@ -5,7 +5,7 @@
 #include "../relive_lib/Events.hpp"
 #include "Sfx.hpp"
 #include "Game.hpp"
-#include "../relive_lib/ScreenManager.hpp"
+#include "../relive_lib/GameObjects/ScreenManager.hpp"
 #include "Abe.hpp"
 #include "GroundExplosion.hpp"
 #include "Grid.hpp"

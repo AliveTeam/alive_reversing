@@ -1,7 +1,7 @@
 #pragma once
 
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
-#include "Layer.hpp"
+#include "../Layer.hpp"
 
 class Particle final : public BaseAnimatedWithPhysicsGameObject
 {
@@ -10,7 +10,7 @@ public:
     ~Particle();
     virtual void VUpdate() override;
 public:
-    FP field_F4_scale_amount = {};
+    FP mScaleAmount = {};
 };
 
 Particle* New_DestroyOrCreateObject_Particle(FP xpos, FP ypos, FP scale);

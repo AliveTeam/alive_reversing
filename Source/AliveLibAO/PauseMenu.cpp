@@ -6,7 +6,7 @@
 #include "../relive_lib/PsxDisplay.hpp"
 #include "SaveGame.hpp"
 #include "StringFormatters.hpp"
-#include "../relive_lib/ScreenManager.hpp"
+#include "../relive_lib/GameObjects/ScreenManager.hpp"
 #include "Sound.hpp"
 #include "../AliveLibAE/stdlib.hpp"
 #include "Sfx.hpp"

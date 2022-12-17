@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Sfx.hpp"
-#include "../relive_lib/BaseGameObject.hpp"
+#include "../relive_lib/GameObjects/BaseGameObject.hpp"
 #include "../relive_lib/Primitives.hpp"
 #include "../relive_lib/Layer.hpp"
 

@@ -6,7 +6,7 @@
 #include "Map.hpp"
 #include "../AliveLibAE/stdlib.hpp"
 #include "CameraSwapper.hpp"
-#include "../relive_lib/ScreenManager.hpp"
+#include "../relive_lib/GameObjects/ScreenManager.hpp"
 #include "../relive_lib/FixedPoint.hpp"
 
 namespace AO {

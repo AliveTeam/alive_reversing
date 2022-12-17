@@ -7,10 +7,10 @@
 #include "../relive_lib/Sound/Midi.hpp"
 #include "ScreenShake.hpp"
 #include "ParticleBurst.hpp"
-#include "../relive_lib/Flash.hpp"
-#include "../relive_lib/Particle.hpp"
+#include "../relive_lib/GameObjects/Flash.hpp"
+#include "../relive_lib/GameObjects/Particle.hpp"
 #include "../relive_lib/FixedPoint.hpp"
-#include "../relive_lib/IBaseAliveGameObject.hpp"
+#include "../relive_lib/GameObjects/IBaseAliveGameObject.hpp"
 
 GroundExplosion::GroundExplosion(FP x, FP y, FP scale)
     : BaseAnimatedWithPhysicsGameObject(0)

@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Events.hpp"
-#include "BaseGameObject.hpp"
-#include "BaseAnimatedWithPhysicsGameObject.hpp"
+#include "GameObjects/BaseGameObject.hpp"
+#include "GameObjects/BaseAnimatedWithPhysicsGameObject.hpp"
 #include "GameType.hpp"
 
 struct EventsArray final

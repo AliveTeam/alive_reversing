@@ -13,7 +13,7 @@
 #include "../relive_lib/Collisions.hpp"
 #include "Throwable.hpp"
 #include "CameraSwapper.hpp"
-#include "../relive_lib/Particle.hpp"
+#include "../relive_lib/GameObjects/Particle.hpp"
 #include "Grid.hpp"
 #include "PathData.hpp"
 #include "../relive_lib/ObjectIds.hpp"

@@ -7,7 +7,7 @@
 #include "Blood.hpp"
 #include "Sfx.hpp"
 #include "../relive_lib/Events.hpp"
-#include "../relive_lib/Particle.hpp"
+#include "../relive_lib/GameObjects/Particle.hpp"
 #include "Abe.hpp"
 #include "Throwable.hpp"
 #include "../relive_lib/Collisions.hpp"

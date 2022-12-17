@@ -4,7 +4,7 @@
 #include "Abe.hpp"
 #include "Math.hpp"
 #include "stdlib.hpp"
-#include "../relive_lib/ScreenManager.hpp"
+#include "../relive_lib/GameObjects/ScreenManager.hpp"
 #include "../relive_lib/AnimResources.hpp"
 #include "Map.hpp"
 #include "../relive_lib/FixedPoint.hpp"

@@ -2,7 +2,7 @@
 #include "Map.hpp"
 #include "PathData.hpp"
 #include "../relive_lib/Function.hpp"
-#include "../relive_lib/ScreenManager.hpp"
+#include "../relive_lib/GameObjects/ScreenManager.hpp"
 #include "ResourceManager.hpp"
 #include "../relive_lib/Sound/Midi.hpp"
 #include "../relive_lib/SwitchStates.hpp"
@@ -16,7 +16,7 @@
 #include "CameraSwapper.hpp"
 #include "MainMenu.hpp"
 #include "../relive_lib/Events.hpp"
-#include "../relive_lib/Particle.hpp"
+#include "../relive_lib/GameObjects/Particle.hpp"
 #include "../relive_lib/Sound/PsxSpuApi.hpp"
 #include "../relive_lib/Sys.hpp"
 #include <assert.h>

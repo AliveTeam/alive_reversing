@@ -7,7 +7,7 @@
 #include "Sfx.hpp"
 #include "GroundExplosion.hpp"
 #include "Grid.hpp"
-#include "../relive_lib/ScreenManager.hpp"
+#include "../relive_lib/GameObjects/ScreenManager.hpp"
 #include "../relive_lib/FixedPoint.hpp"
 #include "../relive_lib/data_conversion/relive_tlvs.hpp"
 #include "Map.hpp"

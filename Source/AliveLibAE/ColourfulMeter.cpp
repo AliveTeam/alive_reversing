@@ -6,7 +6,7 @@
 #include "MinesAlarm.hpp"
 #include "Path.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
-#include "../relive_lib/ScreenManager.hpp"
+#include "../relive_lib/GameObjects/ScreenManager.hpp"
 
 u8 gTotalMeterBars = 0;
 bool gbDrawMeterCountDown = false;

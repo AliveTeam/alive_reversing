@@ -1,12 +1,12 @@
 #pragma once
 
 #include "BaseGameObject.hpp"
-#include "FixedPoint.hpp"
-#include "Animation.hpp"
+#include "../FixedPoint.hpp"
+#include "../Animation.hpp"
 #include "BaseGameObject.hpp"
-#include "MapWrapper.hpp"
-#include "Animation.hpp"
-#include "RGB16.hpp"
+#include "../MapWrapper.hpp"
+#include "../Animation.hpp"
+#include "../RGB16.hpp"
 
 namespace relive {
     class Path_TLV;

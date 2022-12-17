@@ -4,8 +4,8 @@
 #include "../AliveLibAE/stdlib.hpp"
 #include "PathData.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
-#include "../relive_lib/ScreenManager.hpp"
-#include "../relive_lib/ShadowZone.hpp"
+#include "../relive_lib/GameObjects/ScreenManager.hpp"
+#include "../relive_lib/GameObjects/ShadowZone.hpp"
 #include "Map.hpp"
 #include "../relive_lib/AnimationUnknown.hpp"
 

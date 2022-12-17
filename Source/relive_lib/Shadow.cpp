@@ -1,12 +1,12 @@
 #include "stdafx.h"
 #include "Shadow.hpp"
-#include "ScreenManager.hpp"
+#include "GameObjects/ScreenManager.hpp"
 #include "ResourceManagerWrapper.hpp"
 #include "GameType.hpp"
 #include "Collisions.hpp"
 #include "AnimResources.hpp"
 #include <algorithm>
-#include "BaseAnimatedWithPhysicsGameObject.hpp" // only for the Scale enum
+#include "GameObjects/BaseAnimatedWithPhysicsGameObject.hpp" // only for the Scale enum
 #include "FixedPoint.hpp"
 
 Shadow::Shadow()

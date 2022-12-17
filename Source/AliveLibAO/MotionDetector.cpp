@@ -10,7 +10,7 @@
 #include "DDCheat.hpp"
 #include "Game.hpp"
 #include "Alarm.hpp"
-#include "../relive_lib/ScreenManager.hpp"
+#include "../relive_lib/GameObjects/ScreenManager.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
 #include "../relive_lib/FatalError.hpp"
 #include "../relive_lib/ObjectIds.hpp"

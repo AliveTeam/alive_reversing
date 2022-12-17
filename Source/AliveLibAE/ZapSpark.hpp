@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
+#include "../relive_lib/GameObjects/BaseAnimatedWithPhysicsGameObject.hpp"
 
 class ZapSpark final : public BaseAnimatedWithPhysicsGameObject
 {

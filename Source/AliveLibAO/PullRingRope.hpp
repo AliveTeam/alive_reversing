@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Map.hpp"
-#include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
+#include "../relive_lib/GameObjects/BaseAnimatedWithPhysicsGameObject.hpp"
 #include "../relive_lib/data_conversion/relive_tlvs.hpp"
 
 namespace AO {

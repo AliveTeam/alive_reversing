@@ -3,11 +3,11 @@
 #include "ScreenWave.hpp"
 #include "../AliveLibAE/stdlib.hpp"
 #include "Map.hpp"
-#include "../relive_lib/ScreenManager.hpp"
+#include "../relive_lib/GameObjects/ScreenManager.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
 #include "../relive_lib/Primitives.hpp"
 #include "Math.hpp"
-#include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
+#include "../relive_lib/GameObjects/BaseAnimatedWithPhysicsGameObject.hpp"
 
 #undef min
 #undef max

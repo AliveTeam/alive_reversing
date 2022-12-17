@@ -37,7 +37,7 @@ Particle::Particle(FP xpos, FP ypos, AnimResource& res, bool explosionSizeHack)
 
     mXPos = xpos;
     mYPos = ypos;
-    field_F4_scale_amount = FP_FromInteger(0);
+    mScaleAmount = FP_FromInteger(0);
 }
 
 Particle::~Particle()
@@ -50,7 +50,7 @@ void Particle::VUpdate()
     mXPos += mVelX;
     mYPos += mVelY;
 
-    SetSpriteScale(GetSpriteScale() + field_F4_scale_amount);
+    SetSpriteScale(GetSpriteScale() + mScaleAmount);
 
     if (GetAnimation().GetIsLastFrame())
     {
@@ -118,7 +118,7 @@ void New_Smoke_Particles(FP xpos, FP ypos, FP scale, s16 count, RGB16 rgb)
                 pParticle->GetAnimation().SetRenderLayer(Layer::eLayer_Foreground_Half_17);
             }
 
-            pParticle->field_F4_scale_amount = scale * FP_FromDouble(0.03);
+            pParticle->mScaleAmount = scale * FP_FromDouble(0.03);
             pParticle->GetAnimation().SetFrameDelay(static_cast<u16>((i + 3) / 2));
             if (Math_NextRandom() < 127)
             {

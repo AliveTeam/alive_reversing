@@ -6,8 +6,8 @@
 #include "ScreenShake.hpp"
 #include "Midi.hpp"
 #include "../relive_lib/Events.hpp"
-#include "../relive_lib/Flash.hpp"
-#include "../relive_lib/Particle.hpp"
+#include "../relive_lib/GameObjects/Flash.hpp"
+#include "../relive_lib/GameObjects/Particle.hpp"
 #include "BaseAliveGameObject.hpp"
 #include "../relive_lib/FixedPoint.hpp"
 

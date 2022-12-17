@@ -7,7 +7,7 @@
 #include "../relive_lib/ObjectIds.hpp"
 #include "../relive_lib/Sound/Midi.hpp"
 #include "Game.hpp"
-#include "../relive_lib/ScreenManager.hpp"
+#include "../relive_lib/GameObjects/ScreenManager.hpp"
 #include "Sfx.hpp"
 #include "Map.hpp"
 #include "Path.hpp"

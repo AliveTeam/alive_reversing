@@ -6,7 +6,7 @@
 #include "Abe.hpp"
 #include "Game.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
-#include "../relive_lib/ScreenManager.hpp"
+#include "../relive_lib/GameObjects/ScreenManager.hpp"
 #include "../relive_lib/Events.hpp"
 #include "Math.hpp"
 #include "CameraSwapper.hpp"

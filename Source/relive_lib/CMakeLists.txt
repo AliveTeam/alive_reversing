@@ -47,16 +47,24 @@ SET(relive_lib_src
     Sound/SDLSoundBuffer.cpp
     Sound/SDLSoundSystem.hpp
     Sound/SDLSoundSystem.cpp
-    IBaseAliveGameObject.hpp
-    IBaseAliveGameObject.cpp
-    EffectBase.hpp
-    EffectBase.cpp
-    Flash.hpp
-    Flash.cpp
+    GameObjects/BaseGameObject.hpp
+    GameObjects/BaseGameObject.cpp
+    GameObjects/BaseAnimatedWithPhysicsGameObject.hpp
+    GameObjects/BaseAnimatedWithPhysicsGameObject.cpp
+    GameObjects/EffectBase.hpp
+    GameObjects/EffectBase.cpp
+    GameObjects/IBaseAliveGameObject.hpp
+    GameObjects/IBaseAliveGameObject.cpp
+    GameObjects/Flash.hpp
+    GameObjects/Flash.cpp
+    GameObjects/Particle.cpp
+    GameObjects/Particle.hpp
+    GameObjects/ScreenManager.cpp
+    GameObjects/ScreenManager.hpp
+    GameObjects/ShadowZone.hpp
+    GameObjects/ShadowZone.cpp
     BinaryPath.hpp
     BinaryPath.cpp
-    ShadowZone.hpp
-    ShadowZone.cpp
     SwitchStates.hpp
     SwitchStates.cpp
     FG1.hpp
@@ -67,8 +75,6 @@ SET(relive_lib_src
     Sfx.cpp
     ObjectIds.hpp
     ObjectIds.cpp
-    BaseGameObject.hpp
-    BaseGameObject.cpp
     DynamicArray.hpp
     DynamicArray.cpp
     Events.hpp
@@ -83,16 +89,10 @@ SET(relive_lib_src
     PsxDisplay.hpp
     Compression.hpp
     Compression.cpp
-    ScreenManager.cpp
-    ScreenManager.hpp
     Math.hpp
     Math.cpp
     Collisions.hpp
     Collisions.cpp
-    BaseAnimatedWithPhysicsGameObject.hpp
-    BaseAnimatedWithPhysicsGameObject.cpp
-    Particle.cpp
-    Particle.hpp
     AnimationBase.cpp
     AnimationBase.hpp
     Primitives.hpp

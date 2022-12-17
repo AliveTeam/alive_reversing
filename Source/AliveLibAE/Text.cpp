@@ -9,7 +9,7 @@
 #include "../relive_lib/Sys.hpp"
 #include "GameAutoPlayer.hpp"
 #include "../relive_lib/ResourceManagerWrapper.hpp"
-#include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
+#include "../relive_lib/GameObjects/BaseAnimatedWithPhysicsGameObject.hpp"
 
 void Text::VUpdate()
 {

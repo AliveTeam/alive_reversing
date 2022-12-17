@@ -2,12 +2,12 @@
 #include "LaughingGas.hpp"
 #include "../relive_lib/Function.hpp"
 #include "../relive_lib/SwitchStates.hpp"
-#include "../relive_lib/ScreenManager.hpp"
+#include "../relive_lib/GameObjects/ScreenManager.hpp"
 #include "stdlib.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
 #include "../relive_lib/Events.hpp"
 #include <math.h>
-#include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
+#include "../relive_lib/GameObjects/BaseAnimatedWithPhysicsGameObject.hpp"
 
 s32 gGasInstanceCount_5BC214 = 0;
 s16 gLaughingGasOn_5C1BA4 = false;

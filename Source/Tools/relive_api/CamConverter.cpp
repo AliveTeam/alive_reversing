@@ -1,7 +1,7 @@
 #include "CamConverter.hpp"
 #include "../../AliveLibAE/ResourceManager.hpp"
 #include "LvlReaderWriter.hpp"
-#include "../../relive_lib/ScreenManager.hpp"
+#include "../../relive_lib/GameObjects/ScreenManager.hpp"
 #include "../../relive_lib/CamDecompressor.hpp"
 #include "../../relive_lib/FG1Reader.hpp"
 #include "../../relive_lib/logger.hpp"

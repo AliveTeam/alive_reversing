@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../relive_lib/EffectBase.hpp"
+#include "../relive_lib/GameObjects/EffectBase.hpp"
 #include "../relive_lib/Layer.hpp"
 
 namespace relive

@@ -7,7 +7,7 @@
 #include "MusicController.hpp"
 #include "AmbientSound.hpp"
 #include "stdlib.hpp"
-#include "../relive_lib/ScreenManager.hpp"
+#include "../relive_lib/GameObjects/ScreenManager.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
 #include "Sfx.hpp"
 #include "Movie.hpp"

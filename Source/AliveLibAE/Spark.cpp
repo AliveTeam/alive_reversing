@@ -2,12 +2,12 @@
 #include "Spark.hpp"
 #include "../relive_lib/Function.hpp"
 #include "Game.hpp"
-#include "../relive_lib/Particle.hpp"
+#include "../relive_lib/GameObjects/Particle.hpp"
 #include "stdlib.hpp"
 #include "../relive_lib/Events.hpp"
 #include "Abe.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
-#include "../relive_lib/ScreenManager.hpp"
+#include "../relive_lib/GameObjects/ScreenManager.hpp"
 #include "Map.hpp"
 
 Spark::Spark(FP xpos, FP ypos, FP scale, s32 count, s32 minAngle, s32 maxAngle, SparkType type)

@@ -8,7 +8,7 @@
 #include "Sfx.hpp"
 #include "../relive_lib/Collisions.hpp"
 #include "Game.hpp"
-#include "../relive_lib/Particle.hpp"
+#include "../relive_lib/GameObjects/Particle.hpp"
 #include "Grid.hpp"
 #include "Map.hpp"
 #include "../relive_lib/FixedPoint.hpp"

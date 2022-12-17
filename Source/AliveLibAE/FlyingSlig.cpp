@@ -16,7 +16,7 @@
 #include "Grenade.hpp"
 #include "Dove.hpp"
 #include "CrawlingSlig.hpp"
-#include "../relive_lib/Particle.hpp"
+#include "../relive_lib/GameObjects/Particle.hpp"
 #include "Gibs.hpp"
 #include "Blood.hpp"
 #include "GameSpeak.hpp"
