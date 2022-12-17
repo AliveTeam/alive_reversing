@@ -185,6 +185,8 @@ target_precompile_headers(
 # -----------------------------------------------------------------------------
 
 add_dependencies(relive_lib UpdateConfigHeader)
+add_dependencies(AliveLibAO UpdateConfigHeader)
+add_dependencies(AliveLibAE UpdateConfigHeader)
 
 if(WIN32)
     # On Windows generate ZIP packages
