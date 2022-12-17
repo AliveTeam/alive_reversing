@@ -47,8 +47,8 @@ endif ()
 
 add_custom_target(
     UpdateConfigHeader
-    COMMAND "${CMAKE}" -D BUILD_NUMBER=${BUILD_NUMBER} -D CI_PROVIDER="${CI_PROVIDER}" -P ${CMAKE_CURRENT_LIST_DIR}/options.cmake
-    WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}
+    COMMAND "${CMAKE}" -D BUILD_NUMBER=${BUILD_NUMBER} -D CI_PROVIDER="${CI_PROVIDER}" -P "${CMAKE_CURRENT_LIST_DIR}/options.cmake"
+    WORKING_DIRECTORY "${CMAKE_CURRENT_LIST_DIR}"
 )
 
 find_package(SDL2 REQUIRED)
@@ -94,9 +94,9 @@ else()
 endif()
 
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/3rdParty)
+add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Source/relive_lib)
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Source/AliveLibAO)
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Source/AliveLibAE)
-add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Source/relive_lib)
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Source/relive)
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Source/Tools/vab_tool)
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Source/Tools/relive_api)
