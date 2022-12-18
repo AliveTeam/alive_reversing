@@ -159,8 +159,8 @@ void VulkanRenderer::initVulkan()
     createGraphicsPipeline();
     createFramebuffers();
     createCommandPool();
-    createTextureImage("C:\\data\\poggins.bmp", mTextureImage, mTextureImageMemory);
-    createTextureImage("C:\\data\\poggins2.bmp", mTextureImage2, mTextureImageMemory2);
+    createTextureImage("C:\\data\\poggins.bmp", mTextureImages[0], mTextureImageMemorys[0]);
+    createTextureImage("C:\\data\\poggins2.bmp", mTextureImages[1], mTextureImageMemorys[1]);
 
     createTextureImageView();
     createTextureSampler();
@@ -194,14 +194,14 @@ void VulkanRenderer::cleanup()
     mDescriptorPool->clear();
 
     mTextureSampler->clear();
-    mTextureImageView->clear();
-    mTextureImageView2->clear();
+    mTextureImageViews[0]->clear();
+    mTextureImageViews[1]->clear();
 
-    mTextureImage->clear();
-    mTextureImage2->clear();
+    mTextureImages[0]->clear();
+    mTextureImages[1]->clear();
 
-    mTextureImageMemory->clear();
-    mTextureImageMemory2->clear();
+    mTextureImageMemorys[0]->clear();
+    mTextureImageMemorys[1]->clear();
 
     mDescriptorSetLayout->clear();
 
@@ -677,8 +677,8 @@ void VulkanRenderer::createTextureImage(const char* bmpName, std::unique_ptr<vk:
 
 void VulkanRenderer::createTextureImageView()
 {
-    mTextureImageView = std::make_unique<vk::raii::ImageView>(createImageView(**mTextureImage, vk::Format::eR8G8B8A8Srgb));
-    mTextureImageView2 = std::make_unique<vk::raii::ImageView>(createImageView(**mTextureImage2, vk::Format::eR8G8B8A8Srgb));
+    mTextureImageViews[0] = std::make_unique<vk::raii::ImageView>(createImageView(**mTextureImages[0], vk::Format::eR8G8B8A8Srgb));
+    mTextureImageViews[1] = std::make_unique<vk::raii::ImageView>(createImageView(**mTextureImages[1], vk::Format::eR8G8B8A8Srgb));
 }
 
 void VulkanRenderer::createTextureSampler()
@@ -921,7 +921,7 @@ void VulkanRenderer::createDescriptorSets()
 
         vk::DescriptorImageInfo imageInfo{};
         imageInfo.imageLayout = vk::ImageLayout::eShaderReadOnlyOptimal;
-        imageInfo.imageView = **mTextureImageView;
+        imageInfo.imageView = **mTextureImageViews[0];
         imageInfo.sampler = **mTextureSampler;
 
         descriptorWrites[1].dstSet = *mDescriptorSets[i];
@@ -933,7 +933,7 @@ void VulkanRenderer::createDescriptorSets()
 
         vk::DescriptorImageInfo imageInfo2{};
         imageInfo2.imageLayout = vk::ImageLayout::eShaderReadOnlyOptimal;
-        imageInfo2.imageView = **mTextureImageView2;
+        imageInfo2.imageView = **mTextureImageViews[1];
         imageInfo2.sampler = **mTextureSampler;
 
         descriptorWrites[2].dstSet = *mDescriptorSets[i];

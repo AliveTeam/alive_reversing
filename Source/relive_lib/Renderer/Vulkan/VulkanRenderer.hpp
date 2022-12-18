@@ -137,14 +137,10 @@ private:
 
     std::unique_ptr<vk::raii::CommandPool> mCommandPool;
 
-    std::unique_ptr<vk::raii::Image> mTextureImage;
-    std::unique_ptr<vk::raii::DeviceMemory> mTextureImageMemory;
+    std::unique_ptr<vk::raii::Image> mTextureImages[2];
+    std::unique_ptr<vk::raii::DeviceMemory> mTextureImageMemorys[2];
+    std::unique_ptr<vk::raii::ImageView> mTextureImageViews[2];
 
-    std::unique_ptr<vk::raii::Image> mTextureImage2;
-    std::unique_ptr<vk::raii::DeviceMemory> mTextureImageMemory2;
-
-    std::unique_ptr<vk::raii::ImageView> mTextureImageView;
-    std::unique_ptr<vk::raii::ImageView> mTextureImageView2;
     std::unique_ptr<vk::raii::Sampler> mTextureSampler;
 
     std::unique_ptr<vk::raii::Buffer> mVertexBuffer;
