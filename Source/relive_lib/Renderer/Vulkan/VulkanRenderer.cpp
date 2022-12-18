@@ -40,9 +40,9 @@ const std::vector<const char*> kDeviceExtensions = {
     VK_KHR_SWAPCHAIN_EXTENSION_NAME};
 
 #ifdef NDEBUG
-const bool enableValidationLayers = false;
+constexpr bool enableValidationLayers = false;
 #else
-const bool enableValidationLayers = true;
+constexpr bool enableValidationLayers = true;
 #endif
 
 VkResult CreateDebugUtilsMessengerEXT(VkInstance instance, const VkDebugUtilsMessengerCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkDebugUtilsMessengerEXT* pDebugMessenger)
@@ -252,9 +252,13 @@ void VulkanRenderer::recreateSwapChain()
 
 void VulkanRenderer::createInstance()
 {
-    if (enableValidationLayers && !checkValidationLayerSupport())
+    if constexpr (enableValidationLayers)
     {
-        throw std::runtime_error("validation layers requested, but not available!");
+        if (!checkValidationLayerSupport())
+        {
+            LOG_ERROR("validation layers requested, but not available!");
+            return;
+        }
     }
 
     vk::ApplicationInfo appInfo{};
