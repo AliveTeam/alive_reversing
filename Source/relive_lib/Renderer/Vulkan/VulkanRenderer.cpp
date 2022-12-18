@@ -145,6 +145,27 @@ static std::vector<uint16_t> gIndices = {
     */
 };
 
+template<typename FnCallBack>
+static void LoadBmp(const char* bmpName, FnCallBack cb)
+{
+    SDL_Surface* bmp = SDL_LoadBMP(bmpName);
+
+    SDL_Surface* tmp = SDL_ConvertSurfaceFormat(bmp, SDL_PIXELFORMAT_XBGR8888, 0);
+    SDL_FreeSurface(bmp);
+    bmp = tmp;
+
+    if (!bmp)
+    {
+        throw std::runtime_error("failed to load texture image!");
+    }
+
+    SDL_LockSurface(bmp);
+    cb(bmp->pixels, bmp->w, bmp->h);
+    SDL_UnlockSurface(bmp);
+
+    SDL_FreeSurface(bmp);
+}
+
 void VulkanRenderer::initVulkan()
 {
     createInstance();
@@ -159,13 +180,18 @@ void VulkanRenderer::initVulkan()
     createGraphicsPipeline();
     createFramebuffers();
     createCommandPool();
-    createTextureImage("C:\\data\\poggins.bmp", mTextureImages[0], mTextureImageMemorys[0]);
-    createTextureImage("C:\\data\\poggins2.bmp", mTextureImages[1], mTextureImageMemorys[1]);
 
-    createTextureImageView();
+    LoadBmp("C:\\data\\poggins.bmp", [&](void* pPixels, u32 width, u32 height)
+    {
+        mTextures.emplace_back(std::make_unique<Texture>(*this, width, height, pPixels));
+    });
+
+    LoadBmp("C:\\data\\poggins2.bmp", [&](void* pPixels, u32 width, u32 height)
+    {
+        mTextures.emplace_back(std::make_unique<Texture>(*this, width, height, pPixels)); 
+    });
+
     createTextureSampler();
-    //createVertexBuffer();
-    //createIndexBuffer();
     createUniformBuffers();
     createDescriptorPool();
     createDescriptorSets();
@@ -194,14 +220,9 @@ void VulkanRenderer::cleanup()
     mDescriptorPool->clear();
 
     mTextureSampler->clear();
-    mTextureImageViews[0]->clear();
-    mTextureImageViews[1]->clear();
 
-    mTextureImages[0]->clear();
-    mTextureImages[1]->clear();
-
-    mTextureImageMemorys[0]->clear();
-    mTextureImageMemorys[1]->clear();
+    mPaletteTexture.reset();
+    mTextures.clear();
 
     mDescriptorSetLayout->clear();
 
@@ -640,47 +661,6 @@ void VulkanRenderer::createCommandPool()
     mCommandPool = std::make_unique<vk::raii::CommandPool>(mDevice->createCommandPool(poolInfo));
 }
 
-
-void VulkanRenderer::createTextureImage(const char* bmpName, std::unique_ptr<vk::raii::Image>& textureImage, std::unique_ptr<vk::raii::DeviceMemory>& deviceMemory)
-{
-    SDL_Surface* bmp = SDL_LoadBMP(bmpName);
-
-    SDL_Surface* tmp = SDL_ConvertSurfaceFormat(bmp, SDL_PIXELFORMAT_XBGR8888, 0);
-    SDL_FreeSurface(bmp);
-    bmp = tmp;
-
-    vk::DeviceSize imageSize = bmp->w * bmp->h * 4;
-
-    if (!bmp)
-    {
-        throw std::runtime_error("failed to load texture image!");
-    }
-
-    auto [stagingBuffer, stagingBufferMemory] = createBuffer(imageSize, vk::BufferUsageFlagBits::eTransferSrc, vk::MemoryPropertyFlagBits::eHostVisible | vk::MemoryPropertyFlagBits::eHostCoherent);
-
-    void* data = stagingBufferMemory->mapMemory(0, imageSize);
-
-    SDL_LockSurface(bmp);
-    memcpy(data, bmp->pixels, static_cast<size_t>(imageSize));
-    SDL_UnlockSurface(bmp);
-    stagingBufferMemory->unmapMemory();
-
-    auto [textureImage2, deviceMemory2] = createImage(bmp->w, bmp->h, vk::Format::eR8G8B8A8Srgb, vk::ImageTiling::eOptimal, vk::ImageUsageFlagBits::eTransferDst | vk::ImageUsageFlagBits::eSampled, vk::MemoryPropertyFlagBits::eDeviceLocal);
-    textureImage = std::move(textureImage2);
-    deviceMemory = std::move(deviceMemory2);
-
-    transitionImageLayout(**textureImage, vk::ImageLayout::eUndefined, vk::ImageLayout::eTransferDstOptimal);
-    copyBufferToImage(**stagingBuffer, **textureImage, static_cast<uint32_t>(bmp->w), static_cast<uint32_t>(bmp->h));
-    SDL_FreeSurface(bmp);
-    transitionImageLayout(**textureImage,vk::ImageLayout::eTransferDstOptimal, vk::ImageLayout::eShaderReadOnlyOptimal);
-}
-
-void VulkanRenderer::createTextureImageView()
-{
-    mTextureImageViews[0] = std::make_unique<vk::raii::ImageView>(createImageView(**mTextureImages[0], vk::Format::eR8G8B8A8Srgb));
-    mTextureImageViews[1] = std::make_unique<vk::raii::ImageView>(createImageView(**mTextureImages[1], vk::Format::eR8G8B8A8Srgb));
-}
-
 void VulkanRenderer::createTextureSampler()
 {
     vk::PhysicalDeviceProperties properties = mPhysicalDevice->getProperties();
@@ -921,7 +901,7 @@ void VulkanRenderer::createDescriptorSets()
 
         vk::DescriptorImageInfo imageInfo{};
         imageInfo.imageLayout = vk::ImageLayout::eShaderReadOnlyOptimal;
-        imageInfo.imageView = **mTextureImageViews[0];
+        imageInfo.imageView = **mTextures[0]->View();
         imageInfo.sampler = **mTextureSampler;
 
         descriptorWrites[1].dstSet = *mDescriptorSets[i];
@@ -933,7 +913,7 @@ void VulkanRenderer::createDescriptorSets()
 
         vk::DescriptorImageInfo imageInfo2{};
         imageInfo2.imageLayout = vk::ImageLayout::eShaderReadOnlyOptimal;
-        imageInfo2.imageView = **mTextureImageViews[1];
+        imageInfo2.imageView = **mTextures[1]->View();
         imageInfo2.sampler = **mTextureSampler;
 
         descriptorWrites[2].dstSet = *mDescriptorSets[i];
@@ -1462,7 +1442,7 @@ void VulkanRenderer::EndFrame()
 
     // Always decrease resource lifetimes regardless of drawing to prevent
     // memory leaks
-    //DecreaseResourceLifetimes();
+    DecreaseResourceLifetimes();
 }
 
 void VulkanRenderer::SetTPage(u16 tPage)
@@ -1523,9 +1503,13 @@ void VulkanRenderer::Draw(Poly_FT4& poly)
 
     if (poly.mAnim)
     {
+        //AnimResource& animRes = poly.mAnim->mAnimRes;
+        //animRes.mTgaPtr->mPixels;
+
+
         vertices.push_back({{static_cast<f32>(poly.mBase.vert.x), static_cast<f32>(poly.mBase.vert.y)}, {1.0f, 1.0f, 1.0f}, {0.0f, 0.0f}, 1});
         vertices.push_back({{static_cast<f32>(poly.mVerts[0].mVert.x), static_cast<f32>(poly.mVerts[0].mVert.y)}, {1.0f, 1.0f, 1.0f}, {1.0f, 0.0f}, 1});
-      
+
         vertices.push_back({{static_cast<f32>(poly.mVerts[1].mVert.x), static_cast<f32>(poly.mVerts[1].mVert.y)}, {1.0f, 1.0f, 1.0f}, {0.0f, 1.0f}, 1});
         vertices.push_back({{static_cast<f32>(poly.mVerts[2].mVert.x), static_cast<f32>(poly.mVerts[2].mVert.y)}, {1.0f, 1.0f, 1.0f}, {1.0f, 1.0f}, 1});
       
@@ -1546,11 +1530,10 @@ void VulkanRenderer::Draw(Poly_G4&)
 
 }
 
-/*
+
 void VulkanRenderer::DecreaseResourceLifetimes()
 {
     //mTextureCache.DecreaseResourceLifetimes();
 
     mPaletteCache.ResetUseFlags();
 }
-*/

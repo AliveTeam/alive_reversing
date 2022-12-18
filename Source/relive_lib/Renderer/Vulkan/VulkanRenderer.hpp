@@ -77,8 +77,6 @@ private:
     void createGraphicsPipeline();
     void createFramebuffers();
     void createCommandPool();
-    void createTextureImage(const char* bmpName, std::unique_ptr<vk::raii::Image>& textureImage, std::unique_ptr<vk::raii::DeviceMemory>& deviceMemory);
-    void createTextureImageView();
     void createTextureSampler();
     vk::raii::ImageView createImageView(vk::Image image, vk::Format format);
     std::pair<std::unique_ptr<vk::raii::Image>, std::unique_ptr<vk::raii::DeviceMemory>> createImage(uint32_t width, uint32_t height, vk::Format format, vk::ImageTiling tiling, vk::ImageUsageFlags usage, vk::MemoryPropertyFlags properties);
@@ -112,6 +110,8 @@ private:
     static std::vector<char> readFile(const std::string& filename);
     static VKAPI_ATTR VkBool32 VKAPI_CALL debugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT /*messageSeverity*/, VkDebugUtilsMessageTypeFlagsEXT /*messageType*/, const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData, void* /*pUserData*/);
 
+    void DecreaseResourceLifetimes();
+
     std::unique_ptr<vk::raii::Context> mContext;
     std::unique_ptr<vk::raii::Instance> mInstance;
     std::unique_ptr<vk::raii::DebugUtilsMessengerEXT> mDebugMessenger;
@@ -137,10 +137,50 @@ private:
 
     std::unique_ptr<vk::raii::CommandPool> mCommandPool;
 
-    std::unique_ptr<vk::raii::Image> mTextureImages[2];
-    std::unique_ptr<vk::raii::DeviceMemory> mTextureImageMemorys[2];
-    std::unique_ptr<vk::raii::ImageView> mTextureImageViews[2];
+    class Texture final
+    {
+    public:
+        explicit Texture(VulkanRenderer& renderer, u32 width, u32 height, void* pPixels)
+            : mRenderer(renderer)
+        {
+            // TODO: Handle RGBA and indexed data
 
+            vk::DeviceSize imageSize = width * height * 4;
+
+            auto [stagingBuffer, stagingBufferMemory] = mRenderer.createBuffer(imageSize, vk::BufferUsageFlagBits::eTransferSrc, vk::MemoryPropertyFlagBits::eHostVisible | vk::MemoryPropertyFlagBits::eHostCoherent);
+
+            void* data = stagingBufferMemory->mapMemory(0, imageSize);
+            memcpy(data, pPixels, static_cast<std::size_t>(imageSize));
+            stagingBufferMemory->unmapMemory();
+
+            auto [textureImage, deviceMemory] = mRenderer.createImage(width, height, vk::Format::eR8G8B8A8Srgb, vk::ImageTiling::eOptimal, vk::ImageUsageFlagBits::eTransferDst | vk::ImageUsageFlagBits::eSampled, vk::MemoryPropertyFlagBits::eDeviceLocal);
+            mImage = std::move(textureImage);
+            mMemory = std::move(deviceMemory);
+
+            mRenderer.transitionImageLayout(**mImage, vk::ImageLayout::eUndefined, vk::ImageLayout::eTransferDstOptimal);
+            mRenderer.copyBufferToImage(**stagingBuffer, **mImage, static_cast<uint32_t>(width), static_cast<uint32_t>(height));
+            mRenderer.transitionImageLayout(**mImage, vk::ImageLayout::eTransferDstOptimal, vk::ImageLayout::eShaderReadOnlyOptimal);
+
+            mView = std::make_unique<vk::raii::ImageView>(mRenderer.createImageView(**mImage, vk::Format::eR8G8B8A8Srgb));
+        }
+
+        const std::unique_ptr<vk::raii::ImageView>& View() const
+        {
+            return mView;
+        }
+    private:
+        std::unique_ptr<vk::raii::Image> mImage;
+        std::unique_ptr<vk::raii::DeviceMemory> mMemory;
+        std::unique_ptr<vk::raii::ImageView> mView;
+        VulkanRenderer& mRenderer;
+    };
+
+    std::unique_ptr<Texture> mPaletteTexture;
+
+    // TODO: This will go in the texture cache later
+    std::vector<std::unique_ptr<Texture>> mTextures;
+
+    // Apparently 1 sampler can do all the textures in the shader
     std::unique_ptr<vk::raii::Sampler> mTextureSampler;
 
     std::unique_ptr<vk::raii::Buffer> mVertexBuffer;
