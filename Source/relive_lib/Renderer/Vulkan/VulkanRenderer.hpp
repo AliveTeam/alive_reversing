@@ -54,7 +54,7 @@ private:
     u16 mGlobalTPage = 0;
 
     PaletteCache mPaletteCache;
-    //DirectX9TextureCache mTextureCache;
+
 
     void initVulkan();
 
@@ -140,20 +140,24 @@ private:
     class Texture final
     {
     public:
-        explicit Texture(VulkanRenderer& renderer, u32 width, u32 height, void* pPixels)
+        enum Format
+        {
+            RGBA,
+            Indexed,
+        };
+
+        explicit Texture(VulkanRenderer& renderer, u32 width, u32 height, void* pPixels, Format format)
             : mRenderer(renderer)
         {
-            // TODO: Handle RGBA and indexed data
-
-            vk::DeviceSize imageSize = width * height * 4;
-
+            vk::DeviceSize imageSize = width * height * (format == Format::Indexed ? 1 : 4);
+            vk::Format imgFormat = format == Format::Indexed ? vk::Format::eR8Unorm : vk::Format::eR8G8B8A8Srgb;
             auto [stagingBuffer, stagingBufferMemory] = mRenderer.createBuffer(imageSize, vk::BufferUsageFlagBits::eTransferSrc, vk::MemoryPropertyFlagBits::eHostVisible | vk::MemoryPropertyFlagBits::eHostCoherent);
 
             void* data = stagingBufferMemory->mapMemory(0, imageSize);
             memcpy(data, pPixels, static_cast<std::size_t>(imageSize));
             stagingBufferMemory->unmapMemory();
 
-            auto [textureImage, deviceMemory] = mRenderer.createImage(width, height, vk::Format::eR8G8B8A8Srgb, vk::ImageTiling::eOptimal, vk::ImageUsageFlagBits::eTransferDst | vk::ImageUsageFlagBits::eSampled, vk::MemoryPropertyFlagBits::eDeviceLocal);
+            auto [textureImage, deviceMemory] = mRenderer.createImage(width, height, imgFormat, vk::ImageTiling::eOptimal, vk::ImageUsageFlagBits::eTransferDst | vk::ImageUsageFlagBits::eSampled, vk::MemoryPropertyFlagBits::eDeviceLocal);
             mImage = std::move(textureImage);
             mMemory = std::move(deviceMemory);
 
@@ -161,19 +165,27 @@ private:
             mRenderer.copyBufferToImage(**stagingBuffer, **mImage, static_cast<uint32_t>(width), static_cast<uint32_t>(height));
             mRenderer.transitionImageLayout(**mImage, vk::ImageLayout::eTransferDstOptimal, vk::ImageLayout::eShaderReadOnlyOptimal);
 
-            mView = std::make_unique<vk::raii::ImageView>(mRenderer.createImageView(**mImage, vk::Format::eR8G8B8A8Srgb));
+            mView = std::make_unique<vk::raii::ImageView>(mRenderer.createImageView(**mImage, imgFormat));
         }
 
         const std::unique_ptr<vk::raii::ImageView>& View() const
         {
             return mView;
         }
+
+
     private:
         std::unique_ptr<vk::raii::Image> mImage;
         std::unique_ptr<vk::raii::DeviceMemory> mMemory;
         std::unique_ptr<vk::raii::ImageView> mView;
         VulkanRenderer& mRenderer;
     };
+
+    class VulkanTextureCache final : public TextureCache2<std::unique_ptr<Texture>>
+    {
+    public:
+    };
+    VulkanTextureCache mTextureCache;
 
     std::unique_ptr<Texture> mPaletteTexture;
 

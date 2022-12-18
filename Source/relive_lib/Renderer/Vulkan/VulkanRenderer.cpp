@@ -183,12 +183,12 @@ void VulkanRenderer::initVulkan()
 
     LoadBmp("C:\\data\\poggins.bmp", [&](void* pPixels, u32 width, u32 height)
     {
-        mTextures.emplace_back(std::make_unique<Texture>(*this, width, height, pPixels));
+        mTextures.emplace_back(std::make_unique<Texture>(*this, width, height, pPixels, Texture::Format::RGBA));
     });
 
     LoadBmp("C:\\data\\poggins2.bmp", [&](void* pPixels, u32 width, u32 height)
     {
-        mTextures.emplace_back(std::make_unique<Texture>(*this, width, height, pPixels)); 
+        mTextures.emplace_back(std::make_unique<Texture>(*this, width, height, pPixels, Texture::Format::RGBA));
     });
 
     createTextureSampler();
@@ -1503,9 +1503,18 @@ void VulkanRenderer::Draw(Poly_FT4& poly)
 
     if (poly.mAnim)
     {
-        //AnimResource& animRes = poly.mAnim->mAnimRes;
+        AnimResource& animRes = poly.mAnim->mAnimRes;
         //animRes.mTgaPtr->mPixels;
 
+        std::unique_ptr<Texture>* texture = mTextureCache.GetCachedTexture(animRes.mUniqueId.Id(), 800);
+        if (!texture)
+        {
+            auto newTex = std::make_unique<Texture>(*this, animRes.mTgaPtr->mWidth, animRes.mTgaPtr->mHeight, animRes.mTgaPtr->mPixels.data(), Texture::Format::Indexed);
+
+            texture = mTextureCache.Add(animRes.mUniqueId.Id(), 300, std::move(newTex));
+
+            //mStats.mCamUploadCount++;
+        }
 
         vertices.push_back({{static_cast<f32>(poly.mBase.vert.x), static_cast<f32>(poly.mBase.vert.y)}, {1.0f, 1.0f, 1.0f}, {0.0f, 0.0f}, 1});
         vertices.push_back({{static_cast<f32>(poly.mVerts[0].mVert.x), static_cast<f32>(poly.mVerts[0].mVert.y)}, {1.0f, 1.0f, 1.0f}, {1.0f, 0.0f}, 1});
@@ -1533,7 +1542,7 @@ void VulkanRenderer::Draw(Poly_G4&)
 
 void VulkanRenderer::DecreaseResourceLifetimes()
 {
-    //mTextureCache.DecreaseResourceLifetimes();
+    mTextureCache.DecreaseResourceLifetimes();
 
     mPaletteCache.ResetUseFlags();
 }
