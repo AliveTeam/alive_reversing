@@ -302,18 +302,22 @@ void VulkanRenderer::createInstance()
     appInfo.apiVersion = VK_API_VERSION_1_0;
 
     const std::vector<const char*> extensions = getRequiredExtensions();
+    std::vector<const char*> validationLayers;
+    if constexpr (enableValidationLayers)
+    {
+        for (auto& layer : kValidationLayers)
+        {
+            validationLayers.push_back(layer);
+        }
+    }
     vk::InstanceCreateInfo createInfo = vk::InstanceCreateInfo(
         vk::InstanceCreateFlags(),
         &appInfo,
-        0, nullptr,                                                 // enabled layers
+        static_cast<uint32_t>(validationLayers.size()), validationLayers.data(), // enabled layers
         static_cast<uint32_t>(extensions.size()), extensions.data() // enabled extensions
     );
 
-    if (enableValidationLayers)
-    {
-        createInfo.enabledLayerCount = static_cast<uint32_t>(kValidationLayers.size());
-        createInfo.ppEnabledLayerNames = kValidationLayers.data();
-    }
+
 
     mContext = std::make_unique<vk::raii::Context>();
 
@@ -511,37 +515,6 @@ void VulkanRenderer::createRenderPass()
     renderPassInfo.pDependencies = &dependency;
 
     mRenderPass = std::make_unique<vk::raii::RenderPass>(mDevice->createRenderPass(renderPassInfo));
-}
-
-void VulkanRenderer::createDescriptorSetLayout()
-{
-    vk::DescriptorSetLayoutBinding uboLayoutBinding;
-    uboLayoutBinding.binding = 0;
-    uboLayoutBinding.descriptorCount = 1;
-    uboLayoutBinding.descriptorType = vk::DescriptorType::eUniformBuffer;
-    uboLayoutBinding.pImmutableSamplers = nullptr;
-    uboLayoutBinding.stageFlags = vk::ShaderStageFlagBits::eVertex;
-
-    vk::DescriptorSetLayoutBinding samplerLayoutBinding;
-    samplerLayoutBinding.binding = 1;
-    samplerLayoutBinding.descriptorCount = 1;
-    samplerLayoutBinding.descriptorType = vk::DescriptorType::eCombinedImageSampler;
-    samplerLayoutBinding.pImmutableSamplers = nullptr;
-    samplerLayoutBinding.stageFlags = vk::ShaderStageFlagBits::eFragment;
-
-    vk::DescriptorSetLayoutBinding samplerLayoutBinding2;
-    samplerLayoutBinding2.binding = 2;
-    samplerLayoutBinding2.descriptorCount = 1;
-    samplerLayoutBinding2.descriptorType = vk::DescriptorType::eCombinedImageSampler;
-    samplerLayoutBinding2.pImmutableSamplers = nullptr;
-    samplerLayoutBinding2.stageFlags = vk::ShaderStageFlagBits::eFragment;
-
-    std::array<vk::DescriptorSetLayoutBinding, 3> bindings = {uboLayoutBinding, samplerLayoutBinding, samplerLayoutBinding2};
-    vk::DescriptorSetLayoutCreateInfo layoutInfo;
-    layoutInfo.bindingCount = static_cast<uint32_t>(bindings.size());
-    layoutInfo.pBindings = bindings.data();
-
-    mDescriptorSetLayout = std::make_unique<vk::raii::DescriptorSetLayout>(mDevice->createDescriptorSetLayout(layoutInfo));
 }
 
 void VulkanRenderer::createGraphicsPipeline()
@@ -867,15 +840,74 @@ void VulkanRenderer::createUniformBuffers()
     }
 }
 
+
+void VulkanRenderer::createDescriptorSetLayout()
+{
+    vk::DescriptorSetLayoutBinding uboLayoutBinding;
+    uboLayoutBinding.binding = 0;
+    uboLayoutBinding.descriptorCount = 1;
+    uboLayoutBinding.descriptorType = vk::DescriptorType::eUniformBuffer;
+    uboLayoutBinding.pImmutableSamplers = nullptr;
+    uboLayoutBinding.stageFlags = vk::ShaderStageFlagBits::eVertex;
+
+    vk::DescriptorSetLayoutBinding texPalette;
+    texPalette.binding = 1;
+    texPalette.descriptorCount = 1;
+    texPalette.descriptorType = vk::DescriptorType::eCombinedImageSampler;
+    texPalette.pImmutableSamplers = nullptr;
+    texPalette.stageFlags = vk::ShaderStageFlagBits::eFragment;
+
+    vk::DescriptorSetLayoutBinding texGas;
+    texGas.binding = 2;
+    texGas.descriptorCount = 1;
+    texGas.descriptorType = vk::DescriptorType::eCombinedImageSampler;
+    texGas.pImmutableSamplers = nullptr;
+    texGas.stageFlags = vk::ShaderStageFlagBits::eFragment;
+
+    vk::DescriptorSetLayoutBinding texCamera;
+    texCamera.binding = 3;
+    texCamera.descriptorCount = 1;
+    texCamera.descriptorType = vk::DescriptorType::eCombinedImageSampler;
+    texCamera.pImmutableSamplers = nullptr;
+    texCamera.stageFlags = vk::ShaderStageFlagBits::eFragment;
+
+    vk::DescriptorSetLayoutBinding texFG1Masks;
+    texFG1Masks.binding = 4;
+    texFG1Masks.descriptorCount = 4; // texture array size
+    texFG1Masks.descriptorType = vk::DescriptorType::eCombinedImageSampler;
+    texFG1Masks.pImmutableSamplers = nullptr;
+    texFG1Masks.stageFlags = vk::ShaderStageFlagBits::eFragment;
+
+    vk::DescriptorSetLayoutBinding texSpriteSheets;
+    texSpriteSheets.binding = 8;
+    texSpriteSheets.descriptorCount = 8; // texture array size
+    texSpriteSheets.descriptorType = vk::DescriptorType::eCombinedImageSampler;
+    texSpriteSheets.pImmutableSamplers = nullptr;
+    texSpriteSheets.stageFlags = vk::ShaderStageFlagBits::eFragment;
+
+    std::array<vk::DescriptorSetLayoutBinding, 6> bindings = {uboLayoutBinding, texPalette, texGas, texCamera, texFG1Masks, texSpriteSheets};
+    vk::DescriptorSetLayoutCreateInfo layoutInfo;
+    layoutInfo.bindingCount = static_cast<uint32_t>(bindings.size());
+    layoutInfo.pBindings = bindings.data();
+
+    mDescriptorSetLayout = std::make_unique<vk::raii::DescriptorSetLayout>(mDevice->createDescriptorSetLayout(layoutInfo));
+}
+
 void VulkanRenderer::createDescriptorPool()
 {
-    std::array<vk::DescriptorPoolSize, 3> poolSizes{};
+    std::array<vk::DescriptorPoolSize, 6> poolSizes{};
     poolSizes[0].type = vk::DescriptorType::eUniformBuffer;
     poolSizes[0].descriptorCount = static_cast<uint32_t>(MAX_FRAMES_IN_FLIGHT);
     poolSizes[1].type = vk::DescriptorType::eCombinedImageSampler;
     poolSizes[1].descriptorCount = static_cast<uint32_t>(MAX_FRAMES_IN_FLIGHT);
     poolSizes[2].type = vk::DescriptorType::eCombinedImageSampler;
     poolSizes[2].descriptorCount = static_cast<uint32_t>(MAX_FRAMES_IN_FLIGHT);
+    poolSizes[3].type = vk::DescriptorType::eCombinedImageSampler;
+    poolSizes[3].descriptorCount = static_cast<uint32_t>(MAX_FRAMES_IN_FLIGHT);
+    poolSizes[4].type = vk::DescriptorType::eCombinedImageSampler;
+    poolSizes[4].descriptorCount = 4 * static_cast<uint32_t>(MAX_FRAMES_IN_FLIGHT);
+    poolSizes[5].type = vk::DescriptorType::eCombinedImageSampler;
+    poolSizes[5].descriptorCount = 8 * static_cast<uint32_t>(MAX_FRAMES_IN_FLIGHT);
 
     vk::DescriptorPoolCreateInfo poolInfo{};
     poolInfo.poolSizeCount = static_cast<uint32_t>(poolSizes.size());
@@ -897,7 +929,7 @@ void VulkanRenderer::createDescriptorSets()
 
     for (size_t i = 0; i < MAX_FRAMES_IN_FLIGHT; i++)
     {
-        std::array<vk::WriteDescriptorSet, 3> descriptorWrites{};
+        std::array<vk::WriteDescriptorSet, 6> descriptorWrites{};
 
         vk::DescriptorBufferInfo bufferInfo;
         bufferInfo.buffer = **mUniformBuffers[i];
@@ -923,17 +955,63 @@ void VulkanRenderer::createDescriptorSets()
         descriptorWrites[1].descriptorCount = 1;
         descriptorWrites[1].pImageInfo = &imageInfo;
 
-        vk::DescriptorImageInfo imageInfo2{};
-        imageInfo2.imageLayout = vk::ImageLayout::eShaderReadOnlyOptimal;
-        imageInfo2.imageView = **mTextures[1]->View();
-        imageInfo2.sampler = **mTextureSampler;
+        // Gas texture
+        vk::DescriptorImageInfo imageInfo5{};
+        imageInfo5.imageLayout = vk::ImageLayout::eShaderReadOnlyOptimal;
+        imageInfo5.imageView = **mPaletteTexture->View();
+        imageInfo5.sampler = **mTextureSampler;
 
         descriptorWrites[2].dstSet = *mDescriptorSets[i];
         descriptorWrites[2].dstBinding = 2;
         descriptorWrites[2].dstArrayElement = 0;
         descriptorWrites[2].descriptorType = vk::DescriptorType::eCombinedImageSampler;
         descriptorWrites[2].descriptorCount = 1;
-        descriptorWrites[2].pImageInfo = &imageInfo2;
+        descriptorWrites[2].pImageInfo = &imageInfo5;
+
+        // Camera texture
+        vk::DescriptorImageInfo imageInfo4{};
+        imageInfo4.imageLayout = vk::ImageLayout::eShaderReadOnlyOptimal;
+        imageInfo4.imageView = **mPaletteTexture->View();
+        imageInfo4.sampler = **mTextureSampler;
+
+        descriptorWrites[3].dstSet = *mDescriptorSets[i];
+        descriptorWrites[3].dstBinding = 3;
+        descriptorWrites[3].dstArrayElement = 0;
+        descriptorWrites[3].descriptorType = vk::DescriptorType::eCombinedImageSampler;
+        descriptorWrites[3].descriptorCount = 1;
+        descriptorWrites[3].pImageInfo = &imageInfo4;
+ 
+        // FG1 textures
+        vk::DescriptorImageInfo imageInfo3[4];
+        for (u32 j = 0; j < 4; j++)
+        {
+            imageInfo3[j].imageLayout = vk::ImageLayout::eShaderReadOnlyOptimal;
+            imageInfo3[j].imageView = **mTextures[1]->View();
+            imageInfo3[j].sampler = **mTextureSampler;
+        }
+
+        descriptorWrites[4].dstSet = *mDescriptorSets[i];
+        descriptorWrites[4].dstBinding = 4;
+        descriptorWrites[4].dstArrayElement = 0;
+        descriptorWrites[4].descriptorType = vk::DescriptorType::eCombinedImageSampler;
+        descriptorWrites[4].descriptorCount = 4; // texture array size
+        descriptorWrites[4].pImageInfo = imageInfo3;
+
+        // Sprite sheets
+        vk::DescriptorImageInfo imageInfo2[8];
+        for (u32 j = 0; j < 8; j++)
+        {
+            imageInfo2[j].imageLayout = vk::ImageLayout::eShaderReadOnlyOptimal;
+            imageInfo2[j].imageView = **mTextures[1]->View();
+            imageInfo2[j].sampler = **mTextureSampler;
+        }
+
+        descriptorWrites[5].dstSet = *mDescriptorSets[i];
+        descriptorWrites[5].dstBinding = 8;
+        descriptorWrites[5].dstArrayElement = 0;
+        descriptorWrites[5].descriptorType = vk::DescriptorType::eCombinedImageSampler;
+        descriptorWrites[5].descriptorCount = 8; // texture array size
+        descriptorWrites[5].pImageInfo = imageInfo2;
 
         mDevice->updateDescriptorSets(descriptorWrites, {});
     }
@@ -1340,6 +1418,11 @@ bool VulkanRenderer::checkValidationLayerSupport()
     std::vector<VkLayerProperties> availableLayers(layerCount);
     vkEnumerateInstanceLayerProperties(&layerCount, availableLayers.data());
 
+    for (const auto& layer : availableLayers)
+    {
+        LOG_INFO("Layer: %s", layer.layerName);
+    }
+
     for (const char* layerName : kValidationLayers)
     {
         bool layerFound = false;
@@ -1384,7 +1467,7 @@ bool VulkanRenderer::checkValidationLayerSupport()
 
 /*static*/ VKAPI_ATTR VkBool32 VKAPI_CALL VulkanRenderer::debugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT /*messageSeverity*/, VkDebugUtilsMessageTypeFlagsEXT /*messageType*/, const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData, void* /*pUserData*/)
 {
-    LOG_ERROR("validation layer: %s", pCallbackData->pMessage);
+    LOG_ERROR("%s", pCallbackData->pMessage);
 
     return VK_FALSE;
 }
