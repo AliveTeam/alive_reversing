@@ -81,7 +81,7 @@ private:
     vk::raii::ImageView createImageView(vk::Image image, vk::Format format);
     std::pair<std::unique_ptr<vk::raii::Image>, std::unique_ptr<vk::raii::DeviceMemory>> createImage(uint32_t width, uint32_t height, vk::Format format, vk::ImageTiling tiling, vk::ImageUsageFlags usage, vk::MemoryPropertyFlags properties);
     void transitionImageLayout(vk::Image image, vk::ImageLayout oldLayout, vk::ImageLayout newLayout);
-    void copyBufferToImage(vk::Buffer buffer, vk::Image image, uint32_t width, uint32_t height);
+    void copyBufferToImage(vk::Buffer buffer, vk::Image image, uint32_t x, uint32_t y, uint32_t width, uint32_t height);
     void createVertexBuffer();
     void createIndexBuffer();
     void createUniformBuffers();
@@ -111,6 +111,8 @@ private:
     static VKAPI_ATTR VkBool32 VKAPI_CALL debugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT /*messageSeverity*/, VkDebugUtilsMessageTypeFlagsEXT /*messageType*/, const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData, void* /*pUserData*/);
 
     void DecreaseResourceLifetimes();
+
+    u32 PreparePalette(AnimationPal& pCache);
 
     std::unique_ptr<vk::raii::Context> mContext;
     std::unique_ptr<vk::raii::Instance> mInstance;
@@ -148,8 +150,9 @@ private:
 
         explicit Texture(VulkanRenderer& renderer, u32 width, u32 height, void* pPixels, Format format)
             : mRenderer(renderer)
+            , mFormat(format)
         {
-            vk::DeviceSize imageSize = width * height * (format == Format::Indexed ? 1 : 4);
+            vk::DeviceSize imageSize = width * height * (mFormat == Format::Indexed ? 1 : 4);
             vk::Format imgFormat = format == Format::Indexed ? vk::Format::eR8Unorm : vk::Format::eR8G8B8A8Srgb;
             auto [stagingBuffer, stagingBufferMemory] = mRenderer.createBuffer(imageSize, vk::BufferUsageFlagBits::eTransferSrc, vk::MemoryPropertyFlagBits::eHostVisible | vk::MemoryPropertyFlagBits::eHostCoherent);
 
@@ -162,7 +165,7 @@ private:
             mMemory = std::move(deviceMemory);
 
             mRenderer.transitionImageLayout(**mImage, vk::ImageLayout::eUndefined, vk::ImageLayout::eTransferDstOptimal);
-            mRenderer.copyBufferToImage(**stagingBuffer, **mImage, static_cast<uint32_t>(width), static_cast<uint32_t>(height));
+            mRenderer.copyBufferToImage(**stagingBuffer, **mImage, 0, 0, static_cast<uint32_t>(width), static_cast<uint32_t>(height));
             mRenderer.transitionImageLayout(**mImage, vk::ImageLayout::eTransferDstOptimal, vk::ImageLayout::eShaderReadOnlyOptimal);
 
             mView = std::make_unique<vk::raii::ImageView>(mRenderer.createImageView(**mImage, imgFormat));
@@ -173,12 +176,25 @@ private:
             return mView;
         }
 
+        void LoadSubImage(u32 x, u32 y, u32 width, u32 height, RGBA32* pPixels)
+        {
+            vk::DeviceSize imageSize = width * height * (mFormat == Format::Indexed ? 1 : 4);
+            auto [stagingBuffer, stagingBufferMemory] = mRenderer.createBuffer(imageSize, vk::BufferUsageFlagBits::eTransferSrc, vk::MemoryPropertyFlagBits::eHostVisible | vk::MemoryPropertyFlagBits::eHostCoherent);
+
+            void* data = stagingBufferMemory->mapMemory(0, imageSize);
+            memcpy(data, pPixels, static_cast<std::size_t>(imageSize));
+            stagingBufferMemory->unmapMemory();
+
+            mRenderer.copyBufferToImage(**stagingBuffer, **mImage, x, y, static_cast<uint32_t>(width), static_cast<uint32_t>(height));
+            mRenderer.transitionImageLayout(**mImage, vk::ImageLayout::eTransferDstOptimal, vk::ImageLayout::eShaderReadOnlyOptimal);
+        }
 
     private:
         std::unique_ptr<vk::raii::Image> mImage;
         std::unique_ptr<vk::raii::DeviceMemory> mMemory;
         std::unique_ptr<vk::raii::ImageView> mView;
         VulkanRenderer& mRenderer;
+        Format mFormat = Format::Indexed;
     };
 
     class VulkanTextureCache final : public TextureCache2<std::unique_ptr<Texture>>

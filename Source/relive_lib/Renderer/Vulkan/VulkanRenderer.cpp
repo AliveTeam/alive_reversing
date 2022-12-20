@@ -176,11 +176,16 @@ void VulkanRenderer::initVulkan()
     createSwapChain();
     createImageViews();
     createRenderPass();
+
+    createCommandPool();
+
+    std::vector<RGBA32> blackPixels(256 * 256);
+    mPaletteTexture = std::make_unique<Texture>(*this, 256, 256, blackPixels.data(), Texture::Format::RGBA);
+
     createDescriptorSetLayout();
     createGraphicsPipeline();
     createFramebuffers();
-    createCommandPool();
-
+  
     LoadBmp("C:\\data\\poggins.bmp", [&](void* pPixels, u32 width, u32 height)
     {
         mTextures.emplace_back(std::make_unique<Texture>(*this, width, height, pPixels, Texture::Format::RGBA));
@@ -781,7 +786,7 @@ void VulkanRenderer::transitionImageLayout(vk::Image image, vk::ImageLayout oldL
     endSingleTimeCommands(commandBuffer);
 }
 
-void VulkanRenderer::copyBufferToImage(vk::Buffer buffer, vk::Image image, uint32_t width, uint32_t height)
+void VulkanRenderer::copyBufferToImage(vk::Buffer buffer, vk::Image image, uint32_t x, uint32_t y, uint32_t width, uint32_t height)
 {
     vk::raii::CommandBuffer commandBuffer = beginSingleTimeCommands();
 
@@ -793,7 +798,7 @@ void VulkanRenderer::copyBufferToImage(vk::Buffer buffer, vk::Image image, uint3
     region.imageSubresource.mipLevel = 0;
     region.imageSubresource.baseArrayLayer = 0;
     region.imageSubresource.layerCount = 1;
-    region.imageOffset = vk::Offset3D {0, 0, 0};
+    region.imageOffset = vk::Offset3D{static_cast<int32_t>(x), static_cast < int32_t>(y), 0};
     region.imageExtent = vk::Extent3D {
         width,
         height,
@@ -901,7 +906,7 @@ void VulkanRenderer::createDescriptorSets()
 
         vk::DescriptorImageInfo imageInfo{};
         imageInfo.imageLayout = vk::ImageLayout::eShaderReadOnlyOptimal;
-        imageInfo.imageView = **mTextures[0]->View();
+        imageInfo.imageView = **mPaletteTexture->View();
         imageInfo.sampler = **mTextureSampler;
 
         descriptorWrites[1].dstSet = *mDescriptorSets[i];
@@ -1498,6 +1503,21 @@ void VulkanRenderer::SetupBlendMode(u16 blendMode)
     }
 }*/
 
+u32 VulkanRenderer::PreparePalette(AnimationPal& pCache)
+{
+    const PaletteCache::AddResult addRet = mPaletteCache.Add(pCache);
+
+    if (addRet.mAllocated)
+    {
+        // Write palette data
+        mPaletteTexture->LoadSubImage(0, addRet.mIndex, 256, 1, pCache.mPal);
+
+        //mStats.mPalUploadCount++;
+    }
+
+    return addRet.mIndex;
+}
+
 void VulkanRenderer::Draw(Poly_FT4& poly)
 {
 
@@ -1505,6 +1525,12 @@ void VulkanRenderer::Draw(Poly_FT4& poly)
     {
         AnimResource& animRes = poly.mAnim->mAnimRes;
         //animRes.mTgaPtr->mPixels;
+
+        const u32 palIndex = PreparePalette(*animRes.mCurPal);
+        if (palIndex)
+        {
+            // TODO: Shove into the vertex data
+        }
 
         std::unique_ptr<Texture>* texture = mTextureCache.GetCachedTexture(animRes.mUniqueId.Id(), 800);
         if (!texture)
@@ -1516,11 +1542,11 @@ void VulkanRenderer::Draw(Poly_FT4& poly)
             //mStats.mCamUploadCount++;
         }
 
-        vertices.push_back({{static_cast<f32>(poly.mBase.vert.x), static_cast<f32>(poly.mBase.vert.y)}, {1.0f, 1.0f, 1.0f}, {0.0f, 0.0f}, 1});
-        vertices.push_back({{static_cast<f32>(poly.mVerts[0].mVert.x), static_cast<f32>(poly.mVerts[0].mVert.y)}, {1.0f, 1.0f, 1.0f}, {1.0f, 0.0f}, 1});
+        vertices.push_back({{static_cast<f32>(poly.mBase.vert.x), static_cast<f32>(poly.mBase.vert.y)}, {1.0f, 1.0f, 1.0f}, {0.0f, 0.0f}, 0});
+        vertices.push_back({{static_cast<f32>(poly.mVerts[0].mVert.x), static_cast<f32>(poly.mVerts[0].mVert.y)}, {1.0f, 1.0f, 1.0f}, {1.0f, 0.0f}, 0});
 
-        vertices.push_back({{static_cast<f32>(poly.mVerts[1].mVert.x), static_cast<f32>(poly.mVerts[1].mVert.y)}, {1.0f, 1.0f, 1.0f}, {0.0f, 1.0f}, 1});
-        vertices.push_back({{static_cast<f32>(poly.mVerts[2].mVert.x), static_cast<f32>(poly.mVerts[2].mVert.y)}, {1.0f, 1.0f, 1.0f}, {1.0f, 1.0f}, 1});
+        vertices.push_back({{static_cast<f32>(poly.mVerts[1].mVert.x), static_cast<f32>(poly.mVerts[1].mVert.y)}, {1.0f, 1.0f, 1.0f}, {0.0f, 1.0f}, 0});
+        vertices.push_back({{static_cast<f32>(poly.mVerts[2].mVert.x), static_cast<f32>(poly.mVerts[2].mVert.y)}, {1.0f, 1.0f, 1.0f}, {1.0f, 1.0f}, 0});
       
         gIndices.emplace_back((u16) (mIndexBufferIndex + 1));
         gIndices.emplace_back((u16) (mIndexBufferIndex + 0));
