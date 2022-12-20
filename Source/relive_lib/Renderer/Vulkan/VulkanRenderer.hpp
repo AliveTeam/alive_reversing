@@ -186,7 +186,7 @@ private:
             stagingBufferMemory->unmapMemory();
 
             mRenderer.copyBufferToImage(**stagingBuffer, **mImage, x, y, static_cast<uint32_t>(width), static_cast<uint32_t>(height));
-            mRenderer.transitionImageLayout(**mImage, vk::ImageLayout::eTransferDstOptimal, vk::ImageLayout::eShaderReadOnlyOptimal);
+          //  mRenderer.transitionImageLayout(**mImage, vk::ImageLayout::eTransferDstOptimal, vk::ImageLayout::eShaderReadOnlyOptimal);
         }
 
     private:

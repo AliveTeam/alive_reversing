@@ -6,12 +6,13 @@ layout(binding = 2) uniform sampler2D texSampler2;
 layout(location = 0) in vec3 fragColor;
 layout(location = 1) in vec2 fragTexCoord;
 layout(location = 2) flat in uint samplerIndex;
+layout(location = 3) flat in uint palIndex;
 
 layout(location = 0) out vec4 outColor;
 
 void main() 
 {
-    if (samplerIndex == 0)
+    if (samplerIndex == 0 && palIndex == 0)
     {
         outColor = texture(texSampler, fragTexCoord);
     }

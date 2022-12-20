@@ -75,6 +75,7 @@ struct Vertex
     glm::vec3 color;
     glm::vec2 texCoord;
     u32 mSamplerIdx;
+    u32 mPalIdx;
 
     static vk::VertexInputBindingDescription getBindingDescription()
     {
@@ -86,9 +87,9 @@ struct Vertex
         return bindingDescription;
     }
 
-    static std::array<vk::VertexInputAttributeDescription, 4> getAttributeDescriptions()
+    static std::array<vk::VertexInputAttributeDescription, 5> getAttributeDescriptions()
     {
-        std::array<vk::VertexInputAttributeDescription, 4> attributeDescriptions{};
+        std::array<vk::VertexInputAttributeDescription, 5> attributeDescriptions{};
 
         attributeDescriptions[0].binding = 0;
         attributeDescriptions[0].location = 0;
@@ -109,6 +110,12 @@ struct Vertex
         attributeDescriptions[3].location = 3;
         attributeDescriptions[3].format = vk::Format::eR32Uint;
         attributeDescriptions[3].offset = offsetof(Vertex, mSamplerIdx);
+
+        attributeDescriptions[4].binding = 0;
+        attributeDescriptions[4].location = 4;
+        attributeDescriptions[4].format = vk::Format::eR32Uint;
+        attributeDescriptions[4].offset = offsetof(Vertex, mPalIdx);
+
 
         return attributeDescriptions;
     }
@@ -1527,10 +1534,6 @@ void VulkanRenderer::Draw(Poly_FT4& poly)
         //animRes.mTgaPtr->mPixels;
 
         const u32 palIndex = PreparePalette(*animRes.mCurPal);
-        if (palIndex)
-        {
-            // TODO: Shove into the vertex data
-        }
 
         std::unique_ptr<Texture>* texture = mTextureCache.GetCachedTexture(animRes.mUniqueId.Id(), 800);
         if (!texture)
@@ -1542,12 +1545,11 @@ void VulkanRenderer::Draw(Poly_FT4& poly)
             //mStats.mCamUploadCount++;
         }
 
-        vertices.push_back({{static_cast<f32>(poly.mBase.vert.x), static_cast<f32>(poly.mBase.vert.y)}, {1.0f, 1.0f, 1.0f}, {0.0f, 0.0f}, 0});
-        vertices.push_back({{static_cast<f32>(poly.mVerts[0].mVert.x), static_cast<f32>(poly.mVerts[0].mVert.y)}, {1.0f, 1.0f, 1.0f}, {1.0f, 0.0f}, 0});
+        vertices.push_back({{static_cast<f32>(poly.mBase.vert.x), static_cast<f32>(poly.mBase.vert.y)}, {1.0f, 1.0f, 1.0f}, {0.0f, 0.0f}, 0, palIndex});
+        vertices.push_back({{static_cast<f32>(poly.mVerts[0].mVert.x), static_cast<f32>(poly.mVerts[0].mVert.y)}, {1.0f, 1.0f, 1.0f}, {1.0f, 0.0f}, 0, palIndex});
+        vertices.push_back({{static_cast<f32>(poly.mVerts[1].mVert.x), static_cast<f32>(poly.mVerts[1].mVert.y)}, {1.0f, 1.0f, 1.0f}, {0.0f, 1.0f}, 0, palIndex});
+        vertices.push_back({{static_cast<f32>(poly.mVerts[2].mVert.x), static_cast<f32>(poly.mVerts[2].mVert.y)}, {1.0f, 1.0f, 1.0f}, {1.0f, 1.0f}, 0, palIndex});
 
-        vertices.push_back({{static_cast<f32>(poly.mVerts[1].mVert.x), static_cast<f32>(poly.mVerts[1].mVert.y)}, {1.0f, 1.0f, 1.0f}, {0.0f, 1.0f}, 0});
-        vertices.push_back({{static_cast<f32>(poly.mVerts[2].mVert.x), static_cast<f32>(poly.mVerts[2].mVert.y)}, {1.0f, 1.0f, 1.0f}, {1.0f, 1.0f}, 0});
-      
         gIndices.emplace_back((u16) (mIndexBufferIndex + 1));
         gIndices.emplace_back((u16) (mIndexBufferIndex + 0));
         gIndices.emplace_back((u16) (mIndexBufferIndex + 3));
