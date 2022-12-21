@@ -1178,7 +1178,12 @@ void VulkanRenderer::recordCommandBuffer(vk::raii::CommandBuffer& commandBuffer,
 
             commandBuffer.bindDescriptorSets(vk::PipelineBindPoint::eGraphics, **mPipelineLayouts[batch.mPipeline], 0, *mDescriptorSets[mCurrentFrame], {});
 
-            commandBuffer.drawIndexed(static_cast<uint32_t>(gIndices.size()) - batch.mIndexBufferStartIdx, 1, batch.mIndexBufferStartIdx, batch.mVertexBufferStartIdx, 0);
+            commandBuffer.drawIndexed(
+                static_cast<uint32_t>(gIndices.size()) - batch.mIndexBufferStartIdx,
+                1,
+                batch.mIndexBufferStartIdx,
+                0,
+                0);
         }
     }
 
@@ -1678,6 +1683,15 @@ void VulkanRenderer::Draw(Poly_FT4& poly)
         const bool bNewBatch = mTextureArrayIdx > 9;
         if (bNewBatch)
         {
+            if (mBatches.empty())
+            {
+                RenderBatch batch;
+                batch.mIndexBufferStartIdx = 0;
+                batch.mTextureStartIdx = 0;
+                batch.mVertexBufferStartIdx = 0;
+                mBatches.push_back(batch);
+            }
+
             RenderBatch batch = {};
             batch.mVertexBufferStartIdx = static_cast<u32>(vertices.size());
             batch.mTextureStartIdx = textureIdx;
