@@ -74,7 +74,13 @@ private:
 
     void createRenderPass();
     void createDescriptorSetLayout();
-    void createGraphicsPipeline();
+
+    enum PipelineIndex
+    {
+        eReverseBlending = 0,
+        eAddBlending = 1,
+    };
+    void createGraphicsPipeline(PipelineIndex idx);
     void createFramebuffers();
     void createCommandPool();
     void createTextureSampler();
@@ -87,6 +93,7 @@ private:
     void createUniformBuffers();
     void createDescriptorPool();
     void createDescriptorSets();
+    void updateDescriptorSets();
     std::pair<std::unique_ptr<vk::raii::Buffer>, std::unique_ptr<vk::raii::DeviceMemory>> createBuffer(vk::DeviceSize size, vk::BufferUsageFlags usage, vk::MemoryPropertyFlags properties);
     vk::raii::CommandBuffer beginSingleTimeCommands();
     void endSingleTimeCommands(vk::raii::CommandBuffer& commandBuffer);
@@ -134,8 +141,9 @@ private:
 
     std::unique_ptr<vk::raii::RenderPass> mRenderPass;
     std::unique_ptr<vk::raii::DescriptorSetLayout> mDescriptorSetLayout;
-    std::unique_ptr<vk::raii::PipelineLayout> mPipelineLayout;
-    std::unique_ptr<vk::raii::Pipeline> mGraphicsPipeline;
+
+    std::vector<std::unique_ptr<vk::raii::PipelineLayout>> mPipelineLayouts;
+    std::vector<std::unique_ptr<vk::raii::Pipeline>> mGraphicsPipelines;
 
     std::unique_ptr<vk::raii::CommandPool> mCommandPool;
 
@@ -197,7 +205,7 @@ private:
         Format mFormat = Format::Indexed;
     };
 
-    class VulkanTextureCache final : public TextureCache2<std::unique_ptr<Texture>>
+    class VulkanTextureCache final : public TextureCache2<std::shared_ptr<Texture>>
     {
     public:
     };
@@ -205,8 +213,16 @@ private:
 
     std::unique_ptr<Texture> mPaletteTexture;
 
-    // TODO: This will go in the texture cache later
-    std::vector<std::unique_ptr<Texture>> mTextures;
+    u32 mTextureArrayIdx = 0;
+    std::vector<std::shared_ptr<Texture>> mTexturesForThisFrame;
+    struct RenderBatch final
+    {
+        PipelineIndex mPipeline = PipelineIndex::eAddBlending;
+        u32 mVertexBufferStartIdx = 0;
+        u32 mIndexBufferStartIdx = 0;
+        u32 mTextureStartIdx = 0;
+    };
+    std::vector<RenderBatch> mBatches;
 
     // Apparently 1 sampler can do all the textures in the shader
     std::unique_ptr<vk::raii::Sampler> mTextureSampler;

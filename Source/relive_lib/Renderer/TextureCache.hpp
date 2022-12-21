@@ -115,7 +115,7 @@ public:
         mTextureCache.clear();
     }
 
-    TextureType* Add(u32 uniqueId, u32 lifetime, TextureType texture)
+    TextureType Add(u32 uniqueId, u32 lifetime, TextureType texture)
     {
         CachedTexture newTex;
 
@@ -124,10 +124,10 @@ public:
 
         mTextureCache[uniqueId] = std::move(newTex);
 
-        return &mTextureCache[uniqueId].mTexture;
+        return mTextureCache[uniqueId].mTexture;
     }
 
-    TextureType* GetCachedTexture(u32 uniqueId, s32 bump)
+    TextureType GetCachedTexture(u32 uniqueId, s32 bump)
     {
         auto it = mTextureCache.find(uniqueId);
 
@@ -142,7 +142,7 @@ public:
             it->second.mLifetime = bump;
         }
 
-        return &it->second.mTexture;
+        return it->second.mTexture;
     }
 
     void DecreaseResourceLifetimes()

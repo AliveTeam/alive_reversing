@@ -190,9 +190,12 @@ void VulkanRenderer::initVulkan()
     mPaletteTexture = std::make_unique<Texture>(*this, 256, 256, blackPixels.data(), Texture::Format::RGBA);
 
     createDescriptorSetLayout();
-    createGraphicsPipeline();
+    createGraphicsPipeline(PipelineIndex::eReverseBlending);
+    createGraphicsPipeline(PipelineIndex::eAddBlending);
+
     createFramebuffers();
-  
+
+    /*
     LoadBmp("C:\\data\\poggins.bmp", [&](void* pPixels, u32 width, u32 height)
     {
         mTextures.emplace_back(std::make_unique<Texture>(*this, width, height, pPixels, Texture::Format::RGBA));
@@ -202,11 +205,13 @@ void VulkanRenderer::initVulkan()
     {
         mTextures.emplace_back(std::make_unique<Texture>(*this, width, height, pPixels, Texture::Format::RGBA));
     });
+    */
 
     createTextureSampler();
     createUniformBuffers();
     createDescriptorPool();
     createDescriptorSets();
+    updateDescriptorSets();
     createCommandBuffers();
     createSyncObjects();
 }
@@ -222,8 +227,16 @@ void VulkanRenderer::cleanup()
 {
     cleanupSwapChain();
 
-    mGraphicsPipeline->clear();
-    mPipelineLayout->clear();
+    for (auto& pipeline : mGraphicsPipelines)
+    {
+        pipeline->clear();
+    }
+
+    for (auto& pipelineLayout : mPipelineLayouts)
+    {
+        pipelineLayout->clear();
+    }
+
     mRenderPass->clear();
 
     mUniformBuffers.clear();
@@ -234,7 +247,7 @@ void VulkanRenderer::cleanup()
     mTextureSampler->clear();
 
     mPaletteTexture.reset();
-    mTextures.clear();
+    mTexturesForThisFrame.clear();
 
     mDescriptorSetLayout->clear();
 
@@ -517,8 +530,9 @@ void VulkanRenderer::createRenderPass()
     mRenderPass = std::make_unique<vk::raii::RenderPass>(mDevice->createRenderPass(renderPassInfo));
 }
 
-void VulkanRenderer::createGraphicsPipeline()
+void VulkanRenderer::createGraphicsPipeline(VulkanRenderer::PipelineIndex idx)
 {
+    // TODO: probably don't need to create all the shaders and other bits more than once
     auto fragShaderCode = std::vector<char>(std::begin(fragment_shader), std::end(fragment_shader));
     auto vertShaderCode = std::vector<char>(std::begin(vertex_shader), std::end(vertex_shader));
 
@@ -569,18 +583,24 @@ void VulkanRenderer::createGraphicsPipeline()
     multisampling.rasterizationSamples = vk::SampleCountFlagBits::e1;
 
     vk::PipelineColorBlendAttachmentState colorBlendAttachment;
-    colorBlendAttachment.colorWriteMask = vk::ColorComponentFlagBits::eR | vk::ColorComponentFlagBits::eG | vk::ColorComponentFlagBits::eB | vk::ColorComponentFlagBits::eA;
-    colorBlendAttachment.blendEnable = VK_FALSE;
+    colorBlendAttachment.colorWriteMask = vk::ColorComponentFlagBits::eR | vk::ColorComponentFlagBits::eG | vk::ColorComponentFlagBits::eB /* | vk::ColorComponentFlagBits::eA*/;
+    colorBlendAttachment.blendEnable = VK_TRUE;
+    colorBlendAttachment.colorBlendOp = idx == PipelineIndex::eAddBlending ? vk::BlendOp::eAdd : vk::BlendOp::eReverseSubtract;
+    colorBlendAttachment.alphaBlendOp = vk::BlendOp::eAdd;
+    colorBlendAttachment.srcAlphaBlendFactor = idx == PipelineIndex::eAddBlending ? vk::BlendFactor::eOne : vk::BlendFactor::eSrcAlpha;
+    colorBlendAttachment.dstAlphaBlendFactor = idx == PipelineIndex::eAddBlending ? vk::BlendFactor::eSrcAlpha : vk::BlendFactor::eOne;
+    colorBlendAttachment.srcColorBlendFactor = vk::BlendFactor::eOne;
+    colorBlendAttachment.dstColorBlendFactor = vk::BlendFactor::eZero;
 
     vk::PipelineColorBlendStateCreateInfo colorBlending;
     colorBlending.logicOpEnable = VK_FALSE;
     colorBlending.logicOp = vk::LogicOp::eCopy;
     colorBlending.attachmentCount = 1;
     colorBlending.pAttachments = &colorBlendAttachment;
-    colorBlending.blendConstants[0] = 0.0f;
-    colorBlending.blendConstants[1] = 0.0f;
-    colorBlending.blendConstants[2] = 0.0f;
-    colorBlending.blendConstants[3] = 0.0f;
+    colorBlending.blendConstants[0] = 1.0f;
+    colorBlending.blendConstants[1] = 1.0f;
+    colorBlending.blendConstants[2] = 1.0f;
+    colorBlending.blendConstants[3] = 1.0f;
 
     const std::vector<vk::DynamicState> dynamicStates = {
         vk::DynamicState::eViewport,
@@ -594,7 +614,7 @@ void VulkanRenderer::createGraphicsPipeline()
     pipelineLayoutInfo.setLayoutCount = 1;
     pipelineLayoutInfo.pSetLayouts = &**mDescriptorSetLayout;
 
-    mPipelineLayout = std::make_unique<vk::raii::PipelineLayout>(mDevice->createPipelineLayout(pipelineLayoutInfo));
+    mPipelineLayouts.emplace_back(std::make_unique<vk::raii::PipelineLayout>(mDevice->createPipelineLayout(pipelineLayoutInfo)));
 
     vk::GraphicsPipelineCreateInfo pipelineInfo;
     pipelineInfo.stageCount = 2;
@@ -606,15 +626,15 @@ void VulkanRenderer::createGraphicsPipeline()
     pipelineInfo.pMultisampleState = &multisampling;
     pipelineInfo.pColorBlendState = &colorBlending;
     pipelineInfo.pDynamicState = &dynamicState;
-    pipelineInfo.layout = **mPipelineLayout;
+    pipelineInfo.layout = **mPipelineLayouts.back();
     pipelineInfo.renderPass = **mRenderPass;
     pipelineInfo.subpass = 0;
     pipelineInfo.basePipelineHandle = VK_NULL_HANDLE;
 
-    vk::Optional<const vk::raii::PipelineCache> cache(nullptr); // TODO: Check
+    vk::Optional<const vk::raii::PipelineCache> cache(nullptr);
     auto pipelines = mDevice->createGraphicsPipelines(cache, vk::ArrayProxy(pipelineInfo));
 
-    mGraphicsPipeline = std::make_unique<vk::raii::Pipeline>(std::move(pipelines[0]));
+    mGraphicsPipelines.emplace_back(std::make_unique<vk::raii::Pipeline>(std::move(pipelines[0])));
 }
 
 void VulkanRenderer::createFramebuffers()
@@ -651,18 +671,18 @@ void VulkanRenderer::createTextureSampler()
     vk::PhysicalDeviceProperties properties = mPhysicalDevice->getProperties();
 
     vk::SamplerCreateInfo samplerInfo;
-    samplerInfo.magFilter = vk::Filter::eLinear;
-    samplerInfo.minFilter = vk::Filter::eLinear;
+    samplerInfo.magFilter = vk::Filter::eNearest;
+    samplerInfo.minFilter = vk::Filter::eNearest;
     samplerInfo.addressModeU = vk::SamplerAddressMode::eRepeat;
     samplerInfo.addressModeV = vk::SamplerAddressMode::eRepeat;
     samplerInfo.addressModeW = vk::SamplerAddressMode::eRepeat;
-    samplerInfo.anisotropyEnable = VK_TRUE;
+    samplerInfo.anisotropyEnable = VK_FALSE;
     samplerInfo.maxAnisotropy = properties.limits.maxSamplerAnisotropy;
     samplerInfo.borderColor = vk::BorderColor::eIntOpaqueBlack;
     samplerInfo.unnormalizedCoordinates = VK_FALSE;
     samplerInfo.compareEnable = VK_FALSE;
     samplerInfo.compareOp = vk::CompareOp::eAlways;
-    samplerInfo.mipmapMode = vk::SamplerMipmapMode::eLinear;
+    samplerInfo.mipmapMode = vk::SamplerMipmapMode::eNearest;
 
     mTextureSampler = std::make_unique<vk::raii::Sampler>(mDevice->createSampler(samplerInfo));
 }
@@ -880,7 +900,7 @@ void VulkanRenderer::createDescriptorSetLayout()
 
     vk::DescriptorSetLayoutBinding texSpriteSheets;
     texSpriteSheets.binding = 8;
-    texSpriteSheets.descriptorCount = 8; // texture array size
+    texSpriteSheets.descriptorCount = 9; // texture array size
     texSpriteSheets.descriptorType = vk::DescriptorType::eCombinedImageSampler;
     texSpriteSheets.pImmutableSamplers = nullptr;
     texSpriteSheets.stageFlags = vk::ShaderStageFlagBits::eFragment;
@@ -907,7 +927,7 @@ void VulkanRenderer::createDescriptorPool()
     poolSizes[4].type = vk::DescriptorType::eCombinedImageSampler;
     poolSizes[4].descriptorCount = 4 * static_cast<uint32_t>(MAX_FRAMES_IN_FLIGHT);
     poolSizes[5].type = vk::DescriptorType::eCombinedImageSampler;
-    poolSizes[5].descriptorCount = 8 * static_cast<uint32_t>(MAX_FRAMES_IN_FLIGHT);
+    poolSizes[5].descriptorCount = 9 * static_cast<uint32_t>(MAX_FRAMES_IN_FLIGHT);
 
     vk::DescriptorPoolCreateInfo poolInfo{};
     poolInfo.poolSizeCount = static_cast<uint32_t>(poolSizes.size());
@@ -926,7 +946,10 @@ void VulkanRenderer::createDescriptorSets()
     allocInfo.pSetLayouts = layouts.data();
 
     mDescriptorSets = mDevice->allocateDescriptorSets(allocInfo);
+}
 
+void VulkanRenderer::updateDescriptorSets()
+{
     for (size_t i = 0; i < MAX_FRAMES_IN_FLIGHT; i++)
     {
         std::array<vk::WriteDescriptorSet, 6> descriptorWrites{};
@@ -980,13 +1003,13 @@ void VulkanRenderer::createDescriptorSets()
         descriptorWrites[3].descriptorType = vk::DescriptorType::eCombinedImageSampler;
         descriptorWrites[3].descriptorCount = 1;
         descriptorWrites[3].pImageInfo = &imageInfo4;
- 
+
         // FG1 textures
         vk::DescriptorImageInfo imageInfo3[4];
         for (u32 j = 0; j < 4; j++)
         {
             imageInfo3[j].imageLayout = vk::ImageLayout::eShaderReadOnlyOptimal;
-            imageInfo3[j].imageView = **mTextures[1]->View();
+            //imageInfo3[j].imageView = **mTextures[1]->View();
             imageInfo3[j].sampler = **mTextureSampler;
         }
 
@@ -998,11 +1021,14 @@ void VulkanRenderer::createDescriptorSets()
         descriptorWrites[4].pImageInfo = imageInfo3;
 
         // Sprite sheets
-        vk::DescriptorImageInfo imageInfo2[8];
-        for (u32 j = 0; j < 8; j++)
+        vk::DescriptorImageInfo imageInfo2[9];
+        for (u32 j = 0; j < 9; j++)
         {
             imageInfo2[j].imageLayout = vk::ImageLayout::eShaderReadOnlyOptimal;
-            imageInfo2[j].imageView = **mTextures[1]->View();
+            if (j < mTexturesForThisFrame.size())
+            {
+                imageInfo2[j].imageView = **mTexturesForThisFrame[j]->View();
+            }
             imageInfo2[j].sampler = **mTextureSampler;
         }
 
@@ -1010,7 +1036,7 @@ void VulkanRenderer::createDescriptorSets()
         descriptorWrites[5].dstBinding = 8;
         descriptorWrites[5].dstArrayElement = 0;
         descriptorWrites[5].descriptorType = vk::DescriptorType::eCombinedImageSampler;
-        descriptorWrites[5].descriptorCount = 8; // texture array size
+        descriptorWrites[5].descriptorCount = 9; // texture array size
         descriptorWrites[5].pImageInfo = imageInfo2;
 
         mDevice->updateDescriptorSets(descriptorWrites, {});
@@ -1125,32 +1151,35 @@ void VulkanRenderer::recordCommandBuffer(vk::raii::CommandBuffer& commandBuffer,
 
     commandBuffer.beginRenderPass(renderPassInfo, vk::SubpassContents::eInline);
 
-    commandBuffer.bindPipeline(vk::PipelineBindPoint::eGraphics, **mGraphicsPipeline);
-
-    vk::Viewport viewport;
-    viewport.x = 0.0f;
-    viewport.y = 0.0f;
-    viewport.width = (float) mSwapChainExtent.width;
-    viewport.height = (float) mSwapChainExtent.height;
-    viewport.minDepth = 0.0f;
-    viewport.maxDepth = 1.0f;
-    commandBuffer.setViewport(0, viewport);
-
-    vk::Rect2D scissor{0,0};
-    scissor.extent = mSwapChainExtent;
-    commandBuffer.setScissor(0, scissor);
-
-    if (!vertices.empty() && mVertexBuffer && mIndexBuffer)
+    for (auto& batch : mBatches)
     {
-        vk::Buffer vertexBuffers[] = {**mVertexBuffer};
-        vk::DeviceSize offsets[] = {0};
-        commandBuffer.bindVertexBuffers(0, vertexBuffers, offsets);
+        commandBuffer.bindPipeline(vk::PipelineBindPoint::eGraphics, **mGraphicsPipelines[batch.mPipeline]);
 
-        commandBuffer.bindIndexBuffer(**mIndexBuffer, 0, vk::IndexType::eUint16);
+        vk::Viewport viewport;
+        viewport.x = 0.0f;
+        viewport.y = 0.0f;
+        viewport.width = (float) mSwapChainExtent.width;
+        viewport.height = (float) mSwapChainExtent.height;
+        viewport.minDepth = 0.0f;
+        viewport.maxDepth = 1.0f;
+        commandBuffer.setViewport(0, viewport);
 
-        commandBuffer.bindDescriptorSets(vk::PipelineBindPoint::eGraphics, **mPipelineLayout, 0, *mDescriptorSets[mCurrentFrame], {});
+        vk::Rect2D scissor{0, 0};
+        scissor.extent = mSwapChainExtent;
+        commandBuffer.setScissor(0, scissor);
 
-        commandBuffer.drawIndexed(static_cast<uint32_t>(gIndices.size()), 1, 0, 0, 0);
+        if (!vertices.empty() && mVertexBuffer && mIndexBuffer)
+        {
+            vk::Buffer vertexBuffers[] = {**mVertexBuffer};
+            vk::DeviceSize offsets[] = {0};
+            commandBuffer.bindVertexBuffers(0, vertexBuffers, offsets);
+
+            commandBuffer.bindIndexBuffer(**mIndexBuffer, 0, vk::IndexType::eUint16);
+
+            commandBuffer.bindDescriptorSets(vk::PipelineBindPoint::eGraphics, **mPipelineLayouts[batch.mPipeline], 0, *mDescriptorSets[mCurrentFrame], {});
+
+            commandBuffer.drawIndexed(static_cast<uint32_t>(gIndices.size()) - batch.mIndexBufferStartIdx, 1, batch.mIndexBufferStartIdx, batch.mVertexBufferStartIdx, 0);
+        }
     }
 
     commandBuffer.endRenderPass();
@@ -1523,6 +1552,18 @@ void VulkanRenderer::EndFrame()
             this->createIndexBuffer();
         }
 
+        updateDescriptorSets();
+
+        // TODO: refactor
+        if (mBatches.empty())
+        {
+            RenderBatch batch;
+            batch.mIndexBufferStartIdx = 0;
+            batch.mTextureStartIdx = 0;
+            batch.mVertexBufferStartIdx = 0;
+            mBatches.push_back(batch);
+        }
+
         this->drawFrame();
         mFrameStarted = false;
 
@@ -1533,6 +1574,9 @@ void VulkanRenderer::EndFrame()
         this->mVertexBufferMemory.reset();
         this->mIndexBuffer.reset();
         this->mIndexBufferMemory.reset();
+        mTexturesForThisFrame.clear();
+        mTextureArrayIdx = 0;
+        mBatches.clear();
     }
 
     // Always decrease resource lifetimes regardless of drawing to prevent
@@ -1614,24 +1658,57 @@ void VulkanRenderer::Draw(Poly_FT4& poly)
     if (poly.mAnim)
     {
         AnimResource& animRes = poly.mAnim->mAnimRes;
-        //animRes.mTgaPtr->mPixels;
-
+     
         const u32 palIndex = PreparePalette(*animRes.mCurPal);
 
-        std::unique_ptr<Texture>* texture = mTextureCache.GetCachedTexture(animRes.mUniqueId.Id(), 800);
+        auto pTga = animRes.mTgaPtr;
+        std::shared_ptr<Texture> texture = mTextureCache.GetCachedTexture(animRes.mUniqueId.Id(), 1); // TODO: temp, kill texture ASAP
         if (!texture)
         {
-            auto newTex = std::make_unique<Texture>(*this, animRes.mTgaPtr->mWidth, animRes.mTgaPtr->mHeight, animRes.mTgaPtr->mPixels.data(), Texture::Format::Indexed);
+            auto newTex = std::make_unique<Texture>(*this, pTga->mWidth, pTga->mHeight, pTga->mPixels.data(), Texture::Format::Indexed);
 
             texture = mTextureCache.Add(animRes.mUniqueId.Id(), 300, std::move(newTex));
 
             //mStats.mCamUploadCount++;
         }
 
-        vertices.push_back({{static_cast<f32>(poly.mBase.vert.x), static_cast<f32>(poly.mBase.vert.y)}, {1.0f, 1.0f, 1.0f}, {0.0f, 0.0f}, 0, palIndex});
-        vertices.push_back({{static_cast<f32>(poly.mVerts[0].mVert.x), static_cast<f32>(poly.mVerts[0].mVert.y)}, {1.0f, 1.0f, 1.0f}, {1.0f, 0.0f}, 0, palIndex});
-        vertices.push_back({{static_cast<f32>(poly.mVerts[1].mVert.x), static_cast<f32>(poly.mVerts[1].mVert.y)}, {1.0f, 1.0f, 1.0f}, {0.0f, 1.0f}, 0, palIndex});
-        vertices.push_back({{static_cast<f32>(poly.mVerts[2].mVert.x), static_cast<f32>(poly.mVerts[2].mVert.y)}, {1.0f, 1.0f, 1.0f}, {1.0f, 1.0f}, 0, palIndex});
+        u32 textureIdx = mTextureArrayIdx++;
+        mTexturesForThisFrame.emplace_back(texture);
+
+        const bool bNewBatch = mTextureArrayIdx > 9;
+        if (bNewBatch)
+        {
+            RenderBatch batch = {};
+            batch.mVertexBufferStartIdx = static_cast<u32>(vertices.size());
+            batch.mTextureStartIdx = textureIdx;
+            batch.mIndexBufferStartIdx = static_cast<u32>(gIndices.size());
+            mBatches.emplace_back(batch);
+            mTextureArrayIdx = 0;
+        }
+
+        const PerFrameInfo* pHeader = poly.mAnim->Get_FrameHeader(-1);
+
+        float u0 = (static_cast<float>(pHeader->mSpriteSheetX) / pTga->mWidth);
+        float v0 = (static_cast<float>(pHeader->mSpriteSheetY) / pTga->mHeight);
+
+        float u1 = u0 + ((float) pHeader->mWidth / (float) pTga->mWidth);
+        float v1 = v0 + ((float) pHeader->mHeight / (float) pTga->mHeight);
+
+        if (poly.mFlipX)
+        {
+            std::swap(u0, u1);
+        }
+
+        if (poly.mFlipY)
+        {
+            std::swap(v1, v0);
+        }
+
+
+        vertices.push_back({{static_cast<f32>(poly.mBase.vert.x), static_cast<f32>(poly.mBase.vert.y)}, {1.0f, 1.0f, 1.0f}, {u0, v0}, textureIdx, palIndex});
+        vertices.push_back({{static_cast<f32>(poly.mVerts[0].mVert.x), static_cast<f32>(poly.mVerts[0].mVert.y)}, {1.0f, 1.0f, 1.0f}, {u1, v0}, textureIdx, palIndex});
+        vertices.push_back({{static_cast<f32>(poly.mVerts[1].mVert.x), static_cast<f32>(poly.mVerts[1].mVert.y)}, {1.0f, 1.0f, 1.0f}, {u0, v1}, textureIdx, palIndex});
+        vertices.push_back({{static_cast<f32>(poly.mVerts[2].mVert.x), static_cast<f32>(poly.mVerts[2].mVert.y)}, {1.0f, 1.0f, 1.0f}, {u1, v1}, textureIdx, palIndex});
 
         gIndices.emplace_back((u16) (mIndexBufferIndex + 1));
         gIndices.emplace_back((u16) (mIndexBufferIndex + 0));
