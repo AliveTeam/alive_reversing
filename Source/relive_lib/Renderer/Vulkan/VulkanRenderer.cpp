@@ -912,134 +912,145 @@ void VulkanRenderer::createDescriptorSetLayout()
 
     mDescriptorSetLayout = std::make_unique<vk::raii::DescriptorSetLayout>(mDevice->createDescriptorSetLayout(layoutInfo));
 }
+constexpr u32 kMaxBatches = 2000;
 
 void VulkanRenderer::createDescriptorPool()
 {
     std::array<vk::DescriptorPoolSize, 6> poolSizes{};
     poolSizes[0].type = vk::DescriptorType::eUniformBuffer;
-    poolSizes[0].descriptorCount = static_cast<uint32_t>(MAX_FRAMES_IN_FLIGHT);
+    poolSizes[0].descriptorCount = static_cast<uint32_t>(MAX_FRAMES_IN_FLIGHT) * kMaxBatches;
     poolSizes[1].type = vk::DescriptorType::eCombinedImageSampler;
-    poolSizes[1].descriptorCount = static_cast<uint32_t>(MAX_FRAMES_IN_FLIGHT);
+    poolSizes[1].descriptorCount = static_cast<uint32_t>(MAX_FRAMES_IN_FLIGHT) * kMaxBatches;
     poolSizes[2].type = vk::DescriptorType::eCombinedImageSampler;
-    poolSizes[2].descriptorCount = static_cast<uint32_t>(MAX_FRAMES_IN_FLIGHT);
+    poolSizes[2].descriptorCount = static_cast<uint32_t>(MAX_FRAMES_IN_FLIGHT) * kMaxBatches;
     poolSizes[3].type = vk::DescriptorType::eCombinedImageSampler;
-    poolSizes[3].descriptorCount = static_cast<uint32_t>(MAX_FRAMES_IN_FLIGHT);
+    poolSizes[3].descriptorCount = static_cast<uint32_t>(MAX_FRAMES_IN_FLIGHT) * kMaxBatches;
     poolSizes[4].type = vk::DescriptorType::eCombinedImageSampler;
-    poolSizes[4].descriptorCount = 4 * static_cast<uint32_t>(MAX_FRAMES_IN_FLIGHT);
+    poolSizes[4].descriptorCount = 4 * static_cast<uint32_t>(MAX_FRAMES_IN_FLIGHT) * kMaxBatches;
     poolSizes[5].type = vk::DescriptorType::eCombinedImageSampler;
-    poolSizes[5].descriptorCount = 9 * static_cast<uint32_t>(MAX_FRAMES_IN_FLIGHT);
+    poolSizes[5].descriptorCount = 9 * static_cast<uint32_t>(MAX_FRAMES_IN_FLIGHT) * kMaxBatches;
 
     vk::DescriptorPoolCreateInfo poolInfo{};
     poolInfo.poolSizeCount = static_cast<uint32_t>(poolSizes.size());
     poolInfo.pPoolSizes = poolSizes.data();
-    poolInfo.maxSets = static_cast<uint32_t>(MAX_FRAMES_IN_FLIGHT);
+    poolInfo.maxSets = static_cast<uint32_t>(MAX_FRAMES_IN_FLIGHT) * kMaxBatches;
 
     mDescriptorPool = std::make_unique<vk::raii::DescriptorPool>(mDevice->createDescriptorPool(poolInfo));
 }
 
 void VulkanRenderer::createDescriptorSets()
 {
-    std::vector<vk::DescriptorSetLayout> layouts(MAX_FRAMES_IN_FLIGHT, **mDescriptorSetLayout);
+    std::vector<vk::DescriptorSetLayout> layouts(MAX_FRAMES_IN_FLIGHT * kMaxBatches, **mDescriptorSetLayout);
     vk::DescriptorSetAllocateInfo allocInfo;
     allocInfo.descriptorPool = **mDescriptorPool;
-    allocInfo.descriptorSetCount = static_cast<uint32_t>(MAX_FRAMES_IN_FLIGHT);
+    allocInfo.descriptorSetCount = static_cast<uint32_t>(MAX_FRAMES_IN_FLIGHT) * kMaxBatches;
     allocInfo.pSetLayouts = layouts.data();
 
     mDescriptorSets = mDevice->allocateDescriptorSets(allocInfo);
 }
 
+static u32 To1dIdx(u32 row, u32 col)
+{
+    return row * 2 + col;
+}
+
 void VulkanRenderer::updateDescriptorSets()
 {
+    const u32 batchCount = static_cast<u32>(std::max(1u, mBatches.size()));
+
     for (size_t i = 0; i < MAX_FRAMES_IN_FLIGHT; i++)
     {
-        std::array<vk::WriteDescriptorSet, 6> descriptorWrites{};
-
-        vk::DescriptorBufferInfo bufferInfo;
-        bufferInfo.buffer = **mUniformBuffers[i];
-        bufferInfo.offset = 0;
-        bufferInfo.range = sizeof(UniformBufferObject);
-
-        descriptorWrites[0].dstSet = *mDescriptorSets[i];
-        descriptorWrites[0].dstBinding = 0;
-        descriptorWrites[0].dstArrayElement = 0;
-        descriptorWrites[0].descriptorType = vk::DescriptorType::eUniformBuffer;
-        descriptorWrites[0].descriptorCount = 1;
-        descriptorWrites[0].pBufferInfo = &bufferInfo;
-
-        vk::DescriptorImageInfo imageInfo{};
-        imageInfo.imageLayout = vk::ImageLayout::eShaderReadOnlyOptimal;
-        imageInfo.imageView = **mPaletteTexture->View();
-        imageInfo.sampler = **mTextureSampler;
-
-        descriptorWrites[1].dstSet = *mDescriptorSets[i];
-        descriptorWrites[1].dstBinding = 1;
-        descriptorWrites[1].dstArrayElement = 0;
-        descriptorWrites[1].descriptorType = vk::DescriptorType::eCombinedImageSampler;
-        descriptorWrites[1].descriptorCount = 1;
-        descriptorWrites[1].pImageInfo = &imageInfo;
-
-        // Gas texture
-        vk::DescriptorImageInfo imageInfo5{};
-        imageInfo5.imageLayout = vk::ImageLayout::eShaderReadOnlyOptimal;
-        imageInfo5.imageView = **mPaletteTexture->View();
-        imageInfo5.sampler = **mTextureSampler;
-
-        descriptorWrites[2].dstSet = *mDescriptorSets[i];
-        descriptorWrites[2].dstBinding = 2;
-        descriptorWrites[2].dstArrayElement = 0;
-        descriptorWrites[2].descriptorType = vk::DescriptorType::eCombinedImageSampler;
-        descriptorWrites[2].descriptorCount = 1;
-        descriptorWrites[2].pImageInfo = &imageInfo5;
-
-        // Camera texture
-        vk::DescriptorImageInfo imageInfo4{};
-        imageInfo4.imageLayout = vk::ImageLayout::eShaderReadOnlyOptimal;
-        imageInfo4.imageView = **mPaletteTexture->View();
-        imageInfo4.sampler = **mTextureSampler;
-
-        descriptorWrites[3].dstSet = *mDescriptorSets[i];
-        descriptorWrites[3].dstBinding = 3;
-        descriptorWrites[3].dstArrayElement = 0;
-        descriptorWrites[3].descriptorType = vk::DescriptorType::eCombinedImageSampler;
-        descriptorWrites[3].descriptorCount = 1;
-        descriptorWrites[3].pImageInfo = &imageInfo4;
-
-        // FG1 textures
-        vk::DescriptorImageInfo imageInfo3[4];
-        for (u32 j = 0; j < 4; j++)
+        for (size_t j = 0; j < batchCount; j++)
         {
-            imageInfo3[j].imageLayout = vk::ImageLayout::eShaderReadOnlyOptimal;
-            //imageInfo3[j].imageView = **mTextures[1]->View();
-            imageInfo3[j].sampler = **mTextureSampler;
-        }
+            std::array<vk::WriteDescriptorSet, 6> descriptorWrites{};
 
-        descriptorWrites[4].dstSet = *mDescriptorSets[i];
-        descriptorWrites[4].dstBinding = 4;
-        descriptorWrites[4].dstArrayElement = 0;
-        descriptorWrites[4].descriptorType = vk::DescriptorType::eCombinedImageSampler;
-        descriptorWrites[4].descriptorCount = 4; // texture array size
-        descriptorWrites[4].pImageInfo = imageInfo3;
+            vk::DescriptorBufferInfo bufferInfo;
+            bufferInfo.buffer = **mUniformBuffers[i % 2];
+            bufferInfo.offset = 0;
+            bufferInfo.range = sizeof(UniformBufferObject);
 
-        // Sprite sheets
-        vk::DescriptorImageInfo imageInfo2[9];
-        for (u32 j = 0; j < 9; j++)
-        {
-            imageInfo2[j].imageLayout = vk::ImageLayout::eShaderReadOnlyOptimal;
-            if (j < mTexturesForThisFrame.size())
+            descriptorWrites[0].dstSet = *mDescriptorSets[To1dIdx(i, j)];
+            descriptorWrites[0].dstBinding = 0;
+            descriptorWrites[0].dstArrayElement = 0;
+            descriptorWrites[0].descriptorType = vk::DescriptorType::eUniformBuffer;
+            descriptorWrites[0].descriptorCount = 1;
+            descriptorWrites[0].pBufferInfo = &bufferInfo;
+
+            vk::DescriptorImageInfo imageInfo{};
+            imageInfo.imageLayout = vk::ImageLayout::eShaderReadOnlyOptimal;
+            imageInfo.imageView = **mPaletteTexture->View();
+            imageInfo.sampler = **mTextureSampler;
+
+            descriptorWrites[1].dstSet = *mDescriptorSets[To1dIdx(i, j)];
+            descriptorWrites[1].dstBinding = 1;
+            descriptorWrites[1].dstArrayElement = 0;
+            descriptorWrites[1].descriptorType = vk::DescriptorType::eCombinedImageSampler;
+            descriptorWrites[1].descriptorCount = 1;
+            descriptorWrites[1].pImageInfo = &imageInfo;
+
+            // Gas texture
+            vk::DescriptorImageInfo imageInfo5{};
+            imageInfo5.imageLayout = vk::ImageLayout::eShaderReadOnlyOptimal;
+            imageInfo5.imageView = **mPaletteTexture->View();
+            imageInfo5.sampler = **mTextureSampler;
+
+            descriptorWrites[2].dstSet = *mDescriptorSets[To1dIdx(i, j)];
+            descriptorWrites[2].dstBinding = 2;
+            descriptorWrites[2].dstArrayElement = 0;
+            descriptorWrites[2].descriptorType = vk::DescriptorType::eCombinedImageSampler;
+            descriptorWrites[2].descriptorCount = 1;
+            descriptorWrites[2].pImageInfo = &imageInfo5;
+
+            // Camera texture
+            vk::DescriptorImageInfo imageInfo4{};
+            imageInfo4.imageLayout = vk::ImageLayout::eShaderReadOnlyOptimal;
+            imageInfo4.imageView = **mPaletteTexture->View();
+            imageInfo4.sampler = **mTextureSampler;
+
+            descriptorWrites[3].dstSet = *mDescriptorSets[To1dIdx(i, j)];
+            descriptorWrites[3].dstBinding = 3;
+            descriptorWrites[3].dstArrayElement = 0;
+            descriptorWrites[3].descriptorType = vk::DescriptorType::eCombinedImageSampler;
+            descriptorWrites[3].descriptorCount = 1;
+            descriptorWrites[3].pImageInfo = &imageInfo4;
+
+            // FG1 textures
+            vk::DescriptorImageInfo imageInfo3[4];
+            for (u32 k = 0; k < 4; k++)
             {
-                imageInfo2[j].imageView = **mTexturesForThisFrame[j]->View();
+                imageInfo3[k].imageLayout = vk::ImageLayout::eShaderReadOnlyOptimal;
+                // imageInfo3[j].imageView = **mTextures[1]->View();
+                imageInfo3[k].sampler = **mTextureSampler;
             }
-            imageInfo2[j].sampler = **mTextureSampler;
+
+            descriptorWrites[4].dstSet = *mDescriptorSets[To1dIdx(i, j)];
+            descriptorWrites[4].dstBinding = 4;
+            descriptorWrites[4].dstArrayElement = 0;
+            descriptorWrites[4].descriptorType = vk::DescriptorType::eCombinedImageSampler;
+            descriptorWrites[4].descriptorCount = 4; // texture array size
+            descriptorWrites[4].pImageInfo = imageInfo3;
+
+            // Sprite sheets
+            vk::DescriptorImageInfo imageInfo2[9];
+            for (u32 k = 0; k < 9; k++)
+            {
+                imageInfo2[k].imageLayout = vk::ImageLayout::eShaderReadOnlyOptimal;
+                if (j < mBatches.size() && mBatches[j].mTextureStartIdx + k < mTexturesForThisFrame.size())
+                {
+                    imageInfo2[k].imageView = **mTexturesForThisFrame[mBatches[j].mTextureStartIdx + k]->View();
+                }
+                imageInfo2[k].sampler = **mTextureSampler;
+            }
+
+            descriptorWrites[5].dstSet = *mDescriptorSets[To1dIdx(i, j)];
+            descriptorWrites[5].dstBinding = 8;
+            descriptorWrites[5].dstArrayElement = 0;
+            descriptorWrites[5].descriptorType = vk::DescriptorType::eCombinedImageSampler;
+            descriptorWrites[5].descriptorCount = 9; // texture array size
+            descriptorWrites[5].pImageInfo = imageInfo2;
+
+            mDevice->updateDescriptorSets(descriptorWrites, {});
         }
-
-        descriptorWrites[5].dstSet = *mDescriptorSets[i];
-        descriptorWrites[5].dstBinding = 8;
-        descriptorWrites[5].dstArrayElement = 0;
-        descriptorWrites[5].descriptorType = vk::DescriptorType::eCombinedImageSampler;
-        descriptorWrites[5].descriptorCount = 9; // texture array size
-        descriptorWrites[5].pImageInfo = imageInfo2;
-
-        mDevice->updateDescriptorSets(descriptorWrites, {});
     }
 }
 
@@ -1136,6 +1147,8 @@ void VulkanRenderer::createCommandBuffers()
 
 void VulkanRenderer::recordCommandBuffer(vk::raii::CommandBuffer& commandBuffer, uint32_t imageIndex)
 {
+    updateDescriptorSets();
+
     vk::CommandBufferBeginInfo beginInfo;
     commandBuffer.begin(beginInfo);
 
@@ -1151,22 +1164,23 @@ void VulkanRenderer::recordCommandBuffer(vk::raii::CommandBuffer& commandBuffer,
 
     commandBuffer.beginRenderPass(renderPassInfo, vk::SubpassContents::eInline);
 
+    vk::Viewport viewport;
+    viewport.x = 0.0f;
+    viewport.y = 0.0f;
+    viewport.width = (float) mSwapChainExtent.width;
+    viewport.height = (float) mSwapChainExtent.height;
+    viewport.minDepth = 0.0f;
+    viewport.maxDepth = 1.0f;
+    commandBuffer.setViewport(0, viewport);
+
+    vk::Rect2D scissor{0, 0};
+    scissor.extent = mSwapChainExtent;
+    commandBuffer.setScissor(0, scissor);
+
+    u32 batchIdx = 0;
     for (auto& batch : mBatches)
     {
         commandBuffer.bindPipeline(vk::PipelineBindPoint::eGraphics, **mGraphicsPipelines[batch.mPipeline]);
-
-        vk::Viewport viewport;
-        viewport.x = 0.0f;
-        viewport.y = 0.0f;
-        viewport.width = (float) mSwapChainExtent.width;
-        viewport.height = (float) mSwapChainExtent.height;
-        viewport.minDepth = 0.0f;
-        viewport.maxDepth = 1.0f;
-        commandBuffer.setViewport(0, viewport);
-
-        vk::Rect2D scissor{0, 0};
-        scissor.extent = mSwapChainExtent;
-        commandBuffer.setScissor(0, scissor);
 
         if (!vertices.empty() && mVertexBuffer && mIndexBuffer)
         {
@@ -1176,7 +1190,7 @@ void VulkanRenderer::recordCommandBuffer(vk::raii::CommandBuffer& commandBuffer,
 
             commandBuffer.bindIndexBuffer(**mIndexBuffer, 0, vk::IndexType::eUint16);
 
-            commandBuffer.bindDescriptorSets(vk::PipelineBindPoint::eGraphics, **mPipelineLayouts[batch.mPipeline], 0, *mDescriptorSets[mCurrentFrame], {});
+            commandBuffer.bindDescriptorSets(vk::PipelineBindPoint::eGraphics, **mPipelineLayouts[batch.mPipeline], 0, *mDescriptorSets[To1dIdx(mCurrentFrame, batchIdx)], {});
 
             commandBuffer.drawIndexed(
                 static_cast<uint32_t>(gIndices.size()) - batch.mIndexBufferStartIdx,
@@ -1185,6 +1199,7 @@ void VulkanRenderer::recordCommandBuffer(vk::raii::CommandBuffer& commandBuffer,
                 0,
                 0);
         }
+        batchIdx++;
     }
 
     commandBuffer.endRenderPass();
@@ -1557,8 +1572,6 @@ void VulkanRenderer::EndFrame()
             this->createIndexBuffer();
         }
 
-        updateDescriptorSets();
-
         // TODO: refactor
         if (mBatches.empty())
         {
@@ -1680,7 +1693,7 @@ void VulkanRenderer::Draw(Poly_FT4& poly)
         u32 textureIdx = mTextureArrayIdx++;
         mTexturesForThisFrame.emplace_back(texture);
 
-        const bool bNewBatch = mTextureArrayIdx > 9;
+        const bool bNewBatch = mTextureArrayIdx > 8;
         if (bNewBatch)
         {
             if (mBatches.empty())
