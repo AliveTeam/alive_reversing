@@ -218,10 +218,10 @@ private:
     struct RenderBatch final
     {
         PipelineIndex mPipeline = PipelineIndex::eAddBlending;
-        u32 mVertexBufferStartIdx = 0;
-        u32 mIndexBufferStartIdx = 0;
-        u32 mTextureStartIdx = 0;
+        u32 mNumTrisToDraw = 0;
+        u32 mTexturesInBatch = 0;
     };
+    RenderBatch mConstructingBatch;
     std::vector<RenderBatch> mBatches;
 
     // Apparently 1 sampler can do all the textures in the shader

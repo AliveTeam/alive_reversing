@@ -960,6 +960,7 @@ void VulkanRenderer::updateDescriptorSets()
 
     for (size_t i = 0; i < MAX_FRAMES_IN_FLIGHT; i++)
     {
+        u32 textureIdxOff = 0;
         for (size_t j = 0; j < batchCount; j++)
         {
             std::array<vk::WriteDescriptorSet, 6> descriptorWrites{};
@@ -1035,9 +1036,12 @@ void VulkanRenderer::updateDescriptorSets()
             for (u32 k = 0; k < 9; k++)
             {
                 imageInfo2[k].imageLayout = vk::ImageLayout::eShaderReadOnlyOptimal;
-                if (j < mBatches.size() && mBatches[j].mTextureStartIdx + k < mTexturesForThisFrame.size())
+                if (!mBatches.empty() && k < mBatches[j].mTexturesInBatch)
                 {
-                    imageInfo2[k].imageView = **mTexturesForThisFrame[mBatches[j].mTextureStartIdx + k]->View();
+                    if (textureIdxOff + k < mTexturesForThisFrame.size())
+                    {
+                        imageInfo2[k].imageView = **mTexturesForThisFrame[textureIdxOff + k]->View();
+                    }
                 }
                 imageInfo2[k].sampler = **mTextureSampler;
             }
@@ -1050,6 +1054,11 @@ void VulkanRenderer::updateDescriptorSets()
             descriptorWrites[5].pImageInfo = imageInfo2;
 
             mDevice->updateDescriptorSets(descriptorWrites, {});
+
+            if (j < mBatches.size())
+            {
+                textureIdxOff += static_cast<u32>(mBatches[j].mTexturesInBatch);
+            }
         }
     }
 }
@@ -1178,6 +1187,7 @@ void VulkanRenderer::recordCommandBuffer(vk::raii::CommandBuffer& commandBuffer,
     commandBuffer.setScissor(0, scissor);
 
     u32 batchIdx = 0;
+    u32 idxOffset = 0;
     for (auto& batch : mBatches)
     {
         commandBuffer.bindPipeline(vk::PipelineBindPoint::eGraphics, **mGraphicsPipelines[batch.mPipeline]);
@@ -1193,11 +1203,12 @@ void VulkanRenderer::recordCommandBuffer(vk::raii::CommandBuffer& commandBuffer,
             commandBuffer.bindDescriptorSets(vk::PipelineBindPoint::eGraphics, **mPipelineLayouts[batch.mPipeline], 0, *mDescriptorSets[To1dIdx(mCurrentFrame, batchIdx)], {});
 
             commandBuffer.drawIndexed(
-                static_cast<uint32_t>(gIndices.size()) - batch.mIndexBufferStartIdx,
+                (batch.mNumTrisToDraw) * 3,
                 1,
-                batch.mIndexBufferStartIdx,
+                idxOffset,
                 0,
                 0);
+            idxOffset += (batch.mNumTrisToDraw) * 3;
         }
         batchIdx++;
     }
@@ -1570,18 +1581,11 @@ void VulkanRenderer::EndFrame()
         {
             this->createVertexBuffer();
             this->createIndexBuffer();
-        }
 
-        // TODO: refactor
-        if (mBatches.empty())
-        {
-            RenderBatch batch;
-            batch.mIndexBufferStartIdx = 0;
-            batch.mTextureStartIdx = 0;
-            batch.mVertexBufferStartIdx = 0;
-            mBatches.push_back(batch);
+            // Add the in flight batch
+            mBatches.push_back(mConstructingBatch); // TODO: Don't add if its the same as the last batch
         }
-
+ 
         this->drawFrame();
         mFrameStarted = false;
 
@@ -1594,6 +1598,7 @@ void VulkanRenderer::EndFrame()
         this->mIndexBufferMemory.reset();
         mTexturesForThisFrame.clear();
         mTextureArrayIdx = 0;
+        mConstructingBatch = {};
         mBatches.clear();
     }
 
@@ -1690,29 +1695,6 @@ void VulkanRenderer::Draw(Poly_FT4& poly)
             //mStats.mCamUploadCount++;
         }
 
-        u32 textureIdx = mTextureArrayIdx++;
-        mTexturesForThisFrame.emplace_back(texture);
-
-        const bool bNewBatch = mTextureArrayIdx > 8;
-        if (bNewBatch)
-        {
-            if (mBatches.empty())
-            {
-                RenderBatch batch;
-                batch.mIndexBufferStartIdx = 0;
-                batch.mTextureStartIdx = 0;
-                batch.mVertexBufferStartIdx = 0;
-                mBatches.push_back(batch);
-            }
-
-            RenderBatch batch = {};
-            batch.mVertexBufferStartIdx = static_cast<u32>(vertices.size());
-            batch.mTextureStartIdx = textureIdx;
-            batch.mIndexBufferStartIdx = static_cast<u32>(gIndices.size());
-            mBatches.emplace_back(batch);
-            mTextureArrayIdx = 0;
-        }
-
         const PerFrameInfo* pHeader = poly.mAnim->Get_FrameHeader(-1);
 
         float u0 = (static_cast<float>(pHeader->mSpriteSheetX) / pTga->mWidth);
@@ -1731,12 +1713,12 @@ void VulkanRenderer::Draw(Poly_FT4& poly)
             std::swap(v1, v0);
         }
 
-
-        vertices.push_back({{static_cast<f32>(poly.mBase.vert.x), static_cast<f32>(poly.mBase.vert.y)}, {1.0f, 1.0f, 1.0f}, {u0, v0}, textureIdx, palIndex});
-        vertices.push_back({{static_cast<f32>(poly.mVerts[0].mVert.x), static_cast<f32>(poly.mVerts[0].mVert.y)}, {1.0f, 1.0f, 1.0f}, {u1, v0}, textureIdx, palIndex});
-        vertices.push_back({{static_cast<f32>(poly.mVerts[1].mVert.x), static_cast<f32>(poly.mVerts[1].mVert.y)}, {1.0f, 1.0f, 1.0f}, {u0, v1}, textureIdx, palIndex});
-        vertices.push_back({{static_cast<f32>(poly.mVerts[2].mVert.x), static_cast<f32>(poly.mVerts[2].mVert.y)}, {1.0f, 1.0f, 1.0f}, {u1, v1}, textureIdx, palIndex});
-
+       
+        vertices.push_back({{static_cast<f32>(poly.mBase.vert.x), static_cast<f32>(poly.mBase.vert.y)}, {1.0f, 1.0f, 1.0f}, {u0, v0}, mTextureArrayIdx, palIndex});
+        vertices.push_back({{static_cast<f32>(poly.mVerts[0].mVert.x), static_cast<f32>(poly.mVerts[0].mVert.y)}, {1.0f, 1.0f, 1.0f}, {u1, v0}, mTextureArrayIdx, palIndex});
+        vertices.push_back({{static_cast<f32>(poly.mVerts[1].mVert.x), static_cast<f32>(poly.mVerts[1].mVert.y)}, {1.0f, 1.0f, 1.0f}, {u0, v1}, mTextureArrayIdx, palIndex});
+        vertices.push_back({{static_cast<f32>(poly.mVerts[2].mVert.x), static_cast<f32>(poly.mVerts[2].mVert.y)}, {1.0f, 1.0f, 1.0f}, {u1, v1}, mTextureArrayIdx, palIndex});
+    
         gIndices.emplace_back((u16) (mIndexBufferIndex + 1));
         gIndices.emplace_back((u16) (mIndexBufferIndex + 0));
         gIndices.emplace_back((u16) (mIndexBufferIndex + 3));
@@ -1746,6 +1728,23 @@ void VulkanRenderer::Draw(Poly_FT4& poly)
         gIndices.emplace_back((u16) (mIndexBufferIndex + 2));
 
         mIndexBufferIndex += 4;
+
+        mTexturesForThisFrame.emplace_back(texture);
+
+       
+        const bool bNewBatch = mTextureArrayIdx >= 8;
+        if (bNewBatch)
+        {
+            mBatches.push_back(mConstructingBatch);
+            mConstructingBatch = {};
+            mTextureArrayIdx = 0;
+        }
+
+
+        mTextureArrayIdx++;
+        mConstructingBatch.mNumTrisToDraw += 2;
+        mConstructingBatch.mTexturesInBatch = mTextureArrayIdx;
+
     }
 }
 
