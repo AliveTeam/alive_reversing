@@ -30,7 +30,7 @@
 #include "fragment_shader.h"
 #include "vertex_shader.h"
 
-static constexpr int MAX_FRAMES_IN_FLIGHT = 2;
+static constexpr int MAX_FRAMES_IN_FLIGHT = 1; // TODO: FIX ME, >= 2 seems to result in the wrong descriptors being bound
 
 
 const std::vector<const char*> kValidationLayers = {
@@ -245,6 +245,8 @@ void VulkanRenderer::cleanup()
     mDescriptorPool->clear();
 
     mTextureSampler->clear();
+
+    mTextureCache.Clear();
 
     mPaletteTexture.reset();
     mTexturesForThisFrame.clear();
@@ -673,9 +675,9 @@ void VulkanRenderer::createTextureSampler()
     vk::SamplerCreateInfo samplerInfo;
     samplerInfo.magFilter = vk::Filter::eNearest;
     samplerInfo.minFilter = vk::Filter::eNearest;
-    samplerInfo.addressModeU = vk::SamplerAddressMode::eRepeat;
-    samplerInfo.addressModeV = vk::SamplerAddressMode::eRepeat;
-    samplerInfo.addressModeW = vk::SamplerAddressMode::eRepeat;
+    samplerInfo.addressModeU = vk::SamplerAddressMode::eClampToEdge;
+    samplerInfo.addressModeV = vk::SamplerAddressMode::eClampToEdge;
+    samplerInfo.addressModeW = vk::SamplerAddressMode::eClampToEdge;
     samplerInfo.anisotropyEnable = VK_FALSE;
     samplerInfo.maxAnisotropy = properties.limits.maxSamplerAnisotropy;
     samplerInfo.borderColor = vk::BorderColor::eIntOpaqueBlack;
@@ -768,12 +770,19 @@ void VulkanRenderer::transitionImageLayout(vk::Image image, vk::ImageLayout oldL
         sourceStage = vk::PipelineStageFlagBits::eTransfer;
         destinationStage = vk::PipelineStageFlagBits::eFragmentShader;
     }
+    else if (newLayout == vk::ImageLayout::eGeneral)
+    {
+        // TODO: Check if this is correct
+        barrier.srcAccessMask = vk::AccessFlagBits::eNoneKHR;
+        barrier.dstAccessMask = vk::AccessFlagBits::eTransferWrite;
+
+        sourceStage = vk::PipelineStageFlagBits::eTopOfPipe;
+        destinationStage = vk::PipelineStageFlagBits::eTransfer;
+    }
     else
     {
         throw std::invalid_argument("unsupported layout transition!");
     }
-
-    //vkCmdPipelineBarrier(commandBuffer, sourceStage, destinationStage, 0, 0, nullptr, 0, nullptr, 1, &barrier);
 
     commandBuffer.pipelineBarrier(sourceStage, destinationStage,
                                   vk::DependencyFlags{},
@@ -912,7 +921,7 @@ void VulkanRenderer::createDescriptorSetLayout()
 
     mDescriptorSetLayout = std::make_unique<vk::raii::DescriptorSetLayout>(mDevice->createDescriptorSetLayout(layoutInfo));
 }
-constexpr u32 kMaxBatches = 2000;
+constexpr u32 kMaxBatches = 200;
 
 void VulkanRenderer::createDescriptorPool()
 {
@@ -951,22 +960,22 @@ void VulkanRenderer::createDescriptorSets()
 
 static u32 To1dIdx(u32 row, u32 col)
 {
-    return row * 2 + col;
+    return (row * MAX_FRAMES_IN_FLIGHT) + col;
 }
 
 void VulkanRenderer::updateDescriptorSets()
 {
-    const u32 batchCount = static_cast<u32>(std::max(1u, mBatches.size()));
+    const u32 batchCount = static_cast<u32>(std::max(1u, static_cast<u32>(mBatches.size())));
 
-    for (size_t i = 0; i < MAX_FRAMES_IN_FLIGHT; i++)
+    for (u32 i = 0; i < MAX_FRAMES_IN_FLIGHT; i++)
     {
         u32 textureIdxOff = 0;
-        for (size_t j = 0; j < batchCount; j++)
+        for (u32 j = 0; j < batchCount; j++)
         {
             std::array<vk::WriteDescriptorSet, 6> descriptorWrites{};
 
             vk::DescriptorBufferInfo bufferInfo;
-            bufferInfo.buffer = **mUniformBuffers[i % 2];
+            bufferInfo.buffer = **mUniformBuffers[i];
             bufferInfo.offset = 0;
             bufferInfo.range = sizeof(UniformBufferObject);
 
@@ -978,7 +987,7 @@ void VulkanRenderer::updateDescriptorSets()
             descriptorWrites[0].pBufferInfo = &bufferInfo;
 
             vk::DescriptorImageInfo imageInfo{};
-            imageInfo.imageLayout = vk::ImageLayout::eShaderReadOnlyOptimal;
+            imageInfo.imageLayout = vk::ImageLayout::eGeneral;
             imageInfo.imageView = **mPaletteTexture->View();
             imageInfo.sampler = **mTextureSampler;
 
@@ -991,7 +1000,7 @@ void VulkanRenderer::updateDescriptorSets()
 
             // Gas texture
             vk::DescriptorImageInfo imageInfo5{};
-            imageInfo5.imageLayout = vk::ImageLayout::eShaderReadOnlyOptimal;
+            imageInfo5.imageLayout = vk::ImageLayout::eGeneral;
             imageInfo5.imageView = **mPaletteTexture->View();
             imageInfo5.sampler = **mTextureSampler;
 
@@ -1004,7 +1013,7 @@ void VulkanRenderer::updateDescriptorSets()
 
             // Camera texture
             vk::DescriptorImageInfo imageInfo4{};
-            imageInfo4.imageLayout = vk::ImageLayout::eShaderReadOnlyOptimal;
+            imageInfo4.imageLayout = vk::ImageLayout::eGeneral;
             imageInfo4.imageView = **mPaletteTexture->View();
             imageInfo4.sampler = **mTextureSampler;
 
@@ -1019,8 +1028,8 @@ void VulkanRenderer::updateDescriptorSets()
             vk::DescriptorImageInfo imageInfo3[4];
             for (u32 k = 0; k < 4; k++)
             {
-                imageInfo3[k].imageLayout = vk::ImageLayout::eShaderReadOnlyOptimal;
-                // imageInfo3[j].imageView = **mTextures[1]->View();
+                imageInfo3[k].imageLayout = vk::ImageLayout::eGeneral;
+                imageInfo3[k].imageView = **mPaletteTexture->View();
                 imageInfo3[k].sampler = **mTextureSampler;
             }
 
@@ -1035,7 +1044,7 @@ void VulkanRenderer::updateDescriptorSets()
             vk::DescriptorImageInfo imageInfo2[9];
             for (u32 k = 0; k < 9; k++)
             {
-                imageInfo2[k].imageLayout = vk::ImageLayout::eShaderReadOnlyOptimal;
+                imageInfo2[k].imageLayout = vk::ImageLayout::eGeneral;
                 if (!mBatches.empty() && k < mBatches[j].mTexturesInBatch)
                 {
                     if (textureIdxOff + k < mTexturesForThisFrame.size())
@@ -1043,6 +1052,12 @@ void VulkanRenderer::updateDescriptorSets()
                         imageInfo2[k].imageView = **mTexturesForThisFrame[textureIdxOff + k]->View();
                     }
                 }
+
+                if (!imageInfo2[k].imageView)
+                {
+                    imageInfo2[k].imageView = **mPaletteTexture->View();
+                }
+
                 imageInfo2[k].sampler = **mTextureSampler;
             }
 
@@ -1200,7 +1215,12 @@ void VulkanRenderer::recordCommandBuffer(vk::raii::CommandBuffer& commandBuffer,
 
             commandBuffer.bindIndexBuffer(**mIndexBuffer, 0, vk::IndexType::eUint16);
 
-            commandBuffer.bindDescriptorSets(vk::PipelineBindPoint::eGraphics, **mPipelineLayouts[batch.mPipeline], 0, *mDescriptorSets[To1dIdx(mCurrentFrame, batchIdx)], {});
+            commandBuffer.bindDescriptorSets(
+                vk::PipelineBindPoint::eGraphics,
+                **mPipelineLayouts[batch.mPipeline],
+                0,
+                *mDescriptorSets[To1dIdx(mCurrentFrame, batchIdx)],
+                {});
 
             commandBuffer.drawIndexed(
                 (batch.mNumTrisToDraw) * 3,
@@ -1304,6 +1324,8 @@ void VulkanRenderer::drawFrame()
     presentInfo.pImageIndices = &imageIndex;
 
     result = mPresentQueue->presentKHR(presentInfo);
+    mPresentQueue->waitIdle(); // todo
+    mDevice->waitIdle(); // todo
 
     if (result == vk::Result::eErrorOutOfDateKHR || result == vk::Result::eSuboptimalKHR)
     {
@@ -1581,12 +1603,17 @@ void VulkanRenderer::EndFrame()
         {
             this->createVertexBuffer();
             this->createIndexBuffer();
-
-            // Add the in flight batch
-            mBatches.push_back(mConstructingBatch); // TODO: Don't add if its the same as the last batch
         }
  
         this->drawFrame();
+
+        /*
+        // Add the in flight batch
+        if (!vertices.empty() && !gIndices.empty() && mConstructingBatch.mNumTrisToDraw > 0)
+        {
+            mBatches.push_back(mConstructingBatch); // TODO: Don't add if its the same as the last batch
+        }*/
+
         mFrameStarted = false;
 
         vertices.clear();
@@ -1597,6 +1624,7 @@ void VulkanRenderer::EndFrame()
         this->mIndexBuffer.reset();
         this->mIndexBufferMemory.reset();
         mTexturesForThisFrame.clear();
+
         mTextureArrayIdx = 0;
         mConstructingBatch = {};
         mBatches.clear();
@@ -1732,7 +1760,11 @@ void VulkanRenderer::Draw(Poly_FT4& poly)
         mTexturesForThisFrame.emplace_back(texture);
 
        
-        const bool bNewBatch = mTextureArrayIdx >= 8;
+        mTextureArrayIdx++;
+        mConstructingBatch.mTexturesInBatch = mTextureArrayIdx;
+        mConstructingBatch.mNumTrisToDraw += 2;
+
+        const bool bNewBatch = mTextureArrayIdx == 1;
         if (bNewBatch)
         {
             mBatches.push_back(mConstructingBatch);
@@ -1741,9 +1773,6 @@ void VulkanRenderer::Draw(Poly_FT4& poly)
         }
 
 
-        mTextureArrayIdx++;
-        mConstructingBatch.mNumTrisToDraw += 2;
-        mConstructingBatch.mTexturesInBatch = mTextureArrayIdx;
 
     }
 }
