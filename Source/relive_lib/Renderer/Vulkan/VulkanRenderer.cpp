@@ -76,6 +76,7 @@ struct Vertex
     glm::vec2 texCoord;
     u32 mSamplerIdx;
     u32 mPalIdx;
+    IRenderer::PsxDrawMode mDrawType;
 
     static vk::VertexInputBindingDescription getBindingDescription()
     {
@@ -87,9 +88,9 @@ struct Vertex
         return bindingDescription;
     }
 
-    static std::array<vk::VertexInputAttributeDescription, 5> getAttributeDescriptions()
+    static std::array<vk::VertexInputAttributeDescription, 6> getAttributeDescriptions()
     {
-        std::array<vk::VertexInputAttributeDescription, 5> attributeDescriptions{};
+        std::array<vk::VertexInputAttributeDescription, 6> attributeDescriptions{};
 
         attributeDescriptions[0].binding = 0;
         attributeDescriptions[0].location = 0;
@@ -116,6 +117,10 @@ struct Vertex
         attributeDescriptions[4].format = vk::Format::eR32Uint;
         attributeDescriptions[4].offset = offsetof(Vertex, mPalIdx);
 
+        attributeDescriptions[5].binding = 0;
+        attributeDescriptions[5].location = 5;
+        attributeDescriptions[5].format = vk::Format::eR32Uint;
+        attributeDescriptions[5].offset = offsetof(Vertex, mDrawType);
 
         return attributeDescriptions;
     }
@@ -1713,6 +1718,8 @@ u32 VulkanRenderer::PreparePalette(AnimationPal& pCache)
 
 void VulkanRenderer::Draw(Poly_FT4& poly)
 {
+    constexpr u32 kTextureBatchSize = 8;
+
     if (poly.mCam && !poly.mFg1)
     {
         CamResource* pRes = poly.mCam;
@@ -1733,10 +1740,10 @@ void VulkanRenderer::Draw(Poly_FT4& poly)
             float u1 = 1.0f;
             float v1 = 1.0f;
 
-            vertices.push_back({{static_cast<f32>(poly.mBase.vert.x), static_cast<f32>(poly.mBase.vert.y)}, {1.0f, 1.0f, 1.0f}, {u0, v0}, mTextureArrayIdx, 0});
-            vertices.push_back({{static_cast<f32>(poly.mVerts[0].mVert.x), static_cast<f32>(poly.mVerts[0].mVert.y)}, {1.0f, 1.0f, 1.0f}, {u1, v0}, mTextureArrayIdx, 0});
-            vertices.push_back({{static_cast<f32>(poly.mVerts[1].mVert.x), static_cast<f32>(poly.mVerts[1].mVert.y)}, {1.0f, 1.0f, 1.0f}, {u0, v1}, mTextureArrayIdx, 0});
-            vertices.push_back({{static_cast<f32>(poly.mVerts[2].mVert.x), static_cast<f32>(poly.mVerts[2].mVert.y)}, {1.0f, 1.0f, 1.0f}, {u1, v1}, mTextureArrayIdx, 0});
+            vertices.push_back({{static_cast<f32>(poly.mBase.vert.x), static_cast<f32>(poly.mBase.vert.y)}, {1.0f, 1.0f, 1.0f}, {u0, v0}, mTextureArrayIdx, 0, PsxDrawMode::Camera});
+            vertices.push_back({{static_cast<f32>(poly.mVerts[0].mVert.x), static_cast<f32>(poly.mVerts[0].mVert.y)}, {1.0f, 1.0f, 1.0f}, {u1, v0}, mTextureArrayIdx, 0, PsxDrawMode::Camera});
+            vertices.push_back({{static_cast<f32>(poly.mVerts[1].mVert.x), static_cast<f32>(poly.mVerts[1].mVert.y)}, {1.0f, 1.0f, 1.0f}, {u0, v1}, mTextureArrayIdx, 0, PsxDrawMode::Camera});
+            vertices.push_back({{static_cast<f32>(poly.mVerts[2].mVert.x), static_cast<f32>(poly.mVerts[2].mVert.y)}, {1.0f, 1.0f, 1.0f}, {u1, v1}, mTextureArrayIdx, 0, PsxDrawMode::Camera});
 
             gIndices.emplace_back((u16) (mIndexBufferIndex + 1));
             gIndices.emplace_back((u16) (mIndexBufferIndex + 0));
@@ -1755,7 +1762,7 @@ void VulkanRenderer::Draw(Poly_FT4& poly)
             mConstructingBatch.mTexturesInBatch = mTextureArrayIdx;
             mConstructingBatch.mNumTrisToDraw += 2;
 
-            const bool bNewBatch = mTextureArrayIdx == 1;
+            const bool bNewBatch = mTextureArrayIdx == kTextureBatchSize;
             if (bNewBatch)
             {
                 mBatches.push_back(mConstructingBatch);
@@ -1805,10 +1812,10 @@ void VulkanRenderer::Draw(Poly_FT4& poly)
         }
 
        
-        vertices.push_back({{static_cast<f32>(poly.mBase.vert.x), static_cast<f32>(poly.mBase.vert.y)}, {1.0f, 1.0f, 1.0f}, {u0, v0}, mTextureArrayIdx, palIndex});
-        vertices.push_back({{static_cast<f32>(poly.mVerts[0].mVert.x), static_cast<f32>(poly.mVerts[0].mVert.y)}, {1.0f, 1.0f, 1.0f}, {u1, v0}, mTextureArrayIdx, palIndex});
-        vertices.push_back({{static_cast<f32>(poly.mVerts[1].mVert.x), static_cast<f32>(poly.mVerts[1].mVert.y)}, {1.0f, 1.0f, 1.0f}, {u0, v1}, mTextureArrayIdx, palIndex});
-        vertices.push_back({{static_cast<f32>(poly.mVerts[2].mVert.x), static_cast<f32>(poly.mVerts[2].mVert.y)}, {1.0f, 1.0f, 1.0f}, {u1, v1}, mTextureArrayIdx, palIndex});
+        vertices.push_back({{static_cast<f32>(poly.mBase.vert.x), static_cast<f32>(poly.mBase.vert.y)}, {1.0f, 1.0f, 1.0f}, {u0, v0}, mTextureArrayIdx, palIndex, PsxDrawMode::DefaultFT4});
+        vertices.push_back({{static_cast<f32>(poly.mVerts[0].mVert.x), static_cast<f32>(poly.mVerts[0].mVert.y)}, {1.0f, 1.0f, 1.0f}, {u1, v0}, mTextureArrayIdx, palIndex, PsxDrawMode::DefaultFT4});
+        vertices.push_back({{static_cast<f32>(poly.mVerts[1].mVert.x), static_cast<f32>(poly.mVerts[1].mVert.y)}, {1.0f, 1.0f, 1.0f}, {u0, v1}, mTextureArrayIdx, palIndex, PsxDrawMode::DefaultFT4});
+        vertices.push_back({{static_cast<f32>(poly.mVerts[2].mVert.x), static_cast<f32>(poly.mVerts[2].mVert.y)}, {1.0f, 1.0f, 1.0f}, {u1, v1}, mTextureArrayIdx, palIndex, PsxDrawMode::DefaultFT4});
     
         gIndices.emplace_back((u16) (mIndexBufferIndex + 1));
         gIndices.emplace_back((u16) (mIndexBufferIndex + 0));
@@ -1827,7 +1834,7 @@ void VulkanRenderer::Draw(Poly_FT4& poly)
         mConstructingBatch.mTexturesInBatch = mTextureArrayIdx;
         mConstructingBatch.mNumTrisToDraw += 2;
 
-        const bool bNewBatch = mTextureArrayIdx == 1;
+        const bool bNewBatch = mTextureArrayIdx == kTextureBatchSize;
         if (bNewBatch)
         {
             mBatches.push_back(mConstructingBatch);

@@ -13,6 +13,7 @@ layout(location = 0) in vec3 fragColor;
 layout(location = 1) in vec2 fragTexCoord;
 layout(location = 2) flat in uint samplerIndex;
 layout(location = 3) flat in uint palIndex;
+layout(location = 4) flat in uint drawType;
 
 layout(location = 0) out vec4 outColor;
 
@@ -24,7 +25,13 @@ vec4 PixelToPalette(float v)
 void main()
 {
     // palIndex
-    float texelSprite = texture(texSpriteSheets[samplerIndex], fragTexCoord).r;
-
-    outColor = PixelToPalette(texelSprite);
+    if (drawType == 2)
+    {
+        outColor = texture(texSpriteSheets[samplerIndex], fragTexCoord);
+    }
+    else
+    {
+        float texelSprite = texture(texSpriteSheets[samplerIndex], fragTexCoord).r;
+        outColor = PixelToPalette(texelSprite);
+    }
 }

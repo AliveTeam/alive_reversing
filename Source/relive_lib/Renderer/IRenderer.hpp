@@ -144,6 +144,7 @@ protected:
     SDL_Rect GetTargetDrawRect();
     Quad2D LineToQuad(Point2D p1, Point2D p2);
 
+public: // TODO: Make protected later
     enum class PsxDrawMode : u32
     {
         Flat = 0,
