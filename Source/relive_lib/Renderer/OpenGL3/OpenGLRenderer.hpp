@@ -54,15 +54,6 @@ private:
     static constexpr u32 kSpriteTextureUnitCount = 8;
 
 private:
-    enum class PsxDrawMode : u32
-    {
-        Flat = 0,
-        DefaultFT4,
-        Camera,
-        FG1,
-        Gas
-    };
-
     class OpenGLTextureCache final : public TextureCache<GLTexture2D>
     {
     };

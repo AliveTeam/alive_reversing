@@ -77,6 +77,7 @@ private:
 
     enum PipelineIndex
     {
+        eNone = -1,
         eReverseBlending = 0,
         eAddBlending = 1,
     };
@@ -223,6 +224,7 @@ private:
     };
     RenderBatch mConstructingBatch;
     std::vector<RenderBatch> mBatches;
+    bool mBatchInProgress = false;
 
     // Apparently 1 sampler can do all the textures in the shader
     std::unique_ptr<vk::raii::Sampler> mTextureSampler;

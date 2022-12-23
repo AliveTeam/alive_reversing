@@ -921,7 +921,7 @@ void VulkanRenderer::createDescriptorSetLayout()
 
     mDescriptorSetLayout = std::make_unique<vk::raii::DescriptorSetLayout>(mDevice->createDescriptorSetLayout(layoutInfo));
 }
-constexpr u32 kMaxBatches = 200;
+constexpr u32 kMaxBatches = 2000;
 
 void VulkanRenderer::createDescriptorPool()
 {
@@ -1203,18 +1203,24 @@ void VulkanRenderer::recordCommandBuffer(vk::raii::CommandBuffer& commandBuffer,
 
     u32 batchIdx = 0;
     u32 idxOffset = 0;
+    PipelineIndex lastPipeLine = PipelineIndex::eNone;
+
     for (auto& batch : mBatches)
     {
-        commandBuffer.bindPipeline(vk::PipelineBindPoint::eGraphics, **mGraphicsPipelines[batch.mPipeline]);
-
-        if (!vertices.empty() && mVertexBuffer && mIndexBuffer)
+        if (lastPipeLine != batch.mPipeline)
         {
+            commandBuffer.bindPipeline(vk::PipelineBindPoint::eGraphics, **mGraphicsPipelines[batch.mPipeline]);
+            lastPipeLine = batch.mPipeline;
+
             vk::Buffer vertexBuffers[] = {**mVertexBuffer};
             vk::DeviceSize offsets[] = {0};
             commandBuffer.bindVertexBuffers(0, vertexBuffers, offsets);
 
             commandBuffer.bindIndexBuffer(**mIndexBuffer, 0, vk::IndexType::eUint16);
+        }
 
+        if (!vertices.empty() && mVertexBuffer && mIndexBuffer)
+        {
             commandBuffer.bindDescriptorSets(
                 vk::PipelineBindPoint::eGraphics,
                 **mPipelineLayouts[batch.mPipeline],
@@ -1605,14 +1611,16 @@ void VulkanRenderer::EndFrame()
             this->createIndexBuffer();
         }
  
+        // Add the in flight batch
+        if (mBatchInProgress && mConstructingBatch.mNumTrisToDraw > 0)
+        {
+            mBatches.push_back(mConstructingBatch);
+            mBatchInProgress = false;
+        }
+
         this->drawFrame();
 
-        /*
-        // Add the in flight batch
-        if (!vertices.empty() && !gIndices.empty() && mConstructingBatch.mNumTrisToDraw > 0)
-        {
-            mBatches.push_back(mConstructingBatch); // TODO: Don't add if its the same as the last batch
-        }*/
+
 
         mFrameStarted = false;
 
@@ -1705,8 +1713,63 @@ u32 VulkanRenderer::PreparePalette(AnimationPal& pCache)
 
 void VulkanRenderer::Draw(Poly_FT4& poly)
 {
+    if (poly.mCam && !poly.mFg1)
+    {
+        CamResource* pRes = poly.mCam;
+        std::shared_ptr<Texture> texture = mTextureCache.GetCachedTexture(poly.mCam->mUniqueId.Id(), 1); // TODO: temp, kill texture ASAP
+        if (!texture)
+        {
+            auto newTex = std::make_unique<Texture>(*this, pRes->mData.mWidth, pRes->mData.mHeight, pRes->mData.mPixels->data(), Texture::Format::RGBA);
 
-    if (poly.mAnim)
+            texture = mTextureCache.Add(poly.mCam->mUniqueId.Id(), 300, std::move(newTex));
+
+        }
+
+        // TODO: temp haxo
+        {
+            float u0 = 0.0f;
+            float v0 = 0.0f;
+
+            float u1 = 1.0f;
+            float v1 = 1.0f;
+
+            vertices.push_back({{static_cast<f32>(poly.mBase.vert.x), static_cast<f32>(poly.mBase.vert.y)}, {1.0f, 1.0f, 1.0f}, {u0, v0}, mTextureArrayIdx, 0});
+            vertices.push_back({{static_cast<f32>(poly.mVerts[0].mVert.x), static_cast<f32>(poly.mVerts[0].mVert.y)}, {1.0f, 1.0f, 1.0f}, {u1, v0}, mTextureArrayIdx, 0});
+            vertices.push_back({{static_cast<f32>(poly.mVerts[1].mVert.x), static_cast<f32>(poly.mVerts[1].mVert.y)}, {1.0f, 1.0f, 1.0f}, {u0, v1}, mTextureArrayIdx, 0});
+            vertices.push_back({{static_cast<f32>(poly.mVerts[2].mVert.x), static_cast<f32>(poly.mVerts[2].mVert.y)}, {1.0f, 1.0f, 1.0f}, {u1, v1}, mTextureArrayIdx, 0});
+
+            gIndices.emplace_back((u16) (mIndexBufferIndex + 1));
+            gIndices.emplace_back((u16) (mIndexBufferIndex + 0));
+            gIndices.emplace_back((u16) (mIndexBufferIndex + 3));
+
+            gIndices.emplace_back((u16) (mIndexBufferIndex + 3));
+            gIndices.emplace_back((u16) (mIndexBufferIndex + 0));
+            gIndices.emplace_back((u16) (mIndexBufferIndex + 2));
+
+            mIndexBufferIndex += 4;
+
+            // TODO: We are duplicating textures here
+            mTexturesForThisFrame.emplace_back(texture);
+
+            mTextureArrayIdx++;
+            mConstructingBatch.mTexturesInBatch = mTextureArrayIdx;
+            mConstructingBatch.mNumTrisToDraw += 2;
+
+            const bool bNewBatch = mTextureArrayIdx == 1;
+            if (bNewBatch)
+            {
+                mBatches.push_back(mConstructingBatch);
+                mConstructingBatch = {};
+                mTextureArrayIdx = 0;
+                mBatchInProgress = false;
+            }
+            else
+            {
+                mBatchInProgress = true;
+            }
+        }
+    }
+    else if (poly.mAnim)
     {
         AnimResource& animRes = poly.mAnim->mAnimRes;
      
@@ -1757,9 +1820,9 @@ void VulkanRenderer::Draw(Poly_FT4& poly)
 
         mIndexBufferIndex += 4;
 
+        // TODO: We are duplicating textures here
         mTexturesForThisFrame.emplace_back(texture);
 
-       
         mTextureArrayIdx++;
         mConstructingBatch.mTexturesInBatch = mTextureArrayIdx;
         mConstructingBatch.mNumTrisToDraw += 2;
@@ -1770,8 +1833,12 @@ void VulkanRenderer::Draw(Poly_FT4& poly)
             mBatches.push_back(mConstructingBatch);
             mConstructingBatch = {};
             mTextureArrayIdx = 0;
+            mBatchInProgress = false;
         }
-
+        else
+        {
+            mBatchInProgress = true;
+        }
 
 
     }

@@ -144,6 +144,15 @@ protected:
     SDL_Rect GetTargetDrawRect();
     Quad2D LineToQuad(Point2D p1, Point2D p2);
 
+    enum class PsxDrawMode : u32
+    {
+        Flat = 0,
+        DefaultFT4 = 1,
+        Camera = 2,
+        FG1 = 3,
+        Gas = 4
+    };
+
 protected:
     bool mIsFirstStartFrame = true;
 
