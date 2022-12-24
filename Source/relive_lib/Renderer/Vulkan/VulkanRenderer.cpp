@@ -930,7 +930,7 @@ void VulkanRenderer::createDescriptorSetLayout()
 
     mDescriptorSetLayout = std::make_unique<vk::raii::DescriptorSetLayout>(mDevice->createDescriptorSetLayout(layoutInfo));
 }
-constexpr u32 kMaxBatches = 2000;
+constexpr u32 kMaxBatches = 200;
 
 void VulkanRenderer::createDescriptorPool()
 {
@@ -1680,9 +1680,17 @@ inline u16 GetTPageBlendMode(u16 tpage)
     return (tpage >> 4) & 3;
 }
 
+void VulkanRenderer::NewBatch()
+{
+    mBatches.push_back(mConstructingBatch);
+    mConstructingBatch = {};
+    mTextureArrayIdx = 0;
+    mBatchInProgress = false;
+}
+
 void VulkanRenderer::Draw(Poly_FT4& poly)
 {
-    constexpr u32 kTextureBatchSize = 8;
+    constexpr u32 kTextureBatchSize = 12;
 
     if (poly.mCam && !poly.mFg1)
     {
@@ -1721,22 +1729,21 @@ void VulkanRenderer::Draw(Poly_FT4& poly)
             mIndexBufferIndex += 4;
 
             // TODO: We are duplicating textures here
-            mTexturesForThisFrame.emplace_back(texture);
+            //mTexturesForThisFrame.emplace_back(texture);
 
-            mTextureArrayIdx++;
+           // mTextureArrayIdx++;
             mConstructingBatch.mTexturesInBatch = mTextureArrayIdx;
             mConstructingBatch.mNumTrisToDraw += 2;
 
-            const bool bNewBatch = mTextureArrayIdx == kTextureBatchSize;
+            // Over the texture limit or changed to/from subtractive blending
+            const bool bNewBatch = (mTextureArrayIdx == kTextureBatchSize);
             if (bNewBatch)
             {
-                mBatches.push_back(mConstructingBatch);
-                mConstructingBatch = {};
-                mTextureArrayIdx = 0;
-                mBatchInProgress = false;
+                NewBatch();
             }
             else
             {
+                mConstructingBatch.mPipeline = PipelineIndex::eAddBlending;
                 mBatchInProgress = true;
             }
         }
@@ -1744,7 +1751,7 @@ void VulkanRenderer::Draw(Poly_FT4& poly)
     else if (poly.mAnim)
     {
         AnimResource& animRes = poly.mAnim->mAnimRes;
-     
+
         const u32 palIndex = PreparePalette(*animRes.mCurPal);
 
         auto pTga = animRes.mTgaPtr;
@@ -1761,6 +1768,12 @@ void VulkanRenderer::Draw(Poly_FT4& poly)
         u32 isSemiTrans = GetPolyIsSemiTrans(&poly) ? 1 : 0;
         u32 isShaded = GetPolyIsShaded(&poly) ? 1 : 0;
         u32 blendMode = GetTPageBlendMode(GetTPage(&poly));
+
+        PipelineIndex pipeLine = blendMode == 2 ? PipelineIndex::eReverseBlending : PipelineIndex::eAddBlending;
+        if (mConstructingBatch.mPipeline != pipeLine && mConstructingBatch.mPipeline != PipelineIndex::eNone)
+        {
+            NewBatch();
+        }
 
         const PerFrameInfo* pHeader = poly.mAnim->Get_FrameHeader(-1);
 
@@ -1803,16 +1816,15 @@ void VulkanRenderer::Draw(Poly_FT4& poly)
         mConstructingBatch.mTexturesInBatch = mTextureArrayIdx;
         mConstructingBatch.mNumTrisToDraw += 2;
 
-        const bool bNewBatch = mTextureArrayIdx == kTextureBatchSize;
+        // Over the texture limit or changed to/from subtractive blending
+        const bool bNewBatch = (mTextureArrayIdx == kTextureBatchSize);
         if (bNewBatch)
         {
-            mBatches.push_back(mConstructingBatch);
-            mConstructingBatch = {};
-            mTextureArrayIdx = 0;
-            mBatchInProgress = false;
+            NewBatch();
         }
         else
         {
+            mConstructingBatch.mPipeline = pipeLine;
             mBatchInProgress = true;
         }
 

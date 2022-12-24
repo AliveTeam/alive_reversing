@@ -118,6 +118,7 @@ private:
     static VKAPI_ATTR VkBool32 VKAPI_CALL debugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT /*messageSeverity*/, VkDebugUtilsMessageTypeFlagsEXT /*messageType*/, const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData, void* /*pUserData*/);
 
     void DecreaseResourceLifetimes();
+    void NewBatch();
 
     u32 PreparePalette(AnimationPal& pCache);
 
@@ -218,7 +219,7 @@ private:
     std::vector<std::shared_ptr<Texture>> mTexturesForThisFrame;
     struct RenderBatch final
     {
-        PipelineIndex mPipeline = PipelineIndex::eAddBlending;
+        PipelineIndex mPipeline = PipelineIndex::eNone;
         u32 mNumTrisToDraw = 0;
         u32 mTexturesInBatch = 0;
     };
