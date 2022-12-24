@@ -28,7 +28,7 @@ vec4 TextureHack()
     vec4 ret = vec4(1.0f, 1.0f, 1.0f, 1.0f);
     switch(samplerIndex)
     {
-    case 0: ret = textureLod(texSpriteSheets[samplerIndex], fragTexCoord, 0.0f); break;
+    case 0: ret = textureLod(texSpriteSheets[0], fragTexCoord, 0.0f); break;
     case 1: ret = textureLod(texSpriteSheets[1], fragTexCoord, 0.0f); break;
     case 2: ret = textureLod(texSpriteSheets[2], fragTexCoord, 0.0f); break;
     case 3: ret = textureLod(texSpriteSheets[3], fragTexCoord, 0.0f); break;
