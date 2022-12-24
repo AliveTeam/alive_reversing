@@ -115,7 +115,6 @@ private:
     QueueFamilyIndices findQueueFamilies(vk::raii::PhysicalDevice& vkDevice);
     std::vector<const char*> getRequiredExtensions();
     bool checkValidationLayerSupport();
-    static std::vector<char> readFile(const std::string& filename);
     static VKAPI_ATTR VkBool32 VKAPI_CALL debugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT /*messageSeverity*/, VkDebugUtilsMessageTypeFlagsEXT /*messageType*/, const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData, void* /*pUserData*/);
 
     void DecreaseResourceLifetimes();
@@ -215,6 +214,7 @@ private:
     std::unique_ptr<Texture> mPaletteTexture;
 
     u32 mTextureArrayIdx = 0;
+    std::shared_ptr<Texture> mCamTexture;
     std::vector<std::shared_ptr<Texture>> mTexturesForThisFrame;
     struct RenderBatch final
     {

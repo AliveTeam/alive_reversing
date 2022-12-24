@@ -1,43 +1,39 @@
 #version 450
 
-// TODO use layout(set = 0, binding = X) and allocate more descriptor sets
-
+// Uniforms
 layout(binding = 1) uniform sampler2D texPalette;
-layout(binding = 2) uniform sampler2D texGas; // TODO: Remove
-layout(binding = 3) uniform sampler2D texCamera;
-layout(binding = 4) uniform sampler2D texFG1Masks[4]; // TODO: Remove
-layout(binding = 8) uniform sampler2D texSpriteSheets[9];
+layout(binding = 2) uniform sampler2D texCamera;
+layout(binding = 3) uniform sampler2D texSpriteSheets[14];
 
-
+// Inputs from vertex shader
 layout(location = 0) in vec3 fragColor;
 layout(location = 1) in vec2 fragTexCoord;
 layout(location = 2) flat in uint samplerIndex;
 layout(location = 3) flat in uint palIndex;
 layout(location = 4) flat in uint drawType;
-
-// TODO: These are not yet bound
 layout(location = 5) flat in uint isShaded;
 layout(location = 6) flat in uint blendMode;
 layout(location = 7) flat in uint isSemiTrans;
 
+// Output
 layout(location = 0) out vec4 outColor;
 
+// Blend constants
 const int BLEND_MODE_HALF_DST_ADD_HALF_SRC = 0;
 const int BLEND_MODE_ONE_DST_ADD_ONE_SRC   = 1;
 const int BLEND_MODE_ONE_DST_SUB_ONE_SRC   = 2;
 const int BLEND_MODE_ONE_DST_ADD_QRT_SRC   = 3;
 
+// Draw type constants
 const int DRAW_FLAT        = 0;
 const int DRAW_DEFAULT_FT4 = 1;
 const int DRAW_CAM         = 2;
 const int DRAW_FG1         = 3;
 const int DRAW_GAS         = 4;
 
-
 vec4 PixelToPalette(float v)
 {
-    // TODO: LOD
-    return texture(texPalette, vec2(v, palIndex / 255.0f));
+    return textureLod(texPalette, vec2(v, palIndex / 255.0f), 0.0f);
 }
 
 bool dither()
@@ -48,12 +44,10 @@ bool dither()
 vec3 handle_shading(in vec3 texelT)
 {
     vec3 texelP = texelT;
-
     if (isShaded != 0)
     {
-        texelP = clamp((texelT * (fragColor / 255.0)) / 0.5f, 0.0f, 1.0f);
+        texelP = clamp((texelT * (fragColor)) / 0.5f, 0.0f, 1.0f); // TODO: Div frag color
     }
-
     return texelP;
 }
 
@@ -98,89 +92,89 @@ vec4 handle_final_color(in vec4 src, in bool doShading)
 
 vec4 draw_flat()
 {
-    outColor.rgb = fragColor / 255.0;
+    vec3 tmp = fragColor; // TODO: Div frag color
+    return handle_final_color(vec4(tmp, 1.0), false);
+}
 
-    return handle_final_color(vec4(outColor.rgb, 1.0), false);
+vec4 SampleTexture()
+{
+    vec4 value = vec4(0.0f);
+    switch (samplerIndex)
+    {
+        case 0u:
+            value = textureLod(texSpriteSheets[0], fragTexCoord, 0.0f);
+            break;
+
+        case 1u:
+            value = textureLod(texSpriteSheets[1], fragTexCoord, 0.0f);
+            break;
+
+        case 2u:
+            value = textureLod(texSpriteSheets[2], fragTexCoord, 0.0f);
+            break;
+
+        case 3u:
+            value = textureLod(texSpriteSheets[3], fragTexCoord, 0.0f);
+            break;
+
+        case 4u:
+            value = textureLod(texSpriteSheets[4], fragTexCoord, 0.0f);
+            break;
+
+        case 5u:
+            value = textureLod(texSpriteSheets[5], fragTexCoord, 0.0f);
+            break;
+
+        case 6u:
+            value = textureLod(texSpriteSheets[6], fragTexCoord, 0.0f);
+            break;
+
+        case 7u:
+            value = textureLod(texSpriteSheets[7], fragTexCoord, 0.0f);
+            break;
+
+        case 8u:
+            value = textureLod(texSpriteSheets[8], fragTexCoord, 0.0f);
+            break;
+
+        case 9u:
+            value = textureLod(texSpriteSheets[9], fragTexCoord, 0.0f);
+            break;
+
+        case 10u:
+            value = textureLod(texSpriteSheets[10], fragTexCoord, 0.0f);
+            break;
+
+        case 11u:
+            value = textureLod(texSpriteSheets[11], fragTexCoord, 0.0f);
+            break;
+
+        case 12u:
+            value = textureLod(texSpriteSheets[12], fragTexCoord, 0.0f);
+            break;
+
+        case 13u:
+            value = textureLod(texSpriteSheets[13], fragTexCoord, 0.0f);
+            break;
+    }
+    return value;
 }
 
 vec4 draw_default_ft4()
 {
-    float texelSprite = 0.0;
-    switch (samplerIndex)
-    {
-        case 0u:
-            texelSprite = textureLod(texSpriteSheets[0], fragTexCoord, 0.0f).r;
-            break;
-
-        case 1u:
-            texelSprite = textureLod(texSpriteSheets[1], fragTexCoord, 0.0f).r;
-            break;
-
-        case 2u:
-            texelSprite = textureLod(texSpriteSheets[2], fragTexCoord, 0.0f).r;
-            break;
-
-        case 3u:
-            texelSprite = textureLod(texSpriteSheets[3], fragTexCoord, 0.0f).r;
-            break;
-
-        case 4u:
-            texelSprite = textureLod(texSpriteSheets[4], fragTexCoord, 0.0f).r;
-            break;
-
-        case 5u:
-            texelSprite = textureLod(texSpriteSheets[5], fragTexCoord, 0.0f).r;
-            break;
-
-        case 6u:
-            texelSprite = textureLod(texSpriteSheets[6], fragTexCoord, 0.0f).r;
-            break;
-
-        case 7u:
-            texelSprite = textureLod(texSpriteSheets[7], fragTexCoord, 0.0f).r;
-            break;
-
-        case 8u:
-            texelSprite = textureLod(texSpriteSheets[8], fragTexCoord, 0.0f).r;
-            break;
-    }
-
-    vec4 texelPal = PixelToPalette(texelSprite);
+    vec4 texelPal = PixelToPalette(SampleTexture().r);
     return handle_final_color(texelPal, true);
 }
 
 vec4 draw_cam()
 {
-    return vec4(texture(texCamera, fragTexCoord).rgb, 0.0);
+    return vec4(textureLod(texCamera, fragTexCoord, 0.0f).rgb, 0.0);
 }
-
 
 vec4 draw_fg1()
 {
-    vec4 mask = vec4(0.0);
-    switch (samplerIndex)
-    {
-    // TODO textureLod
-        case 0u:
-            mask = texture(texSpriteSheets[0], fragTexCoord);
-            break;
-
-        case 1u:
-            mask = texture(texSpriteSheets[1], fragTexCoord);
-            break;
-
-        case 2u:
-            mask = texture(texSpriteSheets[2], fragTexCoord);
-            break;
-
-        case 3u:
-            mask = texture(texSpriteSheets[3], fragTexCoord);
-            break;
-
-        // TODO: All other cases
-    }
-
-    vec4 ret = vec4(texture(texCamera, fragTexCoord).rgb, 0.0);
+    vec4 mask = SampleTexture();
+    vec4 ret = vec4(textureLod(texCamera, fragTexCoord, 0.0f).rgb, 0.0);
 
     if (mask.rgb == vec3(0.0))
     {
@@ -192,8 +186,7 @@ vec4 draw_fg1()
 
 vec4 draw_gas()
 {
-    // TODO: Make generic, TODO textureLod
-    vec4 texelGas = texture(texGas, fragTexCoord);
+    vec4 texelGas = SampleTexture();
     if (dither())
     {
         texelGas = texelGas * 0.5;

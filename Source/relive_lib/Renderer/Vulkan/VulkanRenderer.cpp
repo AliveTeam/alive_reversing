@@ -77,6 +77,9 @@ struct Vertex
     u32 mSamplerIdx;
     u32 mPalIdx;
     IRenderer::PsxDrawMode mDrawType;
+    u32 mIsShaded;
+    u32 mBlendMode;
+    u32 mIsSemiTrans;
 
     static vk::VertexInputBindingDescription getBindingDescription()
     {
@@ -88,9 +91,9 @@ struct Vertex
         return bindingDescription;
     }
 
-    static std::array<vk::VertexInputAttributeDescription, 6> getAttributeDescriptions()
+    static std::array<vk::VertexInputAttributeDescription, 9> getAttributeDescriptions()
     {
-        std::array<vk::VertexInputAttributeDescription, 6> attributeDescriptions{};
+        std::array<vk::VertexInputAttributeDescription, 9> attributeDescriptions{};
 
         attributeDescriptions[0].binding = 0;
         attributeDescriptions[0].location = 0;
@@ -121,6 +124,21 @@ struct Vertex
         attributeDescriptions[5].location = 5;
         attributeDescriptions[5].format = vk::Format::eR32Uint;
         attributeDescriptions[5].offset = offsetof(Vertex, mDrawType);
+
+        attributeDescriptions[6].binding = 0;
+        attributeDescriptions[6].location = 6;
+        attributeDescriptions[6].format = vk::Format::eR32Uint;
+        attributeDescriptions[6].offset = offsetof(Vertex, mIsShaded);
+
+        attributeDescriptions[7].binding = 0;
+        attributeDescriptions[7].location = 7;
+        attributeDescriptions[7].format = vk::Format::eR32Uint;
+        attributeDescriptions[7].offset = offsetof(Vertex, mBlendMode);
+
+        attributeDescriptions[8].binding = 0;
+        attributeDescriptions[8].location = 8;
+        attributeDescriptions[8].format = vk::Format::eR32Uint;
+        attributeDescriptions[8].offset = offsetof(Vertex, mIsSemiTrans);
 
         return attributeDescriptions;
     }
@@ -891,38 +909,24 @@ void VulkanRenderer::createDescriptorSetLayout()
     texPalette.pImmutableSamplers = nullptr;
     texPalette.stageFlags = vk::ShaderStageFlagBits::eFragment;
 
-    vk::DescriptorSetLayoutBinding texGas;
-    texGas.binding = 2;
-    texGas.descriptorCount = 1;
-    texGas.descriptorType = vk::DescriptorType::eCombinedImageSampler;
-    texGas.pImmutableSamplers = nullptr;
-    texGas.stageFlags = vk::ShaderStageFlagBits::eFragment;
-
     vk::DescriptorSetLayoutBinding texCamera;
-    texCamera.binding = 3;
+    texCamera.binding = 2;
     texCamera.descriptorCount = 1;
     texCamera.descriptorType = vk::DescriptorType::eCombinedImageSampler;
     texCamera.pImmutableSamplers = nullptr;
     texCamera.stageFlags = vk::ShaderStageFlagBits::eFragment;
 
-    vk::DescriptorSetLayoutBinding texFG1Masks;
-    texFG1Masks.binding = 4;
-    texFG1Masks.descriptorCount = 4; // texture array size
-    texFG1Masks.descriptorType = vk::DescriptorType::eCombinedImageSampler;
-    texFG1Masks.pImmutableSamplers = nullptr;
-    texFG1Masks.stageFlags = vk::ShaderStageFlagBits::eFragment;
-
     vk::DescriptorSetLayoutBinding texSpriteSheets;
-    texSpriteSheets.binding = 8;
-    texSpriteSheets.descriptorCount = 9; // texture array size
+    texSpriteSheets.binding = 3;
+    texSpriteSheets.descriptorCount = 14; // texture array size
     texSpriteSheets.descriptorType = vk::DescriptorType::eCombinedImageSampler;
     texSpriteSheets.pImmutableSamplers = nullptr;
     texSpriteSheets.stageFlags = vk::ShaderStageFlagBits::eFragment;
 
-    std::array<vk::DescriptorSetLayoutBinding, 6> bindings = {uboLayoutBinding, texPalette, texGas, texCamera, texFG1Masks, texSpriteSheets};
+    vk::DescriptorSetLayoutBinding bindings[] = {uboLayoutBinding, texPalette, texCamera, texSpriteSheets};
     vk::DescriptorSetLayoutCreateInfo layoutInfo;
-    layoutInfo.bindingCount = static_cast<uint32_t>(bindings.size());
-    layoutInfo.pBindings = bindings.data();
+    layoutInfo.bindingCount = ALIVE_COUNTOF(bindings);
+    layoutInfo.pBindings = bindings;
 
     mDescriptorSetLayout = std::make_unique<vk::raii::DescriptorSetLayout>(mDevice->createDescriptorSetLayout(layoutInfo));
 }
@@ -930,23 +934,21 @@ constexpr u32 kMaxBatches = 2000;
 
 void VulkanRenderer::createDescriptorPool()
 {
-    std::array<vk::DescriptorPoolSize, 6> poolSizes{};
-    poolSizes[0].type = vk::DescriptorType::eUniformBuffer;
-    poolSizes[0].descriptorCount = static_cast<uint32_t>(MAX_FRAMES_IN_FLIGHT) * kMaxBatches;
-    poolSizes[1].type = vk::DescriptorType::eCombinedImageSampler;
-    poolSizes[1].descriptorCount = static_cast<uint32_t>(MAX_FRAMES_IN_FLIGHT) * kMaxBatches;
-    poolSizes[2].type = vk::DescriptorType::eCombinedImageSampler;
-    poolSizes[2].descriptorCount = static_cast<uint32_t>(MAX_FRAMES_IN_FLIGHT) * kMaxBatches;
-    poolSizes[3].type = vk::DescriptorType::eCombinedImageSampler;
-    poolSizes[3].descriptorCount = static_cast<uint32_t>(MAX_FRAMES_IN_FLIGHT) * kMaxBatches;
-    poolSizes[4].type = vk::DescriptorType::eCombinedImageSampler;
-    poolSizes[4].descriptorCount = 4 * static_cast<uint32_t>(MAX_FRAMES_IN_FLIGHT) * kMaxBatches;
-    poolSizes[5].type = vk::DescriptorType::eCombinedImageSampler;
-    poolSizes[5].descriptorCount = 9 * static_cast<uint32_t>(MAX_FRAMES_IN_FLIGHT) * kMaxBatches;
+    vk::DescriptorPoolSize poolSizes[] = 
+    {
+        // ubo
+        {vk::DescriptorType::eUniformBuffer, static_cast<uint32_t>(MAX_FRAMES_IN_FLIGHT) * kMaxBatches},
+        // pal
+        {vk::DescriptorType::eCombinedImageSampler, static_cast<uint32_t>(MAX_FRAMES_IN_FLIGHT) * kMaxBatches},
+        // cam
+        {vk::DescriptorType::eCombinedImageSampler, static_cast<uint32_t>(MAX_FRAMES_IN_FLIGHT) * kMaxBatches},
+        // sprites
+        {vk::DescriptorType::eCombinedImageSampler, 14 * static_cast<uint32_t>(MAX_FRAMES_IN_FLIGHT) * kMaxBatches},
+    };
 
-    vk::DescriptorPoolCreateInfo poolInfo{};
-    poolInfo.poolSizeCount = static_cast<uint32_t>(poolSizes.size());
-    poolInfo.pPoolSizes = poolSizes.data();
+    vk::DescriptorPoolCreateInfo poolInfo;
+    poolInfo.poolSizeCount = ALIVE_COUNTOF(poolSizes);
+    poolInfo.pPoolSizes = poolSizes;
     poolInfo.maxSets = static_cast<uint32_t>(MAX_FRAMES_IN_FLIGHT) * kMaxBatches;
 
     mDescriptorPool = std::make_unique<vk::raii::DescriptorPool>(mDevice->createDescriptorPool(poolInfo));
@@ -977,8 +979,9 @@ void VulkanRenderer::updateDescriptorSets()
         u32 textureIdxOff = 0;
         for (u32 j = 0; j < batchCount; j++)
         {
-            std::array<vk::WriteDescriptorSet, 6> descriptorWrites{};
+            std::array<vk::WriteDescriptorSet, 4> descriptorWrites{};
 
+            // ubo
             vk::DescriptorBufferInfo bufferInfo;
             bufferInfo.buffer = **mUniformBuffers[i];
             bufferInfo.offset = 0;
@@ -991,6 +994,7 @@ void VulkanRenderer::updateDescriptorSets()
             descriptorWrites[0].descriptorCount = 1;
             descriptorWrites[0].pBufferInfo = &bufferInfo;
 
+            // Pal texture
             vk::DescriptorImageInfo imageInfo{};
             imageInfo.imageLayout = vk::ImageLayout::eGeneral;
             imageInfo.imageView = **mPaletteTexture->View();
@@ -1003,51 +1007,29 @@ void VulkanRenderer::updateDescriptorSets()
             descriptorWrites[1].descriptorCount = 1;
             descriptorWrites[1].pImageInfo = &imageInfo;
 
-            // Gas texture
-            vk::DescriptorImageInfo imageInfo5{};
-            imageInfo5.imageLayout = vk::ImageLayout::eGeneral;
-            imageInfo5.imageView = **mPaletteTexture->View();
-            imageInfo5.sampler = **mTextureSampler;
+            // Camera texture
+            vk::DescriptorImageInfo imageInfo4{};
+            imageInfo4.imageLayout = vk::ImageLayout::eGeneral;
+            if (mCamTexture)
+            {
+                imageInfo4.imageView = **mCamTexture->View();
+            }
+            else
+            {
+                imageInfo4.imageView = **mPaletteTexture->View();
+            }
+            imageInfo4.sampler = **mTextureSampler;
 
             descriptorWrites[2].dstSet = *mDescriptorSets[To1dIdx(i, j)];
             descriptorWrites[2].dstBinding = 2;
             descriptorWrites[2].dstArrayElement = 0;
             descriptorWrites[2].descriptorType = vk::DescriptorType::eCombinedImageSampler;
             descriptorWrites[2].descriptorCount = 1;
-            descriptorWrites[2].pImageInfo = &imageInfo5;
-
-            // Camera texture
-            vk::DescriptorImageInfo imageInfo4{};
-            imageInfo4.imageLayout = vk::ImageLayout::eGeneral;
-            imageInfo4.imageView = **mPaletteTexture->View();
-            imageInfo4.sampler = **mTextureSampler;
-
-            descriptorWrites[3].dstSet = *mDescriptorSets[To1dIdx(i, j)];
-            descriptorWrites[3].dstBinding = 3;
-            descriptorWrites[3].dstArrayElement = 0;
-            descriptorWrites[3].descriptorType = vk::DescriptorType::eCombinedImageSampler;
-            descriptorWrites[3].descriptorCount = 1;
-            descriptorWrites[3].pImageInfo = &imageInfo4;
-
-            // FG1 textures
-            vk::DescriptorImageInfo imageInfo3[4];
-            for (u32 k = 0; k < 4; k++)
-            {
-                imageInfo3[k].imageLayout = vk::ImageLayout::eGeneral;
-                imageInfo3[k].imageView = **mPaletteTexture->View();
-                imageInfo3[k].sampler = **mTextureSampler;
-            }
-
-            descriptorWrites[4].dstSet = *mDescriptorSets[To1dIdx(i, j)];
-            descriptorWrites[4].dstBinding = 4;
-            descriptorWrites[4].dstArrayElement = 0;
-            descriptorWrites[4].descriptorType = vk::DescriptorType::eCombinedImageSampler;
-            descriptorWrites[4].descriptorCount = 4; // texture array size
-            descriptorWrites[4].pImageInfo = imageInfo3;
+            descriptorWrites[2].pImageInfo = &imageInfo4;
 
             // Sprite sheets
-            vk::DescriptorImageInfo imageInfo2[9];
-            for (u32 k = 0; k < 9; k++)
+            vk::DescriptorImageInfo imageInfo2[14];
+            for (u32 k = 0; k < 14; k++)
             {
                 imageInfo2[k].imageLayout = vk::ImageLayout::eGeneral;
                 if (!mBatches.empty() && k < mBatches[j].mTexturesInBatch)
@@ -1066,12 +1048,12 @@ void VulkanRenderer::updateDescriptorSets()
                 imageInfo2[k].sampler = **mTextureSampler;
             }
 
-            descriptorWrites[5].dstSet = *mDescriptorSets[To1dIdx(i, j)];
-            descriptorWrites[5].dstBinding = 8;
-            descriptorWrites[5].dstArrayElement = 0;
-            descriptorWrites[5].descriptorType = vk::DescriptorType::eCombinedImageSampler;
-            descriptorWrites[5].descriptorCount = 9; // texture array size
-            descriptorWrites[5].pImageInfo = imageInfo2;
+            descriptorWrites[3].dstSet = *mDescriptorSets[To1dIdx(i, j)];
+            descriptorWrites[3].dstBinding = 3;
+            descriptorWrites[3].dstArrayElement = 0;
+            descriptorWrites[3].descriptorType = vk::DescriptorType::eCombinedImageSampler;
+            descriptorWrites[3].descriptorCount = 14; // texture array size
+            descriptorWrites[3].pImageInfo = imageInfo2;
 
             mDevice->updateDescriptorSets(descriptorWrites, {});
 
@@ -1266,11 +1248,6 @@ void VulkanRenderer::createSyncObjects()
 
 void VulkanRenderer::updateUniformBuffer(uint32_t currentImage)
 {
-    // static auto startTime = std::chrono::high_resolution_clock::now();
-
-    // auto currentTime = std::chrono::high_resolution_clock::now();
-    // float time = std::chrono::duration<float, std::chrono::seconds::period>(currentTime - startTime).count();
-
     UniformBufferObject ubo{};
     ubo.model = glm::mat4(1.0f);
     ubo.view = glm::lookAt(glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
@@ -1538,26 +1515,6 @@ bool VulkanRenderer::checkValidationLayerSupport()
     return true;
 }
 
-/*static*/ std::vector<char> VulkanRenderer::readFile(const std::string& filename)
-{
-    std::ifstream file(filename, std::ios::ate | std::ios::binary);
-
-    if (!file.is_open())
-    {
-        throw std::runtime_error("failed to open file!");
-    }
-
-    size_t fileSize = (size_t) file.tellg();
-    std::vector<char> buffer(fileSize);
-
-    file.seekg(0);
-    file.read(buffer.data(), fileSize);
-
-    file.close();
-
-    return buffer;
-}
-
 /*static*/ VKAPI_ATTR VkBool32 VKAPI_CALL VulkanRenderer::debugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT /*messageSeverity*/, VkDebugUtilsMessageTypeFlagsEXT /*messageType*/, const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData, void* /*pUserData*/)
 {
     LOG_ERROR("%s", pCallbackData->pMessage);
@@ -1638,6 +1595,7 @@ void VulkanRenderer::EndFrame()
         this->mIndexBufferMemory.reset();
         mTexturesForThisFrame.clear();
 
+        mCamTexture = nullptr;
         mTextureArrayIdx = 0;
         mConstructingBatch = {};
         mBatches.clear();
@@ -1716,6 +1674,12 @@ u32 VulkanRenderer::PreparePalette(AnimationPal& pCache)
     return addRet.mIndex;
 }
 
+// TODO: Copy pasted from GL renderer
+inline u16 GetTPageBlendMode(u16 tpage)
+{
+    return (tpage >> 4) & 3;
+}
+
 void VulkanRenderer::Draw(Poly_FT4& poly)
 {
     constexpr u32 kTextureBatchSize = 8;
@@ -1731,6 +1695,7 @@ void VulkanRenderer::Draw(Poly_FT4& poly)
             texture = mTextureCache.Add(poly.mCam->mUniqueId.Id(), 300, std::move(newTex));
 
         }
+        mCamTexture = texture;
 
         // TODO: temp haxo
         {
@@ -1740,10 +1705,10 @@ void VulkanRenderer::Draw(Poly_FT4& poly)
             float u1 = 1.0f;
             float v1 = 1.0f;
 
-            vertices.push_back({{static_cast<f32>(poly.mBase.vert.x), static_cast<f32>(poly.mBase.vert.y)}, {1.0f, 1.0f, 1.0f}, {u0, v0}, mTextureArrayIdx, 0, PsxDrawMode::Camera});
-            vertices.push_back({{static_cast<f32>(poly.mVerts[0].mVert.x), static_cast<f32>(poly.mVerts[0].mVert.y)}, {1.0f, 1.0f, 1.0f}, {u1, v0}, mTextureArrayIdx, 0, PsxDrawMode::Camera});
-            vertices.push_back({{static_cast<f32>(poly.mVerts[1].mVert.x), static_cast<f32>(poly.mVerts[1].mVert.y)}, {1.0f, 1.0f, 1.0f}, {u0, v1}, mTextureArrayIdx, 0, PsxDrawMode::Camera});
-            vertices.push_back({{static_cast<f32>(poly.mVerts[2].mVert.x), static_cast<f32>(poly.mVerts[2].mVert.y)}, {1.0f, 1.0f, 1.0f}, {u1, v1}, mTextureArrayIdx, 0, PsxDrawMode::Camera});
+            vertices.push_back({{static_cast<f32>(poly.mBase.vert.x), static_cast<f32>(poly.mBase.vert.y)}, {1.0f, 1.0f, 1.0f}, {u0, v0}, mTextureArrayIdx, 0, PsxDrawMode::Camera, 0, 0, 0});
+            vertices.push_back({{static_cast<f32>(poly.mVerts[0].mVert.x), static_cast<f32>(poly.mVerts[0].mVert.y)}, {1.0f, 1.0f, 1.0f}, {u1, v0}, mTextureArrayIdx, 0, PsxDrawMode::Camera, 0, 0, 0});
+            vertices.push_back({{static_cast<f32>(poly.mVerts[1].mVert.x), static_cast<f32>(poly.mVerts[1].mVert.y)}, {1.0f, 1.0f, 1.0f}, {u0, v1}, mTextureArrayIdx, 0, PsxDrawMode::Camera, 0, 0, 0});
+            vertices.push_back({{static_cast<f32>(poly.mVerts[2].mVert.x), static_cast<f32>(poly.mVerts[2].mVert.y)}, {1.0f, 1.0f, 1.0f}, {u1, v1}, mTextureArrayIdx, 0, PsxDrawMode::Camera, 0, 0, 0});
 
             gIndices.emplace_back((u16) (mIndexBufferIndex + 1));
             gIndices.emplace_back((u16) (mIndexBufferIndex + 0));
@@ -1793,6 +1758,10 @@ void VulkanRenderer::Draw(Poly_FT4& poly)
             //mStats.mCamUploadCount++;
         }
 
+        u32 isSemiTrans = GetPolyIsSemiTrans(&poly) ? 1 : 0;
+        u32 isShaded = GetPolyIsShaded(&poly) ? 1 : 0;
+        u32 blendMode = GetTPageBlendMode(GetTPage(&poly));
+
         const PerFrameInfo* pHeader = poly.mAnim->Get_FrameHeader(-1);
 
         float u0 = (static_cast<float>(pHeader->mSpriteSheetX) / pTga->mWidth);
@@ -1812,10 +1781,10 @@ void VulkanRenderer::Draw(Poly_FT4& poly)
         }
 
        
-        vertices.push_back({{static_cast<f32>(poly.mBase.vert.x), static_cast<f32>(poly.mBase.vert.y)}, {1.0f, 1.0f, 1.0f}, {u0, v0}, mTextureArrayIdx, palIndex, PsxDrawMode::DefaultFT4});
-        vertices.push_back({{static_cast<f32>(poly.mVerts[0].mVert.x), static_cast<f32>(poly.mVerts[0].mVert.y)}, {1.0f, 1.0f, 1.0f}, {u1, v0}, mTextureArrayIdx, palIndex, PsxDrawMode::DefaultFT4});
-        vertices.push_back({{static_cast<f32>(poly.mVerts[1].mVert.x), static_cast<f32>(poly.mVerts[1].mVert.y)}, {1.0f, 1.0f, 1.0f}, {u0, v1}, mTextureArrayIdx, palIndex, PsxDrawMode::DefaultFT4});
-        vertices.push_back({{static_cast<f32>(poly.mVerts[2].mVert.x), static_cast<f32>(poly.mVerts[2].mVert.y)}, {1.0f, 1.0f, 1.0f}, {u1, v1}, mTextureArrayIdx, palIndex, PsxDrawMode::DefaultFT4});
+        vertices.push_back({{static_cast<f32>(poly.mBase.vert.x), static_cast<f32>(poly.mBase.vert.y)}, {1.0f, 1.0f, 1.0f}, {u0, v0}, mTextureArrayIdx, palIndex, PsxDrawMode::DefaultFT4, isShaded, blendMode, isSemiTrans});
+        vertices.push_back({{static_cast<f32>(poly.mVerts[0].mVert.x), static_cast<f32>(poly.mVerts[0].mVert.y)}, {1.0f, 1.0f, 1.0f}, {u1, v0}, mTextureArrayIdx, palIndex, PsxDrawMode::DefaultFT4, isShaded, blendMode, isSemiTrans});
+        vertices.push_back({{static_cast<f32>(poly.mVerts[1].mVert.x), static_cast<f32>(poly.mVerts[1].mVert.y)}, {1.0f, 1.0f, 1.0f}, {u0, v1}, mTextureArrayIdx, palIndex, PsxDrawMode::DefaultFT4, isShaded, blendMode, isSemiTrans});
+        vertices.push_back({{static_cast<f32>(poly.mVerts[2].mVert.x), static_cast<f32>(poly.mVerts[2].mVert.y)}, {1.0f, 1.0f, 1.0f}, {u1, v1}, mTextureArrayIdx, palIndex, PsxDrawMode::DefaultFT4, isShaded, blendMode, isSemiTrans});
     
         gIndices.emplace_back((u16) (mIndexBufferIndex + 1));
         gIndices.emplace_back((u16) (mIndexBufferIndex + 0));
