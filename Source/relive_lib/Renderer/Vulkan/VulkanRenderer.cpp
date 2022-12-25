@@ -355,7 +355,7 @@ void VulkanRenderer::createInstance()
 
     vk::InstanceCreateFlags flags = {};
 #ifdef __APPLE__
-    flags vk::InstanceCreateFlagBits::eEnumeratePortabilityKHR;
+    flags = vk::InstanceCreateFlagBits::eEnumeratePortabilityKHR;
 #endif
 
     vk::InstanceCreateInfo createInfo = vk::InstanceCreateInfo(
