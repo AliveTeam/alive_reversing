@@ -348,8 +348,14 @@ void VulkanRenderer::createInstance()
             validationLayers.push_back(layer);
         }
     }
+
+    vk::InstanceCreateFlags flags = {};
+#ifdef __APPLE__
+    flags vk::InstanceCreateFlagBits::eEnumeratePortabilityKHR;
+#endif
+
     vk::InstanceCreateInfo createInfo = vk::InstanceCreateInfo(
-        vk::InstanceCreateFlags(),
+        flags,
         &appInfo,
         static_cast<uint32_t>(validationLayers.size()), validationLayers.data(), // enabled layers
         static_cast<uint32_t>(extensions.size()), extensions.data() // enabled extensions
