@@ -323,12 +323,13 @@ void VulkanRenderer::recreateSwapChain()
 
 void VulkanRenderer::createInstance()
 {
+    bool haveValidationLayers = true;
     if constexpr (enableValidationLayers)
     {
         if (!checkValidationLayerSupport())
         {
             LOG_ERROR("validation layers requested, but not available!");
-            return;
+            haveValidationLayers = false;
         }
     }
 
@@ -343,9 +344,12 @@ void VulkanRenderer::createInstance()
     std::vector<const char*> validationLayers;
     if constexpr (enableValidationLayers)
     {
-        for (auto& layer : kValidationLayers)
+        if (haveValidationLayers)
         {
-            validationLayers.push_back(layer);
+            for (auto& layer : kValidationLayers)
+            {
+                validationLayers.push_back(layer);
+            }
         }
     }
 
