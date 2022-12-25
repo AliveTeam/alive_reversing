@@ -608,24 +608,33 @@ void VulkanRenderer::createGraphicsPipeline(VulkanRenderer::PipelineIndex idx)
     multisampling.rasterizationSamples = vk::SampleCountFlagBits::e1;
 
     vk::PipelineColorBlendAttachmentState colorBlendAttachment;
-    colorBlendAttachment.colorWriteMask = vk::ColorComponentFlagBits::eR | vk::ColorComponentFlagBits::eG | vk::ColorComponentFlagBits::eB /* | vk::ColorComponentFlagBits::eA*/;
+    colorBlendAttachment.colorWriteMask = vk::ColorComponentFlagBits::eR | vk::ColorComponentFlagBits::eG | vk::ColorComponentFlagBits::eB | vk::ColorComponentFlagBits::eA;
     colorBlendAttachment.blendEnable = VK_TRUE;
-    colorBlendAttachment.colorBlendOp = idx == PipelineIndex::eAddBlending ? vk::BlendOp::eAdd : vk::BlendOp::eReverseSubtract;
+    if (idx == PipelineIndex::eAddBlending)
+    {
+        colorBlendAttachment.dstColorBlendFactor = vk::BlendFactor::eSrcAlpha;
+        colorBlendAttachment.srcColorBlendFactor = vk::BlendFactor::eOne;
+        colorBlendAttachment.colorBlendOp = vk::BlendOp::eAdd;
+    }
+    else
+    {
+        colorBlendAttachment.dstColorBlendFactor = vk::BlendFactor::eOne;
+        colorBlendAttachment.srcColorBlendFactor = vk::BlendFactor::eSrcAlpha;
+        colorBlendAttachment.colorBlendOp = vk::BlendOp::eReverseSubtract;
+    }
+    colorBlendAttachment.srcAlphaBlendFactor = vk::BlendFactor::eOne;
+    colorBlendAttachment.dstAlphaBlendFactor = vk::BlendFactor::eZero;
     colorBlendAttachment.alphaBlendOp = vk::BlendOp::eAdd;
-    colorBlendAttachment.srcAlphaBlendFactor = idx == PipelineIndex::eAddBlending ? vk::BlendFactor::eOne : vk::BlendFactor::eSrcAlpha;
-    colorBlendAttachment.dstAlphaBlendFactor = idx == PipelineIndex::eAddBlending ? vk::BlendFactor::eSrcAlpha : vk::BlendFactor::eOne;
-    colorBlendAttachment.srcColorBlendFactor = vk::BlendFactor::eOne;
-    colorBlendAttachment.dstColorBlendFactor = vk::BlendFactor::eZero;
 
     vk::PipelineColorBlendStateCreateInfo colorBlending;
     colorBlending.logicOpEnable = VK_FALSE;
     colorBlending.logicOp = vk::LogicOp::eCopy;
     colorBlending.attachmentCount = 1;
     colorBlending.pAttachments = &colorBlendAttachment;
-    colorBlending.blendConstants[0] = 1.0f;
-    colorBlending.blendConstants[1] = 1.0f;
-    colorBlending.blendConstants[2] = 1.0f;
-    colorBlending.blendConstants[3] = 1.0f;
+    colorBlending.blendConstants[0] = 0.0f;
+    colorBlending.blendConstants[1] = 0.0f;
+    colorBlending.blendConstants[2] = 0.0f;
+    colorBlending.blendConstants[3] = 0.0f;
 
     const std::vector<vk::DynamicState> dynamicStates = {
         vk::DynamicState::eViewport,
@@ -1169,7 +1178,7 @@ void VulkanRenderer::recordCommandBuffer(vk::raii::CommandBuffer& commandBuffer,
     renderPassInfo.renderArea.offset = vk::Offset2D {0, 0};
     renderPassInfo.renderArea.extent = mSwapChainExtent;
 
-    vk::ClearValue clearColor(vk::ClearColorValue(0.4f, 0.4f, 0.4f, 1.0f));
+    vk::ClearValue clearColor(vk::ClearColorValue(0.0f, 0.0f, 0.0f, 1.0f));
     renderPassInfo.clearValueCount = 1;
     renderPassInfo.pClearValues = &clearColor;
 
