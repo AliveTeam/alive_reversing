@@ -46,7 +46,7 @@ vec3 handle_shading(in vec3 texelT)
     vec3 texelP = texelT;
     if (isShaded != 0)
     {
-        texelP = clamp((texelT * (fragColor)) / 0.5f, 0.0f, 1.0f); // TODO: Div frag color
+        texelP = clamp((texelT * (fragColor / 255.0f)) / 0.5f, 0.0f, 1.0f);
     }
     return texelP;
 }
@@ -92,7 +92,7 @@ vec4 handle_final_color(in vec4 src, in bool doShading)
 
 vec4 draw_flat()
 {
-    vec3 tmp = fragColor; // TODO: Div frag color
+    vec3 tmp = fragColor / 255.0f;
     return handle_final_color(vec4(tmp, 1.0), false);
 }
 
