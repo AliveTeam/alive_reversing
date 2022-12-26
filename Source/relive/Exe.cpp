@@ -140,7 +140,7 @@ static void ShowCwd()
     const char* answer = getcwd(buffer, sizeof(buffer));
     if (answer)
     {
-        LOG_INFO("Mac/Linux cwd is %s SDL_GetBasePath is %s SDL_GetPrefPath is %s", answer, SDL_GetBasePath(), SDL_GetPrefPath("", "relive"));
+        LOG_INFO("Mac/Linux cwd is %s SDL_GetBasePath is %s SDL_GetPrefPath is %s", answer, SDL_GetBasePath(), SDL_GetPrefPath("relive_team", "relive"));
     }
     else
     {
@@ -240,7 +240,7 @@ BaseGameAutoPlayer& GetGameAutoPlayer()
 
 static void __attribute__((constructor)) FixCWD()
 {
-    chdir(SDL_GetPrefPath("", "relive"));
+    chdir(SDL_GetPrefPath("relive_team", "relive"));
 }
 #endif
 
