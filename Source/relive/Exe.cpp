@@ -140,7 +140,7 @@ static void ShowCwd()
     const char* answer = getcwd(buffer, sizeof(buffer));
     if (answer)
     {
-        LOG_INFO("Mac/Linux cwd is %s SDL_GetBasePath is %s", answer, SDL_GetBasePath());
+        LOG_INFO("Mac/Linux cwd is %s SDL_GetBasePath is %s SDL_GetPrefPath is %s", answer, SDL_GetBasePath(), SDL_GetPrefPath("", "relive"));
     }
     else
     {
@@ -234,6 +234,17 @@ BaseGameAutoPlayer& GetGameAutoPlayer()
 }
 
 
+#ifdef __APPLE__
+    #include <mach-o/dyld.h>
+    #include <unistd.h>
+
+static void __attribute__((constructor)) FixCWD()
+{
+    chdir(SDL_GetPrefPath("", "relive"));
+}
+#endif
+
+
 s32 WINAPI WinMain(HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR lpCmdLine, s32 /*nShowCmd*/)
 {
     Install_Crash_Handler();
@@ -247,11 +258,15 @@ s32 WINAPI WinMain(HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR l
 #endif
     LOG_INFO("Relive: %s", BuildAndBitnesString().c_str());
 
+    SDL2_Init();
+
     // Default to AE but allow switching to AO with a command line, if AO is anywhere in the command line then assume we want to run AO
     GameType gameToRun = strstr(lpCmdLine, "AO") ? GameType::eAo : GameType::eAe;
-    ShowCwd();
 
-    SDL2_Init();
+#ifdef __APPLE__
+    FixCWD();
+#endif
+    ShowCwd();
 
     if (gameToRun == GameType::eAo)
     {
@@ -299,29 +314,3 @@ s32 main(s32 argc, char_type** argv)
     return WinMain(0, 0, const_cast<LPSTR>(args.c_str()), 1);
 }
 
-/*
-#ifdef __APPLE__
-#include <mach-o/dyld.h>
-#include <unistd.h>
-
-static void __attribute__((constructor)) FixCWD()
-{
-    char* imagePath = strdup(_dyld_get_image_name(0));
-    if (!imagePath)
-    {
-        return;
-    }
-    
-    for (u32 i = strlen(imagePath); --i;)
-    {
-        if (imagePath[i] == '/')
-        {
-            imagePath[i] = 0;
-            chdir(imagePath);
-            break;
-        }
-    }
-    free(imagePath);
-}
-#endif
-*/
