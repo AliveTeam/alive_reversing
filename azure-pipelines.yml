@@ -26,6 +26,7 @@ jobs:
   steps:
   - script: |
         brew install sdl2
+        brew install molten-vk
         git submodule update --init --depth=1
         cmake --version
         mkdir build
