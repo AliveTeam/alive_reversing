@@ -135,6 +135,17 @@ static void ShowCwd()
     {
         LOG_INFO("Failed to get Win32 cwd: %d", ::GetLastError());
     }
+#else
+    char buffer[4096] = {};
+    const char* answer = getcwd(buffer, sizeof(buffer));
+    if (answer)
+    {
+        LOG_INFO("Mac/Linux cwd is %s SDL_GetBasePath is %s", answer, SDL_GetBasePath());
+    }
+    else
+    {
+        LOG_ERROR("Failed to get CWD");
+    }
 #endif
 }
 
@@ -288,6 +299,7 @@ s32 main(s32 argc, char_type** argv)
     return WinMain(0, 0, const_cast<LPSTR>(args.c_str()), 1);
 }
 
+/*
 #ifdef __APPLE__
 #include <mach-o/dyld.h>
 #include <unistd.h>
@@ -312,3 +324,4 @@ static void __attribute__((constructor)) FixCWD()
     free(imagePath);
 }
 #endif
+*/
