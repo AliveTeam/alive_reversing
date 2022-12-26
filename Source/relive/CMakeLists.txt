@@ -38,3 +38,13 @@ if (MSVC AND CMAKE_GENERATOR MATCHES "Visual Studio")
         INSTALL(FILES "${SDL2_INCLUDE_DIR}/../lib/x64/SDL2.dll" DESTINATION ".")
     endif()
 endif()
+
+if (APPLE)
+    # Fix link path to look in the bundle
+    add_custom_command(TARGET relive POST_BUILD
+                   COMMAND ${CMAKE_INSTALL_NAME_TOOL} -change /usr/local/lib/libSDL2.dylib @executable_path/../Frameworks/libSDL2.dylib $<TARGET_FILE:relive>
+                   COMMENT "Fixing up libSDL2-2.0.0.dylib rpath")
+
+    INSTALL(FILES "/usr/local/lib/libSDL2.dylib" DESTINATION "relive.app/Contents/Frameworks")
+
+endif()
