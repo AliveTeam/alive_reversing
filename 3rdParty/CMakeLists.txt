@@ -1,8 +1,8 @@
 project(Deps VERSION 0.1 LANGUAGES C CXX)
 
-add_subdirectory(Vulkan-Headers)
+add_subdirectory(Vulkan-Headers EXCLUDE_FROM_ALL)
 export(TARGETS Vulkan-Headers FILE Vulkan-Headers.cmake)
-add_subdirectory(volk)
+add_subdirectory(volk EXCLUDE_FROM_ALL)
 set_property(TARGET volk PROPERTY FOLDER "3rdParty")
 export(TARGETS volk FILE volk.cmake)
 
@@ -18,7 +18,7 @@ set(CONFIG_WEBM_IO ON)
 set(ENABLE_TOOLS ON) # required to get webm project
 add_definitions(-DNOMINMAX)
 set(AOM_TARGET_CPU generic)
-add_subdirectory(aom)
+add_subdirectory(aom EXCLUDE_FROM_ALL)
 set_property(TARGET aom PROPERTY FOLDER "3rdParty")
 set_property(TARGET aom_av1_common PROPERTY FOLDER "3rdParty")
 set_property(TARGET aom_av1_decoder PROPERTY FOLDER "3rdParty")
@@ -98,7 +98,7 @@ export(TARGETS imgui FILE imgui.cmake)
 set_property(TARGET imgui PROPERTY FOLDER "3rdParty")
 
 option(glew-cmake_BUILD_SHARED "" OFF)
-add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/glew-cmake)
+add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/glew-cmake EXCLUDE_FROM_ALL)
 set_property(TARGET libglew_static PROPERTY FOLDER "3rdParty")
 export(TARGETS libglew_static FILE libglew_static.cmake)
 

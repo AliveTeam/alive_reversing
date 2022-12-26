@@ -34,4 +34,8 @@ endif()
 
 export(TARGETS relive_api_integration_test FILE relive_api_integration_test.cmake)
 set_property(TARGET relive_api_integration_test PROPERTY FOLDER "ReliveAPI")
+
+# Only put in the windows zip
+if (WIN32)
 install(TARGETS relive_api_integration_test DESTINATION "${BINPATH}")
+endif()
