@@ -39,6 +39,7 @@ if (MSVC AND CMAKE_GENERATOR MATCHES "Visual Studio")
     endif()
 endif()
 
+
 if (APPLE)
     # Fix link path to look in the bundle
     add_custom_command(TARGET relive POST_BUILD
