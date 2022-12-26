@@ -46,7 +46,7 @@ if (APPLE)
                    COMMAND ${CMAKE_INSTALL_NAME_TOOL} -change /usr/local/opt/sdl2/lib/libSDL2-2.0.0.dylib @executable_path/../Frameworks/libSDL2-2.0.0.dylib $<TARGET_FILE:relive>
                    COMMENT "Fixing up libSDL2-2.0.0.dylib rpath")
 
-    INSTALL(FILES "/usr/local/lib/libSDL2-2.0.0.dylib" DESTINATION "relive.app/Contents/Frameworks")
+    INSTALL(FILES "/usr/local/Cellar/sdl2/2.26.1/lib/libSDL2-2.0.0.dylib" DESTINATION "relive.app/Contents/Frameworks")
     INSTALL(FILES "/usr/local/Cellar/molten-vk/1.2.1/lib/libMoltenVK.dylib" DESTINATION "relive.app/Contents/Frameworks")
 
 endif()
