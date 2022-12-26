@@ -193,6 +193,10 @@ if(WIN32)
     SET(CPACK_GENERATOR "ZIP")
 endif()
 
+if(APPLE)
+    SET(CPACK_GENERATOR "DragNDrop")
+endif()
+
 SET(CPACK_PACKAGE_CONTACT "nemin@oddwords.hu")
 SET(CPACK_DEBIAN_PACKAGE_HOMEPAGE "https://aliveteam.github.io/")
 SET(CPACK_DEBIAN_PACKAGE_DEPENDS "libsdl2-2.0-0, zenity")
@@ -208,5 +212,7 @@ set(CPACK_RPM_EXCLUDE_FROM_AUTO_FILELIST_ADDITION
   /usr/share/pixmaps
   /usr/include/GL
 )
+
+set(CPACK_DMG_DISABLE_APPLICATIONS_SYMLINK ON)
 
 INCLUDE(CPack)

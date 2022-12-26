@@ -4,7 +4,7 @@ elseif(WIN32)
   SET(BINPATH ".")
 endif()
 
-add_executable(relive WIN32
+add_executable(relive MACOSX_BUNDLE WIN32
     Exe.cpp
     resource.rc
     resource.h
@@ -19,7 +19,7 @@ target_compile_features(relive
 target_compile_definitions(relive PRIVATE "_CRT_SECURE_NO_WARNINGS")
 target_link_libraries(relive AliveLibAE AliveLibAO relive_lib project_warnings)
 export(TARGETS relive FILE relive.cmake)
-install(TARGETS relive DESTINATION "${BINPATH}")
+install(TARGETS relive DESTINATION "${BINPATH}" BUNDLE DESTINATION . RUNTIME DESTINATION .)
 
 if (MSVC)
     target_compile_options(relive PRIVATE /W4 /wd4996 /WX /MP)
