@@ -160,7 +160,7 @@ void SnoozeParticle::VUpdate()
 
             case SnoozeParticleState::eBlowingUp_2:
                 mRGB.r /= 2;
-                mRGB.b /= 2;
+                mRGB.g /= 2;
                 mRGB.b /= 2;
                 mXPos += mDestX;
                 mYPos += mDestY;
