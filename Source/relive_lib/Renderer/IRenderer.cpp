@@ -7,7 +7,61 @@
 #include "../../relive_lib/FatalError.hpp"
 #include "../../relive_lib/Sys.hpp"
 
+#include <SDL_vulkan.h>
+
 static IRenderer* gRenderer = nullptr;
+
+#ifdef __APPLE__
+static std::unique_ptr < class VulkanLib> gVulkanLib;
+#endif
+
+class VulkanLib final
+{
+public:
+    VulkanLib()
+    {
+        TRACE_ENTRYEXIT;
+
+        int ret = SDL_Vulkan_LoadLibrary(nullptr);
+        if (ret == 0)
+        {
+            LOG_INFO("Vulkan lib loaded");
+            mLoaded = true;
+        }
+        else
+        {
+            char* tmp = SDL_GetBasePath();
+            std::string path = tmp + std::string("../Contents/Frameworks/");
+            SDL_free(tmp);
+            path += "libMoltenVK.dylib";
+
+            LOG_ERROR("Failed to load vulkan lib %s trying %s", SDL_GetError(), path.c_str());
+            ret = SDL_Vulkan_LoadLibrary(path.c_str());
+            if (ret == 0)
+            {
+                LOG_INFO("Vulkan lib loaded (2nd attempt)");
+                mLoaded = true;
+            }
+            else
+            {
+                LOG_ERROR("Failed to load vulkan lib %s (2nd attempt)", SDL_GetError());
+            }
+        }
+    }
+
+    ~VulkanLib()
+    {
+        TRACE_ENTRYEXIT;
+
+        if (mLoaded)
+        {
+            SDL_Vulkan_UnloadLibrary();
+        }
+    }
+
+private:
+    bool mLoaded = false;
+};
 
 IRenderer* IRenderer::GetRenderer()
 {
@@ -73,6 +127,9 @@ bool IRenderer::CreateRenderer(Renderers type, const std::string& windowTitle)
 
             case Renderers::Vulkan:
                 LOG_INFO("Create Vulkan");
+                #ifdef __APPLE__
+                gVulkanLib = std::make_unique<VulkanLib>();
+                #endif
                 MakeRenderer<VulkanRenderer>(windowTitle + " [Vulkan]", SDL_WINDOW_VULKAN);
                 break;
 
