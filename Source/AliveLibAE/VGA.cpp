@@ -36,9 +36,9 @@ void VGA_CreateRenderer(const std::string& windowTitleBase)
         windowTitle += " [AutoPlay]";
     }
 
-    //IRenderer::CreateRenderer(IRenderer::Renderers::Vulkan, windowTitle);
+    IRenderer::CreateRenderer(IRenderer::Renderers::Vulkan, windowTitle);
     //IRenderer::CreateRenderer(IRenderer::Renderers::DirectX9, windowTitle);
-    IRenderer::CreateRenderer(IRenderer::Renderers::OpenGL, windowTitle);
+    //IRenderer::CreateRenderer(IRenderer::Renderers::OpenGL, windowTitle);
     IRenderer::GetRenderer()->Clear(0, 0, 0);
     sbRendererCreated = true;
 }
