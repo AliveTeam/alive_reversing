@@ -5,6 +5,7 @@
 
 #include <volk/volk.h>
 
+#define VULKAN_HPP_ENABLE_DYNAMIC_LOADER_TOOL 0
 #define VK_NO_PROTOTYPES 
 #include <vulkan/vulkan.h>
 #include <vulkan/vulkan.hpp>

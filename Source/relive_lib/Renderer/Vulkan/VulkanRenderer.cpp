@@ -371,7 +371,7 @@ void VulkanRenderer::createInstance()
 
 
     LOG_INFO("Make context");
-    mContext = std::make_unique<vk::raii::Context>();
+    mContext = std::make_unique<vk::raii::Context>(vkGetInstanceProcAddr);
 
     LOG_INFO("Make instance");
     mInstance = std::make_unique<vk::raii::Instance>(*mContext, createInfo);
