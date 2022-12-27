@@ -53,11 +53,6 @@ enum class LevelIds : s16;
 class AbilityRing final : public BaseGameObject
 {
 public:
-    static AbilityRing* Factory(FP xpos, FP ypos, RingTypes type, FP scale);
-    virtual void VSetTarget(BaseGameObject* pTarget);
-    static s32 CreateFromSaveState(const u8* pBuffer);
-
-private:
     AbilityRing(FP xpos, FP ypos, RingTypes ringType, FP scale);
     ~AbilityRing();
 
@@ -66,6 +61,11 @@ private:
     virtual void VScreenChanged() override;
     virtual s32 VGetSaveState(u8* pSaveBuffer) override;
 
+    static AbilityRing* Factory(FP xpos, FP ypos, RingTypes type, FP scale);
+    virtual void VSetTarget(BaseGameObject* pTarget);
+    static s32 CreateFromSaveState(const u8* pBuffer);
+
+private:
     void CollideWithObjects(s16 bDealDamage);
 
     Layer mRingLayer = Layer::eLayer_0;

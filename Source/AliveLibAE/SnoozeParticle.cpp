@@ -8,7 +8,7 @@
 #include "Sfx.hpp"
 #include "stdlib.hpp"
 
-const s16 xPositionDeltaEntries_560408[39] = {
+static const s16 xPositionDeltaEntries[36] = {
     1,
     0,
     0,
@@ -44,13 +44,17 @@ const s16 xPositionDeltaEntries_560408[39] = {
     -1,
     0,
     -1,
-    0,
-    0,
-    0,
-    -3};
+    0};
 
+static const PSX_Point explosionVerts[6][2] = {
+    {{-3, -4}, {-6, -7}},
+    {{3, -4}, {6, -7}},
+    {{4, -1}, {7, -1}},
+    {{-4, 1}, {-7, 1}},
+    {{-3, 4}, {-6, 7}},
+    {{3, 4}, {6, 7}} };
 
-const s16 zVerts[8] = {
+static const s16 zVerts[8] = {
     -4,
     -4,
     4,
@@ -59,14 +63,6 @@ const s16 zVerts[8] = {
     4,
     4,
     4};
-
-const PSX_Point explosionVerts[6][2] = {
-    {{-3, -4}, {-6, -7}},
-    {{3, -4}, {6, -7}},
-    {{4, -1}, {7, -1}},
-    {{-4, 1}, {-7, 1}},
-    {{-3, 4}, {-6, 7}},
-    {{3, 4}, {6, 7}}};
 
 SnoozeParticle::SnoozeParticle(FP xpos, FP ypos, Layer layer, FP scale)
     : BaseGameObject(true, 0)
@@ -77,28 +73,28 @@ SnoozeParticle::SnoozeParticle(FP xpos, FP ypos, Layer layer, FP scale)
     gObjListDrawables->Push_Back(this);
 
     mStartY = ypos;
-    field_28_x = xpos;
-    field_2C_y = ypos;
+    mXPos = xpos;
+    mYPos = ypos;
 
     // Interesting calc.. ??
-    field_34_dy = (FP_FromDouble(0.15) * FP_FromInteger(Math_NextRandom())) / FP_FromInteger(256);
-    field_34_dy += FP_FromDouble(0.35);
-    field_34_dy = field_34_dy * FP_FromInteger(-1);
+    mDestY = (FP_FromDouble(0.15) * FP_FromInteger(Math_NextRandom())) / FP_FromInteger(256);
+    mDestY += FP_FromDouble(0.35);
+    mDestY = mDestY * FP_FromInteger(-1);
 
     mOtLayer = layer;
 
     mSpriteScale = scale * FP_FromDouble(0.4);
 
     field_3C_scale_dx = FP_FromDouble(0.30);
-    field_3C_scale_dx = field_3C_scale_dx / (FP_FromInteger(20) / -field_34_dy);
+    field_3C_scale_dx = field_3C_scale_dx / (FP_FromInteger(20) / -mDestY);
 
     mRGB.SetRGB(0, 0, 0);
 
     mState = SnoozeParticleState::eRising_0;
-    field_4A_count_down = 1;
-    field_48_idx = Math_NextRandom() % 36;
-    field_30_dx = FP_FromDouble(xPositionDeltaEntries_560408[field_48_idx]);
-    field_48_idx++;
+    mBlowUp = false;
+    mIdx = Math_NextRandom() % 36;
+    mDestX = FP_FromDouble(xPositionDeltaEntries[mIdx]);
+    mIdx++;
 }
 
 SnoozeParticle::~SnoozeParticle()
@@ -107,6 +103,11 @@ SnoozeParticle::~SnoozeParticle()
     {
         gObjListDrawables->Remove_Item(this);
     }
+}
+
+void SnoozeParticle::VScreenChanged()
+{
+    SetDead(true);
 }
 
 void SnoozeParticle::VUpdate()
@@ -120,7 +121,7 @@ void SnoozeParticle::VUpdate()
         switch (mState)
         {
             case SnoozeParticleState::eRising_0:
-                if (field_2C_y >= mStartY - FP_FromInteger(20))
+                if (mYPos >= mStartY - FP_FromInteger(20))
                 {
                     if (mRGB.r < 70 && mRGB.g < 70 && mRGB.b < 20)
                     {
@@ -131,16 +132,16 @@ void SnoozeParticle::VUpdate()
 
                     mSpriteScale += field_3C_scale_dx;
 
-                    if (field_48_idx > 36)
+                    if (mIdx > 36)
                     {
-                        field_48_idx = 0;
+                        mIdx = 0;
                     }
 
-                    const FP field_48_idx_toFP = FP_FromInteger(xPositionDeltaEntries_560408[field_48_idx]);
-                    field_30_dx = field_48_idx_toFP;
-                    field_28_x += field_48_idx_toFP;
-                    field_2C_y += field_34_dy;
-                    field_48_idx += 1;
+                    const FP field_48_idx_toFP = FP_FromInteger(xPositionDeltaEntries[mIdx]);
+                    mDestX = field_48_idx_toFP;
+                    mXPos += field_48_idx_toFP;
+                    mYPos += mDestY;
+                    mIdx += 1;
                 }
                 else
                 {
@@ -155,19 +156,18 @@ void SnoozeParticle::VUpdate()
                 mRGB.r /= 2; //fade to transparent
                 mRGB.g /= 2;
                 mRGB.b /= 2;
-                field_28_x += field_30_dx;
-                field_2C_y += field_34_dy;
+                mXPos += mDestX;
+                mYPos += mDestY;
 
-                if (field_4A_count_down > 0)
-                {
-                    field_4A_count_down--;
-                }
-                else
+                if (mBlowUp)
                 {
                     SfxPlayMono(relive::SoundEffects::ZPop, 0, mSpriteScale);
                     SetDead(true);
                 }
-                break;
+                else
+                {
+                    mBlowUp = true;
+                }
         }
     }
 }
@@ -178,12 +178,12 @@ void SnoozeParticle::VRender(PrimHeader** ppOt)
 
     if (mState == SnoozeParticleState::eBlowingUp_2)
     {
-        const s16 xInScreen = FP_GetExponent(field_28_x - gScreenManager->CamXPos());
-        const s16 yInScreen = FP_GetExponent(field_2C_y - gScreenManager->CamYPos());
+        const s16 xInScreen = FP_GetExponent(mXPos - gScreenManager->CamXPos());
+        const s16 yInScreen = FP_GetExponent(mYPos - gScreenManager->CamYPos());
 
         for (s32 i = 0; i < ALIVE_COUNTOF(explosionVerts); i++)
         {
-            Line_G2* pZExplosionLine = &field_A4_G2_lines[bufIdx][i];
+            Line_G2* pZExplosionLine = &mG2Lines[bufIdx][i];
             LineG2_Init(pZExplosionLine);
 
             const s32 scaledLineRelativeStartX = FP_GetExponent(FP_FromInteger(explosionVerts[i][0].x) * mSpriteScale);
@@ -212,11 +212,11 @@ void SnoozeParticle::VRender(PrimHeader** ppOt)
     }
     else
     {
-        Line_G4* pZLine = &field_4C_G4_lines[bufIdx];
+        Line_G4* pZLine = &mG4Lines[bufIdx];
         LineG4_Init(pZLine);
 
-        const s16 xInScreen = FP_GetExponent(field_28_x - FP_FromInteger(FP_GetExponent(gScreenManager->CamXPos())));
-        const s16 yInScreen = FP_GetExponent(field_2C_y - FP_FromInteger(FP_GetExponent(gScreenManager->CamYPos())));
+        const s16 xInScreen = FP_GetExponent(mXPos - FP_FromInteger(FP_GetExponent(gScreenManager->CamXPos())));
+        const s16 yInScreen = FP_GetExponent(mYPos - FP_FromInteger(FP_GetExponent(gScreenManager->CamYPos())));
 
         const s16 RectX_v_Psx = xInScreen + FP_GetExponent(FP_FromInteger(zVerts[0]) * mSpriteScale);
         const s16 RectW_v_Psx = xInScreen + FP_GetExponent(FP_FromInteger(zVerts[5]) * mSpriteScale);
@@ -259,13 +259,8 @@ void SnoozeParticle::VRender(PrimHeader** ppOt)
         Poly_Set_SemiTrans(&pZLine->mBase.header, 1);
         OrderingTable_Add(OtLayer(ppOt, mOtLayer), &pZLine->mBase.header);
     }
-    Prim_SetTPage* thisTPage = &field_1C4_tPage[bufIdx];
+    Prim_SetTPage* thisTPage = &mTPage[bufIdx];
     const s32 tPage = PSX_getTPage(TPageAbr::eBlend_1);
     Init_SetTPage(thisTPage, tPage);
     OrderingTable_Add(OtLayer(ppOt, mOtLayer), &thisTPage->mBase);
-}
-
-void SnoozeParticle::VScreenChanged()
-{
-    SetDead(true);
 }

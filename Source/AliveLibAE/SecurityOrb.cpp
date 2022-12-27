@@ -41,7 +41,6 @@ SecurityOrb::SecurityOrb(relive::Path_SecurityOrb* pTlv, const Guid& tlvId)
     : BaseAliveGameObject(0)
 {
     SetType(ReliveTypes::eSecurityOrb);
-
     SetCanExplode(true);
 
     mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Security_Orb));
@@ -103,22 +102,31 @@ bool SecurityOrb::VTakeDamage(BaseGameObject* pFrom)
 
     mHealth = FP_FromInteger(0);
 
-    if (pFrom->Type() == ReliveTypes::eMineCar || pFrom->Type() == ReliveTypes::eAbilityRing || pFrom->Type() == ReliveTypes::eShrykull)
+    switch (pFrom->Type())
     {
-        relive_new AirExplosion(
-            mXPos,
-            mYPos - (GetSpriteScale() * FP_FromInteger(5)),
-            GetSpriteScale(),
-            0);
+        case ReliveTypes::eAbilityRing:
+        case ReliveTypes::eShrykull:
+        case ReliveTypes::eMineCar:
+        {
+            relive_new AirExplosion(
+                mXPos,
+                mYPos - (GetSpriteScale() * FP_FromInteger(5)),
+                GetSpriteScale(),
+                0);
 
-        relive_new Gibs(
-            GibType::Metal_5,
-            mXPos,
-            mYPos,
-            FP_FromInteger(0),
-            FP_FromInteger(0),
-            GetSpriteScale(),
-            0);
+            relive_new Gibs(
+                GibType::Metal_5,
+                mXPos,
+                mYPos,
+                FP_FromInteger(0),
+                FP_FromInteger(0),
+                GetSpriteScale(),
+                0);
+        }
+        break;
+
+        default:
+            break;
     }
 
     SetDead(true);
@@ -166,10 +174,10 @@ void SecurityOrb::VUpdate()
         case States::eDoZapEffects_1:
             if (static_cast<s32>(sGnFrame) > mTimer)
             {
-                const PSX_RECT bRect = sActiveHero->VGetBoundingRect();
+                const PSX_RECT abeRect = sActiveHero->VGetBoundingRect();
 
-                const FP xpos = FP_FromInteger((bRect.x + bRect.w) / 2);
-                const FP ypos = FP_FromInteger((bRect.y + bRect.h) / 2);
+                const FP xpos = FP_FromInteger((abeRect.x + abeRect.w) / 2);
+                const FP ypos = FP_FromInteger((abeRect.y + abeRect.h) / 2);
 
                 relive_new ZapLine(
                     mXPos,
@@ -192,10 +200,10 @@ void SecurityOrb::VUpdate()
 
                 relive_new ScreenShake(1, 0);
 
-                auto pSpark = relive_new ZapSpark(mXPos, mYPos - (FP_FromInteger(8) * GetSpriteScale()), GetSpriteScale());
-                if (pSpark)
+                auto pSpark1 = relive_new ZapSpark(mXPos, mYPos - (FP_FromInteger(8) * GetSpriteScale()), GetSpriteScale());
+                if (pSpark1)
                 {
-                    pSpark->mRGB.SetRGB(255, 65, 65);
+                    pSpark1->mRGB.SetRGB(255, 65, 65);
                 }
 
                 auto pSpark2 = relive_new ZapSpark(mXPos, mYPos - (FP_FromInteger(8) * GetSpriteScale()), GetSpriteScale());
