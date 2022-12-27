@@ -198,6 +198,8 @@ static void LoadBmp(const char* bmpName, FnCallBack cb)
 
 void VulkanRenderer::initVulkan()
 {
+    TRACE_ENTRYEXIT;
+
     createInstance();
     setupDebugMessenger();
     createSurface();
@@ -323,6 +325,8 @@ void VulkanRenderer::recreateSwapChain()
 
 void VulkanRenderer::createInstance()
 {
+    TRACE_ENTRYEXIT;
+
     bool haveValidationLayers = true;
     if constexpr (enableValidationLayers)
     {
@@ -334,7 +338,7 @@ void VulkanRenderer::createInstance()
     }
 
     vk::ApplicationInfo appInfo{};
-    appInfo.pApplicationName = "Hello Triangle";
+    appInfo.pApplicationName = "RELIVE";
     appInfo.applicationVersion = VK_MAKE_VERSION(1, 0, 0);
     appInfo.pEngineName = "No Engine";
     appInfo.engineVersion = VK_MAKE_VERSION(1, 0, 0);
@@ -366,9 +370,10 @@ void VulkanRenderer::createInstance()
     );
 
 
-
+    LOG_INFO("Make context");
     mContext = std::make_unique<vk::raii::Context>();
 
+    LOG_INFO("Make instance");
     mInstance = std::make_unique<vk::raii::Instance>(*mContext, createInfo);
 
     volkLoadInstance(**mInstance);
@@ -400,12 +405,15 @@ void VulkanRenderer::createSurface()
     {
         throw std::runtime_error("failed to create window surface!");
     }
+    LOG_INFO("Make surface");
     mSurface = std::make_unique<vk::raii::SurfaceKHR>(*mInstance, tmpSurace);
 }
 
 void VulkanRenderer::pickPhysicalDevice()
 {
     vk::raii::PhysicalDevices physicalDevices(*mInstance);
+    LOG_INFO("Got %d physicalDevices", physicalDevices.size());
+
     if (physicalDevices.empty())
     {
         throw std::runtime_error("failed to find GPUs with Vulkan support!");
@@ -632,8 +640,9 @@ void VulkanRenderer::createGraphicsPipeline(VulkanRenderer::PipelineIndex idx)
         colorBlendAttachment.srcColorBlendFactor = vk::BlendFactor::eSrcAlpha;
         colorBlendAttachment.colorBlendOp = vk::BlendOp::eReverseSubtract;
     }
-    colorBlendAttachment.srcAlphaBlendFactor = vk::BlendFactor::eOne;
-    colorBlendAttachment.dstAlphaBlendFactor = vk::BlendFactor::eZero;
+
+    colorBlendAttachment.srcAlphaBlendFactor = vk::BlendFactor::eZero;
+    colorBlendAttachment.dstAlphaBlendFactor = vk::BlendFactor::eOne;
     colorBlendAttachment.alphaBlendOp = vk::BlendOp::eAdd;
 
     vk::PipelineColorBlendStateCreateInfo colorBlending;
@@ -641,10 +650,10 @@ void VulkanRenderer::createGraphicsPipeline(VulkanRenderer::PipelineIndex idx)
     colorBlending.logicOp = vk::LogicOp::eCopy;
     colorBlending.attachmentCount = 1;
     colorBlending.pAttachments = &colorBlendAttachment;
-    colorBlending.blendConstants[0] = 0.0f;
-    colorBlending.blendConstants[1] = 0.0f;
-    colorBlending.blendConstants[2] = 0.0f;
-    colorBlending.blendConstants[3] = 0.0f;
+    colorBlending.blendConstants[0] = 1.0f;
+    colorBlending.blendConstants[1] = 1.0f;
+    colorBlending.blendConstants[2] = 1.0f;
+    colorBlending.blendConstants[3] = 1.0f;
 
     const std::vector<vk::DynamicState> dynamicStates = {
         vk::DynamicState::eViewport,
@@ -1546,6 +1555,7 @@ VulkanRenderer::VulkanRenderer(TWindowHandleType window)
     : IRenderer(window)
     , mPaletteCache(256)
 {
+    TRACE_ENTRYEXIT;
     const VkResult result = volkInitialize();
     if (result != VK_SUCCESS)
     {
