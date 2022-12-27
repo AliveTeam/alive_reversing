@@ -31,9 +31,10 @@ public:
         else
         {
             char* tmp = SDL_GetBasePath();
-            std::string path = tmp + std::string("../Frameworks/");
+            std::string path = tmp;
+            path = path.substr(0, path.length() - 9);
             SDL_free(tmp);
-           // path += "libMoltenVK.dylib";
+            path += "Frameworks/libMoltenVK.dylib";
 
             LOG_ERROR("Failed to load vulkan lib %s trying %s", SDL_GetError(), path.c_str());
             ret = SDL_Vulkan_LoadLibrary(path.c_str());
