@@ -1565,12 +1565,12 @@ VulkanRenderer::VulkanRenderer(TWindowHandleType window)
     path += "Frameworks/libMoltenVK.dylib";
 
     void* mvk = SDL_LoadObject(path.c_str());
-    auto tmp = (PFN_vkGetInstanceProcAddr) SDL_LoadFunction(mvk, "vkGetInstanceProcAddr");
-    if (!tmp)
+    PFN_vkGetInstanceProcAddr fnTmp = (PFN_vkGetInstanceProcAddr) SDL_LoadFunction(mvk, "vkGetInstanceProcAddr");
+    if (!fnTmp)
     {
         LOG_ERROR("No fp");
     }
-    volkInitializeCustom(tmp);
+    volkInitializeCustom(fnTmp);
 #else
     const VkResult result = volkInitialize();
     if (result != VK_SUCCESS)
