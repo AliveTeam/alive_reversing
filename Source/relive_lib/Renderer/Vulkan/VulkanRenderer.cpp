@@ -1556,11 +1556,28 @@ VulkanRenderer::VulkanRenderer(TWindowHandleType window)
     , mPaletteCache(256)
 {
     TRACE_ENTRYEXIT;
+
+#ifdef __APPLE__
+    char* tmp = SDL_GetBasePath();
+    std::string path = tmp;
+    path = path.substr(0, path.length() - 10);
+    SDL_free(tmp);
+    path += "Frameworks/libMoltenVK.dylib";
+
+    void* mvk = SDL_LoadObject(path.c_str());
+    auto tmp = (PFN_vkGetInstanceProcAddr) SDL_LoadFunction(mvk, "vkGetInstanceProcAddr");
+    if (!tmp)
+    {
+        LOG_ERROR("No fp");
+    }
+    volkInitializeCustom(tmp);
+#else
     const VkResult result = volkInitialize();
     if (result != VK_SUCCESS)
     {
         throw RendererException("volkInitialize failed");
     }
+#endif
     initVulkan();
 }
 
