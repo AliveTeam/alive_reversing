@@ -898,17 +898,25 @@ void Sys_DestroyWindow()
     }
 }
 
-bool Sys_WindowClass_Register(LPCSTR lpWindowName, s32 x, s32 y, s32 nWidth, s32 nHeight, s32 extraAttributes)
+bool Sys_WindowClass_Register(const char_type* lpWindowName, s32 x, s32 y, s32 nWidth, s32 nHeight, s32 extraAttributes)
 {
+    TRACE_ENTRYEXIT;
+
     sHwnd = SDL_CreateWindow(lpWindowName, x, y, nWidth, nHeight, SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI | SDL_WINDOW_HIDDEN | extraAttributes);
     if (sHwnd)
     {
+        LOG_INFO("Window created");
+
         Input_InitKeyStateArray_4EDD60();
 
         SDL_ShowCursor(SDL_DISABLE);
 
         // SDL will not send a window focused message on start up, so default to activated
         sAppIsActivated = true;
+    }
+    else
+    {
+        LOG_ERROR("Window create with flags %d failed with %s", extraAttributes, SDL_GetError());
     }
     return sHwnd != nullptr;
 }
