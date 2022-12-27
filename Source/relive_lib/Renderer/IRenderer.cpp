@@ -32,7 +32,7 @@ public:
         {
             char* tmp = SDL_GetBasePath();
             std::string path = tmp;
-            path = path.substr(0, path.length() - 9);
+            path = path.substr(0, path.length() - 10);
             SDL_free(tmp);
             path += "Frameworks/libMoltenVK.dylib";
 
