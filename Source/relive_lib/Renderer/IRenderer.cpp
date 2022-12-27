@@ -17,11 +17,16 @@ IRenderer* IRenderer::GetRenderer()
 template<typename T>
 static void MakeRenderer(const std::string& windowTitle, u32 windowAttributes)
 {
+    TRACE_ENTRYEXIT;
     try
     {
         if (Sys_WindowClass_Register(windowTitle.c_str(), 32, 64, 640, 480, windowAttributes))
         {
             gRenderer = new T(Sys_GetHWnd());
+        }
+        else
+        {
+            LOG_INFO("No window, skip creating instance");
         }
     }
     catch (const std::exception& e)
