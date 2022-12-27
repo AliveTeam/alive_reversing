@@ -31,7 +31,7 @@ public:
         else
         {
             char* tmp = SDL_GetBasePath();
-            std::string path = tmp + std::string("../Contents/Frameworks/");
+            std::string path = tmp + std::string("../Frameworks/");
             SDL_free(tmp);
             path += "libMoltenVK.dylib";
 
