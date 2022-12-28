@@ -50,13 +50,14 @@ public:
     AbilityRing(FP xpos, FP ypos, RingTypes type);
     ~AbilityRing();
 
-    static AbilityRing* Factory(FP xpos, FP ypos, RingTypes ring_type);
-
-    virtual void VScreenChanged() override;
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
+    virtual void VScreenChanged() override;
 
+    static AbilityRing* Factory(FP xpos, FP ypos, RingTypes ring_type);
     void SetTarget(BaseAliveGameObject* pTarget);
+
+private:
     void CollideWithObjects();
 
     Layer mRingLayer = Layer::eLayer_0;

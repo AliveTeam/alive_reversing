@@ -22,9 +22,8 @@ namespace AO {
 SecurityOrb::SecurityOrb(relive::Path_SecurityOrb* pTlv, const Guid& tlvId)
     : BaseAliveGameObject()
 {
-    SetCanExplode(true);
-
     SetType(ReliveTypes::eSecurityOrb);
+    SetCanExplode(true);
 
     mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Security_Orb));
     Animation_Init(GetAnimRes(AnimId::Security_Orb));
@@ -148,14 +147,14 @@ void SecurityOrb::VUpdate()
             {
                 const PSX_RECT abeRect = sActiveHero->VGetBoundingRect();
 
-                const s32 width = abeRect.w + abeRect.x;
-                const s32 height = abeRect.h + abeRect.y;
+                const FP xpos = FP_FromInteger((abeRect.x + abeRect.w) / 2);
+                const FP ypos = FP_FromInteger((abeRect.y + abeRect.h) / 2);
 
                 relive_new ZapLine(
                     mXPos,
                     mYPos - (FP_FromInteger(8) * GetSpriteScale()),
-                    FP_FromInteger(width / 2),
-                    FP_FromInteger(height / 2),
+                    xpos,
+                    ypos,
                     8,
                     ZapLineType::eThick_0,
                     Layer::eLayer_ZapLinesElumMuds_28);
@@ -168,19 +167,13 @@ void SecurityOrb::VUpdate()
 
                 relive_new ScreenShake(1);
 
-                auto pSpark1 = relive_new ZapSpark(
-                    mXPos,
-                    mYPos - (FP_FromInteger(8) * GetSpriteScale()),
-                    GetSpriteScale());
+                auto pSpark1 = relive_new ZapSpark(mXPos, mYPos - (FP_FromInteger(8) * GetSpriteScale()), GetSpriteScale());
                 if (pSpark1)
                 {
                     pSpark1->mRGB.SetRGB(255, 65, 65);
                 }
 
-                auto pSpark2 = relive_new ZapSpark(
-                    mXPos,
-                    mYPos - (FP_FromInteger(8) * GetSpriteScale()),
-                    GetSpriteScale());
+                auto pSpark2 = relive_new ZapSpark(mXPos, mYPos - (FP_FromInteger(8) * GetSpriteScale()), GetSpriteScale());
                 if (pSpark2)
                 {
                     pSpark2->mRGB.SetRGB(255, 65, 65);
@@ -188,13 +181,10 @@ void SecurityOrb::VUpdate()
 
                 for (s32 i = 0; i < 9; i++)
                 {
-                    auto pSparks = relive_new ZapSpark(
-                        FP_FromInteger(width / 2),
-                        FP_FromInteger(height / 2),
-                        GetSpriteScale());
-                    if (pSparks)
+                    auto pSpark3 = relive_new ZapSpark(xpos, ypos, GetSpriteScale());
+                    if (pSpark3)
                     {
-                        pSparks->mRGB.SetRGB(255, 65, 65);
+                        pSpark3->mRGB.SetRGB(255, 65, 65);
                     }
                 }
             }
@@ -211,11 +201,12 @@ void SecurityOrb::VUpdate()
                 relive_new Flash(Layer::eLayer_Above_FG1_39, 255u, 0, 0, TPageAbr::eBlend_1, 1);
             }
 
-            if (mTimer - sGnFrame == 4)
+            const s32 timerFrame = mTimer - sGnFrame;
+            if (timerFrame == 4)
             {
                 SfxPlayMono(relive::SoundEffects::Zap1, 0);
             }
-            else if (mTimer - sGnFrame == 1)
+            else if (timerFrame == 1)
             {
                 SfxPlayMono(relive::SoundEffects::Zap2, 0);
             }

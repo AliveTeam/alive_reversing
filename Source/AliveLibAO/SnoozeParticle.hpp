@@ -27,17 +27,17 @@ public:
     FP mStartY = {};
     FP mXPos = {};
     FP mYPos = {};
-    FP field_20_dx = {};
-    FP field_24_dy = {};
+    FP mDestX = {};
+    FP mDestY = {};
     FP mSpriteScale = {};
-    FP field_2C_scale_dx = {};
+    FP mScaleDx = {};
     Layer mOtLayer = Layer::eLayer_0;
     RGB16 mRGB;
-    s16 field_38_idx = 0;
-    s16 field_3A_count_down = 0;
-    Line_G4 field_3C_lines[2] = {};
-    Line_G2 field_94_lines[2][6] = {};
-    Prim_SetTPage field_1B4_tPage[2] = {};
+    s16 mIdx = 0;
+    bool mBlowUp = false;
+    Line_G4 mG4Lines[2] = {};
+    Line_G2 mG2Lines[2][6] = {};
+    Prim_SetTPage mTPage[2] = {};
     SnoozeParticleState mState = SnoozeParticleState::eRising_0;
 };
 

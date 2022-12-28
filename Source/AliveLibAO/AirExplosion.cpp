@@ -36,8 +36,8 @@ AirExplosion::AirExplosion(FP xpos, FP ypos, FP exposion_size)
 
     SetSpriteScale(exposion_size * FP_FromInteger(2));
     SetApplyShadowZoneColour(false);
-    mYPos = ypos;
     mXPos = xpos;
+    mYPos = ypos;
 
     relive_new ScreenShake(true);
 

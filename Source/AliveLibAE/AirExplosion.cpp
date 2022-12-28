@@ -12,9 +12,13 @@
 #include "stdlib.hpp"
 #include "ExplosionSet.hpp"
 #include "Path.hpp"
-#include <algorithm>
 #include "../relive_lib/FixedPoint.hpp"
 #include "../relive_lib/GameObjects/IBaseAliveGameObject.hpp"
+
+#undef min
+#undef max
+
+#include <algorithm>
 
 AirExplosion::AirExplosion(FP xpos, FP ypos, FP scale, bool bSmall)
     : BaseAnimatedWithPhysicsGameObject(0)
