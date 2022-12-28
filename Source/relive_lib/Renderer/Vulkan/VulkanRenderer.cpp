@@ -1558,17 +1558,11 @@ VulkanRenderer::VulkanRenderer(TWindowHandleType window)
     TRACE_ENTRYEXIT;
 
 #ifdef __APPLE__
-    char* tmp = SDL_GetBasePath();
-    std::string path = tmp;
-    path = path.substr(0, path.length() - 10);
-    SDL_free(tmp);
-    path += "Frameworks/libMoltenVK.dylib";
-
-    void* mvk = SDL_LoadObject(path.c_str());
-    PFN_vkGetInstanceProcAddr fnTmp = (PFN_vkGetInstanceProcAddr) SDL_LoadFunction(mvk, "vkGetInstanceProcAddr");
+    mMoltenVkLib = std::make_unique<ScopedDynamicLib>(VulkanLib::GetDylibPath().c_str());
+    auto fnTmp = mMoltenVkLib->GetFn<PFN_vkGetInstanceProcAddr>("vkGetInstanceProcAddr");
     if (!fnTmp)
     {
-        LOG_ERROR("No fp");
+        throw RendererException("vkGetInstanceProcAddr not found in dylib");
     }
     volkInitializeCustom(fnTmp);
 #else

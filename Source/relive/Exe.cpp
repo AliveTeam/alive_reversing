@@ -120,6 +120,16 @@ void PopulateAutoSplitterVars(GameType gameType)
     AutoSplitterData::gameType = gameType;
 }
 
+#ifndef _WIN32
+static std::string GetPrefPath()
+{
+    char* pPath = SDL_GetPrefPath("relive_team", "relive");
+    std::string ret(pPath);
+    SDL_free(pPath);
+    return ret;
+}
+#endif
+
 // Only used on Windows for logging to help when people have issues launching the game
 static void ShowCwd()
 {
@@ -140,7 +150,9 @@ static void ShowCwd()
     const char* answer = getcwd(buffer, sizeof(buffer));
     if (answer)
     {
-        LOG_INFO("Mac/Linux cwd is %s SDL_GetBasePath is %s SDL_GetPrefPath is %s", answer, SDL_GetBasePath(), SDL_GetPrefPath("relive_team", "relive"));
+        char* pBasePath = SDL_GetBasePath();
+        LOG_INFO("Mac/Linux cwd is %s SDL_GetBasePath is %s SDL_GetPrefPath is %s", answer, pBasePath, GetPrefPath().c_str());
+        SDL_free(pBasePath);
     }
     else
     {
@@ -240,7 +252,7 @@ BaseGameAutoPlayer& GetGameAutoPlayer()
 
 static void __attribute__((constructor)) FixCWD()
 {
-    chdir(SDL_GetPrefPath("relive_team", "relive"));
+    chdir(GetPrefPath().c_str());
 }
 #endif
 

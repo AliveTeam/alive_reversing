@@ -11,6 +11,93 @@
 #include <vulkan/vulkan.hpp>
 #include <vulkan/vulkan_raii.hpp>
 #include <optional>
+#include <SDL_vulkan.h>
+
+class VulkanLib final
+{
+public:
+    VulkanLib()
+    {
+        TRACE_ENTRYEXIT;
+
+        int ret = SDL_Vulkan_LoadLibrary(nullptr);
+        if (ret == 0)
+        {
+            LOG_INFO("Vulkan lib loaded");
+            mLoaded = true;
+        }
+        else
+        {
+            std::string path = GetDylibPath();
+            LOG_ERROR("Failed to load vulkan lib %s trying %s", SDL_GetError(), path.c_str());
+            ret = SDL_Vulkan_LoadLibrary(path.c_str());
+            if (ret == 0)
+            {
+                LOG_INFO("Vulkan lib loaded (2nd attempt)");
+                mLoaded = true;
+            }
+            else
+            {
+                LOG_ERROR("Failed to load vulkan lib %s (2nd attempt)", SDL_GetError());
+            }
+        }
+    }
+
+    static std::string GetDylibPath()
+    {
+        char* tmp = SDL_GetBasePath();
+        std::string path = tmp;
+        path = path.substr(0, path.length() - 10);
+        SDL_free(tmp);
+        path += "Frameworks/libMoltenVK.dylib";
+        LOG_INFO("dylib path = %s", path.c_str());
+        return path;
+    }
+
+    ~VulkanLib()
+    {
+        TRACE_ENTRYEXIT;
+
+        if (mLoaded)
+        {
+            SDL_Vulkan_UnloadLibrary();
+        }
+    }
+
+private:
+    bool mLoaded = false;
+};
+
+class ScopedDynamicLib final
+{
+public:
+    explicit ScopedDynamicLib(const char_type* pLib)
+    {
+        mLibHandle = SDL_LoadObject(pLib);
+    }
+
+    ~ScopedDynamicLib()
+    {
+        if (Loaded())
+        {
+            SDL_UnloadObject(mLibHandle);
+        }
+    }
+
+    template<typename T>
+    T GetFn(const char_type* pFnName) const
+    {
+        return reinterpret_cast<T>(SDL_LoadFunction(mLibHandle, pFnName));
+    }
+
+    bool Loaded() const
+    {
+        return mLibHandle != nullptr;
+    }
+
+private:
+    void* mLibHandle = nullptr;
+};
 
 class VulkanRenderer final : public IRenderer
 {
@@ -31,6 +118,10 @@ public:
     void Draw(Poly_G4& poly) override;
 
 private:
+#ifdef __APPLE__
+    std::unique_ptr<ScopedDynamicLib> mMoltenVkLib;
+#endif
+
     struct SwapChainSupportDetails
     {
         vk::SurfaceCapabilitiesKHR capabilities;
