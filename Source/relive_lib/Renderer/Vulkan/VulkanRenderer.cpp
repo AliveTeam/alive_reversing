@@ -219,6 +219,7 @@ void VulkanRenderer::initVulkan()
     createGraphicsPipeline(PipelineIndex::eAddBlending);
 
     createFramebuffers();
+    createOffScreenPass();
 
     /*
     LoadBmp("C:\\data\\poggins.bmp", [&](void* pPixels, u32 width, u32 height)
@@ -706,6 +707,115 @@ void VulkanRenderer::createFramebuffers()
 
         mSwapChainFramebuffers.emplace_back(mDevice->createFramebuffer(framebufferInfo));
     }
+}
+
+void VulkanRenderer::createOffScreenPass()
+{
+    mOffScreenPass.width = 640;
+    mOffScreenPass.height = 240;
+
+    const vk::Format kFramebufferFormat = vk::Format::eR8G8B8A8Unorm;
+
+    // Color attachment
+    auto [image, memory] = createImage(mOffScreenPass.width, mOffScreenPass.height, kFramebufferFormat, vk::ImageTiling::eOptimal, vk::ImageUsageFlagBits::eColorAttachment | vk::ImageUsageFlagBits::eSampled, vk::MemoryPropertyFlagBits::eDeviceLocal);
+    mOffScreenPass.color.image = std::move(image);
+    mOffScreenPass.color.mem = std::move(memory);
+
+    vk::ImageViewCreateInfo createInfo;
+    createInfo.viewType = vk::ImageViewType::e2D;
+    createInfo.format = kFramebufferFormat;
+    createInfo.subresourceRange.aspectMask = vk::ImageAspectFlagBits::eColor;
+    createInfo.subresourceRange.levelCount = 1;
+    createInfo.subresourceRange.layerCount = 1;
+    createInfo.image = **mOffScreenPass.color.image;
+    mOffScreenPass.color.view = std::make_unique<vk::raii::ImageView>(mDevice->createImageView(createInfo));
+
+    // Create sampler to sample from the attachment in the fragment shader
+    vk::PhysicalDeviceProperties properties = mPhysicalDevice->getProperties();
+
+    vk::SamplerCreateInfo samplerInfo;
+    samplerInfo.magFilter = vk::Filter::eNearest;
+    samplerInfo.minFilter = vk::Filter::eNearest;
+    samplerInfo.addressModeU = vk::SamplerAddressMode::eClampToEdge;
+    samplerInfo.addressModeV = vk::SamplerAddressMode::eClampToEdge;
+    samplerInfo.addressModeW = vk::SamplerAddressMode::eClampToEdge;
+    samplerInfo.anisotropyEnable = VK_FALSE;
+    samplerInfo.maxAnisotropy = properties.limits.maxSamplerAnisotropy;
+    samplerInfo.borderColor = vk::BorderColor::eIntOpaqueBlack;
+    samplerInfo.unnormalizedCoordinates = VK_FALSE;
+    samplerInfo.compareEnable = VK_FALSE;
+    samplerInfo.compareOp = vk::CompareOp::eAlways;
+    samplerInfo.mipmapMode = vk::SamplerMipmapMode::eNearest;
+
+    mOffScreenPass.sampler = std::make_unique<vk::raii::Sampler>(mDevice->createSampler(samplerInfo));
+
+    // Create a separate render pass for the offscreen rendering as it may differ from the one used for scene rendering
+
+    vk::AttachmentDescription colorAttachment;
+    colorAttachment.format = kFramebufferFormat;
+    colorAttachment.samples = vk::SampleCountFlagBits::e1;
+    colorAttachment.loadOp = vk::AttachmentLoadOp::eClear;
+    colorAttachment.storeOp = vk::AttachmentStoreOp::eStore;
+    colorAttachment.stencilLoadOp = vk::AttachmentLoadOp::eDontCare;
+    colorAttachment.stencilStoreOp = vk::AttachmentStoreOp::eDontCare;
+    colorAttachment.initialLayout = vk::ImageLayout::eUndefined;
+    colorAttachment.finalLayout = vk::ImageLayout::eShaderReadOnlyOptimal; // Only expect the shader to read this FB
+
+    vk::AttachmentReference colorAttachmentRef;
+    colorAttachmentRef.attachment = 0;
+    colorAttachmentRef.layout = vk::ImageLayout::eColorAttachmentOptimal;
+
+    vk::SubpassDescription subpassDescription;
+    subpassDescription.pipelineBindPoint = vk::PipelineBindPoint::eGraphics;
+    subpassDescription.colorAttachmentCount = 1;
+    subpassDescription.pColorAttachments = &colorAttachmentRef;
+
+    // Use subpass dependencies for layout transitions
+    std::array<vk::SubpassDependency, 2> dependencies;
+
+    dependencies[0].srcSubpass = VK_SUBPASS_EXTERNAL;
+    dependencies[0].dstSubpass = 0;
+    dependencies[0].srcStageMask = vk::PipelineStageFlagBits::eFragmentShader;
+    dependencies[0].dstStageMask = vk::PipelineStageFlagBits::eColorAttachmentOutput;
+    dependencies[0].srcAccessMask = vk::AccessFlagBits::eShaderRead;
+    dependencies[0].dstAccessMask = vk::AccessFlagBits::eColorAttachmentWrite;
+    dependencies[0].dependencyFlags = vk::DependencyFlagBits::eByRegion;
+
+    dependencies[1].srcSubpass = 0;
+    dependencies[1].dstSubpass = VK_SUBPASS_EXTERNAL;
+    dependencies[1].srcStageMask = vk::PipelineStageFlagBits::eColorAttachmentOutput;
+    dependencies[1].dstStageMask = vk::PipelineStageFlagBits::eFragmentShader;
+    dependencies[1].srcAccessMask = vk::AccessFlagBits::eColorAttachmentWrite;
+    dependencies[1].dstAccessMask = vk::AccessFlagBits::eShaderRead;
+    dependencies[1].dependencyFlags = vk::DependencyFlagBits::eByRegion;
+
+    // Create the actual renderpass
+    vk::RenderPassCreateInfo renderPassInfo;
+    renderPassInfo.attachmentCount = 1;
+    renderPassInfo.pAttachments = &colorAttachment;
+    renderPassInfo.subpassCount = 1;
+    renderPassInfo.pSubpasses = &subpassDescription;
+    renderPassInfo.dependencyCount = static_cast<uint32_t>(dependencies.size());
+    renderPassInfo.pDependencies = dependencies.data();
+
+    mOffScreenPass.renderPass = std::make_unique<vk::raii::RenderPass>(mDevice->createRenderPass(renderPassInfo));
+
+    vk::ImageView attachments[] = {**mOffScreenPass.color.view};
+
+    vk::FramebufferCreateInfo fbufCreateInfo;
+    fbufCreateInfo.renderPass = **mOffScreenPass.renderPass;
+    fbufCreateInfo.attachmentCount = 1;
+    fbufCreateInfo.pAttachments = attachments;
+    fbufCreateInfo.width = mOffScreenPass.width;
+    fbufCreateInfo.height = mOffScreenPass.height;
+    fbufCreateInfo.layers = 1;
+
+    mOffScreenPass.frameBuffer = std::make_unique<vk::raii::Framebuffer>(mDevice->createFramebuffer(fbufCreateInfo));
+
+    // Fill a descriptor for later use in a descriptor set
+    mOffScreenPass.descriptor.imageLayout = vk::ImageLayout::eShaderReadOnlyOptimal;
+    mOffScreenPass.descriptor.imageView = **mOffScreenPass.color.view;
+    mOffScreenPass.descriptor.sampler = **mOffScreenPass.sampler;
 }
 
 void VulkanRenderer::createCommandPool()

@@ -175,6 +175,7 @@ private:
     };
     void createGraphicsPipeline(PipelineIndex idx);
     void createFramebuffers();
+    void createOffScreenPass();
     void createCommandPool();
     void createTextureSampler();
     vk::raii::ImageView createImageView(vk::Image image, vk::Format format);
@@ -318,6 +319,26 @@ private:
     RenderBatch mConstructingBatch;
     std::vector<RenderBatch> mBatches;
     bool mBatchInProgress = false;
+
+    struct FrameBufferAttachment final
+    {
+        std::unique_ptr<vk::raii::Image> image;
+        std::unique_ptr<vk::raii::DeviceMemory> mem;
+        std::unique_ptr<vk::raii::ImageView> view;
+    };
+
+    struct OffscreenPass final
+    {
+        int32_t width;
+        int32_t height;
+        std::unique_ptr<vk::raii::Framebuffer> frameBuffer;
+        FrameBufferAttachment color;
+        //FrameBufferAttachment depth;
+        std::unique_ptr<vk::raii::RenderPass> renderPass;
+        std::unique_ptr<vk::raii::Sampler> sampler;
+        vk::DescriptorImageInfo descriptor;
+    };
+    OffscreenPass mOffScreenPass = {};
 
     // Apparently 1 sampler can do all the textures in the shader
     std::unique_ptr<vk::raii::Sampler> mTextureSampler;
