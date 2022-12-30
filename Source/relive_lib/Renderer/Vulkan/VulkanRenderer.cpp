@@ -1301,30 +1301,35 @@ void VulkanRenderer::recordCommandBuffer(vk::raii::CommandBuffer& commandBuffer,
     vk::CommandBufferBeginInfo beginInfo;
     commandBuffer.begin(beginInfo);
 
-    vk::RenderPassBeginInfo renderPassInfo;
-    renderPassInfo.renderPass = **mRenderPass;
-    renderPassInfo.framebuffer = *mSwapChainFramebuffers[imageIndex];
-    renderPassInfo.renderArea.offset = vk::Offset2D {0, 0};
-    renderPassInfo.renderArea.extent = mSwapChainExtent;
+    // First render pass : Offscreen rendering
+    vk::RenderPassBeginInfo offScreenPassInfo;
+    offScreenPassInfo.renderPass = **mOffScreenPass.renderPass;
+    offScreenPassInfo.framebuffer = **mOffScreenPass.frameBuffer;
+    offScreenPassInfo.renderArea.offset = vk::Offset2D{0, 0};
+    offScreenPassInfo.renderArea.extent.width = mOffScreenPass.width;
+    offScreenPassInfo.renderArea.extent.height = mOffScreenPass.height;
+
 
     vk::ClearValue clearColor(vk::ClearColorValue(0.0f, 0.0f, 0.0f, 1.0f));
-    renderPassInfo.clearValueCount = 1;
-    renderPassInfo.pClearValues = &clearColor;
+    offScreenPassInfo.clearValueCount = 1;
+    offScreenPassInfo.pClearValues = &clearColor;
 
-    commandBuffer.beginRenderPass(renderPassInfo, vk::SubpassContents::eInline);
+    commandBuffer.beginRenderPass(offScreenPassInfo, vk::SubpassContents::eInline);
 
     vk::Viewport viewport;
     viewport.x = 0.0f;
     viewport.y = 0.0f;
-    viewport.width = (float) mSwapChainExtent.width;
-    viewport.height = (float) mSwapChainExtent.height;
+    viewport.width = (float) mOffScreenPass.width;
+    viewport.height = (float) mOffScreenPass.height;
     viewport.minDepth = 0.0f;
     viewport.maxDepth = 1.0f;
     commandBuffer.setViewport(0, viewport);
 
     vk::Rect2D scissor{0, 0};
-    scissor.extent = mSwapChainExtent;
+    scissor.extent.width = mOffScreenPass.width;
+    scissor.extent.height = mOffScreenPass.height;
     commandBuffer.setScissor(0, scissor);
+
 
     u32 batchIdx = 0;
     u32 idxOffset = 0;
@@ -1363,6 +1368,36 @@ void VulkanRenderer::recordCommandBuffer(vk::raii::CommandBuffer& commandBuffer,
         }
         batchIdx++;
     }
+
+    commandBuffer.endRenderPass();
+
+    // Note: Explicit synchronization is not required between the render pass, as this is done implicit via sub pass dependencies
+    // Copy frame buffer to swap chain pass
+    vk::RenderPassBeginInfo renderPassInfo;
+    renderPassInfo.renderPass = **mRenderPass;
+    renderPassInfo.framebuffer = *mSwapChainFramebuffers[imageIndex];
+    renderPassInfo.renderArea.offset = vk::Offset2D{0, 0};
+    renderPassInfo.renderArea.extent = mSwapChainExtent;
+    renderPassInfo.clearValueCount = 1;
+    renderPassInfo.pClearValues = &clearColor;
+
+    commandBuffer.beginRenderPass(renderPassInfo, vk::SubpassContents::eInline);
+
+    vk::Viewport viewport2;
+    viewport2.x = 0.0f;
+    viewport2.y = 0.0f;
+    viewport2.width = (float) mSwapChainExtent.width;
+    viewport2.height = (float) mSwapChainExtent.height;
+    viewport2.minDepth = 0.0f;
+    viewport2.maxDepth = 1.0f;
+    commandBuffer.setViewport(0, viewport2);
+
+    vk::Rect2D scissor2{0, 0};
+    scissor2.extent = mSwapChainExtent;
+    commandBuffer.setScissor(0, scissor2);
+
+    // TODO: Draw tris
+
 
     commandBuffer.endRenderPass();
 
