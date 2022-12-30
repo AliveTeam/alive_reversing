@@ -172,6 +172,7 @@ private:
         eNone = -1,
         eReverseBlending = 0,
         eAddBlending = 1,
+        eFBOPipeline = 2,
     };
     void createGraphicsPipeline(PipelineIndex idx);
     void createFramebuffers();
@@ -315,7 +316,6 @@ private:
         PipelineIndex mPipeline = PipelineIndex::eNone;
         u32 mNumTrisToDraw = 0;
         u32 mTexturesInBatch = 0;
-        bool mIsFbo = false;
     };
     RenderBatch mConstructingBatch;
     std::vector<RenderBatch> mBatches;

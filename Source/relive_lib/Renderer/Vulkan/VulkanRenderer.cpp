@@ -45,31 +45,9 @@ constexpr bool enableValidationLayers = false;
 constexpr bool enableValidationLayers = true;
 #endif
 
-VkResult CreateDebugUtilsMessengerEXT(VkInstance instance, const VkDebugUtilsMessengerCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkDebugUtilsMessengerEXT* pDebugMessenger)
-{
-    auto func = (PFN_vkCreateDebugUtilsMessengerEXT) vkGetInstanceProcAddr(instance, "vkCreateDebugUtilsMessengerEXT");
-    if (func != nullptr)
-    {
-        return func(instance, pCreateInfo, pAllocator, pDebugMessenger);
-    }
-    else
-    {
-        return VK_ERROR_EXTENSION_NOT_PRESENT;
-    }
-}
+static const vk::Format kFramebufferFormat = vk::Format::eR8G8B8A8Unorm;
 
-void DestroyDebugUtilsMessengerEXT(VkInstance instance, VkDebugUtilsMessengerEXT debugMessenger, const VkAllocationCallbacks* pAllocator)
-{
-    auto func = (PFN_vkDestroyDebugUtilsMessengerEXT) vkGetInstanceProcAddr(instance, "vkDestroyDebugUtilsMessengerEXT");
-    if (func != nullptr)
-    {
-        func(instance, debugMessenger, pAllocator);
-    }
-}
-
-
-
-struct Vertex
+struct Vertex final
 {
     glm::vec2 pos;
     u8 color[3];
@@ -144,57 +122,16 @@ struct Vertex
     }
 };
 
-struct UniformBufferObject
+struct UniformBufferObject final
 {
     alignas(16) glm::mat4 model;
     alignas(16) glm::mat4 view;
     alignas(16) glm::mat4 proj;
 };
 
-static std::vector<Vertex> vertices = 
-{
-    /*
-    // Quad 1
-    {{0.0f, 480.0f / 2.0f}, {1.0f, 1.0f, 1.0f}, {1.0f, 0.0f}, 0},
-    {{640.0f / 2.0f, 480.0f / 2.0f}, {1.0f, 1.0f, 1.0f}, {0.0f, 0.0f}, 0},
-    {{640.0f / 2.0f, 0.0f}, {1.0f, 1.0f, 1.0f}, {0.0f, 1.0f}, 0},
-    {{0.0f, 0.0f}, {1.0f, 1.0f, 1.0f}, {1.0f, 1.0f}, 0},
-
-    // Quad 2
-    {{0.0f + 50.0f, (480.0f / 2.0f) + 150.0f}, {1.0f, 1.0f, 1.0f}, {1.0f, 0.0f}, 1},
-    {{(640.0f / 2.0f) - 50.0f, (480.0f / 2.0f) + 150.0f}, {1.0f, 1.0f, 1.0f}, {0.0f, 0.0f}, 1},
-    {{(640.0f / 2.0f) - 50.0f, 0.0f + 150.0f}, {1.0f, 1.0f, 1.0f}, {0.0f, 1.0f}, 1},
-    {{0.0f + 50.0f, 0.0f + 150.0f}, {1.0f, 1.0f, 1.0f}, {1.0f, 1.0f}, 1}
-    */
-};
-
-static std::vector<uint16_t> gIndices = { 
-    /*
-    0, 1, 2, 2, 3, 0,
-    0 + 4, 1 + 4, 2 + 4, 2 + 4, 3 + 4, 0 + 4
-    */
-};
-
-template<typename FnCallBack>
-static void LoadBmp(const char* bmpName, FnCallBack cb)
-{
-    SDL_Surface* bmp = SDL_LoadBMP(bmpName);
-
-    SDL_Surface* tmp = SDL_ConvertSurfaceFormat(bmp, SDL_PIXELFORMAT_XBGR8888, 0);
-    SDL_FreeSurface(bmp);
-    bmp = tmp;
-
-    if (!bmp)
-    {
-        throw std::runtime_error("failed to load texture image!");
-    }
-
-    SDL_LockSurface(bmp);
-    cb(bmp->pixels, bmp->w, bmp->h);
-    SDL_UnlockSurface(bmp);
-
-    SDL_FreeSurface(bmp);
-}
+// TODO: Make memebers
+static std::vector<Vertex> vertices;
+static std::vector<uint16_t> gIndices;
 
 void VulkanRenderer::initVulkan()
 {
@@ -215,23 +152,14 @@ void VulkanRenderer::initVulkan()
     mPaletteTexture = std::make_unique<Texture>(*this, 256, 256, blackPixels.data(), Texture::Format::RGBA);
 
     createDescriptorSetLayout();
-    createGraphicsPipeline(PipelineIndex::eReverseBlending);
-    createGraphicsPipeline(PipelineIndex::eAddBlending);
 
-    createFramebuffers();
     createOffScreenPass();
 
-    /*
-    LoadBmp("C:\\data\\poggins.bmp", [&](void* pPixels, u32 width, u32 height)
-    {
-        mTextures.emplace_back(std::make_unique<Texture>(*this, width, height, pPixels, Texture::Format::RGBA));
-    });
+    createGraphicsPipeline(PipelineIndex::eReverseBlending);
+    createGraphicsPipeline(PipelineIndex::eAddBlending);
+    createGraphicsPipeline(PipelineIndex::eFBOPipeline);
 
-    LoadBmp("C:\\data\\poggins2.bmp", [&](void* pPixels, u32 width, u32 height)
-    {
-        mTextures.emplace_back(std::make_unique<Texture>(*this, width, height, pPixels, Texture::Format::RGBA));
-    });
-    */
+    createFramebuffers();
 
     createTextureSampler();
     createUniformBuffers();
@@ -537,7 +465,7 @@ void VulkanRenderer::createImageViews()
 void VulkanRenderer::createRenderPass()
 {
     vk::AttachmentDescription colorAttachment;
-    colorAttachment.format = mSwapChainImageFormat;
+    colorAttachment.format = kFramebufferFormat;//    mSwapChainImageFormat;
     colorAttachment.samples = vk::SampleCountFlagBits::e1;
     colorAttachment.loadOp = vk::AttachmentLoadOp::eClear;
     colorAttachment.storeOp = vk::AttachmentStoreOp::eStore;
@@ -656,6 +584,11 @@ void VulkanRenderer::createGraphicsPipeline(VulkanRenderer::PipelineIndex idx)
     colorBlending.blendConstants[2] = 1.0f;
     colorBlending.blendConstants[3] = 1.0f;
 
+    if (idx == PipelineIndex::eFBOPipeline)
+    {
+        colorBlendAttachment.blendEnable = VK_FALSE;
+    }
+
     const std::vector<vk::DynamicState> dynamicStates = {
         vk::DynamicState::eViewport,
         vk::DynamicState::eScissor};
@@ -681,7 +614,8 @@ void VulkanRenderer::createGraphicsPipeline(VulkanRenderer::PipelineIndex idx)
     pipelineInfo.pColorBlendState = &colorBlending;
     pipelineInfo.pDynamicState = &dynamicState;
     pipelineInfo.layout = **mPipelineLayouts.back();
-    pipelineInfo.renderPass = **mRenderPass;
+    // The final FBO pass needs to use the render pass we create in here to do the present
+    pipelineInfo.renderPass = idx == PipelineIndex::eFBOPipeline ? **mRenderPass : **mOffScreenPass.renderPass;
     pipelineInfo.subpass = 0;
     pipelineInfo.basePipelineHandle = VK_NULL_HANDLE;
 
@@ -713,8 +647,6 @@ void VulkanRenderer::createOffScreenPass()
 {
     mOffScreenPass.width = 640;
     mOffScreenPass.height = 240;
-
-    const vk::Format kFramebufferFormat = vk::Format::eR8G8B8A8Unorm;
 
     // Color attachment
     auto [image, memory] = createImage(mOffScreenPass.width, mOffScreenPass.height, kFramebufferFormat, vk::ImageTiling::eOptimal, vk::ImageUsageFlagBits::eColorAttachment | vk::ImageUsageFlagBits::eSampled, vk::MemoryPropertyFlagBits::eDeviceLocal);
@@ -1152,7 +1084,7 @@ void VulkanRenderer::updateDescriptorSets()
             descriptorWrites[2].dstArrayElement = 0;
             descriptorWrites[2].descriptorType = vk::DescriptorType::eCombinedImageSampler;
             descriptorWrites[2].descriptorCount = 1;
-            if (j < mBatches.size() && mBatches[j].mIsFbo)
+            if (j < mBatches.size() && mBatches[j].mPipeline == PipelineIndex::eFBOPipeline)
             {
                 descriptorWrites[2].pImageInfo = &mOffScreenPass.descriptor;
             }
@@ -1322,56 +1254,60 @@ void VulkanRenderer::recordCommandBuffer(vk::raii::CommandBuffer& commandBuffer,
 
     commandBuffer.beginRenderPass(offScreenPassInfo, vk::SubpassContents::eInline);
 
-    vk::Viewport viewport;
-    viewport.x = 0.0f;
-    viewport.y = 0.0f;
-    viewport.width = (float) mOffScreenPass.width;
-    viewport.height = (float) mOffScreenPass.height;
-    viewport.minDepth = 0.0f;
-    viewport.maxDepth = 1.0f;
-    commandBuffer.setViewport(0, viewport);
-
-    vk::Rect2D scissor{0, 0};
-    scissor.extent.width = mOffScreenPass.width;
-    scissor.extent.height = mOffScreenPass.height;
-    commandBuffer.setScissor(0, scissor);
-
-
     u32 batchIdx = 0;
     u32 idxOffset = 0;
     PipelineIndex lastPipeLine = PipelineIndex::eNone;
 
-    for (std::size_t i = 0; i < mBatches.size() - 1; i++)
+    for (std::size_t i = 0; i < mBatches.size(); i++)
     {
-        if (lastPipeLine != mBatches[i].mPipeline)
+        if (mBatches[i].mPipeline != PipelineIndex::eFBOPipeline)
         {
-            commandBuffer.bindPipeline(vk::PipelineBindPoint::eGraphics, **mGraphicsPipelines[mBatches[i].mPipeline]);
-            lastPipeLine = mBatches[i].mPipeline;
+            if (lastPipeLine != mBatches[i].mPipeline)
+            {
+                commandBuffer.bindPipeline(vk::PipelineBindPoint::eGraphics, **mGraphicsPipelines[mBatches[i].mPipeline]);
 
-            vk::Buffer vertexBuffers[] = {**mVertexBuffer};
-            vk::DeviceSize offsets[] = {0};
-            commandBuffer.bindVertexBuffers(0, vertexBuffers, offsets);
+                vk::Viewport viewport;
+                viewport.x = 0.0f;
+                viewport.y = 0.0f;
+                viewport.width = (float) mOffScreenPass.width;
+                viewport.height = (float) mOffScreenPass.height;
+                viewport.minDepth = 0.0f;
+                viewport.maxDepth = 1.0f;
+                commandBuffer.setViewport(0, viewport);
 
-            commandBuffer.bindIndexBuffer(**mIndexBuffer, 0, vk::IndexType::eUint16);
+                vk::Rect2D scissor{0, 0};
+                scissor.extent.width = mOffScreenPass.width;
+                scissor.extent.height = mOffScreenPass.height;
+                commandBuffer.setScissor(0, scissor);
+
+
+                lastPipeLine = mBatches[i].mPipeline;
+
+                vk::Buffer vertexBuffers[] = {**mVertexBuffer};
+                vk::DeviceSize offsets[] = {0};
+                commandBuffer.bindVertexBuffers(0, vertexBuffers, offsets);
+
+                commandBuffer.bindIndexBuffer(**mIndexBuffer, 0, vk::IndexType::eUint16);
+            }
+
+            if (!vertices.empty() && mVertexBuffer && mIndexBuffer)
+            {
+                commandBuffer.bindDescriptorSets(
+                    vk::PipelineBindPoint::eGraphics,
+                    **mPipelineLayouts[mBatches[i].mPipeline],
+                    0,
+                    *mDescriptorSets[To1dIdx(mCurrentFrame, batchIdx)],
+                    {});
+
+                commandBuffer.drawIndexed(
+                    (mBatches[i].mNumTrisToDraw) * 3,
+                    1,
+                    idxOffset,
+                    0,
+                    0);
+            }
         }
-
-        if (!vertices.empty() && mVertexBuffer && mIndexBuffer)
-        {
-            commandBuffer.bindDescriptorSets(
-                vk::PipelineBindPoint::eGraphics,
-                **mPipelineLayouts[mBatches[i].mPipeline],
-                0,
-                *mDescriptorSets[To1dIdx(mCurrentFrame, batchIdx)],
-                {});
-
-            commandBuffer.drawIndexed(
-                (mBatches[i].mNumTrisToDraw) * 3,
-                1,
-                idxOffset,
-                0,
-                0);
-            idxOffset += (mBatches[i].mNumTrisToDraw) * 3;
-        }
+        idxOffset += (mBatches[i].mNumTrisToDraw) * 3;
         batchIdx++;
     }
 
@@ -1389,44 +1325,57 @@ void VulkanRenderer::recordCommandBuffer(vk::raii::CommandBuffer& commandBuffer,
 
     commandBuffer.beginRenderPass(renderPassInfo, vk::SubpassContents::eInline);
 
-    vk::Viewport viewport2;
-    viewport2.x = 0.0f;
-    viewport2.y = 0.0f;
-    viewport2.width = (float) mSwapChainExtent.width;
-    viewport2.height = (float) mSwapChainExtent.height;
-    viewport2.minDepth = 0.0f;
-    viewport2.maxDepth = 1.0f;
-    commandBuffer.setViewport(0, viewport2);
-
-    vk::Rect2D scissor2{0, 0};
-    scissor2.extent = mSwapChainExtent;
-    commandBuffer.setScissor(0, scissor2);
-
-    commandBuffer.bindPipeline(vk::PipelineBindPoint::eGraphics, **mGraphicsPipelines[PipelineIndex::eAddBlending]);
-
-    vk::Buffer vertexBuffers[] = {**mVertexBuffer};
-    vk::DeviceSize offsets[] = {0};
-    commandBuffer.bindVertexBuffers(0, vertexBuffers, offsets);
-
-    commandBuffer.bindIndexBuffer(**mIndexBuffer, 0, vk::IndexType::eUint16);
-
-    const auto& fullScreenBatch = mBatches[batchIdx];
-    if (!vertices.empty() && mVertexBuffer && mIndexBuffer)
+    batchIdx = 0;
+    idxOffset = 0;
+    lastPipeLine = PipelineIndex::eNone;
+    for (std::size_t i = 0; i < mBatches.size(); i++)
     {
-        // TODO: Draw tris
-        commandBuffer.bindDescriptorSets(
-            vk::PipelineBindPoint::eGraphics,
-            **mPipelineLayouts[fullScreenBatch.mPipeline],
-            0,
-            *mDescriptorSets[To1dIdx(mCurrentFrame, batchIdx)],
-            {});
+        if (mBatches[i].mPipeline == PipelineIndex::eFBOPipeline)
+        {
+            if (lastPipeLine != mBatches[i].mPipeline)
+            {
+                commandBuffer.bindPipeline(vk::PipelineBindPoint::eGraphics, **mGraphicsPipelines[mBatches[i].mPipeline]);
+                lastPipeLine = mBatches[i].mPipeline;
 
-        commandBuffer.drawIndexed(
-            (fullScreenBatch.mNumTrisToDraw) *3,
-            1,
-            idxOffset,
-            0,
-            0);
+                vk::Viewport viewport2;
+                viewport2.x = 0.0f;
+                viewport2.y = 0.0f;
+                viewport2.width = (float) mSwapChainExtent.width;
+                viewport2.height = (float) mSwapChainExtent.height;
+                viewport2.minDepth = 0.0f;
+                viewport2.maxDepth = 1.0f;
+                commandBuffer.setViewport(0, viewport2);
+
+                vk::Rect2D scissor2{0, 0};
+                scissor2.extent = mSwapChainExtent;
+                commandBuffer.setScissor(0, scissor2);
+
+                vk::Buffer vertexBuffers[] = {**mVertexBuffer};
+                vk::DeviceSize offsets[] = {0};
+                commandBuffer.bindVertexBuffers(0, vertexBuffers, offsets);
+
+                commandBuffer.bindIndexBuffer(**mIndexBuffer, 0, vk::IndexType::eUint16);
+            }
+
+            if (!vertices.empty() && mVertexBuffer && mIndexBuffer)
+            {
+                commandBuffer.bindDescriptorSets(
+                    vk::PipelineBindPoint::eGraphics,
+                    **mPipelineLayouts[mBatches[i].mPipeline],
+                    0,
+                    *mDescriptorSets[To1dIdx(mCurrentFrame, batchIdx)],
+                    {});
+
+                commandBuffer.drawIndexed(
+                    (mBatches[i].mNumTrisToDraw) * 3,
+                    1,
+                    idxOffset,
+                    0,
+                    0);
+            }
+        }
+        idxOffset += (mBatches[i].mNumTrisToDraw) * 3;
+        batchIdx++;
     }
 
     commandBuffer.endRenderPass();
@@ -1815,8 +1764,7 @@ void VulkanRenderer::EndFrame()
 
                 mIndexBufferIndex += 4;
 
-                mConstructingBatch.mPipeline = PipelineIndex::eAddBlending;
-                mConstructingBatch.mIsFbo = true;
+                mConstructingBatch.mPipeline = PipelineIndex::eFBOPipeline;
                 mConstructingBatch.mTexturesInBatch = 1;
                 mConstructingBatch.mNumTrisToDraw = 2;
                 
