@@ -315,6 +315,7 @@ private:
         PipelineIndex mPipeline = PipelineIndex::eNone;
         u32 mNumTrisToDraw = 0;
         u32 mTexturesInBatch = 0;
+        bool mIsFbo = false;
     };
     RenderBatch mConstructingBatch;
     std::vector<RenderBatch> mBatches;
@@ -333,7 +334,6 @@ private:
         int32_t height;
         std::unique_ptr<vk::raii::Framebuffer> frameBuffer;
         FrameBufferAttachment color;
-        //FrameBufferAttachment depth;
         std::unique_ptr<vk::raii::RenderPass> renderPass;
         std::unique_ptr<vk::raii::Sampler> sampler;
         vk::DescriptorImageInfo descriptor;

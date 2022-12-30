@@ -1145,25 +1145,31 @@ void VulkanRenderer::updateDescriptorSets()
             descriptorWrites[1].descriptorCount = 1;
             descriptorWrites[1].pImageInfo = &imageInfo;
 
-            // Camera texture
+            // Camera texture or FBO
             vk::DescriptorImageInfo imageInfo4{};
-            imageInfo4.imageLayout = vk::ImageLayout::eGeneral;
-            if (mCamTexture)
-            {
-                imageInfo4.imageView = **mCamTexture->View();
-            }
-            else
-            {
-                imageInfo4.imageView = **mPaletteTexture->View();
-            }
-            imageInfo4.sampler = **mTextureSampler;
-
             descriptorWrites[2].dstSet = *mDescriptorSets[To1dIdx(i, j)];
             descriptorWrites[2].dstBinding = 2;
             descriptorWrites[2].dstArrayElement = 0;
             descriptorWrites[2].descriptorType = vk::DescriptorType::eCombinedImageSampler;
             descriptorWrites[2].descriptorCount = 1;
-            descriptorWrites[2].pImageInfo = &imageInfo4;
+            if (j < mBatches.size() && mBatches[j].mIsFbo)
+            {
+                descriptorWrites[2].pImageInfo = &mOffScreenPass.descriptor;
+            }
+            else
+            {
+                imageInfo4.imageLayout = vk::ImageLayout::eGeneral;
+                if (mCamTexture)
+                {
+                    imageInfo4.imageView = **mCamTexture->View();
+                }
+                else
+                {
+                    imageInfo4.imageView = **mPaletteTexture->View();
+                }
+                imageInfo4.sampler = **mTextureSampler;
+                descriptorWrites[2].pImageInfo = &imageInfo4;
+            }
 
             // Sprite sheets
             vk::DescriptorImageInfo imageInfo2[14];
@@ -1335,12 +1341,12 @@ void VulkanRenderer::recordCommandBuffer(vk::raii::CommandBuffer& commandBuffer,
     u32 idxOffset = 0;
     PipelineIndex lastPipeLine = PipelineIndex::eNone;
 
-    for (auto& batch : mBatches)
+    for (std::size_t i = 0; i < mBatches.size() - 1; i++)
     {
-        if (lastPipeLine != batch.mPipeline)
+        if (lastPipeLine != mBatches[i].mPipeline)
         {
-            commandBuffer.bindPipeline(vk::PipelineBindPoint::eGraphics, **mGraphicsPipelines[batch.mPipeline]);
-            lastPipeLine = batch.mPipeline;
+            commandBuffer.bindPipeline(vk::PipelineBindPoint::eGraphics, **mGraphicsPipelines[mBatches[i].mPipeline]);
+            lastPipeLine = mBatches[i].mPipeline;
 
             vk::Buffer vertexBuffers[] = {**mVertexBuffer};
             vk::DeviceSize offsets[] = {0};
@@ -1353,18 +1359,18 @@ void VulkanRenderer::recordCommandBuffer(vk::raii::CommandBuffer& commandBuffer,
         {
             commandBuffer.bindDescriptorSets(
                 vk::PipelineBindPoint::eGraphics,
-                **mPipelineLayouts[batch.mPipeline],
+                **mPipelineLayouts[mBatches[i].mPipeline],
                 0,
                 *mDescriptorSets[To1dIdx(mCurrentFrame, batchIdx)],
                 {});
 
             commandBuffer.drawIndexed(
-                (batch.mNumTrisToDraw) * 3,
+                (mBatches[i].mNumTrisToDraw) * 3,
                 1,
                 idxOffset,
                 0,
                 0);
-            idxOffset += (batch.mNumTrisToDraw) * 3;
+            idxOffset += (mBatches[i].mNumTrisToDraw) * 3;
         }
         batchIdx++;
     }
@@ -1396,8 +1402,32 @@ void VulkanRenderer::recordCommandBuffer(vk::raii::CommandBuffer& commandBuffer,
     scissor2.extent = mSwapChainExtent;
     commandBuffer.setScissor(0, scissor2);
 
-    // TODO: Draw tris
+    commandBuffer.bindPipeline(vk::PipelineBindPoint::eGraphics, **mGraphicsPipelines[PipelineIndex::eAddBlending]);
 
+    vk::Buffer vertexBuffers[] = {**mVertexBuffer};
+    vk::DeviceSize offsets[] = {0};
+    commandBuffer.bindVertexBuffers(0, vertexBuffers, offsets);
+
+    commandBuffer.bindIndexBuffer(**mIndexBuffer, 0, vk::IndexType::eUint16);
+
+    const auto& fullScreenBatch = mBatches[batchIdx];
+    if (!vertices.empty() && mVertexBuffer && mIndexBuffer)
+    {
+        // TODO: Draw tris
+        commandBuffer.bindDescriptorSets(
+            vk::PipelineBindPoint::eGraphics,
+            **mPipelineLayouts[fullScreenBatch.mPipeline],
+            0,
+            *mDescriptorSets[To1dIdx(mCurrentFrame, batchIdx)],
+            {});
+
+        commandBuffer.drawIndexed(
+            (fullScreenBatch.mNumTrisToDraw) *3,
+            1,
+            idxOffset,
+            0,
+            0);
+    }
 
     commandBuffer.endRenderPass();
 
@@ -1752,17 +1782,52 @@ void VulkanRenderer::EndFrame()
 {
     if (mFrameStarted)
     {
-        if (!vertices.empty() && !gIndices.empty())
-        {
-            this->createVertexBuffer();
-            this->createIndexBuffer();
-        }
- 
         // Add the in flight batch
         if (mBatchInProgress && mConstructingBatch.mNumTrisToDraw > 0)
         {
             mBatches.push_back(mConstructingBatch);
             mBatchInProgress = false;
+        }
+
+        // TODO: HACK, refactor this so the full screen tris are done in their own func without copy pasta
+        {
+            {
+                float u0 = 0.0f;
+                float v0 = 0.0f;
+
+                float u1 = 1.0f;
+                float v1 = 1.0f;
+
+                mTextureArrayIdx = 0;
+
+                vertices.push_back({{static_cast<f32>(0), static_cast<f32>(0)}, {255, 255, 255}, {u0, v0}, mTextureArrayIdx, 0, PsxDrawMode::Camera, 0, 0, 0});
+                vertices.push_back({{static_cast<f32>(640), static_cast<f32>(0)}, {255, 255, 255}, {u1, v0}, mTextureArrayIdx, 0, PsxDrawMode::Camera, 0, 0, 0});
+                vertices.push_back({{static_cast<f32>(0), static_cast<f32>(240)}, {255, 255, 255}, {u0, v1}, mTextureArrayIdx, 0, PsxDrawMode::Camera, 0, 0, 0});
+                vertices.push_back({{static_cast<f32>(640), static_cast<f32>(240)}, {255, 255, 255}, {u1, v1}, mTextureArrayIdx, 0, PsxDrawMode::Camera, 0, 0, 0});
+
+                gIndices.emplace_back((u16) (mIndexBufferIndex + 1));
+                gIndices.emplace_back((u16) (mIndexBufferIndex + 0));
+                gIndices.emplace_back((u16) (mIndexBufferIndex + 3));
+
+                gIndices.emplace_back((u16) (mIndexBufferIndex + 3));
+                gIndices.emplace_back((u16) (mIndexBufferIndex + 0));
+                gIndices.emplace_back((u16) (mIndexBufferIndex + 2));
+
+                mIndexBufferIndex += 4;
+
+                mConstructingBatch.mPipeline = PipelineIndex::eAddBlending;
+                mConstructingBatch.mIsFbo = true;
+                mConstructingBatch.mTexturesInBatch = 1;
+                mConstructingBatch.mNumTrisToDraw = 2;
+                
+                NewBatch();
+            }
+        }
+
+        if (!vertices.empty() && !gIndices.empty())
+        {
+            this->createVertexBuffer();
+            this->createIndexBuffer();
         }
 
         this->drawFrame();
