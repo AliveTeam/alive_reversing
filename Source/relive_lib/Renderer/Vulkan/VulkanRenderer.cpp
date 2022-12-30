@@ -847,7 +847,7 @@ void VulkanRenderer::transitionImageLayout(vk::Image image, vk::ImageLayout oldL
     vk::PipelineStageFlags sourceStage;
     vk::PipelineStageFlags destinationStage;
 
-    if (oldLayout == vk::ImageLayout::eUndefined && newLayout == vk::ImageLayout::eTransferDstOptimal)
+    if ((oldLayout == vk::ImageLayout::eUndefined || oldLayout == vk::ImageLayout::eShaderReadOnlyOptimal) && newLayout == vk::ImageLayout::eTransferDstOptimal)
     {
         barrier.srcAccessMask = vk::AccessFlagBits::eNoneKHR;
         barrier.dstAccessMask = vk::AccessFlagBits::eTransferWrite;
@@ -855,22 +855,13 @@ void VulkanRenderer::transitionImageLayout(vk::Image image, vk::ImageLayout oldL
         sourceStage = vk::PipelineStageFlagBits::eTopOfPipe;
         destinationStage = vk::PipelineStageFlagBits::eTransfer;
     }
-    else if (oldLayout == vk::ImageLayout::eTransferDstOptimal && newLayout == vk::ImageLayout::eShaderReadOnlyOptimal)
+    else if ((oldLayout == vk::ImageLayout::eTransferDstOptimal || oldLayout == vk::ImageLayout::eTransferDstOptimal) && newLayout == vk::ImageLayout::eShaderReadOnlyOptimal)
     {
         barrier.srcAccessMask = vk::AccessFlagBits::eTransferWrite;
         barrier.dstAccessMask = vk::AccessFlagBits::eShaderRead;
 
         sourceStage = vk::PipelineStageFlagBits::eTransfer;
         destinationStage = vk::PipelineStageFlagBits::eFragmentShader;
-    }
-    else if (newLayout == vk::ImageLayout::eGeneral)
-    {
-        // TODO: Check if this is correct
-        barrier.srcAccessMask = vk::AccessFlagBits::eNoneKHR;
-        barrier.dstAccessMask = vk::AccessFlagBits::eTransferWrite;
-
-        sourceStage = vk::PipelineStageFlagBits::eTopOfPipe;
-        destinationStage = vk::PipelineStageFlagBits::eTransfer;
     }
     else
     {
@@ -1066,7 +1057,7 @@ void VulkanRenderer::updateDescriptorSets()
 
             // Pal texture
             vk::DescriptorImageInfo imageInfo{};
-            imageInfo.imageLayout = vk::ImageLayout::eGeneral;
+            imageInfo.imageLayout = vk::ImageLayout::eShaderReadOnlyOptimal;
             imageInfo.imageView = **mPaletteTexture->View();
             imageInfo.sampler = **mTextureSampler;
 
@@ -1090,7 +1081,7 @@ void VulkanRenderer::updateDescriptorSets()
             }
             else
             {
-                imageInfo4.imageLayout = vk::ImageLayout::eGeneral;
+                imageInfo4.imageLayout = vk::ImageLayout::eShaderReadOnlyOptimal;
                 if (mCamTexture)
                 {
                     imageInfo4.imageView = **mCamTexture->View();
@@ -1107,7 +1098,7 @@ void VulkanRenderer::updateDescriptorSets()
             vk::DescriptorImageInfo imageInfo2[14];
             for (u32 k = 0; k < 14; k++)
             {
-                imageInfo2[k].imageLayout = vk::ImageLayout::eGeneral;
+                imageInfo2[k].imageLayout = vk::ImageLayout::eShaderReadOnlyOptimal;
                 if (!mBatches.empty() && k < mBatches[j].mTexturesInBatch)
                 {
                     if (textureIdxOff + k < mTexturesForThisFrame.size())
