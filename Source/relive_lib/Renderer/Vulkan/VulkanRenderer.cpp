@@ -465,7 +465,7 @@ void VulkanRenderer::createImageViews()
 void VulkanRenderer::createRenderPass()
 {
     vk::AttachmentDescription colorAttachment;
-    colorAttachment.format = kFramebufferFormat;//    mSwapChainImageFormat;
+    colorAttachment.format = mSwapChainImageFormat;
     colorAttachment.samples = vk::SampleCountFlagBits::e1;
     colorAttachment.loadOp = vk::AttachmentLoadOp::eClear;
     colorAttachment.storeOp = vk::AttachmentStoreOp::eStore;

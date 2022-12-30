@@ -267,7 +267,7 @@ private:
             mImage = std::move(textureImage);
             mMemory = std::move(deviceMemory);
 
-            mRenderer.transitionImageLayout(**mImage, vk::ImageLayout::eUndefined, vk::ImageLayout::eGeneral);
+            mRenderer.transitionImageLayout(**mImage, vk::ImageLayout::eUndefined, vk::ImageLayout::eTransferDstOptimal);
             mRenderer.copyBufferToImage(**stagingBuffer, **mImage, 0, 0, static_cast<uint32_t>(width), static_cast<uint32_t>(height));
 //            mRenderer.transitionImageLayout(**mImage, vk::ImageLayout::eTransferDstOptimal, vk::ImageLayout::eShaderReadOnlyOptimal);
 
