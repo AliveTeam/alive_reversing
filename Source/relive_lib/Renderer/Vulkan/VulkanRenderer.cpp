@@ -855,7 +855,7 @@ void VulkanRenderer::transitionImageLayout(vk::Image image, vk::ImageLayout oldL
         sourceStage = vk::PipelineStageFlagBits::eTopOfPipe;
         destinationStage = vk::PipelineStageFlagBits::eTransfer;
     }
-    else if ((oldLayout == vk::ImageLayout::eTransferDstOptimal || oldLayout == vk::ImageLayout::eTransferDstOptimal) && newLayout == vk::ImageLayout::eShaderReadOnlyOptimal)
+    else if ((oldLayout == vk::ImageLayout::eTransferDstOptimal) && newLayout == vk::ImageLayout::eShaderReadOnlyOptimal)
     {
         barrier.srcAccessMask = vk::AccessFlagBits::eTransferWrite;
         barrier.dstAccessMask = vk::AccessFlagBits::eShaderRead;
