@@ -904,36 +904,49 @@ void VulkanRenderer::copyBufferToImage(vk::Buffer buffer, vk::Image image, uint3
 
 void VulkanRenderer::createVertexBuffer()
 {
-    vk::DeviceSize bufferSize = sizeof(vertices[0]) * vertices.size();
+    const vk::DeviceSize bufferSize = sizeof(vertices[0]) * vertices.size();
 
-    auto [stagingBuffer, stagingBufferMemory] = createBuffer(bufferSize, vk::BufferUsageFlagBits::eTransferSrc, vk::MemoryPropertyFlagBits::eHostVisible | vk::MemoryPropertyFlagBits::eHostCoherent);
+    // Create if we don't have a buffer or its too small
+    if (!mVertexBuffer || !mVertexBufferMemory || mVertexBufferSize < bufferSize)
+    {
+        mVertexBufferSize = bufferSize;
 
-    void* data = stagingBufferMemory->mapMemory(0, bufferSize);
-    memcpy(data, vertices.data(), (size_t) bufferSize);
-    stagingBufferMemory->unmapMemory();
+        // The buffer is host and device visible and we keep it mapped for fast updating
+        auto [tmpBuffer, tmpMemory] = createBuffer(bufferSize, vk::BufferUsageFlagBits::eTransferDst | vk::BufferUsageFlagBits::eVertexBuffer, vk::MemoryPropertyFlagBits::eHostVisible | vk::MemoryPropertyFlagBits::eHostCoherent | vk::MemoryPropertyFlagBits::eDeviceLocal);
+        mVertexBuffer = std::move(tmpBuffer);
+        mVertexBufferMemory = std::move(tmpMemory);
 
-    auto [tmpBuffer, tmpMemory] = createBuffer(bufferSize, vk::BufferUsageFlagBits::eTransferDst | vk::BufferUsageFlagBits::eVertexBuffer, vk::MemoryPropertyFlagBits::eDeviceLocal);
-    mVertexBuffer = std::move(tmpBuffer);
-    mVertexBufferMemory = std::move(tmpMemory);
+        mMappedVertexBuffferMemory = mVertexBufferMemory->mapMemory(0, bufferSize);
+    }
 
-    copyBuffer(**stagingBuffer, **mVertexBuffer, bufferSize);
+    memcpy(mMappedVertexBuffferMemory, vertices.data(), (size_t) bufferSize);
+
+    vk::MappedMemoryRange mappedRange;
+    mappedRange.memory = **mVertexBufferMemory;
+    mappedRange.size = VK_WHOLE_SIZE; // TODO: Limit size to corrrect multiple
+    mDevice->flushMappedMemoryRanges(mappedRange);
 }
 
 void VulkanRenderer::createIndexBuffer()
 {
-    vk::DeviceSize bufferSize = sizeof(gIndices[0]) * gIndices.size();
+    const vk::DeviceSize bufferSize = sizeof(gIndices[0]) * gIndices.size();
+    if (!mIndexBuffer || !mIndexBufferMemory || mIndexBufferSize < bufferSize)
+    {
+        mIndexBufferSize = bufferSize;
 
-    auto [stagingBuffer, stagingBufferMemory] = createBuffer(bufferSize, vk::BufferUsageFlagBits::eTransferSrc, vk::MemoryPropertyFlagBits::eHostVisible | vk::MemoryPropertyFlagBits::eHostCoherent);
+        auto [stagingBuffer2, stagingBufferMemory2] = createBuffer(bufferSize, vk::BufferUsageFlagBits::eTransferDst | vk::BufferUsageFlagBits::eIndexBuffer, vk::MemoryPropertyFlagBits::eHostVisible | vk::MemoryPropertyFlagBits::eHostCoherent | vk::MemoryPropertyFlagBits::eDeviceLocal);
+        mIndexBuffer = std::move(stagingBuffer2);
+        mIndexBufferMemory = std::move(stagingBufferMemory2);
 
-    void* data = stagingBufferMemory->mapMemory(0, bufferSize);
-    memcpy(data, gIndices.data(), (size_t) bufferSize);
-    stagingBufferMemory->unmapMemory();
+        mMappedIndexBuffferMemory  = mIndexBufferMemory->mapMemory(0, bufferSize);
+    }
 
-    auto [stagingBuffer2, stagingBufferMemory2] = createBuffer(bufferSize, vk::BufferUsageFlagBits::eTransferDst | vk::BufferUsageFlagBits::eIndexBuffer, vk::MemoryPropertyFlagBits::eDeviceLocal);
-    mIndexBuffer = std::move(stagingBuffer2);
-    mIndexBufferMemory = std::move(stagingBufferMemory2);
+    memcpy(mMappedIndexBuffferMemory, gIndices.data(), (size_t) bufferSize);
 
-    copyBuffer(**stagingBuffer, **mIndexBuffer, bufferSize);
+    vk::MappedMemoryRange mappedRange;
+    mappedRange.memory = **mIndexBufferMemory;
+    mappedRange.size = VK_WHOLE_SIZE; // TODO: Limit size to corrrect multiple
+    mDevice->flushMappedMemoryRanges(mappedRange);
 }
 
 void VulkanRenderer::createUniformBuffers()
@@ -1778,10 +1791,12 @@ void VulkanRenderer::EndFrame()
         vertices.clear();
         gIndices.clear();
         mIndexBufferIndex = 0;
-        this->mVertexBuffer.reset();
-        this->mVertexBufferMemory.reset();
-        this->mIndexBuffer.reset();
-        this->mIndexBufferMemory.reset();
+
+        //this->mVertexBuffer.reset();
+        //this->mVertexBufferMemory.reset();
+        //this->mIndexBuffer.reset();
+        //this->mIndexBufferMemory.reset();
+
         mTexturesForThisFrame.clear();
 
         mCamTexture = nullptr;

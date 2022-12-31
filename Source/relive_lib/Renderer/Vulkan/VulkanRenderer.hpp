@@ -347,8 +347,13 @@ private:
 
     std::unique_ptr<vk::raii::Buffer> mVertexBuffer;
     std::unique_ptr<vk::raii::DeviceMemory> mVertexBufferMemory;
+    vk::DeviceSize mVertexBufferSize;
+    void* mMappedVertexBuffferMemory = nullptr;
+
     std::unique_ptr<vk::raii::Buffer> mIndexBuffer;
     std::unique_ptr<vk::raii::DeviceMemory> mIndexBufferMemory;
+    vk::DeviceSize mIndexBufferSize;
+    void* mMappedIndexBuffferMemory = nullptr;
 
     std::vector<std::unique_ptr<vk::raii::Buffer>> mUniformBuffers;
     std::vector<std::unique_ptr<vk::raii::DeviceMemory>> mUniformBuffersMemory;
