@@ -193,7 +193,6 @@ private:
     void createDescriptorSets();
     void updateDescriptorSets();
     std::pair<std::unique_ptr<vk::raii::Buffer>, std::unique_ptr<vk::raii::DeviceMemory>> createBuffer(vk::DeviceSize size, vk::BufferUsageFlags usage, vk::MemoryPropertyFlags properties);
-    void copyBuffer(vk::Buffer srcBuffer, vk::Buffer dstBuffer, vk::DeviceSize size);
     uint32_t findMemoryType(uint32_t typeFilter, vk::MemoryPropertyFlags properties);
     void createCommandBuffers();
     void recordCommandBuffer(vk::raii::CommandBuffer& commandBuffer, uint32_t imageIndex);
@@ -315,7 +314,6 @@ private:
 
     std::unique_ptr<Texture> mPaletteTexture;
 
-    u32 mTextureArrayIdx = 0;
     std::shared_ptr<Texture> mCamTexture;
     std::vector<std::shared_ptr<Texture>> mTexturesForThisFrame;
     struct RenderBatch final
@@ -323,7 +321,34 @@ private:
         PipelineIndex mPipeline = PipelineIndex::eNone;
         u32 mNumTrisToDraw = 0;
         u32 mTexturesInBatch = 0;
-        u32 mTextureIndices[14] = {};
+        u32 mTextureIds[14] = {};
+
+        bool AddTexture(u32 id)
+        {
+            for (u32 i = 0; i < mTexturesInBatch; i++)
+            {
+                if (mTextureIds[i] == id)
+                {
+                    // Already have it
+                    return false;
+                }
+            }
+            mTextureIds[mTexturesInBatch] = id;
+            mTexturesInBatch++;
+            return true;
+        }
+
+        u32 TextureIdxForId(u32 id) const
+        {
+            for (u32 i = 0; i < mTexturesInBatch; i++)
+            {
+                if (mTextureIds[i] == id)
+                {
+                    return i;
+                }
+            }
+            return mTexturesInBatch;
+        }
     };
     RenderBatch mConstructingBatch;
     std::vector<RenderBatch> mBatches;

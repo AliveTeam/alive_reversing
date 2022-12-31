@@ -1195,17 +1195,6 @@ void VulkanRenderer::endSingleTimeCommands(vk::raii::CommandBuffer& commandBuffe
     mGraphicsQueue->waitIdle();
 }
 
-void VulkanRenderer::copyBuffer(vk::Buffer srcBuffer, vk::Buffer dstBuffer, vk::DeviceSize size)
-{
-    vk::raii::CommandBuffer commandBuffer = beginSingleTimeCommands();
-
-    vk::BufferCopy copyRegion;
-    copyRegion.size = size;
-    commandBuffer.copyBuffer(srcBuffer, dstBuffer, copyRegion);
-
-    endSingleTimeCommands(commandBuffer);
-}
-
 uint32_t VulkanRenderer::findMemoryType(uint32_t typeFilter, vk::MemoryPropertyFlags properties)
 {
     vk::PhysicalDeviceMemoryProperties memProperties = mPhysicalDevice->getMemoryProperties();
@@ -1749,12 +1738,13 @@ void VulkanRenderer::EndFrame()
                 float u1 = 1.0f;
                 float v1 = 1.0f;
 
-                mTextureArrayIdx = 0;
+                mConstructingBatch.mTexturesInBatch = 0;
 
-                vertices.push_back({{static_cast<f32>(0), static_cast<f32>(0)}, {255, 255, 255}, {u0, v0}, mTextureArrayIdx, 0, PsxDrawMode::Camera, 0, 0, 0});
-                vertices.push_back({{static_cast<f32>(640), static_cast<f32>(0)}, {255, 255, 255}, {u1, v0}, mTextureArrayIdx, 0, PsxDrawMode::Camera, 0, 0, 0});
-                vertices.push_back({{static_cast<f32>(0), static_cast<f32>(240)}, {255, 255, 255}, {u0, v1}, mTextureArrayIdx, 0, PsxDrawMode::Camera, 0, 0, 0});
-                vertices.push_back({{static_cast<f32>(640), static_cast<f32>(240)}, {255, 255, 255}, {u1, v1}, mTextureArrayIdx, 0, PsxDrawMode::Camera, 0, 0, 0});
+                // Full screen tris to render the FBO
+                vertices.push_back({{static_cast<f32>(0), static_cast<f32>(0)}, {255, 255, 255}, {u0, v0}, mConstructingBatch.mTexturesInBatch, 0, PsxDrawMode::Camera, 0, 0, 0});
+                vertices.push_back({{static_cast<f32>(640), static_cast<f32>(0)}, {255, 255, 255}, {u1, v0}, mConstructingBatch.mTexturesInBatch, 0, PsxDrawMode::Camera, 0, 0, 0});
+                vertices.push_back({{static_cast<f32>(0), static_cast<f32>(240)}, {255, 255, 255}, {u0, v1}, mConstructingBatch.mTexturesInBatch, 0, PsxDrawMode::Camera, 0, 0, 0});
+                vertices.push_back({{static_cast<f32>(640), static_cast<f32>(240)}, {255, 255, 255}, {u1, v1}, mConstructingBatch.mTexturesInBatch, 0, PsxDrawMode::Camera, 0, 0, 0});
 
                 gIndices.emplace_back((u16) (mIndexBufferIndex + 1));
                 gIndices.emplace_back((u16) (mIndexBufferIndex + 0));
@@ -1798,7 +1788,6 @@ void VulkanRenderer::EndFrame()
         mTexturesForThisFrame.clear();
 
         mCamTexture = nullptr;
-        mTextureArrayIdx = 0;
         mConstructingBatch = {};
         mBatches.clear();
     }
@@ -1886,7 +1875,6 @@ void VulkanRenderer::NewBatch()
 {
     mBatches.push_back(mConstructingBatch);
     mConstructingBatch = {};
-    mTextureArrayIdx = 0;
     mBatchInProgress = false;
 }
 
@@ -1915,10 +1903,10 @@ void VulkanRenderer::Draw(Poly_FT4& poly)
             float u1 = 1.0f;
             float v1 = 1.0f;
 
-            vertices.push_back({{static_cast<f32>(poly.mBase.vert.x), static_cast<f32>(poly.mBase.vert.y)}, {255, 255, 255}, {u0, v0}, mTextureArrayIdx, 0, PsxDrawMode::Camera, 0, 0, 0});
-            vertices.push_back({{static_cast<f32>(poly.mVerts[0].mVert.x), static_cast<f32>(poly.mVerts[0].mVert.y)}, {255, 255, 255}, {u1, v0}, mTextureArrayIdx, 0, PsxDrawMode::Camera, 0, 0, 0});
-            vertices.push_back({{static_cast<f32>(poly.mVerts[1].mVert.x), static_cast<f32>(poly.mVerts[1].mVert.y)}, {255, 255, 255}, {u0, v1}, mTextureArrayIdx, 0, PsxDrawMode::Camera, 0, 0, 0});
-            vertices.push_back({{static_cast<f32>(poly.mVerts[2].mVert.x), static_cast<f32>(poly.mVerts[2].mVert.y)}, {255, 255, 255}, {u1, v1}, mTextureArrayIdx, 0, PsxDrawMode::Camera, 0, 0, 0});
+            vertices.push_back({{static_cast<f32>(poly.mBase.vert.x), static_cast<f32>(poly.mBase.vert.y)}, {255, 255, 255}, {u0, v0}, mConstructingBatch.mTexturesInBatch, 0, PsxDrawMode::Camera, 0, 0, 0});
+            vertices.push_back({{static_cast<f32>(poly.mVerts[0].mVert.x), static_cast<f32>(poly.mVerts[0].mVert.y)}, {255, 255, 255}, {u1, v0}, mConstructingBatch.mTexturesInBatch, 0, PsxDrawMode::Camera, 0, 0, 0});
+            vertices.push_back({{static_cast<f32>(poly.mVerts[1].mVert.x), static_cast<f32>(poly.mVerts[1].mVert.y)}, {255, 255, 255}, {u0, v1}, mConstructingBatch.mTexturesInBatch, 0, PsxDrawMode::Camera, 0, 0, 0});
+            vertices.push_back({{static_cast<f32>(poly.mVerts[2].mVert.x), static_cast<f32>(poly.mVerts[2].mVert.y)}, {255, 255, 255}, {u1, v1}, mConstructingBatch.mTexturesInBatch, 0, PsxDrawMode::Camera, 0, 0, 0});
 
             gIndices.emplace_back((u16) (mIndexBufferIndex + 1));
             gIndices.emplace_back((u16) (mIndexBufferIndex + 0));
@@ -1934,11 +1922,10 @@ void VulkanRenderer::Draw(Poly_FT4& poly)
             //mTexturesForThisFrame.emplace_back(texture);
 
            // mTextureArrayIdx++;
-            mConstructingBatch.mTexturesInBatch = mTextureArrayIdx;
             mConstructingBatch.mNumTrisToDraw += 2;
 
             // Over the texture limit or changed to/from subtractive blending
-            const bool bNewBatch = (mTextureArrayIdx == kTextureBatchSize);
+            const bool bNewBatch = (mConstructingBatch.mTexturesInBatch == kTextureBatchSize);
             if (bNewBatch)
             {
                 NewBatch();
@@ -1966,7 +1953,7 @@ void VulkanRenderer::Draw(Poly_FT4& poly)
 
             //mStats.mCamUploadCount++;
         }
-
+       
         u8 r = poly.mBase.header.rgb_code.r;
         u8 g = poly.mBase.header.rgb_code.g;
         u8 b = poly.mBase.header.rgb_code.b;
@@ -1999,11 +1986,12 @@ void VulkanRenderer::Draw(Poly_FT4& poly)
             std::swap(v1, v0);
         }
 
-       
-        vertices.push_back({{static_cast<f32>(poly.mBase.vert.x), static_cast<f32>(poly.mBase.vert.y)}, {r, g, b}, {u0, v0}, mTextureArrayIdx, palIndex, PsxDrawMode::DefaultFT4, isShaded, blendMode, isSemiTrans});
-        vertices.push_back({{static_cast<f32>(poly.mVerts[0].mVert.x), static_cast<f32>(poly.mVerts[0].mVert.y)}, {r, g, b}, {u1, v0}, mTextureArrayIdx, palIndex, PsxDrawMode::DefaultFT4, isShaded, blendMode, isSemiTrans});
-        vertices.push_back({{static_cast<f32>(poly.mVerts[1].mVert.x), static_cast<f32>(poly.mVerts[1].mVert.y)}, {r, g, b}, {u0, v1}, mTextureArrayIdx, palIndex, PsxDrawMode::DefaultFT4, isShaded, blendMode, isSemiTrans});
-        vertices.push_back({{static_cast<f32>(poly.mVerts[2].mVert.x), static_cast<f32>(poly.mVerts[2].mVert.y)}, {r, g, b}, {u1, v1}, mTextureArrayIdx, palIndex, PsxDrawMode::DefaultFT4, isShaded, blendMode, isSemiTrans});
+        const u32 textureIdx = mConstructingBatch.TextureIdxForId(animRes.mUniqueId.Id());
+
+        vertices.push_back({{static_cast<f32>(poly.mBase.vert.x), static_cast<f32>(poly.mBase.vert.y)}, {r, g, b}, {u0, v0}, textureIdx, palIndex, PsxDrawMode::DefaultFT4, isShaded, blendMode, isSemiTrans});
+        vertices.push_back({{static_cast<f32>(poly.mVerts[0].mVert.x), static_cast<f32>(poly.mVerts[0].mVert.y)}, {r, g, b}, {u1, v0}, textureIdx, palIndex, PsxDrawMode::DefaultFT4, isShaded, blendMode, isSemiTrans});
+        vertices.push_back({{static_cast<f32>(poly.mVerts[1].mVert.x), static_cast<f32>(poly.mVerts[1].mVert.y)}, {r, g, b}, {u0, v1}, textureIdx, palIndex, PsxDrawMode::DefaultFT4, isShaded, blendMode, isSemiTrans});
+        vertices.push_back({{static_cast<f32>(poly.mVerts[2].mVert.x), static_cast<f32>(poly.mVerts[2].mVert.y)}, {r, g, b}, {u1, v1}, textureIdx, palIndex, PsxDrawMode::DefaultFT4, isShaded, blendMode, isSemiTrans});
     
         gIndices.emplace_back((u16) (mIndexBufferIndex + 1));
         gIndices.emplace_back((u16) (mIndexBufferIndex + 0));
@@ -2015,14 +2003,15 @@ void VulkanRenderer::Draw(Poly_FT4& poly)
 
         mIndexBufferIndex += 4;
 
-        mTextureArrayIdx++;
-        mConstructingBatch.mTexturesInBatch = mTextureArrayIdx;
-        mTexturesForThisFrame.emplace_back(texture);
+        if (mConstructingBatch.AddTexture(animRes.mUniqueId.Id()))
+        {
+            mTexturesForThisFrame.emplace_back(texture);
+        }
 
         mConstructingBatch.mNumTrisToDraw += 2;
 
         // Over the texture limit or changed to/from subtractive blending
-        const bool bNewBatch = (mTextureArrayIdx == kTextureBatchSize);
+        const bool bNewBatch = (mConstructingBatch.mTexturesInBatch == kTextureBatchSize);
         if (bNewBatch)
         {
             NewBatch();
