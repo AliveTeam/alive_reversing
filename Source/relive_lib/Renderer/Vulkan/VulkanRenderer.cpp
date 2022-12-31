@@ -900,13 +900,17 @@ void VulkanRenderer::createVertexBuffer()
     if (!mVertexBuffer || !mVertexBufferMemory || mVertexBufferSize < bufferSize)
     {
         mVertexBufferSize = bufferSize;
+        if (bufferSize < sizeof(vertices[0]) * 1024)
+        {
+            mVertexBufferSize = sizeof(vertices[0]) * 1024;
+        }
 
         // The buffer is host and device visible and we keep it mapped for fast updating
-        auto [tmpBuffer, tmpMemory] = createBuffer(bufferSize, vk::BufferUsageFlagBits::eTransferDst | vk::BufferUsageFlagBits::eVertexBuffer, vk::MemoryPropertyFlagBits::eHostVisible | vk::MemoryPropertyFlagBits::eHostCoherent | vk::MemoryPropertyFlagBits::eDeviceLocal);
+        auto [tmpBuffer, tmpMemory] = createBuffer(mVertexBufferSize, vk::BufferUsageFlagBits::eTransferDst | vk::BufferUsageFlagBits::eVertexBuffer, vk::MemoryPropertyFlagBits::eHostVisible | vk::MemoryPropertyFlagBits::eHostCoherent | vk::MemoryPropertyFlagBits::eDeviceLocal);
         mVertexBuffer = std::move(tmpBuffer);
         mVertexBufferMemory = std::move(tmpMemory);
 
-        mMappedVertexBuffferMemory = mVertexBufferMemory->mapMemory(0, bufferSize);
+        mMappedVertexBuffferMemory = mVertexBufferMemory->mapMemory(0, mVertexBufferSize);
     }
 
     memcpy(mMappedVertexBuffferMemory, vertices.data(), (size_t) bufferSize);
@@ -923,12 +927,16 @@ void VulkanRenderer::createIndexBuffer()
     if (!mIndexBuffer || !mIndexBufferMemory || mIndexBufferSize < bufferSize)
     {
         mIndexBufferSize = bufferSize;
+        if (bufferSize < sizeof(gIndices[0] * 1024))
+        {
+            mIndexBufferSize = sizeof(gIndices[0] * 1024);
+        }
 
-        auto [stagingBuffer2, stagingBufferMemory2] = createBuffer(bufferSize, vk::BufferUsageFlagBits::eTransferDst | vk::BufferUsageFlagBits::eIndexBuffer, vk::MemoryPropertyFlagBits::eHostVisible | vk::MemoryPropertyFlagBits::eHostCoherent | vk::MemoryPropertyFlagBits::eDeviceLocal);
+        auto [stagingBuffer2, stagingBufferMemory2] = createBuffer(mIndexBufferSize, vk::BufferUsageFlagBits::eTransferDst | vk::BufferUsageFlagBits::eIndexBuffer, vk::MemoryPropertyFlagBits::eHostVisible | vk::MemoryPropertyFlagBits::eHostCoherent | vk::MemoryPropertyFlagBits::eDeviceLocal);
         mIndexBuffer = std::move(stagingBuffer2);
         mIndexBufferMemory = std::move(stagingBufferMemory2);
 
-        mMappedIndexBuffferMemory  = mIndexBufferMemory->mapMemory(0, bufferSize);
+        mMappedIndexBuffferMemory = mIndexBufferMemory->mapMemory(0, mIndexBufferSize);
     }
 
     memcpy(mMappedIndexBuffferMemory, gIndices.data(), (size_t) bufferSize);
@@ -1458,7 +1466,7 @@ void VulkanRenderer::drawFrame()
     presentInfo.pImageIndices = &imageIndex;
 
     result = mPresentQueue->presentKHR(presentInfo);
-    mPresentQueue->waitIdle(); // todo
+    //mPresentQueue->waitIdle(); // todo
     mDevice->waitIdle(); // todo
 
     if (result == vk::Result::eErrorOutOfDateKHR || result == vk::Result::eSuboptimalKHR)
@@ -1889,7 +1897,7 @@ void VulkanRenderer::Draw(Poly_FT4& poly)
     if (poly.mCam && !poly.mFg1)
     {
         CamResource* pRes = poly.mCam;
-        std::shared_ptr<Texture> texture = mTextureCache.GetCachedTexture(poly.mCam->mUniqueId.Id(), 1); // TODO: temp, kill texture ASAP
+        std::shared_ptr<Texture> texture = mTextureCache.GetCachedTexture(poly.mCam->mUniqueId.Id(), 300); // TODO: temp, kill texture ASAP
         if (!texture)
         {
             auto newTex = std::make_unique<Texture>(*this, pRes->mData.mWidth, pRes->mData.mHeight, pRes->mData.mPixels->data(), Texture::Format::RGBA);
@@ -1949,7 +1957,7 @@ void VulkanRenderer::Draw(Poly_FT4& poly)
         const u32 palIndex = PreparePalette(*animRes.mCurPal);
 
         auto pTga = animRes.mTgaPtr;
-        std::shared_ptr<Texture> texture = mTextureCache.GetCachedTexture(animRes.mUniqueId.Id(), 1); // TODO: temp, kill texture ASAP
+        std::shared_ptr<Texture> texture = mTextureCache.GetCachedTexture(animRes.mUniqueId.Id(), 300); // TODO: temp, kill texture ASAP
         if (!texture)
         {
             auto newTex = std::make_unique<Texture>(*this, pTga->mWidth, pTga->mHeight, pTga->mPixels.data(), Texture::Format::Indexed);
@@ -2007,11 +2015,10 @@ void VulkanRenderer::Draw(Poly_FT4& poly)
 
         mIndexBufferIndex += 4;
 
-        // TODO: We are duplicating textures here
-        mTexturesForThisFrame.emplace_back(texture);
-
         mTextureArrayIdx++;
         mConstructingBatch.mTexturesInBatch = mTextureArrayIdx;
+        mTexturesForThisFrame.emplace_back(texture);
+
         mConstructingBatch.mNumTrisToDraw += 2;
 
         // Over the texture limit or changed to/from subtractive blending

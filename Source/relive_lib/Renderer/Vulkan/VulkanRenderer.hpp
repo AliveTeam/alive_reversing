@@ -323,6 +323,7 @@ private:
         PipelineIndex mPipeline = PipelineIndex::eNone;
         u32 mNumTrisToDraw = 0;
         u32 mTexturesInBatch = 0;
+        u32 mTextureIndices[14] = {};
     };
     RenderBatch mConstructingBatch;
     std::vector<RenderBatch> mBatches;
