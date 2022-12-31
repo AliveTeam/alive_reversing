@@ -117,6 +117,9 @@ public:
     void Draw(Poly_FT4& poly) override;
     void Draw(Poly_G4& poly) override;
 
+    vk::raii::CommandBuffer beginSingleTimeCommands();
+    void endSingleTimeCommands(vk::raii::CommandBuffer& commandBuffer);
+
 private:
 #ifdef __APPLE__
     std::unique_ptr<ScopedDynamicLib> mMoltenVkLib;
@@ -181,8 +184,8 @@ private:
     void createTextureSampler();
     vk::raii::ImageView createImageView(vk::Image image, vk::Format format);
     std::pair<std::unique_ptr<vk::raii::Image>, std::unique_ptr<vk::raii::DeviceMemory>> createImage(uint32_t width, uint32_t height, vk::Format format, vk::ImageTiling tiling, vk::ImageUsageFlags usage, vk::MemoryPropertyFlags properties);
-    void transitionImageLayout(vk::Image image, vk::ImageLayout oldLayout, vk::ImageLayout newLayout);
-    void copyBufferToImage(vk::Buffer buffer, vk::Image image, uint32_t x, uint32_t y, uint32_t width, uint32_t height);
+    void transitionImageLayout(vk::raii::CommandBuffer& commandBuffer, vk::Image image, vk::ImageLayout oldLayout, vk::ImageLayout newLayout);
+    void copyBufferToImage(vk::raii::CommandBuffer& commandBuffer, vk::Buffer buffer, vk::Image image, uint32_t x, uint32_t y, uint32_t width, uint32_t height);
     void createVertexBuffer();
     void createIndexBuffer();
     void createUniformBuffers();
@@ -190,8 +193,6 @@ private:
     void createDescriptorSets();
     void updateDescriptorSets();
     std::pair<std::unique_ptr<vk::raii::Buffer>, std::unique_ptr<vk::raii::DeviceMemory>> createBuffer(vk::DeviceSize size, vk::BufferUsageFlags usage, vk::MemoryPropertyFlags properties);
-    vk::raii::CommandBuffer beginSingleTimeCommands();
-    void endSingleTimeCommands(vk::raii::CommandBuffer& commandBuffer);
     void copyBuffer(vk::Buffer srcBuffer, vk::Buffer dstBuffer, vk::DeviceSize size);
     uint32_t findMemoryType(uint32_t typeFilter, vk::MemoryPropertyFlags properties);
     void createCommandBuffers();
@@ -267,9 +268,11 @@ private:
             mImage = std::move(textureImage);
             mMemory = std::move(deviceMemory);
 
-            mRenderer.transitionImageLayout(**mImage, vk::ImageLayout::eUndefined, vk::ImageLayout::eTransferDstOptimal);
-            mRenderer.copyBufferToImage(**stagingBuffer, **mImage, 0, 0, static_cast<uint32_t>(width), static_cast<uint32_t>(height));
-            mRenderer.transitionImageLayout(**mImage, vk::ImageLayout::eTransferDstOptimal, vk::ImageLayout::eShaderReadOnlyOptimal);
+            auto commandBuffer = mRenderer.beginSingleTimeCommands();
+            mRenderer.transitionImageLayout(commandBuffer, **mImage, vk::ImageLayout::eUndefined, vk::ImageLayout::eTransferDstOptimal);
+            mRenderer.copyBufferToImage(commandBuffer, **stagingBuffer, **mImage, 0, 0, static_cast<uint32_t>(width), static_cast<uint32_t>(height));
+            mRenderer.transitionImageLayout(commandBuffer, **mImage, vk::ImageLayout::eTransferDstOptimal, vk::ImageLayout::eShaderReadOnlyOptimal);
+            mRenderer.endSingleTimeCommands(commandBuffer);
 
             mView = std::make_unique<vk::raii::ImageView>(mRenderer.createImageView(**mImage, imgFormat));
         }
@@ -289,9 +292,11 @@ private:
             memcpy(data, pPixels, static_cast<std::size_t>(imageSize));
             stagingBufferMemory->unmapMemory();
 
-            mRenderer.transitionImageLayout(**mImage, vk::ImageLayout::eShaderReadOnlyOptimal, vk::ImageLayout::eTransferDstOptimal);
-            mRenderer.copyBufferToImage(**stagingBuffer, **mImage, x, y, static_cast<uint32_t>(width), static_cast<uint32_t>(height));
-            mRenderer.transitionImageLayout(**mImage, vk::ImageLayout::eTransferDstOptimal, vk::ImageLayout::eShaderReadOnlyOptimal);
+            auto commandBuffer = mRenderer.beginSingleTimeCommands();
+            mRenderer.transitionImageLayout(commandBuffer, **mImage, vk::ImageLayout::eShaderReadOnlyOptimal, vk::ImageLayout::eTransferDstOptimal);
+            mRenderer.copyBufferToImage(commandBuffer, **stagingBuffer, **mImage, x, y, static_cast<uint32_t>(width), static_cast<uint32_t>(height));
+            mRenderer.transitionImageLayout(commandBuffer, **mImage, vk::ImageLayout::eTransferDstOptimal, vk::ImageLayout::eShaderReadOnlyOptimal);
+            mRenderer.endSingleTimeCommands(commandBuffer);
         }
 
     private:

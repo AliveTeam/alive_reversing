@@ -828,10 +828,8 @@ std::pair<std::unique_ptr<vk::raii::Image>, std::unique_ptr<vk::raii::DeviceMemo
     return std::make_pair(std::make_unique<vk::raii::Image>(std::move(image)), std::make_unique<vk::raii::DeviceMemory>(std::move(imageMemory)));
 }
 
-void VulkanRenderer::transitionImageLayout(vk::Image image, vk::ImageLayout oldLayout, vk::ImageLayout newLayout)
+void VulkanRenderer::transitionImageLayout(vk::raii::CommandBuffer& commandBuffer, vk::Image image, vk::ImageLayout oldLayout, vk::ImageLayout newLayout)
 {
-    vk::raii::CommandBuffer commandBuffer = beginSingleTimeCommands();
-
     vk::ImageMemoryBarrier barrier;
     barrier.oldLayout = oldLayout;
     barrier.newLayout = newLayout;
@@ -873,16 +871,10 @@ void VulkanRenderer::transitionImageLayout(vk::Image image, vk::ImageLayout oldL
                                   nullptr,
                                   nullptr,
                                   vk::ArrayProxy(barrier));
-
-
-
-    endSingleTimeCommands(commandBuffer);
 }
 
-void VulkanRenderer::copyBufferToImage(vk::Buffer buffer, vk::Image image, uint32_t x, uint32_t y, uint32_t width, uint32_t height)
+void VulkanRenderer::copyBufferToImage(vk::raii::CommandBuffer& commandBuffer, vk::Buffer buffer, vk::Image image, uint32_t x, uint32_t y, uint32_t width, uint32_t height)
 {
-    vk::raii::CommandBuffer commandBuffer = beginSingleTimeCommands();
-
     vk::BufferImageCopy region;
     region.bufferOffset = 0;
     region.bufferRowLength = 0;
@@ -898,8 +890,6 @@ void VulkanRenderer::copyBufferToImage(vk::Buffer buffer, vk::Image image, uint3
         1};
 
     commandBuffer.copyBufferToImage(buffer, image, vk::ImageLayout::eTransferDstOptimal, region);
-
-    endSingleTimeCommands(commandBuffer);
 }
 
 void VulkanRenderer::createVertexBuffer()
