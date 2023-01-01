@@ -33,7 +33,7 @@ DataConversionUI::DataConversionUI(GameType gameType)
         mFontPal.mPal->mPal[i] = RGBConversion::RGBA555ToRGBA888Components(fontFile->mPalette[i]);
     }
 
-    std::vector<u8> newData(fontFile->mWidth * fontFile->mHeight * 2);
+    std::vector<u8> newData(fontFile->mWidth * fontFile->mHeight); // TODO *2 was out of bounds?
 
     // Expand 4bit to 8bit
     std::size_t src = 0;
