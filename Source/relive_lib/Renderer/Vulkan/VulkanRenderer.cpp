@@ -200,11 +200,11 @@ void VulkanRenderer::cleanup()
 
     mDescriptorPool->clear();
 
-    mTextureSampler->clear();
 
 
     for (u32 i = 0; i < MAX_FRAMES_IN_FLIGHT; i++)
     {
+        mTextureSampler[i]->clear();
         mTextureCache[i].Clear();
         mPaletteTexture[i].reset();
     }
@@ -785,7 +785,10 @@ void VulkanRenderer::createTextureSampler()
     samplerInfo.compareOp = vk::CompareOp::eAlways;
     samplerInfo.mipmapMode = vk::SamplerMipmapMode::eNearest;
 
-    mTextureSampler = std::make_unique<vk::raii::Sampler>(mDevice->createSampler(samplerInfo));
+    for (u32 i = 0; i < MAX_FRAMES_IN_FLIGHT; i++)
+    {
+        mTextureSampler[i] = std::make_unique<vk::raii::Sampler>(mDevice->createSampler(samplerInfo));
+    }
 }
 
 vk::raii::ImageView VulkanRenderer::createImageView(vk::Image image, vk::Format format)
@@ -1076,7 +1079,7 @@ void VulkanRenderer::updateDescriptorSets()
             vk::DescriptorImageInfo imageInfo{};
             imageInfo.imageLayout = vk::ImageLayout::eShaderReadOnlyOptimal;
             imageInfo.imageView = **mPaletteTexture[i]->View();
-            imageInfo.sampler = **mTextureSampler;
+            imageInfo.sampler = **mTextureSampler[i];
 
             descriptorWrites[1].dstSet = *mDescriptorSets[To1dIdx(i, j)];
             descriptorWrites[1].dstBinding = 1;
@@ -1107,7 +1110,7 @@ void VulkanRenderer::updateDescriptorSets()
                 {
                     imageInfo4.imageView = **mPaletteTexture[i]->View();
                 }
-                imageInfo4.sampler = **mTextureSampler;
+                imageInfo4.sampler = **mTextureSampler[i];
                 descriptorWrites[2].pImageInfo = &imageInfo4;
             }
 
@@ -1129,7 +1132,7 @@ void VulkanRenderer::updateDescriptorSets()
                     imageInfo2[k].imageView = **mPaletteTexture[i]->View();
                 }
 
-                imageInfo2[k].sampler = **mTextureSampler;
+                imageInfo2[k].sampler = **mTextureSampler[i];
             }
 
             descriptorWrites[3].dstSet = *mDescriptorSets[To1dIdx(i, j)];

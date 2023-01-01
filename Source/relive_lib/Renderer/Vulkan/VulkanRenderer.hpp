@@ -377,7 +377,7 @@ private:
     OffscreenPass mOffScreenPass[MAX_FRAMES_IN_FLIGHT] = {};
 
     // Apparently 1 sampler can do all the textures in the shader
-    std::unique_ptr<vk::raii::Sampler> mTextureSampler;
+    std::unique_ptr<vk::raii::Sampler> mTextureSampler[MAX_FRAMES_IN_FLIGHT];
 
     std::unique_ptr<vk::raii::Buffer> mVertexBuffer;
     std::unique_ptr<vk::raii::DeviceMemory> mVertexBufferMemory;
