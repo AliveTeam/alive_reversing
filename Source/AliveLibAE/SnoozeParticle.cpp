@@ -132,7 +132,7 @@ void SnoozeParticle::VUpdate()
 
                     mSpriteScale += field_3C_scale_dx;
 
-                    if (mIdx > 36)
+                    if (mIdx > 35)
                     {
                         mIdx = 0;
                     }
