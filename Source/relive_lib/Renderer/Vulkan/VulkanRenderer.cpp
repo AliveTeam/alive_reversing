@@ -1464,8 +1464,8 @@ void VulkanRenderer::drawFrame()
     presentInfo.pImageIndices = &imageIndex;
 
     result = mPresentQueue->presentKHR(presentInfo);
-    mPresentQueue->waitIdle(); // todo
-    mDevice->waitIdle(); // todo
+    //mPresentQueue->waitIdle(); // todo
+    //mDevice->waitIdle(); // todo
 
     if (result == vk::Result::eErrorOutOfDateKHR || result == vk::Result::eSuboptimalKHR)
     {
@@ -1888,7 +1888,7 @@ void VulkanRenderer::NewBatch()
 
 void VulkanRenderer::Draw(Poly_FT4& poly)
 {
-    constexpr u32 kTextureBatchSize = 12;
+    constexpr u32 kTextureBatchSize = 14;
 
     if (poly.mCam && !poly.mFg1)
     {
