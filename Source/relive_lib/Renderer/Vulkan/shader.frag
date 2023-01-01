@@ -98,65 +98,63 @@ vec4 draw_flat()
 
 vec4 SampleTexture()
 {
-    vec2 uvDx = dFdx(fragTexCoord);
-    vec2 uvDy = dFdy(fragTexCoord);
     vec4 value = vec4(0.0f);
     switch (samplerIndex)
     {
         case 0u:
-            value = textureGrad(texSpriteSheets[0], fragTexCoord, uvDx, uvDy);
-            break;
-
-        case 1u:
-            value = textureGrad(texSpriteSheets[1], fragTexCoord, uvDx, uvDy);
-            break;
-
-        case 2u:
-            value = textureGrad(texSpriteSheets[2], fragTexCoord, uvDx, uvDy);
-            break;
-
-        case 3u:
-            value = textureGrad(texSpriteSheets[3], fragTexCoord, uvDx, uvDy);
-            break;
-
-        case 4u:
-            value = textureGrad(texSpriteSheets[4], fragTexCoord, uvDx, uvDy);
-            break;
-
-        case 5u:
-            value = textureGrad(texSpriteSheets[5], fragTexCoord, uvDx, uvDy);
-            break;
-
-        case 6u:
-            value = textureGrad(texSpriteSheets[6], fragTexCoord, uvDx, uvDy);
-            break;
-
-        case 7u:
-            value = textureGrad(texSpriteSheets[7], fragTexCoord, uvDx, uvDy);
-            break;
-
-        case 8u:
-            value = textureGrad(texSpriteSheets[8], fragTexCoord, uvDx, uvDy);
+            value = textureLod(texSpriteSheets[0], fragTexCoord, 0.0f);
+            break;                                               
+                                                                 
+        case 1u:                                                 
+            value = textureLod(texSpriteSheets[1], fragTexCoord, 0.0f);
+            break;                                               
+                                                                 
+        case 2u:                                                 
+            value = textureLod(texSpriteSheets[2], fragTexCoord, 0.0f);
+            break;                                               
+                                                                 
+        case 3u:                                                 
+            value = textureLod(texSpriteSheets[3], fragTexCoord, 0.0f);
+            break;                                               
+                                                                 
+        case 4u:                                                 
+            value = textureLod(texSpriteSheets[4], fragTexCoord, 0.0f);
+            break;                                               
+                                                                 
+        case 5u:                                                 
+            value = textureLod(texSpriteSheets[5], fragTexCoord, 0.0f);
+            break;                                               
+                                                                 
+        case 6u:                                                 
+            value = textureLod(texSpriteSheets[6], fragTexCoord, 0.0f);
+            break;                                               
+                                                                 
+        case 7u:                                                 
+            value = textureLod(texSpriteSheets[7], fragTexCoord, 0.0f);
+            break;                                               
+                                                                 
+        case 8u:                                                 
+            value = textureLod(texSpriteSheets[8], fragTexCoord, 0.0f);
             break;
 
         case 9u:
-            value = textureGrad(texSpriteSheets[9], fragTexCoord, uvDx, uvDy);
+            value = textureLod(texSpriteSheets[9], fragTexCoord, 0.0f);
             break;
 
         case 10u:
-            value = textureGrad(texSpriteSheets[10], fragTexCoord, uvDx, uvDy);
+            value = textureLod(texSpriteSheets[10], fragTexCoord, 0.0f);
             break;
 
         case 11u:
-            value = textureGrad(texSpriteSheets[11], fragTexCoord, uvDx, uvDy);
+            value = textureLod(texSpriteSheets[11], fragTexCoord, 0.0f);
             break;
 
         case 12u:
-            value = textureGrad(texSpriteSheets[12], fragTexCoord, uvDx, uvDy);
+            value = textureLod(texSpriteSheets[12], fragTexCoord, 0.0f);
             break;
 
         case 13u:
-            value = textureGrad(texSpriteSheets[13], fragTexCoord, uvDx, uvDy);
+            value = textureLod(texSpriteSheets[13], fragTexCoord, 0.0f);
             break;
     }
     return value;
@@ -170,13 +168,13 @@ vec4 draw_default_ft4()
 
 vec4 draw_cam()
 {
-    return vec4(texture(texCamera, fragTexCoord).rgb, 0.0);
+    return vec4(textureLod(texCamera, fragTexCoord, 0.0f).rgb, 0.0);
 }
 
 vec4 draw_fg1()
 {
     vec4 mask = SampleTexture();
-    vec4 ret = vec4(texture(texCamera, fragTexCoord).rgb, 0.0);
+    vec4 ret = vec4(textureLod(texCamera, fragTexCoord, 0.0f).rgb, 0.0);
 
     if (mask.rgb == vec3(0.0))
     {
