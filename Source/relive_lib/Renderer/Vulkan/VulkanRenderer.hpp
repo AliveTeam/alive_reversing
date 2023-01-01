@@ -151,7 +151,7 @@ private:
     // TODO: Simply down the prim types so we don't need this
     u16 mGlobalTPage = 0;
 
-    PaletteCache mPaletteCache;
+    PaletteCache mPaletteCache[MAX_FRAMES_IN_FLIGHT];
 
 
     void initVulkan();
@@ -313,11 +313,11 @@ private:
     {
     public:
     };
-    VulkanTextureCache mTextureCache;
+    VulkanTextureCache mTextureCache[MAX_FRAMES_IN_FLIGHT];
 
-    std::unique_ptr<Texture> mPaletteTexture;
+    std::unique_ptr<Texture> mPaletteTexture[MAX_FRAMES_IN_FLIGHT];
 
-    std::shared_ptr<Texture> mCamTexture;
+    std::shared_ptr<Texture> mCamTexture[MAX_FRAMES_IN_FLIGHT];
     std::vector<std::shared_ptr<Texture>> mTexturesForThisFrame;
     struct RenderBatch final
     {

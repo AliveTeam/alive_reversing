@@ -8,7 +8,7 @@
 class PaletteCache final
 {
 public:
-    explicit PaletteCache(u32 maxCacheSize)
+    explicit PaletteCache(u32 maxCacheSize = 256)
         : mMaxCacheSize(maxCacheSize)
     {
 

@@ -146,8 +146,10 @@ void VulkanRenderer::initVulkan()
     createCommandPool();
 
     std::vector<RGBA32> blackPixels(256 * 256);
-    mPaletteTexture = std::make_unique<Texture>(*this, 256, 256, blackPixels.data(), Texture::Format::RGBA);
-
+    for (u32 i = 0; i < MAX_FRAMES_IN_FLIGHT; i++)
+    {
+        mPaletteTexture[i] = std::make_unique<Texture>(*this, 256, 256, blackPixels.data(), Texture::Format::RGBA);
+    }
     createDescriptorSetLayout();
 
     for (u32 i = 0; i < MAX_FRAMES_IN_FLIGHT; i++)
@@ -200,9 +202,13 @@ void VulkanRenderer::cleanup()
 
     mTextureSampler->clear();
 
-    mTextureCache.Clear();
 
-    mPaletteTexture.reset();
+    for (u32 i = 0; i < MAX_FRAMES_IN_FLIGHT; i++)
+    {
+        mTextureCache[i].Clear();
+        mPaletteTexture[i].reset();
+    }
+
     mTexturesForThisFrame.clear();
 
     mDescriptorSetLayout->clear();
@@ -1069,7 +1075,7 @@ void VulkanRenderer::updateDescriptorSets()
             // Pal texture
             vk::DescriptorImageInfo imageInfo{};
             imageInfo.imageLayout = vk::ImageLayout::eShaderReadOnlyOptimal;
-            imageInfo.imageView = **mPaletteTexture->View();
+            imageInfo.imageView = **mPaletteTexture[i]->View();
             imageInfo.sampler = **mTextureSampler;
 
             descriptorWrites[1].dstSet = *mDescriptorSets[To1dIdx(i, j)];
@@ -1093,13 +1099,13 @@ void VulkanRenderer::updateDescriptorSets()
             else
             {
                 imageInfo4.imageLayout = vk::ImageLayout::eShaderReadOnlyOptimal;
-                if (mCamTexture)
+                if (mCamTexture[i])
                 {
-                    imageInfo4.imageView = **mCamTexture->View();
+                    imageInfo4.imageView = **mCamTexture[i]->View();
                 }
                 else
                 {
-                    imageInfo4.imageView = **mPaletteTexture->View();
+                    imageInfo4.imageView = **mPaletteTexture[i]->View();
                 }
                 imageInfo4.sampler = **mTextureSampler;
                 descriptorWrites[2].pImageInfo = &imageInfo4;
@@ -1120,7 +1126,7 @@ void VulkanRenderer::updateDescriptorSets()
 
                 if (!imageInfo2[k].imageView)
                 {
-                    imageInfo2[k].imageView = **mPaletteTexture->View();
+                    imageInfo2[k].imageView = **mPaletteTexture[i]->View();
                 }
 
                 imageInfo2[k].sampler = **mTextureSampler;
@@ -1455,7 +1461,7 @@ void VulkanRenderer::drawFrame()
     presentInfo.pImageIndices = &imageIndex;
 
     result = mPresentQueue->presentKHR(presentInfo);
-    //mPresentQueue->waitIdle(); // todo
+    mPresentQueue->waitIdle(); // todo
     mDevice->waitIdle(); // todo
 
     if (result == vk::Result::eErrorOutOfDateKHR || result == vk::Result::eSuboptimalKHR)
@@ -1668,7 +1674,6 @@ bool VulkanRenderer::checkValidationLayerSupport()
 
 VulkanRenderer::VulkanRenderer(TWindowHandleType window)
     : IRenderer(window)
-    , mPaletteCache(256)
 {
     TRACE_ENTRYEXIT;
 
@@ -1787,7 +1792,7 @@ void VulkanRenderer::EndFrame()
 
         mTexturesForThisFrame.clear();
 
-        mCamTexture = nullptr;
+        mCamTexture[mCurrentFrame] = nullptr;
         mConstructingBatch = {};
         mBatches.clear();
     }
@@ -1852,12 +1857,12 @@ void VulkanRenderer::SetupBlendMode(u16 blendMode)
 
 u32 VulkanRenderer::PreparePalette(AnimationPal& pCache)
 {
-    const PaletteCache::AddResult addRet = mPaletteCache.Add(pCache);
+    const PaletteCache::AddResult addRet = mPaletteCache[mCurrentFrame].Add(pCache);
 
     if (addRet.mAllocated)
     {
         // Write palette data
-        mPaletteTexture->LoadSubImage(0, addRet.mIndex, 256, 1, pCache.mPal);
+        mPaletteTexture[mCurrentFrame]->LoadSubImage(0, addRet.mIndex, 256, 1, pCache.mPal);
 
         //mStats.mPalUploadCount++;
     }
@@ -1885,15 +1890,15 @@ void VulkanRenderer::Draw(Poly_FT4& poly)
     if (poly.mCam && !poly.mFg1)
     {
         CamResource* pRes = poly.mCam;
-        std::shared_ptr<Texture> texture = mTextureCache.GetCachedTexture(poly.mCam->mUniqueId.Id(), 300); // TODO: temp, kill texture ASAP
+        std::shared_ptr<Texture> texture = mTextureCache[mCurrentFrame].GetCachedTexture(poly.mCam->mUniqueId.Id(), 300); // TODO: temp, kill texture ASAP
         if (!texture)
         {
             auto newTex = std::make_unique<Texture>(*this, pRes->mData.mWidth, pRes->mData.mHeight, pRes->mData.mPixels->data(), Texture::Format::RGBA);
 
-            texture = mTextureCache.Add(poly.mCam->mUniqueId.Id(), 300, std::move(newTex));
+            texture = mTextureCache[mCurrentFrame].Add(poly.mCam->mUniqueId.Id(), 300, std::move(newTex));
 
         }
-        mCamTexture = texture;
+        mCamTexture[mCurrentFrame] = texture;
 
         // TODO: temp haxo
         {
@@ -1944,12 +1949,12 @@ void VulkanRenderer::Draw(Poly_FT4& poly)
         const u32 palIndex = PreparePalette(*animRes.mCurPal);
 
         auto pTga = animRes.mTgaPtr;
-        std::shared_ptr<Texture> texture = mTextureCache.GetCachedTexture(animRes.mUniqueId.Id(), 300); // TODO: temp, kill texture ASAP
+        std::shared_ptr<Texture> texture = mTextureCache[mCurrentFrame].GetCachedTexture(animRes.mUniqueId.Id(), 300); // TODO: temp, kill texture ASAP
         if (!texture)
         {
             auto newTex = std::make_unique<Texture>(*this, pTga->mWidth, pTga->mHeight, pTga->mPixels.data(), Texture::Format::Indexed);
 
-            texture = mTextureCache.Add(animRes.mUniqueId.Id(), 300, std::move(newTex));
+            texture = mTextureCache[mCurrentFrame].Add(animRes.mUniqueId.Id(), 300, std::move(newTex));
 
             //mStats.mCamUploadCount++;
         }
@@ -2034,7 +2039,7 @@ void VulkanRenderer::Draw(Poly_G4&)
 
 void VulkanRenderer::DecreaseResourceLifetimes()
 {
-    mTextureCache.DecreaseResourceLifetimes();
+    mTextureCache[mCurrentFrame].DecreaseResourceLifetimes();
 
-    mPaletteCache.ResetUseFlags();
+    mPaletteCache[mCurrentFrame].ResetUseFlags();
 }
