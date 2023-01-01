@@ -189,9 +189,9 @@ private:
     std::pair<std::unique_ptr<vk::raii::Image>, std::unique_ptr<vk::raii::DeviceMemory>> createImage(uint32_t width, uint32_t height, vk::Format format, vk::ImageTiling tiling, vk::ImageUsageFlags usage, vk::MemoryPropertyFlags properties);
     void transitionImageLayout(vk::raii::CommandBuffer& commandBuffer, vk::Image image, vk::ImageLayout oldLayout, vk::ImageLayout newLayout);
     void copyBufferToImage(vk::raii::CommandBuffer& commandBuffer, vk::Buffer buffer, vk::Image image, uint32_t x, uint32_t y, uint32_t width, uint32_t height);
-    void createVertexBuffer();
-    void createIndexBuffer();
-    void createUniformBuffers();
+    void createVertexBuffer(u32 idx);
+    void createIndexBuffer(u32 idx);
+    void createUniformBuffers(u32 idx);
     void createDescriptorPool();
     void createDescriptorSets();
     void updateDescriptorSets();
@@ -200,7 +200,7 @@ private:
     void createCommandBuffers();
     void recordCommandBuffer(vk::raii::CommandBuffer& commandBuffer, uint32_t imageIndex);
     void createSyncObjects();
-    void updateUniformBuffer(uint32_t currentImage);
+    void updateUniformBuffer();
     void drawFrame();
     vk::raii::ShaderModule createShaderModule(const std::vector<char>& code);
     vk::SurfaceFormatKHR chooseSwapSurfaceFormat(const std::vector<vk::SurfaceFormatKHR>& availableFormats);
@@ -261,10 +261,12 @@ private:
             vk::DeviceSize imageSize = width * height * (mFormat == Format::Indexed ? 1 : 4);
             vk::Format imgFormat = format == Format::Indexed ? vk::Format::eR8Unorm : vk::Format::eR8G8B8A8Srgb;
             auto [stagingBuffer, stagingBufferMemory] = mRenderer.createBuffer(imageSize, vk::BufferUsageFlagBits::eTransferSrc, vk::MemoryPropertyFlagBits::eHostVisible | vk::MemoryPropertyFlagBits::eHostCoherent);
+            mStagingBuffer = std::move(stagingBuffer);
+            mStagingBufferMemory = std::move(stagingBufferMemory);
 
-            void* data = stagingBufferMemory->mapMemory(0, imageSize);
+            void* data = mStagingBufferMemory->mapMemory(0, imageSize);
             memcpy(data, pPixels, static_cast<std::size_t>(imageSize));
-            stagingBufferMemory->unmapMemory();
+            mStagingBufferMemory->unmapMemory();
 
             auto [textureImage, deviceMemory] = mRenderer.createImage(width, height, imgFormat, vk::ImageTiling::eOptimal, vk::ImageUsageFlagBits::eTransferDst | vk::ImageUsageFlagBits::eSampled, vk::MemoryPropertyFlagBits::eDeviceLocal);
             mImage = std::move(textureImage);
@@ -272,7 +274,7 @@ private:
 
             auto commandBuffer = mRenderer.beginSingleTimeCommands();
             mRenderer.transitionImageLayout(commandBuffer, **mImage, vk::ImageLayout::eUndefined, vk::ImageLayout::eTransferDstOptimal);
-            mRenderer.copyBufferToImage(commandBuffer, **stagingBuffer, **mImage, 0, 0, static_cast<uint32_t>(width), static_cast<uint32_t>(height));
+            mRenderer.copyBufferToImage(commandBuffer, **mStagingBuffer, **mImage, 0, 0, static_cast<uint32_t>(width), static_cast<uint32_t>(height));
             mRenderer.transitionImageLayout(commandBuffer, **mImage, vk::ImageLayout::eTransferDstOptimal, vk::ImageLayout::eShaderReadOnlyOptimal);
             mRenderer.endSingleTimeCommands(commandBuffer);
 
@@ -284,24 +286,24 @@ private:
             return mView;
         }
 
-
         void LoadSubImage(u32 x, u32 y, u32 width, u32 height, RGBA32* pPixels)
         {
             vk::DeviceSize imageSize = width * height * (mFormat == Format::Indexed ? 1 : 4);
-            auto [stagingBuffer, stagingBufferMemory] = mRenderer.createBuffer(imageSize, vk::BufferUsageFlagBits::eTransferSrc, vk::MemoryPropertyFlagBits::eHostVisible | vk::MemoryPropertyFlagBits::eHostCoherent);
 
-            void* data = stagingBufferMemory->mapMemory(0, imageSize);
+            void* data = mStagingBufferMemory->mapMemory(0, imageSize);
             memcpy(data, pPixels, static_cast<std::size_t>(imageSize));
-            stagingBufferMemory->unmapMemory();
+            mStagingBufferMemory->unmapMemory();
 
             auto commandBuffer = mRenderer.beginSingleTimeCommands();
             mRenderer.transitionImageLayout(commandBuffer, **mImage, vk::ImageLayout::eShaderReadOnlyOptimal, vk::ImageLayout::eTransferDstOptimal);
-            mRenderer.copyBufferToImage(commandBuffer, **stagingBuffer, **mImage, x, y, static_cast<uint32_t>(width), static_cast<uint32_t>(height));
+            mRenderer.copyBufferToImage(commandBuffer, **mStagingBuffer, **mImage, x, y, static_cast<uint32_t>(width), static_cast<uint32_t>(height));
             mRenderer.transitionImageLayout(commandBuffer, **mImage, vk::ImageLayout::eTransferDstOptimal, vk::ImageLayout::eShaderReadOnlyOptimal);
             mRenderer.endSingleTimeCommands(commandBuffer);
         }
 
     private:
+        std::unique_ptr<vk::raii::Buffer> mStagingBuffer;
+        std::unique_ptr<vk::raii::DeviceMemory> mStagingBufferMemory;
         std::unique_ptr<vk::raii::Image> mImage;
         std::unique_ptr<vk::raii::DeviceMemory> mMemory;
         std::unique_ptr<vk::raii::ImageView> mView;
@@ -379,19 +381,55 @@ private:
     // Apparently 1 sampler can do all the textures in the shader
     std::unique_ptr<vk::raii::Sampler> mTextureSampler[MAX_FRAMES_IN_FLIGHT];
 
-    std::unique_ptr<vk::raii::Buffer> mVertexBuffer;
-    std::unique_ptr<vk::raii::DeviceMemory> mVertexBufferMemory;
-    vk::DeviceSize mVertexBufferSize;
-    void* mMappedVertexBuffferMemory = nullptr;
+    struct MappedBuffer final
+    {
+        void clear()
+        {
+            mBuffer->clear();
+            mBufferMemory->clear();
+            mBufferSize = 0;
+            mMappedBuffferMemory = nullptr;
+        }
 
-    std::unique_ptr<vk::raii::Buffer> mIndexBuffer;
-    std::unique_ptr<vk::raii::DeviceMemory> mIndexBufferMemory;
-    vk::DeviceSize mIndexBufferSize;
-    void* mMappedIndexBuffferMemory = nullptr;
+        template<typename T>
+        void makeBuffer(VulkanRenderer& renderer, std::unique_ptr<vk::raii::Device>& device, vk::BufferUsageFlags usageFlags, vk::MemoryPropertyFlags memoryFlags, const T* pData, size_t dataElementCount)
+        {
+            const vk::DeviceSize bufferSize = sizeof(T) * dataElementCount;
 
-    std::vector<std::unique_ptr<vk::raii::Buffer>> mUniformBuffers;
-    std::vector<std::unique_ptr<vk::raii::DeviceMemory>> mUniformBuffersMemory;
-    std::vector<void*> mUniformBuffersMapped;
+            // Create if we don't have a buffer or its too small
+            if (!mBuffer || !mBufferMemory || mBufferSize < bufferSize)
+            {
+                mBufferSize = bufferSize;
+                if (bufferSize < sizeof(T) * 1024)
+                {
+                    mBufferSize = sizeof(T) * 1024;
+                }
+
+                // The buffer is host and device visible and we keep it mapped for fast updating
+                auto [tmpBuffer, tmpMemory] = renderer.createBuffer(mBufferSize, usageFlags, memoryFlags);
+                mBuffer = std::move(tmpBuffer);
+                mBufferMemory = std::move(tmpMemory);
+
+                mMappedBuffferMemory = mBufferMemory->mapMemory(0, mBufferSize);
+            }
+
+            memcpy(mMappedBuffferMemory, pData, (size_t) bufferSize);
+
+            vk::MappedMemoryRange mappedRange;
+            mappedRange.memory = **mBufferMemory;
+            mappedRange.size = VK_WHOLE_SIZE; // TODO: Limit size to corrrect multiple
+            device->flushMappedMemoryRanges(mappedRange);
+        }
+
+        std::unique_ptr<vk::raii::Buffer> mBuffer;
+        std::unique_ptr<vk::raii::DeviceMemory> mBufferMemory;
+        vk::DeviceSize mBufferSize;
+        void* mMappedBuffferMemory = nullptr;
+    };
+
+    MappedBuffer mVertexBuffer[MAX_FRAMES_IN_FLIGHT];
+    MappedBuffer mIndexBuffer[MAX_FRAMES_IN_FLIGHT];
+    MappedBuffer mUniformBuffer[MAX_FRAMES_IN_FLIGHT];
 
     std::unique_ptr<vk::raii::DescriptorPool> mDescriptorPool;
     std::vector<vk::raii::DescriptorSet> mDescriptorSets;

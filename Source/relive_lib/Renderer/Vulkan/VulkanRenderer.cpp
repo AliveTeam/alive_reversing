@@ -164,7 +164,10 @@ void VulkanRenderer::initVulkan()
     createFramebuffers();
 
     createTextureSampler();
-    createUniformBuffers();
+    for (u32 i = 0; i < MAX_FRAMES_IN_FLIGHT; i++)
+    {
+        createUniformBuffers(i);
+    }
     createDescriptorPool();
     createDescriptorSets();
     updateDescriptorSets();
@@ -195,15 +198,16 @@ void VulkanRenderer::cleanup()
 
     mRenderPass->clear();
 
-    mUniformBuffers.clear();
-    mUniformBuffersMemory.clear();
-
+  
     mDescriptorPool->clear();
 
 
 
     for (u32 i = 0; i < MAX_FRAMES_IN_FLIGHT; i++)
     {
+        mIndexBuffer[i].clear();
+        mVertexBuffer[i].clear();
+        mUniformBuffer[i].clear();
         mTextureSampler[i]->clear();
         mTextureCache[i].Clear();
         mPaletteTexture[i].reset();
@@ -213,11 +217,6 @@ void VulkanRenderer::cleanup()
 
     mDescriptorSetLayout->clear();
 
-    mIndexBuffer->clear();
-    mIndexBufferMemory->clear();
-
-    mVertexBuffer->clear();
-    mVertexBufferMemory->clear();
 
     mRenderFinishedSemaphores.clear();
     mImageAvailableSemaphores.clear();
@@ -901,78 +900,28 @@ void VulkanRenderer::copyBufferToImage(vk::raii::CommandBuffer& commandBuffer, v
     commandBuffer.copyBufferToImage(buffer, image, vk::ImageLayout::eTransferDstOptimal, region);
 }
 
-void VulkanRenderer::createVertexBuffer()
+void VulkanRenderer::createVertexBuffer(u32 idx)
 {
-    const vk::DeviceSize bufferSize = sizeof(vertices[0]) * vertices.size();
-
-    // Create if we don't have a buffer or its too small
-    if (!mVertexBuffer || !mVertexBufferMemory || mVertexBufferSize < bufferSize)
-    {
-        mVertexBufferSize = bufferSize;
-        if (bufferSize < sizeof(vertices[0]) * 1024)
-        {
-            mVertexBufferSize = sizeof(vertices[0]) * 1024;
-        }
-
-        // The buffer is host and device visible and we keep it mapped for fast updating
-        auto [tmpBuffer, tmpMemory] = createBuffer(mVertexBufferSize, vk::BufferUsageFlagBits::eTransferDst | vk::BufferUsageFlagBits::eVertexBuffer, vk::MemoryPropertyFlagBits::eHostVisible | vk::MemoryPropertyFlagBits::eHostCoherent | vk::MemoryPropertyFlagBits::eDeviceLocal);
-        mVertexBuffer = std::move(tmpBuffer);
-        mVertexBufferMemory = std::move(tmpMemory);
-
-        mMappedVertexBuffferMemory = mVertexBufferMemory->mapMemory(0, mVertexBufferSize);
-    }
-
-    memcpy(mMappedVertexBuffferMemory, vertices.data(), (size_t) bufferSize);
-
-    vk::MappedMemoryRange mappedRange;
-    mappedRange.memory = **mVertexBufferMemory;
-    mappedRange.size = VK_WHOLE_SIZE; // TODO: Limit size to corrrect multiple
-    mDevice->flushMappedMemoryRanges(mappedRange);
+    auto usageFlags = vk::BufferUsageFlagBits::eTransferDst | vk::BufferUsageFlagBits::eVertexBuffer;
+    auto memoryFlags = vk::MemoryPropertyFlagBits::eHostVisible | vk::MemoryPropertyFlagBits::eHostCoherent | vk::MemoryPropertyFlagBits::eDeviceLocal;
+    mVertexBuffer[idx].makeBuffer(*this, mDevice, usageFlags, memoryFlags, vertices.data(), vertices.size());
 }
 
-void VulkanRenderer::createIndexBuffer()
+void VulkanRenderer::createIndexBuffer(u32 idx)
 {
-    const vk::DeviceSize bufferSize = sizeof(gIndices[0]) * gIndices.size();
-    if (!mIndexBuffer || !mIndexBufferMemory || mIndexBufferSize < bufferSize)
-    {
-        mIndexBufferSize = bufferSize;
-        if (bufferSize < sizeof(gIndices[0] * 1024))
-        {
-            mIndexBufferSize = sizeof(gIndices[0] * 1024);
-        }
-
-        auto [stagingBuffer2, stagingBufferMemory2] = createBuffer(mIndexBufferSize, vk::BufferUsageFlagBits::eTransferDst | vk::BufferUsageFlagBits::eIndexBuffer, vk::MemoryPropertyFlagBits::eHostVisible | vk::MemoryPropertyFlagBits::eHostCoherent | vk::MemoryPropertyFlagBits::eDeviceLocal);
-        mIndexBuffer = std::move(stagingBuffer2);
-        mIndexBufferMemory = std::move(stagingBufferMemory2);
-
-        mMappedIndexBuffferMemory = mIndexBufferMemory->mapMemory(0, mIndexBufferSize);
-    }
-
-    memcpy(mMappedIndexBuffferMemory, gIndices.data(), (size_t) bufferSize);
-
-    vk::MappedMemoryRange mappedRange;
-    mappedRange.memory = **mIndexBufferMemory;
-    mappedRange.size = VK_WHOLE_SIZE; // TODO: Limit size to corrrect multiple
-    mDevice->flushMappedMemoryRanges(mappedRange);
+    auto usageFlags = vk::BufferUsageFlagBits::eTransferDst | vk::BufferUsageFlagBits::eIndexBuffer;
+    auto memoryFlags = vk::MemoryPropertyFlagBits::eHostVisible | vk::MemoryPropertyFlagBits::eHostCoherent | vk::MemoryPropertyFlagBits::eDeviceLocal;
+    mIndexBuffer[idx].makeBuffer(*this, mDevice, usageFlags, memoryFlags, gIndices.data(), gIndices.size());
 }
 
-void VulkanRenderer::createUniformBuffers()
+void VulkanRenderer::createUniformBuffers(u32 idx)
 {
-    vk::DeviceSize bufferSize = sizeof(UniformBufferObject);
+    auto usageFlags = vk::BufferUsageFlagBits::eUniformBuffer;
+    auto memoryFlags = vk::MemoryPropertyFlagBits::eHostVisible | vk::MemoryPropertyFlagBits::eHostCoherent;
+    UniformBufferObject uboTemp = {};
+    mUniformBuffer[idx].makeBuffer(*this, mDevice, usageFlags, memoryFlags, &uboTemp, 1);
 
-    mUniformBuffers.resize(MAX_FRAMES_IN_FLIGHT);
-    mUniformBuffersMemory.resize(MAX_FRAMES_IN_FLIGHT);
-    mUniformBuffersMapped.resize(MAX_FRAMES_IN_FLIGHT);
-
-    for (size_t i = 0; i < MAX_FRAMES_IN_FLIGHT; i++)
-    {
-        auto [buffer, memory] = createBuffer(bufferSize, vk::BufferUsageFlagBits::eUniformBuffer, vk::MemoryPropertyFlagBits::eHostVisible | vk::MemoryPropertyFlagBits::eHostCoherent);
-        mUniformBuffers[i] = std::move(buffer);
-        mUniformBuffersMemory[i] = std::move(memory);
-        mUniformBuffersMapped[i] = mUniformBuffersMemory[i]->mapMemory(0, bufferSize);
-    }
 }
-
 
 void VulkanRenderer::createDescriptorSetLayout()
 {
@@ -1065,7 +1014,7 @@ void VulkanRenderer::updateDescriptorSets()
 
             // ubo
             vk::DescriptorBufferInfo bufferInfo;
-            bufferInfo.buffer = **mUniformBuffers[i];
+            bufferInfo.buffer = **mUniformBuffer[i].mBuffer;
             bufferInfo.offset = 0;
             bufferInfo.range = sizeof(UniformBufferObject);
 
@@ -1284,11 +1233,11 @@ void VulkanRenderer::recordCommandBuffer(vk::raii::CommandBuffer& commandBuffer,
 
                 lastPipeLine = mBatches[i].mPipeline;
 
-                vk::Buffer vertexBuffers[] = {**mVertexBuffer};
+                vk::Buffer vertexBuffers[] = {**mVertexBuffer[mCurrentFrame].mBuffer};
                 vk::DeviceSize offsets[] = {0};
                 commandBuffer.bindVertexBuffers(0, vertexBuffers, offsets);
 
-                commandBuffer.bindIndexBuffer(**mIndexBuffer, 0, vk::IndexType::eUint16);
+                commandBuffer.bindIndexBuffer(**mIndexBuffer[mCurrentFrame].mBuffer, 0, vk::IndexType::eUint16);
             }
 
             if (!vertices.empty() && mVertexBuffer && mIndexBuffer)
@@ -1351,11 +1300,11 @@ void VulkanRenderer::recordCommandBuffer(vk::raii::CommandBuffer& commandBuffer,
                 scissor2.extent = mSwapChainExtent;
                 commandBuffer.setScissor(0, scissor2);
 
-                vk::Buffer vertexBuffers[] = {**mVertexBuffer};
+                vk::Buffer vertexBuffers[] = {**mVertexBuffer[mCurrentFrame].mBuffer};
                 vk::DeviceSize offsets[] = {0};
                 commandBuffer.bindVertexBuffers(0, vertexBuffers, offsets);
 
-                commandBuffer.bindIndexBuffer(**mIndexBuffer, 0, vk::IndexType::eUint16);
+                commandBuffer.bindIndexBuffer(**mIndexBuffer[mCurrentFrame].mBuffer, 0, vk::IndexType::eUint16);
             }
 
             if (!vertices.empty() && mVertexBuffer && mIndexBuffer)
@@ -1399,14 +1348,14 @@ void VulkanRenderer::createSyncObjects()
     }
 }
 
-void VulkanRenderer::updateUniformBuffer(uint32_t currentImage)
+void VulkanRenderer::updateUniformBuffer()
 {
     UniformBufferObject ubo{};
     ubo.model = glm::mat4(1.0f);
     ubo.view = glm::lookAt(glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
     ubo.proj = glm::ortho(0.0F, 640.0f, 0.0f, 240.0f); // TODO double height
 
-    memcpy(mUniformBuffersMapped[currentImage], &ubo, sizeof(ubo));
+    memcpy(mUniformBuffer[mCurrentFrame].mMappedBuffferMemory, &ubo, sizeof(ubo));
 }
 
 void VulkanRenderer::drawFrame()
@@ -1429,7 +1378,7 @@ void VulkanRenderer::drawFrame()
         throw std::runtime_error("failed to acquire swap chain image!");
     }
 
-    updateUniformBuffer(mCurrentFrame);
+    updateUniformBuffer();
 
     mDevice->resetFences(*mInFlightFences[mCurrentFrame]);
 
@@ -1775,8 +1724,8 @@ void VulkanRenderer::EndFrame()
 
         if (!vertices.empty() && !gIndices.empty())
         {
-            this->createVertexBuffer();
-            this->createIndexBuffer();
+            this->createVertexBuffer(mCurrentFrame);
+            this->createIndexBuffer(mCurrentFrame);
         }
 
         this->drawFrame();
