@@ -99,6 +99,9 @@ private:
     void* mLibHandle = nullptr;
 };
 
+static constexpr int MAX_FRAMES_IN_FLIGHT = 1; // TODO: FIX ME, >= 2 seems to result in the wrong descriptors being bound
+
+
 class VulkanRenderer final : public IRenderer
 {
 public:
@@ -179,7 +182,7 @@ private:
     };
     void createGraphicsPipeline(PipelineIndex idx);
     void createFramebuffers();
-    void createOffScreenPass();
+    void createOffScreenPass(u32 idx);
     void createCommandPool();
     void createTextureSampler();
     vk::raii::ImageView createImageView(vk::Image image, vk::Format format);
@@ -371,7 +374,7 @@ private:
         std::unique_ptr<vk::raii::Sampler> sampler;
         vk::DescriptorImageInfo descriptor;
     };
-    OffscreenPass mOffScreenPass = {};
+    OffscreenPass mOffScreenPass[MAX_FRAMES_IN_FLIGHT] = {};
 
     // Apparently 1 sampler can do all the textures in the shader
     std::unique_ptr<vk::raii::Sampler> mTextureSampler;

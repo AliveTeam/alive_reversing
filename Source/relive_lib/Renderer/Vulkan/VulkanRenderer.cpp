@@ -30,9 +30,6 @@
 #include "fragment_shader.h"
 #include "vertex_shader.h"
 
-static constexpr int MAX_FRAMES_IN_FLIGHT = 1; // TODO: FIX ME, >= 2 seems to result in the wrong descriptors being bound
-
-
 const std::vector<const char*> kValidationLayers = {
     "VK_LAYER_KHRONOS_validation"};
 
@@ -153,7 +150,10 @@ void VulkanRenderer::initVulkan()
 
     createDescriptorSetLayout();
 
-    createOffScreenPass();
+    for (u32 i = 0; i < MAX_FRAMES_IN_FLIGHT; i++)
+    {
+        createOffScreenPass(i);
+    }
 
     createGraphicsPipeline(PipelineIndex::eReverseBlending);
     createGraphicsPipeline(PipelineIndex::eAddBlending);
@@ -615,7 +615,7 @@ void VulkanRenderer::createGraphicsPipeline(VulkanRenderer::PipelineIndex idx)
     pipelineInfo.pDynamicState = &dynamicState;
     pipelineInfo.layout = **mPipelineLayouts.back();
     // The final FBO pass needs to use the render pass we create in here to do the present
-    pipelineInfo.renderPass = idx == PipelineIndex::eFBOPipeline ? **mRenderPass : **mOffScreenPass.renderPass;
+    pipelineInfo.renderPass = idx == PipelineIndex::eFBOPipeline ? **mRenderPass : **mOffScreenPass[0].renderPass; // TODO: Double buffer 
     pipelineInfo.subpass = 0;
     pipelineInfo.basePipelineHandle = VK_NULL_HANDLE;
 
@@ -643,15 +643,15 @@ void VulkanRenderer::createFramebuffers()
     }
 }
 
-void VulkanRenderer::createOffScreenPass()
+void VulkanRenderer::createOffScreenPass(u32 idx)
 {
-    mOffScreenPass.width = 640;
-    mOffScreenPass.height = 240;
+    mOffScreenPass[idx].width = 640;
+    mOffScreenPass[idx].height = 240;
 
     // Color attachment
-    auto [image, memory] = createImage(mOffScreenPass.width, mOffScreenPass.height, kFramebufferFormat, vk::ImageTiling::eOptimal, vk::ImageUsageFlagBits::eColorAttachment | vk::ImageUsageFlagBits::eSampled, vk::MemoryPropertyFlagBits::eDeviceLocal);
-    mOffScreenPass.color.image = std::move(image);
-    mOffScreenPass.color.mem = std::move(memory);
+    auto [image, memory] = createImage(mOffScreenPass[idx].width, mOffScreenPass[idx].height, kFramebufferFormat, vk::ImageTiling::eOptimal, vk::ImageUsageFlagBits::eColorAttachment | vk::ImageUsageFlagBits::eSampled, vk::MemoryPropertyFlagBits::eDeviceLocal);
+    mOffScreenPass[idx].color.image = std::move(image);
+    mOffScreenPass[idx].color.mem = std::move(memory);
 
     vk::ImageViewCreateInfo createInfo;
     createInfo.viewType = vk::ImageViewType::e2D;
@@ -659,8 +659,8 @@ void VulkanRenderer::createOffScreenPass()
     createInfo.subresourceRange.aspectMask = vk::ImageAspectFlagBits::eColor;
     createInfo.subresourceRange.levelCount = 1;
     createInfo.subresourceRange.layerCount = 1;
-    createInfo.image = **mOffScreenPass.color.image;
-    mOffScreenPass.color.view = std::make_unique<vk::raii::ImageView>(mDevice->createImageView(createInfo));
+    createInfo.image = **mOffScreenPass[idx].color.image;
+    mOffScreenPass[idx].color.view = std::make_unique<vk::raii::ImageView>(mDevice->createImageView(createInfo));
 
     // Create sampler to sample from the attachment in the fragment shader
     vk::PhysicalDeviceProperties properties = mPhysicalDevice->getProperties();
@@ -679,7 +679,7 @@ void VulkanRenderer::createOffScreenPass()
     samplerInfo.compareOp = vk::CompareOp::eAlways;
     samplerInfo.mipmapMode = vk::SamplerMipmapMode::eNearest;
 
-    mOffScreenPass.sampler = std::make_unique<vk::raii::Sampler>(mDevice->createSampler(samplerInfo));
+    mOffScreenPass[idx].sampler = std::make_unique<vk::raii::Sampler>(mDevice->createSampler(samplerInfo));
 
     // Create a separate render pass for the offscreen rendering as it may differ from the one used for scene rendering
 
@@ -730,24 +730,24 @@ void VulkanRenderer::createOffScreenPass()
     renderPassInfo.dependencyCount = static_cast<uint32_t>(dependencies.size());
     renderPassInfo.pDependencies = dependencies.data();
 
-    mOffScreenPass.renderPass = std::make_unique<vk::raii::RenderPass>(mDevice->createRenderPass(renderPassInfo));
+    mOffScreenPass[idx].renderPass = std::make_unique<vk::raii::RenderPass>(mDevice->createRenderPass(renderPassInfo));
 
-    vk::ImageView attachments[] = {**mOffScreenPass.color.view};
+    vk::ImageView attachments[] = {**mOffScreenPass[idx].color.view};
 
     vk::FramebufferCreateInfo fbufCreateInfo;
-    fbufCreateInfo.renderPass = **mOffScreenPass.renderPass;
+    fbufCreateInfo.renderPass = **mOffScreenPass[idx].renderPass;
     fbufCreateInfo.attachmentCount = 1;
     fbufCreateInfo.pAttachments = attachments;
-    fbufCreateInfo.width = mOffScreenPass.width;
-    fbufCreateInfo.height = mOffScreenPass.height;
+    fbufCreateInfo.width = mOffScreenPass[idx].width;
+    fbufCreateInfo.height = mOffScreenPass[idx].height;
     fbufCreateInfo.layers = 1;
 
-    mOffScreenPass.frameBuffer = std::make_unique<vk::raii::Framebuffer>(mDevice->createFramebuffer(fbufCreateInfo));
+    mOffScreenPass[idx].frameBuffer = std::make_unique<vk::raii::Framebuffer>(mDevice->createFramebuffer(fbufCreateInfo));
 
     // Fill a descriptor for later use in a descriptor set
-    mOffScreenPass.descriptor.imageLayout = vk::ImageLayout::eShaderReadOnlyOptimal;
-    mOffScreenPass.descriptor.imageView = **mOffScreenPass.color.view;
-    mOffScreenPass.descriptor.sampler = **mOffScreenPass.sampler;
+    mOffScreenPass[idx].descriptor.imageLayout = vk::ImageLayout::eShaderReadOnlyOptimal;
+    mOffScreenPass[idx].descriptor.imageView = **mOffScreenPass[idx].color.view;
+    mOffScreenPass[idx].descriptor.sampler = **mOffScreenPass[idx].sampler;
 }
 
 void VulkanRenderer::createCommandPool()
@@ -1088,7 +1088,7 @@ void VulkanRenderer::updateDescriptorSets()
             descriptorWrites[2].descriptorCount = 1;
             if (j < mBatches.size() && mBatches[j].mPipeline == PipelineIndex::eFBOPipeline)
             {
-                descriptorWrites[2].pImageInfo = &mOffScreenPass.descriptor;
+                descriptorWrites[2].pImageInfo = &mOffScreenPass[i].descriptor;
             }
             else
             {
@@ -1232,11 +1232,11 @@ void VulkanRenderer::recordCommandBuffer(vk::raii::CommandBuffer& commandBuffer,
 
     // First render pass : Offscreen rendering
     vk::RenderPassBeginInfo offScreenPassInfo;
-    offScreenPassInfo.renderPass = **mOffScreenPass.renderPass;
-    offScreenPassInfo.framebuffer = **mOffScreenPass.frameBuffer;
+    offScreenPassInfo.renderPass = **mOffScreenPass[0].renderPass; // TODO
+    offScreenPassInfo.framebuffer = **mOffScreenPass[mCurrentFrame].frameBuffer;
     offScreenPassInfo.renderArea.offset = vk::Offset2D{0, 0};
-    offScreenPassInfo.renderArea.extent.width = mOffScreenPass.width;
-    offScreenPassInfo.renderArea.extent.height = mOffScreenPass.height;
+    offScreenPassInfo.renderArea.extent.width = mOffScreenPass[mCurrentFrame].width;
+    offScreenPassInfo.renderArea.extent.height = mOffScreenPass[mCurrentFrame].height;
 
 
     vk::ClearValue clearColor(vk::ClearColorValue(0.0f, 0.0f, 0.0f, 1.0f));
@@ -1260,15 +1260,15 @@ void VulkanRenderer::recordCommandBuffer(vk::raii::CommandBuffer& commandBuffer,
                 vk::Viewport viewport;
                 viewport.x = 0.0f;
                 viewport.y = 0.0f;
-                viewport.width = (float) mOffScreenPass.width;
-                viewport.height = (float) mOffScreenPass.height;
+                viewport.width = (float) mOffScreenPass[mCurrentFrame].width;
+                viewport.height = (float) mOffScreenPass[mCurrentFrame].height;
                 viewport.minDepth = 0.0f;
                 viewport.maxDepth = 1.0f;
                 commandBuffer.setViewport(0, viewport);
 
                 vk::Rect2D scissor{0, 0};
-                scissor.extent.width = mOffScreenPass.width;
-                scissor.extent.height = mOffScreenPass.height;
+                scissor.extent.width = mOffScreenPass[mCurrentFrame].width;
+                scissor.extent.height = mOffScreenPass[mCurrentFrame].height;
                 commandBuffer.setScissor(0, scissor);
 
 
