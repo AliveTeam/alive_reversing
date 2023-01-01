@@ -259,7 +259,7 @@ private:
             , mFormat(format)
         {
             vk::DeviceSize imageSize = width * height * (mFormat == Format::Indexed ? 1 : 4);
-            vk::Format imgFormat = format == Format::Indexed ? vk::Format::eR8Unorm : vk::Format::eR8G8B8A8Unorm;
+            vk::Format imgFormat = format == Format::Indexed ? vk::Format::eR8Unorm : vk::Format::eR8G8B8A8Srgb;
             auto [stagingBuffer, stagingBufferMemory] = mRenderer.createBuffer(imageSize, vk::BufferUsageFlagBits::eTransferSrc, vk::MemoryPropertyFlagBits::eHostVisible | vk::MemoryPropertyFlagBits::eHostCoherent);
             mStagingBuffer = std::move(stagingBuffer);
             mStagingBufferMemory = std::move(stagingBufferMemory);
