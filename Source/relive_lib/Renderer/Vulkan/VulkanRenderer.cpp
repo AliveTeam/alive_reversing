@@ -1046,7 +1046,8 @@ void VulkanRenderer::createDescriptorSets()
     mDescriptorSets = mDevice->allocateDescriptorSets(allocInfo);
 }
 
-static u32 To1dIdx(u32 row, u32 col)
+// TODO: Arg names should be swapped + call site changed
+static u32 To1dIdx(u32 col, u32 row)
 {
     return (row * MAX_FRAMES_IN_FLIGHT) + col;
 }
