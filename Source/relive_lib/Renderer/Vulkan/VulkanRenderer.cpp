@@ -42,7 +42,7 @@ constexpr bool enableValidationLayers = false;
 constexpr bool enableValidationLayers = true;
 #endif
 
-static const vk::Format kFramebufferFormat = vk::Format::eR8G8B8A8Srgb;
+static const vk::Format kFramebufferFormat = vk::Format::eR8G8B8A8Unorm;
 
 struct Vertex final
 {
@@ -1443,7 +1443,7 @@ vk::SurfaceFormatKHR VulkanRenderer::chooseSwapSurfaceFormat(const std::vector<v
 {
     for (const auto& availableFormat : availableFormats)
     {
-        if (availableFormat.format == vk::Format::eR8G8B8A8Srgb && availableFormat.colorSpace == vk::ColorSpaceKHR::eSrgbNonlinear)
+        if (availableFormat.format == vk::Format::eR8G8B8A8Unorm && availableFormat.colorSpace == vk::ColorSpaceKHR::eSrgbNonlinear)
         {
             return availableFormat;
         }
