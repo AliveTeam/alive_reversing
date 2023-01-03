@@ -1287,11 +1287,13 @@ void VulkanRenderer::recordCommandBuffer(vk::raii::CommandBuffer& commandBuffer,
                 commandBuffer.bindPipeline(vk::PipelineBindPoint::eGraphics, **mGraphicsPipelines[mBatches[i].mPipeline]);
                 lastPipeLine = mBatches[i].mPipeline;
 
+                SDL_Rect viewPortRect = GetTargetDrawRect();
+
                 vk::Viewport viewport2;
-                viewport2.x = 0.0f;
-                viewport2.y = 0.0f;
-                viewport2.width = (float) mSwapChainExtent.width;
-                viewport2.height = (float) mSwapChainExtent.height;
+                viewport2.x = (float) viewPortRect.x;
+                viewport2.y = (float) viewPortRect.y;
+                viewport2.width = (float) viewPortRect.w;
+                viewport2.height = (float) viewPortRect.h;
                 viewport2.minDepth = 0.0f;
                 viewport2.maxDepth = 1.0f;
                 commandBuffer.setViewport(0, viewport2);
