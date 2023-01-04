@@ -23,9 +23,6 @@
 #include <array>
 #include <set>
 
-#define GLM_FORCE_RADIANS
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
 
 #include "fragment_shader.h"
 #include "vertex_shader.h"
@@ -44,81 +41,6 @@ constexpr bool enableValidationLayers = true;
 
 static const vk::Format kFramebufferFormat = vk::Format::eR8G8B8A8Unorm;
 
-struct Vertex final
-{
-    glm::vec2 pos;
-    u8 color[3];
-    glm::vec2 texCoord;
-    u32 mSamplerIdx;
-    u32 mPalIdx;
-    IRenderer::PsxDrawMode mDrawType;
-    u32 mIsShaded;
-    u32 mBlendMode;
-    u32 mIsSemiTrans;
-
-    static vk::VertexInputBindingDescription getBindingDescription()
-    {
-        vk::VertexInputBindingDescription bindingDescription;
-        bindingDescription.binding = 0;
-        bindingDescription.stride = sizeof(Vertex);
-        bindingDescription.inputRate = vk::VertexInputRate::eVertex;
-
-        return bindingDescription;
-    }
-
-    static std::array<vk::VertexInputAttributeDescription, 9> getAttributeDescriptions()
-    {
-        std::array<vk::VertexInputAttributeDescription, 9> attributeDescriptions{};
-
-        attributeDescriptions[0].binding = 0;
-        attributeDescriptions[0].location = 0;
-        attributeDescriptions[0].format = vk::Format::eR32G32Sfloat;
-        attributeDescriptions[0].offset = offsetof(Vertex, pos);
-
-        attributeDescriptions[1].binding = 0;
-        attributeDescriptions[1].location = 1;
-        attributeDescriptions[1].format = vk::Format::eR8G8B8Uscaled;
-        attributeDescriptions[1].offset = offsetof(Vertex, color);
-
-        attributeDescriptions[2].binding = 0;
-        attributeDescriptions[2].location = 2;
-        attributeDescriptions[2].format = vk::Format::eR32G32Sfloat;
-        attributeDescriptions[2].offset = offsetof(Vertex, texCoord);
-
-        attributeDescriptions[3].binding = 0;
-        attributeDescriptions[3].location = 3;
-        attributeDescriptions[3].format = vk::Format::eR32Uint;
-        attributeDescriptions[3].offset = offsetof(Vertex, mSamplerIdx);
-
-        attributeDescriptions[4].binding = 0;
-        attributeDescriptions[4].location = 4;
-        attributeDescriptions[4].format = vk::Format::eR32Uint;
-        attributeDescriptions[4].offset = offsetof(Vertex, mPalIdx);
-
-        attributeDescriptions[5].binding = 0;
-        attributeDescriptions[5].location = 5;
-        attributeDescriptions[5].format = vk::Format::eR32Uint;
-        attributeDescriptions[5].offset = offsetof(Vertex, mDrawType);
-
-        attributeDescriptions[6].binding = 0;
-        attributeDescriptions[6].location = 6;
-        attributeDescriptions[6].format = vk::Format::eR32Uint;
-        attributeDescriptions[6].offset = offsetof(Vertex, mIsShaded);
-
-        attributeDescriptions[7].binding = 0;
-        attributeDescriptions[7].location = 7;
-        attributeDescriptions[7].format = vk::Format::eR32Uint;
-        attributeDescriptions[7].offset = offsetof(Vertex, mBlendMode);
-
-        attributeDescriptions[8].binding = 0;
-        attributeDescriptions[8].location = 8;
-        attributeDescriptions[8].format = vk::Format::eR32Uint;
-        attributeDescriptions[8].offset = offsetof(Vertex, mIsSemiTrans);
-
-        return attributeDescriptions;
-    }
-};
-
 struct UniformBufferObject final
 {
     alignas(16) glm::mat4 model;
@@ -126,9 +48,6 @@ struct UniformBufferObject final
     alignas(16) glm::mat4 proj;
 };
 
-// TODO: Make memebers
-static std::vector<Vertex> vertices;
-static std::vector<uint16_t> gIndices;
 
 void VulkanRenderer::initVulkan()
 {
@@ -213,7 +132,7 @@ void VulkanRenderer::cleanup()
         mBatcher[mCurrentFrame].mPaletteTexture.reset();
     }
 
-    mBatcher[mCurrentFrame].mTexturesForThisFrame.clear();
+    mBatcher[mCurrentFrame].mBatchTextures.clear();
 
     mDescriptorSetLayout->clear();
 
@@ -904,14 +823,14 @@ void VulkanRenderer::createVertexBuffer(u32 idx)
 {
     auto usageFlags = vk::BufferUsageFlagBits::eTransferDst | vk::BufferUsageFlagBits::eVertexBuffer;
     auto memoryFlags = vk::MemoryPropertyFlagBits::eHostVisible | vk::MemoryPropertyFlagBits::eHostCoherent | vk::MemoryPropertyFlagBits::eDeviceLocal;
-    mVertexBuffer[idx].makeBuffer(*this, mDevice, usageFlags, memoryFlags, vertices.data(), vertices.size());
+    mVertexBuffer[idx].makeBuffer(*this, mDevice, usageFlags, memoryFlags, mBatcher[idx].mVertices.data(), mBatcher[idx].mVertices.size());
 }
 
 void VulkanRenderer::createIndexBuffer(u32 idx)
 {
     auto usageFlags = vk::BufferUsageFlagBits::eTransferDst | vk::BufferUsageFlagBits::eIndexBuffer;
     auto memoryFlags = vk::MemoryPropertyFlagBits::eHostVisible | vk::MemoryPropertyFlagBits::eHostCoherent | vk::MemoryPropertyFlagBits::eDeviceLocal;
-    mIndexBuffer[idx].makeBuffer(*this, mDevice, usageFlags, memoryFlags, gIndices.data(), gIndices.size());
+    mIndexBuffer[idx].makeBuffer(*this, mDevice, usageFlags, memoryFlags, mBatcher[idx].mIndices.data(), mBatcher[idx].mIndices.size());
 }
 
 void VulkanRenderer::createUniformBuffers(u32 idx)
@@ -1071,9 +990,9 @@ void VulkanRenderer::updateDescriptorSets()
                 imageInfo2[k].imageLayout = vk::ImageLayout::eShaderReadOnlyOptimal;
                 if (!mBatcher[i].mBatches.empty() && k < mBatcher[i].mBatches[j].mTexturesInBatch)
                 {
-                    if (textureIdxOff + k < mBatcher[i].mTexturesForThisFrame.size())
+                    if (textureIdxOff + k < mBatcher[i].mBatchTextures.size())
                     {
-                        imageInfo2[k].imageView = **mBatcher[i].mTexturesForThisFrame[textureIdxOff + k]->View();
+                        imageInfo2[k].imageView = **mBatcher[i].mBatchTextures[textureIdxOff + k]->View();
                     }
                 }
 
@@ -1240,7 +1159,7 @@ void VulkanRenderer::recordCommandBuffer(vk::raii::CommandBuffer& commandBuffer,
                 commandBuffer.bindIndexBuffer(**mIndexBuffer[mCurrentFrame].mBuffer, 0, vk::IndexType::eUint16);
             }
 
-            if (!vertices.empty() && mVertexBuffer && mIndexBuffer)
+            if (!mBatcher[mCurrentFrame].mVertices.empty() && mVertexBuffer[mCurrentFrame].mBuffer && mIndexBuffer[mCurrentFrame].mBuffer)
             {
                 commandBuffer.bindDescriptorSets(
                     vk::PipelineBindPoint::eGraphics,
@@ -1309,7 +1228,7 @@ void VulkanRenderer::recordCommandBuffer(vk::raii::CommandBuffer& commandBuffer,
                 commandBuffer.bindIndexBuffer(**mIndexBuffer[mCurrentFrame].mBuffer, 0, vk::IndexType::eUint16);
             }
 
-            if (!vertices.empty() && mVertexBuffer && mIndexBuffer)
+            if (!mBatcher[mCurrentFrame].mVertices.empty() && mVertexBuffer[mCurrentFrame].mBuffer && mIndexBuffer[mCurrentFrame].mBuffer)
             {
                 commandBuffer.bindDescriptorSets(
                     vk::PipelineBindPoint::eGraphics,
@@ -1701,20 +1620,20 @@ void VulkanRenderer::EndFrame()
                 mBatcher[mCurrentFrame].mConstructingBatch.mTexturesInBatch = 0;
 
                 // Full screen tris to render the FBO
-                vertices.push_back({{static_cast<f32>(0), static_cast<f32>(0)}, {255, 255, 255}, {u0, v0}, mBatcher[mCurrentFrame].mConstructingBatch.mTexturesInBatch, 0, PsxDrawMode::Camera, 0, 0, 0});
-                vertices.push_back({{static_cast<f32>(640), static_cast<f32>(0)}, {255, 255, 255}, {u1, v0}, mBatcher[mCurrentFrame].mConstructingBatch.mTexturesInBatch, 0, PsxDrawMode::Camera, 0, 0, 0});
-                vertices.push_back({{static_cast<f32>(0), static_cast<f32>(240)}, {255, 255, 255}, {u0, v1}, mBatcher[mCurrentFrame].mConstructingBatch.mTexturesInBatch, 0, PsxDrawMode::Camera, 0, 0, 0});
-                vertices.push_back({{static_cast<f32>(640), static_cast<f32>(240)}, {255, 255, 255}, {u1, v1}, mBatcher[mCurrentFrame].mConstructingBatch.mTexturesInBatch, 0, PsxDrawMode::Camera, 0, 0, 0});
+                mBatcher[mCurrentFrame].mVertices.push_back({{static_cast<f32>(0), static_cast<f32>(0)}, {255, 255, 255}, {u0, v0}, mBatcher[mCurrentFrame].mConstructingBatch.mTexturesInBatch, 0, PsxDrawMode::Camera, 0, 0, 0});
+                mBatcher[mCurrentFrame].mVertices.push_back({{static_cast<f32>(640), static_cast<f32>(0)}, {255, 255, 255}, {u1, v0}, mBatcher[mCurrentFrame].mConstructingBatch.mTexturesInBatch, 0, PsxDrawMode::Camera, 0, 0, 0});
+                mBatcher[mCurrentFrame].mVertices.push_back({{static_cast<f32>(0), static_cast<f32>(240)}, {255, 255, 255}, {u0, v1}, mBatcher[mCurrentFrame].mConstructingBatch.mTexturesInBatch, 0, PsxDrawMode::Camera, 0, 0, 0});
+                mBatcher[mCurrentFrame].mVertices.push_back({{static_cast<f32>(640), static_cast<f32>(240)}, {255, 255, 255}, {u1, v1}, mBatcher[mCurrentFrame].mConstructingBatch.mTexturesInBatch, 0, PsxDrawMode::Camera, 0, 0, 0});
 
-                gIndices.emplace_back((u16) (mIndexBufferIndex + 1));
-                gIndices.emplace_back((u16) (mIndexBufferIndex + 0));
-                gIndices.emplace_back((u16) (mIndexBufferIndex + 3));
+                mBatcher[mCurrentFrame].mIndices.emplace_back((u16) (mBatcher[mCurrentFrame].mIndexBufferIndex + 1));
+                mBatcher[mCurrentFrame].mIndices.emplace_back((u16) (mBatcher[mCurrentFrame].mIndexBufferIndex + 0));
+                mBatcher[mCurrentFrame].mIndices.emplace_back((u16) (mBatcher[mCurrentFrame].mIndexBufferIndex + 3));
 
-                gIndices.emplace_back((u16) (mIndexBufferIndex + 3));
-                gIndices.emplace_back((u16) (mIndexBufferIndex + 0));
-                gIndices.emplace_back((u16) (mIndexBufferIndex + 2));
+                mBatcher[mCurrentFrame].mIndices.emplace_back((u16) (mBatcher[mCurrentFrame].mIndexBufferIndex + 3));
+                mBatcher[mCurrentFrame].mIndices.emplace_back((u16) (mBatcher[mCurrentFrame].mIndexBufferIndex + 0));
+                mBatcher[mCurrentFrame].mIndices.emplace_back((u16) (mBatcher[mCurrentFrame].mIndexBufferIndex + 2));
 
-                mIndexBufferIndex += 4;
+                mBatcher[mCurrentFrame].mIndexBufferIndex += 4;
 
                 mBatcher[mCurrentFrame].mConstructingBatch.mPipeline = PipelineIndex::eFBOPipeline;
                 mBatcher[mCurrentFrame].mConstructingBatch.mTexturesInBatch = 1;
@@ -1724,7 +1643,7 @@ void VulkanRenderer::EndFrame()
             }
         }
 
-        if (!vertices.empty() && !gIndices.empty())
+        if (!mBatcher[mCurrentFrame].mVertices.empty() && !mBatcher[mCurrentFrame].mIndices.empty())
         {
             this->createVertexBuffer(mCurrentFrame);
             this->createIndexBuffer(mCurrentFrame);
@@ -1736,16 +1655,11 @@ void VulkanRenderer::EndFrame()
 
         mFrameStarted = false;
 
-        vertices.clear();
-        gIndices.clear();
-        mIndexBufferIndex = 0;
+        mBatcher[mCurrentFrame].mVertices.clear();
+        mBatcher[mCurrentFrame].mIndices.clear();
+        mBatcher[mCurrentFrame].mIndexBufferIndex = 0;
 
-        //this->mVertexBuffer.reset();
-        //this->mVertexBufferMemory.reset();
-        //this->mIndexBuffer.reset();
-        //this->mIndexBufferMemory.reset();
-
-        mBatcher[mCurrentFrame].mTexturesForThisFrame.clear();
+        mBatcher[mCurrentFrame].mBatchTextures.clear();
 
         mBatcher[mCurrentFrame].mCamTexture = nullptr;
         mBatcher[mCurrentFrame].mConstructingBatch = {};
@@ -1857,20 +1771,20 @@ void VulkanRenderer::Draw(Poly_FT4& poly)
             float u1 = 1.0f;
             float v1 = 1.0f;
 
-            vertices.push_back({{static_cast<f32>(poly.mBase.vert.x), static_cast<f32>(poly.mBase.vert.y)}, {255, 255, 255}, {u0, v0}, mBatcher[mCurrentFrame].mConstructingBatch.mTexturesInBatch, 0, PsxDrawMode::Camera, 0, 0, 0});
-            vertices.push_back({{static_cast<f32>(poly.mVerts[0].mVert.x), static_cast<f32>(poly.mVerts[0].mVert.y)}, {255, 255, 255}, {u1, v0}, mBatcher[mCurrentFrame].mConstructingBatch.mTexturesInBatch, 0, PsxDrawMode::Camera, 0, 0, 0});
-            vertices.push_back({{static_cast<f32>(poly.mVerts[1].mVert.x), static_cast<f32>(poly.mVerts[1].mVert.y)}, {255, 255, 255}, {u0, v1}, mBatcher[mCurrentFrame].mConstructingBatch.mTexturesInBatch, 0, PsxDrawMode::Camera, 0, 0, 0});
-            vertices.push_back({{static_cast<f32>(poly.mVerts[2].mVert.x), static_cast<f32>(poly.mVerts[2].mVert.y)}, {255, 255, 255}, {u1, v1}, mBatcher[mCurrentFrame].mConstructingBatch.mTexturesInBatch, 0, PsxDrawMode::Camera, 0, 0, 0});
+            mBatcher[mCurrentFrame].mVertices.push_back({{static_cast<f32>(poly.mBase.vert.x), static_cast<f32>(poly.mBase.vert.y)}, {255, 255, 255}, {u0, v0}, mBatcher[mCurrentFrame].mConstructingBatch.mTexturesInBatch, 0, PsxDrawMode::Camera, 0, 0, 0});
+            mBatcher[mCurrentFrame].mVertices.push_back({{static_cast<f32>(poly.mVerts[0].mVert.x), static_cast<f32>(poly.mVerts[0].mVert.y)}, {255, 255, 255}, {u1, v0}, mBatcher[mCurrentFrame].mConstructingBatch.mTexturesInBatch, 0, PsxDrawMode::Camera, 0, 0, 0});
+            mBatcher[mCurrentFrame].mVertices.push_back({{static_cast<f32>(poly.mVerts[1].mVert.x), static_cast<f32>(poly.mVerts[1].mVert.y)}, {255, 255, 255}, {u0, v1}, mBatcher[mCurrentFrame].mConstructingBatch.mTexturesInBatch, 0, PsxDrawMode::Camera, 0, 0, 0});
+            mBatcher[mCurrentFrame].mVertices.push_back({{static_cast<f32>(poly.mVerts[2].mVert.x), static_cast<f32>(poly.mVerts[2].mVert.y)}, {255, 255, 255}, {u1, v1}, mBatcher[mCurrentFrame].mConstructingBatch.mTexturesInBatch, 0, PsxDrawMode::Camera, 0, 0, 0});
 
-            gIndices.emplace_back((u16) (mIndexBufferIndex + 1));
-            gIndices.emplace_back((u16) (mIndexBufferIndex + 0));
-            gIndices.emplace_back((u16) (mIndexBufferIndex + 3));
+            mBatcher[mCurrentFrame].mIndices.emplace_back((u16) (mBatcher[mCurrentFrame].mIndexBufferIndex + 1));
+            mBatcher[mCurrentFrame].mIndices.emplace_back((u16) (mBatcher[mCurrentFrame].mIndexBufferIndex + 0));
+            mBatcher[mCurrentFrame].mIndices.emplace_back((u16) (mBatcher[mCurrentFrame].mIndexBufferIndex + 3));
 
-            gIndices.emplace_back((u16) (mIndexBufferIndex + 3));
-            gIndices.emplace_back((u16) (mIndexBufferIndex + 0));
-            gIndices.emplace_back((u16) (mIndexBufferIndex + 2));
+            mBatcher[mCurrentFrame].mIndices.emplace_back((u16) (mBatcher[mCurrentFrame].mIndexBufferIndex + 3));
+            mBatcher[mCurrentFrame].mIndices.emplace_back((u16) (mBatcher[mCurrentFrame].mIndexBufferIndex + 0));
+            mBatcher[mCurrentFrame].mIndices.emplace_back((u16) (mBatcher[mCurrentFrame].mIndexBufferIndex + 2));
 
-            mIndexBufferIndex += 4;
+             mBatcher[mCurrentFrame].mIndexBufferIndex += 4;
 
             // TODO: We are duplicating textures here
             //mTexturesForThisFrame.emplace_back(texture);
@@ -1942,24 +1856,24 @@ void VulkanRenderer::Draw(Poly_FT4& poly)
 
         const u32 textureIdx = mBatcher[mCurrentFrame].mConstructingBatch.TextureIdxForId(animRes.mUniqueId.Id());
 
-        vertices.push_back({{static_cast<f32>(poly.mBase.vert.x), static_cast<f32>(poly.mBase.vert.y)}, {r, g, b}, {u0, v0}, textureIdx, palIndex, PsxDrawMode::DefaultFT4, isShaded, blendMode, isSemiTrans});
-        vertices.push_back({{static_cast<f32>(poly.mVerts[0].mVert.x), static_cast<f32>(poly.mVerts[0].mVert.y)}, {r, g, b}, {u1, v0}, textureIdx, palIndex, PsxDrawMode::DefaultFT4, isShaded, blendMode, isSemiTrans});
-        vertices.push_back({{static_cast<f32>(poly.mVerts[1].mVert.x), static_cast<f32>(poly.mVerts[1].mVert.y)}, {r, g, b}, {u0, v1}, textureIdx, palIndex, PsxDrawMode::DefaultFT4, isShaded, blendMode, isSemiTrans});
-        vertices.push_back({{static_cast<f32>(poly.mVerts[2].mVert.x), static_cast<f32>(poly.mVerts[2].mVert.y)}, {r, g, b}, {u1, v1}, textureIdx, palIndex, PsxDrawMode::DefaultFT4, isShaded, blendMode, isSemiTrans});
+        mBatcher[mCurrentFrame].mVertices.push_back({{static_cast<f32>(poly.mBase.vert.x), static_cast<f32>(poly.mBase.vert.y)}, {r, g, b}, {u0, v0}, textureIdx, palIndex, PsxDrawMode::DefaultFT4, isShaded, blendMode, isSemiTrans});
+        mBatcher[mCurrentFrame].mVertices.push_back({{static_cast<f32>(poly.mVerts[0].mVert.x), static_cast<f32>(poly.mVerts[0].mVert.y)}, {r, g, b}, {u1, v0}, textureIdx, palIndex, PsxDrawMode::DefaultFT4, isShaded, blendMode, isSemiTrans});
+        mBatcher[mCurrentFrame].mVertices.push_back({{static_cast<f32>(poly.mVerts[1].mVert.x), static_cast<f32>(poly.mVerts[1].mVert.y)}, {r, g, b}, {u0, v1}, textureIdx, palIndex, PsxDrawMode::DefaultFT4, isShaded, blendMode, isSemiTrans});
+        mBatcher[mCurrentFrame].mVertices.push_back({{static_cast<f32>(poly.mVerts[2].mVert.x), static_cast<f32>(poly.mVerts[2].mVert.y)}, {r, g, b}, {u1, v1}, textureIdx, palIndex, PsxDrawMode::DefaultFT4, isShaded, blendMode, isSemiTrans});
     
-        gIndices.emplace_back((u16) (mIndexBufferIndex + 1));
-        gIndices.emplace_back((u16) (mIndexBufferIndex + 0));
-        gIndices.emplace_back((u16) (mIndexBufferIndex + 3));
+        mBatcher[mCurrentFrame].mIndices.emplace_back((u16) (mBatcher[mCurrentFrame].mIndexBufferIndex + 1));
+        mBatcher[mCurrentFrame].mIndices.emplace_back((u16) (mBatcher[mCurrentFrame].mIndexBufferIndex + 0));
+        mBatcher[mCurrentFrame].mIndices.emplace_back((u16) (mBatcher[mCurrentFrame].mIndexBufferIndex + 3));
 
-        gIndices.emplace_back((u16) (mIndexBufferIndex + 3));
-        gIndices.emplace_back((u16) (mIndexBufferIndex + 0));
-        gIndices.emplace_back((u16) (mIndexBufferIndex + 2));
+        mBatcher[mCurrentFrame].mIndices.emplace_back((u16) (mBatcher[mCurrentFrame].mIndexBufferIndex + 3));
+        mBatcher[mCurrentFrame].mIndices.emplace_back((u16) (mBatcher[mCurrentFrame].mIndexBufferIndex + 0));
+        mBatcher[mCurrentFrame].mIndices.emplace_back((u16) (mBatcher[mCurrentFrame].mIndexBufferIndex + 2));
 
-        mIndexBufferIndex += 4;
+        mBatcher[mCurrentFrame].mIndexBufferIndex += 4;
 
         if (mBatcher[mCurrentFrame].mConstructingBatch.AddTexture(animRes.mUniqueId.Id()))
         {
-            mBatcher[mCurrentFrame].mTexturesForThisFrame.emplace_back(texture);
+            mBatcher[mCurrentFrame].mBatchTextures.emplace_back(texture);
         }
 
         mBatcher[mCurrentFrame].mConstructingBatch.mNumTrisToDraw += 2;

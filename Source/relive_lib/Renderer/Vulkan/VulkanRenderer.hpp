@@ -13,6 +13,10 @@
 #include <optional>
 #include <SDL_vulkan.h>
 
+#define GLM_FORCE_RADIANS
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+
 class VulkanLib final
 {
 public:
@@ -101,13 +105,13 @@ private:
 
 static constexpr int MAX_FRAMES_IN_FLIGHT = 1; // TODO: FIX ME, >= 2 seems to result in the wrong descriptors being bound
 
-template<typename TextureType, typename RenderBatchType>
+template <typename TextureType, typename RenderBatchType, typename VertexType>
 class Batcher final
 {
 public:
     std::unique_ptr<TextureType> mPaletteTexture;
     std::shared_ptr<TextureType> mCamTexture;
-    std::vector<std::shared_ptr<TextureType>> mTexturesForThisFrame;
+    std::vector<std::shared_ptr<TextureType>> mBatchTextures;
 
     struct RenderBatch final : public RenderBatchType
     {
@@ -153,6 +157,10 @@ public:
     RenderBatch mConstructingBatch;
     std::vector<RenderBatch> mBatches;
     bool mBatchInProgress = false;
+    u16 mIndexBufferIndex = 0;
+
+    std::vector<VertexType> mVertices;
+    std::vector<uint16_t> mIndices;
 };
 
 class VulkanRenderer final : public IRenderer
@@ -369,11 +377,86 @@ private:
     };
     VulkanTextureCache mTextureCache[MAX_FRAMES_IN_FLIGHT];
 
+    struct Vertex final
+    {
+        glm::vec2 pos;
+        u8 color[3];
+        glm::vec2 texCoord;
+        u32 mSamplerIdx;
+        u32 mPalIdx;
+        IRenderer::PsxDrawMode mDrawType;
+        u32 mIsShaded;
+        u32 mBlendMode;
+        u32 mIsSemiTrans;
+
+        static vk::VertexInputBindingDescription getBindingDescription()
+        {
+            vk::VertexInputBindingDescription bindingDescription;
+            bindingDescription.binding = 0;
+            bindingDescription.stride = sizeof(Vertex);
+            bindingDescription.inputRate = vk::VertexInputRate::eVertex;
+
+            return bindingDescription;
+        }
+
+        static std::array<vk::VertexInputAttributeDescription, 9> getAttributeDescriptions()
+        {
+            std::array<vk::VertexInputAttributeDescription, 9> attributeDescriptions{};
+
+            attributeDescriptions[0].binding = 0;
+            attributeDescriptions[0].location = 0;
+            attributeDescriptions[0].format = vk::Format::eR32G32Sfloat;
+            attributeDescriptions[0].offset = offsetof(Vertex, pos);
+
+            attributeDescriptions[1].binding = 0;
+            attributeDescriptions[1].location = 1;
+            attributeDescriptions[1].format = vk::Format::eR8G8B8Uscaled;
+            attributeDescriptions[1].offset = offsetof(Vertex, color);
+
+            attributeDescriptions[2].binding = 0;
+            attributeDescriptions[2].location = 2;
+            attributeDescriptions[2].format = vk::Format::eR32G32Sfloat;
+            attributeDescriptions[2].offset = offsetof(Vertex, texCoord);
+
+            attributeDescriptions[3].binding = 0;
+            attributeDescriptions[3].location = 3;
+            attributeDescriptions[3].format = vk::Format::eR32Uint;
+            attributeDescriptions[3].offset = offsetof(Vertex, mSamplerIdx);
+
+            attributeDescriptions[4].binding = 0;
+            attributeDescriptions[4].location = 4;
+            attributeDescriptions[4].format = vk::Format::eR32Uint;
+            attributeDescriptions[4].offset = offsetof(Vertex, mPalIdx);
+
+            attributeDescriptions[5].binding = 0;
+            attributeDescriptions[5].location = 5;
+            attributeDescriptions[5].format = vk::Format::eR32Uint;
+            attributeDescriptions[5].offset = offsetof(Vertex, mDrawType);
+
+            attributeDescriptions[6].binding = 0;
+            attributeDescriptions[6].location = 6;
+            attributeDescriptions[6].format = vk::Format::eR32Uint;
+            attributeDescriptions[6].offset = offsetof(Vertex, mIsShaded);
+
+            attributeDescriptions[7].binding = 0;
+            attributeDescriptions[7].location = 7;
+            attributeDescriptions[7].format = vk::Format::eR32Uint;
+            attributeDescriptions[7].offset = offsetof(Vertex, mBlendMode);
+
+            attributeDescriptions[8].binding = 0;
+            attributeDescriptions[8].location = 8;
+            attributeDescriptions[8].format = vk::Format::eR32Uint;
+            attributeDescriptions[8].offset = offsetof(Vertex, mIsSemiTrans);
+
+            return attributeDescriptions;
+        }
+    };
+
     struct BatchData
     {
         PipelineIndex mPipeline = PipelineIndex::eNone;
     };
-    Batcher<Texture, BatchData> mBatcher[MAX_FRAMES_IN_FLIGHT];
+    Batcher<Texture, BatchData, Vertex> mBatcher[MAX_FRAMES_IN_FLIGHT];
   
     struct FrameBufferAttachment final
     {
@@ -456,6 +539,4 @@ private:
     std::vector<vk::raii::Semaphore> mRenderFinishedSemaphores;
     std::vector<vk::raii::Fence> mInFlightFences;
     uint32_t mCurrentFrame = 0;
-
-    u16 mIndexBufferIndex = 0;
 };
