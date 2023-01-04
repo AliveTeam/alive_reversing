@@ -101,6 +101,59 @@ private:
 
 static constexpr int MAX_FRAMES_IN_FLIGHT = 1; // TODO: FIX ME, >= 2 seems to result in the wrong descriptors being bound
 
+template<typename TextureType, typename RenderBatchType>
+class Batcher final
+{
+public:
+    std::unique_ptr<TextureType> mPaletteTexture;
+    std::shared_ptr<TextureType> mCamTexture;
+    std::vector<std::shared_ptr<TextureType>> mTexturesForThisFrame;
+
+    struct RenderBatch final : public RenderBatchType
+    {
+        u32 mNumTrisToDraw = 0;
+        u32 mTexturesInBatch = 0;
+        u32 mTextureIds[14] = {};
+
+        bool AddTexture(u32 id)
+        {
+            for (u32 i = 0; i < mTexturesInBatch; i++)
+            {
+                if (mTextureIds[i] == id)
+                {
+                    // Already have it
+                    return false;
+                }
+            }
+            mTextureIds[mTexturesInBatch] = id;
+            mTexturesInBatch++;
+            return true;
+        }
+
+        u32 TextureIdxForId(u32 id) const
+        {
+            for (u32 i = 0; i < mTexturesInBatch; i++)
+            {
+                if (mTextureIds[i] == id)
+                {
+                    return i;
+                }
+            }
+            return mTexturesInBatch;
+        }
+    };
+
+    void NewBatch()
+    {
+        mBatches.push_back(mConstructingBatch);
+        mConstructingBatch = {};
+        mBatchInProgress = false;
+    }
+
+    RenderBatch mConstructingBatch;
+    std::vector<RenderBatch> mBatches;
+    bool mBatchInProgress = false;
+};
 
 class VulkanRenderer final : public IRenderer
 {
@@ -215,7 +268,6 @@ private:
     static VKAPI_ATTR VkBool32 VKAPI_CALL debugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT /*messageSeverity*/, VkDebugUtilsMessageTypeFlagsEXT /*messageType*/, const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData, void* /*pUserData*/);
 
     void DecreaseResourceLifetimes();
-    void NewBatch();
 
     u32 PreparePalette(AnimationPal& pCache);
 
@@ -317,48 +369,12 @@ private:
     };
     VulkanTextureCache mTextureCache[MAX_FRAMES_IN_FLIGHT];
 
-    std::unique_ptr<Texture> mPaletteTexture[MAX_FRAMES_IN_FLIGHT];
-
-    std::shared_ptr<Texture> mCamTexture[MAX_FRAMES_IN_FLIGHT];
-    std::vector<std::shared_ptr<Texture>> mTexturesForThisFrame;
-    struct RenderBatch final
+    struct BatchData
     {
         PipelineIndex mPipeline = PipelineIndex::eNone;
-        u32 mNumTrisToDraw = 0;
-        u32 mTexturesInBatch = 0;
-        u32 mTextureIds[14] = {};
-
-        bool AddTexture(u32 id)
-        {
-            for (u32 i = 0; i < mTexturesInBatch; i++)
-            {
-                if (mTextureIds[i] == id)
-                {
-                    // Already have it
-                    return false;
-                }
-            }
-            mTextureIds[mTexturesInBatch] = id;
-            mTexturesInBatch++;
-            return true;
-        }
-
-        u32 TextureIdxForId(u32 id) const
-        {
-            for (u32 i = 0; i < mTexturesInBatch; i++)
-            {
-                if (mTextureIds[i] == id)
-                {
-                    return i;
-                }
-            }
-            return mTexturesInBatch;
-        }
     };
-    RenderBatch mConstructingBatch;
-    std::vector<RenderBatch> mBatches;
-    bool mBatchInProgress = false;
-
+    Batcher<Texture, BatchData> mBatcher[MAX_FRAMES_IN_FLIGHT];
+  
     struct FrameBufferAttachment final
     {
         std::unique_ptr<vk::raii::Image> image;

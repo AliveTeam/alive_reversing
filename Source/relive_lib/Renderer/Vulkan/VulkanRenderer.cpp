@@ -148,7 +148,7 @@ void VulkanRenderer::initVulkan()
     std::vector<RGBA32> blackPixels(256 * 256);
     for (u32 i = 0; i < MAX_FRAMES_IN_FLIGHT; i++)
     {
-        mPaletteTexture[i] = std::make_unique<Texture>(*this, 256, 256, blackPixels.data(), Texture::Format::RGBA);
+        mBatcher[mCurrentFrame].mPaletteTexture = std::make_unique<Texture>(*this, 256, 256, blackPixels.data(), Texture::Format::RGBA);
     }
     createDescriptorSetLayout();
 
@@ -210,10 +210,10 @@ void VulkanRenderer::cleanup()
         mUniformBuffer[i].clear();
         mTextureSampler[i]->clear();
         mTextureCache[i].Clear();
-        mPaletteTexture[i].reset();
+        mBatcher[mCurrentFrame].mPaletteTexture.reset();
     }
 
-    mTexturesForThisFrame.clear();
+    mBatcher[mCurrentFrame].mTexturesForThisFrame.clear();
 
     mDescriptorSetLayout->clear();
 
@@ -1003,10 +1003,10 @@ static u32 To1dIdx(u32 col, u32 row)
 
 void VulkanRenderer::updateDescriptorSets()
 {
-    const u32 batchCount = static_cast<u32>(std::max(1u, static_cast<u32>(mBatches.size())));
 
     for (u32 i = 0; i < MAX_FRAMES_IN_FLIGHT; i++)
     {
+        const u32 batchCount = static_cast<u32>(std::max(1u, static_cast<u32>(mBatcher[i].mBatches.size())));
         u32 textureIdxOff = 0;
         for (u32 j = 0; j < batchCount; j++)
         {
@@ -1028,7 +1028,7 @@ void VulkanRenderer::updateDescriptorSets()
             // Pal texture
             vk::DescriptorImageInfo imageInfo{};
             imageInfo.imageLayout = vk::ImageLayout::eShaderReadOnlyOptimal;
-            imageInfo.imageView = **mPaletteTexture[i]->View();
+            imageInfo.imageView = **mBatcher[i].mPaletteTexture->View();
             imageInfo.sampler = **mTextureSampler[i];
 
             descriptorWrites[1].dstSet = *mDescriptorSets[To1dIdx(i, j)];
@@ -1045,20 +1045,20 @@ void VulkanRenderer::updateDescriptorSets()
             descriptorWrites[2].dstArrayElement = 0;
             descriptorWrites[2].descriptorType = vk::DescriptorType::eCombinedImageSampler;
             descriptorWrites[2].descriptorCount = 1;
-            if (j < mBatches.size() && mBatches[j].mPipeline == PipelineIndex::eFBOPipeline)
+            if (j < mBatcher[i].mBatches.size() && mBatcher[i].mBatches[j].mPipeline == PipelineIndex::eFBOPipeline)
             {
                 descriptorWrites[2].pImageInfo = &mOffScreenPass[i].descriptor;
             }
             else
             {
                 imageInfo4.imageLayout = vk::ImageLayout::eShaderReadOnlyOptimal;
-                if (mCamTexture[i])
+                if (mBatcher[i].mCamTexture)
                 {
-                    imageInfo4.imageView = **mCamTexture[i]->View();
+                    imageInfo4.imageView = **mBatcher[i].mCamTexture->View();
                 }
                 else
                 {
-                    imageInfo4.imageView = **mPaletteTexture[i]->View();
+                    imageInfo4.imageView = **mBatcher[i].mPaletteTexture->View();
                 }
                 imageInfo4.sampler = **mTextureSampler[i];
                 descriptorWrites[2].pImageInfo = &imageInfo4;
@@ -1069,17 +1069,17 @@ void VulkanRenderer::updateDescriptorSets()
             for (u32 k = 0; k < 14; k++)
             {
                 imageInfo2[k].imageLayout = vk::ImageLayout::eShaderReadOnlyOptimal;
-                if (!mBatches.empty() && k < mBatches[j].mTexturesInBatch)
+                if (!mBatcher[i].mBatches.empty() && k < mBatcher[i].mBatches[j].mTexturesInBatch)
                 {
-                    if (textureIdxOff + k < mTexturesForThisFrame.size())
+                    if (textureIdxOff + k < mBatcher[i].mTexturesForThisFrame.size())
                     {
-                        imageInfo2[k].imageView = **mTexturesForThisFrame[textureIdxOff + k]->View();
+                        imageInfo2[k].imageView = **mBatcher[i].mTexturesForThisFrame[textureIdxOff + k]->View();
                     }
                 }
 
                 if (!imageInfo2[k].imageView)
                 {
-                    imageInfo2[k].imageView = **mPaletteTexture[i]->View();
+                    imageInfo2[k].imageView = **mBatcher[i].mPaletteTexture->View();
                 }
 
                 imageInfo2[k].sampler = **mTextureSampler[i];
@@ -1094,9 +1094,9 @@ void VulkanRenderer::updateDescriptorSets()
 
             mDevice->updateDescriptorSets(descriptorWrites, {});
 
-            if (j < mBatches.size())
+            if (j < mBatcher[i].mBatches.size())
             {
-                textureIdxOff += static_cast<u32>(mBatches[j].mTexturesInBatch);
+                textureIdxOff += static_cast<u32>(mBatcher[i].mBatches[j].mTexturesInBatch);
             }
         }
     }
@@ -1208,13 +1208,13 @@ void VulkanRenderer::recordCommandBuffer(vk::raii::CommandBuffer& commandBuffer,
     u32 idxOffset = 0;
     PipelineIndex lastPipeLine = PipelineIndex::eNone;
 
-    for (std::size_t i = 0; i < mBatches.size(); i++)
+    for (std::size_t i = 0; i < mBatcher[mCurrentFrame].mBatches.size(); i++)
     {
-        if (mBatches[i].mPipeline != PipelineIndex::eFBOPipeline)
+        if (mBatcher[mCurrentFrame].mBatches[i].mPipeline != PipelineIndex::eFBOPipeline)
         {
-            if (lastPipeLine != mBatches[i].mPipeline)
+            if (lastPipeLine != mBatcher[mCurrentFrame].mBatches[i].mPipeline)
             {
-                commandBuffer.bindPipeline(vk::PipelineBindPoint::eGraphics, **mGraphicsPipelines[mBatches[i].mPipeline]);
+                commandBuffer.bindPipeline(vk::PipelineBindPoint::eGraphics, **mGraphicsPipelines[mBatcher[mCurrentFrame].mBatches[i].mPipeline]);
 
                 vk::Viewport viewport;
                 viewport.x = 0.0f;
@@ -1231,7 +1231,7 @@ void VulkanRenderer::recordCommandBuffer(vk::raii::CommandBuffer& commandBuffer,
                 commandBuffer.setScissor(0, scissor);
 
 
-                lastPipeLine = mBatches[i].mPipeline;
+                lastPipeLine = mBatcher[mCurrentFrame].mBatches[i].mPipeline;
 
                 vk::Buffer vertexBuffers[] = {**mVertexBuffer[mCurrentFrame].mBuffer};
                 vk::DeviceSize offsets[] = {0};
@@ -1244,20 +1244,20 @@ void VulkanRenderer::recordCommandBuffer(vk::raii::CommandBuffer& commandBuffer,
             {
                 commandBuffer.bindDescriptorSets(
                     vk::PipelineBindPoint::eGraphics,
-                    **mPipelineLayouts[mBatches[i].mPipeline],
+                    **mPipelineLayouts[mBatcher[mCurrentFrame].mBatches[i].mPipeline],
                     0,
                     *mDescriptorSets[To1dIdx(mCurrentFrame, batchIdx)],
                     {});
 
                 commandBuffer.drawIndexed(
-                    (mBatches[i].mNumTrisToDraw) * 3,
+                    (mBatcher[mCurrentFrame].mBatches[i].mNumTrisToDraw) * 3,
                     1,
                     idxOffset,
                     0,
                     0);
             }
         }
-        idxOffset += (mBatches[i].mNumTrisToDraw) * 3;
+        idxOffset += (mBatcher[mCurrentFrame].mBatches[i].mNumTrisToDraw) * 3;
         batchIdx++;
     }
 
@@ -1278,14 +1278,14 @@ void VulkanRenderer::recordCommandBuffer(vk::raii::CommandBuffer& commandBuffer,
     batchIdx = 0;
     idxOffset = 0;
     lastPipeLine = PipelineIndex::eNone;
-    for (std::size_t i = 0; i < mBatches.size(); i++)
+    for (std::size_t i = 0; i < mBatcher[mCurrentFrame].mBatches.size(); i++)
     {
-        if (mBatches[i].mPipeline == PipelineIndex::eFBOPipeline)
+        if (mBatcher[mCurrentFrame].mBatches[i].mPipeline == PipelineIndex::eFBOPipeline)
         {
-            if (lastPipeLine != mBatches[i].mPipeline)
+            if (lastPipeLine != mBatcher[mCurrentFrame].mBatches[i].mPipeline)
             {
-                commandBuffer.bindPipeline(vk::PipelineBindPoint::eGraphics, **mGraphicsPipelines[mBatches[i].mPipeline]);
-                lastPipeLine = mBatches[i].mPipeline;
+                commandBuffer.bindPipeline(vk::PipelineBindPoint::eGraphics, **mGraphicsPipelines[mBatcher[mCurrentFrame].mBatches[i].mPipeline]);
+                lastPipeLine = mBatcher[mCurrentFrame].mBatches[i].mPipeline;
 
                 SDL_Rect viewPortRect = GetTargetDrawRect();
 
@@ -1313,20 +1313,20 @@ void VulkanRenderer::recordCommandBuffer(vk::raii::CommandBuffer& commandBuffer,
             {
                 commandBuffer.bindDescriptorSets(
                     vk::PipelineBindPoint::eGraphics,
-                    **mPipelineLayouts[mBatches[i].mPipeline],
+                    **mPipelineLayouts[mBatcher[mCurrentFrame].mBatches[i].mPipeline],
                     0,
                     *mDescriptorSets[To1dIdx(mCurrentFrame, batchIdx)],
                     {});
 
                 commandBuffer.drawIndexed(
-                    (mBatches[i].mNumTrisToDraw) * 3,
+                    (mBatcher[mCurrentFrame].mBatches[i].mNumTrisToDraw) * 3,
                     1,
                     idxOffset,
                     0,
                     0);
             }
         }
-        idxOffset += (mBatches[i].mNumTrisToDraw) * 3;
+        idxOffset += (mBatcher[mCurrentFrame].mBatches[i].mNumTrisToDraw) * 3;
         batchIdx++;
     }
 
@@ -1683,10 +1683,10 @@ void VulkanRenderer::EndFrame()
     if (mFrameStarted)
     {
         // Add the in flight batch
-        if (mBatchInProgress && mConstructingBatch.mNumTrisToDraw > 0)
+        if (mBatcher[mCurrentFrame].mBatchInProgress && mBatcher[mCurrentFrame].mConstructingBatch.mNumTrisToDraw > 0)
         {
-            mBatches.push_back(mConstructingBatch);
-            mBatchInProgress = false;
+            mBatcher[mCurrentFrame].mBatches.push_back(mBatcher[mCurrentFrame].mConstructingBatch);
+            mBatcher[mCurrentFrame].mBatchInProgress = false;
         }
 
         // TODO: HACK, refactor this so the full screen tris are done in their own func without copy pasta
@@ -1698,13 +1698,13 @@ void VulkanRenderer::EndFrame()
                 float u1 = 1.0f;
                 float v1 = 1.0f;
 
-                mConstructingBatch.mTexturesInBatch = 0;
+                mBatcher[mCurrentFrame].mConstructingBatch.mTexturesInBatch = 0;
 
                 // Full screen tris to render the FBO
-                vertices.push_back({{static_cast<f32>(0), static_cast<f32>(0)}, {255, 255, 255}, {u0, v0}, mConstructingBatch.mTexturesInBatch, 0, PsxDrawMode::Camera, 0, 0, 0});
-                vertices.push_back({{static_cast<f32>(640), static_cast<f32>(0)}, {255, 255, 255}, {u1, v0}, mConstructingBatch.mTexturesInBatch, 0, PsxDrawMode::Camera, 0, 0, 0});
-                vertices.push_back({{static_cast<f32>(0), static_cast<f32>(240)}, {255, 255, 255}, {u0, v1}, mConstructingBatch.mTexturesInBatch, 0, PsxDrawMode::Camera, 0, 0, 0});
-                vertices.push_back({{static_cast<f32>(640), static_cast<f32>(240)}, {255, 255, 255}, {u1, v1}, mConstructingBatch.mTexturesInBatch, 0, PsxDrawMode::Camera, 0, 0, 0});
+                vertices.push_back({{static_cast<f32>(0), static_cast<f32>(0)}, {255, 255, 255}, {u0, v0}, mBatcher[mCurrentFrame].mConstructingBatch.mTexturesInBatch, 0, PsxDrawMode::Camera, 0, 0, 0});
+                vertices.push_back({{static_cast<f32>(640), static_cast<f32>(0)}, {255, 255, 255}, {u1, v0}, mBatcher[mCurrentFrame].mConstructingBatch.mTexturesInBatch, 0, PsxDrawMode::Camera, 0, 0, 0});
+                vertices.push_back({{static_cast<f32>(0), static_cast<f32>(240)}, {255, 255, 255}, {u0, v1}, mBatcher[mCurrentFrame].mConstructingBatch.mTexturesInBatch, 0, PsxDrawMode::Camera, 0, 0, 0});
+                vertices.push_back({{static_cast<f32>(640), static_cast<f32>(240)}, {255, 255, 255}, {u1, v1}, mBatcher[mCurrentFrame].mConstructingBatch.mTexturesInBatch, 0, PsxDrawMode::Camera, 0, 0, 0});
 
                 gIndices.emplace_back((u16) (mIndexBufferIndex + 1));
                 gIndices.emplace_back((u16) (mIndexBufferIndex + 0));
@@ -1716,11 +1716,11 @@ void VulkanRenderer::EndFrame()
 
                 mIndexBufferIndex += 4;
 
-                mConstructingBatch.mPipeline = PipelineIndex::eFBOPipeline;
-                mConstructingBatch.mTexturesInBatch = 1;
-                mConstructingBatch.mNumTrisToDraw = 2;
+                mBatcher[mCurrentFrame].mConstructingBatch.mPipeline = PipelineIndex::eFBOPipeline;
+                mBatcher[mCurrentFrame].mConstructingBatch.mTexturesInBatch = 1;
+                mBatcher[mCurrentFrame].mConstructingBatch.mNumTrisToDraw = 2;
                 
-                NewBatch();
+                mBatcher[mCurrentFrame].NewBatch();
             }
         }
 
@@ -1745,11 +1745,11 @@ void VulkanRenderer::EndFrame()
         //this->mIndexBuffer.reset();
         //this->mIndexBufferMemory.reset();
 
-        mTexturesForThisFrame.clear();
+        mBatcher[mCurrentFrame].mTexturesForThisFrame.clear();
 
-        mCamTexture[mCurrentFrame] = nullptr;
-        mConstructingBatch = {};
-        mBatches.clear();
+        mBatcher[mCurrentFrame].mCamTexture = nullptr;
+        mBatcher[mCurrentFrame].mConstructingBatch = {};
+        mBatcher[mCurrentFrame].mBatches.clear();
     }
 
     // Always decrease resource lifetimes regardless of drawing to prevent
@@ -1817,7 +1817,7 @@ u32 VulkanRenderer::PreparePalette(AnimationPal& pCache)
     if (addRet.mAllocated)
     {
         // Write palette data
-        mPaletteTexture[mCurrentFrame]->LoadSubImage(0, addRet.mIndex, 256, 1, pCache.mPal);
+        mBatcher[mCurrentFrame].mPaletteTexture->LoadSubImage(0, addRet.mIndex, 256, 1, pCache.mPal);
 
         //mStats.mPalUploadCount++;
     }
@@ -1831,12 +1831,6 @@ inline u16 GetTPageBlendMode(u16 tpage)
     return (tpage >> 4) & 3;
 }
 
-void VulkanRenderer::NewBatch()
-{
-    mBatches.push_back(mConstructingBatch);
-    mConstructingBatch = {};
-    mBatchInProgress = false;
-}
 
 void VulkanRenderer::Draw(Poly_FT4& poly)
 {
@@ -1853,7 +1847,7 @@ void VulkanRenderer::Draw(Poly_FT4& poly)
             texture = mTextureCache[mCurrentFrame].Add(poly.mCam->mUniqueId.Id(), 300, std::move(newTex));
 
         }
-        mCamTexture[mCurrentFrame] = texture;
+        mBatcher[mCurrentFrame].mCamTexture = texture;
 
         // TODO: temp haxo
         {
@@ -1863,10 +1857,10 @@ void VulkanRenderer::Draw(Poly_FT4& poly)
             float u1 = 1.0f;
             float v1 = 1.0f;
 
-            vertices.push_back({{static_cast<f32>(poly.mBase.vert.x), static_cast<f32>(poly.mBase.vert.y)}, {255, 255, 255}, {u0, v0}, mConstructingBatch.mTexturesInBatch, 0, PsxDrawMode::Camera, 0, 0, 0});
-            vertices.push_back({{static_cast<f32>(poly.mVerts[0].mVert.x), static_cast<f32>(poly.mVerts[0].mVert.y)}, {255, 255, 255}, {u1, v0}, mConstructingBatch.mTexturesInBatch, 0, PsxDrawMode::Camera, 0, 0, 0});
-            vertices.push_back({{static_cast<f32>(poly.mVerts[1].mVert.x), static_cast<f32>(poly.mVerts[1].mVert.y)}, {255, 255, 255}, {u0, v1}, mConstructingBatch.mTexturesInBatch, 0, PsxDrawMode::Camera, 0, 0, 0});
-            vertices.push_back({{static_cast<f32>(poly.mVerts[2].mVert.x), static_cast<f32>(poly.mVerts[2].mVert.y)}, {255, 255, 255}, {u1, v1}, mConstructingBatch.mTexturesInBatch, 0, PsxDrawMode::Camera, 0, 0, 0});
+            vertices.push_back({{static_cast<f32>(poly.mBase.vert.x), static_cast<f32>(poly.mBase.vert.y)}, {255, 255, 255}, {u0, v0}, mBatcher[mCurrentFrame].mConstructingBatch.mTexturesInBatch, 0, PsxDrawMode::Camera, 0, 0, 0});
+            vertices.push_back({{static_cast<f32>(poly.mVerts[0].mVert.x), static_cast<f32>(poly.mVerts[0].mVert.y)}, {255, 255, 255}, {u1, v0}, mBatcher[mCurrentFrame].mConstructingBatch.mTexturesInBatch, 0, PsxDrawMode::Camera, 0, 0, 0});
+            vertices.push_back({{static_cast<f32>(poly.mVerts[1].mVert.x), static_cast<f32>(poly.mVerts[1].mVert.y)}, {255, 255, 255}, {u0, v1}, mBatcher[mCurrentFrame].mConstructingBatch.mTexturesInBatch, 0, PsxDrawMode::Camera, 0, 0, 0});
+            vertices.push_back({{static_cast<f32>(poly.mVerts[2].mVert.x), static_cast<f32>(poly.mVerts[2].mVert.y)}, {255, 255, 255}, {u1, v1}, mBatcher[mCurrentFrame].mConstructingBatch.mTexturesInBatch, 0, PsxDrawMode::Camera, 0, 0, 0});
 
             gIndices.emplace_back((u16) (mIndexBufferIndex + 1));
             gIndices.emplace_back((u16) (mIndexBufferIndex + 0));
@@ -1882,18 +1876,18 @@ void VulkanRenderer::Draw(Poly_FT4& poly)
             //mTexturesForThisFrame.emplace_back(texture);
 
            // mTextureArrayIdx++;
-            mConstructingBatch.mNumTrisToDraw += 2;
+            mBatcher[mCurrentFrame].mConstructingBatch.mNumTrisToDraw += 2;
 
             // Over the texture limit or changed to/from subtractive blending
-            const bool bNewBatch = (mConstructingBatch.mTexturesInBatch == kTextureBatchSize);
+            const bool bNewBatch = (mBatcher[mCurrentFrame].mConstructingBatch.mTexturesInBatch == kTextureBatchSize);
             if (bNewBatch)
             {
-                NewBatch();
+                mBatcher[mCurrentFrame].NewBatch();
             }
             else
             {
-                mConstructingBatch.mPipeline = PipelineIndex::eAddBlending;
-                mBatchInProgress = true;
+                mBatcher[mCurrentFrame].mConstructingBatch.mPipeline = PipelineIndex::eAddBlending;
+                mBatcher[mCurrentFrame].mBatchInProgress = true;
             }
         }
     }
@@ -1923,9 +1917,9 @@ void VulkanRenderer::Draw(Poly_FT4& poly)
         u32 blendMode = GetTPageBlendMode(GetTPage(&poly));
 
         PipelineIndex pipeLine = blendMode == 2 ? PipelineIndex::eReverseBlending : PipelineIndex::eAddBlending;
-        if (mConstructingBatch.mPipeline != pipeLine && mConstructingBatch.mPipeline != PipelineIndex::eNone)
+        if (mBatcher[mCurrentFrame].mConstructingBatch.mPipeline != pipeLine && mBatcher[mCurrentFrame].mConstructingBatch.mPipeline != PipelineIndex::eNone)
         {
-            NewBatch();
+            mBatcher[mCurrentFrame].NewBatch();
         }
 
         const PerFrameInfo* pHeader = poly.mAnim->Get_FrameHeader(-1);
@@ -1946,7 +1940,7 @@ void VulkanRenderer::Draw(Poly_FT4& poly)
             std::swap(v1, v0);
         }
 
-        const u32 textureIdx = mConstructingBatch.TextureIdxForId(animRes.mUniqueId.Id());
+        const u32 textureIdx = mBatcher[mCurrentFrame].mConstructingBatch.TextureIdxForId(animRes.mUniqueId.Id());
 
         vertices.push_back({{static_cast<f32>(poly.mBase.vert.x), static_cast<f32>(poly.mBase.vert.y)}, {r, g, b}, {u0, v0}, textureIdx, palIndex, PsxDrawMode::DefaultFT4, isShaded, blendMode, isSemiTrans});
         vertices.push_back({{static_cast<f32>(poly.mVerts[0].mVert.x), static_cast<f32>(poly.mVerts[0].mVert.y)}, {r, g, b}, {u1, v0}, textureIdx, palIndex, PsxDrawMode::DefaultFT4, isShaded, blendMode, isSemiTrans});
@@ -1963,23 +1957,23 @@ void VulkanRenderer::Draw(Poly_FT4& poly)
 
         mIndexBufferIndex += 4;
 
-        if (mConstructingBatch.AddTexture(animRes.mUniqueId.Id()))
+        if (mBatcher[mCurrentFrame].mConstructingBatch.AddTexture(animRes.mUniqueId.Id()))
         {
-            mTexturesForThisFrame.emplace_back(texture);
+            mBatcher[mCurrentFrame].mTexturesForThisFrame.emplace_back(texture);
         }
 
-        mConstructingBatch.mNumTrisToDraw += 2;
+        mBatcher[mCurrentFrame].mConstructingBatch.mNumTrisToDraw += 2;
 
         // Over the texture limit or changed to/from subtractive blending
-        const bool bNewBatch = (mConstructingBatch.mTexturesInBatch == kTextureBatchSize);
+        const bool bNewBatch = (mBatcher[mCurrentFrame].mConstructingBatch.mTexturesInBatch == kTextureBatchSize);
         if (bNewBatch)
         {
-            NewBatch();
+            mBatcher[mCurrentFrame].NewBatch();
         }
         else
         {
-            mConstructingBatch.mPipeline = pipeLine;
-            mBatchInProgress = true;
+            mBatcher[mCurrentFrame].mConstructingBatch.mPipeline = pipeLine;
+            mBatcher[mCurrentFrame].mBatchInProgress = true;
         }
 
 
