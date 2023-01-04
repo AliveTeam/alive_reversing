@@ -31,22 +31,9 @@ LiftMover::LiftMover(relive::Path_LiftMover* pTlv, const Guid& tlvId)
     mMoving = false;
 }
 
-s32 LiftMover::CreateFromSaveState(const u8* pData)
+LiftMover::~LiftMover()
 {
-    auto pState = reinterpret_cast<const LiftMoverSaveState*>(pData);
-
-    relive::Path_LiftMover* pTlv = static_cast<relive::Path_LiftMover*>(gPathInfo->TLV_From_Offset_Lvl_Cam(pState->mTlvId));
-    auto pLiftMover = relive_new LiftMover(pTlv, pState->mTlvId);
-    if (pLiftMover)
-    {
-        if (pState->mState != LiftMoverStates::eInactive_0)
-        {
-            pLiftMover->mMoving = true;
-        }
-        pLiftMover->mState = pState->mState;
-    }
-
-    return sizeof(LiftMoverSaveState);
+    Path::TLV_Reset(mTlvId, -1, 0, 0);
 }
 
 void LiftMover::VUpdate()
@@ -67,138 +54,155 @@ void LiftMover::VUpdate()
         // Set extra dead for good measure
         SetDead(true);
         mTargetLiftId = Guid{};
+        return;
     }
-    else
+
+    switch (mState)
     {
-        switch (mState)
-        {
-            case LiftMoverStates::eInactive_0:
-                if (SwitchStates_Get(mLiftMoverSwitchId))
-                {
-                    if (!pLift)
-                    {
-                        pLift = GetLiftPoint();
-                    }
-
-                    if (pLift)
-                    {
-                        mTargetLiftId = pLift->mBaseGameObjectId;
-                        mState = LiftMoverStates::eStartMovingDown_1;
-                    }
-                }
-                break;
-
-            case LiftMoverStates::eStartMovingDown_1:
+        case LiftMoverStates::eInactive_0:
+            if (SwitchStates_Get(mLiftMoverSwitchId))
+            {
                 if (!pLift)
                 {
-                    return;
+                    pLift = GetLiftPoint();
                 }
 
-                if (!pLift->vOnAnyFloor())
+                if (pLift)
+                {
+                    mTargetLiftId = pLift->mBaseGameObjectId;
+                    mState = LiftMoverStates::eStartMovingDown_1;
+                }
+            }
+            break;
+
+        case LiftMoverStates::eStartMovingDown_1:
+            if (!pLift)
+            {
+                return;
+            }
+
+            if (!pLift->vOnAnyFloor())
+            {
+                mState = LiftMoverStates::eMovingDown_2;
+                pLift->vKeepOnMiddleFloor();
+            }
+            else
+            {
+                pLift->Move(FP_FromInteger(0), mLiftSpeed);
+                if ((mLiftSpeed > FP_FromInteger(0) && pLift->vOnBottomFloor()) || (mLiftSpeed < FP_FromInteger(0) && pLift->vOnTopFloor()))
                 {
                     mState = LiftMoverStates::eMovingDown_2;
-                    pLift->vKeepOnMiddleFloor();
                 }
-                else
+            }
+            break;
+
+        case LiftMoverStates::eMovingDown_2:
+            if (!pLift)
+            {
+                return;
+            }
+
+            if (!pLift->vOnAFloorLiftMoverCanUse())
+            {
+                pLift->Move(FP_FromInteger(0), mLiftSpeed);
+            }
+            else
+            {
+                pLift->Move(FP_FromInteger(0), FP_FromInteger(0));
+                mState = LiftMoverStates::eMovingDone_5;
+            }
+            break;
+
+        case LiftMoverStates::eStartMovingUp_3:
+            if (!pLift)
+            {
+                return;
+            }
+
+            if (pLift->vOnAFloorLiftMoverCanUse())
+            {
+                pLift->Move(FP_FromInteger(0), mLiftSpeed);
+                if (mLiftSpeed < FP_FromInteger(0))
                 {
-                    pLift->Move(FP_FromInteger(0), mLiftSpeed);
-                    if ((mLiftSpeed > FP_FromInteger(0) && pLift->vOnBottomFloor()) || (mLiftSpeed < FP_FromInteger(0) && pLift->vOnTopFloor()))
+                    if (pLift->vOnTopFloor())
                     {
                         mState = LiftMoverStates::eMovingDown_2;
                     }
                 }
-                break;
 
-            case LiftMoverStates::eMovingDown_2:
-                if (!pLift)
+                if (mLiftSpeed > FP_FromInteger(0))
                 {
-                    return;
-                }
-
-                if (!pLift->vOnAFloorLiftMoverCanUse())
-                {
-                    pLift->Move(FP_FromInteger(0), mLiftSpeed);
-                }
-                else
-                {
-                    pLift->Move(FP_FromInteger(0), FP_FromInteger(0));
-                    mState = LiftMoverStates::eMovingDone_5;
-                }
-                break;
-
-            case LiftMoverStates::eStartMovingUp_3:
-                if (!pLift)
-                {
-                    return;
-                }
-
-                if (pLift->vOnAFloorLiftMoverCanUse())
-                {
-                    pLift->Move(FP_FromInteger(0), mLiftSpeed);
-                    if (mLiftSpeed < FP_FromInteger(0))
+                    if (pLift->vOnBottomFloor())
                     {
-                        if (pLift->vOnTopFloor())
-                        {
-                            mState = LiftMoverStates::eMovingDown_2;
-                        }
-                    }
-
-                    if (mLiftSpeed > FP_FromInteger(0))
-                    {
-                        if (pLift->vOnBottomFloor())
-                        {
-                            mState = LiftMoverStates::eMovingDown_2;
-                        }
+                        mState = LiftMoverStates::eMovingDown_2;
                     }
                 }
-                else
-                {
-                    mState = LiftMoverStates::eMovingUp_4;
-                    pLift->vKeepOnMiddleFloor();
-                }
-                break;
+            }
+            else
+            {
+                pLift->vKeepOnMiddleFloor();
+                mState = LiftMoverStates::eMovingUp_4;
+            }
+            break;
 
-            case LiftMoverStates::eMovingUp_4:
-                if (!pLift)
-                {
-                    return;
-                }
+        case LiftMoverStates::eMovingUp_4:
+            if (!pLift)
+            {
+                return;
+            }
 
-                if (pLift->vOnAFloorLiftMoverCanUse())
-                {
-                    pLift->Move(FP_FromInteger(0), FP_FromInteger(0));
+            if (pLift->vOnAFloorLiftMoverCanUse())
+            {
+                pLift->Move(FP_FromInteger(0), FP_FromInteger(0));
 
-                    mState = LiftMoverStates::eInactive_0;
-                    mLiftSpeed = -mLiftSpeed;
-                }
-                else
-                {
-                    pLift->Move(FP_FromInteger(0), mLiftSpeed);
-                }
-                break;
+                mState = LiftMoverStates::eInactive_0;
+                mLiftSpeed = -mLiftSpeed;
+            }
+            else
+            {
+                pLift->Move(FP_FromInteger(0), mLiftSpeed);
+            }
+            break;
 
-            case LiftMoverStates::eMovingDone_5:
-                if (!SwitchStates_Get(mLiftMoverSwitchId))
-                {
-                    mState = LiftMoverStates::eStartMovingUp_3;
-                    mLiftSpeed = -mLiftSpeed;
-                }
-                break;
+        case LiftMoverStates::eMovingDone_5:
+            if (!SwitchStates_Get(mLiftMoverSwitchId))
+            {
+                mState = LiftMoverStates::eStartMovingUp_3;
+                mLiftSpeed = -mLiftSpeed;
+            }
+            break;
 
-            default:
-                break;
-        }
+        default:
+            break;
+    }
 
-        if (EventGet(kEventDeathReset))
-        {
-            SetDead(true);
-        }
+    if (EventGet(kEventDeathReset))
+    {
+        SetDead(true);
     }
 }
 
-LiftMover::~LiftMover()
+LiftPoint* LiftMover::GetLiftPoint()
 {
-    Path::TLV_Reset(mTlvId, -1, 0, 0);
+    for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
+    {
+        auto pObj = gBaseAliveGameObjects->ItemAt(i);
+        if (!pObj)
+        {
+            break;
+        }
+
+        if (pObj->Type() == ReliveTypes::eLiftPoint)
+        {
+            auto pLift = static_cast<LiftPoint*>(pObj);
+            if (mTargetLiftPointId == pLift->mLiftPointId)
+            {
+                mTargetLiftId = pObj->mBaseGameObjectId;
+                return pLift;
+            }
+        }
+    }
+    return nullptr;
 }
 
 s32 LiftMover::VGetSaveState(u8* pSaveBuffer)
@@ -211,25 +215,20 @@ s32 LiftMover::VGetSaveState(u8* pSaveBuffer)
     return sizeof(LiftMoverSaveState);
 }
 
-LiftPoint* LiftMover::GetLiftPoint()
+s32 LiftMover::CreateFromSaveState(const u8* pData)
 {
-    for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
-    {
-        IBaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
-        if (!pObj)
-        {
-            break;
-        }
+    auto pState = reinterpret_cast<const LiftMoverSaveState*>(pData);
 
-        if (pObj->Type() == ReliveTypes::eLiftPoint)
+    relive::Path_LiftMover* pTlv = static_cast<relive::Path_LiftMover*>(gPathInfo->TLV_From_Offset_Lvl_Cam(pState->mTlvId));
+    auto pLiftMover = relive_new LiftMover(pTlv, pState->mTlvId);
+    if (pLiftMover)
+    {
+        if (pState->mState != LiftMoverStates::eInactive_0)
         {
-            LiftPoint* pLift = static_cast<LiftPoint*>(pObj);
-            if (mTargetLiftPointId == pLift->mLiftPointId)
-            {
-                mTargetLiftId = pObj->mBaseGameObjectId;
-                return pLift;
-            }
+            pLiftMover->mMoving = true;
         }
+        pLiftMover->mState = pState->mState;
     }
-    return nullptr;
+
+    return sizeof(LiftMoverSaveState);
 }

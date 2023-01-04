@@ -121,9 +121,9 @@ void RockSack::VUpdate()
 			&& bRect.y <= bPlayerRect.h 
 			&& GetSpriteScale() == sActiveHero->GetSpriteScale())
         {
-            if (gpThrowableArray)
+            if (gThrowableArray)
             {
-                if (gpThrowableArray->mCount)
+                if (gThrowableArray->mCount)
                 {
                     if (sActiveHero->mCurrentMotion == eAbeMotions::Motion_31_RunJumpMid_452C10)
                     {
@@ -139,10 +139,10 @@ void RockSack::VUpdate()
             }
             else
             {
-                gpThrowableArray = relive_new ThrowableArray();
+                gThrowableArray = relive_new ThrowableArray();
             }
 
-            gpThrowableArray->Add(mRockAmount);
+            gThrowableArray->Add(mRockAmount);
 
             auto pRock = relive_new Rock(mXPos, mYPos - FP_FromInteger(30), mRockAmount);
             if (pRock)

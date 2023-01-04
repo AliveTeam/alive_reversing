@@ -49,24 +49,6 @@ void PauseMenu::VScreenChanged()
     }
 }
 
-s16 word_9F1188 = 0;
-s16 word_504620 = 0;
-s16 word_504622 = 0;
-u16 word_9F0E60 = 0;
-u16 word_504624 = 0;
-u16 word_504626 = 0;
-
-s16 Reset_Unknown_45A5B0()
-{
-    word_9F1188 = -1;
-    word_504620 = -1;
-    word_504622 = -1;
-    word_9F0E60 = 0;
-    word_504624 = 0;
-    word_504626 = 0;
-    return 1;
-}
-
 struct saveName final
 {
     char_type characters[26];
@@ -113,7 +95,6 @@ void PauseMenu::VUpdate()
         field_11C = 1;
         field_124 = 0;
         field_126_page = PauseMenuPages::ePause_0;
-        Reset_Unknown_45A5B0();
         field_11E_selected_glow = 52;
         field_120_selected_glow_counter = 8;
 

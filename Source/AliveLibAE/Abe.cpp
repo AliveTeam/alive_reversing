@@ -1422,9 +1422,9 @@ void Abe::VScreenChanged()
         {
             if (mBaseThrowableCount > 0)
             {
-                if (gpThrowableArray)
+                if (gThrowableArray)
                 {
-                    gpThrowableArray->Remove(mBaseThrowableCount);
+                    gThrowableArray->Remove(mBaseThrowableCount);
                 }
             }
 
@@ -7102,9 +7102,9 @@ void Abe::Motion_114_DoorEnter()
 
             if (pDoorTlv->mClearThrowables == relive::reliveChoice::eYes)
             {
-                if (mBaseThrowableCount > 0 && gpThrowableArray)
+                if (mBaseThrowableCount > 0 && gThrowableArray)
                 {
-                    gpThrowableArray->Remove(mBaseThrowableCount);
+                    gThrowableArray->Remove(mBaseThrowableCount);
                     mBaseThrowableCount = 0;
                 }
             }

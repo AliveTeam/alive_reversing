@@ -81,9 +81,8 @@ SnoozeParticle::SnoozeParticle(FP xpos, FP ypos, Layer layer, FP scale)
     mYPos = ypos;
 
     mDestY = FP_FromDouble(0.15);
-    mDestX = FP_FromInteger(1);
 
-    mDestY = ((mDestY * FP_FromInteger(Math_NextRandom())) / FP_FromInteger(256));
+    mDestY = (mDestY * FP_FromInteger(Math_NextRandom())) / FP_FromInteger(256);
     mDestY += FP_FromDouble(0.35);
     mDestY = mDestY * FP_FromInteger(-1);
 
@@ -138,16 +137,16 @@ void SnoozeParticle::VUpdate()
 
                     mSpriteScale += mScaleDx;
 
-                    if (mIdx > 36)
+                    if (mIdx >= ALIVE_COUNTOF(xPositionDeltaEntries))
                     {
                         mIdx = 0;
                     }
 
                     const FP idx_toFP = FP_FromInteger(xPositionDeltaEntries[mIdx]);
                     mDestX = idx_toFP;
-                    mIdx += 1;
                     mXPos += idx_toFP;
                     mYPos += mDestY;
+                    mIdx++;
                 }
                 else
                 {
