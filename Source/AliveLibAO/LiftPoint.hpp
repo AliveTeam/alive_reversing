@@ -16,7 +16,7 @@ public:
     ~LiftPoint();
 
     void LoadAnimations();
-    void Move(FP xSpeed, FP ySpeed, s32 not_used);
+    void Move(FP xSpeed, FP ySpeed);
     void StayOnFloor(s16 floor, relive::Path_LiftPoint* pTlv);
     void ClearTlvFlags(relive::Path_TLV* pTlv);
     bool OnTopFloor() const;

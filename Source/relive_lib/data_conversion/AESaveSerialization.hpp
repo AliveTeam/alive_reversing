@@ -2256,7 +2256,7 @@ inline void from_json(const nlohmann::json& j, SlamDoorSaveState& p)
 inline void to_json(nlohmann::json& j, const SligSaveState& p)
 {
     j = nlohmann::json{
-        {"type", p.field_0_type},
+        {"type", p.mType},
         {"xpos", p.field_4_xpos},
         {"ypos", p.field_8_ypos},
         {"velx", p.field_C_velx},
@@ -2315,7 +2315,7 @@ inline void to_json(nlohmann::json& j, const SligSaveState& p)
 
 inline void from_json(const nlohmann::json& j, SligSaveState& p)
 {
-    j.at("type").get_to(p.field_0_type);
+    j.at("type").get_to(p.mType);
     j.at("xpos").get_to(p.field_4_xpos);
     j.at("ypos").get_to(p.field_8_ypos);
     j.at("velx").get_to(p.field_C_velx);

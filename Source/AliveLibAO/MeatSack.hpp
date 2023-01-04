@@ -23,7 +23,7 @@ public:
     virtual void VUpdate() override;
 
     Guid mTlvId;
-    bool mDoMeatSackIdleAnim = false;
+    bool mHasBeenHit = false;
     s16 mMeatAmount = 0;
     bool mPlayWobbleSound = false;
     FP mTlvVelX = {};

@@ -2116,12 +2116,12 @@ s16 FlyingSlig::sub_4374A0(s16 a2)
 
 s16 FlyingSlig::IsAbeEnteringDoor(IBaseAliveGameObject* pThis)
 {
-    return Slig::IsAbeEnteringDoor_4BB990(pThis);
+    return Slig::IsAbeEnteringDoor(pThis);
 }
 
 bool FlyingSlig::IsWallBetween(IBaseAliveGameObject* pThis, IBaseAliveGameObject* pObj)
 {
-    // TODO: Duplicated like IsAbeEnteringDoor_4BB990 ??
+    // TODO: Duplicated like IsAbeEnteringDoor ??
     const PSX_RECT bRect = pObj->VGetBoundingRect();
 
     PathLine* pLine = nullptr;

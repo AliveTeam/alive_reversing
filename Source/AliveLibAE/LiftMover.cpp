@@ -101,7 +101,7 @@ void LiftMover::VUpdate()
                 }
                 else
                 {
-                    pLift->Move(FP_FromInteger(0), mLiftSpeed, 0);
+                    pLift->Move(FP_FromInteger(0), mLiftSpeed);
                     if ((mLiftSpeed > FP_FromInteger(0) && pLift->vOnBottomFloor()) || (mLiftSpeed < FP_FromInteger(0) && pLift->vOnTopFloor()))
                     {
                         mState = LiftMoverStates::eMovingDown_2;
@@ -117,11 +117,11 @@ void LiftMover::VUpdate()
 
                 if (!pLift->vOnAFloorLiftMoverCanUse())
                 {
-                    pLift->Move(FP_FromInteger(0), mLiftSpeed, 0);
+                    pLift->Move(FP_FromInteger(0), mLiftSpeed);
                 }
                 else
                 {
-                    pLift->Move(FP_FromInteger(0), FP_FromInteger(0), 0);
+                    pLift->Move(FP_FromInteger(0), FP_FromInteger(0));
                     mState = LiftMoverStates::eMovingDone_5;
                 }
                 break;
@@ -134,7 +134,7 @@ void LiftMover::VUpdate()
 
                 if (pLift->vOnAFloorLiftMoverCanUse())
                 {
-                    pLift->Move(FP_FromInteger(0), mLiftSpeed, 0);
+                    pLift->Move(FP_FromInteger(0), mLiftSpeed);
                     if (mLiftSpeed < FP_FromInteger(0))
                     {
                         if (pLift->vOnTopFloor())
@@ -166,14 +166,14 @@ void LiftMover::VUpdate()
 
                 if (pLift->vOnAFloorLiftMoverCanUse())
                 {
-                    pLift->Move(FP_FromInteger(0), FP_FromInteger(0), 0);
+                    pLift->Move(FP_FromInteger(0), FP_FromInteger(0));
 
                     mState = LiftMoverStates::eInactive_0;
                     mLiftSpeed = -mLiftSpeed;
                 }
                 else
                 {
-                    pLift->Move(FP_FromInteger(0), mLiftSpeed, 0);
+                    pLift->Move(FP_FromInteger(0), mLiftSpeed);
                 }
                 break;
 

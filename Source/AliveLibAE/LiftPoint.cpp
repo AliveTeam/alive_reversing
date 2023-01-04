@@ -313,7 +313,7 @@ bool LiftPoint::vMovingToFloorLevel()
     return mMoveToFloorLevel;
 }
 
-void LiftPoint::Move(FP xSpeed, FP ySpeed, s32 /*not_used*/)
+void LiftPoint::Move(FP xSpeed, FP ySpeed)
 {
     mVelX = xSpeed * GetSpriteScale();
     mVelY = ySpeed * GetSpriteScale();

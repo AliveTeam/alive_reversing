@@ -336,7 +336,6 @@ public:
 
     // These appear to never be used
     BaseGameObject* field_20C_pUnused = nullptr;
-    BaseGameObject* field_210_pUnused = nullptr;
 
     s16 field_214_page_index = 0;
     s16 field_216_previous_page_index = 0;

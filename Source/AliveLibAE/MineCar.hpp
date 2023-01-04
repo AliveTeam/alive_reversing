@@ -25,7 +25,6 @@ enum class MineCarDirs : s16
 struct MineCarSaveState final
 {
     ReliveTypes field_0_type;
-    s16 field_2_pad;
     FP field_4_xpos;
     FP field_8_ypos;
     FP field_C_velx;
@@ -43,24 +42,15 @@ struct MineCarSaveState final
     s16 field_2C_frame_change_counter;
     s8 field_2E_render;
     s8 field_2F_drawable;
-    s8 field_30_unused;
-    s8 field_31_padding;
-    s16 field_32_unused;
-    s16 field_34_unused;
-    s16 field_36_unused;
     s32 field_38_frame_table_offset2;
     FP field_3C_health;
     s16 field_40_current_motion;
     s16 field_42_next_motion;
     s16 field_44_last_line_ypos;
     s16 field_46_collision_line_type;
-    s16 field_48_padding;
-    s16 field_4A_padding;
     Guid field_4C_tlvInfo;
     MineCarStates field_50_state;
     MineCarDirs field_52_turn_direction;
-    s16 field_54_unused;
-    s16 field_56_unused;
     s16 field_58_falling_counter;
     s16 field_5A_bAbeInCar;
     s32 field_5C_frame_mod_16;
@@ -122,8 +112,6 @@ public:
     MineCarDirs field_1BC_turn_direction = MineCarDirs::eDown_0;
 
 private:
-    s16 field_1BE_unused = 0;
-    s16 field_1C0_unused = 0;
     s16 field_1C2_falling_counter = 0;
     s16 field_1C4_velx_index = 0;
     s32 field_1C8_frame_mod_16 = 0;

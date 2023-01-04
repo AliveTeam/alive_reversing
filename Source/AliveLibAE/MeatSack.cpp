@@ -48,7 +48,7 @@ MeatSack::MeatSack(relive::Path_MeatSack* pTlv, const Guid& tlvId)
     SetApplyShadowZoneColour(false);
     mTlvId = tlvId;
 
-    mDoMeatSackIdleAnim = false;
+    mHasBeenHit = false;
 
     mXPos = FP_FromInteger(pTlv->mTopLeftX);
     mYPos = FP_FromInteger(pTlv->mTopLeftY);
@@ -111,12 +111,12 @@ void MeatSack::VUpdate()
         mPlayWobbleSound = true;
     }
 
-    if (mDoMeatSackIdleAnim)
+    if (mHasBeenHit)
     {
-        if (mDoMeatSackIdleAnim && GetAnimation().GetIsLastFrame())
+        if (GetAnimation().GetIsLastFrame())
         {
             GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::MeatSack_Idle));
-            mDoMeatSackIdleAnim = false;
+            mHasBeenHit = false;
         }
     }
     else
@@ -131,7 +131,7 @@ void MeatSack::VUpdate()
                 if (gpThrowableArray->mCount)
                 {
                     GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::MeatSack_Hit));
-                    mDoMeatSackIdleAnim = true;
+                    mHasBeenHit = true;
                     return;
                 }
             }
@@ -150,7 +150,7 @@ void MeatSack::VUpdate()
             Environment_SFX_457A40(EnvironmentSfx::eDeathNoise_7, 0, 0x7FFF, 0);
 
             GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::MeatSack_Hit));
-            mDoMeatSackIdleAnim = true;
+            mHasBeenHit = true;
         }
     }
 }

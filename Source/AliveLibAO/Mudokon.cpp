@@ -1497,11 +1497,11 @@ void Mudokon::Motion_12_LiftUse()
     auto pLiftPoint = static_cast<LiftPoint*>(field_194_pLiftPoint);
     if (!pLiftPoint->OnAnyFloor() || pLiftPoint->mIgnoreLiftMover)
     {
-        pLiftPoint->Move(FP_FromInteger(0), FP_FromInteger(3), 0);
+        pLiftPoint->Move(FP_FromInteger(0), FP_FromInteger(3));
     }
     else
     {
-        pLiftPoint->Move(FP_FromInteger(0), FP_FromInteger(0), 0);
+        pLiftPoint->Move(FP_FromInteger(0), FP_FromInteger(0));
         SetCurrentMotion(eMudMotions::Motion_14_LiftGrabEnd);
         SetNextMotion(eMudMotions::Motion_0_Idle);
     }

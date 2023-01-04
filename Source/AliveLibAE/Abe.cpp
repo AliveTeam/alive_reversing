@@ -1260,7 +1260,7 @@ void Abe::VUpdate()
             field_128.mSay = MudSounds::eOops_14;
             mAutoSayTimer = sGnFrame + Math_RandomRange(22, 30);
 
-            relive_new MusicTrigger(relive::Path_MusicTrigger::MusicTriggerMusicType::eDeathDrumShort, relive::Path_MusicTrigger::TriggeredBy::eTimer, 90, 0);
+            relive_new MusicTrigger(relive::Path_MusicTrigger::MusicTriggerMusicType::eDeathDrumShort, relive::Path_MusicTrigger::TriggeredBy::eTimer, 0);
         }
 
         if (EventGet(kEventMudokonComfort))
@@ -4993,7 +4993,7 @@ void Abe::Motion_57_Dead_4589A0()
         }
         else if (pLiftPoint->Type() == ReliveTypes::eLiftPoint)
         {
-            static_cast<LiftPoint*>(pLiftPoint)->Move(FP_FromInteger(0), FP_FromInteger(0), 0);
+            static_cast<LiftPoint*>(pLiftPoint)->Move(FP_FromInteger(0), FP_FromInteger(0));
         }
     }
 
@@ -6698,7 +6698,7 @@ void Abe::Motion_110_ZShot()
             BaseGameObject* pLiftPoint = sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId);
             if (pLiftPoint->Type() == ReliveTypes::eLiftPoint)
             {
-                static_cast<LiftPoint*>(pLiftPoint)->Move(FP_FromInteger(0), FP_FromInteger(0), 0);
+                static_cast<LiftPoint*>(pLiftPoint)->Move(FP_FromInteger(0), FP_FromInteger(0));
             }
             VOnTrapDoorOpen();
         }
@@ -7432,7 +7432,7 @@ void Abe::Motion_121_LiftGrabBegin()
     auto pLiftPoint = static_cast<LiftPoint*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
     if (pLiftPoint)
     {
-        pLiftPoint->Move(FP_FromInteger(0), FP_FromInteger(0), 0);
+        pLiftPoint->Move(FP_FromInteger(0), FP_FromInteger(0));
     }
 
     mVelY = FP_FromInteger(0);
@@ -7460,7 +7460,7 @@ void Abe::Motion_123_LiftGrabIdle()
 
     if (pLiftPoint)
     {
-        pLiftPoint->Move(FP_FromInteger(0), FP_FromInteger(0), 0);
+        pLiftPoint->Move(FP_FromInteger(0), FP_FromInteger(0));
     }
 
     mVelY = FP_FromInteger(0);
@@ -7520,7 +7520,7 @@ void Abe::Motion_127_TurnWheelLoop()
         {
             field_120_state.wheel = WorkWheelStates::eMapChanging_2;
             SND_SEQ_Play(SeqId::SaveTriggerMusic_31, 1, 127, 127);
-            relive_new MusicTrigger(relive::Path_MusicTrigger::MusicTriggerMusicType::eChime, relive::Path_MusicTrigger::TriggeredBy::eTimer, 0, 0);
+            relive_new MusicTrigger(relive::Path_MusicTrigger::MusicTriggerMusicType::eChime, relive::Path_MusicTrigger::TriggeredBy::eTimer, 0);
             return;
         }
         else
@@ -8950,7 +8950,7 @@ s16 Abe::MoveLiftUpOrDown_45A7E0(FP yVelocity)
         return eAbeMotions::Motion_123_LiftGrabIdle;
     }
 
-    pLiftPoint->Move(FP_FromInteger(0), yVelocity, 0);
+    pLiftPoint->Move(FP_FromInteger(0), yVelocity);
     FollowLift_45A500();
 
     if (sControlledCharacter == this && !(GetAnimation().GetIsLastFrame()) && GetAnimation().GetCurrentFrame() != 5)
@@ -9002,7 +9002,7 @@ s16 Abe::MoveLiftUpOrDown_45A7E0(FP yVelocity)
         return eAbeMotions::Motion_122_LiftGrabEnd;
     }
 
-    pLiftPoint->Move(FP_FromInteger(0), FP_FromInteger(0), 0);
+    pLiftPoint->Move(FP_FromInteger(0), FP_FromInteger(0));
     return eAbeMotions::Motion_123_LiftGrabIdle;
 }
 

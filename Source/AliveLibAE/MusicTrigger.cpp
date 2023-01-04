@@ -18,7 +18,7 @@ MusicTrigger::MusicTrigger(relive::Path_MusicTrigger* pTlv, const Guid& tlvId)
     mTlvId = tlvId;
 }
 
-MusicTrigger::MusicTrigger(relive::Path_MusicTrigger::MusicTriggerMusicType musicType, relive::Path_MusicTrigger::TriggeredBy triggeredBy, s32 /*not_used*/, s32 musicDelay)
+MusicTrigger::MusicTrigger(relive::Path_MusicTrigger::MusicTriggerMusicType musicType, relive::Path_MusicTrigger::TriggeredBy triggeredBy, s32 musicDelay)
     : BaseGameObject(true, 0)
 {
     Init(musicType, triggeredBy, static_cast<s16>(musicDelay));

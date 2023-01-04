@@ -43,7 +43,7 @@ public:
     bool vOnAFloorLiftMoverCanUse();
     bool vMovingToFloorLevel();
 
-    void Move(FP xSpeed, FP ySpeed, s32 not_used);
+    void Move(FP xSpeed, FP ySpeed);
 
 private:
     void MoveObjectsOnLift(FP xVelocity);

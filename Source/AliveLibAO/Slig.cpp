@@ -623,7 +623,7 @@ void Slig::VUpdate()
 
         if (mbGotShot)
         {
-            Vshot();
+            VShot();
         }
 
         if (showDebugCreatureInfo_5076E0)
@@ -776,7 +776,7 @@ bool Slig::VTakeDamage(BaseGameObject* pFrom)
                 mExplodeTimer = sGnFrame + 20;
                 mNextMotion = eSligMotions::Motion_38_Possess;
                 field_13A_shot_motion = eSligMotions::Motion_38_Possess;
-                Vshot();
+                VShot();
                 mbMotionChanged = true;
                 if (pBullet->mXDistance >= FP_FromInteger(0))
                 {
@@ -992,7 +992,7 @@ void Slig::VUpdateAnimData()
     GetAnimation().Set_Animation_Data(GetAnimRes(sSligMotionAnimIds[mCurrentMotion]));
 }
 
-void Slig::Vshot()
+void Slig::VShot()
 {
     if (field_13A_shot_motion != -1)
     {
@@ -1221,6 +1221,7 @@ void Slig::ToChase()
     {
         GetAnimation().ToggleFlipX();
     }
+
     mNextMotion = eSligMotions::Motion_0_StandIdle;
     SetBrain(&Slig::Brain_StartChasing);
     MusicController::static_PlayMusic(MusicController::MusicTypes::eSlogChase_5, this, 0, 0);
@@ -1263,7 +1264,7 @@ inline PSX_RECT MakeMinMaxRect(FP x, FP y, FP w, FP h, bool flipToMaxMin = false
     }
 }
 
-s16 Slig::FindBeatTarget(s32 /*typeToFind*/, s32 gridBlocks)
+s16 Slig::FindBeatTarget(s32 gridBlocks)
 {
     const FP kGridSize = ScaleToGridSize(GetSpriteScale());
     const FP k2Scaled = FP_FromInteger(2) * kGridSize;
@@ -1357,7 +1358,7 @@ void Slig::RespondToEnemyOrPatrol()
         else
         {
             mSpottedPossessedSlig = 1;
-            TurnOrWalk(0);
+            TurnOrWalk();
         }
     }
     else if (VIsFacingMe(sControlledCharacter))
@@ -1377,28 +1378,8 @@ void Slig::RespondToEnemyOrPatrol()
     }
 }
 
-void Slig::TurnOrWalk(s32 a2)
+void Slig::TurnOrWalk()
 {
-    if (a2 == 1)
-    {
-        if (GetAnimation().GetFlipX())
-        {
-            if (mXPos > FP_FromInteger(field_13C_zone_rect.x) + (ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(4)))
-            {
-                ToTurn();
-                return;
-            }
-        }
-        else
-        {
-            if (mXPos < FP_FromInteger(field_13C_zone_rect.w) - (ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(4)))
-            {
-                ToTurn();
-                return;
-            }
-        }
-    }
-
     if (!GetAnimation().GetFlipX())
     {
         if (mXPos > FP_FromInteger(field_13C_zone_rect.w) - (ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(4)))
@@ -1692,7 +1673,7 @@ s16 Slig::MoveLift(FP ySpeed)
         return eSligMotions::Motion_51_LiftGripping;
     }
 
-    pLiftPoint->Move(FP_FromInteger(0), ySpeed, 0);
+    pLiftPoint->Move(FP_FromInteger(0), ySpeed);
     CheckPlatformVanished();
     mVelY = pLiftPoint->mVelY;
 
@@ -1744,7 +1725,7 @@ s16 Slig::MoveLift(FP ySpeed)
         return eSligMotions::Motion_50_LiftUngrip;
     }
 
-    pLiftPoint->Move(FP_FromInteger(0), FP_FromInteger(0), 0);
+    pLiftPoint->Move(FP_FromInteger(0), FP_FromInteger(0));
     return eSligMotions::Motion_51_LiftGripping;
 }
 
@@ -2864,10 +2845,10 @@ void Slig::Motion_7_Falling()
     {
         switch (pLine->mLineType)
         {
-            case 0:
-            case 4:
-            case 32:
-            case 36:
+            case eLineTypes::eFloor_0:
+            case eLineTypes::eBackgroundFloor_4:
+            case eLineTypes::eDynamicCollision_32:
+            case eLineTypes::eBackgroundDynamicCollision_36:
             {
                 ToStand();
 
@@ -2889,10 +2870,10 @@ void Slig::Motion_7_Falling()
                 break;
             }
 
-            case 1:
-            case 2:
-            case 5:
-            case 6:
+            case eLineTypes::eWallLeft_1:
+            case eLineTypes::eWallRight_2:
+            case eLineTypes::eBackgroundWallLeft_5:
+            case eLineTypes::eBackgroundWallRight_6:
                 mYPos = hitY;
                 mXPos = hitX;
                 ToKnockBack();
@@ -3767,7 +3748,7 @@ void Slig::Motion_49_LiftGrip()
     auto pLiftPoint = static_cast<LiftPoint*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
     if (pLiftPoint)
     {
-        pLiftPoint->Move(FP_FromInteger(0), FP_FromInteger(0), 0);
+        pLiftPoint->Move(FP_FromInteger(0), FP_FromInteger(0));
         mVelY = FP_FromInteger(0);
 
         if (GetAnimation().GetIsLastFrame())
@@ -3820,7 +3801,7 @@ void Slig::Motion_51_LiftGripping()
     {
         CheckPlatformVanished();
 
-        pLiftPoint->Move(FP_FromInteger(0), FP_FromInteger(0), 0);
+        pLiftPoint->Move(FP_FromInteger(0), FP_FromInteger(0));
         mVelY = FP_FromInteger(0);
 
         if (Input().IsAnyPressed(sInputKey_Up))
@@ -4085,7 +4066,7 @@ s16 Slig::Brain_EnemyDead()
         // And turn even less often
         if (sActiveHero->mHealth > FP_FromInteger(0))
         {
-            TurnOrWalk(0);
+            TurnOrWalk();
             return 113;
         }
     }
@@ -4910,12 +4891,14 @@ s16 Slig::Brain_Turning()
         SetDead(true);
         return 106;
     }
+
     if (mCurrentMotion == eSligMotions::Motion_5_TurnAroundStanding
         && GetAnimation().GetIsLastFrame())
     {
         WaitOrWalk();
         return 106;
     }
+
     if (GetAnimation().GetCurrentFrame() == 4)
     {
         if (GetAnimation().GetFlipX())
@@ -5065,7 +5048,7 @@ s16 Slig::Brain_Walking()
              || EventGet(kEventResetting))
     {
         if (Math_NextRandom() < field_174_tlv->mData.mPercentBeatMud
-            && FindBeatTarget(52, 2))
+            && FindBeatTarget(2))
         {
             mNextMotion = eSligMotions::Motion_0_StandIdle;
             SetBrain(&Slig::Brain_StoppingNextToMudokon);
@@ -5258,9 +5241,9 @@ s16 Slig::Brain_StoppingNextToMudokon()
     }
 
     //TODO OG BUG: Sligs beat up dead muds, fix from AE:
-    //BaseAliveGameObject* pBeatTarget = FindBeatTarget_4BD070(static_cast<s32>(AOTypes::eRingOrLiftMud_81), 1);
+    //BaseAliveGameObject* pBeatTarget = FindBeatTarget(static_cast<s32>(AOTypes::eRingOrLiftMud_81), 1);
     //if (!pBeatTarget || pBeatTarget->mHealth <= FP_FromInteger(0))
-    if (!FindBeatTarget(static_cast<s32>(AOTypes::eRingOrLiftMud_52), 1))
+    if (!FindBeatTarget(1))
     {
         WaitOrWalk();
         return 128;

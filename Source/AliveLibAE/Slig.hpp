@@ -5,58 +5,58 @@
 #include "../relive_lib/data_conversion/relive_tlvs.hpp"
 
 #define SLIG_MOTIONS_ENUM_AE(ENTRY)         \
-    ENTRY(M_StandIdle_0_4B4EC0)          \
-    ENTRY(M_StandToWalk_1_4B5F70)        \
-    ENTRY(M_Walking_2_4B5BC0)            \
-    ENTRY(M_StandToRun_3_4B62F0)         \
-    ENTRY(M_Running_4_4B6000)            \
-    ENTRY(M_TurnAroundStanding_5_4B6390) \
-    ENTRY(M_Shoot_6_4B55A0)              \
-    ENTRY(M_Falling_7_4B42D0)            \
-    ENTRY(M_SlidingToStand_8_4B6520)     \
-    ENTRY(M_SlidingTurn_9_4B6680)        \
-    ENTRY(M_SlidingTurnToWalk_10_4B6800) \
-    ENTRY(M_SlidingTurnToRun_11_4B6850)  \
-    ENTRY(M_ReloadGun_12_4B5530)         \
-    ENTRY(M_ShootToStand_13_4B5580)      \
-    ENTRY(M_SteppingToStand_14_4B8480)   \
-    ENTRY(M_StandingToStep_15_4B83B0)    \
-    ENTRY(M_DepossessingAbort_16_4B8250) \
-    ENTRY(M_GameSpeak_17_4B5290)         \
-    ENTRY(M_WalkToStand_18_4B5FC0)       \
-    ENTRY(M_Recoil_19_4B8270)            \
-    ENTRY(M_SpeakHereBoy_20_4B5330)      \
-    ENTRY(M_SpeakHi_21_4B53D0)           \
-    ENTRY(M_SpeakFreeze_22_4B53F0)       \
-    ENTRY(M_SpeakGetHim_23_4B5410)        \
-    ENTRY(M_SpeakLaugh_24_4B5430)        \
-    ENTRY(M_SpeakBullshit1_25_4B5450)    \
-    ENTRY(M_SpeakLookOut_26_4B5470)      \
-    ENTRY(M_SpeakBullshit2_27_4B5490)    \
-    ENTRY(M_SpeakPanic_28_4B54B0)        \
-    ENTRY(M_SpeakWhat_29_4B54D0)         \
-    ENTRY(M_SpeakAIFreeze_30_4B54F0)     \
-    ENTRY(M_Blurgh_31_4B5510)            \
-    ENTRY(M_Sleeping_32_4B89A0)          \
-    ENTRY(M_SleepingToStand_33_4B8C50)   \
-    ENTRY(M_Knockback_34_4B68A0)         \
-    ENTRY(M_KnockbackToStand_35_4B6A30)  \
-    ENTRY(M_Depossessing_36_4B7F30)      \
-    ENTRY(M_Possess_37_4B72C0)           \
-    ENTRY(M_OutToFall_38_4B4570)         \
-    ENTRY(M_FallingInitiate_39_4B4640)   \
-    ENTRY(M_LandingSoft_40_4B4530)       \
-    ENTRY(M_LandingFatal_41_4B4680)      \
-    ENTRY(M_ShootZ_42_4B7560)            \
-    ENTRY(M_ShootZtoStand_43_4B77E0)     \
-    ENTRY(M_Smash_44_4B6B90)             \
-    ENTRY(M_PullLever_45_4B8950)         \
-    ENTRY(M_LiftGrip_46_4B3700)          \
-    ENTRY(M_LiftUngrip_47_4B3820)        \
-    ENTRY(M_LiftGripping_48_4B3850)      \
-    ENTRY(M_LiftUp_49_4B3930)            \
-    ENTRY(M_LiftDown_50_4B3960)          \
-    ENTRY(M_Beat_51_4B6C00)
+    ENTRY(Motion_0_StandIdle)          \
+    ENTRY(Motion_1_StandToWalk)        \
+    ENTRY(Motion_2_Walking)            \
+    ENTRY(Motion_3_StandToRun)         \
+    ENTRY(Motion_4_Running)            \
+    ENTRY(Motion_5_TurnAroundStanding) \
+    ENTRY(Motion_6_Shoot)              \
+    ENTRY(Motion_7_Falling)            \
+    ENTRY(Motion_8_SlidingToStand)     \
+    ENTRY(Motion_9_SlidingTurn)        \
+    ENTRY(Motion_10_SlidingTurnToWalk) \
+    ENTRY(Motion_11_SlidingTurnToRun)  \
+    ENTRY(Motion_12_ReloadGun)         \
+    ENTRY(Motion_13_ShootToStand)      \
+    ENTRY(Motion_14_SteppingToStand)   \
+    ENTRY(Motion_15_StandingToStep)    \
+    ENTRY(Motion_16_DepossessingAbort) \
+    ENTRY(Motion_17_GameSpeak)         \
+    ENTRY(Motion_18_WalkToStand)       \
+    ENTRY(Motion_19_Recoil)            \
+    ENTRY(Motion_20_SpeakHereBoy)      \
+    ENTRY(Motion_21_SpeakHi)           \
+    ENTRY(Motion_22_SpeakFreeze)       \
+    ENTRY(Motion_23_SpeakGetHim)        \
+    ENTRY(Motion_24_SpeakLaugh)        \
+    ENTRY(Motion_25_SpeakBullshit1)    \
+    ENTRY(Motion_26_SpeakLookOut)      \
+    ENTRY(Motion_27_SpeakBullshit2)    \
+    ENTRY(Motion_28_SpeakPanic)        \
+    ENTRY(Motion_29_SpeakWhat)         \
+    ENTRY(Motion_30_SpeakAIFreeze)     \
+    ENTRY(Motion_31_Blurgh)            \
+    ENTRY(Motion_32_Sleeping)          \
+    ENTRY(Motion_33_SleepingToStand)   \
+    ENTRY(Motion_34_Knockback)         \
+    ENTRY(Motion_35_KnockbackToStand)  \
+    ENTRY(Motion_36_Depossessing)      \
+    ENTRY(Motion_37_Possess)           \
+    ENTRY(Motion_38_OutToFall)         \
+    ENTRY(Motion_39_FallingInitiate)   \
+    ENTRY(Motion_40_LandingSoft)       \
+    ENTRY(Motion_41_LandingFatal)      \
+    ENTRY(Motion_42_ShootZ)            \
+    ENTRY(Motion_43_ShootZtoStand)     \
+    ENTRY(Motion_44_Smash)             \
+    ENTRY(Motion_45_PullLever)         \
+    ENTRY(Motion_46_LiftGrip)          \
+    ENTRY(Motion_47_LiftUngrip)        \
+    ENTRY(Motion_48_LiftGripping)      \
+    ENTRY(Motion_49_LiftUp)            \
+    ENTRY(Motion_50_LiftDown)          \
+    ENTRY(Motion_51_Beat)
 
 #define MAKE_ENUM(VAR) VAR,
 enum eSligMotions : s32
@@ -83,14 +83,7 @@ enum class SligSfx : s16
     ePropeller3_11 = 11, // Apparently unused
     eCollideWithWall1_12 = 12,
     eCollideWithWall2_13 = 13,
-
-    ePadding_14 = 14,
-    ePadding_15 = 15,
-    ePadding_16 = 16
 };
-
-
-
 
 enum class LevelIds : s16;
 
@@ -100,8 +93,7 @@ using TSligMotionFn = void (Slig::*)();
 
 struct SligSaveState final
 {
-    ReliveTypes field_0_type;
-    s16 field_2_padding;
+    ReliveTypes mType;
     FP field_4_xpos;
     FP field_8_ypos;
     FP field_C_velx;
@@ -119,49 +111,36 @@ struct SligSaveState final
     s16 field_2A_frame_change_counter;
     s8 field_2C_bRender;
     s8 field_2D_bDrawable;
-    s16 field_2E_padding;
     FP field_30_health;
     s16 field_34_current_motion;
     s16 field_36_next_motion;
     s16 field_38_last_line_ypos;
     s16 field_3A_collision_line_type;
-    s16 field_3C_padding;
-    s16 field_3E_padding;
     s8 field_40_bActiveChar;
-    s8 field_41_padding;
     s16 field_42_brain_sub_state;
     s16 field_44_pitch_min;
-    s16 field_46_padding;
     s32 field_48_timer;
     s16 field_4C_return_to_previous_motion;
     s16 field_4E_checked_if_off_screen;
     s16 field_50_input;
-    s16 field_52_padding;
     s32 field_54_timer;
     FP field_58_falling_velx_scale_factor;
     Guid field_5C_tlvInfo;
     s16 field_60_res_idx;
     s16 field_62_shot_motion;
     PSX_RECT field_64_zone_rect;
-    s16 field_6C_unused;
-    s16 field_6E_unused;
-    s16 field_70_unused;
     EReliveLevelIds field_72_return_level;
     s16 field_74_return_path;
     s16 field_76_return_camera;
     s32 field_78_death_by_being_shot_timer;
     s32 field_7C_explode_timer;
     s32 field_80_brain_state_idx;
-    s16 field_84_padding;
-    s16 field_86_padding;
-    s32 field_88_unused;
     s32 field_8C_num_times_to_shoot;
     s16 field_90_force_alive_state;
     s16 field_92_spotted_possessed_slig;
     Guid field_94_glukkon_id;
     s16 field_98_state_after_speak;
     s16 field_9A_attention_timeout;
-    s16 field_9C_unused;
     s16 field_9E_next_command_arg1;
     s16 field_A0_cmd_idx;
     bool mFollowGlukkon;
@@ -197,64 +176,64 @@ public:
     virtual s32 VGetSaveState(u8* pSaveBuffer) override;
 
     static s32 CreateFromSaveState(const u8* pBuffer);
-    static s16 IsAbeEnteringDoor_4BB990(IBaseAliveGameObject* pThis);
+    static s16 IsAbeEnteringDoor(IBaseAliveGameObject* pThis);
 
     bool vUnderGlukkonCommand_4B1760();
     void SetBrain(TSligBrainFn fn);
     bool BrainIs(TSligBrainFn fn);
 
-    void M_StandIdle_0_4B4EC0();
-    void M_StandToWalk_1_4B5F70();
-    void M_Walking_2_4B5BC0();
-    void M_StandToRun_3_4B62F0();
-    void M_Running_4_4B6000();
-    void M_TurnAroundStanding_5_4B6390();
-    void M_Shoot_6_4B55A0();
-    void M_Falling_7_4B42D0();
-    void M_SlidingToStand_8_4B6520();
-    void M_SlidingTurn_9_4B6680();
-    void M_SlidingTurnToWalk_10_4B6800();
-    void M_SlidingTurnToRun_11_4B6850();
-    void M_ReloadGun_12_4B5530();
-    void M_ShootToStand_13_4B5580();
-    void M_SteppingToStand_14_4B8480();
-    void M_StandingToStep_15_4B83B0();
-    void M_DepossessingAbort_16_4B8250();
-    void M_GameSpeak_17_4B5290();
-    void M_WalkToStand_18_4B5FC0();
-    void M_Recoil_19_4B8270();
-    void M_SpeakHereBoy_20_4B5330();
-    void M_SpeakHi_21_4B53D0();
-    void M_SpeakFreeze_22_4B53F0();
-    void M_SpeakGetHim_23_4B5410();
-    void M_SpeakLaugh_24_4B5430();
-    void M_SpeakBullshit1_25_4B5450();
-    void M_SpeakLookOut_26_4B5470();
-    void M_SpeakBullshit2_27_4B5490();
-    void M_SpeakPanic_28_4B54B0();
-    void M_SpeakWhat_29_4B54D0();
-    void M_SpeakAIFreeze_30_4B54F0();
-    void M_Blurgh_31_4B5510();
-    void M_Sleeping_32_4B89A0();
-    void M_SleepingToStand_33_4B8C50();
-    void M_Knockback_34_4B68A0();
-    void M_KnockbackToStand_35_4B6A30();
-    void M_Depossessing_36_4B7F30();
-    void M_Possess_37_4B72C0();
-    void M_OutToFall_38_4B4570();
-    void M_FallingInitiate_39_4B4640();
-    void M_LandingSoft_40_4B4530();
-    void M_LandingFatal_41_4B4680();
-    void M_ShootZ_42_4B7560();
-    void M_ShootZtoStand_43_4B77E0();
-    void M_Smash_44_4B6B90();
-    void M_PullLever_45_4B8950();
-    void M_LiftGrip_46_4B3700();
-    void M_LiftUngrip_47_4B3820();
-    void M_LiftGripping_48_4B3850();
-    void M_LiftUp_49_4B3930();
-    void M_LiftDown_50_4B3960();
-    void M_Beat_51_4B6C00();
+    void Motion_0_StandIdle();
+    void Motion_1_StandToWalk();
+    void Motion_2_Walking();
+    void Motion_3_StandToRun();
+    void Motion_4_Running();
+    void Motion_5_TurnAroundStanding();
+    void Motion_6_Shoot();
+    void Motion_7_Falling();
+    void Motion_8_SlidingToStand();
+    void Motion_9_SlidingTurn();
+    void Motion_10_SlidingTurnToWalk();
+    void Motion_11_SlidingTurnToRun();
+    void Motion_12_ReloadGun();
+    void Motion_13_ShootToStand();
+    void Motion_14_SteppingToStand();
+    void Motion_15_StandingToStep();
+    void Motion_16_DepossessingAbort();
+    void Motion_17_GameSpeak();
+    void Motion_18_WalkToStand();
+    void Motion_19_Recoil();
+    void Motion_20_SpeakHereBoy();
+    void Motion_21_SpeakHi();
+    void Motion_22_SpeakFreeze();
+    void Motion_23_SpeakGetHim();
+    void Motion_24_SpeakLaugh();
+    void Motion_25_SpeakBullshit1();
+    void Motion_26_SpeakLookOut();
+    void Motion_27_SpeakBullshit2();
+    void Motion_28_SpeakPanic();
+    void Motion_29_SpeakWhat();
+    void Motion_30_SpeakAIFreeze();
+    void Motion_31_Blurgh();
+    void Motion_32_Sleeping();
+    void Motion_33_SleepingToStand();
+    void Motion_34_Knockback();
+    void Motion_35_KnockbackToStand();
+    void Motion_36_Depossessing();
+    void Motion_37_Possess();
+    void Motion_38_OutToFall();
+    void Motion_39_FallingInitiate();
+    void Motion_40_LandingSoft();
+    void Motion_41_LandingFatal();
+    void Motion_42_ShootZ();
+    void Motion_43_ShootZtoStand();
+    void Motion_44_Smash();
+    void Motion_45_PullLever();
+    void Motion_46_LiftGrip();
+    void Motion_47_LiftUngrip();
+    void Motion_48_LiftGripping();
+    void Motion_49_LiftUp();
+    void Motion_50_LiftDown();
+    void Motion_51_Beat();
 
     s16 Brain_Death_0_4BBFB0();
     s16 Brain_ReturnControlToAbeAndDie_1_4BC410();
@@ -306,19 +285,19 @@ public:
 
 private:
     void Init();
-    void vShot_4B2EA0();
-    void vUpdateAnim_4B1320();
+    void VShot();
+    void VUpdateAnimData();
     void HandleDDCheat();
-    void WakeUp_4B93B0();
-    void ShouldStillBeAlive_4BBC00();
-    void ToTurn_4BE090();
-    void RespondWithWhat_4BF400();
-    void ToShoot_4BF9A0();
-    void ToZShoot_4BF9E0();
-    void PauseALittle_4BDD00();
-    void ToStand_4B4A20();
-    void BlowToGibs_4B8020();
-    s16 MainMovement_4B4720();
+    void WakeUp();
+    void ShouldStillBeAlive();
+    void ToTurn();
+    void RespondWithWhat();
+    void ToShoot();
+    void ToZShoot();
+    void PauseALittle();
+    void ToStand();
+    void BlowToGibs();
+    s16 MainMovement();
 
     enum class MovementDirection
     {
@@ -331,44 +310,47 @@ private:
     s16 ToShootZ();
     s16 LeftRigtMovement(MovementDirection direction);
     s16 GrabNearbyLift();
-    s16 HandlePlayerControlled_4B7800();
-    s16 GetNextMotionIncGameSpeak_4B5080(s32 input);
-    void WaitOrWalk_4BE870();
-    void ToAbeDead_4B3580();
-    void ToUnderGlukkonCommand_4B9660();
-    void ToKilledAbe_4B3600();
-    bool IsWallBetween_4BB8B0(IBaseAliveGameObject* pLeft, IBaseAliveGameObject* pRight);
-    GameSpeakEvents LastGlukkonSpeak_4B3090();
-    s16 ListenToGlukkonCommands_4B95D0();
-    void PlatformCollide_4B4E00();
-    void FallKnockBackOrSmash_4B4A90();
-    void TurnOrSayWhat_4BEBC0();
-    void GameSpeakResponse_4BF470();
-    void GoAlertedOrSayWhat_4BF140();
-    static s32 IsFacingEffectiveLeft_4BB780(Slig* pSlig);
-    void MoveOnLine_4B4C40();
-    void PlayerControlStopWalkingIfRequired_4B8540();
-    void CheckPlatformVanished_4B3640();
-    s16 MoveLift_4B3990(FP ySpeed);
-    void SlowDown_4B6450(FP speed);
-    void ToChase_4BCFF0();
-    s16 HandleEnemyStopper_4BBA00(s32 gridBlocks);
-    void ToPanicYelling_4BCBA0();
-    void ToPanicTurn_4BC750();
-    static s16 SligStableDelay_4B99B0();
-    void PlayerControlRunningSlideStopOrTurnFrame12_4B8790();
-    void PlayerControlRunningSlideStopOrTurnFrame4_4B85D0();
-    IBaseAliveGameObject* FindBeatTarget_4BD070(ReliveTypes typeToBeat, s32 gridBlocks);
-    void TurnOrWalk_4BD6A0(s32 a2);
-    void ToPanicRunning_4BCA30();
-    void RespondToEnemyOrPatrol_4B3140();
-    s16 FindSwitch_4B9A50();
-    s16 NearOrFacingActiveChar_4B9930(IBaseAliveGameObject* pObj);
-    static s16 InZCover_4BB7C0(IBaseAliveGameObject* pObj);
-    static bool RenderLayerIs_4BBBC0(IBaseAliveGameObject* pThis);
-    void NextCommand_4B9A00(s16 speakTableIndex, s16 responseState);
-    s16 HeardGlukkonToListenTo_4B9690(GameSpeakEvents glukkonSpeak);
-    s16 FindLiftPoint_4B9B40();
+    s16 HandlePlayerControlled();
+    s16 GetNextMotionIncGameSpeak(s32 input);
+    void WaitOrWalk();
+    void ToAbeDead();
+    void ToUnderGlukkonCommand();
+    void ToKilledAbe();
+    bool IsWallBetween(IBaseAliveGameObject* pLeft, IBaseAliveGameObject* pRight);
+    GameSpeakEvents LastGlukkonSpeak();
+    s16 ListenToGlukkonCommands();
+    void PlatformCollide();
+    void ToKnockBack();
+    void TurnOrSayWhat();
+    void GameSpeakResponse();
+    void GoAlertedOrSayWhat();
+    static s32 IsFacingEffectiveLeft(Slig* pSlig);
+    void MoveOnLine();
+    void PlayerControlStopWalkingIfRequired();
+    void CheckPlatformVanished();
+    s16 MoveLift(FP ySpeed);
+    void SlowDown(FP speed);
+    void ToChase();
+    s16 HandleEnemyStopper(s32 gridBlocks);
+    void ToPanic();
+    void ToPanicTurn();
+    static s16 SligStableDelay();
+
+    // TODO: AO has a helper function
+    void PlayerControlRunningSlideStopOrTurnFrame12();
+    void PlayerControlRunningSlideStopOrTurnFrame4();
+
+    IBaseAliveGameObject* FindBeatTarget(s32 gridBlocks);
+    void TurnOrWalk();
+    void ToPanicRunning();
+    void RespondToEnemyOrPatrol();
+    s16 FindLever();
+    s16 NearOrFacingActiveChar(IBaseAliveGameObject* pObj);
+    static s16 IsInZCover(IBaseAliveGameObject* pObj);
+    static bool InAnyWellRenderLayer(IBaseAliveGameObject* pThis);
+    void NextGlukkonCommand(s16 speakTableIndex, s16 responseState);
+    s16 HeardGlukkonToListenTo(GameSpeakEvents glukkonSpeak);
+    s16 FindLiftPoint();
     AnimId MotionToAnimId(u32 motion);
 
 public:
@@ -393,12 +375,9 @@ private:
     s32 field_150_explode_timer = 0;
     TSligBrainFn mBrainState = nullptr;
     s16 field_158_num_times_to_shoot = 0;
-    s16 field_15A_unused = 0;
     s16 field_15C_force_alive_state = 0;
     s16 field_15E_spotted_possessed_slig = 0;
     s32 field_160_last_event_index = 0;
-    s16 field_174_unused = 0;
-    s16 field_176_unused = 0;
     std::shared_ptr<AnimationPal> field_178_mPal;
     s16 field_200_red = 0;
     s16 field_202_green = 0;

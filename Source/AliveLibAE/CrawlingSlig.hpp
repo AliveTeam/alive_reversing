@@ -15,7 +15,6 @@ enum class SligSpeak : s8;
 struct CrawlingSligSaveState final
 {
     ReliveTypes mType;
-    s16 field_2_padding;
     Guid mBaseTlvId;
     FP mXPos;
     FP mYPos;
@@ -38,32 +37,20 @@ struct CrawlingSligSaveState final
     s16 mNextMotion;
     s16 mLastLineYPos;
     s16 mCollisionLineType;
-    s16 field_3C_padding;
-    s16 field_3E_padding;
     s8 mControlled;
-    s8 field_41_padding;
-    s16 field_42_padding;
     Guid mCrawlingSligTlvId;
     s32 mBrainState;
-    s16 field_4C_padding;
-    s16 field_4E_padding;
     s16 mBrainSubState;
-    s16 field_52_padding;
     s32 mMultiUseTimer;
     FP mVelxScaleFactor;
-    s16 field_5C_padding;
     s16 mChanting;
     EReliveLevelIds mAbeLevel;
     s16 mAbePath;
     s16 mAbeCamera;
-    s16 field_66_unused;
-    s32 field_68_unused;
     Guid mSligButtonTlvId;
     Guid field_70_obj_id;
     Guid mTransformedSligId;
     SligSpeak mSpeak;
-    s8 field_79_padding;
-    s16 field_7A_unused_counter;
     s32 mSayHelpTimer;
 };
 

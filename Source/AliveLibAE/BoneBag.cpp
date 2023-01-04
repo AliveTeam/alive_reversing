@@ -53,7 +53,7 @@ BoneBag::BoneBag(relive::Path_BoneBag* pTlv, const Guid& tlvId)
     GetAnimation().SetSemiTrans(false);
     SetTint(&kBoneBagTints[0], gMap.mCurrentLevel);
 
-    mIsBagHit = false;
+    mHasBeenHit = false;
     mTlvInfo = tlvId;
 
     mXPos = FP_FromInteger((pTlv->mTopLeftX + pTlv->mBottomRightX) / 2);
@@ -81,7 +81,7 @@ BoneBag::BoneBag(relive::Path_BoneBag* pTlv, const Guid& tlvId)
     }
 
     mBoneAmount = pTlv->mBoneAmount;
-    mAllowSound = true;
+    mPlayWobbleSound = true;
     mForcePlayWobbleSound = true;
 
     CreateShadow();
@@ -106,11 +106,11 @@ void BoneBag::VUpdate()
 
     if (GetAnimation().GetCurrentFrame() == 2)
     {
-        if (mAllowSound)
+        if (mPlayWobbleSound)
         {
             if (Math_NextRandom() < 40 || mForcePlayWobbleSound)
             {
-                mAllowSound = false;
+                mPlayWobbleSound = false;
                 mForcePlayWobbleSound = false;
                 SFX_Play_Pitch(relive::SoundEffects::SackWobble, 24, Math_RandomRange(-2400, -2200));
             }
@@ -118,12 +118,12 @@ void BoneBag::VUpdate()
     }
     else
     {
-        mAllowSound = false;
+        mPlayWobbleSound = false;
     }
 
-    if (mIsBagHit)
+    if (mHasBeenHit)
     {
-        if (mIsBagHit != 1)
+        if (mHasBeenHit != 1)
         {
             return;
         }
@@ -134,7 +134,7 @@ void BoneBag::VUpdate()
         }
 
         GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::BoneBag_Idle));
-        mIsBagHit = false;
+        mHasBeenHit = false;
         return;
     }
 
@@ -160,7 +160,7 @@ void BoneBag::VUpdate()
                 {
                     GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::BoneBag_SoftHit));
                 }
-                mIsBagHit = true;
+                mHasBeenHit = true;
                 return;
             }
         }
@@ -190,6 +190,6 @@ void BoneBag::VUpdate()
             GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::BoneBag_SoftHit));
         }
 
-        mIsBagHit = true;
+        mHasBeenHit = true;
     }
 }

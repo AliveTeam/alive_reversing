@@ -48,7 +48,6 @@ MineCar::MineCar(relive::Path_MineCar* pTlv, const Guid& tlvId, s32 /*a4*/, s32 
     mYPos = FP_FromInteger(pTlv->mTopLeftY);
 
     SetDoPurpleLightEffect(true);
-    field_1BE_unused = 0;
     GetAnimation().SetRenderLayer(Layer::eLayer_Shadow_26);
     SetSpriteScale(FP_FromInteger(1));
     SetScale(Scale::Fg);
@@ -87,7 +86,6 @@ MineCar::MineCar(relive::Path_MineCar* pTlv, const Guid& tlvId, s32 /*a4*/, s32 
 
     CreateShadow();
 
-    field_1C0_unused = 0;
     field_1C2_falling_counter = 0;
 
     // What was pressed before we started to move
@@ -238,8 +236,6 @@ s32 MineCar::CreateFromSaveState(const u8* pBuffer)
 
         pMineCar->field_11C_state = pState->field_50_state;
         pMineCar->field_1BC_turn_direction = pState->field_52_turn_direction;
-        pMineCar->field_1BE_unused = pState->field_54_unused;
-        pMineCar->field_1C0_unused = pState->field_56_unused;
 
         pMineCar->field_1C2_falling_counter = pState->field_58_falling_counter;
 
@@ -724,12 +720,6 @@ s32 MineCar::VGetSaveState(u8* pSaveBuffer)
         default:
             break;
     }
-
-    pState->field_34_unused = static_cast<s16>(mTreadAnim.GetCurrentFrame());
-    pState->field_36_unused = static_cast<s16>(mTreadAnim.GetFrameChangeCounter());
-
-    pState->field_32_unused = mTreadAnim.GetFlipX();
-    pState->field_30_unused = mTreadAnim.GetRender();
     
     switch (mTreadAnim.mAnimRes.mId)
     {
@@ -779,8 +769,6 @@ s32 MineCar::VGetSaveState(u8* pSaveBuffer)
     pState->field_50_state = field_11C_state;
 
     pState->field_52_turn_direction = field_1BC_turn_direction;
-    pState->field_54_unused = field_1BE_unused;
-    pState->field_56_unused = field_1C0_unused;
 
     pState->field_58_falling_counter = field_1C2_falling_counter;
     pState->field_5C_frame_mod_16 = field_1C8_frame_mod_16;

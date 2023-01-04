@@ -20,9 +20,9 @@ public:
 
 private:
     Guid mTlvInfo;
-    bool mIsBagHit = false;
+    bool mHasBeenHit = false;
     s16 mBoneAmount = 0;
-    bool mAllowSound = false;
+    bool mPlayWobbleSound = false;
     bool mForcePlayWobbleSound = false;
     FP mTlvVelX = {};
     FP mTlvVelY = {};

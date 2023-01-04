@@ -18,12 +18,12 @@ public:
     virtual void VUpdate() override;
 
 private:
-    Guid field_10C_tlvInfo;
-    s16 field_110_has_been_hit = 0;
-    s16 field_112_rock_amount = 0;
-    s16 field_114_can_play_wobble_sound = 0;
-    s16 field_116_force_wobble_sound = 0;
-    FP field_118_x_vel = {};
-    FP field_11C_y_vel = {};
+    Guid mTlvId;
+    bool mHasBeenHit = false;
+    s16 mRockAmount = 0;
+    bool mPlayWobbleSound = false;
+    bool mForceWobbleSound = false;
+    FP mTlvVelX = {};
+    FP mTlvVelY = {};
 };
 }

@@ -3345,7 +3345,7 @@ struct SligSaveState final
     static ::SligSaveState From(const SligSaveState& data)
     {
         ::SligSaveState d;
-        d.field_0_type = BaseGameObject::FromAE(data.field_0_type);
+        d.mType = BaseGameObject::FromAE(data.field_0_type);
         d.field_4_xpos = data.field_4_xpos;
         d.field_8_ypos = data.field_8_ypos;
         d.field_C_velx = data.field_C_velx;

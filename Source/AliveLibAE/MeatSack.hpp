@@ -20,7 +20,7 @@ public:
 
 private:
     Guid mTlvId;
-    bool mDoMeatSackIdleAnim = false;
+    bool mHasBeenHit = false;
     s16 mMeatAmount = 0;
     bool mPlayWobbleSound = false;
     FP mTlvVelX = {};

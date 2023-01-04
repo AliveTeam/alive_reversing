@@ -31,16 +31,16 @@ RockSack::RockSack(relive::Path_RockSack* pTlv, const Guid& tlvId)
 
     SetApplyShadowZoneColour(false);
 
-    field_118_tlvInfo = tlvId;
-    field_11C_has_been_hit = 0;
+    mTlvId = tlvId;
+    mHasBeenHit = false;
     mXPos = FP_FromInteger((pTlv->mTopLeftX + pTlv->mBottomRightX) / 2);
     mYPos = FP_FromInteger(pTlv->mBottomRightY);
-    field_124_x_vel = FP_FromRaw(pTlv->mVelX << 8);
-    field_128_y_vel = FP_FromRaw(-256 * pTlv->mVelY);
+    mTlvVelX = FP_FromRaw(pTlv->mVelX << 8);
+    mTlvVelY = FP_FromRaw(-256 * pTlv->mVelY);
 
     if (pTlv->mRockFallDirection == relive::reliveXDirection::eLeft)
     {
-        field_124_x_vel = -field_124_x_vel;
+        mTlvVelX = -mTlvVelX;
     }
 
     if (pTlv->mScale == relive::reliveScale::eHalf)
@@ -54,9 +54,9 @@ RockSack::RockSack(relive::Path_RockSack* pTlv, const Guid& tlvId)
         SetScale(Scale::Fg);
     }
 
-    field_11E_rock_amount = pTlv->mRockAmount;
-    field_120_can_play_wobble_sound = 1;
-    field_122_force_wobble_sound = 1;
+    mRockAmount = pTlv->mRockAmount;
+    mPlayWobbleSound = true;
+    mForceWobbleSound = true;
 
     CreateShadow();
 
@@ -65,7 +65,7 @@ RockSack::RockSack(relive::Path_RockSack* pTlv, const Guid& tlvId)
 
 RockSack::~RockSack()
 {
-    Path::TLV_Reset(field_118_tlvInfo, -1, 0, 0);
+    Path::TLV_Reset(mTlvId, -1, 0, 0);
 }
 
 void RockSack::VScreenChanged()
@@ -82,27 +82,27 @@ void RockSack::VUpdate()
 
     if (GetAnimation().GetCurrentFrame() == 2)
     {
-        if (field_120_can_play_wobble_sound)
+        if (mPlayWobbleSound)
         {
-            if (Math_NextRandom() < 40u || field_122_force_wobble_sound)
+            if (Math_NextRandom() < 40u || mForceWobbleSound)
             {
-                field_120_can_play_wobble_sound = 0;
-                field_122_force_wobble_sound = 0;
+                mPlayWobbleSound = false;
+                mForceWobbleSound = false;
                 SFX_Play_Pitch(relive::SoundEffects::SackWobble, 24, Math_RandomRange(-2400, -2200));
             }
         }
     }
     else
     {
-        field_120_can_play_wobble_sound = 1;
+        mPlayWobbleSound = true;
     }
 
-    if (field_11C_has_been_hit)
+    if (mHasBeenHit)
     {
-        if (field_11C_has_been_hit == 1 && GetAnimation().GetIsLastFrame())
+        if (GetAnimation().GetIsLastFrame())
         {
             GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::RockSack_Idle));
-            field_11C_has_been_hit = 0;
+            mHasBeenHit = false;
         }
     }
     else
@@ -133,7 +133,7 @@ void RockSack::VUpdate()
                     {
                         GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::RockSack_SoftHit));
                     }
-                    field_11C_has_been_hit = 1;
+                    mHasBeenHit = true;
                     return;
                 }
             }
@@ -142,12 +142,12 @@ void RockSack::VUpdate()
                 gpThrowableArray = relive_new ThrowableArray();
             }
 
-            gpThrowableArray->Add(field_11E_rock_amount);
+            gpThrowableArray->Add(mRockAmount);
 
-            auto pRock = relive_new Rock(mXPos, mYPos - FP_FromInteger(30), field_11E_rock_amount);
+            auto pRock = relive_new Rock(mXPos, mYPos - FP_FromInteger(30), mRockAmount);
             if (pRock)
             {
-                pRock->VThrow(field_124_x_vel, field_128_y_vel);
+                pRock->VThrow(mTlvVelX, mTlvVelY);
             }
 
             SfxPlayMono(relive::SoundEffects::SackHit, 0);
@@ -162,7 +162,7 @@ void RockSack::VUpdate()
                 GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::RockSack_SoftHit));
             }
 
-            field_11C_has_been_hit = 1;
+            mHasBeenHit = true;
         }
     }
 }

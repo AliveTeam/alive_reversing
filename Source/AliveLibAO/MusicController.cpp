@@ -41,26 +41,6 @@ s32 Psx_Root_Counter_Event_Free_49C2B0(s32 event)
     return 1;
 }
 
-s32 Psx_Root_Counter_49C3B0(s32 /*not_used*/)
-{
-    return 0;
-}
-
-s32 Psx_Root_Counter_49C340(s32 /*a1*/, s32 /*a2*/)
-{
-    return 0;
-}
-
-s32 Psx_Root_Counter_49C360(s32 /*not_used*/)
-{
-    return 0;
-}
-
-s32 Psx_Root_Counter_49C370(s32 /*counter*/)
-{
-    return 0;
-}
-
 struct MusicController_Record3_Sub final
 {
     s32 field_0_count;
@@ -311,10 +291,6 @@ s16 MusicController::Create()
         MusicController::SetBaseTimeStamp();
 
         psx_root_event_507BA0 = Psx_Root_Counter_49C280(RCntCNT3, 2, 4096, MusicController::OnRootCounter);
-        Psx_Root_Counter_49C3B0(psx_root_event_507BA0);
-        Psx_Root_Counter_49C340(RCntCNT3, 1);
-        Psx_Root_Counter_49C360(RCntCNT3);
-        Psx_Root_Counter_49C370(RCntCNT3);
 
         if (pMusicController_507B98->field_10_bEnableMusic)
         {

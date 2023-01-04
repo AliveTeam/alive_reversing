@@ -101,7 +101,7 @@ void LiftMover::VUpdate()
             }
             else
             {
-                pLiftPoint->Move(FP_FromInteger(0), mLiftSpeed, 0);
+                pLiftPoint->Move(FP_FromInteger(0), mLiftSpeed);
 
                 if ((mLiftSpeed > FP_FromInteger(0) && pLiftPoint->OnBottomFloor()) || (mLiftSpeed < FP_FromInteger(0) && pLiftPoint->OnTopFloor()))
                 {
@@ -113,11 +113,11 @@ void LiftMover::VUpdate()
         case LiftMoverStates::eMovingDown_2:
             if (!pLiftPoint->OnAFloorLiftMoverCanUse())
             {
-                pLiftPoint->Move(FP_FromInteger(0), mLiftSpeed, 0);
+                pLiftPoint->Move(FP_FromInteger(0), mLiftSpeed);
             }
             else
             {
-                pLiftPoint->Move(FP_FromInteger(0), FP_FromInteger(0), 0);
+                pLiftPoint->Move(FP_FromInteger(0), FP_FromInteger(0));
                 mState = LiftMoverStates::eMovingDone_5;
             }
             break;
@@ -125,7 +125,7 @@ void LiftMover::VUpdate()
         case LiftMoverStates::eStartMovingUp_3:
             if (pLiftPoint->OnAFloorLiftMoverCanUse())
             {
-                pLiftPoint->Move(FP_FromInteger(0), mLiftSpeed, 0);
+                pLiftPoint->Move(FP_FromInteger(0), mLiftSpeed);
 
                 if ((mLiftSpeed > FP_FromInteger(0) && pLiftPoint->OnBottomFloor()) || (mLiftSpeed < FP_FromInteger(0) && pLiftPoint->OnTopFloor()))
                 {
@@ -142,13 +142,13 @@ void LiftMover::VUpdate()
         case LiftMoverStates::eMovingUp_4:
             if (pLiftPoint->OnAFloorLiftMoverCanUse())
             {
-                pLiftPoint->Move(FP_FromInteger(0), FP_FromInteger(0), 0);
+                pLiftPoint->Move(FP_FromInteger(0), FP_FromInteger(0));
                 mState = LiftMoverStates::eInactive_0;
                 mLiftSpeed = -mLiftSpeed;
             }
             else
             {
-                pLiftPoint->Move(FP_FromInteger(0), mLiftSpeed, 0);
+                pLiftPoint->Move(FP_FromInteger(0), mLiftSpeed);
             }
             break;
 

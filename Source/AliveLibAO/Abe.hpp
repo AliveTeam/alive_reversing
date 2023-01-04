@@ -348,7 +348,7 @@ public:
     void ToNewElumSyncMotion(s32 elum_frame);
     void SetActiveControlledCharacter();
     PullRingRope* GetPullRope();
-    void ElumKnockForward(s32 not_used);
+    void ElumKnockForward();
     s16 TryMountElum();
     void BulletDamage(Bullet* a2);
     s16 RunTryEnterDoor();

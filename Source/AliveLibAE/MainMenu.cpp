@@ -568,8 +568,6 @@ MainMenuController::MainMenuController(relive::Path_TLV* /*pTlv*/, const Guid& t
 
     field_1FC_button_index = 0;
     field_208_transition_obj = 0;
-    field_20C_pUnused = nullptr;
-    field_210_pUnused = nullptr;
     field_23A_Inside_LoadGame_Screen = 0;
     field_234_pStr = &byte_5C2F68;
     field_238_unused = 0;
@@ -799,11 +797,6 @@ MainMenuNextCam MainMenuController::AbeSpeak_Update_4D2D20(u32 input_held)
                                             // Stop chanting music
                                             SND_SEQ_Stop(SeqId::MudokonChant1_10);
 
-                                            // TODO: Extra case for Abe - recover the type
-                                            if (field_20C_pUnused)
-                                            {
-                                                ALIVE_FATAL("Never expected to be used");
-                                            }
                                             return MainMenuNextCam(MainMenuCams::eGamespeakCharacterSelectionCam);
 
                                         default:
@@ -1712,11 +1705,6 @@ MainMenuNextCam MainMenuController::LoadNewGame_Update_4D0920(u32 /*input*/)
                 field_20C_pUnused->SetDead(true);
             }
 
-            if (field_210_pUnused)
-            {
-                field_210_pUnused->SetDead(true);
-            }
-
             SetDead(true);
 
             sActiveHero->mXPos = FP_FromInteger(0);
@@ -1801,11 +1789,6 @@ MainMenuNextCam MainMenuController::LoadNewGame_Update_4D0920(u32 /*input*/)
     if (field_20C_pUnused)
     {
         field_20C_pUnused->SetDead(true);
-    }
-
-    if (field_210_pUnused)
-    {
-        field_210_pUnused->SetDead(true);
     }
 
     SetDead(true);
@@ -1999,10 +1982,6 @@ MainMenuNextCam MainMenuController::LoadDemo_Update_4D1040(u32)
         if (field_20C_pUnused)
         {
             field_20C_pUnused->SetDead(true);
-        }
-        if (field_210_pUnused)
-        {
-            field_210_pUnused->SetDead(true);
         }
         SetDead(true);
 
@@ -2722,25 +2701,10 @@ MainMenuNextCam MainMenuController::HandleGameSpeakInput(u32 input_held, std::fu
         field_230_target_entry_index = 8;
         field_1FC_button_index = NO_SELECTABLE_BUTTONS;
 
-        if (field_210_pUnused)
-        {
-            // TODO: Recover type
-            u16* pUnknown = (u16*) field_210_pUnused;
-            pUnknown[124] = 1;
-            field_210_pUnused = nullptr;
-        }
-
         return fnOnGameSpeak(InputCommands::Enum::eBack);
     }
     else
     {
-        if (field_210_pUnused)
-        {
-            // TODO: Recover type
-            u16* pUnknown = (u16*) field_210_pUnused;
-            pUnknown[124] = 1;
-            field_210_pUnused = nullptr;
-        }
         return MainMenuNextCam(MainMenuCams::eNoChange);
     }
 }
@@ -3325,12 +3289,6 @@ void MainMenuController::AnimationAndSoundLogic_4CFE80()
                     {
                         ALIVE_FATAL("Never expected field_20C to be used");
                     }
-
-                    if (field_210_pUnused)
-                    {
-                        ALIVE_FATAL("Never expected field_210_pUnknown to be used");
-                    }
-
 
                     mChantSeqPlaying = false;
                     Set_Anim_4D05E0(eAbe_ChantEnd);

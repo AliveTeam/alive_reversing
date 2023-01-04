@@ -137,7 +137,7 @@ public:
     virtual bool VOnSameYLevel(BaseAnimatedWithPhysicsGameObject* pOther) override;
 
     void VUpdateAnimData();
-    void Vshot();
+    void VShot();
     void MoveOnLine();
     void ToKnockBack();
     void PlayerControlRunningSlideStopOrTurnFrame4();
@@ -161,10 +161,10 @@ public:
     void ToPanic();
     void ToChase();
     void ToKilledAbe();
-    s16 FindBeatTarget(s32 typeToFind, s32 gridBlocks);
+    s16 FindBeatTarget(s32 gridBlocks);
     s16 HandleEnemyStopper(s32 gridBlocks);
     void RespondToEnemyOrPatrol();
-    void TurnOrWalk(s32 a2);
+    void TurnOrWalk();
     void ToPanicTurn();
     void PlayerControlRunningSlideStopOrTurn(s16 last_anim_frame);
     s16 GetNextMotionIncGameSpeak(u16 input);

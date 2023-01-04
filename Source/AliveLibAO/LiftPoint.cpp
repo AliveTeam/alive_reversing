@@ -215,7 +215,7 @@ LiftPoint::LiftPoint(relive::Path_LiftPoint* pTlv, Map* pPath, const Guid& tlvId
     }
 }
 
-void LiftPoint::Move(FP xSpeed, FP ySpeed, s32 /*not_used*/)
+void LiftPoint::Move(FP xSpeed, FP ySpeed)
 {
     mVelX = xSpeed;
     mVelY = ySpeed;

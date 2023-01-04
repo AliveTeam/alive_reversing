@@ -44,7 +44,6 @@ DDCheat::DDCheat()
     SetType(ReliveTypes::eDDCheat);
     field_14_SelectedCheat = 0;
     field_18_backInputPressed = 0;
-    field_1C_unused = 0;
     field_20_bTeleportCheatActive = 0;
 
     ClearProperties();

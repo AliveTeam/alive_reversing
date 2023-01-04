@@ -2098,7 +2098,7 @@ PullRingRope* Abe::GetPullRope()
     return nullptr;
 }
 
-void Abe::ElumKnockForward(s32 /*not_used*/)
+void Abe::ElumKnockForward()
 {
     ToKnockback(1, 1);
     mCurrentMotion = eAbeMotions::Motion_128_KnockForward;
@@ -2216,7 +2216,7 @@ void Abe::BulletDamage(Bullet* pBullet)
                     }
                     else
                     {
-                        ElumKnockForward(1);
+                        ElumKnockForward();
                     }
 
                     if (GetAnimation().GetFlipX() != (pBullet->mXDistance > FP_FromInteger(0)))
@@ -2297,7 +2297,7 @@ void Abe::BulletDamage(Bullet* pBullet)
                 }
                 else
                 {
-                    ElumKnockForward(1);
+                    ElumKnockForward();
                     mCurrentMotion = eAbeMotions::Motion_148_Shot;
                     mbMotionChanged = true;
                     mbGotShot = false;
@@ -2412,7 +2412,7 @@ s16 Abe::MoveLiftUpOrDown(FP yVelocity)
         return eAbeMotions::Motion_135_LiftGrabIdle;
     }
 
-    pLiftPoint->Move(FP_FromInteger(0), yVelocity, 0);
+    pLiftPoint->Move(FP_FromInteger(0), yVelocity);
     FollowLift();
 
     if (gBeeInstanceCount && gBeesNearAbe)
@@ -2462,7 +2462,7 @@ s16 Abe::MoveLiftUpOrDown(FP yVelocity)
         return eAbeMotions::Motion_134_LiftGrabEnd;
     }
 
-    pLiftPoint->Move(FP_FromInteger(0), FP_FromInteger(0), 0);
+    pLiftPoint->Move(FP_FromInteger(0), FP_FromInteger(0));
     return eAbeMotions::Motion_135_LiftGrabIdle;
 }
 
@@ -3097,7 +3097,7 @@ bool Abe::VTakeDamage(BaseGameObject* pFrom)
 
                     if (mRidingElum)
                     {
-                        ElumKnockForward(1);
+                        ElumKnockForward();
                         mbGotShot = false;
                     }
                 }
@@ -8117,7 +8117,7 @@ void Abe::Motion_132_LiftUseDown()
 void Abe::Motion_133_LiftGrabBegin()
 {
     auto pLiftPoint = static_cast<LiftPoint*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
-    pLiftPoint->Move(FP_FromInteger(0), FP_FromInteger(0), 0);
+    pLiftPoint->Move(FP_FromInteger(0), FP_FromInteger(0));
 
     mVelY = FP_FromInteger(0);
     if (GetAnimation().GetIsLastFrame())
@@ -8157,7 +8157,7 @@ void Abe::Motion_135_LiftGrabIdle()
 
     FollowLift();
 
-    pLiftPoint->Move(FP_FromInteger(0), FP_FromInteger(0), 0);
+    pLiftPoint->Move(FP_FromInteger(0), FP_FromInteger(0));
 
     mVelY = FP_FromInteger(0);
 
@@ -8362,7 +8362,7 @@ void Abe::Motion_141_BeesStrugglingOnLift()
 {
     LiftPoint* pLiftPoint = static_cast<LiftPoint*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
 
-    pLiftPoint->Move(FP_FromInteger(0), FP_FromInteger(12), 0);
+    pLiftPoint->Move(FP_FromInteger(0), FP_FromInteger(12));
 
     mVelY = pLiftPoint->mVelY;
     if (pLiftPoint->GetDead())

@@ -279,17 +279,6 @@ void DDCheat::VUpdate()
             gDDCheat_ShowAI_Info = false;
         }
 
-        // Unused
-        //if (!(sGnFrame % 10))
-        //{
-        //    sDDCheat_Unknown_5BC004 = 0;
-        //    for (s32 i = 0; i < 24; i++)
-        //    {
-        //        if (sub_4FA7C0()) // Always returns 0
-        //            ++sDDCheat_Unknown_5BC004;
-        //    }
-        //}
-
         if (gDDCheat_FlyingEnabled || gDDCheat_ShowAI_Info || sDDCheat_AlwaysShow)
         {
             DebugStr(
