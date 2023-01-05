@@ -1734,7 +1734,7 @@ void VulkanRenderer::Draw(Poly_FT4& poly)
     if (poly.mCam && !poly.mFg1)
     {
         CamResource* pRes = poly.mCam;
-        std::shared_ptr<Texture> texture = mTextureCache[mCurrentFrame].GetCachedTexture(poly.mCam->mUniqueId.Id(), 300); // TODO: temp, kill texture ASAP
+        std::shared_ptr<Texture> texture = mTextureCache[mCurrentFrame].GetCachedTexture(poly.mCam->mUniqueId.Id(), 300);
         if (!texture)
         {
             auto newTex = std::make_unique<Texture>(*this, pRes->mData.mWidth, pRes->mData.mHeight, pRes->mData.mPixels->data(), Texture::Format::RGBA);
@@ -1747,7 +1747,7 @@ void VulkanRenderer::Draw(Poly_FT4& poly)
     else if (poly.mCam && poly.mFg1)
     {
         Fg1Layer* pRes = poly.mFg1;
-        std::shared_ptr<Texture> texture = mTextureCache[mCurrentFrame].GetCachedTexture(poly.mFg1->mUniqueId.Id(), 300); // TODO: temp, kill texture ASAP
+        std::shared_ptr<Texture> texture = mTextureCache[mCurrentFrame].GetCachedTexture(poly.mFg1->mUniqueId.Id(), 300);
         if (!texture)
         {
             auto newTex = std::make_unique<Texture>(*this, pRes->mImage.mWidth, pRes->mImage.mHeight, pRes->mImage.mPixels->data(), Texture::Format::RGBA);
@@ -1763,19 +1763,32 @@ void VulkanRenderer::Draw(Poly_FT4& poly)
         const u32 palIndex = PreparePalette(*animRes.mCurPal);
 
         auto pTga = animRes.mTgaPtr;
-        std::shared_ptr<Texture> texture = mTextureCache[mCurrentFrame].GetCachedTexture(animRes.mUniqueId.Id(), 300); // TODO: temp, kill texture ASAP
+        std::shared_ptr<Texture> texture = mTextureCache[mCurrentFrame].GetCachedTexture(animRes.mUniqueId.Id(), 300);
         if (!texture)
         {
             auto newTex = std::make_unique<Texture>(*this, pTga->mWidth, pTga->mHeight, pTga->mPixels.data(), Texture::Format::Indexed);
             texture = mTextureCache[mCurrentFrame].Add(animRes.mUniqueId.Id(), 300, std::move(newTex));
         }
 
-        auto& batch = mBatcher[mCurrentFrame].PushAnim(poly, palIndex, texture); // TODO: texture
+        auto& batch = mBatcher[mCurrentFrame].PushAnim(poly, palIndex, texture);
         batch.mPipeline = batch.mBlendMode == 2 ? PipelineIndex::eReverseBlending : PipelineIndex::eAddBlending;
     }
     else if (poly.mFont)
     {
-        // TODO
+        FontResource& fontRes = poly.mFont->mFntResource;
+        std::shared_ptr<TgaData> pTga = fontRes.mTgaPtr;
+
+        const u32 palIndex = PreparePalette(*fontRes.mCurPal);
+
+        std::shared_ptr<Texture> texture = mTextureCache[mCurrentFrame].GetCachedTexture(poly.mFont->mFntResource.mUniqueId.Id(), 300);
+        if (!texture)
+        {
+            auto newTex = std::make_unique<Texture>(*this, pTga->mWidth, pTga->mHeight, pTga->mPixels.data(), Texture::Format::Indexed);
+            texture = mTextureCache[mCurrentFrame].Add(poly.mFont->mFntResource.mUniqueId.Id(), 300, std::move(newTex));
+        }
+       
+        auto& batch = mBatcher[mCurrentFrame].PushFont(poly, palIndex, texture);
+        batch.mPipeline = batch.mBlendMode == 2 ? PipelineIndex::eReverseBlending : PipelineIndex::eAddBlending;
     }
 }
 

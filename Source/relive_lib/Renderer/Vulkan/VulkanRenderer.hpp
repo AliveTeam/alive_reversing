@@ -264,6 +264,76 @@ public:
         return addedTo;
     }
 
+    RenderBatch& PushFont(const Poly_FT4& poly, u32 palIndex, std::shared_ptr<TextureType>& texture)
+    {
+        FontContext* fontRes = poly.mFont;
+
+        const u8 r = poly.mBase.header.rgb_code.r;
+        const u8 g = poly.mBase.header.rgb_code.g;
+        const u8 b = poly.mBase.header.rgb_code.b;
+
+        const RGB rgbs[4] = {
+            {r, g, b},
+            {r, g, b},
+            {r, g, b},
+            {r, g, b},
+        };
+
+        const u32 isShaded = GetPolyIsShaded(&poly) ? 1 : 0;
+        const u32 isSemiTrans = GetPolyIsSemiTrans(&poly) ? 1 : 0;
+        const u32 blendMode = GetTPageBlendMode(GetTPage(&poly));
+
+        // Changing to or from mode 2
+        if (mConstructingBatch.mBlendMode != 2 && blendMode == 2 || mConstructingBatch.mBlendMode == 2 && blendMode != 2)
+        {
+            NewBatch();
+        }
+        mConstructingBatch.mBlendMode = blendMode;
+
+        auto pTga = fontRes->mFntResource.mTgaPtr;
+
+        f32 u0 = U0(&poly) / (f32) pTga->mWidth;
+        f32 v0 = V0(&poly) / (f32) pTga->mHeight;
+
+        f32 u1 = U3(&poly) / (f32) pTga->mWidth;
+        f32 v1 = V3(&poly) / (f32) pTga->mHeight;
+
+        const u32 textureIdx = mConstructingBatch.TextureIdxForId(fontRes->mFntResource.mUniqueId.Id());
+
+        const QuadUvs uvs = {
+            u0, v0,
+            u1, v1};
+
+        const QuadVerts verts = {
+            static_cast<f32>(poly.mBase.vert.x),
+            static_cast<f32>(poly.mBase.vert.y),
+            static_cast<f32>(poly.mVerts[0].mVert.x),
+            static_cast<f32>(poly.mVerts[0].mVert.y),
+            static_cast<f32>(poly.mVerts[1].mVert.x),
+            static_cast<f32>(poly.mVerts[1].mVert.y),
+            static_cast<f32>(poly.mVerts[2].mVert.x),
+            static_cast<f32>(poly.mVerts[2].mVert.y),
+        };
+
+        PushQuad(IRenderer::PsxDrawMode::DefaultFT4, verts, uvs, rgbs, palIndex, isShaded, blendMode, isSemiTrans, textureIdx);
+
+        if (mConstructingBatch.AddTexture(fontRes->mFntResource.mUniqueId.Id()))
+        {
+            mBatchTextures.emplace_back(texture);
+        }
+
+        RenderBatch& addedTo = mConstructingBatch;
+
+        // Over the texture limit or changed to/from subtractive blending
+        const bool bNewBatch = (mConstructingBatch.mTexturesInBatch == kTextureBatchSize);
+        if (bNewBatch)
+        {
+            NewBatch();
+        }
+
+        return addedTo;
+    }
+
     RenderBatch& PushAnim(const Poly_FT4& poly, u32 palIndex, std::shared_ptr<TextureType>& texture)
     {
         AnimResource& animRes = poly.mAnim->mAnimRes;
