@@ -1707,23 +1707,6 @@ void VulkanRenderer::Draw(Poly_G3&)
   
 }
 
-/*
-void VulkanRenderer::SetupBlendMode(u16 blendMode)
-{
-    if ((TPageAbr) blendMode == TPageAbr::eBlend_2)
-    {
-        //DX_VERIFY(mDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA));
-        //DX_VERIFY(mDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE));
-        //DX_VERIFY(mDevice->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_REVSUBTRACT));
-    }
-    else
-    {
-        //DX_VERIFY(mDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_ONE));
-        //DX_VERIFY(mDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_SRCALPHA));
-        //DX_VERIFY(mDevice->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD));
-    }
-}*/
-
 u32 VulkanRenderer::PreparePalette(AnimationPal& pCache)
 {
     const PaletteCache::AddResult addRet = mPaletteCache[mCurrentFrame].Add(pCache);
@@ -1748,8 +1731,6 @@ inline u16 GetTPageBlendMode(u16 tpage)
 
 void VulkanRenderer::Draw(Poly_FT4& poly)
 {
-    constexpr u32 kTextureBatchSize = 14;
-
     if (poly.mCam && !poly.mFg1)
     {
         CamResource* pRes = poly.mCam;
@@ -1759,51 +1740,14 @@ void VulkanRenderer::Draw(Poly_FT4& poly)
             auto newTex = std::make_unique<Texture>(*this, pRes->mData.mWidth, pRes->mData.mHeight, pRes->mData.mPixels->data(), Texture::Format::RGBA);
 
             texture = mTextureCache[mCurrentFrame].Add(poly.mCam->mUniqueId.Id(), 300, std::move(newTex));
-
         }
-        mBatcher[mCurrentFrame].mCamTexture = texture;
 
-        // TODO: temp haxo
-        {
-            float u0 = 0.0f;
-            float v0 = 0.0f;
-
-            float u1 = 1.0f;
-            float v1 = 1.0f;
-
-            mBatcher[mCurrentFrame].mVertices.push_back({{static_cast<f32>(poly.mBase.vert.x), static_cast<f32>(poly.mBase.vert.y)}, {255, 255, 255}, {u0, v0}, mBatcher[mCurrentFrame].mConstructingBatch.mTexturesInBatch, 0, PsxDrawMode::Camera, 0, 0, 0});
-            mBatcher[mCurrentFrame].mVertices.push_back({{static_cast<f32>(poly.mVerts[0].mVert.x), static_cast<f32>(poly.mVerts[0].mVert.y)}, {255, 255, 255}, {u1, v0}, mBatcher[mCurrentFrame].mConstructingBatch.mTexturesInBatch, 0, PsxDrawMode::Camera, 0, 0, 0});
-            mBatcher[mCurrentFrame].mVertices.push_back({{static_cast<f32>(poly.mVerts[1].mVert.x), static_cast<f32>(poly.mVerts[1].mVert.y)}, {255, 255, 255}, {u0, v1}, mBatcher[mCurrentFrame].mConstructingBatch.mTexturesInBatch, 0, PsxDrawMode::Camera, 0, 0, 0});
-            mBatcher[mCurrentFrame].mVertices.push_back({{static_cast<f32>(poly.mVerts[2].mVert.x), static_cast<f32>(poly.mVerts[2].mVert.y)}, {255, 255, 255}, {u1, v1}, mBatcher[mCurrentFrame].mConstructingBatch.mTexturesInBatch, 0, PsxDrawMode::Camera, 0, 0, 0});
-
-            mBatcher[mCurrentFrame].mIndices.emplace_back((u16) (mBatcher[mCurrentFrame].mIndexBufferIndex + 1));
-            mBatcher[mCurrentFrame].mIndices.emplace_back((u16) (mBatcher[mCurrentFrame].mIndexBufferIndex + 0));
-            mBatcher[mCurrentFrame].mIndices.emplace_back((u16) (mBatcher[mCurrentFrame].mIndexBufferIndex + 3));
-
-            mBatcher[mCurrentFrame].mIndices.emplace_back((u16) (mBatcher[mCurrentFrame].mIndexBufferIndex + 3));
-            mBatcher[mCurrentFrame].mIndices.emplace_back((u16) (mBatcher[mCurrentFrame].mIndexBufferIndex + 0));
-            mBatcher[mCurrentFrame].mIndices.emplace_back((u16) (mBatcher[mCurrentFrame].mIndexBufferIndex + 2));
-
-             mBatcher[mCurrentFrame].mIndexBufferIndex += 4;
-
-            // TODO: We are duplicating textures here
-            //mTexturesForThisFrame.emplace_back(texture);
-
-           // mTextureArrayIdx++;
-            mBatcher[mCurrentFrame].mConstructingBatch.mNumTrisToDraw += 2;
-
-            // Over the texture limit or changed to/from subtractive blending
-            const bool bNewBatch = (mBatcher[mCurrentFrame].mConstructingBatch.mTexturesInBatch == kTextureBatchSize);
-            if (bNewBatch)
-            {
-                mBatcher[mCurrentFrame].NewBatch();
-            }
-            else
-            {
-                mBatcher[mCurrentFrame].mConstructingBatch.mPipeline = PipelineIndex::eAddBlending;
-                mBatcher[mCurrentFrame].mBatchInProgress = true;
-            }
-        }
+        auto& batch = mBatcher[mCurrentFrame].PushCAM(poly, texture);
+        batch.mPipeline = PipelineIndex::eAddBlending;
+    }
+    else if (poly.mCam && poly.mFg1)
+    {
+        // TODO
     }
     else if (poly.mAnim)
     {
@@ -1816,81 +1760,15 @@ void VulkanRenderer::Draw(Poly_FT4& poly)
         if (!texture)
         {
             auto newTex = std::make_unique<Texture>(*this, pTga->mWidth, pTga->mHeight, pTga->mPixels.data(), Texture::Format::Indexed);
-
             texture = mTextureCache[mCurrentFrame].Add(animRes.mUniqueId.Id(), 300, std::move(newTex));
-
-            //mStats.mCamUploadCount++;
-        }
-       
-        u8 r = poly.mBase.header.rgb_code.r;
-        u8 g = poly.mBase.header.rgb_code.g;
-        u8 b = poly.mBase.header.rgb_code.b;
-
-        u32 isSemiTrans = GetPolyIsSemiTrans(&poly) ? 1 : 0;
-        u32 isShaded = GetPolyIsShaded(&poly) ? 1 : 0;
-        u32 blendMode = GetTPageBlendMode(GetTPage(&poly));
-
-        PipelineIndex pipeLine = blendMode == 2 ? PipelineIndex::eReverseBlending : PipelineIndex::eAddBlending;
-        if (mBatcher[mCurrentFrame].mConstructingBatch.mPipeline != pipeLine && mBatcher[mCurrentFrame].mConstructingBatch.mPipeline != PipelineIndex::eNone)
-        {
-            mBatcher[mCurrentFrame].NewBatch();
         }
 
-        const PerFrameInfo* pHeader = poly.mAnim->Get_FrameHeader(-1);
-
-        float u0 = (static_cast<float>(pHeader->mSpriteSheetX) / pTga->mWidth);
-        float v0 = (static_cast<float>(pHeader->mSpriteSheetY) / pTga->mHeight);
-
-        float u1 = u0 + ((float) pHeader->mWidth / (float) pTga->mWidth);
-        float v1 = v0 + ((float) pHeader->mHeight / (float) pTga->mHeight);
-
-        if (poly.mFlipX)
-        {
-            std::swap(u0, u1);
-        }
-
-        if (poly.mFlipY)
-        {
-            std::swap(v1, v0);
-        }
-
-        const u32 textureIdx = mBatcher[mCurrentFrame].mConstructingBatch.TextureIdxForId(animRes.mUniqueId.Id());
-
-        mBatcher[mCurrentFrame].mVertices.push_back({{static_cast<f32>(poly.mBase.vert.x), static_cast<f32>(poly.mBase.vert.y)}, {r, g, b}, {u0, v0}, textureIdx, palIndex, PsxDrawMode::DefaultFT4, isShaded, blendMode, isSemiTrans});
-        mBatcher[mCurrentFrame].mVertices.push_back({{static_cast<f32>(poly.mVerts[0].mVert.x), static_cast<f32>(poly.mVerts[0].mVert.y)}, {r, g, b}, {u1, v0}, textureIdx, palIndex, PsxDrawMode::DefaultFT4, isShaded, blendMode, isSemiTrans});
-        mBatcher[mCurrentFrame].mVertices.push_back({{static_cast<f32>(poly.mVerts[1].mVert.x), static_cast<f32>(poly.mVerts[1].mVert.y)}, {r, g, b}, {u0, v1}, textureIdx, palIndex, PsxDrawMode::DefaultFT4, isShaded, blendMode, isSemiTrans});
-        mBatcher[mCurrentFrame].mVertices.push_back({{static_cast<f32>(poly.mVerts[2].mVert.x), static_cast<f32>(poly.mVerts[2].mVert.y)}, {r, g, b}, {u1, v1}, textureIdx, palIndex, PsxDrawMode::DefaultFT4, isShaded, blendMode, isSemiTrans});
-    
-        mBatcher[mCurrentFrame].mIndices.emplace_back((u16) (mBatcher[mCurrentFrame].mIndexBufferIndex + 1));
-        mBatcher[mCurrentFrame].mIndices.emplace_back((u16) (mBatcher[mCurrentFrame].mIndexBufferIndex + 0));
-        mBatcher[mCurrentFrame].mIndices.emplace_back((u16) (mBatcher[mCurrentFrame].mIndexBufferIndex + 3));
-
-        mBatcher[mCurrentFrame].mIndices.emplace_back((u16) (mBatcher[mCurrentFrame].mIndexBufferIndex + 3));
-        mBatcher[mCurrentFrame].mIndices.emplace_back((u16) (mBatcher[mCurrentFrame].mIndexBufferIndex + 0));
-        mBatcher[mCurrentFrame].mIndices.emplace_back((u16) (mBatcher[mCurrentFrame].mIndexBufferIndex + 2));
-
-        mBatcher[mCurrentFrame].mIndexBufferIndex += 4;
-
-        if (mBatcher[mCurrentFrame].mConstructingBatch.AddTexture(animRes.mUniqueId.Id()))
-        {
-            mBatcher[mCurrentFrame].mBatchTextures.emplace_back(texture);
-        }
-
-        mBatcher[mCurrentFrame].mConstructingBatch.mNumTrisToDraw += 2;
-
-        // Over the texture limit or changed to/from subtractive blending
-        const bool bNewBatch = (mBatcher[mCurrentFrame].mConstructingBatch.mTexturesInBatch == kTextureBatchSize);
-        if (bNewBatch)
-        {
-            mBatcher[mCurrentFrame].NewBatch();
-        }
-        else
-        {
-            mBatcher[mCurrentFrame].mConstructingBatch.mPipeline = pipeLine;
-            mBatcher[mCurrentFrame].mBatchInProgress = true;
-        }
-
-
+        auto& batch = mBatcher[mCurrentFrame].PushAnim(poly, palIndex, texture); // TODO: texture
+        batch.mPipeline = batch.mBlendMode == 2 ? PipelineIndex::eReverseBlending : PipelineIndex::eAddBlending;
+    }
+    else if (poly.mFont)
+    {
+        // TODO
     }
 }
 
