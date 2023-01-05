@@ -1738,7 +1738,6 @@ void VulkanRenderer::Draw(Poly_FT4& poly)
         if (!texture)
         {
             auto newTex = std::make_unique<Texture>(*this, pRes->mData.mWidth, pRes->mData.mHeight, pRes->mData.mPixels->data(), Texture::Format::RGBA);
-
             texture = mTextureCache[mCurrentFrame].Add(poly.mCam->mUniqueId.Id(), 300, std::move(newTex));
         }
 
@@ -1747,7 +1746,15 @@ void VulkanRenderer::Draw(Poly_FT4& poly)
     }
     else if (poly.mCam && poly.mFg1)
     {
-        // TODO
+        Fg1Layer* pRes = poly.mFg1;
+        std::shared_ptr<Texture> texture = mTextureCache[mCurrentFrame].GetCachedTexture(poly.mFg1->mUniqueId.Id(), 300); // TODO: temp, kill texture ASAP
+        if (!texture)
+        {
+            auto newTex = std::make_unique<Texture>(*this, pRes->mImage.mWidth, pRes->mImage.mHeight, pRes->mImage.mPixels->data(), Texture::Format::RGBA);
+            texture = mTextureCache[mCurrentFrame].Add(pRes->mUniqueId.Id(), 300, std::move(newTex));
+        }
+        auto& batch = mBatcher[mCurrentFrame].PushFG1(poly, texture);
+        batch.mPipeline = PipelineIndex::eAddBlending;
     }
     else if (poly.mAnim)
     {

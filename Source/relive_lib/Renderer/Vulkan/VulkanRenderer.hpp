@@ -175,6 +175,53 @@ public:
         u8 b;
     };
 
+    RenderBatch& PushFG1(const Poly_FT4& poly, std::shared_ptr<TextureType>& texture)
+    {
+        const QuadUvs uvs = {
+            0.0f, 0.0f,
+            1.0f, 1.0f};
+
+        const QuadVerts verts = {
+            static_cast<f32>(poly.mBase.vert.x),
+            static_cast<f32>(poly.mBase.vert.y),
+            static_cast<f32>(poly.mVerts[0].mVert.x),
+            static_cast<f32>(poly.mVerts[0].mVert.y),
+            static_cast<f32>(poly.mVerts[1].mVert.x),
+            static_cast<f32>(poly.mVerts[1].mVert.y),
+            static_cast<f32>(poly.mVerts[2].mVert.x),
+            static_cast<f32>(poly.mVerts[2].mVert.y),
+        };
+
+        const u8 r = 255;
+        const u8 g = 255;
+        const u8 b = 255;
+
+        const RGB rgbs[4] = {
+            {r, g, b},
+            {r, g, b},
+            {r, g, b},
+            {r, g, b},
+        };
+
+        const u32 textureIdx = mConstructingBatch.TextureIdxForId(poly.mFg1->mUniqueId.Id());
+        PushQuad(IRenderer::PsxDrawMode::FG1, verts, uvs, rgbs, 0, 0, 0, 0, textureIdx);
+        if (mConstructingBatch.AddTexture(poly.mFg1->mUniqueId.Id()))
+        {
+            mBatchTextures.emplace_back(texture);
+        }
+
+        RenderBatch& addedTo = mConstructingBatch;
+
+        // Over the texture limit or changed to/from subtractive blending
+        const bool bNewBatch = (mConstructingBatch.mTexturesInBatch == kTextureBatchSize);
+        if (bNewBatch)
+        {
+            NewBatch();
+        }
+
+        return addedTo;
+    }
+
     RenderBatch& PushCAM(const Poly_FT4& poly, std::shared_ptr<TextureType>& texture)
     {
         const QuadUvs uvs = 
