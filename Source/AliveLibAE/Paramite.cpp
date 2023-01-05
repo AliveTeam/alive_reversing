@@ -2472,7 +2472,7 @@ s16 Paramite::Brain_7_DeathDrop()
             return mBrainSubState;
         }
 
-        Environment_SFX_457A40(EnvironmentSfx::eFallingDeathScreamHitGround_15, 0, 0x7FFF, this);
+        Environment_SFX(EnvironmentSfx::eFallingDeathScreamHitGround_15, 0, 0x7FFF, this);
 
         relive_new ScreenShake(0, 0);
         field_130_timer = sGnFrame + 30;
@@ -3332,7 +3332,7 @@ void Paramite::Motion_3_Running()
             else
             {
                 Sound(ParamiteSpeak::LoudStep_3, 0);
-                Environment_SFX_457A40(EnvironmentSfx::eHitGroundSoft_6, 50, 600, 0);
+                Environment_SFX(EnvironmentSfx::eHitGroundSoft_6, 50, 600, 0);
             }
 
             if (sControlledCharacter != this || mHealth <= FP_FromInteger(0))
@@ -3556,7 +3556,7 @@ void Paramite::Motion_5_Hop()
             else if (GetAnimation().GetCurrentFrame() == 12)
             {
                 Sound(ParamiteSpeak::LoudStep_3, 0);
-                Environment_SFX_457A40(EnvironmentSfx::eHitGroundSoft_6, 55, 500, 0);
+                Environment_SFX(EnvironmentSfx::eHitGroundSoft_6, 55, 500, 0);
             }
         }
     }
@@ -3963,7 +3963,7 @@ void Paramite::Motion_14_JumpUpLand()
     else if (GetAnimation().GetCurrentFrame() == 1)
     {
         Sound(ParamiteSpeak::LoudStep_3, 0);
-        Environment_SFX_457A40(EnvironmentSfx::eHitGroundSoft_6, 55, 500, 0);
+        Environment_SFX(EnvironmentSfx::eHitGroundSoft_6, 55, 500, 0);
     }
 }
 
@@ -4065,7 +4065,7 @@ void Paramite::Motion_19_Knockback()
         if (GetCurrentMotion() == eParamiteMotions::Motion_41_Death || GetCurrentMotion() == eParamiteMotions::Motion_17_Landing)
         {
             SetCurrentMotion(eParamiteMotions::Motion_19_Knockback);
-            Environment_SFX_457A40(EnvironmentSfx::eHitGroundSoft_6, 80, -200, this);
+            Environment_SFX(EnvironmentSfx::eHitGroundSoft_6, 80, -200, this);
         }
     }
 
@@ -4545,7 +4545,7 @@ void Paramite::Motion_34_WebLeaveDown()
 {
     if (GetAnimation().GetCurrentFrame() == 2)
     {
-        Environment_SFX_457A40(EnvironmentSfx::eHitGroundSoft_6, 50, 600, 0);
+        Environment_SFX(EnvironmentSfx::eHitGroundSoft_6, 50, 600, 0);
         mXOffset = field_15C_paramite_xOffset;
     }
 

@@ -1229,7 +1229,7 @@ s16 CrawlingSlig::Brain_4_GetKilled()
             }
             else
             {
-                Environment_SFX_457A40(EnvironmentSfx::eFallingDeathScreamHitGround_15, 0, 0x7FFF, this);
+                Environment_SFX(EnvironmentSfx::eFallingDeathScreamHitGround_15, 0, 0x7FFF, this);
                 relive_new ScreenShake(0, 0);
                 mMultiUseTimer = sGnFrame + 30;
                 return Brain_4_GetKilled::eBrain4_SetDead_3;

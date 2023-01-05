@@ -1791,7 +1791,7 @@ s16 Scrab::Brain_2_Fighting()
             field_160_sfx_bitmask = 0;
             Scrab_SFX(ScrabSounds::eDeathHowl_1, 0, -1571, 1);
             Scrab_SFX(ScrabSounds::eYell_8, 0, -1571, 1);
-            Environment_SFX_457A40(EnvironmentSfx::eHitGroundSoft_6, 0, -383, 0);
+            Environment_SFX(EnvironmentSfx::eHitGroundSoft_6, 0, -383, 0);
 
             if (!GetAnimation().GetRender())
             {
@@ -2507,7 +2507,7 @@ void Scrab::Motion_7_HopLand()
 {
     if (GetAnimation().GetCurrentFrame() == 0)
     {
-        Environment_SFX_457A40(EnvironmentSfx::eHitGroundSoft_6, 80, 400, this);
+        Environment_SFX(EnvironmentSfx::eHitGroundSoft_6, 80, 400, this);
         Scrab_SFX(ScrabSounds::eHitCollision_4, 0, 0x7FFF, 1);
     }
 
@@ -2859,7 +2859,7 @@ void Scrab::Motion_18_Knockback()
 
     if (GetAnimation().GetCurrentFrame() == 0)
     {
-        Environment_SFX_457A40(EnvironmentSfx::eHitGroundSoft_6, 80, 400, this);
+        Environment_SFX(EnvironmentSfx::eHitGroundSoft_6, 80, 400, this);
     }
 
     else if (GetAnimation().GetCurrentFrame() == 2)
@@ -2892,7 +2892,7 @@ void Scrab::Motion_20_Fall()
 {
     if (GetAnimation().GetIsLastFrame())
     {
-        Environment_SFX_457A40(EnvironmentSfx::eHitGroundSoft_6, 80, 400, this);
+        Environment_SFX(EnvironmentSfx::eHitGroundSoft_6, 80, 400, this);
         Scrab_SFX(ScrabSounds::eHitCollision_4, 0, 0x7FFF, 1);
         ToStand();
         mNextMotion = -1;

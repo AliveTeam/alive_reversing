@@ -3051,7 +3051,7 @@ bool Glukkon::VTakeDamage(BaseGameObject* pFrom)
                 mHealth = FP_FromInteger(0);
                 SetBrain(&Glukkon::Brain_4_Death);
                 mBrainSubState = 5;
-                Environment_SFX_457A40(EnvironmentSfx::eKnockback_13, 0, 32767, this);
+                Environment_SFX(EnvironmentSfx::eKnockback_13, 0, 32767, this);
                 EventBroadcast(kEventMudokonComfort, this);
                 if (!VIsFacingMe(static_cast<BaseAnimatedWithPhysicsGameObject*>(pFrom)))
                 {

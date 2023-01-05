@@ -22,7 +22,7 @@ TimerTrigger::TimerTrigger(relive::Path_TimerTrigger* pTlv, const Guid& tlvId)
     mOutputSwitchIds[3] = pTlv->mOutputSwitchId4;
 
     mInputSwitchId = pTlv->mInputSwitchId;
-    mState = State::eWaitForEnabled_0;
+    mState = TimerTriggerStates::eWaitForEnabled_0;
 
     if (mInputSwitchId)
     {
@@ -49,36 +49,36 @@ void TimerTrigger::VUpdate()
 {
     switch (mState)
     {
-        case State::eWaitForEnabled_0:
+        case TimerTriggerStates::eWaitForEnabled_0:
             // If the value changes from what we first saw...
             if (SwitchStates_Get(mInputSwitchId) != mStartingSwitchState)
             {
-                mState = State::eWaitForFirstTrigger_1;
+                mState = TimerTriggerStates::eWaitForFirstTrigger_1;
                 mActivationDelayTimer = sGnFrame + mActivationDelay;
             }
             break;
 
-        case State::eWaitForFirstTrigger_1:
+        case TimerTriggerStates::eWaitForFirstTrigger_1:
             if (mActivationDelayTimer <= static_cast<s32>(sGnFrame))
             {
                 ToggleAllIds();
-                mState = State::eCheckForStartAgain_2;
+                mState = TimerTriggerStates::eCheckForStartAgain_2;
             }
             break;
 
-        case State::eCheckForStartAgain_2:
+        case TimerTriggerStates::eCheckForStartAgain_2:
             if (SwitchStates_Get(mInputSwitchId) == mStartingSwitchState)
             {
-                mState = State::eWaitForSecondTrigger_3;
+                mState = TimerTriggerStates::eWaitForSecondTrigger_3;
                 mActivationDelayTimer = sGnFrame + mActivationDelay;
             }
             break;
 
-        case State::eWaitForSecondTrigger_3:
+        case TimerTriggerStates::eWaitForSecondTrigger_3:
             if (mActivationDelayTimer <= static_cast<s32>(sGnFrame))
             {
                 ToggleAllIds();
-                mState = State::eWaitForEnabled_0;
+                mState = TimerTriggerStates::eWaitForEnabled_0;
             }
             break;
 
@@ -94,7 +94,7 @@ void TimerTrigger::VUpdate()
 
 void TimerTrigger::VScreenChanged()
 {
-    if (mState == State::eWaitForEnabled_0 || mState == State::eCheckForStartAgain_2 || gMap.LevelChanged() || gMap.PathChanged())
+    if (mState == TimerTriggerStates::eWaitForEnabled_0 || mState == TimerTriggerStates::eCheckForStartAgain_2 || gMap.LevelChanged() || gMap.PathChanged())
     {
         SetDead(true);
     }

@@ -147,7 +147,7 @@ void MeatSack::VUpdate()
             pMeat->SetSpriteScale(GetSpriteScale());
 
             SfxPlayMono(relive::SoundEffects::SackHit, 0);
-            Environment_SFX_457A40(EnvironmentSfx::eDeathNoise_7, 0, 0x7FFF, 0);
+            Environment_SFX(EnvironmentSfx::eDeathNoise_7, 0, 0x7FFF, 0);
 
             GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::MeatSack_Hit));
             mHasBeenHit = true;

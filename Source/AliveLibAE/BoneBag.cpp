@@ -179,7 +179,7 @@ void BoneBag::VUpdate()
         pBone->VThrow(mTlvVelX, mTlvVelY);
 
         SfxPlayMono(relive::SoundEffects::SackHit, 0);
-        Environment_SFX_457A40(EnvironmentSfx::eDeathNoise_7, 0, 0x7FFF, 0);
+        Environment_SFX(EnvironmentSfx::eDeathNoise_7, 0, 0x7FFF, 0);
 
         if (sActiveHero->mCurrentMotion == eAbeMotions::Motion_31_RunJumpMid_452C10)
         {

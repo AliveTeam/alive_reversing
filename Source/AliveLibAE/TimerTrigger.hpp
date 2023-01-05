@@ -21,7 +21,7 @@ struct TimerTriggerSaveState final
     Guid mTlvId;
     s32 mActivationDelayTimer;
     TimerTriggerStates mState;
-    s16 mStartingSwitchState;
+    s32 mStartingSwitchState;
 };
 
 class TimerTrigger final : public BaseGameObject
@@ -46,5 +46,5 @@ private:
     Guid mTlvInfo;
     s32 mActivationDelayTimer = 0;
     s32 mActivationDelay = 0;
-    s16 mStartingSwitchState = 0;
+    s32 mStartingSwitchState = 0;
 };

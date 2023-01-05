@@ -1360,7 +1360,7 @@ void Slig::Motion_8_SlidingToStand()
             }
             else if (GetAnimation().GetIsLastFrame())
             {
-                Environment_SFX_457A40(EnvironmentSfx::eSlideStop_0, 0, 0x7FFF, this);
+                Environment_SFX(EnvironmentSfx::eSlideStop_0, 0, 0x7FFF, this);
                 MapFollowMe(true);
                 MainMovement();
             }
@@ -1850,7 +1850,7 @@ void Slig::Motion_34_Knockback()
     EventBroadcast(kEventNoise, this);
     if (GetAnimation().GetCurrentFrame() == 4)
     {
-        Environment_SFX_457A40(EnvironmentSfx::eHitGroundSoft_6, 80, -200, this);
+        Environment_SFX(EnvironmentSfx::eHitGroundSoft_6, 80, -200, this);
     }
 
     if (GetAnimation().GetForwardLoopCompleted())
@@ -2064,7 +2064,7 @@ void Slig::Motion_40_LandingSoft()
 {
     if (GetAnimation().GetCurrentFrame() == 0)
     {
-        Environment_SFX_457A40(EnvironmentSfx::eHitGroundSoft_6, 0, 0x7FFF, 0);
+        Environment_SFX(EnvironmentSfx::eHitGroundSoft_6, 0, 0x7FFF, 0);
     }
 
     if (GetAnimation().GetIsLastFrame())
@@ -2164,7 +2164,7 @@ void Slig::Motion_44_Smash()
     {
         if (GetAnimation().GetCurrentFrame() == 4)
         {
-            Environment_SFX_457A40(EnvironmentSfx::eHitGroundSoft_6, 80, -200, this);
+            Environment_SFX(EnvironmentSfx::eHitGroundSoft_6, 80, -200, this);
         }
     }
     else
@@ -2593,7 +2593,7 @@ s16 Slig::Brain_DeathDropDeath_3_4BC1E0()
                 return mBrainSubState;
             }
 
-            Environment_SFX_457A40(EnvironmentSfx::eFallingDeathScreamHitGround_15, 0, 0x7FFF, this);
+            Environment_SFX(EnvironmentSfx::eFallingDeathScreamHitGround_15, 0, 0x7FFF, this);
 
             relive_new ScreenShake(0, 0);
 
@@ -5637,7 +5637,7 @@ void Slig::PlatformCollide()
 
 void Slig::ToKnockBack()
 {
-    Environment_SFX_457A40(EnvironmentSfx::eKnockback_13, 0, 0x7FFF, this);
+    Environment_SFX(EnvironmentSfx::eKnockback_13, 0, 0x7FFF, this);
 
     mXPos -= mVelX;
 
@@ -6637,7 +6637,7 @@ bool Slig::VTakeDamage(BaseGameObject* pFrom)
 
             SetBrain(&Slig::Brain_Death_0_4BBFB0);
 
-            Environment_SFX_457A40(EnvironmentSfx::eKnockback_13, 0, 0x7FFF, this);
+            Environment_SFX(EnvironmentSfx::eKnockback_13, 0, 0x7FFF, this);
 
             EventBroadcast(kEventMudokonComfort, this);
 

@@ -31,9 +31,10 @@ RockSack::RockSack(relive::Path_RockSack* pTlv, const Guid& tlvId)
 
     GetAnimation().SetSemiTrans(false);
 
+    SetApplyShadowZoneColour(false);
+
     mTlvId = tlvId;
     mHasBeenHit = false;
-    SetApplyShadowZoneColour(false);
     mXPos = FP_FromInteger(pTlv->mTopLeftX);
     mYPos = FP_FromInteger(pTlv->mTopLeftY);
     mTlvVelX = FP_FromRaw(pTlv->mVelX << 8);
@@ -126,24 +127,37 @@ void RockSack::VUpdate()
             && bRect.y <= bPlayerRect.h
             && GetSpriteScale() == sActiveHero->GetSpriteScale())
         {
-            if (!gThrowableArray || !gThrowableArray->mCount)
+            if (gThrowableArray)
             {
-                if (!gThrowableArray)
+                if (gThrowableArray->mCount)
                 {
-                    gThrowableArray = relive_new ThrowableArray();
+                    if (sActiveHero->mCurrentMotion == eAbeMotions::Motion_33_RunJumpMid)
+                    {
+                        GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::RockSack_HardHit));
+                    }
+                    else
+                    {
+                        GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::RockSack_SoftHit));
+                    }
+                    mHasBeenHit = true;
+                    return;
                 }
-
-                gThrowableArray->Add(mRockAmount);
-
-                auto pRock = relive_new Rock(mXPos, mYPos - FP_FromInteger(30), mRockAmount);
-                if (pRock)
-                {
-                    pRock->VThrow(mTlvVelX, mTlvVelY);
-                }
-
-                SfxPlayMono(relive::SoundEffects::SackHit, 0);
-                Environment_SFX(EnvironmentSfx::eDeathNoise_7, 0, 0x7FFF, 0);
             }
+            else
+            {
+                gThrowableArray = relive_new ThrowableArray();
+            }
+
+            gThrowableArray->Add(mRockAmount);
+
+            auto pRock = relive_new Rock(mXPos, mYPos - FP_FromInteger(30), mRockAmount);
+            if (pRock)
+            {
+                pRock->VThrow(mTlvVelX, mTlvVelY);
+            }
+
+            SfxPlayMono(relive::SoundEffects::SackHit, 0);
+            Environment_SFX(EnvironmentSfx::eDeathNoise_7, 0, 0x7FFF, 0);
 
             if (sActiveHero->mCurrentMotion == eAbeMotions::Motion_33_RunJumpMid)
             {

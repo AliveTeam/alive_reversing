@@ -116,10 +116,10 @@ void RockSack::VUpdate()
         const PSX_RECT bRect = VGetBoundingRect();
 
         if (bRect.x <= bPlayerRect.w 
-			&& bRect.w >= bPlayerRect.x 
-			&& bRect.h >= bPlayerRect.y 
-			&& bRect.y <= bPlayerRect.h 
-			&& GetSpriteScale() == sActiveHero->GetSpriteScale())
+            && bRect.w >= bPlayerRect.x 
+            && bRect.h >= bPlayerRect.y 
+            && bRect.y <= bPlayerRect.h 
+            && GetSpriteScale() == sActiveHero->GetSpriteScale())
         {
             if (gThrowableArray)
             {
@@ -151,7 +151,7 @@ void RockSack::VUpdate()
             }
 
             SfxPlayMono(relive::SoundEffects::SackHit, 0);
-            Environment_SFX_457A40(EnvironmentSfx::eDeathNoise_7, 0, 0x7FFF, 0);
+            Environment_SFX(EnvironmentSfx::eDeathNoise_7, 0, 0x7FFF, 0);
 
             if (sActiveHero->mCurrentMotion == eAbeMotions::Motion_31_RunJumpMid_452C10)
             {
