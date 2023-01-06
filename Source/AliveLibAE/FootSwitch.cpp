@@ -14,7 +14,7 @@
 #include "Path.hpp"
 #include "../relive_lib/FixedPoint.hpp"
 
-const TintEntry sFootSwitchTints_5639F4[16] = {
+static const TintEntry sFootSwitchTints[16] = {
     {EReliveLevelIds::eMenu, 127u, 127u, 127u},
     {EReliveLevelIds::eMines, 127u, 127u, 127u},
     {EReliveLevelIds::eNecrum, 127u, 127u, 127u},
@@ -33,7 +33,7 @@ const TintEntry sFootSwitchTints_5639F4[16] = {
     {EReliveLevelIds::eCredits, 127u, 127u, 127u}};
 
 
-const AnimId sFootSwitchData_547D60[15][2] = {
+static const AnimId sFootSwitchAnimIds[15][2] = {
     {AnimId::Foot_Switch_Industrial_Idle, AnimId::Foot_Switch_Industrial_Pressed},
     {AnimId::Foot_Switch_Industrial_Idle, AnimId::Foot_Switch_Industrial_Pressed},
     {AnimId::Foot_Switch_Industrial_Idle, AnimId::Foot_Switch_Industrial_Pressed},
@@ -79,11 +79,11 @@ FootSwitch::FootSwitch(relive::Path_FootSwitch* pTlv, const Guid& tlvId)
 
     const s32 idx = static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel));
 
-    Animation_Init(GetAnimRes(sFootSwitchData_547D60[idx][0]));
+    Animation_Init(GetAnimRes(sFootSwitchAnimIds[idx][0]));
 
     GetAnimation().SetRenderLayer(Layer::eLayer_BeforeShadow_25);
 
-    SetTint(sFootSwitchTints_5639F4, gMap.mCurrentLevel);
+    SetTint(sFootSwitchTints, gMap.mCurrentLevel);
 
     mSwitchId = pTlv->mSwitchId;
 
@@ -121,7 +121,7 @@ void FootSwitch::VUpdate()
         if (pLastStoodOnMe)
         {
             mStoodOnMeId = pLastStoodOnMe->mBaseGameObjectId;
-            GetAnimation().Set_Animation_Data(GetAnimRes(sFootSwitchData_547D60[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))][1]));
+            GetAnimation().Set_Animation_Data(GetAnimRes(sFootSwitchAnimIds[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))][1]));
             mState = States::eWaitForGetOffMe;
         }
     }
@@ -138,7 +138,7 @@ void FootSwitch::VUpdate()
                 SwitchStates_Do_Operation(mSwitchId, mAction);
                 mState = States::eWaitForGetOffMe;
 
-                GetAnimation().Set_Animation_Data(GetAnimRes(sFootSwitchData_547D60[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))][1]));
+                GetAnimation().Set_Animation_Data(GetAnimRes(sFootSwitchAnimIds[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))][1]));
 
                 relive_new ParticleBurst(mXPos,
                                                             mYPos + FP_FromInteger(10),
@@ -200,7 +200,7 @@ void FootSwitch::VUpdate()
                 pLastStoodOnMe->mXPos < FP_FromInteger(bRect.x) || pLastStoodOnMe->mXPos > FP_FromInteger(bRect.w) || pLastStoodOnMe->GetDead())
             {
                 mState = States::eWaitForStepOnMe;
-                GetAnimation().Set_Animation_Data(GetAnimRes(sFootSwitchData_547D60[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))][0]));
+                GetAnimation().Set_Animation_Data(GetAnimRes(sFootSwitchAnimIds[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))][0]));
                 mStoodOnMeId = Guid{};
             }
             break;

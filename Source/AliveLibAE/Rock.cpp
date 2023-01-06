@@ -65,6 +65,137 @@ Rock::Rock(FP xpos, FP ypos, s16 count)
     CreateShadow();
 }
 
+Rock::~Rock()
+{
+    if (!gInfiniteThrowables && !mBaseThrowableDead)
+    {
+        if (gThrowableArray)
+        {
+            gThrowableArray->Remove(mBaseThrowableCount >= 1 ? mBaseThrowableCount : 1);
+        }
+    }
+}
+
+void Rock::VUpdate()
+{
+    auto pObj = sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId);
+    if (EventGet(kEventDeathReset))
+    {
+        SetDead(true);
+    }
+
+    if (GetRestoredFromQuickSave())
+    {
+        SetRestoredFromQuickSave(false);
+        if (BaseAliveGameObjectCollisionLineType == -1)
+        {
+            BaseAliveGameObjectCollisionLine = nullptr;
+        }
+        else
+        {
+            sCollisions->Raycast(
+                mXPos,
+                mYPos - FP_FromInteger(10),
+                mXPos,
+                mYPos + FP_FromInteger(10),
+                &BaseAliveGameObjectCollisionLine,
+                &mXPos,
+                &mYPos,
+                CollisionMask(static_cast<eLineTypes>(BaseAliveGameObjectCollisionLineType)));
+        }
+        BaseAliveGameObjectCollisionLineType = 0;
+    }
+
+    switch (mState)
+    {
+        case RockStates::eNone_0:
+            break;
+
+        case RockStates::eFallingOutOfRockSack_1:
+            InTheAir();
+            return;
+
+        case RockStates::eRolling_2:
+            if (FP_Abs(mVelX) >= FP_FromInteger(1))
+            {
+                if (mVelX <= FP_FromInteger(0))
+                {
+                    mVelX += FP_FromDouble(0.01);
+                }
+                else
+                {
+                    mVelX -= FP_FromDouble(0.01);
+                }
+                BaseAliveGameObjectCollisionLine = BaseAliveGameObjectCollisionLine->MoveOnLine(&mXPos, &mYPos, mVelX);
+            }
+            else
+            {
+                if (abs(SnapToXGrid(GetSpriteScale(), FP_GetExponent(mXPos)) - FP_GetExponent(mXPos)) <= 1)
+                {
+                    mVelX = FP_FromInteger(0);
+                    mCollectionRect.x = mXPos - (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(2));
+                    mCollectionRect.w = (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(2)) + mXPos;
+                    SetInteractive(true);
+                    mCollectionRect.h = mYPos;
+                    mCollectionRect.y = mYPos - ScaleToGridSize(GetSpriteScale());
+                    mState = RockStates::eOnGround_3;
+                    GetAnimation().SetLoop(false);
+                    mShimmerTimer = sGnFrame;
+                    return;
+                }
+                BaseAliveGameObjectCollisionLine = BaseAliveGameObjectCollisionLine->MoveOnLine(&mXPos, &mYPos, mVelX);
+            }
+
+            if (BaseAliveGameObjectCollisionLine)
+            {
+                return;
+            }
+
+            GetAnimation().SetLoop(true);
+            mState = RockStates::eBouncing_4;
+            return;
+
+        case RockStates::eOnGround_3:
+            if (static_cast<s32>(sGnFrame) <= mShimmerTimer || pObj)
+            {
+                return;
+            }
+            // The strange shimmering that rocks give off.
+            New_TintShiny_Particle(
+                (GetSpriteScale() * FP_FromInteger(1)) + mXPos,
+                (GetSpriteScale() * FP_FromInteger(-7)) + mYPos,
+                FP_FromDouble(0.3),
+                Layer::eLayer_Foreground_36);
+            mShimmerTimer = (Math_NextRandom() % 16) + sGnFrame + 60;
+            return;
+
+        case RockStates::eBouncing_4:
+        {
+            InTheAir();
+            const PSX_RECT bRect = VGetBoundingRect();
+            const PSX_Point xy = {bRect.x, static_cast<s16>(bRect.y + 5)};
+            const PSX_Point wh = {bRect.w, static_cast<s16>(bRect.h + 5)};
+            OnCollisionWith(xy, wh, gBaseGameObjects);
+
+            if (mVelY > FP_FromInteger(30))
+            {
+                mState = RockStates::eFallingOutOfWorld_5;
+            }
+        }
+            return;
+
+        case RockStates::eFallingOutOfWorld_5:
+            mVelY += FP_FromDouble(1.01);
+            mXPos += mVelX;
+            mYPos += mVelY;
+            if (!gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && !gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos + FP_FromInteger(240), 0))
+            {
+                SetDead(true);
+            }
+            return;
+    }
+}
+
 void Rock::VTimeToExplodeRandom()
 {
     // Calls actual implementation of 0x411490 which is empty.
@@ -88,17 +219,6 @@ bool Rock::VIsFalling()
 bool Rock::VCanThrow()
 {
     return mState == RockStates::eBouncing_4;
-}
-
-Rock::~Rock()
-{
-    if (!gInfiniteThrowables && !mBaseThrowableDead)
-    {
-        if (gpThrowableArray)
-        {
-            gpThrowableArray->Remove(mBaseThrowableCount >= 1 ? mBaseThrowableCount : 1);
-        }
-    }
 }
 
 //TODO Identical to AO - merge
@@ -288,126 +408,6 @@ bool Rock::OnCollision(BaseAnimatedWithPhysicsGameObject* pObj)
 
     SfxPlayMono(relive::SoundEffects::RockBounceOnMine, 80);
     return false;
-}
-
-void Rock::VUpdate()
-{
-    auto pObj = sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId);
-    if (EventGet(kEventDeathReset))
-    {
-        SetDead(true);
-    }
-
-    if (GetRestoredFromQuickSave())
-    {
-        SetRestoredFromQuickSave(false);
-        if (BaseAliveGameObjectCollisionLineType == -1)
-        {
-            BaseAliveGameObjectCollisionLine = nullptr;
-        }
-        else
-        {
-            sCollisions->Raycast(
-                mXPos,
-                mYPos - FP_FromInteger(10),
-                mXPos,
-                mYPos + FP_FromInteger(10),
-                &BaseAliveGameObjectCollisionLine,
-                &mXPos,
-                &mYPos,
-                CollisionMask(static_cast<eLineTypes>(BaseAliveGameObjectCollisionLineType)));
-        }
-        BaseAliveGameObjectCollisionLineType = 0;
-    }
-
-    switch (mState)
-    {
-        case RockStates::eNone_0:
-            break;
-
-        case RockStates::eFallingOutOfRockSack_1:
-            InTheAir();
-            return;
-
-        case RockStates::eRolling_2:
-            if (FP_Abs(mVelX) >= FP_FromInteger(1))
-            {
-                if (mVelX <= FP_FromInteger(0))
-                {
-                    mVelX += FP_FromDouble(0.01);
-                }
-                else
-                {
-                    mVelX -= FP_FromDouble(0.01);
-                }
-                BaseAliveGameObjectCollisionLine = BaseAliveGameObjectCollisionLine->MoveOnLine(&mXPos, &mYPos, mVelX);
-            }
-            else
-            {
-                if (abs(SnapToXGrid(GetSpriteScale(), FP_GetExponent(mXPos)) - FP_GetExponent(mXPos)) <= 1)
-                {
-                    mVelX = FP_FromInteger(0);
-                    mCollectionRect.x = mXPos - (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(2));
-                    mCollectionRect.w = (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(2)) + mXPos;
-                    SetInteractive(true);
-                    mCollectionRect.h = mYPos;
-                    mCollectionRect.y = mYPos - ScaleToGridSize(GetSpriteScale());
-                    mState = RockStates::eOnGround_3;
-                    GetAnimation().SetLoop(false);
-                    mShimmerTimer = sGnFrame;
-                    return;
-                }
-                BaseAliveGameObjectCollisionLine = BaseAliveGameObjectCollisionLine->MoveOnLine(&mXPos, &mYPos, mVelX);
-            }
-
-            if (BaseAliveGameObjectCollisionLine)
-            {
-                return;
-            }
-
-            GetAnimation().SetLoop(true);
-            mState = RockStates::eBouncing_4;
-            return;
-
-        case RockStates::eOnGround_3:
-            if (static_cast<s32>(sGnFrame) <= mShimmerTimer || pObj)
-            {
-                return;
-            }
-            // The strange shimmering that rocks give off.
-            New_TintShiny_Particle(
-                (GetSpriteScale() * FP_FromInteger(1)) + mXPos,
-                (GetSpriteScale() * FP_FromInteger(-7)) + mYPos,
-                FP_FromDouble(0.3),
-                Layer::eLayer_Foreground_36);
-            mShimmerTimer = (Math_NextRandom() % 16) + sGnFrame + 60;
-            return;
-
-        case RockStates::eBouncing_4:
-        {
-            InTheAir();
-            const PSX_RECT bRect = VGetBoundingRect();
-            const PSX_Point xy = {bRect.x, static_cast<s16>(bRect.y + 5)};
-            const PSX_Point wh = {bRect.w, static_cast<s16>(bRect.h + 5)};
-            OnCollisionWith(xy, wh, gBaseGameObjects);
-
-            if (mVelY > FP_FromInteger(30))
-            {
-                mState = RockStates::eFallingOutOfWorld_5;
-            }
-        }
-            return;
-
-        case RockStates::eFallingOutOfWorld_5:
-            mVelY += FP_FromDouble(1.01);
-            mXPos += mVelX;
-            mYPos = mVelY + mYPos;
-            if (!gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && !gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos + FP_FromInteger(240), 0))
-            {
-                SetDead(true);
-            }
-            return;
-    }
 }
 
 s32 Rock::VGetSaveState(u8* pSaveBuffer)

@@ -126,9 +126,9 @@ void MeatSack::VUpdate()
 
         if (RectsOverlap(ourRect, abeRect) && GetSpriteScale() == sActiveHero->GetSpriteScale())
         {
-            if (gpThrowableArray)
+            if (gThrowableArray)
             {
-                if (gpThrowableArray->mCount)
+                if (gThrowableArray->mCount)
                 {
                     GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::MeatSack_Hit));
                     mHasBeenHit = true;
@@ -137,17 +137,17 @@ void MeatSack::VUpdate()
             }
             else
             {
-                gpThrowableArray = relive_new ThrowableArray();
+                gThrowableArray = relive_new ThrowableArray();
             }
 
-            gpThrowableArray->Add(mMeatAmount);
+            gThrowableArray->Add(mMeatAmount);
 
             auto pMeat = relive_new Meat(mXPos, mYPos - FP_FromInteger(30), mMeatAmount);
             pMeat->VThrow(mTlvVelX, mTlvVelY);
             pMeat->SetSpriteScale(GetSpriteScale());
 
             SfxPlayMono(relive::SoundEffects::SackHit, 0);
-            Environment_SFX_457A40(EnvironmentSfx::eDeathNoise_7, 0, 0x7FFF, 0);
+            Environment_SFX(EnvironmentSfx::eDeathNoise_7, 0, 0x7FFF, 0);
 
             GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::MeatSack_Hit));
             mHasBeenHit = true;

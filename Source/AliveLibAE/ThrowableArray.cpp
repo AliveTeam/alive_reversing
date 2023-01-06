@@ -7,7 +7,7 @@
 #include "Throwable.hpp"
 #include "ResourceManager.hpp"
 
-ThrowableArray* gpThrowableArray = nullptr;
+ThrowableArray* gThrowableArray = nullptr;
 
 void FreeResourceArray(DynamicArrayT<u8*>* pArray)
 {
@@ -58,12 +58,12 @@ ThrowableArray::ThrowableArray()
 {
     SetUpdatable(false);
     mCount = 0;
-    gpThrowableArray = this;
+    gThrowableArray = this;
 }
 
 ThrowableArray::~ThrowableArray()
 {
-    gpThrowableArray = nullptr;
+    gThrowableArray = nullptr;
     FreeResourceArray(&field_24_throwables);
 }
 

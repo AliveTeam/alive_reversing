@@ -148,9 +148,9 @@ void BoneBag::VUpdate()
 
     if (bRect.x <= bPlayerRect.w && bRect.w >= bPlayerRect.x && bRect.h >= bPlayerRect.y && bRect.y <= bPlayerRect.h && GetSpriteScale() == sActiveHero->GetSpriteScale())
     {
-        if (gpThrowableArray)
+        if (gThrowableArray)
         {
-            if (gpThrowableArray->mCount)
+            if (gThrowableArray->mCount)
             {
                 if (sActiveHero->mCurrentMotion == eAbeMotions::Motion_31_RunJumpMid_452C10)
                 {
@@ -166,10 +166,10 @@ void BoneBag::VUpdate()
         }
         else
         {
-            gpThrowableArray = relive_new ThrowableArray();
+            gThrowableArray = relive_new ThrowableArray();
         }
 
-        gpThrowableArray->Add(mBoneAmount);
+        gThrowableArray->Add(mBoneAmount);
 
         auto pBone = relive_new Bone(mXPos, mYPos - FP_FromInteger(30), mBoneAmount);
 
@@ -179,7 +179,7 @@ void BoneBag::VUpdate()
         pBone->VThrow(mTlvVelX, mTlvVelY);
 
         SfxPlayMono(relive::SoundEffects::SackHit, 0);
-        Environment_SFX_457A40(EnvironmentSfx::eDeathNoise_7, 0, 0x7FFF, 0);
+        Environment_SFX(EnvironmentSfx::eDeathNoise_7, 0, 0x7FFF, 0);
 
         if (sActiveHero->mCurrentMotion == eAbeMotions::Motion_31_RunJumpMid_452C10)
         {

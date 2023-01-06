@@ -4854,7 +4854,7 @@ s16 Mudokon::Brain_7_FallAndSmackDeath()
         // Shake from ze floor slam & die
         if (static_cast<s32>(sGnFrame) > field_194_timer)
         {
-            Environment_SFX_457A40(EnvironmentSfx::eFallingDeathScreamHitGround_15, 0, 32767, this);
+            Environment_SFX(EnvironmentSfx::eFallingDeathScreamHitGround_15, 0, 32767, this);
             relive_new ScreenShake(0, 0);
             SetDead(true);
         }
@@ -5434,7 +5434,7 @@ void Mudokon::Motion_1_WalkLoop()
             }
             else if (GetAnimation().GetCurrentFrame() == 5 || GetAnimation().GetCurrentFrame() == 14)
             {
-                Environment_SFX_457A40(EnvironmentSfx::eWalkingFootstep_1, 0, 32767, this);
+                Environment_SFX(EnvironmentSfx::eWalkingFootstep_1, 0, 32767, this);
                 MapFollowMe(true);
                 if (mNextMotion == eMudMotions::Motion_21_RunLoop)
                 {
@@ -5472,7 +5472,7 @@ void Mudokon::Motion_2_StandingTurn()
 
     if (GetAnimation().GetCurrentFrame() == 0)
     {
-        Environment_SFX_457A40(EnvironmentSfx::eGenericMovement_9, 0, 32767, this);
+        Environment_SFX(EnvironmentSfx::eGenericMovement_9, 0, 32767, this);
     }
 
     if (GetAnimation().GetIsLastFrame())
@@ -5531,7 +5531,7 @@ void Mudokon::Motion_8_WalkToIdle()
 
         if (GetAnimation().GetCurrentFrame() == 0)
         {
-            Environment_SFX_457A40(EnvironmentSfx::eWalkingFootstep_1, 0, 32767, this);
+            Environment_SFX(EnvironmentSfx::eWalkingFootstep_1, 0, 32767, this);
             return;
         }
 
@@ -5783,7 +5783,7 @@ void Mudokon::Motion_21_RunLoop()
         }
         else if (GetAnimation().GetCurrentFrame() == 4 || GetAnimation().GetCurrentFrame() == 12)
         {
-            Environment_SFX_457A40(EnvironmentSfx::eRunningFootstep_2, 0, 32767, this);
+            Environment_SFX(EnvironmentSfx::eRunningFootstep_2, 0, 32767, this);
             MapFollowMe(true);
 
             switch (mNextMotion)
@@ -5803,13 +5803,13 @@ void Mudokon::Motion_21_RunLoop()
                 case eMudMotions::Motion_0_Idle:
                     mCurrentMotion = eMudMotions::Motion_24_RunSlideStop;
                     mNextMotion = -1;
-                    Environment_SFX_457A40(EnvironmentSfx::eRunSlide_4, 0, 32767, this);
+                    Environment_SFX(EnvironmentSfx::eRunSlide_4, 0, 32767, this);
                     return;
 
                 case eMudMotions::Motion_25_RunSlideTurn:
                     mCurrentMotion = eMudMotions::Motion_25_RunSlideTurn;
                     mNextMotion = -1;
-                    Environment_SFX_457A40(EnvironmentSfx::eRunSlide_4, 0, 32767, this);
+                    Environment_SFX(EnvironmentSfx::eRunSlide_4, 0, 32767, this);
                     return;
 
                 case eMudMotions::Motion_36_RunJumpMid:
@@ -5876,7 +5876,7 @@ void Mudokon::Motion_24_RunSlideStop()
         {
             if (GetAnimation().GetIsLastFrame())
             {
-                Environment_SFX_457A40(EnvironmentSfx::eWalkingFootstep_1, 0, 32767, this);
+                Environment_SFX(EnvironmentSfx::eWalkingFootstep_1, 0, 32767, this);
                 MapFollowMe(true);
                 Mudokon::ToStand();
             }
@@ -5957,7 +5957,7 @@ void Mudokon::Motion_27_SneakLoop()
             }
             else if (GetAnimation().GetCurrentFrame() == 6 || GetAnimation().GetCurrentFrame() == 16)
             {
-                Environment_SFX_457A40(EnvironmentSfx::eSneakFootstep_3, 0, 32767, this);
+                Environment_SFX(EnvironmentSfx::eSneakFootstep_3, 0, 32767, this);
                 MapFollowMe(true);
 
                 if (mNextMotion == eMudMotions::Motion_1_WalkLoop)
@@ -6089,7 +6089,7 @@ void Mudokon::Motion_35_RunJumpBegin()
 
     if (!GetAnimation().GetCurrentFrame())
     {
-        Environment_SFX_457A40(EnvironmentSfx::eRunJumpOrLedgeHoist_11, 0, 32767, this);
+        Environment_SFX(EnvironmentSfx::eRunJumpOrLedgeHoist_11, 0, 32767, this);
     }
 
     if (GetAnimation().GetIsLastFrame())
@@ -6271,7 +6271,7 @@ void Mudokon::Motion_41_LandSoft1()
 {
     if (GetAnimation().GetCurrentFrame() == 2)
     {
-        Environment_SFX_457A40(EnvironmentSfx::eHitGroundSoft_6, 0, 32767, this);
+        Environment_SFX(EnvironmentSfx::eHitGroundSoft_6, 0, 32767, this);
     }
 
     if (GetAnimation().GetIsLastFrame())
@@ -6288,11 +6288,11 @@ void Mudokon::Motion_42_LandSoft2()
     {
         if (mPreviousMotion == eMudMotions::Motion_49_Fall)
         {
-            Environment_SFX_457A40(EnvironmentSfx::eLandingSoft_5, 0, 32767, this);
+            Environment_SFX(EnvironmentSfx::eLandingSoft_5, 0, 32767, this);
         }
         else
         {
-            Environment_SFX_457A40(EnvironmentSfx::eHitGroundSoft_6, 0, 32767, this);
+            Environment_SFX(EnvironmentSfx::eHitGroundSoft_6, 0, 32767, this);
         }
     }
 
@@ -6327,7 +6327,7 @@ void Mudokon::Motion_45_KnockForward()
 
     if (GetAnimation().GetCurrentFrame() == 4)
     {
-        Environment_SFX_457A40(EnvironmentSfx::eKnockback_13, 0, 32767, this);
+        Environment_SFX(EnvironmentSfx::eKnockback_13, 0, 32767, this);
     }
 
     if ((gMap.mCurrentLevel == EReliveLevelIds::eMines
@@ -6337,7 +6337,7 @@ void Mudokon::Motion_45_KnockForward()
         || gMap.mCurrentLevel == EReliveLevelIds::eBrewery)
         && GetAnimation().GetCurrentFrame() == 7)
     {
-        Environment_SFX_457A40(EnvironmentSfx::eHitGroundSoft_6, 80, -200, this);
+        Environment_SFX(EnvironmentSfx::eHitGroundSoft_6, 80, -200, this);
     }
 
     if (mNextMotion != -1 && mHealth > FP_FromInteger(0))
@@ -6358,7 +6358,7 @@ void Mudokon::Motion_46_Knockback()
 
     if ((gMap.mCurrentLevel == EReliveLevelIds::eMines || gMap.mCurrentLevel == EReliveLevelIds::eBonewerkz || gMap.mCurrentLevel == EReliveLevelIds::eFeeCoDepot || gMap.mCurrentLevel == EReliveLevelIds::eBarracks || gMap.mCurrentLevel == EReliveLevelIds::eBrewery) && GetAnimation().GetCurrentFrame() == 7)
     {
-        Environment_SFX_457A40(EnvironmentSfx::eHitGroundSoft_6, 80, -200, this);
+        Environment_SFX(EnvironmentSfx::eHitGroundSoft_6, 80, -200, this);
     }
 
     if (!BaseAliveGameObjectCollisionLine)
@@ -6541,7 +6541,7 @@ void Mudokon::Motion_55_DuckKnockback()
 {
     if (GetAnimation().GetCurrentFrame() == 1)
     {
-        Environment_SFX_457A40(EnvironmentSfx::eGenericMovement_9, 0, 32767, this);
+        Environment_SFX(EnvironmentSfx::eGenericMovement_9, 0, 32767, this);
     }
 
     if (GetAnimation().GetIsLastFrame())
@@ -6569,7 +6569,7 @@ void Mudokon::Motion_56_SlapOwnHead()
     else
     {
         Mudokon_SFX(MudSounds::eHurt2_9, 0, 1000, this);
-        Environment_SFX_457A40(EnvironmentSfx::eDeathNoise_7, 0, 0x7FFF, this);
+        Environment_SFX(EnvironmentSfx::eDeathNoise_7, 0, 0x7FFF, this);
         EventBroadcast(kEventMudokonDied, this);
         mPersistAndResetOffscreen = false;
         mHealth = FP_FromInteger(0);
@@ -6970,7 +6970,7 @@ void Mudokon::ToKnockback()
         field_158_wheel_id = Guid{};
     }
 
-    Environment_SFX_457A40(EnvironmentSfx::eKnockback_13, 0, 32767, this);
+    Environment_SFX(EnvironmentSfx::eKnockback_13, 0, 32767, this);
 
     if (mVelX > FP_FromInteger(0))
     {
@@ -6993,7 +6993,7 @@ void Mudokon::ToKnockback()
         mVelY = FP_FromInteger(0);
     }
 
-    Environment_SFX_457A40(EnvironmentSfx::eKnockback_13, 0, 32767, this);
+    Environment_SFX(EnvironmentSfx::eKnockback_13, 0, 32767, this);
     mCurrentMotion = eMudMotions::Motion_46_Knockback;
 }
 
@@ -7208,7 +7208,7 @@ void Mudokon::TakeASlap(BaseGameObject* pFrom)
     else
     {
         Mudokon_SFX(MudSounds::eHurt2_9, 0, 1000, this);
-        Environment_SFX_457A40(EnvironmentSfx::eDeathNoise_7, 0, 32767, this);
+        Environment_SFX(EnvironmentSfx::eDeathNoise_7, 0, 32767, this);
         EventBroadcast(kEventMudokonDied, sActiveHero);
         mPersistAndResetOffscreen = false;
         mHealth = FP_FromInteger(0);

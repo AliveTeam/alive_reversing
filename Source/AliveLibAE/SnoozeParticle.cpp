@@ -76,8 +76,9 @@ SnoozeParticle::SnoozeParticle(FP xpos, FP ypos, Layer layer, FP scale)
     mXPos = xpos;
     mYPos = ypos;
 
-    // Interesting calc.. ??
-    mDestY = (FP_FromDouble(0.15) * FP_FromInteger(Math_NextRandom())) / FP_FromInteger(256);
+    mDestY = FP_FromDouble(0.15);
+
+    mDestY = (mDestY * FP_FromInteger(Math_NextRandom())) / FP_FromInteger(256);
     mDestY += FP_FromDouble(0.35);
     mDestY = mDestY * FP_FromInteger(-1);
 
@@ -85,15 +86,15 @@ SnoozeParticle::SnoozeParticle(FP xpos, FP ypos, Layer layer, FP scale)
 
     mSpriteScale = scale * FP_FromDouble(0.4);
 
-    field_3C_scale_dx = FP_FromDouble(0.30);
-    field_3C_scale_dx = field_3C_scale_dx / (FP_FromInteger(20) / -mDestY);
+    mScaleDx = FP_FromDouble(0.30);
+    mScaleDx = mScaleDx / (FP_FromInteger(20) / -mDestY);
 
     mRGB.SetRGB(0, 0, 0);
 
     mState = SnoozeParticleState::eRising_0;
     mBlowUp = false;
     mIdx = Math_NextRandom() % 36;
-    mDestX = FP_FromDouble(xPositionDeltaEntries[mIdx]);
+    mDestX = FP_FromInteger(xPositionDeltaEntries[mIdx]);
     mIdx++;
 }
 
@@ -130,18 +131,18 @@ void SnoozeParticle::VUpdate()
                         mRGB.b += 4;
                     }
 
-                    mSpriteScale += field_3C_scale_dx;
+                    mSpriteScale += mScaleDx;
 
-                    if (mIdx > 35)
+                    if (mIdx >= ALIVE_COUNTOF(xPositionDeltaEntries))
                     {
                         mIdx = 0;
                     }
 
-                    const FP field_48_idx_toFP = FP_FromInteger(xPositionDeltaEntries[mIdx]);
-                    mDestX = field_48_idx_toFP;
-                    mXPos += field_48_idx_toFP;
+                    const FP idx_toFP = FP_FromInteger(xPositionDeltaEntries[mIdx]);
+                    mDestX = idx_toFP;
+                    mXPos += idx_toFP;
                     mYPos += mDestY;
-                    mIdx += 1;
+                    mIdx++;
                 }
                 else
                 {

@@ -39,4 +39,4 @@ private:
     DynamicArrayT<u8*> field_24_throwables;
 };
 
-extern ThrowableArray* gpThrowableArray;
+extern ThrowableArray* gThrowableArray;

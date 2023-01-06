@@ -28,7 +28,7 @@ private:
     FP mDestX = {};
     FP mDestY = {};
     FP mSpriteScale = {};
-    FP field_3C_scale_dx = {};
+    FP mScaleDx = {};
     Layer mOtLayer = Layer::eLayer_0;
     RGB16 mRGB;
     u16 mIdx = 0;

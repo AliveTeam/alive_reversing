@@ -26,7 +26,7 @@ public:
         return OnCollision(pPlatform);
     }
 
-    enum class States : s16
+    enum class RockStates : s16
     {
         eNone_0 = 0,
         eFallingOutOfRockSack_1 = 1,
@@ -35,7 +35,7 @@ public:
         eBouncing_4 = 4,
         eFallingOutOfWorld_5 = 5,
     };
-    States mState = States::eNone_0;
+    RockStates mState = RockStates::eNone_0;
     PathLine* mPathLine = nullptr;
     s16 mBounceCount = 0;
     FP mPreviousXPos = {};

@@ -129,9 +129,9 @@ Meat::~Meat()
 {
     if (!mBaseThrowableDead)
     {
-        if (gpThrowableArray)
+        if (gThrowableArray)
         {
-            gpThrowableArray->Remove(mBaseThrowableCount >= 1 ? mBaseThrowableCount : 1);
+            gThrowableArray->Remove(mBaseThrowableCount >= 1 ? mBaseThrowableCount : 1);
         }
     }
 }

@@ -15,7 +15,7 @@
 #include "../relive_lib/Collisions.hpp"
 #include "../relive_lib/FixedPoint.hpp"
 
-static TintEntry sTimedMineTint[16] = {
+static const TintEntry sTimedMineTint[16] = {
     {EReliveLevelIds::eMenu, 127u, 127u, 127u},
     {EReliveLevelIds::eMines, 127u, 127u, 127u},
     {EReliveLevelIds::eNecrum, 127u, 127u, 127u},

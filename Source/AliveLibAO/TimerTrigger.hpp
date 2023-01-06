@@ -24,14 +24,14 @@ private:
 private:
     u16 mInputSwitchId = 0;
 
-    enum class State : s16
+    enum class TimerTriggerStates : s16
     {
         eWaitForEnabled_0 = 0,
         eWaitForFirstTrigger_1 = 1,
         eCheckForStartAgain_2 = 2,
         eWaitForSecondTrigger_3 = 3,
     };
-    State mState = State::eWaitForEnabled_0;
+    TimerTriggerStates mState = TimerTriggerStates::eWaitForEnabled_0;
     s16 mOutputSwitchIds[4] = {};
     Guid mTlvInfo;
     s32 mActivationDelayTimer = 0;

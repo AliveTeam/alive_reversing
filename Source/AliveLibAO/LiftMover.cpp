@@ -52,14 +52,14 @@ void LiftMover::VUpdate()
     }
 
     // NOTE: Isn't null checked, could easily crash later :)
-    auto pLiftPoint = static_cast<LiftPoint*>(mTargetLift);
+    auto pLift = static_cast<LiftPoint*>(mTargetLift);
 
     switch (mState)
     {
         case LiftMoverStates::eInactive_0:
             if (SwitchStates_Get(mLiftMoverSwitchId))
             {
-                if (pLiftPoint)
+                if (pLift)
                 {
                     mState = LiftMoverStates::eStartMovingDown_1;
                 }
@@ -94,16 +94,16 @@ void LiftMover::VUpdate()
             break;
 
         case LiftMoverStates::eStartMovingDown_1:
-            if (!pLiftPoint->OnAnyFloor())
+            if (!pLift->OnAnyFloor())
             {
-                pLiftPoint->mKeepOnMiddleFloor = true;
+                pLift->mKeepOnMiddleFloor = true;
                 mState = LiftMoverStates::eMovingDown_2;
             }
             else
             {
-                pLiftPoint->Move(FP_FromInteger(0), mLiftSpeed);
+                pLift->Move(FP_FromInteger(0), mLiftSpeed);
 
-                if ((mLiftSpeed > FP_FromInteger(0) && pLiftPoint->OnBottomFloor()) || (mLiftSpeed < FP_FromInteger(0) && pLiftPoint->OnTopFloor()))
+                if ((mLiftSpeed > FP_FromInteger(0) && pLift->OnBottomFloor()) || (mLiftSpeed < FP_FromInteger(0) && pLift->OnTopFloor()))
                 {
                     mState = LiftMoverStates::eMovingDown_2;
                 }
@@ -111,44 +111,44 @@ void LiftMover::VUpdate()
             break;
 
         case LiftMoverStates::eMovingDown_2:
-            if (!pLiftPoint->OnAFloorLiftMoverCanUse())
+            if (!pLift->OnAFloorLiftMoverCanUse())
             {
-                pLiftPoint->Move(FP_FromInteger(0), mLiftSpeed);
+                pLift->Move(FP_FromInteger(0), mLiftSpeed);
             }
             else
             {
-                pLiftPoint->Move(FP_FromInteger(0), FP_FromInteger(0));
+                pLift->Move(FP_FromInteger(0), FP_FromInteger(0));
                 mState = LiftMoverStates::eMovingDone_5;
             }
             break;
 
         case LiftMoverStates::eStartMovingUp_3:
-            if (pLiftPoint->OnAFloorLiftMoverCanUse())
+            if (pLift->OnAFloorLiftMoverCanUse())
             {
-                pLiftPoint->Move(FP_FromInteger(0), mLiftSpeed);
+                pLift->Move(FP_FromInteger(0), mLiftSpeed);
 
-                if ((mLiftSpeed > FP_FromInteger(0) && pLiftPoint->OnBottomFloor()) || (mLiftSpeed < FP_FromInteger(0) && pLiftPoint->OnTopFloor()))
+                if ((mLiftSpeed > FP_FromInteger(0) && pLift->OnBottomFloor()) || (mLiftSpeed < FP_FromInteger(0) && pLift->OnTopFloor()))
                 {
                     mState = LiftMoverStates::eMovingDown_2;
                 }
             }
             else
             {
-                pLiftPoint->mKeepOnMiddleFloor = true;
+                pLift->mKeepOnMiddleFloor = true;
                 mState = LiftMoverStates::eMovingUp_4;
             }
             break;
 
         case LiftMoverStates::eMovingUp_4:
-            if (pLiftPoint->OnAFloorLiftMoverCanUse())
+            if (pLift->OnAFloorLiftMoverCanUse())
             {
-                pLiftPoint->Move(FP_FromInteger(0), FP_FromInteger(0));
+                pLift->Move(FP_FromInteger(0), FP_FromInteger(0));
                 mState = LiftMoverStates::eInactive_0;
                 mLiftSpeed = -mLiftSpeed;
             }
             else
             {
-                pLiftPoint->Move(FP_FromInteger(0), mLiftSpeed);
+                pLift->Move(FP_FromInteger(0), mLiftSpeed);
             }
             break;
 
@@ -174,18 +174,18 @@ LiftPoint* LiftMover::FindLiftPointWithId(s16 id)
 {
     for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
     {
-        auto pItem = gBaseAliveGameObjects->ItemAt(i);
-        if (!pItem)
+        auto pObj = gBaseAliveGameObjects->ItemAt(i);
+        if (!pObj)
         {
             break;
         }
 
-        if (pItem->Type() == ReliveTypes::eLiftPoint)
+        if (pObj->Type() == ReliveTypes::eLiftPoint)
         {
-            auto pLiftPoint = static_cast<LiftPoint*>(pItem);
-            if (pLiftPoint->mLiftPointId == id)
+            auto pLift = static_cast<LiftPoint*>(pObj);
+            if (pLift->mLiftPointId == id)
             {
-                return pLiftPoint;
+                return pLift;
             }
         }
     }

@@ -161,7 +161,7 @@ void MotionDetector::VUpdate()
         {
             pLaser->GetAnimation().SetRender(true);
 
-            const PSX_RECT laserRect = pLaser->VGetBoundingRect();
+            const PSX_RECT bLaserRect = pLaser->VGetBoundingRect();
 
             mObjectInLaser = false;
 
@@ -177,7 +177,11 @@ void MotionDetector::VUpdate()
                 {
                     const PSX_RECT objRect = pObj->VGetBoundingRect();
 
-                    if (laserRect.x <= (objRect.w - 8) && laserRect.w >= (objRect.x + 8) && laserRect.h >= objRect.y && laserRect.y <= objRect.h && pObj->GetSpriteScale() == GetSpriteScale())
+                    if (bLaserRect.x <= (objRect.w - 8) 
+                        && bLaserRect.w >= (objRect.x + 8) 
+                        && bLaserRect.h >= objRect.y 
+                        && bLaserRect.y <= objRect.h 
+                        && pObj->GetSpriteScale() == GetSpriteScale())
                     {
                         if (pObj == sActiveHero)
                         {

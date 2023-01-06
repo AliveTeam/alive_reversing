@@ -22,7 +22,7 @@ TimerTrigger::TimerTrigger(relive::Path_TimerTrigger* pTlv, const Guid& tlvId)
 
     mInputSwitchId = pTlv->mInputSwitchId;
     mState = TimerTriggerStates::eWaitForEnabled_0;
-    mStartingSwitchState = static_cast<s16>(SwitchStates_Get(mInputSwitchId));
+    mStartingSwitchState = SwitchStates_Get(mInputSwitchId);
 }
 
 void TimerTrigger::ToggleAllIds()

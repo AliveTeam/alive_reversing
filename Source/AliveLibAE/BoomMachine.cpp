@@ -12,13 +12,13 @@
 #include "Path.hpp"
 #include "../relive_lib/FixedPoint.hpp"
 
-const static AnimId sBoomMachineNozzleAnimIds[] =
+const static AnimId sBoomMachineNozzleAnimIds[2] =
 {
     AnimId::BoomMachine_Nozzle_DropGrenade,
     AnimId::BoomMachine_Nozzle_Idle
 };
 
-const static AnimId sBoomMachineAnimIds[] =
+const static AnimId sBoomMachineAnimIds[2] =
 {
     AnimId::BoomMachine_Button_Off,
     AnimId::BoomMachine_Button_On
@@ -54,7 +54,7 @@ public:
         }
     }
 
-    void DropGrenadeAnimation_445820()
+    void DropGrenadeAnimation()
     {
         if (mState == BoomMachineStates::eInactive_0)
         {
@@ -63,7 +63,7 @@ public:
         }
     }
 
-    void AlreadyUsed_445860()
+    void AlreadyUsed()
     {
         if (mState == BoomMachineStates::eInactive_0)
         {
@@ -73,7 +73,7 @@ public:
     }
 
 private:
-    void VUpdate() override
+    virtual void VUpdate() override
     {
         switch (mState)
         {
@@ -101,12 +101,12 @@ private:
                 {
                     SFX_Play_Pitch(relive::SoundEffects::PickupItem, 127, -900);
 
-                    if (!gpThrowableArray)
+                    if (!gThrowableArray)
                     {
-                        gpThrowableArray = relive_new ThrowableArray();
+                        gThrowableArray = relive_new ThrowableArray();
                     }
 
-                    gpThrowableArray->Add(mGrenadeCount);
+                    gThrowableArray->Add(mGrenadeCount);
 
                     FP directedScale = {};
                     if (GetAnimation().GetFlipX())
@@ -118,18 +118,22 @@ private:
                         directedScale = GetSpriteScale();
                     }
                     auto pGrenade = relive_new Grenade(
-                        (FP_FromInteger(6) * directedScale) + mXPos,
-                        (-FP_FromInteger(6) * GetSpriteScale()) + mYPos,
+                        mXPos + (FP_FromInteger(6) * directedScale),
+                        mYPos + (-FP_FromInteger(6) * GetSpriteScale()),
                         mGrenadeCount,
                         0,
                         nullptr);
- 
-                    pGrenade->VThrow((GetAnimation().GetFlipX()) != 0 ? -FP_FromDouble(0.75) : FP_FromDouble(0.75), FP_FromInteger(3));
+                    if (pGrenade)
+                    {
+                        pGrenade->VThrow((GetAnimation().GetFlipX()) != 0 ? -FP_FromDouble(0.75) : FP_FromDouble(0.75), FP_FromInteger(3));
+                    }
 
                     GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::BoomMachine_Nozzle_Idle));
                     mState = BoomMachineStates::eInactive_0;
                 }
                 break;
+            default:
+                return;
         }
     }
 
@@ -183,7 +187,7 @@ BoomMachine::BoomMachine(relive::Path_BoomMachine* pTlv, const Guid& tlvId)
         mNozzleId = pNozzle->mBaseGameObjectId;
     }
 
-    if (gpThrowableArray && gpThrowableArray->mCount)
+    if (gThrowableArray && gThrowableArray->mCount)
     {
         mIsButtonOn = true;
         GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::BoomMachine_Button_On));
@@ -203,7 +207,7 @@ void BoomMachine::VUpdate()
 
     if (!mIsButtonOn)
     {
-        if (!gpThrowableArray || gpThrowableArray->mCount == 0)
+        if (!gThrowableArray || gThrowableArray->mCount == 0)
         {
             mIsButtonOn = true;
             GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::BoomMachine_Button_On));
@@ -211,7 +215,7 @@ void BoomMachine::VUpdate()
     }
     else if (mIsButtonOn)
     {
-        if (gpThrowableArray && gpThrowableArray->mCount > 0)
+        if (gThrowableArray && gThrowableArray->mCount > 0)
         {
             mIsButtonOn = false;
             GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::BoomMachine_Button_Off));
@@ -241,11 +245,11 @@ void BoomMachine::VHandleButton()
     {
         if (VIsButtonOn())
         {
-            pNozzle->DropGrenadeAnimation_445820();
+            pNozzle->DropGrenadeAnimation();
         }
         else
         {
-            pNozzle->AlreadyUsed_445860();
+            pNozzle->AlreadyUsed();
         }
     }
 }

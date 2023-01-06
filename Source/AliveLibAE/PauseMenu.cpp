@@ -437,12 +437,12 @@ void PauseMenu::RestartPath()
             MapWrapper::FromAE(gActiveQuicksaveData.field_244_restart_path_world_info.field_4_level),
             gActiveQuicksaveData.field_244_restart_path_world_info.field_6_path);
 
-        if (!gpThrowableArray)
+        if (!gThrowableArray)
         {
-            gpThrowableArray = relive_new ThrowableArray();
+            gThrowableArray = relive_new ThrowableArray();
         }
 
-        gpThrowableArray->Add(sActiveHero->mBaseThrowableCount);
+        gThrowableArray->Add(sActiveHero->mBaseThrowableCount);
     }
 
     mPauseRenderLoop = false;
