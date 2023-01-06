@@ -1131,36 +1131,46 @@ void VulkanRenderer::recordCommandBuffer(vk::raii::CommandBuffer& commandBuffer,
     {
         if (mBatcher[mCurrentFrame].mBatches[i].mPipeline != PipelineIndex::eFBOPipeline)
         {
-            if (lastPipeLine != mBatcher[mCurrentFrame].mBatches[i].mPipeline)
+            if (mBatcher[mCurrentFrame].mBatches[i].mNumTrisToDraw > 0)
             {
-                commandBuffer.bindPipeline(vk::PipelineBindPoint::eGraphics, **mGraphicsPipelines[mBatcher[mCurrentFrame].mBatches[i].mPipeline]);
+                if (lastPipeLine != mBatcher[mCurrentFrame].mBatches[i].mPipeline)
+                {
+                    commandBuffer.bindPipeline(vk::PipelineBindPoint::eGraphics, **mGraphicsPipelines[mBatcher[mCurrentFrame].mBatches[i].mPipeline]);
 
-                vk::Viewport viewport;
-                viewport.x = 0.0f;
-                viewport.y = 0.0f;
-                viewport.width = (float) mOffScreenPass[mCurrentFrame].width;
-                viewport.height = (float) mOffScreenPass[mCurrentFrame].height;
-                viewport.minDepth = 0.0f;
-                viewport.maxDepth = 1.0f;
-                commandBuffer.setViewport(0, viewport);
+                    vk::Viewport viewport;
+                    viewport.x = 0.0f;
+                    viewport.y = 0.0f;
+                    viewport.width = (float) mOffScreenPass[mCurrentFrame].width;
+                    viewport.height = (float) mOffScreenPass[mCurrentFrame].height;
+                    viewport.minDepth = 0.0f;
+                    viewport.maxDepth = 1.0f;
+                    commandBuffer.setViewport(0, viewport);
 
-                vk::Rect2D scissor{0, 0};
-                scissor.extent.width = mOffScreenPass[mCurrentFrame].width;
-                scissor.extent.height = mOffScreenPass[mCurrentFrame].height;
+                    lastPipeLine = mBatcher[mCurrentFrame].mBatches[i].mPipeline;
+
+                    vk::Buffer vertexBuffers[] = {**mVertexBuffer[mCurrentFrame].mBuffer};
+                    vk::DeviceSize offsets[] = {0};
+                    commandBuffer.bindVertexBuffers(0, vertexBuffers, offsets);
+
+                    commandBuffer.bindIndexBuffer(**mIndexBuffer[mCurrentFrame].mBuffer, 0, vk::IndexType::eUint16);
+                }
+
+                SDL_Rect scissorRect = mBatcher[mCurrentFrame].mBatches[i].mScissor;
+                if (scissorRect.x == 0 && scissorRect.y == 0 && scissorRect.w == 0 && scissorRect.h == 0)
+                {
+                    scissorRect.x = 0;
+                    scissorRect.y = 0;
+                    scissorRect.w = mOffScreenPass[mCurrentFrame].width;
+                    scissorRect.h = mOffScreenPass[mCurrentFrame].height;
+                }
+
+                vk::Rect2D scissor;
+                scissor.offset.x = scissorRect.x;
+                scissor.offset.y = scissorRect.y;
+                scissor.extent.width = scissorRect.w;
+                scissor.extent.height = scissorRect.h;
                 commandBuffer.setScissor(0, scissor);
 
-
-                lastPipeLine = mBatcher[mCurrentFrame].mBatches[i].mPipeline;
-
-                vk::Buffer vertexBuffers[] = {**mVertexBuffer[mCurrentFrame].mBuffer};
-                vk::DeviceSize offsets[] = {0};
-                commandBuffer.bindVertexBuffers(0, vertexBuffers, offsets);
-
-                commandBuffer.bindIndexBuffer(**mIndexBuffer[mCurrentFrame].mBuffer, 0, vk::IndexType::eUint16);
-            }
-
-            if (!mBatcher[mCurrentFrame].mVertices.empty() && mVertexBuffer[mCurrentFrame].mBuffer && mIndexBuffer[mCurrentFrame].mBuffer)
-            {
                 commandBuffer.bindDescriptorSets(
                     vk::PipelineBindPoint::eGraphics,
                     **mPipelineLayouts[mBatcher[mCurrentFrame].mBatches[i].mPipeline],
@@ -1201,35 +1211,35 @@ void VulkanRenderer::recordCommandBuffer(vk::raii::CommandBuffer& commandBuffer,
     {
         if (mBatcher[mCurrentFrame].mBatches[i].mPipeline == PipelineIndex::eFBOPipeline)
         {
-            if (lastPipeLine != mBatcher[mCurrentFrame].mBatches[i].mPipeline)
+            if (mBatcher[mCurrentFrame].mBatches[i].mNumTrisToDraw > 0)
             {
-                commandBuffer.bindPipeline(vk::PipelineBindPoint::eGraphics, **mGraphicsPipelines[mBatcher[mCurrentFrame].mBatches[i].mPipeline]);
-                lastPipeLine = mBatcher[mCurrentFrame].mBatches[i].mPipeline;
+                if (lastPipeLine != mBatcher[mCurrentFrame].mBatches[i].mPipeline)
+                {
+                    commandBuffer.bindPipeline(vk::PipelineBindPoint::eGraphics, **mGraphicsPipelines[mBatcher[mCurrentFrame].mBatches[i].mPipeline]);
+                    lastPipeLine = mBatcher[mCurrentFrame].mBatches[i].mPipeline;
 
-                SDL_Rect viewPortRect = GetTargetDrawRect();
+                    SDL_Rect viewPortRect = GetTargetDrawRect();
 
-                vk::Viewport viewport2;
-                viewport2.x = (float) viewPortRect.x;
-                viewport2.y = (float) viewPortRect.y;
-                viewport2.width = (float) viewPortRect.w;
-                viewport2.height = (float) viewPortRect.h;
-                viewport2.minDepth = 0.0f;
-                viewport2.maxDepth = 1.0f;
-                commandBuffer.setViewport(0, viewport2);
+                    vk::Viewport viewport2;
+                    viewport2.x = (float) viewPortRect.x;
+                    viewport2.y = (float) viewPortRect.y;
+                    viewport2.width = (float) viewPortRect.w;
+                    viewport2.height = (float) viewPortRect.h;
+                    viewport2.minDepth = 0.0f;
+                    viewport2.maxDepth = 1.0f;
+                    commandBuffer.setViewport(0, viewport2);
 
-                vk::Rect2D scissor2{0, 0};
-                scissor2.extent = mSwapChainExtent;
-                commandBuffer.setScissor(0, scissor2);
+                    vk::Rect2D scissor2{0, 0};
+                    scissor2.extent = mSwapChainExtent;
+                    commandBuffer.setScissor(0, scissor2);
 
-                vk::Buffer vertexBuffers[] = {**mVertexBuffer[mCurrentFrame].mBuffer};
-                vk::DeviceSize offsets[] = {0};
-                commandBuffer.bindVertexBuffers(0, vertexBuffers, offsets);
+                    vk::Buffer vertexBuffers[] = {**mVertexBuffer[mCurrentFrame].mBuffer};
+                    vk::DeviceSize offsets[] = {0};
+                    commandBuffer.bindVertexBuffers(0, vertexBuffers, offsets);
 
-                commandBuffer.bindIndexBuffer(**mIndexBuffer[mCurrentFrame].mBuffer, 0, vk::IndexType::eUint16);
-            }
+                    commandBuffer.bindIndexBuffer(**mIndexBuffer[mCurrentFrame].mBuffer, 0, vk::IndexType::eUint16);
+                }
 
-            if (!mBatcher[mCurrentFrame].mVertices.empty() && mVertexBuffer[mCurrentFrame].mBuffer && mIndexBuffer[mCurrentFrame].mBuffer)
-            {
                 commandBuffer.bindDescriptorSets(
                     vk::PipelineBindPoint::eGraphics,
                     **mPipelineLayouts[mBatcher[mCurrentFrame].mBatches[i].mPipeline],
@@ -1676,9 +1686,23 @@ void VulkanRenderer::SetTPage(u16 tPage)
     mGlobalTPage = tPage;
 }
 
-void VulkanRenderer::SetClip(Prim_PrimClipper&)
+void VulkanRenderer::SetClip(Prim_PrimClipper& clipper)
 {
-   
+    SDL_Rect rect;
+    rect.x = clipper.field_C_x;
+    rect.y = clipper.field_E_y;
+    rect.w = clipper.mBase.header.mRect.w;
+    rect.h = clipper.mBase.header.mRect.h;
+
+    mBatcher[mCurrentFrame].NewBatch();
+
+    if (rect.x == 0 && rect.y == 0 && rect.w == 1 && rect.h == 1)
+    {
+        // No scissor
+        rect = {};
+    }
+
+    mBatcher[mCurrentFrame].SetScissor(rect);
 }
 
 void VulkanRenderer::ToggleFilterScreen()
@@ -1701,10 +1725,9 @@ void VulkanRenderer::Draw(Line_G4& /*line*/)
     // TODO
 }
 
-
 void VulkanRenderer::Draw(Poly_G3&)
 {
-  
+    // TODO
 }
 
 u32 VulkanRenderer::PreparePalette(AnimationPal& pCache)
@@ -1794,9 +1817,8 @@ void VulkanRenderer::Draw(Poly_FT4& poly)
 
 void VulkanRenderer::Draw(Poly_G4&)
 {
-
+    // TODO
 }
-
 
 void VulkanRenderer::DecreaseResourceLifetimes()
 {

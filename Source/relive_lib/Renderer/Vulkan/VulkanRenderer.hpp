@@ -112,13 +112,14 @@ public:
     std::unique_ptr<TextureType> mPaletteTexture;
     std::shared_ptr<TextureType> mCamTexture;
     std::vector<std::shared_ptr<TextureType>> mBatchTextures;
-
+   
     struct RenderBatch final : public RenderBatchType
     {
         u32 mNumTrisToDraw = 0;
         u32 mTexturesInBatch = 0;
         u32 mTextureIds[14] = {};
         u32 mBlendMode = 0;
+        SDL_Rect mScissor = {};
 
         bool AddTexture(u32 id)
         {
@@ -446,13 +447,18 @@ public:
         mBatchInProgress = false;
     }
 
+    void SetScissor(const SDL_Rect& scissor)
+    {
+        mConstructingBatch.mScissor = scissor;
+    }
+
     const u32 kTextureBatchSize = 14;
 
     RenderBatch mConstructingBatch;
     std::vector<RenderBatch> mBatches;
     bool mBatchInProgress = false;
     u16 mIndexBufferIndex = 0;
-
+  
     std::vector<VertexType> mVertices;
     std::vector<uint16_t> mIndices;
 };
