@@ -1,9 +1,9 @@
 #include "Batcher.hpp"
 #include "VulkanRenderer.hpp"
-#include "../../relive_lib/Primitives.hpp"
-#include "../../relive_lib/FG1.hpp"
-#include "../../relive_lib/Animation.hpp"
-#include "../../AliveLibAE/Font.hpp"
+#include "../../Primitives.hpp"
+#include "../../FG1.hpp"
+#include "../../Animation.hpp"
+#include "../../../AliveLibAE/Font.hpp"
 
 // TODO: Copy pasted from GL renderer
 inline u16 GetTPageBlendMode(u16 tpage)
