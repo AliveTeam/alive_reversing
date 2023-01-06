@@ -1745,13 +1745,6 @@ u32 VulkanRenderer::PreparePalette(AnimationPal& pCache)
     return addRet.mIndex;
 }
 
-// TODO: Copy pasted from GL renderer
-inline u16 GetTPageBlendMode(u16 tpage)
-{
-    return (tpage >> 4) & 3;
-}
-
-
 void VulkanRenderer::Draw(Poly_FT4& poly)
 {
     if (poly.mCam && !poly.mFg1)

@@ -11,6 +11,8 @@ SET(relive_lib_src
     Renderer/IRenderer.cpp
     Renderer/Vulkan/VulkanRenderer.hpp
     Renderer/Vulkan/VulkanRenderer.cpp
+    Renderer/Vulkan/Batcher.hpp
+    Renderer/Vulkan/Batcher.cpp
     Renderer/DirectX9/DirectX9Renderer.hpp
     Renderer/DirectX9/DirectX9Renderer.cpp
     Renderer/PaletteCache.hpp
