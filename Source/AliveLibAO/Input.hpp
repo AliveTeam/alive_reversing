@@ -8,11 +8,11 @@ namespace AO {
 
 struct PSX_Pad final
 {
-    u16 mPressed;
+    u16 mRawInput;
     u8 mDir;
     s8 field_3;
     s16 mPreviousInput;
-    u16 mHeld;
+    u16 mPressed;
     s16 mReleased;
     s8 mPreviousDir;
     s8 field_B;
@@ -163,8 +163,6 @@ public:
     bool IsAnyHeld(u32 command) const;
     bool IsAnyReleased(u32 command) const;
     u8 Dir() const;
-    bool IsAllPressed(u32 commands) const;
-    bool IsAllHeld(u32 commands) const;
 
     enum class PadIndex
     {
@@ -185,14 +183,14 @@ public:
     bool IsAnyReleased(PadIndex padIx, u32 command) const;
     bool IsAllPressed(PadIndex padIx, u32 commands) const;
 
-    u16 Pressed(PadIndex padIx) const;
+    u16 GetHeld(PadIndex padIx) const;
 
     // These use the active pad
-    u16 Pressed() const;
-    u16 Held() const;
-    u16 Released() const;
+    u16 GetHeld() const;
+    u16 GetPressed() const;
+    u16 GetReleased() const;
 
-    u16 Held(PadIndex padIx) const;
+    u16 GetPressed(PadIndex padIx) const;
 
     u32 Input_Read_Pad(u32 padIdx);
 };

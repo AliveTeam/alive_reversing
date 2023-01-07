@@ -424,7 +424,7 @@ void MineCar::Move(AnimId animId, FP velX, FP velY, InputCommands::Enum input, M
     mVelX = velX;
     mVelY = velY;
 
-    if (Input().isPressed(input))
+    if (Input().IsAnyHeld(input))
     {
         field_1D4_previous_input = static_cast<s16>(input);
     }
@@ -839,7 +839,7 @@ void MineCar::VUpdate()
             break;
     }
 
-    if (Input().isPressed(sInputKey_DoAction))
+    if (Input().IsAnyHeld(sInputKey_DoAction))
     {
         if (
             (
@@ -973,9 +973,9 @@ void MineCar::State_1_ParkedWithAbe()
 
     if (
         (
-            Input().isPressed(inputKey) ||
+            Input().IsAnyHeld(inputKey) ||
             (
-                Input().isPressed(field_1D4_previous_input) &&
+                Input().IsAnyHeld(field_1D4_previous_input) &&
                 (u16) field_1D6_continue_move_input == inputKey &&
                 field_1D4_previous_input != (u16) sInputKey_Left &&
                 field_1BC_turn_direction != MineCarDirs::eUp_3 &&
@@ -1042,7 +1042,7 @@ void MineCar::State_1_ParkedWithAbe()
     {
         if (WallHit(mineCarHeight * FP_FromDouble(0.5), mineCarWidthAdjusted + FP_FromInteger(1)))
         {
-            if (Input().isPressed(inputKey))
+            if (Input().IsAnyHeld(inputKey))
             {
                 if (field_1BC_turn_direction != MineCarDirs::eLeft_2 && !(static_cast<s32>(sGnFrame) % 6))
                 {
@@ -1056,9 +1056,9 @@ void MineCar::State_1_ParkedWithAbe()
 
     if (
         (
-            Input().isPressed(inputKey) ||
+            Input().IsAnyHeld(inputKey) ||
             (
-                Input().isPressed(field_1D4_previous_input) &&
+                Input().IsAnyHeld(field_1D4_previous_input) &&
                 (u16) field_1D6_continue_move_input == inputKey &&
                 field_1D4_previous_input != (u16) sInputKey_Right &&
                 field_1BC_turn_direction != MineCarDirs::eUp_3 &&
@@ -1124,7 +1124,7 @@ void MineCar::State_1_ParkedWithAbe()
     }
     else
     {
-        if (Input().isPressed(inputKey))
+        if (Input().IsAnyHeld(inputKey))
         {
             if (field_1BC_turn_direction != MineCarDirs::eRight_1 && !(static_cast<s32>(sGnFrame) % 6))
             {
@@ -1193,9 +1193,9 @@ void MineCar::HandleUpDown()
     InputCommands::Enum inputKey = sInputKey_Up;
 
     if (
-        Input().isPressed(inputKey) ||
+        Input().IsAnyHeld(inputKey) ||
         (
-            Input().isPressed(field_1D4_previous_input) &&
+            Input().IsAnyHeld(field_1D4_previous_input) &&
             (u16) field_1D6_continue_move_input == inputKey &&
             field_1D4_previous_input != (u16) sInputKey_Down &&
             field_1BC_turn_direction != MineCarDirs::eLeft_2 &&
@@ -1258,7 +1258,7 @@ void MineCar::HandleUpDown()
     }
     else if (IsBlocked(MineCarDirs::eDown_0, 0))
     {
-        if (Input().isPressed(inputKey))
+        if (Input().IsAnyHeld(inputKey))
         {
             if (field_1BC_turn_direction != MineCarDirs::eDown_0)
             {
@@ -1273,9 +1273,9 @@ void MineCar::HandleUpDown()
     inputKey = sInputKey_Down;
 
     if (
-        Input().isPressed(inputKey) ||
+        Input().IsAnyHeld(inputKey) ||
         (
-            Input().isPressed(field_1D4_previous_input) &&
+            Input().IsAnyHeld(field_1D4_previous_input) &&
             (u16) field_1D6_continue_move_input == inputKey &&
             field_1D4_previous_input != (u16) sInputKey_Up &&
             field_1BC_turn_direction != MineCarDirs::eLeft_2 &&
@@ -1338,7 +1338,7 @@ void MineCar::HandleUpDown()
     }
     else if (IsBlocked(MineCarDirs::eUp_3, 0))
     {
-        if (Input().isPressed(inputKey))
+        if (Input().IsAnyHeld(inputKey))
         {
             if (field_1BC_turn_direction != MineCarDirs::eUp_3 && !(static_cast<s32>(sGnFrame) % 6))
             {
@@ -1465,7 +1465,7 @@ void MineCar::State_2_Moving()
         }
     }
 
-    if (Input().isPressed(field_1D4_previous_input))
+    if (Input().IsAnyHeld(field_1D4_previous_input))
     {
         mXPos += mVelX;
         mYPos += mVelY;

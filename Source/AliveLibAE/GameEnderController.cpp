@@ -172,7 +172,7 @@ void GameEnderController::VUpdate()
         break;
 
         case GameEnderControllerStates::eBadEnding_3:
-            if (Input().isHeld(InputCommands::Enum::eUnPause_OrConfirm) || Input().isHeld(InputCommands::Enum::eBack))
+            if (Input().IsAnyPressed(InputCommands::Enum::eUnPause_OrConfirm) || Input().IsAnyPressed(InputCommands::Enum::eBack))
             {
                 gMap.SetActiveCam(EReliveLevelIds::eFeeCoDepot, 1, 1, CameraSwapEffects::eInstantChange_0, 0, 0);
                 mState = GameEnderControllerStates::eFinish_2;
@@ -180,7 +180,7 @@ void GameEnderController::VUpdate()
             break;
 
         case GameEnderControllerStates::eGoodEnding_4:
-            if (Input().isHeld(InputCommands::Enum::eUnPause_OrConfirm) || Input().isHeld(InputCommands::Enum::eBack))
+            if (Input().IsAnyPressed(InputCommands::Enum::eUnPause_OrConfirm) || Input().IsAnyPressed(InputCommands::Enum::eBack))
             {
                 gMap.SetActiveCam(EReliveLevelIds::eCredits, 1, 1, CameraSwapEffects::eInstantChange_0, 0, 0);
                 mState = GameEnderControllerStates::eFinish_2;
@@ -188,7 +188,7 @@ void GameEnderController::VUpdate()
             break;
 
         case GameEnderControllerStates::eAngelicEnding_5:
-            if (Input().isHeld(InputCommands::Enum::eUnPause_OrConfirm) || Input().isHeld(InputCommands::Enum::eBack))
+            if (Input().IsAnyPressed(InputCommands::Enum::eUnPause_OrConfirm) || Input().IsAnyPressed(InputCommands::Enum::eBack))
             {
                 gMap.SetActiveCam(EReliveLevelIds::eBrewery_Ender, 1, 20, CameraSwapEffects::eInstantChange_0, 0, 0);
                 mState = GameEnderControllerStates::eAngelicEndingCredits_6;
@@ -196,7 +196,7 @@ void GameEnderController::VUpdate()
             break;
 
         case GameEnderControllerStates::eAngelicEndingCredits_6:
-            if (Input().isHeld(InputCommands::Enum::eUnPause_OrConfirm) || Input().isHeld(InputCommands::Enum::eBack))
+            if (Input().IsAnyPressed(InputCommands::Enum::eUnPause_OrConfirm) || Input().IsAnyPressed(InputCommands::Enum::eBack))
             {
                 gMap.SetActiveCam(EReliveLevelIds::eCredits, 2, 1, CameraSwapEffects::eInstantChange_0, 0, 0);
                 gMap.mFreeAllAnimAndPalts = true;

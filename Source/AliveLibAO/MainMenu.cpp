@@ -964,7 +964,7 @@ void Menu::MainScreen_Update()
 {
     // Calculate idle timers for playing game play demos
     s32 bSmallerTimeout = 0;
-    if (Input().Pressed(InputObject::PadIndex::First))
+    if (Input().GetHeld(InputObject::PadIndex::First))
     {
         bSmallerTimeout = 0;
         mIdleInputCounter = 0;
@@ -1718,7 +1718,7 @@ void Menu::NewGameStart()
 void Menu::Options_Update()
 {
     // Idle time calculate
-    if (Input().Pressed(InputObject::PadIndex::First))
+    if (Input().GetHeld(InputObject::PadIndex::First))
     {
         mIdleInputCounter = 0;
     }
@@ -2063,7 +2063,7 @@ void Menu::Options_Sound_Render(PrimHeader** ppOt)
 
 void Menu::Options_Sound_Update()
 {
-    if (Input().Pressed(InputObject::PadIndex::First))
+    if (Input().GetHeld(InputObject::PadIndex::First))
     {
         mIdleInputCounter = 0;
     }
@@ -2185,7 +2185,7 @@ void Menu::To_MainOptions_Screen_After_Camera_Change_Update()
 
 void Menu::GameSpeak_Update()
 {
-    if (Input().Pressed(InputObject::PadIndex::First))
+    if (Input().GetHeld(InputObject::PadIndex::First))
     {
         mIdleInputCounter = 0;
     }
@@ -2767,7 +2767,7 @@ void Menu::ButtonRemap_Update()
 {
     if (bWaitingForRemapInput_9F2DE8)
     {
-        if (!Input().Pressed(InputObject::PadIndex::First))
+        if (!Input().GetHeld(InputObject::PadIndex::First))
         {
             bWaitingForRemapInput_9F2DE8 = 0;
         }
@@ -3038,7 +3038,7 @@ void Menu::CreditsEnd_BackTo_FMV_Or_Level_List_Update()
 
 void Menu::Load_Update()
 {
-    if (Input().Pressed(InputObject::PadIndex::First))
+    if (Input().GetHeld(InputObject::PadIndex::First))
     {
         mIdleInputCounter = 0;
     }
@@ -3171,7 +3171,7 @@ void Menu::ToggleMotions_Render(PrimHeader** ppOt)
 
 void Menu::ToggleMotions_Update()
 {
-    if (Input().Pressed(InputObject::PadIndex::First))
+    if (Input().GetHeld(InputObject::PadIndex::First))
     {
         mIdleInputCounter = 0;
     }
@@ -3213,7 +3213,7 @@ void Menu::ToggleMotions_Update()
 
 void Menu::Toggle_Motions_Screens_Update()
 {
-    if (Input().Pressed(InputObject::PadIndex::First))
+    if (Input().GetHeld(InputObject::PadIndex::First))
     {
         mIdleInputCounter = 0;
     }

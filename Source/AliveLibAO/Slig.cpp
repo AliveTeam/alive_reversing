@@ -1720,7 +1720,7 @@ s16 Slig::MoveLift(FP ySpeed)
     }
 
     // Strange how this isn't "if nothing pressed and on a floor then let go ??"
-    if (Input().Pressed() && pLiftPoint->OnAnyFloor())
+    if (Input().GetHeld() && pLiftPoint->OnAnyFloor())
     {
         return eSligMotions::Motion_50_LiftUngrip;
     }
@@ -1911,7 +1911,7 @@ s16 Slig::HandlePlayerControlled()
 {
     FP kScaleGrid = ScaleToGridSize(GetSpriteScale());
 
-    const auto pressed = Input().Pressed();
+    const auto pressed = Input().GetHeld();
     if (pressed & sInputKey_Right)
     {
         if (!GetAnimation().GetFlipX())
@@ -2368,7 +2368,7 @@ void Slig::Motion_0_StandIdle()
             {
                 if (Input().IsAnyHeld(0xF0))
                 {
-                    field_126_input = Input().Held();
+                    field_126_input = Input().GetPressed();
                     mCurrentMotion = eSligMotions::Motion_18_GameSpeak;
                     return;
                 }
@@ -2384,7 +2384,7 @@ void Slig::Motion_0_StandIdle()
 
 void Slig::Motion_1_StandToWalk()
 {
-    field_126_input |= Input().Held();
+    field_126_input |= Input().GetPressed();
 
     if (GetAnimation().GetIsLastFrame())
     {
@@ -2407,7 +2407,7 @@ void Slig::Motion_2_Walking()
         MusicController::static_PlayMusic(MusicController::MusicTypes::eChase_4, this, 0, 0);
     }
 
-    field_126_input |= Input().Held();
+    field_126_input |= Input().GetPressed();
 
     if (WallHit(GetSpriteScale() * FP_FromInteger(35), mVelX * FP_FromInteger(2)))
     {
@@ -2534,7 +2534,7 @@ void Slig::Motion_2_Walking()
 
 void Slig::Motion_3_StandToRun()
 {
-    field_126_input |= Input().Held();
+    field_126_input |= Input().GetPressed();
 
     if (GetAnimation().GetIsLastFrame())
     {
@@ -2566,7 +2566,7 @@ void Slig::Motion_4_Running()
         MusicController::static_PlayMusic(MusicController::MusicTypes::eSlogChase_5, this, 0, 0);
     }
 
-    field_126_input |= Input().Held();
+    field_126_input |= Input().GetPressed();
 
     EventBroadcast(kEventNoise, this);
 
@@ -3102,7 +3102,7 @@ void Slig::Motion_17_DepossessingAbort()
 
 void Slig::Motion_18_GameSpeak()
 {
-    field_126_input |= Input().Held();
+    field_126_input |= Input().GetPressed();
 
     if (GetAnimation().GetIsLastFrame())
     {

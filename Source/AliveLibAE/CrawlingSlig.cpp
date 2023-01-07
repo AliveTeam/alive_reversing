@@ -1426,7 +1426,7 @@ void CrawlingSlig::Motion_3_Crawling()
             }
             else
             {
-                if ((mVelX > FP_FromInteger(0) && Input().isPressed(InputCommands::Enum::eLeft)) || (mVelX < FP_FromInteger(0) && Input().isPressed(InputCommands::Enum::eRight)) || !(Input().isPressed(InputCommands::Enum::eLeft | InputCommands::Enum::eRight)))
+                if ((mVelX > FP_FromInteger(0) && Input().IsAnyHeld(InputCommands::Enum::eLeft)) || (mVelX < FP_FromInteger(0) && Input().IsAnyHeld(InputCommands::Enum::eRight)) || !(Input().IsAnyHeld(InputCommands::Enum::eLeft | InputCommands::Enum::eRight)))
                 {
                     Set_AnimAndMotion(CrawlingSligMotion::Motion_15_EndCrawling, true);
                 }
@@ -1603,7 +1603,7 @@ void CrawlingSlig::Motion_10_PushingWall()
     if (BrainIs(&CrawlingSlig::Brain_3_Possessed))
     {
         const bool flipX = GetAnimation().GetFlipX();
-        if ((!flipX && Input().isPressed(InputCommands::Enum::eLeft)) || (flipX && Input().isPressed(InputCommands::Enum::eRight)) || !(Input().isPressed(InputCommands::Enum::eLeft | InputCommands::Enum::eRight)))
+        if ((!flipX && Input().IsAnyHeld(InputCommands::Enum::eLeft)) || (flipX && Input().IsAnyHeld(InputCommands::Enum::eRight)) || !(Input().IsAnyHeld(InputCommands::Enum::eLeft | InputCommands::Enum::eRight)))
         {
             Set_AnimAndMotion(CrawlingSligMotion::Motion_17_EndPushingWall, true);
         }
@@ -1702,7 +1702,7 @@ void CrawlingSlig::HandleCommon()
 
     if (BrainIs(&CrawlingSlig::Brain_3_Possessed) && mBrainSubState == Brain_2_Possessed::eBrain3_Possessed_1)
     {
-        if (Input().isPressed(InputCommands::Enum::eRight))
+        if (Input().IsAnyHeld(InputCommands::Enum::eRight))
         {
             if (GetAnimation().GetFlipX())
             {
@@ -1713,7 +1713,7 @@ void CrawlingSlig::HandleCommon()
                 SetNextMotion(CrawlingSligMotion::Motion_3_Crawling);
             }
         }
-        else if (Input().isPressed(InputCommands::Enum::eLeft))
+        else if (Input().IsAnyHeld(InputCommands::Enum::eLeft))
         {
             if (GetAnimation().GetFlipX())
             {
@@ -1724,7 +1724,7 @@ void CrawlingSlig::HandleCommon()
                 SetNextMotion(CrawlingSligMotion::Motion_11_TurnAround);
             }
         }
-        else if (Input().isHeld(InputCommands::Enum::eUp))
+        else if (Input().IsAnyPressed(InputCommands::Enum::eUp))
         {
             mTlvHeader = FindPantsOrWings();
             if (mTlvHeader)
@@ -1752,35 +1752,35 @@ void CrawlingSlig::HandleCommon()
                 }
             }
         }
-        if (Input().isHeld(InputCommands::Enum::eGameSpeak1))
+        if (Input().IsAnyPressed(InputCommands::Enum::eGameSpeak1))
         {
             mSpeak = SligSpeak::eHi_0;
         }
-        else if (Input().isHeld(InputCommands::Enum::eGameSpeak3))
+        else if (Input().IsAnyPressed(InputCommands::Enum::eGameSpeak3))
         {
             mSpeak = Input().Is_Demo_Playing_45F220() != 0 ? SligSpeak::eGetHim_2 : SligSpeak ::eFreeze_8;
         }
-        else if (Input().isHeld(InputCommands::Enum::eGameSpeak4))
+        else if (Input().IsAnyPressed(InputCommands::Enum::eGameSpeak4))
         {
             mSpeak = Input().Is_Demo_Playing_45F220() != 0 ? SligSpeak ::eFreeze_8 : SligSpeak::eGetHim_2;
         }
-        else if (Input().isHeld(InputCommands::Enum::eGameSpeak2))
+        else if (Input().IsAnyPressed(InputCommands::Enum::eGameSpeak2))
         {
             mSpeak = SligSpeak::eHereBoy_1;
         }
-        else if (Input().isHeld(InputCommands::Enum::eGameSpeak6))
+        else if (Input().IsAnyPressed(InputCommands::Enum::eGameSpeak6))
         {
             mSpeak = SligSpeak::eBullshit_5;
         }
-        else if (Input().isHeld(InputCommands::Enum::eGameSpeak7))
+        else if (Input().IsAnyPressed(InputCommands::Enum::eGameSpeak7))
         {
             mSpeak = SligSpeak::eLookOut_6;
         }
-        else if (Input().isHeld(InputCommands::Enum::eGameSpeak5))
+        else if (Input().IsAnyPressed(InputCommands::Enum::eGameSpeak5))
         {
             mSpeak = SligSpeak::eBullshit2_7;
         }
-        else if (Input().isHeld(InputCommands::Enum::eGameSpeak8))
+        else if (Input().IsAnyPressed(InputCommands::Enum::eGameSpeak8))
         {
             mSpeak = SligSpeak::eLaugh_3;
         }

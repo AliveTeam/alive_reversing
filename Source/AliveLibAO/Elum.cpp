@@ -1719,7 +1719,7 @@ void Elum::Motion_2_Unknown()
 
 void Elum::Motion_3_WalkLoop()
 {
-    field_10E_pressed |= Input().Pressed();
+    field_10E_pressed |= Input().GetHeld();
 
     EventBroadcast(kEventNoise, this);
     EventBroadcast(kEventSuspiciousNoise, this);
@@ -1994,7 +1994,7 @@ void Elum::Motion_6_MidWalkToIdle()
 
 void Elum::Motion_7_IdleToWalk2()
 {
-    field_10E_pressed |= Input().Pressed();
+    field_10E_pressed |= Input().GetHeld();
 
     EventBroadcast(kEventNoise, this);
     EventBroadcast(kEventSuspiciousNoise, this);
@@ -2011,7 +2011,7 @@ void Elum::Motion_7_IdleToWalk2()
 
 void Elum::Motion_8_IdleToWalk1()
 {
-    field_10E_pressed |= Input().Pressed();
+    field_10E_pressed |= Input().GetHeld();
 
     EventBroadcast(kEventNoise, this);
     EventBroadcast(kEventSuspiciousNoise, this);
@@ -2733,7 +2733,7 @@ void Elum::Motion_35_RunJumpLand()
 
 void Elum::Motion_36_RunLoop()
 {
-    field_10E_pressed |= Input().Pressed();
+    field_10E_pressed |= Input().GetHeld();
 
     EventBroadcast(kEventNoise, this);
     EventBroadcast(kEventSuspiciousNoise, this);
@@ -2915,7 +2915,7 @@ void Elum::Motion_39_IdleToRun()
     EventBroadcast(kEventNoise, this);
     EventBroadcast(kEventSuspiciousNoise, this);
 
-    field_10E_pressed |= Input().Pressed();
+    field_10E_pressed |= Input().GetHeld();
 
     if (GetAnimation().GetIsLastFrame())
     {
@@ -2927,7 +2927,7 @@ void Elum::Motion_39_IdleToRun()
 
 void Elum::Motion_40_WalkToRun()
 {
-    field_10E_pressed |= Input().Pressed();
+    field_10E_pressed |= Input().GetHeld();
 
     EventBroadcast(kEventNoise, this);
     EventBroadcast(kEventSuspiciousNoise, this);
@@ -2951,7 +2951,7 @@ void Elum::Motion_40_WalkToRun()
 
 void Elum::Motion_41_MidWalkToRun()
 {
-    field_10E_pressed |= Input().Pressed();
+    field_10E_pressed |= Input().GetHeld();
 
     EventBroadcast(kEventNoise, this);
     EventBroadcast(kEventSuspiciousNoise, this);
@@ -2980,7 +2980,7 @@ void Elum::Motion_42_RunToWalk()
     EventBroadcast(kEventNoise, this);
     EventBroadcast(kEventSuspiciousNoise, this);
 
-    field_10E_pressed |= Input().Pressed();
+    field_10E_pressed |= Input().GetHeld();
 
     FP velX{};
     if (GetAnimation().GetFlipX())
@@ -3037,7 +3037,7 @@ void Elum::Motion_43_MidRunToWalk()
     EventBroadcast(kEventNoise, this);
     EventBroadcast(kEventSuspiciousNoise, this);
 
-    field_10E_pressed |= Input().Pressed();
+    field_10E_pressed |= Input().GetHeld();
 
     FP velX = {};
     if (GetAnimation().GetFlipX())

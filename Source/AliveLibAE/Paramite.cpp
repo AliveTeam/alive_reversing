@@ -3062,27 +3062,27 @@ void Paramite::Motion_0_Idle()
         field_138_depossession_timer = sGnFrame + 30;
         SfxPlayMono(relive::SoundEffects::PossessEffect, 0);
     }
-    else if (Input().isHeld(sInputKey_GameSpeak1))
+    else if (Input().IsAnyPressed(sInputKey_GameSpeak1))
     {
         SetCurrentMotion(eParamiteMotions::Motion_20_GameSpeakBegin);
         SetNextMotion(eParamiteMotions::Motion_24_Empty);
     }
-    else if (Input().isHeld(sInputKey_GameSpeak2))
+    else if (Input().IsAnyPressed(sInputKey_GameSpeak2))
     {
         SetCurrentMotion(eParamiteMotions::Motion_20_GameSpeakBegin);
         SetNextMotion(eParamiteMotions::Motion_23_Hiss2);
     }
-    else if (Input().isHeld(sInputKey_GameSpeak3))
+    else if (Input().IsAnyPressed(sInputKey_GameSpeak3))
     {
         SetCurrentMotion(eParamiteMotions::Motion_20_GameSpeakBegin);
         SetNextMotion(eParamiteMotions::Motion_22_Hiss1);
     }
-    else if (Input().isHeld(sInputKey_GameSpeak4))
+    else if (Input().IsAnyPressed(sInputKey_GameSpeak4))
     {
         SetCurrentMotion(eParamiteMotions::Motion_20_GameSpeakBegin);
         SetNextMotion(eParamiteMotions::Motion_26_Hiss3);
     }
-    else if (Input().isHeld(sInputKey_GameSpeak6))
+    else if (Input().IsAnyPressed(sInputKey_GameSpeak6))
     {
         SetCurrentMotion(eParamiteMotions::Motion_25_AllOYaGameSpeakBegin);
     }
@@ -3166,7 +3166,7 @@ void Paramite::Motion_2_Walking()
 
     if (GetCurrentMotion() == eParamiteMotions::Motion_2_Walking)
     {
-        field_154_input |= Input().mPads[sCurrentControllerIndex].mHeld;
+        field_154_input |= Input().mPads[sCurrentControllerIndex].mPressed;
         switch (GetAnimation().GetCurrentFrame())
         {
             case 0:
@@ -3220,7 +3220,7 @@ void Paramite::Motion_2_Walking()
             case 10:
                 if (sControlledCharacter == this && mHealth > FP_FromInteger(0))
                 {
-                    if (Input().isPressed(sInputKey_Run))
+                    if (Input().IsAnyHeld(sInputKey_Run))
                     {
                         mRunning = true;
                         SetPreviousMotion(eParamiteMotions::Motion_3_Running);
@@ -3321,7 +3321,7 @@ void Paramite::Motion_3_Running()
 
     if (GetCurrentMotion() == eParamiteMotions::Motion_3_Running)
     {
-        field_154_input = Input().mPads[sCurrentControllerIndex].mHeld | field_154_input;
+        field_154_input = Input().mPads[sCurrentControllerIndex].mPressed | field_154_input;
 
         if (GetAnimation().GetCurrentFrame() == 3 || GetAnimation().GetCurrentFrame() == 10)
         {
@@ -3674,7 +3674,7 @@ const FP sRunBeginTable_546520[3] = {
 
 void Paramite::Motion_9_RunBegin()
 {
-    field_154_input |= Input().mPads[sCurrentControllerIndex].mHeld;
+    field_154_input |= Input().mPads[sCurrentControllerIndex].mPressed;
 
     if (GetAnimation().GetFlipX())
     {
@@ -4558,19 +4558,19 @@ void Paramite::Motion_34_WebLeaveDown()
 void Paramite::Motion_35_WebIdle()
 {
     // Go down web
-    if (Input().isPressed(sInputKey_Down))
+    if (Input().IsAnyHeld(sInputKey_Down))
     {
         SetCurrentMotion(eParamiteMotions::Motion_37_WebGoingDown);
     }
 
     // Go up web
-    if (Input().isPressed(sInputKey_Up))
+    if (Input().IsAnyHeld(sInputKey_Up))
     {
         SetCurrentMotion(eParamiteMotions::Motion_36_WebGoingUp);
     }
 
     // Try to leave to the left
-    if (Input().isPressed(sInputKey_Left))
+    if (Input().IsAnyHeld(sInputKey_Left))
     {
         FP hitX = {};
         FP hitY = {};
@@ -4599,7 +4599,7 @@ void Paramite::Motion_35_WebIdle()
     }
 
     // Try to leave to the right
-    if (Input().isPressed(sInputKey_Right))
+    if (Input().IsAnyHeld(sInputKey_Right))
     {
         FP hitX = {};
         FP hitY = {};
@@ -4630,7 +4630,7 @@ void Paramite::Motion_35_WebIdle()
 
 void Paramite::Motion_36_WebGoingUp()
 {
-    if (Input().isPressed(sInputKey_Up))
+    if (Input().IsAnyHeld(sInputKey_Up))
     {
         mVelY = -(GetSpriteScale() * FP_FromInteger(4));
     }
@@ -4739,7 +4739,7 @@ void Paramite::Motion_36_WebGoingUp()
 
 void Paramite::Motion_37_WebGoingDown()
 {
-    if (Input().isPressed(sInputKey_Down))
+    if (Input().IsAnyHeld(sInputKey_Down))
     {
         mVelY = (GetSpriteScale() * FP_FromInteger(4));
     }
@@ -4896,7 +4896,7 @@ void Paramite::Motion_40_Eating()
 
     if (sControlledCharacter == this && GetAnimation().GetIsLastFrame())
     {
-        if (Input().isPressed(sInputKey_Down))
+        if (Input().IsAnyHeld(sInputKey_Down))
         {
             return;
         }
@@ -5074,13 +5074,17 @@ void Paramite::HandleDDCheat()
         sArray2_5C92BC[7] = 4;
     }
 
-    // TODO: InputCommand constants
-    if (Input().mPads[sCurrentControllerIndex].mPressed & 0xF)
+    if (Input().IsAnyHeld(
+        InputCommands::Enum::eUp |
+        InputCommands::Enum::eDown |
+        InputCommands::Enum::eLeft |
+        InputCommands::Enum::eRight
+    ))
     {
         mVelX = FP_FromInteger(sArray1_5C929C[Input().mPads[sCurrentControllerIndex].mDir >> 5]);
         mVelY = FP_FromInteger(sArray2_5C92BC[Input().mPads[sCurrentControllerIndex].mDir >> 5]);
 
-        if (sInputKey_Run & Input().mPads[sCurrentControllerIndex].mPressed)
+        if (sInputKey_Run & Input().mPads[sCurrentControllerIndex].mRawInput)
         {
             mVelX += FP_FromInteger(sArray1_5C929C[Input().mPads[sCurrentControllerIndex].mDir >> 5]);
             mVelX += FP_FromInteger(sArray1_5C929C[Input().mPads[sCurrentControllerIndex].mDir >> 5]);
@@ -5715,7 +5719,7 @@ PullRingRope* Paramite::FindPullRope()
 s16 Paramite::NextPlayerInputMotion()
 {
     const FP kGridSize = ScaleToGridSize(GetSpriteScale());
-    if (Input().isPressed(sInputKey_Right))
+    if (Input().IsAnyHeld(sInputKey_Right))
     {
         if (GetAnimation().GetFlipX())
         {
@@ -5729,7 +5733,7 @@ s16 Paramite::NextPlayerInputMotion()
                 return 0;
             }
 
-            if (Input().isPressed(sInputKey_Run))
+            if (Input().IsAnyHeld(sInputKey_Run))
             {
                 mVelX = (kGridSize / FP_FromDouble(3.5));
                 SetCurrentMotion(eParamiteMotions::Motion_9_RunBegin);
@@ -5742,7 +5746,7 @@ s16 Paramite::NextPlayerInputMotion()
             return 1;
         }
     }
-    else if (Input().isPressed(sInputKey_Left))
+    else if (Input().IsAnyHeld(sInputKey_Left))
     {
         if (!(GetAnimation().GetFlipX()))
         {
@@ -5756,7 +5760,7 @@ s16 Paramite::NextPlayerInputMotion()
                 return 0;
             }
 
-            if (Input().isPressed(sInputKey_Run))
+            if (Input().IsAnyHeld(sInputKey_Run))
             {
                 mVelX = -(kGridSize / FP_FromDouble(3.5));
                 SetCurrentMotion(eParamiteMotions::Motion_9_RunBegin);
@@ -5771,12 +5775,12 @@ s16 Paramite::NextPlayerInputMotion()
     }
     else
     {
-        if (Input().isHeld(sInputKey_Up))
+        if (Input().IsAnyPressed(sInputKey_Up))
         {
             SetCurrentMotion(eParamiteMotions::Motion_12_JumpUpBegin);
             return 1;
         }
-        else if (Input().isPressed(sInputKey_Down))
+        else if (Input().IsAnyHeld(sInputKey_Down))
         {
             FP xCheck = {};
             if (GetAnimation().GetFlipX())
@@ -5802,7 +5806,7 @@ s16 Paramite::NextPlayerInputMotion()
         }
         else
         {
-            if (Input().isPressed(sInputKey_ThrowItem | sInputKey_DoAction | sInputKey_GameSpeak5))
+            if (Input().IsAnyHeld(sInputKey_ThrowItem | sInputKey_DoAction | sInputKey_GameSpeak5))
             {
                 if (FindTarget())
                 {
@@ -5823,7 +5827,7 @@ s16 Paramite::NextPlayerInputMotion()
             }
             else
             {
-                if (Input().isPressed(sInputKey_Hop))
+                if (Input().IsAnyHeld(sInputKey_Hop))
                 {
                     ToHop();
                     return 1;
@@ -6083,7 +6087,7 @@ void Paramite::CheckForPlatform()
 void Paramite::HandleStopWalking()
 {
     // Pressing opposite direction of movement or not pressing any direction
-    if ((mVelX > FP_FromInteger(0) && Input().isPressed(sInputKey_Left)) || (mVelX < FP_FromInteger(0) && Input().isPressed(sInputKey_Right)) || !Input().isPressed(sInputKey_Left | sInputKey_Right))
+    if ((mVelX > FP_FromInteger(0) && Input().IsAnyHeld(sInputKey_Left)) || (mVelX < FP_FromInteger(0) && Input().IsAnyHeld(sInputKey_Right)) || !Input().IsAnyHeld(sInputKey_Left | sInputKey_Right))
     {
         SetCurrentMotion(eParamiteMotions::Motion_8_WalkEnd);
     }
@@ -6091,11 +6095,11 @@ void Paramite::HandleStopWalking()
 
 void Paramite::HandleInputRunning()
 {
-    if ((mVelX > FP_FromInteger(0) && Input().isPressed(sInputKey_Left)) || (mVelX < FP_FromInteger(0) && Input().isPressed(sInputKey_Right)) || !Input().isPressed(sInputKey_Left | sInputKey_Right))
+    if ((mVelX > FP_FromInteger(0) && Input().IsAnyHeld(sInputKey_Left)) || (mVelX < FP_FromInteger(0) && Input().IsAnyHeld(sInputKey_Right)) || !Input().IsAnyHeld(sInputKey_Left | sInputKey_Right))
     {
         SetCurrentMotion(eParamiteMotions::Motion_10_RunEnd);
     }
-    else if (Input().isPressed(sInputKey_Run))
+    else if (Input().IsAnyHeld(sInputKey_Run))
     {
         if (sInputKey_Hop & field_154_input)
         {

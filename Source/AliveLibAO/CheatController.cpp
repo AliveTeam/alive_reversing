@@ -114,7 +114,7 @@ CheatController::~CheatController()
 
 void CheatController::VUpdate()
 {
-    const u16 held = Input().Held();
+    const u16 held = Input().GetPressed();
     if (held)
     {
         // Only do cheat code check if shift is held

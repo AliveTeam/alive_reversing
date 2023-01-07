@@ -223,7 +223,7 @@ void DDCheat::VUpdate()
         return;
     }
 
-    auto activePadPressed = Input().mPads[sCurrentControllerIndex].mHeld;
+    auto activePadPressed = Input().mPads[sCurrentControllerIndex].mPressed;
 
     if (gDDCheatOn)
     {
@@ -324,8 +324,8 @@ void DDCheat::VUpdate()
             DebugStr_4F5560("\nPeak: %ikb", sPeakedManagedMemUsage_AB4A08 / 1024);*/
         }
 
-        mInputPressed = Input().mPads[sCurrentControllerIndex == 0].mHeld;
-        if (sDDCheat_PrevDebugInput == Input().mPads[sCurrentControllerIndex == 0].mPressed
+        mInputPressed = Input().mPads[sCurrentControllerIndex == 0].mPressed;
+        if (sDDCheat_PrevDebugInput == Input().mPads[sCurrentControllerIndex == 0].mRawInput
             && sDDCheat_PrevDebugInput)
         {
             if (!--sDDCheat_DebugInputDelay)
@@ -336,7 +336,7 @@ void DDCheat::VUpdate()
         }
         else
         {
-            sDDCheat_PrevDebugInput = Input().mPads[sCurrentControllerIndex == 0].mPressed;
+            sDDCheat_PrevDebugInput = Input().mPads[sCurrentControllerIndex == 0].mRawInput;
             sDDCheat_DebugInputDelay = 10;
         }
 
@@ -347,7 +347,7 @@ void DDCheat::VUpdate()
 
         if (mUnknown1)
         {
-            if (Input().mPads[sCurrentControllerIndex == 0].mPressed & InputCommands::Enum::eCheatMode)
+            if (Input().mPads[sCurrentControllerIndex == 0].mRawInput & InputCommands::Enum::eCheatMode)
             {
                 mFnIdx = 0;
             }
@@ -357,7 +357,7 @@ void DDCheat::VUpdate()
             }
 
             // Using hop instead looks like the only way to actually change the menu properly
-            if (Input().mPads[sCurrentControllerIndex == 0].mPressed & InputCommands::Enum::eHop /*field_3C_flags & 2*/)
+            if (Input().mPads[sCurrentControllerIndex == 0].mRawInput & InputCommands::Enum::eHop /*field_3C_flags & 2*/)
             {
                 if (mInputPressed & InputCommands::Enum::eDown)
                 {

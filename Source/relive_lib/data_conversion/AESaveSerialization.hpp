@@ -1300,7 +1300,7 @@ inline void to_json(nlohmann::json& j, const AbeSaveState& p)
         {"shrivel", p.mShrivel},
         {"have_shrykull", p.mHaveShrykull},
         {"have_invisibility", p.bHaveInvisiblity},
-        {"prev_held", p.mPrevHeld},
+        {"prev_input", p.mPrevInput},
         {"released_buttons", p.mReleasedButtons},
         {"knockdown_motion", p.mKnockdownMotion},
         {"rolling_motion_timer", p.mRollingMotionTimer},
@@ -1382,7 +1382,7 @@ inline void from_json(const nlohmann::json& j, AbeSaveState& p)
     j.at("shrivel").get_to(p.mShrivel);
     j.at("have_shrykull").get_to(p.mHaveShrykull);
     j.at("have_invisibility").get_to(p.bHaveInvisiblity);
-    j.at("prev_held").get_to(p.mPrevHeld);
+    j.at("prev_input").get_to(p.mPrevInput);
     j.at("released_buttons").get_to(p.mReleasedButtons);
     j.at("knockdown_motion").get_to(p.mKnockdownMotion);
     j.at("rolling_motion_timer").get_to(p.mRollingMotionTimer);

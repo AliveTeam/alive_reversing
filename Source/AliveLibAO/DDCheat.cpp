@@ -225,7 +225,7 @@ void DDCheat::VUpdate()
 
         if (cheat_enabled)
         {
-            auto isHeld = Input().Held();
+            auto isHeld = Input().GetPressed();
             if (isHeld & InputCommands::eDoAction)
             {
                 showDebugCreatureInfo_5076E0 = showDebugCreatureInfo_5076E0 == 0;
@@ -239,8 +239,8 @@ void DDCheat::VUpdate()
                 doNothing_4FF860 = doNothing_4FF860 == 0;
             }
         }
-        field_24_input = Input().Held(otherController);
-        auto isPressed = Input().Pressed(otherController);
+        field_24_input = Input().GetPressed(otherController);
+        auto isPressed = Input().GetHeld(otherController);
         if (currentlyPressedButtons_4FF854 == isPressed && currentlyPressedButtons_4FF854)
         {
             dword_4C31A8--;

@@ -26,12 +26,12 @@ bool Input_JoyStickAvailable();
 
 struct PSX_Pad final
 {
-    u32 mPressed;
+    u32 mRawInput;
     u8 mDir;
     u8 field_5;
     u16 field_6_padding; // Not confirmed
     u32 mPreviousInput;
-    u32 mHeld;
+    u32 mPressed;
     u32 mReleased;
     u32 field_14_padding; // Not confirmed
 };
@@ -69,7 +69,7 @@ enum Enum : u32
     // 0x2000000    = nothing
     // 0x4000000    = nothing
     // 0x8000000    = nothing
-    // 0x10000000   = nothing
+    eDelete = 1u << 28,    // 0x10000000
     ePageUp = 1u << 29,    // 0x20000000
     ePageDown = 1u << 30,  // 0x40000000
     eConfigure = 1u << 31, // 0x80000000
@@ -187,9 +187,13 @@ public:
     u16 field_3A_pad_idx = 0;
     u32 mCommand = 0;
     u32 mCommandDuration = 0;
-    bool isPressed(u32 command);
-    bool isHeld(u32 command);
-    bool IsReleased(u32 keys);
+    bool IsAnyHeld(u32 command);
+    bool IsAnyPressed(u32 command);
+    bool IsAnyReleased(u32 keys);
+
+    u32 GetHeld();
+    u32 GetPressed();
+    u32 GetReleased();
 };
 
 InputObject& Input();

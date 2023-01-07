@@ -1867,7 +1867,7 @@ void Abe::PickUpThrowabe_Or_PressBomb(FP fpX, s32 fpY, s16 bStandToCrouch)
 
 void Abe::CrouchingGameSpeak()
 {
-    field_10C_prev_held |= Input().Held();
+    field_10C_prev_held |= Input().GetPressed();
 
     if (Input().IsAnyPressed(sInputKey_LeftGameSpeakEnabler))
     {
@@ -2457,7 +2457,7 @@ s16 Abe::MoveLiftUpOrDown(FP yVelocity)
         }
     }
 
-    if (Input().Pressed() && pLiftPoint->OnAnyFloor() && !pLiftPoint->mMoving)
+    if (Input().GetHeld() && pLiftPoint->OnAnyFloor() && !pLiftPoint->mMoving)
     {
         return eAbeMotions::Motion_134_LiftGrabEnd;
     }
@@ -3220,7 +3220,7 @@ void Abe::Motion_0_Idle()
     }
     if (Input().IsAnyPressed(sInputKey_LeftGameSpeakEnabler | sInputKey_RightGameSpeakEnabler))
     {
-        const auto held = Input().Held();
+        const auto held = Input().GetPressed();
         if (held & 0xF0)
         {
             field_10C_prev_held = held;
@@ -3527,7 +3527,7 @@ void Abe::Motion_0_Idle()
 
 void Abe::Motion_1_WalkLoop()
 {
-    field_10C_prev_held |= Input().Pressed();
+    field_10C_prev_held |= Input().GetHeld();
 
     EventBroadcast(kEventNoise, this);
     EventBroadcast(kEventSuspiciousNoise, this);
@@ -4026,7 +4026,7 @@ void Abe::Motion_5_MidWalkToIdle()
 
 void Abe::Motion_6_WalkBegin()
 {
-    field_10C_prev_held |= Input().Pressed();
+    field_10C_prev_held |= Input().GetHeld();
 
     EventBroadcast(kEventNoise, this);
     EventBroadcast(kEventSuspiciousNoise, this);
@@ -4291,7 +4291,7 @@ void Abe::Motion_19_CrouchIdle()
 
     FollowLift();
 
-    if (Input().IsAllPressed(5) && Input().IsAllHeld(5))
+    if (Input().IsAnyHeld(InputCommands::eLeftGamespeak) && Input().IsAnyHeld(InputCommands::eRightGameSpeak))
     {
         Mudokon_SFX(MudSounds::eDunno_15, 0, 0, this);
         mCurrentMotion = eAbeMotions::Motion_23_CrouchSpeak;
@@ -4465,7 +4465,7 @@ void Abe::Motion_22_CrouchSpeak()
 
 void Abe::Motion_23_CrouchSpeak()
 {
-    field_10C_prev_held |= Input().Held();
+    field_10C_prev_held |= Input().GetPressed();
 
     if (GetAnimation().GetIsLastFrame())
     {
@@ -4535,7 +4535,7 @@ void Abe::Motion_25_RollLoop()
     EventBroadcast(kEventNoise, this);
     EventBroadcast(kEventSuspiciousNoise, this);
 
-    field_10E_released_buttons |= Input().Released();
+    field_10E_released_buttons |= Input().GetReleased();
 
     if (WallHit(GetSpriteScale() * FP_FromInteger(20), mVelX))
     {
@@ -5294,7 +5294,7 @@ bool Abe::CheckForPortalAndRunJump()
 
 void Abe::Motion_35_RunLoop()
 {
-    field_10C_prev_held |= Input().Pressed();
+    field_10C_prev_held |= Input().GetHeld();
 
     EventBroadcast(kEventNoise, this);
     EventBroadcast(kEventSuspiciousNoise, this);
@@ -5522,7 +5522,7 @@ void Abe::Motion_41_StandingToRun()
     EventBroadcast(kEventNoise, this);
     EventBroadcast(kEventSuspiciousNoise, this);
 
-    field_10C_prev_held |= Input().Pressed();
+    field_10C_prev_held |= Input().GetHeld();
 
     if (WallHit(GetSpriteScale() * FP_FromInteger(50), mVelX))
     {
@@ -5622,7 +5622,7 @@ void Abe::Motion_42_SneakLoop()
 
 void Abe::Motion_43_WalkToSneak()
 {
-    field_10C_prev_held |= Input().Pressed();
+    field_10C_prev_held |= Input().GetHeld();
 
     if (GetAnimation().GetFlipX())
     {
@@ -5651,7 +5651,7 @@ void Abe::Motion_43_WalkToSneak()
 
 void Abe::Motion_44_SneakToWalk()
 {
-    field_10C_prev_held |= Input().Pressed();
+    field_10C_prev_held |= Input().GetHeld();
 
     if (GetAnimation().GetFlipX())
     {
@@ -5680,7 +5680,7 @@ void Abe::Motion_44_SneakToWalk()
 
 void Abe::Motion_45_MidWalkToSneak()
 {
-    field_10C_prev_held |= Input().Pressed();
+    field_10C_prev_held |= Input().GetHeld();
 
     if (GetAnimation().GetFlipX())
     {
@@ -5711,7 +5711,7 @@ void Abe::Motion_45_MidWalkToSneak()
 
 void Abe::Motion_46_MidSneakToWalk()
 {
-    field_10C_prev_held |= Input().Pressed();
+    field_10C_prev_held |= Input().GetHeld();
 
     if (GetAnimation().GetFlipX())
     {
@@ -5742,7 +5742,7 @@ void Abe::Motion_46_MidSneakToWalk()
 
 void Abe::Motion_47_SneakBegin()
 {
-    field_10C_prev_held |= Input().Pressed();
+    field_10C_prev_held |= Input().GetHeld();
 
     if (GetAnimation().GetIsLastFrame())
     {
@@ -5795,7 +5795,7 @@ void Abe::Motion_49_MidSneakToIdle()
 
 void Abe::Motion_50_WalkToRun()
 {
-    field_10C_prev_held |= Input().Pressed();
+    field_10C_prev_held |= Input().GetHeld();
 
     EventBroadcast(kEventNoise, this);
     EventBroadcast(kEventSuspiciousNoise, this);
@@ -5828,7 +5828,7 @@ void Abe::Motion_50_WalkToRun()
 
 void Abe::Motion_51_MidWalkToRun()
 {
-    field_10C_prev_held |= Input().Pressed();
+    field_10C_prev_held |= Input().GetHeld();
 
     EventBroadcast(kEventNoise, this);
     EventBroadcast(kEventSuspiciousNoise, this);
@@ -5862,7 +5862,7 @@ void Abe::Motion_51_MidWalkToRun()
 
 void Abe::Motion_52_RunToWalk()
 {
-    field_10C_prev_held |= Input().Pressed();
+    field_10C_prev_held |= Input().GetHeld();
 
     EventBroadcast(kEventNoise, this);
     EventBroadcast(kEventSuspiciousNoise, this);
@@ -5893,7 +5893,7 @@ void Abe::Motion_52_RunToWalk()
 
 void Abe::Motion_53_MidRunToWalk()
 {
-    field_10C_prev_held |= Input().Pressed();
+    field_10C_prev_held |= Input().GetHeld();
 
     EventBroadcast(kEventNoise, this);
     EventBroadcast(kEventSuspiciousNoise, this);
@@ -5926,7 +5926,7 @@ void Abe::Motion_53_MidRunToWalk()
 
 void Abe::Motion_54_RunTurnToRun()
 {
-    field_10C_prev_held |= Input().Pressed();
+    field_10C_prev_held |= Input().GetHeld();
 
     EventBroadcast(kEventNoise, this);
     EventBroadcast(kEventSuspiciousNoise, this);
@@ -5949,7 +5949,7 @@ void Abe::Motion_54_RunTurnToRun()
 
 void Abe::Motion_55_RunTurnToWalk()
 {
-    field_10C_prev_held |= Input().Pressed();
+    field_10C_prev_held |= Input().GetHeld();
 
     EventBroadcast(kEventNoise, this);
     EventBroadcast(kEventSuspiciousNoise, this);
@@ -6015,7 +6015,7 @@ void Abe::Motion_58_ToSpeak()
 {
     FollowLift();
 
-    field_10C_prev_held |= Input().Held();
+    field_10C_prev_held |= Input().GetPressed();
 
     if (GetAnimation().GetIsLastFrame())
     {
@@ -7811,7 +7811,7 @@ void Abe::Motion_103_ElumIdle()
 {
     if (!Input().IsAnyPressed(sInputKey_LeftGameSpeakEnabler | sInputKey_RightGameSpeakEnabler) || !Input().IsAnyHeld(0xF0))
     {
-        if (Input().Held() == sInputKey_Down && !gDDCheat_FlyingEnabled)
+        if (Input().GetPressed() == sInputKey_Down && !gDDCheat_FlyingEnabled)
         {
             mCurrentMotion = eAbeMotions::Motion_137_ElumUnmountBegin;
         }

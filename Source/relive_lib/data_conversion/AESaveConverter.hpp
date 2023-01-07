@@ -1883,7 +1883,7 @@ struct AbeSaveState final
     s8 bShrivel;
     s8 mHaveShrykull;
     s8 bHaveInvisiblity;
-    u16 mPrevHeld;
+    u16 mPrevInput;
     u16 mReleasedButtons;
     u16 mKnockdownMotion;
     s16 field_76_padding;
@@ -1994,7 +1994,7 @@ struct AbeSaveState final
         d.mShrivel = data.bShrivel;
         d.mHaveShrykull = data.mHaveShrykull;
         d.bHaveInvisiblity = data.bHaveInvisiblity;
-        d.mPrevHeld = data.mPrevHeld;
+        d.mPrevInput = data.mPrevInput;
         d.mReleasedButtons = data.mReleasedButtons;
         d.mKnockdownMotion = data.mKnockdownMotion;
         d.mRollingMotionTimer = data.mRollingMotionTimer;

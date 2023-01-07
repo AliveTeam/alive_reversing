@@ -84,12 +84,12 @@ CheatController::~CheatController()
 
 void CheatController::VUpdate()
 {
-    auto held = Input().mPads[sCurrentControllerIndex].mHeld;
+    auto held = Input().mPads[sCurrentControllerIndex].mPressed;
 
     if (held)
     {
         // Only do cheat code check if shift is held
-        if (Input().mPads[sCurrentControllerIndex].mPressed & InputCommands::Enum::eRun)
+        if (Input().mPads[sCurrentControllerIndex].mRawInput & InputCommands::Enum::eRun)
         {
             for (auto& cheatEntry : sCheatArray)
             {

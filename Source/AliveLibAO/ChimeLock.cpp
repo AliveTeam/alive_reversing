@@ -465,7 +465,7 @@ void ChimeLock::VUpdate()
                 {
                     mUnpossessionCountdown = 30;
                     mChimeLockState = ChimeLockStates::eUnPossessing_3;
-                    field_134_pressed = Input().Pressed();
+                    field_134_pressed = Input().GetHeld();
 
                     field_164_ChimeLock_num[0] = BellPositions::eNone_0;
                     field_164_ChimeLock_num[1] = BellPositions::eNone_0;
@@ -474,7 +474,7 @@ void ChimeLock::VUpdate()
                     return;
                 }
 
-                const auto pressed = Input().Pressed();
+                const auto pressed = Input().GetHeld();
                 if (Input().IsAnyPressed(eThrowItem) && !(field_134_pressed & eThrowItem))
                 {
                     SetTargetBellIfSpace(3);

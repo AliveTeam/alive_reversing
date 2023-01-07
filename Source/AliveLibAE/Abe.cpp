@@ -624,7 +624,7 @@ Abe::Abe()
     GetAnimation().SetSemiTrans(true);
     GetAnimation().SetRenderMode(TPageAbr::eBlend_0);
 
-    mPrevHeld = 0;
+    mPrevInput = 0;
     mBaseAliveGameObjectLastAnimFrame = 0;
     field_120_state.raw = 0;
     mRingPulseTimer = 0;
@@ -815,7 +815,7 @@ s32 Abe::CreateFromSaveState(const u8* pData)
     sActiveHero->mHaveInvisibility = pSaveState->bHaveInvisiblity;
     sActiveHero->BaseAliveGameObjectCollisionLineType = pSaveState->mCollisionLineType;
 
-    sActiveHero->mPrevHeld = InputObject::PsxButtonsToKeyboardInput_45EE40(pSaveState->mPrevHeld);
+    sActiveHero->mPrevInput = InputObject::PsxButtonsToKeyboardInput_45EE40(pSaveState->mPrevInput);
     sActiveHero->mReleasedButtons = InputObject::PsxButtonsToKeyboardInput_45EE40(pSaveState->mReleasedButtons);
     sActiveHero->mKnockdownMotion = pSaveState->mKnockdownMotion;
     sActiveHero->field_128.mRollingMotionTimer = sGnFrame - pSaveState->mRollingMotionTimer;
@@ -903,12 +903,12 @@ void Abe::HandleDDCheat()
     mCurrentMotion = eAbeMotions::jMotion_85_Fall_455070;
     BaseAliveGameObjectCollisionLine = nullptr;
 
-    if (Input().mPads[sCurrentControllerIndex].mPressed & (InputCommands::Enum::eRight | InputCommands::Enum::eLeft | InputCommands::Enum::eDown | InputCommands::Enum::eUp))
+    if (Input().IsAnyHeld(InputCommands::Enum::eRight | InputCommands::Enum::eLeft | InputCommands::Enum::eDown | InputCommands::Enum::eUp))
     {
         mVelX = sAbe_xVel_table_545770[(u8) Input().mPads[sCurrentControllerIndex].mDir >> 5];
         mVelY = sAbe_yVel_table_545790[(u8) Input().mPads[sCurrentControllerIndex].mDir >> 5];
 
-        if (sInputKey_Run & Input().mPads[sCurrentControllerIndex].mPressed)
+        if (Input().IsAnyHeld(sInputKey_Run))
         {
             mVelX += sAbe_xVel_table_545770[(u8) Input().mPads[sCurrentControllerIndex].mDir >> 5];
             mVelX += sAbe_xVel_table_545770[(u8) Input().mPads[sCurrentControllerIndex].mDir >> 5];
@@ -1574,7 +1574,7 @@ s32 Abe::VGetSaveState(u8* pSaveBuffer)
     pSaveState->mHaveShrykull = static_cast<s8>(mHaveShrykull);
     pSaveState->bHaveInvisiblity = static_cast<s8>(mHaveInvisibility);
 
-    pSaveState->mPrevHeld = InputObject::KeyboardInputToPsxButtons_45EF70(mPrevHeld);
+    pSaveState->mPrevInput = InputObject::KeyboardInputToPsxButtons_45EF70(mPrevInput);
     pSaveState->mReleasedButtons = InputObject::KeyboardInputToPsxButtons_45EF70(mReleasedButtons);
 
     pSaveState->mKnockdownMotion = mKnockdownMotion;
@@ -2364,18 +2364,18 @@ void Abe::Motion_0_Idle_44EEB0()
     }
 
     // Go to game speak motion.
-    const u32 held = Input().mPads[sCurrentControllerIndex].mHeld;
-    if (held & (InputCommands::Enum::eChant | InputCommands::Enum::eGameSpeak8 | InputCommands::Enum::eGameSpeak7 | InputCommands::Enum::eGameSpeak6 | InputCommands::Enum::eGameSpeak5 | InputCommands::Enum::eGameSpeak4 | InputCommands::Enum::eGameSpeak3 | InputCommands::Enum::eGameSpeak2 | InputCommands::Enum::eGameSpeak1))
+    const u32 pressed = Input().GetPressed();
+    if (pressed & (InputCommands::Enum::eChant | InputCommands::Enum::eGameSpeak8 | InputCommands::Enum::eGameSpeak7 | InputCommands::Enum::eGameSpeak6 | InputCommands::Enum::eGameSpeak5 | InputCommands::Enum::eGameSpeak4 | InputCommands::Enum::eGameSpeak3 | InputCommands::Enum::eGameSpeak2 | InputCommands::Enum::eGameSpeak1))
     {
-        mPrevHeld = held;
+        mPrevInput = pressed;
         mCurrentMotion = eAbeMotions::Motion_11_Speak_45B0A0;
         return;
     }
 
-    if (Input().isPressed(sInputKey_Hop))
+    if (Input().IsAnyHeld(sInputKey_Hop))
     {
         // Some strange alternative way of hoisting, hangover from PSX AO Demo?
-        if (Input().isPressed(sInputKey_Up))
+        if (Input().IsAnyHeld(sInputKey_Up))
         {
             TryHoist_44ED30();
         }
@@ -2403,7 +2403,7 @@ void Abe::Motion_0_Idle_44EEB0()
         return;
     }
 
-    if (Input().isPressed(sInputKey_Down))
+    if (Input().IsAnyHeld(sInputKey_Down))
     {
         // Check for a lift rope (going down)
         BaseGameObject* pLiftPoint = sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId);
@@ -2465,7 +2465,7 @@ void Abe::Motion_0_Idle_44EEB0()
         return;
     }
 
-    if (Input().isHeld(sInputKey_FartRoll))
+    if (Input().IsAnyPressed(sInputKey_FartRoll))
     {
         // Do the fart sound
         Mudokon_SFX(MudSounds::eFart_7, 0, 0, this);
@@ -2505,7 +2505,7 @@ void Abe::Motion_0_Idle_44EEB0()
     }
 
     bool handleDoActionOrThrow = false;
-    if (Input().isPressed(sInputKey_Up))
+    if (Input().IsAnyHeld(sInputKey_Up))
     {
         // Check for lift rope.. (going up)
         BaseGameObject* pLiftPoint = sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId);
@@ -2548,7 +2548,7 @@ void Abe::Motion_0_Idle_44EEB0()
                     {
                         // Check for pressed + held so that Abe does a dunno only once, otherwise he will
                         // loop the dunno while up button is down.
-                        if (Input().isHeld(sInputKey_Up))
+                        if (Input().IsAnyPressed(sInputKey_Up))
                         {
                             mCurrentMotion = eAbeMotions::Motion_34_DunnoBegin_44ECF0;
                         }
@@ -2695,9 +2695,9 @@ void Abe::Motion_0_Idle_44EEB0()
         }
     }
 
-    if (!Input().isPressed(sInputKey_Up) || handleDoActionOrThrow)
+    if (!Input().IsAnyHeld(sInputKey_Up) || handleDoActionOrThrow)
     {
-        if ((sInputKey_ThrowItem & held) && mCurrentMotion == eAbeMotions::Motion_0_Idle_44EEB0)
+        if ((sInputKey_ThrowItem & pressed) && mCurrentMotion == eAbeMotions::Motion_0_Idle_44EEB0)
         {
             if (mBaseThrowableCount > 0 || gInfiniteThrowables)
             {
@@ -2733,7 +2733,7 @@ void Abe::Motion_0_Idle_44EEB0()
         }
         else
         {
-            if (Input().isHeld(sInputKey_DoAction)) // not throwing, maybe pressing up and pressing action, so do action
+            if (Input().IsAnyPressed(sInputKey_DoAction)) // not throwing, maybe pressing up and pressing action, so do action
             {
                 mCurrentMotion = HandleDoAction_455BD0();
             }
@@ -2743,7 +2743,7 @@ void Abe::Motion_0_Idle_44EEB0()
 
 void Abe::Motion_1_WalkLoop_44FBA0()
 {
-    mPrevHeld |= Input().mPads[sCurrentControllerIndex].mPressed;
+    mPrevInput |= Input().GetHeld();
 
     EventBroadcast(kEventNoise, this);
     EventBroadcast(kEventSuspiciousNoise, this);
@@ -2764,7 +2764,7 @@ void Abe::Motion_1_WalkLoop_44FBA0()
         mVelX = ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(9);
     }
 
-    const u32 pressed = Input().mPads[sCurrentControllerIndex].mPressed;
+    const u32 pressed = Input().GetHeld();
 
     if (GetAnimation().GetCurrentFrame() != 2 && GetAnimation().GetCurrentFrame() != 11)
     {
@@ -2812,7 +2812,7 @@ void Abe::Motion_1_WalkLoop_44FBA0()
     }
 
     // Hopping
-    if (sInputKey_Hop & mPrevHeld)
+    if (sInputKey_Hop & mPrevInput)
     {
         mNextMotion = eAbeMotions::Motion_28_HopMid_451C50;
         bEndWalking = true;
@@ -2856,14 +2856,14 @@ void Abe::Motion_1_WalkLoop_44FBA0()
         {
             mCurrentMotion = eAbeMotions::Motion_4_WalkToIdle_44FFC0;
         }
-        mPrevHeld = 0;
+        mPrevInput = 0;
     }
 }
 
 void Abe::Motion_2_StandingTurn_451830()
 {
     const auto currentFrame = GetAnimation().GetCurrentFrame();
-    const u32 pressed = Input().mPads[sCurrentControllerIndex].mPressed;
+    const u32 pressed = Input().GetHeld();
 
     if (currentFrame == 4 && (sInputKey_Run & pressed) && (sInputKey_Right | sInputKey_Left) & pressed)
     {
@@ -3166,7 +3166,7 @@ void Abe::Motion_5_MidWalkToIdle_450080()
 
 void Abe::Motion_6_WalkBegin_44FEE0()
 {
-    mPrevHeld |= Input().mPads[sCurrentControllerIndex].mPressed;
+    mPrevInput |= Input().GetHeld();
 
     // They hear me walking, they hating
     EventBroadcast(kEventNoise, this);
@@ -3213,10 +3213,10 @@ void Abe::Motion_10_Fart_45B1A0()
 
 void Abe::Motion_11_ToSpeak_45B0A0()
 {
-    mPrevHeld |= Input().mPads[sCurrentControllerIndex].mHeld;
+    mPrevInput |= Input().GetPressed();
     if (GetAnimation().GetIsLastFrame())
     {
-        mCurrentMotion = DoGameSpeak_45AB70(mPrevHeld);
+        mCurrentMotion = DoGameSpeak_45AB70(mPrevInput);
         if (mCurrentMotion == -1)
         {
             ToIdle_44E6B0();
@@ -3229,7 +3229,7 @@ void Abe::Motion_11_ToSpeak_45B0A0()
             }
             mbMotionChanged = true;
         }
-        mPrevHeld = 0;
+        mPrevInput = 0;
     }
 }
 
@@ -3472,7 +3472,7 @@ void Abe::Motion_16_LandSoft_45A360()
             mCurrentMotion = eAbeMotions::Motion_112_Chant;
         }
 
-        if (Input().mPads[sCurrentControllerIndex].mPressed & (InputCommands::Enum::eRight | InputCommands::Enum::eLeft))
+        if (Input().IsAnyHeld((InputCommands::Enum::eRight | InputCommands::Enum::eLeft)))
         {
             ToLeftRightMovement_44E340();
         }
@@ -3492,21 +3492,21 @@ void Abe::Motion_17_CrouchIdle_456BC0()
         return;
     }
 
-    mPrevHeld = 0;
+    mPrevInput = 0;
     mReleasedButtons = 0;
 
     // Crouching game speak
     if (CrouchingGameSpeak_453E10())
     {
-        mPrevHeld = 0;
+        mPrevInput = 0;
         EventBroadcast(kEventSpeaking, this);
         return;
     }
 
     // Hit bombs/pick up items ?
-    if (sInputKey_DoAction & Input().mPads[sCurrentControllerIndex].mHeld)
+    if (Input().IsAnyPressed(sInputKey_DoAction))
     {
-        if (!((sInputKey_Left | sInputKey_Right) & Input().mPads[sCurrentControllerIndex].mPressed))
+        if (!(Input().IsAnyHeld(sInputKey_Left | sInputKey_Right)))
         {
             FP gridSize = {};
             if (GetAnimation().GetFlipX())
@@ -3521,10 +3521,10 @@ void Abe::Motion_17_CrouchIdle_456BC0()
         }
     }
 
-    const u32 held = Input().mPads[sCurrentControllerIndex].mHeld;
+    const u32 pressed = Input().GetPressed();
 
     // Crouching throw stuff
-    if (sInputKey_ThrowItem & held
+    if (sInputKey_ThrowItem & pressed
         && mCurrentMotion == eAbeMotions::Motion_17_CrouchIdle_456BC0
         && (mBaseThrowableCount > 0 || gInfiniteThrowables))
     {
@@ -3552,14 +3552,14 @@ void Abe::Motion_17_CrouchIdle_456BC0()
     else
     {
         // Try to stand up
-        if (held & sInputKey_Up && !Is_Celling_Above_44E8D0())
+        if (pressed & sInputKey_Up && !Is_Celling_Above_44E8D0())
         {
             mCurrentMotion = eAbeMotions::Motion_18_CrouchToStand_454600;
             return;
         }
 
         // Crouching farts
-        if (sInputKey_FartRoll & Input().mPads[sCurrentControllerIndex].mHeld)
+        if (Input().IsAnyPressed(sInputKey_FartRoll))
         {
             gEventSystem->PushEvent(GameSpeakEvents::eAbe_Fart_3);
 
@@ -3596,7 +3596,7 @@ void Abe::Motion_17_CrouchIdle_456BC0()
         else
         {
             // Crouching turns
-            if (Input().mPads[sCurrentControllerIndex].mPressed & sInputKey_Right)
+            if (Input().IsAnyHeld(sInputKey_Right))
             {
                 if (GetAnimation().GetFlipX())
                 {
@@ -3609,7 +3609,7 @@ void Abe::Motion_17_CrouchIdle_456BC0()
                 }
             }
 
-            if (sInputKey_Left & Input().mPads[sCurrentControllerIndex].mPressed)
+            if (Input().IsAnyHeld(sInputKey_Left))
             {
                 if (GetAnimation().GetFlipX())
                 {
@@ -3629,7 +3629,7 @@ void Abe::Motion_18_CrouchToStand_454600()
 {
     if (GetAnimation().GetCurrentFrame() == 3)
     {
-        if (Input().mPads[sCurrentControllerIndex].mPressed & (InputCommands::Enum::eRight | InputCommands::Enum::eLeft))
+        if (Input().IsAnyHeld((InputCommands::Enum::eRight | InputCommands::Enum::eLeft)))
         {
             ToLeftRightMovement_44E340();
         }
@@ -3638,7 +3638,7 @@ void Abe::Motion_18_CrouchToStand_454600()
     if (GetAnimation().GetIsLastFrame())
     {
         ToIdle_44E6B0();
-        mPrevHeld = 0;
+        mPrevInput = 0;
     }
 }
 
@@ -3654,7 +3654,7 @@ void Abe::Motion_19_StandToCrouch_453DC0()
 // TODO: End crouching game speak/fart?
 void Abe::Motion_20_CrouchSpeak_454550()
 {
-    mPrevHeld |= Input().mPads[sCurrentControllerIndex].mHeld;
+    mPrevInput |= Input().GetPressed();
 
     if (GetAnimation().GetIsLastFrame())
     {
@@ -3666,7 +3666,7 @@ void Abe::Motion_20_CrouchSpeak_454550()
         {
             EventBroadcast(kEventSpeaking, this);
         }
-        mPrevHeld = 0;
+        mPrevInput = 0;
     }
 }
 
@@ -3708,7 +3708,7 @@ void Abe::Motion_23_RollLoop_453A90()
     EventBroadcast(kEventNoise, this);
     EventBroadcast(kEventSuspiciousNoise, this);
 
-    mReleasedButtons |= Input().mPads[sCurrentControllerIndex].mReleased;
+    mReleasedButtons |= Input().GetReleased();
 
     if (WallHit(GetSpriteScale() * FP_FromInteger(20), mVelX))
     {
@@ -3723,8 +3723,8 @@ void Abe::Motion_23_RollLoop_453A90()
         {
             if (GetAnimation().GetCurrentFrame() == 1 || GetAnimation().GetCurrentFrame() == 5 || GetAnimation().GetCurrentFrame() == 9)
             {
-                if (!Input().isPressed(sInputKey_Run)
-                    || Input().isPressed(sInputKey_FartRoll)
+                if (!Input().IsAnyHeld(sInputKey_Run)
+                    || Input().IsAnyHeld(sInputKey_FartRoll)
                     || Is_Celling_Above_44E8D0()
                     || field_128.mRollingMotionTimer + 9 >= static_cast<s32>(sGnFrame))
                 {
@@ -3740,14 +3740,14 @@ void Abe::Motion_23_RollLoop_453A90()
                 else
                 {
                     ToLeftRightMovement_44E340();
-                    mPrevHeld = 0;
+                    mPrevInput = 0;
                 }
             }
             else if (GetAnimation().GetCurrentFrame() == 0 || GetAnimation().GetCurrentFrame() == 4 || GetAnimation().GetCurrentFrame() == 8)
             {
                 MapFollowMe(true);
 
-                if ((mVelX > FP_FromInteger(0) && !Input().isPressed(sInputKey_Right)) || (mVelX < FP_FromInteger(0) && !Input().isPressed(sInputKey_Left)))
+                if ((mVelX > FP_FromInteger(0) && !Input().IsAnyHeld(sInputKey_Right)) || (mVelX < FP_FromInteger(0) && !Input().IsAnyHeld(sInputKey_Left)))
                 {
                     mCurrentMotion = eAbeMotions::Motion_17_CrouchIdle_456BC0;
                     mVelX = FP_FromInteger(0);
@@ -3808,7 +3808,7 @@ void Abe::Motion_25_RunSlideStop_451330()
                 MapFollowMe(false);
             }
 
-            const u32 pressed = Input().mPads[sCurrentControllerIndex].mPressed;
+            const u32 held = Input().GetHeld();
             if (GetAnimation().GetCurrentFrame() >= 9)
             {
                 if (GetAnimation().GetCurrentFrame() == 15)
@@ -3822,7 +3822,7 @@ void Abe::Motion_25_RunSlideStop_451330()
                     }
                 }
             }
-            else if ((GetAnimation().GetFlipX() && (sInputKey_Right & pressed)) || (!GetAnimation().GetFlipX() && (sInputKey_Left & pressed)))
+            else if ((GetAnimation().GetFlipX() && (sInputKey_Right & held)) || (!GetAnimation().GetFlipX() && (sInputKey_Left & held)))
             {
                 mReturnToPreviousMotion = true;
                 mPreviousMotion = eAbeMotions::Motion_26_RunTurn_451500;
@@ -3854,7 +3854,7 @@ void Abe::Motion_26_RunTurn_451500()
 
                 if (GetAnimation().GetFlipX())
                 {
-                    if (sInputKey_Run & Input().mPads[sCurrentControllerIndex].mPressed)
+                    if (Input().IsAnyHeld(sInputKey_Run))
                     {
                         mVelX = ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(4);
                         mCurrentMotion = eAbeMotions::Motion_52_RunTurnToRun_451710;
@@ -3867,7 +3867,7 @@ void Abe::Motion_26_RunTurn_451500()
                 }
                 else
                 {
-                    if (sInputKey_Run & Input().mPads[sCurrentControllerIndex].mPressed)
+                    if (Input().IsAnyHeld(sInputKey_Run))
                     {
                         mVelX = -(ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(4));
                         mCurrentMotion = eAbeMotions::Motion_52_RunTurnToRun_451710;
@@ -4065,7 +4065,7 @@ void Abe::Motion_28_HopMid_451C50()
 void Abe::Motion_29_HopLand_4523D0()
 {
     if (GetAnimation().GetCurrentFrame() == 2
-        && sInputKey_Hop & Input().mPads[sCurrentControllerIndex].mPressed)
+        && Input().IsAnyHeld(sInputKey_Hop))
     {
         mReturnToPreviousMotion = true;
         mPreviousMotion = eAbeMotions::Motion_27_HopBegin_4521C0;
@@ -4287,10 +4287,10 @@ void Abe::Motion_32_RunJumpLand_453460()
 
         MapFollowMe(true);
 
-        const u32 pressed = Input().mPads[sCurrentControllerIndex].mPressed;
-        if (sInputKey_Left & pressed)
+        const u32 held = Input().GetHeld();
+        if (sInputKey_Left & held)
         {
-            if (sInputKey_Hop & mPrevHeld)
+            if (sInputKey_Hop & mPrevInput)
             {
                 BaseGameObject* pPortal = VIntoBirdPortal(3);
                 if (pPortal)
@@ -4298,17 +4298,17 @@ void Abe::Motion_32_RunJumpLand_453460()
                     mBirdPortalSubState = PortalSubStates::eJumpingInsidePortal_0;
                     mBirdPortalId = pPortal->mBaseGameObjectId;
                     mCurrentMotion = eAbeMotions::Motion_30_RunJumpBegin_4532E0;
-                    mPrevHeld = 0;
+                    mPrevInput = 0;
                     return;
                 }
                 mCurrentMotion = eAbeMotions::Motion_30_RunJumpBegin_4532E0;
-                mPrevHeld = 0;
+                mPrevInput = 0;
                 return;
             }
 
             if (GetAnimation().GetFlipX())
             {
-                if (pressed & sInputKey_Run)
+                if (held & sInputKey_Run)
                 {
                     mCurrentMotion = eAbeMotions::Motion_54_RunJumpLandRun_4538F0;
                     mVelX = -(ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(4));
@@ -4334,9 +4334,9 @@ void Abe::Motion_32_RunJumpLand_453460()
                 Environment_SFX(EnvironmentSfx::eRunSlide_4, 0, 0x7FFF, this);
             }
         }
-        else if (pressed & sInputKey_Right)
+        else if (held & sInputKey_Right)
         {
-            if (sInputKey_Hop & mPrevHeld)
+            if (sInputKey_Hop & mPrevInput)
             {
                 BaseGameObject* pPortal = VIntoBirdPortal(3);
                 if (pPortal)
@@ -4345,7 +4345,7 @@ void Abe::Motion_32_RunJumpLand_453460()
                     mBirdPortalId = pPortal->mBaseGameObjectId;
                 }
                 mCurrentMotion = eAbeMotions::Motion_30_RunJumpBegin_4532E0;
-                mPrevHeld = 0;
+                mPrevInput = 0;
                 return;
             }
 
@@ -4355,7 +4355,7 @@ void Abe::Motion_32_RunJumpLand_453460()
                 mVelX = -(ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(4));
                 Environment_SFX(EnvironmentSfx::eRunSlide_4, 0, 32767, this);
             }
-            else if (pressed & sInputKey_Run)
+            else if (held & sInputKey_Run)
             {
                 mVelX = ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(4);
                 mCurrentMotion = eAbeMotions::Motion_54_RunJumpLandRun_4538F0;
@@ -4374,7 +4374,7 @@ void Abe::Motion_32_RunJumpLand_453460()
                 }
             }
         }
-        else if (sInputKey_Hop & mPrevHeld)
+        else if (sInputKey_Hop & mPrevInput)
         {
             BaseGameObject* pPortal = VIntoBirdPortal(2);
             if (pPortal)
@@ -4383,7 +4383,7 @@ void Abe::Motion_32_RunJumpLand_453460()
                 mBirdPortalId = pPortal->mBaseGameObjectId;
             }
             mCurrentMotion = eAbeMotions::Motion_27_HopBegin_4521C0;
-            mPrevHeld = 0;
+            mPrevInput = 0;
         }
         else
         {
@@ -4411,12 +4411,12 @@ void Abe::DoRunJump()
     }
 
     mCurrentMotion = eAbeMotions::Motion_30_RunJumpBegin_4532E0;
-    mPrevHeld = 0;
+    mPrevInput = 0;
 }
 
 void Abe::Motion_33_RunLoop_4508E0()
 {
-    mPrevHeld |= Input().mPads[sCurrentControllerIndex].mPressed;
+    mPrevInput |= Input().GetHeld();
 
     EventBroadcast(kEventNoise, this);
     EventBroadcast(kEventSuspiciousNoise, this);
@@ -4447,7 +4447,7 @@ void Abe::Motion_33_RunLoop_4508E0()
     if (GetAnimation().GetCurrentFrame() == 0 || GetAnimation().GetCurrentFrame() == 8)
     {
         MapFollowMe(true);
-        if (mPrevHeld & sInputKey_Hop)
+        if (mPrevInput & sInputKey_Hop)
         {
             DoRunJump();
         }
@@ -4459,34 +4459,35 @@ void Abe::Motion_33_RunLoop_4508E0()
         MapFollowMe(true);
 
         // Turning around?
-        if ((mVelX > FP_FromInteger(0) && Input().isPressed(sInputKey_Left)) || (mVelX < FP_FromInteger(0) && Input().isPressed(sInputKey_Right)))
+        if ((mVelX > FP_FromInteger(0) && Input().IsAnyHeld(sInputKey_Left)) || (mVelX < FP_FromInteger(0) && Input().IsAnyHeld(sInputKey_Right)))
         {
             mCurrentMotion = eAbeMotions::Motion_26_RunTurn_451500;
+
             Environment_SFX(EnvironmentSfx::eRunSlide_4, 0, 32767, this);
-            mPrevHeld = 0;
+            mPrevInput = 0;
             return;
         }
 
-        if (mPrevHeld & sInputKey_Hop)
+        if (mPrevInput & sInputKey_Hop)
         {
             DoRunJump();
             return;
         }
 
         // Run to roll
-        if (mPrevHeld & sInputKey_FartRoll)
+        if (mPrevInput & sInputKey_FartRoll)
         {
             mCurrentMotion = eAbeMotions::jMotion_38_RunToRoll_453A70;
             mReleasedButtons = 0;
-            mPrevHeld = 0;
+            mPrevInput = 0;
             return;
         }
 
-        if (Input().isPressed(sInputKey_Left) || Input().isPressed(sInputKey_Right))
+        if (Input().IsAnyHeld(sInputKey_Left) || Input().IsAnyHeld(sInputKey_Right))
         {
-            if (Input().isPressed(sInputKey_Run))
+            if (Input().IsAnyHeld(sInputKey_Run))
             {
-                mPrevHeld = 0;
+                mPrevInput = 0;
                 return;
             }
 
@@ -4525,7 +4526,7 @@ void Abe::Motion_33_RunLoop_4508E0()
             Environment_SFX(EnvironmentSfx::eRunSlide_4, 0, 32767, this);
         }
 
-        mPrevHeld = 0;
+        mPrevInput = 0;
     }
 }
 
@@ -4589,7 +4590,7 @@ void Abe::Motion_39_StandingToRun_450D40()
     EventBroadcast(kEventNoise, this);
     EventBroadcast(kEventSuspiciousNoise, this);
 
-    mPrevHeld |= Input().mPads[sCurrentControllerIndex].mPressed;
+    mPrevInput |= Input().GetHeld();
 
     if (WallHit(GetSpriteScale() * FP_FromInteger(50), mVelX) || WallHit(GetSpriteScale() * FP_FromInteger(20), mVelX))
     {
@@ -4614,7 +4615,7 @@ void Abe::Motion_40_SneakLoop_450550()
 
         if (mCurrentMotion == eAbeMotions::Motion_40_SneakLoop_450550)
         {
-            const u32 pressed = Input().mPads[sCurrentControllerIndex].mPressed;
+            const u32 held = Input().GetHeld();
 
             if (GetAnimation().GetCurrentFrame() == 3 || GetAnimation().GetCurrentFrame() == 13)
             {
@@ -4630,9 +4631,9 @@ void Abe::Motion_40_SneakLoop_450550()
 
                 // Hit wall, changed direction or no longer trying to sneak
                 if (WallHit(GetSpriteScale() * FP_FromInteger(50), gridSize) || WallHit(GetSpriteScale() * FP_FromInteger(20), gridSize)
-                    || (mVelX > FP_FromInteger(0) && (sInputKey_Left & pressed))
-                    || (mVelX < FP_FromInteger(0) && (sInputKey_Right & pressed))
-                    || !((sInputKey_Left | sInputKey_Right) & pressed))
+                    || (mVelX > FP_FromInteger(0) && (sInputKey_Left & held))
+                    || (mVelX < FP_FromInteger(0) && (sInputKey_Right & held))
+                    || !((sInputKey_Left | sInputKey_Right) & held))
                 {
                     if (GetAnimation().GetCurrentFrame() != 3)
                     {
@@ -4648,10 +4649,10 @@ void Abe::Motion_40_SneakLoop_450550()
             {
                 Environment_SFX(EnvironmentSfx::eSneakFootstep_3, 0, 32767, this);
                 MapFollowMe(true);
-                if ((sInputKey_Left | sInputKey_Right) & pressed)
+                if ((sInputKey_Left | sInputKey_Right) & held)
                 {
                     // Sneak to walk
-                    if (!(pressed & sInputKey_Sneak))
+                    if (!(held & sInputKey_Sneak))
                     {
                         if (GetAnimation().GetCurrentFrame() != 6)
                         {
@@ -4663,7 +4664,7 @@ void Abe::Motion_40_SneakLoop_450550()
                         }
                     }
                 }
-                mPrevHeld = 0;
+                mPrevInput = 0;
             }
         }
     }
@@ -4671,7 +4672,7 @@ void Abe::Motion_40_SneakLoop_450550()
 
 void Abe::Motion_41_WalkToSneak_450250()
 {
-    mPrevHeld |= Input().mPads[sCurrentControllerIndex].mPressed;
+    mPrevInput |= Input().GetHeld();
 
     if (GetAnimation().GetFlipX())
     {
@@ -4700,7 +4701,7 @@ void Abe::Motion_41_WalkToSneak_450250()
 
 void Abe::Motion_42_SneakToWalk_4503D0()
 {
-    mPrevHeld |= Input().mPads[sCurrentControllerIndex].mPressed;
+    mPrevInput |= Input().GetHeld();
 
     if (GetAnimation().GetFlipX())
     {
@@ -4755,7 +4756,7 @@ void Abe::Motion_44_MidSneakToWalk_450500()
 
 void Abe::Motion_45_SneakBegin_4507A0()
 {
-    mPrevHeld |= Input().mPads[sCurrentControllerIndex].mPressed;
+    mPrevInput |= Input().GetHeld();
 
     if (GetAnimation().GetIsLastFrame())
     {
@@ -4797,7 +4798,7 @@ void Abe::jMotion_47_MidSneakToIdle_4508C0()
 
 void Abe::Motion_48_WalkToRun_4500A0()
 {
-    mPrevHeld |= Input().mPads[sCurrentControllerIndex].mPressed;
+    mPrevInput |= Input().GetHeld();
 
     EventBroadcast(kEventNoise, this);
     EventBroadcast(kEventSuspiciousNoise, this);
@@ -4814,7 +4815,7 @@ void Abe::Motion_48_WalkToRun_4500A0()
     if (GetAnimation().GetIsLastFrame())
     {
         mCurrentMotion = eAbeMotions::Motion_33_RunLoop_4508E0;
-        mPrevHeld = 0;
+        mPrevInput = 0;
     }
 
     if (WallHit(GetSpriteScale() * FP_FromInteger(50), mVelX) || WallHit(GetSpriteScale() * FP_FromInteger(20), mVelX))
@@ -4843,7 +4844,7 @@ void Abe::Motion_49_MidWalkToRun_450200()
 
 void Abe::Motion_50_RunToWalk_450E20()
 {
-    mPrevHeld |= Input().mPads[sCurrentControllerIndex].mPressed;
+    mPrevInput |= Input().GetHeld();
 
     EventBroadcast(kEventNoise, this);
     EventBroadcast(kEventSuspiciousNoise, this);
@@ -4887,7 +4888,7 @@ void Abe::Motion_51_MidRunToWalk_450F50()
 
 void Abe::Motion_52_RunTurnToRun_451710()
 {
-    mPrevHeld |= Input().mPads[sCurrentControllerIndex].mPressed;
+    mPrevInput |= Input().GetHeld();
 
     EventBroadcast(kEventNoise, this);
     EventBroadcast(kEventSuspiciousNoise, this);
@@ -5006,7 +5007,7 @@ void Abe::Motion_57_Dead_4589A0()
             field_128.field_C_unused = 0;
             mVelX = FP_FromInteger(0);
             mVelY = FP_FromInteger(0);
-            mPrevHeld = 0;
+            mPrevInput = 0;
             field_124_timer++;
             field_128.field_0_abe_timer = sGnFrame + 30;
             if (BaseAliveGameObjectPathTLV && BaseAliveGameObjectPathTLV->mTlvType == ReliveTypes::eDeathDrop)
@@ -5375,12 +5376,12 @@ void Abe::Motion_66_LedgeDescend_454970()
 void Abe::Motion_67_LedgeHang_454E20()
 {
     GetShadow()->mShadowAtBottom = true;
-    const s32 pressed = Input().mPads[sCurrentControllerIndex].mPressed;
-    if (sInputKey_Up & pressed || GetTeleporting())
+    const s32 held = Input().GetHeld();
+    if (sInputKey_Up & held || GetTeleporting())
     {
         mCurrentMotion = eAbeMotions::Motion_65_LedgeAscend_4548E0;
     }
-    else if (pressed & sInputKey_Down)
+    else if (held & sInputKey_Down)
     {
         VOnTrapDoorOpen();
         BaseAliveGameObjectCollisionLine = nullptr;
@@ -5472,14 +5473,14 @@ void Abe::Motion_69_LedgeHangWobble_454EF0()
     }
 
     // Going up the ledge on wobble?
-    const u32 pressed = Input().mPads[sCurrentControllerIndex].mPressed;
-    if (sInputKey_Up & pressed || GetTeleporting())
+    const u32 held = Input().GetHeld();
+    if (sInputKey_Up & held || GetTeleporting())
     {
         mPlayLedgeGrabSounds = false;
         mCurrentMotion = eAbeMotions::Motion_65_LedgeAscend_4548E0;
     }
     // Going down the ledge wobble?
-    else if (pressed & sInputKey_Down)
+    else if (held & sInputKey_Down)
     {
         mPlayLedgeGrabSounds = false;
         VOnTrapDoorOpen();
@@ -6198,7 +6199,7 @@ void Abe::Motion_86_HandstoneBegin()
         case StoneStates::eWaitForInput_4:
             if (pFade->mDone)
             {
-                if (Input().mPads[sCurrentControllerIndex].mHeld & 0x300000)
+                if (Input().IsAnyPressed(InputCommands::Enum::eBack | InputCommands::Enum::eUnPause_OrConfirm))
                 {
                     pFade->Init(Layer::eLayer_FadeFlash_40, FadeOptions::eFadeIn, 0, 8);
                     field_120_state.stone = StoneStates::eCamChangeTransition_5;
@@ -6543,9 +6544,9 @@ void Abe::Motion_104_RockThrowStandingHold()
     auto pRock = static_cast<BaseThrowable*>(sObjectIds.Find_Impl(mThrowableId));
     if (GetAnimation().GetCurrentFrame() >= 4)
     {
-        if (Input().isPressed(sInputKey_Left | sInputKey_Right | sInputKey_Up | sInputKey_Down))
+        if (Input().IsAnyHeld(sInputKey_Left | sInputKey_Right | sInputKey_Up | sInputKey_Down))
         {
-            if (Input().isPressed(sInputKey_Right))
+            if (Input().IsAnyHeld(sInputKey_Right))
             {
                 if (GetAnimation().GetFlipX())
                 {
@@ -6556,7 +6557,7 @@ void Abe::Motion_104_RockThrowStandingHold()
                     mThrowDirection = 2;
                 }
             }
-            else if (Input().isPressed(sInputKey_Left))
+            else if (Input().IsAnyHeld(sInputKey_Left))
             {
                 if (GetAnimation().GetFlipX())
                 {
@@ -6567,7 +6568,7 @@ void Abe::Motion_104_RockThrowStandingHold()
                     mThrowDirection = 0;
                 }
             }
-            else if (Input().isPressed(sInputKey_Up))
+            else if (Input().IsAnyHeld(sInputKey_Up))
             {
                 mThrowDirection = 1;
             }
@@ -6580,7 +6581,7 @@ void Abe::Motion_104_RockThrowStandingHold()
         }
     }
 
-    if (!Input().isPressed(sInputKey_ThrowItem)) // ?? isn't released like in the crouching motion ??
+    if (!Input().IsAnyHeld(sInputKey_ThrowItem)) // ?? isn't released like in the crouching motion ??
     {
         pRock->VToDead();
         mThrowableId = Guid{};
@@ -6618,7 +6619,7 @@ void Abe::Motion_107_RockThrowCrouchingHold()
     auto pRock = static_cast<BaseThrowable*>(sObjectIds.Find_Impl(mThrowableId));
     if (GetAnimation().GetCurrentFrame() >= 4)
     {
-        if (Input().isPressed(sInputKey_Left | sInputKey_Right | sInputKey_Up | sInputKey_Down))
+        if (Input().IsAnyHeld(sInputKey_Left | sInputKey_Right | sInputKey_Up | sInputKey_Down))
         {
             mThrowDirection = 4;
             mCurrentMotion = eAbeMotions::Motion_108_RockThrowCrouchingThrow;
@@ -6629,7 +6630,7 @@ void Abe::Motion_107_RockThrowCrouchingHold()
         }
     }
 
-    if (Input().IsReleased(sInputKey_ThrowItem))
+    if (Input().IsAnyReleased(sInputKey_ThrowItem))
     {
         pRock->VToDead();
         mThrowableId = Guid{};
@@ -7355,7 +7356,7 @@ void Abe::Motion_116_MineCarEnter()
 
 void Abe::Motion_117_InMineCar()
 {
-    if (Input().isPressed(sInputKey_DoAction))
+    if (Input().IsAnyHeld(sInputKey_DoAction))
     {
         auto pMineCar = static_cast<MineCar*>(sControlledCharacter);
         if (pMineCar->field_11C_state == MineCarStates::eParkedWithAbe_1 && pMineCar->field_1BC_turn_direction == MineCarDirs::eUp_3)
@@ -7465,15 +7466,15 @@ void Abe::Motion_123_LiftGrabIdle()
 
     mVelY = FP_FromInteger(0);
 
-    const u32 pressed = Input().mPads[sCurrentControllerIndex].mPressed;
-    if (sInputKey_Up & pressed)
+    const u32 held = Input().GetHeld();
+    if (sInputKey_Up & held)
     {
         if (!pLiftPoint->vOnTopFloor())
         {
             mCurrentMotion = eAbeMotions::Motion_124_LiftUseUp;
         }
     }
-    else if (pressed & sInputKey_Down)
+    else if (held & sInputKey_Down)
     {
         if (!pLiftPoint->vOnBottomFloor())
         {
@@ -7532,7 +7533,7 @@ void Abe::Motion_127_TurnWheelLoop()
 
     if (field_120_state.wheel == WorkWheelStates::eCheckForNoLongerTurningWheel_1)
     {
-        if (!(Input().mPads[sCurrentControllerIndex].mPressed & sInputKey_Up))
+        if (!(Input().IsAnyHeld(sInputKey_Up)))
         {
             // Not holding up anymore, stop.
             WorkWheel* pWheel = static_cast<WorkWheel*>(sObjectIds.Find_Impl(mWorkWheelId));
@@ -7662,7 +7663,7 @@ void Abe::ToIdle_44E6B0()
     mVelY = FP_FromInteger(0);
     field_124_timer = sGnFrame;
     mCurrentMotion = eAbeMotions::Motion_0_Idle_44EEB0;
-    mPrevHeld = 0;
+    mPrevInput = 0;
     mReleasedButtons = 0;
     MapFollowMe(true);
 }
@@ -7761,26 +7762,26 @@ s16 Abe::ToLeftRightMovement_44E340()
         return 0;
     }
 
-    const u32 pressed = Input().mPads[sCurrentControllerIndex].mPressed;
+    const u32 held = Input().GetHeld();
     const FP gridSize = ScaleToGridSize(GetSpriteScale());
     const bool flipX = GetAnimation().GetFlipX();
 
-    if ((flipX && (pressed & sInputKey_Right)) || (!flipX && (pressed & sInputKey_Left)))
+    if ((flipX && (held & sInputKey_Right)) || (!flipX && (held & sInputKey_Left)))
     {
         mCurrentMotion = eAbeMotions::Motion_2_StandingTurn_451830;
         return 1;
     }
 
-    if ((pressed & sInputKey_Right) || (pressed & sInputKey_Left))
+    if ((held & sInputKey_Right) || (held & sInputKey_Left))
     {
-        const FP directionX = FP_FromInteger((pressed & sInputKey_Right) ? 1 : -1);
+        const FP directionX = FP_FromInteger((held & sInputKey_Right) ? 1 : -1);
 
-        if (pressed & sInputKey_Run)
+        if (held & sInputKey_Run)
         {
             mVelX = directionX * (gridSize / FP_FromInteger(4));
             mCurrentMotion = eAbeMotions::Motion_39_StandingToRun_450D40;
         }
-        else if (pressed & sInputKey_Sneak)
+        else if (held & sInputKey_Sneak)
         {
             mVelX = directionX * (gridSize / FP_FromInteger(10));
             mCurrentMotion = eAbeMotions::Motion_45_SneakBegin_4507A0;
@@ -7850,7 +7851,7 @@ void Abe::Create_Fart_421D20()
 
 s16 Abe::TryEnterMineCar_4569E0()
 {
-    if (Input().mPads[sCurrentControllerIndex].mPressed & sInputKey_Up)
+    if (Input().IsAnyHeld(sInputKey_Up))
     {
         for (s32 idx = 0; idx < gBaseAliveGameObjects->Size(); idx++)
         {
@@ -8042,7 +8043,7 @@ void Abe::MoveForward_44E9A0()
             BaseAliveGameObject_PlatformId = Guid{};
         }
 
-        mPrevHeld = 0;
+        mPrevInput = 0;
 
         switch (mCurrentMotion)
         {
@@ -8084,23 +8085,23 @@ void Abe::MoveForward_44E9A0()
 
 s16 Abe::CrouchingGameSpeak_453E10()
 {
-    mPrevHeld |= Input().mPads[sCurrentControllerIndex].mHeld;
+    mPrevInput |= Input().GetPressed();
 
-    if (sInputKey_GameSpeak2 & mPrevHeld)
+    if (sInputKey_GameSpeak2 & mPrevInput)
     {
         gEventSystem->PushEvent(GameSpeakEvents::eAbe_FollowMe_10);
         Mudokon_SFX(MudSounds::eFollowMe_4, 0, 0, this);
         mCurrentMotion = eAbeMotions::Motion_20_CrouchSpeak_454550;
         return true;
     }
-    else if (sInputKey_GameSpeak3 & mPrevHeld)
+    else if (sInputKey_GameSpeak3 & mPrevInput)
     {
         gEventSystem->PushEvent(GameSpeakEvents::eAbe_Wait_12);
         Mudokon_SFX(MudSounds::eWait_6, 0, 0, this);
         mCurrentMotion = eAbeMotions::jMotion_21_ToCrouchSpeak_4545E0;
         return true;
     }
-    else if (mPrevHeld & sInputKey_GameSpeak1)
+    else if (mPrevInput & sInputKey_GameSpeak1)
     {
         gEventSystem->PushEvent(GameSpeakEvents::eAbe_Hello_9);
 
@@ -8123,35 +8124,35 @@ s16 Abe::CrouchingGameSpeak_453E10()
         }
         return true;
     }
-    else if (mPrevHeld & sInputKey_GameSpeak4)
+    else if (mPrevInput & sInputKey_GameSpeak4)
     {
         gEventSystem->PushEvent(GameSpeakEvents::eAbe_Work_21);
         Mudokon_SFX(MudSounds::eWork_25, 0, 0, this);
         mCurrentMotion = eAbeMotions::jMotion_21_ToCrouchSpeak_4545E0;
         return true;
     }
-    else if (mPrevHeld & sInputKey_GameSpeak6)
+    else if (mPrevInput & sInputKey_GameSpeak6)
     {
         Mudokon_SFX(MudSounds::eAllOYa_17, 0, 0, this);
         gEventSystem->PushEvent(GameSpeakEvents::eAbe_AllYa_23);
         mCurrentMotion = eAbeMotions::jMotion_21_ToCrouchSpeak_4545E0;
         return true;
     }
-    else if (mPrevHeld & sInputKey_GameSpeak5)
+    else if (mPrevInput & sInputKey_GameSpeak5)
     {
         Mudokon_SFX(MudSounds::eAnger_5, 0, 0, this);
         gEventSystem->PushEvent(GameSpeakEvents::eAbe_Anger_11);
         mCurrentMotion = eAbeMotions::Motion_20_CrouchSpeak_454550;
         return true;
     }
-    else if (mPrevHeld & sInputKey_GameSpeak8)
+    else if (mPrevInput & sInputKey_GameSpeak8)
     {
         Mudokon_SFX(MudSounds::eStopIt_26, 0, 0, this);
         gEventSystem->PushEvent(GameSpeakEvents::eAbe_StopIt_22);
         mCurrentMotion = eAbeMotions::jMotion_21_ToCrouchSpeak_4545E0;
         return true;
     }
-    else if (mPrevHeld & sInputKey_GameSpeak7)
+    else if (mPrevInput & sInputKey_GameSpeak7)
     {
         Mudokon_SFX(MudSounds::eSadUgh_28, 0, 0, this);
         gEventSystem->PushEvent(GameSpeakEvents::eAbe_Sorry_24);
@@ -8211,7 +8212,7 @@ void Abe::MoveWithVelocity_450FA0(FP velocityX)
 s16 Abe::RunTryEnterDoor_451220()
 {
     // Can't be entering a door if we're not pressing up.
-    if (!Input().isPressed(sInputKey_Up))
+    if (!Input().IsAnyHeld(sInputKey_Up))
     {
         return 0;
     }
@@ -8254,7 +8255,7 @@ s16 Abe::RunTryEnterDoor_451220()
 
 s16 Abe::RunTryEnterWell_451060()
 {
-    if (!Input().isPressed(sInputKey_Up) || GetElectrocuted() || GetAnimation().GetCurrentFrame() < 4)
+    if (!Input().IsAnyHeld(sInputKey_Up) || GetElectrocuted() || GetAnimation().GetCurrentFrame() < 4)
     {
         return 0;
     }
@@ -8967,13 +8968,13 @@ s16 Abe::MoveLiftUpOrDown_45A7E0(FP yVelocity)
                 return eAbeMotions::Motion_123_LiftGrabIdle;
             }
 
-            const u32 pressed = Input().mPads[sCurrentControllerIndex].mPressed;
-            if (sInputKey_Down & pressed)
+            const u32 held = Input().GetHeld();
+            if (sInputKey_Down & held)
             {
                 return eAbeMotions::Motion_125_LiftUseDown;
             }
 
-            if (pressed & sInputKey_Up)
+            if (held & sInputKey_Up)
             {
                 return eAbeMotions::Motion_124_LiftUseUp;
             }
@@ -8986,18 +8987,18 @@ s16 Abe::MoveLiftUpOrDown_45A7E0(FP yVelocity)
             return eAbeMotions::Motion_123_LiftGrabIdle;
         }
 
-        if (Input().isPressed(sInputKey_Up))
+        if (Input().IsAnyHeld(sInputKey_Up))
         {
             return eAbeMotions::Motion_124_LiftUseUp;
         }
 
-        if (Input().isPressed(sInputKey_Down))
+        if (Input().IsAnyHeld(sInputKey_Down))
         {
             return eAbeMotions::Motion_125_LiftUseDown;
         }
     }
 
-    if (Input().mPads[sCurrentControllerIndex].mPressed && pLiftPoint->vOnAnyFloor() && !(pLiftPoint->mMoving & 1))
+    if (Input().GetHeld() && pLiftPoint->vOnAnyFloor() && !(pLiftPoint->mMoving & 1))
     {
         return eAbeMotions::Motion_122_LiftGrabEnd;
     }
