@@ -580,20 +580,7 @@ SET(AliveLibAESrc
     ../AliveLibAE/ZapSpark.cpp
 )
 
-SET(relive_lib_src
-    # because relive_lib uses some parts of AliveLibAE and 
-    # AliveLibAO it means they have to be compiled as a single lib
-    # this can be changed back once the bottom level classes are made common
-    # and only the per game objects live in the AO/AE libs
-    ${AliveLibAESrc}
-    ${AliveLibSrcAO}
-
-    # temp hack to use these bits of the api for the data conversion
-    ../Tools/relive_api/Base64.cpp
-    ../Tools/relive_api/CamConverter.cpp
-    ../Tools/relive_api/CamConverter.hpp
-    ../Tools/relive_api/ApiFG1Reader.cpp
-    ../Tools/relive_api/ApiFG1Reader.hpp
+SET(renderer_src
     Renderer/IRenderer.hpp
     Renderer/IRenderer.cpp
     Renderer/Vulkan/VulkanRenderer.hpp
@@ -620,6 +607,9 @@ SET(relive_lib_src
     Renderer/OpenGL3/OpenGLRenderer.cpp
     Renderer/OpenGL3/Shaders/ShaderPassthru.cpp
     Renderer/OpenGL3/Shaders/ShaderPsx.cpp
+)
+
+SET(sound_src
     Sound/PsxSpuApi.cpp
     Sound/PsxSpuApi.hpp
     Sound/Midi.cpp
@@ -636,6 +626,9 @@ SET(relive_lib_src
     Sound/SDLSoundBuffer.cpp
     Sound/SDLSoundSystem.hpp
     Sound/SDLSoundSystem.cpp
+)
+
+SET(game_objects_src
     GameObjects/BaseGameObject.hpp
     GameObjects/BaseGameObject.cpp
     GameObjects/BaseAnimatedWithPhysicsGameObject.hpp
@@ -652,6 +645,59 @@ SET(relive_lib_src
     GameObjects/ScreenManager.hpp
     GameObjects/ShadowZone.hpp
     GameObjects/ShadowZone.cpp
+)
+
+SET(data_conversion_src
+    data_conversion/guid.cpp
+    data_conversion/guid.hpp
+    data_conversion/data_conversion.hpp
+    data_conversion/data_conversion.cpp
+    data_conversion/file_system.hpp
+    data_conversion/file_system.cpp
+    data_conversion/AnimationConverter.hpp
+    data_conversion/AnimationConverter.cpp
+    data_conversion/relive_tlvs.hpp
+    data_conversion/relive_tlvs_conversion.hpp
+    data_conversion/relive_tlvs_serialization.hpp
+    data_conversion/PathTlvsAE.hpp
+    data_conversion/PathTlvsAO.hpp
+    data_conversion/AnimConversionInfo.hpp
+    data_conversion/AnimConversionInfo.cpp
+    data_conversion/PNGFile.hpp
+    data_conversion/PNGFile.cpp
+    data_conversion/AESaveConverter.hpp
+    data_conversion/AESaveConverter.cpp
+    data_conversion/AESaveSerialization.hpp
+    data_conversion/data_conversion_ui.hpp
+    data_conversion/data_conversion_ui.cpp
+    data_conversion/fmv_converter.cpp
+    data_conversion/fmv_converter.hpp
+)
+
+source_group("Source Files/AO"               FILES ${AliveLibAESrc})
+source_group("Source Files/AE"               FILES ${AliveLibSrcAO})
+source_group("Source Files/Renderer"         FILES ${renderer_src})
+source_group("Source Files/Sound"            FILES ${sound_src})
+source_group("Source Files/GameObjects"      FILES ${game_objects_src})
+source_group("Source Files/data_conversion"  FILES ${data_conversion_src})
+
+SET(relive_lib_src
+    # because relive_lib uses some parts of AliveLibAE and 
+    # AliveLibAO it means they have to be compiled as a single lib
+    # this can be changed back once the bottom level classes are made common
+    # and only the per game objects live in the AO/AE libs
+    ${AliveLibAESrc}
+    ${AliveLibSrcAO}
+    ${renderer_src}
+    ${sound_src}
+    ${game_objects_src}
+    ${data_conversion_src}
+    # temp hack to use these bits of the api for the data conversion
+    ../Tools/relive_api/Base64.cpp
+    ../Tools/relive_api/CamConverter.cpp
+    ../Tools/relive_api/CamConverter.hpp
+    ../Tools/relive_api/ApiFG1Reader.cpp
+    ../Tools/relive_api/ApiFG1Reader.hpp
     BinaryPath.hpp
     BinaryPath.cpp
     SwitchStates.hpp
@@ -692,30 +738,6 @@ SET(relive_lib_src
     AnimationUnknown.hpp
     Shadow.hpp
     Shadow.cpp
-    data_conversion/guid.cpp
-    data_conversion/guid.hpp
-    data_conversion/data_conversion.hpp
-    data_conversion/data_conversion.cpp
-    data_conversion/file_system.hpp
-    data_conversion/file_system.cpp
-    data_conversion/AnimationConverter.hpp
-    data_conversion/AnimationConverter.cpp
-    data_conversion/relive_tlvs.hpp
-    data_conversion/relive_tlvs_conversion.hpp
-    data_conversion/relive_tlvs_serialization.hpp
-    data_conversion/PathTlvsAE.hpp
-    data_conversion/PathTlvsAO.hpp
-    data_conversion/AnimConversionInfo.hpp
-    data_conversion/AnimConversionInfo.cpp
-    data_conversion/PNGFile.hpp
-    data_conversion/PNGFile.cpp
-    data_conversion/AESaveConverter.hpp
-    data_conversion/AESaveConverter.cpp
-    data_conversion/AESaveSerialization.hpp
-    data_conversion/data_conversion_ui.hpp
-    data_conversion/data_conversion_ui.cpp
-    data_conversion/fmv_converter.cpp
-    data_conversion/fmv_converter.hpp
     Engine.hpp
     Engine.cpp
     Layer.hpp
