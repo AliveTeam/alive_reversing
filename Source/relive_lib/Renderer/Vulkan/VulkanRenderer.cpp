@@ -1374,13 +1374,13 @@ vk::SurfaceFormatKHR VulkanRenderer::chooseSwapSurfaceFormat(const std::vector<v
 {
     for (const auto& availableFormat : availableFormats)
     {
-        if (availableFormat.format == vk::Format::eR8G8B8A8Unorm && availableFormat.colorSpace == vk::ColorSpaceKHR::eSrgbNonlinear)
+        if ((availableFormat.format == vk::Format::eR8G8B8A8Unorm || availableFormat.format == vk::Format::eB8G8R8A8Unorm) && availableFormat.colorSpace == vk::ColorSpaceKHR::eSrgbNonlinear)
         {
             return availableFormat;
         }
     }
 
-    throw RendererException("vk::Format::eR8G8B8A8Unorm is not a supported surface format");
+    throw RendererException("vk::Format::eR8G8B8A8Unorm or vk::Format::eB8G8R8A8Unorm is not a supported surface format");
 }
 
 vk::PresentModeKHR VulkanRenderer::chooseSwapPresentMode(const std::vector<vk::PresentModeKHR>& availablePresentModes)
