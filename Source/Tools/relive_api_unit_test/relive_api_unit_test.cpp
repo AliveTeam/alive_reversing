@@ -7,6 +7,8 @@
 #include "../../relive_lib/data_conversion/guid.hpp"
 #include "../../relive_lib/data_conversion/PathTlvsAE.hpp"
 #include "../../relive_lib/data_conversion/file_system.hpp"
+#include "../../relive_lib/BaseGameAutoPlayer.hpp"
+#include "../../AliveLibAE/GameAutoPlayer.hpp"
 
 #include "JsonModelTypes.hpp"
 #include "JsonReaderBase.hpp"
@@ -21,6 +23,13 @@
 #include <vector>
 
 namespace {
+
+// HACK: only here to make it link
+BaseGameAutoPlayer& GetGameAutoPlayer()
+{
+    static GameAutoPlayer autoPlayer;
+    return autoPlayer;
+}
 
 [[nodiscard]] std::vector<u8>& getStaticFileBuffer()
 {
