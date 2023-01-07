@@ -1,46 +1,152 @@
 version: 1.0.{build}
 
-image: Visual Studio 2022
-
-platform: 
- - x86
- - x64
-
 configuration:
- - Debug
+  - Debug
 
-clone_folder: c:\relive
+environment:
+  matrix:
+    - job_name: macOS
+      appveyor_build_worker_image: macos-monterey
 
-build_script:
- - mkdir build
- - cd build
- - echo %platform%
- - echo %APPVEYOR_BUILD_NUMBER%
- - if %platform%==x64 (cmake .. -DSDL2_DIR=c:\relive\SDL2-2.0.22 -DBUILD_NUMBER=%APPVEYOR_BUILD_NUMBER% -DCI_PROVIDER=AppVeyor -G "Visual Studio 17 2022" -A x64)
- - if %platform%==x86 (cmake .. -DSDL2_DIR=c:\relive\SDL2-2.0.22 -DBUILD_NUMBER=%APPVEYOR_BUILD_NUMBER% -DCI_PROVIDER=AppVeyor -G "Visual Studio 17 2022" -A Win32)
- - cmake --build . --config %configuration% -- /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
- - call "C:\Program Files\cmake\bin\cpack" -G ZIP -C %configuration%
- - ctest
+    - job_name: Linux
+      appveyor_build_worker_image: Ubuntu
 
-install:
- - git submodule update --init --recursive --depth=1
- - ps: Start-FileDownload 'https://www.libsdl.org/release/SDL2-devel-2.0.22-VC.zip'
- - 7z x SDL2-devel-2.0.22-VC.zip
+    - job_name: Windows32
+      appveyor_build_worker_image: Visual Studio 2022
 
-after_build:
- - ps: if($env:APPVEYOR_PULL_REQUEST_NUMBER) { $env:PR_STR = "_PR$env:APPVEYOR_PULL_REQUEST_NUMBER" } else {  $env:PR_STR = "" }
- - 7z a RELIVE_Windows_Symbols%PR_STR%_%CONFIGURATION%_%PLATFORM%_%APPVEYOR_BUILD_NUMBER%.zip c:\relive\build\Source\relive\%CONFIGURATION%\relive.pdb
- - rename relive-*.zip RELIVE_Windows_Binaries_Full%PR_STR%_%CONFIGURATION%_%PLATFORM%_%APPVEYOR_BUILD_NUMBER%.zip
- - 7z a RELIVE_Windows_Binaries_Lite%PR_STR%_%CONFIGURATION%_%PLATFORM%.zip c:\relive\build\Source\relive\%CONFIGURATION%\relive.exe c:\relive\build\Source\relive\%CONFIGURATION%\SDL2.dll
+    - job_name: Windows64
+      appveyor_build_worker_image: Visual Studio 2022
 
-artifacts:
- - path: build\RELIVE_Windows_Symbols*.zip
-   name: RELIVE_Windows_Symbols_$(configuration)_$(APPVEYOR_BUILD_NUMBER)
+for:
+  -
+    matrix:
+      only:
+        - job_name: macOS
 
- - path: build\RELIVE_Windows_Binaries_Full*.zip
-   name: RELIVE_Windows_Binaries_Full_$(configuration)_$(APPVEYOR_BUILD_NUMBER)
+    platform:
+      - x64
 
- - path: build\RELIVE_Windows_Binaries_Lite_*.zip
-   name: RELIVE_Windows_Binaries_$(configuration)_$(PLATFORM)
+    build_script:
+      - brew install sdl2
+      - brew install molten-vk
+      - git submodule update --init --depth=1
+      - cmake --version
+      - mkdir build
+      - cd build
+      - cmake -G "Unix Makefiles" ..
+      - make -j4
+      - cpack -G DragNDrop
+
+    install:
+      - git submodule update --init --recursive --depth=1
+
+    artifacts:
+      - path: 'build/relive-0.1-Darwin.dmg'
+        name: relive-macOS
+
+  -
+    matrix:
+      only:
+        - job_name: Linux
+
+    platform:
+      - x64
+    build_script:
+      - sudo add-apt-repository ppa:savoury1/multimedia
+      - sudo apt-get update
+      - sudo apt-get install libsdl2-dev -y
+      - git submodule update --init --depth=1
+      - cmake --version
+      - mkdir build
+      - cd build
+      - cmake -G "Unix Makefiles" ..
+      - make -j4
+      - cpack -G DEB
+
+    install:
+      - git submodule update --init --recursive --depth=1
+
+    artifacts:
+      - path: 'build/relive-0.1-Linux.deb'
+        name: relive-linux
+
+  -
+    matrix:
+      only:
+        - job_name: Windows32
+
+    image: 
+    platform:
+      - x86
+
+    clone_folder: c:\relive
+
+    build_script:
+      - mkdir build
+      - cd build
+      - echo %APPVEYOR_BUILD_NUMBER%
+      - cmake .. -DSDL2_DIR=c:\relive\SDL2-2.0.22 -DBUILD_NUMBER=%APPVEYOR_BUILD_NUMBER% -DCI_PROVIDER=AppVeyor -G "Visual Studio 17 2022" -A Win32
+      - cmake --build . --config %configuration% -- /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
+      - call "C:\Program Files\cmake\bin\cpack" -G ZIP -C %configuration%
+      - ctest
+
+    install:
+      - git submodule update --init --recursive --depth=1
+      - ps: Start-FileDownload 'https://www.libsdl.org/release/SDL2-devel-2.0.22-VC.zip'
+      - 7z x SDL2-devel-2.0.22-VC.zip
+
+    after_build:
+      - ps: if($env:APPVEYOR_PULL_REQUEST_NUMBER) { $env:PR_STR = "_PR$env:APPVEYOR_PULL_REQUEST_NUMBER" } else {  $env:PR_STR = "" }
+      - 7z a RELIVE_Windows_Symbols%PR_STR%_%CONFIGURATION%_x86_%APPVEYOR_BUILD_NUMBER%.zip c:\relive\build\Source\relive\%CONFIGURATION%\relive.pdb
+      - rename relive-*.zip RELIVE_Windows_Binaries_Full%PR_STR%_%CONFIGURATION%_x86_%APPVEYOR_BUILD_NUMBER%.zip
+      - 7z a RELIVE_Windows_Binaries_Lite%PR_STR%_%CONFIGURATION%_x86_%APPVEYOR_BUILD_NUMBER%.zip c:\relive\build\Source\relive\%CONFIGURATION%\relive.exe c:\relive\build\Source\relive\%CONFIGURATION%\SDL2.dll
+    artifacts:
+      - path: build\RELIVE_Windows_Symbols*.zip
+        name: RELIVE_Windows_Symbols_$(configuration)_$(APPVEYOR_BUILD_NUMBER)
+
+      - path: build\RELIVE_Windows_Binaries_Full*.zip
+        name: RELIVE_Windows_Binaries_Full_$(configuration)_$(APPVEYOR_BUILD_NUMBER)
+
+      - path: build\RELIVE_Windows_Binaries_Lite_*.zip
+        name: RELIVE_Windows_Binaries_$(configuration)_x86
+    
+  -
+    matrix:
+      only:
+        - job_name: Windows64
+
+    platform:
+      - x64
+
+    clone_folder: c:\relive
+
+    build_script:
+      - mkdir build
+      - cd build
+      - echo %APPVEYOR_BUILD_NUMBER%
+      - cmake .. -DSDL2_DIR=c:\relive\SDL2-2.0.22 -DBUILD_NUMBER=%APPVEYOR_BUILD_NUMBER% -DCI_PROVIDER=AppVeyor -G "Visual Studio 17 2022" -A x64
+      - cmake --build . --config %configuration% -- /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
+      - call "C:\Program Files\cmake\bin\cpack" -G ZIP -C %configuration%
+      - ctest
+
+    install:
+      - git submodule update --init --recursive --depth=1
+      - ps: Start-FileDownload 'https://www.libsdl.org/release/SDL2-devel-2.0.22-VC.zip'
+      - 7z x SDL2-devel-2.0.22-VC.zip
+
+    after_build:
+      - ps: if($env:APPVEYOR_PULL_REQUEST_NUMBER) { $env:PR_STR = "_PR$env:APPVEYOR_PULL_REQUEST_NUMBER" } else {  $env:PR_STR = "" }
+      - 7z a RELIVE_Windows_Symbols%PR_STR%_%CONFIGURATION%_x64_%APPVEYOR_BUILD_NUMBER%.zip c:\relive\build\Source\relive\%CONFIGURATION%\relive.pdb
+      - rename relive-*.zip RELIVE_Windows_Binaries_Full%PR_STR%_%CONFIGURATION%_x64_%APPVEYOR_BUILD_NUMBER%.zip
+      - 7z a RELIVE_Windows_Binaries_Lite%PR_STR%_%CONFIGURATION%_x64_%APPVEYOR_BUILD_NUMBER%.zip c:\relive\build\Source\relive\%CONFIGURATION%\relive.exe c:\relive\build\Source\relive\%CONFIGURATION%\SDL2.dll
+    artifacts:
+      - path: build\RELIVE_Windows_Symbols*.zip
+        name: RELIVE_Windows_Symbols_$(configuration)_$(APPVEYOR_BUILD_NUMBER)
+
+      - path: build\RELIVE_Windows_Binaries_Full*.zip
+        name: RELIVE_Windows_Binaries_Full_$(configuration)_$(APPVEYOR_BUILD_NUMBER)
+
+      - path: build\RELIVE_Windows_Binaries_Lite_*.zip
+        name: RELIVE_Windows_Binaries_$(configuration)_x64
 
 test: off
