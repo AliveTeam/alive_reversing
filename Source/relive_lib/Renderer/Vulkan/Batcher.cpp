@@ -36,8 +36,10 @@ void Batcher<TextureType, RenderBatchType, VertexType>::PushQuad(IRenderer::PsxD
 template <typename TextureType, typename RenderBatchType, typename VertexType>
 void Batcher<TextureType, RenderBatchType, VertexType>::NewBatch()
 {
+    const SDL_Rect oldScissor = mConstructingBatch.mScissor;
     mBatches.push_back(mConstructingBatch);
     mConstructingBatch = {};
+    mConstructingBatch.mScissor = oldScissor;
     mBatchInProgress = false;
 }
 
