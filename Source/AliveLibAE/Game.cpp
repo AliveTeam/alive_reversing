@@ -21,7 +21,6 @@
 #include "../relive_lib/Events.hpp"
 #include "Abe.hpp"
 #include "MusicController.hpp"
-#include <gmock/gmock.h>
 #include "CheatController.hpp"
 #include "Slurg.hpp"
 #include "PathDataExtensions.hpp"

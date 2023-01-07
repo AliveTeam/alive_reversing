@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "Math.hpp"
 #include "../relive_lib/FixedPoint.hpp"
-#include <gmock/gmock.h>
 #include "GameAutoPlayer.hpp"
 
 // clang-format off

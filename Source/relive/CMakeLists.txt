@@ -17,7 +17,7 @@ target_compile_features(relive
     PRIVATE cxx_auto_type
     PRIVATE cxx_variadic_templates)
 target_compile_definitions(relive PRIVATE "_CRT_SECURE_NO_WARNINGS")
-target_link_libraries(relive AliveLibAE AliveLibAO relive_lib project_warnings)
+target_link_libraries(relive relive_lib project_warnings)
 export(TARGETS relive FILE relive.cmake)
 install(TARGETS relive DESTINATION "${BINPATH}" BUNDLE DESTINATION . RUNTIME DESTINATION .)
 

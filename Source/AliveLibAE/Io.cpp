@@ -4,7 +4,6 @@
 #include "../relive_lib/Function.hpp"
 #include "stdlib.hpp"
 #include "../relive_lib/Masher.hpp"
-#include <gmock/gmock.h>
 #include "../relive_lib/FatalError.hpp"
 
 #if !_WIN32
@@ -14,6 +13,7 @@
 // TODO: Remove this
 #ifdef _WIN32
 #include <windows.h>
+#include <io.h>
 #endif
 
 std::atomic<IO_Handle*> sIOHandle_BBC4BC = {};

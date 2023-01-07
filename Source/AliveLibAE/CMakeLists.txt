@@ -1,354 +1,50 @@
 project(AliveLibAE VERSION 0.1 LANGUAGES CXX)
 
-SET(AliveLibAESrc
-    Grid.hpp
-    Grid.cpp
-    GameAutoPlayer.hpp
-    GameAutoPlayer.cpp
-    PathDataExtensions.cpp
-    PathDataExtensions.hpp
-    Input.cpp
-    Input.hpp
-    VGA.cpp
-    VGA.hpp
-    PsxRender.cpp
-    PsxRender.hpp
-    Math.cpp
-    Math.hpp
-    GameSpeak.hpp
-    GameSpeak.cpp
-    DDCheat.hpp
-    DDCheat.cpp
-    Sfx.hpp
-    Sfx.cpp
-    Game.cpp
-    Game.hpp
-    stdlib.cpp
-    stdlib.hpp
-    AmbientSound.cpp
-    AmbientSound.hpp
-    ResourceManager.cpp
-    ResourceManager.hpp
-    BaseAliveGameObject.cpp
-    BaseAliveGameObject.hpp
-    CreditsController.cpp
-    CreditsController.hpp
-    PauseMenu.cpp
-    PauseMenu.hpp
-    Map.cpp
-    Map.hpp
-    AnimationCallBacks.cpp
-    AnimationCallBacks.hpp
-    BackgroundAnimation.cpp
-    BackgroundAnimation.hpp
-    PathData.cpp
-    PathData.hpp
-    Io.cpp
-    Io.hpp
-    Resources.hpp
-    Resources.cpp
-    Font.hpp
-    Font.cpp
-    StringFormatters.hpp
-    StringFormatters.cpp
-    Abe.hpp
-    Abe.cpp
-    MusicController.hpp
-    MusicController.cpp
-    BackgroundMusic.hpp
-    BackgroundMusic.cpp
-    Path.hpp
-    Path.cpp
-    QuikSave.hpp
-    QuikSave.cpp
-    Factory.hpp
-    Factory.cpp
-    MainMenu.hpp
-    MainMenu.cpp
-    LCDScreen.hpp
-    LCDScreen.cpp
-    LCDStatusBoard.hpp
-    LCDStatusBoard.cpp
-    CheatController.hpp
-    CheatController.cpp
-    Compression.hpp
-    Compression.cpp
-    Movie.hpp
-    Movie.cpp
-    CameraSwapper.cpp
-    CameraSwapper.hpp
-    MainMenuTransition.hpp
-    MainMenuTransition.cpp
-    Text.cpp
-    Text.hpp
-    ThrowableArray.cpp
-    ThrowableArray.hpp
-    UXB.cpp
-    UXB.hpp
-    Mine.cpp
-    Mine.hpp
-    TimedMine.cpp
-    TimedMine.hpp
-    TrapDoor.cpp
-    TrapDoor.hpp
-    MusicTrigger.cpp
-    MusicTrigger.hpp
-    ScreenShake.cpp
-    ScreenShake.hpp
-    InvisibleEffect.cpp
-    InvisibleEffect.hpp
-    Gibs.cpp
-    Gibs.hpp
-    Throwable.cpp
-    Throwable.hpp
-    ThrowableTotalIndicator.hpp
-    ThrowableTotalIndicator.cpp
-    AbilityRing.cpp
-    AbilityRing.hpp
-    OrbWhirlWind.cpp
-    OrbWhirlWind.hpp
-    OrbWhirlWindParticle.cpp
-    OrbWhirlWindParticle.hpp
-    Blood.cpp
-    Blood.hpp
-    PullRingRope.hpp
-    PullRingRope.cpp
-    HoistRocksEffect.hpp
-    HoistRocksEffect.cpp
-    CircularFade.hpp
-    CircularFade.cpp
-    Alarm.hpp
-    Alarm.cpp
-    Fade.hpp
-    Fade.cpp
-    PossessionFlicker.hpp
-    PossessionFlicker.cpp
-    Door.hpp
-    Door.cpp
-    DeathBirdParticle.hpp
-    DeathBirdParticle.cpp
-    Dove.hpp
-    Dove.cpp
-    WorkWheel.hpp
-    WorkWheel.cpp
-    StatusLight.hpp
-    StatusLight.cpp
-    WheelSyncer.hpp
-    WheelSyncer.cpp
-    LevelLoader.hpp
-    LevelLoader.cpp
-    InvisibleSwitch.hpp
-    InvisibleSwitch.cpp
-    Lever.hpp
-    Lever.cpp
-    MultiSwitchController.hpp
-    MultiSwitchController.cpp
-    Drill.cpp
-    Drill.hpp
-    Teleporter.cpp
-    Teleporter.hpp
-    Spark.cpp
-    Spark.hpp
-    SlamDoor.hpp
-    SlamDoor.cpp
-    Leaf.hpp
-    Leaf.cpp
-    Well.hpp
-    Well.cpp
-    Water.hpp
-    Water.cpp
-    Rope.hpp
-    Rope.cpp
-    PlatformBase.hpp
-    PlatformBase.cpp
-    LiftPoint.cpp
-    LiftPoint.hpp
-    LiftMover.cpp
-    LiftMover.hpp
-    TimerTrigger.cpp
-    TimerTrigger.hpp
-    FootSwitch.cpp
-    FootSwitch.hpp
-    ParticleBurst.cpp
-    ParticleBurst.hpp
-    BrewMachine.cpp
-    BrewMachine.hpp
-    FallingItem.cpp
-    FallingItem.hpp
-    MineCar.cpp
-    MineCar.hpp
-    GroundExplosion.cpp
-    GroundExplosion.hpp
-    ElectricWall.cpp
-    ElectricWall.hpp
-    Electrocute.cpp
-    Electrocute.hpp
-    EvilFart.cpp
-    EvilFart.hpp
-    GasEmitter.cpp
-    GasEmitter.hpp
-    DemoPlayback.cpp
-    DemoPlayback.hpp
-    SecurityOrb.cpp
-    SecurityOrb.hpp
-    AirExplosion.hpp
-    AirExplosion.cpp
-    Greeter.hpp
-    Greeter.cpp
-    ZapLine.hpp
-    ZapLine.cpp
-    MotionDetector.hpp
-    MotionDetector.cpp
-    Slurg.cpp
-    Slurg.hpp
-    SlurgSpawner.cpp
-    SlurgSpawner.hpp
-    FlyingSlig.cpp
-    FlyingSlig.hpp
-    FlyingSligSpawner.cpp
-    FlyingSligSpawner.hpp
-    Mudokon.cpp
-    Mudokon.hpp
-    BirdPortal.cpp
-    BirdPortal.hpp
-    TorturedMudokon.cpp
-    TorturedMudokon.hpp
-    DoorBlocker.cpp
-    DoorBlocker.hpp
-    SlapLock.cpp
-    SlapLock.hpp
-    SlapLockWhirlWind.cpp
-    SlapLockWhirlWind.hpp
-    Glukkon.cpp
-    Glukkon.hpp
-    ScreenClipper.cpp
-    ScreenClipper.hpp
-    MovingBomb.hpp
-    MovingBomb.cpp
-    DoorFlame.cpp
-    DoorFlame.hpp
-    CrawlingSlig.cpp
-    CrawlingSlig.hpp
-    SnoozeParticle.cpp
-    SnoozeParticle.hpp
-    Fleech.cpp
-    Fleech.hpp
-    Scrab.cpp
-    Scrab.hpp
-    Paramite.hpp
-    Paramite.cpp
-    Slog.hpp
-    Slog.cpp
-    Slig.hpp
-    Slig.cpp
-    GasCountDown.hpp
-    GasCountDown.cpp
-    GlukkonSwitch.hpp
-    GlukkonSwitch.cpp
-    Bullet.hpp
-    Bullet.cpp
-    CrawlingSligButton.hpp
-    CrawlingSligButton.cpp
-    SligGetPantsAndWings.hpp
-    SligGetPantsAndWings.cpp
-    BoomMachine.hpp
-    BoomMachine.cpp
-    Meat.hpp
-    Meat.cpp
-    MeatSack.hpp
-    MeatSack.cpp
-    Grenade.hpp
-    Grenade.cpp
-    Bone.hpp
-    Bone.cpp
-    BoneBag.hpp
-    BoneBag.cpp
-    Rock.hpp
-    Rock.cpp
-    RockSack.hpp
-    RockSack.cpp
-    BulletShell.hpp
-    BulletShell.cpp
-    SligSpawner.hpp
-    SligSpawner.cpp
-    ScrabSpawner.hpp
-    ScrabSpawner.cpp
-    SlogSpawner.hpp
-    SlogSpawner.cpp
-    ZzzSpawner.hpp
-    ZzzSpawner.cpp
-    GameEnderController.hpp
-    GameEnderController.cpp
-    Shrykull.hpp
-    Shrykull.cpp
-    ParamiteWeb.hpp
-    ParamiteWeb.cpp
-    ParamiteWebLine.hpp
-    ParamiteWebLine.cpp
-    ExplosionSet.hpp
-    ExplosionSet.cpp
-    ColourfulMeter.hpp
-    ColourfulMeter.cpp
-    MinesAlarm.hpp
-    MinesAlarm.cpp
-    SecurityDoor.cpp
-    SecurityDoor.hpp
-    LaughingGas.cpp
-    LaughingGas.hpp
-    DeathGas.cpp
-    DeathGas.hpp
-    ScopedSeq.cpp
-    ScopedSeq.hpp
-    ZapSpark.hpp
-    ZapSpark.cpp
-)
+#add_library(AliveLibAE ${AliveLibAESrc})
 
-add_library(AliveLibAE ${AliveLibAESrc})
+#target_include_directories(AliveLibAE PUBLIC
+#    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR},
+#    ${CMAKE_CURRENT_SOURCE_DIR}/../../3rdParty/json/single_include
+#    $<INSTALL_INTERFACE:include>
+#    PRIVATE src ${CMAKE_BINARY_DIR})
 
-target_include_directories(AliveLibAE PUBLIC
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR},
-    ${CMAKE_CURRENT_SOURCE_DIR}/../../3rdParty/json/single_include
-    $<INSTALL_INTERFACE:include>
-    PRIVATE src ${CMAKE_BINARY_DIR})
+#target_compile_definitions(AliveLibAE PRIVATE "_CRT_SECURE_NO_WARNINGS")
+#target_compile_definitions(AliveLibAE PRIVATE "BEHAVIOUR_CHANGE_SUB_DATA_FOLDERS")
 
-target_compile_definitions(AliveLibAE PRIVATE "_CRT_SECURE_NO_WARNINGS")
-target_compile_definitions(AliveLibAE PRIVATE "BEHAVIOUR_CHANGE_SUB_DATA_FOLDERS")
+#if (MSVC)
+#    target_compile_options(AliveLibAE PRIVATE /W4 /wd4996 /WX /MP)
+#
+#    set_target_properties(AliveLibAE PROPERTIES LINK_FLAGS_RELEASE "/SUBSYSTEM:WINDOWS /functionpadmin:16")
+#    set_target_properties(AliveLibAE PROPERTIES LINK_FLAGS_DEBUG "/SUBSYSTEM:WINDOWS /functionpadmin:16")
+#endif()
 
-if (MSVC)
-    target_compile_options(AliveLibAE PRIVATE /W4 /wd4996 /WX /MP)
+#target_compile_features(AliveLibAE
+#    PRIVATE cxx_strong_enums
+#    PRIVATE cxx_static_assert
+#    PRIVATE cxx_lambdas
+#    PRIVATE cxx_nullptr
+#    PRIVATE cxx_range_for
+#    PRIVATE cxx_decltype
+#    PRIVATE cxx_auto_type
+#    PRIVATE cxx_variadic_templates)
 
-    set_target_properties(AliveLibAE PROPERTIES LINK_FLAGS_RELEASE "/SUBSYSTEM:WINDOWS /functionpadmin:16")
-    set_target_properties(AliveLibAE PROPERTIES LINK_FLAGS_DEBUG "/SUBSYSTEM:WINDOWS /functionpadmin:16")
-endif()
+#if (MINGW)
+#    set(WIN32_LIBS "imm32")
+#else()
+#    if (WIN32)
+#        set(WIN32_LIBS
+#            Winmm
+#            dsound
+#            xinput
+#        )
+#    endif()
+#endif()
 
+#target_link_libraries(AliveLibAE
+#    googletest
+#    ${WIN32_LIBS}
+#    ${SDL2_LIBRARIES}
+#    project_warnings
+#    )
 
-target_compile_features(AliveLibAE
-    PRIVATE cxx_strong_enums
-    PRIVATE cxx_static_assert
-    PRIVATE cxx_lambdas
-    PRIVATE cxx_nullptr
-    PRIVATE cxx_range_for
-    PRIVATE cxx_decltype
-    PRIVATE cxx_auto_type
-    PRIVATE cxx_variadic_templates)
-
-if (MINGW)
-    set(WIN32_LIBS "imm32")
-else()
-    if (WIN32)
-        set(WIN32_LIBS
-            Winmm
-            dsound
-            xinput
-        )
-    endif()
-endif()
-
-target_link_libraries(AliveLibAE
-    googletest
-    ${WIN32_LIBS}
-    ${SDL2_LIBRARIES}
-    project_warnings
-    )
-
-export(TARGETS AliveLibAE FILE AliveLibAE.cmake)
+#export(TARGETS AliveLibAE FILE AliveLibAE.cmake)
