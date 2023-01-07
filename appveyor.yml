@@ -5,8 +5,8 @@ configuration:
 
 environment:
   matrix:
-    - job_name: macOS
-      appveyor_build_worker_image: macos-monterey
+    #- job_name: macOS
+    #  appveyor_build_worker_image: macos-monterey
 
     - job_name: Linux
       appveyor_build_worker_image: Ubuntu
@@ -51,6 +51,7 @@ for:
 
     platform:
       - x64
+
     build_script:
       - sudo add-apt-repository ppa:savoury1/multimedia
       - sudo apt-get update
@@ -100,6 +101,7 @@ for:
       - 7z a RELIVE_Windows_Symbols%PR_STR%_%CONFIGURATION%_x86_%APPVEYOR_BUILD_NUMBER%.zip c:\relive\build\Source\relive\%CONFIGURATION%\relive.pdb
       - rename relive-*.zip RELIVE_Windows_Binaries_Full%PR_STR%_%CONFIGURATION%_x86_%APPVEYOR_BUILD_NUMBER%.zip
       - 7z a RELIVE_Windows_Binaries_Lite%PR_STR%_%CONFIGURATION%_x86_%APPVEYOR_BUILD_NUMBER%.zip c:\relive\build\Source\relive\%CONFIGURATION%\relive.exe c:\relive\build\Source\relive\%CONFIGURATION%\SDL2.dll
+
     artifacts:
       - path: build\RELIVE_Windows_Symbols*.zip
         name: RELIVE_Windows_Symbols_$(configuration)_$(APPVEYOR_BUILD_NUMBER)
@@ -139,6 +141,7 @@ for:
       - 7z a RELIVE_Windows_Symbols%PR_STR%_%CONFIGURATION%_x64_%APPVEYOR_BUILD_NUMBER%.zip c:\relive\build\Source\relive\%CONFIGURATION%\relive.pdb
       - rename relive-*.zip RELIVE_Windows_Binaries_Full%PR_STR%_%CONFIGURATION%_x64_%APPVEYOR_BUILD_NUMBER%.zip
       - 7z a RELIVE_Windows_Binaries_Lite%PR_STR%_%CONFIGURATION%_x64_%APPVEYOR_BUILD_NUMBER%.zip c:\relive\build\Source\relive\%CONFIGURATION%\relive.exe c:\relive\build\Source\relive\%CONFIGURATION%\SDL2.dll
+
     artifacts:
       - path: build\RELIVE_Windows_Symbols*.zip
         name: RELIVE_Windows_Symbols_$(configuration)_$(APPVEYOR_BUILD_NUMBER)
