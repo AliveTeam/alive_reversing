@@ -33,6 +33,22 @@ else()
     target_link_libraries(relive_api_unit_test relive_api relive_lib googletest jsonxx_reliveapi libglew_static project_warnings)
 endif()
 
+if (MSVC AND CMAKE_GENERATOR MATCHES "Visual Studio")
+    if (WIN32 AND CMAKE_SIZEOF_VOID_P EQUAL 4)
+        add_custom_command(TARGET relive_api_unit_test POST_BUILD
+            COMMAND echo copy "${SDL2_INCLUDE_DIR}/../lib/x86/SDL2.dll" "$(OutDir)SDL2.dll"
+            COMMAND ${CMAKE_COMMAND} -E copy "${SDL2_INCLUDE_DIR}/../lib/x86/SDL2.dll" "$(OutDir)SDL2.dll")
+        INSTALL(FILES "${SDL2_INCLUDE_DIR}/../lib/x86/SDL2.dll" DESTINATION ".")
+    else()
+        add_custom_command(TARGET relive_api_unit_test POST_BUILD
+            COMMAND echo ${CMAKE_COMMAND} -E copy "${SDL2_INCLUDE_DIR}/../lib/x64/SDL2.dll" "$(OutDir)SDL2.dll"
+            COMMAND ${CMAKE_COMMAND} -E copy "${SDL2_INCLUDE_DIR}/../lib/x64/SDL2.dll" "$(OutDir)SDL2.dll")
+        INSTALL(FILES "${SDL2_INCLUDE_DIR}/../lib/x64/SDL2.dll" DESTINATION ".")
+    endif()
+endif()
+
+
+
 export(TARGETS relive_api_unit_test FILE relive_api_unit_test.cmake)
 set_property(TARGET relive_api_unit_test PROPERTY FOLDER "ReliveAPI")
 
