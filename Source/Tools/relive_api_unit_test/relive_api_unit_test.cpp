@@ -22,14 +22,15 @@
 #include <string>
 #include <vector>
 
-namespace {
-
 // HACK: only here to make it link
 BaseGameAutoPlayer& GetGameAutoPlayer()
 {
     static GameAutoPlayer autoPlayer;
     return autoPlayer;
 }
+
+namespace {
+
 
 [[nodiscard]] std::vector<u8>& getStaticFileBuffer()
 {
