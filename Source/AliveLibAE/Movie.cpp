@@ -15,7 +15,7 @@
 #include "../relive_lib/Renderer/IRenderer.hpp"
 
 // Inputs on the controller that can be used for aborting skippable movies
-const u32 MOVIE_SKIPPER_GAMEPAD_INPUTS = (InputCommands::Enum::eUnPause_OrConfirm | InputCommands::Enum::eBack | InputCommands::Enum::ePause);
+const u32 MOVIE_SKIPPER_GAMEPAD_INPUTS = (InputCommands::eUnPause_OrConfirm | InputCommands::eBack | InputCommands::ePause);
 
 // Tells whether reverb was enabled before starting the FMV
 static bool wasReverbEnabled = false;

@@ -144,30 +144,6 @@ class PullRingRope;
 
 extern const TintEntry sAbeTintTable[16];
 
-namespace InputCommands
-{
-    enum Enum : u32;
-}
-
-extern const InputCommands::Enum sInputKey_Right;
-extern const InputCommands::Enum sInputKey_Left;
-extern const InputCommands::Enum sInputKey_Up;
-extern const InputCommands::Enum sInputKey_Down;
-extern const InputCommands::Enum sInputKey_Hop;
-extern const InputCommands::Enum sInputKey_DoAction;
-extern const InputCommands::Enum sInputKey_Run;
-extern const InputCommands::Enum sInputKey_Sneak;
-extern const InputCommands::Enum sInputKey_FartRoll;
-extern const InputCommands::Enum sInputKey_ThrowItem;
-extern const InputCommands::Enum sInputKey_GameSpeak2;
-extern const InputCommands::Enum sInputKey_GameSpeak4;
-extern const InputCommands::Enum sInputKey_GameSpeak3;
-extern const InputCommands::Enum sInputKey_GameSpeak1;
-extern const InputCommands::Enum sInputKey_GameSpeak6;
-extern const InputCommands::Enum sInputKey_GameSpeak5;
-extern const InputCommands::Enum sInputKey_GameSpeak8;
-extern const InputCommands::Enum sInputKey_GameSpeak7;
-
 enum class MudSounds : s16
 {
     eNone = -1,

@@ -118,7 +118,7 @@ void CheatController::VUpdate()
     if (held)
     {
         // Only do cheat code check if shift is held
-        if (Input().IsAnyPressed(InputCommands::eRun))
+        if (Input().IsAnyHeld(InputCommands::eRun))
         {
             for (auto& cheatEntry : sCheatArray)
             {

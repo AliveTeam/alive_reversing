@@ -139,7 +139,7 @@ void DDCheat::VUpdate()
         {
             if (pAbe)
             {
-                if (Input().IsAnyHeld(InputCommands::eCheatMode))
+                if (Input().IsAnyPressed(InputCommands::eCheatMode))
                 {
                     gDDCheat_FlyingEnabled = cheat_enabled == false;
                     if (gDDCheat_FlyingEnabled)

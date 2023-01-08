@@ -13,29 +13,6 @@ s32 sJoystickEnabled = 0;
 u8 sInputEnabled = 0;
 u32 sLastPressedKey = 0;
 
-const InputCommands sInputKey_Right = eRight;
-const InputCommands sInputKey_Left = eLeft;
-const InputCommands sInputKey_Up = eUp;
-const InputCommands sInputKey_Down = eDown;
-const InputCommands sInputKey_Hop = eHop;
-const InputCommands sInputKey_DoAction = eDoAction;
-const InputCommands sInputKey_Run = eRun;
-const InputCommands sInputKey_Sneak = eSneak;
-const InputCommands sInputKey_FartRoll = eCrouchOrRoll;
-const InputCommands sInputKey_ThrowItem = eThrowItem;
-
-const InputCommands sInputKey_LeftGameSpeakEnabler = eLeftGamespeak;
-const InputCommands sInputKey_GameSpeak1 = eHop;
-const InputCommands sInputKey_GameSpeak2 = eDoAction;
-const InputCommands sInputKey_GameSpeak3 = eThrowItem;
-const InputCommands sInputKey_GameSpeak4 = eCrouchOrRoll;
-
-const InputCommands sInputKey_RightGameSpeakEnabler = eRightGameSpeak;
-const InputCommands sInputKey_GameSpeak5 = eCrouchOrRoll;
-const InputCommands sInputKey_GameSpeak6 = eHop;
-const InputCommands sInputKey_GameSpeak7 = eThrowItem;
-const InputCommands sInputKey_GameSpeak8 = eDoAction;
-
 void InputObject::InitPad(u32 /*padCount*/)
 {
     for (PSX_Pad& pad : mPads)
@@ -52,188 +29,188 @@ void InputObject::InitPad(u32 /*padCount*/)
 u8 sPad1Buffer_507778[64] = {};
 u8 sPad2Buffer_507738[64] = {};
 
-static void ConvertAEGamespeakAEtoAOGamespeak(BitField32<AO::InputCommands>& value, const BitField32<::InputCommands::Enum>& aeInput)
+static void ConvertAEGamespeakAEtoAOGamespeak(BitField32<AO::InputCommands>& value, const BitField32<::InputCommands>& aeInput)
 {
-    if (aeInput.Get(::InputCommands::Enum::eGameSpeak1))
+    if (aeInput.Get(::InputCommands::eGameSpeak1))
     {
-        value.Set(AO::InputCommands::eLeftGamespeak);
+        value.Set(AO::InputCommands::eLeftGameSpeak);
         value.Set(AO::InputCommands::eHop);
     }
-    else if (aeInput.Get(::InputCommands::Enum::eGameSpeak2))
+    else if (aeInput.Get(::InputCommands::eGameSpeak2))
     {
-        value.Set(AO::InputCommands::eLeftGamespeak);
+        value.Set(AO::InputCommands::eLeftGameSpeak);
         value.Set(AO::InputCommands::eDoAction);
     }
-    else if (aeInput.Get(::InputCommands::Enum::eGameSpeak3))
+    else if (aeInput.Get(::InputCommands::eGameSpeak3))
     {
-        value.Set(AO::InputCommands::eLeftGamespeak);
+        value.Set(AO::InputCommands::eLeftGameSpeak);
         value.Set(AO::InputCommands::eCrouchOrRoll);
     }
-    else if (aeInput.Get(::InputCommands::Enum::eGameSpeak4))
+    else if (aeInput.Get(::InputCommands::eGameSpeak4))
     {
-        value.Set(AO::InputCommands::eLeftGamespeak);
+        value.Set(AO::InputCommands::eLeftGameSpeak);
         value.Set(AO::InputCommands::eThrowItem);
     }
-    else if (aeInput.Get(::InputCommands::Enum::eGameSpeak5))
+    else if (aeInput.Get(::InputCommands::eGameSpeak5))
     {
         value.Set(AO::InputCommands::eRightGameSpeak);
         value.Set(AO::InputCommands::eCrouchOrRoll);
     }
-    else if (aeInput.Get(::InputCommands::Enum::eGameSpeak6))
+    else if (aeInput.Get(::InputCommands::eGameSpeak6))
     {
         value.Set(AO::InputCommands::eRightGameSpeak);
         value.Set(AO::InputCommands::eHop);
     }
-    else if (aeInput.Get(::InputCommands::Enum::eGameSpeak7))
+    else if (aeInput.Get(::InputCommands::eGameSpeak7))
     {
         value.Set(AO::InputCommands::eRightGameSpeak);
         value.Set(AO::InputCommands::eThrowItem);
     }
-    else if (aeInput.Get(::InputCommands::Enum::eGameSpeak8))
+    else if (aeInput.Get(::InputCommands::eGameSpeak8))
     {
         value.Set(AO::InputCommands::eRightGameSpeak);
         value.Set(AO::InputCommands::eDoAction);
     }
-    else if (aeInput.Get(::InputCommands::Enum::eBack))
+    else if (aeInput.Get(::InputCommands::eBack))
     {
         value.Set(AO::InputCommands::eBack);
     }
-    else if (aeInput.Get(::InputCommands::Enum::eCheatMode))
+    else if (aeInput.Get(::InputCommands::eCheatMode))
     {
         value.Set(AO::InputCommands::eCheatMode);
     }
 }
 
-static BitField32<AO::InputCommands> AEInputCommandsToAOInputCommands(const BitField32<::InputCommands::Enum>& aeInput)
+static BitField32<AO::InputCommands> AEInputCommandsToAOInputCommands(const BitField32<::InputCommands>& aeInput)
 {
     BitField32<AO::InputCommands> r;
-    r.Set(AO::InputCommands::eUp, aeInput.Get(::InputCommands::Enum::eUp));
-    r.Set(AO::InputCommands::eRight, aeInput.Get(::InputCommands::Enum::eRight));
-    r.Set(AO::InputCommands::eDown, aeInput.Get(::InputCommands::Enum::eDown));
-    r.Set(AO::InputCommands::eLeft, aeInput.Get(::InputCommands::Enum::eLeft));
-    r.Set(AO::InputCommands::eRun, aeInput.Get(::InputCommands::Enum::eRun));
-    r.Set(AO::InputCommands::eHop, aeInput.Get(::InputCommands::Enum::eHop));
-    r.Set(AO::InputCommands::eSneak, aeInput.Get(::InputCommands::Enum::eSneak));
-    r.Set(AO::InputCommands::eThrowItem, aeInput.Get(::InputCommands::Enum::eThrowItem));
-    r.Set(AO::InputCommands::eCrouchOrRoll, aeInput.Get(::InputCommands::Enum::eFartOrRoll));
-    r.Set(AO::InputCommands::eDoAction, aeInput.Get(::InputCommands::Enum::eDoAction));
-    r.Set(AO::InputCommands::eBack, aeInput.Get(::InputCommands::Enum::eBack));
-    r.Set(AO::InputCommands::eUnPause_OrConfirm, aeInput.Get(::InputCommands::Enum::eUnPause_OrConfirm));
-    r.Set(AO::InputCommands::ePause, aeInput.Get(::InputCommands::Enum::ePause));
+    r.Set(AO::InputCommands::eUp, aeInput.Get(::InputCommands::eUp));
+    r.Set(AO::InputCommands::eRight, aeInput.Get(::InputCommands::eRight));
+    r.Set(AO::InputCommands::eDown, aeInput.Get(::InputCommands::eDown));
+    r.Set(AO::InputCommands::eLeft, aeInput.Get(::InputCommands::eLeft));
+    r.Set(AO::InputCommands::eRun, aeInput.Get(::InputCommands::eRun));
+    r.Set(AO::InputCommands::eHop, aeInput.Get(::InputCommands::eHop));
+    r.Set(AO::InputCommands::eSneak, aeInput.Get(::InputCommands::eSneak));
+    r.Set(AO::InputCommands::eThrowItem, aeInput.Get(::InputCommands::eThrowItem));
+    r.Set(AO::InputCommands::eCrouchOrRoll, aeInput.Get(::InputCommands::eFartOrRoll));
+    r.Set(AO::InputCommands::eDoAction, aeInput.Get(::InputCommands::eDoAction));
+    r.Set(AO::InputCommands::eBack, aeInput.Get(::InputCommands::eBack));
+    r.Set(AO::InputCommands::eUnPause_OrConfirm, aeInput.Get(::InputCommands::eUnPause_OrConfirm));
+    r.Set(AO::InputCommands::ePause, aeInput.Get(::InputCommands::ePause));
     ConvertAEGamespeakAEtoAOGamespeak(r, aeInput);
     return r;
 }
 
-static BitField32<::InputCommands::Enum> AOInputCommandsToAEInputCommands(const BitField32<AO::InputCommands>& aoInput)
+static BitField32<::InputCommands> AOInputCommandsToAEInputCommands(const BitField32<AO::InputCommands>& aoInput)
 {
-    BitField32<::InputCommands::Enum> r;
-    r.Set(::InputCommands::Enum::eUp, aoInput.Get(AO::InputCommands::eUp));
-    r.Set(::InputCommands::Enum::eRight, aoInput.Get(AO::InputCommands::eRight));
-    r.Set(::InputCommands::Enum::eDown, aoInput.Get(AO::InputCommands::eDown));
-    r.Set(::InputCommands::Enum::eLeft, aoInput.Get(AO::InputCommands::eLeft));
-    r.Set(::InputCommands::Enum::eRun, aoInput.Get(AO::InputCommands::eRun));
-    r.Set(::InputCommands::Enum::eHop, aoInput.Get(AO::InputCommands::eHop));
-    r.Set(::InputCommands::Enum::eSneak, aoInput.Get(AO::InputCommands::eSneak));
-    r.Set(::InputCommands::Enum::eThrowItem, aoInput.Get(AO::InputCommands::eThrowItem));
-    r.Set(::InputCommands::Enum::eFartOrRoll, aoInput.Get(AO::InputCommands::eCrouchOrRoll));
-    r.Set(::InputCommands::Enum::eDoAction, aoInput.Get(AO::InputCommands::eDoAction));
-    r.Set(::InputCommands::Enum::eBack, aoInput.Get(AO::InputCommands::eBack));
-    r.Set(::InputCommands::Enum::eUnPause_OrConfirm, aoInput.Get(AO::InputCommands::eUnPause_OrConfirm));
-    r.Set(::InputCommands::Enum::ePause, aoInput.Get(AO::InputCommands::ePause));
+    BitField32<::InputCommands> r;
+    r.Set(::InputCommands::eUp, aoInput.Get(AO::InputCommands::eUp));
+    r.Set(::InputCommands::eRight, aoInput.Get(AO::InputCommands::eRight));
+    r.Set(::InputCommands::eDown, aoInput.Get(AO::InputCommands::eDown));
+    r.Set(::InputCommands::eLeft, aoInput.Get(AO::InputCommands::eLeft));
+    r.Set(::InputCommands::eRun, aoInput.Get(AO::InputCommands::eRun));
+    r.Set(::InputCommands::eHop, aoInput.Get(AO::InputCommands::eHop));
+    r.Set(::InputCommands::eSneak, aoInput.Get(AO::InputCommands::eSneak));
+    r.Set(::InputCommands::eThrowItem, aoInput.Get(AO::InputCommands::eThrowItem));
+    r.Set(::InputCommands::eFartOrRoll, aoInput.Get(AO::InputCommands::eCrouchOrRoll));
+    r.Set(::InputCommands::eDoAction, aoInput.Get(AO::InputCommands::eDoAction));
+    r.Set(::InputCommands::eBack, aoInput.Get(AO::InputCommands::eBack));
+    r.Set(::InputCommands::eUnPause_OrConfirm, aoInput.Get(AO::InputCommands::eUnPause_OrConfirm));
+    r.Set(::InputCommands::ePause, aoInput.Get(AO::InputCommands::ePause));
 
     // OG issue - LCD screens says hold alt + shift which is wrong
-    r.Set(::InputCommands::Enum::eChant, aoInput.Get(AO::InputCommands::eLeftGamespeak) && aoInput.Get(AO::InputCommands::eRightGameSpeak));
+    r.Set(::InputCommands::eChant, aoInput.Get(AO::InputCommands::eLeftGameSpeak) && aoInput.Get(AO::InputCommands::eRightGameSpeak));
 
-    r.Set(::InputCommands::Enum::eGameSpeak1, aoInput.Get(AO::InputCommands::eLeftGamespeak) && aoInput.Get(AO::InputCommands::eHop));
-    r.Set(::InputCommands::Enum::eGameSpeak2, aoInput.Get(AO::InputCommands::eLeftGamespeak) && aoInput.Get(AO::InputCommands::eDoAction));
-    r.Set(::InputCommands::Enum::eGameSpeak3, aoInput.Get(AO::InputCommands::eLeftGamespeak) && aoInput.Get(AO::InputCommands::eCrouchOrRoll));
-    r.Set(::InputCommands::Enum::eGameSpeak4, aoInput.Get(AO::InputCommands::eLeftGamespeak) && aoInput.Get(AO::InputCommands::eThrowItem));
-    r.Set(::InputCommands::Enum::eGameSpeak5, aoInput.Get(AO::InputCommands::eRightGameSpeak) && aoInput.Get(AO::InputCommands::eDoAction));
-    r.Set(::InputCommands::Enum::eGameSpeak6, aoInput.Get(AO::InputCommands::eRightGameSpeak) && aoInput.Get(AO::InputCommands::eHop));
-    r.Set(::InputCommands::Enum::eGameSpeak7, aoInput.Get(AO::InputCommands::eRightGameSpeak) && aoInput.Get(AO::InputCommands::eThrowItem));
-    r.Set(::InputCommands::Enum::eGameSpeak8, aoInput.Get(AO::InputCommands::eRightGameSpeak) && aoInput.Get(AO::InputCommands::eCrouchOrRoll));
-    r.Set(::InputCommands::Enum::eCheatMode, aoInput.Get(AO::InputCommands::eCheatMode));
+    r.Set(::InputCommands::eGameSpeak1, aoInput.Get(AO::InputCommands::eLeftGameSpeak) && aoInput.Get(AO::InputCommands::eHop));
+    r.Set(::InputCommands::eGameSpeak2, aoInput.Get(AO::InputCommands::eLeftGameSpeak) && aoInput.Get(AO::InputCommands::eDoAction));
+    r.Set(::InputCommands::eGameSpeak3, aoInput.Get(AO::InputCommands::eLeftGameSpeak) && aoInput.Get(AO::InputCommands::eCrouchOrRoll));
+    r.Set(::InputCommands::eGameSpeak4, aoInput.Get(AO::InputCommands::eLeftGameSpeak) && aoInput.Get(AO::InputCommands::eThrowItem));
+    r.Set(::InputCommands::eGameSpeak5, aoInput.Get(AO::InputCommands::eRightGameSpeak) && aoInput.Get(AO::InputCommands::eDoAction));
+    r.Set(::InputCommands::eGameSpeak6, aoInput.Get(AO::InputCommands::eRightGameSpeak) && aoInput.Get(AO::InputCommands::eHop));
+    r.Set(::InputCommands::eGameSpeak7, aoInput.Get(AO::InputCommands::eRightGameSpeak) && aoInput.Get(AO::InputCommands::eThrowItem));
+    r.Set(::InputCommands::eGameSpeak8, aoInput.Get(AO::InputCommands::eRightGameSpeak) && aoInput.Get(AO::InputCommands::eCrouchOrRoll));
+    r.Set(::InputCommands::eCheatMode, aoInput.Get(AO::InputCommands::eCheatMode));
 
     // needed for remapping Speak I and Speak II on controllers
-    r.Set(::InputCommands::Enum::eSpeak1, aoInput.Get(AO::InputCommands::eLeftGamespeak));
-    r.Set(::InputCommands::Enum::eSpeak2, aoInput.Get(AO::InputCommands::eRightGameSpeak));
+    r.Set(::InputCommands::eLeftGameSpeak, aoInput.Get(AO::InputCommands::eLeftGameSpeak));
+    r.Set(::InputCommands::eRightGameSpeak, aoInput.Get(AO::InputCommands::eRightGameSpeak));
 
     return r;
 }
 
-static const char_type* AEInputCommandToAEInputString(::InputCommands::Enum input_command)
+static const char_type* AEInputCommandToAEInputString(::InputCommands input_command)
 {
-    if (input_command & ::InputCommands::Enum::eUp)
+    if (input_command & ::InputCommands::eUp)
     {
         return kUp;
     }
 
-    if (input_command & ::InputCommands::Enum::eDown)
+    if (input_command & ::InputCommands::eDown)
     {
         return kDown;
     }
 
-    if (input_command & ::InputCommands::Enum::eLeft)
+    if (input_command & ::InputCommands::eLeft)
     {
         return kLeft;
     }
 
-    if (input_command & ::InputCommands::Enum::eRight)
+    if (input_command & ::InputCommands::eRight)
     {
         return kRight;
     }
 
-    if (input_command & ::InputCommands::Enum::eRun)
+    if (input_command & ::InputCommands::eRun)
     {
         return kRun;
     }
 
-    if (input_command & ::InputCommands::Enum::eHop)
+    if (input_command & ::InputCommands::eHop)
     {
         return kJump;
     }
 
-    if (input_command & ::InputCommands::Enum::eSneak)
+    if (input_command & ::InputCommands::eSneak)
     {
         return kSneak;
     }
 
-    if (input_command & ::InputCommands::Enum::eThrowItem)
+    if (input_command & ::InputCommands::eThrowItem)
     {
         return kThrow;
     }
 
-    if (input_command & ::InputCommands::Enum::eFartOrRoll)
+    if (input_command & ::InputCommands::eFartOrRoll)
     {
         return kFart; // TODO: wrong ?
     }
 
-    if (input_command & ::InputCommands::Enum::eDoAction)
+    if (input_command & ::InputCommands::eDoAction)
     {
         return kAction;
     }
 
-    if (input_command & ::InputCommands::Enum::eChant)
+    if (input_command & ::InputCommands::eChant)
     {
         return kChant;
     }
 
-    if (input_command & ::InputCommands::Enum::eSpeak1)
+    if (input_command & ::InputCommands::eLeftGameSpeak)
     {
         return kSpeak1;
     }
 
-    if (input_command & ::InputCommands::Enum::eSpeak2)
+    if (input_command & ::InputCommands::eRightGameSpeak)
     {
         return kSpeak2;
     }
 
-    if (input_command & ::InputCommands::Enum::eUnPause_OrConfirm)
+    if (input_command & ::InputCommands::eUnPause_OrConfirm)
     {
         return kConfirm;
     }
 
-    if (input_command & ::InputCommands::Enum::eBack)
+    if (input_command & ::InputCommands::eBack)
     {
         return kBack;
     }
@@ -259,9 +236,9 @@ static const char_type* AEInputCommandToAEInputString(::InputCommands::Enum inpu
 }
 
 
-static BitField32<::InputCommands::Enum> MakeAEInputBits(u32 bits)
+static BitField32<::InputCommands> MakeAEInputBits(u32 bits)
 {
-    BitField32<::InputCommands::Enum> r;
+    BitField32<::InputCommands> r;
     r.Raw().all = bits;
     return r;
 }
@@ -393,22 +370,22 @@ bool InputObject::JoyStickEnabled() const
     return Input_JoyStickEnabled();
 }
 
-bool InputObject::IsAnyPressed(u32 command) const
-{
-    return IsAnyPressed(PadIndex::Active, command);
-}
-
-bool InputObject::IsAnyPressed(PadIndex padIx, u32 command) const
-{
-    return (mPads[PadIndexToInt(padIx)].mRawInput & command) != 0;
-}
-
 bool InputObject::IsAnyHeld(u32 command) const
 {
     return IsAnyHeld(PadIndex::Active, command);
 }
 
 bool InputObject::IsAnyHeld(PadIndex padIx, u32 command) const
+{
+    return (mPads[PadIndexToInt(padIx)].mRawInput & command) != 0;
+}
+
+bool InputObject::IsAnyPressed(u32 command) const
+{
+    return IsAnyPressed(PadIndex::Active, command);
+}
+
+bool InputObject::IsAnyPressed(PadIndex padIx, u32 command) const
 {
     return (mPads[PadIndexToInt(padIx)].mPressed & command) != 0;
 }
@@ -504,12 +481,12 @@ void Input_InitKeyStateArray()
 
 const char_type* Input_GetButtonString(InputCommands inputCommand, bool forceKeyboardLookupIfGamepadFails)
 {
-    const auto aeBits = static_cast<::InputCommands::Enum>(AOInputCommandsToAEInputCommands(MakeAOInputBits(inputCommand)).Raw().all);
+    const auto aeBits = static_cast<::InputCommands>(AOInputCommandsToAEInputCommands(MakeAOInputBits(inputCommand)).Raw().all);
     s32 controller_type = forceKeyboardLookupIfGamepadFails ? 2 : 1;
 
     return ::Input_GetButtonString_492530(
         AEInputCommandToAEInputString(aeBits),
-        Input_JoyStickEnabled() ? controller_type : 0);
+        Input().JoyStickEnabled() ? controller_type : 0);
 }
 
 const char_type* Input_GetButtonString_44F1C0(InputCommands inputCommand)
@@ -519,7 +496,7 @@ const char_type* Input_GetButtonString_44F1C0(InputCommands inputCommand)
 
 s32 Input_Remap(InputCommands inputCmd)
 {
-    return Input_Remap_492680(static_cast<::InputCommands::Enum>(AOInputCommandsToAEInputCommands(MakeAOInputBits(inputCmd)).Raw().all));
+    return Input_Remap_492680(static_cast<::InputCommands>(AOInputCommandsToAEInputCommands(MakeAOInputBits(inputCmd)).Raw().all));
 }
 
 s8 Input_GetLastPressedKey()
@@ -598,7 +575,7 @@ s32 Input_SaveSettingsIni()
 
     //dword_508A64 = 1;
     //fprintf(iniFileHandle, "[Control Layout]\n");
-    //if (Input_JoyStickEnabled())
+    //if (Input().JoyStickEnabled())
     //{
     //    fprintf(iniFileHandle, "controller = Game Pad\n");
 
@@ -608,7 +585,7 @@ s32 Input_SaveSettingsIni()
     //    fprintf(iniFileHandle, "controller = Keyboard\n");
     //}
     //
-    //const auto oldJoystickEnabled = Input_JoyStickEnabled();
+    //const auto oldJoystickEnabled = Input().JoyStickEnabled();
 
     //Input_SetJoyStickEnabled(false);
 

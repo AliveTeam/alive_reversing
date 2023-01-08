@@ -87,7 +87,7 @@ enum PauseMenuPages
 
 void PauseMenu::VUpdate()
 {
-    if (Input().IsAnyHeld(InputCommands::ePause))
+    if (Input().IsAnyPressed(InputCommands::ePause))
     {
         SND_StopAll();
         SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 40, 2400);
@@ -159,7 +159,7 @@ void PauseMenu::VUpdate()
             {
                 case PauseMenuPages::ePause_0:
                 {
-                    if (Input().IsAnyHeld(InputCommands::eCheatMode | InputCommands::eDown))
+                    if (Input().IsAnyPressed(InputCommands::eCheatMode | InputCommands::eDown))
                     {
                         field_124++;
                         if (field_124 > 3)
@@ -169,7 +169,7 @@ void PauseMenu::VUpdate()
                         SFX_Play_Pitch(relive::SoundEffects::MenuNavigation, 45, 400);
                     }
 
-                    if (Input().IsAnyHeld(InputCommands::eUp))
+                    if (Input().IsAnyPressed(InputCommands::eUp))
                     {
                         field_124--;
                         if (field_124 < 0)
@@ -180,7 +180,7 @@ void PauseMenu::VUpdate()
                     }
 
 #if ORIGINAL_PS1_BEHAVIOR // OG Change - Pause Menu controls like PS1
-                    if (Input().IsAnyHeld(InputCommands::ePause))
+                    if (Input().IsAnyPressed(InputCommands::ePause))
                     {
                         field_11C = 0;
                         SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 40, 2400);
@@ -188,7 +188,7 @@ void PauseMenu::VUpdate()
                         break;
                     }
 
-                    const bool optionClicked = Input().IsAnyHeld(InputCommands::eUnPause_OrConfirm);
+                    const bool optionClicked = Input().IsAnyPressed(InputCommands::eUnPause_OrConfirm);
 #else
                     const bool optionClicked = Input().IsAnyHeld(
                         InputCommands::eHop | InputCommands::eThrowItem | InputCommands::eUnPause_OrConfirm | InputCommands::eDoAction | InputCommands::eBack);
@@ -302,12 +302,12 @@ void PauseMenu::VUpdate()
                     {
                         setSaveMenuOpen(false);
                     }
-                    else if (Input().IsAnyHeld(InputCommands::eBack)) // Triangle
+                    else if (Input().IsAnyPressed(InputCommands::eBack)) // Triangle
                     {
                         last_pressed = VK_ESCAPE;
                         setSaveMenuOpen(false);
                     }
-                    else if (Input().IsAnyHeld(InputCommands::eUnPause_OrConfirm)) // Cross or Start
+                    else if (Input().IsAnyPressed(InputCommands::eUnPause_OrConfirm)) // Cross or Start
                     {
                         last_pressed = VK_RETURN;
                         setSaveMenuOpen(false);
@@ -388,13 +388,13 @@ void PauseMenu::VUpdate()
                 }
                 case PauseMenuPages::eControls_2:
                 {
-                    if (Input().IsAnyHeld(InputCommands::eBack | InputCommands::eHop))
+                    if (Input().IsAnyPressed(InputCommands::eBack | InputCommands::eHop))
                     {
                         field_126_page = 0;
                         SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 40, 2400);
                     }
 
-                    if (Input().IsAnyHeld(
+                    if (Input().IsAnyPressed(
                             InputCommands::eThrowItem | InputCommands::eUnPause_OrConfirm | InputCommands::eDoAction | InputCommands::eCheatMode | InputCommands::eUp | InputCommands::eRight | InputCommands::eDown | InputCommands::eLeft))
                     {
                         field_128_controller_id++;
@@ -413,13 +413,13 @@ void PauseMenu::VUpdate()
                 }
                 case PauseMenuPages::eQuit_3:
                 {
-                    if (Input().IsAnyHeld(InputCommands::eBack | InputCommands::eHop))
+                    if (Input().IsAnyPressed(InputCommands::eBack | InputCommands::eHop))
                     {
                         field_126_page = 0;
                         SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 40, 2400);
                     }
 
-                    if (Input().IsAnyHeld(InputCommands::eThrowItem | InputCommands::eUnPause_OrConfirm | InputCommands::eDoAction))
+                    if (Input().IsAnyPressed(InputCommands::eThrowItem | InputCommands::eUnPause_OrConfirm | InputCommands::eDoAction))
                     {
                         field_11C = 0;
                         SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 40, 2400);

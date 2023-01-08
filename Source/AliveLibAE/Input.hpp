@@ -37,9 +37,7 @@ struct PSX_Pad final
 };
 ALIVE_ASSERT_SIZEOF(PSX_Pad, 0x18);
 
-namespace InputCommands {
-
-enum Enum : u32
+enum InputCommands : u32
 {
     eUp = 1u << 0,                 // 0x1
     eDown = 1u << 1,               // 0x2
@@ -64,8 +62,8 @@ enum Enum : u32
     eUnPause_OrConfirm = 1u << 20, // Or/and back 0x100000
     eBack = 1u << 21,              // 0x200000
     eCheatMode = 1u << 22,         // 0x400000
-    eSpeak1 = 1u << 23,            // 0x800000
-    eSpeak2 = 1u << 24,            // 0x1000000
+    eLeftGameSpeak = 1u << 23,            // 0x800000
+    eRightGameSpeak = 1u << 24,            // 0x1000000
     // 0x2000000    = nothing
     // 0x4000000    = nothing
     // 0x8000000    = nothing
@@ -74,30 +72,6 @@ enum Enum : u32
     ePageDown = 1u << 30,  // 0x40000000
     eConfigure = 1u << 31, // 0x80000000
 };
-
-} // namespace InputCommands
-
-extern const InputCommands::Enum sInputKey_Right;
-extern const InputCommands::Enum sInputKey_Left;
-extern const InputCommands::Enum sInputKey_Up;
-extern const InputCommands::Enum sInputKey_Down;
-extern const InputCommands::Enum sInputKey_Hop;
-extern const InputCommands::Enum sInputKey_DoAction;
-extern const InputCommands::Enum sInputKey_Run;
-extern const InputCommands::Enum sInputKey_Sneak;
-extern const InputCommands::Enum sInputKey_FartRoll;
-extern const InputCommands::Enum sInputKey_ThrowItem;
-extern const InputCommands::Enum sInputKey_GameSpeak2;
-extern const InputCommands::Enum sInputKey_GameSpeak4;
-extern const InputCommands::Enum sInputKey_GameSpeak3;
-extern const InputCommands::Enum sInputKey_GameSpeak1;
-extern const InputCommands::Enum sInputKey_GameSpeak6;
-extern const InputCommands::Enum sInputKey_GameSpeak5;
-extern const InputCommands::Enum sInputKey_GameSpeak8;
-extern const InputCommands::Enum sInputKey_GameSpeak7;
-
-extern const InputCommands::Enum sInputKey_Chant;
-
 
 #define kUp "\x01"
 #define kDown "\x02"
@@ -128,7 +102,7 @@ extern const InputCommands::Enum sInputKey_Chant;
 #define kHoistZTurn "\x1b"
 #define kDPad "\x1a"
 
-s32 Input_Remap_492680(InputCommands::Enum inputCmd);
+s32 Input_Remap_492680(InputCommands inputCmd);
 void Input_ResetBinding_4925A0(s32 input_command, s32 bIsGamePad);
 s32 Input_Read_Pad(s32 padNum);
 
@@ -157,7 +131,7 @@ enum PsxButtonBits : u32
 struct InputBinding final
 {
     s32 key;
-    InputCommands::Enum command;
+    InputCommands command;
 };
 
 enum GamepadOptionFlags

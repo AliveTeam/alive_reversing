@@ -80,47 +80,47 @@ void DDCheat::Menu_Teleport()
     DebugStr("Camera (Left/Right): %d\n", sTeleport_Cam);
     DebugStr("Teleport = Enter Reset = Alt\n");
 
-    if (mInputPressed & InputCommands::Enum::eGameSpeak1)
+    if (mInputPressed & InputCommands::eGameSpeak1)
     {
         if (sTeleport_Level)
             --sTeleport_Level;
     }
-    else if (mInputPressed & InputCommands::Enum::eGameSpeak2)
+    else if (mInputPressed & InputCommands::eGameSpeak2)
     {
         if (sTeleport_Level < static_cast<s32>(LevelIds::eCredits_16))
         {
             ++sTeleport_Level;
         }
     }
-    else if (mInputPressed & InputCommands::Enum::eUp)
+    else if (mInputPressed & InputCommands::eUp)
     {
         ++sTeleport_Path;
     }
-    else if (mInputPressed & InputCommands::Enum::eDown)
+    else if (mInputPressed & InputCommands::eDown)
     {
         if (sTeleport_Path > 1)
         {
             --sTeleport_Path;
         }
     }
-    else if (mInputPressed & InputCommands::Enum::eLeft)
+    else if (mInputPressed & InputCommands::eLeft)
     {
         if (sTeleport_Cam > 1)
         {
             --sTeleport_Cam;
         }
     }
-    else if (mInputPressed & InputCommands::Enum::eRight)
+    else if (mInputPressed & InputCommands::eRight)
     {
         ++sTeleport_Cam;
     }
-    else if (mInputPressed & InputCommands::Enum::eSneak)
+    else if (mInputPressed & InputCommands::eSneak)
     {
         sTeleport_Level = static_cast<s32>(gMap.mCurrentLevel);
         sTeleport_Path = gMap.mCurrentPath;
         sTeleport_Cam = gMap.mCurrentCamera;
     }
-    else if (mInputPressed & InputCommands::Enum::eUnPause_OrConfirm)
+    else if (mInputPressed & InputCommands::eUnPause_OrConfirm)
     {
         gDDCheat_FlyingEnabled = true;
 
@@ -131,11 +131,11 @@ void DDCheat::Menu_Teleport()
 
 void DDCheat::Menu_Movies()
 {
-    if (mInputPressed & InputCommands::Enum::eLeft)
+    if (mInputPressed & InputCommands::eLeft)
     {
         sDDCheat_MovieSelectIdx--;
     }
-    else if (mInputPressed & InputCommands::Enum::eRight)
+    else if (mInputPressed & InputCommands::eRight)
     {
         sDDCheat_MovieSelectIdx++;
     }
@@ -145,11 +145,11 @@ void DDCheat::Menu_Movies()
         sDDCheat_MovieSelectIdx = 1;
     }
 
-    if (mInputPressed & InputCommands::Enum::eDown)
+    if (mInputPressed & InputCommands::eDown)
     {
         Path_Get_FMV_Record(gMap.mCurrentLevel, sDDCheat_MovieSelectIdx)->field_4_id--;
     }
-    if (mInputPressed & InputCommands::Enum::eUp)
+    if (mInputPressed & InputCommands::eUp)
     {
         FmvInfo* movieToPlayInfo = Path_Get_FMV_Record(gMap.mCurrentLevel, sDDCheat_MovieSelectIdx);
         sLevelId_dword_5CA408 = static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel));
@@ -247,7 +247,7 @@ void DDCheat::VUpdate()
             }
         }
 
-        if ((gMap.mCurrentLevel != EReliveLevelIds::eMenu && gMap.mCurrentLevel != EReliveLevelIds::eNone) && sActiveHero && activePadPressed & InputCommands::Enum::eCheatMode)
+        if ((gMap.mCurrentLevel != EReliveLevelIds::eMenu && gMap.mCurrentLevel != EReliveLevelIds::eNone) && sActiveHero && activePadPressed & InputCommands::eCheatMode)
         {
             switch (sControlledCharacter->Type())
             {
@@ -295,17 +295,17 @@ void DDCheat::VUpdate()
 
             if (gDDCheat_FlyingEnabled)
             {
-                if (activePadPressed & InputCommands::Enum::eDoAction)
+                if (activePadPressed & InputCommands::eDoAction)
                 {
                     gDDCheat_ShowAI_Info = !gDDCheat_ShowAI_Info;
                 }
 
-                if ((activePadPressed & InputCommands::Enum::eThrowItem) != 0)
+                if ((activePadPressed & InputCommands::eThrowItem) != 0)
                 {
                     sPeakedManagedMemUsage_AB4A08 = sManagedMemoryUsedSize_AB4A04;
                 }
 
-                if (activePadPressed & InputCommands::Enum::eHop)
+                if (activePadPressed & InputCommands::eHop)
                 {
                     sDDCheat_AlwaysShow = !sDDCheat_AlwaysShow;
                 }
@@ -340,35 +340,35 @@ void DDCheat::VUpdate()
             sDDCheat_DebugInputDelay = 10;
         }
 
-        if (mInputPressed & InputCommands::Enum::ePause)
+        if (mInputPressed & InputCommands::ePause)
         {
             mUnknown1 = !mUnknown1;
         }
 
         if (mUnknown1)
         {
-            if (Input().mPads[sCurrentControllerIndex == 0].mRawInput & InputCommands::Enum::eCheatMode)
+            if (Input().mPads[sCurrentControllerIndex == 0].mRawInput & InputCommands::eCheatMode)
             {
                 mFnIdx = 0;
             }
-            else if (mInputPressed & InputCommands::Enum::eCheatMode)
+            else if (mInputPressed & InputCommands::eCheatMode)
             {
                 mNextFnIdx = mFnIdx;
             }
 
             // Using hop instead looks like the only way to actually change the menu properly
-            if (Input().mPads[sCurrentControllerIndex == 0].mRawInput & InputCommands::Enum::eHop /*field_3C_flags & 2*/)
+            if (Input().mPads[sCurrentControllerIndex == 0].mRawInput & InputCommands::eHop /*field_3C_flags & 2*/)
             {
-                if (mInputPressed & InputCommands::Enum::eDown)
+                if (mInputPressed & InputCommands::eDown)
                 {
                     mNextFnIdx++;
                 }
-                else if (mInputPressed & InputCommands::Enum::eUp)
+                else if (mInputPressed & InputCommands::eUp)
                 {
                     mNextFnIdx--;
                 }
 
-                if (mInputPressed & InputCommands::Enum::eUnPause_OrConfirm)
+                if (mInputPressed & InputCommands::eUnPause_OrConfirm)
                 {
                     //mFnIdx = mNextFnIdx; TODO
                 }

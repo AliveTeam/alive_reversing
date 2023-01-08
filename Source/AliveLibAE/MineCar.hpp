@@ -82,7 +82,7 @@ private:
     bool CheckRoofCollision(FP hitX, FP hitY);
     bool CheckFloorCollision(FP hitX, FP hitY);
     void Stop();
-    void Move(AnimId animId, FP velX, FP velY, InputCommands::Enum input, MineCarDirs dir, s8 bChangeDirection);
+    void Move(AnimId animId, FP velX, FP velY, InputCommands input, MineCarDirs dir, s8 bChangeDirection);
     s16 IsBlocked(MineCarDirs a2, s32 a3);
     s16 FollowDirection();
     void RunThingsOver();
@@ -96,7 +96,7 @@ private:
     void HandleUpDown();
 
     using mineCarFPFunc = bool (MineCar::*)(FP, FP);
-    bool HandleState1Move(const mineCarFPFunc func, const FP mineCarFPFuncArg1, const FP mineCarFPFuncArg2, const FP mineCarFPFuncArg3, AnimId animId, MineCarDirs mineCarDir, const s8 changeDir, FP rayCast1, FP rayCast2, FP rayCast3, FP rayCast4, const CollisionMask ModelMask1, const CollisionMask ModelMask2, FP moveX, FP moveY, InputCommands::Enum key, bool isVertical, bool verticalFlipXCond);
+    bool HandleState1Move(const mineCarFPFunc func, const FP mineCarFPFuncArg1, const FP mineCarFPFuncArg2, const FP mineCarFPFuncArg3, AnimId animId, MineCarDirs mineCarDir, const s8 changeDir, FP rayCast1, FP rayCast2, FP rayCast3, FP rayCast4, const CollisionMask ModelMask1, const CollisionMask ModelMask2, FP moveX, FP moveY, InputCommands key, bool isVertical, bool verticalFlipXCond);
 
 private:
     Guid field_118_tlvInfo;
@@ -118,6 +118,6 @@ private:
     s16 field_1CC_spawned_path = 0;
     s16 field_1CE_spawned_camera = 0;
     s32 field_1D0_sound_channels_mask = 0;
-    s16 field_1D4_previous_input = 0;      //TODO change to InputCommands::Enum type when we can drop sizeof assert
-    s16 field_1D6_continue_move_input = 0; //TODO change to InputCommands::Enum type when we can drop sizeof assert
+    s16 field_1D4_previous_input = 0;      //TODO change to InputCommands type when we can drop sizeof assert
+    s16 field_1D6_continue_move_input = 0; //TODO change to InputCommands type when we can drop sizeof assert
 };

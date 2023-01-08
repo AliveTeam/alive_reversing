@@ -89,11 +89,11 @@ MineCar::MineCar(relive::Path_MineCar* pTlv, const Guid& tlvId, s32 /*a4*/, s32 
     field_1C2_falling_counter = 0;
 
     // What was pressed before we started to move
-    field_1D4_previous_input = static_cast<s16>(sInputKey_ThrowItem);
+    field_1D4_previous_input = static_cast<s16>(InputCommands::eThrowItem);
 
     // Set to a key that keeps the car moving, for example if moving right and we hit a right wall that a car
     // can travel "up" then we set this key to "up" such that holding down "right" automatically moves the car up.
-    field_1D6_continue_move_input = static_cast<s16>(sInputKey_ThrowItem);
+    field_1D6_continue_move_input = static_cast<s16>(InputCommands::eThrowItem);
 
     field_1CC_spawned_path = gMap.mCurrentPath;
     field_1CE_spawned_camera = gMap.mCurrentCamera;
@@ -407,7 +407,7 @@ void MineCar::Stop()
     mXPos = FP_FromInteger(SnapToXGrid(GetSpriteScale(), FP_GetExponent(mXPos)));
 }
 
-void MineCar::Move(AnimId animId, FP velX, FP velY, InputCommands::Enum input, MineCarDirs turnDirection, s8 bChangeDirection)
+void MineCar::Move(AnimId animId, FP velX, FP velY, InputCommands input, MineCarDirs turnDirection, s8 bChangeDirection)
 {
     GetAnimation().Set_Animation_Data(GetAnimRes(animId));
 
@@ -495,11 +495,11 @@ s16 MineCar::FollowDirection()
         //
         if (field_1BC_turn_direction == MineCarDirs::eUp_3)
         {
-            field_1D6_continue_move_input = (u16) sInputKey_Up;
+            field_1D6_continue_move_input = (u16) InputCommands::eUp;
         }
         else
         {
-            field_1D6_continue_move_input = (u16) sInputKey_Down;
+            field_1D6_continue_move_input = (u16) InputCommands::eDown;
         }
 
         return true;
@@ -522,11 +522,11 @@ s16 MineCar::FollowDirection()
         //
         if (field_1BC_turn_direction == MineCarDirs::eLeft_2)
         {
-            field_1D6_continue_move_input = (u16) sInputKey_Left;
+            field_1D6_continue_move_input = (u16) InputCommands::eLeft;
         }
         else
         {
-            field_1D6_continue_move_input = (u16) sInputKey_Right;
+            field_1D6_continue_move_input = (u16) InputCommands::eRight;
         }
 
         return true;
@@ -548,7 +548,7 @@ s16 MineCar::FollowDirection()
                 (mVelX < FP_FromInteger(0) && !bRoofLeft)
             )
             {
-                field_1D6_continue_move_input = (u16) sInputKey_Up;
+                field_1D6_continue_move_input = (u16) InputCommands::eUp;
                 return true;
             }
         }
@@ -569,7 +569,7 @@ s16 MineCar::FollowDirection()
                 (mVelY < FP_FromInteger(0) && !bLeftWall2)
             )
             {
-                field_1D6_continue_move_input = (u16) sInputKey_Left;
+                field_1D6_continue_move_input = (u16) InputCommands::eLeft;
                 return true;
             }
         }
@@ -590,7 +590,7 @@ s16 MineCar::FollowDirection()
                 (mVelY < FP_FromInteger(0) && !bRightWall2)
             )
             {
-                field_1D6_continue_move_input = (u16) sInputKey_Right;
+                field_1D6_continue_move_input = (u16) InputCommands::eRight;
                 return true;
             }
         }
@@ -612,7 +612,7 @@ s16 MineCar::FollowDirection()
                 (mVelX < FP_FromInteger(0) && !bFloorLeft)
             )
             {
-                field_1D6_continue_move_input = (u16) sInputKey_Down;
+                field_1D6_continue_move_input = (u16) InputCommands::eDown;
                 return true;
             }
         }
@@ -839,7 +839,7 @@ void MineCar::VUpdate()
             break;
     }
 
-    if (Input().IsAnyHeld(sInputKey_DoAction))
+    if (Input().IsAnyHeld(InputCommands::eDoAction))
     {
         if (
             (
@@ -969,7 +969,7 @@ void MineCar::State_1_ParkedWithAbe()
     const FP velX = kGridSize / FP_FromInteger(4);
     const FP velY = FP_FromInteger(0);
 
-    InputCommands::Enum inputKey = sInputKey_Right;
+    InputCommands inputKey = InputCommands::eRight;
 
     if (
         (
@@ -977,7 +977,7 @@ void MineCar::State_1_ParkedWithAbe()
             (
                 Input().IsAnyHeld(field_1D4_previous_input) &&
                 (u16) field_1D6_continue_move_input == inputKey &&
-                field_1D4_previous_input != (u16) sInputKey_Left &&
+                field_1D4_previous_input != (u16) InputCommands::eLeft &&
                 field_1BC_turn_direction != MineCarDirs::eUp_3 &&
                 field_1BC_turn_direction != MineCarDirs::eDown_0
             )
@@ -1052,7 +1052,7 @@ void MineCar::State_1_ParkedWithAbe()
         }
     }
 
-    inputKey = sInputKey_Left;
+    inputKey = InputCommands::eLeft;
 
     if (
         (
@@ -1060,7 +1060,7 @@ void MineCar::State_1_ParkedWithAbe()
             (
                 Input().IsAnyHeld(field_1D4_previous_input) &&
                 (u16) field_1D6_continue_move_input == inputKey &&
-                field_1D4_previous_input != (u16) sInputKey_Right &&
+                field_1D4_previous_input != (u16) InputCommands::eRight &&
                 field_1BC_turn_direction != MineCarDirs::eUp_3 &&
                 field_1BC_turn_direction != MineCarDirs::eDown_0
             )
@@ -1138,7 +1138,7 @@ void MineCar::State_1_ParkedWithAbe()
 
 bool MineCar::HandleState1Move(const mineCarFPFunc func, const FP mineCarFPFuncArg1, const FP mineCarFPFuncArg2, const FP mineCarFPFuncArg3,
                                AnimId animId, MineCarDirs mineCarDir, const s8 bChangeDir, FP rayCastX1, FP rayCastY1, FP rayCastX2, FP rayCastY2, const CollisionMask ModelMask1, const CollisionMask ModelMask2,
-                               FP velX, FP velY, InputCommands::Enum key, bool isVertical, bool verticalFlipXCond)
+                               FP velX, FP velY, InputCommands key, bool isVertical, bool verticalFlipXCond)
 {
     PathLine* pPathLine = nullptr;
     FP hitX = {};
@@ -1190,14 +1190,14 @@ void MineCar::HandleUpDown()
     const FP velX = FP_FromInteger(0);
     const FP velY = k5Scaled;
 
-    InputCommands::Enum inputKey = sInputKey_Up;
+    InputCommands inputKey = InputCommands::eUp;
 
     if (
         Input().IsAnyHeld(inputKey) ||
         (
             Input().IsAnyHeld(field_1D4_previous_input) &&
             (u16) field_1D6_continue_move_input == inputKey &&
-            field_1D4_previous_input != (u16) sInputKey_Down &&
+            field_1D4_previous_input != (u16) InputCommands::eDown &&
             field_1BC_turn_direction != MineCarDirs::eLeft_2 &&
             field_1BC_turn_direction != MineCarDirs::eRight_1 &&
             !IsBlocked(MineCarDirs::eDown_0, 0)
@@ -1270,14 +1270,14 @@ void MineCar::HandleUpDown()
         }
     }
 
-    inputKey = sInputKey_Down;
+    inputKey = InputCommands::eDown;
 
     if (
         Input().IsAnyHeld(inputKey) ||
         (
             Input().IsAnyHeld(field_1D4_previous_input) &&
             (u16) field_1D6_continue_move_input == inputKey &&
-            field_1D4_previous_input != (u16) sInputKey_Up &&
+            field_1D4_previous_input != (u16) InputCommands::eUp &&
             field_1BC_turn_direction != MineCarDirs::eLeft_2 &&
             field_1BC_turn_direction != MineCarDirs::eRight_1 &&
             !IsBlocked(MineCarDirs::eUp_3, 0)

@@ -24,7 +24,7 @@ enum InputCommands : u32
 {
     eRightGameSpeak = 1u << 0,    // 0x1
     eSneak = 1u << 1,             // 0x2
-    eLeftGamespeak = 1u << 2,     // 0x4
+    eLeftGameSpeak = 1u << 2,     // 0x4
     eRun = 1u << 3,               // 0x8
     eHop = 1u << 4,               // 0x10
     eThrowItem = 1u << 5,         // 0x20
@@ -38,6 +38,18 @@ enum InputCommands : u32
     eRight = 1u << 13,            // 0x2000
     eDown = 1u << 14,             // 0x4000
     eLeft = 1u << 15,             // 0x8000
+
+
+    //todo temporary values
+    eGameSpeak1 = eHop,
+    eGameSpeak2 = eDoAction,
+    eGameSpeak3 = eThrowItem,
+    eGameSpeak4 = eCrouchOrRoll,
+    eGameSpeak5 = eCrouchOrRoll,
+    eGameSpeak6 = eHop,
+    eGameSpeak7 = eThrowItem,
+    eGameSpeak8 = eDoAction,
+
     // ---
     // anything else below this won't fit into 16-bit variables
     // ---
@@ -48,8 +60,8 @@ enum InputCommands : u32
     //eUnPause_OrConfirm = 1u << 20, // 0x100000 Or/and back
     //eBack = 1u << 21, // 0x200000
     //eCheatMode = 1u << 22,
-    //eSpeak1 = 1u << 23, // 0x800000
-    //eSpeak2 = 1u << 24, // 0x1000000    = nothing
+    //eLeftGameSpeak = 1u << 23, // 0x800000
+    //eRightGameSpeak = 1u << 24, // 0x1000000    = nothing
     // 0x2000000    = nothing
     // 0x4000000    = nothing
     // 0x8000000    = nothing
@@ -58,31 +70,6 @@ enum InputCommands : u32
     // 0x40000000   = nothing
     //e0x80000000 = 1u << 31,
 };
-
-extern const InputCommands sInputKey_Right;
-extern const InputCommands sInputKey_Left;
-extern const InputCommands sInputKey_Up;
-extern const InputCommands sInputKey_Down;
-extern const InputCommands sInputKey_Hop;
-extern const InputCommands sInputKey_DoAction;
-extern const InputCommands sInputKey_Run;
-extern const InputCommands sInputKey_Sneak;
-extern const InputCommands sInputKey_FartRoll;
-extern const InputCommands sInputKey_ThrowItem;
-
-extern const InputCommands sInputKey_LeftGameSpeakEnabler;
-extern const InputCommands sInputKey_GameSpeak1;
-extern const InputCommands sInputKey_GameSpeak2;
-extern const InputCommands sInputKey_GameSpeak3;
-extern const InputCommands sInputKey_GameSpeak4;
-
-extern const InputCommands sInputKey_RightGameSpeakEnabler;
-extern const InputCommands sInputKey_GameSpeak5;
-extern const InputCommands sInputKey_GameSpeak6;
-extern const InputCommands sInputKey_GameSpeak7;
-extern const InputCommands sInputKey_GameSpeak8;
-
-const InputCommands sInputKey_Chant = static_cast<InputCommands>(eRightGameSpeak | eLeftGamespeak);
 
 #define kAO_Esc "\x06"
 
@@ -159,8 +146,8 @@ public:
     s32 field_2C = 0;
 
     // These use the active pad
-    bool IsAnyPressed(u32 command) const;
     bool IsAnyHeld(u32 command) const;
+    bool IsAnyPressed(u32 command) const;
     bool IsAnyReleased(u32 command) const;
     u8 Dir() const;
 
@@ -178,8 +165,8 @@ public:
     bool JoyStickEnabled() const;
 
     // Check a specific pad
-    bool IsAnyPressed(PadIndex padIx, u32 command) const;
     bool IsAnyHeld(PadIndex padIx, u32 command) const;
+    bool IsAnyPressed(PadIndex padIx, u32 command) const;
     bool IsAnyReleased(PadIndex padIx, u32 command) const;
     bool IsAllPressed(PadIndex padIx, u32 commands) const;
 

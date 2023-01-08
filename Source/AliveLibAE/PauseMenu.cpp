@@ -455,7 +455,7 @@ char_type sArrowStr_55E398[2] = {kArrowChar, 0};
 
 void PauseMenu::Page_Main_Update()
 {
-    if (Input().IsAnyPressed(InputCommands::Enum::eDown))
+    if (Input().IsAnyPressed(InputCommands::eDown))
     {
         if (++mMainPage > MainPages::ePage_Quit_7)
         {
@@ -464,7 +464,7 @@ void PauseMenu::Page_Main_Update()
         SFX_Play_Pitch(relive::SoundEffects::MenuNavigation, 45, 400);
     }
 
-    if (Input().IsAnyPressed(InputCommands::Enum::eUp))
+    if (Input().IsAnyPressed(InputCommands::eUp))
     {
         if (--mMainPage < MainPages::ePage_Continue_0)
         {
@@ -475,13 +475,13 @@ void PauseMenu::Page_Main_Update()
 
     mActiveMenu.mSelectedIndex = mMainPage;
 
-    if (Input().IsAnyPressed(InputCommands::Enum::eBack))
+    if (Input().IsAnyPressed(InputCommands::eBack))
     {
         mPauseRenderLoop = false;
         SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 40, 2400);
         GetSoundAPI().SND_Restart();
     }
-    else if (Input().IsAnyPressed(InputCommands::Enum::eUnPause_OrConfirm))
+    else if (Input().IsAnyPressed(InputCommands::eUnPause_OrConfirm))
     {
         switch (mMainPage)
         {
@@ -560,13 +560,13 @@ void PauseMenu::Page_Main_Update()
 
 void PauseMenu::Page_ControlsActions_Update()
 {
-    if (Input().IsAnyPressed(InputCommands::Enum::eBack))
+    if (Input().IsAnyPressed(InputCommands::eBack))
     {
         mActiveMenu = sMainMenuPage;
         SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 40, 2400);
     }
 
-    if (Input().IsAnyPressed(InputCommands::Enum::eUnPause_OrConfirm))
+    if (Input().IsAnyPressed(InputCommands::eUnPause_OrConfirm))
     {
         const s32 prev = ++mControlActionPageIndex;
         if (prev < 6)
@@ -585,13 +585,13 @@ void PauseMenu::Page_ControlsActions_Update()
 
 void PauseMenu::Page_QuitConfirmation_Update()
 {
-    if (Input().IsAnyPressed(InputCommands::Enum::eBack))
+    if (Input().IsAnyPressed(InputCommands::eBack))
     {
         mActiveMenu = sMainMenuPage;
         SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 40, 2400);
     }
 
-    if (Input().IsAnyPressed(InputCommands::Enum::eUnPause_OrConfirm))
+    if (Input().IsAnyPressed(InputCommands::eUnPause_OrConfirm))
     {
         mPauseRenderLoop = false;
         SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 40, 2400);
@@ -643,14 +643,14 @@ void PauseMenu::Page_Save_Update()
     }
     else if (mSaveState == SaveState::SaveConfirmOverwrite_8)
     {
-        if (Input().IsAnyPressed(InputCommands::Enum::eUnPause_OrConfirm))
+        if (Input().IsAnyPressed(InputCommands::eUnPause_OrConfirm))
         {
             // Enter - do the save and don't return to the confirm overwrite
             SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 40, 2400);
             mSaveState = SaveState::DoSave_4;
             bWriteSaveFile_5C937C = true;
         }
-        else if (Input().IsAnyPressed(InputCommands::Enum::eBack))
+        else if (Input().IsAnyPressed(InputCommands::eBack))
         {
             // Escape - cancel save
             SfxPlayMono(relive::SoundEffects::IngameTransition, 90);
@@ -788,7 +788,7 @@ void PauseMenu::Page_Save_Render(PrimHeader** ot, PauseMenuPage* pPage)
 
 void PauseMenu::Page_Status_Update()
 {
-    if (Input().IsAnyPressed(InputCommands::Enum::eBack | InputCommands::Enum::eUnPause_OrConfirm))
+    if (Input().IsAnyPressed(InputCommands::eBack | InputCommands::eUnPause_OrConfirm))
     {
         // Go back to the main page
         mActiveMenu = sMainMenuPage;
@@ -821,7 +821,7 @@ void PauseMenu::Page_Load_Update()
     const u32 pressed = Input().mPads[sCurrentControllerIndex].mPressed;
 
     // Up one save
-    if (pressed & InputCommands::Enum::eUp)
+    if (pressed & InputCommands::eUp)
     {
         // Don't underflow
         if (gSavedGameToLoadIdx > 0)
@@ -833,7 +833,7 @@ void PauseMenu::Page_Load_Update()
     }
 
     // Down one save
-    if (pressed & InputCommands::Enum::eDown)
+    if (pressed & InputCommands::eDown)
     {
         // Don't overflow
         if (gSavedGameToLoadIdx < gTotalSaveFilesCount - 1)
@@ -845,7 +845,7 @@ void PauseMenu::Page_Load_Update()
     }
 
     // Page up saves
-    if (pressed & InputCommands::Enum::ePageUp)
+    if (pressed & InputCommands::ePageUp)
     {
         gSavedGameToLoadIdx -= 4;
 
@@ -860,7 +860,7 @@ void PauseMenu::Page_Load_Update()
     }
 
     // Page down saves
-    if (pressed & InputCommands::Enum::ePageDown)
+    if (pressed & InputCommands::ePageDown)
     {
         // Don't overflow
         gSavedGameToLoadIdx += 4;
@@ -873,7 +873,7 @@ void PauseMenu::Page_Load_Update()
     }
 
     // Load save (enter)
-    if (pressed & InputCommands::Enum::eUnPause_OrConfirm)
+    if (pressed & InputCommands::eUnPause_OrConfirm)
     {
         mActiveMenu = sMainMenuPage;
 
@@ -896,13 +896,13 @@ void PauseMenu::Page_Load_Update()
         }
     }
     // Go back (esc)
-    else if (pressed & InputCommands::Enum::eBack)
+    else if (pressed & InputCommands::eBack)
     {
         mActiveMenu = sMainMenuPage;
         SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 40, 2400);
     }
     // Delete (del)
-    else if (pressed & InputCommands::Enum::eDelete)
+    else if (pressed & InputCommands::eDelete)
     {
         if (gTotalSaveFilesCount)
         {
@@ -1012,7 +1012,7 @@ void PauseMenu::VUpdate()
         }
     }
 
-    if (Input().mPads[sCurrentControllerIndex].mPressed & InputCommands::Enum::ePause)
+    if (Input().mPads[sCurrentControllerIndex].mPressed & InputCommands::ePause)
     {
         if (pHero->mHealth > FP_FromInteger(0)
             && !(pHero->GetElectrocuted())

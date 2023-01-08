@@ -8,7 +8,7 @@ struct CheatEntry final
 {
     u32 mLevelMask;
     s32 mCheatCodeLength;
-    const InputCommands::Enum* mCheatCodeAry;
+    const InputCommands* mCheatCodeAry;
     s32 mSuccessIdx;
     void (*mCallback)(void);
 };

@@ -10,7 +10,7 @@ static const s32 sInputTable[30] = {
     // so that they can each be remapped to separate buttons
     InputCommands::eBack,
     InputCommands::eCheatMode,
-    InputCommands::eLeftGamespeak,
+    InputCommands::eLeftGameSpeak,
     InputCommands::eRightGameSpeak,
     InputCommands::eRun,
     InputCommands::eSneak,

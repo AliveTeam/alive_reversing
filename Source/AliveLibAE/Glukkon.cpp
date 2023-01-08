@@ -378,7 +378,7 @@ void Glukkon::Motion_1_Walk()
                         SetAnim(eGlukkonMotions::Motion_18_WalkToJump);
                     }
                 }
-                else if (Input().IsAnyHeld(InputCommands::Enum::eRun))
+                else if (Input().IsAnyHeld(InputCommands::eRun))
                 {
                     SetAnim(eGlukkonMotions::Motion_18_WalkToJump, true);
                 }
@@ -412,7 +412,7 @@ void Glukkon::Motion_1_Walk()
                 }
                 else
                 {
-                    if ((mVelX > FP_FromInteger(0) && Input().IsAnyHeld(InputCommands::Enum::eLeft)) || (mVelX < FP_FromInteger(0) && Input().IsAnyHeld(InputCommands::Enum::eRight)) || !(Input().IsAnyHeld(InputCommands::Enum::eLeft | InputCommands::Enum::eRight)))
+                    if ((mVelX > FP_FromInteger(0) && Input().IsAnyHeld(InputCommands::eLeft)) || (mVelX < FP_FromInteger(0) && Input().IsAnyHeld(InputCommands::eRight)) || !(Input().IsAnyHeld(InputCommands::eLeft | InputCommands::eRight)))
                     {
                         if (GetAnimation().GetCurrentFrame() == 8)
                         {
@@ -610,20 +610,20 @@ void Glukkon::JumpHelper()
     {
         const auto held = Input().GetHeld();
 
-        if ((mVelX > FP_FromInteger(0) && (held & InputCommands::Enum::eLeft)) || (mVelX < FP_FromInteger(0) && (held & InputCommands::Enum::eRight)))
+        if ((mVelX > FP_FromInteger(0) && (held & InputCommands::eLeft)) || (mVelX < FP_FromInteger(0) && (held & InputCommands::eRight)))
         {
             // Direction changed
             SetAnim(eGlukkonMotions::Motion_17_JumpToStand, true);
         }
-        else if (held & (InputCommands::Enum::eLeft | InputCommands::Enum::eRight))
+        else if (held & (InputCommands::eLeft | InputCommands::eRight))
         {
-            if (!(held & InputCommands::Enum::eRun))
+            if (!(held & InputCommands::eRun))
             {
                 // Still moving but not running, so start walking
                 SetAnim(eGlukkonMotions::Motion_19_JumpToWalk, true);
             }
         }
-        else if (!(held & InputCommands::Enum::eHop))
+        else if (!(held & InputCommands::eHop))
         {
             // Not changing direction or trying to move at all, back to standing
             SetAnim(eGlukkonMotions::Motion_17_JumpToStand, true);
@@ -2181,41 +2181,41 @@ void Glukkon::HandleInput()
     if (BrainIs(&Glukkon::Brain_3_PlayerControlled) && mBrainSubState == 1 && !(GetTeleporting()))
     {
         const auto inputPressed = Input().GetPressed();
-        const auto matchButtons = InputCommands::Enum::eGameSpeak1 | InputCommands::Enum::eGameSpeak2 | InputCommands::Enum::eGameSpeak3 | InputCommands::Enum::eGameSpeak4 | InputCommands::Enum::eGameSpeak5 | InputCommands::Enum::eGameSpeak6 | InputCommands::Enum::eGameSpeak7 | InputCommands::Enum::eGameSpeak8 | InputCommands::Enum::eChant;
+        const auto matchButtons = InputCommands::eGameSpeak1 | InputCommands::eGameSpeak2 | InputCommands::eGameSpeak3 | InputCommands::eGameSpeak4 | InputCommands::eGameSpeak5 | InputCommands::eGameSpeak6 | InputCommands::eGameSpeak7 | InputCommands::eGameSpeak8 | InputCommands::eChant;
 
         if (inputPressed & matchButtons)
         {
             mSpeak = GlukkonSpeak::None;
 
-            if (inputPressed & InputCommands::Enum::eGameSpeak1)
+            if (inputPressed & InputCommands::eGameSpeak1)
             {
                 mSpeak = GlukkonSpeak::Hey_0;
             }
-            else if (inputPressed & InputCommands::Enum::eGameSpeak2)
+            else if (inputPressed & InputCommands::eGameSpeak2)
             {
                 mSpeak = GlukkonSpeak::Commere_3;
             }
-            else if (inputPressed & InputCommands::Enum::eGameSpeak3)
+            else if (inputPressed & InputCommands::eGameSpeak3)
             {
                 mSpeak = GlukkonSpeak::StayHere_2;
             }
-            else if (inputPressed & InputCommands::Enum::eGameSpeak4)
+            else if (inputPressed & InputCommands::eGameSpeak4)
             {
                 mSpeak = GlukkonSpeak::DoIt_1;
             }
-            else if (inputPressed & InputCommands::Enum::eGameSpeak5)
+            else if (inputPressed & InputCommands::eGameSpeak5)
             {
                 mSpeak = GlukkonSpeak::KillEm_8;
             }
-            else if (inputPressed & InputCommands::Enum::eGameSpeak7)
+            else if (inputPressed & InputCommands::eGameSpeak7)
             {
                 mSpeak = GlukkonSpeak::Help_6;
             }
-            else if (inputPressed & InputCommands::Enum::eGameSpeak8)
+            else if (inputPressed & InputCommands::eGameSpeak8)
             {
                 mSpeak = GlukkonSpeak::Laugh_7;
             }
-            else if (inputPressed & InputCommands::Enum::eGameSpeak6)
+            else if (inputPressed & InputCommands::eGameSpeak6)
             {
                 mSpeak = GlukkonSpeak::AllOYa_4;
             }
@@ -2228,7 +2228,7 @@ void Glukkon::HandleInput()
         else
         {
             const auto held = Input().GetHeld();
-            if (held & InputCommands::Enum::eRight)
+            if (held & InputCommands::eRight)
             {
                 if (GetAnimation().GetFlipX())
                 {
@@ -2239,7 +2239,7 @@ void Glukkon::HandleInput()
                     SetNextMotion(eGlukkonMotions::Motion_14_BeginWalk);
                 }
             }
-            else if (held & InputCommands::Enum::eLeft)
+            else if (held & InputCommands::eLeft)
             {
                 if (GetAnimation().GetFlipX())
                 {
@@ -2251,7 +2251,7 @@ void Glukkon::HandleInput()
                 }
             }
 
-            if (held & InputCommands::Enum::eRun)
+            if (held & InputCommands::eRun)
             {
                 if (GetNextMotion() == eGlukkonMotions::Motion_1_Walk)
                 {
@@ -2259,7 +2259,7 @@ void Glukkon::HandleInput()
                 }
             }
 
-            if (held & InputCommands::Enum::eHop)
+            if (held & InputCommands::eHop)
             {
                 SetNextMotion(eGlukkonMotions::Motion_4_Jump);
             }

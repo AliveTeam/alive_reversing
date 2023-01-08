@@ -563,13 +563,13 @@ void Scrab::HandleDDCheat()
 {
     BaseAliveGameObjectCollisionLine = nullptr;
 
-    if (Input().IsAnyHeld(InputCommands::Enum::eUp | InputCommands::Enum::eDown | InputCommands::Enum::eLeft | InputCommands::Enum::eRight))
+    if (Input().IsAnyHeld(InputCommands::eUp | InputCommands::eDown | InputCommands::eLeft | InputCommands::eRight))
     {
         // TODO: InputCommand constants
         mVelX = velx_input_entries_546D84[Input().mPads[sCurrentControllerIndex].mDir >> 5];
         mVelY = vely_input_entries_546DA4[Input().mPads[sCurrentControllerIndex].mDir >> 5];
 
-        if (Input().IsAnyHeld(InputCommands::Enum::eRun))
+        if (Input().IsAnyHeld(InputCommands::eRun))
         {
             mVelX += velx_input_entries_546D84[Input().mPads[sCurrentControllerIndex].mDir >> 5];
             mVelX += velx_input_entries_546D84[Input().mPads[sCurrentControllerIndex].mDir >> 5];
@@ -1972,21 +1972,21 @@ void Scrab::Motion_0_Stand()
             return;
         }
 
-        if (Input().IsAnyPressed(sInputKey_GameSpeak2))
+        if (Input().IsAnyPressed(InputCommands::eGameSpeak2))
         {
             mCurrentMotion = eScrabMotions::Motion_30_Shriek;
             mNextMotion = eScrabMotions::Motion_0_Stand;
             return;
         }
 
-        if (Input().IsAnyPressed(sInputKey_GameSpeak1))
+        if (Input().IsAnyPressed(InputCommands::eGameSpeak1))
         {
             mCurrentMotion = eScrabMotions::Motion_26_HowlBegin;
             mNextMotion = eScrabMotions::Motion_0_Stand;
             return;
         }
 
-        if (Input().IsAnyHeld(InputCommands::Enum::eThrowItem | InputCommands::Enum::eDoAction) && mShredPowerActive)
+        if (Input().IsAnyHeld(InputCommands::eThrowItem | InputCommands::eDoAction) && mShredPowerActive)
         {
             mCurrentMotion = eScrabMotions::Motion_32_AttackSpin;
             mNextMotion = -1;
@@ -1994,14 +1994,14 @@ void Scrab::Motion_0_Stand()
             return;
         }
 
-        if (Input().IsAnyHeld(InputCommands::Enum::eThrowItem | InputCommands::Enum::eDoAction))
+        if (Input().IsAnyHeld(InputCommands::eThrowItem | InputCommands::eDoAction))
         {
             mCurrentMotion = eScrabMotions::Motion_21_Stamp;
             mNextMotion = -1;
             return;
         }
 
-        if (Input().IsAnyHeld(sInputKey_Hop))
+        if (Input().IsAnyHeld(InputCommands::eHop))
         {
             const FP k45Scaled = (GetSpriteScale() * FP_FromInteger(45));
             const FP kGridSize = ScaleToGridSize(GetSpriteScale());
@@ -2107,7 +2107,7 @@ void Scrab::Motion_1_Walk()
             }
             else
             {
-                if ((mVelX > FP_FromInteger(0) && Input().IsAnyHeld(InputCommands::Enum::eLeft)) || (mVelX < FP_FromInteger(0) && Input().IsAnyHeld(InputCommands::Enum::eRight)) || !Input().IsAnyHeld(InputCommands::Enum::eRight | InputCommands::Enum::eLeft))
+                if ((mVelX > FP_FromInteger(0) && Input().IsAnyHeld(InputCommands::eLeft)) || (mVelX < FP_FromInteger(0) && Input().IsAnyHeld(InputCommands::eRight)) || !Input().IsAnyHeld(InputCommands::eRight | InputCommands::eLeft))
                 {
                     mCurrentMotion = eScrabMotions::Motion_11_WalkToStand;
                 }
@@ -2130,7 +2130,7 @@ void Scrab::Motion_1_Walk()
                 return;
             }
 
-            if (Input().IsAnyHeld(InputCommands::Enum::eThrowItem | InputCommands::Enum::eDoAction) && mShredPowerActive)
+            if (Input().IsAnyHeld(InputCommands::eThrowItem | InputCommands::eDoAction) && mShredPowerActive)
             {
                 mCurrentMotion = eScrabMotions::Motion_32_AttackSpin;
                 field_12C_timer = sGnFrame + mPossessedMaxWhirlAttackDuration;
@@ -2139,7 +2139,7 @@ void Scrab::Motion_1_Walk()
                 return;
             }
 
-            if (Input().IsAnyHeld(InputCommands::Enum::eRun))
+            if (Input().IsAnyHeld(InputCommands::eRun))
             {
                 mCurrentMotion = eScrabMotions::Motion_16_WalkToRun;
                 mNextMotion = -1;
@@ -2147,7 +2147,7 @@ void Scrab::Motion_1_Walk()
                 return;
             }
 
-            if (Input().IsAnyHeld(InputCommands::Enum::eHop))
+            if (Input().IsAnyHeld(InputCommands::eHop))
             {
                 mCurrentMotion = eScrabMotions::Motion_5_HopBegin;
                 mNextMotion = -1;
@@ -2255,18 +2255,18 @@ void Scrab::Motion_2_Run()
                 }
                 else
                 {
-                    if ((mVelX <= FP_FromInteger(0) || !Input().IsAnyHeld(sInputKey_Left)) && (mVelX >= FP_FromInteger(0) || !Input().IsAnyHeld(sInputKey_Right)))
+                    if ((mVelX <= FP_FromInteger(0) || !Input().IsAnyHeld(InputCommands::eLeft)) && (mVelX >= FP_FromInteger(0) || !Input().IsAnyHeld(InputCommands::eRight)))
                     {
-                        if (Input().IsAnyHeld(sInputKey_Left | sInputKey_Right))
+                        if (Input().IsAnyHeld(InputCommands::eLeft | InputCommands::eRight))
                         {
-                            if (!Input().IsAnyHeld(sInputKey_Run))
+                            if (!Input().IsAnyHeld(InputCommands::eRun))
                             {
                                 mCurrentMotion = eScrabMotions::Motion_17_RunToWalk;
                                 MapFollowMe(true);
                                 return;
                             }
 
-                            if (Input().IsAnyHeld(sInputKey_Hop))
+                            if (Input().IsAnyHeld(InputCommands::eHop))
                             {
                                 ToJump();
                                 MapFollowMe(true);
@@ -3143,33 +3143,33 @@ void Scrab::Motion_32_AttackSpin()
     }
     else
     {
-        if (Input().IsAnyHeld(InputCommands::Enum::eThrowItem | InputCommands::Enum::eDoAction))
+        if (Input().IsAnyHeld(InputCommands::eThrowItem | InputCommands::eDoAction))
         {
-            if (!Input().IsAnyHeld(sInputKey_Left | sInputKey_Right))
+            if (!Input().IsAnyHeld(InputCommands::eLeft | InputCommands::eRight))
             {
                 mVelX = FP_FromInteger(0);
             }
 
-            if (Input().IsAnyHeld(sInputKey_Run))
+            if (Input().IsAnyHeld(InputCommands::eRun))
             {
-                if (Input().IsAnyHeld(sInputKey_Left))
+                if (Input().IsAnyHeld(InputCommands::eLeft))
                 {
                     mVelX = -(kGridSize / FP_FromDouble(3.5));
                 }
 
-                if (Input().IsAnyHeld(sInputKey_Right))
+                if (Input().IsAnyHeld(InputCommands::eRight))
                 {
                     mVelX = (kGridSize / FP_FromDouble(3.5));
                 }
             }
             else
             {
-                if (Input().IsAnyHeld(sInputKey_Left))
+                if (Input().IsAnyHeld(InputCommands::eLeft))
                 {
                     mVelX = -(kGridSize / FP_FromInteger(7));
                 }
 
-                if (Input().IsAnyHeld(sInputKey_Right))
+                if (Input().IsAnyHeld(InputCommands::eRight))
                 {
                     mVelX = (kGridSize / FP_FromInteger(7));
                 }
@@ -3664,7 +3664,7 @@ s16 Scrab::PlayerControlled()
     const FP kGridSize = ScaleToGridSize(GetSpriteScale());
     const FP k45Scaled = (GetSpriteScale() * FP_FromInteger(45));
 
-    if (Input().IsAnyHeld(sInputKey_Right))
+    if (Input().IsAnyHeld(InputCommands::eRight))
     {
         if (GetAnimation().GetFlipX())
         {
@@ -3678,7 +3678,7 @@ s16 Scrab::PlayerControlled()
                 return 0;
             }
 
-            if (Input().IsAnyHeld(sInputKey_Run))
+            if (Input().IsAnyHeld(InputCommands::eRun))
             {
                 mVelX = (kGridSize / FP_FromDouble(3.5));
                 mCurrentMotion = eScrabMotions::Motion_10_StandToRun;
@@ -3692,7 +3692,7 @@ s16 Scrab::PlayerControlled()
             }
         }
     }
-    else if (Input().IsAnyHeld(sInputKey_Left))
+    else if (Input().IsAnyHeld(InputCommands::eLeft))
     {
         if (!GetAnimation().GetFlipX())
         {
@@ -3706,7 +3706,7 @@ s16 Scrab::PlayerControlled()
                 return 0;
             }
 
-            if (Input().IsAnyHeld(sInputKey_Run))
+            if (Input().IsAnyHeld(InputCommands::eRun))
             {
                 mVelX = -(kGridSize / FP_FromDouble(3.5));
                 mCurrentMotion = eScrabMotions::Motion_10_StandToRun;
@@ -3722,13 +3722,13 @@ s16 Scrab::PlayerControlled()
     }
     else
     {
-        if (Input().IsAnyHeld(sInputKey_Up))
+        if (Input().IsAnyHeld(InputCommands::eUp))
         {
             mCurrentMotion = eScrabMotions::Motion_35_StandToFeed;
             return 1;
         }
 
-        if (Input().IsAnyHeld(sInputKey_Down))
+        if (Input().IsAnyHeld(InputCommands::eDown))
         {
             mCurrentMotion = eScrabMotions::Motion_21_Stamp;
             return 1;

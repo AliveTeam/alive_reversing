@@ -8,33 +8,33 @@
 
 CheatController* gCheatController = nullptr;
 
-static const InputCommands::Enum sCheatKeyArray_MovieSelect[8] = {
-    InputCommands::Enum::eUp,
-    InputCommands::Enum::eLeft,
-    InputCommands::Enum::eRight,
-    InputCommands::Enum::eLeft,
-    InputCommands::Enum::eRight,
-    InputCommands::Enum::eLeft,
-    InputCommands::Enum::eRight,
-    InputCommands::Enum::eDown};
+static const InputCommands sCheatKeyArray_MovieSelect[8] = {
+    InputCommands::eUp,
+    InputCommands::eLeft,
+    InputCommands::eRight,
+    InputCommands::eLeft,
+    InputCommands::eRight,
+    InputCommands::eLeft,
+    InputCommands::eRight,
+    InputCommands::eDown};
 
-static const InputCommands::Enum sCheatKeyArray_LevelSelect[8] = {
-    InputCommands::Enum::eDown,
-    InputCommands::Enum::eRight,
-    InputCommands::Enum::eLeft,
-    InputCommands::Enum::eRight,
-    InputCommands::Enum::eLeft,
-    InputCommands::Enum::eRight,
-    InputCommands::Enum::eLeft,
-    InputCommands::Enum::eUp};
+static const InputCommands sCheatKeyArray_LevelSelect[8] = {
+    InputCommands::eDown,
+    InputCommands::eRight,
+    InputCommands::eLeft,
+    InputCommands::eRight,
+    InputCommands::eLeft,
+    InputCommands::eRight,
+    InputCommands::eLeft,
+    InputCommands::eUp};
 
-static const InputCommands::Enum sCheatKeyArray_PathSkip[6] = {
-    InputCommands::Enum::eLeft,
-    InputCommands::Enum::eRight,
-    InputCommands::Enum::eUp,
-    InputCommands::Enum::eDown,
-    InputCommands::Enum::eLeft,
-    InputCommands::Enum::eRight};
+static const InputCommands sCheatKeyArray_PathSkip[6] = {
+    InputCommands::eLeft,
+    InputCommands::eRight,
+    InputCommands::eUp,
+    InputCommands::eDown,
+    InputCommands::eLeft,
+    InputCommands::eRight};
 
 void CheatController_Cheat_FMV()
 {
@@ -89,7 +89,7 @@ void CheatController::VUpdate()
     if (held)
     {
         // Only do cheat code check if shift is held
-        if (Input().mPads[sCurrentControllerIndex].mRawInput & InputCommands::Enum::eRun)
+        if (Input().mPads[sCurrentControllerIndex].mRawInput & InputCommands::eRun)
         {
             for (auto& cheatEntry : sCheatArray)
             {
