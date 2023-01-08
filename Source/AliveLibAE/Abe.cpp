@@ -3728,6 +3728,7 @@ void Abe::Motion_23_RollLoop_453A90()
                     || Is_Celling_Above_44E8D0()
                     || field_128.mRollingMotionTimer + 9 >= static_cast<s32>(sGnFrame))
                 {
+                    // TODO: See AE func - likely OG issue here of not checking for the roll key
                     if (mReleasedButtons)
                     {
                         if (!Is_Celling_Above_44E8D0() && field_128.mRollingMotionTimer + 9 < static_cast<s32>(sGnFrame))

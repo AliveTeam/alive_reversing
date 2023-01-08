@@ -4555,6 +4555,10 @@ void Abe::Motion_25_RollLoop()
                     || Is_Celling_Above()
                     || field_12C_timer + 9 >= static_cast<s32>(sGnFrame))
                 {
+                    // TODO: Investigate this logic as it seems wrong - but it is what OG is doing
+                    // seems like it should be checking for crouch being released to come out of roll
+                    // rather than any key, the always true part of the check is removed by the compiler in
+                    // AE
                     if (field_10E_released_buttons && InputCommands::eCrouchOrRoll)
                     {
                         if (!Is_Celling_Above() && field_12C_timer + 9 < static_cast<s32>(sGnFrame))
