@@ -2345,8 +2345,8 @@ void MainMenuController::RemapInput_Load_4D17E0()
 
 void MainMenuController::ControllerMenu_Load_4D16B0()
 {
-    sControllerEntryToSelect_BB43D8 = sJoystickEnabled;
-    sSelectedControllerEntry_BB43F4 = sJoystickEnabled;
+    sControllerEntryToSelect_BB43D8 = Input().IsJoyStickEnabled() ? 1 : 0;
+    sSelectedControllerEntry_BB43F4 = Input().IsJoyStickEnabled() ? 1 : 0;
 }
 
 const char_type* sInputButtonNames_562790[8] = {
@@ -2377,7 +2377,7 @@ void MainMenuController::RemapInput_Render_4D2A10(PrimHeader** ppOt)
     s32 polyIndex = 0;
     if (dword_BB43F8 == 3)
     {
-        if (sJoystickEnabled)
+        if (Input().IsJoyStickEnabled())
         {
             field_234_pStr = "Press button to use";
         }
@@ -2424,7 +2424,7 @@ void MainMenuController::RemapInput_Render_4D2A10(PrimHeader** ppOt)
     }
     else
     {
-        if (!sJoystickEnabled)
+        if (!Input().IsJoyStickEnabled())
         {
             // Speak 1
             const MainMenuText speak1Stru_562760 = {152, 174, "-", 3u, 0u, 0u, 0u, 0.88f, 0u, 0u, 0u, 0u};
@@ -2479,7 +2479,7 @@ MainMenuNextCam MainMenuController::ControllerMenu_Update_4D16D0(u32 input)
     // Enter - set active input device
     if (input & InputCommands::eUnPause_OrConfirm)
     {
-        sJoystickEnabled = sControllerEntryToSelect_BB43D8;
+        Input().SetJoyStickEnabled(sControllerEntryToSelect_BB43D8);
         Input_Init_Names_491870();
         Input_SaveSettingsIni_492840();
         return MainMenuNextCam(MainMenuCams::eOptionsCam);
@@ -2494,7 +2494,7 @@ MainMenuNextCam MainMenuController::ControllerMenu_Update_4D16D0(u32 input)
     if (configButtonPressed)
     {
         // c configure controller
-        sJoystickEnabled = sControllerEntryToSelect_BB43D8;
+        Input().SetJoyStickEnabled(sControllerEntryToSelect_BB43D8);
         Input_Init_Names_491870();
         return MainMenuNextCam(MainMenuCams::eRemapInputsCam);
     }
@@ -2549,7 +2549,7 @@ MainMenuNextCam MainMenuController::RemapInput_Update_4D1820(u32 input)
                 sButtonToRemapIdx_BB43EC = 7;
             }
 
-            if (!sJoystickEnabled && (sButtonToRemapIdx_BB43EC == 7 || sButtonToRemapIdx_BB43EC == 3))
+            if (!Input().IsJoyStickEnabled() && (sButtonToRemapIdx_BB43EC == 7 || sButtonToRemapIdx_BB43EC == 3))
             {
                 sButtonToRemapIdx_BB43EC--;
             }
@@ -2561,7 +2561,7 @@ MainMenuNextCam MainMenuController::RemapInput_Update_4D1820(u32 input)
         {
             sButtonToRemapIdx_BB43EC++;
 
-            if (!sJoystickEnabled && (sButtonToRemapIdx_BB43EC == 7 || sButtonToRemapIdx_BB43EC == 3))
+            if (!Input().IsJoyStickEnabled() && (sButtonToRemapIdx_BB43EC == 7 || sButtonToRemapIdx_BB43EC == 3))
             {
                 sButtonToRemapIdx_BB43EC++;
             }

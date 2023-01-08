@@ -9,7 +9,6 @@ namespace AO {
 
 InputObject sInputObject = {};
 u16 sCurrentControllerIndex = 0;
-s32 sJoystickEnabled = 0;
 u8 sInputEnabled = 0;
 u32 sLastPressedKey = 0;
 
@@ -365,9 +364,14 @@ void InputObject::SetCurrentController(PadIndex padIdx)
 }
 
 
-bool InputObject::JoyStickEnabled() const
+bool InputObject::IsJoyStickEnabled() const
 {
-    return Input_JoyStickEnabled();
+    return ::Input().IsJoyStickEnabled();
+}
+
+void InputObject::SetJoyStickEnabled(bool enabled) const
+{
+    return ::Input().SetJoyStickEnabled(enabled);
 }
 
 bool InputObject::IsAnyHeld(u32 command) const
@@ -457,7 +461,7 @@ void Input_Init()
 {
     ::Input_Init();
 
-    if (Input_JoyStickAvailable())
+    if (Input().IsJoyStickAvailable())
     {
         gJoystickAvailable = 1;
     }
@@ -486,7 +490,7 @@ const char_type* Input_GetButtonString(InputCommands inputCommand, bool forceKey
 
     return ::Input_GetButtonString_492530(
         AEInputCommandToAEInputString(aeBits),
-        Input().JoyStickEnabled() ? controller_type : 0);
+        Input().IsJoyStickEnabled() ? controller_type : 0);
 }
 
 const char_type* Input_GetButtonString_44F1C0(InputCommands inputCommand)
@@ -534,28 +538,9 @@ void Input_Reset()
     Input_InitKeyStateArray();
 }
 
-
-bool Input_JoyStickEnabled()
+bool InputObject::IsJoyStickAvailable()
 {
-    // Use AE var
-    return ::Input_JoyStickEnabled();
-
-    // Use AO var
-    //return sJoystickEnabled ? true : false;
-}
-
-bool Input_JoyStickAvailable()
-{
-    return ::Input_JoyStickAvailable();
-}
-
-void Input_SetJoyStickEnabled(bool enabled)
-{
-    // Use AE var
-    return ::Input_SetJoyStickEnabled(enabled);
-
-    // Use AO var
-    //sJoystickEnabled = enabled;
+    return ::Input().IsJoyStickAvailable();
 }
 
 u32 dword_508A64 = 0;

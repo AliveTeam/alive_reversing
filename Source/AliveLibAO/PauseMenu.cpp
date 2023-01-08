@@ -690,7 +690,7 @@ void PauseMenu::VRender(PrimHeader** ppOt)
             PauseEntry* entries = nullptr;
             if (field_128_controller_id == 1)
             {
-                if (Input().JoyStickEnabled())
+                if (Input().IsJoyStickEnabled())
                 {
                     entries = &gamepadGameSpeak_4CDFD0[0];
                 }

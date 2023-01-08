@@ -169,7 +169,7 @@ LCDScreen::LCDScreen(relive::Path_LCDScreen* pTlv, const Guid& tlvId)
 
     mFont.Load(60, mPal1, &mFontContext);
 
-    if (Input().JoyStickEnabled() || mMessageId1 != 62)
+    if (Input().IsJoyStickEnabled() || mMessageId1 != 62)
     {
         String_FormatString(gLCDMessages.GetMessage(gMap.mCurrentLevel, gMap.mCurrentPath, mMessageId1), mMessageBuffer);
     }
@@ -236,7 +236,7 @@ void LCDScreen::VUpdate()
                     mMessageRandMinId,
                     mMessageRandMaxId);
 
-                if (Input().JoyStickEnabled() || rangedRandom != 62)
+                if (Input().IsJoyStickEnabled() || rangedRandom != 62)
                 {
                     String_FormatString(gLCDMessages.GetMessage(gMap.mCurrentLevel, gMap.mCurrentPath, rangedRandom), mMessageBuffer);
                 }
@@ -254,7 +254,7 @@ void LCDScreen::VUpdate()
             {
                 mShowRandomMessage = 0;
 
-                if (Input().JoyStickEnabled() || mMessageId1 != 62)
+                if (Input().IsJoyStickEnabled() || mMessageId1 != 62)
                 {
                     String_FormatString(
                         gLCDMessages.GetMessage(gMap.mCurrentLevel, gMap.mCurrentPath, mMessageId1),

@@ -20,7 +20,6 @@ void Input_Pads_Reset_4FA960();
 void Input_Init_Names_491870();
 const char_type* Input_GetButtonString_492530(const char_type* idx, s32 controllerType);
 
-bool Input_JoyStickEnabled();
 void Input_SetJoyStickEnabled(bool enabled);
 bool Input_JoyStickAvailable();
 
@@ -168,6 +167,10 @@ public:
     u32 GetHeld();
     u32 GetPressed();
     u32 GetReleased();
+
+    bool IsJoyStickAvailable();
+    bool IsJoyStickEnabled() const;
+    void SetJoyStickEnabled(bool enabled);
 };
 
 InputObject& Input();
@@ -177,4 +180,3 @@ extern u16 sCurrentControllerIndex;
 extern u32 sLastPressedKey;
 extern s32 sIsAKeyDown;
 extern s16 bLongerTimeoutToNextDemo;
-extern s32 sJoystickEnabled;
