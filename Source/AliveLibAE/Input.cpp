@@ -22,7 +22,7 @@ const u32 AllMenuCommandsMask = (InputCommands::ePause | InputCommands::eUnPause
 bool sJoystickAvailable = false;
 
 // Is the joystick selected as the active controller device (instead of keyboard)?
-s32 sJoystickEnabled = 0;
+bool sJoystickEnabled = false;
 
 s32 sJoystickNumButtons_5C2EFC = 0;
 s32 sJoystickID_5C2F00 = 0;
@@ -416,17 +416,12 @@ const char_type* Input_GetButtonString_492530(const char_type* idx, s32 controll
     return ret;
 }
 
-bool Input_JoyStickEnabled()
-{
-    return sJoystickEnabled ? true : false;
-}
-
-bool Input_JoyStickAvailable()
+bool InputObject::IsJoyStickAvailable()
 {
     return sJoystickAvailable;
 }
 
-void Input_SetJoyStickEnabled(bool enabled)
+void InputObject::SetJoyStickEnabled(bool enabled)
 {
     sJoystickEnabled = enabled;
 }
@@ -788,11 +783,11 @@ void NewParseSettingsIni()
                 {
                     if (param[0] == "controller" && param[1] == "Gamepad")
                     {
-                        sJoystickEnabled = 1;
+                        sJoystickEnabled = true;
                     }
                     else if (param[0] == "controller" && param[1] == "Keyboard")
                     {
-                        sJoystickEnabled = 0;
+                        sJoystickEnabled = false;
                     }
                 }
                 else if (currentCategory == IniCategory::eKeyboard)
@@ -846,10 +841,7 @@ void Input_SaveSettingsIni_Common()
 
     if (sJoystickEnabled)
     {
-        if (sJoystickEnabled == 1)
-        {
-            output << "controller = Gamepad\n";
-        }
+        output << "controller = Gamepad\n";
     }
     else
     {
@@ -858,7 +850,7 @@ void Input_SaveSettingsIni_Common()
 
     output << "\n";
 
-    sJoystickEnabled = 0;
+    sJoystickEnabled = false;
 
     // Keyboard remap
     output << "[" << iniCategories[1] << "]"
@@ -897,7 +889,7 @@ void Input_SaveSettingsIni_Common()
         output << "fart = " << btnString << "\n";
     }
 
-    sJoystickEnabled = 1;
+    sJoystickEnabled = true;
 
     output << "\n";
 
@@ -1612,6 +1604,11 @@ void Input_Pads_Reset_4FA960()
 {
     sLastPad_Input_BD1878 = 0;
     sReadPadEnable_BD1874 = true;
+}
+
+bool InputObject::IsJoyStickEnabled() const
+{
+    return sJoystickEnabled;
 }
 
 s32 InputObject::Is_Demo_Playing_45F220()

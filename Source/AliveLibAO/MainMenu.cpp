@@ -625,7 +625,7 @@ void Menu::FMV_Select_Update()
 
     if (gMovieRefCount == 0)
     {
-        if (Input().IsAnyHeld(InputObject::PadIndex::First, InputCommands::eUp)) // TODO: Input constants
+        if (Input().IsAnyHeld(InputObject::PadIndex::First, InputCommands::eUp))
         {
             if (mSelectedButtonIndex.raw > 0 && field_21C == FP_FromInteger(0))
             {
@@ -633,7 +633,7 @@ void Menu::FMV_Select_Update()
                 SFX_Play_Pitch(relive::SoundEffects::MenuNavigation, 45, 400);
             }
         }
-        else if (Input().IsAnyHeld(InputObject::PadIndex::First, InputCommands::eDown | InputCommands::eCheatMode)) // TODO: Input constants
+        else if (Input().IsAnyHeld(InputObject::PadIndex::First, InputCommands::eDown | InputCommands::eCheatMode))
         {
             if (mSelectedButtonIndex.raw < (sListCount - 1) && field_21C == FP_FromInteger(0))
             {
@@ -642,7 +642,7 @@ void Menu::FMV_Select_Update()
             }
         }
 
-        if (Input().IsAnyPressed(InputObject::PadIndex::First, InputCommands::eBack | InputCommands::eHop)) // TODO: Input constants
+        if (Input().IsAnyPressed(InputObject::PadIndex::First, InputCommands::eBack | InputCommands::eHop))
         {
             // Go back to main screen
             mUsingLvlSelectCheat = false;
@@ -658,7 +658,7 @@ void Menu::FMV_Select_Update()
             mFnUpdate = &Menu::FMV_Or_Level_Select_To_Back_Update;
         }
 
-        if (Input().IsAnyPressed(InputObject::PadIndex::First, InputCommands::eUnPause_OrConfirm)) // TODO: Input constants
+        if (Input().IsAnyPressed(InputObject::PadIndex::First, InputCommands::eUnPause_OrConfirm))
         {
             if (mToFmvSelect)
             {
@@ -1196,7 +1196,7 @@ void Menu::GoToSelectedMenuPage()
                 field_204_flags &= ~1u;
 
                 // Diff cam depending on input method ?
-                if (Input().JoyStickEnabled())
+                if (Input().IsJoyStickEnabled())
                 {
                     gMap.SetActiveCam(EReliveLevelIds::eMenu, 1, CameraIds::Menu::eGamespeakGamepad_3, CameraSwapEffects::eInstantChange_0, 0, 0);
                 }
@@ -1355,11 +1355,11 @@ void Menu::ToGameSpeak_Update()
 void Menu::GameSpeak_Render(PrimHeader** ppOt)
 {
 #if AUTO_SWITCH_CONTROLLER // OG Change - Automatically switch between Gamepad/Keyboard GameSpeak Menu if joystick is added/removed
-    if (Input().JoyStickEnabled() && gMap.mNextCamera == CameraIds::Menu::eGamespeakKeyboard_33)
+    if (Input().IsJoyStickEnabled() && gMap.mNextCamera == CameraIds::Menu::eGamespeakKeyboard_33)
     {
         gMap.SetActiveCam(EReliveLevelIds::eMenu, 1, CameraIds::Menu::eGamespeakGamepad_3, CameraSwapEffects::eInstantChange_0, 0, 0);
     }
-    else if (!Input().JoyStickEnabled() && gMap.mNextCamera == CameraIds::Menu::eGamespeakGamepad_3)
+    else if (!Input().IsJoyStickEnabled() && gMap.mNextCamera == CameraIds::Menu::eGamespeakGamepad_3)
     {
         gMap.SetActiveCam(EReliveLevelIds::eMenu, 1, CameraIds::Menu::eGamespeakKeyboard_33, CameraSwapEffects::eInstantChange_0, 0, 0);
     }
@@ -1367,7 +1367,7 @@ void Menu::GameSpeak_Render(PrimHeader** ppOt)
 
     // Only renders exit and keys
     s32 polyOffset = 0;
-    const s32 count = Input().JoyStickEnabled() != 0 ? 13 : 1;
+    const s32 count = Input().IsJoyStickEnabled() != 0 ? 13 : 1;
     for (s32 i = 20; i < 20 + count; i++)
     {
         RenderElement(
@@ -1851,7 +1851,7 @@ void Menu::Options_To_Selected_After_Cam_Change_Update()
                 field_228 = FP_FromInteger(0);
                 mFnUpdate = &Menu::To_Options_Controller_Update;
                 mFnRender = &Menu::Options_Controller_Render;
-                mSelectedButtonIndex.raw = static_cast<s16>(Input().JoyStickEnabled());
+                mSelectedButtonIndex.raw = static_cast<s16>(Input().IsJoyStickEnabled());
                 field_230_bGoBack = -1;
                 field_22C = FP_FromInteger(0);
                 break;
@@ -1895,7 +1895,7 @@ void Menu::To_Options_Controller_Update()
             mFnUpdate = &Menu::Options_Controller_Update;
             mFnRender = &Menu::Options_Controller_Render;
             mIdleInputCounter = 0;
-            mSelectedButtonIndex.raw = static_cast<s16>(Input().JoyStickEnabled());
+            mSelectedButtonIndex.raw = static_cast<s16>(Input().IsJoyStickEnabled());
             field_228 = FP_FromInteger(0);
         }
     }
@@ -1924,25 +1924,25 @@ void Menu::Options_Controller_Render(PrimHeader** ppOt)
     PSX_RECT rect = {};
     mButtonAnim.Get_Frame_Rect(&rect);
 
-    if (mSelectedButtonIndex.raw != (Input().JoyStickEnabled() ? 1 : 0))
+    if (mSelectedButtonIndex.raw != (Input().IsJoyStickEnabled() ? 1 : 0))
     {
         if (field_228 > FP_FromInteger(0))
         {
-            mSelectedButtonIndex.raw = static_cast<s16>(Input().JoyStickEnabled());
+            mSelectedButtonIndex.raw = static_cast<s16>(Input().IsJoyStickEnabled());
         }
         else
         {
-            if (mSelectedButtonIndex.raw < (Input().JoyStickEnabled() ? 1 : 0))
+            if (mSelectedButtonIndex.raw < (Input().IsJoyStickEnabled() ? 1 : 0))
             {
                 field_228 = FP_FromInteger(-1) * FP_FromInteger(26);
                 field_22C = FP_FromDouble(4.5);
-                Input_SetJoyStickEnabled(mSelectedButtonIndex.raw ? true : false);
+                Input().SetJoyStickEnabled(mSelectedButtonIndex.raw ? true : false);
             }
-            else if (mSelectedButtonIndex.raw > (Input().JoyStickEnabled() ? 1 : 0))
+            else if (mSelectedButtonIndex.raw > (Input().IsJoyStickEnabled() ? 1 : 0))
             {
                 field_228 = FP_FromInteger(26);
                 field_22C = FP_FromDouble(4.5);
-                Input_SetJoyStickEnabled(mSelectedButtonIndex.raw ? true : false);
+                Input().SetJoyStickEnabled(mSelectedButtonIndex.raw ? true : false);
             }
         }
     }
@@ -2072,7 +2072,7 @@ void Menu::Options_Sound_Update()
         mIdleInputCounter++;
     }
 
-    if (Input().IsAnyPressed(InputObject::PadIndex::First, InputCommands::eUp)) // TODO: Input constants
+    if (Input().IsAnyPressed(InputObject::PadIndex::First, InputCommands::eUp))
     {
         if (mSelectedButtonIndex.sound_menu <= SoundOptions::eStereo_0)
         {
@@ -2263,7 +2263,7 @@ void Menu::GameSpeak_Update()
 
         if (!mMenuFade1)
         {
-            if (Input().JoyStickEnabled())
+            if (Input().IsJoyStickEnabled())
             {
                 mMenuFade1 = relive_new MainMenuFade(sGameSpeakButtons[8].xpos, sGameSpeakButtons[8].ypos + 36, buttonType::eCircle_0, 0);
             }
@@ -2278,7 +2278,7 @@ void Menu::GameSpeak_Update()
             mMenuFade2->field_E8_bDestroyOnDone = 1;
         }
 
-        if (Input().JoyStickEnabled())
+        if (Input().IsJoyStickEnabled())
         {
             mMenuFade2 = relive_new MainMenuFade(sGameSpeakButtons[11].xpos, sGameSpeakButtons[11].ypos + 36, buttonType::eCircle_0, 0);
         }
@@ -2301,7 +2301,7 @@ void Menu::GameSpeak_Update()
                 mMenuFade2->mYPos = FP_FromInteger(sGameSpeakButtons[10].ypos + 36);
             }
         }
-        else if (Input().JoyStickEnabled())
+        else if (Input().IsJoyStickEnabled())
         {
             mMenuFade2 = relive_new MainMenuFade(sGameSpeakButtons[10].xpos, sGameSpeakButtons[10].ypos + 36, buttonType::eCircle_0, 0);
         }
@@ -2353,7 +2353,7 @@ void Menu::GameSpeak_Update()
                 mMenuFade2->mYPos = FP_FromInteger(sGameSpeakButtons[12].ypos + 36);
             }
         }
-        else if (Input().JoyStickEnabled())
+        else if (Input().IsJoyStickEnabled())
         {
             mMenuFade2 = relive_new MainMenuFade(sGameSpeakButtons[12].xpos, sGameSpeakButtons[12].ypos + 36, buttonType::eCircle_0, 0);
         }
@@ -2612,7 +2612,7 @@ void Menu::ButtonRemap_Render(PrimHeader** ppOt)
         RenderElement(
             sRemapScreenButtons[i].xpos,
             sRemapScreenButtons[i].ypos,
-            sRemappableInputs.buttons[Input().JoyStickEnabled() != 0][i],
+            sRemappableInputs.buttons[Input().IsJoyStickEnabled() != 0][i],
             ppOt,
             &mFont,
             &polyOffset);
@@ -2639,7 +2639,7 @@ void Menu::ButtonRemap_Render(PrimHeader** ppOt)
     if (field_230_bGoBack == 8)
     {
         const s32 maxFontWidth = 336;
-        if (Input().JoyStickEnabled())
+        if (Input().IsJoyStickEnabled())
         {
             field_1F4_text = "Press button to use";
         }
@@ -2776,7 +2776,7 @@ void Menu::ButtonRemap_Update()
 
     if (field_230_bGoBack == 8)
     {
-        if (!Input_Remap(static_cast<InputCommands>(sRemappableInputs.buttons[Input().JoyStickEnabled() ? 1 : 0][mSelectedButtonIndex.raw])))
+        if (!Input_Remap(static_cast<InputCommands>(sRemappableInputs.buttons[Input().IsJoyStickEnabled() ? 1 : 0][mSelectedButtonIndex.raw])))
         {
             return;
         }
@@ -2793,7 +2793,7 @@ void Menu::ButtonRemap_Update()
         {
             mSelectedButtonIndex.raw -= 4;
         }
-        SFX_Play_Pitch(relive::SoundEffects::MenuNavigation, 45, 400); // TODO: Input constants
+        SFX_Play_Pitch(relive::SoundEffects::MenuNavigation, 45, 400);
         bWaitingForRemapInput_9F2DE8 = 1;
     }
     else if (Input().IsAnyHeld(InputObject::PadIndex::First, InputCommands::eRight))
@@ -2802,17 +2802,17 @@ void Menu::ButtonRemap_Update()
         {
             mSelectedButtonIndex.raw += 4;
         }
-        SFX_Play_Pitch(relive::SoundEffects::MenuNavigation, 45, 400); // TODO: Input constants
+        SFX_Play_Pitch(relive::SoundEffects::MenuNavigation, 45, 400);
         bWaitingForRemapInput_9F2DE8 = 1;
     }
     else if (Input().IsAnyHeld(InputObject::PadIndex::First, InputCommands::eUp))
     {
         mSelectedButtonIndex.raw--;
-        SFX_Play_Pitch(relive::SoundEffects::MenuNavigation, 45, 400); // TODO: Input constants
+        SFX_Play_Pitch(relive::SoundEffects::MenuNavigation, 45, 400);
         bWaitingForRemapInput_9F2DE8 = 1;
 
 #if MISC_PC_MENU_FIXES // OG Change - Prevent users from changing Speak1 and Speak2 keys on keyboard
-        if (!Input().JoyStickEnabled())
+        if (!Input().IsJoyStickEnabled())
         {
             if (mSelectedButtonIndex.remap_menu < RemapOptions::eRun_0)
             {
@@ -2828,11 +2828,11 @@ void Menu::ButtonRemap_Update()
     else if (Input().IsAnyHeld(InputObject::PadIndex::First, InputCommands::eDown | InputCommands::eCheatMode))
     {
         mSelectedButtonIndex.raw++;
-        SFX_Play_Pitch(relive::SoundEffects::MenuNavigation, 45, 400); // TODO: Input constants
+        SFX_Play_Pitch(relive::SoundEffects::MenuNavigation, 45, 400);
         bWaitingForRemapInput_9F2DE8 = 1;
 
 #if MISC_PC_MENU_FIXES // OG Change - Prevent users from changing Speak1 and Speak2 keys on keyboard
-        if (!Input().JoyStickEnabled())
+        if (!Input().IsJoyStickEnabled())
         {
             if (mSelectedButtonIndex.remap_menu == RemapOptions::eSpeakLeft_3 || mSelectedButtonIndex.remap_menu == RemapOptions::eSpeakRight_7)
             {
@@ -3143,7 +3143,7 @@ void Menu::ToggleMotions_Render(PrimHeader** ppOt)
     else if (mFnUpdate == &Menu::Toggle_Motions_Screens_Update)
     {
         s32 polyOffset = 0;
-        if (Input().JoyStickEnabled())
+        if (Input().IsJoyStickEnabled())
         {
             for (s32 i = 0; i < 20; i++)
             {
@@ -3184,7 +3184,7 @@ void Menu::ToggleMotions_Update()
     {
         if (Input().IsAnyPressed(InputObject::PadIndex::First, InputCommands::eUnPause_OrConfirm | InputCommands::eDoAction | InputCommands::eCheatMode))
         {
-            if (Input().JoyStickEnabled())
+            if (Input().IsJoyStickEnabled())
             {
                 gMap.SetActiveCameraDelayed(MapDirections::eMapBottom_3, 0, -1);
             }
@@ -3226,7 +3226,7 @@ void Menu::Toggle_Motions_Screens_Update()
     {
         if (Input().IsAnyPressed(InputObject::PadIndex::First, InputCommands::eUnPause_OrConfirm | InputCommands::eDoAction | InputCommands::eCheatMode))
         {
-            if (Input().JoyStickEnabled())
+            if (Input().IsJoyStickEnabled())
             {
                 gMap.SetActiveCameraDelayed(MapDirections::eMapTop_2, 0, -1);
             }
