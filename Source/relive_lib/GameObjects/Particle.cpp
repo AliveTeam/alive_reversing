@@ -87,7 +87,7 @@ Particle* New_DestroyOrCreateObject_Particle(FP xpos, FP ypos, FP scale)
 }
 
 // Fart/dust cloud particle spawner
-void New_Smoke_Particles(FP xpos, FP ypos, FP scale, s16 count, RGB16 rgb)
+void New_Smoke_Particles(FP xpos, FP ypos, FP scale, s16 count, const RGB16& rgb)
 {
     FP velYCounter = {};
     for (s32 i = 0; i < count; i++)
@@ -129,7 +129,7 @@ void New_Smoke_Particles(FP xpos, FP ypos, FP scale, s16 count, RGB16 rgb)
     }
 }
 
-Particle* New_Orb_Particle(FP xpos, FP ypos, FP velX, FP velY, FP scale, Layer layer, RGB16 rgb)
+Particle* New_Orb_Particle(FP xpos, FP ypos, FP velX, FP velY, FP scale, Layer layer, const RGB16& rgb)
 {
     AnimResource ppRes = ResourceManagerWrapper::LoadAnimation(AnimId::ChantOrb_Particle);
     auto pParticle = relive_new Particle(xpos, ypos, ppRes);

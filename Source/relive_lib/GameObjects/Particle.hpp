@@ -14,9 +14,9 @@ public:
 };
 
 Particle* New_DestroyOrCreateObject_Particle(FP xpos, FP ypos, FP scale);
-Particle* New_Orb_Particle(FP xpos, FP ypos, FP velX, FP velY, FP scale, Layer layer, RGB16 rgb);
+Particle* New_Orb_Particle(FP xpos, FP ypos, FP velX, FP velY, FP scale, Layer layer, const RGB16& rgb);
 Particle* New_TintChant_Particle(FP xpos, FP ypos, FP scale, Layer layer);
-void New_Smoke_Particles(FP xpos, FP ypos, FP scale, s16 count, RGB16 rgb);
+void New_Smoke_Particles(FP xpos, FP ypos, FP scale, s16 count, const RGB16& rgb);
 void New_RandomizedChant_Particle(BaseAnimatedWithPhysicsGameObject* pObj);
 Particle* New_TintShiny_Particle(FP xpos, FP ypos, FP scale, Layer layer);
 void New_ShootingZFire_Particle(FP xpos, FP ypos, FP scale);
