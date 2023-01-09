@@ -1,8 +1,8 @@
 #pragma once
 
-#include "../relive_lib/Primitives.hpp"
 #include "../relive_lib/FixedPoint.hpp"
 #include "../relive_lib/GameObjects/BaseGameObject.hpp"
+#include "../relive_lib/Primitives.hpp"
 #include "../relive_lib/Layer.hpp"
 
 namespace AO {
@@ -20,16 +20,23 @@ struct SparkRes final
     Line_G2 mLineG2s[2];
 };
 
-class Spark final : public ::BaseGameObject
+enum class SparkType : s16
+{
+    eSmallChantParticle_0 = 0,
+    eBigChantParticle_1 = 1
+};
+
+class Spark final : public BaseGameObject
 {
 public:
-    Spark(FP xpos, FP ypos, FP scale, s32 count, s32 min, s32 max);
+    Spark(FP xpos, FP ypos, FP scale, s32 count, s32 minAngle, s32 maxAngle, SparkType type);
     ~Spark();
 
-    virtual void VScreenChanged() override;
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
+    virtual void VScreenChanged() override;
 
+private:
     Prim_SetTPage mTPage[2] = {};
     FP mXPos = {};
     FP mYPos = {};
@@ -41,7 +48,7 @@ public:
     SparkRes* mSparkRes = nullptr;
     s16 mSparkCount = 0;
     s32 mTimer = 0;
+    SparkType mSparkType = SparkType::eSmallChantParticle_0;
 };
-
 
 } // namespace AO

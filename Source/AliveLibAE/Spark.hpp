@@ -1,6 +1,5 @@
 #pragma once
 
-#include "../relive_lib/Function.hpp"
 #include "../relive_lib/GameObjects/BaseGameObject.hpp"
 #include "../relive_lib/Primitives.hpp"
 #include "../relive_lib/Layer.hpp"
@@ -17,7 +16,6 @@ struct SparkRes final
     FP mLen;
     Line_G2 mLineG2s[2];
 };
-ALIVE_ASSERT_SIZEOF(SparkRes, 0x4C);
 
 enum class SparkType : s16
 {

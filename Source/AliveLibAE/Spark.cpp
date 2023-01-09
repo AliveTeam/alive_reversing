@@ -38,7 +38,6 @@ Spark::Spark(FP xpos, FP ypos, FP scale, s32 count, s32 minAngle, s32 maxAngle, 
     mGreen = 31;
 
     mSparkCount = static_cast<s16>(count);
-
     mSparkRes = relive_new SparkRes[mSparkCount];
     if (mSparkRes)
     {
@@ -145,8 +144,6 @@ void Spark::VRender(PrimHeader** ppOt)
             mYPos,
             0))
     {
-        PSX_Point xy = {32767, 32767};
-        PSX_Point wh = {-32767, -32767};
 
         const s32 xOrg = FP_GetExponent(mXPos) - FP_GetExponent(gScreenManager->CamXPos());
         const s32 yOrg = FP_GetExponent(mYPos) - FP_GetExponent(gScreenManager->CamYPos());
@@ -160,6 +157,7 @@ void Spark::VRender(PrimHeader** ppOt)
 
             const s32 y0 = yOrg + FP_GetExponent(pSpark->mY0 * mSpriteScale);
             const s32 y1 = yOrg + FP_GetExponent(pSpark->mY1 * mSpriteScale);
+
             const s32 x0 = PsxToPCX(xOrg + FP_GetExponent(pSpark->mX0 * mSpriteScale));
             const s32 x1 = PsxToPCX(xOrg + FP_GetExponent(pSpark->mX1 * mSpriteScale));
 
@@ -178,74 +176,6 @@ void Spark::VRender(PrimHeader** ppOt)
 
             Poly_Set_SemiTrans(&pPrim->mBase.header, true);
             OrderingTable_Add(OtLayer(ppOt, mLayer), &pPrim->mBase.header);
-
-            // TODO: Can be refactored much further - looks like min/max stuff
-            s16 x1Short = static_cast<s16>(x1);
-            s16 maxX = xy.x;
-
-            if (x1Short <= xy.x)
-            {
-                maxX = x1Short;
-            }
-
-            if (x0 <= maxX)
-            {
-                xy.x = static_cast<s16>(x0);
-            }
-            else if (x1Short <= xy.x)
-            {
-                xy.x = x1Short;
-            }
-
-            s16 x1Short2 = x1Short;
-            if (x1Short <= wh.x)
-            {
-                x1Short2 = wh.x;
-            }
-
-            if (x0 <= x1Short2)
-            {
-                if (x1Short > wh.x)
-                {
-                    wh.x = x1Short;
-                }
-            }
-            else
-            {
-                wh.x = static_cast<s16>(x0);
-            }
-
-            s16 yPoint = xy.y;
-            if (y1 <= xy.y)
-            {
-                yPoint = static_cast<s16>(y1);
-            }
-            if (y0 <= yPoint)
-            {
-                xy.y = static_cast<s16>(y0);
-            }
-            else if (y1 <= xy.y)
-            {
-                xy.y = static_cast<s16>(y1);
-            }
-
-            s16 y1Short = static_cast<s16>(y1);
-            if (y1 <= wh.y)
-            {
-                y1Short = wh.y;
-            }
-
-            if (y0 <= y1Short)
-            {
-                if (y1 > wh.y)
-                {
-                    wh.y = static_cast<s16>(y1);
-                }
-            }
-            else
-            {
-                wh.y = static_cast<s16>(y0);
-            }
         }
 
         Prim_SetTPage* pTPage = &mTPage[gPsxDisplay.mBufferIndex];
