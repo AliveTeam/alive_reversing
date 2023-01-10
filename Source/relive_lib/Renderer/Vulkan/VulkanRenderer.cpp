@@ -1344,11 +1344,17 @@ void VulkanRenderer::drawFrame()
 
     presentInfo.pImageIndices = &imageIndex;
 
-    result = mPresentQueue->presentKHR(presentInfo);
-    //mPresentQueue->waitIdle(); // todo
-    //mDevice->waitIdle(); // todo
-
-    if (result == vk::Result::eErrorOutOfDateKHR || result == vk::Result::eSuboptimalKHR)
+    try
+    {
+        result = mPresentQueue->presentKHR(presentInfo);
+        // mPresentQueue->waitIdle(); // todo
+        // mDevice->waitIdle(); // todo
+    }
+    catch (vk::OutOfDateKHRError const& /*err*/)
+    {
+        result = vk::Result::eErrorOutOfDateKHR;
+    }
+    if (result == vk::Result::eSuboptimalKHR || result == vk::Result::eErrorOutOfDateKHR)
     {
         recreateSwapChain();
     }
