@@ -387,7 +387,6 @@ void DDCheat::Misc()
     }
     else if (field_24_input & InputCommands::eRight)
     {
-        sControlledCharacter = sControlledCharacter; // TODO: rev bug? check in IDA
         gScale_4C3158 = 50;
         sControlledCharacter->SetSpriteScale(FP_FromDouble(0.5));
         sControlledCharacter->SetScale(Scale::Bg);
