@@ -97,7 +97,42 @@ static const s16 kInfinity[25] = {
     5, 1, 3, 3,
     2, 3, -2, -2};
 
-static const s16* kNumbersArray[11] = {
+static const s16 kCheckpoint[36] = {
+    8, 0, -6, 1,
+    -6,
+    12,
+    0,
+    13,
+    0,
+    0,
+    6,
+    1,
+    6,
+    -11,
+    0,
+    -12,
+    0,
+    2,
+    -5,
+    11,
+    -1,
+    11,
+    1,
+    2,
+    5,
+    -1,
+    5,
+    -10,
+    1,
+    -10,
+    -1,
+    -1,
+    -5,
+    0,
+    0,
+    0};
+
+static const s16* kNumbersArray[12] = {
     kNumber_0,
     kNumber_1,
     kNumber_2,
@@ -108,7 +143,8 @@ static const s16* kNumbersArray[11] = {
     kNumber_7,
     kNumber_8,
     kNumber_9,
-    kInfinity};
+    kInfinity,
+    kCheckpoint};
 
 ThrowableTotalIndicator::ThrowableTotalIndicator(FP xpos, FP ypos, Layer layer, FP /*scale*/, s32 count, bool bFade)
     : BaseGameObject(true, 0)
@@ -210,7 +246,7 @@ void ThrowableTotalIndicator::VUpdate()
         break;
 
         case ThrowableTotalIndicatorState::eFading:
-            if (mYPos >= mStartYPos - FP_FromInteger(20))
+            if (mYPos >= (mStartYPos - FP_FromInteger(20)))
             {
                 if (mRGB.r < 70 && mRGB.g < 90 && mRGB.b < 20)
                 {
@@ -261,31 +297,28 @@ void ThrowableTotalIndicator::VRender(PrimHeader** ppOt)
 
     for (s16 counter = 0; counter < kNumbersArray[mNumToShow][0]; counter++)
     {
-        // return static_cast<T>(((40 * x) + 11) / 23);
-        // Can't use PsxToPCX as this deals with FP's and it adds 11 before the divide ??
-
         xpos = FP_GetExponent(((mXPos - camX) * FP_FromInteger(40) + FP_FromInteger(11)) / FP_FromInteger(23));
         ypos = FP_GetExponent(mYPos - camY);
+
         const FP x0 = FP_FromInteger(kNumbersArray[mNumToShow][(4 * counter) + 1]) * mSpriteScale;
         const FP y0 = FP_FromInteger(kNumbersArray[mNumToShow][(4 * counter) + 2]) * mSpriteScale;
         const FP x1 = FP_FromInteger(kNumbersArray[mNumToShow][(4 * counter) + 3]) * mSpriteScale;
         const FP y1 = FP_FromInteger(kNumbersArray[mNumToShow][(4 * counter) + 4]) * mSpriteScale;
         Line_G2* pLine = &mLines[gPsxDisplay.mBufferIndex][counter];
-
         LineG2_Init(pLine);
 
         SetXY0(pLine, xpos + FP_GetExponent(x0), ypos + FP_GetExponent(y0));
         SetXY1(pLine, xpos + FP_GetExponent(x1), ypos + FP_GetExponent(y1));
 
-        SetRGB0(pLine, mRGB.r & 0xFF, mRGB.g & 0xFF, mRGB.b & 0xFF);
-        SetRGB1(pLine, mRGB.r & 0xFF, mRGB.g & 0xFF, mRGB.b & 0xFF);
+        SetRGB0(pLine, static_cast<u8>(mRGB.r), static_cast<u8>(mRGB.g), static_cast<u8>(mRGB.b));
+        SetRGB1(pLine, static_cast<u8>(mRGB.r), static_cast<u8>(mRGB.g), static_cast<u8>(mRGB.b));
+        SetRGB2(pLine, static_cast<u8>(mRGB.r), static_cast<u8>(mRGB.g), static_cast<u8>(mRGB.b));
+
 
         Poly_Set_SemiTrans(&pLine->mBase.header, true);
         OrderingTable_Add(OtLayer(ppOt, mOtLayer), &pLine->mBase.header);
     }
 
-    Prim_SetTPage* pTPage = &mTPage[gPsxDisplay.mBufferIndex];
-    Init_SetTPage(pTPage, PSX_getTPage(TPageAbr::eBlend_1));
-
-    OrderingTable_Add(OtLayer(ppOt, mOtLayer), &pTPage->mBase);
+    Init_SetTPage(&mTPage[gPsxDisplay.mBufferIndex], PSX_getTPage(TPageAbr::eBlend_1));
+    OrderingTable_Add(OtLayer(ppOt, mOtLayer), &mTPage[gPsxDisplay.mBufferIndex].mBase);
 }

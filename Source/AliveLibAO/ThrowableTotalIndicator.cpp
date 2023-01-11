@@ -13,6 +13,7 @@
 namespace AO {
 
 u16 gThrowableIndicatorExists = 0;
+
 static const s16 kNumber_0[17] = {
     4,
     -3, -4, 3, -4,
@@ -169,7 +170,7 @@ ThrowableTotalIndicator::ThrowableTotalIndicator(FP xpos, FP ypos, Layer layer, 
 
     mFade = bFade;
 
-    if (bFade)
+    if (mFade)
     {
         mSpeedY = FP_FromDouble(-0.7);
     }
@@ -183,7 +184,7 @@ ThrowableTotalIndicator::ThrowableTotalIndicator(FP xpos, FP ypos, Layer layer, 
 
     mRGB.SetRGB(0, 0, 0);
 
-    if (bFade)
+    if (mFade)
     {
         mState = ThrowableTotalIndicatorState::eFading;
     }
@@ -262,6 +263,7 @@ void ThrowableTotalIndicator::VUpdate()
 
                 mXPos += mSpeedX;
                 mYPos += mSpeedY;
+                return;
             }
             else
             {
@@ -328,17 +330,18 @@ void ThrowableTotalIndicator::VRender(PrimHeader** ppOt)
 
         SetXY0(pLine, primBaseX + FP_GetExponent(x0), ypos + FP_GetExponent(y0));
         SetXY1(pLine, primVertX + FP_GetExponent(x1), ypos + FP_GetExponent(y1));
+
         SetRGB0(pLine, static_cast<u8>(mRGB.r), static_cast<u8>(mRGB.g), static_cast<u8>(mRGB.b));
         SetRGB1(pLine, static_cast<u8>(mRGB.r), static_cast<u8>(mRGB.g), static_cast<u8>(mRGB.b));
         SetRGB2(pLine, static_cast<u8>(mRGB.r), static_cast<u8>(mRGB.g), static_cast<u8>(mRGB.b));
 
 
-        Poly_Set_SemiTrans(&pLine->mBase.header, 1);
+        Poly_Set_SemiTrans(&pLine->mBase.header, true);
         OrderingTable_Add(OtLayer(ppOt, mOtLayer), &pLine->mBase.header);
     }
 
     Init_SetTPage(&mTPage[gPsxDisplay.mBufferIndex], PSX_getTPage(TPageAbr::eBlend_1));
-    OrderingTable_Add(OtLayer(ppOt, mOtLayer), &mTPage->mBase);
+    OrderingTable_Add(OtLayer(ppOt, mOtLayer), &mTPage[gPsxDisplay.mBufferIndex].mBase);
 }
 
 
