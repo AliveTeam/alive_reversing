@@ -4,9 +4,12 @@ configuration:
   - Debug
 
 environment:
+  #APPVEYOR_VNC_PASSWORD: alive_rev
+  #APPVEYOR_VNC_BLOCK: false
+
   matrix:
-    #- job_name: macOS
-    #  appveyor_build_worker_image: macos-monterey
+    - job_name: macOS
+      appveyor_build_worker_image: macos-monterey
 
     - job_name: Linux
       appveyor_build_worker_image: Ubuntu
@@ -26,6 +29,9 @@ for:
     platform:
       - x64
 
+    #init:
+    #  - sh: curl -sflL 'https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-vnc.sh' | bash -e -
+
     build_script:
       - brew install sdl2
       - brew install molten-vk
@@ -33,7 +39,10 @@ for:
       - cmake --version
       - mkdir build
       - cd build
-      - cmake -G "Unix Makefiles" ..
+      - mkdir Frameworks
+      - cp /usr/local/lib/libSDL2.dylib ./Frameworks/libSDL2.dylib
+      - cp /usr/local/Cellar/molten-vk/1.2.1/lib/libMoltenVK.dylib ./Frameworks/libMoltenVK.dylib
+      - cmake -D BUILD_NUMBER=$APPVEYOR_BUILD_NUMBER -D CI_PROVIDER="AppVeyor" -G "Unix Makefiles" ..
       - make -j4
       - cpack -G DragNDrop
 
@@ -60,7 +69,7 @@ for:
       - cmake --version
       - mkdir build
       - cd build
-      - cmake -G "Unix Makefiles" ..
+      - cmake -D BUILD_NUMBER=$APPVEYOR_BUILD_NUMBER -D CI_PROVIDER="AppVeyor" -G "Unix Makefiles" ..
       - make -j4
       - cpack -G DEB
 
