@@ -8,143 +8,134 @@
 
 u16 gThrowableIndicatorExists = 0;
 
-static const s16 kNumber_0[17] = {
-    4,
-    -3, -4, 3, -4,
-    3, -3, 3, 3,
-    3, 4, -3, 4,
-    -3, 3, -3, -3};
-
-static const s16 kNumber_1[5] = {
-    1,
-    2, -4, 2, 4};
-
-static const s16 kNumber_2[21] = {
-    5,
-    -5, -4, 5, -4,
-    5, -3, 5, -1,
-    5, 0, -5, 0,
-    -5, 1, -5, 3,
-    -5, 4, 5, 4};
-
-static const s16 kNumber_3[17] = {
-    4,
-    -5,
-    -4,
-    5,
-    -4,
-    5,
-    -3,
-    5,
-    3,
-    5,
-    4,
-    -5,
-    4,
-    -4,
-    0,
-    4,
-    0,
+struct LinePoint final
+{
+    s32 mX1 = 0;
+    s32 mY1 = 0;
+    s32 mX2 = 0;
+    s32 mY2 = 0;
 };
 
-static const s16 kNumber_4[13] = {
-    3,
-    -5, -4, -5, -1,
-    -5, 0, 4, 0,
-    5, -4, 5, 4};
+struct Glyph final
+{
+    u32 mPointsCount = 0;
+    const LinePoint* mPoints = nullptr;
+};
 
-static const s16 kNumber_5[21] = {
-    5,
-    5, -4, -5, -4,
-    -5, -3, -5, -1,
-    -5, 0, 5, 0,
-    5, 1, 5, 3,
-    5, 4, -5, 4};
+static const LinePoint kNumber_0[] = 
+{
+    { -3, -4,3, -4 },
+    { 3, -3 ,3, 3 },
+    { 3, 4,-3, 4 },
+    { -3, 3,-3, -3}
+};
 
-static const s16 kNumber_6[21] = {
-    5,
-    5, -4, -5, -4, -5,
-    -3, -5, 3, -5, 4,
-    5, 4, 5, 3, 5,
-    1, 5, 0, -4, 0};
+static const LinePoint kNumber_1[] = 
+{
+    {2, -4, 2, 4}
+};
 
-static const s16 kNumber_7[9] = {
-    2,
-    -5, -4, 5, -4,
-    5, -3, 0, 4};
+static const LinePoint kNumber_2[] = 
+{
+    {-5, -4, 5, -4},
+    {5, -3, 5, -1},
+    {5, 0, -5, 0},
+    {-5, 1, -5, 3},
+    {-5, 4, 5, 4}
+};
 
-static const s16 kNumber_8[21] = {
-    5,
-    -5, -4, 5, -4,
-    5, -3, 5, 3,
-    5, 4, -5, 4,
-    -5, 3, -5, -3,
-    -4, 0, 4, 0};
+static const LinePoint kNumber_3[] = 
+{
+    {-5, -4, 5, -4},
+    {5, -3, 5, 3},
+    {5, 4, -5, 4},
+    {-4, 0, 4, 0},
+};
 
-static const s16 kNumber_9[17] = {
-    4,
-    5, 4, 5, -3,
-    5, -4, -5, -4,
-    -5, -3, -5, -1,
-    -5, 0, 4, 0};
+static const LinePoint kNumber_4[] = 
+{
+    {-5, -4, -5, -1},
+    {-5, 0, 4, 0},
+    {5, -4, 5, 4}
+};
 
-static const s16 kInfinity[25] = {
-    6,
-    -3, -2, -5, 0,
-    -5, 1, -3, 3,
-    -2, 3, 2, -2,
-    3, -2, 5, 0,
-    5, 1, 3, 3,
-    2, 3, -2, -2};
+static const LinePoint kNumber_5[] = {
+    {5, -4, -5, -4},
+    {-5, -3, -5, -1},
+    {-5, 0, 5, 0},
+    {5, 1, 5, 3},
+    {5, 4, -5, 4}
+};
 
-static const s16 kCheckpoint[36] = {
-    8, 0, -6, 1,
-    -6,
-    12,
-    0,
-    13,
-    0,
-    0,
-    6,
-    1,
-    6,
-    -11,
-    0,
-    -12,
-    0,
-    2,
-    -5,
-    11,
-    -1,
-    11,
-    1,
-    2,
-    5,
-    -1,
-    5,
-    -10,
-    1,
-    -10,
-    -1,
-    -1,
-    -5,
-    0,
-    0,
-    0};
+static const LinePoint kNumber_6[] = 
+{
+    {5, -4, -5, -4},
+    {-5, -3, -5, 3},
+    {-5, 4, 5, 4},
+    {5, 3, 5, 1},
+    {5, 0, -4, 0}
+};
 
-static const s16* kNumbersArray[12] = {
-    kNumber_0,
-    kNumber_1,
-    kNumber_2,
-    kNumber_3,
-    kNumber_4,
-    kNumber_5,
-    kNumber_6,
-    kNumber_7,
-    kNumber_8,
-    kNumber_9,
-    kInfinity,
-    kCheckpoint};
+static const LinePoint kNumber_7[] = 
+{
+    {-5, -4, 5, -4},
+    {5, -3, 0, 4}
+};
+
+static const LinePoint kNumber_8[] = 
+{
+    {-5, -4, 5, -4},
+    {5, -3, 5, 3},
+    {5, 4, -5, 4},
+    {-5, 3, -5, -3},
+    {-4, 0, 4, 0}
+};
+
+static const LinePoint kNumber_9[] = 
+{
+    {5, 4, 5, -3},
+    {5, -4, -5, -4},
+    {-5, -3, -5, -1},
+    {-5, 0, 4, 0}
+};
+
+static const LinePoint kInfinity[] = 
+{
+    {-3, -2, -5, 0},
+    {-5, 1, -3, 3},
+    {-2, 3, 2, -2},
+    {3, -2, 5, 0},
+    {5, 1, 3, 3},
+    {2, 3, -2, -2}
+};
+
+static const LinePoint kCheckpoint[] = 
+{
+    {0, -6, 1, -6},
+    {12, 0, 13, 0},
+    {0, 6, 1, 6},
+    {-11, 0, -12, 0},
+    {2, -5, 11, -1},
+    {11, 1, 2, 5},
+    {-1, 5, -10, 1},
+    {-10, -1, -1, -5}
+};
+
+static const Glyph sGlyphs[] = {
+    {ALIVE_COUNTOF(kNumber_0), kNumber_0},
+    {ALIVE_COUNTOF(kNumber_1), kNumber_1},
+    {ALIVE_COUNTOF(kNumber_2), kNumber_2},
+    {ALIVE_COUNTOF(kNumber_3), kNumber_3},
+    {ALIVE_COUNTOF(kNumber_4), kNumber_4},
+    {ALIVE_COUNTOF(kNumber_5), kNumber_5},
+    {ALIVE_COUNTOF(kNumber_6), kNumber_6},
+    {ALIVE_COUNTOF(kNumber_7), kNumber_7},
+    {ALIVE_COUNTOF(kNumber_8), kNumber_8},
+    {ALIVE_COUNTOF(kNumber_9), kNumber_9},
+    {ALIVE_COUNTOF(kInfinity), kInfinity},
+    {ALIVE_COUNTOF(kCheckpoint), kCheckpoint},
+};
+
 
 ThrowableTotalIndicator::ThrowableTotalIndicator(FP xpos, FP ypos, Layer layer, FP /*scale*/, s32 count, bool bFade)
     : BaseGameObject(true, 0)
@@ -284,26 +275,22 @@ void ThrowableTotalIndicator::VUpdate()
 
 void ThrowableTotalIndicator::VRender(PrimHeader** ppOt)
 {
-    if (*kNumbersArray[mNumToShow] <= 0)
-    {
-        return;
-    }
-
     const FP camX = FP_NoFractional(gScreenManager->CamXPos());
     const FP camY = FP_NoFractional(gScreenManager->CamYPos());
 
     s16 xpos = 0;
     s16 ypos = 0;
 
-    for (s16 counter = 0; counter < kNumbersArray[mNumToShow][0]; counter++)
+    const Glyph& pointData = sGlyphs[mNumToShow];
+    for (u32 counter = 0; counter < pointData.mPointsCount; counter++)
     {
         xpos = FP_GetExponent(((mXPos - camX) * FP_FromInteger(40) + FP_FromInteger(11)) / FP_FromInteger(23));
         ypos = FP_GetExponent(mYPos - camY);
 
-        const FP x0 = FP_FromInteger(kNumbersArray[mNumToShow][(4 * counter) + 1]) * mSpriteScale;
-        const FP y0 = FP_FromInteger(kNumbersArray[mNumToShow][(4 * counter) + 2]) * mSpriteScale;
-        const FP x1 = FP_FromInteger(kNumbersArray[mNumToShow][(4 * counter) + 3]) * mSpriteScale;
-        const FP y1 = FP_FromInteger(kNumbersArray[mNumToShow][(4 * counter) + 4]) * mSpriteScale;
+        const FP x0 = FP_FromInteger(pointData.mPoints[counter].mX1) * mSpriteScale;
+        const FP y0 = FP_FromInteger(pointData.mPoints[counter].mY1) * mSpriteScale;
+        const FP x1 = FP_FromInteger(pointData.mPoints[counter].mX2) * mSpriteScale;
+        const FP y1 = FP_FromInteger(pointData.mPoints[counter].mY2) * mSpriteScale;
         Line_G2* pLine = &mLines[gPsxDisplay.mBufferIndex][counter];
         LineG2_Init(pLine);
 
