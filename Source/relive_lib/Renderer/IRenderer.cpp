@@ -160,32 +160,58 @@ IRenderer::Quad2D IRenderer::LineToQuad(const Point2D p1, const Point2D p2)
     constexpr f32 halfPi = 1.57f;
     constexpr f32 halfThickness = 0.5f;
 
-    f32 x0 = (f32) p1.x;
-    f32 y0 = (f32) p1.y;
+    // Always orient the line to be drawn left to right, so don't need to faff
+    // with trig more than necessary
+    Point2D leftPoint = p1;
+    Point2D rightPoint = p2;
 
-    f32 x1 = (f32) p2.x;
-    f32 y1 = (f32) p2.y;
+    if (p1.x > p2.x)
+    {
+        leftPoint = p2;
+        rightPoint = p1;
+    }
 
+    // Our trig expands the line out in both directions, so the actual line
+    // itself is 'centered' - here we push the line out by half the thickness
+    // so that the expansion lands on, or close to, whole number pixel values
+    f32 x0 = (f32) leftPoint.x + halfThickness;
+    f32 y0 = (f32) leftPoint.y + halfThickness;
+
+    f32 x1 = (f32) rightPoint.x + halfThickness;
+    f32 y1 = (f32) rightPoint.y + halfThickness;
+
+    // Our trig here, we expand the line into a quad, the normals are for the
+    // thickness along the line, and the tangent is used for the thickness
+    // on either end of the line
     f32 dx = x1 - x0;
     f32 dy = y1 - y0;
 
-    f32 normal = halfPi - std::atan(dy / dx);
+    f32 angle = std::atan(dy / dx);
+    f32 normal = halfPi - angle;
 
-    f32 dxTarget = halfThickness * std::cos(normal);
-    f32 dyTarget = halfThickness * std::sin(normal);
+    f32 dxTargetTangent = halfThickness * std::cos(angle);
+    f32 dyTargetTangent = halfThickness * std::sin(angle);
+    f32 dxTargetNormal = halfThickness * std::cos(normal);
+    f32 dyTargetNormal = halfThickness * std::sin(normal);
 
-    f32 finalX0 = x0 + dxTarget;
-    f32 finalY0 = y0 - dyTarget;
+    f32 finalX0 = x0 + dxTargetNormal - dxTargetTangent;
+    f32 finalY0 = y0 - dyTargetNormal - dyTargetTangent;
 
-    f32 finalX1 = x0 - dxTarget;
-    f32 finalY1 = y0 + dyTarget;
+    f32 finalX1 = x0 - dxTargetNormal - dxTargetTangent;
+    f32 finalY1 = y0 + dyTargetNormal - dyTargetTangent;
 
-    f32 finalX2 = x1 + dxTarget;
-    f32 finalY2 = y1 - dyTarget;
+    f32 finalX2 = x1 + dxTargetNormal + dxTargetTangent;
+    f32 finalY2 = y1 - dyTargetNormal + dyTargetTangent;
 
-    f32 finalX3 = x1 - dxTarget;
-    f32 finalY3 = y1 + dyTarget;
+    f32 finalX3 = x1 - dxTargetNormal + dxTargetTangent;
+    f32 finalY3 = y1 + dyTargetNormal + dyTargetTangent;
 
+    // The quad is like so (original line in the center):
+    //
+    // xy0 ---------- xy2
+    //  | \__________/ |
+    //  | /          \ |
+    // xy1 ---------- xy3
     return {
         {
             { finalX0, finalY0 },
