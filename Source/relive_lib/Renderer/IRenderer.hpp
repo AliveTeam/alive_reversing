@@ -33,9 +33,32 @@ private:
 };
 
 class IRenderer
+{
+public: // TODO: Make protected later
+    enum class PsxDrawMode : u32
     {
+        Flat = 0,
+        DefaultFT4 = 1,
+        Camera = 2,
+        FG1 = 3,
+        Gas = 4
+    };
+
 protected:
-    struct Point2D
+    struct PsxVertexData final
+    {
+        f32 x, y;
+        f32 r, g, b;
+        f32 u, v;
+        PsxDrawMode drawMode;
+        u32 isSemiTrans;
+        u32 isShaded;
+        u32 blendMode;
+        u32 paletteIndex;
+        u32 textureUnitIndex;
+    };
+
+    struct Point2D final
     {
         f32 x;
         f32 y;
@@ -43,7 +66,7 @@ protected:
         Point2D(f32 x0, f32 y0) : x(x0), y(y0) {}
     };
 
-    struct Quad2D
+    struct Quad2D final
     {
         Point2D verts[4];
     };
@@ -142,17 +165,7 @@ protected:
 
 protected:
     SDL_Rect GetTargetDrawRect();
-    Quad2D LineToQuad(Point2D p1, Point2D p2);
-
-public: // TODO: Make protected later
-    enum class PsxDrawMode : u32
-    {
-        Flat = 0,
-        DefaultFT4 = 1,
-        Camera = 2,
-        FG1 = 3,
-        Gas = 4
-    };
+    Quad2D LineToQuad(const Point2D& p1, const Point2D& p2);
 
 protected:
     bool mIsFirstStartFrame = true;

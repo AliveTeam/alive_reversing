@@ -155,7 +155,7 @@ SDL_Rect IRenderer::GetTargetDrawRect()
     return rect;
 }
 
-IRenderer::Quad2D IRenderer::LineToQuad(const Point2D p1, const Point2D p2)
+IRenderer::Quad2D IRenderer::LineToQuad(const Point2D& p1, const Point2D& p2)
 {
     constexpr f32 halfPi = 1.57f;
     constexpr f32 halfThickness = 0.5f;

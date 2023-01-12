@@ -58,15 +58,6 @@ private:
     {
     };
 
-    struct PsxVertexData final
-    {
-        f32 x, y;
-        f32 r, g, b;
-        f32 u, v;
-        u32 drawMode, isSemiTrans, isShaded, blendMode;
-        u32 paletteIndex, textureUnitIndex;
-    };
-
     struct PassthruVertexData final
     {
         f32 x, y;
@@ -101,7 +92,7 @@ private:
 
     void PushLines(const PsxVertexData* vertices, int count);
     void PushFramebufferVertexData(const PassthruVertexData* vertices, int count);
-    void PushVertexData(PsxVertexData* pVertData, int count, GLTexture2D texture = {});
+    void PushVertexData(PsxVertexData* pVertData, int count, const GLTexture2D& texture = {});
 
     void DrawFramebufferToScreen(s32 x, s32 y, s32 width, s32 height);
     bool HasFramebufferPolysToDraw();
