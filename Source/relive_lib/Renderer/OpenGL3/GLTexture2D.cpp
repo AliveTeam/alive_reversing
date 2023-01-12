@@ -145,12 +145,12 @@ void GLTexture2D::SetPixelUnpacking()
 {
     switch (mFormat)
     {
-        case GL_RED:
-            GL_VERIFY(glPixelStorei(GL_UNPACK_ALIGNMENT, 1));
+        case GL_RGBA:
+            GL_VERIFY(glPixelStorei(GL_UNPACK_ALIGNMENT, 4));
             break;
 
         default:
-            GL_VERIFY(glPixelStorei(GL_UNPACK_ALIGNMENT, 4));
+            GL_VERIFY(glPixelStorei(GL_UNPACK_ALIGNMENT, 1));
             break;
     }
 }

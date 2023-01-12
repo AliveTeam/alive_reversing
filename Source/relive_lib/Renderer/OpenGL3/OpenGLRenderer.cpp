@@ -271,8 +271,8 @@ void OpenGLRenderer::Draw(Prim_GasEffect& gasEffect)
     const f32 g = 127;
     const f32 b = 127;
 
-    const f32 gasWidth = static_cast<f32>(gasEffect.w - gasEffect.x) / 4;
-    const f32 gasHeight = static_cast<f32>(gasEffect.h - gasEffect.y) / 2;
+    const f32 gasWidth = std::floor(static_cast<f32>(gasEffect.w - gasEffect.x) / 4);
+    const f32 gasHeight = std::floor(static_cast<f32>(gasEffect.h - gasEffect.y) / 2);
 
     const bool isSemiTrans = true;
     const bool isShaded = true;
