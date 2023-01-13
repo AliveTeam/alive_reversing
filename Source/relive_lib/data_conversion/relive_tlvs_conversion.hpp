@@ -42,8 +42,11 @@ inline void BaseConvert(relive::Path_TLV& r, const AO::Path_TLV& base, const Gui
                 return reliveScale::eFull;
             case Scale_short::eHalf_1:
                 return reliveScale::eHalf;
+
+            default:
+                LOG_WARNING("remapping invalid Scale value %d to eHalf", static_cast<s32>(scale));
+                return reliveScale::eHalf;
         }
-        ALIVE_FATAL("Bad scale");
     }
 
     static reliveScale From(const ::Scale_int scale)
@@ -62,12 +65,15 @@ inline void BaseConvert(relive::Path_TLV& r, const AO::Path_TLV& base, const Gui
     {
         switch (choice)
         {
-        case Choice_short::eNo_0:
-            return reliveChoice::eNo;
-        case Choice_short::eYes_1:
-            return reliveChoice::eYes;
+            case Choice_short::eNo_0:
+                return reliveChoice::eNo;
+            case Choice_short::eYes_1:
+                return reliveChoice::eYes;
+
+            default:
+                LOG_WARNING("remapping invalid choice value %d to eYes", static_cast<s32>(choice));
+                return reliveChoice::eYes;
         }
-        ALIVE_FATAL("Bad choice");
     }
 
     static reliveChoice From(const ::Choice_int choice)
@@ -531,16 +537,19 @@ private:
     {
         switch (switchSound)
         {
-        case ::Path_PullRingRope::PullRingSwitchSound::eNone_0:
-            return relive::Path_PullRingRope::PullRingSwitchSound::eNone;
-        case ::Path_PullRingRope::PullRingSwitchSound::eWellExit_1:
-            return relive::Path_PullRingRope::PullRingSwitchSound::eWellExit;
-        case ::Path_PullRingRope::PullRingSwitchSound::eRingBellHammer_2:
-            return relive::Path_PullRingRope::PullRingSwitchSound::eRingBellHammer;
-        case ::Path_PullRingRope::PullRingSwitchSound::eDoorEffect_3:
-            return relive::Path_PullRingRope::PullRingSwitchSound::eDoorEffect;
+            case ::Path_PullRingRope::PullRingSwitchSound::eNone_0:
+                return relive::Path_PullRingRope::PullRingSwitchSound::eNone;
+            case ::Path_PullRingRope::PullRingSwitchSound::eWellExit_1:
+                return relive::Path_PullRingRope::PullRingSwitchSound::eWellExit;
+            case ::Path_PullRingRope::PullRingSwitchSound::eRingBellHammer_2:
+                return relive::Path_PullRingRope::PullRingSwitchSound::eRingBellHammer;
+            case ::Path_PullRingRope::PullRingSwitchSound::eDoorEffect_3:
+                return relive::Path_PullRingRope::PullRingSwitchSound::eDoorEffect;
+
+            default:
+                LOG_WARNING("remapping invalid PullRingSwitchSound value %d to eNone", static_cast<s32>(switchSound));
+                return relive::Path_PullRingRope::PullRingSwitchSound::eNone;
         }
-        ALIVE_FATAL("Bad pull ring switch sound");
     }
 
     static relive::Path_PullRingRope::PullRingSoundDirection From(::Path_PullRingRope::PullRingSoundDirection soundDir)
@@ -2392,6 +2401,9 @@ private:
         {
             case ::Path_Door::DoorTypes::eBasicDoor_0:
                 return Path_Door::DoorTypes::eBasicDoor;
+            case ::Path_Door::DoorTypes::eDoorPadding_1:
+                LOG_WARNING("remapping eDoorPadding_1 to eBasicDoor");
+                return Path_Door::DoorTypes::eBasicDoor;
             case ::Path_Door::DoorTypes::eTasksDoorWithSecretMusic_2:
                 return Path_Door::DoorTypes::eTasksDoorWithSecretMusic;
             case ::Path_Door::DoorTypes::eTasksDoor_3:
@@ -3503,8 +3515,11 @@ public:
                 return reliveChoice::eYes;
             case ::Path_Slig::ShootPossessedSligs::eNo_3:
                 return reliveChoice::eNo;
+
+            default:
+                LOG_WARNING("remapping invalid ShootPossessedSligs value %d to eYes", static_cast<s32>(shootPossessedSligs));
+                return reliveChoice::eYes;
         }
-        ALIVE_FATAL("Bad slig shoot possessed sligs value");
     }
 };
 
