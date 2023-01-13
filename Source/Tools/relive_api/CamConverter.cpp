@@ -145,19 +145,27 @@ static std::vector<u16> StitchAOCamera(const LvlFileChunk& bitsRes)
     return camBuffer;
 }
 
-std::pair<std::unique_ptr<ApiFG1Reader>, u32> CamConverter::Convert(const ChunkedLvlFile& camFile, const std::string& baseName)
+std::pair<std::unique_ptr<ApiFG1Reader>, u32> CamConverter::Convert(const ChunkedLvlFile& camFile, const std::string& baseName, bool isAo)
 {
     std::optional<LvlFileChunk> bitsRes = camFile.ChunkByType(ResourceManager::Resource_Bits);
     if (bitsRes)
     {
-        const bool isAO = AEcamIsAOCam(*bitsRes);
-        auto pixels = isAO ? StitchAOCamera(*bitsRes) : StitchAECamera(*bitsRes);
+        const bool isAoCam = AEcamIsAOCam(*bitsRes);
+        auto pixels = isAoCam ? StitchAOCamera(*bitsRes) : StitchAECamera(*bitsRes);
         std::vector<u8> outPngData;
         RGB565ToPngBuffer(pixels.data(), outPngData);
         FileSystem fs;
         fs.Save((baseName + ".png").c_str(), outPngData);
 
-        auto reader = MergeFG1Blocks(camFile, isAO ? BaseFG1Reader::FG1Format::AO : BaseFG1Reader::FG1Format::AE);
+        BaseFG1Reader::FG1Format FG1Format = isAoCam ? BaseFG1Reader::FG1Format::AO : BaseFG1Reader::FG1Format::AE;
+
+        // The old editor saves AE levels with AO cams but still uses the AE FG1 format
+        if (isAoCam && !isAo)
+        {
+            FG1Format = BaseFG1Reader::FG1Format::AE;
+        }
+
+        auto reader = MergeFG1Blocks(camFile, FG1Format);
         if (reader)
         {
             u32 fg1BlocksCount = 0;
