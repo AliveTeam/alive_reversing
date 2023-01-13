@@ -1419,7 +1419,7 @@ static void ConvertPathBND(const FileSystem::Path& dataDir, const std::string& f
 }
 
 template <typename LevelIdType>
-static void ConvertCamera(const FileSystem::Path& dataDir, const std::string& fileName, FileSystem& fs, std::vector<u8>& fileBuffer, ReliveAPI::LvlReader& lvlReader, LevelIdType lvlIdxAsLvl)
+static void ConvertCamera(const FileSystem::Path& dataDir, const std::string& fileName, FileSystem& fs, std::vector<u8>& fileBuffer, ReliveAPI::LvlReader& lvlReader, LevelIdType lvlIdxAsLvl, bool isAo)
 {
     LOG_INFO("%s", fileName.c_str());
     ReadLvlFileInto(lvlReader, fileName.c_str(), fileBuffer);
@@ -1441,7 +1441,7 @@ static void ConvertCamera(const FileSystem::Path& dataDir, const std::string& fi
 
     // Convert camera images and FG layers
     ReliveAPI::CamConverter cc;
-    auto fg1ReaderAndBlockCount = cc.Convert(camFile, pathDir.GetPath());
+    auto fg1ReaderAndBlockCount = cc.Convert(camFile, pathDir.GetPath(), isAo);
     if (fg1ReaderAndBlockCount.first)
     {
         SaveCameraJsonManifest(camBaseName, *fg1ReaderAndBlockCount.first, jsonFileName, fg1ReaderAndBlockCount.second);
@@ -1564,7 +1564,7 @@ static void ConvertFilesInLvl(const FileSystem::Path& dataDir, FileSystem& fs, R
                         ConvertFont(dataDir, fileName, lvlReader, fileBuffer, true);
                     }
 
-                     ConvertCamera(dataDir, fileName, fs, fileBuffer, lvlReader, lvlIdxAsLvl);
+                     ConvertCamera(dataDir, fileName, fs, fileBuffer, lvlReader, lvlIdxAsLvl, isAo);
                 }
                 else if (endsWith(fileName, ".JOY"))
                 {

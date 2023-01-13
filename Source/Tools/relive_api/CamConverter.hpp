@@ -13,7 +13,7 @@ class ApiFG1Reader;
 class CamConverter final
 {
 public:
-    std::pair<std::unique_ptr<ApiFG1Reader>, u32> Convert(const ChunkedLvlFile& camFile, const std::string& baseName);
+    std::pair<std::unique_ptr<ApiFG1Reader>, u32> Convert(const ChunkedLvlFile& camFile, const std::string& baseName, bool isAo);
 
     CamConverter() = default;
     CamConverter(const ChunkedLvlFile& camFile, CameraImageAndLayers& outData);
