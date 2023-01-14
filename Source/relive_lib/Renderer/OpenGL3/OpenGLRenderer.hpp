@@ -121,7 +121,7 @@ private:
     u16 mGlobalTPage = 0;
 
     PaletteCache mPaletteCache;
-    TextureCache2<std::shared_ptr<GLTexture2D>> mTextureCache = {};
+    TextureCache<std::shared_ptr<GLTexture2D>> mTextureCache;
 
     u32 mBatchBlendMode = kBatchValueUnset;
     std::vector<PsxVertexData> mBatchData;

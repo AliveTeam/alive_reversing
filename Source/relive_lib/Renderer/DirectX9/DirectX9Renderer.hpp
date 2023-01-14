@@ -70,7 +70,7 @@ private:
 
     TDX9Texture mPaletteTexture;
     PaletteCache mPaletteCache;
-    TextureCache2<TDX9Texture> mTextureCache;
+    TextureCache<TDX9Texture> mTextureCache;
 
     const u8 mCamUnit = 4;
     const u8 mPalUnit = 5;

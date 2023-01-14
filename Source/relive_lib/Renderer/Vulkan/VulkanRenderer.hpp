@@ -316,11 +316,7 @@ private:
         Format mFormat = Format::Indexed;
     };
 
-    class VulkanTextureCache final : public TextureCache2<std::shared_ptr<Texture>>
-    {
-    public:
-    };
-    VulkanTextureCache mTextureCache[MAX_FRAMES_IN_FLIGHT];
+    TextureCache<std::shared_ptr<Texture>> mTextureCache[MAX_FRAMES_IN_FLIGHT];
 
     struct Vertex final
     {
