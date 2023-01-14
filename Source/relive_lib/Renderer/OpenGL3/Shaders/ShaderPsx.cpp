@@ -182,6 +182,26 @@ vec4 sample_texture()
             scaledUV = fsUV / fsSpriteSheetSize[7];
             texelSprite = texture(texSpriteSheets[7], scaledUV);
             break;
+
+        case 8u:
+            scaledUV = fsUV / fsSpriteSheetSize[8];
+            texelSprite = texture(texSpriteSheets[8], scaledUV);
+            break;
+
+        case 9u:
+            scaledUV = fsUV / fsSpriteSheetSize[9];
+            texelSprite = texture(texSpriteSheets[9], scaledUV);
+            break;
+
+        case 10u:
+            scaledUV = fsUV / fsSpriteSheetSize[10];
+            texelSprite = texture(texSpriteSheets[10], scaledUV);
+            break;
+
+        case 11u:
+            scaledUV = fsUV / fsSpriteSheetSize[11];
+            texelSprite = texture(texSpriteSheets[11], scaledUV);
+            break;
     }
     return texelSprite;
 }
