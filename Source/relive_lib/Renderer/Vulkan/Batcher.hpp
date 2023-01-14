@@ -4,37 +4,52 @@
 #include <vector>
 #include <memory>
 
-template <typename TextureType, typename RenderBatchType, typename VertexType>
+template <typename TextureType, typename RenderBatchType, std::size_t kTextureBatchSize>
 class Batcher final
 {
 public:
-    std::unique_ptr<TextureType> mPaletteTexture;
-    std::shared_ptr<TextureType> mCamTexture;
-    std::vector<std::shared_ptr<TextureType>> mBatchTextures;
+    static constexpr u32 kBatchValueUnset = 999;
 
-    using Type = Batcher<TextureType, RenderBatchType, VertexType>;
+    bool mBatchingEnabled = true;
+
+    void SetBatching(bool batching)
+    {
+        mBatchingEnabled = batching;
+    }
+
+    Batcher()
+    {
+        mVertices.reserve(IRenderer::kReserveFT4QuadCount * 4);
+        mIndices.reserve(IRenderer::kReserveFT4QuadCount * 6);
+        mBatchTextures.reserve(kTextureBatchSize * 10);
+    }
+
+    std::unique_ptr<TextureType> mPaletteTexture; // TODO: remove ?
+    std::shared_ptr<TextureType> mCamTexture; // TODO: remove ?
+
+    std::vector<std::shared_ptr<TextureType>> mBatchTextures;
 
     struct RenderBatch final : public RenderBatchType
     {
         u32 mNumTrisToDraw = 0;
         u32 mTexturesInBatch = 0;
-        u32 mTextureIds[14] = {};
+        u32 mTextureIds[kTextureBatchSize] = {};
         u32 mBlendMode = 0;
         SDL_Rect mScissor = {};
 
-        bool AddTexture(u32 id)
+        void AddTexture(u32 id, std::vector<std::shared_ptr<TextureType>>& batchedTextures, std::shared_ptr<TextureType>& texture)
         {
             for (u32 i = 0; i < mTexturesInBatch; i++)
             {
                 if (mTextureIds[i] == id)
                 {
                     // Already have it
-                    return false;
+                    return;
                 }
             }
             mTextureIds[mTexturesInBatch] = id;
+            batchedTextures.emplace_back(texture);
             mTexturesInBatch++;
-            return true;
         }
 
         u32 TextureIdxForId(u32 id) const
@@ -50,54 +65,57 @@ public:
         }
     };
 
-    struct QuadVerts final
-    {
-        f32 x0;
-        f32 y0;
-        f32 x1;
-        f32 y1;
-        f32 x2;
-        f32 y2;
-        f32 x3;
-        f32 y3;
-    };
+    void PushGas(const Prim_GasEffect& gasEffect);
 
-    struct QuadUvs final
-    {
-        f32 u0;
-        f32 v0;
-        f32 u1;
-        f32 v1;
-    };
+    void PushPolyG4(const Poly_G4& poly, u32 blendMode);
 
-    struct RGB final
-    {
-        u8 r;
-        u8 g;
-        u8 b;
-    };
+    void PushPolyG3(const Poly_G3& poly, u32 blendMode);
 
-    RenderBatch& PushFG1(const Poly_FT4& poly, std::shared_ptr<TextureType>& texture);
+    void PushLine(const Line_G2& line, u32 blendMode);
 
-    RenderBatch& PushCAM(const Poly_FT4& poly, std::shared_ptr<TextureType>& texture);
+    void PushLine(const Line_G4& line, u32 blendMode);
 
-    RenderBatch& PushFont(const Poly_FT4& poly, u32 palIndex, std::shared_ptr<TextureType>& texture);
+    void PushFont(const Poly_FT4& poly, u32 palIndex, std::shared_ptr<TextureType>& texture);
 
-    RenderBatch& PushAnim(const Poly_FT4& poly, u32 palIndex, std::shared_ptr<TextureType>& texture);
+    void PushFG1(const Poly_FT4& poly, std::shared_ptr<TextureType>& texture);
 
-    void PushQuad(IRenderer::PsxDrawMode drawMode, const QuadVerts& verts, const QuadUvs& uvs, const RGB* rgb, u32 palIdx, u32 isShaded, u32 blendMode, u32 isSemiTrans, u32 textureIdx);
+    void PushCAM(const Poly_FT4& poly, std::shared_ptr<TextureType>& texture);
+
+    void PushAnim(const Poly_FT4& poly, u32 palIndex, std::shared_ptr<TextureType>& texture);
+
+    void PushVertexData(IRenderer::PsxVertexData* pVertData, s32 count, std::shared_ptr<TextureType>& texture, u32 textureResId);
+
+    void PushLines(const IRenderer::PsxVertexData* vertices, s32 count);
 
     void NewBatch();
 
     void SetScissor(const SDL_Rect& scissor);
 
-    const u32 kTextureBatchSize = 14;
+    void EndFrame()
+    {
+        // Ensure any remaining data is drawn
+        if (mConstructingBatch.mNumTrisToDraw > 0)
+        {
+            NewBatch();
+        }
+    }
 
-    RenderBatch mConstructingBatch;
-    std::vector<RenderBatch> mBatches;
+    void StartFrame()
+    {
+        mBatches.clear();
+        mBatchTextures.clear();
+        mIndices.clear();
+        mVertices.clear();
+        mIndexBufferIndex = 0;
+        mConstructingBatch = {};
+    }
+
     bool mBatchInProgress = false;
-    u16 mIndexBufferIndex = 0;
+    RenderBatch mConstructingBatch;
 
-    std::vector<VertexType> mVertices;
-    std::vector<uint16_t> mIndices;
+    std::vector<RenderBatch> mBatches;
+
+    std::vector<IRenderer::PsxVertexData> mVertices;
+    u16 mIndexBufferIndex = 0;
+    std::vector<u32> mIndices;
 };

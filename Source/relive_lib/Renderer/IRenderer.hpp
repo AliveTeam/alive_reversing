@@ -44,7 +44,6 @@ public: // TODO: Make protected later
         Gas = 4
     };
 
-protected:
     struct PsxVertexData final
     {
         f32 x, y;
@@ -58,18 +57,30 @@ protected:
         u32 textureUnitIndex;
     };
 
+    // Original game resolution - 640x240
+    static constexpr s32 kPsxFramebufferHeight = 240;
+    static constexpr s32 kPsxFramebufferWidth = 640;
+
     struct Point2D final
     {
         f32 x;
         f32 y;
 
-        Point2D(f32 x0, f32 y0) : x(x0), y(y0) {}
+        Point2D(f32 x0, f32 y0)
+            : x(x0)
+            , y(y0)
+        { }
     };
 
     struct Quad2D final
     {
         Point2D verts[4];
     };
+
+    static Quad2D LineToQuad(const Point2D& p1, const Point2D& p2);
+
+protected:
+
 
 public:
     enum class Renderers
@@ -144,7 +155,6 @@ public:
     // Fleech (tounge), DeathGas, ColourfulMeter
     virtual void Draw(const Poly_G4& poly) = 0;
 
-protected:
     // Recommendations for reserving memory to fit 'peak' amounts of quads
     // during batching:
     //   - For regular Poly_FT4s, the peak tends to be about 300 when the game
@@ -155,9 +165,10 @@ protected:
     static constexpr s32 kReserveFT4QuadCount = 300;
     static constexpr s32 kReserveScreenWaveQuadCount = 256;
 
-    // Original game resolution - 640x240
-    static constexpr s32 kPsxFramebufferHeight = 240;
-    static constexpr s32 kPsxFramebufferWidth = 640;
+protected:
+
+
+
 
     // Original game target resolution - 640x480
     static constexpr s32 kTargetFramebufferHeight = 480;
@@ -165,7 +176,6 @@ protected:
 
 protected:
     SDL_Rect GetTargetDrawRect();
-    Quad2D LineToQuad(const Point2D& p1, const Point2D& p2);
 
 protected:
     bool mIsFirstStartFrame = true;

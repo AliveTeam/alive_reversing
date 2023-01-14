@@ -47,10 +47,9 @@ out vec4 outColor;
 uniform sampler2D texPalette;
 uniform sampler2D texGas;
 uniform sampler2D texCamera;
-uniform sampler2D texFG1Masks[4];
-uniform sampler2D texSpriteSheets[8];
 
-uniform vec2 fsSpriteSheetSize[8];
+uniform sampler2D texSpriteSheets[12];
+uniform vec2 fsSpriteSheetSize[12];
 
 const int BLEND_MODE_HALF_DST_ADD_HALF_SRC = 0;
 const int BLEND_MODE_ONE_DST_ADD_ONE_SRC   = 1;
@@ -138,56 +137,58 @@ void draw_flat()
     outColor = handle_final_color(vec4(outColor.rgb, 1.0), false);
 }
 
-void draw_default_ft4()
+vec4 sample_texture()
 {
     vec2 scaledUV = vec2(0.0);
-    float texelSprite = 0.0;
-
+    vec4 texelSprite = vec4(0.0);
     switch (fsTexIndexing.y)
     {
         case 0u:
             scaledUV = fsUV / fsSpriteSheetSize[0];
-            texelSprite = texture(texSpriteSheets[0], scaledUV).r;
+            texelSprite = texture(texSpriteSheets[0], scaledUV);
             break;
 
         case 1u:
             scaledUV = fsUV / fsSpriteSheetSize[1];
-            texelSprite = texture(texSpriteSheets[1], scaledUV).r;
+            texelSprite = texture(texSpriteSheets[1], scaledUV);
             break;
 
         case 2u:
             scaledUV = fsUV / fsSpriteSheetSize[2];
-            texelSprite = texture(texSpriteSheets[2], scaledUV).r;
+            texelSprite = texture(texSpriteSheets[2], scaledUV);
             break;
 
         case 3u:
             scaledUV = fsUV / fsSpriteSheetSize[3];
-            texelSprite = texture(texSpriteSheets[3], scaledUV).r;
+            texelSprite = texture(texSpriteSheets[3], scaledUV);
             break;
 
         case 4u:
             scaledUV = fsUV / fsSpriteSheetSize[4];
-            texelSprite = texture(texSpriteSheets[4], scaledUV).r;
+            texelSprite = texture(texSpriteSheets[4], scaledUV);
             break;
 
         case 5u:
             scaledUV = fsUV / fsSpriteSheetSize[5];
-            texelSprite = texture(texSpriteSheets[5], scaledUV).r;
+            texelSprite = texture(texSpriteSheets[5], scaledUV);
             break;
 
         case 6u:
             scaledUV = fsUV / fsSpriteSheetSize[6];
-            texelSprite = texture(texSpriteSheets[6], scaledUV).r;
+            texelSprite = texture(texSpriteSheets[6], scaledUV);
             break;
 
         case 7u:
             scaledUV = fsUV / fsSpriteSheetSize[7];
-            texelSprite = texture(texSpriteSheets[7], scaledUV).r;
+            texelSprite = texture(texSpriteSheets[7], scaledUV);
             break;
     }
+    return texelSprite;
+}
 
-    vec4 texelPal = PixelToPalette(texelSprite);
-
+void draw_default_ft4()
+{
+    vec4 texelPal = PixelToPalette(sample_texture().r);
     outColor = handle_final_color(texelPal, true);
 }
 
@@ -203,26 +204,7 @@ void draw_cam()
 void draw_fg1()
 {
     vec2 scaledUV = fsUV / frameSize;
-    vec4 mask = vec4(0.0);
-
-    switch (fsTexIndexing.y)
-    {
-        case 0u:
-            mask = texture(texFG1Masks[0], scaledUV);
-            break;
-
-        case 1u:
-            mask = texture(texFG1Masks[1], scaledUV);
-            break;
-
-        case 2u:
-            mask = texture(texFG1Masks[2], scaledUV);
-            break;
-
-        case 3u:
-            mask = texture(texFG1Masks[3], scaledUV);
-            break;
-    }
+    vec4 mask = sample_texture();
 
     outColor = vec4(texture(texCamera, scaledUV).rgb, 0.0);
 

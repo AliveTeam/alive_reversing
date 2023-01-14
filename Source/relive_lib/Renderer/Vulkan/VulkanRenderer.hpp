@@ -397,7 +397,7 @@ private:
     {
         PipelineIndex mPipeline = PipelineIndex::eNone;
     };
-    Batcher<Texture, BatchData, Vertex> mBatcher[MAX_FRAMES_IN_FLIGHT];
+    Batcher<Texture, BatchData, 14> mBatcher[MAX_FRAMES_IN_FLIGHT];
   
     struct FrameBufferAttachment final
     {

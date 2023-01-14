@@ -1,5 +1,6 @@
 #include "Batcher.hpp"
 #include "VulkanRenderer.hpp"
+#include "../OpenGL3/OpenGLRenderer.hpp"
 #include "../../Primitives.hpp"
 #include "../../FG1.hpp"
 #include "../../Animation.hpp"
@@ -11,243 +12,296 @@ inline u16 GetTPageBlendMode(u16 tpage)
     return (tpage >> 4) & 3;
 }
 
-template <typename TextureType, typename RenderBatchType, typename VertexType>
-void Batcher<TextureType, RenderBatchType, VertexType>::PushQuad(IRenderer::PsxDrawMode drawMode, const Batcher::QuadVerts& verts, const Batcher::QuadUvs& uvs, const Batcher::RGB* rgb, u32 palIdx, u32 isShaded, u32 blendMode, u32 isSemiTrans, u32 textureIdx)
+template <typename TextureType, typename RenderBatchType, std::size_t kTextureBatchSize>
+void Batcher<TextureType, RenderBatchType, kTextureBatchSize>::PushVertexData(IRenderer::PsxVertexData* pVertData, s32 count, std::shared_ptr<TextureType>& texture, u32 textureResId)
 {
-    mVertices.push_back({{verts.x0, verts.y0}, {rgb[0].r, rgb[0].g, rgb[0].b}, {uvs.u0, uvs.v0}, textureIdx, palIdx, drawMode, isShaded, blendMode, isSemiTrans});
-    mVertices.push_back({{verts.x1, verts.y1}, {rgb[1].r, rgb[1].g, rgb[1].b}, {uvs.u1, uvs.v0}, textureIdx, palIdx, drawMode, isShaded, blendMode, isSemiTrans});
-    mVertices.push_back({{verts.x2, verts.y2}, {rgb[2].r, rgb[2].g, rgb[2].b}, {uvs.u0, uvs.v1}, textureIdx, palIdx, drawMode, isShaded, blendMode, isSemiTrans});
-    mVertices.push_back({{verts.x3, verts.y3}, {rgb[3].r, rgb[3].g, rgb[3].b}, {uvs.u1, uvs.v1}, textureIdx, palIdx, drawMode, isShaded, blendMode, isSemiTrans});
+    const u32 blendMode = pVertData[0].blendMode;
 
-    mIndices.emplace_back((u16) (mIndexBufferIndex + 1));
-    mIndices.emplace_back((u16) (mIndexBufferIndex + 0));
-    mIndices.emplace_back((u16) (mIndexBufferIndex + 3));
+    // Check if we need to invalidate the existing batched data
+    //
+    // The only reason we need to invalidate here is if the blend mode switches
+    // to/from subtractive blending
+    if (
+        mConstructingBatch.mBlendMode != blendMode && mConstructingBatch.mBlendMode != kBatchValueUnset && (mConstructingBatch.mBlendMode == 2 || blendMode == 2))
+    {
+        NewBatch();
+    }
 
-    mIndices.emplace_back((u16) (mIndexBufferIndex + 3));
-    mIndices.emplace_back((u16) (mIndexBufferIndex + 0));
-    mIndices.emplace_back((u16) (mIndexBufferIndex + 2));
+    if (texture)
+    {
+        mConstructingBatch.AddTexture(textureResId, mBatchTextures, texture);
+    }
 
-    mIndexBufferIndex += 4;
+    mConstructingBatch.mBlendMode = blendMode;
 
-    mConstructingBatch.mNumTrisToDraw += 2;
+    // Push indicies for this data
+    const u16 nextIndex = mIndexBufferIndex;
+    const s32 numTriangles = count - 2;
+
+    if (numTriangles == 1)
+    {
+        mIndices.emplace_back(nextIndex);
+        mIndices.emplace_back(nextIndex + 1);
+        mIndices.emplace_back(nextIndex + 2);
+
+        mIndexBufferIndex += 3;
+    }
+    else if (numTriangles == 2)
+    {
+        mIndices.emplace_back(nextIndex + 1);
+        mIndices.emplace_back(nextIndex);
+        mIndices.emplace_back(nextIndex + 3);
+
+        mIndices.emplace_back(nextIndex + 3);
+        mIndices.emplace_back(nextIndex);
+        mIndices.emplace_back(nextIndex + 2);
+
+        mIndexBufferIndex += 4;
+    }
+
+    // Push vertex data
+    const u32 textureIdx = mConstructingBatch.TextureIdxForId(textureResId);
+    for (int i = 0; i < count; i++)
+    {
+        pVertData[i].textureUnitIndex = textureIdx;
+        mVertices.emplace_back(pVertData[i]);
+    }
+
+    mConstructingBatch.mNumTrisToDraw += numTriangles;
+
     mBatchInProgress = true;
+
+    // DEBUGGING: If batching is disabled we invalidate immediately
+    const bool bNewBatch = !mBatchingEnabled || (mConstructingBatch.mTexturesInBatch == kTextureBatchSize - 1);
+    if (bNewBatch)
+    {
+        NewBatch();
+    }
 }
 
-template <typename TextureType, typename RenderBatchType, typename VertexType>
-void Batcher<TextureType, RenderBatchType, VertexType>::NewBatch()
+template <typename TextureType, typename RenderBatchType, std::size_t kTextureBatchSize>
+void Batcher<TextureType, RenderBatchType, kTextureBatchSize>::PushLines(const IRenderer::PsxVertexData* vertices, s32 count)
+{
+    const s32 numLines = count - 1;
+
+    for (s32 i = 0; i < numLines; i++)
+    {
+        const IRenderer::PsxVertexData& vertA = vertices[i];
+        const IRenderer::PsxVertexData& vertB = vertices[i + 1];
+
+        const IRenderer::Quad2D quad = IRenderer::LineToQuad(IRenderer::Point2D(vertA.x, vertA.y), IRenderer::Point2D(vertB.x, vertB.y));
+
+        IRenderer::PsxVertexData triangleVerts[4] = {
+            {quad.verts[0].x, quad.verts[0].y, vertA.r, vertA.g, vertA.b, 0.0f, 0.0f, vertA.drawMode, vertA.isSemiTrans, vertA.isShaded, vertA.blendMode, 0, 0},
+            {quad.verts[1].x, quad.verts[1].y, vertA.r, vertA.g, vertA.b, 0.0f, 0.0f, vertA.drawMode, vertA.isSemiTrans, vertA.isShaded, vertA.blendMode, 0, 0},
+            {quad.verts[2].x, quad.verts[2].y, vertB.r, vertB.g, vertB.b, 0.0f, 0.0f, vertB.drawMode, vertB.isSemiTrans, vertB.isShaded, vertB.blendMode, 0, 0},
+            {quad.verts[3].x, quad.verts[3].y, vertB.r, vertB.g, vertB.b, 0.0f, 0.0f, vertB.drawMode, vertB.isSemiTrans, vertB.isShaded, vertB.blendMode, 0, 0}};
+
+        std::shared_ptr<TextureType> nullTex;
+        PushVertexData(triangleVerts, ALIVE_COUNTOF(triangleVerts), nullTex, 0);
+    }
+}
+
+template <typename TextureType, typename RenderBatchType, std::size_t kTextureBatchSize>
+void Batcher<TextureType, RenderBatchType, kTextureBatchSize>::NewBatch()
 {
     const SDL_Rect oldScissor = mConstructingBatch.mScissor;
-    mBatches.push_back(mConstructingBatch);
+    mBatches.emplace_back(mConstructingBatch);
     mConstructingBatch = {};
     mConstructingBatch.mScissor = oldScissor;
     mBatchInProgress = false;
 }
 
-template <typename TextureType, typename RenderBatchType, typename VertexType>
-void Batcher<TextureType, RenderBatchType, VertexType>::SetScissor(const SDL_Rect& scissor)
+template <typename TextureType, typename RenderBatchType, std::size_t kTextureBatchSize>
+void Batcher<TextureType, RenderBatchType, kTextureBatchSize>::SetScissor(const SDL_Rect& scissor)
 {
+    NewBatch();
     mConstructingBatch.mScissor = scissor;
 }
 
-template <typename TextureType, typename RenderBatchType, typename VertexType>
-typename Batcher<TextureType, RenderBatchType, VertexType>::RenderBatch& Batcher<TextureType, RenderBatchType, VertexType>::PushFG1(const Poly_FT4& poly, std::shared_ptr<TextureType>& texture)
+template <typename TextureType, typename RenderBatchType, std::size_t kTextureBatchSize>
+void Batcher<TextureType, RenderBatchType, kTextureBatchSize>::PushGas(const Prim_GasEffect& gasEffect)
 {
-    const QuadUvs uvs = {
-        0.0f, 0.0f,
-        1.0f, 1.0f};
-
-    const QuadVerts verts = {
-        static_cast<f32>(poly.mBase.vert.x),
-        static_cast<f32>(poly.mBase.vert.y),
-        static_cast<f32>(poly.mVerts[0].mVert.x),
-        static_cast<f32>(poly.mVerts[0].mVert.y),
-        static_cast<f32>(poly.mVerts[1].mVert.x),
-        static_cast<f32>(poly.mVerts[1].mVert.y),
-        static_cast<f32>(poly.mVerts[2].mVert.x),
-        static_cast<f32>(poly.mVerts[2].mVert.y),
-    };
-
-    const u8 r = 255;
-    const u8 g = 255;
-    const u8 b = 255;
-
-    const RGB rgbs[4] = {
-        {r, g, b},
-        {r, g, b},
-        {r, g, b},
-        {r, g, b},
-    };
-
-    const u32 textureIdx = mConstructingBatch.TextureIdxForId(poly.mFg1->mUniqueId.Id());
-    PushQuad(IRenderer::PsxDrawMode::FG1, verts, uvs, rgbs, 0, 0, 0, 0, textureIdx);
-    if (mConstructingBatch.AddTexture(poly.mFg1->mUniqueId.Id()))
+    if (gasEffect.pData == nullptr)
     {
-        mBatchTextures.emplace_back(texture);
+        return;
     }
 
-    RenderBatch& addedTo = mConstructingBatch;
+    const f32 x = static_cast<f32>(gasEffect.x);
+    const f32 y = static_cast<f32>(gasEffect.y);
+    const f32 w = static_cast<f32>(gasEffect.w);
+    const f32 h = static_cast<f32>(gasEffect.h);
 
-    // Over the texture limit or changed to/from subtractive blending
-    const bool bNewBatch = (mConstructingBatch.mTexturesInBatch == kTextureBatchSize);
-    if (bNewBatch)
-    {
-        NewBatch();
-    }
+    const f32 r = 127;
+    const f32 g = 127;
+    const f32 b = 127;
 
-    return addedTo;
+    const f32 gasWidth = std::floor(static_cast<f32>(gasEffect.w - gasEffect.x) / 4);
+    const f32 gasHeight = std::floor(static_cast<f32>(gasEffect.h - gasEffect.y) / 2);
+
+    const bool isSemiTrans = true;
+    const bool isShaded = true;
+    const u32 blendMode = static_cast<u32>(TPageAbr::eBlend_0);
+
+    IRenderer::PsxVertexData verts[4] = {
+        {x, y, r, g, b, 0.0f, 0.0f, IRenderer::PsxDrawMode::Gas, isSemiTrans, isShaded, blendMode, 0, 0},
+        {w, y, r, g, b, gasWidth, 0.0f, IRenderer::PsxDrawMode::Gas, isSemiTrans, isShaded, blendMode, 0, 0},
+        {x, h, r, g, b, 0.0f, gasHeight, IRenderer::PsxDrawMode::Gas, isSemiTrans, isShaded, blendMode, 0, 0},
+        {w, h, r, g, b, gasWidth, gasHeight, IRenderer::PsxDrawMode::Gas, isSemiTrans, isShaded, blendMode, 0, 0}};
+
+    std::shared_ptr<TextureType> nullTex;
+    PushVertexData(verts, ALIVE_COUNTOF(verts), nullTex, 0);
 }
 
-template <typename TextureType, typename RenderBatchType, typename VertexType>
-typename Batcher<TextureType, RenderBatchType, VertexType>::RenderBatch& Batcher<TextureType, RenderBatchType, VertexType>::PushCAM(const Poly_FT4& poly, std::shared_ptr<TextureType>& texture)
+template <typename TextureType, typename RenderBatchType, std::size_t kTextureBatchSize>
+void Batcher<TextureType, RenderBatchType, kTextureBatchSize>::PushPolyG4(const Poly_G4& poly, u32 blendMode)
 {
-    const QuadUvs uvs = {
-        0.0f, 0.0f,
-        1.0f, 1.0f};
+    const bool isSemiTrans = GetPolyIsSemiTrans(&poly);
+    const bool isShaded = true;
 
-    const QuadVerts verts = {
-        static_cast<f32>(poly.mBase.vert.x),
-        static_cast<f32>(poly.mBase.vert.y),
-        static_cast<f32>(poly.mVerts[0].mVert.x),
-        static_cast<f32>(poly.mVerts[0].mVert.y),
-        static_cast<f32>(poly.mVerts[1].mVert.x),
-        static_cast<f32>(poly.mVerts[1].mVert.y),
-        static_cast<f32>(poly.mVerts[2].mVert.x),
-        static_cast<f32>(poly.mVerts[2].mVert.y),
-    };
+    IRenderer::PsxVertexData verts[4] = {
+        {static_cast<f32>(X0(&poly)), static_cast<f32>(Y0(&poly)), static_cast<f32>(R0(&poly)), static_cast<f32>(G0(&poly)), static_cast<f32>(B0(&poly)), 0.0f, 0.0f, IRenderer::PsxDrawMode::Flat, isSemiTrans, isShaded, blendMode, 0, 0},
+        {static_cast<f32>(X1(&poly)), static_cast<f32>(Y1(&poly)), static_cast<f32>(R1(&poly)), static_cast<f32>(G1(&poly)), static_cast<f32>(B1(&poly)), 0.0f, 0.0f, IRenderer::IRenderer::PsxDrawMode::Flat, isSemiTrans, isShaded, blendMode, 0, 0},
+        {static_cast<f32>(X2(&poly)), static_cast<f32>(Y2(&poly)), static_cast<f32>(R2(&poly)), static_cast<f32>(G2(&poly)), static_cast<f32>(B2(&poly)), 0.0f, 0.0f, IRenderer::PsxDrawMode::Flat, isSemiTrans, isShaded, blendMode, 0, 0},
+        {static_cast<f32>(X3(&poly)), static_cast<f32>(Y3(&poly)), static_cast<f32>(R3(&poly)), static_cast<f32>(G3(&poly)), static_cast<f32>(B3(&poly)), 0.0f, 0.0f, IRenderer::PsxDrawMode::Flat, isSemiTrans, isShaded, blendMode, 0, 0}};
 
-    const u8 r = 255;
-    const u8 g = 255;
-    const u8 b = 255;
+    std::shared_ptr<TextureType> nullTex;
+    PushVertexData(verts, ALIVE_COUNTOF(verts), nullTex, 0);
+}
 
-    const RGB rgbs[4] = {
-        {r, g, b},
-        {r, g, b},
-        {r, g, b},
-        {r, g, b},
-    };
+template <typename TextureType, typename RenderBatchType, std::size_t kTextureBatchSize>
+void Batcher<TextureType, RenderBatchType, kTextureBatchSize>::PushPolyG3(const Poly_G3& poly, u32 blendMode)
+{
+    const bool isSemiTrans = GetPolyIsSemiTrans(&poly);
+    const bool isShaded = true;
 
-    PushQuad(IRenderer::PsxDrawMode::Camera, verts, uvs, rgbs, 0, 0, 0, 0, 0);
+    IRenderer::PsxVertexData verts[3] = {
+        {static_cast<f32>(X0(&poly)), static_cast<f32>(Y0(&poly)), static_cast<f32>(R0(&poly)), static_cast<f32>(G0(&poly)), static_cast<f32>(B0(&poly)), 0.0f, 0.0f, IRenderer::PsxDrawMode::Flat, isSemiTrans, isShaded, blendMode, 0, 0},
+        {static_cast<f32>(X1(&poly)), static_cast<f32>(Y1(&poly)), static_cast<f32>(R1(&poly)), static_cast<f32>(G1(&poly)), static_cast<f32>(B1(&poly)), 0.0f, 0.0f, IRenderer::PsxDrawMode::Flat, isSemiTrans, isShaded, blendMode, 0, 0},
+        {static_cast<f32>(X2(&poly)), static_cast<f32>(Y2(&poly)), static_cast<f32>(R2(&poly)), static_cast<f32>(G2(&poly)), static_cast<f32>(B2(&poly)), 0.0f, 0.0f, IRenderer::PsxDrawMode::Flat, isSemiTrans, isShaded, blendMode, 0, 0}};
+
+    std::shared_ptr<TextureType> nullTex;
+    PushVertexData(verts, ALIVE_COUNTOF(verts), nullTex, 0);
+}
+
+
+template <typename TextureType, typename RenderBatchType, std::size_t kTextureBatchSize>
+void Batcher<TextureType, RenderBatchType, kTextureBatchSize>::PushLine(const Line_G2& line, u32 blendMode)
+{
+    const bool isSemiTrans = GetPolyIsSemiTrans(&line);
+    const bool isShaded = true;
+
+    IRenderer::PsxVertexData verts[2] = {
+        {static_cast<f32>(X0(&line)), static_cast<f32>(Y0(&line)), static_cast<f32>(R0(&line)), static_cast<f32>(G0(&line)), static_cast<f32>(B0(&line)), 0.0f, 0.0f, IRenderer::PsxDrawMode::Flat, isSemiTrans, isShaded, blendMode, 0, 0},
+        {static_cast<f32>(X1(&line)), static_cast<f32>(Y1(&line)), static_cast<f32>(R1(&line)), static_cast<f32>(G1(&line)), static_cast<f32>(B1(&line)), 0.0f, 0.0f, IRenderer::PsxDrawMode::Flat, isSemiTrans, isShaded, blendMode, 0, 0}};
+
+    PushLines(verts, ALIVE_COUNTOF(verts));
+}
+
+template <typename TextureType, typename RenderBatchType, std::size_t kTextureBatchSize>
+void Batcher<TextureType, RenderBatchType, kTextureBatchSize>::PushLine(const Line_G4& line, u32 blendMode)
+{
+    const bool isSemiTrans = GetPolyIsSemiTrans(&line);
+    const bool isShaded = true;
+
+    IRenderer::PsxVertexData verts[4] = {
+        {static_cast<f32>(X0(&line)), static_cast<f32>(Y0(&line)), static_cast<f32>(R0(&line)), static_cast<f32>(G0(&line)), static_cast<f32>(B0(&line)), 0.0f, 0.0f, IRenderer::PsxDrawMode::Flat, isSemiTrans, isShaded, blendMode, 0, 0},
+        {static_cast<f32>(X1(&line)), static_cast<f32>(Y1(&line)), static_cast<f32>(R1(&line)), static_cast<f32>(G1(&line)), static_cast<f32>(B1(&line)), 0.0f, 0.0f, IRenderer::PsxDrawMode::Flat, isSemiTrans, isShaded, blendMode, 0, 0},
+        {static_cast<f32>(X2(&line)), static_cast<f32>(Y2(&line)), static_cast<f32>(R2(&line)), static_cast<f32>(G2(&line)), static_cast<f32>(B2(&line)), 0.0f, 0.0f, IRenderer::PsxDrawMode::Flat, isSemiTrans, isShaded, blendMode, 0, 0},
+        {static_cast<f32>(X3(&line)), static_cast<f32>(Y3(&line)), static_cast<f32>(R3(&line)), static_cast<f32>(G3(&line)), static_cast<f32>(B3(&line)), 0.0f, 0.0f, IRenderer::PsxDrawMode::Flat, isSemiTrans, isShaded, blendMode, 0, 0}};
+
+    PushLines(verts, ALIVE_COUNTOF(verts));
+}
+
+template <typename TextureType, typename RenderBatchType, std::size_t kTextureBatchSize>
+void Batcher<TextureType, RenderBatchType, kTextureBatchSize>::PushFont(const Poly_FT4& poly, u32 palIndex, std::shared_ptr<TextureType>& texture)
+{
+    const f32 r = static_cast<f32>(R0(&poly));
+    const f32 g = static_cast<f32>(G0(&poly));
+    const f32 b = static_cast<f32>(B0(&poly));
+
+    const bool isSemiTrans = GetPolyIsSemiTrans(&poly);
+    const bool isShaded = GetPolyIsShaded(&poly);
+    const u32 blendMode = GetTPageBlendMode(GetTPage(&poly));
+
+    const f32 u0 = U0(&poly);
+    const f32 v0 = V0(&poly);
+
+    const f32 u1 = U3(&poly);
+    const f32 v1 = V3(&poly);
+
+    IRenderer::PsxVertexData verts[4] = {
+        {static_cast<f32>(poly.mBase.vert.x), static_cast<f32>(poly.mBase.vert.y), r, g, b, u0, v0, IRenderer::PsxDrawMode::DefaultFT4, isSemiTrans, isShaded, blendMode, palIndex, 0},
+        {static_cast<f32>(poly.mVerts[0].mVert.x), static_cast<f32>(poly.mVerts[0].mVert.y), r, g, b, u1, v0, IRenderer::PsxDrawMode::DefaultFT4, isSemiTrans, isShaded, blendMode, palIndex, 0},
+        {static_cast<f32>(poly.mVerts[1].mVert.x), static_cast<f32>(poly.mVerts[1].mVert.y), r, g, b, u0, v1, IRenderer::PsxDrawMode::DefaultFT4, isSemiTrans, isShaded, blendMode, palIndex, 0},
+        {static_cast<f32>(poly.mVerts[2].mVert.x), static_cast<f32>(poly.mVerts[2].mVert.y), r, g, b, u1, v1, IRenderer::PsxDrawMode::DefaultFT4, isSemiTrans, isShaded, blendMode, palIndex, 0}};
+
+    PushVertexData(verts, ALIVE_COUNTOF(verts), texture, poly.mFont->mFntResource.mUniqueId.Id());
+}
+
+template <typename TextureType, typename RenderBatchType, std::size_t kTextureBatchSize>
+void Batcher<TextureType, RenderBatchType, kTextureBatchSize>::PushFG1(const Poly_FT4& poly, std::shared_ptr<TextureType>& texture)
+{
+    const f32 r = static_cast<f32>(R0(&poly));
+    const f32 g = static_cast<f32>(G0(&poly));
+    const f32 b = static_cast<f32>(B0(&poly));
+
+    const bool isSemiTrans = GetPolyIsSemiTrans(&poly);
+    const bool isShaded = GetPolyIsShaded(&poly);
+    const u32 blendMode = GetTPageBlendMode(GetTPage(&poly));
+
+    IRenderer::PsxVertexData verts[4] = {
+        {static_cast<f32>(X0(&poly)), static_cast<f32>(Y0(&poly)), r, g, b, 0.0f, 0.0f, IRenderer::PsxDrawMode::FG1, isSemiTrans, isShaded, blendMode, 0, 0},
+        {static_cast<f32>(X1(&poly)), static_cast<f32>(Y1(&poly)), r, g, b, IRenderer::kPsxFramebufferWidth, 0.0f, IRenderer::PsxDrawMode::FG1, isSemiTrans, isShaded, blendMode, 0, 0},
+        {static_cast<f32>(X2(&poly)), static_cast<f32>(Y2(&poly)), r, g, b, 0.0f, IRenderer::kPsxFramebufferHeight, IRenderer::PsxDrawMode::FG1, isSemiTrans, isShaded, blendMode, 0, 0},
+        {static_cast<f32>(X3(&poly)), static_cast<f32>(Y3(&poly)), r, g, b, IRenderer::kPsxFramebufferWidth, IRenderer::kPsxFramebufferHeight, IRenderer::PsxDrawMode::FG1, isSemiTrans, isShaded, blendMode, 0, 0}};
+
+    PushVertexData(verts, ALIVE_COUNTOF(verts), texture, poly.mFg1->mUniqueId.Id());
+}
+
+template <typename TextureType, typename RenderBatchType, std::size_t kTextureBatchSize>
+void Batcher<TextureType, RenderBatchType, kTextureBatchSize>::PushCAM(const Poly_FT4& poly, std::shared_ptr<TextureType>& texture)
+{
+    const f32 r = static_cast<f32>(R0(&poly));
+    const f32 g = static_cast<f32>(G0(&poly));
+    const f32 b = static_cast<f32>(B0(&poly));
+
+    const u32 isShaded = GetPolyIsShaded(&poly) ? 1 : 0;
+    const u32 isSemiTrans = GetPolyIsSemiTrans(&poly) ? 1 : 0;
+    const u32 blendMode = GetTPageBlendMode(GetTPage(&poly));
+
+    IRenderer::PsxVertexData verts[4] = {
+        {static_cast<f32>(poly.mBase.vert.x), static_cast<f32>(poly.mBase.vert.y), r, g, b, 0.0f, 0.0f, IRenderer::PsxDrawMode::Camera, isSemiTrans, isShaded, blendMode, 0, 0},
+        {static_cast<f32>(poly.mVerts[0].mVert.x), static_cast<f32>(poly.mVerts[0].mVert.y), r, g, b, IRenderer::kPsxFramebufferWidth, 0.0f, IRenderer::PsxDrawMode::Camera, isSemiTrans, isShaded, blendMode, 0, 0},
+        {static_cast<f32>(poly.mVerts[1].mVert.x), static_cast<f32>(poly.mVerts[1].mVert.y), r, g, b, 0.0f, IRenderer::kPsxFramebufferHeight, IRenderer::PsxDrawMode::Camera, isSemiTrans, isShaded, blendMode, 0, 0},
+        {static_cast<f32>(poly.mVerts[2].mVert.x), static_cast<f32>(poly.mVerts[2].mVert.y), r, g, b, IRenderer::kPsxFramebufferWidth, IRenderer::kPsxFramebufferHeight, IRenderer::PsxDrawMode::Camera, isSemiTrans, isShaded, blendMode, 0, 0}};
+
+    PushVertexData(verts, ALIVE_COUNTOF(verts), texture, poly.mCam->mUniqueId.Id());
+
     mCamTexture = texture;
-
-    RenderBatch& addedTo = mConstructingBatch;
-
-    // Over the texture limit or changed to/from subtractive blending
-    const bool bNewBatch = (mConstructingBatch.mTexturesInBatch == kTextureBatchSize);
-    if (bNewBatch)
-    {
-        NewBatch();
-    }
-
-    return addedTo;
 }
 
-template <typename TextureType, typename RenderBatchType, typename VertexType>
-typename Batcher<TextureType, RenderBatchType, VertexType>::RenderBatch& Batcher<TextureType, RenderBatchType, VertexType>::PushFont(const Poly_FT4& poly, u32 palIndex, std::shared_ptr<TextureType>& texture)
+template <typename TextureType, typename RenderBatchType, std::size_t kTextureBatchSize>
+void Batcher<TextureType, RenderBatchType, kTextureBatchSize>::PushAnim(const Poly_FT4& poly, u32 palIndex, std::shared_ptr<TextureType>& texture)
 {
-    FontContext* fontRes = poly.mFont;
-
-    const u8 r = poly.mBase.header.rgb_code.r;
-    const u8 g = poly.mBase.header.rgb_code.g;
-    const u8 b = poly.mBase.header.rgb_code.b;
-
-    const RGB rgbs[4] = {
-        {r, g, b},
-        {r, g, b},
-        {r, g, b},
-        {r, g, b},
-    };
+    const f32 r = static_cast<f32>(R0(&poly));
+    const f32 g = static_cast<f32>(G0(&poly));
+    const f32 b = static_cast<f32>(B0(&poly));
 
     const u32 isShaded = GetPolyIsShaded(&poly) ? 1 : 0;
     const u32 isSemiTrans = GetPolyIsSemiTrans(&poly) ? 1 : 0;
     const u32 blendMode = GetTPageBlendMode(GetTPage(&poly));
-
-    // Changing to or from mode 2
-    if (mConstructingBatch.mBlendMode != 2 && blendMode == 2 || mConstructingBatch.mBlendMode == 2 && blendMode != 2)
-    {
-        NewBatch();
-    }
-    mConstructingBatch.mBlendMode = blendMode;
-
-    auto pTga = fontRes->mFntResource.mTgaPtr;
-
-    f32 u0 = U0(&poly) / (f32) pTga->mWidth;
-    f32 v0 = V0(&poly) / (f32) pTga->mHeight;
-
-    f32 u1 = U3(&poly) / (f32) pTga->mWidth;
-    f32 v1 = V3(&poly) / (f32) pTga->mHeight;
-
-    const u32 textureIdx = mConstructingBatch.TextureIdxForId(fontRes->mFntResource.mUniqueId.Id());
-
-    const QuadUvs uvs = {
-        u0, v0,
-        u1, v1};
-
-    const QuadVerts verts = {
-        static_cast<f32>(poly.mBase.vert.x),
-        static_cast<f32>(poly.mBase.vert.y),
-        static_cast<f32>(poly.mVerts[0].mVert.x),
-        static_cast<f32>(poly.mVerts[0].mVert.y),
-        static_cast<f32>(poly.mVerts[1].mVert.x),
-        static_cast<f32>(poly.mVerts[1].mVert.y),
-        static_cast<f32>(poly.mVerts[2].mVert.x),
-        static_cast<f32>(poly.mVerts[2].mVert.y),
-    };
-
-    PushQuad(IRenderer::PsxDrawMode::DefaultFT4, verts, uvs, rgbs, palIndex, isShaded, blendMode, isSemiTrans, textureIdx);
-
-    if (mConstructingBatch.AddTexture(fontRes->mFntResource.mUniqueId.Id()))
-    {
-        mBatchTextures.emplace_back(texture);
-    }
-
-    RenderBatch& addedTo = mConstructingBatch;
-
-    // Over the texture limit or changed to/from subtractive blending
-    const bool bNewBatch = (mConstructingBatch.mTexturesInBatch == kTextureBatchSize);
-    if (bNewBatch)
-    {
-        NewBatch();
-    }
-
-    return addedTo;
-}
-
-template <typename TextureType, typename RenderBatchType, typename VertexType>
-typename Batcher<TextureType, RenderBatchType, VertexType>::RenderBatch& Batcher<TextureType, RenderBatchType, VertexType>::PushAnim(const Poly_FT4& poly, u32 palIndex, std::shared_ptr<TextureType>& texture)
-{
-    AnimResource& animRes = poly.mAnim->mAnimRes;
-
-    const u8 r = poly.mBase.header.rgb_code.r;
-    const u8 g = poly.mBase.header.rgb_code.g;
-    const u8 b = poly.mBase.header.rgb_code.b;
-
-    const RGB rgbs[4] = {
-        {r, g, b},
-        {r, g, b},
-        {r, g, b},
-        {r, g, b},
-    };
-
-    const u32 isShaded = GetPolyIsShaded(&poly) ? 1 : 0;
-    const u32 isSemiTrans = GetPolyIsSemiTrans(&poly) ? 1 : 0;
-    const u32 blendMode = GetTPageBlendMode(GetTPage(&poly));
-
-    // Changing to or from mode 2
-    if (mConstructingBatch.mBlendMode != 2 && blendMode == 2 || mConstructingBatch.mBlendMode == 2 && blendMode != 2)
-    {
-        NewBatch();
-    }
-    mConstructingBatch.mBlendMode = blendMode;
 
     const PerFrameInfo* pHeader = poly.mAnim->Get_FrameHeader(-1);
 
+    AnimResource& animRes = poly.mAnim->mAnimRes;
     auto pTga = animRes.mTgaPtr;
 
-    f32 u0 = (static_cast<float>(pHeader->mSpriteSheetX) / pTga->mWidth);
-    f32 v0 = (static_cast<float>(pHeader->mSpriteSheetY) / pTga->mHeight);
+    f32 u0 = static_cast<f32>(pHeader->mSpriteSheetX);
+    f32 v0 = static_cast<f32>(pHeader->mSpriteSheetY);
 
-    f32 u1 = u0 + ((float) pHeader->mWidth / (float) pTga->mWidth);
-    f32 v1 = v0 + ((float) pHeader->mHeight / (float) pTga->mHeight);
+    f32 u1 = u0 + pHeader->mWidth;
+    f32 v1 = v0 + pHeader->mHeight;
 
     if (poly.mFlipX)
     {
@@ -259,40 +313,14 @@ typename Batcher<TextureType, RenderBatchType, VertexType>::RenderBatch& Batcher
         std::swap(v1, v0);
     }
 
-    const u32 textureIdx = mConstructingBatch.TextureIdxForId(animRes.mUniqueId.Id());
+    IRenderer::PsxVertexData verts[4] = {
+        {static_cast<f32>(poly.mBase.vert.x), static_cast<f32>(poly.mBase.vert.y), r, g, b, u0, v0, IRenderer::PsxDrawMode::DefaultFT4, isSemiTrans, isShaded, blendMode, palIndex, 0},
+        {static_cast<f32>(poly.mVerts[0].mVert.x), static_cast<f32>(poly.mVerts[0].mVert.y), r, g, b, u1, v0, IRenderer::PsxDrawMode::DefaultFT4, isSemiTrans, isShaded, blendMode, palIndex, 0},
+        {static_cast<f32>(poly.mVerts[1].mVert.x), static_cast<f32>(poly.mVerts[1].mVert.y), r, g, b, u0, v1, IRenderer::PsxDrawMode::DefaultFT4, isSemiTrans, isShaded, blendMode, palIndex, 0},
+        {static_cast<f32>(poly.mVerts[2].mVert.x), static_cast<f32>(poly.mVerts[2].mVert.y), r, g, b, u1, v1, IRenderer::PsxDrawMode::DefaultFT4, isSemiTrans, isShaded, blendMode, palIndex, 0}};
 
-    const QuadUvs uvs = {
-        u0, v0,
-        u1, v1};
-
-    const QuadVerts verts = {
-        static_cast<f32>(poly.mBase.vert.x),
-        static_cast<f32>(poly.mBase.vert.y),
-        static_cast<f32>(poly.mVerts[0].mVert.x),
-        static_cast<f32>(poly.mVerts[0].mVert.y),
-        static_cast<f32>(poly.mVerts[1].mVert.x),
-        static_cast<f32>(poly.mVerts[1].mVert.y),
-        static_cast<f32>(poly.mVerts[2].mVert.x),
-        static_cast<f32>(poly.mVerts[2].mVert.y),
-    };
-
-    PushQuad(IRenderer::PsxDrawMode::DefaultFT4, verts, uvs, rgbs, palIndex, isShaded, blendMode, isSemiTrans, textureIdx);
-
-    if (mConstructingBatch.AddTexture(animRes.mUniqueId.Id()))
-    {
-        mBatchTextures.emplace_back(texture);
-    }
-
-    RenderBatch& addedTo = mConstructingBatch;
-
-    // Over the texture limit or changed to/from subtractive blending
-    const bool bNewBatch = (mConstructingBatch.mTexturesInBatch == kTextureBatchSize);
-    if (bNewBatch)
-    {
-        NewBatch();
-    }
-
-    return addedTo;
+    PushVertexData(verts, ALIVE_COUNTOF(verts), texture, animRes.mUniqueId.Id());
 }
 
-template class Batcher<VulkanRenderer::Texture, VulkanRenderer::BatchData, VulkanRenderer::Vertex>;
+template class Batcher<VulkanRenderer::Texture, VulkanRenderer::BatchData, 14>;
+template class Batcher<GLTexture2D, OpenGLRenderer::BatchData, 12>;

@@ -20,8 +20,8 @@ public:
     static void BindScreenAsTarget(SDL_Window* wnd, s32* outWidth = nullptr, s32* outHeight = nullptr);
 
 private:
-    GLuint mFramebufferGLId;
-    GLuint mTextureGLId;
-    u32 mHeight;
-    u32 mWidth;
+    GLuint mFramebufferGLId = 0;
+    GLuint mTextureGLId = 0;
+    u32 mHeight = 0;
+    u32 mWidth = 0;
 };

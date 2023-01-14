@@ -21,6 +21,8 @@
 #include "GLShaderProgram.hpp"
 #include "GLTexture2D.hpp"
 
+#include "../Vulkan/Batcher.hpp"
+
 enum class AnimId;
 
 class OpenGLRenderer final : public IRenderer
@@ -43,15 +45,13 @@ public:
     void ToggleFilterScreen() override;
 
 private:
-    static constexpr u32 kBatchValueUnset = 999;
-
     static constexpr u32 kAvailablePalettes = 256;
     static constexpr u32 kPaletteDepth = 256;
 
     static constexpr u32 kCamTextureLifetime = 300;
     static constexpr u32 kSpriteTextureLifetime = 300;
 
-    static constexpr u32 kSpriteTextureUnitCount = 8;
+    static constexpr u32 kSpriteTextureUnitCount = 12;
 
 private:
     struct PassthruVertexData final
@@ -86,13 +86,10 @@ private:
     std::shared_ptr<GLTexture2D> PrepareTextureFromAnim(Animation& anim);
     std::shared_ptr<GLTexture2D> PrepareTextureFromPoly(const Poly_FT4& poly);
 
-    void PushLines(const PsxVertexData* vertices, int count);
     void PushFramebufferVertexData(const PassthruVertexData* vertices, int count);
-    void PushVertexData(PsxVertexData* pVertData, int count, std::shared_ptr<GLTexture2D> texture = nullptr);
 
     void DrawFramebufferToScreen(s32 x, s32 y, s32 width, s32 height);
     bool HasFramebufferPolysToDraw();
-    void InvalidateBatch();
     void RenderFramebufferPolys();
     void SetupBlendMode(u16 blendMode);
     void UpdateFilterFramebuffer();
@@ -100,6 +97,8 @@ private:
     void DecreaseResourceLifetimes();
 
     void DebugWindow();
+
+    void DrawBatches();
 
 private:
     GLContext mContext;
@@ -120,24 +119,20 @@ private:
     bool mFramebufferFilter = true;
     u16 mGlobalTPage = 0;
 
+    struct BatchData
+    {
+
+    };
+    Batcher<GLTexture2D, BatchData, kSpriteTextureUnitCount> mBatcher;
+
     PaletteCache mPaletteCache;
     TextureCache<std::shared_ptr<GLTexture2D>> mTextureCache;
-
-    u32 mBatchBlendMode = kBatchValueUnset;
-    std::vector<PsxVertexData> mBatchData;
-    std::vector<u32> mBatchIndicies;
 
     std::vector<PassthruVertexData> mFbData;
     std::vector<u32> mFbIndicies;
 
     std::shared_ptr<GLTexture2D> mPaletteTexture;
-
     std::shared_ptr<GLTexture2D> mCurGasTexture;
 
-    std::shared_ptr<GLTexture2D> mCurCamTexture;
-    std::vector<std::shared_ptr<GLTexture2D>> mCurFG1Textures;
-    GLint mFG1Units[4] = {3, 4, 5, 6};
-
-    std::vector<std::shared_ptr<GLTexture2D>> mBatchTextures;
     GLint mTextureUnits[kSpriteTextureUnitCount];
 };

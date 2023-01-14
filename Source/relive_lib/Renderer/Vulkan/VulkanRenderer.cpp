@@ -1626,6 +1626,7 @@ void VulkanRenderer::EndFrame()
 
         // TODO: HACK, refactor this so the full screen tris are done in their own func without copy pasta
         {
+            /*
             {
                 float u0 = 0.0f;
                 float v0 = 0.0f;
@@ -1657,6 +1658,7 @@ void VulkanRenderer::EndFrame()
                 
                 mBatcher[mCurrentFrame].NewBatch();
             }
+            */
         }
 
         if (!mBatcher[mCurrentFrame].mVertices.empty() && !mBatcher[mCurrentFrame].mIndices.empty())
@@ -1763,8 +1765,8 @@ void VulkanRenderer::Draw(const Poly_FT4& poly)
             texture = mTextureCache[mCurrentFrame].Add(poly.mCam->mUniqueId.Id(), 300, std::move(newTex));
         }
 
-        auto& batch = mBatcher[mCurrentFrame].PushCAM(poly, texture);
-        batch.mPipeline = PipelineIndex::eAddBlending;
+        //auto& batch = mBatcher[mCurrentFrame].PushCAM(poly, texture);
+        //batch.mPipeline = PipelineIndex::eAddBlending;
     }
     else if (poly.mCam && poly.mFg1)
     {
@@ -1775,8 +1777,8 @@ void VulkanRenderer::Draw(const Poly_FT4& poly)
             auto newTex = std::make_unique<Texture>(*this, pRes->mImage.mWidth, pRes->mImage.mHeight, pRes->mImage.mPixels->data(), Texture::Format::RGBA);
             texture = mTextureCache[mCurrentFrame].Add(pRes->mUniqueId.Id(), 300, std::move(newTex));
         }
-        auto& batch = mBatcher[mCurrentFrame].PushFG1(poly, texture);
-        batch.mPipeline = PipelineIndex::eAddBlending;
+        //auto& batch = mBatcher[mCurrentFrame].PushFG1(poly, texture);
+        //batch.mPipeline = PipelineIndex::eAddBlending;
     }
     else if (poly.mAnim)
     {
@@ -1792,15 +1794,16 @@ void VulkanRenderer::Draw(const Poly_FT4& poly)
             texture = mTextureCache[mCurrentFrame].Add(animRes.mUniqueId.Id(), 300, std::move(newTex));
         }
 
-        auto& batch = mBatcher[mCurrentFrame].PushAnim(poly, palIndex, texture);
-        batch.mPipeline = batch.mBlendMode == 2 ? PipelineIndex::eReverseBlending : PipelineIndex::eAddBlending;
+        mBatcher[mCurrentFrame].PushAnim(poly, palIndex, texture);
+        // TODO: use the blend mode to pick what pipeline we use
+        //batch.mPipeline = batch.mBlendMode == 2 ? PipelineIndex::eReverseBlending : PipelineIndex::eAddBlending;
     }
     else if (poly.mFont)
     {
         FontResource& fontRes = poly.mFont->mFntResource;
         std::shared_ptr<TgaData> pTga = fontRes.mTgaPtr;
 
-        const u32 palIndex = PreparePalette(*fontRes.mCurPal);
+        //const u32 palIndex = PreparePalette(*fontRes.mCurPal);
 
         std::shared_ptr<Texture> texture = mTextureCache[mCurrentFrame].GetCachedTexture(poly.mFont->mFntResource.mUniqueId.Id(), 300);
         if (!texture)
@@ -1809,8 +1812,8 @@ void VulkanRenderer::Draw(const Poly_FT4& poly)
             texture = mTextureCache[mCurrentFrame].Add(poly.mFont->mFntResource.mUniqueId.Id(), 300, std::move(newTex));
         }
        
-        auto& batch = mBatcher[mCurrentFrame].PushFont(poly, palIndex, texture);
-        batch.mPipeline = batch.mBlendMode == 2 ? PipelineIndex::eReverseBlending : PipelineIndex::eAddBlending;
+        //auto& batch = mBatcher[mCurrentFrame].PushFont(poly, palIndex, texture);
+        //batch.mPipeline = batch.mBlendMode == 2 ? PipelineIndex::eReverseBlending : PipelineIndex::eAddBlending;
     }
 }
 
