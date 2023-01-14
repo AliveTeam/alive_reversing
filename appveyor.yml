@@ -107,9 +107,9 @@ for:
 
     after_build:
       - ps: if($env:APPVEYOR_PULL_REQUEST_NUMBER) { $env:PR_STR = "_PR$env:APPVEYOR_PULL_REQUEST_NUMBER" } else {  $env:PR_STR = "" }
-      - 7z a RELIVE_Windows_Symbols%PR_STR%_%CONFIGURATION%_x86_%APPVEYOR_BUILD_NUMBER%.zip c:\relive\build\Source\relive\%CONFIGURATION%\relive.pdb
-      - rename relive-*.zip RELIVE_Windows_Binaries_Full%PR_STR%_%CONFIGURATION%_x86_%APPVEYOR_BUILD_NUMBER%.zip
-      - 7z a RELIVE_Windows_Binaries_Lite%PR_STR%_%CONFIGURATION%_x86_%APPVEYOR_BUILD_NUMBER%.zip c:\relive\build\Source\relive\%CONFIGURATION%\relive.exe c:\relive\build\Source\relive\%CONFIGURATION%\SDL2.dll
+      - 7z a RELIVE_Windows_Symbols%PR_STR%_%CONFIGURATION%_x86.zip c:\relive\build\Source\relive\%CONFIGURATION%\relive.pdb
+      - rename relive-*.zip RELIVE_Windows_Binaries_Full%PR_STR%_%CONFIGURATION%_x86.zip
+      - 7z a RELIVE_Windows_Binaries_Lite%PR_STR%_%CONFIGURATION%_x86.zip c:\relive\build\Source\relive\%CONFIGURATION%\relive.exe c:\relive\build\Source\relive\%CONFIGURATION%\SDL2.dll
 
     artifacts:
       - path: build\RELIVE_Windows_Symbols*.zip
@@ -147,16 +147,16 @@ for:
 
     after_build:
       - ps: if($env:APPVEYOR_PULL_REQUEST_NUMBER) { $env:PR_STR = "_PR$env:APPVEYOR_PULL_REQUEST_NUMBER" } else {  $env:PR_STR = "" }
-      - 7z a RELIVE_Windows_Symbols%PR_STR%_%CONFIGURATION%_x64_%APPVEYOR_BUILD_NUMBER%.zip c:\relive\build\Source\relive\%CONFIGURATION%\relive.pdb
-      - rename relive-*.zip RELIVE_Windows_Binaries_Full%PR_STR%_%CONFIGURATION%_x64_%APPVEYOR_BUILD_NUMBER%.zip
-      - 7z a RELIVE_Windows_Binaries_Lite%PR_STR%_%CONFIGURATION%_x64_%APPVEYOR_BUILD_NUMBER%.zip c:\relive\build\Source\relive\%CONFIGURATION%\relive.exe c:\relive\build\Source\relive\%CONFIGURATION%\SDL2.dll
+      - 7z a RELIVE_Windows_Symbols%PR_STR%_%CONFIGURATION%_x64.zip c:\relive\build\Source\relive\%CONFIGURATION%\relive.pdb
+      - rename relive-*.zip RELIVE_Windows_Binaries_Full%PR_STR%_%CONFIGURATION%_x64.zip
+      - 7z a RELIVE_Windows_Binaries_Lite%PR_STR%_%CONFIGURATION%_x64.zip c:\relive\build\Source\relive\%CONFIGURATION%\relive.exe c:\relive\build\Source\relive\%CONFIGURATION%\SDL2.dll
 
     artifacts:
       - path: build\RELIVE_Windows_Symbols*.zip
-        name: RELIVE_Windows_Symbols_$(configuration)_$(APPVEYOR_BUILD_NUMBER)
+        name: RELIVE_Windows_Symbols_$(configuration)
 
       - path: build\RELIVE_Windows_Binaries_Full*.zip
-        name: RELIVE_Windows_Binaries_Full_$(configuration)_$(APPVEYOR_BUILD_NUMBER)
+        name: RELIVE_Windows_Binaries_Full_$(configuration)
 
       - path: build\RELIVE_Windows_Binaries_Lite_*.zip
         name: RELIVE_Windows_Binaries_$(configuration)_x64
