@@ -54,10 +54,6 @@ private:
     static constexpr u32 kSpriteTextureUnitCount = 8;
 
 private:
-    class OpenGLTextureCache final : public TextureCache<GLTexture2D>
-    {
-    };
-
     struct PassthruVertexData final
     {
         f32 x, y;
@@ -87,12 +83,12 @@ private:
 private:
     u16 GetTPageBlendMode(u16 tPage);
     u32 PreparePalette(AnimationPal& pCache);
-    GLTexture2D PrepareTextureFromAnim(Animation& anim);
-    GLTexture2D PrepareTextureFromPoly(Poly_FT4& poly);
+    std::shared_ptr<GLTexture2D> PrepareTextureFromAnim(Animation& anim);
+    std::shared_ptr<GLTexture2D> PrepareTextureFromPoly(Poly_FT4& poly);
 
     void PushLines(const PsxVertexData* vertices, int count);
     void PushFramebufferVertexData(const PassthruVertexData* vertices, int count);
-    void PushVertexData(PsxVertexData* pVertData, int count, const GLTexture2D& texture = {});
+    void PushVertexData(PsxVertexData* pVertData, int count, std::shared_ptr<GLTexture2D> texture = nullptr);
 
     void DrawFramebufferToScreen(s32 x, s32 y, s32 width, s32 height);
     bool HasFramebufferPolysToDraw();
@@ -125,7 +121,7 @@ private:
     u16 mGlobalTPage = 0;
 
     PaletteCache mPaletteCache;
-    OpenGLTextureCache mTextureCache = {};
+    TextureCache2<std::shared_ptr<GLTexture2D>> mTextureCache = {};
 
     u32 mBatchBlendMode = kBatchValueUnset;
     std::vector<PsxVertexData> mBatchData;
@@ -134,14 +130,14 @@ private:
     std::vector<PassthruVertexData> mFbData;
     std::vector<u32> mFbIndicies;
 
-    GLTexture2D mPaletteTexture = {};
+    std::shared_ptr<GLTexture2D> mPaletteTexture;
 
-    GLTexture2D mCurGasTexture = {};
+    std::shared_ptr<GLTexture2D> mCurGasTexture;
 
-    GLTexture2D mCurCamTexture = {};
-    std::vector<GLTexture2D> mCurFG1Textures;
+    std::shared_ptr<GLTexture2D> mCurCamTexture;
+    std::vector<std::shared_ptr<GLTexture2D>> mCurFG1Textures;
     GLint mFG1Units[4] = {3, 4, 5, 6};
 
-    std::vector<GLTexture2D> mBatchTextures;
+    std::vector<std::shared_ptr<GLTexture2D>> mBatchTextures;
     GLint mTextureUnits[kSpriteTextureUnitCount];
 };

@@ -6,16 +6,10 @@
 #include "GLDebug.hpp"
 #include "GLTexture2D.hpp"
 
-
-GLTexture2D::GLTexture2D()
-{
-}
-
 GLTexture2D::GLTexture2D(u32 width, u32 height, GLenum format)
     : mFormat(format),
     mHeight(height),
-    mWidth(width),
-    mIsOriginal(true)
+    mWidth(width)
 {
     GL_VERIFY(glGenTextures(1, &mGLId));
 
@@ -30,78 +24,13 @@ GLTexture2D::GLTexture2D(u32 width, u32 height, GLenum format)
     GL_VERIFY(glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, 0));
 }
 
-GLTexture2D::GLTexture2D(const GLTexture2D& src)
-{
-    *this = src;
-}
-
-GLTexture2D::GLTexture2D(GLTexture2D&& src)
-    : mFormat(src.mFormat),
-    mGLId(src.mGLId),
-    mHeight(src.mHeight),
-    mWidth(src.mWidth),
-    mIsOriginal(src.mIsOriginal)
-{
-    src.mGLId = 0;
-    src.mIsOriginal = false;
-}
-
 GLTexture2D::~GLTexture2D()
 {
-    if (mGLId && mIsOriginal)
+    if (mGLId)
     {
         GL_VERIFY(glDeleteTextures(1, &mGLId));
     }
 }
-
-
-GLTexture2D& GLTexture2D::operator=(const GLTexture2D& src)
-{
-    if (this != &src)
-    {
-        if (mGLId && mIsOriginal)
-        {
-            GL_VERIFY(glDeleteTextures(1, &mGLId));
-        }
-
-        mFormat = src.mFormat;
-        mGLId = src.mGLId;
-        mWidth = src.mWidth;
-        mHeight = src.mHeight;
-        mIsOriginal = false;
-    }
-
-    return *this;
-}
-
-GLTexture2D& GLTexture2D::operator=(GLTexture2D&& src)
-{
-    if (this != &src)
-    {
-        if (mGLId && mIsOriginal)
-        {
-            GL_VERIFY(glDeleteTextures(1, &mGLId));
-        }
-
-        mFormat = src.mFormat;
-        mGLId = src.mGLId;
-        mWidth = src.mWidth;
-        mHeight = src.mHeight;
-        mIsOriginal = src.mIsOriginal;
-
-        src.mGLId = 0;
-        src.mIsOriginal = false;
-    }
-
-    return *this;
-}
-
-
-bool GLTexture2D::operator==(const GLTexture2D& other)
-{
-    return mGLId == other.mGLId;
-}
-
 
 void GLTexture2D::BindTo(GLenum texUnit)
 {

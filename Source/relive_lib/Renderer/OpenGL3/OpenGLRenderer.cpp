@@ -50,11 +50,11 @@ OpenGLRenderer::OpenGLRenderer(TWindowHandleType window)
     // Preload the cache texture with all black
     const static RGBA32 black[256] = {};
 
-    mPaletteTexture = GLTexture2D(kPaletteDepth, kAvailablePalettes, GL_RGBA);
+    mPaletteTexture = std::make_shared<GLTexture2D>(kPaletteDepth, kAvailablePalettes, GL_RGBA);
 
     for (u32 i = 0; i < kAvailablePalettes; i++)
     {
-        mPaletteTexture.LoadSubImage(0, i, kPaletteDepth, 1, black);
+        mPaletteTexture->LoadSubImage(0, i, kPaletteDepth, 1, black);
     }
 
     // Load shaders
@@ -252,9 +252,9 @@ void OpenGLRenderer::Draw(Prim_GasEffect& gasEffect)
         return;
     }
 
-    if (!mCurGasTexture.IsValid())
+    if (!mCurGasTexture || !mCurGasTexture->IsValid())
     {
-        mCurGasTexture = GLTexture2D(kPsxFramebufferWidth, kPsxFramebufferHeight, GL_RGB);
+        mCurGasTexture = std::make_shared<GLTexture2D>(kPsxFramebufferWidth, kPsxFramebufferHeight, GL_RGB);
     }
 
     if (gasEffect.pData == nullptr)
@@ -278,7 +278,7 @@ void OpenGLRenderer::Draw(Prim_GasEffect& gasEffect)
     const bool isShaded = true;
     const u32 blendMode = static_cast<u32>(TPageAbr::eBlend_0);
 
-    mCurGasTexture.LoadSubImage(0, 0, static_cast<GLsizei>(gasWidth), static_cast<GLsizei>(gasHeight), gasEffect.pData, GL_UNSIGNED_SHORT_5_6_5);
+    mCurGasTexture->LoadSubImage(0, 0, static_cast<GLsizei>(gasWidth), static_cast<GLsizei>(gasHeight), gasEffect.pData, GL_UNSIGNED_SHORT_5_6_5);
 
     PsxVertexData verts[4] = {
         { x, y, r, g, b, 0.0f, 0.0f, PsxDrawMode::Gas, isSemiTrans, isShaded, blendMode, 0, 0},
@@ -353,7 +353,7 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
         return;
     }
 
-    GLTexture2D texture = PrepareTextureFromPoly(poly);
+    std::shared_ptr<GLTexture2D> texture = PrepareTextureFromPoly(poly);
 
     const f32 r = static_cast<f32>(R0(&poly));
     const f32 g = static_cast<f32>(G0(&poly));
@@ -482,7 +482,7 @@ u32 OpenGLRenderer::PreparePalette(AnimationPal& pCache)
     if (addRet.mAllocated)
     {
         // Write palette data
-        mPaletteTexture.LoadSubImage(0, addRet.mIndex, kPaletteDepth, 1, pCache.mPal);
+        mPaletteTexture->LoadSubImage(0, addRet.mIndex, kPaletteDepth, 1, pCache.mPal);
 
         mStats.mPalUploadCount++;
     }
@@ -490,17 +490,17 @@ u32 OpenGLRenderer::PreparePalette(AnimationPal& pCache)
     return addRet.mIndex;
 }
 
-GLTexture2D OpenGLRenderer::PrepareTextureFromAnim(Animation& anim)
+std::shared_ptr<GLTexture2D> OpenGLRenderer::PrepareTextureFromAnim(Animation& anim)
 {
     const AnimResource& r = anim.mAnimRes;
 
-    GLTexture2D texture = mTextureCache.GetCachedTexture(r.mUniqueId.Id(), kSpriteTextureLifetime);
+    std::shared_ptr<GLTexture2D> texture = mTextureCache.GetCachedTexture(r.mUniqueId.Id(), kSpriteTextureLifetime);
 
-    if (!texture.IsValid())
+    if (!texture || !texture->IsValid())
     {
-        GLTexture2D animTex(r.mTgaPtr->mWidth, r.mTgaPtr->mHeight, GL_RED);
+        auto animTex = std::make_shared<GLTexture2D>(r.mTgaPtr->mWidth, r.mTgaPtr->mHeight, GL_RED);
 
-        animTex.LoadImage(r.mTgaPtr->mPixels.data());
+        animTex->LoadImage(r.mTgaPtr->mPixels.data());
 
         texture = mTextureCache.Add(r.mUniqueId.Id(), kSpriteTextureLifetime, std::move(animTex));
 
@@ -510,21 +510,21 @@ GLTexture2D OpenGLRenderer::PrepareTextureFromAnim(Animation& anim)
     return texture;
 }
 
-GLTexture2D OpenGLRenderer::PrepareTextureFromPoly(Poly_FT4& poly)
+std::shared_ptr<GLTexture2D> OpenGLRenderer::PrepareTextureFromPoly(Poly_FT4& poly)
 {
-    GLTexture2D texture;
+    std::shared_ptr<GLTexture2D> texture;
 
     if (poly.mFg1)
     {
         texture = mTextureCache.GetCachedTexture(poly.mFg1->mUniqueId.Id(), kCamTextureLifetime);
 
-        if (!texture.IsValid())
+        if (!texture || !texture->IsValid())
         {
-            GLTexture2D fg1Tex(poly.mFg1->mImage.mWidth, poly.mFg1->mImage.mHeight, GL_RGBA);
+            auto fg1Tex = std::make_shared<GLTexture2D>(poly.mFg1->mImage.mWidth, poly.mFg1->mImage.mHeight, GL_RGBA);
 
-            fg1Tex.LoadImage(poly.mFg1->mImage.mPixels->data());
+            fg1Tex->LoadImage(poly.mFg1->mImage.mPixels->data());
 
-            texture = mTextureCache.Add(poly.mFg1->mUniqueId.Id(), kCamTextureLifetime, std::move(fg1Tex));
+            texture = mTextureCache.Add(poly.mFg1->mUniqueId.Id(), kCamTextureLifetime, fg1Tex);
 
             mStats.mFg1UploadCount++;
         }
@@ -533,13 +533,13 @@ GLTexture2D OpenGLRenderer::PrepareTextureFromPoly(Poly_FT4& poly)
     {
         texture = mTextureCache.GetCachedTexture(poly.mCam->mUniqueId.Id(), kCamTextureLifetime);
 
-        if (!texture.IsValid())
+        if (!texture || !texture->IsValid())
         {
-            GLTexture2D camTex(poly.mCam->mData.mWidth, poly.mCam->mData.mHeight, GL_RGBA);
+            auto camTex = std::make_shared<GLTexture2D>(poly.mCam->mData.mWidth, poly.mCam->mData.mHeight, GL_RGBA);
 
-            camTex.LoadImage(poly.mCam->mData.mPixels->data());
+            camTex->LoadImage(poly.mCam->mData.mPixels->data());
 
-            texture = mTextureCache.Add(poly.mCam->mUniqueId.Id(), kCamTextureLifetime, std::move(camTex));
+            texture = mTextureCache.Add(poly.mCam->mUniqueId.Id(), kCamTextureLifetime, camTex);
 
             mStats.mCamUploadCount++;
         }
@@ -552,15 +552,15 @@ GLTexture2D OpenGLRenderer::PrepareTextureFromPoly(Poly_FT4& poly)
     {
         texture = mTextureCache.GetCachedTexture(poly.mFont->mFntResource.mUniqueId.Id(), kSpriteTextureLifetime);
 
-        if (!texture.IsValid())
+        if (!texture || !texture->IsValid())
         {
             std::shared_ptr<TgaData> pTga = poly.mFont->mFntResource.mTgaPtr;
 
-            GLTexture2D fontTex(pTga->mWidth, pTga->mHeight, GL_RED);
+            auto fontTex = std::make_shared<GLTexture2D>(pTga->mWidth, pTga->mHeight, GL_RED);
 
-            fontTex.LoadImage(pTga->mPixels.data());
+            fontTex->LoadImage(pTga->mPixels.data());
 
-            texture = mTextureCache.Add(poly.mFont->mFntResource.mUniqueId.Id(), kSpriteTextureLifetime, std::move(fontTex));
+            texture = mTextureCache.Add(poly.mFont->mFntResource.mUniqueId.Id(), kSpriteTextureLifetime, fontTex);
 
             mStats.mFontUploadCount++;
         }
@@ -625,7 +625,7 @@ void OpenGLRenderer::PushFramebufferVertexData(const PassthruVertexData *vertice
     }
 }
 
-void OpenGLRenderer::PushVertexData(PsxVertexData* pVertData, int count, const GLTexture2D& texture)
+void OpenGLRenderer::PushVertexData(PsxVertexData* pVertData, int count, std::shared_ptr<GLTexture2D> texture)
 {
     if (!mFrameStarted)
     {
@@ -879,20 +879,20 @@ void OpenGLRenderer::InvalidateBatch()
     mPsxShader.UniformVec2("vsViewportSize", kPsxFramebufferWidth, kPsxFramebufferHeight);
 
     // Bind palette texture
-    mPaletteTexture.BindTo(GL_TEXTURE0);
+    mPaletteTexture->BindTo(GL_TEXTURE0);
     mPsxShader.Uniform1i("texPalette", 0);
 
     // Bind gas
-    if (mCurGasTexture.IsValid())
+    if (mCurGasTexture && mCurGasTexture->IsValid())
     {
-        mCurGasTexture.BindTo(GL_TEXTURE1);
+        mCurGasTexture->BindTo(GL_TEXTURE1);
         mPsxShader.Uniform1i("texGas", 1);
     }
 
     // Bind camera (if needed)
-    if (mCurCamTexture.IsValid())
+    if (mCurCamTexture && mCurCamTexture->IsValid())
     {
-        mCurCamTexture.BindTo(GL_TEXTURE2);
+        mCurCamTexture->BindTo(GL_TEXTURE2);
         mPsxShader.Uniform1i("texCamera", 2);
     }
 
@@ -901,7 +901,7 @@ void OpenGLRenderer::InvalidateBatch()
 
     for (int i = 0; i < numLayers; i++)
     {
-        mCurFG1Textures[i].BindTo(GL_TEXTURE3 + i);
+        mCurFG1Textures[i]->BindTo(GL_TEXTURE3 + i);
     }
 
     mPsxShader.Uniform1iv("texFG1Masks", 4, mFG1Units);
@@ -912,10 +912,10 @@ void OpenGLRenderer::InvalidateBatch()
 
     for (int i = 0; i < numTextures; i++)
     {
-        mBatchTextures[i].BindTo(GL_TEXTURE7 + i);
+        mBatchTextures[i]->BindTo(GL_TEXTURE7 + i);
 
-        texSizes[i * 2] = static_cast<f32>(mBatchTextures[i].GetWidth());
-        texSizes[(i * 2) + 1] = static_cast<f32>(mBatchTextures[i].GetHeight());
+        texSizes[i * 2] = static_cast<f32>(mBatchTextures[i]->GetWidth());
+        texSizes[(i * 2) + 1] = static_cast<f32>(mBatchTextures[i]->GetHeight());
     }
 
     mPsxShader.Uniform1iv("texSpriteSheets", kSpriteTextureUnitCount, mTextureUnits);
