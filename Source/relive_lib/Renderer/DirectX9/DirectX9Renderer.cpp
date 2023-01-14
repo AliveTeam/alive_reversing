@@ -344,11 +344,12 @@ DirectX9Renderer::DirectX9Renderer(TWindowHandleType window)
 
     // Pal cache texture
     D3DLOCKED_RECT locked = {};
-    DX_VERIFY(mDevice->CreateTexture(256, 256, 0, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED, &mPaletteTexture, nullptr));
+    mPaletteTexture = std::make_shared<ATL::CComPtr<IDirect3DTexture9>>();
+    DX_VERIFY(mDevice->CreateTexture(256, 256, 0, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED, &*mPaletteTexture, nullptr));
     const RGBA32 kColourMagenta = {255, 0, 255, 255};
-    DXTexture::FillTexture(*mPaletteTexture, 256, 256, kColourMagenta);
+    DXTexture::FillTexture(**mPaletteTexture, 256, 256, kColourMagenta);
 
-    DX_VERIFY(mDevice->SetTexture(mPalUnit, mPaletteTexture));
+    DX_VERIFY(mDevice->SetTexture(mPalUnit, *mPaletteTexture));
 
     // select which vertex format we are using
     DX_VERIFY(mDevice->SetVertexDeclaration(mVertexDecl));
@@ -503,16 +504,16 @@ u32 DirectX9Renderer::PreparePalette(AnimationPal& pCache)
 
     if (addRet.mAllocated)
     {
-        DXTexture::LoadSubImage(*mPaletteTexture, 0, addRet.mIndex, ALIVE_COUNTOF(pCache.mPal), 1, &pCache.mPal[0]);
+        DXTexture::LoadSubImage(**mPaletteTexture, 0, addRet.mIndex, ALIVE_COUNTOF(pCache.mPal), 1, &pCache.mPal[0]);
         //mStats.mPalUploadCount++;
     }
 
     return addRet.mIndex;
 }
 
-void DirectX9Renderer::DrawTris(IDirect3DTexture9* pTexture, u32 textureUnit, const VertexInfo& vi, float u0, float v0, float u1, float v1, u32 numTris)
+void DirectX9Renderer::DrawTris(TDX9Texture pTexture, u32 textureUnit, const VertexInfo& vi, float u0, float v0, float u1, float v1, u32 numTris)
 {
-    DX_VERIFY(mDevice->SetTexture(textureUnit, pTexture));
+    DX_VERIFY(mDevice->SetTexture(textureUnit, pTexture ? *pTexture : nullptr));
 
     SetupBlendMode(vi.mBlendMode);
     SetQuad(vi, u0, v0, u1, v1);
@@ -526,7 +527,7 @@ void DirectX9Renderer::Draw(Poly_FT4& poly)
     {
         mDevice->SetPixelShader(mCamFG1Shader);
 
-        IDirect3DTexture9* pTextureToUse = MakeCachedTexture(poly.mCam->mUniqueId.Id(), *poly.mCam->mData.mPixels, 1024, 1024, poly.mCam->mData.mWidth, poly.mCam->mData.mHeight);
+        TDX9Texture pTextureToUse = MakeCachedTexture(poly.mCam->mUniqueId.Id(), *poly.mCam->mData.mPixels, 1024, 1024, poly.mCam->mData.mWidth, poly.mCam->mData.mHeight);
         auto vi = VertexInfo::FQuad(2, 0, poly);
         DrawTris(pTextureToUse, mCamUnit, vi, 0.0f, 0.0f, 640.0f / 1024.0f, 240.0f / 1024.0f);
     }
@@ -534,7 +535,7 @@ void DirectX9Renderer::Draw(Poly_FT4& poly)
     {
         mDevice->SetPixelShader(mCamFG1Shader);
 
-        IDirect3DTexture9* pTextureToUse = MakeCachedTexture(poly.mFg1->mUniqueId.Id(), *poly.mFg1->mImage.mPixels, 1024, 1024, poly.mFg1->mImage.mWidth, poly.mFg1->mImage.mHeight);
+        TDX9Texture pTextureToUse = MakeCachedTexture(poly.mFg1->mUniqueId.Id(), *poly.mFg1->mImage.mPixels, 1024, 1024, poly.mFg1->mImage.mWidth, poly.mFg1->mImage.mHeight);
         auto vi = VertexInfo::FQuad(1, 0, poly);
         DrawTris(pTextureToUse, mFG1Units[0], vi, 0.0f, 0.0f, 640.0f / 1024.0f, 240.0f / 1024.0f);
     }
@@ -562,7 +563,7 @@ void DirectX9Renderer::Draw(Poly_FT4& poly)
             std::swap(v1, v0);
         }
 
-        IDirect3DTexture9* pTextureToUse = MakeCachedIndexedTexture(poly.mAnim->mAnimRes.mUniqueId.Id(), pTga->mPixels, pTga->mWidth, pTga->mHeight, pTga->mWidth, pTga->mHeight);
+        TDX9Texture pTextureToUse = MakeCachedIndexedTexture(poly.mAnim->mAnimRes.mUniqueId.Id(), pTga->mPixels, pTga->mWidth, pTga->mHeight, pTga->mWidth, pTga->mHeight);
         auto vi = VertexInfo::FQuad(1, PreparePalette(*poly.mAnim->mAnimRes.mCurPal), poly);
         DrawTris(pTextureToUse, mSpriteUnit, vi, u0, v0, u1, v1);
     }
@@ -579,7 +580,7 @@ void DirectX9Renderer::Draw(Poly_FT4& poly)
         float v1 = V3(&poly) / (f32) pTga->mHeight;
 
         FontResource& fontRes = poly.mFont->mFntResource;
-        IDirect3DTexture9* pTextureToUse = MakeCachedIndexedTexture(fontRes.mUniqueId.Id(), pTga->mPixels, pTga->mWidth, pTga->mHeight, pTga->mWidth, pTga->mHeight);
+        TDX9Texture pTextureToUse = MakeCachedIndexedTexture(fontRes.mUniqueId.Id(), pTga->mPixels, pTga->mWidth, pTga->mHeight, pTga->mWidth, pTga->mHeight);
         auto vi = VertexInfo::FQuad(1, PreparePalette(*fontRes.mCurPal), poly);
         DrawTris(pTextureToUse, mSpriteUnit, vi, u0, v0, u1, v1);
     }
@@ -723,29 +724,31 @@ void DirectX9Renderer::MakeVertexBuffer()
                                NULL));
 }
 
-IDirect3DTexture9* DirectX9Renderer::MakeCachedIndexedTexture(u32 uniqueId, const std::vector<u8>& pixels, u32 textureW, u32 textureH, u32 actualW, u32 actualH)
+TDX9Texture DirectX9Renderer::MakeCachedIndexedTexture(u32 uniqueId, const std::vector<u8>& pixels, u32 textureW, u32 textureH, u32 actualW, u32 actualH)
 {
-    IDirect3DTexture9* textureId = mTextureCache.GetCachedTexture(uniqueId, DX_SPRITE_TEXTURE_LIFETIME);
+    TDX9Texture textureId = mTextureCache.GetCachedTexture(uniqueId, DX_SPRITE_TEXTURE_LIFETIME);
     if (!textureId)
     {
-        DX_VERIFY(mDevice->CreateTexture(textureW, textureH, 0, 0, D3DFMT_L8, D3DPOOL_MANAGED, &textureId, nullptr));
+        textureId = std::make_shared<ATL::CComPtr<IDirect3DTexture9>>();
+        DX_VERIFY(mDevice->CreateTexture(textureW, textureH, 0, 0, D3DFMT_L8, D3DPOOL_MANAGED, &*textureId, nullptr));
 
         mTextureCache.Add(uniqueId, DX_SPRITE_TEXTURE_LIFETIME, textureId);
-        DXTexture::LoadSubImage(*textureId, 0, 0, actualW, actualH, pixels.data());
+        DXTexture::LoadSubImage(**textureId, 0, 0, actualW, actualH, pixels.data());
     }
     return textureId;
 }
 
-IDirect3DTexture9* DirectX9Renderer::MakeCachedTexture(u32 uniqueId, const std::vector<u8>& pixels, u32 textureW, u32 textureH, u32 actualW, u32 actualH)
+TDX9Texture DirectX9Renderer::MakeCachedTexture(u32 uniqueId, const std::vector<u8>& pixels, u32 textureW, u32 textureH, u32 actualW, u32 actualH)
 {
-    IDirect3DTexture9* textureId = mTextureCache.GetCachedTexture(uniqueId, DX_SPRITE_TEXTURE_LIFETIME);
+    TDX9Texture textureId = mTextureCache.GetCachedTexture(uniqueId, DX_SPRITE_TEXTURE_LIFETIME);
     if (!textureId)
     {
-        DX_VERIFY(mDevice->CreateTexture(textureW, textureH, 0, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED, &textureId, nullptr));
+        textureId = std::make_shared<ATL::CComPtr<IDirect3DTexture9>>();
+        DX_VERIFY(mDevice->CreateTexture(textureW, textureH, 0, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED, &*textureId, nullptr));
 
         mTextureCache.Add(uniqueId, DX_SPRITE_TEXTURE_LIFETIME, textureId);
         auto pData = reinterpret_cast<const RGBA32*>(pixels.data());
-        DXTexture::LoadSubImage(*textureId, 0, 0, actualW, actualH, pData);
+        DXTexture::LoadSubImage(**textureId, 0, 0, actualW, actualH, pData);
     }
     return textureId;
 }

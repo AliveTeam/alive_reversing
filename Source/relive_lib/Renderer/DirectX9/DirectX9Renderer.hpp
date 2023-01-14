@@ -11,13 +11,9 @@
     #include <d3d9.h>
     #include <atlbase.h>
 
-class DirectX9TextureCache final : public TextureCache<ATL::CComPtr<IDirect3DTexture9>>
-{
-public:
-
-};
-
 class VertexInfo;
+
+using TDX9Texture = std::shared_ptr<ATL::CComPtr<IDirect3DTexture9>>;
 
 class DirectX9Renderer final : public IRenderer
 {
@@ -47,9 +43,9 @@ private:
     void MakeVertexBuffer();
     void SetQuad(const VertexInfo& vi, float u0, float v0, float u1, float v1);
 
-    IDirect3DTexture9* MakeCachedIndexedTexture(u32 uniqueId, const std::vector<u8>& pixels, u32 textureW, u32 textureH, u32 actualW, u32 actualH);
-    IDirect3DTexture9* MakeCachedTexture(u32 uniqueId, const std::vector<u8>& pixels, u32 textureW, u32 textureH, u32 actualW, u32 actualH);
-    void DrawTris(IDirect3DTexture9* pTexture, u32 textureUnit, const VertexInfo& vi, float u0, float v0, float u1, float v1, u32 numTris = 2);
+    TDX9Texture MakeCachedIndexedTexture(u32 uniqueId, const std::vector<u8>& pixels, u32 textureW, u32 textureH, u32 actualW, u32 actualH);
+    TDX9Texture MakeCachedTexture(u32 uniqueId, const std::vector<u8>& pixels, u32 textureW, u32 textureH, u32 actualW, u32 actualH);
+    void DrawTris(TDX9Texture pTexture, u32 textureUnit, const VertexInfo& vi, float u0, float v0, float u1, float v1, u32 numTris = 2);
 
     bool mFrameStarted = false;
     
@@ -72,9 +68,9 @@ private:
 
     ATL::CComPtr<IDirect3DVertexBuffer9> mCameraVBO;
 
-    ATL::CComPtr<IDirect3DTexture9> mPaletteTexture;
+    TDX9Texture mPaletteTexture;
     PaletteCache mPaletteCache;
-    DirectX9TextureCache mTextureCache;
+    TextureCache2<TDX9Texture> mTextureCache;
 
     const u8 mCamUnit = 4;
     const u8 mPalUnit = 5;
