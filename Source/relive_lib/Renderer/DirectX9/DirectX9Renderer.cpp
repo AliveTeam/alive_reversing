@@ -435,7 +435,7 @@ void DirectX9Renderer::SetTPage(u16 tPage)
     mGlobalTPage = tPage;
 }
 
-void DirectX9Renderer::SetClip(Prim_PrimClipper& clipper)
+void DirectX9Renderer::SetClip(const Prim_PrimClipper& clipper)
 {
     RECT rect = {};
     rect.left = clipper.field_C_x;
@@ -458,23 +458,23 @@ void DirectX9Renderer::ToggleFilterScreen()
     // TODO
 }
 
-void DirectX9Renderer::Draw(Prim_GasEffect& /*gasEffect*/)
+void DirectX9Renderer::Draw(const Prim_GasEffect& /*gasEffect*/)
 {
     // TODO
 }
 
-void DirectX9Renderer::Draw(Line_G2& /*line*/)
+void DirectX9Renderer::Draw(const Line_G2& /*line*/)
 {
     // TODO
 }
 
-void DirectX9Renderer::Draw(Line_G4& /*line*/)
+void DirectX9Renderer::Draw(const Line_G4& /*line*/)
 {
     // TODO
 }
 
 
-void DirectX9Renderer::Draw(Poly_G3& poly)
+void DirectX9Renderer::Draw(const Poly_G3& poly)
 {
     mDevice->SetPixelShader(mFlatShader);
 
@@ -521,7 +521,7 @@ void DirectX9Renderer::DrawTris(TDX9Texture pTexture, u32 textureUnit, const Ver
     DX_VERIFY(mDevice->DrawPrimitive(D3DPT_TRIANGLELIST, 0, numTris));
 }
 
-void DirectX9Renderer::Draw(Poly_FT4& poly)
+void DirectX9Renderer::Draw(const Poly_FT4& poly)
 {
     if (poly.mCam && !poly.mFg1)
     {
@@ -586,7 +586,7 @@ void DirectX9Renderer::Draw(Poly_FT4& poly)
     }
 }
 
-void DirectX9Renderer::Draw(Poly_G4& poly)
+void DirectX9Renderer::Draw(const Poly_G4& poly)
 {
     mDevice->SetPixelShader(mFlatShader);
 

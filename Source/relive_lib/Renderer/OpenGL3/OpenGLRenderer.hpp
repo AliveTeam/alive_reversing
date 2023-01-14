@@ -30,14 +30,14 @@ public:
     ~OpenGLRenderer() override;
 
     void Clear(u8 r, u8 g, u8 b) override;
-    void Draw(Prim_GasEffect& gasEffect) override;
-    void Draw(Line_G2& line) override;
-    void Draw(Line_G4& line) override;
-    void Draw(Poly_G3& poly) override;
-    void Draw(Poly_FT4& poly) override;
-    void Draw(Poly_G4& poly) override;
+    void Draw(const Prim_GasEffect& gasEffect) override;
+    void Draw(const Line_G2& line) override;
+    void Draw(const Line_G4& line) override;
+    void Draw(const Poly_G3& poly) override;
+    void Draw(const Poly_FT4& poly) override;
+    void Draw(const Poly_G4& poly) override;
     void EndFrame() override;
-    void SetClip(Prim_PrimClipper& clipper) override;
+    void SetClip(const Prim_PrimClipper& clipper) override;
     void SetTPage(u16 tPage) override;
     void StartFrame() override;
     void ToggleFilterScreen() override;
@@ -84,7 +84,7 @@ private:
     u16 GetTPageBlendMode(u16 tPage);
     u32 PreparePalette(AnimationPal& pCache);
     std::shared_ptr<GLTexture2D> PrepareTextureFromAnim(Animation& anim);
-    std::shared_ptr<GLTexture2D> PrepareTextureFromPoly(Poly_FT4& poly);
+    std::shared_ptr<GLTexture2D> PrepareTextureFromPoly(const Poly_FT4& poly);
 
     void PushLines(const PsxVertexData* vertices, int count);
     void PushFramebufferVertexData(const PassthruVertexData* vertices, int count);

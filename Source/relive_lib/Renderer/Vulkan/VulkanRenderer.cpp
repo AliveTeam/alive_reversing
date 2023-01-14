@@ -1692,7 +1692,7 @@ void VulkanRenderer::SetTPage(u16 tPage)
     mGlobalTPage = tPage;
 }
 
-void VulkanRenderer::SetClip(Prim_PrimClipper& clipper)
+void VulkanRenderer::SetClip(const Prim_PrimClipper& clipper)
 {
     SDL_Rect rect;
     rect.x = clipper.field_C_x;
@@ -1716,22 +1716,22 @@ void VulkanRenderer::ToggleFilterScreen()
     // TODO
 }
 
-void VulkanRenderer::Draw(Prim_GasEffect& /*gasEffect*/)
+void VulkanRenderer::Draw(const Prim_GasEffect& /*gasEffect*/)
 {
     // TODO
 }
 
-void VulkanRenderer::Draw(Line_G2& /*line*/)
+void VulkanRenderer::Draw(const Line_G2& /*line*/)
 {
     // TODO
 }
 
-void VulkanRenderer::Draw(Line_G4& /*line*/)
+void VulkanRenderer::Draw(const Line_G4& /*line*/)
 {
     // TODO
 }
 
-void VulkanRenderer::Draw(Poly_G3&)
+void VulkanRenderer::Draw(const Poly_G3&)
 {
     // TODO
 }
@@ -1751,7 +1751,7 @@ u32 VulkanRenderer::PreparePalette(AnimationPal& pCache)
     return addRet.mIndex;
 }
 
-void VulkanRenderer::Draw(Poly_FT4& poly)
+void VulkanRenderer::Draw(const Poly_FT4& poly)
 {
     if (poly.mCam && !poly.mFg1)
     {
@@ -1814,7 +1814,7 @@ void VulkanRenderer::Draw(Poly_FT4& poly)
     }
 }
 
-void VulkanRenderer::Draw(Poly_G4&)
+void VulkanRenderer::Draw(const Poly_G4&)
 {
     // TODO
 }

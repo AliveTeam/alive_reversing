@@ -117,14 +117,14 @@ public:
     void StartFrame() override;
     void EndFrame() override;
     void SetTPage(u16 tPage) override;
-    void SetClip(Prim_PrimClipper& clipper) override;
+    void SetClip(const Prim_PrimClipper& clipper) override;
     void ToggleFilterScreen() override;
-    void Draw(Prim_GasEffect& gasEffect) override;
-    void Draw(Line_G2& line) override;
-    void Draw(Line_G4& line) override;
-    void Draw(Poly_G3& poly) override;
-    void Draw(Poly_FT4& poly) override;
-    void Draw(Poly_G4& poly) override;
+    void Draw(const Prim_GasEffect& gasEffect) override;
+    void Draw(const Line_G2& line) override;
+    void Draw(const Line_G4& line) override;
+    void Draw(const Poly_G3& poly) override;
+    void Draw(const Poly_FT4& poly) override;
+    void Draw(const Poly_G4& poly) override;
 
     vk::raii::CommandBuffer beginSingleTimeCommands();
     void endSingleTimeCommands(vk::raii::CommandBuffer& commandBuffer);

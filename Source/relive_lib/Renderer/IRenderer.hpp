@@ -122,27 +122,27 @@ public:
 
     virtual void SetTPage(u16 tPage) = 0;
 
-    virtual void SetClip(Prim_PrimClipper& clipper) = 0;
-    void SetScreenOffset(Prim_ScreenOffset& offset);
+    virtual void SetClip(const Prim_PrimClipper& clipper) = 0;
+    void SetScreenOffset(const Prim_ScreenOffset& offset);
 
     virtual void ToggleFilterScreen() = 0;
 
-    virtual void Draw(Prim_GasEffect& gasEffect) = 0;
+    virtual void Draw(const Prim_GasEffect& gasEffect) = 0;
 
     // AO: Spark/SnoozeParticle, AE: Spark/SnoozeParticle + ThrowableTotal
-    virtual void Draw(Line_G2& line) = 0;
+    virtual void Draw(const Line_G2& line) = 0;
 
     // SnoozeParticle
-    virtual void Draw(Line_G4& line) = 0;
+    virtual void Draw(const Line_G4& line) = 0;
 
     // MainMenuTransistion
-    virtual void Draw(Poly_G3& poly) = 0;
+    virtual void Draw(const Poly_G3& poly) = 0;
 
     // FG1, Animation, Font, ScreenWave, Water
-    virtual void Draw(Poly_FT4& poly) = 0;
+    virtual void Draw(const Poly_FT4& poly) = 0;
 
     // Fleech (tounge), DeathGas, ColourfulMeter
-    virtual void Draw(Poly_G4& poly) = 0;
+    virtual void Draw(const Poly_G4& poly) = 0;
 
 protected:
     // Recommendations for reserving memory to fit 'peak' amounts of quads

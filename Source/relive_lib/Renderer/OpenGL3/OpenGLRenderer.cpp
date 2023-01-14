@@ -220,7 +220,7 @@ void OpenGLRenderer::SetTPage(u16 tPage)
     mGlobalTPage = tPage;
 }
 
-void OpenGLRenderer::SetClip(Prim_PrimClipper& clipper)
+void OpenGLRenderer::SetClip(const Prim_PrimClipper& clipper)
 {
     SDL_Rect rect;
     rect.x = clipper.field_C_x;
@@ -245,7 +245,7 @@ void OpenGLRenderer::ToggleFilterScreen()
     mFramebufferFilter = !mFramebufferFilter;
 }
 
-void OpenGLRenderer::Draw(Prim_GasEffect& gasEffect)
+void OpenGLRenderer::Draw(const Prim_GasEffect& gasEffect)
 {
     if (!gRenderEnable_GAS)
     {
@@ -289,7 +289,7 @@ void OpenGLRenderer::Draw(Prim_GasEffect& gasEffect)
     PushVertexData(verts, ALIVE_COUNTOF(verts));
 }
 
-void OpenGLRenderer::Draw(Line_G2& line)
+void OpenGLRenderer::Draw(const Line_G2& line)
 {
     if (!gRenderEnable_G2)
     {
@@ -307,7 +307,7 @@ void OpenGLRenderer::Draw(Line_G2& line)
     PushLines(verts, ALIVE_COUNTOF(verts));
 }
 
-void OpenGLRenderer::Draw(Line_G4& line)
+void OpenGLRenderer::Draw(const Line_G4& line)
 {
     if (!gRenderEnable_G4)
     {
@@ -327,7 +327,7 @@ void OpenGLRenderer::Draw(Line_G4& line)
     PushLines(verts, ALIVE_COUNTOF(verts));
 }
 
-void OpenGLRenderer::Draw(Poly_G3& poly)
+void OpenGLRenderer::Draw(const Poly_G3& poly)
 {
     if (!gRenderEnable_G3)
     {
@@ -346,7 +346,7 @@ void OpenGLRenderer::Draw(Poly_G3& poly)
     PushVertexData(verts, ALIVE_COUNTOF(verts));
 }
 
-void OpenGLRenderer::Draw(Poly_FT4& poly)
+void OpenGLRenderer::Draw(const Poly_FT4& poly)
 {
     if (!gRenderEnable_FT4)
     {
@@ -450,7 +450,7 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
     }
 }
 
-void OpenGLRenderer::Draw(Poly_G4& poly)
+void OpenGLRenderer::Draw(const Poly_G4& poly)
 {
     if (!gRenderEnable_G4)
     {
@@ -510,7 +510,7 @@ std::shared_ptr<GLTexture2D> OpenGLRenderer::PrepareTextureFromAnim(Animation& a
     return texture;
 }
 
-std::shared_ptr<GLTexture2D> OpenGLRenderer::PrepareTextureFromPoly(Poly_FT4& poly)
+std::shared_ptr<GLTexture2D> OpenGLRenderer::PrepareTextureFromPoly(const Poly_FT4& poly)
 {
     std::shared_ptr<GLTexture2D> texture;
 

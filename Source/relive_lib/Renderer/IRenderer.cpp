@@ -10,7 +10,7 @@
 static IRenderer* gRenderer = nullptr;
 
 #ifdef __APPLE__
-static std::unique_ptr < class VulkanLib> gVulkanLib;
+static std::unique_ptr<class VulkanLib> gVulkanLib;
 #endif
 
 IRenderer* IRenderer::GetRenderer()
@@ -114,7 +114,7 @@ void IRenderer::FreeRenderer()
 #endif
 }
 
-void IRenderer::SetScreenOffset(Prim_ScreenOffset& offset)
+void IRenderer::SetScreenOffset(const Prim_ScreenOffset& offset)
 {
     mOffsetX = offset.field_C_xoff;
     mOffsetY = offset.field_E_yoff;
