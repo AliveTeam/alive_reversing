@@ -147,14 +147,28 @@ void Batcher<TextureType, RenderBatchType, kTextureBatchSize>::PushGas(const Pri
     const bool isShaded = true;
     const u32 blendMode = static_cast<u32>(TPageAbr::eBlend_0);
 
-    IRenderer::PsxVertexData verts[4] = {
-        {x, y, r, g, b, 0.0f, 0.0f, IRenderer::PsxDrawMode::Gas, isSemiTrans, isShaded, blendMode, 0, 0},
-        {w, y, r, g, b, gasWidth, 0.0f, IRenderer::PsxDrawMode::Gas, isSemiTrans, isShaded, blendMode, 0, 0},
-        {x, h, r, g, b, 0.0f, gasHeight, IRenderer::PsxDrawMode::Gas, isSemiTrans, isShaded, blendMode, 0, 0},
-        {w, h, r, g, b, gasWidth, gasHeight, IRenderer::PsxDrawMode::Gas, isSemiTrans, isShaded, blendMode, 0, 0}};
+    if (mUvMode == UvMode::UnNormalized)
+    {
+        IRenderer::PsxVertexData verts[4] = {
+            {x, y, r, g, b, 0.0f, 0.0f, IRenderer::PsxDrawMode::Gas, isSemiTrans, isShaded, blendMode, 0, 0},
+            {w, y, r, g, b, gasWidth, 0.0f, IRenderer::PsxDrawMode::Gas, isSemiTrans, isShaded, blendMode, 0, 0},
+            {x, h, r, g, b, 0.0f, gasHeight, IRenderer::PsxDrawMode::Gas, isSemiTrans, isShaded, blendMode, 0, 0},
+            {w, h, r, g, b, gasWidth, gasHeight, IRenderer::PsxDrawMode::Gas, isSemiTrans, isShaded, blendMode, 0, 0}};
 
-    std::shared_ptr<TextureType> nullTex;
-    PushVertexData(verts, ALIVE_COUNTOF(verts), nullTex, 0);
+        std::shared_ptr<TextureType> nullTex;
+        PushVertexData(verts, ALIVE_COUNTOF(verts), nullTex, 0);
+    }
+    else
+    {
+        IRenderer::PsxVertexData verts[4] = {
+            {x, y, r, g, b, 0.0f, 0.0f, IRenderer::PsxDrawMode::Gas, isSemiTrans, isShaded, blendMode, 0, 0},
+            {w, y, r, g, b, 1.0f, 0.0f, IRenderer::PsxDrawMode::Gas, isSemiTrans, isShaded, blendMode, 0, 0},
+            {x, h, r, g, b, 0.0f, 1.0f, IRenderer::PsxDrawMode::Gas, isSemiTrans, isShaded, blendMode, 0, 0},
+            {w, h, r, g, b, 1.0f, 1.0f, IRenderer::PsxDrawMode::Gas, isSemiTrans, isShaded, blendMode, 0, 0}};
+
+        std::shared_ptr<TextureType> nullTex;
+        PushVertexData(verts, ALIVE_COUNTOF(verts), nullTex, 0);
+    }
 }
 
 template <typename TextureType, typename RenderBatchType, std::size_t kTextureBatchSize>

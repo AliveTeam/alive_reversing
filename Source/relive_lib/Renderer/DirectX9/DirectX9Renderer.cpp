@@ -7,6 +7,7 @@
 #include "pixel_shader.h"
 #include "cam_fg1_shader.h"
 #include "flat_shader.h"
+#include "gas_shader.h"
 #include <SDL_syswm.h>
 
 #ifdef _WIN32
@@ -93,6 +94,29 @@ static void LoadSubImage(IDirect3DTexture9& texture, u32 xStart, u32 yStart, u32
         {
             u8* p = reinterpret_cast<u8*>(locked.pBits);
             p = p + ((locked.Pitch / sizeof(u8)) * y);
+            for (u32 x = xStart; x < xStart + width; x++)
+            {
+                *p = *pSrc;
+                p++;
+                pSrc++;
+            }
+        }
+    }
+    DX_VERIFY(texture.UnlockRect(0));
+}
+
+
+static void LoadSubImage(IDirect3DTexture9& texture, u32 xStart, u32 yStart, u32 width, u32 height, const u16* pixels)
+{
+    D3DLOCKED_RECT locked = {};
+    DX_VERIFY(texture.LockRect(0, &locked, nullptr, D3DLOCK_DISCARD));
+    if (locked.pBits)
+    {
+        const u16* pSrc = pixels;
+        for (u32 y = yStart; y < yStart + height; y++)
+        {
+            u16* p = reinterpret_cast<u16*>(locked.pBits);
+            p = p + ((locked.Pitch / sizeof(u16)) * y);
             for (u32 x = xStart; x < xStart + width; x++)
             {
                 *p = *pSrc;
@@ -213,6 +237,7 @@ DirectX9Renderer::DirectX9Renderer(TWindowHandleType window)
     DX_VERIFY(mDevice->CreatePixelShader((DWORD*) pixel_shader, &mPixelShader));
     DX_VERIFY(mDevice->CreatePixelShader((DWORD*) cam_fg1_shader, &mCamFG1Shader));
     DX_VERIFY(mDevice->CreatePixelShader((DWORD*) flat_shader, &mFlatShader));
+    DX_VERIFY(mDevice->CreatePixelShader((DWORD*) gas_shader, &mGasShader));
 
     // Render targets
     DX_VERIFY(mDevice->CreateRenderTarget(640, 240, D3DFMT_A8R8G8B8, D3DMULTISAMPLE_NONE, 0, FALSE, &mTextureRenderTarget, nullptr));
@@ -233,6 +258,8 @@ DirectX9Renderer::DirectX9Renderer(TWindowHandleType window)
 
     // TODO: triangulated lines won't render correctly without turning off culling
     mDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+
+    // TODO: Preallocate VBO and IBOs to some large amount
 }
 
 DirectX9Renderer::~DirectX9Renderer()
@@ -339,9 +366,16 @@ void DirectX9Renderer::ToggleFilterScreen()
     // TODO
 }
 
-void DirectX9Renderer::Draw(const Prim_GasEffect& /*gasEffect*/)
+void DirectX9Renderer::Draw(const Prim_GasEffect& gasEffect)
 {
-    // TODO
+    const u32 gasWidth = static_cast<u32>(std::floor((gasEffect.w - gasEffect.x) / 4));
+    const u32 gasHeight = static_cast<u32>(std::floor((gasEffect.h - gasEffect.y) / 2));
+    
+    // TODO: Square texture
+    mGasTexture = MakeTexture16(gasEffect.pData, gasWidth, gasHeight, gasWidth, gasHeight);
+
+    // TODO: If there is more than 1 gas in a frame break the batch ?
+    mBatcher.PushGas(gasEffect);
 }
 
 void DirectX9Renderer::Draw(const Line_G2& line)
@@ -432,17 +466,38 @@ void DirectX9Renderer::DecreaseResourceLifetimes()
     mPaletteCache.ResetUseFlags();
 }
 
+TDX9Texture DirectX9Renderer::MakeTexture16(const u16* pixels, u32 textureW, u32 textureH, u32 actualW, u32 actualH)
+{
+    auto textureId = std::make_shared<ATL::CComPtr<IDirect3DTexture9>>();
+    DX_VERIFY(mDevice->CreateTexture(textureW, textureH, 0, 0, D3DFMT_R5G6B5, D3DPOOL_MANAGED, &*textureId, nullptr));
+    DXTexture::LoadSubImage(**textureId, 0, 0, actualW, actualH, pixels);
+    return textureId;
+}
+
+TDX9Texture DirectX9Renderer::MakeTexture32(const std::vector<u8>& pixels, u32 textureW, u32 textureH, u32 actualW, u32 actualH)
+{
+    auto textureId = std::make_shared<ATL::CComPtr<IDirect3DTexture9>>();
+    DX_VERIFY(mDevice->CreateTexture(textureW, textureH, 0, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED, &*textureId, nullptr));
+    auto pData = reinterpret_cast<const RGBA32*>(pixels.data());
+    DXTexture::LoadSubImage(**textureId, 0, 0, actualW, actualH, pData);
+    return textureId;
+}
+
+TDX9Texture DirectX9Renderer::MakeTexture8(const std::vector<u8>& pixels, u32 textureW, u32 textureH, u32 actualW, u32 actualH)
+{
+    auto textureId = std::make_shared<ATL::CComPtr<IDirect3DTexture9>>();
+    DX_VERIFY(mDevice->CreateTexture(textureW, textureH, 0, 0, D3DFMT_L8, D3DPOOL_MANAGED, &*textureId, nullptr));
+    DXTexture::LoadSubImage(**textureId, 0, 0, actualW, actualH, pixels.data());
+    return textureId;
+}
 
 TDX9Texture DirectX9Renderer::MakeCachedIndexedTexture(u32 uniqueId, const std::vector<u8>& pixels, u32 textureW, u32 textureH, u32 actualW, u32 actualH)
 {
     TDX9Texture textureId = mTextureCache.GetCachedTexture(uniqueId, DX_SPRITE_TEXTURE_LIFETIME);
     if (!textureId)
     {
-        textureId = std::make_shared<ATL::CComPtr<IDirect3DTexture9>>();
-        DX_VERIFY(mDevice->CreateTexture(textureW, textureH, 0, 0, D3DFMT_L8, D3DPOOL_MANAGED, &*textureId, nullptr));
-
+        textureId = MakeTexture8(pixels, textureW, textureH, actualW, actualH);
         mTextureCache.Add(uniqueId, DX_SPRITE_TEXTURE_LIFETIME, textureId);
-        DXTexture::LoadSubImage(**textureId, 0, 0, actualW, actualH, pixels.data());
     }
     return textureId;
 }
@@ -452,12 +507,8 @@ TDX9Texture DirectX9Renderer::MakeCachedTexture(u32 uniqueId, const std::vector<
     TDX9Texture textureId = mTextureCache.GetCachedTexture(uniqueId, DX_SPRITE_TEXTURE_LIFETIME);
     if (!textureId)
     {
-        textureId = std::make_shared<ATL::CComPtr<IDirect3DTexture9>>();
-        DX_VERIFY(mDevice->CreateTexture(textureW, textureH, 0, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED, &*textureId, nullptr));
-
+        textureId = MakeTexture32(pixels, textureW, textureH, actualW, actualH);
         mTextureCache.Add(uniqueId, DX_SPRITE_TEXTURE_LIFETIME, textureId);
-        auto pData = reinterpret_cast<const RGBA32*>(pixels.data());
-        DXTexture::LoadSubImage(**textureId, 0, 0, actualW, actualH, pData);
     }
     return textureId;
 }
@@ -589,8 +640,8 @@ void DirectX9Renderer::DrawBatches()
                     break;
 
                 case IRenderer::PsxDrawMode::Gas:
-                    // TODO: Set correct shader and texture unit
-                    LOG_ERROR("no gas yet");
+                    DX_VERIFY(mDevice->SetPixelShader(mGasShader));
+                    DX_VERIFY(mDevice->SetTexture(mGasUnit, *mGasTexture));
                     break;
             }
 

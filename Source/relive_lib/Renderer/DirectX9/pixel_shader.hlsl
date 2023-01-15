@@ -65,11 +65,6 @@ float4 handle_final_color(float4 fsShadeColor, float4 src, bool doShading, bool 
     return ret;
 }
 
-float4 draw_flat(float4 fsShadeColor, bool isShaded, int blendMode, bool isSemiTrans)
-{
-    return handle_final_color(float4(fsShadeColor.rgb, 1.0), float4(fsShadeColor.rgb, 1.0), false, isShaded, blendMode, isSemiTrans);
-}
-
 float4 draw_default_ft4(float4 fsShadeColor, float palIndex, float2 fsUV, bool isShaded, int blendMode, bool isSemiTrans)
 {
     float texelSprite = tex2D(texSpriteSheet, fsUV).r;

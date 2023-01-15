@@ -44,6 +44,9 @@ private:
 
     void DrawBatches();
 
+    TDX9Texture MakeTexture16(const u16* pixels, u32 textureW, u32 textureH, u32 actualW, u32 actualH);
+    TDX9Texture MakeTexture32(const std::vector<u8>& pixels, u32 textureW, u32 textureH, u32 actualW, u32 actualH);
+    TDX9Texture MakeTexture8(const std::vector<u8>& pixels, u32 textureW, u32 textureH, u32 actualW, u32 actualH);
     TDX9Texture MakeCachedIndexedTexture(u32 uniqueId, const std::vector<u8>& pixels, u32 textureW, u32 textureH, u32 actualW, u32 actualH);
     TDX9Texture MakeCachedTexture(u32 uniqueId, const std::vector<u8>& pixels, u32 textureW, u32 textureH, u32 actualW, u32 actualH);
 
@@ -65,6 +68,7 @@ private:
     ATL::CComPtr<IDirect3DPixelShader9> mPixelShader;
     ATL::CComPtr<IDirect3DPixelShader9> mCamFG1Shader;
     ATL::CComPtr<IDirect3DPixelShader9> mFlatShader;
+    ATL::CComPtr<IDirect3DPixelShader9> mGasShader;
 
     u32 mVboSize = 0;
     ATL::CComPtr<IDirect3DVertexBuffer9> mVBO;
@@ -81,6 +85,8 @@ private:
     TDX9Texture mPaletteTexture;
     PaletteCache mPaletteCache;
     TextureCache<TDX9Texture> mTextureCache;
+
+    TDX9Texture mGasTexture;
 
     const u8 mCamUnit = 4;
     const u8 mPalUnit = 5;
