@@ -1140,19 +1140,23 @@ void ImportCameraAndFG1(std::vector<u8>& fileDataBuffer, LvlWriter& inputLvl, co
         CamStrip mStrips[640 / 16];
     };
 
-    std::vector<u8> rawPixels = Base64Png2RawPixels(imageAndLayers.mCameraImage);
-    auto bitsData = std::make_unique<CamImageStrips>(); // reduce stack usage
-    for (u32 x = 0; x < 640; x++)
+    // Some cams are valid but have no image e.g S1P01C23
+    if (imageAndLayers.HaveCameraImage())
     {
-        for (u32 y = 0; y < 240; y++)
+        std::vector<u8> rawPixels = Base64Png2RawPixels(imageAndLayers.mCameraImage);
+        auto bitsData = std::make_unique<CamImageStrips>(); // reduce stack usage
+        for (u32 x = 0; x < 640; x++)
         {
-            const u32* pPixel32 = &reinterpret_cast<const u32*>(rawPixels.data())[To1dIndex(640, x, y)];
-            bitsData->SetPixel(x, y, RGB888ToRGB565(reinterpret_cast<const u8*>(pPixel32)));
+            for (u32 y = 0; y < 240; y++)
+            {
+                const u32* pPixel32 = &reinterpret_cast<const u32*>(rawPixels.data())[To1dIndex(640, x, y)];
+                bitsData->SetPixel(x, y, RGB888ToRGB565(reinterpret_cast<const u8*>(pPixel32)));
+            }
         }
-    }
 
-    LvlFileChunk bitsChunk(bitsId, ResourceManager::Resource_Bits, bitsData->ToVector());
-    camFile.AddChunk(std::move(bitsChunk));
+        LvlFileChunk bitsChunk(bitsId, ResourceManager::Resource_Bits, bitsData->ToVector());
+        camFile.AddChunk(std::move(bitsChunk));
+    }
 
     // Remove FG1 blocks
     camFile.RemoveChunksOfType(ResourceManager::Resource_FG1);
