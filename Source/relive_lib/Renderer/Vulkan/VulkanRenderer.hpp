@@ -395,7 +395,7 @@ private:
 
     struct BatchData
     {
-        PipelineIndex mPipeline = PipelineIndex::eNone;
+
     };
     Batcher<Texture, BatchData, 14> mBatcher[MAX_FRAMES_IN_FLIGHT];
   
@@ -463,7 +463,7 @@ private:
 
         std::unique_ptr<vk::raii::Buffer> mBuffer;
         std::unique_ptr<vk::raii::DeviceMemory> mBufferMemory;
-        vk::DeviceSize mBufferSize;
+        vk::DeviceSize mBufferSize = 0;
         void* mMappedBuffferMemory = nullptr;
     };
 

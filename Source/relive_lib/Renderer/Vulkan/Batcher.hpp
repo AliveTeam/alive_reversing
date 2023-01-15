@@ -117,6 +117,7 @@ public:
         mVertices.clear();
         mIndexBufferIndex = 0;
         mConstructingBatch = {};
+        mCamTexture = nullptr;
     }
 
     bool mBatchInProgress = false;
