@@ -176,7 +176,9 @@ DirectX9Renderer::DirectX9Renderer(TWindowHandleType window)
 
     mPresentParams.Windowed = TRUE;
     mPresentParams.SwapEffect = D3DSWAPEFFECT_DISCARD;
-    
+    // VSync off
+    mPresentParams.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE;
+
     SDL_SysWMinfo wmInfo;
     SDL_VERSION(&wmInfo.version);
     SDL_GetWindowWMInfo(window, &wmInfo);
