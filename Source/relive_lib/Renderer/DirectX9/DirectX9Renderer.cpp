@@ -33,6 +33,12 @@
     #define DX_VERIFY(x) (x);
 #endif
 
+// TODO: Copy pasted from GL renderer
+inline u16 GetTPageBlendMode(u16 tpage)
+{
+    return (tpage >> 4) & 3;
+}
+
 namespace DXTexture {
 static void LoadSubImage(IDirect3DTexture9& texture, u32 xStart, u32 yStart, u32 width, u32 height, const RGBA32* pixels)
 {
@@ -100,133 +106,6 @@ static void LoadSubImage(IDirect3DTexture9& texture, u32 xStart, u32 yStart, u32
 }
 
 
-// TODO: Copy pasted from GL renderer
-inline u16 GetTPageBlendMode(u16 tpage)
-{
-    return (tpage >> 4) & 3;
-}
-
-class VertexInfo final
-{
-public:
-    template<typename PsxPrimType>
-    constexpr static VertexInfo GTriangle(u8 primType, u16 blendMode, const PsxPrimType& prim)
-    {
-        VertexInfo vi = {};
-        vi.mPrimType = primType;
-
-        vi.SetRGB3(prim);
-
-        vi.mIsSemiTrans = GetPolyIsSemiTrans(&prim);
-        vi.mBlendMode = blendMode;
-        vi.mIsShaded = GetPolyIsShaded(&prim);
-
-        vi.SetXY3(prim);
-
-        return vi;
-    }
-
-    template <typename PsxPrimType>
-    constexpr static VertexInfo QQuad(u8 primType, u16 blendMode, const PsxPrimType& prim)
-    {
-        VertexInfo vi = {};
-        vi.mPrimType = primType;
-
-        vi.SetRGB(prim);
-
-        vi.mIsSemiTrans = GetPolyIsSemiTrans(&prim);
-        vi.mBlendMode = blendMode;
-        vi.mIsShaded = GetPolyIsShaded(&prim);
-
-        vi.SetXY3(prim);
-
-        vi.mX[3] = X3(&prim);
-        vi.mY[3] = Y3(&prim);
-
-        return vi;
-    }
-
-    template <typename PsxPrimType>
-    constexpr static VertexInfo FQuad(u8 primType, u32 palIdx, const PsxPrimType& prim)
-    {
-        VertexInfo vi = {};
-        vi.mPrimType = primType;
-        vi.mPalIndex = palIdx;
-
-        vi.SetRGB(prim);
-
-        vi.mIsSemiTrans = GetPolyIsSemiTrans(&prim);
-        vi.mBlendMode = GetTPageBlendMode(GetTPage(&prim));
-        vi.mIsShaded = GetPolyIsShaded(&prim);
-
-        vi.SetXY3(prim);
-
-        vi.mX[3] = X3(&prim);
-        vi.mY[3] = Y3(&prim);
-
-        return vi;
-    }
-
-
-    // TODO: Strongly type
-    u8 mPrimType;
-    u8 mR[4];
-    u8 mG[4];
-    u8 mB[4];
-    u32 mPalIndex;
-    bool mIsSemiTrans;
-    bool mIsShaded;
-    // TODO: Strongly type
-    u16 mBlendMode;
-
-    f32 mX[4];
-    f32 mY[4];
-
-private:
-    template <typename PsxPrimType>
-    void SetXY3(const PsxPrimType& prim)
-    {
-        mX[0] = X0(&prim);
-        mX[1] = X1(&prim);
-        mX[2] = X2(&prim);
-
-        mY[0] = Y0(&prim);
-        mY[1] = Y1(&prim);
-        mY[2] = Y2(&prim);
-    }
-
-    template <typename PsxPrimType>
-    void SetRGB(const PsxPrimType& prim)
-    {
-        mR[0] = R0(&prim);
-        mG[0] = G0(&prim);
-        mB[0] = B0(&prim);
-
-        for (u32 i = 1; i < 4; i++)
-        {
-            mR[i] = mR[0];
-            mG[i] = mG[0];
-            mB[i] = mB[0];
-        }
-    }
-
-    template <typename PsxPrimType>
-    void SetRGB3(const PsxPrimType& prim)
-    {
-        mR[0] = R0(&prim);
-        mG[0] = G0(&prim);
-        mB[0] = B0(&prim);
-
-        mR[1] = R1(&prim);
-        mG[1] = G1(&prim);
-        mB[1] = B1(&prim);
-
-        mR[2] = R2(&prim);
-        mG[2] = G2(&prim);
-        mB[2] = B2(&prim);
-    }
-};
-
 struct CUSTOMVERTEX final
 {
     FLOAT X, Y, Z, RHW;
@@ -266,8 +145,8 @@ const D3DVERTEXELEMENT9 simple_decl[] =
     D3DDECL_END()};
 
 DirectX9Renderer::DirectX9Renderer(TWindowHandleType window)
-  : IRenderer(window),
-    mPaletteCache(256)
+  : IRenderer(window), mPaletteCache(256)
+    , mBatcher(UvMode::Normalized)
 {
     mD3D9.Attach(Direct3DCreate9(D3D_SDK_VERSION));
 
@@ -304,8 +183,6 @@ DirectX9Renderer::DirectX9Renderer(TWindowHandleType window)
 
     LOG_INFO("PS 2.0 max instructions %d PS 3.0 max instructions %d", dxCaps.PS20Caps.NumInstructionSlots, dxCaps.MaxPixelShader30InstructionSlots);
     LOG_INFO("Max texture w %d max texture h %d", dxCaps.MaxTextureWidth, dxCaps.MaxTextureHeight);
-
-    MakeVertexBuffer();
 
     // Use linear filtering on all samplers and texture clamping
     for (u32 i = 0; i < 16; i++)
@@ -354,8 +231,8 @@ DirectX9Renderer::DirectX9Renderer(TWindowHandleType window)
     // select which vertex format we are using
     DX_VERIFY(mDevice->SetVertexDeclaration(mVertexDecl));
 
-    // select the vertex buffer to display
-    DX_VERIFY(mDevice->SetStreamSource(0, mCameraVBO, 0, sizeof(CUSTOMVERTEX)));
+    // TODO: triangulated lines won't render correctly without turning off culling
+    mDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 }
 
 DirectX9Renderer::~DirectX9Renderer()
@@ -383,6 +260,8 @@ void DirectX9Renderer::StartFrame()
         mOffsetX = 0;
         mOffsetY = 0;
 
+        mBatcher.StartFrame();
+
         DX_VERIFY(mDevice->BeginScene());
 
         // Draw everything to the texture
@@ -394,6 +273,10 @@ void DirectX9Renderer::EndFrame()
 {
     if (mFrameStarted)
     {
+        mBatcher.EndFrame();
+
+        DrawBatches();
+
         DX_VERIFY(mDevice->EndScene());
 
         // Render to the screen instead of the texture
@@ -437,20 +320,18 @@ void DirectX9Renderer::SetTPage(u16 tPage)
 
 void DirectX9Renderer::SetClip(const Prim_PrimClipper& clipper)
 {
-    RECT rect = {};
-    rect.left = clipper.field_C_x;
-    rect.right = clipper.field_C_x + clipper.mBase.header.mRect.w;
-    rect.top = clipper.field_E_y;
-    rect.bottom = clipper.field_E_y + clipper.mBase.header.mRect.h;
+    SDL_Rect rect ;
+    rect.x = clipper.field_C_x;
+    rect.y = clipper.field_E_y;
+    rect.w = clipper.mBase.header.mRect.w;
+    rect.h = clipper.mBase.header.mRect.h;
 
-    if (rect.left == 0 && rect.right == 0 && rect.bottom == 1 && rect.top == 1)
+    if (rect.x == 0 && rect.y == 0 && rect.w == 1 && rect.h == 1)
     {
-        DX_VERIFY(mDevice->SetRenderState(D3DRS_SCISSORTESTENABLE, FALSE));
-        return;
+        rect = {};
     }
 
-    DX_VERIFY(mDevice->SetScissorRect(&rect));
-    DX_VERIFY(mDevice->SetRenderState(D3DRS_SCISSORTESTENABLE, TRUE));
+    mBatcher.SetScissor(rect);
 }
 
 void DirectX9Renderer::ToggleFilterScreen()
@@ -463,28 +344,24 @@ void DirectX9Renderer::Draw(const Prim_GasEffect& /*gasEffect*/)
     // TODO
 }
 
-void DirectX9Renderer::Draw(const Line_G2& /*line*/)
+void DirectX9Renderer::Draw(const Line_G2& line)
 {
-    // TODO
+    mBatcher.PushLine(line, GetTPageBlendMode(mGlobalTPage));
 }
 
-void DirectX9Renderer::Draw(const Line_G4& /*line*/)
+void DirectX9Renderer::Draw(const Line_G4& line)
 {
-    // TODO
+    mBatcher.PushLine(line, GetTPageBlendMode(mGlobalTPage));
 }
-
 
 void DirectX9Renderer::Draw(const Poly_G3& poly)
 {
-    mDevice->SetPixelShader(mFlatShader);
-
-    auto vi = VertexInfo::GTriangle(0, GetTPageBlendMode(mGlobalTPage), poly);
-    DrawTris(nullptr, 0, vi, 0.0f, 0.0f, 0.0f, 0.0f, 1);
+    mBatcher.PushPolyG3(poly, GetTPageBlendMode(mGlobalTPage));
 }
 
 void DirectX9Renderer::SetupBlendMode(u16 blendMode)
 {
-    if ((TPageAbr) blendMode == TPageAbr::eBlend_2)
+    if (static_cast<TPageAbr>(blendMode) == TPageAbr::eBlend_2)
     {
         DX_VERIFY(mDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA));
         DX_VERIFY(mDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE));
@@ -511,197 +388,41 @@ u32 DirectX9Renderer::PreparePalette(AnimationPal& pCache)
     return addRet.mIndex;
 }
 
-void DirectX9Renderer::DrawTris(TDX9Texture pTexture, u32 textureUnit, const VertexInfo& vi, float u0, float v0, float u1, float v1, u32 numTris)
-{
-    DX_VERIFY(mDevice->SetTexture(textureUnit, pTexture ? *pTexture : nullptr));
-
-    SetupBlendMode(vi.mBlendMode);
-    SetQuad(vi, u0, v0, u1, v1);
-
-    DX_VERIFY(mDevice->DrawPrimitive(D3DPT_TRIANGLELIST, 0, numTris));
-}
-
 void DirectX9Renderer::Draw(const Poly_FT4& poly)
 {
     if (poly.mCam && !poly.mFg1)
     {
-        mDevice->SetPixelShader(mCamFG1Shader);
-
-        TDX9Texture pTextureToUse = MakeCachedTexture(poly.mCam->mUniqueId.Id(), *poly.mCam->mData.mPixels, 1024, 1024, poly.mCam->mData.mWidth, poly.mCam->mData.mHeight);
-        auto vi = VertexInfo::FQuad(2, 0, poly);
-        DrawTris(pTextureToUse, mCamUnit, vi, 0.0f, 0.0f, 640.0f / 1024.0f, 240.0f / 1024.0f);
+        // TODO: use square textures
+        // TDX9Texture pTextureToUse = MakeCachedTexture(poly.mCam->mUniqueId.Id(), *poly.mCam->mData.mPixels, 1024, 1024, poly.mCam->mData.mWidth, poly.mCam->mData.mHeight);
+        TDX9Texture pTextureToUse = MakeCachedTexture(poly.mCam->mUniqueId.Id(), *poly.mCam->mData.mPixels, poly.mCam->mData.mWidth, poly.mCam->mData.mHeight, poly.mCam->mData.mWidth, poly.mCam->mData.mHeight);
+        mBatcher.PushCAM(poly, pTextureToUse);
     }
     else if (poly.mCam && poly.mFg1)
     {
-        mDevice->SetPixelShader(mCamFG1Shader);
-
-        TDX9Texture pTextureToUse = MakeCachedTexture(poly.mFg1->mUniqueId.Id(), *poly.mFg1->mImage.mPixels, 1024, 1024, poly.mFg1->mImage.mWidth, poly.mFg1->mImage.mHeight);
-        auto vi = VertexInfo::FQuad(1, 0, poly);
-        DrawTris(pTextureToUse, mFG1Units[0], vi, 0.0f, 0.0f, 640.0f / 1024.0f, 240.0f / 1024.0f);
+        // TODO: use square textures
+        //TDX9Texture pTextureToUse = MakeCachedTexture(poly.mFg1->mUniqueId.Id(), *poly.mFg1->mImage.mPixels, 1024, 1024, poly.mFg1->mImage.mWidth, poly.mFg1->mImage.mHeight);
+        TDX9Texture pTextureToUse = MakeCachedTexture(poly.mFg1->mUniqueId.Id(), *poly.mFg1->mImage.mPixels, poly.mFg1->mImage.mWidth, poly.mFg1->mImage.mHeight, poly.mFg1->mImage.mWidth, poly.mFg1->mImage.mHeight);
+        mBatcher.PushFG1(poly, pTextureToUse);
     }
     else if (poly.mAnim)
     {
-        mDevice->SetPixelShader(mPixelShader);
-
         std::shared_ptr<TgaData> pTga = poly.mAnim->mAnimRes.mTgaPtr;
-
-        const PerFrameInfo* pHeader = poly.mAnim->Get_FrameHeader(-1);
-
-        float u0 = (static_cast<float>(pHeader->mSpriteSheetX) / pTga->mWidth);
-        float v0 = (static_cast<float>(pHeader->mSpriteSheetY) / pTga->mHeight);
-
-        float u1 = u0 + ((float) pHeader->mWidth / (float) pTga->mWidth);
-        float v1 = v0 + ((float) pHeader->mHeight / (float) pTga->mHeight);
-
-        if (poly.mFlipX)
-        {
-            std::swap(u0, u1);
-        }
-
-        if (poly.mFlipY)
-        {
-            std::swap(v1, v0);
-        }
-
         TDX9Texture pTextureToUse = MakeCachedIndexedTexture(poly.mAnim->mAnimRes.mUniqueId.Id(), pTga->mPixels, pTga->mWidth, pTga->mHeight, pTga->mWidth, pTga->mHeight);
-        auto vi = VertexInfo::FQuad(1, PreparePalette(*poly.mAnim->mAnimRes.mCurPal), poly);
-        DrawTris(pTextureToUse, mSpriteUnit, vi, u0, v0, u1, v1);
+        const u32 palIdx = PreparePalette(*poly.mAnim->mAnimRes.mCurPal);
+        mBatcher.PushAnim(poly, palIdx, pTextureToUse);
     }
     else if (poly.mFont)
     {
-        mDevice->SetPixelShader(mPixelShader);
-
         std::shared_ptr<TgaData> pTga = poly.mFont->mFntResource.mTgaPtr;
-
-        float u0 = U0(&poly) / (f32)pTga->mWidth;
-        float v0 = V0(&poly) / (f32) pTga->mHeight;
-
-        float u1 = U3(&poly) / (f32) pTga->mWidth;
-        float v1 = V3(&poly) / (f32) pTga->mHeight;
-
         FontResource& fontRes = poly.mFont->mFntResource;
         TDX9Texture pTextureToUse = MakeCachedIndexedTexture(fontRes.mUniqueId.Id(), pTga->mPixels, pTga->mWidth, pTga->mHeight, pTga->mWidth, pTga->mHeight);
-        auto vi = VertexInfo::FQuad(1, PreparePalette(*fontRes.mCurPal), poly);
-        DrawTris(pTextureToUse, mSpriteUnit, vi, u0, v0, u1, v1);
+        mBatcher.PushFont(poly, PreparePalette(*fontRes.mCurPal), pTextureToUse);
     }
 }
 
 void DirectX9Renderer::Draw(const Poly_G4& poly)
 {
-    mDevice->SetPixelShader(mFlatShader);
-
-    auto vi = VertexInfo::QQuad(0, GetTPageBlendMode(mGlobalTPage), poly);
-    DrawTris(nullptr, 0, vi, 0.0f, 0.0f, 0.0f, 0.0f, 2);
-}
-
-static float FromBool(const bool v)
-{
-    return v ? 1.0f : 0.0f;
-}
-
-static float FromInt(const u32 v)
-{
-    return static_cast<float>(v);
-}
-
-void DirectX9Renderer::SetQuad(const VertexInfo& vi, float u0, float v0, float u1, float v1)
-{
-    float fudge = 0.5f;
-    // create the vertices using the CUSTOMVERTEX struct
-    CUSTOMVERTEX vertices[] = {
-        // Tri 1
-        {vi.mX[0] - fudge,
-         vi.mY[0] - fudge,
-         0.5f,
-         1.0f,
-         D3DCOLOR_XRGB(vi.mR[0], vi.mG[0], vi.mB[0]),
-         u0, // 0
-         v0, // 0
-         FromBool(vi.mIsSemiTrans),
-         FromBool(vi.mIsShaded),
-         FromInt(vi.mPalIndex),
-         FromInt(vi.mBlendMode),
-         FromInt(vi.mPrimType),
-         0.0f},
-
-        {vi.mX[1] - fudge,
-         vi.mY[1] - fudge,
-         0.5f,
-         1.0f,
-         D3DCOLOR_XRGB(vi.mR[1], vi.mG[1], vi.mB[1]),
-         u1, // 1
-         v0, // 0
-         FromBool(vi.mIsSemiTrans),
-         FromBool(vi.mIsShaded),
-         FromInt(vi.mPalIndex),
-         FromInt(vi.mBlendMode),
-         FromInt(vi.mPrimType),
-         0.0f},
-
-        {vi.mX[2] - fudge,
-         vi.mY[2] - fudge,
-         0.5f,
-         1.0f,
-         D3DCOLOR_XRGB(vi.mR[2], vi.mG[2], vi.mB[2]),
-         u0, // 0
-         v1, // 1
-         FromBool(vi.mIsSemiTrans),
-         FromBool(vi.mIsShaded),
-         FromInt(vi.mPalIndex),
-         FromInt(vi.mBlendMode),
-         FromInt(vi.mPrimType),
-         0.0f},
-
-         // Tri 2
-        {vi.mX[1] - fudge,
-         vi.mY[1] - fudge,
-         0.5f,
-         1.0f,
-         D3DCOLOR_XRGB(vi.mR[1], vi.mG[1], vi.mB[1]),
-         u1, // 1
-         v0, // 0
-         FromBool(vi.mIsSemiTrans),
-         FromBool(vi.mIsShaded),
-         FromInt(vi.mPalIndex),
-         FromInt(vi.mBlendMode),
-         FromInt(vi.mPrimType),
-         0.0f},
-
-        {vi.mX[3] - fudge,
-         vi.mY[3] - fudge,
-         0.5f,
-         1.0f,
-         D3DCOLOR_XRGB(vi.mR[3], vi.mG[3], vi.mB[3]),
-         u1, // 1
-         v1, // 1
-         FromBool(vi.mIsSemiTrans),
-         FromBool(vi.mIsShaded),
-         FromInt(vi.mPalIndex),
-         FromInt(vi.mBlendMode),
-         FromInt(vi.mPrimType),
-         0.0f},
-
-        {vi.mX[2] - fudge,
-         vi.mY[2] - fudge,
-         0.5f,
-         1.0f,
-         D3DCOLOR_XRGB(vi.mR[2], vi.mG[2], vi.mB[2]),
-         u0, // 0
-         v1, // 1
-         FromBool(vi.mIsSemiTrans),
-         FromBool(vi.mIsShaded),
-         FromInt(vi.mPalIndex),
-         FromInt(vi.mBlendMode),
-         FromInt(vi.mPrimType),
-         0.0f}
-    };
-
-    VOID* pVoid = nullptr;
-
-    // lock mCameraVBO and load the vertices into it
-    DX_VERIFY(mCameraVBO->Lock(0, 0, &pVoid, 0));
-    memcpy(pVoid, vertices, sizeof(vertices));
-    DX_VERIFY(mCameraVBO->Unlock());
+    mBatcher.PushPolyG4(poly, GetTPageBlendMode(mGlobalTPage));
 }
 
 void DirectX9Renderer::DecreaseResourceLifetimes()
@@ -711,18 +432,6 @@ void DirectX9Renderer::DecreaseResourceLifetimes()
     mPaletteCache.ResetUseFlags();
 }
 
-void DirectX9Renderer::MakeVertexBuffer()
-{
-    // create a vertex buffer interface called mCameraVBO
-    DX_VERIFY(mDevice->SetVertexDeclaration(mVertexDecl));
-
-    DX_VERIFY(mDevice->CreateVertexBuffer(6 * sizeof(CUSTOMVERTEX),
-                               0,
-                               0,
-                               D3DPOOL_MANAGED,
-                               &mCameraVBO,
-                               NULL));
-}
 
 TDX9Texture DirectX9Renderer::MakeCachedIndexedTexture(u32 uniqueId, const std::vector<u8>& pixels, u32 textureW, u32 textureH, u32 actualW, u32 actualH)
 {
@@ -751,6 +460,160 @@ TDX9Texture DirectX9Renderer::MakeCachedTexture(u32 uniqueId, const std::vector<
         DXTexture::LoadSubImage(**textureId, 0, 0, actualW, actualH, pData);
     }
     return textureId;
+}
+
+void DirectX9Renderer::DrawBatches()
+{
+    if (mBatcher.mBatches.empty() || mBatcher.mVertices.empty())
+    {
+        return;
+    }
+
+    DX_VERIFY(mDevice->SetVertexDeclaration(mVertexDecl));
+
+    // Alloc VBO space
+    const u32 requiredVboSize = static_cast<u32>(mBatcher.mVertices.size()) * sizeof(CUSTOMVERTEX);
+    if (mVboSize < requiredVboSize)
+    {
+        LOG_INFO("Allocate VBO bytes %d", requiredVboSize);
+
+        mVBO = nullptr;
+
+        mVboSize = requiredVboSize;
+        DX_VERIFY(mDevice->CreateVertexBuffer(mVboSize,
+                                              0,
+                                              0,
+                                              D3DPOOL_MANAGED,
+                                              &mVBO,
+                                              NULL));
+    }
+
+    VOID* pVoid = nullptr;
+    DX_VERIFY(mVBO->Lock(0, requiredVboSize, &pVoid, 0));
+
+    // Convert and write vertices into the VBO
+    CUSTOMVERTEX* pDstIter = reinterpret_cast<CUSTOMVERTEX*>(pVoid);
+    constexpr float fudge = 0.5f;
+    for (const IRenderer::PsxVertexData& vertex : mBatcher.mVertices)
+    {
+        pDstIter->X = vertex.x + fudge;
+        pDstIter->Y = vertex.y + fudge;
+        pDstIter->Z = 0.5f;
+        pDstIter->RHW = 1.0f;
+        pDstIter->COLOR = D3DCOLOR_XRGB(static_cast<u8>(vertex.r), static_cast<u8>(vertex.g), static_cast<u8>(vertex.b));
+
+        pDstIter->u = vertex.u;
+        pDstIter->v = vertex.v;
+
+        pDstIter->isSemiTrans = static_cast<f32>(vertex.isSemiTrans);
+        pDstIter->isShaded = static_cast<f32>(vertex.isShaded);
+
+        pDstIter->palIndex = static_cast<f32>(vertex.paletteIndex);
+        pDstIter->blendMode = static_cast<f32>(vertex.blendMode);
+
+        pDstIter->drawType = static_cast<f32>(vertex.drawMode);
+        pDstIter->textureUnit = static_cast<f32>(vertex.textureUnitIndex);
+
+        pDstIter++;
+    }
+    DX_VERIFY(mVBO->Unlock());
+
+    // Alloc index buffer space
+    const u32 requiredIndexBufferSize = static_cast<u32>(mBatcher.mIndices.size()) * sizeof(u32);
+    if (mIndexBufferSize < requiredIndexBufferSize)
+    {
+        LOG_INFO("Allocate index buffer bytes %d", requiredIndexBufferSize);
+
+        mIndexBuffer = nullptr;
+        mIndexBufferSize = requiredIndexBufferSize;
+        DX_VERIFY(mDevice->CreateIndexBuffer(mIndexBufferSize,
+                                             0,
+                                             D3DFMT_INDEX32,
+                                             D3DPOOL_MANAGED,
+                                             &mIndexBuffer,
+                                             NULL));
+    }
+    pVoid = nullptr;
+    DX_VERIFY(mIndexBuffer->Lock(0, requiredIndexBufferSize, &pVoid, 0));
+    memcpy(pVoid, mBatcher.mIndices.data(), requiredIndexBufferSize);
+    DX_VERIFY(mIndexBuffer->Unlock());
+
+    DX_VERIFY(mDevice->SetIndices(mIndexBuffer));
+    DX_VERIFY(mDevice->SetStreamSource(0, mVBO, 0, sizeof(CUSTOMVERTEX)));
+
+    u32 idxOffset = 0;
+    u32 baseTextureIdx = 0;
+    for (Batcher<ATL::CComPtr<IDirect3DTexture9>, BatchData, kSpriteTextureUnitCount>::RenderBatch& batch : mBatcher.mBatches)
+    {
+        if (batch.mScissor.x == 0 && batch.mScissor.y == 0 && batch.mScissor.w == 0 && batch.mScissor.h == 0)
+        {
+            // Disable scissor
+            DX_VERIFY(mDevice->SetRenderState(D3DRS_SCISSORTESTENABLE, FALSE));
+        }
+        else
+        {
+            RECT rect = {};
+            rect.left = batch.mScissor.x;
+            rect.right = batch.mScissor.x + batch.mScissor.w;
+            rect.top = batch.mScissor.y;
+            rect.bottom = batch.mScissor.y + batch.mScissor.h;
+
+            DX_VERIFY(mDevice->SetScissorRect(&rect));
+            DX_VERIFY(mDevice->SetRenderState(D3DRS_SCISSORTESTENABLE, TRUE));
+        }
+
+        // TODO: check why we get batches of 0 tris in DX
+        if (batch.mNumTrisToDraw > 0)
+        {
+            u32 textureUnit = 0;
+            switch (mBatcher.mVertices[mBatcher.mIndices[idxOffset]].drawMode)
+            {
+                case IRenderer::PsxDrawMode::DefaultFT4:
+                    textureUnit = mSpriteUnit;
+                    DX_VERIFY(mDevice->SetPixelShader(mPixelShader));
+                    break;
+
+                case IRenderer::PsxDrawMode::FG1:
+                    textureUnit = mFG1Units[0];
+                    DX_VERIFY(mDevice->SetPixelShader(mCamFG1Shader));
+                    break;
+
+                case IRenderer::PsxDrawMode::Camera:
+                    textureUnit = mCamUnit;
+                    DX_VERIFY(mDevice->SetPixelShader(mCamFG1Shader));
+                    break;
+
+                case IRenderer::PsxDrawMode::Flat:
+                    // No texture bind required for untextured prims
+                    DX_VERIFY(mDevice->SetPixelShader(mFlatShader));
+                    break;
+
+                case IRenderer::PsxDrawMode::Gas:
+                    // TODO: Set correct shader and texture unit
+                    LOG_ERROR("no gas yet");
+                    break;
+            }
+
+            // NOTE: We expect this to only ever be 1 due to shader instruction space limitations
+            for (u32 i = 0; i < batch.mTexturesInBatch; i++)
+            {
+                const u32 textureId = batch.mTextureIds[i];
+                const u32 batchTextureIdx = batch.TextureIdxForId(textureId);
+                auto pTex = mBatcher.mBatchTextures[baseTextureIdx + batchTextureIdx];
+
+                DX_VERIFY(mDevice->SetTexture(textureUnit, *pTex));
+            }
+
+            SetupBlendMode(static_cast<u16>(batch.mBlendMode));
+
+            DX_VERIFY(mDevice->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, batch.mNumTrisToDraw * 3, idxOffset, batch.mNumTrisToDraw));
+
+            idxOffset += (batch.mNumTrisToDraw) * 3;
+        }
+
+        baseTextureIdx += batch.mTexturesInBatch;
+    }
+
 }
 
 #endif

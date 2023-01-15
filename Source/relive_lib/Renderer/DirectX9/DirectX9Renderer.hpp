@@ -6,6 +6,8 @@
     #include "../TextureCache.hpp"
     #include "../PaletteCache.hpp"
 
+    #include "../Vulkan/Batcher.hpp"
+
     #undef DIRECT3D_VERSION
     #define DIRECT3D_VERSION 0x0900
     #include <d3d9.h>
@@ -40,12 +42,10 @@ private:
 
     void DecreaseResourceLifetimes();
 
-    void MakeVertexBuffer();
-    void SetQuad(const VertexInfo& vi, float u0, float v0, float u1, float v1);
+    void DrawBatches();
 
     TDX9Texture MakeCachedIndexedTexture(u32 uniqueId, const std::vector<u8>& pixels, u32 textureW, u32 textureH, u32 actualW, u32 actualH);
     TDX9Texture MakeCachedTexture(u32 uniqueId, const std::vector<u8>& pixels, u32 textureW, u32 textureH, u32 actualW, u32 actualH);
-    void DrawTris(TDX9Texture pTexture, u32 textureUnit, const VertexInfo& vi, float u0, float v0, float u1, float v1, u32 numTris = 2);
 
     bool mFrameStarted = false;
     
@@ -66,7 +66,17 @@ private:
     ATL::CComPtr<IDirect3DPixelShader9> mCamFG1Shader;
     ATL::CComPtr<IDirect3DPixelShader9> mFlatShader;
 
-    ATL::CComPtr<IDirect3DVertexBuffer9> mCameraVBO;
+    u32 mVboSize = 0;
+    ATL::CComPtr<IDirect3DVertexBuffer9> mVBO;
+
+    u32 mIndexBufferSize = 0;
+    ATL::CComPtr<IDirect3DIndexBuffer9> mIndexBuffer;
+
+    static constexpr u32 kSpriteTextureUnitCount = 1;
+    struct BatchData
+    {
+    };
+    Batcher<ATL::CComPtr<IDirect3DTexture9>, BatchData, kSpriteTextureUnitCount> mBatcher;
 
     TDX9Texture mPaletteTexture;
     PaletteCache mPaletteCache;

@@ -35,8 +35,8 @@ OpenGLRenderer::OpenGLRenderer(TWindowHandleType window)
     mContext(window),
     mPsxFramebuffer(kPsxFramebufferWidth, kPsxFramebufferHeight),
     mPsxFbFramebuffer(kPsxFramebufferWidth, kPsxFramebufferHeight),
-    mFilterFramebuffer(kTargetFramebufferWidth, kTargetFramebufferHeight),
-    mPaletteCache(kAvailablePalettes)
+    mFilterFramebuffer(kTargetFramebufferWidth, kTargetFramebufferHeight), mPaletteCache(kAvailablePalettes)
+    , mBatcher(UvMode::UnNormalized)
 {
     mWindow = window;
 

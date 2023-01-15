@@ -4,6 +4,12 @@
 #include <vector>
 #include <memory>
 
+enum class UvMode
+{
+    UnNormalized,
+    Normalized,
+};
+
 template <typename TextureType, typename RenderBatchType, std::size_t kTextureBatchSize>
 class Batcher final
 {
@@ -17,7 +23,10 @@ public:
         mBatchingEnabled = batching;
     }
 
-    Batcher()
+    UvMode mUvMode = UvMode::UnNormalized;
+
+    Batcher(UvMode uvMode = UvMode::Normalized)
+        : mUvMode(uvMode)
     {
         mVertices.reserve(IRenderer::kReserveFT4QuadCount * 4);
         mIndices.reserve(IRenderer::kReserveFT4QuadCount * 6);

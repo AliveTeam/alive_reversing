@@ -1,6 +1,7 @@
 #include "Batcher.hpp"
 #include "VulkanRenderer.hpp"
 #include "../OpenGL3/OpenGLRenderer.hpp"
+#include "../DirectX9/DirectX9Renderer.hpp"
 #include "../../Primitives.hpp"
 #include "../../FG1.hpp"
 #include "../../Animation.hpp"
@@ -72,9 +73,12 @@ void Batcher<TextureType, RenderBatchType, kTextureBatchSize>::PushVertexData(IR
     mBatchInProgress = true;
 
     // DEBUGGING: If batching is disabled we invalidate immediately
-    const bool bNewBatch = !mBatchingEnabled || (mConstructingBatch.mTexturesInBatch == kTextureBatchSize - 1);
+    const bool bNewBatch = !mBatchingEnabled || (mConstructingBatch.mTexturesInBatch >= kTextureBatchSize - 1);
     if (bNewBatch)
     {
+        // TODO: With a batch limit of 1 and > 1 batches using the same texture this will still create
+        // 2 batches which is wrong, probably need to also not break when we used 1 texture
+        // and rendering flat prims
         NewBatch();
     }
 }
@@ -224,11 +228,29 @@ void Batcher<TextureType, RenderBatchType, kTextureBatchSize>::PushFont(const Po
     const bool isShaded = GetPolyIsShaded(&poly);
     const u32 blendMode = GetTPageBlendMode(GetTPage(&poly));
 
-    const f32 u0 = U0(&poly);
-    const f32 v0 = V0(&poly);
+    f32 u0 = 0.0f;
+    f32 v0 = 0.0f;
+    f32 u1 = 0.0f;
+    f32 v1 = 0.0f;
 
-    const f32 u1 = U3(&poly);
-    const f32 v1 = V3(&poly);
+    if (mUvMode == UvMode::UnNormalized)
+    {
+        u0 = U0(&poly);
+        v0 = V0(&poly);
+
+        u1 = U3(&poly);
+        v1 = V3(&poly);
+    }
+    else
+    {
+        std::shared_ptr<TgaData> pTga = poly.mFont->mFntResource.mTgaPtr;
+
+        u0 = U0(&poly) / (f32) pTga->mWidth;
+        v0 = V0(&poly) / (f32) pTga->mHeight;
+
+        u1 = U3(&poly) / (f32) pTga->mWidth;
+        v1 = V3(&poly) / (f32) pTga->mHeight;
+    }
 
     IRenderer::PsxVertexData verts[4] = {
         {static_cast<f32>(poly.mBase.vert.x), static_cast<f32>(poly.mBase.vert.y), r, g, b, u0, v0, IRenderer::PsxDrawMode::DefaultFT4, isSemiTrans, isShaded, blendMode, palIndex, 0},
@@ -250,13 +272,27 @@ void Batcher<TextureType, RenderBatchType, kTextureBatchSize>::PushFG1(const Pol
     const bool isShaded = GetPolyIsShaded(&poly);
     const u32 blendMode = GetTPageBlendMode(GetTPage(&poly));
 
-    IRenderer::PsxVertexData verts[4] = {
-        {static_cast<f32>(X0(&poly)), static_cast<f32>(Y0(&poly)), r, g, b, 0.0f, 0.0f, IRenderer::PsxDrawMode::FG1, isSemiTrans, isShaded, blendMode, 0, 0},
-        {static_cast<f32>(X1(&poly)), static_cast<f32>(Y1(&poly)), r, g, b, IRenderer::kPsxFramebufferWidth, 0.0f, IRenderer::PsxDrawMode::FG1, isSemiTrans, isShaded, blendMode, 0, 0},
-        {static_cast<f32>(X2(&poly)), static_cast<f32>(Y2(&poly)), r, g, b, 0.0f, IRenderer::kPsxFramebufferHeight, IRenderer::PsxDrawMode::FG1, isSemiTrans, isShaded, blendMode, 0, 0},
-        {static_cast<f32>(X3(&poly)), static_cast<f32>(Y3(&poly)), r, g, b, IRenderer::kPsxFramebufferWidth, IRenderer::kPsxFramebufferHeight, IRenderer::PsxDrawMode::FG1, isSemiTrans, isShaded, blendMode, 0, 0}};
+    if (mUvMode == UvMode::UnNormalized)
+    {
+        IRenderer::PsxVertexData verts[4] = {
+            {static_cast<f32>(poly.mBase.vert.x), static_cast<f32>(poly.mBase.vert.y), r, g, b, 0.0f, 0.0f, IRenderer::PsxDrawMode::FG1, isSemiTrans, isShaded, blendMode, 0, 0},
+            {static_cast<f32>(poly.mVerts[0].mVert.x), static_cast<f32>(poly.mVerts[0].mVert.y), r, g, b, IRenderer::kPsxFramebufferWidth, 0.0f, IRenderer::PsxDrawMode::FG1, isSemiTrans, isShaded, blendMode, 0, 0},
+            {static_cast<f32>(poly.mVerts[1].mVert.x), static_cast<f32>(poly.mVerts[1].mVert.y), r, g, b, 0.0f, IRenderer::kPsxFramebufferHeight, IRenderer::PsxDrawMode::FG1, isSemiTrans, isShaded, blendMode, 0, 0},
+            {static_cast<f32>(poly.mVerts[2].mVert.x), static_cast<f32>(poly.mVerts[2].mVert.y), r, g, b, IRenderer::kPsxFramebufferWidth, IRenderer::kPsxFramebufferHeight, IRenderer::PsxDrawMode::FG1, isSemiTrans, isShaded, blendMode, 0, 0}};
 
-    PushVertexData(verts, ALIVE_COUNTOF(verts), texture, poly.mFg1->mUniqueId.Id());
+        PushVertexData(verts, ALIVE_COUNTOF(verts), texture, poly.mFg1->mUniqueId.Id());
+    }
+    else
+    {
+        // TODO: Need to take the texture size into account
+        IRenderer::PsxVertexData verts[4] = {
+            {static_cast<f32>(poly.mBase.vert.x), static_cast<f32>(poly.mBase.vert.y), r, g, b, 0.0f, 0.0f, IRenderer::PsxDrawMode::FG1, isSemiTrans, isShaded, blendMode, 0, 0},
+            {static_cast<f32>(poly.mVerts[0].mVert.x), static_cast<f32>(poly.mVerts[0].mVert.y), r, g, b, 1.0f, 0.0f, IRenderer::PsxDrawMode::FG1, isSemiTrans, isShaded, blendMode, 0, 0},
+            {static_cast<f32>(poly.mVerts[1].mVert.x), static_cast<f32>(poly.mVerts[1].mVert.y), r, g, b, 0.0f, 1.0f, IRenderer::PsxDrawMode::FG1, isSemiTrans, isShaded, blendMode, 0, 0},
+            {static_cast<f32>(poly.mVerts[2].mVert.x), static_cast<f32>(poly.mVerts[2].mVert.y), r, g, b, 1.0f, 1.0f, IRenderer::PsxDrawMode::FG1, isSemiTrans, isShaded, blendMode, 0, 0}};
+
+        PushVertexData(verts, ALIVE_COUNTOF(verts), texture, poly.mFg1->mUniqueId.Id());
+    }
 }
 
 template <typename TextureType, typename RenderBatchType, std::size_t kTextureBatchSize>
@@ -270,13 +306,27 @@ void Batcher<TextureType, RenderBatchType, kTextureBatchSize>::PushCAM(const Pol
     const u32 isSemiTrans = GetPolyIsSemiTrans(&poly) ? 1 : 0;
     const u32 blendMode = GetTPageBlendMode(GetTPage(&poly));
 
-    IRenderer::PsxVertexData verts[4] = {
-        {static_cast<f32>(poly.mBase.vert.x), static_cast<f32>(poly.mBase.vert.y), r, g, b, 0.0f, 0.0f, IRenderer::PsxDrawMode::Camera, isSemiTrans, isShaded, blendMode, 0, 0},
-        {static_cast<f32>(poly.mVerts[0].mVert.x), static_cast<f32>(poly.mVerts[0].mVert.y), r, g, b, IRenderer::kPsxFramebufferWidth, 0.0f, IRenderer::PsxDrawMode::Camera, isSemiTrans, isShaded, blendMode, 0, 0},
-        {static_cast<f32>(poly.mVerts[1].mVert.x), static_cast<f32>(poly.mVerts[1].mVert.y), r, g, b, 0.0f, IRenderer::kPsxFramebufferHeight, IRenderer::PsxDrawMode::Camera, isSemiTrans, isShaded, blendMode, 0, 0},
-        {static_cast<f32>(poly.mVerts[2].mVert.x), static_cast<f32>(poly.mVerts[2].mVert.y), r, g, b, IRenderer::kPsxFramebufferWidth, IRenderer::kPsxFramebufferHeight, IRenderer::PsxDrawMode::Camera, isSemiTrans, isShaded, blendMode, 0, 0}};
+    if (mUvMode == UvMode::UnNormalized)
+    {
+        IRenderer::PsxVertexData verts[4] = {
+            {static_cast<f32>(poly.mBase.vert.x), static_cast<f32>(poly.mBase.vert.y), r, g, b, 0.0f, 0.0f, IRenderer::PsxDrawMode::Camera, isSemiTrans, isShaded, blendMode, 0, 0},
+            {static_cast<f32>(poly.mVerts[0].mVert.x), static_cast<f32>(poly.mVerts[0].mVert.y), r, g, b, IRenderer::kPsxFramebufferWidth, 0.0f, IRenderer::PsxDrawMode::Camera, isSemiTrans, isShaded, blendMode, 0, 0},
+            {static_cast<f32>(poly.mVerts[1].mVert.x), static_cast<f32>(poly.mVerts[1].mVert.y), r, g, b, 0.0f, IRenderer::kPsxFramebufferHeight, IRenderer::PsxDrawMode::Camera, isSemiTrans, isShaded, blendMode, 0, 0},
+            {static_cast<f32>(poly.mVerts[2].mVert.x), static_cast<f32>(poly.mVerts[2].mVert.y), r, g, b, IRenderer::kPsxFramebufferWidth, IRenderer::kPsxFramebufferHeight, IRenderer::PsxDrawMode::Camera, isSemiTrans, isShaded, blendMode, 0, 0}};
 
-    PushVertexData(verts, ALIVE_COUNTOF(verts), texture, poly.mCam->mUniqueId.Id());
+        PushVertexData(verts, ALIVE_COUNTOF(verts), texture, poly.mCam->mUniqueId.Id());
+    }
+    else
+    {
+        // TODO: Need to take the texture size into account
+        IRenderer::PsxVertexData verts[4] = {
+            {static_cast<f32>(poly.mBase.vert.x), static_cast<f32>(poly.mBase.vert.y), r, g, b, 0.0f, 0.0f, IRenderer::PsxDrawMode::Camera, isSemiTrans, isShaded, blendMode, 0, 0},
+            {static_cast<f32>(poly.mVerts[0].mVert.x), static_cast<f32>(poly.mVerts[0].mVert.y), r, g, b, 1.0f, 0.0f, IRenderer::PsxDrawMode::Camera, isSemiTrans, isShaded, blendMode, 0, 0},
+            {static_cast<f32>(poly.mVerts[1].mVert.x), static_cast<f32>(poly.mVerts[1].mVert.y), r, g, b, 0.0f, 1.0f, IRenderer::PsxDrawMode::Camera, isSemiTrans, isShaded, blendMode, 0, 0},
+            {static_cast<f32>(poly.mVerts[2].mVert.x), static_cast<f32>(poly.mVerts[2].mVert.y), r, g, b, 1.0f, 1.0f, IRenderer::PsxDrawMode::Camera, isSemiTrans, isShaded, blendMode, 0, 0}};
+
+        PushVertexData(verts, ALIVE_COUNTOF(verts), texture, poly.mCam->mUniqueId.Id());
+    }
 
     mCamTexture = texture;
 }
@@ -297,11 +347,27 @@ void Batcher<TextureType, RenderBatchType, kTextureBatchSize>::PushAnim(const Po
     AnimResource& animRes = poly.mAnim->mAnimRes;
     auto pTga = animRes.mTgaPtr;
 
-    f32 u0 = static_cast<f32>(pHeader->mSpriteSheetX);
-    f32 v0 = static_cast<f32>(pHeader->mSpriteSheetY);
+    f32 u0 = 0.0f;
+    f32 v0 = 0.0f;
+    f32 u1 = 0.0f;
+    f32 v1 = 0.0f;
 
-    f32 u1 = u0 + pHeader->mWidth;
-    f32 v1 = v0 + pHeader->mHeight;
+    if (mUvMode == UvMode::UnNormalized)
+    {
+        u0 = static_cast<f32>(pHeader->mSpriteSheetX);
+        v0 = static_cast<f32>(pHeader->mSpriteSheetY);
+
+        u1 = u0 + pHeader->mWidth;
+        v1 = v0 + pHeader->mHeight;
+    }
+    else
+    {
+        u0 = (static_cast<f32>(pHeader->mSpriteSheetX) / pTga->mWidth);
+        v0 = (static_cast<f32>(pHeader->mSpriteSheetY) / pTga->mHeight);
+
+        u1 = u0 + ((f32) pHeader->mWidth / (f32) pTga->mWidth);
+        v1 = v0 + ((f32) pHeader->mHeight / (f32) pTga->mHeight);
+    }
 
     if (poly.mFlipX)
     {
@@ -324,3 +390,7 @@ void Batcher<TextureType, RenderBatchType, kTextureBatchSize>::PushAnim(const Po
 
 template class Batcher<VulkanRenderer::Texture, VulkanRenderer::BatchData, 14>;
 template class Batcher<GLTexture2D, OpenGLRenderer::BatchData, 12>;
+
+#ifdef _WIN32
+template class Batcher<ATL::CComPtr<IDirect3DTexture9>, DirectX9Renderer::BatchData, 1>;
+#endif
