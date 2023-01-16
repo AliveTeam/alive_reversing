@@ -411,7 +411,7 @@ void Batcher<TextureType, RenderBatchType, kTextureBatchSize>::PushAnim(const Po
     PushVertexData(verts, ALIVE_COUNTOF(verts), texture, animRes.mUniqueId.Id());
 }
 
-template class Batcher<VulkanRenderer::Texture, VulkanRenderer::BatchData, 14>;
+template class Batcher<VulkanRenderer::Texture, VulkanRenderer::BatchData, 13>;
 template class Batcher<GLTexture2D, OpenGLRenderer::BatchData, 12>;
 
 #ifdef _WIN32

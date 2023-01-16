@@ -821,7 +821,6 @@ void VulkanRenderer::copyBufferToImage(vk::raii::CommandBuffer& commandBuffer, v
 
 void VulkanRenderer::createVertexBuffer(u32 idx)
 {
-    // TODO: Wrong vertex format
     auto usageFlags = vk::BufferUsageFlagBits::eTransferDst | vk::BufferUsageFlagBits::eVertexBuffer;
     auto memoryFlags = vk::MemoryPropertyFlagBits::eHostVisible | vk::MemoryPropertyFlagBits::eHostCoherent | vk::MemoryPropertyFlagBits::eDeviceLocal;
 
@@ -863,7 +862,6 @@ void VulkanRenderer::createUniformBuffers(u32 idx)
     auto memoryFlags = vk::MemoryPropertyFlagBits::eHostVisible | vk::MemoryPropertyFlagBits::eHostCoherent;
     UniformBufferObject uboTemp = {};
     mUniformBuffer[idx].makeBuffer(*this, mDevice, usageFlags, memoryFlags, &uboTemp, 1);
-
 }
 
 void VulkanRenderer::createDescriptorSetLayout()
@@ -889,14 +887,21 @@ void VulkanRenderer::createDescriptorSetLayout()
     texCamera.pImmutableSamplers = nullptr;
     texCamera.stageFlags = vk::ShaderStageFlagBits::eFragment;
 
+    vk::DescriptorSetLayoutBinding texGas;
+    texGas.binding = 3;
+    texGas.descriptorCount = 1;
+    texGas.descriptorType = vk::DescriptorType::eCombinedImageSampler;
+    texGas.pImmutableSamplers = nullptr;
+    texGas.stageFlags = vk::ShaderStageFlagBits::eFragment;
+
     vk::DescriptorSetLayoutBinding texSpriteSheets;
-    texSpriteSheets.binding = 3;
-    texSpriteSheets.descriptorCount = 14; // texture array size
+    texSpriteSheets.binding = 4;
+    texSpriteSheets.descriptorCount = 13; // texture array size
     texSpriteSheets.descriptorType = vk::DescriptorType::eCombinedImageSampler;
     texSpriteSheets.pImmutableSamplers = nullptr;
     texSpriteSheets.stageFlags = vk::ShaderStageFlagBits::eFragment;
 
-    vk::DescriptorSetLayoutBinding bindings[] = {uboLayoutBinding, texPalette, texCamera, texSpriteSheets};
+    vk::DescriptorSetLayoutBinding bindings[] = {uboLayoutBinding, texPalette, texCamera, texGas, texSpriteSheets};
     vk::DescriptorSetLayoutCreateInfo layoutInfo;
     layoutInfo.bindingCount = ALIVE_COUNTOF(bindings);
     layoutInfo.pBindings = bindings;
@@ -915,8 +920,10 @@ void VulkanRenderer::createDescriptorPool()
         {vk::DescriptorType::eCombinedImageSampler, static_cast<uint32_t>(MAX_FRAMES_IN_FLIGHT) * kMaxBatches},
         // cam
         {vk::DescriptorType::eCombinedImageSampler, static_cast<uint32_t>(MAX_FRAMES_IN_FLIGHT) * kMaxBatches},
+        // gas
+        {vk::DescriptorType::eCombinedImageSampler, static_cast<uint32_t>(MAX_FRAMES_IN_FLIGHT) * kMaxBatches},
         // sprites
-        {vk::DescriptorType::eCombinedImageSampler, 14 * static_cast<uint32_t>(MAX_FRAMES_IN_FLIGHT) * kMaxBatches},
+        {vk::DescriptorType::eCombinedImageSampler, 13 * static_cast<uint32_t>(MAX_FRAMES_IN_FLIGHT) * kMaxBatches},
     };
 
     vk::DescriptorPoolCreateInfo poolInfo;
@@ -946,14 +953,13 @@ static u32 To1dIdx(u32 col, u32 row)
 
 void VulkanRenderer::updateDescriptorSets()
 {
-
     for (u32 i = 0; i < MAX_FRAMES_IN_FLIGHT; i++)
     {
         const u32 batchCount = static_cast<u32>(std::max(1u, static_cast<u32>(mBatcher[i].mBatches.size())));
         u32 textureIdxOff = 0;
         for (u32 j = 0; j < batchCount; j++)
         {
-            std::array<vk::WriteDescriptorSet, 4> descriptorWrites{};
+            std::array<vk::WriteDescriptorSet, 5> descriptorWrites{};
 
             // ubo
             vk::DescriptorBufferInfo bufferInfo;
@@ -1009,6 +1015,25 @@ void VulkanRenderer::updateDescriptorSets()
                 descriptorWrites[2].pImageInfo = &imageInfo4;
             }
 
+            // Gas texture
+            vk::DescriptorImageInfo gasImage{};
+            descriptorWrites[3].dstSet = *mDescriptorSets[To1dIdx(i, j)];
+            descriptorWrites[3].dstBinding = 3;
+            descriptorWrites[3].dstArrayElement = 0;
+            descriptorWrites[3].descriptorType = vk::DescriptorType::eCombinedImageSampler;
+            descriptorWrites[3].descriptorCount = 1;
+            if (mGasTexture[mCurrentFrame])
+            {
+                gasImage.imageView = **mGasTexture[mCurrentFrame]->View();
+            }
+            else
+            {
+                gasImage.imageView = **mPaletteTexture[i]->View();
+            }
+            gasImage.imageLayout = vk::ImageLayout::eShaderReadOnlyOptimal;
+            gasImage.sampler = **mTextureSampler[i];
+            descriptorWrites[3].pImageInfo = &gasImage;
+
             // Sprite sheets
             vk::DescriptorImageInfo imageInfo2[14];
             for (u32 k = 0; k < 14; k++)
@@ -1030,12 +1055,12 @@ void VulkanRenderer::updateDescriptorSets()
                 imageInfo2[k].sampler = **mTextureSampler[i];
             }
 
-            descriptorWrites[3].dstSet = *mDescriptorSets[To1dIdx(i, j)];
-            descriptorWrites[3].dstBinding = 3;
-            descriptorWrites[3].dstArrayElement = 0;
-            descriptorWrites[3].descriptorType = vk::DescriptorType::eCombinedImageSampler;
-            descriptorWrites[3].descriptorCount = 14; // texture array size
-            descriptorWrites[3].pImageInfo = imageInfo2;
+            descriptorWrites[4].dstSet = *mDescriptorSets[To1dIdx(i, j)];
+            descriptorWrites[4].dstBinding = 4;
+            descriptorWrites[4].dstArrayElement = 0;
+            descriptorWrites[4].descriptorType = vk::DescriptorType::eCombinedImageSampler;
+            descriptorWrites[4].descriptorCount = 13; // texture array size
+            descriptorWrites[4].pImageInfo = imageInfo2;
 
             mDevice->updateDescriptorSets(descriptorWrites, {});
 
@@ -1709,9 +1734,15 @@ inline u16 GetTPageBlendMode(u16 tpage)
     return (tpage >> 4) & 3;
 }
 
-void VulkanRenderer::Draw(const Prim_GasEffect& /*gasEffect*/)
+void VulkanRenderer::Draw(const Prim_GasEffect& gasEffect)
 {
-    // TODO
+    const u32 gasWidth = static_cast<u32>(std::floor((gasEffect.w - gasEffect.x) / 4));
+    const u32 gasHeight = static_cast<u32>(std::floor((gasEffect.h - gasEffect.y) / 2));
+
+    mGasTexture[mCurrentFrame] = std::make_shared<Texture>(*this, gasWidth, gasHeight, gasEffect.pData, Texture::Format::RGBA16);
+
+    // TODO: If there is more than 1 gas in a frame break the batch ?
+    mBatcher[mCurrentFrame].PushGas(gasEffect);
 }
 
 void VulkanRenderer::Draw(const Line_G2& line)

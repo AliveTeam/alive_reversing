@@ -3,7 +3,8 @@
 // Uniforms
 layout(binding = 1) uniform sampler2D texPalette;
 layout(binding = 2) uniform sampler2D texCamera;
-layout(binding = 3) uniform sampler2D texSpriteSheets[14];
+layout(binding = 3) uniform sampler2D texGas;
+layout(binding = 4) uniform sampler2D texSpriteSheets[13];
 
 // Inputs from vertex shader
 layout(location = 0) in vec3 fragColor;
@@ -152,10 +153,6 @@ vec4 SampleTexture()
         case 12u:
             value = textureLod(texSpriteSheets[12], fragTexCoord, 0.0f);
             break;
-
-        case 13u:
-            value = textureLod(texSpriteSheets[13], fragTexCoord, 0.0f);
-            break;
     }
     return value;
 }
@@ -186,7 +183,7 @@ vec4 draw_fg1()
 
 vec4 draw_gas()
 {
-    vec4 texelGas = SampleTexture();
+    vec4 texelGas =  textureLod(texGas, fragTexCoord, 0.0f);
     if (dither())
     {
         texelGas = texelGas * 0.5;
