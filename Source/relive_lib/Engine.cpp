@@ -5,14 +5,12 @@
 #include "PsxDisplay.hpp"
 #include "../AliveLibAE/VGA.hpp"
 #include "BaseGameAutoPlayer.hpp"
+#include "Sys.hpp"
 
-void SYS_EventsPump();
+#include "../AliveLibAE/Io.hpp"
 
-void Main_ParseCommandLineArguments(const char_type* pCommandLine);
-
-namespace AO {
-void Main_ParseCommandLineArguments(const char_type* pCommandLine);
-}
+// TODO: Remove after merge
+extern bool sCommandLine_ShowFps;
 
 Engine::Engine(GameType gameType, const char_type* pCommandLine)
     : mGameType(gameType)
@@ -21,23 +19,50 @@ Engine::Engine(GameType gameType, const char_type* pCommandLine)
 
 }
 
-void PSX_PutDispEnv_4F5890();
-
-void Engine::Run()
+void Engine::CmdLineRenderInit(const char_type* pCommandLine)
 {
-    // TODO: HACK mini loop till Game.cpp is merged
+    IO_Init_494230();
 
-    gPsxDisplay.Init();
+    if (pCommandLine)
+    {
+        if (strstr(pCommandLine, "-ddfps"))
+        {
+            sCommandLine_ShowFps = true;
+        }
 
-    GetGameAutoPlayer().ParseCommandLine(mCommandLine);
+        if (strstr(pCommandLine, "-ddnoskip"))
+        {
+            gCommandLine_NoFrameSkip = true;
+        }
+
+        if (strstr(pCommandLine, "-ddcheat") || _strcmpi(pCommandLine, "-it_is_me_your_father") == 0)
+        {
+            gDDCheatOn = true;
+        }
+    }
+
+#if FORCE_DDCHEAT
+    gDDCheatOn = true;
+#endif
+
     if (mGameType == GameType::eAe)
     {
-        Main_ParseCommandLineArguments(mCommandLine);
+        VGA_CreateRenderer(WindowTitleAE());
     }
     else
     {
-        AO::Main_ParseCommandLineArguments(mCommandLine);
+        VGA_CreateRenderer(WindowTitleAO());
     }
+
+    PSX_EMU_SetCallBack_4F9430(Game_End_Frame);
+}
+
+void Engine::Run()
+{
+    gPsxDisplay.Init();
+
+    GetGameAutoPlayer().ParseCommandLine(mCommandLine);
+    CmdLineRenderInit(mCommandLine);
 
     // Moved from PsxDisplay init to prevent desync
     PSX_PutDispEnv_4F5890();
@@ -45,6 +70,7 @@ void Engine::Run()
     // Another hack till refactor branch replaces master
     GetGameAutoPlayer().Pause(true);
 
+    // TODO: HACK mini loop till Game.cpp is merged
     DataConversionUI dcu(mGameType);
     if (dcu.ConversionRequired())
     {

@@ -34,6 +34,9 @@
 #include "../AliveLibAE/VGA.hpp"
 #include "GasCountDown.hpp"
 
+// Note: Using AE var
+//bool gDDCheatOn = false;
+
 namespace AO {
 
 bool gbKillUnsavedMudsDone = false;
@@ -45,28 +48,6 @@ s16 gRestartRuptureFarmsSavedMuds = 0;
 s16 sBreakGameLoop = 0;
 s16 gAttract = 0;
 
-s8 gDDCheatOn = 0;
-
-void Main_ParseCommandLineArguments(const char_type* pCommandLine)
-{
-    IO_Init_494230();
-
-    if (pCommandLine)
-    {
-        if (_strcmpi(pCommandLine, "-it_is_me_your_father") == 0)
-        {
-            gDDCheatOn = 1;
-        }
-        // Force DDCheat
-#if FORCE_DDCHEAT
-        gDDCheatOn = true;
-#endif
-    }
-
-    VGA_CreateRenderer(WindowTitleAO());
-
-    PSX_EMU_SetCallBack_4F9430(Game_End_Frame);
-}
 
 void Init_GameStates()
 {

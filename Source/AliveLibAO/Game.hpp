@@ -9,12 +9,13 @@ extern u32 sGnFrame; // NOTE: Points to AE copy till moved to common lib
 
 extern DynamicArrayT<BaseGameObject>* gPlatformsArray;
 
+extern bool gDDCheatOn;
+
 namespace AO {
 
 
 extern s16 gAttract;
 extern s16 sBreakGameLoop;
-extern s8 gDDCheatOn;
 
 extern s16 gRestartRuptureFarmsKilledMuds;
 extern s16 gRestartRuptureFarmsSavedMuds;
