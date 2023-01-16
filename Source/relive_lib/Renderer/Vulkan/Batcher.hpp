@@ -45,6 +45,7 @@ public:
         u32 mTextureIds[kTextureBatchSize] = {};
         u32 mBlendMode = 0;
         SDL_Rect mScissor = {};
+        bool mSourceIsFramebuffer = false;
 
         void AddTexture(u32 id, std::vector<std::shared_ptr<TextureType>>& batchedTextures, std::shared_ptr<TextureType>& texture)
         {
@@ -94,6 +95,8 @@ public:
 
     void PushVertexData(IRenderer::PsxVertexData* pVertData, s32 count, std::shared_ptr<TextureType>& texture, u32 textureResId);
 
+    void PushFramebufferVertexData(const IRenderer::PsxVertexData* pVertData, s32 count);
+
     void PushLines(const IRenderer::PsxVertexData* vertices, s32 count);
 
     void NewBatch();
@@ -128,4 +131,7 @@ public:
     std::vector<IRenderer::PsxVertexData> mVertices;
     u16 mIndexBufferIndex = 0;
     std::vector<u32> mIndices;
+
+private:
+    void InsertVertexData(const IRenderer::PsxVertexData* pVertData, s32 count);
 };

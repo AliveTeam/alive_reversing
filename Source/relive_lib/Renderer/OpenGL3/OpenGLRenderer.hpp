@@ -86,13 +86,13 @@ private:
     std::shared_ptr<GLTexture2D> PrepareTextureFromAnim(Animation& anim);
     std::shared_ptr<GLTexture2D> PrepareTextureFromPoly(const Poly_FT4& poly);
 
-    void PushFramebufferVertexData(const PassthruVertexData* vertices, int count);
-
     void DrawFramebufferToScreen(s32 x, s32 y, s32 width, s32 height);
-    bool HasFramebufferPolysToDraw();
-    void RenderFramebufferPolys();
     void SetupBlendMode(u16 blendMode);
     void UpdateFilterFramebuffer();
+
+    GLFramebuffer& GetSourcePsxFramebuffer();
+    GLFramebuffer& GetDestinationPsxFramebuffer();
+    void SwapSrcDstForPsxFramebuffers();
 
     void DecreaseResourceLifetimes();
 
@@ -108,9 +108,9 @@ private:
     GLShaderProgram mPassthruFilterShader;
     GLShaderProgram mPsxShader;
 
-    GLFramebuffer mPsxFramebuffer;
-    GLFramebuffer mPsxFbFramebuffer;
     GLFramebuffer mFilterFramebuffer;
+    GLFramebuffer mPsxFramebuffer[2];
+    u8            mSrcPsxFramebufferIdx = 0;
 
     Stats mStats;
 
@@ -127,9 +127,6 @@ private:
 
     PaletteCache mPaletteCache;
     TextureCache<std::shared_ptr<GLTexture2D>> mTextureCache;
-
-    std::vector<PassthruVertexData> mFbData;
-    std::vector<u32> mFbIndicies;
 
     std::shared_ptr<GLTexture2D> mPaletteTexture;
     std::shared_ptr<GLTexture2D> mCurGasTexture;

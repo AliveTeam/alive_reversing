@@ -51,6 +51,10 @@ uniform sampler2D texCamera;
 uniform sampler2D texSpriteSheets[12];
 uniform vec2 fsSpriteSheetSize[12];
 
+uniform sampler2D texFramebuffer;
+
+uniform bool bDrawingFramebuffer;
+
 const int BLEND_MODE_HALF_DST_ADD_HALF_SRC = 0;
 const int BLEND_MODE_ONE_DST_ADD_ONE_SRC   = 1;
 const int BLEND_MODE_ONE_DST_SUB_ONE_SRC   = 2;
@@ -249,31 +253,47 @@ void draw_gas()
     }
 }
 
+void draw_framebuffer()
+{
+    vec2 scaledUV = fsUV / frameSize;
+
+    outColor = texture(texFramebuffer, scaledUV);
+
+    outColor = vec4(outColor.rgb, 0.0);
+}
+
 void main()
 {
-    int drawMode = int(fsFlags.x);
-
-    switch (drawMode)
+    if (bDrawingFramebuffer)
     {
-        case DRAW_FLAT:
-            draw_flat();
-            break;
+        draw_framebuffer();
+    }
+    else
+    {
+        int drawMode = int(fsFlags.x);
 
-        case DRAW_DEFAULT_FT4:
-            draw_default_ft4();
-            break;
+        switch (drawMode)
+        {
+            case DRAW_FLAT:
+                draw_flat();
+                break;
 
-        case DRAW_CAM:
-            draw_cam();
-            break;
+            case DRAW_DEFAULT_FT4:
+                draw_default_ft4();
+                break;
 
-        case DRAW_FG1:
-            draw_fg1();
-            break;
+            case DRAW_CAM:
+                draw_cam();
+                break;
 
-        case DRAW_GAS:
-            draw_gas();
-            break;
+            case DRAW_FG1:
+                draw_fg1();
+                break;
+
+            case DRAW_GAS:
+                draw_gas();
+                break;
+        }
     }
 }
 )";

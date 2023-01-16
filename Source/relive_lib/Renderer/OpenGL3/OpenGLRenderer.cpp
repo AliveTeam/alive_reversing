@@ -33,10 +33,13 @@ static bool gRenderEnable_G2 = true;
 OpenGLRenderer::OpenGLRenderer(TWindowHandleType window)
     : IRenderer(window),
     mContext(window),
-    mPsxFramebuffer(kPsxFramebufferWidth, kPsxFramebufferHeight),
-    mPsxFbFramebuffer(kPsxFramebufferWidth, kPsxFramebufferHeight),
-    mFilterFramebuffer(kTargetFramebufferWidth, kTargetFramebufferHeight), mPaletteCache(kAvailablePalettes)
-    , mBatcher(UvMode::UnNormalized)
+    mFilterFramebuffer(kTargetFramebufferWidth, kTargetFramebufferHeight),
+    mPsxFramebuffer{
+        GLFramebuffer(kPsxFramebufferWidth, kPsxFramebufferHeight),
+        GLFramebuffer(kPsxFramebufferWidth, kPsxFramebufferHeight)
+    },
+    mBatcher(UvMode::UnNormalized),
+    mPaletteCache(kAvailablePalettes)
 {
     mWindow = window;
 
@@ -67,10 +70,6 @@ OpenGLRenderer::OpenGLRenderer(TWindowHandleType window)
     mPassthruShader.LinkShaders(passthruVS, passthruFS);
     mPassthruFilterShader.LinkShaders(passthruVS, passthruFilterFS);
     mPsxShader.LinkShaders(psxVS, psxFS);
-
-    // Init batch vectors
-    mFbData.reserve(kReserveScreenWaveQuadCount * 4);
-    mFbIndicies.reserve(kReserveScreenWaveQuadCount * 6);
 
     // Init array we pass to texture uniform to specify the units we're using
     // which is the number of units starting at GL_TEXTURE7
@@ -111,8 +110,8 @@ void OpenGLRenderer::Clear(u8 r, u8 g, u8 b)
     GL_VERIFY(glClearColor(static_cast<f32>(r), static_cast<f32>(g), static_cast<f32>(b), 1.0f));
     GL_VERIFY(glClear(GL_COLOR_BUFFER_BIT));
 
-    // Set back to the PSX framebuffer
-    mPsxFramebuffer.BindAsTarget();
+    // Set back to the dest PSX framebuffer
+    GetDestinationPsxFramebuffer().BindAsTarget();
 
     if (scissoring)
     {
@@ -139,19 +138,8 @@ void OpenGLRenderer::StartFrame()
     mOffsetX = 0;
     mOffsetY = 0;
 
-    // Add the screen itself into the framebuffer polys, so it's always
-    // drawn first
-    static const PassthruVertexData screenVerts[4] = {
-        { 0.0f, 0.0f, 0.0f, 0.0f },
-        { 0.0f, kPsxFramebufferHeight, 0.0f, kPsxFramebufferHeight },
-        { kPsxFramebufferWidth, 0.0f, kPsxFramebufferWidth, 0.0f },
-        { kPsxFramebufferWidth, kPsxFramebufferHeight, kPsxFramebufferWidth, kPsxFramebufferHeight }
-    };
-
-    PushFramebufferVertexData(screenVerts, ALIVE_COUNTOF(screenVerts));
-
-    // Always render to PSX framebuffer
-    mPsxFramebuffer.BindAsTarget();
+    // Ensure bound to destination framebuffer
+    GetDestinationPsxFramebuffer().BindAsTarget();
 }
 
 void OpenGLRenderer::EndFrame()
@@ -159,10 +147,6 @@ void OpenGLRenderer::EndFrame()
     mBatcher.EndFrame();
 
     DrawBatches();
-
-    // FIXME: Only do this if we actually have FB polys to draw
-    //        ( call HasFramebufferPolysToDraw() )
-    RenderFramebufferPolys();
 
     // Always decrease resource lifetimes regardless of drawing to prevent
     // memory leaks
@@ -210,8 +194,8 @@ void OpenGLRenderer::EndFrame()
 
     mFrameStarted = false;
 
-    // Set the framebuffer target back to the PSX framebuffer
-    mPsxFramebuffer.BindAsTarget();
+    // Set the framebuffer target back to the destination PSX framebuffer
+    GetDestinationPsxFramebuffer().BindAsTarget();
 }
 
 void OpenGLRenderer::SetTPage(u16 tPage)
@@ -328,14 +312,14 @@ void OpenGLRenderer::Draw(const Poly_FT4& poly)
     else
     {
         // ScreenWave (Bell Song framebuffer effect)
-        PassthruVertexData verts[4] = {
-            { static_cast<f32>(X0(&poly)), static_cast<f32>(Y0(&poly)), static_cast<f32>(U0(&poly)), static_cast<f32>(V0(&poly)) },
-            { static_cast<f32>(X1(&poly)), static_cast<f32>(Y1(&poly)), static_cast<f32>(U1(&poly)), static_cast<f32>(V1(&poly)) },
-            { static_cast<f32>(X2(&poly)), static_cast<f32>(Y2(&poly)), static_cast<f32>(U2(&poly)), static_cast<f32>(V2(&poly)) },
-            { static_cast<f32>(X3(&poly)), static_cast<f32>(Y3(&poly)), static_cast<f32>(U3(&poly)), static_cast<f32>(V3(&poly)) }
+        PsxVertexData verts[4] = {
+            { static_cast<f32>(X0(&poly)), static_cast<f32>(Y0(&poly)), 127.0f, 127.0f, 127.0f, static_cast<f32>(U0(&poly)), static_cast<f32>(V0(&poly)), PsxDrawMode::DefaultFT4, 0, 0, 0, 0, 0 },
+            { static_cast<f32>(X1(&poly)), static_cast<f32>(Y1(&poly)), 127.0f, 127.0f, 127.0f, static_cast<f32>(U1(&poly)), static_cast<f32>(V1(&poly)), PsxDrawMode::DefaultFT4, 0, 0, 0, 0, 0 },
+            { static_cast<f32>(X2(&poly)), static_cast<f32>(Y2(&poly)), 127.0f, 127.0f, 127.0f, static_cast<f32>(U2(&poly)), static_cast<f32>(V2(&poly)), PsxDrawMode::DefaultFT4, 0, 0, 0, 0, 0 },
+            { static_cast<f32>(X3(&poly)), static_cast<f32>(Y3(&poly)), 127.0f, 127.0f, 127.0f, static_cast<f32>(U3(&poly)), static_cast<f32>(V3(&poly)), PsxDrawMode::DefaultFT4, 0, 0, 0, 0, 0 }
         };
 
-        PushFramebufferVertexData(verts, ALIVE_COUNTOF(verts));
+        mBatcher.PushFramebufferVertexData(verts, ALIVE_COUNTOF(verts));
     }
 }
 
@@ -449,41 +433,6 @@ std::shared_ptr<GLTexture2D> OpenGLRenderer::PrepareTextureFromPoly(const Poly_F
     return texture;
 }
 
-void OpenGLRenderer::PushFramebufferVertexData(const PassthruVertexData *vertices, int count)
-{
-    if (!mFrameStarted)
-    {
-        return;
-    }
-
-    // Push indicies for this data
-    const u32 nextIndex = static_cast<u32>(mFbData.size());
-    const s32 numTriangles = count - 2;
-
-    if (numTriangles == 1)
-    {
-        mFbIndicies.push_back(nextIndex);
-        mFbIndicies.push_back(nextIndex + 1);
-        mFbIndicies.push_back(nextIndex + 2);
-    }
-    else if (numTriangles == 2)
-    {
-        mFbIndicies.push_back(nextIndex + 1);
-        mFbIndicies.push_back(nextIndex);
-        mFbIndicies.push_back(nextIndex + 3);
-
-        mFbIndicies.push_back(nextIndex + 3);
-        mFbIndicies.push_back(nextIndex);
-        mFbIndicies.push_back(nextIndex + 2);
-    }
-
-    // Push vertex data
-    for (int i = 0; i < count; i++)
-    {
-        mFbData.push_back(vertices[i]);
-    }
-}
-
 void OpenGLRenderer::DrawFramebufferToScreen(s32 x, s32 y, s32 width, s32 height)
 {
     // Ensure blend mode is back to normal alpha compositing
@@ -494,8 +443,7 @@ void OpenGLRenderer::DrawFramebufferToScreen(s32 x, s32 y, s32 width, s32 height
     f32 texWidth = 0;
     f32 texHeight = 0;
 
-    // FIXME: Do the filter in one go as an enum in the shader instead
-    //        of an extra pass here
+    // Handle filtering
     if (mFramebufferFilter)
     {
         UpdateFilterFramebuffer();
@@ -507,9 +455,9 @@ void OpenGLRenderer::DrawFramebufferToScreen(s32 x, s32 y, s32 width, s32 height
     }
     else
     {
-        mPsxFbFramebuffer.BindAsSourceTextureTo(GL_TEXTURE0);
-        texWidth = static_cast<f32>(mPsxFbFramebuffer.GetWidth());
-        texHeight = static_cast<f32>(mPsxFbFramebuffer.GetHeight());
+        GetDestinationPsxFramebuffer().BindAsSourceTextureTo(GL_TEXTURE0);
+        texWidth = static_cast<f32>(GetDestinationPsxFramebuffer().GetWidth());
+        texHeight = static_cast<f32>(GetDestinationPsxFramebuffer().GetHeight());
     }
 
     // Set up VBOs
@@ -585,63 +533,6 @@ void OpenGLRenderer::DrawFramebufferToScreen(s32 x, s32 y, s32 width, s32 height
     GL_VERIFY(glDisableVertexAttribArray(1));
 }
 
-bool OpenGLRenderer::HasFramebufferPolysToDraw()
-{
-    // There's always 4 verts for the screen quad, if there's any more than
-    // that then some FT4s have been pushed
-    return mFbData.size() > 4;
-}
-
-void OpenGLRenderer::RenderFramebufferPolys()
-{
-    if (!mFrameStarted)
-    {
-        return;
-    }
-
-    // Ensure blend mode is back to normal alpha compositing
-    GL_VERIFY(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
-    GL_VERIFY(glBlendEquation(GL_FUNC_ADD));
-
-    // Set up VBOs
-    GLuint eboId, vboId;
-
-    GL_VERIFY(glGenBuffers(1, &vboId));
-    GL_VERIFY(glBindBuffer(GL_ARRAY_BUFFER, vboId));
-    GL_VERIFY(glBufferData(GL_ARRAY_BUFFER, sizeof(PassthruVertexData) * mFbData.size(), &mFbData.front(), GL_STREAM_DRAW));
-
-    GL_VERIFY(glGenBuffers(1, &eboId));
-    GL_VERIFY(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, eboId));
-    GL_VERIFY(glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(u32) * mFbIndicies.size(), &mFbIndicies.front(), GL_STREAM_DRAW));
-
-    // Bind framebuffers and draw
-    mPassthruShader.Use();
-
-    mPassthruShader.Uniform1i("texTextureData", 0);
-    mPassthruShader.UniformVec2("vsViewportSize", kPsxFramebufferWidth, kPsxFramebufferHeight);
-    mPassthruShader.Uniform1i("fsFlipUV", true);
-    mPassthruShader.UniformVec2("fsTexSize", kPsxFramebufferWidth, kPsxFramebufferHeight);
-
-    mPsxFbFramebuffer.BindAsTarget();
-    mPsxFramebuffer.BindAsSourceTextureTo(GL_TEXTURE0);
-
-    GL_VERIFY(glEnableVertexAttribArray(0));
-    GL_VERIFY(glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(PassthruVertexData), 0));
-
-    GL_VERIFY(glEnableVertexAttribArray(1));
-    GL_VERIFY(glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(PassthruVertexData), (void*) offsetof(PassthruVertexData, u)));
-
-    GL_VERIFY(glDrawElements(GL_TRIANGLES, static_cast<u32>(mFbIndicies.size()), GL_UNSIGNED_INT, NULL));
-
-    GL_VERIFY(glDeleteBuffers(1, &eboId));
-    GL_VERIFY(glDeleteBuffers(1, &vboId));
-
-    GL_VERIFY(glDisableVertexAttribArray(0));
-    GL_VERIFY(glDisableVertexAttribArray(1));
-
-    mPsxFramebuffer.BindAsTarget();
-}
-
 void OpenGLRenderer::SetupBlendMode(u16 blendMode)
 {
     if (static_cast<TPageAbr>(blendMode) == TPageAbr::eBlend_2)
@@ -709,7 +600,7 @@ void OpenGLRenderer::UpdateFilterFramebuffer()
     mPassthruFilterShader.UniformVec2("fsTexSize", kPsxFramebufferWidth, kPsxFramebufferHeight);
 
     mFilterFramebuffer.BindAsTarget();
-    mPsxFbFramebuffer.BindAsSourceTextureTo(GL_TEXTURE0);
+    GetDestinationPsxFramebuffer().BindAsSourceTextureTo(GL_TEXTURE0);
 
     GL_VERIFY(glEnableVertexAttribArray(0));
     GL_VERIFY(glBindBuffer(GL_ARRAY_BUFFER, drawVboId));
@@ -725,11 +616,23 @@ void OpenGLRenderer::UpdateFilterFramebuffer()
     GL_VERIFY(glDisableVertexAttribArray(1));
 }
 
+GLFramebuffer& OpenGLRenderer::GetSourcePsxFramebuffer()
+{
+    return mPsxFramebuffer[mSrcPsxFramebufferIdx];
+}
+
+GLFramebuffer& OpenGLRenderer::GetDestinationPsxFramebuffer()
+{
+    return mSrcPsxFramebufferIdx == 0 ? mPsxFramebuffer[1] : mPsxFramebuffer[0];
+}
+
+void OpenGLRenderer::SwapSrcDstForPsxFramebuffers()
+{
+    mSrcPsxFramebufferIdx = mSrcPsxFramebufferIdx == 0 ? 1 : 0;
+}
+
 void OpenGLRenderer::DecreaseResourceLifetimes()
 {
-    mFbData.clear();
-    mFbIndicies.clear();
-
     mTextureCache.DecreaseResourceLifetimes();
 
     mPaletteCache.ResetUseFlags();
@@ -851,28 +754,46 @@ void OpenGLRenderer::DrawBatches()
             GL_VERIFY(glScissor(batch.mScissor.x, kPsxFramebufferHeight - batch.mScissor.y - batch.mScissor.h, batch.mScissor.w, batch.mScissor.h));
         }
 
-        // Bind sprite sheets
-        f32 texSizes[kSpriteTextureUnitCount * 2] = {};
-
-        for (u32 i = 0; i < batch.mTexturesInBatch; i++)
+        if (batch.mSourceIsFramebuffer)
         {
-            const u32 textureId = batch.mTextureIds[i];
-            const u32 batchTextureIdx = batch.TextureIdxForId(textureId);
-            auto pTex = mBatcher.mBatchTextures[baseTextureIdx + batchTextureIdx];
-            pTex->BindTo(GL_TEXTURE7 + batchTextureIdx);
+            SwapSrcDstForPsxFramebuffers();
 
-            texSizes[i * 2] = static_cast<f32>(pTex->GetWidth());
-            texSizes[(i * 2) + 1] = static_cast<f32>(pTex->GetHeight());
+            // We use GL_TEXTURE7 because it will always be overwritten
+            // by the next batch, so it's safe to use
+            GetSourcePsxFramebuffer().BindAsSourceTextureTo(GL_TEXTURE7);
+            GetDestinationPsxFramebuffer().BindAsTarget();
+
+            mPsxShader.Uniform1i("texFramebuffer", 7);
+
+            SetupBlendMode(0); // Ensure we're using additive blend mode
+        }
+        else
+        {
+            // Bind sprite sheets
+            f32 texSizes[kSpriteTextureUnitCount * 2] = {};
+
+            for (u32 i = 0; i < batch.mTexturesInBatch; i++)
+            {
+                const u32 textureId = batch.mTextureIds[i];
+                const u32 batchTextureIdx = batch.TextureIdxForId(textureId);
+                auto pTex = mBatcher.mBatchTextures[baseTextureIdx + batchTextureIdx];
+                pTex->BindTo(GL_TEXTURE7 + batchTextureIdx);
+
+                texSizes[i * 2] = static_cast<f32>(pTex->GetWidth());
+                texSizes[(i * 2) + 1] = static_cast<f32>(pTex->GetHeight());
+            }
+
+            mPsxShader.Uniform1iv("texSpriteSheets", kSpriteTextureUnitCount, mTextureUnits);
+            mPsxShader.Uniform2fv("fsSpriteSheetSize", kSpriteTextureUnitCount, texSizes);
+
+            // Assign blend mode
+            if (batch.mBlendMode <= static_cast<u32>(TPageAbr::eBlend_3))
+            {
+                SetupBlendMode(static_cast<u16>(batch.mBlendMode));
+            }
         }
 
-        mPsxShader.Uniform1iv("texSpriteSheets", kSpriteTextureUnitCount, mTextureUnits);
-        mPsxShader.Uniform2fv("fsSpriteSheetSize", kSpriteTextureUnitCount, texSizes);
-
-        // Assign blend mode
-        if (batch.mBlendMode <= static_cast<u32>(TPageAbr::eBlend_3))
-        {
-            SetupBlendMode(static_cast<u16>(batch.mBlendMode));
-        }
+        mPsxShader.Uniform1i("bDrawingFramebuffer", static_cast<GLint>(batch.mSourceIsFramebuffer));
 
         // Set index data and render
         GL_VERIFY(glDrawElements(GL_TRIANGLES, (batch.mNumTrisToDraw) * 3, GL_UNSIGNED_INT, (void*) (idxOffset * sizeof(GLuint))));

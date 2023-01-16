@@ -20,10 +20,17 @@ void Batcher<TextureType, RenderBatchType, kTextureBatchSize>::PushVertexData(IR
 
     // Check if we need to invalidate the existing batched data
     //
-    // The only reason we need to invalidate here is if the blend mode switches
-    // to/from subtractive blending
+    // We need to invalidate the batch when:
+    //     - The blend mode switches to/from subtractive blending
+    //     - The current batch draws from the framebuffer
     if (
-        mConstructingBatch.mBlendMode != blendMode && mConstructingBatch.mBlendMode != kBatchValueUnset && (mConstructingBatch.mBlendMode == 2 || blendMode == 2))
+        mConstructingBatch.mSourceIsFramebuffer ||
+        (
+            mConstructingBatch.mBlendMode != blendMode &&
+            mConstructingBatch.mBlendMode != kBatchValueUnset &&
+            (mConstructingBatch.mBlendMode == 2 || blendMode == 2)
+        )
+    )
     {
         NewBatch();
     }
@@ -35,6 +42,80 @@ void Batcher<TextureType, RenderBatchType, kTextureBatchSize>::PushVertexData(IR
 
     mConstructingBatch.mBlendMode = blendMode;
 
+    // Locate and update texture unit IDs for the buffer data
+    const u32 textureIdx = mConstructingBatch.TextureIdxForId(textureResId);
+    for (int i = 0; i < count; i++)
+    {
+        // TODO: Do we even need this now ? (its looked up again in GL atm)
+        pVertData[i].textureUnitIndex = textureIdx;
+    }
+
+    InsertVertexData(pVertData, count);
+
+    // DEBUGGING: If batching is disabled we invalidate immediately
+    bool bNewBatch = !mBatchingEnabled;
+    if (texture)
+    {
+        bNewBatch = mConstructingBatch.mTexturesInBatch >= kTextureBatchSize - 1;
+    }
+
+    if (bNewBatch)
+    {
+        // TODO: With a batch limit of 1 and > 1 batches using the same texture this will still create
+        // 2 batches which is wrong, probably need to also not break when we used 1 texture
+        // and rendering flat prims
+        NewBatch();
+    }
+}
+
+template <typename TextureType, typename RenderBatchType, std::size_t kTextureBatchSize>
+void Batcher<TextureType, RenderBatchType, kTextureBatchSize>::PushFramebufferVertexData(const IRenderer::PsxVertexData* pVertData, s32 count)
+{
+    // We should invalidate here if the current batch is not drawing using
+    // the framebuffer as the source texture
+    if (!mConstructingBatch.mSourceIsFramebuffer)
+    {
+        NewBatch();
+
+        mConstructingBatch.mSourceIsFramebuffer = true;
+
+        // Add entire contents of the screen itself first
+        if (mUvMode == UvMode::UnNormalized)
+        {
+            IRenderer::PsxVertexData verts[4] = {
+                { 0.0f, 0.0f, 127.0f, 127.0f, 127.0f, 0.0f, IRenderer::kPsxFramebufferHeight, IRenderer::PsxDrawMode::DefaultFT4, 0, 0, 0, 0, 0 },
+                { 0.0f, IRenderer::kPsxFramebufferHeight, 127.0f, 127.0f, 127.0f, 0.0f, 0.0f, IRenderer::PsxDrawMode::DefaultFT4, 0, 0, 0, 0, 0 },
+                { IRenderer::kPsxFramebufferWidth, 0.0f, 127.0f, 127.0f, 127.0f, IRenderer::kPsxFramebufferWidth, IRenderer::kPsxFramebufferHeight, IRenderer::PsxDrawMode::DefaultFT4, 0, 0, 0, 0, 0 },
+                { IRenderer::kPsxFramebufferWidth, IRenderer::kPsxFramebufferHeight, 127.0f, 127.0f, 127.0f, IRenderer::kPsxFramebufferWidth, 0.0f, IRenderer::PsxDrawMode::DefaultFT4, 0, 0, 0, 0, 0 }
+            };
+
+            InsertVertexData(verts, 4);
+        }
+        else
+        {
+            IRenderer::PsxVertexData verts[4] = {
+                { 0.0f, 0.0f, 127.0f, 127.0f, 127.0f, 0.0f, 1.0f, IRenderer::PsxDrawMode::DefaultFT4, 0, 0, 0, 0, 0 },
+                { 0.0f, 1.0f, 127.0f, 127.0f, 127.0f, 0.0f, 0.0f, IRenderer::PsxDrawMode::DefaultFT4, 0, 0, 0, 0, 0 },
+                { 1.0f, 0.0f, 127.0f, 127.0f, 127.0f, 1.0f, 1.0f, IRenderer::PsxDrawMode::DefaultFT4, 0, 0, 0, 0, 0 },
+                { 1.0f, 1.0f, 127.0f, 127.0f, 127.0f, 1.0f, 0.0f, IRenderer::PsxDrawMode::DefaultFT4, 0, 0, 0, 0, 0 }
+            };
+
+            InsertVertexData(verts, 4);
+        }
+    }
+
+    InsertVertexData(pVertData, count);
+
+    // DEBUGGING: If batching is disabled we invalidate immediately
+    if (!mBatchingEnabled)
+    {
+        NewBatch();
+    }
+}
+
+template <typename TextureType, typename RenderBatchType, std::size_t kTextureBatchSize>
+void Batcher<TextureType, RenderBatchType, kTextureBatchSize>::InsertVertexData(const IRenderer::PsxVertexData* pVertData, s32 count)
+{
     // Push indicies for this data
     const u16 nextIndex = mIndexBufferIndex;
     const s32 numTriangles = count - 2;
@@ -60,33 +141,14 @@ void Batcher<TextureType, RenderBatchType, kTextureBatchSize>::PushVertexData(IR
         mIndexBufferIndex += 4;
     }
 
-    // Push vertex data
-    const u32 textureIdx = mConstructingBatch.TextureIdxForId(textureResId);
     for (int i = 0; i < count; i++)
     {
-        // TODO: Do we even need this now ? (its looked up again in GL atm)
-        pVertData[i].textureUnitIndex = textureIdx;
         mVertices.emplace_back(pVertData[i]);
     }
 
     mConstructingBatch.mNumTrisToDraw += numTriangles;
 
     mBatchInProgress = true;
-
-    // DEBUGGING: If batching is disabled we invalidate immediately
-    bool bNewBatch = !mBatchingEnabled;
-    if (texture)
-    {
-        bNewBatch = mConstructingBatch.mTexturesInBatch >= kTextureBatchSize - 1;
-    }
-
-    if (bNewBatch)
-    {
-        // TODO: With a batch limit of 1 and > 1 batches using the same texture this will still create
-        // 2 batches which is wrong, probably need to also not break when we used 1 texture
-        // and rendering flat prims
-        NewBatch();
-    }
 }
 
 template <typename TextureType, typename RenderBatchType, std::size_t kTextureBatchSize>
