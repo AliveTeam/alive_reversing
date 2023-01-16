@@ -398,7 +398,8 @@ private:
 
     };
     Batcher<Texture, BatchData, 14> mBatcher[MAX_FRAMES_IN_FLIGHT];
-  
+    std::shared_ptr<Texture> mPaletteTexture[MAX_FRAMES_IN_FLIGHT]; // TODO: remove ?
+
     struct FrameBufferAttachment final
     {
         std::unique_ptr<vk::raii::Image> image;

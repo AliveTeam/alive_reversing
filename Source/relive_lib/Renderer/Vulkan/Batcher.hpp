@@ -33,7 +33,6 @@ public:
         mBatchTextures.reserve(kTextureBatchSize * 10);
     }
 
-    std::unique_ptr<TextureType> mPaletteTexture; // TODO: remove ?
     std::shared_ptr<TextureType> mCamTexture; // TODO: remove ?
 
     std::vector<std::shared_ptr<TextureType>> mBatchTextures;

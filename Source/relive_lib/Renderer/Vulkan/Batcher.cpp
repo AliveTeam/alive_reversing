@@ -64,6 +64,7 @@ void Batcher<TextureType, RenderBatchType, kTextureBatchSize>::PushVertexData(IR
     const u32 textureIdx = mConstructingBatch.TextureIdxForId(textureResId);
     for (int i = 0; i < count; i++)
     {
+        // TODO: Do we even need this now ? (its looked up again in GL atm)
         pVertData[i].textureUnitIndex = textureIdx;
         mVertices.emplace_back(pVertData[i]);
     }
@@ -73,7 +74,12 @@ void Batcher<TextureType, RenderBatchType, kTextureBatchSize>::PushVertexData(IR
     mBatchInProgress = true;
 
     // DEBUGGING: If batching is disabled we invalidate immediately
-    const bool bNewBatch = !mBatchingEnabled || (mConstructingBatch.mTexturesInBatch >= kTextureBatchSize - 1);
+    bool bNewBatch = !mBatchingEnabled;
+    if (texture)
+    {
+        bNewBatch = mConstructingBatch.mTexturesInBatch >= kTextureBatchSize - 1;
+    }
+
     if (bNewBatch)
     {
         // TODO: With a batch limit of 1 and > 1 batches using the same texture this will still create
@@ -328,7 +334,7 @@ void Batcher<TextureType, RenderBatchType, kTextureBatchSize>::PushCAM(const Pol
             {static_cast<f32>(poly.mVerts[1].mVert.x), static_cast<f32>(poly.mVerts[1].mVert.y), r, g, b, 0.0f, IRenderer::kPsxFramebufferHeight, IRenderer::PsxDrawMode::Camera, isSemiTrans, isShaded, blendMode, 0, 0},
             {static_cast<f32>(poly.mVerts[2].mVert.x), static_cast<f32>(poly.mVerts[2].mVert.y), r, g, b, IRenderer::kPsxFramebufferWidth, IRenderer::kPsxFramebufferHeight, IRenderer::PsxDrawMode::Camera, isSemiTrans, isShaded, blendMode, 0, 0}};
 
-        PushVertexData(verts, ALIVE_COUNTOF(verts), texture, poly.mCam->mUniqueId.Id());
+        PushVertexData(verts, ALIVE_COUNTOF(verts), texture, texture ? poly.mCam->mUniqueId.Id() : 0);
     }
     else
     {
@@ -339,7 +345,7 @@ void Batcher<TextureType, RenderBatchType, kTextureBatchSize>::PushCAM(const Pol
             {static_cast<f32>(poly.mVerts[1].mVert.x), static_cast<f32>(poly.mVerts[1].mVert.y), r, g, b, 0.0f, 1.0f, IRenderer::PsxDrawMode::Camera, isSemiTrans, isShaded, blendMode, 0, 0},
             {static_cast<f32>(poly.mVerts[2].mVert.x), static_cast<f32>(poly.mVerts[2].mVert.y), r, g, b, 1.0f, 1.0f, IRenderer::PsxDrawMode::Camera, isSemiTrans, isShaded, blendMode, 0, 0}};
 
-        PushVertexData(verts, ALIVE_COUNTOF(verts), texture, poly.mCam->mUniqueId.Id());
+        PushVertexData(verts, ALIVE_COUNTOF(verts), texture, texture ? poly.mCam->mUniqueId.Id() : 0);
     }
 
     mCamTexture = texture;
