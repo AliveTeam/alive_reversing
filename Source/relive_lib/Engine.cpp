@@ -25,34 +25,21 @@ void Engine::CmdLineRenderInit(const char_type* pCommandLine)
 {
     IO_Init_494230();
 
-    if (pCommandLine)
-    {
-        if (strstr(pCommandLine, "-ddfps"))
-        {
-            sCommandLine_ShowFps = true;
-        }
+    CommandLineParser parser(pCommandLine ? pCommandLine : "");
 
-        if (strstr(pCommandLine, "-ddnoskip"))
-        {
-            gCommandLine_NoFrameSkip = true;
-        }
-
-        if (strstr(pCommandLine, "-ddcheat") || _strcmpi(pCommandLine, "-it_is_me_your_father") == 0)
-        {
-            gDDCheatOn = true;
-        }
-    }
+    sCommandLine_ShowFps = parser.SwitchExists("-ddfps");
+    gCommandLine_NoFrameSkip = parser.SwitchExists("-ddnoskip");
 
 #if FORCE_DDCHEAT
     gDDCheatOn = true;
+#else
+    gDDCheatOn = parser.SwitchExists("-ddcheat") || parser.SwitchExists("-it_is_me_your_father");
 #endif
-
-    char renderer[256] = {};
-    CommandLineParser parser(pCommandLine);
 
     IRenderer::Renderers rendererToCreate = IRenderer::Renderers::Vulkan;
     LOG_INFO("Default renderer is vulkan");
 
+    char renderer[256] = {};
     if (parser.ExtractNamePairArgument(renderer, "-renderer="))
     {
         #ifdef _WIN32
