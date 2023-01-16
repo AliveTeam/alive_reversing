@@ -348,7 +348,10 @@ void Batcher<TextureType, RenderBatchType, kTextureBatchSize>::PushCAM(const Pol
         PushVertexData(verts, ALIVE_COUNTOF(verts), texture, texture ? poly.mCam->mUniqueId.Id() : 0);
     }
 
-    mCamTexture = texture;
+    if (texture)
+    {
+        mCamTexture = texture;
+    }
 }
 
 template <typename TextureType, typename RenderBatchType, std::size_t kTextureBatchSize>
