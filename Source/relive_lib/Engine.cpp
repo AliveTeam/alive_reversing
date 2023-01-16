@@ -8,6 +8,8 @@
 #include "Sys.hpp"
 
 #include "../AliveLibAE/Io.hpp"
+#include "CommandLineParser.hpp"
+#include "Renderer/IRenderer.hpp"
 
 // TODO: Remove after merge
 extern bool sCommandLine_ShowFps;
@@ -45,13 +47,42 @@ void Engine::CmdLineRenderInit(const char_type* pCommandLine)
     gDDCheatOn = true;
 #endif
 
+    char renderer[256] = {};
+    CommandLineParser parser(pCommandLine);
+
+    IRenderer::Renderers rendererToCreate = IRenderer::Renderers::Vulkan;
+    LOG_INFO("Default renderer is vulkan");
+
+    if (parser.ExtractNamePairArgument(renderer, "-renderer="))
+    {
+        #ifdef _WIN32
+        if (stricmp(renderer, "dx") == 0 || stricmp(renderer, "dx9") == 0 || stricmp(renderer, "directx") == 0 || stricmp(renderer, "directx9") == 0)
+        {
+            LOG_INFO("Command line set renderer to directx9");
+            rendererToCreate = IRenderer::Renderers::DirectX9;
+        }
+        #endif
+
+        if (stricmp(renderer, "vk") == 0 || stricmp(renderer, "vulkan") == 0)
+        {
+            LOG_INFO("Command line set renderer to vulkan");
+            rendererToCreate = IRenderer::Renderers::Vulkan;
+        }
+
+        if (stricmp(renderer, "gl") == 0 || stricmp(renderer, "gl3") == 0 || stricmp(renderer, "opengl") == 0 || stricmp(renderer, "opengl3") == 0)
+        {
+            LOG_INFO("Command line set renderer to opengl3");
+            rendererToCreate = IRenderer::Renderers::OpenGL;
+        }
+    }
+
     if (mGameType == GameType::eAe)
     {
-        VGA_CreateRenderer(WindowTitleAE());
+        VGA_CreateRenderer(rendererToCreate, WindowTitleAE());
     }
     else
     {
-        VGA_CreateRenderer(WindowTitleAO());
+        VGA_CreateRenderer(rendererToCreate, WindowTitleAO());
     }
 
     PSX_EMU_SetCallBack_4F9430(Game_End_Frame);

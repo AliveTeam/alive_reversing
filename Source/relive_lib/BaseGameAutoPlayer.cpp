@@ -1,34 +1,8 @@
 #include "BaseGameAutoPlayer.hpp"
 #include "Sys.hpp"
+#include "CommandLineParser.hpp"
 
 constexpr u32 kVersion = 0x1997 + 2;
-
-static bool ExtractNamePairArgument(char* pOutArgument, const char* pCmdLine, const char* argumentPrefix)
-{
-    const char* pArg = strstr(pCmdLine, argumentPrefix);
-    if (!pArg)
-    {
-        return false;
-    }
-
-    pArg += strlen(argumentPrefix);
-
-    u32 len = 0;
-    const char* pArgIter = pArg;
-    while (*pArgIter && *pArgIter != ' ')
-    {
-        len++;
-        pArgIter++;
-    }
-
-    if (len == 0 || len >= 254)
-    {
-        return false;
-    }
-
-    memcpy(pOutArgument, pArg, len);
-    return true;
-}
 
 void BaseRecorder::Init(const char* pFileName, bool autoFlushFile)
 {
@@ -172,26 +146,19 @@ void BasePlayer::ValidateNextTypeIs(RecordTypes type)
 void BaseGameAutoPlayer::ParseCommandLine(const char* pCmdLine)
 {
     char buffer[256] = {};
-    if (ExtractNamePairArgument(buffer, pCmdLine, "-record="))
+    CommandLineParser parser(pCmdLine);
+    if (parser.ExtractNamePairArgument(buffer, "-record="))
     {
-        const bool flushFile = strstr(pCmdLine, "-flush") != nullptr;
-        mRecorder.Init(buffer, flushFile);
+        mRecorder.Init(buffer, parser.SwitchExists("-flush"));
         mMode = Mode::Record;
     }
-    else if (ExtractNamePairArgument(buffer, pCmdLine, "-play="))
+    else if (parser.ExtractNamePairArgument(buffer, "-play="))
     {
         mPlayer.Init(buffer);
         mMode = Mode::Play;
 
-        if (strstr(pCmdLine, "-fastest"))
-        {
-            mNoFpsLimit = true;
-        }
-
-        if (strstr(pCmdLine, "-ignore_desyncs"))
-        {
-            mIgnoreDesyncs = true;
-        }
+        mNoFpsLimit = parser.SwitchExists("-fastest");
+        mIgnoreDesyncs = parser.SwitchExists("-ignore_desyncs");
     }
 }
 
