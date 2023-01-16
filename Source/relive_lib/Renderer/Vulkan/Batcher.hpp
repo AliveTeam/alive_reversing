@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../../Types.hpp"
 #include "../IRenderer.hpp"
 #include <vector>
 #include <memory>
