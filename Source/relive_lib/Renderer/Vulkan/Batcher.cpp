@@ -54,8 +54,13 @@ void Batcher<TextureType, RenderBatchType, kTextureBatchSize>::PushVertexData(IR
 
     // DEBUGGING: If batching is disabled we invalidate immediately
     bool bNewBatch = !mBatchingEnabled;
-    if (texture)
+    if (!bNewBatch)
     {
+        // Note: We could batch flat polys into the textured batch
+        // but this will break in DX9 as the shader can only render 1
+        // draw type.
+        // TODO: Probably there should be a batcher config option to say if we
+        // should split batches on changing draw types.
         bNewBatch = mConstructingBatch.mTexturesInBatch >= kTextureBatchSize - 1;
     }
 
