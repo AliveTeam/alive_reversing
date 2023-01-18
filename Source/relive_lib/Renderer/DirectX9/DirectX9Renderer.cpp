@@ -309,7 +309,7 @@ void DirectX9Renderer::EndFrame()
         Poly_FT4 fullScreenPoly;
         PolyFT4_Init(&fullScreenPoly);
         SetRGB0(&fullScreenPoly, 255, 255, 255);
-        SetXYWH(&fullScreenPoly, 0, 0, 640, 240);
+        SetXYWH(&fullScreenPoly, 0, 0, 640, 480);
 
         // NOTE: This texture in the last batch is always used as the FB source
         std::shared_ptr<ATL::CComPtr<IDirect3DTexture9>> nullTex;
@@ -686,6 +686,8 @@ void DirectX9Renderer::DrawBatches()
 
     DX_VERIFY(mDevice->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0, 0, 0), 1.0f, 0));
 
+    this->SetupBlendMode(0);
+
     for (std::size_t i = 0; i < mBatcher.mBatches.size(); i++)
     {
         if (i == mBatcher.mBatches.size() - 1)
@@ -707,14 +709,15 @@ void DirectX9Renderer::DrawBatches()
                 vp.Height = viewPortRect.h;
                 DX_VERIFY(mDevice->SetViewport(&vp));
 
+                // Draw tmpTexture as a full screen quad
+                DX_VERIFY(mDevice->SetTexture(mCamUnit, *tmpTexture));
+
                 // TODO: only set if enabled
                 DX_VERIFY(mDevice->SetPixelShader(this->mScanLinesShader));
 
                // DX_VERIFY(mDevice->SetPixelShader(mCamFG1Shader));
 
-                // Draw tmpTexture as a full screen quad
-                DX_VERIFY(mDevice->SetTexture(mCamUnit, *tmpTexture));
-
+          
                 DX_VERIFY(mDevice->SetRenderState(D3DRS_SCISSORTESTENABLE, FALSE));
                 DX_VERIFY(mDevice->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, batch.mNumTrisToDraw * 3, idxOffset, batch.mNumTrisToDraw));
             }

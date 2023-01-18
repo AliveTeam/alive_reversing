@@ -1,54 +1,49 @@
 //float2 fsTexSize : register(c12);
 sampler texTextureData : register(s4);
 
-
-uint ShiftLeft(uint value, uint bits)
+uint ShiftLeft(uint value, int bits)
 {
-    return value * pow(2, bits);
+    return value * uint(pow(2, bits));
 }
 
-uint ShiftRight(uint value, uint bits)
+uint ShiftRight(uint value, int bits)
 {
-    return value / pow(2, bits);
+    return value / uint(pow(2, bits));
 }
 
 uint get888FromNormalized(float r, float g, float b)
 {
-    uint rValue = r * 255.0f;
-    uint gValue = g * 255.0f;
-    uint bValue = b * 255.0f;
+    uint rValue = uint(abs(ceil(r * 255.0f)));
+    uint gValue = uint(abs(ceil(g * 255.0f)));
+    uint bValue = uint(abs(ceil(b * 255.0f)));
 
-    rValue = rValue * pow(2, 16); // 2^ 16;
-    gValue = gValue * pow(2, 8); // 2^ 8;
+    rValue = rValue * uint(pow(2, 16)); // 2^ 16;
+    gValue = gValue * uint(pow(2, 8));  // 2^ 8;
 
     return rValue + gValue + bValue;
 }
 
 float3 getNormalizedFrom888(uint rgbInput)
 {
-    // TODO: this is wrong when not an int, int casts go over the inst limits
-    float t1 = rgbInput / pow(2, 16);
-    float t2 = rgbInput * pow(2, 16);
-    float t3 = rgbInput * pow(2, 24);
-    float t4 = ((uint)t2) / pow(2, 24);
-    float t5 = ((uint)t3) / pow(2, 24);
+    uint firstByte = abs(rgbInput % 256u);
+    uint secondByte = abs((rgbInput - firstByte) % 65536u);
+    uint thirdByte = abs((rgbInput - firstByte - secondByte));
 
-    float rValue = float(t1) / 255.0f;
-    float gValue = float(t4) / 255.0f;
-    float bValue = float(t5) / 255.0f;
-
+    float rValue = float(firstByte) / 255.0f;
+    float gValue = float(secondByte) / 255.0f;
+    float bValue = float(thirdByte) / 255.0f;
 
     return float3(rValue, gValue, bValue);
 }
 
-uint Roll24Bits(uint value)
+int Roll24Bits(int value)
 {
     // value & 1
 
     // clears bit 0
-    uint valueShiftedRight = ShiftRight(value, 1);
-    uint temp = ShiftLeft(value, 31);
-    uint valueAnd1 = ShiftRight(temp, 31);
+    int valueShiftedRight = ShiftRight(value, 1);
+    int temp = ShiftLeft(value, 31);
+    int valueAnd1 = ShiftRight(temp, 31);
 
     // valueShiftedRight |= valueAnd1 ? 0x800000 : 0x0;
 
@@ -59,7 +54,7 @@ uint Roll24Bits(uint value)
     return valueShiftedRight;
 }
 
-uint ApplyF8Mask(uint v)
+int ApplyF8Mask(int v)
 {
     // same v = v & 0xF8
     v = ShiftRight(v, 3);
@@ -67,7 +62,7 @@ uint ApplyF8Mask(uint v)
     return v;
 }
 
-uint ApplyMask(uint r, uint g, uint b)
+int ApplyMask(int r, int g, int b)
 {
     r = ApplyF8Mask(r);
     g = ApplyF8Mask(g);
@@ -79,25 +74,82 @@ uint ApplyMask(uint r, uint g, uint b)
     return r + g + b;
 }
 
-float4 PS(float4 fsShadeColor
+int ApplyMask_t(int r, int g, int b)
+{
+    //r = ApplyF8Mask(r);
+    //g = ApplyF8Mask(g);
+    //b = ApplyF8Mask(b);
+
+    r = r * pow(2, 16); // 2^ 16;
+    g = g * pow(2, 8);  // 2^ 8;
+
+    return r + g + b;
+}
+
+float Remove3Bits(float v)
+{
+    v -= fmod((v * 255.0f), 8.0f) / 255.0f;
+    return v;
+}
+
+float4 PS(
+    float4 fsShadeColor
           : COLOR0,
           float2 fsUV
           : TEXCOORD0) : COLOR
 {
     float4 belowTexel = tex2D(texTextureData, fsUV);
-    float4 aboveTexel = tex2D(texTextureData, float2(fsUV.x, fsUV.y + 1.0));
 
-    bool scanline = false;//  fmod(fsUV[1] / fsTexSize[1], 2.0f) > 0; //  int(mod(gl_FragCoord.y, 2.0f)) > 0;
+    float oldy = fsUV.y;
+    fsUV.y = ((fsUV.y * 240.0f) - 1.0f) / 240.0f;
 
-    if (scanline)
+    float4 aboveTexel = tex2D(texTextureData, fsUV);
+    // bool scanline = int(mod(gl_FragCoord.y, 2.0f)) > 0;
+    bool scanline = int(fmod((fsUV.y * 480.0f), 2.0f)) > 0;
+
+    if (!scanline)
     {
-        // Do the bit rotation stuff
-        uint tmp1 = ApplyMask(abs(aboveTexel.r / 255.0f), abs(aboveTexel.g / 255.0f), abs(aboveTexel.b / 255.0f));
-        uint tmp2 = ApplyMask(abs(belowTexel.r / 255.0f), abs(belowTexel.g / 255.0f), abs(belowTexel.b / 255.0f));
-        uint pixelResult = Roll24Bits(tmp1 + tmp2);
+        aboveTexel.r = Remove3Bits(aboveTexel.r);
+        aboveTexel.g = Remove3Bits(aboveTexel.g);
+        aboveTexel.b = Remove3Bits(aboveTexel.b);
 
-        belowTexel.rgb = getNormalizedFrom888(pixelResult);
+        belowTexel.r = Remove3Bits(belowTexel.r);
+        belowTexel.g = Remove3Bits(belowTexel.g);
+        belowTexel.b = Remove3Bits(belowTexel.b);
+
+        float4 tmp = aboveTexel + belowTexel;
+        tmp = tmp / 2.0f;
+        tmp.a = 1.0f;
+
+        belowTexel = tmp;
+        return belowTexel;
+    }
+    else
+    {
+        return belowTexel;
+    }
+    
+   
+}
+
+float4 PS2(float4 fsShadeColor
+           : COLOR0,
+             float2 fsUV
+           : TEXCOORD0)
+    : COLOR
+{
+    return float4(0.0f, 1.0f, 0.0f, 1.0f);
+}
+
+technique Technique_0
+{
+    pass Pass0
+    {
+        SetPixelShader(CompileShader(ps_2_0, PS()));
     }
 
-    return belowTexel;
+    pass Pass1
+    {
+        SetPixelShader(CompileShader(ps_2_0, PS2()));
+    }
 }
