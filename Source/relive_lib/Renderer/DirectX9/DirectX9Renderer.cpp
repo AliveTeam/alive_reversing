@@ -679,7 +679,7 @@ void DirectX9Renderer::DrawBatches()
     (*tmpTexture)->GetSurfaceLevel(0, &pTexSurface);
     
     // Copy the frame buffer to tmpTexture
-    mDevice->StretchRect(mTextureRenderTarget, NULL, pTexSurface, NULL, D3DTEXF_NONE);
+    DX_VERIFY(mDevice->StretchRect(mTextureRenderTarget, NULL, pTexSurface, NULL, D3DTEXF_NONE));
 
     // Render to the screen instead of the texture
     DX_VERIFY(mDevice->SetRenderTarget(0, mScreenRenderTarget));
@@ -693,7 +693,10 @@ void DirectX9Renderer::DrawBatches()
             if (mBatcher.mBatches[i].mNumTrisToDraw > 0)
             {
                 Batcher<ATL::CComPtr<IDirect3DTexture9>, BatchData, kSpriteTextureUnitCount>::RenderBatch& batch = mBatcher.mBatches[i];
-
+                
+                // TODO: Hack, remove when working
+                mOffsetX = 0;
+                mOffsetY = 0;
                 SDL_Rect viewPortRect = GetTargetDrawRect();
 
                 // TODO: Broken till back buffer matches window size?
@@ -702,7 +705,7 @@ void DirectX9Renderer::DrawBatches()
                 vp.Y = viewPortRect.y;
                 vp.Width = viewPortRect.w;
                 vp.Height = viewPortRect.h;
-                mDevice->SetViewport(&vp);
+                DX_VERIFY(mDevice->SetViewport(&vp));
 
                 // TODO: only set if enabled
                 DX_VERIFY(mDevice->SetPixelShader(this->mScanLinesShader));
@@ -710,7 +713,7 @@ void DirectX9Renderer::DrawBatches()
                // DX_VERIFY(mDevice->SetPixelShader(mCamFG1Shader));
 
                 // Draw tmpTexture as a full screen quad
-                mDevice->SetTexture(mCamUnit, *tmpTexture);
+                DX_VERIFY(mDevice->SetTexture(mCamUnit, *tmpTexture));
 
                 DX_VERIFY(mDevice->SetRenderState(D3DRS_SCISSORTESTENABLE, FALSE));
                 DX_VERIFY(mDevice->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, batch.mNumTrisToDraw * 3, idxOffset, batch.mNumTrisToDraw));
