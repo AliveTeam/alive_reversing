@@ -549,8 +549,8 @@ void DirectX9Renderer::DrawBatches()
     constexpr float fudge = 0.5f;
     for (const IRenderer::PsxVertexData& vertex : mBatcher.mVertices)
     {
-        pDstIter->X = vertex.x + fudge;
-        pDstIter->Y = vertex.y + fudge;
+        pDstIter->X = vertex.x - fudge;
+        pDstIter->Y = vertex.y - fudge;
         pDstIter->Z = 0.5f;
         pDstIter->RHW = 1.0f;
         pDstIter->COLOR = D3DCOLOR_XRGB(static_cast<u8>(vertex.r), static_cast<u8>(vertex.g), static_cast<u8>(vertex.b));
@@ -669,8 +669,6 @@ void DirectX9Renderer::DrawBatches()
         baseTextureIdx += batch.mTexturesInBatch;
     }
 
-    DX_VERIFY(mDevice->EndScene());
-
     // TODO: Should be the size of the back buffer ??
     auto tmpTexture = std::make_shared<ATL::CComPtr<IDirect3DTexture9>>();
     DX_VERIFY(mDevice->CreateTexture(640, 240, 0, D3DUSAGE_RENDERTARGET, D3DFMT_X8R8G8B8, D3DPOOL_DEFAULT, &*tmpTexture, nullptr));
@@ -717,7 +715,6 @@ void DirectX9Renderer::DrawBatches()
 
                // DX_VERIFY(mDevice->SetPixelShader(mCamFG1Shader));
 
-          
                 DX_VERIFY(mDevice->SetRenderState(D3DRS_SCISSORTESTENABLE, FALSE));
                 DX_VERIFY(mDevice->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, batch.mNumTrisToDraw * 3, idxOffset, batch.mNumTrisToDraw));
             }
@@ -725,6 +722,8 @@ void DirectX9Renderer::DrawBatches()
     }
 
     pTexSurface->Release();
+
+    DX_VERIFY(mDevice->EndScene());
 }
 
 #endif
