@@ -1,5 +1,5 @@
-float2 fsTexSize : register(c12);
-sampler texTextureData : register(s0);
+//float2 fsTexSize : register(c12);
+sampler texTextureData : register(s4);
 
 
 uint ShiftLeft(uint value, uint bits)
@@ -87,7 +87,7 @@ float4 PS(float4 fsShadeColor
     float4 belowTexel = tex2D(texTextureData, fsUV);
     float4 aboveTexel = tex2D(texTextureData, float2(fsUV.x, fsUV.y + 1.0));
 
-    bool scanline = fmod(fsUV[1] / fsTexSize[1], 2.0f) > 0; //  int(mod(gl_FragCoord.y, 2.0f)) > 0;
+    bool scanline = false;//  fmod(fsUV[1] / fsTexSize[1], 2.0f) > 0; //  int(mod(gl_FragCoord.y, 2.0f)) > 0;
 
     if (scanline)
     {

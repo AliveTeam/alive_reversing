@@ -8,6 +8,7 @@
 #include "cam_fg1_shader.h"
 #include "flat_shader.h"
 #include "gas_shader.h"
+#include "scanlines_shader.h"
 #include <SDL_syswm.h>
 
 #ifdef _WIN32
@@ -240,6 +241,7 @@ DirectX9Renderer::DirectX9Renderer(TWindowHandleType window)
     DX_VERIFY(mDevice->CreatePixelShader((DWORD*) cam_fg1_shader, &mCamFG1Shader));
     DX_VERIFY(mDevice->CreatePixelShader((DWORD*) flat_shader, &mFlatShader));
     DX_VERIFY(mDevice->CreatePixelShader((DWORD*) gas_shader, &mGasShader));
+    DX_VERIFY(mDevice->CreatePixelShader((DWORD*) scanlines_shader, &mScanLinesShader));
 
     // Render targets
     DX_VERIFY(mDevice->CreateRenderTarget(640, 240, D3DFMT_A8R8G8B8, D3DMULTISAMPLE_NONE, 0, FALSE, &mTextureRenderTarget, nullptr));
@@ -302,23 +304,21 @@ void DirectX9Renderer::EndFrame()
 {
     if (mFrameStarted)
     {
+        mBatcher.NewBatch();
+
+        Poly_FT4 fullScreenPoly;
+        PolyFT4_Init(&fullScreenPoly);
+        SetRGB0(&fullScreenPoly, 255, 255, 255);
+        SetXYWH(&fullScreenPoly, 0, 0, 640, 240);
+
+        // NOTE: This texture in the last batch is always used as the FB source
+        std::shared_ptr<ATL::CComPtr<IDirect3DTexture9>> nullTex;
+        mBatcher.PushCAM(fullScreenPoly, nullTex);
+
+        // Add the in flight batch
         mBatcher.EndFrame();
 
         DrawBatches();
-
-        DX_VERIFY(mDevice->EndScene());
-
-        // Render to the screen instead of the texture
-        DX_VERIFY(mDevice->SetRenderTarget(0, mScreenRenderTarget));
-
-        DX_VERIFY(mDevice->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0, 0, 0), 1.0f, 0));
-
-        // Copy the rendered to texture to the entire screen
-        //const SDL_Rect dstRectSDL = GetTargetDrawRect();
-        //const RECT dstRect = {dstRectSDL.x, dstRectSDL.y, dstRectSDL.w, dstRectSDL.h};
-        mDevice->StretchRect(mTextureRenderTarget, nullptr, mScreenRenderTarget, nullptr, D3DTEXF_POINT);
-
-        // 0x8876086C
 
         const HRESULT presentHR = mDevice->Present(NULL, NULL, NULL, NULL);
         if (presentHR == D3DERR_DEVICELOST)
@@ -596,8 +596,10 @@ void DirectX9Renderer::DrawBatches()
 
     u32 idxOffset = 0;
     u32 baseTextureIdx = 0;
-    for (Batcher<ATL::CComPtr<IDirect3DTexture9>, BatchData, kSpriteTextureUnitCount>::RenderBatch& batch : mBatcher.mBatches)
+    for (std::size_t i = 0; i < mBatcher.mBatches.size() - 1; i++)
     {
+        Batcher<ATL::CComPtr<IDirect3DTexture9>, BatchData, kSpriteTextureUnitCount>::RenderBatch& batch = mBatcher.mBatches[i];
+
         if (batch.mScissor.x == 0 && batch.mScissor.y == 0 && batch.mScissor.w == 0 && batch.mScissor.h == 0)
         {
             // Disable scissor
@@ -648,9 +650,9 @@ void DirectX9Renderer::DrawBatches()
             }
 
             // NOTE: We expect this to only ever be 1 due to shader instruction space limitations
-            for (u32 i = 0; i < batch.mTexturesInBatch; i++)
+            for (u32 j = 0; j < batch.mTexturesInBatch; j++)
             {
-                const u32 textureId = batch.mTextureIds[i];
+                const u32 textureId = batch.mTextureIds[j];
                 const u32 batchTextureIdx = batch.TextureIdxForId(textureId);
                 auto pTex = mBatcher.mBatchTextures[baseTextureIdx + batchTextureIdx];
 
@@ -667,6 +669,56 @@ void DirectX9Renderer::DrawBatches()
         baseTextureIdx += batch.mTexturesInBatch;
     }
 
+    DX_VERIFY(mDevice->EndScene());
+
+    // TODO: Should be the size of the back buffer ??
+    auto tmpTexture = std::make_shared<ATL::CComPtr<IDirect3DTexture9>>();
+    DX_VERIFY(mDevice->CreateTexture(640, 240, 0, D3DUSAGE_RENDERTARGET, D3DFMT_X8R8G8B8, D3DPOOL_DEFAULT, &*tmpTexture, nullptr));
+
+    LPDIRECT3DSURFACE9 pTexSurface;
+    (*tmpTexture)->GetSurfaceLevel(0, &pTexSurface);
+    
+    // Copy the frame buffer to tmpTexture
+    mDevice->StretchRect(mTextureRenderTarget, NULL, pTexSurface, NULL, D3DTEXF_NONE);
+
+    // Render to the screen instead of the texture
+    DX_VERIFY(mDevice->SetRenderTarget(0, mScreenRenderTarget));
+
+    DX_VERIFY(mDevice->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0, 0, 0), 1.0f, 0));
+
+    for (std::size_t i = 0; i < mBatcher.mBatches.size(); i++)
+    {
+        if (i == mBatcher.mBatches.size() - 1)
+        {
+            if (mBatcher.mBatches[i].mNumTrisToDraw > 0)
+            {
+                Batcher<ATL::CComPtr<IDirect3DTexture9>, BatchData, kSpriteTextureUnitCount>::RenderBatch& batch = mBatcher.mBatches[i];
+
+                SDL_Rect viewPortRect = GetTargetDrawRect();
+
+                // TODO: Broken till back buffer matches window size?
+                D3DVIEWPORT9 vp;
+                vp.X = viewPortRect.x;
+                vp.Y = viewPortRect.y;
+                vp.Width = viewPortRect.w;
+                vp.Height = viewPortRect.h;
+                mDevice->SetViewport(&vp);
+
+                // TODO: only set if enabled
+                DX_VERIFY(mDevice->SetPixelShader(this->mScanLinesShader));
+
+               // DX_VERIFY(mDevice->SetPixelShader(mCamFG1Shader));
+
+                // Draw tmpTexture as a full screen quad
+                mDevice->SetTexture(mCamUnit, *tmpTexture);
+
+                DX_VERIFY(mDevice->SetRenderState(D3DRS_SCISSORTESTENABLE, FALSE));
+                DX_VERIFY(mDevice->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, batch.mNumTrisToDraw * 3, idxOffset, batch.mNumTrisToDraw));
+            }
+        }
+    }
+
+    pTexSurface->Release();
 }
 
 #endif

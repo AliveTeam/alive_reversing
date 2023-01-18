@@ -69,6 +69,7 @@ private:
     ATL::CComPtr<IDirect3DPixelShader9> mCamFG1Shader;
     ATL::CComPtr<IDirect3DPixelShader9> mFlatShader;
     ATL::CComPtr<IDirect3DPixelShader9> mGasShader;
+    ATL::CComPtr<IDirect3DPixelShader9> mScanLinesShader;
 
     u32 mVboSize = 0;
     ATL::CComPtr<IDirect3DVertexBuffer9> mVBO;
