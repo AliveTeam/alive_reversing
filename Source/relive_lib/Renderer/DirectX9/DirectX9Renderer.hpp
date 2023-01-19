@@ -6,6 +6,8 @@
     #include "../TextureCache.hpp"
     #include "../PaletteCache.hpp"
 
+    #include "../Vulkan/Batcher.hpp"
+
     #undef DIRECT3D_VERSION
     #define DIRECT3D_VERSION 0x0900
     #include <d3d9.h>
@@ -25,7 +27,6 @@ public:
     void EndFrame() override;
     void SetTPage(u16 tPage) override;
     void SetClip(const Prim_PrimClipper& clipper) override;
-    void ToggleFilterScreen() override;
     void Draw(const Prim_GasEffect& gasEffect) override;
     void Draw(const Line_G2& line) override;
     void Draw(const Line_G4& line) override;
@@ -34,18 +35,26 @@ public:
     void Draw(const Poly_G4& poly) override;
 
 private:
+    void SetDeviceStates();
+    void CreateDevice();
+    void CheckDeviceCaps();
+    void FreeAllResources();
+    void CreateAllResources();
+    void ReCreateDevice();
+
     void SetupBlendMode(u16 blendMode);
 
     u32 PreparePalette(AnimationPal& pCache);
 
     void DecreaseResourceLifetimes();
 
-    void MakeVertexBuffer();
-    void SetQuad(const VertexInfo& vi, float u0, float v0, float u1, float v1);
+    void DrawBatches();
 
+    TDX9Texture MakeTexture16(const u16* pixels, u32 textureW, u32 textureH, u32 actualW, u32 actualH);
+    TDX9Texture MakeTexture32(const std::vector<u8>& pixels, u32 textureW, u32 textureH, u32 actualW, u32 actualH);
+    TDX9Texture MakeTexture8(const std::vector<u8>& pixels, u32 textureW, u32 textureH, u32 actualW, u32 actualH);
     TDX9Texture MakeCachedIndexedTexture(u32 uniqueId, const std::vector<u8>& pixels, u32 textureW, u32 textureH, u32 actualW, u32 actualH);
     TDX9Texture MakeCachedTexture(u32 uniqueId, const std::vector<u8>& pixels, u32 textureW, u32 textureH, u32 actualW, u32 actualH);
-    void DrawTris(TDX9Texture pTexture, u32 textureUnit, const VertexInfo& vi, float u0, float v0, float u1, float v1, u32 numTris = 2);
 
     bool mFrameStarted = false;
     
@@ -65,12 +74,29 @@ private:
     ATL::CComPtr<IDirect3DPixelShader9> mPixelShader;
     ATL::CComPtr<IDirect3DPixelShader9> mCamFG1Shader;
     ATL::CComPtr<IDirect3DPixelShader9> mFlatShader;
+    ATL::CComPtr<IDirect3DPixelShader9> mGasShader;
+    ATL::CComPtr<IDirect3DPixelShader9> mScanLinesShader;
 
-    ATL::CComPtr<IDirect3DVertexBuffer9> mCameraVBO;
+    u32 mVboSize = 0;
+    ATL::CComPtr<IDirect3DVertexBuffer9> mVBO;
+
+    u32 mIndexBufferSize = 0;
+    ATL::CComPtr<IDirect3DIndexBuffer9> mIndexBuffer;
+
+    static constexpr u32 kSpriteTextureUnitCount = 1;
+    struct BatchData
+    {
+    };
+    Batcher<ATL::CComPtr<IDirect3DTexture9>, BatchData, kSpriteTextureUnitCount> mBatcher;
 
     TDX9Texture mPaletteTexture;
     PaletteCache mPaletteCache;
     TextureCache<TDX9Texture> mTextureCache;
+
+    TDX9Texture mGasTexture;
+
+    // Debug flag to use indexed rendering to work around driver bugs
+    bool mIndexedRendering = false;
 
     const u8 mCamUnit = 4;
     const u8 mPalUnit = 5;

@@ -80,6 +80,7 @@ public: // TODO: Make protected later
     static Quad2D LineToQuad(const Point2D& p1, const Point2D& p2);
 
 protected:
+    bool mFramebufferFilter = true;
 
 
 public:
@@ -104,6 +105,11 @@ public:
     virtual ~IRenderer()
     {
 
+    }
+
+    void ToggleFilterScreen()
+    {
+        mFramebufferFilter = !mFramebufferFilter;
     }
 
     void ToggleKeepAspectRatio()
@@ -135,8 +141,6 @@ public:
 
     virtual void SetClip(const Prim_PrimClipper& clipper) = 0;
     void SetScreenOffset(const Prim_ScreenOffset& offset);
-
-    virtual void ToggleFilterScreen() = 0;
 
     virtual void Draw(const Prim_GasEffect& gasEffect) = 0;
 

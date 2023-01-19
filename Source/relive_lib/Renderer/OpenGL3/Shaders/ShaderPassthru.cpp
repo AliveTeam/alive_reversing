@@ -107,9 +107,10 @@ void main()
         int belowTexel888 = get888FromNormalized(belowTexel.rgb);
 
         // Do the bit rotation stuff
+        int tmp1 = aboveTexel888 & 0xF8F8F8;
+        int tmp2 = belowTexel888 & 0xF8F8F8;
         int pixelResult =
-            (((aboveTexel888 & 0xF8F8F8) + (belowTexel888 & 0xF8F8F8)) >> 1) |
-            (belowTexel888 & 0xF8F8F8) << 23;
+            (((tmp1) + (tmp2)) >> 1) | ((tmp1) + (tmp2) << 23);
 
         pixelResult = pixelResult & 0xFFFFFF;
 

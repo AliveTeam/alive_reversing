@@ -118,7 +118,6 @@ public:
     void EndFrame() override;
     void SetTPage(u16 tPage) override;
     void SetClip(const Prim_PrimClipper& clipper) override;
-    void ToggleFilterScreen() override;
     void Draw(const Prim_GasEffect& gasEffect) override;
     void Draw(const Line_G2& line) override;
     void Draw(const Line_G4& line) override;
@@ -255,16 +254,49 @@ private:
     public:
         enum Format
         {
+            RGBA16,
             RGBA,
             Indexed,
         };
+
+        vk::Format ToVk(Format f)
+        {
+            switch (f)
+            {
+                case Format::RGBA16:
+                    return vk::Format::eR5G6B5UnormPack16;
+
+                case Format::RGBA:
+                    return vk::Format::eR8G8B8A8Unorm;
+
+                case Format::Indexed:
+                    return vk::Format::eR8Unorm;
+            }
+            ALIVE_FATAL("Bad texture format");
+        }
+
+        u32 BytesPerElement(Format f)
+        {
+            switch (f)
+            {
+                case Format::RGBA16:
+                    return 2;
+
+                case Format::RGBA:
+                    return 4;
+
+                case Format::Indexed:
+                    return 1;
+            }
+            ALIVE_FATAL("Bad texture format");
+        }
 
         explicit Texture(VulkanRenderer& renderer, u32 width, u32 height, void* pPixels, Format format)
             : mRenderer(renderer)
             , mFormat(format)
         {
-            vk::DeviceSize imageSize = width * height * (mFormat == Format::Indexed ? 1 : 4);
-            vk::Format imgFormat = format == Format::Indexed ? vk::Format::eR8Unorm : vk::Format::eR8G8B8A8Unorm;
+            vk::DeviceSize imageSize = width * height * BytesPerElement(mFormat);
+            vk::Format imgFormat = ToVk(mFormat);
             auto [stagingBuffer, stagingBufferMemory] = mRenderer.createBuffer(imageSize, vk::BufferUsageFlagBits::eTransferSrc, vk::MemoryPropertyFlagBits::eHostVisible | vk::MemoryPropertyFlagBits::eHostCoherent);
             mStagingBuffer = std::move(stagingBuffer);
             mStagingBufferMemory = std::move(stagingBufferMemory);
@@ -293,7 +325,7 @@ private:
 
         void LoadSubImage(u32 x, u32 y, u32 width, u32 height, RGBA32* pPixels)
         {
-            vk::DeviceSize imageSize = width * height * (mFormat == Format::Indexed ? 1 : 4);
+            vk::DeviceSize imageSize = width * height * BytesPerElement(mFormat);
 
             void* data = mStagingBufferMemory->mapMemory(0, imageSize);
             memcpy(data, pPixels, static_cast<std::size_t>(imageSize));
@@ -395,10 +427,12 @@ private:
 
     struct BatchData
     {
-        PipelineIndex mPipeline = PipelineIndex::eNone;
+
     };
-    Batcher<Texture, BatchData, 14> mBatcher[MAX_FRAMES_IN_FLIGHT];
-  
+    Batcher<Texture, BatchData, 13> mBatcher[MAX_FRAMES_IN_FLIGHT];
+    std::shared_ptr<Texture> mPaletteTexture[MAX_FRAMES_IN_FLIGHT];
+    std::shared_ptr<Texture> mGasTexture[MAX_FRAMES_IN_FLIGHT];
+
     struct FrameBufferAttachment final
     {
         std::unique_ptr<vk::raii::Image> image;
@@ -463,7 +497,7 @@ private:
 
         std::unique_ptr<vk::raii::Buffer> mBuffer;
         std::unique_ptr<vk::raii::DeviceMemory> mBufferMemory;
-        vk::DeviceSize mBufferSize;
+        vk::DeviceSize mBufferSize = 0;
         void* mMappedBuffferMemory = nullptr;
     };
 

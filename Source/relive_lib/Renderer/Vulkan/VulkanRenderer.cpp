@@ -67,7 +67,7 @@ void VulkanRenderer::initVulkan()
     std::vector<RGBA32> blackPixels(256 * 256);
     for (u32 i = 0; i < MAX_FRAMES_IN_FLIGHT; i++)
     {
-        mBatcher[mCurrentFrame].mPaletteTexture = std::make_unique<Texture>(*this, 256, 256, blackPixels.data(), Texture::Format::RGBA);
+        mPaletteTexture[mCurrentFrame] = std::make_shared<Texture>(*this, 256, 256, blackPixels.data(), Texture::Format::RGBA);
     }
     createDescriptorSetLayout();
 
@@ -129,7 +129,7 @@ void VulkanRenderer::cleanup()
         mUniformBuffer[i].clear();
         mTextureSampler[i]->clear();
         mTextureCache[i].Clear();
-        mBatcher[mCurrentFrame].mPaletteTexture.reset();
+        mPaletteTexture[mCurrentFrame].reset();
     }
 
     mBatcher[mCurrentFrame].mBatchTextures.clear();
@@ -470,8 +470,8 @@ void VulkanRenderer::createGraphicsPipeline(VulkanRenderer::PipelineIndex idx)
     rasterizer.rasterizerDiscardEnable = VK_FALSE;
     rasterizer.polygonMode = vk::PolygonMode::eFill;
     rasterizer.lineWidth = 1.0f;
-    rasterizer.cullMode = vk::CullModeFlagBits::eBack;
-    rasterizer.frontFace = vk::FrontFace::eCounterClockwise; 
+    rasterizer.cullMode = vk::CullModeFlagBits::eNone; // Culling off like GL and DX
+    rasterizer.frontFace = vk::FrontFace::eCounterClockwise;
     rasterizer.depthBiasEnable = VK_FALSE;
 
     vk::PipelineMultisampleStateCreateInfo multisampling;
@@ -823,7 +823,30 @@ void VulkanRenderer::createVertexBuffer(u32 idx)
 {
     auto usageFlags = vk::BufferUsageFlagBits::eTransferDst | vk::BufferUsageFlagBits::eVertexBuffer;
     auto memoryFlags = vk::MemoryPropertyFlagBits::eHostVisible | vk::MemoryPropertyFlagBits::eHostCoherent | vk::MemoryPropertyFlagBits::eDeviceLocal;
-    mVertexBuffer[idx].makeBuffer(*this, mDevice, usageFlags, memoryFlags, mBatcher[idx].mVertices.data(), mBatcher[idx].mVertices.size());
+
+    std::vector<Vertex> vertices;
+    vertices.resize(mBatcher[idx].mVertices.size());
+    for (std::size_t i = 0; i < vertices.size(); i++)
+    {
+        const auto& src = mBatcher[idx].mVertices[i];
+        auto& dst = vertices[i];
+
+        dst.pos.x = src.x;
+        dst.pos.y = src.y;
+        dst.color[0] = static_cast<u8>(src.r);
+        dst.color[1] = static_cast<u8>(src.g);
+        dst.color[2] = static_cast<u8>(src.b);
+        dst.texCoord.x = src.u;
+        dst.texCoord.y = src.v;
+        dst.mSamplerIdx = src.textureUnitIndex;
+        dst.mPalIdx = src.paletteIndex;
+        dst.mDrawType = src.drawMode;
+        dst.mIsShaded = src.isShaded;
+        dst.mBlendMode = src.blendMode;
+        dst.mIsSemiTrans = src.isSemiTrans;
+    }
+
+    mVertexBuffer[idx].makeBuffer(*this, mDevice, usageFlags, memoryFlags, vertices.data(), vertices.size());
 }
 
 void VulkanRenderer::createIndexBuffer(u32 idx)
@@ -839,7 +862,6 @@ void VulkanRenderer::createUniformBuffers(u32 idx)
     auto memoryFlags = vk::MemoryPropertyFlagBits::eHostVisible | vk::MemoryPropertyFlagBits::eHostCoherent;
     UniformBufferObject uboTemp = {};
     mUniformBuffer[idx].makeBuffer(*this, mDevice, usageFlags, memoryFlags, &uboTemp, 1);
-
 }
 
 void VulkanRenderer::createDescriptorSetLayout()
@@ -865,14 +887,21 @@ void VulkanRenderer::createDescriptorSetLayout()
     texCamera.pImmutableSamplers = nullptr;
     texCamera.stageFlags = vk::ShaderStageFlagBits::eFragment;
 
+    vk::DescriptorSetLayoutBinding texGas;
+    texGas.binding = 3;
+    texGas.descriptorCount = 1;
+    texGas.descriptorType = vk::DescriptorType::eCombinedImageSampler;
+    texGas.pImmutableSamplers = nullptr;
+    texGas.stageFlags = vk::ShaderStageFlagBits::eFragment;
+
     vk::DescriptorSetLayoutBinding texSpriteSheets;
-    texSpriteSheets.binding = 3;
-    texSpriteSheets.descriptorCount = 14; // texture array size
+    texSpriteSheets.binding = 4;
+    texSpriteSheets.descriptorCount = 13; // texture array size
     texSpriteSheets.descriptorType = vk::DescriptorType::eCombinedImageSampler;
     texSpriteSheets.pImmutableSamplers = nullptr;
     texSpriteSheets.stageFlags = vk::ShaderStageFlagBits::eFragment;
 
-    vk::DescriptorSetLayoutBinding bindings[] = {uboLayoutBinding, texPalette, texCamera, texSpriteSheets};
+    vk::DescriptorSetLayoutBinding bindings[] = {uboLayoutBinding, texPalette, texCamera, texGas, texSpriteSheets};
     vk::DescriptorSetLayoutCreateInfo layoutInfo;
     layoutInfo.bindingCount = ALIVE_COUNTOF(bindings);
     layoutInfo.pBindings = bindings;
@@ -891,8 +920,10 @@ void VulkanRenderer::createDescriptorPool()
         {vk::DescriptorType::eCombinedImageSampler, static_cast<uint32_t>(MAX_FRAMES_IN_FLIGHT) * kMaxBatches},
         // cam
         {vk::DescriptorType::eCombinedImageSampler, static_cast<uint32_t>(MAX_FRAMES_IN_FLIGHT) * kMaxBatches},
+        // gas
+        {vk::DescriptorType::eCombinedImageSampler, static_cast<uint32_t>(MAX_FRAMES_IN_FLIGHT) * kMaxBatches},
         // sprites
-        {vk::DescriptorType::eCombinedImageSampler, 14 * static_cast<uint32_t>(MAX_FRAMES_IN_FLIGHT) * kMaxBatches},
+        {vk::DescriptorType::eCombinedImageSampler, 13 * static_cast<uint32_t>(MAX_FRAMES_IN_FLIGHT) * kMaxBatches},
     };
 
     vk::DescriptorPoolCreateInfo poolInfo;
@@ -922,14 +953,13 @@ static u32 To1dIdx(u32 col, u32 row)
 
 void VulkanRenderer::updateDescriptorSets()
 {
-
     for (u32 i = 0; i < MAX_FRAMES_IN_FLIGHT; i++)
     {
         const u32 batchCount = static_cast<u32>(std::max(1u, static_cast<u32>(mBatcher[i].mBatches.size())));
         u32 textureIdxOff = 0;
         for (u32 j = 0; j < batchCount; j++)
         {
-            std::array<vk::WriteDescriptorSet, 4> descriptorWrites{};
+            std::array<vk::WriteDescriptorSet, 5> descriptorWrites{};
 
             // ubo
             vk::DescriptorBufferInfo bufferInfo;
@@ -947,7 +977,7 @@ void VulkanRenderer::updateDescriptorSets()
             // Pal texture
             vk::DescriptorImageInfo imageInfo{};
             imageInfo.imageLayout = vk::ImageLayout::eShaderReadOnlyOptimal;
-            imageInfo.imageView = **mBatcher[i].mPaletteTexture->View();
+            imageInfo.imageView = **mPaletteTexture[i]->View();
             imageInfo.sampler = **mTextureSampler[i];
 
             descriptorWrites[1].dstSet = *mDescriptorSets[To1dIdx(i, j)];
@@ -964,7 +994,9 @@ void VulkanRenderer::updateDescriptorSets()
             descriptorWrites[2].dstArrayElement = 0;
             descriptorWrites[2].descriptorType = vk::DescriptorType::eCombinedImageSampler;
             descriptorWrites[2].descriptorCount = 1;
-            if (j < mBatcher[i].mBatches.size() && mBatcher[i].mBatches[j].mPipeline == PipelineIndex::eFBOPipeline)
+
+            // Last item is the full screen quad to copy the FB to the screen
+            if (j == batchCount - 1)
             {
                 descriptorWrites[2].pImageInfo = &mOffScreenPass[i].descriptor;
             }
@@ -977,11 +1009,30 @@ void VulkanRenderer::updateDescriptorSets()
                 }
                 else
                 {
-                    imageInfo4.imageView = **mBatcher[i].mPaletteTexture->View();
+                    imageInfo4.imageView = **mPaletteTexture[i]->View();
                 }
                 imageInfo4.sampler = **mTextureSampler[i];
                 descriptorWrites[2].pImageInfo = &imageInfo4;
             }
+
+            // Gas texture
+            vk::DescriptorImageInfo gasImage{};
+            descriptorWrites[3].dstSet = *mDescriptorSets[To1dIdx(i, j)];
+            descriptorWrites[3].dstBinding = 3;
+            descriptorWrites[3].dstArrayElement = 0;
+            descriptorWrites[3].descriptorType = vk::DescriptorType::eCombinedImageSampler;
+            descriptorWrites[3].descriptorCount = 1;
+            if (mGasTexture[mCurrentFrame])
+            {
+                gasImage.imageView = **mGasTexture[mCurrentFrame]->View();
+            }
+            else
+            {
+                gasImage.imageView = **mPaletteTexture[i]->View();
+            }
+            gasImage.imageLayout = vk::ImageLayout::eShaderReadOnlyOptimal;
+            gasImage.sampler = **mTextureSampler[i];
+            descriptorWrites[3].pImageInfo = &gasImage;
 
             // Sprite sheets
             vk::DescriptorImageInfo imageInfo2[14];
@@ -998,18 +1049,18 @@ void VulkanRenderer::updateDescriptorSets()
 
                 if (!imageInfo2[k].imageView)
                 {
-                    imageInfo2[k].imageView = **mBatcher[i].mPaletteTexture->View();
+                    imageInfo2[k].imageView = **mPaletteTexture[i]->View();
                 }
 
                 imageInfo2[k].sampler = **mTextureSampler[i];
             }
 
-            descriptorWrites[3].dstSet = *mDescriptorSets[To1dIdx(i, j)];
-            descriptorWrites[3].dstBinding = 3;
-            descriptorWrites[3].dstArrayElement = 0;
-            descriptorWrites[3].descriptorType = vk::DescriptorType::eCombinedImageSampler;
-            descriptorWrites[3].descriptorCount = 14; // texture array size
-            descriptorWrites[3].pImageInfo = imageInfo2;
+            descriptorWrites[4].dstSet = *mDescriptorSets[To1dIdx(i, j)];
+            descriptorWrites[4].dstBinding = 4;
+            descriptorWrites[4].dstArrayElement = 0;
+            descriptorWrites[4].descriptorType = vk::DescriptorType::eCombinedImageSampler;
+            descriptorWrites[4].descriptorCount = 13; // texture array size
+            descriptorWrites[4].pImageInfo = imageInfo2;
 
             mDevice->updateDescriptorSets(descriptorWrites, {});
 
@@ -1127,64 +1178,62 @@ void VulkanRenderer::recordCommandBuffer(vk::raii::CommandBuffer& commandBuffer,
     u32 idxOffset = 0;
     PipelineIndex lastPipeLine = PipelineIndex::eNone;
 
-    for (std::size_t i = 0; i < mBatcher[mCurrentFrame].mBatches.size(); i++)
+    for (std::size_t i = 0; i < mBatcher[mCurrentFrame].mBatches.size() - 1; i++)
     {
-        if (mBatcher[mCurrentFrame].mBatches[i].mPipeline != PipelineIndex::eFBOPipeline)
+        if (mBatcher[mCurrentFrame].mBatches[i].mNumTrisToDraw > 0)
         {
-            if (mBatcher[mCurrentFrame].mBatches[i].mNumTrisToDraw > 0)
+            const auto pipeLineForThisBatch = mBatcher[mCurrentFrame].mBatches[i].mBlendMode == 2 ? PipelineIndex::eReverseBlending : PipelineIndex::eAddBlending;
+            if (lastPipeLine != pipeLineForThisBatch)
             {
-                if (lastPipeLine != mBatcher[mCurrentFrame].mBatches[i].mPipeline)
-                {
-                    commandBuffer.bindPipeline(vk::PipelineBindPoint::eGraphics, **mGraphicsPipelines[mBatcher[mCurrentFrame].mBatches[i].mPipeline]);
+                commandBuffer.bindPipeline(vk::PipelineBindPoint::eGraphics, **mGraphicsPipelines[pipeLineForThisBatch]);
 
-                    vk::Viewport viewport;
-                    viewport.x = 0.0f;
-                    viewport.y = 0.0f;
-                    viewport.width = (float) mOffScreenPass[mCurrentFrame].width;
-                    viewport.height = (float) mOffScreenPass[mCurrentFrame].height;
-                    viewport.minDepth = 0.0f;
-                    viewport.maxDepth = 1.0f;
-                    commandBuffer.setViewport(0, viewport);
+                vk::Viewport viewport;
+                viewport.x = 0.0f;
+                viewport.y = 0.0f;
+                viewport.width = (float) mOffScreenPass[mCurrentFrame].width;
+                viewport.height = (float) mOffScreenPass[mCurrentFrame].height;
+                viewport.minDepth = 0.0f;
+                viewport.maxDepth = 1.0f;
+                commandBuffer.setViewport(0, viewport);
 
-                    lastPipeLine = mBatcher[mCurrentFrame].mBatches[i].mPipeline;
+                lastPipeLine = pipeLineForThisBatch;
 
-                    vk::Buffer vertexBuffers[] = {**mVertexBuffer[mCurrentFrame].mBuffer};
-                    vk::DeviceSize offsets[] = {0};
-                    commandBuffer.bindVertexBuffers(0, vertexBuffers, offsets);
+                vk::Buffer vertexBuffers[] = {**mVertexBuffer[mCurrentFrame].mBuffer};
+                vk::DeviceSize offsets[] = {0};
+                commandBuffer.bindVertexBuffers(0, vertexBuffers, offsets);
 
-                    commandBuffer.bindIndexBuffer(**mIndexBuffer[mCurrentFrame].mBuffer, 0, vk::IndexType::eUint16);
-                }
-
-                SDL_Rect scissorRect = mBatcher[mCurrentFrame].mBatches[i].mScissor;
-                if (scissorRect.x == 0 && scissorRect.y == 0 && scissorRect.w == 0 && scissorRect.h == 0)
-                {
-                    scissorRect.x = 0;
-                    scissorRect.y = 0;
-                    scissorRect.w = mOffScreenPass[mCurrentFrame].width;
-                    scissorRect.h = mOffScreenPass[mCurrentFrame].height;
-                }
-
-                vk::Rect2D scissor;
-                scissor.offset.x = scissorRect.x;
-                scissor.offset.y = scissorRect.y;
-                scissor.extent.width = scissorRect.w;
-                scissor.extent.height = scissorRect.h;
-                commandBuffer.setScissor(0, scissor);
-
-                commandBuffer.bindDescriptorSets(
-                    vk::PipelineBindPoint::eGraphics,
-                    **mPipelineLayouts[mBatcher[mCurrentFrame].mBatches[i].mPipeline],
-                    0,
-                    *mDescriptorSets[To1dIdx(mCurrentFrame, batchIdx)],
-                    {});
-
-                commandBuffer.drawIndexed(
-                    (mBatcher[mCurrentFrame].mBatches[i].mNumTrisToDraw) * 3,
-                    1,
-                    idxOffset,
-                    0,
-                    0);
+                commandBuffer.bindIndexBuffer(**mIndexBuffer[mCurrentFrame].mBuffer, 0, vk::IndexType::eUint32);
             }
+
+            SDL_Rect scissorRect = mBatcher[mCurrentFrame].mBatches[i].mScissor;
+            if (scissorRect.x == 0 && scissorRect.y == 0 && scissorRect.w == 0 && scissorRect.h == 0)
+            {
+                scissorRect.x = 0;
+                scissorRect.y = 0;
+                scissorRect.w = mOffScreenPass[mCurrentFrame].width;
+                scissorRect.h = mOffScreenPass[mCurrentFrame].height;
+            }
+
+            vk::Rect2D scissor;
+            scissor.offset.x = scissorRect.x;
+            scissor.offset.y = scissorRect.y;
+            scissor.extent.width = scissorRect.w;
+            scissor.extent.height = scissorRect.h;
+            commandBuffer.setScissor(0, scissor);
+
+            commandBuffer.bindDescriptorSets(
+                vk::PipelineBindPoint::eGraphics,
+                **mPipelineLayouts[pipeLineForThisBatch],
+                0,
+                *mDescriptorSets[To1dIdx(mCurrentFrame, batchIdx)],
+                {});
+
+            commandBuffer.drawIndexed(
+                (mBatcher[mCurrentFrame].mBatches[i].mNumTrisToDraw) * 3,
+                1,
+                idxOffset,
+                0,
+                0);
         }
         idxOffset += (mBatcher[mCurrentFrame].mBatches[i].mNumTrisToDraw) * 3;
         batchIdx++;
@@ -1209,14 +1258,16 @@ void VulkanRenderer::recordCommandBuffer(vk::raii::CommandBuffer& commandBuffer,
     lastPipeLine = PipelineIndex::eNone;
     for (std::size_t i = 0; i < mBatcher[mCurrentFrame].mBatches.size(); i++)
     {
-        if (mBatcher[mCurrentFrame].mBatches[i].mPipeline == PipelineIndex::eFBOPipeline)
+        if (i == mBatcher[mCurrentFrame].mBatches.size() - 1)
         {
             if (mBatcher[mCurrentFrame].mBatches[i].mNumTrisToDraw > 0)
             {
-                if (lastPipeLine != mBatcher[mCurrentFrame].mBatches[i].mPipeline)
+                // It can only be the FBO pipeline here
+                const auto pipeLineForThisBatch = PipelineIndex::eFBOPipeline;
+                if (lastPipeLine != pipeLineForThisBatch)
                 {
-                    commandBuffer.bindPipeline(vk::PipelineBindPoint::eGraphics, **mGraphicsPipelines[mBatcher[mCurrentFrame].mBatches[i].mPipeline]);
-                    lastPipeLine = mBatcher[mCurrentFrame].mBatches[i].mPipeline;
+                    commandBuffer.bindPipeline(vk::PipelineBindPoint::eGraphics, **mGraphicsPipelines[pipeLineForThisBatch]);
+                    lastPipeLine = pipeLineForThisBatch;
 
                     SDL_Rect viewPortRect = GetTargetDrawRect();
 
@@ -1237,12 +1288,12 @@ void VulkanRenderer::recordCommandBuffer(vk::raii::CommandBuffer& commandBuffer,
                     vk::DeviceSize offsets[] = {0};
                     commandBuffer.bindVertexBuffers(0, vertexBuffers, offsets);
 
-                    commandBuffer.bindIndexBuffer(**mIndexBuffer[mCurrentFrame].mBuffer, 0, vk::IndexType::eUint16);
+                    commandBuffer.bindIndexBuffer(**mIndexBuffer[mCurrentFrame].mBuffer, 0, vk::IndexType::eUint32);
                 }
 
                 commandBuffer.bindDescriptorSets(
                     vk::PipelineBindPoint::eGraphics,
-                    **mPipelineLayouts[mBatcher[mCurrentFrame].mBatches[i].mPipeline],
+                    **mPipelineLayouts[pipeLineForThisBatch],
                     0,
                     *mDescriptorSets[To1dIdx(mCurrentFrame, batchIdx)],
                     {});
@@ -1606,6 +1657,8 @@ void VulkanRenderer::StartFrame()
     {
         mFrameStarted = true;
 
+        mBatcher[mCurrentFrame].StartFrame();
+
         // Set offsets for the screen (this is for the screen shake effect)
         mOffsetX = 0;
         mOffsetY = 0;
@@ -1617,71 +1670,28 @@ void VulkanRenderer::EndFrame()
 {
     if (mFrameStarted)
     {
+        mBatcher[mCurrentFrame].NewBatch();
+
+        Poly_FT4 fullScreenPoly;
+        PolyFT4_Init(&fullScreenPoly);
+        SetRGB0(&fullScreenPoly, 255, 255, 255);
+        SetXYWH(&fullScreenPoly, 0, 0, 640, 240);
+        // NOTE: This texture in the last batch is always used as the FB source
+        std::shared_ptr<Texture> nullTex;
+        mBatcher[mCurrentFrame].PushCAM(fullScreenPoly, nullTex);
+
         // Add the in flight batch
-        if (mBatcher[mCurrentFrame].mBatchInProgress && mBatcher[mCurrentFrame].mConstructingBatch.mNumTrisToDraw > 0)
-        {
-            mBatcher[mCurrentFrame].mBatches.push_back(mBatcher[mCurrentFrame].mConstructingBatch);
-            mBatcher[mCurrentFrame].mBatchInProgress = false;
-        }
-
-        // TODO: HACK, refactor this so the full screen tris are done in their own func without copy pasta
-        {
-            /*
-            {
-                float u0 = 0.0f;
-                float v0 = 0.0f;
-
-                float u1 = 1.0f;
-                float v1 = 1.0f;
-
-                mBatcher[mCurrentFrame].mConstructingBatch.mTexturesInBatch = 0;
-
-                // Full screen tris to render the FBO
-                mBatcher[mCurrentFrame].mVertices.push_back({{static_cast<f32>(0), static_cast<f32>(0)}, {255, 255, 255}, {u0, v0}, mBatcher[mCurrentFrame].mConstructingBatch.mTexturesInBatch, 0, PsxDrawMode::Camera, 0, 0, 0});
-                mBatcher[mCurrentFrame].mVertices.push_back({{static_cast<f32>(640), static_cast<f32>(0)}, {255, 255, 255}, {u1, v0}, mBatcher[mCurrentFrame].mConstructingBatch.mTexturesInBatch, 0, PsxDrawMode::Camera, 0, 0, 0});
-                mBatcher[mCurrentFrame].mVertices.push_back({{static_cast<f32>(0), static_cast<f32>(240)}, {255, 255, 255}, {u0, v1}, mBatcher[mCurrentFrame].mConstructingBatch.mTexturesInBatch, 0, PsxDrawMode::Camera, 0, 0, 0});
-                mBatcher[mCurrentFrame].mVertices.push_back({{static_cast<f32>(640), static_cast<f32>(240)}, {255, 255, 255}, {u1, v1}, mBatcher[mCurrentFrame].mConstructingBatch.mTexturesInBatch, 0, PsxDrawMode::Camera, 0, 0, 0});
-
-                mBatcher[mCurrentFrame].mIndices.emplace_back((u16) (mBatcher[mCurrentFrame].mIndexBufferIndex + 1));
-                mBatcher[mCurrentFrame].mIndices.emplace_back((u16) (mBatcher[mCurrentFrame].mIndexBufferIndex + 0));
-                mBatcher[mCurrentFrame].mIndices.emplace_back((u16) (mBatcher[mCurrentFrame].mIndexBufferIndex + 3));
-
-                mBatcher[mCurrentFrame].mIndices.emplace_back((u16) (mBatcher[mCurrentFrame].mIndexBufferIndex + 3));
-                mBatcher[mCurrentFrame].mIndices.emplace_back((u16) (mBatcher[mCurrentFrame].mIndexBufferIndex + 0));
-                mBatcher[mCurrentFrame].mIndices.emplace_back((u16) (mBatcher[mCurrentFrame].mIndexBufferIndex + 2));
-
-                mBatcher[mCurrentFrame].mIndexBufferIndex += 4;
-
-                mBatcher[mCurrentFrame].mConstructingBatch.mPipeline = PipelineIndex::eFBOPipeline;
-                mBatcher[mCurrentFrame].mConstructingBatch.mTexturesInBatch = 1;
-                mBatcher[mCurrentFrame].mConstructingBatch.mNumTrisToDraw = 2;
-                
-                mBatcher[mCurrentFrame].NewBatch();
-            }
-            */
-        }
+        mBatcher[mCurrentFrame].EndFrame();
 
         if (!mBatcher[mCurrentFrame].mVertices.empty() && !mBatcher[mCurrentFrame].mIndices.empty())
         {
-            this->createVertexBuffer(mCurrentFrame);
-            this->createIndexBuffer(mCurrentFrame);
+            createVertexBuffer(mCurrentFrame);
+            createIndexBuffer(mCurrentFrame);
         }
 
-        this->drawFrame();
-
-
+        drawFrame();
 
         mFrameStarted = false;
-
-        mBatcher[mCurrentFrame].mVertices.clear();
-        mBatcher[mCurrentFrame].mIndices.clear();
-        mBatcher[mCurrentFrame].mIndexBufferIndex = 0;
-
-        mBatcher[mCurrentFrame].mBatchTextures.clear();
-
-        mBatcher[mCurrentFrame].mCamTexture = nullptr;
-        mBatcher[mCurrentFrame].mConstructingBatch = {};
-        mBatcher[mCurrentFrame].mBatches.clear();
     }
 
     // Always decrease resource lifetimes regardless of drawing to prevent
@@ -1713,29 +1723,36 @@ void VulkanRenderer::SetClip(const Prim_PrimClipper& clipper)
     mBatcher[mCurrentFrame].SetScissor(rect);
 }
 
-void VulkanRenderer::ToggleFilterScreen()
+// TODO: Copy pasted from GL renderer
+inline u16 GetTPageBlendMode(u16 tpage)
 {
-    // TODO
+    return (tpage >> 4) & 3;
 }
 
-void VulkanRenderer::Draw(const Prim_GasEffect& /*gasEffect*/)
+void VulkanRenderer::Draw(const Prim_GasEffect& gasEffect)
 {
-    // TODO
+    const u32 gasWidth = static_cast<u32>(std::floor((gasEffect.w - gasEffect.x) / 4));
+    const u32 gasHeight = static_cast<u32>(std::floor((gasEffect.h - gasEffect.y) / 2));
+
+    mGasTexture[mCurrentFrame] = std::make_shared<Texture>(*this, gasWidth, gasHeight, gasEffect.pData, Texture::Format::RGBA16);
+
+    // TODO: If there is more than 1 gas in a frame break the batch ?
+    mBatcher[mCurrentFrame].PushGas(gasEffect);
 }
 
-void VulkanRenderer::Draw(const Line_G2& /*line*/)
+void VulkanRenderer::Draw(const Line_G2& line)
 {
-    // TODO
+    mBatcher[mCurrentFrame].PushLine(line, GetTPageBlendMode(mGlobalTPage));
 }
 
-void VulkanRenderer::Draw(const Line_G4& /*line*/)
+void VulkanRenderer::Draw(const Line_G4& line)
 {
-    // TODO
+    mBatcher[mCurrentFrame].PushLine(line, GetTPageBlendMode(mGlobalTPage));
 }
 
-void VulkanRenderer::Draw(const Poly_G3&)
+void VulkanRenderer::Draw(const Poly_G3& poly)
 {
-    // TODO
+    mBatcher[mCurrentFrame].PushPolyG3(poly, GetTPageBlendMode(mGlobalTPage));
 }
 
 u32 VulkanRenderer::PreparePalette(AnimationPal& pCache)
@@ -1745,7 +1762,7 @@ u32 VulkanRenderer::PreparePalette(AnimationPal& pCache)
     if (addRet.mAllocated)
     {
         // Write palette data
-        mBatcher[mCurrentFrame].mPaletteTexture->LoadSubImage(0, addRet.mIndex, 256, 1, pCache.mPal);
+        mPaletteTexture[mCurrentFrame]->LoadSubImage(0, addRet.mIndex, 256, 1, pCache.mPal);
 
         //mStats.mPalUploadCount++;
     }
@@ -1765,8 +1782,7 @@ void VulkanRenderer::Draw(const Poly_FT4& poly)
             texture = mTextureCache[mCurrentFrame].Add(poly.mCam->mUniqueId.Id(), 300, std::move(newTex));
         }
 
-        //auto& batch = mBatcher[mCurrentFrame].PushCAM(poly, texture);
-        //batch.mPipeline = PipelineIndex::eAddBlending;
+        mBatcher[mCurrentFrame].PushCAM(poly, texture);
     }
     else if (poly.mCam && poly.mFg1)
     {
@@ -1774,11 +1790,10 @@ void VulkanRenderer::Draw(const Poly_FT4& poly)
         std::shared_ptr<Texture> texture = mTextureCache[mCurrentFrame].GetCachedTexture(poly.mFg1->mUniqueId.Id(), 300);
         if (!texture)
         {
-            auto newTex = std::make_unique<Texture>(*this, pRes->mImage.mWidth, pRes->mImage.mHeight, pRes->mImage.mPixels->data(), Texture::Format::RGBA);
-            texture = mTextureCache[mCurrentFrame].Add(pRes->mUniqueId.Id(), 300, std::move(newTex));
+            texture = std::make_shared<Texture>(*this, pRes->mImage.mWidth, pRes->mImage.mHeight, pRes->mImage.mPixels->data(), Texture::Format::RGBA);
+            mTextureCache[mCurrentFrame].Add(pRes->mUniqueId.Id(), 300, texture);
         }
-        //auto& batch = mBatcher[mCurrentFrame].PushFG1(poly, texture);
-        //batch.mPipeline = PipelineIndex::eAddBlending;
+        mBatcher[mCurrentFrame].PushFG1(poly, texture);
     }
     else if (poly.mAnim)
     {
@@ -1790,36 +1805,33 @@ void VulkanRenderer::Draw(const Poly_FT4& poly)
         std::shared_ptr<Texture> texture = mTextureCache[mCurrentFrame].GetCachedTexture(animRes.mUniqueId.Id(), 300);
         if (!texture)
         {
-            auto newTex = std::make_unique<Texture>(*this, pTga->mWidth, pTga->mHeight, pTga->mPixels.data(), Texture::Format::Indexed);
-            texture = mTextureCache[mCurrentFrame].Add(animRes.mUniqueId.Id(), 300, std::move(newTex));
+            texture = std::make_shared<Texture>(*this, pTga->mWidth, pTga->mHeight, pTga->mPixels.data(), Texture::Format::Indexed);
+            mTextureCache[mCurrentFrame].Add(animRes.mUniqueId.Id(), 300, texture);
         }
 
         mBatcher[mCurrentFrame].PushAnim(poly, palIndex, texture);
-        // TODO: use the blend mode to pick what pipeline we use
-        //batch.mPipeline = batch.mBlendMode == 2 ? PipelineIndex::eReverseBlending : PipelineIndex::eAddBlending;
     }
     else if (poly.mFont)
     {
         FontResource& fontRes = poly.mFont->mFntResource;
         std::shared_ptr<TgaData> pTga = fontRes.mTgaPtr;
 
-        //const u32 palIndex = PreparePalette(*fontRes.mCurPal);
+        const u32 palIndex = PreparePalette(*fontRes.mCurPal);
 
         std::shared_ptr<Texture> texture = mTextureCache[mCurrentFrame].GetCachedTexture(poly.mFont->mFntResource.mUniqueId.Id(), 300);
         if (!texture)
         {
-            auto newTex = std::make_unique<Texture>(*this, pTga->mWidth, pTga->mHeight, pTga->mPixels.data(), Texture::Format::Indexed);
-            texture = mTextureCache[mCurrentFrame].Add(poly.mFont->mFntResource.mUniqueId.Id(), 300, std::move(newTex));
+            texture = std::make_shared<Texture>(*this, pTga->mWidth, pTga->mHeight, pTga->mPixels.data(), Texture::Format::Indexed);
+            mTextureCache[mCurrentFrame].Add(poly.mFont->mFntResource.mUniqueId.Id(), 300, texture);
         }
-       
-        //auto& batch = mBatcher[mCurrentFrame].PushFont(poly, palIndex, texture);
-        //batch.mPipeline = batch.mBlendMode == 2 ? PipelineIndex::eReverseBlending : PipelineIndex::eAddBlending;
+
+        mBatcher[mCurrentFrame].PushFont(poly, palIndex, texture);
     }
 }
 
-void VulkanRenderer::Draw(const Poly_G4&)
+void VulkanRenderer::Draw(const Poly_G4& poly)
 {
-    // TODO
+    mBatcher[mCurrentFrame].PushPolyG4(poly, GetTPageBlendMode(mGlobalTPage));
 }
 
 void VulkanRenderer::DecreaseResourceLifetimes()

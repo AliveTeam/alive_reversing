@@ -134,37 +134,6 @@ s32 Game_End_Frame(u32 flags)
     return 0;
 }
 
-void Main_ParseCommandLineArguments(const char_type* pCommandLine)
-{
-    IO_Init_494230();
-
-    if (pCommandLine)
-    {
-        if (strstr(pCommandLine, "-ddfps"))
-        {
-            sCommandLine_ShowFps = true;
-        }
-
-        if (strstr(pCommandLine, "-ddnoskip"))
-        {
-            gCommandLine_NoFrameSkip = true;
-        }
-
-        if (strstr(pCommandLine, "-ddcheat") || _strcmpi(pCommandLine, "-it_is_me_your_father") == 0)
-        {
-            gDDCheatOn = true;
-        }
-    }
-
-#if FORCE_DDCHEAT
-        gDDCheatOn = true;
-#endif
-
-    VGA_CreateRenderer(WindowTitleAE());
-
-    PSX_EMU_SetCallBack_4F9430(Game_End_Frame);
-}
-
 void Init_GameStates()
 {
     gKilledMudokons = gFeeco_Restart_KilledMudCount;

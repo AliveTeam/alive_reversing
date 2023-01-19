@@ -1,8 +1,15 @@
 #pragma once
 
+#include "../../Types.hpp"
 #include "../IRenderer.hpp"
 #include <vector>
 #include <memory>
+
+enum class UvMode
+{
+    UnNormalized,
+    Normalized,
+};
 
 template <typename TextureType, typename RenderBatchType, std::size_t kTextureBatchSize>
 class Batcher final
@@ -17,14 +24,16 @@ public:
         mBatchingEnabled = batching;
     }
 
-    Batcher()
+    UvMode mUvMode = UvMode::UnNormalized;
+
+    Batcher(UvMode uvMode = UvMode::Normalized)
+        : mUvMode(uvMode)
     {
         mVertices.reserve(IRenderer::kReserveFT4QuadCount * 4);
         mIndices.reserve(IRenderer::kReserveFT4QuadCount * 6);
         mBatchTextures.reserve(kTextureBatchSize * 10);
     }
 
-    std::unique_ptr<TextureType> mPaletteTexture; // TODO: remove ?
     std::shared_ptr<TextureType> mCamTexture; // TODO: remove ?
 
     std::vector<std::shared_ptr<TextureType>> mBatchTextures;
@@ -36,6 +45,7 @@ public:
         u32 mTextureIds[kTextureBatchSize] = {};
         u32 mBlendMode = 0;
         SDL_Rect mScissor = {};
+        bool mSourceIsFramebuffer = false;
 
         void AddTexture(u32 id, std::vector<std::shared_ptr<TextureType>>& batchedTextures, std::shared_ptr<TextureType>& texture)
         {
@@ -85,6 +95,8 @@ public:
 
     void PushVertexData(IRenderer::PsxVertexData* pVertData, s32 count, std::shared_ptr<TextureType>& texture, u32 textureResId);
 
+    void PushFramebufferVertexData(const IRenderer::PsxVertexData* pVertData, s32 count);
+
     void PushLines(const IRenderer::PsxVertexData* vertices, s32 count);
 
     void NewBatch();
@@ -108,6 +120,7 @@ public:
         mVertices.clear();
         mIndexBufferIndex = 0;
         mConstructingBatch = {};
+        mCamTexture = nullptr;
     }
 
     bool mBatchInProgress = false;
@@ -118,4 +131,7 @@ public:
     std::vector<IRenderer::PsxVertexData> mVertices;
     u16 mIndexBufferIndex = 0;
     std::vector<u32> mIndices;
+
+private:
+    void InsertVertexData(const IRenderer::PsxVertexData* pVertData, s32 count);
 };

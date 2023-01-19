@@ -5,14 +5,14 @@
 #include "PsxDisplay.hpp"
 #include "../AliveLibAE/VGA.hpp"
 #include "BaseGameAutoPlayer.hpp"
+#include "Sys.hpp"
 
-void SYS_EventsPump();
+#include "../AliveLibAE/Io.hpp"
+#include "CommandLineParser.hpp"
+#include "Renderer/IRenderer.hpp"
 
-void Main_ParseCommandLineArguments(const char_type* pCommandLine);
-
-namespace AO {
-void Main_ParseCommandLineArguments(const char_type* pCommandLine);
-}
+// TODO: Remove after merge
+extern bool sCommandLine_ShowFps;
 
 Engine::Engine(GameType gameType, const char_type* pCommandLine)
     : mGameType(gameType)
@@ -21,23 +21,66 @@ Engine::Engine(GameType gameType, const char_type* pCommandLine)
 
 }
 
-void PSX_PutDispEnv_4F5890();
-
-void Engine::Run()
+void Engine::CmdLineRenderInit(const char_type* pCommandLine)
 {
-    // TODO: HACK mini loop till Game.cpp is merged
+    IO_Init_494230();
 
-    gPsxDisplay.Init();
+    CommandLineParser parser(pCommandLine ? pCommandLine : "");
 
-    GetGameAutoPlayer().ParseCommandLine(mCommandLine);
+    sCommandLine_ShowFps = parser.SwitchExists("-ddfps");
+    gCommandLine_NoFrameSkip = parser.SwitchExists("-ddnoskip");
+
+#if FORCE_DDCHEAT
+    gDDCheatOn = true;
+#else
+    gDDCheatOn = parser.SwitchExists("-ddcheat") || parser.SwitchExists("-it_is_me_your_father");
+#endif
+
+    IRenderer::Renderers rendererToCreate = IRenderer::Renderers::Vulkan;
+    LOG_INFO("Default renderer is vulkan");
+
+    char renderer[256] = {};
+    if (parser.ExtractNamePairArgument(renderer, "-renderer="))
+    {
+        #ifdef _WIN32
+        if (stricmp(renderer, "dx") == 0 || stricmp(renderer, "dx9") == 0 || stricmp(renderer, "directx") == 0 || stricmp(renderer, "directx9") == 0)
+        {
+            LOG_INFO("Command line set renderer to directx9");
+            rendererToCreate = IRenderer::Renderers::DirectX9;
+        }
+        #endif
+
+        if (stricmp(renderer, "vk") == 0 || stricmp(renderer, "vulkan") == 0)
+        {
+            LOG_INFO("Command line set renderer to vulkan");
+            rendererToCreate = IRenderer::Renderers::Vulkan;
+        }
+
+        if (stricmp(renderer, "gl") == 0 || stricmp(renderer, "gl3") == 0 || stricmp(renderer, "opengl") == 0 || stricmp(renderer, "opengl3") == 0)
+        {
+            LOG_INFO("Command line set renderer to opengl3");
+            rendererToCreate = IRenderer::Renderers::OpenGL;
+        }
+    }
+
     if (mGameType == GameType::eAe)
     {
-        Main_ParseCommandLineArguments(mCommandLine);
+        VGA_CreateRenderer(rendererToCreate, WindowTitleAE());
     }
     else
     {
-        AO::Main_ParseCommandLineArguments(mCommandLine);
+        VGA_CreateRenderer(rendererToCreate, WindowTitleAO());
     }
+
+    PSX_EMU_SetCallBack_4F9430(Game_End_Frame);
+}
+
+void Engine::Run()
+{
+    gPsxDisplay.Init();
+
+    GetGameAutoPlayer().ParseCommandLine(mCommandLine);
+    CmdLineRenderInit(mCommandLine);
 
     // Moved from PsxDisplay init to prevent desync
     PSX_PutDispEnv_4F5890();
@@ -45,6 +88,7 @@ void Engine::Run()
     // Another hack till refactor branch replaces master
     GetGameAutoPlayer().Pause(true);
 
+    // TODO: HACK mini loop till Game.cpp is merged
     DataConversionUI dcu(mGameType);
     if (dcu.ConversionRequired())
     {

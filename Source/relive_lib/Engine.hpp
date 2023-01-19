@@ -9,6 +9,8 @@ public:
     void Run();
 
 private:
+    void CmdLineRenderInit(const char_type* pCommandLine);
+
     GameType mGameType = GameType::eAe;
     const char_type* mCommandLine = nullptr;
 };
