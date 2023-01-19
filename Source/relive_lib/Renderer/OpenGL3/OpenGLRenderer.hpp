@@ -42,8 +42,7 @@ public:
     void SetClip(const Prim_PrimClipper& clipper) override;
     void SetTPage(u16 tPage) override;
     void StartFrame() override;
-    void ToggleFilterScreen() override;
-
+    
 private:
     static constexpr u32 kAvailablePalettes = 256;
     static constexpr u32 kPaletteDepth = 256;
@@ -116,7 +115,6 @@ private:
 
     bool mFrameStarted = false;
 
-    bool mFramebufferFilter = true;
     u16 mGlobalTPage = 0;
 
     struct BatchData

@@ -220,11 +220,6 @@ void OpenGLRenderer::SetClip(const Prim_PrimClipper& clipper)
     mBatcher.SetScissor(rect);
 }
 
-void OpenGLRenderer::ToggleFilterScreen()
-{
-    mFramebufferFilter = !mFramebufferFilter;
-}
-
 void OpenGLRenderer::Draw(const Prim_GasEffect& gasEffect)
 {
     if (!gRenderEnable_GAS)

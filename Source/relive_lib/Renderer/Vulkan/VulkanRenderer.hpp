@@ -118,7 +118,6 @@ public:
     void EndFrame() override;
     void SetTPage(u16 tPage) override;
     void SetClip(const Prim_PrimClipper& clipper) override;
-    void ToggleFilterScreen() override;
     void Draw(const Prim_GasEffect& gasEffect) override;
     void Draw(const Line_G2& line) override;
     void Draw(const Line_G4& line) override;

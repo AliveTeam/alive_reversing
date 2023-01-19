@@ -363,11 +363,6 @@ void DirectX9Renderer::SetClip(const Prim_PrimClipper& clipper)
     mBatcher.SetScissor(rect);
 }
 
-void DirectX9Renderer::ToggleFilterScreen()
-{
-    // TODO
-}
-
 void DirectX9Renderer::Draw(const Prim_GasEffect& gasEffect)
 {
     const u32 gasWidth = static_cast<u32>(std::floor((gasEffect.w - gasEffect.x) / 4));
@@ -710,11 +705,14 @@ void DirectX9Renderer::DrawBatches()
                 // Draw tmpTexture as a full screen quad
                 DX_VERIFY(mDevice->SetTexture(mCamUnit, *tmpTexture));
 
-                // TODO: only set if enabled
-                DX_VERIFY(mDevice->SetPixelShader(this->mScanLinesShader));
-
-               // DX_VERIFY(mDevice->SetPixelShader(mCamFG1Shader));
-
+                if (mFramebufferFilter)
+                {
+                    DX_VERIFY(mDevice->SetPixelShader(mScanLinesShader));
+                }
+                else
+                {
+                    DX_VERIFY(mDevice->SetPixelShader(mCamFG1Shader));
+                }
                 DX_VERIFY(mDevice->SetRenderState(D3DRS_SCISSORTESTENABLE, FALSE));
                 DX_VERIFY(mDevice->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, batch.mNumTrisToDraw * 3, idxOffset, batch.mNumTrisToDraw));
             }

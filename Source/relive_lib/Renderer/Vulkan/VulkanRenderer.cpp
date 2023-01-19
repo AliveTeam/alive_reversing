@@ -1723,11 +1723,6 @@ void VulkanRenderer::SetClip(const Prim_PrimClipper& clipper)
     mBatcher[mCurrentFrame].SetScissor(rect);
 }
 
-void VulkanRenderer::ToggleFilterScreen()
-{
-    // TODO
-}
-
 // TODO: Copy pasted from GL renderer
 inline u16 GetTPageBlendMode(u16 tpage)
 {
