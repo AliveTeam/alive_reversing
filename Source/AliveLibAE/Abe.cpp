@@ -595,28 +595,11 @@ Abe::Abe()
     mYPos = FP_FromInteger(point.y + 120);
 
     BaseAliveGameObjectLastLineYPos = mYPos;
-    field_128.field_8_x_vel_slow_by = FP_FromInteger(0);
-    field_128.field_C_unused = 0;
 
-    mVelX = FP_FromInteger(0);
-    mVelY = FP_FromInteger(0);
-    BaseAliveGameObjectCollisionLine = nullptr;
     mCurrentMotion = eAbeMotions::Motion_3_Fall_459B60;
-    mKnockdownMotion = -1;
     GetAnimation().SetRenderLayer(Layer::eLayer_AbeMenu_32);
-    mHasEvilFart = 0;
-    mBaseThrowableCount = 0;
-
-    mMudomoDone = false;
-    mDoQuicksave = false;
 
     SetCanSetOffExplosives(true);
-
-    mPreventChanting = true;
-    mLandSoftly = true;
-
-    mShrivel = false;
-    mReturnToPreviousMotion = false;
 
     // Changes Abe's "default" colour depending on the level we are in
     SetTint(&sAbeTintTable[0], gMap.mCurrentLevel);
@@ -624,18 +607,8 @@ Abe::Abe()
     GetAnimation().SetSemiTrans(true);
     GetAnimation().SetRenderMode(TPageAbr::eBlend_0);
 
-    mPrevInput = 0;
-    mBaseAliveGameObjectLastAnimFrame = 0;
     field_120_state.raw = 0;
-    mRingPulseTimer = 0;
-    mHaveInvisibility = 0;
-    mInvisibilityTimer = 0;
-    mInvisibilityDuration = 0;
     field_124_timer = sGnFrame;
-    BaseAliveGameObjectPathTLV = nullptr;
-    field_128.mMood = Mud_Emotion::eNormal_0;
-    field_128.mSay = MudSounds::eNone;
-    mAutoSayTimer = 0;
 
     // Set Abe to be the current player controlled object
     sControlledCharacter = this;
@@ -734,7 +707,7 @@ s32 Abe::CreateFromSaveState(const u8* pData)
     sActiveHero->mYPos = pSaveState->mYPos;
     sActiveHero->mVelX = pSaveState->mVelX;
     sActiveHero->mVelY = pSaveState->mVelY;
-    sActiveHero->field_128.field_8_x_vel_slow_by = pSaveState->field_48_x_vel_slow_by;
+    sActiveHero->field_8_x_vel_slow_by = pSaveState->field_48_x_vel_slow_by;
     sActiveHero->mCurrentPath = pSaveState->mCurrentPath;
     sActiveHero->mCurrentLevel = pSaveState->mCurrentLevel;
     sActiveHero->SetSpriteScale(pSaveState->mSpriteScale);
@@ -746,10 +719,10 @@ s32 Abe::CreateFromSaveState(const u8* pData)
     u8** animFromState = sActiveHero->MotionToAnimResource_44AAB0(sActiveHero->mCurrentMotion);
     if (!animFromState)
     {
-        u32 id = sAbeResourceIDTable_554D60[sActiveHero->field_128.field_10_resource_index];
-        // ResourceManager::LoadResourceFile_49C170(sAbe_ResNames_545830[sActiveHero->field_128.field_10_resource_index], 0);
-        sActiveHero->mBaseGameObjectResArray.SetAt(sActiveHero->field_128.field_10_resource_index, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, id, true, false));
-        animFromState = sActiveHero->mBaseGameObjectResArray.ItemAt(sActiveHero->field_128.field_10_resource_index);
+        u32 id = sAbeResourceIDTable_554D60[sActiveHero->field_10_resource_index];
+        // ResourceManager::LoadResourceFile_49C170(sAbe_ResNames_545830[sActiveHero->field_10_resource_index], 0);
+        sActiveHero->mBaseGameObjectResArray.SetAt(sActiveHero->field_10_resource_index, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, id, true, false));
+        animFromState = sActiveHero->mBaseGameObjectResArray.ItemAt(sActiveHero->field_10_resource_index);
     }*/
 
     sActiveHero->GetAnimation().Set_Animation_Data(sActiveHero->GetAnimRes(sAbeAnimIdTable[sActiveHero->mCurrentMotion]));
@@ -787,10 +760,10 @@ s32 Abe::CreateFromSaveState(const u8* pData)
     sActiveHero->BaseAliveGameObject_PlatformId = pSaveState->mPlatformId;
     sActiveHero->field_120_state.raw = static_cast<u16>(pSaveState->field_50_state);
     sActiveHero->field_124_timer = pSaveState->field_54_timer;
-    sActiveHero->field_128.field_0_abe_timer = pSaveState->field_58_abe_timer;
-    sActiveHero->field_128.mRegenHealthTimer = pSaveState->mRegenHealthTimer;
-    sActiveHero->field_128.mMood = pSaveState->mMood;
-    sActiveHero->field_128.mSay = pSaveState->mSay;
+    sActiveHero->field_0_abe_timer = pSaveState->field_58_abe_timer;
+    sActiveHero->mRegenHealthTimer = pSaveState->mRegenHealthTimer;
+    sActiveHero->mMood = pSaveState->mMood;
+    sActiveHero->mSay = pSaveState->mSay;
     sActiveHero->mAutoSayTimer = pSaveState->mAutoSayTimer;
     sActiveHero->mBaseThrowableCount = pSaveState->mBaseThrowableCount;
     sActiveHero->mRingPulseTimer = pSaveState->mRingPulseTimer;
@@ -818,7 +791,7 @@ s32 Abe::CreateFromSaveState(const u8* pData)
     sActiveHero->mPrevInput = InputObject::PsxButtonsToKeyboardInput_45EE40(pSaveState->mPrevInput);
     sActiveHero->mReleasedButtons = InputObject::PsxButtonsToKeyboardInput_45EE40(pSaveState->mReleasedButtons);
     sActiveHero->mKnockdownMotion = pSaveState->mKnockdownMotion;
-    sActiveHero->field_128.mRollingMotionTimer = sGnFrame - pSaveState->mRollingMotionTimer;
+    sActiveHero->mRollingMotionTimer = sGnFrame - pSaveState->mRollingMotionTimer;
 
     sActiveHero->mFadeId = pSaveState->mDeathFadeOutId;
     sActiveHero->mCircularFadeId = pSaveState->mCircularFadeId;
@@ -1018,17 +991,17 @@ void Abe::VUpdate()
     if (totalAliveSavedMuds > 0)
     {
         // "Happy" voice
-        field_128.mMood = Mud_Emotion::eHappy_5;
+        mMood = Mud_Emotion::eHappy_5;
     }
     else if (totalAliveSavedMuds < 0)
     {
         // "Sad" voice
-        field_128.mMood = Mud_Emotion::eSad_3;
+        mMood = Mud_Emotion::eSad_3;
     }
     else
     {
         // "Normal" voice
-        field_128.mMood = Mud_Emotion::eNormal_0;
+        mMood = Mud_Emotion::eNormal_0;
     }
 
     if (gDDCheat_FlyingEnabled && sControlledCharacter == this)
@@ -1095,7 +1068,7 @@ void Abe::VUpdate()
             }
         }
 
-        if (field_128.mSay != MudSounds::eNone && static_cast<s32>(sGnFrame) >= mAutoSayTimer)
+        if (mSay != MudSounds::eNone && static_cast<s32>(sGnFrame) >= mAutoSayTimer)
         {
             if (!gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0)
                 || (mCurrentMotion == eAbeMotions::Motion_112_Chant)
@@ -1104,16 +1077,16 @@ void Abe::VUpdate()
                 || mCurrentMotion == eAbeMotions::Motion_9_Speak_45B180
                 || mCurrentMotion == eAbeMotions::Motion_10_Fart_45B1A0)
             {
-                // Prevents f64 laugh when blowing up a slig as we prevent saying anything while chanting or various other states
+                // Prevents double laugh when blowing up a slig as we prevent saying anything while chanting or various other states
                 // or when abe isn't in the active screen
-                field_128.mSay = MudSounds::eNone;
+                mSay = MudSounds::eNone;
             }
             else
             {
                 if (mCurrentMotion == eAbeMotions::Motion_0_Idle_44EEB0 || mCurrentMotion == eAbeMotions::Motion_12_Null_4569C0)
                 {
                     mbMotionChanged = true;
-                    switch (field_128.mSay)
+                    switch (mSay)
                     {
                         case MudSounds::eOops_14:
                             mCurrentMotion = eAbeMotions::Motion_34_DunnoBegin_44ECF0;
@@ -1130,23 +1103,23 @@ void Abe::VUpdate()
                     }
                 }
 
-                if (field_128.mSay == MudSounds::eAnger_5)
+                if (mSay == MudSounds::eAnger_5)
                 {
                     // Other evil muds laugh at the abe grr
                     EventBroadcast(kEventMudokonLaugh, sActiveHero);
                 }
 
-                if (field_128.mSay == MudSounds::eSadUgh_28)
+                if (mSay == MudSounds::eSadUgh_28)
                 {
                     // This one has another volume for whatever reason
-                    Mudokon_SFX(field_128.mSay, 80, 0, this);
+                    Mudokon_SFX(mSay, 80, 0, this);
                 }
                 else
                 {
-                    Mudokon_SFX(field_128.mSay, 0, 0, this);
+                    Mudokon_SFX(mSay, 0, 0, this);
                 }
 
-                field_128.mSay = MudSounds::eNone;
+                mSay = MudSounds::eNone;
             }
         }
 
@@ -1157,7 +1130,7 @@ void Abe::VUpdate()
             {
                 GetAnimation().Set_Animation_Data(GetAnimRes(sAbeAnimIdTable[mCurrentMotion]));
 
-                field_128.mRollingMotionTimer = sGnFrame;
+                mRollingMotionTimer = sGnFrame;
 
                 if (motion_idx == eAbeMotions::Motion_12_Null_4569C0 || motion_idx == eAbeMotions::Motion_60_Unused_4A3200)
                 {
@@ -1171,12 +1144,12 @@ void Abe::VUpdate()
             mCurrentMotion = mPreviousMotion;
 
             GetAnimation().Set_Animation_Data(GetAnimRes(sAbeAnimIdTable[mCurrentMotion]));
-            field_128.mRollingMotionTimer = sGnFrame;
+            mRollingMotionTimer = sGnFrame;
             GetAnimation().SetFrame(mBaseAliveGameObjectLastAnimFrame);
             mReturnToPreviousMotion = false;
         }
 
-        if (field_128.mRegenHealthTimer <= static_cast<s32>(sGnFrame) && mHealth > FP_FromInteger(0))
+        if (mRegenHealthTimer <= static_cast<s32>(sGnFrame) && mHealth > FP_FromInteger(0))
         {
             mHealth = FP_FromDouble(1.0);
         }
@@ -1257,7 +1230,7 @@ void Abe::VUpdate()
 
         if (EventGet(kEventMudokonDied))
         {
-            field_128.mSay = MudSounds::eOops_14;
+            mSay = MudSounds::eOops_14;
             mAutoSayTimer = sGnFrame + Math_RandomRange(22, 30);
 
             relive_new MusicTrigger(relive::Path_MusicTrigger::MusicTriggerMusicType::eDeathDrumShort, relive::Path_MusicTrigger::TriggeredBy::eTimer, 0);
@@ -1265,13 +1238,13 @@ void Abe::VUpdate()
 
         if (EventGet(kEventMudokonComfort))
         {
-            field_128.mSay = MudSounds::eGiggle_8;
+            mSay = MudSounds::eGiggle_8;
             mAutoSayTimer = sGnFrame + Math_RandomRange(22, 30);
         }
 
         if (EventGet(kScrabOrParamiteDied))
         {
-            field_128.mSay = MudSounds::eOops_14;
+            mSay = MudSounds::eOops_14;
             mAutoSayTimer = sGnFrame + Math_RandomRange(22, 30);
         }
 
@@ -1367,7 +1340,7 @@ void Abe::ToKnockback_44E700(s16 bKnockbackSound, s16 bDelayedAnger)
 
         if (bDelayedAnger)
         {
-            field_128.mSay = MudSounds::eAnger_5;    // anger in..
+            mSay = MudSounds::eAnger_5;    // anger in..
             mAutoSayTimer = sGnFrame + 27; // 27 ticks
         }
 
@@ -1411,7 +1384,7 @@ void Abe::VScreenChanged()
         // Hack to make Abe mSay hello in the first screen of the mines
         if (gMap.mNextLevel == EReliveLevelIds::eMines && !gAttract)
         {
-            field_128.mSay = MudSounds::eHelloNeutral_3;
+            mSay = MudSounds::eHelloNeutral_3;
             mAutoSayTimer = sGnFrame + 35;
         }
 
@@ -1486,7 +1459,7 @@ s32 Abe::VGetSaveState(u8* pSaveBuffer)
     pSaveState->mYPos = mYPos;
     pSaveState->mVelX = mVelX;
     pSaveState->mVelY = mVelY;
-    pSaveState->field_48_x_vel_slow_by = field_128.field_8_x_vel_slow_by;
+    pSaveState->field_48_x_vel_slow_by = field_8_x_vel_slow_by;
     pSaveState->mCurrentPath = mCurrentPath;
     pSaveState->mCurrentLevel = mCurrentLevel;
     pSaveState->mSpriteScale = GetSpriteScale();
@@ -1564,10 +1537,10 @@ s32 Abe::VGetSaveState(u8* pSaveBuffer)
     pSaveState->mIsAbeControlled = (this == sControlledCharacter);
     pSaveState->field_50_state = field_120_state.raw;
     pSaveState->field_54_timer = field_124_timer;
-    pSaveState->field_58_abe_timer = field_128.field_0_abe_timer;
-    pSaveState->mRegenHealthTimer = field_128.mRegenHealthTimer;
-    pSaveState->mMood = field_128.mMood;
-    pSaveState->mSay = field_128.mSay;
+    pSaveState->field_58_abe_timer = field_0_abe_timer;
+    pSaveState->mRegenHealthTimer = mRegenHealthTimer;
+    pSaveState->mMood = mMood;
+    pSaveState->mSay = mSay;
     pSaveState->mAutoSayTimer = mAutoSayTimer;
     pSaveState->mRingPulseTimer = mRingPulseTimer;
     pSaveState->mBaseThrowableCount = mBaseThrowableCount;
@@ -1578,7 +1551,7 @@ s32 Abe::VGetSaveState(u8* pSaveBuffer)
     pSaveState->mReleasedButtons = InputObject::KeyboardInputToPsxButtons_45EF70(mReleasedButtons);
 
     pSaveState->mKnockdownMotion = mKnockdownMotion;
-    pSaveState->mRollingMotionTimer = sGnFrame - field_128.mRollingMotionTimer;
+    pSaveState->mRollingMotionTimer = sGnFrame - mRollingMotionTimer;
     pSaveState->mDeathFadeOutId = mFadeId;
 
     if (mFadeId != Guid{})
@@ -1720,8 +1693,8 @@ bool Abe::VTakeDamage(BaseGameObject* pFrom)
     // Stop chant sound music.
     SND_SEQ_Stop(SeqId::MudokonChant1_10);
 
-    const MudSounds oldSay = field_128.mSay;
-    field_128.mSay = MudSounds::eNone;
+    const MudSounds oldSay = mSay;
+    mSay = MudSounds::eNone;
 
     OrbWhirlWind* pWhirlWind = static_cast<OrbWhirlWind*>(sObjectIds.Find_Impl(mOrbWhirlWindId));
     if (pWhirlWind)
@@ -1745,7 +1718,7 @@ bool Abe::VTakeDamage(BaseGameObject* pFrom)
         return false;
     }
 
-    field_128.mRegenHealthTimer = sGnFrame + 180;
+    mRegenHealthTimer = sGnFrame + 180;
     bool ret = mHealth > FP_FromInteger(0);
 
     switch (pFrom->Type())
@@ -1843,7 +1816,7 @@ bool Abe::VTakeDamage(BaseGameObject* pFrom)
 
         case ReliveTypes::eSecurityClaw:
         case ReliveTypes::eSecurityOrb:
-            field_128.mSay = MudSounds::eAnger_5;
+            mSay = MudSounds::eAnger_5;
             mAutoSayTimer = sGnFrame + 27;
             if (mCurrentMotion != eAbeMotions::Motion_123_LiftGrabIdle && mCurrentMotion != eAbeMotions::Motion_124_LiftUseUp && mCurrentMotion != eAbeMotions::Motion_125_LiftUseDown)
             {
@@ -2079,7 +2052,7 @@ bool Abe::VTakeDamage(BaseGameObject* pFrom)
             if (!mbGotShot)
             {
                 ret = false;
-                field_128.mSay = oldSay;
+                mSay = oldSay;
             }
             break;
     }
@@ -2911,7 +2884,7 @@ void Abe::Motion_3_Fall_459B60()
 {
     if (mVelX > FP_FromInteger(0))
     {
-        mVelX -= (GetSpriteScale() * field_128.field_8_x_vel_slow_by);
+        mVelX -= (GetSpriteScale() * field_8_x_vel_slow_by);
         if (mVelX < FP_FromInteger(0))
         {
             mVelX = FP_FromInteger(0);
@@ -2919,7 +2892,7 @@ void Abe::Motion_3_Fall_459B60()
     }
     else if (mVelX < FP_FromInteger(0))
     {
-        mVelX += (GetSpriteScale() * field_128.field_8_x_vel_slow_by);
+        mVelX += (GetSpriteScale() * field_8_x_vel_slow_by);
         if (mVelX > FP_FromInteger(0))
         {
             mVelX = FP_FromInteger(0);
@@ -3013,7 +2986,7 @@ void Abe::Motion_3_Fall_459B60()
                     // Slam into the floor and break all your bones
                     mHealth = FP_FromInteger(0);
                     mCurrentMotion = eAbeMotions::Motion_84_FallLandDie_45A420;
-                    field_128.mRegenHealthTimer = sGnFrame + 900;
+                    mRegenHealthTimer = sGnFrame + 900;
                 }
 
                 mPreviousMotion = eAbeMotions::Motion_3_Fall_459B60;
@@ -3726,12 +3699,12 @@ void Abe::Motion_23_RollLoop_453A90()
                 if (!Input().IsAnyHeld(InputCommands::eRun)
                     || Input().IsAnyHeld(InputCommands::eFartOrRoll)
                     || Is_Celling_Above_44E8D0()
-                    || field_128.mRollingMotionTimer + 9 >= static_cast<s32>(sGnFrame))
+                    || mRollingMotionTimer + 9 >= static_cast<s32>(sGnFrame))
                 {
                     // TODO: See AE func - likely OG issue here of not checking for the roll key
                     if (mReleasedButtons)
                     {
-                        if (!Is_Celling_Above_44E8D0() && field_128.mRollingMotionTimer + 9 < static_cast<s32>(sGnFrame))
+                        if (!Is_Celling_Above_44E8D0() && mRollingMotionTimer + 9 < static_cast<s32>(sGnFrame))
                         {
                             ToLeftRightMovement_44E340();
                             mReleasedButtons = 0;
@@ -4058,7 +4031,7 @@ void Abe::Motion_28_HopMid_451C50()
 
     mYPos += GetSpriteScale() * FP_FromInteger(2);
 
-    field_128.field_8_x_vel_slow_by = FP_FromDouble(0.55);
+    field_8_x_vel_slow_by = FP_FromDouble(0.55);
     mCurrentMotion = eAbeMotions::Motion_96_HopToFall;
     mNextMotion = eAbeMotions::Motion_0_Idle_44EEB0;
 }
@@ -4272,7 +4245,7 @@ void Abe::Motion_31_RunJumpMid_452C10()
         return;
     }
 
-    field_128.field_8_x_vel_slow_by = FP_FromDouble(0.75);
+    field_8_x_vel_slow_by = FP_FromDouble(0.75);
     mCurrentMotion = eAbeMotions::Motion_97_RunJumpToFall;
     mNextMotion = eAbeMotions::Motion_0_Idle_44EEB0;
 }
@@ -4954,25 +4927,24 @@ void Abe::Motion_56_DeathDropFall_4591F0()
     GetAnimation().SetAnimate(false);
     if (field_124_timer == 0)
     {
-        field_128.field_8_x_vel_slow_by = FP_FromInteger(0);
-        field_128.field_C_unused = 0;
+        field_8_x_vel_slow_by = FP_FromInteger(0);
         mVelX = FP_FromInteger(0);
         mVelY = FP_FromInteger(0);
-        field_128.field_0_abe_timer = sGnFrame + 90;
+        field_0_abe_timer = sGnFrame + 90;
         field_124_timer++;
     }
     else if (field_124_timer == 1)
     {
-        if (static_cast<s32>(sGnFrame) == field_128.field_0_abe_timer - 30)
+        if (static_cast<s32>(sGnFrame) == field_0_abe_timer - 30)
         {
             SND_SEQ_Play(SeqId::HitBottomOfDeathPit_9, 1, 65, 65);
         }
-        else if (static_cast<s32>(sGnFrame) == field_128.field_0_abe_timer - 24)
+        else if (static_cast<s32>(sGnFrame) == field_0_abe_timer - 24)
         {
             SfxPlayMono(relive::SoundEffects::KillEffect, 85);
             relive_new ScreenShake(true, false);
         }
-        else if (static_cast<s32>(sGnFrame) >= field_128.field_0_abe_timer)
+        else if (static_cast<s32>(sGnFrame) >= field_0_abe_timer)
         {
             ToDieFinal_458910();
         }
@@ -5004,13 +4976,12 @@ void Abe::Motion_57_Dead_4589A0()
         case 0:
             EventBroadcast(kEventAbeDead, this);
             EventBroadcast(kEventHeroDying, this);
-            field_128.field_8_x_vel_slow_by = FP_FromInteger(0);
-            field_128.field_C_unused = 0;
+            field_8_x_vel_slow_by = FP_FromInteger(0);
             mVelX = FP_FromInteger(0);
             mVelY = FP_FromInteger(0);
             mPrevInput = 0;
             field_124_timer++;
-            field_128.field_0_abe_timer = sGnFrame + 30;
+            field_0_abe_timer = sGnFrame + 30;
             if (BaseAliveGameObjectPathTLV && BaseAliveGameObjectPathTLV->mTlvType == ReliveTypes::eDeathDrop)
             {
                 const FP ypos = FP_FromInteger(Math_NextRandom() % 10) + mYPos + FP_FromInteger(15);
@@ -5018,7 +4989,7 @@ void Abe::Motion_57_Dead_4589A0()
                 relive_new DeathBirdParticle(
                     xpos,
                     ypos,
-                    (Math_NextRandom() % 8) + field_128.field_0_abe_timer + 60,
+                    (Math_NextRandom() % 8) + field_0_abe_timer + 60,
                     1,
                     GetSpriteScale());
             }
@@ -5029,7 +5000,7 @@ void Abe::Motion_57_Dead_4589A0()
                 relive_new DeathBirdParticle(
                     xpos,
                     ypos,
-                    (Math_NextRandom() % 8) + field_128.field_0_abe_timer + 15,
+                    (Math_NextRandom() % 8) + field_0_abe_timer + 15,
                     1,
                     GetSpriteScale());
             }
@@ -5046,7 +5017,7 @@ void Abe::Motion_57_Dead_4589A0()
                     relive_new DeathBirdParticle(
                         xpos,
                         ypos,
-                        (Math_NextRandom() % 8) + field_128.field_0_abe_timer + 60,
+                        (Math_NextRandom() % 8) + field_0_abe_timer + 60,
                         0,
                         GetSpriteScale());
                 }
@@ -5057,7 +5028,7 @@ void Abe::Motion_57_Dead_4589A0()
                     relive_new DeathBirdParticle(
                         xpos,
                         ypos,
-                        (Math_NextRandom() % 8) + field_128.field_0_abe_timer + 15,
+                        (Math_NextRandom() % 8) + field_0_abe_timer + 15,
                         0,
                         GetSpriteScale());
                 }
@@ -5069,15 +5040,15 @@ void Abe::Motion_57_Dead_4589A0()
             mRGB.g -= 2;
             mRGB.b -= 2;
 
-            if (static_cast<s32>(sGnFrame) > field_128.field_0_abe_timer)
+            if (static_cast<s32>(sGnFrame) > field_0_abe_timer)
             {
-                field_128.field_0_abe_timer = sGnFrame + 60;
+                field_0_abe_timer = sGnFrame + 60;
 
                 if (BaseAliveGameObjectPathTLV)
                 {
                     if (BaseAliveGameObjectPathTLV->mTlvType == ReliveTypes::eDeathDrop)
                     {
-                        field_128.field_0_abe_timer = (sGnFrame + 60) + 45;
+                        field_0_abe_timer = (sGnFrame + 60) + 45;
                     }
                 }
                 ++field_124_timer;
@@ -5086,7 +5057,7 @@ void Abe::Motion_57_Dead_4589A0()
             return;
         case 2:
             EventBroadcast(kEventHeroDying, this);
-            if (static_cast<s32>(sGnFrame) > field_128.field_0_abe_timer)
+            if (static_cast<s32>(sGnFrame) > field_0_abe_timer)
             {
                 ++field_124_timer;
             }
@@ -5124,14 +5095,14 @@ void Abe::Motion_57_Dead_4589A0()
             VOnTrapDoorOpen();
 
             BaseAliveGameObjectCollisionLine = nullptr;
-            field_128.field_0_abe_timer = sGnFrame + 8;
+            field_0_abe_timer = sGnFrame + 8;
             ++field_124_timer;
             //dword_5C2C64 = 0; // TODO: Never read ?
             return;
 
         case 5:
             EventBroadcast(kEventDeathReset, this);
-            if (static_cast<s32>(sGnFrame) <= field_128.field_0_abe_timer)
+            if (static_cast<s32>(sGnFrame) <= field_0_abe_timer)
             {
                 return;
             }
@@ -5155,7 +5126,7 @@ void Abe::Motion_58_DeadPre_4593E0()
     {
         mCurrentMotion = eAbeMotions::Motion_57_Dead_4589A0;
         field_124_timer = 2;
-        field_128.field_0_abe_timer = sGnFrame + 60;
+        field_0_abe_timer = sGnFrame + 60;
     }
     else
     {
@@ -5758,7 +5729,7 @@ void Abe::Motion_79_InsideWellLocal_45CA60()
                 ReliveTypes::eWellExpress);
         }
 
-        field_128.field_8_x_vel_slow_by = FP_FromInteger(0);
+        field_8_x_vel_slow_by = FP_FromInteger(0);
 
         relive::Path_WellBase* pBaseWell = static_cast<relive::Path_WellBase*>(BaseAliveGameObjectPathTLV);
         if (pBaseWell->mTlvType == ReliveTypes::eWellLocal)
@@ -5906,7 +5877,7 @@ void Abe::Motion_82_InsideWellExpress_45CC80()
         field_1A0_door_id = pExpressWell->mOffOtherWellId;
     }
 
-    field_128.field_8_x_vel_slow_by = FP_FromInteger(0);
+    field_8_x_vel_slow_by = FP_FromInteger(0);
     BaseAliveGameObjectLastLineYPos = mYPos;
 
     if (mDstWellLevel != gMap.mCurrentLevel || mDstWellPath != gMap.mCurrentPath || mDstWellCamera != gMap.mCurrentCamera)
@@ -6391,7 +6362,7 @@ void Abe::Motion_92_ForceDownFromHoist()
         {
             mYPos = hitY;
             mCurrentMotion = eAbeMotions::Motion_84_FallLandDie_45A420;
-            field_128.mRegenHealthTimer = sGnFrame + 900;
+            mRegenHealthTimer = sGnFrame + 900;
             mPreviousMotion = eAbeMotions::Motion_3_Fall_459B60;
             return;
         }
@@ -7072,20 +7043,20 @@ void Abe::Motion_114_DoorEnter()
             {
                 field_120_state.door = AbeDoorStates::eWaitABit_2;
                 GetAnimation().SetRender(false);
-                field_128.field_0_abe_timer = sGnFrame + 3;
+                field_0_abe_timer = sGnFrame + 3;
             }
             return;
 
         case AbeDoorStates::eWaitABit_2:
-            if (field_128.field_0_abe_timer <= static_cast<s32>(sGnFrame))
+            if (field_0_abe_timer <= static_cast<s32>(sGnFrame))
             {
                 field_120_state.door = AbeDoorStates::eToState4_3;
-                field_128.field_0_abe_timer = sGnFrame + 3;
+                field_0_abe_timer = sGnFrame + 3;
             }
             return;
 
         case AbeDoorStates::eToState4_3:
-            if (field_128.field_0_abe_timer <= static_cast<s32>(sGnFrame))
+            if (field_0_abe_timer <= static_cast<s32>(sGnFrame))
             {
                 field_120_state.door = AbeDoorStates::eSetNewActiveCamera_4;
             }
@@ -7259,12 +7230,12 @@ void Abe::Motion_114_DoorEnter()
 
             mHealth = FP_FromInteger(1);
             field_120_state.door = AbeDoorStates::eAbeComesOut_6;
-            field_128.field_0_abe_timer = sGnFrame + 30;
+            field_0_abe_timer = sGnFrame + 30;
         }
             return;
 
         case AbeDoorStates::eAbeComesOut_6:
-            if (field_128.field_0_abe_timer > static_cast<s32>(sGnFrame))
+            if (field_0_abe_timer > static_cast<s32>(sGnFrame))
             {
                 return;
             }
@@ -7659,7 +7630,7 @@ void Abe::ToDie_4588D0()
 
 void Abe::ToIdle_44E6B0()
 {
-    field_128.field_8_x_vel_slow_by = FP_FromInteger(0);
+    field_8_x_vel_slow_by = FP_FromInteger(0);
     mVelX = FP_FromInteger(0);
     mVelY = FP_FromInteger(0);
     field_124_timer = sGnFrame;
@@ -8072,14 +8043,14 @@ void Abe::MoveForward_44E9A0()
                 break;
         }
 
-        field_128.field_8_x_vel_slow_by = FP_FromDouble(0.3); // TODO: Check.
+        field_8_x_vel_slow_by = FP_FromDouble(0.3); // TODO: Check.
         mXPos = oldXPos + mVelX;
         BaseAliveGameObjectLastLineYPos = mYPos;
 
         // TODO: OG bug, dead code due to switch default case?
         if (mCurrentMotion == eAbeMotions::Motion_71_Knockback_455090 || mCurrentMotion == eAbeMotions::Motion_101_KnockForward)
         {
-            field_128.field_8_x_vel_slow_by = FP_FromDouble(0.67); // TODO: Check.
+            field_8_x_vel_slow_by = FP_FromDouble(0.67); // TODO: Check.
         }
     }
 }
@@ -8106,14 +8077,14 @@ s16 Abe::CrouchingGameSpeak_453E10()
     {
         gEventSystem->PushEvent(GameSpeakEvents::eAbe_Hello_9);
 
-        if (field_128.mMood == Mud_Emotion::eHappy_5 || field_128.mMood == Mud_Emotion::eWired_6)
+        if (mMood == Mud_Emotion::eHappy_5 || mMood == Mud_Emotion::eWired_6)
         {
             Mudokon_SFX(MudSounds::eHiHappy_19, 0, 0, this);
             mCurrentMotion = eAbeMotions::Motion_20_CrouchSpeak_454550;
         }
         else
         {
-            if (field_128.mMood == Mud_Emotion::eSad_3)
+            if (mMood == Mud_Emotion::eSad_3)
             {
                 Mudokon_SFX(MudSounds::eHiSad_20, 0, 0, this);
             }
@@ -8352,14 +8323,14 @@ s16 Abe::DoGameSpeak_45AB70(s32 input)
     else if (input & InputCommands::eGameSpeak1)
     {
         gEventSystem->PushEvent(GameSpeakEvents::eAbe_Hello_9);
-        if (field_128.mMood == Mud_Emotion::eHappy_5 || field_128.mMood == Mud_Emotion::eWired_6)
+        if (mMood == Mud_Emotion::eHappy_5 || mMood == Mud_Emotion::eWired_6)
         {
             Mudokon_SFX(MudSounds::eHiHappy_19, 0, 0, this);
             nextMotion = eAbeMotions::Motion_9_Speak_45B180;
         }
         else
         {
-            if (field_128.mMood == Mud_Emotion::eSad_3)
+            if (mMood == Mud_Emotion::eSad_3)
             {
                 Mudokon_SFX(MudSounds::eHiSad_20, 0, 0, this);
             }
@@ -8850,7 +8821,7 @@ void Abe::IntoPortalStates_451990()
                 mYPos = pBirdPortal->mExitY;
                 BaseAliveGameObjectLastLineYPos = pBirdPortal->mExitY;
                 mVelY = FP_FromInteger(0);
-                field_128.field_8_x_vel_slow_by = FP_FromInteger(0);
+                field_8_x_vel_slow_by = FP_FromInteger(0);
                 break;
 
             default:

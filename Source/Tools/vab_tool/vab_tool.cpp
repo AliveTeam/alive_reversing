@@ -13,7 +13,6 @@
 #include "imgui_impl_opengl3.h"
 #include "GL/glew.h"
 #include "../../AliveLibAE/GameAutoPlayer.hpp"
-
 #include <string>
 
 // TODO: This tool is broken till its updated to use the converted lvl data
