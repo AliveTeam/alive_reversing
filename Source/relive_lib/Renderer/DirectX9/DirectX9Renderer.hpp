@@ -35,6 +35,13 @@ public:
     void Draw(const Poly_G4& poly) override;
 
 private:
+    void SetDeviceStates();
+    void CreateDevice();
+    void CheckDeviceCaps();
+    void FreeAllResources();
+    void CreateAllResources();
+    void ReCreateDevice();
+
     void SetupBlendMode(u16 blendMode);
 
     u32 PreparePalette(AnimationPal& pCache);

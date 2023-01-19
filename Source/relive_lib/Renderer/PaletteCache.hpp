@@ -84,6 +84,11 @@ public:
         }
     }
 
+    void Clear()
+    {
+        mPaletteCache.clear();
+    }
+
 private:
     u32 HashPalette(const AnimationPal* pPal)
     {

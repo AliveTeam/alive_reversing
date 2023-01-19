@@ -175,42 +175,14 @@ DirectX9Renderer::DirectX9Renderer(TWindowHandleType window)
 {
     mD3D9.Attach(Direct3DCreate9(D3D_SDK_VERSION));
 
-    mPresentParams.Windowed = TRUE;
-    mPresentParams.SwapEffect = D3DSWAPEFFECT_DISCARD;
-    // VSync off
-    mPresentParams.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE;
+    CreateDevice();
+    CheckDeviceCaps();
+    SetDeviceStates();
+    CreateAllResources();
+}
 
-    SDL_SysWMinfo wmInfo;
-    SDL_VERSION(&wmInfo.version);
-    SDL_GetWindowWMInfo(window, &wmInfo);
-    HWND hwnd = wmInfo.info.win.window;
-
-    mPresentParams.hDeviceWindow = hwnd;
-
-    // TODO: Might make sense to enum the adapters here at some point
-    mD3D9->CreateDevice(D3DADAPTER_DEFAULT,
-                      D3DDEVTYPE_HAL,
-                      hwnd,
-                      D3DCREATE_HARDWARE_VERTEXPROCESSING,
-                        &mPresentParams,
-                      &mDevice.p);
-
-    if (!mDevice)
-    {
-        ALIVE_FATAL("Couldnt get DirectX9 device %s", SDL_GetError());
-    }
-
-    // Verify pixel shader version is what we need
-    D3DCAPS9 dxCaps = {};
-    DX_VERIFY(mDevice->GetDeviceCaps(&dxCaps));
-    if (dxCaps.PixelShaderVersion < D3DPS_VERSION(2, 0))
-    {
-        ALIVE_FATAL("Require pixel shader 2.0 or later but got %d.%d", D3DSHADER_VERSION_MAJOR(dxCaps.PixelShaderVersion), D3DSHADER_VERSION_MINOR(dxCaps.PixelShaderVersion));
-    }
-
-    LOG_INFO("PS 2.0 max instructions %d PS 3.0 max instructions %d", dxCaps.PS20Caps.NumInstructionSlots, dxCaps.MaxPixelShader30InstructionSlots);
-    LOG_INFO("Max texture w %d max texture h %d", dxCaps.MaxTextureWidth, dxCaps.MaxTextureHeight);
-
+void DirectX9Renderer::SetDeviceStates()
+{
     // Use linear filtering on all samplers and texture clamping
     for (u32 i = 0; i < 16; i++)
     {
@@ -232,6 +204,79 @@ DirectX9Renderer::DirectX9Renderer(TWindowHandleType window)
     DX_VERIFY(mDevice->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD));
     DX_VERIFY(mDevice->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_MODULATE));
 
+    // TODO: triangulated lines won't render correctly without turning off culling
+    DX_VERIFY(mDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE));
+}
+
+void DirectX9Renderer::CreateDevice()
+{
+    mPresentParams.Windowed = TRUE;
+    mPresentParams.SwapEffect = D3DSWAPEFFECT_DISCARD;
+    // VSync off
+    mPresentParams.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE;
+
+    s32 w = 0;
+    s32 h = 0;
+    SDL_GetWindowSize(mWindow, &w, &h);
+    mPresentParams.BackBufferWidth = w;
+    mPresentParams.BackBufferHeight = h;
+
+    SDL_SysWMinfo wmInfo;
+    SDL_VERSION(&wmInfo.version);
+    SDL_GetWindowWMInfo(mWindow, &wmInfo);
+    HWND hwnd = wmInfo.info.win.window;
+
+    mPresentParams.hDeviceWindow = hwnd;
+
+    // TODO: Might make sense to enum the adapters here at some point
+    DX_VERIFY(mD3D9->CreateDevice(D3DADAPTER_DEFAULT,
+                                  D3DDEVTYPE_HAL,
+                                  hwnd,
+                                  D3DCREATE_HARDWARE_VERTEXPROCESSING,
+                                  &mPresentParams,
+                                  &mDevice.p));
+
+    if (!mDevice)
+    {
+        ALIVE_FATAL("Couldnt get DirectX9 device %s", SDL_GetError());
+    }
+}
+
+void DirectX9Renderer::CheckDeviceCaps()
+{
+    // Verify pixel shader version is what we need
+    D3DCAPS9 dxCaps = {};
+    DX_VERIFY(mDevice->GetDeviceCaps(&dxCaps));
+    if (dxCaps.PixelShaderVersion < D3DPS_VERSION(2, 0))
+    {
+        ALIVE_FATAL("Require pixel shader 2.0 or later but got %d.%d", D3DSHADER_VERSION_MAJOR(dxCaps.PixelShaderVersion), D3DSHADER_VERSION_MINOR(dxCaps.PixelShaderVersion));
+    }
+
+    LOG_INFO("PS 2.0 max instructions %d PS 3.0 max instructions %d", dxCaps.PS20Caps.NumInstructionSlots, dxCaps.MaxPixelShader30InstructionSlots);
+    LOG_INFO("Max texture w %d max texture h %d", dxCaps.MaxTextureWidth, dxCaps.MaxTextureHeight);
+}
+
+void DirectX9Renderer::FreeAllResources()
+{
+    mVertexDecl = nullptr;
+    mScreenRenderTarget = nullptr;
+    mTextureRenderTarget = nullptr;
+    mPixelShader = nullptr;
+    mCamFG1Shader = nullptr;
+    mFlatShader = nullptr;
+    mGasShader = nullptr;
+    mScanLinesShader = nullptr;
+    mVBO = nullptr;
+    mIndexBuffer = nullptr;
+    mBatcher.StartFrame();
+    mPaletteTexture = nullptr;
+    mPaletteCache.Clear();
+    mTextureCache.Clear();
+    mGasTexture = nullptr;
+}
+
+void DirectX9Renderer::CreateAllResources()
+{
     // Vertex formats
     DX_VERIFY(mDevice->CreateVertexDeclaration(simple_decl, &mVertexDecl));
     DX_VERIFY(mDevice->SetVertexDeclaration(mVertexDecl));
@@ -260,18 +305,23 @@ DirectX9Renderer::DirectX9Renderer(TWindowHandleType window)
     // select which vertex format we are using
     DX_VERIFY(mDevice->SetVertexDeclaration(mVertexDecl));
 
-    // TODO: triangulated lines won't render correctly without turning off culling
-    mDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-
     // TODO: Preallocate VBO and IBOs to some large amount
+}
+
+void DirectX9Renderer::ReCreateDevice()
+{
+    FreeAllResources();
+    DX_VERIFY(mDevice->Reset(&mPresentParams));
+    CreateDevice();
+    SetDeviceStates();
+    CreateAllResources();
 }
 
 DirectX9Renderer::~DirectX9Renderer()
 {
     TRACE_ENTRYEXIT;
 
-    // TODO: Fix me, dtor can't call clear else pure call boom
-    mTextureCache.Clear();
+    FreeAllResources();
 }
 
 void DirectX9Renderer::Clear(u8 /*r*/, u8 /*g*/, u8 /*b*/)
@@ -285,6 +335,14 @@ void DirectX9Renderer::StartFrame()
 
     if (!mFrameStarted)
     {
+        s32 w = 0;
+        s32 h = 0;
+        SDL_GetWindowSize(mWindow, &w, &h);
+        if (w > 0 && h > 0 && w != static_cast<s32>(mPresentParams.BackBufferWidth) && h != static_cast<s32>(mPresentParams.BackBufferHeight))
+        {
+            ReCreateDevice();
+        }
+
         mFrameStarted = true;
 
         // Set offsets for the screen (this is for the screen shake effect)
@@ -306,10 +364,12 @@ void DirectX9Renderer::EndFrame()
     {
         mBatcher.NewBatch();
 
+        SDL_Rect viewPortRect = GetTargetDrawRect();
+
         Poly_FT4 fullScreenPoly;
         PolyFT4_Init(&fullScreenPoly);
         SetRGB0(&fullScreenPoly, 255, 255, 255);
-        SetXYWH(&fullScreenPoly, 0, 0, 640, 480);
+        SetXYWH(&fullScreenPoly, (s16) viewPortRect.x, (s16) viewPortRect.y, (s16) viewPortRect.w, (s16) viewPortRect.h);
 
         // NOTE: This texture in the last batch is always used as the FB source
         std::shared_ptr<ATL::CComPtr<IDirect3DTexture9>> nullTex;
@@ -320,11 +380,24 @@ void DirectX9Renderer::EndFrame()
 
         DrawBatches();
 
-        const HRESULT presentHR = mDevice->Present(NULL, NULL, NULL, NULL);
+        HRESULT presentHR = mDevice->Present(NULL, NULL, NULL, NULL);
         if (presentHR == D3DERR_DEVICELOST)
         {
-            // TODO: Handle device lost properly
-            ALIVE_FATAL("TODO D3DERR_DEVICELOST");
+            presentHR = mDevice->TestCooperativeLevel();
+            switch (presentHR)
+            {
+                case D3DERR_DEVICELOST:
+                    LOG_WARNING("Waiting for D3DERR_DEVICELOST state to be over");
+                    break;
+
+                case D3DERR_DEVICENOTRESET:
+                    LOG_INFO("Begin reset for D3DERR_DEVICELOST");
+                    ReCreateDevice();
+                    break;
+                default:
+                    ALIVE_FATAL("TestCooperativeLevel failed HRESULT 0x%08X", presentHR);
+                    break;
+            }
         }
         else
         {
@@ -521,7 +594,7 @@ void DirectX9Renderer::DrawBatches()
 
     // Alloc VBO space
     const u32 requiredVboSize = static_cast<u32>(mBatcher.mVertices.size()) * sizeof(CUSTOMVERTEX);
-    if (mVboSize < requiredVboSize)
+    if (mVboSize < requiredVboSize || !mVBO)
     {
         LOG_INFO("Allocate VBO bytes %d", requiredVboSize);
 
@@ -568,7 +641,7 @@ void DirectX9Renderer::DrawBatches()
 
     // Alloc index buffer space
     const u32 requiredIndexBufferSize = static_cast<u32>(mBatcher.mIndices.size()) * sizeof(u32);
-    if (mIndexBufferSize < requiredIndexBufferSize)
+    if (mIndexBufferSize < requiredIndexBufferSize || !mIndexBuffer)
     {
         LOG_INFO("Allocate index buffer bytes %d", requiredIndexBufferSize);
 
@@ -679,7 +752,7 @@ void DirectX9Renderer::DrawBatches()
 
     DX_VERIFY(mDevice->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0, 0, 0), 1.0f, 0));
 
-    this->SetupBlendMode(0);
+    SetupBlendMode(0);
 
     for (std::size_t i = 0; i < mBatcher.mBatches.size(); i++)
     {
@@ -688,19 +761,6 @@ void DirectX9Renderer::DrawBatches()
             if (mBatcher.mBatches[i].mNumTrisToDraw > 0)
             {
                 Batcher<ATL::CComPtr<IDirect3DTexture9>, BatchData, kSpriteTextureUnitCount>::RenderBatch& batch = mBatcher.mBatches[i];
-                
-                // TODO: Hack, remove when working
-                mOffsetX = 0;
-                mOffsetY = 0;
-                SDL_Rect viewPortRect = GetTargetDrawRect();
-
-                // TODO: Broken till back buffer matches window size?
-                D3DVIEWPORT9 vp;
-                vp.X = viewPortRect.x;
-                vp.Y = viewPortRect.y;
-                vp.Width = viewPortRect.w;
-                vp.Height = viewPortRect.h;
-                DX_VERIFY(mDevice->SetViewport(&vp));
 
                 // Draw tmpTexture as a full screen quad
                 DX_VERIFY(mDevice->SetTexture(mCamUnit, *tmpTexture));
