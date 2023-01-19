@@ -3,15 +3,12 @@
 #include "BaseAliveGameObject.hpp"
 #include "GameSpeak.hpp"
 #include "AbilityRing.hpp"
-#include "Abe.hpp" // MudSounds only
+#include "MudokonEnums.hpp"
 
 namespace relive
 {
     struct Path_Mudokon;
 }
-
-#include "MudokonEnums.hpp"
-
 
 #define MUD_BRAIN_STATES_ENUM(ENTRY)        \
     ENTRY(Brain_0_GiveRings)         \

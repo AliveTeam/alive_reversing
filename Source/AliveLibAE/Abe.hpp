@@ -1,6 +1,7 @@
 #pragma once
 
 #include "BaseAliveGameObject.hpp"
+#include "MudokonEnums.hpp"
 
 #define ABE_MOTIONS_ENUM(ENTRY)                      \
     ENTRY(Motion_0_Idle_44EEB0)                      \
@@ -144,8 +145,6 @@ class PullRingRope;
 
 extern const TintEntry sAbeTintTable[16];
 
-#include "MudokonEnums.hpp"
-
 enum class EnvironmentSfx : s8
 {
     eSlideStop_0 = 0,
@@ -226,20 +225,6 @@ union AllInternalStates
 };
 
 enum class Mud_Emotion : s16;
-
-struct Abe_1BC_20_sub_object final
-{
-    s32 field_0_abe_timer;
-    s32 mRegenHealthTimer;
-    FP field_8_x_vel_slow_by;
-    s32 field_C_unused;
-    //u16 field_10_resource_index;
-    Mud_Emotion mMood;
-    s32 mRollingMotionTimer;
-    MudSounds mSay;
-    s16 field_1A_padding;
-};
-ALIVE_ASSERT_SIZEOF(Abe_1BC_20_sub_object, 0x1C);
 
 void Mudokon_SFX(MudSounds idx, s16 volume, s32 pitch, BaseAliveGameObject* pHero);
 
@@ -358,13 +343,19 @@ public:
 
     bool mShrivel = false;
     bool mReturnToPreviousMotion = false;
-    bool mPreventChanting = false;
-    bool mLandSoftly = false;
+    bool mPreventChanting = true;
+    bool mLandSoftly = true;
     bool mLaughAtChantEnd = false;
     bool mPlayLedgeGrabSounds = false;
     bool mHaveHealing = false;
     bool mMudancheeDone = false;
-    Abe_1BC_20_sub_object field_128 = {};
+    s32 field_0_abe_timer;
+    s32 mRegenHealthTimer;
+    FP field_8_x_vel_slow_by = {};
+    //u16 field_10_resource_index;
+    Mud_Emotion mMood = Mud_Emotion::eNormal_0;
+    s32 mRollingMotionTimer;
+    MudSounds mSay = MudSounds::eNone;
     s32 field_124_timer = 0;
     Guid mBirdPortalId;
     s8 mBaseThrowableCount = 0;
@@ -560,7 +551,7 @@ private:
     s32 mPrevInput = 0;
     s32 mReleasedButtons = 0;
     AllInternalStates field_120_state = {};
-    s16 mKnockdownMotion = 0;
+    s16 mKnockdownMotion = -1;
     Guid mFadeId;
     Guid mCircularFadeId;
     Guid mOrbWhirlWindId;
