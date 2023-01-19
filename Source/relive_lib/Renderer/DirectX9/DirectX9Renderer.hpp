@@ -95,6 +95,9 @@ private:
 
     TDX9Texture mGasTexture;
 
+    // Debug flag to use indexed rendering to work around driver bugs
+    bool mIndexedRendering = false;
+
     const u8 mCamUnit = 4;
     const u8 mPalUnit = 5;
     const u8 mGasUnit = 6;

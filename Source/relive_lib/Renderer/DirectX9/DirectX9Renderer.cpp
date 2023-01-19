@@ -592,75 +592,131 @@ void DirectX9Renderer::DrawBatches()
 
     DX_VERIFY(mDevice->SetVertexDeclaration(mVertexDecl));
 
-    // Alloc VBO space
-    const u32 requiredVboSize = static_cast<u32>(mBatcher.mVertices.size()) * sizeof(CUSTOMVERTEX);
-    if (mVboSize < requiredVboSize || !mVBO)
+    if (mIndexedRendering)
     {
-        LOG_INFO("Allocate VBO bytes %d", requiredVboSize);
+        // Alloc VBO space
+        const u32 requiredVboSize = static_cast<u32>(mBatcher.mVertices.size()) * sizeof(CUSTOMVERTEX);
+        if (mVboSize < requiredVboSize || !mVBO)
+        {
+            LOG_INFO("Allocate VBO bytes %d", requiredVboSize);
 
-        mVBO = nullptr;
+            mVBO = nullptr;
 
-        mVboSize = requiredVboSize;
-        DX_VERIFY(mDevice->CreateVertexBuffer(mVboSize,
-                                              0,
-                                              0,
-                                              D3DPOOL_MANAGED,
-                                              &mVBO,
-                                              NULL));
+            mVboSize = requiredVboSize;
+            DX_VERIFY(mDevice->CreateVertexBuffer(mVboSize,
+                                                  0,
+                                                  0,
+                                                  D3DPOOL_MANAGED,
+                                                  &mVBO,
+                                                  NULL));
+        }
+
+        VOID* pVoid = nullptr;
+        DX_VERIFY(mVBO->Lock(0, requiredVboSize, &pVoid, 0));
+
+        // Convert and write vertices into the VBO
+        CUSTOMVERTEX* pDstIter = reinterpret_cast<CUSTOMVERTEX*>(pVoid);
+        constexpr float fudge = 0.5f;
+        for (const IRenderer::PsxVertexData& vertex : mBatcher.mVertices)
+        {
+            pDstIter->X = vertex.x - fudge;
+            pDstIter->Y = vertex.y - fudge;
+            pDstIter->Z = 0.5f;
+            pDstIter->RHW = 1.0f;
+            pDstIter->COLOR = D3DCOLOR_XRGB(static_cast<u8>(vertex.r), static_cast<u8>(vertex.g), static_cast<u8>(vertex.b));
+
+            pDstIter->u = vertex.u;
+            pDstIter->v = vertex.v;
+
+            pDstIter->isSemiTrans = static_cast<f32>(vertex.isSemiTrans);
+            pDstIter->isShaded = static_cast<f32>(vertex.isShaded);
+
+            pDstIter->palIndex = static_cast<f32>(vertex.paletteIndex);
+            pDstIter->blendMode = static_cast<f32>(vertex.blendMode);
+
+            pDstIter->drawType = static_cast<f32>(vertex.drawMode);
+            pDstIter->textureUnit = static_cast<f32>(vertex.textureUnitIndex);
+
+            pDstIter++;
+        }
+        DX_VERIFY(mVBO->Unlock());
+
+        // Alloc index buffer space
+        const u32 requiredIndexBufferSize = static_cast<u32>(mBatcher.mIndices.size()) * sizeof(u32);
+        if (mIndexBufferSize < requiredIndexBufferSize || !mIndexBuffer)
+        {
+            LOG_INFO("Allocate index buffer bytes %d", requiredIndexBufferSize);
+
+            mIndexBuffer = nullptr;
+            mIndexBufferSize = requiredIndexBufferSize;
+            DX_VERIFY(mDevice->CreateIndexBuffer(mIndexBufferSize,
+                                                 0,
+                                                 D3DFMT_INDEX32,
+                                                 D3DPOOL_MANAGED,
+                                                 &mIndexBuffer,
+                                                 NULL));
+        }
+        pVoid = nullptr;
+        DX_VERIFY(mIndexBuffer->Lock(0, requiredIndexBufferSize, &pVoid, 0));
+        memcpy(pVoid, mBatcher.mIndices.data(), requiredIndexBufferSize);
+        DX_VERIFY(mIndexBuffer->Unlock());
+
+        DX_VERIFY(mDevice->SetIndices(mIndexBuffer));
+
+        DX_VERIFY(mDevice->SetStreamSource(0, mVBO, 0, sizeof(CUSTOMVERTEX)));
     }
-
-    VOID* pVoid = nullptr;
-    DX_VERIFY(mVBO->Lock(0, requiredVboSize, &pVoid, 0));
-
-    // Convert and write vertices into the VBO
-    CUSTOMVERTEX* pDstIter = reinterpret_cast<CUSTOMVERTEX*>(pVoid);
-    constexpr float fudge = 0.5f;
-    for (const IRenderer::PsxVertexData& vertex : mBatcher.mVertices)
+    else
     {
-        pDstIter->X = vertex.x - fudge;
-        pDstIter->Y = vertex.y - fudge;
-        pDstIter->Z = 0.5f;
-        pDstIter->RHW = 1.0f;
-        pDstIter->COLOR = D3DCOLOR_XRGB(static_cast<u8>(vertex.r), static_cast<u8>(vertex.g), static_cast<u8>(vertex.b));
+        // Alloc VBO space
+        const u32 requiredVboSize = static_cast<u32>(mBatcher.mIndices.size()) * sizeof(CUSTOMVERTEX);
+        if (mVboSize < requiredVboSize || !mVBO)
+        {
+            LOG_INFO("Allocate VBO bytes %d", requiredVboSize);
 
-        pDstIter->u = vertex.u;
-        pDstIter->v = vertex.v;
+            mVBO = nullptr;
 
-        pDstIter->isSemiTrans = static_cast<f32>(vertex.isSemiTrans);
-        pDstIter->isShaded = static_cast<f32>(vertex.isShaded);
+            mVboSize = requiredVboSize;
+            DX_VERIFY(mDevice->CreateVertexBuffer(mVboSize,
+                                                  0,
+                                                  0,
+                                                  D3DPOOL_MANAGED,
+                                                  &mVBO,
+                                                  NULL));
+        }
 
-        pDstIter->palIndex = static_cast<f32>(vertex.paletteIndex);
-        pDstIter->blendMode = static_cast<f32>(vertex.blendMode);
+        VOID* pVoid = nullptr;
+        DX_VERIFY(mVBO->Lock(0, requiredVboSize, &pVoid, 0));
 
-        pDstIter->drawType = static_cast<f32>(vertex.drawMode);
-        pDstIter->textureUnit = static_cast<f32>(vertex.textureUnitIndex);
+        // Convert and write vertices into the VBO
+        CUSTOMVERTEX* pDstIter = reinterpret_cast<CUSTOMVERTEX*>(pVoid);
+        constexpr float fudge = 0.5f;
+        for (u32 idx : mBatcher.mIndices)
+        {
+            const IRenderer::PsxVertexData& vertex = mBatcher.mVertices[idx];
 
-        pDstIter++;
+            pDstIter->X = vertex.x - fudge;
+            pDstIter->Y = vertex.y - fudge;
+            pDstIter->Z = 0.5f;
+            pDstIter->RHW = 1.0f;
+            pDstIter->COLOR = D3DCOLOR_XRGB(static_cast<u8>(vertex.r), static_cast<u8>(vertex.g), static_cast<u8>(vertex.b));
+
+            pDstIter->u = vertex.u;
+            pDstIter->v = vertex.v;
+
+            pDstIter->isSemiTrans = static_cast<f32>(vertex.isSemiTrans);
+            pDstIter->isShaded = static_cast<f32>(vertex.isShaded);
+
+            pDstIter->palIndex = static_cast<f32>(vertex.paletteIndex);
+            pDstIter->blendMode = static_cast<f32>(vertex.blendMode);
+
+            pDstIter->drawType = static_cast<f32>(vertex.drawMode);
+            pDstIter->textureUnit = static_cast<f32>(vertex.textureUnitIndex);
+
+            pDstIter++;
+        }
+        DX_VERIFY(mVBO->Unlock());
+        DX_VERIFY(mDevice->SetStreamSource(0, mVBO, 0, sizeof(CUSTOMVERTEX)));
     }
-    DX_VERIFY(mVBO->Unlock());
-
-    // Alloc index buffer space
-    const u32 requiredIndexBufferSize = static_cast<u32>(mBatcher.mIndices.size()) * sizeof(u32);
-    if (mIndexBufferSize < requiredIndexBufferSize || !mIndexBuffer)
-    {
-        LOG_INFO("Allocate index buffer bytes %d", requiredIndexBufferSize);
-
-        mIndexBuffer = nullptr;
-        mIndexBufferSize = requiredIndexBufferSize;
-        DX_VERIFY(mDevice->CreateIndexBuffer(mIndexBufferSize,
-                                             0,
-                                             D3DFMT_INDEX32,
-                                             D3DPOOL_MANAGED,
-                                             &mIndexBuffer,
-                                             NULL));
-    }
-    pVoid = nullptr;
-    DX_VERIFY(mIndexBuffer->Lock(0, requiredIndexBufferSize, &pVoid, 0));
-    memcpy(pVoid, mBatcher.mIndices.data(), requiredIndexBufferSize);
-    DX_VERIFY(mIndexBuffer->Unlock());
-
-    DX_VERIFY(mDevice->SetIndices(mIndexBuffer));
-    DX_VERIFY(mDevice->SetStreamSource(0, mVBO, 0, sizeof(CUSTOMVERTEX)));
 
     u32 idxOffset = 0;
     u32 baseTextureIdx = 0;
@@ -729,7 +785,14 @@ void DirectX9Renderer::DrawBatches()
 
             SetupBlendMode(static_cast<u16>(batch.mBlendMode));
 
-            DX_VERIFY(mDevice->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, batch.mNumTrisToDraw * 3, idxOffset, batch.mNumTrisToDraw));
+            if (mIndexedRendering)
+            {
+                DX_VERIFY(mDevice->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, batch.mNumTrisToDraw * 3, idxOffset, batch.mNumTrisToDraw));
+            }
+            else
+            {
+                DX_VERIFY(mDevice->DrawPrimitive(D3DPT_TRIANGLELIST, idxOffset, batch.mNumTrisToDraw));
+            }
 
             idxOffset += (batch.mNumTrisToDraw) * 3;
         }
@@ -774,7 +837,15 @@ void DirectX9Renderer::DrawBatches()
                     DX_VERIFY(mDevice->SetPixelShader(mCamFG1Shader));
                 }
                 DX_VERIFY(mDevice->SetRenderState(D3DRS_SCISSORTESTENABLE, FALSE));
-                DX_VERIFY(mDevice->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, batch.mNumTrisToDraw * 3, idxOffset, batch.mNumTrisToDraw));
+
+                if (mIndexedRendering)
+                {
+                    DX_VERIFY(mDevice->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, batch.mNumTrisToDraw * 3, idxOffset, batch.mNumTrisToDraw));
+                }
+                else
+                {
+                    DX_VERIFY(mDevice->DrawPrimitive(D3DPT_TRIANGLELIST, idxOffset, batch.mNumTrisToDraw));
+                }
             }
         }
     }
