@@ -144,39 +144,7 @@ class PullRingRope;
 
 extern const TintEntry sAbeTintTable[16];
 
-enum class MudSounds : s16
-{
-    eNone = -1,
-    eEmpty_0 = 0,
-    eEmpty_1 = 1,
-    eEmpty_2 = 2,
-    eHelloNeutral_3 = 3,
-    eFollowMe_4 = 4,
-    eAnger_5 = 5,
-    eWait_6 = 6,
-    eFart_7 = 7,
-    eGiggle_8 = 8,
-    eHurt2_9 = 9,
-    eLaugh_10 = 10,
-    eGoodbye_11 = 11,
-    eOkay_12 = 12,
-    eNuhUh_13 = 13,
-    eOops_14 = 14,
-    eDeathDropScream_15 = 15,
-    eHurt1_16 = 16,
-    eAllOYa_17 = 17,
-    eHiAngry_18 = 18,
-    eHiHappy_19 = 19,
-    eHiSad_20 = 20,
-    eNoAngry_21 = 21,
-    eNoSad_22 = 22,
-    eFartPuh_23 = 23,
-    eSick_24 = 24,
-    eWork_25 = 25,
-    eStopIt_26 = 26,
-    eSorry_27 = 27,
-    eSadUgh_28 = 28,
-};
+#include "MudokonEnums.hpp"
 
 enum class EnvironmentSfx : s8
 {

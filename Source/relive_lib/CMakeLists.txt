@@ -578,6 +578,7 @@ SET(AliveLibAESrc
     ../AliveLibAE/ScopedSeq.hpp
     ../AliveLibAE/ZapSpark.hpp
     ../AliveLibAE/ZapSpark.cpp
+    ../AliveLibAE/MudokonEnums.hpp
 )
 
 SET(renderer_src

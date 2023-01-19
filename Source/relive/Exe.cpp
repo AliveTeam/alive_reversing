@@ -6,10 +6,12 @@
 
 #include "W32CrashHandler.hpp"
 #include "../relive_lib/Sys.hpp"
+#include "../relive_lib/SwitchStates.hpp"
 
 #include "../AliveLibAE/Map.hpp"
 #include "../AliveLibAE/Abe.hpp"
 
+#include "../AliveLibAO/Map.hpp"
 #include "../AliveLibAO/Abe.hpp"
 
 #include "../AliveLibAE/GameAutoPlayer.hpp"
@@ -23,6 +25,7 @@
 #include "../AliveLibAE/Font.hpp"
 
 #include "../relive_lib/data_conversion/file_system.hpp"
+#include "../relive_lib/GameType.hpp"
 
 namespace AutoSplitterData {
 struct GuidStr
