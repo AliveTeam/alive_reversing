@@ -341,17 +341,7 @@ static ::GameSpeakEvents From(const GameSpeakEvents event)
     }
 }
 
-enum class Mud_Emotion : s16
-{
-    eNormal_0 = 0,
-    eAngry_1 = 1,
-    eAggressive_2 = 2,
-    eSad_3 = 3,
-    eSuicidal_4 = 4,
-    eHappy_5 = 5, // TODO: Not used ??
-    eWired_6 = 6,
-    eSick_7 = 7
-};
+#include "../AliveLibAE/MudokonEnums.hpp"
 
 static ::Mud_Emotion From(const Mud_Emotion emo)
 {

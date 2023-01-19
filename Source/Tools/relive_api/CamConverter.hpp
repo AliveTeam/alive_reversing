@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include <memory>
+#include "ApiFG1Reader.hpp"
 
 namespace ReliveAPI {
 class ChunkedLvlFile;

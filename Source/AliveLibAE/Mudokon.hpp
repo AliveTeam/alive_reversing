@@ -10,39 +10,7 @@ namespace relive
     struct Path_Mudokon;
 }
 
-enum class Mud_Emotion : s16
-{
-    eNormal_0 = 0,
-    eAngry_1 = 1,
-    eAggressive_2 = 2,
-    eSad_3 = 3,
-    eSuicidal_4 = 4,
-    eHappy_5 = 5, // TODO: Not used ??
-    eWired_6 = 6,
-    eSick_7 = 7
-};
-
-enum class MudAction : s16
-{
-    eHelloOrAllYa_0 = 0,
-    eFollowMe_1 = 1,
-    eWait_2 = 2,
-    eUnused_3 = 3,
-    eStopIt_4 = 4,
-    eUnused_5 = 5,
-    eFart_6 = 6,
-    eSlapOrWater_7 = 7,
-    eSorry_8 = 8,
-    eMudAbuse_9 = 9,
-    eComfort_10 = 10,
-    eSmackIntoWall_11 = 11,
-    eLaugh_12 = 12,
-    eDuck_13 = 13,
-    eMudDied_14 = 14,
-    eUnknown_15 = 15,
-    eUnknown_16 = 16,
-    eNone_17 = 17,
-};
+#include "MudokonEnums.hpp"
 
 
 #define MUD_BRAIN_STATES_ENUM(ENTRY)        \
