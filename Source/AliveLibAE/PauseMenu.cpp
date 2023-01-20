@@ -1070,15 +1070,15 @@ void PauseMenu::VUpdate()
                 sprintf(sSavedMudokonsText, "%d OF %d MUDOKONS", gRescuedMudokons, Path_GetTotalMuds(gMap.mCurrentLevel, gMap.mCurrentPath));
                 sprintf(sTerminatedMudokonsText, "%d HA%s BEEN TERMINATED", gKilledMudokons, (gKilledMudokons != 1) ? "VE" : "S");
 
-                if (sActiveHero->field_128.mMood == Mud_Emotion::eNormal_0)
+                if (sActiveHero->mMood == Mud_Emotion::eNormal_0)
                 {
                     mMudIconAnim.Set_Animation_Data(GetAnimRes(AnimId::NormalMudIcon));
                 }
-                else if (sActiveHero->field_128.mMood == Mud_Emotion::eSad_3)
+                else if (sActiveHero->mMood == Mud_Emotion::eSad_3)
                 {
                     mMudIconAnim.Set_Animation_Data(GetAnimRes(AnimId::AngryMudIcon));
                 }
-                else if (sActiveHero->field_128.mMood == Mud_Emotion::eHappy_5)
+                else if (sActiveHero->mMood == Mud_Emotion::eHappy_5)
                 {
                     mMudIconAnim.Set_Animation_Data(GetAnimRes(AnimId::HappyMudIcon));
                 }

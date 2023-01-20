@@ -5141,9 +5141,9 @@ s16 Mudokon::Brain_9_Sick()
     // Have Abe make a sad noise when he first sees sick Mudokons.
     if (!mSeenWhileSick && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0))
     {
-        if (sActiveHero->field_128.mSay == MudSounds::eNone)
+        if (sActiveHero->mSay == MudSounds::eNone)
         {
-            sActiveHero->field_128.mSay = MudSounds::eSadUgh_28;
+            sActiveHero->mSay = MudSounds::eSadUgh_28;
             sActiveHero->mAutoSayTimer = sGnFrame + 10;
         }
         mSeenWhileSick = true;

@@ -692,53 +692,14 @@ Abe::Abe()
     gMap.GetCurrentCamCoords(&pPoint);
     mXPos = FP_FromInteger(pPoint.x + XGrid_Index_To_XPos(GetSpriteScale(), 4));
     mYPos = FP_FromInteger(pPoint.y + 240);
-    field_120_x_vel_slow_by = FP_FromInteger(0);
     BaseAliveGameObjectLastLineYPos = mYPos;
-    mVelX = FP_FromInteger(0);
-    mVelY = FP_FromInteger(0);
-    BaseAliveGameObjectCollisionLine = nullptr;
     mCurrentMotion = eAbeMotions::Motion_3_Fall;
 
-    field_112_prev_motion = -1;
     GetAnimation().SetRenderLayer(Layer::eLayer_AbeMenu_32);
-    field_15C_pThrowable = nullptr;
-    field_19C_throwable_count = 0;
-    field_198_pThrowable = nullptr;
-    field_1A0_portal = 0;
-    mFade = nullptr;
-    mCircularFade = nullptr;
-    field_188_pOrbWhirlWind = nullptr;
-    field_18C_pObjToPossess = nullptr;
-    mContinueTopLeft = {};
-    mContinueBottomRight = {};
-    mContinueCamera = -1;
     SetCanSetOffExplosives(true);
-
-    mSfxPlaying = false;
-    mElumMountEnd = false;
-    mElumUnmountBegin = false;
 
     mContinueSpriteScale = GetSpriteScale();
     mContinueLevel = gMap.mCurrentLevel;
-    mContinuePath = -1;
-    mContinueClearFromId = 0;
-    mContinueClearToId = 0;
-    mContinueZoneNumber = 0;
-    field_150_saved_ring_timer = 0;
-    field_154_bSavedHaveShrykull = 0;
-
-    mReturnToPreviousMotion = false;
-    mWalkToRun = false;
-    mSnapAbe = false;
-    mShrivel = false;
-    mBlockChanting = false;
-    mLaughAtChantEnd = false;
-    mParamoniaDone = false;
-    mScrabaniaDone = false;
-    mGotShrykullFromBigFace = false;
-    mGiveShrykullFromBigFace = false;
-    mAbeRespawnFlipX = false;
-    mLandSoft = true;
 
     // Changes Abe's "default" colour depending on the level we are in
     SetTint(sAbeTints_4C6438, gMap.mCurrentLevel);
@@ -746,15 +707,8 @@ Abe::Abe()
     GetAnimation().SetSemiTrans(true);
     GetAnimation().SetRenderMode(TPageAbr::eBlend_0);
 
-    field_10C_prev_held = 0; // lowest to base class
-    mBaseAliveGameObjectLastAnimFrame = 0;
     field_110_state.raw = 0;
-    field_168_ring_pulse_timer = 0;
     field_114_gnFrame = sGnFrame;
-    BaseAliveGameObjectPathTLV = nullptr;
-    field_160_pRope = nullptr;
-    field_130_say = -1;
-    field_134_auto_say_timer = 0;
     SetCanBeesChase(true);
 
     // Set Abe to be the current player controlled object

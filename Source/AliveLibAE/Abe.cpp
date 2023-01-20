@@ -571,8 +571,8 @@ void Abe::LoadAnimations()
     }
 }
 
-Abe::Abe()
-    : BaseAliveGameObject(kResourceArraySize)
+Abe::Abe() :
+    BaseAliveGameObject(kResourceArraySize)
 {
     SetType(ReliveTypes::eAbe);
 
