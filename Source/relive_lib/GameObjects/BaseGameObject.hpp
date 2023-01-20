@@ -64,27 +64,27 @@ public:
 
     PalResource& GetPalRes(PalId palId);
 
-    const bool& GetListAddFailed() const { return mListAddFailed; }
+    bool GetListAddFailed() const { return mListAddFailed; }
     void SetListAddFailed(bool val) { mListAddFailed = val; }
-    const bool& GetUpdatable() const { return mUpdatable; }
+    bool GetUpdatable() const { return mUpdatable; }
     void SetUpdatable(bool val) { mUpdatable = val; }
-    const bool& GetDead() const { return mDead; }
+    bool GetDead() const { return mDead; }
     void SetDead(bool val) { mDead = val; }
-    const bool& GetDrawable() const { return mDrawable; }
+    bool GetDrawable() const { return mDrawable; }
     void SetDrawable(bool val) { mDrawable = val; }
-    const bool& GetIsBaseAnimatedWithPhysicsObj() const { return mIsBaseAnimatedWithPhysicsObj; }
+    bool GetIsBaseAnimatedWithPhysicsObj() const { return mIsBaseAnimatedWithPhysicsObj; }
     void SetIsBaseAnimatedWithPhysicsObj(bool val) { mIsBaseAnimatedWithPhysicsObj = val; }
-    const bool& GetIsBaseAliveGameObject() const { return mIsBaseAliveGameObject; }
+    bool GetIsBaseAliveGameObject() const { return mIsBaseAliveGameObject; }
     void SetIsBaseAliveGameObject(bool val) { mIsBaseAliveGameObject = val; }
-    const bool& GetCanExplode() const { return mCanExplode; }
+    bool GetCanExplode() const { return mCanExplode; }
     void SetCanExplode(bool val) { mCanExplode = val; }
-    const bool& GetInteractive() const { return mInteractive; }
+    bool GetInteractive() const { return mInteractive; }
     void SetInteractive(bool val) { mInteractive = val; }
-    const bool& GetSurviveDeathReset() const { return mSurviveDeathReset; }
+    bool GetSurviveDeathReset() const { return mSurviveDeathReset; }
     void SetSurviveDeathReset(bool val) { mSurviveDeathReset = val; }
-    const bool& GetUpdateDuringCamSwap() const { return mUpdateDuringCamSwap; }
+    bool GetUpdateDuringCamSwap() const { return mUpdateDuringCamSwap; }
     void SetUpdateDuringCamSwap(bool val) { mUpdateDuringCamSwap = val; }
-    const bool& GetCantKill() const { return mCantKill; }
+    bool GetCantKill() const { return mCantKill; }
     void SetCantKill(bool val) { mCantKill = val; }
 
 public:

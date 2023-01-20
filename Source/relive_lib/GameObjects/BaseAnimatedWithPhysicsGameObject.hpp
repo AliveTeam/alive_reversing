@@ -81,7 +81,7 @@ public:
     s16 mYOffset = 0;
     s16 mXOffset = 0;
 
-    const bool& GetApplyShadowZoneColour() const
+    bool GetApplyShadowZoneColour() const
     {
         return mApplyShadowZoneColour;
     }
@@ -91,7 +91,7 @@ public:
         mApplyShadowZoneColour = val;
     }
 
-    const bool& GetDoPurpleLightEffect() const
+    bool GetDoPurpleLightEffect() const
     {
         return mDoPurpleLightEffect;
     }

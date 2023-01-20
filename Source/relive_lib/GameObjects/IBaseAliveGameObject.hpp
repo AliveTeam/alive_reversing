@@ -52,25 +52,25 @@ public:
         mPreviousMotion = static_cast<s16>(motion);
     }
 
-    const bool& GetCanBePossessed() const { return mCanBePossessed; }
+    bool GetCanBePossessed() const { return mCanBePossessed; }
     void SetCanBePossessed(bool val) { mCanBePossessed = val; }
-    const bool& GetPossessed() const { return mPossessed; }
+    bool GetPossessed() const { return mPossessed; }
     void SetPossessed(bool val) { mPossessed = val; }
-    const bool& GetZappedByShrykull() const { return mZappedByShrykull; }
+    bool GetZappedByShrykull() const { return mZappedByShrykull; }
     void SetZappedByShrykull(bool val) { mZappedByShrykull = val; }
-    const bool& GetCanSetOffExplosives() const { return mCanSetOffExplosives; }
+    bool GetCanSetOffExplosives() const { return mCanSetOffExplosives; }
     void SetCanSetOffExplosives(bool val) { mCanSetOffExplosives = val; }
-    const bool& GetElectrocuted() const { return mElectrocuted; }
+    bool GetElectrocuted() const { return mElectrocuted; }
     void SetElectrocuted(bool val) { mElectrocuted = val; }
-    const bool& GetInvisible() const { return mInvisible; }
+    bool GetInvisible() const { return mInvisible; }
     void SetInvisible(bool val) { mInvisible = val; }
-    const bool& GetRestoredFromQuickSave() const { return mRestoredFromQuickSave; }
+    bool GetRestoredFromQuickSave() const { return mRestoredFromQuickSave; }
     void SetRestoredFromQuickSave(bool val) { mRestoredFromQuickSave = val; }
-    const bool& GetTeleporting() const { return mTeleporting; }
+    bool GetTeleporting() const { return mTeleporting; }
     void SetTeleporting(bool val) { mTeleporting = val; }
-    const bool& GetElectrocuting() const { return mElectrocuting; }
+    const bool GetElectrocuting() const { return mElectrocuting; }
     void SetElectrocuting(bool val) { mElectrocuting = val; }
-    const bool& GetCanBeesChase() const { return mCanBeesChase; }
+    bool GetCanBeesChase() const { return mCanBeesChase; }
     void SetCanBeesChase(bool val) { mCanBeesChase = val; }
 protected:
 
