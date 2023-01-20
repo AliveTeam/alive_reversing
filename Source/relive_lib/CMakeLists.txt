@@ -675,8 +675,8 @@ SET(data_conversion_src
     data_conversion/fmv_converter.hpp
 )
 
-source_group("Source Files/AO"               FILES ${AliveLibAESrc})
-source_group("Source Files/AE"               FILES ${AliveLibSrcAO})
+source_group("Source Files/AE"               FILES ${AliveLibAESrc})
+source_group("Source Files/AO"               FILES ${AliveLibSrcAO})
 source_group("Source Files/Renderer"         FILES ${renderer_src})
 source_group("Source Files/Sound"            FILES ${sound_src})
 source_group("Source Files/GameObjects"      FILES ${game_objects_src})
