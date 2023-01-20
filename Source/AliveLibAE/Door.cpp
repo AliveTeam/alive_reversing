@@ -71,15 +71,16 @@ void Door::LoadAnimations()
 }
 
 Door::Door(relive::Path_Door* pTlv, const Guid& tlvId)
-    : BaseAnimatedWithPhysicsGameObject(0)
+    : BaseAnimatedWithPhysicsGameObject(0),
+    mTlvId(tlvId),
+    mDoorType(pTlv->mDoorType),
+    mStartState(pTlv->mStartState),
+    mSwitchId(pTlv->mSwitchId),
+    mDoorId(pTlv->mDoorId)
 {
     SetType(ReliveTypes::eDoor);
 
     LoadAnimations();
-
-    mTlvId = tlvId;
-    mDoorType = pTlv->mDoorType;
-    mStartState = pTlv->mStartState;
 
     if (pTlv->mCloseOnExit == relive::reliveChoice::eYes)
     {
@@ -89,13 +90,11 @@ Door::Door(relive::Path_Door* pTlv, const Guid& tlvId)
         }
     }
 
-    mSwitchId = pTlv->mSwitchId;
     if (pTlv->mSwitchId == 1)
     {
         mSwitchId = 0;
     }
 
-    mDoorId = pTlv->mDoorId;
     if (gMap.mCurrentLevel == EReliveLevelIds::eFeeCoDepot)
     {
         switch (mDoorId)

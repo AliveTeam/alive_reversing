@@ -6,10 +6,10 @@
 #include "Path.hpp"
 
 BackgroundAnimation::BackgroundAnimation(relive::Path_BackgroundAnimation* pTlv, const Guid& tlvId)
-    : BaseAnimatedWithPhysicsGameObject(0)
+    : BaseAnimatedWithPhysicsGameObject(0),
+    mTlvId(tlvId)
 {
     SetType(ReliveTypes::eBackgroundAnimation);
-    field_F8_tlvInfo = tlvId;
 
     mXPos = FP_FromInteger(pTlv->mTopLeftX);
     mYPos = FP_FromInteger(pTlv->mTopLeftY);
@@ -65,5 +65,5 @@ void BackgroundAnimation::VScreenChanged()
 
 BackgroundAnimation::~BackgroundAnimation()
 {
-    Path::TLV_Reset(field_F8_tlvInfo, -1, 0, 0);
+    Path::TLV_Reset(mTlvId, -1, 0, 0);
 }

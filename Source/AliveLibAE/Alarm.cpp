@@ -11,36 +11,25 @@ s16 gAlarmInstanceCount = 0;
 Guid gAlarmObjId = Guid{};
 
 Alarm::Alarm(relive::Path_Alarm* pTlv, const Guid& tlvId)
-    : EffectBase(Layer::eLayer_Above_FG1_39, TPageAbr::eBlend_3)
+    : EffectBase(Layer::eLayer_Above_FG1_39, TPageAbr::eBlend_3),
+    mAlarmTlvInfo(tlvId),
+    mAlarmState(States::eWaitForSwitchEnable_0),
+    mAlarmSwitchId(pTlv->mSwitchId), // This won't count as an alarm instance till this id is enabled
+    mAlarmDuration(pTlv->mAlarmDuration)
 {
-    mAlarmTlvInfo = tlvId;
-
     SetType(ReliveTypes::eAlarm);
-
-    mAlarmRed = 0;
-    mAlarmState = States::eWaitForSwitchEnable_0;
-
-    // This won't count as an alarm instance till this id is enabled
-    mAlarmSwitchId = pTlv->mSwitchId;
-
-    mEffectBaseRed = 0;
-    mEffectBaseGreen = 0;
-    mEffectBaseBlue = 0;
-
-    mAlarmDuration = pTlv->mAlarmDuration;
 }
 
 Alarm::Alarm(s32 durationOffset, u16 switchId, s32 timerOffset, Layer layer)
-    : EffectBase(layer, TPageAbr::eBlend_3)
+    : EffectBase(layer, TPageAbr::eBlend_3),
+    mAlarmTlvInfo(Guid{}),
+    mAlarmState(States::eAfterConstructed_1),
+    mAlarmSwitchId(switchId)
 {
     SetType(ReliveTypes::eAlarm);
 
-    mAlarmRed = 0;
-    mAlarmState = States::eAfterConstructed_1;
-    mAlarmTlvInfo = Guid{};
     mAlarmPauseTimer = sGnFrame + timerOffset;
     mAlarmDurationTimer = mAlarmPauseTimer + durationOffset;
-    mAlarmSwitchId = switchId;
 
     gAlarmInstanceCount++;
 
@@ -53,10 +42,6 @@ Alarm::Alarm(s32 durationOffset, u16 switchId, s32 timerOffset, Layer layer)
     {
         gAlarmObjId = mBaseGameObjectId;
     }
-
-    mEffectBaseRed = 0;
-    mEffectBaseGreen = 0;
-    mEffectBaseBlue = 0;
 }
 
 Alarm::~Alarm()

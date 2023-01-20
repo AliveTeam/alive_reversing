@@ -41,8 +41,6 @@ struct AbilityRing_PolyBuffer final
 {
     Poly_G4 mPolys[2];
 };
-ALIVE_ASSERT_SIZEOF(AbilityRing_PolyBuffer, 56);
-
 
 class AbilityRing final : public ::BaseGameObject
 {
@@ -61,7 +59,7 @@ private:
     void CollideWithObjects();
 
     Layer mRingLayer = Layer::eLayer_0;
-    AbilityRing_PolyBuffer* mRingPolyBuffer = {};
+    AbilityRing_PolyBuffer* mRingPolyBuffer = relive_new AbilityRing_PolyBuffer[64];
     Prim_SetTPage mRingPrimSetTPage[2] = {};
     PSX_RECT mRingCollideRects[64] = {};
     FP mRingXPos = {};
@@ -80,7 +78,7 @@ private:
     s16 mRingRed = 0;
     s16 mRingGreen = 0;
     s16 mRingBlue = 0;
-    s16 mRingSemiTrans = 0;
+    s16 mRingSemiTrans = 1;
     EReliveLevelIds mRingLevel = EReliveLevelIds::eNone;
     s16 mRingPath = 0;
     RingTypes mRingType = RingTypes::eExplosive_Pulse_0;

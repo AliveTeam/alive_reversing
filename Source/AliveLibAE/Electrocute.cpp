@@ -119,15 +119,14 @@ s32 Electrocute::VSub_4E6630()
 }
 
 Electrocute::Electrocute(IBaseAliveGameObject* pTargetObj, bool bExtraOverwriter, bool bKillTarget)
-    : BaseGameObject(true, 0)
+    : BaseGameObject(true, 0),
+    field_20_target_obj_id(pTargetObj->mBaseGameObjectId),
+    field_3C_extraOverwriter(bExtraOverwriter),
+    field_2C_bKillTarget(bKillTarget),
+    field_2E_overwriter_count(bExtraOverwriter ? 3 : 2)
 {
     SetType(ReliveTypes::eElectrocute);
 
-    field_20_target_obj_id = pTargetObj->mBaseGameObjectId;
-    field_44_state = States::eSetNewColour_0;
-    field_3C_extraOverwriter = bExtraOverwriter;
-    field_2C_bKillTarget = bKillTarget;
-    field_2E_overwriter_count = bExtraOverwriter ? 3 : 2;
     //field_40_pPalData = nullptr;
 
     switch (pTargetObj->Type())

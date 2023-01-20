@@ -17,7 +17,7 @@ public:
     virtual void VUpdate() override;
 
 private:
-    bool mDone = false;
-    s16 mSwitchId = 0;
     Guid mTlvId;
+    s16 mSwitchId = 0;
+    bool mDone = false;
 };

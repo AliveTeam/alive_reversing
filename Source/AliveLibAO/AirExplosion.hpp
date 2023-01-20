@@ -7,7 +7,7 @@ namespace AO {
 class AirExplosion final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    AirExplosion(FP xpos, FP ypos, FP scale);
+    AirExplosion(FP xpos, FP ypos, FP explosion_size);
 
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;

@@ -15,17 +15,10 @@
 #include "../relive_lib/FatalError.hpp"
 
 CameraSwapper::CameraSwapper(CamResource& camRes, bool bPutDispEnv1, const char_type* pFmv1, bool bPutDispEnv2, const char_type* pFmv2, bool bPutDispEnv3, const char_type* pFmv3)
-    : BaseGameObject(true, 0)
+    : BaseGameObject(true, 0),
+    mFmvs{ pFmv1, pFmv2, pFmv3 },
+    mPutDispEnv{ bPutDispEnv1, bPutDispEnv2, bPutDispEnv3 }
 {
-    mFmvs[0] = pFmv1;
-    mPutDispEnv[0] = bPutDispEnv1;
-
-    mFmvs[1] = pFmv2;
-    mPutDispEnv[1] = bPutDispEnv2;
-
-    mFmvs[2] = pFmv3;
-    mPutDispEnv[2] = bPutDispEnv3;
-
     if (mFmvs[0] && mFmvs[1] && mFmvs[2])
     {
         Init(camRes, CameraSwapEffects::ePlay3FMVs_10);
@@ -45,10 +38,10 @@ CameraSwapper::CameraSwapper(CamResource& camRes, bool bPutDispEnv1, const char_
 }
 
 CameraSwapper::CameraSwapper(CamResource& camRes, CameraSwapEffects changeEffect, s32 xpos, s32 ypos)
-    : BaseGameObject(true, 0)
+    : BaseGameObject(true, 0),
+    mXPosConverted(static_cast<s16>(PsxToPCX(xpos))),
+    mYPosConverted(static_cast<s16>(ypos))
 {
-    mXPosConverted = static_cast<s16>(PsxToPCX(xpos));
-    mYPosConverted = static_cast<s16>(ypos);
     Init(camRes, changeEffect);
 }
 

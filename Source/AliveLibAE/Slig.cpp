@@ -6477,16 +6477,16 @@ bool Slig::VTakeDamage(BaseGameObject* pFrom)
                 {
                     {
                         const FP yOff = FP_FromInteger(Math_NextRandom() % 16) - FP_FromInteger(8);
-                        const FP xOff = ((pBullet->mXDistance <= FP_FromInteger(0) ? FP_FromInteger(-1) : FP_FromInteger(1)) * FP_FromInteger(Math_NextRandom() & 15)) + FP_FromInteger(16);
+                        const FP xOff = ((pBullet->XDistance() <= FP_FromInteger(0) ? FP_FromInteger(-1) : FP_FromInteger(1)) * FP_FromInteger(Math_NextRandom() & 15)) + FP_FromInteger(16);
                         const FP yPos = mYPos - (FP_FromInteger(25) * GetSpriteScale());
-                        const FP xPos = GetSpriteScale() * (pBullet->mXDistance <= FP_FromInteger(0) ? FP_FromInteger(-6) : FP_FromInteger(6));
+                        const FP xPos = GetSpriteScale() * (pBullet->XDistance() <= FP_FromInteger(0) ? FP_FromInteger(-6) : FP_FromInteger(6));
                         relive_new Blood(xPos + mXPos, yPos, xOff, yOff, GetSpriteScale(), 12);
                     }
 
                     {
-                        const FP xOff = pBullet->mXDistance <= FP_FromInteger(0) ? FP_FromInteger(-6) : FP_FromInteger(6);
+                        const FP xOff = pBullet->XDistance() <= FP_FromInteger(0) ? FP_FromInteger(-6) : FP_FromInteger(6);
                         const FP yPos = mYPos - (FP_FromInteger(25) * GetSpriteScale());
-                        const FP xPos = GetSpriteScale() * (pBullet->mXDistance <= FP_FromInteger(0) ? FP_FromInteger(-12) : FP_FromInteger(12));
+                        const FP xPos = GetSpriteScale() * (pBullet->XDistance() <= FP_FromInteger(0) ? FP_FromInteger(-12) : FP_FromInteger(12));
                         relive_new Blood(xPos + mXPos, yPos, xOff, FP_FromInteger(0), GetSpriteScale(), 8);
                     }
                     break;
@@ -6548,7 +6548,7 @@ bool Slig::VTakeDamage(BaseGameObject* pFrom)
                     field_150_explode_timer = sGnFrame + 20;
                     VShot();
                     mbMotionChanged = true;
-                    if (static_cast<Bullet*>(pFrom)->mXDistance < FP_FromInteger(0))
+                    if (static_cast<Bullet*>(pFrom)->XDistance() < FP_FromInteger(0))
                     {
                         mVelX = FP_FromDouble(-0.001);
                         mHealth = FP_FromInteger(0);

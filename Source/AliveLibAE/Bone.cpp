@@ -19,9 +19,10 @@
 #include "Math.hpp"
 
 Bone::Bone(FP xpos, FP ypos, s16 countId)
-    : BaseThrowable(0)
+    : BaseThrowable(0),
+    mPreviousXPos(xpos),
+    mPreviousYPos(ypos)
 {
-    mBaseThrowableDead = 0;
     SetType(ReliveTypes::eBone);
 
     mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Bone));
@@ -31,19 +32,12 @@ Bone::Bone(FP xpos, FP ypos, s16 countId)
 
     mXPos = xpos;
     mYPos = ypos;
-    mPreviousXPos = xpos;
-    mPreviousYPos = ypos;
-    mVelX = FP_FromInteger(0);
-    mVelY = FP_FromInteger(0);
     SetInteractive(false);
-    mHitObject = false;
 
     GetAnimation().SetRender(false);
 
     mDeadTimer = sGnFrame + 300;
     mBaseThrowableCount = countId;
-    mState = BoneStates::eSpawned_0;
-    mBounceCount = 0;
 
     CreateShadow();
 }

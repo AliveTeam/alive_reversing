@@ -3288,10 +3288,10 @@ bool Slog::VTakeDamage(BaseGameObject* pFrom)
             {
                 case BulletType::eSligPossessedOrUnderGlukkonCommand_0:
                 case BulletType::eNormalBullet_2:
-                    if (pBullet->mXDistance <= FP_FromInteger(0))
+                    if (pBullet->XDistance() <= FP_FromInteger(0))
                     {
                         relive_new Blood(mXPos,
-                                                    pBullet->mYPos,
+                                                    pBullet->ypos(),
                                                     FP_FromInteger(-24),
                                                     FP_FromInteger(0),
                                                     GetSpriteScale(), 50);
@@ -3299,7 +3299,7 @@ bool Slog::VTakeDamage(BaseGameObject* pFrom)
                     else
                     {
                         relive_new Blood(mXPos,
-                                                    pBullet->mYPos,
+                                                    pBullet->ypos(),
                                                     FP_FromInteger(24),
                                                     FP_FromInteger(0),
                                                     GetSpriteScale(), 50);

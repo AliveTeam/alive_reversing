@@ -9,7 +9,10 @@
 #include <algorithm>
 
 Blood::Blood(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s32 count)
-    : BaseAnimatedWithPhysicsGameObject(0)
+    : BaseAnimatedWithPhysicsGameObject(0),
+    mTotalBloodCount(count),
+    mCurrentBloodCount(count),
+    mBloodParticle(relive_new BloodParticle[count])
 {
     SetSpriteScale(scale);
 
@@ -28,14 +31,9 @@ Blood::Blood(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s32 count)
         mOtLayer = Layer::eLayer_Foreground_Half_17;
     }
 
-    mTotalBloodCount = static_cast<s16>(count);
-    mCurrentBloodCount = static_cast<s16>(count);
-
-    mBloodParticle = relive_new BloodParticle[count];
+    //mBloodParticle = relive_new BloodParticle[count];
     if (mBloodParticle)
     {
-        mUpdateCalls = 0;
-
         mXPos = xpos - FP_FromInteger(12);
         mYPos = ypos - FP_FromInteger(12);
 

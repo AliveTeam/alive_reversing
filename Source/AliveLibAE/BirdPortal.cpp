@@ -32,25 +32,21 @@ void BirdPortal::LoadAnimations()
 }
 
 BirdPortal::BirdPortal(relive::Path_BirdPortal* pTlv, const Guid& tlvId)
-    : BaseGameObject(true, 0)
+    : BaseGameObject(true, 0),
+    mTlvInfo(tlvId),
+    mEnterSide(pTlv->mEnterSide),
+    mExitLevel(pTlv->mExitLevel),
+    mExitPath(pTlv->mExitPath),
+    mExitCamera(pTlv->mExitCamera),
+    mMovieId(pTlv->mMovieId),
+    mPortalType(pTlv->mPortalType),
+    mMudCountForShrykull(pTlv->mMudCountForShrykull),
+    mDeletePortalSwitchId(pTlv->mDeletePortalSwitchId)
 {
-    mDovesExist = 0;
     SetType(ReliveTypes::eBirdPortal);
     mBaseGameObjectTlvInfo = tlvId;
-    mThrowableIndicatorId = Guid{};
 
     LoadAnimations();
-
-    mTlvInfo = tlvId;
-
-    mEnterSide = pTlv->mEnterSide;
-    mExitLevel = pTlv->mExitLevel;
-    mExitPath = pTlv->mExitPath;
-    mExitCamera = pTlv->mExitCamera;
-    mMovieId = pTlv->mMovieId;
-    mPortalType = pTlv->mPortalType;
-    mMudCountForShrykull = pTlv->mMudCountForShrykull;
-    mDeletePortalSwitchId = pTlv->mDeletePortalSwitchId;
 
     if (pTlv->mScale == relive::reliveScale::eHalf)
     {
@@ -63,13 +59,6 @@ BirdPortal::BirdPortal(relive::Path_BirdPortal* pTlv, const Guid& tlvId)
 
     mCurrentPath = gMap.mCurrentPath;
     mCurrentLevel = gMap.mCurrentLevel;
-    mState = PortalStates::CreatePortal_0;
-    mTimer = 0;
-    mTerminatorId1 = Guid{};
-    mTerminatorId2 = Guid{};
-    mScreenClipperId1 = Guid{};
-    mScreenClipperId2 = Guid{};
-    mOrbWhirlWind = nullptr;
 
     FP hitX = {};
     PathLine* pLine = nullptr;
@@ -84,7 +73,6 @@ BirdPortal::BirdPortal(relive::Path_BirdPortal* pTlv, const Guid& tlvId)
         mSpriteScale > FP_FromDouble(0.5) ? kFgFloor : kBgFloor);
 
     mXPos = FP_FromInteger((pTlv->mBottomRightX + pTlv->mTopLeftX) / 2);
-    mSfxPlaying = 0;
     mYPos = mHitY - (FP_FromInteger(55) * mSpriteScale);
 }
 

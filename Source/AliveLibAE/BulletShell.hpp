@@ -15,5 +15,5 @@ public:
 private:
     PathLine* mLine = nullptr;
     s16 mFloorBounceCount = 0;
-    FP mSpeed = {};
+    FP mSpeed = FP_FromInteger(1);
 };

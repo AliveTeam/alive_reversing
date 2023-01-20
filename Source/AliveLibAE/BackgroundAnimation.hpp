@@ -19,7 +19,7 @@ public:
 
 private:
     //AnimationFileHeader** field_F4_res = nullptr;
-    Guid field_F8_tlvInfo;
+    Guid mTlvId;
     FP mObjectXPos = {};
     FP mObjectYPos = {};
 };

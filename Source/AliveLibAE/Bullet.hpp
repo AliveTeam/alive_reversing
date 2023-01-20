@@ -26,6 +26,9 @@ public:
     
     virtual void VUpdate() override;
     static bool InZBulletCover(FP xpos, FP ypos, const PSX_RECT& objRect);
+    const FP& xpos() const { return mXPos; }
+    const FP& ypos() const { return mYPos; }
+    const FP& XDistance() const { return mXDistance; }
 
 private:
     IBaseAliveGameObject* ShootObject(PSX_RECT* pRect);
@@ -33,15 +36,15 @@ private:
 
 public:
     BulletType mBulletType = BulletType::eSligPossessedOrUnderGlukkonCommand_0;
-    FP mYPos = {};
-    FP mXDistance = {};
 
 private:
     PathLine* mLine = nullptr;
     FP mXPos = {};
+    FP mYPos = {};
+    IBaseAliveGameObject* mBulletParent = nullptr;
+    FP mSpriteScale = {};
+    s32 mNumberOfBullets = 0;
+    FP mXDistance = {};
     EReliveLevelIds mBulletLevel = EReliveLevelIds::eNone;
     s16 mBulletPath = 0;
-    FP mSpriteScale = {};
-    IBaseAliveGameObject* mBulletParent = nullptr;
-    s16 mNumberOfBullets = 0;
 };

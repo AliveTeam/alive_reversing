@@ -6,7 +6,9 @@
 #include "../relive_lib/GameObjects/ScreenManager.hpp"
 
 BrewMachine::BrewMachine(relive::Path_BrewMachine* pTlv, const Guid& tlvId)
-    : BaseAnimatedWithPhysicsGameObject(0)
+    : BaseAnimatedWithPhysicsGameObject(0),
+    mTlvInfo(tlvId),
+    mMaxBrewCount(pTlv->mBrewCount)
 {
     SetType(ReliveTypes::eBrewMachine);
 
@@ -19,22 +21,20 @@ BrewMachine::BrewMachine(relive::Path_BrewMachine* pTlv, const Guid& tlvId)
     Animation_Init(GetAnimRes(AnimId::BrewMachine_Button));
 
     SetApplyShadowZoneColour(false);
-    mTlvInfo = tlvId;
     GetAnimation().SetRenderLayer(Layer::eLayer_Well_23);
-    mRemainingBrewCount = pTlv->mBrewCount;
 
     const u8 savedBrewCount = pTlv->mTlvSpecificMeaning;
     if (savedBrewCount == 0)
     {
-        mTotalBrewCount = mRemainingBrewCount;
+        mRemainingBrewCount = mMaxBrewCount;
     }
     else if (savedBrewCount > 30)
     {
-        mTotalBrewCount = 0;
+        mRemainingBrewCount = 0;
     }
     else
     {
-        mTotalBrewCount = savedBrewCount;
+        mRemainingBrewCount = savedBrewCount;
     }
 
     mTextX = FP_GetExponent((FP_FromInteger(pTlv->mTopLeftX + 5) - gScreenManager->CamXPos()));
@@ -53,9 +53,9 @@ BrewMachine::~BrewMachine()
 void BrewMachine::VUpdate()
 {
     relive::Path_BrewMachine* pTlv = static_cast<relive::Path_BrewMachine*>(gPathInfo->TLV_From_Offset_Lvl_Cam(mTlvInfo));
-    if (mTotalBrewCount > 0)
+    if (mRemainingBrewCount > 0)
     {
-        pTlv->mTlvSpecificMeaning = static_cast<u8>(mTotalBrewCount);
+        pTlv->mTlvSpecificMeaning = static_cast<u8>(mRemainingBrewCount);
     }
     else
     {
@@ -73,7 +73,7 @@ void BrewMachine::VRender(PrimHeader** ppOt)
     if (gMap.mCurrentCamera == mBrewMachineCamera)
     {
         char_type text[12] = {};
-        sprintf(text, "%02d", mTotalBrewCount);
+        sprintf(text, "%02d", mRemainingBrewCount);
         const s32 textWidth = mFont.MeasureTextWidth(text);
         s16 flickerAmount = 50;
         if (gDisableFontFlicker)

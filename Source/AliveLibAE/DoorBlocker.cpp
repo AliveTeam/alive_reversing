@@ -7,21 +7,18 @@
 #include "Path.hpp"
 
 DoorBlocker::DoorBlocker(relive::Path_DoorBlocker* pTlv, const Guid& tlvId)
-    : BaseAliveGameObject(0)
+    : BaseAliveGameObject(0),
+    mTlvId(tlvId),
+    mSwitchId(pTlv->mSwitchId)
 {
     SetCanExplode(true);
-
-    mSwitchId = pTlv->mSwitchId;
 
     LoadAnimations();
     Animation_Init(GetAnimRes(AnimId::Door_Lock_Idle));
 
-    mDone = false;
-
     SetType(ReliveTypes::eDoorLock);
     mXPos = FP_FromInteger((pTlv->mTopLeftX + pTlv->mBottomRightX) / 2);
     mYPos = FP_FromInteger(pTlv->mTopLeftY);
-    mTlvId = tlvId;
 
     if (pTlv->mScale == relive::reliveScale::eHalf)
     {

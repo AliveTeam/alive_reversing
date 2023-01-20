@@ -25,16 +25,14 @@ public:
 protected:
     Guid mTlvId;
     relive::Path_Door::DoorTypes mDoorType = relive::Path_Door::DoorTypes::eBasicDoor;
-
-public:
-    s16 mDoorId = 0;
-
-protected:
     relive::Path_Door::DoorStates mCurrentState = relive::Path_Door::DoorStates::eOpen;
     relive::Path_Door::DoorStates mStartState = relive::Path_Door::DoorStates::eOpen;
 
     s16 mSwitchId = 0;
     s16 mHubIds[8] = {};
+
+public:
+    s16 mDoorId = 0;
 };
 
 class TrainDoor final : public Door

@@ -21,9 +21,9 @@ public:
 private:
     Guid mTlvInfo;
     bool mHasBeenHit = false;
-    s16 mBoneAmount = 0;
-    bool mPlayWobbleSound = false;
-    bool mForcePlayWobbleSound = false;
+    bool mPlayWobbleSound = true;
+    bool mForcePlayWobbleSound = true;
     FP mTlvVelX = {};
     FP mTlvVelY = {};
+    s16 mBoneAmount = 0;
 };

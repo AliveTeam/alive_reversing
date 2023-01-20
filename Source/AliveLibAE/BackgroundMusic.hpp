@@ -13,5 +13,5 @@ public:
     virtual void VUpdate() override;
 
 private:
-    s16 field_20_music_id = 0;
+    s16 mMusicId = 0;
 };

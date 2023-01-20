@@ -369,7 +369,7 @@ bool Greeter::VTakeDamage(BaseGameObject* pFrom)
     switch (pFrom->Type())
     {
         case ReliveTypes::eBullet:
-        if (static_cast<Bullet*>(pFrom)->mXDistance <= FP_FromInteger(0))
+        if (static_cast<Bullet*>(pFrom)->XDistance() <= FP_FromInteger(0))
         {
             GetAnimation().SetFlipX(true);
         }

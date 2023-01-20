@@ -7,8 +7,6 @@ namespace relive
     class Path_TLV;
 }
 
-#pragma pack(push)
-#pragma pack(2)
 class CreditsController final : public BaseGameObject
 {
 public:
@@ -22,6 +20,5 @@ public:
     s32 mNextCameraTimer = 0;
     s16 mCurrentCamera = 0;
 };
-#pragma pack(pop)
 
 extern s16 gCreditsControllerExists;

@@ -25,11 +25,11 @@ public:
 private:
     Prim_ScreenOffset mScreenOffset[2] = {};
     s16 mScreenShakeIdx = 0;
-    s16 mScreenShakeIdxModifier = 0;
+    s16 mScreenShakeIdxModifier = 1;
     s16 mStartDelay = 0;
     s16 mSpacingMultiplicator = 0;
     PSX_RECT mTlvRect = {};
-    FP mSpriteScale = {};
+    FP mSpriteScale = FP_FromInteger(1);
     s16 mSwitchId = 0;
     s16 mAssetInterval = 0;
     s16 mGridSpacing = 0;

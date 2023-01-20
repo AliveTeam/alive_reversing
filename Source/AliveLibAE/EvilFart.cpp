@@ -81,14 +81,6 @@ EvilFart::EvilFart()
 
     ResetFartColour();
 
-    mState = FartStates::eIdle_0;
-    mFartExploded = false;
-
-    mVelX = FP_FromInteger(0);
-    mVelY = FP_FromInteger(0);
-
-    mPossessed = false;
-
     GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
     mPossessedAliveTimer = 220;
 }

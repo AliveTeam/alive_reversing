@@ -1297,7 +1297,7 @@ bool Mudokon::VTakeDamage(BaseGameObject* pFrom)
                     relive_new Blood(
                         mXPos,
                         mYPos - (FP_FromInteger(30) * GetSpriteScale()),
-                        pBullet->mXDistance <= FP_FromInteger(0) ? FP_FromInteger(-24) : FP_FromInteger(24),
+                        pBullet->XDistance() <= FP_FromInteger(0) ? FP_FromInteger(-24) : FP_FromInteger(24),
                         FP_FromInteger(0),
                         GetSpriteScale(),
                         50);

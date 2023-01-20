@@ -32,14 +32,15 @@ Data_Byte sbyte_2_5BD218 = {};
 s32 gDeathGasCount = 0;
 
 DeathGas::DeathGas(Layer layer, s32 amount)
-    : BaseGameObject(true, 0)
+    : BaseGameObject(true, 0),
+    mLayer(layer),
+    mAmount(amount)
 {
     gDeathGasCount++;
 
     SetType(ReliveTypes::eMainMenuTransistion); // wot moment
     gObjListDrawables->Push_Back(this);
     SetDrawable(true);
-    mDone = false;
 
     Init_SetTPage(&gGasTPages_5BC6C8[0], PSX_getTPage(TPageAbr::eBlend_1));
     Init_SetTPage(&gGasTPages_5BC6C8[1], PSX_getTPage(TPageAbr::eBlend_1));
@@ -60,9 +61,6 @@ DeathGas::DeathGas(Layer layer, s32 amount)
         }
     }
 
-    mLayer = layer;
-    mTotal = 0;
-
     for (s32 i = 0; i < 2; i++)
     {
         for (s32 j = 0; j < 5; j++)
@@ -74,8 +72,6 @@ DeathGas::DeathGas(Layer layer, s32 amount)
             }
         }
     }
-
-    mAmount = static_cast<s16>(amount);
 }
 
 DeathGas::~DeathGas()

@@ -15,7 +15,9 @@ void DeathBirdParticle::LoadAnimations()
 }
 
 DeathBirdParticle::DeathBirdParticle(FP xpos, FP ypos, s32 startTimer, bool playSound, FP scale)
-    : BaseAnimatedWithPhysicsGameObject(0)
+    : BaseAnimatedWithPhysicsGameObject(0),
+    mStartTimer(startTimer),
+    mPlaySound(playSound)
 {
     SetType(ReliveTypes::eDeathBird);
 
@@ -46,9 +48,6 @@ DeathBirdParticle::DeathBirdParticle(FP xpos, FP ypos, s32 startTimer, bool play
         mXPos = xpos;
         mYPos = ypos;
         mRandom = Math_NextRandom();
-        mStartTimer = startTimer;
-        mState = States::eAnimateDeathFlares_0;
-        mPlaySound = playSound;
     }
 }
 

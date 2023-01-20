@@ -263,10 +263,11 @@ private:
 };
 
 DoorFlame::DoorFlame(relive::Path_DoorFlame* pTlv, const Guid& tlvId)
-    : BaseAnimatedWithPhysicsGameObject(0)
+    : BaseAnimatedWithPhysicsGameObject(0),
+    mTlvInfo(tlvId),
+    mSwitchId(pTlv->mSwitchId)
 {
     SetType(ReliveTypes::eNone);
-    mTlvInfo = tlvId;
 
     mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Fire));
     Animation_Init(GetAnimRes(AnimId::Fire));
@@ -277,15 +278,12 @@ DoorFlame::DoorFlame(relive::Path_DoorFlame* pTlv, const Guid& tlvId)
     mFrameCount = static_cast<s16>(GetAnimation().Get_Frame_Count());
     GetAnimation().SetFrame(Math_RandomRange(0, mFrameCount - 1));
 
-    mSwitchId = pTlv->mSwitchId;
-
     if (pTlv->mScale != relive::reliveScale::eFull)
     {
         SetSpriteScale(FP_FromDouble(0.5));
     }
 
     mXPos = FP_FromInteger(pTlv->mTopLeftX) + (FP_FromInteger(12) * GetSpriteScale());
-    mFireBackgroundGlowId = Guid{};
     mYPos = FP_FromInteger(pTlv->mTopLeftY) + (FP_FromInteger(15) * GetSpriteScale());
 
     if (SwitchStates_Get(mSwitchId))

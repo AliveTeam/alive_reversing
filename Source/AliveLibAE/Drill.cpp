@@ -51,7 +51,8 @@ void Drill::LoadAnimations()
 }
 
 Drill::Drill(relive::Path_Drill* pTlv, const Guid& tlvId)
-    : BaseAnimatedWithPhysicsGameObject(0)
+    : BaseAnimatedWithPhysicsGameObject(0),
+    mTlvInfo(tlvId)
 {
     SetType(ReliveTypes::eDrill);
 
@@ -64,19 +65,7 @@ Drill::Drill(relive::Path_Drill* pTlv, const Guid& tlvId)
     SetTint(kDrillTints, gMap.mCurrentLevel);
     relive::Path_Drill tlvData = *pTlv;
 
-    mToggleStartState_StartOn = false;
-    mSpeedChange = false;
-    mToggle = false;
-
-    if (tlvData.mStartStateOn == relive::reliveChoice::eYes)
-    {
-        mStartOff = false;
-    }
-    else
-    {
-        mStartOff = true;
-    }
-
+    mStartOff = tlvData.mStartStateOn == relive::reliveChoice::eYes ? false : true;
     mDrillSwitchId = tlvData.mSwitchId;
 
     if (SwitchStates_Get(mDrillSwitchId) && mStartOff)
@@ -98,25 +87,11 @@ Drill::Drill(relive::Path_Drill* pTlv, const Guid& tlvId)
     }
 
     mDrillDirection = tlvData.mDrillDirection;
-    if (tlvData.mStartPositionBottom == relive::reliveChoice::eYes)
-    {
-        mStartPosIsBottom = true;
-    }
-    else
-    {
-        mStartPosIsBottom = false;
-    }
+    mStartPosIsBottom = tlvData.mStartPositionBottom == relive::reliveChoice::eYes ? true : false;
 
     if (mToggleStartState_StartOn)
     {
-        if (mStartPosIsBottom)
-        {
-            mState = DrillStates::eGoingUp_2;
-        }
-        else
-        {
-            mState = DrillStates::eGoingDown_1;
-        }
+        mState = mStartPosIsBottom ? DrillStates::eGoingUp_2 : DrillStates::eGoingDown_1;
 
         const CameraPos direction = gMap.GetDirection(
             mCurrentLevel,
@@ -244,10 +219,7 @@ Drill::Drill(relive::Path_Drill* pTlv, const Guid& tlvId)
 
     mOffMinPauseTime = tlvData.mOffMinPauseTime;
     mOffMaxPauseTime = tlvData.mOffMaxPauseTime;
-    mOffTimer = 0;
     mState = DrillStates::eRestartCycle_0;
-    mTlvInfo = tlvId;
-    mAudioChannelsMask = 0;
 
     CreateShadow();
 }

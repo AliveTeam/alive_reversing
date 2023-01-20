@@ -5,7 +5,7 @@
 class AirExplosion final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    AirExplosion(FP xpos, FP ypos, FP scale, bool bSmall);
+    AirExplosion(FP xpos, FP ypos, FP explosion_size, bool bSmall);
 
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;

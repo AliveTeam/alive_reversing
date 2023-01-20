@@ -28,10 +28,10 @@ public:
     s16 field_28_b = 0;
 
 private:
+    s16 field_3C_extraOverwriter = 0;
     s16 field_2C_bKillTarget = 0;
     s16 field_2E_overwriter_count = 0;
     PalleteOverwriter* field_30_pPalOverwriters[3] = {};
-    s16 field_3C_extraOverwriter = 0;
    // u16* field_40_pPalData = nullptr;
     AnimationPal mPalData;
     enum class States : s16

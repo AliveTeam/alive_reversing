@@ -25,12 +25,12 @@ public:
     virtual void VScreenChanged() override;
 
 private:
-    BloodParticle* mBloodParticle = nullptr;
     s16 mBloodXPos = 0;
     s16 mBloodYPos = 0;
-    s16 mCurrentBloodCount = 0;
+    s32 mTotalBloodCount = 0;
+    s32 mCurrentBloodCount = 0;
+    BloodParticle* mBloodParticle = nullptr;
     u8 mRandSeed = 0;
-    s16 mTotalBloodCount = 0;
     s32 mUpdateCalls = 0;
     Layer mOtLayer = Layer::eLayer_0;
 };

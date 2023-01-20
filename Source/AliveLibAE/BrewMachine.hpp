@@ -16,9 +16,8 @@ public:
     
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
-
-public:
-    s16 mTotalBrewCount = 0;
+    s16 GetRemainingBrewCount() const { return mRemainingBrewCount; }
+    void DecreaseRemainingBrewCount() { mRemainingBrewCount--; }
 
 private:
     FontContext mFontContext = {};
@@ -27,6 +26,7 @@ private:
     s16 mTextY = 0;
     Guid mTlvInfo;
     s16 mRemainingBrewCount = 0;
+    s16 mMaxBrewCount = 0;
     s16 mBrewMachineCamera = 0;
     PalResource mPal;
 };

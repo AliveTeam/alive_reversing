@@ -8,6 +8,14 @@ namespace relive
     struct Path_Hoist;
 }
 
+enum eFleechBrains
+{
+    eBrain_0_Patrol = 0,
+    eBrain_1_ChasingAbe = 1,
+    eBrain_2_Scared = 2,
+    eBrain_3_Death = 3
+};
+
 enum class FleechSound : u8
 {
     PatrolCry_0 = 0,
@@ -28,8 +36,6 @@ enum class FleechSound : u8
     CrawlRNG2_15 = 15,
     CrawlRNG3_16 = 16,
 };
-
-
 
 struct FleechSaveState final
 {
@@ -79,9 +85,7 @@ struct FleechSaveState final
     s8 field_68_fleech_random_idx;
     s8 field_69;
     s16 field_6A_bDidMapFollowMe;
-    s32 field_6C_unused;
     FP field_70_velx_factor;
-    s16 field_74_unused;
     s16 field_76_current_anger;
     s16 field_78_max_anger;
     s16 field_7A_attack_anger;
@@ -101,7 +105,6 @@ struct FleechSaveState final
     s16 field_96_lost_target_timer;
     s16 field_98_hoistX;
     s16 field_9A_hoistY;
-    s16 field_9C_always_0;
     s8 field_9E_angle;
     s8 field_9F;
     FP field_A0_hoistY_distance;
@@ -222,40 +225,36 @@ public:
 
 private:
     Guid mTlvInfo;
-    Guid field_11C_obj_id;
-    s16 field_120_unused = 0;
-    s16 mBrainState = 0;
+    s16 mAttackAngerIncreaser = 0;
+    s16 mWakeUpSwitchId = 0;
+    s16 mWakeUpSwitchAngerValue = 0;
+    s16 mWakeUpSwitchValue = 0;
+    s16 mCanWakeUpSwitchId = 0;
+    s16 mLostTargetTimeout = 0;
+    s16 mPatrolRange = 0;
+    Guid field_11C_obj_id = Guid{};
+    s16 mBrainState = eFleechBrains::eBrain_0_Patrol;
     u16 mBrainSubState = 0;
     s16 field_128 = 0;
     s32 field_12C_shrivel_timer = 0;
     s16 field_130_bDidMapFollowMe = 0;
-    s32 field_134_unused = 0;
     FP field_138_velx_factor = {};
-    s16 field_13C_unused = 0;
-    s16 field_13E_current_anger = 0;
-    u16 field_140_max_anger = 0;
-    s16 field_142_attack_anger_increaser = 0;
-    s16 field_144_wake_up_switch_id = 0;
-    s16 field_146_wake_up_switch_anger_value = 0;
-    s16 field_148_wake_up_switch_value = 0;
-    s16 field_14A_can_wake_up_switch_id = 0;
+    s16 mCurrentAnger = 0;
+    u16 mMaxAnger = 2;
     s16 field_14C_EventXPos = 0;
     s16 field_14E_ScrabParamiteEventXPos = 0;
-    s16 field_150_patrol_range = 0;
     s16 field_152_old_xpos = 0;
     s16 field_154 = 0;
     s16 field_156_rnd_crawl = 0;
-    s16 field_158_chase_delay = 0;
+    s16 field_158_chase_delay = 10;
     s16 field_15A_chase_timer = 0;
-    s16 field_15C_lost_target_timeout = 0;
     s16 field_15E_lost_target_timer = 0;
-    s16 field_160_hoistX = 0;
-    s16 field_162_hoistY = 0;
-    s16 field_164_always_0 = 0;
-    s8 field_166_angle = 0;
-    FP field_168_hoistY_distance = {};
-    FP field_16C_hoistX_distance = {};
-    Guid field_170_danger_obj;
+    s16 mHoistX = 0;
+    s16 mHoistY = 0;
+    s8 mAngle = 0;
+    FP mHoistYDistance = {};
+    FP mHoistXDistance = {};
+    Guid mScrabOrParamite = Guid{};
     bool mHoistDone = false;
     bool mChasingOrScaredCrawlingLeft = false;
     bool mShrivelDeath = false;

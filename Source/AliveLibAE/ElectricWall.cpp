@@ -17,7 +17,10 @@
 const s16 sElecticWallFrames_55165C[6] = {0, 6, 10, 18, 22, 0};
 
 ElectricWall::ElectricWall(relive::Path_ElectricWall* pTlv, const Guid& tlvId)
-    : BaseAnimatedWithPhysicsGameObject(0)
+    : BaseAnimatedWithPhysicsGameObject(0),
+    mGuid(tlvId),
+    mSwitchId(pTlv->mSwitchId),
+    mStartState(pTlv->mStartState)
 {
     SetType(ReliveTypes::eElectricWall);
 
@@ -35,8 +38,6 @@ ElectricWall::ElectricWall(relive::Path_ElectricWall* pTlv, const Guid& tlvId)
     SetApplyShadowZoneColour(false);
     mRGB.SetRGB(80, 80, 80);
 
-    mGuid = tlvId;
-
     mXPos = FP_FromInteger(pTlv->mTopLeftX);
     mYPos = FP_FromInteger(pTlv->mTopLeftY);
 
@@ -51,15 +52,10 @@ ElectricWall::ElectricWall(relive::Path_ElectricWall* pTlv, const Guid& tlvId)
         SetScale(Scale::Fg);
     }
 
-    mSwitchId = pTlv->mSwitchId;
-    mStartState = pTlv->mStartState;
-
     if (SwitchStates_Get(mSwitchId) == mStartState)
     {
         GetAnimation().SetRender(false);
     }
-
-    mSoundTimer = 0;
 }
 
 ElectricWall::~ElectricWall()

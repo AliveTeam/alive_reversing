@@ -28,7 +28,7 @@ private:
     s16 mSwitchId = 0;
     s16 mTlvX = 0;
     s16 mTlvY = 0;
-    s16 mCount = 0;
+    s16 mCount = 15;
     s16 mNumberOfMeterBars = 0;
     s16 mMinesAlarmCountdown = 0;
     s16 mStartingSwitchState = 0;

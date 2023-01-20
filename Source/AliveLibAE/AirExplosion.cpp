@@ -20,12 +20,14 @@
 
 #include <algorithm>
 
-AirExplosion::AirExplosion(FP xpos, FP ypos, FP scale, bool bSmall)
-    : BaseAnimatedWithPhysicsGameObject(0)
+AirExplosion::AirExplosion(FP xpos, FP ypos, FP explosion_size, bool bSmall)
+    : BaseAnimatedWithPhysicsGameObject(0),
+    mExplosionSize(explosion_size),
+    mSmallExplosion(bSmall)
+
 {
     SetType(ReliveTypes::eAirExplosion);
 
-    mSmallExplosion = bSmall;
     if (mSmallExplosion)
     {
         mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::AirExplosion_Small));
@@ -39,17 +41,13 @@ AirExplosion::AirExplosion(FP xpos, FP ypos, FP scale, bool bSmall)
 
     GetAnimation().SetIsLastFrame(false);
     GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
-    mParticleScale = scale;
-    SetScale(scale == FP_FromInteger(1) ? Scale::Fg : Scale::Bg);
-    SetSpriteScale(scale * FP_FromInteger(2));
+    mParticleScale = explosion_size;
+    SetScale(explosion_size == FP_FromInteger(1) ? Scale::Fg : Scale::Bg);
+    SetSpriteScale(explosion_size * FP_FromInteger(2));
 
     if (mSmallExplosion)
     {
-        mExplosionSize = scale * FP_FromDouble(0.5);
-    }
-    else
-    {
-        mExplosionSize = scale;
+        mExplosionSize = explosion_size * FP_FromDouble(0.5);
     }
 
     SetApplyShadowZoneColour(false);

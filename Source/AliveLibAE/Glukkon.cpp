@@ -2926,22 +2926,22 @@ bool Glukkon::VTakeDamage(BaseGameObject* pFrom)
                         const FP yRand = (FP_FromInteger(Math_NextRandom() % 16)) - FP_FromInteger(8);
                         const FP xRand = FP_FromInteger(Math_NextRandom() & 0xF); // TODO: Might be wrong as was trying to make this abs() but result is unsigned anyway ??
 
-                        const FP xPos = (GetSpriteScale() * (pBullet->mXDistance <= FP_FromInteger(0) ? -FP_FromInteger(6) : FP_FromInteger(6)));
+                        const FP xPos = (GetSpriteScale() * (pBullet->XDistance() <= FP_FromInteger(0) ? -FP_FromInteger(6) : FP_FromInteger(6)));
                         relive_new Blood(
                             xPos + mXPos,
                             mYPos - (FP_FromInteger(25) * GetSpriteScale()),
-                            ((pBullet->mXDistance <= FP_FromInteger(0) ? -FP_FromInteger(1) : FP_FromInteger(1)) * xRand + FP_FromInteger(16)),
+                            ((pBullet->XDistance() <= FP_FromInteger(0) ? -FP_FromInteger(1) : FP_FromInteger(1)) * xRand + FP_FromInteger(16)),
                             yRand,
                             GetSpriteScale(),
                             12);
                     }
 
                     {
-                        const FP xPos = (GetSpriteScale() * (pBullet->mXDistance <= FP_FromInteger(0) ? -FP_FromInteger(12) : FP_FromInteger(12)));
+                        const FP xPos = (GetSpriteScale() * (pBullet->XDistance() <= FP_FromInteger(0) ? -FP_FromInteger(12) : FP_FromInteger(12)));
                         relive_new Blood(
                             xPos + mXPos,
                             mYPos - (FP_FromInteger(25) * GetSpriteScale()),
-                            pBullet->mXDistance <= FP_FromInteger(0) ? -FP_FromInteger(6) : FP_FromInteger(6),
+                            pBullet->XDistance() <= FP_FromInteger(0) ? -FP_FromInteger(6) : FP_FromInteger(6),
                             FP_FromInteger(0),
                             GetSpriteScale(),
                             8);
@@ -2993,7 +2993,7 @@ bool Glukkon::VTakeDamage(BaseGameObject* pFrom)
             SetBrain(&Glukkon::Brain_4_Death);
             mBrainSubState = 4;
 
-            if (pBullet->mXDistance >= FP_FromInteger(0))
+            if (pBullet->XDistance() >= FP_FromInteger(0))
             {
                 mVelX = FP_FromDouble(0.001);
             }

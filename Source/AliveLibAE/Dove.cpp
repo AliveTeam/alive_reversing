@@ -25,7 +25,10 @@ void Dove::LoadAnimations()
 }
 
 Dove::Dove(AnimId animId, const Guid& tlvId, FP scale)
-    : BaseAnimatedWithPhysicsGameObject(0)
+    : BaseAnimatedWithPhysicsGameObject(0),
+    mDoveState(State::eOnGround_0),
+    mKeepInGlobalArray(false),
+    mTlvInfo(tlvId)
 {
     SetType(ReliveTypes::eDove);
 
@@ -60,10 +63,7 @@ Dove::Dove(AnimId animId, const Guid& tlvId, FP scale)
     }
 
     mVelY = FP_FromInteger(-4 - (Math_NextRandom() % 4));
-    mDoveState = State::eOnGround_0;
     GetAnimation().SetFrame(Math_NextRandom() % 8);
-    mKeepInGlobalArray = false;
-    mTlvInfo = tlvId;
 
     if (bTheOneControllingTheMusic)
     {
@@ -75,7 +75,10 @@ Dove::Dove(AnimId animId, const Guid& tlvId, FP scale)
 }
 
 Dove::Dove(AnimId animId, FP xpos, FP ypos, FP scale)
-    : BaseAnimatedWithPhysicsGameObject(0)
+    : BaseAnimatedWithPhysicsGameObject(0),
+    mDoveState(State::eFlyAway_1),
+    mKeepInGlobalArray(true),
+    mTlvInfo({})
 {
     SetType(ReliveTypes::eDove);
 
@@ -106,14 +109,9 @@ Dove::Dove(AnimId animId, FP xpos, FP ypos, FP scale)
     }
 
     mVelY = FP_FromInteger(-4 - (Math_NextRandom() % 4));
-    mDoveState = State::eFlyAway_1;
-    mKeepInGlobalArray = true;
-    mFlyAwayCounter = 0;
 
     mXPos = xpos;
     mYPos = ypos;
-
-    mTlvInfo = {};
 
     GetAnimation().SetFrame(Math_NextRandom() & 6);
 

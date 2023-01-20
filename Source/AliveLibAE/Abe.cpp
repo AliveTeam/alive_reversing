@@ -8541,7 +8541,7 @@ void Abe::BulletDamage_44C980(Bullet* pBullet)
         FP xOffset = {};
         if (mHealth <= FP_FromDouble(0.5))
         {
-            if (pBullet->mXDistance > FP_FromInteger(0))
+            if (pBullet->XDistance() > FP_FromInteger(0))
             {
                 xOffset = mXPos - ScaleToGridSize(GetSpriteScale());
             }
@@ -8552,7 +8552,7 @@ void Abe::BulletDamage_44C980(Bullet* pBullet)
         }
         else
         {
-            if (pBullet->mXDistance > FP_FromInteger(0))
+            if (pBullet->XDistance() > FP_FromInteger(0))
             {
                 xOffset = mXPos - (ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(2));
             }
@@ -8593,7 +8593,7 @@ void Abe::BulletDamage_44C980(Bullet* pBullet)
         case BulletType::eNormalBullet_2:
         {
             FP bloodXOffset = {};
-            if (pBullet->mXDistance <= FP_FromInteger(0))
+            if (pBullet->XDistance() <= FP_FromInteger(0))
             {
                 bloodXOffset = FP_FromInteger(-24);
             }
@@ -8604,7 +8604,7 @@ void Abe::BulletDamage_44C980(Bullet* pBullet)
             
             relive_new Blood(
                 mXPos,
-                pBullet->mYPos,
+                pBullet->ypos(),
                 bloodXOffset,
                 FP_FromInteger(0),
                 GetSpriteScale(),
@@ -8615,14 +8615,14 @@ void Abe::BulletDamage_44C980(Bullet* pBullet)
                 case ShootKind::eEverythingElse_0:
                 {
                     ToKnockback_44E700(1, 1);
-                    if (GetAnimation().GetFlipX() != (pBullet->mXDistance > FP_FromInteger(0)))
+                    if (GetAnimation().GetFlipX() != (pBullet->XDistance() > FP_FromInteger(0)))
                     {
                         mCurrentMotion = eAbeMotions::Motion_101_KnockForward;
                     }
                     mbMotionChanged = true;
                     mbGotShot = false;
                     mVelX = GetSpriteScale() * FP_FromDouble(7.8);
-                    if (pBullet->mXDistance < FP_FromInteger(0))
+                    if (pBullet->XDistance() < FP_FromInteger(0))
                     {
                         mVelX = -GetSpriteScale();
                     }
@@ -8638,7 +8638,7 @@ void Abe::BulletDamage_44C980(Bullet* pBullet)
                 }
                 case ShootKind::eRolling_2:
                 {
-                    if (GetAnimation().GetFlipX() == (pBullet->mXDistance > FP_FromInteger(0)))
+                    if (GetAnimation().GetFlipX() == (pBullet->XDistance() > FP_FromInteger(0)))
                     {
                         mNextMotion = eAbeMotions::Motion_74_RollingKnockback_455290;
                     }
@@ -8998,7 +8998,7 @@ s16 Abe::GetEvilFart_4585F0(s16 bDontLoad)
 
             const PSX_RECT bRect = pBrewMachine->VGetBoundingRect();
 
-            if (RectsOverlap(abeRect, bRect) && pBrewMachine->GetSpriteScale() == GetSpriteScale() && pBrewMachine->mTotalBrewCount > 0 && mHasEvilFart == false)
+            if (RectsOverlap(abeRect, bRect) && pBrewMachine->GetSpriteScale() == GetSpriteScale() && pBrewMachine->GetRemainingBrewCount() > 0 && mHasEvilFart == false)
             {
                 break;
             }
@@ -9017,7 +9017,7 @@ s16 Abe::GetEvilFart_4585F0(s16 bDontLoad)
         return 1;
     }
 
-    pBrewMachine->mTotalBrewCount--;
+    pBrewMachine->DecreaseRemainingBrewCount();
     mHasEvilFart = true;
 
     return 1;

@@ -32,14 +32,18 @@ void CrawlingSligButton::LoadAnimations()
 }
 
 CrawlingSligButton::CrawlingSligButton(relive::Path_CrawlingSligButton* pTlv, const Guid& tlvId)
-    : BaseAnimatedWithPhysicsGameObject(0)
+    : BaseAnimatedWithPhysicsGameObject(0),
+    mTlvId(tlvId),
+    mSwitchId(pTlv->mSwitchId),
+    mAction(pTlv->mAction),
+    mOnSound(pTlv->mOnSound),
+    mOffSound(pTlv->mOffSound),
+    mSoundDirection(pTlv->mSoundDirection + 1)
 {
     SetType(ReliveTypes::eSligButton);
 
     LoadAnimations();
     Animation_Init(GetAnimRes(AnimId::CrawlingSligButton));
-
-    field_F4_tlvInfo = tlvId;
 
     if (pTlv->mScale == relive::reliveScale::eHalf)
     {
@@ -52,31 +56,22 @@ CrawlingSligButton::CrawlingSligButton(relive::Path_CrawlingSligButton* pTlv, co
         GetAnimation().SetRenderLayer(Layer::eLayer_BeforeShadow_25);
     }
 
-    field_F8_switch_id = pTlv->mSwitchId;
-    field_FA_action = pTlv->mAction;
-    field_FC_on_sound = pTlv->mOnSound;
-    field_FE_off_sound = pTlv->mOffSound;
-
-    field_100_sound_direction = pTlv->mSoundDirection + 1;
-
-    field_102_in_use = 0;
-
     mXPos = FP_FromInteger((pTlv->mTopLeftX + pTlv->mBottomRightX) / 2);
     mYPos = FP_FromInteger(pTlv->mBottomRightY);
 }
 
 void CrawlingSligButton::UseButton()
 {
-    if (!field_102_in_use)
+    if (!mInUse)
     {
-        field_102_in_use = 1;
+        mInUse = true;
         GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::CrawlingSligButtonUse));
     }
 }
 
 CrawlingSligButton::~CrawlingSligButton()
 {
-    Path::TLV_Reset(field_F4_tlvInfo, -1, 0, 0);
+    Path::TLV_Reset(mTlvId, -1, 0, 0);
 }
 
 void CrawlingSligButton::VUpdate()
@@ -86,19 +81,19 @@ void CrawlingSligButton::VUpdate()
         SetDead(true);
     }
 
-    if (field_102_in_use == 1)
+    if (mInUse)
     {
         SfxPlayMono(relive::SoundEffects::LeverPull, 0);
         EventBroadcast(kEventNoise, this);
         EventBroadcast(kEventSuspiciousNoise, this);
 
-        const s32 old_switch_state = SwitchStates_Get(field_F8_switch_id);
-        SwitchStates_Do_Operation(field_F8_switch_id, field_FA_action);
-        const s32 new_switch_state = SwitchStates_Get(field_F8_switch_id);
+        const s32 old_switch_state = SwitchStates_Get(mSwitchId);
+        SwitchStates_Do_Operation(mSwitchId, mAction);
+        const s32 new_switch_state = SwitchStates_Get(mSwitchId);
 
         if (old_switch_state != new_switch_state)
         {
-            const auto sound_id = new_switch_state ? field_FC_on_sound : field_FE_off_sound;
+            const auto sound_id = new_switch_state ? mOnSound : mOffSound;
             if (sound_id != relive::Path_CrawlingSligButton::ButtonSounds::None)
             {
                 for (const auto& entry : buttonSfxInfo_544488)
@@ -107,8 +102,8 @@ void CrawlingSligButton::VUpdate()
                     {
                         SFX_Play_Stereo(
                             entry.field_0_block_idx,
-                            entry.field_2_note + entry.field_4_pitch_min * (field_100_sound_direction & 2),
-                            entry.field_2_note + entry.field_4_pitch_min * (field_100_sound_direction & 1),
+                            entry.field_2_note + entry.field_4_pitch_min * (mSoundDirection & 2),
+                            entry.field_2_note + entry.field_4_pitch_min * (mSoundDirection & 1),
                             GetSpriteScale());
                         break;
                     }
@@ -116,7 +111,7 @@ void CrawlingSligButton::VUpdate()
             }
         }
 
-        field_102_in_use = 0;
+        mInUse = false;
         GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::CrawlingSligButton));
     }
 }

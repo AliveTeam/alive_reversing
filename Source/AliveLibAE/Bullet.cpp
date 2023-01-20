@@ -16,18 +16,18 @@
 #include "Path.hpp"
 
 Bullet::Bullet(IBaseAliveGameObject* pParent, BulletType type, FP xpos, FP ypos, FP xDist, FP scale, s32 numberOfBullets)
-    : BaseGameObject(true, 0)
+    : BaseGameObject(true, 0),
+    mBulletType(type),
+    mXPos(xpos),
+    mYPos(ypos),
+    mBulletParent(pParent),
+    mSpriteScale(scale),
+    mNumberOfBullets(numberOfBullets),
+    mXDistance(xDist)
 {
     SetType(ReliveTypes::eBullet);
-    mBulletType = type;
-    mXPos = xpos;
-    mYPos = ypos;
     mBulletPath = gMap.mCurrentPath;
-    mBulletParent = pParent;
     mBulletLevel = gMap.mCurrentLevel;
-    mSpriteScale = scale;
-    mNumberOfBullets = static_cast<s16>(numberOfBullets);
-    mXDistance = xDist;
 }
 
 void Bullet::VUpdate()

@@ -141,7 +141,10 @@ void CrawlingSlig::LoadAnimations()
 }
 
 CrawlingSlig::CrawlingSlig(relive::Path_CrawlingSlig* pTlv, const Guid& guid)
-    : BaseAliveGameObject(2)
+    : BaseAliveGameObject(2),
+    field_11C_mPal(std::make_shared<AnimationPal>()),
+    mGuid(guid),
+    mTlv(*pTlv)
 {
     SetType(ReliveTypes::eCrawlingSlig);
 
@@ -152,12 +155,7 @@ CrawlingSlig::CrawlingSlig(relive::Path_CrawlingSlig* pTlv, const Guid& guid)
 
     SetCanBePossessed(true);
 
-    field_11C_mPal = std::make_shared<AnimationPal>();
-
     CreateShadow();
-
-    mGuid = guid;
-    mTlv = *pTlv;
 
     if (mTlv.mScale == relive::reliveScale::eHalf)
     {

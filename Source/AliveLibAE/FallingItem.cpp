@@ -56,20 +56,24 @@ void FallingItem::LoadAnimations()
 }
 
 FallingItem::FallingItem(relive::Path_FallingItem* pTlv, const Guid& tlvId)
-    : BaseAliveGameObject(0)
+    : BaseAliveGameObject(0),
+    mTlvId(tlvId),
+    mSwitchId(pTlv->mSwitchId),
+    mFallInterval(pTlv->mFallInterval),
+    mMaxFallingItems(pTlv->mMaxFallingItems),
+    mRemainingFallingItems(pTlv->mMaxFallingItems),
+    mResetSwitchIdAfterUse(pTlv->mResetSwitchIdAfterUse),
+    mTlvXPos(FP_FromInteger((pTlv->mTopLeftX + pTlv->mBottomRightX) / 2)),
+    mTlvYPos(FP_FromInteger(pTlv->mBottomRightY))
 {
     SetCanExplode(true);
 
     SetType(ReliveTypes::eRockSpawner);
 
-    mTlvId = tlvId;
-
     const s32 lvlIdx = static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel));
 
     LoadAnimations();
     Animation_Init(GetAnimRes(sFallingItemData[lvlIdx][0]));
-
-    mSwitchId = pTlv->mSwitchId;
 
     if (pTlv->mScale == relive::reliveScale::eHalf)
     {
@@ -84,13 +88,6 @@ FallingItem::FallingItem(relive::Path_FallingItem* pTlv, const Guid& tlvId)
         GetAnimation().SetRenderLayer(Layer::eLayer_FallingItemDoorFlameRollingBallPortalClip_Half_31);
     }
 
-    mFallInterval = pTlv->mFallInterval;
-    mMaxFallingItems = pTlv->mMaxFallingItems;
-    mRemainingFallingItems = pTlv->mMaxFallingItems;
-    mHitDrillOrMineCar = false;
-    mResetSwitchIdAfterUse = pTlv->mResetSwitchIdAfterUse;
-    mDoAirStreamSound = true;
-
     mXPos = FP_FromInteger(pTlv->mTopLeftX);
     mYPos = FP_FromInteger(pTlv->mTopLeftY);
 
@@ -99,11 +96,7 @@ FallingItem::FallingItem(relive::Path_FallingItem* pTlv, const Guid& tlvId)
         mYPos = gScreenManager->CamYPos();
     }
 
-    mTlvXPos = FP_FromInteger((pTlv->mTopLeftX + pTlv->mBottomRightX) / 2);
-    mTlvYPos = FP_FromInteger(pTlv->mBottomRightY);
     mStartYPos = mYPos;
-    mState = State::eWaitForIdEnable_0;
-    mAirStreamSndChannels = 0;
 
     if (!sPrimaryFallingItem)
     {
@@ -115,12 +108,20 @@ FallingItem::FallingItem(relive::Path_FallingItem* pTlv, const Guid& tlvId)
 }
 
  FallingItem::FallingItem(s32 xpos, s32 ypos, s32 scale, s32 id, s32 fallInterval, s32 numItems, s32 bResetIdAfterUse)
-    : BaseAliveGameObject(0)
+    : BaseAliveGameObject(0),
+     mTlvId(Guid{}),
+     mSwitchId(static_cast<s16>(id)),
+     mFallInterval(static_cast<s16>(fallInterval)),
+     mMaxFallingItems(static_cast<s16>(numItems)),
+     mRemainingFallingItems(static_cast<s16>(numItems)),
+     mResetSwitchIdAfterUse(static_cast<relive::reliveChoice>(bResetIdAfterUse)),
+     mTlvXPos(FP_FromInteger(xpos)),
+     mTlvYPos(FP_FromInteger(ypos)),
+     mStartYPos(FP_FromInteger(ypos))
 {
     SetType(ReliveTypes::eRockSpawner);
 
     SetCanExplode(true);
-    mTlvId = Guid{};
 
     const s32 lvlIdx = static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel));
     LoadAnimations();
@@ -128,11 +129,7 @@ FallingItem::FallingItem(relive::Path_FallingItem* pTlv, const Guid& tlvId)
 
     GetAnimation().SetRenderLayer(Layer::eLayer_FallingItemDoorFlameRollingBallPortalClip_Half_31);
 
-    if (id)
-    {
-        mSwitchId = static_cast<s16>(id);
-    }
-    else
+    if (id <= 0)
     {
         mSwitchId = 1;
     }
@@ -148,24 +145,8 @@ FallingItem::FallingItem(relive::Path_FallingItem* pTlv, const Guid& tlvId)
         SetScale(Scale::Fg);
     }
 
-    mFallInterval = static_cast<s16>(fallInterval);
-
-    mMaxFallingItems = static_cast<s16>(numItems);
-    mRemainingFallingItems = static_cast<s16>(numItems);
-
-    const FP xFixed = FP_FromInteger(xpos);
-    const FP yFixed = FP_FromInteger(ypos);
-
-    mResetSwitchIdAfterUse = static_cast<relive::reliveChoice>(bResetIdAfterUse);
-    mHitDrillOrMineCar = false;
-    mDoAirStreamSound = true;
-    mXPos = xFixed;
-    mYPos = yFixed;
-    mTlvXPos = xFixed;
-    mTlvYPos = yFixed;
-    mStartYPos = yFixed;
-    mState = State::eWaitForIdEnable_0;
-    mAirStreamSndChannels = 0;
+    mXPos = FP_FromInteger(xpos);
+    mYPos = FP_FromInteger(ypos);
 
     if (!sPrimaryFallingItem)
     {

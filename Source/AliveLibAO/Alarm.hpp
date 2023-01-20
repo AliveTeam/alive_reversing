@@ -16,7 +16,7 @@ public:
     virtual void VUpdate() override;
 
 private:
-    s16 mAlarmRed;
+    s16 mAlarmRed = 0;
     enum class States : s16
     {
         eAfterConstructed_0 = 0,

@@ -12,15 +12,16 @@ u8 gTotalMeterBars = 0;
 bool gbDrawMeterCountDown = false;
 
 ColourfulMeter::ColourfulMeter(relive::Path_ColourfulMeter* pTlv, const Guid& tlvId)
-    : BaseGameObject(true, 0)
+    : BaseGameObject(true, 0),
+    mTlvInfo(tlvId),
+    mTlvX(pTlv->mTopLeftX),
+    mTlvY(pTlv->mTopLeftY),
+    mPal(ResourceManagerWrapper::LoadPal(PalId::LedFont_ColourfulMeter)),
+    mSwitchId(pTlv->mSwitchId),
+    mNumberOfMeterBars(pTlv->mNumberOfMeterBars)
 {
     SetType(ReliveTypes::eColourfulMeter);
-    mTlvInfo = tlvId;
 
-    mTlvX = pTlv->mTopLeftX;
-    mTlvY = pTlv->mTopLeftY;
-
-    mPal = ResourceManagerWrapper::LoadPal(PalId::LedFont_ColourfulMeter);
     mFontContext.LoadFontType(FontType::LcdFont);
     mFont.Load(5, mPal, &mFontContext);
     SetDrawable(true);
@@ -29,8 +30,6 @@ ColourfulMeter::ColourfulMeter(relive::Path_ColourfulMeter* pTlv, const Guid& tl
     mTextX = FP_GetExponent((FP_FromInteger(pTlv->mTopLeftX)) - gScreenManager->CamXPos());
     mTextY = FP_GetExponent((FP_FromInteger(pTlv->mTopLeftY)) - gScreenManager->CamYPos());
 
-    mSwitchId = pTlv->mSwitchId;
-    mNumberOfMeterBars = pTlv->mNumberOfMeterBars;
     mBarCount = kMeterBarsXCount / mNumberOfMeterBars + 1;
 
     if (mNumberOfMeterBars == 4)
@@ -41,8 +40,6 @@ ColourfulMeter::ColourfulMeter(relive::Path_ColourfulMeter* pTlv, const Guid& tl
     {
         mBarCount = 4;
     }
-
-    mCount = 15;
 
     mStartingSwitchState = static_cast<s16>(SwitchStates_Get(mSwitchId));
     mStartFilled = pTlv->mStartFilled;

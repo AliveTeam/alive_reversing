@@ -44,7 +44,11 @@ void BoneBag::LoadAnimations()
 }
 
 BoneBag::BoneBag(relive::Path_BoneBag* pTlv, const Guid& tlvId)
-    : BaseAliveGameObject(0)
+    : BaseAliveGameObject(0),
+    mTlvInfo(tlvId),
+    mTlvVelX(FP_FromRaw(pTlv->mVelX << 8)),
+    mTlvVelY(FP_FromRaw(-256 * pTlv->mVelY)), // TODO: << 8 negated ??
+    mBoneAmount(pTlv->mBoneAmount)
 {
     SetType(ReliveTypes::eBoneBag);
 
@@ -53,16 +57,13 @@ BoneBag::BoneBag(relive::Path_BoneBag* pTlv, const Guid& tlvId)
     GetAnimation().SetSemiTrans(false);
     SetTint(&kBoneBagTints[0], gMap.mCurrentLevel);
 
-    mHasBeenHit = false;
-    mTlvInfo = tlvId;
-
     mXPos = FP_FromInteger((pTlv->mTopLeftX + pTlv->mBottomRightX) / 2);
     mYPos = FP_FromInteger(pTlv->mBottomRightY);
 
     SetApplyShadowZoneColour(false);
 
     mTlvVelX = FP_FromRaw(pTlv->mVelX << 8);
-    mTlvVelY = FP_FromRaw(-256 * pTlv->mVelY); // TODO: << 8 negated ??
+    mTlvVelY = FP_FromRaw(-256 * pTlv->mVelY); 
 
     if (pTlv->mBoneFallDirection == relive::reliveXDirection::eLeft)
     {
@@ -79,10 +80,6 @@ BoneBag::BoneBag(relive::Path_BoneBag* pTlv, const Guid& tlvId)
         SetSpriteScale(FP_FromInteger(1));
         SetScale(Scale::Fg);
     }
-
-    mBoneAmount = pTlv->mBoneAmount;
-    mPlayWobbleSound = true;
-    mForcePlayWobbleSound = true;
 
     CreateShadow();
 }

@@ -166,7 +166,6 @@ DDCheat::DDCheat()
     SetSurviveDeathReset(true);
     SetUpdateDuringCamSwap(true);
     SetType(ReliveTypes::eDDCheat);
-    mFnIdx = 0;
 
     ClearProperties();
 

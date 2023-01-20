@@ -152,7 +152,8 @@ void BoomMachine::LoadAnimations()
 }
 
 BoomMachine::BoomMachine(relive::Path_BoomMachine* pTlv, const Guid& tlvId)
-    : BaseAnimatedWithPhysicsGameObject(0)
+    : BaseAnimatedWithPhysicsGameObject(0),
+    mTlvId(tlvId)
 {
     SetType(ReliveTypes::eBoomMachine);
 
@@ -161,7 +162,6 @@ BoomMachine::BoomMachine(relive::Path_BoomMachine* pTlv, const Guid& tlvId)
     Animation_Init(GetAnimRes(AnimId::BoomMachine_Button_Off));
 
     SetApplyShadowZoneColour(false);
-    mTlvId = tlvId;
     GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
 
     if (pTlv->mScale == relive::reliveScale::eHalf)

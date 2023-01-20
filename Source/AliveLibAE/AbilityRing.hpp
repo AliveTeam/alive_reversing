@@ -32,6 +32,11 @@ enum class RingTypes : s16
     eHealing_Pulse_14 = 14,
 };
 
+struct AbilityRing_PolyBuffer final
+{
+    Poly_G4 mPolys[2];
+};
+
 struct AbilityRingSaveState final
 {
     ReliveTypes mRingObjectType;
@@ -69,7 +74,7 @@ private:
     void CollideWithObjects(s16 bDealDamage);
 
     Layer mRingLayer = Layer::eLayer_0;
-    AbilityRing_PolyBuffer* mRingPolyBuffer = nullptr;
+    AbilityRing_PolyBuffer* mRingPolyBuffer = relive_new AbilityRing_PolyBuffer[64];
     Prim_SetTPage mRingPrimSetTPage[2] = {};
     PSX_RECT mRingCollideRects[64] = {};
     FP mRingXPos = {};
@@ -88,13 +93,11 @@ private:
     s16 mRingRed = 0;
     s16 mRingGreen = 0;
     s16 mRingBlue = 0;
-    s16 mRingSemiTrans = 0;
+    s16 mRingSemiTrans = 1;
     EReliveLevelIds mRingLevel = EReliveLevelIds::eNone;
     s16 mRingPath = 0;
     RingTypes mRingType = RingTypes::eExplosive_Pulse_0;
-    Guid mRingTargetObjId;
-    s32 mRingCount = 0;
+    Guid mRingTargetObjId = Guid{};
+    s32 mRingCount = 64;
     s16 mRefreshTargetObjId = 0;
 };
-
-ALIVE_ASSERT_SIZEOF(AbilityRing, 0x294);

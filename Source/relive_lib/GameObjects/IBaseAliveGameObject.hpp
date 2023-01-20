@@ -99,11 +99,11 @@ public:
     PathLine* BaseAliveGameObjectCollisionLine = nullptr;
     s16 mCurrentMotion = 0;
     s16 mNextMotion = 0;
-    FP mHealth = {};
+    FP mHealth = FP_FromInteger(1);
 
     bool mbGotShot = false;
     bool mbMotionChanged = false;
-    Guid BaseAliveGameObject_PlatformId;
+    Guid BaseAliveGameObject_PlatformId = Guid{};
 
 private:
     bool mCanBePossessed = false;

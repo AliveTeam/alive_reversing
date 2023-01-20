@@ -39,8 +39,6 @@ BulletShell::BulletShell(FP xpos, FP ypos, s16 direction, FP scale)
         SetApplyShadowZoneColour(false);
         GetAnimation().SetFlipX(direction & 1);
 
-        mFloorBounceCount = 0;
-
         mXPos = xpos;
         mYPos = ypos;
 
@@ -53,7 +51,6 @@ BulletShell::BulletShell(FP xpos, FP ypos, s16 direction, FP scale)
             mVelX = FP_FromInteger(Math_RandomRange(3, 6));
         }
         mVelY = FP_FromInteger(Math_RandomRange(-4, -1));
-        mSpeed = FP_FromInteger(1);
     }
 }
 

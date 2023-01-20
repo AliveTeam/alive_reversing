@@ -22,8 +22,9 @@
 
 namespace AO {
 
-AirExplosion::AirExplosion(FP xpos, FP ypos, FP exposion_size)
-    : BaseAnimatedWithPhysicsGameObject(0)
+AirExplosion::AirExplosion(FP xpos, FP ypos, FP explosion_size)
+    : BaseAnimatedWithPhysicsGameObject(0),
+    mExplosionSize(explosion_size)
 {
     SetType(ReliveTypes::eAirExplosion);
 
@@ -32,9 +33,8 @@ AirExplosion::AirExplosion(FP xpos, FP ypos, FP exposion_size)
 
     GetAnimation().SetIsLastFrame(false);
     GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
-    mExplosionSize = exposion_size;
 
-    SetSpriteScale(exposion_size * FP_FromInteger(2));
+    SetSpriteScale(explosion_size * FP_FromInteger(2));
     SetApplyShadowZoneColour(false);
     mXPos = xpos;
     mYPos = ypos;
@@ -42,10 +42,10 @@ AirExplosion::AirExplosion(FP xpos, FP ypos, FP exposion_size)
     relive_new ScreenShake(true);
 
     PSX_RECT rect = {};
-    rect.x = FP_GetExponent(FP_FromInteger(-10) * exposion_size);
-    rect.y = FP_GetExponent(FP_FromInteger(-10) * exposion_size);
-    rect.w = FP_GetExponent(FP_FromInteger(10) * exposion_size);
-    rect.h = FP_GetExponent(FP_FromInteger(10) * exposion_size);
+    rect.x = FP_GetExponent(FP_FromInteger(-10) * explosion_size);
+    rect.y = FP_GetExponent(FP_FromInteger(-10) * explosion_size);
+    rect.w = FP_GetExponent(FP_FromInteger(10) * explosion_size);
+    rect.h = FP_GetExponent(FP_FromInteger(10) * explosion_size);
 
     DealBlastDamage(&rect);
 

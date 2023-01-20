@@ -19,8 +19,8 @@ public:
 
 private:
     Guid mTlvInfo;
-    s16 mSwitchId = 0;
     s16 mFrameCount = 0;
+    s16 mSwitchId = 0;
     enum class States : s16
     {
         eDisabled_0 = 0,
@@ -29,6 +29,6 @@ private:
     States mState = States::eDisabled_0;
     s16 mRandom = 0;
     s32 mSoundsMask = 0;
-    Guid mFireBackgroundGlowId;
+    Guid mFireBackgroundGlowId = Guid{};
     Guid mFlameSparksId;
 };

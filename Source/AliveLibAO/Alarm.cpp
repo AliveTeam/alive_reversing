@@ -14,14 +14,13 @@ namespace AO {
 s16 gAlarmInstanceCount = 0;
 
 Alarm::Alarm(s32 duration_timer, u16 switchId, s32 timer, Layer layer)
-    : EffectBase(layer, TPageAbr::eBlend_1)
+    : EffectBase(layer, TPageAbr::eBlend_1),
+    mAlarmState(States::eAfterConstructed_0),
+    mAlarmSwitchId(switchId)
 {
-    mAlarmPauseTimer = timer + sGnFrame;
-    mAlarmSwitchId = switchId;
     SetType(ReliveTypes::eAlarm);
 
-    mAlarmRed = 0;
-    mAlarmState = States::eAfterConstructed_0;
+    mAlarmPauseTimer = timer + sGnFrame;
     mAlarmDurationTimer = mAlarmPauseTimer + duration_timer;
 
     gAlarmInstanceCount++;
@@ -30,10 +29,6 @@ Alarm::Alarm(s32 duration_timer, u16 switchId, s32 timer, Layer layer)
         // More than one instance, kill self
         SetDead(true);
     }
-
-    mEffectBaseRed = 0;
-    mEffectBaseGreen = 0;
-    mEffectBaseBlue = 0;
 
     // Disable red screen flashing in the stock yards
     if (gMap.mCurrentLevel == EReliveLevelIds::eStockYards || gMap.mCurrentLevel == EReliveLevelIds::eStockYardsReturn)

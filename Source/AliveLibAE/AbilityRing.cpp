@@ -16,12 +16,6 @@ AbilityRing* AbilityRing::Factory(FP xpos, FP ypos, RingTypes type, FP scale)
     return relive_new AbilityRing(xpos, ypos, type, scale);
 }
 
-struct AbilityRing_PolyBuffer final
-{
-    Poly_G4 mPolys[2];
-};
-ALIVE_ASSERT_SIZEOF(AbilityRing_PolyBuffer, 56);
-
 static s32 MinDistance(s32 screenX, s32 screenY, s32 width1, s32 height1, s32 width2, s32 height2)
 {
     const s32 d1 = Math_Distance(screenX, screenY, width1, height1);
@@ -37,19 +31,16 @@ static s32 MinDistance(s32 screenX, s32 screenY, s32 width1, s32 height1, s32 wi
 }
 
 AbilityRing::AbilityRing(FP xpos, FP ypos, RingTypes ringType, FP scale)
-    : BaseGameObject(true, 0)
+    : BaseGameObject(true, 0),
+    mRingXPos(xpos),
+    mRingYPos(ypos)
 {
     SetType(ReliveTypes::eAbilityRing);
-    mRingTargetObjId = Guid{};
     gObjListDrawables->Push_Back(this);
     SetDrawable(true);
 
-    mRingPolyBuffer = relive_new AbilityRing_PolyBuffer[64];
     if (mRingPolyBuffer)
     {
-        mRingXPos = xpos;
-        mRingYPos = ypos;
-
         mRingScreenX = FP_GetExponent(gScreenManager->CamXPos());
         mRingScreenY = FP_GetExponent(gScreenManager->CamYPos());
 
@@ -207,7 +198,6 @@ AbilityRing::AbilityRing(FP xpos, FP ypos, RingTypes ringType, FP scale)
         mRingPath = gMap.mCurrentPath;
         mRingLayer = Layer::eLayer_Above_FG1_39;
         mRingLevel = gMap.mCurrentLevel;
-        mRingSemiTrans = 1;
 
         if (mRingType == RingTypes::eShrykull_Pulse_Orange_6 && scale == FP_FromDouble(0.5))
         {
@@ -235,7 +225,6 @@ AbilityRing::AbilityRing(FP xpos, FP ypos, RingTypes ringType, FP scale)
             }
             Init_SetTPage(&mRingPrimSetTPage[y], PSX_getTPage(TPageAbr::eBlend_1));
         }
-        mRingCount = 64;
     }
     else
     {

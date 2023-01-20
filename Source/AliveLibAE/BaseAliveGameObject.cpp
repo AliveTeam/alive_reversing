@@ -28,18 +28,6 @@ BaseAliveGameObject::BaseAliveGameObject(s16 resourceArraySize)
     SetTeleporting(false);
     SetElectrocuting(false);
 
-    BaseAliveGameObjectPathTLV = nullptr;
-    BaseAliveGameObjectCollisionLine = nullptr;
-    mHealth = FP_FromInteger(1);
-    BaseAliveGameObject_PlatformId = Guid{};
-    mbGotShot = false;
-    mbMotionChanged = false;
-    mCurrentMotion = 0;
-    mNextMotion = 0;
-    mPreviousMotion = 0;
-    mBaseAliveGameObjectLastAnimFrame = 0;
-    BaseAliveGameObjectLastLineYPos = FP_FromInteger(0);
-
     gBaseAliveGameObjects->Push_Back(this);
 
     SetIsBaseAliveGameObject(true);

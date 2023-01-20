@@ -40,19 +40,17 @@ static s32 MinDistance(s32 screenX, s32 screenY, s32 width1, s32 height1, s32 wi
 }
 
 AbilityRing::AbilityRing(FP xpos, FP ypos, RingTypes ring_type)
-    : BaseGameObject(true, 0)
+    : BaseGameObject(true, 0),
+    mRingXPos(xpos),
+    mRingYPos(ypos)
 {
     SetType(ReliveTypes::eAbilityRing);
     mRingTargetObjId = Guid{};
     gObjListDrawables->Push_Back(this);
     SetDrawable(true);
 
-    mRingPolyBuffer = relive_new AbilityRing_PolyBuffer[64];
     if (mRingPolyBuffer)
     {
-        mRingXPos = xpos;
-        mRingYPos = ypos;
-
         mRingScreenX = FP_GetExponent(gScreenManager->mCamPos->x - FP_FromInteger(gScreenManager->mCamXOff));
         mRingScreenY = FP_GetExponent(gScreenManager->mCamPos->y - FP_FromInteger(gScreenManager->mCamYOff));
 
@@ -149,7 +147,6 @@ AbilityRing::AbilityRing(FP xpos, FP ypos, RingTypes ring_type)
         mRingPath = gMap.mCurrentPath;
         mRingLayer = Layer::eLayer_Above_FG1_39;
         mRingLevel = gMap.mCurrentLevel;
-        mRingSemiTrans = 1;
 
         mRingScaleX = FP_FromDouble(1.0999); // TODO: Matching ?? 0x11999
         mRingScaleY = FP_FromInteger(1);

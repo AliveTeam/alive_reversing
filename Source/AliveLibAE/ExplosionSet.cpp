@@ -26,13 +26,7 @@ ExplosionSet::ExplosionSet()
     {
         gExplosionSet = this;
         SetDrawable(true);
-        mSpriteScale = FP_FromInteger(1);
-        mScreenShakeIdx = 0;
-        mScreenShakeIdxModifier = 1;
-        mStartDelay = 0;
-        mSpacingMultiplicator = 0;
         gExplosionSetEnabled = false;
-        mActive = false;
         gObjListDrawables->Push_Back(this);
     }
 }
