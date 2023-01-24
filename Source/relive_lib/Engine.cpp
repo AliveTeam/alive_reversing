@@ -10,6 +10,7 @@
 #include "../AliveLibAE/Io.hpp"
 #include "CommandLineParser.hpp"
 #include "Renderer/IRenderer.hpp"
+#include "Function.hpp"
 
 // TODO: Remove after merge
 extern bool sCommandLine_ShowFps;
