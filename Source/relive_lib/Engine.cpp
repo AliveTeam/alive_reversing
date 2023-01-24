@@ -44,20 +44,20 @@ void Engine::CmdLineRenderInit(const char_type* pCommandLine)
     if (parser.ExtractNamePairArgument(renderer, "-renderer="))
     {
         #ifdef _WIN32
-        if (stricmp(renderer, "dx") == 0 || stricmp(renderer, "dx9") == 0 || stricmp(renderer, "directx") == 0 || stricmp(renderer, "directx9") == 0)
+        if (strcmpi(renderer, "dx") == 0 || strcmpi(renderer, "dx9") == 0 || strcmpi(renderer, "directx") == 0 || strcmpi(renderer, "directx9") == 0)
         {
             LOG_INFO("Command line set renderer to directx9");
             rendererToCreate = IRenderer::Renderers::DirectX9;
         }
         #endif
 
-        if (stricmp(renderer, "vk") == 0 || stricmp(renderer, "vulkan") == 0)
+        if (strcmpi(renderer, "vk") == 0 || strcmpi(renderer, "vulkan") == 0)
         {
             LOG_INFO("Command line set renderer to vulkan");
             rendererToCreate = IRenderer::Renderers::Vulkan;
         }
 
-        if (stricmp(renderer, "gl") == 0 || stricmp(renderer, "gl3") == 0 || stricmp(renderer, "opengl") == 0 || stricmp(renderer, "opengl3") == 0)
+        if (strcmpi(renderer, "gl") == 0 || strcmpi(renderer, "gl3") == 0 || strcmpi(renderer, "opengl") == 0 || strcmpi(renderer, "opengl3") == 0)
         {
             LOG_INFO("Command line set renderer to opengl3");
             rendererToCreate = IRenderer::Renderers::OpenGL;
