@@ -68,7 +68,7 @@ public:
     void SetRestoredFromQuickSave(bool val) { mRestoredFromQuickSave = val; }
     bool GetTeleporting() const { return mTeleporting; }
     void SetTeleporting(bool val) { mTeleporting = val; }
-    const bool GetElectrocuting() const { return mElectrocuting; }
+    bool GetElectrocuting() const { return mElectrocuting; }
     void SetElectrocuting(bool val) { mElectrocuting = val; }
     bool GetCanBeesChase() const { return mCanBeesChase; }
     void SetCanBeesChase(bool val) { mCanBeesChase = val; }
