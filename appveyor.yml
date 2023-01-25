@@ -41,7 +41,7 @@ for:
       - cd build
       - mkdir Frameworks
       - cp /usr/local/lib/libSDL2.dylib ./Frameworks/libSDL2.dylib
-      - cp /usr/local/Cellar/molten-vk/1.2.1/lib/libMoltenVK.dylib ./Frameworks/libMoltenVK.dylib
+      - cp /usr/local/lib/libMoltenVK.dylib ./Frameworks/libMoltenVK.dylib
       - cmake -D BUILD_NUMBER=$APPVEYOR_BUILD_NUMBER -D CI_PROVIDER="AppVeyor" -G "Unix Makefiles" ..
       - make -j4
       - cpack -G DragNDrop

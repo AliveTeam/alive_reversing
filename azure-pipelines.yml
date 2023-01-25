@@ -33,7 +33,7 @@ jobs:
         cd build
         mkdir Frameworks
         cp /usr/local/Cellar/sdl2/2.26.1/lib/libSDL2-2.0.0.dylib ./Frameworks/libSDL2.dylib
-        cp /usr/local/Cellar/molten-vk/1.2.1/lib/libMoltenVK.dylib ./Frameworks/libMoltenVK.dylib
+        cp /usr/local/lib/libMoltenVK.dylib ./Frameworks/libMoltenVK.dylib
         cmake -DBUILD_NUMBER=$(Build.BuildId) -DCI_PROVIDER="AzureDevOps" -G"Unix Makefiles" ..
         make -j4
         cpack -G DragNDrop
