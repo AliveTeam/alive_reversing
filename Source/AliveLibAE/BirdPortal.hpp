@@ -102,13 +102,10 @@ public:
     FP mHitY = {};
 
 private:
-    Guid mTlvInfo;
     Guid mThrowableIndicatorId = Guid{}; // AE only
     Guid mDoveIds[6] = {}; // AE only
     s32 mTimer = 0;
     FP mSpriteScale = {};
-    s16 mMovieId = 0;
-    s16 mDeletePortalSwitchId = 0; // AE only
     s16 mDovesExist = 0;
     Guid mTerminatorId1 = Guid{};   // object pointer in AO
     Guid mTerminatorId2 = Guid{};   // object pointer in AO
@@ -117,7 +114,10 @@ private:
     EReliveLevelIds mExitLevel = EReliveLevelIds::eNone;
     s16 mExitPath = 0;
     s16 mExitCamera = 0;
+    s16 mMovieId = 0;
     s16 mMudCountForShrykull = 0;
+    s16 mDeletePortalSwitchId = 0; // AE only
+    Guid mTlvInfo;
     s16 mReceivedDovesCount = 0;
     OrbWhirlWind* mOrbWhirlWind = nullptr;
     EReliveLevelIds mCurrentLevel = EReliveLevelIds::eNone;

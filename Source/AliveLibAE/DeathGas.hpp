@@ -16,8 +16,8 @@ public:
     virtual void VRender(PrimHeader** ppOt) override;
 
 private:
-    s32 mTotal = 0;
-    s32 mAmount = 0;
-    bool mDone = false;
     Layer mLayer = Layer::eLayer_0;
+    s32 mAmount = 0;
+    s32 mTotal = 0;
+    bool mDone = false;
 };

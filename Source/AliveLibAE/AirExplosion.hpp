@@ -14,7 +14,7 @@ private:
     void DealBlastDamage(PSX_RECT* pRect);
 
 private:
+    FP mExplosionSize = {};
     bool mSmallExplosion = false;
     FP mParticleScale = {};
-    FP mExplosionSize = {};
 };

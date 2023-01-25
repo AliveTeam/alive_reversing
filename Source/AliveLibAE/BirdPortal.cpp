@@ -33,15 +33,15 @@ void BirdPortal::LoadAnimations()
 
 BirdPortal::BirdPortal(relive::Path_BirdPortal* pTlv, const Guid& tlvId)
     : BaseGameObject(true, 0),
-    mTlvInfo(tlvId),
+    mPortalType(pTlv->mPortalType),
     mEnterSide(pTlv->mEnterSide),
     mExitLevel(pTlv->mExitLevel),
     mExitPath(pTlv->mExitPath),
     mExitCamera(pTlv->mExitCamera),
     mMovieId(pTlv->mMovieId),
-    mPortalType(pTlv->mPortalType),
     mMudCountForShrykull(pTlv->mMudCountForShrykull),
-    mDeletePortalSwitchId(pTlv->mDeletePortalSwitchId)
+    mDeletePortalSwitchId(pTlv->mDeletePortalSwitchId),
+    mTlvInfo(tlvId)
 {
     SetType(ReliveTypes::eBirdPortal);
     mBaseGameObjectTlvInfo = tlvId;

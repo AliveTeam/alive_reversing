@@ -24,7 +24,6 @@ AirExplosion::AirExplosion(FP xpos, FP ypos, FP explosion_size, bool bSmall)
     : BaseAnimatedWithPhysicsGameObject(0),
     mExplosionSize(explosion_size),
     mSmallExplosion(bSmall)
-
 {
     SetType(ReliveTypes::eAirExplosion);
 
