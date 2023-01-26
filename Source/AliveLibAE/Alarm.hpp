@@ -25,8 +25,6 @@ private:
     s32 mAlarmPauseTimer = 0;
     s32 mAlarmDurationTimer = 0;
     Guid mAlarmTlvInfo;
-    u16 mAlarmSwitchId = 0;
-    u16 mAlarmDuration = 0;
     enum class States : s16
     {
         eWaitForSwitchEnable_0 = 0,
@@ -37,6 +35,8 @@ private:
         eDisabled_5 = 5,
     };
     States mAlarmState = States::eWaitForSwitchEnable_0;
+    u16 mAlarmSwitchId = 0;
+    u16 mAlarmDuration = 0;
 };
 
 extern s16 gAlarmInstanceCount;

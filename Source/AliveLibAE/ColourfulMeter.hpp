@@ -18,18 +18,18 @@ public:
     virtual void VRender(PrimHeader** ppOt) override;
 
 private:
-    PalResource mPal;
     FontContext mFontContext = {};
     AliveFont mFont = {};
     Guid mTlvInfo;
+    s16 mTlvX = 0;
+    s16 mTlvY = 0;
+    PalResource mPal;
+    s16 mSwitchId = 0;
+    s16 mNumberOfMeterBars = 0;
     s16 mTextX = 0;
     s16 mTextY = 0;
     s16 mPolysToRenderCount = 0;
-    s16 mSwitchId = 0;
-    s16 mTlvX = 0;
-    s16 mTlvY = 0;
     s16 mCount = 15;
-    s16 mNumberOfMeterBars = 0;
     s16 mMinesAlarmCountdown = 0;
     s16 mStartingSwitchState = 0;
     s16 mBarCount = 0;
