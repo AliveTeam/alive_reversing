@@ -75,26 +75,6 @@
 
 namespace AO {
 
-template <size_t arraySize>
-struct CompileTimeResourceList final
-{
-    s32 field_0_count = arraySize;
-    ResourceManager::ResourcesToLoadList_Entry field_4_items[arraySize];
-
-    CompileTimeResourceList(std::initializer_list<ResourceManager::ResourcesToLoadList_Entry> elements)
-    {
-        std::copy(std::begin(elements), std::end(elements), std::begin(field_4_items));
-    }
-
-    // HACK: Cast to memory layout compatible type as we can't pass template types into
-    // ResourceManager (this can be fixed when everything is decompiled by using a
-    // more sane compile time resource list type).
-    ResourceManager::ResourcesToLoadList* AsList()
-    {
-        return reinterpret_cast<ResourceManager::ResourcesToLoadList*>(this);
-    }
-};
-
 static void Factory_Hoist(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& tlvId, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)

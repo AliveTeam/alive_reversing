@@ -24,6 +24,9 @@ void Game_ShowLoadingIcon_445EB0()
 
         pParticle->GetAnimation().SetRenderLayer(Layer::eLayer_0);
 
+        // This was doing something odd with OT index.. I think its trying to simulate double buffering by
+        // using other parts of the OT while another part is drawn, but it was bugged because it cleared the other anyway
+        // on PC it seems fine to just always start at zero.
         PrimHeader* local_ot[42] = {};
         PSX_ClearOTag(local_ot, 42);
 

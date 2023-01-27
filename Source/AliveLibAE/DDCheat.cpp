@@ -299,11 +299,6 @@ void DDCheat::VUpdate()
                     gDDCheat_ShowAI_Info = !gDDCheat_ShowAI_Info;
                 }
 
-                if ((activePadPressed & InputCommands::eThrowItem) != 0)
-                {
-                    sPeakedManagedMemUsage_AB4A08 = sManagedMemoryUsedSize_AB4A04;
-                }
-
                 if (activePadPressed & InputCommands::eHop)
                 {
                     sDDCheat_AlwaysShow = !sDDCheat_AlwaysShow;

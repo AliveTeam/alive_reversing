@@ -84,26 +84,6 @@
 #include "MeatSack.hpp"
 #include "BoneBag.hpp"
 
-template <size_t arraySize>
-struct CompileTimeResourceList final
-{
-    s32 field_0_count = arraySize;
-    ResourceManager::ResourcesToLoadList_Entry field_4_items[arraySize];
-
-    CompileTimeResourceList(std::initializer_list<ResourceManager::ResourcesToLoadList_Entry> elements)
-    {
-        std::copy(std::begin(elements), std::end(elements), std::begin(field_4_items));
-    }
-
-    // HACK: Cast to memory layout compatible type as we can't pass template types into
-    // ResourceManager (this can be fixed when everything is decompiled by using a
-    // more sane compile time resource list type).
-    ResourceManager::ResourcesToLoadList* AsList()
-    {
-        return reinterpret_cast<ResourceManager::ResourcesToLoadList*>(this);
-    }
-};
-
 static void Factory_MainMenuController(relive::Path_TLV* pTlv, Path* /*pPath*/, const Guid& tlvId, LoadMode loadmode)
 {
     if (sMainMenuObjectCounter_BB4400 == 0)
@@ -225,10 +205,11 @@ static void Factory_ShadowZone(relive::Path_TLV* pTlv, Path* /*pPath*/, const Gu
 
 static void LoadLiftPointResources(const char_type* /*ropeBan*/, const char_type* /*liftBan*/, LoadMode /*loadMode*/)
 {
+    /*
     static CompileTimeResourceList<2> kResources({
         {ResourceManager::Resource_Animation, AEResourceID::kLiftWheelsResID},
         {ResourceManager::Resource_Animation, AEResourceID::kLiftResID},
-    });
+    });*/
 
     //gMap.LoadResource(ropeBan, ResourceManager::Resource_Animation, AEResourceID::kRopesResID, loadMode);
     //gMap.LoadResourcesFromList(liftBan, kResources.AsList(), loadMode);
@@ -400,10 +381,12 @@ static void Factory_RockSack(relive::Path_TLV* pTlv, Path*, const Guid& tlvId, L
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
+        /*
         static CompileTimeResourceList<3> kResources(
             {{ResourceManager::Resource_Animation, AEResourceID::kAbepickResID},
              {ResourceManager::Resource_Animation, AEResourceID::kAbethrowResID},
              {ResourceManager::Resource_Animation, AEResourceID::kAberockResID}});
+             */
         //gMap.LoadResourcesFromList("RTHROW.BND", kResources.AsList(), loadMode);
     }
     else
@@ -473,6 +456,7 @@ static void Factory_TimedMine(relive::Path_TLV* pTlv, Path* /*pPath*/, const Gui
         //Map::LoadResource("ABEBLOW.BAN", ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID, loadmode, mine_tlv->mDisabledResources & 1);
         //Map::LoadResource("DOGBLOW.BAN", ResourceManager::Resource_Animation, AEResourceID::kSlogBlowResID, loadmode, mine_tlv->mDisabledResources & 2);
 
+        /*
         static CompileTimeResourceList<2> sTimedMineResourceList_563368({
             {ResourceManager::Resource_Animation, AEResourceID::kBombResID},
             {ResourceManager::Resource_Animation, AEResourceID::kBombflshResID},
@@ -483,6 +467,7 @@ static void Factory_TimedMine(relive::Path_TLV* pTlv, Path* /*pPath*/, const Gui
             {ResourceManager::Resource_Animation, AEResourceID::kDebrisID00ResID},
             {ResourceManager::Resource_Animation, AEResourceID::kBgexpldResID},
         });
+        */
 
         //Map::LoadResourcesFromList("BOMB.BND", sTimedMineResourceList_563368.AsList(), loadmode, 0);
         //Map::LoadResourcesFromList("EXPLODE.BND", sExplodeResourceList_56334C.AsList(), loadmode, 0);
@@ -493,6 +478,7 @@ static void Factory_TimedMine(relive::Path_TLV* pTlv, Path* /*pPath*/, const Gui
     }
 }
 
+/*
 static CompileTimeResourceList<3> kResources_5632A0(
     {{ResourceManager::Resource_Animation, AEResourceID::kSlgzshotResID},
      {ResourceManager::Resource_Animation, AEResourceID::kZflashResID},
@@ -503,6 +489,7 @@ static CompileTimeResourceList<4> kResources_5632BC(
      {ResourceManager::Resource_Animation, AEResourceID::kSlgknbkResID},
      {ResourceManager::Resource_Animation, AEResourceID::kBigflashResID},
      {ResourceManager::Resource_Animation, AEResourceID::kShellResID}});
+*/
 
 static void LoadWalkingSligResources(s16 /*disabledResources*/, LoadMode /*loadMode*/)
 {
@@ -535,11 +522,13 @@ static void Factory_Slig(relive::Path_TLV* pTlv, Path*, const Guid& tlvId, LoadM
 
 static void LoadSlogResources(LoadMode /*loadMode*/)
 {
+    /*
     static CompileTimeResourceList<4> kResources(
         {{ResourceManager::Resource_Animation, AEResourceID::kDogbasicResID},
          {ResourceManager::Resource_Animation, AEResourceID::kDogrstnResID},
          {ResourceManager::Resource_Animation, AEResourceID::kDogattkResID},
          {ResourceManager::Resource_Animation, AEResourceID::kDogidleResID}});
+         */
 
     //gMap.LoadResourcesFromList("SLOG.BND", kResources.AsList(), loadMode);
     //gMap.LoadResource("DOGKNFD.BAN", ResourceManager::Resource_Animation, AEResourceID::kDogknfdResID, loadMode);
@@ -619,7 +608,7 @@ static void Factory_Mine(relive::Path_TLV* pTlv, Path* /*pPath*/, const Guid& tl
     {
         //Map::LoadResource("ABEBLOW.BAN", ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID, loadmode, mine_tlv->mDisabledResources & 1);
         //Map::LoadResource("DOGBLOW.BAN", ResourceManager::Resource_Animation, AEResourceID::kSlogBlowResID, loadmode, mine_tlv->mDisabledResources & 2);
-
+        /*
         static CompileTimeResourceList<2> sMineResourceList_56337C({
             {ResourceManager::Resource_Animation, AEResourceID::kLandmineResID},
             {ResourceManager::Resource_Animation, AEResourceID::kMineflshResID},
@@ -630,7 +619,7 @@ static void Factory_Mine(relive::Path_TLV* pTlv, Path* /*pPath*/, const Guid& tl
             {ResourceManager::Resource_Animation, AEResourceID::kDebrisID00ResID},
             {ResourceManager::Resource_Animation, AEResourceID::kBgexpldResID},
         });
-
+        */
         //Map::LoadResourcesFromList("MINE.BND", sMineResourceList_56337C.AsList(), loadmode, 0);
         //Map::LoadResourcesFromList("EXPLODE.BND", sExplodeResourceList_56334C.AsList(), loadmode, 0);
     }
@@ -675,6 +664,7 @@ static void Factory_Paramite(relive::Path_TLV* pTlv, Path*, const Guid& tlvId, L
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
+        /*
         static CompileTimeResourceList<9> kResources(
             {{ResourceManager::Resource_Animation, AEResourceID::kArjbasicResID},
              {ResourceManager::Resource_Animation, AEResourceID::kArjpumpResID},
@@ -684,7 +674,7 @@ static void Factory_Paramite(relive::Path_TLV* pTlv, Path*, const Guid& tlvId, L
              {ResourceManager::Resource_Animation, AEResourceID::kArjfalrkResID},
              {ResourceManager::Resource_Animation, AEResourceID::kArjwaspResID},
              {ResourceManager::Resource_Animation, AEResourceID::kArjscrchResID},
-             {ResourceManager::Resource_Animation, AEResourceID::kWebResID}});
+             {ResourceManager::Resource_Animation, AEResourceID::kWebResID}});*/
         //gMap.LoadResourcesFromList("PARAMITE.BND", kResources.AsList(), loadMode);
     }
     else
@@ -710,19 +700,21 @@ static void Factory_BirdPortal(relive::Path_TLV* pTlv, Path*, const Guid& tlvId,
     auto pBirdPortalTlv = static_cast<relive::Path_BirdPortal*>(pTlv);
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
+        /*
         static CompileTimeResourceList<3> kResources_5634E8({
             {ResourceManager::Resource_Animation, AEResourceID::kPortalTerminatorResID},
             {ResourceManager::Resource_Animation, AEResourceID::kPortliteResID},
             {ResourceManager::Resource_Animation, AEResourceID::kPortlitResID},
-        });
+        });*/
 
         //gMap.LoadResourcesFromList("PORTAL.BND", kResources_5634E8.AsList(), loadMode);
         if (pBirdPortalTlv->mPortalType == relive::Path_BirdPortal::PortalType::eShrykull)
         {
+            /*
             static CompileTimeResourceList<2> kResources_563504({
                 {ResourceManager::Resource_Animation, AEResourceID::kAbemorphResID},
                 {ResourceManager::Resource_Animation, AEResourceID::kShrmorphResID},
-            });
+            });*/
 
             //gMap.LoadResourcesFromList("SHRYPORT.BND", kResources_563504.AsList(), loadMode);
             //gMap.LoadResource("SPLINE.BAN", ResourceManager::Resource_Animation, AEResourceID::kSplineResID, loadMode);
@@ -883,10 +875,11 @@ static void Factory_MeatSack(relive::Path_TLV* pTlv, Path*, const Guid& tlvId, L
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
+        /*
         static CompileTimeResourceList<3> kResources(
             {{ResourceManager::Resource_Animation, AEResourceID::kAbepickResID},
              {ResourceManager::Resource_Animation, AEResourceID::kAbethrowResID},
-             {ResourceManager::Resource_Animation, AEResourceID::kMeatResID}});
+             {ResourceManager::Resource_Animation, AEResourceID::kMeatResID}});*/
         //gMap.LoadResourcesFromList("MTHROW.BND", kResources.AsList(), loadMode, 0);
     }
     else
@@ -895,6 +888,7 @@ static void Factory_MeatSack(relive::Path_TLV* pTlv, Path*, const Guid& tlvId, L
     }
 }
 
+/*
 static CompileTimeResourceList<12> kScrabResources(
     {{ResourceManager::Resource_Animation, AEResourceID::kArsbasicResID},
      {ResourceManager::Resource_Animation, AEResourceID::kArsdanceResID},
@@ -908,6 +902,7 @@ static CompileTimeResourceList<12> kScrabResources(
      {ResourceManager::Resource_Animation, AEResourceID::kArsprceResID},
      {ResourceManager::Resource_Animation, AEResourceID::kArsskwrResID},
      {ResourceManager::Resource_Animation, AEResourceID::kArscrshResID}});
+*/
 
 static void Factory_Scrab(relive::Path_TLV* pTlv, Path*, const Guid& tlvId, LoadMode loadMode)
 {
@@ -945,14 +940,14 @@ static void Factory_Mudokon(relive::Path_TLV* pTlv, Path*, const Guid& tlvId, Lo
         //gMap.LoadResource("ABEEDGE.BAN", ResourceManager::Resource_Animation, AEResourceID::kAbeedgeResID, loadMode);
         //gMap.LoadResource("SHADOW.BAN", ResourceManager::Resource_Animation, AEResourceID::kObjectShadowResID, loadMode);
         //gMap.LoadResource("MUDIDLE.BAN", ResourceManager::Resource_Animation, AEResourceID::kMudidleResID, loadMode);
-
+        /*
         static CompileTimeResourceList<5> kPalResources(
             {{ResourceManager::Resource_Palt, AEResourceID::kMudangryResID},
              {ResourceManager::Resource_Palt, AEResourceID::kMudsadResID},
              {ResourceManager::Resource_Palt, AEResourceID::kMudwiredResID},
              {ResourceManager::Resource_Palt, AEResourceID::kMudblindResID},
              {ResourceManager::Resource_Palt, AEResourceID::kMudsickResID}});
-
+             */
         //gMap.LoadResourcesFromList("MUDPAL.BND", kPalResources.AsList(), loadMode, 0);
         if (pMudTlv->mJob == relive::Path_Mudokon::MudJobs::eChisle)
         {
@@ -963,11 +958,13 @@ static void Factory_Mudokon(relive::Path_TLV* pTlv, Path*, const Guid& tlvId, Lo
             //gMap.LoadResource("MUDSCRUB.BAN", ResourceManager::Resource_Animation, AEResourceID::kMudscrubResID, loadMode);
         }
 
+        /*
         static CompileTimeResourceList<2> kResources(
             {
                 {ResourceManager::Resource_Animation, AEResourceID::kMudoduckResID},
                 {ResourceManager::Resource_Animation, AEResourceID::kMudbtlnkResID} // TODO: Another block of 3 after this exists that is never used ??
             });
+            */
 
         //gMap.LoadResourcesFromList("MUDWORK.BND", kResources.AsList(), loadMode);
     }
@@ -1031,10 +1028,12 @@ static void Factory_BoomMachine(relive::Path_TLV* pTlv, Path*, const Guid& tlvId
     auto pTlvBooMachine = static_cast<relive::Path_BoomMachine*>(pTlv);
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
+        /*
         static CompileTimeResourceList<3> kResources(
             {{ResourceManager::Resource_Animation, AEResourceID::kAbethrowResID},
              {ResourceManager::Resource_Animation, AEResourceID::kAbepickResID},
              {ResourceManager::Resource_Animation, AEResourceID::kGrenadeResID}});
+             */
 
         //gMap.LoadResourcesFromList("GTHROW.BND", kResources.AsList(), loadMode, 0);
         //gMap.LoadResource("EXPLO2.BAN", ResourceManager::Resource_Animation, AEResourceID::kExplo2ResID, loadMode);
@@ -1158,6 +1157,7 @@ static void Factory_ZzzSpawner(relive::Path_TLV* pTlv, Path*, const Guid& tlvId,
 
 static void Factory_Glukkon(relive::Path_TLV* pTlv, Path*, const Guid& tlvId, LoadMode loadMode)
 {
+    /*
     static CompileTimeResourceList<2> kGlukkon_563534({{ResourceManager::Resource_Animation, AEResourceID::kGlkbasicResID},
                                                        {ResourceManager::Resource_Animation, AEResourceID::kGlukkonResID_801}});
 
@@ -1169,6 +1169,7 @@ static void Factory_Glukkon(relive::Path_TLV* pTlv, Path*, const Guid& tlvId, Lo
 
     static CompileTimeResourceList<2> kPhleg_563570({{ResourceManager::Resource_Animation, AEResourceID::kGlukPhlegResID},
                                                      {ResourceManager::Resource_Animation, AEResourceID::kPhlegResID_807}});
+                                                     */
 
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -1242,7 +1243,7 @@ static void Factory_LaughingGas(relive::Path_TLV* pTlv, Path*, const Guid& tlvId
     }
 }
 
-static CompileTimeResourceList<1> kResources_5632E0({{ResourceManager::Resource_Animation, AEResourceID::kFlySligResID}});
+//static CompileTimeResourceList<1> kResources_5632E0({{ResourceManager::Resource_Animation, AEResourceID::kFlySligResID}});
 
 static void LoadFlyingSligResources(LoadMode /*loadMode*/)
 {
@@ -1400,7 +1401,7 @@ static void Factory_FlyingSligSpawner(relive::Path_TLV* pTlv, Path*, const Guid&
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
         // TODO: Resource Ids
-        static CompileTimeResourceList<1> kResources({{ResourceManager::Resource_Animation, AEResourceID::kFlySligResID}});
+        //static CompileTimeResourceList<1> kResources({{ResourceManager::Resource_Animation, AEResourceID::kFlySligResID}});
 
         //gMap.LoadResourcesFromList("FLYSLIG.BND", kResources.AsList(), loadMode);
         //gMap.LoadResource("SLGBLOW.BAN", ResourceManager::Resource_Animation, AEResourceID::kSligBlowResID, loadMode);
@@ -1439,11 +1440,11 @@ static void Factory_BoneBag(relive::Path_TLV* pTlv, Path*, const Guid& tlvId, Lo
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
         //gMap.LoadResource("BONEBAG.BAN", ResourceManager::Resource_Animation, AEResourceID::kBoneBagResID_590, loadMode);
-
+        /*
         static CompileTimeResourceList<3> kResources({{ResourceManager::Resource_Animation, AEResourceID::kAbepickResID},
                                                       {ResourceManager::Resource_Animation, AEResourceID::kAbethrowResID},
                                                       {ResourceManager::Resource_Animation, AEResourceID::kBoneResID}});
-
+                                                      */
         //gMap.LoadResourcesFromList("BTHROW.BND", kResources.AsList(), loadMode);
     }
     else
@@ -1568,8 +1569,8 @@ static void Factory_CrawlingSlig(relive::Path_TLV* pTlv, Path*, const Guid& tlvI
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
-        static CompileTimeResourceList<1> kResource(
-            {{ResourceManager::Resource_Animation, AEResourceID::kCrawlingSligResID_449}});
+       // static CompileTimeResourceList<1> kResource(
+       //     {{ResourceManager::Resource_Animation, AEResourceID::kCrawlingSligResID_449}});
 
         //gMap.LoadResourcesFromList("CRAWLSLG.BND", kResource.AsList(), loadMode);
         //gMap.LoadResource("SLGBLOW.BAN", ResourceManager::Resource_Animation, AEResourceID::kSligBlowResID, loadMode);
