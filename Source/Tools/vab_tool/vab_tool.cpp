@@ -13,6 +13,8 @@
 #include "imgui_impl_opengl3.h"
 #include "GL/glew.h"
 #include "../../AliveLibAE/GameAutoPlayer.hpp"
+#include "../../relive_lib/data_conversion/file_system.hpp"
+
 #include <string>
 
 // TODO: This tool is broken till its updated to use the converted lvl data
@@ -128,6 +130,114 @@ void PCToPsxVab(bool isAe, const char_type* lvlName, const char_type* vhName, co
 }
 */
 
+class SoundFont2 final
+{
+public:
+    struct SfChunk final
+    {
+        u32 magic = 0;
+        u32 len = 0;
+    };
+
+    SfChunk ReadChunk(AutoFILE& f)
+    {
+        SfChunk chunk;
+        chunk.magic = f.ReadU32();
+        chunk.len = f.ReadU32();
+        return chunk;
+    }
+
+    static constexpr u32 MakeMagic(const char* pMagic)
+    {
+        return int(
+            (unsigned char) (pMagic[3]) << 24 | (unsigned char) (pMagic[2]) << 16 | (unsigned char) (pMagic[1]) << 8 | (unsigned char) (pMagic[0]));
+    }
+
+    bool LoadSoundFont(const char* pFileName)
+    {
+        AutoFILE f;
+        f.Open(pFileName, "rb", false);
+
+        const SfChunk headerChunk = ReadChunk(f);
+        if (headerChunk.magic != MakeMagic("RIFF"))
+        {
+            return false;
+        }
+
+        if (headerChunk.len < 4)
+        {
+            return false;
+        }
+
+        const u32 headerMagic = f.ReadU32();
+        if (headerMagic != MakeMagic("sfbk"))
+        {
+            return false;
+        }
+
+        do
+        {
+            SfChunk tmpChunk = ReadChunk(f);
+            if (tmpChunk.len == 0)
+            {
+                return false;
+            }
+
+            if (tmpChunk.magic == MakeMagic("LIST"))
+            {
+                u32 listMagic = f.PeekU32();
+                if (listMagic == MakeMagic("INFO"))
+                {
+                    LOG_INFO("INFO");
+                    // File creation info
+                }
+                else if (listMagic == MakeMagic("LIST"))
+                {
+                    LOG_INFO("LIST");
+                    listMagic = f.PeekU32();
+                    char_type hdr[5] = {};
+                    memcpy(hdr, &listMagic, 4);
+                    LOG_INFO("What this sub chunk? [%s]", hdr);
+                }
+                else if (listMagic == MakeMagic("pdta"))
+                {
+                    LOG_INFO("pdta");
+                }
+                else if (listMagic == MakeMagic("sdta")) // Sample chunk
+                {
+                    LOG_INFO("sdta");
+                    SfChunk subChunk = ReadChunk(f);
+                    if (subChunk.magic == MakeMagic("smpl"))
+                    {
+                        LOG_INFO("smpl");
+                    }
+                }
+                else
+                {
+                    char_type hdr[5] = {};
+                    memcpy(hdr, &listMagic, 4);
+                    LOG_INFO("What this list chunk? [%s]", hdr);
+                }
+            }
+            else if (tmpChunk.magic == MakeMagic("smpl"))
+            {
+                LOG_INFO("smpl");
+            }
+            else
+            {
+                char_type hdr[5] = {};
+                memcpy(hdr, &tmpChunk.magic, 4);
+                LOG_INFO("What this chunk? [%s]", hdr);
+            }
+
+            f.Seek(tmpChunk.len, AutoFILE::SeekMode::Current);
+        }
+        while (f.Pos() < headerChunk.len);
+
+        return true;
+    }
+};
+
 class Sequencer final
 {
 public:
@@ -149,17 +259,7 @@ public:
        // delete_fluid_settings(settings);
     }
 
-    bool LoadSoundFont(const char* )
-    {
-        /*
-        sfont_id = fluid_synth_sfload(synth, fileName, 1);
-        if (sfont_id == FLUID_FAILED)
-        {
-            LOG_ERROR("Failed to load sound font");
-            return false;
-        }*/
-        return true;
-    }
+  
 
     void PlaySeq(const char* )
     {
@@ -248,7 +348,8 @@ void main_loop()
     ImGui_ImplOpenGL3_Init("#version 150");
 
     Sequencer seq;
-    seq.LoadSoundFont("C:\\Users\\paul\\Downloads\\Abe2MidiPlayer\\oddworld.sf2");
+    SoundFont2 sf2;
+    sf2.LoadSoundFont("C:\\Users\\paul\\Downloads\\Abe2MidiPlayer\\oddworld.sf2");
 
     SDL_AudioSpec mAudioDeviceSpec = {};
     mAudioDeviceSpec.callback = Sequencer::AudioCallBackStatic;
