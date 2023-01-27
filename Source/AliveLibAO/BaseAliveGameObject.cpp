@@ -78,7 +78,7 @@ void BaseAliveGameObject::VSetXSpawn(s16 camWorldX, s32 screenXPos)
         FP hitY = {};
         if (BaseAliveGameObjectCollisionLine)
         {
-            if (sCollisions->Raycast(
+            if (gCollisions->Raycast(
                     mXPos,
                     old_y - FP_FromInteger(40),
                     mXPos,
@@ -95,7 +95,7 @@ void BaseAliveGameObject::VSetXSpawn(s16 camWorldX, s32 screenXPos)
             {
                 BaseAliveGameObjectPathTLV = gMap.TLV_First_Of_Type_In_Camera(ReliveTypes::eStartController, 0);
                 if (BaseAliveGameObjectPathTLV
-                    && sCollisions->Raycast(
+                    && gCollisions->Raycast(
                         mXPos,
                         FP_FromInteger(BaseAliveGameObjectPathTLV->mTopLeftY),
                         mXPos,
@@ -116,7 +116,7 @@ void BaseAliveGameObject::VSetXSpawn(s16 camWorldX, s32 screenXPos)
         }
         else
         {
-            if (sCollisions->Raycast(
+            if (gCollisions->Raycast(
                     mXPos,
                     BaseAliveGameObjectLastLineYPos - FP_FromInteger(40),
                     mXPos,
@@ -188,7 +188,7 @@ void BaseAliveGameObject::VCheckCollisionLineStillValid(s32 distance)
     FP hitY = {};
 
     const CollisionMask mask = GetSpriteScale() != FP_FromDouble(0.5) ? kFgWallsOrFloor : kBgWallsOrFloor;
-    if (sCollisions->Raycast(
+    if (gCollisions->Raycast(
             mXPos,
             mYPos - FP_FromInteger(distance),
             mXPos,
@@ -217,7 +217,7 @@ void BaseAliveGameObject::VCheckCollisionLineStillValid(s32 distance)
         BaseAliveGameObjectPathTLV = gMap.TLV_First_Of_Type_In_Camera(ReliveTypes::eStartController, 0);
         if (BaseAliveGameObjectPathTLV)
         {
-            if (sCollisions->Raycast(
+            if (gCollisions->Raycast(
                     mXPos,
                     FP_FromInteger(BaseAliveGameObjectPathTLV->mTopLeftY),
                     mXPos,
@@ -319,7 +319,7 @@ bool BaseAliveGameObject::Check_IsOnEndOfLine(s16 direction, s16 distance)
     PathLine* pLine = nullptr;
     FP hitX = {};
     FP hitY = {};
-    return sCollisions->Raycast(
+    return gCollisions->Raycast(
                xLoc + xPosSnapped,
                mYPos - FP_FromInteger(4),
                xLoc + xPosSnapped,
@@ -445,7 +445,7 @@ void BaseAliveGameObject::VOnPathTransition(s32 camWorldX, s32 camWorldY, Camera
             PathLine* pLine = nullptr;
             FP hitX = {};
             FP hitY = {};
-            if (sCollisions->Raycast(
+            if (gCollisions->Raycast(
                     mXPos,
                     mYPos - FP_FromInteger(40),
                     mXPos,
@@ -475,7 +475,7 @@ void BaseAliveGameObject::VOnPathTransition(s32 camWorldX, s32 camWorldY, Camera
             PathLine* pLine = nullptr;
             FP hitX = {};
             FP hitY = {};
-            if (sCollisions->Raycast(
+            if (gCollisions->Raycast(
                     mXPos,
                     BaseAliveGameObjectLastLineYPos - FP_FromInteger(40),
                     mXPos,
@@ -618,7 +618,7 @@ bool BaseAliveGameObject::MapFollowMe(bool snapToGrid)
 bool BaseAliveGameObject::WallHit(FP offY, FP offX)
 {
     PathLine* pLine = nullptr;
-    return sCollisions->Raycast(
+    return gCollisions->Raycast(
                mXPos,
                mYPos - offY,
                mXPos + offX,
@@ -645,7 +645,7 @@ bool BaseAliveGameObject::InAirCollision(PathLine** ppLine, FP* hitX, FP* hitY, 
     mXPos += mVelX;
     mYPos += mVelY;
 
-    return sCollisions->Raycast(
+    return gCollisions->Raycast(
         old_xpos,
         old_ypos,
         mXPos,

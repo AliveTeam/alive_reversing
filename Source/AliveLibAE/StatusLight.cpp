@@ -62,7 +62,7 @@ StatusLight::StatusLight(relive::Path_StatusLight* pTlv, const Guid& tlvId)
     PathLine* pPathLine = nullptr;
     FP hitX = {};
     FP hitY = {};
-    const auto bCollision = sCollisions->Raycast(
+    const auto bCollision = gCollisions->Raycast(
         mXPos,
         mYPos,
         mXPos,

@@ -1654,7 +1654,7 @@ s16 Glukkon::Brain_3_PlayerControlled()
             return 6;
 
         case 6:
-            GetSoundAPI().SND_Restart();
+            GetSoundAPI().mSND_Restart();
             gScreenManager->EnableRendering();
             field_1D4_timer = sGnFrame + 30;
             SfxPlayMono(relive::SoundEffects::PossessEffect, 0);
@@ -1949,7 +1949,7 @@ void Glukkon::Init()
 
     FP hitX = {};
     FP hitY = {};
-    if (sCollisions->Raycast(
+    if (gCollisions->Raycast(
             mXPos,
             mYPos,
             mXPos,
@@ -2015,7 +2015,7 @@ void Glukkon::VUpdate()
         }
         else
         {
-            sCollisions->Raycast(
+            gCollisions->Raycast(
                 mXPos,
                 mYPos - FP_FromInteger(20),
                 mXPos,
@@ -2108,13 +2108,13 @@ void Glukkon::Update_Slurg_WatchPoints()
     {
         if (sGnFrame & 1)
         {
-            const s8 count = sSlurg_Step_Watch_Points_Count_5BD4DC[sSlurg_Step_Watch_Points_Idx_5C1C08];
+            const s8 count = gSlurgStepWatchPointsCount[gSlurgStepWatchPointsIdx];
             if (count < 5)
             {
-                Slurg_Step_Watch_Points* pPoints = &sSlurg_Step_Watch_Points_5C1B28[sSlurg_Step_Watch_Points_Idx_5C1C08];
+                Slurg_Step_Watch_Points* pPoints = &gSlurgStepWatchPoints[gSlurgStepWatchPointsIdx];
                 pPoints->mPoints[count].x = FP_GetExponent(mXPos);
                 pPoints->mPoints[count].y = BaseAliveGameObjectCollisionLine->mRect.y - 5;
-                sSlurg_Step_Watch_Points_Count_5BD4DC[sSlurg_Step_Watch_Points_Idx_5C1C08] = count + 1;
+                gSlurgStepWatchPointsCount[gSlurgStepWatchPointsIdx] = count + 1;
             }
         }
     }
@@ -2834,7 +2834,7 @@ bool Glukkon::IsLineOfSightBetween(Glukkon* pGlukkon, IBaseAliveGameObject* pOth
     const FP X2 = FP_FromInteger((bRect.x + bRect.w) / 2);
     const FP Y2 = FP_FromInteger((bRect.y + bRect.y) / 2);
 
-    return sCollisions->Raycast(
+    return gCollisions->Raycast(
                pGlukkon->mXPos,
                pGlukkon->mYPos,
                X2,

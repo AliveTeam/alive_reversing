@@ -21,7 +21,7 @@ s32 SFX_Play_Stereo(relive::SoundEffects sfxId, s32 leftVol, s32 rightVol, BaseA
         right = static_cast<s16>(rightVol);
         left = static_cast<s16>(leftVol);
     }
-    return SFX_SfxDefinition_Play_477330(relive::GetSfx(sfxId), left, right, 0x7FFF, 0x7FFF);
+    return SFX_SfxDefinition_Play(relive::GetSfx(sfxId), left, right, 0x7FFF, 0x7FFF);
 }
 
 s32 SFX_Play_Camera(relive::SoundEffects sfxId, s32 volume, CameraPos direction)
@@ -39,7 +39,7 @@ s32 SFX_Play_Camera(relive::SoundEffects sfxId, s32 volume, CameraPos direction)
         }
         case CameraPos::eCamLeft_3:
         {
-            return SFX_SfxDefinition_Play_477330(
+            return SFX_SfxDefinition_Play(
                 relive::GetSfx(sfxId),
                 static_cast<s16>(2 * volume / 3),
                 static_cast<s16>(2 * volume / 9),
@@ -48,7 +48,7 @@ s32 SFX_Play_Camera(relive::SoundEffects sfxId, s32 volume, CameraPos direction)
         }
         case CameraPos::eCamRight_4:
         {
-            return SFX_SfxDefinition_Play_477330(
+            return SFX_SfxDefinition_Play(
                 relive::GetSfx(sfxId),
                 static_cast<s16>(2 * volume / 9),
                 static_cast<s16>(2 * volume / 3),

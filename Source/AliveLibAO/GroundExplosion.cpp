@@ -61,7 +61,7 @@ GroundExplosion::GroundExplosion(FP xpos, FP ypos, FP scale)
         FP_GetExponent(FP_FromInteger(10) * mBombSpriteScale)};
     DealDamageRect(&damageRect);
 
-    SND_SEQ_PlaySeq_4775A0(SeqId::eExplosion1_21, 1, 1);
+    SND_SEQ_PlaySeq(SeqId::eExplosion1_21, 1, 1);
 }
 
 void GroundExplosion::VUpdate()

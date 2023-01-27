@@ -208,7 +208,7 @@ void Game_Free_LoadingIcon()
 void Game_Shutdown()
 {
     Input_DisableInputForPauseMenuAndDebug_4EDDC0();
-    GetSoundAPI().SND_SsQuit();
+    GetSoundAPI().mSND_SsQuit();
     IO_Stop_ASync_IO_Thread_4F26B0();
     VGA_Shutdown();
 }
@@ -426,7 +426,7 @@ void Game_Run()
     relive_delete gPlatformsArray;
     ShadowZone::FreeArray();
     relive_delete gBaseAliveGameObjects;
-    relive_delete sCollisions;
+    relive_delete gCollisions;
 
     gMusicController = nullptr; // Note: OG bug - should have been set to nullptr after shutdown call?
     MusicController::Shutdown();

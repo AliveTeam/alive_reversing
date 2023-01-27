@@ -361,7 +361,7 @@ MusicController::~MusicController()
 {
     if (field_38_music_seq != SeqId::None_M1)
     {
-        SND_Seq_Stop_477A60(field_38_music_seq);
+        SND_Seq_Stop(field_38_music_seq);
     }
 }
 
@@ -396,13 +396,13 @@ void MusicController::VUpdate()
 
             if (field_26_ambient_seq > SeqId::None_M1)
             {
-                SND_Seq_Stop_477A60(field_26_ambient_seq);
+                SND_Seq_Stop(field_26_ambient_seq);
                 field_26_ambient_seq = SeqId::None_M1;
             }
 
             if (field_38_music_seq > SeqId::None_M1)
             {
-                SND_Seq_Stop_477A60(field_38_music_seq);
+                SND_Seq_Stop(field_38_music_seq);
                 field_38_music_seq = SeqId::None_M1;
             }
 
@@ -498,13 +498,13 @@ void MusicController::UpdateVolumeState()
 
             if (field_26_ambient_seq > SeqId::None_M1)
             {
-                SND_Seq_Stop_477A60(field_26_ambient_seq);
+                SND_Seq_Stop(field_26_ambient_seq);
                 field_26_ambient_seq = SeqId::None_M1;
             }
 
             if (field_38_music_seq > SeqId::None_M1)
             {
-                SND_Seq_Stop_477A60(field_38_music_seq);
+                SND_Seq_Stop(field_38_music_seq);
                 field_38_music_seq = SeqId::None_M1;
             }
             break;
@@ -514,12 +514,12 @@ void MusicController::UpdateVolumeState()
             field_48_vol_state = 1;
             if (field_26_ambient_seq > SeqId::None_M1)
             {
-                SND_SEQ_SetVol_477970(field_26_ambient_seq, field_4C_current_vol, field_4C_current_vol);
+                SND_SEQ_SetVol(field_26_ambient_seq, field_4C_current_vol, field_4C_current_vol);
             }
 
             if (field_38_music_seq > SeqId::None_M1)
             {
-                SND_SEQ_SetVol_477970(field_38_music_seq, field_4C_current_vol, field_4C_current_vol);
+                SND_SEQ_SetVol(field_38_music_seq, field_4C_current_vol, field_4C_current_vol);
             }
             break;
 
@@ -691,7 +691,7 @@ void MusicController::UpdateMusic()
     {
         if (field_38_music_seq != SeqId::None_M1)
         {
-            SND_Seq_Stop_477A60(field_38_music_seq);
+            SND_Seq_Stop(field_38_music_seq);
         }
 
         s32 idx = 0;
@@ -913,7 +913,7 @@ void MusicController::UpdateMusic()
         {
             field_38_music_seq = rec2s_4CD5A8[idx].field_0_idx;
             field_3C_music_seq_duration = (counterVal) + rec2s_4CD5A8[idx].field_2_duration;
-            SND_SEQ_Play_477760(field_38_music_seq, 1, field_4C_current_vol, field_4C_current_vol);
+            SND_SEQ_Play(field_38_music_seq, 1, field_4C_current_vol, field_4C_current_vol);
         }
         else
         {
@@ -955,7 +955,7 @@ void MusicController::UpdateAmbiance()
             // Stop current if there is one
             if (field_26_ambient_seq != SeqId::None_M1)
             {
-                SND_Seq_Stop_477A60(field_26_ambient_seq);
+                SND_Seq_Stop(field_26_ambient_seq);
             }
 
             s16 random = -1;
@@ -988,14 +988,14 @@ void MusicController::UpdateAmbiance()
             {
                 // Play new track
                 field_26_ambient_seq = rec2s_4CD5A8[random].field_0_idx;
-                SND_SEQ_Play_477760(field_26_ambient_seq, rec3s_4CD798[static_cast<s32>(MapWrapper::ToAO(field_18_level))].field_18, field_4C_current_vol, field_4C_current_vol);
+                SND_SEQ_Play(field_26_ambient_seq, rec3s_4CD798[static_cast<s32>(MapWrapper::ToAO(field_18_level))].field_18, field_4C_current_vol, field_4C_current_vol);
                 field_28_amibent_seq_duration = GetMusicTime() + rec2s_4CD5A8[random].field_2_duration;
             }
         }
     }
     else
     {
-        SND_Seq_Stop_477A60(field_26_ambient_seq);
+        SND_Seq_Stop(field_26_ambient_seq);
         field_26_ambient_seq = SeqId::None_M1;
     }
 }

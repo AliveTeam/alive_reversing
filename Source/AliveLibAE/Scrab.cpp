@@ -513,7 +513,7 @@ s16 Scrab::OnFloor()
 {
     FP hitX = {};
     FP hitY = {};
-    if (sCollisions->Raycast(
+    if (gCollisions->Raycast(
             mXPos,
             mYPos,
             mXPos,
@@ -623,7 +623,7 @@ void Scrab::VUpdate()
         }
         else
         {
-            sCollisions->Raycast(
+            gCollisions->Raycast(
                 mXPos,
                 mYPos - FP_FromInteger(20),
                 mXPos,
@@ -791,13 +791,13 @@ void Scrab::Update_Slurg_Step_Watch_Points()
     {
         if (sGnFrame & 1)
         {
-            const s8 count = sSlurg_Step_Watch_Points_Count_5BD4DC[sSlurg_Step_Watch_Points_Idx_5C1C08];
+            const s8 count = gSlurgStepWatchPointsCount[gSlurgStepWatchPointsIdx];
             if (count < 5)
             {
-                Slurg_Step_Watch_Points* pPoints = &sSlurg_Step_Watch_Points_5C1B28[sSlurg_Step_Watch_Points_Idx_5C1C08];
+                Slurg_Step_Watch_Points* pPoints = &gSlurgStepWatchPoints[gSlurgStepWatchPointsIdx];
                 pPoints->mPoints[count].x = FP_GetExponent(mXPos);
                 pPoints->mPoints[count].y = BaseAliveGameObjectCollisionLine->mRect.y - 5;
-                sSlurg_Step_Watch_Points_Count_5BD4DC[sSlurg_Step_Watch_Points_Idx_5C1C08] = count + 1;
+                gSlurgStepWatchPointsCount[gSlurgStepWatchPointsIdx] = count + 1;
             }
         }
     }
@@ -4117,7 +4117,7 @@ bool Scrab::LineOfSightTo(Scrab* pThis, BaseAliveGameObject* pObj)
     PathLine* pLine = nullptr;
     FP hitX = {};
     FP hitY = {};
-    return sCollisions->Raycast(
+    return gCollisions->Raycast(
                pThis->mXPos,
                FP_FromInteger((bRect.y + bRect.h) / 2),
                pObj->mXPos,

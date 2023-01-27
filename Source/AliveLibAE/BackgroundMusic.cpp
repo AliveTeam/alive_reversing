@@ -4,14 +4,13 @@
 #include "Map.hpp"
 #include "stdlib.hpp"
 
-s16 sBackgroundMusic_seq_id_560F78 = -1;
-
+static s16 sBackgroundMusicSeqId = -1;
 
 BackgroundMusic::BackgroundMusic(s32 musicId)
     : BaseGameObject(true, 0)
 {
     mMusicId = static_cast<s16>(musicId);
-    sBackgroundMusic_seq_id_560F78 = -1;
+    sBackgroundMusicSeqId = -1;
 }
 
 void BackgroundMusic::VUpdate()
@@ -22,7 +21,7 @@ void BackgroundMusic::VUpdate()
         {
             SND_SEQ_PlaySeq(mMusicId, 0, 0);
         }
-        sBackgroundMusic_seq_id_560F78 = mMusicId;
+        sBackgroundMusicSeqId = mMusicId;
     }
     SetDead(true);
 }
@@ -30,16 +29,16 @@ void BackgroundMusic::VUpdate()
 // In order of functions in the orignal game these are not part of this object
 void BackgroundMusic::Stop()
 {
-    if (sBackgroundMusic_seq_id_560F78 >= 0)
+    if (sBackgroundMusicSeqId >= 0)
     {
-        SND_SEQ_Stop(sBackgroundMusic_seq_id_560F78);
+        SND_SEQ_Stop(sBackgroundMusicSeqId);
     }
 }
 
 void BackgroundMusic::Play()
 {
-    if (sBackgroundMusic_seq_id_560F78 >= 0)
+    if (sBackgroundMusicSeqId >= 0)
     {
-        SND_SEQ_PlaySeq(sBackgroundMusic_seq_id_560F78, 0, 0);
+        SND_SEQ_PlaySeq(sBackgroundMusicSeqId, 0, 0);
     }
 }

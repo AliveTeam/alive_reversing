@@ -398,8 +398,8 @@ private:
     s32 field_294_next_gamespeak_motion = 0;
 };
 
-void Animation_OnFrame_Slig_4C0600(BaseGameObject* pObj, u32&, const IndexedPoint& point);
-void Slig_SoundEffect_4BFFE0(SligSfx effect, BaseAliveGameObject* pObj);
+void Animation_OnFrame_Slig(BaseGameObject* pObj, u32&, const IndexedPoint& point);
+void Slig_SoundEffect(SligSfx effect, BaseAliveGameObject* pObj);
 
 void renderWithGlowingEyes(PrimHeader** ot, BaseAliveGameObject* actor, std::shared_ptr<AnimationPal>& pal, s16 palSize, s16& r, s16& g, s16& b,
                            const s16* eyeColourIndices, s16 eyeColourIndicesSize);

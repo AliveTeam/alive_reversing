@@ -283,7 +283,7 @@ void Bone::InTheAir()
 
     FP hitX = {};
     FP hitY = {};
-    if (sCollisions->Raycast(
+    if (gCollisions->Raycast(
             mPreviousXPos,
             mPreviousYPos,
             mXPos,
@@ -360,7 +360,7 @@ void Bone::InTheAir()
         }
     }
 
-    if (sCollisions->Raycast(mPreviousXPos, mPreviousYPos, mXPos, mYPos, &BaseAliveGameObjectCollisionLine, &hitX, &hitY, GetScale() == Scale::Fg ? kFgWalls : kBgWalls) == 1)
+    if (gCollisions->Raycast(mPreviousXPos, mPreviousYPos, mXPos, mYPos, &BaseAliveGameObjectCollisionLine, &hitX, &hitY, GetScale() == Scale::Fg ? kFgWalls : kBgWalls) == 1)
     {
         switch (BaseAliveGameObjectCollisionLine->mLineType)
         {

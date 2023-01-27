@@ -60,7 +60,7 @@ EvilFart::EvilFart()
     FP hitX = {};
     FP hitY = {};
     PathLine* pLine = nullptr;
-    if (sCollisions->Raycast(
+    if (gCollisions->Raycast(
             mXPos - FP_FromInteger(3),
             mYPos,
             mXPos + FP_FromInteger(3),
@@ -437,7 +437,7 @@ void EvilFart::VUpdate()
         PathLine* pLine = nullptr;
         FP hitX = {};
         FP hitY = {};
-        if (sCollisions->Raycast(
+        if (gCollisions->Raycast(
                 mXPos,
                 mYPos - (GetSpriteScale() * FP_FromInteger(54)),
                 x2Offset + mXPos + mVelX,
@@ -454,7 +454,7 @@ void EvilFart::VUpdate()
             mXPos += mVelX;
         }
 
-        if (sCollisions->Raycast(
+        if (gCollisions->Raycast(
                 mXPos,
                 mYPos - (GetSpriteScale() * FP_FromInteger(54)),
                 mXPos + mVelX + x2Offset,

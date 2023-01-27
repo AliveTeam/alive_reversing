@@ -58,7 +58,7 @@ WorkWheel::WorkWheel(relive::Path_WorkWheel* pTlv, const Guid& tlvId)
     PathLine* pathLine = nullptr;
     FP hitX = {};
     FP hitY = {};
-    if (sCollisions->Raycast(
+    if (gCollisions->Raycast(
             mXPos,
             mYPos,
             mXPos,

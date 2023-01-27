@@ -80,7 +80,7 @@ MovingBomb::MovingBomb(relive::Path_MovingBomb* pTlv, const Guid& tlvId)
 
     FP hitX = {};
     FP hitY = {};
-    if (sCollisions->Raycast(
+    if (gCollisions->Raycast(
             mXPos,
             mYPos,
             mXPos + FP_FromInteger(24),
@@ -235,7 +235,7 @@ void MovingBomb::FollowLine()
                 FP hitX = {};
                 FP hitY = {};
                 mXPos = screen_x;
-                if (sCollisions->Raycast(
+                if (gCollisions->Raycast(
                         mXPos,
                         mYPos - FP_FromInteger(20),
                         mXPos,
@@ -256,7 +256,7 @@ void MovingBomb::FollowLine()
                 FP hitX = {};
                 FP hitY = {};
                 mYPos = screen_y;
-                if (sCollisions->Raycast(
+                if (gCollisions->Raycast(
                         mXPos - FP_FromInteger(20),
                         mYPos,
                         mXPos + FP_FromInteger(20),

@@ -57,7 +57,7 @@ void BulletShell::VUpdate()
 
     FP hitX = {};
     FP hitY = {};
-    if (sCollisions->Raycast(
+    if (gCollisions->Raycast(
             mXPos,
             mYPos - mVelY,
             mXPos,

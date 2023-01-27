@@ -49,7 +49,7 @@ AirExplosion::AirExplosion(FP xpos, FP ypos, FP explosion_size)
 
     DealBlastDamage(&rect);
 
-    SND_SEQ_PlaySeq_4775A0(SeqId::eExplosion1_21, 1, 1);
+    SND_SEQ_PlaySeq(SeqId::eExplosion1_21, 1, 1);
 }
 
 void AirExplosion::VUpdate()

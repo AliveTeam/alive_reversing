@@ -285,7 +285,7 @@ void FallingItem::VUpdate()
             PathLine* pathLine = nullptr;
             FP hitX = {};
             FP hitY = {};
-            if (sCollisions->Raycast(
+            if (gCollisions->Raycast(
                     mXPos,
                     mYPos,
                     mXPos,

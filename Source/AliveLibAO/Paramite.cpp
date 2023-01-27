@@ -152,7 +152,7 @@ Paramite::Paramite(relive::Path_Paramite* pTlv, const Guid& tlvId)
 
     FP hitX = {};
     FP hitY = {};
-    if (sCollisions->Raycast(
+    if (gCollisions->Raycast(
             mXPos,
             mYPos,
             mXPos,
@@ -208,7 +208,7 @@ Paramite::~Paramite()
         Path::TLV_Reset(field_12C_tlvInfo, -1, 0, 0);
     }
 
-    SND_Seq_Stop_477A60(SeqId::eParamiteNearby_30);
+    SND_Seq_Stop(SeqId::eParamiteNearby_30);
 
     MusicController::static_PlayMusic(MusicController::MusicTypes::eType0, this, 0, 0);
     MusicController::ClearObject(this);
@@ -335,7 +335,7 @@ void Paramite::VUpdate()
             mYPos,
             0))
     {
-        SND_SEQ_PlaySeq_4775A0(SeqId::eParamiteNearby_30, 1, 0);
+        SND_SEQ_PlaySeq(SeqId::eParamiteNearby_30, 1, 0);
     }
     else
     {
@@ -366,7 +366,7 @@ void Paramite::VUpdate()
 
         if (!bFound)
         {
-            SND_Seq_Stop_477A60(SeqId::eParamiteNearby_30);
+            SND_Seq_Stop(SeqId::eParamiteNearby_30);
         }
     }
 
@@ -779,7 +779,7 @@ void Paramite::Sound(ParamiteSpeak idx)
             return;
     }
 
-    SFX_SfxDefinition_Play_477330(stru_4CDD98[static_cast<s16>(idx)], volLeft, volRight, -520, -520);
+    SFX_SfxDefinition_Play(stru_4CDD98[static_cast<s16>(idx)], volLeft, volRight, -520, -520);
 }
 
 void Paramite::SetMusic()
@@ -3436,7 +3436,7 @@ void Paramite::Motion_18_RunningAttack()
         FP hitX = {};
         FP hitY = {};
         PathLine* pLine = nullptr;
-        if (sCollisions->Raycast(
+        if (gCollisions->Raycast(
                 mXPos + gridSizeDirected,
                 mYPos - FP_FromInteger(10),
                 mXPos + gridSizeDirected,
@@ -3496,7 +3496,7 @@ void Paramite::Motion_20_SurpriseWeb()
     FP hitX = {};
     FP hitY = {};
 
-    if (sCollisions->Raycast(
+    if (gCollisions->Raycast(
             mXPos,
             mYPos,
             mXPos,

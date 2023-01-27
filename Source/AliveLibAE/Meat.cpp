@@ -178,7 +178,7 @@ void Meat::InTheAir()
 
     FP hitX = {};
     FP hitY = {};
-    if (sCollisions->Raycast(mPreviousXPos, mPreviousYPos, mXPos, mYPos, &mPathLine, &hitX, &hitY, GetScale() == Scale::Fg ? kFgFloorCeilingOrWalls : kBgFloorCeilingOrWalls) == 1)
+    if (gCollisions->Raycast(mPreviousXPos, mPreviousYPos, mXPos, mYPos, &mPathLine, &hitX, &hitY, GetScale() == Scale::Fg ? kFgFloorCeilingOrWalls : kBgFloorCeilingOrWalls) == 1)
     {
         switch (mPathLine->mLineType)
         {

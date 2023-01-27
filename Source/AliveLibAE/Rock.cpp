@@ -93,7 +93,7 @@ void Rock::VUpdate()
         }
         else
         {
-            sCollisions->Raycast(
+            gCollisions->Raycast(
                 mXPos,
                 mYPos - FP_FromInteger(10),
                 mXPos,
@@ -256,7 +256,7 @@ void Rock::InTheAir()
 
     FP hitX = {};
     FP hitY = {};
-    if (sCollisions->Raycast(
+    if (gCollisions->Raycast(
             mPreviousXPos,
             mPreviousYPos,
             mXPos,
@@ -344,7 +344,7 @@ void Rock::InTheAir()
         }
     }
 
-    if (sCollisions->Raycast(mPreviousXPos, mPreviousYPos, mXPos, mYPos, &BaseAliveGameObjectCollisionLine, &hitX, &hitY, GetScale() == Scale::Fg ? kFgWalls : kBgWalls) == 1)
+    if (gCollisions->Raycast(mPreviousXPos, mPreviousYPos, mXPos, mYPos, &BaseAliveGameObjectCollisionLine, &hitX, &hitY, GetScale() == Scale::Fg ? kFgWalls : kBgWalls) == 1)
     {
         switch (BaseAliveGameObjectCollisionLine->mLineType)
         {

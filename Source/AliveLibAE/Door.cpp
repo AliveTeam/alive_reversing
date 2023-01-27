@@ -282,7 +282,7 @@ Door::Door(relive::Path_Door* pTlv, const Guid& tlvId)
     FP tlvXMid = FP_FromInteger((pTlv->mTopLeftX + pTlv->mBottomRightX) / 2);
     PathLine* pathLine = nullptr;
 
-    if (sCollisions->Raycast(
+    if (gCollisions->Raycast(
             tlvXMid,
             FP_FromInteger(pTlv->mTopLeftY),
             tlvXMid,

@@ -78,7 +78,7 @@ void Init_Sound_DynamicArrays_And_Others()
 
     gBaseAliveGameObjects = relive_new DynamicArrayT<IBaseAliveGameObject>(20);
 
-    SND_Init_476E40();
+    SND_Init();
     SND_Init_Ambiance();
     MusicController::Create();
 
@@ -326,7 +326,7 @@ void Game_Run()
     MusicController::Shutdown();
 
     SND_Reset_Ambiance();
-    SND_Shutdown_476EC0();
+    SND_Shutdown();
     InputObject::Shutdown();
 }
 

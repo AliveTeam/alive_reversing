@@ -79,7 +79,7 @@ Lever::Lever(relive::Path_Lever* pTlv, const Guid& tlvId)
     PathLine* pPathLine = nullptr;
     FP hitX = {};
     FP hitY = {};
-    if (sCollisions->Raycast(
+    if (gCollisions->Raycast(
             mXPos,
             mYPos,
             mXPos,

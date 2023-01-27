@@ -41,7 +41,7 @@ void BaseThrowable::BaseAddToPlatform()
     FP hitX = {};
     FP hitY = {};
     PathLine* pLine = nullptr;
-    if (sCollisions->Raycast(
+    if (gCollisions->Raycast(
             mXPos,
             mYPos - FP_FromInteger(20),
             mXPos,

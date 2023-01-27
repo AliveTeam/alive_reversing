@@ -106,7 +106,7 @@ s8 DDV_StartAudio()
             if (!sNoAudioOrAudioError)
             {
                 void* pDecompressedAudioBuffer = Masher::GetDecompressedAudioFrame_4EAC60(sMasherInstance);
-                if (GetSoundAPI().SND_LoadSamples(
+                if (GetSoundAPI().mSND_LoadSamples(
                         &sFmvSoundEntry,
                         sFmvAudioSampleOffset,
                         (u8*) pDecompressedAudioBuffer,
@@ -134,7 +134,7 @@ s8 DDV_StartAudio()
         if (!sNoAudioOrAudioError)
         {
             // Sound entry is created and populated with 1 frame, play it
-            if (FAILED(SND_PlayEx_4EF740(&sFmvSoundEntry, 116, 116, 1.0, 0, 1, 100)))
+            if (FAILED(SND_PlayEx(&sFmvSoundEntry, 116, 116, 1.0, 0, 1, 100)))
             {
                 sNoAudioOrAudioError = true;
             }
@@ -207,7 +207,7 @@ s8 DDV_Play_Impl(const char_type* pMovieName)
     sNoAudioOrAudioError = false;
     if (sHasAudio && sMasher_AudioHeader->field_0_audio_format)
     {
-        if (GetSoundAPI().SND_New(
+        if (GetSoundAPI().mSND_New(
                 &sFmvSoundEntry,
                 fmv_sound_entry_size,
                 sMasher_AudioHeader->field_4_samples_per_second,
@@ -266,7 +266,7 @@ s8 DDV_Play_Impl(const char_type* pMovieName)
                 if (pDecompressedAudioFrame)
                 {
                     // Push new samples into the buffer
-                    if (GetSoundAPI().SND_LoadSamples(&sFmvSoundEntry, sFmvAudioSampleOffset, (u8*)pDecompressedAudioFrame, sFmvSingleAudioFrameSizeInSamples) < 0)
+                    if (GetSoundAPI().mSND_LoadSamples(&sFmvSoundEntry, sFmvAudioSampleOffset, (u8*)pDecompressedAudioFrame, sFmvSingleAudioFrameSizeInSamples) < 0)
                     {
                         // Reload with data fail
                         sNoAudioOrAudioError = true;
@@ -274,7 +274,7 @@ s8 DDV_Play_Impl(const char_type* pMovieName)
                 }
                 else
                 {
-                    if (GetSoundAPI().SND_Clear(&sFmvSoundEntry, sFmvAudioSampleOffset, sFmvSingleAudioFrameSizeInSamples) < 0)
+                    if (GetSoundAPI().mSND_Clear(&sFmvSoundEntry, sFmvAudioSampleOffset, sFmvSingleAudioFrameSizeInSamples) < 0)
                     {
                         // Reload with silence on failure or no data
                         sNoAudioOrAudioError = true;
@@ -298,7 +298,7 @@ s8 DDV_Play_Impl(const char_type* pMovieName)
                     // User quit video playback
                     if (sFmvSoundEntry.field_4_pDSoundBuffer)
                     {
-                        GetSoundAPI().SND_Free(&sFmvSoundEntry);
+                        GetSoundAPI().mSND_Free(&sFmvSoundEntry);
                     }
 
                     Render_DDV_Frame(&polyFT4);
@@ -397,7 +397,7 @@ s8 DDV_Play_Impl(const char_type* pMovieName)
 
     if (sFmvSoundEntry.field_4_pDSoundBuffer)
     {
-        GetSoundAPI().SND_Free(&sFmvSoundEntry);
+        GetSoundAPI().mSND_Free(&sFmvSoundEntry);
         sFmvSoundEntry.field_4_pDSoundBuffer = nullptr;
     }
 

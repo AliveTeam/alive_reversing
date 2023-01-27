@@ -139,7 +139,7 @@ static bool DrawOTagImpl(PrimHeader** ppOt)
             break;
         }
 
-        SsSeqCalledTbyT_4FDC80();
+        SsSeqCalledTbyT();
 
         PrimAny any;
         any.mVoid = pOtItem;

@@ -63,7 +63,7 @@ MineCar::MineCar(relive::Path_MineCar* pTlv, const Guid& tlvId, s32 /*a4*/, s32 
 
     FP hitX = {};
     FP hitY = {};
-    if (sCollisions->Raycast(
+    if (gCollisions->Raycast(
             mXPos,
             mYPos,
             mXPos,
@@ -310,7 +310,7 @@ MineCar::~MineCar()
 bool MineCar::CheckRoofCollision(FP hitX, FP hitY)
 {
     PathLine* pPathLine = nullptr;
-    return sCollisions->Raycast(
+    return gCollisions->Raycast(
         mXPos + hitX,
         mYPos,
         mXPos + hitX,
@@ -327,7 +327,7 @@ bool MineCar::CheckFloorCollision(FP hitX, FP hitY)
     PathLine* pPathLine = nullptr;
 
     if (
-        !sCollisions->Raycast(
+        !gCollisions->Raycast(
             mXPos + hitX,
             mYPos - FP_FromInteger(4),
             mXPos + hitX,
@@ -790,7 +790,7 @@ void MineCar::VUpdate()
 
         if (BaseAliveGameObjectCollisionLineType != -1)
         {
-            sCollisions->Raycast(
+            gCollisions->Raycast(
                 mXPos,
                 mYPos - FP_FromInteger(20),
                 mXPos,
@@ -872,7 +872,7 @@ void MineCar::VUpdate()
     PathLine* pPathLine = nullptr;
 
     if (
-        !sCollisions->Raycast(
+        !gCollisions->Raycast(
             mXPos - mineCarWidthAdjusted,
             mYPos + mVelY - (mineCarWidthAdjusted * FP_FromDouble(0.5)),
             mXPos + mineCarWidthAdjusted,
@@ -1145,7 +1145,7 @@ bool MineCar::HandleState1Move(const mineCarFPFunc func, const FP mineCarFPFuncA
     FP hitY = {};
 
     if (
-        sCollisions->Raycast(
+        gCollisions->Raycast(
             rayCastX1,
             rayCastY1,
             rayCastX2,
@@ -1389,7 +1389,7 @@ void MineCar::State_2_Moving()
     PathLine* pPathLine = nullptr;
 
     if (
-        !sCollisions->Raycast(
+        !gCollisions->Raycast(
             mXPos - mineCarWidthAdjusted,
             mYPos + mVelY - (mineCarWidthAdjusted * FP_FromDouble(0.5)),
             mXPos + mineCarWidthAdjusted,
@@ -1407,7 +1407,7 @@ void MineCar::State_2_Moving()
     }
 
     if (
-        !sCollisions->Raycast(
+        !gCollisions->Raycast(
             mXPos + mVelX,
             mYPos,
             mXPos + mVelX,
@@ -1425,7 +1425,7 @@ void MineCar::State_2_Moving()
     }
 
     if (
-        !sCollisions->Raycast(
+        !gCollisions->Raycast(
             mXPos + mVelX,
             mYPos,
             mXPos + mVelX,

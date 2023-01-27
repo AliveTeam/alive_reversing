@@ -118,11 +118,11 @@ class PathLineAO final
 public:
     PSX_RECT mRect;
     eLineTypes mLineType;
-    s8 field_9_pad;
-    s8 field_A_pad;
-    s8 field_B_pad;
-    s32 field_C_previous;
-    s32 field_10_next;
+    s8 pad1;
+    s8 pad2;
+    s8 pad3;
+    s32 mPrevious;
+    s32 mNext;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(PathLineAO, 20);
 
@@ -132,26 +132,26 @@ class PathLineAE final
 public:
     PSX_RECT mRect;
     eLineTypes mLineType;
-    s8 field_9_pad;
-    s16 field_A_previous;
-    s16 field_C_next;
-    s16 field_E_previous2; // Never used
-    s16 field_10_next2;    // And... also never used
-    s16 field_12_line_length;
+    s8 pad;
+    s16 mPrevious;
+    s16 mNext;
+    s16 mPrevious2; // Never used
+    s16 mNext2;    // And... also never used
+    s16 mLineLength;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(PathLineAE, 0x14);
 
 // Another on disk structure that is identical between games
 struct CollisionInfo final
 {
-    s16 field_4_left;
-    s16 field_6_right;
-    s16 field_8_top;
-    s16 field_A_bottom;
-    u32 field_C_collision_offset;
-    u32 field_10_num_collision_items;
-    u32 field_14_grid_width;
-    u32 field_18_grid_height;
+    s16 mLeft;
+    s16 mRight;
+    s16 mTop;
+    s16 mBottom;
+    u32 mCollisionOffset;
+    u32 mNumCollisionItems;
+    u32 mGridWidth;
+    u32 mGridHeight;
 };
 ALIVE_ASSERT_SIZEOF(CollisionInfo, 0x1C);
 
@@ -161,13 +161,11 @@ class PathLine final
 public:
     PSX_RECT mRect;
     eLineTypes mLineType;
-    s16 field_A_previous;
-    s16 field_C_next;
-    s16 field_12_line_length;
+    s16 mPrevious;
+    s16 mNext;
+    s16 mLineLength;
     PathLine* MoveOnLine(FP* xpos, FP* ypos, FP velX);
 };
-
-
 
 class Collisions final
 {
@@ -186,31 +184,31 @@ private:
     template <typename LineClassType>
     void ConvertLineTypes(const CollisionInfo* pCollisionInfo, const u8* pPathRes)
     {
-        auto pLines = reinterpret_cast<const LineClassType>(&pPathRes[pCollisionInfo->field_C_collision_offset]);
-        for (s32 i = 0; i < field_C_max_count; i++)
+        auto pLines = reinterpret_cast<const LineClassType>(&pPathRes[pCollisionInfo->mCollisionOffset]);
+        for (s32 i = 0; i < mMaxCount; i++)
         {
-            if (i < field_4_current_item_count)
+            if (i < mCurrentCollisionCount)
             {
-                ToPathLine(field_0_pArray[i], pLines[i]);
+                ToPathLine(mCollisionArray[i], pLines[i]);
             }
             else
             {
                 // Zero init the "free" dynamic items
-                field_0_pArray[i] = {};
+                mCollisionArray[i] = {};
             }
         }
     }
 
 
 public:
-    PathLine* field_0_pArray = nullptr;
-    u16 field_4_current_item_count = 0;
-    s32 field_8_item_count = 0;
-    s32 field_C_max_count = 0;
+    PathLine* mCollisionArray = nullptr;
+    u16 mCurrentCollisionCount = 0;
+    s32 mCollisionCount = 0;
+    s32 mMaxCount = 0;
 };
 
 struct PSX_RECT;
 
 PSX_RECT* Rect_Clear(PSX_RECT* pRect);
 
-extern Collisions* sCollisions;
+extern Collisions* gCollisions;

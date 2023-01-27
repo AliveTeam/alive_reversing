@@ -68,7 +68,7 @@ void Bullet::VUpdate()
             shootRect.h = FP_GetExponent(mYPos + FP_FromInteger(5));
 
             IBaseAliveGameObject* pShotObj = ShootObject(&shootRect);
-            if (sCollisions->Raycast(
+            if (gCollisions->Raycast(
                     mXPos,
                     mYPos,
                     mXDistance + mXPos,
@@ -170,7 +170,7 @@ void Bullet::VUpdate()
                 return;
             }
 
-            if (sCollisions->Raycast(
+            if (gCollisions->Raycast(
                     mXPos,
                     mYPos,
                     distX_1 - distX_2,

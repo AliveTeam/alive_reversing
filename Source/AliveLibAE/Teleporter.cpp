@@ -287,7 +287,7 @@ void Teleporter::VUpdate()
             PathLine* pPathLine = nullptr;
             FP hitX = {};
             FP hitY = {};
-            if (sCollisions->Raycast(
+            if (gCollisions->Raycast(
                     sControlledCharacter->mXPos,
                     FP_FromInteger(pTeleporterTlv->mTopLeftY),
                     sControlledCharacter->mXPos,

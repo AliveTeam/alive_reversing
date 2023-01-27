@@ -180,31 +180,31 @@ enum class SeqId : s16
     Unknown_163 = 163,
 };
 
-void SsUtAllKeyOff_49EDE0(s32 mode);
+void SsUtAllKeyOff(s32 mode);
 
 void SND_Reset_476BA0();
 
-void SND_Load_VABS_477040(std::shared_ptr<PathSoundInfo>& pSoundBlockInfo, s32 reverb);
+void SND_Load_VABS(std::shared_ptr<PathSoundInfo>& pSoundBlockInfo, s32 reverb);
 
 void SND_Stop_Channels_Mask(s32 mask);
 
 void SND_Load_Seqs_477AB0(OpenSeqHandle* pSeqTable, std::shared_ptr<PathSoundInfo>& bsqFileName);
 
-s16 SND_SEQ_PlaySeq_4775A0(SeqId idx, s32 repeatCount, s16 bDontStop);
+s16 SND_SEQ_PlaySeq(SeqId idx, s32 repeatCount, s16 bDontStop);
 
-void SND_Seq_Stop_477A60(SeqId idx);
+void SND_Seq_Stop(SeqId idx);
 
-s16 SND_SEQ_Play_477760(SeqId idx, s32 repeatCount, s16 volLeft, s16 volRight);
+s16 SND_SEQ_Play(SeqId idx, s32 repeatCount, s16 volLeft, s16 volRight);
 
-s16 SND_SsIsEos_DeInlined_477930(SeqId idx);
+s16 SND_SsIsEos_DeInlined(SeqId idx);
 
-s32 SFX_SfxDefinition_Play_477330(const relive::SfxDefinition& sfxDef, s16 volLeft, s16 volRight, s16 pitch_min, s16 pitch_max);
+s32 SFX_SfxDefinition_Play(const relive::SfxDefinition& sfxDef, s16 volLeft, s16 volRight, s16 pitch_min, s16 pitch_max);
 
-void SND_Init_476E40();
+void SND_Init();
 
-void SND_Shutdown_476EC0();
+void SND_Shutdown();
 
-void SND_SEQ_SetVol_477970(SeqId idx, s16 volLeft, s16 volRight);
+void SND_SEQ_SetVol(SeqId idx, s16 volLeft, s16 volRight);
 
 void SND_StopAll();
 

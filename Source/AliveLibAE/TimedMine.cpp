@@ -77,7 +77,7 @@ TimedMine::TimedMine(relive::Path_TimedMine* pTlv, const Guid& tlvId)
     FP hitY = {};
     FP hitX = {};
 
-    if (sCollisions->Raycast(
+    if (gCollisions->Raycast(
             mXPos,
             mYPos,
             mXPos,
@@ -211,7 +211,7 @@ void TimedMine::StickToLiftPoint()
     FP hitY = {};
     PathLine* pLine = nullptr;
     mStickToLiftPoint = true;
-    if (sCollisions->Raycast(
+    if (gCollisions->Raycast(
             mXPos,
             mYPos - FP_FromInteger(20),
             mXPos,

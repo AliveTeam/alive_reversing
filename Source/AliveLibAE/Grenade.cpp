@@ -220,7 +220,7 @@ void Grenade::VUpdate()
         }
         else
         {
-            sCollisions->Raycast(
+            gCollisions->Raycast(
                 mXPos,
                 mYPos - FP_FromInteger(10),
                 mXPos,
@@ -414,7 +414,7 @@ s16 Grenade::InTheAir(s16 blowUpOnFloorTouch)
 
     FP hitX = {};
     FP hitY = {};
-    if (sCollisions->Raycast(
+    if (gCollisions->Raycast(
             mPreviousXPos,
             mPreviousYPos,
             mXPos,
@@ -479,7 +479,7 @@ s16 Grenade::InTheAir(s16 blowUpOnFloorTouch)
         }
     }
 
-    if (sCollisions->Raycast(
+    if (gCollisions->Raycast(
             mPreviousXPos,
             mPreviousYPos,
             mXPos,

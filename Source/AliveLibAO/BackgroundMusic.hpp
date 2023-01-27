@@ -14,9 +14,9 @@ public:
     static void Stop();
     static void Play();
 
-    s16 field_10_music_id = 0;
+    s16 mMusicId = 0;
 };
 
-extern s16 sBackgroundMusic_seq_id_4CFFF8;
+extern s16 gBackgroundMusicSeqId;
 
 } // namespace AO

@@ -187,7 +187,7 @@ void HoneySack::VUpdate()
             FP hitX = {};
             FP hitY = {};
 
-            if (sCollisions->Raycast(
+            if (gCollisions->Raycast(
                     mXPos,
                     oldY,
                     mXPos,

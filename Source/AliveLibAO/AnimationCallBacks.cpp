@@ -103,16 +103,16 @@ void Animation_OnFrame_ZBallSmacker(::BaseGameObject* pObj, u32& idx, const Inde
 void Slog_OnFrame(::BaseGameObject* pObj, u32&, const IndexedPoint& pData)
 {
     auto pSlog = static_cast<Slog*>(pObj);
-    if (pSlog->field_10C_pTarget)
+    if (pSlog->mTarget)
     {
-        const PSX_RECT targetRect = pSlog->field_10C_pTarget->VGetBoundingRect();
+        const PSX_RECT targetRect = pSlog->mTarget->VGetBoundingRect();
         const PSX_RECT slogRect = pSlog->VGetBoundingRect();
 
         if (RectsOverlap(slogRect, targetRect))
         {
-            if (pSlog->field_10C_pTarget->GetSpriteScale() == pSlog->GetSpriteScale() && !pSlog->field_110)
+            if (pSlog->mTarget->GetSpriteScale() == pSlog->GetSpriteScale() && !pSlog->mBitingTarget)
             {
-                if (pSlog->field_10C_pTarget->VTakeDamage(pSlog))
+                if (pSlog->mTarget->VTakeDamage(pSlog))
                 {
                     FP blood_xpos = {};
                     if (pSlog->GetAnimation().GetFlipX())
@@ -134,7 +134,7 @@ void Slog_OnFrame(::BaseGameObject* pObj, u32&, const IndexedPoint& pData)
                         pSlog->GetSpriteScale(),
                         50);
 
-                    pSlog->field_110 = 1;
+                    pSlog->mBitingTarget = 1;
 
                     SfxPlayMono(relive::SoundEffects::SlogBite, 0);
                 }
@@ -143,7 +143,7 @@ void Slog_OnFrame(::BaseGameObject* pObj, u32&, const IndexedPoint& pData)
     }
 }
 
-const FP_Point kAbeVelTable_4C6608[6] = {
+static const FP_Point sThrowVelocities[6] = {
     {FP_FromInteger(3), FP_FromInteger(-14)},
     {FP_FromInteger(10), FP_FromInteger(-10)},
     {FP_FromInteger(15), FP_FromInteger(-8)},
@@ -155,8 +155,8 @@ void Abe_OnFrame(::BaseGameObject* pObj, u32&, const IndexedPoint& pData)
 {
     auto pAbe = static_cast<Abe*>(pObj);
 
-    FP xVel = kAbeVelTable_4C6608[pAbe->field_19D_throw_direction].x * pAbe->GetSpriteScale();
-    const FP yVel = kAbeVelTable_4C6608[pAbe->field_19D_throw_direction].y * pAbe->GetSpriteScale();
+    FP xVel = sThrowVelocities[pAbe->mThrowDirection].x * pAbe->GetSpriteScale();
+    const FP yVel = sThrowVelocities[pAbe->mThrowDirection].y * pAbe->GetSpriteScale();
 
     FP directed_x = {};
     if (sActiveHero->GetAnimation().GetFlipX())
@@ -174,7 +174,7 @@ void Abe_OnFrame(::BaseGameObject* pObj, u32&, const IndexedPoint& pData)
     FP hitX = {};
     FP hitY = {};
     PathLine* pLine = nullptr;
-    if (sCollisions->Raycast(
+    if (gCollisions->Raycast(
             pAbe->mXPos,
             pAbe->mYPos + data_y,
             pAbe->mXPos + directed_x,
@@ -188,20 +188,20 @@ void Abe_OnFrame(::BaseGameObject* pObj, u32&, const IndexedPoint& pData)
         xVel = -xVel;
     }
 
-    if (sActiveHero->field_198_pThrowable)
+    if (sActiveHero->mThrowable)
     {
-        sActiveHero->field_198_pThrowable->mXPos = directed_x + sActiveHero->mXPos;
-        BaseThrowable* pThrowable = sActiveHero->field_198_pThrowable;
+        sActiveHero->mThrowable->mXPos = directed_x + sActiveHero->mXPos;
+        BaseThrowable* pThrowable = sActiveHero->mThrowable;
         pThrowable->mYPos = (pAbe->GetSpriteScale() * data_y) + sActiveHero->mYPos;
         pThrowable->VThrow(xVel, yVel);
         pThrowable->SetSpriteScale(pAbe->GetSpriteScale());
-        sActiveHero->field_198_pThrowable = nullptr;
+        sActiveHero->mThrowable = nullptr;
     }
 }
 
-TFrameCallBackType kAbe_Anim_Frame_Fns_4CEBEC[] = {Abe_OnFrame};
-TFrameCallBackType kSlig_Anim_Frame_Fns_4CEBF0[] = {Animation_OnFrame_Slig};
-TFrameCallBackType kSlog_Anim_Frame_Fns_4CEBF4[] = {Slog_OnFrame};
-TFrameCallBackType kZBall_Anim_Frame_Fns_4CEBF8[] = {Animation_OnFrame_ZBallSmacker};
+TFrameCallBackType gAbe_Anim_Frame_Fns[] = {Abe_OnFrame};
+TFrameCallBackType gSlig_Anim_Frame_Fns[] = {Animation_OnFrame_Slig};
+TFrameCallBackType gSlog_Anim_Frame_Fns[] = {Slog_OnFrame};
+TFrameCallBackType gZBall_Anim_Frame_Fns[] = {Animation_OnFrame_ZBallSmacker};
 
 }

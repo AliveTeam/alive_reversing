@@ -83,6 +83,6 @@ private:
     FP mSlurgSpriteScale = {}; // just use BaseAnimatedWithPhysicsGameObject sprite scale?
 };
 
-extern u16 sSlurg_Step_Watch_Points_Idx_5C1C08;
-extern s8 sSlurg_Step_Watch_Points_Count_5BD4DC[2];
-extern Slurg_Step_Watch_Points sSlurg_Step_Watch_Points_5C1B28[2];
+extern u16 gSlurgStepWatchPointsIdx;
+extern s8 gSlurgStepWatchPointsCount[2];
+extern Slurg_Step_Watch_Points gSlurgStepWatchPoints[2];

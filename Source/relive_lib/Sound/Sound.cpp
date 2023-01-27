@@ -133,7 +133,7 @@ s32 SND_Free_4EFA30(SoundEntry* pSnd)
     return 0;
 }
 
-s32 SND_PlayEx_4EF740(const SoundEntry* pSnd, s32 panLeft, s32 panRight, f32 freq, MIDI_Channel* pMidiStru, s32 playFlags, s32 priority)
+s32 SND_PlayEx(const SoundEntry* pSnd, s32 panLeft, s32 panRight, f32 freq, MIDI_Channel* pMidiStru, s32 playFlags, s32 priority)
 {
     if (!sDSound_BBC344)
     {
@@ -189,7 +189,7 @@ s32 SND_PlayEx_4EF740(const SoundEntry* pSnd, s32 panLeft, s32 panRight, f32 fre
     }
     else
     {
-        SoundBuffer* pSoundBuffer = GetSoundAPI().SND_Get_Sound_Buffer(pSnd->field_0_tableIdx, panRightConverted + priority);
+        SoundBuffer* pSoundBuffer = GetSoundAPI().mSND_Get_Sound_Buffer(pSnd->field_0_tableIdx, panRightConverted + priority);
         if (!pSoundBuffer)
         {
             return -1;
@@ -198,7 +198,7 @@ s32 SND_PlayEx_4EF740(const SoundEntry* pSnd, s32 panLeft, s32 panRight, f32 fre
         HRESULT v15 = sDSound_BBC344->DuplicateSoundBuffer(pDSoundBuffer, &pSoundBuffer->field_0_pDSoundBuffer);
         if (FAILED(v15))
         {
-            ALIVE_FATAL(GetSoundAPI().SND_HR_Err_To_String(v15));
+            ALIVE_FATAL(GetSoundAPI().mSND_HR_Err_To_String(v15));
         }
 
         pDSoundBuffer = pSoundBuffer->field_0_pDSoundBuffer;
@@ -239,7 +239,7 @@ s32 SND_PlayEx_4EF740(const SoundEntry* pSnd, s32 panLeft, s32 panRight, f32 fre
     if (hr == DSERR_BUFFERLOST)
     {
         // Restore the lost buffer
-        if (GetSoundAPI().SND_LoadSamples(pSnd, 0, pSnd->field_8_pSoundBuffer, pSnd->field_C_buffer_size_bytes / pSnd->field_1D_blockAlign) == 0)
+        if (GetSoundAPI().mSND_LoadSamples(pSnd, 0, pSnd->field_8_pSoundBuffer, pSnd->field_C_buffer_size_bytes / pSnd->field_1D_blockAlign) == 0)
         {
             // Try again
             if (SUCCEEDED(pDSoundBuffer->Play(0, 0, playFlags)))
@@ -265,7 +265,7 @@ void SND_Init_WaveFormatEx_4EEA00(WAVEFORMATEX* pWaveFormat, s32 sampleRate, u8 
     pWaveFormat->nAvgBytesPerSec = sampleRate * pWaveFormat->nBlockAlign;
 }
 
-s32 SND_New_4EEFF0(SoundEntry* pSnd, s32 sampleLength, s32 sampleRate, s32 bitsPerSample, s32 isStereo)
+s32 SND_New(SoundEntry* pSnd, s32 sampleLength, s32 sampleRate, s32 bitsPerSample, s32 isStereo)
 {
     if (!sDSound_BBC344)
     {
@@ -282,7 +282,7 @@ s32 SND_New_4EEFF0(SoundEntry* pSnd, s32 sampleLength, s32 sampleRate, s32 bitsP
         waveFormatEx.nAvgBytesPerSec = 0;
         waveFormatEx.nBlockAlign = 0;
         waveFormatEx.cbSize = 0;
-        GetSoundAPI().SND_Init_WaveFormatEx(&waveFormatEx, sampleRate, static_cast<u8>(bitsPerSample), isStereo & 1);
+        GetSoundAPI().mSND_Init_WaveFormatEx(&waveFormatEx, sampleRate, static_cast<u8>(bitsPerSample), isStereo & 1);
 
         const s32 sampleByteSize = sampleLength * waveFormatEx.nBlockAlign;
         bufferDesc.dwReserved = 0;
@@ -353,7 +353,7 @@ s32 SND_Renew_4EEDD0(SoundEntry* pSnd)
     waveFormat.nBlockAlign = 0;
     waveFormat.cbSize = 0;
 
-    GetSoundAPI().SND_Init_WaveFormatEx(&waveFormat, pSnd->field_18_sampleRate, pSnd->field_1C_bitsPerSample, pSnd->field_20_isStereo & 1);
+    GetSoundAPI().mSND_Init_WaveFormatEx(&waveFormat, pSnd->field_18_sampleRate, pSnd->field_1C_bitsPerSample, pSnd->field_20_isStereo & 1);
 
     bufferDesc.dwBufferBytes = pSnd->field_14_buffer_size_bytes;
     bufferDesc.dwReserved = 0;
@@ -417,10 +417,10 @@ u32* SND_4F00B0(u32* /*a1*/, u32 /*a2*/, s32 /*a3*/)
     //return result;
 }
 
-s32 SND_Load_4EF680(SoundEntry* pSnd, const void* pWaveData, s32 waveDataLen)
+s32 SND_Load(SoundEntry* pSnd, const void* pWaveData, s32 waveDataLen)
 {
-    GetSoundAPI().SND_Free(pSnd);
-    if (!GetSoundAPI().SND_New(pSnd, waveDataLen, pSnd->field_18_sampleRate, pSnd->field_1C_bitsPerSample, pSnd->field_20_isStereo))
+    GetSoundAPI().mSND_Free(pSnd);
+    if (!GetSoundAPI().mSND_New(pSnd, waveDataLen, pSnd->field_18_sampleRate, pSnd->field_1C_bitsPerSample, pSnd->field_20_isStereo))
     {
         if (waveDataLen * pSnd->field_1D_blockAlign > pSnd->field_C_buffer_size_bytes)
         {
@@ -432,7 +432,7 @@ s32 SND_Load_4EF680(SoundEntry* pSnd, const void* pWaveData, s32 waveDataLen)
             memcpy(pSnd->field_8_pSoundBuffer, pWaveData, waveDataLen * pSnd->field_1D_blockAlign);
         }
     }
-    return GetSoundAPI().SND_LoadSamples(pSnd, 0, pSnd->field_8_pSoundBuffer, pSnd->field_C_buffer_size_bytes / pSnd->field_1D_blockAlign);
+    return GetSoundAPI().mSND_LoadSamples(pSnd, 0, pSnd->field_8_pSoundBuffer, pSnd->field_C_buffer_size_bytes / pSnd->field_1D_blockAlign);
 }
 
 s32 SND_Buffer_Set_Frequency_4EFC90(s32 idx, f32 hzChangeFreq)
@@ -549,7 +549,7 @@ s32 SND_Buffer_Set_Frequency_4EFC00(s32 idx, f32 freq)
     return 0;
 }
 
-s32 SND_Stop_Sample_At_Idx_4EFA90(s32 idx)
+s32 SND_Stop_Sample_At_Idx(s32 idx)
 {
     TSoundBufferType* pBuffer = sSoundBuffers_BBBAB8[idx & 511].field_0_pDSoundBuffer;
     if (!pBuffer || (idx ^ sSoundBuffers_BBBAB8[idx & 511].field_4) & ~511) // TODO: Same unknown field_4 conversion
@@ -579,7 +579,7 @@ SoundBuffer* SND_Recycle_Sound_Buffer_4EF9C0(s32 idx, s32 sampleIdx, s32 field10
     return pSoundBuffer;
 }
 
-s32 SND_Get_Buffer_Status_4EE8F0(s32 idx)
+s32 SND_Get_Buffer_Status(s32 idx)
 {
     TSoundBufferType* pBuffer = sSoundBuffers_BBBAB8[idx & 511].field_0_pDSoundBuffer;
     if (!pBuffer || (idx ^ sSoundBuffers_BBBAB8[idx & 511].field_4) & ~511)
@@ -625,17 +625,17 @@ SoundBuffer* SND_Get_Sound_Buffer_4EF970(s32 sampleIdx, s32 field10)
 
 SoundApi::SoundApi()
 {
-    SND_Get_Sound_Entry_Pos = SND_Get_Sound_Entry_Pos_4EF620;
+    mSND_Get_Sound_Entry_Pos = SND_Get_Sound_Entry_Pos_4EF620;
 
-    SND_Clear = SND_Clear_4EF350;
-    SND_SsQuit = SND_SsQuit_4EFD50;
-    SND_CreateDS = SND_CreateDS_4EEAA0;
-    SND_Init_WaveFormatEx = SND_Init_WaveFormatEx_4EEA00;
-    SND_New = SND_New_4EEFF0;
-    SND_Load = SND_Load_4EF680;
-    SND_HR_Err_To_String = SND_HR_Err_To_String_4EEC70;
-    SND_Free = SND_Free_4EFA30;
-    SND_Restart = SND_Restart_4CB0E0;
+    mSND_Clear = SND_Clear_4EF350;
+    mSND_SsQuit = SND_SsQuit_4EFD50;
+    mSND_CreateDS = SND_CreateDS_4EEAA0;
+    mSND_Init_WaveFormatEx = SND_Init_WaveFormatEx_4EEA00;
+    mSND_New = SND_New;
+    mSND_Load = SND_Load;
+    mSND_HR_Err_To_String = SND_HR_Err_To_String_4EEC70;
+    mSND_Free = SND_Free_4EFA30;
+    mSND_Restart = SND_Restart_4CB0E0;
 #if !USE_SDL2_SOUND
     SND_SetPrimarySoundBufferFormat = SND_SetPrimarySoundBufferFormat_4EE990;
 #endif
@@ -643,13 +643,13 @@ SoundApi::SoundApi()
 #if !USE_SDL2_SOUND
     SND_CreatePrimarySoundBuffer = SND_CreatePrimarySoundBuffer_4EEEC0;
 #endif
-    SND_Renew = SND_Renew_4EEDD0;
-    SND_Get_Buffer_Status = SND_Get_Buffer_Status_4EE8F0;
-    SND_Stop_Sample_At_Idx = SND_Stop_Sample_At_Idx_4EFA90;
-    SND_Buffer_Set_Volume = SND_Buffer_Set_Volume_4EFAD0;
-    SND_Get_Sound_Buffer = SND_Get_Sound_Buffer_4EF970;
-    SND_Buffer_Set_Frequency1 = SND_Buffer_Set_Frequency_4EFC90;
-    SND_Buffer_Set_Frequency2 = SND_Buffer_Set_Frequency_4EFC00;
-    SND_LoadSamples = SND_LoadSamples_4EF1C0;
-    SND_unknown = SND_4F00B0;
+    mSND_Renew = SND_Renew_4EEDD0;
+    mSND_Get_Buffer_Status = ::SND_Get_Buffer_Status;
+    mSND_Stop_Sample_At_Idx = ::SND_Stop_Sample_At_Idx;
+    mSND_Buffer_Set_Volume = SND_Buffer_Set_Volume_4EFAD0;
+    mSND_Get_Sound_Buffer = SND_Get_Sound_Buffer_4EF970;
+    mSND_Buffer_Set_Frequency1 = SND_Buffer_Set_Frequency_4EFC90;
+    mSND_Buffer_Set_Frequency2 = SND_Buffer_Set_Frequency_4EFC00;
+    mSND_LoadSamples = SND_LoadSamples_4EF1C0;
+    mSND_unknown = SND_4F00B0;
 }

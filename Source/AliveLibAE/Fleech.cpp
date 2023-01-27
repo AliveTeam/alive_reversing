@@ -551,7 +551,7 @@ void Fleech::Motion_3_Idle()
             FP hitX = {};
             FP hitY = {};
             PathLine* pLine = nullptr;
-            if (mCurrentMotion == eFleechMotions::Motion_3_Idle && GetAnimation().GetCurrentFrame() == 0 && !sCollisions->Raycast(mXPos - FP_FromInteger(5), mYPos - FP_FromInteger(5), mXPos + FP_FromInteger(5), mYPos + FP_FromInteger(1), &pLine, &hitX, &hitY, GetScale() == Scale::Fg ? kFgFloor : kBgFloor))
+            if (mCurrentMotion == eFleechMotions::Motion_3_Idle && GetAnimation().GetCurrentFrame() == 0 && !gCollisions->Raycast(mXPos - FP_FromInteger(5), mYPos - FP_FromInteger(5), mXPos + FP_FromInteger(5), mYPos + FP_FromInteger(1), &pLine, &hitX, &hitY, GetScale() == Scale::Fg ? kFgFloor : kBgFloor))
             {
                 field_138_velx_factor = FP_FromInteger(0);
                 BaseAliveGameObjectLastLineYPos = mYPos;
@@ -742,7 +742,7 @@ void Fleech::Motion_9_Fall()
     FP hitX = {};
     FP hitY = {};
     PathLine* pLine = nullptr;
-    if (sCollisions->Raycast(
+    if (gCollisions->Raycast(
             xpos,
             ypos,
             mXPos,
@@ -899,7 +899,7 @@ void Fleech::Motion_12_Climb()
         PathLine* pLine = nullptr;
         FP hitX = {};
         FP hitY = {};
-        if (sCollisions->Raycast(pX1, pY1, pX2, mVelY + mYPos, &pLine, &hitX, &hitY, GetScale() == Scale::Fg ? kFgWalls : kBgWalls))
+        if (gCollisions->Raycast(pX1, pY1, pX2, mVelY + mYPos, &pLine, &hitX, &hitY, GetScale() == Scale::Fg ? kFgWalls : kBgWalls))
         {
             switch (pLine->mLineType)
             {
@@ -964,7 +964,7 @@ void Fleech::Motion_13_SettleOnGround()
         PathLine* pLine = nullptr;
         FP hitX = {};
         FP hitY = {};
-        if (sCollisions->Raycast(
+        if (gCollisions->Raycast(
                 mXPos - FP_FromInteger(5),
                 mYPos - FP_FromInteger(5),
                 mXPos + FP_FromInteger(5),
@@ -1158,7 +1158,7 @@ void Fleech::VUpdate()
         }
         else
         {
-            sCollisions->Raycast(
+            gCollisions->Raycast(
                 mXPos,
                 mYPos - FP_FromInteger(20),
                 mXPos,
@@ -1526,7 +1526,7 @@ const TintEntry kFleechTints_551844[16] = {
     {EReliveLevelIds::eBonewerkz_Ender, 127u, 127u, 127u},
     {EReliveLevelIds::eCredits, 127u, 127u, 127u}};
 
-void Animation_OnFrame_Fleech_449A60(BaseGameObject* pObj, u32&, const IndexedPoint& point)
+void Animation_OnFrame_Fleech(BaseGameObject* pObj, u32&, const IndexedPoint& point)
 {
     reinterpret_cast<Fleech*>(pObj)->VOnFrame(point.mPoint);
 }
@@ -1535,7 +1535,7 @@ void Fleech::Init()
 {
     Animation_Init(GetAnimRes(AnimId::Fleech_Idle));
 
-    GetAnimation().SetFnPtrArray(kFleech_Anim_Frame_Fns_55EFD0);
+    GetAnimation().SetFnPtrArray(gFleech_Anim_Frame_Fns);
 
     SetType(ReliveTypes::eFleech);
 
@@ -1571,7 +1571,7 @@ void Fleech::Init()
 
     FP hitX = {};
     FP hitY = {};
-    if (sCollisions->Raycast(
+    if (gCollisions->Raycast(
             mXPos,
             mYPos,
             mXPos,
@@ -2457,7 +2457,7 @@ bool Fleech::Collision(s16 alwaysOne)
     PathLine* pLine = nullptr;
     FP hitX = {};
     FP hitY = {};
-    return sCollisions->Raycast(x1, y1, x2, y2, &pLine, &hitX, &hitY, GetScale() == Scale::Fg ? kFgFloor : kBgFloor) == 0;
+    return gCollisions->Raycast(x1, y1, x2, y2, &pLine, &hitX, &hitY, GetScale() == Scale::Fg ? kFgFloor : kBgFloor) == 0;
 }
 
 relive::Path_Hoist* Fleech::TryGetHoist(s32 xDistance, s16 bIgnoreDirection)

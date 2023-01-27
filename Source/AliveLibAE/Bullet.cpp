@@ -74,7 +74,7 @@ void Bullet::VUpdate()
 
             FP hitX = {};
             FP hitY = {};
-            if (sCollisions->Raycast(
+            if (gCollisions->Raycast(
                     mXPos,
                     mYPos - (FP_FromInteger(10) * mSpriteScale),
                     mXDistance + mXPos,
@@ -248,7 +248,7 @@ void Bullet::VUpdate()
 
             FP hitX = {};
             FP hitY = {};
-            if (sCollisions->Raycast(
+            if (gCollisions->Raycast(
                     sControlledCharacter->mXPos,
                     FP_FromInteger(rect.y),
                     sControlledCharacter->mXPos,
@@ -294,7 +294,7 @@ void Bullet::VUpdate()
             {
                 FP hitX = {};
                 FP hitY = {};
-                if (sCollisions->Raycast(
+                if (gCollisions->Raycast(
                         mXPos,
                         mYPos,
                         rectXPos,

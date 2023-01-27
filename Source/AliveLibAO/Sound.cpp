@@ -16,9 +16,9 @@ void SND_SsQuit()
 void SND_Restart()
 {
     MusicController::EnableMusic(1);
-    if (sBackgroundMusic_seq_id_4CFFF8 >= 0)
+    if (gBackgroundMusicSeqId >= 0)
     {
-        SND_SEQ_PlaySeq_4775A0(static_cast<SeqId>(sBackgroundMusic_seq_id_4CFFF8), 0, 0);
+        SND_SEQ_PlaySeq(static_cast<SeqId>(gBackgroundMusicSeqId), 0, 0);
     }
     gMap.Start_Sounds_For_Objects_In_Near_Cameras();
 }

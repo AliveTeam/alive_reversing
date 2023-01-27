@@ -104,7 +104,7 @@ void BellHammer::VUpdate()
                 }
                 else if (GetAnimation().GetCurrentFrame() == 15)
                 {
-                    SND_SEQ_PlaySeq_4775A0(SeqId::eRingBellHammerAndExtraSound_13, 1, 1);
+                    SND_SEQ_PlaySeq(SeqId::eRingBellHammerAndExtraSound_13, 1, 1);
                 }
             }
             break;

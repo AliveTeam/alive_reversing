@@ -1456,7 +1456,7 @@ MainMenuNextCam MainMenuController::Page_FMV_Level_Update_4D4AB0(u32 input_held)
             gPsxDisplay.PutCurrentDispEnv();
             gScreenManager->DecompressCameraToVRam(gMap.field_2C_camera_array[0]->mCamRes);
             gScreenManager->EnableRendering();
-            GetSoundAPI().SND_Restart();
+            GetSoundAPI().mSND_Restart();
         }
         else
         {
@@ -1830,7 +1830,7 @@ MainMenuNextCam MainMenuController::BackStory_Or_NewGame_Update_4D1C60(u32 input
             gPsxDisplay.PutCurrentDispEnv();
             gScreenManager->DecompressCameraToVRam(gMap.field_2C_camera_array[0]->mCamRes);
             gScreenManager->EnableRendering();
-            GetSoundAPI().SND_Restart();
+            GetSoundAPI().mSND_Restart();
             field_1FC_button_index = 1; // Select start game
             return MainMenuNextCam(MainMenuCams::eNoChange);
         }

@@ -166,7 +166,7 @@ Slog::Slog(FP xpos, FP ypos, FP scale)
 
     field_116_brain_sub_state = 0;
 
-    field_10C_pTarget = sControlledCharacter;
+    mTarget = sControlledCharacter;
     sControlledCharacter->mBaseGameObjectRefCount++;
     mAsleep = relive::reliveChoice::eNo;
     field_158_wake_up_anger = 0;
@@ -181,10 +181,10 @@ Slog::Slog(FP xpos, FP ypos, FP scale)
 
 Slog::~Slog()
 {
-    if (field_10C_pTarget)
+    if (mTarget)
     {
-        field_10C_pTarget->mBaseGameObjectRefCount--;
-        field_10C_pTarget = nullptr;
+        mTarget->mBaseGameObjectRefCount--;
+        mTarget = nullptr;
     }
 
     if (field_14C_pSlig)
@@ -461,7 +461,7 @@ void Slog::Init()
     Animation_Init(GetAnimRes(AnimId::Slog_Idle));
 
     SetCanExplode(true);
-    GetAnimation().SetFnPtrArray(kSlog_Anim_Frame_Fns_4CEBF4);
+    GetAnimation().SetFnPtrArray(gSlog_Anim_Frame_Fns);
     field_11C_timer = 0;
     field_116_brain_sub_state = 0;
     SetNextMotion(eSlogMotions::None_m1);
@@ -471,7 +471,7 @@ void Slog::Init()
     BaseAliveGameObject_PlatformId = Guid{};
     field_17C_res = 0;
     field_14C_pSlig = 0;
-    field_10C_pTarget = 0;
+    mTarget = 0;
 
     SetCanSetOffExplosives(true);
     SetDoPurpleLightEffect(true);
@@ -494,7 +494,7 @@ void Slog::Init()
 
     FP hitX = {};
     FP hitY = {};
-    if (sCollisions->Raycast(
+    if (gCollisions->Raycast(
             mXPos,
             mYPos,
             mXPos,
@@ -693,7 +693,7 @@ void Slog::Sfx(s32 soundId)
         default:
             return;
     }
-    SFX_SfxDefinition_Play_477330(sndDef,
+    SFX_SfxDefinition_Play(sndDef,
                                   static_cast<s16>(volumeLeft),
                                   static_cast<s16>(volumeRight),
                                   static_cast<s16>(sndDef.mPitchMin),
@@ -765,10 +765,10 @@ void Slog::VScreenChanged()
     {
         SetDead(true);
 
-        if (field_10C_pTarget)
+        if (mTarget)
         {
-            field_10C_pTarget->mBaseGameObjectRefCount--;
-            field_10C_pTarget = nullptr;
+            mTarget->mBaseGameObjectRefCount--;
+            mTarget = nullptr;
         }
 
         if (field_14C_pSlig)
@@ -864,7 +864,7 @@ void Slog::Motion_0_Idle()
                         mYPos,
                         0))
                 {
-                    SND_SEQ_PlaySeq_4775A0(SeqId::Unknown_17, 1, 0);
+                    SND_SEQ_PlaySeq(SeqId::Unknown_17, 1, 0);
                 }
 
                 if (gMap.GetDirection(
@@ -1515,7 +1515,7 @@ void Slog::Motion_19_JumpForwards()
     PathLine* pLine = nullptr;
     FP hitX = {};
     FP hitY = {};
-    if (sCollisions->Raycast(
+    if (gCollisions->Raycast(
             oldXPos,
             ypos1,
             mXPos,
@@ -1550,7 +1550,7 @@ void Slog::Motion_19_JumpForwards()
         }
     }
 
-    if (sCollisions->Raycast(
+    if (gCollisions->Raycast(
             oldXPos,
             ypos1,
             mXPos,
@@ -1611,7 +1611,7 @@ void Slog::Motion_20_JumpUpwards()
 
 void Slog::Motion_21_Eating()
 {
-    SND_Seq_Stop_477A60(SeqId::Unknown_17);
+    SND_Seq_Stop(SeqId::Unknown_17);
 
     if (GetAnimation().GetCurrentFrame() != 0
         || (GetAnimation().SetLoopBackwards(false),
@@ -1669,7 +1669,7 @@ void Slog::Motion_23_Scratch()
 {
     if (GetAnimation().GetCurrentFrame() == 4)
     {
-        SND_SEQ_PlaySeq_4775A0(SeqId::Unknown_16, 1, 1);
+        SND_SEQ_PlaySeq(SeqId::Unknown_16, 1, 1);
     }
 
     if (GetNextMotion() != eSlogMotions::None_m1)
@@ -1756,10 +1756,10 @@ s16 Slog::Brain_0_ListeningToSlig()
         field_14C_pSlig->mBaseGameObjectRefCount--;
         field_14C_pSlig = nullptr;
 
-        if (field_10C_pTarget)
+        if (mTarget)
         {
-            field_10C_pTarget->mBaseGameObjectRefCount--;
-            field_10C_pTarget = nullptr;
+            mTarget->mBaseGameObjectRefCount--;
+            mTarget = nullptr;
         }
 
         field_156 = 0;
@@ -1936,10 +1936,10 @@ s16 Slog::Brain_0_ListeningToSlig()
 
         case GameSpeakEvents::eSlig_GetHim_25:
         {
-            field_10C_pTarget = FindAbeMudOrSlig();
-            if (field_10C_pTarget)
+            mTarget = FindAbeMudOrSlig();
+            if (mTarget)
             {
-                field_10C_pTarget->mBaseGameObjectRefCount++;
+                mTarget->mBaseGameObjectRefCount++;
 
                 field_14C_pSlig->mBaseGameObjectRefCount--;
                 field_14C_pSlig = nullptr;
@@ -2042,12 +2042,12 @@ s16 Slog::Brain_0_ListeningToSlig()
 
 s16 Slog::Brain_1_Idle()
 {
-    if (field_10C_pTarget)
+    if (mTarget)
     {
-        if (field_10C_pTarget->GetDead())
+        if (mTarget->GetDead())
         {
-            field_10C_pTarget->mBaseGameObjectRefCount--;
-            field_10C_pTarget = nullptr;
+            mTarget->mBaseGameObjectRefCount--;
+            mTarget = nullptr;
         }
     }
 
@@ -2077,10 +2077,10 @@ s16 Slog::Brain_1_Idle()
         field_14C_pSlig = sControlledCharacter;
         field_14C_pSlig->mBaseGameObjectRefCount++;
 
-        if (field_10C_pTarget)
+        if (mTarget)
         {
-            field_10C_pTarget = nullptr;
-            field_10C_pTarget->mBaseGameObjectRefCount--;
+            mTarget = nullptr;
+            mTarget->mBaseGameObjectRefCount--;
         }
         return 0;
     }
@@ -2313,19 +2313,19 @@ s16 Slog::Brain_2_ChasingAbe()
         field_14C_pSlig = sControlledCharacter;
         field_14C_pSlig->mBaseGameObjectRefCount++;
 
-        if (field_10C_pTarget)
+        if (mTarget)
         {
-            field_10C_pTarget->mBaseGameObjectRefCount--;
-            field_10C_pTarget = nullptr;
+            mTarget->mBaseGameObjectRefCount--;
+            mTarget = nullptr;
         }
         return 0;
     }
 
-    if (field_10C_pTarget && field_10C_pTarget->GetDead())
+    if (mTarget && mTarget->GetDead())
     {
         // Idle
-        field_10C_pTarget->mBaseGameObjectRefCount--;
-        field_10C_pTarget = nullptr;
+        mTarget->mBaseGameObjectRefCount--;
+        mTarget = nullptr;
         field_156 = 0;
         field_114_brain_idx = 1;
         mNextMotion = 0;
@@ -2335,12 +2335,12 @@ s16 Slog::Brain_2_ChasingAbe()
     switch (field_116_brain_sub_state)
     {
         case 0:
-            if (!field_10C_pTarget)
+            if (!mTarget)
             {
-                field_10C_pTarget = sActiveHero;
-                field_10C_pTarget->mBaseGameObjectRefCount++;
+                mTarget = sActiveHero;
+                mTarget->mBaseGameObjectRefCount++;
             }
-            field_110 = 0;
+            mBitingTarget = 0;
             field_172 = 0;
             field_16C_pUnknown = nullptr;
             SetNextMotion(eSlogMotions::Motion_2_Run);
@@ -2358,18 +2358,18 @@ s16 Slog::Brain_2_ChasingAbe()
                 return 13;
             }
 
-            if (!VIsFacingMe(field_10C_pTarget) && GetCurrentMotion() == eSlogMotions::Motion_2_Run)
+            if (!VIsFacingMe(mTarget) && GetCurrentMotion() == eSlogMotions::Motion_2_Run)
             {
                 SetNextMotion(eSlogMotions::Motion_8_StopRunning);
             }
 
-            if (VIsObjNearby(ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(3), field_10C_pTarget))
+            if (VIsObjNearby(ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(3), mTarget))
             {
-                if (VOnSameYLevel(field_10C_pTarget))
+                if (VOnSameYLevel(mTarget))
                 {
-                    if (field_10C_pTarget->GetSpriteScale() == GetSpriteScale())
+                    if (mTarget->GetSpriteScale() == GetSpriteScale())
                     {
-                        if (VIsFacingMe(field_10C_pTarget))
+                        if (VIsFacingMe(mTarget))
                         {
                             SetNextMotion(eSlogMotions::Motion_19_JumpForwards);
                         }
@@ -2384,7 +2384,7 @@ s16 Slog::Brain_2_ChasingAbe()
 
             if (GetCurrentMotion() == eSlogMotions::Motion_0_Idle)
             {
-                if (VIsFacingMe(field_10C_pTarget))
+                if (VIsFacingMe(mTarget))
                 {
                     FP scaleDirected = {};
                     if (GetAnimation().GetFlipX())
@@ -2422,11 +2422,11 @@ s16 Slog::Brain_2_ChasingAbe()
             }
 
             const FP k10Scaled = GetSpriteScale() * FP_FromInteger(10);
-            if (mYPos <= field_10C_pTarget->mYPos + k10Scaled)
+            if (mYPos <= mTarget->mYPos + k10Scaled)
             {
-                if (field_10C_pTarget->GetSpriteScale() == GetSpriteScale())
+                if (mTarget->GetSpriteScale() == GetSpriteScale())
                 {
-                    if (mYPos >= (field_10C_pTarget->mYPos - (k10Scaled * FP_FromInteger(3))))
+                    if (mYPos >= (mTarget->mYPos - (k10Scaled * FP_FromInteger(3))))
                     {
                         return field_116_brain_sub_state;
                     }
@@ -2434,7 +2434,7 @@ s16 Slog::Brain_2_ChasingAbe()
             }
             else
             {
-                if (field_10C_pTarget->GetSpriteScale() == GetSpriteScale())
+                if (mTarget->GetSpriteScale() == GetSpriteScale())
                 {
                     return 9;
                 }
@@ -2474,7 +2474,7 @@ s16 Slog::Brain_2_ChasingAbe()
                 SetNextMotion(eSlogMotions::Motion_0_Idle);
             }
 
-            if (field_10C_pTarget->GetSpriteScale() != GetSpriteScale())
+            if (mTarget->GetSpriteScale() != GetSpriteScale())
             {
                 return field_116_brain_sub_state;
             }
@@ -2483,12 +2483,12 @@ s16 Slog::Brain_2_ChasingAbe()
         case 3:
             if (GetCurrentMotion() == eSlogMotions::Motion_2_Run)
             {
-                if (!field_110)
+                if (!mBitingTarget)
                 {
                     return 1;
                 }
 
-                if (VIsObjNearby(GetSpriteScale() * FP_FromInteger(20), field_10C_pTarget) || VIsFacingMe(field_10C_pTarget))
+                if (VIsObjNearby(GetSpriteScale() * FP_FromInteger(20), mTarget) || VIsFacingMe(mTarget))
                 {
                     SetCurrentMotion(eSlogMotions::Motion_21_Eating);
                     SetNextMotion(eSlogMotions::None_m1);
@@ -2550,16 +2550,16 @@ s16 Slog::Brain_2_ChasingAbe()
                 return 13;
             }
 
-            if (!VIsFacingMe(field_10C_pTarget) && GetCurrentMotion() == eSlogMotions::Motion_2_Run)
+            if (!VIsFacingMe(mTarget) && GetCurrentMotion() == eSlogMotions::Motion_2_Run)
             {
                 SetNextMotion(eSlogMotions::Motion_8_StopRunning);
             }
 
-            if (VIsObjNearby(ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(3), field_10C_pTarget))
+            if (VIsObjNearby(ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(3), mTarget))
             {
-                if (field_10C_pTarget->GetSpriteScale() == GetSpriteScale() && GetCurrentMotion() == eSlogMotions::Motion_2_Run)
+                if (mTarget->GetSpriteScale() == GetSpriteScale() && GetCurrentMotion() == eSlogMotions::Motion_2_Run)
                 {
-                    if (VIsFacingMe(field_10C_pTarget))
+                    if (VIsFacingMe(mTarget))
                     {
                         SetNextMotion(eSlogMotions::Motion_7_SlideTurn);
                     }
@@ -2571,7 +2571,7 @@ s16 Slog::Brain_2_ChasingAbe()
                 SetNextMotion(eSlogMotions::Motion_2_Run);
             }
 
-            if (mYPos < ((GetSpriteScale() * FP_FromInteger(10)) + field_10C_pTarget->mYPos))
+            if (mYPos < ((GetSpriteScale() * FP_FromInteger(10)) + mTarget->mYPos))
             {
                 field_11C_timer = sGnFrame + mChaseDelay;
                 return 11;
@@ -2584,7 +2584,7 @@ s16 Slog::Brain_2_ChasingAbe()
 
             if (GetCurrentMotion() == eSlogMotions::Motion_0_Idle)
             {
-                if (VIsFacingMe(field_10C_pTarget))
+                if (VIsFacingMe(mTarget))
                 {
                     if (field_172 >= 100)
                     {
@@ -2621,7 +2621,7 @@ s16 Slog::Brain_2_ChasingAbe()
         case 11:
             if (GetCurrentMotion() == eSlogMotions::Motion_0_Idle)
             {
-                if (!VIsFacingMe(field_10C_pTarget))
+                if (!VIsFacingMe(mTarget))
                 {
                     SetNextMotion(eSlogMotions::Motion_3_TurnAround);
                     return field_116_brain_sub_state;
@@ -2652,14 +2652,14 @@ s16 Slog::Brain_2_ChasingAbe()
 
             if (field_174)
             {
-                if (field_10C_pTarget->mXPos > mXPos)
+                if (mTarget->mXPos > mXPos)
                 {
                     return 1;
                 }
             }
             else
             {
-                if (field_10C_pTarget->mXPos < mXPos)
+                if (mTarget->mXPos < mXPos)
                 {
                     return 1;
                 }
@@ -2698,10 +2698,10 @@ s16 Slog::Brain_3_Dead()
         field_14C_pSlig = nullptr;
     }
 
-    if (field_10C_pTarget)
+    if (mTarget)
     {
-        field_10C_pTarget->mBaseGameObjectRefCount--;
-        field_10C_pTarget = nullptr;
+        mTarget->mBaseGameObjectRefCount--;
+        mTarget = nullptr;
     }
 
     if (field_11C_timer < static_cast<s32>(sGnFrame) + 80)

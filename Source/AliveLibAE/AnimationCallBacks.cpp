@@ -13,17 +13,17 @@
 #include "../relive_lib/FixedPoint.hpp"
 #include "../relive_lib/Collisions.hpp"
 
-void Animation_OnFrame_Common_Null_455F40(BaseGameObject*, u32&, const IndexedPoint&)
+void Animation_OnFrame_Common_Null(BaseGameObject*, u32&, const IndexedPoint&)
 {
 
 }
 
-void Animation_OnFrame_Null_455F60(BaseGameObject*, u32&, const IndexedPoint&)
+void Animation_OnFrame_Null(BaseGameObject*, u32&, const IndexedPoint&)
 {
 
 }
 
-void Animation_OnFrame_Common_4561B0(BaseGameObject* pObjPtr, u32&, const IndexedPoint& point)
+void Animation_OnFrame_Common(BaseGameObject* pObjPtr, u32&, const IndexedPoint& point)
 {
     auto pObj = static_cast<BaseAliveGameObject*>(pObjPtr);
     AnimResource ppAnimData = ResourceManagerWrapper::LoadAnimation(AnimId::Dust_Particle);
@@ -45,13 +45,13 @@ void Animation_OnFrame_Common_4561B0(BaseGameObject* pObjPtr, u32&, const Indexe
         return;
     }
 
-    const s8 count = sSlurg_Step_Watch_Points_Count_5BD4DC[sSlurg_Step_Watch_Points_Idx_5C1C08];
+    const s8 count = gSlurgStepWatchPointsCount[gSlurgStepWatchPointsIdx];
     if (count < 5)
     {
-        Slurg_Step_Watch_Points* pPoints = &sSlurg_Step_Watch_Points_5C1B28[sSlurg_Step_Watch_Points_Idx_5C1C08];
+        Slurg_Step_Watch_Points* pPoints = &gSlurgStepWatchPoints[gSlurgStepWatchPointsIdx];
         pPoints->mPoints[count].x = FP_GetExponent(xpos);
         pPoints->mPoints[count].y = pObj->BaseAliveGameObjectCollisionLine->mRect.y - 5;
-        sSlurg_Step_Watch_Points_Count_5BD4DC[sSlurg_Step_Watch_Points_Idx_5C1C08] = count + 1;
+        gSlurgStepWatchPointsCount[gSlurgStepWatchPointsIdx] = count + 1;
     }
 
     if (!IsActiveHero(pObj))
@@ -155,7 +155,7 @@ void Animation_OnFrame_FlyingSlig(BaseGameObject* pObjPtr, u32&, const IndexedPo
     }
 }
 
-void Animation_OnFrame_Slog_4C3030(BaseGameObject* pObjPtr, u32&, const IndexedPoint& point)
+void Animation_OnFrame_Slog(BaseGameObject* pObjPtr, u32&, const IndexedPoint& point)
 {
     auto pSlog = static_cast<Slog*>(pObjPtr);
     auto pTarget = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(pSlog->mTargetId));
@@ -209,29 +209,29 @@ void Animation_OnFrame_Slog_4C3030(BaseGameObject* pObjPtr, u32&, const IndexedP
 }
 
 // TODO: Array is possibly bigger, called by AnimationEx::Invoke_CallBacks
-TFrameCallBackType kAbe_Anim_Frame_Fns_55EF98[5] = {
-    Animation_OnFrame_Common_Null_455F40,
-    Animation_OnFrame_Null_455F60,
-    Animation_OnFrame_Abe_455F80,
-    Animation_OnFrame_Common_4561B0,
+TFrameCallBackType gAbe_Anim_Frame_Fns[5] = {
+    Animation_OnFrame_Common_Null,
+    Animation_OnFrame_Null,
+    Animation_OnFrame_Abe,
+    Animation_OnFrame_Common,
     Animation_OnFrame_FlyingSlig};
 
-TFrameCallBackType kSlig_Anim_Frame_Fns_55EFAC[4] = {
-    Animation_OnFrame_Common_Null_455F40,
-    Animation_OnFrame_Null_455F60,
-    Animation_OnFrame_Slig_4C0600,
-    Animation_OnFrame_Common_4561B0};
+TFrameCallBackType gSlig_Anim_Frame_Fns[4] = {
+    Animation_OnFrame_Common_Null,
+    Animation_OnFrame_Null,
+    Animation_OnFrame_Slig,
+    Animation_OnFrame_Common};
 
-TFrameCallBackType kSlog_Anim_Frame_Fns_55EFBC[2] = {
-    Animation_OnFrame_Slog_4C3030,
-    Animation_OnFrame_Null_455F60};
+TFrameCallBackType gSlog_Anim_Frame_Fns[2] = {
+    Animation_OnFrame_Slog,
+    Animation_OnFrame_Null};
 
-TFrameCallBackType kFlyingSlig_Anim_Frames_Fns_55EFC4[3] = {
-    Animation_OnFrame_Common_Null_455F40,
-    Animation_OnFrame_Null_455F60,
+TFrameCallBackType gFlyingSlig_Anim_Frames_Fns[3] = {
+    Animation_OnFrame_Common_Null,
+    Animation_OnFrame_Null,
     Animation_OnFrame_FlyingSlig};
 
-TFrameCallBackType kFleech_Anim_Frame_Fns_55EFD0[3] = {
-    Animation_OnFrame_Common_Null_455F40,
-    Animation_OnFrame_Null_455F60,
-    Animation_OnFrame_Fleech_449A60};
+TFrameCallBackType gFleech_Anim_Frame_Fns[3] = {
+    Animation_OnFrame_Common_Null,
+    Animation_OnFrame_Null,
+    Animation_OnFrame_Fleech};

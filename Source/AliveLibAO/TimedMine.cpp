@@ -180,7 +180,7 @@ void TimedMine::StickToLiftPoint()
     FP hitY = {};
     PathLine* pLine = nullptr;
     mStickToLiftPoint = true;
-    if (sCollisions->Raycast(
+    if (gCollisions->Raycast(
             mXPos,
             mYPos - FP_FromInteger(20),
             mXPos,

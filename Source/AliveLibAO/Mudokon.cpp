@@ -293,7 +293,7 @@ Mudokon::Mudokon(relive::Path_TLV* pTlv, const Guid& tlvId)
 
     FP hitX = {};
     FP hitY = {};
-    const s16 bHit = sCollisions->Raycast(
+    const s16 bHit = gCollisions->Raycast(
         FP_FromInteger(pTlv->mTopLeftX),
         FP_FromInteger(pTlv->mTopLeftY),
         FP_FromInteger(pTlv->mBottomRightX),
@@ -396,7 +396,7 @@ Mudokon::~Mudokon()
 
     if (GetCurrentMotion() == eMudMotions::Motion_52_Chant || GetCurrentMotion() == eMudMotions::Motion_59_CrouchChant)
     {
-        SND_Seq_Stop_477A60(SeqId::eMudokonChant_12);
+        SND_Seq_Stop(SeqId::eMudokonChant_12);
     }
 }
 
@@ -884,7 +884,7 @@ void Mudokon::DoPathTrans()
         PathLine* pLine = nullptr;
         FP hitY = {};
         FP hitX = {};
-        if (sCollisions->Raycast(
+        if (gCollisions->Raycast(
                 mXPos,
                 mYPos - FP_FromInteger(40),
                 mXPos,
@@ -1263,7 +1263,7 @@ void Mudokon::Motion_0_Idle()
             break;
 
         case eMudMotions::Motion_52_Chant:
-            SND_SEQ_PlaySeq_4775A0(SeqId::eMudokonChant_12, 0, 1);
+            SND_SEQ_PlaySeq(SeqId::eMudokonChant_12, 0, 1);
             SetCurrentMotion(eMudMotions::Motion_52_Chant);
             SetNextMotion(-1);
             break;
@@ -2233,7 +2233,7 @@ void Mudokon::Motion_44_RunJumpMid()
         mVelY = FP_FromInteger(0);
         mVelX = FP_FromInteger(0);
 
-        SND_SEQ_Play_477760(SeqId::eSaveTriggerMusic_45, 1, 127, 127);
+        SND_SEQ_Play(SeqId::eSaveTriggerMusic_45, 1, 127, 127);
 
 
         relive_new MusicTrigger(relive::Path_MusicTrigger::MusicTriggerMusicType::eChime, relive::Path_MusicTrigger::TriggeredBy::eTimer, 0, 300);
@@ -2474,16 +2474,16 @@ void Mudokon::Motion_52_Chant()
             Layer::eLayer_0);
     }
 
-    if (!SND_SsIsEos_DeInlined_477930(SeqId::eMudokonChant_12))
+    if (!SND_SsIsEos_DeInlined(SeqId::eMudokonChant_12))
     {
-        SND_SEQ_Play_477760(SeqId::eMudokonChant_12, 1, 50, 50);
+        SND_SEQ_Play(SeqId::eMudokonChant_12, 1, 50, 50);
     }
 
     if (GetNextMotion() == eMudMotions::Motion_0_Idle)
     {
         if (GetAnimation().GetIsLastFrame())
         {
-            SND_Seq_Stop_477A60(SeqId::eMudokonChant_12);
+            SND_Seq_Stop(SeqId::eMudokonChant_12);
             SetCurrentMotion(eMudMotions::Motion_53_ChantEnd);
             SetNextMotion(-1);
         }
@@ -2568,15 +2568,15 @@ void Mudokon::Motion_59_CrouchChant()
             Layer::eLayer_0);
     }
 
-    if (!SND_SsIsEos_DeInlined_477930(SeqId::eMudokonChant_12))
+    if (!SND_SsIsEos_DeInlined(SeqId::eMudokonChant_12))
     {
         if (GetSpriteScale() == FP_FromDouble(0.5))
         {
-            SND_SEQ_Play_477760(SeqId::eMudokonChant_12, 1, 30, 30);
+            SND_SEQ_Play(SeqId::eMudokonChant_12, 1, 30, 30);
         }
         else
         {
-            SND_SEQ_Play_477760(SeqId::eMudokonChant_12, 1, 50, 50);
+            SND_SEQ_Play(SeqId::eMudokonChant_12, 1, 50, 50);
         }
     }
 }
@@ -4323,7 +4323,7 @@ s16 Mudokon::Brain_13_FallAndSmackDeath()
         {
             if (static_cast<s32>(sGnFrame) == field_1C0_timer - 6)
             {
-                SND_SEQ_Play_477760(SeqId::eHitBottomOfDeathPit_10, 1, 65, 65);
+                SND_SEQ_Play(SeqId::eHitBottomOfDeathPit_10, 1, 65, 65);
             }
 
             if (static_cast<s32>(sGnFrame) > field_1C0_timer)

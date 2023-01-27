@@ -36,7 +36,7 @@ Bat::Bat(relive::Path_Bat* pTlv, const Guid& tlvId)
     FP hitY = {};
     // OG Bug fix, if bat isn't spawned on a line then we crash
     // so mBatLine is checked here and in VUpdate
-    sCollisions->Raycast(
+    gCollisions->Raycast(
         FP_FromInteger(pTlv->mTopLeftX),
         FP_FromInteger(pTlv->mTopLeftY),
         FP_FromInteger(pTlv->mBottomRightX),
@@ -199,7 +199,7 @@ void Bat::VUpdate()
 
             if (static_cast<s32>(sGnFrame) > mTimer)
             {
-                SND_SEQ_PlaySeq_4775A0(SeqId::eBatSqueaking_18, 1, 1);
+                SND_SEQ_PlaySeq(SeqId::eBatSqueaking_18, 1, 1);
                 mTimer = sGnFrame + Math_RandomRange(120, 240);
             }
 
@@ -280,7 +280,7 @@ void Bat::VUpdate()
                 {
                     mAttackTarget->VTakeDamage(this);
                     mTimer = sGnFrame + 30;
-                    SND_SEQ_PlaySeq_4775A0(SeqId::eBatSqueaking_18, 1, 1);
+                    SND_SEQ_PlaySeq(SeqId::eBatSqueaking_18, 1, 1);
                 }
             }
 

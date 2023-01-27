@@ -24,8 +24,8 @@ public:
 
         ADD("Type", mLine.mLineType);
 
-        ADD("Next", mLine.field_10_next);
-        ADD("Previous", mLine.field_C_previous);
+        ADD("Next", mLine.mNext);
+        ADD("Previous", mLine.mPrevious);
     }
 
     PathLineAO mLine = {};
@@ -49,13 +49,13 @@ public:
 
         ADD("Type", mLine.mLineType);
 
-        ADD("Next", mLine.field_C_next);
-        ADD("Previous", mLine.field_A_previous);
+        ADD("Next", mLine.mNext);
+        ADD("Previous", mLine.mPrevious);
 
-        ADD("Next 2", mLine.field_10_next2);
-        ADD("Previous 2", mLine.field_E_previous2);
+        ADD("Next 2", mLine.mNext2);
+        ADD("Previous 2", mLine.mPrevious2);
 
-        ADD("Length", mLine.field_12_line_length);
+        ADD("Length", mLine.mLineLength);
     }
 
     PathLineAE mLine = {};

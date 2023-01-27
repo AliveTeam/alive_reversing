@@ -111,7 +111,7 @@ void Meat::InTheAir()
     FP hitX = {};
     FP hitY = {};
 
-    const s16 CollisionRaycast = sCollisions->Raycast(
+    const s16 CollisionRaycast = gCollisions->Raycast(
         mPreviousXPos,
         mPreviousYPos,
         xVoidSkip,

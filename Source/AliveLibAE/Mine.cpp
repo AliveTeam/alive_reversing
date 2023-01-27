@@ -53,7 +53,7 @@ Mine::Mine(relive::Path_Mine* pTlv, const Guid& tlvId)
     FP hitY;
     FP hitX;
 
-    if (sCollisions->Raycast(
+    if (gCollisions->Raycast(
             FP_FromInteger(v7 / 2),
             v8,
             FP_FromInteger(v7 / 2),

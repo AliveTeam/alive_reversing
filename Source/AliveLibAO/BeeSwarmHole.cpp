@@ -98,7 +98,7 @@ void BeeSwarmHole::VUpdate()
                 PathLine* pLine = nullptr;
                 FP targetX = {};
                 FP targetY = {};
-                if (sCollisions->Raycast(
+                if (gCollisions->Raycast(
                     FP_FromInteger(field_14_rect.x),
                     FP_FromInteger(field_14_rect.y),
                     FP_FromInteger(field_14_rect.w),

@@ -572,7 +572,7 @@ Mudokon::Mudokon(relive::Path_Mudokon* pTlv, const Guid& tlvId)
 
     FP hitX = {};
     FP hitY = {};
-    const auto bCollision = sCollisions->Raycast(
+    const auto bCollision = gCollisions->Raycast(
         FP_FromInteger(pTlv->mTopLeftX),
         FP_FromInteger(pTlv->mTopLeftY),
         FP_FromInteger(pTlv->mBottomRightX),
@@ -597,7 +597,7 @@ Mudokon::Mudokon(relive::Path_Mudokon* pTlv, const Guid& tlvId)
         }
     }
 
-    GetAnimation().SetFnPtrArray(kAbe_Anim_Frame_Fns_55EF98);
+    GetAnimation().SetFnPtrArray(gAbe_Anim_Frame_Fns);
     BaseAliveGameObjectLastLineYPos = mYPos;
 
     if (mBrainState == Mud_Brain_State::Brain_2_CrouchScrub || mBrainState == Mud_Brain_State::Brain_1_Chisel)
@@ -928,7 +928,7 @@ void Mudokon::VUpdate()
         SetRestoredFromQuickSave(false);
         if (BaseAliveGameObjectCollisionLineType != -1)
         {
-            sCollisions->Raycast(
+            gCollisions->Raycast(
                 mXPos,
                 mYPos - FP_FromInteger(20),
                 mXPos,

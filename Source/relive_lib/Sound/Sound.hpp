@@ -110,8 +110,8 @@ s32 SND_Clear_4EF350(SoundEntry* pSoundEntry, u32 sampleOffset, u32 size);
 void SND_SsQuit_4EFD50();
 s32 SND_CreateDS_4EEAA0(u32 sampleRate, s32 bitsPerSample, s32 isStereo);
 void SND_Init_WaveFormatEx_4EEA00(WAVEFORMATEX* pWaveFormat, s32 sampleRate, u8 bitsPerSample, s32 isStereo);
-s32 SND_New_4EEFF0(SoundEntry* pSnd, s32 sampleLength, s32 sampleRate, s32 bitsPerSample, s32 isStereo);
-s32 SND_Load_4EF680(SoundEntry* pSnd, const void* pWaveData, s32 waveDataLen);
+s32 SND_New(SoundEntry* pSnd, s32 sampleLength, s32 sampleRate, s32 bitsPerSample, s32 isStereo);
+s32 SND_Load(SoundEntry* pSnd, const void* pWaveData, s32 waveDataLen);
 const char_type* SND_HR_Err_To_String_4EEC70(HRESULT hr);
 s32 SND_Free_4EFA30(SoundEntry* pSnd);
 void SND_Restart_4CB0E0();
@@ -119,8 +119,8 @@ s32 SND_SetPrimarySoundBufferFormat_4EE990(s32 sampleRate, s32 bitsPerSample, u8
 void SND_InitVolumeTable_4EEF60();
 s8 SND_CreatePrimarySoundBuffer_4EEEC0(s32 sampleRate, s32 bitsPerSample, s32 isStereo);
 s32 SND_Renew_4EEDD0(SoundEntry* pSnd);
-s32 SND_Get_Buffer_Status_4EE8F0(s32 idx);
-s32 SND_Stop_Sample_At_Idx_4EFA90(s32 idx);
+s32 SND_Get_Buffer_Status(s32 idx);
+s32 SND_Stop_Sample_At_Idx(s32 idx);
 s32 SND_Buffer_Set_Volume_4EFAD0(s32 idx, s32 vol);
 SoundBuffer* SND_Get_Sound_Buffer_4EF970(s32 sampleIdx, s32 field10);
 s32 SND_Buffer_Set_Frequency_4EFC90(s32 idx, f32 hzChangeFreq);
@@ -129,21 +129,21 @@ s32 SND_LoadSamples_4EF1C0(const SoundEntry* pSnd, u32 sampleOffset, u8* pSoundB
 u32* SND_4F00B0(u32* /*a1*/, u32 /*a2*/, s32 /*a3*/);
 
 struct MIDI_Channel;
-s32 SND_PlayEx_4EF740(const SoundEntry* pSnd, s32 panLeft, s32 panRight, f32 freq, MIDI_Channel* pMidiStru, s32 playFlags, s32 priority);
+s32 SND_PlayEx(const SoundEntry* pSnd, s32 panLeft, s32 panRight, f32 freq, MIDI_Channel* pMidiStru, s32 playFlags, s32 priority);
 
 struct SoundApi final
 {
     SoundApi();
-    decltype(&SND_Get_Sound_Entry_Pos_4EF620) SND_Get_Sound_Entry_Pos;
-    decltype(&SND_Clear_4EF350) SND_Clear;
-    decltype(&SND_SsQuit_4EFD50) SND_SsQuit;
-    decltype(&SND_CreateDS_4EEAA0) SND_CreateDS;
-    decltype(&SND_Init_WaveFormatEx_4EEA00) SND_Init_WaveFormatEx;
-    decltype(&SND_New_4EEFF0) SND_New;
-    decltype(&SND_Load_4EF680) SND_Load;
-    decltype(&SND_HR_Err_To_String_4EEC70) SND_HR_Err_To_String;
-    decltype(&SND_Free_4EFA30) SND_Free;
-    decltype(&SND_Restart_4CB0E0) SND_Restart;
+    decltype(&SND_Get_Sound_Entry_Pos_4EF620) mSND_Get_Sound_Entry_Pos;
+    decltype(&SND_Clear_4EF350) mSND_Clear;
+    decltype(&SND_SsQuit_4EFD50) mSND_SsQuit;
+    decltype(&SND_CreateDS_4EEAA0) mSND_CreateDS;
+    decltype(&SND_Init_WaveFormatEx_4EEA00) mSND_Init_WaveFormatEx;
+    decltype(&SND_New) mSND_New;
+    decltype(&SND_Load) mSND_Load;
+    decltype(&SND_HR_Err_To_String_4EEC70) mSND_HR_Err_To_String;
+    decltype(&SND_Free_4EFA30) mSND_Free;
+    decltype(&SND_Restart_4CB0E0) mSND_Restart;
 #if !USE_SDL2_SOUND
     decltype(&SND_SetPrimarySoundBufferFormat_4EE990) SND_SetPrimarySoundBufferFormat;
 #endif
@@ -151,15 +151,15 @@ struct SoundApi final
 #if !USE_SDL2_SOUND
     decltype(&SND_CreatePrimarySoundBuffer_4EEEC0) SND_CreatePrimarySoundBuffer;
 #endif
-    decltype(&SND_Renew_4EEDD0) SND_Renew;
-    decltype(&SND_Get_Buffer_Status_4EE8F0) SND_Get_Buffer_Status;
-    decltype(&SND_Stop_Sample_At_Idx_4EFA90) SND_Stop_Sample_At_Idx;
-    decltype(&SND_Buffer_Set_Volume_4EFAD0) SND_Buffer_Set_Volume;
-    decltype(&SND_Get_Sound_Buffer_4EF970) SND_Get_Sound_Buffer;
-    decltype(&SND_Buffer_Set_Frequency_4EFC90) SND_Buffer_Set_Frequency1;
-    decltype(&SND_Buffer_Set_Frequency_4EFC00) SND_Buffer_Set_Frequency2;
-    decltype(&SND_LoadSamples_4EF1C0) SND_LoadSamples;
-    decltype(&SND_4F00B0) SND_unknown;
+    decltype(&SND_Renew_4EEDD0) mSND_Renew;
+    decltype(&SND_Get_Buffer_Status) mSND_Get_Buffer_Status;
+    decltype(&SND_Stop_Sample_At_Idx) mSND_Stop_Sample_At_Idx;
+    decltype(&SND_Buffer_Set_Volume_4EFAD0) mSND_Buffer_Set_Volume;
+    decltype(&SND_Get_Sound_Buffer_4EF970) mSND_Get_Sound_Buffer;
+    decltype(&SND_Buffer_Set_Frequency_4EFC90) mSND_Buffer_Set_Frequency1;
+    decltype(&SND_Buffer_Set_Frequency_4EFC00) mSND_Buffer_Set_Frequency2;
+    decltype(&SND_LoadSamples_4EF1C0) mSND_LoadSamples;
+    decltype(&SND_4F00B0) mSND_unknown;
 };
 
 SoundApi& GetSoundAPI();

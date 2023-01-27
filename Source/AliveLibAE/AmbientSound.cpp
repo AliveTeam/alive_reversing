@@ -8,71 +8,65 @@
 
 struct Sound_Ambiance final
 {
-    s32 field_0;
-    s32 field_4;
-    ScopedSeq* field_8_pScopedSeq;
+    ScopedSeq* mScopedSeq;
 };
-ALIVE_ASSERT_SIZEOF(Sound_Ambiance, 0xC);
 
 struct Sound_Ambiance_Array final
 {
     Sound_Ambiance mArray[8];
 };
 
-Sound_Ambiance_Array sTopBottomAmbiance_BB3078 = {};
-Sound_Ambiance_Array sRightAmbiance_BB30D8 = {};
-Sound_Ambiance_Array sLeftAmbiance_BB3138 = {};
-
+static Sound_Ambiance_Array sTopBottomAmbiance = {};
+static Sound_Ambiance_Array sRightAmbiance = {};
+static Sound_Ambiance_Array sLeftAmbiance = {};
 
 void SND_Init_Ambiance()
 {
-    for (auto& amb : sTopBottomAmbiance_BB3078.mArray)
+    for (auto& amb : sTopBottomAmbiance.mArray)
     {
-        amb.field_8_pScopedSeq = nullptr;
+        amb.mScopedSeq = nullptr;
     }
 
-    for (auto& amb : sRightAmbiance_BB30D8.mArray)
+    for (auto& amb : sRightAmbiance.mArray)
     {
-        amb.field_8_pScopedSeq = nullptr;
+        amb.mScopedSeq = nullptr;
     }
 
-    for (auto& amb : sLeftAmbiance_BB3138.mArray)
+    for (auto& amb : sLeftAmbiance.mArray)
     {
-        amb.field_8_pScopedSeq = nullptr;
+        amb.mScopedSeq = nullptr;
     }
 }
-
 
 void SND_Reset_Ambiance()
 {
-    for (auto& amb : sTopBottomAmbiance_BB3078.mArray)
+    for (auto& amb : sTopBottomAmbiance.mArray)
     {
-        if (amb.field_8_pScopedSeq)
+        if (amb.mScopedSeq)
         {
-            delete amb.field_8_pScopedSeq;
-            amb.field_8_pScopedSeq = nullptr;
+            delete amb.mScopedSeq;
+            amb.mScopedSeq = nullptr;
         }
     }
 
-    for (auto& amb : sRightAmbiance_BB30D8.mArray)
+    for (auto& amb : sRightAmbiance.mArray)
     {
-        if (amb.field_8_pScopedSeq)
+        if (amb.mScopedSeq)
         {
-            delete amb.field_8_pScopedSeq;
-            amb.field_8_pScopedSeq = nullptr;
+            delete amb.mScopedSeq;
+            amb.mScopedSeq = nullptr;
         }
     }
 
-    for (auto& amb : sLeftAmbiance_BB3138.mArray)
+    for (auto& amb : sLeftAmbiance.mArray)
     {
-        if (amb.field_8_pScopedSeq)
+        if (amb.mScopedSeq)
         {
-            delete amb.field_8_pScopedSeq;
-            amb.field_8_pScopedSeq = nullptr;
+            delete amb.mScopedSeq;
+            amb.mScopedSeq = nullptr;
         }
     }
 }
-
 
 void Start_Sounds_for_TLV(CameraPos direction, relive::Path_TLV* pTlv)
 {
@@ -81,15 +75,15 @@ void Start_Sounds_for_TLV(CameraPos direction, relive::Path_TLV* pTlv)
     {
         case CameraPos::eCamTop_1:
         case CameraPos::eCamBottom_2:
-            pAmbianceTbl = &sTopBottomAmbiance_BB3078;
+            pAmbianceTbl = &sTopBottomAmbiance;
             break;
 
         case CameraPos::eCamLeft_3:
-            pAmbianceTbl = &sLeftAmbiance_BB3138;
+            pAmbianceTbl = &sLeftAmbiance;
             break;
 
         case CameraPos::eCamRight_4:
-            pAmbianceTbl = &sRightAmbiance_BB30D8;
+            pAmbianceTbl = &sRightAmbiance;
             break;
 
         default:
@@ -103,16 +97,16 @@ void Start_Sounds_for_TLV(CameraPos direction, relive::Path_TLV* pTlv)
             auto pSligTlv = static_cast<relive::Path_Slig*>(pTlv);
             if (pSligTlv->mData.mStartState == relive::Path_Slig_Data::StartState::Patrol)
             {
-                if (!pAmbianceTbl->mArray[1].field_8_pScopedSeq)
+                if (!pAmbianceTbl->mArray[1].mScopedSeq)
                 {
-                    pAmbianceTbl->mArray[1].field_8_pScopedSeq = relive_new ScopedSeq(1, direction);
+                    pAmbianceTbl->mArray[1].mScopedSeq = relive_new ScopedSeq(1, direction);
                 }
             }
             else if (pSligTlv->mData.mStartState == relive::Path_Slig_Data::StartState::Sleeping)
             {
-                if (!pAmbianceTbl->mArray[0].field_8_pScopedSeq)
+                if (!pAmbianceTbl->mArray[0].mScopedSeq)
                 {
-                    pAmbianceTbl->mArray[0].field_8_pScopedSeq = relive_new ScopedSeq(0, direction);
+                    pAmbianceTbl->mArray[0].mScopedSeq = relive_new ScopedSeq(0, direction);
                 }
             }
             break;
@@ -122,32 +116,32 @@ void Start_Sounds_for_TLV(CameraPos direction, relive::Path_TLV* pTlv)
         {
             if (static_cast<relive::Path_Slog*>(pTlv)->mAsleep == relive::reliveChoice::eYes)
             {
-                if (!pAmbianceTbl->mArray[3].field_8_pScopedSeq)
+                if (!pAmbianceTbl->mArray[3].mScopedSeq)
                 {
-                    pAmbianceTbl->mArray[3].field_8_pScopedSeq = relive_new ScopedSeq(3, direction);
+                    pAmbianceTbl->mArray[3].mScopedSeq = relive_new ScopedSeq(3, direction);
                 }
             }
             else
             {
-                if (!pAmbianceTbl->mArray[2].field_8_pScopedSeq)
+                if (!pAmbianceTbl->mArray[2].mScopedSeq)
                 {
-                    pAmbianceTbl->mArray[2].field_8_pScopedSeq = relive_new ScopedSeq(2, direction);
+                    pAmbianceTbl->mArray[2].mScopedSeq = relive_new ScopedSeq(2, direction);
                 }
             }
             break;
         }
 
         case ReliveTypes::eParamite:
-            if (!pAmbianceTbl->mArray[5].field_8_pScopedSeq)
+            if (!pAmbianceTbl->mArray[5].mScopedSeq)
             {
-                pAmbianceTbl->mArray[5].field_8_pScopedSeq = relive_new ScopedSeq(5, direction);
+                pAmbianceTbl->mArray[5].mScopedSeq = relive_new ScopedSeq(5, direction);
             }
             break;
 
         case ReliveTypes::eScrab:
-            if (!pAmbianceTbl->mArray[6].field_8_pScopedSeq)
+            if (!pAmbianceTbl->mArray[6].mScopedSeq)
             {
-                pAmbianceTbl->mArray[6].field_8_pScopedSeq = relive_new ScopedSeq(6, direction);
+                pAmbianceTbl->mArray[6].mScopedSeq = relive_new ScopedSeq(6, direction);
             }
             break;
 
@@ -156,9 +150,9 @@ void Start_Sounds_for_TLV(CameraPos direction, relive::Path_TLV* pTlv)
             auto pFleechTlv = static_cast<relive::Path_Fleech*>(pTlv);
             if ((pFleechTlv->mAsleep == relive::reliveChoice::eYes || pFleechTlv->mHanging == relive::reliveChoice::eYes))
             {
-                if (!pAmbianceTbl->mArray[4].field_8_pScopedSeq)
+                if (!pAmbianceTbl->mArray[4].mScopedSeq)
                 {
-                    pAmbianceTbl->mArray[4].field_8_pScopedSeq = relive_new ScopedSeq(4, direction);
+                    pAmbianceTbl->mArray[4].mScopedSeq = relive_new ScopedSeq(4, direction);
                 }
             }
             break;
@@ -177,19 +171,19 @@ void Start_Slig_sounds(CameraPos direction, s8 kZero)
     {
         case CameraPos::eCamTop_1:
         case CameraPos::eCamBottom_2:
-            pTable = &sTopBottomAmbiance_BB3078;
+            pTable = &sTopBottomAmbiance;
             break;
         case CameraPos::eCamLeft_3:
-            pTable = &sLeftAmbiance_BB3138;
+            pTable = &sLeftAmbiance;
             break;
         case CameraPos::eCamRight_4:
-            pTable = &sRightAmbiance_BB30D8;
+            pTable = &sRightAmbiance;
             break;
         default:
             return;
     }
 
-    ScopedSeq** ppSeqPtr = &pTable->mArray[kZero].field_8_pScopedSeq;
+    ScopedSeq** ppSeqPtr = &pTable->mArray[kZero].mScopedSeq;
     if (!*ppSeqPtr)
     {
         *ppSeqPtr = relive_new ScopedSeq(kZero, direction);
@@ -204,22 +198,22 @@ void Stop_slig_sounds(CameraPos direction, s8 kZero)
     {
         case CameraPos::eCamTop_1:
         case CameraPos::eCamBottom_2:
-            pTable = &sTopBottomAmbiance_BB3078;
+            pTable = &sTopBottomAmbiance;
             break;
         case CameraPos::eCamLeft_3:
-            pTable = &sLeftAmbiance_BB3138;
+            pTable = &sLeftAmbiance;
             break;
         case CameraPos::eCamRight_4:
-            pTable = &sRightAmbiance_BB30D8;
+            pTable = &sRightAmbiance;
             break;
         default:
             return;
     }
 
-    if (pTable->mArray[kZero].field_8_pScopedSeq)
+    if (pTable->mArray[kZero].mScopedSeq)
     {
-        delete pTable->mArray[kZero].field_8_pScopedSeq;
-        pTable->mArray[kZero].field_8_pScopedSeq = nullptr;
+        delete pTable->mArray[kZero].mScopedSeq;
+        pTable->mArray[kZero].mScopedSeq = nullptr;
     }
 }
 

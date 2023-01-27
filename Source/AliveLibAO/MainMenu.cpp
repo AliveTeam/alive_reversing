@@ -2220,7 +2220,7 @@ void Menu::GameSpeak_Update()
             {
                 if (!Input_IsChanting())
                 {
-                    SND_Seq_Stop_477A60(SeqId::eMudokonChant1_11);
+                    SND_Seq_Stop(SeqId::eMudokonChant1_11);
 
                     mMenuFade1->field_E8_bDestroyOnDone = 1;
                     mMenuFade1 = nullptr;
@@ -2255,7 +2255,7 @@ void Menu::GameSpeak_Update()
 
     if (Input_IsChanting())
     {
-        SND_SEQ_PlaySeq_4775A0(SeqId::eMudokonChant1_11, 0, 1);
+        SND_SEQ_PlaySeq(SeqId::eMudokonChant1_11, 0, 1);
 
         field_204_flags |= 1u;
         GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_Chant));

@@ -689,7 +689,7 @@ void Slog::Motion_4_Fall()
     FP hitX = {};
     FP hitY = {};
     PathLine* pLine = nullptr;
-    if (sCollisions->Raycast(
+    if (gCollisions->Raycast(
             xposBeforeChange,
             yposBeforeChange - (GetSpriteScale() * FP_FromInteger(20)),
             mXPos,
@@ -1048,7 +1048,7 @@ void Slog::Motion_18_JumpForwards()
     PathLine* pLine = nullptr;
     FP hitX = {};
     FP hitY = {};
-    if (sCollisions->Raycast(oldXPos, oldYPos - k20Scaled, mXPos, mYPos, &pLine, &hitX, &hitY, CollisionMask(eCeiling_3, eWallRight_2, eWallLeft_1, eFloor_0, eDynamicCollision_32)
+    if (gCollisions->Raycast(oldXPos, oldYPos - k20Scaled, mXPos, mYPos, &pLine, &hitX, &hitY, CollisionMask(eCeiling_3, eWallRight_2, eWallLeft_1, eFloor_0, eDynamicCollision_32)
 ) == 1)
     {
         switch (pLine->mLineType) // TODO: line enum
@@ -1103,7 +1103,7 @@ void Slog::Motion_19_JumpUpwards()
     PathLine* pLine = nullptr;
     FP hitX = {};
     FP hitY = {};
-    if (sCollisions->Raycast(
+    if (gCollisions->Raycast(
             FP_FromInteger(bRect.x),
             FP_FromInteger(bRect.y),
             FP_FromInteger(bRect.w),
@@ -2764,7 +2764,7 @@ void Slog::Init()
     mHungry = true;
 
     SetDoPurpleLightEffect(true);
-    GetAnimation().SetFnPtrArray(kSlog_Anim_Frame_Fns_55EFBC);
+    GetAnimation().SetFnPtrArray(gSlog_Anim_Frame_Fns);
     mMultiUseTimer = 0;
     mBrainSubState = 0;
     SetNextMotion(eSlogMotions::m1);
@@ -2789,7 +2789,7 @@ void Slog::Init()
 
     FP hitX = {};
     FP hitY = {};
-    if (sCollisions->Raycast(
+    if (gCollisions->Raycast(
             mXPos, mYPos,
             mXPos, mYPos + FP_FromInteger(24),
             &BaseAliveGameObjectCollisionLine, &hitX, &hitY, CollisionMask(eFloor_0, eDynamicCollision_32))
@@ -2824,7 +2824,7 @@ void Slog::VUpdate()
         }
         else
         {
-            sCollisions->Raycast(
+            gCollisions->Raycast(
                 mXPos,
                 mYPos - FP_FromInteger(20),
                 mXPos,
@@ -3064,7 +3064,7 @@ s16 Slog::ToNextMotion()
 bool Slog::CollisionCheck(FP hitY, FP hitX)
 {
     PathLine* pLine = nullptr;
-    return sCollisions->Raycast(mXPos, mYPos - hitY, mXPos + hitX, mYPos - hitY, &pLine, &hitX, &hitY, CollisionMask(eWallRight_2, eWallLeft_1)) != 0;
+    return gCollisions->Raycast(mXPos, mYPos - hitY, mXPos + hitX, mYPos - hitY, &pLine, &hitX, &hitY, CollisionMask(eWallRight_2, eWallLeft_1)) != 0;
 }
 
 void Slog::MoveOnLine()

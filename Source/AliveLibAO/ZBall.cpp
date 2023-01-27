@@ -117,7 +117,7 @@ ZBall::ZBall(relive::Path_ZBall* pTlv, const Guid& tlvId)
     }
 
     mTlvInfo = tlvId;
-    GetAnimation().SetFnPtrArray(kZBall_Anim_Frame_Fns_4CEBF8);
+    GetAnimation().SetFnPtrArray(gZBall_Anim_Frame_Fns);
 }
 
 void ZBall::VUpdate()

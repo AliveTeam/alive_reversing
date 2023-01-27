@@ -252,7 +252,7 @@ s8 Display_Full_Screen_Message_Blocking(s32 /*not_used*/, MessageType messageTyp
 
     if (SND_Seq_Table_Valid())
     {
-        GetSoundAPI().SND_Restart();
+        GetSoundAPI().mSND_Restart();
     }
 
     SYS_EventsPump();

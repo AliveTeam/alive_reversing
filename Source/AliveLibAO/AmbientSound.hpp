@@ -26,7 +26,6 @@ struct Sound_Ambiance final
 {
     ScopedSeq* mScopedSeq;
 };
-ALIVE_ASSERT_SIZEOF(Sound_Ambiance, 0xC);
 
 struct Sound_Ambiance_Array final
 {

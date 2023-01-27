@@ -37,7 +37,7 @@ struct VabHeader final
 };
 ALIVE_ASSERT_SIZEOF(VabHeader, 0x820);
 
-s16 SsVabOpenHead_4FC620(VabHeader* pVabHeader);
+s16 SsVabOpenHead(VabHeader* pVabHeader);
 
 struct VabBodyRecord final
 {
@@ -86,7 +86,7 @@ ALIVE_ASSERT_SIZEOF(VabUnknown, 512);
 
 const s32 kNumChannels = 24;
 
-// Only exposed for SND_PlayEx_4EF740!
+// Only exposed for SND_PlayEx!
 struct MIDI_ADSR_State final
 {
     u8 field_0_seq_idx;
@@ -196,7 +196,7 @@ IPsxSpuApiVars* GetSpuApiVars();
 void SsVabTransBody_4FC840(VabBodyRecord* pVabBody, s16 vabId);
 
 #define SS_WAIT_COMPLETED 1
-void SsVabTransCompleted_4FE060(s32 immediateFlag);
+void SsVabTransCompleted(s32 immediateFlag);
 void SsVabClose_4FC5B0(s32 vabId);
 
 
@@ -215,29 +215,29 @@ void SpuClearReverbWorkArea_4FA690(s32 reverbMode);
 
 void SsSetTickMode_4FDC20(s32 tickMode);
 s32 SsVoKeyOn_4FCF10(s32 vabIdAndProgram, s32 pitch, u16 leftVol, u16 rightVol);
-void SsUtAllKeyOff_4FDFE0(s32 mode);
+void SsUtAllKeyOff(s32 mode);
 s16 SsUtKeyOffV_4FE010(s16 idx);
 s16 SsUtChangePitch_4FDF70(s16 voice, s32 /*vabId*/, s32 /*prog*/, s16 old_note, s16 old_fine, s16 new_note, s16 new_fine);
 
 s16 SsSeqOpen_4FD6D0(u8* pSeqData, s16 seqIdx);
 void SsSeqClose_4FD8D0(s16 idx);
-void SsSeqStop_4FD9C0(s16 idx);
+void SsSeqStop(s16 idx);
 u16 SsIsEos_4FDA80(s16 idx, s16 seqNum);
-void SsSeqSetVol_4FDAC0(s16 idx, s16 volLeft, s16 volRight);
+void SsSeqSetVol(s16 idx, s16 volLeft, s16 volRight);
 void SsSeqPlay_4FD900(u16 idx, s8 playMode, s16 repeatCount);
 
 s32 MIDI_ParseMidiMessage_4FD100(s32 idx);
 s32 MIDI_Read_Var_Len_4FD0D0(MIDI_SeqSong* pMidiStru);
 u8 MIDI_ReadByte_4FD6B0(MIDI_SeqSong* pData);
 void MIDI_SkipBytes_4FD6C0(MIDI_SeqSong* pData, s32 length);
-void MIDI_SetTempo_4FDB80(s16 idx, s16 kZero, s16 tempo);
+void MIDI_SetTempo(s16 idx, s16 kZero, s16 tempo);
 s32 MIDI_PlayerPlayMidiNote_4FCE80(s32 vabId, s32 program, s32 note, s32 leftVol, s32 rightVol, s32 volume);
-s32 MIDI_Allocate_Channel_4FCA50(s32 not_used, s32 priority);
+s32 MIDI_Allocate_Channel(s32 not_used, s32 priority);
 
 using TVSyncCallBackFn = void(CC*)();
 void VSyncCallback_4F8C40(TVSyncCallBackFn callBack);
 void SND_CallBack_4020A4(); // TODO: Naming??
-void SsSeqCalledTbyT_4FDC80();
+void SsSeqCalledTbyT();
 
 // Most likely PC specific extensions that have been inlined
 void SsExt_CloseAllVabs();

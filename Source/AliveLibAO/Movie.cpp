@@ -118,7 +118,7 @@ public:
                 if (!sNoAudioOrAudioError)
                 {
                     // Push new samples into the buffer
-                    if (GetSoundAPI().SND_LoadSamples(&sFmvSoundEntry, sFmvAudioSampleOffset, (unsigned char*)outPtr.data(), fmv_single_audio_frame_size_in_samples) < 0)
+                    if (GetSoundAPI().mSND_LoadSamples(&sFmvSoundEntry, sFmvAudioSampleOffset, (unsigned char*)outPtr.data(), fmv_single_audio_frame_size_in_samples) < 0)
                     {
                         // Reload with data fail
                         sNoAudioOrAudioError = true;
@@ -139,7 +139,7 @@ public:
                         SND_StopAll();
 
                         bStartedPlayingSound = true;
-                        if (FAILED(SND_PlayEx_4EF740(&sFmvSoundEntry, 116, 116, 1.0, 0, 1, 100)))
+                        if (FAILED(SND_PlayEx(&sFmvSoundEntry, 116, 116, 1.0, 0, 1, 100)))
                         {
                             sNoAudioOrAudioError = true;
                         }
@@ -331,7 +331,7 @@ void Movie::VUpdate()
     sFmvAudioSampleOffset = 0;
     bStartedPlayingSound = false;
 
-    if (GetSoundAPI().SND_New(
+    if (GetSoundAPI().mSND_New(
         &sFmvSoundEntry,
         fmv_sound_entry_size,
         kSamplesPerSecond,
@@ -413,7 +413,7 @@ void Movie::VUpdate()
     {
         sFmvSoundEntry.field_4_pDSoundBuffer->Stop();
 
-        GetSoundAPI().SND_Free(&sFmvSoundEntry);
+        GetSoundAPI().mSND_Free(&sFmvSoundEntry);
         sFmvSoundEntry.field_4_pDSoundBuffer = nullptr;
     }
 

@@ -144,7 +144,7 @@ SlamDoor::SlamDoor(relive::Path_SlamDoor* pTlv, const Guid& tlvId)
     FP hitX;
     FP hitY;
 
-    if (sCollisions->Raycast(
+    if (gCollisions->Raycast(
             mXPos,
             mYPos,
             mXPos,
@@ -177,7 +177,7 @@ SlamDoor::SlamDoor(relive::Path_SlamDoor* pTlv, const Guid& tlvId)
         {
             const FP lineHeight = FP_FromDouble(80.0);
 
-            mCollisionLine1 = sCollisions->Add_Dynamic_Collision_Line(
+            mCollisionLine1 = gCollisions->Add_Dynamic_Collision_Line(
                 mCollisionX,
                 FP_GetExponent(FP_FromInteger(mCollisionY) - lineHeight),
                 mCollisionX,
@@ -187,7 +187,7 @@ SlamDoor::SlamDoor(relive::Path_SlamDoor* pTlv, const Guid& tlvId)
             const FP y1 = FP_FromInteger(mCollisionY)
                         - (GetSpriteScale() * FP_FromDouble(80.0));
             const FP x1 = ScaleToGridSize(GetSpriteScale()) + FP_FromInteger(mCollisionX);
-            pPathLine = sCollisions->Add_Dynamic_Collision_Line(
+            pPathLine = gCollisions->Add_Dynamic_Collision_Line(
                 FP_GetExponent(x1),
                 FP_GetExponent(y1),
                 FP_GetExponent(x2),
@@ -198,7 +198,7 @@ SlamDoor::SlamDoor(relive::Path_SlamDoor* pTlv, const Guid& tlvId)
         {
             const FP lineHeight = GetSpriteScale() * FP_FromDouble(80.0);
 
-            mCollisionLine1 = sCollisions->Add_Dynamic_Collision_Line(
+            mCollisionLine1 = gCollisions->Add_Dynamic_Collision_Line(
                 mCollisionX,
                 FP_GetExponent(FP_FromInteger(mCollisionY) - lineHeight),
                 mCollisionX,
@@ -207,7 +207,7 @@ SlamDoor::SlamDoor(relive::Path_SlamDoor* pTlv, const Guid& tlvId)
             const FP x2 = FP_FromInteger(mCollisionX) + ScaleToGridSize(GetSpriteScale());
             const FP y1 = FP_FromInteger(mCollisionY) - (GetSpriteScale() * FP_FromDouble(80.0));
             const FP x1 = ScaleToGridSize(GetSpriteScale()) + FP_FromInteger(mCollisionX);
-            pPathLine = sCollisions->Add_Dynamic_Collision_Line(
+            pPathLine = gCollisions->Add_Dynamic_Collision_Line(
                 FP_GetExponent(x1),
                 FP_GetExponent(y1),
                 FP_GetExponent(x2),
@@ -300,13 +300,13 @@ void SlamDoor::VUpdate()
 
             if (GetSpriteScale() == FP_FromInteger(1))
             {
-                mCollisionLine1 = sCollisions->Add_Dynamic_Collision_Line(
+                mCollisionLine1 = gCollisions->Add_Dynamic_Collision_Line(
                     mCollisionX,
                     FP_GetExponent(FP_FromInteger(mCollisionY) - (FP_FromInteger(80) * FP_FromInteger(1))),
                     mCollisionX,
                     mCollisionY,
                     eLineTypes::eWallLeft_1);
-                mCollisionLine2 = sCollisions->Add_Dynamic_Collision_Line(
+                mCollisionLine2 = gCollisions->Add_Dynamic_Collision_Line(
                     FP_GetExponent(ScaleToGridSize(GetSpriteScale()) + FP_FromInteger(mCollisionX)),
                     FP_GetExponent(FP_FromInteger(mCollisionY) - (FP_FromInteger(80) * GetSpriteScale())),
                     FP_GetExponent(FP_FromInteger(mCollisionX) + ScaleToGridSize(GetSpriteScale())),
@@ -315,13 +315,13 @@ void SlamDoor::VUpdate()
             }
             else
             {
-                mCollisionLine1 = sCollisions->Add_Dynamic_Collision_Line(
+                mCollisionLine1 = gCollisions->Add_Dynamic_Collision_Line(
                     mCollisionX,
                     FP_GetExponent(FP_FromInteger(mCollisionY) - (FP_FromInteger(80) * GetSpriteScale())),
                     mCollisionX,
                     mCollisionY,
                     eLineTypes::eBackgroundWallLeft_5);
-                mCollisionLine2 = sCollisions->Add_Dynamic_Collision_Line(
+                mCollisionLine2 = gCollisions->Add_Dynamic_Collision_Line(
                     FP_GetExponent(ScaleToGridSize(GetSpriteScale()) + FP_FromInteger(mCollisionX)),
                     FP_GetExponent(FP_FromInteger(mCollisionY) - (FP_FromInteger(80) * GetSpriteScale())),
                     FP_GetExponent(FP_FromInteger(mCollisionX) + ScaleToGridSize(GetSpriteScale())),

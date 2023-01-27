@@ -335,7 +335,7 @@ void Map::ScreenChange()
     {
         if (mNextLevel != mCurrentLevel)
         {
-            SsUtAllKeyOff_49EDE0(0);
+            SsUtAllKeyOff(0);
         }
 
         // TODO: Re-check this logic
@@ -862,7 +862,7 @@ void Map::GoTo_Camera()
             mLoadedPaths = ResourceManagerWrapper::LoadPaths(mNextLevel);
         }
 
-        SND_Load_VABS_477040(mLoadedPaths[0]->GetSoundInfo(), AO::Path_Get_Reverb(mNextLevel)); // TODO: Remove hard coded data
+        SND_Load_VABS(mLoadedPaths[0]->GetSoundInfo(), AO::Path_Get_Reverb(mNextLevel)); // TODO: Remove hard coded data
         SND_Load_Seqs_477AB0(g_SeqTable_4C9E70, mLoadedPaths[0]->GetSoundInfo());
 
         relive_new BackgroundMusic(AO::Path_Get_BackGroundMusicId(mNextLevel)); // TODO: Remove hard coded data
@@ -922,7 +922,7 @@ void Map::GoTo_Camera()
 
     if (old_current_path != mCurrentPath || old_current_level != mCurrentLevel)
     {
-        if (sCollisions)
+        if (gCollisions)
         {
             // OG FIX: Remove any pointers to the line objects that we are about to delete
             for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
@@ -945,10 +945,10 @@ void Map::GoTo_Camera()
                 ALIVE_FATAL("%d Platforms have been leaked!", gPlatformsArray->Size());
             }
 
-            relive_delete sCollisions;
+            relive_delete gCollisions;
         }
 
-        sCollisions = relive_new Collisions(GetPathResourceBlockPtr(mCurrentPath)->GetCollisions());
+        gCollisions = relive_new Collisions(GetPathResourceBlockPtr(mCurrentPath)->GetCollisions());
     }
 
     if (mSaveData)

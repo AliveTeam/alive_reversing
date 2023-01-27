@@ -290,7 +290,7 @@ s16 ChimeLock::UpdateBall()
 
             FP hitX = {};
             FP hitY = {};
-            if (sCollisions->Raycast(
+            if (gCollisions->Raycast(
                     mXPos,
                     mVelY - mVelY,
                     mXPos,

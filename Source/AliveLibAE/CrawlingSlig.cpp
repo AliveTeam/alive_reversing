@@ -203,7 +203,7 @@ CrawlingSlig::CrawlingSlig(relive::Path_CrawlingSlig* pTlv, const Guid& guid)
 
     FP hitX = {};
     FP hitY = {};
-    if (sCollisions->Raycast(
+    if (gCollisions->Raycast(
             mXPos,
             mYPos,
             mXPos,
@@ -433,7 +433,7 @@ void CrawlingSlig::VUpdate()
             }
             else
             {
-                sCollisions->Raycast(
+                gCollisions->Raycast(
                     mXPos,
                     mYPos - FP_FromInteger(20),
                     mXPos,
@@ -1411,7 +1411,7 @@ void CrawlingSlig::Motion_3_Crawling()
     {
         if (GetAnimation().GetCurrentFrame() == 3 || GetAnimation().GetCurrentFrame() == 6)
         {
-            Slig_SoundEffect_4BFFE0(static_cast<SligSfx>(Math_RandomRange(14, 16)), this);
+            Slig_SoundEffect(static_cast<SligSfx>(Math_RandomRange(14, 16)), this);
         }
         else if (GetAnimation().GetCurrentFrame() == 11)
         {
@@ -1553,11 +1553,11 @@ void CrawlingSlig::Motion_9_Snoozing()
     {
         if ((sGnFrame / 25) & 1)
         {
-            Slig_SoundEffect_4BFFE0(SligSfx::eSnooze1_5, this);
+            Slig_SoundEffect(SligSfx::eSnooze1_5, this);
         }
         else
         {
-            Slig_SoundEffect_4BFFE0(SligSfx::eSnooze2_4, this);
+            Slig_SoundEffect(SligSfx::eSnooze2_4, this);
         }
 
         if (gMap.Is_Point_In_Current_Camera(
@@ -1595,7 +1595,7 @@ void CrawlingSlig::Motion_10_PushingWall()
     {
         MapFollowMe(true);
         mVelX = FP_FromInteger(0);
-        Slig_SoundEffect_4BFFE0(static_cast<SligSfx>(Math_RandomRange(14, 16)), this);
+        Slig_SoundEffect(static_cast<SligSfx>(Math_RandomRange(14, 16)), this);
     }
 
     if (BrainIs(&CrawlingSlig::Brain_3_Possessed))
@@ -1636,7 +1636,7 @@ void CrawlingSlig::Motion_11_TurnAround()
 {
     if (GetAnimation().GetCurrentFrame() == 8)
     {
-        Slig_SoundEffect_4BFFE0(static_cast<SligSfx>(Math_RandomRange(14, 16)), this);
+        Slig_SoundEffect(static_cast<SligSfx>(Math_RandomRange(14, 16)), this);
     }
 
     if (GetAnimation().GetIsLastFrame())

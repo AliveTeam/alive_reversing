@@ -77,7 +77,7 @@ Greeter::Greeter(relive::Path_Greeter* pTlv, const Guid& tlvId)
 
     FP hitX = {};
     FP hitY = {};
-    if (sCollisions->Raycast(
+    if (gCollisions->Raycast(
             mXPos,
             mYPos,
             mXPos,
@@ -513,7 +513,7 @@ bool Greeter::ZapIsNotBlocked(IBaseAliveGameObject* pUs, IBaseAliveGameObject* p
     FP hitX = {};
     FP hitY = {};
     PathLine* pLine = nullptr;
-    return sCollisions->Raycast(
+    return gCollisions->Raycast(
                pUs->mXPos,
                FP_FromInteger(usRect.h + 0xFFE7),
                pThem->mXPos,

@@ -603,12 +603,12 @@ s32 Mudokon_SFX(MudSounds idx, s32 volume, s32 pitch, BaseAliveGameObject* pHero
     {
         if (pHero && pHero->GetSpriteScale() == FP_FromDouble(0.5))
         {
-            SND_SEQ_Play_477760(SeqId::eAbeOops_23, 1, 85, 85);
+            SND_SEQ_Play(SeqId::eAbeOops_23, 1, 85, 85);
             return 0;
         }
         else
         {
-            SND_SEQ_Play_477760(SeqId::eAbeOops_23, 1, 110, 110);
+            SND_SEQ_Play(SeqId::eAbeOops_23, 1, 110, 110);
             return 0;
         }
     }
@@ -686,7 +686,7 @@ Abe::Abe()
     LoadAnimations();
     Animation_Init(GetAnimRes(AnimId::Mudokon_Walk));
 
-    GetAnimation().SetFnPtrArray(kAbe_Anim_Frame_Fns_4CEBEC);
+    GetAnimation().SetFnPtrArray(gAbe_Anim_Frame_Fns);
 
     PSX_Point pPoint = {};
     gMap.GetCurrentCamCoords(&pPoint);
@@ -721,7 +721,7 @@ Abe::~Abe()
 {
     MusicController::ClearObject(this);
 
-    SND_Seq_Stop_477A60(SeqId::eMudokonChant1_11);
+    SND_Seq_Stop(SeqId::eMudokonChant1_11);
 
     if (mFade)
     {
@@ -765,11 +765,11 @@ Abe::~Abe()
         field_18C_pObjToPossess = nullptr;
     }
 
-    if (field_198_pThrowable)
+    if (mThrowable)
     {
-        field_198_pThrowable->mBaseGameObjectRefCount--;
-        field_198_pThrowable->SetDead(true);
-        field_198_pThrowable = nullptr;
+        mThrowable->mBaseGameObjectRefCount--;
+        mThrowable->SetDead(true);
+        mThrowable = nullptr;
     }
 
     sActiveHero = nullptr;
@@ -1260,7 +1260,7 @@ void Abe::ToKnockback(s16 bKnockbackSound, s16 bDelayedAnger)
 {
     if (sControlledCharacter->Type() != ReliveTypes::eSlig || mHealth <= FP_FromInteger(0))
     {
-        SND_Seq_Stop_477A60(SeqId::eMudokonChant1_11);
+        SND_Seq_Stop(SeqId::eMudokonChant1_11);
         mElumMountEnd = false;
         mElumUnmountBegin = false;
 
@@ -1309,10 +1309,10 @@ void Abe::ToKnockback(s16 bKnockbackSound, s16 bDelayedAnger)
             field_134_auto_say_timer = sGnFrame + 27;
         }
 
-        if (field_198_pThrowable)
+        if (mThrowable)
         {
-            field_198_pThrowable->VToDead();
-            field_198_pThrowable = nullptr;
+            mThrowable->VToDead();
+            mThrowable = nullptr;
             if (!gInfiniteGrenades)
             {
                 field_19C_throwable_count++;
@@ -1445,7 +1445,7 @@ s16 Abe::DoGameSpeak(u16 input)
     if (Input_IsChanting())
     {
         field_114_gnFrame = sGnFrame + 90;
-        SND_SEQ_PlaySeq_4775A0(SeqId::eMudokonChant1_11, 0, 1);
+        SND_SEQ_PlaySeq(SeqId::eMudokonChant1_11, 0, 1);
         field_110_state.chant = ChantStates::eIdleChanting_0;
         return eAbeMotions::Motion_150_Chant;
     }
@@ -2636,7 +2636,7 @@ s16 Abe::HandleDoAction()
 
 bool Abe::VTakeDamage(BaseGameObject* pFrom)
 {
-    SND_Seq_Stop_477A60(SeqId::eMudokonChant1_11);
+    SND_Seq_Stop(SeqId::eMudokonChant1_11);
 
     const auto old_say = field_130_say;
     field_130_say = -1;
@@ -2794,14 +2794,14 @@ bool Abe::VTakeDamage(BaseGameObject* pFrom)
             // The zap makes Abe drop his stuff everywhere
             for (s32 i = 0; i < field_19C_throwable_count; i++)
             {
-                field_198_pThrowable = Make_Throwable(mXPos, mYPos - FP_FromInteger(30), 0);
+                mThrowable = Make_Throwable(mXPos, mYPos - FP_FromInteger(30), 0);
 
                 const FP rand1 = FP_FromRaw((Math_NextRandom() - 127) << 11); // TODO: Wat?
                 const FP rand2 = (FP_FromDouble(0.03125) * FP_FromRaw(Math_NextRandom())) - FP_FromInteger(2);
-                field_198_pThrowable->VThrow(rand1, rand2);
-                field_198_pThrowable->SetSpriteScale(GetSpriteScale());
-                field_198_pThrowable->VTimeToExplodeRandom();
-                field_198_pThrowable = nullptr;
+                mThrowable->VThrow(rand1, rand2);
+                mThrowable->SetSpriteScale(GetSpriteScale());
+                mThrowable->VTimeToExplodeRandom();
+                mThrowable = nullptr;
             }
             field_19C_throwable_count = 0;
             break;
@@ -3167,7 +3167,7 @@ void Abe::Motion_0_Idle()
         {
             field_114_gnFrame = sGnFrame + 90;
             mCurrentMotion = eAbeMotions::Motion_150_Chant;
-            SND_SEQ_PlaySeq_4775A0(SeqId::eMudokonChant1_11, 0, 1);
+            SND_SEQ_PlaySeq(SeqId::eMudokonChant1_11, 0, 1);
         }
         field_110_state.raw = 0;
         return;
@@ -3404,7 +3404,7 @@ void Abe::Motion_0_Idle()
         {
             if (field_19C_throwable_count > 0 || gInfiniteGrenades)
             {
-                field_198_pThrowable = Make_Throwable(
+                mThrowable = Make_Throwable(
                     mXPos,
                     mYPos - FP_FromInteger(40),
                     0);
@@ -3888,7 +3888,7 @@ void Abe::Motion_3_Fall()
 
         MapFollowMe(true);
 
-        if (sCollisions->Raycast(
+        if (gCollisions->Raycast(
                 mXPos,
                 mYPos - GetSpriteScale() * FP_FromInteger(20) - GetSpriteScale() * FP_FromInteger(80),
                 mXPos,
@@ -4145,7 +4145,7 @@ void Abe::Motion_17_HoistIdle()
                 Environment_SFX(EnvironmentSfx::eWalkingFootstep_1, 0, 127, this);
 
 
-                if (sCollisions->Raycast(
+                if (gCollisions->Raycast(
                         mXPos,
                         mYPos - GetSpriteScale() * FP_FromInteger(80),
                         mXPos,
@@ -4295,7 +4295,7 @@ void Abe::Motion_19_CrouchIdle()
         {
             if (field_19C_throwable_count > 0 || gInfiniteGrenades)
             {
-                field_198_pThrowable = Make_Throwable(
+                mThrowable = Make_Throwable(
                     mXPos,
                     mYPos - FP_FromInteger(40),
                     0);
@@ -4337,7 +4337,7 @@ void Abe::Motion_19_CrouchIdle()
         PathLine* pLine = nullptr;
         FP hitX = {};
         FP hitY = {};
-        if (!sCollisions->Raycast(
+        if (!gCollisions->Raycast(
                 mXPos,
                 mYPos,
                 mXPos,
@@ -4472,7 +4472,7 @@ bool Abe::Is_Celling_Above()
     FP hitY = {};
     FP hitX = {};
     PathLine* pLine = nullptr;
-    return sCollisions->Raycast(
+    return gCollisions->Raycast(
                mXPos,
                mYPos,
                mXPos,
@@ -5049,7 +5049,7 @@ void Abe::Motion_33_RunJumpMid()
         }
         if (checkCollision)
         {
-            if (sCollisions->Raycast(
+            if (gCollisions->Raycast(
                     mXPos,
                     mYPos - GetSpriteScale() * FP_FromInteger(100),
                     mXPos,
@@ -6008,7 +6008,7 @@ void Abe::Motion_59_DeathDropFall()
     {
         if (static_cast<s32>(sGnFrame) == field_118_timer - 30)
         {
-            SND_SEQ_Play_477760(SeqId::eHitBottomOfDeathPit_10, 1, 65, 65);
+            SND_SEQ_Play(SeqId::eHitBottomOfDeathPit_10, 1, 65, 65);
         }
         else if (static_cast<s32>(sGnFrame) == field_118_timer - 24)
         {
@@ -6395,7 +6395,7 @@ void Abe::Motion_62_LoadedSaveSpawn()
         PathLine* pLine2 = nullptr;
         FP hitX2 = {};
         FP hitY2 = {};
-        if (sCollisions->Raycast(
+        if (gCollisions->Raycast(
                 sActiveHero->mXPos,
                 sActiveHero->mYPos - FP_FromInteger(60),
                 sActiveHero->mXPos,
@@ -6486,7 +6486,7 @@ void Abe::Motion_62_LoadedSaveSpawn()
                         PathLine* pLine = nullptr;
                         FP hitX = {};
                         FP hitY = {};
-                        if (sCollisions->Raycast(
+                        if (gCollisions->Raycast(
                             gElum->mXPos,
                             gElum->mYPos - FP_FromInteger(60),
                             gElum->mXPos,
@@ -6621,7 +6621,7 @@ void Abe::Motion_67_ToOffScreenHoist()
     PathLine* pLine = nullptr;
     FP hitX = {};
     FP hitY = {};
-    if (sCollisions->Raycast(
+    if (gCollisions->Raycast(
             mXPos,
             mYPos - (GetSpriteScale() * FP_FromInteger(80)),
             mXPos,
@@ -7276,7 +7276,7 @@ void Abe::Motion_86_FallLandDie()
     if (GetAnimation().GetCurrentFrame() == 0)
     {
         SfxPlayMono(relive::SoundEffects::KillEffect, 85);
-        SND_SEQ_Play_477760(SeqId::eHitBottomOfDeathPit_10, 1, 95, 95);
+        SND_SEQ_Play(SeqId::eHitBottomOfDeathPit_10, 1, 95, 95);
         relive_new ScreenShake(true);
     }
 
@@ -8348,31 +8348,31 @@ void Abe::Motion_142_RockThrowStandingHold()
             {
                 if (GetAnimation().GetFlipX())
                 {
-                    field_19D_throw_direction = 0;
+                    mThrowDirection = 0;
                 }
                 else
                 {
-                    field_19D_throw_direction = 2;
+                    mThrowDirection = 2;
                 }
             }
             else if (Input().IsAnyHeld(InputCommands::eLeft))
             {
                 if (GetAnimation().GetFlipX())
                 {
-                    field_19D_throw_direction = 2;
+                    mThrowDirection = 2;
                 }
                 else
                 {
-                    field_19D_throw_direction = 0;
+                    mThrowDirection = 0;
                 }
             }
             else if (Input().IsAnyHeld(InputCommands::eUp))
             {
-                field_19D_throw_direction = 1;
+                mThrowDirection = 1;
             }
             else
             {
-                field_19D_throw_direction = 3;
+                mThrowDirection = 3;
             }
             mCurrentMotion = eAbeMotions::Motion_143_RockThrowStandingThrow;
         }
@@ -8380,8 +8380,8 @@ void Abe::Motion_142_RockThrowStandingHold()
 
     if (Input().IsAnyReleased(InputCommands::eThrowItem))
     {
-        field_198_pThrowable->VToDead();
-        field_198_pThrowable = nullptr;
+        mThrowable->VToDead();
+        mThrowable = nullptr;
         mCurrentMotion = eAbeMotions::Motion_144_RockThrowStandingEnd;
         if (!gInfiniteGrenades)
         {
@@ -8417,19 +8417,19 @@ void Abe::Motion_145_RockThrowCrouchingHold()
     {
         if (Input().IsAnyHeld(InputCommands::eRight | InputCommands::eLeft | InputCommands::eUp | InputCommands::eDown))
         {
-            field_19D_throw_direction = 4;
+            mThrowDirection = 4;
             mCurrentMotion = eAbeMotions::Motion_146_RockThrowCrouchingThrow;
-            if (field_198_pThrowable->Type() == ReliveTypes::eMeat)
+            if (mThrowable->Type() == ReliveTypes::eMeat)
             {
-                field_19D_throw_direction = 5;
+                mThrowDirection = 5;
             }
         }
     }
 
     if (Input().IsAnyReleased(InputCommands::eThrowItem))
     {
-        field_198_pThrowable->VToDead();
-        field_198_pThrowable = nullptr;
+        mThrowable->VToDead();
+        mThrowable = nullptr;
         mCurrentMotion = eAbeMotions::Motion_19_CrouchIdle;
         if (!gInfiniteGrenades)
         {
@@ -8545,7 +8545,7 @@ void Abe::Motion_150_Chant()
     FollowLift();
     if (field_110_state.chant != ChantStates::eWaitForUnpossessing_3 && field_110_state.chant != ChantStates::eUnpossessing_4)
     {
-        SND_SEQ_PlaySeq_4775A0(SeqId::eMudokonChant1_11, 0, 0);
+        SND_SEQ_PlaySeq(SeqId::eMudokonChant1_11, 0, 0);
     }
 
     switch (field_110_state.chant)
@@ -8699,7 +8699,7 @@ void Abe::Motion_150_Chant()
 
                 relive_new PossessionFlicker(sControlledCharacter, 60, 128, 255, 255);
 
-                SND_Seq_Stop_477A60(SeqId::eMudokonChant1_11);
+                SND_Seq_Stop(SeqId::eMudokonChant1_11);
                 SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 70, 400);
                 field_110_state.chant = ChantStates::eWaitForUnpossessing_3;
             }
@@ -8753,7 +8753,7 @@ void Abe::Motion_150_Chant()
 
 void Abe::Motion_151_ChantEnd()
 {
-    SND_Seq_Stop_477A60(SeqId::eMudokonChant1_11);
+    SND_Seq_Stop(SeqId::eMudokonChant1_11);
 
     FollowLift();
 
@@ -8938,7 +8938,7 @@ void Abe::Motion_156_DoorEnter()
 
             FP hitX = {};
             FP hitY = {};
-            if (sCollisions->Raycast(
+            if (gCollisions->Raycast(
                     mXPos,
                     FP_FromInteger(BaseAliveGameObjectPathTLV->mTopLeftY),
                     mXPos,

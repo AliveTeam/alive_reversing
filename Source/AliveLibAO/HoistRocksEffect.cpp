@@ -70,7 +70,7 @@ void HoistParticle::VUpdate()
         PathLine* pLine = nullptr;
         FP hitX = {};
         FP hitY = {};
-        if (sCollisions->Raycast(
+        if (gCollisions->Raycast(
                 mXPos,
                 oldY,
                 mXPos,

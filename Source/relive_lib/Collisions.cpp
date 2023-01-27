@@ -5,38 +5,38 @@
 #include <algorithm>
 #include "FixedPoint.hpp"
 
-Collisions* sCollisions = nullptr;
+Collisions* gCollisions = nullptr;
 
 Collisions::~Collisions()
 {
-    relive_delete[] field_0_pArray;
+    relive_delete[] mCollisionArray;
 }
 
 Collisions::Collisions(std::vector<PathLine>& collisions)
 {
-    field_8_item_count = static_cast<s16>(collisions.size());
-    field_4_current_item_count = static_cast<u16>(field_8_item_count);
+    mCollisionCount = static_cast<s16>(collisions.size());
+    mCurrentCollisionCount = static_cast<u16>(mCollisionCount);
 
     // Up to 40 dynamic collisions, slam doors, trap doors, lift platforms etc.
-    field_C_max_count = field_8_item_count + 40;
+    mMaxCount = mCollisionCount + 40;
 
     // Allocate memory for collisions array
-    field_0_pArray = relive_new PathLine[field_C_max_count];
-    if (!field_0_pArray)
+    mCollisionArray = relive_new PathLine[mMaxCount];
+    if (!mCollisionArray)
     {
         ALIVE_FATAL("Collision buffer allocation failed");
     }
 
-    for (s32 i = 0; i < field_C_max_count; i++)
+    for (s32 i = 0; i < mMaxCount; i++)
     {
-        if (i < field_4_current_item_count)
+        if (i < mCurrentCollisionCount)
         {
-            field_0_pArray[i] = collisions[i];
+            mCollisionArray[i] = collisions[i];
         }
         else
         {
             // Zero init the "free" dynamic items
-            field_0_pArray[i] = {};
+            mCollisionArray[i] = {};
         }
     }
 }
@@ -44,10 +44,10 @@ Collisions::Collisions(std::vector<PathLine>& collisions)
 PathLine* Collisions::Add_Dynamic_Collision_Line(s16 x1, s16 y1, s16 x2, s16 y2, eLineTypes mode)
 {
     bool freeItemFound = false;
-    s32 idx = field_8_item_count;
-    while (idx < field_C_max_count)
+    s32 idx = mCollisionCount;
+    while (idx < mMaxCount)
     {
-        PathLine* pIter = &field_0_pArray[idx];
+        PathLine* pIter = &mCollisionArray[idx];
         if (!pIter->mRect.x && !pIter->mRect.w && !pIter->mRect.y && !pIter->mRect.h)
         {
             freeItemFound = true;
@@ -61,14 +61,14 @@ PathLine* Collisions::Add_Dynamic_Collision_Line(s16 x1, s16 y1, s16 x2, s16 y2,
         idx--;
     }
 
-    PathLine* pAddedLine = &field_0_pArray[idx];
+    PathLine* pAddedLine = &mCollisionArray[idx];
     pAddedLine->mRect.x = x1;
     pAddedLine->mRect.y = y1;
     pAddedLine->mRect.w = x2;
     pAddedLine->mRect.h = y2;
     pAddedLine->mLineType = mode;
-    pAddedLine->field_C_next = -1;
-    pAddedLine->field_A_previous = -1;
+    pAddedLine->mNext = -1;
+    pAddedLine->mPrevious = -1;
     return pAddedLine;
 }
 
@@ -186,9 +186,9 @@ bool Collisions::Raycast(FP X1_16_16, FP Y1_16_16, FP X2_16_16, FP Y2_16_16, Pat
 
     PathLine* pNearestMatch = nullptr;
 
-    for (s32 i = 0; i < field_C_max_count; i++)
+    for (s32 i = 0; i < mMaxCount; i++)
     {
-        PathLine* pLine = &field_0_pArray[i];
+        PathLine* pLine = &mCollisionArray[i];
         if (!(1 << (pLine->mLineType % 32) & modeMask.Mask()))
         {
             // Not a match on type
@@ -311,30 +311,30 @@ PathLine* Collisions::Get_Line_At_Idx(s16 idx)
     {
         return nullptr;
     }
-    return &field_0_pArray[idx];
+    return &mCollisionArray[idx];
 }
 
-const s32 kNearLineTollerance = 8;
+static const s32 kNearLineTollerance = 8;
 
 PathLine* Collisions::PreviousLine(PathLine* pLine)
 {
-    if (pLine->field_A_previous != -1)
+    if (pLine->mPrevious != -1)
     {
-        return &field_0_pArray[pLine->field_A_previous];
+        return &mCollisionArray[pLine->mPrevious];
     }
 
-    if (field_C_max_count == 0)
+    if (mMaxCount == 0)
     {
         return nullptr;
     }
 
-    for (s32 i = 0; i < field_C_max_count; i++)
+    for (s32 i = 0; i < mMaxCount; i++)
     {
-        if (abs(pLine->mRect.x - field_0_pArray[i].mRect.w) <= kNearLineTollerance && abs(pLine->mRect.y - field_0_pArray[i].mRect.h) <= kNearLineTollerance)
+        if (abs(pLine->mRect.x - mCollisionArray[i].mRect.w) <= kNearLineTollerance && abs(pLine->mRect.y - mCollisionArray[i].mRect.h) <= kNearLineTollerance)
         {
-            if ((1 << field_0_pArray[i].mLineType % 32) & (1 << pLine->mLineType % 32))
+            if ((1 << mCollisionArray[i].mLineType % 32) & (1 << pLine->mLineType % 32))
             {
-                return &field_0_pArray[i];
+                return &mCollisionArray[i];
             }
         }
     }
@@ -343,23 +343,23 @@ PathLine* Collisions::PreviousLine(PathLine* pLine)
 
 PathLine* Collisions::NextLine(PathLine* pLine)
 {
-    if (pLine->field_C_next != -1)
+    if (pLine->mNext != -1)
     {
-        return &field_0_pArray[pLine->field_C_next];
+        return &mCollisionArray[pLine->mNext];
     }
 
-    if (field_C_max_count == 0)
+    if (mMaxCount == 0)
     {
         return 0;
     }
 
-    for (s32 i = 0; i < field_C_max_count; i++)
+    for (s32 i = 0; i < mMaxCount; i++)
     {
-        if (abs(pLine->mRect.w - field_0_pArray[i].mRect.x) <= kNearLineTollerance && abs(pLine->mRect.h - field_0_pArray[i].mRect.y) <= kNearLineTollerance)
+        if (abs(pLine->mRect.w - mCollisionArray[i].mRect.x) <= kNearLineTollerance && abs(pLine->mRect.h - mCollisionArray[i].mRect.y) <= kNearLineTollerance)
         {
-            if ((1 << field_0_pArray[i].mLineType % 32) & (1 << pLine->mLineType % 32))
+            if ((1 << mCollisionArray[i].mLineType % 32) & (1 << pLine->mLineType % 32))
             {
-                return &field_0_pArray[i];
+                return &mCollisionArray[i];
             }
         }
     }
@@ -437,7 +437,7 @@ PathLine* PathLine::MoveOnLine(FP* pXPos, FP* pYPos, const FP distToMove)
 
             if (yPosRet > FP_FromInteger(mRect.h))
             {
-                PathLine* pNextLine = sCollisions->NextLine(this);
+                PathLine* pNextLine = gCollisions->NextLine(this);
                 if (!pNextLine)
                 {
                     return nullptr;
@@ -449,7 +449,7 @@ PathLine* PathLine::MoveOnLine(FP* pXPos, FP* pYPos, const FP distToMove)
 
             if (yPosRet < FP_FromInteger(mRect.y))
             {
-                PathLine* pPreviousLine = sCollisions->PreviousLine(this);
+                PathLine* pPreviousLine = gCollisions->PreviousLine(this);
                 if (!pPreviousLine)
                 {
                     return nullptr;
@@ -464,7 +464,7 @@ PathLine* PathLine::MoveOnLine(FP* pXPos, FP* pYPos, const FP distToMove)
             yPosRet = ypos - distToMove;
             if (yPosRet < FP_FromInteger(mRect.h))
             {
-                PathLine* pNextLine = sCollisions->NextLine(this);
+                PathLine* pNextLine = gCollisions->NextLine(this);
                 if (!pNextLine)
                 {
                     return nullptr;
@@ -476,7 +476,7 @@ PathLine* PathLine::MoveOnLine(FP* pXPos, FP* pYPos, const FP distToMove)
 
             if (yPosRet > FP_FromInteger(mRect.y))
             {
-                PathLine* pPreviousLine = sCollisions->PreviousLine(this);
+                PathLine* pPreviousLine = gCollisions->PreviousLine(this);
                 if (!pPreviousLine)
                 {
                     return nullptr;
@@ -523,7 +523,7 @@ PathLine* PathLine::MoveOnLine(FP* pXPos, FP* pYPos, const FP distToMove)
 
     if (xCalc1 == xCalc2)
     {
-        PathLine* pNextLine = sCollisions->NextLine(this);
+        PathLine* pNextLine = gCollisions->NextLine(this);
         if (!pNextLine)
         {
             return nullptr;
@@ -546,7 +546,7 @@ PathLine* PathLine::MoveOnLine(FP* pXPos, FP* pYPos, const FP distToMove)
 
     if (yCalc1 == yCalc2)
     {
-        PathLine* pPreviousLine = sCollisions->PreviousLine(this);
+        PathLine* pPreviousLine = gCollisions->PreviousLine(this);
         if (!pPreviousLine)
         {
             return nullptr;

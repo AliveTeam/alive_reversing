@@ -53,9 +53,9 @@ inline void to_json(nlohmann::json& j, const PathLine& p)
         {"w", p.mRect.w},
         {"h", p.mRect.h},
         {"line_type", p.mLineType},
-        {"previous", p.field_A_previous},
-        {"next", p.field_C_next},
-        {"line_length", p.field_12_line_length},
+        {"previous", p.mPrevious},
+        {"next", p.mNext},
+        {"line_length", p.mLineLength},
     };
 }
 
@@ -66,9 +66,9 @@ inline void from_json(const nlohmann::json& j, PathLine& p)
     j.at("w").get_to(p.mRect.w);
     j.at("h").get_to(p.mRect.h);
     j.at("line_type").get_to(p.mLineType);
-    j.at("previous").get_to(p.field_A_previous);
-    j.at("next").get_to(p.field_C_next);
-    j.at("line_length").get_to(p.field_12_line_length);
+    j.at("previous").get_to(p.mPrevious);
+    j.at("next").get_to(p.mNext);
+    j.at("line_length").get_to(p.mLineLength);
 }
 
 // RGB16

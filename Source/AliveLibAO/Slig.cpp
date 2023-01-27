@@ -250,7 +250,7 @@ void Slig::Slig_SoundEffect(SligSfx sfxIdx)
     auto pitch = Math_RandomRange(
         sSligSfxSounds[sfxIdxInt].mPitchMin,
         sSligSfxSounds[sfxIdxInt].mPitchMax);
-    SFX_SfxDefinition_Play_477330(sSligSfxSounds[sfxIdxInt], static_cast<s16>(volLeft), static_cast<s16>(volRight), pitch, pitch);
+    SFX_SfxDefinition_Play(sSligSfxSounds[sfxIdxInt], static_cast<s16>(volLeft), static_cast<s16>(volRight), pitch, pitch);
 }
 
 void Slig::LoadAnimations()
@@ -305,7 +305,7 @@ Slig::Slig(relive::Path_Slig* pTlv, const Guid& tlvId)
     field_13A_shot_motion = -1;
     field_138_res_idx = 0;
 
-    GetAnimation().SetFnPtrArray(kSlig_Anim_Frame_Fns_4CEBF0);
+    GetAnimation().SetFnPtrArray(gSlig_Anim_Frame_Fns);
 
     if (pTlv->mData.mScale == relive::reliveScale::eFull)
     {
@@ -327,7 +327,7 @@ Slig::Slig(relive::Path_Slig* pTlv, const Guid& tlvId)
 
     FP hitX = {};
     FP hitY = {};
-    if (sCollisions->Raycast(
+    if (gCollisions->Raycast(
             mXPos,
             mYPos,
             mXPos,
@@ -1571,7 +1571,7 @@ s16 Slig::IsWallBetween(Slig* pLeft, IBaseAliveGameObject* pRight)
     PathLine* pLine = nullptr;
     FP hitX = {};
     FP hitY = {};
-    return sCollisions->Raycast(
+    return gCollisions->Raycast(
                pLeft->mXPos,
                pLeft->mYPos - FP_FromInteger(25),
                pRight->mXPos,
@@ -2686,7 +2686,7 @@ void Slig::Motion_6_Shoot()
                     PathLine* pLine = nullptr;
                     FP hitX = {};
                     FP hitY = {};
-                    if (sCollisions->Raycast(
+                    if (gCollisions->Raycast(
                             mXPos,
                             mYPos,
                             mXPos + (k8 * (kGridSize / k8)),
@@ -2695,7 +2695,7 @@ void Slig::Motion_6_Shoot()
                             &hitX,
                             &hitY,
                             GetSpriteScale() != FP_FromDouble(0.5) ? kFgWalls : kBgWalls)
-                        || sCollisions->Raycast(
+                        || gCollisions->Raycast(
                             mXPos,
                             mYPos - k35Scaled,
                             mXPos + (k8 * (kGridSize / k8)),
@@ -2718,7 +2718,7 @@ void Slig::Motion_6_Shoot()
                     PathLine* pLine = nullptr;
                     FP hitX = {};
                     FP hitY = {};
-                    if (sCollisions->Raycast(
+                    if (gCollisions->Raycast(
                             mXPos,
                             mYPos,
                             mXPos - (k8 * (kGridSize / k8)),
@@ -2727,7 +2727,7 @@ void Slig::Motion_6_Shoot()
                             &hitX,
                             &hitY,
                             GetSpriteScale() != FP_FromDouble(0.5) ? kFgWalls : kBgWalls)
-                        || sCollisions->Raycast(
+                        || gCollisions->Raycast(
                             mXPos,
                             mYPos - k35Scaled,
                             mXPos - (k8 * (kGridSize / k8)),
@@ -2765,7 +2765,7 @@ void Slig::Motion_6_Shoot()
                 PathLine* pLine = nullptr;
                 FP hitX = {};
                 FP hitY = {};
-                if (sCollisions->Raycast(
+                if (gCollisions->Raycast(
                         mXPos,
                         mYPos,
                         mXPos + (k8 * mVelX),
@@ -2774,7 +2774,7 @@ void Slig::Motion_6_Shoot()
                         &hitX,
                         &hitY,
                         GetSpriteScale() != FP_FromDouble(0.5) ? kFgWalls : kBgWalls)
-                    || sCollisions->Raycast(
+                    || gCollisions->Raycast(
                         mXPos,
                         mYPos - k35Scaled,
                         mXPos + (k8 * mVelX),
@@ -2794,7 +2794,7 @@ void Slig::Motion_6_Shoot()
             }
             else
             {
-                SND_SEQ_PlaySeq_4775A0(SeqId::eHitBottomOfDeathPit_10, 1, 1);
+                SND_SEQ_PlaySeq(SeqId::eHitBottomOfDeathPit_10, 1, 1);
                 mCurrentMotion = eSligMotions::Motion_14_ShootToStand;
                 return;
             }
@@ -2802,7 +2802,7 @@ void Slig::Motion_6_Shoot()
 
         if (mNextMotion == eSligMotions::Motion_0_StandIdle)
         {
-            SND_SEQ_PlaySeq_4775A0(SeqId::eHitBottomOfDeathPit_10, 1, 1);
+            SND_SEQ_PlaySeq(SeqId::eHitBottomOfDeathPit_10, 1, 1);
             mCurrentMotion = eSligMotions::Motion_14_ShootToStand;
             mNextMotion = -1;
             return;
@@ -2810,7 +2810,7 @@ void Slig::Motion_6_Shoot()
 
         if (mNextMotion != -1 && mNextMotion != eSligMotions::Motion_6_Shoot)
         {
-            SND_SEQ_PlaySeq_4775A0(SeqId::eHitBottomOfDeathPit_10, 1, 1);
+            SND_SEQ_PlaySeq(SeqId::eHitBottomOfDeathPit_10, 1, 1);
             mCurrentMotion = eSligMotions::Motion_14_ShootToStand;
             return;
         }
@@ -3147,7 +3147,7 @@ void Slig::Motion_20_Recoil()
             {
                 if (mNextMotion != -1)
                 {
-                    SND_SEQ_PlaySeq_4775A0(SeqId::eHitBottomOfDeathPit_10, 1, 1);
+                    SND_SEQ_PlaySeq(SeqId::eHitBottomOfDeathPit_10, 1, 1);
                     mCurrentMotion = eSligMotions::Motion_14_ShootToStand;
                     mNextMotion = -1;
                 }
@@ -3162,7 +3162,7 @@ void Slig::Motion_20_Recoil()
             }
             else
             {
-                SND_SEQ_PlaySeq_4775A0(SeqId::eHitBottomOfDeathPit_10, 1, 1);
+                SND_SEQ_PlaySeq(SeqId::eHitBottomOfDeathPit_10, 1, 1);
                 mCurrentMotion = eSligMotions::Motion_14_ShootToStand;
             }
         }
@@ -3641,7 +3641,7 @@ void Slig::Motion_42_LandingFatal()
 {
     if (GetAnimation().GetCurrentFrame() == 0)
     {
-        SND_SEQ_Play_477760(SeqId::eHitBottomOfDeathPit_10, 1, 65, 65);
+        SND_SEQ_Play(SeqId::eHitBottomOfDeathPit_10, 1, 65, 65);
         SfxPlayMono(relive::SoundEffects::KillEffect, 80);
     }
 
@@ -3662,7 +3662,7 @@ void Slig::Motion_43_ShootZ()
     {
         if (mNextMotion != -1)
         {
-            SND_SEQ_PlaySeq_4775A0(SeqId::eHitBottomOfDeathPit_10, 1, 1);
+            SND_SEQ_PlaySeq(SeqId::eHitBottomOfDeathPit_10, 1, 1);
             mCurrentMotion = eSligMotions::Motion_44_ShootZtoStand;
             mNextMotion = -1;
         }
@@ -4452,7 +4452,7 @@ s16 Slig::Brain_DeathDropDeath()
 
                 if (static_cast<s32>(sGnFrame) == (field_114_timer - 6))
                 {
-                    SND_SEQ_Play_477760(SeqId::eHitBottomOfDeathPit_10, 1, 65, 65);
+                    SND_SEQ_Play(SeqId::eHitBottomOfDeathPit_10, 1, 65, 65);
                 }
                 return mBrainSubState;
             }

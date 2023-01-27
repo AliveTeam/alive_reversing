@@ -119,8 +119,8 @@ private:
     }
 
 public:
-    IBaseAliveGameObject* field_10C_pTarget = nullptr;
-    s16 field_110 = 0;
+    IBaseAliveGameObject* mTarget = nullptr;
+    s16 mBitingTarget = 0;
 
 private:
     s16 field_114_brain_idx = 0;

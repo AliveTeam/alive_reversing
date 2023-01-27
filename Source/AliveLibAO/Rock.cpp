@@ -239,7 +239,7 @@ void Rock::InTheAir()
 
     FP hitX = {};
     FP hitY = {};
-    if (sCollisions->Raycast(
+    if (gCollisions->Raycast(
             mPreviousXPos,
             mPreviousYPos,
             mXPos,

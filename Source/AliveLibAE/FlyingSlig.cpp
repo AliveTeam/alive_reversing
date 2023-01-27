@@ -153,7 +153,7 @@ FlyingSlig::FlyingSlig(relive::Path_FlyingSlig* pTlv, const Guid& tlvId)
 
     field_1F4_mPal = std::make_shared<AnimationPal>();
 
-    GetAnimation().SetFnPtrArray(kFlyingSlig_Anim_Frames_Fns_55EFC4);
+    GetAnimation().SetFnPtrArray(gFlyingSlig_Anim_Frames_Fns);
 
     SetCanBePossessed(true);
     SetCanSetOffExplosives(true);
@@ -234,7 +234,7 @@ FlyingSlig::FlyingSlig(relive::Path_FlyingSlig* pTlv, const Guid& tlvId)
 
     FP hitX = {};
     FP hitY = {};
-    sCollisions->Raycast(
+    gCollisions->Raycast(
         FP_FromInteger(pTlv->mTopLeftX),
         FP_FromInteger(pTlv->mTopLeftY),
         FP_FromInteger(pTlv->mBottomRightX),
@@ -408,7 +408,7 @@ s32 FlyingSlig::VGetSaveState(u8* pSaveBuffer)
 
     if (BaseAliveGameObjectCollisionLine)
     {
-        pState->field_36_line_idx = static_cast<s16>(BaseAliveGameObjectCollisionLine - sCollisions->field_0_pArray);
+        pState->field_36_line_idx = static_cast<s16>(BaseAliveGameObjectCollisionLine - gCollisions->mCollisionArray);
     }
 
     pState->field_38_launch_switch_id = field_17C_launch_switch_id;
@@ -534,7 +534,7 @@ void FlyingSlig::VUpdate()
                 const FP savedNextXPos = field_294_nextXPos;
                 const FP savedNextYPos = field_298_nextYPos;
                 // Everything else uses this a a line type, but of course MrSlig uses it as an index
-                BaseAliveGameObjectCollisionLine = sCollisions->Get_Line_At_Idx(BaseAliveGameObjectCollisionLineType);
+                BaseAliveGameObjectCollisionLine = gCollisions->Get_Line_At_Idx(BaseAliveGameObjectCollisionLineType);
                 sub_4348A0();
                 field_294_nextXPos = savedNextXPos;
                 field_298_nextYPos = savedNextYPos;
@@ -841,7 +841,7 @@ void FlyingSlig::Movement()
     const s32 v38 = static_cast<s32>(sGnFrame) % ((FP_FromInteger(v37) < field_2A8_max_x_speed) + 2);
     if (!v38 && mHealth > FP_FromInteger(0))
     {
-        Slig_SoundEffect_4BFFE0((Math_NextRandom() % 3) ? SligSfx::ePropeller2_10 : SligSfx::ePropeller1_9, this);
+        Slig_SoundEffect((Math_NextRandom() % 3) ? SligSfx::ePropeller2_10 : SligSfx::ePropeller1_9, this);
     }
 
     mThrowGrenade = false;
@@ -1237,7 +1237,7 @@ void FlyingSlig::Brain_17_FromCrawlingSlig()
 {
     FP hitX = {};
     FP hitY = {};
-    if (sCollisions->Raycast(
+    if (gCollisions->Raycast(
             mXPos,
             mYPos,
             mXPos,
@@ -2127,7 +2127,7 @@ bool FlyingSlig::IsWallBetween(IBaseAliveGameObject* pThis, IBaseAliveGameObject
     PathLine* pLine = nullptr;
     FP hitX = {};
     FP hitY = {};
-    return sCollisions->Raycast(
+    return gCollisions->Raycast(
                pThis->mXPos,
                pThis->mYPos,
                pObj->mXPos,
@@ -2165,7 +2165,7 @@ void FlyingSlig::ThrowGrenade()
     }
 
     New_ShootingFire_Particle(xpos + mXPos, ypos + mYPos, GetAnimation().GetFlipX(), GetSpriteScale());
-    Slig_SoundEffect_4BFFE0(SligSfx::eThrowGrenade_8, this);
+    Slig_SoundEffect(SligSfx::eThrowGrenade_8, this);
     EventBroadcast(kEventShooting, this);
     EventBroadcast(kEventLoudNoise, this);
 
@@ -2495,10 +2495,10 @@ s16 FlyingSlig::sub_437C70(PathLine* pLine)
     field_1A4_rect.h = FP_FromInteger(BaseAliveGameObjectCollisionLine->mRect.h);
 
 
-    field_1EC_pNextLine = sCollisions->Get_Line_At_Idx(BaseAliveGameObjectCollisionLine->field_C_next);
-    field_1F0_pPrevLine = sCollisions->Get_Line_At_Idx(BaseAliveGameObjectCollisionLine->field_A_previous);
+    field_1EC_pNextLine = gCollisions->Get_Line_At_Idx(BaseAliveGameObjectCollisionLine->mNext);
+    field_1F0_pPrevLine = gCollisions->Get_Line_At_Idx(BaseAliveGameObjectCollisionLine->mPrevious);
 
-    field_198_line_length = FP_FromInteger(BaseAliveGameObjectCollisionLine->field_12_line_length);
+    field_198_line_length = FP_FromInteger(BaseAliveGameObjectCollisionLine->mLineLength);
 
     mNoPrevLine = field_1F0_pPrevLine == nullptr;
     mNoNextLine = field_1EC_pNextLine == nullptr;
@@ -2633,7 +2633,7 @@ s16 FlyingSlig::sub_436C60(PSX_RECT* pRect, s16 arg_4)
                 FP hitY = {};
                 PathLine* pLine = nullptr;
 
-                if (sCollisions->Raycast(
+                if (gCollisions->Raycast(
                         sControlledCharacter->mXPos,
                         yOff1,
                         sControlledCharacter->mXPos,
@@ -2660,7 +2660,7 @@ s16 FlyingSlig::sub_436C60(PSX_RECT* pRect, s16 arg_4)
 
             if ((sControlledCharacter->mYPos - (FP_FromInteger(60) * GetSpriteScale()) - yOff2) > (FP_FromInteger(35) * GetSpriteScale()))
             {
-                if (sCollisions->Raycast(
+                if (gCollisions->Raycast(
                         sControlledCharacter->mXPos,
                         yOff2,
                         sControlledCharacter->mXPos,
@@ -2777,7 +2777,7 @@ bool FlyingSlig::sub_436B20()
     FP lastNextSegmentLength = FP_FromInteger(9999);
     FP totalNextSegmentLength = {};
 
-    PathLine* pNextLine = sCollisions->Get_Line_At_Idx(BaseAliveGameObjectCollisionLine->field_C_next);
+    PathLine* pNextLine = gCollisions->Get_Line_At_Idx(BaseAliveGameObjectCollisionLine->mNext);
     if (pNextLine)
     {
         while (pNextLine != BaseAliveGameObjectCollisionLine)
@@ -2794,8 +2794,8 @@ bool FlyingSlig::sub_436B20()
             }
             else
             {
-                totalNextSegmentLength += FP_FromInteger(pNextLine->field_12_line_length);
-                pNextLine = sCollisions->Get_Line_At_Idx(pNextLine->field_C_next);
+                totalNextSegmentLength += FP_FromInteger(pNextLine->mLineLength);
+                pNextLine = gCollisions->Get_Line_At_Idx(pNextLine->mNext);
                 if (!pNextLine)
                 {
                     break;
@@ -2805,7 +2805,7 @@ bool FlyingSlig::sub_436B20()
     }
 
     FP totalPrevSegmentLength = {};
-    PathLine* pPrevLine = sCollisions->Get_Line_At_Idx(BaseAliveGameObjectCollisionLine->field_A_previous);
+    PathLine* pPrevLine = gCollisions->Get_Line_At_Idx(BaseAliveGameObjectCollisionLine->mPrevious);
     if (pPrevLine)
     {
         while (pPrevLine != BaseAliveGameObjectCollisionLine)
@@ -2821,8 +2821,8 @@ bool FlyingSlig::sub_436B20()
             }
             else
             {
-                totalPrevSegmentLength += FP_FromInteger(pPrevLine->field_12_line_length);
-                pPrevLine = sCollisions->Get_Line_At_Idx(pPrevLine->field_A_previous);
+                totalPrevSegmentLength += FP_FromInteger(pPrevLine->mLineLength);
+                pPrevLine = gCollisions->Get_Line_At_Idx(pPrevLine->mPrevious);
                 if (!pPrevLine)
                 {
                     break;
@@ -2889,7 +2889,7 @@ s16 FlyingSlig::CollisionUp(FP velY)
     FP hitX = {};
     FP hitY = {};
     PathLine* pLine = nullptr;
-    auto bCollision = sCollisions->Raycast(
+    auto bCollision = gCollisions->Raycast(
         mXPos - xOff1,
         mYPos,
         mXPos - xOff1,
@@ -2901,7 +2901,7 @@ s16 FlyingSlig::CollisionUp(FP velY)
     
     if (!bCollision)
     {
-        bCollision = sCollisions->Raycast(
+        bCollision = gCollisions->Raycast(
             xOff2 + mXPos,
             mYPos,
             xOff2 + mXPos,
@@ -2932,7 +2932,7 @@ s16 FlyingSlig::CollisionUp(FP velY)
                 9);
         }
 
-        Slig_SoundEffect_4BFFE0(sGnFrame & 1 ? SligSfx::eCollideWithWall1_12 : SligSfx::eCollideWithWall2_13, this);
+        Slig_SoundEffect(sGnFrame & 1 ? SligSfx::eCollideWithWall1_12 : SligSfx::eCollideWithWall2_13, this);
 
         mYPos += velY + hitY - y2;
         return 1;
@@ -2963,7 +2963,7 @@ s16 FlyingSlig::CollisionDown(FP velY)
     FP hitX = {};
     FP hitY = {};
     PathLine* pLine = nullptr;
-    auto bCollision = sCollisions->Raycast(
+    auto bCollision = gCollisions->Raycast(
         mXPos - xOff1,
         mYPos,
         mXPos - xOff1,
@@ -2975,7 +2975,7 @@ s16 FlyingSlig::CollisionDown(FP velY)
 
     if (!bCollision)
     {
-        bCollision = sCollisions->Raycast(
+        bCollision = gCollisions->Raycast(
             xOff2 + mXPos,
             mYPos,
             xOff2 + mXPos,
@@ -3024,7 +3024,7 @@ s16 FlyingSlig::CollisionLeftRight(FP velX)
     FP hitX = {};
     FP hitY = {};
     PathLine* pLine = nullptr;
-    auto bCollision = sCollisions->Raycast(
+    auto bCollision = gCollisions->Raycast(
         mXPos,
         mYPos - yOff1,
         xOff,
@@ -3047,11 +3047,11 @@ s16 FlyingSlig::CollisionLeftRight(FP velX)
             k25Directed = FP_FromInteger(25);
         }
         sparkX = (k25Directed * GetSpriteScale()) + mXPos;
-        Slig_SoundEffect_4BFFE0(sGnFrame & 1 ? SligSfx::eCollideWithWall1_12 : SligSfx::eCollideWithWall2_13, this);
+        Slig_SoundEffect(sGnFrame & 1 ? SligSfx::eCollideWithWall1_12 : SligSfx::eCollideWithWall2_13, this);
     }
     else
     {
-        bCollision = sCollisions->Raycast(
+        bCollision = gCollisions->Raycast(
             mXPos,
             (GetSpriteScale() * FP_FromInteger(10)) + mYPos,
             xOff,

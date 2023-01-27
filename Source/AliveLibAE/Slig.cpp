@@ -40,7 +40,7 @@
 #include "../relive_lib/SwitchStates.hpp"
 #include "Game.hpp"
 
-const relive::SfxDefinition kSfxInfoTable_5607E0[17] = {
+static const relive::SfxDefinition kSfxInfoTable[17] = {
     {0u, 1u, 58u, 40u, -256, -256},
     {0u, 1u, 58u, 35u, 0, 0},
     {0u, 1u, 59u, 55u, 0, 0},
@@ -59,9 +59,9 @@ const relive::SfxDefinition kSfxInfoTable_5607E0[17] = {
     {0u, 3u, 37u, 60u, 0, 0},
     {0u, 3u, 38u, 60u, 0, 0}};
 
-void Slig_SoundEffect_4BFFE0(SligSfx effect, BaseAliveGameObject* pObj)
+void Slig_SoundEffect(SligSfx effect, BaseAliveGameObject* pObj)
 {
-    const relive::SfxDefinition& pEffect = kSfxInfoTable_5607E0[static_cast<s32>(effect)];
+    const relive::SfxDefinition& pEffect = kSfxInfoTable[static_cast<s32>(effect)];
     s16 vLeft = 0;
     s16 vRight = 0;
     if (Calc_Slig_Sound_Direction(pObj, 0, pEffect, &vLeft, &vRight))
@@ -85,7 +85,7 @@ void Slig_SoundEffect_4BFFE0(SligSfx effect, BaseAliveGameObject* pObj)
     }
 }
 
-void Animation_OnFrame_Slig_4C0600(BaseGameObject* pObj, u32&, const IndexedPoint& point)
+void Animation_OnFrame_Slig(BaseGameObject* pObj, u32&, const IndexedPoint& point)
 {
     auto pSlig = reinterpret_cast<Slig*>(pObj);
 
@@ -419,7 +419,7 @@ Slig::Slig(relive::Path_Slig* pTlv, const Guid& tlvId)
     field_20C_state_after_speak = -1;
     field_20E_attention_timeout = 0;
     
-    GetAnimation().SetFnPtrArray(kSlig_Anim_Frame_Fns_55EFAC);
+    GetAnimation().SetFnPtrArray(gSlig_Anim_Frame_Fns);
 
     if (pTlv->mData.mScale != relive::reliveScale::eFull)
     {
@@ -441,7 +441,7 @@ Slig::Slig(relive::Path_Slig* pTlv, const Guid& tlvId)
 
     FP hitX = {};
     FP hitY = {};
-    if (sCollisions->Raycast(
+    if (gCollisions->Raycast(
             mXPos,
             mYPos,
             mXPos,
@@ -821,7 +821,7 @@ void Slig::Motion_0_StandIdle()
     PathLine* pLine = nullptr;
     FP hitX = {};
     FP hitY = {};
-    if (!sCollisions->Raycast(
+    if (!gCollisions->Raycast(
             xOff + mXPos,
             mYPos - FP_FromInteger(10),
             xOff + mXPos,
@@ -919,7 +919,7 @@ void Slig::Motion_2_Walking()
     {
         if (GetAnimation().GetCurrentFrame() == 5 || GetAnimation().GetCurrentFrame() == 14)
         {
-            Slig_SoundEffect_4BFFE0(SligSfx::eWalkingStep_2, this);
+            Slig_SoundEffect(SligSfx::eWalkingStep_2, this);
 
             if (!field_126_checked_if_off_screen)
             {
@@ -1037,7 +1037,7 @@ void Slig::Motion_4_Running()
         {
             if (GetAnimation().GetCurrentFrame() == 4 || GetAnimation().GetCurrentFrame() == 12)
             {
-                Slig_SoundEffect_4BFFE0(SligSfx::eRunningStep_3, this);
+                Slig_SoundEffect(SligSfx::eRunningStep_3, this);
 
                 if (field_126_checked_if_off_screen == 0)
                 {
@@ -1113,7 +1113,7 @@ void Slig::Motion_5_TurnAroundStanding()
         MusicController::static_PlayMusic(MusicController::MusicTypes::eTension_4, this, 0, 0);
     }
 
-    Slig_SoundEffect_4BFFE0(SligSfx::eStandingTurn_1, this);
+    Slig_SoundEffect(SligSfx::eStandingTurn_1, this);
 
     if (GetAnimation().GetIsLastFrame())
     {
@@ -1140,7 +1140,7 @@ void Slig::Motion_6_Shoot()
                     PathLine* pLine = nullptr;
                     FP hitX = {};
                     FP hitY = {};
-                    if (sCollisions->Raycast(
+                    if (gCollisions->Raycast(
                             mXPos,
                             mYPos,
                             mXPos + (k8 * (kGridSize / k8)),
@@ -1149,7 +1149,7 @@ void Slig::Motion_6_Shoot()
                             &hitX,
                             &hitY,
                             GetScale() == Scale::Fg ? kFgWalls : kBgWalls)
-                        || sCollisions->Raycast(
+                        || gCollisions->Raycast(
                             mXPos,
                             mYPos - k45Scaled,
                             mXPos + (k8 * (kGridSize / k8)),
@@ -1172,7 +1172,7 @@ void Slig::Motion_6_Shoot()
                     PathLine* pLine = nullptr;
                     FP hitX = {};
                     FP hitY = {};
-                    if (sCollisions->Raycast(
+                    if (gCollisions->Raycast(
                             mXPos,
                             mYPos,
                             mXPos - (k8 * (kGridSize / k8)),
@@ -1181,7 +1181,7 @@ void Slig::Motion_6_Shoot()
                             &hitX,
                             &hitY,
                             GetScale() == Scale::Fg ? kFgWalls : kBgWalls)
-                        || sCollisions->Raycast(
+                        || gCollisions->Raycast(
                             mXPos,
                             mYPos - k45Scaled,
                             mXPos - (k8 * (kGridSize / k8)),
@@ -1218,7 +1218,7 @@ void Slig::Motion_6_Shoot()
                     PathLine* pLine = nullptr;
                     FP hitX = {};
                     FP hitY = {};
-                    if (sCollisions->Raycast(
+                    if (gCollisions->Raycast(
                             mXPos,
                             mYPos,
                             mXPos + (k8 * mVelX),
@@ -1227,7 +1227,7 @@ void Slig::Motion_6_Shoot()
                             &hitX,
                             &hitY,
                             GetScale() == Scale::Fg ? kFgWalls : kBgWalls)
-                        || sCollisions->Raycast(
+                        || gCollisions->Raycast(
                             mXPos, mYPos - k45Scaled,
                             mXPos + (k8 * mVelX),
                             mYPos - k45Scaled,
@@ -1446,11 +1446,11 @@ void Slig::Motion_12_ReloadGun()
 {
     if (GetAnimation().GetCurrentFrame() == 1)
     {
-        Slig_SoundEffect_4BFFE0(SligSfx::eReload1_6, this);
+        Slig_SoundEffect(SligSfx::eReload1_6, this);
     }
     else if (GetAnimation().GetCurrentFrame() == 4)
     {
-        Slig_SoundEffect_4BFFE0(SligSfx::eReload2_7, this);
+        Slig_SoundEffect(SligSfx::eReload2_7, this);
     }
 
     if (GetAnimation().GetIsLastFrame())
@@ -1471,7 +1471,7 @@ void Slig::Motion_14_SteppingToStand()
 {
     if (GetAnimation().GetCurrentFrame() == 0)
     {
-        Slig_SoundEffect_4BFFE0(SligSfx::eWalkingStep_2, this);
+        Slig_SoundEffect(SligSfx::eWalkingStep_2, this);
     }
 
     if (WallHit(GetSpriteScale() * FP_FromInteger(45), mVelX))
@@ -1689,7 +1689,7 @@ void Slig::Motion_32_Sleeping()
     {
         if (!(static_cast<s32>(sGnFrame - 20) % 60))
         {
-            Slig_SoundEffect_4BFFE0(SligSfx::eSnooze1_5, this);
+            Slig_SoundEffect(SligSfx::eSnooze1_5, this);
             if (gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0))
             {
                 FP xOff = {};
@@ -1711,7 +1711,7 @@ void Slig::Motion_32_Sleeping()
     }
     else
     {
-        Slig_SoundEffect_4BFFE0(SligSfx::eSnooze2_4, this);
+        Slig_SoundEffect(SligSfx::eSnooze2_4, this);
 
         if (gMap.Is_Point_In_Current_Camera(
                 mCurrentLevel,
@@ -1758,12 +1758,12 @@ void Slig::Motion_33_SleepingToStand()
 
     if (GetAnimation().GetCurrentFrame() >= 2 && GetAnimation().GetCurrentFrame() <= 10)
     {
-        Slig_SoundEffect_4BFFE0(SligSfx::eToStand_0, this);
+        Slig_SoundEffect(SligSfx::eToStand_0, this);
     }
 
     if (GetAnimation().GetCurrentFrame() == 9)
     {
-        Slig_SoundEffect_4BFFE0(SligSfx::eWalkingStep_2, this);
+        Slig_SoundEffect(SligSfx::eWalkingStep_2, this);
     }
 
     switch (GetAnimation().GetCurrentFrame())
@@ -1873,12 +1873,12 @@ void Slig::Motion_35_KnockbackToStand()
 
     if (GetAnimation().GetCurrentFrame() >= 2 && GetAnimation().GetCurrentFrame() <= 10)
     {
-        Slig_SoundEffect_4BFFE0(SligSfx::eToStand_0, this);
+        Slig_SoundEffect(SligSfx::eToStand_0, this);
     }
 
     if (GetAnimation().GetCurrentFrame() == 9)
     {
-        Slig_SoundEffect_4BFFE0(SligSfx::eWalkingStep_2, this);
+        Slig_SoundEffect(SligSfx::eWalkingStep_2, this);
     }
 
     FP gridSize = {};
@@ -4690,7 +4690,7 @@ void Slig::VUpdate()
     {
         if (BaseAliveGameObjectCollisionLineType != -1)
         {
-            sCollisions->Raycast(
+            gCollisions->Raycast(
                 mXPos,
                 mYPos - FP_FromInteger(20),
                 mXPos,
@@ -5560,7 +5560,7 @@ bool Slig::IsWallBetween(IBaseAliveGameObject* pLeft, IBaseAliveGameObject* pRig
     PathLine* pLine = nullptr;
     FP hitX = {};
     FP hitY = {};
-    return sCollisions->Raycast(
+    return gCollisions->Raycast(
                pLeft->mXPos,
                FP_FromInteger(thisBRect.h - 25),
                pRight->mXPos,

@@ -6,8 +6,8 @@ struct IndexedPoint;
 using TFrameCallBackType = void(*)(BaseGameObject*, u32& pointIdx, const IndexedPoint&);
 
 namespace AO {
-extern TFrameCallBackType kAbe_Anim_Frame_Fns_4CEBEC[];
-extern TFrameCallBackType kSlig_Anim_Frame_Fns_4CEBF0[];
-extern TFrameCallBackType kSlog_Anim_Frame_Fns_4CEBF4[];
-extern TFrameCallBackType kZBall_Anim_Frame_Fns_4CEBF8[];
+extern TFrameCallBackType gAbe_Anim_Frame_Fns[];
+extern TFrameCallBackType gSlig_Anim_Frame_Fns[];
+extern TFrameCallBackType gSlog_Anim_Frame_Fns[];
+extern TFrameCallBackType gZBall_Anim_Frame_Fns[];
 } // namespace AO

@@ -13,9 +13,9 @@
 #include "../relive_lib/FixedPoint.hpp"
 #include "Math.hpp"
 
-u16 sSlurg_Step_Watch_Points_Idx_5C1C08 = 0;
-s8 sSlurg_Step_Watch_Points_Count_5BD4DC[2] = {};
-Slurg_Step_Watch_Points sSlurg_Step_Watch_Points_5C1B28[2] = {};
+u16 gSlurgStepWatchPointsIdx = 0;
+s8 gSlurgStepWatchPointsCount[2] = {};
+Slurg_Step_Watch_Points gSlurgStepWatchPoints[2] = {};
 
 void Slurg::LoadAnimations()
 {
@@ -26,10 +26,10 @@ void Slurg::LoadAnimations()
 
 void Slurg::Clear_Slurg_Step_Watch_Points()
 {
-    sSlurg_Step_Watch_Points_Idx_5C1C08 = !sSlurg_Step_Watch_Points_Idx_5C1C08;
-    sSlurg_Step_Watch_Points_Count_5BD4DC[sSlurg_Step_Watch_Points_Idx_5C1C08] = 0;
+    gSlurgStepWatchPointsIdx = !gSlurgStepWatchPointsIdx;
+    gSlurgStepWatchPointsCount[gSlurgStepWatchPointsIdx] = 0;
 
-    for (auto& point : sSlurg_Step_Watch_Points_5C1B28[sSlurg_Step_Watch_Points_Idx_5C1C08].mPoints)
+    for (auto& point : gSlurgStepWatchPoints[gSlurgStepWatchPointsIdx].mPoints)
     {
         point = {};
     }
@@ -91,7 +91,7 @@ Slurg::Slurg(relive::Path_Slurg* pTlv, const Guid& tlvId)
 
     FP hitX = {};
     FP hitY = {};
-    if (sCollisions->Raycast(
+    if (gCollisions->Raycast(
             mXPos,
             mYPos,
             mXPos,
@@ -199,11 +199,11 @@ void Slurg::VUpdate()
 
     if (mSlurgState != SlurgStates::eBurst_2)
     {
-        const s32 idx = sSlurg_Step_Watch_Points_Idx_5C1C08 == 0;
-        const s32 max_count = sSlurg_Step_Watch_Points_Count_5BD4DC[idx];
+        const s32 idx = gSlurgStepWatchPointsIdx == 0;
+        const s32 max_count = gSlurgStepWatchPointsCount[idx];
         for (s32 i = 0; i < max_count; i++)
         {
-            const Slurg_Step_Watch_Point* pPoint = &sSlurg_Step_Watch_Points_5C1B28[idx].mPoints[i];
+            const Slurg_Step_Watch_Point* pPoint = &gSlurgStepWatchPoints[idx].mPoints[i];
             if (pPoint->x > bRect.x - 2 && pPoint->x < bRect.w + 2 && pPoint->y > bRect.y - 4 && pPoint->y < bRect.h + 4)
             {
                 Burst();

@@ -122,7 +122,7 @@ Scrab::Scrab(relive::Path_Scrab* pTlv, const Guid& tlvId)
 
     FP hitX = {};
     FP hitY = {};
-    if (sCollisions->Raycast(
+    if (gCollisions->Raycast(
             mXPos,
             mYPos,
             mXPos,
@@ -191,7 +191,7 @@ void Scrab::VUpdate()
     {
         FP hitX = {};
         FP hitY = {};
-        if (sCollisions->Raycast(
+        if (gCollisions->Raycast(
                 mXPos,
                 mYPos,
                 mXPos,
@@ -604,7 +604,7 @@ s32 Scrab::Scrab_SFX(ScrabSounds soundId, s32 /*vol*/, s32 pitch, s16 applyDirec
                 return 0;
         }
     }
-    return SFX_SfxDefinition_Play_477330(sScrabSfx_4CF798[static_cast<s32>(soundId)],
+    return SFX_SfxDefinition_Play(sScrabSfx_4CF798[static_cast<s32>(soundId)],
                                          static_cast<s16>(volumeLeft),
                                          static_cast<s16>(volumeRight),
                                          static_cast<s16>(pitch),

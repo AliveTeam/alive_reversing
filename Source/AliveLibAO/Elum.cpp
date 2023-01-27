@@ -643,7 +643,7 @@ void Elum::HandleElumPathTrans()
     PathLine* pLine = nullptr;
     FP hitX = {};
     FP hitY = {};
-    if (sCollisions->Raycast(
+    if (gCollisions->Raycast(
             mXPos,
             mYPos - FP_FromInteger(40),
             mXPos,
@@ -737,7 +737,7 @@ void Elum::Elum_SFX(ElumSounds soundId, BaseAliveGameObject* pObj)
                     volRight = 80;
                     break;
             }
-            SFX_SfxDefinition_Play_477330(sElumSfx_4C5398[3], (s16) volLeft, (s16) volRight, 0, 0);
+            SFX_SfxDefinition_Play(sElumSfx_4C5398[3], (s16) volLeft, (s16) volRight, 0, 0);
             break;
         }
 
@@ -3100,7 +3100,7 @@ void Elum::Motion_44_ScratchBegin()
         SetCurrentMotion(eElumMotions::Motion_45_ScratchLoop);
         if (gMap.GetDirection(mCurrentLevel, mCurrentPath, mXPos, mYPos) == CameraPos::eCamCurrent_0)
         {
-            SND_SEQ_PlaySeq_4775A0(SeqId::Unknown_15, 1, 1);
+            SND_SEQ_PlaySeq(SeqId::Unknown_15, 1, 1);
         }
     }
 }
@@ -3328,7 +3328,7 @@ void Elum::VUpdate()
         {
             FP hitX = {};
             FP hitY = {};
-            if (sCollisions->Raycast(
+            if (gCollisions->Raycast(
                     mXPos,
                     mYPos - FP_FromInteger(40),
                     mXPos,

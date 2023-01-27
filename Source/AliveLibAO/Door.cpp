@@ -116,7 +116,7 @@ Door::Door(relive::Path_Door* pTlv, const Guid& tlvId)
                     GetAnimation().SetRenderLayer(Layer::eLayer_BeforeShadow_25);
                 }
 
-                if (sCollisions->Raycast(
+                if (gCollisions->Raycast(
                     FP_FromInteger(pTlv->mTopLeftX + (pTlv->Width()) / 2),
                     FP_FromInteger(pTlv->mTopLeftY),
                     FP_FromInteger(pTlv->mTopLeftX + (pTlv->Width()) / 2),
@@ -172,7 +172,7 @@ Door::Door(relive::Path_Door* pTlv, const Guid& tlvId)
                 Animation_Init(GetAnimRes(sDoorAnimdIdTable[idx][2]));
             }
 
-            if (sCollisions->Raycast(
+            if (gCollisions->Raycast(
                 FP_FromInteger(pTlv->mTopLeftX) + FP_FromInteger((pTlv->Width()) / 2),
                 FP_FromInteger(pTlv->mTopLeftY),
                 FP_FromInteger(pTlv->mTopLeftX) + FP_FromInteger((pTlv->Width()) / 2),
@@ -213,7 +213,7 @@ Door::Door(relive::Path_Door* pTlv, const Guid& tlvId)
 
                 if (gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarmsReturn || gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarms)
                 {
-                    if (sCollisions->Raycast(
+                    if (gCollisions->Raycast(
                         FP_FromInteger(pTlv->mTopLeftX + (pTlv->Width()) / 2),
                         FP_FromInteger(pTlv->mTopLeftY),
                         FP_FromInteger(pTlv->mTopLeftX + (pTlv->Width()) / 2),
@@ -312,7 +312,7 @@ void Door::PlaySound()
     if (gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarms || gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarmsReturn)
     {
         volume = GetSpriteScale() != FP_FromDouble(0.5) ? 90 : 127;
-        SND_SEQ_Play_477760(SeqId::eHitBottomOfDeathPit_10, 1, 75, 75);
+        SND_SEQ_Play(SeqId::eHitBottomOfDeathPit_10, 1, 75, 75);
     }
     else if (mDoorType == relive::Path_Door::DoorTypes::eBasicDoor && GetSpriteScale() == FP_FromInteger(1))
     {
@@ -359,7 +359,7 @@ void Door::VUpdate()
             {
                 if (!SwitchStates_Get(mSwitchId))
                 {
-                    SND_SEQ_Play_477760(SeqId::eSecretMusic_46, 1, 127, 127);
+                    SND_SEQ_Play(SeqId::eSecretMusic_46, 1, 127, 127);
                     relive_new MusicTrigger(relive::Path_MusicTrigger::MusicTriggerMusicType::eChime, relive::Path_MusicTrigger::TriggeredBy::eTimer, 0, 300);
                 }
                 SwitchStates_Do_Operation(mSwitchId, relive::reliveSwitchOp::eSetTrue);

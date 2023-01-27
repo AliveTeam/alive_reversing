@@ -78,7 +78,7 @@ Dove::Dove(AnimId animId, const Guid& tlvId, FP scale)
         return;
     }
 
-    SND_SEQ_PlaySeq_4775A0(SeqId::Unknown_24, 0, 1);
+    SND_SEQ_PlaySeq(SeqId::Unknown_24, 0, 1);
     bTheOneControllingTheMusic = true;
 }
 
@@ -134,7 +134,7 @@ Dove::Dove(AnimId animId, FP xpos, FP ypos, FP scale)
     {
         return;
     }
-    SND_SEQ_PlaySeq_4775A0(SeqId::Unknown_24, 0, 1);
+    SND_SEQ_PlaySeq(SeqId::Unknown_24, 0, 1);
     bTheOneControllingTheMusic = 1;
 }
 
@@ -151,7 +151,7 @@ Dove::~Dove()
 
     if (bTheOneControllingTheMusic)
     {
-        SND_Seq_Stop_477A60(SeqId::Unknown_24);
+        SND_Seq_Stop(SeqId::Unknown_24);
         bTheOneControllingTheMusic = 0;
     }
 }
@@ -214,7 +214,7 @@ void Dove::VUpdate()
 
     if (!bTheOneControllingTheMusic)
     {
-        SND_SEQ_PlaySeq_4775A0(SeqId::Unknown_24, 0, 1);
+        SND_SEQ_PlaySeq(SeqId::Unknown_24, 0, 1);
         bTheOneControllingTheMusic = 1;
     }
 
@@ -236,7 +236,7 @@ void Dove::VUpdate()
                 bExtraSeqStarted_4FF944 = 0;
                 if (bTheOneControllingTheMusic)
                 {
-                    SND_Seq_Stop_477A60(SeqId::Unknown_24);
+                    SND_Seq_Stop(SeqId::Unknown_24);
                     bTheOneControllingTheMusic = 0;
                 }
             }
@@ -258,7 +258,7 @@ void Dove::VUpdate()
                     bExtraSeqStarted_4FF944 = 0;
                     if (bTheOneControllingTheMusic)
                     {
-                        SND_Seq_Stop_477A60(SeqId::Unknown_24);
+                        SND_Seq_Stop(SeqId::Unknown_24);
                         bTheOneControllingTheMusic = 0;
                     }
                 }
@@ -371,7 +371,7 @@ void Dove::All_FlyAway()
     bExtraSeqStarted_4FF944 = 0;
     if (bTheOneControllingTheMusic)
     {
-        SND_Seq_Stop_477A60(SeqId::Unknown_24);
+        SND_Seq_Stop(SeqId::Unknown_24);
         bTheOneControllingTheMusic = false;
     }
 }

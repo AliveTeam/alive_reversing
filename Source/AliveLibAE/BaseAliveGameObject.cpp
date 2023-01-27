@@ -129,7 +129,7 @@ void BaseAliveGameObject::VOnPathTransition(s32 cameraWorldXPos, s32 cameraWorld
         PathLine* pLine = nullptr;
         if (BaseAliveGameObjectCollisionLine)
         {
-            if (sCollisions->Raycast(
+            if (gCollisions->Raycast(
                     mXPos, 
 					mYPos - FP_FromInteger(40),
                     mXPos, 
@@ -150,7 +150,7 @@ void BaseAliveGameObject::VOnPathTransition(s32 cameraWorldXPos, s32 cameraWorld
         else
         {
             BaseAliveGameObjectLastLineYPos = mYPos - oldY + BaseAliveGameObjectLastLineYPos;
-            if (sCollisions->Raycast(
+            if (gCollisions->Raycast(
                     mXPos, BaseAliveGameObjectLastLineYPos - FP_FromInteger(40),
                     mXPos, BaseAliveGameObjectLastLineYPos + FP_FromInteger(40),
                     &pLine, &hitX, &hitY, GetScale() == Scale::Fg ? kFgFloor : kBgFloor))
@@ -198,7 +198,7 @@ void BaseAliveGameObject::VCheckCollisionLineStillValid(s32 distance)
     PathLine* pLine = nullptr;
     FP hitX = {};
     FP hitY = {};
-    if (sCollisions->Raycast(
+    if (gCollisions->Raycast(
             mXPos,
             yBottom,
             mXPos,
@@ -309,7 +309,7 @@ bool BaseAliveGameObject::Check_IsOnEndOfLine(s16 direction, s16 distance)
     PathLine* pLine = nullptr;
     FP hitX = {};
     FP hitY = {};
-    return sCollisions->Raycast(
+    return gCollisions->Raycast(
                xLoc + xPosSnapped,
                mYPos - FP_FromInteger(4),
                xLoc + xPosSnapped,
@@ -394,7 +394,7 @@ bool BaseAliveGameObject::MapFollowMe(bool snapToGrid)
 bool BaseAliveGameObject::WallHit(FP offY, FP offX)
 {
     PathLine* pLine = nullptr;
-    return sCollisions->Raycast(
+    return gCollisions->Raycast(
                mXPos,
                mYPos - offY,
                mXPos + offX,
@@ -421,7 +421,7 @@ bool BaseAliveGameObject::InAirCollision(PathLine** ppLine, FP* hitX, FP* hitY, 
     mXPos += mVelX;
     mYPos += mVelY;
 
-    auto bCollision = sCollisions->Raycast(
+    auto bCollision = gCollisions->Raycast(
         oldXPos,
         oldYPos,
         mXPos,
@@ -442,7 +442,7 @@ bool BaseAliveGameObject::InAirCollision(PathLine** ppLine, FP* hitX, FP* hitY, 
         velYClamped = FP_FromInteger(4);
     }
 
-    bCollision = sCollisions->Raycast(
+    bCollision = gCollisions->Raycast(
         mXPos,
         mYPos,
         mXPos + mVelX,
@@ -469,7 +469,7 @@ bool BaseAliveGameObject::InAirCollision(PathLine** ppLine, FP* hitX, FP* hitY, 
     }
 
     const FP k10Scaled = GetSpriteScale() * FP_FromInteger(10);
-    return sCollisions->Raycast(
+    return gCollisions->Raycast(
         oldXPos,
         oldYPos - k10Scaled,
         mXPos,

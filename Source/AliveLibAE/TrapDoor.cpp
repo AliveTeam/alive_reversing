@@ -322,7 +322,7 @@ s32 TrapDoor::VGetSaveState(u8* pSaveBuffer)
 
 void TrapDoor::Add_To_Collisions_Array()
 {
-    mPlatformBaseCollisionLine = sCollisions->Add_Dynamic_Collision_Line(
+    mPlatformBaseCollisionLine = gCollisions->Add_Dynamic_Collision_Line(
         mBoundingRect.x,
         mBoundingRect.y,
         mBoundingRect.w,

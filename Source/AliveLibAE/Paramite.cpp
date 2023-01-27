@@ -234,7 +234,7 @@ Paramite::Paramite(relive::Path_Paramite* pTlv, const Guid& tlvId)
 
     FP hitX = {};
     FP hitY = {};
-    if (sCollisions->Raycast(
+    if (gCollisions->Raycast(
             mXPos,
             mYPos,
             mXPos,
@@ -4511,7 +4511,7 @@ void Paramite::Motion_33_SurpriseWeb()
 {
     FP hitX = {};
     FP hitY = {};
-    if (sCollisions->Raycast(
+    if (gCollisions->Raycast(
             mXPos,
             mYPos,
             mXPos,
@@ -4575,7 +4575,7 @@ void Paramite::Motion_35_WebIdle()
         FP hitX = {};
         FP hitY = {};
         PathLine* pLine = nullptr;
-        if (sCollisions->Raycast(
+        if (gCollisions->Raycast(
                 mXPos - (GetSpriteScale() * FP_FromDouble(0.5)),
                 mYPos - FP_FromInteger(10),
                 mXPos - (GetSpriteScale() * FP_FromDouble(0.5)),
@@ -4604,7 +4604,7 @@ void Paramite::Motion_35_WebIdle()
         FP hitX = {};
         FP hitY = {};
         PathLine* pLine = nullptr;
-        if (sCollisions->Raycast(
+        if (gCollisions->Raycast(
                 mXPos + (GetSpriteScale() * FP_FromDouble(0.5)),
                 mYPos - FP_FromInteger(10),
                 mXPos + (GetSpriteScale() * FP_FromDouble(0.5)),
@@ -4668,14 +4668,14 @@ void Paramite::Motion_36_WebGoingUp()
         FP hitY = {};
         PathLine* pLine = nullptr;
 
-        if (!sCollisions->Raycast(
+        if (!gCollisions->Raycast(
                 mXPos - FP_FromInteger(10),
                 mYPos - FP_FromInteger(30),
                 mXPos,
                 mYPos - FP_FromInteger(30),
                 &pLine, &hitX, &hitY, GetScale() == Scale::Fg ? kFgWalls : kBgWalls))
         {
-            if (sCollisions->Raycast(
+            if (gCollisions->Raycast(
                     mXPos - kHalfGrid,
                     mYPos - FP_FromInteger(30),
                     mXPos - kHalfGrid,
@@ -4696,14 +4696,14 @@ void Paramite::Motion_36_WebGoingUp()
                 return;
             }
 
-            if (!sCollisions->Raycast(
+            if (!gCollisions->Raycast(
                     mXPos + FP_FromInteger(10),
                     mYPos - FP_FromInteger(30),
                     mXPos,
                     mYPos - FP_FromInteger(30),
                     &pLine, &hitX, &hitY, GetScale() == Scale::Fg ? kFgWalls : kBgWalls))
             {
-                if (sCollisions->Raycast(
+                if (gCollisions->Raycast(
                         kHalfGrid + mXPos,
                         mYPos - FP_FromInteger(30),
                         kHalfGrid + mXPos,
@@ -4789,7 +4789,7 @@ void Paramite::Motion_37_WebGoingDown()
         FP hitX = {};
         FP hitY = {};
 
-        if (sCollisions->Raycast(
+        if (gCollisions->Raycast(
                 gridSize + mXPos,
                 mYPos,
                 gridSize + mXPos,
@@ -4808,7 +4808,7 @@ void Paramite::Motion_37_WebGoingDown()
         else
         {
             const FP invertedGridSize = -gridSize;
-            if (sCollisions->Raycast(
+            if (gCollisions->Raycast(
                     invertedGridSize + mXPos,
                     mYPos,
                     invertedGridSize + mXPos,
@@ -5190,7 +5190,7 @@ void Paramite::VUpdate()
         }
         else
         {
-            sCollisions->Raycast(
+            gCollisions->Raycast(
                 mXPos,
                 mYPos - FP_FromInteger(20),
                 mXPos,
@@ -5567,7 +5567,7 @@ PathLine* Paramite::WebCollision(FP yOff, FP xOff)
     PathLine* pLine = nullptr;
     FP hitX = {};
     FP hitY = {};
-    if (!sCollisions->Raycast(
+    if (!gCollisions->Raycast(
             mXPos,
             mYPos + yOff,
             mXPos + xOff,
@@ -6236,15 +6236,15 @@ void Paramite::Sound(ParamiteSpeak soundId, s16 pitch_min)
 
 void Paramite::UpdateSlurgWatchPoints()
 {
-    const s8 count = sSlurg_Step_Watch_Points_Count_5BD4DC[sSlurg_Step_Watch_Points_Idx_5C1C08];
+    const s8 count = gSlurgStepWatchPointsCount[gSlurgStepWatchPointsIdx];
     if (count < 5)
     {
         if (BaseAliveGameObjectCollisionLine)
         {
-            Slurg_Step_Watch_Points* pPoints = &sSlurg_Step_Watch_Points_5C1B28[sSlurg_Step_Watch_Points_Idx_5C1C08];
+            Slurg_Step_Watch_Points* pPoints = &gSlurgStepWatchPoints[gSlurgStepWatchPointsIdx];
             pPoints->mPoints[count].x = FP_GetExponent(mXPos);
             pPoints->mPoints[count].y = BaseAliveGameObjectCollisionLine->mRect.y - 5;
-            sSlurg_Step_Watch_Points_Count_5BD4DC[sSlurg_Step_Watch_Points_Idx_5C1C08] = count + 1;
+            gSlurgStepWatchPointsCount[gSlurgStepWatchPointsIdx] = count + 1;
         }
     }
 }

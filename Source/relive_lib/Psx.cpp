@@ -22,7 +22,7 @@ void PSX_EMU_SetCallBack_4F9430(TPsxEmuCallBack fnPtr)
 
 static void PSX_PutDispEnv_Impl_4F5640()
 {
-    SsSeqCalledTbyT_4FDC80();
+    SsSeqCalledTbyT();
 
     if (!gTurnOffRendering)
     {
@@ -30,7 +30,7 @@ static void PSX_PutDispEnv_Impl_4F5640()
         VGA_EndFrame();
     }
 
-    SsSeqCalledTbyT_4FDC80();
+    SsSeqCalledTbyT();
 }
 
 void PSX_PutDispEnv_4F58E0()
@@ -95,7 +95,7 @@ void PSX_Prevent_Rendering()
 // If mode is 1, game doesn't frame cap at all. If it is greater than 1, then it caps to (60 / mode) fps.
 void PSX_VSync(s32 mode)
 {
-    SsSeqCalledTbyT_4FDC80();
+    SsSeqCalledTbyT();
 
     const s32 currentTime = SYS_GetTicks();
 
@@ -128,11 +128,11 @@ void PSX_VSync(s32 mode)
             do
             {
                 timeSinceLastFrame = SYS_GetTicks() - sVSyncLastMillisecond_BD0F2C;
-                // During recording or playback do not call SsSeqCalledTbyT_4FDC80 an undeterminate
+                // During recording or playback do not call SsSeqCalledTbyT an undeterminate
                 // amount of times as this can leak to de-syncs.
                 if (!GetGameAutoPlayer().IsRecording() && !GetGameAutoPlayer().IsPlaying())
                 {
-                    SsSeqCalledTbyT_4FDC80();
+                    SsSeqCalledTbyT();
 
                     // Prevent max CPU usage, will probably cause stuttering on weaker machines
                     if (gLatencyHack)

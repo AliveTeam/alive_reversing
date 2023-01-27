@@ -481,7 +481,7 @@ s32 Environment_SFX(EnvironmentSfx sfxId, s32 volume, s32 pitchMin, BaseAliveGam
     }
 }
 
-const FP_Point sThrowVelocities_555118[9] = {
+static const FP_Point sThrowVelocities[9] = {
     {FP_FromInteger(3), FP_FromInteger(-14)},
     {FP_FromInteger(10), FP_FromInteger(-10)},
     {FP_FromInteger(15), FP_FromInteger(-8)},
@@ -493,14 +493,14 @@ const FP_Point sThrowVelocities_555118[9] = {
     {FP_FromInteger(0), FP_FromInteger(0)}};
 
 
-void Animation_OnFrame_Abe_455F80(BaseGameObject* pPtr, u32&, const IndexedPoint& point)
+void Animation_OnFrame_Abe(BaseGameObject* pPtr, u32&, const IndexedPoint& point)
 {
     auto pAbe = static_cast<Abe*>(pPtr);
 
     auto pThrowable = static_cast<BaseThrowable*>(sObjectIds.Find_Impl(sActiveHero->mThrowableId));
 
-    auto tableX = sThrowVelocities_555118[pAbe->mThrowDirection].x * pAbe->GetSpriteScale();
-    const auto tableY = sThrowVelocities_555118[pAbe->mThrowDirection].y * pAbe->GetSpriteScale();
+    auto tableX = sThrowVelocities[pAbe->mThrowDirection].x * pAbe->GetSpriteScale();
+    const auto tableY = sThrowVelocities[pAbe->mThrowDirection].y * pAbe->GetSpriteScale();
 
     FP xOff = {};
     if (sActiveHero->GetAnimation().GetFlipX())
@@ -516,7 +516,7 @@ void Animation_OnFrame_Abe_455F80(BaseGameObject* pPtr, u32&, const IndexedPoint
     PathLine* pLine = nullptr;
     FP hitX = {};
     FP hitY = {};
-    if (sCollisions->Raycast(
+    if (gCollisions->Raycast(
             pAbe->mXPos,
             pAbe->mYPos + FP_FromInteger(point.mPoint.y),
             xOff + pAbe->mXPos,
@@ -586,7 +586,7 @@ Abe::Abe() :
     LoadAnimations();
     Animation_Init(GetAnimRes(AnimId::Mudokon_Idle));
 
-    GetAnimation().SetFnPtrArray(kAbe_Anim_Frame_Fns_55EF98);
+    GetAnimation().SetFnPtrArray(gAbe_Anim_Frame_Fns);
 
     PSX_Point point = {};
     gMap.GetCurrentCamCoords(&point);
@@ -940,7 +940,7 @@ void Abe::VUpdate()
         SetRestoredFromQuickSave(false);
         if (BaseAliveGameObjectCollisionLineType != -1)
         {
-            sCollisions->Raycast(
+            gCollisions->Raycast(
                 mXPos,
                 mYPos - FP_FromInteger(20),
                 mXPos,
@@ -3063,7 +3063,7 @@ void Abe::Motion_3_Fall_459B60()
 
         MapFollowMe(true);
 
-        if (!sCollisions->Raycast(
+        if (!gCollisions->Raycast(
                 mXPos,
                 FP_FromInteger(BaseAliveGameObjectPathTLV->mTopLeftY - 10), // TODO: Negative ??
                 mXPos,
@@ -3349,7 +3349,7 @@ void Abe::Motion_14_HoistIdle_452440()
                 }
             }
 
-            if (sCollisions->Raycast(
+            if (gCollisions->Raycast(
                     mXPos,
                     FP_FromInteger(BaseAliveGameObjectPathTLV->mTopLeftY - 10),
                     mXPos,
@@ -3988,7 +3988,7 @@ void Abe::Motion_28_HopMid_451C50()
 
             MapFollowMe(true);
 
-            if (sCollisions->Raycast(
+            if (gCollisions->Raycast(
                     mXPos,
                     FP_FromInteger(BaseAliveGameObjectPathTLV->mTopLeftY - 10),
                     mXPos,
@@ -4180,7 +4180,7 @@ void Abe::Motion_31_RunJumpMid_452C10()
 
         if (checkCollision)
         {
-            if (sCollisions->Raycast(
+            if (gCollisions->Raycast(
                     mXPos,
                     FP_FromInteger(BaseAliveGameObjectPathTLV->mTopLeftY - 10),
                     mXPos,
@@ -5317,7 +5317,7 @@ void Abe::Motion_66_LedgeDescend_454970()
                 FP hitX = {};
                 FP hitY = {};
 
-                if (sCollisions->Raycast(
+                if (gCollisions->Raycast(
                         mXPos,
                         mYPos - FP_FromInteger(5),
                         mXPos,
@@ -5394,7 +5394,7 @@ void Abe::Motion_68_ToOffScreenHoist_454B80()
     PathLine* pLine = nullptr;
     FP hitX = {};
     FP hitY = {};
-    if (pHoist && sCollisions->Raycast(mXPos, FP_FromInteger(pHoist->mTopLeftY - 10), mXPos, FP_FromInteger(pHoist->mTopLeftY + 10), &pLine, &hitX, &hitY, GetScale() == Scale::Fg ? kFgFloor : kBgFloor))
+    if (pHoist && gCollisions->Raycast(mXPos, FP_FromInteger(pHoist->mTopLeftY - 10), mXPos, FP_FromInteger(pHoist->mTopLeftY + 10), &pLine, &hitX, &hitY, GetScale() == Scale::Fg ? kFgFloor : kBgFloor))
     {
         BaseAliveGameObjectCollisionLine = pLine;
         mYPos = FP_NoFractional(hitY + FP_FromDouble(0.5));
@@ -6349,7 +6349,7 @@ void Abe::Motion_92_ForceDownFromHoist()
         VOnTrapDoorOpen();
         FP hitX = {};
         FP hitY = {};
-        if (sCollisions->Raycast(
+        if (gCollisions->Raycast(
                 mXPos,
                 mYPos + (GetSpriteScale() * FP_FromInteger(75)),
                 mXPos,
@@ -7194,7 +7194,7 @@ void Abe::Motion_114_DoorEnter()
             PathLine* pathLine = nullptr;
             FP hitX = {};
             FP hitY = {};
-            if (sCollisions->Raycast(
+            if (gCollisions->Raycast(
                     mXPos,
                     FP_FromInteger(BaseAliveGameObjectPathTLV->mTopLeftY),
                     mXPos,
@@ -7336,7 +7336,7 @@ void Abe::Motion_117_InMineCar()
             PathLine* pLine = nullptr;
             FP hitX = {};
             FP hitY = {};
-            if (sCollisions->Raycast(
+            if (gCollisions->Raycast(
                     mXPos,
                     mYPos - FP_FromInteger(2),
                     mXPos,
@@ -8142,7 +8142,7 @@ bool Abe::Is_Celling_Above_44E8D0()
     FP hitY = {};
     FP hitX = {};
     PathLine* pLine = nullptr;
-    return sCollisions->Raycast(
+    return gCollisions->Raycast(
                mXPos,
                mYPos - FP_FromInteger(5),
                mXPos,
@@ -8565,7 +8565,7 @@ void Abe::BulletDamage_44C980(Bullet* pBullet)
         PathLine* pathLine = nullptr;
         FP hitX = {};
         FP hitY = {};
-        if (sCollisions->Raycast(
+        if (gCollisions->Raycast(
                 xOffset,
                 mYPos - FP_FromInteger(5),
                 xOffset,

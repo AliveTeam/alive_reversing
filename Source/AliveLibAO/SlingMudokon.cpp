@@ -75,7 +75,7 @@ SlingMudokon::SlingMudokon(relive::Path_SlingMudokon* pTlv, const Guid& tlvId)
 
     FP hitX = {};
     FP hitY = {};
-    if (sCollisions->Raycast(
+    if (gCollisions->Raycast(
             FP_FromInteger(pTlv->mTopLeftX),
             FP_FromInteger(pTlv->mTopLeftY),
             FP_FromInteger(pTlv->mBottomRightX),

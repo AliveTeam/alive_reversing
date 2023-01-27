@@ -135,7 +135,7 @@ void SecurityDoor::VUpdate()
         case SecurityDoorStates::eSuccessChime_1:
             if (static_cast<s32>(sGnFrame) == mTimer)
             {
-                SND_SEQ_Play_477760(SeqId::eSaveTriggerMusic_45, 1, 127, 127);
+                SND_SEQ_Play(SeqId::eSaveTriggerMusic_45, 1, 127, 127);
             }
             break;
 

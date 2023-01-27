@@ -62,7 +62,7 @@ BirdPortal::BirdPortal(relive::Path_BirdPortal* pTlv, const Guid& tlvId)
 
     FP hitX = {};
     PathLine* pLine = nullptr;
-    sCollisions->Raycast(
+    gCollisions->Raycast(
         FP_FromInteger(pTlv->mTopLeftX),
         FP_FromInteger(pTlv->mTopLeftY),
         FP_FromInteger(pTlv->mBottomRightX),
@@ -847,7 +847,7 @@ void BirdPortal::VExitPortal()
         allLinesHack.mMask = 0xFFFFFFFF;
 
         PathLine* pLine = nullptr;
-        sCollisions->Raycast(
+        gCollisions->Raycast(
             FP_FromInteger(pPortalExitTlv->mTopLeftX),
             FP_FromInteger(pPortalExitTlv->mTopLeftY),
             FP_FromInteger(pPortalExitTlv->mBottomRightX),

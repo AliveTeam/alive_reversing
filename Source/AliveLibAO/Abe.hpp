@@ -563,9 +563,9 @@ public:
     s16 field_192_path = 0;
     s16 field_194_camera = 0;
     s16 field_196_door_id = 0;
-    BaseThrowable* field_198_pThrowable = nullptr;
+    BaseThrowable* mThrowable = nullptr;
     s8 field_19C_throwable_count = 0;
-    s8 field_19D_throw_direction = 0;
+    s8 mThrowDirection = 0;
     PortalSubStates field_19E_portal_sub_state = PortalSubStates::eJumpingInsidePortal_0;
     BirdPortal* field_1A0_portal = nullptr;
     bool mReturnToPreviousMotion = false;

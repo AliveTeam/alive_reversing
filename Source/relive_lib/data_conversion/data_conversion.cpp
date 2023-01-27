@@ -49,29 +49,29 @@ static void ToPathLine(PathLine& dst, const PathLineAO& src)
 {
     dst.mRect = src.mRect;
     dst.mLineType = src.mLineType;
-    dst.field_A_previous = static_cast<s16>(src.field_C_previous);
-    dst.field_C_next = static_cast<s16>(src.field_10_next);
-    dst.field_12_line_length = 0; // TODO: Calculate for AO in the future
+    dst.mPrevious = static_cast<s16>(src.mPrevious);
+    dst.mNext = static_cast<s16>(src.mNext);
+    dst.mLineLength = 0; // TODO: Calculate for AO in the future
 }
 
 static void ToPathLine(PathLine& dst, const PathLineAE& src)
 {
     dst.mRect = src.mRect;
     dst.mLineType = src.mLineType;
-    dst.field_A_previous = src.field_A_previous;
-    dst.field_C_next = src.field_C_next;
-    dst.field_12_line_length = src.field_12_line_length;
+    dst.mPrevious = src.mPrevious;
+    dst.mNext = src.mNext;
+    dst.mLineLength = src.mLineLength;
 }
 
 static void ConvertPathCollisions(nlohmann::json& j, const CollisionInfo& info, const std::vector<u8>& pathResource, bool isAo)
 {
     const u8* pData = pathResource.data();
-    const u8* pStart = pData + info.field_C_collision_offset;
+    const u8* pStart = pData + info.mCollisionOffset;
 
     if (isAo)
     {
         auto pCollisions = reinterpret_cast<const PathLineAO*>(pStart);
-        for (u32 i = 0; i < info.field_10_num_collision_items; i++)
+        for (u32 i = 0; i < info.mNumCollisionItems; i++)
         {
             PathLine tmp;
             ToPathLine(tmp, pCollisions[i]);
@@ -81,7 +81,7 @@ static void ConvertPathCollisions(nlohmann::json& j, const CollisionInfo& info, 
     else
     {
         auto pCollisions = reinterpret_cast<const PathLineAE*>(pStart);
-        for (u32 i = 0; i < info.field_10_num_collision_items; i++)
+        for (u32 i = 0; i < info.mNumCollisionItems; i++)
         {
             PathLine tmp;
             ToPathLine(tmp, pCollisions[i]);
@@ -1100,14 +1100,14 @@ static void SaveLevelInfoJson(const FileSystem::Path& dataDir, EReliveLevelIds /
                             rBlyRec.field_8_pCollisionData = &GetCollisions(lvlIdx)[pExt->mPathId];
 
                             CollisionInfo& rColInfo = *rBlyRec.field_8_pCollisionData;
-                            rColInfo.field_4_left = 0;
-                            rColInfo.field_6_right = 0;
-                            SetAndLog("top", rColInfo.field_8_top, static_cast<s16>(pExt->mXSize * pExt->mGridWidth));
-                            SetAndLog("bottom", rColInfo.field_A_bottom, static_cast<s16>(pExt->mYSize * pExt->mGridHeight));
-                            SetAndLog("collision offset", rColInfo.field_C_collision_offset, pExt->mCollisionOffset);
-                            SetAndLog("num collision items", rColInfo.field_10_num_collision_items, pExt->mNumCollisionLines);
-                            SetAndLog<u32>("grid width", rColInfo.field_14_grid_width, pExt->mGridWidth);
-                            SetAndLog<u32>("grid height", rColInfo.field_18_grid_height, pExt->mGridHeight);
+                            rColInfo.mLeft = 0;
+                            rColInfo.mRight = 0;
+                            SetAndLog("top", rColInfo.mTop, static_cast<s16>(pExt->mXSize * pExt->mGridWidth));
+                            SetAndLog("bottom", rColInfo.mBottom, static_cast<s16>(pExt->mYSize * pExt->mGridHeight));
+                            SetAndLog("collision offset", rColInfo.mCollisionOffset, pExt->mCollisionOffset);
+                            SetAndLog("num collision items", rColInfo.mNumCollisionItems, pExt->mNumCollisionLines);
+                            SetAndLog<u32>("grid width", rColInfo.mGridWidth, pExt->mGridWidth);
+                            SetAndLog<u32>("grid height", rColInfo.mGridHeight, pExt->mGridHeight);
 
                             if (pExt->mTotalMuds != 0)
                             {
@@ -1187,14 +1187,14 @@ static void SaveLevelInfoJson(const FileSystem::Path& dataDir, EReliveLevelIds /
                             rBlyRec.field_8_pCollisionData = &GetCollisions(lvlIdx)[pExt->mPathId];
 
                             CollisionInfo& rColInfo = *rBlyRec.field_8_pCollisionData;
-                            rColInfo.field_4_left = 0;
-                            rColInfo.field_6_right = 0;
-                            SetAndLog("top", rColInfo.field_8_top, static_cast<s16>(pExt->mXSize * pExt->mGridWidth));
-                            SetAndLog("bottom", rColInfo.field_A_bottom, static_cast<s16>(pExt->mYSize * pExt->mGridHeight));
-                            SetAndLog("collision offset", rColInfo.field_C_collision_offset, pExt->mCollisionOffset);
-                            SetAndLog("num collision items", rColInfo.field_10_num_collision_items, pExt->mNumCollisionLines);
-                            SetAndLog<u32>("grid width", rColInfo.field_14_grid_width, pExt->mGridWidth);
-                            SetAndLog<u32>("grid height", rColInfo.field_18_grid_height, pExt->mGridHeight);
+                            rColInfo.mLeft = 0;
+                            rColInfo.mRight = 0;
+                            SetAndLog("top", rColInfo.mTop, static_cast<s16>(pExt->mXSize * pExt->mGridWidth));
+                            SetAndLog("bottom", rColInfo.mBottom, static_cast<s16>(pExt->mYSize * pExt->mGridHeight));
+                            SetAndLog("collision offset", rColInfo.mCollisionOffset, pExt->mCollisionOffset);
+                            SetAndLog("num collision items", rColInfo.mNumCollisionItems, pExt->mNumCollisionLines);
+                            SetAndLog<u32>("grid width", rColInfo.mGridWidth, pExt->mGridWidth);
+                            SetAndLog<u32>("grid height", rColInfo.mGridHeight, pExt->mGridHeight);
 
                             if (pExt->mTotalMuds != 0)
                             {

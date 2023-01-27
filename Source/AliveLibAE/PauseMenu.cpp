@@ -447,7 +447,7 @@ void PauseMenu::RestartPath()
 
     mPauseRenderLoop = false;
     SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 40, 3400);
-    GetSoundAPI().SND_Restart();
+    GetSoundAPI().mSND_Restart();
 }
 
 const char_type kArrowChar = 3;
@@ -479,7 +479,7 @@ void PauseMenu::Page_Main_Update()
     {
         mPauseRenderLoop = false;
         SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 40, 2400);
-        GetSoundAPI().SND_Restart();
+        GetSoundAPI().mSND_Restart();
     }
     else if (Input().IsAnyPressed(InputCommands::eUnPause_OrConfirm))
     {
@@ -488,13 +488,13 @@ void PauseMenu::Page_Main_Update()
             case MainPages::ePage_Continue_0:
                 mPauseRenderLoop = false;
                 SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 40, 2400);
-                GetSoundAPI().SND_Restart();
+                GetSoundAPI().mSND_Restart();
                 return;
 
             case MainPages::ePage_QuickSave_1:
                 mPauseRenderLoop = false;
                 SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 40, 2400);
-                GetSoundAPI().SND_Restart();
+                GetSoundAPI().mSND_Restart();
                 DoQuicksave();
                 return;
 
@@ -634,7 +634,7 @@ void PauseMenu::Page_Save_Update()
             }
             mPauseRenderLoop = false;
             SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 40, 2400);
-            GetSoundAPI().SND_Restart();
+            GetSoundAPI().mSND_Restart();
         }
         else
         {

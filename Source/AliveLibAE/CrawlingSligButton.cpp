@@ -10,12 +10,12 @@ struct ButtonSfxEntry final
 {
     relive::Path_CrawlingSligButton::ButtonSounds mTlvButton;
     // TODO: Give sane names
-    relive::SoundEffects field_0_block_idx;
-    s8 field_2_note;
-    s16 field_4_pitch_min;
+    relive::SoundEffects mBlockIdx;
+    s8 mNote;
+    s16 mPitchMin;
 };
 
-const ButtonSfxEntry buttonSfxInfo_544488[8] = {
+static const ButtonSfxEntry sButtonSfxInfo[8] = {
     {relive::Path_CrawlingSligButton::ButtonSounds::None, relive::SoundEffects::WellExit, 25u, 80}, // Can never be used ??
     {relive::Path_CrawlingSligButton::ButtonSounds::SackHit1, relive::SoundEffects::SackHit, 95u, 57},
     {relive::Path_CrawlingSligButton::ButtonSounds::FallingItemPresence2, relive::SoundEffects::FallingItemPresence2, 49u, 25},
@@ -96,14 +96,14 @@ void CrawlingSligButton::VUpdate()
             const auto sound_id = new_switch_state ? mOnSound : mOffSound;
             if (sound_id != relive::Path_CrawlingSligButton::ButtonSounds::None)
             {
-                for (const auto& entry : buttonSfxInfo_544488)
+                for (const auto& entry : sButtonSfxInfo)
                 {
                     if (entry.mTlvButton == sound_id)
                     {
                         SFX_Play_Stereo(
-                            entry.field_0_block_idx,
-                            entry.field_2_note + entry.field_4_pitch_min * (mSoundDirection & 2),
-                            entry.field_2_note + entry.field_4_pitch_min * (mSoundDirection & 1),
+                            entry.mBlockIdx,
+                            entry.mNote + entry.mPitchMin * (mSoundDirection & 2),
+                            entry.mNote + entry.mPitchMin * (mSoundDirection & 1),
                             GetSpriteScale());
                         break;
                     }

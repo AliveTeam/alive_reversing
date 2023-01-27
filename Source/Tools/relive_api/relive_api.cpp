@@ -82,8 +82,8 @@ struct PathBND
     info.mIndexTableOffset = data.field_18_object_index_table_offset;
     info.mObjectOffset = data.field_14_object_offset;
 
-    info.mNumCollisionItems = collisionInfo.field_10_num_collision_items;
-    info.mCollisionOffset = collisionInfo.field_C_collision_offset;
+    info.mNumCollisionItems = collisionInfo.mNumCollisionItems;
+    info.mCollisionOffset = collisionInfo.mCollisionOffset;
 
     info.mAbeStartXPos = 0; // doesn't apply to AO
     info.mAbeStartYPos = 0; // doesn't apply to AO
@@ -107,8 +107,8 @@ struct PathBND
     info.mIndexTableOffset = data.field_16_object_indextable_offset;
     info.mObjectOffset = data.field_12_object_offset;
 
-    info.mNumCollisionItems = collisionInfo.field_10_num_collision_items;
-    info.mCollisionOffset = collisionInfo.field_C_collision_offset;
+    info.mNumCollisionItems = collisionInfo.mNumCollisionItems;
+    info.mCollisionOffset = collisionInfo.mCollisionOffset;
 
     info.mAbeStartXPos = data.field_1A_abe_start_xpos;
     info.mAbeStartYPos = data.field_1C_abe_start_ypos;
@@ -309,12 +309,12 @@ static void WriteCollisionLine(ByteStream& s, const PathLineAO& line)
     s.Write(line.mRect.h);
 
     s.Write(static_cast<u8>(line.mLineType));
-    s.Write(line.field_9_pad);
-    s.Write(line.field_A_pad);
-    s.Write(line.field_B_pad);
+    s.Write(line.pad1);
+    s.Write(line.pad2);
+    s.Write(line.pad3);
 
-    s.Write(line.field_C_previous);
-    s.Write(line.field_10_next);
+    s.Write(line.mPrevious);
+    s.Write(line.mNext);
 }
 
 static void WriteCollisionLine(ByteStream& s, const ::PathLineAE& line)
@@ -325,15 +325,15 @@ static void WriteCollisionLine(ByteStream& s, const ::PathLineAE& line)
     s.Write(line.mRect.h);
 
     s.Write(static_cast<u8>(line.mLineType));
-    s.Write(line.field_9_pad);
+    s.Write(line.pad);
 
-    s.Write(line.field_A_previous);
-    s.Write(line.field_C_next);
+    s.Write(line.mPrevious);
+    s.Write(line.mNext);
 
-    s.Write(line.field_E_previous2);
-    s.Write(line.field_10_next2);
+    s.Write(line.mPrevious2);
+    s.Write(line.mNext2);
 
-    s.Write(line.field_12_line_length);
+    s.Write(line.mLineLength);
 }
 
 static std::vector<u8> Base64Png2RawPixels(const std::string& base64EncodedPng)

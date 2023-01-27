@@ -219,7 +219,7 @@ inline unsigned SwapBytes<unsigned>(unsigned value)
 void MIDI_ADSR_Update_4FDCE0();
 s16 MIDI_PitchBend_4FDEC0(s16 field4_match, s16 pitch);
 void MIDI_Read_SEQ_Header_4FD870(u8** pSrc, SeqHeader* pDst, u32 size);
-void MIDI_SetTempo_4FDB80(s16 idx, s16 kZero, s16 tempo);
+void MIDI_SetTempo(s16 idx, s16 kZero, s16 tempo);
 s32 MIDI_Set_Volume_4FDE80(MIDI_Channel* pData, s32 vol);
 s32 MIDI_Stop_Existing_Single_Note_4FCFF0(s32 VabIdAndProgram, s32 note);
 void MIDI_Wait_4FCE50();
@@ -241,7 +241,7 @@ void SsExt_StopPlayingSamples()
     {
         if (gSpuVars->sMidi_Channels().channels[i].field_1C_adsr.field_3_state)
         {
-            GetSoundAPI().SND_Stop_Sample_At_Idx(gSpuVars->sMidi_Channels().channels[i].field_0_sound_buffer_field_4);
+            GetSoundAPI().mSND_Stop_Sample_At_Idx(gSpuVars->sMidi_Channels().channels[i].field_0_sound_buffer_field_4);
         }
     }
 }
@@ -251,7 +251,7 @@ void SSInit_4FC230()
     gSpuVars->sGlobalVolumeLevel_right() = 127;
     gSpuVars->sGlobalVolumeLevel_left() = 127;
 
-    GetSoundAPI().SND_CreateDS(22050u, 16, 1);
+    GetSoundAPI().mSND_CreateDS(22050u, 16, 1);
 }
 
 void SpuInitHot_4FC320()
@@ -332,14 +332,14 @@ s32 SND_SoundsDat_Read_4FC4E0(VabHeader* pVabHeader, VabBodyRecord* pVabBody, s3
 
 void SsVabClose_4FC5B0(s32 vabId)
 {
-    SsUtAllKeyOff_4FDFE0(0); // TODO: Check argument ??
+    SsUtAllKeyOff(0); // TODO: Check argument ??
 
     if (gSpuVars->sVagCounts()[vabId] - 1 >= 0)
     {
         // Free backwards
         for (s32 i = gSpuVars->sVagCounts()[vabId] - 1; i >= 0; i--)
         {
-            GetSoundAPI().SND_Free(&gSpuVars->sSoundEntryTable16().table[vabId][i]);
+            GetSoundAPI().mSND_Free(&gSpuVars->sSoundEntryTable16().table[vabId][i]);
         }
     }
 
@@ -348,14 +348,14 @@ void SsVabClose_4FC5B0(s32 vabId)
 }
 
 
-s16 SsVabOpenHead_4FC620(VabHeader* pVabHeader)
+s16 SsVabOpenHead(VabHeader* pVabHeader)
 {
     if (!pVabHeader)
     {
         return -1;
     }
 
-    SsSeqCalledTbyT_4FDC80();
+    SsSeqCalledTbyT();
 
     const s32 vab_id = pVabHeader->field_8_id;
     assert(vab_id < 4);
@@ -446,7 +446,7 @@ void SsVabTransBody_4FC840(VabBodyRecord* pVabBody, s16 vabId)
 
         if (!(i & 7))
         {
-            SsSeqCalledTbyT_4FDC80();
+            SsSeqCalledTbyT();
         }
 
 
@@ -478,7 +478,7 @@ void SsVabTransBody_4FC840(VabBodyRecord* pVabBody, s16 vabId)
             }
 
             // Allocate pEntry
-            if (GetSoundAPI().SND_New(pEntry, sampleLen, 44100, 16, 0) == 0)
+            if (GetSoundAPI().mSND_New(pEntry, sampleLen, 44100, 16, 0) == 0)
             {
                 // Allocate a temp buffer to read sounds.dat bytes into
                 u8* pTempBuffer = relive_new u8[sampleLen * pEntry->field_1D_blockAlign]();
@@ -489,7 +489,7 @@ void SsVabTransBody_4FC840(VabBodyRecord* pVabBody, s16 vabId)
                     if (SND_SoundsDat_Read_4FC4E0(pVabHeader, pVabBody, i, pTempBuffer))
                     {
                         // Load it into the sound buffer
-                        GetSoundAPI().SND_Load(pEntry, pTempBuffer, sampleLen);
+                        GetSoundAPI().mSND_Load(pEntry, pTempBuffer, sampleLen);
                     }
                     relive_delete[] pTempBuffer;
                 }
@@ -510,7 +510,7 @@ s32 MIDI_Invert_4FCA40(s32 /*not_used*/, s32 value)
 }
 
 
-s32 MIDI_Allocate_Channel_4FCA50(s32 /*not_used*/, s32 priority)
+s32 MIDI_Allocate_Channel(s32 /*not_used*/, s32 priority)
 {
     s32 lowestEndTime = -999999;
     u32 timeMod24 = gSpuVars->sMidiTime() % 24;
@@ -534,7 +534,7 @@ s32 MIDI_Allocate_Channel_4FCA50(s32 /*not_used*/, s32 priority)
     // Try to find a channel that isn't playing anything
     for (s32 i = 0; i < 24; i++)
     {
-        if (GetSoundAPI().SND_Get_Buffer_Status(gSpuVars->sMidi_Channels().channels[i].field_0_sound_buffer_field_4) == 0)
+        if (GetSoundAPI().mSND_Get_Buffer_Status(gSpuVars->sMidi_Channels().channels[i].field_0_sound_buffer_field_4) == 0)
         {
             gSpuVars->sMidi_Channels().channels[i].field_1C_adsr.field_3_state = 0;
             return i;
@@ -547,7 +547,7 @@ s32 MIDI_Allocate_Channel_4FCA50(s32 /*not_used*/, s32 priority)
     {
         return -1;
     }
-    GetSoundAPI().SND_Stop_Sample_At_Idx(gSpuVars->sMidi_Channels().channels[idx].field_0_sound_buffer_field_4);
+    GetSoundAPI().mSND_Stop_Sample_At_Idx(gSpuVars->sMidi_Channels().channels[idx].field_0_sound_buffer_field_4);
     return idx;
 }
 
@@ -630,7 +630,7 @@ s32 MIDI_PlayMidiNote_4FCB30(s32 vabId, s32 program, s32 note, s32 leftVolume, s
                 {
                     maxPan = panLeft;
                 }
-                const s32 midiChannel = MIDI_Allocate_Channel_4FCA50(maxPan, pVagIter->field_E_priority);
+                const s32 midiChannel = MIDI_Allocate_Channel(maxPan, pVagIter->field_E_priority);
                 if (midiChannel >= 0)
                 {
                     MIDI_Channel* pChannel = &gSpuVars->sMidi_Channels().channels[midiChannel];
@@ -692,7 +692,7 @@ s32 MIDI_PlayMidiNote_4FCB30(s32 vabId, s32 program, s32 note, s32 leftVolume, s
                         MIDI_Wait_4FCE50();
                     }
 
-                    SND_PlayEx_4EF740(
+                    SND_PlayEx(
                         &gSpuVars->sSoundEntryTable16().table[vabId][pVagIter->field_10_vag],
                         panLeft,
                         panRight,
@@ -889,7 +889,7 @@ s32 MIDI_ParseMidiMessage_4FD100(s32 idx)
                         gSpuVars->sMidiSeqSongs(idx).field_18_repeatCount = newLoopCount;
                         if (!newLoopCount)
                         {
-                            SsSeqStop_4FD9C0(static_cast<s16>(idx));
+                            SsSeqStop(static_cast<s16>(idx));
                             return 1;
                         }
                     }
@@ -907,7 +907,7 @@ s32 MIDI_ParseMidiMessage_4FD100(s32 idx)
 
                             // TODO: This is too s16
                             fullTempo = tempoByte3 | tempoByte2 | MIDI_ReadByte_4FD6B0(pCtx);
-                            MIDI_SetTempo_4FDB80(static_cast<s16>(idx), 0, static_cast<s16>(fullTempo));
+                            MIDI_SetTempo(static_cast<s16>(idx), 0, static_cast<s16>(fullTempo));
                         }
                         else
                         {
@@ -1231,7 +1231,7 @@ void MIDI_Read_SEQ_Header_4FD870(u8** pSrc, SeqHeader* pDst, u32 size)
 
 void SsSeqClose_4FD8D0(s16 idx)
 {
-    SsSeqStop_4FD9C0(idx);
+    SsSeqStop(idx);
     gSpuVars->sMidiSeqSongs(idx).field_C_volume = 0;
     gSpuVars->sMidiSeqSongs(idx).field_0_seq_data = 0;
     gSpuVars->sMidiSeqSongs(idx).field_1C_pSeqData = nullptr;
@@ -1274,7 +1274,7 @@ void SsSeqPlay_4FD900(u16 idx, s8 repeatMode, s16 repeatCount)
 }
 
 
-void SsSeqStop_4FD9C0(s16 idx)
+void SsSeqStop(s16 idx)
 {
     if (gSpuVars->sMidiSeqSongs(idx).field_0_seq_data)
     {
@@ -1318,7 +1318,7 @@ u16 SsIsEos_4FDA80(s16 idx, s16 kZero)
 }
 
 
-void SsSeqSetVol_4FDAC0(s16 idx, s16 volLeft, s16 volRight)
+void SsSeqSetVol(s16 idx, s16 volLeft, s16 volRight)
 {
     if (gSpuVars->sMidiSeqSongs(idx).field_0_seq_data)
     {
@@ -1331,7 +1331,7 @@ void SsSeqSetVol_4FDAC0(s16 idx, s16 volLeft, s16 volRight)
 
 // TODO: Removed 4FDB40
 
-void MIDI_SetTempo_4FDB80(s16 idx, s16 kZero, s16 tempo)
+void MIDI_SetTempo(s16 idx, s16 kZero, s16 tempo)
 {
     if (!kZero)
     {
@@ -1354,7 +1354,7 @@ void SsSetTickMode_4FDC20(s32)
 // TODO: Removed 4FDC30
 
 
-void SsSeqCalledTbyT_4FDC80()
+void SsSeqCalledTbyT()
 {
     if (!gSpuVars->sbDisableSeqs())
     {
@@ -1451,7 +1451,7 @@ void MIDI_ADSR_Update_4FDCE0()
                     if (timeDiff1 >= pChannel->field_1C_adsr.field_A_release)
                     {
                         pChannel->field_1C_adsr.field_3_state = 0;
-                        GetSoundAPI().SND_Stop_Sample_At_Idx(pChannel->field_0_sound_buffer_field_4);
+                        GetSoundAPI().mSND_Stop_Sample_At_Idx(pChannel->field_0_sound_buffer_field_4);
                     }
                     else
                     {
@@ -1475,7 +1475,7 @@ s32 MIDI_Set_Volume_4FDE80(MIDI_Channel* pData, s32 vol)
 
     pData->field_8_left_vol = static_cast<s8>(vol);
 
-    if (!GetSoundAPI().SND_Buffer_Set_Volume(pData->field_0_sound_buffer_field_4, vol))
+    if (!GetSoundAPI().mSND_Buffer_Set_Volume(pData->field_0_sound_buffer_field_4, vol))
     {
         return 1;
     }
@@ -1493,7 +1493,7 @@ s16 MIDI_PitchBend_4FDEC0(s16 program, s16 pitch)
         if (gSpuVars->sMidi_Channels().channels[i].field_1C_adsr.field_1_program == program)
         {
             const f32 freq = pitcha * gSpuVars->sMidi_Channels().channels[i].field_10_freq;
-            GetSoundAPI().SND_Buffer_Set_Frequency2(gSpuVars->sMidi_Channels().channels[i].field_C_vol, freq);
+            GetSoundAPI().mSND_Buffer_Set_Frequency2(gSpuVars->sMidi_Channels().channels[i].field_C_vol, freq);
         }
     }
     return 0;
@@ -1503,12 +1503,12 @@ s16 MIDI_PitchBend_4FDEC0(s16 program, s16 pitch)
 s16 SsUtChangePitch_4FDF70(s16 voice, s32 /*vabId*/, s32 /*prog*/, s16 old_note, s16 old_fine, s16 new_note, s16 new_fine)
 {
     const f32 freq = pow(1.059463094359f, (f32)(new_fine + ((new_note - (s32) old_note) * 128) - old_fine) * 0.0078125f);
-    GetSoundAPI().SND_Buffer_Set_Frequency1(gSpuVars->sMidi_Channels().channels[voice].field_0_sound_buffer_field_4, freq);
+    GetSoundAPI().mSND_Buffer_Set_Frequency1(gSpuVars->sMidi_Channels().channels[voice].field_0_sound_buffer_field_4, freq);
     return 0;
 }
 
 
-void SsUtAllKeyOff_4FDFE0(s32)
+void SsUtAllKeyOff(s32)
 {
     // Stop all backwards
     s16 idx = kNumChannels - 1;
@@ -1536,7 +1536,7 @@ s16 SsUtKeyOffV_4FE010(s16 idx)
     return 0;
 }
 
-void SsVabTransCompleted_4FE060(s32)
+void SsVabTransCompleted(s32)
 {
     // Stub
 }

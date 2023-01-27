@@ -138,12 +138,12 @@ s16 SND_VAB_Load_4C9FE0(PathSoundInfo& pSoundBlockInfo)
     std::vector<u8> vbFileData = ResourceManagerWrapper::LoadFile(pSoundBlockInfo.mVbFile.c_str(), GetMap().mNextLevel);
 
     // Convert the records in the header to internal representation
-    pSoundBlockInfo.mVabId = SsVabOpenHead_4FC620(reinterpret_cast<VabHeader*>(pSoundBlockInfo.mVhFileData.data()));
+    pSoundBlockInfo.mVabId = SsVabOpenHead(reinterpret_cast<VabHeader*>(pSoundBlockInfo.mVhFileData.data()));
 
     // Load actual sample data (copied, hence vec goes out of scope after this)
     SsVabTransBody_4FC840(reinterpret_cast<VabBodyRecord*>(vbFileData.data()), static_cast<s16>(pSoundBlockInfo.mVabId));
 
-    SsVabTransCompleted_4FE060(SS_WAIT_COMPLETED);
+    SsVabTransCompleted(SS_WAIT_COMPLETED);
 
     return 1;
 }
@@ -195,7 +195,7 @@ void SND_Shutdown()
 
     SsExt_CloseAllVabs();
 
-    GetSoundAPI().SND_SsQuit();
+    GetSoundAPI().mSND_SsQuit();
 }
 
 
@@ -434,7 +434,7 @@ void SND_Stop_All_Seqs()
         {
             if (SsIsEos_4FDA80(i, 0))
             {
-                SsSeqStop_4FD9C0(i);
+                SsSeqStop(i);
             }
             SsSeqClose_4FD8D0(i);
             GetMidiVars()->sSeqDataTable()[GetMidiVars()->sSeq_Ids_word().ids[i]].field_A_id_seqOpenId = -1;
@@ -493,7 +493,7 @@ s16 SND_SEQ_PlaySeq(u16 idx, s16 repeatCount, s16 bDontStop)
         {
             return 0;
         }
-        SsSeqStop_4FD9C0(rec.field_A_id_seqOpenId);
+        SsSeqStop(rec.field_A_id_seqOpenId);
     }
 
     // Clamp vol
@@ -510,7 +510,7 @@ s16 SND_SEQ_PlaySeq(u16 idx, s16 repeatCount, s16 bDontStop)
         }
     }
 
-    SsSeqSetVol_4FDAC0(rec.field_A_id_seqOpenId, clampedVol, clampedVol);
+    SsSeqSetVol(rec.field_A_id_seqOpenId, clampedVol, clampedVol);
     if (repeatCount)
     {
         SsSeqPlay_4FD900(rec.field_A_id_seqOpenId, 1, repeatCount);
@@ -559,7 +559,7 @@ s16 SND_SEQ_Play(u16 idx, s16 repeatCount, s16 volLeft, s16 volRight)
     }
     else if (SsIsEos_4FDA80(rec.field_A_id_seqOpenId, 0))
     {
-        SsSeqStop_4FD9C0(rec.field_A_id_seqOpenId);
+        SsSeqStop(rec.field_A_id_seqOpenId);
     }
 
     // Clamp left
@@ -592,7 +592,7 @@ s16 SND_SEQ_Play(u16 idx, s16 repeatCount, s16 volLeft, s16 volRight)
         }
     }
 
-    SsSeqSetVol_4FDAC0(rec.field_A_id_seqOpenId, clampedVolLeft, clampedVolRight);
+    SsSeqSetVol(rec.field_A_id_seqOpenId, clampedVolLeft, clampedVolRight);
 
     if (repeatCount)
     {
@@ -625,7 +625,7 @@ void SND_SEQ_SetVol(s32 idx, s16 volLeft, s16 volRight)
         && !GetMidiVars()->sSeqDataTable()[limitedIdx].field_C_ppSeq_Data.empty()
         && SND_SsIsEos_DeInlined(limitedIdx))
     {
-        SsSeqSetVol_4FDAC0(GetMidiVars()->sSeqDataTable()[limitedIdx].field_A_id_seqOpenId, volLeft, volRight);
+        SsSeqSetVol(GetMidiVars()->sSeqDataTable()[limitedIdx].field_A_id_seqOpenId, volLeft, volRight);
     }
 }
 
@@ -636,7 +636,7 @@ void SND_SEQ_Stop(u16 idx)
     {
         if (SsIsEos_4FDA80(GetMidiVars()->sSeqDataTable()[idx].field_A_id_seqOpenId, 0))
         {
-            SsSeqStop_4FD9C0(GetMidiVars()->sSeqDataTable()[idx].field_A_id_seqOpenId);
+            SsSeqStop(GetMidiVars()->sSeqDataTable()[idx].field_A_id_seqOpenId);
         }
     }
 }
@@ -726,7 +726,7 @@ void SND_StopAll()
                 pObj->VStopAudio();
             }
         }
-        SsUtAllKeyOff_4FDFE0(0);
+        SsUtAllKeyOff(0);
     }
 }
 

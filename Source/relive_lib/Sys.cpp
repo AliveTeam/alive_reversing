@@ -702,7 +702,7 @@ static void QuitEvent(bool isRecordedEvent, bool isRecording)
 
     if (SND_Seq_Table_Valid())
     {
-        GetSoundAPI().SND_Restart();
+        GetSoundAPI().mSND_Restart();
     }
 
 #if !USE_SDL2_SOUND

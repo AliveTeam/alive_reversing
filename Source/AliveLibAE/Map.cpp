@@ -150,7 +150,7 @@ void Map::ScreenChange()
 
     if (mNextLevel != mCurrentLevel)
     {
-        SsUtAllKeyOff_4FDFE0(0);
+        SsUtAllKeyOff(0);
     }
 
     if (mNextLevel != EReliveLevelIds::eNone)
@@ -743,8 +743,8 @@ void Map::GoTo_Camera()
     // If map has changed then load new collision info
     if (prevPathId != mCurrentPath || prevLevelId != mCurrentLevel)
     {
-        relive_delete sCollisions;
-        sCollisions = relive_new Collisions(GetPathResourceBlockPtr(mCurrentPath)->GetCollisions());
+        relive_delete gCollisions;
+        gCollisions = relive_new Collisions(GetPathResourceBlockPtr(mCurrentPath)->GetCollisions());
     }
 
     if (mSaveData)

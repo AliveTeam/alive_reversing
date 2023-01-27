@@ -199,7 +199,7 @@ void FallingItem::VUpdate()
             FP hitX = {};
             FP hitY = {};
 
-            if (sCollisions->Raycast(
+            if (gCollisions->Raycast(
                     mXPos,
                     mYPos,
                     mXPos,
@@ -270,7 +270,7 @@ void FallingItem::VUpdate()
                 }
                 else
                 {
-                    SND_SEQ_Play_477760(SeqId::Unknown_25, 1, 65, 65);
+                    SND_SEQ_Play(SeqId::Unknown_25, 1, 65, 65);
                     SFX_Play_Pitch(relive::SoundEffects::KillEffect, 90, -700);
                     SfxPlayMono(relive::SoundEffects::FallingItemHit, 33);
                     SFX_Play_Pitch(relive::SoundEffects::MeatsawUp, 80, -400);

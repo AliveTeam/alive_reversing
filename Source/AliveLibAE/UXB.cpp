@@ -171,7 +171,7 @@ UXB::UXB(relive::Path_UXB* pTlv, const Guid& tlvId)
     mYPos = FP_FromInteger(pTlv->mTopLeftY);
 
     // Raycasts on ctor to place perfectly on the floor.
-    if (sCollisions->Raycast(
+    if (gCollisions->Raycast(
             mXPos,
             FP_FromInteger(pTlv->mTopLeftY),
             mXPos,

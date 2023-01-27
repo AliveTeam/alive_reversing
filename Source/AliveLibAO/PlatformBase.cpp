@@ -59,7 +59,7 @@ void PlatformBase::AddDynamicCollision(AnimId animId, relive::Path_TLV* pTlv, Ma
     mYPos += FP_NoFractional(FP_FromInteger(-pFrameHeader->mBoundMin.y) * GetSpriteScale());
     mXPos = FP_FromInteger((pTlv->mTopLeftX + pTlv->mBottomRightX) / 2);
 
-    mPlatformBaseCollisionLine = sCollisions->Add_Dynamic_Collision_Line(
+    mPlatformBaseCollisionLine = gCollisions->Add_Dynamic_Collision_Line(
         pTlv->mTopLeftX,
         pTlv->mTopLeftY,
         pTlv->mBottomRightX,
