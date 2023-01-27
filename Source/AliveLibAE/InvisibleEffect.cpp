@@ -17,8 +17,8 @@ InvisibleEffect::InvisibleEffect(BaseAliveGameObject* pTarget)
 
     mTargetId = pTarget->mBaseGameObjectId;
 
-    mPal1.mPal = std::make_shared<AnimationPal>(*pTarget->GetAnimation().mAnimRes.mTgaPtr->mPal);
-    mPal2.mPal = std::make_shared<AnimationPal>(*pTarget->GetAnimation().mAnimRes.mTgaPtr->mPal);
+    mPal1.mPal = std::make_shared<AnimationPal>(*pTarget->GetAnimation().mAnimRes.mPngPtr->mPal);
+    mPal2.mPal = std::make_shared<AnimationPal>(*pTarget->GetAnimation().mAnimRes.mPngPtr->mPal);
 
     mSemiTrans = false;
     mBlending = false;

@@ -501,16 +501,16 @@ void renderWithGlowingEyes(PrimHeader** ot, BaseAliveGameObject* actor, std::sha
 
                     for (s32 i = 0; i < palSize; i++)
                     {
-                        u32 auxPalValue = actor->GetAnimation().mAnimRes.mTgaPtr->mPal->mPal[i].r;
+                        u32 auxPalValue = actor->GetAnimation().mAnimRes.mPngPtr->mPal->mPal[i].r;
                         u8 resultR = static_cast<u8>((auxPalValue * r) >> 7);
 
-                        auxPalValue = actor->GetAnimation().mAnimRes.mTgaPtr->mPal->mPal[i].g;
+                        auxPalValue = actor->GetAnimation().mAnimRes.mPngPtr->mPal->mPal[i].g;
                         u8 resultG = static_cast<u8>((auxPalValue * g) >> 7);
 
-                        auxPalValue = actor->GetAnimation().mAnimRes.mTgaPtr->mPal->mPal[i].b;
+                        auxPalValue = actor->GetAnimation().mAnimRes.mPngPtr->mPal->mPal[i].b;
                         u8 resultB = static_cast<u8>((auxPalValue * b) >> 7);
 
-                        pal->mPal[i].a = actor->GetAnimation().mAnimRes.mTgaPtr->mPal->mPal[i].a;
+                        pal->mPal[i].a = actor->GetAnimation().mAnimRes.mPngPtr->mPal->mPal[i].a;
                         pal->mPal[i].r = resultR;
                         pal->mPal[i].g = resultG;
                         pal->mPal[i].b = resultB;
@@ -523,7 +523,7 @@ void renderWithGlowingEyes(PrimHeader** ot, BaseAliveGameObject* actor, std::sha
                         // problem
                         if (
                             pal->mPal[i].IsTransparent() &&
-                            !actor->GetAnimation().mAnimRes.mTgaPtr->mPal->mPal[i].IsTransparent()
+                            !actor->GetAnimation().mAnimRes.mPngPtr->mPal->mPal[i].IsTransparent()
                         )
                         {
                             pal->mPal[i].r = 1;
@@ -531,7 +531,7 @@ void renderWithGlowingEyes(PrimHeader** ot, BaseAliveGameObject* actor, std::sha
                     }
                     for (s32 i = 0; i < eyeColourIndicesSize; i++)
                     {
-                        pal->mPal[eyeColourIndices[i]] = actor->GetAnimation().mAnimRes.mTgaPtr->mPal->mPal[eyeColourIndices[i]];
+                        pal->mPal[eyeColourIndices[i]] = actor->GetAnimation().mAnimRes.mPngPtr->mPal->mPal[eyeColourIndices[i]];
                     }
 
                     actor->GetAnimation().LoadPal(pal);

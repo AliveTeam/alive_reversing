@@ -432,7 +432,7 @@ void Animation::LoadPal(const PalResource& pal)
 void Animation::ReloadPal()
 {
     // Put the original pal back
-    mAnimRes.mCurPal = mAnimRes.mTgaPtr->mPal;
+    mAnimRes.mCurPal = mAnimRes.mPngPtr->mPal;
 }
 
 void Animation::Get_Frame_Offset(s16* pBoundingX, s16* pBoundingY)

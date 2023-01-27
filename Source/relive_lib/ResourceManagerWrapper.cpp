@@ -101,11 +101,11 @@ AnimResource ResourceManagerWrapper::LoadAnimation(AnimId anim)
     if (it != std::end(mAnims))
     {
         auto jsonPtr = it->second.mAnimAttributes.lock();
-        auto tgaPtr = it->second.mAnimTga.lock();
+        auto pngPtr = it->second.mAnimPng.lock();
 
-        if (jsonPtr && tgaPtr)
+        if (jsonPtr && pngPtr)
         {
-            AnimResource res(anim, jsonPtr, tgaPtr);
+            AnimResource res(anim, jsonPtr, pngPtr);
             res.mUniqueId = it->second.mAnimUniqueId;
             return res;
         }
@@ -130,19 +130,19 @@ AnimResource ResourceManagerWrapper::LoadAnimation(AnimId anim)
     }
 
     // TODO: Use FS
-    auto pTgaData = std::make_shared<TgaData>();
+    auto pPngData = std::make_shared<PngData>();
     PNGFile pngFile;
-    pTgaData->mPal = std::make_shared<AnimationPal>();
-    pngFile.Load((filePath.GetPath() + ".png").c_str(), *pTgaData->mPal, pTgaData->mPixels, pTgaData->mWidth, pTgaData->mHeight);
+    pPngData->mPal = std::make_shared<AnimationPal>();
+    pngFile.Load((filePath.GetPath() + ".png").c_str(), *pPngData->mPal, pPngData->mPixels, pPngData->mWidth, pPngData->mHeight);
 
     auto pAnimationAttributesAndFrames = std::make_shared<AnimationAttributesAndFrames>(jsonStr);
 
     AnimResource newRes;
     newRes.mId = anim;
     newRes.mJsonPtr = pAnimationAttributesAndFrames;
-    newRes.mTgaPtr = pTgaData;
-    newRes.mCurPal = newRes.mTgaPtr->mPal;
-    mAnims[anim] = {pAnimationAttributesAndFrames, pTgaData, {}};
+    newRes.mPngPtr = pPngData;
+    newRes.mCurPal = newRes.mPngPtr->mPal;
+    mAnims[anim] = {pAnimationAttributesAndFrames, pPngData, {}};
 
     return newRes;
 }
@@ -283,12 +283,12 @@ FontResource ResourceManagerWrapper::LoadFont(FontType fontId)
     }
 
     // TODO: Use FS
-    auto pTgaData = std::make_shared<TgaData>();
+    auto pPngData = std::make_shared<PngData>();
     PNGFile pngFile;
-    pTgaData->mPal = std::make_shared<AnimationPal>();
-    pngFile.Load((filePath.GetPath() + ".png").c_str(), *pTgaData->mPal, pTgaData->mPixels, pTgaData->mWidth, pTgaData->mHeight);
+    pPngData->mPal = std::make_shared<AnimationPal>();
+    pngFile.Load((filePath.GetPath() + ".png").c_str(), *pPngData->mPal, pPngData->mPixels, pPngData->mWidth, pPngData->mHeight);
 
-    FontResource newRes(fontId, pTgaData);
+    FontResource newRes(fontId, pPngData);
 
     return newRes;
 }

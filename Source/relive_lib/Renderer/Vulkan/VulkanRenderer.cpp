@@ -1801,11 +1801,11 @@ void VulkanRenderer::Draw(const Poly_FT4& poly)
 
         const u32 palIndex = PreparePalette(*animRes.mCurPal);
 
-        auto pTga = animRes.mTgaPtr;
+        auto pPng = animRes.mPngPtr;
         std::shared_ptr<Texture> texture = mTextureCache[mCurrentFrame].GetCachedTexture(animRes.mUniqueId.Id(), 300);
         if (!texture)
         {
-            texture = std::make_shared<Texture>(*this, pTga->mWidth, pTga->mHeight, pTga->mPixels.data(), Texture::Format::Indexed);
+            texture = std::make_shared<Texture>(*this, pPng->mWidth, pPng->mHeight, pPng->mPixels.data(), Texture::Format::Indexed);
             mTextureCache[mCurrentFrame].Add(animRes.mUniqueId.Id(), 300, texture);
         }
 
@@ -1814,14 +1814,14 @@ void VulkanRenderer::Draw(const Poly_FT4& poly)
     else if (poly.mFont)
     {
         FontResource& fontRes = poly.mFont->mFntResource;
-        std::shared_ptr<TgaData> pTga = fontRes.mTgaPtr;
+        std::shared_ptr<PngData> pPng = fontRes.mPngPtr;
 
         const u32 palIndex = PreparePalette(*fontRes.mCurPal);
 
         std::shared_ptr<Texture> texture = mTextureCache[mCurrentFrame].GetCachedTexture(poly.mFont->mFntResource.mUniqueId.Id(), 300);
         if (!texture)
         {
-            texture = std::make_shared<Texture>(*this, pTga->mWidth, pTga->mHeight, pTga->mPixels.data(), Texture::Format::Indexed);
+            texture = std::make_shared<Texture>(*this, pPng->mWidth, pPng->mHeight, pPng->mPixels.data(), Texture::Format::Indexed);
             mTextureCache[mCurrentFrame].Add(poly.mFont->mFntResource.mUniqueId.Id(), 300, texture);
         }
 

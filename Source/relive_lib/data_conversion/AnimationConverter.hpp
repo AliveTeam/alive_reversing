@@ -102,13 +102,13 @@ public:
     };
 
     AnimationConverter(const FileSystem::Path& outputFile, const AnimRecord& rec, const std::vector<u8>& fileData, bool isAoData);
-    static u16 ToTGAPixelFormat(u16 pixel);
+    static u16 ToPNGPixelFormat(u16 pixel);
 private:
     // Calc the max width and height because the ones in the header are often way too big for some reason
     // at least for a single animation in a BAN file
     MaxWH CalcMaxWH(const AnimationHeader* pAnimationHeader);
 
-    void ConvertPalToTGAFormat(const std::vector<u8>& fileData, u32 clutOffset, AnimationPal& pal);
+    void ConvertPalToPNGFormat(const std::vector<u8>& fileData, u32 clutOffset, AnimationPal& pal);
 
     void DecompressAnimFrame(std::vector<u8>& decompressionBuffer, const FrameHeader* pFrameHeader, const std::vector<u8>& fileData);
 

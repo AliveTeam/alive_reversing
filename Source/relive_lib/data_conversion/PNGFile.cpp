@@ -302,7 +302,7 @@ void PNGFile::Load(const char_type* pFileName, AnimationPal& pal256, std::vector
 
 void PNGFile::Save(const char_type* pFileName, const AnimationPal& pal256, const std::vector<u8>& pixelData, u32 width, u32 height)
 {
-    // The TGA header uses a var length id string which means we can't just use
+    // The PNG header uses a var length id string which means we can't just use
     // a struct to represent it since the alignment is not fixed until after this field.
     AutoFILE f;
     f.Open(pFileName, "wb", false);

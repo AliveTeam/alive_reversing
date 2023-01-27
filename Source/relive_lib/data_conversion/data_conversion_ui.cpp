@@ -19,7 +19,7 @@ DataConversionUI::DataConversionUI(GameType gameType)
 
     /*
     mFontContext.LoadFontType(FontType::LcdFont);
-    mFontPal.mPal = mFontContext.mFntResource.mTgaPtr->mPal;
+    mFontPal.mPal = mFontContext.mFntResource.mPngPtr->mPal;
     mFont.Load(512, mFontPal, &mFontContext);
     */
 
@@ -45,13 +45,13 @@ DataConversionUI::DataConversionUI(GameType gameType)
     }
 
     mFontContext.mFntResource.mCurPal = mFontPal.mPal;
-    mFontContext.mFntResource.mTgaPtr = std::make_shared<TgaData>();
-    mFontContext.mFntResource.mTgaPtr->mWidth = fontFile->mWidth;
-    mFontContext.mFntResource.mTgaPtr->mHeight = fontFile->mHeight;
+    mFontContext.mFntResource.mPngPtr = std::make_shared<PngData>();
+    mFontContext.mFntResource.mPngPtr->mWidth = fontFile->mWidth;
+    mFontContext.mFntResource.mPngPtr->mHeight = fontFile->mHeight;
 
-    mFontContext.mFntResource.mTgaPtr->mPixels.resize(fontFile->mWidth * fontFile->mHeight);
-    mFontContext.mFntResource.mTgaPtr->mPixels = newData;
-    mFontContext.mFntResource.mCurPal = mFontContext.mFntResource.mTgaPtr->mPal;
+    mFontContext.mFntResource.mPngPtr->mPixels.resize(fontFile->mWidth * fontFile->mHeight);
+    mFontContext.mFntResource.mPngPtr->mPixels = newData;
+    mFontContext.mFntResource.mCurPal = mFontContext.mFntResource.mPngPtr->mPal;
     mFont.Load(512, mFontPal, &mFontContext);
     
     /*

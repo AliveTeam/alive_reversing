@@ -92,7 +92,7 @@ AnimationConverter::AnimationConverter(const FileSystem::Path& outputFile, const
 
     // Get the CLUT/pal
     AnimationPal pal;
-    ConvertPalToTGAFormat(fileData, pFirstFrame->field_0_clut_offset, pal);
+    ConvertPalToPNGFormat(fileData, pFirstFrame->field_0_clut_offset, pal);
 
     // Calculate the size of the nearest power-of-two that will fit all
     // the sprites
@@ -356,7 +356,7 @@ AnimationConverter::MaxWH AnimationConverter::CalcMaxWH(const AnimationHeader* p
     return maxSize;
 }
 
-u16 AnimationConverter::ToTGAPixelFormat(u16 pixel)
+u16 AnimationConverter::ToPNGPixelFormat(u16 pixel)
 {
     const u8 r = pixel & 0x1F;
     const u8 g = (pixel >> 5) & 0x1F;
@@ -368,7 +368,7 @@ u16 AnimationConverter::ToTGAPixelFormat(u16 pixel)
     return convertedPixel;
 }
 
-void AnimationConverter::ConvertPalToTGAFormat(const std::vector<u8>& fileData, u32 clutOffset, AnimationPal& pal)
+void AnimationConverter::ConvertPalToPNGFormat(const std::vector<u8>& fileData, u32 clutOffset, AnimationPal& pal)
 {
     const u32 clutSize = *reinterpret_cast<const u32*>(fileData.data() + clutOffset);
     const u16* pClutData = reinterpret_cast<const u16*>(fileData.data() + clutOffset + sizeof(u32));

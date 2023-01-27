@@ -31,7 +31,7 @@ private:
     static u32 mGlobalId;
 };
 
-struct TgaData final
+struct PngData final
 {
     std::shared_ptr<AnimationPal> mPal;
     std::vector<u8> mPixels;
@@ -136,26 +136,26 @@ public:
 
     }
 
-    AnimResource(AnimId id, std::shared_ptr<AnimationAttributesAndFrames>& jsonRes, std::shared_ptr<TgaData>& tgaRes)
+    AnimResource(AnimId id, std::shared_ptr<AnimationAttributesAndFrames>& jsonRes, std::shared_ptr<PngData>& pngRes)
         : mId(id)
         , mJsonPtr(jsonRes)
-        , mTgaPtr(tgaRes)
+        , mPngPtr(pngRes)
     {
-        mCurPal = mTgaPtr->mPal;
+        mCurPal = mPngPtr->mPal;
     }
 
     void Clear()
     {
         mId = AnimId::None;
         mJsonPtr = nullptr;
-        mTgaPtr = nullptr;
+        mPngPtr = nullptr;
     }
 
 public:
     UniqueResId mUniqueId;
     AnimId mId = AnimId::None;
     std::shared_ptr<AnimationAttributesAndFrames> mJsonPtr;
-    std::shared_ptr<TgaData> mTgaPtr;
+    std::shared_ptr<PngData> mPngPtr;
     // TODO: weak_ptr
     std::shared_ptr<AnimationPal> mCurPal;
 };
@@ -172,16 +172,16 @@ class FontResource final
 public:
     FontResource() = default;
 
-    FontResource(FontType id, std::shared_ptr<TgaData>& tgaPtr)
-        : mId(id), mTgaPtr(tgaPtr)
+    FontResource(FontType id, std::shared_ptr<PngData>& pngPtr)
+        : mId(id), mPngPtr(pngPtr)
     {
-        mCurPal = tgaPtr->mPal;
+        mCurPal = pngPtr->mPal;
     }
 
     UniqueResId mUniqueId;
     FontType mId = FontType::None;
     // TODO: Font atlas json ptpr
-    std::shared_ptr<TgaData> mTgaPtr;
+    std::shared_ptr<PngData> mPngPtr;
 
     // TODO: Really should be a weak_ptr
     std::shared_ptr<AnimationPal> mCurPal;
@@ -265,7 +265,7 @@ private:
     struct AnimCache final
     {
         std::weak_ptr<AnimationAttributesAndFrames> mAnimAttributes;
-        std::weak_ptr<TgaData> mAnimTga;
+        std::weak_ptr<PngData> mAnimPng;
         UniqueResId mAnimUniqueId;
     };
     static std::map<AnimId, AnimCache> mAnims;

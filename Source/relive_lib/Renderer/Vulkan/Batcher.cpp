@@ -330,13 +330,13 @@ void Batcher<TextureType, RenderBatchType, kTextureBatchSize>::PushFont(const Po
     }
     else
     {
-        std::shared_ptr<TgaData> pTga = poly.mFont->mFntResource.mTgaPtr;
+        std::shared_ptr<PngData> pPng = poly.mFont->mFntResource.mPngPtr;
 
-        u0 = U0(&poly) / (f32) pTga->mWidth;
-        v0 = V0(&poly) / (f32) pTga->mHeight;
+        u0 = U0(&poly) / (f32) pPng->mWidth;
+        v0 = V0(&poly) / (f32) pPng->mHeight;
 
-        u1 = U3(&poly) / (f32) pTga->mWidth;
-        v1 = V3(&poly) / (f32) pTga->mHeight;
+        u1 = U3(&poly) / (f32) pPng->mWidth;
+        v1 = V3(&poly) / (f32) pPng->mHeight;
     }
 
     IRenderer::PsxVertexData verts[4] = {
@@ -435,7 +435,7 @@ void Batcher<TextureType, RenderBatchType, kTextureBatchSize>::PushAnim(const Po
     const PerFrameInfo* pHeader = poly.mAnim->Get_FrameHeader(-1);
 
     AnimResource& animRes = poly.mAnim->mAnimRes;
-    auto pTga = animRes.mTgaPtr;
+    auto pPng = animRes.mPngPtr;
 
     f32 u0 = 0.0f;
     f32 v0 = 0.0f;
@@ -452,11 +452,11 @@ void Batcher<TextureType, RenderBatchType, kTextureBatchSize>::PushAnim(const Po
     }
     else
     {
-        u0 = (static_cast<f32>(pHeader->mSpriteSheetX) / pTga->mWidth);
-        v0 = (static_cast<f32>(pHeader->mSpriteSheetY) / pTga->mHeight);
+        u0 = (static_cast<f32>(pHeader->mSpriteSheetX) / pPng->mWidth);
+        v0 = (static_cast<f32>(pHeader->mSpriteSheetY) / pPng->mHeight);
 
-        u1 = u0 + ((f32) pHeader->mWidth / (f32) pTga->mWidth);
-        v1 = v0 + ((f32) pHeader->mHeight / (f32) pTga->mHeight);
+        u1 = u0 + ((f32) pHeader->mWidth / (f32) pPng->mWidth);
+        v1 = v0 + ((f32) pHeader->mHeight / (f32) pPng->mHeight);
     }
 
     if (poly.mFlipX)

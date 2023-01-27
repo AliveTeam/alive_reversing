@@ -510,16 +510,16 @@ void DirectX9Renderer::Draw(const Poly_FT4& poly)
     }
     else if (poly.mAnim)
     {
-        std::shared_ptr<TgaData> pTga = poly.mAnim->mAnimRes.mTgaPtr;
-        TDX9Texture pTextureToUse = MakeCachedIndexedTexture(poly.mAnim->mAnimRes.mUniqueId.Id(), pTga->mPixels, pTga->mWidth, pTga->mHeight, pTga->mWidth, pTga->mHeight);
+        std::shared_ptr<PngData> pPng = poly.mAnim->mAnimRes.mPngPtr;
+        TDX9Texture pTextureToUse = MakeCachedIndexedTexture(poly.mAnim->mAnimRes.mUniqueId.Id(), pPng->mPixels, pPng->mWidth, pPng->mHeight, pPng->mWidth, pPng->mHeight);
         const u32 palIdx = PreparePalette(*poly.mAnim->mAnimRes.mCurPal);
         mBatcher.PushAnim(poly, palIdx, pTextureToUse);
     }
     else if (poly.mFont)
     {
-        std::shared_ptr<TgaData> pTga = poly.mFont->mFntResource.mTgaPtr;
+        std::shared_ptr<PngData> pPng = poly.mFont->mFntResource.mPngPtr;
         FontResource& fontRes = poly.mFont->mFntResource;
-        TDX9Texture pTextureToUse = MakeCachedIndexedTexture(fontRes.mUniqueId.Id(), pTga->mPixels, pTga->mWidth, pTga->mHeight, pTga->mWidth, pTga->mHeight);
+        TDX9Texture pTextureToUse = MakeCachedIndexedTexture(fontRes.mUniqueId.Id(), pPng->mPixels, pPng->mWidth, pPng->mHeight, pPng->mWidth, pPng->mHeight);
         mBatcher.PushFont(poly, PreparePalette(*fontRes.mCurPal), pTextureToUse);
     }
 }

@@ -357,9 +357,9 @@ std::shared_ptr<GLTexture2D> OpenGLRenderer::PrepareTextureFromAnim(Animation& a
 
     if (!texture || !texture->IsValid())
     {
-        auto animTex = std::make_shared<GLTexture2D>(r.mTgaPtr->mWidth, r.mTgaPtr->mHeight, GL_RED);
+        auto animTex = std::make_shared<GLTexture2D>(r.mPngPtr->mWidth, r.mPngPtr->mHeight, GL_RED);
 
-        animTex->LoadImage(r.mTgaPtr->mPixels.data());
+        animTex->LoadImage(r.mPngPtr->mPixels.data());
 
         texture = mTextureCache.Add(r.mUniqueId.Id(), kSpriteTextureLifetime, std::move(animTex));
 
@@ -413,11 +413,11 @@ std::shared_ptr<GLTexture2D> OpenGLRenderer::PrepareTextureFromPoly(const Poly_F
 
         if (!texture || !texture->IsValid())
         {
-            std::shared_ptr<TgaData> pTga = poly.mFont->mFntResource.mTgaPtr;
+            std::shared_ptr<PngData> pPng = poly.mFont->mFntResource.mPngPtr;
 
-            auto fontTex = std::make_shared<GLTexture2D>(pTga->mWidth, pTga->mHeight, GL_RED);
+            auto fontTex = std::make_shared<GLTexture2D>(pPng->mWidth, pPng->mHeight, GL_RED);
 
-            fontTex->LoadImage(pTga->mPixels.data());
+            fontTex->LoadImage(pPng->mPixels.data());
 
             texture = mTextureCache.Add(poly.mFont->mFntResource.mUniqueId.Id(), kSpriteTextureLifetime, fontTex);
 
