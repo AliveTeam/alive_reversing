@@ -42,8 +42,8 @@ endif()
 
 if (APPLE)
     # Fix link path to look in the bundle
-    add_custom_command(TARGET relive POST_BUILD
-                   COMMAND ${CMAKE_INSTALL_NAME_TOOL} -add_rpath @executable_path/../Frameworks/libSDL2.dylib $<TARGET_FILE:relive>
+add_custom_command(TARGET relive POST_BUILD
+                   COMMAND ${CMAKE_INSTALL_NAME_TOOL} -change /usr/local/opt/sdl2/lib/libSDL2-2.0.0.dylib @executable_path/../Frameworks/libSDL2.dylib $<TARGET_FILE:relive>
                    COMMENT "Fixing up libSDL2.dylib rpath")
    
     INSTALL(FILES "${CMAKE_CURRENT_SOURCE_DIR}/../../build/Frameworks/libSDL2.dylib" DESTINATION "relive.app/Contents/Frameworks")
