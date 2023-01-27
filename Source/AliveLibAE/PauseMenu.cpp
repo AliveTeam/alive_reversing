@@ -1091,11 +1091,6 @@ void PauseMenu::VUpdate()
                 // Start pause menu update/render loop
                 while (mPauseRenderLoop)
                 {
-                    if (pResourceManager)
-                    {
-                        pResourceManager->VUpdate();
-                    }
-
                     SYS_EventsPump();
 
                     for (s32 i = 0; i < gObjListDrawables->Size(); i++)

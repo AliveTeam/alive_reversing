@@ -58,7 +58,7 @@ Abe* sActiveHero = nullptr;
 
 void DestroyObjects()
 {
-    pResourceManager->LoadingLoop(false);
+    ResourceManagerWrapper::LoadingLoop(false);
     for (s32 iterations = 0; iterations < 2; iterations++)
     {
         for (s32 idx = 0;idx < gBaseGameObjects->Size(); idx++)
@@ -390,7 +390,7 @@ void Game_Run()
     AnimationBase::CreateAnimationArray();
 
     // AO doesn't have an instance, only statics
-    pResourceManager = relive_new ResourceManager();
+    relive_new ResourceManager();
 
     Init_Sound_DynamicArrays_And_Others();
 

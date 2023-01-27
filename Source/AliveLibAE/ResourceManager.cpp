@@ -8,11 +8,6 @@
 #include "../relive_lib/PsxDisplay.hpp"
 #include "../relive_lib/BaseGameAutoPlayer.hpp"
 
-ResourceManager* pResourceManager = nullptr;
-
-s16 bHideLoadingIcon = 0;
-s32 loading_ticks = 0;
-
 void Game_ShowLoadingIcon()
 {
     AnimResource ppLoadingAnimRes = ResourceManagerWrapper::LoadAnimation(AnimId::Loading_Icon2);
@@ -40,7 +35,7 @@ void Game_ShowLoadingIcon()
         PSX_SetDefDispEnv_4F55A0(&dispBuffer.mDisplayEnv);
         PSX_PutDispEnv_4F5890();
         pParticle->SetDead(true);
-        bHideLoadingIcon = 1;
+        ResourceManagerWrapper::bHideLoadingIcon = 1;
     }
 }
 
@@ -53,14 +48,9 @@ ResourceManager::ResourceManager()
     SetType(ReliveTypes::eResourceManager);
 }
 
-ResourceManager::~ResourceManager()
-{
-
-}
-
-void ResourceManager::LoadingLoop(s16 )
-{
-    GetGameAutoPlayer().DisableRecorder();
+//void ResourceManager::LoadingLoop(s16 )
+//{
+    //GetGameAutoPlayer().DisableRecorder();
 
     /*
     while (!field_20_files_pending_loading.IsEmpty())
@@ -76,13 +66,13 @@ void ResourceManager::LoadingLoop(s16 )
         }
     }*/
 
-    GetGameAutoPlayer().EnableRecorder();
-}
+    //GetGameAutoPlayer().EnableRecorder();
+//}
 
 
 void ResourceManager::VUpdate()
 {
-
+    // Empty
 }
 
 void ResourceManager::VScreenChanged()

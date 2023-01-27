@@ -253,6 +253,9 @@ public:
 
     static s32 SEQ_HashName(const char_type* seqFileName);
 
+    static s16 bHideLoadingIcon;
+    static s32 loading_ticks;
+
 private:
     static void ProcessLoadingFiles();
 

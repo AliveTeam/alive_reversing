@@ -24,7 +24,7 @@ SaveData gSaveBuffer = {};
 
 void Kill_Objects()
 {
-    ResourceManager::LoadingLoop(0);
+    ResourceManagerWrapper::LoadingLoop(0);
 
     for (s32 i = 0; i < 2; i++)
     {

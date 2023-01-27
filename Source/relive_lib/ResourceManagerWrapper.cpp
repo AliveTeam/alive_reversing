@@ -15,6 +15,7 @@
 #include "BaseGameAutoPlayer.hpp"
 
 #include "nlohmann/json.hpp"
+#include "Sys.hpp"
 
 u32 UniqueResId::mGlobalId = 1;
 std::vector<PendingResource> ResourceManagerWrapper::mFilesPendingLoading;
@@ -90,6 +91,9 @@ static FileSystem::Path BasePath()
     }
     return filePath;
 }
+
+s16 ResourceManagerWrapper::bHideLoadingIcon = 0;
+s32 ResourceManagerWrapper::loading_ticks = 0;
 
 AnimResource ResourceManagerWrapper::LoadAnimation(AnimId anim)
 {
@@ -355,7 +359,7 @@ void ResourceManagerWrapper::LoadingLoop(bool bShowLoadingIcon)
     while (!mFilesPendingLoading.empty())
     {
         // TODO: Fix
-        //SYS_EventsPump();
+        SYS_EventsPump();
         ProcessLoadingFiles();
         PSX_VSync(0);
         const s32 ticks = loading_ticks++ + 1;

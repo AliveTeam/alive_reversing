@@ -205,7 +205,7 @@ void QuikSave_RestoreBlyData(const u8* pSaveData)
         }
     }
 
-    pResourceManager->LoadingLoop(false);
+    ResourceManagerWrapper::LoadingLoop(false);
 }
 
 

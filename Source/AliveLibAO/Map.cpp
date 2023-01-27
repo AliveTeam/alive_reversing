@@ -833,7 +833,7 @@ void Map::GoTo_Camera()
 
     if (mNextLevel != mCurrentLevel)
     {
-        ResourceManager::LoadingLoop(bShowLoadingIcon);
+        ResourceManagerWrapper::LoadingLoop(bShowLoadingIcon);
 
         // Free all cameras
         for (s32 i = 0; i < ALIVE_COUNTOF(field_2C_camera_array); i++)
@@ -855,7 +855,7 @@ void Map::GoTo_Camera()
 
         }
 
-        ResourceManager::LoadingLoop(bShowLoadingIcon);
+        ResourceManagerWrapper::LoadingLoop(bShowLoadingIcon);
 
         if (mNextLevel != mCurrentLevel)
         {
@@ -979,7 +979,7 @@ void Map::GoTo_Camera()
         }
     }
 
-    ResourceManager::LoadingLoop(bShowLoadingIcon);
+    ResourceManagerWrapper::LoadingLoop(bShowLoadingIcon);
 
     // Free each camera itself
     for (s32 i = 0; i < ALIVE_COUNTOF(field_40_stru_5); i++)
@@ -992,7 +992,7 @@ void Map::GoTo_Camera()
     }
 
     Load_Path_Items(field_2C_camera_array[0], LoadMode::ConstructObject_0);
-    ResourceManager::LoadingLoop(bShowLoadingIcon);
+    ResourceManagerWrapper::LoadingLoop(bShowLoadingIcon);
     Load_Path_Items(field_2C_camera_array[3], LoadMode::ConstructObject_0);
     Load_Path_Items(field_2C_camera_array[4], LoadMode::ConstructObject_0);
     Load_Path_Items(field_2C_camera_array[1], LoadMode::ConstructObject_0);
@@ -1055,8 +1055,8 @@ void Map::GoTo_Camera()
             relive_new CameraSwapper(field_2C_camera_array[0]->mCamRes, mCameraSwapEffect, 184, 120);
         }
     }
-    bHideLoadingIcon = 0;
-    loading_ticks = 0;
+    ResourceManagerWrapper::bHideLoadingIcon = 0;
+    ResourceManagerWrapper::loading_ticks = 0;
 }
 
 s16 Map::GetOverlayId()

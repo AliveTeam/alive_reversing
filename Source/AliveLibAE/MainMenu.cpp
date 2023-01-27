@@ -601,7 +601,7 @@ MainMenuController::MainMenuController(relive::Path_TLV* /*pTlv*/, const Guid& t
 
     if (gMap.mCurrentCamera == MainMenuCams::eDemoSelectionCam)
     {
-        pResourceManager->LoadingLoop(false);
+        ResourceManagerWrapper::LoadingLoop(false);
         field_1FC_button_index = 0;
         field_250_selected_entry_index = sDemoIdChosenFromDemoMenu_5C1B9E;
         field_254 = FP_FromInteger(0);
@@ -1860,7 +1860,7 @@ void MainMenuController::BackStory_Or_NewGame_Load_4D1BA0()
 
 void MainMenuController::BackStory_Or_NewGame_Unload_4D1BE0()
 {
-    pResourceManager->LoadingLoop(false);
+    ResourceManagerWrapper::LoadingLoop(false);
 }
 
 void MainMenuController::remove_ISO9660_Suffix_4D1660(char_type* out, const char_type* in)

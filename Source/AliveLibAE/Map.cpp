@@ -643,7 +643,7 @@ void Map::GoTo_Camera()
 
     if (mNextLevel != mCurrentLevel || mForceLoad)
     {
-        pResourceManager->LoadingLoop(bShowLoadingIcon);
+        ResourceManagerWrapper::LoadingLoop(bShowLoadingIcon);
 
         // Free all cameras
         for (s32 i = 0; i < ALIVE_COUNTOF(field_2C_camera_array); i++)
@@ -666,7 +666,7 @@ void Map::GoTo_Camera()
 
         }
 
-        pResourceManager->LoadingLoop(bShowLoadingIcon);
+        ResourceManagerWrapper::LoadingLoop(bShowLoadingIcon);
 
         if (mNextLevel == mCurrentLevel)
         {
@@ -775,7 +775,7 @@ void Map::GoTo_Camera()
         }
     }
 
-    pResourceManager->LoadingLoop(bShowLoadingIcon);
+    ResourceManagerWrapper::LoadingLoop(bShowLoadingIcon);
 
     // Free each camera itself
     for (s32 i = 0; i < ALIVE_COUNTOF(field_40_stru_5); i++)
@@ -788,7 +788,7 @@ void Map::GoTo_Camera()
     }
 
     Map::Load_Path_Items(field_2C_camera_array[0], LoadMode::ConstructObject_0);
-    pResourceManager->LoadingLoop(bShowLoadingIcon);
+    ResourceManagerWrapper::LoadingLoop(bShowLoadingIcon);
     Map::Load_Path_Items(field_2C_camera_array[3], LoadMode::ConstructObject_0);
     Map::Load_Path_Items(field_2C_camera_array[4], LoadMode::ConstructObject_0);
     Map::Load_Path_Items(field_2C_camera_array[1], LoadMode::ConstructObject_0);
@@ -828,7 +828,7 @@ void Map::GoTo_Camera()
 
     if (prevLevelId != mCurrentLevel)
     {
-        pResourceManager->LoadingLoop(false);
+        ResourceManagerWrapper::LoadingLoop(false);
     }
 
     if (mCameraSwapEffect != CameraSwapEffects::ePlay1FMV_5 && mCameraSwapEffect != CameraSwapEffects::eUnknown_11)
@@ -868,8 +868,8 @@ void Map::GoTo_Camera()
         }
     }
 
-    bHideLoadingIcon = 0;
-    loading_ticks = 0;
+    ResourceManagerWrapper::bHideLoadingIcon = 0;
+    ResourceManagerWrapper::loading_ticks = 0;
 
     mForceLoad = 0;
 
@@ -1147,7 +1147,7 @@ void Map::LoadResource(const char_type* /*pFileName*/, s32 /*type*/, s32 /*resou
     {
         if (loadMode == LoadMode::LoadResource_2)
         {
-            pResourceManager->LoadingLoop(0);
+            ResourceManagerWrapper::LoadingLoop(0);
         }
     }
 }

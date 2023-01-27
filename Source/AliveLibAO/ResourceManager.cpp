@@ -10,9 +10,6 @@
 
 namespace AO {
 
-s16 bHideLoadingIcon = 0;
-s32 loading_ticks = 0;
-
 void Game_ShowLoadingIcon()
 {
     AnimResource res = ResourceManagerWrapper::LoadAnimation(AnimId::Loading_Icon2);
@@ -42,13 +39,13 @@ void Game_ShowLoadingIcon()
 
         PSX_PutDispEnv_4F5890();
         pParticle->SetDead(true);
-        bHideLoadingIcon = true;
+        ResourceManagerWrapper::bHideLoadingIcon = true;
     }
 }
 
-void ResourceManager::LoadingLoop(s16)
-{
-    GetGameAutoPlayer().DisableRecorder();
+//void ResourceManager::LoadingLoop(s16)
+//{
+    //GetGameAutoPlayer().DisableRecorder();
 
     /*
     while (gFilesPending_507714 > 0)
@@ -90,7 +87,7 @@ void ResourceManager::LoadingLoop(s16)
     }
     */
 
-    GetGameAutoPlayer().EnableRecorder();
-}
+    //GetGameAutoPlayer().EnableRecorder();
+//}
 
 } // namespace AO
