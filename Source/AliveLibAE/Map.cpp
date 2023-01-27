@@ -868,8 +868,8 @@ void Map::GoTo_Camera()
         }
     }
 
-    bHideLoadingIcon_5C1BAA = 0;
-    loading_ticks_5C1BAC = 0;
+    bHideLoadingIcon = 0;
+    loading_ticks = 0;
 
     mForceLoad = 0;
 

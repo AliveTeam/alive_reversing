@@ -822,7 +822,7 @@ void Map::GoTo_Camera()
     {
         if (mNextLevel != mCurrentLevel || (mNextPath != mCurrentPath && mCameraSwapEffect == CameraSwapEffects::ePlay1FMV_5))
         {
-            Game_ShowLoadingIcon_445EB0();
+            Game_ShowLoadingIcon();
         }
     }
 
@@ -1055,8 +1055,8 @@ void Map::GoTo_Camera()
             relive_new CameraSwapper(field_2C_camera_array[0]->mCamRes, mCameraSwapEffect, 184, 120);
         }
     }
-    bHideLoadingIcon_5076A0 = 0;
-    loading_ticks_5076A4 = 0;
+    bHideLoadingIcon = 0;
+    loading_ticks = 0;
 }
 
 s16 Map::GetOverlayId()

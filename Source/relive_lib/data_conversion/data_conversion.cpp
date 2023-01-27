@@ -835,7 +835,7 @@ static void HashBSQTable(OpenSeqHandle* pTable, s32 size)
     {
         if (pTable[i].field_0_mBsqName)
         {
-            pTable[i].field_4_generated_res_id = ResourceManager::SEQ_HashName_49BE30(pTable[i].field_0_mBsqName);
+            pTable[i].field_4_generated_res_id = ResourceManager::SEQ_HashName(pTable[i].field_0_mBsqName);
         }
     }
 }
@@ -1456,7 +1456,7 @@ static void ConvertFont(const FileSystem::Path& dataDir, const std::string& file
 
     ReliveAPI::ChunkedLvlFile camFile(fileBuffer);
 
-     std::optional<ReliveAPI::LvlFileChunk> font = camFile.ChunkByType(ResourceManager::Resource_Font);
+     std::optional<ReliveAPI::LvlFileChunk> font = camFile.ChunkByType(ResourceManagerWrapper::Resource_Font);
      if (!font)
      {
          ALIVE_FATAL("Font missing");

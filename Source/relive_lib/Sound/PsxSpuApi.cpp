@@ -1154,7 +1154,7 @@ s16 SsSeqOpen_4FD6D0(u8* pSeqData, s16 seqIdx)
     MIDI_Read_SEQ_Header_4FD870(&pSeqData, &seqHeader, sizeof(SeqHeader));
 
     // Check magic matches
-    if (seqHeader.field_0_magic != ResourceManager::Resource_SEQp)
+    if (seqHeader.field_0_magic != ResourceManagerWrapper::Resource_SEQp)
     {
         return -1;
     }

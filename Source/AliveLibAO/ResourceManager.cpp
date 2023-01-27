@@ -10,10 +10,10 @@
 
 namespace AO {
 
-s16 bHideLoadingIcon_5076A0 = 0;
-s32 loading_ticks_5076A4 = 0;
+s16 bHideLoadingIcon = 0;
+s32 loading_ticks = 0;
 
-void Game_ShowLoadingIcon_445EB0()
+void Game_ShowLoadingIcon()
 {
     AnimResource res = ResourceManagerWrapper::LoadAnimation(AnimId::Loading_Icon2);
     auto pParticle = relive_new Particle(FP_FromInteger(0), FP_FromInteger(0), res);
@@ -42,7 +42,7 @@ void Game_ShowLoadingIcon_445EB0()
 
         PSX_PutDispEnv_4F5890();
         pParticle->SetDead(true);
-        bHideLoadingIcon_5076A0 = true;
+        bHideLoadingIcon = true;
     }
 }
 
@@ -78,13 +78,13 @@ void ResourceManager::LoadingLoop(s16)
         Odd_Sleep_48DD90(16u);
         PSX_VSync(0);
 
-        loading_ticks_5076A4++;
+        loading_ticks++;
 
         if (bShowLoadingIcon)
         {
-            if (!bHideLoadingIcon_5076A0 && loading_ticks_5076A4 > 180)
+            if (!bHideLoadingIcon && loading_ticks > 180)
             {
-                Game_ShowLoadingIcon_445EB0();
+                Game_ShowLoadingIcon();
             }
         }
     }
@@ -94,7 +94,7 @@ void ResourceManager::LoadingLoop(s16)
 }
 
 
-s32 ResourceManager::SEQ_HashName_454EA0(const char_type* seqFileName)
+s32 ResourceManager::SEQ_HashName(const char_type* seqFileName)
 {
     return ResourceManagerWrapper::SEQ_HashName(seqFileName);
 }

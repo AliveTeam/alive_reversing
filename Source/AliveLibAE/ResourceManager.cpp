@@ -10,8 +10,8 @@
 
 ResourceManager* pResourceManager = nullptr;
 
-s16 bHideLoadingIcon_5C1BAA = 0;
-s32 loading_ticks_5C1BAC = 0;
+s16 bHideLoadingIcon = 0;
+s32 loading_ticks = 0;
 
 void Game_ShowLoadingIcon_482D80()
 {
@@ -40,7 +40,7 @@ void Game_ShowLoadingIcon_482D80()
         PSX_SetDefDispEnv_4F55A0(&dispBuffer.mDisplayEnv);
         PSX_PutDispEnv_4F5890();
         pParticle->SetDead(true);
-        bHideLoadingIcon_5C1BAA = 1;
+        bHideLoadingIcon = 1;
     }
 }
 
@@ -55,9 +55,8 @@ ResourceManager::ResourceManager()
 
 ResourceManager::~ResourceManager()
 {
-    
-}
 
+}
 
 void ResourceManager::LoadingLoop(s16 )
 {
@@ -69,8 +68,8 @@ void ResourceManager::LoadingLoop(s16 )
         SYS_EventsPump();
         VUpdate(); // vLoadFile_StateMachine_464A70 - process loading of files
         PSX_VSync(0);
-        const s32 ticks = loading_ticks_5C1BAC++ + 1;
-        if (bShowLoadingIcon && !bHideLoadingIcon_5C1BAA && ticks > 180)
+        const s32 ticks = loading_ticks++ + 1;
+        if (bShowLoadingIcon && !bHideLoadingIcon && ticks > 180)
         {
             // Render everything in the ordering table including the loading icon
             Game_ShowLoadingIcon_482D80();
@@ -86,18 +85,12 @@ void ResourceManager::VUpdate()
 
 }
 
-void ResourceManager::VScreenChanged_464EC0()
+void ResourceManager::VScreenChanged()
 {
     // Empty
 }
 
-void ResourceManager::VScreenChanged()
-{
-    VScreenChanged_464EC0();
-}
-
-
-s32 ResourceManager::SEQ_HashName_49BE30(const char_type* seqFileName)
+s32 ResourceManager::SEQ_HashName(const char_type* seqFileName)
 {
     return ResourceManagerWrapper::SEQ_HashName(seqFileName);
 }
