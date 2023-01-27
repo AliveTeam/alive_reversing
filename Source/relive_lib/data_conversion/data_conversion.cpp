@@ -835,7 +835,7 @@ static void HashBSQTable(OpenSeqHandle* pTable, s32 size)
     {
         if (pTable[i].field_0_mBsqName)
         {
-            pTable[i].field_4_generated_res_id = ResourceManager::SEQ_HashName(pTable[i].field_0_mBsqName);
+            pTable[i].field_4_generated_res_id = ResourceManagerWrapper::SEQ_HashName(pTable[i].field_0_mBsqName);
         }
     }
 }

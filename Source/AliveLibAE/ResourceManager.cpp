@@ -13,7 +13,7 @@ ResourceManager* pResourceManager = nullptr;
 s16 bHideLoadingIcon = 0;
 s32 loading_ticks = 0;
 
-void Game_ShowLoadingIcon_482D80()
+void Game_ShowLoadingIcon()
 {
     AnimResource ppLoadingAnimRes = ResourceManagerWrapper::LoadAnimation(AnimId::Loading_Icon2);
     PSX_Display_Buffer dispBuffer = {};
@@ -72,7 +72,7 @@ void ResourceManager::LoadingLoop(s16 )
         if (bShowLoadingIcon && !bHideLoadingIcon && ticks > 180)
         {
             // Render everything in the ordering table including the loading icon
-            Game_ShowLoadingIcon_482D80();
+            Game_ShowLoadingIcon();
         }
     }*/
 
@@ -88,9 +88,4 @@ void ResourceManager::VUpdate()
 void ResourceManager::VScreenChanged()
 {
     // Empty
-}
-
-s32 ResourceManager::SEQ_HashName(const char_type* seqFileName)
-{
-    return ResourceManagerWrapper::SEQ_HashName(seqFileName);
 }

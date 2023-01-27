@@ -158,7 +158,7 @@ PalResource ResourceManagerWrapper::LoadPal(PalId pal)
     auto palData = fs.LoadToVec(filePath.GetPath().c_str());
     if (palData.size() != 1024) // 256 RGBA entries
     {
-        ALIVE_FATAL("Bad pal data size");
+        ALIVE_FATAL("Bad pal data size %d but expected 1024", palData.size());
     }
 
     memcpy(newRes.mPal->mPal, palData.data(), palData.size());
@@ -362,7 +362,7 @@ void ResourceManagerWrapper::LoadingLoop(bool bShowLoadingIcon)
         if (bShowLoadingIcon && !bHideLoadingIcon && ticks > 180)
         {
             // Render everything in the ordering table including the loading icon
-            Game_ShowLoadingIcon_482D80();
+            Game_ShowLoadingIcon();
         }
     }
 

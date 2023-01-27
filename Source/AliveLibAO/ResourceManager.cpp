@@ -93,10 +93,4 @@ void ResourceManager::LoadingLoop(s16)
     GetGameAutoPlayer().EnableRecorder();
 }
 
-
-s32 ResourceManager::SEQ_HashName(const char_type* seqFileName)
-{
-    return ResourceManagerWrapper::SEQ_HashName(seqFileName);
-}
-
 } // namespace AO

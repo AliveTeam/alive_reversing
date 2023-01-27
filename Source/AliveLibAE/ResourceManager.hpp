@@ -6,7 +6,7 @@
 
 class Camera;
 
-void Game_ShowLoadingIcon_482D80();
+void Game_ShowLoadingIcon();
 
 class ResourceManager final : public BaseGameObject
 {
@@ -18,8 +18,6 @@ public:
 
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
-
-    static s32 SEQ_HashName(const char_type* seqFileName);
 
 private:
 

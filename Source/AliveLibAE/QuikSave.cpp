@@ -237,7 +237,7 @@ void Quicksave_LoadFromMemory_4C95A0(Quicksave* quicksaveData)
 
 void Quicksave_LoadActive()
 {
-    Game_ShowLoadingIcon_482D80();
+    Game_ShowLoadingIcon();
     Quicksave_LoadFromMemory_4C95A0(&gActiveQuicksaveData);
 }
 
@@ -495,7 +495,7 @@ void Quicksave_SaveToMemory_4C91A0(Quicksave* pSave)
 
 void DoQuicksave()
 {
-    Game_ShowLoadingIcon_482D80();
+    Game_ShowLoadingIcon();
     Path_Get_Bly_Record(gMap.mCurrentLevel, gMap.mCurrentPath);
     Quicksave_SaveToMemory_4C91A0(&gActiveQuicksaveData);
 }

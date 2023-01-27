@@ -15,7 +15,6 @@ void Game_ShowLoadingIcon();
 class ResourceManager final
 {
 public:
-    static s32 SEQ_HashName(const char_type* seqFileName);
     static void LoadingLoop(s16 bShowLoadingIcon);
 };
 

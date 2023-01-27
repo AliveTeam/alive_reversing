@@ -667,7 +667,7 @@ void SND_Load_Seqs_Impl(OpenSeqHandle* pSeqTable, PathSoundInfo& info)
             {
                 GetMidiVars()->sSeqDataTable()[i].field_C_ppSeq_Data.clear();
                 GetMidiVars()->sSeqDataTable()[i].field_A_id_seqOpenId = -1;
-                GetMidiVars()->sSeqDataTable()[i].field_4_generated_res_id = ResourceManager::SEQ_HashName(GetMidiVars()->sSeqDataTable()[i].field_0_mBsqName);
+                GetMidiVars()->sSeqDataTable()[i].field_4_generated_res_id = ResourceManagerWrapper::SEQ_HashName(GetMidiVars()->sSeqDataTable()[i].field_0_mBsqName);
             }
             GetMidiVars()->sNeedToHashSeqNames() = false;
         }
