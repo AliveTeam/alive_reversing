@@ -6,6 +6,8 @@
 #include "Types.hpp"
 #include "data_conversion/file_system.hpp"
 
+class CommandLineParser;
+
 enum RecordTypes : u32
 {
     FrameCounter = 0xcafebabe,
@@ -124,7 +126,7 @@ protected:
     virtual u32 ReadInput(u32 padIdx) = 0;
 
 public:
-    void ParseCommandLine(const char* pCmdLine);
+    void ProcessCommandLine(CommandLineParser& clp);
 
     RecordTypes PeekNextType();
 

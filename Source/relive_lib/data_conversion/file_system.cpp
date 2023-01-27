@@ -191,6 +191,29 @@ u32 AutoFILE::ReadU32() const
     return value;
 }
 
+u32 AutoFILE::Pos()
+{
+    return static_cast<u32>(::ftell(mFile));
+}
+
+void AutoFILE::Seek(u32 pos, AutoFILE::SeekMode mode)
+{
+    switch (mode)
+    {
+        case SeekMode::Current:
+            if (::fseek(mFile, pos, SEEK_CUR) != 0)
+            {
+                ALIVE_FATAL("Seek back failed");
+            }
+            break;
+
+        default:
+            ALIVE_FATAL("Unknown seek mode");
+            break;
+    }
+}
+
+
 bool AutoFILE::Open(const char* pFileName, const char* pMode, bool autoFlushFile)
 {
     Close();

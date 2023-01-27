@@ -15,33 +15,32 @@
 // TODO: Remove after merge
 extern bool sCommandLine_ShowFps;
 
-Engine::Engine(GameType gameType, const char_type* pCommandLine)
+Engine::Engine(GameType gameType, FileSystem& fs, CommandLineParser& clp)
     : mGameType(gameType)
-    , mCommandLine(pCommandLine)
+    , mFs(fs)
+    , mClp(clp)
 {
 
 }
 
-void Engine::CmdLineRenderInit(const char_type* pCommandLine)
+void Engine::CmdLineRenderInit()
 {
     IO_Init_494230();
 
-    CommandLineParser parser(pCommandLine ? pCommandLine : "");
-
-    sCommandLine_ShowFps = parser.SwitchExists("-ddfps");
-    gCommandLine_NoFrameSkip = parser.SwitchExists("-ddnoskip");
+    sCommandLine_ShowFps = mClp.SwitchExists("-ddfps");
+    gCommandLine_NoFrameSkip = mClp.SwitchExists("-ddnoskip");
 
 #if FORCE_DDCHEAT
     gDDCheatOn = true;
 #else
-    gDDCheatOn = parser.SwitchExists("-ddcheat") || parser.SwitchExists("-it_is_me_your_father");
+    gDDCheatOn = mClp.SwitchExists("-ddcheat") || mClp.SwitchExists("-it_is_me_your_father");
 #endif
 
     IRenderer::Renderers rendererToCreate = IRenderer::Renderers::Vulkan;
     LOG_INFO("Default renderer is vulkan");
 
     char renderer[256] = {};
-    if (parser.ExtractNamePairArgument(renderer, "-renderer="))
+    if (mClp.ExtractNamePairArgument(renderer, "-renderer="))
     {
         #ifdef _WIN32
         if (strcmpi(renderer, "dx") == 0 || strcmpi(renderer, "dx9") == 0 || strcmpi(renderer, "directx") == 0 || strcmpi(renderer, "directx9") == 0)
@@ -80,8 +79,8 @@ void Engine::Run()
 {
     gPsxDisplay.Init();
 
-    GetGameAutoPlayer().ParseCommandLine(mCommandLine);
-    CmdLineRenderInit(mCommandLine);
+    GetGameAutoPlayer().ProcessCommandLine(mClp);
+    CmdLineRenderInit();
 
     // Moved from PsxDisplay init to prevent desync
     PSX_PutDispEnv_4F5890();

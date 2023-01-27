@@ -2,15 +2,19 @@
 
 #include "GameType.hpp"
 
+class FileSystem;
+class CommandLineParser;
+
 class Engine final
 {
 public:
-    Engine(GameType gameType, const char_type* pCommandLine);
+    Engine(GameType gameType, FileSystem& fs, CommandLineParser& clp);
     void Run();
 
 private:
-    void CmdLineRenderInit(const char_type* pCommandLine);
+    void CmdLineRenderInit();
 
     GameType mGameType = GameType::eAe;
-    const char_type* mCommandLine = nullptr;
+    FileSystem& mFs;
+    CommandLineParser& mClp;
 };

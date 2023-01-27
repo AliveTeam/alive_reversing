@@ -6,6 +6,8 @@
 class FileSystem final
 {
 public:
+
+
     class Path final
     {
     public:
@@ -41,6 +43,11 @@ public:
 class [[nodiscard]] AutoFILE final
 {
 public:
+    enum class SeekMode
+    {
+        Current,
+    };
+
     AutoFILE(const AutoFILE&) = delete;
     AutoFILE& operator=(const AutoFILE&) const = delete;
     AutoFILE() = default;
@@ -88,6 +95,10 @@ public:
     u32 PeekU32();
 
     u32 ReadU32() const;
+
+    u32 Pos();
+
+    void Seek(u32 pos, SeekMode mode);
 
     long FileSize();
 

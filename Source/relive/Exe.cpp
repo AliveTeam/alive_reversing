@@ -27,6 +27,8 @@
 #include "../relive_lib/data_conversion/file_system.hpp"
 #include "../relive_lib/GameType.hpp"
 
+#include "../relive_lib/CommandLineParser.hpp"
+
 namespace AutoSplitterData {
 struct GuidStr
 {
@@ -197,9 +199,8 @@ static void GameDirListing()
                           { LOG_INFO(fileName); });
 }
 
-static bool CheckRequiredGameFilesExist(GameType gameType, bool showError)
+static bool CheckRequiredGameFilesExist(FileSystem& fs, GameType gameType, bool showError)
 {
-    FileSystem fs;
     if (gameType == GameType::eAe)
     {
         if (!fs.FileExists("st.lvl") || !fs.FileExists("mi.lvl"))
@@ -264,10 +265,15 @@ static void __attribute__((constructor)) FixCWD()
 }
 #endif
 
-
-s32 WINAPI WinMain(HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR lpCmdLine, s32 /*nShowCmd*/)
+s32 main(s32 argc, char_type** argv)
 {
-    Install_Crash_Handler();
+    std::string args;
+    for (s32 i = 0; i < argc; i++)
+    {
+        args += argv[i] + std::string(" ");
+    }
+
+  Install_Crash_Handler();
 #if _WIN32
     ::AllocConsole();
     ::freopen("CONOUT$", "w", stdout);
@@ -280,8 +286,12 @@ s32 WINAPI WinMain(HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR l
 
     SDL2_Init();
 
+    CommandLineParser clp(args.c_str());
+
+    FileSystem fs;
+
     // Default to AE but allow switching to AO with a command line, if AO is anywhere in the command line then assume we want to run AO
-    GameType gameToRun = strstr(lpCmdLine, "AO") ? GameType::eAo : GameType::eAe;
+    GameType gameToRun = clp.SwitchExists("AO") ? GameType::eAo : GameType::eAe;
 
 #ifdef __APPLE__
     FixCWD();
@@ -291,7 +301,7 @@ s32 WINAPI WinMain(HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR l
     if (gameToRun == GameType::eAo)
     {
         LOG_INFO("Checking AO files are present...");
-        if (!CheckRequiredGameFilesExist(GameType::eAo, false))
+        if (!CheckRequiredGameFilesExist(fs, GameType::eAo, false))
         {
             gameToRun = GameType::eAe;
             LOG_INFO("No AO files found, switch to AE");
@@ -300,14 +310,14 @@ s32 WINAPI WinMain(HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR l
     else
     {
         LOG_INFO("Checking AE files are present...");
-        if (!CheckRequiredGameFilesExist(GameType::eAe, false))
+        if (!CheckRequiredGameFilesExist(fs, GameType::eAe, false))
         {
             gameToRun = GameType::eAo;
             LOG_INFO("No AE files found, switch to AO");
         }
     }
 
-    if (!CheckRequiredGameFilesExist(gameToRun, true))
+    if (!CheckRequiredGameFilesExist(fs, gameToRun, true))
     {
         return 1;
     }
@@ -318,19 +328,8 @@ s32 WINAPI WinMain(HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR l
 
     PopulateAutoSplitterVars(gameToRun);
 
-    Engine e(gameToRun, lpCmdLine);
+    Engine e(gameToRun, fs, clp);
     e.Run();
 
     return 0;
 }
-
-s32 main(s32 argc, char_type** argv)
-{
-    std::string args;
-    for (s32 i = 0; i < argc; i++)
-    {
-        args += argv[i] + std::string(" ");
-    }
-    return WinMain(0, 0, const_cast<LPSTR>(args.c_str()), 1);
-}
-

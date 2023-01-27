@@ -143,22 +143,21 @@ void BasePlayer::ValidateNextTypeIs(RecordTypes type)
     }
 }
 
-void BaseGameAutoPlayer::ParseCommandLine(const char* pCmdLine)
+void BaseGameAutoPlayer::ProcessCommandLine(CommandLineParser& clp)
 {
     char buffer[256] = {};
-    CommandLineParser parser(pCmdLine);
-    if (parser.ExtractNamePairArgument(buffer, "-record="))
+    if (clp.ExtractNamePairArgument(buffer, "-record="))
     {
-        mRecorder.Init(buffer, parser.SwitchExists("-flush"));
+        mRecorder.Init(buffer, clp.SwitchExists("-flush"));
         mMode = Mode::Record;
     }
-    else if (parser.ExtractNamePairArgument(buffer, "-play="))
+    else if (clp.ExtractNamePairArgument(buffer, "-play="))
     {
         mPlayer.Init(buffer);
         mMode = Mode::Play;
 
-        mNoFpsLimit = parser.SwitchExists("-fastest");
-        mIgnoreDesyncs = parser.SwitchExists("-ignore_desyncs");
+        mNoFpsLimit = clp.SwitchExists("-fastest");
+        mIgnoreDesyncs = clp.SwitchExists("-ignore_desyncs");
     }
 }
 
