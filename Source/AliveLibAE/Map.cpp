@@ -884,24 +884,6 @@ void Map::Create_FG1s()
 {
     Camera* pCamera = field_2C_camera_array[0];
     pCamera->CreateFG1();
-    /*
-    for (s32 i = 0; i < pCamera->field_0.Size(); i++)
-    {
-        u8** ppRes = pCamera->field_0.ItemAt(i);
-        if (!ppRes)
-        {
-            break;
-        }
-
-        if (*ppRes)
-        {
-            ResourceManager::Header* pHeader = ResourceManager::Get_Header_49C410(ppRes);
-            if (pHeader->mResourceType == ResourceManager::Resource_FG1)
-            {
-                relive_new FG1(ppRes);
-            }
-        }
-    }*/
 }
 
 void Map::TLV_Reset(const Guid& tlvId, s16 hiFlags, s8 bSetCreated, s8 bSetDestroyed)

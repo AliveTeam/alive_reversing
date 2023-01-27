@@ -1082,24 +1082,6 @@ void Map::Create_FG1s()
 {
     Camera* pCamera = field_2C_camera_array[0];
     pCamera->CreateFG1();
-    /*
-    for (s32 i = 0; i < pCamera->mArray.Size(); i++)
-    {
-        u8** ppRes = pCamera->mArray.ItemAt(i);
-        if (!ppRes)
-        {
-            break;
-        }
-
-        if (*ppRes)
-        {
-            ResourceManager::Header* pHeader = ResourceManager::Get_Header_455620(ppRes);
-            if (pHeader->mLineType == ResourceManager::Resource_FG1)
-            {
-                relive_new FG1(ppRes);
-            }
-        }
-    }*/
 }
 
 void Map::SaveBlyData(u8* pSaveBuffer)

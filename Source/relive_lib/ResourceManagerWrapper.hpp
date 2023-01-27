@@ -228,17 +228,6 @@ public:
         Resource_Pxtd = 0x50787464, // Added for relive path extension blocks
     };
 
-    struct Header final
-    {
-        u32 field_0_size;
-        s16 field_4_ref_count;
-        s16 field_6_flags;
-        u32 mResourceType;
-        u32 field_C_id;
-    };
-
-    static void Inc_Ref_Count(u8** ppRes);
-    static Header* Get_Header(u8** ppRes);
 
     // == new res manager interface ==
 

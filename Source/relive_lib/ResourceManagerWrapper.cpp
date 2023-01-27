@@ -21,16 +21,6 @@ std::vector<PendingResource> ResourceManagerWrapper::mFilesPendingLoading;
 
 std::map<AnimId, ResourceManagerWrapper::AnimCache> ResourceManagerWrapper::mAnims;
 
-void ResourceManagerWrapper::Inc_Ref_Count(u8** ppRes)
-{
-    Get_Header(ppRes)->field_4_ref_count++;
-}
-
-ResourceManagerWrapper::Header* ResourceManagerWrapper::Get_Header(u8** ppRes)
-{
-    return reinterpret_cast<Header*>((*ppRes - sizeof(Header)));
-}
-
 inline void from_json(const nlohmann::json& j, Point32& p)
 {
     j.at("x").get_to(p.x);
