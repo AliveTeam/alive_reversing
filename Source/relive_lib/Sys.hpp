@@ -26,7 +26,7 @@ std::string BuildString();
 std::string BuildAndBitnesString();
 std::string WindowTitleAO();
 std::string WindowTitleAE();
-void Alive_Show_ErrorMsg(const char_type* msg);
+void Alive_Show_ErrorMsg(const char_type* fmt, ...);
 u32 SYS_GetTicks();
 
 void Sys_SetWindowText(TWindowHandleType windowHandle, const char_type* title);

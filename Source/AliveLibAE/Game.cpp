@@ -443,9 +443,15 @@ u32 SYS_GetTicks()
     return static_cast<u32>(SDL_GetPerformanceCounter() / (SDL_GetPerformanceFrequency() / 1000));
 }
 
-void Alive_Show_ErrorMsg(const char_type* msg)
+void Alive_Show_ErrorMsg(const char_type* fmt, ...)
 {
-    SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, ("R.E.L.I.V.E. " + BuildString()).c_str(), msg, nullptr);
+    va_list args;
+    va_start(args, fmt);
+    char_type buf[2048] = {};
+    vsnprintf(buf, sizeof(buf) - 1, fmt, args);
+    va_end(args);
+
+    SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, ("R.E.L.I.V.E. " + BuildString()).c_str(), buf, nullptr);
 }
 
 void Game_Main()

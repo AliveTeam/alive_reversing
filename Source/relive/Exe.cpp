@@ -133,21 +133,17 @@ static std::string GetPrefPath()
 }
 #endif
 
-// Only used on Windows for logging to help when people have issues launching the game
-static void ShowCwd()
+static std::string GetCwd()
 {
 #ifdef _WIN32
     // Note: Not using SDL_GetBasePath as that returns the executable dir which isn't
     // always the same as the cwd.
     char_type buffer[2048] = {};
-    if (::GetCurrentDirectoryA(sizeof(buffer), buffer))
-    {
-        LOG_INFO("Win32 cwd is: %s", buffer);
-    }
-    else
+    if (!::GetCurrentDirectoryA(sizeof(buffer), buffer))
     {
         LOG_INFO("Failed to get Win32 cwd: %d", ::GetLastError());
     }
+    return buffer;
 #else
     char buffer[4096] = {};
     const char* answer = getcwd(buffer, sizeof(buffer));
@@ -155,13 +151,22 @@ static void ShowCwd()
     {
         char* pBasePath = SDL_GetBasePath();
         LOG_INFO("Mac/Linux cwd is %s SDL_GetBasePath is %s SDL_GetPrefPath is %s", answer, pBasePath, GetPrefPath().c_str());
+        std::string tmp(pBasePath);
         SDL_free(pBasePath);
+        return tmp;
     }
     else
     {
         LOG_ERROR("Failed to get CWD");
     }
+    return {};
 #endif
+}
+
+// Only used on Windows for logging to help when people have issues launching the game
+static void ShowCwd()
+{
+    LOG_INFO("Cwd is: %s", GetCwd().c_str());
 }
 
 static void PrintSDL2Versions()
@@ -203,7 +208,7 @@ static bool CheckRequiredGameFilesExist(GameType gameType, bool showError)
             {
                 SDL_Init(SDL_INIT_EVENTS);
                 GameDirListing();
-                Alive_Show_ErrorMsg("Abes Exoddus/Abes Oddysee cant start because st.lvl or mi.lvl was not found in the working directory. Copy relive files to the root game directory to fix this.");
+                Alive_Show_ErrorMsg("Abes Exoddus/Abes Oddysee cant start because st.lvl or mi.lvl was not found in the working directory (%s). Copy relive files to the root game directory to fix this.", GetCwd().c_str());
             }
             return false;
         }
@@ -217,7 +222,7 @@ static bool CheckRequiredGameFilesExist(GameType gameType, bool showError)
             {
                 SDL_Init(SDL_INIT_EVENTS);
                 GameDirListing();
-                Alive_Show_ErrorMsg("Abes Oddysee/Abes Exoddus cant start because s1.lvl or r1.lvl was not found in the working directory. Copy relive files to the root game directory to fix this.");
+                Alive_Show_ErrorMsg("Abes Oddysee/Abes Exoddus cant start because s1.lvl or r1.lvl was not found in the working directory (%s). Copy relive files to the root game directory to fix this.", GetCwd().c_str());
             }
             return false;
         }
