@@ -14,7 +14,7 @@
 #include "../relive_lib/AnimationUnknown.hpp"
 #include "../relive_lib/FixedPoint.hpp"
 
-DoorFlame* pFlameControllingTheSound_5C2C6C = nullptr;
+static DoorFlame* sFlameControllingTheSound = nullptr;
 
 class FireBackgroundGlow final : public BaseAnimatedWithPhysicsGameObject
 {
@@ -43,15 +43,10 @@ public:
 
         SetSpriteScale(scale);
 
-        Calc_Rect_45DA00();
+        Calc_Rect();
     }
 
-    virtual void VRender(PrimHeader** ppOt) override
-    {
-        vRender_45DCD0(ppOt);
-    }
-
-    void Calc_Rect_45DA00()
+    void Calc_Rect()
     {
         PSX_Point xy = {};
 
@@ -80,7 +75,7 @@ public:
         field_100_yOff = screenY + FP_FromInteger(offYScaled + FP_GetExponent(frameHScaled)) + FP_FromInteger(Math_NextRandom() % 3) - FP_FromInteger(1);
     }
 
-    void vRender_45DCD0(PrimHeader** ppOt)
+    virtual void VRender(PrimHeader** ppOt) override
     {
         if (Is_In_Current_Camera() == CameraPos::eCamCurrent_0)
         {
@@ -330,9 +325,9 @@ DoorFlame::~DoorFlame()
 
 void DoorFlame::VStopAudio()
 {
-    if (pFlameControllingTheSound_5C2C6C == this)
+    if (sFlameControllingTheSound == this)
     {
-        pFlameControllingTheSound_5C2C6C = nullptr;
+        sFlameControllingTheSound = nullptr;
         SND_Stop_Channels_Mask(mSoundsMask);
         mSoundsMask = 0;
     }
@@ -387,9 +382,9 @@ void DoorFlame::VUpdate()
             break;
 
         case States::eEnabled_1:
-            if (!pFlameControllingTheSound_5C2C6C)
+            if (!sFlameControllingTheSound)
             {
-                pFlameControllingTheSound_5C2C6C = this;
+                sFlameControllingTheSound = this;
                 mSoundsMask = SfxPlayMono(relive::SoundEffects::Fire, 40);
             }
 
@@ -398,7 +393,7 @@ void DoorFlame::VUpdate()
                 mRandom = 2;
                 if (pFireBackgroundGlow)
                 {
-                    pFireBackgroundGlow->Calc_Rect_45DA00();
+                    pFireBackgroundGlow->Calc_Rect();
                 }
             }
 

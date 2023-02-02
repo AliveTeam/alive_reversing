@@ -624,8 +624,8 @@ private:
         {
         case AO::Path_Hoist::Type::eNextFloor:
             return relive::Path_Hoist::Type::eNextFloor;
-        case AO::Path_Hoist::Type::eNextEdge:
-            return relive::Path_Hoist::Type::eNextEdge;
+        case AO::Path_Hoist::Type::eNextEdge: // remap duplicated type to next floor
+            return relive::Path_Hoist::Type::eNextFloor;
         case AO::Path_Hoist::Type::eOffScreen:
             return relive::Path_Hoist::Type::eOffScreen;
         }
@@ -638,8 +638,8 @@ private:
         {
         case ::Path_Hoist::Type::eNextFloor:
             return relive::Path_Hoist::Type::eNextFloor;
-        case ::Path_Hoist::Type::eNextEdge:
-            return relive::Path_Hoist::Type::eNextEdge;
+        case ::Path_Hoist::Type::eNextEdge: // remap duplicated type to next floor
+            return relive::Path_Hoist::Type::eNextFloor;
         case ::Path_Hoist::Type::eOffScreen:
             return relive::Path_Hoist::Type::eOffScreen;
         }

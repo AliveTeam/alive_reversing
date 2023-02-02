@@ -486,7 +486,6 @@ inline void from_json(const nlohmann::json& j, Path_TimedMine& p)
 // Path_Hoist
 NLOHMANN_JSON_SERIALIZE_ENUM(Path_Hoist::Type, {
     {Path_Hoist::Type::eNextFloor, "next_floor"},
-    {Path_Hoist::Type::eNextEdge, "next_edge"},
     {Path_Hoist::Type::eOffScreen, "off_screen"},
 })
 

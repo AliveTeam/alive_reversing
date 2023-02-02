@@ -299,7 +299,6 @@ struct Path_Hoist final : public Path_TLV
     enum class Type : s16
     {
         eNextFloor,
-        eNextEdge,
         eOffScreen,
     };
     Type mHoistType = Type::eNextFloor;
