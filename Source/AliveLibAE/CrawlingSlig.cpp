@@ -1312,7 +1312,7 @@ void CrawlingSlig::Motion_1_UsingButton()
                         pWalkingSlig->mAbeLevel = mAbeLevel;
                         pWalkingSlig->mAbePath = mAbePath;
                         pWalkingSlig->mAbeCamera = mAbeCamera;
-                        pWalkingSlig->SetBrain(&Slig::Brain_Possessed_2_4BBCF0);
+                        pWalkingSlig->SetBrain(&Slig::Brain_2_Possessed);
                         pWalkingSlig->mBrainSubState = 4;
                         sControlledCharacter = pWalkingSlig;
                     }

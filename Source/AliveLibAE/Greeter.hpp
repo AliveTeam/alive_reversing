@@ -21,7 +21,7 @@ enum class GreeterBrainStates : s16
 
 struct GreeterSaveState final
 {
-    ReliveTypes field_0_type;
+    ReliveTypes mType;
     s16 field_2_r;
     s16 field_4_g;
     s16 field_6_b;

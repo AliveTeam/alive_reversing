@@ -169,7 +169,7 @@ s32 Greeter::VGetSaveState(u8* pSaveBuffer)
 
     auto pState = reinterpret_cast<GreeterSaveState*>(pSaveBuffer);
 
-    pState->field_0_type = ReliveTypes::eGreeter;
+    pState->mType = ReliveTypes::eGreeter;
 
     pState->field_C_xpos = mXPos;
     pState->field_10_ypos = mYPos;

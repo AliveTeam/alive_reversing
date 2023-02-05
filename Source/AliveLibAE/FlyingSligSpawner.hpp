@@ -10,7 +10,7 @@ namespace relive
 
 struct FlyingSligSpawnerSaveState final
 {
-    ReliveTypes field_0_type;
+    ReliveTypes mType;
     s16 field_2_pad;
     Guid field_4_tlvInfo;
     s32 field_8_bSpawned;

@@ -88,7 +88,7 @@ enum class ParamiteSpeak : s8
 
 struct ParamiteSaveState final
 {
-    ReliveTypes field_0_type;
+    ReliveTypes mType;
     s16 field_2_pad;
     FP field_4_xpos;
     FP field_8_ypos;

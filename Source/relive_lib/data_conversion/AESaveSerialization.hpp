@@ -735,7 +735,7 @@ inline void from_json(const nlohmann::json& j, FleechSaveState& p)
 inline void to_json(nlohmann::json& j, const FlyingSligSaveState& p)
 {
     j = nlohmann::json{
-        {"type", p.field_0_type},
+        {"type", p.mType},
         {"xpos", p.field_4_xpos},
         {"ypos", p.field_8_ypos},
         {"velx", p.field_C_velx},
@@ -798,7 +798,7 @@ inline void to_json(nlohmann::json& j, const FlyingSligSaveState& p)
 
 inline void from_json(const nlohmann::json& j, FlyingSligSaveState& p)
 {
-    j.at("type").get_to(p.field_0_type);
+    j.at("type").get_to(p.mType);
     j.at("xpos").get_to(p.field_4_xpos);
     j.at("ypos").get_to(p.field_8_ypos);
     j.at("velx").get_to(p.field_C_velx);
@@ -861,7 +861,7 @@ inline void from_json(const nlohmann::json& j, FlyingSligSaveState& p)
 inline void to_json(nlohmann::json& j, const FlyingSligSpawnerSaveState& p)
 {
     j = nlohmann::json{
-        {"type", p.field_0_type},
+        {"type", p.mType},
         {"tlv_info", p.field_4_tlvInfo},
         {"spawned", p.field_8_bSpawned},
         {"spawned_slig_obj_id", p.field_C_spawned_slig_obj_id},
@@ -870,7 +870,7 @@ inline void to_json(nlohmann::json& j, const FlyingSligSpawnerSaveState& p)
 
 inline void from_json(const nlohmann::json& j, FlyingSligSpawnerSaveState& p)
 {
-    j.at("type").get_to(p.field_0_type);
+    j.at("type").get_to(p.mType);
     j.at("tlv_info").get_to(p.field_4_tlvInfo);
     j.at("spawned").get_to(p.field_8_bSpawned);
     j.at("spawned_slig_obj_id").get_to(p.field_C_spawned_slig_obj_id);
@@ -968,7 +968,7 @@ NLOHMANN_JSON_SERIALIZE_ENUM(GreeterBrainStates, {
 inline void to_json(nlohmann::json& j, const GreeterSaveState& p)
 {
     j = nlohmann::json{
-        {"type", p.field_0_type},
+        {"type", p.mType},
         {"r", p.field_2_r},
         {"g", p.field_4_g},
         {"b", p.field_6_b},
@@ -999,7 +999,7 @@ inline void to_json(nlohmann::json& j, const GreeterSaveState& p)
 
 inline void from_json(const nlohmann::json& j, GreeterSaveState& p)
 {
-    j.at("type").get_to(p.field_0_type);
+    j.at("type").get_to(p.mType);
     j.at("r").get_to(p.field_2_r);
     j.at("g").get_to(p.field_4_g);
     j.at("b").get_to(p.field_6_b);
@@ -1615,7 +1615,7 @@ NLOHMANN_JSON_SERIALIZE_ENUM(GameSpeakEvents, {
 inline void to_json(nlohmann::json& j, const MudokonSaveState& p)
 {
     j = nlohmann::json{
-        {"type", p.field_0_type},
+        {"type", p.mType},
         {"xpos", p.field_4_xpos},
         {"ypos", p.field_8_ypos},
         {"velx", p.field_C_velx},
@@ -1682,7 +1682,7 @@ inline void to_json(nlohmann::json& j, const MudokonSaveState& p)
 
 inline void from_json(const nlohmann::json& j, MudokonSaveState& p)
 {
-    j.at("type").get_to(p.field_0_type);
+    j.at("type").get_to(p.mType);
     j.at("xpos").get_to(p.field_4_xpos);
     j.at("ypos").get_to(p.field_8_ypos);
     j.at("velx").get_to(p.field_C_velx);
@@ -1822,7 +1822,7 @@ NLOHMANN_JSON_SERIALIZE_ENUM(MineCarDirs, {
 inline void to_json(nlohmann::json& j, const MineCarSaveState& p)
 {
     j = nlohmann::json{
-        {"type", p.field_0_type},
+        {"type", p.mType},
         {"xpos", p.field_4_xpos},
         {"ypos", p.field_8_ypos},
         {"velx", p.field_C_velx},
@@ -1861,7 +1861,7 @@ inline void to_json(nlohmann::json& j, const MineCarSaveState& p)
 
 inline void from_json(const nlohmann::json& j, MineCarSaveState& p)
 {
-    j.at("type").get_to(p.field_0_type);
+    j.at("type").get_to(p.mType);
     j.at("xpos").get_to(p.field_4_xpos);
     j.at("ypos").get_to(p.field_8_ypos);
     j.at("velx").get_to(p.field_C_velx);
@@ -1900,7 +1900,7 @@ inline void from_json(const nlohmann::json& j, MineCarSaveState& p)
 inline void to_json(nlohmann::json& j, const ParamiteSaveState& p)
 {
     j = nlohmann::json{
-        {"type", p.field_0_type},
+        {"type", p.mType},
         {"xpos", p.field_4_xpos},
         {"ypos", p.field_8_ypos},
         {"velx", p.field_C_velx},
@@ -1949,7 +1949,7 @@ inline void to_json(nlohmann::json& j, const ParamiteSaveState& p)
 
 inline void from_json(const nlohmann::json& j, ParamiteSaveState& p)
 {
-    j.at("type").get_to(p.field_0_type);
+    j.at("type").get_to(p.mType);
     j.at("xpos").get_to(p.field_4_xpos);
     j.at("ypos").get_to(p.field_8_ypos);
     j.at("velx").get_to(p.field_C_velx);
@@ -2109,7 +2109,7 @@ inline void from_json(const nlohmann::json& j, RockSaveState& p)
 inline void to_json(nlohmann::json& j, const ScrabSaveState& p)
 {
     j = nlohmann::json{
-        {"type", p.field_0_type},
+        {"type", p.mType},
         {"obj_id", p.field_4_obj_id},
         {"xpos", p.field_8_xpos},
         {"ypos", p.field_C_ypos},
@@ -2165,7 +2165,7 @@ inline void to_json(nlohmann::json& j, const ScrabSaveState& p)
 
 inline void from_json(const nlohmann::json& j, ScrabSaveState& p)
 {
-    j.at("type").get_to(p.field_0_type);
+    j.at("type").get_to(p.mType);
     j.at("obj_id").get_to(p.field_4_obj_id);
     j.at("xpos").get_to(p.field_8_xpos);
     j.at("ypos").get_to(p.field_C_ypos);
@@ -2226,7 +2226,7 @@ NLOHMANN_JSON_SERIALIZE_ENUM(ScrabSpawnerStates, {
 inline void to_json(nlohmann::json& j, const ScrabSpawnerSaveState& p)
 {
     j = nlohmann::json{
-        {"type", p.field_0_type},
+        {"type", p.mType},
         {"tlv_info", p.field_4_tlvInfo},
         {"state", p.field_8_state},
         {"spawned_scrab_id", p.field_C_spawned_scrab_id},
@@ -2235,7 +2235,7 @@ inline void to_json(nlohmann::json& j, const ScrabSpawnerSaveState& p)
 
 inline void from_json(const nlohmann::json& j, ScrabSpawnerSaveState& p)
 {
-    j.at("type").get_to(p.field_0_type);
+    j.at("type").get_to(p.mType);
     j.at("tlv_info").get_to(p.field_4_tlvInfo);
     j.at("state").get_to(p.field_8_state);
     j.at("spawned_scrab_id").get_to(p.field_C_spawned_scrab_id);
@@ -2283,11 +2283,11 @@ inline void to_json(nlohmann::json& j, const SligSaveState& p)
         {"brain_sub_state", p.field_42_brain_sub_state},
         {"pitch_min", p.field_44_pitch_min},
         {"field_48_timer", p.field_48_timer},
-        {"return_to_previous_motion", p.field_4C_return_to_previous_motion},
-        {"checked_if_off_screen", p.field_4E_checked_if_off_screen},
+        {"return_to_previous_motion", p.mReturnToPreviousMotion},
+        {"checked_if_off_screen", p.mCheckedIfOffScreen},
         {"input", p.field_50_input},
         {"field_54_timer", p.field_54_timer},
-        {"falling_velx_scale_factor", p.field_58_falling_velx_scale_factor},
+        {"falling_velx_scale_factor", p.mFallingVelxScaleFactor},
         {"tlv_info", p.field_5C_tlvInfo},
         {"res_idx", p.field_60_res_idx},
         {"shot_motion", p.field_62_shot_motion},
@@ -2342,11 +2342,11 @@ inline void from_json(const nlohmann::json& j, SligSaveState& p)
     j.at("brain_sub_state").get_to(p.field_42_brain_sub_state);
     j.at("pitch_min").get_to(p.field_44_pitch_min);
     j.at("field_48_timer").get_to(p.field_48_timer);
-    j.at("return_to_previous_motion").get_to(p.field_4C_return_to_previous_motion);
-    j.at("checked_if_off_screen").get_to(p.field_4E_checked_if_off_screen);
+    j.at("return_to_previous_motion").get_to(p.mReturnToPreviousMotion);
+    j.at("checked_if_off_screen").get_to(p.mCheckedIfOffScreen);
     j.at("input").get_to(p.field_50_input);
     j.at("field_54_timer").get_to(p.field_54_timer);
-    j.at("falling_velx_scale_factor").get_to(p.field_58_falling_velx_scale_factor);
+    j.at("falling_velx_scale_factor").get_to(p.mFallingVelxScaleFactor);
     j.at("tlv_info").get_to(p.field_5C_tlvInfo);
     j.at("res_idx").get_to(p.field_60_res_idx);
     j.at("shot_motion").get_to(p.field_62_shot_motion);

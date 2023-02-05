@@ -376,7 +376,7 @@ s32 FlyingSlig::VGetSaveState(u8* pSaveBuffer)
 
     auto pState = reinterpret_cast<FlyingSligSaveState*>(pSaveBuffer);
 
-    pState->field_0_type = ReliveTypes::eFlyingSlig;
+    pState->mType = ReliveTypes::eFlyingSlig;
 
     pState->field_4_xpos = mXPos;
     pState->field_8_ypos = mYPos;

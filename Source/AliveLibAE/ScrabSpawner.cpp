@@ -57,7 +57,7 @@ s32 ScrabSpawner::VGetSaveState(u8* pSaveBuffer)
 {
     auto pSaveState = reinterpret_cast<ScrabSpawnerSaveState*>(pSaveBuffer);
 
-    pSaveState->field_0_type = ReliveTypes::eScrabSpawner;
+    pSaveState->mType = ReliveTypes::eScrabSpawner;
     pSaveState->field_4_tlvInfo = mTlvId;
     pSaveState->field_8_state = field_38_state;
     pSaveState->field_C_spawned_scrab_id = Guid{};

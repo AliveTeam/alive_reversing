@@ -972,7 +972,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(EvilFartSaveState, 60);
 
 struct FleechSaveState final
 {
-    AETypes field_0_type;
+    AETypes mType;
     s16 field_2;
     s32 field_4_obj_id;
     FP mXPos;
@@ -1065,7 +1065,7 @@ struct FleechSaveState final
     static ::FleechSaveState From(const FleechSaveState& data)
     {
         ::FleechSaveState d;
-        d.mType = BaseGameObject::FromAE(data.field_0_type);
+        d.mType = BaseGameObject::FromAE(data.mType);
         d.field_2 = data.field_2;
         d.field_4_obj_id = Guid::NewGuidFromTlvInfo(data.field_4_obj_id);
         d.mXPos = data.mXPos;
@@ -1151,7 +1151,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(FleechSaveState, 0xB4);
 
 struct FlyingSligSaveState final
 {
-    AETypes field_0_type;
+    AETypes mType;
     s16 field_2;
     FP field_4_xpos;
     FP field_8_ypos;
@@ -1229,7 +1229,7 @@ struct FlyingSligSaveState final
     static ::FlyingSligSaveState From(const FlyingSligSaveState& data)
     {
         ::FlyingSligSaveState d;
-        d.field_0_type = BaseGameObject::FromAE(data.field_0_type);
+        d.mType = BaseGameObject::FromAE(data.mType);
         d.field_4_xpos = data.field_4_xpos;
         d.field_8_ypos = data.field_8_ypos;
         d.field_C_velx = data.field_C_velx;
@@ -1294,7 +1294,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(FlyingSligSaveState, 0xAC);
 
 struct FlyingSligSpawnerSaveState final
 {
-    AETypes field_0_type;
+    AETypes mType;
     s16 field_2_pad;
     s32 field_4_tlvInfo;
     s32 field_8_bSpawned;
@@ -1303,7 +1303,7 @@ struct FlyingSligSpawnerSaveState final
     static ::FlyingSligSpawnerSaveState From(const FlyingSligSpawnerSaveState& data)
     {
         ::FlyingSligSpawnerSaveState d;
-        d.field_0_type = BaseGameObject::FromAE(data.field_0_type);
+        d.mType = BaseGameObject::FromAE(data.mType);
         d.field_4_tlvInfo = Guid::NewGuidFromTlvInfo(data.field_4_tlvInfo);
         d.field_8_bSpawned = data.field_8_bSpawned;
         d.field_C_spawned_slig_obj_id = Guid::NewGuidFromTlvInfo(data.field_C_spawned_slig_obj_id);
@@ -1314,7 +1314,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(FlyingSligSpawnerSaveState, 0x10);
 
 struct GameEnderControllerSaveState final
 {
-    AETypes field_0_type;
+    AETypes mType;
     s16 field_2_padding;
     s32 field_4_obj_id;
     s32 field_8_timer;
@@ -1337,7 +1337,7 @@ struct GameEnderControllerSaveState final
     static ::GameEnderControllerSaveState From(const GameEnderControllerSaveState& data)
     {
         ::GameEnderControllerSaveState d;
-        d.mType = BaseGameObject::FromAE(data.field_0_type);
+        d.mType = BaseGameObject::FromAE(data.mType);
         d.mObjId = Guid::NewGuidFromTlvInfo(data.field_4_obj_id);
         d.mTimer = data.field_8_timer;
         d.mState = From(data.field_C_state);
@@ -1448,7 +1448,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(SlapLockSaveState, 0x18);
 
 struct GreeterSaveState final
 {
-    AETypes field_0_type;
+    AETypes mType;
     s16 field_2_r;
     s16 field_4_g;
     s16 field_6_b;
@@ -1494,7 +1494,7 @@ struct GreeterSaveState final
     static ::GreeterSaveState From(const GreeterSaveState& data)
     {
         ::GreeterSaveState d;
-        d.field_0_type = BaseGameObject::FromAE(data.field_0_type);
+        d.mType = BaseGameObject::FromAE(data.mType);
         d.field_2_r = data.field_2_r;
         d.field_4_g = data.field_4_g;
         d.field_6_b = data.field_6_b;
@@ -1551,7 +1551,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(GreeterSaveState, 0x50);
 
 struct GrenadeSaveState final
 {
-    AETypes field_0_type;
+    AETypes mType;
     s16 field_2_pad;
     s32 field_4_obj_id;
     FP field_8_xpos;
@@ -1600,7 +1600,7 @@ struct GrenadeSaveState final
     static ::GrenadeSaveState From(const GrenadeSaveState& data)
     {
         ::GrenadeSaveState d;
-        d.mType = BaseGameObject::FromAE(data.field_0_type);
+        d.mType = BaseGameObject::FromAE(data.mType);
         d.mTlvInfo = Guid::NewGuidFromTlvInfo(data.field_4_obj_id);
         d.mXPos = data.field_8_xpos;
         d.mYPos = data.field_C_ypos;
@@ -2055,7 +2055,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(AbeSaveState, 216);
 
 struct LiftPointSaveState final
 {
-    AETypes field_0_type;
+    AETypes mType;
     s16 field_2_pad;
     FP field_4_xpos;
     FP field_8_ypos;
@@ -2086,7 +2086,7 @@ struct LiftPointSaveState final
     static ::LiftPointSaveState From(const LiftPointSaveState& data)
     {
         ::LiftPointSaveState d;
-        d.mType = BaseGameObject::FromAE(data.field_0_type);
+        d.mType = BaseGameObject::FromAE(data.mType);
         d.mXPos = data.field_4_xpos;
         d.mYPos = data.field_8_ypos;
         d.mPlatformId = Guid::NewGuidFromTlvInfo(data.field_C_tlvInfo);
@@ -2124,7 +2124,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(LiftPointSaveState, 0x1C);
 
 struct MudokonSaveState final
 {
-    AETypes field_0_type;
+    AETypes mType;
     s16 field_2_pad;
     FP field_4_xpos;
     FP field_8_ypos;
@@ -2247,7 +2247,7 @@ struct MudokonSaveState final
     static ::MudokonSaveState From(const MudokonSaveState& data)
     {
         ::MudokonSaveState d;
-        d.field_0_type = BaseGameObject::FromAE(data.field_0_type);
+        d.mType = BaseGameObject::FromAE(data.mType);
         d.field_4_xpos = data.field_4_xpos;
         d.field_8_ypos = data.field_8_ypos;
         d.field_C_velx = data.field_C_velx;
@@ -2520,7 +2520,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(MudokonSaveState, 0x88);
 
 struct MeatSaveState final
 {
-    AETypes field_0_type;
+    AETypes mType;
     s16 field_2_pad;
     s32 field_4_obj_id;
     FP field_8_xpos;
@@ -2560,7 +2560,7 @@ struct MeatSaveState final
     static ::MeatSaveState From(const MeatSaveState& data)
     {
         ::MeatSaveState d;
-        d.mType = BaseGameObject::FromAE(data.field_0_type);
+        d.mType = BaseGameObject::FromAE(data.mType);
         d.mTlvId = Guid::NewGuidFromTlvInfo(data.field_4_obj_id);
         d.mXPos = data.field_8_xpos;
         d.mYPos = data.field_C_ypos;
@@ -2607,7 +2607,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(MeatSaveState, 60);
 
 struct MineCarSaveState final
 {
-    AETypes field_0_type;
+    AETypes mType;
     s16 field_2_pad;
     FP field_4_xpos;
     FP field_8_ypos;
@@ -2669,7 +2669,7 @@ struct MineCarSaveState final
     static ::MineCarSaveState From(const MineCarSaveState& data)
     {
         ::MineCarSaveState d;
-        d.field_0_type = BaseGameObject::FromAE(data.field_0_type);
+        d.mType = BaseGameObject::FromAE(data.mType);
         d.field_4_xpos = data.field_4_xpos;
         d.field_8_ypos = data.field_8_ypos;
         d.field_C_velx = data.field_C_velx;
@@ -2742,7 +2742,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(MineCarSaveState, 0x68);
 
 struct ParamiteSaveState final
 {
-    AETypes field_0_type;
+    AETypes mType;
     s16 field_2_pad;
     FP field_4_xpos;
     FP field_8_ypos;
@@ -2803,7 +2803,7 @@ struct ParamiteSaveState final
     static ::ParamiteSaveState From(const ParamiteSaveState& data)
     {
         ::ParamiteSaveState d;
-        d.field_0_type = BaseGameObject::FromAE(data.field_0_type);
+        d.mType = BaseGameObject::FromAE(data.mType);
         d.field_4_xpos = data.field_4_xpos;
         d.field_8_ypos = data.field_8_ypos;
         d.field_C_velx = data.field_C_velx;
@@ -2987,7 +2987,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(AbilityRingSaveState, 0x28);
 
 struct RockSaveState final
 {
-    AETypes field_0_type;
+    AETypes mType;
     s16 field_2_padding;
     s32 field_4_obj_id;
     FP field_8_xpos;
@@ -3026,7 +3026,7 @@ struct RockSaveState final
     static ::RockSaveState From(const RockSaveState& data)
     {
         ::RockSaveState d;
-        d.mType = BaseGameObject::FromAE(data.field_0_type);
+        d.mType = BaseGameObject::FromAE(data.mType);
         d.mTlvId = Guid::NewGuidFromTlvInfo(data.field_4_obj_id);
         d.mXPos = data.field_8_xpos;
         d.mYPos = data.field_C_ypos;
@@ -3073,7 +3073,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(RockSaveState, 0x38);
 
 struct ScrabSaveState final
 {
-    AETypes field_0_type;
+    AETypes mType;
     s16 field_2_padding;
     s32 field_4_obj_id;
     FP field_8_xpos;
@@ -3148,7 +3148,7 @@ struct ScrabSaveState final
     static ::ScrabSaveState From(const ScrabSaveState& data)
     {
         ::ScrabSaveState d;
-        d.field_0_type = BaseGameObject::FromAE(data.field_0_type);
+        d.mType = BaseGameObject::FromAE(data.mType);
         d.field_4_obj_id = Guid::NewGuidFromTlvInfo(data.field_4_obj_id);
         d.field_8_xpos = data.field_8_xpos;
         d.field_C_ypos = data.field_C_ypos;
@@ -3206,7 +3206,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(ScrabSaveState, 0xA0);
 
 struct ScrabSpawnerSaveState final
 {
-    AETypes field_0_type;
+    AETypes mType;
     s16 field_2_pad;
     s32 field_4_tlvInfo;
     enum class ScrabSpawnerStates : s32
@@ -3220,7 +3220,7 @@ struct ScrabSpawnerSaveState final
     static ::ScrabSpawnerSaveState From(const ScrabSpawnerSaveState& data)
     {
         ::ScrabSpawnerSaveState d;
-        d.field_0_type = BaseGameObject::FromAE(data.field_0_type);
+        d.mType = BaseGameObject::FromAE(data.mType);
         d.field_4_tlvInfo = Guid::NewGuidFromTlvInfo(data.field_4_tlvInfo);
         d.field_8_state = From(data.field_8_state);
         d.field_C_spawned_scrab_id = Guid::NewGuidFromTlvInfo(data.field_C_spawned_scrab_id);
@@ -3258,7 +3258,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(SlamDoorSaveState, 8);
 
 struct SligSaveState final
 {
-    AETypes field_0_type;
+    AETypes mType;
     s16 field_2_padding;
     FP field_4_xpos;
     FP field_8_ypos;
@@ -3335,7 +3335,7 @@ struct SligSaveState final
     static ::SligSaveState From(const SligSaveState& data)
     {
         ::SligSaveState d;
-        d.mType = BaseGameObject::FromAE(data.field_0_type);
+        d.mType = BaseGameObject::FromAE(data.mType);
         d.field_4_xpos = data.field_4_xpos;
         d.field_8_ypos = data.field_8_ypos;
         d.field_C_velx = data.field_C_velx;
@@ -3362,11 +3362,11 @@ struct SligSaveState final
         d.field_42_brain_sub_state = data.field_42_brain_sub_state;
         d.field_44_pitch_min = data.field_44_pitch_min;
         d.field_48_timer = data.field_48_timer;
-        d.field_4C_return_to_previous_motion = data.field_4C_return_to_previous_motion;
-        d.field_4E_checked_if_off_screen = data.field_4E_checked_if_off_screen;
+        d.mReturnToPreviousMotion = data.field_4C_return_to_previous_motion;
+        d.mCheckedIfOffScreen = data.field_4E_checked_if_off_screen;
         d.field_50_input = data.field_50_input;
         d.field_54_timer = data.field_54_timer;
-        d.field_58_falling_velx_scale_factor = data.field_58_falling_velx_scale_factor;
+        d.mFallingVelxScaleFactor = data.field_58_falling_velx_scale_factor;
         d.field_5C_tlvInfo = Guid::NewGuidFromTlvInfo(data.field_5C_tlvInfo);
         d.field_60_res_idx = data.field_60_res_idx;
         d.field_62_shot_motion = data.field_62_shot_motion;

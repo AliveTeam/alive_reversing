@@ -120,11 +120,11 @@ struct SligSaveState final
     s16 field_42_brain_sub_state;
     s16 field_44_pitch_min;
     s32 field_48_timer;
-    s16 field_4C_return_to_previous_motion;
-    s16 field_4E_checked_if_off_screen;
+    bool mReturnToPreviousMotion;
+    bool mCheckedIfOffScreen;
     s16 field_50_input;
     s32 field_54_timer;
-    FP field_58_falling_velx_scale_factor;
+    FP mFallingVelxScaleFactor;
     Guid field_5C_tlvInfo;
     s16 field_60_res_idx;
     s16 field_62_shot_motion;
@@ -235,11 +235,13 @@ public:
     void Motion_50_LiftDown();
     void Motion_51_Beat();
 
-    s16 Brain_Death_0_4BBFB0();
-    s16 Brain_ReturnControlToAbeAndDie_1_4BC410();
-    s16 Brain_Possessed_2_4BBCF0();
-    s16 Brain_DeathDropDeath_3_4BC1E0();
-    s16 Brain_ListeningToGlukkon_4_4B9D20();
+    s16 Brain_Empty();
+    s16 Brain_0_Death();
+    s16 Brain_1_ReturnControlToAbeAndDie();
+    s16 Brain_2_Possessed();
+    s16 Brain_3_DeathDropDeath();
+
+    s16 Brain_4_ListeningToGlukkon();
     s16 Brain_ListeningToGlukkon_LostAttention();
     s16 Brain_ListeningToGlukkon_Shooting();
     s16 Brain_ListeningToGlukkon_StoppingOnLift(PlatformBase* pPlatformObj);
@@ -251,37 +253,31 @@ public:
     s16 Brain_ListenToGlukkon_IdleListen(BaseAliveGameObject* pGlukkonObj, PlatformBase* pPlatformObj);
     s16 Brain_ListenToGlukkon_GettingAttention(BaseAliveGameObject* pGlukkonObj);
 
-    s16 Brain_Empty_5_4B3220();
-    s16 Brain_Empty_6_4B3420();
-    s16 Brain_SpottedEnemy_7_4B3240();
-    s16 Brain_Empty_8_4B3120();
-    s16 Brain_Empty_9_4B3440();
-    s16 Brain_EnemyDead_10_4B3460();
-    s16 Brain_KilledEnemy_10_4B35C0();
-    s16 Brain_PanicTurning_12_4BC490();
-    s16 Brain_PanicRunning_13_4BC780();
-    s16 Brain_PanicYelling_14_4BCA70();
-    s16 Brain_Idle_15_4BD800();
-    s16 Brain_StopChasing_16_4BCE30();
-    s16 Brain_Chasing_17_4BCBD0();
-    s16 Brain_StartChasing_18_4BCEB0();
-    s16 Brain_Turning_19_4BDDD0();
-    s16 Brain_StoppingNextToMudokon_20_4BF1E0();
-    s16 Brain_Walking_21_4BE0C0();
-    s16 Brain_GetAlertedTurn_22_4BE990();
-    s16 Brain_GetAlerted_23_4BEC40();
-    s16 Brain_BeatingUp_24_4BF2B0();
-    s16 Brain_DiscussionWhat_25_4BF380();
-    s16 Brain_Empty_26_4BF620();
-    s16 Brain_Empty_27_4BF600();
-    s16 Brain_ZShooting_28_4BFA70();
-    s16 Brain_Shooting_29_4BF750();
-    s16 Brain_ZSpottedEnemy_30_4BFA30();
-    s16 Brain_WakingUp_31_4B9390();
-    s16 Brain_Inactive_32_4B9430();
-    s16 Brain_Paused_33_4B8DD0();
-    s16 Brain_Sleeping_34_4B9170();
-    s16 Brain_ChaseAndDisappear_35_4BF640();
+    s16 Brain_7_SpottedEnemy();
+    s16 Brain_10_EnemyDead();
+    s16 Brain_11_KilledEnemy();
+    s16 Brain_12_PanicTurning();
+    s16 Brain_13_PanicRunning();
+    s16 Brain_14_PanicYelling();
+    s16 Brain_15_Idle();
+    s16 Brain_16_StopChasing();
+    s16 Brain_17_Chasing();
+    s16 Brain_18_StartChasing();
+    s16 Brain_19_Turning();
+    s16 Brain_20_StoppingNextToMudokon();
+    s16 Brain_21_Walking();
+    s16 Brain_22_GetAlertedTurn();
+    s16 Brain_23_GetAlerted();
+    s16 Brain_24_BeatingUp();
+    s16 Brain_25_DiscussionWhat();
+    s16 Brain_28_ZShooting();
+    s16 Brain_29_Shooting();
+    s16 Brain_30_ZSpottedEnemy();
+    s16 Brain_31_WakingUp();
+    s16 Brain_32_Inactive();
+    s16 Brain_33_Paused();
+    s16 Brain_34_Sleeping();
+    s16 Brain_35_ChaseAndDisappear();
 
 private:
     void Init();
@@ -362,13 +358,12 @@ public:
 private:
     Guid field_118_tlvInfo;
     s16 field_11E_pitch_min = 0;
-    s32 field_120_timer = 0;
-    s16 field_124_return_to_previous_motion = 0;
-    s16 field_126_checked_if_off_screen = 0;
+    s32 field_120_timer = 0; // this timer has multiple meanings
+    bool mReturnToPreviousMotion = false;
+    bool mCheckedIfOffScreen = false;
     s32 mInput = 0;
-    s32 field_12C_timer = 0;
-    FP field_130_falling_velx_scale_factor = {};
-    //s16 field_134_res_idx = 0;
+    s32 field_12C_timer = 0; // this timer has multiple meanings
+    FP mFallingVelxScaleFactor = {};
     s16 field_136_shot_motion = 0;
     PSX_RECT field_138_zone_rect = {};
     s32 field_14C_death_by_being_shot_timer = 0;

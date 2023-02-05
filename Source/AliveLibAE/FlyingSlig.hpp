@@ -48,7 +48,7 @@ enum class SligSpeak : s8;
 
 struct FlyingSligSaveState final
 {
-    ReliveTypes field_0_type;
+    ReliveTypes mType;
     FP field_4_xpos;
     FP field_8_ypos;
     FP field_C_velx;

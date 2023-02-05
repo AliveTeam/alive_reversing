@@ -70,7 +70,7 @@ enum class GameSpeakEvents : s16;
 
 struct ScrabSaveState final
 {
-    ReliveTypes field_0_type;
+    ReliveTypes mType;
     Guid field_4_obj_id;
     FP field_8_xpos;
     FP field_C_ypos;

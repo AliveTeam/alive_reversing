@@ -360,7 +360,7 @@ s32 Scrab::VGetSaveState(u8* pSaveBuffer)
 
     auto pState = reinterpret_cast<ScrabSaveState*>(pSaveBuffer);
 
-    pState->field_0_type = ReliveTypes::eScrab;
+    pState->mType = ReliveTypes::eScrab;
     pState->field_4_obj_id = mBaseGameObjectTlvInfo;
 
     pState->field_8_xpos = mXPos;

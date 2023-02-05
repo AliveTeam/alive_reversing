@@ -668,7 +668,7 @@ s32 MineCar::VGetSaveState(u8* pSaveBuffer)
 {
     auto pState = reinterpret_cast<MineCarSaveState*>(pSaveBuffer);
 
-    pState->field_0_type = ReliveTypes::eMineCar;
+    pState->mType = ReliveTypes::eMineCar;
 
     pState->field_4_xpos = mXPos;
     pState->field_8_ypos = mYPos;

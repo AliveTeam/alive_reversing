@@ -11,7 +11,7 @@ enum class ScrabSpawnerStates : s32
 
 struct ScrabSpawnerSaveState final
 {
-    ReliveTypes field_0_type;
+    ReliveTypes mType;
     s16 field_2_pad;
     Guid field_4_tlvInfo;
     ScrabSpawnerStates field_8_state;

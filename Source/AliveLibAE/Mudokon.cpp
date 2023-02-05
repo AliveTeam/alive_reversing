@@ -820,7 +820,7 @@ s32 Mudokon::VGetSaveState(u8* pSaveBuffer)
 
     auto pState = reinterpret_cast<MudokonSaveState*>(pSaveBuffer);
 
-    pState->field_0_type = ReliveTypes::eRingOrLiftMud;
+    pState->mType = ReliveTypes::eRingOrLiftMud;
 
     pState->field_4_xpos = mXPos;
     pState->field_8_ypos = mYPos;

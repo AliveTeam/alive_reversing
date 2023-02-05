@@ -123,7 +123,7 @@ s32 FlyingSligSpawner::VGetSaveState(u8* pSaveBuffer)
 {
     auto pSaveState = reinterpret_cast<FlyingSligSpawnerSaveState*>(pSaveBuffer);
 
-    pSaveState->field_0_type = ReliveTypes::eFlyingSligSpawner;
+    pSaveState->mType = ReliveTypes::eFlyingSligSpawner;
     pSaveState->field_4_tlvInfo = mTlvId;
     pSaveState->field_8_bSpawned = field_3C_bSpawned;
     pSaveState->field_C_spawned_slig_obj_id = Guid{};

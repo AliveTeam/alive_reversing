@@ -246,7 +246,7 @@ public:
     s16 Brain_WakingUp();
     s16 Brain_Inactive();
     s16 Brain_Possessed();
-    s16 Brain_Death_46C3A0();
+    s16 Brain_Death();
     s16 Brain_DeathDropDeath();
     s16 Brain_ReturnControlToAbeAndDie(); // just unpossess?
     s16 Brain_PanicTurning();
@@ -278,13 +278,13 @@ public:
 
     s16 mBrainSubState = 0;
     s16 mGameSpeakPitchMin = 0;
-    s32 field_114_timer = 0;
-    s16 mReturnToPreviousMotion = 0;
-    s16 field_120_checked_if_off_screen = 0;
-    s16 field_126_input = 0;
-    s32 field_128_timer = 0;
-    FP field_12C_falling_velx_scale_factor = {};
-    s16 field_130_game_ender_pause_time = 0;
+    s32 field_114_timer = 0; // this timer has multiple meanings
+    bool mReturnToPreviousMotion = false;
+    bool mCheckedIfOffScreen = false;
+    s16 mInput = 0;
+    s32 field_128_timer = 0; // this timer has multiple meanings
+    FP mFallingVelxScaleFactor = {};
+    s16 mGameEnderPauseTime = 0;
     Guid field_134_tlvInfo;
     s16 field_138_res_idx = 0;
     s16 field_13A_shot_motion = 0;

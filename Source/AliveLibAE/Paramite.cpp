@@ -368,7 +368,7 @@ s32 Paramite::VGetSaveState(u8* pSaveBuffer)
 
     auto pState = reinterpret_cast<ParamiteSaveState*>(pSaveBuffer);
 
-    pState->field_0_type = ReliveTypes::eParamite;
+    pState->mType = ReliveTypes::eParamite;
     pState->field_4_xpos = mXPos;
     pState->field_8_ypos = mYPos;
     pState->field_C_velx = mVelX;
