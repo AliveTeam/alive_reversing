@@ -134,12 +134,55 @@ std::vector<u8> BasePlayer::ReadBuffer()
     return tmp;
 }
 
+static const char_type* RecordTypeString(RecordTypes type)
+{
+    switch (type)
+    {
+        case RecordTypes::FrameCounter:
+            return "FrameCounter";
+
+        case RecordTypes::ObjectCounter:
+            return "ObjectCounter";
+
+        case RecordTypes::ObjectStates:
+            return "ObjectStates";
+
+        case RecordTypes::AliveObjectStates:
+            return "AliveObjectStates";
+
+        case RecordTypes::Rng:
+            return "Rng";
+
+        case RecordTypes::SysTicks:
+            return "SysTicks";
+
+        case RecordTypes::SyncPoint:
+            return "SyncPoint";
+
+        case RecordTypes::InputType:
+            return "InputType";
+
+        case RecordTypes::EventPoint:
+            return "EventPoint";
+
+        case RecordTypes::Buffer:
+            return "Buffer";
+
+        default:
+            ALIVE_FATAL("Unknown record type %d", static_cast<u32>(type));
+    }
+}
+
 void BasePlayer::ValidateNextTypeIs(RecordTypes type)
 {
     const u32 actualType = mFile.ReadU32();
+
+    auto actualTypeString = RecordTypeString(static_cast<RecordTypes>(actualType));
+    auto currentTypeString = RecordTypeString(type);
+
     if (actualType != type)
     {
-        ALIVE_FATAL("Wrong record type. Expected %d but got %d", static_cast<u32>(type), actualType);
+        ALIVE_FATAL("Wrong record type. Read %s from file but got %s", actualTypeString, currentTypeString);
     }
 }
 
