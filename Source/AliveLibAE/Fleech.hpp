@@ -8,6 +8,30 @@ namespace relive
     struct Path_Hoist;
 }
 
+enum class eFleechMotions
+{
+    eNone_m1 = -1,
+    Motion_0_Sleeping,
+    Motion_1_WakingUp,
+    Motion_2_Unknown,
+    Motion_3_Idle,
+    Motion_4_Crawl,
+    Motion_5_PatrolCry,
+    Motion_6_Knockback,
+    Motion_7_StopCrawling,
+    Motion_8_StopMidCrawlCycle,
+    Motion_9_Fall,
+    Motion_10_Land,
+    Motion_11_RaiseHead,
+    Motion_12_Climb,
+    Motion_13_SettleOnGround,
+    Motion_14_ExtendTongueFromEnemy,
+    Motion_15_RetractTongueFromEnemey,
+    Motion_16_DeathByFalling,
+    Motion_17_SleepingWithTongue,
+    Motion_18_Consume
+};
+
 enum eFleechBrains
 {
     eBrain_0_Patrol = 0,
@@ -40,7 +64,6 @@ enum class FleechSound : u8
 struct FleechSaveState final
 {
     ReliveTypes mType;
-    s16 field_2;
     Guid field_4_obj_id;
     FP mXPos;
     FP mYPos;
@@ -53,20 +76,19 @@ struct FleechSaveState final
     s16 mGreen;
     s16 mBlue;
     bool mFlipX;
-    s16 field_28_current_motion;
+    eFleechMotions field_28_current_motion;
     s16 field_2A_anim_current_frame;
     s16 field_2C_frame_change_counter;
     bool mRender;
     bool mDrawable;
     FP mHealth;
-    s16 mCurrentMotion;
-    s16 mNextMotion;
+    eFleechMotions mCurrentMotion;
+    eFleechMotions mNextMotion;
     s16 mLastLineYPos;
     s16 mCollisionLineType;
     Guid mPlatformId;
     Guid mTlvInfo;
     Guid field_44_obj_id;
-    s16 field_48_unused;
     s16 mTongueState;
     s16 mTongueSubState;
     s16 mEnemyXPos;
@@ -78,9 +100,9 @@ struct FleechSaveState final
     s16 field_5A;
     bool mTongueActive;
     bool mRenderTongue;
-    s16 field_5E_brain_state;
-    s16 field_60_state;
-    s16 field_62;
+    eFleechBrains mBrainState;
+    s16 mBrainSubState;
+    bool mReturnToPreviousMotion;
     s32 field_64_shrivel_timer;
     s8 field_68_fleech_random_idx;
     s8 field_69;
@@ -190,6 +212,15 @@ public:
     s16 Brain_3_Death();
 
 private:
+    eFleechMotions GetNextMotion() const
+    {
+        return static_cast<eFleechMotions>(mNextMotion);
+    }
+    eFleechMotions GetCurrentMotion() const
+    {
+        return static_cast<eFleechMotions>(mCurrentMotion);
+    }
+
     void RenderEx(PrimHeader** ot);
     s16 IsScrabOrParamiteNear(FP radius);
     void Init();
@@ -233,9 +264,9 @@ private:
     s16 mLostTargetTimeout = 0;
     s16 mPatrolRange = 0;
     Guid field_11C_obj_id = Guid{};
-    s16 mBrainState = eFleechBrains::eBrain_0_Patrol;
+    eFleechBrains mBrainState = eFleechBrains::eBrain_0_Patrol;
     u16 mBrainSubState = 0;
-    s16 field_128 = 0;
+    bool mReturnToPreviousMotion = false;
     s32 field_12C_shrivel_timer = 0;
     s16 field_130_bDidMapFollowMe = 0;
     FP field_138_velx_factor = {};

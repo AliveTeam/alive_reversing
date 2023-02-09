@@ -562,11 +562,40 @@ inline void from_json(const nlohmann::json& j, EvilFartSaveState& p)
     j.at("back_to_abe_timer").get_to(p.mBackToAbeTimer);
 }
 
+NLOHMANN_JSON_SERIALIZE_ENUM(eFleechMotions, {
+    {eFleechMotions::eNone_m1, "none"},
+    {eFleechMotions::Motion_0_Sleeping, "motion_sleeping"},
+    {eFleechMotions::Motion_1_WakingUp, "motion_waking_up"},
+    {eFleechMotions::Motion_2_Unknown, "motion_unknown"},
+    {eFleechMotions::Motion_3_Idle, "motion_idle"},
+    {eFleechMotions::Motion_4_Crawl, "motion_crawl"},
+    {eFleechMotions::Motion_5_PatrolCry, "motion_patrol_cry"},
+    {eFleechMotions::Motion_6_Knockback, "motion_knockback"},
+    {eFleechMotions::Motion_7_StopCrawling, "motion_stop_crawling"},
+    {eFleechMotions::Motion_8_StopMidCrawlCycle, "motion_stop_mid_crawl_cycle"},
+    {eFleechMotions::Motion_9_Fall, "motion_fall"},
+    {eFleechMotions::Motion_10_Land, "motion_land"},
+    {eFleechMotions::Motion_11_RaiseHead, "motion_raise_head"},
+    {eFleechMotions::Motion_12_Climb, "motion_climb"},
+    {eFleechMotions::Motion_13_SettleOnGround, "motion_settle_on_ground"},
+    {eFleechMotions::Motion_14_ExtendTongueFromEnemy, "motion_extend_tongue_from_enemy"},
+    {eFleechMotions::Motion_15_RetractTongueFromEnemey, "motion_retract_tongue_from_enemy"},
+    {eFleechMotions::Motion_16_DeathByFalling, "motion_death_by_falling"},
+    {eFleechMotions::Motion_17_SleepingWithTongue, "motion_sleeping_with_tongue"},
+    {eFleechMotions::Motion_18_Consume, "motion_consume"},
+})
+
+NLOHMANN_JSON_SERIALIZE_ENUM(eFleechBrains, {
+    {eFleechBrains::eBrain_0_Patrol, "brain_patrol"},
+    {eFleechBrains::eBrain_1_ChasingAbe, "brain_chasing_abe"},
+    {eFleechBrains::eBrain_2_Scared, "brain_scared"},
+    {eFleechBrains::eBrain_3_Death, "brain_death"},
+})
+
 inline void to_json(nlohmann::json& j, const FleechSaveState& p)
 {
     j = nlohmann::json{
         {"type", p.mType},
-        {"field_2", p.field_2},
         {"field_4_obj_id", p.field_4_obj_id},
         {"xpos", p.mXPos},
         {"ypos", p.mYPos},
@@ -603,9 +632,9 @@ inline void to_json(nlohmann::json& j, const FleechSaveState& p)
         {"field_5a", p.field_5A},
         {"tongue_active_flag", p.mTongueActive},
         {"render_flag", p.mRenderTongue},
-        {"brain_state", p.field_5E_brain_state},
-        {"state", p.field_60_state},
-        {"field_62", p.field_62},
+        {"brain_state", p.mBrainState},
+        {"state", p.mBrainSubState},
+        {"field_62", p.mReturnToPreviousMotion},
         {"shrivel_timer", p.field_64_shrivel_timer},
         {"fleech_random_idx", p.field_68_fleech_random_idx},
         {"field_69", p.field_69},
@@ -630,7 +659,6 @@ inline void to_json(nlohmann::json& j, const FleechSaveState& p)
         {"lost_target_timer", p.field_96_lost_target_timer},
         {"hoist_x", p.field_98_hoistX},
         {"hoist_y", p.field_9A_hoistY},
-        {"always_0", p.field_9C_always_0},
         {"angle", p.field_9E_angle},
         {"field_9f", p.field_9F},
         {"hoist_y_distance", p.field_A0_hoistY_distance},
@@ -651,7 +679,6 @@ inline void to_json(nlohmann::json& j, const FleechSaveState& p)
 inline void from_json(const nlohmann::json& j, FleechSaveState& p)
 {
     j.at("type").get_to(p.mType);
-    j.at("field_2").get_to(p.field_2);
     j.at("field_4_obj_id").get_to(p.field_4_obj_id);
     j.at("xpos").get_to(p.mXPos);
     j.at("ypos").get_to(p.mYPos);
@@ -688,9 +715,9 @@ inline void from_json(const nlohmann::json& j, FleechSaveState& p)
     j.at("field_5a").get_to(p.field_5A);
     j.at("tongue_active_flag").get_to(p.mTongueActive);
     j.at("render_flag").get_to(p.mRenderTongue);
-    j.at("brain_state").get_to(p.field_5E_brain_state);
-    j.at("state").get_to(p.field_60_state);
-    j.at("field_62").get_to(p.field_62);
+    j.at("brain_state").get_to(p.mBrainState);
+    j.at("state").get_to(p.mBrainSubState);
+    j.at("field_62").get_to(p.mReturnToPreviousMotion);
     j.at("shrivel_timer").get_to(p.field_64_shrivel_timer);
     j.at("fleech_random_idx").get_to(p.field_68_fleech_random_idx);
     j.at("field_69").get_to(p.field_69);
@@ -715,7 +742,6 @@ inline void from_json(const nlohmann::json& j, FleechSaveState& p)
     j.at("lost_target_timer").get_to(p.field_96_lost_target_timer);
     j.at("hoist_x").get_to(p.field_98_hoistX);
     j.at("hoist_y").get_to(p.field_9A_hoistY);
-    j.at("always_0").get_to(p.field_9C_always_0);
     j.at("angle").get_to(p.field_9E_angle);
     j.at("field_9f").get_to(p.field_9F);
     j.at("hoist_y_distance").get_to(p.field_A0_hoistY_distance);
@@ -876,6 +902,16 @@ inline void from_json(const nlohmann::json& j, FlyingSligSpawnerSaveState& p)
     j.at("spawned_slig_obj_id").get_to(p.field_C_spawned_slig_obj_id);
 }
 
+NLOHMANN_JSON_SERIALIZE_ENUM(GameEnderControllerStates, {
+    {GameEnderControllerStates::eInit_0, "init"},
+    {GameEnderControllerStates::eDetermineEnding_1, "determine_ending"},
+    {GameEnderControllerStates::eFinish_2, "finish"},
+    {GameEnderControllerStates::eBadEnding_3, "bad_ending"},
+    {GameEnderControllerStates::eGoodEnding_4, "good_ending"},
+    {GameEnderControllerStates::eAngelicEnding_5, "angelic_ending"},
+    {GameEnderControllerStates::eAngelicEndingCredits_6, "angelic_ending_credits"},
+    })
+
 inline void to_json(nlohmann::json& j, const GameEnderControllerSaveState& p)
 {
     j = nlohmann::json{
@@ -885,16 +921,6 @@ inline void to_json(nlohmann::json& j, const GameEnderControllerSaveState& p)
         {"state", p.mState},
     };
 }
-
-NLOHMANN_JSON_SERIALIZE_ENUM(GameEnderControllerStates, {
-    {GameEnderControllerStates::eInit_0, "init"},
-    {GameEnderControllerStates::eDetermineEnding_1, "determine_ending"},
-    {GameEnderControllerStates::eFinish_2, "finish"},
-    {GameEnderControllerStates::eBadEnding_3, "bad_ending"},
-    {GameEnderControllerStates::eGoodEnding_4, "good_ending"},
-    {GameEnderControllerStates::eAngelicEnding_5, "angelic_ending"},
-    {GameEnderControllerStates::eAngelicEndingCredits_6, "angelic_ending_credits"},
-})
 
 inline void from_json(const nlohmann::json& j, GameEnderControllerSaveState& p)
 {
@@ -1108,7 +1134,6 @@ NLOHMANN_JSON_SERIALIZE_ENUM(GlukkonSpeak, {
     {GlukkonSpeak::Laugh_7, "laugh"},
     {GlukkonSpeak::KillEm_8, "kill_em"},
     {GlukkonSpeak::Unused_9, "unused_9"},
-    {GlukkonSpeak::Unused_10, "unused_10"},
     {GlukkonSpeak::What_11, "what"},
 })
 
@@ -1557,9 +1582,7 @@ NLOHMANN_JSON_SERIALIZE_ENUM(GameSpeakEvents, {
     {GameSpeakEvents::eNone_m1, "none"},
     {GameSpeakEvents::eUnknown_0, "unknown_0"},
     {GameSpeakEvents::eUnknown_1, "unknown_1"},
-    {GameSpeakEvents::eUnknown_2, "unknown_2"},
     {GameSpeakEvents::eAbe_Fart_3, "fart"},
-    {GameSpeakEvents::eUnknown_4, "unknown_4"},
     {GameSpeakEvents::Slig_BS_5, "slig_bs"},
     {GameSpeakEvents::Slig_LookOut_6, "slig_look_out"},
     {GameSpeakEvents::Slig_BS2_7, "slig_bs2"},
@@ -1568,28 +1591,14 @@ NLOHMANN_JSON_SERIALIZE_ENUM(GameSpeakEvents, {
     {GameSpeakEvents::eAbe_FollowMe_10, "follow_me"},
     {GameSpeakEvents::eAbe_Anger_11, "anger"},
     {GameSpeakEvents::eAbe_Wait_12, "wait"},
-    {GameSpeakEvents::eUnknown_13, "unknown_13"},
-    {GameSpeakEvents::eUnknown_14, "unknown_14"},
-    {GameSpeakEvents::eUnknown_15, "unknown_15"},
-    {GameSpeakEvents::eUnknown_16, "unknown_16"},
-    {GameSpeakEvents::eUnknown_17, "unknown_17"},
-    {GameSpeakEvents::eUnknown_18, "unknown_18"},
-    {GameSpeakEvents::eUnknown_19, "unknown_19"},
-    {GameSpeakEvents::eUnknown_20, "unknown_20"},
     {GameSpeakEvents::eAbe_Work_21, "work"},
     {GameSpeakEvents::eAbe_StopIt_22, "stop_it"},
     {GameSpeakEvents::eAbe_AllYa_23, "allya"},
     {GameSpeakEvents::eAbe_Sorry_24, "sorry"},
-    {GameSpeakEvents::eUnknown_25, "unknown_25"},
-    {GameSpeakEvents::eUnknown_26, "unknown_26"},
     {GameSpeakEvents::eSlig_Hi_27, "slig_hi"},
     {GameSpeakEvents::eSlig_HereBoy_28, "slig_here_boy"},
     {GameSpeakEvents::eSlig_GetEm_29, "slig_get_em"},
-    {GameSpeakEvents::eUnknown_30, "unknown_30"},
     {GameSpeakEvents::eSlig_Freeze_31, "slig_freeze"},
-    {GameSpeakEvents::eUnknown_32, "unknown_32"},
-    {GameSpeakEvents::eUnknown_33, "unknown_33"},
-    {GameSpeakEvents::eUnknown_34, "unknown_34"},
     {GameSpeakEvents::eGlukkon_None_35, "unknown_35"},
     {GameSpeakEvents::eGlukkon_Hey_36, "glukkon_hey"},
     {GameSpeakEvents::eGlukkon_DoIt_37, "glukkon_do_it"},
@@ -1601,7 +1610,6 @@ NLOHMANN_JSON_SERIALIZE_ENUM(GameSpeakEvents, {
     {GameSpeakEvents::eGlukkon_Laugh_43, "glukkon_laugh"},
     {GameSpeakEvents::eGlukkon_KillEm_44, "glukkon_kill_em"},
     {GameSpeakEvents::eGlukkon_Unknown_45, "glukkon_unknown_45"},
-    {GameSpeakEvents::Glukkon_Unknown_46, "glukkon_unknown_46"},
     {GameSpeakEvents::eGlukkon_What_47, "glukkon_what"},
     {GameSpeakEvents::eParamite_Howdy_48, "paramite_howdy"},
     {GameSpeakEvents::eParamite_Stay_49, "paramite_stay"},

@@ -216,6 +216,85 @@ enum class GameSpeakEvents : s16
     Scrab_Shriek_54 = 54,
 };
 
+enum eLineTypes : s16
+{
+    eNone_m1 = -1,
+    eFloor_0 = 0,
+    eWallLeft_1 = 1,
+    eWallRight_2 = 2,
+    eCeiling_3 = 3,
+    eBackgroundFloor_4 = 4,
+    eBackgroundWallLeft_5 = 5,
+    eBackgroundWallRight_6 = 6,
+    eBackgroundCeiling_7 = 7,
+    eTrackLine_8 = 8,
+    eArt_9 = 9,
+    eBulletWall_10 = 10,
+    eMineCarFloor_11 = 11,
+    eMineCarWall_12 = 12,
+    eMineCarCeiling_13 = 13,
+    eBackgroundMineCarFloor_14 = 14,
+    eBackgroundMineCarWall_15 = 15,
+    eBackgroundMineCarCeiling_16 = 16,
+    eFlyingObjectWall_17 = 17,
+    eBackgroundFlyingObjectWall_18 = 18,
+
+    eDynamicCollision_32 = 32,
+    eBackgroundDynamicCollision_36 = 36,
+};
+
+static ::eLineTypes From(const eLineTypes type)
+{
+    switch (type)
+    {
+        case eLineTypes::eNone_m1:
+            return ::eLineTypes::eNone_m1;
+        case eLineTypes::eFloor_0:
+            return ::eLineTypes::eFloor_0;
+        case eLineTypes::eWallLeft_1:
+            return ::eLineTypes::eWallLeft_1;
+        case eLineTypes::eWallRight_2:
+            return ::eLineTypes::eWallRight_2;
+        case eLineTypes::eCeiling_3:
+            return ::eLineTypes::eCeiling_3;
+        case eLineTypes::eBackgroundFloor_4:
+            return ::eLineTypes::eBackgroundFloor_4;
+        case eLineTypes::eBackgroundWallLeft_5:
+            return ::eLineTypes::eBackgroundWallLeft_5;
+        case eLineTypes::eBackgroundWallRight_6:
+            return ::eLineTypes::eBackgroundWallRight_6;
+        case eLineTypes::eBackgroundCeiling_7:
+            return ::eLineTypes::eBackgroundCeiling_7;
+        case eLineTypes::eTrackLine_8:
+            return ::eLineTypes::eTrackLine_8;
+        case eLineTypes::eArt_9:
+            return ::eLineTypes::eArt_9;
+        case eLineTypes::eBulletWall_10:
+            return ::eLineTypes::eBulletWall_10;
+        case eLineTypes::eMineCarFloor_11:
+            return ::eLineTypes::eMineCarFloor_11;
+        case eLineTypes::eMineCarWall_12:
+            return ::eLineTypes::eMineCarWall_12;
+        case eLineTypes::eMineCarCeiling_13:
+            return ::eLineTypes::eMineCarCeiling_13;
+        case eLineTypes::eBackgroundMineCarFloor_14:
+            return ::eLineTypes::eBackgroundMineCarFloor_14;
+        case eLineTypes::eBackgroundMineCarWall_15:
+            return ::eLineTypes::eBackgroundMineCarWall_15;
+        case eLineTypes::eBackgroundMineCarCeiling_16:
+            return ::eLineTypes::eBackgroundMineCarCeiling_16;
+        case eLineTypes::eFlyingObjectWall_17:
+            return ::eLineTypes::eFlyingObjectWall_17;
+        case eLineTypes::eBackgroundFlyingObjectWall_18:
+            return ::eLineTypes::eBackgroundFlyingObjectWall_18;
+        case eLineTypes::eDynamicCollision_32:
+            return ::eLineTypes::eDynamicCollision_32;
+        case eLineTypes::eBackgroundDynamicCollision_36:
+            return ::eLineTypes::eBackgroundDynamicCollision_36;
+    }
+    ALIVE_FATAL("Bad line type value");
+}
+
 static ::GameSpeakEvents From(const GameSpeakEvents event)
 {
     switch (event)
@@ -972,6 +1051,38 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(EvilFartSaveState, 60);
 
 struct FleechSaveState final
 {
+    enum class eFleechMotions : s16
+    {
+        eNone_m1 = -1,
+        Motion_0_Sleeping,
+        Motion_1_WakingUp,
+        Motion_2_Unknown,
+        Motion_3_Idle,
+        Motion_4_Crawl,
+        Motion_5_PatrolCry,
+        Motion_6_Knockback,
+        Motion_7_StopCrawling,
+        Motion_8_StopMidCrawlCycle,
+        Motion_9_Fall,
+        Motion_10_Land,
+        Motion_11_RaiseHead,
+        Motion_12_Climb,
+        Motion_13_SettleOnGround,
+        Motion_14_ExtendTongueFromEnemy,
+        Motion_15_RetractTongueFromEnemey,
+        Motion_16_DeathByFalling,
+        Motion_17_SleepingWithTongue,
+        Motion_18_Consume
+    };
+
+    enum class eFleechBrains : s16
+    {
+        eBrain_0_Patrol = 0,
+        eBrain_1_ChasingAbe = 1,
+        eBrain_2_Scared = 2,
+        eBrain_3_Death = 3
+    };
+
     AETypes mType;
     s16 field_2;
     s32 field_4_obj_id;
@@ -982,20 +1093,20 @@ struct FleechSaveState final
     s16 mPathNumber;
     LevelIds mLvlNumber;
     FP mSpriteScale;
-    s16 mRingRed;
-    s16 mRingGreen;
-    s16 mRingBlue;
+    s16 mRed;
+    s16 mGreen;
+    s16 mBlue;
     s16 field_26_bFlipX;
-    s16 field_28_current_motion;
+    eFleechMotions field_28_current_motion;
     s16 field_2A_anim_current_frame;
     s16 field_2C_frame_change_counter;
     s8 field_2E_bRender;
     s8 field_2F_bDrawable;
     FP mHealth;
-    s16 mCurrentMotion;
-    s16 mNextMotion;
+    eFleechMotions mCurrentMotion;
+    eFleechMotions mNextMotion;
     s16 mLastLineYPos;
-    s16 mCollisionLineType;
+    eLineTypes mCollisionLineType;
     s32 mPlatformId;
     s32 mTlvInfo;
     s32 field_44_obj_id;
@@ -1011,9 +1122,9 @@ struct FleechSaveState final
     s16 field_5A;
     s8 field_5C_tongue_active_flag;
     s8 field_5D_render_flag;
-    s16 field_5E_brain_state;
-    s16 field_60_state;
-    s16 field_62;
+    eFleechBrains mBrainState;
+    s16 mBrainSubState;
+    s16 mReturnToPreviousMotion;
     s32 field_64_shrivel_timer;
     s8 field_68_fleech_random_idx;
     s8 field_69;
@@ -1066,7 +1177,6 @@ struct FleechSaveState final
     {
         ::FleechSaveState d;
         d.mType = BaseGameObject::FromAE(data.mType);
-        d.field_2 = data.field_2;
         d.field_4_obj_id = Guid::NewGuidFromTlvInfo(data.field_4_obj_id);
         d.mXPos = data.mXPos;
         d.mYPos = data.mYPos;
@@ -1075,20 +1185,20 @@ struct FleechSaveState final
         d.mPathNumber = data.mPathNumber;
         d.mLvlNumber = MapWrapper::FromAESaveData(data.mLvlNumber);
         d.mSpriteScale = data.mSpriteScale;
-        d.mRed = data.mRingRed;
-        d.mGreen = data.mRingGreen;
-        d.mBlue = data.mRingBlue;
+        d.mRed = data.mRed;
+        d.mGreen = data.mGreen;
+        d.mBlue = data.mBlue;
         d.mFlipX = data.field_26_bFlipX;
-        d.field_28_current_motion = data.field_28_current_motion;
+        d.field_28_current_motion = From(data.field_28_current_motion);
         d.field_2A_anim_current_frame = data.field_2A_anim_current_frame;
         d.field_2C_frame_change_counter = data.field_2C_frame_change_counter;
         d.mRender = data.field_2E_bRender;
         d.mDrawable = data.field_2F_bDrawable;
         d.mHealth = data.mHealth;
-        d.mCurrentMotion = data.mCurrentMotion;
-        d.mNextMotion = data.mNextMotion;
+        d.mCurrentMotion = From(data.mCurrentMotion);
+        d.mNextMotion = From(data.mNextMotion);
         d.mLastLineYPos = data.mLastLineYPos;
-        d.mCollisionLineType = data.mCollisionLineType;
+        d.mCollisionLineType = AEData::From(data.mCollisionLineType);
         d.mPlatformId = Guid::NewGuidFromTlvInfo(data.mPlatformId);
         d.mTlvInfo = Guid::NewGuidFromTlvInfo(data.mTlvInfo);
         d.field_44_obj_id = Guid::NewGuidFromTlvInfo(data.field_44_obj_id);
@@ -1103,9 +1213,9 @@ struct FleechSaveState final
         d.field_5A = data.field_5A;
         d.mTongueActive = data.field_5C_tongue_active_flag;
         d.mRenderTongue = data.field_5D_render_flag;
-        d.field_5E_brain_state = data.field_5E_brain_state;
-        d.field_60_state = data.field_60_state;
-        d.field_62 = data.field_62;
+        d.mBrainState = From(data.mBrainState);
+        d.mBrainSubState = data.mBrainSubState;
+        d.mReturnToPreviousMotion = data.mReturnToPreviousMotion;
         d.field_64_shrivel_timer = data.field_64_shrivel_timer;
         d.field_68_fleech_random_idx = data.field_68_fleech_random_idx;
         d.field_69 = data.field_69;
@@ -1145,6 +1255,72 @@ struct FleechSaveState final
         d.mPersistant = data.mFleechStateFlags.Get(FleechStateFlags::ePersistant);
         d.field_B2 = data.field_B2;
         return d;
+    }
+
+    static ::eFleechMotions From(const eFleechMotions motion)
+    {
+        switch (motion)
+        {
+            case eFleechMotions::eNone_m1:
+                return ::eFleechMotions::eNone_m1;
+            case eFleechMotions::Motion_0_Sleeping:
+                return ::eFleechMotions::Motion_0_Sleeping;
+            case eFleechMotions::Motion_1_WakingUp:
+                return ::eFleechMotions::Motion_1_WakingUp;
+            case eFleechMotions::Motion_2_Unknown:
+                return ::eFleechMotions::Motion_2_Unknown;
+            case eFleechMotions::Motion_3_Idle:
+                return ::eFleechMotions::Motion_3_Idle;
+            case eFleechMotions::Motion_4_Crawl:
+                return ::eFleechMotions::Motion_4_Crawl;
+            case eFleechMotions::Motion_5_PatrolCry:
+                return ::eFleechMotions::Motion_5_PatrolCry;
+            case eFleechMotions::Motion_6_Knockback:
+                return ::eFleechMotions::Motion_6_Knockback;
+            case eFleechMotions::Motion_7_StopCrawling:
+                return ::eFleechMotions::Motion_7_StopCrawling;
+            case eFleechMotions::Motion_8_StopMidCrawlCycle:
+                return ::eFleechMotions::Motion_8_StopMidCrawlCycle;
+            case eFleechMotions::Motion_9_Fall:
+                return ::eFleechMotions::Motion_9_Fall;
+            case eFleechMotions::Motion_10_Land:
+                return ::eFleechMotions::Motion_10_Land;
+            case eFleechMotions::Motion_11_RaiseHead:
+                return ::eFleechMotions::Motion_11_RaiseHead;
+            case eFleechMotions::Motion_12_Climb:
+                return ::eFleechMotions::Motion_12_Climb;
+            case eFleechMotions::Motion_13_SettleOnGround:
+                return ::eFleechMotions::Motion_13_SettleOnGround;
+            case eFleechMotions::Motion_14_ExtendTongueFromEnemy:
+                return ::eFleechMotions::Motion_14_ExtendTongueFromEnemy;
+            case eFleechMotions::Motion_15_RetractTongueFromEnemey:
+                return ::eFleechMotions::Motion_15_RetractTongueFromEnemey;
+            case eFleechMotions::Motion_16_DeathByFalling:
+                return ::eFleechMotions::Motion_16_DeathByFalling;
+            case eFleechMotions::Motion_17_SleepingWithTongue:
+                return ::eFleechMotions::Motion_17_SleepingWithTongue;
+            case eFleechMotions::Motion_18_Consume:
+                return ::eFleechMotions::Motion_18_Consume;
+            default:
+                LOG_WARNING("Bad fleech motion value %d", static_cast<u32>(motion));
+                return ::eFleechMotions::Motion_0_Sleeping;
+        }
+    }
+
+    static ::eFleechBrains From(const eFleechBrains brain)
+    {
+        switch (brain)
+        {
+            case eFleechBrains::eBrain_0_Patrol:
+                return ::eFleechBrains::eBrain_0_Patrol;
+            case eFleechBrains::eBrain_1_ChasingAbe:
+                return ::eFleechBrains::eBrain_1_ChasingAbe;
+            case eFleechBrains::eBrain_2_Scared:
+                return ::eFleechBrains::eBrain_2_Scared;
+            case eFleechBrains::eBrain_3_Death:
+                return ::eFleechBrains::eBrain_3_Death;
+        }
+        ALIVE_FATAL("Bad fleech brain value");
     }
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(FleechSaveState, 0xB4);
@@ -1681,8 +1857,7 @@ struct GlukkonSaveState final
     u16 field_34_current_motion;
     u16 field_36_next_motion;
     s16 field_38_last_line_ypos;
-    s8 field_3A_line_type;
-    u8 field_3B_padding;
+    s16 field_3A_line_type;
     s32 field_3C_padding;
     u16 field_40_bIsActiveChar;
     s16 field_42_padding;

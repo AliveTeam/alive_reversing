@@ -84,7 +84,7 @@ struct GlukkonSaveState final
     u16 mCurrentMotion2;
     u16 mNextMotion;
     s16 field_38_last_line_ypos;
-    s8 mLineType;
+    s16 mLineType;
     bool mIsActiveChar;
     Guid mTlvId;
     s32 field_48_brain_state_idx;

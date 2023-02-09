@@ -4,8 +4,9 @@
 #include "Psx.hpp"
 #include <vector>
 
-enum eLineTypes : u8
+enum eLineTypes : s16
 {
+    eNone_m1 = -1,
     eFloor_0 = 0,
     eWallLeft_1 = 1,
     eWallRight_2 = 2,
@@ -30,6 +31,34 @@ enum eLineTypes : u8
     eBackgroundDynamicCollision_36 = 36,
 };
 
+namespace OGData 
+{
+    enum eLineTypes : u8
+    {
+        eFloor_0 = 0,
+        eWallLeft_1 = 1,
+        eWallRight_2 = 2,
+        eCeiling_3 = 3,
+        eBackgroundFloor_4 = 4,
+        eBackgroundWallLeft_5 = 5,
+        eBackgroundWallRight_6 = 6,
+        eBackgroundCeiling_7 = 7,
+        eTrackLine_8 = 8,
+        eArt_9 = 9,
+        eBulletWall_10 = 10,
+        eMineCarFloor_11 = 11,
+        eMineCarWall_12 = 12,
+        eMineCarCeiling_13 = 13,
+        eBackgroundMineCarFloor_14 = 14,
+        eBackgroundMineCarWall_15 = 15,
+        eBackgroundMineCarCeiling_16 = 16,
+        eFlyingObjectWall_17 = 17,
+        eBackgroundFlyingObjectWall_18 = 18,
+
+        eDynamicCollision_32 = 32,
+        eBackgroundDynamicCollision_36 = 36,
+    };
+}
 
 class CollisionMask final
 {
@@ -117,7 +146,7 @@ class PathLineAO final
 {
 public:
     PSX_RECT mRect;
-    eLineTypes mLineType;
+    OGData::eLineTypes mLineType;
     s8 pad1;
     s8 pad2;
     s8 pad3;
@@ -131,7 +160,7 @@ class PathLineAE final
 {
 public:
     PSX_RECT mRect;
-    eLineTypes mLineType;
+    OGData::eLineTypes mLineType;
     s8 pad;
     s16 mPrevious;
     s16 mNext;

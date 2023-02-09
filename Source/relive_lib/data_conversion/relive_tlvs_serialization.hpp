@@ -22,6 +22,7 @@ static void from_json(const nlohmann::json& j, Guid& p)
 }
 
 NLOHMANN_JSON_SERIALIZE_ENUM(eLineTypes, {
+    {eLineTypes::eNone_m1, "none"},
     {eLineTypes::eFloor_0, "floor"},
     {eLineTypes::eWallLeft_1, "wall_left"},
     {eLineTypes::eWallRight_2, "wall_right"},
@@ -39,8 +40,8 @@ NLOHMANN_JSON_SERIALIZE_ENUM(eLineTypes, {
     {eLineTypes::eBackgroundMineCarFloor_14, "background_minecar_floor"},
     {eLineTypes::eBackgroundMineCarWall_15, "background_minecar_wall"},
     {eLineTypes::eBackgroundMineCarCeiling_16, "background_minecar_ceiling"},
-    {eLineTypes::eFlyingObjectWall_17, "flying_slig_ceiling"},
-    {eLineTypes::eBackgroundFlyingObjectWall_18, "background_flying_slig_ceiling"},
+    {eLineTypes::eFlyingObjectWall_17, "flying_object_wall"},
+    {eLineTypes::eBackgroundFlyingObjectWall_18, "background_flying_object_wall"},
     {eLineTypes::eDynamicCollision_32, "dynamic_collision"},
     {eLineTypes::eBackgroundDynamicCollision_36, "background_dynamic_collision"},
 })
