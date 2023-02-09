@@ -1454,7 +1454,7 @@ s32 Abe::VGetSaveState(u8* pSaveBuffer)
 {
     AbeSaveState* pSaveState = reinterpret_cast<AbeSaveState*>(pSaveBuffer);
 
-    pSaveState->mAEType = ReliveTypes::eAbe;
+    pSaveState->mType = ReliveTypes::eAbe;
     pSaveState->mXPos = mXPos;
     pSaveState->mYPos = mYPos;
     pSaveState->mVelX = mVelX;

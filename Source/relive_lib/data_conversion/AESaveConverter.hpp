@@ -45,6 +45,8 @@
 #include "../../AliveLibAE/Mudokon.hpp"
 #include "../../AliveLibAE/Scrab.hpp"
 
+#include "../../AliveLibAE/QuikSave.hpp"
+
 #include "nlohmann/json_fwd.hpp"
 
 // Any enum/struct in the AEData namespace is related to OG data and can't ever be changed
@@ -569,6 +571,8 @@ static ::MudSounds From(const MudSounds snd)
     {
         case MudSounds::eNone:
             return ::MudSounds::eNone;
+        case MudSounds::eEmpty_0:
+            return ::MudSounds::eEmpty_0;
         case MudSounds::eEmpty_1:
             return ::MudSounds::eEmpty_1;
         case MudSounds::eEmpty_2:
@@ -2004,7 +2008,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(GlukkonSaveState, 144);
 
 struct AbeSaveState final
 {
-    AETypes mAEType;
+    AETypes mType;
     s16 field_2_padding;
     FP mXPos;
     FP mYPos;
@@ -2120,7 +2124,7 @@ struct AbeSaveState final
     static ::AbeSaveState From(const AbeSaveState& data)
     {
         ::AbeSaveState d;
-        d.mAEType = BaseGameObject::FromAE(data.mAEType);
+        d.mType = BaseGameObject::FromAE(data.mType);
         d.mXPos = data.mXPos;
         d.mYPos = data.mYPos;
         d.mVelX = data.mVelX;
@@ -3032,7 +3036,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(ParamiteSaveState, 0x78);
 
 struct BirdPortalSaveState final
 {
-    AETypes mAEType;
+    AETypes mType;
     u8 mState;
     u8 mMudCountForShrykull;
     s32 mTlvInfo;
@@ -3040,7 +3044,7 @@ struct BirdPortalSaveState final
     static ::BirdPortalSaveState From(const BirdPortalSaveState& data)
     {
         ::BirdPortalSaveState d;
-        d.mAEType = BaseGameObject::FromAE(data.mAEType);
+        d.mType = BaseGameObject::FromAE(data.mType);
         d.mState = data.mState;
         d.mMudCountForShrykull = data.mMudCountForShrykull;
         d.mTlvInfo = Guid::NewGuidFromTlvInfo(data.mTlvInfo);
@@ -3937,6 +3941,115 @@ struct WorkWheelSaveState final
     }
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(WorkWheelSaveState, 0x10);
+
+struct SwitchStates final
+{
+    s8 mData[256];
+
+    static ::SwitchStates From(const SwitchStates& data)
+    {
+        ::SwitchStates d = {};
+        for (s16 i = 0; i < ALIVE_COUNTOF(data.mData); i++)
+        {
+            d.mData[i] = data.mData[i];
+        }
+        return d;
+    }
+};
+
+struct Quicksave_PSX_Header final
+{
+    u8 field_0_frame_1_name[128];
+    s8 field_80_frame_2_padding[128];
+    s8 field_100_frame_3_padding[128];
+    s8 field_180_frame_4_padding[128];
+};
+ALIVE_ASSERT_SIZEOF_ALWAYS(Quicksave_PSX_Header, 0x200);
+
+struct Quicksave_WorldInfo final
+{
+    s32 mGnFrame;
+    LevelIds field_4_level;
+    s16 field_6_path;
+    s16 field_8_cam;
+    s16 mSaveFileId;
+    s16 field_C_controlled_x;
+    s16 field_E_controlled_y;
+    s16 field_10_controlled_scale;
+    s16 field_12_saved_muds;
+    s16 field_14_killed_muds;
+    s8 field_16_muds_in_area;
+    s8 field_17_last_saved_killed_muds_per_path;
+    s8 field_18_saved_killed_muds_per_zulag[20];
+    s8 field_2C_current_zulag_number;
+    s8 field_2D_total_meter_bars;
+    s16 field_2E_use_alt_save_header;
+    s16 field_30_bDrawMeterCountDown;
+    s16 mVisitedBonewerkz;
+    s16 mVisitedBarracks;
+    s16 mVisitedFeecoEnder;
+    s32 mGasTimer;
+    s16 mAbeInvincible;
+    s16 field_3E_padding;
+
+    static ::Quicksave_WorldInfo From(const Quicksave_WorldInfo& data)
+    {
+        ::Quicksave_WorldInfo d;
+        d.mGnFrame = data.mGnFrame;
+        d.field_4_level = data.field_4_level;
+        d.field_6_path = data.field_6_path;
+        d.field_8_cam = data.field_8_cam;
+        d.mSaveFileId = data.mSaveFileId;
+        d.field_C_controlled_x = data.field_C_controlled_x;
+        d.field_E_controlled_y = data.field_E_controlled_y;
+        d.field_10_controlled_scale = data.field_10_controlled_scale;
+        d.field_12_saved_muds = data.field_12_saved_muds;
+        d.field_14_killed_muds = data.field_14_killed_muds;
+        d.field_16_muds_in_area = data.field_16_muds_in_area;
+        d.field_17_last_saved_killed_muds_per_path = data.field_17_last_saved_killed_muds_per_path;
+        for (s16 i = 0; i < ALIVE_COUNTOF(field_18_saved_killed_muds_per_zulag); i++)
+        {
+            d.field_18_saved_killed_muds_per_zulag[i] = data.field_18_saved_killed_muds_per_zulag[i];
+        }
+        d.field_2C_current_zulag_number = data.field_2C_current_zulag_number;
+        d.field_2D_total_meter_bars = data.field_2D_total_meter_bars;
+        d.field_2E_use_alt_save_header = data.field_2E_use_alt_save_header;
+        d.field_30_bDrawMeterCountDown = data.field_30_bDrawMeterCountDown;
+        d.mVisitedBonewerkz = data.mVisitedBonewerkz;
+        d.mVisitedBarracks = data.mVisitedBarracks;
+        d.mVisitedFeecoEnder = data.mVisitedFeecoEnder;
+        d.mGasTimer = data.mGasTimer;
+        d.mAbeInvincible = data.mAbeInvincible;
+        return d;
+    }
+};
+ALIVE_ASSERT_SIZEOF_ALWAYS(Quicksave_WorldInfo, 0x40);
+
+struct Quicksave final
+{
+    Quicksave_PSX_Header field_0_header;
+    s32 field_200_accumulated_obj_count;
+    Quicksave_WorldInfo field_204_world_info;
+    Quicksave_WorldInfo field_244_restart_path_world_info;
+    AbeSaveState field_284_restart_path_abe_state;
+    SwitchStates field_35C_restart_path_switch_states;
+    SwitchStates field_45C_switch_states;
+    u8 field_55C_objects_state_data[6820];
+
+    static ::Quicksave From(const Quicksave& data)
+    {
+        ::Quicksave d;
+        d.field_200_accumulated_obj_count = data.field_200_accumulated_obj_count;
+        d.field_204_world_info = Quicksave_WorldInfo::From(data.field_204_world_info);
+        d.field_244_restart_path_world_info = Quicksave_WorldInfo::From(data.field_244_restart_path_world_info);
+        d.field_284_restart_path_abe_state = AbeSaveState::From(data.field_284_restart_path_abe_state);
+        d.field_35C_restart_path_switch_states = SwitchStates::From(data.field_35C_restart_path_switch_states);
+        d.field_45C_switch_states = SwitchStates::From(data.field_45C_switch_states);
+        return d;
+    }
+};
+ALIVE_ASSERT_SIZEOF_ALWAYS(Quicksave, 0x2000);
+
 } // namespace AEData
 
 class AESaveConverter final

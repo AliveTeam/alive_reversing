@@ -3,6 +3,7 @@
 #include "../relive_lib/Function.hpp"
 #include "MainMenu.hpp"
 #include "../relive_lib/SwitchStates.hpp"
+#include "Abe.hpp"
 
 struct Quicksave_PSX_Header final
 {
@@ -41,7 +42,6 @@ struct Quicksave_WorldInfo final
     s16 mAbeInvincible;
     s16 field_3E_padding;
 };
-ALIVE_ASSERT_SIZEOF(Quicksave_WorldInfo, 0x40);
 
 struct Quicksave final
 {
@@ -49,7 +49,7 @@ struct Quicksave final
     s32 field_200_accumulated_obj_count;
     Quicksave_WorldInfo field_204_world_info;
     Quicksave_WorldInfo field_244_restart_path_world_info;
-    u8 field_284_restart_path_abe_state[216];
+    AbeSaveState field_284_restart_path_abe_state;
     SwitchStates field_35C_restart_path_switch_states;
     SwitchStates field_45C_switch_states;
     u8 field_55C_objects_state_data[6820];

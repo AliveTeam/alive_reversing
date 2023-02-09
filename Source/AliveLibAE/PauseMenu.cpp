@@ -419,7 +419,7 @@ void PauseMenu::RestartPath()
 
     gSwitchStates = gActiveQuicksaveData.field_35C_restart_path_switch_states;
 
-    Abe::CreateFromSaveState(gActiveQuicksaveData.field_284_restart_path_abe_state);
+    Abe::CreateFromSaveState(reinterpret_cast<const u8*>(&gActiveQuicksaveData.field_284_restart_path_abe_state));
     Quicksave_ReadWorldInfo(&gActiveQuicksaveData.field_244_restart_path_world_info);
 
     gMap.SetActiveCam(

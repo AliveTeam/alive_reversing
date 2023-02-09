@@ -33,6 +33,27 @@ inline void from_json(const nlohmann::json& j, FP& p)
     j.at("fp_value").get_to(p.fpValue);
 }
 
+NLOHMANN_JSON_SERIALIZE_ENUM(LevelIds, {
+    {LevelIds::eNone, "none"},
+    {LevelIds::eMenu_0, "menu"},
+    {LevelIds::eMines_1, "mines"},
+    {LevelIds::eNecrum_2, "necrum"},
+    {LevelIds::eMudomoVault_3, "mudomo_vault"},
+    {LevelIds::eMudancheeVault_4, "mudanchee_vault"},
+    {LevelIds::eFeeCoDepot_5, "feeco_depot"},
+    {LevelIds::eBarracks_6, "barracks"},
+    {LevelIds::eMudancheeVault_Ender_7, "mudanchee_vault_ender"},
+    {LevelIds::eBonewerkz_8, "bonewerkz"},
+    {LevelIds::eBrewery_9, "brewery"},
+    {LevelIds::eBrewery_Ender_10, "brewery_ender"},
+    {LevelIds::eMudomoVault_Ender_11, "mudomo_vault_ender"},
+    {LevelIds::eFeeCoDepot_Ender_12, "feeco_depot_ender"},
+    {LevelIds::eBarracks_Ender_13, "barracks_ender"},
+    {LevelIds::eBonewerkz_Ender_14, "bonewerkz_ender"},
+    {LevelIds::eTestLevel_15, "test_level"},
+    {LevelIds::eCredits_16, "credits"},
+})
+
 NLOHMANN_JSON_SERIALIZE_ENUM(Scale, {
     {Scale::Bg, "bg"},
     {Scale::Fg, "fg"},
@@ -1283,7 +1304,7 @@ NLOHMANN_JSON_SERIALIZE_ENUM(MudSounds, {
 inline void to_json(nlohmann::json& j, const AbeSaveState& p)
 {
     j = nlohmann::json{
-        {"ae_type", p.mAEType},
+        {"type", p.mType},
         {"xpos", p.mXPos},
         {"ypos", p.mYPos},
         {"velx", p.mVelX},
@@ -1365,7 +1386,7 @@ inline void to_json(nlohmann::json& j, const AbeSaveState& p)
 
 inline void from_json(const nlohmann::json& j, AbeSaveState& p)
 {
-    j.at("ae_type").get_to(p.mAEType);
+    j.at("type").get_to(p.mType);
     j.at("xpos").get_to(p.mXPos);
     j.at("ypos").get_to(p.mYPos);
     j.at("velx").get_to(p.mVelX);
@@ -2005,7 +2026,7 @@ inline void from_json(const nlohmann::json& j, ParamiteSaveState& p)
 inline void to_json(nlohmann::json& j, const BirdPortalSaveState& p)
 {
     j = nlohmann::json{
-        {"type", p.mAEType},
+        {"type", p.mType},
         {"state", p.mState},
         {"mud_count_for_shrykull", p.mMudCountForShrykull},
         {"tlv_info", p.mTlvInfo},
@@ -2014,7 +2035,7 @@ inline void to_json(nlohmann::json& j, const BirdPortalSaveState& p)
 
 inline void from_json(const nlohmann::json& j, BirdPortalSaveState& p)
 {
-    j.at("type").get_to(p.mAEType);
+    j.at("type").get_to(p.mType);
     j.at("state").get_to(p.mState);
     j.at("mud_count_for_shrykull").get_to(p.mMudCountForShrykull);
     j.at("tlv_info").get_to(p.mTlvInfo);
@@ -2672,4 +2693,92 @@ inline void from_json(const nlohmann::json& j, WorkWheelSaveState& p)
     j.at("tlv_id").get_to(p.mTlvId);
     j.at("turning_time").get_to(p.mTurningTime);
     j.at("state").get_to(p.mState);
+}
+
+inline void to_json(nlohmann::json& j, const Quicksave_WorldInfo& p)
+{
+    j = nlohmann::json{
+        {"gn_frame", p.mGnFrame},
+        {"level", p.field_4_level},
+        {"path", p.field_6_path},
+        {"cam", p.field_8_cam},
+        {"save_file_id", p.mSaveFileId},
+        {"controlled_x", p.field_C_controlled_x},
+        {"controlled_y", p.field_E_controlled_y},
+        {"controlled_scale", p.field_10_controlled_scale},
+        {"saved_muds", p.field_12_saved_muds},
+        {"killed_muds", p.field_14_killed_muds},
+        {"muds_in_area", p.field_16_muds_in_area},
+        {"last_saved_killed_muds_per_path", p.field_17_last_saved_killed_muds_per_path},
+        {"saved_killed_muds_per_zulag", p.field_18_saved_killed_muds_per_zulag}, // array
+        {"current_zulag_number", p.field_2C_current_zulag_number},
+        {"total_meter_bars", p.field_2D_total_meter_bars},
+        {"use_alt_save_header", p.field_2E_use_alt_save_header},
+        {"draw_meter_count_down", p.field_30_bDrawMeterCountDown},
+        {"visited_bonewerkz", p.mVisitedBonewerkz},
+        {"visited_barracks", p.mVisitedBarracks},
+        {"visited_feeco_ender", p.mVisitedFeecoEnder},
+        {"gas_timer", p.mGasTimer},
+        {"abe_invincible", p.mAbeInvincible},
+    };
+}
+
+inline void from_json(const nlohmann::json& j, Quicksave_WorldInfo& p)
+{
+    j.at("gn_frame").get_to(p.mGnFrame);
+    j.at("level").get_to(p.field_4_level);
+    j.at("path").get_to(p.field_6_path);
+    j.at("cam").get_to(p.field_8_cam);
+    j.at("save_file_id").get_to(p.mSaveFileId);
+    j.at("controlled_x").get_to(p.field_C_controlled_x);
+    j.at("controlled_y").get_to(p.field_E_controlled_y);
+    j.at("controlled_scale").get_to(p.field_10_controlled_scale);
+    j.at("saved_muds").get_to(p.field_12_saved_muds);
+    j.at("killed_muds").get_to(p.field_14_killed_muds);
+    j.at("muds_in_area").get_to(p.field_16_muds_in_area);
+    j.at("last_saved_killed_muds_per_path").get_to(p.field_17_last_saved_killed_muds_per_path);
+    j.at("saved_killed_muds_per_zulag").get_to(p.field_18_saved_killed_muds_per_zulag); // array
+    j.at("current_zulag_number").get_to(p.field_2C_current_zulag_number);
+    j.at("total_meter_bars").get_to(p.field_2D_total_meter_bars);
+    j.at("use_alt_save_header").get_to(p.field_2E_use_alt_save_header);
+    j.at("draw_meter_count_down").get_to(p.field_30_bDrawMeterCountDown);
+    j.at("visited_bonewerkz").get_to(p.mVisitedBonewerkz);
+    j.at("visited_barracks").get_to(p.mVisitedBarracks);
+    j.at("visited_feeco_ender").get_to(p.mVisitedFeecoEnder);
+    j.at("gas_timer").get_to(p.mGasTimer);
+    j.at("abe_invincible").get_to(p.mAbeInvincible);
+}
+
+inline void to_json(nlohmann::json& j, const SwitchStates& p)
+{
+    j = nlohmann::json{
+        {"data", p.mData},
+    };
+}
+
+inline void from_json(const nlohmann::json& j, SwitchStates& p)
+{
+    j.at("data").get_to(p.mData);
+}
+
+inline void to_json(nlohmann::json& j, const Quicksave& p)
+{
+    j = nlohmann::json{
+        {"accumulated_obj_count", p.field_200_accumulated_obj_count},
+        {"world_info", p.field_204_world_info},
+        {"restart_path_world_info", p.field_244_restart_path_world_info},
+        {"restart_path_abe_state", p.field_284_restart_path_abe_state},
+        {"restart_path_switch_states", p.field_35C_restart_path_switch_states},
+        {"switch_states", p.field_45C_switch_states},
+    };
+}
+
+inline void from_json(const nlohmann::json& j, Quicksave& p)
+{
+    j.at("accumulated_obj_count").get_to(p.field_200_accumulated_obj_count);
+    j.at("world_info").get_to(p.field_204_world_info);
+    j.at("restart_path_world_info").get_to(p.field_244_restart_path_world_info);
+    j.at("restart_path_abe_state").get_to(p.field_284_restart_path_abe_state);
+    j.at("restart_path_switch_states").get_to(p.field_35C_restart_path_switch_states);
+    j.at("switch_states").get_to(p.field_45C_switch_states);
 }

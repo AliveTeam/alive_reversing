@@ -8,7 +8,7 @@ enum class CameraSwapEffects : s16;
 
 struct BirdPortalSaveState final
 {
-    ReliveTypes mAEType;
+    ReliveTypes mType;
     u8 mState;
     u8 mMudCountForShrykull;
     Guid mTlvInfo;

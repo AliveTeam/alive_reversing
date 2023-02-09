@@ -230,7 +230,7 @@ void Mudokon_SFX(MudSounds idx, s16 volume, s32 pitch, BaseAliveGameObject* pHer
 
 struct AbeSaveState final
 {
-    ReliveTypes mAEType;
+    ReliveTypes mType;
     s16 field_2_padding;
     FP mXPos;
     FP mYPos;
