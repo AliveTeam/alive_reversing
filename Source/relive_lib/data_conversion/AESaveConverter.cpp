@@ -1,6 +1,6 @@
 #include "AESaveConverter.hpp"
 #include "BinaryPath.hpp"
-//#include "AESaveSerialization.hpp"
+#include "AESaveSerialization.hpp"
 #include "data_conversion/data_conversion.hpp"
 #include "nlohmann/json.hpp"
 
@@ -123,15 +123,10 @@ bool AESaveConverter::Convert(const std::vector<u8>& savData, const char_type* p
     return SaveJson(j, fs, pFileName);
 }
 
-s32 AESaveConverter::ConvertObjectSaveStateData(nlohmann::json& /*j*/, AETypes type, const u8* /*pData*/)
+s32 AESaveConverter::ConvertObjectSaveStateData(nlohmann::json& j, AETypes type, const u8* pData)
 {
     switch (type)
     {
-        case ::AETypes::eSligSpawner_2:
-            return sizeof(AEData::SligSpawnerSaveState);
-
-        // TODO: Put this back when it builds
-        /*
         case ::AETypes::eSligSpawner_2:
             to_json(j, AEData::SligSpawnerSaveState::From(*reinterpret_cast<const AEData::SligSpawnerSaveState*>(pData)));
             return sizeof(AEData::SligSpawnerSaveState);
@@ -313,7 +308,6 @@ s32 AESaveConverter::ConvertObjectSaveStateData(nlohmann::json& /*j*/, AETypes t
             to_json(j, AEData::WorkWheelSaveState::From(*reinterpret_cast<const AEData::WorkWheelSaveState*>(pData)));
             return sizeof(AEData::WorkWheelSaveState);
             break;
-            */
 
         default:
             ALIVE_FATAL("No create save state for type %d", static_cast<s32>(type));

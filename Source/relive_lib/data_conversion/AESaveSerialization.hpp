@@ -503,7 +503,7 @@ NLOHMANN_JSON_SERIALIZE_ENUM(FartStates, {
     {FartStates::eDechanting_2, "dechanting"},
 })
 
-inline void to_json(nlohmann::json& j, EvilFartSaveState& p)
+inline void to_json(nlohmann::json& j, const EvilFartSaveState& p)
 {
     j = nlohmann::json{
         {"type", p.mType},
@@ -530,7 +530,6 @@ inline void to_json(nlohmann::json& j, EvilFartSaveState& p)
         {"state", p.mState},
         {"unpossession_timer", p.mUnpossessionTimer},
         {"back_to_abe_timer", p.mBackToAbeTimer},
-
     };
 }
 
@@ -2001,6 +2000,36 @@ inline void from_json(const nlohmann::json& j, ParamiteSaveState& p)
     j.at("spawned").get_to(p.mSpawned);
     j.at("alerted").get_to(p.mAlerted);
     j.at("can_be_possessed").get_to(p.mCanBePossessed);
+}
+
+inline void to_json(nlohmann::json& j, const BirdPortalSaveState& p)
+{
+    j = nlohmann::json{
+        {"type", p.mAEType},
+        {"state", p.mState},
+        {"mud_count_for_shrykull", p.mMudCountForShrykull},
+        {"tlv_info", p.mTlvInfo},
+    };
+}
+
+inline void from_json(const nlohmann::json& j, BirdPortalSaveState& p)
+{
+    j.at("type").get_to(p.mAEType);
+    j.at("state").get_to(p.mState);
+    j.at("mud_count_for_shrykull").get_to(p.mMudCountForShrykull);
+    j.at("tlv_info").get_to(p.mTlvInfo);
+}
+
+inline void to_json(nlohmann::json& j, const ThrowableArraySaveState& p)
+{
+    j = nlohmann::json{
+        {"count", p.mCount},
+    };
+}
+
+inline void from_json(const nlohmann::json& j, ThrowableArraySaveState& p)
+{
+    j.at("count").get_to(p.mCount);
 }
 
 NLOHMANN_JSON_SERIALIZE_ENUM(RingTypes, {
