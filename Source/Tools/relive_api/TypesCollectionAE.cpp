@@ -168,6 +168,31 @@ void TypesCollectionAE::AddAETypes()
         {::Path_Slig::ShootPossessedSligs::eNo_3, "No"},
     });
 
+    AddEnum<OGData::eLineTypes>("Enum_OGDataLineTypes",
+    {
+        {OGData::eLineTypes::eFloor_0, "Floor"},
+        {OGData::eLineTypes::eWallLeft_1, "Wall Left"},
+        {OGData::eLineTypes::eWallRight_2, "Wall Right"},
+        {OGData::eLineTypes::eCeiling_3, "Ceiling"},
+        {OGData::eLineTypes::eBackgroundFloor_4, "Background Floor"},
+        {OGData::eLineTypes::eBackgroundWallLeft_5, "Background Wall Left"},
+        {OGData::eLineTypes::eBackgroundWallRight_6, "Background Wall Right"},
+        {OGData::eLineTypes::eBackgroundCeiling_7, "Background Ceiling"},
+        {OGData::eLineTypes::eTrackLine_8, "Track Line"},
+        {OGData::eLineTypes::eArt_9, "Art"},
+        {OGData::eLineTypes::eBulletWall_10, "Bullet Wall"},
+        {OGData::eLineTypes::eMineCarFloor_11, "Mine Car Floor"},
+        {OGData::eLineTypes::eMineCarWall_12, "Mine Car Wall"},
+        {OGData::eLineTypes::eMineCarCeiling_13, "Mine Car Ceiling"},
+        {OGData::eLineTypes::eBackgroundMineCarFloor_14, "Background Mine Car Floor"},
+        {OGData::eLineTypes::eBackgroundMineCarWall_15, "Background Mine Car Wall"},
+        {OGData::eLineTypes::eBackgroundMineCarCeiling_16, "Background Mine Car Ceiling"},
+        {OGData::eLineTypes::eFlyingObjectWall_17, "Flying Slig Ceiling"},
+        {OGData::eLineTypes::eBackgroundFlyingObjectWall_18, "Background Flying Slig Ceiling"},
+        {OGData::eLineTypes::eDynamicCollision_32, "Unknown 32"},
+        {OGData::eLineTypes::eBackgroundDynamicCollision_36, "Unknown 36"},
+    });
+
     AddEnum<eLineTypes>("Enum_LineTypes",
     {
         {eLineTypes::eFloor_0, "Floor"},

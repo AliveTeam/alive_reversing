@@ -140,6 +140,23 @@ void TypesCollectionAO::AddAOTypes()
     REGISTER_TYPE_AO(AOTlvs::Path_SwitchStateBooleanLogic);
 
 #undef REGISTER_TYPE_AO
+    AddEnum<OGData::eLineTypes>("Enum_OGDataLineTypes",
+    {
+        {OGData::eLineTypes::eFloor_0, "Floor"},
+        {OGData::eLineTypes::eWallLeft_1, "Wall Left"},
+        {OGData::eLineTypes::eWallRight_2, "Wall Right"},
+        {OGData::eLineTypes::eCeiling_3, "Ceiling"},
+        {OGData::eLineTypes::eBackgroundFloor_4, "Background Floor"},
+        {OGData::eLineTypes::eBackgroundWallLeft_5, "Background Wall Left"},
+        {OGData::eLineTypes::eBackgroundWallRight_6, "Background Wall Right"},
+        {OGData::eLineTypes::eBackgroundCeiling_7, "Background Ceiling"},
+        {OGData::eLineTypes::eTrackLine_8, "Track Line"},
+        {OGData::eLineTypes::eArt_9, "Art"},
+        {OGData::eLineTypes::eBulletWall_10, "Bullet Wall"},
+        {OGData::eLineTypes::eDynamicCollision_32, "eUnknown_32"},
+        {OGData::eLineTypes::eBackgroundDynamicCollision_36, "eUnknown_36"},
+    });
+
     AddEnum<eLineTypes>("Enum_LineTypes",
     {
         {eLineTypes::eFloor_0, "Floor"},
