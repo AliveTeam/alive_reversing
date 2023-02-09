@@ -45,6 +45,8 @@
 #include "../../AliveLibAE/Mudokon.hpp"
 #include "../../AliveLibAE/Scrab.hpp"
 
+#include "nlohmann/json_fwd.hpp"
+
 // Any enum/struct in the AEData namespace is related to OG data and can't ever be changed
 // otherwise interpreting the OG data will break.
 namespace AEData 
@@ -3943,10 +3945,8 @@ public:
     bool Convert(const std::vector<u8>& savData, const char_type* pFileName);
 
 private:
-    template <typename T>
-    void AddObjectState(const T&)
-    {
-    }
 
-    s32 ConvertObjectSaveStateData(AETypes type, const u8* pData);
+    void AddObjectState(nlohmann::json j, const ::SligSpawnerSaveState& d);
+
+    s32 ConvertObjectSaveStateData(nlohmann::json& j, AETypes type, const u8* pData);
 };
