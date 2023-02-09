@@ -4,6 +4,10 @@
 #include "../AliveLibAE/PathData.hpp"
 
 #include "../MapWrapper.hpp"
+#include "nlohmann/json_fwd.hpp"
+
+bool SaveJson(const nlohmann::json& j, FileSystem& fs, const FileSystem::Path& path);
+bool SaveJson(const nlohmann::json& j, FileSystem& fs, const char_type* path);
 
 inline const char* ToString(AO::LevelIds lvlId)
 {

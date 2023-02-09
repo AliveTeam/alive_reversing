@@ -813,16 +813,20 @@ static void to_json(nlohmann::json& j, const PathSoundInfo& p)
     };
 }
 
-static void SaveJson(const nlohmann::json& j, FileSystem& fs, const FileSystem::Path& path)
+bool SaveJson(const nlohmann::json& j, FileSystem& fs, const char_type* path)
 {
     std::string jsonStr = j.dump(4);
 
     std::vector<u8> data;
     data.resize(jsonStr.length());
     data.assign(jsonStr.begin(), jsonStr.end());
-    fs.Save(path, data);
+    return fs.Save(path, data);
 }
 
+bool SaveJson(const nlohmann::json& j, FileSystem& fs, const FileSystem::Path& path)
+{
+    return SaveJson(j, fs, path.GetPath().c_str());
+}
 
 namespace AO { 
 extern OpenSeqHandle g_SeqTable_4C9E70[165];
