@@ -8,8 +8,8 @@ For more details, please check the project's website: https://aliveteam.github.i
 ## Function Keys
 | Key | Name |
 | :-: | :--: |
-| F5 | Quiksave |
-| F6 | Quikload |
+| F5 | Quiksave (Exoddus only) | 
+| F6 | Quikload (Exoddus only) |
 | F10 | Screen Filter |
 | F11 | Keep Aspect Ratio |
 | F12 | Fullscreen |
