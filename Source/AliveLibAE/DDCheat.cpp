@@ -17,9 +17,9 @@ s32 gTweakY = 0;
 s16 gRescuedMudokons = 0;
 s16 gKilledMudokons = 0;
 
-s16 gVisitedBonewerkz = 0;
-s16 gVisitedBarracks = 0;
-s16 gVisitedFeecoEnder = 0;
+bool gVisitedBonewerkz = false;
+bool gVisitedBarracks = false;
+bool gVisitedFeecoEnder = false;
 
 static u16 sTeleport_Level = 0;
 static u16 sTeleport_Path = 0;
@@ -177,9 +177,9 @@ DDCheat::DDCheat()
     AddPropertyEntry("Tweak X ", DDCheatValueType::eInt_6, &gTweakX);
     AddPropertyEntry("Tweak Y ", DDCheatValueType::eInt_6, &gTweakY);
     AddPropertyEntry("RescuedMudokons ", DDCheatValueType::eShort_4, &gRescuedMudokons);
-    AddPropertyEntry("Visited Bonewerks ", DDCheatValueType::eShort_1, &gVisitedBonewerkz);
-    AddPropertyEntry("Visited Barracks ", DDCheatValueType::eShort_1, &gVisitedBarracks);
-    AddPropertyEntry("Visited Feeco Ender ", DDCheatValueType::eShort_1, &gVisitedFeecoEnder);
+    //AddPropertyEntry("Visited Bonewerks ", DDCheatValueType::eShort_1, &gVisitedBonewerkz);
+    //AddPropertyEntry("Visited Barracks ", DDCheatValueType::eShort_1, &gVisitedBarracks);
+    //AddPropertyEntry("Visited Feeco Ender ", DDCheatValueType::eShort_1, &gVisitedFeecoEnder);
 
 #if FORCE_DDCHEAT
     gDDCheatOn = true;

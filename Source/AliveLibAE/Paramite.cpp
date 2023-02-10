@@ -401,7 +401,7 @@ s32 Paramite::VGetSaveState(u8* pSaveBuffer)
     }
     else
     {
-        pState->field_36_line_type = -1;
+        pState->field_36_line_type = eLineTypes::eNone_m1;
     }
 
     pState->mControlled = false;

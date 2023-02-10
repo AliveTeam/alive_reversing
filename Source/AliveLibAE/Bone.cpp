@@ -251,7 +251,7 @@ s32 Bone::VGetSaveState(u8* pSaveBuffer)
     }
     else
     {
-        pState->mCollisionLineType = -1;
+        pState->mCollisionLineType = eLineTypes::eNone_m1;
     }
 
     pState->mPlatformId = BaseAliveGameObject_PlatformId;

@@ -428,7 +428,7 @@ s32 Meat::VGetSaveState(u8* pSaveBuffer)
     }
     else
     {
-        pState->mLineType = -1;
+        pState->mLineType = eLineTypes::eNone_m1;
     }
 
     pState->mPlatformId = BaseAliveGameObject_PlatformId;

@@ -11,48 +11,7 @@ using TCrawlingSligMotionFn = void (CrawlingSlig::*)();
 
 enum class LevelIds : s16;
 enum class SligSpeak : s8;
-
-struct CrawlingSligSaveState final
-{
-    ReliveTypes mType;
-    Guid mBaseTlvId;
-    FP mXPos;
-    FP mYPos;
-    FP mVelX;
-    FP mVelY;
-    s16 mCurrentPath;
-    EReliveLevelIds mCurrentLevel;
-    FP mSpriteScale;
-    s16 mR;
-    s16 mG;
-    s16 mB;
-    s16 mFlipX;
-    s16 mCurrentMotion;
-    s16 mCurrentFrame;
-    s16 mFrameChangeCounter;
-    s8 mRender;
-    s8 mDrawable;
-    FP mHealth;
-    s16 mCurrentMotion2;
-    s16 mNextMotion;
-    s16 mLastLineYPos;
-    s16 mCollisionLineType;
-    s8 mControlled;
-    Guid mCrawlingSligTlvId;
-    s32 mBrainState;
-    s16 mBrainSubState;
-    s32 mMultiUseTimer;
-    FP mVelxScaleFactor;
-    s16 mChanting;
-    EReliveLevelIds mAbeLevel;
-    s16 mAbePath;
-    s16 mAbeCamera;
-    Guid mSligButtonTlvId;
-    Guid field_70_obj_id;
-    Guid mTransformedSligId;
-    SligSpeak mSpeak;
-    s32 mSayHelpTimer;
-};
+enum eLineTypes : s16;
 
 enum class CrawlingSligMotion : s16
 {
@@ -75,6 +34,58 @@ enum class CrawlingSligMotion : s16
     Motion_15_EndCrawling = 15,
     Motion_16_IdleToPushingWall = 16,
     Motion_17_EndPushingWall = 17
+};
+
+enum eCrawlingSligBrains : s16
+{
+    Brain_0_Sleeping = 0,
+    Brain_1_Idle = 1,
+    Brain_2_PanicGetALocker = 2,
+    Brain_3_Possessed = 3,
+    Brain_4_GetKilled = 4,
+    Brain_5_Transformed = 5
+};
+
+struct CrawlingSligSaveState final
+{
+    ReliveTypes mType;
+    Guid mBaseTlvId;
+    FP mXPos;
+    FP mYPos;
+    FP mVelX;
+    FP mVelY;
+    s16 mCurrentPath;
+    EReliveLevelIds mCurrentLevel;
+    FP mSpriteScale;
+    s16 mR;
+    s16 mG;
+    s16 mB;
+    s16 mFlipX;
+    CrawlingSligMotion mCurrentMotion;
+    s16 mCurrentFrame;
+    s16 mFrameChangeCounter;
+    s8 mRender;
+    s8 mDrawable;
+    FP mHealth;
+    CrawlingSligMotion mCurrentMotion2;
+    CrawlingSligMotion mNextMotion;
+    s16 mLastLineYPos;
+    eLineTypes mCollisionLineType;
+    s8 mControlled;
+    Guid mCrawlingSligTlvId;
+    eCrawlingSligBrains mBrainState;
+    s16 mBrainSubState;
+    s32 mMultiUseTimer;
+    FP mVelxScaleFactor;
+    s16 mChanting;
+    EReliveLevelIds mAbeLevel;
+    s16 mAbePath;
+    s16 mAbeCamera;
+    Guid mSligButtonTlvId;
+    Guid field_70_obj_id;
+    Guid mTransformedSligId;
+    SligSpeak mSpeak;
+    s32 mSayHelpTimer;
 };
 
 class CrawlingSlig final : public BaseAliveGameObject

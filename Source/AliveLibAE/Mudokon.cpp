@@ -847,7 +847,7 @@ s32 Mudokon::VGetSaveState(u8* pSaveBuffer)
     pState->field_30_current_motion = mCurrentMotion;
     pState->field_32_next_motion = mNextMotion;
     pState->field_34_lastLineYPos = FP_GetExponent(BaseAliveGameObjectLastLineYPos);
-    pState->field_36_line_type = -1;
+    pState->field_36_line_type = eLineTypes::eNone_m1;
 
     pState->field_3C_can_be_possessed = GetCanBePossessed();
 

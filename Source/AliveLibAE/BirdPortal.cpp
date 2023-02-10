@@ -667,7 +667,7 @@ s32 BirdPortal::VGetSaveState(u8* pBuffer)
 
     pState->mType = ReliveTypes::eBirdPortal;
     pState->mTlvInfo = mTlvInfo;
-    pState->mState = static_cast<u8>(mState);
+    pState->mState = mState;
     pState->mMudCountForShrykull = static_cast<u8>(numMudsForShrykull - mMudCountForShrykull);
 
     return sizeof(BirdPortalSaveState);

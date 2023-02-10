@@ -86,7 +86,7 @@ s32 Grenade::VGetSaveState(u8* pSaveBuffer)
     }
     else
     {
-        pState->mCollisionLineType = -1;
+        pState->mCollisionLineType = eLineTypes::eNone_m1;
     }
 
     pState->mPlatformId = BaseAliveGameObject_PlatformId;

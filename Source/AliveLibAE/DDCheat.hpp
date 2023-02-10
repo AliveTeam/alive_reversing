@@ -82,7 +82,7 @@ extern s16 gKilledMudokons;
 extern s32 gTweakX;
 extern s32 gTweakY;
 
-extern s16 gVisitedBonewerkz;
-extern s16 gVisitedBarracks;
-extern s16 gVisitedFeecoEnder;
+extern bool gVisitedBonewerkz;
+extern bool gVisitedBarracks;
+extern bool gVisitedFeecoEnder;
 extern bool gDDCheat_ShowAI_Info;

@@ -5,6 +5,7 @@
 #include "../relive_lib/data_conversion/relive_tlvs.hpp"
 
 class CollisionMask;
+enum eLineTypes : s16;
 
 enum class MineCarStates : s16
 {
@@ -47,7 +48,7 @@ struct MineCarSaveState final
     s16 field_40_current_motion;
     s16 field_42_next_motion;
     s16 field_44_last_line_ypos;
-    s16 field_46_collision_line_type;
+    eLineTypes field_46_collision_line_type;
     Guid field_4C_tlvInfo;
     MineCarStates field_50_state;
     MineCarDirs field_52_turn_direction;

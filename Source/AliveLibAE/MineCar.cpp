@@ -761,7 +761,7 @@ s32 MineCar::VGetSaveState(u8* pSaveBuffer)
     }
     else
     {
-        pState->field_46_collision_line_type = -1;
+        pState->field_46_collision_line_type = eLineTypes::eNone_m1;
     }
 
     pState->field_5A_bAbeInCar = (this == sControlledCharacter);

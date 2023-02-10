@@ -743,7 +743,7 @@ struct BoneSaveState final
     BitField16<BoneStateFlags> field_20_flags;
     s16 field_22_padding;
     s32 mPlatformTlvInfo;
-    s16 mCollisionLineType;
+    eLineTypes mCollisionLineType;
     s16 mBaseThrowableCount;
     enum class BoneStates : s16
     {
@@ -778,7 +778,7 @@ struct BoneSaveState final
         d.mInteractive = data.field_20_flags.Get(BoneStateFlags::eBit4_bInteractive);
         d.mHitObject = data.field_20_flags.Get(BoneStateFlags::eBit5_bHitObject);
         d.mPlatformId = Guid::NewGuidFromTlvInfo(data.mPlatformTlvInfo);
-        d.mCollisionLineType = data.mCollisionLineType;
+        d.mCollisionLineType = AEData::From(data.mCollisionLineType);
         d.mThrowableCount = data.mBaseThrowableCount;
         d.mState = From(data.mState);
         d.mBounceCount = data.mVolumeModifier;
@@ -828,6 +828,39 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(MinesAlarmSaveState, 0x8);
 
 struct CrawlingSligSaveState final
 {
+    enum class CrawlingSligMotion : s16
+    {
+        None = -1,
+        Motion_0_Idle = 0,
+        Motion_1_UsingButton = 1,
+        Motion_2_WakingUp = 2,
+        Motion_3_Crawling = 3,
+        Motion_4_StartFalling = 4,
+        Motion_5_Falling = 5,
+        Motion_6_Landing = 6,
+        Motion_7_ToShakingToIdle = 7,
+        Motion_8_Speaking = 8,
+        Motion_9_Snoozing = 9,
+        Motion_10_PushingWall = 10,
+        Motion_11_TurnAround = 11,
+        Motion_12_Shaking = 12,
+        Motion_13_Empty = 13,
+        Motion_14_ShakingToIdle = 14,
+        Motion_15_EndCrawling = 15,
+        Motion_16_IdleToPushingWall = 16,
+        Motion_17_EndPushingWall = 17
+    };
+
+    enum eCrawlingSligBrains : s32
+    {
+        Brain_0_Sleeping = 0,
+        Brain_1_Idle = 1,
+        Brain_2_PanicGetALocker = 2,
+        Brain_3_Possessed = 3,
+        Brain_4_GetKilled = 4,
+        Brain_5_Transformed = 5
+    };
+
     AETypes mType;
     s16 field_2_padding;
     s32 mBaseTlvId;
@@ -842,23 +875,23 @@ struct CrawlingSligSaveState final
     s16 mG;
     s16 mB;
     s16 mFlipX;
-    s16 mCurrentMotion;
+    CrawlingSligMotion mCurrentMotion;
     s16 mCurrentFrame;
     s16 mFrameChangeCounter;
     s8 mRender;
     s8 mDrawable;
     FP mHealth;
-    s16 mCurrentMotion2;
-    s16 mNextMotion;
+    CrawlingSligMotion mCurrentMotion2;
+    CrawlingSligMotion mNextMotion;
     s16 mLastLineYPos;
-    s16 mCollisionLineType;
+    eLineTypes mCollisionLineType;
     s16 field_3C_padding;
     s16 field_3E_padding;
     s8 mControlled;
     s8 field_41_padding;
     s16 field_42_padding;
     s32 mCrawlingSligTlvInfo;
-    s32 mBrainState;
+    eCrawlingSligBrains mBrainState;
     s16 field_4C_padding;
     s16 field_4E_padding;
     s16 mBrainSubState;
@@ -896,20 +929,20 @@ struct CrawlingSligSaveState final
         d.mG = data.mG;
         d.mB = data.mB;
         d.mFlipX = data.mFlipX;
-        d.mCurrentMotion = data.mCurrentMotion;
+        d.mCurrentMotion = From(data.mCurrentMotion);
         d.mCurrentFrame = data.mCurrentFrame;
         d.mFrameChangeCounter = data.mFrameChangeCounter;
         d.mRender = data.mRender;
         d.mDrawable = data.mDrawable;
         d.mHealth = data.mHealth;
-        d.mCurrentMotion2 = data.mCurrentMotion2;
-        d.mNextMotion = data.mNextMotion;
+        d.mCurrentMotion2 = From(data.mCurrentMotion2);
+        d.mNextMotion = From(data.mNextMotion);
         d.mLastLineYPos = data.mLastLineYPos;
-        d.mCollisionLineType = data.mCollisionLineType;
+        d.mCollisionLineType = AEData::From(data.mCollisionLineType);
         d.mControlled = data.mControlled;
         d.mCrawlingSligTlvId = Guid::NewGuidFromTlvInfo(data.mCrawlingSligTlvInfo);
-        d.mBrainState = data.mBrainState;
-        d.mBrainSubState = data.mBrainSubState;
+        d.mBrainState = From(data.mBrainState);
+        d.mBrainSubState = data.mBrainSubState; // TODO: convert enums
         d.mMultiUseTimer = data.mMultiUseTimer;
         d.mVelxScaleFactor = data.mVelxScaleFactor;
         d.mChanting = data.mChanting;
@@ -922,6 +955,74 @@ struct CrawlingSligSaveState final
         d.mSpeak = AEData::From(data.field_78_speak);
         d.mSayHelpTimer = data.mSayHelpTimer;
         return d;
+    }
+
+    static ::CrawlingSligMotion From(const CrawlingSligMotion& motion)
+    {
+        switch (motion)
+        {
+            case CrawlingSligMotion::None:
+                return ::CrawlingSligMotion::None;
+            case CrawlingSligMotion::Motion_0_Idle:
+                return ::CrawlingSligMotion::Motion_0_Idle;
+            case CrawlingSligMotion::Motion_1_UsingButton:
+                return ::CrawlingSligMotion::Motion_1_UsingButton;
+            case CrawlingSligMotion::Motion_2_WakingUp:
+                return ::CrawlingSligMotion::Motion_2_WakingUp;
+            case CrawlingSligMotion::Motion_3_Crawling:
+                return ::CrawlingSligMotion::Motion_3_Crawling;
+            case CrawlingSligMotion::Motion_4_StartFalling:
+                return ::CrawlingSligMotion::Motion_4_StartFalling;
+            case CrawlingSligMotion::Motion_5_Falling:
+                return ::CrawlingSligMotion::Motion_5_Falling;
+            case CrawlingSligMotion::Motion_6_Landing:
+                return ::CrawlingSligMotion::Motion_6_Landing;
+            case CrawlingSligMotion::Motion_7_ToShakingToIdle:
+                return ::CrawlingSligMotion::Motion_7_ToShakingToIdle;
+            case CrawlingSligMotion::Motion_8_Speaking:
+                return ::CrawlingSligMotion::Motion_8_Speaking;
+            case CrawlingSligMotion::Motion_9_Snoozing:
+                return ::CrawlingSligMotion::Motion_9_Snoozing;
+            case CrawlingSligMotion::Motion_10_PushingWall:
+                return ::CrawlingSligMotion::Motion_10_PushingWall;
+            case CrawlingSligMotion::Motion_11_TurnAround:
+                return ::CrawlingSligMotion::Motion_11_TurnAround;
+            case CrawlingSligMotion::Motion_12_Shaking:
+                return ::CrawlingSligMotion::Motion_12_Shaking;
+            case CrawlingSligMotion::Motion_13_Empty:
+                return ::CrawlingSligMotion::Motion_13_Empty;
+            case CrawlingSligMotion::Motion_14_ShakingToIdle:
+                return ::CrawlingSligMotion::Motion_14_ShakingToIdle;
+            case CrawlingSligMotion::Motion_15_EndCrawling:
+                return ::CrawlingSligMotion::Motion_15_EndCrawling;
+            case CrawlingSligMotion::Motion_16_IdleToPushingWall:
+                return ::CrawlingSligMotion::Motion_16_IdleToPushingWall;
+            case CrawlingSligMotion::Motion_17_EndPushingWall:
+                return ::CrawlingSligMotion::Motion_17_EndPushingWall;
+            default:
+                ALIVE_FATAL("Bad crawling slig motion %d", static_cast<s32>(motion));
+        }
+    }
+
+    static ::eCrawlingSligBrains From(const eCrawlingSligBrains& brain)
+    {
+        switch (brain)
+        {
+            case eCrawlingSligBrains::Brain_0_Sleeping:
+                return ::eCrawlingSligBrains::Brain_0_Sleeping;
+            case eCrawlingSligBrains::Brain_1_Idle:
+                return ::eCrawlingSligBrains::Brain_1_Idle;
+            case eCrawlingSligBrains::Brain_2_PanicGetALocker:
+                return ::eCrawlingSligBrains::Brain_2_PanicGetALocker;
+            case eCrawlingSligBrains::Brain_3_Possessed:
+                return ::eCrawlingSligBrains::Brain_3_Possessed;
+            case eCrawlingSligBrains::Brain_4_GetKilled:
+                return ::eCrawlingSligBrains::Brain_4_GetKilled;
+            case eCrawlingSligBrains::Brain_5_Transformed:
+                return ::eCrawlingSligBrains::Brain_5_Transformed;
+            default:
+                ALIVE_FATAL("Bad crawling slig brain %d", static_cast<s32>(brain));
+        }
     }
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(CrawlingSligSaveState, 0x80);
@@ -1641,19 +1742,19 @@ struct GreeterSaveState final
     FP field_14_velx;
     FP field_18_vely;
     FP field_1C_sprite_scale;
-    s16 field_20_current_frame;
-    s16 field_22_frame_change_counter;
-    s8 field_24_bAnimRender;
-    s8 field_25_bDrawable;
+    s16 mCurrentFrame;
+    s16 mFrameChangeCounter;
+    s8 mAnimRender;
+    s8 mDrawable;
     s8 field_26_padding;
     s8 field_27_padding;
     s32 field_28_tlvInfo;
     s32 field_2C_unused;
     s32 field_30_last_turn_time;
     s32 field_34_timer;
-    s16 field_38_timesShot;
+    s16 mTimesShot;
     s16 field_3A_bDontSetDestroyed;
-    s16 field_3C_bChasing;
+    s16 mChasing;
     s16 field_3E_padding;
     FP field_40_speed;
     enum class GreeterBrainStates : s16
@@ -1667,11 +1768,11 @@ struct GreeterSaveState final
         eBrain_6_ToChase,
         eBrain_7_Fall
     };
-    GreeterBrainStates field_44_brain_state;
+    GreeterBrainStates mBrainState;
     s16 field_46_targetOnLeft;
     s16 field_48_targetOnRight;
     s16 field_4A_padding;
-    FP field_4C_motion_laser_xpos;
+    FP mMotionLaserXPos;
 
     static ::GreeterSaveState From(const GreeterSaveState& data)
     {
@@ -1687,21 +1788,21 @@ struct GreeterSaveState final
         d.field_14_velx = data.field_14_velx;
         d.field_18_vely = data.field_18_vely;
         d.field_1C_sprite_scale = data.field_1C_sprite_scale;
-        d.mCurrentFrame = data.field_20_current_frame;
-        d.mFrameChangeCounter = data.field_22_frame_change_counter;
-        d.mAnimRender = data.field_24_bAnimRender;
-        d.mDrawable = data.field_25_bDrawable;
+        d.mCurrentFrame = data.mCurrentFrame;
+        d.mFrameChangeCounter = data.mFrameChangeCounter;
+        d.mAnimRender = data.mAnimRender;
+        d.mDrawable = data.mDrawable;
         d.mTlvId = Guid::NewGuidFromTlvInfo(data.field_28_tlvInfo);
         d.field_30_last_turn_time = data.field_30_last_turn_time;
         d.field_34_timer = data.field_34_timer;
-        d.mTimesShot = data.field_38_timesShot;
+        d.mTimesShot = data.mTimesShot;
         d.field_3A_bDontSetDestroyed = data.field_3A_bDontSetDestroyed;
-        d.mChasing = data.field_3C_bChasing;
+        d.mChasing = data.mChasing;
         d.field_40_speed = data.field_40_speed;
-        d.mBrainState = From(data.field_44_brain_state);
+        d.mBrainState = From(data.mBrainState);
         d.field_46_targetOnLeft = data.field_46_targetOnLeft;
         d.field_48_targetOnRight = data.field_48_targetOnRight;
-        d.mMotionLaserXPos = data.field_4C_motion_laser_xpos;
+        d.mMotionLaserXPos = data.mMotionLaserXPos;
         return d;
     }
 
@@ -1735,14 +1836,14 @@ struct GrenadeSaveState final
 {
     AETypes mType;
     s16 field_2_pad;
-    s32 field_4_obj_id;
-    FP field_8_xpos;
-    FP field_C_ypos;
-    FP field_10_velx;
-    FP field_14_vely;
-    FP field_18_sprite_scale;
-    s16 field_1C_path_number;
-    LevelIds field_1E_lvl_number;
+    s32 mTlvInfo;
+    FP mXPos;
+    FP mYPos;
+    FP mVelX;
+    FP mVelY;
+    FP mSpriteScale;
+    s16 mCurrentPath;
+    LevelIds mCurrentLevel;
 
     enum Flags_20
     {
@@ -1756,9 +1857,9 @@ struct GrenadeSaveState final
     };
     BitField16<Flags_20> field_20_flags;
     s16 field_22_padding;
-    s32 field_24_base_id;
-    s16 field_28_line_type;
-    s16 field_2A_savedcount;
+    s32 mPlatformId;
+    eLineTypes mCollisionLineType;
+    s16 mThrowableCount;
     enum class GrenadeStates : s16
     {
         eFallingToBeCollected_0 = 0,
@@ -1772,39 +1873,39 @@ struct GrenadeSaveState final
         eDoesNothing_8 = 8,
         eFallingBlowUpOnGround_9 = 9,
     };
-    GrenadeStates field_2C_state;
-    s16 field_2E;
-    s16 field_30_explode_timer;
+    GrenadeStates mState;
+    s16 mBounceCount;
+    s16 mExplodeCountdown;
     s16 field_32_padding;
-    FP field_34_xpos;
-    FP field_38_ypos;
+    FP mPreviousXPos;
+    FP mPreviousYPos;
 
     static ::GrenadeSaveState From(const GrenadeSaveState& data)
     {
         ::GrenadeSaveState d;
         d.mType = BaseGameObject::FromAE(data.mType);
-        d.mTlvInfo = Guid::NewGuidFromTlvInfo(data.field_4_obj_id);
-        d.mXPos = data.field_8_xpos;
-        d.mYPos = data.field_C_ypos;
-        d.mVelX = data.field_10_velx;
-        d.mVelY = data.field_14_vely;
-        d.mSpriteScale = data.field_18_sprite_scale;
-        d.mCurrentPath = data.field_1C_path_number;
-        d.mCurrentLevel = MapWrapper::FromAESaveData(data.field_1E_lvl_number);
+        d.mTlvInfo = Guid::NewGuidFromTlvInfo(data.mTlvInfo);
+        d.mXPos = data.mXPos;
+        d.mYPos = data.mYPos;
+        d.mVelX = data.mVelX;
+        d.mVelY = data.mVelY;
+        d.mSpriteScale = data.mSpriteScale;
+        d.mCurrentPath = data.mCurrentPath;
+        d.mCurrentLevel = MapWrapper::FromAESaveData(data.mCurrentLevel);
         d.mRender = data.field_20_flags.Get(Flags_20::eBit1_bRender);
         d.mDrawable = data.field_20_flags.Get(Flags_20::eBit2_bDrawable);
         d.mLoop = data.field_20_flags.Get(Flags_20::eBit3_bLoop);
         d.mInteractive = data.field_20_flags.Get(Flags_20::eBit4_bInteractive);
         d.mExplodeNow = data.field_20_flags.Get(Flags_20::eBit6_bExplodeNow);
         d.mBlowUpOnCollision = data.field_20_flags.Get(Flags_20::eBit7_bBlowUpOnCollision);
-        d.mPlatformId = Guid::NewGuidFromTlvInfo(data.field_24_base_id);
-        d.mCollisionLineType = data.field_28_line_type;
-        d.mThrowableCount = data.field_2A_savedcount;
-        d.mState = From(data.field_2C_state);
-        d.mBounceCount = data.field_2E;
-        d.mExplodeCountdown = data.field_30_explode_timer;
-        d.mPreviousXPos = data.field_34_xpos;
-        d.mPreviousYPos = data.field_38_ypos;
+        d.mPlatformId = Guid::NewGuidFromTlvInfo(data.mPlatformId);
+        d.mCollisionLineType = AEData::From(data.mCollisionLineType);
+        d.mThrowableCount = data.mThrowableCount;
+        d.mState = From(data.mState);
+        d.mBounceCount = data.mBounceCount;
+        d.mExplodeCountdown = data.mExplodeCountdown;
+        d.mPreviousXPos = data.mPreviousXPos;
+        d.mPreviousYPos = data.mPreviousYPos;
         return d;
     }
 
@@ -1840,45 +1941,75 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(GrenadeSaveState, 0x3C);
 
 struct GlukkonSaveState final
 {
-    AETypes field_0_id;
+    enum class eGlukkonMotions : s16
+    {
+        eNone_m1 = -1,
+        Motion_0_Idle = 0,
+        Motion_1_Walk = 1,
+        Motion_2_Turn = 2,
+        Motion_3_KnockBack = 3,
+        Motion_4_Jump = 4,
+        Motion_5_JumpToFall = 5,
+        Motion_6_WalkToFall = 6,
+        Motion_7_Fall = 7,
+        Motion_8_DeathFall = 8,
+        Motion_9_Land = 9,
+        Motion_10_ChantShake = 10,
+        Motion_11_Speak1 = 11,
+        Motion_12_Speak2 = 12,
+        Motion_13_LongLaugh = 13,
+        Motion_14_BeginWalk = 14,
+        Motion_15_EndWalk = 15,
+        Motion_16_StandToJump = 16,
+        Motion_17_JumpToStand = 17,
+        Motion_18_WalkToJump = 18,
+        Motion_19_JumpToWalk = 19,
+        Motion_20_KnockBackStandBegin = 20,
+        Motion_21_GetShot = 21,
+        Motion_22_KnockBackStandEnd = 22,
+        Motion_23_Speak3 = 23,
+        Motion_24_EndSingleStep = 24
+    };
+
+    AETypes mType;
     s16 field_2_padding;
     s32 field_4_object_id;
-    FP field_8_xpos;
-    FP field_C_ypos;
-    FP field_10_xvel;
-    FP field_14_yvel;
-    s16 field_18_path;
-    LevelIds field_1A_level;
-    FP field_1C_sprite_scale;
-    u16 mRingRed;
-    u16 mRingGreen;
-    u16 mRingBlue;
-    u16 field_26_flipX;
-    u16 field_28_current_motion;
-    u16 field_2A_current_frame;
-    u16 field_2C_frame_change_counter;
-    u8 field_2E_render;
-    u8 field_2F_drawable;
-    FP field_30_health;
-    u16 field_34_current_motion;
-    u16 field_36_next_motion;
+    FP mXPos;
+    FP mYPos;
+    FP mVelX;
+    FP mVelY;
+    s16 mCurrentPath;
+    LevelIds mCurrentLevel;
+    FP mSpriteScale;
+    u16 mRed;
+    u16 mGreen;
+    u16 mBlue;
+    u16 mFlipX;
+    eGlukkonMotions mCurrentMotion;
+    u16 mCurrentFrame;
+    u16 mFrameChangeCounter;
+    u8 mRender;
+    u8 mDrawable;
+    FP mHealth;
+    eGlukkonMotions mCurrentMotion2;
+    eGlukkonMotions mNextMotion;
     s16 field_38_last_line_ypos;
-    s16 field_3A_line_type;
+    eLineTypes mLineType;
     s32 field_3C_padding;
-    u16 field_40_bIsActiveChar;
+    u16 mIsActiveChar;
     s16 field_42_padding;
-    s32 field_44_tlvInfo;
-    s32 field_48_brain_state_idx;
+    s32 mTlvId;
+    s32 mBrainStateIdx;
     s32 field_4C_padding;
-    s16 field_50_brain_sub_state;
+    s16 mBrainSubState;
     s16 field_52_padding;
     s32 field_54_timer;
-    FP field_58_falling_velx_scale_factor;
+    FP mFallingVelXScaleFactor;
     s16 field_5C_padding;
-    s16 field_5E_prevent_depossession;
-    LevelIds field_60_level;
-    s16 field_62_path;
-    s16 field_64_camera;
+    s16 mPreventDepossession;
+    LevelIds mAbeLevel;
+    s16 mAbePath;
+    s16 mAbeCamera;
     enum class GlukkonSpeak : s8
     {
         None = -1,
@@ -1898,70 +2029,131 @@ struct GlukkonSaveState final
         Unused_13 = 13,
         Unused_14 = 14
     };
-    GlukkonSpeak field_66_speak;
-    s16 field_68_gamespeak_pitch;
+    GlukkonSpeak mSpeak;
+    s16 mGamespeakPitch;
     s16 field_6A_padding;
-    FP field_6C_previous_ypos;
-    s32 field_70_randomish_speak_timer;
-    s32 field_74_turn_or_help_timer;
-    s32 field_78_panic_timer;
+    FP mPreviousYPos;
+    s32 mRandomishSpeakTimer;
+    s32 mTurnOrHelpTimer;
+    s32 mPanicTimer;
     s16 field_7C;
     s16 field_7E_padding;
-    s32 field_80_knockback_delay_after_getting_shot_timer;
-    s32 field_84_getting_shot_timer;
-    s32 field_88_obj_id;
-    s16 field_8C_can_be_possessed;
-    AETypes field_8E_type_id;
+    s32 mKnockbackDelayAfterGettingShotTimer;
+    s32 mGettingShotTimer;
+    s32 mFadeId;
+    s16 mCanBePossessed;
+    AETypes mCurrentType;
 
     static ::GlukkonSaveState From(const GlukkonSaveState& data)
     {
         ::GlukkonSaveState d;
-        d.mType = BaseGameObject::FromAE(data.field_0_id);
+        d.mType = BaseGameObject::FromAE(data.mType);
         d.field_4_object_id = Guid::NewGuidFromTlvInfo(data.field_4_object_id);
-        d.mXPos = data.field_8_xpos;
-        d.mYPos = data.field_C_ypos;
-        d.mVelX = data.field_10_xvel;
-        d.mVelY = data.field_14_yvel;
-        d.mCurrentPath = data.field_18_path;
-        d.mCurrentLevel = MapWrapper::FromAESaveData(data.field_1A_level);
-        d.mSpriteScale = data.field_1C_sprite_scale;
-        d.mRed = data.mRingRed;
-        d.mGreen = data.mRingGreen;
-        d.mBlue = data.mRingBlue;
-        d.mFlipX = data.field_26_flipX;
-        d.mCurrentMotion = data.field_28_current_motion;
-        d.mCurrentFrame = data.field_2A_current_frame;
-        d.mFrameChangeCounter = data.field_2C_frame_change_counter;
-        d.mRender = data.field_2E_render;
-        d.mDrawable = data.field_2F_drawable;
-        d.mHealth = data.field_30_health;
-        d.mCurrentMotion2 = data.field_34_current_motion;
-        d.mNextMotion = data.field_36_next_motion;
+        d.mXPos = data.mXPos;
+        d.mYPos = data.mYPos;
+        d.mVelX = data.mVelX;
+        d.mVelY = data.mVelY;
+        d.mCurrentPath = data.mCurrentPath;
+        d.mCurrentLevel = MapWrapper::FromAESaveData(data.mCurrentLevel);
+        d.mSpriteScale = data.mSpriteScale;
+        d.mRed = data.mRed;
+        d.mGreen = data.mGreen;
+        d.mBlue = data.mBlue;
+        d.mFlipX = data.mFlipX;
+        d.mCurrentMotion = From(data.mCurrentMotion);
+        d.mCurrentFrame = data.mCurrentFrame;
+        d.mFrameChangeCounter = data.mFrameChangeCounter;
+        d.mRender = data.mRender;
+        d.mDrawable = data.mDrawable;
+        d.mHealth = data.mHealth;
+        d.mCurrentMotion2 = From(data.mCurrentMotion2);
+        d.mNextMotion = From(data.mNextMotion);
         d.field_38_last_line_ypos = data.field_38_last_line_ypos;
-        d.mLineType = data.field_3A_line_type;
-        d.mIsActiveChar = data.field_40_bIsActiveChar;
-        d.mTlvId = Guid::NewGuidFromTlvInfo(data.field_44_tlvInfo);
-        d.field_48_brain_state_idx = data.field_48_brain_state_idx;
-        d.mBrainSubState = data.field_50_brain_sub_state;
+        d.mLineType = AEData::From(data.mLineType);
+        d.mIsActiveChar = data.mIsActiveChar;
+        d.mTlvId = Guid::NewGuidFromTlvInfo(data.mTlvId);
+        d.mBrainStateIdx = data.mBrainStateIdx; // TODO: convert
+        d.mBrainSubState = data.mBrainSubState; // dito
         d.field_54_timer = data.field_54_timer;
-        d.mFallingVelXScaleFactor = data.field_58_falling_velx_scale_factor;
-        d.mPreventDepossession = data.field_5E_prevent_depossession;
-        d.mAbeLevel = MapWrapper::FromAESaveData(data.field_60_level);
-        d.mAbePath = data.field_62_path;
-        d.mAbeCamera = data.field_64_camera;
-        d.mSpeak = From(data.field_66_speak);
-        d.mGamespeakPitch = data.field_68_gamespeak_pitch;
-        d.mPreviousYPos = data.field_6C_previous_ypos;
-        d.mRandomishSpeakTimer = data.field_70_randomish_speak_timer;
-        d.mTurnOrHelpTimer = data.field_74_turn_or_help_timer;
-        d.mPanicTimer = data.field_78_panic_timer;
+        d.mFallingVelXScaleFactor = data.mFallingVelXScaleFactor;
+        d.mPreventDepossession = data.mPreventDepossession;
+        d.mAbeLevel = MapWrapper::FromAESaveData(data.mAbeLevel);
+        d.mAbePath = data.mAbePath;
+        d.mAbeCamera = data.mAbeCamera;
+        d.mSpeak = From(data.mSpeak);
+        d.mGamespeakPitch = data.mGamespeakPitch;
+        d.mPreviousYPos = data.mPreviousYPos;
+        d.mRandomishSpeakTimer = data.mRandomishSpeakTimer;
+        d.mTurnOrHelpTimer = data.mTurnOrHelpTimer;
+        d.mPanicTimer = data.mPanicTimer;
         d.field_7C = data.field_7C;
-        d.mKnockbackDelayAfterGettingShotTimer = data.field_80_knockback_delay_after_getting_shot_timer;
-        d.mGettingShotTimer = data.field_84_getting_shot_timer;
-        d.mFadeId = Guid::NewGuidFromTlvInfo(data.field_88_obj_id);
-        d.mCanBePossessed = data.field_8C_can_be_possessed;
-        d.mCurrentType = BaseGameObject::FromAE(data.field_8E_type_id);
+        d.mKnockbackDelayAfterGettingShotTimer = data.mKnockbackDelayAfterGettingShotTimer;
+        d.mGettingShotTimer = data.mGettingShotTimer;
+        d.mFadeId = Guid::NewGuidFromTlvInfo(data.mFadeId);
+        d.mCanBePossessed = data.mCanBePossessed;
+        d.mCurrentType = BaseGameObject::FromAE(data.mCurrentType);
         return d;
+    }
+
+    static ::eGlukkonMotions From(const eGlukkonMotions& motion)
+    {
+        switch (motion)
+        {
+            case eGlukkonMotions::eNone_m1:
+                return ::eGlukkonMotions::eNone_m1;
+            case eGlukkonMotions::Motion_0_Idle:
+                return ::eGlukkonMotions::Motion_0_Idle;
+            case eGlukkonMotions::Motion_1_Walk:
+                return ::eGlukkonMotions::Motion_1_Walk;
+            case eGlukkonMotions::Motion_2_Turn:
+                return ::eGlukkonMotions::Motion_2_Turn;
+            case eGlukkonMotions::Motion_3_KnockBack:
+                return ::eGlukkonMotions::Motion_3_KnockBack;
+            case eGlukkonMotions::Motion_4_Jump:
+                return ::eGlukkonMotions::Motion_4_Jump;
+            case eGlukkonMotions::Motion_5_JumpToFall:
+                return ::eGlukkonMotions::Motion_5_JumpToFall;
+            case eGlukkonMotions::Motion_6_WalkToFall:
+                return ::eGlukkonMotions::Motion_6_WalkToFall;
+            case eGlukkonMotions::Motion_7_Fall:
+                return ::eGlukkonMotions::Motion_7_Fall;
+            case eGlukkonMotions::Motion_8_DeathFall:
+                return ::eGlukkonMotions::Motion_8_DeathFall;
+            case eGlukkonMotions::Motion_9_Land:
+                return ::eGlukkonMotions::Motion_9_Land;
+            case eGlukkonMotions::Motion_10_ChantShake:
+                return ::eGlukkonMotions::Motion_10_ChantShake;
+            case eGlukkonMotions::Motion_11_Speak1:
+                return ::eGlukkonMotions::Motion_11_Speak1;
+            case eGlukkonMotions::Motion_12_Speak2:
+                return ::eGlukkonMotions::Motion_12_Speak2;
+            case eGlukkonMotions::Motion_13_LongLaugh:
+                return ::eGlukkonMotions::Motion_13_LongLaugh;
+            case eGlukkonMotions::Motion_14_BeginWalk:
+                return ::eGlukkonMotions::Motion_14_BeginWalk;
+            case eGlukkonMotions::Motion_15_EndWalk:
+                return ::eGlukkonMotions::Motion_15_EndWalk;
+            case eGlukkonMotions::Motion_16_StandToJump:
+                return ::eGlukkonMotions::Motion_16_StandToJump;
+            case eGlukkonMotions::Motion_17_JumpToStand:
+                return ::eGlukkonMotions::Motion_17_JumpToStand;
+            case eGlukkonMotions::Motion_18_WalkToJump:
+                return ::eGlukkonMotions::Motion_18_WalkToJump;
+            case eGlukkonMotions::Motion_19_JumpToWalk:
+                return ::eGlukkonMotions::Motion_19_JumpToWalk;
+            case eGlukkonMotions::Motion_20_KnockBackStandBegin:
+                return ::eGlukkonMotions::Motion_20_KnockBackStandBegin;
+            case eGlukkonMotions::Motion_21_GetShot:
+                return ::eGlukkonMotions::Motion_21_GetShot;
+            case eGlukkonMotions::Motion_22_KnockBackStandEnd:
+                return ::eGlukkonMotions::Motion_22_KnockBackStandEnd;
+            case eGlukkonMotions::Motion_23_Speak3:
+                return ::eGlukkonMotions::Motion_23_Speak3;
+            case eGlukkonMotions::Motion_24_EndSingleStep:
+                return ::eGlukkonMotions::Motion_24_EndSingleStep;
+            default:
+                ALIVE_FATAL("Bad glukkon motion value %d", static_cast<s32>(motion));
+        }
     }
 
     static ::GlukkonSpeak From(const GlukkonSpeak speak)
@@ -2033,7 +2225,7 @@ struct AbeSaveState final
     u16 mCurrentMotion2; // the same as mCurrentMotion
     u16 mNextMotion;
     u16 mLastLineYPos;
-    s16 mCollisionLineType;
+    eLineTypes mCollisionLineType;
     u32 mPlatformId;
     u16 mIsElectrocuted;
     u16 mIsInvisible;
@@ -2147,7 +2339,7 @@ struct AbeSaveState final
         d.mCurrentMotion2 = data.mCurrentMotion2;
         d.mNextMotion = data.mNextMotion;
         d.mLastLineYPos = data.mLastLineYPos;
-        d.mCollisionLineType = data.mCollisionLineType;
+        d.mCollisionLineType = AEData::From(data.mCollisionLineType);
         d.mPlatformId = Guid::NewGuidFromTlvInfo(data.mPlatformId);
         d.mIsElectrocuted = data.mIsElectrocuted;
         d.mIsInvisible = data.mIsInvisible;
@@ -2327,7 +2519,7 @@ struct MudokonSaveState final
     s16 field_30_current_motion;
     s16 field_32_next_motion;
     s16 field_34_lastLineYPos;
-    s16 field_36_line_type;
+    eLineTypes field_36_line_type;
     s16 field_38_padding;
     s16 field_3A_padding;
     s8 field_3C_can_be_possessed;
@@ -2449,7 +2641,7 @@ struct MudokonSaveState final
         d.field_30_current_motion = data.field_30_current_motion;
         d.field_32_next_motion = data.field_32_next_motion;
         d.field_34_lastLineYPos = data.field_34_lastLineYPos;
-        d.field_36_line_type = data.field_36_line_type;
+        d.field_36_line_type = AEData::From(data.field_36_line_type);
         d.field_3C_can_be_possessed = data.field_3C_can_be_possessed;
         d.field_3D_bIsPlayer = data.field_3D_bIsPlayer;
         d.field_40_tlvInfo = Guid::NewGuidFromTlvInfo(data.field_40_tlvInfo);
@@ -2703,14 +2895,14 @@ struct MeatSaveState final
 {
     AETypes mType;
     s16 field_2_pad;
-    s32 field_4_obj_id;
-    FP field_8_xpos;
-    FP field_C_ypos;
-    FP field_10_velx;
-    FP field_14_vely;
-    FP field_18_sprite_scale;
-    s16 field_1C_path_number;
-    LevelIds field_1E_lvl_number;
+    s32 mTlvId;
+    FP mXPos;
+    FP mYPos;
+    FP mVelX;
+    FP mVelY;
+    FP mSpriteScale;
+    s16 mCurrentPath;
+    LevelIds mCurrentLevel;
     enum MeatStateFlags
     {
         eBit1_bRender = 0x1,
@@ -2720,9 +2912,9 @@ struct MeatSaveState final
     };
     BitField16<MeatStateFlags> field_20_flags;
     s16 field_22_pad;
-    s32 field_24_base_id;
-    s16 field_28_line_type;
-    s16 field_2A_count;
+    s32 mPlatformId;
+    eLineTypes mLineType;
+    s16 mThrowableCount;
     enum class MeatStates : s16
     {
         eCreated_0 = 0,
@@ -2732,35 +2924,35 @@ struct MeatSaveState final
         eWaitForPickUp_4 = 4,
         eFall_5 = 5,
     };
-    MeatStates field_2C_state;
+    MeatStates mState;
     s16 field_2E_pad;
-    FP field_30_xpos;
-    FP field_34_ypos;
-    s32 field_38_deadtimer;
+    FP mPreviousXPos;
+    FP mPreviousYPos;
+    s32 mDeadTimer;
 
     static ::MeatSaveState From(const MeatSaveState& data)
     {
         ::MeatSaveState d;
         d.mType = BaseGameObject::FromAE(data.mType);
-        d.mTlvId = Guid::NewGuidFromTlvInfo(data.field_4_obj_id);
-        d.mXPos = data.field_8_xpos;
-        d.mYPos = data.field_C_ypos;
-        d.mVelX = data.field_10_velx;
-        d.mVelY = data.field_14_vely;
-        d.mSpriteScale = data.field_18_sprite_scale;
-        d.mCurrentPath = data.field_1C_path_number;
-        d.mCurrentLevel = MapWrapper::FromAESaveData(data.field_1E_lvl_number);
+        d.mTlvId = Guid::NewGuidFromTlvInfo(data.mTlvId);
+        d.mXPos = data.mXPos;
+        d.mYPos = data.mYPos;
+        d.mVelX = data.mVelX;
+        d.mVelY = data.mVelY;
+        d.mSpriteScale = data.mSpriteScale;
+        d.mCurrentPath = data.mCurrentPath;
+        d.mCurrentLevel = MapWrapper::FromAESaveData(data.mCurrentLevel);
         d.mRender = data.field_20_flags.Get(MeatStateFlags::eBit1_bRender);
         d.mDrawable = data.field_20_flags.Get(MeatStateFlags::eBit2_bDrawable);
         d.mLoop = data.field_20_flags.Get(MeatStateFlags::eBit3_bLoop);
         d.mInteractive = data.field_20_flags.Get(MeatStateFlags::eBit4_bInteractive);
-        d.mPlatformId = Guid::NewGuidFromTlvInfo(data.field_24_base_id);
-        d.mLineType = data.field_28_line_type;
-        d.mThrowableCount = data.field_2A_count;
-        d.mState = From(data.field_2C_state);
-        d.mPreviousXPos = data.field_30_xpos;
-        d.mPreviousYPos = data.field_34_ypos;
-        d.mDeadTimer = data.field_38_deadtimer;
+        d.mPlatformId = Guid::NewGuidFromTlvInfo(data.mPlatformId);
+        d.mLineType = AEData::From(data.mLineType);
+        d.mThrowableCount = data.mThrowableCount;
+        d.mState = From(data.mState);
+        d.mPreviousXPos = data.mPreviousXPos;
+        d.mPreviousYPos = data.mPreviousYPos;
+        d.mDeadTimer = data.mDeadTimer;
         return d;
     }
 
@@ -2817,7 +3009,7 @@ struct MineCarSaveState final
     s16 field_40_current_motion;
     s16 field_42_next_motion;
     s16 field_44_last_line_ypos;
-    s16 field_46_collision_line_type;
+    eLineTypes field_46_collision_line_type;
     s16 field_48_padding;
     s16 field_4A_padding;
     s32 field_4C_tlvInfo;
@@ -2873,7 +3065,7 @@ struct MineCarSaveState final
         d.field_40_current_motion = data.field_40_current_motion;
         d.field_42_next_motion = data.field_42_next_motion;
         d.field_44_last_line_ypos = data.field_44_last_line_ypos;
-        d.field_46_collision_line_type = data.field_46_collision_line_type;
+        d.field_46_collision_line_type = AEData::From(data.field_46_collision_line_type);
         d.field_4C_tlvInfo = Guid::NewGuidFromTlvInfo(data.field_4C_tlvInfo);
         d.field_50_state = From(data.field_50_state);
         d.field_52_turn_direction = From(data.field_52_turn_direction);
@@ -2945,7 +3137,7 @@ struct ParamiteSaveState final
     s16 field_30_current_motion;
     s16 field_32_next_motion;
     s16 field_34_last_line_ypos;
-    s16 field_36_line_type;
+    eLineTypes field_36_line_type;
     s16 field_38_padding;
     s16 field_3A_padding;
     s32 field_3C_tlvInfo;
@@ -3005,7 +3197,7 @@ struct ParamiteSaveState final
         d.field_30_current_motion = data.field_30_current_motion;
         d.field_32_next_motion = data.field_32_next_motion;
         d.field_34_last_line_ypos = data.field_34_last_line_ypos;
-        d.field_36_line_type = data.field_36_line_type;
+        d.field_36_line_type = AEData::From(data.field_36_line_type);
         d.field_3C_tlvInfo = Guid::NewGuidFromTlvInfo(data.field_3C_tlvInfo);
         d.field_40_meat_id = Guid::NewGuidFromTlvInfo(data.field_40_meat_id);
         d.field_44_web_id = Guid::NewGuidFromTlvInfo(data.field_44_web_id);
@@ -3036,8 +3228,35 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(ParamiteSaveState, 0x78);
 
 struct BirdPortalSaveState final
 {
+    enum class PortalStates : u8
+    {
+        CreatePortal_0 = 0,
+        IdlePortal_1 = 1,
+        JoinDovesInCenter_2 = 2,
+        KillDoves_3 = 3,
+        CreateTerminators_4 = 4,
+        ExpandTerminators_5 = 5,
+        ActivePortal_6 = 6,
+        ShrykullGetDoves_7 = 7,
+        Unused_8 = 8,
+        GetShrykull_9 = 9,
+        CollapseTerminators_10 = 10,
+        StopSound_11 = 11,
+        CreateFlash1_12 = 12,
+        CreateFlash2_13 = 13,
+        CreateFlash3_14 = 14,
+        KillPortal_15 = 15,
+        AbeInsidePortal_16 = 16,
+        PortalExit_SetPosition_17 = 17,
+        PortalExit_CreateTerminators_18 = 18,
+        PortalExit_ExpandTerminators_19 = 19,
+        PortalExit_AbeExitting_20 = 20,
+        KillPortalClipper_21 = 21,
+        FadeoutTerminators_22 = 22,
+    };
+
     AETypes mType;
-    u8 mState;
+    PortalStates mState;
     u8 mMudCountForShrykull;
     s32 mTlvInfo;
 
@@ -3045,12 +3264,67 @@ struct BirdPortalSaveState final
     {
         ::BirdPortalSaveState d;
         d.mType = BaseGameObject::FromAE(data.mType);
-        d.mState = data.mState;
+        d.mState = From(data.mState);
         d.mMudCountForShrykull = data.mMudCountForShrykull;
         d.mTlvInfo = Guid::NewGuidFromTlvInfo(data.mTlvInfo);
         return d;
     }
 
+    static ::PortalStates From(const PortalStates& state)
+    {
+        switch (state)
+        {
+            case PortalStates::CreatePortal_0:
+                return ::PortalStates::CreatePortal_0;
+            case PortalStates::IdlePortal_1:
+                return ::PortalStates::IdlePortal_1;
+            case PortalStates::JoinDovesInCenter_2:
+                return ::PortalStates::JoinDovesInCenter_2;
+            case PortalStates::KillDoves_3:
+                return ::PortalStates::KillDoves_3;
+            case PortalStates::CreateTerminators_4:
+                return ::PortalStates::CreateTerminators_4;
+            case PortalStates::ExpandTerminators_5:
+                return ::PortalStates::ExpandTerminators_5;
+            case PortalStates::ActivePortal_6:
+                return ::PortalStates::ActivePortal_6;
+            case PortalStates::ShrykullGetDoves_7:
+                return ::PortalStates::ShrykullGetDoves_7;
+            case PortalStates::Unused_8:
+                ALIVE_FATAL("Never expected PortalStates::Unused_8 to be used");
+                //return ::PortalStates::Unused_8;
+            case PortalStates::GetShrykull_9:
+                return ::PortalStates::GetShrykull_9;
+            case PortalStates::CollapseTerminators_10:
+                return ::PortalStates::CollapseTerminators_10;
+            case PortalStates::StopSound_11:
+                return ::PortalStates::StopSound_11;
+            case PortalStates::CreateFlash1_12:
+                return ::PortalStates::CreateFlash1_12;
+            case PortalStates::CreateFlash2_13:
+                return ::PortalStates::CreateFlash2_13;
+            case PortalStates::CreateFlash3_14:
+                return ::PortalStates::CreateFlash3_14;
+            case PortalStates::KillPortal_15:
+                return ::PortalStates::KillPortal_15;
+            case PortalStates::AbeInsidePortal_16:
+                return ::PortalStates::AbeInsidePortal_16;
+            case PortalStates::PortalExit_SetPosition_17:
+                return ::PortalStates::PortalExit_SetPosition_17;
+            case PortalStates::PortalExit_CreateTerminators_18:
+                return ::PortalStates::PortalExit_CreateTerminators_18;
+            case PortalStates::PortalExit_ExpandTerminators_19:
+                return ::PortalStates::PortalExit_ExpandTerminators_19;
+            case PortalStates::PortalExit_AbeExitting_20:
+                return ::PortalStates::PortalExit_AbeExitting_20;
+            case PortalStates::KillPortalClipper_21:
+                return ::PortalStates::KillPortalClipper_21;
+            case PortalStates::FadeoutTerminators_22:
+                return ::PortalStates::FadeoutTerminators_22;
+            default:
+                ALIVE_FATAL("Bad portal state value %d", static_cast<s32>(state));
+        }
+    }
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(BirdPortalSaveState, 8);
 

@@ -12,6 +12,8 @@ enum class BoneStates : s16
     eFalling_5 = 5
 };
 
+enum eLineTypes : s16;
+
 struct BoneSaveState final
 {
     ReliveTypes mType;
@@ -29,7 +31,7 @@ struct BoneSaveState final
     bool mInteractive;
     bool mHitObject;
     Guid mPlatformId;
-    s16 mCollisionLineType;
+    eLineTypes mCollisionLineType;
     s16 mThrowableCount;
     BoneStates mState;
     s16 mBounceCount;

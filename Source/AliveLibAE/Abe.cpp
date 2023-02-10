@@ -1520,7 +1520,7 @@ s32 Abe::VGetSaveState(u8* pSaveBuffer)
     }
     else
     {
-        pSaveState->mCollisionLineType = -1;
+        pSaveState->mCollisionLineType = eLineTypes::eNone_m1;
     }
 
     pSaveState->mPlatformId = BaseAliveGameObject_PlatformId;

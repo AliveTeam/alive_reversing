@@ -89,7 +89,6 @@ const static TCrawlingSligMotionFn sCrawlingSligMotions[18] = {
     &CrawlingSlig::Motion_17_EndPushingWall
 };
 
-
 const static TCrawlingSligBrainFn sCrawlingSligBrainTable[6] = {
     &CrawlingSlig::Brain_0_Sleeping,
     &CrawlingSlig::Brain_1_Idle,
@@ -260,9 +259,10 @@ s32 CrawlingSlig::CreateFromSaveState(const u8* pBuffer)
 
         pCrawlingSlig->mRGB.SetRGB(pState->mR, pState->mG, pState->mB);
 
-        pCrawlingSlig->mCurrentMotion = pState->mCurrentMotion;
+        pCrawlingSlig->SetCurrentMotion(pState->mCurrentMotion);
 
-        pCrawlingSlig->GetAnimation().Set_Animation_Data(pCrawlingSlig->GetAnimRes(sCrawlingSligAnimIdTable[pState->mCurrentMotion]));
+        s16 idx = static_cast<s16>(pState->mCurrentMotion);
+        pCrawlingSlig->GetAnimation().Set_Animation_Data(pCrawlingSlig->GetAnimRes(sCrawlingSligAnimIdTable[idx]));
         pCrawlingSlig->GetAnimation().SetCurrentFrame(pState->mCurrentFrame);
 
         pCrawlingSlig->GetAnimation().SetFrameChangeCounter(pState->mFrameChangeCounter);
@@ -278,8 +278,8 @@ s32 CrawlingSlig::CreateFromSaveState(const u8* pBuffer)
         }
 
         pCrawlingSlig->mHealth = pState->mHealth;
-        pCrawlingSlig->mCurrentMotion = pState->mCurrentMotion2;
-        pCrawlingSlig->mNextMotion = pState->mNextMotion;
+        pCrawlingSlig->SetCurrentMotion(pState->mCurrentMotion2);
+        pCrawlingSlig->SetNextMotion(pState->mNextMotion);
         pCrawlingSlig->BaseAliveGameObjectLastLineYPos = FP_FromInteger(pState->mLastLineYPos);
         pCrawlingSlig->SetRestoredFromQuickSave(true);
         pCrawlingSlig->mMultiUseTimer = pState->mMultiUseTimer;
@@ -328,15 +328,15 @@ s32 CrawlingSlig::VGetSaveState(u8* pSaveBuffer)
     pState->mG = mRGB.g;
     pState->mB = mRGB.b;
     pState->mFlipX = GetAnimation().GetFlipX();
-    pState->mCurrentMotion = mCurrentMotion;
+    pState->mCurrentMotion = GetCurrentMotion();
     pState->mCurrentFrame = static_cast<s16>(GetAnimation().GetCurrentFrame());
     pState->mFrameChangeCounter = static_cast<s16>(GetAnimation().GetFrameChangeCounter());
     pState->mDrawable = GetDrawable();
     pState->mRender = GetAnimation().GetRender();
     pState->mHealth = mHealth;
-    pState->mCurrentMotion2 = mCurrentMotion;
-    pState->mNextMotion = mNextMotion;
-    pState->mCollisionLineType = -1;
+    pState->mCurrentMotion2 = GetCurrentMotion();
+    pState->mNextMotion = GetNextMotion();
+    pState->mCollisionLineType = eLineTypes::eNone_m1;
 
     // TODO: Check correct
     pState->mLastLineYPos = FP_GetExponent(BaseAliveGameObjectLastLineYPos);
@@ -349,14 +349,14 @@ s32 CrawlingSlig::VGetSaveState(u8* pSaveBuffer)
     pState->mControlled = (this == sControlledCharacter);
     pState->mMultiUseTimer = mMultiUseTimer;
     pState->mCrawlingSligTlvId = mGuid;
-    pState->mBrainState = 0;
+    pState->mBrainState = eCrawlingSligBrains::Brain_0_Sleeping;
 
     s32 idx = 0;
     for (const auto& fn : sCrawlingSligBrainTable)
     {
         if (BrainIs(fn))
         {
-            pState->mBrainState = idx;
+            pState->mBrainState = static_cast<eCrawlingSligBrains>(idx);
             break;
         }
         idx++;

@@ -225,6 +225,7 @@ union AllInternalStates
 };
 
 enum class Mud_Emotion : s16;
+enum eLineTypes : s16;
 
 void Mudokon_SFX(MudSounds idx, s16 volume, s32 pitch, BaseAliveGameObject* pHero);
 
@@ -255,7 +256,7 @@ struct AbeSaveState final
     u16 mCurrentMotion2; // the same as mCurrentMotion
     u16 mNextMotion;
     u16 mLastLineYPos;
-    s16 mCollisionLineType;
+    eLineTypes mCollisionLineType;
     Guid mPlatformId;
     u16 mIsElectrocuted;
     u16 mIsInvisible;

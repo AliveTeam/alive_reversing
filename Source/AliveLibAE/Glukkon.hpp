@@ -32,7 +32,7 @@
     ENTRY(Motion_24_EndSingleStep)
 
 #define MAKE_ENUM(VAR) VAR,
-enum class eGlukkonMotions : s32
+enum class eGlukkonMotions : s16
 {
     eNone_m1 = -1,
     GLUKKON_MOTIONS_ENUM(MAKE_ENUM)
@@ -55,6 +55,7 @@ enum class GlukkonSpeak : s8
 };
 
 enum class LevelIds : s16;
+enum eLineTypes : s16;
 
 class Glukkon;
 using TGlukkonBrainFn = s16 (Glukkon::*)();
@@ -75,23 +76,23 @@ struct GlukkonSaveState final
     u16 mGreen;
     u16 mBlue;
     u16 mFlipX;
-    u16 mCurrentMotion;
+    eGlukkonMotions mCurrentMotion;
     u16 mCurrentFrame;
     u16 mFrameChangeCounter;
     u8 mRender;
     u8 mDrawable;
     FP mHealth;
-    u16 mCurrentMotion2;
-    u16 mNextMotion;
+    eGlukkonMotions mCurrentMotion2;
+    eGlukkonMotions mNextMotion;
     s16 field_38_last_line_ypos;
-    s16 mLineType;
+    eLineTypes mLineType;
     bool mIsActiveChar;
     Guid mTlvId;
-    s32 field_48_brain_state_idx;
+    s32 mBrainStateIdx;
     s16 mBrainSubState;
     s32 field_54_timer;
     FP mFallingVelXScaleFactor;
-    s16 mPreventDepossession;
+    bool mPreventDepossession;
     EReliveLevelIds mAbeLevel;
     s16 mAbePath;
     s16 mAbeCamera;
@@ -209,7 +210,7 @@ private:
     FP mFallingVelXScaleFactor = {};
     FP mPreviousYPos = {};
     s16 mGamespeakPitch = 0;
-    s16 mPreventDepossession = 0;
+    bool mPreventDepossession = false;
     EReliveLevelIds mAbeLevel = EReliveLevelIds::eNone;
     s16 mAbePath = 0;
     s16 mAbeCamera = 0;

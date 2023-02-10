@@ -407,6 +407,37 @@ inline void from_json(const nlohmann::json& j, MinesAlarmSaveState& p)
     j.at("explosion_timer").get_to(p.mExplosionTimer);
 }
 
+NLOHMANN_JSON_SERIALIZE_ENUM(CrawlingSligMotion, {
+    {CrawlingSligMotion::None, "none"},
+    {CrawlingSligMotion::Motion_0_Idle, "idle"},
+    {CrawlingSligMotion::Motion_1_UsingButton, "using_button"},
+    {CrawlingSligMotion::Motion_2_WakingUp, "waking_up"},
+    {CrawlingSligMotion::Motion_3_Crawling, "crawling"},
+    {CrawlingSligMotion::Motion_4_StartFalling, "start_falling"},
+    {CrawlingSligMotion::Motion_5_Falling, "falling"},
+    {CrawlingSligMotion::Motion_6_Landing, "landing"},
+    {CrawlingSligMotion::Motion_7_ToShakingToIdle, "to_shaking_to_idle"},
+    {CrawlingSligMotion::Motion_8_Speaking, "speaking"},
+    {CrawlingSligMotion::Motion_9_Snoozing, "snoozing"},
+    {CrawlingSligMotion::Motion_10_PushingWall, "pushing_wall"},
+    {CrawlingSligMotion::Motion_11_TurnAround, "turn_around"},
+    {CrawlingSligMotion::Motion_12_Shaking, "shaking"},
+    {CrawlingSligMotion::Motion_13_Empty, "motion_13_empty"},
+    {CrawlingSligMotion::Motion_14_ShakingToIdle, "shaking_to_idle"},
+    {CrawlingSligMotion::Motion_15_EndCrawling, "end_crawling"},
+    {CrawlingSligMotion::Motion_16_IdleToPushingWall, "idle_to_pushing_wall"},
+    {CrawlingSligMotion::Motion_17_EndPushingWall, "end_pushing_wall"},
+})
+
+NLOHMANN_JSON_SERIALIZE_ENUM(eCrawlingSligBrains, {
+    {eCrawlingSligBrains::Brain_0_Sleeping, "sleeping"},
+    {eCrawlingSligBrains::Brain_1_Idle, "idle"},
+    {eCrawlingSligBrains::Brain_2_PanicGetALocker, "panic_get_a_locker"},
+    {eCrawlingSligBrains::Brain_3_Possessed, "possessed"},
+    {eCrawlingSligBrains::Brain_4_GetKilled, "get_killed"},
+    {eCrawlingSligBrains::Brain_5_Transformed, "transformed"},
+})
+
 inline void to_json(nlohmann::json& j, const CrawlingSligSaveState& p)
 {
     j = nlohmann::json{
@@ -1157,6 +1188,35 @@ NLOHMANN_JSON_SERIALIZE_ENUM(GlukkonSpeak, {
     {GlukkonSpeak::What_11, "what"},
 })
 
+NLOHMANN_JSON_SERIALIZE_ENUM(eGlukkonMotions, {
+    {eGlukkonMotions::eNone_m1, "none"},
+    {eGlukkonMotions::Motion_0_Idle, "idle"},
+    {eGlukkonMotions::Motion_1_Walk, "walk"},
+    {eGlukkonMotions::Motion_2_Turn, "turn"},
+    {eGlukkonMotions::Motion_3_KnockBack, "knockback"},
+    {eGlukkonMotions::Motion_4_Jump, "jump"},
+    {eGlukkonMotions::Motion_5_JumpToFall, "jump_to_fall"},
+    {eGlukkonMotions::Motion_6_WalkToFall, "walk_to_fall"},
+    {eGlukkonMotions::Motion_7_Fall, "fall"},
+    {eGlukkonMotions::Motion_8_DeathFall, "death_fall"},
+    {eGlukkonMotions::Motion_9_Land, "land"},
+    {eGlukkonMotions::Motion_10_ChantShake, "chant_shake"},
+    {eGlukkonMotions::Motion_11_Speak1, "speak1"},
+    {eGlukkonMotions::Motion_12_Speak2, "speak2"},
+    {eGlukkonMotions::Motion_13_LongLaugh, "long_laugh"},
+    {eGlukkonMotions::Motion_14_BeginWalk, "begin_walk"},
+    {eGlukkonMotions::Motion_15_EndWalk, "end_walk"},
+    {eGlukkonMotions::Motion_16_StandToJump, "stand_to_jump"},
+    {eGlukkonMotions::Motion_17_JumpToStand, "jump_to_stand"},
+    {eGlukkonMotions::Motion_18_WalkToJump, "walk_to_jump"},
+    {eGlukkonMotions::Motion_19_JumpToWalk, "jump_to_walk"},
+    {eGlukkonMotions::Motion_20_KnockBackStandBegin, "knockback_stand_begin"},
+    {eGlukkonMotions::Motion_21_GetShot, "get_shot"},
+    {eGlukkonMotions::Motion_22_KnockBackStandEnd, "knockback_stand_end"},
+    {eGlukkonMotions::Motion_23_Speak3, "speak3"},
+    {eGlukkonMotions::Motion_24_EndSingleStep, "end_single_step"},
+})
+
 inline void to_json(nlohmann::json& j, const GlukkonSaveState& p)
 {
     j = nlohmann::json{
@@ -1185,7 +1245,7 @@ inline void to_json(nlohmann::json& j, const GlukkonSaveState& p)
         {"line_type", p.mLineType},
         {"is_active_char", p.mIsActiveChar},
         {"tlv_info", p.mTlvId},
-        {"brain_state_idx", p.field_48_brain_state_idx},
+        {"brain_state_idx", p.mBrainStateIdx},
         {"brain_sub_state", p.mBrainSubState},
         {"timer", p.field_54_timer},
         {"vel_x_scale_factor", p.mFallingVelXScaleFactor},
@@ -1235,7 +1295,7 @@ inline void from_json(const nlohmann::json& j, GlukkonSaveState& p)
     j.at("line_type").get_to(p.mLineType);
     j.at("is_active_char").get_to(p.mIsActiveChar);
     j.at("tlv_info").get_to(p.mTlvId);
-    j.at("brain_state_idx").get_to(p.field_48_brain_state_idx);
+    j.at("brain_state_idx").get_to(p.mBrainStateIdx);
     j.at("brain_sub_state").get_to(p.mBrainSubState);
     j.at("timer").get_to(p.field_54_timer);
     j.at("vel_x_scale_factor").get_to(p.mFallingVelXScaleFactor);
@@ -2022,6 +2082,32 @@ inline void from_json(const nlohmann::json& j, ParamiteSaveState& p)
     j.at("alerted").get_to(p.mAlerted);
     j.at("can_be_possessed").get_to(p.mCanBePossessed);
 }
+
+NLOHMANN_JSON_SERIALIZE_ENUM(PortalStates, {
+    {PortalStates::CreatePortal_0, "create_portal"},
+    {PortalStates::IdlePortal_1, "idle_portal"},
+    {PortalStates::JoinDovesInCenter_2, "join_doves_in_center"},
+    {PortalStates::KillDoves_3, "kill_doves"},
+    {PortalStates::CreateTerminators_4, "create_terminators"},
+    {PortalStates::ExpandTerminators_5, "expand_terminators"},
+    {PortalStates::ActivePortal_6, "active_portal"},
+    {PortalStates::ShrykullGetDoves_7, "shrykull_get_doves"},
+    {PortalStates::Unused_8, "unused_8"},
+    {PortalStates::GetShrykull_9, "get_shrykull"},
+    {PortalStates::CollapseTerminators_10, "collapse_terminators"},
+    {PortalStates::StopSound_11, "stop_sound"},
+    {PortalStates::CreateFlash1_12, "create_flash1"},
+    {PortalStates::CreateFlash2_13, "create_flash2"},
+    {PortalStates::CreateFlash3_14, "create_flash3"},
+    {PortalStates::KillPortal_15, "kill_portal"},
+    {PortalStates::AbeInsidePortal_16, "abe_inside_portal"},
+    {PortalStates::PortalExit_SetPosition_17, "portal_exit_set_position"},
+    {PortalStates::PortalExit_CreateTerminators_18, "portal_exit_create_terminators"},
+    {PortalStates::PortalExit_ExpandTerminators_19, "portal_exit_expand_terminators"},
+    {PortalStates::PortalExit_AbeExitting_20, "portal_exit_abe_exitting"},
+    {PortalStates::KillPortalClipper_21, "kill_portal_clipper"},
+    {PortalStates::FadeoutTerminators_22, "fadeout_terminators"},
+})
 
 inline void to_json(nlohmann::json& j, const BirdPortalSaveState& p)
 {

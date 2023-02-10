@@ -107,7 +107,7 @@ void GameEnderController::VUpdate()
             auto pBirdPortal = static_cast<BirdPortal*>(sObjectIds.Find_Impl(sActiveHero->mBirdPortalId));
             if (pBirdPortal)
             {
-                if (pBirdPortal->mState == BirdPortal::PortalStates::CollapseTerminators_10)
+                if (pBirdPortal->mState == PortalStates::CollapseTerminators_10)
                 {
                     auto pAlarm = sObjectIds.Find_Impl(gAlarmObjId);
                     if (pAlarm)

@@ -16,6 +16,8 @@ enum class GrenadeStates : s16
     eFallingBlowUpOnGround_9 = 9,
 };
 
+enum eLineTypes : s16;
+
 struct GrenadeSaveState final
 {
     ReliveTypes mType;
@@ -34,7 +36,7 @@ struct GrenadeSaveState final
     bool mExplodeNow;
     bool mBlowUpOnCollision;
     Guid mPlatformId;
-    s16 mCollisionLineType;
+    eLineTypes mCollisionLineType;
     s16 mThrowableCount;
     GrenadeStates mState;
     s16 mBounceCount;

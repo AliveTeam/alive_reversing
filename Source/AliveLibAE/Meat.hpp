@@ -12,6 +12,8 @@ enum class MeatStates : s16
     eFall_5 = 5,
 };
 
+enum eLineTypes : s16;
+
 struct MeatSaveState final
 {
     ReliveTypes mType;
@@ -28,7 +30,7 @@ struct MeatSaveState final
     bool mLoop;
     bool mInteractive;
     Guid mPlatformId;
-    s16 mLineType;
+    eLineTypes mLineType;
     s16 mThrowableCount;
     MeatStates mState;
     FP mPreviousXPos;

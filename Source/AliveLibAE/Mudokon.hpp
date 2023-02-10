@@ -103,6 +103,7 @@ enum eMudMotions : u16
 };
 
 enum class MudAction : s16;
+enum eLineTypes : s16;
 
 class BirdPortal;
 
@@ -130,7 +131,7 @@ struct MudokonSaveState final
     s16 field_30_current_motion;
     s16 field_32_next_motion;
     s16 field_34_lastLineYPos;
-    s16 field_36_line_type;
+    eLineTypes field_36_line_type;
     s16 field_38_padding;
     s16 field_3A_padding;
     s8 field_3C_can_be_possessed;

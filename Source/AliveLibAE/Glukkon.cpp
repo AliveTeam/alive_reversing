@@ -61,7 +61,7 @@ constexpr TGlukkonMotionFn sGlukkonMotionTable[25] = {
     &Glukkon::Motion_23_Speak3,
     &Glukkon::Motion_24_EndSingleStep};
 
-const TGlukkonBrainFn sGlukkon_brain_table_5544A0[6] = {
+static const TGlukkonBrainFn sGlukkonBrainTable[6] = {
     &Glukkon::Brain_0_Calm_WalkAround,
     &Glukkon::Brain_1_Panic,
     &Glukkon::Brain_2_Slapped,
@@ -69,7 +69,7 @@ const TGlukkonBrainFn sGlukkon_brain_table_5544A0[6] = {
     &Glukkon::Brain_4_Death,
     &Glukkon::Brain_5_WaitToSpawn};
 
-const AnimId sGlukkonsAnimIdTable[4][25] = {
+static const AnimId sGlukkonsAnimIdTable[4][25] = {
     {AnimId::Glukkon_Normal_Idle, AnimId::Glukkon_Normal_Walk, AnimId::Glukkon_Normal_Turn, AnimId::Glukkon_Normal_KnockBack, AnimId::Glukkon_Normal_Jump,
      AnimId::Glukkon_Normal_JumpToFall, AnimId::Glukkon_Normal_WalkToFall, AnimId::Glukkon_Normal_Fall, AnimId::Glukkon_Normal_DeathFall, AnimId::Glukkon_Normal_Land,
      AnimId::Glukkon_Normal_ChantShake, AnimId::Glukkon_Normal_Speak1, AnimId::Glukkon_Normal_Speak2, AnimId::Glukkon_Normal_LongLaugh, AnimId::Glukkon_Normal_BeginWalk,
@@ -94,7 +94,7 @@ const AnimId sGlukkonsAnimIdTable[4][25] = {
      AnimId::Glukkon_Phleg_EndWalk, AnimId::Glukkon_Phleg_StandToJump, AnimId::Glukkon_Phleg_JumpToStand, AnimId::Glukkon_Phleg_WalkToJump, AnimId::Glukkon_Phleg_JumpToWalk,
      AnimId::Glukkon_Phleg_KnockBackStandBegin, AnimId::Glukkon_Phleg_GetShot, AnimId::Glukkon_Phleg_KnockBackStandEnd, AnimId::Glukkon_Phleg_Speak3, AnimId::Glukkon_Phleg_EndSingleStep}};
 
-const TintEntry kGlukkonTints_5546B4[16] = {
+static const TintEntry kGlukkonTints[16] = {
     {EReliveLevelIds::eMenu, 137u, 137u, 137u},
     {EReliveLevelIds::eMines, 137u, 137u, 137u},
     {EReliveLevelIds::eNecrum, 137u, 137u, 137u},
@@ -147,7 +147,7 @@ s32 Glukkon::CreateFromSaveState(const u8* pData)
         pGlukkon->mGreen = pSaveState->mGreen;
         pGlukkon->mBlue = pSaveState->mBlue;
 
-        pGlukkon->mCurrentMotion = pSaveState->mCurrentMotion;
+        pGlukkon->SetCurrentMotion(pSaveState->mCurrentMotion);
 
         relive::Path_Glukkon::GlukkonTypes glukType = pGlukkon->mTlvData.mGlukkonType;
         // TODO: This should really be a switch rather than comparing values
@@ -156,7 +156,7 @@ s32 Glukkon::CreateFromSaveState(const u8* pData)
             glukType = relive::Path_Glukkon::GlukkonTypes::eNormal;
         }
 
-        pGlukkon->GetAnimation().Set_Animation_Data(pGlukkon->GetAnimRes(sGlukkonsAnimIdTable[static_cast<s32>(glukType)][pSaveState->mCurrentMotion]));
+        pGlukkon->GetAnimation().Set_Animation_Data(pGlukkon->GetAnimRes(sGlukkonsAnimIdTable[static_cast<s32>(glukType)][static_cast<s32>(pSaveState->mCurrentMotion)]));
 
         pGlukkon->GetAnimation().SetCurrentFrame(pSaveState->mCurrentFrame);
         pGlukkon->GetAnimation().SetFrameChangeCounter(pSaveState->mFrameChangeCounter);
@@ -170,14 +170,14 @@ s32 Glukkon::CreateFromSaveState(const u8* pData)
         }
 
         pGlukkon->mHealth = pSaveState->mHealth;
-        pGlukkon->mCurrentMotion = pSaveState->mCurrentMotion2;
-        pGlukkon->mNextMotion = pSaveState->mNextMotion;
+        pGlukkon->SetCurrentMotion(pSaveState->mCurrentMotion2);
+        pGlukkon->SetNextMotion(pSaveState->mNextMotion);
         pGlukkon->BaseAliveGameObjectLastLineYPos = FP_FromInteger(pSaveState->field_38_last_line_ypos);
         pGlukkon->SetRestoredFromQuickSave(true);
         pGlukkon->field_1D4_timer = pSaveState->field_54_timer;
         pGlukkon->BaseAliveGameObjectCollisionLineType = pSaveState->mLineType;
         pGlukkon->mTlvId = pSaveState->mTlvId;
-        pGlukkon->SetBrain(sGlukkon_brain_table_5544A0[pSaveState->field_48_brain_state_idx]);
+        pGlukkon->SetBrain(sGlukkonBrainTable[pSaveState->mBrainStateIdx]);
         pGlukkon->mBrainSubState = pSaveState->mBrainSubState;
         pGlukkon->mPreventDepossession = pSaveState->mPreventDepossession;
         pGlukkon->mAbeLevel = pSaveState->mAbeLevel;
@@ -301,15 +301,15 @@ s32 Glukkon::VGetSaveState(u8* pSaveBuffer)
     pSaveState->mRed = mRGB.r;
     pSaveState->mGreen = mRGB.g;
     pSaveState->mBlue = mRGB.b;
-    pSaveState->mCurrentMotion = mCurrentMotion;
+    pSaveState->mCurrentMotion = GetCurrentMotion();
     pSaveState->mCurrentFrame = static_cast<u16>(GetAnimation().GetCurrentFrame());
     pSaveState->mFrameChangeCounter = static_cast<u16>(GetAnimation().GetFrameChangeCounter());
     pSaveState->mFlipX = GetAnimation().GetFlipX();
     pSaveState->mRender = GetAnimation().GetRender();
     pSaveState->mDrawable = GetDrawable();
     pSaveState->mHealth = mHealth;
-    pSaveState->mCurrentMotion2 = mCurrentMotion;
-    pSaveState->mNextMotion = mNextMotion;
+    pSaveState->mCurrentMotion2 = GetCurrentMotion();
+    pSaveState->mNextMotion = GetNextMotion();
     pSaveState->field_38_last_line_ypos = FP_GetExponent(BaseAliveGameObjectLastLineYPos);
     if (BaseAliveGameObjectCollisionLine)
     {
@@ -317,19 +317,19 @@ s32 Glukkon::VGetSaveState(u8* pSaveBuffer)
     }
     else
     {
-        pSaveState->mLineType = -1;
+        pSaveState->mLineType = eLineTypes::eNone_m1;
     }
     pSaveState->mIsActiveChar = this == sControlledCharacter;
     pSaveState->mTlvId = mTlvId;
 
-    pSaveState->field_48_brain_state_idx = 0;
+    pSaveState->mBrainStateIdx = 0;
 
     s16 idx = 0;
-    for (auto& fn : sGlukkon_brain_table_5544A0)
+    for (auto& fn : sGlukkonBrainTable)
     {
         if (BrainIs(fn))
         {
-            pSaveState->field_48_brain_state_idx = idx;
+            pSaveState->mBrainStateIdx = idx;
             break;
         }
         idx++;
@@ -1560,15 +1560,15 @@ s16 Glukkon::Brain_3_PlayerControlled()
 
             if (mTlvData.mGlukkonType == relive::Path_Glukkon::GlukkonTypes::eStoryAslik)
             {
-                gVisitedFeecoEnder = 1;
+                gVisitedFeecoEnder = true;
             }
             else if (mTlvData.mGlukkonType == relive::Path_Glukkon::GlukkonTypes::eStoryDripik)
             {
-                gVisitedBarracks = 1;
+                gVisitedBarracks = true;
             }
             else
             {
-                gVisitedBonewerkz = 1;
+                gVisitedBonewerkz = true;
             }
 
             auto pFadeMem = relive_new Fade(Layer::eLayer_FadeFlash_40, FadeOptions::eFadeIn, 0, 8, TPageAbr::eBlend_2);
@@ -1899,7 +1899,7 @@ void Glukkon::Init()
 
     SetDrawable(true);
 
-    SetTint(&kGlukkonTints_5546B4[0], gMap.mCurrentLevel);
+    SetTint(&kGlukkonTints[0], gMap.mCurrentLevel);
     mXPos = FP_FromInteger((mTlvData.mTopLeftX + mTlvData.mBottomRightX) / 2);
     mYPos = FP_FromInteger(mTlvData.mTopLeftY);
 
@@ -2048,7 +2048,7 @@ void Glukkon::VUpdate()
     {
         if (!Input_IsChanting())
         {
-            mPreventDepossession = 0;
+            mPreventDepossession = false;
         }
 
         const auto oldMotion = mCurrentMotion;
@@ -2092,7 +2092,7 @@ void Glukkon::VPossessed()
 {
     SwitchStates_Do_Operation(mTlvData.mHelpSwitchId, relive::reliveSwitchOp::eSetFalse);
     SetPossessed(true);
-    mPreventDepossession = 1;
+    mPreventDepossession = true;
     SetAnim(eGlukkonMotions::Motion_10_ChantShake, true);
     SetBrain(&Glukkon::Brain_3_PlayerControlled);
     mBrainSubState = 0;

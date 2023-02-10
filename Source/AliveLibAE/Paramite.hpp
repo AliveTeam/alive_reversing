@@ -66,6 +66,7 @@ using TParamiteMotionFn = void (Paramite::*)();
 
 enum class LevelIds : s16;
 enum class GameSpeakEvents : s16;
+enum eLineTypes : s16;
 
 class PullRingRope;
 
@@ -110,7 +111,7 @@ struct ParamiteSaveState final
     s16 field_30_current_motion;
     s16 field_32_next_motion;
     s16 field_34_last_line_ypos;
-    s16 field_36_line_type;
+    eLineTypes field_36_line_type;
     s16 field_38_padding;
     s16 field_3A_padding;
     Guid field_3C_tlvInfo;

@@ -1361,7 +1361,7 @@ static void ConvertPals(const FileSystem::Path& dataDir, std::vector<u8>& fileBu
 }
 
 
-static void ConvertAnimations(const FileSystem::Path& dataDir, FileSystem& fs, std::vector<u8>& fileBuffer, ReliveAPI::LvlReader& lvlReader, EReliveLevelIds reliveLvl, bool isAo)
+void ConvertAnimations(const FileSystem::Path& dataDir, FileSystem& fs, std::vector<u8>& fileBuffer, ReliveAPI::LvlReader& lvlReader, EReliveLevelIds reliveLvl, bool isAo)
 {
     // Convert animations that exist in this LVL
     for (auto& rec : kAnimRecConversionInfo)
@@ -1618,7 +1618,7 @@ static void ConvertFilesInLvl(const FileSystem::Path& dataDir, FileSystem& fs, R
                         ConvertFont(dataDir, fileName, lvlReader, fileBuffer, true);
                     }
 
-                     ConvertCamera(dataDir, fileName, fs, fileBuffer, lvlReader, lvlIdxAsLvl, isAo);
+                     //ConvertCamera(dataDir, fileName, fs, fileBuffer, lvlReader, lvlIdxAsLvl, isAo);
                 }
                 else if (endsWith(fileName, ".JOY"))
                 {
@@ -1824,7 +1824,7 @@ void DataConversion::ConvertDataAO()
     dataDir.Append("ao");
     fs.CreateDirectory(dataDir);
 
-    ConvertFMVs(dataDir, true);
+    //ConvertFMVs(dataDir, true);
 
     // TODO: Prob diff data in AO, check me
     ConvertHardcodedPals(dataDir);
@@ -1832,7 +1832,7 @@ void DataConversion::ConvertDataAO()
     std::vector<u8> fileBuffer;
     IterateAOLvls([&](ReliveAPI::LvlReader& lvlReader, EReliveLevelIds reliveLvl, AO::LevelIds lvlIdxAsLvl)
     {
-        ConvertAnimations(dataDir, fs, fileBuffer, lvlReader, reliveLvl, true);
+        //ConvertAnimations(dataDir, fs, fileBuffer, lvlReader, reliveLvl, true);
 
         ConvertPals(dataDir, fileBuffer, lvlReader, true);
 
@@ -1859,13 +1859,13 @@ void DataConversion::ConvertDataAE()
     dataDir.Append("ae");
     fs.CreateDirectory(dataDir);
 
-    ConvertFMVs(dataDir, false);
+    //ConvertFMVs(dataDir, false);
     ConvertHardcodedPals(dataDir);
 
     std::vector<u8> fileBuffer;
     IterateAELvls([&](ReliveAPI::LvlReader& lvlReader, EReliveLevelIds reliveLvl, LevelIds lvlIdxAsLvl) 
     {
-        ConvertAnimations(dataDir, fs, fileBuffer, lvlReader, reliveLvl, false);
+        //ConvertAnimations(dataDir, fs, fileBuffer, lvlReader, reliveLvl, false);
 
         ConvertPals(dataDir, fileBuffer, lvlReader, false);
 
