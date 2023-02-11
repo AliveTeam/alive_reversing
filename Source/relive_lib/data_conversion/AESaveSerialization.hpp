@@ -2189,7 +2189,6 @@ inline void from_json(const nlohmann::json& j, AbilityRingSaveState& p)
     j.at("ring_red").get_to(p.mRingBlue);
 }
 
-
 NLOHMANN_JSON_SERIALIZE_ENUM(RockStates, {
     {RockStates::eNone_0, "none"},
     {RockStates::eFallingOutOfRockSack_1, "falling_out_of_rock_sack"},
@@ -2197,8 +2196,7 @@ NLOHMANN_JSON_SERIALIZE_ENUM(RockStates, {
     {RockStates::eOnGround_3, "on_ground"},
     {RockStates::eBouncing_4, "bouncing"},
     {RockStates::eFallingOutOfWorld_5, "falling_out_of_world"},
-    })
-
+})
 
 inline void to_json(nlohmann::json& j, const RockSaveState& p)
 {
@@ -2249,6 +2247,49 @@ inline void from_json(const nlohmann::json& j, RockSaveState& p)
     j.at("field_30_xpos").get_to(p.mPreviousXPos);
     j.at("field_34_ypos").get_to(p.mPreviousYPos);
 }
+
+NLOHMANN_JSON_SERIALIZE_ENUM(eScrabMotions, {
+    {eScrabMotions::Motion_0_Stand, "stand"},
+    {eScrabMotions::Motion_1_Walk, "walk"},
+    {eScrabMotions::Motion_2_Run, "run"},
+    {eScrabMotions::Motion_3_Turn, "turn"},
+    {eScrabMotions::Motion_4_RunToStand, "run_to_stand"},
+    {eScrabMotions::Motion_5_HopBegin, "hop_begin"},
+    {eScrabMotions::Motion_6_HopMidair, "hop_midair"},
+    {eScrabMotions::Motion_7_HopLand, "hop_land"},
+    {eScrabMotions::Motion_8_JumpToFall, "jump_to_fall"},
+    {eScrabMotions::Motion_9_StandToWalk, "stand_to_walk"},
+    {eScrabMotions::Motion_10_StandToRun, "stand_to_run"},
+    {eScrabMotions::Motion_11_WalkToStand, "walk_to_stand"},
+    {eScrabMotions::Motion_12_RunJumpBegin, "run_jump_begin"},
+    {eScrabMotions::Motion_13_RunJumpEnd, "run_jump_end"},
+    {eScrabMotions::Motion_14_WalkToFall, "walk_to_fall"},
+    {eScrabMotions::Motion_15_RunToFall, "run_to_fall"},
+    {eScrabMotions::Motion_16_WalkToRun , "walk_to_run"},
+    {eScrabMotions::Motion_17_RunToWalk, "run_to_walk"},
+    {eScrabMotions::Motion_18_Knockback, "knockback"},
+    {eScrabMotions::Motion_19_GetEaten, "get_eaten"},
+    {eScrabMotions::Motion_20_Fall, "fall"},
+    {eScrabMotions::Motion_21_Stamp, "stamp"},
+    {eScrabMotions::Motion_22_GetPossessed, "get_possessed"},
+    {eScrabMotions::Motion_23_Empty, "motion_23_empty"},
+    {eScrabMotions::Motion_24_DeathEnd, "death_end"},
+    {eScrabMotions::Motion_25_Empty, "motion_25_empty"},
+    {eScrabMotions::Motion_26_HowlBegin, "howl_begin"},
+    {eScrabMotions::Motion_27_HowlEnd, "howl_end"},
+    {eScrabMotions::Motion_28_GetDepossessedBegin, "get_depossessed_begin"},
+    {eScrabMotions::Motion_29_GetDepossessedEnd, "get_depossessed_end"},
+    {eScrabMotions::Motion_30_Shriek, "shriek"},
+    {eScrabMotions::Motion_31_ScrabBattleAnim, "scrab_battle_anim"},
+    {eScrabMotions::Motion_32_AttackSpin, "attack_spin"},
+    {eScrabMotions::Motion_33_FeedToGulp, "feed_to_gulp"},
+    {eScrabMotions::Motion_34_GulpToStand, "gulp_to_stand"},
+    {eScrabMotions::Motion_35_StandToFeed, "stand_to_feed"},
+    {eScrabMotions::Motion_36_Feed, "feed"},
+    {eScrabMotions::Motion_37_AttackLunge, "attack_lunge"},
+    {eScrabMotions::Motion_38_LegKick, "leg_kick"},
+    {eScrabMotions::Motion_39_DeathBegin, "death_begin"},
+})
 
 inline void to_json(nlohmann::json& j, const ScrabSaveState& p)
 {
@@ -2397,6 +2438,61 @@ inline void from_json(const nlohmann::json& j, SlamDoorSaveState& p)
     j.at("tlv_info").get_to(p.mTlvInfo);
 }
 
+NLOHMANN_JSON_SERIALIZE_ENUM(eSligMotions, {
+    {eSligMotions::Motion_0_StandIdle, "stand_idle"},
+    {eSligMotions::Motion_1_StandToWalk, "stand_to_walk"},
+    {eSligMotions::Motion_2_Walking, "walking"},
+    {eSligMotions::Motion_3_StandToRun, "stand_to_run"},
+    {eSligMotions::Motion_4_Running, "running"},
+    {eSligMotions::Motion_5_TurnAroundStanding, "turn_around_standing"},
+    {eSligMotions::Motion_6_Shoot, "shoot"},
+    {eSligMotions::Motion_7_Falling, "falling"},
+    {eSligMotions::Motion_8_SlidingToStand, "sliding_to_stand"},
+    {eSligMotions::Motion_9_SlidingTurn, "sliding_turn"},
+    {eSligMotions::Motion_10_SlidingTurnToWalk, "sliding_turn_to_walk"},
+    {eSligMotions::Motion_11_SlidingTurnToRun, "sliding_turn_to_run"},
+    {eSligMotions::Motion_12_ReloadGun, "reload_gun"},
+    {eSligMotions::Motion_13_ShootToStand, "shoot_to_stand"},
+    {eSligMotions::Motion_14_SteppingToStand, "stepping_to_stand"},
+    {eSligMotions::Motion_15_StandingToStep, "standing_to_step"},
+    {eSligMotions::Motion_16_DepossessingAbort, "depossessing_abort"},
+    {eSligMotions::Motion_17_GameSpeak, "gamespeak"},
+    {eSligMotions::Motion_18_WalkToStand, "walk_to_stand"},
+    {eSligMotions::Motion_19_Recoil, "recoil"},
+    {eSligMotions::Motion_20_SpeakHereBoy, "speak_here_boy"},
+    {eSligMotions::Motion_21_SpeakHi, "speak_hi"},
+    {eSligMotions::Motion_22_SpeakFreeze, "speak_freeze"},
+    {eSligMotions::Motion_23_SpeakGetHim, "speak_get_him"},
+    {eSligMotions::Motion_24_SpeakLaugh, "speak_laugh"},
+    {eSligMotions::Motion_25_SpeakBullshit1, "speak_bullshit1"},
+    {eSligMotions::Motion_26_SpeakLookOut, "speak_look_out"},
+    {eSligMotions::Motion_27_SpeakBullshit2, "speak_bullshit2"},
+    {eSligMotions::Motion_28_SpeakPanic, "speak_panic"},
+    {eSligMotions::Motion_29_SpeakWhat, "speak_what"},
+    {eSligMotions::Motion_30_SpeakAIFreeze, "speak_ai_freeze"},
+    {eSligMotions::Motion_31_Blurgh, "blurgh"},
+    {eSligMotions::Motion_32_Sleeping, "sleeping"},
+    {eSligMotions::Motion_33_SleepingToStand, "sleeping_to_stand"},
+    {eSligMotions::Motion_34_Knockback, "knockback"},
+    {eSligMotions::Motion_35_KnockbackToStand, "knockback_to_stand"},
+    {eSligMotions::Motion_36_Depossessing, ""},
+    {eSligMotions::Motion_37_Possess, "possess"},
+    {eSligMotions::Motion_38_OutToFall, "out_to_fall"},
+    {eSligMotions::Motion_39_FallingInitiate, "falling_initiate"},
+    {eSligMotions::Motion_40_LandingSoft, "landing_soft"},
+    {eSligMotions::Motion_41_LandingFatal, "landing_fatal"},
+    {eSligMotions::Motion_42_ShootZ, "shoot_z"},
+    {eSligMotions::Motion_43_ShootZtoStand, "shoot_z_to_stand"},
+    {eSligMotions::Motion_44_Smash, "smash"},
+    {eSligMotions::Motion_45_PullLever, "pull_lever"},
+    {eSligMotions::Motion_46_LiftGrip, "lift_grip"},
+    {eSligMotions::Motion_47_LiftUngrip, "lift_ungrip"},
+    {eSligMotions::Motion_48_LiftGripping, "lift_gripping"},
+    {eSligMotions::Motion_49_LiftUp, "lift_up"},
+    {eSligMotions::Motion_50_LiftDown, "lift_down"},
+    {eSligMotions::Motion_51_Beat, "beat"},
+})
+
 inline void to_json(nlohmann::json& j, const SligSaveState& p)
 {
     j = nlohmann::json{
@@ -2514,6 +2610,35 @@ inline void from_json(const nlohmann::json& j, SligSaveState& p)
     j.at("glukkon_called_alloya").get_to(p.mGlukkonCalledAllOYa);
     j.at("heard_glukkon").get_to(p.mHeardGlukkon);
 }
+
+NLOHMANN_JSON_SERIALIZE_ENUM(eSlogMotions, {
+    {eSlogMotions::m2, "m2"},
+    {eSlogMotions::m1, "m1"},
+    {eSlogMotions::Motion_0_Idle, "idle"},
+    {eSlogMotions::Motion_1_Walk, "walk"},
+    {eSlogMotions::Motion_2_Run, "run"},
+    {eSlogMotions::Motion_3_TurnAround, "turn_around"},
+    {eSlogMotions::Motion_4_Fall, "fall"},
+    {eSlogMotions::Motion_5_MoveHeadUpwards, "move_head_upwards"},
+    {eSlogMotions::Motion_6_StopRunning, "stop_running"},
+    {eSlogMotions::Motion_7_SlideTurn, "slide_turn"},
+    {eSlogMotions::Motion_8_StartWalking, "start_walking"},
+    {eSlogMotions::Motion_9_EndWalking, "end_walking"},
+    {eSlogMotions::Motion_10_Land, "land"},
+    {eSlogMotions::Motion_11_Unused, "motion_11_unused"},
+    {eSlogMotions::Motion_12_StartFastBarking, "start_fast_barking"},
+    {eSlogMotions::Motion_13_EndFastBarking, "end_fast_barking"},
+    {eSlogMotions::Motion_14_AngryBark, "angry_bark"},
+    {eSlogMotions::Motion_15_Sleeping, "sleeping"},
+    {eSlogMotions::Motion_16_MoveHeadDownwards, "move_head_downwards"},
+    {eSlogMotions::Motion_17_WakeUp, "wake_up"},
+    {eSlogMotions::Motion_18_JumpForwards, "jump_forwards"},
+    {eSlogMotions::Motion_19_JumpUpwards, "jump_upwards"},
+    {eSlogMotions::Motion_20_Eating, "eating"},
+    {eSlogMotions::Motion_21_Dying, "dying"},
+    {eSlogMotions::Motion_22_Scratch, "scratch"},
+    {eSlogMotions::Motion_23_Growl, "growl"},
+})
 
 inline void to_json(nlohmann::json& j, const SlogSaveState& p)
 {
@@ -2785,20 +2910,20 @@ inline void to_json(nlohmann::json& j, const Quicksave_WorldInfo& p)
 {
     j = nlohmann::json{
         {"gn_frame", p.mGnFrame},
-        {"level", p.field_4_level},
-        {"path", p.field_6_path},
-        {"cam", p.field_8_cam},
+        {"level", p.mLevel},
+        {"path", p.mPath},
+        {"cam", p.mCam},
         {"save_file_id", p.mSaveFileId},
-        {"controlled_x", p.field_C_controlled_x},
-        {"controlled_y", p.field_E_controlled_y},
-        {"controlled_scale", p.field_10_controlled_scale},
-        {"saved_muds", p.field_12_saved_muds},
-        {"killed_muds", p.field_14_killed_muds},
+        {"controlled_x", p.mControlledCharX},
+        {"controlled_y", p.mControlledCharY},
+        {"controlled_scale", p.mControlledCharScale},
+        {"saved_muds", p.mRescuedMudokons},
+        {"killed_muds", p.mKilledMudokons},
         {"muds_in_area", p.field_16_muds_in_area},
         {"last_saved_killed_muds_per_path", p.field_17_last_saved_killed_muds_per_path},
         {"saved_killed_muds_per_zulag", p.field_18_saved_killed_muds_per_zulag}, // array
         {"current_zulag_number", p.field_2C_current_zulag_number},
-        {"total_meter_bars", p.field_2D_total_meter_bars},
+        {"total_meter_bars", p.mTotalMeterBars},
         {"use_alt_save_header", p.field_2E_use_alt_save_header},
         {"draw_meter_count_down", p.field_30_bDrawMeterCountDown},
         {"visited_bonewerkz", p.mVisitedBonewerkz},
@@ -2812,20 +2937,20 @@ inline void to_json(nlohmann::json& j, const Quicksave_WorldInfo& p)
 inline void from_json(const nlohmann::json& j, Quicksave_WorldInfo& p)
 {
     j.at("gn_frame").get_to(p.mGnFrame);
-    j.at("level").get_to(p.field_4_level);
-    j.at("path").get_to(p.field_6_path);
-    j.at("cam").get_to(p.field_8_cam);
+    j.at("level").get_to(p.mLevel);
+    j.at("path").get_to(p.mPath);
+    j.at("cam").get_to(p.mCam);
     j.at("save_file_id").get_to(p.mSaveFileId);
-    j.at("controlled_x").get_to(p.field_C_controlled_x);
-    j.at("controlled_y").get_to(p.field_E_controlled_y);
-    j.at("controlled_scale").get_to(p.field_10_controlled_scale);
-    j.at("saved_muds").get_to(p.field_12_saved_muds);
-    j.at("killed_muds").get_to(p.field_14_killed_muds);
+    j.at("controlled_x").get_to(p.mControlledCharX);
+    j.at("controlled_y").get_to(p.mControlledCharY);
+    j.at("controlled_scale").get_to(p.mControlledCharScale);
+    j.at("saved_muds").get_to(p.mRescuedMudokons);
+    j.at("killed_muds").get_to(p.mKilledMudokons);
     j.at("muds_in_area").get_to(p.field_16_muds_in_area);
     j.at("last_saved_killed_muds_per_path").get_to(p.field_17_last_saved_killed_muds_per_path);
     j.at("saved_killed_muds_per_zulag").get_to(p.field_18_saved_killed_muds_per_zulag); // array
     j.at("current_zulag_number").get_to(p.field_2C_current_zulag_number);
-    j.at("total_meter_bars").get_to(p.field_2D_total_meter_bars);
+    j.at("total_meter_bars").get_to(p.mTotalMeterBars);
     j.at("use_alt_save_header").get_to(p.field_2E_use_alt_save_header);
     j.at("draw_meter_count_down").get_to(p.field_30_bDrawMeterCountDown);
     j.at("visited_bonewerkz").get_to(p.mVisitedBonewerkz);
@@ -2850,21 +2975,21 @@ inline void from_json(const nlohmann::json& j, SwitchStates& p)
 inline void to_json(nlohmann::json& j, const Quicksave& p)
 {
     j = nlohmann::json{
-        {"accumulated_obj_count", p.field_200_accumulated_obj_count},
-        {"world_info", p.field_204_world_info},
-        {"restart_path_world_info", p.field_244_restart_path_world_info},
-        {"restart_path_abe_state", p.field_284_restart_path_abe_state},
-        {"restart_path_switch_states", p.field_35C_restart_path_switch_states},
-        {"switch_states", p.field_45C_switch_states},
+        {"accumulated_obj_count", p.mAccumulatedObjCount},
+        {"world_info", p.mWorldInfo},
+        {"restart_path_world_info", p.mRestartPathWorldInfo},
+        {"restart_path_abe_state", p.mRestartPathAbeState},
+        {"restart_path_switch_states", p.mRestartPathSwitchStates},
+        {"switch_states", p.mSwitchStates},
     };
 }
 
 inline void from_json(const nlohmann::json& j, Quicksave& p)
 {
-    j.at("accumulated_obj_count").get_to(p.field_200_accumulated_obj_count);
-    j.at("world_info").get_to(p.field_204_world_info);
-    j.at("restart_path_world_info").get_to(p.field_244_restart_path_world_info);
-    j.at("restart_path_abe_state").get_to(p.field_284_restart_path_abe_state);
-    j.at("restart_path_switch_states").get_to(p.field_35C_restart_path_switch_states);
-    j.at("switch_states").get_to(p.field_45C_switch_states);
+    j.at("accumulated_obj_count").get_to(p.mAccumulatedObjCount);
+    j.at("world_info").get_to(p.mWorldInfo);
+    j.at("restart_path_world_info").get_to(p.mRestartPathWorldInfo);
+    j.at("restart_path_abe_state").get_to(p.mRestartPathAbeState);
+    j.at("restart_path_switch_states").get_to(p.mRestartPathSwitchStates);
+    j.at("switch_states").get_to(p.mSwitchStates);
 }

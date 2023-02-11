@@ -2006,7 +2006,7 @@ MainMenuNextCam MainMenuController::LoadDemo_Update_4D1040(u32)
 
         if (gIsDemoStartedManually)
         {
-            gActiveQuicksaveData.field_200_accumulated_obj_count = 1024;
+            gActiveQuicksaveData.mAccumulatedObjCount = 1024;
         }
         Quicksave_LoadActive();
     }

@@ -3,6 +3,7 @@
 #include "BaseAliveGameObject.hpp"
 
 class Bone;
+enum eLineTypes : s16;
 
 namespace relive
 {
@@ -77,16 +78,16 @@ struct SlogSaveState final
     s16 mG;
     s16 mB;
     s16 mFlipX;
-    s16 mCurrentMotion;
+    eSlogMotions mCurrentMotion;
     s16 mCurrentFrame;
     s16 mFrameChangeCounter;
     s8 mRender;
     s8 mDrawable;
     FP mHealth;
-    s16 mCurrentMotion2;
-    s16 mNextMotion;
+    eSlogMotions mCurrentMotion2;
+    eSlogMotions mNextMotion;
     s16 mLastLineYPos;
-    s16 mCollisionLineType;
+    eLineTypes mCollisionLineType;
     Guid mPlatformId;
     Guid mSlogTlvId;
     Guid mTargetId;

@@ -59,8 +59,9 @@
     ENTRY(Motion_51_Beat)
 
 #define MAKE_ENUM(VAR) VAR,
-enum eSligMotions : s32
+enum class eSligMotions : s32
 {
+    eNone_m1 = -1,
     SLIG_MOTIONS_ENUM_AE(MAKE_ENUM)
 };
 
@@ -86,6 +87,7 @@ enum class SligSfx : s16
 };
 
 enum class LevelIds : s16;
+enum eLineTypes : s16;
 
 class Slig;
 using TSligBrainFn = s16 (Slig::*)();
@@ -106,16 +108,16 @@ struct SligSaveState final
     s16 field_20_g;
     s16 field_22_b;
     s16 field_24_bFlipX;
-    s16 field_26_current_motion;
+    eSligMotions field_26_current_motion;
     s16 field_28_current_frame;
     s16 field_2A_frame_change_counter;
     s8 field_2C_bRender;
     s8 field_2D_bDrawable;
     FP field_30_health;
-    s16 field_34_current_motion;
-    s16 field_36_next_motion;
+    eSligMotions field_34_current_motion;
+    eSligMotions field_36_next_motion;
     s16 field_38_last_line_ypos;
-    s16 field_3A_collision_line_type;
+    eLineTypes field_3A_collision_line_type;
     s8 field_40_bActiveChar;
     s16 field_42_brain_sub_state;
     s16 field_44_pitch_min;
@@ -127,7 +129,7 @@ struct SligSaveState final
     FP mFallingVelxScaleFactor;
     Guid field_5C_tlvInfo;
     s16 field_60_res_idx;
-    s16 field_62_shot_motion;
+    eSligMotions field_62_shot_motion;
     PSX_RECT field_64_zone_rect;
     EReliveLevelIds field_72_return_level;
     s16 field_74_return_path;
@@ -177,6 +179,15 @@ public:
 
     static s32 CreateFromSaveState(const u8* pBuffer);
     static s16 IsAbeEnteringDoor(IBaseAliveGameObject* pThis);
+
+    eSligMotions GetNextMotion() const
+    {
+        return static_cast<eSligMotions>(mNextMotion);
+    }
+    eSligMotions GetCurrentMotion() const
+    {
+        return static_cast<eSligMotions>(mCurrentMotion);
+    }
 
     bool vUnderGlukkonCommand_4B1760();
     void SetBrain(TSligBrainFn fn);
@@ -307,7 +318,7 @@ private:
     s16 LeftRigtMovement(MovementDirection direction);
     s16 GrabNearbyLift();
     s16 HandlePlayerControlled();
-    s16 GetNextMotionIncGameSpeak(s32 input);
+    eSligMotions GetNextMotionIncGameSpeak(s32 input);
     void WaitOrWalk();
     void ToAbeDead();
     void ToUnderGlukkonCommand();
@@ -324,7 +335,7 @@ private:
     void MoveOnLine();
     void PlayerControlStopWalkingIfRequired();
     void CheckPlatformVanished();
-    s16 MoveLift(FP ySpeed);
+    eSligMotions MoveLift(FP ySpeed);
     void SlowDown(FP speed);
     void ToChase();
     s16 HandleEnemyStopper(s32 gridBlocks);
@@ -347,7 +358,7 @@ private:
     void NextGlukkonCommand(s16 speakTableIndex, s16 responseState);
     s16 HeardGlukkonToListenTo(GameSpeakEvents glukkonSpeak);
     s16 FindLiftPoint();
-    AnimId MotionToAnimId(u32 motion);
+    AnimId MotionToAnimId(eSligMotions motion);
 
 public:
     EReliveLevelIds mAbeLevel = EReliveLevelIds::eNone;
@@ -364,7 +375,7 @@ private:
     s32 mInput = 0;
     s32 field_12C_timer = 0; // this timer has multiple meanings
     FP mFallingVelxScaleFactor = {};
-    s16 field_136_shot_motion = 0;
+    eSligMotions field_136_shot_motion = eSligMotions::Motion_0_StandIdle;
     PSX_RECT field_138_zone_rect = {};
     s32 field_14C_death_by_being_shot_timer = 0;
     s32 field_150_explode_timer = 0;
@@ -390,7 +401,7 @@ private:
     PSX_Point field_268_points[10] = {};
     s16 field_290_points_count = 0;
     s16 mPreventDepossession = 0;
-    s32 field_294_next_gamespeak_motion = 0;
+    eSligMotions field_294_next_gamespeak_motion = eSligMotions::Motion_0_StandIdle;
 };
 
 void Animation_OnFrame_Slig(BaseGameObject* pObj, u32&, const IndexedPoint& point);

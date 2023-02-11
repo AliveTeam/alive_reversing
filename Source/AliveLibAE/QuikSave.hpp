@@ -19,20 +19,20 @@ enum class LevelIds : s16;
 struct Quicksave_WorldInfo final
 {
     s32 mGnFrame;
-    LevelIds field_4_level;
-    s16 field_6_path;
-    s16 field_8_cam;
+    LevelIds mLevel;
+    s16 mPath;
+    s16 mCam;
     s16 mSaveFileId;
-    s16 field_C_controlled_x;
-    s16 field_E_controlled_y;
-    s16 field_10_controlled_scale;
-    s16 field_12_saved_muds;
-    s16 field_14_killed_muds;
+    s16 mControlledCharX;
+    s16 mControlledCharY;
+    s16 mControlledCharScale;
+    s16 mRescuedMudokons;
+    s16 mKilledMudokons;
     s8 field_16_muds_in_area;
     s8 field_17_last_saved_killed_muds_per_path;
     s8 field_18_saved_killed_muds_per_zulag[20];
     s8 field_2C_current_zulag_number;
-    s8 field_2D_total_meter_bars;
+    s8 mTotalMeterBars;
     s16 field_2E_use_alt_save_header;
     s16 field_30_bDrawMeterCountDown;
     s16 mVisitedBonewerkz;
@@ -45,14 +45,14 @@ struct Quicksave_WorldInfo final
 
 struct Quicksave final
 {
-    Quicksave_PSX_Header field_0_header;
-    s32 field_200_accumulated_obj_count;
-    Quicksave_WorldInfo field_204_world_info;
-    Quicksave_WorldInfo field_244_restart_path_world_info;
-    AbeSaveState field_284_restart_path_abe_state;
-    SwitchStates field_35C_restart_path_switch_states;
-    SwitchStates field_45C_switch_states;
-    u8 field_55C_objects_state_data[6820];
+    Quicksave_PSX_Header mPsxHeader;
+    s32 mAccumulatedObjCount;
+    Quicksave_WorldInfo mWorldInfo;
+    Quicksave_WorldInfo mRestartPathWorldInfo;
+    AbeSaveState mRestartPathAbeState;
+    SwitchStates mRestartPathSwitchStates;
+    SwitchStates mSwitchStates;
+    u8 mObjectsStateData[6820];
 };
 ALIVE_ASSERT_SIZEOF(Quicksave, 0x2000);
 

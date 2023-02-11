@@ -47,8 +47,9 @@
     ENTRY(Motion_39_DeathBegin)
 
 #define MAKE_ENUM(VAR) VAR,
-enum eScrabMotions : s32
+enum class eScrabMotions : s32
 {
+    eNone_m1 = -1,
     SCRAB_MOTIONS_ENUM_AE(MAKE_ENUM)
 };
 
@@ -67,6 +68,7 @@ enum class ScrabSounds : u8
 
 enum class LevelIds : s16;
 enum class GameSpeakEvents : s16;
+enum eLineTypes : s16;
 
 struct ScrabSaveState final
 {
@@ -83,16 +85,16 @@ struct ScrabSaveState final
     s16 mRingGreen;
     s16 mRingBlue;
     s16 field_26_bAnimFlipX;
-    s16 field_28_current_motion;
+    eScrabMotions field_28_current_motion;
     s16 field_2A_current_frame;
     s16 field_2C_frame_change_counter;
     s8 field_2E_bAnimRender;
     s8 field_2F_bDrawable;
     FP field_30_health;
-    s16 field_34_current_motion;
-    s16 field_36_next_motion;
+    eScrabMotions field_34_current_motion;
+    eScrabMotions field_36_next_motion;
     s16 field_38_last_line_ypos;
-    s16 field_3A_line_type;
+    eLineTypes field_3A_line_type;
     s8 field_40_bIsControlled;
     Guid field_44_tlvInfo;
     s32 field_48_brain_idx;
@@ -211,6 +213,15 @@ public:
 
 
 private:
+    eScrabMotions GetNextMotion() const
+    {
+        return static_cast<eScrabMotions>(mNextMotion);
+    }
+    eScrabMotions GetCurrentMotion() const
+    {
+        return static_cast<eScrabMotions>(mCurrentMotion);
+    }
+
     void ToPatrol();
     void ToStand();
     void MoveOnLine();

@@ -417,15 +417,15 @@ void PauseMenu::RestartPath()
 
     Quicksave_SaveSwitchResetterStates();
 
-    gSwitchStates = gActiveQuicksaveData.field_35C_restart_path_switch_states;
+    gSwitchStates = gActiveQuicksaveData.mRestartPathSwitchStates;
 
-    Abe::CreateFromSaveState(reinterpret_cast<const u8*>(&gActiveQuicksaveData.field_284_restart_path_abe_state));
-    Quicksave_ReadWorldInfo(&gActiveQuicksaveData.field_244_restart_path_world_info);
+    Abe::CreateFromSaveState(reinterpret_cast<const u8*>(&gActiveQuicksaveData.mRestartPathAbeState));
+    Quicksave_ReadWorldInfo(&gActiveQuicksaveData.mRestartPathWorldInfo);
 
     gMap.SetActiveCam(
-        MapWrapper::FromAE(gActiveQuicksaveData.field_244_restart_path_world_info.field_4_level),
-        gActiveQuicksaveData.field_244_restart_path_world_info.field_6_path,
-        gActiveQuicksaveData.field_244_restart_path_world_info.field_8_cam,
+        MapWrapper::FromAE(gActiveQuicksaveData.mRestartPathWorldInfo.mLevel),
+        gActiveQuicksaveData.mRestartPathWorldInfo.mPath,
+        gActiveQuicksaveData.mRestartPathWorldInfo.mCam,
         CameraSwapEffects::eInstantChange_0,
         1,
         1);
@@ -434,8 +434,8 @@ void PauseMenu::RestartPath()
     if (sActiveHero->mBaseThrowableCount)
     {
         LoadRockTypes(
-            MapWrapper::FromAE(gActiveQuicksaveData.field_244_restart_path_world_info.field_4_level),
-            gActiveQuicksaveData.field_244_restart_path_world_info.field_6_path);
+            MapWrapper::FromAE(gActiveQuicksaveData.mRestartPathWorldInfo.mLevel),
+            gActiveQuicksaveData.mRestartPathWorldInfo.mPath);
 
         if (!gThrowableArray)
         {

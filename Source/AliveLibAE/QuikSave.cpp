@@ -218,17 +218,17 @@ extern s32 gAccumulatedObjectCount;
 
 void Quicksave_LoadFromMemory_4C95A0(Quicksave* quicksaveData)
 {
-    gAccumulatedObjectCount = quicksaveData->field_200_accumulated_obj_count;
+    gAccumulatedObjectCount = quicksaveData->mAccumulatedObjCount;
     DestroyObjects();
     EventsReset();
     gSkipGameObjectUpdates = true;
-    Quicksave_ReadWorldInfo(&quicksaveData->field_204_world_info);
-    gSwitchStates = quicksaveData->field_45C_switch_states;
-    gMap.mSaveData = reinterpret_cast<u8*>(quicksaveData->field_55C_objects_state_data);
+    Quicksave_ReadWorldInfo(&quicksaveData->mWorldInfo);
+    gSwitchStates = quicksaveData->mSwitchStates;
+    gMap.mSaveData = reinterpret_cast<u8*>(quicksaveData->mObjectsStateData);
     gMap.SetActiveCam(
-        MapWrapper::FromAE(quicksaveData->field_204_world_info.field_4_level),
-        quicksaveData->field_204_world_info.field_6_path,
-        quicksaveData->field_204_world_info.field_8_cam,
+        MapWrapper::FromAE(quicksaveData->mWorldInfo.mLevel),
+        quicksaveData->mWorldInfo.mPath,
+        quicksaveData->mWorldInfo.mCam,
         CameraSwapEffects::eInstantChange_0,
         0,
         1);
@@ -443,7 +443,7 @@ void Quicksave_SaveToMemory_4C91A0(Quicksave* pSave)
 {
     if (sActiveHero->mHealth > FP_FromInteger(0))
     {
-        pSave->field_200_accumulated_obj_count = gAccumulatedObjectCount;
+        pSave->mAccumulatedObjCount = gAccumulatedObjectCount;
 
         // Don't really know what the point of doing this is? Might as well just memset the pSave header?
         Quicksave_PSX_Header* pHeaderToUse = nullptr;
@@ -455,20 +455,20 @@ void Quicksave_SaveToMemory_4C91A0(Quicksave* pSave)
         {
             pHeaderToUse = &sSaveHeader2_BB19F8;
         }
-        pSave->field_0_header = *pHeaderToUse;
+        pSave->mPsxHeader = *pHeaderToUse;
 
-        MEMCARD_Write_Timestamp_SJISC_String_4A2290(&pSave->field_0_header.field_0_frame_1_name[50]);
+        MEMCARD_Write_Timestamp_SJISC_String_4A2290(&pSave->mPsxHeader.field_0_frame_1_name[50]);
 
         char_type src[12] = {};
         sprintf(src, "%2sP%02dC%02d",
                 Path_Get_Lvl_Name(gMap.mCurrentLevel),
                 gMap.mCurrentPath,
                 gMap.mCurrentCamera);
-        MEMCARD_Write_SJISC_String_4A2770(reinterpret_cast<u8*>(src), &pSave->field_0_header.field_0_frame_1_name[32], 8);
-        Quicksave_SaveWorldInfo(&pSave->field_204_world_info);
-        pSave->field_45C_switch_states = gSwitchStates;
+        MEMCARD_Write_SJISC_String_4A2770(reinterpret_cast<u8*>(src), &pSave->mPsxHeader.field_0_frame_1_name[32], 8);
+        Quicksave_SaveWorldInfo(&pSave->mWorldInfo);
+        pSave->mSwitchStates = gSwitchStates;
 
-        u8* pDataIter = pSave->field_55C_objects_state_data;
+        u8* pDataIter = pSave->mObjectsStateData;
         for (s32 idx = 0; idx < gBaseGameObjects->Size(); idx++)
         {
             BaseGameObject* pObj = gBaseGameObjects->ItemAt(idx);
@@ -515,10 +515,10 @@ void Quicksave_ReadWorldInfo(const Quicksave_WorldInfo* pInfo)
 
     sActiveHero->SetRestoredFromQuickSave(true);
     gZulagNumber = pInfo->field_2C_current_zulag_number;
-    gKilledMudokons = pInfo->field_14_killed_muds;
-    gRescuedMudokons = pInfo->field_12_saved_muds;
+    gKilledMudokons = pInfo->mKilledMudokons;
+    gRescuedMudokons = pInfo->mRescuedMudokons;
     gMudokonsInArea = pInfo->field_16_muds_in_area; // TODO: Check types
-    gTotalMeterBars = pInfo->field_2D_total_meter_bars;
+    gTotalMeterBars = pInfo->mTotalMeterBars;
     gbDrawMeterCountDown = pInfo->field_30_bDrawMeterCountDown;
     gGasTimer = pInfo->mGasTimer;
     gAbeInvincible = pInfo->mAbeInvincible;
@@ -533,9 +533,9 @@ void Quicksave_SaveWorldInfo(Quicksave_WorldInfo* pInfo)
     const PSX_RECT rect = sControlledCharacter->VGetBoundingRect();
 
     pInfo->mGnFrame = sGnFrame;
-    pInfo->field_4_level = MapWrapper::ToAE(gMap.mCurrentLevel);
-    pInfo->field_6_path = gMap.mCurrentPath;
-    pInfo->field_8_cam = gMap.mCurrentCamera;
+    pInfo->mLevel = MapWrapper::ToAE(gMap.mCurrentLevel);
+    pInfo->mPath = gMap.mCurrentPath;
+    pInfo->mCam = gMap.mCurrentCamera;
     pInfo->field_2E_use_alt_save_header = bUseAltSaveHeader_5C1BBC;
 
     for (s32 i = 0; i < ALIVE_COUNTOF(pInfo->field_18_saved_killed_muds_per_zulag); i++)
@@ -546,19 +546,19 @@ void Quicksave_SaveWorldInfo(Quicksave_WorldInfo* pInfo)
     pInfo->field_17_last_saved_killed_muds_per_path = sSavedKilledMudsPerZulag_5C1B50.mData[ALIVE_COUNTOF(sSavedKilledMudsPerZulag_5C1B50.mData) - 1];
 
     pInfo->field_2C_current_zulag_number = gZulagNumber;
-    pInfo->field_12_saved_muds = gRescuedMudokons;
-    pInfo->field_14_killed_muds = gKilledMudokons;
+    pInfo->mRescuedMudokons = gRescuedMudokons;
+    pInfo->mKilledMudokons = gKilledMudokons;
     pInfo->field_16_muds_in_area = static_cast<s8>(gMudokonsInArea); // TODO: Check types
-    pInfo->field_2D_total_meter_bars = gTotalMeterBars;
+    pInfo->mTotalMeterBars = gTotalMeterBars;
     pInfo->field_30_bDrawMeterCountDown = gbDrawMeterCountDown;
     pInfo->mAbeInvincible = gAbeInvincible;
     pInfo->mVisitedBonewerkz = gVisitedBonewerkz;
     pInfo->mVisitedBarracks = gVisitedBarracks;
     pInfo->mVisitedFeecoEnder = gVisitedFeecoEnder;
     pInfo->mGasTimer = gGasTimer;
-    pInfo->field_C_controlled_x = FP_GetExponent(sControlledCharacter->mXPos);
-    pInfo->field_E_controlled_y = rect.h;
-    pInfo->field_10_controlled_scale = sControlledCharacter->GetSpriteScale() == FP_FromDouble(1.0);
+    pInfo->mControlledCharX = FP_GetExponent(sControlledCharacter->mXPos);
+    pInfo->mControlledCharY = rect.h;
+    pInfo->mControlledCharScale = sControlledCharacter->GetSpriteScale() == FP_FromDouble(1.0);
 }
 
 s32 Sort_comparitor_4D42C0(const void* pSaveRecLeft, const void* pSaveRecRight)

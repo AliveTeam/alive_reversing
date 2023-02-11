@@ -242,14 +242,14 @@ s32 Slog::VGetSaveState(u8* pSaveBuffer)
     pState->mB = mRGB.b;
 
     pState->mFlipX = GetAnimation().GetFlipX();
-    pState->mCurrentMotion = mCurrentMotion;
+    pState->mCurrentMotion = GetCurrentMotion();
     pState->mCurrentFrame = static_cast<s16>(GetAnimation().GetCurrentFrame());
     pState->mFrameChangeCounter = static_cast<s16>(GetAnimation().GetFrameChangeCounter());
     pState->mDrawable = GetDrawable();
     pState->mRender = GetAnimation().GetRender();
     pState->mHealth = mHealth;
-    pState->mCurrentMotion2 = mCurrentMotion;
-    pState->mNextMotion = mNextMotion;
+    pState->mCurrentMotion2 = GetCurrentMotion();
+    pState->mNextMotion = GetNextMotion();
     pState->mLastLineYPos = FP_GetExponent(BaseAliveGameObjectLastLineYPos);
 
     if (BaseAliveGameObjectCollisionLine)
@@ -258,7 +258,7 @@ s32 Slog::VGetSaveState(u8* pSaveBuffer)
     }
     else
     {
-        pState->mCollisionLineType = -1;
+        pState->mCollisionLineType = eLineTypes::eNone_m1;
     }
 
     pState->mPlatformId = BaseAliveGameObject_PlatformId;
@@ -379,8 +379,8 @@ s32 Slog::CreateFromSaveState(const u8* pBuffer)
         }
 
         pSlog->mHealth = pState->mHealth;
-        pSlog->mCurrentMotion = pState->mCurrentMotion2;
-        pSlog->mNextMotion = pState->mNextMotion;
+        pSlog->SetCurrentMotion(pState->mCurrentMotion2);
+        pSlog->SetNextMotion(pState->mNextMotion);
         pSlog->BaseAliveGameObjectLastLineYPos = FP_FromInteger(pState->mLastLineYPos);
         pSlog->SetRestoredFromQuickSave(true);
         pSlog->BaseAliveGameObjectCollisionLineType = pState->mCollisionLineType;
