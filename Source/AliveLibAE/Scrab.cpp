@@ -274,7 +274,7 @@ s32 Scrab::CreateFromSaveState(const u8* pBuffer)
     {
         pScrab->mBaseGameObjectTlvInfo = pState->field_4_obj_id;
 
-        if (pState->field_40_bIsControlled)
+        if (pState->mIsControlled)
         {
             sControlledCharacter = pScrab;
         }
@@ -282,47 +282,47 @@ s32 Scrab::CreateFromSaveState(const u8* pBuffer)
         pScrab->BaseAliveGameObjectPathTLV = nullptr;
         pScrab->BaseAliveGameObjectCollisionLine = nullptr;
 
-        pScrab->mXPos = pState->field_8_xpos;
-        pScrab->mYPos = pState->field_C_ypos;
-        pScrab->mVelX = pState->field_10_velx;
-        pScrab->mVelY = pState->field_14_vely;
+        pScrab->mXPos = pState->mXPos;
+        pScrab->mYPos = pState->mYPos;
+        pScrab->mVelX = pState->mVelX;
+        pScrab->mVelY = pState->mVelY;
 
         pScrab->field_134_falling_velx_scale_factor = pState->field_64_falling_velx_scale_factor;
-        pScrab->mCurrentPath = pState->field_18_path_number;
-        pScrab->mCurrentLevel = pState->field_1A_lvl_number;
-        pScrab->SetSpriteScale(pState->field_1C_sprite_scale);
+        pScrab->mCurrentPath = pState->mCurrentPath;
+        pScrab->mCurrentLevel = pState->mCurrentLevel;
+        pScrab->SetSpriteScale(pState->mSpriteScale);
         pScrab->mRGB.SetRGB(pState->mRingRed, pState->mRingGreen, pState->mRingBlue);
         pScrab->SetCurrentMotion(pState->field_28_current_motion);
 
         const u32 idx = static_cast<u32>(pState->field_28_current_motion);
         pScrab->GetAnimation().Set_Animation_Data(pScrab->GetAnimRes(sScrabMotionAnimIds[idx]));
 
-        pScrab->GetAnimation().SetCurrentFrame(pState->field_2A_current_frame);
-        pScrab->GetAnimation().SetFrameChangeCounter(pState->field_2C_frame_change_counter);
+        pScrab->GetAnimation().SetCurrentFrame(pState->mCurrentFrame);
+        pScrab->GetAnimation().SetFrameChangeCounter(pState->mFrameChangeCounter);
 
-        pScrab->SetDrawable(pState->field_2F_bDrawable & 1);
+        pScrab->SetDrawable(pState->mDrawable & 1);
 
-        pScrab->GetAnimation().SetFlipX(pState->field_26_bAnimFlipX & 1);
-        pScrab->GetAnimation().SetRender(pState->field_2E_bAnimRender & 1);
+        pScrab->GetAnimation().SetFlipX(pState->mFlipX & 1);
+        pScrab->GetAnimation().SetRender(pState->mAnimRender & 1);
 
         if (IsLastFrame(&pScrab->GetAnimation()))
         {
             pScrab->GetAnimation().SetIsLastFrame(true);
         }
 
-        pScrab->mHealth = pState->field_30_health;
+        pScrab->mHealth = pState->mHealth;
         pScrab->SetCurrentMotion(pState->field_34_current_motion);
         pScrab->SetNextMotion(pState->field_36_next_motion);
         pScrab->BaseAliveGameObjectLastLineYPos = FP_FromInteger(pState->field_38_last_line_ypos);
         pScrab->field_130_depossession_timer = pState->field_60_depossession_timer;
         pScrab->SetRestoredFromQuickSave(true);
         pScrab->field_12C_timer = pState->field_5C_timer;
-        pScrab->BaseAliveGameObjectCollisionLineType = pState->field_3A_line_type;
+        pScrab->BaseAliveGameObjectCollisionLineType = pState->mLineType;
         pScrab->field_144_tlvInfo = pState->field_44_tlvInfo;
 
         pScrab->SetBrain(sScrabBrainTable[pState->field_48_brain_idx]);
 
-        pScrab->mBrainSubState = pState->field_50_sub_state;
+        pScrab->mBrainSubState = pState->mBrainSubState;
         pScrab->mTargetGuid = pState->field_54_obj_id;
         pScrab->mFightTargetId = pState->field_58_target_obj_id;
 
@@ -331,11 +331,11 @@ s32 Scrab::CreateFromSaveState(const u8* pBuffer)
         pScrab->field_150_attack_delay_timer = pState->field_70_attack_delay_timer;
         pScrab->field_154_movement_timer = pState->field_74_movement_timer;
         pScrab->field_160_sfx_bitmask = pState->field_78_sfx_bitmask;
-        pScrab->mPreventDepossession = pState->field_7C_prevent_depossession;
+        pScrab->mPreventDepossession = pState->mPreventDepossession;
 
-        pScrab->mAbeLevel = pState->field_7E_return_level;
-        pScrab->mAbePath = pState->field_80_return_path;
-        pScrab->mAbeCamera = pState->field_82_return_camera;
+        pScrab->mAbeLevel = pState->mAbeLevel;
+        pScrab->mAbePath = pState->mAbePath;
+        pScrab->mAbeCamera = pState->mAbeCamera;
         pScrab->field_16C_input = InputObject::PsxButtonsToKeyboardInput_45EE40(pState->field_84_input);
         pScrab->mShredPowerActive = pState->field_8C_shred_power_active;
         pScrab->field_194_speak = pState->field_8E_speak;
@@ -364,40 +364,40 @@ s32 Scrab::VGetSaveState(u8* pSaveBuffer)
     pState->mType = ReliveTypes::eScrab;
     pState->field_4_obj_id = mBaseGameObjectTlvInfo;
 
-    pState->field_8_xpos = mXPos;
-    pState->field_C_ypos = mYPos;
-    pState->field_10_velx = mVelX;
-    pState->field_14_vely = mVelY;
+    pState->mXPos = mXPos;
+    pState->mYPos = mYPos;
+    pState->mVelX = mVelX;
+    pState->mVelY = mVelY;
 
     pState->field_64_falling_velx_scale_factor = field_134_falling_velx_scale_factor;
 
-    pState->field_18_path_number = mCurrentPath;
-    pState->field_1A_lvl_number = mCurrentLevel;
-    pState->field_1C_sprite_scale = GetSpriteScale();
+    pState->mCurrentPath = mCurrentPath;
+    pState->mCurrentLevel = mCurrentLevel;
+    pState->mSpriteScale = GetSpriteScale();
 
     pState->mRingRed = mRGB.r;
     pState->mRingGreen = mRGB.g;
     pState->mRingBlue = mRGB.b;
 
-    pState->field_26_bAnimFlipX = GetAnimation().GetFlipX();
+    pState->mFlipX = GetAnimation().GetFlipX();
     pState->field_28_current_motion = GetCurrentMotion();
-    pState->field_2A_current_frame = static_cast<s16>(GetAnimation().GetCurrentFrame());
-    pState->field_2C_frame_change_counter = static_cast<s16>(GetAnimation().GetFrameChangeCounter());
-    pState->field_2F_bDrawable = GetDrawable();
-    pState->field_2E_bAnimRender = GetAnimation().GetRender();
-    pState->field_30_health = mHealth;
+    pState->mCurrentFrame = static_cast<s16>(GetAnimation().GetCurrentFrame());
+    pState->mFrameChangeCounter = static_cast<s16>(GetAnimation().GetFrameChangeCounter());
+    pState->mDrawable = GetDrawable();
+    pState->mAnimRender = GetAnimation().GetRender();
+    pState->mHealth = mHealth;
     pState->field_34_current_motion = GetCurrentMotion();
     pState->field_36_next_motion = GetNextMotion();
-    pState->field_3A_line_type = eLineTypes::eNone_m1;
+    pState->mLineType = eLineTypes::eNone_m1;
 
     // TODO: Check correctness
     pState->field_38_last_line_ypos = FP_GetExponent(BaseAliveGameObjectLastLineYPos);
     if (BaseAliveGameObjectCollisionLine)
     {
-        pState->field_3A_line_type = BaseAliveGameObjectCollisionLine->mLineType;
+        pState->mLineType = BaseAliveGameObjectCollisionLine->mLineType;
     }
 
-    pState->field_40_bIsControlled = (this == sControlledCharacter);
+    pState->mIsControlled = (this == sControlledCharacter);
     pState->field_60_depossession_timer = field_130_depossession_timer;
     pState->field_5C_timer = field_12C_timer;
     pState->field_44_tlvInfo = field_144_tlvInfo;
@@ -414,7 +414,7 @@ s32 Scrab::VGetSaveState(u8* pSaveBuffer)
     }
 
     pState->field_54_obj_id = Guid{};
-    pState->field_50_sub_state = mBrainSubState;
+    pState->mBrainSubState = mBrainSubState;
 
     if (mTargetGuid != Guid{})
     {
@@ -440,10 +440,10 @@ s32 Scrab::VGetSaveState(u8* pSaveBuffer)
     pState->field_70_attack_delay_timer = field_150_attack_delay_timer;
     pState->field_74_movement_timer = field_154_movement_timer;
     pState->field_78_sfx_bitmask = field_160_sfx_bitmask;
-    pState->field_7C_prevent_depossession = mPreventDepossession;
-    pState->field_7E_return_level = mAbeLevel;
-    pState->field_80_return_path = mAbePath;
-    pState->field_82_return_camera = mAbeCamera;
+    pState->mPreventDepossession = mPreventDepossession;
+    pState->mAbeLevel = mAbeLevel;
+    pState->mAbePath = mAbePath;
+    pState->mAbeCamera = mAbeCamera;
     pState->field_84_input = InputObject::KeyboardInputToPsxButtons_45EF70(field_16C_input);
     pState->field_8C_shred_power_active = mShredPowerActive;
     pState->field_8E_speak = field_194_speak;

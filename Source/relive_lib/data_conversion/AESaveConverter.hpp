@@ -90,7 +90,7 @@ union TlvItemInfoUnion
 };
 ALIVE_ASSERT_SIZEOF(TlvItemInfoUnion, 4);
 
-enum eMudMotions : u16
+enum eMudMotions : s16
 {
     Motion_0_Idle,
     Motion_1_WalkLoop,
@@ -2510,14 +2510,14 @@ struct MudokonSaveState final
     s16 field_1E_g;
     s16 field_20_b;
     s16 field_22_bFlipX;
-    s16 field_24_current_motion;
+    eMudMotions field_24_current_motion;
     s16 field_26_anim_current_frame;
     s16 field_28_anim_frame_change_counter;
     s8 field_2A_bAnimRender;
     s8 field_2B_bDrawable;
     FP field_2C_health;
-    s16 field_30_current_motion;
-    s16 field_32_next_motion;
+    eMudMotions field_30_current_motion;
+    eMudMotions field_32_next_motion;
     s16 field_34_lastLineYPos;
     eLineTypes field_36_line_type;
     s16 field_38_padding;
@@ -2632,14 +2632,14 @@ struct MudokonSaveState final
         d.field_1E_g = data.field_1E_g;
         d.field_20_b = data.field_20_b;
         d.field_22_bFlipX = data.field_22_bFlipX;
-        d.field_24_current_motion = data.field_24_current_motion;
+        d.field_24_current_motion = From(data.field_24_current_motion);
         d.field_26_anim_current_frame = data.field_26_anim_current_frame;
         d.field_28_anim_frame_change_counter = data.field_28_anim_frame_change_counter;
         d.field_2A_bAnimRender = data.field_2A_bAnimRender;
         d.field_2B_bDrawable = data.field_2B_bDrawable;
         d.field_2C_health = data.field_2C_health;
-        d.field_30_current_motion = data.field_30_current_motion;
-        d.field_32_next_motion = data.field_32_next_motion;
+        d.field_30_current_motion = From(data.field_30_current_motion);
+        d.field_32_next_motion = From(data.field_32_next_motion);
         d.field_34_lastLineYPos = data.field_34_lastLineYPos;
         d.field_36_line_type = AEData::From(data.field_36_line_type);
         d.field_3C_can_be_possessed = data.field_3C_can_be_possessed;
@@ -3117,6 +3117,7 @@ struct ParamiteSaveState final
 {
     enum class eParamiteMotions : s16
     {
+        eNone_m1 = -1,
         Motion_0_Idle,
         Motion_1_WalkBegin,
         Motion_2_Walking,
@@ -3165,25 +3166,25 @@ struct ParamiteSaveState final
 
     AETypes mType;
     s16 field_2_pad;
-    FP field_4_xpos;
-    FP field_8_ypos;
-    FP field_C_velx;
-    FP field_10_vely;
-    s16 field_14_path_number;
-    LevelIds field_16_lvl_number;
-    FP field_18_sprite_scale;
-    s16 field_1C_r;
-    s16 field_1E_g;
-    s16 field_20_b;
-    s16 field_22_flip_x;
-    s16 field_24_current_motion;
-    s16 field_26_anim_current_frame;
-    s16 field_28_frame_change_counter;
-    s8 field_2A_render;
-    s8 field_2B_drawable;
-    FP field_2C_health;
-    s16 field_30_current_motion;
-    s16 field_32_next_motion;
+    FP mXPos;
+    FP mYPos;
+    FP mVelX;
+    FP mVelY;
+    s16 mCurrentPath;
+    LevelIds mCurrentLevel;
+    FP mSpriteScale;
+    s16 mR;
+    s16 mG;
+    s16 mB;
+    s16 mFlipX;
+    eParamiteMotions field_24_current_motion;
+    s16 mAnimCurrentFrame;
+    s16 mFrameChangeCounter;
+    s8 mRender;
+    s8 mDrawable;
+    FP mHealth;
+    eParamiteMotions field_30_current_motion;
+    eParamiteMotions field_32_next_motion;
     s16 field_34_last_line_ypos;
     eLineTypes field_36_line_type;
     s16 field_38_padding;
@@ -3193,18 +3194,18 @@ struct ParamiteSaveState final
     s32 field_44_web_id;
     s32 field_48_obj_id;
     s32 field_4C_pull_ring_rope_id;
-    s32 field_50_brain_idx;
+    s32 mBrainIdx;
     s16 field_54_padding;
     s16 field_56_padding;
-    s16 field_58_brain_ret;
+    s16 mBrainSubState;
     s16 field_5A_padding;
     s32 field_5C_timer;
     s32 field_60_depossession_timer;
     FP field_64_velx_offset;
     s32 field_68_timer;
-    LevelIds field_6C_return_level;
-    s16 field_6E_return_path;
-    s16 field_70_return_camera;
+    LevelIds mAbeLevel;
+    s16 mAbePath;
+    s16 mAbeCamera;
     s16 field_72_input;
     s16 field_74_next_brain_ret;
 
@@ -3225,25 +3226,25 @@ struct ParamiteSaveState final
     {
         ::ParamiteSaveState d;
         d.mType = BaseGameObject::FromAE(data.mType);
-        d.field_4_xpos = data.field_4_xpos;
-        d.field_8_ypos = data.field_8_ypos;
-        d.field_C_velx = data.field_C_velx;
-        d.field_10_vely = data.field_10_vely;
-        d.field_14_path_number = data.field_14_path_number;
-        d.field_16_lvl_number = MapWrapper::FromAESaveData(data.field_16_lvl_number);
-        d.field_18_sprite_scale = data.field_18_sprite_scale;
-        d.field_1C_r = data.field_1C_r;
-        d.field_1E_g = data.field_1E_g;
-        d.field_20_b = data.field_20_b;
-        d.field_22_flip_x = data.field_22_flip_x;
-        d.field_24_current_motion = data.field_24_current_motion;
-        d.field_26_anim_current_frame = data.field_26_anim_current_frame;
-        d.field_28_frame_change_counter = data.field_28_frame_change_counter;
-        d.field_2A_render = data.field_2A_render;
-        d.field_2B_drawable = data.field_2B_drawable;
-        d.field_2C_health = data.field_2C_health;
-        d.field_30_current_motion = data.field_30_current_motion;
-        d.field_32_next_motion = data.field_32_next_motion;
+        d.mXPos = data.mXPos;
+        d.mYPos = data.mYPos;
+        d.mVelX = data.mVelX;
+        d.mVelY = data.mVelY;
+        d.mCurrentPath = data.mCurrentPath;
+        d.mCurrentLevel = MapWrapper::FromAESaveData(data.mCurrentLevel);
+        d.mSpriteScale = data.mSpriteScale;
+        d.mR = data.mR;
+        d.mG = data.mG;
+        d.mB = data.mB;
+        d.mFlipX = data.mFlipX;
+        d.field_24_current_motion = From(data.field_24_current_motion);
+        d.mAnimCurrentFrame = data.mAnimCurrentFrame;
+        d.mFrameChangeCounter = data.mFrameChangeCounter;
+        d.mRender = data.mRender;
+        d.mDrawable = data.mDrawable;
+        d.mHealth = data.mHealth;
+        d.field_30_current_motion = From(data.field_30_current_motion);
+        d.field_32_next_motion = From(data.field_32_next_motion);
         d.field_34_last_line_ypos = data.field_34_last_line_ypos;
         d.field_36_line_type = AEData::From(data.field_36_line_type);
         d.field_3C_tlvInfo = Guid::NewGuidFromTlvInfo(data.field_3C_tlvInfo);
@@ -3251,15 +3252,15 @@ struct ParamiteSaveState final
         d.field_44_web_id = Guid::NewGuidFromTlvInfo(data.field_44_web_id);
         d.field_48_obj_id = Guid::NewGuidFromTlvInfo(data.field_48_obj_id);
         d.field_4C_pull_ring_rope_id = Guid::NewGuidFromTlvInfo(data.field_4C_pull_ring_rope_id);
-        d.field_50_brain_idx = data.field_50_brain_idx;
-        d.field_58_brain_ret = data.field_58_brain_ret;
+        d.mBrainIdx = data.mBrainIdx;
+        d.mBrainSubState = data.mBrainSubState;
         d.field_5C_timer = data.field_5C_timer;
         d.field_60_depossession_timer = data.field_60_depossession_timer;
         d.field_64_velx_offset = data.field_64_velx_offset;
         d.field_68_timer = data.field_68_timer;
-        d.field_6C_return_level = MapWrapper::FromAESaveData(data.field_6C_return_level);
-        d.field_6E_return_path = data.field_6E_return_path;
-        d.field_70_return_camera = data.field_70_return_camera;
+        d.mAbeLevel = MapWrapper::FromAESaveData(data.mAbeLevel);
+        d.mAbePath = data.mAbePath;
+        d.mAbeCamera = data.mAbeCamera;
         d.field_72_input = data.field_72_input;
         d.field_74_next_brain_ret = data.field_74_next_brain_ret;
         d.mControlled = data.field_76_flags.Get(Flags_76::eBit1_controlled);
@@ -3274,10 +3275,98 @@ struct ParamiteSaveState final
 
     static ::eParamiteMotions From(const eParamiteMotions motion)
     {
-        switch (motion) // TODO: complete me
+        switch (motion)
         {
+            case eParamiteMotions::eNone_m1:
+                return ::eParamiteMotions::eNone_m1;
             case eParamiteMotions::Motion_0_Idle:
                 return ::eParamiteMotions::Motion_0_Idle;
+            case eParamiteMotions::Motion_1_WalkBegin:
+                return ::eParamiteMotions::Motion_1_WalkBegin;
+            case eParamiteMotions::Motion_2_Walking:
+                return ::eParamiteMotions::Motion_2_Walking;
+            case eParamiteMotions::Motion_3_Running:
+                return ::eParamiteMotions::Motion_3_Running;
+            case eParamiteMotions::Motion_4_Turn:
+                return ::eParamiteMotions::Motion_4_Turn;
+            case eParamiteMotions::Motion_5_Hop:
+                return ::eParamiteMotions::Motion_5_Hop;
+            case eParamiteMotions::Motion_6_Unused:
+                return ::eParamiteMotions::Motion_6_Unused;
+            case eParamiteMotions::Motion_7_WalkRunTransition:
+                return ::eParamiteMotions::Motion_7_WalkRunTransition;
+            case eParamiteMotions::Motion_8_WalkEnd:
+                return ::eParamiteMotions::Motion_8_WalkEnd;
+            case eParamiteMotions::Motion_9_RunBegin:
+                return ::eParamiteMotions::Motion_9_RunBegin;
+            case eParamiteMotions::Motion_10_RunEnd:
+                return ::eParamiteMotions::Motion_10_RunEnd;
+            case eParamiteMotions::Motion_11_Falling:
+                return ::eParamiteMotions::Motion_11_Falling;
+            case eParamiteMotions::Motion_12_JumpUpBegin:
+                return ::eParamiteMotions::Motion_12_JumpUpBegin;
+            case eParamiteMotions::Motion_13_JumpUpMidair:
+                return ::eParamiteMotions::Motion_13_JumpUpMidair;
+            case eParamiteMotions::Motion_14_JumpUpLand:
+                return ::eParamiteMotions::Motion_14_JumpUpLand;
+            case eParamiteMotions::Motion_15_RopePull:
+                return ::eParamiteMotions::Motion_15_RopePull;
+            case eParamiteMotions::Motion_16_CloseAttack:
+                return ::eParamiteMotions::Motion_16_CloseAttack;
+            case eParamiteMotions::Motion_17_Landing:
+                return ::eParamiteMotions::Motion_17_Landing;
+            case eParamiteMotions::Motion_18_Unused:
+                return ::eParamiteMotions::Motion_18_Unused;
+            case eParamiteMotions::Motion_19_Knockback:
+                return ::eParamiteMotions::Motion_19_Knockback;
+            case eParamiteMotions::Motion_20_GameSpeakBegin:
+                return ::eParamiteMotions::Motion_20_GameSpeakBegin;
+            case eParamiteMotions::Motion_21_PreHiss:
+                return ::eParamiteMotions::Motion_21_PreHiss;
+            case eParamiteMotions::Motion_22_Hiss1:
+                return ::eParamiteMotions::Motion_22_Hiss1;
+            case eParamiteMotions::Motion_23_Hiss2:
+                return ::eParamiteMotions::Motion_23_Hiss2;
+            case eParamiteMotions::Motion_24_Empty:
+                return ::eParamiteMotions::Motion_24_Empty;
+            case eParamiteMotions::Motion_25_AllOYaGameSpeakBegin:
+                return ::eParamiteMotions::Motion_25_AllOYaGameSpeakBegin;
+            case eParamiteMotions::Motion_26_Hiss3:
+                return ::eParamiteMotions::Motion_26_Hiss3;
+            case eParamiteMotions::Motion_27_PostHiss:
+                return ::eParamiteMotions::Motion_27_PostHiss;
+            case eParamiteMotions::Motion_28_GameSpeakEnd:
+                return ::eParamiteMotions::Motion_28_GameSpeakEnd;
+            case eParamiteMotions::Motion_29_GetDepossessedBegin:
+                return ::eParamiteMotions::Motion_29_GetDepossessedBegin;
+            case eParamiteMotions::Motion_30_GetDepossessedEnd:
+                return ::eParamiteMotions::Motion_30_GetDepossessedEnd;
+            case eParamiteMotions::Motion_31_RunningAttack:
+                return ::eParamiteMotions::Motion_31_RunningAttack;
+            case eParamiteMotions::Motion_32_Empty:
+                return ::eParamiteMotions::Motion_32_Empty;
+            case eParamiteMotions::Motion_33_SurpriseWeb:
+                return ::eParamiteMotions::Motion_33_SurpriseWeb;
+            case eParamiteMotions::Motion_34_WebLeaveDown:
+                return ::eParamiteMotions::Motion_34_WebLeaveDown;
+            case eParamiteMotions::Motion_35_WebIdle:
+                return ::eParamiteMotions::Motion_35_WebIdle;
+            case eParamiteMotions::Motion_36_WebGoingUp:
+                return ::eParamiteMotions::Motion_36_WebGoingUp;
+            case eParamiteMotions::Motion_37_WebGoingDown:
+                return ::eParamiteMotions::Motion_37_WebGoingDown;
+            case eParamiteMotions::Motion_38_WebGrab:
+                return ::eParamiteMotions::Motion_38_WebGrab;
+            case eParamiteMotions::Motion_39_WebLeaveUp:
+                return ::eParamiteMotions::Motion_39_WebLeaveUp;
+            case eParamiteMotions::Motion_40_Eating:
+                return ::eParamiteMotions::Motion_40_Eating;
+            case eParamiteMotions::Motion_41_Death:
+                return ::eParamiteMotions::Motion_41_Death;
+            case eParamiteMotions::Motion_42_Squawk:
+                return ::eParamiteMotions::Motion_42_Squawk;
+            case eParamiteMotions::Motion_43_Attack:
+                return ::eParamiteMotions::Motion_43_Attack;
             default:
                 ALIVE_FATAL("Bad paramite motion value %d", static_cast<s16>(motion));
         }
@@ -3521,7 +3610,7 @@ struct RockSaveState final
     BitField16<RockStateFlags> field_20_flags;
     s16 field_22_padding;
     s32 field_24_id;
-    s16 field_28_line_type;
+    eLineTypes field_28_line_type;
     s16 field_2A_count;
     enum class RockStates : s16
     {
@@ -3554,7 +3643,7 @@ struct RockSaveState final
         d.mLoop = data.field_20_flags.Get(RockStateFlags::eBit3_bLoop);
         d.mInteractive = data.field_20_flags.Get(RockStateFlags::eBit4_bInteractive);
         d.mPlatformId = Guid::NewGuidFromTlvInfo(data.field_24_id);
-        d.mCollisionLineType = data.field_28_line_type;
+        d.mCollisionLineType = AEData::From(data.field_28_line_type);
         d.mThrowableCount = data.field_2A_count;
         d.mState = From(data.field_2C_state);
         d.mBounceCount = data.field_2E_volume;
@@ -3709,31 +3798,31 @@ struct ScrabSaveState final
         ::ScrabSaveState d;
         d.mType = BaseGameObject::FromAE(data.mType);
         d.field_4_obj_id = Guid::NewGuidFromTlvInfo(data.field_4_obj_id);
-        d.field_8_xpos = data.field_8_xpos;
-        d.field_C_ypos = data.field_C_ypos;
-        d.field_10_velx = data.field_10_velx;
-        d.field_14_vely = data.field_14_vely;
-        d.field_18_path_number = data.field_18_path_number;
-        d.field_1A_lvl_number = MapWrapper::FromAESaveData(data.field_1A_lvl_number);
-        d.field_1C_sprite_scale = data.field_1C_sprite_scale;
+        d.mXPos = data.field_8_xpos;
+        d.mYPos = data.field_C_ypos;
+        d.mVelX = data.field_10_velx;
+        d.mVelY = data.field_14_vely;
+        d.mCurrentPath = data.field_18_path_number;
+        d.mCurrentLevel = MapWrapper::FromAESaveData(data.field_1A_lvl_number);
+        d.mSpriteScale = data.field_1C_sprite_scale;
         d.mRingRed = data.mRingRed;
         d.mRingGreen = data.mRingGreen;
         d.mRingBlue = data.mRingBlue;
-        d.field_26_bAnimFlipX = data.field_26_bAnimFlipX;
+        d.mFlipX = data.field_26_bAnimFlipX;
         d.field_28_current_motion = From(data.field_28_current_motion);
-        d.field_2A_current_frame = data.field_2A_current_frame;
-        d.field_2C_frame_change_counter = data.field_2C_frame_change_counter;
-        d.field_2E_bAnimRender = data.field_2E_bAnimRender;
-        d.field_2F_bDrawable = data.field_2F_bDrawable;
-        d.field_30_health = data.field_30_health;
+        d.mCurrentFrame = data.field_2A_current_frame;
+        d.mFrameChangeCounter = data.field_2C_frame_change_counter;
+        d.mAnimRender = data.field_2E_bAnimRender;
+        d.mDrawable = data.field_2F_bDrawable;
+        d.mHealth = data.field_30_health;
         d.field_34_current_motion = From(data.field_34_current_motion);
         d.field_36_next_motion = From(data.field_36_next_motion);
         d.field_38_last_line_ypos = data.field_38_last_line_ypos;
-        d.field_3A_line_type = AEData::From(data.field_3A_line_type);
-        d.field_40_bIsControlled = data.field_40_bIsControlled;
+        d.mLineType = AEData::From(data.field_3A_line_type);
+        d.mIsControlled = data.field_40_bIsControlled;
         d.field_44_tlvInfo = Guid::NewGuidFromTlvInfo(data.field_44_tlvInfo);
         d.field_48_brain_idx = data.field_48_brain_idx;
-        d.field_50_sub_state = data.field_50_sub_state;
+        d.mBrainSubState = data.field_50_sub_state;
         d.field_54_obj_id = Guid::NewGuidFromTlvInfo(data.field_54_obj_id);
         d.field_58_target_obj_id = Guid::NewGuidFromTlvInfo(data.field_58_target_obj_id);
         d.field_5C_timer = data.field_5C_timer;
@@ -3744,10 +3833,10 @@ struct ScrabSaveState final
         d.field_70_attack_delay_timer = data.field_70_attack_delay_timer;
         d.field_74_movement_timer = data.field_74_movement_timer;
         d.field_78_sfx_bitmask = data.field_78_sfx_bitmask;
-        d.field_7C_prevent_depossession = data.field_7C_prevent_depossession;
-        d.field_7E_return_level = MapWrapper::FromAESaveData(data.field_7E_return_level);
-        d.field_80_return_path = data.field_80_return_path;
-        d.field_82_return_camera = data.field_82_return_camera;
+        d.mPreventDepossession = data.field_7C_prevent_depossession;
+        d.mAbeLevel = MapWrapper::FromAESaveData(data.field_7E_return_level);
+        d.mAbePath = data.field_80_return_path;
+        d.mAbeCamera = data.field_82_return_camera;
         d.field_84_input = data.field_84_input;
         d.field_8C_shred_power_active = data.field_8C_shred_power_active;
         d.field_8E_speak = AEData::From(data.field_8E_speak);
@@ -4248,6 +4337,14 @@ struct SlogSaveState final
         Motion_23_Growl
     };
 
+    enum class eSlogBrains : s16
+    {
+        Brain_0_ListeningToSlig,
+        Brain_1_Idle,
+        Brain_2_ChasingAbe,
+        Brain_3_Death
+    };
+
     AETypes mType;
     s16 field_2_padding;
     s32 mBaseTlvInfo;
@@ -4275,7 +4372,7 @@ struct SlogSaveState final
     s32 mPlatformTlvInfo;
     s32 mSlogTlvInfo;
     s32 mTargetId;
-    s16 mBrainState;
+    eSlogBrains mBrainState;
     s16 mBrainSubState;
     s32 mMultiUseTimer;
     FP mFallingVelxScaleFactor;
@@ -4338,7 +4435,7 @@ struct SlogSaveState final
         d.mPlatformId = Guid::NewGuidFromTlvInfo(data.mPlatformTlvInfo);
         d.mSlogTlvId = Guid::NewGuidFromTlvInfo(data.mSlogTlvInfo);
         d.mTargetId = Guid::NewGuidFromTlvInfo(data.mTargetId);
-        d.mBrainState = data.mBrainState;
+        d.mBrainState = From(data.mBrainState);
         d.mBrainSubState = data.mBrainSubState;
         d.mMultiUseTimer = data.mMultiUseTimer;
         d.mFallingVelxScaleFactor = data.mFallingVelxScaleFactor;
@@ -4423,7 +4520,24 @@ struct SlogSaveState final
             case eSlogMotions::Motion_23_Growl:
                 return ::eSlogMotions::Motion_23_Growl;
             default:
-                ALIVE_FATAL("Bad slog motion value %d", static_cast<s32>(motion));
+                ALIVE_FATAL("Bad slog motion value %d", static_cast<s16>(motion));
+        }
+    }
+
+    static ::eSlogBrains From(const eSlogBrains brain)
+    {
+        switch (brain)
+        {
+            case eSlogBrains::Brain_0_ListeningToSlig:
+                return ::eSlogBrains::Brain_0_ListeningToSlig;
+            case eSlogBrains::Brain_1_Idle:
+                return ::eSlogBrains::Brain_1_Idle;
+            case eSlogBrains::Brain_2_ChasingAbe:
+                return ::eSlogBrains::Brain_2_ChasingAbe;
+            case eSlogBrains::Brain_3_Death:
+                return ::eSlogBrains::Brain_3_Death;
+            default:
+                ALIVE_FATAL("Bad slog brain value %d", static_cast<s16>(brain));
         }
     }
 };

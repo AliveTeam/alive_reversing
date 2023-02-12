@@ -63,6 +63,14 @@ enum class eSlogMotions
     Motion_23_Growl
 };
 
+enum class eSlogBrains : s16
+{
+    Brain_0_ListeningToSlig,
+    Brain_1_Idle,
+    Brain_2_ChasingAbe,
+    Brain_3_Death
+};
+
 struct SlogSaveState final
 {
     ReliveTypes mType;
@@ -91,7 +99,7 @@ struct SlogSaveState final
     Guid mPlatformId;
     Guid mSlogTlvId;
     Guid mTargetId;
-    s16 mBrainState;
+    eSlogBrains mBrainState;
     s16 mBrainSubState;
     s32 mMultiUseTimer;
     FP mFallingVelxScaleFactor;
@@ -169,13 +177,13 @@ public:
 public:
     s16 Brain_0_ListeningToSlig();
 
-    s16 Brain_ListeningToSligSaveState_0_Init();
-    s16 Brain_ListeningToSligSaveState_1_Idle(const FP xpos1GridAHead);
-    s16 Brain_ListeningToSligSaveState_2_Listening(const FP xpos1GridAHead, IBaseAliveGameObject* pObj);
-    s16 Brain_ListeningToSligSaveState_3_Walking(const FP xpos1GridAHead);
-    s16 Brain_ListeningToSligSaveState_4_Running(const FP xpos1GridAHead);
-    s16 Brain_ListeningToSligSaveState_5_Waiting();
-    s16 Brain_ListeningToSligSaveState_6_Responding();
+    s16 Brain_ListeningToSlig_0_Init();
+    s16 Brain_ListeningToSlig_1_Idle(const FP xpos1GridAHead);
+    s16 Brain_ListeningToSlig_2_Listening(const FP xpos1GridAHead, IBaseAliveGameObject* pObj);
+    s16 Brain_ListeningToSlig_3_Walking(const FP xpos1GridAHead);
+    s16 Brain_ListeningToSlig_4_Running(const FP xpos1GridAHead);
+    s16 Brain_ListeningToSlig_5_Waiting();
+    s16 Brain_ListeningToSlig_6_Responding();
 
     s16 Brain_1_Idle();
 
@@ -237,7 +245,7 @@ public:
     bool mBitingTarget = false;
 
 private:
-    u16 mBrainState = 0;
+    eSlogBrains mBrainState = eSlogBrains::Brain_0_ListeningToSlig;
     s16 mBrainSubState = 0;
     s32 mMultiUseTimer = 0; // this timer is used for multiple things like chase delay, bone eating time etc.
     FP mFallingVelxScaleFactor = {};

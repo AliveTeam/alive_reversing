@@ -278,36 +278,36 @@ s32 Paramite::CreateFromSaveState(const u8* pBuffer)
     pParamite->BaseAliveGameObjectPathTLV = nullptr;
     pParamite->BaseAliveGameObjectCollisionLine = nullptr;
 
-    pParamite->mXPos = pState->field_4_xpos;
-    pParamite->mYPos = pState->field_8_ypos;
+    pParamite->mXPos = pState->mXPos;
+    pParamite->mYPos = pState->mYPos;
 
-    pParamite->mVelX = pState->field_C_velx;
-    pParamite->mVelY = pState->field_10_vely;
+    pParamite->mVelX = pState->mVelX;
+    pParamite->mVelY = pState->mVelY;
 
     pParamite->field_13C_velx_offset = pState->field_64_velx_offset;
-    pParamite->mCurrentPath = pState->field_14_path_number;
-    pParamite->mCurrentLevel = pState->field_16_lvl_number;
-    pParamite->SetSpriteScale(pState->field_18_sprite_scale);
+    pParamite->mCurrentPath = pState->mCurrentPath;
+    pParamite->mCurrentLevel = pState->mCurrentLevel;
+    pParamite->SetSpriteScale(pState->mSpriteScale);
 
-    pParamite->mRGB.SetRGB(pState->field_1C_r, pState->field_1E_g, pState->field_20_b);
+    pParamite->mRGB.SetRGB(pState->mR, pState->mG, pState->mB);
 
     pParamite->SetCurrentMotion(pState->field_24_current_motion);
     pParamite->GetAnimation().Set_Animation_Data(pParamite->GetAnimRes(sParamiteMotionAnimIds[pParamite->mCurrentMotion]));
 
-    pParamite->GetAnimation().SetCurrentFrame(pState->field_26_anim_current_frame);
-    pParamite->GetAnimation().SetFrameChangeCounter(pState->field_28_frame_change_counter);
+    pParamite->GetAnimation().SetCurrentFrame(pState->mAnimCurrentFrame);
+    pParamite->GetAnimation().SetFrameChangeCounter(pState->mFrameChangeCounter);
 
-    pParamite->SetDrawable(pState->field_2B_drawable & 1);
+    pParamite->SetDrawable(pState->mDrawable & 1);
 
-    pParamite->GetAnimation().SetFlipX(pState->field_22_flip_x & 1);
-    pParamite->GetAnimation().SetRender(pState->field_2A_render & 1);
+    pParamite->GetAnimation().SetFlipX(pState->mFlipX & 1);
+    pParamite->GetAnimation().SetRender(pState->mRender & 1);
 
     if (IsLastFrame(&pParamite->GetAnimation()))
     {
         pParamite->GetAnimation().SetIsLastFrame(true);
     }
 
-    pParamite->mHealth = pState->field_2C_health;
+    pParamite->mHealth = pState->mHealth;
     pParamite->SetCurrentMotion(pState->field_30_current_motion);
     pParamite->SetNextMotion(pState->field_32_next_motion);
     pParamite->BaseAliveGameObjectLastLineYPos = FP_FromInteger(pState->field_34_last_line_ypos);
@@ -319,9 +319,9 @@ s32 Paramite::CreateFromSaveState(const u8* pBuffer)
     pParamite->mTargetGuid = pState->field_48_obj_id;
     pParamite->mPullRingRopeGuid = pState->field_4C_pull_ring_rope_id;
 
-    pParamite->SetBrain(sParamiteBrainTable[pState->field_50_brain_idx]);
+    pParamite->SetBrain(sParamiteBrainTable[pState->mBrainIdx]);
 
-    pParamite->mBrainSubState = pState->field_58_brain_ret;
+    pParamite->mBrainSubState = pState->mBrainSubState;
     pParamite->field_130_timer = pState->field_5C_timer;
     pParamite->field_138_depossession_timer = pState->field_60_depossession_timer;
     pParamite->field_13C_velx_offset = pState->field_64_velx_offset;
@@ -329,9 +329,9 @@ s32 Paramite::CreateFromSaveState(const u8* pBuffer)
     pParamite->field_140_tlvInfo = pState->field_3C_tlvInfo;
     pParamite->field_148_timer = pState->field_68_timer;
 
-    pParamite->mAbeLevel = pState->field_6C_return_level;
-    pParamite->mAbePath = pState->field_6E_return_path;
-    pParamite->mAbeCamera = pState->field_70_return_camera;
+    pParamite->mAbeLevel = pState->mAbeLevel;
+    pParamite->mAbePath = pState->mAbePath;
+    pParamite->mAbeCamera = pState->mAbeCamera;
 
     pParamite->field_154_input = InputObject::PsxButtonsToKeyboardInput_45EE40(pState->field_72_input);
     pParamite->field_158_next_brain_ret = pState->field_74_next_brain_ret;
@@ -369,30 +369,30 @@ s32 Paramite::VGetSaveState(u8* pSaveBuffer)
     auto pState = reinterpret_cast<ParamiteSaveState*>(pSaveBuffer);
 
     pState->mType = ReliveTypes::eParamite;
-    pState->field_4_xpos = mXPos;
-    pState->field_8_ypos = mYPos;
-    pState->field_C_velx = mVelX;
-    pState->field_10_vely = mVelY;
+    pState->mXPos = mXPos;
+    pState->mYPos = mYPos;
+    pState->mVelX = mVelX;
+    pState->mVelY = mVelY;
 
     pState->field_64_velx_offset = field_13C_velx_offset;
 
-    pState->field_14_path_number = mCurrentPath;
-    pState->field_16_lvl_number = mCurrentLevel;
-    pState->field_18_sprite_scale = GetSpriteScale();
+    pState->mCurrentPath = mCurrentPath;
+    pState->mCurrentLevel = mCurrentLevel;
+    pState->mSpriteScale = GetSpriteScale();
 
-    pState->field_1C_r = mRGB.r;
-    pState->field_1E_g = mRGB.g;
-    pState->field_20_b = mRGB.b;
+    pState->mR = mRGB.r;
+    pState->mG = mRGB.g;
+    pState->mB = mRGB.b;
 
-    pState->field_22_flip_x = GetAnimation().GetFlipX();
-    pState->field_24_current_motion = mCurrentMotion;
-    pState->field_26_anim_current_frame = static_cast<s16>(GetAnimation().GetCurrentFrame());
-    pState->field_28_frame_change_counter = static_cast<s16>(GetAnimation().GetFrameChangeCounter());
-    pState->field_2B_drawable = GetDrawable();
-    pState->field_2A_render = GetAnimation().GetRender();
-    pState->field_2C_health = mHealth;
-    pState->field_30_current_motion = mCurrentMotion;
-    pState->field_32_next_motion = mNextMotion;
+    pState->mFlipX = GetAnimation().GetFlipX();
+    pState->field_24_current_motion = GetCurrentMotion();
+    pState->mAnimCurrentFrame = static_cast<s16>(GetAnimation().GetCurrentFrame());
+    pState->mFrameChangeCounter = static_cast<s16>(GetAnimation().GetFrameChangeCounter());
+    pState->mDrawable = GetDrawable();
+    pState->mRender = GetAnimation().GetRender();
+    pState->mHealth = mHealth;
+    pState->field_30_current_motion = GetCurrentMotion();
+    pState->field_32_next_motion = GetNextMotion();
 
     pState->field_34_last_line_ypos = FP_GetExponent(BaseAliveGameObjectLastLineYPos);
     if (BaseAliveGameObjectCollisionLine)
@@ -423,20 +423,20 @@ s32 Paramite::VGetSaveState(u8* pSaveBuffer)
     pState->field_48_obj_id = ResolveId(mTargetGuid);
     pState->field_4C_pull_ring_rope_id = ResolveId(mPullRingRopeGuid);
 
-    pState->field_50_brain_idx = 0;
+    pState->mBrainIdx = 0;
 
     s32 idx = 0;
     for (auto& fn : sParamiteBrainTable)
     {
         if (BrainIs(fn))
         {
-            pState->field_50_brain_idx = idx;
+            pState->mBrainIdx = idx;
             break;
         }
         idx++;
     }
 
-    pState->field_58_brain_ret = mBrainSubState;
+    pState->mBrainSubState = mBrainSubState;
     pState->field_5C_timer = field_130_timer;
 
     pState->field_60_depossession_timer = field_138_depossession_timer;
@@ -445,9 +445,9 @@ s32 Paramite::VGetSaveState(u8* pSaveBuffer)
     pState->field_3C_tlvInfo = field_140_tlvInfo;
     pState->field_68_timer = field_148_timer;
 
-    pState->field_6C_return_level = mAbeLevel;
-    pState->field_6E_return_path = mAbePath;
-    pState->field_70_return_camera = mAbeCamera;
+    pState->mAbeLevel = mAbeLevel;
+    pState->mAbePath = mAbePath;
+    pState->mAbeCamera = mAbeCamera;
 
     pState->field_72_input = InputObject::KeyboardInputToPsxButtons_45EF70(field_154_input);
     pState->field_74_next_brain_ret = field_158_next_brain_ret;

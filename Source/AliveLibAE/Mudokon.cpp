@@ -838,14 +838,14 @@ s32 Mudokon::VGetSaveState(u8* pSaveBuffer)
     pState->field_20_b = mRGB.b;
 
     pState->field_22_bFlipX = GetAnimation().GetFlipX();
-    pState->field_24_current_motion = mCurrentMotion;
+    pState->field_24_current_motion = GetCurrentMotion();
     pState->field_26_anim_current_frame = static_cast<s16>(GetAnimation().GetCurrentFrame());
     pState->field_28_anim_frame_change_counter = static_cast<s16>(GetAnimation().GetFrameChangeCounter());
     pState->field_2B_bDrawable = GetDrawable();
     pState->field_2A_bAnimRender = GetAnimation().GetRender();
     pState->field_2C_health = mHealth;
-    pState->field_30_current_motion = mCurrentMotion;
-    pState->field_32_next_motion = mNextMotion;
+    pState->field_30_current_motion = GetCurrentMotion();
+    pState->field_32_next_motion = GetNextMotion();
     pState->field_34_lastLineYPos = FP_GetExponent(BaseAliveGameObjectLastLineYPos);
     pState->field_36_line_type = eLineTypes::eNone_m1;
 

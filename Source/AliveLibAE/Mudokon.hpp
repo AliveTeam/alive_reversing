@@ -35,7 +35,7 @@ enum Mud_Brain_State : u16
 
 // Note can't use the macro magic here because there are duplicate names because
 // speak generic appears 3 times :(
-enum eMudMotions : u16
+enum eMudMotions : s16
 {
     Motion_0_Idle,
     Motion_1_WalkLoop,
@@ -122,14 +122,14 @@ struct MudokonSaveState final
     s16 field_1E_g;
     s16 field_20_b;
     s16 field_22_bFlipX;
-    s16 field_24_current_motion;
+    eMudMotions field_24_current_motion;
     s16 field_26_anim_current_frame;
     s16 field_28_anim_frame_change_counter;
     s8 field_2A_bAnimRender;
     s8 field_2B_bDrawable;
     FP field_2C_health;
-    s16 field_30_current_motion;
-    s16 field_32_next_motion;
+    eMudMotions field_30_current_motion;
+    eMudMotions field_32_next_motion;
     s16 field_34_lastLineYPos;
     eLineTypes field_36_line_type;
     s16 field_38_padding;
@@ -204,6 +204,15 @@ public:
 
 
 private:
+    eMudMotions GetNextMotion() const
+    {
+        return static_cast<eMudMotions>(mNextMotion);
+    }
+    eMudMotions GetCurrentMotion() const
+    {
+        return static_cast<eMudMotions>(mCurrentMotion);
+    }
+
     void SetPal(Mud_Emotion emotion);
     s16 FacingBirdPortal(BirdPortal* pTarget);
     s16 TurningWheelHelloOrAllYaResponse();

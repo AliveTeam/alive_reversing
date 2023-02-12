@@ -56,6 +56,7 @@ namespace relive
 #define MAKE_ENUM(VAR) VAR,
 enum class eParamiteMotions : s32
 {
+    eNone_m1 = -1,
     PARAMITE_MOTIONS_ENUM_AE(MAKE_ENUM)
 };
 
@@ -91,25 +92,25 @@ struct ParamiteSaveState final
 {
     ReliveTypes mType;
     s16 field_2_pad;
-    FP field_4_xpos;
-    FP field_8_ypos;
-    FP field_C_velx;
-    FP field_10_vely;
-    s16 field_14_path_number;
-    EReliveLevelIds field_16_lvl_number;
-    FP field_18_sprite_scale;
-    s16 field_1C_r;
-    s16 field_1E_g;
-    s16 field_20_b;
-    s16 field_22_flip_x;
-    s16 field_24_current_motion;
-    s16 field_26_anim_current_frame;
-    s16 field_28_frame_change_counter;
-    s8 field_2A_render;
-    s8 field_2B_drawable;
-    FP field_2C_health;
-    s16 field_30_current_motion;
-    s16 field_32_next_motion;
+    FP mXPos;
+    FP mYPos;
+    FP mVelX;
+    FP mVelY;
+    s16 mCurrentPath;
+    EReliveLevelIds mCurrentLevel;
+    FP mSpriteScale;
+    s16 mR;
+    s16 mG;
+    s16 mB;
+    s16 mFlipX;
+    eParamiteMotions field_24_current_motion;
+    s16 mAnimCurrentFrame;
+    s16 mFrameChangeCounter;
+    s8 mRender;
+    s8 mDrawable;
+    FP mHealth;
+    eParamiteMotions field_30_current_motion;
+    eParamiteMotions field_32_next_motion;
     s16 field_34_last_line_ypos;
     eLineTypes field_36_line_type;
     s16 field_38_padding;
@@ -119,18 +120,18 @@ struct ParamiteSaveState final
     Guid field_44_web_id;
     Guid field_48_obj_id;
     Guid field_4C_pull_ring_rope_id;
-    s32 field_50_brain_idx;
+    s32 mBrainIdx;
     s16 field_54_padding;
     s16 field_56_padding;
-    s16 field_58_brain_ret;
+    s16 mBrainSubState;
     s16 field_5A_padding;
     s32 field_5C_timer;
     s32 field_60_depossession_timer;
     FP field_64_velx_offset;
     s32 field_68_timer;
-    EReliveLevelIds field_6C_return_level;
-    s16 field_6E_return_path;
-    s16 field_70_return_camera;
+    EReliveLevelIds mAbeLevel;
+    s16 mAbePath;
+    s16 mAbeCamera;
     s16 field_72_input;
     s16 field_74_next_brain_ret;
     bool mControlled;

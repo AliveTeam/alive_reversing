@@ -1985,26 +1985,73 @@ inline void from_json(const nlohmann::json& j, MineCarSaveState& p)
     j.at("continue_move_input").get_to(p.field_66_continue_move_input);
 }
 
+NLOHMANN_JSON_SERIALIZE_ENUM(eParamiteMotions, {
+    {eParamiteMotions::Motion_0_Idle, "idle"},
+    {eParamiteMotions::Motion_1_WalkBegin, "walk_begin"},
+    {eParamiteMotions::Motion_2_Walking, "walking"},
+    {eParamiteMotions::Motion_3_Running, "running"},
+    {eParamiteMotions::Motion_4_Turn, "turn"},
+    {eParamiteMotions::Motion_5_Hop, "hop"},
+    {eParamiteMotions::Motion_6_Unused, "motion_6_unused"},
+    {eParamiteMotions::Motion_7_WalkRunTransition, "walk_run_transition"},
+    {eParamiteMotions::Motion_8_WalkEnd, "walk_end"},
+    {eParamiteMotions::Motion_9_RunBegin, "run_begin"},
+    {eParamiteMotions::Motion_10_RunEnd, "run_end"},
+    {eParamiteMotions::Motion_11_Falling, "falling"},
+    {eParamiteMotions::Motion_12_JumpUpBegin, "jump_up_begin"},
+    {eParamiteMotions::Motion_13_JumpUpMidair, "jump_up_midair"},
+    {eParamiteMotions::Motion_14_JumpUpLand, "jump_up_land"},
+    {eParamiteMotions::Motion_15_RopePull, "rope_pull"},
+    {eParamiteMotions::Motion_16_CloseAttack, "close_attack"},
+    {eParamiteMotions::Motion_17_Landing, "landing"},
+    {eParamiteMotions::Motion_18_Unused, "motion_18_unused"},
+    {eParamiteMotions::Motion_19_Knockback, "knockback"},
+    {eParamiteMotions::Motion_20_GameSpeakBegin, "gamespeak_begin"},
+    {eParamiteMotions::Motion_21_PreHiss, "pre_hiss"},
+    {eParamiteMotions::Motion_22_Hiss1, "hiss1"},
+    {eParamiteMotions::Motion_23_Hiss2, "hiss2"},
+    {eParamiteMotions::Motion_24_Empty, "motion_24_empty"},
+    {eParamiteMotions::Motion_25_AllOYaGameSpeakBegin, "all_o_ya_gamespeak_begin"},
+    {eParamiteMotions::Motion_26_Hiss3, "hiss3"},
+    {eParamiteMotions::Motion_27_PostHiss, "post_hiss"},
+    {eParamiteMotions::Motion_28_GameSpeakEnd, "gamespeak_end"},
+    {eParamiteMotions::Motion_29_GetDepossessedBegin, "get_depossessed_begin"},
+    {eParamiteMotions::Motion_30_GetDepossessedEnd, "get_depossessed_end"},
+    {eParamiteMotions::Motion_31_RunningAttack, "running_attack"},
+    {eParamiteMotions::Motion_32_Empty, "motion_32_empty"},
+    {eParamiteMotions::Motion_33_SurpriseWeb, "surprise_web"},
+    {eParamiteMotions::Motion_34_WebLeaveDown, "web_leave_down"},
+    {eParamiteMotions::Motion_35_WebIdle, "web_idle"},
+    {eParamiteMotions::Motion_36_WebGoingUp, "web_going_up"},
+    {eParamiteMotions::Motion_37_WebGoingDown, "web_going_down"},
+    {eParamiteMotions::Motion_38_WebGrab, "web_grab"},
+    {eParamiteMotions::Motion_39_WebLeaveUp, "web_leave_up"},
+    {eParamiteMotions::Motion_40_Eating, "eating"},
+    {eParamiteMotions::Motion_41_Death, "death"},
+    {eParamiteMotions::Motion_42_Squawk, "squawk"},
+    {eParamiteMotions::Motion_43_Attack, "attack"},
+})
+
 inline void to_json(nlohmann::json& j, const ParamiteSaveState& p)
 {
     j = nlohmann::json{
         {"type", p.mType},
-        {"xpos", p.field_4_xpos},
-        {"ypos", p.field_8_ypos},
-        {"velx", p.field_C_velx},
-        {"vely", p.field_10_vely},
-        {"path_number", p.field_14_path_number},
-        {"lvl_number", p.field_16_lvl_number},
-        {"r", p.field_1C_r},
-        {"g", p.field_1E_g},
-        {"b", p.field_20_b},
-        {"x_flip", p.field_22_flip_x},
+        {"xpos", p.mXPos},
+        {"ypos", p.mYPos},
+        {"velx", p.mVelX},
+        {"vely", p.mVelY},
+        {"path_number", p.mCurrentPath},
+        {"lvl_number", p.mCurrentLevel},
+        {"r", p.mR},
+        {"g", p.mG},
+        {"b", p.mB},
+        {"x_flip", p.mFlipX},
         {"field_24_current_motion", p.field_24_current_motion},
-        {"anim_current_frame", p.field_26_anim_current_frame},
-        {"frame_change_counter", p.field_28_frame_change_counter},
-        {"render", p.field_2A_render},
-        {"drawable", p.field_2B_drawable},
-        {"health", p.field_2C_health},
+        {"anim_current_frame", p.mAnimCurrentFrame},
+        {"frame_change_counter", p.mFrameChangeCounter},
+        {"render", p.mRender},
+        {"drawable", p.mDrawable},
+        {"health", p.mHealth},
         {"field_30_current_motion", p.field_30_current_motion},
         {"next_motion", p.field_32_next_motion},
         {"last_line_ypos", p.field_34_last_line_ypos},
@@ -2014,15 +2061,15 @@ inline void to_json(nlohmann::json& j, const ParamiteSaveState& p)
         {"web_id", p.field_44_web_id},
         {"obj_id", p.field_48_obj_id},
         {"pull_ring_rope_id", p.field_4C_pull_ring_rope_id},
-        {"brain_idx", p.field_50_brain_idx},
-        {"brain_ret", p.field_58_brain_ret},
+        {"brain_idx", p.mBrainIdx},
+        {"brain_ret", p.mBrainSubState},
         {"field_5c_timer", p.field_5C_timer},
         {"depossession_timer", p.field_60_depossession_timer},
         {"velx_offset", p.field_64_velx_offset},
         {"field_68_timer", p.field_68_timer},
-        {"return_level", p.field_6C_return_level},
-        {"return_path", p.field_6E_return_path},
-        {"return_camera", p.field_70_return_camera},
+        {"return_level", p.mAbeLevel},
+        {"return_path", p.mAbePath},
+        {"return_camera", p.mAbeCamera},
         {"input", p.field_72_input},
         {"next_brain_ret", p.field_74_next_brain_ret},
         {"controlled", p.mControlled},
@@ -2038,22 +2085,22 @@ inline void to_json(nlohmann::json& j, const ParamiteSaveState& p)
 inline void from_json(const nlohmann::json& j, ParamiteSaveState& p)
 {
     j.at("type").get_to(p.mType);
-    j.at("xpos").get_to(p.field_4_xpos);
-    j.at("ypos").get_to(p.field_8_ypos);
-    j.at("velx").get_to(p.field_C_velx);
-    j.at("vely").get_to(p.field_10_vely);
-    j.at("path_number").get_to(p.field_14_path_number);
-    j.at("lvl_number").get_to(p.field_16_lvl_number);
-    j.at("r").get_to(p.field_1C_r);
-    j.at("g").get_to(p.field_1E_g);
-    j.at("b").get_to(p.field_20_b);
-    j.at("x_flip").get_to(p.field_22_flip_x);
+    j.at("xpos").get_to(p.mXPos);
+    j.at("ypos").get_to(p.mYPos);
+    j.at("velx").get_to(p.mVelX);
+    j.at("vely").get_to(p.mVelY);
+    j.at("path_number").get_to(p.mCurrentPath);
+    j.at("lvl_number").get_to(p.mCurrentLevel);
+    j.at("r").get_to(p.mR);
+    j.at("g").get_to(p.mG);
+    j.at("b").get_to(p.mB);
+    j.at("x_flip").get_to(p.mFlipX);
     j.at("field_24_current_motion").get_to(p.field_24_current_motion);
-    j.at("anim_current_frame").get_to(p.field_26_anim_current_frame);
-    j.at("frame_change_counter").get_to(p.field_28_frame_change_counter);
-    j.at("render").get_to(p.field_2A_render);
-    j.at("drawable").get_to(p.field_2B_drawable);
-    j.at("health").get_to(p.field_2C_health);
+    j.at("anim_current_frame").get_to(p.mAnimCurrentFrame);
+    j.at("frame_change_counter").get_to(p.mFrameChangeCounter);
+    j.at("render").get_to(p.mRender);
+    j.at("drawable").get_to(p.mDrawable);
+    j.at("health").get_to(p.mHealth);
     j.at("field_30_current_motion").get_to(p.field_30_current_motion);
     j.at("next_motion").get_to(p.field_30_current_motion);
     j.at("last_line_ypos").get_to(p.field_34_last_line_ypos);
@@ -2063,15 +2110,15 @@ inline void from_json(const nlohmann::json& j, ParamiteSaveState& p)
     j.at("web_id").get_to(p.field_44_web_id);
     j.at("obj_id").get_to(p.field_48_obj_id);
     j.at("pull_ring_rope_id").get_to(p.field_4C_pull_ring_rope_id);
-    j.at("brain_idx").get_to(p.field_50_brain_idx);
-    j.at("brain_ret").get_to(p.field_58_brain_ret);
+    j.at("brain_idx").get_to(p.mBrainIdx);
+    j.at("brain_ret").get_to(p.mBrainSubState);
     j.at("field_5c_timer").get_to(p.field_5C_timer);
     j.at("depossession_timer").get_to(p.field_60_depossession_timer);
     j.at("velx_offset").get_to(p.field_64_velx_offset);
     j.at("field_68_timer").get_to(p.field_68_timer);
-    j.at("return_level").get_to(p.field_6C_return_level);
-    j.at("return_path").get_to(p.field_6E_return_path);
-    j.at("return_camera").get_to(p.field_70_return_camera);
+    j.at("return_level").get_to(p.mAbeLevel);
+    j.at("return_path").get_to(p.mAbePath);
+    j.at("return_camera").get_to(p.mAbeCamera);
     j.at("input").get_to(p.field_72_input);
     j.at("next_brain_ret").get_to(p.field_74_next_brain_ret);
     j.at("controlled").get_to(p.mControlled);
@@ -2296,31 +2343,31 @@ inline void to_json(nlohmann::json& j, const ScrabSaveState& p)
     j = nlohmann::json{
         {"type", p.mType},
         {"obj_id", p.field_4_obj_id},
-        {"xpos", p.field_8_xpos},
-        {"ypos", p.field_C_ypos},
-        {"velx", p.field_10_velx},
-        {"vely", p.field_14_vely},
-        {"path_number", p.field_18_path_number},
-        {"lvl_number", p.field_1A_lvl_number},
-        {"sprite_scale", p.field_1C_sprite_scale},
+        {"xpos", p.mXPos},
+        {"ypos", p.mYPos},
+        {"velx", p.mVelX},
+        {"vely", p.mVelY},
+        {"path_number", p.mCurrentPath},
+        {"lvl_number", p.mCurrentLevel},
+        {"sprite_scale", p.mSpriteScale},
         {"ring_red", p.mRingRed},
         {"ring_green", p.mRingGreen},
         {"ring_blue", p.mRingBlue},
-        {"anim_flipX", p.field_26_bAnimFlipX},
+        {"anim_flipX", p.mFlipX},
         {"field_28_current_motion", p.field_28_current_motion},
-        {"current_frame", p.field_2A_current_frame},
-        {"frame_change_counter", p.field_2C_frame_change_counter},
-        {"anim_render", p.field_2E_bAnimRender},
-        {"drawable", p.field_2F_bDrawable},
-        {"health", p.field_30_health},
+        {"current_frame", p.mCurrentFrame},
+        {"frame_change_counter", p.mFrameChangeCounter},
+        {"anim_render", p.mAnimRender},
+        {"drawable", p.mDrawable},
+        {"health", p.mHealth},
         {"field_34_current_motion", p.field_34_current_motion},
         {"next_motion", p.field_36_next_motion},
         {"last_line_ypos", p.field_38_last_line_ypos},
-        {"line_type", p.field_3A_line_type},
-        {"is_controlled", p.field_40_bIsControlled},
+        {"line_type", p.mLineType},
+        {"is_controlled", p.mIsControlled},
         {"tlv_info", p.field_44_tlvInfo},
         {"brain_idx", p.field_48_brain_idx},
-        {"sub_state", p.field_50_sub_state},
+        {"sub_state", p.mBrainSubState},
         {"obj_id", p.field_54_obj_id},
         {"target_obj_id", p.field_58_target_obj_id},
         {"timer", p.field_5C_timer},
@@ -2331,10 +2378,10 @@ inline void to_json(nlohmann::json& j, const ScrabSaveState& p)
         {"attack_delay_timer", p.field_70_attack_delay_timer},
         {"movement_timer", p.field_74_movement_timer},
         {"sfx_bitmask", p.field_78_sfx_bitmask},
-        {"prevent_depossession", p.field_7C_prevent_depossession},
-        {"return_level", p.field_7E_return_level},
-        {"return_path", p.field_80_return_path},
-        {"return_camera", p.field_82_return_camera},
+        {"prevent_depossession", p.mPreventDepossession},
+        {"return_level", p.mAbeLevel},
+        {"return_path", p.mAbePath},
+        {"return_camera", p.mAbeCamera},
         {"input", p.field_84_input},
         {"shred_power_active", p.field_8C_shred_power_active},
         {"speak", p.field_8E_speak},
@@ -2352,31 +2399,31 @@ inline void from_json(const nlohmann::json& j, ScrabSaveState& p)
 {
     j.at("type").get_to(p.mType);
     j.at("obj_id").get_to(p.field_4_obj_id);
-    j.at("xpos").get_to(p.field_8_xpos);
-    j.at("ypos").get_to(p.field_C_ypos);
-    j.at("velx").get_to(p.field_10_velx);
-    j.at("vely").get_to(p.field_14_vely);
-    j.at("path_number").get_to(p.field_18_path_number);
-    j.at("lvl_number").get_to(p.field_1A_lvl_number);
-    j.at("sprite_scale").get_to(p.field_1C_sprite_scale);
+    j.at("xpos").get_to(p.mXPos);
+    j.at("ypos").get_to(p.mYPos);
+    j.at("velx").get_to(p.mVelX);
+    j.at("vely").get_to(p.mVelY);
+    j.at("path_number").get_to(p.mCurrentPath);
+    j.at("lvl_number").get_to(p.mCurrentLevel);
+    j.at("sprite_scale").get_to(p.mSpriteScale);
     j.at("ring_red").get_to(p.mRingRed);
     j.at("ring_green").get_to(p.mRingGreen);
     j.at("ring_blue").get_to(p.mRingBlue);
-    j.at("anim_flipX").get_to(p.field_26_bAnimFlipX);
+    j.at("anim_flipX").get_to(p.mFlipX);
     j.at("field_28_current_motion").get_to(p.field_28_current_motion);
-    j.at("current_frame").get_to(p.field_2A_current_frame);
-    j.at("frame_change_counter").get_to(p.field_2C_frame_change_counter);
-    j.at("anim_render").get_to(p.field_2E_bAnimRender);
-    j.at("drawable").get_to(p.field_2F_bDrawable);
-    j.at("health").get_to(p.field_30_health);
+    j.at("current_frame").get_to(p.mCurrentFrame);
+    j.at("frame_change_counter").get_to(p.mFrameChangeCounter);
+    j.at("anim_render").get_to(p.mAnimRender);
+    j.at("drawable").get_to(p.mDrawable);
+    j.at("health").get_to(p.mHealth);
     j.at("field_34_current_motion").get_to(p.field_34_current_motion);
     j.at("next_motion").get_to(p.field_36_next_motion);
     j.at("last_line_ypos").get_to(p.field_38_last_line_ypos);
-    j.at("line_type").get_to(p.field_3A_line_type);
-    j.at("is_controlled").get_to(p.field_40_bIsControlled);
+    j.at("line_type").get_to(p.mLineType);
+    j.at("is_controlled").get_to(p.mIsControlled);
     j.at("tlv_info").get_to(p.field_44_tlvInfo);
     j.at("brain_idx").get_to(p.field_48_brain_idx);
-    j.at("sub_state").get_to(p.field_50_sub_state);
+    j.at("sub_state").get_to(p.mBrainSubState);
     j.at("obj_id").get_to(p.field_54_obj_id);
     j.at("target_obj_id").get_to(p.field_58_target_obj_id);
     j.at("timer").get_to(p.field_5C_timer);
@@ -2387,10 +2434,10 @@ inline void from_json(const nlohmann::json& j, ScrabSaveState& p)
     j.at("attack_delay_timer").get_to(p.field_70_attack_delay_timer);
     j.at("movement_timer").get_to(p.field_74_movement_timer);
     j.at("sfx_bitmask").get_to(p.field_78_sfx_bitmask);
-    j.at("prevent_depossession").get_to(p.field_7C_prevent_depossession);
-    j.at("return_level").get_to(p.field_7E_return_level);
-    j.at("return_path").get_to(p.field_80_return_path);
-    j.at("return_camera").get_to(p.field_82_return_camera);
+    j.at("prevent_depossession").get_to(p.mPreventDepossession);
+    j.at("return_level").get_to(p.mAbeLevel);
+    j.at("return_path").get_to(p.mAbePath);
+    j.at("return_camera").get_to(p.mAbeCamera);
     j.at("input").get_to(p.field_84_input);
     j.at("shred_power_active").get_to(p.field_8C_shred_power_active);
     j.at("speak").get_to(p.field_8E_speak);
@@ -2638,6 +2685,13 @@ NLOHMANN_JSON_SERIALIZE_ENUM(eSlogMotions, {
     {eSlogMotions::Motion_21_Dying, "dying"},
     {eSlogMotions::Motion_22_Scratch, "scratch"},
     {eSlogMotions::Motion_23_Growl, "growl"},
+})
+
+NLOHMANN_JSON_SERIALIZE_ENUM(eSlogBrains, {
+    {eSlogBrains::Brain_0_ListeningToSlig, "listening_to_slig"},
+    {eSlogBrains::Brain_1_Idle, "idle"},
+    {eSlogBrains::Brain_2_ChasingAbe, "chasing_abe"},
+    {eSlogBrains::Brain_3_Death, "death"},
 })
 
 inline void to_json(nlohmann::json& j, const SlogSaveState& p)

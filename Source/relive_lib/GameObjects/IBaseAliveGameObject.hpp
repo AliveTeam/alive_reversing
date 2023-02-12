@@ -84,10 +84,10 @@ protected:
     s16 SetBaseAnimPaletteTint(const TintEntry* pTintArray, EReliveLevelIds level_id, PalId resourceID);
 
 public:
-    template <class BaseAliveGameObjectClass, class FnArray>
-    static auto InvokeMemberFunction(BaseAliveGameObjectClass caller, const FnArray& fnArray, u32 idx)
+    template <class BaseAliveGameObjectClass, class FnArray, class BrainState>
+    static auto InvokeMemberFunction(BaseAliveGameObjectClass caller, const FnArray& fnArray, BrainState brainState)
     {
-        auto function = fnArray[idx];
+        auto function = fnArray[static_cast<u32>(brainState)];
         return (caller->*function)();
     }
 

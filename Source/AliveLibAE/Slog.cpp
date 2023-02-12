@@ -124,7 +124,7 @@ Slog::Slog(FP xpos, FP ypos, FP scale, s16 bListenToSligs, s16 chaseDelay)
 
     mCommandedToAttack = false;
     mTlvId = Guid{};
-    mBrainState = 2;
+    mBrainState = eSlogBrains::Brain_2_ChasingAbe;
     mBrainSubState = 0;
 
     IBaseAliveGameObject* pTarget = FindTarget(0, 0);
@@ -190,7 +190,7 @@ Slog::Slog(relive::Path_Slog* pTlv, const Guid& tlvId)
 
     mTlvId = tlvId;
     mBaseGameObjectTlvInfo = tlvId;
-    mBrainState = 1;
+    mBrainState = eSlogBrains::Brain_1_Idle;
     mTargetId = Guid{};
     mWakeUpAnger = pTlv->mWakeUpAnger;
     field_146_total_anger = pTlv->mWakeUpAnger + pTlv->mBarkAnger;
@@ -1267,6 +1267,17 @@ static const eSlogMotions sSlogResponseMotion[3][10] = {
      eSlogMotions::Motion_0_Idle,
      eSlogMotions::Motion_0_Idle}};
 
+enum class Brain_0_ListeningToSligs : s16
+{
+    eInit = 0,
+    eIdle = 1,
+    eListening = 2,
+    eWalking = 3,
+    eRunning = 4,
+    eWaiting = 5,
+    eResponding = 6
+};
+
 s16 Slog::Brain_0_ListeningToSlig()
 {
     auto pObj = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(mListeningToSligId));
@@ -1279,7 +1290,7 @@ s16 Slog::Brain_0_ListeningToSlig()
         mAngerLevel = 0;
         mListeningToSligId = Guid{};
         mTargetId = Guid{};
-        mBrainState = 1;
+        mBrainState = eSlogBrains::Brain_1_Idle;
         return 0;
     }
 
@@ -1293,25 +1304,25 @@ s16 Slog::Brain_0_ListeningToSlig()
     switch (mBrainSubState)
     {
         case 0:
-            return Brain_ListeningToSligSaveState_0_Init();
+            return Brain_ListeningToSlig_0_Init();
         case 1:
-            return Brain_ListeningToSligSaveState_1_Idle(xpos1GridAHead);
+            return Brain_ListeningToSlig_1_Idle(xpos1GridAHead);
         case 2:
-            return Brain_ListeningToSligSaveState_2_Listening(xpos1GridAHead, pObj);
+            return Brain_ListeningToSlig_2_Listening(xpos1GridAHead, pObj);
         case 3:
-            return Brain_ListeningToSligSaveState_3_Walking(xpos1GridAHead);
+            return Brain_ListeningToSlig_3_Walking(xpos1GridAHead);
         case 4:
-            return Brain_ListeningToSligSaveState_4_Running(xpos1GridAHead);
+            return Brain_ListeningToSlig_4_Running(xpos1GridAHead);
         case 5:
-            return Brain_ListeningToSligSaveState_5_Waiting();
+            return Brain_ListeningToSlig_5_Waiting();
         case 6:
-            return Brain_ListeningToSligSaveState_6_Responding();
+            return Brain_ListeningToSlig_6_Responding();
         default:
             return mBrainSubState;
     }
 }
 
-s16 Slog::Brain_ListeningToSligSaveState_6_Responding()
+s16 Slog::Brain_ListeningToSlig_6_Responding()
 {
     if (static_cast<s32>(sGnFrame) <= mMultiUseTimer)
     {
@@ -1332,7 +1343,7 @@ s16 Slog::Brain_ListeningToSligSaveState_6_Responding()
     }
 }
 
-s16 Slog::Brain_ListeningToSligSaveState_5_Waiting()
+s16 Slog::Brain_ListeningToSlig_5_Waiting()
 {
     if (static_cast<s32>(sGnFrame) <= mMultiUseTimer)
     {
@@ -1343,7 +1354,7 @@ s16 Slog::Brain_ListeningToSligSaveState_5_Waiting()
     return 2;
 }
 
-s16 Slog::Brain_ListeningToSligSaveState_4_Running(const FP xpos1GridAHead)
+s16 Slog::Brain_ListeningToSlig_4_Running(const FP xpos1GridAHead)
 {
     if (GetCurrentMotion() == eSlogMotions::Motion_0_Idle)
     {
@@ -1371,7 +1382,7 @@ s16 Slog::Brain_ListeningToSligSaveState_4_Running(const FP xpos1GridAHead)
     }
 }
 
-s16 Slog::Brain_ListeningToSligSaveState_3_Walking(const FP xpos1GridAHead)
+s16 Slog::Brain_ListeningToSlig_3_Walking(const FP xpos1GridAHead)
 {
     if (GetCurrentMotion() == eSlogMotions::Motion_0_Idle)
     {
@@ -1404,7 +1415,7 @@ s16 Slog::Brain_ListeningToSligSaveState_3_Walking(const FP xpos1GridAHead)
     return 2;
 }
 
-s16 Slog::Brain_ListeningToSligSaveState_2_Listening(const FP xpos1GridAHead, IBaseAliveGameObject* pObj)
+s16 Slog::Brain_ListeningToSlig_2_Listening(const FP xpos1GridAHead, IBaseAliveGameObject* pObj)
 {
     if (GetCurrentMotion() != eSlogMotions::Motion_0_Idle)
     {
@@ -1456,7 +1467,7 @@ s16 Slog::Brain_ListeningToSligSaveState_2_Listening(const FP xpos1GridAHead, IB
                 mListeningToSligId = Guid{};
                 mCommandedToAttack = true;
                 mTargetId = pTarget->mBaseGameObjectId;
-                mBrainState = 2;
+                mBrainState = eSlogBrains::Brain_2_ChasingAbe;
                 return 0;
             }
 
@@ -1551,7 +1562,7 @@ s16 Slog::Brain_ListeningToSligSaveState_2_Listening(const FP xpos1GridAHead, IB
     return mBrainSubState;
 }
 
-s16 Slog::Brain_ListeningToSligSaveState_1_Idle(const FP xpos1GridAHead)
+s16 Slog::Brain_ListeningToSlig_1_Idle(const FP xpos1GridAHead)
 {
     if (GetCurrentMotion() != eSlogMotions::Motion_0_Idle)
     {
@@ -1572,7 +1583,7 @@ s16 Slog::Brain_ListeningToSligSaveState_1_Idle(const FP xpos1GridAHead)
     return 2;
 }
 
-s16 Slog::Brain_ListeningToSligSaveState_0_Init()
+s16 Slog::Brain_ListeningToSlig_0_Init()
 {
     SetNextMotion(eSlogMotions::Motion_0_Idle);
     mWaitingCounter = 0;
@@ -1597,7 +1608,7 @@ s16 Slog::Brain_1_Idle()
         field_134_last_event_index = gEventSystem->mLastEventIndex;
         if (gEventSystem->mLastEvent == GameSpeakEvents::eSlig_HereBoy_28 && sControlledCharacter->Type() == ReliveTypes::eSlig)
         {
-            mBrainState = 0;
+            mBrainState = eSlogBrains::Brain_0_ListeningToSlig;
             mTargetId = Guid{};
             mListeningToSligId = sControlledCharacter->mBaseGameObjectId;
             return 0;
@@ -1607,7 +1618,7 @@ s16 Slog::Brain_1_Idle()
     if (SwitchStates_Get(mAngerSwitchId))
     {
         mCommandedToAttack = false;
-        mBrainState = 2;
+        mBrainState = eSlogBrains::Brain_2_ChasingAbe;
         return 0;
     }
 
@@ -1781,7 +1792,7 @@ s16 Slog::Brain_1_Idle()
                 else
                 {
                     mCommandedToAttack = false;
-                    mBrainState = 2;
+                    mBrainState = eSlogBrains::Brain_2_ChasingAbe;
                     return 0;
                 }
             }
@@ -1809,7 +1820,7 @@ s16 Slog::Brain_2_ChasingAbe()
             field_134_last_event_index = gEventSystem->mLastEventIndex;
             if (gEventSystem->mLastEvent == GameSpeakEvents::eSlig_HereBoy_28 && sControlledCharacter->Type() == ReliveTypes::eSlig)
             {
-                mBrainState = 0;
+                mBrainState = eSlogBrains::Brain_0_ListeningToSlig;
                 mTargetId = Guid{};
                 mListeningToSligId = sControlledCharacter->mBaseGameObjectId;
                 return 0;
@@ -1824,7 +1835,7 @@ s16 Slog::Brain_2_ChasingAbe()
         {
             mTargetId = Guid{};
             mAngerLevel = 0;
-            mBrainState = 1;
+            mBrainState = eSlogBrains::Brain_1_Idle;
             SetNextMotion(eSlogMotions::Motion_0_Idle);
             return 0;
         }
@@ -1846,7 +1857,7 @@ s16 Slog::Brain_2_ChasingAbe()
                     {
                         mTargetId = Guid{};
                         mAngerLevel = 0;
-                        mBrainState = 1;
+                        mBrainState = eSlogBrains::Brain_1_Idle;
                         SetNextMotion(eSlogMotions::Motion_0_Idle);
                         return 0;
                     }
@@ -2407,7 +2418,7 @@ s16 Slog::Brain_ChasingAbe_State_8_ToIdle()
         return mBrainSubState;
     }
     mAngerLevel = 0;
-    mBrainState = 1;
+    mBrainState = eSlogBrains::Brain_1_Idle;
     mBitingTarget = 0;
     return 0;
 }
@@ -3323,7 +3334,7 @@ bool Slog::VTakeDamage(BaseGameObject* pFrom)
 
             Sfx(SlogSound::DeathWhine_9);
             mHealth = FP_FromInteger(0);
-            mBrainState = 3;
+            mBrainState = eSlogBrains::Brain_3_Death;
             SetCurrentMotion(eSlogMotions::Motion_21_Dying);
             mMultiUseTimer = sGnFrame + 90;
             SetAnimFrame();
@@ -3360,7 +3371,7 @@ bool Slog::VTakeDamage(BaseGameObject* pFrom)
         case ReliveTypes::eMineCar:
             Sfx(SlogSound::DeathWhine_9);
             mHealth = FP_FromInteger(0);
-            mBrainState = 3;
+            mBrainState = eSlogBrains::Brain_3_Death;
             SetCurrentMotion(eSlogMotions::Motion_21_Dying);
             mMultiUseTimer = sGnFrame + 90;
             SetAnimFrame();
@@ -3377,7 +3388,7 @@ bool Slog::VTakeDamage(BaseGameObject* pFrom)
 
         case ReliveTypes::eElectrocute:
             mHealth = FP_FromInteger(0);
-            mBrainState = 3;
+            mBrainState = eSlogBrains::Brain_3_Death;
             SetDead(true);
             break;
 

@@ -3,6 +3,7 @@
 #include "Throwable.hpp"
 
 enum class LevelIds : s16;
+enum eLineTypes : s16;
 
 enum class RockStates : s16
 {
@@ -30,7 +31,7 @@ struct RockSaveState final
     bool mLoop;
     bool mInteractive;
     Guid mPlatformId;
-    s16 mCollisionLineType;
+    eLineTypes mCollisionLineType;
     s16 mThrowableCount;
     RockStates mState;
     s16 mBounceCount;
