@@ -447,16 +447,16 @@ void Batcher<TextureType, RenderBatchType, kTextureBatchSize>::PushAnim(const Po
         u0 = static_cast<f32>(pHeader->mSpriteSheetX);
         v0 = static_cast<f32>(pHeader->mSpriteSheetY);
 
-        u1 = u0 + pHeader->mWidth;
-        v1 = v0 + pHeader->mHeight;
+        u1 = u0 + pHeader->mSpriteWidth;
+        v1 = v0 + pHeader->mSpriteHeight;
     }
     else
     {
         u0 = (static_cast<f32>(pHeader->mSpriteSheetX) / pPng->mWidth);
         v0 = (static_cast<f32>(pHeader->mSpriteSheetY) / pPng->mHeight);
 
-        u1 = u0 + ((f32) pHeader->mWidth / (f32) pPng->mWidth);
-        v1 = v0 + ((f32) pHeader->mHeight / (f32) pPng->mHeight);
+        u1 = u0 + ((f32) pHeader->mSpriteWidth / (f32) pPng->mWidth);
+        v1 = v0 + ((f32) pHeader->mSpriteHeight / (f32) pPng->mHeight);
     }
 
     if (poly.mFlipX)

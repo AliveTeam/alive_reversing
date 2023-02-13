@@ -32,6 +32,8 @@ inline void to_json(nlohmann::json& j, const PerFrameInfo& p)
         {"y_offset", p.mYOffset},
         {"width", p.mWidth},
         {"height", p.mHeight},
+        {"sprite_width", p.mSpriteWidth},
+        {"sprite_height", p.mSpriteHeight},
         {"sprite_sheet_x", p.mSpriteSheetX},
         {"sprite_sheet_y", p.mSpriteSheetY},
         {"bound_max", p.mBoundMax},
@@ -224,6 +226,9 @@ AnimationConverter::AnimationConverter(const FileSystem::Path& outputFile, const
         perFrameInfos[i].mWidth = pFrameHeader->field_4_width;
         perFrameInfos[i].mHeight = pFrameHeader->field_5_height;
 
+        perFrameInfos[i].mSpriteWidth = pFrameHeader->field_4_width;
+        perFrameInfos[i].mSpriteHeight = pFrameHeader->field_5_height;
+
         if (mIsAoData)
         {
             perFrameInfos[i].mXOffset = PsxToPCX(pFrameInfoHeader->field_8_data.offsetAndRect.mOffset.x);
@@ -321,7 +326,8 @@ AnimationConverter::AnimationConverter(const FileSystem::Path& outputFile, const
     attributes.mFlipY = (pAnimationHeader->field_6_flags & AnimationHeader::eFlipYFlag) ? true : false;
     attributes.mLoop = (pAnimationHeader->field_6_flags & AnimationHeader::eLoopFlag) ? true : false;
     attributes.mLoopStartFrame = pAnimationHeader->field_4_loop_start_frame;
-    // TODO: Remove if not really needed (check after loader is impl'd)
+
+    // Required by background animation
     attributes.mMaxWidth = biggestFrameSize.mMaxW;
     attributes.mMaxHeight = biggestFrameSize.mMaxH;
 

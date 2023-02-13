@@ -40,6 +40,8 @@ inline void from_json(const nlohmann::json& j, PerFrameInfo& p)
     j.at("y_offset").get_to(p.mYOffset);
     j.at("width").get_to(p.mWidth);
     j.at("height").get_to(p.mHeight);
+    j.at("sprite_width").get_to(p.mSpriteWidth);
+    j.at("sprite_height").get_to(p.mSpriteHeight);
     j.at("sprite_sheet_x").get_to(p.mSpriteSheetX);
     j.at("sprite_sheet_y").get_to(p.mSpriteSheetY);
     j.at("bound_max").get_to(p.mBoundMax);

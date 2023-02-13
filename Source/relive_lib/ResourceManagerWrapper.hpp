@@ -57,6 +57,8 @@ struct PerFrameInfo final
     s32 mYOffset = 0;
     u32 mWidth = 0;
     u32 mHeight = 0;
+    u32 mSpriteWidth = 0;
+    u32 mSpriteHeight = 0;
     u32 mSpriteSheetX = 0;
     u32 mSpriteSheetY = 0;
     Point32 mBoundMin;

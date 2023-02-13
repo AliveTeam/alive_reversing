@@ -28,7 +28,7 @@
 #include "fmv_converter.hpp"
 
 // Bump this if any data format breaks are made so that OG/mod data is re-converted/upgraded
-const u32 DataConversion::kVersion = 5;
+const u32 DataConversion::kVersion = 6;
 
 static bool ReadLvlFileInto(ReliveAPI::LvlReader& archive, const char_type* fileName, std::vector<u8>& fileBuffer)
 {
@@ -1618,7 +1618,7 @@ static void ConvertFilesInLvl(const FileSystem::Path& dataDir, FileSystem& fs, R
                         ConvertFont(dataDir, fileName, lvlReader, fileBuffer, true);
                     }
 
-                     //ConvertCamera(dataDir, fileName, fs, fileBuffer, lvlReader, lvlIdxAsLvl, isAo);
+                     ConvertCamera(dataDir, fileName, fs, fileBuffer, lvlReader, lvlIdxAsLvl, isAo);
                 }
                 else if (endsWith(fileName, ".JOY"))
                 {
@@ -1832,7 +1832,7 @@ void DataConversion::ConvertDataAO()
     std::vector<u8> fileBuffer;
     IterateAOLvls([&](ReliveAPI::LvlReader& lvlReader, EReliveLevelIds reliveLvl, AO::LevelIds lvlIdxAsLvl)
     {
-        //ConvertAnimations(dataDir, fs, fileBuffer, lvlReader, reliveLvl, true);
+        ConvertAnimations(dataDir, fs, fileBuffer, lvlReader, reliveLvl, true);
 
         ConvertPals(dataDir, fileBuffer, lvlReader, true);
 
@@ -1865,7 +1865,7 @@ void DataConversion::ConvertDataAE()
     std::vector<u8> fileBuffer;
     IterateAELvls([&](ReliveAPI::LvlReader& lvlReader, EReliveLevelIds reliveLvl, LevelIds lvlIdxAsLvl) 
     {
-        //ConvertAnimations(dataDir, fs, fileBuffer, lvlReader, reliveLvl, false);
+        ConvertAnimations(dataDir, fs, fileBuffer, lvlReader, reliveLvl, false);
 
         ConvertPals(dataDir, fileBuffer, lvlReader, false);
 
