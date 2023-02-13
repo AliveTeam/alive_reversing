@@ -941,7 +941,7 @@ struct CrawlingSligSaveState final
         d.mCollisionLineType = AEData::From(data.mCollisionLineType);
         d.mControlled = data.mControlled;
         d.mCrawlingSligTlvId = Guid::NewGuidFromTlvInfo(data.mCrawlingSligTlvInfo);
-        d.mBrainState = From(data.mBrainState);
+        d.mBrainType = From(data.mBrainState);
         d.mBrainSubState = data.mBrainSubState; // TODO: convert enums
         d.mMultiUseTimer = data.mMultiUseTimer;
         d.mVelxScaleFactor = data.mVelxScaleFactor;
@@ -1004,22 +1004,22 @@ struct CrawlingSligSaveState final
         }
     }
 
-    static ::eCrawlingSligBrains From(const eCrawlingSligBrains& brain)
+    static ::ISligBrain::EBrainTypes From(const eCrawlingSligBrains& brain)
     {
         switch (brain)
         {
             case eCrawlingSligBrains::Brain_0_Sleeping:
-                return ::eCrawlingSligBrains::Brain_0_Sleeping;
+                return ::ISligBrain::EBrainTypes::Sleeping;
             case eCrawlingSligBrains::Brain_1_Idle:
-                return ::eCrawlingSligBrains::Brain_1_Idle;
+                return ::ISligBrain::EBrainTypes::Idle;
             case eCrawlingSligBrains::Brain_2_PanicGetALocker:
-                return ::eCrawlingSligBrains::Brain_2_PanicGetALocker;
+                return ::ISligBrain::EBrainTypes::PanicGetALocker;
             case eCrawlingSligBrains::Brain_3_Possessed:
-                return ::eCrawlingSligBrains::Brain_3_Possessed;
+                return ::ISligBrain::EBrainTypes::Possessed;
             case eCrawlingSligBrains::Brain_4_GetKilled:
-                return ::eCrawlingSligBrains::Brain_4_GetKilled;
+                return ::ISligBrain::EBrainTypes::GetKilled;
             case eCrawlingSligBrains::Brain_5_Transformed:
-                return ::eCrawlingSligBrains::Brain_5_Transformed;
+                return ::ISligBrain::EBrainTypes::Transformed;
             default:
                 ALIVE_FATAL("Bad crawling slig brain %d", static_cast<s32>(brain));
         }

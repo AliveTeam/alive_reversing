@@ -429,13 +429,13 @@ NLOHMANN_JSON_SERIALIZE_ENUM(CrawlingSligMotion, {
     {CrawlingSligMotion::Motion_17_EndPushingWall, "end_pushing_wall"},
 })
 
-NLOHMANN_JSON_SERIALIZE_ENUM(eCrawlingSligBrains, {
-    {eCrawlingSligBrains::Brain_0_Sleeping, "sleeping"},
-    {eCrawlingSligBrains::Brain_1_Idle, "idle"},
-    {eCrawlingSligBrains::Brain_2_PanicGetALocker, "panic_get_a_locker"},
-    {eCrawlingSligBrains::Brain_3_Possessed, "possessed"},
-    {eCrawlingSligBrains::Brain_4_GetKilled, "get_killed"},
-    {eCrawlingSligBrains::Brain_5_Transformed, "transformed"},
+NLOHMANN_JSON_SERIALIZE_ENUM(ISligBrain::EBrainTypes, {
+    {ISligBrain::EBrainTypes::Sleeping, "sleeping"},
+    {ISligBrain::EBrainTypes::Idle, "idle"},
+    {ISligBrain::EBrainTypes::PanicGetALocker, "panic_get_a_locker"},
+    {ISligBrain::EBrainTypes::Possessed, "possessed"},
+    {ISligBrain::EBrainTypes::GetKilled, "get_killed"},
+    {ISligBrain::EBrainTypes::Transformed, "transformed"},
 })
 
 inline void to_json(nlohmann::json& j, const CrawlingSligSaveState& p)
@@ -466,7 +466,7 @@ inline void to_json(nlohmann::json& j, const CrawlingSligSaveState& p)
         {"collision_line_type", p.mCollisionLineType},
         {"controlled", p.mControlled},
         {"crawling_slig_tlv_id", p.mCrawlingSligTlvId},
-        {"brain_state", p.mBrainState},
+        {"brain_state", p.mBrainType},
         {"brain_sub_state", p.mBrainSubState},
         {"multi_use_timer", p.mMultiUseTimer},
         {"velx_scale_factor", p.mVelxScaleFactor},
@@ -509,7 +509,7 @@ inline void from_json(const nlohmann::json& j, CrawlingSligSaveState& p)
     j.at("collision_line_type").get_to(p.mCollisionLineType);
     j.at("controlled").get_to(p.mControlled);
     j.at("crawling_slig_tlv_id").get_to(p.mCrawlingSligTlvId);
-    j.at("brain_state").get_to(p.mBrainState);
+    j.at("brain_state").get_to(p.mBrainType);
     j.at("brain_sub_state").get_to(p.mBrainSubState);
     j.at("multi_use_timer").get_to(p.mMultiUseTimer);
     j.at("velx_scale_factor").get_to(p.mVelxScaleFactor);
