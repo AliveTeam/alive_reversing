@@ -545,7 +545,7 @@ void CrawlingSlig::VOnTlvCollision(relive::Path_TLV* pTlv)
 
 bool CrawlingSlig::VTakeDamage(BaseGameObject* pFrom)
 {
-    if (!BrainIs(&mTransformedBrain))
+    if (!BrainIs(ICrawlingSligBrain::EBrainTypes::Transformed))
     {
         switch (pFrom->Type())
         {
@@ -556,7 +556,7 @@ bool CrawlingSlig::VTakeDamage(BaseGameObject* pFrom)
             case ReliveTypes::eMeatSaw:
             case ReliveTypes::eMineCar:
             case ReliveTypes::eAirExplosion:
-                if (!BrainIs(&mGetKilledBrain))
+                if (!BrainIs(ICrawlingSligBrain::EBrainTypes::GetKilled))
                 {
                     SetBrain(ICrawlingSligBrain::EBrainTypes::GetKilled);
                     mGetKilledBrain.SetState(GetKilledBrain::EState::eGibsDeath);
@@ -584,11 +584,11 @@ bool CrawlingSlig::VTakeDamage(BaseGameObject* pFrom)
                 Set_AnimAndMotion(CrawlingSligMotion::Motion_7_ToShakingToIdle, true);
                 Slig_GameSpeak_SFX(SligSpeak::eHelp_10, 0, 0, this);
 
-                if (BrainIs(&mPanicGetALockerBrain))
+                if (BrainIs(ICrawlingSligBrain::EBrainTypes::PanicGetALocker))
                 {
                     mPanicGetALockerBrain.SetState(PanicGetALockerBrain::EState::eBeatBySlig);
                 }
-                else if (BrainIs(&mPossessedBrain))
+                else if (BrainIs(ICrawlingSligBrain::EBrainTypes::Possessed))
                 {
                     mPossessedBrain.SetState(PossessedBrain::EState::eBeatBySlig);
                 }
@@ -601,7 +601,7 @@ bool CrawlingSlig::VTakeDamage(BaseGameObject* pFrom)
                 return false;
 
             case ReliveTypes::eSlog:
-                if (!BrainIs(&mGetKilledBrain))
+                if (!BrainIs(ICrawlingSligBrain::EBrainTypes::GetKilled))
                 {
                     SetBrain(ICrawlingSligBrain::EBrainTypes::GetKilled);
                     mGetKilledBrain.SetState(GetKilledBrain::EState::eDeathBySlog);
@@ -616,7 +616,7 @@ bool CrawlingSlig::VTakeDamage(BaseGameObject* pFrom)
                 return false;
 
             case ReliveTypes::eElectrocute:
-                if (!BrainIs(&mGetKilledBrain))
+                if (!BrainIs(ICrawlingSligBrain::EBrainTypes::GetKilled))
                 {
                     GetAnimation().SetRender(false);
                     mHealth = FP_FromInteger(0);
@@ -634,9 +634,9 @@ bool CrawlingSlig::VTakeDamage(BaseGameObject* pFrom)
     return true;
 }
 
-void CrawlingSlig::SetBrain(ICrawlingSligBrain::EBrainTypes type)
+void CrawlingSlig::SetBrain(ICrawlingSligBrain::EBrainTypes brain)
 {
-    switch (type)
+    switch (brain)
     {
         case ICrawlingSligBrain::EBrainTypes::Sleeping:
             mCurrentBrain = &mSleepingBrain;
@@ -657,23 +657,13 @@ void CrawlingSlig::SetBrain(ICrawlingSligBrain::EBrainTypes type)
             mCurrentBrain = &mTransformedBrain;
             break;
         default:
-            ALIVE_FATAL("Invalid crawling slig brain type %d", static_cast<s32>(type));
+            ALIVE_FATAL("Invalid crawling slig brain type %d", static_cast<s32>(brain));
     }
 }
 
-bool CrawlingSlig::BrainIs(ICrawlingSligBrain* brain)
+bool CrawlingSlig::BrainIs(ICrawlingSligBrain::EBrainTypes brain)
 {
-    return mCurrentBrain == brain;
-}
-
-void CrawlingSlig::SetBrain(TCrawlingSligBrainFn fn)
-{
-    mBrainState = fn;
-}
-
-bool CrawlingSlig::BrainIs(TCrawlingSligBrainFn fn)
-{
-    return mBrainState == fn;
+    return mCurrentBrain->VGetBrain() == brain;
 }
 
 CrawlingSlig::~CrawlingSlig()
@@ -1317,7 +1307,7 @@ void CrawlingSlig::Motion_1_UsingButton()
 
                     pWalkingSlig->GetAnimation().SetFlipX(GetAnimation().GetFlipX());
 
-                    if (BrainIs(&mPossessedBrain))
+                    if (BrainIs(ICrawlingSligBrain::EBrainTypes::Possessed))
                     {
                         pWalkingSlig->SetPossessed(true);
                         pWalkingSlig->mAbeLevel = mAbeLevel;
@@ -1348,7 +1338,7 @@ void CrawlingSlig::Motion_1_UsingButton()
                     pFlyingSlig->SetSpriteScale(GetSpriteScale());
                     pFlyingSlig->GetAnimation().SetFlipX(GetAnimation().GetFlipX());
 
-                    if (BrainIs(&mPossessedBrain))
+                    if (BrainIs(ICrawlingSligBrain::EBrainTypes::Possessed))
                     {
                         pFlyingSlig->ToPlayerControlled();
                         pFlyingSlig->SetPossessed(true);
@@ -1478,7 +1468,7 @@ void CrawlingSlig::Motion_5_Falling()
     FP hitY = {};
     const auto bCollision = InAirCollision(&pLine, &hitX, &hitY, FP_FromDouble(1.8));
 
-    if (BrainIs(&mPossessedBrain))
+    if (BrainIs(ICrawlingSligBrain::EBrainTypes::Possessed))
     {
         SetActiveCameraDelayedFromDir();
     }
@@ -1609,7 +1599,7 @@ void CrawlingSlig::Motion_10_PushingWall()
         Slig_SoundEffect(static_cast<SligSfx>(Math_RandomRange(14, 16)), this);
     }
 
-    if (BrainIs(&mPossessedBrain))
+    if (BrainIs(ICrawlingSligBrain::EBrainTypes::Possessed))
     {
         const bool flipX = GetAnimation().GetFlipX();
         if ((!flipX && Input().IsAnyHeld(InputCommands::eLeft)) || (flipX && Input().IsAnyHeld(InputCommands::eRight)) || !(Input().IsAnyHeld(InputCommands::eLeft | InputCommands::eRight)))
@@ -1709,7 +1699,7 @@ void CrawlingSlig::HandleCommon()
 {
     MapFollowMe(true);
 
-    if (BrainIs(&mPossessedBrain) && mPossessedBrain.State() == PossessedBrain::EState::ePossessed)
+    if (BrainIs(ICrawlingSligBrain::EBrainTypes::Possessed) && mPossessedBrain.State() == PossessedBrain::EState::ePossessed)
     {
         if (Input().IsAnyHeld(InputCommands::eRight))
         {

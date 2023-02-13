@@ -6,7 +6,6 @@
 
 class CrawlingSlig;
 
-using TCrawlingSligBrainFn = s16 (CrawlingSlig::*)();
 using TCrawlingSligMotionFn = void (CrawlingSlig::*)();
 
 enum class LevelIds : s16;
@@ -264,8 +263,8 @@ public:
 private:
     void LoadAnimations();
 
-    void SetBrain(ICrawlingSligBrain::EBrainTypes type);
-    bool BrainIs(ICrawlingSligBrain* brain);
+    void SetBrain(ICrawlingSligBrain::EBrainTypes brain);
+    bool BrainIs(ICrawlingSligBrain::EBrainTypes brain);
 
     CrawlingSligMotion GetNextMotion() const
     {
@@ -283,9 +282,6 @@ private:
     s16 HandleEnemyStopper(FP velX);
     relive::Path_TLV* FindPantsOrWings();
     BaseGameObject* FindSligButton();
-
-    void SetBrain(TCrawlingSligBrainFn fn);
-    bool BrainIs(TCrawlingSligBrainFn fn);
 
     bool PanicOn();
     void ToIdle();
@@ -318,7 +314,6 @@ private:
     relive::Path_CrawlingSlig::CrawlDirection mCrawlDirection = relive::Path_CrawlingSlig::CrawlDirection::eLeft;
     relive::Path_TLV* mTlvHeader = nullptr;
     relive::Path_CrawlingSlig mTlv = {};
-    TCrawlingSligBrainFn mBrainState = nullptr;
 
     friend class SleepingBrain;
     friend class IdleBrain;
