@@ -36,7 +36,7 @@ enum class CrawlingSligMotion : s16
     Motion_17_EndPushingWall = 17
 };
 
-class ISligBrain
+class ICrawlingSligBrain
 {
 public:
     enum class EBrainTypes
@@ -48,9 +48,137 @@ public:
         GetKilled,
         Transformed
     };
-    virtual ~ISligBrain() { }
+    virtual ~ICrawlingSligBrain() { }
     virtual void VUpdate() = 0;
-    virtual EBrainTypes GetBrain() = 0;
+    virtual EBrainTypes VGetBrain() = 0;
+};
+
+class SleepingBrain final : public ICrawlingSligBrain
+{
+public:
+    enum EState
+    {
+        eSleeping = 0,
+        eWakingUp = 1,
+        eIsAwake = 2
+    };
+
+    explicit SleepingBrain(CrawlingSlig& crawlingSlig) : mCrawlingSlig(crawlingSlig) {}
+
+    void VUpdate() override;
+    EBrainTypes VGetBrain() override { return EBrainTypes::Sleeping; }
+
+    void SetState(EState state) { mBrainState = state; }
+    EState State() { return mBrainState; }
+
+private:
+    CrawlingSlig& mCrawlingSlig;
+    EState mBrainState = EState::eSleeping;
+};
+
+class IdleBrain final : public ICrawlingSligBrain
+{
+public:
+    explicit IdleBrain(CrawlingSlig& crawlingSlig) : mCrawlingSlig(crawlingSlig) {}
+
+    void VUpdate() override;
+    EBrainTypes VGetBrain() override { return EBrainTypes::Idle; }
+
+private:
+    CrawlingSlig& mCrawlingSlig;
+};
+
+class PanicGetALockerBrain final : public ICrawlingSligBrain
+{
+public:
+    enum EState
+    {
+        eDetermineCrawlDirection,
+        eFalling,
+        eSearchLocker,
+        eTurnAroundForLocker,
+        eSearchLockerOrTurnAround,
+        eGetPantsOrWings,
+        eUsingButton,
+        eTurnAround,
+        eCrawling,
+        eCheckIfWallHit,
+        eBeatBySlig
+    };
+
+    explicit PanicGetALockerBrain(CrawlingSlig& crawlingSlig) : mCrawlingSlig(crawlingSlig) {}
+
+    void VUpdate() override;
+    EBrainTypes VGetBrain() override { return EBrainTypes::PanicGetALocker; }
+
+    void SetState(EState state) { mBrainState = state; }
+    EState State(){ return mBrainState; }
+
+private:
+    CrawlingSlig& mCrawlingSlig;
+    EState mBrainState = EState::eDetermineCrawlDirection;
+};
+
+class PossessedBrain final : public ICrawlingSligBrain
+{
+public:
+    enum EState
+    {
+        eStartPossession,
+        ePossessed,
+        eUnpossessing,
+        eBeatBySlig
+    };
+
+    explicit PossessedBrain(CrawlingSlig& crawlingSlig) : mCrawlingSlig(crawlingSlig) {}
+
+    void VUpdate() override;
+    EBrainTypes VGetBrain() override { return EBrainTypes::Possessed; }
+
+    void SetState(EState state) { mBrainState = state; }
+    EState State() { return mBrainState; }
+
+private:
+    CrawlingSlig& mCrawlingSlig;
+    EState mBrainState = EState::eStartPossession;
+};
+
+class GetKilledBrain final : public ICrawlingSligBrain
+{
+public:
+    enum EState
+    {
+        eUnknown,
+        eVaporize,
+        eGibsDeath,
+        eSetDead,
+        eDeathBySlog,
+        eDeathDrop
+    };
+
+    explicit GetKilledBrain(CrawlingSlig& crawlingSlig) : mCrawlingSlig(crawlingSlig) {}
+
+    void VUpdate() override;
+    EBrainTypes VGetBrain() override { return EBrainTypes::GetKilled; }
+
+    void SetState(EState state) { mBrainState = state; }
+    EState State() { return mBrainState; }
+
+private:
+    CrawlingSlig& mCrawlingSlig;
+    EState mBrainState = EState::eUnknown;
+};
+
+class TransformedBrain final : public ICrawlingSligBrain
+{
+public:
+    explicit TransformedBrain(CrawlingSlig& crawlingSlig) : mCrawlingSlig(crawlingSlig) {}
+
+    void VUpdate() override;
+    EBrainTypes VGetBrain() override { return EBrainTypes::Transformed; }
+
+private:
+    CrawlingSlig& mCrawlingSlig;
 };
 
 struct CrawlingSligSaveState final
@@ -80,8 +208,11 @@ struct CrawlingSligSaveState final
     eLineTypes mCollisionLineType;
     s8 mControlled;
     Guid mCrawlingSligTlvId;
-    ISligBrain::EBrainTypes mBrainType;
-    s16 mBrainSubState;
+    ICrawlingSligBrain::EBrainTypes mBrainType;
+    SleepingBrain::EState mSleepingBrainState;
+    PanicGetALockerBrain::EState mPanicGetALockerBrainState;
+    PossessedBrain::EState mPossessedBrainState;
+    GetKilledBrain::EState mGetKilledBrainState;
     s32 mMultiUseTimer;
     FP mVelxScaleFactor;
     s16 mChanting;
@@ -95,135 +226,6 @@ struct CrawlingSligSaveState final
     s32 mSayHelpTimer;
 };
 
-class SleepingBrain final : public ISligBrain
-{
-public:
-    explicit SleepingBrain(CrawlingSlig& slig) : mSlig(slig) {}
-
-    void VUpdate() override;
-    EBrainTypes GetBrain() override { return EBrainTypes::Sleeping; }
-private:
-    enum EState
-    {
-        eSleeping = 0,
-        eWakingUp = 1,
-        eIsAwake = 2
-    };
-
-    CrawlingSlig& mSlig;
-    EState mBrainState = EState::eSleeping;
-};
-
-class IdleBrain final : public ISligBrain
-{
-public:
-    explicit IdleBrain(CrawlingSlig& slig) : mSlig(slig) {}
-
-    void VUpdate() override;
-    EBrainTypes GetBrain() override { return EBrainTypes::Idle; }
-private:
-    CrawlingSlig& mSlig;
-};
-
-class PanicGetALockerBrain final : public ISligBrain
-{
-public:
-    explicit PanicGetALockerBrain(CrawlingSlig& slig) : mSlig(slig) {}
-
-    void VUpdate() override;
-    EBrainTypes GetBrain() override { return EBrainTypes::PanicGetALocker; }
-    enum EState
-    {
-        eDetermineCrawlDirection,
-        eFalling,
-        eSearchLocker,
-        eTurnAroundForLocker,
-        eSearchLockerOrTurnAround,
-        eGetPantsOrWings,
-        eUsingButton,
-        eTurnAround,
-        eCrawling,
-        eCheckIfWallHit,
-        eBeatBySlig
-    };
-
-    void SetState(EState state)
-    {
-        mBrainState = state;
-    }
-
-private:
-    CrawlingSlig& mSlig;
-    EState mBrainState = EState::eDetermineCrawlDirection;
-};
-
-class PossessedBrain final : public ISligBrain
-{
-public:
-    explicit PossessedBrain(CrawlingSlig& slig) : mSlig(slig) {}
-
-    void VUpdate() override;
-    EBrainTypes GetBrain() override { return EBrainTypes::Possessed; }
-    enum EState
-    {
-        eStartPossession,
-        ePossessed,
-        eUnpossessing,
-        eBeatBySlig
-    };
-
-    void SetState(EState state)
-    {
-        mBrainState = state;
-    }
-
-    EState State()
-    {
-        return mBrainState;
-    }
-
-private:
-    CrawlingSlig& mSlig;
-    EState mBrainState = EState::eStartPossession;
-};
-
-class GetKilledBrain final : public ISligBrain
-{
-public:
-    explicit GetKilledBrain(CrawlingSlig& slig) : mSlig(slig) {}
-
-    void VUpdate() override;
-    EBrainTypes GetBrain() override { return EBrainTypes::GetKilled; }
-    enum EState
-    {
-        eUnknown,
-        eVaporize,
-        eGibsDeath,
-        eSetDead,
-        eDeathBySlog,
-        eDeathDrop
-    };
-
-    void SetState(EState state)
-    {
-        mBrainState = state;
-    }
-
-private:
-    CrawlingSlig& mSlig;
-    EState mBrainState = EState::eUnknown;
-};
-
-class TransformedBrain final : public ISligBrain
-{
-public:
-    explicit TransformedBrain(CrawlingSlig& slig) : mSlig(slig) {}
-
-    void VUpdate() override;
-    EBrainTypes GetBrain() override { return EBrainTypes::Transformed; }
-private:
-    CrawlingSlig& mSlig;
-};
 
 class CrawlingSlig final : public BaseAliveGameObject
 {
@@ -262,8 +264,8 @@ public:
 private:
     void LoadAnimations();
 
-    void SetBrain(ISligBrain::EBrainTypes type);
-    bool BrainIs(ISligBrain* brain);
+    void SetBrain(ICrawlingSligBrain::EBrainTypes type);
+    bool BrainIs(ICrawlingSligBrain* brain);
 
     CrawlingSligMotion GetNextMotion() const
     {
@@ -317,7 +319,6 @@ private:
     relive::Path_TLV* mTlvHeader = nullptr;
     relive::Path_CrawlingSlig mTlv = {};
     TCrawlingSligBrainFn mBrainState = nullptr;
-    s16 mBrainSubState = 0;
 
     friend class SleepingBrain;
     friend class IdleBrain;
@@ -331,5 +332,5 @@ private:
     PossessedBrain mPossessedBrain;
     GetKilledBrain mGetKilledBrain;
     TransformedBrain mTransformedBrain;
-    ISligBrain* mCurrentBrain = nullptr;
+    ICrawlingSligBrain* mCurrentBrain = nullptr;
 };

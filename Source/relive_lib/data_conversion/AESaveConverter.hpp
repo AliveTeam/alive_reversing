@@ -851,14 +851,54 @@ struct CrawlingSligSaveState final
         Motion_17_EndPushingWall = 17
     };
 
-    enum eCrawlingSligBrains : s32
+    enum class eCrawlingSligBrains : s32
     {
         Brain_0_Sleeping = 0,
-        Brain_1_Idle = 1,
+        Brain_1_Idle = 1, // NOTE: Idle does not have brain sub states
         Brain_2_PanicGetALocker = 2,
         Brain_3_Possessed = 3,
         Brain_4_GetKilled = 4,
-        Brain_5_Transformed = 5
+        Brain_5_Transformed = 5 // NOTE: Transformed does not have brain sub states
+    };
+
+    enum class Brain_0_Sleeping : s16
+    {
+        eBrain0_Sleeping_0 = 0,
+        eBrain0_WakingUp_1 = 1,
+        eBrain0_IsAwake_2 = 2
+    };
+
+    enum class Brain_2_PanicGetALocker : s16
+    {
+        eBrain2_DetermineCrawlDirection_0 = 0,
+        eBrain2_Falling_1 = 1,
+        eBrain2_SearchLocker_2 = 2,
+        eBrain2_TurnAroundForLocker_3 = 3,
+        eBrain2_SearchLockerOrTurnAround_4 = 4,
+        eBrain2_GetPantsOrWings_5 = 5,
+        eBrain2_UsingButton_6 = 6,
+        eBrain2_TurnAround_7 = 7,
+        eBrain2_Crawling_8 = 8,
+        eBrain2_CheckIfWallHit_9 = 9,
+        eBrain2_BeatBySlig_10 = 10
+    };
+
+    enum class Brain_3_Possessed : s16
+    {
+        eBrain3_StartPossession_0 = 0,
+        eBrain3_Possessed_1 = 1,
+        eBrain3_Unpossessing_2 = 2,
+        eBrain3_BeatBySlig_3 = 3
+    };
+
+    enum class Brain_4_GetKilled : s16
+    {
+        eBrain4_Unknown_0 = 0,
+        eBrain4_Vaporize_1 = 1,
+        eBrain4_GibsDeath_2 = 2,
+        eBrain4_SetDead_3 = 3,
+        eBrain4_DeathBySlog_4 = 4,
+        eBrain4_DeathDrop_5 = 5
     };
 
     AETypes mType;
@@ -941,8 +981,31 @@ struct CrawlingSligSaveState final
         d.mCollisionLineType = AEData::From(data.mCollisionLineType);
         d.mControlled = data.mControlled;
         d.mCrawlingSligTlvId = Guid::NewGuidFromTlvInfo(data.mCrawlingSligTlvInfo);
-        d.mBrainType = From(data.mBrainState);
-        d.mBrainSubState = data.mBrainSubState; // TODO: convert enums
+
+        const auto currentBrain = From(data.mBrainState);
+        d.mBrainType = currentBrain;
+        switch (currentBrain)
+        {
+            case ICrawlingSligBrain::EBrainTypes::Sleeping:
+                d.mSleepingBrainState = From(static_cast<Brain_0_Sleeping>(data.mBrainSubState));
+                break;
+            case ICrawlingSligBrain::EBrainTypes::Idle:
+                break;
+            case ICrawlingSligBrain::EBrainTypes::PanicGetALocker:
+                d.mPanicGetALockerBrainState = From(static_cast<Brain_2_PanicGetALocker>(data.mBrainSubState));
+                break;
+            case ICrawlingSligBrain::EBrainTypes::Possessed:
+                d.mPossessedBrainState = From(static_cast<Brain_3_Possessed>(data.mBrainSubState));
+                break;
+            case ICrawlingSligBrain::EBrainTypes::GetKilled:
+                d.mGetKilledBrainState = From(static_cast<Brain_4_GetKilled>(data.mBrainSubState));
+                break;
+            case ICrawlingSligBrain::EBrainTypes::Transformed:
+                break;
+            default:
+                ALIVE_FATAL("Crawling slig brain sub state %d does not exist", static_cast<s32>(currentBrain));
+        }
+
         d.mMultiUseTimer = data.mMultiUseTimer;
         d.mVelxScaleFactor = data.mVelxScaleFactor;
         d.mChanting = data.mChanting;
@@ -1004,24 +1067,108 @@ struct CrawlingSligSaveState final
         }
     }
 
-    static ::ISligBrain::EBrainTypes From(const eCrawlingSligBrains& brain)
+    static ::ICrawlingSligBrain::EBrainTypes From(const eCrawlingSligBrains& brain)
     {
         switch (brain)
         {
             case eCrawlingSligBrains::Brain_0_Sleeping:
-                return ::ISligBrain::EBrainTypes::Sleeping;
+                return ::ICrawlingSligBrain::EBrainTypes::Sleeping;
             case eCrawlingSligBrains::Brain_1_Idle:
-                return ::ISligBrain::EBrainTypes::Idle;
+                return ::ICrawlingSligBrain::EBrainTypes::Idle;
             case eCrawlingSligBrains::Brain_2_PanicGetALocker:
-                return ::ISligBrain::EBrainTypes::PanicGetALocker;
+                return ::ICrawlingSligBrain::EBrainTypes::PanicGetALocker;
             case eCrawlingSligBrains::Brain_3_Possessed:
-                return ::ISligBrain::EBrainTypes::Possessed;
+                return ::ICrawlingSligBrain::EBrainTypes::Possessed;
             case eCrawlingSligBrains::Brain_4_GetKilled:
-                return ::ISligBrain::EBrainTypes::GetKilled;
+                return ::ICrawlingSligBrain::EBrainTypes::GetKilled;
             case eCrawlingSligBrains::Brain_5_Transformed:
-                return ::ISligBrain::EBrainTypes::Transformed;
+                return ::ICrawlingSligBrain::EBrainTypes::Transformed;
             default:
                 ALIVE_FATAL("Bad crawling slig brain %d", static_cast<s32>(brain));
+        }
+    }
+
+    static ::SleepingBrain::EState From(const Brain_0_Sleeping& brain)
+    {
+        switch (brain)
+        {
+            case Brain_0_Sleeping::eBrain0_Sleeping_0:
+                return ::SleepingBrain::EState::eSleeping;
+            case Brain_0_Sleeping::eBrain0_WakingUp_1:
+                return ::SleepingBrain::EState::eWakingUp;
+            case Brain_0_Sleeping::eBrain0_IsAwake_2:
+                return ::SleepingBrain::EState::eIsAwake;
+            default:
+                ALIVE_FATAL("Bad crawling slig sleeping brain sub state %d", static_cast<s16>(brain));
+        }
+    }
+
+    static ::PanicGetALockerBrain::EState From(const Brain_2_PanicGetALocker& brain)
+    {
+        switch (brain)
+        {
+            case Brain_2_PanicGetALocker::eBrain2_DetermineCrawlDirection_0:
+                return ::PanicGetALockerBrain::EState::eDetermineCrawlDirection;
+            case Brain_2_PanicGetALocker::eBrain2_Falling_1:
+                return ::PanicGetALockerBrain::EState::eFalling;
+            case Brain_2_PanicGetALocker::eBrain2_SearchLocker_2:
+                return ::PanicGetALockerBrain::EState::eSearchLocker;
+            case Brain_2_PanicGetALocker::eBrain2_TurnAroundForLocker_3:
+                return ::PanicGetALockerBrain::EState::eTurnAroundForLocker;
+            case Brain_2_PanicGetALocker::eBrain2_SearchLockerOrTurnAround_4:
+                return ::PanicGetALockerBrain::EState::eSearchLockerOrTurnAround;
+            case Brain_2_PanicGetALocker::eBrain2_GetPantsOrWings_5:
+                return ::PanicGetALockerBrain::EState::eGetPantsOrWings;
+            case Brain_2_PanicGetALocker::eBrain2_UsingButton_6:
+                return ::PanicGetALockerBrain::EState::eUsingButton;
+            case Brain_2_PanicGetALocker::eBrain2_TurnAround_7:
+                return ::PanicGetALockerBrain::EState::eTurnAround;
+            case Brain_2_PanicGetALocker::eBrain2_Crawling_8:
+                return ::PanicGetALockerBrain::EState::eCrawling;
+            case Brain_2_PanicGetALocker::eBrain2_CheckIfWallHit_9:
+                return ::PanicGetALockerBrain::EState::eCheckIfWallHit;
+            case Brain_2_PanicGetALocker::eBrain2_BeatBySlig_10:
+                return ::PanicGetALockerBrain::EState::eBeatBySlig;
+            default:
+                ALIVE_FATAL("Bad crawling slig panic get a locker brain sub state %d", static_cast<s16>(brain));
+        }
+    }
+
+    static ::PossessedBrain::EState From(const Brain_3_Possessed& brain)
+    {
+        switch (brain)
+        {
+            case Brain_3_Possessed::eBrain3_StartPossession_0:
+                return ::PossessedBrain::EState::eStartPossession;
+            case Brain_3_Possessed::eBrain3_Possessed_1:
+                return ::PossessedBrain::EState::ePossessed;
+            case Brain_3_Possessed::eBrain3_Unpossessing_2:
+                return ::PossessedBrain::EState::eUnpossessing;
+            case Brain_3_Possessed::eBrain3_BeatBySlig_3:
+                return ::PossessedBrain::EState::eBeatBySlig;
+            default:
+                ALIVE_FATAL("Bad crawling slig possessed brain sub state %d", static_cast<s16>(brain));
+        }
+    }
+
+    static ::GetKilledBrain::EState From(const Brain_4_GetKilled& brain)
+    {
+        switch (brain)
+        {
+            case Brain_4_GetKilled::eBrain4_Unknown_0:
+                return ::GetKilledBrain::EState::eUnknown;
+            case Brain_4_GetKilled::eBrain4_Vaporize_1:
+                return ::GetKilledBrain::EState::eVaporize;
+            case Brain_4_GetKilled::eBrain4_GibsDeath_2:
+                return ::GetKilledBrain::EState::eGibsDeath;
+            case Brain_4_GetKilled::eBrain4_SetDead_3:
+                return ::GetKilledBrain::EState::eSetDead;
+            case Brain_4_GetKilled::eBrain4_DeathBySlog_4:
+                return ::GetKilledBrain::EState::eDeathBySlog;
+            case Brain_4_GetKilled::eBrain4_DeathDrop_5:
+                return ::GetKilledBrain::EState::eDeathDrop;
+            default:
+                ALIVE_FATAL("Bad crawling slig get killed brain sub state %d", static_cast<s16>(brain));
         }
     }
 };

@@ -429,13 +429,49 @@ NLOHMANN_JSON_SERIALIZE_ENUM(CrawlingSligMotion, {
     {CrawlingSligMotion::Motion_17_EndPushingWall, "end_pushing_wall"},
 })
 
-NLOHMANN_JSON_SERIALIZE_ENUM(ISligBrain::EBrainTypes, {
-    {ISligBrain::EBrainTypes::Sleeping, "sleeping"},
-    {ISligBrain::EBrainTypes::Idle, "idle"},
-    {ISligBrain::EBrainTypes::PanicGetALocker, "panic_get_a_locker"},
-    {ISligBrain::EBrainTypes::Possessed, "possessed"},
-    {ISligBrain::EBrainTypes::GetKilled, "get_killed"},
-    {ISligBrain::EBrainTypes::Transformed, "transformed"},
+NLOHMANN_JSON_SERIALIZE_ENUM(ICrawlingSligBrain::EBrainTypes, {
+    {ICrawlingSligBrain::EBrainTypes::Sleeping, "sleeping"},
+    {ICrawlingSligBrain::EBrainTypes::Idle, "idle"},
+    {ICrawlingSligBrain::EBrainTypes::PanicGetALocker, "panic_get_a_locker"},
+    {ICrawlingSligBrain::EBrainTypes::Possessed, "possessed"},
+    {ICrawlingSligBrain::EBrainTypes::GetKilled, "get_killed"},
+    {ICrawlingSligBrain::EBrainTypes::Transformed, "transformed"},
+})
+
+NLOHMANN_JSON_SERIALIZE_ENUM(SleepingBrain::EState, {
+    {SleepingBrain::EState::eSleeping, "sleeping"},
+    {SleepingBrain::EState::eWakingUp, "waking_up"},
+    {SleepingBrain::EState::eIsAwake, "is_awake"},
+})
+
+NLOHMANN_JSON_SERIALIZE_ENUM(PanicGetALockerBrain::EState, {
+    {PanicGetALockerBrain::EState::eDetermineCrawlDirection, "determine_crawl_direction"},
+    {PanicGetALockerBrain::EState::eFalling, "falling"},
+    {PanicGetALockerBrain::EState::eSearchLocker, "search_locker"},
+    {PanicGetALockerBrain::EState::eTurnAroundForLocker, "turn_around_for_locker"},
+    {PanicGetALockerBrain::EState::eSearchLockerOrTurnAround, "search_locker_or_turn_around"},
+    {PanicGetALockerBrain::EState::eGetPantsOrWings, "get_pants_or_wings"},
+    {PanicGetALockerBrain::EState::eUsingButton, "using_button"},
+    {PanicGetALockerBrain::EState::eTurnAround, "turn_around"},
+    {PanicGetALockerBrain::EState::eCrawling, "crawling"},
+    {PanicGetALockerBrain::EState::eCheckIfWallHit, "check_if_wall_hit"},
+    {PanicGetALockerBrain::EState::eBeatBySlig, "beat_by_slig"},
+})
+
+NLOHMANN_JSON_SERIALIZE_ENUM(PossessedBrain::EState, {
+    {PossessedBrain::EState::eStartPossession, "start_possession"},
+    {PossessedBrain::EState::ePossessed, "possessed"},
+    {PossessedBrain::EState::eUnpossessing, "unpossessing"},
+    {PossessedBrain::EState::eBeatBySlig, "beat_by_slig"},
+})
+
+NLOHMANN_JSON_SERIALIZE_ENUM(GetKilledBrain::EState, {
+    {GetKilledBrain::EState::eUnknown, "unknown"},
+    {GetKilledBrain::EState::eVaporize, "vaporize"},
+    {GetKilledBrain::EState::eGibsDeath, "gibs_death"},
+    {GetKilledBrain::EState::eSetDead, "set_dead"},
+    {GetKilledBrain::EState::eDeathBySlog, "death_by_slog"},
+    {GetKilledBrain::EState::eDeathDrop, "death_drop"},
 })
 
 inline void to_json(nlohmann::json& j, const CrawlingSligSaveState& p)
@@ -467,7 +503,10 @@ inline void to_json(nlohmann::json& j, const CrawlingSligSaveState& p)
         {"controlled", p.mControlled},
         {"crawling_slig_tlv_id", p.mCrawlingSligTlvId},
         {"brain_state", p.mBrainType},
-        {"brain_sub_state", p.mBrainSubState},
+        {"sleeping_brain_state", p.mSleepingBrainState},
+        {"panic_get_a_locker_brain_state", p.mPanicGetALockerBrainState},
+        {"possessed_brain_state", p.mPossessedBrainState},
+        {"get_killed_brain_state", p.mGetKilledBrainState},
         {"multi_use_timer", p.mMultiUseTimer},
         {"velx_scale_factor", p.mVelxScaleFactor},
         {"chanting", p.mChanting},
@@ -510,7 +549,10 @@ inline void from_json(const nlohmann::json& j, CrawlingSligSaveState& p)
     j.at("controlled").get_to(p.mControlled);
     j.at("crawling_slig_tlv_id").get_to(p.mCrawlingSligTlvId);
     j.at("brain_state").get_to(p.mBrainType);
-    j.at("brain_sub_state").get_to(p.mBrainSubState);
+    j.at("sleeping_brain_state").get_to(p.mSleepingBrainState);
+    j.at("panic_get_a_locker_brain_state").get_to(p.mPanicGetALockerBrainState);
+    j.at("possessed_brain_state").get_to(p.mPossessedBrainState);
+    j.at("get_killed_brain_state").get_to(p.mGetKilledBrainState);
     j.at("multi_use_timer").get_to(p.mMultiUseTimer);
     j.at("velx_scale_factor").get_to(p.mVelxScaleFactor);
     j.at("chanting").get_to(p.mChanting);
