@@ -98,6 +98,7 @@ private:
     void DebugWindow();
 
     void DrawBatches();
+    void ScaledScissor(s32 x, s32 y, s32 width, s32 height);
 
 private:
     GLContext mContext;

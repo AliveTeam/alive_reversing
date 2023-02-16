@@ -9,19 +9,24 @@ struct SDL_Window;
 class GLFramebuffer final
 {
 public:
-    GLFramebuffer(u32 width, u32 height);
+    GLFramebuffer(s32 width, s32 height);
     ~GLFramebuffer();
 
     void BindAsSourceTextureTo(GLenum texUnit);
     void BindAsTarget();
-    u32 GetHeight();
-    u32 GetWidth();
+    s32 GetHeight();
+    s32 GetWidth();
+    void Resize(s32 newWidth, s32 newHeight);
 
     static void BindScreenAsTarget(SDL_Window* wnd, s32* outWidth = nullptr, s32* outHeight = nullptr);
 
 private:
+    void CreateGLObjects();
+    void DestroyGLObjects();
+
+private:
     GLuint mFramebufferGLId = 0;
     GLuint mTextureGLId = 0;
-    u32 mHeight = 0;
-    u32 mWidth = 0;
+    s32 mHeight = 0;
+    s32 mWidth = 0;
 };

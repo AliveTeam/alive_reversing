@@ -621,6 +621,10 @@ static void KeyDownEvent(SDL_Scancode scanCode)
             LOG_INFO("Load next frame for %d", VK_F6);
             gQuicksave_LoadNextFrame = true;
         }
+        else if (vk == VK_F9)
+        {
+            IRenderer::GetRenderer()->ToggleUseOriginalResolution();
+        }
         else if (vk == VK_F10)
         {
             IRenderer::GetRenderer()->ToggleFilterScreen();

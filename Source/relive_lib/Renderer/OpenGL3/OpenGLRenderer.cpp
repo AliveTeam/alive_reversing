@@ -138,6 +138,38 @@ void OpenGLRenderer::StartFrame()
     mOffsetX = 0;
     mOffsetY = 0;
 
+    // Check if we need to recreate the framebuffers if the viewport has
+    // changed size
+    s32 desiredW = kPsxFramebufferWidth;
+    s32 desiredH = kPsxFramebufferHeight;
+
+    if (!mUseOriginalResolution)
+    {
+        // If we're maintaining aspect ratio, then the framebuffer needs
+        // to be equal to the size of the rect otherwise the result will
+        // be a warped image
+        if (mKeepAspectRatio)
+        {
+            SDL_Rect r = GetTargetDrawRect();
+
+            desiredW = r.w;
+            desiredH = r.h;
+        }
+        else
+        {
+            SDL_GL_GetDrawableSize(mWindow, &desiredW, &desiredH);
+        }
+    }
+
+    if (
+        mPsxFramebuffer[0].GetWidth() != desiredW ||
+        mPsxFramebuffer[0].GetHeight() != desiredH
+    )
+    {
+        mPsxFramebuffer[0].Resize(desiredW, desiredH);
+        mPsxFramebuffer[1].Resize(desiredW, desiredH);
+    }
+
     // Ensure bound to destination framebuffer
     GetDestinationPsxFramebuffer().BindAsTarget();
 }
@@ -438,8 +470,9 @@ void OpenGLRenderer::DrawFramebufferToScreen(s32 x, s32 y, s32 width, s32 height
     f32 texWidth = 0;
     f32 texHeight = 0;
 
-    // Handle filtering
-    if (mFramebufferFilter)
+    // Handle filtering (do not filter if not using original game res, it looks
+    // terrible)
+    if (mFramebufferFilter && mUseOriginalResolution)
     {
         UpdateFilterFramebuffer();
 
@@ -746,7 +779,7 @@ void OpenGLRenderer::DrawBatches()
         else
         {
             GL_VERIFY(glEnable(GL_SCISSOR_TEST));
-            GL_VERIFY(glScissor(batch.mScissor.x, kPsxFramebufferHeight - batch.mScissor.y - batch.mScissor.h, batch.mScissor.w, batch.mScissor.h));
+            ScaledScissor(batch.mScissor.x, batch.mScissor.y, batch.mScissor.w, batch.mScissor.h);
         }
 
         if (batch.mSourceIsFramebuffer)
@@ -810,4 +843,17 @@ void OpenGLRenderer::DrawBatches()
     GL_VERIFY(glDisableVertexAttribArray(4));
 
     // Do not clear gas here - it's released later
+}
+
+void OpenGLRenderer::ScaledScissor(s32 x, s32 y, s32 width, s32 height)
+{
+    f32 wScale = static_cast<f32>(mPsxFramebuffer[0].GetWidth()) / kPsxFramebufferWidth;
+    f32 hScale = static_cast<f32>(mPsxFramebuffer[0].GetHeight()) / kPsxFramebufferHeight;
+
+    s32 scaledX = static_cast<s32>(x * wScale);
+    s32 scaledY = static_cast<s32>(y * hScale);
+    s32 scaledW = static_cast<s32>(width * wScale);
+    s32 scaledH = static_cast<s32>(height * hScale);
+
+    GL_VERIFY(glScissor(scaledX, mPsxFramebuffer[0].GetHeight() - scaledY - scaledH, scaledW, scaledH));
 }

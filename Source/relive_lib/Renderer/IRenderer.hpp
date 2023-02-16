@@ -79,10 +79,6 @@ public: // TODO: Make protected later
 
     static Quad2D LineToQuad(const Point2D& p1, const Point2D& p2);
 
-protected:
-    bool mFramebufferFilter = true;
-
-
 public:
     enum class Renderers
     {
@@ -115,6 +111,11 @@ public:
     void ToggleKeepAspectRatio()
     {
         mKeepAspectRatio = !mKeepAspectRatio;
+    }
+
+    void ToggleUseOriginalResolution()
+    {
+        mUseOriginalResolution = !mUseOriginalResolution;
     }
 
     virtual void Clear(u8 r, u8 g, u8 b) = 0;
@@ -189,5 +190,7 @@ protected:
     s32 mOffsetX = 0;
     s32 mOffsetY = 0;
 
+    bool mFramebufferFilter = true;
     bool mKeepAspectRatio = true;
+    bool mUseOriginalResolution = true;
 };
