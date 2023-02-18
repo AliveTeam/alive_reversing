@@ -200,7 +200,7 @@ std::vector<u8> PNGFile::Encode(const u32* pixelData, u32 width, u32 height)
 }
 
 
-void PNGFile::Decode(const std::vector<u8>& pngData, std::vector<u8>& rawPixels, u32& width, u32& height)
+void PNGFile::Decode(const std::string& fileName, const std::vector<u8>& pngData, std::vector<u8>& rawPixels, u32& width, u32& height)
 {
     PngApi api(PngContext::CtxType::Decode);
 
@@ -214,6 +214,17 @@ void PNGFile::Decode(const std::vector<u8>& pngData, std::vector<u8>& rawPixels,
     spng_ihdr header = api.GetHeader();
     width = header.width;
     height = header.height;
+    if (header.color_type != SPNG_COLOR_TYPE_TRUECOLOR_ALPHA)
+    {
+        if (header.color_type == SPNG_COLOR_TYPE_TRUECOLOR)
+        {
+            ALIVE_FATAL("Missing alpha channel in %s", fileName.c_str());
+        }
+        else
+        {
+            ALIVE_FATAL("%s is not an RGBA PNG (got format %d)", fileName.c_str(), header.color_type);
+        }
+    }
 
     std::size_t image_size = api.ImageSize();
     rawPixels.resize(image_size);
@@ -229,7 +240,7 @@ void PNGFile::Load(const char_type* pFileName, std::vector<u8>& pixelData, u32& 
     FileSystem fs;
     std::vector<u8> buffer;
     fs.LoadToVec(pFileName, buffer);
-    Decode(buffer, pixelData, width, height);
+    Decode(pFileName, buffer, pixelData, width, height);
 }
 
 void PNGFile::Load(const char_type* pFileName, AnimationPal& pal256, std::vector<u8>& pixelData, u32& width, u32& height)
