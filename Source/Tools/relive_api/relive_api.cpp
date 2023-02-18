@@ -344,7 +344,7 @@ static std::vector<u8> Base64Png2RawPixels(const std::string& base64EncodedPng)
     std::vector<u8> pngData = FromBase64(base64EncodedPng);
 
     PNGFile png;
-    png.Decode(pngData, rawPixels, width, height);
+    png.Decode(base64EncodedPng, pngData, rawPixels, width, height);
     if (width != 640 || height != 240)
     {
         // todo: throw
