@@ -26,8 +26,8 @@ public:
     static std::vector<Voice*> m_Voices;
     static bool AliveAudio::voiceListLocked;
 
-    static void PlayOneShot(s32 program, s32 note, s32 volume, float pitch, s32 pitch_min, s32 pitch_max);
-    static void PlayOneShot(s32 program, s32 note, s32 volLeft, s32 volRight, float pitch, s32 pitch_min, s32 pitch_max);
+    static void PlayOneShot(s32 playId, s32 program, s32 note, s32 volume, float pitch, s32 pitch_min, s32 pitch_max);
+    static void PlayOneShot(s32 playId, s32 program, s32 note, s32 volLeft, s32 volRight, float pitch, s32 pitch_min, s32 pitch_max);
 
     static void NoteOn(int program, int note, char velocity, float pitch = 0, int trackID = 0, float trackDelay = 0);
     static void NoteOn(int program, int note, char velocity, int trackID = 0, float trackDelay = 0);

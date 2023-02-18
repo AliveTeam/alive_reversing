@@ -33,7 +33,7 @@ void AliveInitAudio()
     SDL_PauseAudio(0);
 }
 
-void AliveAudio::PlayOneShot(int programId, int note, s32 volLeft, s32 volRight, float pitch, s32 pitch_min, s32 pitch_max)
+void AliveAudio::PlayOneShot(s32 playId, int programId, int note, s32 volLeft, s32 volRight, float pitch, s32 pitch_min, s32 pitch_max)
 {
     for (auto program : m_CurrentSoundbank->m_Programs)
     {
@@ -50,6 +50,7 @@ void AliveAudio::PlayOneShot(int programId, int note, s32 volLeft, s32 volRight,
             if (note >= tone->Min && note <= tone->Max)
             {
                 Voice* voice = new Voice();
+                voice->i_TrackID = playId;
                 voice->i_Note = note;
                 voice->f_Velocity = float(std::min(volLeft, volRight)) / 127;
                 voice->m_Tone = tone;
@@ -65,9 +66,9 @@ void AliveAudio::PlayOneShot(int programId, int note, s32 volLeft, s32 volRight,
     }
 }
 
-void AliveAudio::PlayOneShot(int programId, int note, s32 volume, float pitch, s32 pitch_min, s32 pitch_max)
+void AliveAudio::PlayOneShot(s32 playId, int programId, int note, s32 volume, float pitch, s32 pitch_min, s32 pitch_max)
 {
-    AliveAudio::PlayOneShot(programId, note, volume, volume, pitch, pitch_min, pitch_max);
+    AliveAudio::PlayOneShot(playId, programId, note, volume, volume, pitch, pitch_min, pitch_max);
 }
 
 void AliveAudio::NoteOn(int programId, int note, char velocity, float pitch , int trackID , float trackDelay )
@@ -187,6 +188,8 @@ void AliveAudio::ClearAllTrackVoices(int trackID, bool forceKill)
     {
         if (forceKill)
         {
+            //voice->b_NoteOn = false;    
+            //voice->ActiveReleaseLevel = 1;
             if (voice->i_TrackID == trackID) // Kill the voices no matter what. Cuts of any sounds = Ugly sound
             {
                 deadVoices.push_back(voice);

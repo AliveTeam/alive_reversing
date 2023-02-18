@@ -9,10 +9,10 @@ float Sample::GetSample(float sampleOffset)
     AliveAudioHelper helper;
 
     //if (!AliveAudio::Interpolation)
-    //return helper.SampleSint16ToFloat(m_SampleBuffer[(int) sampleOffset]); // No interpolation. Faster but sounds jaggy.
+    return helper.SampleSint16ToFloat(m_SampleBuffer[(int) sampleOffset]); // No interpolation. Faster but sounds jaggy.
 
-    int roundedOffset = (int) floor(sampleOffset);
-    return helper.SampleSint16ToFloat(s16(helper.Lerp(m_SampleBuffer[roundedOffset], m_SampleBuffer[roundedOffset + 1], float(int(sampleOffset) - roundedOffset))));
+    //int roundedOffset = (int) floor(sampleOffset);
+    //return helper.SampleSint16ToFloat(s16(helper.Lerp(m_SampleBuffer[roundedOffset], m_SampleBuffer[roundedOffset + 1], float(int(sampleOffset) - roundedOffset))));
 }
 
 Soundbank::Soundbank(std::vector<Sample*> samples, std::vector<Program*> programs)

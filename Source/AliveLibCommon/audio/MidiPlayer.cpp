@@ -47,12 +47,22 @@ MidiPlayer::MidiPlayer(ResourceProvider* provider)
 {
     mResourceProvider = provider;
     mSoundSampleParser = new DefaultSoundSampleParser();
+    idBank = new s32[idBankSize];
+    for (int i = 0; i < idBankSize; i++)
+    {
+        idBank[i] = 0;
+    }
 }
 
 MidiPlayer::MidiPlayer(ResourceProvider* provider, SoundSampleParser* sampleParser)
 {
     mResourceProvider = provider;
     mSoundSampleParser = sampleParser;
+    idBank = new s32[idBankSize];
+    for (int i = 0; i < idBankSize; i++)
+    {
+        idBank[i] = 0;
+    }
 }
 
 
@@ -127,6 +137,12 @@ void MidiPlayer::SND_Load_VABS(SoundBlockInfo* pSoundBlockInfo, s32 reverb)
                     tone->DecayTime = realADSR.decay_time;
                     tone->ReleaseTime = realADSR.release_time;
                     tone->SustainTime = realADSR.sustain_time;
+
+                    f32 sustain_level = static_cast<f32>((2 * (~(u8) vagAttr->field_10_adsr1 & 0xF)));
+                    tone->AttackTime = std::min(static_cast<u16>((powf(2.0f, ((vagAttr->field_10_adsr1 >> 8) & 0x7F) * 0.25f) * 0.09f)), static_cast<u16>(32767));
+                    tone->DecayTime = static_cast<u16>((((vagAttr->field_10_adsr1 >> 4) & 0xF) / 15.0f) * 16.0);
+                    tone->SustainTime = std::min(static_cast<u16>((sustain_level / 15.0f) * 600.0), static_cast<u16>(32767));
+                    //tone->ReleaseTime = std::min(static_cast<u16>(pow(2, vagAttr->field_12_adsr2 & 0x1F) * 0.045f), static_cast<u16>(32767));
 
                     if (realADSR.attack_time > 1)
                     { // This works until the loop database is added.
@@ -212,6 +228,10 @@ void MidiPlayer::SND_Stop_Channels_Mask(u32 bitMask)
 {
     bitMask;
     std::cout << "bitmask " << bitMask << "\n";
+    AliveAudio::LockNotes();
+    AliveAudio::ClearAllTrackVoices(bitMask, true);
+    AliveAudio::UnlockNotes();
+    ReleaseId(bitMask);
 }
 
 void MidiPlayer::SND_SEQ_Stop(u16 idx)
@@ -221,6 +241,7 @@ void MidiPlayer::SND_SEQ_Stop(u16 idx)
     {
         player->StopSequence();
         RemoveSequencePlayer(player);
+        ReleaseId(player->m_PlayId);
         delete player;
     }
 }
@@ -254,7 +275,7 @@ s16 MidiPlayer::SND_SEQ_PlaySeq(u16 idx, s32 repeatCount, s16 bDontStop)
     std::cout << "Play seq " << idx << "\n";
 
     player->LoadSequenceData(mSequences.at(s16(idx)), s32(idx), repeatCount);
-    player->PlaySequence();
+    player->PlaySequence(idx);
     return s16(mSequencePlayers.size() - 1);
 }
 
@@ -312,7 +333,7 @@ s16 MidiPlayer::SND_SEQ_Play(u16 idx, s32 repeatCount, s16 volLeft, s16 volRight
 
     player = new SequencePlayer();
     player->LoadSequenceData(mSequences.at(s16(idx)), s32(idx), repeatCount);
-    player->PlaySequence();
+    player->PlaySequence(idx);
     mSequencePlayers.push_back(player);
     return s16(mSequencePlayers.size() - 1);
 }
@@ -331,7 +352,7 @@ s16 MidiPlayer::SND_SsIsEos_DeInlined(u16 idx)
         // 1 means we're still playing
         return player->completedRepeats() < player->mRepeatCount ? 1 : 0;
     }
-    return 9;
+    return 1;
 }
 
 s32 MidiPlayer::SFX_SfxDefinition_Play(SfxDefinition* sfxDef, s32 volLeft, s32 volRight, s32 pitch_min, s32 pitch_max)
@@ -344,9 +365,10 @@ s32 MidiPlayer::SFX_SfxDefinition_Play(SfxDefinition* sfxDef, s32 volLeft, s32 v
 
     // AliveAudio::PlayOneShot(sfxDef->program, sfxDef->note, volLeft, 0);
     AliveAudio::LockNotes();
-    AliveAudio::PlayOneShot(sfxDef->program, sfxDef->note, volLeft, volRight, 0, pitch_min, pitch_max);
+    int playId = NextId();
+    AliveAudio::PlayOneShot(playId, sfxDef->program, sfxDef->note, volLeft, volRight, 0, pitch_min, pitch_max);
     AliveAudio::UnlockNotes();
-    return 11;
+    return playId;
 }
 
 s32 MidiPlayer::SFX_SfxDefinition_Play(SfxDefinition* sfxDef, s32 volume, s32 pitch_min, s32 pitch_max)
@@ -363,9 +385,10 @@ s32 MidiPlayer::SFX_SfxDefinition_Play(SfxDefinition* sfxDef, s32 volume, s32 pi
 
     //AliveAudio::PlayOneShot(sfxDef->program, sfxDef->note, volume, 0);
     AliveAudio::LockNotes();
-    AliveAudio::PlayOneShot(sfxDef->program, sfxDef->note, volume, volume, 0, pitch_min, pitch_max);
+    int playId = NextId();
+    AliveAudio::PlayOneShot(playId, sfxDef->program, sfxDef->note, volume, volume, 0, pitch_min, pitch_max);
     AliveAudio::UnlockNotes();
-    return 10;
+    return playId;
 }
 
 s32 MidiPlayer::SND(s32 program, s32 vabId, s32 note, s16 vol, s16 min, s16 max)
@@ -377,9 +400,10 @@ s32 MidiPlayer::SND(s32 program, s32 vabId, s32 note, s16 vol, s16 min, s16 max)
     min;
     max;
     AliveAudio::LockNotes();
+    int playId = NextId();
     AliveAudio::NoteOn(program, note, char(vol), 0);
     AliveAudio::UnlockNotes();
-    return 12;
+    return playId;
 }
 
  void MidiPlayer::SsUtAllKeyOff(s32 mode)
@@ -417,5 +441,23 @@ s32 MidiPlayer::SND(s32 program, s32 vabId, s32 note, s16 vol, s16 min, s16 max)
          mSequencePlayers.erase(mSequencePlayers.begin() + offset);
      }
  }
+
+s32 MidiPlayer::NextId()
+{
+    for (int i = 0; i < idBankSize; i++)
+    {
+        if (idBank[i] == 0)
+        {
+            idBank[i] = 1;
+            return i + 255;
+        }
+    }
+    return 55;
+}
+
+void MidiPlayer::ReleaseId(s32 id)
+{
+    idBank[id - 255] = 0;
+}
 
 } // namespace psx

@@ -74,10 +74,11 @@ public:
     ~SequencePlayer();
 
     s32 mRepeatCount;
+    s32 m_PlayId;
 
     int LoadSequenceData(std::vector<Uint8> seqData, s32 trackId, s32 repeatCount);
     int LoadSequenceStream(Stream& stream);
-    void PlaySequence();
+    void PlaySequence(s32 playId);
     void StopSequence();
     int completedRepeats();
 

@@ -39,8 +39,8 @@ SET(AliveLibSrcCommon
     audio/mixer/AliveAudio.cpp
     audio/mixer/Voice.hpp
     audio/mixer/Voice.cpp
-    audio/ADSR.hpp
-    audio/ADSR.cpp
+    audio/mixer/ADSR.hpp
+    audio/mixer/ADSR.cpp
     audio/Exceptions.hpp
     audio/Stream.hpp
     audio/Stream.cpp
@@ -50,6 +50,8 @@ SET(AliveLibSrcCommon
     audio/SequencePlayer.cpp
     audio/MidiPlayer.hpp
     audio/MidiPlayer.cpp
+    audio/mixer/biquad.hpp
+    audio/mixer/biquad.cpp
 )
 
 add_library(AliveLibCommon ${AliveLibSrcCommon})

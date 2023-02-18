@@ -74,7 +74,7 @@ void SequencePlayer::m_PlayerThreadFunction()
                 switch (m.Type)
                 {
                     case ALIVE_MIDI_NOTE_ON:
-                        AliveAudio::NoteOn(channels[m.Channel], m.Note, (char) m.Velocity, m_TrackID, MidiTimeToSample(m.TimeOffset));
+                        AliveAudio::NoteOn(channels[m.Channel], m.Note, (char) m.Velocity, m_PlayId, MidiTimeToSample(m.TimeOffset));
                         if (firstNote)
                         {
                             m_SongBeginSample = ((int) (AliveAudio::currentSampleIndex + MidiTimeToSample(m.TimeOffset)));
@@ -82,7 +82,7 @@ void SequencePlayer::m_PlayerThreadFunction()
                         }
                         break;
                     case ALIVE_MIDI_NOTE_OFF:
-                        AliveAudio::NoteOffDelay(channels[m.Channel], m.Note, m_TrackID, MidiTimeToSample(m.TimeOffset)); // Fix this. Make note off's have an offset in the voice timeline.
+                        AliveAudio::NoteOffDelay(channels[m.Channel], m.Note, m_PlayId, MidiTimeToSample(m.TimeOffset)); // Fix this. Make note off's have an offset in the voice timeline.
                         break;
                     case ALIVE_MIDI_PROGRAM_CHANGE:
                         channels[m.Channel] = m.Special;
@@ -99,7 +99,7 @@ void SequencePlayer::m_PlayerThreadFunction()
         {
             if (mVolLeft && mVolRight)
             {
-                AliveAudio::SetVolume(m_TrackID, mVolLeft, mVolRight);
+                AliveAudio::SetVolume(m_PlayId, mVolLeft, mVolRight);
             }
 
             if (AliveAudio::currentSampleIndex > m_SongFinishSample)
@@ -156,7 +156,7 @@ void SequencePlayer::StopSequence()
 {
     m_PlayerStateMutex.lock();
     AliveAudio::LockNotes();
-    AliveAudio::ClearAllTrackVoices(m_TrackID, false);
+    AliveAudio::ClearAllTrackVoices(m_PlayId, false);
     m_PlayerState = ALIVE_SEQUENCER_STOPPED;
     mCompletedRepeats.store(1);
     m_PrevBar = 0;
@@ -164,9 +164,10 @@ void SequencePlayer::StopSequence()
     m_PlayerStateMutex.unlock();
 }
 
-void SequencePlayer::PlaySequence()
+void SequencePlayer::PlaySequence(s32 playId)
 {
     m_PlayerStateMutex.lock();
+    m_PlayId = playId;
     if (m_PlayerState == ALIVE_SEQUENCER_STOPPED || m_PlayerState == ALIVE_SEQUENCER_FINISHED)
     {
         m_PrevBar = 0;
@@ -277,9 +278,9 @@ int SequencePlayer::LoadSequenceStream(Stream& stream)
                     {
                         nextQuarter += quarterDur;
                     }
-                    nextQuarter -= quarterDur;
+                    //nextQuarter -= quarterDur;
 
-                    if (nextQuarter == 0)
+                    if (nextQuarter - quarterDur <= 0)
                     {
                         nextQuarter = deltaTime;
                     }
@@ -354,6 +355,7 @@ int SequencePlayer::LoadSequenceStream(Stream& stream)
                     }
                     else
                     {
+                        prevDeltaTime = deltaTime;
                         m_MessageList.push_back(AliveAudioMidiMessage(ALIVE_MIDI_NOTE_ON, deltaTime, channel, note, velocity));
                     }
                 }
@@ -372,7 +374,7 @@ int SequencePlayer::LoadSequenceStream(Stream& stream)
                 {
                     Uint8 prog = 0;
                     stream.ReadUInt8(prog);
-                    prevDeltaTime = deltaTime;
+                    //prevDeltaTime = deltaTime;
                     m_MessageList.push_back(AliveAudioMidiMessage(ALIVE_MIDI_PROGRAM_CHANGE, deltaTime, channel, 0, 0, prog));
                 }
                 break;

@@ -213,6 +213,11 @@ namespace psx {
         void sanitizeVolume(s32* src, s32 low, s32 high);
         SequencePlayer* GetSequencePlayer(u16 idx);
         void RemoveSequencePlayer(SequencePlayer* player);
+
+        s32 idBankSize = 1024;
+        s32* idBank;
+        s32 NextId();
+        void ReleaseId(s32 id);
     };
 
 } // namespace psx
