@@ -44,12 +44,18 @@ float SequencePlayer::MidiTimeToSample(int time)
     // This may, or may not be correct. // TODO: Revise
     // Oct 7, 2022 - added (x1.041f). For some reason this seems to match AE playback speed...
     // AO might be better with just times 1.000?
-    return ((60.0f * float(time)) / float(m_SongTempo)) * (float(AliveAudioSampleRate) / 500.0f) * 1.041f;
+    return ((60.0f * float(time)) / float(m_SongTempo)) * (float(AliveAudioSampleRate) / 500.0f) * 1000.0f;
 }
 
 s32 SequencePlayer::completedRepeats()
 {
     return mCompletedRepeats.load();
+}
+
+u64 timeSinceEpochMillisec()
+{
+    using namespace std::chrono;
+    return duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count();
 }
 
 void SequencePlayer::m_PlayerThreadFunction()
@@ -60,26 +66,42 @@ void SequencePlayer::m_PlayerThreadFunction()
         channels[i] = 0;
     }
 
+    u64 ms_tick = timeSinceEpochMillisec();
+    int trackPosition = 0;
     while (!m_KillThread)
     {
+
         m_PlayerStateMutex.lock();
         AliveAudio::LockNotes();
+        float multi = float(std::min(mVolLeft, mVolRight)) / 127.0f;
 
-        if (m_PlayerState == ALIVE_SEQUENCER_INIT_VOICES)
+        if ((int) m_MessageList.size() > 0)
         {
-            bool firstNote = true;
-            for (int i = 0; i < (int)m_MessageList.size(); i++)
+            if (trackPosition >= (int) m_MessageList.size())
             {
-                AliveAudioMidiMessage m = m_MessageList[i];
+                trackPosition = 0;
+                ms_tick = timeSinceEpochMillisec();
+            }
+
+            u64 ms_now = timeSinceEpochMillisec() - ms_tick;
+            float tickDurationUs = m_RawTempo / m_ticksPerBeat;
+            u64 diffUs = ms_now * 1000;
+            u64 track_tick = u64(diffUs / tickDurationUs);
+
+
+            while (trackPosition < (int) m_MessageList.size())
+            {
+                AliveAudioMidiMessage m = m_MessageList[trackPosition];
+                if (m.TimeOffset > track_tick)
+                {
+                    break;
+                }
+
+                trackPosition++;
                 switch (m.Type)
                 {
                     case ALIVE_MIDI_NOTE_ON:
-                        AliveAudio::NoteOn(channels[m.Channel], m.Note, (char) m.Velocity, m_PlayId, MidiTimeToSample(m.TimeOffset));
-                        if (firstNote)
-                        {
-                            m_SongBeginSample = ((int) (AliveAudio::currentSampleIndex + MidiTimeToSample(m.TimeOffset)));
-                            firstNote = false;
-                        }
+                        AliveAudio::NoteOn(channels[m.Channel], m.Note, (char) m.Velocity, m_PlayId, MidiTimeToSample(m.TimeOffset), multi);
                         break;
                     case ALIVE_MIDI_NOTE_OFF:
                         AliveAudio::NoteOffDelay(channels[m.Channel], m.Note, m_PlayId, MidiTimeToSample(m.TimeOffset)); // Fix this. Make note off's have an offset in the voice timeline.
@@ -87,44 +109,17 @@ void SequencePlayer::m_PlayerThreadFunction()
                     case ALIVE_MIDI_PROGRAM_CHANGE:
                         channels[m.Channel] = m.Special;
                         break;
+                        //break;
                     case ALIVE_MIDI_ENDTRACK:
                         m_PlayerState = ALIVE_SEQUENCER_PLAYING;
                         m_SongFinishSample = ((int) (AliveAudio::currentSampleIndex + MidiTimeToSample(m.TimeOffset)));
+                        mCompletedRepeats.store(mCompletedRepeats.load() + 1);
+                        m_PlayerState = ALIVE_SEQUENCER_FINISHED;
                         break;
-                }
-            }
-        }
-
-        if (m_PlayerState == ALIVE_SEQUENCER_PLAYING)
-        {
-            if (mVolLeft && mVolRight)
-            {
-                AliveAudio::SetVolume(m_PlayId, mVolLeft, mVolRight);
-            }
-
-            if (AliveAudio::currentSampleIndex > m_SongFinishSample)
-            {
-                m_PlayerState = ALIVE_SEQUENCER_FINISHED;
-                mCompletedRepeats.store(mCompletedRepeats.load() + 1);
-
-                // Give a quarter beat anyway
-                if (m_QuarterCallback != nullptr)
-                    m_QuarterCallback();
-            }
-        }
-
-        if (m_PlayerState == ALIVE_SEQUENCER_PLAYING)
-        {
-            int quarterBeat = (m_SongFinishSample - m_SongBeginSample) / m_TimeSignatureBars;
-            int currentQuarterBeat = (int) (floor(GetPlaybackPositionSample() / quarterBeat));
-
-            if (m_PrevBar != currentQuarterBeat)
-            {
-                m_PrevBar = currentQuarterBeat;
-
-                if (m_QuarterCallback != nullptr)
-                {
-                    m_QuarterCallback();
+                    default:
+                    {
+                    }
+                        // Nothin
                 }
             }
         }
@@ -132,8 +127,14 @@ void SequencePlayer::m_PlayerThreadFunction()
         AliveAudio::UnlockNotes();
         m_PlayerStateMutex.unlock();
 
-        std::this_thread::sleep_for(std::chrono::milliseconds(30));
+        // THIS IS RIGHT!
+        // int t = (int) (m_RawTempo * m.TimeOffset / m_ticksPerBeat);
+        //std::this_thread::sleep_for(std::chrono::microseconds((int) t));
+
+        std::this_thread::sleep_for(std::chrono::milliseconds(10));
     }
+      
+
 }
 
 int SequencePlayer::GetPlaybackPositionSample()
@@ -202,7 +203,7 @@ int SequencePlayer::LoadSequenceStream(Stream& stream)
 
     stream.ReadUInt32(seqHeader.mMagic);
     stream.ReadUInt32(seqHeader.mVersion);
-    stream.ReadUInt16(seqHeader.mResolutionOfQuaterNote);
+    stream.ReadBytes(seqHeader.mResolutionOfQuaterNote, sizeof(seqHeader.mResolutionOfQuaterNote));
     stream.ReadBytes(seqHeader.mTempo, sizeof(seqHeader.mTempo));
     stream.ReadUInt8(seqHeader.mTimeSignatureBars);
     stream.ReadUInt8(seqHeader.mTimeSignatureBeats);
@@ -213,10 +214,17 @@ int SequencePlayer::LoadSequenceStream(Stream& stream)
         tempoValue += seqHeader.mTempo[2 - i] << (8 * i);
     }
 
+    int q = 0;
+    for (int i = 0; i < 2; i++)
+    {
+        q += seqHeader.mResolutionOfQuaterNote[1 - i] << (8 * i);
+    }
+
     m_TimeSignatureBars = seqHeader.mTimeSignatureBars;
 
     m_SongTempo = ((float) (60000000.0 / tempoValue));
-
+    m_RawTempo = (float)tempoValue; // tempo (length of quarter note in microseconds) 0.000001us/s  vs 0.001ms/s
+    m_ticksPerBeat = float(q);
 
     unsigned int prevDeltaTime = 0;
     unsigned int deltaTime = 0;
@@ -285,7 +293,7 @@ int SequencePlayer::LoadSequenceStream(Stream& stream)
                         nextQuarter = deltaTime;
                     }
 
-                    m_MessageList.push_back(AliveAudioMidiMessage(ALIVE_MIDI_ENDTRACK, nextQuarter, 0, 0, 0));
+                    m_MessageList.push_back(AliveAudioMidiMessage(ALIVE_MIDI_ENDTRACK, 480, 0, 0, 0));
                     return 0;
                     //Sint32 loopCount = gSeqInfo.iNumTimesToLoop; // v1 some hard coded data?? or just a local static?
                     //if (loopCount)                            // If zero then loop forever

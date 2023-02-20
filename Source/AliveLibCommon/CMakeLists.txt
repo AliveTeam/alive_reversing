@@ -114,4 +114,9 @@ target_link_libraries(AliveLibCommon
     project_warnings
     )
 
+add_subdirectory(openal-soft)
+target_include_directories(AliveLibCommon PUBLIC openal_soft)
+target_link_directories(AliveLibCommon PRIVATE openal_soft)
+target_link_libraries(AliveLibCommon OpenAL)
+
 export(TARGETS AliveLibCommon FILE AliveLibCommon.cmake)

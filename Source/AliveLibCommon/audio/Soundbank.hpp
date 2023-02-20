@@ -40,13 +40,14 @@ class Tone
 public:
     // volume 0-1
     float f_Volume;
+    s8 mode;
 
     // panning -1 - 1
     float f_Pan;
 
     // Root Key
-    unsigned char c_Center;
-    unsigned char c_Shift;
+    u8 c_Center;
+    u8 c_Shift;
 
     // Key range
     unsigned char Min;

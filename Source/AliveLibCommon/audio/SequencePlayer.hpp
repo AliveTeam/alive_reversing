@@ -13,7 +13,7 @@ struct SeqHeader
 {
     Uint32 mMagic;   // SEQp
     Uint32 mVersion; // Seems to always be 1
-    Uint16 mResolutionOfQuaterNote;
+    Uint8 mResolutionOfQuaterNote[2];
     Uint8 mTempo[3];
     Uint8 mTimeSignatureBars;
     Uint8 mTimeSignatureBeats;
@@ -91,8 +91,8 @@ public:
     AliveAudioQuarterCallback m_QuarterCallback;
 
 private:
-    s32 mVolLeft = 0;
-    s32 mVolRight = 0;
+    s32 mVolLeft = 64;
+    s32 mVolRight = 64;
     std::atomic<int> mCompletedRepeats;
     int m_KillThread = false;   // If true, loop thread will exit.
     int m_SongFinishSample = 0; // Not relative.
@@ -100,6 +100,9 @@ private:
     int m_PrevBar = 0;
     int m_TimeSignatureBars;
     float m_SongTempo;
+    float m_RawTempo;
+    float m_ticksPerBeat;
+    int m_Tick = 0;
     void m_PlayerThreadFunction();
     std::vector<AliveAudioMidiMessage> m_MessageList;
     std::thread* m_SequenceThread;

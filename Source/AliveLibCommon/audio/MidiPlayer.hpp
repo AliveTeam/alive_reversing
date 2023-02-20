@@ -8,13 +8,13 @@ namespace psx {
     struct VagAtr final
     {
         s8 field_0_priority;
-        s8 field_1_mode;
+        s8 field_1_mode;   // reverb?
         s8 field_2_vol;
         s8 field_3_pan;
-        u8 field_4_centre;
-        u8 field_5_shift;
-        s8 field_6_min;
-        s8 field_7_max;
+        u8 field_4_centre; // center
+        u8 field_5_shift;  // pitch
+        s8 field_6_min;    // min note
+        s8 field_7_max;    // max note
         s8 field_8_vibW;
         s8 field_9_vibT;
         s8 field_A_porW;

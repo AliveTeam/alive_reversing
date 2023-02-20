@@ -29,8 +29,8 @@ public:
     static void PlayOneShot(s32 playId, s32 program, s32 note, s32 volume, float pitch, s32 pitch_min, s32 pitch_max);
     static void PlayOneShot(s32 playId, s32 program, s32 note, s32 volLeft, s32 volRight, float pitch, s32 pitch_min, s32 pitch_max);
 
-    static void NoteOn(int program, int note, char velocity, float pitch = 0, int trackID = 0, float trackDelay = 0);
-    static void NoteOn(int program, int note, char velocity, int trackID = 0, float trackDelay = 0);
+    static void NoteOn(int program, int note, char velocity, float pitch = 0, int trackID = 0, float trackDelay = 0, float masterVolMulti = 1);
+    static void NoteOn(int program, int note, char velocity, int trackID = 0, float trackDelay = 0, float masterValMulti = 1);
 
     static void NoteOff(int program, int note, int trackID = 0);
     static void NoteOffDelay(int program, int note, int trackID = 0, float trackDelay = 0);

@@ -77,7 +77,7 @@ void MidiPlayer::SND_Shutdown()
 
 void MidiPlayer::SND_Load_VABS(SoundBlockInfo* pSoundBlockInfo, s32 reverb)
 {
-    reverb; // TODO - reverb
+    reverb; // TODO - reverb - this seems to be the only spot
 
     while (1)
     {
@@ -118,8 +118,11 @@ void MidiPlayer::SND_Load_VABS(SoundBlockInfo* pSoundBlockInfo, s32 reverb)
                 if (vagAttr->field_2_vol > 0)
                 {
                     program->prog_id = vagAttr->field_14_prog;
+                    tone->mode = vagAttr->field_1_mode;
                     tone->f_Volume = vagAttr->field_2_vol / 127.0f;
                     tone->c_Center = vagAttr->field_4_centre;
+                    //tone->c_Shift = (vagAttr->field_5_shift | (vagAttr->field_4_centre << 7));
+
                     tone->c_Shift = vagAttr->field_5_shift;
                     tone->f_Pan = (vagAttr->field_3_pan / 64.0f) - 1.0f;
                     tone->Min = vagAttr->field_6_min;
