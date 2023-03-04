@@ -82,25 +82,26 @@ void MidiPlayer::loop()
     u64 expectedTicks = 0; 
     while (running)
     {
-        mutex.lock();
         now = timeSinceEpochMillisec();
         expectedTicks = u64(float(now - start) / 1000.0f * 44100); 
+
+        // tick sequence - i.e. new notes to play/stop?
+        sequencer->tickSequence();
+
         while (ticks++ < expectedTicks)
         {
-            sequencer->tick(expectedTicks - ticks);
+            // tick voices - just math calculations.
+            // this is ticked 44100 times per second. Possibly this
+            // can be done with a fast math calculation instead of 
+            // a loop, but that's for another time...
+            sequencer->tickVoice();
         }
-        //ticks = expectedTicks;
-        mutex.unlock();
-        std::this_thread::sleep_for(std::chrono::milliseconds(30)); // SPU ticks every 1302.08333333 microseconds - SPU = 768 ticks per second
 
-        //std::this_thread::sleep_for(std::chrono::microseconds(1302)); // SPU ticks every 1302.08333333 microseconds - SPU = 768 ticks per second
-        // According to duckstation
-        // MASTER_CLOCK = 44100 * 0x300 // 33868800Hz or 33.8688MHz, also used as CPU clock
-        // SYSCLK_TICKS_PER_SPU_TICK = System::MASTER_CLOCK / SAMPLE_RATE, // 0x300
-
-        // 768 sys clock ticks per spu tick - sys clock tick is
-        // ----- so 768 spu ticks per second -----
-    
+        // sync voices with openal
+        sequencer->syncVoice(); 
+        
+        // defer this thread some amount of time
+        std::this_thread::sleep_for(std::chrono::milliseconds(30));
     }
 }
 
@@ -197,12 +198,6 @@ void MidiPlayer::SND_Load_VABS(SoundBlockInfo* pSoundBlockInfo, s32 reverb)
                     t->rootNotePitchShift = vagAttr->field_5_shift;
                     t->minNote = vagAttr->field_6_min;
                     t->maxNote = vagAttr->field_7_max;
-                    t->attack = realADSR.attack_time * 1000;
-                    t->release = realADSR.release_time * 1000;
-                    t->decay = realADSR.decay_time * 1000;
-                    t->sustain = realADSR.sustain_time * 1000;
-                    t->releaseExponential = false;
-                    t->sustainLevel = realADSR.sustain_level;
 
 
                     //program->prog_id = vagAttr->field_14_prog;

@@ -12,6 +12,9 @@
 
 namespace sean {
 
+const s16 MIN_VOLUME = 0;
+const s16 MAX_VOLUME = 32767;
+
 struct ASDR
 {
     // adsr1
@@ -38,8 +41,6 @@ class Sample
 public:
     Sample(ALvoid* buffer, ALsizei size)
     {
-        buf = buffer;
-        bufSize = size;
         alGenBuffers(1, &alBuffer);
         alBufferData(alBuffer, AL_FORMAT_MONO16, buffer, size, 22050); // TODO - are sample rates different?
     }
@@ -64,17 +65,6 @@ public:
 
     ADSR adsr;
 
-    // ADSR time in seconds
-    double attack;
-    double release;
-    double decay;
-    double sustain; // is this actually level?
-
-    bool releaseExponential = false;
-    double sustainLevel;
-
-    ALvoid* buf;
-    ALsizei bufSize;
     ALuint alBuffer;
 };
 
@@ -103,8 +93,6 @@ public:
     }
 
     Sample* samples[128];
-
-    u64 getAdsrReleaseTime(u8 note);
 };
 
 
@@ -134,7 +122,7 @@ public:
 
 struct Channel
 {   
-    // channels may have volums and pans too
+    // channels may have volums and pans too, but not implemented
     Patch* patch;
 };
 
@@ -181,14 +169,11 @@ public:
 
 private:
     std::vector<MIDIMessage*> messages;
-
-
-private:
     u32 actionPos = 0;
     u64 trackStartTime = 0;
 };
 
-enum AttackPhase
+enum ADSRPhase
 {
     NONE,
     ATTACK,
@@ -210,7 +195,6 @@ public:
     float velocity = 1.0f;
     float pan = 0.0f;
     float noteVolume = 1.0f;
-    s16 currentLevel = 0;
 
     bool loop = false;
     u64 onTime = 0;   // when the note was pressed
@@ -219,16 +203,18 @@ public:
     u64 lastProcessedTick = 0;
     u64 lastProcessedMs = 0;
 
-    AttackPhase phase = ATTACK;
+    ADSRPhase phase = NONE;
     s32 counter = 0; // decremented each midi tick
     u32 rate;
     bool decreasing;
     bool exponential;
+    s16 currentLevel = 0;
+    s16 targetLevel = MAX_VOLUME; // attack we want to reach max
 
-    std::vector<s16> sources;
-    std::vector<Sample*> samples;
+    s16 source;
+    Sample* sample;
 
-    s16 tick(u64 ticks);
+    s16 tick();
 };
 
 /*
@@ -252,7 +238,9 @@ public:
     void playSeq(s32 seqId);
     void stopSeq(s32 seqId);
 
-    void tick(u64 ticks);
+    void tickSequence();
+    void tickVoice();
+    void syncVoice();
 
 private:
 

@@ -139,7 +139,7 @@ Sequencer::Sequencer()
 
     // Prepare some known effects we will use
     LOAD_EFFECT_FUNCTIONS();
-    EFXEAXREVERBPROPERTIES reverb = EFX_REVERB_PRESET_AUDITORIUM;
+    EFXEAXREVERBPROPERTIES reverb = EFX_REVERB_PRESET_GENERIC;
     efxReverb0 = PREPARE_REVERB(&reverb);
     alGenAuxiliaryEffectSlots(1, &efxSlot0);
     alAuxiliaryEffectSloti(efxSlot0, AL_EFFECTSLOT_EFFECT, (ALint) efxReverb0);
@@ -186,26 +186,26 @@ void Sequencer::reset()
 {
     alcSuspendContext(ctx);
 
-    for (s16 i = 0; i < sourceCount; i++)
-    {
-        releaseSource(i);
-        releaseVoice(voices[i]);
-    }
+    //for (s16 i = 0; i < sourceCount; i++)
+    //{
+    //    releaseSource(i);
+    //    releaseVoice(voices[i]);
+    //}
 
-    for (s16 i = 0; i < sourceCount; i++)
-    {
-        // must be deleted separately from sources
-        // since deleting a patch may delete a buffer
-        // attached to a source
-        delete patches[i];
-        patches[i] = NULL;
-    }
+    //for (s16 i = 0; i < sourceCount; i++)
+    //{
+    //    // must be deleted separately from sources
+    //    // since deleting a patch may delete a buffer
+    //    // attached to a source
+    //    delete patches[i];
+    //    patches[i] = NULL;
+    //}
 
-    for (Sequence* seq : sequences)
-    {
-        delete seq;
-    }
-    sequences.clear();
+    //for (Sequence* seq : sequences)
+    //{
+    //    delete seq;
+    //}
+    //sequences.clear();
 
     alcProcessContext(ctx);
 }
@@ -239,17 +239,10 @@ void Sequencer::stopSeq(s32 seqId)
     }
 }
 
-
-void Sequencer::tick(u64 ticks)
+void Sequencer::tickSequence()
 {
-    // pause openal changes to perform bulk update - more performant.
-    // unpause is called at the end.
-    alcSuspendContext(ctx);
-    
-    ADSRTableEntry e = s_adsr_table[0][0];
-    ADSRTableEntries table = s_adsr_table;
-
     u64 now = timeSinceEpochMillisec();
+    ALenum error;
 
     // Tick sequences
     for (Sequence* seq : sequences)
@@ -258,7 +251,7 @@ void Sequencer::tick(u64 ticks)
         {
             continue;
         }
-        
+
         //if (seq->repeats >= seq->repeatLimit)
         //{
         //    stopSeq(seq->id);
@@ -277,14 +270,58 @@ void Sequencer::tick(u64 ticks)
                         break;
                     }
 
-                    Voice* v = obtainVoice();
-                    if (v)
+                    for (Sample* sample : seq->channels[message->channelId]->patch->samples)
                     {
+                        if (!sample)
+                        {
+                            continue;
+                        }
+
+                        if (message->note > sample->maxNote || message->note < sample->minNote)
+                        {
+                            continue;
+                        }
+
+                        Voice* v = obtainVoice();
+                        if (!v)
+                        {
+                            continue;
+                        }
+
+                        s16 id = obtainSource();
+                        if (id < 0)
+                        {
+                            releaseVoice(v);
+                            continue;
+                        }
+
+                        alSourcei(source[id], AL_BUFFER, sample->alBuffer);
+                        if ((error = alGetError()) != AL_NO_ERROR)
+                        {
+                            releaseVoice(v);
+                            releaseSource(id);
+                            continue;
+                        }
+
+                        alSourcef(source[id], AL_GAIN, (ALfloat) 0.0f);
+                        alSourcePlay(source[id]);
+                        if ((error = alGetError()) != AL_NO_ERROR)
+                        {
+                            releaseVoice(v);
+                            releaseSource(id);
+                            continue;
+                        }
+
                         v->sequence = seq;
                         v->note = message->note;
                         v->noteVolume = message->velocity;
                         v->patch = seq->channels[message->channelId]->patch;
+                        v->source = id;
+                        v->sample = sample;
+                        v->loop = sample->adsr.attackRate > 1;  // attack is greater than sample length? sample->adsr.attackRate / 1000 > 1;
+                        v->onTime = now;
                     }
+
                     break;
                 }
                 case NOTE_OFF:
@@ -308,160 +345,141 @@ void Sequencer::tick(u64 ticks)
             }
         }
     }
+}
 
-    // Tick voices
-    ALenum error;
-    int vCount = 0;
+void Sequencer::tickVoice()
+{
     for (int c = 0; c < sourceCount; c++)
     {
-
         Voice* voice = voices[c];
         if (!voice)
         {
             continue;
         }
-        vCount++;
 
-        // we are just starting to play this note
-        if (voice->onTime == 0 && !voice->forceStopNow)
+        voice->currentLevel = voice->tick();
+    }
+}
+
+void Sequencer::syncVoice()
+{
+    // pause openal changes to perform bulk update - more performant.
+    // unpause is called at the end.
+    alcSuspendContext(ctx);
+
+    for (int c = 0; c < sourceCount; c++)
+    {
+        Voice* voice = voices[c];
+        if (!voice)
         {
-            if (!voice->patch)
-            {
-                continue;
-            }
+            continue;
+        }
 
-            voice->onTime = now;
-            for (Sample* sample : voice->patch->samples)
-            {
-                if (!sample)
-                {
-                    continue;
-                }
-
-                if (voice->note > sample->maxNote || voice->note < sample->minNote)
-                {
-                    continue;
-                }
-
-                s16 id = obtainSource();
-                if (id < 0)
-                {
-                    continue;
-                }
-
-                alSourcei(source[id], AL_BUFFER, sample->alBuffer);
-                if ((error = alGetError()) != AL_NO_ERROR)
-                {
-                    continue;
-                }
-
-                alSourcePlay(source[id]);
-                if ((error = alGetError()) != AL_NO_ERROR)
-                {
-                    continue;
-                }
-
-                voice->sources.push_back(id);
-                voice->samples.push_back(sample);
-                voice->loop = sample->attack / 1000 > 1;
-                voice->decreasing = false;
-                voice->rate = sample->adsr.attackRate;
-                voice->exponential = sample->adsr.attackExponential;
-                voice->counter = s_adsr_table[voice->decreasing][voice->rate].ticks;
-                //voice->currentLevel = s16(sample->volume * 32767) / 2; // start at fixed_volume_shr1
-            }
+        if (!voice->sample)
+        {
+            continue;
         }
 
         // Update the play source paramters
-        int playCount = 0;
         ALenum state;
-        for (int i = 0; i < (int) voice->sources.size(); i++)
+        Sample* sample = voice->sample;
+        s16 id = voice->source;
+
+        // If we are past the duration of the notes playback
+        alGetSourcei(source[id], AL_SOURCE_STATE, &state);
+        if (state != AL_PLAYING || voice->forceStopNow)
         {
-            Sample* sample = voice->samples.at(i);
-            s16 id = voice->sources.at(i);
-
-            // we have no source, so kill the voice
-            if (id < 0)
-            {
-                continue;
-            }
-
-            // If we are past the duration of the notes playback
-            alGetSourcei(source[id], AL_SOURCE_STATE, &state);
-            if (state != AL_PLAYING || voice->forceStopNow)
-            {
-                releaseSource(id);
-                voice->samples.at(i) = NULL;
-                voice->sources.at(i) = -1;
-                continue;
-            }
-
-            if (voice->offTime != 0 && voice->phase != RELEASE)
-            {
-                voice->phase = RELEASE;
-                voice->decreasing = true;
-                voice->rate = sample->adsr.releaseRate << 2;
-                voice->exponential = sample->adsr.releaseExponential;
-                voice->counter = s_adsr_table[voice->decreasing][voice->rate].ticks;
-            }
-
-            u8 note = voice->note;
-            s32 notePitch = voice->pitch < voice->pitchMin ? voice->pitchMin : voice->pitch; // or sample?
-            u8 rootNote = sample->rootNote;
-            u8 rootPitch = sample->rootNotePitchShift;
-            // This figures out the frequency of midi notes (ex. 60 is middle C and 261.63 hz)
-            // noteFreq is the note we want to play
-            // rootFreq is the samples root note
-            // We then divide the two to figure out how to pitch shift the sample to match the
-            // the desired note. For some reason we have to multiply it by 2. don't know why.
-            float noteFreq = float(pow(2.0, float(note + (notePitch / 127.0f)) / 12.0f));
-            float rootFreq = float(pow(2.0, float(rootNote + (rootPitch / 127.0f)) / 12.0f));
-            float freq = noteFreq / rootFreq * 2.0f;
-            float pan = voice->pan;
-
-            if (sample->pan)
-            {
-                pan = sample->pan;
-            }
-
-            voice->currentLevel = voice->tick(ticks);
-            //std::cout << voice->currentLevel << std::endl;
-            alSource3f(source[id], AL_POSITION, pan, 0, -sqrtf(1.0f - pan * pan));
-            alSourcef(source[id], AL_PITCH, (ALfloat) freq);
-            alSourcef(source[id], AL_GAIN, (ALfloat) float(voice->currentLevel) / 32767.0f);
-            alSourcei(source[id], AL_LOOPING, voice->loop);
-
-            // 0 Off
-            // 1 Vibrate
-            // 2 Portamento
-            // 3 1 & 2(Portamento and Vibrate on)
-            // 4 Reverb
-            if (sample->reverb != 0)
-            {
-                alSource3i(source[id], AL_AUXILIARY_SEND_FILTER, (ALint) efxSlot0, 0, AL_FILTER_NULL);
-            }
-            else
-            {
-                alSource3i(source[id], AL_AUXILIARY_SEND_FILTER, AL_EFFECTSLOT_NULL, 0, NULL);
-            }
-
-            playCount++;
+            releaseSource(id);
+            releaseVoice(voice);
+            continue;
         }
 
-        if (playCount == 0)
+        u8 note = voice->note;
+        s32 notePitch = voice->pitch < voice->pitchMin ? voice->pitchMin : voice->pitch; // or sample?
+        u8 rootNote = sample->rootNote;
+        u8 rootPitch = sample->rootNotePitchShift;
+        // This figures out the frequency of midi notes (ex. 60 is middle C and 261.63 hz)
+        // noteFreq is the note we want to play
+        // rootFreq is the samples root note
+        // We then divide the two to figure out how to pitch shift the sample to match the
+        // the desired note. For some reason we have to multiply it by 2. don't know why.
+        float noteFreq = float(pow(2.0, float(note + (notePitch / 127.0f)) / 12.0f));
+        float rootFreq = float(pow(2.0, float(rootNote + (rootPitch / 127.0f)) / 12.0f));
+        float freq = noteFreq / rootFreq * 2.0f;
+        float pan = voice->pan;
+
+        if (sample->pan)
         {
-            releaseVoice(voice);
+            pan = sample->pan;
+        }
+
+        alSource3f(source[id], AL_POSITION, pan, 0, -sqrtf(1.0f - pan * pan));
+        alSourcef(source[id], AL_PITCH, (ALfloat) freq);
+        alSourcef(source[id], AL_GAIN, (ALfloat) float(voice->currentLevel) / 32767.0f);
+        alSourcei(source[id], AL_LOOPING, voice->loop);
+
+        // 0 Off
+        // 1 Vibrate
+        // 2 Portamento
+        // 3 1 & 2(Portamento and Vibrate on)
+        // 4 Reverb
+        if (sample->reverb != 0)
+        {
+            alSource3i(source[id], AL_AUXILIARY_SEND_FILTER, (ALint) efxSlot0, 0, AL_FILTER_NULL);
+        }
+        else
+        {
+            alSource3i(source[id], AL_AUXILIARY_SEND_FILTER, AL_EFFECTSLOT_NULL, 0, NULL);
         }
     }
-    //std::cout << vCount << std::endl;
 
     alcProcessContext(ctx);
 }
 
-s16 Voice::tick(u64 ticks)
-{
-    ticks;
 
+s16 Voice::tick()
+{
+    
+    // UPDATE ADSR STATE - this probably doesn't need to be done every tick?
+    if (phase == NONE)
+    {
+        phase = ATTACK;
+        decreasing = false;
+        rate = sample->adsr.attackRate;
+        exponential = sample->adsr.attackExponential;
+        targetLevel = MAX_VOLUME;
+        counter = s_adsr_table[decreasing][rate].ticks;
+    }
+    else if (phase == ATTACK && currentLevel >= targetLevel)
+    {
+        phase = DECAY;
+        decreasing = true;
+        rate = sample->adsr.decayRate << 2;
+        exponential = true;
+        targetLevel = static_cast<s16>(std::min<s32>((u32(sample->adsr.sustainLevel) + 1) * 0x800, MAX_VOLUME));
+        counter = s_adsr_table[decreasing][rate].ticks;
+    }
+    else if (phase == DECAY && currentLevel <= targetLevel)
+    {
+        phase = SUSTAIN;
+        decreasing = sample->adsr.sustainDirection;
+        rate = sample->adsr.sustainRate;
+        exponential = sample->adsr.sustainExponential;
+        targetLevel = 0;
+        counter = s_adsr_table[decreasing][rate].ticks;
+    }
+    else if (offTime != 0 && phase != RELEASE)
+    {
+        phase = RELEASE;
+        decreasing = true;
+        rate = sample->adsr.releaseRate << 2;
+        exponential = sample->adsr.releaseExponential;
+        targetLevel = 0;
+        counter = s_adsr_table[decreasing][rate].ticks;
+    }
+
+
+    // UPDATE TICK STATE
     counter--;
     if (counter > 0)
     {
@@ -500,7 +518,7 @@ s16 Voice::tick(u64 ticks)
     }
 
     return static_cast<s16>(
-        std::clamp<s32>(static_cast<s32>(currentLevel) + this_step, 0, 32767));
+        std::clamp<s32>(static_cast<s32>(currentLevel) + this_step, MIN_VOLUME, MAX_VOLUME));
 }
 
 Voice* Sequencer::obtainVoice()
@@ -623,20 +641,50 @@ s32 Sequencer::playNote(s32 patchId, u8 note, float velocity, float pan, u8 pitc
         return 0;
     }
 
-    Voice* v = obtainVoice();
-    if (!v)
+    for (Sample* s : patch->samples)
     {
-        return 0;
+        if (!s)
+        {
+            continue;
+        }
+
+        if (note > s->maxNote || note < s->minNote)
+        {
+            continue;
+        }
+
+        Voice* v = obtainVoice();
+        if (!v)
+        {
+            return 0;
+        }
+
+        s16 id = obtainSource();
+        if (id < 0)
+        {
+            releaseVoice(v);
+            return 0;
+        }
+
+        v->patch = patch;
+        v->note = note;
+        v->velocity = velocity;
+        v->pan = pan;
+        v->pitch = pitch;
+        v->pitchMin = pitchMin;
+        v->pitchMax = pitchMax;
+        v->sample = s;
+        v->source = id;
+        v->currentLevel = s16(velocity * 32767);
+        v->decreasing = false;
+        v->rate = s->adsr.attackRate;
+        v->exponential = s->adsr.attackExponential;
+        v->counter = s_adsr_table[v->decreasing][v->rate].ticks;
+        v->onTime = timeSinceEpochMillisec();
+        return v->uuid;
     }
 
-    v->patch = patch;
-    v->note = note;
-    v->velocity = velocity;
-    v->pan = pan;
-    v->pitch = pitch;
-    v->pitchMin = pitchMin;
-    v->pitchMax = pitchMax;
-    return v->uuid;
+    return 0;
 }
 
 
@@ -678,19 +726,6 @@ MIDIMessage* Sequence::next(u64 now)
         return msg;
     }
     return NULL;
-}
-
-u64 Patch::getAdsrReleaseTime(u8 note)
-{
-    u64 max = 0;
-    for (Sample* sample : samples)
-    {
-        if (note >= sample->minNote && note <= sample->maxNote)
-        {
-            max = std::max(max, (u64) sample->attack);
-        }
-    }
-    return max;
 }
 
 
