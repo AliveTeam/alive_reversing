@@ -2,8 +2,11 @@
 
 #include "Soundbank.hpp"
 #include "SequencePlayer.hpp"
+#include "Sequencer.hpp"
 
 namespace psx {
+
+    void parseMidiStream(sean::Sequence* seq, std::vector<Uint8> seqData, s32 trackId);
 
     struct VagAtr final
     {
@@ -202,9 +205,15 @@ namespace psx {
         void SsUtAllKeyOff(s32 mode);
 
     private:
+        std::thread* thread;
+        std::mutex mutex;
+        bool running;
+        void loop();
+
         ResourceProvider* mResourceProvider;
         SoundSampleParser* mSoundSampleParser;
 
+        sean::Sequencer* sequencer = NULL;
         Soundbank* mSoundbank = NULL;
         std::vector<std::vector<Uint8>> mSequences;
         std::vector<SequencePlayer*> mSequencePlayers;
@@ -219,5 +228,6 @@ namespace psx {
         s32 NextId();
         void ReleaseId(s32 id);
     };
+
 
 } // namespace psx

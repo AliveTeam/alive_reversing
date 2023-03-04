@@ -240,7 +240,7 @@ void Sequencer::stopSeq(s32 seqId)
 }
 
 
-void Sequencer::tick()
+void Sequencer::tick(u64 ticks)
 {
     // pause openal changes to perform bulk update - more performant.
     // unpause is called at the end.
@@ -321,6 +321,7 @@ void Sequencer::tick()
             continue;
         }
         vCount++;
+
         // we are just starting to play this note
         if (voice->onTime == 0 && !voice->forceStopNow)
         {
@@ -363,6 +364,11 @@ void Sequencer::tick()
                 voice->sources.push_back(id);
                 voice->samples.push_back(sample);
                 voice->loop = sample->attack / 1000 > 1;
+                voice->decreasing = false;
+                voice->rate = sample->adsr.attackRate;
+                voice->exponential = sample->adsr.attackExponential;
+                voice->counter = s_adsr_table[voice->decreasing][voice->rate].ticks;
+                //voice->currentLevel = s16(sample->volume * 32767) / 2; // start at fixed_volume_shr1
             }
         }
 
@@ -374,23 +380,29 @@ void Sequencer::tick()
             Sample* sample = voice->samples.at(i);
             s16 id = voice->sources.at(i);
 
+            // we have no source, so kill the voice
             if (id < 0)
             {
                 continue;
             }
 
-            // If we are past the duration of the notes playback 
+            // If we are past the duration of the notes playback
             alGetSourcei(source[id], AL_SOURCE_STATE, &state);
-            if (state != AL_PLAYING 
-                || voice->forceStopNow 
-                //|| (voice->offTime != 0 && now > voice->offTime + sample->release) 
-                //|| (voice->offTime != 0 && sample->release > 60000 && voice->loop)
-                )
+            if (state != AL_PLAYING || voice->forceStopNow)
             {
                 releaseSource(id);
                 voice->samples.at(i) = NULL;
                 voice->sources.at(i) = -1;
                 continue;
+            }
+
+            if (voice->offTime != 0 && voice->phase != RELEASE)
+            {
+                voice->phase = RELEASE;
+                voice->decreasing = true;
+                voice->rate = sample->adsr.releaseRate << 2;
+                voice->exponential = sample->adsr.releaseExponential;
+                voice->counter = s_adsr_table[voice->decreasing][voice->rate].ticks;
             }
 
             u8 note = voice->note;
@@ -399,9 +411,9 @@ void Sequencer::tick()
             u8 rootPitch = sample->rootNotePitchShift;
             // This figures out the frequency of midi notes (ex. 60 is middle C and 261.63 hz)
             // noteFreq is the note we want to play
-            // rootFreq is the samples root note 
-            // We then divide the two to figure out how to pitch shift the sample to match the 
-            // the desired note. For some reason we have to multiply it by 2. don't know why. 
+            // rootFreq is the samples root note
+            // We then divide the two to figure out how to pitch shift the sample to match the
+            // the desired note. For some reason we have to multiply it by 2. don't know why.
             float noteFreq = float(pow(2.0, float(note + (notePitch / 127.0f)) / 12.0f));
             float rootFreq = float(pow(2.0, float(rootNote + (rootPitch / 127.0f)) / 12.0f));
             float freq = noteFreq / rootFreq * 2.0f;
@@ -412,137 +424,17 @@ void Sequencer::tick()
                 pan = sample->pan;
             }
 
-            float volume = voice->velocity;
-            Sequence* seq = voice->sequence;
-            //if (seq)
-            //{
-            //    volume = seq->volume * volume;
-            //}
-
-
-            float attackMulti = 1;
-            if (sample->attack > 1000 && now < voice->onTime + sample->attack)
-            {
-                float offset = float(voice->onTime + sample->attack - now);
-                attackMulti = offset / float(sample->attack);
-                attackMulti = 1 - std::min(1.0f, std::max(0.0f, attackMulti));
-            }
-
-            float decayMulti = 1;
-            if (sample->decay != 0 && now < voice->onTime + sample->attack + sample->decay)
-            {
-                decayMulti;
-            }
-
-            float releaseMulti = 1;
-            if (voice->offTime != 0 && now >= voice->offTime)
-            {
-                releaseMulti = 1 - (float(now - voice->offTime) / float(sample->release));
-                //releaseMulti = exp(-5 * releaseMulti);
-                //std::cout << releaseMulti <<std::endl;
-            }
-
-            //volume = volume * releaseMulti * attackMulti * decayMulti;
-
-
-            //counter--;
-            //if (counter > 0)
-            //    return current_level;
-            //
-            //const ADSRTableEntry& table_entry = s_adsr_table[BoolToUInt8(decreasing)][rate];
-            //s32 this_step = table_entry.step;
-            //counter = table_entry.ticks;
-            //
-            //if (exponential)
-            //{
-            //    if (decreasing)
-            //    {
-            //        this_step = (this_step * current_level) >> 15;
-            //    }
-            //    else
-            //    {
-            //        if (current_level >= 0x6000)
-            //        {
-            //            if (rate < 40)
-            //            {
-            //                this_step >>= 2;
-            //            }
-            //            else if (rate >= 44)
-            //            {
-            //                counter >>= 2;
-            //            }
-            //            else
-            //            {
-            //                this_step >>= 1;
-            //                counter >>= 1;
-            //            }
-            //        }
-            //    }
-            //}
-            //
-            //return static_cast<s16>(
-            //    std::clamp<s32>(static_cast<s32>(current_level) + this_step, ENVELOPE_MIN_VOLUME, ENVELOPE_MAX_VOLUME));
-            // ENVELOPE_MIN_VOLUME = 0         and       ENVELOPE_MAX_VOLUME = 0x7FFF (32767)
-            
-
-
-
-            //void SPU::VolumeEnvelope::Reset(u8 rate_, bool decreasing_, bool exponential_)
-            //{
-            //    rate = rate_;
-            //    decreasing = decreasing_;
-            //    exponential = exponential_;
-            //
-            //    const ADSRTableEntry& table_entry = s_adsr_table[BoolToUInt8(decreasing)][rate];
-            //    counter = table_entry.ticks;
-            //}
-
-
-
-            //if (exponential)
-            //{
-            //    if (decreasing)
-            //    {
-            //        this_step = (this_step * current_level) >> 15;
-            //    }
-            //    else
-            //    {
-            //        if (current_level >= 0x6000)
-            //        {
-            //            if (rate < 40)
-            //            {
-            //                this_step >>= 2;
-            //            }
-            //            else if (rate >= 44)
-            //            {
-            //                counter >>= 2;
-            //            }
-            //            else
-            //            {
-            //                this_step >>= 1;
-            //                counter >>= 1;
-            //            }
-            //        }
-            //    }
-            //}
-
-            // According to duckstation
-            // MASTER_CLOCK = 44100 * 0x300 // 33868800Hz or 33.8688MHz, also used as CPU clock
-            // SYSCLK_TICKS_PER_SPU_TICK = System::MASTER_CLOCK / SAMPLE_RATE, // 0x300
-            
-            // 768 sys clock ticks per spu tick - sys clock tick is 
-            // ----- so 768 spu ticks per second -----
-
-
+            voice->currentLevel = voice->tick(ticks);
+            //std::cout << voice->currentLevel << std::endl;
             alSource3f(source[id], AL_POSITION, pan, 0, -sqrtf(1.0f - pan * pan));
             alSourcef(source[id], AL_PITCH, (ALfloat) freq);
-            alSourcef(source[id], AL_GAIN, (ALfloat) volume);
+            alSourcef(source[id], AL_GAIN, (ALfloat) float(voice->currentLevel) / 32767.0f);
             alSourcei(source[id], AL_LOOPING, voice->loop);
 
             // 0 Off
-            // 1 Vibrate 
-            // 2 Portamento 
-            // 3 1 & 2(Portamento and Vibrate on) 
+            // 1 Vibrate
+            // 2 Portamento
+            // 3 1 & 2(Portamento and Vibrate on)
             // 4 Reverb
             if (sample->reverb != 0)
             {
@@ -552,192 +444,8 @@ void Sequencer::tick()
             {
                 alSource3i(source[id], AL_AUXILIARY_SEND_FILTER, AL_EFFECTSLOT_NULL, 0, NULL);
             }
-            
+
             playCount++;
-            if (!seq)
-            {
-                continue;
-            }
-
-            
-            u64 runtimeUs = std::max((u64) 0, now - voice->onTime) * 1000; // x1000 to conver to microseconds
-            float midiTickUs = seq->tempoUs / seq->ticksPerBeat;
-            u64 voiceTick = u64(runtimeUs / midiTickUs);
-            ADSRTableEntry entryAttack = s_adsr_table[false][sample->adsr.attackRate];
-            ADSRTableEntry entryDecay = s_adsr_table[true][sample->adsr.decayRate << 2];
-            ADSRTableEntry entrySustain = s_adsr_table[sample->adsr.sustainDirection][sample->adsr.sustainRate];
-            ADSRTableEntry entryRelease = s_adsr_table[true][sample->adsr.releaseRate << 2];
-            entryAttack;
-            entryDecay;
-            entrySustain;
-            entryRelease;
-            voiceTick;
-
-            // sample voice seq
-
-            float currentLevel = volume * 32767;
-            if (voice->lastProcessedTick == 0)
-            {
-                voice->lastProcessedTick = voiceTick;
-                voice->lastProcessedMs = voice->onTime;
-                voice->velocity = 0.0f;
-                currentLevel = 0.0f;
-                volume = 0.0f;
-            }
-
-
-            //    std::clamp<s32>(static_cast<s32>(current_level) + this_step, ENVELOPE_MIN_VOLUME, ENVELOPE_MAX_VOLUME));
-            // ENVELOPE_MIN_VOLUME = 0         and       ENVELOPE_MAX_VOLUME = 0x7FFF (32767)
-            //if (voiceTick <= entryAttack.ticks)
-            //if (now <= voice->onTime + sample->attack) 
-            //{
-
-                //if (sample->attack > 1000 && now < voice->onTime + sample->attack)
-                //{
-                //    float offset = float(voice->onTime + sample->attack - now);
-                //    attackMulti = offset / float(sample->attack);
-                //    attackMulti = 1 - std::min(1.0f, std::max(0.0f, attackMulti));
-                //    currentLevel = currentLevel * attackMulti + currentLevel;
-                //}
-
-                //currentLevel = volume * 32767 + 1000;
-
-
-                //volume = volume * 0.5f;
-                // in attack
-            /*    volume = volume * 32767.0f + float(entryAttack.step) / 32767.0f;
-                volume = volume + 0.01f;*/
-
-
-            // NOTE: Default is 60 ticks per second?
-            //float ttt = 44100.0f / 4096.0f;
-            while (voice->offTime == 0 && voice->lastProcessedTick++ <= voiceTick + u64(entryAttack.ticks))
-            //while (voice->lastProcessedMs++ <= (voice->onTime) + (entryAttack.ticks * 0.2441f))
-            //while (voice->lastProcessedMs <= voice->onTime + (entryAttack.ticks * ttt))
-            //float tmp = float(now - voice->lastProcessedMs) / 60;
-            //float cccccc = 0.0f;
-            //while (voice->offTime == 0 && cccccc++ <= tmp)
-            //if (voice->offTime == 0 )
-            //s64 start = voice->lastProcessedMs * 1000;
-            //s64 end = s64(voice->onTime * 1000) + s64(s64(entryAttack.ticks) * s64(768));
-            //while (voice->offTime == 0 && start <= end)
-            {
-                //start = start + 24;
-                //voice->lastProcessedMs = voice->lastProcessedMs + u64(midiTickUs / 1000.0f);
-                if (sample->adsr.attackExponential)
-                {
-                    voice->counter--;
-                    if (voice->counter <= 0)
-                    {
-                        s32 this_step = entryAttack.step;
-                        voice->counter = entryAttack.ticks;
-
-                        if (currentLevel >= 0x6000)
-                        {
-                            if (sample->adsr.attackRate < 40)
-                            {
-                                this_step >>= 2;
-                            }
-                            else if (sample->adsr.attackRate >= 44)
-                            {
-                                voice->counter >>= 2;
-                            }
-                            else
-                            {
-                                this_step >>= 1;
-                                voice->counter >>= 1;
-                            }
-                        }
-
-                        currentLevel = currentLevel + this_step;
-                    }
-                }
-                else
-                {
-                    currentLevel = currentLevel + entryAttack.step;
-                }
-            }
-            //voice->lastProcessedMs = start / 1000;
-            volume = currentLevel / 32767;
-            volume = std::min(volume, sample->volume * seq->volume * voice->noteVolume);
-
-            if (voice->offTime == 0 && voiceTick <= u64(entryAttack.ticks) + u64(entryDecay.ticks))
-            {
-                // in decay
-                //volume = volume * 0.75f;
-                //volume = volume * 32767.0f + float(entryDecay.step) / 32767.0f;
-                //volume = volume - 0.01f;
-                //volume = float(sample->adsr.sustainLevel / 127.0f * sample->volume * seq->volume);
-            }
-            else if (voice->offTime == 0 && voice->lastProcessedTick > voiceTick + u64(entryAttack.ticks) + u64(entryDecay.ticks))
-            {
-                // in sustain
-                //volume = volume * 0.5f;
-                //volume = 1.0f;
-                volume = float((sample->adsr.sustainLevel / 127.0f) * sample->volume * seq->volume * voice->noteVolume);
-            }
-            else if (voice->offTime != 0)
-            {
-                // in release
-                //volume = volume * 0.1f;
-                //this_step = (this_step * current_level) >> 15;
-                if (sample->adsr.releaseExponential)
-                {
-                    //while (voice->lastProcessedMs++ * 1000 < now * 1000)
-                    //while (dur-- > 0)
-                    //while (voice->lastProcessedMs <= now)
-                    while (voice->lastProcessedTick++ <= voiceTick)
-                    {
-                        //voice->lastProcessedMs = voice->lastProcessedMs + u64(ttt);
-                        s32 this_step = entryRelease.step;
-                        this_step = s32(float(this_step) * currentLevel) >> 15;
-                        currentLevel = currentLevel + this_step;
-                    }
-                }
-                else
-                {
-                    currentLevel = currentLevel + entryRelease.step;
-                }
-                
-                volume = currentLevel / 32767;
-
-                //volume = volume * 32767 + this_step / 32767;
-
-
-                //volume = volume * 32767.0f + float(entryRelease.step) / 32767.0f;
-                //volume = volume - 0.01f;
-            }
-            volume = std::max(0.0f, std::min(1.0f, volume)); // clamp
-            volume = std::min(volume, sample->volume * seq->volume);
-            voice->velocity = volume;
-            voice->lastProcessedTick = voiceTick;
-            voice->lastProcessedMs = now;
-            if (volume < 0.00001f)
-            {
-                playCount--;
-            }
-            alSourcef(source[id], AL_GAIN, (ALfloat) volume);
-
-            
-            //case ADSRPhase::Attack:
-            //    adsr_target = 32767; // 0 -> max
-            //    adsr_envelope.Reset(regs.adsr.attack_rate, false, regs.adsr.attack_exponential);
-            //    break;
-            //
-            //case ADSRPhase::Decay:
-            //    adsr_target = static_cast<s16>(std::min<s32>((u32(regs.adsr.sustain_level.GetValue()) + 1) * 0x800,
-            //                                                 ENVELOPE_MAX_VOLUME)); // max -> sustain level
-            //    adsr_envelope.Reset(regs.adsr.decay_rate_shr2 << 2, true, true);
-            //    break;
-            //
-            //case ADSRPhase::Sustain:
-            //    adsr_target = 0;
-            //    adsr_envelope.Reset(regs.adsr.sustain_rate, regs.adsr.sustain_direction_decrease, regs.adsr.sustain_exponential);
-            //    break;
-            //
-            //case ADSRPhase::Release:
-            //    adsr_target = 0;
-            //    adsr_envelope.Reset(regs.adsr.release_rate_shr2 << 2, true, regs.adsr.release_exponential);
         }
 
         if (playCount == 0)
@@ -748,6 +456,51 @@ void Sequencer::tick()
     //std::cout << vCount << std::endl;
 
     alcProcessContext(ctx);
+}
+
+s16 Voice::tick(u64 ticks)
+{
+    ticks;
+
+    counter--;
+    if (counter > 0)
+    {
+        return currentLevel;
+    }
+
+    const ADSRTableEntry& table_entry = s_adsr_table[decreasing][rate];
+    s32 this_step = table_entry.step;
+    counter = table_entry.ticks;
+
+    if (exponential)
+    {
+        if (decreasing)
+        {
+            this_step = (this_step * currentLevel) >> 15;
+        }
+        else
+        {
+            if (currentLevel >= 0x6000)
+            {
+                if (rate < 40)
+                {
+                    this_step >>= 2;
+                }
+                else if (rate >= 44)
+                {
+                    counter >>= 2;
+                }
+                else
+                {
+                    this_step >>= 1;
+                    counter >>= 1;
+                }
+            }
+        }
+    }
+
+    return static_cast<s16>(
+        std::clamp<s32>(static_cast<s32>(currentLevel) + this_step, 0, 32767));
 }
 
 Voice* Sequencer::obtainVoice()

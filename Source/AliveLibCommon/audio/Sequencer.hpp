@@ -210,6 +210,7 @@ public:
     float velocity = 1.0f;
     float pan = 0.0f;
     float noteVolume = 1.0f;
+    s16 currentLevel = 0;
 
     bool loop = false;
     u64 onTime = 0;   // when the note was pressed
@@ -218,14 +219,16 @@ public:
     u64 lastProcessedTick = 0;
     u64 lastProcessedMs = 0;
 
-    AttackPhase phase = NONE;
+    AttackPhase phase = ATTACK;
     s32 counter = 0; // decremented each midi tick
-    u8 rate;
+    u32 rate;
     bool decreasing;
     bool exponential;
 
     std::vector<s16> sources;
     std::vector<Sample*> samples;
+
+    s16 tick(u64 ticks);
 };
 
 /*
@@ -249,7 +252,7 @@ public:
     void playSeq(s32 seqId);
     void stopSeq(s32 seqId);
 
-    void tick();
+    void tick(u64 ticks);
 
 private:
 
