@@ -186,32 +186,28 @@ class Voice
 {
 public:
     s32 uuid;
+
     Sequence* sequence = NULL;
-    Patch* patch;
     u8 note;
     u8 pitch;
     s32 pitchMin = 0;
     s32 pitchMax = 127;
     float velocity = 1.0f;
     float pan = 0.0f;
-    float noteVolume = 1.0f;
+    bool inUse = false;
 
     bool loop = false;
-    u64 onTime = 0;   // when the note was pressed
     u64 offTime = 0;  // when the note was released
-    bool forceStopNow = false;
-    u64 lastProcessedTick = 0;
-    u64 lastProcessedMs = 0;
 
-    ADSRPhase phase = NONE;
-    s32 counter = 0; // decremented each midi tick
-    u32 rate;
-    bool decreasing;
-    bool exponential;
-    s16 currentLevel = 0;
-    s16 targetLevel = MAX_VOLUME; // attack we want to reach max
+    ADSRPhase adsrPhase = NONE;
+    s32 adsrCounter = 0; // decremented each midi tick
+    u32 adsrRate;
+    bool adsrDecreasing;
+    bool adsrExponential;
+    s16 adsrCurrentLevel = 0;
+    s16 adsrTargetLevel = MAX_VOLUME; // attack we want to reach max
 
-    s16 source;
+    ALuint alSourceId;
     Sample* sample;
 
     s16 tick();
@@ -250,21 +246,16 @@ private:
     Voice* obtainVoice();
     void releaseVoice(Voice* v);
 
-    s16 obtainSource();
-    void releaseSource(s16 id);
-
     ALCdevice* device;
     ALCcontext* ctx;
 
     std::vector<Sequence*> sequences;
 
-    static const int sourceCount = 128;
-    //int activeSource = 0;
-    //int activeVoice = 0;
-    Voice* voices[sourceCount];
-    bool sourceLock[sourceCount];
-    ALuint source[sourceCount];
-    Patch* patches[sourceCount];
+    static const int voiceCount = 24;
+    Voice* voices[voiceCount];
+
+    static const int patchCount = 128;
+    Patch* patches[patchCount];
 
     ALuint efxReverb0;
     ALuint efxSlot0;

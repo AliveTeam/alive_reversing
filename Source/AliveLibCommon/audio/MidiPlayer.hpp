@@ -206,7 +206,6 @@ namespace psx {
 
     private:
         std::thread* thread;
-        std::mutex mutex;
         bool running;
         void loop();
 

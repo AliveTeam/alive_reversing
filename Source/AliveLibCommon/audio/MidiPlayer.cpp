@@ -74,11 +74,9 @@ u64 timeSinceEpochMillisec()
 
 void MidiPlayer::loop()
 {
-    // expected ticks = float(now - start) / 1000.0f * 768.0f
-
     u64 start = timeSinceEpochMillisec();
     u64 now = 0;
-    u64 ticks = 0;
+    u64 currentTicks = 0;
     u64 expectedTicks = 0; 
     while (running)
     {
@@ -88,7 +86,7 @@ void MidiPlayer::loop()
         // tick sequence - i.e. new notes to play/stop?
         sequencer->tickSequence();
 
-        while (ticks++ < expectedTicks)
+        while (currentTicks++ < expectedTicks)
         {
             // tick voices - just math calculations.
             // this is ticked 44100 times per second. Possibly this
@@ -101,26 +99,21 @@ void MidiPlayer::loop()
         sequencer->syncVoice(); 
         
         // defer this thread some amount of time
-        std::this_thread::sleep_for(std::chrono::milliseconds(30));
+        std::this_thread::sleep_for(std::chrono::milliseconds(1));
     }
 }
 
 
 void MidiPlayer::SND_Init()
 {
-    mutex.lock();
     if (sequencer)
     {
         delete sequencer;
     }
     sequencer = new sean::Sequencer();
-    mutex.unlock();
 
     running = true;
     thread = new std::thread(&MidiPlayer::loop, this);
-
-    //// Create sequencer
-    //AliveInitAudio();
 }
 
 void MidiPlayer::SND_Shutdown()
@@ -134,8 +127,7 @@ void MidiPlayer::SND_Shutdown()
 
 void MidiPlayer::SND_Load_VABS(SoundBlockInfo* pSoundBlockInfo, s32 reverb)
 {
-    mutex.lock();
-    reverb; // TODO - reverb - this seems to be the only spot
+    reverb; // TODO - what do we do with this? override the patch/sample?
 
     sequencer->reset();
     while (1)
@@ -164,31 +156,25 @@ void MidiPlayer::SND_Load_VABS(SoundBlockInfo* pSoundBlockInfo, s32 reverb)
 
         for (s32 i = 0; i < vabHeader->field_12_num_progs; i++)
         {
+            
+            ///////////
             // PATCH (Instruments)
             for (s32 x = 0; x < 16; x++)
             {
+
+                ///////////
                 // SAMPLE
                 if (vagAttr->field_2_vol > 0)
                 {
                     unsigned short ADSR1 = vagAttr->field_10_adsr1;
                     unsigned short ADSR2 = vagAttr->field_12_adsr2;
-                    REAL_ADSR realADSR = {};
-                    PSXConvADSR(&realADSR, ADSR1, ADSR2, false);
+
 
                     sean::ADSR adsr = sean::parseADSR(ADSR1, ADSR2);
-                    //sean::REAL_ADSR adsr;
-                    //sean::PSXConvADSR(&adsr, ADSR1, ADSR2, false);
-                    
-
                     sean::Patch* patch = sequencer->createPatch(vagAttr->field_14_prog);
                     Sample* s = samples.at(vagAttr->field_16_vag - 1);
                     sean::Sample* t = new sean::Sample(s->m_SampleBuffer, s->i_SampleSize * 2);
                     patch->samples[x] = t;
-
-                    u8 a = (u8) (vagAttr->field_10_adsr1 >> 8);
-                    u8 d = (u8) vagAttr->field_10_adsr1;
-                    a;
-                    d;
 
                     t->adsr = adsr;
                     t->volume = vagAttr->field_2_vol / 127.0f;
@@ -198,54 +184,14 @@ void MidiPlayer::SND_Load_VABS(SoundBlockInfo* pSoundBlockInfo, s32 reverb)
                     t->rootNotePitchShift = vagAttr->field_5_shift;
                     t->minNote = vagAttr->field_6_min;
                     t->maxNote = vagAttr->field_7_max;
-
-
-                    //program->prog_id = vagAttr->field_14_prog;
-                    //tone->mode = vagAttr->field_1_mode;
-                    //tone->f_Volume = vagAttr->field_2_vol / 127.0f;
-                    //tone->c_Center = vagAttr->field_4_centre;
-                    ////tone->c_Shift = (vagAttr->field_5_shift | (vagAttr->field_4_centre << 7));
-                    //tone->c_Shift = vagAttr->field_5_shift;
-                    //tone->f_Pan = (vagAttr->field_3_pan / 64.0f) - 1.0f;
-                    //tone->Min = vagAttr->field_6_min;
-                    //tone->Max = vagAttr->field_7_max;
-                    //tone->Pitch = vagAttr->field_5_shift / 100.0f;
-                    //tone->m_Sample = s;
-                    //tone->sample = sampleBuffers.at(vagAttr->field_16_vag - 1);
-                    ////alGenBuffers(1, &tone->sample);
-                    ////alBufferData(tone->sample, AL_FORMAT_MONO16, tone->m_Sample->m_SampleBuffer, tone->m_Sample->i_SampleSize * 2, 22050);
-                    //// These are time in seconds
-                    //tone->AttackTime = realADSR.attack_time;
-                    //tone->DecayTime = realADSR.decay_time;
-                    //tone->ReleaseTime = realADSR.release_time;
-                    //tone->SustainTime = realADSR.sustain_time;
-                    //tone->SustainLevel = realADSR.sustain_level;
-                    //tone->ReleaseExponential = false; // TODO - where does this come from?
-                    ////f32 sustain_level = static_cast<f32>((2 * (~(u8) vagAttr->field_10_adsr1 & 0xF)));
-                    ////tone->AttackTime = std::min(static_cast<u16>((powf(2.0f, ((vagAttr->field_10_adsr1 >> 8) & 0x7F) * 0.25f) * 0.09f)), static_cast<u16>(32767));
-                    ////tone->DecayTime = static_cast<u16>((((vagAttr->field_10_adsr1 >> 4) & 0xF) / 15.0f) * 16.0);
-                    ////tone->SustainTime = std::min(static_cast<u16>((sustain_level / 15.0f) * 600.0), static_cast<u16>(32767));
-                    ////tone->ReleaseTime = std::min(static_cast<u16>(pow(2, vagAttr->field_12_adsr2 & 0x1F) * 0.045f), static_cast<u16>(32767));
-                    //if (realADSR.attack_time > 1)
-                    //{ // This works until the loop database is added.
-                    //    tone->Loop = true;
-                    //}
                 }
                 ++vagAttr;
             }
         }
 
-        //AliveAudio::LockNotes();
-        //delete mSoundbank;
-        //mSoundbank = new Soundbank(samples, programs);
-        //AliveAudio::ClearAllVoices();
-        //AliveAudio::m_CurrentSoundbank = mSoundbank;
-        //AliveAudio::UnlockNotes();
-
         delete[] ppVabBody;
         pSoundBlockInfo++;
     }
-    mutex.unlock();
 }
 
 void MidiPlayer::SND_Load_Seqs(OpenSeqHandle* pSeqTable, const char_type* bsqFileName)
@@ -255,7 +201,6 @@ void MidiPlayer::SND_Load_Seqs(OpenSeqHandle* pSeqTable, const char_type* bsqFil
         return;
     }
 
-    mutex.lock();
     OpenSeqHandle* seq = pSeqTable;
     for (s32 i = 0; i < mResourceProvider->sequenceCount(); i++) // AO = 164   AE = 144
     {
@@ -285,8 +230,6 @@ void MidiPlayer::SND_Load_Seqs(OpenSeqHandle* pSeqTable, const char_type* bsqFil
             mSequences.push_back(test);
         }
     }
-
-    mutex.unlock();
 }
 
 void MidiPlayer::SND_StopAll()
@@ -325,9 +268,7 @@ void MidiPlayer::SND_SEQ_Stop(u16 idx)
 {
     idx;
 
-    mutex.lock();
     sequencer->stopSeq(idx);
-    mutex.unlock();
     //SequencePlayer* player = GetSequencePlayer(idx);
     //if (player)
     //{
@@ -349,9 +290,7 @@ s16 MidiPlayer::SND_SEQ_PlaySeq(u16 idx, s32 repeatCount, s16 bDontStop)
     repeatCount;
     idx;
 
-    mutex.lock();
     sequencer->playSeq(idx);
-    mutex.unlock();
     return 1;
     //SequencePlayer* player = GetSequencePlayer(idx);
 
@@ -408,13 +347,11 @@ void MidiPlayer::SND_SEQ_SetVol(s32 idx, s32 volLeft, s32 volRight)
     sanitizeVolume(&volLeft, 10, 127);
     sanitizeVolume(&volRight, 10, 127);
 
-    mutex.lock();
     sean::Sequence* seq = sequencer->getSequence((s32) idx);
     if (seq)
     {
         seq->volume = std::min(volLeft, volRight) / 127.0f;
     }
-    mutex.unlock();
 
     //SequencePlayer* player = GetSequencePlayer(u16(idx));
     //if (player)
@@ -430,14 +367,12 @@ s16 MidiPlayer::SND_SEQ_Play(u16 idx, s32 repeatCount, s16 volLeft, s16 volRight
     volRight;
     idx;
 
-    mutex.lock();
     sean::Sequence* seq = sequencer->getSequence((s32) idx);
     if (seq)
     {
         seq->volume = std::min(volLeft, volRight) / 127.0f;
     }
     sequencer->playSeq(idx);
-    mutex.unlock();
     return 0;
 
     //SequencePlayer* player = GetSequencePlayer(idx);
@@ -471,13 +406,11 @@ s16 MidiPlayer::SND_SsIsEos_DeInlined(u16 idx)
     //}
 
     s16 res = 0;
-    mutex.lock();
     sean::Sequence* seq = sequencer->getSequence((s32) idx);
     if (seq)
     {
         res = seq->repeats < seq->repeatLimit ? 1 : 0;
     }
-    mutex.unlock();
 
     return res;
 }
@@ -489,13 +422,10 @@ s32 MidiPlayer::SFX_SfxDefinition_Play(SfxDefinition* sfxDef, s32 volLeft, s32 v
 
     sanitizeVolume(&volLeft, 10, 127);
     sanitizeVolume(&volRight, 10, 127);
-    std::cout << volLeft << " " << volRight << std::endl;
-    mutex.lock(); 
     // TODO - I don't think these pans and volumes are quite right
     float volume = std::max(volLeft, volRight) / 127.0f;
     float pan = (float(volRight) / float(volLeft)) - 1;
     s32 id = sequencer->playNote(sfxDef->program, sfxDef->note, volume, pan, (u8)std::max(pitch_min, pitch_max), pitch_min, pitch_max);
-    mutex.unlock();
     return id;
 }
 
@@ -510,9 +440,7 @@ s32 MidiPlayer::SFX_SfxDefinition_Play(SfxDefinition* sfxDef, s32 volume, s32 pi
     sanitizePitch(&pitch_max, sfxDef->pitch_max);
     sanitizeVolume(&volume, 1, 127);
 
-    mutex.lock();
     s32 id = sequencer->playNote(sfxDef->program, sfxDef->note, volume / 127.0f, 0, (u8) std::max(pitch_min, pitch_max), pitch_min, pitch_max);
-    mutex.unlock();
     return id;
 }
 
@@ -524,6 +452,7 @@ s32 MidiPlayer::SND(s32 program, s32 vabId, s32 note, s16 vol, s16 min, s16 max)
     vol;
     min;
     max;
+    sequencer->playNote(program, (u8)note, vol / 127.0f, 0, 0, min, max);
     return 0;
     //AliveAudio::LockNotes();
     //int playId = NextId();
@@ -648,7 +577,6 @@ void parseMidiStream(sean::Sequence* seq, std::vector<Uint8> seqData, s32 trackI
     seq->tempoUs = (float) tempoValue; // tempo (length of quarter note in microseconds) 0.000001us/s  vs 0.001ms/s
     seq->ticksPerBeat = float(ticksPerBeat);
 
-    unsigned int prevDeltaTime = 0;
     unsigned int deltaTime = 0;
 
     const size_t midiDataStart = stream.Pos();
@@ -700,6 +628,7 @@ void parseMidiStream(sean::Sequence* seq, std::vector<Uint8> seqData, s32 trackI
                     sean::MIDIMessage* msg = seq->createMIDIMessage();
                     msg->type = sean::END_TRACK;
                     msg->tick = ticksPerBeat;
+                    msg->tick = deltaTime;
                     return;
                 }
 
@@ -755,7 +684,6 @@ void parseMidiStream(sean::Sequence* seq, std::vector<Uint8> seqData, s32 trackI
                     }
                     else
                     {
-                        prevDeltaTime = deltaTime;
                         msg->type = sean::NOTE_ON;
                     }
                 }
@@ -779,7 +707,6 @@ void parseMidiStream(sean::Sequence* seq, std::vector<Uint8> seqData, s32 trackI
                 {
                     Uint8 prog = 0;
                     stream.ReadUInt8(prog);
-                    //prevDeltaTime = deltaTime;
 
                     sean::MIDIMessage* msg = seq->createMIDIMessage();
                     msg->type = sean::PATCH_CHANGE;
@@ -813,6 +740,7 @@ void parseMidiStream(sean::Sequence* seq, std::vector<Uint8> seqData, s32 trackI
                 break;
                 case 0xe: // Pitch Bend
                 {
+                    // TODO - used in scrabania somewhere
                     Uint16 bend = 0;
                     stream.ReadUInt16(bend);
                 }

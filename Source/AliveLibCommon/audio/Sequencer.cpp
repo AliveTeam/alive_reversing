@@ -119,12 +119,6 @@ static constexpr ADSRTableEntries s_adsr_table = ComputeADSRTableEntries();
 
 Sequencer::Sequencer()
 {
-    for (int i = 0; i < sourceCount; i++)
-    {
-        voices[i] = NULL;
-        patches[i] = NULL;
-        sourceLock[i] = false;
-    }
 
     // Open the AL device
     ALenum error;
@@ -137,25 +131,35 @@ Sequencer::Sequencer()
         return;
     }
 
+    for (int i = 0; i < voiceCount; i++)
+    {
+        voices[i] = new Voice();
+
+        // Prepare sources (these are streams buffers can be played in)
+        alGenSources(1, &(voices[i])->alSourceId);
+        if ((error = alGetError()) != AL_NO_ERROR)
+        {
+            return;
+        }
+    }
+
+    for (int i = 0; i < patchCount; i++)
+    {
+        patches[i] = NULL;
+    }
+
     // Prepare some known effects we will use
     LOAD_EFFECT_FUNCTIONS();
     EFXEAXREVERBPROPERTIES reverb = EFX_REVERB_PRESET_GENERIC;
     efxReverb0 = PREPARE_REVERB(&reverb);
     alGenAuxiliaryEffectSlots(1, &efxSlot0);
     alAuxiliaryEffectSloti(efxSlot0, AL_EFFECTSLOT_EFFECT, (ALint) efxReverb0);
-
-    // Prepare sources (these are streams buffers can be played in)
-    alGenSources(sourceCount, source);
-    if ((error = alGetError()) != AL_NO_ERROR)
-    {
-        return;
-    }
 }
 
 Sequencer::~Sequencer()
 {
     // Delete sources
-    alDeleteSources(sourceCount, source);
+    //alDeleteSources(sourceCount, source);
 
     // Delete effects
     alDeleteAuxiliaryEffectSlots(1, &efxSlot0);
@@ -232,7 +236,7 @@ void Sequencer::stopSeq(s32 seqId)
             {
                 if (v && v->sequence == seq)
                 {
-                    //v->forceStopNow = true;
+                    v->offTime = timeSinceEpochMillisec();
                 }
             }
         }
@@ -288,38 +292,27 @@ void Sequencer::tickSequence()
                             continue;
                         }
 
-                        s16 id = obtainSource();
-                        if (id < 0)
+                        alSourcei(v->alSourceId, AL_BUFFER, sample->alBuffer);
+                        if ((error = alGetError()) != AL_NO_ERROR)
                         {
                             releaseVoice(v);
                             continue;
                         }
 
-                        alSourcei(source[id], AL_BUFFER, sample->alBuffer);
+                        alSourcef(v->alSourceId, AL_GAIN, (ALfloat) 0.0f);
+                        alSourcePlay(v->alSourceId);
                         if ((error = alGetError()) != AL_NO_ERROR)
                         {
                             releaseVoice(v);
-                            releaseSource(id);
-                            continue;
-                        }
-
-                        alSourcef(source[id], AL_GAIN, (ALfloat) 0.0f);
-                        alSourcePlay(source[id]);
-                        if ((error = alGetError()) != AL_NO_ERROR)
-                        {
-                            releaseVoice(v);
-                            releaseSource(id);
                             continue;
                         }
 
                         v->sequence = seq;
+                        v->pitchMin = 0;
+                        v->velocity = message->velocity / 127.0f;
                         v->note = message->note;
-                        v->noteVolume = message->velocity;
-                        v->patch = seq->channels[message->channelId]->patch;
-                        v->source = id;
                         v->sample = sample;
                         v->loop = sample->adsr.attackRate > 1;  // attack is greater than sample length? sample->adsr.attackRate / 1000 > 1;
-                        v->onTime = now;
                     }
 
                     break;
@@ -349,15 +342,15 @@ void Sequencer::tickSequence()
 
 void Sequencer::tickVoice()
 {
-    for (int c = 0; c < sourceCount; c++)
+    for (int c = 0; c < voiceCount; c++)
     {
         Voice* voice = voices[c];
-        if (!voice)
+        if (!voice->inUse)
         {
             continue;
         }
 
-        voice->currentLevel = voice->tick();
+        voice->adsrCurrentLevel = voice->tick();
     }
 }
 
@@ -367,10 +360,10 @@ void Sequencer::syncVoice()
     // unpause is called at the end.
     alcSuspendContext(ctx);
 
-    for (int c = 0; c < sourceCount; c++)
+    for (int c = 0; c < voiceCount; c++)
     {
         Voice* voice = voices[c];
-        if (!voice)
+        if (!voice->inUse)
         {
             continue;
         }
@@ -383,13 +376,12 @@ void Sequencer::syncVoice()
         // Update the play source paramters
         ALenum state;
         Sample* sample = voice->sample;
-        s16 id = voice->source;
+        ALuint id = voice->alSourceId;
 
         // If we are past the duration of the notes playback
-        alGetSourcei(source[id], AL_SOURCE_STATE, &state);
-        if (state != AL_PLAYING || voice->forceStopNow)
+        alGetSourcei(id, AL_SOURCE_STATE, &state);
+        if (state != AL_PLAYING)
         {
-            releaseSource(id);
             releaseVoice(voice);
             continue;
         }
@@ -413,10 +405,17 @@ void Sequencer::syncVoice()
             pan = sample->pan;
         }
 
-        alSource3f(source[id], AL_POSITION, pan, 0, -sqrtf(1.0f - pan * pan));
-        alSourcef(source[id], AL_PITCH, (ALfloat) freq);
-        alSourcef(source[id], AL_GAIN, (ALfloat) float(voice->currentLevel) / 32767.0f);
-        alSourcei(source[id], AL_LOOPING, voice->loop);
+        float seqVolume = 1.0f;
+        if (voice->sequence)
+        {
+            seqVolume = voice->sequence->volume;
+        }
+        float gain = float(voice->adsrCurrentLevel) / 32767.0f * voice->velocity * voice->sample->volume* seqVolume;
+
+        alSource3f(id, AL_POSITION, pan, 0, -sqrtf(1.0f - pan * pan));
+        alSourcef(id, AL_PITCH, (ALfloat) freq);
+        alSourcef(id, AL_GAIN, (ALfloat) gain);
+        alSourcei(id, AL_LOOPING, voice->loop);
 
         // 0 Off
         // 1 Vibrate
@@ -425,11 +424,16 @@ void Sequencer::syncVoice()
         // 4 Reverb
         if (sample->reverb != 0)
         {
-            alSource3i(source[id], AL_AUXILIARY_SEND_FILTER, (ALint) efxSlot0, 0, AL_FILTER_NULL);
+            alSource3i(id, AL_AUXILIARY_SEND_FILTER, (ALint) efxSlot0, 0, AL_FILTER_NULL);
         }
         else
         {
-            alSource3i(source[id], AL_AUXILIARY_SEND_FILTER, AL_EFFECTSLOT_NULL, 0, NULL);
+            alSource3i(id, AL_AUXILIARY_SEND_FILTER, AL_EFFECTSLOT_NULL, 0, NULL);
+        }
+
+        if (gain < 0.001f)
+        {
+            releaseVoice(voice);
         }
     }
 
@@ -441,154 +445,116 @@ s16 Voice::tick()
 {
     
     // UPDATE ADSR STATE - this probably doesn't need to be done every tick?
-    if (phase == NONE)
+    if (adsrPhase == NONE)
     {
-        phase = ATTACK;
-        decreasing = false;
-        rate = sample->adsr.attackRate;
-        exponential = sample->adsr.attackExponential;
-        targetLevel = MAX_VOLUME;
-        counter = s_adsr_table[decreasing][rate].ticks;
+        adsrPhase = ATTACK;
+        adsrDecreasing = false;
+        adsrRate = sample->adsr.attackRate;
+        adsrExponential = sample->adsr.attackExponential;
+        adsrTargetLevel = MAX_VOLUME;
+        adsrCounter = s_adsr_table[adsrDecreasing][adsrRate].ticks;
     }
-    else if (phase == ATTACK && currentLevel >= targetLevel)
+    else if (adsrPhase == ATTACK && adsrCurrentLevel >= adsrTargetLevel)
     {
-        phase = DECAY;
-        decreasing = true;
-        rate = sample->adsr.decayRate << 2;
-        exponential = true;
-        targetLevel = static_cast<s16>(std::min<s32>((u32(sample->adsr.sustainLevel) + 1) * 0x800, MAX_VOLUME));
-        counter = s_adsr_table[decreasing][rate].ticks;
+        adsrPhase = DECAY;
+        adsrDecreasing = true;
+        adsrRate = sample->adsr.decayRate << 2;
+        adsrExponential = true;
+        adsrTargetLevel = static_cast<s16>(std::min<s32>((u32(sample->adsr.sustainLevel) + 1) * 0x800, MAX_VOLUME));
+        adsrCounter = s_adsr_table[adsrDecreasing][adsrRate].ticks;
     }
-    else if (phase == DECAY && currentLevel <= targetLevel)
+    else if (adsrPhase == DECAY && adsrCurrentLevel <= adsrTargetLevel)
     {
-        phase = SUSTAIN;
-        decreasing = sample->adsr.sustainDirection;
-        rate = sample->adsr.sustainRate;
-        exponential = sample->adsr.sustainExponential;
-        targetLevel = 0;
-        counter = s_adsr_table[decreasing][rate].ticks;
+        adsrPhase = SUSTAIN;
+        adsrDecreasing = sample->adsr.sustainDirection;
+        adsrRate = sample->adsr.sustainRate;
+        adsrExponential = sample->adsr.sustainExponential;
+        adsrTargetLevel = 0;
+        adsrCounter = s_adsr_table[adsrDecreasing][adsrRate].ticks;
     }
-    else if (offTime != 0 && phase != RELEASE)
+    else if (offTime != 0 && adsrPhase != RELEASE)
     {
-        phase = RELEASE;
-        decreasing = true;
-        rate = sample->adsr.releaseRate << 2;
-        exponential = sample->adsr.releaseExponential;
-        targetLevel = 0;
-        counter = s_adsr_table[decreasing][rate].ticks;
+        adsrPhase = RELEASE;
+        adsrDecreasing = true;
+        adsrRate = sample->adsr.releaseRate << 2;
+        adsrExponential = sample->adsr.releaseExponential;
+        adsrTargetLevel = 0;
+        adsrCounter = s_adsr_table[adsrDecreasing][adsrRate].ticks;
     }
 
 
     // UPDATE TICK STATE
-    counter--;
-    if (counter > 0)
+    adsrCounter--;
+    if (adsrCounter > 0)
     {
-        return currentLevel;
+        return adsrCurrentLevel;
     }
 
-    const ADSRTableEntry& table_entry = s_adsr_table[decreasing][rate];
+    const ADSRTableEntry& table_entry = s_adsr_table[adsrDecreasing][adsrRate];
     s32 this_step = table_entry.step;
-    counter = table_entry.ticks;
+    adsrCounter = table_entry.ticks;
 
-    if (exponential)
+    if (adsrExponential)
     {
-        if (decreasing)
+        if (adsrDecreasing)
         {
-            this_step = (this_step * currentLevel) >> 15;
+            this_step = (this_step * adsrCurrentLevel) >> 15;
         }
         else
         {
-            if (currentLevel >= 0x6000)
+            if (adsrCurrentLevel >= 0x6000)
             {
-                if (rate < 40)
+                if (adsrRate < 40)
                 {
                     this_step >>= 2;
                 }
-                else if (rate >= 44)
+                else if (adsrRate >= 44)
                 {
-                    counter >>= 2;
+                    adsrCounter >>= 2;
                 }
                 else
                 {
                     this_step >>= 1;
-                    counter >>= 1;
+                    adsrCounter >>= 1;
                 }
             }
         }
     }
 
     return static_cast<s16>(
-        std::clamp<s32>(static_cast<s32>(currentLevel) + this_step, MIN_VOLUME, MAX_VOLUME));
+        std::clamp<s32>(static_cast<s32>(adsrCurrentLevel) + this_step, MIN_VOLUME, MAX_VOLUME));
 }
 
 Voice* Sequencer::obtainVoice()
 {
-    //if (activeVoice >= 32)
-    //{
-    //    return NULL;
-    //}
-    for (int i = 0; i < sourceCount; i++)
+    for (int i = 0; i < voiceCount; i++)
     {
-        if (!voices[i])
+        Voice* v = voices[i];
+        if (v->inUse)
         {
-            //activeVoice++;
-            Voice* v = new Voice();
-            v->uuid = nextUuid();
-            voices[i] = v;
-            return v;
+            continue;
         }
+
+        v->inUse = true;
+        v->uuid = nextUuid();
+        return v;
     }
     return NULL;
 }
 
 void Sequencer::releaseVoice(Voice* v)
 {
-    if (!v)
-    {
-        return;
-    }
-
-    for (int i = 0; i < sourceCount; i++)
-    {
-        if (v == voices[i])
-        {
-            //activeVoice--;
-            delete v;
-            voices[i] = NULL;
-            return;
-        }
-    }
-}
-
-s16 Sequencer::obtainSource()
-{
-    //if (activeSource >= 32)
-    //{
-    //    return -1;
-    //}
-    for (s16 i = 0; i < sourceCount; i++)
-    {
-        if (!sourceLock[i])
-        {
-            //activeSource++;
-            sourceLock[i] = true;
-            return i;
-        }
-    }
-    return -1;
-}
-
-void Sequencer::releaseSource(s16 id)
-{
-    if (!sourceLock[id])
-    {
-        return;
-    }
-    //activeSource--;
-
-    sourceLock[id] = false;
-    alSourceStop(source[id]);
-    alSourcei(source[id], AL_BUFFER, NULL);
+    v->inUse = false;
+    v->offTime = 0;
+    v->pitch = 0;
+    v->adsrPhase = NONE;
+    v->adsrCounter = 0;
+    v->adsrCurrentLevel = 0;
+    v->adsrTargetLevel = MAX_VOLUME;
+    v->sequence = NULL;
+    v->loop = false;
+    v->pan = 0;
+    alSourceStop(v->alSourceId);
 }
 
 s32 Sequencer::nextUuid()
@@ -659,14 +625,10 @@ s32 Sequencer::playNote(s32 patchId, u8 note, float velocity, float pan, u8 pitc
             return 0;
         }
 
-        s16 id = obtainSource();
-        if (id < 0)
-        {
-            releaseVoice(v);
-            return 0;
-        }
+        alSourcei(v->alSourceId, AL_BUFFER, s->alBuffer);
+        alSourcef(v->alSourceId, AL_GAIN, (ALfloat) 0.0f);
+        alSourcePlay(v->alSourceId);
 
-        v->patch = patch;
         v->note = note;
         v->velocity = velocity;
         v->pan = pan;
@@ -674,13 +636,11 @@ s32 Sequencer::playNote(s32 patchId, u8 note, float velocity, float pan, u8 pitc
         v->pitchMin = pitchMin;
         v->pitchMax = pitchMax;
         v->sample = s;
-        v->source = id;
-        v->currentLevel = s16(velocity * 32767);
-        v->decreasing = false;
-        v->rate = s->adsr.attackRate;
-        v->exponential = s->adsr.attackExponential;
-        v->counter = s_adsr_table[v->decreasing][v->rate].ticks;
-        v->onTime = timeSinceEpochMillisec();
+        //v->adsrCurrentLevel = s16(velocity * 32767);
+        //v->adsrDecreasing = false;
+        //v->adsrRate = s->adsr.attackRate;
+        //v->adsrExponential = s->adsr.attackExponential;
+        //v->adsrCounter = s_adsr_table[v->adsrDecreasing][v->adsrRate].ticks;
         return v->uuid;
     }
 
