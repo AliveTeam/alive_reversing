@@ -679,10 +679,10 @@ NLOHMANN_JSON_SERIALIZE_ENUM(eFleechMotions, {
 })
 
 NLOHMANN_JSON_SERIALIZE_ENUM(eFleechBrains, {
-    {eFleechBrains::eBrain_0_Patrol, "brain_patrol"},
-    {eFleechBrains::eBrain_1_ChasingAbe, "brain_chasing_abe"},
-    {eFleechBrains::eBrain_2_Scared, "brain_scared"},
-    {eFleechBrains::eBrain_3_Death, "brain_death"},
+    {eFleechBrains::Patrol, "brain_patrol"},
+    {eFleechBrains::ChasingAbe, "brain_chasing_abe"},
+    {eFleechBrains::Scared, "brain_scared"},
+    {eFleechBrains::Death, "brain_death"},
 })
 
 inline void to_json(nlohmann::json& j, const FleechSaveState& p)
@@ -725,8 +725,8 @@ inline void to_json(nlohmann::json& j, const FleechSaveState& p)
         {"field_5a", p.field_5A},
         {"tongue_active_flag", p.mTongueActive},
         {"render_flag", p.mRenderTongue},
-        {"brain_state", p.mBrainState},
-        {"state", p.mBrainSubState},
+        //{"brain_state", p.mBrainState},
+        //{"state", p.mBrainSubState},
         {"field_62", p.mReturnToPreviousMotion},
         {"shrivel_timer", p.field_64_shrivel_timer},
         {"fleech_random_idx", p.field_68_fleech_random_idx},
@@ -808,8 +808,8 @@ inline void from_json(const nlohmann::json& j, FleechSaveState& p)
     j.at("field_5a").get_to(p.field_5A);
     j.at("tongue_active_flag").get_to(p.mTongueActive);
     j.at("render_flag").get_to(p.mRenderTongue);
-    j.at("brain_state").get_to(p.mBrainState);
-    j.at("state").get_to(p.mBrainSubState);
+    //j.at("brain_state").get_to(p.mBrainState);
+    //j.at("state").get_to(p.mBrainSubState);
     j.at("field_62").get_to(p.mReturnToPreviousMotion);
     j.at("shrivel_timer").get_to(p.field_64_shrivel_timer);
     j.at("fleech_random_idx").get_to(p.field_68_fleech_random_idx);

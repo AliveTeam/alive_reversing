@@ -110,8 +110,6 @@ CrawlingSlig::CrawlingSlig(relive::Path_CrawlingSlig* pTlv, const Guid& guid)
     mGetKilledBrain(*this),
     mTransformedBrain(*this)
 {
-    SetBrain(ICrawlingSligBrain::EBrainTypes::Sleeping);
-
     SetType(ReliveTypes::eCrawlingSlig);
 
     LoadAnimations();

@@ -1467,8 +1467,8 @@ struct FleechSaveState final
         d.field_5A = data.field_5A;
         d.mTongueActive = data.field_5C_tongue_active_flag;
         d.mRenderTongue = data.field_5D_render_flag;
-        d.mBrainState = From(data.mBrainState);
-        d.mBrainSubState = data.mBrainSubState;
+        //d.mBrainState = From(data.mBrainState);
+        //d.mBrainSubState = data.mBrainSubState;
         d.mReturnToPreviousMotion = data.mReturnToPreviousMotion;
         d.field_64_shrivel_timer = data.field_64_shrivel_timer;
         d.field_68_fleech_random_idx = data.field_68_fleech_random_idx;
@@ -1566,13 +1566,13 @@ struct FleechSaveState final
         switch (brain)
         {
             case eFleechBrains::eBrain_0_Patrol:
-                return ::eFleechBrains::eBrain_0_Patrol;
+                return ::eFleechBrains::Patrol;
             case eFleechBrains::eBrain_1_ChasingAbe:
-                return ::eFleechBrains::eBrain_1_ChasingAbe;
+                return ::eFleechBrains::ChasingAbe;
             case eFleechBrains::eBrain_2_Scared:
-                return ::eFleechBrains::eBrain_2_Scared;
+                return ::eFleechBrains::Scared;
             case eFleechBrains::eBrain_3_Death:
-                return ::eFleechBrains::eBrain_3_Death;
+                return ::eFleechBrains::Death;
         }
         ALIVE_FATAL("Bad fleech brain value");
     }
