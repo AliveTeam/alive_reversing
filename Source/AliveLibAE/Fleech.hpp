@@ -7,6 +7,7 @@ namespace relive
     struct Path_Fleech;
     struct Path_Hoist;
 }
+class Fleech;
 
 enum class eFleechMotions
 {
@@ -32,14 +33,6 @@ enum class eFleechMotions
     Motion_18_Consume
 };
 
-enum eFleechBrains
-{
-    eBrain_0_Patrol = 0,
-    eBrain_1_ChasingAbe = 1,
-    eBrain_2_Scared = 2,
-    eBrain_3_Death = 3
-};
-
 enum class FleechSound : u8
 {
     PatrolCry_0 = 0,
@@ -59,6 +52,154 @@ enum class FleechSound : u8
     CrawlRNG1_14 = 14,
     CrawlRNG2_15 = 15,
     CrawlRNG3_16 = 16,
+};
+
+class IFleechBrain
+{
+public:
+    enum class EBrainTypes
+    {
+        Patrol = 0,
+        ChasingAbe = 1,
+        Scared = 2,
+        Death = 3
+    };
+    virtual ~IFleechBrain() { }
+    virtual void VUpdate() = 0;
+    virtual EBrainTypes VGetBrain() = 0;
+};
+
+class PatrolBrain final : public IFleechBrain
+{
+public:
+    enum EState
+    {
+        State_0_Init = 0,
+        eSleeping_1 = 1,
+        State_2 = 2,
+        eGoingBackToSleep = 3,
+        eAlerted_4 = 4,
+        eHearingScrabOrParamite_5 = 5,
+        State_6 = 6,
+        State_7 = 7,
+        eAlertedByAbe_8 = 8,
+        State_9 = 9,
+        State_10 = 10,
+    };
+
+    explicit PatrolBrain(Fleech& fleech) : mFleech(fleech) {}
+
+    void VUpdate() override;
+    EBrainTypes VGetBrain() override { return EBrainTypes::Patrol; }
+
+    void SetState(EState state) { mBrainState = state; }
+    EState State() { return mBrainState; }
+
+    EState Brain_Patrol_State_0();
+    EState Brain_Patrol_State_1();
+    EState Brain_Patrol_State_2();
+    EState Brain_Patrol_State_3();
+    EState Brain_Patrol_State_4(IBaseAliveGameObject* pTarget);
+    EState Brain_Patrol_State_5();
+    EState Brain_Patrol_State_6();
+    EState Brain_Patrol_State_7();
+    EState Brain_Patrol_State_8(IBaseAliveGameObject* pTarget);
+    EState Brain_Patrol_State_9();
+    EState Brain_Patrol_State_10();
+
+private:
+    Fleech& mFleech;
+    EState mBrainState = EState::State_0_Init;
+};
+
+class ChasingAbeBrain final : public IFleechBrain
+{
+public:
+    enum EState
+    {
+        eInit_0 = 0,
+        eChasingAbe_1 = 1,
+        eUnknown_2 = 2,
+        eContinueChaseAfterFall_3 = 3,
+        eBlockedByWall_4 = 4,
+        eUnknown_5 = 5,
+        eScrabOrParamiteNearby_6 = 6,
+        eUnknown_7 = 7,
+        eFleechUnknown_8 = 8,
+        eUnknown_9 = 9,
+        eAbeIsInTongueRange_10 = 10,
+        eIsAbeDead_11 = 11,
+        eUnknown_12 = 12,
+        eBackToPatrol_13 = 13,
+        ePrepareToHoist_14 = 14,
+        eHoistDone_15 = 15,
+        eGoBackToChasingAbe_16 = 16,
+    };
+
+    explicit ChasingAbeBrain(Fleech& fleech) : mFleech(fleech) {}
+
+    void VUpdate() override;
+    EBrainTypes VGetBrain() override { return EBrainTypes::ChasingAbe; }
+
+    void SetState(EState state) { mBrainState = state; }
+    EState State() { return mBrainState; }
+
+    EState Brain_ChasingAbe_State_0(IBaseAliveGameObject* pObj);
+
+    EState Brain_ChasingAbe_State_1(IBaseAliveGameObject* pObj);
+    EState Brain_ChasingAbe_State1_Helper(IBaseAliveGameObject* pObj);
+
+    EState Brain_ChasingAbe_State_2(IBaseAliveGameObject* pObj);
+    EState Brain_ChasingAbe_State_9(IBaseAliveGameObject* pObj);
+
+private:
+    Fleech& mFleech;
+    EState mBrainState = EState::eInit_0;
+};
+
+class ScaredBrain final : public IFleechBrain
+{
+public:
+    enum EState
+    {
+        eScared_0 = 0,
+        eReactToDanger_1 = 1,
+        eCrawl_2 = 2,
+        eLookForHoist_3 = 3,
+        eCornered_4 = 4,
+        eCorneredPrepareAttack_5 = 5,
+        eCorneredAttack_6 = 6,
+        eCheckIfEnemyDead_7 = 7,
+        eEnemyStillAlive_8 = 8,
+        ePatrolArea_9 = 9,
+        ePrepareToHoist_10 = 10,
+        eHoisting_11 = 11,
+    };
+
+    explicit ScaredBrain(Fleech& fleech) : mFleech(fleech) {}
+
+    void VUpdate() override;
+    EBrainTypes VGetBrain() override { return EBrainTypes::Scared; }
+
+    void SetState(EState state) { mBrainState = state; }
+    EState State() { return mBrainState; }
+
+private:
+    Fleech& mFleech;
+    EState mBrainState = EState::eScared_0;
+};
+
+class DeathBrain final : public IFleechBrain
+{
+public:
+
+    explicit DeathBrain(Fleech& fleech) : mFleech(fleech) {}
+
+    void VUpdate() override;
+    EBrainTypes VGetBrain() override { return EBrainTypes::Death; }
+
+private:
+    Fleech& mFleech;
 };
 
 struct FleechSaveState final
@@ -100,8 +241,10 @@ struct FleechSaveState final
     s16 field_5A;
     bool mTongueActive;
     bool mRenderTongue;
-    eFleechBrains mBrainState;
-    s16 mBrainSubState;
+    IFleechBrain::EBrainTypes mBrainType;
+    PatrolBrain::EState mPatrolBrainState;
+    ChasingAbeBrain::EState mChasingAbeBrainState;
+    ScaredBrain::EState mScaredBrainState;
     bool mReturnToPreviousMotion;
     s32 field_64_shrivel_timer;
     s8 field_68_fleech_random_idx;
@@ -143,7 +286,6 @@ struct FleechSaveState final
     s16 field_B2;
 };
 
-class Fleech;
 using TFleechBrainFn = s16 (Fleech::*)();
 using TFleechMotionFn = void (Fleech::*)();
 
@@ -185,33 +327,11 @@ public:
     void Motion_17_SleepingWithTongue();
     void Motion_18_Consume();
 
-public:
-    s16 Brain_0_Patrol();
-    s16 Brain_Patrol_State_0();
-    s16 Brain_Patrol_State_1();
-    s16 Brain_Patrol_State_2();
-    s16 Brain_Patrol_State_3();
-    s16 Brain_Patrol_State_4(IBaseAliveGameObject* pTarget);
-    s16 Brain_Patrol_State_5();
-    s16 Brain_Patrol_State_6();
-    s16 Brain_Patrol_State_7();
-    s16 Brain_Patrol_State_8(IBaseAliveGameObject* pTarget);
-    s16 Brain_Patrol_State_9();
-    s16 Brain_Patrol_State_10();
-
-    s16 Brain_1_ChasingAbe();
-    s16 Brain_ChasingAbe_State_0(IBaseAliveGameObject* pObj);
-
-	s16 Brain_ChasingAbe_State_1(IBaseAliveGameObject* pObj);
-	s16 Brain_ChasingAbe_State1_Helper(IBaseAliveGameObject* pObj);
-
-	s16 Brain_ChasingAbe_State_2(IBaseAliveGameObject* pObj);
-    s16 Brain_ChasingAbe_State_9(IBaseAliveGameObject* pObj);
-
-    s16 Brain_2_Scared();
-    s16 Brain_3_Death();
 
 private:
+    void SetBrain(IFleechBrain::EBrainTypes brain);
+    bool BrainIs(IFleechBrain::EBrainTypes brain);
+
     eFleechMotions GetNextMotion() const
     {
         return static_cast<eFleechMotions>(mNextMotion);
@@ -264,8 +384,6 @@ private:
     s16 mLostTargetTimeout = 0;
     s16 mPatrolRange = 0;
     Guid field_11C_obj_id = Guid{};
-    eFleechBrains mBrainState = eFleechBrains::eBrain_0_Patrol;
-    u16 mBrainSubState = 0;
     bool mReturnToPreviousMotion = false;
     s32 field_12C_shrivel_timer = 0;
     s16 field_130_bDidMapFollowMe = 0;
@@ -307,6 +425,16 @@ private:
     Poly_G4 mTonguePolys1[4][2] = {};
     Poly_G4 mTonguePolys2[4][2] = {};
     Prim_SetTPage field_40C[2] = {};
+    friend class PatrolBrain;
+    friend class ChasingAbeBrain;
+    friend class ScaredBrain;
+    friend class DeathBrain;
+    PatrolBrain mPatrolBrain;
+    ChasingAbeBrain mChasingAbeBrain;
+    ScaredBrain mScaredBrain;
+    DeathBrain mDeathBrain;
+
+    IFleechBrain* mCurrentBrain = nullptr;
 };
 
 void Animation_OnFrame_Fleech(BaseGameObject* pObj, u32&, const IndexedPoint&);

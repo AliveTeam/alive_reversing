@@ -429,13 +429,49 @@ NLOHMANN_JSON_SERIALIZE_ENUM(CrawlingSligMotion, {
     {CrawlingSligMotion::Motion_17_EndPushingWall, "end_pushing_wall"},
 })
 
-NLOHMANN_JSON_SERIALIZE_ENUM(eCrawlingSligBrains, {
-    {eCrawlingSligBrains::Brain_0_Sleeping, "sleeping"},
-    {eCrawlingSligBrains::Brain_1_Idle, "idle"},
-    {eCrawlingSligBrains::Brain_2_PanicGetALocker, "panic_get_a_locker"},
-    {eCrawlingSligBrains::Brain_3_Possessed, "possessed"},
-    {eCrawlingSligBrains::Brain_4_GetKilled, "get_killed"},
-    {eCrawlingSligBrains::Brain_5_Transformed, "transformed"},
+NLOHMANN_JSON_SERIALIZE_ENUM(ICrawlingSligBrain::EBrainTypes, {
+    {ICrawlingSligBrain::EBrainTypes::Sleeping, "sleeping"},
+    {ICrawlingSligBrain::EBrainTypes::Idle, "idle"},
+    {ICrawlingSligBrain::EBrainTypes::PanicGetALocker, "panic_get_a_locker"},
+    {ICrawlingSligBrain::EBrainTypes::Possessed, "possessed"},
+    {ICrawlingSligBrain::EBrainTypes::GetKilled, "get_killed"},
+    {ICrawlingSligBrain::EBrainTypes::Transformed, "transformed"},
+})
+
+NLOHMANN_JSON_SERIALIZE_ENUM(SleepingBrain::EState, {
+    {SleepingBrain::EState::eSleeping, "sleeping"},
+    {SleepingBrain::EState::eWakingUp, "waking_up"},
+    {SleepingBrain::EState::eIsAwake, "is_awake"},
+})
+
+NLOHMANN_JSON_SERIALIZE_ENUM(PanicGetALockerBrain::EState, {
+    {PanicGetALockerBrain::EState::eDetermineCrawlDirection, "determine_crawl_direction"},
+    {PanicGetALockerBrain::EState::eFalling, "falling"},
+    {PanicGetALockerBrain::EState::eSearchLocker, "search_locker"},
+    {PanicGetALockerBrain::EState::eTurnAroundForLocker, "turn_around_for_locker"},
+    {PanicGetALockerBrain::EState::eSearchLockerOrTurnAround, "search_locker_or_turn_around"},
+    {PanicGetALockerBrain::EState::eGetPantsOrWings, "get_pants_or_wings"},
+    {PanicGetALockerBrain::EState::eUsingButton, "using_button"},
+    {PanicGetALockerBrain::EState::eTurnAround, "turn_around"},
+    {PanicGetALockerBrain::EState::eCrawling, "crawling"},
+    {PanicGetALockerBrain::EState::eCheckIfWallHit, "check_if_wall_hit"},
+    {PanicGetALockerBrain::EState::eBeatBySlig, "beat_by_slig"},
+})
+
+NLOHMANN_JSON_SERIALIZE_ENUM(PossessedBrain::EState, {
+    {PossessedBrain::EState::eStartPossession, "start_possession"},
+    {PossessedBrain::EState::ePossessed, "possessed"},
+    {PossessedBrain::EState::eUnpossessing, "unpossessing"},
+    {PossessedBrain::EState::eBeatBySlig, "beat_by_slig"},
+})
+
+NLOHMANN_JSON_SERIALIZE_ENUM(GetKilledBrain::EState, {
+    {GetKilledBrain::EState::eUnknown, "unknown"},
+    {GetKilledBrain::EState::eVaporize, "vaporize"},
+    {GetKilledBrain::EState::eGibsDeath, "gibs_death"},
+    {GetKilledBrain::EState::eSetDead, "set_dead"},
+    {GetKilledBrain::EState::eDeathBySlog, "death_by_slog"},
+    {GetKilledBrain::EState::eDeathDrop, "death_drop"},
 })
 
 inline void to_json(nlohmann::json& j, const CrawlingSligSaveState& p)
@@ -466,8 +502,11 @@ inline void to_json(nlohmann::json& j, const CrawlingSligSaveState& p)
         {"collision_line_type", p.mCollisionLineType},
         {"controlled", p.mControlled},
         {"crawling_slig_tlv_id", p.mCrawlingSligTlvId},
-        {"brain_state", p.mBrainState},
-        {"brain_sub_state", p.mBrainSubState},
+        {"brain_state", p.mBrainType},
+        {"sleeping_brain_state", p.mSleepingBrainState},
+        {"panic_get_a_locker_brain_state", p.mPanicGetALockerBrainState},
+        {"possessed_brain_state", p.mPossessedBrainState},
+        {"get_killed_brain_state", p.mGetKilledBrainState},
         {"multi_use_timer", p.mMultiUseTimer},
         {"velx_scale_factor", p.mVelxScaleFactor},
         {"chanting", p.mChanting},
@@ -509,8 +548,11 @@ inline void from_json(const nlohmann::json& j, CrawlingSligSaveState& p)
     j.at("collision_line_type").get_to(p.mCollisionLineType);
     j.at("controlled").get_to(p.mControlled);
     j.at("crawling_slig_tlv_id").get_to(p.mCrawlingSligTlvId);
-    j.at("brain_state").get_to(p.mBrainState);
-    j.at("brain_sub_state").get_to(p.mBrainSubState);
+    j.at("brain_state").get_to(p.mBrainType);
+    j.at("sleeping_brain_state").get_to(p.mSleepingBrainState);
+    j.at("panic_get_a_locker_brain_state").get_to(p.mPanicGetALockerBrainState);
+    j.at("possessed_brain_state").get_to(p.mPossessedBrainState);
+    j.at("get_killed_brain_state").get_to(p.mGetKilledBrainState);
     j.at("multi_use_timer").get_to(p.mMultiUseTimer);
     j.at("velx_scale_factor").get_to(p.mVelxScaleFactor);
     j.at("chanting").get_to(p.mChanting);
@@ -636,11 +678,60 @@ NLOHMANN_JSON_SERIALIZE_ENUM(eFleechMotions, {
     {eFleechMotions::Motion_18_Consume, "motion_consume"},
 })
 
-NLOHMANN_JSON_SERIALIZE_ENUM(eFleechBrains, {
-    {eFleechBrains::eBrain_0_Patrol, "brain_patrol"},
-    {eFleechBrains::eBrain_1_ChasingAbe, "brain_chasing_abe"},
-    {eFleechBrains::eBrain_2_Scared, "brain_scared"},
-    {eFleechBrains::eBrain_3_Death, "brain_death"},
+NLOHMANN_JSON_SERIALIZE_ENUM(IFleechBrain::EBrainTypes, {
+    {IFleechBrain::EBrainTypes::Patrol, "patrol"},
+    {IFleechBrain::EBrainTypes::ChasingAbe, "chasing_abe"},
+    {IFleechBrain::EBrainTypes::Scared, "scared"},
+    {IFleechBrain::EBrainTypes::Death, "death"},
+})
+
+NLOHMANN_JSON_SERIALIZE_ENUM(PatrolBrain::EState, {
+    {PatrolBrain::EState::State_0_Init, "state_0_init"},
+    {PatrolBrain::EState::eSleeping_1, "sleeping_1"},
+    {PatrolBrain::EState::State_2, "state_2"},
+    {PatrolBrain::EState::eGoingBackToSleep, "going_back_to_sleep"},
+    {PatrolBrain::EState::eAlerted_4, "alerted_4"},
+    {PatrolBrain::EState::eHearingScrabOrParamite_5, "hearing_scrab_or_paramite_5"},
+    {PatrolBrain::EState::State_6, "state_6"},
+    {PatrolBrain::EState::State_7, "state_7"},
+    {PatrolBrain::EState::eAlertedByAbe_8, "alerted_by_abe_8"},
+    {PatrolBrain::EState::State_9, "state_9"},
+    {PatrolBrain::EState::State_10, "state_10"},
+})
+
+NLOHMANN_JSON_SERIALIZE_ENUM(ChasingAbeBrain::EState, {
+    {ChasingAbeBrain::EState::eInit_0, "init_0"},
+    {ChasingAbeBrain::EState::eChasingAbe_1, "chasing_abe_1"},
+    {ChasingAbeBrain::EState::eUnknown_2, "unknown_2"},
+    {ChasingAbeBrain::EState::eContinueChaseAfterFall_3, "continue_chase_after_fall_3"},
+    {ChasingAbeBrain::EState::eBlockedByWall_4, "blocked_by_wall_4"},
+    {ChasingAbeBrain::EState::eUnknown_5, "unknown_5"},
+    {ChasingAbeBrain::EState::eScrabOrParamiteNearby_6, "scrab_or_paramite_nearby_6"},
+    {ChasingAbeBrain::EState::eUnknown_7, "unknown_7"},
+    {ChasingAbeBrain::EState::eFleechUnknown_8, "fleech_unknown_8"},
+    {ChasingAbeBrain::EState::eUnknown_9, "unknown_9"},
+    {ChasingAbeBrain::EState::eAbeIsInTongueRange_10, "abe_is_in_tongue_range_10"},
+    {ChasingAbeBrain::EState::eIsAbeDead_11, "is_abe_dead_11"},
+    {ChasingAbeBrain::EState::eUnknown_12, "unknown_12"},
+    {ChasingAbeBrain::EState::eBackToPatrol_13, "back_to_patrol_13"},
+    {ChasingAbeBrain::EState::ePrepareToHoist_14, "prepare_to_hoist_14"},
+    {ChasingAbeBrain::EState::eHoistDone_15, "hoist_done_15"},
+    {ChasingAbeBrain::EState::eGoBackToChasingAbe_16, "go_back_to_chasing_abe_16"},
+})
+
+NLOHMANN_JSON_SERIALIZE_ENUM(ScaredBrain::EState, {
+    {ScaredBrain::EState::eScared_0, "scared_0"},
+    {ScaredBrain::EState::eReactToDanger_1, "react_to_danger_1"},
+    {ScaredBrain::EState::eCrawl_2, "crawl_2"},
+    {ScaredBrain::EState::eLookForHoist_3, "look_for_hoist_3"},
+    {ScaredBrain::EState::eCornered_4, "cornered_4"},
+    {ScaredBrain::EState::eCorneredPrepareAttack_5, "cornered_prepare_attack_5"},
+    {ScaredBrain::EState::eCorneredAttack_6, "cornered_attack_6"},
+    {ScaredBrain::EState::eCheckIfEnemyDead_7, "check_if_enemy_dead_7"},
+    {ScaredBrain::EState::eEnemyStillAlive_8, "enemy_still_alive_8"},
+    {ScaredBrain::EState::ePatrolArea_9, "patrol_area_9"},
+    {ScaredBrain::EState::ePrepareToHoist_10, "prepare_to_hoist_10"},
+    {ScaredBrain::EState::eHoisting_11, "hoisting_11"},
 })
 
 inline void to_json(nlohmann::json& j, const FleechSaveState& p)
@@ -683,8 +774,10 @@ inline void to_json(nlohmann::json& j, const FleechSaveState& p)
         {"field_5a", p.field_5A},
         {"tongue_active_flag", p.mTongueActive},
         {"render_flag", p.mRenderTongue},
-        {"brain_state", p.mBrainState},
-        {"state", p.mBrainSubState},
+        {"brain_type", p.mBrainType},
+        {"patrol_brain_state", p.mPatrolBrainState},
+        {"chasing_abe_brain_state", p.mChasingAbeBrainState},
+        {"scared_brain_state", p.mScaredBrainState},
         {"field_62", p.mReturnToPreviousMotion},
         {"shrivel_timer", p.field_64_shrivel_timer},
         {"fleech_random_idx", p.field_68_fleech_random_idx},
@@ -766,8 +859,10 @@ inline void from_json(const nlohmann::json& j, FleechSaveState& p)
     j.at("field_5a").get_to(p.field_5A);
     j.at("tongue_active_flag").get_to(p.mTongueActive);
     j.at("render_flag").get_to(p.mRenderTongue);
-    j.at("brain_state").get_to(p.mBrainState);
-    j.at("state").get_to(p.mBrainSubState);
+    j.at("brain_type").get_to(p.mBrainType);
+    j.at("patrol_brain_state").get_to(p.mPatrolBrainState);
+    j.at("chasing_abe_brain_state").get_to(p.mChasingAbeBrainState);
+    j.at("scared_brain_state").get_to(p.mScaredBrainState);
     j.at("field_62").get_to(p.mReturnToPreviousMotion);
     j.at("shrivel_timer").get_to(p.field_64_shrivel_timer);
     j.at("fleech_random_idx").get_to(p.field_68_fleech_random_idx);
