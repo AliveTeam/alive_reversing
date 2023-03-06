@@ -33,14 +33,6 @@ enum class eFleechMotions
     Motion_18_Consume
 };
 
-enum eFleechBrains
-{
-    Patrol = 0,
-    ChasingAbe = 1,
-    Scared = 2,
-    Death = 3
-};
-
 enum class FleechSound : u8
 {
     PatrolCry_0 = 0,
