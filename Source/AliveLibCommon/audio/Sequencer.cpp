@@ -383,18 +383,15 @@ void Sequencer::tickSequence()
                 }
                 case END_TRACK:
                 {
-                    // repeats are handled in the sequence when messages starts at position 1 again
+                    // repeats are handled in the sequence when messages starts at position 0 again
                     break;
                 }
                 case PITCH_BEND:
                 {
-                    //std::cout << seq << " " << (s16) message->patchId << " " << (s16) message->bend << std::endl;
                     for (int i = 0; i < voiceCount; i++)
                     {
                         if (voices[i]->inUse && voices[i]->channelId == message->channelId)
                         {
-                            // TODO - not working
-                            std::cout << (s16)message->bend << std::endl;
                             voices[i]->pitch = message->bend;
                         }
                     }

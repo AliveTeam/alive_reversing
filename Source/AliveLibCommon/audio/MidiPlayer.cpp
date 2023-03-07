@@ -232,8 +232,8 @@ s16 MidiPlayer::SND_SEQ_PlaySeq(u16 idx, s32 repeatCount, s16 bDontStop)
     {
         return 1;
     }
-
-    sequencer->getSequence(idx)->repeatLimit = bDontStop ? 9999999 : 1;
+    sequencer->getSequence(idx)->volume = 1.0f;
+    sequencer->getSequence(idx)->repeatLimit = repeatCount;
     sequencer->playSeq(idx);
     return 1;
 
@@ -329,7 +329,15 @@ s32 MidiPlayer::SFX_SfxDefinition_Play(SfxDefinition* sfxDef, s32 volLeft, s32 v
     sanitizeVolume(&volRight, 10, 127);
     // TODO - I don't think these pans and volumes are quite right
     float volume = std::max(volLeft, volRight) / 127.0f;
-    float pan = (float(volRight) / float(volLeft)) - 1;
+    float pan;
+    if (volLeft < volRight)
+    {
+        pan = 1.0f - (float(volLeft) / float(volRight));
+    }
+    else
+    {
+        pan = (float(volRight) / float(volLeft)) - 1.0f;
+    }
     return sequencer->playNote(sfxDef->program, sfxDef->note, volume, pan, (u8) std::max(pitch_min, pitch_max), pitch_min, pitch_max);
 }
 
@@ -583,16 +591,22 @@ void parseMidiStream(sean::Sequence* seq, std::vector<Uint8> seqData, s32 trackI
                 break;
                 case 0xe: // Pitch Bend
                 {
-                    // TODO - used in scrabania somewhere - NOT WORKING
-                    u8 patchId = 0;
-                    u8 bend = 0;
-                    stream.ReadUInt8(patchId);
-                    stream.ReadUInt8(bend);
+                    s16 bend = 0;
+                    stream.ReadSInt16(bend);
+
+                    // 0 is x semitones down 
+                    // 16383 is center
+                    // 32767 is x semitones up.
+                    // convert to 127 value where 0 is center
+
+                    float multi = bend / 16383.0f;
+                    multi = multi * (127 * 4); // (127*4) is 4 semitones (or 4 half steps).
+                    multi = multi - (127 * 4); // Possibly 4 is not correct for pitch bend range?
 
                     sean::MIDIMessage* msg = seq->createMIDIMessage();
                     msg->type = sean::PITCH_BEND;
-                    msg->patchId = patchId; // TODO - thses are wrong... was original bend = u16... is it patch?
-                    msg->bend = bend;
+                    msg->bend = (s16) multi;
+                    msg->channelId = channel;
                     msg->tick = deltaTime;
                 }
                 break;
