@@ -313,7 +313,7 @@ public:
 
     Abe();
     ~Abe();
-    
+
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
@@ -546,10 +546,10 @@ public:
     FP mContinueSpriteScale = {};
     s32 field_150_saved_ring_timer = 0; // todo: check
     s16 field_154_bSavedHaveShrykull = 0;
-    Fade* mFade = nullptr;
+    Guid mFadeId = {};
     BaseAliveGameObject* field_15C_pThrowable = nullptr;
-    PullRingRope* field_160_pRope = nullptr;
-    CircularFade* mCircularFade = nullptr;
+    PullRingRope* mPullRingRope = nullptr;
+    Guid mCircularFadeId = {};
     s32 field_168_ring_pulse_timer = 0;
     s16 field_16C_bHaveShrykull = 0;
     s16 field_16E_cameraIdx = 0;
@@ -557,7 +557,7 @@ public:
     relive::Path_HandStone* mHandStone = nullptr;
     relive::Path_MovieStone* mMovieStone = nullptr;
     relive::Path_BellsongStone* mBellsongStone = nullptr;
-    OrbWhirlWind* field_188_pOrbWhirlWind = nullptr;
+    Guid mOrbWhirlWindId = {};
     IBaseAliveGameObject* field_18C_pObjToPossess = nullptr;
     EReliveLevelIds field_190_level = EReliveLevelIds::eNone;
     s16 field_192_path = 0;

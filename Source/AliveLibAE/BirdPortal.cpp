@@ -157,7 +157,7 @@ void BirdPortal::VUpdate()
                     pShrykullNumMuds->SetDead(true);
                 }
 
-                for (auto& id : mDoveIds)
+                for (const auto& id : mDoveIds)
                 {
                     auto pDove = static_cast<Dove*>(sObjectIds.Find(id, ReliveTypes::eDove));
                     if (pDove)
@@ -173,7 +173,7 @@ void BirdPortal::VUpdate()
             }
             else if (IsScaredAway() || EventGet(kEventShooting))
             {
-                for (auto& id : mDoveIds)
+                for (const auto& id : mDoveIds)
                 {
                     Dove* pDove = static_cast<Dove*>(sObjectIds.Find(id, ReliveTypes::eDove));
                     if (pDove)
@@ -208,7 +208,7 @@ void BirdPortal::VUpdate()
             EventBroadcast(GetEvent(), this);
             if (static_cast<s32>(sGnFrame) > mTimer)
             {
-                for (auto& id : mDoveIds)
+                for (const auto& id : mDoveIds)
                 {
                     BaseGameObject* pDove = sObjectIds.Find_Impl(id);
                     if (pDove)
@@ -944,7 +944,7 @@ BirdPortal::~BirdPortal()
     BaseGameObject* pDoves = sObjectIds.Find(mDoveIds[0], ReliveTypes::eDove);
     if (pDoves && mDovesExist)
     {
-        for (auto doveId : mDoveIds)
+        for (const auto& doveId : mDoveIds)
         {
             BaseGameObject* pDove = sObjectIds.Find(doveId, ReliveTypes::eDove);
             if (pDove)

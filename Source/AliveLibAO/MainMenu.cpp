@@ -27,6 +27,7 @@
 #include "Path.hpp"
 #include "../relive_lib/Psx.hpp"
 #include "MainMenuTransition.hpp"
+#include "../relive_lib/ObjectIds.hpp"
 
 namespace AO {
 
@@ -449,9 +450,6 @@ Menu::Menu(relive::Path_TLV* /*pTlv*/, const Guid& tlvId)
 
     mFnRender = &Menu::Empty_Render;
     mSelectedButtonIndex.mainmenu = MainMenuOptions::eBegin_1;
-    mMenuTrans = 0;
-    mMenuFade1 = 0;
-    mMenuFade2 = 0;
     field_1F4_text = "";
     mLoadSave = false;
     mToFmvSelect = false;
@@ -504,21 +502,25 @@ Menu::~Menu()
         }
     }*/
 
-    if (mMenuTrans)
+    auto pMenuTrans = sObjectIds.Find_Impl(mMenuTransId);
+    if (pMenuTrans)
     {
-        mMenuTrans->SetDead(true);
-        mMenuTrans->mBaseGameObjectRefCount--;
-        mMenuTrans = nullptr;
+        pMenuTrans->SetDead(true);
+        mMenuTransId = Guid{};
     }
 
-    if (mMenuFade1)
+    auto pMenuFadeId1 = sObjectIds.Find_Impl(mMenuFadeId1);
+    if (pMenuFadeId1)
     {
-        mMenuFade1->SetDead(true);
+        pMenuFadeId1->SetDead(true);
+        mMenuFadeId1 = Guid{};
     }
 
-    if (mMenuFade2)
+    auto pMenuFadeId2 = sObjectIds.Find_Impl(mMenuFadeId2);
+    if (pMenuFadeId2)
     {
-        mMenuFade2->SetDead(true);
+        pMenuFadeId2->SetDead(true);
+        mMenuFadeId2 = Guid{};
     }
 
     gMainMenuInstanceCount--;
@@ -647,13 +649,15 @@ void Menu::FMV_Select_Update()
             // Go back to main screen
             mUsingLvlSelectCheat = false;
 
-            if (mMenuTrans)
+            auto pMenuTrans = static_cast<MainMenuTransition*>(sObjectIds.Find_Impl(mMenuTransId));
+            if (pMenuTrans)
             {
-                mMenuTrans->StartTrans_436560(Layer::eLayer_FadeFlash_40, 1, 0, 16);
+                pMenuTrans->StartTrans_436560(Layer::eLayer_FadeFlash_40, 1, 0, 16);
             }
             else
             {
-                mMenuTrans = relive_new MainMenuTransition(Layer::eLayer_FadeFlash_40, 1, 0, 16, TPageAbr::eBlend_1);
+                pMenuTrans = relive_new MainMenuTransition(Layer::eLayer_FadeFlash_40, 1, 0, 16, TPageAbr::eBlend_1);
+                mMenuTransId = pMenuTrans->mBaseGameObjectId;
             }
             mFnUpdate = &Menu::FMV_Or_Level_Select_To_Back_Update;
         }
@@ -722,7 +726,8 @@ void Menu::FMV_Select_Update()
 
                 mUsingLvlSelectCheat = true;
 
-                mMenuTrans->StartTrans_436560(Layer::eLayer_FadeFlash_40, 1, 0, 16);
+                auto pMenuTrans = static_cast<MainMenuTransition*>(sObjectIds.Find_Impl(mMenuTransId));
+                pMenuTrans->StartTrans_436560(Layer::eLayer_FadeFlash_40, 1, 0, 16);
                 mFnUpdate = &Menu::Level_Cheat_To_Loading_Update;
             }
         }
@@ -1039,16 +1044,16 @@ void Menu::MainScreen_Update()
             * // TODO Binned
             else
             {
-                if (mMenuTrans)
+                if (mMenuTransId)
                 {
-                    mMenuTrans->StartTrans_436560(Layer::eLayer_FadeFlash_40, 1, 0, 16);
+                    mMenuTransId->StartTrans_436560(Layer::eLayer_FadeFlash_40, 1, 0, 16);
                 }
                 else
                 {
-                    mMenuTrans = relive_new MainMenuTransition(Layer::eLayer_FadeFlash_40, 1, 0, 16, TPageAbr::eBlend_1);
-                    if (mMenuTrans)
+                    mMenuTransId = relive_new MainMenuTransition(Layer::eLayer_FadeFlash_40, 1, 0, 16, TPageAbr::eBlend_1);
+                    if (mMenuTransId)
                     {
-                        mMenuTrans->mBaseGameObjectRefCount++;
+                        mMenuTransId->mBaseGameObjectRefCount++;
                     }
                 }
 
@@ -1067,16 +1072,17 @@ void Menu::MainScreen_Update()
             sprintf(fileNameBuf, "PLAYBK%02d.JOY", gJoyResId);
             //ResourceManager::LoadResourceFile_4551E0(fileNameBuf, 0, 0, 0);
 
-            if (mMenuTrans)
+            auto pMenuTrans = sObjectIds.Find_Impl(mMenuTransId);
+            if (pMenuTrans)
             {
-                mMenuTrans->mBaseGameObjectRefCount--;
-                mMenuTrans->SetDead(true);
+                pMenuTrans->SetDead(true);
+                mMenuTransId = Guid{};
             }
 
-            mMenuTrans = relive_new MainMenuTransition(Layer::eLayer_FadeFlash_40, 1, 0, 16, TPageAbr::eBlend_1);
-            if (mMenuTrans)
+            pMenuTrans = relive_new MainMenuTransition(Layer::eLayer_FadeFlash_40, 1, 0, 16, TPageAbr::eBlend_1);
+            if (pMenuTrans)
             {
-                mMenuTrans->mBaseGameObjectRefCount++;
+                mMenuTransId = pMenuTrans->mBaseGameObjectId;
             }
             mFnUpdate = &Menu::GoToSelectedMenuPage;
         }
@@ -1098,16 +1104,16 @@ void Menu::MainScreen_Update()
         /*
         else
         {
-            if (mMenuTrans)
+            if (mMenuTransId)
             {
-                mMenuTrans->StartTrans_436560(Layer::eLayer_FadeFlash_40, 1, 0, 16);
+                mMenuTransId->StartTrans_436560(Layer::eLayer_FadeFlash_40, 1, 0, 16);
             }
             else
             {
-                mMenuTrans = relive_new MainMenuTransition(Layer::eLayer_FadeFlash_40, 1, 0, 16, TPageAbr::eBlend_1);
-                if (mMenuTrans)
+                mMenuTransId = relive_new MainMenuTransition(Layer::eLayer_FadeFlash_40, 1, 0, 16, TPageAbr::eBlend_1);
+                if (mMenuTransId)
                 {
-                    mMenuTrans->mBaseGameObjectRefCount++;
+                    mMenuTransId->mBaseGameObjectRefCount++;
                 }
             }
 
@@ -1132,16 +1138,16 @@ void Menu::MainScreen_Update()
         // TODO: prob binned
         else
         {
-            if (mMenuTrans)
+            if (mMenuTransId)
             {
-                mMenuTrans->StartTrans_436560(Layer::eLayer_FadeFlash_40, 1, 0, 16);
+                mMenuTransId->StartTrans_436560(Layer::eLayer_FadeFlash_40, 1, 0, 16);
             }
             else
             {
-                mMenuTrans = relive_new MainMenuTransition(Layer::eLayer_FadeFlash_40, 1, 0, 16, TPageAbr::eBlend_1);
-                if (mMenuTrans)
+                mMenuTransId = relive_new MainMenuTransition(Layer::eLayer_FadeFlash_40, 1, 0, 16, TPageAbr::eBlend_1);
+                if (mMenuTransId)
                 {
-                    mMenuTrans->mBaseGameObjectRefCount++;
+                    mMenuTransId->mBaseGameObjectRefCount++;
                 }
             }
 
@@ -1173,7 +1179,8 @@ void Menu::MainScreen_Update()
 // After fade out go to gamespeak/options/load/whatever
 void Menu::GoToSelectedMenuPage()
 {
-    if (mMenuTrans == nullptr || mMenuTrans->field_16_bDone)
+    auto pMenuTrans = static_cast<MainMenuTransition*>(sObjectIds.Find_Impl(mMenuTransId));
+    if (!pMenuTrans || pMenuTrans->field_16_bDone)
     {
         if (mToFmvSelect)
         {
@@ -1245,16 +1252,17 @@ void Menu::WaitForSpeakFinishAndStartChangeEffect()
     // Abe finished speaking?
     if (GetAnimation().GetIsLastFrame())
     {
-        if (mMenuTrans)
+        auto pMenuTrans = static_cast<MainMenuTransition*>(sObjectIds.Find_Impl(mMenuTransId));
+        if (pMenuTrans)
         {
-            mMenuTrans->StartTrans_436560(Layer::eLayer_FadeFlash_40, 1, 0, 16);
+            pMenuTrans->StartTrans_436560(Layer::eLayer_FadeFlash_40, 1, 0, 16);
         }
         else
         {
-            mMenuTrans = relive_new MainMenuTransition(Layer::eLayer_FadeFlash_40, 1, 0, 16, TPageAbr::eBlend_1);
-            if (mMenuTrans)
+            pMenuTrans = relive_new MainMenuTransition(Layer::eLayer_FadeFlash_40, 1, 0, 16, TPageAbr::eBlend_1);
+            if (pMenuTrans)
             {
-                mMenuTrans->mBaseGameObjectRefCount++;
+                mMenuTransId = pMenuTrans->mBaseGameObjectId;
             }
         }
 
@@ -1319,17 +1327,19 @@ void Menu::ToNextMenuPage()
                     break;
             }
         }
-        mMenuTrans->StartTrans_436560(Layer::eLayer_FadeFlash_40, 0, 0, 16);
+        auto pMenuTrans = static_cast<MainMenuTransition*>(sObjectIds.Find_Impl(mMenuTransId));
+        pMenuTrans->StartTrans_436560(Layer::eLayer_FadeFlash_40, 0, 0, 16);
     }
 }
 
 void Menu::ToLoading()
 {
-    if (mMenuTrans)
+    auto pMenuTrans = static_cast<MainMenuTransition*>(sObjectIds.Find_Impl(mMenuTransId));
+    if (pMenuTrans)
     {
-        if (mMenuTrans->field_16_bDone)
+        if (pMenuTrans->field_16_bDone)
         {
-            mMenuTrans->StartTrans_436560(Layer::eLayer_FadeFlash_40, 0, 0, 16);
+            pMenuTrans->StartTrans_436560(Layer::eLayer_FadeFlash_40, 0, 0, 16);
             gMap.SetActiveCam(EReliveLevelIds::eMenu, 1, CameraIds::Menu::eLoading_21, CameraSwapEffects::eInstantChange_0, 0, 0);
             field_204_flags &= ~2u;
             mFnUpdate = &Menu::Loading_Update;
@@ -1341,9 +1351,10 @@ void Menu::ToLoading()
 
 void Menu::ToGameSpeak_Update()
 {
-    if (mMenuTrans)
+    auto pMenuTrans = static_cast<MainMenuTransition*>(sObjectIds.Find_Impl(mMenuTransId));
+    if (pMenuTrans)
     {
-        if (mMenuTrans->field_16_bDone)
+        if (pMenuTrans->field_16_bDone)
         {
             mFnUpdate = &Menu::GameSpeak_Update;
             mIdleInputCounter = 0;
@@ -1382,7 +1393,8 @@ void Menu::GameSpeak_Render(PrimHeader** ppOt)
 
 void Menu::To_FMV_Or_Level_Select_Update()
 {
-    if (mMenuTrans->field_16_bDone)
+    auto pMenuTrans = static_cast<MainMenuTransition*>(sObjectIds.Find_Impl(mMenuTransId));
+    if (pMenuTrans->field_16_bDone)
     {
         //ResourceManager::FreeResource_455550(field_E4_res_array[0]);
         //field_E4_res_array[0] = nullptr;
@@ -1411,9 +1423,10 @@ void Menu::To_Load_Update()
     field_230_bGoBack = 0;
     field_228 = FP_FromInteger(0);
 
-    if (mMenuTrans)
+    auto pMenuTrans = static_cast<MainMenuTransition*>(sObjectIds.Find_Impl(mMenuTransId));
+    if (pMenuTrans)
     {
-        if (mMenuTrans->field_16_bDone)
+        if (pMenuTrans->field_16_bDone)
         {
             sSaveIdx = 0;
             IO_EnumerateDirectory("*.sav", [](const char_type* fileName, u32 /*lastWriteTime*/)
@@ -1588,9 +1601,10 @@ void Menu::Load_Render(PrimHeader** ppOt)
 
 void Menu::To_Options_Update()
 {
-    if (mMenuTrans)
+    auto pMenuTrans = static_cast<MainMenuTransition*>(sObjectIds.Find_Impl(mMenuTransId));
+    if (pMenuTrans)
     {
-        if (mMenuTrans->field_16_bDone)
+        if (pMenuTrans->field_16_bDone)
         {
             mFnUpdate = &Menu::Options_Update;
             mIdleInputCounter = 0;
@@ -1621,7 +1635,8 @@ void Menu::FMV_Or_Level_Select_Back_Update()
 {
     if (gNumCamSwappers <= 0)
     {
-        mMenuTrans->StartTrans_436560(Layer::eLayer_FadeFlash_40, 0, 0, 16);
+        auto pMenuTrans = static_cast<MainMenuTransition*>(sObjectIds.Find_Impl(mMenuTransId));
+        pMenuTrans->StartTrans_436560(Layer::eLayer_FadeFlash_40, 0, 0, 16);
         
         mSelectedButtonIndex.mainmenu = MainMenuOptions::eBegin_1;
 
@@ -1638,9 +1653,10 @@ void Menu::Loading_Update()
 {
     if (!gAttract)
     {
-        if (mMenuTrans)
+        auto pMenuTrans = static_cast<MainMenuTransition*>(sObjectIds.Find_Impl(mMenuTransId));
+        if (pMenuTrans)
         {
-            if (mMenuTrans->field_16_bDone)
+            if (pMenuTrans->field_16_bDone)
             {
                 if (gAttract)
                 {
@@ -1650,9 +1666,8 @@ void Menu::Loading_Update()
                     LOG_INFO(buffer);
                 }
 
-                mMenuTrans->mBaseGameObjectRefCount--;
-                mMenuTrans->SetDead(true);
-                mMenuTrans = nullptr;
+                pMenuTrans->SetDead(true);
+                mMenuTransId = Guid{};
 
                 /*
                 if (!field_E4_res_array[0])
@@ -1801,16 +1816,18 @@ void Menu::Options_WaitForAbeSpeak_Update()
     if (GetAnimation().GetIsLastFrame())
     {
         GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_Idle));
-        mMenuTrans->StartTrans_436560(Layer::eLayer_FadeFlash_40, 1, 0, 16);
+        auto pMenuTrans = static_cast<MainMenuTransition*>(sObjectIds.Find_Impl(mMenuTransId));
+        pMenuTrans->StartTrans_436560(Layer::eLayer_FadeFlash_40, 1, 0, 16);
         mFnUpdate = &Menu::Option_GoTo_Selected_Update;
     }
 }
 
 void Menu::Option_GoTo_Selected_Update()
 {
-    if (mMenuTrans)
+    auto pMenuTrans = static_cast<MainMenuTransition*>(sObjectIds.Find_Impl(mMenuTransId));
+    if (pMenuTrans)
     {
-        if (mMenuTrans->field_16_bDone)
+        if (pMenuTrans->field_16_bDone)
         {
             switch (mSelectedButtonIndex.options_menu)
             {
@@ -1881,16 +1898,18 @@ void Menu::Options_To_Selected_After_Cam_Change_Update()
                 break;
         }
 
-        mMenuTrans->StartTrans_436560(Layer::eLayer_FadeFlash_40, 0, 0, 16);
+        auto pMenuTrans = static_cast<MainMenuTransition*>(sObjectIds.Find_Impl(mMenuTransId));
+        pMenuTrans->StartTrans_436560(Layer::eLayer_FadeFlash_40, 0, 0, 16);
     }
 }
 
 void Menu::To_Options_Controller_Update()
 {
     field_230_bGoBack = -1;
-    if (mMenuTrans)
+    auto pMenuTrans = static_cast<MainMenuTransition*>(sObjectIds.Find_Impl(mMenuTransId));
+    if (pMenuTrans)
     {
-        if (mMenuTrans->field_16_bDone)
+        if (pMenuTrans->field_16_bDone)
         {
             mFnUpdate = &Menu::Options_Controller_Update;
             mFnRender = &Menu::Options_Controller_Render;
@@ -2020,9 +2039,10 @@ void Menu::Options_Controller_Render(PrimHeader** ppOt)
 
 void Menu::To_Options_Sound_Update()
 {
-    if (mMenuTrans)
+    auto pMenuTrans = static_cast<MainMenuTransition*>(sObjectIds.Find_Impl(mMenuTransId));
+    if (pMenuTrans)
     {
-        if (mMenuTrans->field_16_bDone)
+        if (pMenuTrans->field_16_bDone)
         {
             mFnUpdate = &Menu::Options_Sound_Update;
             mIdleInputCounter = 0;
@@ -2032,9 +2052,10 @@ void Menu::To_Options_Sound_Update()
 
 void Menu::To_MainScreen_Update()
 {
-    if (mMenuTrans)
+    auto pMenuTrans = static_cast<MainMenuTransition*>(sObjectIds.Find_Impl(mMenuTransId));
+    if (pMenuTrans)
     {
-        if (mMenuTrans->field_16_bDone)
+        if (pMenuTrans->field_16_bDone)
         {
             mFnUpdate = &Menu::MainScreen_Update;
             mIdleInputCounter = 0;
@@ -2153,16 +2174,18 @@ void Menu::Options_WaitForAbeSayOK_Update()
     if (GetAnimation().GetIsLastFrame())
     {
         GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_Idle));
-        mMenuTrans->StartTrans_436560(Layer::eLayer_FadeFlash_40, 1, 0, 16);
+        auto pMenuTrans = static_cast<MainMenuTransition*>(sObjectIds.Find_Impl(mMenuTransId));
+        pMenuTrans->StartTrans_436560(Layer::eLayer_FadeFlash_40, 1, 0, 16);
         mFnUpdate = &Menu::Options_WaitForScreenTrans_Update;
     }
 }
 
 void Menu::Options_WaitForScreenTrans_Update()
 {
-    if (mMenuTrans)
+    auto pMenuTrans = static_cast<MainMenuTransition*>(sObjectIds.Find_Impl(mMenuTransId));
+    if (pMenuTrans)
     {
-        if (mMenuTrans->field_16_bDone)
+        if (pMenuTrans->field_16_bDone)
         {
             gMap.SetActiveCam(EReliveLevelIds::eMenu, 1, CameraIds::Menu::eOptions_2, CameraSwapEffects::eInstantChange_0, 0, 0);
             mFnUpdate = &Menu::To_MainOptions_Screen_After_Camera_Change_Update;
@@ -2178,13 +2201,17 @@ void Menu::To_MainOptions_Screen_After_Camera_Change_Update()
         mFnRender = &Menu::Options_Render;
         mSelectedButtonIndex.options_menu = OptionsMenuOptions::eSound_1;
         mButtonAnim.Set_Animation_Data(GetAnimRes(sOptionsButtons[1].animId));
-        mMenuTrans->StartTrans_436560(Layer::eLayer_FadeFlash_40, 0, 0, 16);
+        auto pMenuTrans = static_cast<MainMenuTransition*>(sObjectIds.Find_Impl(mMenuTransId));
+        pMenuTrans->StartTrans_436560(Layer::eLayer_FadeFlash_40, 0, 0, 16);
     }
 }
 
 
 void Menu::GameSpeak_Update()
 {
+    auto pMenuFade1 = static_cast<MainMenuFade*>(sObjectIds.Find_Impl(mMenuFadeId1));
+    auto pMenuFade2 = static_cast<MainMenuFade*>(sObjectIds.Find_Impl(mMenuFadeId2));
+
     if (Input().GetHeld(InputObject::PadIndex::First))
     {
         mIdleInputCounter = 0;
@@ -2222,13 +2249,13 @@ void Menu::GameSpeak_Update()
                 {
                     SND_Seq_Stop(SeqId::eMudokonChant1_11);
 
-                    mMenuFade1->field_E8_bDestroyOnDone = 1;
-                    mMenuFade1 = nullptr;
+                    pMenuFade1->field_E8_bDestroyOnDone = 1;
+                    mMenuFadeId1 = Guid{};
 
-                    if (mMenuFade2)
+                    if (pMenuFade2)
                     {
-                        mMenuFade2->field_E8_bDestroyOnDone = 1;
-                        mMenuFade2 = nullptr;
+                        pMenuFade2->field_E8_bDestroyOnDone = 1;
+                        mMenuFadeId2 = Guid{};
                     }
 
                     GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_ChantEnd));
@@ -2261,30 +2288,34 @@ void Menu::GameSpeak_Update()
         GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_Chant));
         mSelectedButtonIndex.gamespeak_menu = GameSpeakOptions::eChant_8;
 
-        if (!mMenuFade1)
+        if (!pMenuFade1)
         {
             if (Input().IsJoyStickEnabled())
             {
-                mMenuFade1 = relive_new MainMenuFade(sGameSpeakButtons[8].xpos, sGameSpeakButtons[8].ypos + 36, buttonType::eCircle_0, 0);
+                pMenuFade1 = relive_new MainMenuFade(sGameSpeakButtons[8].xpos, sGameSpeakButtons[8].ypos + 36, buttonType::eCircle_0, 0);
+
             }
             else
             {
-                mMenuFade1 = relive_new MainMenuFade(181, sGameSpeakButtons[8].ypos + 36, buttonType::eCircle_0, 0);
+                pMenuFade1 = relive_new MainMenuFade(181, sGameSpeakButtons[8].ypos + 36, buttonType::eCircle_0, 0);
             }
+
+            mMenuFadeId1 = pMenuFade1->mBaseGameObjectId;
         }
 
-        if (mMenuFade2)
+        if (pMenuFade2)
         {
-            mMenuFade2->field_E8_bDestroyOnDone = 1;
+            pMenuFade2->field_E8_bDestroyOnDone = 1;
         }
 
         if (Input().IsJoyStickEnabled())
         {
-            mMenuFade2 = relive_new MainMenuFade(sGameSpeakButtons[11].xpos, sGameSpeakButtons[11].ypos + 36, buttonType::eCircle_0, 0);
+            pMenuFade2 = relive_new MainMenuFade(sGameSpeakButtons[11].xpos, sGameSpeakButtons[11].ypos + 36, buttonType::eCircle_0, 0);
+            mMenuFadeId2 = pMenuFade2->mBaseGameObjectId;
         }
         else
         {
-            mMenuFade2 = nullptr;
+            mMenuFadeId2 = Guid{};
         }
         CycleGameSpeakIdleAnims();
         return;
@@ -2292,18 +2323,19 @@ void Menu::GameSpeak_Update()
 
     if (Input().IsAnyHeld(InputObject::PadIndex::First, InputCommands::eLeftGameSpeak))
     {
-        if (mMenuFade2)
+        if (pMenuFade2)
         {
             const FP xpos = FP_FromInteger(sGameSpeakButtons[10].xpos);
-            if (mMenuFade2->mXPos != xpos)
+            if (pMenuFade2->mXPos != xpos)
             {
-                mMenuFade2->mXPos = xpos;
-                mMenuFade2->mYPos = FP_FromInteger(sGameSpeakButtons[10].ypos + 36);
+                pMenuFade2->mXPos = xpos;
+                pMenuFade2->mYPos = FP_FromInteger(sGameSpeakButtons[10].ypos + 36);
             }
         }
         else if (Input().IsJoyStickEnabled())
         {
-            mMenuFade2 = relive_new MainMenuFade(sGameSpeakButtons[10].xpos, sGameSpeakButtons[10].ypos + 36, buttonType::eCircle_0, 0);
+            pMenuFade2 = relive_new MainMenuFade(sGameSpeakButtons[10].xpos, sGameSpeakButtons[10].ypos + 36, buttonType::eCircle_0, 0);
+            mMenuFadeId2 = pMenuFade2->mBaseGameObjectId;
         }
 
         if (Input().IsAnyPressed(InputObject::PadIndex::First, InputCommands::eGameSpeak2))
@@ -2344,18 +2376,19 @@ void Menu::GameSpeak_Update()
 
     if (Input().IsAnyHeld(InputObject::PadIndex::First, InputCommands::eRightGameSpeak))
     {
-        if (mMenuFade2)
+        if (pMenuFade2)
         {
             const FP xpos = FP_FromInteger(sGameSpeakButtons[12].xpos);
-            if (mMenuFade2->mXPos != xpos)
+            if (pMenuFade2->mXPos != xpos)
             {
-                mMenuFade2->mXPos = xpos;
-                mMenuFade2->mYPos = FP_FromInteger(sGameSpeakButtons[12].ypos + 36);
+                pMenuFade2->mXPos = xpos;
+                pMenuFade2->mYPos = FP_FromInteger(sGameSpeakButtons[12].ypos + 36);
             }
         }
         else if (Input().IsJoyStickEnabled())
         {
-            mMenuFade2 = relive_new MainMenuFade(sGameSpeakButtons[12].xpos, sGameSpeakButtons[12].ypos + 36, buttonType::eCircle_0, 0);
+            pMenuFade2 = relive_new MainMenuFade(sGameSpeakButtons[12].xpos, sGameSpeakButtons[12].ypos + 36, buttonType::eCircle_0, 0);
+            mMenuFadeId2 = pMenuFade2->mBaseGameObjectId;
         }
 
         if (Input().IsAnyPressed(InputObject::PadIndex::First, InputCommands::eGameSpeak6))
@@ -2396,10 +2429,10 @@ void Menu::GameSpeak_Update()
 
     if (!Input().IsAnyPressed(InputObject::PadIndex::First, InputCommands::eBack) && mIdleInputCounter <= 1600)
     {
-        if (mMenuFade2)
+        if (pMenuFade2)
         {
-            mMenuFade2->field_E8_bDestroyOnDone = 1;
-            mMenuFade2 = nullptr;
+            pMenuFade2->field_E8_bDestroyOnDone = 1;
+            mMenuFadeId2 = Guid{};
         }
         CycleGameSpeakIdleAnims();
         return;
@@ -2415,16 +2448,16 @@ void Menu::GameSpeak_Update()
 
     mFnUpdate = &Menu::GameSpeakBack_WaitForAbeGoodbye_Update;
 
-    if (mMenuFade1)
+    if (pMenuFade1)
     {
-        mMenuFade1->field_E8_bDestroyOnDone = 1;
-        mMenuFade1 = nullptr;
+        pMenuFade1->field_E8_bDestroyOnDone = 1;
+        mMenuFadeId1 = Guid{};
     }
 
-    if (mMenuFade2)
+    if (pMenuFade2)
     {
-        mMenuFade2->field_E8_bDestroyOnDone = 1;
-        mMenuFade2 = nullptr;
+        pMenuFade2->field_E8_bDestroyOnDone = 1;
+        mMenuFadeId2 = Guid{};
     }
 
     CycleGameSpeakIdleAnims();
@@ -2459,7 +2492,8 @@ void Menu::CycleGameSpeakIdleAnims()
 
 void Menu::FMV_Or_Level_Select_To_Back_Update()
 {
-    if (mMenuTrans->field_16_bDone)
+    auto pMenuTrans = static_cast<MainMenuTransition*>(sObjectIds.Find_Impl(mMenuTransId));
+    if (pMenuTrans->field_16_bDone)
     {
         gMap.SetActiveCam(EReliveLevelIds::eMenu, 1, CameraIds::Menu::eMainMenu_1, CameraSwapEffects::eInstantChange_0, 0, 0);
         mFnUpdate = &Menu::FMV_Or_Level_Select_Back_Update;
@@ -2475,7 +2509,8 @@ void Menu::To_Credits_Update()
 
 void Menu::Level_Cheat_To_Loading_Update()
 {
-    if (mMenuTrans->field_16_bDone)
+    auto pMenuTrans = static_cast<MainMenuTransition*>(sObjectIds.Find_Impl(mMenuTransId));
+    if (pMenuTrans->field_16_bDone)
     {
         mFnUpdate = &Menu::ToLoading;
     }
@@ -2503,23 +2538,26 @@ void Menu::Options_Controller_Update()
     if (Input().IsAnyHeld(InputObject::PadIndex::First, InputCommands::eBack | InputCommands::eHop))
     {
         field_230_bGoBack = 1;
-        mMenuTrans->StartTrans_436560(Layer::eLayer_FadeFlash_40, 1, 0, 16);
+        auto pMenuTrans = static_cast<MainMenuTransition*>(sObjectIds.Find_Impl(mMenuTransId));
+        pMenuTrans->StartTrans_436560(Layer::eLayer_FadeFlash_40, 1, 0, 16);
         mFnUpdate = &Menu::GoTo_ControllerConfigure_Or_Back_AfterScreenTrans_Update;
     }
 
     if (Input().IsAnyPressed(InputObject::PadIndex::First, (InputCommands::eThrowItem | InputCommands::eUnPause_OrConfirm | InputCommands::eDoAction)))
     {
         field_230_bGoBack = 0;
-        mMenuTrans->StartTrans_436560(Layer::eLayer_FadeFlash_40, 1, 0, 16);
+        auto pMenuTrans = static_cast<MainMenuTransition*>(sObjectIds.Find_Impl(mMenuTransId));
+        pMenuTrans->StartTrans_436560(Layer::eLayer_FadeFlash_40, 1, 0, 16);
         mFnUpdate = &Menu::GoTo_ControllerConfigure_Or_Back_AfterScreenTrans_Update;
     }
 }
 
 void Menu::GoTo_ControllerConfigure_Or_Back_AfterScreenTrans_Update()
 {
-    if (mMenuTrans)
+    auto pMenuTrans = static_cast<MainMenuTransition*>(sObjectIds.Find_Impl(mMenuTransId));
+    if (pMenuTrans)
     {
-        if (mMenuTrans->field_16_bDone)
+        if (pMenuTrans->field_16_bDone)
         {
             switch (field_230_bGoBack)
             {
@@ -2568,7 +2606,8 @@ void Menu::Goto_ConfigureController_OrSave_SettingIni_Update()
 
         }
 
-        mMenuTrans->StartTrans_436560(Layer::eLayer_FadeFlash_40, 0, 0, 16);
+        auto pMenuTrans = static_cast<MainMenuTransition*>(sObjectIds.Find_Impl(mMenuTransId));
+        pMenuTrans->StartTrans_436560(Layer::eLayer_FadeFlash_40, 0, 0, 16);
     }
 }
 
@@ -2752,9 +2791,10 @@ void Menu::To_ButtonRemap_Update()
 {
     field_230_bGoBack = -1;
 
-    if (mMenuTrans)
+    auto pMenuTrans = static_cast<MainMenuTransition*>(sObjectIds.Find_Impl(mMenuTransId));
+    if (pMenuTrans)
     {
-        if (mMenuTrans->field_16_bDone)
+        if (pMenuTrans->field_16_bDone)
         {
             mFnUpdate = &Menu::ButtonRemap_Update;
             mFnRender = &Menu::ButtonRemap_Render;
@@ -2782,7 +2822,8 @@ void Menu::ButtonRemap_Update()
         }
 
         field_230_bGoBack = -1;
-        mMenuTrans->StartTrans_436560(Layer::eLayer_FadeFlash_40, 0, 0, 16);
+        auto pMenuTrans = static_cast<MainMenuTransition*>(sObjectIds.Find_Impl(mMenuTransId));
+        pMenuTrans->StartTrans_436560(Layer::eLayer_FadeFlash_40, 0, 0, 16);
         bWaitingForRemapInput_9F2DE8 = 1;
         return;
     }
@@ -2855,7 +2896,8 @@ void Menu::ButtonRemap_Update()
     if (Input().IsAnyPressed(InputObject::PadIndex::First, InputCommands::eBack | InputCommands::eHop))
     {
         // Show abe motions screen
-        mMenuTrans->StartTrans_436560(Layer::eLayer_FadeFlash_40, 1, 0, 16);
+        auto pMenuTrans = static_cast<MainMenuTransition*>(sObjectIds.Find_Impl(mMenuTransId));
+        pMenuTrans->StartTrans_436560(Layer::eLayer_FadeFlash_40, 1, 0, 16);
         field_230_bGoBack = 9;
         mFnUpdate = &Menu::To_ShowAbeMotions_ChangeCamera_Update;
     }
@@ -2863,7 +2905,8 @@ void Menu::ButtonRemap_Update()
     if (Input().IsAnyPressed(InputObject::PadIndex::First, (InputCommands::eThrowItem | InputCommands::eUnPause_OrConfirm | InputCommands::eDoAction)))
     {
         // Rebind a key (in that horrible white blinding screen)
-        mMenuTrans->StartTrans_436560(Layer::eLayer_FadeFlash_40, 1, 0, 16);
+        auto pMenuTrans = static_cast<MainMenuTransition*>(sObjectIds.Find_Impl(mMenuTransId));
+        pMenuTrans->StartTrans_436560(Layer::eLayer_FadeFlash_40, 1, 0, 16);
         field_230_bGoBack = 8;
         bWaitingForRemapInput_9F2DE8 = 1;
     }
@@ -2871,9 +2914,10 @@ void Menu::ButtonRemap_Update()
 
 void Menu::To_LoadSave_Update()
 {
-    if (mMenuTrans)
+    auto pMenuTrans = static_cast<MainMenuTransition*>(sObjectIds.Find_Impl(mMenuTransId));
+    if (pMenuTrans)
     {
-        if (mMenuTrans->field_16_bDone)
+        if (pMenuTrans->field_16_bDone)
         {
             mFnUpdate = &Menu::LoadSave_Update;
             mFnRender = &Menu::Empty_Render;
@@ -2883,11 +2927,11 @@ void Menu::To_LoadSave_Update()
 
 void Menu::LoadSave_Update()
 {
-    if (mMenuTrans)
+    auto pMenuTrans = sObjectIds.Find_Impl(mMenuTransId);
+    if (pMenuTrans)
     {
-        mMenuTrans->mBaseGameObjectRefCount--;
-        mMenuTrans->SetDead(true);
-        mMenuTrans = nullptr;
+        pMenuTrans->SetDead(true);
+        mMenuTransId = Guid{};
     }
 
     /*
@@ -2969,9 +3013,10 @@ void Menu::SaveLoadFailed_Render(PrimHeader** ppOt)
 
 void Menu::To_ShowAbeMotions_ChangeCamera_Update()
 {
-    if (mMenuTrans)
+    auto pMenuTrans = static_cast<MainMenuTransition*>(sObjectIds.Find_Impl(mMenuTransId));
+    if (pMenuTrans)
     {
-        if (mMenuTrans->field_16_bDone)
+        if (pMenuTrans->field_16_bDone)
         {
             if (field_230_bGoBack == 9)
             {
@@ -2992,15 +3037,17 @@ void Menu::To_ShowAbeMotions_SaveSettings_Update()
         mFnUpdate = &Menu::To_ToggleMotions_Update;
         mFnRender = &Menu::ToggleMotions_Render;
         mSelectedButtonIndex.motions_menu = MotionsOptions::eMotions_0;
-        mMenuTrans->StartTrans_436560(Layer::eLayer_FadeFlash_40, 0, 0, 16);
+        auto pMenuTrans = static_cast<MainMenuTransition*>(sObjectIds.Find_Impl(mMenuTransId));
+        pMenuTrans->StartTrans_436560(Layer::eLayer_FadeFlash_40, 0, 0, 16);
     }
 }
 
 void Menu::To_ToggleMotions_Update()
 {
-    if (mMenuTrans)
+    auto pMenuTrans = static_cast<MainMenuTransition*>(sObjectIds.Find_Impl(mMenuTransId));
+    if (pMenuTrans)
     {
-        if (mMenuTrans->field_16_bDone)
+        if (pMenuTrans->field_16_bDone)
         {
             mFnUpdate = &Menu::ToggleMotions_Update;
             mIdleInputCounter = 0;
@@ -3047,6 +3094,7 @@ void Menu::Load_Update()
         mIdleInputCounter++;
     }
 
+    auto pMenuTrans = static_cast<MainMenuTransition*>(sObjectIds.Find_Impl(mMenuTransId));
     if ((Input().IsAnyPressed(InputObject::PadIndex::First, InputCommands::eBack | InputCommands::eHop))
         || mIdleInputCounter > 1000)
     {
@@ -3054,7 +3102,7 @@ void Menu::Load_Update()
         field_1E0_selected_index.raw = 1; // This line causes the issue
 #endif
         mButtonAnim.Set_Animation_Data(GetAnimRes(sLoadButtons[1].animId));
-        mMenuTrans->StartTrans_436560(Layer::eLayer_FadeFlash_40, 1, 0, 16);
+        pMenuTrans->StartTrans_436560(Layer::eLayer_FadeFlash_40, 1, 0, 16);
         mFnUpdate = &Menu::Load_BackToMainScreen_Update;
         mLoadSave = false;
     }
@@ -3070,7 +3118,7 @@ void Menu::Load_Update()
             if (Input().IsAnyPressed(InputObject::PadIndex::First, InputCommands::eBack | InputCommands::eHop))
             {
                 field_230_bGoBack = 1;
-                mMenuTrans->StartTrans_436560(Layer::eLayer_FadeFlash_40, 1, 0, 16);
+                pMenuTrans->StartTrans_436560(Layer::eLayer_FadeFlash_40, 1, 0, 16);
                 mFnUpdate = &Menu::Load_BackToMainScreen_Update;
                 mLoadSave = false;
                 return;
@@ -3090,7 +3138,7 @@ void Menu::Load_Update()
                 if (Input().IsAnyPressed(InputObject::PadIndex::First, InputCommands::eBack | InputCommands::eHop))
                 {
                     field_230_bGoBack = 1;
-                    mMenuTrans->StartTrans_436560(Layer::eLayer_FadeFlash_40, 1, 0, 16);
+                    pMenuTrans->StartTrans_436560(Layer::eLayer_FadeFlash_40, 1, 0, 16);
                     mFnUpdate = &Menu::Load_BackToMainScreen_Update;
                     mLoadSave = false;
                     return;
@@ -3104,14 +3152,14 @@ void Menu::Load_Update()
         if (sSaveIdx)
         {
             field_230_bGoBack = 0;
-            mMenuTrans->StartTrans_436560(Layer::eLayer_FadeFlash_40, 1, 0, 16);
+            pMenuTrans->StartTrans_436560(Layer::eLayer_FadeFlash_40, 1, 0, 16);
             mFnUpdate = &Menu::Load_BackToMainScreen_Update;
             mLoadSave = true;
         }
         else
         {
             field_230_bGoBack = 1;
-            mMenuTrans->StartTrans_436560(Layer::eLayer_FadeFlash_40, 1, 0, 16);
+            pMenuTrans->StartTrans_436560(Layer::eLayer_FadeFlash_40, 1, 0, 16);
             mFnUpdate = &Menu::Load_BackToMainScreen_Update;
             mLoadSave = false;
         }
@@ -3205,7 +3253,8 @@ void Menu::ToggleMotions_Update()
             // Back to options
             mSelectedButtonIndex.motions_menu = MotionsOptions::eExit_2;
             mButtonAnim.Set_Animation_Data(GetAnimRes(sAbeMotionsButtons[2].animId));
-            mMenuTrans->StartTrans_436560(Layer::eLayer_FadeFlash_40, 1, 0, 16);
+            auto pMenuTrans = static_cast<MainMenuTransition*>(sObjectIds.Find_Impl(mMenuTransId));
+            pMenuTrans->StartTrans_436560(Layer::eLayer_FadeFlash_40, 1, 0, 16);
             mFnUpdate = &Menu::MotionsScreen_Back_Update;
         }
     }
@@ -3245,7 +3294,8 @@ void Menu::Toggle_Motions_Screens_Update()
         {
             mSelectedButtonIndex.motions_menu = MotionsOptions::eExit_2;
             mButtonAnim.Set_Animation_Data(GetAnimRes(sAbeMotionsButtons[2].animId));
-            mMenuTrans->StartTrans_436560(Layer::eLayer_FadeFlash_40, 1, 0, 16);
+            auto pMenuTrans = static_cast<MainMenuTransition*>(sObjectIds.Find_Impl(mMenuTransId));
+            pMenuTrans->StartTrans_436560(Layer::eLayer_FadeFlash_40, 1, 0, 16);
             mFnUpdate = &Menu::MotionsScreen_Back_Update;
         }
     }
@@ -3253,9 +3303,10 @@ void Menu::Toggle_Motions_Screens_Update()
 
 void Menu::MotionsScreen_Back_Update()
 {
-    if (mMenuTrans)
+    auto pMenuTrans = static_cast<MainMenuTransition*>(sObjectIds.Find_Impl(mMenuTransId));
+    if (pMenuTrans)
     {
-        if (mMenuTrans->field_16_bDone)
+        if (pMenuTrans->field_16_bDone)
         {
             gMap.SetActiveCam(EReliveLevelIds::eMenu, 1, CameraIds::Menu::eOptions_2, CameraSwapEffects::eInstantChange_0, 0, 0);
             mFnUpdate = &Menu::Motions_ToOptions_Update;
@@ -3272,7 +3323,8 @@ void Menu::Motions_ToOptions_Update()
         mFnRender = &Menu::Options_Render;
         mSelectedButtonIndex.options_menu = OptionsMenuOptions::eController_0;
         mButtonAnim.Set_Animation_Data(GetAnimRes(sOptionsButtons[0].animId));
-        mMenuTrans->StartTrans_436560(Layer::eLayer_FadeFlash_40, 0, 0, 16);
+        auto pMenuTrans = static_cast<MainMenuTransition*>(sObjectIds.Find_Impl(mMenuTransId));
+        pMenuTrans->StartTrans_436560(Layer::eLayer_FadeFlash_40, 0, 0, 16);
     }
 }
 
@@ -3280,7 +3332,8 @@ void Menu::To_MainScreenOrLoad_Update()
 {
     if (gNumCamSwappers <= 0)
     {
-        mMenuTrans->StartTrans_436560(Layer::eLayer_FadeFlash_40, 0, 0, 16);
+        auto pMenuTrans = static_cast<MainMenuTransition*>(sObjectIds.Find_Impl(mMenuTransId));
+        pMenuTrans->StartTrans_436560(Layer::eLayer_FadeFlash_40, 0, 0, 16);
         if (mLoadSave)
         {
             mFnUpdate = &Menu::To_LoadSave_Update;
@@ -3299,9 +3352,10 @@ void Menu::To_MainScreenOrLoad_Update()
 
 void Menu::Load_BackToMainScreen_Update()
 {
-    if (mMenuTrans)
+    auto pMenuTrans = static_cast<MainMenuTransition*>(sObjectIds.Find_Impl(mMenuTransId));
+    if (pMenuTrans)
     {
-        if (mMenuTrans->field_16_bDone)
+        if (pMenuTrans->field_16_bDone)
         {
             if (mLoadSave == false)
             {
@@ -3321,16 +3375,18 @@ void Menu::GameSpeakBack_WaitForAbeGoodbye_Update()
     if (GetAnimation().GetIsLastFrame())
     {
         GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_Idle));
-        mMenuTrans->StartTrans_436560(Layer::eLayer_FadeFlash_40, 1, 0, 16);
+        auto pMenuTrans = static_cast<MainMenuTransition*>(sObjectIds.Find_Impl(mMenuTransId));
+        pMenuTrans->StartTrans_436560(Layer::eLayer_FadeFlash_40, 1, 0, 16);
         mFnUpdate = &Menu::GamespeakBack_WaitForScreenTrans_Update;
     }
 }
 
 void Menu::GamespeakBack_WaitForScreenTrans_Update()
 {
-    if (mMenuTrans)
+    auto pMenuTrans = static_cast<MainMenuTransition*>(sObjectIds.Find_Impl(mMenuTransId));
+    if (pMenuTrans)
     {
-        if (mMenuTrans->field_16_bDone)
+        if (pMenuTrans->field_16_bDone)
         {
             field_204_flags &= ~1u;
             gMap.SetActiveCam(EReliveLevelIds::eMenu, 1, CameraIds::Menu::eMainMenu_1, CameraSwapEffects::eInstantChange_0, 0, 0);
@@ -3347,7 +3403,8 @@ void Menu::GameSpeak_To_MainScreen_Update()
         mFnRender = &Menu::MainScreen_Render;
         mSelectedButtonIndex.mainmenu = MainMenuOptions::eGameSpeak_0;
         mButtonAnim.Set_Animation_Data(GetAnimRes(sMainScreenButtons[0].animId));
-        mMenuTrans->StartTrans_436560(Layer::eLayer_FadeFlash_40, 0, 0, 16);
+        auto pMenuTrans = static_cast<MainMenuTransition*>(sObjectIds.Find_Impl(mMenuTransId));
+        pMenuTrans->StartTrans_436560(Layer::eLayer_FadeFlash_40, 0, 0, 16);
         mButtonAnim.LoadPal(GetPalRes(PalId::WhiteHighlite));
     }
 }

@@ -540,7 +540,7 @@ private:
     s16 ForceDownIfHoisting_44BA30();
     void BulletDamage_44C980(Bullet* pObj);
     void GiveControlBackToMe_44BA10();
-    PullRingRope* GetPullRope_44D120();
+    PullRingRope* GetPullRope();
     void IntoPortalStates_451990();
     void Calc_Well_Velocity_45C530(s16 xPosSource, s16 yPosSource, s16 XPosDest, s16 yPosDest);
     void FollowLift_45A500();

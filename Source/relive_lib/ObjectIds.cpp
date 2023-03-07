@@ -17,6 +17,11 @@ ObjectIds::ObjectIds()
 
 void ObjectIds::Insert(TObjectId_KeyType nextId, BaseGameObject* pGameObj)
 {
+    if (!nextId.IsValid())
+    {
+        ALIVE_FATAL("Inserting invalid guid");
+    }
+
     mMap[nextId] = pGameObj;
 }
 
@@ -33,6 +38,11 @@ s16 ObjectIds::Remove(TObjectId_KeyType idToRemove)
 
 BaseGameObject* ObjectIds::Find_Impl(TObjectId_KeyType idToFind)
 {
+    if (!idToFind.IsValid())
+    {
+        return nullptr;
+    }
+
     auto it = mMap.find(idToFind);
     if (it != std::end(mMap))
     {

@@ -22,10 +22,13 @@ public:
     virtual void VPossessed() override;
     virtual void VUnPosses() override;
 
+private:
     s16 DoNote(s16 note);
     void SetBallTarget(FP ballTargetX, FP ballTargetY, s16 timer, s16 xSize, s16 ySize, s16 bHitBell);
     s16 UpdateBall();
     void SetTargetBellIfSpace(s16 targetNum);
+
+    void SetDeadAllBells();
 
     Guid mTlvId;
     enum class ChimeLockStates : s16
@@ -39,9 +42,9 @@ public:
         eNeverRead_6 = 6
     };
     ChimeLockStates mChimeLockState = ChimeLockStates::eIdle_0;
-    Bells* mLeftBell = nullptr;
-    Bells* mCenterBell = nullptr;
-    Bells* mRightBell = nullptr;
+    Guid mLeftBell = {};
+    Guid mCenterBell = {};
+    Guid mRightBell = {};
     u16 field_120_max_idx = 0;
     s32 field_124_code1 = 0;
     s16 field_128_idx = 0;

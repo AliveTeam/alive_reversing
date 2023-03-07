@@ -723,11 +723,11 @@ Abe::~Abe()
 
     SND_Seq_Stop(SeqId::eMudokonChant1_11);
 
-    if (mFade)
+    auto pFade = sObjectIds.Find(mFadeId, ReliveTypes::eFade);
+    if (pFade)
     {
-        mFade->mBaseGameObjectRefCount--;
-        mFade->SetDead(true);
-        mFade = nullptr;
+        pFade->SetDead(true);
+        mFadeId = Guid{};
     }
 
     if (field_15C_pThrowable)
@@ -737,25 +737,25 @@ Abe::~Abe()
         field_15C_pThrowable = nullptr;
     }
 
-    if (field_160_pRope)
+    if (mPullRingRope)
     {
-        field_160_pRope->mBaseGameObjectRefCount--;
-        field_160_pRope->SetDead(true);
-        field_160_pRope = nullptr;
+        mPullRingRope->mBaseGameObjectRefCount--;
+        mPullRingRope->SetDead(true);
+        mPullRingRope = nullptr;
     }
 
-    if (mCircularFade)
+    auto pCircularFade = sObjectIds.Find_Impl(mCircularFadeId);
+    if (pCircularFade)
     {
-        mCircularFade->mBaseGameObjectRefCount--;
-        mCircularFade->SetDead(true);
-        mCircularFade = nullptr;
+        pCircularFade->SetDead(true);
+        mCircularFadeId = Guid{};
     }
 
-    if (field_188_pOrbWhirlWind)
+    auto pOrbWhirlWind = sObjectIds.Find_Impl(mOrbWhirlWindId);
+    if (pOrbWhirlWind)
     {
-        field_188_pOrbWhirlWind->mBaseGameObjectRefCount--;
-        field_188_pOrbWhirlWind->SetDead(true);
-        field_188_pOrbWhirlWind = nullptr;
+        pOrbWhirlWind->SetDead(true);
+        mOrbWhirlWindId = Guid{};
     }
 
     if (field_18C_pObjToPossess)
@@ -1264,10 +1264,11 @@ void Abe::ToKnockback(s16 bKnockbackSound, s16 bDelayedAnger)
         mElumMountEnd = false;
         mElumUnmountBegin = false;
 
-        if (field_188_pOrbWhirlWind)
+        auto pOrbWhirlWind = static_cast<OrbWhirlWind*>(sObjectIds.Find_Impl(mOrbWhirlWindId));
+        if (pOrbWhirlWind)
         {
-            field_188_pOrbWhirlWind->ToStop();
-            field_188_pOrbWhirlWind = nullptr;
+            pOrbWhirlWind->ToStop();
+            mOrbWhirlWindId = Guid{};
         }
 
         if (mVelX != FP_FromInteger(0))
@@ -2641,10 +2642,11 @@ bool Abe::VTakeDamage(BaseGameObject* pFrom)
     const auto old_say = field_130_say;
     field_130_say = -1;
 
-    if (field_188_pOrbWhirlWind)
+    auto pOrbWhirlWind = static_cast<OrbWhirlWind*>(sObjectIds.Find_Impl(mOrbWhirlWindId));
+    if (pOrbWhirlWind)
     {
-        field_188_pOrbWhirlWind->ToStop();
-        field_188_pOrbWhirlWind = nullptr;
+        pOrbWhirlWind->ToStop();
+        mOrbWhirlWindId = Guid{};
     }
 
     if (field_18C_pObjToPossess)
@@ -4103,17 +4105,17 @@ void Abe::Motion_17_HoistIdle()
         return;
     }
 
-    field_160_pRope = GetPullRope();
-    if (field_160_pRope)
+    mPullRingRope = GetPullRope();
+    if (mPullRingRope)
     {
-        if (field_160_pRope->Pull(this))
+        if (mPullRingRope->Pull(this))
         {
             mCurrentMotion = eAbeMotions::Motion_69_RingRopePullHang;
             mNextMotion = eAbeMotions::Motion_0_Idle;
-            field_160_pRope->mBaseGameObjectRefCount++;
+            mPullRingRope->mBaseGameObjectRefCount++;
             return;
         }
-        field_160_pRope = nullptr;
+        mPullRingRope = nullptr;
     }
 
     if (mVelY >= FP_FromInteger(0))
@@ -6119,18 +6121,23 @@ void Abe::Motion_60_Dead()
         case 3:
         {
             EventBroadcast(kEventHeroDying, this);
-            if (mFade)
+            auto pFade = sObjectIds.Find(mFadeId, ReliveTypes::eFade);
+            if (pFade)
             {
-                mFade->SetDead(true);
-                mFade->mBaseGameObjectRefCount--;
+                pFade->SetDead(true);
+                mFadeId = Guid{};
             }
-            mFade = relive_new Fade(Layer::eLayer_FadeFlash_40, FadeOptions::eFadeIn, 0, 8, TPageAbr::eBlend_2);
-            mFade->mBaseGameObjectRefCount++;
 
-            if (mCircularFade)
+            pFade = relive_new Fade(Layer::eLayer_FadeFlash_40, FadeOptions::eFadeIn, 0, 8, TPageAbr::eBlend_2);
+            if (pFade)
             {
-                mCircularFade->SetDead(true);
-                mCircularFade = nullptr;
+                mFadeId = pFade->mBaseGameObjectId;
+            }
+
+            auto pCircularFade = sObjectIds.Find_Impl(mCircularFadeId);
+            if (pCircularFade)
+            {
+                pCircularFade->SetDead(true);
             }
             field_114_gnFrame++;
             return;
@@ -6138,7 +6145,8 @@ void Abe::Motion_60_Dead()
         case 4:
         {
             EventBroadcast(kEventHeroDying, this);
-            if (mFade->mDone)
+            auto pFade = static_cast<Fade*>(sObjectIds.Find(mFadeId, ReliveTypes::eFade));
+            if (pFade && pFade->mDone)
             {
                 VOnTrapDoorOpen();
                 BaseAliveGameObjectCollisionLine = nullptr;
@@ -6305,9 +6313,8 @@ void Abe::Motion_61_Respawn()
             //}
             SetElectrocuted(false);
 
-            mFade->Init(Layer::eLayer_FadeFlash_40, FadeOptions::eFadeOut, 1, 8);
-            mFade->mBaseGameObjectRefCount--;
-            mFade = nullptr;
+            auto pFade = static_cast<Fade*>(sObjectIds.Find(mFadeId, ReliveTypes::eFade));
+            pFade->Init(Layer::eLayer_FadeFlash_40, FadeOptions::eFadeOut, 1, 8);
             mNextMotion = eAbeMotions::Motion_0_Idle;
             field_118_timer = sGnFrame + 60;
             field_114_gnFrame = 2;
@@ -6714,11 +6721,11 @@ void Abe::Motion_68_LedgeHangWobble()
 
 void Abe::Motion_69_RingRopePullHang()
 {
-    if (field_160_pRope->vIsNotBeingPulled())
+    if (mPullRingRope->vIsNotBeingPulled())
     {
         mCurrentMotion = eAbeMotions::Motion_91_FallingFromGrab;
-        field_160_pRope->mBaseGameObjectRefCount--;
-        field_160_pRope = nullptr;
+        mPullRingRope->mBaseGameObjectRefCount--;
+        mPullRingRope = nullptr;
         mVelY = FP_FromInteger(0);
     }
 }
@@ -7307,14 +7314,15 @@ void Abe::Motion_88_HandstoneBegin()
         {
             if (GetAnimation().GetForwardLoopCompleted())
             {
-                mCircularFade = relive_new CircularFade(
+                auto pCircularFade = relive_new CircularFade(
                     mXPos,
                     mYPos,
                     GetSpriteScale(),
                     1,
                     0);
 
-                mCircularFade->GetAnimation().SetFlipX(GetAnimation().GetFlipX());
+                mCircularFadeId = pCircularFade->mBaseGameObjectId;
+                pCircularFade->GetAnimation().SetFlipX(GetAnimation().GetFlipX());
 
                 field_110_state.stone = StoneStates::eGetHandstoneType_1;
                 SfxPlayMono(relive::SoundEffects::IngameTransition, 90);
@@ -7388,7 +7396,8 @@ void Abe::Motion_88_HandstoneBegin()
         }
         case StoneStates::eGetHandstoneType_1:
         {
-            if (mCircularFade->VDone())
+            auto pCircularFade = static_cast<CircularFade*>(sObjectIds.Find_Impl(mCircularFadeId));
+            if (pCircularFade->VDone())
             {
                 switch (mHandStoneType)
                 {
@@ -7430,9 +7439,13 @@ void Abe::Motion_88_HandstoneBegin()
                         GetAnimation().SetRender(false);
                         field_110_state.stone = StoneStates::eWaitForInput_6;
                         field_16E_cameraIdx = 1;
-                        mCircularFade->SetDead(true);
-                        mCircularFade = 0;
-                        mFade = relive_new Fade(Layer::eLayer_FadeFlash_40, FadeOptions::eFadeOut, 0, 8, TPageAbr::eBlend_2);
+                        pCircularFade->SetDead(true);
+                        mCircularFadeId = Guid{};
+                        auto pFade = relive_new Fade(Layer::eLayer_FadeFlash_40, FadeOptions::eFadeOut, 0, 8, TPageAbr::eBlend_2);
+                        if (pFade)
+                        {
+                            mFadeId = pFade->mBaseGameObjectId;
+                        }
                         field_190_level = gMap.mCurrentLevel;
                         field_192_path = gMap.mCurrentPath;
                         field_194_camera = gMap.mCurrentCamera;
@@ -7456,7 +7469,8 @@ void Abe::Motion_88_HandstoneBegin()
                 gPsxDisplay.PutCurrentDispEnv();
                 gScreenManager->DecompressCameraToVRam(gMap.field_2C_camera_array[0]->mCamRes);
                 gScreenManager->EnableRendering();
-                mCircularFade->VFadeIn(0, 0);
+                auto pCircularFade = static_cast<CircularFade*>(sObjectIds.Find_Impl(mCircularFadeId));
+                pCircularFade->VFadeIn(0, 0);
                 field_110_state.stone = StoneStates::eHandstoneEnd_5;
             }
             break;
@@ -7467,14 +7481,14 @@ void Abe::Motion_88_HandstoneBegin()
             if (gCounter_507728 == 0)
             {
                 field_110_state.stone = StoneStates::eHandstoneEnd_5;
-                mCircularFade = relive_new CircularFade(
+                auto pCircularFade = relive_new CircularFade(
                     mXPos,
                     mYPos,
                     GetSpriteScale(),
                     0,
                     0);
-
-                mCircularFade->GetAnimation().SetFlipX(GetAnimation().GetFlipX());
+                mCircularFadeId = pCircularFade->mBaseGameObjectId;
+                pCircularFade->GetAnimation().SetFlipX(GetAnimation().GetFlipX());
             }
             break;
         }
@@ -7483,18 +7497,19 @@ void Abe::Motion_88_HandstoneBegin()
             if (sBellSong->mDone)
             {
                 sBellSong->SetDead(true);
-                mCircularFade->VFadeIn(0, 0);
+                auto pCircularFade = static_cast<CircularFade*>(sObjectIds.Find_Impl(mCircularFadeId));
+                pCircularFade->VFadeIn(0, 0);
                 field_110_state.stone = StoneStates::eHandstoneEnd_5;
             }
             break;
         }
         case StoneStates::eHandstoneEnd_5:
         {
-            if (mCircularFade->VDone())
+            auto pCircularFade = static_cast<CircularFade*>(sObjectIds.Find_Impl(mCircularFadeId));
+            if (pCircularFade && pCircularFade->VDone())
             {
-                mCircularFade->SetDead(true);
+                pCircularFade->SetDead(true);
                 mCurrentMotion = eAbeMotions::Motion_89_HandstoneEnd;
-                mCircularFade = 0;
                 if (sAbeSound_507730)
                 {
                     SND_Stop_Channels_Mask(sAbeSound_507730);
@@ -7505,11 +7520,12 @@ void Abe::Motion_88_HandstoneBegin()
         }
         case StoneStates::eWaitForInput_6:
         {
-            if (mFade->mDone)
+            auto pFade = static_cast<Fade*>(sObjectIds.Find(mFadeId, ReliveTypes::eFade));
+            if (pFade && pFade->mDone)
             {
                 if (Input().IsAnyPressed(InputCommands::eHop | InputCommands::eThrowItem | InputCommands::eCrouchOrRoll | InputCommands::eDoAction))
                 {
-                    mFade->Init(Layer::eLayer_FadeFlash_40, FadeOptions::eFadeIn, 0, 8);
+                    pFade->Init(Layer::eLayer_FadeFlash_40, FadeOptions::eFadeIn, 0, 8);
                     field_110_state.stone = StoneStates::eSetActiveCamToAbeOrWaitForInput_7;
                     SfxPlayMono(relive::SoundEffects::IngameTransition, 90);
                 }
@@ -7518,7 +7534,8 @@ void Abe::Motion_88_HandstoneBegin()
         }
         case StoneStates::eSetActiveCamToAbeOrWaitForInput_7:
         {
-            if (mFade->mDone)
+            auto pFade = static_cast<Fade*>(sObjectIds.Find(mFadeId, ReliveTypes::eFade));
+            if (pFade && pFade->mDone)
             {
                 Path_Stone_camera camera = {};
                 switch (field_16E_cameraIdx)
@@ -7550,31 +7567,36 @@ void Abe::Motion_88_HandstoneBegin()
                 }
                 else
                 {
-                    mFade->SetDead(true);
+                    pFade->SetDead(true);
                     field_110_state.stone = StoneStates::eWaitForInput_6;
                     field_16E_cameraIdx++;
-                    mFade = relive_new Fade(Layer::eLayer_FadeFlash_40, FadeOptions::eFadeOut, 0, 8, TPageAbr::eBlend_2);
+                    pFade = relive_new Fade(Layer::eLayer_FadeFlash_40, FadeOptions::eFadeOut, 0, 8, TPageAbr::eBlend_2);
+                    mFadeId = pFade->mBaseGameObjectId;
                     gMap.SetActiveCam(MapWrapper::FromAO(camera.level), camera.path, camera.camera, CameraSwapEffects::eInstantChange_0, 0, 0);
                 }
             }
             break;
         }
         case StoneStates::eSetActiveCamToAbe_12:
-            if (mFade->mDone)
+        {
+            auto pFade = static_cast<Fade*>(sObjectIds.Find(mFadeId, ReliveTypes::eFade));
+            if (pFade && pFade->mDone)
             {
                 GetAnimation().SetRender(true);
                 field_110_state.stone = StoneStates::eCircularFadeExit_13;
                 gMap.SetActiveCam(field_190_level, field_192_path, field_194_camera, CameraSwapEffects::eInstantChange_0, 0, 0);
             }
             break;
+        }
         case StoneStates::eCircularFadeExit_13:
         {
-            mFade->SetDead(true);
-            mFade = nullptr;
+            auto pFade = static_cast<Fade*>(sObjectIds.Find(mFadeId, ReliveTypes::eFade));
+            pFade->SetDead(true);
 
-            mCircularFade = relive_new CircularFade(mXPos, mYPos, GetSpriteScale(), 0, 0);
+            auto pCircularFade = relive_new CircularFade(mXPos, mYPos, GetSpriteScale(), 0, 0);
+            mCircularFadeId = pCircularFade->mBaseGameObjectId;
             field_110_state.stone = StoneStates::eHandstoneEnd_5;
-            mCircularFade->GetAnimation().SetFlipX(GetAnimation().GetFlipX());
+            pCircularFade->GetAnimation().SetFlipX(GetAnimation().GetFlipX());
 
             if (sAbeSound_507730)
             {
@@ -8548,6 +8570,7 @@ void Abe::Motion_150_Chant()
         SND_SEQ_PlaySeq(SeqId::eMudokonChant1_11, 0, 0);
     }
 
+    auto pOrbWhirlWind = static_cast<OrbWhirlWind*>(sObjectIds.Find_Impl(mOrbWhirlWindId));
     switch (field_110_state.chant)
     {
         case ChantStates::eIdleChanting_0:
@@ -8573,10 +8596,10 @@ void Abe::Motion_150_Chant()
                 && !Input_IsChanting())
             {
                 mCurrentMotion = eAbeMotions::Motion_151_ChantEnd;
-                if (field_188_pOrbWhirlWind)
+                if (pOrbWhirlWind)
                 {
-                    field_188_pOrbWhirlWind->ToStop();
-                    field_188_pOrbWhirlWind = nullptr;
+                    pOrbWhirlWind->ToStop();
+                    mOrbWhirlWindId = Guid{};
                 }
                 return;
             }
@@ -8588,7 +8611,7 @@ void Abe::Motion_150_Chant()
             {
                 if (pObjToPossess)
                 {
-                    if (!field_188_pOrbWhirlWind)
+                    if (!pOrbWhirlWind)
                     {
                         FP xPos = {};
                         if (GetAnimation().GetFlipX())
@@ -8599,19 +8622,21 @@ void Abe::Motion_150_Chant()
                         {
                             xPos = mXPos + FP_FromInteger(4);
                         }
-                        field_188_pOrbWhirlWind = relive_new OrbWhirlWind(
+                        pOrbWhirlWind = relive_new OrbWhirlWind(
                             xPos,
                             mYPos - GetSpriteScale() * FP_FromInteger(38),
                             GetSpriteScale());;
+
+                        mOrbWhirlWindId = pOrbWhirlWind->mBaseGameObjectId;
                     }
                 }
                 else
                 {
                     field_114_gnFrame = sGnFrame + 70;
-                    if (field_188_pOrbWhirlWind)
+                    if (pOrbWhirlWind)
                     {
-                        field_188_pOrbWhirlWind->ToStop();
-                        field_188_pOrbWhirlWind = nullptr;
+                        pOrbWhirlWind->ToStop();
+                        mOrbWhirlWindId = Guid{};
                     }
                 }
             }
@@ -8627,7 +8652,7 @@ void Abe::Motion_150_Chant()
                     field_110_state.chant = ChantStates::ePossessVictim_1;
 
                     const PSX_RECT rect = field_18C_pObjToPossess->VGetBoundingRect();
-                    field_188_pOrbWhirlWind->ToSpin(
+                    pOrbWhirlWind->ToSpin(
                         FP_FromInteger((rect.w + rect.x) / 2),
                         FP_FromInteger((rect.h + rect.y) / 2),
                         pObjToPossess);
@@ -8666,10 +8691,10 @@ void Abe::Motion_150_Chant()
             {
                 mCurrentMotion = eAbeMotions::Motion_151_ChantEnd;
             }
-            if (field_188_pOrbWhirlWind)
+            if (pOrbWhirlWind)
             {
-                field_188_pOrbWhirlWind->ToStop();
-                field_188_pOrbWhirlWind = nullptr;
+                pOrbWhirlWind->ToStop();
+                mOrbWhirlWindId = Guid{};
             }
             break;
         }
@@ -8677,7 +8702,7 @@ void Abe::Motion_150_Chant()
         {
             EventBroadcast(kEventSpeaking, this);
             EventBroadcast(kEventAbeOhm, this);
-            field_188_pOrbWhirlWind = nullptr;
+            mOrbWhirlWindId = Guid{};
             if (field_18C_pObjToPossess)
             {
                 if (field_18C_pObjToPossess->GetDead())
@@ -8808,7 +8833,8 @@ void Abe::Motion_156_DoorEnter()
         }
         case AbeDoorStates::eUnused_1:
         {
-            if (mFade->mDone)
+            auto pFade = static_cast<Fade*>(sObjectIds.Find(mFadeId, ReliveTypes::eFade));
+            if (pFade && pFade->mDone)
             {
                 field_110_state.door = AbeDoorStates::eWaitABit_2;
                 field_118_timer = sGnFrame + 5;

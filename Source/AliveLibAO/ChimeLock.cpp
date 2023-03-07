@@ -17,6 +17,7 @@
 #include "../relive_lib/FatalError.hpp"
 #include "Path.hpp"
 #include "../relive_lib/FixedPoint.hpp"
+#include "../relive_lib/ObjectIds.hpp"
 
 namespace AO {
 
@@ -45,34 +46,34 @@ ChimeLock::ChimeLock(relive::Path_ChimeLock* pTlv, const Guid& tlvId)
         scale = FP_FromInteger(1);
     }
 
-    mLeftBell = relive_new Bells(
+    auto pLeftBell = relive_new Bells(
         BellSize::eBig,
         FP_FromInteger(pTlv->mTopLeftX),
         FP_FromInteger(pTlv->mTopLeftY),
         scale);
-    if (mLeftBell)
+    if (pLeftBell)
     {
-        mLeftBell->mBaseGameObjectRefCount++;
+        mLeftBell = pLeftBell->mBaseGameObjectId;
     }
 
-    mCenterBell = relive_new Bells(
+    auto pCenterBell = relive_new Bells(
         BellSize::eMedium,
         FP_FromInteger(pTlv->mTopLeftX),
         FP_FromInteger(pTlv->mTopLeftY),
         scale);
-    if (mCenterBell)
+    if (pCenterBell)
     {
-        mCenterBell->mBaseGameObjectRefCount++;
+        mCenterBell = pCenterBell->mBaseGameObjectId;
     }
 
-    mRightBell = relive_new Bells(
+    auto pRightBell = relive_new Bells(
         BellSize::eSmall,
         FP_FromInteger(pTlv->mTopLeftX),
         FP_FromInteger(pTlv->mTopLeftY),
         scale);
-    if (mRightBell)
+    if (pRightBell)
     {
-        mRightBell->mBaseGameObjectRefCount++;
+        mRightBell = pRightBell->mBaseGameObjectId;
     }
 
     field_124_code1 = pTlv->mCode1;
@@ -131,49 +132,40 @@ ChimeLock::ChimeLock(relive::Path_ChimeLock* pTlv, const Guid& tlvId)
     mChimeLockState = ChimeLockStates::eIdle_0;
 }
 
+void ChimeLock::SetDeadAllBells()
+{
+    auto pLeftBell = sObjectIds.Find(mLeftBell, ReliveTypes::eBells);
+    if (pLeftBell)
+    {
+        pLeftBell->SetDead(true);
+        mLeftBell = Guid{};
+    }
+
+    auto pCenterBell = sObjectIds.Find(mCenterBell, ReliveTypes::eBells);
+    if (pCenterBell)
+    {
+        pCenterBell->SetDead(true);
+        mCenterBell = Guid{};
+    }
+
+    auto pRightBell = sObjectIds.Find(mRightBell, ReliveTypes::eBells);
+    if (pRightBell)
+    {
+        pRightBell->SetDead(true);
+        mRightBell = Guid{};
+    }
+}
 
 ChimeLock::~ChimeLock()
 {
-    if (mLeftBell)
-    {
-        mLeftBell->SetDead(true);
-    }
-
-    if (mCenterBell)
-    {
-        mCenterBell->SetDead(true);
-    }
-
-    if (mRightBell)
-    {
-        mRightBell->SetDead(true);
-    }
+    SetDeadAllBells();
 
     Path::TLV_Reset(mTlvId, -1, 0, 0);
 }
 
 void ChimeLock::VScreenChanged()
 {
-    if (mLeftBell)
-    {
-        mLeftBell->SetDead(true);
-        mLeftBell->mBaseGameObjectRefCount--;
-        mLeftBell = nullptr;
-    }
-
-    if (mCenterBell)
-    {
-        mCenterBell->SetDead(true);
-        mCenterBell->mBaseGameObjectRefCount--;
-        mCenterBell = nullptr;
-    }
-
-    if (mRightBell)
-    {
-        mRightBell->SetDead(true);
-        mRightBell->mBaseGameObjectRefCount--;
-        mRightBell = nullptr;
-    }
+    SetDeadAllBells();
 
     SetDead(true);
 }
@@ -347,28 +339,49 @@ void ChimeLock::VUpdate()
                 switch (Bell)
                 {
                     case BellPositions::eLeftBell_1:
-                        mLeftBell->Ring();
+                    {
+                        auto pLeftBell = static_cast<Bells*>(sObjectIds.Find(mLeftBell, ReliveTypes::eBells));
+                        if (pLeftBell)
+                        {
+                            pLeftBell->Ring();
+                        }
+
                         if (mHitAllBells)
                         {
                             SetTargetBellIfSpace(2);
                         }
                         break;
+                    }
 
                     case BellPositions::eCenterBell_2:
-                        mCenterBell->Ring();
+                    {
+                        auto pCenterBell = static_cast<Bells*>(sObjectIds.Find(mCenterBell, ReliveTypes::eBells));
+                        if (pCenterBell)
+                        {
+                            pCenterBell->Ring();
+                        }
+
                         if (mHitAllBells)
                         {
                             SetTargetBellIfSpace(3);
                         }
                         break;
+                    }
 
                     case BellPositions::eRightBell_3:
-                        mRightBell->Ring();
+                    {
+                        auto pRightBell = static_cast<Bells*>(sObjectIds.Find(mRightBell, ReliveTypes::eBells));
+                        if (pRightBell)
+                        {
+                            pRightBell->Ring();
+                        }
+
                         if (mHitAllBells)
                         {
                             mHitAllBells = false;
                         }
                         break;
+                    }
                 }
 
                 const s16 ySize = Math_RandomRange(6, 9);
@@ -396,7 +409,9 @@ void ChimeLock::VUpdate()
                 switch (field_164_ChimeLock_num[0])
                 {
                     case BellPositions::eLeftBell_1:
-                        if (mLeftBell->CanSmash())
+                    {
+                        auto pLeftBell = static_cast<Bells*>(sObjectIds.Find(mLeftBell, ReliveTypes::eBells));
+                        if (pLeftBell && pLeftBell->CanSmash())
                         {
                             SetBallTarget(
                                 mTargetX - FP_FromInteger(35),
@@ -407,9 +422,12 @@ void ChimeLock::VUpdate()
                                 1);
                         }
                         break;
+                    }
 
                     case BellPositions::eCenterBell_2:
-                        if (mCenterBell->CanSmash())
+                    {
+                        auto pCenterBell = static_cast<Bells*>(sObjectIds.Find(mCenterBell, ReliveTypes::eBells));
+                        if (pCenterBell && pCenterBell->CanSmash())
                         {
                             SetBallTarget(
                                 mTargetX - FP_FromInteger(4),
@@ -420,9 +438,12 @@ void ChimeLock::VUpdate()
                                 1);
                         }
                         break;
+                    }
 
                     case BellPositions::eRightBell_3:
-                        if (mRightBell->CanSmash())
+                    {
+                        auto pRightBell = static_cast<Bells*>(sObjectIds.Find(mRightBell, ReliveTypes::eBells));
+                        if (pRightBell && pRightBell->CanSmash())
                         {
                             SetBallTarget(
                                 mTargetX + FP_FromInteger(37),
@@ -433,6 +454,7 @@ void ChimeLock::VUpdate()
                                 1);
                         }
                         break;
+                    }
 
                     case BellPositions::eUnused_4:
                     {

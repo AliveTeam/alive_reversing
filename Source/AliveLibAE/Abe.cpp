@@ -3269,7 +3269,7 @@ void Abe::Motion_14_HoistIdle_452440()
         return;
     }
 
-    PullRingRope* pPullRope = GetPullRope_44D120();
+    PullRingRope* pPullRope = GetPullRope();
     if (pPullRope)
     {
         if (pPullRope->VPull(this))
@@ -5472,7 +5472,7 @@ void Abe::Motion_69_LedgeHangWobble_454EF0()
 
 void Abe::Motion_70_RingRopePullHang_455AF0()
 {
-    PullRingRope* pPullRing = static_cast<PullRingRope*>(sObjectIds.Find_Impl(mPullRingRopeId));
+    PullRingRope* pPullRing = static_cast<PullRingRope*>(sObjectIds.Find(mPullRingRopeId, ReliveTypes::ePullRingRope));
     if (pPullRing)
     {
         if (!pPullRing->VIsNotBeingPulled())
@@ -8718,7 +8718,7 @@ void Abe::GiveControlBackToMe_44BA10()
     mPreventChanting = true;
 }
 
-PullRingRope* Abe::GetPullRope_44D120()
+PullRingRope* Abe::GetPullRope()
 {
     for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
     {

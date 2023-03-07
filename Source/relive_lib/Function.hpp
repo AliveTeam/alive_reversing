@@ -22,7 +22,7 @@
 #define ALIVE_ASSERT_SIZEOF_ALWAYS(structureName, expectedSize) static_assert(sizeof(structureName) == expectedSize, "sizeof(" #structureName ") must be " #expectedSize)
 
 #define relive_delete delete
-#define relive_new new (std::nothrow)
+#define relive_new new /*(std::nothrow)*/
 
 #define STATIC_EQUALS(src, dst) static_assert(src == dst, "Not equal!");
 #define ALIVE_COUNTOF(x) (sizeof(x) / sizeof(*(x)))

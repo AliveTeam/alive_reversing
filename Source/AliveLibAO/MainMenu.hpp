@@ -227,9 +227,9 @@ public:
     MenuOption mSelectedButtonIndex;
     s16 mButtonRgb = 0;
     s16 mButtonRgbModifier = 0;
-    MainMenuTransition* mMenuTrans = nullptr;
-    MainMenuFade* mMenuFade1 = nullptr;
-    MainMenuFade* mMenuFade2 = nullptr;
+    Guid mMenuTransId = {};
+    Guid mMenuFadeId1 = {};
+    Guid mMenuFadeId2 = {};
     const char_type* field_1F4_text = nullptr;
     bool mLoadSave = false;
     s16 field_204_flags = 0;

@@ -12,6 +12,7 @@
 #include "../relive_lib/PsxDisplay.hpp"
 #include "../relive_lib/AnimationUnknown.hpp"
 #include "Path.hpp"
+#include "../relive_lib/ObjectIds.hpp"
 
 namespace AO {
 
@@ -307,8 +308,6 @@ DoorFlame::DoorFlame(relive::Path_DoorFlame* pTlv, const Guid& tlvId)
             break;
     }
 
-    mFireBackgroundGlow = 0;
-
     if (SwitchStates_Get(pTlv->mSwitchId))
     {
         GetAnimation().SetRender(true);
@@ -323,27 +322,27 @@ DoorFlame::DoorFlame(relive::Path_DoorFlame* pTlv, const Guid& tlvId)
     GetAnimation().SetAnimate(true);
     mRandom = Math_NextRandom() & 1;
 
-    mFlameSparks = relive_new FlameSparks(mXPos, mYPos);
-    if (mFlameSparks)
+    auto pFlameSparks = relive_new FlameSparks(mXPos, mYPos);
+    if (pFlameSparks)
     {
-        mFlameSparks->mBaseGameObjectRefCount++;
+        mFlameSparksId = pFlameSparks->mBaseGameObjectId;
     }
 }
 
 DoorFlame::~DoorFlame()
 {
-    if (mFireBackgroundGlow)
+    auto pFireBackgroundGlow = sObjectIds.Find_Impl(mFireBackgroundGlowId);
+    if (pFireBackgroundGlow)
     {
-        mFireBackgroundGlow->mBaseGameObjectRefCount--;
-        mFireBackgroundGlow->SetDead(true);
-        mFireBackgroundGlow = nullptr;
+        pFireBackgroundGlow->SetDead(true);
+        mFireBackgroundGlowId = Guid{};
     }
 
-    if (mFlameSparks)
+    auto pFlameSparks = sObjectIds.Find_Impl(mFlameSparksId);
+    if (pFlameSparks)
     {
-        mFlameSparks->mBaseGameObjectRefCount--;
-        mFlameSparks->SetDead(true);
-        mFlameSparks = nullptr;
+        pFlameSparks->SetDead(true);
+        mFlameSparksId = Guid{};
     }
 
     VStopAudio();
@@ -364,11 +363,13 @@ void DoorFlame::VUpdate()
     switch (mState)
     {
         case States::eDisabled_0:
+        {
             GetAnimation().SetRender(false);
 
-            if (mFlameSparks)
+            auto pFlameSparks = static_cast<FlameSparks*>(sObjectIds.Find_Impl(mFlameSparksId));
+            if (pFlameSparks)
             {
-                mFlameSparks->mRender = false;
+                pFlameSparks->mRender = false;
             }
 
             if (SwitchStates_Get(mSwitchId))
@@ -376,34 +377,38 @@ void DoorFlame::VUpdate()
                 mState = States::eEnabled_1;
             }
 
-            if (mFireBackgroundGlow)
+            auto pFireBackgroundGlow = sObjectIds.Find_Impl(mFireBackgroundGlowId);
+            if (pFireBackgroundGlow)
             {
-                mFireBackgroundGlow->mBaseGameObjectRefCount--;
-                mFireBackgroundGlow->SetDead(true);
-                mFireBackgroundGlow = nullptr;
+                pFireBackgroundGlow->SetDead(true);
+                mFireBackgroundGlowId = Guid{};
             }
             break;
+        }
 
         case States::eEnabled_1:
+        {
             if (!sFlameControllingTheSound)
             {
                 sFlameControllingTheSound = this;
                 mSoundsMask = SfxPlayMono(relive::SoundEffects::Fire, 40);
             }
 
+            auto pFireBackgroundGlow = static_cast<FireBackgroundGlow*>(sObjectIds.Find_Impl(mFireBackgroundGlowId));
             if (--mRandom <= 0)
             {
                 mRandom = 2;
-                if (mFireBackgroundGlow)
+                if (pFireBackgroundGlow)
                 {
-                    mFireBackgroundGlow->Calc_Rect();
+                    pFireBackgroundGlow->Calc_Rect();
                 }
             }
 
             GetAnimation().SetRender(true);
-            if (mFlameSparks)
+            auto pFlameSparks = static_cast<FlameSparks*>(sObjectIds.Find_Impl(mFlameSparksId));
+            if (pFlameSparks)
             {
-                mFlameSparks->mRender = true;
+                pFlameSparks->mRender = true;
             }
 
             if (!SwitchStates_Get(mSwitchId))
@@ -411,18 +416,19 @@ void DoorFlame::VUpdate()
                 mState = States::eDisabled_0;
             }
 
-            if (!mFireBackgroundGlow)
+            if (!pFireBackgroundGlow)
             {
-                mFireBackgroundGlow = relive_new FireBackgroundGlow(mXPos,
+                pFireBackgroundGlow = relive_new FireBackgroundGlow(mXPos,
                     mYPos + FP_FromInteger(4),
                     FP_FromDouble(0.5));
-                if (mFireBackgroundGlow)
+                if (pFireBackgroundGlow)
                 {
-                    mFireBackgroundGlow->mBaseGameObjectRefCount++;
-                    mFireBackgroundGlow->mRGB = mRGB;
+                    mFireBackgroundGlowId = pFireBackgroundGlow->mBaseGameObjectId;
+                    pFireBackgroundGlow->mRGB = mRGB;
                 }
             }
             break;
+        }
 
         default:
             break;

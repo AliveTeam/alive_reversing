@@ -33,8 +33,8 @@ private:
     States mState = States::eDisabled_0;
     s16 mRandom = 0;
     s32 mSoundsMask = 0;
-    FireBackgroundGlow* mFireBackgroundGlow = nullptr;
-    FlameSparks* mFlameSparks = nullptr;
+    Guid mFireBackgroundGlowId = {};
+    Guid mFlameSparksId = {};
 };
 
 } // namespace AO
