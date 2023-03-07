@@ -48,61 +48,13 @@ MidiPlayer::MidiPlayer(ResourceProvider* provider)
 {
     mResourceProvider = provider;
     mSoundSampleParser = new DefaultSoundSampleParser();
-    idBank = new s32[idBankSize];
-    for (int i = 0; i < idBankSize; i++)
-    {
-        idBank[i] = 0;
-    }
 }
 
 MidiPlayer::MidiPlayer(ResourceProvider* provider, SoundSampleParser* sampleParser)
 {
     mResourceProvider = provider;
     mSoundSampleParser = sampleParser;
-    idBank = new s32[idBankSize];
-    for (int i = 0; i < idBankSize; i++)
-    {
-        idBank[i] = 0;
-    }
 }
-
-u64 timeSinceEpochMillisec()
-{
-    using namespace std::chrono;
-    return duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count();
-}
-
-void MidiPlayer::loop()
-{
-    u64 start = timeSinceEpochMillisec();
-    u64 now = 0;
-    u64 currentTicks = 0;
-    u64 expectedTicks = 0; 
-    while (running)
-    {
-        now = timeSinceEpochMillisec();
-        expectedTicks = u64(float(now - start) / 1000.0f * 44100); 
-
-        // tick sequence - i.e. new notes to play/stop?
-        sequencer->tickSequence();
-
-        while (currentTicks++ < expectedTicks)
-        {
-            // tick voices - just math calculations.
-            // this is ticked 44100 times per second. Possibly this
-            // can be done with a fast math calculation instead of 
-            // a loop, but that's for another time...
-            sequencer->tickVoice();
-        }
-
-        // sync voices with openal
-        sequencer->syncVoice(); 
-        
-        // defer this thread some amount of time
-        std::this_thread::sleep_for(std::chrono::milliseconds(1));
-    }
-}
-
 
 void MidiPlayer::SND_Init()
 {
@@ -111,17 +63,10 @@ void MidiPlayer::SND_Init()
         delete sequencer;
     }
     sequencer = new sean::Sequencer();
-
-    running = true;
-    thread = new std::thread(&MidiPlayer::loop, this);
 }
 
 void MidiPlayer::SND_Shutdown()
 {
-    running = false;
-    thread->join();
-    delete thread;
-
     delete sequencer;
 }
 
@@ -173,17 +118,18 @@ void MidiPlayer::SND_Load_VABS(SoundBlockInfo* pSoundBlockInfo, s32 reverb)
                     sean::ADSR adsr = sean::parseADSR(ADSR1, ADSR2);
                     sean::Patch* patch = sequencer->createPatch(vagAttr->field_14_prog);
                     Sample* s = samples.at(vagAttr->field_16_vag - 1);
-                    sean::Sample* t = new sean::Sample(s->m_SampleBuffer, s->i_SampleSize * 2);
-                    patch->samples[x] = t;
+                    sean::Sample* sample = new sean::Sample(s->m_SampleBuffer, s->i_SampleSize * 2);
+                    patch->samples[x] = sample;
 
-                    t->adsr = adsr;
-                    t->volume = vagAttr->field_2_vol / 127.0f;
-                    t->pan = (vagAttr->field_3_pan / 64.0f) - 1.0f;
-                    t->reverb = vagAttr->field_1_mode;
-                    t->rootNote = vagAttr->field_4_centre;
-                    t->rootNotePitchShift = vagAttr->field_5_shift;
-                    t->minNote = vagAttr->field_6_min;
-                    t->maxNote = vagAttr->field_7_max;
+                    sample->adsr = adsr;
+                    sample->volume = vagAttr->field_2_vol / 127.0f;
+                    sample->pan = (vagAttr->field_3_pan / 64.0f) - 1.0f;
+                    sample->reverb = vagAttr->field_1_mode;
+                    sample->rootNote = vagAttr->field_4_centre;
+                    sample->rootNotePitchShift = vagAttr->field_5_shift;
+                    sample->minNote = vagAttr->field_6_min;
+                    sample->maxNote = vagAttr->field_7_max;
+                    //sample->loop = 
                 }
                 ++vagAttr;
             }
@@ -234,49 +180,35 @@ void MidiPlayer::SND_Load_Seqs(OpenSeqHandle* pSeqTable, const char_type* bsqFil
 
 void MidiPlayer::SND_StopAll()
 {
-    //for (SequencePlayer* player : mSequencePlayers)
-    //{
-    //    player->StopSequence();
-    //    delete player;
-    //}
-    //mSequencePlayers.clear();
+    // called when pause menu is open
 
-    //AliveAudio::LockNotes();
-    //AliveAudio::ClearAllVoices();
-    //AliveAudio::UnlockNotes();
+    std::cout << "stop all" << std::endl;
+    sequencer->stopAll();
 }
 
 void MidiPlayer::SND_Reset()
 {
+    // called when quiting to main menu or going into a new level
+    std::cout << "reset" << std::endl;
+    sequencer->reset();
 }
 
 void MidiPlayer::SND_Restart()
 {
+    std::cout << "restart" << std::endl;
+    // TODO - don't know when called
 }
 
 void MidiPlayer::SND_Stop_Channels_Mask(u32 bitMask)
 {
     bitMask;
     std::cout << "bitmask " << bitMask << "\n";
-    //AliveAudio::LockNotes();
-    //AliveAudio::ClearAllTrackVoices(bitMask, true);
-    //AliveAudio::UnlockNotes();
-    //ReleaseId(bitMask);
+    sequencer->stopNote(bitMask);
 }
 
 void MidiPlayer::SND_SEQ_Stop(u16 idx)
 {
-    idx;
-
     sequencer->stopSeq(idx);
-    //SequencePlayer* player = GetSequencePlayer(idx);
-    //if (player)
-    //{
-    //    player->StopSequence();
-    //    RemoveSequencePlayer(player);
-    //    ReleaseId(player->m_PlayId);
-    //    delete player;
-    //}
 }
 
 s8 MidiPlayer::SND_Seq_Table_Valid()
@@ -289,9 +221,23 @@ s16 MidiPlayer::SND_SEQ_PlaySeq(u16 idx, s32 repeatCount, s16 bDontStop)
     bDontStop; // TODO
     repeatCount;
     idx;
+    // TODO - still broken for chanting - revist below commented code
 
+    sean::Sequence* seq = sequencer->getSequence(idx);
+    if (!seq)
+    {
+        return 0;
+    }
+    if (seq->play)
+    {
+        return 1;
+    }
+
+    sequencer->getSequence(idx)->repeatLimit = bDontStop ? 9999999 : 1;
     sequencer->playSeq(idx);
     return 1;
+
+
     //SequencePlayer* player = GetSequencePlayer(idx);
 
     //// When chanting starts bDontStop is 1
@@ -341,9 +287,6 @@ void MidiPlayer::sanitizePitch(s32* src, s16 defaultPitch)
 
 void MidiPlayer::SND_SEQ_SetVol(s32 idx, s32 volLeft, s32 volRight)
 {
-    idx;
-    volLeft;
-    volRight;
     sanitizeVolume(&volLeft, 10, 127);
     sanitizeVolume(&volRight, 10, 127);
 
@@ -352,66 +295,28 @@ void MidiPlayer::SND_SEQ_SetVol(s32 idx, s32 volLeft, s32 volRight)
     {
         seq->volume = std::min(volLeft, volRight) / 127.0f;
     }
-
-    //SequencePlayer* player = GetSequencePlayer(u16(idx));
-    //if (player)
-    //{
-    //    player->SetVolume(volLeft, volRight);
-    //}
 }
 
 s16 MidiPlayer::SND_SEQ_Play(u16 idx, s32 repeatCount, s16 volLeft, s16 volRight)
 {
-    repeatCount; // TODO
-    volLeft;
-    volRight;
-    idx;
-
     sean::Sequence* seq = sequencer->getSequence((s32) idx);
     if (seq)
     {
+        seq->repeatLimit = repeatCount;
         seq->volume = std::min(volLeft, volRight) / 127.0f;
     }
     sequencer->playSeq(idx);
-    return 0;
-
-    //SequencePlayer* player = GetSequencePlayer(idx);
-    //if (player)
-    //{
-    //    return 0;
-    //}
-    //std::cout << "Play seq " << idx << "\n";
-
-    //player = new SequencePlayer();
-    //player->LoadSequenceData(mSequences.at(s16(idx)), s32(idx), repeatCount);
-    //player->PlaySequence(idx);
-    //player->SetVolume(volLeft, volRight);
-    //mSequencePlayers.push_back(player);
-    //return s16(mSequencePlayers.size() - 1);
+    return 1;
 }
 
 s16 MidiPlayer::SND_SsIsEos_DeInlined(u16 idx)
 {
-    idx; // TODO
-
-    //SequencePlayer* player = GetSequencePlayer(idx);
-    //if (!player)
-    //{
-    //    return 0;
-    //}
-    //if (player->mRepeatCount)
-    //{
-    //    // 1 means we're still playing
-    //    return player->completedRepeats() < player->mRepeatCount ? 1 : 0;
-    //}
-
     s16 res = 0;
     sean::Sequence* seq = sequencer->getSequence((s32) idx);
     if (seq)
     {
         res = seq->repeats < seq->repeatLimit ? 1 : 0;
     }
-
     return res;
 }
 
@@ -425,8 +330,7 @@ s32 MidiPlayer::SFX_SfxDefinition_Play(SfxDefinition* sfxDef, s32 volLeft, s32 v
     // TODO - I don't think these pans and volumes are quite right
     float volume = std::max(volLeft, volRight) / 127.0f;
     float pan = (float(volRight) / float(volLeft)) - 1;
-    s32 id = sequencer->playNote(sfxDef->program, sfxDef->note, volume, pan, (u8)std::max(pitch_min, pitch_max), pitch_min, pitch_max);
-    return id;
+    return sequencer->playNote(sfxDef->program, sfxDef->note, volume, pan, (u8) std::max(pitch_min, pitch_max), pitch_min, pitch_max);
 }
 
 s32 MidiPlayer::SFX_SfxDefinition_Play(SfxDefinition* sfxDef, s32 volume, s32 pitch_min, s32 pitch_max)
@@ -440,25 +344,13 @@ s32 MidiPlayer::SFX_SfxDefinition_Play(SfxDefinition* sfxDef, s32 volume, s32 pi
     sanitizePitch(&pitch_max, sfxDef->pitch_max);
     sanitizeVolume(&volume, 1, 127);
 
-    s32 id = sequencer->playNote(sfxDef->program, sfxDef->note, volume / 127.0f, 0, (u8) std::max(pitch_min, pitch_max), pitch_min, pitch_max);
-    return id;
+    return sequencer->playNote(sfxDef->program, sfxDef->note, volume / 127.0f, 0, (u8) std::max(pitch_min, pitch_max), pitch_min, pitch_max);
 }
 
 s32 MidiPlayer::SND(s32 program, s32 vabId, s32 note, s16 vol, s16 min, s16 max)
 {
-    program; // TODO
-    vabId;
-    note;
-    vol;
-    min;
-    max;
-    sequencer->playNote(program, (u8)note, vol / 127.0f, 0, 0, min, max);
-    return 0;
-    //AliveAudio::LockNotes();
-    //int playId = NextId();
-    //AliveAudio::NoteOn(program, note, char(vol), 0);
-    //AliveAudio::UnlockNotes();
-    //return playId;
+    vabId; // TODO - why is this not used?
+    return sequencer->playNote(program, (u8) note, vol / 127.0f, 0, 0, min, max);
 }
 
  void MidiPlayer::SsUtAllKeyOff(s32 mode)
@@ -466,57 +358,9 @@ s32 MidiPlayer::SND(s32 program, s32 vabId, s32 note, s16 vol, s16 min, s16 max)
      mode; // TODO
  }
 
- SequencePlayer* MidiPlayer::GetSequencePlayer(u16 idx)
- {
-     for (SequencePlayer* player : mSequencePlayers)
-     {
-         if (player->m_TrackID == idx)
-         {
-             return player;
-         }
-     }
-     return NULL;
- }
-
- void MidiPlayer::RemoveSequencePlayer(SequencePlayer* player)
- {
-     int offset = 0;
-     int found = 0;
-     for (SequencePlayer* iter : mSequencePlayers)
-     { 
-         if (iter->m_TrackID == player->m_TrackID)
-         {
-             found = 1;
-             break;
-         }
-         offset++;
-     }
-     if (found)
-     {
-         mSequencePlayers.erase(mSequencePlayers.begin() + offset);
-     }
- }
-
-s32 MidiPlayer::NextId()
-{
-    for (int i = 0; i < idBankSize; i++)
-    {
-        if (idBank[i] == 0)
-        {
-            idBank[i] = 1;
-            return i + 255;
-        }
-    }
-    return 55;
-}
-
-void MidiPlayer::ReleaseId(s32 id)
-{
-    idBank[id - 255] = 0;
-}
 
 
-
+ //////////////////////////////
 // Midi stuff
 static void _SndMidiSkipLength(Stream& stream, int skip)
 {
@@ -587,8 +431,7 @@ void parseMidiStream(sean::Sequence* seq, std::vector<Uint8> seqData, s32 trackI
     for (;;)
     {
         // Read event delta time
-        Uint32 delta = _MidiReadVarLen(stream);
-        deltaTime += delta;
+        deltaTime += _MidiReadVarLen(stream);
         //std::cout << "Delta: " << delta << " over all " << deltaTime << std::endl;
 
         // Obtain the event/status byte
@@ -740,9 +583,17 @@ void parseMidiStream(sean::Sequence* seq, std::vector<Uint8> seqData, s32 trackI
                 break;
                 case 0xe: // Pitch Bend
                 {
-                    // TODO - used in scrabania somewhere
-                    Uint16 bend = 0;
-                    stream.ReadUInt16(bend);
+                    // TODO - used in scrabania somewhere - NOT WORKING
+                    u8 patchId = 0;
+                    u8 bend = 0;
+                    stream.ReadUInt8(patchId);
+                    stream.ReadUInt8(bend);
+
+                    sean::MIDIMessage* msg = seq->createMIDIMessage();
+                    msg->type = sean::PITCH_BEND;
+                    msg->patchId = patchId; // TODO - thses are wrong... was original bend = u16... is it patch?
+                    msg->bend = bend;
+                    msg->tick = deltaTime;
                 }
                 break;
                 case 0xf: // Sysex len

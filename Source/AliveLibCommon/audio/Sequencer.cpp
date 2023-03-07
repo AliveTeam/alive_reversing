@@ -119,7 +119,6 @@ static constexpr ADSRTableEntries s_adsr_table = ComputeADSRTableEntries();
 
 Sequencer::Sequencer()
 {
-
     // Open the AL device
     ALenum error;
     alGetError(); // clear out error state
@@ -131,9 +130,12 @@ Sequencer::Sequencer()
         return;
     }
 
+    int id = 1;
     for (int i = 0; i < voiceCount; i++)
     {
         voices[i] = new Voice();
+        voices[i]->id = id;
+        id = id << 1;
 
         // Prepare sources (these are streams buffers can be played in)
         alGenSources(1, &(voices[i])->alSourceId);
@@ -150,14 +152,21 @@ Sequencer::Sequencer()
 
     // Prepare some known effects we will use
     LOAD_EFFECT_FUNCTIONS();
-    EFXEAXREVERBPROPERTIES reverb = EFX_REVERB_PRESET_GENERIC;
+    EFXEAXREVERBPROPERTIES reverb = EFX_REVERB_PRESET_CASTLE_MEDIUMROOM;
     efxReverb0 = PREPARE_REVERB(&reverb);
     alGenAuxiliaryEffectSlots(1, &efxSlot0);
     alAuxiliaryEffectSloti(efxSlot0, AL_EFFECTSLOT_EFFECT, (ALint) efxReverb0);
+
+    running = true;
+    thread = new std::thread(&Sequencer::loop, this);
 }
 
 Sequencer::~Sequencer()
 {
+    running = false;
+    thread->join();
+    delete thread;
+
     // Delete sources
     //alDeleteSources(sourceCount, source);
 
@@ -183,35 +192,70 @@ u64 timeSinceEpochMillisec()
     return duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count();
 }
 
+void Sequencer::loop()
+{
+    u64 start = timeSinceEpochMillisec();
+    u64 now = 0;
+    u64 currentTicks = 0;
+    u64 expectedTicks = 0;
+    while (running)
+    {
+        now = timeSinceEpochMillisec();
+        expectedTicks = u64(float(now - start) / 1000.0f * 44100);
+
+        // tick sequence - i.e. new notes to play/stop?
+        tickSequence();
+
+        while (currentTicks++ < expectedTicks)
+        {
+            // tick voices - just math calculations.
+            // this is ticked 44100 times per second. Possibly this
+            // can be done with a fast math calculation instead of
+            // a loop, but that's for another time...
+            tickVoice();
+        }
+
+        // sync voices with openal
+        syncVoice();
+
+        // defer this thread some amount of time
+        std::this_thread::sleep_for(std::chrono::milliseconds(1));
+    }
+}
 
 //////////////////////////
 // PRIVATE
 void Sequencer::reset()
 {
-    alcSuspendContext(ctx);
+    stopAll();
+    
+    for (s16 i = 0; i < patchCount; i++)
+    {
+        // must be deleted separately from sources
+        // since deleting a patch may delete a buffer
+        // attached to a source
+        delete patches[i];
+        patches[i] = NULL;
+    }
+    
+    for (Sequence* seq : sequences)
+    {
+        delete seq;
+    }
+    sequences.clear();
+}
 
-    //for (s16 i = 0; i < sourceCount; i++)
-    //{
-    //    releaseSource(i);
-    //    releaseVoice(voices[i]);
-    //}
+void Sequencer::stopAll()
+{
+    for (Sequence* seq : sequences)
+    {
+        seq->play = false;
+    }
 
-    //for (s16 i = 0; i < sourceCount; i++)
-    //{
-    //    // must be deleted separately from sources
-    //    // since deleting a patch may delete a buffer
-    //    // attached to a source
-    //    delete patches[i];
-    //    patches[i] = NULL;
-    //}
-
-    //for (Sequence* seq : sequences)
-    //{
-    //    delete seq;
-    //}
-    //sequences.clear();
-
-    alcProcessContext(ctx);
+    for (s16 i = 0; i < voiceCount; i++)
+    {
+        releaseVoice(voices[i]);
+    }
 }
 
 void Sequencer::playSeq(s32 seqId)
@@ -224,6 +268,7 @@ void Sequencer::playSeq(s32 seqId)
         }
     }
 }
+
 
 void Sequencer::stopSeq(s32 seqId)
 {
@@ -256,11 +301,11 @@ void Sequencer::tickSequence()
             continue;
         }
 
-        //if (seq->repeats >= seq->repeatLimit)
-        //{
-        //    stopSeq(seq->id);
-        //    continue;
-        //}
+        if (seq->repeats > seq->repeatLimit)
+        {
+            stopSeq(seq->id);
+            continue;
+        }
 
         MIDIMessage* message;
         while ((message = seq->next(now)) != NULL)
@@ -308,10 +353,13 @@ void Sequencer::tickSequence()
                         }
 
                         v->sequence = seq;
+                        v->patchId = seq->channels[message->channelId]->patch->id;
+                        v->channelId = message->channelId;
                         v->pitchMin = 0;
                         v->velocity = message->velocity / 127.0f;
                         v->note = message->note;
                         v->sample = sample;
+                        v->pan = 0;
                         v->loop = sample->adsr.attackRate > 1;  // attack is greater than sample length? sample->adsr.attackRate / 1000 > 1;
                     }
 
@@ -329,12 +377,29 @@ void Sequencer::tickSequence()
                     break;
                 }
                 case PATCH_CHANGE:
+                {
                     seq->channels[message->channelId]->patch = patches[message->patchId];
                     break;
-
+                }
                 case END_TRACK:
+                {
                     // repeats are handled in the sequence when messages starts at position 1 again
                     break;
+                }
+                case PITCH_BEND:
+                {
+                    //std::cout << seq << " " << (s16) message->patchId << " " << (s16) message->bend << std::endl;
+                    for (int i = 0; i < voiceCount; i++)
+                    {
+                        if (voices[i]->inUse && voices[i]->patchId == message->patchId)
+                        {
+                            // TODO - not working
+                            std::cout << (s16)message->bend << std::endl;
+                            voices[i]->pitch = message->bend;
+                        }
+                    }
+                    break;
+                }
             }
         }
     }
@@ -431,7 +496,7 @@ void Sequencer::syncVoice()
             alSource3i(id, AL_AUXILIARY_SEND_FILTER, AL_EFFECTSLOT_NULL, 0, NULL);
         }
 
-        if (gain < 0.001f)
+        if (gain < 0.001f && voice->offTime > 0)
         {
             releaseVoice(voice);
         }
@@ -443,6 +508,10 @@ void Sequencer::syncVoice()
 
 s16 Voice::tick()
 {
+    if (!sample)
+    {
+        return 0;
+    }
     
     // UPDATE ADSR STATE - this probably doesn't need to be done every tick?
     if (adsrPhase == NONE)
@@ -527,24 +596,21 @@ s16 Voice::tick()
 
 Voice* Sequencer::obtainVoice()
 {
+    bool expected = false;
     for (int i = 0; i < voiceCount; i++)
     {
         Voice* v = voices[i];
-        if (v->inUse)
+        if (v->inUse.compare_exchange_weak(expected, true))
         {
-            continue;
+            return v;
         }
-
-        v->inUse = true;
-        v->uuid = nextUuid();
-        return v;
     }
     return NULL;
 }
 
 void Sequencer::releaseVoice(Voice* v)
 {
-    v->inUse = false;
+    alSourceStop(v->alSourceId);
     v->offTime = 0;
     v->pitch = 0;
     v->adsrPhase = NONE;
@@ -554,17 +620,7 @@ void Sequencer::releaseVoice(Voice* v)
     v->sequence = NULL;
     v->loop = false;
     v->pan = 0;
-    alSourceStop(v->alSourceId);
-}
-
-s32 Sequencer::nextUuid()
-{
-    uuid++;
-    if (uuid % 50000)
-    {
-        uuid = 1;
-    }
-    return uuid;
+    v->inUse = false;
 }
 
 //////////////////////////
@@ -577,6 +633,7 @@ Patch* Sequencer::createPatch(s16 id)
     }
 
     patches[id] = new Patch();
+    patches[id]->id = (u8)id;
     return patches[id];
 }
 
@@ -607,6 +664,7 @@ s32 Sequencer::playNote(s32 patchId, u8 note, float velocity, float pan, u8 pitc
         return 0;
     }
 
+    int ids = 0;
     for (Sample* s : patch->samples)
     {
         if (!s)
@@ -625,10 +683,7 @@ s32 Sequencer::playNote(s32 patchId, u8 note, float velocity, float pan, u8 pitc
             return 0;
         }
 
-        alSourcei(v->alSourceId, AL_BUFFER, s->alBuffer);
-        alSourcef(v->alSourceId, AL_GAIN, (ALfloat) 0.0f);
-        alSourcePlay(v->alSourceId);
-
+        v->patchId = (u8) patchId;
         v->note = note;
         v->velocity = velocity;
         v->pan = pan;
@@ -636,20 +691,30 @@ s32 Sequencer::playNote(s32 patchId, u8 note, float velocity, float pan, u8 pitc
         v->pitchMin = pitchMin;
         v->pitchMax = pitchMax;
         v->sample = s;
-        //v->adsrCurrentLevel = s16(velocity * 32767);
-        //v->adsrDecreasing = false;
-        //v->adsrRate = s->adsr.attackRate;
-        //v->adsrExponential = s->adsr.attackExponential;
-        //v->adsrCounter = s_adsr_table[v->adsrDecreasing][v->adsrRate].ticks;
-        return v->uuid;
+        ids |= v->id;
+        alSourcei(v->alSourceId, AL_BUFFER, s->alBuffer);
+        alSourcef(v->alSourceId, AL_GAIN, (ALfloat) 0.0f);
+        alSourcePlay(v->alSourceId);
     }
 
-    return 0;
+    return ids;
 }
 
+void Sequencer::stopNote(s32 mask)
+{
+    for (int i = 0; i < voiceCount; i++)
+    {
+        if ((voices[i]->id & mask) != 0)
+        {
+            // TODO - not sure if this is right.
+            // Maybe it should trigger a release?
+            releaseVoice(voices[i]);
+        }
+    }
+}
 
 //////////////////////////
-// OTHERS
+// SEQUENCE
 MIDIMessage* Sequence::createMIDIMessage()
 {
     MIDIMessage* msg = new MIDIMessage();
@@ -686,6 +751,23 @@ MIDIMessage* Sequence::next(u64 now)
         return msg;
     }
     return NULL;
+}
+
+
+//////////////////////////
+// Event Ring
+void EventRing::push(Event event)
+{
+    events[(head++) % size] = event;
+}
+
+Event* EventRing::pop()
+{
+    if (tail == head)
+    {
+        return NULL;
+    }
+    return &events[(tail++)];
 }
 
 

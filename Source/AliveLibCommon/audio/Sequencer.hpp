@@ -92,6 +92,7 @@ public:
         }
     }
 
+    u8 id;
     Sample* samples[128];
 };
 
@@ -101,7 +102,8 @@ enum MIDIMessageType
     NOTE_ON,
     NOTE_OFF,
     PATCH_CHANGE,
-    END_TRACK
+    END_TRACK,
+    PITCH_BEND
 };
 
 
@@ -117,6 +119,7 @@ public:
     u8 patchId = 0;
     u8 note = 0;
     u8 velocity = 0;
+    u8 bend;
 };
 
 
@@ -154,7 +157,7 @@ public:
 
     s32 id;
     s32 repeatLimit = 1;
-    bool play = false;
+    std::atomic_bool play = false;
 
     float volume = 1;
     float pan = 0;
@@ -185,16 +188,18 @@ enum ADSRPhase
 class Voice
 {
 public:
-    s32 uuid;
+    s32 id;
 
     Sequence* sequence = NULL;
+    u8 patchId;
+    u8 channelId;
     u8 note;
     u8 pitch;
     s32 pitchMin = 0;
     s32 pitchMax = 127;
     float velocity = 1.0f;
     float pan = 0.0f;
-    bool inUse = false;
+    std::atomic_bool inUse = false;
 
     bool loop = false;
     u64 offTime = 0;  // when the note was released
@@ -213,6 +218,30 @@ public:
     s16 tick();
 };
 
+
+/*
+* Non blocking event ring for 
+* cross thread actions (oddworld to midi player)
+*/
+class Event
+{
+    void (*func)();
+};
+
+class EventRing
+{
+public:
+    void push(Event event);
+    Event* pop();
+
+private:
+    static const int size = 256;
+    Event events[size];
+    std::atomic<u64> tail = 0;
+    std::atomic<u64> head = 0;
+};
+
+
 /*
 * Can play MIDI
 */
@@ -223,6 +252,7 @@ public:
     ~Sequencer();
 
     void reset();
+    void stopAll();
 
     Patch* createPatch(s16 id);
 
@@ -230,21 +260,26 @@ public:
     Sequence* getSequence(s32 id);
 
     s32 playNote(s32 patchId, u8 note, float velocity, float pan, u8 pitch, s32 pitchMin, s32 pitchMax);
+    void stopNote(s32 mask);
 
     void playSeq(s32 seqId);
     void stopSeq(s32 seqId);
 
-    void tickSequence();
-    void tickVoice();
-    void syncVoice();
-
 private:
+    std::thread* thread;
+    bool running;
+    void loop();
+    EventRing eventRing;
 
     s32 uuid = 1;
     s32 nextUuid();
     
     Voice* obtainVoice();
     void releaseVoice(Voice* v);
+
+    void tickSequence();
+    void tickVoice();
+    void syncVoice();
 
     ALCdevice* device;
     ALCcontext* ctx;
