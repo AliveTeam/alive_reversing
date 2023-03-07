@@ -100,17 +100,18 @@ public:
     BirdPortalTerminator* mTerminator2 = nullptr;
     ScreenClipper* mScreenClipper1 = nullptr;
     ScreenClipper* mScreenClipper2 = nullptr;
-    DynamicArrayT<Dove>* mDovesArray = {};
+    Guid mDoveIds[6] = {};
     EReliveLevelIds mExitLevel = EReliveLevelIds::eNone;
     s16 mExitPath = 0;
     s16 mExitCamera = 0;
     s16 mMudCountForShrykull = 0;
     s16 mReceivedDovesCount = 0;
-    ThrowableTotalIndicator* mThrowableTotalIndicator = nullptr;
+    Guid mThrowableTotalIndicator = {};
     OrbWhirlWind* mOrbWhirlWind = nullptr;
     EReliveLevelIds mCurrentLevel = EReliveLevelIds::eNone;
     s16 mCurrentPath = 0;
     s32 mSfxPlaying = 0;
+    bool mDovesExist = false;
 };
 
 } // namespace AO

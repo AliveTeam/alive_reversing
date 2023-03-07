@@ -29,7 +29,7 @@ void Dove::LoadAnimations()
 Dove::Dove(AnimId animId, const Guid& tlvId, FP scale)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
-    SetType(ReliveTypes::eBird);
+    SetType(ReliveTypes::eDove);
 
     LoadAnimations();
     Animation_Init(GetAnimRes(animId));
@@ -85,7 +85,7 @@ Dove::Dove(AnimId animId, const Guid& tlvId, FP scale)
 Dove::Dove(AnimId animId, FP xpos, FP ypos, FP scale)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
-    SetType(ReliveTypes::eBird);
+    SetType(ReliveTypes::eDove);
 
     LoadAnimations();
     Animation_Init(GetAnimRes(animId));

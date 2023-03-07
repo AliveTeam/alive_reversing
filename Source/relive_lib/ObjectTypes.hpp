@@ -86,7 +86,6 @@ enum class ReliveTypes : s16
     eGasCountDown,
     eParticleBurst,
     eDoor,
-    eBird,
     eGameSpeak,
     eElectricWall,
     eElum,
@@ -343,7 +342,7 @@ enum class AOTypes : s16
     eParticleBurst_19 = 19,
 
     eDoor_21 = 21,
-    eBird_22 = 22,
+    eDove_22 = 22,
 
     eGameSpeak_24 = 24,
     eElectricWall_25 = 25,

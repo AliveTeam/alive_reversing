@@ -142,7 +142,6 @@ NLOHMANN_JSON_SERIALIZE_ENUM(ReliveTypes, {
     {ReliveTypes::eGasCountDown, "gas_countdown"},
     {ReliveTypes::eParticleBurst, "particle_burst"},
     {ReliveTypes::eDoor, "door"},
-    {ReliveTypes::eBird, "bird"},
     {ReliveTypes::eGameSpeak, "gamespeak"},
     {ReliveTypes::eElectricWall, "electric_wall"},
     {ReliveTypes::eElum, "elum"},

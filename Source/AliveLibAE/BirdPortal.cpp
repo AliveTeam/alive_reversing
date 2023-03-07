@@ -83,7 +83,7 @@ void BirdPortal::CreateDovesAndShrykullNumber()
         auto pDove = relive_new Dove(AnimId::Dove_Flying, mXPos, mYPos, mSpriteScale);
         mDoveIds[i] = pDove->mBaseGameObjectId;
 
-        mDovesExist = 1;
+        mDovesExist = true;
 
         if (mPortalType == relive::Path_BirdPortal::PortalType::eAbe)
         {
@@ -108,7 +108,7 @@ void BirdPortal::CreateDovesAndShrykullNumber()
             0);
         if (pIndicator)
         {
-            mThrowableIndicatorId = pIndicator->mBaseGameObjectId;
+            mThrowableTotalIndicator = pIndicator->mBaseGameObjectId;
         }
     }
 }
@@ -151,7 +151,7 @@ void BirdPortal::VUpdate()
 
             if (EventGet(kEventAbeOhm))
             {
-                BaseGameObject* pShrykullNumMuds = sObjectIds.Find_Impl(mThrowableIndicatorId);
+                BaseGameObject* pShrykullNumMuds = sObjectIds.Find(mThrowableTotalIndicator, ReliveTypes::eThrowableTotalIndicator);
                 if (pShrykullNumMuds)
                 {
                     pShrykullNumMuds->SetDead(true);
@@ -159,7 +159,7 @@ void BirdPortal::VUpdate()
 
                 for (auto& id : mDoveIds)
                 {
-                    auto pDove = static_cast<Dove*>(sObjectIds.Find_Impl(id));
+                    auto pDove = static_cast<Dove*>(sObjectIds.Find(id, ReliveTypes::eDove));
                     if (pDove)
                     {
                         pDove->AsJoin(mXPos, mYPos + (mSpriteScale * FP_FromInteger(20)));
@@ -175,16 +175,16 @@ void BirdPortal::VUpdate()
             {
                 for (auto& id : mDoveIds)
                 {
-                    Dove* pDove = static_cast<Dove*>(sObjectIds.Find_Impl(id));
+                    Dove* pDove = static_cast<Dove*>(sObjectIds.Find(id, ReliveTypes::eDove));
                     if (pDove)
                     {
                         pDove->FlyAway(1);
                     }
                 }
 
-                mDovesExist = 0;
+                mDovesExist = false;
 
-                BaseGameObject* pThrowableIndicator = sObjectIds.Find_Impl(mThrowableIndicatorId);
+                BaseGameObject* pThrowableIndicator = sObjectIds.Find(mThrowableTotalIndicator, ReliveTypes::eThrowableTotalIndicator);
                 if (pThrowableIndicator)
                 {
                     pThrowableIndicator->SetDead(true);
@@ -941,23 +941,20 @@ BirdPortal::~BirdPortal()
         pClipper2->SetDead(true);
     }
 
-    BaseGameObject* pDoves = sObjectIds.Find_Impl(mDoveIds[0]);
-    if (pDoves)
+    BaseGameObject* pDoves = sObjectIds.Find(mDoveIds[0], ReliveTypes::eDove);
+    if (pDoves && mDovesExist)
     {
-        if (mDovesExist)
+        for (auto doveId : mDoveIds)
         {
-            for (auto doveId : mDoveIds)
+            BaseGameObject* pDove = sObjectIds.Find(doveId, ReliveTypes::eDove);
+            if (pDove)
             {
-                BaseGameObject* pDove = sObjectIds.Find_Impl(doveId);
-                if (pDove)
-                {
-                    pDove->SetDead(true);
-                }
+                pDove->SetDead(true);
             }
         }
     }
 
-    BaseGameObject* pThrowableIndicator = sObjectIds.Find_Impl(mThrowableIndicatorId);
+    BaseGameObject* pThrowableIndicator = sObjectIds.Find(mThrowableTotalIndicator, ReliveTypes::eThrowableTotalIndicator);
     if (pThrowableIndicator)
     {
         pThrowableIndicator->SetDead(true);

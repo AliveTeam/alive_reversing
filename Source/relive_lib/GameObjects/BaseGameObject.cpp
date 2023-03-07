@@ -135,8 +135,8 @@ ReliveTypes BaseGameObject::FromAO(AO::AOTypes aoType)
             return ReliveTypes::eParticleBurst;
         case AO::AOTypes::eDoor_21:
             return ReliveTypes::eDoor;
-        case AO::AOTypes::eBird_22:
-            return ReliveTypes::eBird;
+        case AO::AOTypes::eDove_22:
+            return ReliveTypes::eDove;
         case AO::AOTypes::eGameSpeak_24:
             return ReliveTypes::eGameSpeak;
         case AO::AOTypes::eElectricWall_25:
@@ -322,8 +322,8 @@ AO::AOTypes BaseGameObject::ToAO(ReliveTypes reliveType)
             return AO::AOTypes::eParticleBurst_19;
         case ReliveTypes::eDoor:
             return AO::AOTypes::eDoor_21;
-        case ReliveTypes::eBird:
-            return AO::AOTypes::eBird_22;
+        case ReliveTypes::eDove:
+            return AO::AOTypes::eDove_22;
         case ReliveTypes::eGameSpeak:
             return AO::AOTypes::eGameSpeak_24;
         case ReliveTypes::eElectricWall:

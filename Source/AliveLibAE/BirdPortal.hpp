@@ -102,11 +102,11 @@ public:
     FP mHitY = {};
 
 private:
-    Guid mThrowableIndicatorId = Guid{}; // AE only
-    Guid mDoveIds[6] = {}; // AE only
+    Guid mThrowableTotalIndicator = Guid{};
+    Guid mDoveIds[6] = {};
     s32 mTimer = 0;
     FP mSpriteScale = {};
-    s16 mDovesExist = 0;
+    bool mDovesExist = false;
     Guid mTerminatorId1 = Guid{};   // object pointer in AO
     Guid mTerminatorId2 = Guid{};   // object pointer in AO
     Guid mScreenClipperId1 = Guid{}; // object pointer in AO
