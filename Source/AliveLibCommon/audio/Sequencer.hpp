@@ -119,7 +119,7 @@ public:
     u8 patchId = 0;
     u8 note = 0;
     u8 velocity = 0;
-    u8 bend;
+    s16 bend;
 };
 
 
@@ -194,7 +194,7 @@ public:
     u8 patchId;
     u8 channelId;
     u8 note;
-    u8 pitch;
+    s32 pitch;
     s32 pitchMin = 0;
     s32 pitchMax = 127;
     float velocity = 1.0f;

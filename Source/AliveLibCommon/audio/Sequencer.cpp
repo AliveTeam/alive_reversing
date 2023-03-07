@@ -360,7 +360,7 @@ void Sequencer::tickSequence()
                         v->note = message->note;
                         v->sample = sample;
                         v->pan = 0;
-                        v->loop = sample->adsr.attackRate > 1;  // attack is greater than sample length? sample->adsr.attackRate / 1000 > 1;
+                        v->loop = sample->adsr.attackRate > 0;  // attack is greater than sample length? sample->adsr.attackRate / 1000 > 1;
                     }
 
                     break;
@@ -391,7 +391,7 @@ void Sequencer::tickSequence()
                     //std::cout << seq << " " << (s16) message->patchId << " " << (s16) message->bend << std::endl;
                     for (int i = 0; i < voiceCount; i++)
                     {
-                        if (voices[i]->inUse && voices[i]->patchId == message->patchId)
+                        if (voices[i]->inUse && voices[i]->channelId == message->channelId)
                         {
                             // TODO - not working
                             std::cout << (s16)message->bend << std::endl;
