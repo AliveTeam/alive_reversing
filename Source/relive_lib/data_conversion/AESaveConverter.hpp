@@ -1488,8 +1488,8 @@ struct FleechSaveState final
         d.mYPos = data.mYPos;
         d.mVelX = data.mVelX;
         d.mVelY = data.mVelY;
-        d.mPathNumber = data.mPathNumber;
-        d.mLvlNumber = MapWrapper::FromAESaveData(data.mLvlNumber);
+        d.mCurrentPath = data.mPathNumber;
+        d.mCurrentLevel = MapWrapper::FromAESaveData(data.mLvlNumber);
         d.mSpriteScale = data.mSpriteScale;
         d.mRed = data.mRed;
         d.mGreen = data.mGreen;
@@ -1507,7 +1507,7 @@ struct FleechSaveState final
         d.mCollisionLineType = AEData::From(data.mCollisionLineType);
         d.mPlatformId = Guid::NewGuidFromTlvInfo(data.mPlatformId);
         d.mTlvInfo = Guid::NewGuidFromTlvInfo(data.mTlvInfo);
-        d.field_44_obj_id = Guid::NewGuidFromTlvInfo(data.field_44_obj_id);
+        d.mFoodObjId = Guid::NewGuidFromTlvInfo(data.field_44_obj_id);
         d.mTongueState = data.mTongueState;
         d.mTongueSubState = data.mTongueSubState;
         d.mEnemyXPos = data.mEnemyXPos;
@@ -1546,29 +1546,29 @@ struct FleechSaveState final
         d.field_6A_bDidMapFollowMe = data.field_6A_bDidMapFollowMe;
         d.field_70_velx_factor = data.field_70_velx_factor;
         d.field_76_current_anger = data.field_76_current_anger;
-        d.field_78_max_anger = data.field_78_max_anger;
-        d.field_7A_attack_anger = data.field_7A_attack_anger;
-        d.field_7C_wakeup_id = data.field_7C_wakeup_id;
-        d.field_7E_wake_up_switch_anger_value = data.field_7E_wake_up_switch_anger_value;
-        d.field_80_wake_up_switch_value = data.field_80_wake_up_switch_value;
-        d.field_82_can_wake_up_id = data.field_82_can_wake_up_id;
+        d.mMaxAnger = data.field_78_max_anger;
+        d.mAttackAngerIncreaser = data.field_7A_attack_anger;
+        d.mWakeUpSwitchId = data.field_7C_wakeup_id;
+        d.mWakeUpSwitchAngerValue = data.field_7E_wake_up_switch_anger_value;
+        d.mWakeUpSwitchValue = data.field_80_wake_up_switch_value;
+        d.mCanWakeUpSwitchId = data.field_82_can_wake_up_id;
         d.field_84_EventXPos = data.field_84_EventXPos;
         d.field_86_ScrabParamiteEventXPos = data.field_86_ScrabParamiteEventXPos;
-        d.field_88_patrol_range = data.field_88_patrol_range;
+        d.mPatrolRange = data.field_88_patrol_range;
         d.field_8A_old_xpos = data.field_8A_old_xpos;
         d.field_8C = data.field_8C;
         d.field_8E_rnd_crawl = data.field_8E_rnd_crawl;
         d.field_90_chase_delay = data.field_90_chase_delay;
         d.field_92_chase_timer = data.field_92_chase_timer;
-        d.field_94_lost_target_timeout = data.field_94_lost_target_timeout;
+        d.mLostTargetTimeout = data.field_94_lost_target_timeout;
         d.field_96_lost_target_timer = data.field_96_lost_target_timer;
-        d.field_98_hoistX = data.field_98_hoistX;
-        d.field_9A_hoistY = data.field_9A_hoistY;
+        d.mHoistX = data.field_98_hoistX;
+        d.mHoistY = data.field_9A_hoistY;
         d.field_9E_angle = data.field_9E_angle;
         d.field_9F = data.field_9F;
-        d.field_A0_hoistY_distance = data.field_A0_hoistY_distance;
-        d.field_A4_hoistX_distance = data.field_A4_hoistX_distance;
-        d.field_A8 = Guid::NewGuidFromTlvInfo(data.field_A8);
+        d.mHoistYDistance = data.field_A0_hoistY_distance;
+        d.mHoistXDistance = data.field_A4_hoistX_distance;
+        d.mScrabOrParamite = Guid::NewGuidFromTlvInfo(data.field_A8);
         d.field_AC_obj_id = Guid::NewGuidFromTlvInfo(data.field_AC_obj_id);
         d.mHoistDone = data.mFleechStateFlags.Get(FleechStateFlags::eHoistDone);
         d.mChasingOrScaredCrawlingLeft = data.mFleechStateFlags.Get(FleechStateFlags::eChasingOrScaredCrawlingLeft);
@@ -1652,27 +1652,27 @@ struct FleechSaveState final
         switch (state)
         {
             case Brain_0_Patrol::State_0_Init:
-                return ::PatrolBrain::EState::State_0_Init;
+                return ::PatrolBrain::EState::eInit;
             case Brain_0_Patrol::eSleeping_1:
-                return ::PatrolBrain::EState::eSleeping_1;
+                return ::PatrolBrain::EState::eSleeping;
             case Brain_0_Patrol::State_2:
-                return ::PatrolBrain::EState::State_2;
+                return ::PatrolBrain::EState::eWakingUp;
             case Brain_0_Patrol::eGoingBackToSleep:
                 return ::PatrolBrain::EState::eGoingBackToSleep;
             case Brain_0_Patrol::eAlerted_4:
-                return ::PatrolBrain::EState::eAlerted_4;
+                return ::PatrolBrain::EState::eAlerted;
             case Brain_0_Patrol::eHearingScrabOrParamite_5:
-                return ::PatrolBrain::EState::eHearingScrabOrParamite_5;
+                return ::PatrolBrain::EState::eHearingScrabOrParamite;
             case Brain_0_Patrol::State_6:
-                return ::PatrolBrain::EState::State_6;
+                return ::PatrolBrain::EState::eDangerNearby;
             case Brain_0_Patrol::State_7:
-                return ::PatrolBrain::EState::State_7;
+                return ::PatrolBrain::EState::eBackToAlerted;
             case Brain_0_Patrol::eAlertedByAbe_8:
-                return ::PatrolBrain::EState::eAlertedByAbe_8;
+                return ::PatrolBrain::EState::eAlertedByAbe;
             case Brain_0_Patrol::State_9:
-                return ::PatrolBrain::EState::State_9;
+                return ::PatrolBrain::EState::eNearHoist;
             case Brain_0_Patrol::State_10:
-                return ::PatrolBrain::EState::State_10;
+                return ::PatrolBrain::EState::eClimbHoist;
         }
         ALIVE_FATAL("Bad fleech patrol brain state value");
     }
@@ -1682,7 +1682,7 @@ struct FleechSaveState final
         switch (state)
         {
             case Brain_1_ChasingAbe::eInit_0:
-                return ::ChasingAbeBrain::EState::eInit_0;
+                return ::ChasingAbeBrain::EState::eInit;
             case Brain_1_ChasingAbe::eChasingAbe_1:
                 return ::ChasingAbeBrain::EState::eChasingAbe_1;
             case Brain_1_ChasingAbe::eUnknown_2:

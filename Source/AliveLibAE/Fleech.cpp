@@ -206,8 +206,8 @@ s32 Fleech::CreateFromSaveState(const u8* pBuffer)
         pFleech->mVelX = pState->mVelX;
         pFleech->mVelY = pState->mVelY;
 
-        pFleech->mCurrentPath = pState->mPathNumber;
-        pFleech->mCurrentLevel = pState->mLvlNumber;
+        pFleech->mCurrentPath = pState->mCurrentPath;
+        pFleech->mCurrentLevel = pState->mCurrentLevel;
         pFleech->SetSpriteScale(pState->mSpriteScale);
 
         pFleech->mRGB.SetRGB(pState->mRed, pState->mGreen, pState->mBlue);
@@ -236,7 +236,7 @@ s32 Fleech::CreateFromSaveState(const u8* pBuffer)
 
         pFleech->BaseAliveGameObjectCollisionLineType = pState->mCollisionLineType;
         pFleech->mTlvInfo = pState->mTlvInfo;
-        pFleech->field_11C_obj_id = pState->field_44_obj_id;
+        pFleech->mFoodObjId = pState->mFoodObjId;
         pFleech->mTongueState = pState->mTongueState;
         pFleech->mTongueSubState = pState->mTongueSubState;
         pFleech->mEnemyXPos = pState->mEnemyXPos;
@@ -260,28 +260,28 @@ s32 Fleech::CreateFromSaveState(const u8* pBuffer)
         pFleech->field_130_bDidMapFollowMe = pState->field_6A_bDidMapFollowMe;
         pFleech->field_138_velx_factor = pState->field_70_velx_factor;
         pFleech->mCurrentAnger = pState->field_76_current_anger;
-        pFleech->mMaxAnger = pState->field_78_max_anger;
-        pFleech->mAttackAngerIncreaser = pState->field_7A_attack_anger;
-        pFleech->mWakeUpSwitchId = pState->field_7C_wakeup_id;
-        pFleech->mWakeUpSwitchAngerValue = pState->field_7E_wake_up_switch_anger_value;
-        pFleech->mWakeUpSwitchValue = pState->field_80_wake_up_switch_value;
-        pFleech->mCanWakeUpSwitchId = pState->field_82_can_wake_up_id;
+        pFleech->mMaxAnger = pState->mMaxAnger;
+        pFleech->mAttackAngerIncreaser = pState->mAttackAngerIncreaser;
+        pFleech->mWakeUpSwitchId = pState->mWakeUpSwitchId;
+        pFleech->mWakeUpSwitchAngerValue = pState->mWakeUpSwitchAngerValue;
+        pFleech->mWakeUpSwitchValue = pState->mWakeUpSwitchValue;
+        pFleech->mCanWakeUpSwitchId = pState->mCanWakeUpSwitchId;
         pFleech->field_14C_EventXPos = pState->field_84_EventXPos;
         pFleech->field_14E_ScrabParamiteEventXPos = pState->field_86_ScrabParamiteEventXPos;
-        pFleech->mPatrolRange = pState->field_88_patrol_range;
+        pFleech->mPatrolRange = pState->mPatrolRange;
         pFleech->field_152_old_xpos = pState->field_8A_old_xpos;
         pFleech->field_154 = pState->field_8C;
         pFleech->field_156_rnd_crawl = pState->field_8E_rnd_crawl;
         pFleech->field_158_chase_delay = pState->field_90_chase_delay;
         pFleech->field_15A_chase_timer = pState->field_92_chase_timer;
-        pFleech->mLostTargetTimeout = pState->field_94_lost_target_timeout;
+        pFleech->mLostTargetTimeout = pState->mLostTargetTimeout;
         pFleech->field_15E_lost_target_timer = pState->field_96_lost_target_timer;
-        pFleech->mHoistX = pState->field_98_hoistX;
-        pFleech->mHoistY = pState->field_9A_hoistY;
+        pFleech->mHoistX = pState->mHoistX;
+        pFleech->mHoistY = pState->mHoistY;
         pFleech->mAngle = pState->field_9E_angle;
-        pFleech->mHoistYDistance = pState->field_A0_hoistY_distance;
-        pFleech->mHoistXDistance = pState->field_A4_hoistX_distance;
-        pFleech->mScrabOrParamite = pState->field_A8;
+        pFleech->mHoistYDistance = pState->mHoistYDistance;
+        pFleech->mHoistXDistance = pState->mHoistXDistance;
+        pFleech->mScrabOrParamite = pState->mScrabOrParamite;
 
         if (pState->field_4_obj_id == pState->field_AC_obj_id)
         {
@@ -316,8 +316,8 @@ s32 Fleech::VGetSaveState(u8* pSaveBuffer)
     pState->mVelX = mVelX;
     pState->mVelY = mVelY;
     pState->field_70_velx_factor = field_138_velx_factor;
-    pState->mPathNumber = mCurrentPath;
-    pState->mLvlNumber = mCurrentLevel;
+    pState->mCurrentPath = mCurrentPath;
+    pState->mCurrentLevel = mCurrentLevel;
     pState->mSpriteScale = GetSpriteScale();
     pState->mRed = mRGB.r;
     pState->mGreen = mRGB.g;
@@ -355,17 +355,17 @@ s32 Fleech::VGetSaveState(u8* pSaveBuffer)
         pState->mPlatformId = Guid{};
     }
 
-    if (field_11C_obj_id != Guid{})
+    if (mFoodObjId != Guid{})
     {
-        BaseGameObject* pObj = sObjectIds.Find_Impl(field_11C_obj_id);
+        BaseGameObject* pObj = sObjectIds.Find_Impl(mFoodObjId);
         if (pObj)
         {
-            pState->field_44_obj_id = pObj->mBaseGameObjectTlvInfo;
+            pState->mFoodObjId = pObj->mBaseGameObjectTlvInfo;
         }
     }
     else
     {
-        pState->field_44_obj_id = Guid{};
+        pState->mFoodObjId = Guid{};
     }
 
     pState->mTlvInfo = mTlvInfo;
@@ -390,39 +390,39 @@ s32 Fleech::VGetSaveState(u8* pSaveBuffer)
     pState->field_6A_bDidMapFollowMe = field_130_bDidMapFollowMe;
     pState->field_70_velx_factor = field_138_velx_factor;
     pState->field_76_current_anger = mCurrentAnger;
-    pState->field_78_max_anger = mMaxAnger;
-    pState->field_7A_attack_anger = mAttackAngerIncreaser;
-    pState->field_7C_wakeup_id = mWakeUpSwitchId;
-    pState->field_7E_wake_up_switch_anger_value = mWakeUpSwitchAngerValue;
-    pState->field_80_wake_up_switch_value = mWakeUpSwitchValue;
-    pState->field_82_can_wake_up_id = mCanWakeUpSwitchId;
+    pState->mMaxAnger = mMaxAnger;
+    pState->mAttackAngerIncreaser = mAttackAngerIncreaser;
+    pState->mWakeUpSwitchId = mWakeUpSwitchId;
+    pState->mWakeUpSwitchAngerValue = mWakeUpSwitchAngerValue;
+    pState->mWakeUpSwitchValue = mWakeUpSwitchValue;
+    pState->mCanWakeUpSwitchId = mCanWakeUpSwitchId;
     pState->field_84_EventXPos = field_14C_EventXPos;
     pState->field_86_ScrabParamiteEventXPos = field_14E_ScrabParamiteEventXPos;
-    pState->field_88_patrol_range = mPatrolRange;
+    pState->mPatrolRange = mPatrolRange;
     pState->field_8A_old_xpos = field_152_old_xpos;
     pState->field_8C = field_154;
     pState->field_8E_rnd_crawl = field_156_rnd_crawl;
     pState->field_90_chase_delay = field_158_chase_delay;
     pState->field_92_chase_timer = field_15A_chase_timer;
-    pState->field_94_lost_target_timeout = mLostTargetTimeout;
+    pState->mLostTargetTimeout = mLostTargetTimeout;
     pState->field_96_lost_target_timer = field_15E_lost_target_timer;
-    pState->field_98_hoistX = mHoistX;
-    pState->field_9A_hoistY = mHoistY;
+    pState->mHoistX = mHoistX;
+    pState->mHoistY = mHoistY;
     pState->field_9E_angle = mAngle;
-    pState->field_A0_hoistY_distance = mHoistYDistance;
-    pState->field_A4_hoistX_distance = mHoistXDistance;
+    pState->mHoistYDistance = mHoistYDistance;
+    pState->mHoistXDistance = mHoistXDistance;
 
     if (mScrabOrParamite != Guid{})
     {
         BaseGameObject* pObj = sObjectIds.Find_Impl(mScrabOrParamite);
         if (pObj)
         {
-            pState->field_A8 = pObj->mBaseGameObjectTlvInfo;
+            pState->mScrabOrParamite = pObj->mBaseGameObjectTlvInfo;
         }
     }
     else
     {
-        pState->field_A8 = Guid{};
+        pState->mScrabOrParamite = Guid{};
     }
 
     if (current_target_object_id_551840 == mBaseGameObjectId)
@@ -968,7 +968,7 @@ void Fleech::Motion_13_SettleOnGround()
 
 void Fleech::Motion_14_ExtendTongueFromEnemy()
 {
-    if (field_11C_obj_id == sActiveHero->mBaseGameObjectId && (sActiveHero->CantBeDamaged_44BAB0() || sActiveHero->GetInvisible()))
+    if (mFoodObjId == sActiveHero->mBaseGameObjectId && (sActiveHero->CantBeDamaged_44BAB0() || sActiveHero->GetInvisible()))
     {
         ToIdle();
     }
@@ -981,7 +981,7 @@ void Fleech::Motion_14_ExtendTongueFromEnemy()
 
 void Fleech::Motion_15_RetractTongueFromEnemey()
 {
-    if (IsActiveHero(sObjectIds.Find_Impl(field_11C_obj_id)) && ((sActiveHero->CantBeDamaged_44BAB0()) || sActiveHero->GetInvisible()))
+    if (IsActiveHero(sObjectIds.Find_Impl(mFoodObjId)) && ((sActiveHero->CantBeDamaged_44BAB0()) || sActiveHero->GetInvisible()))
     {
         sub_42B8C0();
         ToIdle();
@@ -1066,7 +1066,7 @@ void Fleech::Motion_18_Consume()
     {
         Sound(FleechSound::Digesting_2);
     }
-    else if (GetAnimation().GetCurrentFrame() == 15 && field_11C_obj_id == sActiveHero->mBaseGameObjectId)
+    else if (GetAnimation().GetCurrentFrame() == 15 && mFoodObjId == sActiveHero->mBaseGameObjectId)
     {
         sActiveHero->SetAsDead_459430();
 
@@ -1114,13 +1114,13 @@ Fleech::~Fleech()
     {
         if (sActiveHero)
         {
-            if (field_11C_obj_id == sActiveHero->mBaseGameObjectId)
+            if (mFoodObjId == sActiveHero->mBaseGameObjectId)
             {
                 sActiveHero->SetAsDead_459430();
             }
         }
     }
-    field_11C_obj_id = Guid{};
+    mFoodObjId = Guid{};
 
     if (!mShrivelDeath)
     {
@@ -1150,7 +1150,7 @@ void Fleech::VUpdate()
                 CollisionMask(static_cast<eLineTypes>(BaseAliveGameObjectCollisionLineType)));
         }
         BaseAliveGameObjectCollisionLineType = 0;
-        field_11C_obj_id = BaseGameObject::RefreshId(field_11C_obj_id);
+        mFoodObjId = BaseGameObject::RefreshId(mFoodObjId);
         mScrabOrParamite = BaseGameObject::RefreshId(mScrabOrParamite);
         BaseAliveGameObject_PlatformId = BaseGameObject::RefreshId(BaseAliveGameObject_PlatformId);
     }
@@ -1395,7 +1395,7 @@ void Fleech::VScreenChanged()
     if (gMap.LevelChanged() || gMap.PathChanged())
     {
         SetDead(true);
-        field_11C_obj_id = Guid{};
+        mFoodObjId = Guid{};
         mScrabOrParamite = Guid{};
     }
 }
@@ -1532,7 +1532,7 @@ void Fleech::Init()
     SetNextMotion(eFleechMotions::eNone_m1);
     BaseAliveGameObject_PlatformId = Guid{};
     mReturnToPreviousMotion = false;
-    field_11C_obj_id = Guid{};
+    mFoodObjId = Guid{};
     mScrabOrParamite = Guid{};
     field_15E_lost_target_timer = 0;
 
@@ -1642,7 +1642,7 @@ void Fleech::TongueHangingFromWall(s16 target_x, s16 target_y)
 
 void Fleech::TongueUpdate()
 {
-    auto pTarget = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(field_11C_obj_id));
+    auto pTarget = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(mFoodObjId));
     if (!gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0))
     {
         mRenderTongue = false;
@@ -2253,7 +2253,7 @@ s32 Fleech::TongueActive()
 
 void Fleech::PullTargetIn()
 {
-    auto pTarget = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(field_11C_obj_id));
+    auto pTarget = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(mFoodObjId));
     if (pTarget)
     {
         mTongueActive = true;
@@ -2567,10 +2567,10 @@ static const MusicController::MusicTypes sPatrolBrainMusicTypes[] = {
 
 void PatrolBrain::VUpdate()
 {
-    auto pTarget = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(mFleech.field_11C_obj_id));
+    auto pTarget = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(mFleech.mFoodObjId));
     if (!pTarget || pTarget->GetDead() || pTarget->mHealth <= FP_FromInteger(0) || pTarget->GetInvisible())
     {
-        mFleech.field_11C_obj_id = Guid{};
+        mFleech.mFoodObjId = Guid{};
         pTarget = nullptr;
     }
 
@@ -2585,15 +2585,15 @@ void PatrolBrain::VUpdate()
 
     switch (mBrainState)
     {
-        case EState::State_0_Init:
+        case EState::eInit:
             mBrainState = Brain_Patrol_State_0();
             return;
 
-        case EState::eSleeping_1:
+        case EState::eSleeping:
             mBrainState = Brain_Patrol_State_1();
             return;
 
-        case EState::State_2:
+        case EState::eWakingUp:
             mBrainState = Brain_Patrol_State_2();
             return;
 
@@ -2601,31 +2601,31 @@ void PatrolBrain::VUpdate()
             mBrainState = Brain_Patrol_State_3();
             return;
 
-        case EState::eAlerted_4:
+        case EState::eAlerted:
             mBrainState = Brain_Patrol_State_4(pTarget);
             return;
 
-        case EState::eHearingScrabOrParamite_5:
+        case EState::eHearingScrabOrParamite:
             mBrainState = Brain_Patrol_State_5();
             return;
 
-        case EState::State_6:
+        case EState::eDangerNearby:
             mBrainState = Brain_Patrol_State_6();
             return;
 
-        case EState::State_7:
+        case EState::eBackToAlerted:
             mBrainState = Brain_Patrol_State_7();
             return;
 
-        case EState::eAlertedByAbe_8:
+        case EState::eAlertedByAbe:
             mBrainState = Brain_Patrol_State_8(pTarget);
             return;
 
-        case EState::State_9:
+        case EState::eNearHoist:
             mBrainState = Brain_Patrol_State_9();
             return;
 
-        case EState::State_10:
+        case EState::eClimbHoist:
             mBrainState = Brain_Patrol_State_10();
             return;
 
@@ -2644,22 +2644,22 @@ PatrolBrain::EState PatrolBrain::Brain_Patrol_State_0()
 
     if (mFleech.mCurrentAnger > mFleech.mMaxAnger)
     {
-        return EState::eAlerted_4;
+        return EState::eAlerted;
     }
 
     if (mFleech.GetCurrentMotion() == eFleechMotions::Motion_0_Sleeping)
     {
-        return EState::eSleeping_1;
+        return EState::eSleeping;
     }
 
     if (mFleech.GetCurrentMotion() != eFleechMotions::Motion_17_SleepingWithTongue && !mFleech.mGoesToSleep)
     {
-        return EState::eAlerted_4;
+        return EState::eAlerted;
     }
 
     if (mFleech.GetCurrentMotion() == eFleechMotions::Motion_0_Sleeping || mFleech.GetCurrentMotion() == eFleechMotions::Motion_17_SleepingWithTongue)
     {
-        return EState::eSleeping_1;
+        return EState::eSleeping;
     }
 
     return EState::eGoingBackToSleep;
@@ -2702,7 +2702,7 @@ PatrolBrain::EState PatrolBrain::Brain_Patrol_State_1()
         {
             mFleech.SetNextMotion(eFleechMotions::Motion_9_Fall);
             mFleech.BaseAliveGameObjectLastLineYPos = mFleech.mYPos;
-            return EState::eAlerted_4;
+            return EState::eAlerted;
         }
     }
     else
@@ -2714,7 +2714,7 @@ PatrolBrain::EState PatrolBrain::Brain_Patrol_State_1()
             {
                 mFleech.SetNextMotion(eFleechMotions::Motion_9_Fall);
                 mFleech.BaseAliveGameObjectLastLineYPos = mFleech.mYPos;
-                return EState::eAlerted_4;
+                return EState::eAlerted;
             }
         }
         else
@@ -2729,12 +2729,12 @@ PatrolBrain::EState PatrolBrain::Brain_Patrol_State_1()
             {
                 mFleech.SetNextMotion(eFleechMotions::Motion_9_Fall);
                 mFleech.BaseAliveGameObjectLastLineYPos = mFleech.mYPos;
-                return EState::eAlerted_4;
+                return EState::eAlerted;
             }
         }
     }
     mFleech.SetNextMotion(eFleechMotions::Motion_1_WakingUp);
-    return EState::State_2;
+    return EState::eWakingUp;
 }
 
 PatrolBrain::EState PatrolBrain::Brain_Patrol_State_2()
@@ -2753,7 +2753,7 @@ PatrolBrain::EState PatrolBrain::Brain_Patrol_State_2()
         mFleech.SetNextMotion(eFleechMotions::Motion_9_Fall);
         mFleech.BaseAliveGameObjectLastLineYPos = mFleech.mYPos;
     }
-    return EState::eAlerted_4;
+    return EState::eAlerted;
 }
 
 PatrolBrain::EState PatrolBrain::Brain_Patrol_State_3()
@@ -2770,17 +2770,17 @@ PatrolBrain::EState PatrolBrain::Brain_Patrol_State_3()
 
     mFleech.mCurrentAnger = 0;
     mFleech.SetNextMotion(eFleechMotions::Motion_0_Sleeping);
-    return EState::eSleeping_1;
+    return EState::eSleeping;
 }
 
 PatrolBrain::EState PatrolBrain::Brain_Patrol_State_4(IBaseAliveGameObject* pTarget)
 {
-    if (mFleech.field_11C_obj_id == Guid{})
+    if (mFleech.mFoodObjId == Guid{})
     {
         pTarget = mFleech.FindMudOrAbe();
         if (pTarget)
         {
-            mFleech.field_11C_obj_id = pTarget->mBaseGameObjectId;
+            mFleech.mFoodObjId = pTarget->mBaseGameObjectId;
         }
     }
 
@@ -2827,7 +2827,7 @@ PatrolBrain::EState PatrolBrain::Brain_Patrol_State_4(IBaseAliveGameObject* pTar
                 mFleech.SetCurrentMotion(eFleechMotions::Motion_6_Knockback);
             }
         }
-        return EState::eHearingScrabOrParamite_5;
+        return EState::eHearingScrabOrParamite;
     }
 
     mFleech.IncreaseAnger();
@@ -2847,12 +2847,12 @@ PatrolBrain::EState PatrolBrain::Brain_Patrol_State_4(IBaseAliveGameObject* pTar
         if (!pTarget->GetInvisible() && mFleech.VOnSameYLevel(pTarget) && gMap.Is_Point_In_Current_Camera(mFleech.mCurrentLevel, mFleech.mCurrentPath, pTarget->mXPos, pTarget->mYPos, 0) && gMap.Is_Point_In_Current_Camera(mFleech.mCurrentLevel, mFleech.mCurrentPath, mFleech.mXPos, mFleech.mYPos, 0) && !mFleech.WallHit(FP_FromInteger(mFleech.GetSpriteScale() >= FP_FromInteger(1) ? 10 : 5), pTarget->mXPos - mFleech.mXPos))
         {
             mFleech.mCurrentAnger = mFleech.mAttackAngerIncreaser + 1;
-            return EState::eAlertedByAbe_8;
+            return EState::eAlertedByAbe;
         }
 
         if (mFleech.mCurrentAnger > mFleech.mAttackAngerIncreaser && !pTarget->GetInvisible() && mFleech.mScrabOrParamite == Guid{})
         {
-            return EState::eAlertedByAbe_8;
+            return EState::eAlertedByAbe;
         }
     }
 
@@ -2870,7 +2870,7 @@ PatrolBrain::EState PatrolBrain::Brain_Patrol_State_4(IBaseAliveGameObject* pTar
         }
         mFleech.mHoistX = pHoist->mTopLeftX + (mFleech.GetSpriteScale() >= FP_FromInteger(1) ? 12 : 6);
         mFleech.mHoistY = pHoist->mTopLeftY;
-        return EState::State_9;
+        return EState::eNearHoist;
     }
 
     if (!(Fleech_NextRandom() % 32) && mFleech.GetCurrentMotion() == eFleechMotions::Motion_3_Idle)
@@ -3019,7 +3019,7 @@ PatrolBrain::EState PatrolBrain::Brain_Patrol_State_5()
     mFleech.field_14E_ScrabParamiteEventXPos = -1;
     mFleech.SetNextMotion(eFleechMotions::Motion_4_Crawl);
     mFleech.CanMove();
-    return EState::State_6;
+    return EState::eDangerNearby;
 }
 
 PatrolBrain::EState PatrolBrain::Brain_Patrol_State_6()
@@ -3037,7 +3037,7 @@ PatrolBrain::EState PatrolBrain::Brain_Patrol_State_6()
     {
         mFleech.SetNextMotion(eFleechMotions::Motion_3_Idle);
     }
-    return EState::State_7;
+    return EState::eBackToAlerted;
 }
 
 PatrolBrain::EState PatrolBrain::Brain_Patrol_State_7()
@@ -3046,14 +3046,14 @@ PatrolBrain::EState PatrolBrain::Brain_Patrol_State_7()
     {
         return mBrainState;
     }
-    return EState::eAlerted_4;
+    return EState::eAlerted;
 }
 
 PatrolBrain::EState PatrolBrain::Brain_Patrol_State_8(IBaseAliveGameObject* pTarget)
 {
     if (IsActiveHero(pTarget) && sActiveHero->GetInvisible())
     {
-        return EState::State_0_Init;
+        return EState::eInit;
     }
 
     if (mFleech.field_15A_chase_timer < mFleech.field_158_chase_delay)
@@ -3063,7 +3063,7 @@ PatrolBrain::EState PatrolBrain::Brain_Patrol_State_8(IBaseAliveGameObject* pTar
     }
 
     mFleech.SetBrain(EBrainTypes::ChasingAbe);
-    mFleech.mChasingAbeBrain.SetState(ChasingAbeBrain::EState::eInit_0);
+    mFleech.mChasingAbeBrain.SetState(ChasingAbeBrain::EState::eInit);
     return mBrainState;
 }
 
@@ -3079,7 +3079,7 @@ PatrolBrain::EState PatrolBrain::Brain_Patrol_State_9()
         return mBrainState;
     }
     mFleech.SetNextMotion(eFleechMotions::Motion_11_RaiseHead);
-    return EState::State_10;
+    return EState::eClimbHoist;
 }
 
 PatrolBrain::EState PatrolBrain::Brain_Patrol_State_10()
@@ -3089,17 +3089,17 @@ PatrolBrain::EState PatrolBrain::Brain_Patrol_State_10()
         return mBrainState;
     }
     mFleech.field_152_old_xpos = FP_GetExponent(mFleech.mXPos);
-    return EState::eAlerted_4;
+    return EState::eAlerted;
 }
 
 void ChasingAbeBrain::VUpdate()
 {
-    auto pObj = static_cast<IBaseAliveGameObject*>(sObjectIds.Find_Impl(mFleech.field_11C_obj_id));
+    auto pObj = static_cast<IBaseAliveGameObject*>(sObjectIds.Find_Impl(mFleech.mFoodObjId));
     if (pObj)
     {
         if (pObj->GetDead() || (IsActiveHero(pObj) && sActiveHero->GetInvisible()))
         {
-            mFleech.field_11C_obj_id = Guid{};
+            mFleech.mFoodObjId = Guid{};
             pObj = nullptr;
         }
     }
@@ -3115,7 +3115,7 @@ void ChasingAbeBrain::VUpdate()
 
     switch (mBrainState)
     {
-        case EState::eInit_0:
+        case EState::eInit:
             mBrainState = Brain_ChasingAbe_State_0(pObj);
             return;
         case EState::eChasingAbe_1:
@@ -3144,10 +3144,10 @@ void ChasingAbeBrain::VUpdate()
             IBaseAliveGameObject* pMudOrAbe = mFleech.FindMudOrAbe();
             if (pMudOrAbe)
             {
-                if (pMudOrAbe->mBaseGameObjectId != mFleech.field_11C_obj_id)
+                if (pMudOrAbe->mBaseGameObjectId != mFleech.mFoodObjId)
                 {
                     pObj = pMudOrAbe;
-                    mFleech.field_11C_obj_id = pMudOrAbe->mBaseGameObjectId;
+                    mFleech.mFoodObjId = pMudOrAbe->mBaseGameObjectId;
                 }
             }
 
@@ -3329,7 +3329,7 @@ void ChasingAbeBrain::VUpdate()
             mFleech.SetNextMotion(eFleechMotions::Motion_3_Idle);
             mFleech.SetBrain(EBrainTypes::Patrol);
             mFleech.mCurrentAnger = mFleech.mMaxAnger + (mFleech.mAttackAngerIncreaser - mFleech.mMaxAnger) / 2;
-            mFleech.mPatrolBrain.SetState(PatrolBrain::EState::State_0_Init);
+            mFleech.mPatrolBrain.SetState(PatrolBrain::EState::eInit);
             return;
 
         case EState::ePrepareToHoist_14:
@@ -3373,7 +3373,7 @@ ChasingAbeBrain::EState ChasingAbeBrain::Brain_ChasingAbe_State_9(IBaseAliveGame
         {
             mFleech.SetCurrentMotion(eFleechMotions::Motion_6_Knockback);
             mFleech.SetBrain(EBrainTypes::Scared);
-            return EState::eInit_0; // TODO: set scared brain state to 0 instead
+            return EState::eInit; // TODO: set scared brain state to 0 instead
         }
     }
 
@@ -3487,7 +3487,7 @@ ChasingAbeBrain::EState ChasingAbeBrain::Brain_ChasingAbe_State_2(IBaseAliveGame
         mFleech.field_15E_lost_target_timer = 0;
         mFleech.SetBrain(EBrainTypes::Patrol);
         mFleech.mCurrentAnger = mFleech.mAttackAngerIncreaser - 1;
-        mFleech.mPatrolBrain.SetState(PatrolBrain::EState::State_0_Init);
+        mFleech.mPatrolBrain.SetState(PatrolBrain::EState::eInit);
         return mBrainState;
     }
     else if (mFleech.GetCurrentMotion() == eFleechMotions::Motion_4_Crawl) // TODO: Check v52 was cur motion
@@ -3506,13 +3506,13 @@ ChasingAbeBrain::EState ChasingAbeBrain::Brain_ChasingAbe_State_0(IBaseAliveGame
 {
     if (!pObj)
     {
-        mFleech.field_11C_obj_id = Guid{};
+        mFleech.mFoodObjId = Guid{};
         IBaseAliveGameObject* pMudOrAbe = mFleech.FindMudOrAbe();
         if (!pMudOrAbe)
         {
             return EState::eBackToPatrol_13;
         }
-        mFleech.field_11C_obj_id = pMudOrAbe->mBaseGameObjectId;
+        mFleech.mFoodObjId = pMudOrAbe->mBaseGameObjectId;
     }
     mFleech.field_15E_lost_target_timer = 0;
     mFleech.SetNextMotion(eFleechMotions::Motion_4_Crawl);
@@ -3615,10 +3615,10 @@ ChasingAbeBrain::EState ChasingAbeBrain::Brain_ChasingAbe_State_1(IBaseAliveGame
     IBaseAliveGameObject* pAbeOrMud = mFleech.FindMudOrAbe();
     if (pAbeOrMud)
     {
-        if (pAbeOrMud->mBaseGameObjectId != mFleech.field_11C_obj_id)
+        if (pAbeOrMud->mBaseGameObjectId != mFleech.mFoodObjId)
         {
             pObj = pAbeOrMud;
-            mFleech.field_11C_obj_id = pAbeOrMud->mBaseGameObjectId;
+            mFleech.mFoodObjId = pAbeOrMud->mBaseGameObjectId;
         }
     }
 
@@ -4054,7 +4054,7 @@ void ScaredBrain::VUpdate()
                 !mFleech.WallHit(FP_FromInteger(mFleech.GetSpriteScale() >= FP_FromInteger(1) ? 10 : 5), pDangerObj->mXPos - mFleech.mXPos) &&
                 mFleech.GotNoTarget())
             {
-                mFleech.field_11C_obj_id = mFleech.mScrabOrParamite;
+                mFleech.mFoodObjId = mFleech.mScrabOrParamite;
                 mBrainState = EState::eCorneredPrepareAttack_5;
                 return;
             }
@@ -4194,9 +4194,9 @@ void ScaredBrain::VUpdate()
         case EState::ePatrolArea_9:
             mFleech.SetNextMotion(eFleechMotions::Motion_3_Idle);
             mFleech.mScrabOrParamite = Guid{};
-            mFleech.field_11C_obj_id = Guid{};
+            mFleech.mFoodObjId = Guid{};
             mFleech.SetBrain(EBrainTypes::Patrol);
-            mFleech.mPatrolBrain.SetState(PatrolBrain::EState::State_0_Init);
+            mFleech.mPatrolBrain.SetState(PatrolBrain::EState::eInit);
             return;
 
         case EState::ePrepareToHoist_10:
@@ -4233,7 +4233,7 @@ void ScaredBrain::VUpdate()
 
 void DeathBrain::VUpdate()
 {
-    mFleech.field_11C_obj_id = Guid{};
+    mFleech.mFoodObjId = Guid{};
     MusicController::static_PlayMusic(MusicController::MusicTypes::eNone_0, &mFleech, 0, 0);
 
     if (mFleech.field_12C_shrivel_timer < static_cast<s32>(sGnFrame + 80))

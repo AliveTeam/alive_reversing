@@ -686,21 +686,21 @@ NLOHMANN_JSON_SERIALIZE_ENUM(IFleechBrain::EBrainTypes, {
 })
 
 NLOHMANN_JSON_SERIALIZE_ENUM(PatrolBrain::EState, {
-    {PatrolBrain::EState::State_0_Init, "state_0_init"},
-    {PatrolBrain::EState::eSleeping_1, "sleeping_1"},
-    {PatrolBrain::EState::State_2, "state_2"},
+    {PatrolBrain::EState::eInit, "state_0_init"},
+    {PatrolBrain::EState::eSleeping, "sleeping_1"},
+    {PatrolBrain::EState::eWakingUp, "state_2"},
     {PatrolBrain::EState::eGoingBackToSleep, "going_back_to_sleep"},
-    {PatrolBrain::EState::eAlerted_4, "alerted_4"},
-    {PatrolBrain::EState::eHearingScrabOrParamite_5, "hearing_scrab_or_paramite_5"},
-    {PatrolBrain::EState::State_6, "state_6"},
-    {PatrolBrain::EState::State_7, "state_7"},
-    {PatrolBrain::EState::eAlertedByAbe_8, "alerted_by_abe_8"},
-    {PatrolBrain::EState::State_9, "state_9"},
-    {PatrolBrain::EState::State_10, "state_10"},
+    {PatrolBrain::EState::eAlerted, "alerted_4"},
+    {PatrolBrain::EState::eHearingScrabOrParamite, "hearing_scrab_or_paramite_5"},
+    {PatrolBrain::EState::eDangerNearby, "state_6"},
+    {PatrolBrain::EState::eBackToAlerted, "state_7"},
+    {PatrolBrain::EState::eAlertedByAbe, "alerted_by_abe_8"},
+    {PatrolBrain::EState::eNearHoist, "state_9"},
+    {PatrolBrain::EState::eClimbHoist, "state_10"},
 })
 
 NLOHMANN_JSON_SERIALIZE_ENUM(ChasingAbeBrain::EState, {
-    {ChasingAbeBrain::EState::eInit_0, "init_0"},
+    {ChasingAbeBrain::EState::eInit, "init_0"},
     {ChasingAbeBrain::EState::eChasingAbe_1, "chasing_abe_1"},
     {ChasingAbeBrain::EState::eUnknown_2, "unknown_2"},
     {ChasingAbeBrain::EState::eContinueChaseAfterFall_3, "continue_chase_after_fall_3"},
@@ -743,8 +743,8 @@ inline void to_json(nlohmann::json& j, const FleechSaveState& p)
         {"ypos", p.mYPos},
         {"velx", p.mVelX},
         {"vely", p.mVelY},
-        {"path_number", p.mPathNumber},
-        {"lvl_number", p.mLvlNumber},
+        {"path_number", p.mCurrentPath},
+        {"lvl_number", p.mCurrentLevel},
         {"sprite_scale", p.mSpriteScale},
         {"red", p.mRed},
         {"green", p.mGreen},
@@ -762,7 +762,7 @@ inline void to_json(nlohmann::json& j, const FleechSaveState& p)
         {"collision_line_type", p.mCollisionLineType},
         {"platform_id", p.mPlatformId},
         {"tlv_info", p.mTlvInfo},
-        {"field_44_obj_id", p.field_44_obj_id},
+        {"field_44_obj_id", p.mFoodObjId},
         {"tongue_state", p.mTongueState},
         {"tongue_sub_state", p.mTongueSubState},
         {"enemy_x_pos", p.mEnemyXPos},
@@ -785,29 +785,29 @@ inline void to_json(nlohmann::json& j, const FleechSaveState& p)
         {"did_map_follow_me", p.field_6A_bDidMapFollowMe},
         {"vel_x_factor", p.field_70_velx_factor},
         {"current_anger", p.field_76_current_anger},
-        {"max_anger", p.field_78_max_anger},
-        {"attack_anger", p.field_7A_attack_anger},
-        {"wakeup_id", p.field_7C_wakeup_id},
-        {"wake_up_switch_anger_value", p.field_7E_wake_up_switch_anger_value},
-        {"wake_up_switch_value", p.field_80_wake_up_switch_value},
-        {"can_wake_up_id", p.field_82_can_wake_up_id},
+        {"max_anger", p.mMaxAnger},
+        {"attack_anger", p.mAttackAngerIncreaser},
+        {"wakeup_id", p.mWakeUpSwitchId},
+        {"wake_up_switch_anger_value", p.mWakeUpSwitchAngerValue},
+        {"wake_up_switch_value", p.mWakeUpSwitchValue},
+        {"can_wake_up_id", p.mCanWakeUpSwitchId},
         {"event_x_pos", p.field_84_EventXPos},
         {"scrab_paramite_event_x_pos", p.field_86_ScrabParamiteEventXPos},
-        {"patrol_range", p.field_88_patrol_range},
+        {"patrol_range", p.mPatrolRange},
         {"old_x_pos", p.field_8A_old_xpos},
         {"field_8c", p.field_8C},
         {"rnd_crawl", p.field_8E_rnd_crawl},
         {"chase_delay", p.field_90_chase_delay},
         {"chase_timer", p.field_92_chase_timer},
-        {"lost_target_timeout", p.field_94_lost_target_timeout},
+        {"lost_target_timeout", p.mLostTargetTimeout},
         {"lost_target_timer", p.field_96_lost_target_timer},
-        {"hoist_x", p.field_98_hoistX},
-        {"hoist_y", p.field_9A_hoistY},
+        {"hoist_x", p.mHoistX},
+        {"hoist_y", p.mHoistY},
         {"angle", p.field_9E_angle},
         {"field_9f", p.field_9F},
-        {"hoist_y_distance", p.field_A0_hoistY_distance},
-        {"hoist_x_distance", p.field_A4_hoistX_distance},
-        {"field_a8", p.field_A8},
+        {"hoist_y_distance", p.mHoistYDistance},
+        {"hoist_x_distance", p.mHoistXDistance},
+        {"field_a8", p.mScrabOrParamite},
         {"field_ac_obj_id", p.field_AC_obj_id},
         {"hoist_done", p.mHoistDone},
         {"chasing_or_scared_crawling_left", p.mChasingOrScaredCrawlingLeft},
@@ -828,8 +828,8 @@ inline void from_json(const nlohmann::json& j, FleechSaveState& p)
     j.at("ypos").get_to(p.mYPos);
     j.at("velx").get_to(p.mVelX);
     j.at("vely").get_to(p.mVelY);
-    j.at("path_number").get_to(p.mPathNumber);
-    j.at("lvl_number").get_to(p.mLvlNumber);
+    j.at("path_number").get_to(p.mCurrentPath);
+    j.at("lvl_number").get_to(p.mCurrentLevel);
     j.at("sprite_scale").get_to(p.mSpriteScale);
     j.at("red").get_to(p.mRed);
     j.at("green").get_to(p.mGreen);
@@ -847,7 +847,7 @@ inline void from_json(const nlohmann::json& j, FleechSaveState& p)
     j.at("collision_line_type").get_to(p.mCollisionLineType);
     j.at("platform_id").get_to(p.mPlatformId);
     j.at("tlv_info").get_to(p.mTlvInfo);
-    j.at("field_44_obj_id").get_to(p.field_44_obj_id);
+    j.at("field_44_obj_id").get_to(p.mFoodObjId);
     j.at("tongue_state").get_to(p.mTongueState);
     j.at("tongue_sub_state").get_to(p.mTongueSubState);
     j.at("enemy_x_pos").get_to(p.mEnemyXPos);
@@ -870,29 +870,29 @@ inline void from_json(const nlohmann::json& j, FleechSaveState& p)
     j.at("did_map_follow_me").get_to(p.field_6A_bDidMapFollowMe);
     j.at("vel_x_factor").get_to(p.field_70_velx_factor);
     j.at("current_anger").get_to(p.field_76_current_anger);
-    j.at("max_anger").get_to(p.field_78_max_anger);
-    j.at("attack_anger").get_to(p.field_7A_attack_anger);
-    j.at("wakeup_id").get_to(p.field_7C_wakeup_id);
-    j.at("wake_up_switch_anger_value").get_to(p.field_7E_wake_up_switch_anger_value);
-    j.at("wake_up_switch_value").get_to(p.field_80_wake_up_switch_value);
-    j.at("can_wake_up_id").get_to(p.field_82_can_wake_up_id);
+    j.at("max_anger").get_to(p.mMaxAnger);
+    j.at("attack_anger").get_to(p.mAttackAngerIncreaser);
+    j.at("wakeup_id").get_to(p.mWakeUpSwitchId);
+    j.at("wake_up_switch_anger_value").get_to(p.mWakeUpSwitchAngerValue);
+    j.at("wake_up_switch_value").get_to(p.mWakeUpSwitchValue);
+    j.at("can_wake_up_id").get_to(p.mCanWakeUpSwitchId);
     j.at("event_x_pos").get_to(p.field_84_EventXPos);
     j.at("scrab_paramite_event_x_pos").get_to(p.field_86_ScrabParamiteEventXPos);
-    j.at("patrol_range").get_to(p.field_88_patrol_range);
+    j.at("patrol_range").get_to(p.mPatrolRange);
     j.at("old_x_pos").get_to(p.field_8A_old_xpos);
     j.at("field_8c").get_to(p.field_8C);
     j.at("rnd_crawl").get_to(p.field_8E_rnd_crawl);
     j.at("chase_delay").get_to(p.field_90_chase_delay);
     j.at("chase_timer").get_to(p.field_92_chase_timer);
-    j.at("lost_target_timeout").get_to(p.field_94_lost_target_timeout);
+    j.at("lost_target_timeout").get_to(p.mLostTargetTimeout);
     j.at("lost_target_timer").get_to(p.field_96_lost_target_timer);
-    j.at("hoist_x").get_to(p.field_98_hoistX);
-    j.at("hoist_y").get_to(p.field_9A_hoistY);
+    j.at("hoist_x").get_to(p.mHoistX);
+    j.at("hoist_y").get_to(p.mHoistY);
     j.at("angle").get_to(p.field_9E_angle);
     j.at("field_9f").get_to(p.field_9F);
-    j.at("hoist_y_distance").get_to(p.field_A0_hoistY_distance);
-    j.at("hoist_x_distance").get_to(p.field_A4_hoistX_distance);
-    j.at("field_a8").get_to(p.field_A8);
+    j.at("hoist_y_distance").get_to(p.mHoistYDistance);
+    j.at("hoist_x_distance").get_to(p.mHoistXDistance);
+    j.at("field_a8").get_to(p.mScrabOrParamite);
     j.at("field_ac_obj_id").get_to(p.field_AC_obj_id);
     j.at("hoist_done").get_to(p.mHoistDone);
     j.at("chasing_or_scared_crawling_left").get_to(p.mChasingOrScaredCrawlingLeft);

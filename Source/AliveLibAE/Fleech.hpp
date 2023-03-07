@@ -74,17 +74,17 @@ class PatrolBrain final : public IFleechBrain
 public:
     enum EState
     {
-        State_0_Init = 0,
-        eSleeping_1 = 1,
-        State_2 = 2,
+        eInit = 0,
+        eSleeping = 1,
+        eWakingUp = 2,
         eGoingBackToSleep = 3,
-        eAlerted_4 = 4,
-        eHearingScrabOrParamite_5 = 5,
-        State_6 = 6,
-        State_7 = 7,
-        eAlertedByAbe_8 = 8,
-        State_9 = 9,
-        State_10 = 10,
+        eAlerted = 4,
+        eHearingScrabOrParamite = 5,
+        eDangerNearby = 6,
+        eBackToAlerted = 7,
+        eAlertedByAbe = 8,
+        eNearHoist = 9,
+        eClimbHoist = 10,
     };
 
     explicit PatrolBrain(Fleech& fleech) : mFleech(fleech) {}
@@ -95,6 +95,7 @@ public:
     void SetState(EState state) { mBrainState = state; }
     EState State() { return mBrainState; }
 
+private:
     EState Brain_Patrol_State_0();
     EState Brain_Patrol_State_1();
     EState Brain_Patrol_State_2();
@@ -109,7 +110,7 @@ public:
 
 private:
     Fleech& mFleech;
-    EState mBrainState = EState::State_0_Init;
+    EState mBrainState = EState::eInit;
 };
 
 class ChasingAbeBrain final : public IFleechBrain
@@ -117,7 +118,7 @@ class ChasingAbeBrain final : public IFleechBrain
 public:
     enum EState
     {
-        eInit_0 = 0,
+        eInit = 0,
         eChasingAbe_1 = 1,
         eUnknown_2 = 2,
         eContinueChaseAfterFall_3 = 3,
@@ -144,6 +145,7 @@ public:
     void SetState(EState state) { mBrainState = state; }
     EState State() { return mBrainState; }
 
+private:
     EState Brain_ChasingAbe_State_0(IBaseAliveGameObject* pObj);
 
     EState Brain_ChasingAbe_State_1(IBaseAliveGameObject* pObj);
@@ -154,7 +156,7 @@ public:
 
 private:
     Fleech& mFleech;
-    EState mBrainState = EState::eInit_0;
+    EState mBrainState = EState::eInit;
 };
 
 class ScaredBrain final : public IFleechBrain
@@ -210,8 +212,8 @@ struct FleechSaveState final
     FP mYPos;
     FP mVelX;
     FP mVelY;
-    s16 mPathNumber;
-    EReliveLevelIds mLvlNumber;
+    s16 mCurrentPath;
+    EReliveLevelIds mCurrentLevel;
     FP mSpriteScale;
     s16 mRed;
     s16 mGreen;
@@ -229,7 +231,7 @@ struct FleechSaveState final
     s16 mCollisionLineType;
     Guid mPlatformId;
     Guid mTlvInfo;
-    Guid field_44_obj_id;
+    Guid mFoodObjId;
     s16 mTongueState;
     s16 mTongueSubState;
     s16 mEnemyXPos;
@@ -252,29 +254,29 @@ struct FleechSaveState final
     s16 field_6A_bDidMapFollowMe;
     FP field_70_velx_factor;
     s16 field_76_current_anger;
-    s16 field_78_max_anger;
-    s16 field_7A_attack_anger;
-    s16 field_7C_wakeup_id;
-    s16 field_7E_wake_up_switch_anger_value;
-    s16 field_80_wake_up_switch_value;
-    s16 field_82_can_wake_up_id;
+    s16 mMaxAnger;
+    s16 mAttackAngerIncreaser;
+    s16 mWakeUpSwitchId;
+    s16 mWakeUpSwitchAngerValue;
+    s16 mWakeUpSwitchValue;
+    s16 mCanWakeUpSwitchId;
     s16 field_84_EventXPos;
     s16 field_86_ScrabParamiteEventXPos;
-    s16 field_88_patrol_range;
+    s16 mPatrolRange;
     s16 field_8A_old_xpos;
     s16 field_8C;
     s16 field_8E_rnd_crawl;
     s16 field_90_chase_delay;
     s16 field_92_chase_timer;
-    s16 field_94_lost_target_timeout;
+    s16 mLostTargetTimeout;
     s16 field_96_lost_target_timer;
-    s16 field_98_hoistX;
-    s16 field_9A_hoistY;
+    s16 mHoistX;
+    s16 mHoistY;
     s8 field_9E_angle;
     s8 field_9F;
-    FP field_A0_hoistY_distance;
-    FP field_A4_hoistX_distance;
-    Guid field_A8;
+    FP mHoistYDistance;
+    FP mHoistXDistance;
+    Guid mScrabOrParamite;
     Guid field_AC_obj_id;
     bool mHoistDone;
     bool mChasingOrScaredCrawlingLeft;
@@ -383,7 +385,7 @@ private:
     s16 mCanWakeUpSwitchId = 0;
     s16 mLostTargetTimeout = 0;
     s16 mPatrolRange = 0;
-    Guid field_11C_obj_id = Guid{};
+    Guid mFoodObjId = Guid{};
     bool mReturnToPreviousMotion = false;
     s32 field_12C_shrivel_timer = 0;
     s16 field_130_bDidMapFollowMe = 0;
