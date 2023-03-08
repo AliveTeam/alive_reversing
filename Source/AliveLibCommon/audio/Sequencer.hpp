@@ -39,10 +39,10 @@ ADSR parseADSR(u16 adsr1, u16 adsr2);
 class Sample
 {
 public:
-    Sample(ALvoid* buffer, ALsizei size)
+    Sample(ALvoid* buffer, ALsizei size, ALsizei sampleRate)
     {
         alGenBuffers(1, &alBuffer);
-        alBufferData(alBuffer, AL_FORMAT_MONO16, buffer, size, 22050); // TODO - are sample rates different?
+        alBufferData(alBuffer, AL_FORMAT_MONO16, buffer, size, sampleRate);
     }
     ~Sample()
     {
@@ -286,7 +286,7 @@ private:
 
     std::vector<Sequence*> sequences;
 
-    static const int voiceCount = 24;
+    static const int voiceCount = 256;
     Voice* voices[voiceCount];
 
     static const int patchCount = 128;

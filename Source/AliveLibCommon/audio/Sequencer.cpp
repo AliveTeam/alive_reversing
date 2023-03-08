@@ -264,6 +264,7 @@ void Sequencer::playSeq(s32 seqId)
     {
         if (seq->id == seqId)
         {
+            seq->repeats = 0;
             seq->play = true;
         }
     }
