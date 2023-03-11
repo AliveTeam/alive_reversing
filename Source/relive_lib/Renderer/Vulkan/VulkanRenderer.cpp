@@ -276,6 +276,8 @@ void VulkanRenderer::pickPhysicalDevice()
     {
         if (isDeviceSuitable(physicalDevices[i]))
         {
+            const auto deviceName = physicalDevices[i].getProperties().deviceName.data();
+            LOG_INFO("using suitable vulkan GPU: %s", deviceName);
             mPhysicalDevice = std::make_unique<vk::raii::PhysicalDevice>(std::move(physicalDevices[i]));
             return;
         }
