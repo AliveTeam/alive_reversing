@@ -203,36 +203,42 @@ static bool CheckRequiredGameFilesExist(FileSystem& fs, GameType gameType, bool 
 {
     if (gameType == GameType::eAe)
     {
-        if (!fs.FileExists("st.lvl") || !fs.FileExists("mi.lvl"))
+        if (fs.FileExists("st.lvl") && fs.FileExists("mi.lvl"))
         {
-            if (showError)
-            {
-                SDL_Init(SDL_INIT_EVENTS);
-                GameDirListing();
-                Alive_Show_ErrorMsg("Abes Exoddus/Abes Oddysee cant start because st.lvl or mi.lvl was not found in the working directory (%s). Copy relive files to the root game directory to fix this.", GetCwd().c_str());
-            }
-            return false;
+            return true;
         }
-        return true;
-    }
-    else if (gameType == GameType::eAo)
-    {
-        if (!fs.FileExists("s1.lvl") || !fs.FileExists("r1.lvl"))
-        {
-            if (showError)
-            {
-                SDL_Init(SDL_INIT_EVENTS);
-                GameDirListing();
-                Alive_Show_ErrorMsg("Abes Oddysee/Abes Exoddus cant start because s1.lvl or r1.lvl was not found in the working directory (%s). Copy relive files to the root game directory to fix this.", GetCwd().c_str());
-            }
-            return false;
-        }
-        return true;
     }
     else
     {
-        return false;
+        if (fs.FileExists("s1.lvl") && fs.FileExists("r1.lvl"))
+        {
+            return true;
+        }
     }
+
+    if (showError)
+    {
+        #ifdef __APPLE__
+        const std::string filesPath = GetPrefPath();
+        #else
+        const std::string filesPath = GetCwd();
+        #endif  
+
+        std::string errorMessage;
+        if (gameType == GameType::eAe)
+        {
+            errorMessage = "Abes Exoddus can't start because st.lvl or mi.lvl was not found in " + filesPath;
+        }
+        else
+        {
+            errorMessage = "Abes Oddysee can't start because s1.lvl or r1.lvl was not found in " + filesPath;
+        }
+
+        SDL_Init(SDL_INIT_EVENTS);
+        GameDirListing();
+        Alive_Show_ErrorMsg(errorMessage.c_str());
+    }
+    return false;
 }
 
 static BaseGameAutoPlayer& GetGameAutoPlayerAO()
