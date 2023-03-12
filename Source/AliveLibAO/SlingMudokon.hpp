@@ -27,6 +27,106 @@ enum SlingMudBrainStates : u16
     Brain_2_AskForPassword = 2
 };
 
+class SlingMudokon;
+
+class ISlingMudokonBrain
+{
+public:
+    enum class EBrainTypes
+    {
+        GiveCode = 0,
+        Spawn = 1,
+        AskForPassword = 2
+    };
+    virtual ~ISlingMudokonBrain() { }
+    virtual void VUpdate() = 0;
+    virtual EBrainTypes VGetBrain() = 0;
+};
+
+class GiveCodeBrain final : public ISlingMudokonBrain
+{
+public:
+    enum EState
+    {
+        Init = 0,
+        GiveCode = 1,
+        PauseABit = 2,
+        WaitForCode = 3,
+        CheckCodeMatching = 4,
+        RespondToProvidedCode = 5,
+    };
+
+    explicit GiveCodeBrain(SlingMudokon& slingMudokon) : mSlingMudokon(slingMudokon) {}
+
+    void VUpdate() override;
+    EBrainTypes VGetBrain() override { return EBrainTypes::GiveCode; }
+
+    void SetState(EState state) { mBrainState = state; }
+    EState State() { return mBrainState; }
+
+private:
+    SlingMudokon& mSlingMudokon;
+    EState mBrainState = EState::Init;
+};
+
+class SpawnBrain final : public ISlingMudokonBrain
+{
+public:
+    enum EState
+    {
+        Init = 0,
+        CreateParticle = 1,
+        CreateFlash = 2,
+        GetAngry = 3,
+        ObserveAbe = 4,
+        PrepareToShoot = 5,
+        Shoot = 6,
+        DisappearAsDoves = 7
+    };
+
+    explicit SpawnBrain(SlingMudokon& slingMudokon) : mSlingMudokon(slingMudokon) {}
+
+    void VUpdate() override;
+    EBrainTypes VGetBrain() override { return EBrainTypes::Spawn; }
+
+    void SetState(EState state) { mBrainState = state; }
+    EState State() { return mBrainState; }
+
+private:
+    SlingMudokon& mSlingMudokon;
+    EState mBrainState = EState::Init;
+};
+
+class AskForPasswordBrain final : public ISlingMudokonBrain
+{
+public:
+    enum EState
+    {
+        Unknown_0 = 0,
+        Unknown_1 = 1,
+        Unknown_2 = 2,
+        Unknown_3 = 3,
+        Unknown_4 = 4,
+        Unknown_5 = 5,
+        Unknown_6 = 6,
+        Unknown_7 = 7,
+        Unknown_8 = 8,
+        Unknown_9 = 9,
+    };
+
+    explicit AskForPasswordBrain(SlingMudokon& slingMudokon) : mSlingMudokon(slingMudokon) {}
+
+    void VUpdate() override;
+    EBrainTypes VGetBrain() override { return EBrainTypes::AskForPassword; }
+
+    void SetState(EState state) { mBrainState = state; }
+    EState State() { return mBrainState; }
+
+private:
+    SlingMudokon& mSlingMudokon;
+    EState mBrainState = EState::Unknown_0;
+};
+
 class SlingMudokon final : public BaseAliveGameObject
 {
 public:
@@ -58,28 +158,32 @@ public:
     void Motion_4_ShootEnd();
     void Motion_5_AngryToIdle();
 
-    // Brains
-    s16 Brain_0_GiveCode();
-    s16 Brain_1_Spawn();
-    s16 Brain_2_AskForPassword();
+private:
+    void SetBrain(ISlingMudokonBrain::EBrainTypes brain);
 
+public:
     Guid mTlvId;
     s32 mCodeConverted = 0;
     s16 mCodeLength = 0;
     bool mDontSetDestroyed = false;
     bool mAbeGettingCloser = false;
-    s32 field_120_last_event_idx = 0;
-    u8 field_124_code_buffer[16] = {};
-    s16 field_134_buffer_start = 0;
-    s16 field_136_buffer_idx = 0;
-    u16 field_138_brain_state = 0;
-    s16 field_13A_brain_sub_state = 0;
+    s32 mLastEventIndex = 0;
+    u8 mCodeBuffer[16] = {};
+    s16 mBufferStart = 0;
+    s16 mBufferIdx = 0;
     s32 field_140_timer = 0;
     s32 field_144_timer2 = 0;
-    s16 field_154_previous_brain_state = 0;
-    s16 field_156_always_4 = 0;
-    s16 field_158_code_pos = 0;
-    s16 field_15A_bCodeMatches = 0;
+    GiveCodeBrain::EState field_154_previous_brain_state = GiveCodeBrain::EState::Init;
+    s16 mCodePos = 0;
+    bool mCodeMatches = false;
+    friend class GiveCodeBrain;
+    friend class SpawnBrain;
+    friend class AskForPasswordBrain;
+    GiveCodeBrain mGiveCodeBrain;
+    SpawnBrain mSpawnBrain;
+    AskForPasswordBrain mAskForPasswordBrain;
+
+    ISlingMudokonBrain* mCurrentBrain = nullptr;
 };
 
 } // namespace AO

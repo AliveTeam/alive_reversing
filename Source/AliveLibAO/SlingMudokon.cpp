@@ -18,6 +18,7 @@
 #include "../relive_lib/FixedPoint.hpp"
 #include "../relive_lib/data_conversion/relive_tlvs.hpp"
 #include "Path.hpp"
+#include "../relive_lib/FatalError.hpp"
 
 namespace AO {
 
@@ -39,12 +40,6 @@ const AnimId sSlingMudMotionAnimIds[6] = {
     AnimId::Mudokon_Sling_ShootEnd,
     AnimId::Mudokon_Sling_AngryToIdle};
 
-using TSlingMudBrain = decltype(&SlingMudokon::Brain_0_GiveCode);
-
-const TSlingMudBrain gSlingMudBrainTable_4CFCE0[] = {
-    &SlingMudokon::Brain_0_GiveCode,
-    &SlingMudokon::Brain_1_Spawn,
-    &SlingMudokon::Brain_2_AskForPassword};
 
 void SlingMudokon::LoadAnimations()
 {
@@ -55,15 +50,18 @@ void SlingMudokon::LoadAnimations()
 }
 
 SlingMudokon::SlingMudokon(relive::Path_SlingMudokon* pTlv, const Guid& tlvId)
-    : BaseAliveGameObject()
+    : BaseAliveGameObject(),
+    mGiveCodeBrain(*this),
+    mSpawnBrain(*this),
+    mAskForPasswordBrain(*this)
 {
     SetType(ReliveTypes::SlingMud);
 
     LoadAnimations();
 
-    field_120_last_event_idx = -1;
-    field_134_buffer_start = 0;
-    field_136_buffer_idx = -1;
+    mLastEventIndex = -1;
+    mBufferStart = 0;
+    mBufferIdx = -1;
     
     Animation_Init(GetAnimRes(AnimId::Mudokon_Sling_Idle));
 
@@ -103,22 +101,17 @@ SlingMudokon::SlingMudokon(relive::Path_SlingMudokon* pTlv, const Guid& tlvId)
 
     if (pTlv->mDontWhistlePassword == relive::reliveChoice::eYes)
     {
-        field_138_brain_state = SlingMudBrainStates::Brain_2_AskForPassword;
+        SetBrain(ISlingMudokonBrain::EBrainTypes::AskForPassword);
     }
     else
     {
-        field_138_brain_state = SlingMudBrainStates::Brain_1_Spawn;
+        SetBrain(ISlingMudokonBrain::EBrainTypes::Spawn);
     }
 
     mCodeConverted = Code_Convert(pTlv->mCode1, pTlv->mCode2);
     mCodeLength = Code_Length(mCodeConverted);
 
-    field_154_previous_brain_state = 99;
-    field_156_always_4 = 99;
-
     mTlvId = tlvId;
-    field_13A_brain_sub_state = 0;
-    field_15A_bCodeMatches = 0;
 
     mAbeGettingCloser = false;
     mDontSetDestroyed = true;
@@ -155,16 +148,7 @@ void SlingMudokon::VUpdate()
 {
     const auto old_motion = mCurrentMotion;
 
-    static auto oldBrain = field_138_brain_state;
-
-
     VCallBrain();
-
-    if (oldBrain != field_138_brain_state)
-    {
-        LOG_INFO("Brain is %d", field_138_brain_state);
-        oldBrain = field_138_brain_state;
-    }
 
     const auto old_x = mXPos;
     const auto old_y = mYPos;
@@ -200,7 +184,7 @@ void SlingMudokon::VCallBrain()
             mYPos,
             0))
     {
-        field_13A_brain_sub_state = InvokeMemberFunction(this, gSlingMudBrainTable_4CFCE0, field_138_brain_state);
+        mCurrentBrain->VUpdate();
     }
     else
     {
@@ -323,7 +307,7 @@ void SlingMudokon::Motion_5_AngryToIdle()
 
 GameSpeakEvents SlingMudokon::getLastIdx()
 {
-    if (field_120_last_event_idx == gEventSystem->mLastEventIndex)
+    if (mLastEventIndex == gEventSystem->mLastEventIndex)
     {
         if (gEventSystem->mLastEvent == GameSpeakEvents::eNone_m1)
         {
@@ -336,303 +320,317 @@ GameSpeakEvents SlingMudokon::getLastIdx()
     }
     else
     {
-        field_120_last_event_idx = gEventSystem->mLastEventIndex;
+        mLastEventIndex = gEventSystem->mLastEventIndex;
         return gEventSystem->mLastEvent;
     }
 }
 
-enum Brain_0_GiveCode
+void SlingMudokon::SetBrain(ISlingMudokonBrain::EBrainTypes brain)
 {
-    eBrain0_Init_0 = 0,
-    eBrain0_GiveCode_1 = 1,
-    eBrain0_PauseABit_2 = 2,
-    eBrain0_WaitForCode_3 = 3,
-    eBrain0_CheckCodeMatching_4 = 4,
-    eBrain0_RespondToProvidedCode_5 = 5,
-};
-
-s16 SlingMudokon::Brain_0_GiveCode()
-{
-    switch (field_13A_brain_sub_state)
+    switch (brain)
     {
-        case Brain_0_GiveCode::eBrain0_Init_0:
-            field_158_code_pos = 0;
-            return Brain_0_GiveCode::eBrain0_GiveCode_1;
+        case ISlingMudokonBrain::EBrainTypes::GiveCode:
+            mCurrentBrain = &mGiveCodeBrain;
+            break;
+        case ISlingMudokonBrain::EBrainTypes::Spawn:
+            mCurrentBrain = &mSpawnBrain;
+            break;
+        case ISlingMudokonBrain::EBrainTypes::AskForPassword:
+            mCurrentBrain = &mAskForPasswordBrain;
+            break;
 
-        case Brain_0_GiveCode::eBrain0_GiveCode_1:
-            if (mCurrentMotion || GetAnimation().GetCurrentFrame() == 0)
+        default:
+            ALIVE_FATAL("Invalid fleech brain type %d", static_cast<s32>(brain));
+    }
+}
+
+void GiveCodeBrain::VUpdate()
+{
+    switch (mBrainState)
+    {
+        case EState::Init:
+            mSlingMudokon.mCodePos = 0;
+            mBrainState = EState::GiveCode;
+            return;
+
+        case EState::GiveCode:
+            if (mSlingMudokon.mCurrentMotion || mSlingMudokon.GetAnimation().GetCurrentFrame() == 0)
             {
-                mNextMotion = 2;
-                switch (Code_LookUp(mCodeConverted, field_158_code_pos, mCodeLength))
+                mSlingMudokon.mNextMotion = 2;
+                switch (Code_LookUp(mSlingMudokon.mCodeConverted, mSlingMudokon.mCodePos, mSlingMudokon.mCodeLength))
                 {
                     case GameSpeakEvents::eAbe_WhistleHigh_1:
-                        Mudokon_SFX(MudSounds::eWhistleHigh_1, 0, 0, this);
+                        Mudokon_SFX(MudSounds::eWhistleHigh_1, 0, 0, &mSlingMudokon);
                         break;
                     case GameSpeakEvents::eAbe_WhistleLow_2:
-                        Mudokon_SFX(MudSounds::eWhistleLow_2, 0, 0, this);
+                        Mudokon_SFX(MudSounds::eWhistleLow_2, 0, 0, &mSlingMudokon);
                         break;
                     case GameSpeakEvents::eAbe_Fart_3:
-                        Mudokon_SFX(MudSounds::eFart_7, 0, 300, this);
+                        Mudokon_SFX(MudSounds::eFart_7, 0, 300, &mSlingMudokon);
                         break;
                     case GameSpeakEvents::eAbe_Laugh_4:
-                        Mudokon_SFX(MudSounds::eLaugh1_8, 0, 300, this);
+                        Mudokon_SFX(MudSounds::eLaugh1_8, 0, 300, &mSlingMudokon);
                         break;
                     default:
                         break;
                 }
 
-                field_158_code_pos++;
-                if (field_158_code_pos >= mCodeLength)
+                mSlingMudokon.mCodePos++;
+                if (mSlingMudokon.mCodePos >= mSlingMudokon.mCodeLength)
                 {
-                    field_134_buffer_start = GameSpeak::sub_40FA60(mCodeConverted, field_124_code_buffer);
-                    return Brain_0_GiveCode::eBrain0_WaitForCode_3;
+                    mSlingMudokon.mBufferStart = GameSpeak::sub_40FA60(mSlingMudokon.mCodeConverted, mSlingMudokon.mCodeBuffer);
+                    mBrainState = EState::WaitForCode;
+                    return;
                 }
                 else
                 {
-                    field_140_timer = sGnFrame + 30;
-                    return Brain_0_GiveCode::eBrain0_PauseABit_2;
+                    mSlingMudokon.field_140_timer = sGnFrame + 30;
+                    mBrainState = EState::PauseABit;
+                    return;
                 }
             }
-            return Brain_0_GiveCode::eBrain0_GiveCode_1;
+            mBrainState = EState::GiveCode;
+            return;
 
-        case Brain_0_GiveCode::eBrain0_PauseABit_2:
-            if (static_cast<s32>(sGnFrame) <= field_140_timer)
+        case EState::PauseABit:
+            if (static_cast<s32>(sGnFrame) <= mSlingMudokon.field_140_timer)
             {
-                if (VIsObj_GettingNear_On_X(sActiveHero))
+                if (mSlingMudokon.VIsObj_GettingNear_On_X(sActiveHero))
                 {
                     break;
                 }
 
-                return field_13A_brain_sub_state;
+                return;
             }
-            return Brain_0_GiveCode::eBrain0_GiveCode_1;
+            mBrainState = EState::GiveCode;
+            return;
 
-        case Brain_0_GiveCode::eBrain0_WaitForCode_3:
+        case EState::WaitForCode:
         {
-            if (VIsObj_GettingNear_On_X(sActiveHero))
+            if (mSlingMudokon.VIsObj_GettingNear_On_X(sActiveHero))
             {
                 break;
             }
 
-            GameSpeakEvents lastIdx = getLastIdx();
+            GameSpeakEvents lastIdx = mSlingMudokon.getLastIdx();
             if (lastIdx == GameSpeakEvents::eNone_m1)
             {
-                return field_13A_brain_sub_state;
+                return;
             }
 
-            field_144_timer2 = sGnFrame + 40;
-            field_136_buffer_idx = static_cast<s16>(gEventSystem->mLastEventIndex);
-            return Brain_0_GiveCode::eBrain0_CheckCodeMatching_4;
+            mSlingMudokon.field_144_timer2 = sGnFrame + 40;
+            mSlingMudokon.mBufferIdx = static_cast<s16>(gEventSystem->mLastEventIndex);
+            mBrainState = EState::CheckCodeMatching;
+            return;
         }
 
-        case Brain_0_GiveCode::eBrain0_CheckCodeMatching_4:
-            if (VIsObj_GettingNear_On_X(sActiveHero))
+        case EState::CheckCodeMatching:
+            if (mSlingMudokon.VIsObj_GettingNear_On_X(sActiveHero))
             {
                 break;
             }
             else
             {
-                GameSpeakEvents lastIdx = getLastIdx();
+                GameSpeakEvents lastIdx = mSlingMudokon.getLastIdx();
                 if (lastIdx != GameSpeakEvents::eNone_m1)
                 {
-                    field_120_last_event_idx = sGnFrame + 40;
-                    field_144_timer2 = sGnFrame + 40;
+                    mSlingMudokon.mLastEventIndex = sGnFrame + 40;
+                    mSlingMudokon.field_144_timer2 = sGnFrame + 40;
                 }
 
-                if (static_cast<s32>(sGnFrame) <= field_144_timer2)
+                if (static_cast<s32>(sGnFrame) <= mSlingMudokon.field_144_timer2)
                 {
-                    if (gEventSystem->MatchBuffer(field_124_code_buffer, field_134_buffer_start, field_136_buffer_idx) != GameSpeakMatch::eFullMatch_1 && gEventSystem->MatchBuffer(field_124_code_buffer, field_134_buffer_start, field_136_buffer_idx) > GameSpeakMatch::eFullMatch_1)
+                    const auto result = gEventSystem->MatchBuffer(mSlingMudokon.mCodeBuffer, mSlingMudokon.mBufferStart, mSlingMudokon.mBufferIdx);
+                    if (result != GameSpeakMatch::eFullMatch_1 &&
+                        result > GameSpeakMatch::eFullMatch_1)
                     {
-                        return field_13A_brain_sub_state;
+                        return;
                     }
                 }
 
-                const GameSpeakMatch MatchBuffer = gEventSystem->MatchBuffer(field_124_code_buffer, field_134_buffer_start, field_136_buffer_idx);
-                field_13A_brain_sub_state = Brain_0_GiveCode::eBrain0_RespondToProvidedCode_5;
+                const GameSpeakMatch MatchBuffer = gEventSystem->MatchBuffer(mSlingMudokon.mCodeBuffer, mSlingMudokon.mBufferStart, mSlingMudokon.mBufferIdx);
                 if (MatchBuffer == GameSpeakMatch::eFullMatch_1 || gVoiceCheat)
                 {
-                    field_140_timer = sGnFrame + 30;
-                    field_15A_bCodeMatches = 1;
+                    mSlingMudokon.field_140_timer = sGnFrame + 30;
+                    mSlingMudokon.mCodeMatches = true;
                 }
                 else
                 {
-                    field_140_timer = sGnFrame + 10;
-                    field_15A_bCodeMatches = 0;
+                    mSlingMudokon.field_140_timer = sGnFrame + 10;
+                    mSlingMudokon.mCodeMatches = false;
                 }
+                mBrainState = EState::RespondToProvidedCode;
             }
-            return field_13A_brain_sub_state;
+            return;
 
-        case Brain_0_GiveCode::eBrain0_RespondToProvidedCode_5:
-            if (GetAnimation().GetCurrentFrame() || static_cast<s32>(sGnFrame) <= field_140_timer)
+        case EState::RespondToProvidedCode:
+            if (mSlingMudokon.GetAnimation().GetCurrentFrame() || static_cast<s32>(sGnFrame) <= mSlingMudokon.field_140_timer)
             {
-                return field_13A_brain_sub_state;
+                return;
             }
 
-            if (field_15A_bCodeMatches)
+            if (mSlingMudokon.mCodeMatches)
             {
-                Mudokon_SFX(MudSounds::eOkay_13, 0, 300, this);
+                Mudokon_SFX(MudSounds::eOkay_13, 0, 300, &mSlingMudokon);
             }
             else
             {
-                Mudokon_SFX(MudSounds::eRefuse_14, 0, 300, this);
+                Mudokon_SFX(MudSounds::eRefuse_14, 0, 300, &mSlingMudokon);
             }
 
-            field_138_brain_state = field_154_previous_brain_state;
-            mNextMotion = 2;
-            LOG_INFO("field_156_always_4 = %d", field_156_always_4);
-            return field_156_always_4;
+            mSlingMudokon.SetBrain(ISlingMudokonBrain::EBrainTypes::Spawn);
+            mSlingMudokon.mSpawnBrain.SetState(SpawnBrain::EState::ObserveAbe);
+
+            mSlingMudokon.SetNextMotion(eSlingMudMotions::Motion_2_Speak);
+            return;
 
         default:
-            return field_13A_brain_sub_state;
+            return;
     }
 
-    mAbeGettingCloser = true;
-    field_138_brain_state = field_154_previous_brain_state;
-    LOG_INFO("field_156_always_4 = %d", field_156_always_4);
-    return field_156_always_4;
+    mSlingMudokon.mAbeGettingCloser = true;
+    mSlingMudokon.SetBrain(ISlingMudokonBrain::EBrainTypes::Spawn);
+    mSlingMudokon.mSpawnBrain.SetState(SpawnBrain::EState::ObserveAbe);
 }
 
-enum Brain_1_Spawn
+void SpawnBrain::VUpdate()
 {
-    eBrain1_Init_0 = 0,
-    eBrain1_CreateParticle_1 = 1,
-    eBrain1_CreateFlash_2 = 2,
-    eBrain1_GetAngry_3 = 3,
-    eBrain1_ObserveAbe_4 = 4,
-    eBrain1_PrepareToShoot_5 = 5,
-    eBrain1_Shoot_6 = 6,
-    eBrain1_DisappearAsDoves_7 = 7,
-};
-
-s16 SlingMudokon::Brain_1_Spawn()
-{
-    switch (field_13A_brain_sub_state)
+    switch (mBrainState)
     {
-        case Brain_1_Spawn::eBrain1_Init_0:
-            field_140_timer = sGnFrame + 10;
-            return Brain_1_Spawn::eBrain1_CreateParticle_1;
+        case EState::Init:
+            mSlingMudokon.field_140_timer = sGnFrame + 10;
+            mBrainState = EState::CreateParticle;
+            return;
 
-        case Brain_1_Spawn::eBrain1_CreateParticle_1:
-            if (static_cast<s32>(sGnFrame) <= field_140_timer)
+        case EState::CreateParticle:
+            if (static_cast<s32>(sGnFrame) <= mSlingMudokon.field_140_timer)
             {
-                return field_13A_brain_sub_state;
+                return;
             }
 
             SFX_Play_Pitch(relive::SoundEffects::MenuNavigation, 45, 400);
             New_DestroyOrCreateObject_Particle(
-                mXPos,
-                (GetSpriteScale() * FP_FromInteger(20)) + mYPos,
-                GetSpriteScale());
-            field_140_timer = sGnFrame + 2;
-            return Brain_1_Spawn::eBrain1_CreateFlash_2;
+                mSlingMudokon.mXPos,
+                (mSlingMudokon.GetSpriteScale() * FP_FromInteger(20)) + mSlingMudokon.mYPos,
+                mSlingMudokon.GetSpriteScale());
+            mSlingMudokon.field_140_timer = sGnFrame + 2;
+            mBrainState = EState::CreateFlash;
+            return;
 
-        case Brain_1_Spawn::eBrain1_CreateFlash_2:
-            if (static_cast<s32>(sGnFrame) > field_140_timer)
+        case EState::CreateFlash:
+            if (static_cast<s32>(sGnFrame) > mSlingMudokon.field_140_timer)
             {
-                GetAnimation().SetAnimate(true);
-                GetAnimation().SetRender(true);
-                SetCurrentMotion(eSlingMudMotions::Motion_0_Idle);
+                mSlingMudokon.GetAnimation().SetAnimate(true);
+                mSlingMudokon.GetAnimation().SetRender(true);
+                mSlingMudokon.SetCurrentMotion(eSlingMudMotions::Motion_0_Idle);
 
                 relive_new Flash(Layer::eLayer_Above_FG1_39, 255u, 0, 255u);
 
-                if (mXPos > sActiveHero->mXPos)
+                if (mSlingMudokon.mXPos > sActiveHero->mXPos)
                 {
-                    GetAnimation().SetFlipX(true);
+                    mSlingMudokon.GetAnimation().SetFlipX(true);
                 }
-                field_140_timer = sGnFrame + 40;
-                return Brain_1_Spawn::eBrain1_GetAngry_3;
+                mSlingMudokon.field_140_timer = sGnFrame + 40;
+                mBrainState = EState::GetAngry;
+                return;
             }
-            return field_13A_brain_sub_state;
+            return;
 
-        case Brain_1_Spawn::eBrain1_GetAngry_3:
-            if (VIsObj_GettingNear_On_X(sActiveHero))
+        case EState::GetAngry:
+            if (mSlingMudokon.VIsObj_GettingNear_On_X(sActiveHero))
             {
-                SetNextMotion(eSlingMudMotions::Motion_1_Angry);
-                field_140_timer = sGnFrame + 40;
-                Mudokon_SFX(MudSounds::eAngry_5, 0, 300, this);
-                return Brain_1_Spawn::eBrain1_PrepareToShoot_5;
+                mSlingMudokon.SetNextMotion(eSlingMudMotions::Motion_1_Angry);
+                mSlingMudokon.field_140_timer = sGnFrame + 40;
+                Mudokon_SFX(MudSounds::eAngry_5, 0, 300, &mSlingMudokon);
+                mBrainState = EState::PrepareToShoot;
+                return;
             }
 
-            if (field_140_timer > static_cast<s32>(sGnFrame))
+            if (mSlingMudokon.field_140_timer > static_cast<s32>(sGnFrame))
             {
-                return field_13A_brain_sub_state;
+                return;
             }
-            field_154_previous_brain_state = field_138_brain_state;
-            field_156_always_4 = 4;
-            field_138_brain_state = SlingMudBrainStates::Brain_0_GiveCode;
-            field_13A_brain_sub_state = Brain_1_Spawn::eBrain1_Init_0;
-            return field_13A_brain_sub_state;
+            
+            mSlingMudokon.SetBrain(EBrainTypes::GiveCode);
+            mSlingMudokon.mGiveCodeBrain.SetState(GiveCodeBrain::EState::Init);
+            return;
 
-        case Brain_1_Spawn::eBrain1_ObserveAbe_4:
-            if (field_15A_bCodeMatches)
+        case EState::ObserveAbe:
+            if (mSlingMudokon.mCodeMatches)
             {
-                field_140_timer = sGnFrame + 30;
+                mSlingMudokon.field_140_timer = sGnFrame + 30;
                 SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 0, -600);
-                return Brain_1_Spawn::eBrain1_DisappearAsDoves_7;
+                mBrainState = EState::DisappearAsDoves;
+                return;
             }
-            else if (mAbeGettingCloser)
+            else if (mSlingMudokon.mAbeGettingCloser)
             {
-                SetNextMotion(eSlingMudMotions::Motion_1_Angry);
-                field_140_timer = sGnFrame + 40;
-                Mudokon_SFX(MudSounds::eAngry_5, 0, 300, this);
-                return Brain_1_Spawn::eBrain1_PrepareToShoot_5;
+                mSlingMudokon.SetNextMotion(eSlingMudMotions::Motion_1_Angry);
+                mSlingMudokon.field_140_timer = sGnFrame + 40;
+                Mudokon_SFX(MudSounds::eAngry_5, 0, 300, &mSlingMudokon);
+                mBrainState = EState::PrepareToShoot;
+                return;
             }
             else
             {
-                field_140_timer = sGnFrame + 40;
-                return Brain_1_Spawn::eBrain1_GetAngry_3;
+                mSlingMudokon.field_140_timer = sGnFrame + 40;
+                mBrainState = EState::GetAngry;
+                return;
             }
             break;
 
-        case Brain_1_Spawn::eBrain1_PrepareToShoot_5:
-            if (VIsObjNearby((ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(4)), sActiveHero))
+        case EState::PrepareToShoot:
+            if (mSlingMudokon.VIsObjNearby((ScaleToGridSize(mSlingMudokon.GetSpriteScale()) * FP_FromInteger(4)), sActiveHero))
             {
-                mDontSetDestroyed = true;
-                SetNextMotion(eSlingMudMotions::Motion_3_ShootStart);
-                field_140_timer = sGnFrame + 15;
-                return Brain_1_Spawn::eBrain1_Shoot_6;
+                mSlingMudokon.mDontSetDestroyed = true;
+                mSlingMudokon.SetNextMotion(eSlingMudMotions::Motion_3_ShootStart);
+                mSlingMudokon.field_140_timer = sGnFrame + 15;
+                mBrainState = EState::Shoot;
+                return;
             }
 
-            if (VIsObj_GettingNear_On_X(sActiveHero))
+            if (mSlingMudokon.VIsObj_GettingNear_On_X(sActiveHero))
             {
-                field_140_timer = sGnFrame + 40;
+                mSlingMudokon.field_140_timer = sGnFrame + 40;
             }
             else
             {
-                if (field_140_timer <= static_cast<s32>(sGnFrame))
+                if (mSlingMudokon.field_140_timer <= static_cast<s32>(sGnFrame))
                 {
-                    mAbeGettingCloser = false;
-                    field_140_timer = sGnFrame + 40;
-                    SetNextMotion(eSlingMudMotions::Motion_5_AngryToIdle);
-                    return Brain_1_Spawn::eBrain1_GetAngry_3;
+                    mSlingMudokon.mAbeGettingCloser = false;
+                    mSlingMudokon.field_140_timer = sGnFrame + 40;
+                    mSlingMudokon.SetNextMotion(eSlingMudMotions::Motion_5_AngryToIdle);
+                    mBrainState = EState::GetAngry;
+                    return;
                 }
             }
-            return field_13A_brain_sub_state;
+            return;
 
-        case Brain_1_Spawn::eBrain1_Shoot_6:
+        case EState::Shoot:
             if (EventGet(kEventDeathReset))
             {
-                SetDead(true);
+                mSlingMudokon.SetDead(true);
             }
 
-            if (field_140_timer > static_cast<s32>(sGnFrame) || sActiveHero->mHealth <= FP_FromInteger(0))
+            if (mSlingMudokon.field_140_timer > static_cast<s32>(sGnFrame) || sActiveHero->mHealth <= FP_FromInteger(0))
             {
-                return field_13A_brain_sub_state;
+                return;
             }
 
-            field_140_timer = sGnFrame + 30;
-            return Brain_1_Spawn::eBrain1_GetAngry_3;
+            mSlingMudokon.field_140_timer = sGnFrame + 30;
+            mBrainState = EState::GetAngry;
+            return;
 
-        case Brain_1_Spawn::eBrain1_DisappearAsDoves_7:
-            if (static_cast<s32>(sGnFrame) >= field_140_timer)
+        case EState::DisappearAsDoves:
+            if (static_cast<s32>(sGnFrame) >= mSlingMudokon.field_140_timer)
             {
                 for (s32 i = 0; i < 8; i++)
                 {
                     auto pDove = relive_new Dove(
                         AnimId::Dove_Flying,
-                        mXPos + FP_FromInteger(Math_NextRandom() % 16),
-                        mYPos - FP_FromInteger(Math_NextRandom() % 16),
-                        GetSpriteScale());
+                        mSlingMudokon.mXPos + FP_FromInteger(Math_NextRandom() % 16),
+                        mSlingMudokon.mYPos - FP_FromInteger(Math_NextRandom() % 16),
+                        mSlingMudokon.GetSpriteScale());
                     if (pDove)
                     {
                         if (pDove->GetAnimation().GetFlipX())
@@ -648,98 +646,104 @@ s16 SlingMudokon::Brain_1_Spawn()
 
                 SfxPlayMono(relive::SoundEffects::FlyingDoves, 0);
 
-                GetAnimation().SetRender(false);
+                mSlingMudokon.GetAnimation().SetRender(false);
 
-                mDontSetDestroyed = field_15A_bCodeMatches ? false : true;
+                mSlingMudokon.mDontSetDestroyed = !mSlingMudokon.mCodeMatches;
 
-                SetDead(true);
-                New_DestroyOrCreateObject_Particle(mXPos, (GetSpriteScale() * FP_FromInteger(20)) + mYPos, GetSpriteScale());
+                mSlingMudokon.SetDead(true);
+                New_DestroyOrCreateObject_Particle(mSlingMudokon.mXPos, (mSlingMudokon.GetSpriteScale() * FP_FromInteger(20)) + mSlingMudokon.mYPos, mSlingMudokon.GetSpriteScale());
 
                 relive_new Flash(Layer::eLayer_Above_FG1_39, 255u, 0, 255u);
             }
-            return field_13A_brain_sub_state;
+            return;
 
         default:
-            return field_13A_brain_sub_state;
+            return;
     }
 }
 
-s16 SlingMudokon::Brain_2_AskForPassword()
+void AskForPasswordBrain::VUpdate()
 {
     LOG_WARNING("never expected Brain_2_AskForPassword_4707B0() to be used in the original levels");
     
     // NOTE: most of this stuff seems to be inlined ( see Brain_0_GiveCode() )
-    switch (field_13A_brain_sub_state)
+    switch (mBrainState)
     {
-        case 0:
-            field_140_timer = sGnFrame + 10;
+        case EState::Unknown_0:
+            mSlingMudokon.field_140_timer = sGnFrame + 10;
             SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 0, -600);
-            return 1;
+            mBrainState = EState::Unknown_1;
+            return;
 
-        case 1:
-            if (static_cast<s32>(sGnFrame) <= field_140_timer)
+        case EState::Unknown_1:
+            if (static_cast<s32>(sGnFrame) <= mSlingMudokon.field_140_timer)
             {
-                return field_13A_brain_sub_state;
+                return;
             }
 
             New_DestroyOrCreateObject_Particle(
-                mXPos,
-                (GetSpriteScale() * FP_FromInteger(20)) + mYPos,
-                GetSpriteScale());
+                mSlingMudokon.mXPos,
+                (mSlingMudokon.GetSpriteScale() * FP_FromInteger(20)) + mSlingMudokon.mYPos,
+                mSlingMudokon.GetSpriteScale());
 
-            field_140_timer = sGnFrame + 2;
-            return 2;
+            mSlingMudokon.field_140_timer = sGnFrame + 2;
+            mBrainState = EState::Unknown_2;
+            return;
 
-        case 2:
-            if (static_cast<s32>(sGnFrame) > field_140_timer)
+        case EState::Unknown_2:
+            if (static_cast<s32>(sGnFrame) > mSlingMudokon.field_140_timer)
             {
-                GetAnimation().SetAnimate(true);
-                GetAnimation().SetRender(true);
+                mSlingMudokon.GetAnimation().SetAnimate(true);
+                mSlingMudokon.GetAnimation().SetRender(true);
 
                 relive_new Flash(Layer::eLayer_Above_FG1_39, 255u, 0, 255u);
 
-                field_140_timer = sGnFrame + 30;
+                mSlingMudokon.field_140_timer = sGnFrame + 30;
 
-                SetCurrentMotion(eSlingMudMotions::Motion_0_Idle);
-                if (mXPos > sActiveHero->mXPos)
+                mSlingMudokon.SetCurrentMotion(eSlingMudMotions::Motion_0_Idle);
+                if (mSlingMudokon.mXPos > sActiveHero->mXPos)
                 {
-                    GetAnimation().SetFlipX(true);
+                    mSlingMudokon.GetAnimation().SetFlipX(true);
                 }
 
-                field_134_buffer_start = GameSpeak::sub_40FA60(mCodeConverted, field_124_code_buffer);
-                return 3;
+                mSlingMudokon.mBufferStart = GameSpeak::sub_40FA60(mSlingMudokon.mCodeConverted, mSlingMudokon.mCodeBuffer);
+                mBrainState = EState::Unknown_3;
+                return;
             }
-            return field_13A_brain_sub_state;
+            return;
 
-        case 3:
-            if (VIsObj_GettingNear_On_X(sActiveHero))
+        case EState::Unknown_3:
+            if (mSlingMudokon.VIsObj_GettingNear_On_X(sActiveHero))
             {
-                SetNextMotion(eSlingMudMotions::Motion_1_Angry);
-                field_140_timer = sGnFrame + 40;
-                Mudokon_SFX(MudSounds::eAngry_5, 0, 300, this);
-                return 7;
+                mSlingMudokon.SetNextMotion(eSlingMudMotions::Motion_1_Angry);
+                mSlingMudokon.field_140_timer = sGnFrame + 40;
+                Mudokon_SFX(MudSounds::eAngry_5, 0, 300, &mSlingMudokon);
+                mBrainState = EState::Unknown_7;
+                return;
             }
 
-            if (field_140_timer > static_cast<s32>(sGnFrame) || GetAnimation().GetCurrentFrame())
+            if (mSlingMudokon.field_140_timer > static_cast<s32>(sGnFrame) || mSlingMudokon.GetAnimation().GetCurrentFrame())
             {
-                return field_13A_brain_sub_state;
+                return;
             }
-            Mudokon_SFX(MudSounds::ePassword_9, 0, 300, this);
-            SetNextMotion(eSlingMudMotions::Motion_2_Speak);
-            return 4;
+            Mudokon_SFX(MudSounds::ePassword_9, 0, 300, &mSlingMudokon);
+            mSlingMudokon.SetNextMotion(eSlingMudMotions::Motion_2_Speak);
+            mBrainState = EState::Unknown_4;
+            return;
 
-        case 4:
-            if (VIsObj_GettingNear_On_X(sActiveHero))
+        case EState::Unknown_4:
+            if (mSlingMudokon.VIsObj_GettingNear_On_X(sActiveHero))
             {
-                SetNextMotion(eSlingMudMotions::Motion_1_Angry);
-                field_140_timer = sGnFrame + 40;
-                Mudokon_SFX(MudSounds::eAngry_5, 0, 300, this);
-                return 7;
+                mSlingMudokon.SetNextMotion(eSlingMudMotions::Motion_1_Angry);
+                mSlingMudokon.field_140_timer = sGnFrame + 40;
+                Mudokon_SFX(MudSounds::eAngry_5, 0, 300, &mSlingMudokon);
+                mBrainState = EState::Unknown_7;
+                return;
             }
             else
             {
                 GameSpeakEvents speak = {};
-                if (field_120_last_event_idx == gEventSystem->mLastEventIndex)
+                if (mSlingMudokon.mLastEventIndex == gEventSystem->mLastEventIndex)
                 {
                     if (gEventSystem->mLastEvent == GameSpeakEvents::eNone_m1)
                     {
@@ -752,26 +756,27 @@ s16 SlingMudokon::Brain_2_AskForPassword()
                 }
                 else
                 {
-                    field_120_last_event_idx = gEventSystem->mLastEventIndex;
+                    mSlingMudokon.mLastEventIndex = gEventSystem->mLastEventIndex;
                     speak = gEventSystem->mLastEvent;
                 }
 
                 if (speak == GameSpeakEvents::eNone_m1)
                 {
-                    return field_13A_brain_sub_state;
+                    return;
                 }
 
-                field_136_buffer_idx = static_cast<s16>(gEventSystem->mLastEventIndex);
-                field_144_timer2 = sGnFrame + 40;
-                return 5;
+                mSlingMudokon.mBufferIdx = static_cast<s16>(gEventSystem->mLastEventIndex);
+                mSlingMudokon.field_144_timer2 = sGnFrame + 40;
+                mBrainState = EState::Unknown_5;
+                return;
             }
             break;
 
-        case 5:
-            if (!VIsObj_GettingNear_On_X(sActiveHero))
+        case EState::Unknown_5:
+            if (!mSlingMudokon.VIsObj_GettingNear_On_X(sActiveHero))
             {
                 GameSpeakEvents speak = {};
-                if (field_120_last_event_idx == gEventSystem->mLastEventIndex)
+                if (mSlingMudokon.mLastEventIndex == gEventSystem->mLastEventIndex)
                 {
                     if (gEventSystem->mLastEvent == GameSpeakEvents::eNone_m1)
                     {
@@ -784,129 +789,127 @@ s16 SlingMudokon::Brain_2_AskForPassword()
                 }
                 else
                 {
-                    field_120_last_event_idx = gEventSystem->mLastEventIndex;
+                    mSlingMudokon.mLastEventIndex = gEventSystem->mLastEventIndex;
                     speak = gEventSystem->mLastEvent;
                 }
 
                 if (speak != GameSpeakEvents::eNone_m1)
                 {
-                    field_144_timer2 = sGnFrame + 40;
+                    mSlingMudokon.field_144_timer2 = sGnFrame + 40;
                 }
 
-                if (static_cast<s32>(sGnFrame) <= field_144_timer2)
+                if (static_cast<s32>(sGnFrame) <= mSlingMudokon.field_144_timer2)
                 {
                     if (gEventSystem->MatchBuffer(
-                            field_124_code_buffer,
-                            field_134_buffer_start,
-                            field_136_buffer_idx)
+                            mSlingMudokon.mCodeBuffer,
+                            mSlingMudokon.mBufferStart,
+                            mSlingMudokon.mBufferIdx)
                         != GameSpeakMatch::eFullMatch_1)
                     {
                         if (gEventSystem->MatchBuffer(
-                                field_124_code_buffer,
-                                field_134_buffer_start,
-                                field_136_buffer_idx)
+                                mSlingMudokon.mCodeBuffer,
+                                mSlingMudokon.mBufferStart,
+                                mSlingMudokon.mBufferIdx)
                             != GameSpeakMatch::eNoMatch_0)
                         {
-                            return field_13A_brain_sub_state;
+                            return;
                         }
                     }
                 }
 
-                field_15A_bCodeMatches = gEventSystem->MatchBuffer(
-                                field_124_code_buffer,
-                                field_134_buffer_start,
-                                field_136_buffer_idx)
+                mSlingMudokon.mCodeMatches = gEventSystem->MatchBuffer(
+                                mSlingMudokon.mCodeBuffer,
+                                mSlingMudokon.mBufferStart,
+                                mSlingMudokon.mBufferIdx)
                              == GameSpeakMatch::eFullMatch_1
                          || gVoiceCheat;
 
-                field_13A_brain_sub_state = 6;
-
-                if (field_15A_bCodeMatches)
-                {
-                    field_140_timer = sGnFrame + 30;
-                }
-                else
-                {
-                    field_140_timer = sGnFrame + 10;
-                }
-                return field_13A_brain_sub_state;
+                mSlingMudokon.field_140_timer = mSlingMudokon.mCodeMatches ? sGnFrame + 30 : sGnFrame + 10;
+                mBrainState = EState::Unknown_6;
+                return;
             }
 
-            SetNextMotion(eSlingMudMotions::Motion_1_Angry);
-            field_140_timer = sGnFrame + 40;
-            Mudokon_SFX(MudSounds::eAngry_5, 0, 300, this);
-            return 7;
+            mSlingMudokon.SetNextMotion(eSlingMudMotions::Motion_1_Angry);
+            mSlingMudokon.field_140_timer = sGnFrame + 40;
+            Mudokon_SFX(MudSounds::eAngry_5, 0, 300, &mSlingMudokon);
+            mBrainState = EState::Unknown_7;
+            return;
 
-        case 6:
-            if (GetAnimation().GetCurrentFrame())
+        case EState::Unknown_6:
+            if (mSlingMudokon.GetAnimation().GetCurrentFrame())
             {
-                return field_13A_brain_sub_state;
+                return;
             }
 
-            if (static_cast<s32>(sGnFrame) <= field_140_timer)
+            if (static_cast<s32>(sGnFrame) <= mSlingMudokon.field_140_timer)
             {
-                return field_13A_brain_sub_state;
+                return;
             }
 
-            mNextMotion = 2;
+            mSlingMudokon.mNextMotion = 2;
 
-            if (field_15A_bCodeMatches == 0)
+            if (!mSlingMudokon.mCodeMatches)
             {
-                field_140_timer = sGnFrame + 60;
-                Mudokon_SFX(MudSounds::eRefuse_14, 0, 300, this);
-                return 3;
+                mSlingMudokon.field_140_timer = sGnFrame + 60;
+                Mudokon_SFX(MudSounds::eRefuse_14, 0, 300, &mSlingMudokon);
+                mBrainState = EState::Unknown_3;
+                return;
             }
             else
             {
-                field_140_timer = sGnFrame + 30;
-                Mudokon_SFX(MudSounds::eOkay_13, 0, 300, this);
+                mSlingMudokon.field_140_timer = sGnFrame + 30;
+                Mudokon_SFX(MudSounds::eOkay_13, 0, 300, &mSlingMudokon);
                 SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 0, -600);
-                return 9;
+                mBrainState = EState::Unknown_9;
+                return;
             }
             break;
 
-        case 7:
-            if (VIsObjNearby((ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(4)), sActiveHero))
+        case EState::Unknown_7:
+            if (mSlingMudokon.VIsObjNearby((ScaleToGridSize(mSlingMudokon.GetSpriteScale()) * FP_FromInteger(4)), sActiveHero))
             {
-                mDontSetDestroyed = true;
-                SetNextMotion(eSlingMudMotions::Motion_3_ShootStart);
-                field_140_timer = sGnFrame + 15;
-                return 8;
+                mSlingMudokon.mDontSetDestroyed = true;
+                mSlingMudokon.SetNextMotion(eSlingMudMotions::Motion_3_ShootStart);
+                mSlingMudokon.field_140_timer = sGnFrame + 15;
+                mBrainState = EState::Unknown_8;
+                return;
             }
 
-            if (field_140_timer > static_cast<s32>(sGnFrame))
+            if (mSlingMudokon.field_140_timer > static_cast<s32>(sGnFrame))
             {
-                return field_13A_brain_sub_state;
+                return;
             }
 
-            SetNextMotion(eSlingMudMotions::Motion_5_AngryToIdle);
-            field_140_timer = sGnFrame + 30;
-            return 3;
+            mSlingMudokon.SetNextMotion(eSlingMudMotions::Motion_5_AngryToIdle);
+            mSlingMudokon.field_140_timer = sGnFrame + 30;
+            mBrainState = EState::Unknown_3;
+            return;
 
-        case 8:
+        case EState::Unknown_8:
             if (EventGet(kEventDeathReset))
             {
-                SetDead(true);
+                mSlingMudokon.SetDead(true);
             }
 
-            if (field_140_timer > static_cast<s32>(sGnFrame) || sActiveHero->mHealth <= FP_FromInteger(0))
+            if (mSlingMudokon.field_140_timer > static_cast<s32>(sGnFrame) || sActiveHero->mHealth <= FP_FromInteger(0))
             {
-                return field_13A_brain_sub_state;
+                return;
             }
 
-            field_140_timer = sGnFrame + 30;
-            return 3;
+            mSlingMudokon.field_140_timer = sGnFrame + 30;
+            mBrainState = EState::Unknown_3;
+            return;
 
-        case 9:
-            if (static_cast<s32>(sGnFrame) >= field_140_timer)
+        case EState::Unknown_9:
+            if (static_cast<s32>(sGnFrame) >= mSlingMudokon.field_140_timer)
             {
                 for (s32 i = 0; i < 8; i++)
                 {
                     auto pDove = relive_new Dove(
                         AnimId::Dove_Flying,
-                        mXPos + FP_FromInteger(Math_NextRandom() % 16),
-                        mYPos - FP_FromInteger(Math_NextRandom() % 16),
-                        GetSpriteScale());;
+                        mSlingMudokon.mXPos + FP_FromInteger(Math_NextRandom() % 16),
+                        mSlingMudokon.mYPos - FP_FromInteger(Math_NextRandom() % 16),
+                        mSlingMudokon.GetSpriteScale());;
                     if (pDove)
                     {
                         if (pDove->GetAnimation().GetFlipX())
@@ -922,19 +925,19 @@ s16 SlingMudokon::Brain_2_AskForPassword()
 
                 SfxPlayMono(relive::SoundEffects::Dove, 0);
 
-                GetAnimation().SetRender(false);
+                mSlingMudokon.GetAnimation().SetRender(false);
 
-                mDontSetDestroyed = field_15A_bCodeMatches ? false : true;
+                mSlingMudokon.mDontSetDestroyed = !mSlingMudokon.mCodeMatches;
 
-                SetDead(true);
-                New_DestroyOrCreateObject_Particle(mXPos, (GetSpriteScale() * FP_FromInteger(20)) + mYPos, GetSpriteScale());
+                mSlingMudokon.SetDead(true);
+                New_DestroyOrCreateObject_Particle(mSlingMudokon.mXPos, (mSlingMudokon.GetSpriteScale() * FP_FromInteger(20)) + mSlingMudokon.mYPos, mSlingMudokon.GetSpriteScale());
 
                 relive_new Flash(Layer::eLayer_Above_FG1_39, 255u, 0, 255u);
             }
-            return field_13A_brain_sub_state;
+            return;
 
         default:
-            return field_13A_brain_sub_state;
+            return;
     }
 }
 

@@ -52,6 +52,19 @@ public:
         mPreviousMotion = static_cast<s16>(motion);
     }
 
+    template <class T>
+    inline void SetNextMotion(T motion)
+    {
+        mNextMotion = static_cast<s16>(motion);
+    }
+
+    template <class BaseAliveGameObjectClass, class FnArray, class BrainState>
+    static auto InvokeMemberFunction(BaseAliveGameObjectClass caller, const FnArray& fnArray, BrainState brainState)
+    {
+        auto function = fnArray[static_cast<u32>(brainState)];
+        return (caller->*function)();
+    }
+
     bool GetCanBePossessed() const { return mCanBePossessed; }
     void SetCanBePossessed(bool val) { mCanBePossessed = val; }
     bool GetPossessed() const { return mPossessed; }
@@ -72,38 +85,22 @@ public:
     void SetElectrocuting(bool val) { mElectrocuting = val; }
     bool GetCanBeesChase() const { return mCanBeesChase; }
     void SetCanBeesChase(bool val) { mCanBeesChase = val; }
-protected:
 
-    template <class T>
-    inline void SetNextMotion(T motion)
-    {
-        mNextMotion = static_cast<s16>(motion);
-    }
-
-
-    s16 SetBaseAnimPaletteTint(const TintEntry* pTintArray, EReliveLevelIds level_id, PalId resourceID);
-
-public:
-    template <class BaseAliveGameObjectClass, class FnArray, class BrainState>
-    static auto InvokeMemberFunction(BaseAliveGameObjectClass caller, const FnArray& fnArray, BrainState brainState)
-    {
-        auto function = fnArray[static_cast<u32>(brainState)];
-        return (caller->*function)();
-    }
-
-    FP_RECT mCollectionRect = {};
-    s16 mPreviousMotion = 0;
-    s32 mBaseAliveGameObjectLastAnimFrame = 0;
-    FP BaseAliveGameObjectLastLineYPos = {};
-    relive::Path_TLV* BaseAliveGameObjectPathTLV = nullptr;
+    FP mHealth = FP_FromInteger(1);
     PathLine* BaseAliveGameObjectCollisionLine = nullptr;
     s16 mCurrentMotion = 0;
     s16 mNextMotion = 0;
-    FP mHealth = FP_FromInteger(1);
-
+    s16 mPreviousMotion = 0;
+    FP BaseAliveGameObjectLastLineYPos = {};
     bool mbGotShot = false;
+    FP_RECT mCollectionRect = {};
+    s32 mBaseAliveGameObjectLastAnimFrame = 0;
+    relive::Path_TLV* BaseAliveGameObjectPathTLV = nullptr;
     bool mbMotionChanged = false;
     Guid BaseAliveGameObject_PlatformId = Guid{};
+
+protected:
+    s16 SetBaseAnimPaletteTint(const TintEntry* pTintArray, EReliveLevelIds level_id, PalId resourceID);
 
 private:
     bool mCanBePossessed = false;
