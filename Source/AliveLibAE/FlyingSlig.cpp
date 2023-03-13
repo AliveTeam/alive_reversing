@@ -2169,7 +2169,7 @@ void FlyingSlig::ThrowGrenade()
     EventBroadcast(kEventShooting, this);
     EventBroadcast(kEventLoudNoise, this);
 
-    Dove::All_FlyAway(0);
+    Dove::All_FlyAway(false);
 
     s32 randomisedGrenadeDelay = field_118_data.mGrenadeDelay + (Math_NextRandom() & 7);
     if (randomisedGrenadeDelay < 20)

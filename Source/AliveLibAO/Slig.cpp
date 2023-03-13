@@ -3693,7 +3693,7 @@ void Slig::Motion_43_ShootZ()
         }
 
         // The doves don't like bullets
-        Dove::All_FlyAway();
+        Dove::All_FlyAway(false);
 
         EventBroadcast(kEventShooting, this);
         EventBroadcast(kEventLoudNoise, this);

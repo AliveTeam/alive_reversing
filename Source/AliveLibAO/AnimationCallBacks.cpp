@@ -95,7 +95,7 @@ void Animation_OnFrame_Slig(::BaseGameObject* pObj, u32&, const IndexedPoint& pD
     EventBroadcast(kEventShooting, pSlig);
     EventBroadcast(kEventLoudNoise, pSlig);
 
-    Dove::All_FlyAway();
+    Dove::All_FlyAway(false);
 }
 
 void Animation_OnFrame_ZBallSmacker(::BaseGameObject* pObj, u32& idx, const IndexedPoint& pData);

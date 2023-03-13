@@ -149,7 +149,7 @@ void Animation_OnFrame_Slig(BaseGameObject* pObj, u32&, const IndexedPoint& poin
     EventBroadcast(kEventShooting, pSlig);
     EventBroadcast(kEventLoudNoise, pSlig);
 
-    Dove::All_FlyAway(0);
+    Dove::All_FlyAway(false);
     return;
 }
 
@@ -2143,7 +2143,7 @@ void Slig::Motion_42_ShootZ()
         }
 
         // The doves don't like bullets
-        Dove::All_FlyAway(0);
+        Dove::All_FlyAway(false);
 
         EventBroadcast(kEventShooting, this);
         EventBroadcast(kEventLoudNoise, this);

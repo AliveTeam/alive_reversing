@@ -21,12 +21,10 @@ public:
     void AsJoin(FP xpos, FP ypos);
     void FlyAway(bool spookedInstantly);
 
-    static void All_FlyAway();
+    static void All_FlyAway(bool spookedInstantly);
 
 private:
     s16 mFlyAwayCounter = 0;
-    Guid mTlvInfo;
-    s16 mKeepInGlobalArray = 0;
     enum class State : s16
     {
         eOnGround_0 = 0,
@@ -36,6 +34,8 @@ private:
         eAlmostACircle_4 = 4,
     };
     State mDoveState = State::eOnGround_0;
+    bool mKeepInGlobalArray = false;
+    Guid mTlvInfo;
     FP mJoinX = {};
     FP mJoinY = {};
     s32 mJoinDeadTimer = 0;

@@ -53,14 +53,7 @@ Dove::Dove(AnimId animId, const Guid& tlvId, FP scale)
     }
 
     mVelX = FP_FromInteger(Math_NextRandom() / 12 - 11);
-    if (mVelX >= FP_FromInteger(0))
-    {
-        GetAnimation().SetFlipX(false);
-    }
-    else
-    {
-        GetAnimation().SetFlipX(true);
-    }
+    GetAnimation().SetFlipX(mVelX < FP_FromInteger(0));
 
     mVelY = FP_FromInteger(-4 - (Math_NextRandom() % 4));
     GetAnimation().SetFrame(Math_NextRandom() % 8);
@@ -99,21 +92,15 @@ Dove::Dove(AnimId animId, FP xpos, FP ypos, FP scale)
     }
 
     mVelX = FP_FromInteger(Math_NextRandom() / 12 - 11);
-    if (mVelX >= FP_FromInteger(0))
-    {
-        GetAnimation().SetFlipX(false);
-    }
-    else
-    {
-        GetAnimation().SetFlipX(true);
-    }
+
+    GetAnimation().SetFlipX(mVelX < FP_FromInteger(0));
 
     mVelY = FP_FromInteger(-4 - (Math_NextRandom() % 4));
 
     mXPos = xpos;
     mYPos = ypos;
 
-    GetAnimation().SetFrame(Math_NextRandom() & 6);
+    GetAnimation().SetFrame(Math_NextRandom() % 7); // AO does % 8, rip
 
     if (bTheOneControllingTheMusic)
     {
@@ -138,7 +125,7 @@ Dove::~Dove()
     if (bTheOneControllingTheMusic)
     {
         SND_SEQ_Stop(SeqId::NecrumAmbient2_17);
-        bTheOneControllingTheMusic = 0;
+        bTheOneControllingTheMusic = false;
     }
 }
 
@@ -154,10 +141,6 @@ void Dove::AsACircle(FP xpos, FP ypos, u8 angle)
     mJoinY = ypos;
     mAngle = angle;
     mDoveState = State::eCircle_3;
-
-    // TODO: Result thrown away.. some old removed behavior ??
-    //(Math_Sine(mAngle) * FP_FromInteger(30)) * mSpriteScale;
-    //(Math_Cosine(mAngle) * FP_FromInteger(35)) * mSpriteScale;
 }
 
 void Dove::AsJoin(FP xpos, FP ypos)
@@ -185,7 +168,7 @@ void Dove::FlyAway(bool spookedInstantly)
     }
 }
 
-s32 bExtraSeqStarted_5BC10C = 0;
+static bool sExtraSeqStarted = false;
 
 void Dove::VUpdate()
 {
@@ -197,7 +180,7 @@ void Dove::VUpdate()
     if (!bTheOneControllingTheMusic)
     {
         SND_SEQ_PlaySeq(SeqId::NecrumAmbient2_17, 0, 1);
-        bTheOneControllingTheMusic = 1;
+        bTheOneControllingTheMusic = true;
     }
 
     switch (mDoveState)
@@ -205,7 +188,7 @@ void Dove::VUpdate()
         case State::eOnGround_0:
             if (EventGet(kEventSpeaking))
             {
-                Dove::All_FlyAway(0); // something is speaking, leg it
+                Dove::All_FlyAway(false); // something is speaking, leg it
             }
 
             if (EventGet(kEventNoise))
@@ -213,12 +196,12 @@ void Dove::VUpdate()
                 // player getting near
                 if (VIsObjNearby(ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(2), sControlledCharacter))
                 {
-                    Dove::All_FlyAway(1);
+                    Dove::All_FlyAway(true);
                 }
                 if (VIsObjNearby(ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(4), sControlledCharacter))
                 {
                     // noise is too near, leg it
-                    Dove::All_FlyAway(0);
+                    Dove::All_FlyAway(false);
                 }
             }
             break;
@@ -228,9 +211,9 @@ void Dove::VUpdate()
             if (mFlyAwayCounter == 0)
             {
                 GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Dove_Flying));
-                if (!bExtraSeqStarted_5BC10C)
+                if (!sExtraSeqStarted)
                 {
-                    bExtraSeqStarted_5BC10C = 13;
+                    sExtraSeqStarted = true;
                     SfxPlayMono(relive::SoundEffects::Dove, 0);
                 }
             }
@@ -250,14 +233,7 @@ void Dove::VUpdate()
                 mVelX = -mVelX;
             }
 
-            if (mVelX >= FP_FromInteger(0))
-            {
-                GetAnimation().SetFlipX(false);
-            }
-            else
-            {
-                GetAnimation().SetFlipX(true);
-            }
+            GetAnimation().SetFlipX(mVelX < FP_FromInteger(0));
             break;
 
         case State::eJoin_2:
@@ -267,16 +243,7 @@ void Dove::VUpdate()
                 SetDead(true);
             }
 
-            FP xOff = {};
-            if (GetAnimation().GetFlipX())
-            {
-                xOff = FP_FromInteger(4);
-            }
-            else
-            {
-                xOff = FP_FromInteger(-4);
-            }
-
+            const FP xOff = GetAnimation().GetFlipX() ? FP_FromInteger(4) : FP_FromInteger(-4);
             mVelX = (xOff + mJoinX - mXPos) / FP_FromInteger(8);
             mVelY = (mJoinY - mYPos) / FP_FromInteger(8);
             mXPos += mVelX;
@@ -296,8 +263,8 @@ void Dove::VUpdate()
             if (sAbePortalTimer != static_cast<s32>(sGnFrame))
             {
                 // increase or decrease the width of the Abe portal
-                sAbePortalWidth += sAbePortalDirection;
                 sAbePortalTimer = sGnFrame;
+                sAbePortalWidth += sAbePortalDirection;
 
                 if (sAbePortalWidth == 0)
                 {
@@ -343,7 +310,7 @@ void Dove::All_FlyAway(bool spookedInstantly)
         pDove->FlyAway(spookedInstantly);
     }
 
-    bExtraSeqStarted_5BC10C = 0; // TODO: Never read ??
+    sExtraSeqStarted = false;
     if (bTheOneControllingTheMusic)
     {
         SND_SEQ_Stop(SeqId::NecrumAmbient2_17);

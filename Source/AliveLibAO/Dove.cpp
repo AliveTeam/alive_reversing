@@ -11,6 +11,7 @@
 #include "Abe.hpp"
 #include "../relive_lib/FixedPoint.hpp"
 #include "Path.hpp"
+#include "BaseGameAutoPlayer.hpp"
 
 namespace AO {
 
@@ -27,7 +28,10 @@ void Dove::LoadAnimations()
 }
 
 Dove::Dove(AnimId animId, const Guid& tlvId, FP scale)
-    : BaseAnimatedWithPhysicsGameObject(0)
+    : BaseAnimatedWithPhysicsGameObject(0),
+    mDoveState(State::eOnGround_0),
+    mKeepInGlobalArray(false),
+    mTlvInfo(tlvId)
 {
     SetType(ReliveTypes::eDove);
 
@@ -52,21 +56,10 @@ Dove::Dove(AnimId animId, const Guid& tlvId, FP scale)
     }
 
     mVelX = FP_FromInteger(Math_NextRandom() / 12 - 11);
-    if (mVelX >= FP_FromInteger(0))
-    {
-        GetAnimation().SetFlipX(false);
-    }
-    else
-    {
-        GetAnimation().SetFlipX(true);
-    }
+    GetAnimation().SetFlipX(mVelX < FP_FromInteger(0));
 
-    mDoveState = State::eOnGround_0;
-
-    mVelY = FP_FromInteger(-4 - (Math_NextRandom() & 3));
-    GetAnimation().SetFrame(Math_NextRandom() & 7);
-    mKeepInGlobalArray = false;
-    mTlvInfo = tlvId;
+    mVelY = FP_FromInteger(-4 - (Math_NextRandom() % 4));
+    GetAnimation().SetFrame(Math_NextRandom() % 8);
 
     if (gMap.mCurrentLevel == EReliveLevelIds::eStockYards || gMap.mCurrentLevel == EReliveLevelIds::eStockYardsReturn)
     {
@@ -83,7 +76,10 @@ Dove::Dove(AnimId animId, const Guid& tlvId, FP scale)
 }
 
 Dove::Dove(AnimId animId, FP xpos, FP ypos, FP scale)
-    : BaseAnimatedWithPhysicsGameObject(0)
+    : BaseAnimatedWithPhysicsGameObject(0),
+    mDoveState(State::eFlyAway_1),
+    mKeepInGlobalArray(true),
+    mTlvInfo({})
 {
     SetType(ReliveTypes::eDove);
 
@@ -104,26 +100,14 @@ Dove::Dove(AnimId animId, FP xpos, FP ypos, FP scale)
     }
 
     mVelX = FP_FromInteger(Math_NextRandom() / 12 - 11);
-    if (scale >= FP_FromInteger(0))
-    {
-        GetAnimation().SetFlipX(false);
-    }
-    else
-    {
-        GetAnimation().SetFlipX(true);
-    }
+    GetAnimation().SetFlipX(mVelX < FP_FromInteger(0));
 
-    mVelY = FP_FromInteger(-4 - ((Math_NextRandom()) & 3));
-    mDoveState = Dove::State::eFlyAway_1;
-    mKeepInGlobalArray = true;
-    mFlyAwayCounter = 0;
+    mVelY = FP_FromInteger(-4 - (Math_NextRandom() % 4));
 
     mXPos = xpos;
     mYPos = ypos;
 
-    mTlvInfo = {};
-
-    GetAnimation().SetFrame((Math_NextRandom() & 6) + 1);
+    GetAnimation().SetFrame((Math_NextRandom() % 8));
 
     if (gMap.mCurrentLevel == EReliveLevelIds::eStockYards || gMap.mCurrentLevel == EReliveLevelIds::eStockYardsReturn)
     {
@@ -135,7 +119,7 @@ Dove::Dove(AnimId animId, FP xpos, FP ypos, FP scale)
         return;
     }
     SND_SEQ_PlaySeq(SeqId::Unknown_24, 0, 1);
-    bTheOneControllingTheMusic = 1;
+    bTheOneControllingTheMusic = true;
 }
 
 Dove::~Dove()
@@ -152,7 +136,7 @@ Dove::~Dove()
     if (bTheOneControllingTheMusic)
     {
         SND_Seq_Stop(SeqId::Unknown_24);
-        bTheOneControllingTheMusic = 0;
+        bTheOneControllingTheMusic = false;
     }
 }
 
@@ -168,8 +152,6 @@ void Dove::AsACircle(FP xpos, FP ypos, u8 angle)
     mJoinY = ypos;
     mAngle = angle;
     mDoveState = State::eCircle_3;
-
-    // TODO: Removed unused code
 }
 
 void Dove::AsJoin(FP xpos, FP ypos)
@@ -197,7 +179,7 @@ void Dove::FlyAway(bool spookedInstantly)
     }
 }
 
-s32 bExtraSeqStarted_4FF944 = 0;
+static bool sExtraSeqStarted = false;
 
 
 void Dove::VRender(PrimHeader** ppOt)
@@ -215,7 +197,7 @@ void Dove::VUpdate()
     if (!bTheOneControllingTheMusic)
     {
         SND_SEQ_PlaySeq(SeqId::Unknown_24, 0, 1);
-        bTheOneControllingTheMusic = 1;
+        bTheOneControllingTheMusic = true;
     }
 
     switch (mDoveState)
@@ -223,44 +205,14 @@ void Dove::VUpdate()
         case State::eOnGround_0:
             if (EventGet(kEventSpeaking))
             {
-                for (s32 i = 0; i < gDovesArray.Size(); i++)
-                {
-                    Dove* pDoveIter = gDovesArray.ItemAt(i);
-                    if (!pDoveIter)
-                    {
-                        break;
-                    }
-                    pDoveIter->FlyAway(0); // something is speaking, leg it
-                }
-
-                bExtraSeqStarted_4FF944 = 0;
-                if (bTheOneControllingTheMusic)
-                {
-                    SND_Seq_Stop(SeqId::Unknown_24);
-                    bTheOneControllingTheMusic = 0;
-                }
+                Dove::All_FlyAway(false);
             }
 
             if (FP_GetExponent(FP_Abs(mXPos - sControlledCharacter->mXPos)) < 100)
             {
                 if (EventGet(kEventNoise))
                 {
-                    for (s32 i = 0; i < gDovesArray.Size(); i++)
-                    {
-                        Dove* pDoveIter = gDovesArray.ItemAt(i);
-                        if (!pDoveIter)
-                        {
-                            break;
-                        }
-                        pDoveIter->FlyAway(0);
-                    }
-
-                    bExtraSeqStarted_4FF944 = 0;
-                    if (bTheOneControllingTheMusic)
-                    {
-                        SND_Seq_Stop(SeqId::Unknown_24);
-                        bTheOneControllingTheMusic = 0;
-                    }
+                    Dove::All_FlyAway(false);
                 }
             }
             break;
@@ -270,9 +222,9 @@ void Dove::VUpdate()
             if (mFlyAwayCounter == 0)
             {
                 GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Dove_Flying));
-                if (!bExtraSeqStarted_4FF944)
+                if (!sExtraSeqStarted)
                 {
-                    bExtraSeqStarted_4FF944 = 16;
+                    sExtraSeqStarted = true;
                     SfxPlayMono(relive::SoundEffects::Dove, 0);
                 }
             }
@@ -286,9 +238,9 @@ void Dove::VUpdate()
             mVelY = (mVelY * FP_FromDouble(1.03));
             mVelX = (mVelX * FP_FromDouble(1.03));
 
-            if (mFlyAwayCounter >= 25 - (Math_NextRandom() & 7))
+            if (mFlyAwayCounter >= (25 - (Math_NextRandom() % 8)))
             {
-                mFlyAwayCounter = (Math_NextRandom() & 7) + mFlyAwayCounter - 25;
+                mFlyAwayCounter += (Math_NextRandom() % 8) - 25;
                 mVelX = -mVelX;
             }
 
@@ -302,8 +254,8 @@ void Dove::VUpdate()
                 SetDead(true);
             }
 
-            const FP k4Directed = GetAnimation().GetFlipX() ? FP_FromInteger(4) : FP_FromInteger(-4);
-            mVelX = (k4Directed + mJoinX - mXPos) / FP_FromInteger(8);
+            const FP xOff = GetAnimation().GetFlipX() ? FP_FromInteger(4) : FP_FromInteger(-4);
+            mVelX = (xOff + mJoinX - mXPos) / FP_FromInteger(8);
             mVelY = (mJoinY - mYPos) / FP_FromInteger(8);
             mXPos += mVelX;
             mYPos += mVelY;
@@ -321,15 +273,18 @@ void Dove::VUpdate()
         case State::eAlmostACircle_4:
             if (sAbePortalTimer != static_cast<s32>(sGnFrame))
             {
+                // increase or decrease the width of the Abe portal
                 sAbePortalTimer = sGnFrame;
                 sAbePortalWidth += sAbePortalDirection;
 
                 if (sAbePortalWidth == 0)
                 {
+                    // expanding
                     sAbePortalDirection = 1;
                 }
                 else if (sAbePortalWidth == 30)
                 {
+                    // contracting
                     sAbePortalDirection = -1;
                 }
             }
@@ -355,7 +310,7 @@ void Dove::VUpdate()
     }
 }
 
-void Dove::All_FlyAway()
+void Dove::All_FlyAway(bool spookedInstantly)
 {
     for (s32 i = 0; i < gDovesArray.Size(); i++)
     {
@@ -365,10 +320,10 @@ void Dove::All_FlyAway()
             break;
         }
 
-        pDove->FlyAway(0);
+        pDove->FlyAway(spookedInstantly);
     }
 
-    bExtraSeqStarted_4FF944 = 0;
+    sExtraSeqStarted = false;
     if (bTheOneControllingTheMusic)
     {
         SND_Seq_Stop(SeqId::Unknown_24);
