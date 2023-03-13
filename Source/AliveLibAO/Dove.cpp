@@ -135,7 +135,7 @@ Dove* Dove::ctor_40EFF0(s32 frameTableOffset, s32 maxW, s32 maxH, s32 resourceID
     }
 
     field_B4_velx = FP_FromInteger(Math_NextRandom() / 12 - 11);
-    if (scale >= FP_FromInteger(0))
+    if (field_B4_velx >= FP_FromInteger(0))
     {
         field_10_anim.field_4_flags.Clear(AnimFlags::eBit5_FlipX);
     }
