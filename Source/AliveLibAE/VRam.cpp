@@ -295,7 +295,7 @@ static bool Pal_Allocate_Helper(s32& i, s32& palX_idx, s32 maskValue, s32 numBit
     return false;
 }
 
-static EXPORT s16 Pal_Allocate_Impl(PSX_RECT* pRect, u32 paletteColorCount)
+static s16 Pal_Allocate_Impl(PSX_RECT* pRect, u32 paletteColorCount)
 {
     if (!pal_free_count_5C915E)
     {
@@ -352,8 +352,8 @@ EXPORT s16 CC Pal_Allocate_483110(PSX_RECT* pRect, u32 paletteColorCount)
     {
         // pal alloc failure (panto voices: oh no he didn't!)
         LOG_WARNING("Fat pal alloc hax");
-        pRect->w = 1;
-        pRect->h = paletteColorCount;
+        pRect->w = static_cast<s16>(paletteColorCount);
+        pRect->h = 1;
         pRect->x = 0;
         pRect->y = 0;
         return 1;
