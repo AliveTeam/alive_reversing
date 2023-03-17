@@ -295,7 +295,7 @@ static bool Pal_Allocate_Helper(s32& i, s32& palX_idx, s32 maskValue, s32 numBit
     return false;
 }
 
-EXPORT s16 CC Pal_Allocate_483110(PSX_RECT* pRect, u32 paletteColorCount)
+static s16 Pal_Allocate_Impl(PSX_RECT* pRect, u32 paletteColorCount)
 {
     if (!pal_free_count_5C915E)
     {
@@ -343,6 +343,22 @@ EXPORT s16 CC Pal_Allocate_483110(PSX_RECT* pRect, u32 paletteColorCount)
     pRect->x = static_cast<s16>(pal_xpos_5C9162 + (16 * palX_idx));
     pRect->y = static_cast<s16>(pal_rect_y + pal_ypos_5C9160);
     return 1;
+}
+
+EXPORT s16 CC Pal_Allocate_483110(PSX_RECT* pRect, u32 paletteColorCount)
+{
+    const s16 ret = Pal_Allocate_Impl(pRect, paletteColorCount);
+    if (ret == 0 && (GetGameAutoPlayer().IsRecording() || GetGameAutoPlayer().IsPlaying()))
+    {
+        // pal alloc failure (panto voices: oh no he didn't!)
+        LOG_WARNING("Fat pal alloc hax");
+        pRect->w = static_cast<s16>(paletteColorCount);
+        pRect->h = 1;
+        pRect->x = 0;
+        pRect->y = 0;
+        return 1;
+    }
+    return ret;
 }
 
 EXPORT void CC Pal_free_483390(PSX_Point xy, s16 palDepth)
