@@ -979,6 +979,7 @@ public:
             psx::Sample* sample = new psx::Sample();
             sample->m_SampleBuffer = reinterpret_cast<u16*>(data);
             sample->i_SampleSize = size / 2;
+            sample->sampleRate = 22050;
             samples.push_back(sample);
         }
 

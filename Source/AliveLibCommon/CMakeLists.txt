@@ -35,6 +35,10 @@ SET(AliveLibSrcCommon
     PSXMDECDecoder.h
     Psx_common.hpp
     W32CrashHandler.hpp
+    audio/Sequencer.hpp
+    audio/Sequencer.cpp
+    audio/SequencePlayer.hpp
+    audio/SequencePlayer.cpp
     audio/mixer/AliveAudio.hpp
     audio/mixer/AliveAudio.cpp
     audio/mixer/Voice.hpp
@@ -46,12 +50,17 @@ SET(AliveLibSrcCommon
     audio/Stream.cpp
     audio/Soundbank.hpp
     audio/Soundbank.cpp
-    audio/SequencePlayer.hpp
-    audio/SequencePlayer.cpp
     audio/MidiPlayer.hpp
     audio/MidiPlayer.cpp
     audio/mixer/biquad.hpp
     audio/mixer/biquad.cpp
+    audio/mixer/psxadsr.hpp
+    audio/mixer/psxadsr.cpp 
+    audio/mixer/BitField.hpp
+    audio/mixer/SPUEMU.hpp
+    audio/mixer/SPUEMU.cpp
+    audio/mixer/AudioStream.hpp 
+    audio/mixer/AudioStream.cpp
 )
 
 add_library(AliveLibCommon ${AliveLibSrcCommon})
