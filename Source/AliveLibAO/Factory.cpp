@@ -160,7 +160,7 @@ static void Factory_ShadowZone(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid
     }
 }
 
-static void Factory_LiftPoint(relive::Path_TLV* pTlv, Map* pMap, const Guid& tlvId, LoadMode loadMode)
+static void Factory_LiftPoint(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& tlvId, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -213,7 +213,7 @@ static void Factory_LiftPoint(relive::Path_TLV* pTlv, Map* pMap, const Guid& tlv
 
         if (pTlv->mTlvSpecificMeaning & 2 || (pTlv->mTlvSpecificMeaning == 0 && static_cast<relive::Path_LiftPoint*>(pTlv)->mIsStartPoint == relive::reliveChoice::eYes))
         {
-            relive_new LiftPoint(static_cast<relive::Path_LiftPoint*>(pTlv), pMap, tlvId);
+            relive_new LiftPoint(static_cast<relive::Path_LiftPoint*>(pTlv), tlvId);
         }
         else
         {
@@ -234,7 +234,7 @@ static void Factory_LiftPoint(relive::Path_TLV* pTlv, Map* pMap, const Guid& tlv
                         {
                             if (pTlvIter->mTlvSpecificMeaning & 2 || (pTlvIter->mTlvSpecificMeaning == 0 && static_cast<relive::Path_LiftPoint*>(pTlvIter)->mIsStartPoint == relive::reliveChoice::eYes))
                             {
-                                relive_new LiftPoint(static_cast<relive::Path_LiftPoint*>(pTlvIter), pMap, tlvId);
+                                relive_new LiftPoint(static_cast<relive::Path_LiftPoint*>(pTlvIter), tlvId);
                                 return;
                             }
                         }
@@ -244,7 +244,7 @@ static void Factory_LiftPoint(relive::Path_TLV* pTlv, Map* pMap, const Guid& tlv
                 pointNumber++;
             }
 
-            relive_new LiftPoint(static_cast<relive::Path_LiftPoint*>(pTlv), pMap, tlvId);
+            relive_new LiftPoint(static_cast<relive::Path_LiftPoint*>(pTlv), tlvId);
         }
     }
 }
@@ -773,7 +773,7 @@ static void Factory_BellSongStone(relive::Path_TLV* /*pTlv*/, Map* /*pMap*/, con
 }
 
 
-static void Factory_TrapDoor(relive::Path_TLV* pTlv, Map* pMap, const Guid& tlvId, LoadMode loadMode)
+static void Factory_TrapDoor(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& tlvId, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -797,7 +797,7 @@ static void Factory_TrapDoor(relive::Path_TLV* pTlv, Map* pMap, const Guid& tlvI
     }
     else
     {
-        relive_new TrapDoor(static_cast<relive::Path_TrapDoor*>(pTlv), pMap, tlvId);
+        relive_new TrapDoor(static_cast<relive::Path_TrapDoor*>(pTlv), tlvId);
     }
 }
 

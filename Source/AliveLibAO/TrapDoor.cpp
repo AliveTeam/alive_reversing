@@ -52,7 +52,7 @@ void TrapDoor::LoadAnimations()
     }
 }
 
-TrapDoor::TrapDoor(relive::Path_TrapDoor* pTlv, Map* pMap, const Guid& tlvId)
+TrapDoor::TrapDoor(relive::Path_TrapDoor* pTlv, const Guid& tlvId)
 {
     SetType(ReliveTypes::eTrapDoor);
     mBaseGameObjectTlvInfo = tlvId;
@@ -90,7 +90,6 @@ TrapDoor::TrapDoor(relive::Path_TrapDoor* pTlv, Map* pMap, const Guid& tlvId)
     AddDynamicCollision(
         sTrapDoorData[cur_lvl].mClosed,
         pTlv,
-        pMap,
         tlvId);
 
     mTrapDoorX = FP_FromInteger(pTlv->mTopLeftX);
@@ -118,8 +117,6 @@ TrapDoor::TrapDoor(relive::Path_TrapDoor* pTlv, Map* pMap, const Guid& tlvId)
 
     mBoundingRect.w = pTlv->mBottomRightX;
     mBoundingRect.h = pTlv->mBottomRightY;
-
-    mUnknown = 4;
 }
 
 void TrapDoor::VRender(PrimHeader** ppOt)

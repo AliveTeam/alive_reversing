@@ -18,7 +18,7 @@ enum class TrapDoorState : s16
 class TrapDoor final : public PlatformBase
 {
 public:
-    TrapDoor(relive::Path_TrapDoor* pTlv, Map* pMap, const Guid& tlvId);
+    TrapDoor(relive::Path_TrapDoor* pTlv, const Guid& tlvId);
     ~TrapDoor();
 
     void LoadAnimations();

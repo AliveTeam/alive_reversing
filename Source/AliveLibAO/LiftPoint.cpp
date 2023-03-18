@@ -74,7 +74,7 @@ void LiftPoint::LoadAnimations()
     }
 }
 
-LiftPoint::LiftPoint(relive::Path_LiftPoint* pTlv, Map* pPath, const Guid& tlvId)
+LiftPoint::LiftPoint(relive::Path_LiftPoint* pTlv, const Guid& tlvId)
     : PlatformBase()
 {
     mBaseGameObjectTlvInfo = tlvId;
@@ -99,7 +99,6 @@ LiftPoint::LiftPoint(relive::Path_LiftPoint* pTlv, Map* pPath, const Guid& tlvId
     AddDynamicCollision(
         sLiftPointAnimIds[lvl_idx].mPlatformAnimId,
         pTlv,
-        pPath,
         tlvId);
 
     if (GetSpriteScale() == FP_FromInteger(1))
@@ -150,7 +149,6 @@ LiftPoint::LiftPoint(relive::Path_LiftPoint* pTlv, Map* pPath, const Guid& tlvId
         mVelX = FP_FromInteger(0);
         mLiftWheelAnim.SetRGB(128, 128, 128);
         mLiftWheelAnim.SetRenderMode(TPageAbr::eBlend_0);
-        mUnknown = 1;
 
         mVelY = FP_FromInteger(0);
         mLiftPointStopType = relive::Path_LiftPoint::LiftPointStopType::eStartPointOnly;

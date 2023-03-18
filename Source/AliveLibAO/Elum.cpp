@@ -540,12 +540,9 @@ bool Elum::ToNextMotionAbeControlled()
     auto pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
     if (pPlatform && pPlatform->Type() == ReliveTypes::eLiftPoint)
     {
-        if (pPlatform->mUnknown == 1)
+        if (!static_cast<LiftPoint*>(pPlatform)->OnAnyFloor())
         {
-            if (!static_cast<LiftPoint*>(pPlatform)->OnAnyFloor())
-            {
-                return false;
-            }
+            return false;
         }
     }
 
@@ -816,10 +813,13 @@ bool Elum::NearHoney()
     if (mFoundHoney)
     {
         auto pLiftPoint = static_cast<LiftPoint*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
-        if (pLiftPoint && pLiftPoint->mUnknown == 1 && !pLiftPoint->OnAnyFloor())
+        if (pLiftPoint && pLiftPoint->Type() == ReliveTypes::eLiftPoint)
         {
-            // We're on a lift that isn't on a floor
-            return false;
+            if (!pLiftPoint->OnAnyFloor())
+            {
+                // We're on a lift that isn't on a floor
+                return false;
+            }
         }
 
         return abs(FP_GetExponent(mYPos) - mHoneyYPos) <= 24 ? true : false;
@@ -931,27 +931,24 @@ s16 Elum::Brain_0_WithoutAbe()
             }
 
             auto pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
-            if (pPlatform)
+            if (pPlatform && pPlatform->Type() == ReliveTypes::eLiftPoint)
             {
-                if (pPlatform->mUnknown == 1)
+                auto pLift = static_cast<LiftPoint*>(pPlatform);
+                if (!pLift->OnAnyFloor()) // TODO: Check logic
                 {
-                    auto pLift = static_cast<LiftPoint*>(pPlatform);
-                    if (!pLift->OnAnyFloor()) // TODO: Check logic
+                    if (mXPos == sActiveHero->mXPos)
                     {
-                        if (mXPos == sActiveHero->mXPos)
-                        {
-                            return 2;
-                        }
-
-                        if (VIsFacingMe(sActiveHero))
-                        {
-                            SetNextMotion(eElumMotions::Motion_3_WalkLoop);
-                            return 3;
-                        }
-
-                        SetNextMotion(eElumMotions::Motion_4_Turn);
-                        return 4;
+                        return 2;
                     }
+
+                    if (VIsFacingMe(sActiveHero))
+                    {
+                        SetNextMotion(eElumMotions::Motion_3_WalkLoop);
+                        return 3;
+                    }
+
+                    SetNextMotion(eElumMotions::Motion_4_Turn);
+                    return 4;
                 }
             }
 

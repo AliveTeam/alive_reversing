@@ -2097,7 +2097,7 @@ s16 Slig::HandlePlayerControlled()
         auto pLiftPoint = static_cast<LiftPoint*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
         if (pLiftPoint)
         {
-            if (pLiftPoint->mUnknown == 1)
+            if (pLiftPoint->Type() == ReliveTypes::eLiftPoint)
             {
                 if (FP_Abs(mXPos - FP_FromInteger((BaseAliveGameObjectCollisionLine->mRect.x + BaseAliveGameObjectCollisionLine->mRect.w) / 2)) < kScaleGrid / FP_FromInteger(2))
                 {
