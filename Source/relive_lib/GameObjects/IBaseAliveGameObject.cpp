@@ -2,6 +2,9 @@
 #include "GameType.hpp"
 #include "ObjectIds.hpp"
 
+
+#include "../AliveLibAO/PlatformBase.hpp"
+
 DynamicArrayT<IBaseAliveGameObject>* gBaseAliveGameObjects = nullptr;
 
 // TODO: Remove after abe.cpp merge
@@ -15,7 +18,15 @@ IBaseAliveGameObject::~IBaseAliveGameObject()
 
     if (pLiftPoint)
     {
-        pLiftPoint->VOnTrapDoorOpen();
+        // TODO: Only call VOnTrapDoorOpen when PlatformBase is merged
+        if (GetGameType() == GameType::eAe)
+        {
+            pLiftPoint->VOnTrapDoorOpen();
+        }
+        else
+        {
+            static_cast<AO::PlatformBase*>(pLiftPoint)->VRemove(static_cast<AO::BaseAliveGameObject*>(this));
+        }
         BaseAliveGameObject_PlatformId = Guid{};
     }
 }
