@@ -49,6 +49,12 @@ Dove* Dove::ctor_40EE50(s32 frameTableOffset, s32 maxW, s32 maxH, s32 resourceID
     SetVTable(this, 0x4BA858);
     field_4_typeId = Types::eBird_22;
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, resourceID, 1, 0);
+    if (!ppRes)
+    {
+        LOG_WARNING("hack loading dove resources");
+        ResourceManager::LoadResourceFile_455270("DOVBASIC.BAN", nullptr);
+        ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, resourceID, 1, 0);
+    }
     Animation_Init_417FD0(
         frameTableOffset,
         maxW,
@@ -114,6 +120,12 @@ Dove* Dove::ctor_40EFF0(s32 frameTableOffset, s32 maxW, s32 maxH, s32 resourceID
     field_4_typeId = Types::eBird_22;
 
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, resourceID, 1, 0);
+    if (!ppRes)
+    {
+        LOG_WARNING("hack loading dove resources");
+        ResourceManager::LoadResourceFile_455270("DOVBASIC.BAN", nullptr);
+        ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, resourceID, 1, 0);
+    }
     Animation_Init_417FD0(
         frameTableOffset,
         maxW,

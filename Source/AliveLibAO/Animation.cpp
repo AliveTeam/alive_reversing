@@ -763,6 +763,7 @@ s16 Animation::Init_402D20(s32 frameTableOffset, DynamicArray* /*animList*/, Bas
 
     if (!ppAnimData)
     {
+        LOG_WARNING("Animation init failed because the resource wasn't loaded!");
         return 0;
     }
 
@@ -870,6 +871,7 @@ s16 Animation::Init_402D20(s32 frameTableOffset, DynamicArray* /*animList*/, Bas
     const bool bOk = bVramAllocOK && bPalAllocOK;
     if (!bOk)
     {
+        LOG_WARNING("Animation init failed because the vram or pal alloc failed!");
         return 0;
     }
 
@@ -881,6 +883,7 @@ s16 Animation::Init_402D20(s32 frameTableOffset, DynamicArray* /*animList*/, Bas
         field_24_dbuf = ResourceManager::Alloc_New_Resource_454F20(ResourceManager::Resource_DecompressionBuffer, id, field_28_dbuf_size);
         if (!field_24_dbuf)
         {
+            LOG_WARNING("Animation init failed because it couldn't alloc a new resource!");
             return 0;
         }
     }
