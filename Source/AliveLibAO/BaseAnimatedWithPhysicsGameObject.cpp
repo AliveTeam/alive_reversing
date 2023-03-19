@@ -12,6 +12,7 @@
 #include "Particle.hpp"
 #include "Sfx.hpp"
 #include "Math.hpp"
+#include "../AliveLibCommon/BaseGameAutoPlayer.hpp"
 
 namespace AO {
 
@@ -92,6 +93,11 @@ void BaseAnimatedWithPhysicsGameObject::Animation_Init_417FD0(s32 frameTableOffs
     }
     else
     {
+        if (GetGameAutoPlayer().IsPlaying() || GetGameAutoPlayer().IsRecording())
+        {
+            std::string errMsg = "Animation init failed! frame table offset " + std::to_string(frameTableOffset);
+            ALIVE_FATAL(errMsg.c_str());
+        }
         field_6_flags.Set(Options::eListAddFailed_Bit1);
         field_6_flags.Set(Options::eDead_Bit3);
     }

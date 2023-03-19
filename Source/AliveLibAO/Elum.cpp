@@ -3720,7 +3720,7 @@ void Elum::VUpdate_4102A0()
                     {   
                         if (GetGameAutoPlayer().IsPlaying() || GetGameAutoPlayer().IsRecording())
                         {
-                            ResourceManager::LoadResourceFile_455270("ELMRIDE.BAN", nullptr),
+                            ResourceManager::LoadResourceFile_455270("ELMRIDE.BAN", nullptr);
                             ResourceManager::LoadResourceFile_455270("ELMPDMNT.BAN", nullptr);
                             VLoadMountedResources_411300();
                             ppRes = GetResBlock_410D00(field_E4_previous_motion);
@@ -3755,7 +3755,7 @@ void Elum::VUpdate_4102A0()
                 {
                     if (GetGameAutoPlayer().IsPlaying() || GetGameAutoPlayer().IsRecording())
                     {
-                        ResourceManager::LoadResourceFile_455270("ELMRIDE.BAN", nullptr),
+                        ResourceManager::LoadResourceFile_455270("ELMRIDE.BAN", nullptr);
                         ResourceManager::LoadResourceFile_455270("ELMPDMNT.BAN", nullptr);
                         VLoadMountedResources_411300();
                         ppRes = GetResBlock_410D00(field_FC_current_motion);
