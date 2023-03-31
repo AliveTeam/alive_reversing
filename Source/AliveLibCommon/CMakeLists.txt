@@ -54,11 +54,6 @@ SET(AliveLibSrcCommon
     audio/MidiPlayer.cpp
     audio/mixer/biquad.hpp
     audio/mixer/biquad.cpp
-    audio/mixer/psxadsr.hpp
-    audio/mixer/psxadsr.cpp 
-    audio/mixer/BitField.hpp
-    audio/mixer/SPUEMU.hpp
-    audio/mixer/SPUEMU.cpp
     audio/mixer/AudioStream.hpp 
     audio/mixer/AudioStream.cpp
 )

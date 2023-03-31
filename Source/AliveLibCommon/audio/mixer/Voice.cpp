@@ -47,6 +47,7 @@ float Voice::GetSample()
         }
     }
 
+    // From midi.cpp -- auto freq = pow(1.059463094359, (f64) (note - v29) * 0.00390625);
     double sampleFrameRate = pow(1.059463, i_Note - m_Tone->c_Center + m_Tone->Pitch + f_Pitch) * (44100.0 / AliveAudioSampleRate);
     f_SampleOffset += (sampleFrameRate);
 

@@ -26,8 +26,9 @@ public:
 class Sample
 {
 public:
-    u16* m_SampleBuffer;
+    s16* m_SampleBuffer;
     u32 i_SampleSize;
+    u32 sampleRate;
     float GetSample(float sampleOffset);
 };
 

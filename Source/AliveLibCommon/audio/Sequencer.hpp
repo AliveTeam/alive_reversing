@@ -1,19 +1,16 @@
 #pragma once
 
+#include "SDL.h"
 #include <thread>
 #include <vector>
 #include <mutex>
-#include "AL/al.h"
-#include "AL/alc.h"
-#include "AL/alext.h"
-#include "AL/efx.h"
-#include "AL/efx-presets.h"
-#include "BitField.hpp"
 
 namespace sean {
 
 const s16 MIN_VOLUME = 0;
 const s16 MAX_VOLUME = 32767;
+
+u32 mask(u32 num);
 
 struct ASDR
 {
@@ -39,14 +36,15 @@ ADSR parseADSR(u16 adsr1, u16 adsr2);
 class Sample
 {
 public:
-    Sample(ALvoid* buffer, ALsizei size, ALsizei sampleRate)
+    Sample(s16* buf, u32 size, u32 sampleRate)
     {
-        alGenBuffers(1, &alBuffer);
-        alBufferData(alBuffer, AL_FORMAT_MONO16, buffer, size, sampleRate);
+        buffer = buf;
+        len = size;
+        SampleRate = sampleRate;
     }
     ~Sample()
     {
-        alDeleteBuffers(1, &alBuffer);
+        delete[] buffer;
     }
 
     float volume;
@@ -65,7 +63,9 @@ public:
 
     ADSR adsr;
 
-    ALuint alBuffer;
+    s16* buffer;
+    u32 len;
+    u32 SampleRate;
 };
 
 
@@ -185,11 +185,30 @@ enum ADSRPhase
     RELEASE
 };
 
+union VoiceCounter
+{
+    // promoted to u32 because of overflow
+    u32 bits = 0;
+
+    //BitField<u32, u8, 4, 8> interpolation_index;
+    u32 interpolation_index()
+    {
+        return (bits >> 4) & mask(8);
+    }
+
+    //BitField<u32, u8, 12, 5> sample_index;
+    u32 sample_index()
+    {
+        return (bits >> 12) & mask(5);
+    }
+};
+
 class Voice
 {
 public:
     s32 id;
 
+    double f_SampleOffset = 3;
     Sequence* sequence = NULL;
     u8 patchId;
     u8 channelId;
@@ -201,8 +220,18 @@ public:
     float pan = 0.0f;
     std::atomic_bool inUse = false;
 
+    s32 sOldest = 0;
+    s32 sOlder = 0;
+    s32 sOld = 0;
+    s32 sNew = 0;
+
+    void pushSample(s32 s);
+
+    bool complete = false;
     bool loop = false;
     u64 offTime = 0;  // when the note was released
+
+    VoiceCounter vounter;
 
     ADSRPhase adsrPhase = NONE;
     s32 adsrCounter = 0; // decremented each midi tick
@@ -212,10 +241,12 @@ public:
     s16 adsrCurrentLevel = 0;
     s16 adsrTargetLevel = MAX_VOLUME; // attack we want to reach max
 
-    ALuint alSourceId;
     Sample* sample;
 
-    s16 tick();
+    std::tuple<s32, s32> tick();
+
+private:
+    s32 interpolate();
 };
 
 
@@ -265,6 +296,12 @@ public:
     void playSeq(s32 seqId);
     void stopSeq(s32 seqId);
 
+    static const int voiceCount = 256;
+    Voice* voices[voiceCount];
+
+    void tickSequence();
+
+
 private:
     std::thread* thread;
     bool running;
@@ -277,61 +314,17 @@ private:
     Voice* obtainVoice();
     void releaseVoice(Voice* v);
 
-    void tickSequence();
     void tickVoice();
     void syncVoice();
 
-    ALCdevice* device;
-    ALCcontext* ctx;
-
     std::vector<Sequence*> sequences;
 
-    static const int voiceCount = 256;
-    Voice* voices[voiceCount];
 
     static const int patchCount = 128;
     Patch* patches[patchCount];
-
-    ALuint efxReverb0;
-    ALuint efxSlot0;
 };
 
-
-/*
-* BELOW IS ALL OPENAL EFFECTS LOADING
-* Not sure where else to put this...
-*/
-/* Define a macro to help load the function pointers. 
-    https://github.com/kcat/openal-soft/blob/master/examples/alreverb.c */
-/* Effect object functions */
-static LPALGENEFFECTS alGenEffects;
-static LPALDELETEEFFECTS alDeleteEffects;
-static LPALISEFFECT alIsEffect;
-static LPALEFFECTI alEffecti;
-static LPALEFFECTIV alEffectiv;
-static LPALEFFECTF alEffectf;
-static LPALEFFECTFV alEffectfv;
-static LPALGETEFFECTI alGetEffecti;
-static LPALGETEFFECTIV alGetEffectiv;
-static LPALGETEFFECTF alGetEffectf;
-static LPALGETEFFECTFV alGetEffectfv;
-static LPALFILTERF alFilterf;
-static LPALFILTERI alFilteri;
-
-/* Auxiliary Effect Slot object functions */
-static LPALGENAUXILIARYEFFECTSLOTS alGenAuxiliaryEffectSlots;
-static LPALDELETEAUXILIARYEFFECTSLOTS alDeleteAuxiliaryEffectSlots;
-static LPALISAUXILIARYEFFECTSLOT alIsAuxiliaryEffectSlot;
-static LPALAUXILIARYEFFECTSLOTI alAuxiliaryEffectSloti;
-static LPALAUXILIARYEFFECTSLOTIV alAuxiliaryEffectSlotiv;
-static LPALAUXILIARYEFFECTSLOTF alAuxiliaryEffectSlotf;
-static LPALAUXILIARYEFFECTSLOTFV alAuxiliaryEffectSlotfv;
-static LPALGETAUXILIARYEFFECTSLOTI alGetAuxiliaryEffectSloti;
-static LPALGETAUXILIARYEFFECTSLOTIV alGetAuxiliaryEffectSlotiv;
-static LPALGETAUXILIARYEFFECTSLOTF alGetAuxiliaryEffectSlotf;
-static LPALGETAUXILIARYEFFECTSLOTFV alGetAuxiliaryEffectSlotfv;
-
-ALuint PREPARE_REVERB(const EFXEAXREVERBPROPERTIES* reverb);
-void LOAD_EFFECT_FUNCTIONS();
+static Sequencer* gseq;
+void SDLCallback(void* udata, Uint8* stream, int len);
 
 } // namespace

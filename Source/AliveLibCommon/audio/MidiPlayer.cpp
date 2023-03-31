@@ -5,7 +5,6 @@
 #include "mixer/ADSR.hpp"
 #include "mixer/AliveAudio.hpp"
 #include "SequencePlayer.hpp"
-#include "mixer/psxadsr.hpp"
 
 namespace psx {
 
@@ -34,7 +33,7 @@ public:
             pos += size;
 
             Sample* sample = new Sample();
-            sample->m_SampleBuffer = reinterpret_cast<u16*>(data);
+            sample->m_SampleBuffer = reinterpret_cast<s16*>(data);
             sample->i_SampleSize = size / 2;
             sample->sampleRate = sampleRate;
             samples.push_back(sample);
@@ -118,7 +117,7 @@ void MidiPlayer::SND_Load_VABS(SoundBlockInfo* pSoundBlockInfo, s32 reverb)
                     sean::ADSR adsr = sean::parseADSR(ADSR1, ADSR2);
                     sean::Patch* patch = sequencer->createPatch(vagAttr->field_14_prog);
                     Sample* s = samples.at(vagAttr->field_16_vag - 1);
-                    sean::Sample* sample = new sean::Sample(s->m_SampleBuffer, s->i_SampleSize * 2, 22050); // TODO sample-sampleRate?
+                    sean::Sample* sample = new sean::Sample(s->m_SampleBuffer, s->i_SampleSize, 44100); // TODO s->sampleRate?
                     patch->samples[x] = sample;
 
                     sample->adsr = adsr;

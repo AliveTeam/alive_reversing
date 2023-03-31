@@ -2,11 +2,15 @@
 
 #include "Sequencer.hpp"
 #include <array>
+#include "SDL.h"
 
 namespace sean {
 
 /////////////////////////////////
 /// DuckStation
+
+static const u32 NUM_SAMPLES_PER_ADPCM_BLOCK = 28;
+
 u32 mask(u32 num)
 {
     u32 res = 0;
@@ -15,6 +19,38 @@ u32 mask(u32 num)
         res = (res << 1) | 1;
     }
     return res;
+}
+
+template <typename TValue>
+constexpr u16 Truncate16(TValue value)
+{
+    return static_cast<u16>(static_cast<typename std::make_unsigned<decltype(value)>::type>(value));
+}
+
+template <typename TReturn, typename TValue>
+constexpr TReturn SignExtend(TValue value)
+{
+    return static_cast<TReturn>(
+        static_cast<typename std::make_signed<TReturn>::type>(static_cast<typename std::make_signed<TValue>::type>(value)));
+}
+
+template <typename TValue>
+constexpr u32 SignExtend32(TValue value)
+{
+    return SignExtend<u32, TValue>(value);
+}
+
+template <typename TReturn, typename TValue>
+constexpr TReturn ZeroExtend(TValue value)
+{
+    return static_cast<TReturn>(static_cast<typename std::make_unsigned<TReturn>::type>(
+        static_cast<typename std::make_unsigned<TValue>::type>(value)));
+}
+
+template <typename TValue>
+constexpr u32 ZeroExtend32(TValue value)
+{
+    return ZeroExtend<u32, TValue>(value);
 }
 
 ADSR parseADSR(u16 adsr1, u16 adsr2)
@@ -76,59 +112,120 @@ static constexpr ADSRTableEntries ComputeADSRTableEntries()
 
 static constexpr ADSRTableEntries s_adsr_table = ComputeADSRTableEntries();
 
-//struct Voice
-//{
-//    u16 current_address;
-//    VoiceRegisters regs;
-//    VoiceCounter counter;
-//    ADPCMFlags current_block_flags;
-//    bool is_first_block;
-//    std::array<s16, NUM_SAMPLES_FROM_LAST_ADPCM_BLOCK + NUM_SAMPLES_PER_ADPCM_BLOCK> current_block_samples;
-//    std::array<s16, 2> adpcm_last_samples;
-//    s32 last_volume;
-//
-//    VolumeSweep left_volume;
-//    VolumeSweep right_volume;
-//
-//    VolumeEnvelope adsr_envelope;
-//    ADSRPhase adsr_phase;
-//    s16 adsr_target;
-//    bool has_samples;
-//    bool ignore_loop_address;
-//
-//    bool IsOn() const
-//    {
-//        return adsr_phase != ADSRPhase::Off;
-//    }
-//
-//    void KeyOn();
-//    void KeyOff();
-//    void ForceOff();
-//
-//    void DecodeBlock(const ADPCMBlock& block);
-//    s32 Interpolate() const;
-//
-//    // Switches to the specified phase, filling in target.
-//    void UpdateADSREnvelope();
-//
-//    // Updates the ADSR volume/phase.
-//    void TickADSR();
-//};
+s32 Voice::interpolate()
+{
+    static constexpr std::array<s16, 0x200> gauss = {{
+        -0x001, -0x001, -0x001, -0x001, -0x001, -0x001, -0x001, -0x001, //
+        -0x001, -0x001, -0x001, -0x001, -0x001, -0x001, -0x001, -0x001, //
+        0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0001, //
+        0x0001, 0x0001, 0x0001, 0x0002, 0x0002, 0x0002, 0x0003, 0x0003, //
+        0x0003, 0x0004, 0x0004, 0x0005, 0x0005, 0x0006, 0x0007, 0x0007, //
+        0x0008, 0x0009, 0x0009, 0x000A, 0x000B, 0x000C, 0x000D, 0x000E, //
+        0x000F, 0x0010, 0x0011, 0x0012, 0x0013, 0x0015, 0x0016, 0x0018, // entry
+        0x0019, 0x001B, 0x001C, 0x001E, 0x0020, 0x0021, 0x0023, 0x0025, // 000..07F
+        0x0027, 0x0029, 0x002C, 0x002E, 0x0030, 0x0033, 0x0035, 0x0038, //
+        0x003A, 0x003D, 0x0040, 0x0043, 0x0046, 0x0049, 0x004D, 0x0050, //
+        0x0054, 0x0057, 0x005B, 0x005F, 0x0063, 0x0067, 0x006B, 0x006F, //
+        0x0074, 0x0078, 0x007D, 0x0082, 0x0087, 0x008C, 0x0091, 0x0096, //
+        0x009C, 0x00A1, 0x00A7, 0x00AD, 0x00B3, 0x00BA, 0x00C0, 0x00C7, //
+        0x00CD, 0x00D4, 0x00DB, 0x00E3, 0x00EA, 0x00F2, 0x00FA, 0x0101, //
+        0x010A, 0x0112, 0x011B, 0x0123, 0x012C, 0x0135, 0x013F, 0x0148, //
+        0x0152, 0x015C, 0x0166, 0x0171, 0x017B, 0x0186, 0x0191, 0x019C, //
+        0x01A8, 0x01B4, 0x01C0, 0x01CC, 0x01D9, 0x01E5, 0x01F2, 0x0200, //
+        0x020D, 0x021B, 0x0229, 0x0237, 0x0246, 0x0255, 0x0264, 0x0273, //
+        0x0283, 0x0293, 0x02A3, 0x02B4, 0x02C4, 0x02D6, 0x02E7, 0x02F9, //
+        0x030B, 0x031D, 0x0330, 0x0343, 0x0356, 0x036A, 0x037E, 0x0392, //
+        0x03A7, 0x03BC, 0x03D1, 0x03E7, 0x03FC, 0x0413, 0x042A, 0x0441, //
+        0x0458, 0x0470, 0x0488, 0x04A0, 0x04B9, 0x04D2, 0x04EC, 0x0506, //
+        0x0520, 0x053B, 0x0556, 0x0572, 0x058E, 0x05AA, 0x05C7, 0x05E4, // entry
+        0x0601, 0x061F, 0x063E, 0x065C, 0x067C, 0x069B, 0x06BB, 0x06DC, // 080..0FF
+        0x06FD, 0x071E, 0x0740, 0x0762, 0x0784, 0x07A7, 0x07CB, 0x07EF, //
+        0x0813, 0x0838, 0x085D, 0x0883, 0x08A9, 0x08D0, 0x08F7, 0x091E, //
+        0x0946, 0x096F, 0x0998, 0x09C1, 0x09EB, 0x0A16, 0x0A40, 0x0A6C, //
+        0x0A98, 0x0AC4, 0x0AF1, 0x0B1E, 0x0B4C, 0x0B7A, 0x0BA9, 0x0BD8, //
+        0x0C07, 0x0C38, 0x0C68, 0x0C99, 0x0CCB, 0x0CFD, 0x0D30, 0x0D63, //
+        0x0D97, 0x0DCB, 0x0E00, 0x0E35, 0x0E6B, 0x0EA1, 0x0ED7, 0x0F0F, //
+        0x0F46, 0x0F7F, 0x0FB7, 0x0FF1, 0x102A, 0x1065, 0x109F, 0x10DB, //
+        0x1116, 0x1153, 0x118F, 0x11CD, 0x120B, 0x1249, 0x1288, 0x12C7, //
+        0x1307, 0x1347, 0x1388, 0x13C9, 0x140B, 0x144D, 0x1490, 0x14D4, //
+        0x1517, 0x155C, 0x15A0, 0x15E6, 0x162C, 0x1672, 0x16B9, 0x1700, //
+        0x1747, 0x1790, 0x17D8, 0x1821, 0x186B, 0x18B5, 0x1900, 0x194B, //
+        0x1996, 0x19E2, 0x1A2E, 0x1A7B, 0x1AC8, 0x1B16, 0x1B64, 0x1BB3, //
+        0x1C02, 0x1C51, 0x1CA1, 0x1CF1, 0x1D42, 0x1D93, 0x1DE5, 0x1E37, //
+        0x1E89, 0x1EDC, 0x1F2F, 0x1F82, 0x1FD6, 0x202A, 0x207F, 0x20D4, //
+        0x2129, 0x217F, 0x21D5, 0x222C, 0x2282, 0x22DA, 0x2331, 0x2389, // entry
+        0x23E1, 0x2439, 0x2492, 0x24EB, 0x2545, 0x259E, 0x25F8, 0x2653, // 100..17F
+        0x26AD, 0x2708, 0x2763, 0x27BE, 0x281A, 0x2876, 0x28D2, 0x292E, //
+        0x298B, 0x29E7, 0x2A44, 0x2AA1, 0x2AFF, 0x2B5C, 0x2BBA, 0x2C18, //
+        0x2C76, 0x2CD4, 0x2D33, 0x2D91, 0x2DF0, 0x2E4F, 0x2EAE, 0x2F0D, //
+        0x2F6C, 0x2FCC, 0x302B, 0x308B, 0x30EA, 0x314A, 0x31AA, 0x3209, //
+        0x3269, 0x32C9, 0x3329, 0x3389, 0x33E9, 0x3449, 0x34A9, 0x3509, //
+        0x3569, 0x35C9, 0x3629, 0x3689, 0x36E8, 0x3748, 0x37A8, 0x3807, //
+        0x3867, 0x38C6, 0x3926, 0x3985, 0x39E4, 0x3A43, 0x3AA2, 0x3B00, //
+        0x3B5F, 0x3BBD, 0x3C1B, 0x3C79, 0x3CD7, 0x3D35, 0x3D92, 0x3DEF, //
+        0x3E4C, 0x3EA9, 0x3F05, 0x3F62, 0x3FBD, 0x4019, 0x4074, 0x40D0, //
+        0x412A, 0x4185, 0x41DF, 0x4239, 0x4292, 0x42EB, 0x4344, 0x439C, //
+        0x43F4, 0x444C, 0x44A3, 0x44FA, 0x4550, 0x45A6, 0x45FC, 0x4651, //
+        0x46A6, 0x46FA, 0x474E, 0x47A1, 0x47F4, 0x4846, 0x4898, 0x48E9, //
+        0x493A, 0x498A, 0x49D9, 0x4A29, 0x4A77, 0x4AC5, 0x4B13, 0x4B5F, //
+        0x4BAC, 0x4BF7, 0x4C42, 0x4C8D, 0x4CD7, 0x4D20, 0x4D68, 0x4DB0, //
+        0x4DF7, 0x4E3E, 0x4E84, 0x4EC9, 0x4F0E, 0x4F52, 0x4F95, 0x4FD7, // entry
+        0x5019, 0x505A, 0x509A, 0x50DA, 0x5118, 0x5156, 0x5194, 0x51D0, // 180..1FF
+        0x520C, 0x5247, 0x5281, 0x52BA, 0x52F3, 0x532A, 0x5361, 0x5397, //
+        0x53CC, 0x5401, 0x5434, 0x5467, 0x5499, 0x54CA, 0x54FA, 0x5529, //
+        0x5558, 0x5585, 0x55B2, 0x55DE, 0x5609, 0x5632, 0x565B, 0x5684, //
+        0x56AB, 0x56D1, 0x56F6, 0x571B, 0x573E, 0x5761, 0x5782, 0x57A3, //
+        0x57C3, 0x57E2, 0x57FF, 0x581C, 0x5838, 0x5853, 0x586D, 0x5886, //
+        0x589E, 0x58B5, 0x58CB, 0x58E0, 0x58F4, 0x5907, 0x5919, 0x592A, //
+        0x593A, 0x5949, 0x5958, 0x5965, 0x5971, 0x597C, 0x5986, 0x598F, //
+        0x5997, 0x599E, 0x59A4, 0x59A9, 0x59AD, 0x59B0, 0x59B2, 0x59B3  //
+    }};
+
+    // the interpolation index is based on the source files sample rate
+    const u8 i = (u8)vounter.interpolation_index();
+    const u32 s = ZeroExtend32(vounter.sample_index());
+
+    // interpolate on 4 most recent samples
+    s32 out = 0;
+    out += s32(gauss[0x0FF - i]) * s32(sample->buffer[(int) (f_SampleOffset + s) - 3]); // oldest s16 - but should it be s8?
+    out += s32(gauss[0x1FF - i]) * s32(sample->buffer[(int) (f_SampleOffset + s) - 2]); // older
+    out += s32(gauss[0x100 + i]) * s32(sample->buffer[(int) (f_SampleOffset + s) - 1]); // old
+    out += s32(gauss[0x000 + i]) * s32(sample->buffer[(int) (f_SampleOffset + s) - 0]); // new
+
+    //out += s32(gauss[0x0FF - i]) * sOldest; // oldest s16 - but should it be s8?
+    //out += s32(gauss[0x1FF - i]) * sOlder; // older
+    //out += s32(gauss[0x100 + i]) * sOld; // old
+    //out += s32(gauss[0x000 + i]) * sNew; // new
+
+    return out >> 15;
+}
+
 /// DuckStation END
 /////////////////////////////////
 
 Sequencer::Sequencer()
 {
-    // Open the AL device
-    ALenum error;
-    alGetError(); // clear out error state
-    device = alcOpenDevice(NULL);
-    ctx = alcCreateContext(device, NULL);
-    alcMakeContextCurrent(ctx);
-    if ((error = alGetError()) != AL_NO_ERROR)
+    gseq = this;
+
+    // Open SDL
+    SDL_Init(SDL_INIT_AUDIO);
+
+    SDL_AudioSpec waveSpec;
+    waveSpec.callback = SDLCallback;
+    waveSpec.userdata = nullptr;
+    waveSpec.channels = 2;
+    waveSpec.freq = 44100;
+    waveSpec.samples = 512;
+    waveSpec.format = AUDIO_F32;
+
+    /* Open the audio device */
+    if (SDL_OpenAudio(&waveSpec, NULL) < 0)
     {
-        return;
+        fprintf(stderr, "Failed to initialize audio: %s\n", SDL_GetError());
+        exit(-1);
     }
+
+    SDL_PauseAudio(0);
 
     int id = 1;
     for (int i = 0; i < voiceCount; i++)
@@ -136,13 +233,6 @@ Sequencer::Sequencer()
         voices[i] = new Voice();
         voices[i]->id = id;
         id = id << 1;
-
-        // Prepare sources (these are streams buffers can be played in)
-        alGenSources(1, &(voices[i])->alSourceId);
-        if ((error = alGetError()) != AL_NO_ERROR)
-        {
-            return;
-        }
     }
 
     for (int i = 0; i < patchCount; i++)
@@ -150,34 +240,15 @@ Sequencer::Sequencer()
         patches[i] = NULL;
     }
 
-    // Prepare some known effects we will use
-    LOAD_EFFECT_FUNCTIONS();
-    EFXEAXREVERBPROPERTIES reverb = EFX_REVERB_PRESET_CASTLE_MEDIUMROOM;
-    efxReverb0 = PREPARE_REVERB(&reverb);
-    alGenAuxiliaryEffectSlots(1, &efxSlot0);
-    alAuxiliaryEffectSloti(efxSlot0, AL_EFFECTSLOT_EFFECT, (ALint) efxReverb0);
-
-    running = true;
-    thread = new std::thread(&Sequencer::loop, this);
+    //running = true;
+    //thread = new std::thread(&Sequencer::loop, this);
 }
 
 Sequencer::~Sequencer()
 {
-    running = false;
-    thread->join();
-    delete thread;
-
-    // Delete sources
-    //alDeleteSources(sourceCount, source);
-
-    // Delete effects
-    alDeleteAuxiliaryEffectSlots(1, &efxSlot0);
-    alDeleteEffects(1, &efxReverb0);
-
-    // Close AL device
-    alcMakeContextCurrent(NULL);
-    alcDestroyContext(ctx);
-    alcCloseDevice(device);
+    //running = false;
+    //thread->join();
+    //delete thread;
 
     // Delete buffers (by killing the instrument)
     for (Patch* patch : patches)
@@ -223,26 +294,81 @@ void Sequencer::loop()
     }
 }
 
+void SDLCallback(void* udata, Uint8* stream, int len)
+{
+    udata;
+    stream;
+    len;
+
+    // This runs at 44100hz
+    // 1. tick voices
+    //      a. interpolate
+    //      b. adsr
+    //      c. pitch (this seems like it should be before interpolation though...)
+    // 2. run reverb
+
+    gseq->tickSequence();
+
+    float* AudioStream = (float*) stream;
+    int StreamLength = len / sizeof(float);
+    float leftSample = 0;
+    float rightSample = 0;
+    for (int i = 0; i < StreamLength; i += 2)
+    {
+        // set silence if no voice is played
+        AudioStream[i] = 0;
+        AudioStream[i + 1] = 0;
+
+        // mix voices
+        for (Voice* v : gseq->voices)
+        {
+            if (!v->sample || v->complete)
+            {
+                continue;
+            }
+
+            std::tuple<s32, s32> s = v->tick();
+            // Tick voice
+            leftSample = (float) std::get<0>(s) / 32767.0f; // * v->leftPan;
+            rightSample = (float) std::get<1>(s) / 32767.0f; // * v->rightPan;
+
+            // 32767.0f is max of signed 16 bit integer
+            //float add = v->sample->SampleRate / 44100.0f;
+            //leftSample = (float) (v->sample->buffer[(int) v->f_SampleOffset]) / 32767.0f;
+            //v->f_SampleOffset = v->f_SampleOffset + add;
+            ////rightSample = (float) (v->sample->buffer[(int) v->f_SampleOffset++]) / 32767.0f;
+            //rightSample = leftSample;
+
+            // Run reverb
+            // TODO
+
+            // Set against SDL
+            SDL_MixAudioFormat((Uint8*) (AudioStream + i), (const Uint8*) &leftSample, AUDIO_F32, sizeof(float), 37);      // Left Channel
+            SDL_MixAudioFormat((Uint8*) (AudioStream + i + 1), (const Uint8*) &rightSample, AUDIO_F32, sizeof(float), 37); // Right Channel
+        }
+    }
+}
+
 //////////////////////////
 // PRIVATE
 void Sequencer::reset()
 {
     stopAll();
     
-    for (s16 i = 0; i < patchCount; i++)
-    {
-        // must be deleted separately from sources
-        // since deleting a patch may delete a buffer
-        // attached to a source
-        delete patches[i];
-        patches[i] = NULL;
-    }
-    
-    for (Sequence* seq : sequences)
-    {
-        delete seq;
-    }
-    sequences.clear();
+    //for (s16 i = 0; i < patchCount; i++)
+    //{
+    //    // must be deleted separately from sources
+    //    // since deleting a patch may delete a buffer
+    //    // attached to a source
+    //    delete patches[i];
+    //    patches[i] = NULL;
+    //}
+    //
+    //for (Sequence* seq : sequences)
+    //{
+    //    delete seq;
+    //}
+    //sequences.clear();
 }
 
 void Sequencer::stopAll()
@@ -292,7 +418,6 @@ void Sequencer::stopSeq(s32 seqId)
 void Sequencer::tickSequence()
 {
     u64 now = timeSinceEpochMillisec();
-    ALenum error;
 
     // Tick sequences
     for (Sequence* seq : sequences)
@@ -335,21 +460,6 @@ void Sequencer::tickSequence()
                         Voice* v = obtainVoice();
                         if (!v)
                         {
-                            continue;
-                        }
-
-                        alSourcei(v->alSourceId, AL_BUFFER, sample->alBuffer);
-                        if ((error = alGetError()) != AL_NO_ERROR)
-                        {
-                            releaseVoice(v);
-                            continue;
-                        }
-
-                        alSourcef(v->alSourceId, AL_GAIN, (ALfloat) 0.0f);
-                        alSourcePlay(v->alSourceId);
-                        if ((error = alGetError()) != AL_NO_ERROR)
-                        {
-                            releaseVoice(v);
                             continue;
                         }
 
@@ -413,16 +523,12 @@ void Sequencer::tickVoice()
             continue;
         }
 
-        voice->adsrCurrentLevel = voice->tick();
+         voice->tick();
     }
 }
 
 void Sequencer::syncVoice()
 {
-    // pause openal changes to perform bulk update - more performant.
-    // unpause is called at the end.
-    alcSuspendContext(ctx);
-
     for (int c = 0; c < voiceCount; c++)
     {
         Voice* voice = voices[c];
@@ -437,30 +543,28 @@ void Sequencer::syncVoice()
         }
 
         // Update the play source paramters
-        ALenum state;
         Sample* sample = voice->sample;
-        ALuint id = voice->alSourceId;
 
         // If we are past the duration of the notes playback
-        alGetSourcei(id, AL_SOURCE_STATE, &state);
-        if (state != AL_PLAYING)
-        {
-            releaseVoice(voice);
-            continue;
-        }
+        //alGetSourcei(id, AL_SOURCE_STATE, &state);
+        //if (state != AL_PLAYING)
+        //{
+        //    releaseVoice(voice);
+        //    continue;
+        //}
 
-        u8 note = voice->note;
-        s32 notePitch = voice->pitch < voice->pitchMin ? voice->pitchMin : voice->pitch; // or sample?
-        u8 rootNote = sample->rootNote;
-        u8 rootPitch = sample->rootNotePitchShift;
+        //u8 note = voice->note;
+        //s32 notePitch = voice->pitch < voice->pitchMin ? voice->pitchMin : voice->pitch; // or sample?
+        //u8 rootNote = sample->rootNote;
+        //u8 rootPitch = sample->rootNotePitchShift;
         // This figures out the frequency of midi notes (ex. 60 is middle C and 261.63 hz)
         // noteFreq is the note we want to play
         // rootFreq is the samples root note
         // We then divide the two to figure out how to pitch shift the sample to match the
         // the desired note. For some reason we have to multiply it by 2. don't know why.
-        float noteFreq = float(pow(2.0, float(note + (notePitch / 127.0f)) / 12.0f));
-        float rootFreq = float(pow(2.0, float(rootNote + (rootPitch / 127.0f)) / 12.0f));
-        float freq = noteFreq / rootFreq * 2.0f;
+        //float noteFreq = float(pow(2.0, float(note + (notePitch / 127.0f)) / 12.0f));
+        //float rootFreq = float(pow(2.0, float(rootNote + (rootPitch / 127.0f)) / 12.0f));
+        //float freq = noteFreq / rootFreq * 2.0f;
         float pan = voice->pan;
 
         if (sample->pan)
@@ -475,51 +579,100 @@ void Sequencer::syncVoice()
         }
         float gain = float(voice->adsrCurrentLevel) / 32767.0f * voice->velocity * voice->sample->volume* seqVolume;
 
-        alSource3f(id, AL_POSITION, pan, 0, -sqrtf(1.0f - pan * pan));
-        alSourcef(id, AL_PITCH, (ALfloat) freq);
-        alSourcef(id, AL_GAIN, (ALfloat) gain);
-        alSourcei(id, AL_LOOPING, voice->loop);
+        //alSource3f(id, AL_POSITION, pan, 0, -sqrtf(1.0f - pan * pan));
+        //alSourcef(id, AL_PITCH, (ALfloat) freq);
+        //alSourcef(id, AL_GAIN, (ALfloat) gain);
+        //alSourcei(id, AL_LOOPING, voice->loop);
 
         // 0 Off
         // 1 Vibrate
         // 2 Portamento
         // 3 1 & 2(Portamento and Vibrate on)
         // 4 Reverb
-        if (sample->reverb != 0)
-        {
-            alSource3i(id, AL_AUXILIARY_SEND_FILTER, (ALint) efxSlot0, 0, AL_FILTER_NULL);
-        }
-        else
-        {
-            alSource3i(id, AL_AUXILIARY_SEND_FILTER, AL_EFFECTSLOT_NULL, 0, NULL);
-        }
+        
 
         if (gain < 0.001f && voice->offTime > 0)
         {
             releaseVoice(voice);
         }
     }
-
-    alcProcessContext(ctx);
 }
 
+static constexpr s32 ApplyVolume(s32 sample, s16 volume)
+{
+    return (sample * s32(volume)) >> 15;
+}
 
-s16 Voice::tick()
+void Voice::pushSample(s32 s)
+{
+    sOldest = sOlder;
+    sOlder = sOld;
+    sOld = sNew;
+    sNew = s;
+}
+
+std::tuple<s32, s32> Voice::tick()
 {
     if (!sample)
     {
-        return 0;
+        return std::make_tuple(0, 0);
     }
-    
+
+    // INTERPOLATION
+    s32 notePitch = pitch < pitchMin ? pitchMin : pitch; // or sample?
+    u8 rootNote = sample->rootNote;
+    u8 rootPitch = sample->rootNotePitchShift;
+
+    // frequencies are stable for duration of note? - move elsewhere to cut down on maths?
+    float noteFreq = float(pow(2.0, float(note + (notePitch / 127.0f)) / 12.0f));
+    float rootFreq = float(pow(2.0, float(rootNote + (rootPitch / 127.0f)) / 12.0f));
+    //float freq = (float) ((noteFreq / rootFreq) * (float(sample->SampleRate) / 44100.0f));
+    //f_SampleOffset += freq;
+
+
+    if (vounter.sample_index() >= NUM_SAMPLES_PER_ADPCM_BLOCK)
+    {
+        // shift << 12 as sample_index is shifted over 12
+        vounter.bits -= (NUM_SAMPLES_PER_ADPCM_BLOCK << 12);
+        f_SampleOffset += NUM_SAMPLES_PER_ADPCM_BLOCK;
+    }
+
+
+    if (f_SampleOffset + vounter.sample_index() >= sample->len - 1 && !loop)
+    {
+        complete = true;
+        return std::make_tuple(0, 0);
+    }
+
+    f_SampleOffset = f_SampleOffset + vounter.sample_index() >= sample->len - 1 ? 3 : f_SampleOffset;
+    pushSample(sample->buffer[(int) f_SampleOffset]);
+
+    s32 sampleData;
+    sampleData = interpolate();
+
+    // duckstation uses this to get the actual sample rate in hz
+    // (float(v.regs.adpcm_sample_rate) / 4096.0f) * 44100.0f)
+
+    u16 step = (u16) (((float(sample->SampleRate) * (noteFreq / rootFreq)) / 44100.0f) * 4096.0f);
+    //const s32 factor = std::clamp<s32>(sampleData, -0x8000, 0x7FFF) + 0x8000;
+    //step = Truncate16(static_cast<u32>((SignExtend32(step) * factor) >> 15));
+    step = std::min<u16>(step, 0x3FFF);
+    vounter.bits += step;
+
+    //s32 volume;
+    //volume = ApplyVolume(sampleData, 1); //  voice.regs.adsr_volume
+
     // UPDATE ADSR STATE - this probably doesn't need to be done every tick?
     if (adsrPhase == NONE)
     {
+        std::cout << sample->adsr.attackRate << " " << velocity << std::endl;
         adsrPhase = ATTACK;
         adsrDecreasing = false;
         adsrRate = sample->adsr.attackRate;
         adsrExponential = sample->adsr.attackExponential;
         adsrTargetLevel = MAX_VOLUME;
         adsrCounter = s_adsr_table[adsrDecreasing][adsrRate].ticks;
+        //adsrCurrentLevel = MAX_VOLUME;
     }
     else if (adsrPhase == ATTACK && adsrCurrentLevel >= adsrTargetLevel)
     {
@@ -547,49 +700,72 @@ s16 Voice::tick()
         adsrExponential = sample->adsr.releaseExponential;
         adsrTargetLevel = 0;
         adsrCounter = s_adsr_table[adsrDecreasing][adsrRate].ticks;
+        //adsrCurrentLevel = MIN_VOLUME;
     }
 
 
     // UPDATE TICK STATE
     adsrCounter--;
-    if (adsrCounter > 0)
+    if (adsrCounter <= 0)
     {
-        return adsrCurrentLevel;
-    }
+        const ADSRTableEntry& table_entry = s_adsr_table[adsrDecreasing][adsrRate];
+        s32 this_step = table_entry.step;
+        adsrCounter = table_entry.ticks;
 
-    const ADSRTableEntry& table_entry = s_adsr_table[adsrDecreasing][adsrRate];
-    s32 this_step = table_entry.step;
-    adsrCounter = table_entry.ticks;
-
-    if (adsrExponential)
-    {
-        if (adsrDecreasing)
+        if (adsrExponential)
         {
-            this_step = (this_step * adsrCurrentLevel) >> 15;
-        }
-        else
-        {
-            if (adsrCurrentLevel >= 0x6000)
+            if (adsrDecreasing)
             {
-                if (adsrRate < 40)
+                this_step = (this_step * adsrCurrentLevel) >> 15;
+            }
+            else
+            {
+                if (adsrCurrentLevel >= 0x6000)
                 {
-                    this_step >>= 2;
-                }
-                else if (adsrRate >= 44)
-                {
-                    adsrCounter >>= 2;
-                }
-                else
-                {
-                    this_step >>= 1;
-                    adsrCounter >>= 1;
+                    if (adsrRate < 40)
+                    {
+                        this_step >>= 2;
+                    }
+                    else if (adsrRate >= 44)
+                    {
+                        adsrCounter >>= 2;
+                    }
+                    else
+                    {
+                        this_step >>= 1;
+                        adsrCounter >>= 1;
+                    }
                 }
             }
         }
+
+        adsrCurrentLevel = static_cast<s16>(
+            std::clamp<s32>(static_cast<s32>(adsrCurrentLevel) + this_step, MIN_VOLUME, MAX_VOLUME));
     }
 
-    return static_cast<s16>(
-        std::clamp<s32>(static_cast<s32>(adsrCurrentLevel) + this_step, MIN_VOLUME, MAX_VOLUME));
+    float centerPan = pan == 0 ? sample->pan : pan;
+    float leftPan = 1.0f;
+    float rightPan = 1.0f;
+    if (centerPan > 0)
+    {
+        leftPan = 1.0f - abs(centerPan);
+    }
+    if (centerPan < 0)
+    {
+        rightPan = 1.0f - abs(centerPan);
+    }
+
+    float add = 1;
+    if (sequence)
+    {
+        add = sequence->volume;
+    }
+    const float tmp = float(sampleData) * float(adsrCurrentLevel) / float(MAX_VOLUME) * velocity * add;
+    const s32 left = s32(tmp * leftPan); // ApplyVolume(volume, voice.left_volume.current_level);
+    const s32 right = s32(tmp * rightPan); //ApplyVolume(volume, voice.right_volume.current_level);
+    //voice.left_volume.Tick();
+    //voice.right_volume.Tick();
+    return std::make_tuple(left, right);
 }
 
 Voice* Sequencer::obtainVoice()
@@ -598,6 +774,11 @@ Voice* Sequencer::obtainVoice()
     for (int i = 0; i < voiceCount; i++)
     {
         Voice* v = voices[i];
+        if (v->complete)
+        {
+            releaseVoice(v);
+        }
+
         if (v->inUse.compare_exchange_weak(expected, true))
         {
             return v;
@@ -608,7 +789,6 @@ Voice* Sequencer::obtainVoice()
 
 void Sequencer::releaseVoice(Voice* v)
 {
-    alSourceStop(v->alSourceId);
     v->offTime = 0;
     v->pitch = 0;
     v->adsrPhase = NONE;
@@ -618,6 +798,9 @@ void Sequencer::releaseVoice(Voice* v)
     v->sequence = NULL;
     v->loop = false;
     v->pan = 0;
+    v->f_SampleOffset = 0;
+    v->vounter.bits = 0;
+    v->complete = false;
     v->inUse = false;
 }
 
@@ -690,9 +873,6 @@ s32 Sequencer::playNote(s32 patchId, u8 note, float velocity, float pan, u8 pitc
         v->pitchMax = pitchMax;
         v->sample = s;
         ids |= v->id;
-        alSourcei(v->alSourceId, AL_BUFFER, s->alBuffer);
-        alSourcef(v->alSourceId, AL_GAIN, (ALfloat) 0.0f);
-        alSourcePlay(v->alSourceId);
     }
 
     return ids;
@@ -766,128 +946,6 @@ Event* EventRing::pop()
         return NULL;
     }
     return &events[(tail++)];
-}
-
-
-//////////////////////////
-// OPENAL BS
-ALuint PREPARE_REVERB(const EFXEAXREVERBPROPERTIES* reverb)
-{
-    ALuint effect = 0;
-    ALenum err;
-
-    /* Create the effect object and check if we can do EAX reverb. */
-    alGenEffects(1, &effect);
-    if (alGetEnumValue("AL_EFFECT_EAXREVERB") != 0)
-    {
-        printf("Using EAX Reverb\n");
-
-        /* EAX Reverb is available. Set the EAX effect type then load the
-         * reverb properties. */
-        alEffecti(effect, AL_EFFECT_TYPE, AL_EFFECT_EAXREVERB);
-        alEffectf(effect, AL_EAXREVERB_DENSITY, reverb->flDensity);
-        alEffectf(effect, AL_EAXREVERB_DIFFUSION, reverb->flDiffusion);
-        alEffectf(effect, AL_EAXREVERB_GAIN, reverb->flGain);
-        alEffectf(effect, AL_EAXREVERB_GAINHF, reverb->flGainHF);
-        alEffectf(effect, AL_EAXREVERB_GAINLF, reverb->flGainLF);
-        alEffectf(effect, AL_EAXREVERB_DECAY_TIME, reverb->flDecayTime);
-        alEffectf(effect, AL_EAXREVERB_DECAY_HFRATIO, reverb->flDecayHFRatio);
-        alEffectf(effect, AL_EAXREVERB_DECAY_LFRATIO, reverb->flDecayLFRatio);
-        alEffectf(effect, AL_EAXREVERB_REFLECTIONS_GAIN, reverb->flReflectionsGain);
-        alEffectf(effect, AL_EAXREVERB_REFLECTIONS_DELAY, reverb->flReflectionsDelay);
-        alEffectfv(effect, AL_EAXREVERB_REFLECTIONS_PAN, reverb->flReflectionsPan);
-        alEffectf(effect, AL_EAXREVERB_LATE_REVERB_GAIN, reverb->flLateReverbGain);
-        alEffectf(effect, AL_EAXREVERB_LATE_REVERB_DELAY, reverb->flLateReverbDelay);
-        alEffectfv(effect, AL_EAXREVERB_LATE_REVERB_PAN, reverb->flLateReverbPan);
-        alEffectf(effect, AL_EAXREVERB_ECHO_TIME, reverb->flEchoTime);
-        alEffectf(effect, AL_EAXREVERB_ECHO_DEPTH, reverb->flEchoDepth);
-        alEffectf(effect, AL_EAXREVERB_MODULATION_TIME, reverb->flModulationTime);
-        alEffectf(effect, AL_EAXREVERB_MODULATION_DEPTH, reverb->flModulationDepth);
-        alEffectf(effect, AL_EAXREVERB_AIR_ABSORPTION_GAINHF, reverb->flAirAbsorptionGainHF);
-        alEffectf(effect, AL_EAXREVERB_HFREFERENCE, reverb->flHFReference);
-        alEffectf(effect, AL_EAXREVERB_LFREFERENCE, reverb->flLFReference);
-        alEffectf(effect, AL_EAXREVERB_ROOM_ROLLOFF_FACTOR, reverb->flRoomRolloffFactor);
-        alEffecti(effect, AL_EAXREVERB_DECAY_HFLIMIT, reverb->iDecayHFLimit);
-    }
-    else
-    {
-        printf("Using Standard Reverb\n");
-
-        /* No EAX Reverb. Set the standard reverb effect type then load the
-         * available reverb properties. */
-        alEffecti(effect, AL_EFFECT_TYPE, AL_EFFECT_REVERB);
-
-        alEffectf(effect, AL_REVERB_DENSITY, reverb->flDensity);
-        alEffectf(effect, AL_REVERB_DIFFUSION, reverb->flDiffusion);
-        alEffectf(effect, AL_REVERB_GAIN, reverb->flGain);
-        alEffectf(effect, AL_REVERB_GAINHF, reverb->flGainHF);
-        alEffectf(effect, AL_REVERB_DECAY_TIME, reverb->flDecayTime);
-        alEffectf(effect, AL_REVERB_DECAY_HFRATIO, reverb->flDecayHFRatio);
-        alEffectf(effect, AL_REVERB_REFLECTIONS_GAIN, reverb->flReflectionsGain);
-        alEffectf(effect, AL_REVERB_REFLECTIONS_DELAY, reverb->flReflectionsDelay);
-        alEffectf(effect, AL_REVERB_LATE_REVERB_GAIN, reverb->flLateReverbGain);
-        alEffectf(effect, AL_REVERB_LATE_REVERB_DELAY, reverb->flLateReverbDelay);
-        alEffectf(effect, AL_REVERB_AIR_ABSORPTION_GAINHF, reverb->flAirAbsorptionGainHF);
-        alEffectf(effect, AL_REVERB_ROOM_ROLLOFF_FACTOR, reverb->flRoomRolloffFactor);
-        alEffecti(effect, AL_REVERB_DECAY_HFLIMIT, reverb->iDecayHFLimit);
-    }
-
-    /* Check if an error occured, and clean up if so. */
-    err = alGetError();
-    if (err != AL_NO_ERROR)
-    {
-        fprintf(stderr, "OpenAL error: %s\n", alGetString(err));
-        if (alIsEffect(effect))
-            alDeleteEffects(1, &effect);
-        return 0;
-    }
-
-    return effect;
-}
-
-void LOAD_EFFECT_FUNCTIONS()
-{
-#if __STDC_VERSION__ >= 199901L
-    #define FUNCTION_CAST(T, ptr) (union        \
-                                   {            \
-                                       void* p; \
-                                       T f;     \
-                                   }){ptr}      \
-                                      .f
-#elif defined(__cplusplus)
-    #define FUNCTION_CAST(T, ptr) reinterpret_cast<T>(ptr)
-#else
-    #define FUNCTION_CAST(T, ptr) (T)(ptr)
-#endif
-
-#define LOAD_PROC(T, x) ((x) = FUNCTION_CAST(T, alGetProcAddress(#x)))
-    LOAD_PROC(LPALGENEFFECTS, alGenEffects);
-    LOAD_PROC(LPALDELETEEFFECTS, alDeleteEffects);
-    LOAD_PROC(LPALISEFFECT, alIsEffect);
-    LOAD_PROC(LPALEFFECTI, alEffecti);
-    LOAD_PROC(LPALEFFECTIV, alEffectiv);
-    LOAD_PROC(LPALEFFECTF, alEffectf);
-    LOAD_PROC(LPALEFFECTFV, alEffectfv);
-    LOAD_PROC(LPALGETEFFECTI, alGetEffecti);
-    LOAD_PROC(LPALGETEFFECTIV, alGetEffectiv);
-    LOAD_PROC(LPALGETEFFECTF, alGetEffectf);
-    LOAD_PROC(LPALGETEFFECTFV, alGetEffectfv);
-
-    LOAD_PROC(LPALFILTERF, alFilterf);
-    LOAD_PROC(LPALFILTERI, alFilteri);
-
-    LOAD_PROC(LPALGENAUXILIARYEFFECTSLOTS, alGenAuxiliaryEffectSlots);
-    LOAD_PROC(LPALDELETEAUXILIARYEFFECTSLOTS, alDeleteAuxiliaryEffectSlots);
-    LOAD_PROC(LPALISAUXILIARYEFFECTSLOT, alIsAuxiliaryEffectSlot);
-    LOAD_PROC(LPALAUXILIARYEFFECTSLOTI, alAuxiliaryEffectSloti);
-    LOAD_PROC(LPALAUXILIARYEFFECTSLOTIV, alAuxiliaryEffectSlotiv);
-    LOAD_PROC(LPALAUXILIARYEFFECTSLOTF, alAuxiliaryEffectSlotf);
-    LOAD_PROC(LPALAUXILIARYEFFECTSLOTFV, alAuxiliaryEffectSlotfv);
-    LOAD_PROC(LPALGETAUXILIARYEFFECTSLOTI, alGetAuxiliaryEffectSloti);
-    LOAD_PROC(LPALGETAUXILIARYEFFECTSLOTIV, alGetAuxiliaryEffectSlotiv);
-    LOAD_PROC(LPALGETAUXILIARYEFFECTSLOTF, alGetAuxiliaryEffectSlotf);
-    LOAD_PROC(LPALGETAUXILIARYEFFECTSLOTFV, alGetAuxiliaryEffectSlotfv);
-#undef LOAD_PROC
 }
 
 } // namespace
