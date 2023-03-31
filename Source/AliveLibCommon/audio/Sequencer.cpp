@@ -62,6 +62,11 @@ static constexpr s32 Clamp16(s32 value)
                                                           : value;
 }
 
+static constexpr s32 ApplyVolume(s32 sample, s16 volume)
+{
+    return (sample * s32(volume)) >> 15;
+}
+
 ADSR parseADSR(u16 adsr1, u16 adsr2)
 {
     ADSR adsr;
@@ -308,24 +313,30 @@ void SDLCallback(void* udata, Uint8* stream, int len)
     // 1. tick voices
     //      a. interpolate
     //      b. adsr
-    //      c. pitch (this seems like it should be before interpolation though...)
+    //      c. pitch
     // 2. run reverb
 
+    // start/stop any sequence notes
     gseq->tickSequence();
 
     float* AudioStream = (float*) stream;
     int StreamLength = len / sizeof(float);
-    float leftSample = 0;
-    float rightSample = 0;
-    s32 reverb_in_left = 0;
-    s32 reverb_in_right = 0;
+
+    s32 reverb_out_left = 0;
+    s32 reverb_out_right = 0;
+
     for (int i = 0; i < StreamLength; i += 2)
     {
-        // set silence if no voice is played
+        // set silence incase no voices are played
         AudioStream[i] = 0;
         AudioStream[i + 1] = 0;
 
-        // mix voices
+        float leftSample = 0;
+        float rightSample = 0;
+        s32 reverb_in_left = 0;
+        s32 reverb_in_right = 0;
+
+        // 1. Prepare all voices with reverb
         for (Voice* v : gseq->voices)
         {
             if (!v->sample || v->complete)
@@ -334,9 +345,8 @@ void SDLCallback(void* udata, Uint8* stream, int len)
             }
 
             std::tuple<s32, s32> s = v->tick();
-            // Tick voice
-            leftSample = (float) std::get<0>(s); // * v->leftPan;
-            rightSample = (float) std::get<1>(s); // * v->rightPan;
+            leftSample += std::get<0>(s);
+            rightSample += std::get<1>(s);
 
             // 0 Off
             // 1 Vibrate
@@ -345,30 +355,27 @@ void SDLCallback(void* udata, Uint8* stream, int len)
             // 4 Reverb
             if (v->sample->reverb == 4)
             {
-                reverb_in_left += (s32) leftSample;
-                reverb_in_right += (s32) rightSample;
+                reverb_in_left += std::get<0>(s);
+                reverb_in_right += std::get<1>(s);
             }
-
-            leftSample = leftSample / 32767.0f;
-            rightSample = rightSample / 32767.0f;
-
-            // Run reverb
-            // TODO
-
-            // Set against SDL
-            SDL_MixAudioFormat((Uint8*) (AudioStream + i), (const Uint8*) &leftSample, AUDIO_F32, sizeof(float), 37);      // Left Channel
-            SDL_MixAudioFormat((Uint8*) (AudioStream + i + 1), (const Uint8*) &rightSample, AUDIO_F32, sizeof(float), 37); // Right Channel
         }
 
-        s32 reverb_out_left = 0, reverb_out_right = 0;
-        ProcessReverb(static_cast<s16>(Clamp16(reverb_in_left)), static_cast<s16>(Clamp16(reverb_in_right)),
-                      &reverb_out_left, &reverb_out_right);
+        // 2. Process and mix in the reverb
+        ProcessReverb(
+            static_cast<s16>(Clamp16((s32) (reverb_in_left))),
+            static_cast<s16>(Clamp16((s32) (reverb_in_right))),
+            &reverb_out_left,
+            &reverb_out_right
+        );
 
-        leftSample = float(reverb_out_left);
-        rightSample = float(reverb_out_right);
+        leftSample += reverb_out_left;
+        rightSample += reverb_out_right;
 
-        SDL_MixAudioFormat((Uint8*) (AudioStream + i), (const Uint8*) &leftSample, AUDIO_F32, sizeof(float), 37);           // Left Channel
-        SDL_MixAudioFormat((Uint8*) (AudioStream + i + 1), (const Uint8*) &rightSample, AUDIO_F32, sizeof(float), 37); // Right Channel
+        // make value usable by SDL
+        leftSample = leftSample / 32767.0f;
+        rightSample = rightSample / 32767.0f;
+        SDL_MixAudioFormat((Uint8*) (AudioStream + i), (const Uint8*) &leftSample, AUDIO_F32, sizeof(float), 100);      
+        SDL_MixAudioFormat((Uint8*) (AudioStream + i + 1), (const Uint8*) &rightSample, AUDIO_F32, sizeof(float), 100);
     }
 }
 
@@ -493,7 +500,7 @@ void Sequencer::tickSequence()
                         v->velocity = message->velocity / 127.0f;
                         v->note = message->note;
                         v->sample = sample;
-                        v->pan = 0;
+                        v->pan = 0; // divide by 63 for sample
                         v->loop = sample->adsr.attackRate > 0;  // attack is greater than sample length? sample->adsr.attackRate / 1000 > 1;
                     }
 
@@ -621,11 +628,6 @@ void Sequencer::syncVoice()
     }
 }
 
-static constexpr s32 ApplyVolume(s32 sample, s16 volume)
-{
-    return (sample * s32(volume)) >> 15;
-}
-
 std::tuple<s32, s32> Voice::tick()
 {
     if (!sample)
@@ -653,13 +655,13 @@ std::tuple<s32, s32> Voice::tick()
     }
 
 
-    if (f_SampleOffset + vounter.sample_index() >= sample->len - 1 && !loop)
+    if (!loop && f_SampleOffset + vounter.sample_index() >= sample->len - 1)
     {
         complete = true;
         return std::make_tuple(0, 0);
     }
 
-    f_SampleOffset = f_SampleOffset + vounter.sample_index() >= sample->len ? 3 : f_SampleOffset;
+    f_SampleOffset = f_SampleOffset + vounter.sample_index() >= sample->len ? 3.0f : f_SampleOffset;
 
     s32 sampleData;
     sampleData = interpolate();
@@ -778,7 +780,8 @@ std::tuple<s32, s32> Voice::tick()
     {
         add = sequence->volume;
     }
-    const float tmp = float(sampleData) * float(adsrCurrentLevel) / float(MAX_VOLUME) * velocity * add;
+
+    const float tmp = float(ApplyVolume(sampleData, adsrCurrentLevel)) * velocity * add;
     const s32 left = s32(tmp * leftPan); // ApplyVolume(volume, voice.left_volume.current_level);
     const s32 right = s32(tmp * rightPan); //ApplyVolume(volume, voice.right_volume.current_level);
     //voice.left_volume.Tick();
@@ -1145,8 +1148,48 @@ void ProcessReverb(s16 left_in, s16 right_in, s32* left_out, s32* right_out)
     s_reverb_downsample_buffer[1][s_reverb_resample_buffer_position | 0x00] = right_in;
     s_reverb_downsample_buffer[1][s_reverb_resample_buffer_position | 0x40] = right_in;
     std::array<std::array<s16, 128>, 2> test;
+    
+    // these values seem to be stable in duckstation
+    s_reverb_registers.vLOUT = 4128;
+    s_reverb_registers.vROUT = 4128;
+    s_reverb_registers.mBASE = 61956;
+    s_reverb_registers.a.IIR_SRC_A[0] = 2905;
+    s_reverb_registers.a.IIR_SRC_A[1] = 2266;
+    s_reverb_registers.a.IIR_COEF = -22912;
+    s_reverb_registers.a.IN_COEF[0] = -32768;
+    s_reverb_registers.a.IN_COEF[1] = -32768;
+    s_reverb_registers.a.IIR_SRC_B[0] = 1514;
+    s_reverb_registers.a.IIR_SRC_B[1] = 797;
+    s_reverb_registers.a.IIR_ALPHA = 28512;
+    s_reverb_registers.a.IIR_DEST_A[0] = 3579;
+    s_reverb_registers.a.IIR_DEST_A[1] = 2904;
+    s_reverb_registers.a.IIR_DEST_B[0] = 2265;
+    s_reverb_registers.a.IIR_DEST_B[1] = 1513;
+    s_reverb_registers.a.ACC_SRC_A[0] = 3337;
+    s_reverb_registers.a.ACC_SRC_A[1] = 2620;
+    s_reverb_registers.a.ACC_SRC_B[0] = 3033;
+    s_reverb_registers.a.ACC_SRC_B[1] = 2419;
+    s_reverb_registers.a.ACC_SRC_C[0] = 2028;
+    s_reverb_registers.a.ACC_SRC_C[1] = 1200;
+    s_reverb_registers.a.ACC_SRC_D[0] = 1775;
+    s_reverb_registers.a.ACC_SRC_D[1] = 978;
+    s_reverb_registers.a.ACC_COEF_A = 20392;
+    s_reverb_registers.a.ACC_COEF_B = -17184;
+    s_reverb_registers.a.ACC_COEF_C = 17680;
+    s_reverb_registers.a.ACC_COEF_D = -16656;
+    s_reverb_registers.a.MIX_DEST_A[0] = 796;
+    s_reverb_registers.a.MIX_DEST_A[1] = 568;
+    s_reverb_registers.a.MIX_DEST_B[0] = 340;
+    s_reverb_registers.a.MIX_DEST_B[1] = 170;
+    s_reverb_registers.a.FB_SRC_A = 227;
+    s_reverb_registers.a.FB_SRC_B = 169;
+    s_reverb_registers.a.FB_ALPHA = 22144;
+    s_reverb_registers.a.FB_X = 21184;
+       
+     
     test = s_reverb_downsample_buffer;
     //std::cout << "L:" << left_in << " R:" << right_in << std::endl;
+    //std::cout << s_reverb_registers.a.IIR_SRC_A[0] << std::endl;
 
     s32 out[2];
     if (s_reverb_resample_buffer_position & 1u)

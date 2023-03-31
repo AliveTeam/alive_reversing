@@ -218,6 +218,8 @@ public:
     s32 pitchMax = 127;
     float velocity = 1.0f;
     float pan = 0.0f;
+    s16 voll = 0;
+    s16 volr = 0;
     std::atomic_bool inUse = false;
 
     s32 sOldest = 0;
@@ -294,7 +296,7 @@ public:
     void playSeq(s32 seqId);
     void stopSeq(s32 seqId);
 
-    static const int voiceCount = 256;
+    static const int voiceCount = 24;
     Voice* voices[voiceCount];
 
     void tickSequence();
