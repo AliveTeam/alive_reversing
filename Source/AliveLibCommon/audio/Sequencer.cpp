@@ -9,6 +9,9 @@ namespace sean {
 /////////////////////////////////
 /// DuckStation
 
+static void ProcessReverb(s16 left_in, s16 right_in, s32* left_out, s32* right_out);
+static s16 ReverbRead(u32 address, s32 offset = 0);
+
 static const u32 NUM_SAMPLES_PER_ADPCM_BLOCK = 28;
 
 u32 mask(u32 num)
@@ -51,6 +54,12 @@ template <typename TValue>
 constexpr u32 ZeroExtend32(TValue value)
 {
     return ZeroExtend<u32, TValue>(value);
+}
+
+static constexpr s32 Clamp16(s32 value)
+{
+    return (value < -0x8000) ? -0x8000 : (value > 0x7FFF) ? 0x7FFF
+                                                          : value;
 }
 
 ADSR parseADSR(u16 adsr1, u16 adsr2)
@@ -308,6 +317,8 @@ void SDLCallback(void* udata, Uint8* stream, int len)
     int StreamLength = len / sizeof(float);
     float leftSample = 0;
     float rightSample = 0;
+    s32 reverb_in_left = 0;
+    s32 reverb_in_right = 0;
     for (int i = 0; i < StreamLength; i += 2)
     {
         // set silence if no voice is played
@@ -324,15 +335,22 @@ void SDLCallback(void* udata, Uint8* stream, int len)
 
             std::tuple<s32, s32> s = v->tick();
             // Tick voice
-            leftSample = (float) std::get<0>(s) / 32767.0f; // * v->leftPan;
-            rightSample = (float) std::get<1>(s) / 32767.0f; // * v->rightPan;
+            leftSample = (float) std::get<0>(s); // * v->leftPan;
+            rightSample = (float) std::get<1>(s); // * v->rightPan;
 
-            // 32767.0f is max of signed 16 bit integer
-            //float add = v->sample->SampleRate / 44100.0f;
-            //leftSample = (float) (v->sample->buffer[(int) v->f_SampleOffset]) / 32767.0f;
-            //v->f_SampleOffset = v->f_SampleOffset + add;
-            ////rightSample = (float) (v->sample->buffer[(int) v->f_SampleOffset++]) / 32767.0f;
-            //rightSample = leftSample;
+            // 0 Off
+            // 1 Vibrate
+            // 2 Portamento
+            // 3 1 & 2(Portamento and Vibrate on)
+            // 4 Reverb
+            if (v->sample->reverb == 4)
+            {
+                reverb_in_left += (s32) leftSample;
+                reverb_in_right += (s32) rightSample;
+            }
+
+            leftSample = leftSample / 32767.0f;
+            rightSample = rightSample / 32767.0f;
 
             // Run reverb
             // TODO
@@ -341,6 +359,16 @@ void SDLCallback(void* udata, Uint8* stream, int len)
             SDL_MixAudioFormat((Uint8*) (AudioStream + i), (const Uint8*) &leftSample, AUDIO_F32, sizeof(float), 37);      // Left Channel
             SDL_MixAudioFormat((Uint8*) (AudioStream + i + 1), (const Uint8*) &rightSample, AUDIO_F32, sizeof(float), 37); // Right Channel
         }
+
+        s32 reverb_out_left = 0, reverb_out_right = 0;
+        ProcessReverb(static_cast<s16>(Clamp16(reverb_in_left)), static_cast<s16>(Clamp16(reverb_in_right)),
+                      &reverb_out_left, &reverb_out_right);
+
+        leftSample = float(reverb_out_left);
+        rightSample = float(reverb_out_right);
+
+        SDL_MixAudioFormat((Uint8*) (AudioStream + i), (const Uint8*) &leftSample, AUDIO_F32, sizeof(float), 37);           // Left Channel
+        SDL_MixAudioFormat((Uint8*) (AudioStream + i + 1), (const Uint8*) &rightSample, AUDIO_F32, sizeof(float), 37); // Right Channel
     }
 }
 
@@ -651,7 +679,7 @@ std::tuple<s32, s32> Voice::tick()
     // UPDATE ADSR STATE - this probably doesn't need to be done every tick?
     if (adsrPhase == NONE)
     {
-        std::cout << sample->adsr.attackRate << " " << velocity << std::endl;
+        //std::cout << sample->adsr.attackRate << " " << velocity << std::endl;
         adsrPhase = ATTACK;
         adsrDecreasing = false;
         adsrRate = sample->adsr.attackRate;
@@ -688,7 +716,11 @@ std::tuple<s32, s32> Voice::tick()
         adsrCounter = s_adsr_table[adsrDecreasing][adsrRate].ticks;
         //adsrCurrentLevel = MIN_VOLUME;
     }
-
+    else if (adsrPhase == RELEASE && adsrCurrentLevel <= adsrTargetLevel)
+    {
+        complete = true;
+        return std::make_tuple(0, 0);
+    }
 
     // UPDATE TICK STATE
     adsrCounter--;
@@ -916,6 +948,273 @@ MIDIMessage* Sequence::next(u64 now)
     }
     return NULL;
 }
+
+
+////////////////////////////
+// REVERB
+////////////////////////////
+//union SPUCNT
+//{
+//    u16 bits;
+//
+//    BitField<u16, bool, 15, 1> enable;
+//    BitField<u16, bool, 14, 1> mute_n;
+//    BitField<u16, u8, 8, 6> noise_clock;
+//    BitField<u16, bool, 7, 1> reverb_master_enable;
+//    BitField<u16, bool, 6, 1> irq9_enable;
+//    BitField<u16, RAMTransferMode, 4, 2> ram_transfer_mode;
+//    BitField<u16, bool, 3, 1> external_audio_reverb;
+//    BitField<u16, bool, 2, 1> cd_audio_reverb;
+//    BitField<u16, bool, 1, 1> external_audio_enable;
+//    BitField<u16, bool, 0, 1> cd_audio_enable;
+//
+//    BitField<u16, u8, 0, 6> mode;
+//};
+//static SPUCNT s_SPUCNT = {};
+
+static const u32 NUM_REVERB_REGS = 32;
+struct ReverbRegisters
+{
+    s16 vLOUT;
+    s16 vROUT;
+    u16 mBASE;
+
+    union
+    {
+        struct
+        {
+            u16 FB_SRC_A;
+            u16 FB_SRC_B;
+            s16 IIR_ALPHA;
+            s16 ACC_COEF_A;
+            s16 ACC_COEF_B;
+            s16 ACC_COEF_C;
+            s16 ACC_COEF_D;
+            s16 IIR_COEF;
+            s16 FB_ALPHA;
+            s16 FB_X;
+            u16 IIR_DEST_A[2];
+            u16 ACC_SRC_A[2];
+            u16 ACC_SRC_B[2];
+            u16 IIR_SRC_A[2];
+            u16 IIR_DEST_B[2];
+            u16 ACC_SRC_C[2];
+            u16 ACC_SRC_D[2];
+            u16 IIR_SRC_B[2];
+            u16 MIX_DEST_A[2];
+            u16 MIX_DEST_B[2];
+            s16 IN_COEF[2];
+        }a;
+
+        u16 rev[NUM_REVERB_REGS];
+    };
+};
+
+// bit mask of voices with reverb
+static const u32 RAM_SIZE = 512 * 1024;
+static std::array<u8, RAM_SIZE> s_ram{};
+//static u32 s_reverb_on_register = 0;
+static u32 s_reverb_base_address = 0;
+static u32 s_reverb_current_address = 0;
+static ReverbRegisters s_reverb_registers{};
+static std::array<std::array<s16, 128>, 2> s_reverb_downsample_buffer;
+static std::array<std::array<s16, 64>, 2> s_reverb_upsample_buffer;
+static s32 s_reverb_resample_buffer_position = 0;
+
+
+// Zeroes optimized out; middle removed too(it's 16384)
+static constexpr std::array<s16, 20> s_reverb_resample_coefficients = {
+    -1,
+    2,
+    -10,
+    35,
+    -103,
+    266,
+    -616,
+    1332,
+    -2960,
+    10246,
+    10246,
+    -2960,
+    1332,
+    -616,
+    266,
+    -103,
+    35,
+    -10,
+    2,
+    -1,
+};
+static s16 s_last_reverb_input[2];
+static s32 s_last_reverb_output[2];
+
+static s32 Reverb4422(const s16* src)
+{
+    s32 out = 0; // 32-bits is adequate(it won't overflow)
+    for (u32 i = 0; i < 20; i++)
+        out += s_reverb_resample_coefficients[i] * src[i * 2];
+
+    // Middle non-zero
+    out += 0x4000 * src[19];
+    out >>= 15;
+    return std::clamp<s32>(out, -32768, 32767);
+}
+
+template <bool phase>
+static s32 Reverb2244(const s16* src)
+{
+    s32 out; // 32-bits is adequate(it won't overflow)
+    if (phase)
+    {
+        // Middle non-zero
+        out = src[9];
+    }
+    else
+    {
+        out = 0;
+        for (u32 i = 0; i < 20; i++)
+            out += s_reverb_resample_coefficients[i] * src[i];
+
+        out >>= 14;
+        out = std::clamp<s32>(out, -32768, 32767);
+    }
+
+    return out;
+}
+
+static s16 ReverbSat(s32 val)
+{
+    return static_cast<s16>(std::clamp<s32>(val, -0x8000, 0x7FFF));
+}
+
+static s16 ReverbNeg(s16 samp)
+{
+    if (samp == -32768)
+        return 0x7FFF;
+
+    return -samp;
+}
+
+static s32 IIASM(const s16 IIR_ALPHA, const s16 insamp)
+{
+    if (IIR_ALPHA == -32768)
+    {
+        if (insamp == -32768)
+            return 0;
+        else
+            return insamp * -65536;
+    }
+    else
+        return insamp * (32768 - IIR_ALPHA);
+}
+
+u32 ReverbMemoryAddress(u32 address)
+{
+    // Ensures address does not leave the reverb work area.
+    static constexpr u32 MASK = (RAM_SIZE - 1) / 2;
+    u32 offset = s_reverb_current_address + (address & MASK);
+    offset += s_reverb_base_address & ((s32) (offset << 13) >> 31);
+
+    // We address RAM in bytes. TODO: Change this to words.
+    return (offset & MASK) * 2u;
+}
+
+s16 ReverbRead(u32 address, s32 offset)
+{
+    // TODO: This should check interrupts.
+    const u32 real_address = ReverbMemoryAddress((address << 2) + offset);
+
+    s16 data;
+    std::memcpy(&data, &s_ram[real_address], sizeof(data));
+    return data;
+}
+
+void ReverbWrite(u32 address, s16 data)
+{
+    // TODO: This should check interrupts.
+    const u32 real_address = ReverbMemoryAddress(address << 2);
+    std::memcpy(&s_ram[real_address], &data, sizeof(data));
+}
+
+void ProcessReverb(s16 left_in, s16 right_in, s32* left_out, s32* right_out)
+{
+    s_last_reverb_input[0] = left_in;
+    s_last_reverb_input[1] = right_in;
+    s_reverb_downsample_buffer[0][s_reverb_resample_buffer_position | 0x00] = left_in;
+    s_reverb_downsample_buffer[0][s_reverb_resample_buffer_position | 0x40] = left_in;
+    s_reverb_downsample_buffer[1][s_reverb_resample_buffer_position | 0x00] = right_in;
+    s_reverb_downsample_buffer[1][s_reverb_resample_buffer_position | 0x40] = right_in;
+    std::array<std::array<s16, 128>, 2> test;
+    test = s_reverb_downsample_buffer;
+    //std::cout << "L:" << left_in << " R:" << right_in << std::endl;
+
+    s32 out[2];
+    if (s_reverb_resample_buffer_position & 1u)
+    {
+        //std::cout << "here1" << std::endl;
+        std::array<s32, 2> downsampled;
+        for (unsigned lr = 0; lr < 2; lr++)
+            downsampled[lr] = Reverb4422(&s_reverb_downsample_buffer[lr][(s_reverb_resample_buffer_position - 38) & 0x3F]);
+
+        for (unsigned lr = 0; lr < 2; lr++)
+        {
+            //if (s_SPUCNT.a.reverb_master_enable)
+            {
+                const s16 IIR_INPUT_A = ReverbSat((((ReverbRead(s_reverb_registers.a.IIR_SRC_A[lr ^ 0]) * s_reverb_registers.a.IIR_COEF) >> 14) + ((downsampled[lr] * s_reverb_registers.a.IN_COEF[lr]) >> 14)) >> 1);
+                const s16 IIR_INPUT_B = ReverbSat((((ReverbRead(s_reverb_registers.a.IIR_SRC_B[lr ^ 1]) * s_reverb_registers.a.IIR_COEF) >> 14) + ((downsampled[lr] * s_reverb_registers.a.IN_COEF[lr]) >> 14)) >> 1);
+                const s16 IIR_A = ReverbSat((((IIR_INPUT_A * s_reverb_registers.a.IIR_ALPHA) >> 14) + (IIASM(s_reverb_registers.a.IIR_ALPHA, ReverbRead(s_reverb_registers.a.IIR_DEST_A[lr], -1)) >> 14)) >> 1);
+                const s16 IIR_B = ReverbSat((((IIR_INPUT_B * s_reverb_registers.a.IIR_ALPHA) >> 14) + (IIASM(s_reverb_registers.a.IIR_ALPHA, ReverbRead(s_reverb_registers.a.IIR_DEST_B[lr], -1)) >> 14)) >> 1);
+                ReverbWrite(s_reverb_registers.a.IIR_DEST_A[lr], IIR_A);
+                ReverbWrite(s_reverb_registers.a.IIR_DEST_B[lr], IIR_B);
+            }
+
+            const s32 ACC = ((ReverbRead(s_reverb_registers.a.ACC_SRC_A[lr]) * s_reverb_registers.a.ACC_COEF_A) >> 14) + ((ReverbRead(s_reverb_registers.a.ACC_SRC_B[lr]) * s_reverb_registers.a.ACC_COEF_B) >> 14) + ((ReverbRead(s_reverb_registers.a.ACC_SRC_C[lr]) * s_reverb_registers.a.ACC_COEF_C) >> 14) + ((ReverbRead(s_reverb_registers.a.ACC_SRC_D[lr]) * s_reverb_registers.a.ACC_COEF_D) >> 14);
+
+            const s16 FB_A = ReverbRead(s_reverb_registers.a.MIX_DEST_A[lr] - s_reverb_registers.a.FB_SRC_A);
+            const s16 FB_B = ReverbRead(s_reverb_registers.a.MIX_DEST_B[lr] - s_reverb_registers.a.FB_SRC_B);
+            const s16 MDA = ReverbSat((ACC + ((FB_A * ReverbNeg(s_reverb_registers.a.FB_ALPHA)) >> 14)) >> 1);
+            const s16 MDB = ReverbSat(
+                FB_A + ((((MDA * s_reverb_registers.a.FB_ALPHA) >> 14) + ((FB_B * ReverbNeg(s_reverb_registers.a.FB_X)) >> 14)) >> 1));
+            const s16 IVB = ReverbSat(FB_B + ((MDB * s_reverb_registers.a.FB_X) >> 15));
+
+            //if (s_SPUCNT.reverb_master_enable)
+            {
+                ReverbWrite(s_reverb_registers.a.MIX_DEST_A[lr], MDA);
+                ReverbWrite(s_reverb_registers.a.MIX_DEST_B[lr], MDB);
+            }
+
+            s_reverb_upsample_buffer[lr][(s_reverb_resample_buffer_position >> 1) | 0x20] = s_reverb_upsample_buffer[lr][s_reverb_resample_buffer_position >> 1] = IVB;
+        }
+
+        s_reverb_current_address = (s_reverb_current_address + 1) & 0x3FFFFu;
+        if (s_reverb_current_address == 0)
+            s_reverb_current_address = s_reverb_base_address;
+
+        for (unsigned lr = 0; lr < 2; lr++)
+            out[lr] = Reverb2244<false>(&s_reverb_upsample_buffer[lr][((s_reverb_resample_buffer_position >> 1) - 19) & 0x1F]);
+    }
+    else
+    {
+        //std::cout << "here2" << std::endl;
+        for (unsigned lr = 0; lr < 2; lr++)
+            out[lr] = Reverb2244<true>(&s_reverb_upsample_buffer[lr][((s_reverb_resample_buffer_position >> 1) - 19) & 0x1F]);
+    }
+
+    s_reverb_resample_buffer_position = (s_reverb_resample_buffer_position + 1) & 0x3F;
+
+    s_last_reverb_output[0] = *left_out = ApplyVolume(out[0], s_reverb_registers.vLOUT);
+    s_last_reverb_output[1] = *right_out = ApplyVolume(out[1], s_reverb_registers.vROUT);
+
+#ifdef SPU_DUMP_ALL_VOICES
+    if (s_voice_dump_writers[NUM_VOICES])
+    {
+        const s16 dump_samples[2] = {static_cast<s16>(Clamp16(s_last_reverb_output[0])),
+                                     static_cast<s16>(Clamp16(s_last_reverb_output[1]))};
+        s_voice_dump_writers[NUM_VOICES]->WriteFrames(dump_samples, 1);
+    }
+#endif
+}
+
 
 
 //////////////////////////
