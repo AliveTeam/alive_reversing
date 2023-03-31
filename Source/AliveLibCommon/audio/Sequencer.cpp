@@ -192,11 +192,6 @@ s32 Voice::interpolate()
     out += s32(gauss[0x100 + i]) * s32(sample->buffer[(int) (f_SampleOffset + s) - 1]); // old
     out += s32(gauss[0x000 + i]) * s32(sample->buffer[(int) (f_SampleOffset + s) - 0]); // new
 
-    //out += s32(gauss[0x0FF - i]) * sOldest; // oldest s16 - but should it be s8?
-    //out += s32(gauss[0x1FF - i]) * sOlder; // older
-    //out += s32(gauss[0x100 + i]) * sOld; // old
-    //out += s32(gauss[0x000 + i]) * sNew; // new
-
     return out >> 15;
 }
 
@@ -603,14 +598,6 @@ static constexpr s32 ApplyVolume(s32 sample, s16 volume)
     return (sample * s32(volume)) >> 15;
 }
 
-void Voice::pushSample(s32 s)
-{
-    sOldest = sOlder;
-    sOlder = sOld;
-    sOld = sNew;
-    sNew = s;
-}
-
 std::tuple<s32, s32> Voice::tick()
 {
     if (!sample)
@@ -644,8 +631,7 @@ std::tuple<s32, s32> Voice::tick()
         return std::make_tuple(0, 0);
     }
 
-    f_SampleOffset = f_SampleOffset + vounter.sample_index() >= sample->len - 1 ? 3 : f_SampleOffset;
-    pushSample(sample->buffer[(int) f_SampleOffset]);
+    f_SampleOffset = f_SampleOffset + vounter.sample_index() >= sample->len ? 3 : f_SampleOffset;
 
     s32 sampleData;
     sampleData = interpolate();

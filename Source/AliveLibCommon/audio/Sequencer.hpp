@@ -225,8 +225,6 @@ public:
     s32 sOld = 0;
     s32 sNew = 0;
 
-    void pushSample(s32 s);
-
     bool complete = false;
     bool loop = false;
     u64 offTime = 0;  // when the note was released
