@@ -121,8 +121,8 @@ void MidiPlayer::SND_Load_VABS(SoundBlockInfo* pSoundBlockInfo, s32 reverb)
                     patch->samples[x] = sample;
 
                     sample->adsr = adsr;
-                    sample->volume = vagAttr->field_2_vol / 127.0f;
-                    sample->pan = (vagAttr->field_3_pan / 64.0f) - 1.0f;
+                    sample->volume = vagAttr->field_2_vol;
+                    sample->pan = vagAttr->field_3_pan;
                     sample->reverb = vagAttr->field_1_mode;
                     sample->rootNote = vagAttr->field_4_centre;
                     sample->rootNotePitchShift = vagAttr->field_5_shift;
@@ -231,7 +231,8 @@ s16 MidiPlayer::SND_SEQ_PlaySeq(u16 idx, s32 repeatCount, s16 bDontStop)
     {
         return 1;
     }
-    sequencer->getSequence(idx)->volume = 1.0f;
+    sequencer->getSequence(idx)->voll = 127;
+    sequencer->getSequence(idx)->volr = 127;
     sequencer->getSequence(idx)->repeatLimit = repeatCount;
     sequencer->playSeq(idx);
     return 1;
@@ -286,13 +287,14 @@ void MidiPlayer::sanitizePitch(s32* src, s16 defaultPitch)
 
 void MidiPlayer::SND_SEQ_SetVol(s32 idx, s32 volLeft, s32 volRight)
 {
-    sanitizeVolume(&volLeft, 10, 127);
-    sanitizeVolume(&volRight, 10, 127);
+    sanitizeVolume(&volLeft, 0, 127);
+    sanitizeVolume(&volRight, 0, 127);
 
     sean::Sequence* seq = sequencer->getSequence((s32) idx);
     if (seq)
     {
-        seq->volume = std::min(volLeft, volRight) / 127.0f;
+        seq->voll = (s16) volLeft;
+        seq->volr = (s16) volRight;
     }
 }
 
@@ -302,7 +304,8 @@ s16 MidiPlayer::SND_SEQ_Play(u16 idx, s32 repeatCount, s16 volLeft, s16 volRight
     if (seq)
     {
         seq->repeatLimit = repeatCount;
-        seq->volume = std::min(volLeft, volRight) / 127.0f;
+        seq->voll = volLeft;
+        seq->volr = volRight;
     }
     sequencer->playSeq(idx);
     return 1;
@@ -327,17 +330,17 @@ s32 MidiPlayer::SFX_SfxDefinition_Play(SfxDefinition* sfxDef, s32 volLeft, s32 v
     sanitizeVolume(&volLeft, 10, 127);
     sanitizeVolume(&volRight, 10, 127);
     // TODO - I don't think these pans and volumes are quite right
-    float volume = std::max(volLeft, volRight) / 127.0f;
-    float pan;
-    if (volLeft < volRight)
-    {
-        pan = 1.0f - (float(volLeft) / float(volRight));
-    }
-    else
-    {
-        pan = (float(volRight) / float(volLeft)) - 1.0f;
-    }
-    return sequencer->playNote(sfxDef->program, sfxDef->note, volume, pan, (u8) std::max(pitch_min, pitch_max), pitch_min, pitch_max);
+    //float volume = std::max(volLeft, volRight) / 127.0f;
+    //float pan;
+    //if (volLeft < volRight)
+    //{
+    //    pan = 1.0f - (float(volLeft) / float(volRight));
+    //}
+    //else
+    //{
+    //    pan = (float(volRight) / float(volLeft)) - 1.0f;
+    //}
+    return sequencer->playNote(sfxDef->program, sfxDef->note, (s16) volLeft, (s16) volRight, (u8) std::max(pitch_min, pitch_max), pitch_min, pitch_max, false);
 }
 
 s32 MidiPlayer::SFX_SfxDefinition_Play(SfxDefinition* sfxDef, s32 volume, s32 pitch_min, s32 pitch_max)
@@ -351,13 +354,13 @@ s32 MidiPlayer::SFX_SfxDefinition_Play(SfxDefinition* sfxDef, s32 volume, s32 pi
     sanitizePitch(&pitch_max, sfxDef->pitch_max);
     sanitizeVolume(&volume, 1, 127);
 
-    return sequencer->playNote(sfxDef->program, sfxDef->note, volume / 127.0f, 0, (u8) std::max(pitch_min, pitch_max), pitch_min, pitch_max);
+    return sequencer->playNote(sfxDef->program, sfxDef->note, (s16) volume, (s16) volume, (u8) std::max(pitch_min, pitch_max), pitch_min, pitch_max, true);
 }
 
 s32 MidiPlayer::SND(s32 program, s32 vabId, s32 note, s16 vol, s16 min, s16 max)
 {
     vabId; // TODO - why is this not used?
-    return sequencer->playNote(program, (u8) note, vol / 127.0f, 0, 0, min, max);
+    return sequencer->playNote(program, (u8) note, vol, vol, 0, min, max, true);
 }
 
  void MidiPlayer::SsUtAllKeyOff(s32 mode)

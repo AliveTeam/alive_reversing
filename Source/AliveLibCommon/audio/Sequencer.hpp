@@ -159,7 +159,8 @@ public:
     s32 repeatLimit = 1;
     std::atomic_bool play = false;
 
-    float volume = 1;
+    s16 voll = 127;
+    s16 volr = 127;
     float pan = 0;
     float tempoUs; // BPM - defined in in microseconds (us)
     float ticksPerBeat;
@@ -216,16 +217,18 @@ public:
     s32 pitch;
     s32 pitchMin = 0;
     s32 pitchMax = 127;
-    float velocity = 1.0f;
+    float velocity = 127;
     float pan = 0.0f;
     s16 voll = 0;
     s16 volr = 0;
-    std::atomic_bool inUse = false;
+    bool inUse = false;
 
-    s32 sOldest = 0;
-    s32 sOlder = 0;
-    s32 sOld = 0;
-    s32 sNew = 0;
+    bool reuse = false;
+
+    s16 sOldest = 0;
+    s16 sOlder = 0;
+    s16 sOld = 0;
+    s16 sNew = 0;
 
     bool complete = false;
     bool loop = false;
@@ -251,29 +254,6 @@ private:
 
 
 /*
-* Non blocking event ring for 
-* cross thread actions (oddworld to midi player)
-*/
-class Event
-{
-    void (*func)();
-};
-
-class EventRing
-{
-public:
-    void push(Event event);
-    Event* pop();
-
-private:
-    static const int size = 256;
-    Event events[size];
-    std::atomic<u64> tail = 0;
-    std::atomic<u64> head = 0;
-};
-
-
-/*
 * Can play MIDI
 */
 class Sequencer
@@ -290,7 +270,7 @@ public:
     Sequence* createSequence();
     Sequence* getSequence(s32 id);
 
-    s32 playNote(s32 patchId, u8 note, float velocity, float pan, u8 pitch, s32 pitchMin, s32 pitchMax);
+    s32 playNote(s32 patchId, u8 note, s16 voll, s16 volr, u8 pitch, s32 pitchMin, s32 pitchMax, bool reuse);
     void stopNote(s32 mask);
 
     void playSeq(s32 seqId);
@@ -300,25 +280,20 @@ public:
     Voice* voices[voiceCount];
 
     void tickSequence();
+    std::mutex mutex;
 
 
 private:
     std::thread* thread;
     bool running;
-    void loop();
-    EventRing eventRing;
-
-    s32 uuid = 1;
-    s32 nextUuid();
     
-    Voice* obtainVoice();
+    Voice* obtainVoice(u8 note, u8 patchId);
     void releaseVoice(Voice* v);
-
     void tickVoice();
-    void syncVoice();
+
+    void stopSeqSafe(s32 seqId);
 
     std::vector<Sequence*> sequences;
-
 
     static const int patchCount = 128;
     Patch* patches[patchCount];
