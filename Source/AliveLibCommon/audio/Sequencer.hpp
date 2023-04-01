@@ -4,8 +4,12 @@
 #include <thread>
 #include <vector>
 #include <mutex>
+#include <array>
 
 namespace sean {
+
+const u32 NUM_SAMPLES_FROM_LAST_ADPCM_BLOCK = 3;
+const u32 NUM_SAMPLES_PER_ADPCM_BLOCK = 28;
 
 const s16 MIN_VOLUME = 0;
 const s16 MAX_VOLUME = 32767;
@@ -204,12 +208,25 @@ union VoiceCounter
     }
 };
 
+class VolumeEnvelope
+{
+public:
+    s16 current_level;
+    s16 target_level;
+    s32 counter;
+    bool decreasing;
+    void Tick();
+};
+
 class Voice
 {
 public:
     s32 id;
 
-    double f_SampleOffset = 3;
+
+    bool isFirstBlock = true;
+
+    double f_SampleOffset = 0;
     Sequence* sequence = NULL;
     u8 patchId;
     u8 channelId;
@@ -219,8 +236,8 @@ public:
     s32 pitchMax = 127;
     float velocity = 127;
     float pan = 0.0f;
-    s16 voll = 0;
-    s16 volr = 0;
+    s16 voll;
+    s16 volr;
     bool inUse = false;
 
     bool reuse = false;

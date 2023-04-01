@@ -12,8 +12,6 @@ namespace sean {
 static void ProcessReverb(s16 left_in, s16 right_in, s32* left_out, s32* right_out);
 static s16 ReverbRead(u32 address, s32 offset = 0);
 
-static const u32 NUM_SAMPLES_PER_ADPCM_BLOCK = 28;
-
 u32 mask(u32 num)
 {
     u32 res = 0;
@@ -197,14 +195,49 @@ s32 Voice::interpolate()
 
     // the interpolation index is based on the source files sample rate
     const u8 i = (u8)vounter.interpolation_index();
-    const u32 s = ZeroExtend32(vounter.sample_index());
+    const u32 s = ((u32)f_SampleOffset) + ZeroExtend32(vounter.sample_index());
 
     // interpolate on 4 most recent samples
     s32 out = 0;
-    out += s32(gauss[0x0FF - i]) * s32(sample->buffer[(int) (f_SampleOffset + s) - 3]); // oldest s16 - but should it be s8?
-    out += s32(gauss[0x1FF - i]) * s32(sample->buffer[(int) (f_SampleOffset + s) - 2]); // older
-    out += s32(gauss[0x100 + i]) * s32(sample->buffer[(int) (f_SampleOffset + s) - 1]); // old
-    out += s32(gauss[0x000 + i]) * s32(sample->buffer[(int) (f_SampleOffset + s) - 0]); // new
+    if (s == 0)
+    {
+        if (!isFirstBlock)
+        {
+            out += s32(gauss[0x0FF - i]) * s32(sample->buffer[sample->len - 3]); // oldest s16 - but should it be s8?
+            out += s32(gauss[0x1FF - i]) * s32(sample->buffer[sample->len - 2]); // older
+            out += s32(gauss[0x100 + i]) * s32(sample->buffer[sample->len - 1]); // old
+        }
+        out += s32(gauss[0x000 + i]) * s32(sample->buffer[s - 0]); // new
+
+    }
+    else if (s == 1)
+    {
+        if (!isFirstBlock)
+        {
+            out += s32(gauss[0x0FF - i]) * s32(sample->buffer[sample->len - 2]); // oldest s16 - but should it be s8?
+            out += s32(gauss[0x1FF - i]) * s32(sample->buffer[sample->len - 1]); // older
+        }
+        out += s32(gauss[0x100 + i]) * s32(sample->buffer[s - 1]); // old
+        out += s32(gauss[0x000 + i]) * s32(sample->buffer[s - 0]);           // new
+    }
+    else if (s == 2)
+    {
+        if (!isFirstBlock)
+        {
+            out += s32(gauss[0x0FF - i]) * s32(sample->buffer[sample->len - 1]); // oldest s16 - but should it be s8?
+        }
+        out += s32(gauss[0x1FF - i]) * s32(sample->buffer[s - 2]); // older
+        out += s32(gauss[0x100 + i]) * s32(sample->buffer[s - 1]);           // old
+        out += s32(gauss[0x000 + i]) * s32(sample->buffer[s - 0]);           // new
+    }
+    else
+    {
+        out += s32(gauss[0x0FF - i]) * s32(sample->buffer[(int) (s ) - 3]); // oldest s16 - but should it be s8?
+        out += s32(gauss[0x1FF - i]) * s32(sample->buffer[(int) (s ) - 2]); // older
+        out += s32(gauss[0x100 + i]) * s32(sample->buffer[(int) (s ) - 1]); // old
+        out += s32(gauss[0x000 + i]) * s32(sample->buffer[(int) (s ) - 0]); // new
+    }
+
 
     return out >> 15;
 }
@@ -576,20 +609,19 @@ std::tuple<s32, s32> Voice::tick()
         // shift << 12 as sample_index is shifted over 12
         vounter.bits -= (NUM_SAMPLES_PER_ADPCM_BLOCK << 12);
         f_SampleOffset += NUM_SAMPLES_PER_ADPCM_BLOCK;
+        isFirstBlock = false;
     }
 
 
-    if ((!loop || !reuse) && f_SampleOffset + vounter.sample_index() >= sample->len - 1)
+    if ((!loop || !reuse) && f_SampleOffset + NUM_SAMPLES_PER_ADPCM_BLOCK >= sample->len - 1)
     {
         complete = true;
         return std::make_tuple(0, 0);
     }
-    if (f_SampleOffset + vounter.sample_index() >= sample->len)
+    if (f_SampleOffset + NUM_SAMPLES_PER_ADPCM_BLOCK >= sample->len)
     {
-        // TODO - conver this into 28 sample adpcm blocks - should be closer to duckstation
-        //vounter.bits = 0;
-        f_SampleOffset = (((int)f_SampleOffset) + vounter.sample_index()) % sample->len;
-        f_SampleOffset += 3;
+        // NOTE: This seems like it might be wrong, but it fixes audio popping on loop
+        f_SampleOffset = (((int) f_SampleOffset) + NUM_SAMPLES_PER_ADPCM_BLOCK) % sample->len;
     }
 
     s32 sampleData;
@@ -723,7 +755,7 @@ Voice* Sequencer::obtainVoice(u8 note, u8 patchId)
         if (v->reuse && v->note == note && v->patchId == patchId)
         {
             std::cout << "got prev " << (int) note << " " << v->sample << std::endl;
-            v->f_SampleOffset = 3;
+            v->f_SampleOffset = 0;
             v->vounter.bits = 0;
             v->inUse = true;
             return v;
@@ -756,13 +788,14 @@ void Sequencer::releaseVoice(Voice* v)
     v->sequence = NULL;
     v->loop = false;
     v->pan = 0;
-    v->f_SampleOffset = 3;
+    v->f_SampleOffset = 0;
     v->vounter.bits = 0;
     v->complete = false;
     v->velocity = 127;
     v->voll = 127;
     v->volr = 127;
     v->complete = false;
+    v->isFirstBlock = true;
     v->inUse = false;
 }
 
