@@ -197,13 +197,16 @@ s32 Voice::interpolate()
     const u8 i = (u8)vounter.interpolation_index();
     const u32 s = ((u32)f_SampleOffset) + ZeroExtend32(vounter.sample_index());
 
-    // interpolate on 4 most recent samples
+    // interpolate on the 4 most recent samples from current position
+    // The below `if` statements are in case we loop
+    // we gauss the end of the sample with the beginning.
+    // Probably a better way to do it, but w/e for now...
     s32 out = 0;
     if (s == 0)
     {
         if (!isFirstBlock)
         {
-            out += s32(gauss[0x0FF - i]) * s32(sample->buffer[sample->len - 3]); // oldest s16 - but should it be s8?
+            out += s32(gauss[0x0FF - i]) * s32(sample->buffer[sample->len - 3]); // oldest
             out += s32(gauss[0x1FF - i]) * s32(sample->buffer[sample->len - 2]); // older
             out += s32(gauss[0x100 + i]) * s32(sample->buffer[sample->len - 1]); // old
         }
@@ -214,25 +217,25 @@ s32 Voice::interpolate()
     {
         if (!isFirstBlock)
         {
-            out += s32(gauss[0x0FF - i]) * s32(sample->buffer[sample->len - 2]); // oldest s16 - but should it be s8?
+            out += s32(gauss[0x0FF - i]) * s32(sample->buffer[sample->len - 2]); // oldest
             out += s32(gauss[0x1FF - i]) * s32(sample->buffer[sample->len - 1]); // older
         }
         out += s32(gauss[0x100 + i]) * s32(sample->buffer[s - 1]); // old
-        out += s32(gauss[0x000 + i]) * s32(sample->buffer[s - 0]);           // new
+        out += s32(gauss[0x000 + i]) * s32(sample->buffer[s - 0]); // new
     }
     else if (s == 2)
     {
         if (!isFirstBlock)
         {
-            out += s32(gauss[0x0FF - i]) * s32(sample->buffer[sample->len - 1]); // oldest s16 - but should it be s8?
+            out += s32(gauss[0x0FF - i]) * s32(sample->buffer[sample->len - 1]); // oldest
         }
         out += s32(gauss[0x1FF - i]) * s32(sample->buffer[s - 2]); // older
-        out += s32(gauss[0x100 + i]) * s32(sample->buffer[s - 1]);           // old
-        out += s32(gauss[0x000 + i]) * s32(sample->buffer[s - 0]);           // new
+        out += s32(gauss[0x100 + i]) * s32(sample->buffer[s - 1]); // old
+        out += s32(gauss[0x000 + i]) * s32(sample->buffer[s - 0]); // new
     }
     else
     {
-        out += s32(gauss[0x0FF - i]) * s32(sample->buffer[(int) (s ) - 3]); // oldest s16 - but should it be s8?
+        out += s32(gauss[0x0FF - i]) * s32(sample->buffer[(int) (s ) - 3]); // oldest
         out += s32(gauss[0x1FF - i]) * s32(sample->buffer[(int) (s ) - 2]); // older
         out += s32(gauss[0x100 + i]) * s32(sample->buffer[(int) (s ) - 1]); // old
         out += s32(gauss[0x000 + i]) * s32(sample->buffer[(int) (s ) - 0]); // new
@@ -281,17 +284,10 @@ Sequencer::Sequencer()
     {
         patches[i] = NULL;
     }
-
-    //running = true;
-    //thread = new std::thread(&Sequencer::loop, this);
 }
 
 Sequencer::~Sequencer()
 {
-    //running = false;
-    //thread->join();
-    //delete thread;
-
     // Delete buffers (by killing the instrument)
     for (Patch* patch : patches)
     {
@@ -308,8 +304,6 @@ u64 timeSinceEpochMillisec()
 void SDLCallback(void* udata, Uint8* stream, int len)
 {
     udata;
-    stream;
-    len;
     gseq->mutex.lock();
 
     // This runs at 44100hz
@@ -328,6 +322,7 @@ void SDLCallback(void* udata, Uint8* stream, int len)
     s32 reverb_out_left = 0;
     s32 reverb_out_right = 0;
 
+    // Prepare voices for every position SDL is expecting
     for (int i = 0; i < StreamLength; i += 2)
     {
         // set silence incase no voices are played
@@ -460,6 +455,8 @@ void Sequencer::stopSeqSafe(s32 seqId)
 
 void Sequencer::tickSequence()
 {
+    // TODO - convert this to be based on 44100hz instead of ms timestamp 
+
     u64 now = timeSinceEpochMillisec();
 
     // Tick sequences
@@ -470,7 +467,7 @@ void Sequencer::tickSequence()
             continue;
         }
 
-        if (seq->repeats > seq->repeatLimit)
+        if (seq->repeats >= seq->repeatLimit && seq->repeatLimit > 0)
         {
             stopSeqSafe(seq->id);
             continue;
@@ -511,11 +508,11 @@ void Sequencer::tickSequence()
                         s16 progPan = (s16) sample->pan;
                         if (progPan < 64)
                         {
-                            right = (right * progPan) / 63;
+right = (right * progPan) / 63;
                         }
                         else
                         {
-                            left = (left * (127 - progPan)) / 63;
+                        left = (left * (127 - progPan)) / 63;
                         }
 
                         v->sequence = seq;
@@ -526,10 +523,8 @@ void Sequencer::tickSequence()
                         v->note = message->note;
                         v->sample = sample;
                         v->voll = left;
-                        v->reuse = true;
                         v->volr = right;
-                        v->pan = 0; // divide by 63 for sample
-                        v->loop = sample->adsr.attackRate > 0;  // attack is greater than sample length? sample->adsr.attackRate / 1000 > 1;
+                        v->loop = sample->loop; //   // attack is greater than sample length? sample->adsr.attackRate / 1000 > 1;
                     }
 
                     break;
@@ -552,7 +547,7 @@ void Sequencer::tickSequence()
                 }
                 case END_TRACK:
                 {
-                    // repeats are handled in the sequence when messages starts at position 0 again
+                    // repeats are handled in the sequence when messages restart at position 0
                     break;
                 }
                 case PITCH_BEND:
@@ -581,7 +576,7 @@ void Sequencer::tickVoice()
             continue;
         }
 
-         voice->tick();
+        voice->tick();
     }
 }
 
@@ -596,53 +591,52 @@ std::tuple<s32, s32> Voice::tick()
     s32 notePitch = pitch < pitchMin ? pitchMin : pitch; // or sample?
     u8 rootNote = sample->rootNote;
     u8 rootPitch = sample->rootNotePitchShift;
-
-    // frequencies are stable for duration of note? - move elsewhere to cut down on maths?
     float noteFreq = float(pow(2.0, float(note + (notePitch / 127.0f)) / 12.0f));
     float rootFreq = float(pow(2.0, float(rootNote + (rootPitch / 127.0f)) / 12.0f));
-    //float freq = (float) ((noteFreq / rootFreq) * (float(sample->SampleRate) / 44100.0f));
-    //f_SampleOffset += freq;
+    float noteMultiple = noteFreq / rootFreq;
 
-
+    // vounter (gauss interpolation table) runs at 28 byte blocks.
+    // move the sample offset forward every 28 bytes
     if (vounter.sample_index() >= NUM_SAMPLES_PER_ADPCM_BLOCK)
     {
-        // shift << 12 as sample_index is shifted over 12
+        // vounter holds sample position shifted << 12
         vounter.bits -= (NUM_SAMPLES_PER_ADPCM_BLOCK << 12);
         f_SampleOffset += NUM_SAMPLES_PER_ADPCM_BLOCK;
         isFirstBlock = false;
     }
 
+    // Are we at the end of the sample?
+    if (f_SampleOffset + vounter.sample_index() >= sample->len)
+    {
+        if (!loop)
+        {
+            complete = true;
+            return std::make_tuple(0, 0);
+        }
 
-    if ((!loop || !reuse) && f_SampleOffset + NUM_SAMPLES_PER_ADPCM_BLOCK >= sample->len - 1)
-    {
-        complete = true;
-        return std::make_tuple(0, 0);
-    }
-    if (f_SampleOffset + NUM_SAMPLES_PER_ADPCM_BLOCK >= sample->len)
-    {
-        // NOTE: This seems like it might be wrong, but it fixes audio popping on loop
-        f_SampleOffset = (((int) f_SampleOffset) + NUM_SAMPLES_PER_ADPCM_BLOCK) % sample->len;
+        // we can loop this sample
+        vounter.bits = 0;
+        f_SampleOffset = 0;
     }
 
     s32 sampleData;
     sampleData = interpolate();
 
-    // duckstation uses this to get the actual sample rate in hz
-    // (float(v.regs.adpcm_sample_rate) / 4096.0f) * 44100.0f)
-
-    u16 step = (u16) (((float(sample->SampleRate) * (noteFreq / rootFreq)) / 44100.0f) * 4096.0f);
-    //const s32 factor = std::clamp<s32>(sampleData, -0x8000, 0x7FFF) + 0x8000;
-    //step = Truncate16(static_cast<u32>((SignExtend32(step) * factor) >> 15));
+    // vounter.bits has two purposes 
+    // 1. change how samples are skipped to change the samples note
+    // 2. maintain gauss table positioning for correct interpolation
+    u16 step = (u16) (((float(sample->SampleRate) * noteMultiple) / 44100.0f) * 4096.0f);
+    // if (v->isPitchModulated) 
+    // {
+    //     const s32 factor = std::clamp<s32>(sampleData, -0x8000, 0x7FFF) + 0x8000;
+    //     step = Truncate16(static_cast<u32>((SignExtend32(step) * factor) >> 15));
+    // }
     step = std::min<u16>(step, 0x3FFF);
     vounter.bits += step;
 
-    //s32 volume;
-    //volume = ApplyVolume(sampleData, 1); //  voice.regs.adsr_volume
-
-    // UPDATE ADSR STATE - this probably doesn't need to be done every tick?
+    // UPDATE ADSR STATE - done at 441000hz
     if (adsrPhase == NONE)
     {
-        //std::cout << sample->adsr.attackRate << " " << velocity << std::endl;
         adsrPhase = ATTACK;
         adsrDecreasing = false;
         adsrRate = sample->adsr.attackRate;
@@ -685,7 +679,7 @@ std::tuple<s32, s32> Voice::tick()
         return std::make_tuple(0, 0);
     }
 
-    // UPDATE TICK STATE
+    // UPDATE ADSR TICK STATE
     adsrCounter--;
     if (adsrCounter <= 0)
     {
@@ -724,10 +718,14 @@ std::tuple<s32, s32> Voice::tick()
             std::clamp<s32>(static_cast<s32>(adsrCurrentLevel) + this_step, MIN_VOLUME, MAX_VOLUME));
     }
 
+    // Set the volume of the sample
     s32 vol = ApplyVolume(sampleData, adsrCurrentLevel);
     vol = ApplyVolume(vol, (s16) (sample->volume * 129 * 2));
     vol = ApplyVolume(vol, (s16) (velocity * 129 * 2));
 
+    // TODO - apply voll and volr as sweeps.tick()? (VolumeEnvelope)
+    //  it would be similar to the ADSR tick
+    //  I believe sligs walking offscreen use a vol sweep
     s32 left = ApplyVolume(vol, voll * 129 * 2);
     s32 right = ApplyVolume(vol, volr * 129 * 2);
 
@@ -737,29 +735,27 @@ std::tuple<s32, s32> Voice::tick()
         right = ApplyVolume(right, sequence->volr * 129 * 2);
     }
 
-    // TODO - apply volume sweeps.tick()
-
     return std::make_tuple(left, right);
 }
 
 Voice* Sequencer::obtainVoice(u8 note, u8 patchId)
 {
-    note;
-    patchId;
+
+    // 1. Always try to use a free voice
+    // 2. If no voice can be found - try using a repeated note that has the furthest offset
+    // 3. Reap voices that have 'x' many playing? Shooting with a slig non-stop uses too many voices 
 
     Voice* available;
     available = NULL;
     for (int i = 0; i < voiceCount; i++)
     {
         Voice* v = voices[i];
-        if (v->reuse && v->note == note && v->patchId == patchId)
+        if (v->note == note && v->patchId == patchId)
         {
-            std::cout << "got prev " << (int) note << " " << v->sample << std::endl;
-            v->f_SampleOffset = 0;
-            v->vounter.bits = 0;
-            v->inUse = true;
-            return v;
-            //mutex.unlock();
+            if (!available || available->f_SampleOffset > v->f_SampleOffset)
+            {
+                available = v;
+            }
         }
 
         if (v->complete)
@@ -770,15 +766,24 @@ Voice* Sequencer::obtainVoice(u8 note, u8 patchId)
         if (!v->inUse)
         {
             v->inUse = true;
-            std::cout << "return " << (int) note << " " << (int) patchId << std::endl;
             return v;
         }
     }
-    return NULL;
+
+    if (!available)
+    {
+        return NULL;
+    }
+
+    // this is voice in use that we can reuse
+    releaseVoice(available);
+    available->inUse = true;
+    return available;
 }
 
 void Sequencer::releaseVoice(Voice* v)
 {
+    v->channelId = 0xFF;
     v->offTime = 0;
     v->pitch = 0;
     v->adsrPhase = NONE;
@@ -787,7 +792,6 @@ void Sequencer::releaseVoice(Voice* v)
     v->adsrTargetLevel = MAX_VOLUME;
     v->sequence = NULL;
     v->loop = false;
-    v->pan = 0;
     v->f_SampleOffset = 0;
     v->vounter.bits = 0;
     v->complete = false;
@@ -839,7 +843,7 @@ Sequence* Sequencer::getSequence(s32 id)
     return s;
 }
 
-s32 Sequencer::playNote(s32 patchId, u8 note, s16 voll, s16 volr, u8 pitch, s32 pitchMin, s32 pitchMax, bool reuse)
+s32 Sequencer::playNote(s32 patchId, u8 note, s16 voll, s16 volr, u8 pitch, s32 pitchMin, s32 pitchMax)
 {    
 
     // TODO - 
@@ -878,13 +882,12 @@ s32 Sequencer::playNote(s32 patchId, u8 note, s16 voll, s16 volr, u8 pitch, s32 
         v->patchId = (u8) patchId;
         v->note = note;
         v->velocity = 127;
-        //v->pan = pan;
         v->voll = voll;
         v->volr = volr;
-        v->reuse = reuse;
         v->pitch = pitch;
         v->pitchMin = pitchMin;
         v->pitchMax = pitchMax;
+        v->loop = s->loop;
         v->sample = s;
         ids |= v->id;
     }

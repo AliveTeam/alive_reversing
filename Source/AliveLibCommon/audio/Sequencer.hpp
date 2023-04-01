@@ -56,6 +56,7 @@ public:
 
     // reverb style - 0 is none
     s8 reverb;
+    bool loop;
 
     // Root Key
     u8 rootNote;
@@ -223,7 +224,6 @@ class Voice
 public:
     s32 id;
 
-
     bool isFirstBlock = true;
 
     double f_SampleOffset = 0;
@@ -235,17 +235,9 @@ public:
     s32 pitchMin = 0;
     s32 pitchMax = 127;
     float velocity = 127;
-    float pan = 0.0f;
     s16 voll;
     s16 volr;
     bool inUse = false;
-
-    bool reuse = false;
-
-    s16 sOldest = 0;
-    s16 sOlder = 0;
-    s16 sOld = 0;
-    s16 sNew = 0;
 
     bool complete = false;
     bool loop = false;
@@ -287,7 +279,7 @@ public:
     Sequence* createSequence();
     Sequence* getSequence(s32 id);
 
-    s32 playNote(s32 patchId, u8 note, s16 voll, s16 volr, u8 pitch, s32 pitchMin, s32 pitchMax, bool reuse);
+    s32 playNote(s32 patchId, u8 note, s16 voll, s16 volr, u8 pitch, s32 pitchMin, s32 pitchMax);
     void stopNote(s32 mask);
 
     void playSeq(s32 seqId);
@@ -301,9 +293,6 @@ public:
 
 
 private:
-    std::thread* thread;
-    bool running;
-    
     Voice* obtainVoice(u8 note, u8 patchId);
     void releaseVoice(Voice* v);
     void tickVoice();

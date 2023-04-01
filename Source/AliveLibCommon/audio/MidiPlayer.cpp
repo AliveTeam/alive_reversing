@@ -69,6 +69,41 @@ void MidiPlayer::SND_Shutdown()
     delete sequencer;
 }
 
+
+// One - shot VAGs will be created with an additional 16 - byte block 
+// attached to the end.The block is used to prevent unnecessary SPU 
+// interrupts or SPU free - run.The block reads as follows : 
+// “00077777 77777777 77777777 77777777” or 
+// “00070000 00000000 00000000 00000000.” Looping VAGs do not contain 
+// this block.
+// 
+// https://psx.arthus.net/sdk/Psy-Q/DOCS/LibOver47.pdf
+// 
+// Doesn't seem to work for PC samples, maybe check PSX samples
+// in the future.
+bool isLoop(sean::Sample* sample)
+{
+    s16* b = sample->buffer;
+    u32 l = sample->len;
+
+    bool oneshot = false;
+    oneshot |= b[l - 16] == 0x00 && b[l - 15] == 0x07 && b[l - 14] == 0x77
+            && b[l - 13] == 0x77 && b[l - 12] == 0x77 && b[l - 11] == 0x77
+            && b[l - 10] == 0x77 && b[l -  9] == 0x77 && b[l -  8] == 0x77
+            && b[l -  7] == 0x77 && b[l -  6] == 0x77 && b[l -  5] == 0x77
+            && b[l -  4] == 0x77 && b[l -  3] == 0x77 && b[l -  2] == 0x77
+            && b[l -  1] == 0x77;
+
+    oneshot |= b[l - 16] == 0x00 && b[l - 15] == 0x07 && b[l - 14] == 0x00
+            && b[l - 13] == 0x00 && b[l - 12] == 0x00 && b[l - 11] == 0x00
+            && b[l - 10] == 0x00 && b[l -  9] == 0x00 && b[l -  8] == 0x00
+            && b[l -  7] == 0x00 && b[l -  6] == 0x00 && b[l -  5] == 0x00
+            && b[l -  4] == 0x00 && b[l -  3] == 0x00 && b[l -  2] == 0x00
+            && b[l -  1] == 0x00;
+
+    return oneshot;
+}
+
 void MidiPlayer::SND_Load_VABS(SoundBlockInfo* pSoundBlockInfo, s32 reverb)
 {
     reverb; // TODO - what do we do with this? override the patch/sample?
@@ -113,7 +148,6 @@ void MidiPlayer::SND_Load_VABS(SoundBlockInfo* pSoundBlockInfo, s32 reverb)
                     unsigned short ADSR1 = vagAttr->field_10_adsr1;
                     unsigned short ADSR2 = vagAttr->field_12_adsr2;
 
-
                     sean::ADSR adsr = sean::parseADSR(ADSR1, ADSR2);
                     sean::Patch* patch = sequencer->createPatch(vagAttr->field_14_prog);
                     Sample* s = samples.at(vagAttr->field_16_vag - 1);
@@ -128,7 +162,14 @@ void MidiPlayer::SND_Load_VABS(SoundBlockInfo* pSoundBlockInfo, s32 reverb)
                     sample->rootNotePitchShift = vagAttr->field_5_shift;
                     sample->minNote = vagAttr->field_6_min;
                     sample->maxNote = vagAttr->field_7_max;
-                    //sample->loop = 
+
+                    // this "works" to figure out if it's a looping sample,
+                    // don't know why... apparently the SPU expects a specific
+                    // 16 byte block for looping, but not available with PC samples?
+                    REAL_ADSR realADSR;
+                    PSXConvADSR(&realADSR, ADSR1, ADSR2, false);
+                    sample->loop = realADSR.attack_time > 1;
+                    // sample->loop = isLoop(sample);
                 }
                 ++vagAttr;
             }
@@ -180,7 +221,6 @@ void MidiPlayer::SND_Load_Seqs(OpenSeqHandle* pSeqTable, const char_type* bsqFil
 void MidiPlayer::SND_StopAll()
 {
     // called when pause menu is open
-
     std::cout << "stop all" << std::endl;
     sequencer->stopAll();
 }
@@ -194,8 +234,8 @@ void MidiPlayer::SND_Reset()
 
 void MidiPlayer::SND_Restart()
 {
-    std::cout << "restart" << std::endl;
     // TODO - don't know when called
+    std::cout << "restart" << std::endl;
 }
 
 void MidiPlayer::SND_Stop_Channels_Mask(u32 bitMask)
@@ -236,28 +276,6 @@ s16 MidiPlayer::SND_SEQ_PlaySeq(u16 idx, s32 repeatCount, s16 bDontStop)
     sequencer->getSequence(idx)->repeatLimit = repeatCount;
     sequencer->playSeq(idx);
     return 1;
-
-
-    //SequencePlayer* player = GetSequencePlayer(idx);
-
-    //// When chanting starts bDontStop is 1
-    //// and then 0 is called every frame until chanting stops.
-    //// I think we can return if it's 0
-    //if (player && bDontStop == 0)
-    //{
-    //    return 1; // still playing
-    //}
-
-    //if (!player)
-    //{
-    //    player = new SequencePlayer();
-    //    mSequencePlayers.push_back(player);
-    //}
-    //std::cout << "Play seq " << idx << "\n";
-
-    //player->LoadSequenceData(mSequences.at(s16(idx)), s32(idx), repeatCount);
-    //player->PlaySequence(idx);
-    //return s16(mSequencePlayers.size() - 1);
 }
 
 void MidiPlayer::sanitizeVolume(s32* src, s32 low, s32 high)
@@ -329,18 +347,8 @@ s32 MidiPlayer::SFX_SfxDefinition_Play(SfxDefinition* sfxDef, s32 volLeft, s32 v
 
     sanitizeVolume(&volLeft, 10, 127);
     sanitizeVolume(&volRight, 10, 127);
-    // TODO - I don't think these pans and volumes are quite right
-    //float volume = std::max(volLeft, volRight) / 127.0f;
-    //float pan;
-    //if (volLeft < volRight)
-    //{
-    //    pan = 1.0f - (float(volLeft) / float(volRight));
-    //}
-    //else
-    //{
-    //    pan = (float(volRight) / float(volLeft)) - 1.0f;
-    //}
-    return sequencer->playNote(sfxDef->program, sfxDef->note, (s16) volLeft, (s16) volRight, (u8) std::max(pitch_min, pitch_max), pitch_min, pitch_max, false);
+
+    return sequencer->playNote(sfxDef->program, sfxDef->note, (s16) volLeft, (s16) volRight, (u8) std::max(pitch_min, pitch_max), pitch_min, pitch_max);
 }
 
 s32 MidiPlayer::SFX_SfxDefinition_Play(SfxDefinition* sfxDef, s32 volume, s32 pitch_min, s32 pitch_max)
@@ -349,18 +357,17 @@ s32 MidiPlayer::SFX_SfxDefinition_Play(SfxDefinition* sfxDef, s32 volume, s32 pi
     {
         volume = sfxDef->volume;
     }
-
     sanitizePitch(&pitch_min, sfxDef->pitch_min);
     sanitizePitch(&pitch_max, sfxDef->pitch_max);
     sanitizeVolume(&volume, 1, 127);
 
-    return sequencer->playNote(sfxDef->program, sfxDef->note, (s16) volume, (s16) volume, (u8) std::max(pitch_min, pitch_max), pitch_min, pitch_max, true);
+    return sequencer->playNote(sfxDef->program, sfxDef->note, (s16) volume, (s16) volume, (u8) std::max(pitch_min, pitch_max), pitch_min, pitch_max);
 }
 
 s32 MidiPlayer::SND(s32 program, s32 vabId, s32 note, s16 vol, s16 min, s16 max)
 {
     vabId; // TODO - why is this not used?
-    return sequencer->playNote(program, (u8) note, vol, vol, 0, min, max, true);
+    return sequencer->playNote(program, (u8) note, vol, vol, 0, min, max);
 }
 
  void MidiPlayer::SsUtAllKeyOff(s32 mode)
