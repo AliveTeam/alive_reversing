@@ -17,6 +17,6 @@
 #cmakedefine01 USE_SDL2_SOUND
 #cmakedefine01 USE_SDL2_IO
 #cmakedefine01 RENDERER_OPENGL
-#cmakedefine01 ALTERNATE_AUDIO
+#cmakedefine01 AUDIO_SPU_EMULATION
 #cmakedefine BUILD_NUMBER @BUILD_NUMBER@
 #cmakedefine CI_PROVIDER "@CI_PROVIDER@"
