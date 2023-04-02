@@ -372,8 +372,8 @@ void SDLCallback(void* udata, Uint8* stream, int len)
         // make value usable by SDL
         leftSample = leftSample / 32767.0f;
         rightSample = rightSample / 32767.0f;
-        SDL_MixAudioFormat((Uint8*) (AudioStream + i), (const Uint8*) &leftSample, AUDIO_F32, sizeof(float), 100);      
-        SDL_MixAudioFormat((Uint8*) (AudioStream + i + 1), (const Uint8*) &rightSample, AUDIO_F32, sizeof(float), 100);
+        SDL_MixAudioFormat((Uint8*) (AudioStream + i), (const Uint8*) &leftSample, AUDIO_F32, sizeof(float), 70);      
+        SDL_MixAudioFormat((Uint8*) (AudioStream + i + 1), (const Uint8*) &rightSample, AUDIO_F32, sizeof(float), 70);
     }
 
     gseq->mutex.unlock();
