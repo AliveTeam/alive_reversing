@@ -19,7 +19,7 @@
 #include "PsxSpuApi.hpp"
 #include "AmbientSound.hpp"
 
-#if !ALTERNATE_AUDIO
+#if !AUDIO_SPU_EMULATION
 EXPORT void CC SFX_SetPitch_4CA510(const SfxDefinition* pSfx, s32 channelsBits, s16 pitch);
 
 const s32 kSeqTableSizeAE = 144;

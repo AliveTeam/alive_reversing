@@ -23,7 +23,7 @@
 #include "../AliveLibAE/Sound/Sound.hpp"
 #include "../AliveLibAE/PathData.hpp"
 
-#if !ALTERNATE_AUDIO
+#if !AUDIO_SPU_EMULATION
 namespace AO {
 const s32 kSeqTableSizeAO = 164;
 

@@ -230,6 +230,7 @@ int SequencePlayer::LoadSequenceStream(Stream& stream)
     unsigned int deltaTime = 0;
 
     const size_t midiDataStart = stream.Pos();
+    midiDataStart;
 
     // Context state
     SeqInfo gSeqInfo = {};

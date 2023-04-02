@@ -57,16 +57,12 @@ MidiPlayer::MidiPlayer(ResourceProvider* provider, SoundSampleParser* samplePars
 
 void MidiPlayer::SND_Init()
 {
-    if (sequencer)
-    {
-        delete sequencer;
-    }
-    sequencer = new sean::Sequencer();
+    SPU::Init();
 }
 
 void MidiPlayer::SND_Shutdown()
 {
-    delete sequencer;
+    SPU::DeInit();
 }
 
 
@@ -81,7 +77,7 @@ void MidiPlayer::SND_Shutdown()
 // 
 // Doesn't seem to work for PC samples, maybe check PSX samples
 // in the future.
-bool isLoop(sean::Sample* sample)
+bool isLoop(SPU::Sample* sample)
 {
     s16* b = sample->buffer;
     u32 l = sample->len;
@@ -108,7 +104,8 @@ void MidiPlayer::SND_Load_VABS(SoundBlockInfo* pSoundBlockInfo, s32 reverb)
 {
     reverb; // TODO - what do we do with this? override the patch/sample?
 
-    sequencer->reset();
+    SPU::Reset();
+
     while (1)
     {
         if (!pSoundBlockInfo->header_name)
@@ -136,6 +133,9 @@ void MidiPlayer::SND_Load_VABS(SoundBlockInfo* pSoundBlockInfo, s32 reverb)
         for (s32 i = 0; i < vabHeader->field_12_num_progs; i++)
         {
             
+            SPU::Patch* patch = new SPU::Patch((u8) vagAttr->field_14_prog);
+            SPU::PatchAdd(patch);
+
             ///////////
             // PATCH (Instruments)
             for (s32 x = 0; x < 16; x++)
@@ -143,15 +143,14 @@ void MidiPlayer::SND_Load_VABS(SoundBlockInfo* pSoundBlockInfo, s32 reverb)
 
                 ///////////
                 // SAMPLE
-                if (vagAttr->field_2_vol > 0)
+                if (vagAttr->field_2_vol > 0 && vagAttr->field_16_vag > 0)
                 {
                     unsigned short ADSR1 = vagAttr->field_10_adsr1;
                     unsigned short ADSR2 = vagAttr->field_12_adsr2;
-
-                    sean::ADSR adsr = sean::parseADSR(ADSR1, ADSR2);
-                    sean::Patch* patch = sequencer->createPatch(vagAttr->field_14_prog);
                     Sample* s = samples.at(vagAttr->field_16_vag - 1);
-                    sean::Sample* sample = new sean::Sample(s->m_SampleBuffer, s->i_SampleSize, 44100); // TODO s->sampleRate?
+
+                    SPU::ADSR adsr = SPU::parseADSR(ADSR1, ADSR2);
+                    SPU::Sample* sample = new SPU::Sample(s->m_SampleBuffer, s->i_SampleSize, 44100); // TODO s->sampleRate?
                     patch->samples[x] = sample;
 
                     sample->adsr = adsr;
@@ -205,15 +204,9 @@ void MidiPlayer::SND_Load_Seqs(OpenSeqHandle* pSeqTable, const char_type* bsqFil
             }
 
             // SEQUENCE STREAM
-            sean::Sequence* sequence = sequencer->createSequence();
+            SPU::Sequence* sequence = new SPU::Sequence();
             parseMidiStream(sequence, vec, i);
-            mSequences.push_back(vec);
-        }
-        else
-        {
-            seq[i].ppSeq_Data = nullptr;
-            std::vector<Uint8> test;
-            mSequences.push_back(test);
+            SPU::SeqAdd(sequence);
         }
     }
 }
@@ -221,15 +214,13 @@ void MidiPlayer::SND_Load_Seqs(OpenSeqHandle* pSeqTable, const char_type* bsqFil
 void MidiPlayer::SND_StopAll()
 {
     // called when pause menu is open
-    std::cout << "stop all" << std::endl;
-    sequencer->stopAll();
+    SPU::StopAll();
 }
 
 void MidiPlayer::SND_Reset()
 {
     // called when quiting to main menu or going into a new level
-    std::cout << "reset" << std::endl;
-    sequencer->reset();
+    SPU::Reset();
 }
 
 void MidiPlayer::SND_Restart()
@@ -238,16 +229,14 @@ void MidiPlayer::SND_Restart()
     std::cout << "restart" << std::endl;
 }
 
-void MidiPlayer::SND_Stop_Channels_Mask(u32 bitMask)
+void MidiPlayer::SND_Stop_Channels_Mask(u32 mask)
 {
-    bitMask;
-    std::cout << "bitmask " << bitMask << "\n";
-    sequencer->stopNote(bitMask);
+    SPU::OneShotStop(mask);
 }
 
 void MidiPlayer::SND_SEQ_Stop(u16 idx)
 {
-    sequencer->stopSeq(idx);
+    SPU::SeqStop(idx);
 }
 
 s8 MidiPlayer::SND_Seq_Table_Valid()
@@ -257,25 +246,10 @@ s8 MidiPlayer::SND_Seq_Table_Valid()
 
 s16 MidiPlayer::SND_SEQ_PlaySeq(u16 idx, s32 repeatCount, s16 bDontStop)
 {
-    bDontStop; // TODO
+    bDontStop; // TODO - does this matter?
     repeatCount;
     idx;
-    // TODO - still broken for chanting - revist below commented code
-
-    sean::Sequence* seq = sequencer->getSequence(idx);
-    if (!seq)
-    {
-        return 0;
-    }
-    if (seq->play)
-    {
-        return 1;
-    }
-    sequencer->getSequence(idx)->voll = 127;
-    sequencer->getSequence(idx)->volr = 127;
-    sequencer->getSequence(idx)->repeatLimit = repeatCount;
-    sequencer->playSeq(idx);
-    return 1;
+    return SPU::SeqPlay(idx, repeatCount) ? 1 : 0;
 }
 
 void MidiPlayer::sanitizeVolume(s32* src, s32 low, s32 high)
@@ -307,37 +281,17 @@ void MidiPlayer::SND_SEQ_SetVol(s32 idx, s32 volLeft, s32 volRight)
 {
     sanitizeVolume(&volLeft, 0, 127);
     sanitizeVolume(&volRight, 0, 127);
-
-    sean::Sequence* seq = sequencer->getSequence((s32) idx);
-    if (seq)
-    {
-        seq->voll = (s16) volLeft;
-        seq->volr = (s16) volRight;
-    }
+    SPU::SeqSetVolume(idx, (s16) volLeft, (s16) volRight);
 }
 
 s16 MidiPlayer::SND_SEQ_Play(u16 idx, s32 repeatCount, s16 volLeft, s16 volRight)
 {
-    sean::Sequence* seq = sequencer->getSequence((s32) idx);
-    if (seq)
-    {
-        seq->repeatLimit = repeatCount;
-        seq->voll = volLeft;
-        seq->volr = volRight;
-    }
-    sequencer->playSeq(idx);
-    return 1;
+    return SPU::SeqPlay(idx, repeatCount, volLeft, volRight) ? 1 : 0;
 }
 
 s16 MidiPlayer::SND_SsIsEos_DeInlined(u16 idx)
 {
-    s16 res = 0;
-    sean::Sequence* seq = sequencer->getSequence((s32) idx);
-    if (seq)
-    {
-        res = seq->repeats < seq->repeatLimit ? 1 : 0;
-    }
-    return res;
+    return SPU::SeqIsDone(idx) ? 0 : 1;
 }
 
 s32 MidiPlayer::SFX_SfxDefinition_Play(SfxDefinition* sfxDef, s32 volLeft, s32 volRight, s32 pitch_min, s32 pitch_max)
@@ -348,7 +302,7 @@ s32 MidiPlayer::SFX_SfxDefinition_Play(SfxDefinition* sfxDef, s32 volLeft, s32 v
     sanitizeVolume(&volLeft, 10, 127);
     sanitizeVolume(&volRight, 10, 127);
 
-    return sequencer->playNote(sfxDef->program, sfxDef->note, (s16) volLeft, (s16) volRight, (u8) std::max(pitch_min, pitch_max), pitch_min, pitch_max);
+    return SPU::OneShotPlay(sfxDef->program, sfxDef->note, (s16) volLeft, (s16) volRight, (u8) std::max(pitch_min, pitch_max), pitch_min, pitch_max);
 }
 
 s32 MidiPlayer::SFX_SfxDefinition_Play(SfxDefinition* sfxDef, s32 volume, s32 pitch_min, s32 pitch_max)
@@ -361,18 +315,20 @@ s32 MidiPlayer::SFX_SfxDefinition_Play(SfxDefinition* sfxDef, s32 volume, s32 pi
     sanitizePitch(&pitch_max, sfxDef->pitch_max);
     sanitizeVolume(&volume, 1, 127);
 
-    return sequencer->playNote(sfxDef->program, sfxDef->note, (s16) volume, (s16) volume, (u8) std::max(pitch_min, pitch_max), pitch_min, pitch_max);
+    return SPU::OneShotPlay(sfxDef->program, sfxDef->note, (s16) volume, (s16) volume, (u8) std::max(pitch_min, pitch_max), pitch_min, pitch_max);
 }
 
 s32 MidiPlayer::SND(s32 program, s32 vabId, s32 note, s16 vol, s16 min, s16 max)
 {
     vabId; // TODO - why is this not used?
-    return sequencer->playNote(program, (u8) note, vol, vol, 0, min, max);
+    return SPU::OneShotPlay(program, (u8) note, vol, vol, 0, min, max);
 }
 
  void MidiPlayer::SsUtAllKeyOff(s32 mode)
  {
-     mode; // TODO
+     // TODO - don't know when this is called
+     mode; 
+     // SPU::StopAll();
  }
 
 
@@ -401,7 +357,7 @@ static Uint32 _MidiReadVarLen(Stream& stream)
     return ret;
 }
 
-void parseMidiStream(sean::Sequence* seq, std::vector<Uint8> seqData, s32 trackId)
+void parseMidiStream(SPU::Sequence* seq, std::vector<Uint8> seqData, s32 trackId)
 {
     Stream stream(std::move(seqData));
     seq->id = trackId;
@@ -441,6 +397,7 @@ void parseMidiStream(sean::Sequence* seq, std::vector<Uint8> seqData, s32 trackI
     unsigned int deltaTime = 0;
 
     const size_t midiDataStart = stream.Pos();
+    midiDataStart;
 
     // Context state
     SeqInfo gSeqInfo = {};
@@ -485,8 +442,8 @@ void parseMidiStream(sean::Sequence* seq, std::vector<Uint8> seqData, s32 trackI
             {
                 case 0x2f:
                 {
-                    sean::MIDIMessage* msg = seq->createMIDIMessage();
-                    msg->type = sean::END_TRACK;
+                    SPU::MIDIMessage* msg = seq->createMIDIMessage();
+                    msg->type = SPU::END_TRACK;
                     msg->tick = ticksPerBeat;
                     msg->tick = deltaTime;
                     return;
@@ -533,18 +490,18 @@ void parseMidiStream(sean::Sequence* seq, std::vector<Uint8> seqData, s32 trackI
                     Uint8 velocity = 0;
                     stream.ReadUInt8(velocity);
 
-                    sean::MIDIMessage* msg = seq->createMIDIMessage();
+                    SPU::MIDIMessage* msg = seq->createMIDIMessage();
                     msg->tick = deltaTime;
                     msg->channelId = channel;
                     msg->note = note;
                     msg->velocity = velocity;
                     if (velocity == 0) // If velocity is 0, then the sequence means to do "Note Off"
                     {
-                        msg->type = sean::NOTE_OFF;
+                        msg->type = SPU::NOTE_OFF;
                     }
                     else
                     {
-                        msg->type = sean::NOTE_ON;
+                        msg->type = SPU::NOTE_ON;
                     }
                 }
                 break;
@@ -555,8 +512,8 @@ void parseMidiStream(sean::Sequence* seq, std::vector<Uint8> seqData, s32 trackI
                     Uint8 velocity = 0;
                     stream.ReadUInt8(velocity);
 
-                    sean::MIDIMessage* msg = seq->createMIDIMessage();
-                    msg->type = sean::NOTE_OFF;
+                    SPU::MIDIMessage* msg = seq->createMIDIMessage();
+                    msg->type = SPU::NOTE_OFF;
                     msg->tick = deltaTime;
                     msg->channelId = channel;
                     msg->note = note;
@@ -568,8 +525,8 @@ void parseMidiStream(sean::Sequence* seq, std::vector<Uint8> seqData, s32 trackI
                     Uint8 prog = 0;
                     stream.ReadUInt8(prog);
 
-                    sean::MIDIMessage* msg = seq->createMIDIMessage();
-                    msg->type = sean::PATCH_CHANGE;
+                    SPU::MIDIMessage* msg = seq->createMIDIMessage();
+                    msg->type = SPU::PATCH_CHANGE;
                     msg->tick = deltaTime;
                     msg->channelId = channel;
                     msg->patchId = prog;
@@ -612,8 +569,8 @@ void parseMidiStream(sean::Sequence* seq, std::vector<Uint8> seqData, s32 trackI
                     multi = multi * (127 * 4); // (127*4) is 4 semitones (or 4 half steps).
                     multi = multi - (127 * 4); // Possibly 4 is not correct for pitch bend range?
 
-                    sean::MIDIMessage* msg = seq->createMIDIMessage();
-                    msg->type = sean::PITCH_BEND;
+                    SPU::MIDIMessage* msg = seq->createMIDIMessage();
+                    msg->type = SPU::PITCH_BEND;
                     msg->bend = (s16) multi;
                     msg->channelId = channel;
                     msg->tick = deltaTime;

@@ -6,7 +6,7 @@
 
 namespace psx {
 
-    void parseMidiStream(sean::Sequence* seq, std::vector<Uint8> seqData, s32 trackId);
+    void parseMidiStream(SPU::Sequence* seq, std::vector<Uint8> seqData, s32 trackId);
 
     struct VagAtr final
     {
@@ -207,11 +207,6 @@ namespace psx {
     private:
         ResourceProvider* mResourceProvider;
         SoundSampleParser* mSoundSampleParser;
-
-        sean::Sequencer* sequencer = NULL;
-        Soundbank* mSoundbank = NULL;
-        std::vector<std::vector<Uint8>> mSequences;
-        std::vector<SequencePlayer*> mSequencePlayers;
 
         void sanitizePitch(s32* src, s16 defaultPitch);
         void sanitizeVolume(s32* src, s32 low, s32 high);

@@ -6,7 +6,7 @@
 #include <mutex>
 #include <array>
 
-namespace sean {
+namespace SPU {
 
 const u32 NUM_SAMPLES_FROM_LAST_ADPCM_BLOCK = 3;
 const u32 NUM_SAMPLES_PER_ADPCM_BLOCK = 28;
@@ -14,7 +14,15 @@ const u32 NUM_SAMPLES_PER_ADPCM_BLOCK = 28;
 const s16 MIN_VOLUME = 0;
 const s16 MAX_VOLUME = 32767;
 
-u32 mask(u32 num);
+static u32 mask(u32 num)
+{
+    u32 res = 0;
+    while (num-- > 0)
+    {
+        res = (res << 1) | 1;
+    }
+    return res;
+}
 
 struct ASDR
 {
@@ -48,7 +56,7 @@ public:
     }
     ~Sample()
     {
-        delete[] buffer;
+
     }
 
     float volume;
@@ -82,23 +90,27 @@ public:
 class Patch
 {
 public:
-    Patch()
+    Patch(const u8 id)
+        : _id(id)
     {
-        for (int i = 0; i < 128; i++)
+        for (int i = 0; i < SAMPLE_SIZE_LIMIT; i++)
         {
-            samples[i] = NULL;
+            samples[i] = nullptr;
         }
     }
     ~Patch()
     {
-        for (Sample* sample : samples)
+        for (int i = 0; i < SAMPLE_SIZE_LIMIT; i++)
         {
-            delete sample;
+            delete samples[i];
+            samples[i] = nullptr;
         }
     }
 
-    u8 id;
-    Sample* samples[128];
+    const u8 _id;
+
+    static const int SAMPLE_SIZE_LIMIT = 128;
+    std::array<Sample*, SAMPLE_SIZE_LIMIT> samples;
 };
 
 
@@ -172,6 +184,7 @@ public:
 
     s32 repeats = 0;
 
+    void Reset();
     MIDIMessage* createMIDIMessage();
     MIDIMessage* next(u64 now);
     Channel* channels[16];
@@ -240,7 +253,6 @@ public:
     bool inUse = false;
 
     bool complete = false;
-    bool loop = false;
     u64 offTime = 0;  // when the note was released
 
     VoiceCounter vounter;
@@ -262,50 +274,31 @@ private:
 };
 
 
-/*
-* Can play MIDI
-*/
-class Sequencer
-{
-public:
-    Sequencer();
-    ~Sequencer();
+void Init();
+void DeInit();
 
-    void reset();
-    void stopAll();
+void Reset();
+void StopAll();
 
-    Patch* createPatch(s16 id);
+// returns an 'id' mask - more than one note may play during a oneshot.
+// Each of the 24 voices have an id of (1 << x) where x is the voice num
+s32 OneShotPlay(s32 patchId, u8 note, s16 voll, s16 volr, u8 pitch, s32 pitchMin, s32 pitchMax);
+void OneShotStop(s32 mask);
 
-    Sequence* createSequence();
-    Sequence* getSequence(s32 id);
+// Patches are instruments that contain samples.
+// Once a patch is added it will be managed by the SPU
+// do not modify or delete it.
+void PatchAdd(Patch* patch);
 
-    s32 playNote(s32 patchId, u8 note, s16 voll, s16 volr, u8 pitch, s32 pitchMin, s32 pitchMax);
-    void stopNote(s32 mask);
+// Sequences define what notes to play "in a sequence" - a song.
+// Once a sequence is added it will be managed by the SPU
+// do not modify or delete it.
+void SeqAdd(Sequence* seq);
+bool SeqPlay(s32 seqId, s32 repeats);
+bool SeqPlay(s32 seqId, s32 repeats, s16 voll, s16 volr);
+void SeqSetVolume(s32 seqId, s16 voll, s16 volr);
+void SeqStop(s32 seqId);
+bool SeqIsDone(s32 seqId);
 
-    void playSeq(s32 seqId);
-    void stopSeq(s32 seqId);
-
-    static const int voiceCount = 24;
-    Voice* voices[voiceCount];
-
-    void tickSequence();
-    std::mutex mutex;
-
-
-private:
-    Voice* obtainVoice(u8 note, u8 patchId);
-    void releaseVoice(Voice* v);
-    void tickVoice();
-
-    void stopSeqSafe(s32 seqId);
-
-    std::vector<Sequence*> sequences;
-
-    static const int patchCount = 128;
-    Patch* patches[patchCount];
-};
-
-static Sequencer* gseq;
-void SDLCallback(void* udata, Uint8* stream, int len);
 
 } // namespace

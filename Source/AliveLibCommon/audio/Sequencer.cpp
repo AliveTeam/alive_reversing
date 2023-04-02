@@ -1,27 +1,214 @@
 #pragma once
 
 #include "Sequencer.hpp"
-#include <array>
 #include "SDL.h"
 
-namespace sean {
+namespace SPU {
 
-/////////////////////////////////
-/// DuckStation
+//////////////////////////
+// SPU state
+std::mutex mutex;
 
-static void ProcessReverb(s16 left_in, s16 right_in, s32* left_out, s32* right_out);
+const int VOICE_SIZE_LIMIT = 24;
+std::array<Voice*, VOICE_SIZE_LIMIT> voices;
+
+const int SEQUENCE_SIZE_LIMIT = 256;
+std::vector<Sequence*> sequences;
+
+const int PATCH_SIZE_LIMIT = 128;
+std::array<Patch*, PATCH_SIZE_LIMIT> patches;
+
+
+//////////////////////////
+// SPU Internal mangement methods
+void SPUInit();
+void SPUStopAll();
+void SPUReset();
+
+Voice* SPUObtainVoice(u8 note, u8 patchId);
+void SPUReleaseVoice(Voice* v);
+
+void SPUPatchAdd(Patch* patch);
+
+void SPUSeqAdd(Sequence* seq);
+bool SPUSeqPlay(s32 seqId, s32 repeats);
+void SPUSeqStop(s32 seqId);
+void SPUSeqSetVolume(s32 seqId, s16 voll, s16 volr);
+bool SPUSeqIsDone(s32 seqId);
+
+s32 SPUOneShotPlay(s32 patchId, u8 note, s16 voll, s16 volr, u8 pitch, s32 pitchMin, s32 pitchMax);
+void SPUOneShotStop(s32 mask);
+
+void SPUTick(void* udata, Uint8* stream, int len);
+void SPUTickSequences();
+
+void ProcessReverb(s16 left_in, s16 right_in, s32* left_out, s32* right_out);
 static s16 ReverbRead(u32 address, s32 offset = 0);
 
-u32 mask(u32 num)
+
+//////////////////////////
+// Public SPU methods
+// Basically just a wrapper for mutex lock
+void SPU::Init()
 {
-    u32 res = 0;
-    while (num-- > 0)
+    mutex.lock();
+    SPUInit();
+    mutex.unlock();
+}
+
+void SPU::DeInit()
+{
+    mutex.lock();
+    // TODO - does it matter?
+    mutex.unlock();
+}
+
+void SPU::Reset()
+{
+    mutex.lock();
+    SPUReset();
+    mutex.unlock();
+}
+
+void SPU::StopAll()
+{
+    mutex.lock();
+    SPUStopAll();
+    mutex.unlock();
+}
+
+void PatchAdd(Patch* patch)
+{
+    if (patch->_id >= PATCH_SIZE_LIMIT)
     {
-        res = (res << 1) | 1;
+        throw std::runtime_error("PatchId is above PATCH_SIZE_LIMIT");
     }
+    mutex.lock();
+    SPUPatchAdd(patch);
+    mutex.unlock();
+}
+
+void SPU::SeqAdd(Sequence* seq)
+{
+    mutex.lock();
+    SPUSeqAdd(seq);
+    mutex.unlock();
+}
+
+bool SeqPlay(s32 seqId, s32 repeats)
+{
+    mutex.lock();
+    bool res = SPUSeqPlay(seqId, repeats);
+    mutex.unlock();
     return res;
 }
 
+bool SeqPlay(s32 seqId, s32 repeats, s16 voll, s16 volr)
+{
+    mutex.lock();
+    SPUSeqSetVolume(seqId, voll, volr);
+    bool res = SPUSeqPlay(seqId, repeats);
+    mutex.unlock();
+    return res;
+}
+
+void SeqStop(s32 seqId)
+{
+    mutex.lock();
+    SPUSeqStop(seqId);
+    mutex.unlock();
+}
+
+void SeqSetVolume(s32 seqId, s16 voll, s16 volr)
+{
+    mutex.lock();
+    SPUSeqSetVolume(seqId, voll, volr);
+    mutex.unlock();
+}
+
+bool SeqIsDone(s32 seqId)
+{
+    mutex.lock();
+    bool res = SPUSeqIsDone(seqId);
+    mutex.unlock();
+    return res;
+}
+
+s32 SPU::OneShotPlay(s32 patchId, u8 note, s16 voll, s16 volr, u8 pitch, s32 pitchMin, s32 pitchMax)
+{
+    mutex.lock();
+    s32 res = SPUOneShotPlay(patchId, note, voll, volr, pitch, pitchMin, pitchMax);
+    mutex.unlock();
+    return res;
+}
+
+void SPU::OneShotStop(s32 mask)
+{
+    mutex.lock();
+    SPUOneShotStop(mask);
+    mutex.unlock();
+}
+
+void SDLCallback(void* udata, Uint8* stream, int len)
+{
+    mutex.lock();
+    SPUTick(udata, stream, len);
+    mutex.unlock();
+}
+
+
+//////////////////////////
+// SEQUENCE
+MIDIMessage* Sequence::createMIDIMessage()
+{
+    MIDIMessage* msg = new MIDIMessage();
+    messages.push_back(msg);
+    return msg;
+}
+
+void Sequence::Reset()
+{
+    play = false;
+    actionPos = 0;
+    trackStartTime = 0;
+    voll = 127;
+    volr = 127;
+}
+
+MIDIMessage* Sequence::next(u64 now)
+{
+    if (messages.size() <= 0)
+    {
+        return NULL;
+    }
+
+    if (actionPos == 0)
+    {
+        // the track is just starting if we are at pos 0
+        trackStartTime = now;
+    }
+
+    u64 runtimeUs = std::max((u64) 0, now - trackStartTime) * 1000; // x1000 to conver to microseconds
+    float midiTickUs = tempoUs / ticksPerBeat;
+    u64 trackTick = u64(runtimeUs / midiTickUs);
+
+    MIDIMessage* msg = messages.at(actionPos);
+    if (msg->tick <= trackTick)
+    {
+        actionPos++;
+        if (actionPos == messages.size())
+        {
+            actionPos = 0;
+            repeats++; // we've looped the sequence
+        }
+        return msg;
+    }
+    return NULL;
+}
+
+
+//////////////////////////
+// Duckstation helpers
 template <typename TValue>
 constexpr u16 Truncate16(TValue value)
 {
@@ -65,10 +252,470 @@ static constexpr s32 ApplyVolume(s32 sample, s16 volume)
     return (sample * s32(volume)) >> 15;
 }
 
+
+/////////////////////////
+// SPU management
+u64 timeSinceEpochMillisec()
+{
+    using namespace std::chrono;
+    return duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count();
+}
+
+void SPUInit()
+{
+    // Open SDL
+    SDL_Init(SDL_INIT_AUDIO);
+
+    SDL_AudioSpec waveSpec;
+    waveSpec.callback = SDLCallback;
+    waveSpec.userdata = nullptr;
+    waveSpec.channels = 2;
+    waveSpec.freq = 44100;
+    waveSpec.samples = 512;
+    waveSpec.format = AUDIO_F32;
+
+    /* Open the audio device */
+    if (SDL_OpenAudio(&waveSpec, NULL) < 0)
+    {
+        fprintf(stderr, "Failed to initialize audio: %s\n", SDL_GetError());
+        exit(-1);
+    }
+
+    SDL_PauseAudio(0);
+
+    int id = 1;
+    for (int i = 0; i < VOICE_SIZE_LIMIT; i++)
+    {
+        voices[i] = new Voice();
+        voices[i]->id = id;
+        id = id << 1;
+    }
+
+    for (int i = 0; i < PATCH_SIZE_LIMIT; i++)
+    {
+        patches[i] = nullptr;
+    }
+}
+
+void SPUReset()
+{
+    SPUStopAll();
+    
+    for (s16 i = 0; i < PATCH_SIZE_LIMIT; i++)
+    {
+        delete patches[i];
+        patches[i] = nullptr;
+    }
+    
+    for (Sequence* seq : sequences)
+    {
+        delete seq;
+    }
+    sequences.clear();
+}
+
+void SPUStopAll()
+{
+    for (Sequence* seq : sequences)
+    {
+        seq->play = false;
+    }
+
+    for (s16 i = 0; i < VOICE_SIZE_LIMIT; i++)
+    {
+        SPUReleaseVoice(voices[i]);
+    }
+}
+
+Voice* SPUObtainVoice(u8 note, u8 patchId)
+{
+    // 1. Always try to use a free voice
+    // 2. If no voice can be found - try using a repeated note that has the furthest offset
+    // 3. Reap voices that have 'x' many playing? Shooting with a slig non-stop uses too many voices
+
+    Voice* available;
+    available = NULL;
+    for (int i = 0; i < VOICE_SIZE_LIMIT; i++)
+    {
+        Voice* v = voices[i];
+        if (v->note == note && v->patchId == patchId)
+        {
+            if (!available || available->f_SampleOffset > v->f_SampleOffset)
+            {
+                available = v;
+            }
+        }
+
+        if (v->complete)
+        {
+            SPUReleaseVoice(v);
+        }
+
+        if (!v->inUse)
+        {
+            v->inUse = true;
+            return v;
+        }
+    }
+
+    if (!available)
+    {
+        return NULL;
+    }
+
+    // this is voice in use that we can reuse
+    SPUReleaseVoice(available);
+    available->inUse = true;
+    return available;
+}
+
+void SPUReleaseVoice(Voice* v)
+{
+    v->channelId = 0xFF;
+    v->offTime = 0;
+    v->pitch = 0;
+    v->adsrPhase = NONE;
+    v->adsrCounter = 0;
+    v->adsrCurrentLevel = 0;
+    v->adsrTargetLevel = MAX_VOLUME;
+    v->sequence = NULL;
+    v->f_SampleOffset = 0;
+    v->vounter.bits = 0;
+    v->complete = false;
+    v->velocity = 127;
+    v->voll = 127;
+    v->volr = 127;
+    v->complete = false;
+    v->hasLooped = false;
+    v->inUse = false;
+}
+
+void SPUPatchAdd(Patch* patch)
+{
+    if (patches[patch->_id])
+    {
+        //delete patches[patch->_id];
+    }
+    patches[patch->_id] = patch;
+}
+
+void SPUSeqAdd(Sequence* seq)
+{
+    sequences.push_back(seq);
+}
+
+bool SPUSeqPlay(s32 seqId, s32 repeats)
+{
+    bool res = false;
+    for (Sequence* seq : sequences)
+    {
+        if (seq->id == seqId)
+        {
+            seq->repeatLimit = repeats;
+            seq->play = true;
+            res |= true;
+        }
+    }
+    return res;
+}
+
+void SPUSeqStop(s32 seqId) 
+{
+    for (Sequence* seq : sequences)
+    {
+        if (seq->id == seqId)
+        {
+            seq->Reset();
+            for (Voice* v : voices)
+            {
+                if (v && v->sequence == seq)
+                {
+                    v->offTime = timeSinceEpochMillisec();
+                }
+            }
+        }
+    }
+}
+
+void SPUSeqSetVolume(s32 seqId, s16 voll, s16 volr)
+{
+    for (Sequence* seq : sequences)
+    {
+        if (seq->id == seqId)
+        {
+            seq->voll = voll;
+            seq->volr = volr;
+        }
+    }
+}
+
+bool SPUSeqIsDone(s32 seqId)
+{
+    bool res = false;
+    for (Sequence* seq : sequences)
+    {
+        if (seq->id == seqId)
+        {
+            res |= seq->repeats >= seq->repeatLimit;
+        }
+    }
+    return res;
+}
+
+s32 SPUOneShotPlay(s32 patchId, u8 note, s16 voll, s16 volr, u8 pitch, s32 pitchMin, s32 pitchMax)
+{
+    // TODO -
+    // - SoundEfx: apparently use sweeps and reuse the voice register (slig walking offscreen)
+    // - OneShots: do not reuse voice regester (slig turning)
+    // - Notes   : reuese register if possible (chanting)
+
+    Patch* patch = patches[patchId];
+    if (!patch)
+    {
+        return 0;
+    }
+
+    int ids = 0;
+    for (Sample* s : patch->samples)
+    {
+        if (!s)
+        {
+            continue;
+        }
+
+        if (note > s->maxNote || note < s->minNote)
+        {
+            continue;
+        }
+
+        Voice* v = SPUObtainVoice(note, (u8) patchId);
+        if (!v)
+        {
+            return 0;
+        }
+
+        v->patchId = (u8) patchId;
+        v->note = note;
+        v->velocity = 127;
+        v->voll = voll;
+        v->volr = volr;
+        v->pitch = pitch;
+        v->pitchMin = pitchMin;
+        v->pitchMax = pitchMax;
+        v->sample = s;
+        ids |= v->id;
+    }
+
+    return ids;
+}
+
+void SPUOneShotStop(s32 mask)
+{
+    for (int i = 0; i < VOICE_SIZE_LIMIT; i++)
+    {
+        if ((voices[i]->id & mask) != 0)
+        {
+            // TODO - not sure if this is right.
+            // Maybe it should trigger a release?
+            SPUReleaseVoice(voices[i]);
+        }
+    }
+} 
+
+void SPUTick(void* udata, Uint8* stream, int len)
+{
+    udata;
+
+    // This runs at 44100hz
+    // 1. tick voices
+    //      a. interpolate
+    //      b. adsr
+    //      c. pitch
+    // 2. run reverb
+
+    // start/stop any sequence notes
+    SPUTickSequences();
+
+    float* AudioStream = (float*) stream;
+    int StreamLength = len / sizeof(float);
+
+    s32 reverb_out_left = 0;
+    s32 reverb_out_right = 0;
+
+    // Prepare voices for every position SDL is expecting
+    for (int i = 0; i < StreamLength; i += 2)
+    {
+        // set silence incase no voices are played
+        AudioStream[i] = 0;
+        AudioStream[i + 1] = 0;
+
+        float leftSample = 0;
+        float rightSample = 0;
+        s32 reverb_in_left = 0;
+        s32 reverb_in_right = 0;
+
+        // 1. Prepare all voices with reverb
+        for (Voice* v : voices)
+        {
+            if (!v->sample || v->complete || !v->inUse)
+            {
+                continue;
+            }
+
+            std::tuple<s32, s32> s = v->tick();
+            leftSample += std::get<0>(s);
+            rightSample += std::get<1>(s);
+
+            // 0 Off
+            // 1 Vibrate
+            // 2 Portamento
+            // 3 1 & 2(Portamento and Vibrate on)
+            // 4 Reverb
+            if (v->sample->reverb == 4)
+            {
+                reverb_in_left += std::get<0>(s);
+                reverb_in_right += std::get<1>(s);
+            }
+        }
+
+        // 2. Process and mix in the reverb
+        ProcessReverb(
+            static_cast<s16>(Clamp16((s32) (reverb_in_left))),
+            static_cast<s16>(Clamp16((s32) (reverb_in_right))),
+            &reverb_out_left,
+            &reverb_out_right);
+
+        leftSample += reverb_out_left;
+        rightSample += reverb_out_right;
+
+        // make value usable by SDL
+        leftSample = leftSample / 32767.0f;
+        rightSample = rightSample / 32767.0f;
+        SDL_MixAudioFormat((Uint8*) (AudioStream + i), (const Uint8*) &leftSample, AUDIO_F32, sizeof(float), 70);
+        SDL_MixAudioFormat((Uint8*) (AudioStream + i + 1), (const Uint8*) &rightSample, AUDIO_F32, sizeof(float), 70);
+    }
+}
+
+void SPUTickSequences()
+{
+    // TODO - convert this to be based on 44100hz instead of ms timestamp 
+
+    u64 now = timeSinceEpochMillisec();
+
+    // Tick sequences
+    for (Sequence* seq : sequences)
+    {
+        if (!seq || !seq->play)
+        {
+            continue;
+        }
+
+        if (seq->repeats >= seq->repeatLimit && seq->repeatLimit > 0)
+        {
+            SPUSeqStop(seq->id);
+            continue;
+        }
+
+        MIDIMessage* message;
+        while ((message = seq->next(now)) != NULL)
+        {
+            switch (message->type)
+            {
+                case NOTE_ON:
+                {
+                    if (!seq->channels[message->channelId]->patch)
+                    {
+                        break;
+                    }
+
+                    for (Sample* sample : seq->channels[message->channelId]->patch->samples)
+                    {
+                        if (!sample)
+                        {
+                            continue;
+                        }
+
+                        if (message->note > sample->maxNote || message->note < sample->minNote)
+                        {
+                            continue;
+                        }
+
+                        Voice* v = SPUObtainVoice(message->note, message->patchId);
+                        if (!v)
+                        {
+                            continue;
+                        }
+
+                        s16 right = (s16) (sample->volume);
+                        s16 left = right;
+                        s16 progPan = (s16) sample->pan;
+                        if (progPan < 64)
+                        {
+                            right = (right * progPan) / 63;
+                        }
+                        else
+                        {
+                            left = (left * (127 - progPan)) / 63;
+                        }
+
+                        v->sequence = seq;
+                        v->patchId = seq->channels[message->channelId]->patch->_id;
+                        v->channelId = message->channelId;
+                        v->pitchMin = 0;
+                        v->velocity = message->velocity;
+                        v->note = message->note;
+                        v->sample = sample;
+                        v->voll = left;
+                        v->volr = right;
+                    }
+
+                    break;
+                }
+                case NOTE_OFF:
+                {
+                    for (Voice* v : voices)
+                    {
+                        if (v && v->sequence == seq && v->note == message->note)
+                        {
+                            v->offTime = now;
+                        }
+                    }
+                    break;
+                }
+                case PATCH_CHANGE:
+                {
+                    seq->channels[message->channelId]->patch = patches[message->patchId];
+                    break;
+                }
+                case END_TRACK:
+                {
+                    // repeats are handled in the sequence when messages restart at position 0
+                    break;
+                }
+                case PITCH_BEND:
+                {
+                    for (int i = 0; i < VOICE_SIZE_LIMIT; i++)
+                    {
+                        if (voices[i]->inUse && voices[i]->sequence == seq
+                            && voices[i]->channelId == message->channelId)
+                        {
+                            voices[i]->pitch = message->bend;
+                        }
+                    }
+                    break;
+                }
+            }
+        }
+    }
+}
+
+
+//////////////////////////
+// ADSR
 ADSR parseADSR(u16 adsr1, u16 adsr2)
 {
     ADSR adsr;
-    adsr.sustainLevel = (adsr1) &mask(4);
+    adsr.sustainLevel = (adsr1) & mask(4);
     adsr.decayRate = (adsr1 >> 4) & mask(4);
     adsr.attackRate = (adsr1 >> 8) & mask(7);
     adsr.attackExponential = (adsr1 >> 15) & mask(1);
@@ -124,6 +771,9 @@ static constexpr ADSRTableEntries ComputeADSRTableEntries()
 
 static constexpr ADSRTableEntries s_adsr_table = ComputeADSRTableEntries();
 
+
+//////////////////////////
+// Voice
 s32 Voice::interpolate()
 {
     static constexpr std::array<s16, 0x200> gauss = {{
@@ -194,8 +844,8 @@ s32 Voice::interpolate()
     }};
 
     // the interpolation index is based on the source files sample rate
-    const u8 i = (u8)vounter.interpolation_index();
-    const u32 s = ((u32)f_SampleOffset) + ZeroExtend32(vounter.sample_index());
+    const u8 i = (u8) vounter.interpolation_index();
+    const u32 s = ((u32) f_SampleOffset) + ZeroExtend32(vounter.sample_index());
 
     // interpolate on the 4 most recent samples from current position
     // The below `if` statements are in case we loop
@@ -211,7 +861,6 @@ s32 Voice::interpolate()
             out += s32(gauss[0x100 + i]) * s32(sample->buffer[sample->len - 1]); // old
         }
         out += s32(gauss[0x000 + i]) * s32(sample->buffer[s - 0]); // new
-
     }
     else if (s == 1)
     {
@@ -235,350 +884,14 @@ s32 Voice::interpolate()
     }
     else
     {
-        out += s32(gauss[0x0FF - i]) * s32(sample->buffer[(int) (s ) - 3]); // oldest
-        out += s32(gauss[0x1FF - i]) * s32(sample->buffer[(int) (s ) - 2]); // older
-        out += s32(gauss[0x100 + i]) * s32(sample->buffer[(int) (s ) - 1]); // old
-        out += s32(gauss[0x000 + i]) * s32(sample->buffer[(int) (s ) - 0]); // new
+        out += s32(gauss[0x0FF - i]) * s32(sample->buffer[(int) (s) -3]); // oldest
+        out += s32(gauss[0x1FF - i]) * s32(sample->buffer[(int) (s) -2]); // older
+        out += s32(gauss[0x100 + i]) * s32(sample->buffer[(int) (s) -1]); // old
+        out += s32(gauss[0x000 + i]) * s32(sample->buffer[(int) (s) -0]); // new
     }
 
 
     return out >> 15;
-}
-
-/// DuckStation END
-/////////////////////////////////
-
-Sequencer::Sequencer()
-{
-    gseq = this;
-
-    // Open SDL
-    SDL_Init(SDL_INIT_AUDIO);
-
-    SDL_AudioSpec waveSpec;
-    waveSpec.callback = SDLCallback;
-    waveSpec.userdata = nullptr;
-    waveSpec.channels = 2;
-    waveSpec.freq = 44100;
-    waveSpec.samples = 512;
-    waveSpec.format = AUDIO_F32;
-
-    /* Open the audio device */
-    if (SDL_OpenAudio(&waveSpec, NULL) < 0)
-    {
-        fprintf(stderr, "Failed to initialize audio: %s\n", SDL_GetError());
-        exit(-1);
-    }
-
-    SDL_PauseAudio(0);
-
-    int id = 1;
-    for (int i = 0; i < voiceCount; i++)
-    {
-        voices[i] = new Voice();
-        voices[i]->id = id;
-        id = id << 1;
-    }
-
-    for (int i = 0; i < patchCount; i++)
-    {
-        patches[i] = NULL;
-    }
-}
-
-Sequencer::~Sequencer()
-{
-    // Delete buffers (by killing the instrument)
-    for (Patch* patch : patches)
-    {
-        delete patch;
-    }
-}
-
-u64 timeSinceEpochMillisec()
-{
-    using namespace std::chrono;
-    return duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count();
-}
-
-void SDLCallback(void* udata, Uint8* stream, int len)
-{
-    udata;
-    gseq->mutex.lock();
-
-    // This runs at 44100hz
-    // 1. tick voices
-    //      a. interpolate
-    //      b. adsr
-    //      c. pitch
-    // 2. run reverb
-
-    // start/stop any sequence notes
-    gseq->tickSequence();
-
-    float* AudioStream = (float*) stream;
-    int StreamLength = len / sizeof(float);
-
-    s32 reverb_out_left = 0;
-    s32 reverb_out_right = 0;
-
-    // Prepare voices for every position SDL is expecting
-    for (int i = 0; i < StreamLength; i += 2)
-    {
-        // set silence incase no voices are played
-        AudioStream[i] = 0;
-        AudioStream[i + 1] = 0;
-
-        float leftSample = 0;
-        float rightSample = 0;
-        s32 reverb_in_left = 0;
-        s32 reverb_in_right = 0;
-
-        // 1. Prepare all voices with reverb
-        for (Voice* v : gseq->voices)
-        {
-            if (!v->sample || v->complete || !v->inUse)
-            {
-                continue;
-            }
-
-            std::tuple<s32, s32> s = v->tick();
-            leftSample += std::get<0>(s);
-            rightSample += std::get<1>(s);
-
-            // 0 Off
-            // 1 Vibrate
-            // 2 Portamento
-            // 3 1 & 2(Portamento and Vibrate on)
-            // 4 Reverb
-            if (v->sample->reverb == 4)
-            {
-                reverb_in_left += std::get<0>(s);
-                reverb_in_right += std::get<1>(s);
-            }
-        }
-
-        // 2. Process and mix in the reverb
-        ProcessReverb(
-            static_cast<s16>(Clamp16((s32) (reverb_in_left))),
-            static_cast<s16>(Clamp16((s32) (reverb_in_right))),
-            &reverb_out_left,
-            &reverb_out_right
-        );
-
-        leftSample += reverb_out_left;
-        rightSample += reverb_out_right;
-
-        // make value usable by SDL
-        leftSample = leftSample / 32767.0f;
-        rightSample = rightSample / 32767.0f;
-        SDL_MixAudioFormat((Uint8*) (AudioStream + i), (const Uint8*) &leftSample, AUDIO_F32, sizeof(float), 70);      
-        SDL_MixAudioFormat((Uint8*) (AudioStream + i + 1), (const Uint8*) &rightSample, AUDIO_F32, sizeof(float), 70);
-    }
-
-    gseq->mutex.unlock();
-}
-
-//////////////////////////
-// PRIVATE
-void Sequencer::reset()
-{
-    mutex.lock();
-    stopAll();
-    
-    for (s16 i = 0; i < patchCount; i++)
-    {
-
-        patches[i] = NULL;
-    }
-    
-    for (Sequence* seq : sequences)
-    {
-        delete seq;
-    }
-    sequences.clear();
-    mutex.unlock();
-}
-
-void Sequencer::stopAll()
-{
-    for (Sequence* seq : sequences)
-    {
-        seq->play = false;
-    }
-
-    for (s16 i = 0; i < voiceCount; i++)
-    {
-        releaseVoice(voices[i]);
-    }
-}
-
-void Sequencer::playSeq(s32 seqId)
-{
-    mutex.lock();
-    for (Sequence* seq : sequences)
-    {
-        if (seq->id == seqId)
-        {
-            seq->repeats = 0;
-            seq->play = true;
-        }
-    }
-    mutex.unlock();
-}
-
-
-void Sequencer::stopSeq(s32 seqId)
-{
-    mutex.lock();
-    stopSeqSafe(seqId);
-    mutex.unlock();
-}
-
-void Sequencer::stopSeqSafe(s32 seqId) 
-{
-    for (Sequence* seq : sequences)
-    {
-        if (seq->id == seqId)
-        {
-            seq->play = false;
-            for (Voice* v : voices)
-            {
-                if (v && v->sequence == seq)
-                {
-                    v->offTime = timeSinceEpochMillisec();
-                }
-            }
-        }
-    }
-}
-
-void Sequencer::tickSequence()
-{
-    // TODO - convert this to be based on 44100hz instead of ms timestamp 
-
-    u64 now = timeSinceEpochMillisec();
-
-    // Tick sequences
-    for (Sequence* seq : sequences)
-    {
-        if (!seq || !seq->play)
-        {
-            continue;
-        }
-
-        if (seq->repeats >= seq->repeatLimit && seq->repeatLimit > 0)
-        {
-            stopSeqSafe(seq->id);
-            continue;
-        }
-
-        MIDIMessage* message;
-        while ((message = seq->next(now)) != NULL)
-        {
-            switch (message->type)
-            {
-                case NOTE_ON:
-                {
-                    if (!seq->channels[message->channelId]->patch)
-                    {
-                        break;
-                    }
-
-                    for (Sample* sample : seq->channels[message->channelId]->patch->samples)
-                    {
-                        if (!sample)
-                        {
-                            continue;
-                        }
-
-                        if (message->note > sample->maxNote || message->note < sample->minNote)
-                        {
-                            continue;
-                        }
-
-                        Voice* v = obtainVoice(message->note, message->patchId);
-                        if (!v)
-                        {
-                            continue;
-                        }
-
-                        s16 right = (s16) (sample->volume);
-                        s16 left = right;
-                        s16 progPan = (s16) sample->pan;
-                        if (progPan < 64)
-                        {
-                            right = (right * progPan) / 63;
-                        }
-                        else
-                        {
-                            left = (left * (127 - progPan)) / 63;
-                        }
-
-                        v->sequence = seq;
-                        v->patchId = seq->channels[message->channelId]->patch->id;
-                        v->channelId = message->channelId;
-                        v->pitchMin = 0;
-                        v->velocity = message->velocity;
-                        v->note = message->note;
-                        v->sample = sample;
-                        v->voll = left;
-                        v->volr = right;
-                        v->loop = sample->loop; //   // attack is greater than sample length? sample->adsr.attackRate / 1000 > 1;
-                    }
-
-                    break;
-                }
-                case NOTE_OFF:
-                {
-                    for (Voice* v : voices)
-                    {
-                        if (v && v->sequence == seq && v->note == message->note)
-                        {
-                            v->offTime = now;
-                        }
-                    }
-                    break;
-                }
-                case PATCH_CHANGE:
-                {
-                    seq->channels[message->channelId]->patch = patches[message->patchId];
-                    break;
-                }
-                case END_TRACK:
-                {
-                    // repeats are handled in the sequence when messages restart at position 0
-                    break;
-                }
-                case PITCH_BEND:
-                {
-                    for (int i = 0; i < voiceCount; i++)
-                    {
-                        if (voices[i]->inUse && voices[i]->sequence == seq
-                            && voices[i]->channelId == message->channelId)
-                        {
-                            voices[i]->pitch = message->bend;
-                        }
-                    }
-                    break;
-                }
-            }
-        }
-    }
-}
-
-void Sequencer::tickVoice()
-{
-    for (int c = 0; c < voiceCount; c++)
-    {
-        Voice* voice = voices[c];
-        if (!voice->inUse)
-        {
-            continue;
-        }
-
-        voice->tick();
-    }
 }
 
 std::tuple<s32, s32> Voice::tick()
@@ -608,7 +921,7 @@ std::tuple<s32, s32> Voice::tick()
     // Are we at the end of the sample?
     if (f_SampleOffset + vounter.sample_index() >= sample->len)
     {
-        if (!loop)
+        if (!sample->loop)
         {
             complete = true;
             return std::make_tuple(0, 0);
@@ -739,224 +1052,9 @@ std::tuple<s32, s32> Voice::tick()
     return std::make_tuple(left, right);
 }
 
-Voice* Sequencer::obtainVoice(u8 note, u8 patchId)
-{
-
-    // 1. Always try to use a free voice
-    // 2. If no voice can be found - try using a repeated note that has the furthest offset
-    // 3. Reap voices that have 'x' many playing? Shooting with a slig non-stop uses too many voices 
-
-    Voice* available;
-    available = NULL;
-    for (int i = 0; i < voiceCount; i++)
-    {
-        Voice* v = voices[i];
-        if (v->note == note && v->patchId == patchId)
-        {
-            if (!available || available->f_SampleOffset > v->f_SampleOffset)
-            {
-                available = v;
-            }
-        }
-
-        if (v->complete)
-        {
-            releaseVoice(v);
-        }
-
-        if (!v->inUse)
-        {
-            v->inUse = true;
-            return v;
-        }
-    }
-
-    if (!available)
-    {
-        return NULL;
-    }
-
-    // this is voice in use that we can reuse
-    releaseVoice(available);
-    available->inUse = true;
-    return available;
-}
-
-void Sequencer::releaseVoice(Voice* v)
-{
-    v->channelId = 0xFF;
-    v->offTime = 0;
-    v->pitch = 0;
-    v->adsrPhase = NONE;
-    v->adsrCounter = 0;
-    v->adsrCurrentLevel = 0;
-    v->adsrTargetLevel = MAX_VOLUME;
-    v->sequence = NULL;
-    v->loop = false;
-    v->f_SampleOffset = 0;
-    v->vounter.bits = 0;
-    v->complete = false;
-    v->velocity = 127;
-    v->voll = 127;
-    v->volr = 127;
-    v->complete = false;
-    v->hasLooped = false;
-    v->inUse = false;
-}
 
 //////////////////////////
-// PUBLIC
-Patch* Sequencer::createPatch(s16 id)
-{
-    if (patches[id])
-    {
-        return patches[id];
-    }
-
-    patches[id] = new Patch();
-    patches[id]->id = (u8)id;
-    return patches[id];
-}
-
-Sequence* Sequencer::createSequence()
-{
-    mutex.lock();
-    Sequence* seq = new Sequence();
-    sequences.push_back(seq);
-    mutex.unlock();
-    return seq;
-}
-
-Sequence* Sequencer::getSequence(s32 id)
-{
-    //mutex.lock();
-    Sequence* s;
-    s = NULL;
-    for (Sequence* seq : sequences)
-    {
-        if (seq->id == id)
-        {
-            s = seq;
-            break;
-        }
-    }
-    //mutex.unlock();
-    return s;
-}
-
-s32 Sequencer::playNote(s32 patchId, u8 note, s16 voll, s16 volr, u8 pitch, s32 pitchMin, s32 pitchMax)
-{    
-
-    // TODO - 
-    // - SoundEfx: apparently use sweeps and reuse the voice register (slig walking offscreen)
-    // - OneShots: do not reuse voice regester (slig turning) 
-    // - Notes   : reuese register if possible (chanting)
-
-    mutex.lock();
-    Patch* patch = patches[patchId];
-    if (!patch)
-    {
-        mutex.unlock();
-        return 0;
-    }
-
-    int ids = 0;
-    for (Sample* s : patch->samples)
-    {
-        if (!s)
-        {
-            continue;
-        }
-
-        if (note > s->maxNote || note < s->minNote)
-        {
-            continue;
-        }
-
-        Voice* v = obtainVoice(note, (u8) patchId);
-        if (!v)
-        {
-            mutex.unlock();
-            return 0;
-        }
-
-        v->patchId = (u8) patchId;
-        v->note = note;
-        v->velocity = 127;
-        v->voll = voll;
-        v->volr = volr;
-        v->pitch = pitch;
-        v->pitchMin = pitchMin;
-        v->pitchMax = pitchMax;
-        v->loop = s->loop;
-        v->sample = s;
-        ids |= v->id;
-    }
-
-    mutex.unlock();
-    return ids;
-}
-
-void Sequencer::stopNote(s32 mask)
-{
-    mutex.lock();
-    for (int i = 0; i < voiceCount; i++)
-    {
-        if ((voices[i]->id & mask) != 0)
-        {
-            // TODO - not sure if this is right.
-            // Maybe it should trigger a release?
-            releaseVoice(voices[i]);
-        }
-    }
-    mutex.unlock();
-}
-
-//////////////////////////
-// SEQUENCE
-MIDIMessage* Sequence::createMIDIMessage()
-{
-    MIDIMessage* msg = new MIDIMessage();
-    messages.push_back(msg);
-    return msg;
-}
-
-MIDIMessage* Sequence::next(u64 now)
-{
-    if (messages.size() <= 0)
-    {
-        return NULL;
-    }
-
-    if (actionPos == 0)
-    {
-        // the track is just starting if we are at pos 0
-        trackStartTime = now;
-    }
-
-    u64 runtimeUs = std::max((u64) 0, now - trackStartTime) * 1000; // x1000 to conver to microseconds
-    float midiTickUs = tempoUs / ticksPerBeat;
-    u64 trackTick = u64(runtimeUs / midiTickUs);
-
-    MIDIMessage* msg = messages.at(actionPos);
-    if (msg->tick <= trackTick)
-    {
-        actionPos++;
-        if (actionPos == messages.size())
-        {
-            actionPos = 0;
-            repeats++; // we've looped the sequence
-        }
-        return msg;
-    }
-    return NULL;
-}
-
-
-////////////////////////////
-// REVERB
-////////////////////////////
-
+// REVERB - duckstation
 static const u32 NUM_REVERB_REGS = 32;
 struct ReverbRegisters
 {
@@ -1131,7 +1229,7 @@ void ProcessReverb(s16 left_in, s16 right_in, s32* left_out, s32* right_out)
     s_reverb_downsample_buffer[1][s_reverb_resample_buffer_position | 0x40] = right_in;
     std::array<std::array<s16, 128>, 2> test;
     
-    // these values seem to be stable in duckstation
+    // these values seem to be stable in duckstation - move them to be set once
     s_reverb_registers.vLOUT = 4128;
     s_reverb_registers.vROUT = 4128;
     s_reverb_registers.mBASE = 61956;

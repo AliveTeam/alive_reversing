@@ -39,7 +39,7 @@ public:
     virtual s16 LoadResourceFile(const char_type* pFileName, Camera* pCamera) = 0;
 };
 
-#if !ALTERNATE_AUDIO
+#if !AUDIO_SPU_EMULATION
 EXPORT IMidiVars* GetMidiVars();
 EXPORT void SetMidiApiVars(IMidiVars* pVars);
 
