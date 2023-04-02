@@ -204,7 +204,7 @@ s32 Voice::interpolate()
     s32 out = 0;
     if (s == 0)
     {
-        if (!isFirstBlock)
+        if (hasLooped)
         {
             out += s32(gauss[0x0FF - i]) * s32(sample->buffer[sample->len - 3]); // oldest
             out += s32(gauss[0x1FF - i]) * s32(sample->buffer[sample->len - 2]); // older
@@ -215,7 +215,7 @@ s32 Voice::interpolate()
     }
     else if (s == 1)
     {
-        if (!isFirstBlock)
+        if (hasLooped)
         {
             out += s32(gauss[0x0FF - i]) * s32(sample->buffer[sample->len - 2]); // oldest
             out += s32(gauss[0x1FF - i]) * s32(sample->buffer[sample->len - 1]); // older
@@ -225,7 +225,7 @@ s32 Voice::interpolate()
     }
     else if (s == 2)
     {
-        if (!isFirstBlock)
+        if (hasLooped)
         {
             out += s32(gauss[0x0FF - i]) * s32(sample->buffer[sample->len - 1]); // oldest
         }
@@ -554,7 +554,8 @@ void Sequencer::tickSequence()
                 {
                     for (int i = 0; i < voiceCount; i++)
                     {
-                        if (voices[i]->inUse && voices[i]->channelId == message->channelId)
+                        if (voices[i]->inUse && voices[i]->sequence == seq
+                            && voices[i]->channelId == message->channelId)
                         {
                             voices[i]->pitch = message->bend;
                         }
@@ -602,7 +603,6 @@ std::tuple<s32, s32> Voice::tick()
         // vounter holds sample position shifted << 12
         vounter.bits -= (NUM_SAMPLES_PER_ADPCM_BLOCK << 12);
         f_SampleOffset += NUM_SAMPLES_PER_ADPCM_BLOCK;
-        isFirstBlock = false;
     }
 
     // Are we at the end of the sample?
@@ -615,6 +615,7 @@ std::tuple<s32, s32> Voice::tick()
         }
 
         // we can loop this sample
+        hasLooped = true;
         vounter.bits = 0;
         f_SampleOffset = 0;
     }
@@ -799,7 +800,7 @@ void Sequencer::releaseVoice(Voice* v)
     v->voll = 127;
     v->volr = 127;
     v->complete = false;
-    v->isFirstBlock = true;
+    v->hasLooped = false;
     v->inUse = false;
 }
 

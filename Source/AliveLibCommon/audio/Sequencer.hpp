@@ -224,7 +224,7 @@ class Voice
 public:
     s32 id;
 
-    bool isFirstBlock = true;
+    bool hasLooped = false;
 
     double f_SampleOffset = 0;
     Sequence* sequence = NULL;
