@@ -508,11 +508,11 @@ void Sequencer::tickSequence()
                         s16 progPan = (s16) sample->pan;
                         if (progPan < 64)
                         {
-right = (right * progPan) / 63;
+                            right = (right * progPan) / 63;
                         }
                         else
                         {
-                        left = (left * (127 - progPan)) / 63;
+                            left = (left * (127 - progPan)) / 63;
                         }
 
                         v->sequence = seq;
