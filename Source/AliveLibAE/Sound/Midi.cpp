@@ -964,11 +964,9 @@ public:
 
             u32 sampleRate = *reinterpret_cast<u32*>(&ppVabBody[pos]);
             pos += sizeof(u32);
-            sampleRate;
 
             // In AO the body is at this part.
             // IN AE instead it's an offset in sounds.dat
-            // Not sure of the reason.
             u32 offset = *reinterpret_cast<u32*>(&ppVabBody[pos]);
             pos += sizeof(u32);
 
@@ -979,7 +977,8 @@ public:
             psx::Sample* sample = new psx::Sample();
             sample->m_SampleBuffer = reinterpret_cast<s16*>(data);
             sample->i_SampleSize = size / 2;
-            sample->sampleRate = 22050;
+            sample->sampleRate = 44100;        // non standard? Doesn't use sampleRate field?
+            sample->loop = sampleRate > 44100; // non-standard?
             samples.push_back(sample);
         }
 
