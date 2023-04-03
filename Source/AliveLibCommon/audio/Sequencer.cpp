@@ -329,23 +329,18 @@ void SPUStopAll()
 
 Voice* SPUObtainVoice(u8 note, u8 patchId)
 {
+    note;
+    patchId;
+
     // 1. Always try to use a free voice
     // 2. If no voice can be found - try using a repeated note that has the furthest offset
     // 3. Reap voices that have 'x' many playing? Shooting with a slig non-stop uses too many voices
 
-    Voice* available;
-    available = NULL;
+    Voice* pref = NULL;
+    Voice* available = NULL;
     for (int i = 0; i < VOICE_SIZE_LIMIT; i++)
     {
         Voice* v = voices[i];
-        if (v->note == note && v->patchId == patchId)
-        {
-            if (!available || available->f_SampleOffset > v->f_SampleOffset)
-            {
-                available = v;
-            }
-        }
-
         if (v->complete)
         {
             SPUReleaseVoice(v);
@@ -356,17 +351,42 @@ Voice* SPUObtainVoice(u8 note, u8 patchId)
             v->inUse = true;
             return v;
         }
+
+        if (note == v->note && patchId == v->patchId)
+        {
+            if (!pref || pref->f_SampleOffset > v->f_SampleOffset)
+            {
+                pref = v;
+            }
+        } 
+        else if (!v->sample->loop)
+        {
+            if (!available || available->sample->len - available->f_SampleOffset > v->sample->len - v->f_SampleOffset)
+            {
+                // find the most played through sample
+                available = v;
+            }
+        }
     }
 
-    if (!available)
+    Voice* use = NULL;
+    if (pref)
+    {
+        use = pref;
+    }
+    else if (available)
+    {
+        use = available;
+    }
+    else
     {
         return NULL;
     }
 
     // this is voice in use that we can reuse
-    SPUReleaseVoice(available);
-    available->inUse = true;
-    return available;
+    SPUReleaseVoice(use);
+    use->inUse = true;
+    return use;
 }
 
 void SPUReleaseVoice(Voice* v)
