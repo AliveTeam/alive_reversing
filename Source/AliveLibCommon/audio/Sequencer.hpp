@@ -267,10 +267,13 @@ public:
 
     Sample* sample;
 
-    std::tuple<s32, s32> tick();
+    std::tuple<s32, s32> Tick();
+
+    u16 noteStep;
+    void RefreshNoteStep();
 
 private:
-    s32 interpolate();
+    s32 Interpolate();
 };
 
 

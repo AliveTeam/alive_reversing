@@ -525,6 +525,7 @@ s32 SPUOneShotPlay(s32 patchId, u8 note, s16 voll, s16 volr, u8 pitch, s32 pitch
         v->pitchMin = pitchMin;
         v->pitchMax = pitchMax;
         v->sample = s;
+        v->RefreshNoteStep();
         ids |= v->id;
     }
 
@@ -584,7 +585,7 @@ void SPUTick(void* udata, Uint8* stream, int len)
                 continue;
             }
 
-            std::tuple<s32, s32> s = v->tick();
+            std::tuple<s32, s32> s = v->Tick();
             leftSample += std::get<0>(s);
             rightSample += std::get<1>(s);
 
@@ -689,6 +690,7 @@ void SPUTickSequences()
                         v->sample = sample;
                         v->voll = left;
                         v->volr = right;
+                        v->RefreshNoteStep();
                     }
 
                     break;
@@ -722,6 +724,7 @@ void SPUTickSequences()
                             && voices[i]->channelId == message->channelId)
                         {
                             voices[i]->pitch = message->bend;
+                            voices[i]->RefreshNoteStep();
                         }
                     }
                     break;
@@ -796,7 +799,7 @@ static constexpr ADSRTableEntries s_adsr_table = ComputeADSRTableEntries();
 
 //////////////////////////
 // Voice
-s32 Voice::interpolate()
+s32 Voice::Interpolate()
 {
     static constexpr std::array<s16, 0x200> gauss = {{
         -0x001, -0x001, -0x001, -0x001, -0x001, -0x001, -0x001, -0x001, //
@@ -916,7 +919,21 @@ s32 Voice::interpolate()
     return out >> 15;
 }
 
-std::tuple<s32, s32> Voice::tick()
+void Voice::RefreshNoteStep()
+{
+    // These are expensive math operations. Previously they were called
+    // for each sample (44100hz). Just call refresh when the note changes 
+    // to save CPU cycles
+    s32 notePitch = pitch < pitchMin ? pitchMin : pitch; // or sample?
+    u8 rootNote = sample->rootNote;
+    u8 rootPitch = sample->rootNotePitchShift;
+    float noteFreq = float(pow(2.0, float(note + (notePitch / 127.0f)) / 12.0f));
+    float rootFreq = float(pow(2.0, float(rootNote + (rootPitch / 127.0f)) / 12.0f));
+    float noteMultiple = noteFreq / rootFreq;
+    noteStep = (u16)(((float(sample->SampleRate) * noteMultiple) / 44100.0f) * 4096.0f);
+}
+
+std::tuple<s32, s32> Voice::Tick()
 {
     if (!sample)
     {
@@ -924,12 +941,7 @@ std::tuple<s32, s32> Voice::tick()
     }
 
     // INTERPOLATION
-    s32 notePitch = pitch < pitchMin ? pitchMin : pitch; // or sample?
-    u8 rootNote = sample->rootNote;
-    u8 rootPitch = sample->rootNotePitchShift;
-    float noteFreq = float(pow(2.0, float(note + (notePitch / 127.0f)) / 12.0f));
-    float rootFreq = float(pow(2.0, float(rootNote + (rootPitch / 127.0f)) / 12.0f));
-    float noteMultiple = noteFreq / rootFreq;
+
 
     // vounter (gauss interpolation table) runs at 28 byte blocks.
     // move the sample offset forward every 28 bytes
@@ -956,12 +968,13 @@ std::tuple<s32, s32> Voice::tick()
     }
 
     s32 sampleData;
-    sampleData = interpolate();
+    sampleData = Interpolate();
 
     // vounter.bits has two purposes 
     // 1. change how samples are skipped to change the samples note
     // 2. maintain gauss table positioning for correct interpolation
-    u16 step = (u16) (((float(sample->SampleRate) * noteMultiple) / 44100.0f) * 4096.0f);
+    // RefreshNoteStep(); - called elsewhere to save CPU cycles
+    u16 step = noteStep;
     // if (v->isPitchModulated) 
     // {
     //     const s32 factor = std::clamp<s32>(sampleData, -0x8000, 0x7FFF) + 0x8000;
