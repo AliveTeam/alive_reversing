@@ -9,7 +9,7 @@ namespace SPU {
 // SPU state
 std::mutex mutex;
 
-const int VOICE_SIZE_LIMIT = 24;
+const int VOICE_SIZE_LIMIT = 32; // really should be 24, but voices overlap...
 std::array<Voice*, VOICE_SIZE_LIMIT> voices;
 
 const int SEQUENCE_SIZE_LIMIT = 256;
@@ -173,6 +173,8 @@ void Sequence::Reset()
     trackStartTime = 0;
     voll = 127;
     volr = 127;
+    repeats = 0;
+    repeatLimit = 1;
 }
 
 MIDIMessage* Sequence::next(u64 now)
@@ -476,7 +478,7 @@ bool SPUSeqIsDone(s32 seqId)
     {
         if (seq->id == seqId)
         {
-            res |= seq->repeats >= seq->repeatLimit;
+            res |= seq->repeats >= seq->repeatLimit || !seq->play;
         }
     }
     return res;
