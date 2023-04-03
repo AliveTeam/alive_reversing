@@ -5,6 +5,10 @@
 
 namespace SPU {
 
+// modified version of:
+// https://github.com/stenzek/duckstation/blob/master/src/core/spu.cpp
+
+
 //////////////////////////
 // SPU state
 std::mutex mutex;
@@ -699,7 +703,9 @@ void SPUTickSequences()
                 {
                     for (Voice* v : voices)
                     {
-                        if (v && v->sequence == seq && v->note == message->note)
+                        if (v->inUse && v->sequence == seq 
+                            && v->channelId == message->channelId 
+                            && v->note == message->note)
                         {
                             v->offTime = now;
                         }
@@ -718,13 +724,13 @@ void SPUTickSequences()
                 }
                 case PITCH_BEND:
                 {
-                    for (int i = 0; i < VOICE_SIZE_LIMIT; i++)
+                    for (Voice* v : voices)
                     {
-                        if (voices[i]->inUse && voices[i]->sequence == seq
-                            && voices[i]->channelId == message->channelId)
+                        if (v->inUse && v->sequence == seq
+                            && v->channelId == message->channelId)
                         {
-                            voices[i]->pitch = message->bend;
-                            voices[i]->RefreshNoteStep();
+                            v->pitch = message->bend;
+                            v->RefreshNoteStep();
                         }
                     }
                     break;
@@ -1068,9 +1074,10 @@ std::tuple<s32, s32> Voice::Tick()
     }
 
     // Set the volume of the sample
-    s32 vol = ApplyVolume(sampleData, adsrCurrentLevel);
+    s32 vol = sampleData;
     vol = ApplyVolume(vol, (s16) (sample->volume * 129 * 2));
     vol = ApplyVolume(vol, (s16) (velocity * 129 * 2));
+    vol = ApplyVolume(vol, adsrCurrentLevel);
 
     // TODO - apply voll and volr as sweeps.tick()? (VolumeEnvelope)
     //  it would be similar to the ADSR tick

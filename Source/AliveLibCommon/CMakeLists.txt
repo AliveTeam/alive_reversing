@@ -37,9 +37,6 @@ SET(AliveLibSrcCommon
     W32CrashHandler.hpp
     audio/Sequencer.hpp
     audio/Sequencer.cpp
-    audio/ADSR.hpp
-    audio/ADSR.cpp
-    audio/Exceptions.hpp
     audio/Stream.hpp
     audio/Stream.cpp
     audio/MidiPlayer.hpp

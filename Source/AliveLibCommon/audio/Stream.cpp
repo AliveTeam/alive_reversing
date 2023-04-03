@@ -4,7 +4,6 @@
 #include <iterator>
 #include "logger.hpp"
 #include "Stream.hpp"
-#include "Exceptions.hpp"
 
 namespace psx {
 

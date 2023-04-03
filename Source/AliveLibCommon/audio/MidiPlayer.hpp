@@ -16,6 +16,7 @@ namespace psx {
         s16* m_SampleBuffer;
         u32 i_SampleSize;
         u32 sampleRate;
+        bool loop;
         float GetSample(float sampleOffset);
     };
 

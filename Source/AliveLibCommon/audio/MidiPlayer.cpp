@@ -1,7 +1,6 @@
 #pragma once
 
 #include "MidiPlayer.hpp"
-#include "ADSR.hpp"
 
 namespace psx {
 
@@ -32,7 +31,8 @@ public:
             Sample* sample = new Sample();
             sample->m_SampleBuffer = reinterpret_cast<s16*>(data);
             sample->i_SampleSize = size / 2;
-            sample->sampleRate = sampleRate;
+            sample->sampleRate = 44100;        // non standard? Doesn't use sampleRate field?
+            sample->loop = sampleRate > 44100; // non-standard?
             samples.push_back(sample);
         }
 
@@ -147,7 +147,7 @@ void MidiPlayer::SND_Load_VABS(SoundBlockInfo* pSoundBlockInfo, s32 reverb)
                     Sample* s = samples.at(vagAttr->field_16_vag - 1);
 
                     SPU::ADSR adsr = SPU::parseADSR(ADSR1, ADSR2);
-                    SPU::Sample* sample = new SPU::Sample(s->m_SampleBuffer, s->i_SampleSize, 44100); // TODO s->sampleRate?
+                    SPU::Sample* sample = new SPU::Sample(s->m_SampleBuffer, s->i_SampleSize, s->sampleRate);
                     patch->samples[x] = sample;
 
                     sample->adsr = adsr;
@@ -158,14 +158,7 @@ void MidiPlayer::SND_Load_VABS(SoundBlockInfo* pSoundBlockInfo, s32 reverb)
                     sample->rootNotePitchShift = vagAttr->field_5_shift;
                     sample->minNote = vagAttr->field_6_min;
                     sample->maxNote = vagAttr->field_7_max;
-
-                    // this "works" to figure out if it's a looping sample,
-                    // don't know why... apparently the SPU expects a specific
-                    // 16 byte block for looping, but not available with PC samples?
-                    REAL_ADSR realADSR;
-                    PSXConvADSR(&realADSR, ADSR1, ADSR2, false);
-                    sample->loop = realADSR.attack_time > 1;
-                    // sample->loop = isLoop(sample);
+                    sample->loop = s->loop;
                 }
                 ++vagAttr;
             }
@@ -354,6 +347,8 @@ static Uint32 _MidiReadVarLen(Stream& stream)
     return ret;
 }
 
+// https://github.com/mlgthatsme/AliveSoundLib/blob/master/MidiPlayer/src/SequencePlayer.cpp
+// https://github.com/vgmtrans/vgmtrans/blob/master/src/main/formats/PS1Seq.cpp
 void parseMidiStream(SPU::Sequence* seq, std::vector<Uint8> seqData, s32 trackId)
 {
     Stream stream(std::move(seqData));
@@ -402,7 +397,8 @@ void parseMidiStream(SPU::Sequence* seq, std::vector<Uint8> seqData, s32 trackId
     for (;;)
     {
         // Read event delta time
-        deltaTime += _MidiReadVarLen(stream);
+        Uint32 delta = _MidiReadVarLen(stream);
+        deltaTime += delta;
         //std::cout << "Delta: " << delta << " over all " << deltaTime << std::endl;
 
         // Obtain the event/status byte

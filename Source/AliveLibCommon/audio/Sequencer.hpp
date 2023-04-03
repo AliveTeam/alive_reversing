@@ -173,15 +173,15 @@ public:
     }
 
     s32 id;
-    s32 repeatLimit = 1;
     std::atomic_bool play = false;
 
     s16 voll = 127;
     s16 volr = 127;
-    float pan = 0;
+
     float tempoUs; // BPM - defined in in microseconds (us)
     float ticksPerBeat;
 
+    s32 repeatLimit = 1;
     s32 repeats = 0;
 
     void Reset();
