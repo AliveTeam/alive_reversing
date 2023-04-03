@@ -37,25 +37,13 @@ SET(AliveLibSrcCommon
     W32CrashHandler.hpp
     audio/Sequencer.hpp
     audio/Sequencer.cpp
-    audio/SequencePlayer.hpp
-    audio/SequencePlayer.cpp
-    audio/mixer/AliveAudio.hpp
-    audio/mixer/AliveAudio.cpp
-    audio/mixer/Voice.hpp
-    audio/mixer/Voice.cpp
-    audio/mixer/ADSR.hpp
-    audio/mixer/ADSR.cpp
+    audio/ADSR.hpp
+    audio/ADSR.cpp
     audio/Exceptions.hpp
     audio/Stream.hpp
     audio/Stream.cpp
-    audio/Soundbank.hpp
-    audio/Soundbank.cpp
     audio/MidiPlayer.hpp
     audio/MidiPlayer.cpp
-    audio/mixer/biquad.hpp
-    audio/mixer/biquad.cpp
-    audio/mixer/AudioStream.hpp 
-    audio/mixer/AudioStream.cpp
 )
 
 add_library(AliveLibCommon ${AliveLibSrcCommon})

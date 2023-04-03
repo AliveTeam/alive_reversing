@@ -1,10 +1,7 @@
 #pragma once
 
 #include "MidiPlayer.hpp"
-#include "Soundbank.hpp"
-#include "mixer/ADSR.hpp"
-#include "mixer/AliveAudio.hpp"
-#include "SequencePlayer.hpp"
+#include "ADSR.hpp"
 
 namespace psx {
 

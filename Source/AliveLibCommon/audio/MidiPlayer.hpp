@@ -1,12 +1,68 @@
 #pragma once
 
-#include "Soundbank.hpp"
-#include "SequencePlayer.hpp"
+#include "Stream.hpp"
 #include "Sequencer.hpp"
 
 namespace psx {
 
     void parseMidiStream(SPU::Sequence* seq, std::vector<Uint8> seqData, s32 trackId);
+
+    /*
+    * Raw audio data. An audio sample.
+    */
+    class Sample
+    {
+    public:
+        s16* m_SampleBuffer;
+        u32 i_SampleSize;
+        u32 sampleRate;
+        float GetSample(float sampleOffset);
+    };
+
+    /*
+* Describes how to play a sample (ADSR curves and pitch shift)
+*/
+    class Tone
+    {
+    public:
+        // volume 0-1
+        float f_Volume;
+        s8 mode;
+
+        // panning -1 - 1
+        float f_Pan;
+
+        // Root Key
+        u8 c_Center;
+        u8 c_Shift;
+
+        // Key range
+        unsigned char Min;
+        unsigned char Max;
+
+        float Pitch;
+
+        double AttackTime;
+        double ReleaseTime;
+        bool ReleaseExponential = false;
+        double DecayTime;
+        double SustainTime;
+
+        bool Loop = false;
+
+        Sample* m_Sample;
+    };
+    
+    /*
+    * A collection of tones (how to play samples)
+    */
+    class Program
+    {
+    public:
+        int prog_id;
+        std::vector<Tone*> m_Tones;
+    };
+
 
     struct VagAtr final
     {
@@ -76,6 +132,23 @@ namespace psx {
         char_type* body_name;
         s32 vab_id;
         u8* VabHeader;
+    };
+
+    struct SeqHeader
+    {
+        Uint32 mMagic;   // SEQp
+        Uint32 mVersion; // Seems to always be 1
+        Uint8 mResolutionOfQuaterNote[2];
+        Uint8 mTempo[3];
+        Uint8 mTimeSignatureBars;
+        Uint8 mTimeSignatureBeats;
+    };
+
+    struct SeqInfo
+    {
+        Uint32 iLastTime = 0;
+        Sint32 iNumTimesToLoop = 0;
+        Uint8 running_status = 0;
     };
 
     struct OpenSeqHandle final
