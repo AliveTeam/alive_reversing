@@ -435,10 +435,20 @@ void parseMidiStream(SPU::Sequence* seq, std::vector<Uint8> seqData, s32 trackId
             {
                 case 0x2f:
                 {
+
+                    // This will make sure END_TRACK is on time
+                    s32 bars = 0;
+                    u32 onTime = 0;
+                    while (onTime < deltaTime || bars != 0)
+                    {
+                        onTime += ticksPerBeat;
+                        bars = (bars + 1) % seqHeader.mTimeSignatureBeats;
+                    }
+
                     SPU::MIDIMessage* msg = seq->createMIDIMessage();
                     msg->type = SPU::END_TRACK;
                     msg->tick = ticksPerBeat;
-                    msg->tick = deltaTime;
+                    msg->tick = deltaTime + (onTime - deltaTime);
                     return;
                 }
 
