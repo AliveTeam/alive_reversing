@@ -411,6 +411,7 @@ void SPUReleaseVoice(Voice* v)
     v->velocity = 127;
     v->voll = 127;
     v->volr = 127;
+    v->hasSeqVol = false;
     v->complete = false;
     v->hasLooped = false;
     v->inUse = false;
@@ -673,9 +674,9 @@ void SPUTickSequences()
                             continue;
                         }
 
-                        s16 right = (s16) (sample->volume);
+                        s16 right = sample->volume;
                         s16 left = right;
-                        s16 progPan = (s16) sample->pan;
+                        s16 progPan = sample->pan;
                         if (progPan < 64)
                         {
                             right = (right * progPan) / 63;
@@ -694,6 +695,9 @@ void SPUTickSequences()
                         v->sample = sample;
                         v->voll = left;
                         v->volr = right;
+                        v->hasSeqVol = true;
+                        v->vollSeq = v->sequence->voll;
+                        v->volrSeq = v->sequence->volr;
                         v->RefreshNoteStep();
                     }
 
@@ -1075,8 +1079,8 @@ std::tuple<s32, s32> Voice::Tick()
 
     // Set the volume of the sample
     s32 vol = sampleData;
-    vol = ApplyVolume(vol, (s16) (sample->volume * 129 * 2));
-    vol = ApplyVolume(vol, (s16) (velocity * 129 * 2));
+    vol = ApplyVolume(vol, sample->volume * 129 * 2);
+    vol = ApplyVolume(vol, velocity * 129 * 2);
     vol = ApplyVolume(vol, adsrCurrentLevel);
 
     // TODO - apply voll and volr as sweeps.tick()? (VolumeEnvelope)
@@ -1085,10 +1089,10 @@ std::tuple<s32, s32> Voice::Tick()
     s32 left = ApplyVolume(vol, voll * 129 * 2);
     s32 right = ApplyVolume(vol, volr * 129 * 2);
 
-    if (sequence)
+    if (hasSeqVol)
     {
-        left = ApplyVolume(left, sequence->voll * 129 * 2);
-        right = ApplyVolume(right, sequence->volr * 129 * 2);
+        left = ApplyVolume(left, vollSeq * 129 * 2);
+        right = ApplyVolume(right, volrSeq * 129 * 2);
     }
 
     return std::make_tuple(left, right);

@@ -59,8 +59,8 @@ public:
 
     }
 
-    float volume;
-    float pan;
+    s16 volume;
+    s16 pan;
 
     // reverb style - 0 is none
     s8 reverb;
@@ -239,7 +239,7 @@ public:
 
     bool hasLooped = false;
 
-    double f_SampleOffset = 0;
+    u32 f_SampleOffset = 0;
     Sequence* sequence = NULL;
     u8 patchId;
     u8 channelId;
@@ -247,10 +247,14 @@ public:
     s32 pitch;
     s32 pitchMin = 0;
     s32 pitchMax = 127;
-    float velocity = 127;
+    s16 velocity = 127;
     s16 voll;
     s16 volr;
     bool inUse = false;
+
+    bool hasSeqVol = false;
+    s16 vollSeq;
+    s16 volrSeq;
 
     bool complete = false;
     u64 offTime = 0;  // when the note was released
