@@ -474,6 +474,14 @@ void SPUSeqSetVolume(s32 seqId, s16 voll, s16 volr)
             seq->volr = volr;
         }
     }
+    for (Voice* v : voices)
+    {
+        if (v->sequence && v->sequence->id == seqId)
+        {
+            v->vollSeq = voll;
+            v->volrSeq = volr;
+        }
+    }
 }
 
 bool SPUSeqIsDone(s32 seqId)
