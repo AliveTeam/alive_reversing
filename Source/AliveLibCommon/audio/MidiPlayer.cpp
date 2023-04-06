@@ -289,8 +289,8 @@ s32 MidiPlayer::SFX_SfxDefinition_Play(SfxDefinition* sfxDef, s32 volLeft, s32 v
     sanitizePitch(&pitch_min, sfxDef->pitch_min);
     sanitizePitch(&pitch_max, sfxDef->pitch_max);
 
-    sanitizeVolume(&volLeft, 10, 127);
-    sanitizeVolume(&volRight, 10, 127);
+    sanitizeVolume(&volLeft, 0, 127);
+    sanitizeVolume(&volRight, 0, 127);
 
     return SPU::OneShotPlay(sfxDef->program, sfxDef->note, (s16) volLeft, (s16) volRight, (u8) std::max(pitch_min, pitch_max), pitch_min, pitch_max);
 }

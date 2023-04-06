@@ -247,9 +247,8 @@ public:
     s32 pitch;
     s32 pitchMin = 0;
     s32 pitchMax = 127;
-    s16 velocity = 127;
-    s16 voll;
-    s16 volr;
+    s32 velocity = 127;
+    s16 pan = 64;
     bool inUse = false;
 
     bool hasSeqVol = false;
@@ -275,6 +274,10 @@ public:
 
     u16 noteStep;
     void RefreshNoteStep();
+
+    s32 leftReg;
+    s32 rightReg;
+    void RefreshVolume();
 
 private:
     s32 Interpolate();

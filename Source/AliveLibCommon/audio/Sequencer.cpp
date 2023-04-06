@@ -175,8 +175,8 @@ void Sequence::Reset()
     play = false;
     actionPos = 0;
     trackStartTime = 0;
-    voll = 127;
-    volr = 127;
+    //voll = 127;
+    //volr = 127;
     repeats = 0;
     repeatLimit = 1;
 }
@@ -409,8 +409,8 @@ void SPUReleaseVoice(Voice* v)
     v->vounter.bits = 0;
     v->complete = false;
     v->velocity = 127;
-    v->voll = 127;
-    v->volr = 127;
+    //v->voll = 127;
+    //v->volr = 127;
     v->hasSeqVol = false;
     v->complete = false;
     v->hasLooped = false;
@@ -499,6 +499,8 @@ bool SPUSeqIsDone(s32 seqId)
 
 s32 SPUOneShotPlay(s32 patchId, u8 note, s16 voll, s16 volr, u8 pitch, s32 pitchMin, s32 pitchMax)
 {
+    volr;
+    voll;
     // TODO -
     // - SoundEfx: apparently use sweeps and reuse the voice register (slig walking offscreen)
     // - OneShots: do not reuse voice regester (slig turning)
@@ -508,6 +510,29 @@ s32 SPUOneShotPlay(s32 patchId, u8 note, s16 voll, s16 volr, u8 pitch, s32 pitch
     if (!patch)
     {
         return 0;
+    }
+
+    char pan;
+    unsigned int volr_;
+    unsigned int voll_;
+
+    voll_ = voll;
+    volr_ = volr;
+    if (voll_ == volr_)
+    {
+        pan = 64;
+    }
+    else
+    {
+        if (volr_ < voll_)
+        {
+            pan = (char) ((volr_ << 6) / voll_);
+        }
+        else
+        {
+            pan = 127 - (char) ((voll_ << 6) / volr_);
+            voll = volr;
+        }
     }
 
     int ids = 0;
@@ -531,14 +556,14 @@ s32 SPUOneShotPlay(s32 patchId, u8 note, s16 voll, s16 volr, u8 pitch, s32 pitch
 
         v->patchId = (u8) patchId;
         v->note = note;
-        v->velocity = 127;
-        v->voll = voll;
-        v->volr = volr;
+        v->velocity = voll;
+        v->pan = pan;
         v->pitch = pitch;
         v->pitchMin = pitchMin;
         v->pitchMax = pitchMax;
         v->sample = s;
         v->RefreshNoteStep();
+        v->RefreshVolume();
         ids |= v->id;
     }
 
@@ -627,8 +652,8 @@ void SPUTick(void* udata, Uint8* stream, int len)
         // make value usable by SDL
         leftSample = leftSample / 32767.0f;
         rightSample = rightSample / 32767.0f;
-        SDL_MixAudioFormat((Uint8*) (AudioStream + i), (const Uint8*) &leftSample, AUDIO_F32, sizeof(float), 70);
-        SDL_MixAudioFormat((Uint8*) (AudioStream + i + 1), (const Uint8*) &rightSample, AUDIO_F32, sizeof(float), 70);
+        SDL_MixAudioFormat((Uint8*) (AudioStream + i), (const Uint8*) &leftSample, AUDIO_F32, sizeof(float), SDL_MIX_MAXVOLUME);
+        SDL_MixAudioFormat((Uint8*) (AudioStream + i + 1), (const Uint8*) &rightSample, AUDIO_F32, sizeof(float), SDL_MIX_MAXVOLUME);
     }
 }
 
@@ -682,18 +707,6 @@ void SPUTickSequences()
                             continue;
                         }
 
-                        s16 right = sample->volume;
-                        s16 left = right;
-                        s16 progPan = sample->pan;
-                        if (progPan < 64)
-                        {
-                            right = (right * progPan) / 63;
-                        }
-                        else
-                        {
-                            left = (left * (127 - progPan)) / 63;
-                        }
-
                         v->sequence = seq;
                         v->patchId = seq->channels[message->channelId]->patch->_id;
                         v->channelId = message->channelId;
@@ -701,12 +714,13 @@ void SPUTickSequences()
                         v->velocity = message->velocity;
                         v->note = message->note;
                         v->sample = sample;
-                        v->voll = left;
-                        v->volr = right;
+                        v->velocity = message->velocity;
+                        v->pan = sample->pan;
                         v->hasSeqVol = true;
-                        v->vollSeq = v->sequence->voll;
-                        v->volrSeq = v->sequence->volr;
+                        v->vollSeq = seq->voll;
+                        v->volrSeq = seq->volr;
                         v->RefreshNoteStep();
+                        v->RefreshVolume();
                     }
 
                     break;
@@ -951,6 +965,75 @@ void Voice::RefreshNoteStep()
     noteStep = (u16)(((float(sample->SampleRate) * noteMultiple) / 44100.0f) * 4096.0f);
 }
 
+
+void Voice::RefreshVolume()
+{
+    // TODO - this logic may not be correct - duck station produces different
+    // values. Example for first organ in open theme (first note with velocity == 84)   
+    // velocity=84 sampleVol=70 seqVol=70
+    // Duckstation calculates=2176 | below logic calculates=661
+    // Possibly the PC sample data is bad? The left right synth does
+    // produce the correct 4977 value (same in PC as Duckstation...)
+    // Possibly just need to extract ps1 samples...
+    // 
+    // all volume types are
+    // velocity - sampleVol - (patchvol) - (masterVol=127) - seqVol
+    // PC version is missing patch and master? I think they are always 127
+    // The PSX version has an "instrument" (patch) at 109 - but may be unrelated
+    s32 uVar1 = (((velocity * 127 * 0x3fff) / 0x3f01) * 127 * sample->volume) / 0x3f01;
+
+    s32 left = uVar1;
+    if (hasSeqVol)
+    {
+        left = (uVar1 * vollSeq) / 127;
+        uVar1 = (uVar1 * volrSeq) / 127;
+    }
+
+    if (sample->pan < 64)
+    {
+        uVar1 = (uVar1 * sample->pan) / 63;
+    }
+    else
+    {
+        left = (left * (127 - sample->pan)) / 63;
+    }
+
+    //if (_svm_cur.field_B_patch_pan < 64)
+    //{
+    //    uVar1 = (uVar1 * _svm_cur.field_B_patch_pan) / 63;
+    //}
+    //else
+    //{
+    left = (left * (127 - 64)) / 63;
+    //}
+
+    if (pan < 64)
+    {
+        uVar1 = (uVar1 * pan) / 63;
+    }
+    else
+    {
+        left = (left * (127 - 64)) / 63;
+    }
+
+
+    //if (_svm_cur.field_14_seq_sep_no != 0x21)
+    //{
+    s32 right = uVar1;
+    right;
+    left = (left * left) / 0x3fff;
+    right = (right * right) / 0x3fff;
+
+    leftReg = left;
+    rightReg = right;
+    //if (velocity == 84)
+    //{
+    //    leftR = 2176;
+    //    rightR = 2176;
+    //}
+    //std::cout << left << " " << right << std::endl;
+}
+
 std::tuple<s32, s32> Voice::Tick()
 {
     if (!sample)
@@ -1087,23 +1170,16 @@ std::tuple<s32, s32> Voice::Tick()
 
     // Set the volume of the sample
     s32 vol = sampleData;
-    vol = ApplyVolume(vol, sample->volume * 129 * 2);
-    vol = ApplyVolume(vol, velocity * 129 * 2);
     vol = ApplyVolume(vol, adsrCurrentLevel);
+
 
     // TODO - apply voll and volr as sweeps.tick()? (VolumeEnvelope)
     //  it would be similar to the ADSR tick
     //  I believe sligs walking offscreen use a vol sweep
-    s32 left = ApplyVolume(vol, voll * 129 * 2);
-    s32 right = ApplyVolume(vol, volr * 129 * 2);
+    s32 leftA = ApplyVolume(vol, (s16) leftReg);
+    s32 rightA = ApplyVolume(vol, (s16) rightReg);
 
-    if (hasSeqVol)
-    {
-        left = ApplyVolume(left, vollSeq * 129 * 2);
-        right = ApplyVolume(right, volrSeq * 129 * 2);
-    }
-
-    return std::make_tuple(left, right);
+    return std::make_tuple(leftA, rightA);
 }
 
 
