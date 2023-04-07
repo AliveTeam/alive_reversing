@@ -363,7 +363,7 @@ Voice* SPUObtainVoice(s8 priority, u8 note, u8 patchId)
 
         // Overlapping voices are a problem when sligs shoot continously.
         // This is a simple implementation to overwrite some lower priority sound.
-        if (!available || v->sample->priority < priority)
+        if (v->sample->priority < priority)
         {
             available = v;
         }
