@@ -19,6 +19,7 @@
 #include "Honey.hpp"
 #include "GameSpeak.hpp"
 #include "Math.hpp"
+#include "BaseGameAutoPlayer.hpp"
 
 namespace AO {
 
@@ -3716,14 +3717,31 @@ void Elum::VUpdate_4102A0()
                     field_FC_current_motion = field_E4_previous_motion;
                     u8** ppRes = GetResBlock_410D00(field_E4_previous_motion);
                     if (!ppRes)
-                    {
-                        return;
+                    {   
+                        if (GetGameAutoPlayer().IsPlaying() || GetGameAutoPlayer().IsRecording())
+                        {
+                            ResourceManager::LoadResourceFile_455270("ELMRIDE.BAN", nullptr);
+                            ResourceManager::LoadResourceFile_455270("ELMPDMNT.BAN", nullptr);
+                            VLoadMountedResources_411300();
+                            ppRes = GetResBlock_410D00(field_E4_previous_motion);
+                            if (!ppRes)
+                            {
+                                LOG_WARNING("failed to hack load mounted elum resources");
+                                return;
+                            }
+                            LOG_INFO("successfully hack loaded mounted elum resources");
+                        }
+                        else
+                        {
+                            return;
+                        }
                     }
 
                     const AnimRecord& rec = AO::AnimRec(gElumAnimIdTables_4C5218[field_FC_current_motion]);
                     field_10_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, ppRes);
                     field_10_anim.SetFrame_402AC0(field_E6_last_anim_frame);
                     field_120_bUnknown = 0;
+
                     if (sControlledCharacter_50767C == this)
                     {
                         sActiveHero_507678->SyncToElum_42D850(field_FC_current_motion);
@@ -3735,11 +3753,28 @@ void Elum::VUpdate_4102A0()
                 u8** ppRes = GetResBlock_410D00(field_FC_current_motion);
                 if (!ppRes)
                 {
-                    return;
+                    if (GetGameAutoPlayer().IsPlaying() || GetGameAutoPlayer().IsRecording())
+                    {
+                        ResourceManager::LoadResourceFile_455270("ELMRIDE.BAN", nullptr);
+                        ResourceManager::LoadResourceFile_455270("ELMPDMNT.BAN", nullptr);
+                        VLoadMountedResources_411300();
+                        ppRes = GetResBlock_410D00(field_FC_current_motion);
+                        if (!ppRes)
+                        {
+                            LOG_WARNING("failed to hack load mounted elum resources");
+                            return;
+                        }
+                        LOG_INFO("successfully hack loaded mounted elum resources");
+                    }
+                    else
+                    {
+                        return;
+                    }
                 }
 
                 const AnimRecord& rec = AO::AnimRec(gElumAnimIdTables_4C5218[field_FC_current_motion]);
                 field_10_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, ppRes);
+
                 if (sControlledCharacter_50767C == this)
                 {
                     sActiveHero_507678->SyncToElum_42D850(field_FC_current_motion);

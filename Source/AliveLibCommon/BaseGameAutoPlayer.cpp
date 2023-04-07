@@ -97,6 +97,14 @@ void BaseRecorder::SaveEvent(const RecordedEvent& event)
     mFile.Write(event.mData);
 }
 
+void BaseRecorder::SaveBuffer(const std::vector<u8>& buffer)
+{
+    mFile.Write(RecordTypes::Buffer);
+    const u32 len = static_cast<u32>(buffer.size());
+    mFile.Write(len);
+    mFile.Write(buffer);
+}
+
 void BasePlayer::Init(const char* pFileName)
 {
     LOG_INFO("Playing from " << pFileName);
@@ -163,6 +171,17 @@ RecordedEvent BasePlayer::ReadEvent()
     event.mType = mFile.ReadU32();
     event.mData = mFile.ReadU32();
     return event;
+}
+
+std::vector<u8> BasePlayer::ReadBuffer()
+{
+    ValidateNextTypeIs(RecordTypes::Buffer);
+
+    const u32 len = mFile.ReadU32();
+    std::vector<u8> tmp;
+    tmp.resize(len);
+    mFile.Read(tmp);
+    return tmp;
 }
 
 void BasePlayer::ValidateNextTypeIs(RecordTypes type)
@@ -317,6 +336,22 @@ u32 BaseGameAutoPlayer::SysGetTicks()
         }
     }
     return SYS_GetTicks();
+}
+
+std::vector<u8> BaseGameAutoPlayer::RestoreFileBuffer(const std::vector<u8>& buffer)
+{
+    if (!mDisabled)
+    {
+        if (IsRecording())
+        {
+            mRecorder.SaveBuffer(buffer);
+        }
+        else if (IsPlaying())
+        {
+            return mPlayer.ReadBuffer();
+        }
+    }
+    return buffer;
 }
 
 void BaseGameAutoPlayer::SyncPoint(u32 syncPointId)

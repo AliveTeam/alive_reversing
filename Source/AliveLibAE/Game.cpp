@@ -138,15 +138,9 @@ void DestroyObjects_4A1F20()
     pResourceManager_5C1BB0->LoadingLoop_465590(FALSE);
     for (s32 iterations = 0; iterations < 2; iterations++)
     {
-        s16 idx = 0;
-
-
-
-        while (idx < gBaseGameObject_list_BB47C4->Size())
+        for (s32 idx = 0; idx < gBaseGameObject_list_BB47C4->Size(); idx++)
         {
             BaseGameObject* pObj = gBaseGameObject_list_BB47C4->ItemAt(idx);
-            idx++;
-
             if (!pObj)
             {
                 break;
@@ -154,15 +148,8 @@ void DestroyObjects_4A1F20()
 
             if (!(pObj->field_6_flags.Get(BaseGameObject::eSurviveDeathReset_Bit9)))
             {
-                DynamicArrayIter iter;
-                iter.field_0_pDynamicArray = gBaseGameObject_list_BB47C4;
-                iter.field_4_idx = idx;
-                iter.Remove_At_Iter_40CCA0();
-
+                idx = gBaseGameObject_list_BB47C4->RemoveAt(idx);
                 pObj->VDestructor(1);
-
-                // Don't go forwards as we just removed an item otherwise we'd miss one
-                idx = iter.field_4_idx;
             }
         }
     }
@@ -220,6 +207,7 @@ EXPORT s32 CC Game_End_Frame_4950F0(u32 flags)
         return 0;
     }
 
+    /*
     const u8 oldShowVRam = sPsxEMU_show_vram_BD1465;
     if (sCommandLine_DDCheatEnabled_5CA4B5)
     {
@@ -238,6 +226,7 @@ EXPORT s32 CC Game_End_Frame_4950F0(u32 flags)
     {
         Add_Dirty_Area_4ED970(0, 0, 640, 240);
     }
+    */
 
     const f64 fps = Calculate_FPS_495250(sFrameCount_5CA300);
     CheckShiftCapslock_4953B0();
@@ -842,7 +831,7 @@ EXPORT void CC Game_Loop_467230()
         GetGameAutoPlayer().SyncPoint(SyncPoints::RenderStart);
 
         // Destroy objects with certain flags
-        for (s16 idx = 0; idx < gBaseGameObject_list_BB47C4->Size(); idx++)
+        for (s32 idx = 0; idx < gBaseGameObject_list_BB47C4->Size(); idx++)
         {
             BaseGameObject* pObj = gBaseGameObject_list_BB47C4->ItemAt(idx);
             if (!pObj)
@@ -852,11 +841,7 @@ EXPORT void CC Game_Loop_467230()
 
             if (pObj->field_6_flags.Get(BaseGameObject::eDead_Bit3) && pObj->field_6_flags.Get(BaseGameObject::eCantKill_Bit11) == false)
             {
-                DynamicArrayIter it;
-                it.field_0_pDynamicArray = gBaseGameObject_list_BB47C4;
-                it.field_4_idx = idx + 1;
-
-                it.Remove_At_Iter_40CCA0();
+                idx = gBaseGameObject_list_BB47C4->RemoveAt(idx);
                 pObj->VDestructor(1);
             }
         }
@@ -910,17 +895,15 @@ EXPORT void CC Game_Loop_467230()
     // Destroy all game objects
     while (!gBaseGameObject_list_BB47C4->IsEmpty())
     {
-        DynamicArrayIter iter = {};
-        iter.field_0_pDynamicArray = gBaseGameObject_list_BB47C4;
-        for (s16 idx = 0; idx < gBaseGameObject_list_BB47C4->Size(); idx++)
+        for (s32 idx = 0; idx < gBaseGameObject_list_BB47C4->Size(); idx++)
         {
             BaseGameObject* pObj = gBaseGameObject_list_BB47C4->ItemAt(idx);
-            iter.field_4_idx = idx + 1;
             if (!pObj)
             {
                 break;
             }
-            iter.Remove_At_Iter_40CCA0();
+
+            idx = gBaseGameObject_list_BB47C4->RemoveAt(idx);
             pObj->VDestructor(1);
         }
     }

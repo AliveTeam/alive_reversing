@@ -26,6 +26,7 @@
 #include "Glukkon.hpp"
 #include "LvlArchive.hpp"
 #include "Sys.hpp"
+#include "BaseGameAutoPlayer.hpp"
 
 MainMenuController* MainMenuController::gMainMenuController = nullptr;
 
@@ -1964,9 +1965,13 @@ EXPORT MainMenuNextCam MainMenuController::BackStory_Or_NewGame_Update_4D1C60(u3
         if (field_1FC_button_index == 0) // Show backstory
         {
             FmvInfo* pFmvRecord = Path_Get_FMV_Record_460F70(LevelIds::eMenu_0, 4u);
-            while (Input_IsVKPressed_4EDD40(VK_RETURN))
+
+            if (!GetGameAutoPlayer().IsRecording() && !GetGameAutoPlayer().IsPlaying())
             {
-                SYS_EventsPump_494580();
+                while (Input_IsVKPressed_4EDD40(VK_RETURN))
+                {
+                    SYS_EventsPump_494580();
+                }
             }
 
             u32 fmvSector = 0;
@@ -3274,39 +3279,14 @@ s32 MainMenuController::ChangeScreenAndIntroLogic_4CF640()
                     strcat(buffer, "movies");
                 }
 
-                s32 i = 0;
-                for (;;) // TODO: Switch to using the len/size of sCdRomDrives_5CA488 when reversed
-                {
-                    if (!sCdRomDrives_5CA488[i])
-                    {
-                        // Out of CD drives to try
-                        buffer[0] = 0;
-                        break;
-                    }
-
-                    buffer[0] = sCdRomDrives_5CA488[i];
-                    if (IO_DirectoryExists(buffer))
-                    {
-                        // Found a valid drive
-                        break;
-                    }
-
-                    i++;
-                }
-
-                if (!buffer[0])
-                {
-                    // Displays the "Abes Exoddus" full screen message you see on boot.
-                    // You will probably always see this given that the CD drive with the game in it
-                    // usually isn't there.
-                    Display_Full_Screen_Message_Blocking_465820(1, MessageType::eShortTitle_3);
-                }
-
                 // Find the record for GTILOGO.STR
                 FmvInfo* pFmvRecord = Path_Get_FMV_Record_460F70(LevelIds::eMenu_0, 3u);
-                while (Input_IsVKPressed_4EDD40(VK_RETURN))
+                if (!GetGameAutoPlayer().IsRecording() && !GetGameAutoPlayer().IsPlaying())
                 {
-                    SYS_EventsPump_494580();
+                    while (Input_IsVKPressed_4EDD40(VK_RETURN))
+                    {
+                        SYS_EventsPump_494580();
+                    }
                 }
 
                 u32 pos = 0; // Gets set to 0x11111111
@@ -3337,9 +3317,12 @@ s32 MainMenuController::ChangeScreenAndIntroLogic_4CF640()
                     }
                 }
 
-                while (Input_IsVKPressed_4EDD40(VK_RETURN))
+                if (!GetGameAutoPlayer().IsRecording() && !GetGameAutoPlayer().IsPlaying())
                 {
-                    SYS_EventsPump_494580();
+                    while (Input_IsVKPressed_4EDD40(VK_RETURN))
+                    {
+                        SYS_EventsPump_494580();
+                    }
                 }
 
                 // Create movie object for the DD logo

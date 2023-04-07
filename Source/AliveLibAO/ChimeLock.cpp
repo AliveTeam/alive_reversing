@@ -146,16 +146,22 @@ BaseGameObject* ChimeLock::dtor_40AE60()
     if (field_114_left_bell)
     {
         field_114_left_bell->field_6_flags.Set(Options::eDead_Bit3);
+        field_114_left_bell->field_C_refCount--;
+        field_114_left_bell = nullptr;
     }
 
     if (field_118_center_bell)
     {
         field_118_center_bell->field_6_flags.Set(Options::eDead_Bit3);
+        field_118_center_bell->field_C_refCount--;
+        field_118_center_bell = nullptr;
     }
 
     if (field_11C_right_bell)
     {
         field_11C_right_bell->field_6_flags.Set(Options::eDead_Bit3);
+        field_11C_right_bell->field_C_refCount--;
+        field_11C_right_bell = nullptr;
     }
 
     gMap_507BA8.TLV_Reset_446870(field_10C_tlvInfo, -1, 0, 0);
@@ -182,27 +188,6 @@ void ChimeLock::VScreenChanged()
 
 void ChimeLock::VScreenChanged_40BCD0()
 {
-    if (field_114_left_bell)
-    {
-        field_114_left_bell->field_6_flags.Set(Options::eDead_Bit3);
-        field_114_left_bell->field_C_refCount--;
-        field_114_left_bell = nullptr;
-    }
-
-    if (field_118_center_bell)
-    {
-        field_118_center_bell->field_6_flags.Set(Options::eDead_Bit3);
-        field_118_center_bell->field_C_refCount--;
-        field_118_center_bell = nullptr;
-    }
-
-    if (field_11C_right_bell)
-    {
-        field_11C_right_bell->field_6_flags.Set(Options::eDead_Bit3);
-        field_11C_right_bell->field_C_refCount--;
-        field_11C_right_bell = nullptr;
-    }
-
     field_6_flags.Set(Options::eDead_Bit3);
 }
 

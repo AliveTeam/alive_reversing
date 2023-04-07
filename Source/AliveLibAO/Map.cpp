@@ -1695,34 +1695,41 @@ void Map::GoTo_Camera_445050()
     if (field_10_screenChangeEffect == CameraSwapEffects::eUnknown_11)
     {
         CameraSwapper* pFmvRet = FMV_Camera_Change_4458D0(nullptr, this, field_0_current_level);
-        do
+        for (s32 i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
         {
             SYS_EventsPump_44FF90();
-            for (s32 i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
+
+            BaseGameObject* pBaseGameObj = gBaseGameObject_list_9F2DF0->ItemAt(i);
+            if (!pBaseGameObj)
             {
-                BaseGameObject* pBaseGameObj = gBaseGameObject_list_9F2DF0->ItemAt(i);
-                if (!pBaseGameObj)
+                break;
+            }
+
+            if (pBaseGameObj->field_6_flags.Get(BaseGameObject::eDead_Bit3) && pBaseGameObj->field_C_refCount == 0)
+            {
+                i = gBaseGameObject_list_9F2DF0->RemoveAt(i);
+                pBaseGameObj->VDestructor(1);
+                if (pBaseGameObj == pFmvRet)
                 {
+                    // FMV trans done
                     break;
                 }
-
-                if (pBaseGameObj->field_6_flags.Get(BaseGameObject::eUpdatable_Bit2))
+            }
+            else if (pBaseGameObj->field_6_flags.Get(BaseGameObject::eUpdatable_Bit2))
+            {
+                if (!pBaseGameObj->field_6_flags.Get(BaseGameObject::eDead_Bit3) && (!sNumCamSwappers_507668 || pBaseGameObj->field_6_flags.Get(BaseGameObject::eUpdateDuringCamSwap_Bit10)))
                 {
-                    if (!pBaseGameObj->field_6_flags.Get(BaseGameObject::eDead_Bit3) && (!sNumCamSwappers_507668 || pBaseGameObj->field_6_flags.Get(BaseGameObject::eUpdateDuringCamSwap_Bit10)))
+                    if (pBaseGameObj->field_8_update_delay > 0)
                     {
-                        if (pBaseGameObj->field_8_update_delay > 0)
-                        {
-                            pBaseGameObj->field_8_update_delay--;
-                        }
-                        else
-                        {
-                            pBaseGameObj->VUpdate();
-                        }
+                        pBaseGameObj->field_8_update_delay--;
+                    }
+                    else
+                    {
+                        pBaseGameObj->VUpdate();
                     }
                 }
             }
         }
-        while (!pFmvRet->field_6_flags.Get(BaseGameObject::eDead_Bit3));
     }
 
     if (field_0_current_level != LevelIds::eMenu_0)
@@ -1858,6 +1865,15 @@ void Map::GoTo_Camera_445050()
                 if (!pObjIter)
                 {
                     break;
+                }
+
+                if (pObjIter->field_4_typeId == Types::eScrab_77)
+                {
+                    auto pScrab = static_cast<BaseAliveGameObject*>(pObjIter);
+                    if (pScrab->field_B0_path_number != field_2_current_path || pScrab->field_B2_lvl_number != field_0_current_level)
+                    {
+                        ALIVE_FATAL("Scrab(s) leaked!");
+                    }
                 }
 
                 if (pObjIter->field_6_flags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))

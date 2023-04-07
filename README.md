@@ -5,6 +5,15 @@ R.E.L.I.V.E. is a fan-made, open-source project that intends to become a fully c
 
 For more details, please check the project's website: https://aliveteam.github.io/
 
+## Function Keys
+| Key | Name |
+| :-: | :--: |
+| F5 | Quiksave (Exoddus only) | 
+| F6 | Quikload (Exoddus only) |
+| F10 | Screen Filter |
+| F11 | Keep Aspect Ratio |
+| F12 | Fullscreen |
+
 ## Contributing
 
 Anyone who wishes to contribute is encouraged to join the project's [Discord](

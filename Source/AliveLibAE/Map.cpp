@@ -99,14 +99,9 @@ void Map::ScreenChange_480B80()
 
     for (s32 i = 0; i < 2; i++) // Not sure why this is done twice?
     {
-        DynamicArrayIter iter = {};
-        iter.field_4_idx = 0;
-        iter.field_0_pDynamicArray = gBaseGameObject_list_BB47C4;
-
-        while (iter.field_4_idx < iter.field_0_pDynamicArray->field_4_used_size)
+        for (s32 j = 0; j < gBaseGameObject_list_BB47C4->Size(); j++)
         {
-            BaseGameObject* pItem = gBaseGameObject_list_BB47C4->ItemAt(iter.field_4_idx);
-            ++iter.field_4_idx;
+            BaseGameObject* pItem = gBaseGameObject_list_BB47C4->ItemAt(j);
             if (!pItem)
             {
                 break;
@@ -117,7 +112,7 @@ void Map::ScreenChange_480B80()
             // Did the screen change kill the object?
             if (pItem->field_6_flags.Get(BaseGameObject::eDead_Bit3))
             {
-                iter.Remove_At_Iter_40CCA0();
+                j = gBaseGameObject_list_BB47C4->RemoveAt(j);
                 pItem->VDestructor(1);
             }
         }
@@ -629,36 +624,42 @@ void Map::GoTo_Camera_481890()
     if (field_10_screen_change_effect == CameraSwapEffects::eUnknown_11)
     {
         BaseGameObject* pFmvRet = FMV_Camera_Change_482650(nullptr, this, field_0_current_level);
-        do
+        for (s32 i = 0; i < gBaseGameObject_list_BB47C4->Size(); i++)
         {
             SYS_EventsPump_494580();
 
-            for (s32 i = 0; i < gBaseGameObject_list_BB47C4->Size(); i++)
+            BaseGameObject* pBaseGameObj = gBaseGameObject_list_BB47C4->ItemAt(i);
+            if (!pBaseGameObj)
             {
-                BaseGameObject* pBaseGameObj = gBaseGameObject_list_BB47C4->ItemAt(i);
-                if (!pBaseGameObj)
+                break;
+            }
+
+            if (pBaseGameObj->field_6_flags.Get(BaseGameObject::eDead_Bit3) && pBaseGameObj->field_6_flags.Get(BaseGameObject::eCantKill_Bit11) == false)
+            {
+                i = gBaseGameObject_list_BB47C4->RemoveAt(i);
+                pBaseGameObj->VDestructor(1);
+                if (pBaseGameObj == pFmvRet)
                 {
+                    // FMV trans done
                     break;
                 }
-
-                if (pBaseGameObj->field_6_flags.Get(BaseGameObject::eUpdatable_Bit2))
+            }
+            else if (pBaseGameObj->field_6_flags.Get(BaseGameObject::eUpdatable_Bit2))
+            {
+                if (!(pBaseGameObj->field_6_flags.Get(BaseGameObject::eDead_Bit3)) && (!sNum_CamSwappers_5C1B66 || pBaseGameObj->field_6_flags.Get(BaseGameObject::eUpdateDuringCamSwap_Bit10)))
                 {
-                    if (!(pBaseGameObj->field_6_flags.Get(BaseGameObject::eDead_Bit3)) && (!sNum_CamSwappers_5C1B66 || pBaseGameObj->field_6_flags.Get(BaseGameObject::eUpdateDuringCamSwap_Bit10)))
+                    const s32 updateDelay = pBaseGameObj->UpdateDelay();
+                    if (updateDelay > 0)
                     {
-                        const s32 updateDelay = pBaseGameObj->UpdateDelay();
-                        if (updateDelay > 0)
-                        {
-                            pBaseGameObj->SetUpdateDelay(updateDelay - 1);
-                        }
-                        else
-                        {
-                            pBaseGameObj->VUpdate();
-                        }
+                        pBaseGameObj->SetUpdateDelay(updateDelay - 1);
+                    }
+                    else
+                    {
+                        pBaseGameObj->VUpdate();
                     }
                 }
             }
         }
-        while (!pFmvRet->field_6_flags.Get(BaseGameObject::eDead_Bit3));
 
         if (sSoundChannelsMask_5C3120)
         {

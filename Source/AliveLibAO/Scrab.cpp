@@ -147,8 +147,8 @@ Scrab* Scrab::ctor_45B5F0(Path_Scrab* pTlv, s32 tlvInfo)
     field_FC_current_motion = 1;
     field_112 = 0;
 
-    field_11C_pFight_target = nullptr;
-    field_120_pTarget = nullptr;
+    SetFightTarget(nullptr);
+    SetTarget(nullptr);
 
     field_140_last_shriek_timer = 0;
 
@@ -227,15 +227,8 @@ BaseGameObject* Scrab::dtor_45BA50()
 {
     SetVTable(this, 0x4BC710);
 
-    if (field_11C_pFight_target)
-    {
-        field_11C_pFight_target->field_C_refCount--;
-    }
-
-    if (field_120_pTarget)
-    {
-        field_120_pTarget->field_C_refCount--;
-    }
+    SetFightTarget(nullptr);
+    SetTarget(nullptr);
 
     VOnTrapDoorOpen_45E5E0();
 
@@ -519,9 +512,11 @@ void Scrab::VScreenChanged()
 void Scrab::VScreenChanged_45C290()
 {
     if (gMap_507BA8.field_0_current_level != gMap_507BA8.field_A_level
-        || gMap_507BA8.field_2_current_path != gMap_507BA8.field_C_path
-        || gMap_507BA8.field_28_cd_or_overlay_num != gMap_507BA8.GetOverlayId_4440B0())
+        || gMap_507BA8.field_2_current_path != gMap_507BA8.field_C_path)
     {
+        SetTarget(nullptr);
+        SetFightTarget(nullptr);
+
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
     else
@@ -530,8 +525,7 @@ void Scrab::VScreenChanged_45C290()
         {
             if (field_120_pTarget->field_6_flags.Get(BaseGameObject::eDead_Bit3))
             {
-                field_120_pTarget->field_C_refCount--;
-                field_120_pTarget = nullptr;
+                SetTarget(nullptr);
                 field_FE_next_motion = eScrabMotions::Motion_1_Stand_45E620;
                 SetBrain(&Scrab::Brain_WalkAround_460D80);
                 field_110_brain_sub_state = 0;
@@ -999,8 +993,7 @@ s16 Scrab::FindAbeOrMud_45BEF0()
 {
     if (CanSeeAbe_45C100(sActiveHero_507678) && sActiveHero_507678->field_100_health > FP_FromInteger(0) && sActiveHero_507678->field_BC_sprite_scale == field_BC_sprite_scale && !WallHit_401930(sActiveHero_507678->field_A8_xpos - field_A8_xpos, field_BC_sprite_scale * FP_FromInteger(35)))
     {
-        field_120_pTarget = sActiveHero_507678;
-        sActiveHero_507678->field_C_refCount++;
+        SetTarget(sActiveHero_507678);
         return 1;
     }
 
@@ -1020,8 +1013,7 @@ s16 Scrab::FindAbeOrMud_45BEF0()
             {
                 if (CanSeeAbe_45C100(pObj) && pObj->field_100_health > FP_FromInteger(0) && pObj->field_BC_sprite_scale == field_BC_sprite_scale && !WallHit_401930(pObj->field_A8_xpos - field_A8_xpos, field_BC_sprite_scale * FP_FromInteger(35)))
                 {
-                    field_120_pTarget = pObj;
-                    field_120_pTarget->field_C_refCount++;
+                    SetTarget(pObj);
                     return 1;
                 }
             }
@@ -2224,9 +2216,8 @@ s16 Scrab::Brain_Fighting_45C370()
     Scrab* pFighter = field_11C_pFight_target;
     if (pFighter && (pFighter->field_6_flags.Get(BaseGameObject::eDead_Bit3) || !VOnSameYLevel(field_11C_pFight_target)))
     {
-        field_11C_pFight_target->field_C_refCount--;
+        SetFightTarget(nullptr);
         field_188_flags &= ~1u;
-        field_11C_pFight_target = nullptr;
         field_FE_next_motion = eScrabMotions::Motion_1_Stand_45E620;
         SetBrain(&Scrab::Brain_WalkAround_460D80); // patrol ??
         return 0;
@@ -2481,10 +2472,10 @@ s16 Scrab::Brain_Fighting_45C370()
             Scrab_SFX_460B80(ScrabSounds::eDeathHowl_1, 0, -1571, 1);
             Scrab_SFX_460B80(ScrabSounds::eYell_8, 0, -1571, 1);
             Environment_SFX_42A220(EnvironmentSfx::eHitGroundSoft_6, 0, -383, 0);
-            field_11C_pFight_target->field_C_refCount--;
+         
             if (field_10_anim.field_4_flags.Get(AnimFlags::eBit3_Render))
             {
-                field_11C_pFight_target = nullptr;
+                SetFightTarget(nullptr);
                 field_FC_current_motion = eScrabMotions::Motion_1_Stand_45E620;
                 field_118_timer = gnFrameCount_507670 + 20;
                 return 13;
@@ -2493,7 +2484,7 @@ s16 Scrab::Brain_Fighting_45C370()
             {
                 field_10_anim.field_4_flags.Set(AnimFlags::eBit3_Render);
                 field_A8_xpos = field_11C_pFight_target->field_A8_xpos;
-                field_11C_pFight_target = nullptr;
+                SetFightTarget(nullptr);
                 SetBrain(&Scrab::Brain_Death_45CB80);
                 field_FC_current_motion = eScrabMotions::Motion_29_DeathBegin_45FFA0;
                 field_130_unused = 2;
@@ -2639,12 +2630,11 @@ s16 Scrab::Brain_ChasingEnemy_45CC90()
         field_6_flags.Set(Options::eDead_Bit3);
     }
 
-    field_11C_pFight_target = FindScrabToFight_45BE30();
-    if (field_11C_pFight_target)
+    auto pFightTarget = FindScrabToFight_45BE30();
+    if (pFightTarget)
     {
-        field_120_pTarget->field_C_refCount--;
-        field_120_pTarget = nullptr;
-        field_11C_pFight_target->field_C_refCount++;
+        SetFightTarget(pFightTarget);
+        SetTarget(nullptr);
         SetBrain(&Scrab::Brain_Fighting_45C370);
         field_FE_next_motion = eScrabMotions::Motion_1_Stand_45E620;
         return 0;
@@ -2679,8 +2669,7 @@ s16 Scrab::Brain_ChasingEnemy_45CC90()
 
         if (bCloseToEdge)
         {
-            field_120_pTarget->field_C_refCount--;
-            field_120_pTarget = nullptr;
+            SetTarget(nullptr);
             field_FE_next_motion = eScrabMotions::Motion_1_Stand_45E620;
             SetBrain(&Scrab::Brain_WalkAround_460D80);
             return 0;
@@ -3316,10 +3305,10 @@ s16 Scrab::Brain_Patrol_460020()
         field_6_flags.Set(Options::eDead_Bit3);
     }
 
-    field_11C_pFight_target = FindScrabToFight_45BE30();
-    if (field_11C_pFight_target)
+    auto pFightTarget = FindScrabToFight_45BE30();
+    if (pFightTarget)
     {
-        field_11C_pFight_target->field_C_refCount++;
+        SetFightTarget(pFightTarget);
         field_FE_next_motion = eScrabMotions::Motion_1_Stand_45E620;
         SetBrain(&Scrab::Brain_Fighting_45C370);
         return 0;
@@ -3333,10 +3322,9 @@ s16 Scrab::Brain_Patrol_460020()
             SetBrain(&Scrab::Brain_ChasingEnemy_45CC90);
             return 0;
         }
-        field_120_pTarget->field_C_refCount--;
-        field_120_pTarget = nullptr;
+        SetTarget(nullptr);
     }
-
+ 
     if (Event_Get_417250(kEventAbeOhm_8))
     {
         field_FE_next_motion = eScrabMotions::Motion_20_HowlBegin_45FA60;
@@ -3620,10 +3608,10 @@ s16 Scrab::Brain_WalkAround_460D80()
         field_6_flags.Set(Options::eDead_Bit3);
     }
 
-    field_11C_pFight_target = FindScrabToFight_45BE30();
-    if (field_11C_pFight_target)
+    auto pFightTarget = FindScrabToFight_45BE30();
+    if (pFightTarget)
     {
-        field_11C_pFight_target->field_C_refCount++;
+        SetFightTarget(pFightTarget);
         SetBrain(&Scrab::Brain_Fighting_45C370);
         field_FE_next_motion = eScrabMotions::Motion_1_Stand_45E620;
         return 0;
@@ -3637,8 +3625,7 @@ s16 Scrab::Brain_WalkAround_460D80()
             SetBrain(&Scrab::Brain_ChasingEnemy_45CC90);
             return 0;
         }
-        field_120_pTarget->field_C_refCount--;
-        field_120_pTarget = nullptr;
+        SetTarget(nullptr);
     }
 
     if (Event_Get_417250(kEventAbeOhm_8))
@@ -3901,6 +3888,53 @@ void Scrab::SetBrain(TBrainType fn)
 bool Scrab::BrainIs(TBrainType fn)
 {
     return ::BrainIs(fn, field_10C_fn, sScrabAITable);
+}
+
+void Scrab::SetFightTarget(Scrab* pTarget)
+{
+    if (!pTarget)
+    {
+        if (field_11C_pFight_target)
+        {
+            field_11C_pFight_target->field_C_refCount--;
+            LOG_INFO(this << " clear fight target " << field_11C_pFight_target << " ref " << (u32) field_11C_pFight_target->field_C_refCount);
+            field_11C_pFight_target = nullptr;
+        }
+    }
+    else
+    {
+        field_11C_pFight_target = pTarget;
+        field_11C_pFight_target->field_C_refCount++;
+        LOG_INFO(this << " set fight target " << field_11C_pFight_target << " ref " << (u32) field_11C_pFight_target->field_C_refCount);
+    }
+}
+
+void Scrab::SetTarget(BaseAliveGameObject* pTarget)
+{
+    if (!pTarget)
+    {
+        if (field_120_pTarget)
+        {
+            field_120_pTarget->field_C_refCount--;
+            LOG_INFO(this << " clear target " << field_120_pTarget << " ref " << (u32) field_120_pTarget->field_C_refCount);
+            field_120_pTarget = nullptr;
+        }
+    }
+    else
+    {
+        if (field_120_pTarget != pTarget)
+        {
+            field_120_pTarget = pTarget;
+            field_120_pTarget->field_C_refCount++;
+            LOG_INFO(this << " set target " << field_120_pTarget << " ref " << (u32) field_120_pTarget->field_C_refCount);
+        }
+        else
+        {
+            // Don't double ref count else the target will leak, this can be seen as abe not reappearing
+            // in RF return after the bad ending, but other bad things probably happen too.
+            LOG_INFO("Trying to set the same target - ignore");
+        }
+    }
 }
 
 s16 Scrab::HandleRunning()

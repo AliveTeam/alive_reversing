@@ -13,6 +13,7 @@
 #include "PsxDisplay.hpp"
 #include "Sfx.hpp"
 #include "Sys_common.hpp"
+#include "BaseGameAutoPlayer.hpp"
 
 namespace AO {
 
@@ -435,7 +436,11 @@ void CameraSwapper::VUpdate_48CEA0()
 
             if (field_3C_movie_bPutDispEnv == 1)
             {
-                gPsxDisplay_504C78.PutCurrentDispEnv_40DE40();
+                if (!GetGameAutoPlayer().IsRecording() && !GetGameAutoPlayer().IsPlaying())
+                {
+                    // abi_break never calls this, so don't in recording to avoid de-sync
+                    gPsxDisplay_504C78.PutCurrentDispEnv_40DE40();
+                }
             }
 
             pScreenManager_4FF7C8->field_38 = 1;
@@ -447,8 +452,8 @@ void CameraSwapper::VUpdate_48CEA0()
                 pScreenManager_4FF7C8->InvalidateRect_406E40(0, 0, 640, 240, 0);
                 pScreenManager_4FF7C8->InvalidateRect_406E40(0, 0, 640, 240, 1);
                 pScreenManager_4FF7C8->InvalidateRect_406E40(0, 0, 640, 240, 2);
-                pScreenManager_4FF7C8->field_36_flags |= 1;
             }
+            pScreenManager_4FF7C8->field_36_flags |= 1;
             field_6_flags.Set(BaseGameObject::eDead_Bit3);
         }
         break;

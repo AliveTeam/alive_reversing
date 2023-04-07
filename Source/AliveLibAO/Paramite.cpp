@@ -448,8 +448,7 @@ void Paramite::VScreenChanged()
 
 void Paramite::VScreenChanged_44B2C0()
 {
-    if (gMap_507BA8.field_28_cd_or_overlay_num != gMap_507BA8.GetOverlayId_4440B0()
-        || gMap_507BA8.field_2_current_path != gMap_507BA8.field_C_path
+    if (gMap_507BA8.field_2_current_path != gMap_507BA8.field_C_path
         || gMap_507BA8.field_0_current_level != gMap_507BA8.field_A_level)
     {
         field_6_flags.Set(BaseGameObject::eDead_Bit3);

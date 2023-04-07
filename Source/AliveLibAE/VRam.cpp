@@ -4,6 +4,7 @@
 #include "PsxDisplay.hpp"
 #include <gmock/gmock.h>
 #include "Renderer/IRenderer.hpp"
+#include "BaseGameAutoPlayer.hpp"
 
 const s32 kMaxAllocs = 512;
 
@@ -166,6 +167,15 @@ EXPORT s16 CC Vram_alloc_4956C0(u16 width, s16 height, u16 colourDepth, PSX_RECT
 
     if (sVramNumberOfAllocations_5CC888 >= kMaxAllocs || !Vram_alloc_block_4957B0(&rect, depth))
     {
+        if (GetGameAutoPlayer().IsRecording() || GetGameAutoPlayer().IsPlaying())
+        {
+            LOG_WARNING("Fat vram alloc hax");
+            pRect->w = 1;
+            pRect->h = 1;
+            pRect->x = 1024 - 1;
+            pRect->y = 512 - 1;
+            return 1;
+        }
         return 0;
     }
 
@@ -285,7 +295,7 @@ static bool Pal_Allocate_Helper(s32& i, s32& palX_idx, s32 maskValue, s32 numBit
     return false;
 }
 
-EXPORT s16 CC Pal_Allocate_483110(PSX_RECT* pRect, u32 paletteColorCount)
+static s16 Pal_Allocate_Impl(PSX_RECT* pRect, u32 paletteColorCount)
 {
     if (!pal_free_count_5C915E)
     {
@@ -333,6 +343,22 @@ EXPORT s16 CC Pal_Allocate_483110(PSX_RECT* pRect, u32 paletteColorCount)
     pRect->x = static_cast<s16>(pal_xpos_5C9162 + (16 * palX_idx));
     pRect->y = static_cast<s16>(pal_rect_y + pal_ypos_5C9160);
     return 1;
+}
+
+EXPORT s16 CC Pal_Allocate_483110(PSX_RECT* pRect, u32 paletteColorCount)
+{
+    const s16 ret = Pal_Allocate_Impl(pRect, paletteColorCount);
+    if (ret == 0 && (GetGameAutoPlayer().IsRecording() || GetGameAutoPlayer().IsPlaying()))
+    {
+        // pal alloc failure (panto voices: oh no he didn't!)
+        LOG_WARNING("Fat pal alloc hax");
+        pRect->w = static_cast<s16>(paletteColorCount);
+        pRect->h = 1;
+        pRect->x = 0;
+        pRect->y = 0;
+        return 1;
+    }
+    return ret;
 }
 
 EXPORT void CC Pal_free_483390(PSX_Point xy, s16 palDepth)

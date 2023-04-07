@@ -77,6 +77,11 @@ public:
     {
         return !mForegroundLayer.empty() || !mBackgroundLayer.empty() || !mForegroundWellLayer.empty() || !mBackgroundWellLayer.empty();
     }
+
+    bool HaveCameraImage() const
+    {
+        return !mCameraImage.empty();
+    }
 };
 
 struct CameraNameAndTlvBlob final
