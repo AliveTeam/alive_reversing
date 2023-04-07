@@ -159,6 +159,7 @@ void MidiPlayer::SND_Load_VABS(SoundBlockInfo* pSoundBlockInfo, s32 reverb)
                     sample->minNote = vagAttr->field_6_min;
                     sample->maxNote = vagAttr->field_7_max;
                     sample->loop = s->loop;
+                    sample->priority = vagAttr->field_0_priority;
                 }
                 ++vagAttr;
             }

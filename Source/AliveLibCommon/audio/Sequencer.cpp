@@ -13,7 +13,7 @@ namespace SPU {
 // SPU state
 std::mutex mutex;
 
-const int VOICE_SIZE_LIMIT = 32; // really should be 24, but voices overlap...
+const int VOICE_SIZE_LIMIT = 24; // Can be increased to 32, but 24 is what PSX has
 std::array<Voice*, VOICE_SIZE_LIMIT> voices;
 
 const int SEQUENCE_SIZE_LIMIT = 256;
@@ -29,7 +29,7 @@ void SPUInit();
 void SPUStopAll();
 void SPUReset();
 
-Voice* SPUObtainVoice(u8 note, u8 patchId);
+Voice* SPUObtainVoice(s8 priority, u8 note, u8 patchId);
 void SPUReleaseVoice(Voice* v);
 
 void SPUPatchAdd(Patch* patch);
@@ -337,7 +337,7 @@ void SPUStopAll()
     }
 }
 
-Voice* SPUObtainVoice(u8 note, u8 patchId)
+Voice* SPUObtainVoice(s8 priority, u8 note, u8 patchId)
 {
     note;
     patchId;
@@ -346,7 +346,6 @@ Voice* SPUObtainVoice(u8 note, u8 patchId)
     // 2. If no voice can be found - try using a repeated note that has the furthest offset
     // 3. Reap voices that have 'x' many playing? Shooting with a slig non-stop uses too many voices
 
-    Voice* pref = NULL;
     Voice* available = NULL;
     for (int i = 0; i < VOICE_SIZE_LIMIT; i++)
     {
@@ -362,41 +361,23 @@ Voice* SPUObtainVoice(u8 note, u8 patchId)
             return v;
         }
 
-        if (note == v->note && patchId == v->patchId)
+        // Overlapping voices are a problem when sligs shoot continously.
+        // This is a simple implementation to overwrite some lower priority sound.
+        if (!available || v->sample->priority < priority)
         {
-            if (!pref || pref->f_SampleOffset > v->f_SampleOffset)
-            {
-                pref = v;
-            }
-        } 
-        else if (!v->sample->loop)
-        {
-            if (!available || available->sample->len - available->f_SampleOffset > v->sample->len - v->f_SampleOffset)
-            {
-                // find the most played through sample
-                available = v;
-            }
+            available = v;
         }
     }
 
-    Voice* use = NULL;
-    if (pref)
-    {
-        use = pref;
-    }
-    else if (available)
-    {
-        use = available;
-    }
-    else
+    if (!available)
     {
         return NULL;
     }
 
     // this is voice in use that we can reuse
-    SPUReleaseVoice(use);
-    use->inUse = true;
-    return use;
+    SPUReleaseVoice(available);
+    available->inUse = true;
+    return available;
 }
 
 void SPUReleaseVoice(Voice* v)
@@ -552,7 +533,7 @@ s32 SPUOneShotPlay(s32 patchId, u8 note, s16 voll, s16 volr, u8 pitch, s32 pitch
             continue;
         }
 
-        Voice* v = SPUObtainVoice(note, (u8) patchId);
+        Voice* v = SPUObtainVoice(s->priority, note, (u8) patchId);
         if (!v)
         {
             return 0;
@@ -708,7 +689,7 @@ void SPUTickSequences()
                             continue;
                         }
 
-                        Voice* v = SPUObtainVoice(message->note, message->patchId);
+                        Voice* v = SPUObtainVoice(sample->priority, message->note, message->patchId);
                         if (!v)
                         {
                             continue;
