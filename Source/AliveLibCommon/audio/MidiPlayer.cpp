@@ -234,12 +234,13 @@ s8 MidiPlayer::SND_Seq_Table_Valid()
     return 1;
 }
 
-s16 MidiPlayer::SND_SEQ_PlaySeq(u16 idx, s32 repeatCount, s16 bDontStop)
+s16 MidiPlayer::SND_SEQ_PlaySeq(u16 idx, s32 repeatCount, s16 stopDuplicateSeq)
 {
-    bDontStop; // TODO - does this matter?
-    repeatCount;
-    idx;
-    return SPU::SeqPlay(idx, repeatCount) ? 1 : 0;
+    // Exmaples
+    // 1. Continuosly called while chanting
+    // 2. called twice when you blow up two bombs quickly (beginning of Rupture Farms)
+    //    The sequence is played twice for both bombs and must not stop duplicate sequence
+    return SPU::SeqPlay(idx, repeatCount, stopDuplicateSeq) ? 1 : 0;
 }
 
 void MidiPlayer::sanitizeVolume(s32* src, s32 low, s32 high)

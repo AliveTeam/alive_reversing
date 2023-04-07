@@ -304,7 +304,7 @@ void PatchAdd(Patch* patch);
 // Once a sequence is added it will be managed by the SPU
 // do not modify or delete it.
 void SeqAdd(Sequence* seq);
-bool SeqPlay(s32 seqId, s32 repeats);
+bool SeqPlay(s32 seqId, s32 repeats, bool stopDuplicateSeq);
 bool SeqPlay(s32 seqId, s32 repeats, s16 voll, s16 volr);
 void SeqSetVolume(s32 seqId, s16 voll, s16 volr);
 void SeqStop(s32 seqId);

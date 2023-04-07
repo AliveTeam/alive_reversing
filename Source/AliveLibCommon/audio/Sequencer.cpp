@@ -99,9 +99,13 @@ void SPU::SeqAdd(Sequence* seq)
     mutex.unlock();
 }
 
-bool SeqPlay(s32 seqId, s32 repeats)
+bool SeqPlay(s32 seqId, s32 repeats, bool stopDuplicateSeq)
 {
     mutex.lock();
+    if (stopDuplicateSeq)
+    {
+        SPUSeqStop(seqId);
+    }
     bool res = SPUSeqPlay(seqId, repeats);
     mutex.unlock();
     return res;
