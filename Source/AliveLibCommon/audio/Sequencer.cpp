@@ -649,6 +649,9 @@ void SPUTick(void* udata, Uint8* stream, int len)
         leftSample += reverb_out_left;
         rightSample += reverb_out_right;
 
+        leftSample = (float) Clamp16((s32) leftSample);
+        rightSample = (float) Clamp16((s32) rightSample);
+
         // make value usable by SDL
         leftSample = leftSample / 32767.0f;
         rightSample = rightSample / 32767.0f;
@@ -974,13 +977,16 @@ void Voice::RefreshVolume()
     // Duckstation calculates=2176 | below logic calculates=661
     // Possibly the PC sample data is bad? The left right synth does
     // produce the correct 4977 value (same in PC as Duckstation...)
-    // Possibly just need to extract ps1 samples...
+    // Possibly just need to extract ps1 sample data...
+    // Interestingly, if the sampleVol is set to 127 for the first organ in theme,
+    // this calculates the same 2176 value as duckstation...
     // 
     // all volume types are
     // velocity - sampleVol - (patchvol) - (masterVol=127) - seqVol
     // PC version is missing patch and master? I think they are always 127
     // The PSX version has an "instrument" (patch) at 109 - but may be unrelated
-    s32 uVar1 = (((velocity * 127 * 0x3fff) / 0x3f01) * 127 * sample->volume) / 0x3f01;
+    s32 sampleVol = sample->volume; // sample->volume - UPDATE: Setting this to 127 fixes it?
+    s32 uVar1 = (((velocity * 127 * 0x3fff) / 0x3f01) * 127 * sampleVol) / 0x3f01;
 
     s32 left = uVar1;
     if (hasSeqVol)
@@ -1004,7 +1010,7 @@ void Voice::RefreshVolume()
     //}
     //else
     //{
-    left = (left * (127 - 64)) / 63;
+    //    left = (left * (127 - 64)) / 63;
     //}
 
     if (pan < 64)
@@ -1028,8 +1034,8 @@ void Voice::RefreshVolume()
     rightReg = right;
     //if (velocity == 84)
     //{
-    //    leftR = 2176;
-    //    rightR = 2176;
+    //    leftReg = 2176;
+    //    rightReg = 2176;
     //}
     //std::cout << left << " " << right << std::endl;
 }
