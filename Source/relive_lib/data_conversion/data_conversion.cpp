@@ -28,7 +28,7 @@
 #include "fmv_converter.hpp"
 
 // Bump this if any data format breaks are made so that OG/mod data is re-converted/upgraded
-const u32 DataConversion::kVersion = 6;
+const u32 DataConversion::kVersion = 7;
 
 static bool ReadLvlFileInto(ReliveAPI::LvlReader& archive, const char_type* fileName, std::vector<u8>& fileBuffer)
 {

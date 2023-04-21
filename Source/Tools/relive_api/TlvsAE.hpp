@@ -2061,7 +2061,7 @@ struct Path_Paramite final : public ReliveAPI::TlvObjectBaseAE
         ADD_RESOURCE(AnimId::Paramite_RunEnd, ReliveAPI::AddResourceTo::File);
         ADD_RESOURCE(AnimId::Paramite_Running, ReliveAPI::AddResourceTo::File);
         ADD_RESOURCE(AnimId::Paramite_RunningAttack, ReliveAPI::AddResourceTo::File);
-        ADD_RESOURCE(AnimId::Paramite_Squawk, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Paramite_Struggle, ReliveAPI::AddResourceTo::File);
         //ADD_RESOURCE(AnimId::Paramite_Struggle, ReliveAPI::AddResourceTo::File);
         ADD_RESOURCE(AnimId::Paramite_SurpriseWeb, ReliveAPI::AddResourceTo::File);
         ADD_RESOURCE(AnimId::Paramite_Turn, ReliveAPI::AddResourceTo::File);

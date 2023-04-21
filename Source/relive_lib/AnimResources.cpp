@@ -759,14 +759,11 @@ constexpr CombinedAnimRecord kAnimRecords[1027] = {
      {"PARAMITE.BND", 14728, 138, 49, AO::kArjeatAOResID, PalId::Default}, false},
     {AnimId::Paramite_Death,
         { "PARAMITE.BND", 8108, 137, 65u, kArjfalrkResID, PalId::Default},
-     {"PARAMITE.BND", 9132, 138, 49, AO::kArjwaspAOResID, PalId::Default}, false},
-    {AnimId::Paramite_Squawk,
-        { "PARAMITE.BND", 9636, 137, 65u, kArjwaspResID, PalId::Default},
-        kNullAnimDetails, false },
+    {"PARAMITE.BND", 11076, 138, 49, AO::kArjfalrkAOResID, PalId::Default} , false},
     {AnimId::Paramite_Attack, { "PARAMITE.BND", 10948, 137, 65u, kArjscrchResID, PalId::Default}, kNullAnimDetails, false },
 
 
-    {AnimId::Paramite_Struggle, kNullAnimDetails, {"PARAMITE.BND", 11076, 138, 49, AO::kArjfalrkAOResID, PalId::Default}, false}, // same as Paramite_Squawk?
+    {AnimId::Paramite_Struggle, { "PARAMITE.BND", 9636, 137, 65u, kArjwaspResID, PalId::Default}, {"PARAMITE.BND", 9132, 138, 49, AO::kArjwaspAOResID, PalId::Default}, false},
     {AnimId::Paramite_AO_M_7_Unknown, kNullAnimDetails, {"PARAMITE.BND", 57340, 138, 49, AO::kArjbasicAOResID, PalId::Default}, false},
     {AnimId::Paramite_AO_M_22_Unknown, kNullAnimDetails, {"PARAMITE.BND", 10520, 138, 49, AO::kArjscrchAOResID, PalId::Default}, false},
 

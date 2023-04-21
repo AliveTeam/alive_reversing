@@ -74,7 +74,7 @@ const AnimId sParamiteMotionAnimIds[44] = {
     AnimId::Paramite_WebLeaveUp,
     AnimId::Paramite_Eating,
     AnimId::Paramite_Death,
-    AnimId::Paramite_Squawk,
+    AnimId::Paramite_Struggle,
     AnimId::Paramite_Attack };
 
 const TintEntry kParamiteTints_55D73C[16] = {
