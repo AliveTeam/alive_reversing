@@ -279,7 +279,7 @@ const AnimId sParamiteAnimIdTable_55D660[44] = {
     AnimId::Paramite_WebLeaveUp,
     AnimId::Paramite_Eating,
     AnimId::Paramite_Death,
-    AnimId::Paramite_Squawk,
+    AnimId::Paramite_Struggle,
     AnimId::Paramite_Attack};
 
 s32 CC Paramite::CreateFromSaveState_4855A0(const u8* pBuffer)

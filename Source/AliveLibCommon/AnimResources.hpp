@@ -411,7 +411,6 @@ enum class AnimId
     Paramite_Running,
     Paramite_Hop,
     Paramite_PreHiss,
-    Paramite_Squawk,
     Paramite_AllOYaGameSpeakBegin,
     Paramite_GameSpeakEnd,
     Paramite_GameSpeakBegin,
