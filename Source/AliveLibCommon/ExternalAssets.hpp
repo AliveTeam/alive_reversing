@@ -11,7 +11,7 @@ struct CustomRenderSpriteFormat
     void* origPtr;
     int resource_id;
     int frametable_offset;
-    int frame;
+    unsigned int frame;
     bool emissive;
 };
 

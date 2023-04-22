@@ -40,7 +40,7 @@ static HANDLE audioProcess;
 
 static AssetFMVParams gParameters;
 
-static std::vector<u8> frameBuffer;
+static std::vector<u8> gFrameBuffer;
 static bool gFMVHasFrames = false;
 static float gFrameTime = 0;
 static int gFmvIndex = -1;
@@ -65,7 +65,7 @@ static float gFMVExportProgress = 0;
 static std::string gFMVExportMessage = "";
 static bool gFMVShowExportPreDialog = false;
 
-HANDLE CreateProcessWithPipe(std::string& command, HANDLE* pPipeWrite, HANDLE* pPipeRead)
+HANDLE CreateProcessWithPipe(const std::string& command, HANDLE* pPipeWrite, HANDLE* pPipeRead)
 {
     SECURITY_ATTRIBUTES sa = { sizeof(sa) };
     sa.lpSecurityDescriptor = nullptr;
@@ -243,7 +243,7 @@ static bool InitDDVPlayback(const std::string& filePath, bool ffmpegExport)
     g_fmv_num_played_audio_frames_5CA1FC = 0;
     g_oldBufferPlayPos_5CA22C = 0;
 
-    frameBuffer.resize(640 * 480 * 4);
+    gFrameBuffer.resize(640 * 480 * 4);
 
     if (gMasher != nullptr)
     {
@@ -273,7 +273,7 @@ static bool InitDDVPlayback(const std::string& filePath, bool ffmpegExport)
 
     g_bHasAudio_5CA234 = ((u32)gMasher->field_4_ddv_header.field_4_contains >> 1) & 1;
     g_fmv_single_audio_frame_size_in_samples_5CA240 = gMasher->field_2C_audio_header.field_C_single_audio_frame_size;
-    const auto fmv_sound_entry_size = g_fmv_single_audio_frame_size_in_samples_5CA240 * (gMasher->field_2C_audio_header.field_10_num_frames_interleave + 6);
+    //const auto fmv_sound_entry_size = g_fmv_single_audio_frame_size_in_samples_5CA240 * (gMasher->field_2C_audio_header.field_10_num_frames_interleave + 6);
 
     g_bNoAudioOrAudioError_5CA1F4 = 0;
     if (g_bHasAudio_5CA234 && gMasher->field_2C_audio_header.field_0_audio_format)
@@ -309,17 +309,17 @@ static bool InitDDVPlayback(const std::string& filePath, bool ffmpegExport)
 
 static bool StepDDVPlayback(bool ffmpegExport)
 {
-    gMasher->VideoFrameDecode_Raw(frameBuffer.data());
+    gMasher->VideoFrameDecode_Raw(gFrameBuffer.data());
 
     
     if (ffmpegExport)
     {
-        ffmpeg_push_frame(frameBuffer.data(), gMasher->field_14_video_header.field_4_width, gMasher->field_14_video_header.field_8_height);
+        ffmpeg_push_frame(gFrameBuffer.data(), gMasher->field_14_video_header.field_4_width, gMasher->field_14_video_header.field_8_height);
     }
     else
     {
         glBindTexture(GL_TEXTURE_2D, gMasherTexture);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, gMasher->field_14_video_header.field_4_width, gMasher->field_14_video_header.field_8_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, frameBuffer.data());
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, gMasher->field_14_video_header.field_4_width, gMasher->field_14_video_header.field_8_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, gFrameBuffer.data());
     }
     
     g_fmv_num_read_frames_5CA23C++;
@@ -467,7 +467,7 @@ static void AppVideoViewer(ImGuiWindowFlags flags, float elapsedTime)
 
             if (ImGui::BeginListBox("##fmv_list", ImVec2(-FLT_MIN, ImGui::GetContentRegionAvail().y - windowPadding.y)))
             {
-                for (auto i = 0; i < ddvFiles.size(); i++)
+                for (auto i = 0; i < static_cast<int>(ddvFiles.size()); i++)
                 {
                     const std::string& ddvFileName = ddvFiles[i];
 

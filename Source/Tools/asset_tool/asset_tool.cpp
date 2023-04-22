@@ -1016,7 +1016,7 @@ static std::vector<RGBAPixel> DecodeFrame(const FrameHeader* pFrameHeader, int *
 
     if (!uncompressed)
     {
-        for (int p = 0; p < pixelData.size(); p++)
+        for (unsigned int p = 0; p < pixelData.size(); p++)
         {
             pixelData[p] = palette[convertedData[p]];
         }
@@ -1342,7 +1342,7 @@ static void ToolTip(std::string& message)
     ImGui::EndTooltip();
 }
 
-static void AppAnimationViewer(ImGuiWindowFlags flags, float elapsedTime)
+static void AppAnimationViewer(ImGuiWindowFlags flags, float /*elapsedTime*/)
 {
     ImVec2 windowPadding = ImGui::GetStyle().WindowPadding;
 
@@ -1359,7 +1359,7 @@ static void AppAnimationViewer(ImGuiWindowFlags flags, float elapsedTime)
 
             if (ImGui::BeginListBox("##resource_list", ImVec2(-FLT_MIN, ImGui::GetContentRegionAvail().y - windowPadding.y)))
             {
-                for (auto i = 0; i < gLoadedAnimRecords.size(); i++)
+                for (auto i = 0; i < static_cast<int>(gLoadedAnimRecords.size()); i++)
                 {
                     if (!searchQuery.empty() && StringToLowerCase(gLoadedAnimRecords[i].name).find(StringToLowerCase(searchQuery)) == std::string::npos)
                         continue;
@@ -1559,7 +1559,7 @@ static void AppAnimationViewer(ImGuiWindowFlags flags, float elapsedTime)
                         {
                             gCurrentFrame++;
 
-                            if (gCurrentFrame >= gPreviewTextures.size())
+                            if (gCurrentFrame >= static_cast<int>(gPreviewTextures.size()))
                             {
                                 gCurrentFrame = gResetFrame;
                             }
@@ -1582,7 +1582,7 @@ static void AppAnimationViewer(ImGuiWindowFlags flags, float elapsedTime)
                         ImVec2 imagePos_External = { (availableWindowSpace.x / 2.0f) - offsetXScaled_External, floorOffset - offsetYScaled_External };
                         ImVec2 imageSize_External = { (float)(gExternalPreviewMeta.size_width * scale), (float)(gExternalPreviewMeta.size_height * scale) };
 
-                        if (gCurrentFrame >= gExternalPreviewTextures.size())
+                        if (gCurrentFrame >= static_cast<int>(gExternalPreviewTextures.size()))
                         {
                             draw_list->AddText({ windowScreenPos.x + imagePos_External.x, windowScreenPos.y + imagePos_External.y }, IM_COL32(255, 0, 0, 255), "MISSING TEXTURE FILE!");
                         }
@@ -1762,7 +1762,7 @@ static void ui_loop()
     {
         if (ImGui::BeginMenu("Tools"))
         {
-            for (auto i = 0; i < gTools.size(); i++)
+            for (unsigned int i = 0; i < gTools.size(); i++)
             {
                 const AppTool& tool = gTools[i];
 
