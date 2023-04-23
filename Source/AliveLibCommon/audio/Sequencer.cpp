@@ -634,10 +634,12 @@ void SPUTick(void* udata, Uint8* stream, int len)
         leftSample += reverb_out_left;
         rightSample += reverb_out_right;
 
-        leftSample = (float) Clamp16((s32) leftSample);
-        rightSample = (float) Clamp16((s32) rightSample);
+        leftSample = (float) ApplyVolume(Clamp16((s32) leftSample), MAX_VOLUME); // master vol value
+        rightSample = (float) ApplyVolume(Clamp16((s32) rightSample), MAX_VOLUME);
 
         // make value usable by SDL
+        // It might make sense to increase the mix volume above MIX_MAXVOUME.
+        // I think psx sounds like it runs a little hot, compressing audio a bit
         leftSample = leftSample / 32767.0f;
         rightSample = rightSample / 32767.0f;
         SDL_MixAudioFormat((Uint8*) (AudioStream + i), (const Uint8*) &leftSample, AUDIO_F32, sizeof(float), SDL_MIX_MAXVOLUME);
@@ -939,23 +941,88 @@ s32 Voice::Interpolate()
     return out >> 15;
 }
 
+USHORT _svm_ptable[] = {
+    4096, 4110, 4125, 4140, 4155, 4170, 4185, 4200,
+    4216, 4231, 4246, 4261, 4277, 4292, 4308, 4323,
+    4339, 4355, 4371, 4386, 4402, 4418, 4434, 4450,
+    4466, 4482, 4499, 4515, 4531, 4548, 4564, 4581,
+    4597, 4614, 4630, 4647, 4664, 4681, 4698, 4715,
+    4732, 4749, 4766, 4783, 4801, 4818, 4835, 4853,
+    4870, 4888, 4906, 4924, 4941, 4959, 4977, 4995,
+    5013, 5031, 5050, 5068, 5086, 5105, 5123, 5142,
+    5160, 5179, 5198, 5216, 5235, 5254, 5273, 5292,
+    5311, 5331, 5350, 5369, 5389, 5408, 5428, 5447,
+    5467, 5487, 5507, 5527, 5547, 5567, 5587, 5607,
+    5627, 5648, 5668, 5688, 5709, 5730, 5750, 5771,
+    5792, 5813, 5834, 5855, 5876, 5898, 5919, 5940,
+    5962, 5983, 6005, 6027, 6049, 6070, 6092, 6114,
+    6137, 6159, 6181, 6203, 6226, 6248, 6271, 6294,
+    6316, 6339, 6362, 6385, 6408, 6431, 6455, 6478,
+    6501, 6525, 6549, 6572, 6596, 6620, 6644, 6668,
+    6692, 6716, 6741, 6765, 6789, 6814, 6839, 6863,
+    6888, 6913, 6938, 6963, 6988, 7014, 7039, 7064,
+    7090, 7116, 7141, 7167, 7193, 7219, 7245, 7271,
+    7298, 7324, 7351, 7377, 7404, 7431, 7458, 7485,
+    7512, 7539, 7566, 7593, 7621, 7648, 7676, 7704,
+    7732, 7760, 7788, 7816, 7844, 7873, 7901, 7930,
+    7958, 7987, 8016, 8045, 8074, 8103, 8133, 8162,
+    8192};
+
 void Voice::RefreshNoteStep()
 {
-    // These are expensive math operations. Previously they were called
-    // for each sample (44100hz). Just call refresh when the note changes 
-    // to save CPU cycles
-    s32 notePitch = pitch < pitchMin ? pitchMin : pitch; // or sample?
-    u8 rootNote = sample->rootNote;
-    u8 rootPitch = sample->rootNotePitchShift;
-    float noteFreq = float(pow(2.0, float(note + (notePitch / 127.0f)) / 12.0f));
-    float rootFreq = float(pow(2.0, float(rootNote + (rootPitch / 127.0f)) / 12.0f));
-    float noteMultiple = noteFreq / rootFreq;
-    noteStep = (u16)(((float(sample->SampleRate) * noteMultiple) / 44100.0f) * 4096.0f);
+
+    // This code seems to be producing the same adpcm_sample_rate values
+    // as duckstation. Believe it or not, this code was found on pastebin 
+    // by searching for "SsPitchFromNote"
+    // https://pastebin.com/aq7wxDdr
+
+    unsigned int pitchA;
+    SHORT calc, type;
+    signed int add, sfine; //, ret;
+    signed int fine = pitch < pitchMin ? pitchMin : (pitch > pitchMax ? pitchMax : pitch);
+    sfine = fine + sample->rootNotePitchShift;
+    if (sfine < 0)
+        sfine += 7;
+    sfine >>= 3;
+
+    add = 0;
+    if (sfine > 15)
+    {
+        add = 1;
+        sfine -= 16;
+    }
+
+    calc = (SHORT) (add + (note - (sample->rootNote - 60))); //((center + 60) - note) + add;
+    pitchA = _svm_ptable[16 * (calc % 12) + (short) sfine];
+    type = calc / 12 - 5;
+
+    // regular shift
+    s32 ret = pitchA;
+    if (type > 0)
+        ret = pitchA << type;
+    // negative shift
+    if (type < 0)
+        ret = pitchA >> -type;
+
+    double multi = ((double(ret) / 4096.0) * 44100.0);
+    noteStep = (u16) (((((sample->SampleRate) / 44100.0)) * multi));
+    // std::cout << ret << " " << (int) note << std::endl;
+
+    // This works if we use pc vag attributes.
+    //s32 notePitch = pitch < pitchMin ? pitchMin : pitch; // or sample?
+    //u8 rootNote = sample->rootNote;
+    //u8 rootPitch = sample->rootNotePitchShift;
+    //float noteFreq = float(pow(2.0, (float(note) + (notePitch / 127.0f)) / 12.0f));
+    //float rootFreq = float(pow(2.0, (float(rootNote) + (rootPitch / 127.0f)) / 12.0f));
+    //float noteMultiple = noteFreq / rootFreq;
+    //noteStep = (u16)(((float(sample->SampleRate) * noteMultiple) / 44100.0f) * 4096.0f);
 }
 
 
 void Voice::RefreshVolume()
 {
+    // UPDATE - Using PSX vag attributes, this seems identical to duckstation
+    // 
     // TODO - this logic may not be correct - duck station produces different
     // values. Example for first organ in open theme (first note with velocity == 84)   
     // velocity=84 sampleVol=70 seqVol=70
