@@ -342,6 +342,9 @@ Voice* SPUObtainVoice(s8 priority, u8 note, u8 patchId)
     note;
     patchId;
 
+    // TODO - logic needs to be revisited, I think it's wrong 
+    // Go shoot slig in rupture farms non-stop and music stops playing
+    // 
     // 1. Always try to use a free voice
     // 2. If no voice can be found - try using a repeated note that has the furthest offset
     // 3. Reap voices that have 'x' many playing? Shooting with a slig non-stop uses too many voices
@@ -443,6 +446,10 @@ void SPUSeqStop(s32 seqId)
                 if (v && v->sequence == seq)
                 {
                     v->offTime = timeSinceEpochMillisec();
+                    
+                    // TODO - If I add volume sweeps this should use
+                    // that instead of a hard stop which can cause popping
+                    // SPUReleaseVoice(v);
                 }
             }
         }
@@ -642,8 +649,8 @@ void SPUTick(void* udata, Uint8* stream, int len)
         // I think psx sounds like it runs a little hot, compressing audio a bit
         leftSample = leftSample / 32767.0f;
         rightSample = rightSample / 32767.0f;
-        SDL_MixAudioFormat((Uint8*) (AudioStream + i), (const Uint8*) &leftSample, AUDIO_F32, sizeof(float), SDL_MIX_MAXVOLUME);
-        SDL_MixAudioFormat((Uint8*) (AudioStream + i + 1), (const Uint8*) &rightSample, AUDIO_F32, sizeof(float), SDL_MIX_MAXVOLUME);
+        SDL_MixAudioFormat((Uint8*) (AudioStream + i), (const Uint8*) &leftSample, AUDIO_F32, sizeof(float), SDL_MIX_MAXVOLUME * 2);
+        SDL_MixAudioFormat((Uint8*) (AudioStream + i + 1), (const Uint8*) &rightSample, AUDIO_F32, sizeof(float), SDL_MIX_MAXVOLUME * 2);
     }
 }
 
@@ -894,6 +901,7 @@ s32 Voice::Interpolate()
     const u8 i = (u8) vounter.interpolation_index();
     const u32 s = ((u32) f_SampleOffset) + ZeroExtend32(vounter.sample_index());
 
+    // TODO - remove these if statements
     // interpolate on the 4 most recent samples from current position
     // The below `if` statements are in case we loop
     // we gauss the end of the sample with the beginning.
@@ -979,10 +987,12 @@ void Voice::RefreshNoteStep()
     unsigned int pitchA;
     SHORT calc, type;
     signed int add, sfine; //, ret;
-    signed int fine = pitch < pitchMin ? pitchMin : (pitch > pitchMax ? pitchMax : pitch);
+    signed int fine = pitch < pitchMin ? pitchMin : pitch;
     sfine = fine + sample->rootNotePitchShift;
     if (sfine < 0)
+    {
         sfine += 7;
+    }
     sfine >>= 3;
 
     add = 0;
@@ -999,23 +1009,19 @@ void Voice::RefreshNoteStep()
     // regular shift
     s32 ret = pitchA;
     if (type > 0)
+    {
         ret = pitchA << type;
+    }
+
     // negative shift
     if (type < 0)
+    {
         ret = pitchA >> -type;
+    }
 
-    double multi = ((double(ret) / 4096.0) * 44100.0);
-    noteStep = (u16) (((((sample->SampleRate) / 44100.0)) * multi));
-    // std::cout << ret << " " << (int) note << std::endl;
-
-    // This works if we use pc vag attributes.
-    //s32 notePitch = pitch < pitchMin ? pitchMin : pitch; // or sample?
-    //u8 rootNote = sample->rootNote;
-    //u8 rootPitch = sample->rootNotePitchShift;
-    //float noteFreq = float(pow(2.0, (float(note) + (notePitch / 127.0f)) / 12.0f));
-    //float rootFreq = float(pow(2.0, (float(rootNote) + (rootPitch / 127.0f)) / 12.0f));
-    //float noteMultiple = noteFreq / rootFreq;
-    //noteStep = (u16)(((float(sample->SampleRate) * noteMultiple) / 44100.0f) * 4096.0f);
+    // step seems to be calculated for 8000hz samples hence the division
+    noteStep = (u16) ((sample->SampleRate / 8000.0) * double(ret));
+    // std::cout << ret << " " << (int) note << " " << noteStep << std::endl;
 }
 
 
