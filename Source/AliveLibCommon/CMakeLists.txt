@@ -41,7 +41,7 @@ SET(AliveLibSrcCommon
     audio/Stream.cpp
     audio/MidiPlayer.hpp
     audio/MidiPlayer.cpp
-)
+    audio/oddio.h)
 
 add_library(AliveLibCommon ${AliveLibSrcCommon})
 
