@@ -214,17 +214,16 @@ const std::vector<std::vector<u32>> AO_F2ENDER_VH = {{
 
 ////////////////////////////////////////
 // L1.LVL - MLSNDFX.VH
-// TODO - this one is messed up... "hello" is 100, but sfx plays 96 and says Hello?
 const std::vector<std::vector<s32>> AO_MLSNDFX_RATE = {{
-    {44, 22050},
-    {54, 16000},
-    {55, 16000},
-    {100, 22050},
-    {102, 16000},
+    {41, 16000},
+    {74, 16000},
+    {96, 22050},
+    {98, 16000},
+    {99, 22050},
     {103, 22050},
     {107, 22050},
-    {111, 22050},
-    {112, 22050}}};
+    {108, 22050},
+    {130, 22050}}};
 
 const std::vector<std::vector<u32>> AO_MLSNDFX_VH = {{
     {134, 224, 0x2c7f047f, 0x24240060, 0x0, 0xb2b17f7f, 0xdfe080ff, 0x860014, 0xc100c0, 0xc300c2},
@@ -232,7 +231,7 @@ const std::vector<std::vector<u32>> AO_MLSNDFX_VH = {{
     {134, 228, 0x547f047f, 0x30300060, 0x0, 0xb2b17f7f, 0x1fc080ff, 0x860014, 0xc100c0, 0xc300c2},
     {95, 496, 0x407f047f, 0x7f000048, 0x0, 0xb2b17f7f, 0xdfeb80ff, 0x5f003a, 0xc100c0, 0xc300c2},
     {0, 497, 0x0, 0x0, 0x0, 0xb2b10000, 0x5fc080ff, 0x3a, 0xc100c0, 0xc300c2},
-    //{96, 512, 0x407f047f, 0x3c3c4659, 0x0, 0xb2b17f7f, 0x1fc080ff, 0x60003b, 0xc100c0, 0xc300c2},
+    {96, 512, 0x407f047f, 0x3c3c4659, 0x0, 0xb2b17f7f, 0x1fc080ff, 0x60003b, 0xc100c0, 0xc300c2},
     {98, 514, 0x407f047f, 0x3d3d0055, 0x0, 0xb2b17f7f, 0x1fc080ff, 0x62003b, 0xc100c0, 0xc300c2},
     {99, 515, 0x407f047f, 0x3f3f005b, 0x0, 0xb2b17f7f, 0x1fc080ff, 0x63003b, 0xc100c0, 0xc300c2},
     {103, 545, 0x407f047f, 0x3d3d465a, 0x0, 0xb2b17f7f, 0x1fc080ff, 0x67003d, 0xc100c0, 0xc300c2},
@@ -282,9 +281,8 @@ const std::vector<std::vector<u32>> AO_OPTSNDFX_VH = {{
 ////////////////////////////////////////
 // R1.LVL / R2.LVL - RFSNDEFX.VH
 const std::vector<std::vector<s32>> AO_RFSNDFX_RATE = {{
-    // {4, 22050}, // exit menu / posses - This should be 8000 - pause sfx def is wrong in code
     {44, 22050},
-    {54, 41100},
+    {54, 16000},
     {55, 16000},
     {100, 22050},
     {102, 16000},
