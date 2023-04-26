@@ -242,6 +242,13 @@ namespace psx {
             std::vector<Sample*> empty;
             throw std::invalid_argument("parseSamples is not overridden");
         }
+        virtual void applyFix(char_type* headerName, s32 vag, s32 vagOffset, SPU::Sample* sample)
+        {
+            headerName;
+            vag;
+            vagOffset;
+            sample;
+        }
     };
 
     /*

@@ -977,7 +977,7 @@ public:
             psx::Sample* sample = new psx::Sample();
             sample->m_SampleBuffer = reinterpret_cast<s16*>(data);
             sample->i_SampleSize = size / 2;
-            sample->sampleRate = 44100;        // non standard? Doesn't use sampleRate field?
+            sample->sampleRate = 8000;        // non standard? Doesn't use sampleRate field?
             sample->loop = sampleRate > 44100; // non-standard?
             samples.push_back(sample);
         }

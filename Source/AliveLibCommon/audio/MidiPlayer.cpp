@@ -1,6 +1,7 @@
 #pragma once
 
 #include "MidiPlayer.hpp"
+#include "oddio.h"
 
 namespace psx {
 
@@ -31,12 +32,105 @@ public:
             Sample* sample = new Sample();
             sample->m_SampleBuffer = reinterpret_cast<s16*>(data);
             sample->i_SampleSize = size / 2;
-            sample->sampleRate = 44100;        // non standard? Doesn't use sampleRate field?
+            sample->sampleRate = 8000;         // All PC samples expect 8000hz regardless of actual rate
             sample->loop = sampleRate > 44100; // non-standard?
             samples.push_back(sample);
         }
-
         return samples;
+    }
+
+    void applyFix(char_type* headerName, s32 vag, s32 vagOffset, SPU::Sample* sample)
+    {
+        std::vector<std::vector<u32>> lookupVag;
+        std::vector<std::vector<s32>> lookupRate;
+
+        if (strcmp(headerName, "D1SNDFX.VH") == 0)
+        {
+            lookupVag = ODDIO::AO_D1SNDFX_VH;
+            lookupRate = ODDIO::AO_D1SNDFX_RATE;
+        }
+        else if (strcmp(headerName, "D2SNDFX.VH") == 0)
+        {
+            lookupVag = ODDIO::AO_D2SNDFX_VH;
+            //lookupRate = ODDIO::AO_D2SNDFX_RATE;
+        }
+        else if (strcmp(headerName, "D2ENDER.VH") == 0)
+        {
+            lookupVag = ODDIO::AO_D2ENDER_VH;
+            //lookupRate = ODDIO::AO_D2SNDFX_RATE;
+        }
+        else if (strcmp(headerName, "E1SNDFX.VH") == 0)
+        {
+            lookupVag = ODDIO::AO_E1SNDFX_VH;
+            //lookupRate = ODDIO::AO_D2SNDFX_RATE;
+        }
+        else if (strcmp(headerName, "E2SNDFX.VH") == 0)
+        {
+            lookupVag = ODDIO::AO_E2SNDFX_VH;
+            //lookupRate = ODDIO::AO_D2SNDFX_RATE;
+        }
+        else if (strcmp(headerName, "F1SNDFX.VH") == 0)
+        {
+            lookupVag = ODDIO::AO_F1SNDFX_VH;
+            lookupRate = ODDIO::AO_F1SNDFX_RATE;
+        }
+        else if (strcmp(headerName, "F2SNDFX.VH") == 0)
+        {
+            lookupVag = ODDIO::AO_F1SNDFX_VH;
+            //lookupRate = ODDIO::AO_F1SNDFX_RATE;
+        }
+        else if (strcmp(headerName, "F2ENDER.VH") == 0)
+        {
+            lookupVag = ODDIO::AO_F2ENDER_VH;
+            //lookupRate = ODDIO::AO_F1SNDFX_RATE;
+        }
+        else if (strcmp(headerName, "MLSNDFX.VH") == 0)
+        {
+            lookupVag = ODDIO::AO_MLSNDFX_VH;
+            lookupRate = ODDIO::AO_MLSNDFX_RATE;
+        }
+        else if (strcmp(headerName, "OPTSNDFX.VH") == 0)
+        {
+            lookupVag = ODDIO::AO_OPTSNDFX_VH;
+            lookupRate = ODDIO::AO_OPTSNDFX_RATE;
+        }
+        else if (strcmp(headerName, "RFSNDFX.VH") == 0)
+        {
+            lookupVag = ODDIO::AO_RFSNDFX_VH;
+            lookupRate = ODDIO::AO_RFSNDFX_RATE;
+        }
+        else if (strcmp(headerName, "RFENDER.VH") == 0)
+        {
+            lookupVag = ODDIO::AO_RFENDER_VH;
+            //lookupRate = ODDIO::AO_RFSNDFX_RATE;
+        }
+
+        for (auto entry : lookupVag)
+        {
+            if ((s32) entry[1] == vagOffset)
+            {
+                VagAtr* fixed = (VagAtr*) &entry[2];
+                sample->adsr = SPU::parseADSR(fixed->field_10_adsr1, fixed->field_12_adsr2);
+                sample->volume = fixed->field_2_vol == 0 ? 127 : fixed->field_2_vol;
+                sample->pan = fixed->field_3_pan;
+                sample->reverb = fixed->field_1_mode;
+                sample->rootNote = fixed->field_4_centre;
+                sample->rootNotePitchShift = fixed->field_5_shift;
+                sample->minNote = fixed->field_6_min;
+                sample->maxNote = fixed->field_7_max;
+                sample->priority = fixed->field_0_priority;
+                break;
+            }
+        }
+       
+        for (int i = 0; i < (int) lookupRate.size(); i++)
+        {
+            if ((s32) lookupRate[i][0] == vag)
+            {
+                sample->SampleRate = lookupRate[i][1];
+                break;
+            }
+        }
     }
 };
 
@@ -60,41 +154,6 @@ void MidiPlayer::SND_Init()
 void MidiPlayer::SND_Shutdown()
 {
     SPU::DeInit();
-}
-
-
-// One - shot VAGs will be created with an additional 16 - byte block 
-// attached to the end.The block is used to prevent unnecessary SPU 
-// interrupts or SPU free - run.The block reads as follows : 
-// “00077777 77777777 77777777 77777777” or 
-// “00070000 00000000 00000000 00000000.” Looping VAGs do not contain 
-// this block.
-// 
-// https://psx.arthus.net/sdk/Psy-Q/DOCS/LibOver47.pdf
-// 
-// Doesn't seem to work for PC samples, maybe check PSX samples
-// in the future.
-bool isLoop(SPU::Sample* sample)
-{
-    s16* b = sample->buffer;
-    u32 l = sample->len;
-
-    bool oneshot = false;
-    oneshot |= b[l - 16] == 0x00 && b[l - 15] == 0x07 && b[l - 14] == 0x77
-            && b[l - 13] == 0x77 && b[l - 12] == 0x77 && b[l - 11] == 0x77
-            && b[l - 10] == 0x77 && b[l -  9] == 0x77 && b[l -  8] == 0x77
-            && b[l -  7] == 0x77 && b[l -  6] == 0x77 && b[l -  5] == 0x77
-            && b[l -  4] == 0x77 && b[l -  3] == 0x77 && b[l -  2] == 0x77
-            && b[l -  1] == 0x77;
-
-    oneshot |= b[l - 16] == 0x00 && b[l - 15] == 0x07 && b[l - 14] == 0x00
-            && b[l - 13] == 0x00 && b[l - 12] == 0x00 && b[l - 11] == 0x00
-            && b[l - 10] == 0x00 && b[l -  9] == 0x00 && b[l -  8] == 0x00
-            && b[l -  7] == 0x00 && b[l -  6] == 0x00 && b[l -  5] == 0x00
-            && b[l -  4] == 0x00 && b[l -  3] == 0x00 && b[l -  2] == 0x00
-            && b[l -  1] == 0x00;
-
-    return oneshot;
 }
 
 void MidiPlayer::SND_Load_VABS(SoundBlockInfo* pSoundBlockInfo, s32 reverb)
@@ -126,8 +185,8 @@ void MidiPlayer::SND_Load_VABS(SoundBlockInfo* pSoundBlockInfo, s32 reverb)
         // HEADER
         VagAtr* vagAttr = (VagAtr*) &vabHeader[1];
         std::vector<Program*> programs;
-
-        for (s32 i = 0; i < vabHeader->field_12_num_progs; i++)
+        s32 vagOffset = 0;
+        for (s32 pIdx = 0; pIdx < vabHeader->field_12_num_progs; pIdx++)
         {
             
             SPU::Patch* patch = new SPU::Patch((u8) vagAttr->field_14_prog);
@@ -135,9 +194,8 @@ void MidiPlayer::SND_Load_VABS(SoundBlockInfo* pSoundBlockInfo, s32 reverb)
 
             ///////////
             // PATCH (Instruments)
-            for (s32 x = 0; x < 16; x++)
+            for (s32 vagIdx = 0; vagIdx < 16; vagIdx++)
             {
-
                 ///////////
                 // SAMPLE
                 if (vagAttr->field_2_vol > 0 && vagAttr->field_16_vag > 0)
@@ -148,20 +206,23 @@ void MidiPlayer::SND_Load_VABS(SoundBlockInfo* pSoundBlockInfo, s32 reverb)
 
                     SPU::ADSR adsr = SPU::parseADSR(ADSR1, ADSR2);
                     SPU::Sample* sample = new SPU::Sample(s->m_SampleBuffer, s->i_SampleSize, s->sampleRate);
-                    patch->samples[x] = sample;
+                    patch->samples[vagIdx] = sample;
 
                     sample->adsr = adsr;
-                    sample->volume = vagAttr->field_2_vol;
+                    sample->volume = vagAttr->field_2_vol == 0 ? 127 : vagAttr->field_2_vol;
                     sample->pan = vagAttr->field_3_pan;
                     sample->reverb = vagAttr->field_1_mode;
                     sample->rootNote = vagAttr->field_4_centre;
                     sample->rootNotePitchShift = vagAttr->field_5_shift;
                     sample->minNote = vagAttr->field_6_min;
                     sample->maxNote = vagAttr->field_7_max;
-                    sample->loop = s->loop;
                     sample->priority = vagAttr->field_0_priority;
+                    sample->loop = s->loop;
+
+                    mSoundSampleParser->applyFix(pSoundBlockInfo->header_name, vagAttr->field_16_vag, vagOffset, sample);
                 }
-                ++vagAttr;
+                vagOffset++;
+                vagAttr++;
             }
         }
 
@@ -293,7 +354,7 @@ s32 MidiPlayer::SFX_SfxDefinition_Play(SfxDefinition* sfxDef, s32 volLeft, s32 v
 
     sanitizeVolume(&volLeft, 0, 127);
     sanitizeVolume(&volRight, 0, 127);
-
+   
     return SPU::OneShotPlay(sfxDef->program, sfxDef->note, (s16) volLeft, (s16) volRight, (u8) std::max(pitch_min, pitch_max), pitch_min, pitch_max);
 }
 
