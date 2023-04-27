@@ -66,6 +66,17 @@ const std::vector<std::vector<u32>> AO_D1SNDFX_VH = {{
 
 ////////////////////////////////////////
 // D2.lvl - D2SNDFX.VH
+const std::vector<std::vector<s32>> AO_D2SNDFX_RATE = {{
+    {51, 22050}, 
+    {61, 16000},
+    {84, 16000},
+    {98, 22050}, 
+    {100, 16000},
+    {101, 22050},
+    {105, 22050},
+    {109, 22050},
+    {110, 22050}}};
+
 const std::vector<std::vector<u32>> AO_D2SNDFX_VH = {{
     {93, 272, 0x2c7f047f, 0x24240060, 0x0, 0xb2b10000, 0x1fc080ff, 0x5d0014, 0xc100c0, 0xc300c2},
     {93, 274, 0x407f047f, 0x2b2b0060, 0x0, 0xb2b10000, 0x1fc080ff, 0x5d0014, 0xc100c0, 0xc300c2},
