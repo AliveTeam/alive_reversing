@@ -98,6 +98,17 @@ const std::vector<std::vector<u32>> AO_D2SNDFX_VH = {{
 
 ////////////////////////////////////////
 // D7.LVL - D2ENDER.VH
+const std::vector<std::vector<s32>> AO_D2ENDER_RATE = {{
+    {18, 22050},
+    {25, 16000},
+    {41, 16000},
+    {46, 22050},
+    {48, 16000},
+    {49, 22050},
+    {53, 22050},
+    {57, 22050},
+    {58, 22050}}};
+
 const std::vector<std::vector<u32>> AO_D2ENDER_VH = {{
     {45, 320, 0x407f047f, 0x7f000048, 0x0, 0xb2b17f7f, 0xdfeb80ff, 0x2d003a, 0xc100c0, 0xc300c2},
     {0, 321, 0x0, 0x0, 0x0, 0xb2b10000, 0x5fc080ff, 0x3a, 0xc100c0, 0xc300c2},
