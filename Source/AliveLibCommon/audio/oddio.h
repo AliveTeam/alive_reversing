@@ -161,7 +161,7 @@ const std::vector<std::vector<u32>> AO_E1SNDFX_VH = {{
 
 ////////////////////////////////////////
 // E2.LVL - E2SNDFX.VH
-const std::vector<std::vector<s32>> AO_E1SNDFX_RATE = {{
+const std::vector<std::vector<s32>> AO_E2SNDFX_RATE = {{
     {50, 44100},
     {51, 44100},
     {52, 22050},
@@ -218,6 +218,19 @@ const std::vector<std::vector<u32>> AO_F1SNDFX_VH = {{
 
 ////////////////////////////////////////
 // F2.LVL - F2SNDFX.VH
+const std::vector<std::vector<s32>> AO_F2SNDFX_RATE = {{
+    {46, 22050},
+    {57, 16000},
+    {58, 16000},
+    {72, 11025},
+    {97, 16000},
+    {101, 22050},
+    {103, 16000},
+    {104, 22050},
+    {108, 22050},
+    {112, 22050},
+    {113, 22050}}};
+
 const std::vector<std::vector<u32>> AO_F2SNDFX_VH = {{
     {6, 99, 0x407f0402, 0x2b240060, 0x0, 0xb2b10202, 0x5feb80ff, 0x60007, 0xc100c0, 0xc300c2},
     {10, 100, 0x407f0402, 0x2d2c0074, 0x0, 0xb2b10202, 0x5feb80ff, 0xa0007, 0xc100c0, 0xc300c2},
@@ -246,6 +259,19 @@ const std::vector<std::vector<u32>> AO_F2SNDFX_VH = {{
 
 ////////////////////////////////////////
 // F4.LVL - F2ENDER.VH
+const std::vector<std::vector<s32>> AO_F2ENDER_RATE = {{
+    {27, 22050},
+    {35, 16000},
+    {36, 16000},
+    {46, 11025},
+    {60, 22050},
+    {62, 16000},
+    {63, 22050},
+    {67, 22050},
+    {71, 22050},
+    {72, 22050},
+    {93, 3800}}};
+
 const std::vector<std::vector<u32>> AO_F2ENDER_VH = {{
     {59, 352, 0x407f047f, 0x7f000048, 0x0, 0xb2b17f7f, 0xdfeb80ff, 0x3b003a, 0xc100c0, 0xc300c2},
     {0, 353, 0x0, 0x0, 0x0, 0xb2b10000, 0x5fc080ff, 0x3a, 0xc100c0, 0xc300c2},
@@ -436,6 +462,17 @@ const std::vector<std::vector<u32>> AO_RFSNDFX_VH = {{
 
 ////////////////////////////////////////
 // R6.LVL - RFENDER.VH
+const std::vector<std::vector<s32>> AO_RFENDER_RATE = {{
+    {36, 22050},
+    {45, 16000},
+    {46, 16000},
+    {70, 22050},
+    {72, 16000},
+    {73, 22050},
+    {77, 22050},
+    {81, 22050},
+    {82, 22050}}};
+
 const std::vector<std::vector<u32>> AO_RFENDER_VH = {{
     {60, 25, 0x407f0400, 0x39390045, 0x0, 0xb2b17f7f, 0xdfe080ff, 0x3c0001, 0xc100c0, 0xc300c2},
     {64, 81, 0x407f0402, 0x30240054, 0x0, 0xb2b10000, 0xdfeb80ff, 0x400007, 0xc100c0, 0xc300c2},
