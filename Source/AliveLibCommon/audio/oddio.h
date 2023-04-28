@@ -127,6 +127,19 @@ const std::vector<std::vector<u32>> AO_D2ENDER_VH = {{
 
 ////////////////////////////////////////
 // E1.LVL - E1SNDFX.VH
+const std::vector<std::vector<s32>> AO_E1SNDFX_RATE = {{
+    {49, 44100},
+    {50, 44100},
+    {51, 22050},
+    {60, 16000},
+    {61, 16000},
+    {85, 22050},
+    {87, 16000},
+    {88, 22050},
+    {92, 22050},
+    {96, 22050},
+    {97, 22050}}};
+
 const std::vector<std::vector<u32>> AO_E1SNDFX_VH = {{
     {84, 448, 0x407f007f, 0x7f000048, 0x0, 0xb2b17f7f, 0xdfeb80ff, 0x54003a, 0xc100c0, 0xc300c2},
     {0, 449, 0x0, 0x0, 0x0, 0xb2b10000, 0x5fc080ff, 0x3a, 0xc100c0, 0xc300c2},
