@@ -101,8 +101,9 @@ public:
         }
         else if (strcmp(headerName, "RFENDER.VH") == 0)
         {
-            lookupVag = ODDIO::AO_RFENDER_VH;
-            lookupRate = ODDIO::AO_RFENDER_RATE;
+            // These can't be used - the vag atr are messed up
+            //lookupVag = ODDIO::AO_RFENDER_VH;
+            //lookupRate = ODDIO::AO_RFENDER_RATE;
         }
 
         for (auto entry : lookupVag)
@@ -207,7 +208,7 @@ void MidiPlayer::SND_Load_VABS(SoundBlockInfo* pSoundBlockInfo, s32 reverb)
 
                     SPU::ADSR adsr = SPU::parseADSR(ADSR1, ADSR2);
                     SPU::Sample* sample = new SPU::Sample(s->m_SampleBuffer, s->i_SampleSize, s->sampleRate);
-                    
+
                     patch->samples[vagIdx] = sample;
 
                     sample->adsr = adsr;
