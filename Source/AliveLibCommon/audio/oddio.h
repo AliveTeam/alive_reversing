@@ -462,6 +462,8 @@ const std::vector<std::vector<u32>> AO_RFSNDFX_VH = {{
 
 ////////////////////////////////////////
 // R6.LVL - RFENDER.VH
+// NOTE: psx and pc differ a lot in this one and
+// it seems unusable. Did I screw something up here?
 const std::vector<std::vector<s32>> AO_RFENDER_RATE = {{
     {36, 22050},
     {45, 16000},
