@@ -138,7 +138,7 @@ FlyingSlig* FlyingSlig::ctor_4342B0(Path_FlyingSlig* pTlv, s32 tlvInfo)
     field_10_resources_array.SetAt(7, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kVaporResID, TRUE, FALSE));
     field_10_resources_array.SetAt(8, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kSlogBlowResID, TRUE, FALSE));
 
-    const AnimRecord& rec = AnimRec(AnimId::Flying_Slig_Idle);
+    const AnimRecord& rec = AnimRec(AnimId::FlyingSlig_Idle);
     u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
     //Animation_Init_424E10(116888, 107, 48u, field_10_resources_array.ItemAt(0), 1, 1u);
@@ -261,23 +261,23 @@ FlyingSlig* FlyingSlig::ctor_4342B0(Path_FlyingSlig* pTlv, s32 tlvInfo)
 }
 
 const AnimId sFlyingSligFrameTables_552408[28] = {
-    AnimId::Flying_Slig_Idle,
-    AnimId::Flying_Slig_Move_Horizontal,
-    AnimId::Flying_Slig_Idle_Turn_Around,
-    AnimId::Flying_Slig_Move_Down,
-    AnimId::Flying_Slig_Move_Down_Turn_Around,
-    AnimId::Flying_Slig_Move_Up,
-    AnimId::Flying_Slig_Move_Up_Turn_Around,
-    AnimId::Flying_Slig_Pull_Lever,
-    AnimId::Flying_Slig_Speak,
-    AnimId::Flying_Slig_Possession,
-    AnimId::Flying_Slig_Move_Horizontal_End,
-    AnimId::Flying_Slig_Move_Up_Start,
-    AnimId::Flying_Slig_Move_Horizontal_To_Down,
-    AnimId::Flying_Slig_Move_Up_To_Horizontal,
-    AnimId::Flying_Slig_Move_Down_To_Horizontal,
-    AnimId::Flying_Slig_Turn_Quick,
-    AnimId::Flying_Slig_Idle_To_Horizontal,
+    AnimId::FlyingSlig_Idle,
+    AnimId::FlyingSlig_MoveHorizontal,
+    AnimId::FlyingSlig_IdleTurnAround,
+    AnimId::FlyingSlig_MoveDown,
+    AnimId::FlyingSlig_MoveDownTurnAround,
+    AnimId::FlyingSlig_MoveUp,
+    AnimId::FlyingSlig_MoveUpTurnAround,
+    AnimId::FlyingSlig_PullLever,
+    AnimId::FlyingSlig_Speak,
+    AnimId::FlyingSlig_Possession,
+    AnimId::FlyingSlig_MoveHorizontalEnd,
+    AnimId::FlyingSlig_MoveUpStart,
+    AnimId::FlyingSlig_MoveHorizontalToDown,
+    AnimId::FlyingSlig_MoveUpToHorizontal,
+    AnimId::FlyingSlig_MoveDownToHorizontal,
+    AnimId::FlyingSlig_TurnQuick,
+    AnimId::FlyingSlig_IdleToHorizontal,
     AnimId::FlyingSlig_BeginDownMovement,
     AnimId::FlyingSlig_EndDownMovement,
     AnimId::FlyingSlig_DownKnockback,
