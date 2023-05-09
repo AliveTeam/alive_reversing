@@ -71,7 +71,7 @@ const vec2 frameSize = vec2(640.0, 240.0);
 
 vec4 PixelToPalette(float v)
 {
-    return texture(texPalette, vec2(v, fsTexIndexing.x / 255.0));
+    return texture(texPalette, vec2(v, float(fsTexIndexing.x) / 255.0));
 }
 
 bool dither()
