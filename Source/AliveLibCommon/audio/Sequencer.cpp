@@ -13,7 +13,7 @@ namespace SPU {
 // SPU state
 std::mutex mutex;
 
-const int VOICE_SIZE_LIMIT = 24; // Can be increased to 32, but 24 is what PSX has
+const int VOICE_SIZE_LIMIT = 32; // Can be increased to 32, but 24 is what PSX has
 std::array<Voice*, VOICE_SIZE_LIMIT> voices;
 
 const int SEQUENCE_SIZE_LIMIT = 256;
@@ -1021,7 +1021,7 @@ s32 Voice::noteFromVgmTrans()
     }
     else if (pos < 0)
     {
-        pitchA = _svm_ptable[0];
+        pitchA = _svm_ptable[192 + pos] >> 1;
     }
     else
     {
