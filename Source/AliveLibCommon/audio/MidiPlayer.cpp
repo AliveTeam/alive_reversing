@@ -101,7 +101,7 @@ public:
         }
         else if (strcmp(headerName, "RFENDER.VH") == 0)
         {
-            // These can't be used - the vag atr are messed up
+            // TODO - These can't be used - the vag atr are messed up
             //lookupVag = ODDIO::AO_RFENDER_VH;
             //lookupRate = ODDIO::AO_RFENDER_RATE;
         }
@@ -358,7 +358,7 @@ s32 MidiPlayer::SFX_SfxDefinition_Play(SfxDefinition* sfxDef, s32 volLeft, s32 v
     sanitizeVolume(&volLeft, 0, 127);
     sanitizeVolume(&volRight, 0, 127);
    
-    return SPU::OneShotPlay(sfxDef->program, sfxDef->note, (s16) volLeft, (s16) volRight, (u8) std::max(pitch_min, pitch_max), pitch_min, pitch_max);
+    return SPU::OneShotPlay(sfxDef->program, sfxDef->note, (s16) volLeft, (s16) volRight, std::max(pitch_min, pitch_max), pitch_min, pitch_max);
 }
 
 s32 MidiPlayer::SFX_SfxDefinition_Play(SfxDefinition* sfxDef, s32 volume, s32 pitch_min, s32 pitch_max)
@@ -371,7 +371,7 @@ s32 MidiPlayer::SFX_SfxDefinition_Play(SfxDefinition* sfxDef, s32 volume, s32 pi
     sanitizePitch(&pitch_max, sfxDef->pitch_max);
     sanitizeVolume(&volume, 1, 127);
 
-    return SPU::OneShotPlay(sfxDef->program, sfxDef->note, (s16) volume, (s16) volume, (u8) std::max(pitch_min, pitch_max), pitch_min, pitch_max);
+    return SPU::OneShotPlay(sfxDef->program, sfxDef->note, (s16) volume, (s16) volume, std::max(pitch_min, pitch_max), pitch_min, pitch_max);
 }
 
 s32 MidiPlayer::SND(s32 program, s32 vabId, s32 note, s16 vol, s16 min, s16 max)

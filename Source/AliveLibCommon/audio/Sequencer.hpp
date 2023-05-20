@@ -59,7 +59,6 @@ public:
 
     }
 
-    s32 vag;
     s8 priority;
     s16 volume;
     s16 pan;
