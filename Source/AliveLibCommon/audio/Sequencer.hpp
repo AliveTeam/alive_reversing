@@ -59,6 +59,7 @@ public:
 
     }
 
+    s32 vag;
     s8 priority;
     s16 volume;
     s16 pan;
@@ -68,8 +69,8 @@ public:
     bool loop;
 
     // Root Key
-    u8 rootNote;
-    u8 rootNotePitchShift;
+    s32 rootNote;
+    s32 rootNotePitchShift;
 
     // Key range
     u8 minNote;
@@ -244,7 +245,7 @@ public:
     Sequence* sequence = NULL;
     u8 patchId;
     u8 channelId;
-    u8 note;
+    s32 note;
     s32 pitch;
     s32 pitchMin = 0;
     s32 pitchMax = 127;
@@ -282,6 +283,7 @@ public:
 
 private:
     s32 Interpolate();
+    s32 noteFromVgmTrans(); 
 };
 
 
@@ -293,7 +295,7 @@ void StopAll();
 
 // returns an 'id' mask - more than one note may play during a oneshot.
 // Each of the 24 voices have an id of (1 << x) where x is the voice num
-s32 OneShotPlay(s32 patchId, u8 note, s16 voll, s16 volr, u8 pitch, s32 pitchMin, s32 pitchMax);
+s32 OneShotPlay(s32 patchId, u8 note, s16 voll, s16 volr, s32 pitch, s32 pitchMin, s32 pitchMax);
 void OneShotStop(s32 mask);
 
 // Patches are instruments that contain samples.

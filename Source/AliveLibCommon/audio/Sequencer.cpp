@@ -40,7 +40,7 @@ void SPUSeqStop(s32 seqId);
 void SPUSeqSetVolume(s32 seqId, s16 voll, s16 volr);
 bool SPUSeqIsDone(s32 seqId);
 
-s32 SPUOneShotPlay(s32 patchId, u8 note, s16 voll, s16 volr, u8 pitch, s32 pitchMin, s32 pitchMax);
+s32 SPUOneShotPlay(s32 patchId, u8 note, s16 voll, s16 volr, s32 pitch, s32 pitchMin, s32 pitchMax);
 void SPUOneShotStop(s32 mask);
 
 void SPUTick(void* udata, Uint8* stream, int len);
@@ -106,6 +106,7 @@ bool SeqPlay(s32 seqId, s32 repeats, bool stopDuplicateSeq)
     {
         SPUSeqStop(seqId);
     }
+    // SPUSeqSetVolume(seqId, 100, 100);
     bool res = SPUSeqPlay(seqId, repeats);
     mutex.unlock();
     return res;
@@ -142,7 +143,7 @@ bool SeqIsDone(s32 seqId)
     return res;
 }
 
-s32 SPU::OneShotPlay(s32 patchId, u8 note, s16 voll, s16 volr, u8 pitch, s32 pitchMin, s32 pitchMax)
+s32 SPU::OneShotPlay(s32 patchId, u8 note, s16 voll, s16 volr, s32 pitch, s32 pitchMin, s32 pitchMax)
 {
     mutex.lock();
     s32 res = SPUOneShotPlay(patchId, note, voll, volr, pitch, pitchMin, pitchMax);
@@ -489,7 +490,7 @@ bool SPUSeqIsDone(s32 seqId)
     return res;
 }
 
-s32 SPUOneShotPlay(s32 patchId, u8 note, s16 voll, s16 volr, u8 pitch, s32 pitchMin, s32 pitchMax)
+s32 SPUOneShotPlay(s32 patchId, u8 note, s16 voll, s16 volr, s32 pitch, s32 pitchMin, s32 pitchMax)
 {
     volr;
     voll;
@@ -973,22 +974,25 @@ USHORT _svm_ptable[] = {
     7298, 7324, 7351, 7377, 7404, 7431, 7458, 7485,
     7512, 7539, 7566, 7593, 7621, 7648, 7676, 7704,
     7732, 7760, 7788, 7816, 7844, 7873, 7901, 7930,
-    7958, 7987, 8016, 8045, 8074, 8103, 8133, 8162,
-    8192};
+    7958, 7987, 8016, 8045, 8074, 8103, 8133, 8162}; // 192 total (0-191)
 
-void Voice::RefreshNoteStep()
+s32 Voice::noteFromVgmTrans()
 {
-
     // This code seems to be producing the same adpcm_sample_rate values
-    // as duckstation. Believe it or not, this code was found on pastebin 
-    // by searching for "SsPitchFromNote"
+    // as duckstation. Believe it or not, this code was found on pastebin
+    // by searching for "SsPitchFromNote" - I think this is from VGMTrans?
     // https://pastebin.com/aq7wxDdr
+
+    // NOTE: This doesn't always produce correct pitches
+    // It creates values that go beyond _svm_ptable bounds; Examples
+    // 1. SecurityOrbs produce indexes >_svm_ptable.size (199, limit is 192)
+    // 2. Leaves coming out of wells produce indexes below 0 (-104, limit is 0)
 
     unsigned int pitchA;
     SHORT calc, type;
     signed int add, sfine; //, ret;
     signed int fine = pitch < pitchMin ? pitchMin : pitch;
-    sfine = fine + sample->rootNotePitchShift;
+    sfine = fine + ((s32) sample->rootNotePitchShift);
     if (sfine < 0)
     {
         sfine += 7;
@@ -1002,8 +1006,28 @@ void Voice::RefreshNoteStep()
         sfine -= 16;
     }
 
-    calc = (SHORT) (add + (note - (sample->rootNote - 60))); //((center + 60) - note) + add;
-    pitchA = _svm_ptable[16 * (calc % 12) + (short) sfine];
+    calc = (SHORT) (add + (note - (((s32) sample->rootNote) - 60))); //((center + 60) - note) + add;
+    int pos = (16 * (calc % 12) + sfine);
+
+    // START: ADDED
+    // Security Orbs, Pause menu, and well leaves had the 
+    // wrong pitch. The values produced went beyond the
+    // table range. Try to correct them. Seems to work ok...
+    // I just messed around with what made sense and sounded right.
+    if (pos >= 192)
+    {
+        pitchA = _svm_ptable[pos % 192] << ((pos / 192));
+    }
+    else if (pos < 0)
+    {
+        pitchA = _svm_ptable[0];
+    }
+    else
+    {
+        pitchA = _svm_ptable[pos];
+    }
+    // END: Added
+
     type = calc / 12 - 5;
 
     // regular shift
@@ -1018,7 +1042,14 @@ void Voice::RefreshNoteStep()
     {
         ret = pitchA >> -type;
     }
+    return ret;
+}
 
+void Voice::RefreshNoteStep()
+{
+    s32 ret = noteFromVgmTrans();
+
+    // freq = (ret * 44100) / 4096
     // step seems to be calculated for 8000hz samples hence the division
     noteStep = (u16) ((sample->SampleRate / 8000.0) * double(ret));
     // std::cout << ret << " " << (int) note << " " << noteStep << std::endl;
