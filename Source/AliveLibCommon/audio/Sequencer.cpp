@@ -648,10 +648,12 @@ void SPUTick(void* udata, Uint8* stream, int len)
         // make value usable by SDL
         // It might make sense to increase the mix volume above MIX_MAXVOUME.
         // I think psx sounds like it runs a little hot, compressing audio a bit
-        leftSample = leftSample / 32767.0f;
-        rightSample = rightSample / 32767.0f;
-        SDL_MixAudioFormat((Uint8*) (AudioStream + i), (const Uint8*) &leftSample, AUDIO_F32, sizeof(float), SDL_MIX_MAXVOLUME * 2);
-        SDL_MixAudioFormat((Uint8*) (AudioStream + i + 1), (const Uint8*) &rightSample, AUDIO_F32, sizeof(float), SDL_MIX_MAXVOLUME * 2);
+        leftSample = leftSample / 16383.0f; // 16383.0f  32767.0f
+        rightSample = rightSample / 16383.0f;
+        leftSample = leftSample > 1 ? 1 : leftSample;
+        rightSample = rightSample > 1 ? 1 : rightSample;
+        SDL_MixAudioFormat((Uint8*) (AudioStream + i), (const Uint8*) &leftSample, AUDIO_F32, sizeof(float), SDL_MIX_MAXVOLUME);
+        SDL_MixAudioFormat((Uint8*) (AudioStream + i + 1), (const Uint8*) &rightSample, AUDIO_F32, sizeof(float), SDL_MIX_MAXVOLUME);
     }
 }
 
@@ -1112,9 +1114,6 @@ void Voice::RefreshVolume()
         left = (left * (127 - 64)) / 63;
     }
 
-
-    //if (_svm_cur.field_14_seq_sep_no != 0x21)
-    //{
     s32 right = uVar1;
     right;
     left = (left * left) / 0x3fff;
@@ -1122,11 +1121,6 @@ void Voice::RefreshVolume()
 
     leftReg = left;
     rightReg = right;
-    //if (velocity == 84)
-    //{
-    //    leftReg = 2176;
-    //    rightReg = 2176;
-    //}
     //std::cout << left << " " << right << std::endl;
 }
 
