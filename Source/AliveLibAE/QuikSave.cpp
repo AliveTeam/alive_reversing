@@ -580,11 +580,11 @@ void Quicksave_FindSaves()
 {
     gTotalSaveFilesCount = 0;
 
-    IO_EnumerateDirectory("*.sav", [](const char_type* fileName, u32 lastWriteTime)
+    IO_EnumerateDirectory("*.json", [](const char_type* fileName, u32 lastWriteTime)
                           {
                               if (gTotalSaveFilesCount < 128)
                               {
-                                  size_t fileNameLen = strlen(fileName) - 4;
+                                  size_t fileNameLen = strlen(fileName) - 5; // remove .json
                                   if (fileNameLen > 0)
                                   {
                                       // Limit length to prevent buffer overflow

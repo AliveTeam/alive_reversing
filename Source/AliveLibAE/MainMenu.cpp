@@ -29,6 +29,8 @@
 #include "ResourceManager.hpp"
 #include "QuikSave.hpp"
 #include "DDCheat.hpp"
+#include "nlohmann/json.hpp"
+#include "../relive_lib/data_conversion/AESaveSerialization.hpp"
 
 MainMenuController* MainMenuController::gMainMenuController = nullptr;
 
@@ -2178,18 +2180,18 @@ MainMenuNextCam MainMenuController::tLoadGame_Input_4D3EF0(u32 input)
         // Load selected save
         char_type filename[40] = {};
         strcpy(filename, gSaveFileRecords[gSavedGameToLoadIdx].mFileName);
-        strcat(filename, ".sav");
+        strcat(filename, ".json");
 
-        std::string strPath = filename;
-        IO_FileHandleType hFile = IO_Open(strPath.c_str(), "rb");
+        FileSystem fs;
+        std::string jsonStr = fs.LoadToString(filename);
 
-        if (!hFile)
+        if (jsonStr.empty())
         {
             return MainMenuNextCam(MainMenuCams::eNoChange);
         }
 
-        IO_Read(hFile, &gActiveQuicksaveData, sizeof(Quicksave), 1u);
-        IO_Close(hFile);
+        nlohmann::json j = nlohmann::json::parse(jsonStr);
+        from_json(j, gActiveQuicksaveData);
 
         mLoadingSave = true;
         return MainMenuNextCam(MainMenuCams::eGameIsLoading_ShaddapCam, NO_SELECTABLE_BUTTONS);

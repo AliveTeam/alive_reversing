@@ -21,6 +21,9 @@
 #include "ResourceManager.hpp"
 #include "../relive_lib/GameObjects/ScreenManager.hpp"
 #include "Game.hpp"
+#include "nlohmann/json.hpp"
+#include "../relive_lib/data_conversion/AESaveSerialization.hpp"
+#include "../relive_lib/data_conversion/data_conversion.hpp"
 
 bool gQuicksave_SaveNextFrame = false;
 bool gQuicksave_LoadNextFrame = false;
@@ -621,17 +624,17 @@ void PauseMenu::Page_Save_Update()
     if (mSaveState == SaveState::DoSave_4)
     {
         strcpy(savFileName, sSaveString);
-        strcat(savFileName, ".sav");
+        strcat(savFileName, ".json");
         if (access_impl(savFileName, 4) || bWriteSaveFile_5C937C) // check file is writable
         {
             bWriteSaveFile_5C937C = false;
-            FILE* hFile = fopen(savFileName, "wb");
-            if (hFile)
-            {
-                fwrite(&gActiveQuicksaveData, sizeof(Quicksave), 1u, hFile);
-                fclose(hFile);
-                gSavedGameToLoadIdx = 0;
-            }
+            nlohmann::json j;
+
+            to_json(j, gActiveQuicksaveData);
+            FileSystem fs;
+            SaveJson(j, fs, &savFileName[0]);
+            gSavedGameToLoadIdx = 0;
+
             mPauseRenderLoop = false;
             SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 40, 2400);
             GetSoundAPI().mSND_Restart();
@@ -880,18 +883,23 @@ void PauseMenu::Page_Load_Update()
         if (gTotalSaveFilesCount)
         {
             strcpy(saveFileName, gSaveFileRecords[gSavedGameToLoadIdx].mFileName);
-            strcat(saveFileName, ".sav");
-            FILE* hFile = ::fopen(saveFileName, "rb");
-            if (hFile)
+            strcat(saveFileName, ".json");
+
+            FileSystem fs;
+            std::string jsonStr = fs.LoadToString(saveFileName);
+
+            if (jsonStr.empty())
             {
-                ::fread(&gActiveQuicksaveData, sizeof(Quicksave), 1u, hFile);
-                sActiveHero->mXPos = FP_FromInteger(0);
-                sActiveHero->mYPos = FP_FromInteger(0);
-                Quicksave_LoadActive();
-                mPauseRenderLoop = false;
-                // TODO: OG bug, file handle is leaked
-                ::fclose(hFile);
+                ALIVE_FATAL("Save file is empty");
             }
+
+            nlohmann::json j = nlohmann::json::parse(jsonStr);
+            from_json(j, gActiveQuicksaveData);
+
+            sActiveHero->mXPos = FP_FromInteger(0);
+            sActiveHero->mYPos = FP_FromInteger(0);
+            Quicksave_LoadActive();
+            mPauseRenderLoop = false;
             SfxPlayMono(relive::SoundEffects::IngameTransition, 90);
         }
     }
@@ -907,7 +915,7 @@ void PauseMenu::Page_Load_Update()
         if (gTotalSaveFilesCount)
         {
             strcpy(saveFileName, gSaveFileRecords[gSavedGameToLoadIdx].mFileName);
-            strcat(saveFileName, ".sav");
+            strcat(saveFileName, ".json");
             relive_remove(saveFileName);
             Quicksave_FindSaves();
         }

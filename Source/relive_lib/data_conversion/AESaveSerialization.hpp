@@ -1613,7 +1613,7 @@ inline void from_json(const nlohmann::json& j, AbeSaveState& p)
     j.at("play_ledge_grab_sounds").get_to(p.mPlayLedgeGrabSounds);
     j.at("have_healing").get_to(p.mHaveHealing);
     j.at("teleporting").get_to(p.mTeleporting);
-    j.at("mudanchee:done").get_to(p.mMudancheeDone);
+    j.at("mudanchee_done").get_to(p.mMudancheeDone);
     j.at("mudomo_done").get_to(p.mMudomoDone);
     j.at("shadow_enabled").get_to(p.mShadowEnabled);
     j.at("shadow_at_bottom").get_to(p.mShadowAtBottom);
@@ -3123,21 +3123,23 @@ inline void from_json(const nlohmann::json& j, SwitchStates& p)
 inline void to_json(nlohmann::json& j, const Quicksave& p)
 {
     j = nlohmann::json{
-        {"accumulated_obj_count", p.mAccumulatedObjCount},
-        {"world_info", p.mWorldInfo},
-        {"restart_path_world_info", p.mRestartPathWorldInfo},
-        {"restart_path_abe_state", p.mRestartPathAbeState},
-        {"restart_path_switch_states", p.mRestartPathSwitchStates},
-        {"switch_states", p.mSwitchStates},
+        {"world_data", {
+            {"accumulated_obj_count", p.mAccumulatedObjCount},
+            {"world_info", p.mWorldInfo},
+            {"restart_path_world_info", p.mRestartPathWorldInfo},
+            {"restart_path_abe_state", p.mRestartPathAbeState},
+            {"restart_path_switch_states", p.mRestartPathSwitchStates},
+            {"switch_states", p.mSwitchStates}
+        }}
     };
 }
 
 inline void from_json(const nlohmann::json& j, Quicksave& p)
 {
-    j.at("accumulated_obj_count").get_to(p.mAccumulatedObjCount);
-    j.at("world_info").get_to(p.mWorldInfo);
-    j.at("restart_path_world_info").get_to(p.mRestartPathWorldInfo);
-    j.at("restart_path_abe_state").get_to(p.mRestartPathAbeState);
-    j.at("restart_path_switch_states").get_to(p.mRestartPathSwitchStates);
-    j.at("switch_states").get_to(p.mSwitchStates);
+    j["world_data"].at("accumulated_obj_count").get_to(p.mAccumulatedObjCount);
+    j["world_data"].at("world_info").get_to(p.mWorldInfo);
+    j["world_data"].at("restart_path_world_info").get_to(p.mRestartPathWorldInfo);
+    j["world_data"].at("restart_path_abe_state").get_to(p.mRestartPathAbeState);
+    j["world_data"].at("restart_path_switch_states").get_to(p.mRestartPathSwitchStates);
+    j["world_data"].at("switch_states").get_to(p.mSwitchStates);
 }
