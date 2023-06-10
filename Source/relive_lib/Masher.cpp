@@ -654,7 +654,7 @@ static T64IntsArray Y3_block = {};
 static T64IntsArray Y4_block = {};
 
 
-void half_idct(T64IntsArray& pSource, T64IntsArray& pDestination, s32 nPitch, s32 nIncrement, s32 nShift)
+static void half_idct(T64IntsArray& pSource, T64IntsArray& pDestination, s32 nPitch, s32 nIncrement, s32 nShift)
 {
     std::array<int32_t, 8> pTemp;
 
@@ -688,7 +688,7 @@ void half_idct(T64IntsArray& pSource, T64IntsArray& pDestination, s32 nPitch, s3
 }
 
 // 0x40ED90
-void idct(int16_t* input, T64IntsArray& pDestination) // dst is 64 dwords
+static void idct(int16_t* input, T64IntsArray& pDestination) // dst is 64 dwords
 {
     T64IntsArray pTemp;
     T64IntsArray pExtendedSource;
@@ -841,7 +841,7 @@ s32 Masher::Init(const char_type* movieFileName)
 
         field_84_max_frame_size += field_2C_audio_header.field_8_max_audio_frame_size;
 
-        field_4C_decoded_audio_buffer = static_cast<u8*>(malloc(field_2C_audio_header.field_C_single_audio_frame_size
+        field_4C_decoded_audio_buffer = static_cast<u8*>(malloc(static_cast<size_t>(field_2C_audio_header.field_C_single_audio_frame_size)
                                                                 * (field_50_num_channels * field_54_bits_per_sample / 8)));
 
         if (!field_4C_decoded_audio_buffer)
@@ -887,33 +887,11 @@ Masher::~Masher()
         sMovie_IO_BBB314.mIO_Close(field_0_file_handle);
     }
 
-    if (field_70_frame_sizes_array)
-    {
-        free(field_70_frame_sizes_array);
-    }
-
-    if (field_80_raw_frame_data)
-    {
-        free(field_80_raw_frame_data);
-    }
-
-    if (field_44_decoded_frame_data_buffer)
-    {
-        free(field_44_decoded_frame_data_buffer);
-    }
-
-    if (field_4C_decoded_audio_buffer)
-    {
-        free(field_4C_decoded_audio_buffer);
-    }
-
-    if (field_8C_macro_block_buffer)
-    {
-        if (field_90_64_or_0)
-        {
-            free(field_8C_macro_block_buffer);
-        }
-    }
+    free(field_70_frame_sizes_array);
+    free(field_80_raw_frame_data);
+    free(field_44_decoded_frame_data_buffer);
+    free(field_4C_decoded_audio_buffer);
+    free(field_8C_macro_block_buffer);
 }
 
 s32 Masher::ReadNextFrame()
@@ -1070,8 +1048,8 @@ void Masher::VideoFrameDecode(RGBA32* pPixelBuffer)
     }
 }
 
-s32 gMasher_num_channels_BBB9B4 = 0;
-s32 gMasher_bits_per_sample_BBB9A8 = 0;
+static s32 gMasher_num_channels_BBB9B4 = 0;
+static s32 gMasher_bits_per_sample_BBB9A8 = 0;
 
 void Masher::DDV_Set_Channels_And_BitsPerSample_4ECFD0(s32 numChannels, s32 bitsPerSample)
 {
@@ -1186,15 +1164,7 @@ void Masher::SetElement(s32 x, s32 y, s32 width, s32 height, RGBA32* ptr, const 
 void Masher::ConvertYuvToRgbAndBlit(RGBA32* pixelBuffer, s32 xoff, s32 yoff, s32 width, s32 height, bool doubleWidth, bool doubleHeight)
 {
     // convert the Y1 Y2 Y3 Y4 and Cb and Cr blocks into a 16x16 array of (Y, Cb, Cr) pixels
-    struct Macroblock_YCbCr_Struct final
-    {
-        f32 Y;
-        f32 Cb;
-        f32 Cr;
-    };
-
-    std::array<std::array<Macroblock_YCbCr_Struct, 16>, 16> Macroblock_YCbCr = {};
-
+    TYCbCrBlock Macroblock_YCbCr = {};
     for (s32 x = 0; x < 8; x++)
     {
         for (s32 y = 0; y < 8; y++)
@@ -1218,7 +1188,6 @@ void Masher::ConvertYuvToRgbAndBlit(RGBA32* pixelBuffer, s32 xoff, s32 yoff, s32
 
     // Convert the (Y, Cb, Cr) pixels into RGB pixels
     std::array<std::array<Macroblock_RGB_Struct, 16>, 16> Macroblock_RGB = {};
-
     for (u32 x = 0; x < kMacroBlockWidth; x++)
     {
         for (u32 y = 0; y < kMacroBlockHeight; y++)
@@ -1230,13 +1199,20 @@ void Masher::ConvertYuvToRgbAndBlit(RGBA32* pixelBuffer, s32 xoff, s32 yoff, s32
             Macroblock_RGB[x][y].Red = Clamp(r);
             Macroblock_RGB[x][y].Green = Clamp(g);
             Macroblock_RGB[x][y].Blue = Clamp(b);
+        }
+    }
 
+    // Copy the RGB pixels into the resulting image/texture
+    for (u32 x = 0; x < kMacroBlockWidth; x++)
+    {
+        for (u32 y = 0; y < kMacroBlockHeight; y++)
+        {
             // Due to macro block padding this can be out of bounds
             const s32 xpos = x + xoff;
             const s32 ypos = y + yoff;
             if (xpos < width && ypos < height)
             {
-                RGBA32 pixel = {Macroblock_RGB[x][y].Red, Macroblock_RGB[x][y].Green, Macroblock_RGB[x][y].Blue, 0 };
+                RGBA32 pixel = {Macroblock_RGB[x][y].Red, Macroblock_RGB[x][y].Green, Macroblock_RGB[x][y].Blue, 0};
                 // Actually is no alpha in FMVs
                 // pixelValue = (pixelValue << 8) + Macroblock_RGB[x][y].A
                 SetElement(xpos, ypos, width, height, pixelBuffer, pixel, doubleWidth, doubleHeight);

@@ -29,92 +29,268 @@ public:
 
     }
 
+    // TODO: Remove
     ~IDDVReader()
     {
-        Masher_DeAlloc(mMasher);
+
     }
 
-    virtual bool Open(const char_type* pFileName)
+    // TODO: Remove
+    virtual bool Open(const char_type* )
     {
-        mMasher = Open_DDV(pFileName);
-        return mMasher != nullptr;
+        return false;
     }
 
-    // TODO: These can change per frame in psx ddv in AO :)
-    u32 FrameWidth() const
+    s8 Mash_DecompressAudio()
     {
-        return pMasher_video_header->field_4_width;
-    }
-
-    u32 FrameHeight() const
-    {
-        return pMasher_video_header->field_8_height;
-    }
-
-private:
-    Masher* Masher_Alloc(
-        const char_type* pFileName,
-        Masher_Header** ppMasherHeader,
-        Masher_VideoHeader** ppMasherVideoHeader,
-        Masher_AudioHeader** ppMasherAudioHeader,
-        s32* errCode)
-    {
-        Masher* pMasher = relive_new Masher;
-        if (pMasher)
+        if (!mHasAudio)
         {
-            *errCode = pMasher->Init(pFileName);
-            if (*errCode)
+            return 1;
+        }
+
+        u32 audioBufferStartOffset = 0;
+        mAudioSampleOffset = 0;
+
+        // Keep reading frames till we have >= number of interleaved so that we have 1 full frame
+        if (mNumReadFrames < mMasher->field_2C_audio_header.field_10_num_frames_interleave)
+        {
+            while (Masher::ReadNextFrameToMemory_4EAC30(mMasher))
             {
-                relive_delete pMasher;
-                return nullptr;
+                //const int bitsPerSample = (mMasher->field_2C_audio_header.field_0_audio_format & 2) ? 16 : 8;
+                //const int channels = (mMasher->field_2C_audio_header.field_0_audio_format & 1) ? 2 : 1;
+
+                void* pDecompressedAudioFrame = Masher::GetDecompressedAudioFrame_4EAC60(mMasher);
+
+                if (pDecompressedAudioFrame)
+                {
+                    //ffmpeg_push_audio(reinterpret_cast<u8*>(pDecompressedAudioFrame), (bitsPerSample / 8) * mSingleAudioFrameSizeInSamples * channels);
+
+                    /*if (GetSoundAPI().SND_LoadSamples(
+                        &g_fmv_sound_entry_5CA208,
+                        mAudioSampleOffset,
+                        (u8*)pDecompressedAudioBuffer,
+                        mSingleAudioFrameSizeInSamples))
+                    {
+                        mNoAudioOrAudioError = 1;
+                    }*/
+                }
+
+                mAudioSampleOffset += mSingleAudioFrameSizeInSamples;
+                audioBufferStartOffset = mAudioSampleOffset;
+                mNumReadFrames++;
+
+                if (mNumReadFrames >= mMasher->field_2C_audio_header.field_10_num_frames_interleave)
+                {
+                    break;
+                }
             }
-            else
+        }
+
+        if (mNumReadFrames >= mMasher->field_2C_audio_header.field_10_num_frames_interleave)
+        {
+            // Update the offset to the size of the first demuxed frame
+            mCurrentAudioOffset = audioBufferStartOffset;
+            if (!mNoAudioOrAudioError)
             {
-                *ppMasherHeader = &pMasher->field_4_ddv_header;
-                *ppMasherVideoHeader = &pMasher->field_14_video_header;
-                *ppMasherAudioHeader = &pMasher->field_2C_audio_header;
-                return pMasher;
+                // Sound entry is created and populated with 1 frame, play it
+                /*if (FAILED(GetSoundAPI().SND_PlayEx(&fmv_sound_entry_5CA208, 116, 116, 1.0, 0, 1, 100)))
+                {
+                    mNoAudioOrAudioError = 1;
+                }*/
             }
+            mNumPlayedAudioFrames = 0;
+            mOldBufferPlayPos = 0;
+            return 1;
+        }
+
+        return 0;
+    }
+
+    bool InitDDVPlayback(const std::string& filePath, bool ffmpegExport)
+    {
+        mHasAudio = 0;
+        mAudioSampleOffset = 0;
+        mNumReadFrames = 0;
+        mNoAudioOrAudioError = 0;
+        mSingleAudioFrameSizeInSamples = 0;
+        mCurrentAudioOffset = 0;
+        mNumPlayedAudioFrames = 0;
+        mOldBufferPlayPos = 0;
+
+        //gFrameBuffer.resize(640 * 480 * 4);
+
+        if (mMasher != nullptr)
+        {
+            delete mMasher;
+            mMasher = nullptr;
+        }
+
+        mMasher = new Masher();
+
+        //gMasherTexture = CreateVideoPlayerTexture();
+
+        mMasher->Init(filePath.c_str());
+
+        /*
+        AssetFMVParams params;
+        params.video.fps = 15;
+        params.video.width = mMasher->field_14_video_header.field_4_width;
+        params.video.height = mMasher->field_14_video_header.field_8_height;
+        params.outputPath = filePath;
+
+        params.audio.audioSampleRate = mMasher->field_2C_audio_header.field_4_samples_per_second;
+        params.audio.audioChannels = (mMasher->field_2C_audio_header.field_0_audio_format & 1) ? 2 : 1;
+        */
+
+        if (ffmpegExport)
+        {
+            //ffmpeg_begin(params);
+        }
+
+        mHasAudio = ((u32) mMasher->field_4_ddv_header.field_4_contains >> 1) & 1;
+        mSingleAudioFrameSizeInSamples = mMasher->field_2C_audio_header.field_C_single_audio_frame_size;
+        // const auto fmv_sound_entry_size = mSingleAudioFrameSizeInSamples * (mMasher->field_2C_audio_header.field_10_num_frames_interleave + 6);
+
+        mNoAudioOrAudioError = 0;
+        if (mHasAudio && mMasher->field_2C_audio_header.field_0_audio_format)
+        {
+            // if (GetSoundAPI().SND_New(
+            //     &fmv_sound_entry_5CA208,
+            //     fmv_sound_entry_size,
+            //     pMasher_audio_header_5CA1E0->field_4_samples_per_second,
+            //     (pMasher_audio_header_5CA1E0->field_0_audio_format & 2) != 0 ? 16 : 8,
+            //     (pMasher_audio_header_5CA1E0->field_0_audio_format & 1) | 6)
+            //     < 0)
+            //{
+            //     // SND_New failed
+            //     fmv_sound_entry_5CA208.field_4_pDSoundBuffer = nullptr;
+            //     mNoAudioOrAudioError = 1;
+            // }
         }
         else
         {
-            *errCode = 2;
-            return nullptr;
+            // Source DDV has no audio
+            mNoAudioOrAudioError = 1;
         }
-    }
 
-    Masher* Open_DDV(const char_type* pMovieName)
-    {
-        s32 errCode = 0;
-        Masher* pMasher = Masher_Alloc(
-            pMovieName,
-            &pMasher_header,
-            &pMasher_video_header,
-            &pMasher_audio_header,
-            &errCode);
-
-        if (errCode)
+        if (Mash_DecompressAudio() && mMasher->ReadNextFrame() && mMasher->ReadNextFrame())
         {
-            return nullptr;
+            return true;
         }
-        return pMasher;
+        else
+        {
+            return false;
+        }
     }
 
-    void Masher_DecodeVideoFrame(Masher* pMasher, RGBA32* pSurface)
+    bool StepDDVPlayback(bool ffmpegExport)
     {
-        pMasher->VideoFrameDecode(pSurface);
+        //mMasher->VideoFrameDecode_Raw(gFrameBuffer.data());
+        mMasher->VideoFrameDecode(nullptr);
+
+        if (ffmpegExport)
+        {
+            //ffmpeg_push_frame(gFrameBuffer.data(), mMasher->field_14_video_header.field_4_width, mMasher->field_14_video_header.field_8_height);
+        }
+        else
+        {
+            //glBindTexture(GL_TEXTURE_2D, gMasherTexture);
+            //glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, mMasher->field_14_video_header.field_4_width, mMasher->field_14_video_header.field_8_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, gFrameBuffer.data());
+        }
+
+        mNumReadFrames++;
+
+        if (!mNoAudioOrAudioError)
+        {
+            //const int bitsPerSample = (mMasher->field_2C_audio_header.field_0_audio_format & 2) ? 16 : 8;
+            //const int channels = (mMasher->field_2C_audio_header.field_0_audio_format & 1) ? 2 : 1;
+
+            void* pDecompressedAudioFrame = Masher::GetDecompressedAudioFrame_4EAC60(mMasher);
+
+            if (pDecompressedAudioFrame)
+            {
+                if (ffmpegExport)
+                {
+                    //ffmpeg_push_audio(reinterpret_cast<u8*>(pDecompressedAudioFrame), (bitsPerSample / 8) * mSingleAudioFrameSizeInSamples * channels);
+                }
+
+                //// Push new samples into the buffer
+                // if (GetSoundAPI().SND_LoadSamples(&fmv_sound_entry_5CA208, fmv_audio_sample_offset_5CA238, (u8*)pDecompressedAudioFrame, fmv_single_audio_frame_size_in_samples_5CA240) < 0)
+                //{
+                //     // Reload with data fail
+                //     bNoAudioOrAudioError_5CA1F4 = 1;
+                // }
+            }
+            else
+            {
+                // if (GetSoundAPI().SND_Clear(&fmv_sound_entry_5CA208, fmv_audio_sample_offset_5CA238, fmv_single_audio_frame_size_in_samples_5CA240) < 0)
+                //{
+                //     // Reload with silence on failure or no data
+                //     bNoAudioOrAudioError_5CA1F4 = 1;
+                // }
+            }
+
+            mAudioSampleOffset += mSingleAudioFrameSizeInSamples;
+        }
+        const s32 bMoreFrames = mMasher->ReadNextFrame();
+
+        if (!bMoreFrames)
+        {
+            if (ffmpegExport)
+            {
+                //ffmpeg_end();
+            }
+
+            return false;
+        }
+
+        return true;
     }
 
-    void Masher_DeAlloc(Masher* pMasher)
+    void StartPlayback(const std::string& filePath, bool ffmpegExport)
     {
-        relive_delete pMasher;
+        mFrameTime = 0;
+        mFMVHasFrames = InitDDVPlayback(filePath, ffmpegExport);
+    }
+
+
+    void ExportDDVThreadFunc(std::string name)
+    {
+        mFMVExportFilePath = name;
+
+        int currentFrame = 0;
+        StartPlayback(mFMVExportFilePath, true);
+        while (StepDDVPlayback(true))
+        {
+            currentFrame++;
+            mFMVExportProgress = (float) currentFrame / mMasher->field_4_ddv_header.field_C_number_of_frames;
+            mFMVExportMessage = mFMVExportFilePath + "\nExporting frame " + std::to_string(currentFrame) + " of " + std::to_string(mMasher->field_4_ddv_header.field_C_number_of_frames);
+            LOG_INFO(mFMVExportMessage.c_str());
+        }
+
+        mFMVExportProgress = 1;
+        mFMVExportMessage = "Done!";
+        mFMVExporting = false;
     }
 
 private:
-    Masher_Header* pMasher_header = nullptr;
-    Masher_VideoHeader* pMasher_video_header = nullptr;
-    Masher_AudioHeader* pMasher_audio_header = nullptr;
+    bool mHasAudio = false;
+    u32 mAudioSampleOffset = 0;
+    s32 mNumReadFrames = 0;
+    bool mNoAudioOrAudioError = false;
+    u32 mSingleAudioFrameSizeInSamples = 0;
+    u32 mCurrentAudioOffset = 0;
+    u32 mNumPlayedAudioFrames = 0;
+    u32 mOldBufferPlayPos = 0;
     Masher* mMasher = nullptr;
+
+    std::string mFMVExportFilePath;
+ 
+    u32 mFMVHasFrames = 0;
+    float mFMVExportProgress = 0.0f;
+    int mFrameTime = 0;
+    std::string mFMVExportMessage;
+    bool mFMVExporting = false;
 };
 
 class FmvConv final
@@ -126,8 +302,10 @@ public:
 
     }
 
-    void Convert()
+    void Convert(std::string fName)
     {
+        TRACE_ENTRYEXIT;
+
         struct VideoInfo final
         {
             u32 width = 0;
@@ -135,8 +313,8 @@ public:
         };
 
         VideoInfo info;
-        info.width = mDDVReader.FrameWidth();
-        info.height = mDDVReader.FrameHeight();
+        info.width = 320;//mDDVReader.FrameWidth();
+        info.height = 240; // mDDVReader.FrameHeight();
 
         aom_codec_iface_t* encoder = &aom_codec_av1_cx_algo;
         if (!encoder)
@@ -144,8 +322,8 @@ public:
             ALIVE_FATAL("Unsupported codec.");
         }
 
-        aom_image_t raw;
-        if (!aom_img_alloc(&raw, AOM_IMG_FMT_YV12, info.width, info.height, 1))
+        aom_image_t rawImageFrameData;
+        if (!aom_img_alloc(&rawImageFrameData, AOM_IMG_FMT_YV12, info.width, info.height, 1))
         {
             ALIVE_FATAL("Failed to allocate image.");
         }
@@ -173,11 +351,15 @@ public:
             ALIVE_FATAL("Failed to set cpu-used");
         }
 
+        LOG_INFO("Opening");
+
         FILE* outFile = fopen("test.webm", "wb");
         if (!outFile)
         {
             ALIVE_FATAL("File to open output file");
         }
+
+        LOG_INFO("Output opened");
 
         {
             mkvmuxer::MkvWriter writer(outFile);
@@ -185,15 +367,16 @@ public:
             mkv_init(&writer, &segment, &cfg, &codec);
 
 
-            const u32 keyframe_interval = 30;
-            u32 frame_count = 0;
-            u32 frames_encoded = 0;
-            u32 max_frames = 0; // TODO
+            //const u32 keyframe_interval = 30;
+            //u32 frame_count = 0;
+            //u32 frames_encoded = 0;
+           // u32 max_frames = 0; // TODO
 
-            // TODO: read yuv frame
-            //mDDVReader.ReadVideoFrame();
+           
+            mDDVReader.ExportDDVThreadFunc(fName);
 
-            for (u32 i = 0; i < 20; i++)
+            /*
+            while (true)
             {
                 int flags = 0;
                 if (keyframe_interval > 0 && frame_count % keyframe_interval == 0)
@@ -201,13 +384,18 @@ public:
                     flags |= AOM_EFLAG_FORCE_KF;
                 }
 
-                encode_frame(&segment, &cfg, &codec, &raw, frame_count++, flags);
+                // TODO: read yuv frame
+                mDDVReader.ReadVideoFrame();
+                //  rawImageFrameData.img_data
+
+                encode_frame(&segment, &cfg, &codec, &rawImageFrameData, frame_count++, flags);
                 frames_encoded++;
                 if (max_frames > 0 && frames_encoded >= max_frames)
                 {
                     // break;
                 }
             }
+            */
 
             // Flush encoder.
             while (encode_frame(&segment, &cfg, &codec, NULL, -1, 0))
@@ -224,7 +412,7 @@ public:
             fclose(outFile);
         }
 
-        aom_img_free(&raw);
+        aom_img_free(&rawImageFrameData);
     }
 
 private:
@@ -420,7 +608,7 @@ void ConvertFMVs(const FileSystem::Path& /*dataDir*/, bool isAo)
             if (reader.Open(pInfo->field_0_pName))
             {
                 FmvConv fmvConv(reader);
-                fmvConv.Convert();
+                fmvConv.Convert(pInfo->field_0_pName);
             }
         }
     }

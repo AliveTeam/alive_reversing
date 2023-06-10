@@ -78,6 +78,15 @@ public:
 class Masher final
 {
 public:
+    struct Macroblock_YCbCr_Struct final
+    {
+        f32 Y;
+        f32 Cb;
+        f32 Cr;
+    };
+    using TYCbCrBlock = std::array<std::array<Macroblock_YCbCr_Struct, 16>, 16>;
+
+
     // Same as 0x523FA0 in MGSI.exe
     s32 Init(const char_type* movieFileName);
 
