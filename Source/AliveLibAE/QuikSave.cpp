@@ -51,7 +51,7 @@
 #include "Game.hpp"
 
 #include "nlohmann/json.hpp" // TODO: temp
-#include "../data_conversion/AESaveSerialization.hpp"
+#include "../relive_lib/data_conversion/AESaveSerialization.hpp"
 
 u16 sQuickSave_saved_switchResetters_count_BB234C = 0;
 
