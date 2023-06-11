@@ -81,6 +81,12 @@ public:
         *reinterpret_cast<u32*>(mBuffer.data() + writePos) = v;
     }
 
+    [[nodiscard]] u32 PeekU32() const
+    {
+        const u32 v = *reinterpret_cast<const u32*>(mBuffer.data() + mBufferReadPos);
+        return v;
+    }
+
     [[nodiscard]] u32 ReadU32() const
     {
         const u32 v = *reinterpret_cast<const u32*>(mBuffer.data() + mBufferReadPos);

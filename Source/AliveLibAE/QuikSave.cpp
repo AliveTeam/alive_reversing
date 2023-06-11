@@ -215,7 +215,7 @@ void ConvertObjectsStatesToJson(nlohmann::json& j, const SerializedObjectData& p
     // Skip to after the per object data
     for (;;)
     {
-        const u32 type = pData.ReadU32();
+        const u32 type = pData.PeekU32();
         if (type == 0)
         {
             break;
@@ -547,6 +547,7 @@ void Quicksave_SaveToMemory_4C91A0(Quicksave& pSave)
                 pObj->VGetSaveState(pSave.mObjectsStateData);
             }
         }
+        pSave.mObjectsStateData.WriteU32(0);
 
         Quicksave_SaveBlyData_4C9660(pSave.mObjectBlyData);
     }
