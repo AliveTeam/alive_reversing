@@ -3072,7 +3072,6 @@ inline void to_json(nlohmann::json& j, const Quicksave_WorldInfo& p)
         {"saved_killed_muds_per_zulag", p.field_18_saved_killed_muds_per_zulag}, // array
         {"current_zulag_number", p.field_2C_current_zulag_number},
         {"total_meter_bars", p.mTotalMeterBars},
-        {"use_alt_save_header", p.field_2E_use_alt_save_header},
         {"draw_meter_count_down", p.field_30_bDrawMeterCountDown},
         {"visited_bonewerkz", p.mVisitedBonewerkz},
         {"visited_barracks", p.mVisitedBarracks},
@@ -3099,7 +3098,6 @@ inline void from_json(const nlohmann::json& j, Quicksave_WorldInfo& p)
     j.at("saved_killed_muds_per_zulag").get_to(p.field_18_saved_killed_muds_per_zulag); // array
     j.at("current_zulag_number").get_to(p.field_2C_current_zulag_number);
     j.at("total_meter_bars").get_to(p.mTotalMeterBars);
-    j.at("use_alt_save_header").get_to(p.field_2E_use_alt_save_header);
     j.at("draw_meter_count_down").get_to(p.field_30_bDrawMeterCountDown);
     j.at("visited_bonewerkz").get_to(p.mVisitedBonewerkz);
     j.at("visited_barracks").get_to(p.mVisitedBarracks);
@@ -3120,26 +3118,58 @@ inline void from_json(const nlohmann::json& j, SwitchStates& p)
     j.at("data").get_to(p.mData);
 }
 
+// TODO: put forward declare in the correct location
+void ConvertObjectsStatesToJson(nlohmann::json& j, const SerializedObjectData& pData);
+
+// TODO: Not AE specific move out of here
+static inline nlohmann::json WriteObjectStateJson(const Quicksave& q)
+{
+    nlohmann::json j;
+    ConvertObjectsStatesToJson(j, q.mObjectsStateData);
+    return j;
+}
+
+// TODO: Not AE specific move out of here
+static inline nlohmann::json WriteObjectBlyJson(const Quicksave&)
+{
+    // TODO
+    return {};
+}
+
 inline void to_json(nlohmann::json& j, const Quicksave& p)
 {
     j = nlohmann::json{
         {"world_data", {
-            {"accumulated_obj_count", p.mAccumulatedObjCount},
             {"world_info", p.mWorldInfo},
             {"restart_path_world_info", p.mRestartPathWorldInfo},
             {"restart_path_abe_state", p.mRestartPathAbeState},
             {"restart_path_switch_states", p.mRestartPathSwitchStates},
-            {"switch_states", p.mSwitchStates}
+            {"switch_states", p.mSwitchStates}, 
+            {"object_states", WriteObjectStateJson(p)}, 
+            {"object_bly_data", WriteObjectBlyJson(p)}
         }}
     };
 }
 
+// TODO: Not AE specific move out of here
+static inline void ReadObjectStateJson(const nlohmann::json& , Quicksave& )
+{
+    // j["world_data"].at("object_states")
+}
+
+// TODO: Not AE specific move out of here
+static inline void ReadObjectBlyJson(const nlohmann::json&, Quicksave&)
+{
+    // j["world_data"].at("object_bly_data")
+}
+
 inline void from_json(const nlohmann::json& j, Quicksave& p)
 {
-    j["world_data"].at("accumulated_obj_count").get_to(p.mAccumulatedObjCount);
     j["world_data"].at("world_info").get_to(p.mWorldInfo);
     j["world_data"].at("restart_path_world_info").get_to(p.mRestartPathWorldInfo);
     j["world_data"].at("restart_path_abe_state").get_to(p.mRestartPathAbeState);
     j["world_data"].at("restart_path_switch_states").get_to(p.mRestartPathSwitchStates);
     j["world_data"].at("switch_states").get_to(p.mSwitchStates);
+    ReadObjectStateJson(j, p);
+    ReadObjectBlyJson(j, p);
 }

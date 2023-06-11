@@ -81,7 +81,7 @@ void Map::Reset()
     ClearPathResourceBlocks();
 
     mFreeAllAnimAndPalts = false;
-    mSaveData = 0;
+    mRestoreMapObjectStates = false;
 }
 
 void Map::Init(EReliveLevelIds level, s16 path, s16 camera, CameraSwapEffects screenChangeEffect, s16 fmvBaseId, s16 forceChange)
@@ -747,10 +747,10 @@ void Map::GoTo_Camera()
         gCollisions = relive_new Collisions(GetPathResourceBlockPtr(mCurrentPath)->GetCollisions());
     }
 
-    if (mSaveData)
+    if (mRestoreMapObjectStates)
     {
-        QuikSave_RestoreBlyData(mSaveData);
-        mSaveData = nullptr;
+        QuikSave_RestoreBlyData(gActiveQuicksaveData);
+        mRestoreMapObjectStates = false;
     }
 
     // Copy camera array and blank out the source

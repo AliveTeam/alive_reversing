@@ -685,10 +685,14 @@ Abe::~Abe()
 }
 
 
-s32 Abe::CreateFromSaveState(const u8* pData)
+void Abe::CreateFromSaveState(SerializedObjectData& pData)
 {
-    const AbeSaveState* pSaveState = reinterpret_cast<const AbeSaveState*>(pData);
+    const AbeSaveState* pSaveState = pData.ReadTmpPtr<AbeSaveState>();
+    Abe::CreateFromSaveState(*pSaveState);
+}
 
+void Abe::CreateFromSaveState(const AbeSaveState& pData)
+{
     Abe* pAbe = sActiveHero;
     if (!sActiveHero)
     {
@@ -696,24 +700,24 @@ s32 Abe::CreateFromSaveState(const u8* pData)
         sActiveHero = pAbe;
     }
 
-    if (pSaveState->mIsAbeControlled)
+    if (pData.mIsAbeControlled)
     {
         sControlledCharacter = pAbe;
     }
 
     sActiveHero->BaseAliveGameObjectPathTLV = nullptr;
     sActiveHero->BaseAliveGameObjectCollisionLine = nullptr;
-    sActiveHero->mXPos = pSaveState->mXPos;
-    sActiveHero->mYPos = pSaveState->mYPos;
-    sActiveHero->mVelX = pSaveState->mVelX;
-    sActiveHero->mVelY = pSaveState->mVelY;
-    sActiveHero->field_8_x_vel_slow_by = pSaveState->field_48_x_vel_slow_by;
-    sActiveHero->mCurrentPath = pSaveState->mCurrentPath;
-    sActiveHero->mCurrentLevel = pSaveState->mCurrentLevel;
-    sActiveHero->SetSpriteScale(pSaveState->mSpriteScale);
-    sActiveHero->SetScale(pSaveState->mScale);
+    sActiveHero->mXPos = pData.mXPos;
+    sActiveHero->mYPos = pData.mYPos;
+    sActiveHero->mVelX = pData.mVelX;
+    sActiveHero->mVelY = pData.mVelY;
+    sActiveHero->field_8_x_vel_slow_by = pData.field_48_x_vel_slow_by;
+    sActiveHero->mCurrentPath = pData.mCurrentPath;
+    sActiveHero->mCurrentLevel = pData.mCurrentLevel;
+    sActiveHero->SetSpriteScale(pData.mSpriteScale);
+    sActiveHero->SetScale(pData.mScale);
 
-    sActiveHero->mCurrentMotion = pSaveState->mCurrentMotion;
+    sActiveHero->mCurrentMotion = pData.mCurrentMotion;
 
     /* TODO: Async load if res unloaded
     u8** animFromState = sActiveHero->MotionToAnimResource_44AAB0(sActiveHero->mCurrentMotion);
@@ -726,16 +730,16 @@ s32 Abe::CreateFromSaveState(const u8* pData)
     }*/
 
     sActiveHero->GetAnimation().Set_Animation_Data(sActiveHero->GetAnimRes(sAbeAnimIdTable[sActiveHero->mCurrentMotion]));
-    //sActiveHero->mAnim.Set_Animation_Data_409C80(sAbeAnimIdTable[sActiveHero->mCurrentMotion], animFromState);
+    // sActiveHero->mAnim.Set_Animation_Data_409C80(sAbeAnimIdTable[sActiveHero->mCurrentMotion], animFromState);
 
-    sActiveHero->GetAnimation().SetCurrentFrame(pSaveState->mCurrentFrame);
-    sActiveHero->GetAnimation().SetFrameChangeCounter(pSaveState->mFrameChangeCounter);
+    sActiveHero->GetAnimation().SetCurrentFrame(pData.mCurrentFrame);
+    sActiveHero->GetAnimation().SetFrameChangeCounter(pData.mFrameChangeCounter);
 
-    sActiveHero->GetAnimation().SetFlipX(pSaveState->bAnimFlipX & 1);
-    sActiveHero->GetAnimation().SetRender(pSaveState->mAnimRender & 1);
-    sActiveHero->SetDrawable(pSaveState->mIsDrawable & 1);
+    sActiveHero->GetAnimation().SetFlipX(pData.bAnimFlipX & 1);
+    sActiveHero->GetAnimation().SetRender(pData.mAnimRender & 1);
+    sActiveHero->SetDrawable(pData.mIsDrawable & 1);
 
-    sActiveHero->GetAnimation().SetRenderLayer(static_cast<Layer>(pSaveState->mRenderLayer));
+    sActiveHero->GetAnimation().SetRenderLayer(static_cast<Layer>(pData.mRenderLayer));
 
     if (IsLastFrame(&sActiveHero->GetAnimation()))
     {
@@ -753,28 +757,26 @@ s32 Abe::CreateFromSaveState(const u8* pData)
     sActiveHero->GetAnimation().SetRenderMode(TPageAbr::eBlend_0);
     sActiveHero->GetAnimation().SetSemiTrans(true);
     sActiveHero->GetAnimation().SetBlending(false);
-    sActiveHero->mHealth = pSaveState->mHealth;
-    sActiveHero->mCurrentMotion = pSaveState->mCurrentMotion2;
-    sActiveHero->mNextMotion = pSaveState->mNextMotion;
-    sActiveHero->BaseAliveGameObjectLastLineYPos = FP_FromInteger(pSaveState->mLastLineYPos);
-    sActiveHero->BaseAliveGameObject_PlatformId = pSaveState->mPlatformId;
-    sActiveHero->field_120_state.raw = static_cast<u16>(pSaveState->field_50_state);
-    sActiveHero->field_124_timer = pSaveState->field_54_timer;
-    sActiveHero->field_0_abe_timer = pSaveState->field_58_abe_timer;
-    sActiveHero->mRegenHealthTimer = pSaveState->mRegenHealthTimer;
-    sActiveHero->mMood = pSaveState->mMood;
-    sActiveHero->mSay = pSaveState->mSay;
-    sActiveHero->mAutoSayTimer = pSaveState->mAutoSayTimer;
-    sActiveHero->mBaseThrowableCount = pSaveState->mBaseThrowableCount;
-    sActiveHero->mRingPulseTimer = pSaveState->mRingPulseTimer;
-    sActiveHero->mHaveShrykull = pSaveState->mHaveShrykull;
+    sActiveHero->mHealth = pData.mHealth;
+    sActiveHero->mCurrentMotion = pData.mCurrentMotion2;
+    sActiveHero->mNextMotion = pData.mNextMotion;
+    sActiveHero->BaseAliveGameObjectLastLineYPos = FP_FromInteger(pData.mLastLineYPos);
+    sActiveHero->BaseAliveGameObject_PlatformId = pData.mPlatformId;
+    sActiveHero->field_120_state.raw = static_cast<u16>(pData.field_50_state);
+    sActiveHero->field_124_timer = pData.field_54_timer;
+    sActiveHero->field_0_abe_timer = pData.field_58_abe_timer;
+    sActiveHero->mRegenHealthTimer = pData.mRegenHealthTimer;
+    sActiveHero->mMood = pData.mMood;
+    sActiveHero->mSay = pData.mSay;
+    sActiveHero->mAutoSayTimer = pData.mAutoSayTimer;
+    sActiveHero->mBaseThrowableCount = pData.mBaseThrowableCount;
+    sActiveHero->mRingPulseTimer = pData.mRingPulseTimer;
+    sActiveHero->mHaveShrykull = pData.mHaveShrykull;
 
     if (sActiveHero->mRingPulseTimer && sActiveHero->mHaveShrykull)
     {
         if (!sActiveHero->mBaseGameObjectResArray.ItemAt(25))
         {
-
-            
         }
     }
     else
@@ -785,64 +787,63 @@ s32 Abe::CreateFromSaveState(const u8* pData)
         }
     }
 
-    sActiveHero->mHaveInvisibility = pSaveState->bHaveInvisiblity;
-    sActiveHero->BaseAliveGameObjectCollisionLineType = pSaveState->mCollisionLineType;
+    sActiveHero->mHaveInvisibility = pData.bHaveInvisiblity;
+    sActiveHero->BaseAliveGameObjectCollisionLineType = pData.mCollisionLineType;
 
-    sActiveHero->mPrevInput = InputObject::PsxButtonsToKeyboardInput_45EE40(pSaveState->mPrevInput);
-    sActiveHero->mReleasedButtons = InputObject::PsxButtonsToKeyboardInput_45EE40(pSaveState->mReleasedButtons);
-    sActiveHero->mKnockdownMotion = pSaveState->mKnockdownMotion;
-    sActiveHero->mRollingMotionTimer = sGnFrame - pSaveState->mRollingMotionTimer;
+    sActiveHero->mPrevInput = InputObject::PsxButtonsToKeyboardInput_45EE40(pData.mPrevInput);
+    sActiveHero->mReleasedButtons = InputObject::PsxButtonsToKeyboardInput_45EE40(pData.mReleasedButtons);
+    sActiveHero->mKnockdownMotion = pData.mKnockdownMotion;
+    sActiveHero->mRollingMotionTimer = sGnFrame - pData.mRollingMotionTimer;
 
-    sActiveHero->mFadeId = pSaveState->mDeathFadeOutId;
-    sActiveHero->mCircularFadeId = pSaveState->mCircularFadeId;
-    sActiveHero->mOrbWhirlWindId = pSaveState->mOrbWhirlWindId;
-    sActiveHero->mPossessedObjectId = pSaveState->mPossessedObjectId;
-    sActiveHero->mThrowableId = pSaveState->mThrowableId;
-    sActiveHero->mPullRingRopeId = pSaveState->mPullRingRopeId;
-    sActiveHero->mSlappableOrPickupId = pSaveState->mSlappableOrPickupId;
-    sActiveHero->mWorkWheelId = pSaveState->mWorkWheelId;
+    sActiveHero->mFadeId = pData.mDeathFadeOutId;
+    sActiveHero->mCircularFadeId = pData.mCircularFadeId;
+    sActiveHero->mOrbWhirlWindId = pData.mOrbWhirlWindId;
+    sActiveHero->mPossessedObjectId = pData.mPossessedObjectId;
+    sActiveHero->mThrowableId = pData.mThrowableId;
+    sActiveHero->mPullRingRopeId = pData.mPullRingRopeId;
+    sActiveHero->mSlappableOrPickupId = pData.mSlappableOrPickupId;
+    sActiveHero->mWorkWheelId = pData.mWorkWheelId;
     sActiveHero->mInvisibleEffectId = Guid{};
 
-    sActiveHero->mInvisibilityTimer = pSaveState->mInvisibilityTimer;
-    sActiveHero->mInvisibilityDuration = pSaveState->mInvisibilityDuration;
+    sActiveHero->mInvisibilityTimer = pData.mInvisibilityTimer;
+    sActiveHero->mInvisibilityDuration = pData.mInvisibilityDuration;
 
-    sActiveHero->mHandStoneCamIdx = pSaveState->mHandStoneCamIdx;
-    sActiveHero->mHandStoneType = pSaveState->mHandStoneType;
-    sActiveHero->mFmvId = pSaveState->mFmvId;
-    sActiveHero->mHandStoneCams[0] = pSaveState->mHandStoneCam1;
-    sActiveHero->mHandStoneCams[1] = pSaveState->mHandStoneCam2;
-    sActiveHero->mHandStoneCams[2] = pSaveState->mHandStoneCam3;
+    sActiveHero->mHandStoneCamIdx = pData.mHandStoneCamIdx;
+    sActiveHero->mHandStoneType = pData.mHandStoneType;
+    sActiveHero->mFmvId = pData.mFmvId;
+    sActiveHero->mHandStoneCams[0] = pData.mHandStoneCam1;
+    sActiveHero->mHandStoneCams[1] = pData.mHandStoneCam2;
+    sActiveHero->mHandStoneCams[2] = pData.mHandStoneCam3;
 
-    sActiveHero->mHasEvilFart = pSaveState->mHasEvilFart;
-    sActiveHero->mDstWellLevel = pSaveState->mDstWellLevel;
-    sActiveHero->mDstWellPath = pSaveState->mDstWellPath;
-    sActiveHero->mDstWellCamera = pSaveState->mDstWellCamera;
-    sActiveHero->field_1A0_door_id = pSaveState->door_id;
-    sActiveHero->mThrowDirection = pSaveState->mThrowDirection;
-    sActiveHero->mBirdPortalSubState = static_cast<PortalSubStates>(pSaveState->mBirdPortalSubState);
-    sActiveHero->mBirdPortalId = pSaveState->mBirdPortalId;
+    sActiveHero->mHasEvilFart = pData.mHasEvilFart;
+    sActiveHero->mDstWellLevel = pData.mDstWellLevel;
+    sActiveHero->mDstWellPath = pData.mDstWellPath;
+    sActiveHero->mDstWellCamera = pData.mDstWellCamera;
+    sActiveHero->field_1A0_door_id = pData.door_id;
+    sActiveHero->mThrowDirection = pData.mThrowDirection;
+    sActiveHero->mBirdPortalSubState = static_cast<PortalSubStates>(pData.mBirdPortalSubState);
+    sActiveHero->mBirdPortalId = pData.mBirdPortalId;
 
-    sActiveHero->SetElectrocuted(pSaveState->mIsElectrocuted & 1);
-    sActiveHero->SetInvisible(pSaveState->mIsInvisible & 1);
-    sActiveHero->SetTeleporting(pSaveState->mTeleporting);
+    sActiveHero->SetElectrocuted(pData.mIsElectrocuted & 1);
+    sActiveHero->SetInvisible(pData.mIsInvisible & 1);
+    sActiveHero->SetTeleporting(pData.mTeleporting);
 
-    sActiveHero->mReturnToPreviousMotion = pSaveState->mReturnToPreviousMotion;
-    sActiveHero->mShrivel = pSaveState->mShrivel;
-    sActiveHero->mPreventChanting = pSaveState->mPreventChanting;
-    sActiveHero->mLandSoftly = pSaveState->mLandSoftly;
-    sActiveHero->mLaughAtChantEnd = pSaveState->mLaughAtChantEnd;
+    sActiveHero->mReturnToPreviousMotion = pData.mReturnToPreviousMotion;
+    sActiveHero->mShrivel = pData.mShrivel;
+    sActiveHero->mPreventChanting = pData.mPreventChanting;
+    sActiveHero->mLandSoftly = pData.mLandSoftly;
+    sActiveHero->mLaughAtChantEnd = pData.mLaughAtChantEnd;
 
-    sActiveHero->mPlayLedgeGrabSounds = pSaveState->mPlayLedgeGrabSounds;
-    sActiveHero->mHaveHealing = pSaveState->mHaveHealing;
-    sActiveHero->SetTeleporting(pSaveState->mTeleporting);
+    sActiveHero->mPlayLedgeGrabSounds = pData.mPlayLedgeGrabSounds;
+    sActiveHero->mHaveHealing = pData.mHaveHealing;
+    sActiveHero->SetTeleporting(pData.mTeleporting);
 
-    sActiveHero->mMudomoDone = pSaveState->mMudomoDone;
+    sActiveHero->mMudomoDone = pData.mMudomoDone;
 
-    sActiveHero->GetShadow()->mEnabled = pSaveState->mShadowEnabled;
-    sActiveHero->GetShadow()->mShadowAtBottom = pSaveState->mShadowAtBottom;
-
-    return sizeof(AbeSaveState);
+    sActiveHero->GetShadow()->mEnabled = pData.mShadowEnabled;
+    sActiveHero->GetShadow()->mShadowAtBottom = pData.mShadowAtBottom;
 }
+
 
 const FP sAbe_xVel_table_545770[8] = {
     FP_FromInteger(4),
@@ -1253,7 +1254,7 @@ void Abe::VUpdate()
             mDoQuicksave = false;
             gActiveQuicksaveData.mWorldInfo.mSaveFileId = mSaveFileId;
             Quicksave_SaveWorldInfo(&gActiveQuicksaveData.mRestartPathWorldInfo);
-            VGetSaveState(reinterpret_cast<u8*>(&gActiveQuicksaveData.mRestartPathAbeState));
+            GetSaveState(gActiveQuicksaveData.mRestartPathAbeState);
             gActiveQuicksaveData.mRestartPathSwitchStates = gSwitchStates;
             DoQuicksave();
         }
@@ -1450,23 +1451,28 @@ void Abe::VScreenChanged()
     }
 }
 
-s32 Abe::VGetSaveState(u8* pSaveBuffer)
+void Abe::VGetSaveState(SerializedObjectData& pSaveBuffer)
 {
-    AbeSaveState* pSaveState = reinterpret_cast<AbeSaveState*>(pSaveBuffer);
+    AbeSaveState data = {};
+    GetSaveState(data);
+    pSaveBuffer.Write(data);
+}
 
-    pSaveState->mType = ReliveTypes::eAbe;
-    pSaveState->mXPos = mXPos;
-    pSaveState->mYPos = mYPos;
-    pSaveState->mVelX = mVelX;
-    pSaveState->mVelY = mVelY;
-    pSaveState->field_48_x_vel_slow_by = field_8_x_vel_slow_by;
-    pSaveState->mCurrentPath = mCurrentPath;
-    pSaveState->mCurrentLevel = mCurrentLevel;
-    pSaveState->mSpriteScale = GetSpriteScale();
-    pSaveState->mScale = GetScale();
-    pSaveState->mRed = mRGB.r;
-    pSaveState->mGreen = mRGB.g;
-    pSaveState->mBlue = mRGB.b;
+void Abe::GetSaveState(AbeSaveState& pSaveState)
+{
+    pSaveState.mType = ReliveTypes::eAbe;
+    pSaveState.mXPos = mXPos;
+    pSaveState.mYPos = mYPos;
+    pSaveState.mVelX = mVelX;
+    pSaveState.mVelY = mVelY;
+    pSaveState.field_48_x_vel_slow_by = field_8_x_vel_slow_by;
+    pSaveState.mCurrentPath = mCurrentPath;
+    pSaveState.mCurrentLevel = mCurrentLevel;
+    pSaveState.mSpriteScale = GetSpriteScale();
+    pSaveState.mScale = GetScale();
+    pSaveState.mRed = mRGB.r;
+    pSaveState.mGreen = mRGB.g;
+    pSaveState.mBlue = mRGB.b;
 
     if (GetElectrocuting())
     {
@@ -1483,209 +1489,207 @@ s32 Abe::VGetSaveState(u8* pSaveBuffer)
                 auto pElectrocute = static_cast<const Electrocute*>(pObj);
                 if (pElectrocute->field_20_target_obj_id == mBaseGameObjectId)
                 {
-                    pSaveState->mRed = pElectrocute->field_24_r;
-                    pSaveState->mGreen = pElectrocute->field_26_g;
-                    pSaveState->mBlue = pElectrocute->field_28_b;
+                    pSaveState.mRed = pElectrocute->field_24_r;
+                    pSaveState.mGreen = pElectrocute->field_26_g;
+                    pSaveState.mBlue = pElectrocute->field_28_b;
                     break;
                 }
             }
         }
     }
 
-    pSaveState->bAnimFlipX = GetAnimation().GetFlipX();
-    pSaveState->mCurrentMotion = mCurrentMotion;
-    pSaveState->mCurrentFrame = static_cast<u16>(GetAnimation().GetCurrentFrame());
-    pSaveState->mFrameChangeCounter = static_cast<u16>(GetAnimation().GetFrameChangeCounter());
+    pSaveState.bAnimFlipX = GetAnimation().GetFlipX();
+    pSaveState.mCurrentMotion = mCurrentMotion;
+    pSaveState.mCurrentFrame = static_cast<u16>(GetAnimation().GetCurrentFrame());
+    pSaveState.mFrameChangeCounter = static_cast<u16>(GetAnimation().GetFrameChangeCounter());
 
     if (GetAnimation().GetFrameChangeCounter() == 0)
     {
-        pSaveState->mFrameChangeCounter = 1;
+        pSaveState.mFrameChangeCounter = 1;
     }
 
-    pSaveState->mIsDrawable = GetDrawable();
-    pSaveState->mAnimRender = GetAnimation().GetRender();
-    pSaveState->mRenderLayer = static_cast<s8>(GetAnimation().GetRenderLayer());
-    pSaveState->mHealth = mHealth;
-    pSaveState->mCurrentMotion2 = mCurrentMotion;
-    pSaveState->mNextMotion = mNextMotion;
-    pSaveState->mLastLineYPos = FP_GetExponent(BaseAliveGameObjectLastLineYPos);
+    pSaveState.mIsDrawable = GetDrawable();
+    pSaveState.mAnimRender = GetAnimation().GetRender();
+    pSaveState.mRenderLayer = static_cast<s8>(GetAnimation().GetRenderLayer());
+    pSaveState.mHealth = mHealth;
+    pSaveState.mCurrentMotion2 = mCurrentMotion;
+    pSaveState.mNextMotion = mNextMotion;
+    pSaveState.mLastLineYPos = FP_GetExponent(BaseAliveGameObjectLastLineYPos);
 
-    pSaveState->mIsElectrocuted = GetElectrocuted();
+    pSaveState.mIsElectrocuted = GetElectrocuted();
 
-    pSaveState->mIsInvisible = GetInvisible();
+    pSaveState.mIsInvisible = GetInvisible();
 
     if (BaseAliveGameObjectCollisionLine)
     {
-        pSaveState->mCollisionLineType = BaseAliveGameObjectCollisionLine->mLineType;
+        pSaveState.mCollisionLineType = BaseAliveGameObjectCollisionLine->mLineType;
     }
     else
     {
-        pSaveState->mCollisionLineType = eLineTypes::eNone_m1;
+        pSaveState.mCollisionLineType = eLineTypes::eNone_m1;
     }
 
-    pSaveState->mPlatformId = BaseAliveGameObject_PlatformId;
+    pSaveState.mPlatformId = BaseAliveGameObject_PlatformId;
 
     if (BaseAliveGameObject_PlatformId != Guid{})
     {
         auto pObj = sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId);
         if (pObj)
         {
-            pSaveState->mPlatformId = pObj->mBaseGameObjectTlvInfo;
+            pSaveState.mPlatformId = pObj->mBaseGameObjectTlvInfo;
         }
     }
 
-    pSaveState->mIsAbeControlled = (this == sControlledCharacter);
-    pSaveState->field_50_state = field_120_state.raw;
-    pSaveState->field_54_timer = field_124_timer;
-    pSaveState->field_58_abe_timer = field_0_abe_timer;
-    pSaveState->mRegenHealthTimer = mRegenHealthTimer;
-    pSaveState->mMood = mMood;
-    pSaveState->mSay = mSay;
-    pSaveState->mAutoSayTimer = mAutoSayTimer;
-    pSaveState->mRingPulseTimer = mRingPulseTimer;
-    pSaveState->mBaseThrowableCount = mBaseThrowableCount;
-    pSaveState->mHaveShrykull = static_cast<s8>(mHaveShrykull);
-    pSaveState->bHaveInvisiblity = static_cast<s8>(mHaveInvisibility);
+    pSaveState.mIsAbeControlled = (this == sControlledCharacter);
+    pSaveState.field_50_state = field_120_state.raw;
+    pSaveState.field_54_timer = field_124_timer;
+    pSaveState.field_58_abe_timer = field_0_abe_timer;
+    pSaveState.mRegenHealthTimer = mRegenHealthTimer;
+    pSaveState.mMood = mMood;
+    pSaveState.mSay = mSay;
+    pSaveState.mAutoSayTimer = mAutoSayTimer;
+    pSaveState.mRingPulseTimer = mRingPulseTimer;
+    pSaveState.mBaseThrowableCount = mBaseThrowableCount;
+    pSaveState.mHaveShrykull = static_cast<s8>(mHaveShrykull);
+    pSaveState.bHaveInvisiblity = static_cast<s8>(mHaveInvisibility);
 
-    pSaveState->mPrevInput = InputObject::KeyboardInputToPsxButtons_45EF70(mPrevInput);
-    pSaveState->mReleasedButtons = InputObject::KeyboardInputToPsxButtons_45EF70(mReleasedButtons);
+    pSaveState.mPrevInput = InputObject::KeyboardInputToPsxButtons_45EF70(mPrevInput);
+    pSaveState.mReleasedButtons = InputObject::KeyboardInputToPsxButtons_45EF70(mReleasedButtons);
 
-    pSaveState->mKnockdownMotion = mKnockdownMotion;
-    pSaveState->mRollingMotionTimer = sGnFrame - mRollingMotionTimer;
-    pSaveState->mDeathFadeOutId = mFadeId;
+    pSaveState.mKnockdownMotion = mKnockdownMotion;
+    pSaveState.mRollingMotionTimer = sGnFrame - mRollingMotionTimer;
+    pSaveState.mDeathFadeOutId = mFadeId;
 
     if (mFadeId != Guid{})
     {
         auto pObj = sObjectIds.Find_Impl(mFadeId);
         if (pObj)
         {
-            pSaveState->mDeathFadeOutId = pObj->mBaseGameObjectTlvInfo;
+            pSaveState.mDeathFadeOutId = pObj->mBaseGameObjectTlvInfo;
         }
     }
 
-    pSaveState->mCircularFadeId = mCircularFadeId;
+    pSaveState.mCircularFadeId = mCircularFadeId;
 
     if (mCircularFadeId != Guid{})
     {
         auto pObj = sObjectIds.Find_Impl(mCircularFadeId);
         if (pObj)
         {
-            pSaveState->mCircularFadeId = pObj->mBaseGameObjectTlvInfo;
+            pSaveState.mCircularFadeId = pObj->mBaseGameObjectTlvInfo;
         }
     }
-    pSaveState->mOrbWhirlWindId = mOrbWhirlWindId;
+    pSaveState.mOrbWhirlWindId = mOrbWhirlWindId;
 
     if (mOrbWhirlWindId != Guid{})
     {
         auto pObj = sObjectIds.Find_Impl(mOrbWhirlWindId);
         if (pObj)
         {
-            pSaveState->mOrbWhirlWindId = pObj->mBaseGameObjectTlvInfo;
+            pSaveState.mOrbWhirlWindId = pObj->mBaseGameObjectTlvInfo;
         }
     }
 
-    pSaveState->mPossessedObjectId = mPossessedObjectId;
+    pSaveState.mPossessedObjectId = mPossessedObjectId;
 
     if (mPossessedObjectId != Guid{})
     {
         auto pObj = sObjectIds.Find_Impl(mPossessedObjectId);
         if (pObj)
         {
-            pSaveState->mPossessedObjectId = pObj->mBaseGameObjectTlvInfo;
+            pSaveState.mPossessedObjectId = pObj->mBaseGameObjectTlvInfo;
         }
     }
 
-    pSaveState->mThrowableId = mThrowableId;
+    pSaveState.mThrowableId = mThrowableId;
 
     if (mThrowableId != Guid{})
     {
         auto pObj = sObjectIds.Find_Impl(mThrowableId);
         if (pObj)
         {
-            pSaveState->mThrowableId = pObj->mBaseGameObjectTlvInfo;
+            pSaveState.mThrowableId = pObj->mBaseGameObjectTlvInfo;
         }
     }
 
-    pSaveState->mPullRingRopeId = mPullRingRopeId;
+    pSaveState.mPullRingRopeId = mPullRingRopeId;
 
     if (mPullRingRopeId != Guid{})
     {
         auto pObj = sObjectIds.Find_Impl(mPullRingRopeId);
         if (pObj)
         {
-            pSaveState->mPullRingRopeId = pObj->mBaseGameObjectTlvInfo;
+            pSaveState.mPullRingRopeId = pObj->mBaseGameObjectTlvInfo;
         }
     }
 
-    pSaveState->mSlappableOrPickupId = mSlappableOrPickupId;
+    pSaveState.mSlappableOrPickupId = mSlappableOrPickupId;
 
     if (mSlappableOrPickupId != Guid{})
     {
         auto pObj = sObjectIds.Find_Impl(mSlappableOrPickupId);
         if (pObj)
         {
-            pSaveState->mSlappableOrPickupId = pObj->mBaseGameObjectTlvInfo;
+            pSaveState.mSlappableOrPickupId = pObj->mBaseGameObjectTlvInfo;
         }
     }
 
-    pSaveState->mWorkWheelId = mWorkWheelId;
+    pSaveState.mWorkWheelId = mWorkWheelId;
 
     if (mWorkWheelId != Guid{})
     {
         auto pObj = sObjectIds.Find_Impl(mWorkWheelId);
         if (pObj)
         {
-            pSaveState->mWorkWheelId = pObj->mBaseGameObjectTlvInfo;
+            pSaveState.mWorkWheelId = pObj->mBaseGameObjectTlvInfo;
         }
     }
 
-    pSaveState->mBirdPortalId = mBirdPortalId;
+    pSaveState.mBirdPortalId = mBirdPortalId;
 
     if (mBirdPortalId != Guid{})
     {
         auto pObj = sObjectIds.Find_Impl(mBirdPortalId);
         if (pObj)
         {
-            pSaveState->mBirdPortalId = pObj->mBaseGameObjectTlvInfo;
+            pSaveState.mBirdPortalId = pObj->mBaseGameObjectTlvInfo;
         }
     }
 
-    pSaveState->mInvisibilityTimer = mInvisibilityTimer;
-    pSaveState->mInvisibilityDuration = mInvisibilityDuration;
-    pSaveState->mHandStoneCamIdx = mHandStoneCamIdx;
-    pSaveState->mHandStoneType = mHandStoneType;
-    pSaveState->mFmvId = mFmvId;
-    pSaveState->mHandStoneCam1 = mHandStoneCams[0];
-    pSaveState->mHandStoneCam2 = mHandStoneCams[1];
-    pSaveState->mHandStoneCam3 = mHandStoneCams[2];
-    pSaveState->mHasEvilFart = mHasEvilFart;
-    pSaveState->mDstWellLevel = mDstWellLevel;
-    pSaveState->mDstWellPath = mDstWellPath;
-    pSaveState->mDstWellCamera = mDstWellCamera;
-    pSaveState->door_id = field_1A0_door_id;
-    pSaveState->mThrowDirection = mThrowDirection;
-    pSaveState->mBirdPortalSubState = static_cast<u16>(mBirdPortalSubState);
+    pSaveState.mInvisibilityTimer = mInvisibilityTimer;
+    pSaveState.mInvisibilityDuration = mInvisibilityDuration;
+    pSaveState.mHandStoneCamIdx = mHandStoneCamIdx;
+    pSaveState.mHandStoneType = mHandStoneType;
+    pSaveState.mFmvId = mFmvId;
+    pSaveState.mHandStoneCam1 = mHandStoneCams[0];
+    pSaveState.mHandStoneCam2 = mHandStoneCams[1];
+    pSaveState.mHandStoneCam3 = mHandStoneCams[2];
+    pSaveState.mHasEvilFart = mHasEvilFart;
+    pSaveState.mDstWellLevel = mDstWellLevel;
+    pSaveState.mDstWellPath = mDstWellPath;
+    pSaveState.mDstWellCamera = mDstWellCamera;
+    pSaveState.door_id = field_1A0_door_id;
+    pSaveState.mThrowDirection = mThrowDirection;
+    pSaveState.mBirdPortalSubState = static_cast<u16>(mBirdPortalSubState);
 
-    pSaveState->mIsElectrocuted = GetElectrocuted();
-    pSaveState->mIsInvisible = GetInvisible();
-    pSaveState->mTeleporting = sActiveHero->GetTeleporting();
+    pSaveState.mIsElectrocuted = GetElectrocuted();
+    pSaveState.mIsInvisible = GetInvisible();
+    pSaveState.mTeleporting = sActiveHero->GetTeleporting();
 
-    pSaveState->mReturnToPreviousMotion = mReturnToPreviousMotion;
-    pSaveState->mShrivel = mShrivel;
-    pSaveState->mPreventChanting = mPreventChanting;
-    pSaveState->mLandSoftly = mLandSoftly;
-    pSaveState->mLaughAtChantEnd = mLaughAtChantEnd;
+    pSaveState.mReturnToPreviousMotion = mReturnToPreviousMotion;
+    pSaveState.mShrivel = mShrivel;
+    pSaveState.mPreventChanting = mPreventChanting;
+    pSaveState.mLandSoftly = mLandSoftly;
+    pSaveState.mLaughAtChantEnd = mLaughAtChantEnd;
 
-    pSaveState->mPlayLedgeGrabSounds = mPlayLedgeGrabSounds;
-    pSaveState->mHaveHealing = mHaveHealing;
-    pSaveState->mTeleporting =  GetTeleporting();
-    pSaveState->mMudancheeDone = mMudancheeDone;
-    pSaveState->mMudomoDone = mMudomoDone;
+    pSaveState.mPlayLedgeGrabSounds = mPlayLedgeGrabSounds;
+    pSaveState.mHaveHealing = mHaveHealing;
+    pSaveState.mTeleporting = GetTeleporting();
+    pSaveState.mMudancheeDone = mMudancheeDone;
+    pSaveState.mMudomoDone = mMudomoDone;
 
-    pSaveState->mShadowEnabled = GetShadow()->mEnabled;
-    pSaveState->mShadowAtBottom = GetShadow()->mShadowAtBottom;
-
-    return sizeof(AbeSaveState);
+    pSaveState.mShadowEnabled = GetShadow()->mEnabled;
+    pSaveState.mShadowAtBottom = GetShadow()->mShadowAtBottom;
 }
 
 bool Abe::VTakeDamage(BaseGameObject* pFrom)

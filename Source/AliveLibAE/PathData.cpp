@@ -2200,7 +2200,7 @@ const static PerLvlData gDemoData_off_5617F0[23] = {
 
 static PathRootContainer sPathData_559660 = pathData;
 
-const PathBlyRec* Path_Get_Bly_Record(EReliveLevelIds lvlId, u16 pathId)
+[[nodiscard]] const PathBlyRec* Path_Get_Bly_Record(EReliveLevelIds lvlId, u16 pathId)
 {
     const PathBlyRec* rec = &sPathData_559660.paths[static_cast<s32>(MapWrapper::ToAE(lvlId))].field_0_pBlyArrayPtr[pathId];
     if (!rec)

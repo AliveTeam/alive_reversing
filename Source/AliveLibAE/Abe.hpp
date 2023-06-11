@@ -327,7 +327,9 @@ public:
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
-    virtual s32 VGetSaveState(u8* pSaveBuffer) override;
+    virtual void VGetSaveState(SerializedObjectData& pSaveBuffer) override;
+    void GetSaveState(AbeSaveState& pSaveBuffer);
+    
     virtual void VOnTlvCollision(relive::Path_TLV* pTlv) override;
     virtual BirdPortal* VIntoBirdPortal(s16 gridBlocks) override;
     virtual void VOnTrapDoorOpen() override;
@@ -340,7 +342,8 @@ public:
     void FleechDeath_459350();
     void ExitShrykull_45A9D0(bool bResetRingTimer);
 
-    static s32 CreateFromSaveState(const u8* pData);
+    static void CreateFromSaveState(SerializedObjectData& pData);
+    static void CreateFromSaveState(const AbeSaveState& pData);
 
     bool mShrivel = false;
     bool mReturnToPreviousMotion = false;

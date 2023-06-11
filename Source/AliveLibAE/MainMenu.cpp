@@ -2006,10 +2006,6 @@ MainMenuNextCam MainMenuController::LoadDemo_Update_4D1040(u32)
         char_type file[32] = {};
         sprintf(file, "ATTR%04d.SAV", sDemos_5617F0[demoId].field_A_id);
 
-        if (gIsDemoStartedManually)
-        {
-            gActiveQuicksaveData.mAccumulatedObjCount = 1024;
-        }
         Quicksave_LoadActive();
     }
     else

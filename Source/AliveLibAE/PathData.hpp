@@ -123,7 +123,7 @@ struct SeqHandleTable final
     OpenSeqHandle mSeqs[145];
 };
 
-const PathBlyRec* Path_Get_Bly_Record(EReliveLevelIds lvlId, u16 pathId);
+[[nodiscard]] const PathBlyRec* Path_Get_Bly_Record(EReliveLevelIds lvlId, u16 pathId);
 
 // note: has to be writable
 FmvInfo* Path_Get_FMV_Record(EReliveLevelIds lvlId, u16 fmvId);

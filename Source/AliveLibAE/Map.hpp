@@ -93,7 +93,7 @@ public:
     s16 mCamIdxOnY = 0;
 
     const PathData* mPathData = nullptr;
-    u8* mSaveData = nullptr;
+    bool mRestoreMapObjectStates = false;
 
     std::vector<std::unique_ptr<BinaryPath>> mLoadedPaths;
 };

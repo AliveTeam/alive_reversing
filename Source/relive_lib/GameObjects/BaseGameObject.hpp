@@ -10,6 +10,8 @@ extern u32 sGnFrame;
 
 struct PrimHeader;
 
+class SerializedObjectData;
+
 class BaseGameObject
 {
 public:
@@ -26,7 +28,12 @@ public:
 
     virtual void VStopAudio();
 
-    virtual s32 VGetSaveState(u8* /*pSaveBuffer*/);
+    virtual void VGetSaveState(SerializedObjectData& /*pSaveBuffer*/);
+    virtual s32 VGetSaveState(u8* /*pSaveBuffer*/)
+    {
+        // TODO/HACK remove when above is used
+        return 0;
+    }
 
     static ReliveTypes FromAO(AO::AOTypes aoType);
     static AO::AOTypes ToAO(ReliveTypes reliveType);

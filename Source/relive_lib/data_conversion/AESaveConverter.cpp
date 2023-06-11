@@ -63,10 +63,14 @@ bool AESaveConverter::Convert(const std::vector<u8>& savData, const char_type* p
     return SaveJson(j, fs, pFileName);
 }
 
-template <typename save_state>
-static void convert_save(nlohmann::json& j, const u8* pData)
+template <typename OGBinarySaveStateStructure>
+static void convert_save(nlohmann::json& j, const u8* pOGSaveFileData)
 {
-    j["object_states"].push_back(save_state::From(*reinterpret_cast<const save_state*>(pData)));
+    // Convert OG save structure to relive structure
+    const auto& reliveFormatStructure = OGBinarySaveStateStructure::From(*reinterpret_cast<const OGBinarySaveStateStructure*>(pOGSaveFileData));
+
+    // Convert relive structure to json
+    j["object_states"].push_back(reliveFormatStructure);
 }
 
 s32 AESaveConverter::ConvertObjectSaveStateData(nlohmann::json& j, AETypes type, const u8* pData)

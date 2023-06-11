@@ -9,7 +9,6 @@
 #include "FatalError.hpp"
 
 DynamicArrayT<BaseGameObject>* gBaseGameObjects = nullptr;
-s32 gAccumulatedObjectCount = 0;
 
 BaseGameObject::BaseGameObject(s16 bAddToObjectList, s16 resourceArraySize)
     : mBaseGameObjectResArray(resourceArraySize)
@@ -48,8 +47,6 @@ BaseGameObject::BaseGameObject(s16 bAddToObjectList, s16 resourceArraySize)
     mBaseGameObjectTlvInfo = nextId;
     mBaseGameObjectId = nextId;
     sObjectIds.Insert(nextId, this);
-
-    gAccumulatedObjectCount++; // TODO: probably no longer needed
 }
 
 BaseGameObject::~BaseGameObject()
@@ -95,10 +92,9 @@ void BaseGameObject::VStopAudio()
 
 }
 
-s32 BaseGameObject::VGetSaveState(u8*)
+void BaseGameObject::VGetSaveState(SerializedObjectData&)
 {
     // Not used in AO yet so needs a default impl
-    return 0;
 }
 
 ReliveTypes BaseGameObject::FromAO(AO::AOTypes aoType)

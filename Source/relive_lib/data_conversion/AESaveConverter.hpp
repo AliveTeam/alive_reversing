@@ -5180,7 +5180,7 @@ struct Quicksave_WorldInfo final
         }
         d.field_2C_current_zulag_number = data.field_2C_current_zulag_number;
         d.mTotalMeterBars = data.mTotalMeterBars;
-        d.field_2E_use_alt_save_header = data.field_2E_use_alt_save_header;
+        // data.field_2E_use_alt_save_header is not used
         d.field_30_bDrawMeterCountDown = data.field_30_bDrawMeterCountDown;
         d.mVisitedBonewerkz = data.mVisitedBonewerkz;
         d.mVisitedBarracks = data.mVisitedBarracks;
@@ -5206,7 +5206,7 @@ struct Quicksave final
     static ::Quicksave From(const Quicksave& data)
     {
         ::Quicksave d;
-        d.mAccumulatedObjCount = data.field_200_accumulated_obj_count;
+        // data.field_200_accumulated_obj_count is never used
         d.mWorldInfo = Quicksave_WorldInfo::From(data.field_204_world_info);
         d.mRestartPathWorldInfo = Quicksave_WorldInfo::From(data.field_244_restart_path_world_info);
         d.mRestartPathAbeState = AbeSaveState::From(data.field_284_restart_path_abe_state);

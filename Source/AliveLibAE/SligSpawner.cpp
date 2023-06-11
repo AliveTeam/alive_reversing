@@ -9,6 +9,7 @@
 #include "../relive_lib/SwitchStates.hpp"
 #include "Map.hpp"
 #include "Path.hpp"
+#include "QuikSave.hpp"
 
 SligSpawner::SligSpawner(relive::Path_Slig* pTlv, const Guid& tlvId)
     : BaseGameObject(true, 0)
@@ -121,30 +122,26 @@ void SligSpawner::VUpdate()
     }
 }
 
-s32 SligSpawner::VGetSaveState(u8* pSaveBuffer)
+void SligSpawner::VGetSaveState(SerializedObjectData& pSaveBuffer)
 {
-    auto pState = reinterpret_cast<SligSpawnerSaveState*>(pSaveBuffer);
-
-    pState->mType = ReliveTypes::eSligSpawner;
-    pState->mTlvId = mTlvInfo;
-    pState->mState = mState;
-    pState->mSpawnedSligId = Guid{};
-    if (mSpawnedSligId == Guid{})
+    SligSpawnerSaveState data = {};
+    data.mTlvId = mTlvInfo;
+    data.mState = mState;
+    data.mSpawnedSligId = Guid{};
+    if (mSpawnedSligId != Guid{})
     {
-        return sizeof(SligSpawnerSaveState);
+        BaseGameObject* pSpawnedSlig = sObjectIds.Find_Impl(mSpawnedSligId);
+        if (pSpawnedSlig)
+        {
+            data.mSpawnedSligId = pSpawnedSlig->mBaseGameObjectTlvInfo;
+        }
     }
-
-    BaseGameObject* pSpawnedSlig = sObjectIds.Find_Impl(mSpawnedSligId);
-    if (pSpawnedSlig)
-    {
-        pState->mSpawnedSligId = pSpawnedSlig->mBaseGameObjectTlvInfo;
-    }
-    return sizeof(SligSpawnerSaveState);
+    pSaveBuffer.Write(data);
 }
 
-s32 SligSpawner::CreateFromSaveState(const u8* pBuffer)
+void SligSpawner::CreateFromSaveState(SerializedObjectData& pBuffer)
 {
-    auto pState = reinterpret_cast<const SligSpawnerSaveState*>(pBuffer);
+    const auto pState = pBuffer.ReadTmpPtr<SligSpawnerSaveState>();
     auto pTlv = static_cast<relive::Path_Slig*>(gPathInfo->TLV_From_Offset_Lvl_Cam(pState->mTlvId));
     auto pSpawner = relive_new SligSpawner(pTlv, pState->mTlvId);
     if (pSpawner)
@@ -153,6 +150,4 @@ s32 SligSpawner::CreateFromSaveState(const u8* pBuffer)
         pSpawner->mSpawnedSligId = pState->mSpawnedSligId;
         pSpawner->mFindSpawnedSlig = true;
     }
-
-    return sizeof(SligSpawnerSaveState);
 }

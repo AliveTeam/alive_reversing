@@ -5,14 +5,8 @@
 #include "../relive_lib/SwitchStates.hpp"
 #include "Abe.hpp"
 
-struct Quicksave_PSX_Header final
-{
-    u8 field_0_frame_1_name[128];
-    s8 field_80_frame_2_padding[128];
-    s8 field_100_frame_3_padding[128];
-    s8 field_180_frame_4_padding[128];
-};
-ALIVE_ASSERT_SIZEOF(Quicksave_PSX_Header, 0x200);
+class SerializedObjectData;
+
 
 enum class LevelIds : s16;
 
@@ -33,7 +27,6 @@ struct Quicksave_WorldInfo final
     s8 field_18_saved_killed_muds_per_zulag[20];
     s8 field_2C_current_zulag_number;
     s8 mTotalMeterBars;
-    s16 field_2E_use_alt_save_header;
     s16 field_30_bDrawMeterCountDown;
     s16 mVisitedBonewerkz;
     s16 mVisitedBarracks;
@@ -43,18 +36,92 @@ struct Quicksave_WorldInfo final
     s16 field_3E_padding;
 };
 
+class SerializedObjectData final
+{
+public:
+    SerializedObjectData()
+    {
+        // OG allowed for 6820 bytes of data, we allow for as
+        // big as whatever we can allocate
+        mBuffer.reserve(8192);
+    }
+
+    template<typename T>
+    void Write(const T& item)
+    {
+        static_assert(std::is_trivially_copyable_v<T>, "item must be trivially_copyable");
+        const auto posToWrite = mBuffer.size();
+
+        // Allocate space for item
+        mBuffer.resize(mBuffer.size() + sizeof(T));
+
+        // Bitwise copy it into the buffer (safe cos its POD)
+        ::memcpy(mBuffer.data() + posToWrite, &item, sizeof(T));
+    }
+
+    template<typename T>
+    const T* ReadTmpPtr() const 
+    {
+        const T* v = reinterpret_cast<const T*>(mBuffer.data() + mBufferReadPos);
+        mBufferReadPos += sizeof(T);
+        return v;
+    }
+
+    void WriteU8(u8 v)
+    {
+        const auto writePos = mBuffer.size();
+        mBuffer.resize(mBuffer.size() + 4);
+        *reinterpret_cast<u8*>(mBuffer.data() + writePos) = v;
+    }
+
+    void WriteU32(u32 v)
+    {
+        const auto writePos = mBuffer.size();
+        mBuffer.resize(mBuffer.size() + 4);
+        *reinterpret_cast<u32*>(mBuffer.data() + writePos) = v;
+    }
+
+    [[nodiscard]] u32 ReadU32() const
+    {
+        const u32 v = *reinterpret_cast<const u32*>(mBuffer.data() + mBufferReadPos);
+        mBufferReadPos += 4;
+        return v;
+    }
+
+    [[nodiscard]] u8 ReadU8() const
+    {
+        const u8 v = *reinterpret_cast<const u8*>(mBuffer.data() + mBufferReadPos);
+        mBufferReadPos += 1;
+        return v;
+    }
+
+    void ReadRewind() const
+    {
+        mBufferReadPos = 0;
+    }
+
+    void WriteRewind()
+    {
+        mBufferReadPos = 0;
+        mBuffer.clear();
+    }
+
+private:
+    mutable u32 mBufferReadPos = 0;
+    std::vector<u8> mBuffer;
+};
+
 struct Quicksave final
 {
-    Quicksave_PSX_Header mPsxHeader;
-    s32 mAccumulatedObjCount;
     Quicksave_WorldInfo mWorldInfo;
     Quicksave_WorldInfo mRestartPathWorldInfo;
     AbeSaveState mRestartPathAbeState;
     SwitchStates mRestartPathSwitchStates;
     SwitchStates mSwitchStates;
-    u8 mObjectsStateData[6820];
+    SerializedObjectData mObjectsStateData;
+    SerializedObjectData mObjectBlyData;
+
 };
-ALIVE_ASSERT_SIZEOF(Quicksave, 0x2000);
 
 struct SaveFileRec final
 {
@@ -74,6 +141,6 @@ void DoQuicksave();
 void Quicksave_ReadWorldInfo(const Quicksave_WorldInfo* pInfo);
 void Quicksave_SaveWorldInfo(Quicksave_WorldInfo* pInfo);
 void Quicksave_FindSaves();
-void QuikSave_RestoreBlyData(const u8* pSaveData);
+void QuikSave_RestoreBlyData(Quicksave& pSaveData);
 void Quicksave_SaveSwitchResetterStates();
 void Quicksave_RestoreSwitchResetterStates();
