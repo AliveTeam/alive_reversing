@@ -229,7 +229,7 @@ static void RestoreObjectState(ReliveTypes type, SerializedObjectData& pData)
     switch (type)
     {
         case ::ReliveTypes::eSligSpawner:
-            SligSpawner::CreateFromSaveState(pData);
+            return SligSpawner::CreateFromSaveState(pData);
             
         case ::ReliveTypes::eLiftMover:
             return LiftMover::CreateFromSaveState(pData);
