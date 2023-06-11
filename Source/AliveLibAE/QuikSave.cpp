@@ -62,6 +62,146 @@ static void ConvertObjectSaveStateDataToJson(nlohmann::json& j, ReliveTypes type
         case ::ReliveTypes::eSligSpawner:
             j["object_states"].push_back(*pData.ReadTmpPtr<::SligSpawnerSaveState>());
             break;
+        case ::ReliveTypes::eLiftMover:
+            j["object_states"].push_back(*pData.ReadTmpPtr<::LiftMoverSaveState>());
+            break;
+
+        case ::ReliveTypes::eBone:
+            j["object_states"].push_back(*pData.ReadTmpPtr<::BoneSaveState>());
+            break;
+
+        case ::ReliveTypes::eMinesAlarm:
+            j["object_states"].push_back(*pData.ReadTmpPtr<::MinesAlarmSaveState>());
+            break;
+
+        case ::ReliveTypes::eCrawlingSlig:
+            j["object_states"].push_back(*pData.ReadTmpPtr<::CrawlingSligSaveState>());
+            break;
+
+        case ::ReliveTypes::eDrill:
+            j["object_states"].push_back(*pData.ReadTmpPtr<::DrillSaveState>());
+            break;
+
+        case ::ReliveTypes::eEvilFart:
+            j["object_states"].push_back(*pData.ReadTmpPtr<::EvilFartSaveState>());
+            break;
+
+        case ::ReliveTypes::eFleech:
+            j["object_states"].push_back(*pData.ReadTmpPtr<::FleechSaveState>());
+            break;
+
+        case ::ReliveTypes::eFlyingSlig:
+            j["object_states"].push_back(*pData.ReadTmpPtr<::FlyingSligSaveState>());
+            break;
+
+        case ::ReliveTypes::eFlyingSligSpawner:
+            j["object_states"].push_back(*pData.ReadTmpPtr<::FlyingSligSpawnerSaveState>());
+            break;
+
+        case ::ReliveTypes::eGameEnderController:
+            j["object_states"].push_back(*pData.ReadTmpPtr<::GameEnderControllerSaveState>());
+            break;
+
+        case ::ReliveTypes::eSlapLock_OrbWhirlWind:
+            j["object_states"].push_back(*pData.ReadTmpPtr<::SlapLockWhirlWindSaveState>());
+            break;
+
+        case ::ReliveTypes::eSlapLock:
+            j["object_states"].push_back(*pData.ReadTmpPtr<::SlapLockSaveState>());
+            break;
+
+        case ::ReliveTypes::eGreeter:
+            j["object_states"].push_back(*pData.ReadTmpPtr<::GreeterSaveState>());
+            break;
+
+        case ::ReliveTypes::eGrenade:
+            j["object_states"].push_back(*pData.ReadTmpPtr<::GrenadeSaveState>());
+            break;
+
+        case ::ReliveTypes::eGlukkon:
+            j["object_states"].push_back(*pData.ReadTmpPtr<::GlukkonSaveState>());
+            break;
+
+        case ::ReliveTypes::eAbe:
+            j["object_states"].push_back(*pData.ReadTmpPtr<::AbeSaveState>());
+            break;
+
+        case ::ReliveTypes::eLiftPoint:
+            j["object_states"].push_back(*pData.ReadTmpPtr<::LiftPointSaveState>());
+            break;
+
+        case ::ReliveTypes::eMudokon:
+        case ::ReliveTypes::eRingOrLiftMud:
+            j["object_states"].push_back(*pData.ReadTmpPtr<::MudokonSaveState>());
+            break;
+
+        case ::ReliveTypes::eMeat:
+            j["object_states"].push_back(*pData.ReadTmpPtr<::MeatSaveState>());
+            break;
+
+        case ::ReliveTypes::eMineCar:
+            j["object_states"].push_back(*pData.ReadTmpPtr<::MineCarSaveState>());
+            break;
+
+        case ::ReliveTypes::eParamite:
+            j["object_states"].push_back(*pData.ReadTmpPtr<::ParamiteSaveState>());
+            break;
+
+        case ::ReliveTypes::eBirdPortal:
+            j["object_states"].push_back(*pData.ReadTmpPtr<::BirdPortalSaveState>());
+            break;
+
+        case ::ReliveTypes::eThrowableArray:
+            j["object_states"].push_back(*pData.ReadTmpPtr<::ThrowableArraySaveState>());
+            break;
+
+        case ::ReliveTypes::eAbilityRing:
+            j["object_states"].push_back(*pData.ReadTmpPtr<::AbilityRingSaveState>());
+            break;
+
+        case ::ReliveTypes::eRock:
+            j["object_states"].push_back(*pData.ReadTmpPtr<::RockSaveState>());
+            break;
+
+        case ::ReliveTypes::eScrab:
+            j["object_states"].push_back(*pData.ReadTmpPtr<::ScrabSaveState>());
+            break;
+
+        case ::ReliveTypes::eScrabSpawner:
+            j["object_states"].push_back(*pData.ReadTmpPtr<::ScrabSpawnerSaveState>());
+            break;
+
+        case ::ReliveTypes::eSlamDoor:
+            j["object_states"].push_back(*pData.ReadTmpPtr<::SlamDoorSaveState>());
+            break;
+
+        case ::ReliveTypes::eSlig:
+            j["object_states"].push_back(*pData.ReadTmpPtr<::SligSaveState>());
+            break;
+
+        case ::ReliveTypes::eSlog:
+            j["object_states"].push_back(*pData.ReadTmpPtr<::SlogSaveState>());
+            break;
+
+        case ::ReliveTypes::eSlurg:
+            j["object_states"].push_back(*pData.ReadTmpPtr<::SlurgSaveState>());
+            break;
+
+        case ::ReliveTypes::eTimerTrigger:
+            j["object_states"].push_back(*pData.ReadTmpPtr<::TimerTriggerSaveState>());
+            break;
+
+        case ::ReliveTypes::eTrapDoor:
+            j["object_states"].push_back(*pData.ReadTmpPtr<::TrapDoorSaveState>());
+            break;
+
+        case ::ReliveTypes::eUXB:
+            j["object_states"].push_back(*pData.ReadTmpPtr<::UXBSaveState>());
+            break;
+
+        case ::ReliveTypes::eWorkWheel:
+            j["object_states"].push_back(*pData.ReadTmpPtr<::WorkWheelSaveState>());
+            break;
 
         default:
             ALIVE_FATAL("No create json save state for type %d", static_cast<s32>(type));
