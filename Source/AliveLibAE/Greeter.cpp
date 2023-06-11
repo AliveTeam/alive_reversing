@@ -21,6 +21,7 @@
 #include "Path.hpp"
 #include "../relive_lib/FixedPoint.hpp"
 #include "Math.hpp"
+#include "QuikSave.hpp"
 
 void Greeter::LoadAnimations()
 {
@@ -109,9 +110,9 @@ Greeter::Greeter(relive::Path_Greeter* pTlv, const Guid& tlvId)
     mChasing = false;
 }
 
-s32 Greeter::CreateFromSaveState(const u8* pBuffer)
+void Greeter::CreateFromSaveState(SerializedObjectData& pBuffer)
 {
-    auto pState = reinterpret_cast<const GreeterSaveState*>(pBuffer);
+    const auto pState = pBuffer.ReadTmpPtr<GreeterSaveState>();
     auto pTlv = static_cast<relive::Path_Greeter*>(gPathInfo->TLV_From_Offset_Lvl_Cam(pState->mTlvId));
 
     auto pGreeter = relive_new Greeter(pTlv, pState->mTlvId);
@@ -156,56 +157,54 @@ s32 Greeter::CreateFromSaveState(const u8* pBuffer)
         auto pLaser = static_cast<MotionDetectorLaser*>(sObjectIds.Find_Impl(pDetector->mLaserId));
         pLaser->mXPos = pState->mMotionLaserXPos;
     }
-
-    return sizeof(GreeterSaveState);
 }
 
-s32 Greeter::VGetSaveState(u8* pSaveBuffer)
+void Greeter::VGetSaveState(SerializedObjectData& pSaveBuffer)
 {
     if (GetElectrocuted())
     {
-        return 0;
+        return;
     }
 
-    auto pState = reinterpret_cast<GreeterSaveState*>(pSaveBuffer);
+    GreeterSaveState data = {};
 
-    pState->mType = ReliveTypes::eGreeter;
+    data.mType = ReliveTypes::eGreeter;
 
-    pState->field_C_xpos = mXPos;
-    pState->field_10_ypos = mYPos;
-    pState->field_14_velx = mVelX;
-    pState->field_18_vely = mVelY;
+    data.field_C_xpos = mXPos;
+    data.field_10_ypos = mYPos;
+    data.field_14_velx = mVelX;
+    data.field_18_vely = mVelY;
 
-    pState->field_8_path_number = mCurrentPath;
-    pState->field_A_lvl_number = mCurrentLevel;
-    pState->field_1C_sprite_scale = GetSpriteScale();
+    data.field_8_path_number = mCurrentPath;
+    data.field_A_lvl_number = mCurrentLevel;
+    data.field_1C_sprite_scale = GetSpriteScale();
 
-    pState->field_2_r = mRGB.r;
-    pState->field_4_g = mRGB.g;
-    pState->field_6_b = mRGB.b;
+    data.field_2_r = mRGB.r;
+    data.field_4_g = mRGB.g;
+    data.field_6_b = mRGB.b;
 
-    pState->mCurrentFrame = static_cast<s16>(GetAnimation().GetCurrentFrame());
-    pState->mFrameChangeCounter = static_cast<s16>(GetAnimation().GetFrameChangeCounter());
-    pState->mDrawable = GetDrawable();
-    pState->mAnimRender = GetAnimation().GetRender();
-    pState->mTlvId = mTlvId;
-    pState->field_30_last_turn_time = field_124_last_turn_time;
-    pState->field_34_timer = field_128_timer;
+    data.mCurrentFrame = static_cast<s16>(GetAnimation().GetCurrentFrame());
+    data.mFrameChangeCounter = static_cast<s16>(GetAnimation().GetFrameChangeCounter());
+    data.mDrawable = GetDrawable();
+    data.mAnimRender = GetAnimation().GetRender();
+    data.mTlvId = mTlvId;
+    data.field_30_last_turn_time = field_124_last_turn_time;
+    data.field_34_timer = field_128_timer;
 
-    pState->mTimesShot = mTimesShot;
-    pState->field_3A_bDontSetDestroyed = field_12E_bDontSetDestroyed;
-    pState->mChasing = mChasing;
+    data.mTimesShot = mTimesShot;
+    data.field_3A_bDontSetDestroyed = field_12E_bDontSetDestroyed;
+    data.mChasing = mChasing;
 
-    pState->field_40_speed = field_134_speed;
-    pState->mBrainState = mBrainState;
-    pState->field_46_targetOnLeft = field_13E_targetOnLeft;
-    pState->field_48_targetOnRight = field_140_targetOnRight;
+    data.field_40_speed = field_134_speed;
+    data.mBrainState = mBrainState;
+    data.field_46_targetOnLeft = field_13E_targetOnLeft;
+    data.field_48_targetOnRight = field_140_targetOnRight;
 
     auto pMotionDetector = static_cast<MotionDetector*>(sObjectIds.Find_Impl(field_11C_motionDetectorId));
     auto pLaser = static_cast<MotionDetectorLaser*>(sObjectIds.Find_Impl(pMotionDetector->mLaserId));
-    pState->mMotionLaserXPos = pLaser->mXPos;
+    data.mMotionLaserXPos = pLaser->mXPos;
 
-    return sizeof(GreeterSaveState);
+    pSaveBuffer.Write(data);
 }
 
 void Greeter::VScreenChanged()

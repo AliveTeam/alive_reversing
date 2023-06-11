@@ -143,11 +143,11 @@ public:
     virtual bool VTakeDamage(BaseGameObject* pFrom) override;
     virtual void VOnTlvCollision(relive::Path_TLV* pTlv) override;
 
-    virtual s32 VGetSaveState(u8* pSaveBuffer) override;
+    virtual void VGetSaveState(SerializedObjectData& pSaveBuffer) override;
     virtual bool VOnSameYLevel(BaseAnimatedWithPhysicsGameObject* pOther) override;
     virtual void VOnTrapDoorOpen() override;
 
-    static s32 CreateFromSaveState(const u8* pBuffer);
+    static void CreateFromSaveState(SerializedObjectData& pBuffer);
 
 private:
     void HandleDDCheat();

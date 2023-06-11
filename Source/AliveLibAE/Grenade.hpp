@@ -52,7 +52,7 @@ public:
     ~Grenade();
 
     virtual void VScreenChanged() override;
-    virtual s32 VGetSaveState(u8* pSaveBuffer) override;
+    virtual void VGetSaveState(SerializedObjectData& pSaveBuffer) override;
     virtual void VUpdate() override;
     virtual void VOnTrapDoorOpen() override;
     virtual void VThrow(FP velX, FP velY) override;
@@ -61,7 +61,7 @@ public:
     virtual void VTimeToExplodeRandom() override;
 
 
-    static s32 CreateFromSaveState(const u8* pBuffer);
+    static void CreateFromSaveState(SerializedObjectData& pBuffer);
 
     virtual bool VOnPlatformIntersection(BaseAnimatedWithPhysicsGameObject* pPlatform) override
     {

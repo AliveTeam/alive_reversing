@@ -306,8 +306,8 @@ public:
     virtual bool VTakeDamage(BaseGameObject* pFrom) override;
     virtual void VOnTrapDoorOpen() override;
     virtual void VOnThrowableHit(BaseGameObject* pFrom) override;
-    virtual s32 VGetSaveState(u8* pSaveBuffer) override;
-    static s32 CreateFromSaveState(const u8* pBuffer);
+    virtual void VGetSaveState(SerializedObjectData& pSaveBuffer) override;
+    static void CreateFromSaveState(SerializedObjectData& pBuffer);
 
     void Motion_0_Sleeping();
     void Motion_1_WakingUp();

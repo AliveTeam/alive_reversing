@@ -16,6 +16,7 @@
 #include "PathData.hpp"
 #include "../relive_lib/FixedPoint.hpp"
 #include "Math.hpp"
+#include "QuikSave.hpp"
 
 Meat::Meat(FP xpos, FP ypos, s16 count)
     : BaseThrowable(0)
@@ -50,9 +51,9 @@ Meat::Meat(FP xpos, FP ypos, s16 count)
     CreateShadow();
 }
 
-s32 Meat::CreateFromSaveState(const u8* pBuffer)
+void Meat::CreateFromSaveState(SerializedObjectData& pBuffer)
 {
-    const auto pState = reinterpret_cast<const MeatSaveState*>(pBuffer);
+    const auto pState = pBuffer.ReadTmpPtr<MeatSaveState>();
 
     auto pMeat = relive_new Meat(pState->mXPos, pState->mYPos, pState->mThrowableCount);
 
@@ -92,7 +93,6 @@ s32 Meat::CreateFromSaveState(const u8* pBuffer)
     pMeat->mPreviousYPos = pState->mPreviousYPos;
 
     pMeat->mDeadTimer = pState->mDeadTimer;
-    return sizeof(MeatSaveState);
 }
 
 void Meat::VTimeToExplodeRandom()
@@ -398,49 +398,49 @@ void Meat::VUpdate()
     }
 }
 
-s32 Meat::VGetSaveState(u8* pSaveBuffer)
+void Meat::VGetSaveState(SerializedObjectData& pSaveBuffer)
 {
-    auto pState = reinterpret_cast<MeatSaveState*>(pSaveBuffer);
+    MeatSaveState data = {};
 
-    pState->mType = ReliveTypes::eMeat;
-    pState->mTlvId = mBaseGameObjectTlvInfo;
+    data.mType = ReliveTypes::eMeat;
+    data.mTlvId = mBaseGameObjectTlvInfo;
 
-    pState->mXPos = mXPos;
-    pState->mYPos = mYPos;
+    data.mXPos = mXPos;
+    data.mYPos = mYPos;
 
-    pState->mVelX = mVelX;
-    pState->mVelY = mVelY;
+    data.mVelX = mVelX;
+    data.mVelY = mVelY;
 
-    pState->mCurrentPath = mCurrentPath;
-    pState->mCurrentLevel = mCurrentLevel;
+    data.mCurrentPath = mCurrentPath;
+    data.mCurrentLevel = mCurrentLevel;
 
-    pState->mSpriteScale = GetSpriteScale();
+    data.mSpriteScale = GetSpriteScale();
 
-    pState->mLoop = GetAnimation().GetLoop();
-    pState->mRender = GetAnimation().GetRender();
+    data.mLoop = GetAnimation().GetLoop();
+    data.mRender = GetAnimation().GetRender();
 
-    pState->mDrawable = GetDrawable();
-    pState->mInteractive = GetInteractive();
+    data.mDrawable = GetDrawable();
+    data.mInteractive = GetInteractive();
 
     if (mPathLine)
     {
-        pState->mLineType = mPathLine->mLineType;
+        data.mLineType = mPathLine->mLineType;
     }
     else
     {
-        pState->mLineType = eLineTypes::eNone_m1;
+        data.mLineType = eLineTypes::eNone_m1;
     }
 
-    pState->mPlatformId = BaseAliveGameObject_PlatformId;
-    pState->mThrowableCount = mBaseThrowableCount;
-    pState->mState = mState;
+    data.mPlatformId = BaseAliveGameObject_PlatformId;
+    data.mThrowableCount = mBaseThrowableCount;
+    data.mState = mState;
 
-    pState->mPreviousXPos = mPreviousXPos;
-    pState->mPreviousYPos = mPreviousYPos;
+    data.mPreviousXPos = mPreviousXPos;
+    data.mPreviousYPos = mPreviousYPos;
 
-    pState->mDeadTimer = mDeadTimer;
+    data.mDeadTimer = mDeadTimer;
 
-    return sizeof(MeatSaveState);
+    pSaveBuffer.Write(data);
 }
 
 bool Meat::VCanEatMe()

@@ -24,10 +24,10 @@ public:
     ScrabSpawner(relive::Path_ScrabSpawner* pTlv, const Guid& tlvId);
     ~ScrabSpawner();
 
-    static s32 CreateFromSaveState(const u8* pBuffer);
+    static void CreateFromSaveState(SerializedObjectData& pBuffer);
     
     virtual void VUpdate() override;
-    virtual s32 VGetSaveState(u8* pSaveBuffer) override;
+    virtual void VGetSaveState(SerializedObjectData& pSaveBuffer) override;
 
 private:
     Guid mTlvId;

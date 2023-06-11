@@ -90,7 +90,7 @@ static void RestoreObjectState(ReliveTypes type, SerializedObjectData& pData)
     {
         case ::ReliveTypes::eSligSpawner:
             SligSpawner::CreateFromSaveState(pData);
-            /*
+            
         case ::ReliveTypes::eLiftMover:
             return LiftMover::CreateFromSaveState(pData);
 
@@ -196,8 +196,7 @@ static void RestoreObjectState(ReliveTypes type, SerializedObjectData& pData)
 
         case ::ReliveTypes::eWorkWheel:
             return WorkWheel::CreateFromSaveState(pData);
-            */
-
+            
         default:
             ALIVE_FATAL("No create save state for type %d", static_cast<s32>(type));
     }

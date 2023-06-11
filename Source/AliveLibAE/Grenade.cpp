@@ -14,10 +14,11 @@
 #include "../relive_lib/Collisions.hpp"
 #include "Path.hpp"
 #include "../relive_lib/FixedPoint.hpp"
+#include "QuikSave.hpp"
 
-s32 Grenade::CreateFromSaveState(const u8* pBuffer)
+void Grenade::CreateFromSaveState(SerializedObjectData& pBuffer)
 {
-    auto pState = reinterpret_cast<const GrenadeSaveState*>(pBuffer);
+    const auto pState = pBuffer.ReadTmpPtr<GrenadeSaveState>();
     auto pGrenade = relive_new Grenade(pState->mXPos, pState->mYPos, pState->mThrowableCount, 0, nullptr);
 
     pGrenade->mBaseGameObjectTlvInfo = pState->mTlvInfo;
@@ -54,54 +55,52 @@ s32 Grenade::CreateFromSaveState(const u8* pBuffer)
     pGrenade->mBlowUpOnCollision = pState->mBlowUpOnCollision;
 
     pGrenade->mExplodeCountdown = pState->mExplodeCountdown;
-
-    return sizeof(GrenadeSaveState);
 }
 
-s32 Grenade::VGetSaveState(u8* pSaveBuffer)
+void Grenade::VGetSaveState(SerializedObjectData& pSaveBuffer)
 {
-    auto pState = reinterpret_cast<GrenadeSaveState*>(pSaveBuffer);
+    GrenadeSaveState data = {};
 
-    pState->mType = ReliveTypes::eGrenade;
+    data.mType = ReliveTypes::eGrenade;
 
-    pState->mTlvInfo = mBaseGameObjectTlvInfo;
+    data.mTlvInfo = mBaseGameObjectTlvInfo;
 
-    pState->mXPos = mXPos;
-    pState->mYPos = mYPos;
-    pState->mVelX = mVelX;
-    pState->mVelY = mVelY;
+    data.mXPos = mXPos;
+    data.mYPos = mYPos;
+    data.mVelX = mVelX;
+    data.mVelY = mVelY;
 
-    pState->mCurrentPath = mCurrentPath;
-    pState->mCurrentLevel = mCurrentLevel;
-    pState->mSpriteScale = GetSpriteScale();
+    data.mCurrentPath = mCurrentPath;
+    data.mCurrentLevel = mCurrentLevel;
+    data.mSpriteScale = GetSpriteScale();
 
-    pState->mLoop = GetAnimation().GetLoop();
-    pState->mDrawable = GetDrawable();
-    pState->mRender = GetAnimation().GetRender();
-    pState->mInteractive = GetInteractive();
+    data.mLoop = GetAnimation().GetLoop();
+    data.mDrawable = GetDrawable();
+    data.mRender = GetAnimation().GetRender();
+    data.mInteractive = GetInteractive();
 
     if (BaseAliveGameObjectCollisionLine)
     {
-        pState->mCollisionLineType = BaseAliveGameObjectCollisionLine->mLineType;
+        data.mCollisionLineType = BaseAliveGameObjectCollisionLine->mLineType;
     }
     else
     {
-        pState->mCollisionLineType = eLineTypes::eNone_m1;
+        data.mCollisionLineType = eLineTypes::eNone_m1;
     }
 
-    pState->mPlatformId = BaseAliveGameObject_PlatformId;
-    pState->mThrowableCount = mBaseThrowableCount;
-    pState->mState = mState;
-    pState->mBounceCount = mBounceCount;
-    pState->mPreviousXPos = mPreviousXPos;
-    pState->mPreviousYPos = mPreviousYPos;
+    data.mPlatformId = BaseAliveGameObject_PlatformId;
+    data.mThrowableCount = mBaseThrowableCount;
+    data.mState = mState;
+    data.mBounceCount = mBounceCount;
+    data.mPreviousXPos = mPreviousXPos;
+    data.mPreviousYPos = mPreviousYPos;
 
-    pState->mExplodeNow = mExplodeNow;
-    pState->mBlowUpOnCollision = mBlowUpOnCollision;
+    data.mExplodeNow = mExplodeNow;
+    data.mBlowUpOnCollision = mBlowUpOnCollision;
 
-    pState->mExplodeCountdown = mExplodeCountdown;
+    data.mExplodeCountdown = mExplodeCountdown;
 
-    return sizeof(GrenadeSaveState);
+    pSaveBuffer.Write(data);
 }
 
 Grenade::Grenade(FP xpos, FP ypos, s32 numGrenades, bool bBlowUpOnCollision, BaseGameObject* pOwner)

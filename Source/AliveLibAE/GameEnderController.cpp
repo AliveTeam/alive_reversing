@@ -13,6 +13,7 @@
 #include "../relive_lib/Function.hpp"
 #include "PathDataExtensions.hpp"
 #include "Input.hpp"
+#include "QuikSave.hpp"
 
 s16 gFeeco_Restart_KilledMudCount = 0;
 s16 gFeecoRestart_SavedMudCount = 0;
@@ -39,9 +40,10 @@ void CreateGameEnderController()
 }
 
 
-s32 GameEnderController::CreateFromSaveState(const u8* pBuffer)
+void GameEnderController::CreateFromSaveState(SerializedObjectData& pBuffer)
 {
-    auto pState = reinterpret_cast<const GameEnderControllerSaveState*>(pBuffer);
+    auto pState = pBuffer.ReadTmpPtr<GameEnderControllerSaveState>();
+
     auto pGameEnderController = relive_new GameEnderController();
     if (pGameEnderController)
     {
@@ -49,7 +51,6 @@ s32 GameEnderController::CreateFromSaveState(const u8* pBuffer)
         pGameEnderController->mTimer = sGnFrame + pState->mTimer;
         pGameEnderController->mState = pState->mState;
     }
-    return sizeof(GameEnderControllerSaveState);
 }
 
 GameEnderController::GameEnderController()
@@ -75,15 +76,15 @@ void GameEnderController::VScreenChanged()
     }
 }
 
-s32 GameEnderController::VGetSaveState(u8* pSaveBuffer)
+void GameEnderController::VGetSaveState(SerializedObjectData& pSaveBuffer)
 {
-    auto pState = reinterpret_cast<GameEnderControllerSaveState*>(pSaveBuffer);
+    GameEnderControllerSaveState data = {};
 
-    pState->mType = ReliveTypes::eGameEnderController;
-    pState->mObjId = mBaseGameObjectTlvInfo;
-    pState->mTimer = mTimer - sGnFrame;
-    pState->mState = mState;
-    return sizeof(GameEnderControllerSaveState);
+    data.mType = ReliveTypes::eGameEnderController;
+    data.mObjId = mBaseGameObjectTlvInfo;
+    data.mTimer = mTimer - sGnFrame;
+    data.mState = mState;
+    pSaveBuffer.Write(data);
 }
 
 void GameEnderController::VUpdate()

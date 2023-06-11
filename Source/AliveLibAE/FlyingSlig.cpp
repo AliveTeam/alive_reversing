@@ -32,6 +32,7 @@
 #include "Input.hpp"
 #include "../relive_lib/FixedPoint.hpp"
 #include "Path.hpp"
+#include "QuikSave.hpp"
 
 // Warning, index is saved, order matters here
 const static TFlyingSligBrainFn sFlyingSligMotionTable[26] =
@@ -255,9 +256,9 @@ FlyingSlig::FlyingSlig(relive::Path_FlyingSlig* pTlv, const Guid& tlvId)
     CreateShadow();
 }
 
-s32 FlyingSlig::CreateFromSaveState(const u8* pBuffer)
+void FlyingSlig::CreateFromSaveState(SerializedObjectData& pBuffer)
 {
-    auto pSaveState = reinterpret_cast<const FlyingSligSaveState*>(pBuffer);
+    const auto pSaveState = pBuffer.ReadTmpPtr<FlyingSligSaveState>();
 
     auto pTlv = static_cast<relive::Path_FlyingSlig*>(gPathInfo->TLV_From_Offset_Lvl_Cam(pSaveState->field_3C_tlvInfo));
 
@@ -363,119 +364,117 @@ s32 FlyingSlig::CreateFromSaveState(const u8* pBuffer)
         pFlyingSlig->field_284_bobbing_value = pSaveState->field_A8_bobbing_value;
         pFlyingSlig->field_28C_bobbing_values_table_index = pSaveState->field_A0_bobbing_values_table_index;
     }
-
-    return sizeof(FlyingSligSaveState);
 }
 
-s32 FlyingSlig::VGetSaveState(u8* pSaveBuffer)
+void FlyingSlig::VGetSaveState(SerializedObjectData& pSaveBuffer)
 {
     if (GetElectrocuted())
     {
-        return 0;
+        return;
     }
 
-    auto pState = reinterpret_cast<FlyingSligSaveState*>(pSaveBuffer);
+    FlyingSligSaveState data = {};
 
-    pState->mType = ReliveTypes::eFlyingSlig;
+    data.mType = ReliveTypes::eFlyingSlig;
 
-    pState->field_4_xpos = mXPos;
-    pState->field_8_ypos = mYPos;
-    pState->field_C_velx = mVelX;
-    pState->field_10_vely = mVelY;
+    data.field_4_xpos = mXPos;
+    data.field_8_ypos = mYPos;
+    data.field_C_velx = mVelX;
+    data.field_10_vely = mVelY;
 
-    pState->field_14_path_number = mCurrentPath;
-    pState->field_16_lvl_number = mCurrentLevel;
-    pState->field_18_sprite_scale = GetSpriteScale();
+    data.field_14_path_number = mCurrentPath;
+    data.field_16_lvl_number = mCurrentLevel;
+    data.field_18_sprite_scale = GetSpriteScale();
 
-    pState->field_1C_oldr = mRGB.r;
-    pState->field_1E_oldg = mRGB.g;
-    pState->field_20_oldb = mRGB.b;
+    data.field_1C_oldr = mRGB.r;
+    data.field_1E_oldg = mRGB.g;
+    data.field_20_oldb = mRGB.b;
 
-    pState->field_22_bAnimFlipX = GetAnimation().GetFlipX();
-    pState->field_24_current_state = mCurrentMotion;
-    pState->field_26_current_frame = static_cast<s16>(GetAnimation().GetCurrentFrame());
-    pState->field_28_frame_change_counter = static_cast<s16>(GetAnimation().GetFrameChangeCounter());
+    data.field_22_bAnimFlipX = GetAnimation().GetFlipX();
+    data.field_24_current_state = mCurrentMotion;
+    data.field_26_current_frame = static_cast<s16>(GetAnimation().GetCurrentFrame());
+    data.field_28_frame_change_counter = static_cast<s16>(GetAnimation().GetFrameChangeCounter());
 
-    pState->field_2B_bDrawable = GetDrawable();
-    pState->field_2A_bAnimRender = GetAnimation().GetRender();
-    pState->field_2C_current_health = mHealth;
-    pState->field_30_current_state = mCurrentMotion;
-    pState->field_32_delayed_state = mNextMotion;
+    data.field_2B_bDrawable = GetDrawable();
+    data.field_2A_bAnimRender = GetAnimation().GetRender();
+    data.field_2C_current_health = mHealth;
+    data.field_30_current_state = mCurrentMotion;
+    data.field_32_delayed_state = mNextMotion;
 
-    pState->field_34_lastLineYPos = FP_GetExponent(BaseAliveGameObjectLastLineYPos);
+    data.field_34_lastLineYPos = FP_GetExponent(BaseAliveGameObjectLastLineYPos);
 
-    pState->field_36_line_idx = -1; // OG bug - actually becomes 0 due to impossible case removed below ?
+    data.field_36_line_idx = -1; // OG bug - actually becomes 0 due to impossible case removed below ?
 
     if (BaseAliveGameObjectCollisionLine)
     {
-        pState->field_36_line_idx = static_cast<s16>(BaseAliveGameObjectCollisionLine - gCollisions->mCollisionArray);
+        data.field_36_line_idx = static_cast<s16>(BaseAliveGameObjectCollisionLine - gCollisions->mCollisionArray);
     }
 
-    pState->field_38_launch_switch_id = field_17C_launch_switch_id;
+    data.field_38_launch_switch_id = field_17C_launch_switch_id;
 
-    pState->mPossessed = this == sControlledCharacter;
-    pState->mThrowGrenade = mThrowGrenade;
-    pState->mAlertedAndNotFacingAbe = mAlertedAndNotFacingAbe;
-    pState->mDoAction = mDoAction;
-    pState->mChanting = mChanting;
-    pState->mSpeaking2 = mSpeaking2;
-    pState->mSpeaking1 = mSpeaking1;
-    pState->mLastLine = mLastLine;
-    pState->mUnknown1 = mUnknown1;
-    pState->mUnknown2 = mUnknown2;
+    data.mPossessed = this == sControlledCharacter;
+    data.mThrowGrenade = mThrowGrenade;
+    data.mAlertedAndNotFacingAbe = mAlertedAndNotFacingAbe;
+    data.mDoAction = mDoAction;
+    data.mChanting = mChanting;
+    data.mSpeaking2 = mSpeaking2;
+    data.mSpeaking1 = mSpeaking1;
+    data.mLastLine = mLastLine;
+    data.mUnknown1 = mUnknown1;
+    data.mUnknown2 = mUnknown2;
 
-    pState->field_3C_tlvInfo = field_148_tlvInfo;
-    pState->field_40_timer = field_14C_timer;
-    pState->field_44_grenade_delay = field_150_grenade_delay;
-    pState->field_48_collision_reaction_timer = field_154_collision_reaction_timer;
+    data.field_3C_tlvInfo = field_148_tlvInfo;
+    data.field_40_timer = field_14C_timer;
+    data.field_44_grenade_delay = field_150_grenade_delay;
+    data.field_48_collision_reaction_timer = field_154_collision_reaction_timer;
 
-    pState->field_4C_xSpeed = field_184_xSpeed;
-    pState->field_50_ySpeed = field_188_ySpeed;
+    data.field_4C_xSpeed = field_184_xSpeed;
+    data.field_50_ySpeed = field_188_ySpeed;
 
-    pState->field_54_next_speak = field_17D_next_speak;
-    pState->field_56_voice_pitch_min = field_160_voice_pitch_min;
+    data.field_54_next_speak = field_17D_next_speak;
+    data.field_56_voice_pitch_min = field_160_voice_pitch_min;
 
-    pState->field_58_obj_id = Guid{};
+    data.field_58_obj_id = Guid{};
     if (field_158_obj_id != Guid{})
     {
         auto pObj = sObjectIds.Find_Impl(field_158_obj_id);
         if (pObj)
         {
-            pState->field_58_obj_id = pObj->mBaseGameObjectTlvInfo;
+            data.field_58_obj_id = pObj->mBaseGameObjectTlvInfo;
         }
     }
 
-    pState->field_5C = field_18C;
-    pState->field_60 = field_190;
-    pState->field_64 = field_194;
-    pState->field_68_line_length = field_198_line_length;
-    pState->field_6C = field_1C4;
-    pState->field_70_lever_pull_range_xpos = field_1C8_lever_pull_range_xpos;
-    pState->field_74_lever_pull_range_ypos = field_1CC_lever_pull_range_ypos;
-    pState->field_88_nextXPos = field_294_nextXPos;
-    pState->field_8C_nextYPos = field_298_nextYPos;
-    pState->field_90_fns1_idx = 0;
+    data.field_5C = field_18C;
+    data.field_60 = field_190;
+    data.field_64 = field_194;
+    data.field_68_line_length = field_198_line_length;
+    data.field_6C = field_1C4;
+    data.field_70_lever_pull_range_xpos = field_1C8_lever_pull_range_xpos;
+    data.field_74_lever_pull_range_ypos = field_1CC_lever_pull_range_ypos;
+    data.field_88_nextXPos = field_294_nextXPos;
+    data.field_8C_nextYPos = field_298_nextYPos;
+    data.field_90_fns1_idx = 0;
 
     s32 idx = 0;
     for (const auto& fn : sFlyingSligBrainTable)
     {
         if (BrainIs(fn))
         {
-            pState->field_90_fns1_idx = idx;
+            data.field_90_fns1_idx = idx;
             break;
         }
         idx++;
     }
 
-    pState->field_9A_abe_level = mAbeLevel;
-    pState->field_9C_abe_path = mAbePath;
-    pState->field_9E_abe_camera = mAbeCamera;
+    data.field_9A_abe_level = mAbeLevel;
+    data.field_9C_abe_path = mAbePath;
+    data.field_9E_abe_camera = mAbeCamera;
 
-    pState->field_A4_bobbing_values_index = field_290_bobbing_values_index;
-    pState->field_A8_bobbing_value = field_284_bobbing_value;
-    pState->field_A0_bobbing_values_table_index = field_28C_bobbing_values_table_index;
+    data.field_A4_bobbing_values_index = field_290_bobbing_values_index;
+    data.field_A8_bobbing_value = field_284_bobbing_value;
+    data.field_A0_bobbing_values_table_index = field_28C_bobbing_values_table_index;
 
-    return sizeof(FlyingSligSaveState);
+    pSaveBuffer.Write(data);
 }
 
 FlyingSlig::~FlyingSlig()

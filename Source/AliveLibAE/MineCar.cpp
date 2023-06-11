@@ -18,6 +18,7 @@
 #include "Path.hpp"
 #include "../relive_lib/Psx.hpp"
 #include "../relive_lib/FixedPoint.hpp"
+#include "QuikSave.hpp"
 
 const FP mineCarHeightUnscaled = FP_FromInteger(60);
 const FP mineCarWidthUnscaled = FP_FromInteger(12);
@@ -110,9 +111,9 @@ const AnimId sMineCarAnimIdTable[7] = {
     AnimId::Mine_Car_Tread_Move_A,
     AnimId::Mine_Car_Tread_Move_B};
 
-s32 MineCar::CreateFromSaveState(const u8* pBuffer)
+void MineCar::CreateFromSaveState(SerializedObjectData& pBuffer)
 {
-    auto pState = reinterpret_cast<const MineCarSaveState*>(pBuffer);
+    const auto pState = pBuffer.ReadTmpPtr<MineCarSaveState>();
     auto pTlv = static_cast<relive::Path_MineCar*>(gPathInfo->TLV_From_Offset_Lvl_Cam(pState->field_4C_tlvInfo));
 
     auto pMineCar = relive_new MineCar(pTlv, pState->field_4C_tlvInfo, 0, 0, 0);
@@ -252,8 +253,6 @@ s32 MineCar::CreateFromSaveState(const u8* pBuffer)
             pMineCar->field_1C4_velx_index = 7;
         }
     }
-
-    return sizeof(MineCarSaveState);
 }
 
 void MineCar::LoadAnimation(Animation* pAnim)
@@ -664,58 +663,58 @@ bool MineCar::VTakeDamage(BaseGameObject* /*pFrom*/)
     return !GetDead();
 }
 
-s32 MineCar::VGetSaveState(u8* pSaveBuffer)
+void MineCar::VGetSaveState(SerializedObjectData& pSaveBuffer)
 {
-    auto pState = reinterpret_cast<MineCarSaveState*>(pSaveBuffer);
+    MineCarSaveState data = {};
 
-    pState->mType = ReliveTypes::eMineCar;
+    data.mType = ReliveTypes::eMineCar;
 
-    pState->field_4_xpos = mXPos;
-    pState->field_8_ypos = mYPos;
+    data.field_4_xpos = mXPos;
+    data.field_8_ypos = mYPos;
 
-    pState->field_C_velx = mVelX;
-    pState->field_10_vely = mVelY;
+    data.field_C_velx = mVelX;
+    data.field_10_vely = mVelY;
 
-    pState->field_18_path_number = mCurrentPath;
-    pState->field_1A_lvl_number = mCurrentLevel;
+    data.field_18_path_number = mCurrentPath;
+    data.field_1A_lvl_number = mCurrentLevel;
 
-    pState->field_14_sprite_scale = GetSpriteScale();
+    data.field_14_sprite_scale = GetSpriteScale();
 
-    pState->field_1C_r = mRGB.r;
-    pState->field_1E_g = mRGB.g;
-    pState->field_20_b = mRGB.b;
+    data.field_1C_r = mRGB.r;
+    data.field_1E_g = mRGB.g;
+    data.field_20_b = mRGB.b;
 
-    pState->field_28_current_motion = mCurrentMotion;
-    pState->field_2A_current_anim_frame = static_cast<s16>(GetAnimation().GetCurrentFrame());
-    pState->field_2C_frame_change_counter = static_cast<s16>(GetAnimation().GetFrameChangeCounter());
+    data.field_28_current_motion = mCurrentMotion;
+    data.field_2A_current_anim_frame = static_cast<s16>(GetAnimation().GetCurrentFrame());
+    data.field_2C_frame_change_counter = static_cast<s16>(GetAnimation().GetFrameChangeCounter());
 
-    pState->field_2F_drawable = GetDrawable();
-    pState->field_22_xFlip = GetAnimation().GetFlipX();
-    pState->field_2E_render = GetAnimation().GetRender();
+    data.field_2F_drawable = GetDrawable();
+    data.field_22_xFlip = GetAnimation().GetFlipX();
+    data.field_2E_render = GetAnimation().GetRender();
 
-    // this makes no sense because we convert pState->field_24_frame_table back to the actual offset in CreateFromSaveState
+    // this makes no sense because we convert data.field_24_frame_table back to the actual offset in CreateFromSaveState
     switch (GetAnimation().mAnimRes.mId)
     {
         case AnimId::Mine_Car_Tread_Move_B:
-            pState->field_24_frame_table = 10860;
+            data.field_24_frame_table = 10860;
             break;
         case AnimId::Mine_Car_Open:
-            pState->field_24_frame_table = 10884;
+            data.field_24_frame_table = 10884;
             break;
         case AnimId::Mine_Car_Tread_Idle:
-            pState->field_24_frame_table = 10896;
+            data.field_24_frame_table = 10896;
             break;
         case AnimId::Mine_Car_Closed:
-            pState->field_24_frame_table = 10908;
+            data.field_24_frame_table = 10908;
             break;
         case AnimId::Mine_Car_Tread_Move_A:
-            pState->field_24_frame_table = 10920;
+            data.field_24_frame_table = 10920;
             break;
         case AnimId::Mine_Car_Shake_A:
-            pState->field_24_frame_table = 10944;
+            data.field_24_frame_table = 10944;
             break;
         case AnimId::Mine_Car_Shake_B:
-            pState->field_24_frame_table = 10972;
+            data.field_24_frame_table = 10972;
             break;
         default:
             break;
@@ -724,62 +723,62 @@ s32 MineCar::VGetSaveState(u8* pSaveBuffer)
     switch (mTreadAnim.mAnimRes.mId)
     {
         case AnimId::Mine_Car_Tread_Move_B:
-            pState->field_38_frame_table_offset2 = 10860;
+            data.field_38_frame_table_offset2 = 10860;
             break;
         case AnimId::Mine_Car_Open:
-            pState->field_38_frame_table_offset2 = 10884;
+            data.field_38_frame_table_offset2 = 10884;
             break;
         case AnimId::Mine_Car_Tread_Idle:
-            pState->field_38_frame_table_offset2 = 10896;
+            data.field_38_frame_table_offset2 = 10896;
             break;
         case AnimId::Mine_Car_Closed:
-            pState->field_38_frame_table_offset2 = 10908;
+            data.field_38_frame_table_offset2 = 10908;
             break;
         case AnimId::Mine_Car_Tread_Move_A:
-            pState->field_38_frame_table_offset2 = 10920;
+            data.field_38_frame_table_offset2 = 10920;
             break;
         case AnimId::Mine_Car_Shake_A:
-            pState->field_38_frame_table_offset2 = 10944;
+            data.field_38_frame_table_offset2 = 10944;
             break;
         case AnimId::Mine_Car_Shake_B:
-            pState->field_38_frame_table_offset2 = 10972;
+            data.field_38_frame_table_offset2 = 10972;
             break;
         default:
             break;
     }
 
-    pState->field_3C_health = mHealth;
-    pState->field_42_next_motion = mNextMotion;
+    data.field_3C_health = mHealth;
+    data.field_42_next_motion = mNextMotion;
 
-    pState->field_40_current_motion = mCurrentMotion;
+    data.field_40_current_motion = mCurrentMotion;
 
-    pState->field_44_last_line_ypos = FP_GetExponent(FP_Abs(BaseAliveGameObjectLastLineYPos));
+    data.field_44_last_line_ypos = FP_GetExponent(FP_Abs(BaseAliveGameObjectLastLineYPos));
 
     if (BaseAliveGameObjectCollisionLine)
     {
-        pState->field_46_collision_line_type = BaseAliveGameObjectCollisionLine->mLineType;
+        data.field_46_collision_line_type = BaseAliveGameObjectCollisionLine->mLineType;
     }
     else
     {
-        pState->field_46_collision_line_type = eLineTypes::eNone_m1;
+        data.field_46_collision_line_type = eLineTypes::eNone_m1;
     }
 
-    pState->field_5A_bAbeInCar = (this == sControlledCharacter);
-    pState->field_4C_tlvInfo = field_118_tlvInfo;
-    pState->field_50_state = field_11C_state;
+    data.field_5A_bAbeInCar = (this == sControlledCharacter);
+    data.field_4C_tlvInfo = field_118_tlvInfo;
+    data.field_50_state = field_11C_state;
 
-    pState->field_52_turn_direction = field_1BC_turn_direction;
+    data.field_52_turn_direction = field_1BC_turn_direction;
 
-    pState->field_58_falling_counter = field_1C2_falling_counter;
-    pState->field_5C_frame_mod_16 = field_1C8_frame_mod_16;
+    data.field_58_falling_counter = field_1C2_falling_counter;
+    data.field_5C_frame_mod_16 = field_1C8_frame_mod_16;
 
-    pState->field_60_spawned_path = field_1CC_spawned_path;
-    pState->field_62_spawned_camera = field_1CE_spawned_camera;
+    data.field_60_spawned_path = field_1CC_spawned_path;
+    data.field_62_spawned_camera = field_1CE_spawned_camera;
 
-    pState->field_64_throw_item_key1 = field_1D4_previous_input;
-    pState->field_66_continue_move_input = field_1D6_continue_move_input;
+    data.field_64_throw_item_key1 = field_1D4_previous_input;
+    data.field_66_continue_move_input = field_1D6_continue_move_input;
 
-    return sizeof(MineCarSaveState);
+    pSaveBuffer.Write(data);
 }
 
 void MineCar::VUpdate()

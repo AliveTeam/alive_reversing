@@ -26,6 +26,7 @@
 #include "AnimationCallBacks.hpp"
 #include "Path.hpp"
 #include "Game.hpp"
+#include "QuikSave.hpp"
 
 s16 sSlogCount = 0;
 
@@ -214,120 +215,121 @@ Slog::Slog(relive::Path_Slog* pTlv, const Guid& tlvId)
 
 static u8 sSlogRandomIdx = 0;
 
-s32 Slog::VGetSaveState(u8* pSaveBuffer)
+void Slog::VGetSaveState(SerializedObjectData& pSaveBuffer)
 {
     if (GetElectrocuted())
     {
-        return 0;
+        return;
     }
 
-    auto pState = reinterpret_cast<SlogSaveState*>(pSaveBuffer);
-    pState->mType = ReliveTypes::eSlog;
+    SlogSaveState data = {};
 
-    pState->mBaseTlvId = mBaseGameObjectTlvInfo;
+    data.mType = ReliveTypes::eSlog;
 
-    pState->mXPos = mXPos;
-    pState->mYPos = mYPos;
-    pState->mVelX = mVelX;
-    pState->mVelY = mVelY;
+    data.mBaseTlvId = mBaseGameObjectTlvInfo;
 
-    pState->mFallingVelxScaleFactor = mFallingVelxScaleFactor;
+    data.mXPos = mXPos;
+    data.mYPos = mYPos;
+    data.mVelX = mVelX;
+    data.mVelY = mVelY;
 
-    pState->mCurrentPath = mCurrentPath;
-    pState->mCurrentLevel = mCurrentLevel;
-    pState->mSpriteScale = GetSpriteScale();
+    data.mFallingVelxScaleFactor = mFallingVelxScaleFactor;
 
-    pState->mR = mRGB.r;
-    pState->mG = mRGB.g;
-    pState->mB = mRGB.b;
+    data.mCurrentPath = mCurrentPath;
+    data.mCurrentLevel = mCurrentLevel;
+    data.mSpriteScale = GetSpriteScale();
 
-    pState->mFlipX = GetAnimation().GetFlipX();
-    pState->mCurrentMotion = GetCurrentMotion();
-    pState->mCurrentFrame = static_cast<s16>(GetAnimation().GetCurrentFrame());
-    pState->mFrameChangeCounter = static_cast<s16>(GetAnimation().GetFrameChangeCounter());
-    pState->mDrawable = GetDrawable();
-    pState->mRender = GetAnimation().GetRender();
-    pState->mHealth = mHealth;
-    pState->mCurrentMotion2 = GetCurrentMotion();
-    pState->mNextMotion = GetNextMotion();
-    pState->mLastLineYPos = FP_GetExponent(BaseAliveGameObjectLastLineYPos);
+    data.mR = mRGB.r;
+    data.mG = mRGB.g;
+    data.mB = mRGB.b;
+
+    data.mFlipX = GetAnimation().GetFlipX();
+    data.mCurrentMotion = GetCurrentMotion();
+    data.mCurrentFrame = static_cast<s16>(GetAnimation().GetCurrentFrame());
+    data.mFrameChangeCounter = static_cast<s16>(GetAnimation().GetFrameChangeCounter());
+    data.mDrawable = GetDrawable();
+    data.mRender = GetAnimation().GetRender();
+    data.mHealth = mHealth;
+    data.mCurrentMotion2 = GetCurrentMotion();
+    data.mNextMotion = GetNextMotion();
+    data.mLastLineYPos = FP_GetExponent(BaseAliveGameObjectLastLineYPos);
 
     if (BaseAliveGameObjectCollisionLine)
     {
-        pState->mCollisionLineType = BaseAliveGameObjectCollisionLine->mLineType;
+        data.mCollisionLineType = BaseAliveGameObjectCollisionLine->mLineType;
     }
     else
     {
-        pState->mCollisionLineType = eLineTypes::eNone_m1;
+        data.mCollisionLineType = eLineTypes::eNone_m1;
     }
 
-    pState->mPlatformId = BaseAliveGameObject_PlatformId;
-    pState->mSlogTlvId = mTlvId;
-    pState->mTargetId = Guid{};
+    data.mPlatformId = BaseAliveGameObject_PlatformId;
+    data.mSlogTlvId = mTlvId;
+    data.mTargetId = Guid{};
 
     if (mTargetId != Guid{})
     {
         BaseGameObject* pObj = sObjectIds.Find_Impl(mTargetId);
         if (pObj)
         {
-            pState->mTargetId = pObj->mBaseGameObjectTlvInfo;
+            data.mTargetId = pObj->mBaseGameObjectTlvInfo;
         }
     }
 
-    pState->mBrainState = mBrainState;
-    pState->mBrainSubState = mBrainSubState;
-    pState->mMultiUseTimer = mMultiUseTimer;
-    pState->mFallingVelxScaleFactor = mFallingVelxScaleFactor;
-    pState->mSlogTlvId = mTlvId;
-    pState->mListeningToSligId = Guid{};
+    data.mBrainState = mBrainState;
+    data.mBrainSubState = mBrainSubState;
+    data.mMultiUseTimer = mMultiUseTimer;
+    data.mFallingVelxScaleFactor = mFallingVelxScaleFactor;
+    data.mSlogTlvId = mTlvId;
+    data.mListeningToSligId = Guid{};
 
     if (mListeningToSligId != Guid{})
     {
         BaseGameObject* pObj = sObjectIds.Find_Impl(mListeningToSligId);
         if (pObj)
         {
-            pState->mListeningToSligId = pObj->mBaseGameObjectTlvInfo;
+            data.mListeningToSligId = pObj->mBaseGameObjectTlvInfo;
         }
     }
 
-    pState->mHasWoofed = mHasWoofed;
-    pState->mWaitingCounter = mWaitingCounter;
-    pState->mResponseIdx = mResponseIdx;
-    pState->mResponsePart = mResponsePart;
-    pState->mAngerLevel = mAngerLevel;
-    pState->mJumpCounter = mJumpCounter;
-    pState->mScratchTimer = mScratchTimer;
-    pState->mGrowlTimer = mGrowlTimer;
-    pState->mBoneId = Guid{};
+    data.mHasWoofed = mHasWoofed;
+    data.mWaitingCounter = mWaitingCounter;
+    data.mResponseIdx = mResponseIdx;
+    data.mResponsePart = mResponsePart;
+    data.mAngerLevel = mAngerLevel;
+    data.mJumpCounter = mJumpCounter;
+    data.mScratchTimer = mScratchTimer;
+    data.mGrowlTimer = mGrowlTimer;
+    data.mBoneId = Guid{};
 
     if (mBoneId != Guid{})
     {
         BaseGameObject* pObj = sObjectIds.Find_Impl(mBoneId);
         if (pObj)
         {
-            pState->mBoneId = pObj->mBaseGameObjectTlvInfo;
+            data.mBoneId = pObj->mBaseGameObjectTlvInfo;
         }
     }
 
-    pState->mChaseDelay = mChaseDelay;
-    pState->mSlogRandomIdx = sSlogRandomIdx;
+    data.mChaseDelay = mChaseDelay;
+    data.mSlogRandomIdx = sSlogRandomIdx;
 
-    pState->mBitingTarget = mBitingTarget;
-    pState->eBit3_Asleep = eBit8_Asleep;
-    pState->mMovedOffScreen = mMovedOffScreen;
-    pState->mStopRunning = mStopRunning;
-    pState->mShot = mShot;
-    pState->mHungry = mHungry;
-    pState->mCommandedToAttack = mCommandedToAttack;
-    pState->mHitByAbilityRing = mHitByAbilityRing;
-    pState->mListenToSligs = mListenToSligs;
+    data.mBitingTarget = mBitingTarget;
+    data.eBit3_Asleep = eBit8_Asleep;
+    data.mMovedOffScreen = mMovedOffScreen;
+    data.mStopRunning = mStopRunning;
+    data.mShot = mShot;
+    data.mHungry = mHungry;
+    data.mCommandedToAttack = mCommandedToAttack;
+    data.mHitByAbilityRing = mHitByAbilityRing;
+    data.mListenToSligs = mListenToSligs;
 
-    return sizeof(SlogSaveState);
+    pSaveBuffer.Write(data);
 }
 
-s32 Slog::CreateFromSaveState(const u8* pBuffer)
+void Slog::CreateFromSaveState(SerializedObjectData& pBuffer)
 {
-    auto pState = reinterpret_cast<const SlogSaveState*>(pBuffer);
+    const auto pState = pBuffer.ReadTmpPtr<SlogSaveState>();
     auto pTlv = static_cast<relive::Path_Slog*>(gPathInfo->TLV_From_Offset_Lvl_Cam(pState->mSlogTlvId));
 
     Slog* pSlog = nullptr;
@@ -419,8 +421,6 @@ s32 Slog::CreateFromSaveState(const u8* pBuffer)
             sSlogCount--;
         }
     }
-
-    return sizeof(SlogSaveState);
 }
 
 void Slog::Motion_0_Idle()

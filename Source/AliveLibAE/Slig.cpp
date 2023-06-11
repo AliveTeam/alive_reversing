@@ -39,6 +39,7 @@
 #include "Path.hpp"
 #include "../relive_lib/SwitchStates.hpp"
 #include "Game.hpp"
+#include "QuikSave.hpp"
 
 static const relive::SfxDefinition kSfxInfoTable[17] = {
     {0u, 1u, 58u, 40u, -256, -256},
@@ -567,34 +568,34 @@ void Slig::VRender(PrimHeader** ot)
     renderWithGlowingEyes(ot, this, field_178_mPal, 64, field_200_red, field_202_green, field_204_blue, &eyeIndices[0], ALIVE_COUNTOF(eyeIndices));
 }
 
-s32 Slig::VGetSaveState(u8* pSaveBuffer)
+void Slig::VGetSaveState(SerializedObjectData& pSaveBuffer)
 {
     if (GetElectrocuted())
     {
-        return 0;
+        return;
     }
 
-    auto pState = reinterpret_cast<SligSaveState*>(pSaveBuffer);
+    SligSaveState data = {};
 
-    pState->mType = ReliveTypes::eSlig;
+    data.mType = ReliveTypes::eSlig;
 
-    pState->field_4_xpos = mXPos;
-    pState->field_8_ypos = mYPos;
+    data.field_4_xpos = mXPos;
+    data.field_8_ypos = mYPos;
 
-    pState->field_C_velx = mVelX;
-    pState->field_10_vely = mVelY;
+    data.field_C_velx = mVelX;
+    data.field_10_vely = mVelY;
 
-    pState->mFallingVelxScaleFactor = mFallingVelxScaleFactor;
+    data.mFallingVelxScaleFactor = mFallingVelxScaleFactor;
 
-    pState->field_14_path_number = mCurrentPath;
-    pState->field_16_lvl_number = mCurrentLevel;
-    pState->field_18_sprite_scale = GetSpriteScale();
+    data.field_14_path_number = mCurrentPath;
+    data.field_16_lvl_number = mCurrentLevel;
+    data.field_18_sprite_scale = GetSpriteScale();
 
-    pState->field_1C_scale = GetScale();
+    data.field_1C_scale = GetScale();
 
-    pState->field_1E_r = mRGB.r;
-    pState->field_20_g = mRGB.g;
-    pState->field_22_b = mRGB.b;
+    data.field_1E_r = mRGB.r;
+    data.field_20_g = mRGB.g;
+    data.field_22_b = mRGB.b;
 
     if (GetElectrocuting())
     {
@@ -611,91 +612,91 @@ s32 Slig::VGetSaveState(u8* pSaveBuffer)
                 auto pElectrocute = static_cast<Electrocute*>(pObj);
                 if (pElectrocute->field_20_target_obj_id == mBaseGameObjectId)
                 {
-                    pState->field_1E_r = pElectrocute->field_24_r;
-                    pState->field_20_g = pElectrocute->field_26_g;
-                    pState->field_22_b = pElectrocute->field_28_b;
+                    data.field_1E_r = pElectrocute->field_24_r;
+                    data.field_20_g = pElectrocute->field_26_g;
+                    data.field_22_b = pElectrocute->field_28_b;
                     break;
                 }
             }
         }
     }
-    pState->field_24_bFlipX = GetAnimation().GetFlipX();
-    pState->field_26_current_motion = GetCurrentMotion();
-    pState->field_28_current_frame = static_cast<s16>(GetAnimation().GetCurrentFrame());
-    pState->field_2A_frame_change_counter = static_cast<s16>(GetAnimation().GetFrameChangeCounter());
-    pState->field_2D_bDrawable = GetDrawable();
-    pState->field_2C_bRender = GetAnimation().GetRender();
-    pState->field_30_health = mHealth;
-    pState->field_34_current_motion = GetCurrentMotion();
-    pState->field_36_next_motion = GetNextMotion();
-    pState->field_38_last_line_ypos = FP_GetExponent(BaseAliveGameObjectLastLineYPos);
-    pState->field_3A_collision_line_type = eLineTypes::eNone_m1;
+    data.field_24_bFlipX = GetAnimation().GetFlipX();
+    data.field_26_current_motion = GetCurrentMotion();
+    data.field_28_current_frame = static_cast<s16>(GetAnimation().GetCurrentFrame());
+    data.field_2A_frame_change_counter = static_cast<s16>(GetAnimation().GetFrameChangeCounter());
+    data.field_2D_bDrawable = GetDrawable();
+    data.field_2C_bRender = GetAnimation().GetRender();
+    data.field_30_health = mHealth;
+    data.field_34_current_motion = GetCurrentMotion();
+    data.field_36_next_motion = GetNextMotion();
+    data.field_38_last_line_ypos = FP_GetExponent(BaseAliveGameObjectLastLineYPos);
+    data.field_3A_collision_line_type = eLineTypes::eNone_m1;
 
     if (BaseAliveGameObjectCollisionLine)
     {
-        pState->field_3A_collision_line_type = BaseAliveGameObjectCollisionLine->mLineType;
+        data.field_3A_collision_line_type = BaseAliveGameObjectCollisionLine->mLineType;
     }
 
-    pState->field_40_bActiveChar = this == sControlledCharacter;
-    pState->field_42_brain_sub_state = mBrainSubState;
-    pState->field_44_pitch_min = field_11E_pitch_min;
-    pState->field_48_timer = field_120_timer;
-    pState->mReturnToPreviousMotion = mReturnToPreviousMotion;
-    pState->mCheckedIfOffScreen = mCheckedIfOffScreen;
-    pState->field_50_input = InputObject::KeyboardInputToPsxButtons_45EF70(mInput);
-    pState->field_54_timer = field_12C_timer;
-    pState->mFallingVelxScaleFactor = mFallingVelxScaleFactor;
-    pState->field_5C_tlvInfo = field_118_tlvInfo;
-    //pState->field_60_res_idx = field_134_res_idx;
-    pState->field_62_shot_motion = field_136_shot_motion;
-    pState->field_64_zone_rect = field_138_zone_rect;
-    pState->field_72_return_level = mAbeLevel;
-    pState->field_74_return_path = mAbePath;
-    pState->field_76_return_camera = mAbeCamera;
-    pState->field_78_death_by_being_shot_timer = field_14C_death_by_being_shot_timer;
-    pState->field_7C_explode_timer = field_150_explode_timer;
-    pState->field_80_brain_state_idx = 0;
+    data.field_40_bActiveChar = this == sControlledCharacter;
+    data.field_42_brain_sub_state = mBrainSubState;
+    data.field_44_pitch_min = field_11E_pitch_min;
+    data.field_48_timer = field_120_timer;
+    data.mReturnToPreviousMotion = mReturnToPreviousMotion;
+    data.mCheckedIfOffScreen = mCheckedIfOffScreen;
+    data.field_50_input = InputObject::KeyboardInputToPsxButtons_45EF70(mInput);
+    data.field_54_timer = field_12C_timer;
+    data.mFallingVelxScaleFactor = mFallingVelxScaleFactor;
+    data.field_5C_tlvInfo = field_118_tlvInfo;
+    //data.field_60_res_idx = field_134_res_idx;
+    data.field_62_shot_motion = field_136_shot_motion;
+    data.field_64_zone_rect = field_138_zone_rect;
+    data.field_72_return_level = mAbeLevel;
+    data.field_74_return_path = mAbePath;
+    data.field_76_return_camera = mAbeCamera;
+    data.field_78_death_by_being_shot_timer = field_14C_death_by_being_shot_timer;
+    data.field_7C_explode_timer = field_150_explode_timer;
+    data.field_80_brain_state_idx = 0;
 
     s32 idx = 0;
     for (const auto& fn : sSligBrainTable)
     {
         if (BrainIs(fn))
         {
-            pState->field_80_brain_state_idx = idx;
+            data.field_80_brain_state_idx = idx;
         }
         idx++;
     }
 
-    pState->field_8C_num_times_to_shoot = field_158_num_times_to_shoot;
-    pState->field_90_force_alive_state = field_15C_force_alive_state;
-    pState->field_92_spotted_possessed_slig = field_15E_spotted_possessed_slig;
-    pState->field_94_glukkon_id = Guid{};
+    data.field_8C_num_times_to_shoot = field_158_num_times_to_shoot;
+    data.field_90_force_alive_state = field_15C_force_alive_state;
+    data.field_92_spotted_possessed_slig = field_15E_spotted_possessed_slig;
+    data.field_94_glukkon_id = Guid{};
 
     if (field_208_glukkon_obj_id != Guid{})
     {
         BaseGameObject* pGlukkon = sObjectIds.Find_Impl(field_208_glukkon_obj_id);
         if (pGlukkon)
         {
-            pState->field_94_glukkon_id = pGlukkon->mBaseGameObjectTlvInfo;
+            data.field_94_glukkon_id = pGlukkon->mBaseGameObjectTlvInfo;
         }
     }
-    pState->field_98_state_after_speak = field_20C_state_after_speak;
-    pState->field_9A_attention_timeout = field_20E_attention_timeout;
+    data.field_98_state_after_speak = field_20C_state_after_speak;
+    data.field_9A_attention_timeout = field_20E_attention_timeout;
 
-    pState->field_9E_next_command_arg1 = field_212_next_command_arg1;
-    pState->field_A0_cmd_idx = field_214_cmd_idx;
+    data.field_9E_next_command_arg1 = field_212_next_command_arg1;
+    data.field_A0_cmd_idx = field_214_cmd_idx;
 
-    pState->mFollowGlukkon = mFollowGlukkon;
-    pState->mStoppedForLeverOrLift = mStoppedForLeverOrLift;
-    pState->mGlukkonCalledAllOYa = mGlukkonCalledAllOYa;
-    pState->mHeardGlukkon = mHeardGlukkon;
+    data.mFollowGlukkon = mFollowGlukkon;
+    data.mStoppedForLeverOrLift = mStoppedForLeverOrLift;
+    data.mGlukkonCalledAllOYa = mGlukkonCalledAllOYa;
+    data.mHeardGlukkon = mHeardGlukkon;
 
-    return sizeof(SligSaveState);
+    pSaveBuffer.Write(data);
 }
 
-s32 Slig::CreateFromSaveState(const u8* pBuffer)
+void Slig::CreateFromSaveState(SerializedObjectData& pBuffer)
 {
-    auto pState = reinterpret_cast<const SligSaveState*>(pBuffer);
+    const auto pState = pBuffer.ReadTmpPtr<SligSaveState>();
     auto pTlv = static_cast<relive::Path_Slig*>(gPathInfo->TLV_From_Offset_Lvl_Cam(pState->field_5C_tlvInfo));
 
     auto pSlig = relive_new Slig(pTlv, pState->field_5C_tlvInfo);
@@ -802,8 +803,6 @@ s32 Slig::CreateFromSaveState(const u8* pBuffer)
 
         sSligsUnderControlCount_BAF7E8 = 0;
     }
-
-    return sizeof(SligSaveState);
 }
 
 void Slig::Motion_0_StandIdle()

@@ -20,13 +20,13 @@ struct FlyingSligSpawnerSaveState final
 class FlyingSligSpawner final : public BaseGameObject
 {
 public:
-    static s32 CreateFromSaveState(const u8* pBuffer);
+    static void CreateFromSaveState(SerializedObjectData& pBuffer);
 
     FlyingSligSpawner(relive::Path_FlyingSligSpawner* pTlv, const Guid& tlvId);
     ~FlyingSligSpawner();
     
     virtual void VUpdate() override;
-    virtual s32 VGetSaveState(u8* pSaveBuffer) override;
+    virtual void VGetSaveState(SerializedObjectData& pSaveBuffer) override;
 
 private:
     Guid mTlvId;

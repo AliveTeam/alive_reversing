@@ -12,6 +12,7 @@
 #include "Path.hpp"
 #include "../relive_lib/FixedPoint.hpp"
 #include "Math.hpp"
+#include "QuikSave.hpp"
 
 u16 gSlurgStepWatchPointsIdx = 0;
 s8 gSlurgStepWatchPointsCount[2] = {};
@@ -120,9 +121,9 @@ Slurg::Slurg(relive::Path_Slurg* pTlv, const Guid& tlvId)
     CreateShadow();
 }
 
-s32 Slurg::CreateFromSaveState(const u8* pData)
+void Slurg::CreateFromSaveState(SerializedObjectData& pData)
 {
-    auto pState = reinterpret_cast<const SlurgSaveState*>(pData);
+    const auto pState = pData.ReadTmpPtr<SlurgSaveState>();
     auto pTlv = static_cast<relive::Path_Slurg*>(gPathInfo->TLV_From_Offset_Lvl_Cam(pState->mTlvId));
 
     auto pSlurg = relive_new Slurg(pTlv, pState->mTlvId);
@@ -148,7 +149,6 @@ s32 Slurg::CreateFromSaveState(const u8* pData)
 
     pSlurg->mGoingRight = pState->mGoingRight;
     pSlurg->mMoving = pState->mMoving;
-    return sizeof(SlurgSaveState);
 }
 
 Slurg::~Slurg()
@@ -318,32 +318,33 @@ void Slurg::VOnTlvCollision(relive::Path_TLV* pTlv)
     }
 }
 
-s32 Slurg::VGetSaveState(u8* pSaveBuffer)
+void Slurg::VGetSaveState(SerializedObjectData& pSaveBuffer)
 {
     if (GetElectrocuted())
     {
-        return 0;
+        return;
     }
 
-    auto pState = reinterpret_cast<SlurgSaveState*>(pSaveBuffer);
+    SlurgSaveState data = {};
 
-    pState->mType = ReliveTypes::eSlurg;
-    pState->mXPos = mXPos;
-    pState->mYPos = mYPos;
-    pState->mVelX = mVelX;
-    pState->mSlurgSpriteScale = mSlurgSpriteScale;
-    pState->mFlipX = GetAnimation().GetFlipX();
-    pState->mCurrentMotion = mCurrentMotion;
-    pState->mAnimCurrentFrame = static_cast<s16>(GetAnimation().GetCurrentFrame());
-    pState->mFrameChangeCounter = static_cast<s16>(GetAnimation().GetFrameChangeCounter());
-    pState->mDrawable = GetDrawable();
-    pState->mRender = GetAnimation().GetRender();
-   // pState->mFrameTableOffset = mAnim.mFrameTableOffset;
-    pState->mTlvId = mTlvInfo;
-    pState->mSlurgState = mSlurgState;
-    pState->mGoingRight = mGoingRight;
-    pState->mMoving = mMoving;
-    return sizeof(SlurgSaveState);
+    data.mType = ReliveTypes::eSlurg;
+    data.mXPos = mXPos;
+    data.mYPos = mYPos;
+    data.mVelX = mVelX;
+    data.mSlurgSpriteScale = mSlurgSpriteScale;
+    data.mFlipX = GetAnimation().GetFlipX();
+    data.mCurrentMotion = mCurrentMotion;
+    data.mAnimCurrentFrame = static_cast<s16>(GetAnimation().GetCurrentFrame());
+    data.mFrameChangeCounter = static_cast<s16>(GetAnimation().GetFrameChangeCounter());
+    data.mDrawable = GetDrawable();
+    data.mRender = GetAnimation().GetRender();
+   // data.mFrameTableOffset = mAnim.mFrameTableOffset;
+    data.mTlvId = mTlvInfo;
+    data.mSlurgState = mSlurgState;
+    data.mGoingRight = mGoingRight;
+    data.mMoving = mMoving;
+
+    pSaveBuffer.Write(data);
 }
 
 void Slurg::GoLeft()

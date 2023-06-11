@@ -9,12 +9,13 @@
 #include "../relive_lib/ObjectIds.hpp"
 #include "Map.hpp"
 #include "Path.hpp"
+#include "QuikSave.hpp"
 
-s32 SlapLockWhirlWind::CreateFromSaveState(const u8* pBuffer)
+void SlapLockWhirlWind::CreateFromSaveState(SerializedObjectData& pBuffer)
 {
-    auto pSaveState = reinterpret_cast<const SlapLockWhirlWindSaveState*>(pBuffer);
+    const auto pSaveState = pBuffer.ReadTmpPtr<SlapLockWhirlWindSaveState>();
+    
     SwitchStates_Do_Operation(pSaveState->mSwitchId, relive::reliveSwitchOp::eSetTrue);
-    return sizeof(SlapLockWhirlWindSaveState);
 }
 
 SlapLockWhirlWind::SlapLockWhirlWind(s16 doorNumber, s16 switchId, FP xpos, FP ypos, FP scale)
@@ -74,12 +75,12 @@ SlapLockWhirlWind::SlapLockWhirlWind(s16 doorNumber, s16 switchId, FP xpos, FP y
     }
 }
 
-s32 SlapLockWhirlWind::VGetSaveState(u8* pSaveBuffer)
+void SlapLockWhirlWind::VGetSaveState(SerializedObjectData& pSaveBuffer)
 {
-    SlapLockWhirlWindSaveState* pSaveState = reinterpret_cast<SlapLockWhirlWindSaveState*>(pSaveBuffer);
-    pSaveState->mType = ReliveTypes::eSlapLock_OrbWhirlWind;
-    pSaveState->mSwitchId = mSwitchId;
-    return sizeof(SlapLockWhirlWindSaveState);
+    SlapLockWhirlWindSaveState data = {};
+    data.mType = ReliveTypes::eSlapLock_OrbWhirlWind;
+    data.mSwitchId = mSwitchId;
+    pSaveBuffer.Write(data);
 }
 
 void SlapLockWhirlWind::VUpdate()

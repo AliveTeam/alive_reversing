@@ -175,9 +175,9 @@ public:
 
     virtual bool VIsFacingMe(BaseAnimatedWithPhysicsGameObject* pOther) override;
     virtual bool VOnSameYLevel(BaseAnimatedWithPhysicsGameObject* pOther) override;
-    virtual s32 VGetSaveState(u8* pSaveBuffer) override;
+    virtual void VGetSaveState(SerializedObjectData& pSaveBuffer) override;
 
-    static s32 CreateFromSaveState(const u8* pBuffer);
+    static void CreateFromSaveState(SerializedObjectData& pBuffer);
     static s16 IsAbeEnteringDoor(IBaseAliveGameObject* pThis);
 
     eSligMotions GetNextMotion() const

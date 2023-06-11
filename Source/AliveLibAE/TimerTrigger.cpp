@@ -7,6 +7,7 @@
 #include "Map.hpp"
 #include "../relive_lib/Events.hpp"
 #include "Path.hpp"
+#include "QuikSave.hpp"
 
 TimerTrigger::TimerTrigger(relive::Path_TimerTrigger* pTlv, const Guid& tlvId)
     : BaseGameObject(true, 0)
@@ -93,9 +94,9 @@ TimerTrigger::~TimerTrigger()
     Path::TLV_Reset(mTlvInfo, -1, 0, 0);
 }
 
-s32 TimerTrigger::CreateFromSaveState(const u8* pData)
+void TimerTrigger::CreateFromSaveState(SerializedObjectData& pData)
 {
-    auto pState = reinterpret_cast<const TimerTriggerSaveState*>(pData);
+    const auto pState = pData.ReadTmpPtr<TimerTriggerSaveState>();
 
     relive::Path_TimerTrigger* pTlv = static_cast<relive::Path_TimerTrigger*>(gPathInfo->TLV_From_Offset_Lvl_Cam(pState->mTlvId));
     auto pTimerTrigger = relive_new TimerTrigger(pTlv, pState->mTlvId);
@@ -105,17 +106,16 @@ s32 TimerTrigger::CreateFromSaveState(const u8* pData)
         pTimerTrigger->mActivationDelayTimer = sGnFrame + pState->mActivationDelayTimer;
         pTimerTrigger->mStartingSwitchState = pState->mStartingSwitchState;
     }
-    return sizeof(TimerTriggerSaveState);
 }
 
-s32 TimerTrigger::VGetSaveState(u8* pSaveBuffer)
+void TimerTrigger::VGetSaveState(SerializedObjectData& pSaveBuffer)
 {
-    auto pState = reinterpret_cast<TimerTriggerSaveState*>(pSaveBuffer);
+    TimerTriggerSaveState data = {};
 
-    pState->mType = ReliveTypes::eTimerTrigger;
-    pState->mTlvId = mTlvInfo;
-    pState->mState = mState;
-    pState->mActivationDelayTimer = mActivationDelayTimer - sGnFrame;
-    pState->mStartingSwitchState = mStartingSwitchState;
-    return sizeof(TimerTriggerSaveState);
+    data.mType = ReliveTypes::eTimerTrigger;
+    data.mTlvId = mTlvInfo;
+    data.mState = mState;
+    data.mActivationDelayTimer = mActivationDelayTimer - sGnFrame;
+    data.mStartingSwitchState = mStartingSwitchState;
+    pSaveBuffer.Write(data);
 }

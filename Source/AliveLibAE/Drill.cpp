@@ -14,6 +14,7 @@
 #include "Path.hpp"
 #include "../relive_lib/FixedPoint.hpp"
 #include "Math.hpp"
+#include "QuikSave.hpp"
 
 static const TintEntry kDrillTints[16] = {
     {EReliveLevelIds::eMenu, 127u, 127u, 127u},
@@ -224,9 +225,9 @@ Drill::Drill(relive::Path_Drill* pTlv, const Guid& tlvId)
     CreateShadow();
 }
 
-s32 Drill::CreateFromSaveState(const u8* pData)
+void Drill::CreateFromSaveState(SerializedObjectData& pData)
 {
-    const DrillSaveState* pState = reinterpret_cast<const DrillSaveState*>(pData);
+    const auto pState = pData.ReadTmpPtr<DrillSaveState>();
     auto pTlv = static_cast<relive::Path_Drill*>(gPathInfo->TLV_From_Offset_Lvl_Cam(pState->mDrillTlvId));
     auto pDrill = relive_new Drill(pTlv, pState->mDrillTlvId);
 
@@ -251,7 +252,6 @@ s32 Drill::CreateFromSaveState(const u8* pData)
     pDrill->mOffTimer = pState->mOffTimer;
     pDrill->mState = pState->mState;
     pDrill->mXYOff = FP_FromInteger(pState->mXYOff);
-    return sizeof(DrillSaveState);
 }
 
 void Drill::VUpdate()
@@ -502,15 +502,15 @@ void Drill::VStopAudio()
     }
 }
 
-s32 Drill::VGetSaveState(u8* pSaveBuffer)
+void Drill::VGetSaveState(SerializedObjectData& pSaveBuffer)
 {
-    DrillSaveState* pState = reinterpret_cast<DrillSaveState*>(pSaveBuffer);
-    pState->mType = ReliveTypes::eDrill;
-    pState->mDrillTlvId = mTlvInfo;
-    pState->mOffTimer = mOffTimer;
-    pState->mState = mState;
-    pState->mXYOff = FP_GetExponent(mXYOff);
-    return sizeof(DrillSaveState);
+    DrillSaveState data = {};
+    data.mType = ReliveTypes::eDrill;
+    data.mDrillTlvId = mTlvInfo;
+    data.mOffTimer = mOffTimer;
+    data.mState = mState;
+    data.mXYOff = FP_GetExponent(mXYOff);
+    pSaveBuffer.Write(data);
 }
 
 void Drill::EmitSparks()

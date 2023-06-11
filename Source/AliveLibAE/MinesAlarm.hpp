@@ -12,13 +12,13 @@ class MinesAlarm final : public BaseGameObject
 {
 public:
     static void Create(s32 timer);
-    static s32 CreateFromSaveState(const u8* pBuffer);
+    static void CreateFromSaveState(SerializedObjectData& pBuffer);
     MinesAlarm(s32 timer);
     ~MinesAlarm();
 
     virtual void VScreenChanged() override;
     virtual void VUpdate() override;
-    virtual s32 VGetSaveState(u8* pSaveBuffer) override;
+    virtual void VGetSaveState(SerializedObjectData& pSaveBuffer) override;
 };
 
 extern s32 gExplosionTimer;

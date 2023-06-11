@@ -11,6 +11,7 @@
 #include "stdlib.hpp"
 #include "../relive_lib/MapWrapper.hpp"
 #include "Path.hpp"
+#include "QuikSave.hpp"
 
 struct TrapDoor_Data final
 {
@@ -289,9 +290,9 @@ void TrapDoor::VUpdate()
     }
 }
 
-s32 TrapDoor::CreateFromSaveState(const u8* pData)
+void TrapDoor::CreateFromSaveState(SerializedObjectData& pData)
 {
-    auto pState = reinterpret_cast<const TrapDoorSaveState*>(pData);
+    const auto pState = pData.ReadTmpPtr<TrapDoorSaveState>();
     auto pTlv = static_cast<relive::Path_TrapDoor*>(gPathInfo->TLV_From_Offset_Lvl_Cam(pState->mTlvId));
 
     auto pTrapDoor = relive_new TrapDoor(pTlv, pState->mTlvId);
@@ -305,19 +306,17 @@ s32 TrapDoor::CreateFromSaveState(const u8* pData)
             pTrapDoor->Open();
         }
     }
-
-    return sizeof(TrapDoorSaveState);
 }
 
-s32 TrapDoor::VGetSaveState(u8* pSaveBuffer)
+void TrapDoor::VGetSaveState(SerializedObjectData& pSaveBuffer)
 {
-    auto pState = reinterpret_cast<TrapDoorSaveState*>(pSaveBuffer);
+    TrapDoorSaveState data = {};
 
-    pState->mType = ReliveTypes::eTrapDoor;
-    pState->mOpenTime = mStayOpenTimeTimer;
-    pState->mState = mState;
-    pState->mTlvId = mPlatformBaseTlvInfo;
-    return sizeof(TrapDoorSaveState);
+    data.mType = ReliveTypes::eTrapDoor;
+    data.mOpenTime = mStayOpenTimeTimer;
+    data.mState = mState;
+    data.mTlvId = mPlatformBaseTlvInfo;
+    pSaveBuffer.Write(data);
 }
 
 void TrapDoor::Add_To_Collisions_Array()

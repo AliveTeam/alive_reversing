@@ -30,6 +30,7 @@
 #include "PathData.hpp"
 #include "../relive_lib/FixedPoint.hpp"
 #include "Input.hpp"
+#include "QuikSave.hpp"
 
 const AnimId sParamiteMotionAnimIds[44] = {
     AnimId::Paramite_Idle,
@@ -263,9 +264,9 @@ Paramite::Paramite(relive::Path_Paramite* pTlv, const Guid& tlvId)
     CreateShadow();
 }
 
-s32 Paramite::CreateFromSaveState(const u8* pBuffer)
+void Paramite::CreateFromSaveState(SerializedObjectData& pBuffer)
 {
-    auto pState = reinterpret_cast<const ParamiteSaveState*>(pBuffer);
+    const auto pState = pBuffer.ReadTmpPtr<ParamiteSaveState>();
     auto pTlv = static_cast<relive::Path_Paramite*>(gPathInfo->TLV_From_Offset_Lvl_Cam(pState->field_3C_tlvInfo));
 
     auto pParamite = relive_new Paramite(pTlv, pState->field_3C_tlvInfo);
@@ -342,8 +343,6 @@ s32 Paramite::CreateFromSaveState(const u8* pBuffer)
     pParamite->mSpawned = pState->mSpawned;
     pParamite->mAlerted = pState->mAlerted;
     pParamite->SetCanBePossessed(pState->mCanBePossessed);
-
-    return sizeof(ParamiteSaveState);
 }
 
 static Guid ResolveId(Guid objId)
@@ -359,107 +358,107 @@ static Guid ResolveId(Guid objId)
     return Guid{};
 }
 
-s32 Paramite::VGetSaveState(u8* pSaveBuffer)
+void Paramite::VGetSaveState(SerializedObjectData& pSaveBuffer)
 {
     if (GetElectrocuted())
     {
-        return 0;
+        return;
     }
 
-    auto pState = reinterpret_cast<ParamiteSaveState*>(pSaveBuffer);
+    ParamiteSaveState data = {};
 
-    pState->mType = ReliveTypes::eParamite;
-    pState->mXPos = mXPos;
-    pState->mYPos = mYPos;
-    pState->mVelX = mVelX;
-    pState->mVelY = mVelY;
+    data.mType = ReliveTypes::eParamite;
+    data.mXPos = mXPos;
+    data.mYPos = mYPos;
+    data.mVelX = mVelX;
+    data.mVelY = mVelY;
 
-    pState->field_64_velx_offset = field_13C_velx_offset;
+    data.field_64_velx_offset = field_13C_velx_offset;
 
-    pState->mCurrentPath = mCurrentPath;
-    pState->mCurrentLevel = mCurrentLevel;
-    pState->mSpriteScale = GetSpriteScale();
+    data.mCurrentPath = mCurrentPath;
+    data.mCurrentLevel = mCurrentLevel;
+    data.mSpriteScale = GetSpriteScale();
 
-    pState->mR = mRGB.r;
-    pState->mG = mRGB.g;
-    pState->mB = mRGB.b;
+    data.mR = mRGB.r;
+    data.mG = mRGB.g;
+    data.mB = mRGB.b;
 
-    pState->mFlipX = GetAnimation().GetFlipX();
-    pState->field_24_current_motion = GetCurrentMotion();
-    pState->mAnimCurrentFrame = static_cast<s16>(GetAnimation().GetCurrentFrame());
-    pState->mFrameChangeCounter = static_cast<s16>(GetAnimation().GetFrameChangeCounter());
-    pState->mDrawable = GetDrawable();
-    pState->mRender = GetAnimation().GetRender();
-    pState->mHealth = mHealth;
-    pState->field_30_current_motion = GetCurrentMotion();
-    pState->field_32_next_motion = GetNextMotion();
+    data.mFlipX = GetAnimation().GetFlipX();
+    data.field_24_current_motion = GetCurrentMotion();
+    data.mAnimCurrentFrame = static_cast<s16>(GetAnimation().GetCurrentFrame());
+    data.mFrameChangeCounter = static_cast<s16>(GetAnimation().GetFrameChangeCounter());
+    data.mDrawable = GetDrawable();
+    data.mRender = GetAnimation().GetRender();
+    data.mHealth = mHealth;
+    data.field_30_current_motion = GetCurrentMotion();
+    data.field_32_next_motion = GetNextMotion();
 
-    pState->field_34_last_line_ypos = FP_GetExponent(BaseAliveGameObjectLastLineYPos);
+    data.field_34_last_line_ypos = FP_GetExponent(BaseAliveGameObjectLastLineYPos);
     if (BaseAliveGameObjectCollisionLine)
     {
-        pState->field_36_line_type = BaseAliveGameObjectCollisionLine->mLineType;
+        data.field_36_line_type = BaseAliveGameObjectCollisionLine->mLineType;
     }
     else
     {
-        pState->field_36_line_type = eLineTypes::eNone_m1;
+        data.field_36_line_type = eLineTypes::eNone_m1;
     }
 
-    pState->mControlled = false;
-    pState->mRunning = false;
-    pState->mHissedOrLeftScreen = false;
-    pState->mPreventDepossession = false;
-    pState->mSpawned = false;
-    pState->mAlerted = false;
-    pState->mCanBePossessed = false;
+    data.mControlled = false;
+    data.mRunning = false;
+    data.mHissedOrLeftScreen = false;
+    data.mPreventDepossession = false;
+    data.mSpawned = false;
+    data.mAlerted = false;
+    data.mCanBePossessed = false;
 
     if (this == sControlledCharacter)
     {
-        pState->mControlled = true;
+        data.mControlled = true;
     }
 
-    pState->field_3C_tlvInfo = field_140_tlvInfo;
-    pState->field_40_meat_id = ResolveId(mMeatGuid);
-    pState->field_44_web_id = ResolveId(mWebGuid);
-    pState->field_48_obj_id = ResolveId(mTargetGuid);
-    pState->field_4C_pull_ring_rope_id = ResolveId(mPullRingRopeGuid);
+    data.field_3C_tlvInfo = field_140_tlvInfo;
+    data.field_40_meat_id = ResolveId(mMeatGuid);
+    data.field_44_web_id = ResolveId(mWebGuid);
+    data.field_48_obj_id = ResolveId(mTargetGuid);
+    data.field_4C_pull_ring_rope_id = ResolveId(mPullRingRopeGuid);
 
-    pState->mBrainIdx = 0;
+    data.mBrainIdx = 0;
 
     s32 idx = 0;
     for (auto& fn : sParamiteBrainTable)
     {
         if (BrainIs(fn))
         {
-            pState->mBrainIdx = idx;
+            data.mBrainIdx = idx;
             break;
         }
         idx++;
     }
 
-    pState->mBrainSubState = mBrainSubState;
-    pState->field_5C_timer = field_130_timer;
+    data.mBrainSubState = mBrainSubState;
+    data.field_5C_timer = field_130_timer;
 
-    pState->field_60_depossession_timer = field_138_depossession_timer;
-    pState->field_64_velx_offset = field_13C_velx_offset;
+    data.field_60_depossession_timer = field_138_depossession_timer;
+    data.field_64_velx_offset = field_13C_velx_offset;
 
-    pState->field_3C_tlvInfo = field_140_tlvInfo;
-    pState->field_68_timer = field_148_timer;
+    data.field_3C_tlvInfo = field_140_tlvInfo;
+    data.field_68_timer = field_148_timer;
 
-    pState->mAbeLevel = mAbeLevel;
-    pState->mAbePath = mAbePath;
-    pState->mAbeCamera = mAbeCamera;
+    data.mAbeLevel = mAbeLevel;
+    data.mAbePath = mAbePath;
+    data.mAbeCamera = mAbeCamera;
 
-    pState->field_72_input = InputObject::KeyboardInputToPsxButtons_45EF70(field_154_input);
-    pState->field_74_next_brain_ret = field_158_next_brain_ret;
+    data.field_72_input = InputObject::KeyboardInputToPsxButtons_45EF70(field_154_input);
+    data.field_74_next_brain_ret = field_158_next_brain_ret;
 
-    pState->mRunning = mRunning;
-    pState->mHissedOrLeftScreen = mHissedOrLeftScreen;
-    pState->mPreventDepossession = mPreventDepossession;
-    pState->mSpawned = mSpawned;
-    pState->mAlerted = mAlerted;
-    pState->mCanBePossessed = mCanBePossessed;
+    data.mRunning = mRunning;
+    data.mHissedOrLeftScreen = mHissedOrLeftScreen;
+    data.mPreventDepossession = mPreventDepossession;
+    data.mSpawned = mSpawned;
+    data.mAlerted = mAlerted;
+    data.mCanBePossessed = mCanBePossessed;
 
-    return sizeof(ParamiteSaveState);
+    pSaveBuffer.Write(data);
 }
 
 const eParamiteMotions sParamitePatrolMotionTable[6] = {

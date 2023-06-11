@@ -21,14 +21,14 @@ public:
 
     void LoadAnimations();
 
-    virtual s32 VGetSaveState(u8* pSaveBuffer) override;
+    virtual void VGetSaveState(SerializedObjectData& pSaveBuffer) override;
     virtual void VUpdate() override;
     virtual void VOnThrowableHit(BaseGameObject*) override
     {
         // Empty
     }
 
-    static s32 CreateFromSaveState(const u8*);
+    static void CreateFromSaveState(SerializedObjectData&);
 
 private:
     void ClearInsideSlamDoor(IBaseAliveGameObject* pObj, s16 xPosition, s16 width);

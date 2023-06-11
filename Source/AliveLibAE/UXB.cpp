@@ -13,6 +13,7 @@
 #include "Path.hpp"
 #include "../relive_lib/Collisions.hpp"
 #include "../relive_lib/FixedPoint.hpp"
+#include "QuikSave.hpp"
 
 #include <math.h>
 
@@ -493,25 +494,25 @@ void UXB::VRender(PrimHeader** ppOt)
     }
 }
 
-s32 UXB::VGetSaveState(u8* __pSaveBuffer)
+void UXB::VGetSaveState(SerializedObjectData& __pSaveBuffer)
 {
-    UXBSaveState* pSaveState = reinterpret_cast<UXBSaveState*>(__pSaveBuffer);
+    UXBSaveState data = {};
 
-    pSaveState->mType = ReliveTypes::eUXB;
-    pSaveState->mTlvInfo = mTlvInfo;
-    pSaveState->mNextStateTimer = mNextStateTimer;
-    pSaveState->mCurrentState = mCurrentState;
-    pSaveState->mStartingState = mStartingState;
-    pSaveState->mPatternIndex = mPatternIndex;
-    pSaveState->mRedBlinkCount = mRedBlinkCount;
-    pSaveState->mIsRed = mIsRed;
+    data.mType = ReliveTypes::eUXB;
+    data.mTlvInfo = mTlvInfo;
+    data.mNextStateTimer = mNextStateTimer;
+    data.mCurrentState = mCurrentState;
+    data.mStartingState = mStartingState;
+    data.mPatternIndex = mPatternIndex;
+    data.mRedBlinkCount = mRedBlinkCount;
+    data.mIsRed = mIsRed;
 
-    return sizeof(UXBSaveState);
+    __pSaveBuffer.Write(data);
 }
 
-s32 UXB::CreateFromSaveState(const u8* __pSaveState)
+void UXB::CreateFromSaveState(SerializedObjectData& __pSaveState)
 {
-    const UXBSaveState* pSaveState = reinterpret_cast<const UXBSaveState*>(__pSaveState);
+    const auto pSaveState = __pSaveState.ReadTmpPtr<UXBSaveState>();
 
     relive::Path_UXB* uxbPath = reinterpret_cast<relive::Path_UXB*>(gPathInfo->TLV_From_Offset_Lvl_Cam(pSaveState->mTlvInfo));
 
@@ -536,7 +537,5 @@ s32 UXB::CreateFromSaveState(const u8* __pSaveState)
     {
         pUXB->mIsRed = 1;
     }
-
-    return sizeof(UXBSaveState);
 }
 

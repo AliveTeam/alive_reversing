@@ -13,6 +13,7 @@
 #include "../relive_lib/GameObjects/Particle.hpp"
 #include "ParticleBurst.hpp"
 #include "Map.hpp"
+#include "QuikSave.hpp"
 
 void SlapLock::LoadAnimations()
 {
@@ -103,9 +104,9 @@ SlapLock::~SlapLock()
     Path::TLV_Reset(mTlvInfo, -1, 0, 0);
 }
 
-s32 SlapLock::CreateFromSaveState(const u8* pBuffer)
+void SlapLock::CreateFromSaveState(SerializedObjectData& pBuffer)
 {
-    auto pState = reinterpret_cast<const SlapLockSaveState*>(pBuffer);
+    const auto pState = pBuffer.ReadTmpPtr<SlapLockSaveState>();
 
     auto pTlv = static_cast<relive::Path_SlapLock*>(gPathInfo->TLV_From_Offset_Lvl_Cam(pState->mTlvInfo));
 
@@ -123,8 +124,6 @@ s32 SlapLock::CreateFromSaveState(const u8* pBuffer)
         pSlapLock->mbGotShot = true;
         pSlapLock->mShinyParticleTimer = pState->mShinyParticleTimer;
     }
-
-    return sizeof(SlapLockSaveState);
 }
 
 void SlapLock::VScreenChanged()
@@ -148,30 +147,31 @@ void SlapLock::GiveInvisibility()
     }
 }
 
-s32 SlapLock::VGetSaveState(u8* pSaveBuffer)
+void SlapLock::VGetSaveState(SerializedObjectData& pSaveBuffer)
 {
-    auto pState = reinterpret_cast<SlapLockSaveState*>(pSaveBuffer);
+    SlapLockSaveState data = {};
 
-    pState->mType = ReliveTypes::eSlapLock;
-    pState->mAnimRender = GetAnimation().GetRender() & 1;
-    pState->mTlvInfo = mTlvInfo;
-    pState->mTlvState = gPathInfo->TLV_From_Offset_Lvl_Cam(mTlvInfo)->mTlvSpecificMeaning;
-    pState->mState = mState;
-    pState->mTimer1 = mTimer1;
-    pState->mShinyParticleTimer = mShinyParticleTimer;
-    pState->mAbilityRingId = Guid{};
+    data.mType = ReliveTypes::eSlapLock;
+    data.mAnimRender = GetAnimation().GetRender() & 1;
+    data.mTlvInfo = mTlvInfo;
+    data.mTlvState = gPathInfo->TLV_From_Offset_Lvl_Cam(mTlvInfo)->mTlvSpecificMeaning;
+    data.mState = mState;
+    data.mTimer1 = mTimer1;
+    data.mShinyParticleTimer = mShinyParticleTimer;
+    data.mAbilityRingId = Guid{};
 
     if (mAbilityRingId == Guid{})
     {
-        return sizeof(SlapLockSaveState);
+        pSaveBuffer.Write(data);
+        return;
     }
 
     BaseGameObject* pObj = sObjectIds.Find_Impl(mAbilityRingId);
     if (pObj)
     {
-        pState->mAbilityRingId = pObj->mBaseGameObjectTlvInfo;
+        data.mAbilityRingId = pObj->mBaseGameObjectTlvInfo;
     }
-    return sizeof(SlapLockSaveState);
+    pSaveBuffer.Write(data);
 }
 
 void SlapLock::VUpdate()

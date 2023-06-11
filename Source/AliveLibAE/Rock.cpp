@@ -13,6 +13,7 @@
 #include <assert.h>
 #include "../relive_lib/Collisions.hpp"
 #include "../relive_lib/FixedPoint.hpp"
+#include "QuikSave.hpp"
 
 Rock::Rock(FP xpos, FP ypos, s16 count)
     : BaseThrowable(0)
@@ -410,50 +411,51 @@ bool Rock::OnCollision(BaseAnimatedWithPhysicsGameObject* pObj)
     return false;
 }
 
-s32 Rock::VGetSaveState(u8* pSaveBuffer)
+void Rock::VGetSaveState(SerializedObjectData& pSaveBuffer)
 {
-    auto pState = reinterpret_cast<RockSaveState*>(pSaveBuffer);
+    RockSaveState data = {};
 
-    pState->mType = ReliveTypes::eRock;
-    pState->mTlvId = mBaseGameObjectTlvInfo;
+    data.mType = ReliveTypes::eRock;
+    data.mTlvId = mBaseGameObjectTlvInfo;
 
-    pState->mXPos = mXPos;
-    pState->mYPos = mYPos;
+    data.mXPos = mXPos;
+    data.mYPos = mYPos;
 
-    pState->mVelX = mVelX;
-    pState->mVelY = mVelY;
+    data.mVelX = mVelX;
+    data.mVelY = mVelY;
 
-    pState->mCurrentPath = mCurrentPath;
-    pState->mCurrentLevel = mCurrentLevel;
+    data.mCurrentPath = mCurrentPath;
+    data.mCurrentLevel = mCurrentLevel;
 
-    pState->mSpriteScale = GetSpriteScale();
+    data.mSpriteScale = GetSpriteScale();
 
-    pState->mRender = GetAnimation().GetRender();
-    pState->mDrawable = GetDrawable();
+    data.mRender = GetAnimation().GetRender();
+    data.mDrawable = GetDrawable();
 
-    pState->mLoop = GetAnimation().GetLoop();
-    pState->mInteractive = GetInteractive();
+    data.mLoop = GetAnimation().GetLoop();
+    data.mInteractive = GetInteractive();
 
     if (BaseAliveGameObjectCollisionLine)
     {
-        pState->mCollisionLineType = BaseAliveGameObjectCollisionLine->mLineType;
+        data.mCollisionLineType = BaseAliveGameObjectCollisionLine->mLineType;
     }
     else
     {
-        pState->mCollisionLineType = eLineTypes::eNone_m1;
+        data.mCollisionLineType = eLineTypes::eNone_m1;
     }
-    pState->mPlatformId = BaseAliveGameObject_PlatformId;
-    pState->mThrowableCount = mBaseThrowableCount;
-    pState->mState = mState;
-    pState->mBounceCount = mBounceCount;
-    pState->mPreviousXPos = mPreviousXPos;
-    pState->mPreviousYPos = mPreviousYPos;
-    return sizeof(RockSaveState);
+    data.mPlatformId = BaseAliveGameObject_PlatformId;
+    data.mThrowableCount = mBaseThrowableCount;
+    data.mState = mState;
+    data.mBounceCount = mBounceCount;
+    data.mPreviousXPos = mPreviousXPos;
+    data.mPreviousYPos = mPreviousYPos;
+
+    pSaveBuffer.Write(data);
 }
 
-s32 Rock::CreateFromSaveState(const u8* pData)
+void Rock::CreateFromSaveState(SerializedObjectData& pData)
 {
-    auto pState = reinterpret_cast<const RockSaveState*>(pData);
+    const auto pState = pData.ReadTmpPtr<RockSaveState>();
 
     auto pRock = relive_new Rock(pState->mXPos, pState->mYPos, pState->mThrowableCount);
 
@@ -495,6 +497,4 @@ s32 Rock::CreateFromSaveState(const u8* pData)
 
     pRock->mPreviousXPos = pState->mPreviousXPos;
     pRock->mPreviousYPos = pState->mPreviousYPos;
-
-    return sizeof(RockSaveState);
 }

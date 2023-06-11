@@ -10,6 +10,7 @@
 #include "Path.hpp"
 #include "../relive_lib/FixedPoint.hpp"
 #include "../relive_lib/Collisions.hpp"
+#include "QuikSave.hpp"
 
 struct SlamDoor_Data final
 {
@@ -411,14 +412,14 @@ void SlamDoor::VUpdate()
     SetCanExplode(GetAnimation().GetRender()); // wot?
 }
 
-s32 SlamDoor::VGetSaveState(u8* pSaveBuffer)
+void SlamDoor::VGetSaveState(SerializedObjectData& pSaveBuffer)
 {
-    SlamDoorSaveState* pSaveState = reinterpret_cast<SlamDoorSaveState*>(pSaveBuffer);
+    SlamDoorSaveState data = {};
 
-    pSaveState->mType = ReliveTypes::eSlamDoor;
-    pSaveState->mTlvInfo = mTlvInfo;
+    data.mType = ReliveTypes::eSlamDoor;
+    data.mTlvInfo = mTlvInfo;
 
-    return sizeof(SlamDoorSaveState);
+    pSaveBuffer.Write(data);
 }
 
 void SlamDoor::ClearInsideSlamDoor(IBaseAliveGameObject* pObj, s16 xPosition, s16 width)
@@ -444,11 +445,9 @@ void SlamDoor::ClearInsideSlamDoor(IBaseAliveGameObject* pObj, s16 xPosition, s1
     }
 }
 
-s32 SlamDoor::CreateFromSaveState(const u8* pData)
+void SlamDoor::CreateFromSaveState(SerializedObjectData& pData)
 {
-    const SlamDoorSaveState* pSaveState = reinterpret_cast<const SlamDoorSaveState*>(pData);
+    const auto pSaveState = pData.ReadTmpPtr<SlamDoorSaveState>();
 
     relive_new SlamDoor(static_cast<relive::Path_SlamDoor*>(gPathInfo->TLV_From_Offset_Lvl_Cam(pSaveState->mTlvInfo)), pSaveState->mTlvInfo);
-
-    return sizeof(SlamDoorSaveState);
 }

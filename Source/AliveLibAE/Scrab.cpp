@@ -23,6 +23,7 @@
 #include "Input.hpp"
 #include "Math.hpp"
 #include "../relive_lib/FixedPoint.hpp"
+#include "QuikSave.hpp"
 
 const AnimId sScrabMotionAnimIds[40] = {
     AnimId::Scrab_Idle,
@@ -263,9 +264,9 @@ void Scrab::VOnTlvCollision(relive::Path_TLV* pTlv)
     }
 }
 
-s32 Scrab::CreateFromSaveState(const u8* pBuffer)
+void Scrab::CreateFromSaveState(SerializedObjectData& pBuffer)
 {
-    auto pState = reinterpret_cast<const ScrabSaveState*>(pBuffer);
+    const auto pState = pBuffer.ReadTmpPtr<ScrabSaveState>();
 
     auto pTlv = static_cast<relive::Path_Scrab*>(gPathInfo->TLV_From_Offset_Lvl_Cam(pState->field_44_tlvInfo));
 
@@ -348,115 +349,113 @@ s32 Scrab::CreateFromSaveState(const u8* pBuffer)
         pScrab->mRoarRandomly = pState->mRoarRandomly;
         pScrab->mPersistant = pState->mPersistant;
     }
-
-    return sizeof(ScrabSaveState);
 }
 
-s32 Scrab::VGetSaveState(u8* pSaveBuffer)
+void Scrab::VGetSaveState(SerializedObjectData& pSaveBuffer)
 {
     if (GetElectrocuted())
     {
-        return 0;
+        return;
     }
 
-    auto pState = reinterpret_cast<ScrabSaveState*>(pSaveBuffer);
+    ScrabSaveState data = {};
 
-    pState->mType = ReliveTypes::eScrab;
-    pState->field_4_obj_id = mBaseGameObjectTlvInfo;
+    data.mType = ReliveTypes::eScrab;
+    data.field_4_obj_id = mBaseGameObjectTlvInfo;
 
-    pState->mXPos = mXPos;
-    pState->mYPos = mYPos;
-    pState->mVelX = mVelX;
-    pState->mVelY = mVelY;
+    data.mXPos = mXPos;
+    data.mYPos = mYPos;
+    data.mVelX = mVelX;
+    data.mVelY = mVelY;
 
-    pState->field_64_falling_velx_scale_factor = field_134_falling_velx_scale_factor;
+    data.field_64_falling_velx_scale_factor = field_134_falling_velx_scale_factor;
 
-    pState->mCurrentPath = mCurrentPath;
-    pState->mCurrentLevel = mCurrentLevel;
-    pState->mSpriteScale = GetSpriteScale();
+    data.mCurrentPath = mCurrentPath;
+    data.mCurrentLevel = mCurrentLevel;
+    data.mSpriteScale = GetSpriteScale();
 
-    pState->mRingRed = mRGB.r;
-    pState->mRingGreen = mRGB.g;
-    pState->mRingBlue = mRGB.b;
+    data.mRingRed = mRGB.r;
+    data.mRingGreen = mRGB.g;
+    data.mRingBlue = mRGB.b;
 
-    pState->mFlipX = GetAnimation().GetFlipX();
-    pState->field_28_current_motion = GetCurrentMotion();
-    pState->mCurrentFrame = static_cast<s16>(GetAnimation().GetCurrentFrame());
-    pState->mFrameChangeCounter = static_cast<s16>(GetAnimation().GetFrameChangeCounter());
-    pState->mDrawable = GetDrawable();
-    pState->mAnimRender = GetAnimation().GetRender();
-    pState->mHealth = mHealth;
-    pState->field_34_current_motion = GetCurrentMotion();
-    pState->field_36_next_motion = GetNextMotion();
-    pState->mLineType = eLineTypes::eNone_m1;
+    data.mFlipX = GetAnimation().GetFlipX();
+    data.field_28_current_motion = GetCurrentMotion();
+    data.mCurrentFrame = static_cast<s16>(GetAnimation().GetCurrentFrame());
+    data.mFrameChangeCounter = static_cast<s16>(GetAnimation().GetFrameChangeCounter());
+    data.mDrawable = GetDrawable();
+    data.mAnimRender = GetAnimation().GetRender();
+    data.mHealth = mHealth;
+    data.field_34_current_motion = GetCurrentMotion();
+    data.field_36_next_motion = GetNextMotion();
+    data.mLineType = eLineTypes::eNone_m1;
 
     // TODO: Check correctness
-    pState->field_38_last_line_ypos = FP_GetExponent(BaseAliveGameObjectLastLineYPos);
+    data.field_38_last_line_ypos = FP_GetExponent(BaseAliveGameObjectLastLineYPos);
     if (BaseAliveGameObjectCollisionLine)
     {
-        pState->mLineType = BaseAliveGameObjectCollisionLine->mLineType;
+        data.mLineType = BaseAliveGameObjectCollisionLine->mLineType;
     }
 
-    pState->mIsControlled = (this == sControlledCharacter);
-    pState->field_60_depossession_timer = field_130_depossession_timer;
-    pState->field_5C_timer = field_12C_timer;
-    pState->field_44_tlvInfo = field_144_tlvInfo;
-    pState->field_48_brain_idx = 0;
+    data.mIsControlled = (this == sControlledCharacter);
+    data.field_60_depossession_timer = field_130_depossession_timer;
+    data.field_5C_timer = field_12C_timer;
+    data.field_44_tlvInfo = field_144_tlvInfo;
+    data.field_48_brain_idx = 0;
 
     s32 idx = 0;
     for (const auto& fn : sScrabBrainTable)
     {
         if (BrainIs(fn))
         {
-            pState->field_48_brain_idx = idx;
+            data.field_48_brain_idx = idx;
         }
         idx++;
     }
 
-    pState->field_54_obj_id = Guid{};
-    pState->mBrainSubState = mBrainSubState;
+    data.field_54_obj_id = Guid{};
+    data.mBrainSubState = mBrainSubState;
 
     if (mTargetGuid != Guid{})
     {
         BaseGameObject* pObj = sObjectIds.Find_Impl(mTargetGuid);
         if (pObj)
         {
-            pState->field_54_obj_id = pObj->mBaseGameObjectTlvInfo;
+            data.field_54_obj_id = pObj->mBaseGameObjectTlvInfo;
         }
     }
 
-    pState->field_58_target_obj_id = Guid{};
+    data.field_58_target_obj_id = Guid{};
     if (mFightTargetId != Guid{})
     {
         BaseGameObject* pObj = sObjectIds.Find_Impl(mFightTargetId);
         if (pObj)
         {
-            pState->field_58_target_obj_id = pObj->mBaseGameObjectTlvInfo;
+            data.field_58_target_obj_id = pObj->mBaseGameObjectTlvInfo;
         }
     }
 
-    pState->field_68_motion_resource_block_index = field_140_motion_resource_block_index;
-    pState->field_6C_spotting_abe_timer = field_14C_pause_after_chase_timer;
-    pState->field_70_attack_delay_timer = field_150_attack_delay_timer;
-    pState->field_74_movement_timer = field_154_movement_timer;
-    pState->field_78_sfx_bitmask = field_160_sfx_bitmask;
-    pState->mPreventDepossession = mPreventDepossession;
-    pState->mAbeLevel = mAbeLevel;
-    pState->mAbePath = mAbePath;
-    pState->mAbeCamera = mAbeCamera;
-    pState->field_84_input = InputObject::KeyboardInputToPsxButtons_45EF70(field_16C_input);
-    pState->field_8C_shred_power_active = mShredPowerActive;
-    pState->field_8E_speak = field_194_speak;
-    pState->field_90_max_xpos = field_198_max_xpos;
-    pState->field_94_max_ypos = field_19C_max_ypos;
-    pState->field_98_speak_counter = field_1A2_speak_counter;
+    data.field_68_motion_resource_block_index = field_140_motion_resource_block_index;
+    data.field_6C_spotting_abe_timer = field_14C_pause_after_chase_timer;
+    data.field_70_attack_delay_timer = field_150_attack_delay_timer;
+    data.field_74_movement_timer = field_154_movement_timer;
+    data.field_78_sfx_bitmask = field_160_sfx_bitmask;
+    data.mPreventDepossession = mPreventDepossession;
+    data.mAbeLevel = mAbeLevel;
+    data.mAbePath = mAbePath;
+    data.mAbeCamera = mAbeCamera;
+    data.field_84_input = InputObject::KeyboardInputToPsxButtons_45EF70(field_16C_input);
+    data.field_8C_shred_power_active = mShredPowerActive;
+    data.field_8E_speak = field_194_speak;
+    data.field_90_max_xpos = field_198_max_xpos;
+    data.field_94_max_ypos = field_19C_max_ypos;
+    data.field_98_speak_counter = field_1A2_speak_counter;
 
-    pState->mAttacking = mAttacking;
-    pState->mForceUpdateAnimation = mForceUpdateAnimation;
-    pState->mRoarRandomly = mRoarRandomly;
-    pState->mPersistant = mPersistant;
+    data.mAttacking = mAttacking;
+    data.mForceUpdateAnimation = mForceUpdateAnimation;
+    data.mRoarRandomly = mRoarRandomly;
+    data.mPersistant = mPersistant;
 
-    return sizeof(ScrabSaveState);
+    pSaveBuffer.Write(data);
 }
 
 Scrab::~Scrab()

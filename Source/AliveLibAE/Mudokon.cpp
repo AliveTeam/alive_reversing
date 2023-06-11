@@ -35,6 +35,7 @@
 #include "Map.hpp"
 #include "../relive_lib/FatalError.hpp"
 #include "../relive_lib/FixedPoint.hpp"
+#include "QuikSave.hpp"
 
 s16 sGoingToBirdPortalMudCount_5C3012 = 0;
 
@@ -691,9 +692,9 @@ void Mudokon::LoadAnimations()
     }
 }
 
-s32 Mudokon::CreateFromSaveState(const u8* pBuffer)
+void Mudokon::CreateFromSaveState(SerializedObjectData& pBuffer)
 {
-    auto pState = reinterpret_cast<const MudokonSaveState*>(pBuffer);
+    const auto pState = pBuffer.ReadTmpPtr<MudokonSaveState>();
 
     auto pTlv = static_cast<relive::Path_Mudokon*>(gPathInfo->TLV_From_Offset_Lvl_Cam(pState->field_40_tlvInfo));
 
@@ -807,118 +808,116 @@ s32 Mudokon::CreateFromSaveState(const u8* pBuffer)
 
         pMud->field_188_pTblEntry = GetResponseEntry(pState->field_84_response_entry_idx);
     }
-
-    return sizeof(MudokonSaveState);
 }
 
-s32 Mudokon::VGetSaveState(u8* pSaveBuffer)
+void Mudokon::VGetSaveState(SerializedObjectData& pSaveBuffer)
 {
     if (GetElectrocuted())
     {
-        return 0;
+        return;
     }
 
-    auto pState = reinterpret_cast<MudokonSaveState*>(pSaveBuffer);
+    MudokonSaveState data = {};
 
-    pState->mType = ReliveTypes::eRingOrLiftMud;
+    data.mType = ReliveTypes::eRingOrLiftMud;
 
-    pState->field_4_xpos = mXPos;
-    pState->field_8_ypos = mYPos;
-    pState->field_C_velx = mVelX;
-    pState->field_10_vely = mVelY;
+    data.field_4_xpos = mXPos;
+    data.field_8_ypos = mYPos;
+    data.field_C_velx = mVelX;
+    data.field_10_vely = mVelY;
 
-    pState->field_44_velx_slow_by = field_134_xVelSlowBy;
+    data.field_44_velx_slow_by = field_134_xVelSlowBy;
 
-    pState->field_14_path_number = mCurrentPath;
-    pState->field_16_lvl_number = mCurrentLevel;
-    pState->field_18_sprite_scale = GetSpriteScale();
+    data.field_14_path_number = mCurrentPath;
+    data.field_16_lvl_number = mCurrentLevel;
+    data.field_18_sprite_scale = GetSpriteScale();
 
-    pState->field_1C_r = mRGB.r;
-    pState->field_1E_g = mRGB.g;
-    pState->field_20_b = mRGB.b;
+    data.field_1C_r = mRGB.r;
+    data.field_1E_g = mRGB.g;
+    data.field_20_b = mRGB.b;
 
-    pState->field_22_bFlipX = GetAnimation().GetFlipX();
-    pState->field_24_current_motion = GetCurrentMotion();
-    pState->field_26_anim_current_frame = static_cast<s16>(GetAnimation().GetCurrentFrame());
-    pState->field_28_anim_frame_change_counter = static_cast<s16>(GetAnimation().GetFrameChangeCounter());
-    pState->field_2B_bDrawable = GetDrawable();
-    pState->field_2A_bAnimRender = GetAnimation().GetRender();
-    pState->field_2C_health = mHealth;
-    pState->field_30_current_motion = GetCurrentMotion();
-    pState->field_32_next_motion = GetNextMotion();
-    pState->field_34_lastLineYPos = FP_GetExponent(BaseAliveGameObjectLastLineYPos);
-    pState->field_36_line_type = eLineTypes::eNone_m1;
+    data.field_22_bFlipX = GetAnimation().GetFlipX();
+    data.field_24_current_motion = GetCurrentMotion();
+    data.field_26_anim_current_frame = static_cast<s16>(GetAnimation().GetCurrentFrame());
+    data.field_28_anim_frame_change_counter = static_cast<s16>(GetAnimation().GetFrameChangeCounter());
+    data.field_2B_bDrawable = GetDrawable();
+    data.field_2A_bAnimRender = GetAnimation().GetRender();
+    data.field_2C_health = mHealth;
+    data.field_30_current_motion = GetCurrentMotion();
+    data.field_32_next_motion = GetNextMotion();
+    data.field_34_lastLineYPos = FP_GetExponent(BaseAliveGameObjectLastLineYPos);
+    data.field_36_line_type = eLineTypes::eNone_m1;
 
-    pState->field_3C_can_be_possessed = GetCanBePossessed();
+    data.field_3C_can_be_possessed = GetCanBePossessed();
 
     if (BaseAliveGameObjectCollisionLine)
     {
-        pState->field_36_line_type = BaseAliveGameObjectCollisionLine->mLineType;
+        data.field_36_line_type = BaseAliveGameObjectCollisionLine->mLineType;
     }
 
-    pState->field_3D_bIsPlayer = this == sControlledCharacter;
-    pState->field_40_tlvInfo = field_118_tlvInfo;
-    pState->field_4C_portal_id = Guid{};
+    data.field_3D_bIsPlayer = this == sControlledCharacter;
+    data.field_40_tlvInfo = field_118_tlvInfo;
+    data.field_4C_portal_id = Guid{};
 
     if (field_11C_bird_portal_id != Guid{})
     {
         BaseGameObject* pBirdPortal = sObjectIds.Find_Impl(field_11C_bird_portal_id);
         if (pBirdPortal)
         {
-            pState->field_4C_portal_id = pBirdPortal->mBaseGameObjectTlvInfo;
+            data.field_4C_portal_id = pBirdPortal->mBaseGameObjectTlvInfo;
         }
     }
 
-    pState->field_50_angry_trigger = field_120_angry_switch_id;
-    pState->field_54_laugh_and_crouch_timer = field_124_laugh_and_crouch_timer;
-    pState->field_58_angry_timer = field_128_angry_timer;
-    pState->field_5E_voice_pitch = field_13C_voice_pitch;
-    pState->field_60_wheel_id = Guid{};
+    data.field_50_angry_trigger = field_120_angry_switch_id;
+    data.field_54_laugh_and_crouch_timer = field_124_laugh_and_crouch_timer;
+    data.field_58_angry_timer = field_128_angry_timer;
+    data.field_5E_voice_pitch = field_13C_voice_pitch;
+    data.field_60_wheel_id = Guid{};
 
     if (field_158_wheel_id != Guid{})
     {
         BaseGameObject* pWheel = sObjectIds.Find_Impl(field_158_wheel_id);
         if (pWheel)
         {
-            pState->field_60_wheel_id = pWheel->mBaseGameObjectTlvInfo;
+            data.field_60_wheel_id = pWheel->mBaseGameObjectTlvInfo;
         }
     }
 
-    pState->field_68 = field_160_delayed_speak;
-    pState->field_6A_maxXOffset = field_162_maxXOffset;
+    data.field_68 = field_160_delayed_speak;
+    data.field_6A_maxXOffset = field_162_maxXOffset;
 
-    pState->mNotRescued = mNotRescued;
-    pState->mPersistAndResetOffscreen = mPersistAndResetOffscreen;
-    pState->mAlerted = mAlerted;
-    pState->mBlind = mBlind;
-    pState->mFollowingAbe = mFollowingAbe;
-    pState->mStandingForSadOrAngry = mStandingForSadOrAngry;
-    pState->mStoppedAtWheel = mStoppedAtWheel;
-    pState->mDoAngry = mDoAngry;
-    pState->mSeenWhileSick = mSeenWhileSick;
-    pState->mWorkAfterTurningWheel = mWorkAfterTurningWheel;
-    pState->mReturnToPreviousMotion = mReturnToPreviousMotion;
-    pState->mGetDepressed = mGetDepressed;
-    pState->mAlertEnemies = mAlertEnemies;
-    pState->mNoiseUnknown = mNoiseUnknown;
-    pState->mMakeSadNoise = mMakeSadNoise;
-    pState->mRingAndAngryMudTimeout = mRingAndAngryMudTimeout;
-    pState->mAbeHasRing = mAbeHasRing;
-    pState->mIsMudStandingUp2 = mIsMudStandingUp2;
+    data.mNotRescued = mNotRescued;
+    data.mPersistAndResetOffscreen = mPersistAndResetOffscreen;
+    data.mAlerted = mAlerted;
+    data.mBlind = mBlind;
+    data.mFollowingAbe = mFollowingAbe;
+    data.mStandingForSadOrAngry = mStandingForSadOrAngry;
+    data.mStoppedAtWheel = mStoppedAtWheel;
+    data.mDoAngry = mDoAngry;
+    data.mSeenWhileSick = mSeenWhileSick;
+    data.mWorkAfterTurningWheel = mWorkAfterTurningWheel;
+    data.mReturnToPreviousMotion = mReturnToPreviousMotion;
+    data.mGetDepressed = mGetDepressed;
+    data.mAlertEnemies = mAlertEnemies;
+    data.mNoiseUnknown = mNoiseUnknown;
+    data.mMakeSadNoise = mMakeSadNoise;
+    data.mRingAndAngryMudTimeout = mRingAndAngryMudTimeout;
+    data.mAbeHasRing = mAbeHasRing;
+    data.mIsMudStandingUp2 = mIsMudStandingUp2;
 
-    pState->field_70_brain_sub_state2 = field_178_brain_sub_state2;
-    pState->field_72_stand_idle_timer = field_17C_stand_idle_timer;
-    pState->field_74_delayed_speak = field_17E_delayed_speak;
-    pState->field_76_emo_tlb = field_180_emo_tbl;
-    pState->field_78_speak_event = field_182_speak_event;
-    pState->field_7A_motion = field_184_next_motion2;
-    pState->field_7C_brain_state = mBrainState;
-    pState->field_7E_brain_sub_state = mBrainSubState;
-    pState->field_80_timer = field_194_timer;
+    data.field_70_brain_sub_state2 = field_178_brain_sub_state2;
+    data.field_72_stand_idle_timer = field_17C_stand_idle_timer;
+    data.field_74_delayed_speak = field_17E_delayed_speak;
+    data.field_76_emo_tlb = field_180_emo_tbl;
+    data.field_78_speak_event = field_182_speak_event;
+    data.field_7A_motion = field_184_next_motion2;
+    data.field_7C_brain_state = mBrainState;
+    data.field_7E_brain_sub_state = mBrainSubState;
+    data.field_80_timer = field_194_timer;
 
-    pState->field_84_response_entry_idx = GetResponseEntryIdx();
+    data.field_84_response_entry_idx = GetResponseEntryIdx();
 
-    return sizeof(MudokonSaveState);
+    pSaveBuffer.Write(data);
 }
 
 void Mudokon::VUpdate()

@@ -15,6 +15,7 @@
 #include "Input.hpp"
 #include "../relive_lib/FixedPoint.hpp"
 #include "Math.hpp"
+#include "QuikSave.hpp"
 
 struct Colour final
 {
@@ -85,9 +86,9 @@ EvilFart::EvilFart()
     mPossessedAliveTimer = 220;
 }
 
-s32 EvilFart::CreateFromSaveState(const u8* pBuffer)
+void EvilFart::CreateFromSaveState(SerializedObjectData& pBuffer)
 {
-    auto pState = reinterpret_cast<const EvilFartSaveState*>(pBuffer);
+    const auto pState = pBuffer.ReadTmpPtr<EvilFartSaveState>();
 
     auto pFart = relive_new EvilFart();
 
@@ -127,48 +128,47 @@ s32 EvilFart::CreateFromSaveState(const u8* pBuffer)
     pFart->mState = pState->mState;
     pFart->mUnpossessionTimer = pState->mUnpossessionTimer;
     pFart->mBackToAbeTimer = pState->mBackToAbeTimer;
-    return sizeof(EvilFartSaveState);
 }
 
-s32 EvilFart::VGetSaveState(u8* pSaveBuffer)
+void EvilFart::VGetSaveState(SerializedObjectData& pSaveBuffer)
 {
-    auto pState = reinterpret_cast<EvilFartSaveState*>(pSaveBuffer);
+    EvilFartSaveState data = {};
+    data.mType = ReliveTypes::eEvilFart;
 
-    pState->mType = ReliveTypes::eEvilFart;
+    data.mXPos = mXPos;
+    data.mYPos = mYPos;
+    data.mVelX = mVelX;
+    data.mVelY = mVelY;
 
-    pState->mXPos = mXPos;
-    pState->mYPos = mYPos;
-    pState->mVelX = mVelX;
-    pState->mVelY = mVelY;
+    data.mCurrentPath = mCurrentPath;
+    data.mCurrentLevel = mCurrentLevel;
+    data.mSpriteScale = GetSpriteScale();
 
-    pState->mCurrentPath = mCurrentPath;
-    pState->mCurrentLevel = mCurrentLevel;
-    pState->mSpriteScale = GetSpriteScale();
-
-    pState->mRed = mRGB.r;
-    pState->mGreen = mRGB.g;
-    pState->mBlue = mRGB.b;
+    data.mRed = mRGB.r;
+    data.mGreen = mRGB.g;
+    data.mBlue = mRGB.b;
 
     if (sControlledCharacter == this)
     {
-        pState->mControlled = true;
+        data.mControlled = true;
     }
 
-    pState->mCurrentFrame = static_cast<s16>(GetAnimation().GetCurrentFrame());
-    pState->mFrameChangeCounter = static_cast<s16>(GetAnimation().GetFrameChangeCounter());
+    data.mCurrentFrame = static_cast<s16>(GetAnimation().GetCurrentFrame());
+    data.mFrameChangeCounter = static_cast<s16>(GetAnimation().GetFrameChangeCounter());
 
-    pState->mDrawable = GetDrawable();
-    pState->mAnimRender = GetAnimation().GetRender();
+    data.mDrawable = GetDrawable();
+    data.mAnimRender = GetAnimation().GetRender();
 
-    pState->mAbeLevel = mAbeLevel;
-    pState->mAbePath = mAbePath;
-    pState->mAbeCamera = mAbeCamera;
-    pState->mFartExploded = mFartExploded;
-    pState->mPossessedAliveTimer = mPossessedAliveTimer;
-    pState->mState = mState;
-    pState->mUnpossessionTimer = mUnpossessionTimer;
-    pState->mBackToAbeTimer = mBackToAbeTimer;
-    return sizeof(EvilFartSaveState);
+    data.mAbeLevel = mAbeLevel;
+    data.mAbePath = mAbePath;
+    data.mAbeCamera = mAbeCamera;
+    data.mFartExploded = mFartExploded;
+    data.mPossessedAliveTimer = mPossessedAliveTimer;
+    data.mState = mState;
+    data.mUnpossessionTimer = mUnpossessionTimer;
+    data.mBackToAbeTimer = mBackToAbeTimer;
+
+    pSaveBuffer.Write(data);
 }
 
 void EvilFart::InputControlFart()

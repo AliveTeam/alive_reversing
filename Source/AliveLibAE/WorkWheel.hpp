@@ -27,7 +27,7 @@ public:
 
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
-    virtual s32 VGetSaveState(u8* pSaveBuffer) override;
+    virtual void VGetSaveState(SerializedObjectData& pSaveBuffer) override;
     virtual void VStartTurning();
     virtual void VStopTurning(s16 bResetSwitch);
 
@@ -35,7 +35,7 @@ public:
     ~WorkWheel();
 
 public:
-    static s32 CreateFromSaveState(const u8* pState);
+    static void CreateFromSaveState(SerializedObjectData& pState);
 
 private:
     Guid mTlvInfo;

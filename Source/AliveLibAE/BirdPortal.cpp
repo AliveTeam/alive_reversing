@@ -24,6 +24,7 @@
 #include "Map.hpp"
 #include "Path.hpp"
 #include "../relive_lib/FatalError.hpp"
+#include "QuikSave.hpp"
 
 void BirdPortal::LoadAnimations()
 {
@@ -654,9 +655,9 @@ void BirdPortal::VStopAudio()
     }
 }
 
-s32 BirdPortal::VGetSaveState(u8* pBuffer)
+void BirdPortal::VGetSaveState(SerializedObjectData& pBuffer)
 {
-    auto pState = reinterpret_cast<BirdPortalSaveState*>(pBuffer);
+    BirdPortalSaveState data = {};
     auto pTlv = static_cast<relive::Path_BirdPortal*>(gPathInfo->TLV_From_Offset_Lvl_Cam(mTlvInfo));
 
     s16 numMudsForShrykull = 0;
@@ -665,12 +666,12 @@ s32 BirdPortal::VGetSaveState(u8* pBuffer)
         numMudsForShrykull = pTlv->mMudCountForShrykull;
     }
 
-    pState->mType = ReliveTypes::eBirdPortal;
-    pState->mTlvInfo = mTlvInfo;
-    pState->mState = mState;
-    pState->mMudCountForShrykull = static_cast<u8>(numMudsForShrykull - mMudCountForShrykull);
+    data.mType = ReliveTypes::eBirdPortal;
+    data.mTlvInfo = mTlvInfo;
+    data.mState = mState;
+    data.mMudCountForShrykull = static_cast<u8>(numMudsForShrykull - mMudCountForShrykull);
 
-    return sizeof(BirdPortalSaveState);
+    pBuffer.Write(data);
 }
 
 void BirdPortal::VRender(PrimHeader** /*ppOt*/)
@@ -678,13 +679,13 @@ void BirdPortal::VRender(PrimHeader** /*ppOt*/)
     // Null
 }
 
-s32 BirdPortal::CreateFromSaveState(const u8* pBuffer)
+void BirdPortal::CreateFromSaveState(SerializedObjectData& pBuffer)
 {
-    auto pSaveState = reinterpret_cast<const BirdPortalSaveState*>(pBuffer);
+    const auto pSaveState = pBuffer.ReadTmpPtr<BirdPortalSaveState>();
     auto pTlv = static_cast<relive::Path_BirdPortal*>(gPathInfo->TLV_From_Offset_Lvl_Cam(pSaveState->mTlvInfo));
     if (!pTlv)
     {
-        return sizeof(BirdPortalSaveState);
+        return;
     }
 
     auto pPortal = relive_new BirdPortal(pTlv, pSaveState->mTlvInfo);
@@ -733,8 +734,6 @@ s32 BirdPortal::CreateFromSaveState(const u8* pBuffer)
             break;
         }
     }
-
-    return sizeof(BirdPortalSaveState);
 }
 
 s16 BirdPortal::VPortalClipper(s16 bIgnoreClipping)

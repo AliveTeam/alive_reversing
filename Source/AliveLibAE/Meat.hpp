@@ -53,9 +53,9 @@ public:
     virtual void VTimeToExplodeRandom() override;
     virtual s16 VGetCount() override;
     virtual bool VCanEatMe();
-    virtual s32 VGetSaveState(u8* pSaveBuffer) override;
+    virtual void VGetSaveState(SerializedObjectData& pSaveBuffer) override;
 
-    static s32 CreateFromSaveState(const u8* pBuffer);
+    static void CreateFromSaveState(SerializedObjectData& pBuffer);
 
     virtual bool VOnPlatformIntersection(BaseAnimatedWithPhysicsGameObject* pPlatform) override
     {

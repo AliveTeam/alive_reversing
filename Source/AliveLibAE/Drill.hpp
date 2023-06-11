@@ -30,9 +30,9 @@ public:
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
     virtual void VStopAudio() override;
-    virtual s32 VGetSaveState(u8* pSaveBuffer) override;
+    virtual void VGetSaveState(SerializedObjectData& pSaveBuffer) override;
 
-    static s32 CreateFromSaveState(const u8* pData);
+    static void CreateFromSaveState(SerializedObjectData& pData);
 
 private:
     void EmitSparks();

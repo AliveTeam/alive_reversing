@@ -6,6 +6,7 @@
 #include "Map.hpp"
 #include "../relive_lib/Events.hpp"
 #include "Sfx.hpp"
+#include "QuikSave.hpp"
 
 static bool sAlarmExists = false;
 s32 gExplosionTimer = 0;
@@ -18,11 +19,10 @@ void MinesAlarm::Create(s32 timer)
     }
 }
 
-s32 MinesAlarm::CreateFromSaveState(const u8* pBuffer)
+void MinesAlarm::CreateFromSaveState(SerializedObjectData& pBuffer)
 {
-    auto pState = reinterpret_cast<const MinesAlarmSaveState*>(pBuffer);
+    const auto pState = pBuffer.ReadTmpPtr<MinesAlarmSaveState>();
     relive_new MinesAlarm(pState->mExplosionTimer);
-    return sizeof(MinesAlarmSaveState);
 }
 
 MinesAlarm::MinesAlarm(s32 timer)
@@ -32,13 +32,13 @@ MinesAlarm::MinesAlarm(s32 timer)
     gExplosionTimer = timer;
 }
 
-s32 MinesAlarm::VGetSaveState(u8* pSaveBuffer)
+void MinesAlarm::VGetSaveState(SerializedObjectData& pSaveBuffer)
 {
-    auto pState = reinterpret_cast<MinesAlarmSaveState*>(pSaveBuffer);
+    MinesAlarmSaveState data = {};
 
-    pState->mType = ReliveTypes::eMinesAlarm;
-    pState->mExplosionTimer = gExplosionTimer;
-    return sizeof(MinesAlarmSaveState);
+    data.mType = ReliveTypes::eMinesAlarm;
+    data.mExplosionTimer = gExplosionTimer;
+    pSaveBuffer.Write(data);
 }
 
 MinesAlarm::~MinesAlarm()

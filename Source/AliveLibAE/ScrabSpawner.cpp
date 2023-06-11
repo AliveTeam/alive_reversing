@@ -8,6 +8,7 @@
 #include "Sfx.hpp"
 #include "Path.hpp"
 #include "Scrab.hpp"
+#include "QuikSave.hpp"
 
 ScrabSpawner::ScrabSpawner(relive::Path_ScrabSpawner* pTlv, const Guid& tlvId)
     : BaseGameObject(true, 0)
@@ -33,9 +34,9 @@ ScrabSpawner::ScrabSpawner(relive::Path_ScrabSpawner* pTlv, const Guid& tlvId)
     field_40_bFindSpawnedScrab = 0;
 }
 
-s32 ScrabSpawner::CreateFromSaveState(const u8* pBuffer)
+void ScrabSpawner::CreateFromSaveState(SerializedObjectData& pBuffer)
 {
-    const auto pState = reinterpret_cast<const ScrabSpawnerSaveState*>(pBuffer);
+    const auto pState = pBuffer.ReadTmpPtr<ScrabSpawnerSaveState>();
     auto pTlv = static_cast<relive::Path_ScrabSpawner*>(gPathInfo->TLV_From_Offset_Lvl_Cam(pState->field_4_tlvInfo));
     auto pScrabSpawner = relive_new ScrabSpawner(pTlv, pState->field_4_tlvInfo);
     if (pScrabSpawner)
@@ -44,8 +45,6 @@ s32 ScrabSpawner::CreateFromSaveState(const u8* pBuffer)
         pScrabSpawner->field_3C_spawned_scrab_id = pState->field_C_spawned_scrab_id;
         pScrabSpawner->field_40_bFindSpawnedScrab = 1;
     }
-
-    return sizeof(ScrabSpawnerSaveState);
 }
 
 ScrabSpawner::~ScrabSpawner()
@@ -53,24 +52,24 @@ ScrabSpawner::~ScrabSpawner()
     Path::TLV_Reset(mTlvId, -1, 0, 0);
 }
 
-s32 ScrabSpawner::VGetSaveState(u8* pSaveBuffer)
+void ScrabSpawner::VGetSaveState(SerializedObjectData& pSaveBuffer)
 {
-    auto pSaveState = reinterpret_cast<ScrabSpawnerSaveState*>(pSaveBuffer);
+    ScrabSpawnerSaveState data = {};
 
-    pSaveState->mType = ReliveTypes::eScrabSpawner;
-    pSaveState->field_4_tlvInfo = mTlvId;
-    pSaveState->field_8_state = field_38_state;
-    pSaveState->field_C_spawned_scrab_id = Guid{};
+    data.mType = ReliveTypes::eScrabSpawner;
+    data.field_4_tlvInfo = mTlvId;
+    data.field_8_state = field_38_state;
+    data.field_C_spawned_scrab_id = Guid{};
 
     if (field_3C_spawned_scrab_id != Guid{})
     {
         BaseGameObject* pSpawnedScrab = sObjectIds.Find_Impl(field_3C_spawned_scrab_id);
         if (pSpawnedScrab)
         {
-            pSaveState->field_C_spawned_scrab_id = pSpawnedScrab->mBaseGameObjectTlvInfo;
+            data.field_C_spawned_scrab_id = pSpawnedScrab->mBaseGameObjectTlvInfo;
         }
     }
-    return sizeof(ScrabSpawnerSaveState);
+    pSaveBuffer.Write(data);
 }
 
 void ScrabSpawner::VUpdate()

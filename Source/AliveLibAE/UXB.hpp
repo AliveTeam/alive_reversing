@@ -47,8 +47,8 @@ public:
     virtual void VOnThrowableHit(BaseGameObject* pFrom) override;
     virtual bool VTakeDamage(BaseGameObject* pFrom) override;
 
-    static s32 CreateFromSaveState(const u8*);
-    virtual s32 VGetSaveState(u8* pSaveBuffer) override;
+    static void CreateFromSaveState(SerializedObjectData&);
+    virtual void VGetSaveState(SerializedObjectData& pSaveBuffer) override;
 
 private:
     void InitBlinkAnim(Animation* pAnimation);

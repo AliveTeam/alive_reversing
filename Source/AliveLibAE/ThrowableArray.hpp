@@ -22,10 +22,10 @@ public:
 
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
-    virtual s32 VGetSaveState(u8* pSaveBuffer) override;
+    virtual void VGetSaveState(SerializedObjectData& pSaveBuffer) override;
     virtual void VScreenChanged() override;
 
-    static s32 CreateFromSaveState(const u8* pState);
+    static void CreateFromSaveState(SerializedObjectData& pState);
 
     void Remove(s16 count);
     void Add(s16 count);

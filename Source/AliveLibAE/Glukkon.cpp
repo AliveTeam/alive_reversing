@@ -33,6 +33,7 @@
 #include "Grid.hpp"
 #include "../relive_lib/Camera.hpp"
 #include "Path.hpp"
+#include "QuikSave.hpp"
 
 constexpr TGlukkonMotionFn sGlukkonMotionTable[25] = {
     &Glukkon::Motion_0_Idle,
@@ -112,9 +113,9 @@ static const TintEntry kGlukkonTints[16] = {
     {EReliveLevelIds::eBonewerkz_Ender, 137u, 137u, 137u},
     {EReliveLevelIds::eCredits, 137u, 137u, 137u}};
 
-s32 Glukkon::CreateFromSaveState(const u8* pData)
+void Glukkon::CreateFromSaveState(SerializedObjectData& pSaveBuffer)
 {
-    const GlukkonSaveState* pSaveState = reinterpret_cast<const GlukkonSaveState*>(pData);
+    const auto pSaveState = pSaveBuffer.ReadTmpPtr<GlukkonSaveState>();
     auto pTlv = static_cast<relive::Path_Glukkon*>(gPathInfo->TLV_From_Offset_Lvl_Cam(pSaveState->mTlvId));
 
     auto pGlukkon = relive_new Glukkon(pTlv, pSaveState->mTlvId);
@@ -195,8 +196,6 @@ s32 Glukkon::CreateFromSaveState(const u8* pData)
         pGlukkon->mFadeId = pSaveState->mFadeId;
         pGlukkon->SetCanBePossessed(pSaveState->mCanBePossessed);
     }
-
-    return sizeof(GlukkonSaveState);
 }
 
 void Glukkon::SetBrain(TGlukkonBrainFn fn)
@@ -281,81 +280,82 @@ void Glukkon::VRender(PrimHeader** ot)
     renderWithGlowingEyes(ot, this, mPal, 64, mRed, mGreen, mBlue, &eyeIndices[0], ALIVE_COUNTOF(eyeIndices));
 }
 
-s32 Glukkon::VGetSaveState(u8* pSaveBuffer)
+void Glukkon::VGetSaveState(SerializedObjectData& pSaveBuffer)
 {
-    GlukkonSaveState* pSaveState = reinterpret_cast<GlukkonSaveState*>(pSaveBuffer);
-
     if (GetElectrocuted())
     {
-        return 0;
+        return;
     }
-    pSaveState->mType = ReliveTypes::eGlukkon;
-    pSaveState->field_4_object_id = mBaseGameObjectTlvInfo;
-    pSaveState->mXPos = mXPos;
-    pSaveState->mYPos = mYPos;
-    pSaveState->mVelX = mVelX;
-    pSaveState->mVelY = mVelY;
-    pSaveState->mCurrentPath = mCurrentPath;
-    pSaveState->mCurrentLevel = mCurrentLevel;
-    pSaveState->mSpriteScale = GetSpriteScale();
-    pSaveState->mRed = mRGB.r;
-    pSaveState->mGreen = mRGB.g;
-    pSaveState->mBlue = mRGB.b;
-    pSaveState->mCurrentMotion = GetCurrentMotion();
-    pSaveState->mCurrentFrame = static_cast<u16>(GetAnimation().GetCurrentFrame());
-    pSaveState->mFrameChangeCounter = static_cast<u16>(GetAnimation().GetFrameChangeCounter());
-    pSaveState->mFlipX = GetAnimation().GetFlipX();
-    pSaveState->mRender = GetAnimation().GetRender();
-    pSaveState->mDrawable = GetDrawable();
-    pSaveState->mHealth = mHealth;
-    pSaveState->mCurrentMotion2 = GetCurrentMotion();
-    pSaveState->mNextMotion = GetNextMotion();
-    pSaveState->field_38_last_line_ypos = FP_GetExponent(BaseAliveGameObjectLastLineYPos);
+
+    GlukkonSaveState data = {};
+
+    data.mType = ReliveTypes::eGlukkon;
+    data.field_4_object_id = mBaseGameObjectTlvInfo;
+    data.mXPos = mXPos;
+    data.mYPos = mYPos;
+    data.mVelX = mVelX;
+    data.mVelY = mVelY;
+    data.mCurrentPath = mCurrentPath;
+    data.mCurrentLevel = mCurrentLevel;
+    data.mSpriteScale = GetSpriteScale();
+    data.mRed = mRGB.r;
+    data.mGreen = mRGB.g;
+    data.mBlue = mRGB.b;
+    data.mCurrentMotion = GetCurrentMotion();
+    data.mCurrentFrame = static_cast<u16>(GetAnimation().GetCurrentFrame());
+    data.mFrameChangeCounter = static_cast<u16>(GetAnimation().GetFrameChangeCounter());
+    data.mFlipX = GetAnimation().GetFlipX();
+    data.mRender = GetAnimation().GetRender();
+    data.mDrawable = GetDrawable();
+    data.mHealth = mHealth;
+    data.mCurrentMotion2 = GetCurrentMotion();
+    data.mNextMotion = GetNextMotion();
+    data.field_38_last_line_ypos = FP_GetExponent(BaseAliveGameObjectLastLineYPos);
     if (BaseAliveGameObjectCollisionLine)
     {
-        pSaveState->mLineType = BaseAliveGameObjectCollisionLine->mLineType;
+        data.mLineType = BaseAliveGameObjectCollisionLine->mLineType;
     }
     else
     {
-        pSaveState->mLineType = eLineTypes::eNone_m1;
+        data.mLineType = eLineTypes::eNone_m1;
     }
-    pSaveState->mIsActiveChar = this == sControlledCharacter;
-    pSaveState->mTlvId = mTlvId;
+    data.mIsActiveChar = this == sControlledCharacter;
+    data.mTlvId = mTlvId;
 
-    pSaveState->mBrainStateIdx = 0;
+    data.mBrainStateIdx = 0;
 
     s16 idx = 0;
     for (auto& fn : sGlukkonBrainTable)
     {
         if (BrainIs(fn))
         {
-            pSaveState->mBrainStateIdx = idx;
+            data.mBrainStateIdx = idx;
             break;
         }
         idx++;
     }
 
-    pSaveState->mBrainSubState = mBrainSubState;
-    pSaveState->field_54_timer = field_1D4_timer;
-    pSaveState->mFallingVelXScaleFactor = mFallingVelXScaleFactor;
-    pSaveState->mPreventDepossession = mPreventDepossession;
-    pSaveState->mAbeLevel = mAbeLevel;
-    pSaveState->mAbePath = mAbePath;
-    pSaveState->mAbeCamera = mAbeCamera;
-    pSaveState->mSpeak = mSpeak;
-    pSaveState->mGamespeakPitch = mGamespeakPitch;
-    pSaveState->mPreviousYPos = mPreviousYPos;
-    pSaveState->mRandomishSpeakTimer = mRandomishSpeakTimer;
-    pSaveState->mTurnOrHelpTimer = mTurnOrHelpTimer;
-    pSaveState->mPanicTimer = mPanicTimer;
-    pSaveState->field_7C = field_1FC;
-    pSaveState->mKnockbackDelayAfterGettingShotTimer = mKnockbackDelayAfterGettingShotTimer;
-    pSaveState->mGettingShotTimer = mGettingShotTimer;
-    pSaveState->mFadeId = mFadeId;
-    pSaveState->mCanBePossessed = GetCanBePossessed();
-    pSaveState->mCurrentType = Type();
+    data.mBrainSubState = mBrainSubState;
+    data.field_54_timer = field_1D4_timer;
+    data.mFallingVelXScaleFactor = mFallingVelXScaleFactor;
+    data.mPreventDepossession = mPreventDepossession;
+    data.mAbeLevel = mAbeLevel;
+    data.mAbePath = mAbePath;
+    data.mAbeCamera = mAbeCamera;
+    data.mSpeak = mSpeak;
+    data.mGamespeakPitch = mGamespeakPitch;
+    data.mPreviousYPos = mPreviousYPos;
+    data.mRandomishSpeakTimer = mRandomishSpeakTimer;
+    data.mTurnOrHelpTimer = mTurnOrHelpTimer;
+    data.mPanicTimer = mPanicTimer;
+    data.field_7C = field_1FC;
+    data.mKnockbackDelayAfterGettingShotTimer = mKnockbackDelayAfterGettingShotTimer;
+    data.mGettingShotTimer = mGettingShotTimer;
+    data.mFadeId = mFadeId;
+    data.mCanBePossessed = GetCanBePossessed();
+    data.mCurrentType = Type();
 
-    return sizeof(GlukkonSaveState);
+    pSaveBuffer.Write(data);
 }
 
 void Glukkon::Motion_0_Idle()

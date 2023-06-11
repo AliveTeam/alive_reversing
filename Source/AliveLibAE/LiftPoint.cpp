@@ -16,6 +16,7 @@
 #include "Path.hpp"
 #include "PathData.hpp"
 #include "../relive_lib/FixedPoint.hpp"
+#include "QuikSave.hpp"
 
 struct LiftPointData final
 {
@@ -223,9 +224,9 @@ LiftPoint::LiftPoint(relive::Path_LiftPoint* pTlv, const Guid& tlvId)
     }
 }
 
-s32 LiftPoint::CreateFromSaveState(const u8* pData)
+void LiftPoint::CreateFromSaveState(SerializedObjectData& pData)
 {
-    const LiftPointSaveState* pState = reinterpret_cast<const LiftPointSaveState*>(pData);
+    const auto pState = pData.ReadTmpPtr<LiftPointSaveState>();
 
     relive::Path_LiftPoint* pTlv = static_cast<relive::Path_LiftPoint*>(gPathInfo->TLV_From_Offset_Lvl_Cam(pState->mPlatformId));
 
@@ -263,18 +264,17 @@ s32 LiftPoint::CreateFromSaveState(const u8* pData)
 
     if (pState->mTlvId == pState->mPlatformId)
     {
-        return sizeof(LiftPointSaveState);
+        return;
     }
 
     pTlv->mTlvSpecificMeaning = 1;
     if (pState->mTlvId == Guid{})
     {
-        return sizeof(LiftPointSaveState);
+        return;
     }
 
     relive::Path_TLV* pTlv2 = gPathInfo->TLV_From_Offset_Lvl_Cam(pState->mTlvId);
     pTlv2->mTlvSpecificMeaning = 3;
-    return sizeof(LiftPointSaveState);
 }
 
 void LiftPoint::vKeepOnMiddleFloor()
@@ -768,26 +768,26 @@ void LiftPoint::vStayOnFloor(bool floor, relive::Path_LiftPoint* pTlv)
     EventBroadcast(kEventSuspiciousNoise, this);
 }
 
-s32 LiftPoint::VGetSaveState(u8* pSaveBuffer)
+void LiftPoint::VGetSaveState(SerializedObjectData& pSaveBuffer)
 {
-    auto pState = reinterpret_cast<LiftPointSaveState*>(pSaveBuffer);
+    LiftPointSaveState data = {};
 
-    pState->mType = ReliveTypes::eLiftPoint;
-    pState->mXPos = mXPos;
-    pState->mYPos = mYPos;
-    pState->mPlatformId = mPlatformBaseTlvInfo;
-    pState->mTlvId = mTlvId;
-    pState->mFloorLevelY = mFloorLevelY;
-    pState->mLiftPointStopType = mLiftPointStopType;
+    data.mType = ReliveTypes::eLiftPoint;
+    data.mXPos = mXPos;
+    data.mYPos = mYPos;
+    data.mPlatformId = mPlatformBaseTlvInfo;
+    data.mTlvId = mTlvId;
+    data.mFloorLevelY = mFloorLevelY;
+    data.mLiftPointStopType = mLiftPointStopType;
 
-    pState->mMoving = mMoving;
-    pState->mTopFloor = mTopFloor;
-    pState->mMiddleFloor = mMiddleFloor;
-    pState->mBottomFloor = mBottomFloor;
-    pState->mMoveToFloorLevel = mMoveToFloorLevel;
-    pState->mKeepOnMiddleFloor = mKeepOnMiddleFloor;
+    data.mMoving = mMoving;
+    data.mTopFloor = mTopFloor;
+    data.mMiddleFloor = mMiddleFloor;
+    data.mBottomFloor = mBottomFloor;
+    data.mMoveToFloorLevel = mMoveToFloorLevel;
+    data.mKeepOnMiddleFloor = mKeepOnMiddleFloor;
 
-    return sizeof(LiftPointSaveState);
+    pSaveBuffer.Write(data);
 }
 
 void LiftPoint::CreatePulleyIfExists()

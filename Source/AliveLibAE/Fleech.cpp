@@ -27,6 +27,7 @@
 #include <algorithm>
 #include "../relive_lib/Collisions.hpp"
 #include "../relive_lib/FatalError.hpp"
+#include "QuikSave.hpp"
 
 u8 sFleechRandomIdx_5BC20C = 0;
 s16 sFleechCount_5BC20E = 0;
@@ -185,9 +186,9 @@ void Fleech::LoadAnimations()
     }
 }
 
-s32 Fleech::CreateFromSaveState(const u8* pBuffer)
+void Fleech::CreateFromSaveState(SerializedObjectData& pBuffer)
 {
-    auto pState = reinterpret_cast<const FleechSaveState*>(pBuffer);
+    const auto pState = pBuffer.ReadTmpPtr<FleechSaveState>();
 
     auto pTlv = static_cast<relive::Path_Fleech*>(gPathInfo->TLV_From_Offset_Lvl_Cam(pState->mTlvInfo));
 
@@ -296,50 +297,48 @@ s32 Fleech::CreateFromSaveState(const u8* pBuffer)
         pFleech->mGoesToSleep = pState->mGoesToSleep;
         pFleech->mPersistant = pState->mPersistant;
     }
-
-    return sizeof(FleechSaveState);
 }
 
-s32 Fleech::VGetSaveState(u8* pSaveBuffer)
+void Fleech::VGetSaveState(SerializedObjectData& pSaveBuffer)
 {
     if (GetElectrocuted())
     {
-        return 0;
+        return;
     }
 
-    auto pState = reinterpret_cast<FleechSaveState*>(pSaveBuffer);
+    FleechSaveState data = {};
 
-    pState->mType = ReliveTypes::eFleech;
-    pState->field_4_obj_id = mBaseGameObjectTlvInfo;
-    pState->mXPos = mXPos;
-    pState->mYPos = mYPos;
-    pState->mVelX = mVelX;
-    pState->mVelY = mVelY;
-    pState->field_70_velx_factor = field_138_velx_factor;
-    pState->mCurrentPath = mCurrentPath;
-    pState->mCurrentLevel = mCurrentLevel;
-    pState->mSpriteScale = GetSpriteScale();
-    pState->mRed = mRGB.r;
-    pState->mGreen = mRGB.g;
-    pState->mBlue = mRGB.b;
-    pState->mFlipX = GetAnimation().GetFlipX();
-    pState->field_28_current_motion = static_cast<eFleechMotions>(mCurrentMotion);
-    pState->field_2A_anim_current_frame = static_cast<s16>(GetAnimation().GetCurrentFrame());
-    pState->field_2C_frame_change_counter = static_cast<s16>(GetAnimation().GetFrameChangeCounter());
-    pState->mDrawable = GetDrawable();
-    pState->mRender = GetAnimation().GetRender();
-    pState->mHealth = mHealth;
-    pState->mCurrentMotion = static_cast<eFleechMotions>(mCurrentMotion);
-    pState->mNextMotion = static_cast<eFleechMotions>(mNextMotion);
-    pState->mLastLineYPos = FP_GetExponent(BaseAliveGameObjectLastLineYPos);
+    data.mType = ReliveTypes::eFleech;
+    data.field_4_obj_id = mBaseGameObjectTlvInfo;
+    data.mXPos = mXPos;
+    data.mYPos = mYPos;
+    data.mVelX = mVelX;
+    data.mVelY = mVelY;
+    data.field_70_velx_factor = field_138_velx_factor;
+    data.mCurrentPath = mCurrentPath;
+    data.mCurrentLevel = mCurrentLevel;
+    data.mSpriteScale = GetSpriteScale();
+    data.mRed = mRGB.r;
+    data.mGreen = mRGB.g;
+    data.mBlue = mRGB.b;
+    data.mFlipX = GetAnimation().GetFlipX();
+    data.field_28_current_motion = static_cast<eFleechMotions>(mCurrentMotion);
+    data.field_2A_anim_current_frame = static_cast<s16>(GetAnimation().GetCurrentFrame());
+    data.field_2C_frame_change_counter = static_cast<s16>(GetAnimation().GetFrameChangeCounter());
+    data.mDrawable = GetDrawable();
+    data.mRender = GetAnimation().GetRender();
+    data.mHealth = mHealth;
+    data.mCurrentMotion = static_cast<eFleechMotions>(mCurrentMotion);
+    data.mNextMotion = static_cast<eFleechMotions>(mNextMotion);
+    data.mLastLineYPos = FP_GetExponent(BaseAliveGameObjectLastLineYPos);
 
     if (BaseAliveGameObjectCollisionLine)
     {
-        pState->mCollisionLineType = BaseAliveGameObjectCollisionLine->mLineType;
+        data.mCollisionLineType = BaseAliveGameObjectCollisionLine->mLineType;
     }
     else
     {
-        pState->mCollisionLineType = -1;
+        data.mCollisionLineType = -1;
     }
 
     if (BaseAliveGameObject_PlatformId != Guid{})
@@ -347,12 +346,12 @@ s32 Fleech::VGetSaveState(u8* pSaveBuffer)
         BaseGameObject* pObj = sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId);
         if (pObj)
         {
-            pState->mPlatformId = pObj->mBaseGameObjectTlvInfo;
+            data.mPlatformId = pObj->mBaseGameObjectTlvInfo;
         }
     }
     else
     {
-        pState->mPlatformId = Guid{};
+        data.mPlatformId = Guid{};
     }
 
     if (mFoodObjId != Guid{})
@@ -360,89 +359,89 @@ s32 Fleech::VGetSaveState(u8* pSaveBuffer)
         BaseGameObject* pObj = sObjectIds.Find_Impl(mFoodObjId);
         if (pObj)
         {
-            pState->mFoodObjId = pObj->mBaseGameObjectTlvInfo;
+            data.mFoodObjId = pObj->mBaseGameObjectTlvInfo;
         }
     }
     else
     {
-        pState->mFoodObjId = Guid{};
+        data.mFoodObjId = Guid{};
     }
 
-    pState->mTlvInfo = mTlvInfo;
-    pState->mTongueState = mTongueState;
-    pState->mTongueSubState = mTongueSubState;
-    pState->mEnemyXPos = mEnemyXPos;
-    pState->mEnemyYPos = mEnemyYPos;
-    pState->mTongueOriginX = mTongueOriginX;
-    pState->mTongueOriginY = mTongueOriginY;
-    pState->mTongueDestinationX = mTongueDestinationX;
-    pState->mTongueDestinationY = mTongueDestinationY;
-    pState->field_5A = field_188;
-    pState->mTongueActive = mTongueActive;
-    pState->mRenderTongue = mRenderTongue;
-    pState->mBrainType = mCurrentBrain->VGetBrain();
-    pState->mPatrolBrainState = mPatrolBrain.State();
-    pState->mChasingAbeBrainState = mChasingAbeBrain.State();
-    pState->mScaredBrainState = mScaredBrain.State();
-    pState->field_64_shrivel_timer = field_12C_shrivel_timer - sGnFrame;
-    pState->mReturnToPreviousMotion = mReturnToPreviousMotion;
-    pState->field_68_fleech_random_idx = sFleechRandomIdx_5BC20C;
-    pState->field_6A_bDidMapFollowMe = field_130_bDidMapFollowMe;
-    pState->field_70_velx_factor = field_138_velx_factor;
-    pState->field_76_current_anger = mCurrentAnger;
-    pState->mMaxAnger = mMaxAnger;
-    pState->mAttackAngerIncreaser = mAttackAngerIncreaser;
-    pState->mWakeUpSwitchId = mWakeUpSwitchId;
-    pState->mWakeUpSwitchAngerValue = mWakeUpSwitchAngerValue;
-    pState->mWakeUpSwitchValue = mWakeUpSwitchValue;
-    pState->mCanWakeUpSwitchId = mCanWakeUpSwitchId;
-    pState->field_84_EventXPos = field_14C_EventXPos;
-    pState->field_86_ScrabParamiteEventXPos = field_14E_ScrabParamiteEventXPos;
-    pState->mPatrolRange = mPatrolRange;
-    pState->field_8A_old_xpos = field_152_old_xpos;
-    pState->field_8C = field_154;
-    pState->field_8E_rnd_crawl = field_156_rnd_crawl;
-    pState->field_90_chase_delay = field_158_chase_delay;
-    pState->field_92_chase_timer = field_15A_chase_timer;
-    pState->mLostTargetTimeout = mLostTargetTimeout;
-    pState->field_96_lost_target_timer = field_15E_lost_target_timer;
-    pState->mHoistX = mHoistX;
-    pState->mHoistY = mHoistY;
-    pState->field_9E_angle = mAngle;
-    pState->mHoistYDistance = mHoistYDistance;
-    pState->mHoistXDistance = mHoistXDistance;
+    data.mTlvInfo = mTlvInfo;
+    data.mTongueState = mTongueState;
+    data.mTongueSubState = mTongueSubState;
+    data.mEnemyXPos = mEnemyXPos;
+    data.mEnemyYPos = mEnemyYPos;
+    data.mTongueOriginX = mTongueOriginX;
+    data.mTongueOriginY = mTongueOriginY;
+    data.mTongueDestinationX = mTongueDestinationX;
+    data.mTongueDestinationY = mTongueDestinationY;
+    data.field_5A = field_188;
+    data.mTongueActive = mTongueActive;
+    data.mRenderTongue = mRenderTongue;
+    data.mBrainType = mCurrentBrain->VGetBrain();
+    data.mPatrolBrainState = mPatrolBrain.State();
+    data.mChasingAbeBrainState = mChasingAbeBrain.State();
+    data.mScaredBrainState = mScaredBrain.State();
+    data.field_64_shrivel_timer = field_12C_shrivel_timer - sGnFrame;
+    data.mReturnToPreviousMotion = mReturnToPreviousMotion;
+    data.field_68_fleech_random_idx = sFleechRandomIdx_5BC20C;
+    data.field_6A_bDidMapFollowMe = field_130_bDidMapFollowMe;
+    data.field_70_velx_factor = field_138_velx_factor;
+    data.field_76_current_anger = mCurrentAnger;
+    data.mMaxAnger = mMaxAnger;
+    data.mAttackAngerIncreaser = mAttackAngerIncreaser;
+    data.mWakeUpSwitchId = mWakeUpSwitchId;
+    data.mWakeUpSwitchAngerValue = mWakeUpSwitchAngerValue;
+    data.mWakeUpSwitchValue = mWakeUpSwitchValue;
+    data.mCanWakeUpSwitchId = mCanWakeUpSwitchId;
+    data.field_84_EventXPos = field_14C_EventXPos;
+    data.field_86_ScrabParamiteEventXPos = field_14E_ScrabParamiteEventXPos;
+    data.mPatrolRange = mPatrolRange;
+    data.field_8A_old_xpos = field_152_old_xpos;
+    data.field_8C = field_154;
+    data.field_8E_rnd_crawl = field_156_rnd_crawl;
+    data.field_90_chase_delay = field_158_chase_delay;
+    data.field_92_chase_timer = field_15A_chase_timer;
+    data.mLostTargetTimeout = mLostTargetTimeout;
+    data.field_96_lost_target_timer = field_15E_lost_target_timer;
+    data.mHoistX = mHoistX;
+    data.mHoistY = mHoistY;
+    data.field_9E_angle = mAngle;
+    data.mHoistYDistance = mHoistYDistance;
+    data.mHoistXDistance = mHoistXDistance;
 
     if (mScrabOrParamite != Guid{})
     {
         BaseGameObject* pObj = sObjectIds.Find_Impl(mScrabOrParamite);
         if (pObj)
         {
-            pState->mScrabOrParamite = pObj->mBaseGameObjectTlvInfo;
+            data.mScrabOrParamite = pObj->mBaseGameObjectTlvInfo;
         }
     }
     else
     {
-        pState->mScrabOrParamite = Guid{};
+        data.mScrabOrParamite = Guid{};
     }
 
     if (current_target_object_id_551840 == mBaseGameObjectId)
     {
-        pState->field_AC_obj_id = mBaseGameObjectTlvInfo;
+        data.field_AC_obj_id = mBaseGameObjectTlvInfo;
     }
     else
     {
-        pState->field_AC_obj_id = Guid{};
+        data.field_AC_obj_id = Guid{};
     }
 
-    pState->mHoistDone = mHoistDone;
-    pState->mChasingOrScaredCrawlingLeft = mChasingOrScaredCrawlingLeft;
-    pState->mShrivelDeath = mShrivelDeath;
-    pState->mScaredSound = mScaredSound;
-    pState->mAsleep = mAsleep;
-    pState->mGoesToSleep = mGoesToSleep;
-    pState->mPersistant = mPersistant;
+    data.mHoistDone = mHoistDone;
+    data.mChasingOrScaredCrawlingLeft = mChasingOrScaredCrawlingLeft;
+    data.mShrivelDeath = mShrivelDeath;
+    data.mScaredSound = mScaredSound;
+    data.mAsleep = mAsleep;
+    data.mGoesToSleep = mGoesToSleep;
+    data.mPersistant = mPersistant;
 
-    return sizeof(FleechSaveState);
+    pSaveBuffer.Write(data);
 }
 
 void Fleech::Motion_0_Sleeping()

@@ -15,8 +15,8 @@ public:
     SlapLockWhirlWind(s16 doorNumber, s16 switchId, FP xpos, FP ypos, FP scale);
     
     virtual void VUpdate() override;
-    virtual s32 VGetSaveState(u8* pSaveBuffer) override;
-    static s32 CreateFromSaveState(const u8* pBuffer);
+    virtual void VGetSaveState(SerializedObjectData& pSaveBuffer) override;
+    static void CreateFromSaveState(SerializedObjectData& pBuffer);
 
     s16 SwitchId() const;
 

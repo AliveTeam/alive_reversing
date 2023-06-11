@@ -60,11 +60,11 @@ public:
     ~Slurg();
 
     virtual void VUpdate() override;
-    virtual s32 VGetSaveState(u8* pSaveBuffer) override;
+    virtual void VGetSaveState(SerializedObjectData& pSaveBuffer) override;
     virtual bool VTakeDamage(BaseGameObject* pFrom) override;
     virtual void VOnTlvCollision(relive::Path_TLV* pTlv) override;
 
-    static s32 CreateFromSaveState(const u8* pData);
+    static void CreateFromSaveState(SerializedObjectData& pData);
 
 private:
     void GoLeft();

@@ -238,9 +238,9 @@ public:
     virtual void VOnTrapDoorOpen() override;
     virtual void VOnTlvCollision(relive::Path_TLV* pTlv) override;
     virtual bool VTakeDamage(BaseGameObject* pFrom) override;
-    virtual s32 VGetSaveState(u8* pSaveBuffer) override;
+    virtual void VGetSaveState(SerializedObjectData& pSaveBuffer) override;
 
-    static s32 CreateFromSaveState(const u8* pBuffer);
+    static void CreateFromSaveState(SerializedObjectData& pBuffer);
 
     void Motion_0_Idle();
     void Motion_1_UsingButton();

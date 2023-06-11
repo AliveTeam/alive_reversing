@@ -10,6 +10,7 @@
 #include "FlyingSlig.hpp"
 #include "../relive_lib/data_conversion/relive_tlvs.hpp"
 #include "Path.hpp"
+#include "QuikSave.hpp"
 
 FlyingSligSpawner::FlyingSligSpawner(relive::Path_FlyingSligSpawner* pTlv, const Guid& tlvInfo)
     : BaseGameObject(true, 0)
@@ -31,9 +32,9 @@ FlyingSligSpawner::FlyingSligSpawner(relive::Path_FlyingSligSpawner* pTlv, const
     field_24_spawned_slig_id = Guid{};
 }
 
-s32 FlyingSligSpawner::CreateFromSaveState(const u8* pBuffer)
+void FlyingSligSpawner::CreateFromSaveState(SerializedObjectData& pBuffer)
 {
-    const auto pState = reinterpret_cast<const FlyingSligSpawnerSaveState*>(pBuffer);
+    const auto pState = pBuffer.ReadTmpPtr<FlyingSligSpawnerSaveState>();
 
     auto pTlv = static_cast<relive::Path_FlyingSligSpawner*>(gPathInfo->TLV_From_Offset_Lvl_Cam(pState->field_4_tlvInfo));
 
@@ -44,8 +45,6 @@ s32 FlyingSligSpawner::CreateFromSaveState(const u8* pBuffer)
         pFlyingSligSpawner->field_40_bFirstUpdate |= 2u;
         pFlyingSligSpawner->field_24_spawned_slig_id = pState->field_C_spawned_slig_obj_id;
     }
-
-    return sizeof(FlyingSligSpawnerSaveState);
 }
 
 FlyingSligSpawner::~FlyingSligSpawner()
@@ -119,23 +118,24 @@ void FlyingSligSpawner::VUpdate()
     }
 }
 
-s32 FlyingSligSpawner::VGetSaveState(u8* pSaveBuffer)
+void FlyingSligSpawner::VGetSaveState(SerializedObjectData& pSaveBuffer)
 {
-    auto pSaveState = reinterpret_cast<FlyingSligSpawnerSaveState*>(pSaveBuffer);
+    FlyingSligSpawnerSaveState data = {};
 
-    pSaveState->mType = ReliveTypes::eFlyingSligSpawner;
-    pSaveState->field_4_tlvInfo = mTlvId;
-    pSaveState->field_8_bSpawned = field_3C_bSpawned;
-    pSaveState->field_C_spawned_slig_obj_id = Guid{};
+    data.mType = ReliveTypes::eFlyingSligSpawner;
+    data.field_4_tlvInfo = mTlvId;
+    data.field_8_bSpawned = field_3C_bSpawned;
+    data.field_C_spawned_slig_obj_id = Guid{};
     if (field_24_spawned_slig_id == Guid{})
     {
-        return sizeof(FlyingSligSpawnerSaveState);
+        pSaveBuffer.Write(data);
+        return;
     }
 
     BaseGameObject* pSpawnedSlig = sObjectIds.Find_Impl(field_24_spawned_slig_id);
     if (pSpawnedSlig)
     {
-        pSaveState->field_C_spawned_slig_obj_id = pSpawnedSlig->mBaseGameObjectTlvInfo;
+        data.field_C_spawned_slig_obj_id = pSpawnedSlig->mBaseGameObjectTlvInfo;
     }
-    return sizeof(FlyingSligSpawnerSaveState);
+    pSaveBuffer.Write(data);
 }

@@ -6,6 +6,7 @@
 #include "PathData.hpp"
 #include "Throwable.hpp"
 #include "ResourceManager.hpp"
+#include "QuikSave.hpp"
 
 ThrowableArray* gThrowableArray = nullptr;
 
@@ -95,12 +96,12 @@ void ThrowableArray::VUpdate()
     }
 }
 
-s32 ThrowableArray::VGetSaveState(u8* pSaveBuffer)
+void ThrowableArray::VGetSaveState(SerializedObjectData& pSaveBuffer)
 {
-    ThrowableArraySaveState* pState = reinterpret_cast<ThrowableArraySaveState*>(pSaveBuffer);
-    pState->mType = ReliveTypes::eThrowableArray;
-    pState->mCount = mCount;
-    return sizeof(ThrowableArraySaveState);
+    ThrowableArraySaveState data = {};
+    data.mType = ReliveTypes::eThrowableArray;
+    data.mCount = mCount;
+    pSaveBuffer.Write(data);
 }
 
 void ThrowableArray::VScreenChanged()
@@ -162,12 +163,12 @@ void ThrowableArray::Add(s16 count)
     mCount += count;
 }
 
-s32 ThrowableArray::CreateFromSaveState(const u8* pState)
+void ThrowableArray::CreateFromSaveState(SerializedObjectData& pBuffer)
 {
+    const auto pState = pBuffer.ReadTmpPtr<ThrowableArraySaveState>();
     LoadRockTypes(gMap.mCurrentLevel, gMap.mCurrentPath);
     auto pArray = relive_new ThrowableArray();
-    pArray->Add(reinterpret_cast<const ThrowableArraySaveState*>(pState)->mCount);
-    return sizeof(ThrowableArraySaveState);
+    pArray->Add(pState->mCount);
 }
 
 void ThrowableArray::VRender(PrimHeader** /*ppOt*/)

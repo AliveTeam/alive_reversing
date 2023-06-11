@@ -35,12 +35,12 @@ public:
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
-    virtual s32 VGetSaveState(u8* pSaveBuffer) override;
+    virtual void VGetSaveState(SerializedObjectData& pSaveBuffer) override;
     virtual PSX_RECT VGetBoundingRect() override;
     virtual void VAdd(BaseAliveGameObject* pObj) override;
     virtual void VRemove(BaseAliveGameObject* pObj) override;
 
-    static s32 CreateFromSaveState(const u8* pData);
+    static void CreateFromSaveState(SerializedObjectData& pData);
 
 private:
     void Add_To_Collisions_Array();

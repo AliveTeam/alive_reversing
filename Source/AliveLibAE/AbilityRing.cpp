@@ -10,6 +10,7 @@
 #include "PossessionFlicker.hpp"
 #include "stdlib.hpp"
 #include <algorithm>
+#include "QuikSave.hpp"
 
 AbilityRing* AbilityRing::Factory(FP xpos, FP ypos, RingTypes type, FP scale)
 {
@@ -437,48 +438,48 @@ void AbilityRing::VUpdate()
     }
 }
 
-s32 AbilityRing::VGetSaveState(u8* pSaveBuffer)
+void AbilityRing::VGetSaveState(SerializedObjectData& pSaveBuffer)
 {
-    auto pSaveState = reinterpret_cast<AbilityRingSaveState*>(pSaveBuffer);
+    AbilityRingSaveState data = {};
 
-    pSaveState->mRingObjectType = ReliveTypes::eAbilityRing;
-    pSaveState->mRingXPos = mRingXPos;
-    pSaveState->mRingYPos = mRingYPos;
-    pSaveState->mRingType = mRingType;
+    data.mRingObjectType = ReliveTypes::eAbilityRing;
+    data.mRingXPos = mRingXPos;
+    data.mRingYPos = mRingYPos;
+    data.mRingType = mRingType;
 
     if (mRingLayer == Layer::eLayer_Above_FG1_39)
     {
-        pSaveState->mRingScale = FP_FromInteger(1);
+        data.mRingScale = FP_FromInteger(1);
     }
     else
     {
-        pSaveState->mRingScale = FP_FromDouble(0.5);
+        data.mRingScale = FP_FromDouble(0.5);
     }
 
-    pSaveState->mRingRight = mRingRight;
-    pSaveState->mRingCount = mRingCount;
+    data.mRingRight = mRingRight;
+    data.mRingCount = mRingCount;
 
-    pSaveState->mRingRed = mRingRed;
-    pSaveState->mRingGreen = mRingGreen;
-    pSaveState->mRingBlue = mRingBlue;
+    data.mRingRed = mRingRed;
+    data.mRingGreen = mRingGreen;
+    data.mRingBlue = mRingBlue;
 
-    pSaveState->mRingTlvInfo = Guid{};
+    data.mRingTlvInfo = Guid{};
     if (mRingTargetObjId == Guid{})
     {
-        return sizeof(AbilityRingSaveState);
+        pSaveBuffer.Write(data);
     }
 
     BaseGameObject* pTargetObj = sObjectIds.Find_Impl(mRingTargetObjId);
     if (pTargetObj)
     {
-        pSaveState->mRingTlvInfo = pTargetObj->mBaseGameObjectTlvInfo;
+        data.mRingTlvInfo = pTargetObj->mBaseGameObjectTlvInfo;
     }
-    return sizeof(AbilityRingSaveState);
+    pSaveBuffer.Write(data);
 }
 
-s32 AbilityRing::CreateFromSaveState(const u8* pBuffer)
+void AbilityRing::CreateFromSaveState(SerializedObjectData& pBuffer)
 {
-    auto pState = reinterpret_cast<const AbilityRingSaveState*>(pBuffer);
+    const auto pState = pBuffer.ReadTmpPtr<AbilityRingSaveState>();
     auto pRing = relive_new AbilityRing(pState->mRingXPos, pState->mRingYPos, pState->mRingType, pState->mRingScale);
     if (pRing)
     {
@@ -490,7 +491,6 @@ s32 AbilityRing::CreateFromSaveState(const u8* pBuffer)
         pRing->mRingTargetObjId = pState->mRingTlvInfo;
         pRing->mRefreshTargetObjId = true;
     }
-    return sizeof(AbilityRingSaveState);
 }
 
 

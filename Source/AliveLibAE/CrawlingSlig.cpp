@@ -29,6 +29,7 @@
 #include "../relive_lib/FixedPoint.hpp"
 #include "Game.hpp"
 #include "../relive_lib/FatalError.hpp"
+#include "QuikSave.hpp"
 
 const static TintEntry kCrawlingSligTints[16] = {
     {EReliveLevelIds::eMenu, 127u, 127u, 127u},
@@ -188,9 +189,9 @@ void CrawlingSlig::VRender(PrimHeader** ot)
     renderWithGlowingEyes(ot, this, field_11C_mPal, 64, field_1A4_r, field_1A6_g, field_1A8_b, &eyeIndices[0], ALIVE_COUNTOF(eyeIndices));
 }
 
-s32 CrawlingSlig::CreateFromSaveState(const u8* pBuffer)
+void CrawlingSlig::CreateFromSaveState(SerializedObjectData& pBuffer)
 {
-    auto pState = reinterpret_cast<const CrawlingSligSaveState*>(pBuffer);
+    const auto pState = pBuffer.ReadTmpPtr<CrawlingSligSaveState>();
 
     auto pTlv = static_cast<relive::Path_CrawlingSlig*>(gPathInfo->TLV_From_Offset_Lvl_Cam(pState->mCrawlingSligTlvId));
 
@@ -265,77 +266,76 @@ s32 CrawlingSlig::CreateFromSaveState(const u8* pBuffer)
         pCrawlingSlig->mSpeak = pState->mSpeak;
         pCrawlingSlig->mSayHelpTimer = pState->mSayHelpTimer;
     }
-
-    return sizeof(CrawlingSligSaveState);
 }
 
-s32 CrawlingSlig::VGetSaveState(u8* pSaveBuffer)
+void CrawlingSlig::VGetSaveState(SerializedObjectData& pSaveBuffer)
 {
     if (GetElectrocuted())
     {
-        return 0;
+        return;
     }
 
-    auto pState = reinterpret_cast<CrawlingSligSaveState*>(pSaveBuffer);
+    CrawlingSligSaveState data = {};
 
-    pState->mType = ReliveTypes::eCrawlingSlig;
-    pState->mBaseTlvId = mBaseGameObjectTlvInfo;
+    data.mType = ReliveTypes::eCrawlingSlig;
+    data.mBaseTlvId = mBaseGameObjectTlvInfo;
 
-    pState->mXPos = mXPos;
-    pState->mYPos = mYPos;
-    pState->mVelX = mVelX;
-    pState->mVelY = mVelY;
+    data.mXPos = mXPos;
+    data.mYPos = mYPos;
+    data.mVelX = mVelX;
+    data.mVelY = mVelY;
 
-    pState->mVelxScaleFactor = mVelxScaleFactor;
+    data.mVelxScaleFactor = mVelxScaleFactor;
 
-    pState->mCurrentPath = mCurrentPath;
-    pState->mCurrentLevel = mCurrentLevel;
-    pState->mSpriteScale = GetSpriteScale();
+    data.mCurrentPath = mCurrentPath;
+    data.mCurrentLevel = mCurrentLevel;
+    data.mSpriteScale = GetSpriteScale();
 
-    pState->mR = mRGB.r;
-    pState->mG = mRGB.g;
-    pState->mB = mRGB.b;
-    pState->mFlipX = GetAnimation().GetFlipX();
-    pState->mCurrentMotion = GetCurrentMotion();
-    pState->mCurrentFrame = static_cast<s16>(GetAnimation().GetCurrentFrame());
-    pState->mFrameChangeCounter = static_cast<s16>(GetAnimation().GetFrameChangeCounter());
-    pState->mDrawable = GetDrawable();
-    pState->mRender = GetAnimation().GetRender();
-    pState->mHealth = mHealth;
-    pState->mCurrentMotion2 = GetCurrentMotion();
-    pState->mNextMotion = GetNextMotion();
-    pState->mCollisionLineType = eLineTypes::eNone_m1;
+    data.mR = mRGB.r;
+    data.mG = mRGB.g;
+    data.mB = mRGB.b;
+    data.mFlipX = GetAnimation().GetFlipX();
+    data.mCurrentMotion = GetCurrentMotion();
+    data.mCurrentFrame = static_cast<s16>(GetAnimation().GetCurrentFrame());
+    data.mFrameChangeCounter = static_cast<s16>(GetAnimation().GetFrameChangeCounter());
+    data.mDrawable = GetDrawable();
+    data.mRender = GetAnimation().GetRender();
+    data.mHealth = mHealth;
+    data.mCurrentMotion2 = GetCurrentMotion();
+    data.mNextMotion = GetNextMotion();
+    data.mCollisionLineType = eLineTypes::eNone_m1;
 
     // TODO: Check correct
-    pState->mLastLineYPos = FP_GetExponent(BaseAliveGameObjectLastLineYPos);
+    data.mLastLineYPos = FP_GetExponent(BaseAliveGameObjectLastLineYPos);
 
     if (BaseAliveGameObjectCollisionLine)
     {
-        pState->mCollisionLineType = BaseAliveGameObjectCollisionLine->mLineType;
+        data.mCollisionLineType = BaseAliveGameObjectCollisionLine->mLineType;
     }
 
-    pState->mControlled = (this == sControlledCharacter);
-    pState->mMultiUseTimer = mMultiUseTimer;
-    pState->mCrawlingSligTlvId = mGuid;
-   // pState->mBrainType = ICrawlingSligBrain::EBrainTypes::Sleeping;
+    data.mControlled = (this == sControlledCharacter);
+    data.mMultiUseTimer = mMultiUseTimer;
+    data.mCrawlingSligTlvId = mGuid;
+   // data.mBrainType = ICrawlingSligBrain::EBrainTypes::Sleeping;
 
-    pState->mBrainType = mCurrentBrain->VGetBrain();
+    data.mBrainType = mCurrentBrain->VGetBrain();
 
-    pState->mSleepingBrainState = mSleepingBrain.State();
-    pState->mPanicGetALockerBrainState = mPanicGetALockerBrain.State();
-    pState->mPossessedBrainState = mPossessedBrain.State();
-    pState->mGetKilledBrainState = mGetKilledBrain.State();
+    data.mSleepingBrainState = mSleepingBrain.State();
+    data.mPanicGetALockerBrainState = mPanicGetALockerBrain.State();
+    data.mPossessedBrainState = mPossessedBrain.State();
+    data.mGetKilledBrainState = mGetKilledBrain.State();
 
-    pState->mChanting = mChanting;
-    pState->mAbeLevel = mAbeLevel;
-    pState->mAbePath = mAbePath;
-    pState->mAbeCamera = mAbeCamera;
-    pState->mSligButtonTlvId = mSligButtonId;
-    pState->field_70_obj_id = field_1D4_obj_id;
-    pState->mTransformedSligId = mTransformedSligId;
-    pState->mSpeak = mSpeak;
-    pState->mSayHelpTimer = mSayHelpTimer;
-    return sizeof(CrawlingSligSaveState);
+    data.mChanting = mChanting;
+    data.mAbeLevel = mAbeLevel;
+    data.mAbePath = mAbePath;
+    data.mAbeCamera = mAbeCamera;
+    data.mSligButtonTlvId = mSligButtonId;
+    data.field_70_obj_id = field_1D4_obj_id;
+    data.mTransformedSligId = mTransformedSligId;
+    data.mSpeak = mSpeak;
+    data.mSayHelpTimer = mSayHelpTimer;
+    
+    pSaveBuffer.Write(data);
 }
 
 void CrawlingSlig::VPossessed()

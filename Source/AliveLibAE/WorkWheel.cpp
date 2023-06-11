@@ -10,6 +10,7 @@
 #include "Map.hpp"
 #include "Path.hpp"
 #include "../relive_lib/FixedPoint.hpp"
+#include "QuikSave.hpp"
 
 void WorkWheel::LoadAnimations()
 {
@@ -86,9 +87,9 @@ WorkWheel::~WorkWheel()
     Path::TLV_Reset(mTlvInfo, -1, 0, 0);
 }
 
-s32 WorkWheel::CreateFromSaveState(const u8* pState)
+void WorkWheel::CreateFromSaveState(SerializedObjectData& pState)
 {
-    const WorkWheelSaveState* pData = reinterpret_cast<const WorkWheelSaveState*>(pState);
+    const auto pData = pState.ReadTmpPtr<WorkWheelSaveState>();
 
     relive::Path_WorkWheel* pTlv = static_cast<relive::Path_WorkWheel*>(gPathInfo->TLV_From_Offset_Lvl_Cam(pData->mTlvId));
 
@@ -102,18 +103,17 @@ s32 WorkWheel::CreateFromSaveState(const u8* pState)
 
         pWheel->mTurningTime = pData->mTurningTime;
     }
-    return sizeof(WorkWheelSaveState);
 }
 
-s32 WorkWheel::VGetSaveState(u8* pSaveBuffer)
+void WorkWheel::VGetSaveState(SerializedObjectData& pSaveBuffer)
 {
-    auto pState = reinterpret_cast<WorkWheelSaveState*>(pSaveBuffer);
+    WorkWheelSaveState data = {};
 
-    pState->mType = ReliveTypes::eWorkWheel;
-    pState->mTlvId = mTlvInfo;
-    pState->mTurningTime = mTurningTime;
-    pState->mState = mState;
-    return sizeof(WorkWheelSaveState);
+    data.mType = ReliveTypes::eWorkWheel;
+    data.mTlvId = mTlvInfo;
+    data.mTurningTime = mTurningTime;
+    data.mState = mState;
+    pSaveBuffer.Write(data);
 }
 
 void WorkWheel::VUpdate()

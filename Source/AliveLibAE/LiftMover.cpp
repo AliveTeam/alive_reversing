@@ -7,6 +7,7 @@
 #include "../relive_lib/ObjectIds.hpp"
 #include "stdlib.hpp"
 #include "Path.hpp"
+#include "QuikSave.hpp"
 
 LiftMover::LiftMover(relive::Path_LiftMover* pTlv, const Guid& tlvId)
     : BaseGameObject(true, 0)
@@ -205,19 +206,19 @@ LiftPoint* LiftMover::GetLiftPoint()
     return nullptr;
 }
 
-s32 LiftMover::VGetSaveState(u8* pSaveBuffer)
+void LiftMover::VGetSaveState(SerializedObjectData& pSaveBuffer)
 {
-    auto pState = reinterpret_cast<LiftMoverSaveState*>(pSaveBuffer);
+    LiftMoverSaveState data = {};
 
-    pState->mType = ReliveTypes::eLiftMover;
-    pState->mTlvId = mTlvId;
-    pState->mState = mState;
-    return sizeof(LiftMoverSaveState);
+    data.mType = ReliveTypes::eLiftMover;
+    data.mTlvId = mTlvId;
+    data.mState = mState;
+    pSaveBuffer.Write(data);
 }
 
-s32 LiftMover::CreateFromSaveState(const u8* pData)
+void LiftMover::CreateFromSaveState(SerializedObjectData& pData)
 {
-    auto pState = reinterpret_cast<const LiftMoverSaveState*>(pData);
+    const auto pState = pData.ReadTmpPtr<LiftMoverSaveState>();
 
     relive::Path_LiftMover* pTlv = static_cast<relive::Path_LiftMover*>(gPathInfo->TLV_From_Offset_Lvl_Cam(pState->mTlvId));
     auto pLiftMover = relive_new LiftMover(pTlv, pState->mTlvId);
@@ -229,6 +230,4 @@ s32 LiftMover::CreateFromSaveState(const u8* pData)
         }
         pLiftMover->mState = pState->mState;
     }
-
-    return sizeof(LiftMoverSaveState);
 }

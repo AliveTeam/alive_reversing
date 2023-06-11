@@ -118,11 +118,11 @@ public:
 
     void LoadAnimations();
 
-    static s32 CreateFromSaveState(const u8* pBuffer);
+    static void CreateFromSaveState(SerializedObjectData& pBuffer);
 
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
-    virtual s32 VGetSaveState(u8* pSaveBuffer) override;
+    virtual void VGetSaveState(SerializedObjectData& pSaveBuffer) override;
     virtual void VScreenChanged() override;
     virtual void VPossessed() override;
     virtual void VOnTlvCollision(relive::Path_TLV* pTlv) override;

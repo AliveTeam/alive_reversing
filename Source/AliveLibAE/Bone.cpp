@@ -17,6 +17,7 @@
 #include "../relive_lib/Collisions.hpp"
 #include "../relive_lib/FixedPoint.hpp"
 #include "Math.hpp"
+#include "QuikSave.hpp"
 
 Bone::Bone(FP xpos, FP ypos, s16 countId)
     : BaseThrowable(0),
@@ -47,10 +48,10 @@ void Bone::VTimeToExplodeRandom()
     // Empty
 }
 
-s32 Bone::CreateFromSaveState(const u8* pData)
+void Bone::CreateFromSaveState(SerializedObjectData& pData)
 {
-    auto pState = reinterpret_cast<const BoneSaveState*>(pData);
-
+    const auto pState = pData.ReadTmpPtr<BoneSaveState>();
+    
     auto pBone = relive_new Bone(pState->mXPos, pState->mYPos, pState->mThrowableCount);
 
     pBone->mBaseGameObjectTlvInfo = pState->mBaseTlvId;
@@ -97,8 +98,6 @@ s32 Bone::CreateFromSaveState(const u8* pData)
     {
         pBone->mHitObject = true;
     }
-
-    return sizeof(BoneSaveState);
 }
 
 Bone::~Bone()
@@ -219,52 +218,52 @@ bool Bone::VCanBeEaten()
     return mState == BoneStates::eEdible_4;
 }
 
-s32 Bone::VGetSaveState(u8* pSaveBuffer)
+void Bone::VGetSaveState(SerializedObjectData& pSaveBuffer)
 {
-    auto pState = reinterpret_cast<BoneSaveState*>(pSaveBuffer);
+    BoneSaveState data = {};
 
-    pState->mType = ReliveTypes::eBone;
-    pState->mBaseTlvId = mBaseGameObjectTlvInfo;
+    data.mType = ReliveTypes::eBone;
+    data.mBaseTlvId = mBaseGameObjectTlvInfo;
 
-    pState->mXPos = mXPos;
-    pState->mYPos = mYPos;
+    data.mXPos = mXPos;
+    data.mYPos = mYPos;
 
-    pState->mVelX = mVelX;
-    pState->mVelY = mVelY;
+    data.mVelX = mVelX;
+    data.mVelY = mVelY;
 
-    pState->mCurrentPath = mCurrentPath;
-    pState->mCurrentLevel = mCurrentLevel;
+    data.mCurrentPath = mCurrentPath;
+    data.mCurrentLevel = mCurrentLevel;
 
-    pState->mSpriteScale = GetSpriteScale();
+    data.mSpriteScale = GetSpriteScale();
 
-    pState->mLoop = GetAnimation().GetLoop();
-    pState->mRender = GetAnimation().GetRender();
+    data.mLoop = GetAnimation().GetLoop();
+    data.mRender = GetAnimation().GetRender();
 
-    pState->mDrawable = GetDrawable();
-    pState->mInteractive = GetInteractive();
+    data.mDrawable = GetDrawable();
+    data.mInteractive = GetInteractive();
 
-    pState->mHitObject = mHitObject;
+    data.mHitObject = mHitObject;
 
     if (BaseAliveGameObjectCollisionLine)
     {
-        pState->mCollisionLineType = BaseAliveGameObjectCollisionLine->mLineType;
+        data.mCollisionLineType = BaseAliveGameObjectCollisionLine->mLineType;
     }
     else
     {
-        pState->mCollisionLineType = eLineTypes::eNone_m1;
+        data.mCollisionLineType = eLineTypes::eNone_m1;
     }
 
-    pState->mPlatformId = BaseAliveGameObject_PlatformId;
-    pState->mThrowableCount = mBaseThrowableCount;
-    pState->mState = mState;
+    data.mPlatformId = BaseAliveGameObject_PlatformId;
+    data.mThrowableCount = mBaseThrowableCount;
+    data.mState = mState;
 
-    pState->mBounceCount = mBounceCount;
-    pState->mPreviousXPos = mPreviousXPos;
+    data.mBounceCount = mBounceCount;
+    data.mPreviousXPos = mPreviousXPos;
 
-    pState->mPreviousYPos = mPreviousYPos;
-    pState->mTimeToLiveTimer = mDeadTimer;
+    data.mPreviousYPos = mPreviousYPos;
+    data.mTimeToLiveTimer = mDeadTimer;
 
-    return sizeof(BoneSaveState);
+    pSaveBuffer.Write(data);
 }
 
 void Bone::InTheAir()
