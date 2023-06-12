@@ -2187,6 +2187,7 @@ MainMenuNextCam MainMenuController::tLoadGame_Input_4D3EF0(u32 input)
         }
 
         nlohmann::json j = nlohmann::json::parse(jsonStr);
+        gActiveQuicksaveData = {};
         from_json(j, gActiveQuicksaveData);
 
         mLoadingSave = true;
