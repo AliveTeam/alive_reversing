@@ -894,6 +894,7 @@ void PauseMenu::Page_Load_Update()
             }
 
             nlohmann::json j = nlohmann::json::parse(jsonStr);
+            gActiveQuicksaveData = {};
             from_json(j, gActiveQuicksaveData);
 
             sActiveHero->mXPos = FP_FromInteger(0);
