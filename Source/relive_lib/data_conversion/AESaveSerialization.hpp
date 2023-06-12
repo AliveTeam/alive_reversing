@@ -3137,6 +3137,11 @@ static inline nlohmann::json WriteObjectStateJson(const SerializedObjectData& ob
 // TODO: Not AE specific move out of here
 static inline nlohmann::json WriteObjectBlyJson(const Quicksave& q)
 {
+    if (!q.mObjectBlyData.CanRead())
+    {
+        return {};
+    }
+
     // TODO: This func is likely very slow
     const u32 flagsCount = q.mObjectBlyData.ReadU32();
 
@@ -3213,7 +3218,7 @@ static void WriteObjectStateFromJson(const nlohmann::json& j, SerializedObjectDa
     }
     else if (type == "flying_slig_spawner")
     {
-        write_object_state<FlyingSligSaveState>(j, object_states);
+        write_object_state<FlyingSligSpawnerSaveState>(j, object_states);
     }
     else if (type == "game_ender_controller")
     {
