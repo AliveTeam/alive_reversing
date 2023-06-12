@@ -70,7 +70,7 @@ public:
     void WriteU8(u8 v)
     {
         const auto writePos = mBuffer.size();
-        mBuffer.resize(mBuffer.size() + 4);
+        mBuffer.resize(mBuffer.size() + 1);
         *reinterpret_cast<u8*>(mBuffer.data() + writePos) = v;
     }
 

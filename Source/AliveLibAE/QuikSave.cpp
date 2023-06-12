@@ -349,7 +349,7 @@ void QuikSave_RestoreBlyData(Quicksave& pSaveData)
     // Skip to after the per object data
     for (;;)
     {
-        const u32 type = pSaveData.mObjectsStateData.ReadU32();
+        const u32 type = pSaveData.mObjectsStateData.PeekU32();
         if (type == 0)
         {
             break;
