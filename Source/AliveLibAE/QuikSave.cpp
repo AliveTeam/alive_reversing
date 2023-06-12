@@ -358,6 +358,9 @@ void QuikSave_RestoreBlyData(Quicksave& pSaveData)
     }
 
     pSaveData.mObjectBlyData.ReadRewind();
+
+    const u32 flagsTotal = pSaveData.mObjectBlyData.ReadU32();
+    u32 readFlagsCount = 0;
     for (auto& binaryPath : gMap.GetLoadedPaths())
     {
         for (auto& cam : binaryPath->GetCameras())
@@ -369,6 +372,11 @@ void QuikSave_RestoreBlyData(Quicksave& pSaveData)
                 {
                     pTlv->mTlvFlags.Raw().all = pSaveData.mObjectBlyData.ReadU8();
                     pTlv->mTlvSpecificMeaning = pSaveData.mObjectBlyData.ReadU8();
+                    readFlagsCount++;
+                    if (readFlagsCount > flagsTotal)
+                    {
+                        ALIVE_FATAL("Data contains %d sets of flags but read more than that", flagsTotal);
+                    }
                 }
                 pTlv = Path::Next_TLV(pTlv);
             }
@@ -414,9 +422,9 @@ static void WriteFlags(SerializedObjectData& pSaveBuffer, const relive::Path_TLV
     pSaveBuffer.WriteU8(pTlv->mTlvSpecificMeaning);
 }
 
-void Quicksave_SaveBlyData_4C9660(SerializedObjectData& pSaveBuffer)
+static u32 Quicksave_SaveBlyData_CountOrSave(SerializedObjectData* pSaveBuffer)
 {
-    pSaveBuffer.WriteRewind();
+    u32 flagsTotal = 0;
 
     for (auto& binaryPath : gMap.GetLoadedPaths())
     {
@@ -427,17 +435,26 @@ void Quicksave_SaveBlyData_4C9660(SerializedObjectData& pSaveBuffer)
             {
                 if (pTlv->mAttribute == relive::QuiksaveAttribute::eClearTlvFlags_1)
                 {
-                    BitField8<relive::TlvFlags> flags = pTlv->mTlvFlags;
-                    if (flags.Get(relive::TlvFlags::eBit1_Created))
+                    if (pSaveBuffer)
                     {
-                        flags.Clear(relive::TlvFlags::eBit1_Created);
-                        flags.Clear(relive::TlvFlags::eBit2_Destroyed);
+                        BitField8<relive::TlvFlags> flags = pTlv->mTlvFlags;
+                        if (flags.Get(relive::TlvFlags::eBit1_Created))
+                        {
+                            flags.Clear(relive::TlvFlags::eBit1_Created);
+                            flags.Clear(relive::TlvFlags::eBit2_Destroyed);
+                        }
+
+                        WriteFlags(*pSaveBuffer, pTlv, flags);
                     }
-                    WriteFlags(pSaveBuffer, pTlv, flags);
+                    flagsTotal++;
                 }
                 else if (pTlv->mAttribute == relive::QuiksaveAttribute::eKeepTlvFlags_2)
                 {
-                    WriteFlags(pSaveBuffer, pTlv, pTlv->mTlvFlags);
+                    if (pSaveBuffer)
+                    {
+                        WriteFlags(*pSaveBuffer, pTlv, pTlv->mTlvFlags);
+                    }
+                    flagsTotal++;
                 }
                 else
                 {
@@ -447,6 +464,18 @@ void Quicksave_SaveBlyData_4C9660(SerializedObjectData& pSaveBuffer)
             }
         }
     }
+    return flagsTotal;
+}
+
+
+void Quicksave_SaveBlyData_4C9660(SerializedObjectData& pSaveBuffer)
+{
+    pSaveBuffer.WriteRewind();
+
+    const u32 flagsCount = Quicksave_SaveBlyData_CountOrSave(nullptr);
+    pSaveBuffer.WriteU32(flagsCount);
+
+    Quicksave_SaveBlyData_CountOrSave(&pSaveBuffer);
 }
 
 // TODO: See if this can be nuked in both games
