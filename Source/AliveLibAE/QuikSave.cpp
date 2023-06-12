@@ -347,13 +347,10 @@ void QuikSave_RestoreBlyData(Quicksave& pSaveData)
     pSaveData.mObjectsStateData.ReadRewind();
 
     // Skip to after the per object data
-    for (;;)
+    while (pSaveData.mObjectsStateData.CanRead())
     {
         const u32 type = pSaveData.mObjectsStateData.PeekU32();
-        if (type == 0)
-        {
-            break;
-        }
+        LOG_INFO("Restore type %d", type);
         RestoreObjectState(static_cast<ReliveTypes>(type), pSaveData.mObjectsStateData);
     }
 
@@ -576,7 +573,6 @@ void Quicksave_SaveToMemory_4C91A0(Quicksave& pSave)
                 pObj->VGetSaveState(pSave.mObjectsStateData);
             }
         }
-        pSave.mObjectsStateData.WriteU32(0);
 
         Quicksave_SaveBlyData_4C9660(pSave.mObjectBlyData);
     }

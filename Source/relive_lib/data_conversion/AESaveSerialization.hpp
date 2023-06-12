@@ -3149,7 +3149,7 @@ static inline nlohmann::json WriteObjectBlyJson(const Quicksave& q)
         tlvData.emplace_back(q.mObjectBlyData.ReadU8());
     }
 
-    return {tlvData};
+    return tlvData;
 }
 
 inline void to_json(nlohmann::json& j, const Quicksave& p)

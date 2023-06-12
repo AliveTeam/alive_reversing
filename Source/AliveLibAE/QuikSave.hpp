@@ -3,6 +3,7 @@
 #include "../relive_lib/Function.hpp"
 #include "MainMenu.hpp"
 #include "../relive_lib/SwitchStates.hpp"
+#include "../relive_lib/FatalError.hpp"
 #include "Abe.hpp"
 
 class SerializedObjectData;
@@ -38,6 +39,15 @@ struct Quicksave_WorldInfo final
 
 class SerializedObjectData final
 {
+private:
+    void ReadCheck(u32 readSize) const 
+    {
+        if (mBufferReadPos + readSize > mBuffer.size())
+        {
+            ALIVE_FATAL("Attempted to read %d bytes from offset %d but total length is %d", readSize, mBufferReadPos, mBuffer.size());
+        }
+    }
+
 public:
     SerializedObjectData()
     {
@@ -62,6 +72,7 @@ public:
     template<typename T>
     const T* ReadTmpPtr() const 
     {
+        ReadCheck(sizeof(T));
         const T* v = reinterpret_cast<const T*>(mBuffer.data() + mBufferReadPos);
         mBufferReadPos += sizeof(T);
         return v;
@@ -69,6 +80,7 @@ public:
 
     void WriteU8(u8 v)
     {
+        ReadCheck(sizeof(u8));
         const auto writePos = mBuffer.size();
         mBuffer.resize(mBuffer.size() + 1);
         *reinterpret_cast<u8*>(mBuffer.data() + writePos) = v;
@@ -83,12 +95,14 @@ public:
 
     [[nodiscard]] u32 PeekU32() const
     {
+        ReadCheck(sizeof(u32));
         const u32 v = *reinterpret_cast<const u32*>(mBuffer.data() + mBufferReadPos);
         return v;
     }
 
     [[nodiscard]] u32 ReadU32() const
     {
+        ReadCheck(sizeof(u32));
         const u32 v = *reinterpret_cast<const u32*>(mBuffer.data() + mBufferReadPos);
         mBufferReadPos += 4;
         return v;
@@ -96,6 +110,7 @@ public:
 
     [[nodiscard]] u8 ReadU8() const
     {
+        ReadCheck(sizeof(u8));
         const u8 v = *reinterpret_cast<const u8*>(mBuffer.data() + mBufferReadPos);
         mBufferReadPos += 1;
         return v;
@@ -104,6 +119,11 @@ public:
     void ReadRewind() const
     {
         mBufferReadPos = 0;
+    }
+
+    bool CanRead() const
+    {
+        return mBufferReadPos < mBuffer.size();
     }
 
     void WriteRewind()
