@@ -208,21 +208,6 @@ static void ConvertObjectSaveStateDataToJson(nlohmann::json& j, ReliveTypes type
     }
 }
 
-void ConvertObjectsStatesToJson(nlohmann::json& j, const SerializedObjectData& pData)
-{
-    pData.ReadRewind();
-
-    // Skip to after the per object data
-    for (;;)
-    {
-        const u32 type = pData.PeekU32();
-        if (type == 0)
-        {
-            break;
-        }
-        ConvertObjectSaveStateDataToJson(j, static_cast<ReliveTypes>(type), pData);
-    }
-}
 
 static void RestoreObjectState(ReliveTypes type, SerializedObjectData& pData)
 {
@@ -342,11 +327,20 @@ static void RestoreObjectState(ReliveTypes type, SerializedObjectData& pData)
     }
 }
 
+void ConvertObjectsStatesToJson(nlohmann::json& j, const SerializedObjectData& pData)
+{
+    pData.ReadRewind();
+    while (pData.CanRead())
+    {
+        const u32 type = pData.PeekU32();
+        LOG_INFO("Converting type %d", type);
+        ConvertObjectSaveStateDataToJson(j, static_cast<ReliveTypes>(type), pData);
+    }
+}
+
 void QuikSave_RestoreBlyData(Quicksave& pSaveData)
 {
     pSaveData.mObjectsStateData.ReadRewind();
-
-    // Skip to after the per object data
     while (pSaveData.mObjectsStateData.CanRead())
     {
         const u32 type = pSaveData.mObjectsStateData.PeekU32();
