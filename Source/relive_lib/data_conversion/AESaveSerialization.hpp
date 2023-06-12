@@ -584,6 +584,7 @@ inline void to_json(nlohmann::json & j, const DrillSaveState& p)
 
 inline void from_json(const nlohmann::json& j, DrillSaveState& p)
 {
+    j.at("type").get_to(p.mType);
     j.at("drill_tlv_id").get_to(p.mDrillTlvId);
     j.at("off_timer").get_to(p.mOffTimer);
     j.at("state").get_to(p.mState);
@@ -1314,7 +1315,7 @@ NLOHMANN_JSON_SERIALIZE_ENUM(eGlukkonMotions, {
 inline void to_json(nlohmann::json& j, const GlukkonSaveState& p)
 {
     j = nlohmann::json{
-        {"id", p.mType},
+        {"type", p.mType},
         {"field_4_object_id", p.field_4_object_id},
         {"xpos", p.mXPos},
         {"ypos", p.mYPos},
@@ -1358,13 +1359,13 @@ inline void to_json(nlohmann::json& j, const GlukkonSaveState& p)
         {"getting_shot_timer", p.mGettingShotTimer},
         {"field_88_obj_id", p.mFadeId},
         {"can_be_possessed", p.mCanBePossessed},
-        {"type_id", p.mCurrentType},
+        {"current_type", p.mCurrentType},
     };
 }
 
 inline void from_json(const nlohmann::json& j, GlukkonSaveState& p)
 {
-    j.at("id").get_to(p.mType);
+    j.at("type").get_to(p.mType);
     j.at("field_4_object_id").get_to(p.field_4_object_id);
     j.at("xpos").get_to(p.mXPos);
     j.at("ypos").get_to(p.mYPos);
@@ -1408,7 +1409,7 @@ inline void from_json(const nlohmann::json& j, GlukkonSaveState& p)
     j.at("getting_shot_timer").get_to(p.mGettingShotTimer);
     j.at("field_88_obj_id").get_to(p.mFadeId);
     j.at("can_be_possessed").get_to(p.mCanBePossessed);
-    j.at("type_id").get_to(p.mCurrentType);
+    j.at("current_type").get_to(p.mCurrentType);
 }
 
 NLOHMANN_JSON_SERIALIZE_ENUM(Mud_Emotion, {
@@ -2271,12 +2272,14 @@ inline void from_json(const nlohmann::json& j, BirdPortalSaveState& p)
 inline void to_json(nlohmann::json& j, const ThrowableArraySaveState& p)
 {
     j = nlohmann::json{
+        {"type", p.mType},
         {"count", p.mCount},
     };
 }
 
 inline void from_json(const nlohmann::json& j, ThrowableArraySaveState& p)
 {
+    j.at("type").get_to(p.mType);
     j.at("count").get_to(p.mCount);
 }
 
@@ -2301,7 +2304,7 @@ NLOHMANN_JSON_SERIALIZE_ENUM(RingTypes, {
 inline void to_json(nlohmann::json & j, const AbilityRingSaveState& p)
 {
     j = nlohmann::json{
-        {"ring_object_type", p.mRingObjectType},
+        {"type", p.mRingObjectType},
         {"ring_xpos", p.mRingXPos},
         {"ring_ypos", p.mRingYPos},
         {"ring_type", p.mRingType},
@@ -2317,7 +2320,7 @@ inline void to_json(nlohmann::json & j, const AbilityRingSaveState& p)
 
 inline void from_json(const nlohmann::json& j, AbilityRingSaveState& p)
 {
-    j.at("ring_object_type").get_to(p.mRingObjectType);
+    j.at("type").get_to(p.mRingObjectType);
     j.at("ring_xpos").get_to(p.mRingXPos);
     j.at("ring_ypos").get_to(p.mRingYPos);
     j.at("ring_type").get_to(p.mRingType);
@@ -2570,12 +2573,14 @@ inline void from_json(const nlohmann::json& j, ScrabSpawnerSaveState& p)
 inline void to_json(nlohmann::json& j, const SlamDoorSaveState& p)
 {
     j = nlohmann::json{
-    {"tlv_info", p.mTlvInfo},
+        {"type", p.mType},
+        {"tlv_info", p.mTlvInfo},
     };
 }
 
 inline void from_json(const nlohmann::json& j, SlamDoorSaveState& p)
 {
+    j.at("type").get_to(p.mType);
     j.at("tlv_info").get_to(p.mTlvInfo);
 }
 
@@ -3122,10 +3127,10 @@ inline void from_json(const nlohmann::json& j, SwitchStates& p)
 void ConvertObjectsStatesToJson(nlohmann::json& j, const SerializedObjectData& pData);
 
 // TODO: Not AE specific move out of here
-static inline nlohmann::json WriteObjectStateJson(const Quicksave& q)
+static inline nlohmann::json WriteObjectStateJson(const SerializedObjectData& object_states)
 {
     nlohmann::json j;
-    ConvertObjectsStatesToJson(j, q.mObjectsStateData);
+    ConvertObjectsStatesToJson(j, object_states);
     return j;
 }
 
@@ -3144,15 +3149,178 @@ inline void to_json(nlohmann::json& j, const Quicksave& p)
         {"restart_path_abe_state", p.mRestartPathAbeState},
         {"restart_path_switch_states", p.mRestartPathSwitchStates},
         {"switch_states", p.mSwitchStates}, 
-        {"object_states", WriteObjectStateJson(p)}, 
+        {"object_states", WriteObjectStateJson(p.mObjectsStateData)}, 
         {"object_bly_data", WriteObjectBlyJson(p)}
     };
 }
 
-// TODO: Not AE specific move out of here
-static inline void ReadObjectStateJson(const nlohmann::json& , Quicksave& )
+template<typename T>
+static void write_object_state(const nlohmann::json& j, SerializedObjectData& object_states)
 {
-    // j.at("object_states")
+    T data = j.get<T>();
+    object_states.Write(data);
+}
+
+static void WriteObjectStateFromJson(const nlohmann::json& j, SerializedObjectData& object_states)
+{
+    const auto& type = j["type"];
+    if (type == "slig_spawner")
+    {
+        write_object_state<SligSpawnerSaveState>(j, object_states);
+    }
+    else if (type == "lift_mover")
+    {
+        write_object_state<LiftMoverSaveState>(j, object_states);
+    }
+    else if (type == "bone")
+    {
+        write_object_state<BoneSaveState>(j, object_states);
+    }
+    else if (type == "mines_alarm")
+    {
+        write_object_state<MinesAlarmSaveState>(j, object_states);
+    }
+    else if (type == "crawling_slig")
+    {
+        write_object_state<CrawlingSligSaveState>(j, object_states);
+    }
+    else if (type == "drill")
+    {
+        write_object_state<DrillSaveState>(j, object_states);
+    }
+    else if (type == "evil_fart")
+    {
+        write_object_state<EvilFartSaveState>(j, object_states);
+    }
+    else if (type == "fleech")
+    {
+        write_object_state<FleechSaveState>(j, object_states);
+    }
+    else if (type == "flying_slig")
+    {
+        write_object_state<FlyingSligSaveState>(j, object_states);
+    }
+    else if (type == "flying_slig_spawner")
+    {
+        write_object_state<FlyingSligSaveState>(j, object_states);
+    }
+    else if (type == "game_ender_controller")
+    {
+        write_object_state<GameEnderControllerSaveState>(j, object_states);
+    }
+    else if (type == "slap_lock_orb_whirlwind")
+    {
+        write_object_state<SlapLockWhirlWindSaveState>(j, object_states);
+    }
+    else if (type == "slap_lock")
+    {
+        write_object_state<SlapLockSaveState>(j, object_states);
+    }
+    else if (type == "greeter")
+    {
+        write_object_state<GreeterSaveState>(j, object_states);
+    }
+    else if (type == "grenade")
+    {
+        write_object_state<GrenadeSaveState>(j, object_states);
+    }
+    else if (type == "glukkon")
+    {
+        write_object_state<GlukkonSaveState>(j, object_states);
+    }
+    else if (type == "abe")
+    {
+        write_object_state<AbeSaveState>(j, object_states);
+    }
+    else if (type == "lift_point")
+    {
+        write_object_state<LiftPointSaveState>(j, object_states);
+    }
+    else if (type == "mudokon" || type == "ring_or_lift_mud")
+    {
+        write_object_state<MudokonSaveState>(j, object_states);
+    }
+    else if (type == "meat")
+    {
+        write_object_state<MeatSaveState>(j, object_states);
+    }
+    else if (type == "mine_car")
+    {
+        write_object_state<MineCarSaveState>(j, object_states);
+    }
+    else if (type == "paramite")
+    {
+        write_object_state<ParamiteSaveState>(j, object_states);
+    }
+    else if (type == "bird_portal")
+    {
+        write_object_state<BirdPortalSaveState>(j, object_states);
+    }
+    else if (type == "throwable_array")
+    {
+        write_object_state<ThrowableArraySaveState>(j, object_states);
+    }
+    else if (type == "ability_ring")
+    {
+        write_object_state<AbilityRingSaveState>(j, object_states);
+    }
+    else if (type == "rock")
+    {
+        write_object_state<RockSaveState>(j, object_states);
+    }
+    else if (type == "scrab")
+    {
+        write_object_state<ScrabSaveState>(j, object_states);
+    }
+    else if (type == "scrab_spawner")
+    {
+        write_object_state<ScrabSpawnerSaveState>(j, object_states);
+    }
+    else if (type == "slam_door")
+    {
+        write_object_state<SlamDoorSaveState>(j, object_states);
+    }
+    else if (type == "slig")
+    {
+        write_object_state<SligSaveState>(j, object_states);
+    }
+    else if (type == "slog")
+    {
+        write_object_state<SlogSaveState>(j, object_states);
+    }
+    else if (type == "slurg")
+    {
+        write_object_state<SlurgSaveState>(j, object_states);
+    }
+    else if (type == "timer_trigger")
+    {
+        write_object_state<TimerTriggerSaveState>(j, object_states);
+    }
+    else if (type == "trap_door")
+    {
+        write_object_state<TrapDoorSaveState>(j, object_states);
+    }
+    else if (type == "uxb")
+    {
+        write_object_state<UXBSaveState>(j, object_states);
+    }
+    else if (type == "work_wheel")
+    {
+        write_object_state<WorkWheelSaveState>(j, object_states);
+    }
+    else
+    {
+        ALIVE_FATAL("over");
+    }
+}
+
+// TODO: Not AE specific move out of here
+static inline void ReadObjectStateJson(const nlohmann::json& j, SerializedObjectData& object_data)
+{
+    for (const auto& state : j["object_states"]) 
+    {
+        WriteObjectStateFromJson(state, object_data);
+    }
 }
 
 // TODO: Not AE specific move out of here
@@ -3168,6 +3336,6 @@ inline void from_json(const nlohmann::json& j, Quicksave& p)
     j.at("restart_path_abe_state").get_to(p.mRestartPathAbeState);
     j.at("restart_path_switch_states").get_to(p.mRestartPathSwitchStates);
     j.at("switch_states").get_to(p.mSwitchStates);
-    ReadObjectStateJson(j, p);
+    ReadObjectStateJson(j, p.mObjectsStateData);
     ReadObjectBlyJson(j, p);
 }
