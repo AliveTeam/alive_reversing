@@ -3139,37 +3139,35 @@ static inline nlohmann::json WriteObjectBlyJson(const Quicksave&)
 inline void to_json(nlohmann::json& j, const Quicksave& p)
 {
     j = nlohmann::json{
-        {"world_data", {
-            {"world_info", p.mWorldInfo},
-            {"restart_path_world_info", p.mRestartPathWorldInfo},
-            {"restart_path_abe_state", p.mRestartPathAbeState},
-            {"restart_path_switch_states", p.mRestartPathSwitchStates},
-            {"switch_states", p.mSwitchStates}, 
-            {"object_states", WriteObjectStateJson(p)}, 
-            {"object_bly_data", WriteObjectBlyJson(p)}
-        }}
+        {"world_info", p.mWorldInfo},
+        {"restart_path_world_info", p.mRestartPathWorldInfo},
+        {"restart_path_abe_state", p.mRestartPathAbeState},
+        {"restart_path_switch_states", p.mRestartPathSwitchStates},
+        {"switch_states", p.mSwitchStates}, 
+        {"object_states", WriteObjectStateJson(p)}, 
+        {"object_bly_data", WriteObjectBlyJson(p)}
     };
 }
 
 // TODO: Not AE specific move out of here
 static inline void ReadObjectStateJson(const nlohmann::json& , Quicksave& )
 {
-    // j["world_data"].at("object_states")
+    // j.at("object_states")
 }
 
 // TODO: Not AE specific move out of here
 static inline void ReadObjectBlyJson(const nlohmann::json&, Quicksave&)
 {
-    // j["world_data"].at("object_bly_data")
+    // j.at("object_bly_data")
 }
 
 inline void from_json(const nlohmann::json& j, Quicksave& p)
 {
-    j["world_data"].at("world_info").get_to(p.mWorldInfo);
-    j["world_data"].at("restart_path_world_info").get_to(p.mRestartPathWorldInfo);
-    j["world_data"].at("restart_path_abe_state").get_to(p.mRestartPathAbeState);
-    j["world_data"].at("restart_path_switch_states").get_to(p.mRestartPathSwitchStates);
-    j["world_data"].at("switch_states").get_to(p.mSwitchStates);
+    j.at("world_info").get_to(p.mWorldInfo);
+    j.at("restart_path_world_info").get_to(p.mRestartPathWorldInfo);
+    j.at("restart_path_abe_state").get_to(p.mRestartPathAbeState);
+    j.at("restart_path_switch_states").get_to(p.mRestartPathSwitchStates);
+    j.at("switch_states").get_to(p.mSwitchStates);
     ReadObjectStateJson(j, p);
     ReadObjectBlyJson(j, p);
 }

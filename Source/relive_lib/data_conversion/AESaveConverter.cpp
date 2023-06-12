@@ -16,7 +16,7 @@ bool AESaveConverter::Convert(const std::vector<u8>& savData, const char_type* p
     const u16* pSavedObjStates = reinterpret_cast<const u16*>(pSavedWorldData->field_55C_objects_state_data);
 
     nlohmann::json j;
-    j["world_data"] = AEData::Quicksave::From(*reinterpret_cast<const AEData::Quicksave*>(pSavedWorldData));
+    j = AEData::Quicksave::From(*reinterpret_cast<const AEData::Quicksave*>(pSavedWorldData));
 
     while (*reinterpret_cast<const u32*>(pSavedObjStates) != 0)
     {
