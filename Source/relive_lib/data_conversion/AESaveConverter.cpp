@@ -9,6 +9,44 @@
 
 enum class LevelIds : s16;
 
+
+static void ConvertOGBlyData(nlohmann::json& j, std::vector<std::unique_ptr<BinaryPath>>& paths, const u8* pSrcFlags)
+{
+    for (auto& binaryPath : paths)
+    {
+        for (auto& cam : binaryPath->GetCameras())
+        {
+            auto pTlv = reinterpret_cast<relive::Path_TLV*>(cam->mBuffer.data());
+            while (pTlv)
+            {
+                if (pTlv->mAttribute == relive::QuiksaveAttribute::eClearTlvFlags_1 || pTlv->mAttribute == relive::QuiksaveAttribute::eKeepTlvFlags_2) // Type 0 ignored - actually it should never be written here anyway
+                {
+                    // TODO: Obtain the guid
+                    // Guid::NewGuidFromTlvInfo(pTlv->);
+
+                    const bool terminatorFlagOn = pTlv->mTlvFlags.Get(relive::TlvFlags::eBit3_End_TLV_List);
+                    pTlv->mTlvFlags.Raw().all = *pSrcFlags;
+                    j.push_back(pTlv->mTlvFlags.Raw().all);
+                    pSrcFlags++;
+                    
+                    if (terminatorFlagOn && !pTlv->mTlvFlags.Get(relive::TlvFlags::eBit3_End_TLV_List))
+                    {
+                        LOG_WARNING("Save data removed list terminator flag, putting it back");
+                        pTlv->mTlvFlags.Set(relive::TlvFlags::eBit3_End_TLV_List);
+                    }
+
+                    pTlv->mTlvSpecificMeaning = *pSrcFlags;
+                    j.push_back(pTlv->mTlvSpecificMeaning);
+                    pSrcFlags++;
+
+                    // TODO: Add an entry to the json with the object guid and the flags/specific meaning data
+                }
+                pTlv = Path::Next_TLV(pTlv);
+            }
+        }
+    }
+}
+
 bool AESaveConverter::Convert(const std::vector<u8>& savData, const char_type* pFileName)
 {
     auto pSavedWorldData = reinterpret_cast<const AEData::Quicksave*>(savData.data());
@@ -26,38 +64,12 @@ bool AESaveConverter::Convert(const std::vector<u8>& savData, const char_type* p
     }
 
     auto paths = ResourceManagerWrapper::LoadPaths(MapWrapper::FromAE(pSavedWorldData->field_204_world_info.mLevel));
-    // Skip the 2 zero entries, the saved flag words come after the object save state data
+
+    // Skip the u32 type 0 entry that marks the end of the object stave states data
     const u8* pSrcFlags = reinterpret_cast<const u8*>(pSavedObjStates + 2);
-    for (auto& binaryPath : paths)
-    {
-        for (auto& cam : binaryPath->GetCameras())
-        {
-            auto pTlv = reinterpret_cast<relive::Path_TLV*>(cam->mBuffer.data());
-            while (pTlv)
-            {
-                if (pTlv->mAttribute == relive::QuiksaveAttribute::eClearTlvFlags_1 || pTlv->mAttribute == relive::QuiksaveAttribute::eKeepTlvFlags_2) // Type 0 ignored - actually it should never be written here anyway
-                {
-                    // TODO: Obtain the guid
-                    //Guid::NewGuidFromTlvInfo(pTlv->);
-
-                    const bool terminatorFlagOn = pTlv->mTlvFlags.Get(relive::TlvFlags::eBit3_End_TLV_List);
-                    pTlv->mTlvFlags.Raw().all = *pSrcFlags;
-                    pSrcFlags++;
-                    if (terminatorFlagOn && !pTlv->mTlvFlags.Get(relive::TlvFlags::eBit3_End_TLV_List))
-                    {
-                        LOG_WARNING("Save data removed list terminator flag, putting it back");
-                        pTlv->mTlvFlags.Set(relive::TlvFlags::eBit3_End_TLV_List);
-                    }
-
-                    pTlv->mTlvSpecificMeaning = *pSrcFlags;
-                    pSrcFlags++;
-
-                    // TODO: Add an entry to the json with the object guid and the flags/specific meaning data
-                }
-                pTlv = Path::Next_TLV(pTlv);
-            }
-        }
-    }
+    nlohmann::json blyJson;
+    ConvertOGBlyData(blyJson, paths, pSrcFlags);
+    j["object_bly_data"] = blyJson;
 
     FileSystem fs;
     return SaveJson(j, fs, pFileName);
