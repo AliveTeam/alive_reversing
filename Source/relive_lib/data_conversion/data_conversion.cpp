@@ -1579,6 +1579,7 @@ template<typename LevelIdType, typename TlvType>
 static void ConvertFilesInLvl(const FileSystem::Path& dataDir, FileSystem& fs, ReliveAPI::LvlReader& lvlReader, std::vector<u8>& fileBuffer, LevelIdType lvlIdxAsLvl, EReliveLevelIds reliveLvl, bool isAo, bool onlySaves)
 {
     // Iterate and convert specific file types in the LVL
+    AESaveConverter::PathsCache pathsCache;
     for (s32 i = 0; i < lvlReader.FileCount(); i++)
     {
         auto fileName = lvlReader.FileNameAt(i);
@@ -1597,7 +1598,7 @@ static void ConvertFilesInLvl(const FileSystem::Path& dataDir, FileSystem& fs, R
 
                             // TODO: Actually convert at some later point
                             AESaveConverter saveConverter;
-                            saveConverter.Convert(fileBuffer, (fileName + ".json").c_str());
+                            saveConverter.Convert(fileBuffer, (fileName + ".json").c_str(), pathsCache);
                         }
                     }
                 }

@@ -47,7 +47,8 @@ static void ConvertOGBlyData(nlohmann::json& j, std::vector<std::unique_ptr<Bina
     }
 }
 
-bool AESaveConverter::Convert(const std::vector<u8>& savData, const char_type* pFileName)
+
+bool AESaveConverter::Convert(const std::vector<u8>& savData, const char_type* pFileName, AESaveConverter::PathsCache& cache)
 {
     auto pSavedWorldData = reinterpret_cast<const AEData::Quicksave*>(savData.data());
 
@@ -63,12 +64,18 @@ bool AESaveConverter::Convert(const std::vector<u8>& savData, const char_type* p
         // TODO: Add the read state as json
     }
 
-    auto paths = ResourceManagerWrapper::LoadPaths(MapWrapper::FromAE(pSavedWorldData->field_204_world_info.mLevel));
+    const EReliveLevelIds reliveLvlId = MapWrapper::FromAE(pSavedWorldData->field_204_world_info.mLevel);
+    if (cache.mLvlId != reliveLvlId)
+    {
+        // Reload cache
+        cache.mLvlId = reliveLvlId;
+        cache.mPaths = ResourceManagerWrapper::LoadPaths(reliveLvlId);
+    }
 
     // Skip the u32 type 0 entry that marks the end of the object stave states data
     const u8* pSrcFlags = reinterpret_cast<const u8*>(pSavedObjStates + 2);
     nlohmann::json blyJson;
-    ConvertOGBlyData(blyJson, paths, pSrcFlags);
+    ConvertOGBlyData(blyJson, cache.mPaths, pSrcFlags);
     j["object_bly_data"] = blyJson;
 
     FileSystem fs;

@@ -5222,7 +5222,15 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Quicksave, 0x2000);
 class AESaveConverter final
 {
 public:
-    bool Convert(const std::vector<u8>& savData, const char_type* pFileName);
+    // When converting N saves in a single LVL it causes reloading of all paths in that LVL for
+    // each save. This structure will cache the loaded paths so it should only happen once.
+    struct PathsCache final
+    {
+        EReliveLevelIds mLvlId = EReliveLevelIds::eNone;
+        std::vector<std::unique_ptr<BinaryPath>> mPaths;
+    };
+
+    bool Convert(const std::vector<u8>& savData, const char_type* pFileName, PathsCache& cache);
 
 private:
 
