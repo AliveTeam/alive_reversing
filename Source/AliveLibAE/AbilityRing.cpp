@@ -442,7 +442,7 @@ void AbilityRing::VGetSaveState(SerializedObjectData& pSaveBuffer)
 {
     AbilityRingSaveState data = {};
 
-    data.mRingObjectType = ReliveTypes::eAbilityRing;
+    data.mType = ReliveTypes::eAbilityRing;
     data.mRingXPos = mRingXPos;
     data.mRingYPos = mRingYPos;
     data.mRingType = mRingType;

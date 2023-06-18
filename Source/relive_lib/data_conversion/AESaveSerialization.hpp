@@ -2304,7 +2304,7 @@ NLOHMANN_JSON_SERIALIZE_ENUM(RingTypes, {
 inline void to_json(nlohmann::json & j, const AbilityRingSaveState& p)
 {
     j = nlohmann::json{
-        {"type", p.mRingObjectType},
+        {"type", p.mType},
         {"ring_xpos", p.mRingXPos},
         {"ring_ypos", p.mRingYPos},
         {"ring_type", p.mRingType},
@@ -2320,7 +2320,7 @@ inline void to_json(nlohmann::json & j, const AbilityRingSaveState& p)
 
 inline void from_json(const nlohmann::json& j, AbilityRingSaveState& p)
 {
-    j.at("type").get_to(p.mRingObjectType);
+    j.at("type").get_to(p.mType);
     j.at("ring_xpos").get_to(p.mRingXPos);
     j.at("ring_ypos").get_to(p.mRingYPos);
     j.at("ring_type").get_to(p.mRingType);
@@ -3175,6 +3175,11 @@ static void write_object_state(const nlohmann::json& j, SerializedObjectData& ob
 {
     T data = j.get<T>();
     object_states.Write(data);
+    if ((u32)data.mType > 7199)
+    {
+        __debugbreak();
+    }
+    LOG_INFO("writing object state with type %d", data.mType);
 }
 
 static void WriteObjectStateFromJson(const nlohmann::json& j, SerializedObjectData& object_states)

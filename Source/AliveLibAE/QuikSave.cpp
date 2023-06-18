@@ -341,12 +341,18 @@ void ConvertObjectsStatesToJson(nlohmann::json& j, const SerializedObjectData& p
 void QuikSave_RestoreBlyData(Quicksave& pSaveData)
 {
     pSaveData.mObjectsStateData.ReadRewind();
+    LOG_INFO("--------------- RESTORE TYPE START ---------------");
     while (pSaveData.mObjectsStateData.CanRead())
     {
         const u32 type = pSaveData.mObjectsStateData.PeekU32();
+        if (type > 7199)
+        {
+            __debugbreak();
+        }
         LOG_INFO("Restore type %d", type);
         RestoreObjectState(static_cast<ReliveTypes>(type), pSaveData.mObjectsStateData);
     }
+    LOG_INFO("--------------- RESTORE TYPE END ---------------");
 
     pSaveData.mObjectBlyData.ReadRewind();
 
@@ -564,7 +570,22 @@ void Quicksave_SaveToMemory_4C91A0(Quicksave& pSave)
 
             if (!pObj->GetDead())
             {
+                auto start_size = pSave.mObjectsStateData.mBuffer.size();
                 pObj->VGetSaveState(pSave.mObjectsStateData);
+                if (start_size < pSave.mObjectsStateData.mBuffer.size())
+                {
+                    LOG_INFO("wrote type %d", (u32)pObj->Type());
+                    if (pObj->Type() == ReliveTypes::eNone)
+                    {
+                        __debugbreak();
+                    }
+
+                    const u32 v = *reinterpret_cast<const u32*>(pSave.mObjectsStateData.mBuffer.data() + start_size);
+                    if (v > 7199)
+                    {
+                        __debugbreak();
+                    }
+                }
             }
         }
 

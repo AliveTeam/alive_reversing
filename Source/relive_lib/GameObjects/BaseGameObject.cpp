@@ -912,6 +912,8 @@ AETypes BaseGameObject::ToAE(ReliveTypes reliveType)
             return AETypes::eCameraSwapper_149;
         case ReliveTypes::eElectrocute:
             return AETypes::eElectrocute_150;
+        case ReliveTypes::eThrowableArray:
+            return AETypes::eThrowableArray_102;
         default:
             ALIVE_FATAL("No AE type for this relive type");
     }

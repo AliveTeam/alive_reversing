@@ -134,6 +134,7 @@ public:
 
 private:
     mutable u32 mBufferReadPos = 0;
+public: // just for debugging
     std::vector<u8> mBuffer;
 };
 

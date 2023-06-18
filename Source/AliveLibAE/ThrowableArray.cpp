@@ -57,6 +57,7 @@ ThrowableArray::ThrowableArray()
     : BaseGameObject(true, 0)
     , field_24_throwables(0)
 {
+    SetType(ReliveTypes::eThrowableArray);
     SetUpdatable(false);
     mCount = 0;
     gThrowableArray = this;

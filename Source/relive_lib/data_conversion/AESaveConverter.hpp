@@ -3855,7 +3855,7 @@ struct AbilityRingSaveState final
     static ::AbilityRingSaveState From(const AbilityRingSaveState& data)
     {
         ::AbilityRingSaveState d;
-        d.mRingObjectType = BaseGameObject::FromAE(data.mRingObjectType);
+        d.mType = BaseGameObject::FromAE(data.mRingObjectType);
         d.mRingXPos = data.mRingXPos;
         d.mRingYPos = data.mRingYPos;
         d.mRingType = From(data.mRingType);

@@ -39,7 +39,7 @@ struct AbilityRing_PolyBuffer final
 
 struct AbilityRingSaveState final
 {
-    ReliveTypes mRingObjectType;
+    ReliveTypes mType;
     FP mRingXPos;
     FP mRingYPos;
     RingTypes mRingType;
