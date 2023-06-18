@@ -1,6 +1,7 @@
 #pragma once
 
 #include "BaseAliveGameObject.hpp"
+#include "SaveStateBase.hpp"
 
 class Bone;
 enum eLineTypes : s16;
@@ -71,9 +72,11 @@ enum class eSlogBrains : s16
     Brain_3_Death
 };
 
-struct SlogSaveState final
+struct SlogSaveState final : public SaveStateBase
 {
-    ReliveTypes mType;
+    SlogSaveState()
+        : SaveStateBase(ReliveTypes::eSlog, sizeof(*this))
+    { }
     Guid mBaseTlvId;
     FP mXPos;
     FP mYPos;
