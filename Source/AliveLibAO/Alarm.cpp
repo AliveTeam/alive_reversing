@@ -90,7 +90,7 @@ void Alarm::VUpdate()
             if (mAlarmRed >= 100)
             {
                 mAlarmRed = 100;
-                mAlarmPauseTimer = sGnFrame + 15;
+                mAlarmPauseTimer = MakeTimer(15);
                 mAlarmState = States::eOnFlash_2;
                 SfxPlayMono(relive::SoundEffects::Alarm, 0);
             }
@@ -109,7 +109,7 @@ void Alarm::VUpdate()
             if (mAlarmRed <= 0)
             {
                 mAlarmRed = 0;
-                mAlarmPauseTimer = sGnFrame + 15;
+                mAlarmPauseTimer = MakeTimer(15);
                 mAlarmState = States::eDisabled_4;
             }
             break;

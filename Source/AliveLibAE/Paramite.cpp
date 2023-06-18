@@ -659,7 +659,7 @@ s16 Paramite::Brain_0_Patrol()
                 return mBrainSubState;
             }
             SetNextMotion(eParamiteMotions::Motion_0_Idle);
-            field_138_depossession_timer = sGnFrame + Math_RandomRange(45, 135);
+            field_138_depossession_timer = MakeTimer(Math_RandomRange(45, 135));
             return ParamiteEnums::Brain_0_Patrol::eBrain0_Idle_12;
 
         case ParamiteEnums::Brain_0_Patrol::eBrain0_Turning_14:
@@ -667,7 +667,7 @@ s16 Paramite::Brain_0_Patrol()
             {
                 return mBrainSubState;
             }
-            field_138_depossession_timer = sGnFrame + Math_RandomRange(45, 135);
+            field_138_depossession_timer = MakeTimer(Math_RandomRange(45, 135));
             return ParamiteEnums::Brain_0_Patrol::eBrain0_Idle_12;
 
         case ParamiteEnums::Brain_0_Patrol::eBrain0_LookingForInvisibleAbe_15:
@@ -781,7 +781,7 @@ s16 Paramite::Brain_Patrol_State_12_Idle(BaseAliveGameObject* pObj)
                     Sound(ParamiteSpeak::Howdy_5, 0);
                     SetNextMotion(eParamiteMotions::Motion_0_Idle);
                     SetBrain(&Paramite::Brain_2_ChasingAbe);
-                    field_148_timer = sGnFrame + mGroupChaseDelay;
+                    field_148_timer = MakeTimer(mGroupChaseDelay);
                     return ParamiteEnums::Brain_2_ChasingAbe::eBrain2_Inactive_0;
                 }
             }
@@ -827,7 +827,7 @@ s16 Paramite::Brain_Patrol_State_5_StopApproachingAbe(BaseAliveGameObject* pObj)
     {
         mTargetGuid = Guid{};
         SetNextMotion(eParamiteMotions::Motion_4_Turn);
-        field_130_timer = sGnFrame + Math_RandomRange(45, 60);
+        field_130_timer = MakeTimer(Math_RandomRange(45, 60));
         return ParamiteEnums::Brain_0_Patrol::eBrain0_LostInvisibleAbeSight_10;
     }
 
@@ -836,7 +836,7 @@ s16 Paramite::Brain_Patrol_State_5_StopApproachingAbe(BaseAliveGameObject* pObj)
         Sound(ParamiteSpeak::Howdy_5, 0);
         SetNextMotion(eParamiteMotions::Motion_0_Idle);
         SetBrain(&Paramite::Brain_2_ChasingAbe);
-        field_148_timer = sGnFrame + mGroupChaseDelay;
+        field_148_timer = MakeTimer(mGroupChaseDelay);
         return ParamiteEnums::Brain_2_ChasingAbe::eBrain2_Inactive_0;
     }
 
@@ -902,7 +902,7 @@ s16 Paramite::Brain_Patrol_State_4_ApproachingAbe(BaseAliveGameObject* pObj)
     {
         mTargetGuid = Guid{};
         SetNextMotion(eParamiteMotions::Motion_4_Turn);
-        field_130_timer = sGnFrame + Math_RandomRange(45, 60);
+        field_130_timer = MakeTimer(Math_RandomRange(45, 60));
         return ParamiteEnums::Brain_0_Patrol::eBrain0_LostInvisibleAbeSight_10;
     }
 
@@ -911,7 +911,7 @@ s16 Paramite::Brain_Patrol_State_4_ApproachingAbe(BaseAliveGameObject* pObj)
         Sound(ParamiteSpeak::Howdy_5, 0);
         SetNextMotion(eParamiteMotions::Motion_0_Idle);
         SetBrain(&Paramite::Brain_2_ChasingAbe);
-        field_148_timer = sGnFrame + mGroupChaseDelay;
+        field_148_timer = MakeTimer(mGroupChaseDelay);
         return ParamiteEnums::Brain_2_ChasingAbe::eBrain2_Inactive_0;
     }
 
@@ -977,7 +977,7 @@ s16 Paramite::Brain_Patrol_State_3_RunningFromAbe(BaseAliveGameObject* pObj)
     {
         mTargetGuid = Guid{};
         SetNextMotion(eParamiteMotions::Motion_4_Turn);
-        field_130_timer = sGnFrame + Math_RandomRange(45, 60);
+        field_130_timer = MakeTimer(Math_RandomRange(45, 60));
         return ParamiteEnums::Brain_0_Patrol::eBrain0_LostInvisibleAbeSight_10;
     }
 
@@ -1004,7 +1004,7 @@ s16 Paramite::Brain_Patrol_State_3_RunningFromAbe(BaseAliveGameObject* pObj)
         Sound(ParamiteSpeak::Howdy_5, 0);
         SetNextMotion(eParamiteMotions::Motion_0_Idle);
         SetBrain(&Paramite::Brain_2_ChasingAbe);
-        field_148_timer = sGnFrame + mGroupChaseDelay;
+        field_148_timer = MakeTimer(mGroupChaseDelay);
         return ParamiteEnums::Brain_2_ChasingAbe::eBrain2_Inactive_0;
     }
 
@@ -1044,7 +1044,7 @@ s16 Paramite::Brain_Patrol_State_8_StuckToWall(BaseAliveGameObject* pObj)
     {
         mTargetGuid = Guid{};
         SetNextMotion(eParamiteMotions::Motion_4_Turn);
-        field_130_timer = sGnFrame + Math_RandomRange(45, 60);
+        field_130_timer = MakeTimer(Math_RandomRange(45, 60));
         return ParamiteEnums::Brain_0_Patrol::eBrain0_LostInvisibleAbeSight_10;
     }
 
@@ -1097,7 +1097,7 @@ s16 Paramite::Brain_Patrol_State_1_IdleForAbe(BaseAliveGameObject* pObj)
     {
         if (!FindTarget())
         {
-            field_138_depossession_timer = sGnFrame + Math_RandomRange(45, 135);
+            field_138_depossession_timer = MakeTimer(Math_RandomRange(45, 135));
             return ParamiteEnums::Brain_0_Patrol::eBrain0_Idle_12;
         }
         pObj = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(mTargetGuid));
@@ -1107,7 +1107,7 @@ s16 Paramite::Brain_Patrol_State_1_IdleForAbe(BaseAliveGameObject* pObj)
     {
         mTargetGuid = Guid{};
         SetNextMotion(eParamiteMotions::Motion_4_Turn);
-        field_130_timer = sGnFrame + Math_RandomRange(45, 60);
+        field_130_timer = MakeTimer(Math_RandomRange(45, 60));
         return ParamiteEnums::Brain_0_Patrol::eBrain0_LostInvisibleAbeSight_10;
     }
 
@@ -1127,7 +1127,7 @@ s16 Paramite::Brain_Patrol_State_1_IdleForAbe(BaseAliveGameObject* pObj)
         Sound(ParamiteSpeak::Howdy_5, 0);
         SetNextMotion(eParamiteMotions::Motion_0_Idle);
         SetBrain(&Paramite::Brain_2_ChasingAbe);
-        field_148_timer = sGnFrame + mGroupChaseDelay;
+        field_148_timer = MakeTimer(mGroupChaseDelay);
         return ParamiteEnums::Brain_2_ChasingAbe::eBrain2_Inactive_0;
     }
 
@@ -1220,7 +1220,7 @@ s16 Paramite::Brain_Patrol_State_2_FearingAbe(BaseAliveGameObject* pObj)
     {
         mTargetGuid = Guid{};
         SetNextMotion(eParamiteMotions::Motion_4_Turn);
-        field_130_timer = sGnFrame + Math_RandomRange(45, 60);
+        field_130_timer = MakeTimer(Math_RandomRange(45, 60));
         return ParamiteEnums::Brain_0_Patrol::eBrain0_LostInvisibleAbeSight_10;
     }
 
@@ -1247,7 +1247,7 @@ s16 Paramite::Brain_Patrol_State_2_FearingAbe(BaseAliveGameObject* pObj)
         Sound(ParamiteSpeak::Howdy_5, 0);
         SetNextMotion(eParamiteMotions::Motion_0_Idle);
         SetBrain(&Paramite::Brain_2_ChasingAbe);
-        field_148_timer = sGnFrame + mGroupChaseDelay;
+        field_148_timer = MakeTimer(mGroupChaseDelay);
         return ParamiteEnums::Brain_2_ChasingAbe::eBrain2_Inactive_0;
     }
 
@@ -1435,7 +1435,7 @@ s16 Paramite::Brain_ChasingAbe_State_14_Idle()
         return mBrainSubState;
     }
     SetNextMotion(eParamiteMotions::Motion_40_Eating);
-    field_130_timer = sGnFrame + 28;
+    field_130_timer = MakeTimer(28);
     return ParamiteEnums::Brain_2_ChasingAbe::eBrain2_Eating_13;
 }
 
@@ -1456,7 +1456,7 @@ s16 Paramite::Brain_ChasingAbe_State_13_Eating()
         return mBrainSubState;
     }
     SetNextMotion(eParamiteMotions::Motion_0_Idle);
-    field_130_timer = sGnFrame + 15;
+    field_130_timer = MakeTimer(15);
     return ParamiteEnums::Brain_2_ChasingAbe::eBrain2_Idle_14;
 }
 
@@ -1501,12 +1501,12 @@ s16 Paramite::Brain_ChasingAbe_State_4_CloseAttack()
 
     if (mHissBeforeAttack)
     {
-        field_130_timer = sGnFrame + Math_RandomRange(0, 6);
+        field_130_timer = MakeTimer(Math_RandomRange(0, 6));
         return ParamiteEnums::Brain_2_ChasingAbe::eBrain2_ToWarning_2;
     }
     else
     {
-        field_130_timer = sGnFrame + mAloneChaseDelay;
+        field_130_timer = MakeTimer(mAloneChaseDelay);
         return ParamiteEnums::Brain_2_ChasingAbe::eBrain2_ToChasing_5;
     }
 }
@@ -1518,7 +1518,7 @@ s16 Paramite::Brain_ChasingAbe_State_2_ToWarning()
         return mBrainSubState;
     }
     SetNextMotion(eParamiteMotions::Motion_22_Hiss1);
-    field_130_timer = sGnFrame + mAloneChaseDelay;
+    field_130_timer = MakeTimer(mAloneChaseDelay);
     return ParamiteEnums::Brain_2_ChasingAbe::eBrain2_Warning_3;
 }
 
@@ -1540,7 +1540,7 @@ s16 Paramite::Brain_ChasingAbe_State_11_Walking(BaseAliveGameObject* pObj)
     if (VIsObjNearby(kGridSize, pObj))
     {
         SetNextMotion(eParamiteMotions::Motion_40_Eating);
-        field_130_timer = sGnFrame + 28;
+        field_130_timer = MakeTimer(28);
         return ParamiteEnums::Brain_2_ChasingAbe::eBrain2_Eating_13;
     }
 
@@ -1652,7 +1652,7 @@ s16 Paramite::Brain_ChasingAbe_State_12_WalkingToHop(BaseAliveGameObject* pObj)
         if (VIsObjNearby(kGridSize, pObj))
         {
             SetNextMotion(eParamiteMotions::Motion_40_Eating);
-            field_130_timer = sGnFrame + 28;
+            field_130_timer = MakeTimer(28);
             return ParamiteEnums::Brain_2_ChasingAbe::eBrain2_Eating_13;
         }
         else
@@ -1680,7 +1680,7 @@ s16 Paramite::Brain_ChasingAbe_State_10_Turning(BaseAliveGameObject* pObj)
     if (VIsObjNearby(kGridSize, pObj))
     {
         SetNextMotion(eParamiteMotions::Motion_40_Eating);
-        field_130_timer = sGnFrame + 28;
+        field_130_timer = MakeTimer(28);
         return ParamiteEnums::Brain_2_ChasingAbe::eBrain2_Eating_13;
     }
 
@@ -1854,7 +1854,7 @@ s16 Paramite::Brain_ChasingAbe_State_1_Attacking(BaseAliveGameObject* pObj)
             if (VIsObjNearby(kGridSize, pObj))
             {
                 SetNextMotion(eParamiteMotions::Motion_40_Eating);
-                field_130_timer = sGnFrame + 28;
+                field_130_timer = MakeTimer(28);
                 return ParamiteEnums::Brain_2_ChasingAbe::eBrain2_Eating_13;
             }
 
@@ -1903,12 +1903,12 @@ s16 Paramite::Brain_ChasingAbe_State_0_Inactive(BaseAliveGameObject* pObj)
         {
             if (mHissBeforeAttack)
             {
-                field_130_timer = sGnFrame + Math_RandomRange(0, 6);
+                field_130_timer = MakeTimer(Math_RandomRange(0, 6));
                 return ParamiteEnums::Brain_2_ChasingAbe::eBrain2_ToWarning_2;
             }
             else
             {
-                field_130_timer = sGnFrame + mAloneChaseDelay;
+                field_130_timer = MakeTimer(mAloneChaseDelay);
                 return ParamiteEnums::Brain_2_ChasingAbe::eBrain2_ToChasing_5;
             }
         }
@@ -1927,7 +1927,7 @@ s16 Paramite::Brain_ChasingAbe_State_0_Inactive(BaseAliveGameObject* pObj)
             if (VIsObjNearby(kGridSize, pObj))
             {
                 SetNextMotion(eParamiteMotions::Motion_40_Eating);
-                field_130_timer = sGnFrame + 28;
+                field_130_timer = MakeTimer(28);
                 return ParamiteEnums::Brain_2_ChasingAbe::eBrain2_Eating_13;
             }
 
@@ -1981,7 +1981,7 @@ s16 Paramite::Brain_3_SurpriseWeb()
             {
                 SetCanBePossessed(true);
                 GetAnimation().SetFlipX(false);
-                field_130_timer = sGnFrame + mSurpriseWebDelayTimer;
+                field_130_timer = MakeTimer(mSurpriseWebDelayTimer);
                 auto pNewWeb = relive_new ParamiteWeb(mXPos, FP_GetExponent(mYPos) - 20, FP_GetExponent(mYPos) - 10, GetSpriteScale());
                 if (pNewWeb)
                 {
@@ -2211,7 +2211,7 @@ s16 Paramite::Brain_SpottedMeat_State_5_AttentiveToMeat(Meat* pMeat)
     }
 
     SetNextMotion(eParamiteMotions::Motion_40_Eating);
-    field_130_timer = sGnFrame + mMeatEatingTime;
+    field_130_timer = MakeTimer(mMeatEatingTime);
     return ParamiteEnums::Brain_5_SpottedMeat::eBrain5_Eating_6;
 }
 
@@ -2291,7 +2291,7 @@ s16 Paramite::Brain_SpottedMeat_State_2_Walking(Meat* pMeat)
     if (pMeat->mPathLine)
     {
         SetNextMotion(eParamiteMotions::Motion_40_Eating);
-        field_130_timer = sGnFrame + mMeatEatingTime;
+        field_130_timer = MakeTimer(mMeatEatingTime);
         return ParamiteEnums::Brain_5_SpottedMeat::eBrain5_Eating_6;
     }
     return ParamiteEnums::Brain_5_SpottedMeat::eBrain5_Walking_2;
@@ -2337,7 +2337,7 @@ s16 Paramite::Brain_SpottedMeat_State_1_Running(Meat* pMeat)
         if (pMeat->mPathLine)
         {
             SetNextMotion(eParamiteMotions::Motion_40_Eating);
-            field_130_timer = sGnFrame + mMeatEatingTime;
+            field_130_timer = MakeTimer(mMeatEatingTime);
             return ParamiteEnums::Brain_5_SpottedMeat::eBrain5_Eating_6;
         }
         return ParamiteEnums::Brain_5_SpottedMeat::eBrain5_Running_1;
@@ -2409,7 +2409,7 @@ s16 Paramite::Brain_SpottedMeat_State_0_Idle(Meat* pMeat)
         }
 
         SetNextMotion(eParamiteMotions::Motion_40_Eating);
-        field_130_timer = sGnFrame + mMeatEatingTime;
+        field_130_timer = MakeTimer(mMeatEatingTime);
         return ParamiteEnums::Brain_5_SpottedMeat::eBrain5_Eating_6;
     }
 
@@ -2437,7 +2437,7 @@ s16 Paramite::Brain_6_Possessed()
         if (mHealth <= FP_FromInteger(0))
         {
             SetBrain(&Paramite::Brain_1_Death);
-            field_130_timer = sGnFrame + 90;
+            field_130_timer = MakeTimer(90);
             return mBrainSubState;
         }
     }
@@ -2457,7 +2457,7 @@ s16 Paramite::Brain_7_DeathDrop()
 {
     if (mBrainSubState == 0)
     {
-        field_130_timer = sGnFrame + 60;
+        field_130_timer = MakeTimer(60);
         return 1;
     }
     else if (mBrainSubState == 1)
@@ -2474,7 +2474,7 @@ s16 Paramite::Brain_7_DeathDrop()
         Environment_SFX(EnvironmentSfx::eFallingDeathScreamHitGround_15, 0, 0x7FFF, this);
 
         relive_new ScreenShake(0, 0);
-        field_130_timer = sGnFrame + 30;
+        field_130_timer = MakeTimer(30);
         return 2;
     }
     else
@@ -2514,7 +2514,7 @@ s16 Paramite::Brain_8_ControlledByGameSpeak()
                 Sound(ParamiteSpeak::Howdy_5, 0);
                 SetNextMotion(eParamiteMotions::Motion_0_Idle);
                 SetBrain(&Paramite::Brain_2_ChasingAbe);
-                field_148_timer = sGnFrame + mGroupChaseDelay;
+                field_148_timer = MakeTimer(mGroupChaseDelay);
                 return ParamiteEnums::Brain_2_ChasingAbe::eBrain2_Inactive_0;
             }
         }
@@ -2572,20 +2572,20 @@ s16 Paramite::Brain_8_ControlledByGameSpeak()
                 {
                     case GameSpeakEvents::eParamite_Stay_49:
                         SetGamespeakNextMotion(eParamiteMotions::Motion_22_Hiss1);
-                        field_130_timer = sGnFrame + StableDelay();
+                        field_130_timer = MakeTimer(StableDelay());
                         field_158_next_brain_ret = 9;
                         return ParamiteEnums::Brain_8_ControlledByGameSpeak::eBrain8_RecievedCommand_10;
 
                     case GameSpeakEvents::eParamite_Howdy_48:
                     case GameSpeakEvents::eParamite_AllYa_52:
                         SetGamespeakNextMotion(eParamiteMotions::Motion_24_Empty);
-                        field_130_timer = sGnFrame + StableDelay();
+                        field_130_timer = MakeTimer(StableDelay());
                         field_158_next_brain_ret = 1;
                         return ParamiteEnums::Brain_8_ControlledByGameSpeak::eBrain8_RecievedCommand_10;
 
                     case GameSpeakEvents::eParamite_DoIt_51:
                         SetGamespeakNextMotion(eParamiteMotions::Motion_26_Hiss3);
-                        field_130_timer = sGnFrame + StableDelay();
+                        field_130_timer = MakeTimer(StableDelay());
                         field_158_next_brain_ret = 7;
                         return ParamiteEnums::Brain_8_ControlledByGameSpeak::eBrain8_RecievedCommand_10;
 
@@ -2598,7 +2598,7 @@ s16 Paramite::Brain_8_ControlledByGameSpeak()
                                 {
                                     if (!Check_IsOnEndOfLine(1, 1) && GetCurrentMotion() == eParamiteMotions::Motion_0_Idle)
                                     {
-                                        field_130_timer = sGnFrame + StableDelay();
+                                        field_130_timer = MakeTimer(StableDelay());
                                         return ParamiteEnums::Brain_8_ControlledByGameSpeak::eBrain8_FollowingIdleToWalking_4;
                                     }
                                     if (!Check_IsOnEndOfLine(1, 4) && VOnSameYLevel(sControlledCharacter))
@@ -2614,7 +2614,7 @@ s16 Paramite::Brain_8_ControlledByGameSpeak()
                                 {
                                     if (!Check_IsOnEndOfLine(0, 1) && GetCurrentMotion() == eParamiteMotions::Motion_0_Idle)
                                     {
-                                        field_130_timer = sGnFrame + StableDelay();
+                                        field_130_timer = MakeTimer(StableDelay());
                                         return ParamiteEnums::Brain_8_ControlledByGameSpeak::eBrain8_FollowingIdleToWalking_4;
                                     }
                                 }
@@ -2631,7 +2631,7 @@ s16 Paramite::Brain_8_ControlledByGameSpeak()
                         if (lastSpeak == GameSpeakEvents::eParamite_CMon_or_Attack_50)
                         {
                             SetGamespeakNextMotion(eParamiteMotions::Motion_23_Hiss2);
-                            field_130_timer = sGnFrame + StableDelay();
+                            field_130_timer = MakeTimer(StableDelay());
                             field_158_next_brain_ret = 2;
                             return ParamiteEnums::Brain_8_ControlledByGameSpeak::eBrain8_RecievedCommand_10;
                         }
@@ -2643,7 +2643,7 @@ s16 Paramite::Brain_8_ControlledByGameSpeak()
                         {
                             SetGamespeakNextMotion(eParamiteMotions::Motion_43_Attack);
                             field_158_next_brain_ret = 1;
-                            field_130_timer = sGnFrame + 10;
+                            field_130_timer = MakeTimer(10);
                             return ParamiteEnums::Brain_8_ControlledByGameSpeak::eBrain8_RecievedCommand_10;
                         }
                         break;
@@ -2838,26 +2838,26 @@ s16 Paramite::Brain_8_ControlledByGameSpeak()
                 {
                     case GameSpeakEvents::eParamite_CMon_or_Attack_50:
                         SetGamespeakNextMotion(eParamiteMotions::Motion_23_Hiss2);
-                        field_130_timer = sGnFrame + StableDelay();
+                        field_130_timer = MakeTimer(StableDelay());
                         field_158_next_brain_ret = 1;
                         return ParamiteEnums::Brain_8_ControlledByGameSpeak::eBrain8_RecievedCommand_10;
 
                     case GameSpeakEvents::eParamite_Stay_49:
                         SetGamespeakNextMotion(eParamiteMotions::Motion_22_Hiss1);
-                        field_130_timer = sGnFrame + StableDelay();
+                        field_130_timer = MakeTimer(StableDelay());
                         field_158_next_brain_ret = 9;
                         return ParamiteEnums::Brain_8_ControlledByGameSpeak::eBrain8_RecievedCommand_10;
 
                     case GameSpeakEvents::eParamite_Howdy_48:
                     case GameSpeakEvents::eParamite_AllYa_52:
                         SetGamespeakNextMotion(eParamiteMotions::Motion_24_Empty);
-                        field_130_timer = sGnFrame + StableDelay();
+                        field_130_timer = MakeTimer(StableDelay());
                         field_158_next_brain_ret = 9;
                         return ParamiteEnums::Brain_8_ControlledByGameSpeak::eBrain8_RecievedCommand_10;
 
                     case GameSpeakEvents::eParamite_DoIt_51:
                         SetGamespeakNextMotion(eParamiteMotions::Motion_26_Hiss3);
-                        field_130_timer = sGnFrame + StableDelay();
+                        field_130_timer = MakeTimer(StableDelay());
                         field_158_next_brain_ret = 7;
                         return ParamiteEnums::Brain_8_ControlledByGameSpeak::eBrain8_RecievedCommand_10;
 
@@ -3058,7 +3058,7 @@ void Paramite::Motion_0_Idle()
     if (Input_IsChanting() && !mPreventDepossession)
     {
         SetCurrentMotion(eParamiteMotions::Motion_29_GetDepossessedBegin);
-        field_138_depossession_timer = sGnFrame + 30;
+        field_138_depossession_timer = MakeTimer(30);
         SfxPlayMono(relive::SoundEffects::PossessEffect, 0);
     }
     else if (Input().IsAnyPressed(InputCommands::eGameSpeak1))
@@ -3799,7 +3799,7 @@ void Paramite::Motion_11_Falling()
                         mHealth = FP_FromInteger(0);
                         SetBrain(&Paramite::Brain_1_Death);
                         SetCurrentMotion(eParamiteMotions::Motion_41_Death);
-                        field_130_timer = sGnFrame + 90;
+                        field_130_timer = MakeTimer(90);
 
                         relive_new Blood(mXPos, mYPos, FP_FromInteger(0), FP_FromInteger(5), GetSpriteScale(), 50);
                     }
@@ -4080,7 +4080,7 @@ void Paramite::Motion_19_Knockback()
             {
                 SetCurrentMotion(eParamiteMotions::Motion_41_Death);
                 SetBrain(&Paramite::Brain_1_Death);
-                field_130_timer = sGnFrame + 90;
+                field_130_timer = MakeTimer(90);
             }
         }
     }
@@ -5367,7 +5367,7 @@ void Paramite::VUnPosses()
 {
     SetNextMotion(eParamiteMotions::Motion_0_Idle);
     SetPossessed(false);
-    field_130_timer = sGnFrame + 180;
+    field_130_timer = MakeTimer(180);
     SetBrain(&Paramite::Brain_0_Patrol);
     mBrainSubState = 0;
 }
@@ -5379,7 +5379,7 @@ void Paramite::VPossessed()
     SetBrain(&Paramite::Brain_6_Possessed);
     SetNextMotion(eParamiteMotions::Motion_0_Idle);
     mBrainSubState = 0;
-    field_130_timer = sGnFrame + 30;
+    field_130_timer = MakeTimer(30);
     mAbeLevel = gMap.mCurrentLevel;
     mAbePath = gMap.mCurrentPath;
     mAbeCamera = gMap.mCurrentCamera;
@@ -5428,7 +5428,7 @@ bool Paramite::VTakeDamage(BaseGameObject* pFrom)
                     {
                         SetBrain(&Paramite::Brain_2_ChasingAbe);
                         mBrainSubState = 0;
-                        field_148_timer = sGnFrame + mGroupChaseDelay;
+                        field_148_timer = MakeTimer(mGroupChaseDelay);
                         mTargetGuid = pFrom->mBaseGameObjectId;
                     }
                 }
@@ -5441,7 +5441,7 @@ bool Paramite::VTakeDamage(BaseGameObject* pFrom)
 
             EventBroadcast(kScrabOrParamiteDied, this);
             SetBrain(&Paramite::Brain_1_Death);
-            field_130_timer = sGnFrame + 90;
+            field_130_timer = MakeTimer(90);
             SetCurrentMotion(eParamiteMotions::Motion_41_Death);
             vUpdateAnim();
 
@@ -5464,7 +5464,7 @@ bool Paramite::VTakeDamage(BaseGameObject* pFrom)
             EventBroadcast(kScrabOrParamiteDied, this);
             mHealth = FP_FromInteger(0);
             SetBrain(&Paramite::Brain_1_Death);
-            field_130_timer = sGnFrame + 90;
+            field_130_timer = MakeTimer(90);
             SetCurrentMotion(eParamiteMotions::Motion_41_Death);
             vUpdateAnim();
 

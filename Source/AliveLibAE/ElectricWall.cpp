@@ -111,7 +111,7 @@ void ElectricWall::VUpdate()
         if (static_cast<s32>(sGnFrame) >= mSoundTimer)
         {
             SFX_Play_Camera(relive::SoundEffects::BirdPortalSpark, 45, soundDirection, GetSpriteScale());
-            mSoundTimer = sGnFrame + Math_RandomRange(24, 40);
+            mSoundTimer = MakeTimer(Math_RandomRange(24, 40));
         }
 
         const PSX_RECT bRect = VGetBoundingRect();

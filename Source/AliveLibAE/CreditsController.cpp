@@ -12,7 +12,7 @@ CreditsController::CreditsController(relive::Path_TLV* /*pTlv*/, const Guid& /*t
    : BaseGameObject(true, 0)
 {
     mCurrentCamera = gMap.mCurrentCamera;
-    mNextCameraTimer = sGnFrame + kShowCreditScreenForTicks;
+    mNextCameraTimer = MakeTimer(kShowCreditScreenForTicks);
 
     gCreditsControllerExists = true;
 }
@@ -27,7 +27,7 @@ void CreditsController::VUpdate()
     if (mNextCameraTimer <= static_cast<s32>(sGnFrame))
     {
         mCurrentCamera++;
-        mNextCameraTimer = sGnFrame + kShowCreditScreenForTicks;
+        mNextCameraTimer = MakeTimer(kShowCreditScreenForTicks);
 
         if (gMap.mCurrentPath == 2)
         {

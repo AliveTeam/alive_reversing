@@ -160,7 +160,7 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale, bool b
     mXPos = xpos;
     mYPos = ypos + FP_FromInteger(2);
 
-    mAliveTimer = sGnFrame + 91;
+    mAliveTimer = MakeTimer(91);
 
     if (scale == FP_FromInteger(1))
     {

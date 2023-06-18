@@ -170,7 +170,7 @@ void UXB::VOnPickUpOrSlapped()
             if (mRedBlinkCount)
             {
                 mCurrentState = UXBState::eExploding;
-                mNextStateTimer = sGnFrame + 2;
+                mNextStateTimer = MakeTimer(2);
             }
             else
             {
@@ -187,7 +187,7 @@ void UXB::VOnPickUpOrSlapped()
                 GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::UXB_Toggle));
                 mCurrentState = UXBState::eDeactivated;
 
-                mNextStateTimer = sGnFrame + 10;
+                mNextStateTimer = MakeTimer(10);
             }
         }
         else
@@ -297,13 +297,13 @@ void UXB::VUpdate()
             if (IsColliding())
             {
                 mCurrentState = UXBState::eExploding;
-                mNextStateTimer = sGnFrame + 2;
+                mNextStateTimer = MakeTimer(2);
             }
             else if (mNextStateTimer <= sGnFrame)
             {
                 mCurrentState = UXBState::eActive;
                 mFlashAnim.Set_Animation_Data(GetAnimRes(AnimId::Bomb_Flash));
-                mNextStateTimer = sGnFrame + 2;
+                mNextStateTimer = MakeTimer(2);
             }
             break;
 
@@ -311,7 +311,7 @@ void UXB::VUpdate()
             if (IsColliding())
             {
                 mCurrentState = UXBState::eExploding;
-                mNextStateTimer = sGnFrame + 2;
+                mNextStateTimer = MakeTimer(2);
             }
             else if (mNextStateTimer <= sGnFrame)
             {
@@ -367,7 +367,7 @@ void UXB::VUpdate()
                 }
 
                 mCurrentState = UXBState::eDelay;
-                mNextStateTimer = sGnFrame + 10; // UXB change color delay
+                mNextStateTimer = MakeTimer(10); // UXB change color delay
             }
             break;
 

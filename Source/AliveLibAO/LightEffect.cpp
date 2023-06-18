@@ -18,7 +18,7 @@ LightEffect::LightEffect(relive::Path_LightEffect* pTlv, const Guid& tlvId)
     mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Star));
     Animation_Init(GetAnimRes(AnimId::Star));
 
-    mRnd1 = sGnFrame + Math_RandomRange(2, 8);
+    mRnd1 = MakeTimer(Math_RandomRange(2, 8));
     mRnd2 = mRnd1 + Math_RandomRange(4, 8);
     mRnd3 = Math_RandomRange(96, 128);
     mRnd4 = Math_RandomRange(190, 255);
@@ -111,7 +111,7 @@ void LightEffect::VUpdate()
     }
     else if (static_cast<s32>(sGnFrame) > mRnd2)
     {
-        mRnd1 = sGnFrame + Math_RandomRange(2, 8);
+        mRnd1 = MakeTimer(Math_RandomRange(2, 8));
         mRnd2 = mRnd1 + Math_RandomRange(4, 8);
         mRnd4 = Math_RandomRange(150, 180);
         u8 rgb = 96;

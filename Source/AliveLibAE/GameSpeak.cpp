@@ -168,7 +168,7 @@ void GameSpeak::VUpdate()
 void GameSpeak::PushEvent(GameSpeakEvents event)
 {
     PushEvent_Impl(event);
-    mLastEventFrame = sGnFrame + 60;
+    mLastEventFrame = MakeTimer(60);
 }
 
 void GameSpeak::PushEvent_Impl(GameSpeakEvents event)

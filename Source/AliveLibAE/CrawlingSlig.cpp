@@ -345,7 +345,7 @@ void CrawlingSlig::VPossessed()
     Set_AnimAndMotion(CrawlingSligMotion::Motion_12_Shaking, true);
     SetBrain(ICrawlingSligBrain::EBrainTypes::Possessed);
     mPossessedBrain.SetState(PossessedBrain::EState::eStartPossession);
-    mMultiUseTimer = sGnFrame + 35;
+    mMultiUseTimer = MakeTimer(35);
     mAbeLevel = gMap.mCurrentLevel;
     mAbePath = gMap.mCurrentPath;
     mAbeCamera = gMap.mCurrentCamera;
@@ -528,7 +528,7 @@ void CrawlingSlig::VOnTlvCollision(relive::Path_TLV* pTlv)
                 mVelX = FP_FromInteger(0);
                 EventBroadcast(kEventMudokonComfort, this);
                 Slig_GameSpeak_SFX(SligSpeak::eHelp_10, 0, 0, this);
-                mMultiUseTimer = sGnFrame + 60;
+                mMultiUseTimer = MakeTimer(60);
             }
         }
 
@@ -569,7 +569,7 @@ bool CrawlingSlig::VTakeDamage(BaseGameObject* pFrom)
             case ReliveTypes::eSlig:
             {
                 // Take a BEATING
-                mMultiUseTimer = sGnFrame + 20;
+                mMultiUseTimer = MakeTimer(20);
                 mHealth -= FP_FromDouble(0.13);
 
                 if (mHealth <= FP_FromInteger(0))
@@ -607,7 +607,7 @@ bool CrawlingSlig::VTakeDamage(BaseGameObject* pFrom)
                     mVelX = FP_FromInteger(0);
                     mHealth = FP_FromInteger(0);
                     MapFollowMe(true);
-                    mMultiUseTimer = sGnFrame + 15;
+                    mMultiUseTimer = MakeTimer(15);
                     Set_AnimAndMotion(CrawlingSligMotion::Motion_13_Empty, true);
                     EventBroadcast(kEventMudokonComfort, this);
                 }
@@ -618,7 +618,7 @@ bool CrawlingSlig::VTakeDamage(BaseGameObject* pFrom)
                 {
                     GetAnimation().SetRender(false);
                     mHealth = FP_FromInteger(0);
-                    mMultiUseTimer = sGnFrame + 1;
+                    mMultiUseTimer = MakeTimer(1);
                     SetBrain(ICrawlingSligBrain::EBrainTypes::GetKilled);
                     mGetKilledBrain.SetState(GetKilledBrain::EState::eSetDead);
                     EventBroadcast(kEventMudokonComfort, this);
@@ -721,7 +721,7 @@ void SleepingBrain::VUpdate()
     {
         if (mCrawlingSlig.PanicOn())
         {
-            mCrawlingSlig.mMultiUseTimer = sGnFrame + Math_RandomRange(15, 45);
+            mCrawlingSlig.mMultiUseTimer = BaseGameObject::MakeTimer(Math_RandomRange(15, 45));
             mBrainState = EState::eWakingUp;
         }
         return;
@@ -820,7 +820,7 @@ void PanicGetALockerBrain::VUpdate()
         case EState::eSearchLocker:
             if (mCrawlingSlig.HandleEnemyStopper(mCrawlingSlig.mVelX))
             {
-                mCrawlingSlig.mMultiUseTimer = (Math_NextRandom() & 15) + sGnFrame + 30;
+                mCrawlingSlig.mMultiUseTimer = (Math_NextRandom() & 15) + BaseGameObject::MakeTimer(30);
                 mCrawlingSlig.SetNextMotion(CrawlingSligMotion::Motion_11_TurnAround);
                 mBrainState = EState::eTurnAround;
                 return;
@@ -840,7 +840,7 @@ void PanicGetALockerBrain::VUpdate()
                     return;
                 }
                 mCrawlingSlig.SetNextMotion(CrawlingSligMotion::Motion_8_Speaking);
-                mCrawlingSlig.mSayHelpTimer = sGnFrame + 60;
+                mCrawlingSlig.mSayHelpTimer = BaseGameObject::MakeTimer(60);
                 mCrawlingSlig.mSpeak = SligSpeak::eHelp_10;
                 mBrainState = EState::eSearchLockerOrTurnAround;
                 return;
@@ -879,7 +879,7 @@ void PanicGetALockerBrain::VUpdate()
                 mBrainState = EState::eSearchLocker;
                 return;
             }
-            mCrawlingSlig.mMultiUseTimer = (Math_NextRandom() & 15) + sGnFrame + 30;
+            mCrawlingSlig.mMultiUseTimer = (Math_NextRandom() & 15) + BaseGameObject::MakeTimer(30);
             mCrawlingSlig.SetNextMotion(CrawlingSligMotion::Motion_11_TurnAround);
             mBrainState = EState::eTurnAround;
             return;
@@ -895,13 +895,13 @@ void PanicGetALockerBrain::VUpdate()
             {
                 if (Math_NextRandom() & 1)
                 {
-                    mCrawlingSlig.mMultiUseTimer = (Math_NextRandom() & 15) + sGnFrame + 30;
+                    mCrawlingSlig.mMultiUseTimer = (Math_NextRandom() & 15) + BaseGameObject::MakeTimer(30);
                     mBrainState = EState::eCrawling;
                     return;
                 }
                 else
                 {
-                    mCrawlingSlig.mMultiUseTimer = (Math_NextRandom() & 15) + sGnFrame + 30;
+                    mCrawlingSlig.mMultiUseTimer = (Math_NextRandom() & 15) + BaseGameObject::MakeTimer(30);
                     mCrawlingSlig.SetNextMotion(CrawlingSligMotion::Motion_11_TurnAround);
                     mBrainState = EState::eTurnAround;
                     return;
@@ -913,7 +913,7 @@ void PanicGetALockerBrain::VUpdate()
                 mCrawlingSlig.mTlvHeader->mTlvSpecificMeaning |= 1;
 
                 mCrawlingSlig.SetNextMotion(CrawlingSligMotion::Motion_1_UsingButton);
-                mCrawlingSlig.mMultiUseTimer = sGnFrame + 20;
+                mCrawlingSlig.mMultiUseTimer = BaseGameObject::MakeTimer(20);
                 mBrainState = EState::eUsingButton;
                 return;
             }
@@ -957,7 +957,7 @@ void PanicGetALockerBrain::VUpdate()
             }
 
             mCrawlingSlig.SetNextMotion(CrawlingSligMotion::Motion_8_Speaking);
-            mCrawlingSlig.mSayHelpTimer = sGnFrame + 60;
+            mCrawlingSlig.mSayHelpTimer = BaseGameObject::MakeTimer(60);
             mCrawlingSlig.mSpeak = SligSpeak::eHelp_10;
             mBrainState = EState::eCheckIfWallHit;
             return;
@@ -1043,7 +1043,7 @@ void PossessedBrain::VUpdate()
             {
                 return;
             }
-            mCrawlingSlig.mMultiUseTimer = sGnFrame + 30;
+            mCrawlingSlig.mMultiUseTimer = BaseGameObject::MakeTimer(30);
             SfxPlayMono(relive::SoundEffects::PossessEffect, 0);
             mCrawlingSlig.Set_AnimAndMotion(CrawlingSligMotion::Motion_12_Shaking, true);
             mBrainState = EState::eUnpossessing;
@@ -1185,7 +1185,7 @@ void GetKilledBrain::VUpdate()
             mCrawlingSlig.mVelY = FP_FromInteger(0);
             mCrawlingSlig.mVelX = FP_FromInteger(0);
             mCrawlingSlig.mHealth = FP_FromInteger(0);
-            mCrawlingSlig.mMultiUseTimer = sGnFrame + 40;
+            mCrawlingSlig.mMultiUseTimer = BaseGameObject::MakeTimer(40);
             mBrainState = EState::eSetDead;
             return;
         }
@@ -1202,7 +1202,7 @@ void GetKilledBrain::VUpdate()
             {
                 return;
             }
-            mCrawlingSlig.mMultiUseTimer = sGnFrame + 90;
+            mCrawlingSlig.mMultiUseTimer = BaseGameObject::MakeTimer(90);
             mBrainState = EState::eVaporize;
             return;
 
@@ -1229,7 +1229,7 @@ void GetKilledBrain::VUpdate()
             {
                 Environment_SFX(EnvironmentSfx::eFallingDeathScreamHitGround_15, 0, 0x7FFF, &mCrawlingSlig);
                 relive_new ScreenShake(0, 0);
-                mCrawlingSlig.mMultiUseTimer = sGnFrame + 30;
+                mCrawlingSlig.mMultiUseTimer = BaseGameObject::MakeTimer(30);
                 mBrainState = EState::eSetDead;
                 return;
             }
@@ -1731,7 +1731,7 @@ void CrawlingSlig::HandleCommon()
                     mTlvHeader->mTlvSpecificMeaning &= 0xFF;
                     mTlvHeader->mTlvSpecificMeaning |= 1;
                     SetNextMotion(CrawlingSligMotion::Motion_1_UsingButton);
-                    mMultiUseTimer = sGnFrame + 20;
+                    mMultiUseTimer = MakeTimer(20);
                 }
             }
             else

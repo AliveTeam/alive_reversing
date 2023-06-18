@@ -304,7 +304,7 @@ void SecurityClaw::VUpdate()
         case SecurityClawStates::eIdle_1:
             if (EventGet(kEventAbeOhm))
             {
-                mTimer = sGnFrame + 20;
+                mTimer = MakeTimer(20);
                 mState = SecurityClawStates::eDoZapEffects_2;
                 pClaw->GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Security_Claw_Lower_Open));
                 SfxPlayMono(relive::SoundEffects::IndustrialNoise3, 60);
@@ -372,7 +372,7 @@ void SecurityClaw::VUpdate()
                 }
 
                 mState = SecurityClawStates::eAnimateClaw_DoFlashAndSound_3;
-                mTimer = sGnFrame + 8;
+                mTimer = MakeTimer(8);
             }
             break;
 

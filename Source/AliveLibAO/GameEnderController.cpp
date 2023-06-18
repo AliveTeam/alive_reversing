@@ -51,7 +51,7 @@ void GameEnderController::VUpdate()
             if (gSwitchStates.mData[70])
             {
                 mState = GameEnderControllerStates::eDetermineEnding_1;
-                mTimer = sGnFrame + 50;
+                mTimer = MakeTimer(50);
             }
             break;
 

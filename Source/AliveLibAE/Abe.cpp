@@ -969,7 +969,7 @@ void Abe::VUpdate()
         {
             if (!mInvisibilityTimer)
             {
-                mInvisibilityTimer = sGnFrame + 2;
+                mInvisibilityTimer = MakeTimer(2);
             }
 
             auto pInvisibleEffect = relive_new InvisibleEffect(this);
@@ -1219,7 +1219,7 @@ void Abe::VUpdate()
             {
                 if (gMap.mCurrentLevel == EReliveLevelIds::eNecrum)
                 {
-                    mRingPulseTimer = sGnFrame + 200000;
+                    mRingPulseTimer = MakeTimer(200000);
                     mHaveShrykull = 0;
                     mHaveInvisibility = 0;
                     mMudomoDone = false;
@@ -1232,7 +1232,7 @@ void Abe::VUpdate()
         if (EventGet(kEventMudokonDied))
         {
             mSay = MudSounds::eOops_14;
-            mAutoSayTimer = sGnFrame + Math_RandomRange(22, 30);
+            mAutoSayTimer = MakeTimer(Math_RandomRange(22, 30));
 
             relive_new MusicTrigger(relive::Path_MusicTrigger::MusicTriggerMusicType::eDeathDrumShort, relive::Path_MusicTrigger::TriggeredBy::eTimer, 0);
         }
@@ -1240,13 +1240,13 @@ void Abe::VUpdate()
         if (EventGet(kEventMudokonComfort))
         {
             mSay = MudSounds::eGiggle_8;
-            mAutoSayTimer = sGnFrame + Math_RandomRange(22, 30);
+            mAutoSayTimer = MakeTimer(Math_RandomRange(22, 30));
         }
 
         if (EventGet(kScrabOrParamiteDied))
         {
             mSay = MudSounds::eOops_14;
-            mAutoSayTimer = sGnFrame + Math_RandomRange(22, 30);
+            mAutoSayTimer = MakeTimer(Math_RandomRange(22, 30));
         }
 
         if (mDoQuicksave)
@@ -1342,7 +1342,7 @@ void Abe::ToKnockback_44E700(s16 bKnockbackSound, s16 bDelayedAnger)
         if (bDelayedAnger)
         {
             mSay = MudSounds::eAnger_5;    // anger in..
-            mAutoSayTimer = sGnFrame + 27; // 27 ticks
+            mAutoSayTimer = MakeTimer(27);
         }
 
         if (pfield_158)
@@ -1386,7 +1386,7 @@ void Abe::VScreenChanged()
         if (gMap.mNextLevel == EReliveLevelIds::eMines && !gAttract)
         {
             mSay = MudSounds::eHelloNeutral_3;
-            mAutoSayTimer = sGnFrame + 35;
+            mAutoSayTimer = MakeTimer(35);
         }
 
         // Set the correct tint for this map
@@ -1722,7 +1722,7 @@ bool Abe::VTakeDamage(BaseGameObject* pFrom)
         return false;
     }
 
-    mRegenHealthTimer = sGnFrame + 180;
+    mRegenHealthTimer = MakeTimer(180);
     bool ret = mHealth > FP_FromInteger(0);
 
     switch (pFrom->Type())
@@ -1821,7 +1821,7 @@ bool Abe::VTakeDamage(BaseGameObject* pFrom)
         case ReliveTypes::eSecurityClaw:
         case ReliveTypes::eSecurityOrb:
             mSay = MudSounds::eAnger_5;
-            mAutoSayTimer = sGnFrame + 27;
+            mAutoSayTimer = MakeTimer(27);
             if (mCurrentMotion != eAbeMotions::Motion_123_LiftGrabIdle && mCurrentMotion != eAbeMotions::Motion_124_LiftUseUp && mCurrentMotion != eAbeMotions::Motion_125_LiftUseDown)
             {
                 ToKnockback_44E700(1, 1);
@@ -2332,7 +2332,7 @@ void Abe::Motion_0_Idle_44EEB0()
         else
         {
             // Go to chanting.
-            field_124_timer = sGnFrame + 90;
+            field_124_timer = MakeTimer(90);
             mCurrentMotion = eAbeMotions::Motion_112_Chant;
             SND_SEQ_PlaySeq(SeqId::MudokonChant1_10, 0, 1);
         }
@@ -2960,7 +2960,7 @@ void Abe::Motion_3_Fall_459B60()
                 mYPos = FP_NoFractional(hitY + FP_FromDouble(0.5));
                 BaseAliveGameObjectCollisionLine = pPathLine;
                 MapFollowMe(true);
-                field_124_timer = sGnFrame + 30;
+                field_124_timer = MakeTimer(30);
 
                 // See if there is a soft landing at our feet (given we known we just hit the floor)
                 relive::Path_SoftLanding* pSoftLanding = static_cast<relive::Path_SoftLanding*>(gPathInfo->TLV_Get_At(
@@ -2990,7 +2990,7 @@ void Abe::Motion_3_Fall_459B60()
                     // Slam into the floor and break all your bones
                     mHealth = FP_FromInteger(0);
                     mCurrentMotion = eAbeMotions::Motion_84_FallLandDie_45A420;
-                    mRegenHealthTimer = sGnFrame + 900;
+                    mRegenHealthTimer = MakeTimer(900);
                 }
 
                 mPreviousMotion = eAbeMotions::Motion_3_Fall_459B60;
@@ -4934,7 +4934,7 @@ void Abe::Motion_56_DeathDropFall_4591F0()
         field_8_x_vel_slow_by = FP_FromInteger(0);
         mVelX = FP_FromInteger(0);
         mVelY = FP_FromInteger(0);
-        field_0_abe_timer = sGnFrame + 90;
+        field_0_abe_timer = MakeTimer(90);
         field_124_timer++;
     }
     else if (field_124_timer == 1)
@@ -4985,7 +4985,7 @@ void Abe::Motion_57_Dead_4589A0()
             mVelY = FP_FromInteger(0);
             mPrevInput = 0;
             field_124_timer++;
-            field_0_abe_timer = sGnFrame + 30;
+            field_0_abe_timer = MakeTimer(30);
             if (BaseAliveGameObjectPathTLV && BaseAliveGameObjectPathTLV->mTlvType == ReliveTypes::eDeathDrop)
             {
                 const FP ypos = FP_FromInteger(Math_NextRandom() % 10) + mYPos + FP_FromInteger(15);
@@ -5046,7 +5046,7 @@ void Abe::Motion_57_Dead_4589A0()
 
             if (static_cast<s32>(sGnFrame) > field_0_abe_timer)
             {
-                field_0_abe_timer = sGnFrame + 60;
+                field_0_abe_timer = MakeTimer(60);
 
                 if (BaseAliveGameObjectPathTLV)
                 {
@@ -5099,7 +5099,7 @@ void Abe::Motion_57_Dead_4589A0()
             VOnTrapDoorOpen();
 
             BaseAliveGameObjectCollisionLine = nullptr;
-            field_0_abe_timer = sGnFrame + 8;
+            field_0_abe_timer = MakeTimer(8);
             ++field_124_timer;
             //dword_5C2C64 = 0; // TODO: Never read ?
             return;
@@ -5130,7 +5130,7 @@ void Abe::Motion_58_DeadPre_4593E0()
     {
         mCurrentMotion = eAbeMotions::Motion_57_Dead_4589A0;
         field_124_timer = 2;
-        field_0_abe_timer = sGnFrame + 60;
+        field_0_abe_timer = MakeTimer(60);
     }
     else
     {
@@ -6366,7 +6366,7 @@ void Abe::Motion_92_ForceDownFromHoist()
         {
             mYPos = hitY;
             mCurrentMotion = eAbeMotions::Motion_84_FallLandDie_45A420;
-            mRegenHealthTimer = sGnFrame + 900;
+            mRegenHealthTimer = MakeTimer(900);
             mPreviousMotion = eAbeMotions::Motion_3_Fall_459B60;
             return;
         }
@@ -6769,7 +6769,7 @@ void Abe::Motion_112_Chant()
                     }
                     else
                     {
-                        mInvisibilityTimer = sGnFrame + mInvisibilityDuration;
+                        mInvisibilityTimer = MakeTimer(mInvisibilityDuration);
                     }
 
                     InvisibleEffect* pInvisible = static_cast<InvisibleEffect*>(sObjectIds.Find_Impl(mInvisibleEffectId));
@@ -6860,7 +6860,7 @@ void Abe::Motion_112_Chant()
                 }
                 else
                 {
-                    field_124_timer = sGnFrame + 70;
+                    field_124_timer = MakeTimer(70);
                     if (pOrbWhirlWind)
                     {
                         pOrbWhirlWind->ToStop();
@@ -6884,7 +6884,7 @@ void Abe::Motion_112_Chant()
             mPossessedObjectId = pObj->mBaseGameObjectId;
             SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 0, -600);
             field_120_state.chant = ChantStates::ePossessVictim_1;
-            field_124_timer = sGnFrame + 30;
+            field_124_timer = MakeTimer(30);
 
             const PSX_RECT bRect = pObj->VGetBoundingRect();
             pOrbWhirlWind->ToSpin(
@@ -6980,7 +6980,7 @@ void Abe::Motion_112_Chant()
             relive_new PossessionFlicker(sControlledCharacter, 15, 128, 255, 255);
 
             field_120_state.chant = ChantStates::eUnpossessing_4;
-            field_124_timer = sGnFrame + 15;
+            field_124_timer = MakeTimer(15);
         }
             return;
 
@@ -7047,7 +7047,7 @@ void Abe::Motion_114_DoorEnter()
             {
                 field_120_state.door = AbeDoorStates::eWaitABit_2;
                 GetAnimation().SetRender(false);
-                field_0_abe_timer = sGnFrame + 3;
+                field_0_abe_timer = MakeTimer(3);
             }
             return;
 
@@ -7055,7 +7055,7 @@ void Abe::Motion_114_DoorEnter()
             if (field_0_abe_timer <= static_cast<s32>(sGnFrame))
             {
                 field_120_state.door = AbeDoorStates::eToState4_3;
-                field_0_abe_timer = sGnFrame + 3;
+                field_0_abe_timer = MakeTimer(3);
             }
             return;
 
@@ -7234,7 +7234,7 @@ void Abe::Motion_114_DoorEnter()
 
             mHealth = FP_FromInteger(1);
             field_120_state.door = AbeDoorStates::eAbeComesOut_6;
-            field_0_abe_timer = sGnFrame + 30;
+            field_0_abe_timer = MakeTimer(30);
         }
             return;
 
@@ -8306,7 +8306,7 @@ s16 Abe::DoGameSpeak_45AB70(s32 input)
         // Fixes an OG bug where Abe doesn't transform into Shrykull when you immediately chant after using GameSpeak.
         if (!(mRingPulseTimer && mHaveShrykull))
         {
-            field_124_timer = sGnFrame + 90;
+            field_124_timer = MakeTimer(90);
             SND_SEQ_PlaySeq(SeqId::MudokonChant1_10, 0, 1);
             field_120_state.chant = ChantStates::eIdleChanting_0;
             nextMotion = eAbeMotions::Motion_112_Chant;

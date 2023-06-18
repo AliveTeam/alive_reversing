@@ -880,7 +880,7 @@ s16 Scrab::Brain_0_Patrol()
         if (pOtherScrab->Type() == ReliveTypes::eScrab && pOtherScrab->GetPossessed())
         {
             SetNextMotion(eScrabMotions::Motion_26_HowlBegin);
-            field_150_attack_delay_timer = sGnFrame + 90;
+            field_150_attack_delay_timer = MakeTimer(90);
             return Brain_1_ChasingEnemy::eBrain1_Idle_1;
         }
 
@@ -999,7 +999,7 @@ s16 Scrab::Brain_0_Patrol()
                 maxTimer = mPauseRightMax;
                 minTimer = mPauseRightMin;
             }
-            field_12C_timer = sGnFrame + Math_RandomRange(minTimer, maxTimer);
+            field_12C_timer = MakeTimer(Math_RandomRange(minTimer, maxTimer));
             return Scrab_Brain_0_Patrol::eBrain0_Idle_3;
         }
 
@@ -1111,7 +1111,7 @@ s16 Scrab::Brain_0_Patrol()
                 return mBrainSubState;
             }
             SetNextMotion(eScrabMotions::Motion_21_Stamp);
-            field_12C_timer = sGnFrame + 30;
+            field_12C_timer = MakeTimer(30);
             return Scrab_Brain_0_Patrol::eBrain0_PostInvisibilitySmash_10;
 
         case Scrab_Brain_0_Patrol::eBrain0_PostInvisibilitySmash_10:
@@ -1164,7 +1164,7 @@ s16 Scrab::Brain_1_ChasingEnemy()
 
     if (CanSeeAbe(pObj))
     {
-        field_14C_pause_after_chase_timer = sGnFrame + mPauseAfterChaseTime;
+        field_14C_pause_after_chase_timer = MakeTimer(mPauseAfterChaseTime);
     }
 
     if (IsEventInRange(kEventAbeOhm, mXPos, mYPos, EventScale::Both) && mBrainSubState != 26) //TODO OG bug? mNextMotion instead of field_11C_sub_state
@@ -1198,7 +1198,7 @@ s16 Scrab::Brain_1_ChasingEnemy()
     {
         case Brain_1_ChasingEnemy::eBrain1_Inactive_0:
         {
-            field_150_attack_delay_timer = sGnFrame + mAttackDelay;
+            field_150_attack_delay_timer = MakeTimer(mAttackDelay);
             return Brain_1_ChasingEnemy::eBrain1_Idle_1;
         }
         case Brain_1_ChasingEnemy::eBrain1_Idle_1:
@@ -1364,7 +1364,7 @@ s16 Scrab::Brain_1_ChasingEnemy()
                 return mBrainSubState;
             }
             SetNextMotion(eScrabMotions::Motion_21_Stamp);
-            field_12C_timer = sGnFrame + 30;
+            field_12C_timer = MakeTimer(30);
             return Brain_1_ChasingEnemy::eBrain1_SmashingEnemy_11;
 
         case Brain_1_ChasingEnemy::eBrain1_EnemyDead_10:
@@ -1596,7 +1596,7 @@ s16 Scrab::Brain_2_Fighting()
         mTargetGuid = mFightTargetId;
         mFightTargetId = Guid{};
         SetBrain(&Scrab::Brain_1_ChasingEnemy);
-        field_150_attack_delay_timer = sGnFrame + 90;
+        field_150_attack_delay_timer = MakeTimer(90);
         SetNextMotion(eScrabMotions::Motion_26_HowlBegin);
         return Brain_2_Fighting::eBrain2_SpottedOpponent_1;
     }
@@ -1744,7 +1744,7 @@ s16 Scrab::Brain_2_Fighting()
                 return mBrainSubState;
             }
             SetNextMotion(eScrabMotions::Motion_0_Stand);
-            field_12C_timer = sGnFrame + 20;
+            field_12C_timer = MakeTimer(20);
             return Brain_2_Fighting::eBrain2_Idle_5;
 
         case Brain_2_Fighting::eBrain2_Shriek_7:
@@ -1778,7 +1778,7 @@ s16 Scrab::Brain_2_Fighting()
 
             MapFollowMe(true);
             SetCurrentMotion(eScrabMotions::Motion_31_ScrabBattleAnim);
-            field_12C_timer = sGnFrame + 40;
+            field_12C_timer = MakeTimer(40);
             return Brain_2_Fighting::eBrain2_Battling_10;
 
         case Brain_2_Fighting::eBrain2_Battling_10:
@@ -1799,11 +1799,11 @@ s16 Scrab::Brain_2_Fighting()
                 mXPos = pTarget->mXPos;
                 SetCurrentMotion(eScrabMotions::Motion_39_DeathBegin);
                 GetAnimation().SetRender(true);
-                field_12C_timer = sGnFrame + 90;
+                field_12C_timer = MakeTimer(90);
                 return mBrainSubState;
             }
             SetCurrentMotion(eScrabMotions::Motion_0_Stand);
-            field_12C_timer = sGnFrame + 5;
+            field_12C_timer = MakeTimer(5);
             return Brain_2_Fighting::eBrain2_Victorious_11;
 
         case Brain_2_Fighting::eBrain2_Victorious_11:
@@ -1966,7 +1966,7 @@ void Scrab::Motion_0_Stand()
 
         if (Input_IsChanting() && !mPreventDepossession)
         {
-            field_130_depossession_timer = sGnFrame + 30;
+            field_130_depossession_timer = MakeTimer(30);
             SfxPlayMono(relive::SoundEffects::PossessEffect, 0);
             SetCurrentMotion(eScrabMotions::Motion_28_GetDepossessedBegin);
             return;
@@ -1990,7 +1990,7 @@ void Scrab::Motion_0_Stand()
         {
             SetCurrentMotion(eScrabMotions::Motion_32_AttackSpin);
             mNextMotion = -1;
-            field_12C_timer = sGnFrame + mPossessedMaxWhirlAttackDuration;
+            field_12C_timer = MakeTimer(mPossessedMaxWhirlAttackDuration);
             return;
         }
 
@@ -2133,7 +2133,7 @@ void Scrab::Motion_1_Walk()
             if (Input().IsAnyHeld(InputCommands::eThrowItem | InputCommands::eDoAction) && mShredPowerActive)
             {
                 SetCurrentMotion(eScrabMotions::Motion_32_AttackSpin);
-                field_12C_timer = sGnFrame + mPossessedMaxWhirlAttackDuration;
+                field_12C_timer = MakeTimer(mPossessedMaxWhirlAttackDuration);
                 mNextMotion = -1;
                 MapFollowMe(true);
                 return;
@@ -2273,7 +2273,7 @@ void Scrab::Motion_2_Run()
                                 return;
                             }
 
-                            if (Input().IsAnyHeld(0xA0) && mShredPowerActive)
+                            if (Input().IsAnyHeld(InputCommands::eThrowItem | InputCommands::eSneak) && mShredPowerActive)
                             {
                                 field_12C_timer = MakeTimer(mPossessedMaxWhirlAttackDuration);
                                 SetCurrentMotion(eScrabMotions::Motion_32_AttackSpin);
@@ -3439,7 +3439,7 @@ void Scrab::VPossessed()
     mBrainSubState = 0;
     mTargetGuid = Guid{};
     mFightTargetId = Guid{};
-    field_12C_timer = sGnFrame + 35;
+    field_12C_timer = MakeTimer(35);
     mAbeLevel = gMap.mCurrentLevel;
     mAbePath = gMap.mCurrentPath;
     mAbeCamera = gMap.mCurrentCamera;
@@ -3794,7 +3794,7 @@ bool Scrab::VTakeDamage(BaseGameObject* pFrom)
             EventBroadcast(kScrabOrParamiteDied, this);
             SetBrain(&Scrab::Brain_4_ShrinkDeath);
             SetCurrentMotion(eScrabMotions::Motion_19_GetEaten);
-            field_12C_timer = sGnFrame + 90;
+            field_12C_timer = MakeTimer(90);
             vUpdateAnim();
             if (sControlledCharacter == this)
             {
@@ -3819,7 +3819,7 @@ bool Scrab::VTakeDamage(BaseGameObject* pFrom)
     EventBroadcast(kScrabOrParamiteDied, this);
     mHealth = FP_FromInteger(0);
     SetBrain(&Scrab::Brain_3_Death);
-    field_12C_timer = sGnFrame + 90;
+    field_12C_timer = MakeTimer(90);
     SetCurrentMotion(eScrabMotions::Motion_39_DeathBegin);
     vUpdateAnim();
 
@@ -3856,7 +3856,7 @@ void Scrab::KnockBack()
     }
 
     SetCurrentMotion(eScrabMotions::Motion_18_Knockback);
-    field_130_depossession_timer = sGnFrame + 10;
+    field_130_depossession_timer = MakeTimer(10);
 }
 
 const relive::SfxDefinition& getSfxDef(ScrabSounds effectId)

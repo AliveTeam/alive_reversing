@@ -46,7 +46,7 @@ void TimerTrigger::VUpdate()
             if (SwitchStates_Get(mInputSwitchId) != mStartingSwitchState)
             {
                 mState = TimerTriggerStates::eWaitForFirstTrigger_1;
-                mActivationDelayTimer = sGnFrame + mActivationDelay;
+                mActivationDelayTimer = MakeTimer(mActivationDelay);
             }
             break;
 
@@ -62,7 +62,7 @@ void TimerTrigger::VUpdate()
             if (SwitchStates_Get(mInputSwitchId) == mStartingSwitchState)
             {
                 mState = TimerTriggerStates::eWaitForSecondTrigger_3;
-                mActivationDelayTimer = sGnFrame + mActivationDelay;
+                mActivationDelayTimer = MakeTimer(mActivationDelay);
             }
             break;
 

@@ -1012,7 +1012,7 @@ s16 Glukkon::Brain_0_Calm_WalkAround()
                         mYPos,
                         AsEventScale(GetScale())))
                 {
-                    field_1D4_timer = sGnFrame + 10;
+                    field_1D4_timer = MakeTimer(10);
                 }
                 else
                 {
@@ -1030,7 +1030,7 @@ s16 Glukkon::Brain_0_Calm_WalkAround()
                 AsEventScale(GetScale()));
             if (pEvent17 && pEvent17 != this)
             {
-                field_1D4_timer = sGnFrame + 20;
+                field_1D4_timer = MakeTimer(20);
                 return 9;
             }
 
@@ -1060,7 +1060,7 @@ s16 Glukkon::Brain_0_Calm_WalkAround()
                         mYPos,
                         AsEventScale(GetScale())))
                 {
-                    field_1D4_timer = sGnFrame + 10;
+                    field_1D4_timer = MakeTimer(10);
                 }
                 else
                 {
@@ -1080,7 +1080,7 @@ s16 Glukkon::Brain_0_Calm_WalkAround()
                     AsEventScale(GetScale()));
                 if (pEvent17_1 && pEvent17_1 != this)
                 {
-                    field_1D4_timer = sGnFrame + 20;
+                    field_1D4_timer = MakeTimer(20);
                     return 9;
                 }
 
@@ -1091,12 +1091,12 @@ s16 Glukkon::Brain_0_Calm_WalkAround()
                         if (static_cast<s32>(sGnFrame) <= mRandomishSpeakTimer)
                         {
                             SetNextMotion(eGlukkonMotions::Motion_0_Idle);
-                            field_1D4_timer = sGnFrame + Math_RandomRange(30, 120);
+                            field_1D4_timer = MakeTimer(Math_RandomRange(30, 120));
                             return 4;
                         }
                         else
                         {
-                            mRandomishSpeakTimer = sGnFrame + 120;
+                            mRandomishSpeakTimer = MakeTimer(120);
                             SpeakRandomish();
                             return 3;
                         }
@@ -1106,7 +1106,7 @@ s16 Glukkon::Brain_0_Calm_WalkAround()
                 {
                     if (Math_NextRandom() < 5 && static_cast<s32>(sGnFrame) > mTurnOrHelpTimer)
                     {
-                        mTurnOrHelpTimer = sGnFrame + 120;
+                        mTurnOrHelpTimer = MakeTimer(120);
                         SetNextMotion(eGlukkonMotions::Motion_2_Turn);
                         return 2;
                     }
@@ -1117,7 +1117,7 @@ s16 Glukkon::Brain_0_Calm_WalkAround()
                     return mBrainSubState;
                 }
 
-                mRandomishSpeakTimer = sGnFrame + 120;
+                mRandomishSpeakTimer = MakeTimer(120);
                 SpeakRandomish();
                 return 6;
             }
@@ -1136,7 +1136,7 @@ s16 Glukkon::Brain_0_Calm_WalkAround()
             {
                 return mBrainSubState;
             }
-            field_1D4_timer = sGnFrame + Math_RandomRange(30, 120);
+            field_1D4_timer = MakeTimer(Math_RandomRange(30, 120));
             return 4;
 
         case 4:
@@ -1148,7 +1148,7 @@ s16 Glukkon::Brain_0_Calm_WalkAround()
                         mYPos,
                         AsEventScale(GetScale())))
                 {
-                    field_1D4_timer = sGnFrame + 10;
+                    field_1D4_timer = MakeTimer(10);
                 }
                 else
                 {
@@ -1166,7 +1166,7 @@ s16 Glukkon::Brain_0_Calm_WalkAround()
                 AsEventScale(GetScale()));
             if (pEvent17 && pEvent17 != this)
             {
-                field_1D4_timer = sGnFrame + 20;
+                field_1D4_timer = MakeTimer(20);
                 return 9;
             }
             else
@@ -1189,7 +1189,7 @@ s16 Glukkon::Brain_0_Calm_WalkAround()
                         mYPos,
                         AsEventScale(GetScale())))
                 {
-                    field_1D4_timer = sGnFrame + 10;
+                    field_1D4_timer = MakeTimer(10);
                 }
                 else
                 {
@@ -1208,7 +1208,7 @@ s16 Glukkon::Brain_0_Calm_WalkAround()
                     AsEventScale(GetScale()));
                 if (pEvent17_3 && pEvent17_3 != this)
                 {
-                    field_1D4_timer = sGnFrame + 20;
+                    field_1D4_timer = MakeTimer(20);
                     return 9;
                 }
                 else
@@ -1227,7 +1227,7 @@ s16 Glukkon::Brain_0_Calm_WalkAround()
             {
                 return mBrainSubState;
             }
-            field_1D4_timer = sGnFrame + Math_RandomRange(30, 120);
+            field_1D4_timer = MakeTimer(Math_RandomRange(30, 120));
             return 5;
 
         case 7:
@@ -1347,7 +1347,7 @@ s16 Glukkon::Brain_1_Panic()
             {
                 if (Math_NextRandom() < 5u && static_cast<s32>(sGnFrame) > mTurnOrHelpTimer)
                 {
-                    mTurnOrHelpTimer = sGnFrame + 120;
+                    mTurnOrHelpTimer = MakeTimer(120);
                     Glukkon::Speak(GlukkonSpeak::Help_6);
                     return 5;
                 }
@@ -1371,7 +1371,7 @@ s16 Glukkon::Brain_1_Panic()
             {
                 return mBrainSubState;
             }
-            mRandomishSpeakTimer = sGnFrame + 60;
+            mRandomishSpeakTimer = MakeTimer(60);
             return 1;
 
         case 5:
@@ -1498,7 +1498,7 @@ s16 Glukkon::Brain_2_Slapped()
                     return mBrainSubState;
                 }
                 Glukkon::PlaySound_GameSpeak(GlukkonSpeak::Help_6, 0, 0, 0);
-                mRandomishSpeakTimer = sGnFrame + 40;
+                mRandomishSpeakTimer = MakeTimer(40);
                 return mBrainSubState;
             }
 
@@ -1550,7 +1550,7 @@ s16 Glukkon::Brain_3_PlayerControlled()
             {
                 if (Input_IsChanting() && GetCurrentMotion() != eGlukkonMotions::Motion_4_Jump && !mPreventDepossession)
                 {
-                    field_1D4_timer = sGnFrame + 30;
+                    field_1D4_timer = MakeTimer(30);
                     SfxPlayMono(relive::SoundEffects::PossessEffect, 0);
                     SetAnim(eGlukkonMotions::Motion_10_ChantShake, true);
                     return 2;
@@ -1656,7 +1656,7 @@ s16 Glukkon::Brain_3_PlayerControlled()
         case 6:
             GetSoundAPI().mSND_Restart();
             gScreenManager->EnableRendering();
-            field_1D4_timer = sGnFrame + 30;
+            field_1D4_timer = MakeTimer(30);
             SfxPlayMono(relive::SoundEffects::PossessEffect, 0);
             SetAnim(eGlukkonMotions::Motion_10_ChantShake, true);
             return 2;
@@ -1708,7 +1708,7 @@ s16 Glukkon::Brain_4_Death()
             else
             {
                 mHealth = FP_FromInteger(0);
-                field_1D4_timer = sGnFrame + 90;
+                field_1D4_timer = MakeTimer(90);
                 return 1;
             }
             break;
@@ -1770,7 +1770,7 @@ s16 Glukkon::Brain_4_Death()
             mVelY = FP_FromInteger(0);
             mVelX = FP_FromInteger(0);
             mHealth = FP_FromInteger(0);
-            field_1D4_timer = sGnFrame + 40;
+            field_1D4_timer = MakeTimer(40);
         }
             return 3;
 
@@ -1789,7 +1789,7 @@ s16 Glukkon::Brain_4_Death()
             }
             else
             {
-                field_1D4_timer = sGnFrame + 90;
+                field_1D4_timer = MakeTimer(90);
                 return 1;
             }
             break;
@@ -2096,7 +2096,7 @@ void Glukkon::VPossessed()
     SetAnim(eGlukkonMotions::Motion_10_ChantShake, true);
     SetBrain(&Glukkon::Brain_3_PlayerControlled);
     mBrainSubState = 0;
-    field_1D4_timer = sGnFrame + 35;
+    field_1D4_timer = MakeTimer(35);
     mAbeLevel = gMap.mCurrentLevel;
     mAbePath = gMap.mCurrentPath;
     mAbeCamera = gMap.mCurrentCamera;
@@ -2966,7 +2966,7 @@ bool Glukkon::VTakeDamage(BaseGameObject* pFrom)
                     break;
             }
 
-            mKnockbackDelayAfterGettingShotTimer = sGnFrame + 5;
+            mKnockbackDelayAfterGettingShotTimer = MakeTimer(5);
 
             if (GetCurrentMotion() == eGlukkonMotions::Motion_21_GetShot)
             {
@@ -2987,7 +2987,7 @@ bool Glukkon::VTakeDamage(BaseGameObject* pFrom)
                 return true;
             }
 
-            mGettingShotTimer = sGnFrame + 20;
+            mGettingShotTimer = MakeTimer(20);
             SetAnim(eGlukkonMotions::Motion_21_GetShot, true);
 
             SetBrain(&Glukkon::Brain_4_Death);
@@ -3067,7 +3067,7 @@ bool Glukkon::VTakeDamage(BaseGameObject* pFrom)
             mHealth = FP_FromInteger(0);
             SetBrain(&Glukkon::Brain_4_Death);
             mBrainSubState = 3;
-            field_1D4_timer = sGnFrame + 1;
+            field_1D4_timer = MakeTimer(1);
             EventBroadcast(kEventMudokonComfort, this);
             break;
 

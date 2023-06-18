@@ -138,7 +138,7 @@ void SecurityOrb::VUpdate()
             if (EventGet(kEventAbeOhm))
             {
                 mState = States::eDoZapEffects_1;
-                mTimer = sGnFrame + 20;
+                mTimer = MakeTimer(20);
             }
             break;
 
@@ -162,7 +162,7 @@ void SecurityOrb::VUpdate()
                 relive_new PossessionFlicker(sActiveHero, 8, 255, 100, 100);
 
                 sActiveHero->VTakeDamage(this);
-                mTimer = sGnFrame + 8;
+                mTimer = MakeTimer(8);
                 mState = States::eDoFlashAndSound_2;
 
                 relive_new ScreenShake(1);

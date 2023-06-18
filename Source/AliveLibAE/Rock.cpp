@@ -167,7 +167,7 @@ void Rock::VUpdate()
                 (GetSpriteScale() * FP_FromInteger(-7)) + mYPos,
                 FP_FromDouble(0.3),
                 Layer::eLayer_Foreground_36);
-            mShimmerTimer = (Math_NextRandom() % 16) + sGnFrame + 60;
+            mShimmerTimer = (Math_NextRandom() % 16) + MakeTimer(60);
             return;
 
         case RockStates::eBouncing_4:

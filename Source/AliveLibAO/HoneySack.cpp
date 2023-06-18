@@ -66,7 +66,7 @@ HoneySack::HoneySack(relive::Path_HoneySack* pTlv, const Guid& tlvId)
         SetCanExplode(true);
 
         mState = State::eDripHoney_0;
-        mTimer = sGnFrame + 90;
+        mTimer = MakeTimer(90);
 
         auto pBeeSwarm = relive_new BeeSwarm(mXPos, mYPos, FP_FromInteger(0), 5, 0);
         if (pBeeSwarm)
@@ -129,7 +129,7 @@ void HoneySack::VUpdate()
             {
                 relive_new HoneyDrip(mDripTargetX, mDripTargetY);
 
-                mTimer = sGnFrame + 90;
+                mTimer = MakeTimer(90);
             }
             if (!gMap.Is_Point_In_Current_Camera(
                     mCurrentLevel,

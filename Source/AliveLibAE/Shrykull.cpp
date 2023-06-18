@@ -175,7 +175,7 @@ void Shrykull::VUpdate()
                     if (mCanElectrocute)
                     {
                         relive_new Electrocute(pObj, 0, 1);
-                        mFlashTimer = sGnFrame + 3;
+                        mFlashTimer = MakeTimer(3);
 
                         if (pObj->Type() == ReliveTypes::eGlukkon)
                         {
@@ -201,7 +201,7 @@ void Shrykull::VUpdate()
                     SfxPlayMono(relive::SoundEffects::Zap1, 0);
 
                     mState = State::eKillTargets_4;
-                    mZapIntervalTimer = sGnFrame + 12;
+                    mZapIntervalTimer = MakeTimer(12);
                     mResetRingTimer = true;
                     return;
                 }

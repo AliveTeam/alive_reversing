@@ -100,7 +100,7 @@ Greeter::Greeter(relive::Path_Greeter* pTlv, const Guid& tlvId)
     field_140_targetOnRight = 0;
     field_13E_targetOnLeft = 0;
 
-    field_128_timer = sGnFrame + Math_RandomRange(70, 210);
+    field_128_timer = MakeTimer(Math_RandomRange(70, 210));
 
     mTimesShot = 0;
 
@@ -481,7 +481,7 @@ void Greeter::ZapTarget(FP xpos, FP ypos, IBaseAliveGameObject* pTarget)
 
     RandomishSpeak(GreeterSpeak::eLaugh_3);
 
-    field_128_timer = sGnFrame + Math_RandomRange(160, 200);
+    field_128_timer = MakeTimer(Math_RandomRange(160, 200));
     field_13E_targetOnLeft = 0;
     field_140_targetOnRight = 0;
 }
@@ -632,7 +632,7 @@ void Greeter::VUpdate()
                 mBrainState = GreeterBrainStates::eBrain_0_Patrol;
                 GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Greeter_Moving));
                 mVelY = FP_FromInteger(0);
-                field_128_timer = sGnFrame + Math_RandomRange(160, 200);
+                field_128_timer = MakeTimer(Math_RandomRange(160, 200));
             }
             break;
 
@@ -698,7 +698,7 @@ void Greeter::VUpdate()
             if (GetAnimation().GetIsLastFrame())
             {
                 RandomishSpeak(GreeterSpeak::eWhat_9);
-                field_128_timer = sGnFrame + Math_RandomRange(160, 200);
+                field_128_timer = MakeTimer(Math_RandomRange(160, 200));
             }
             break;
 

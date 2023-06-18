@@ -1168,7 +1168,7 @@ void Slog::Motion_20_Eating()
         {
             if (static_cast<s32>(sGnFrame) > mGrowlTimer && Math_RandomRange(0, 100) < 60)
             {
-                mGrowlTimer = sGnFrame + 16;
+                mGrowlTimer = MakeTimer(16);
                 Sfx(SlogSound::IdleGrrr_3);
             }
             GetAnimation().SetLoopBackwards(true);
@@ -1216,7 +1216,7 @@ void Slog::Motion_23_Growl()
             Sfx(SlogSound::IdleGrrr_3);
             GetAnimation().SetAnimate(false);
             mHasWoofed = 0;
-            mGrowlTimer = sGnFrame + 12;
+            mGrowlTimer = MakeTimer(12);
         }
     }
 
@@ -1329,7 +1329,7 @@ s16 Slog::Brain_ListeningToSlig_6_Responding()
         return mBrainSubState;
     }
 
-    mMultiUseTimer = sGnFrame + 10;
+    mMultiUseTimer = MakeTimer(10);
     SetNextMotion(sSlogResponseMotion[mResponseIdx][mResponsePart++]);
 
     if (GetNextMotion() == eSlogMotions::m2)
@@ -1587,7 +1587,7 @@ s16 Slog::Brain_ListeningToSlig_0_Init()
 {
     SetNextMotion(eSlogMotions::Motion_0_Idle);
     mWaitingCounter = 0;
-    mMultiUseTimer = sGnFrame + 15;
+    mMultiUseTimer = MakeTimer(15);
     return 1;
 }
 
@@ -1678,8 +1678,8 @@ s16 Slog::Brain_1_Idle()
             }
 
             SetNextMotion(eSlogMotions::Motion_5_MoveHeadUpwards);
-            mScratchTimer = Math_NextRandom() % 32 + sGnFrame + 120;
-            mGrowlTimer = Math_NextRandom() % 32 + sGnFrame + 60;
+            mScratchTimer = Math_NextRandom() % 32 + MakeTimer(120);
+            mGrowlTimer = Math_NextRandom() % 32 + MakeTimer(60);
             return 4;
 
         case 3:
@@ -1731,7 +1731,7 @@ s16 Slog::Brain_1_Idle()
 
             if (static_cast<s32>(sGnFrame) > mGrowlTimer && GetCurrentMotion() == eSlogMotions::Motion_0_Idle)
             {
-                mGrowlTimer = Math_NextRandom() % 32 + sGnFrame + 60;
+                mGrowlTimer = Math_NextRandom() % 32 + MakeTimer(60);
                 SetCurrentMotion(eSlogMotions::Motion_23_Growl);
                 SetNextMotion(eSlogMotions::Motion_0_Idle);
                 sGnFrame = sGnFrame; // TODO: rev bug? check this in IDA
@@ -1739,7 +1739,7 @@ s16 Slog::Brain_1_Idle()
 
             if (static_cast<s32>(sGnFrame) > mScratchTimer && GetCurrentMotion() == eSlogMotions::Motion_0_Idle)
             {
-                mScratchTimer = Math_NextRandom() % 32 + sGnFrame + 120;
+                mScratchTimer = Math_NextRandom() % 32 + MakeTimer(120);
                 SetCurrentMotion(eSlogMotions::Motion_22_Scratch);
                 SetNextMotion(eSlogMotions::Motion_0_Idle);
             }
@@ -1799,8 +1799,8 @@ s16 Slog::Brain_1_Idle()
             else
             {
                 SetCurrentMotion(eSlogMotions::Motion_0_Idle);
-                mScratchTimer = Math_NextRandom() % 32 + sGnFrame + 120;
-                mGrowlTimer = Math_NextRandom() % 32 + sGnFrame + 60;
+                mScratchTimer = Math_NextRandom() % 32 + MakeTimer(120);
+                mGrowlTimer = Math_NextRandom() % 32 + MakeTimer(60);
                 return 4;
             }
             break;
@@ -2010,8 +2010,8 @@ s16 Slog::Brain_ChasingAbe_State_15_ChasingAfterTarget(IBaseAliveGameObject* pTa
     {
         SetNextMotion(eSlogMotions::Motion_6_StopRunning);
         mStopRunning = mVelX < FP_FromInteger(0) ? true : false;
-        mScratchTimer = Math_NextRandom() % 32 + sGnFrame + 120;
-        mGrowlTimer = Math_NextRandom() % 32 + sGnFrame + 60;
+        mScratchTimer = Math_NextRandom() % 32 + MakeTimer(120);
+        mGrowlTimer = Math_NextRandom() % 32 + MakeTimer(60);
         return 20;
     }
 
@@ -2076,7 +2076,7 @@ s16 Slog::Brain_ChasingAbe_State_15_ChasingAfterTarget(IBaseAliveGameObject* pTa
         return mBrainSubState;
     }
 
-    mMultiUseTimer = sGnFrame + mChaseDelay;
+    mMultiUseTimer = MakeTimer(mChaseDelay);
     return 17;
 }
 
@@ -2203,7 +2203,7 @@ s16 Slog::Brain_ChasingAbe_State_12_WalkingToBone()
             }
 
             SetNextMotion(eSlogMotions::Motion_0_Idle);
-            mMultiUseTimer = sGnFrame + mBoneEatingTime;
+            mMultiUseTimer = MakeTimer(mBoneEatingTime);
             return 13;
         }
 
@@ -2344,7 +2344,7 @@ s16 Slog::Brain_ChasingAbe_State_20_Collided(IBaseAliveGameObject* pTarget)
 
     if (static_cast<s32>(sGnFrame) > mGrowlTimer)
     {
-        mGrowlTimer = Math_NextRandom() % 32 + sGnFrame + 60;
+        mGrowlTimer = Math_NextRandom() % 32 + MakeTimer(60);
         SetCurrentMotion(eSlogMotions::Motion_23_Growl);
         SetNextMotion(eSlogMotions::Motion_0_Idle);
     }
@@ -2354,7 +2354,7 @@ s16 Slog::Brain_ChasingAbe_State_20_Collided(IBaseAliveGameObject* pTarget)
         return mBrainSubState;
     }
 
-    mScratchTimer = Math_NextRandom() % 32 + sGnFrame + 120;
+    mScratchTimer = Math_NextRandom() % 32 + MakeTimer(120);
     SetCurrentMotion(eSlogMotions::Motion_22_Scratch);
     SetNextMotion(eSlogMotions::Motion_0_Idle);
     return mBrainSubState;
@@ -2446,19 +2446,19 @@ s16 Slog::Brain_ChasingAbe_State_4_LungingAtTarget(IBaseAliveGameObject* pTarget
     {
         if (pTarget->mHealth > FP_FromInteger(0))
         {
-            mMultiUseTimer = Math_RandomRange(1, 3) + sGnFrame + mChaseDelay;
+            mMultiUseTimer = Math_RandomRange(1, 3) + MakeTimer(mChaseDelay);
             return 1;
         }
 
         if (FP_Abs(pTarget->mXPos - mXPos) > ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(2))
         {
-            mMultiUseTimer = Math_RandomRange(1, 3) + sGnFrame + mChaseDelay;
+            mMultiUseTimer = Math_RandomRange(1, 3) + MakeTimer(mChaseDelay);
             return 1;
         }
 
         if (FP_Abs(pTarget->mYPos - mYPos) > ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(2))
         {
-            mMultiUseTimer = Math_RandomRange(1, 3) + sGnFrame + mChaseDelay;
+            mMultiUseTimer = Math_RandomRange(1, 3) + MakeTimer(mChaseDelay);
             return 1;
         }
 
@@ -2473,7 +2473,7 @@ s16 Slog::Brain_ChasingAbe_State_4_LungingAtTarget(IBaseAliveGameObject* pTarget
             SetNextMotion(eSlogMotions::Motion_20_Eating);
         }
 
-        mMultiUseTimer = sGnFrame + 90;
+        mMultiUseTimer = MakeTimer(90);
         return 7;
     }
 
@@ -2497,14 +2497,14 @@ s16 Slog::Brain_ChasingAbe_State_3_GrowlOrScratch(IBaseAliveGameObject* pTarget)
     {
         if (static_cast<s32>(sGnFrame) > mGrowlTimer)
         {
-            mGrowlTimer = Math_NextRandom() % 32 + sGnFrame + 60;
+            mGrowlTimer = Math_NextRandom() % 32 + MakeTimer(60);
             SetCurrentMotion(eSlogMotions::Motion_23_Growl);
             SetNextMotion(eSlogMotions::Motion_0_Idle);
         }
 
         if (static_cast<s32>(sGnFrame) > mScratchTimer)
         {
-            mScratchTimer = Math_NextRandom() % 32 + sGnFrame + 120;
+            mScratchTimer = Math_NextRandom() % 32 + MakeTimer(120);
             SetCurrentMotion(eSlogMotions::Motion_22_Scratch);
             SetNextMotion(eSlogMotions::Motion_0_Idle);
         }
@@ -2526,8 +2526,8 @@ s16 Slog::Brain_ChasingAbe_State_2_Thinking(IBaseAliveGameObject* pTarget)
     {
         SetNextMotion(eSlogMotions::Motion_6_StopRunning);
         mStopRunning = mVelX < FP_FromInteger(0) ? true : false;
-        mScratchTimer = Math_NextRandom() % 32 + sGnFrame + 120;
-        mGrowlTimer = Math_NextRandom() % 32 + sGnFrame + 60;
+        mScratchTimer = Math_NextRandom() % 32 + MakeTimer(120);
+        mGrowlTimer = Math_NextRandom() % 32 + MakeTimer(60);
         return 20;
     }
 
@@ -2535,8 +2535,8 @@ s16 Slog::Brain_ChasingAbe_State_2_Thinking(IBaseAliveGameObject* pTarget)
     {
         SetNextMotion(eSlogMotions::Motion_6_StopRunning);
         mStopRunning = mVelX < FP_FromInteger(0) ? true : false;
-        mScratchTimer = Math_NextRandom() % 32 + sGnFrame + 120;
-        mGrowlTimer = Math_NextRandom() % 32 + sGnFrame + 60;
+        mScratchTimer = Math_NextRandom() % 32 + MakeTimer(120);
+        mGrowlTimer = Math_NextRandom() % 32 + MakeTimer(60);
         return 19;
     }
 
@@ -2596,29 +2596,29 @@ s16 Slog::Brain_ChasingAbe_State_2_Thinking(IBaseAliveGameObject* pTarget)
             {
                 if (pTarget->mHealth > FP_FromInteger(0))
                 {
-                    mMultiUseTimer = Math_RandomRange(1, 3) + sGnFrame + mChaseDelay;
+                    mMultiUseTimer = Math_RandomRange(1, 3) + MakeTimer(mChaseDelay);
                     return 1;
                 }
 
                 if (FP_Abs(pTarget->mXPos - mXPos) > (ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(2)))
                 {
-                    mMultiUseTimer = Math_RandomRange(1, 3) + sGnFrame + mChaseDelay;
+                    mMultiUseTimer = Math_RandomRange(1, 3) + MakeTimer(mChaseDelay);
                     return 1;
                 }
 
                 if (FP_Abs(pTarget->mYPos - mYPos) > (ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(2)))
                 {
-                    mMultiUseTimer = Math_RandomRange(1, 3) + sGnFrame + mChaseDelay;
+                    mMultiUseTimer = Math_RandomRange(1, 3) + MakeTimer(mChaseDelay);
                     return 1;
                 }
-                mMultiUseTimer = sGnFrame + 90;
+                mMultiUseTimer = MakeTimer(90);
                 return 7;
             }
 
             mStopRunning = GetAnimation().GetFlipX();
 
-            mScratchTimer = Math_NextRandom() % 32 + sGnFrame + 120;
-            mGrowlTimer = Math_NextRandom() % 32 + sGnFrame + 60;
+            mScratchTimer = Math_NextRandom() % 32 + MakeTimer(120);
+            mGrowlTimer = Math_NextRandom() % 32 + MakeTimer(60);
             return 19;
         }
         SetCurrentMotion(eSlogMotions::Motion_3_TurnAround);
@@ -2627,7 +2627,7 @@ s16 Slog::Brain_ChasingAbe_State_2_Thinking(IBaseAliveGameObject* pTarget)
     if (mHungry && IsActiveHero(pTarget) && pTarget->GetScale() == GetScale() && (sActiveHero->mCurrentMotion == eAbeMotions::Motion_104_RockThrowStandingHold || sActiveHero->mCurrentMotion == eAbeMotions::Motion_107_RockThrowCrouchingHold))
     {
         SetNextMotion(eSlogMotions::Motion_6_StopRunning);
-        mMultiUseTimer = sGnFrame + 90;
+        mMultiUseTimer = MakeTimer(90);
         return 10;
     }
 
@@ -2647,8 +2647,8 @@ s16 Slog::Brain_ChasingAbe_State_2_Thinking(IBaseAliveGameObject* pTarget)
         {
             return mBrainSubState;
         }
-        mGrowlTimer = Math_NextRandom() % 32 + sGnFrame + 60;
-        mScratchTimer = Math_NextRandom() % 32 + sGnFrame + 120;
+        mGrowlTimer = Math_NextRandom() % 32 + MakeTimer(60);
+        mScratchTimer = Math_NextRandom() % 32 + MakeTimer(120);
         return 3;
     }
 
@@ -2670,7 +2670,7 @@ s16 Slog::Brain_ChasingAbe_State_0_Init()
     mBitingTarget = 0;
     mJumpCounter = 0;
     mBoneId = Guid{};
-    mMultiUseTimer = Math_RandomRange(1, 3) + sGnFrame + mChaseDelay;
+    mMultiUseTimer = Math_RandomRange(1, 3) + MakeTimer(mChaseDelay);
     Sfx(SlogSound::AttackGrowl_8);
     return 1;
 }
@@ -3336,7 +3336,7 @@ bool Slog::VTakeDamage(BaseGameObject* pFrom)
             mHealth = FP_FromInteger(0);
             mBrainState = eSlogBrains::Brain_3_Death;
             SetCurrentMotion(eSlogMotions::Motion_21_Dying);
-            mMultiUseTimer = sGnFrame + 90;
+            mMultiUseTimer = MakeTimer(90);
             SetAnimFrame();
             GetAnimation().SetAnimate(true);
             mShot = true;
@@ -3373,7 +3373,7 @@ bool Slog::VTakeDamage(BaseGameObject* pFrom)
             mHealth = FP_FromInteger(0);
             mBrainState = eSlogBrains::Brain_3_Death;
             SetCurrentMotion(eSlogMotions::Motion_21_Dying);
-            mMultiUseTimer = sGnFrame + 90;
+            mMultiUseTimer = MakeTimer(90);
             SetAnimFrame();
             GetAnimation().SetAnimate(true);
             break;
@@ -3438,7 +3438,7 @@ void Slog::DelayedResponse(s16 responseIdx)
 {
     mResponsePart = 0;
     mResponseIdx = responseIdx;
-    mMultiUseTimer = sGnFrame + 10;
+    mMultiUseTimer = MakeTimer(10);
 }
 
 s16 Slog::HandleEnemyStopper()

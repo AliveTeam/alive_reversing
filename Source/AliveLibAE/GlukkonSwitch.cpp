@@ -85,7 +85,7 @@ GlukkonSwitch::GlukkonSwitch(relive::Path_GlukkonSwitch* pTlv, const Guid& tlvId
 
     if (mState != 1)
     {
-        mTimer = sGnFrame + 10;
+        mTimer = MakeTimer(10);
     }
 }
 
@@ -173,7 +173,7 @@ void GlukkonSwitch::VUpdate()
             Glukkon::PlaySound_GameSpeak(GlukkonSpeak::Hey_0, 127, -200, 0);
             GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Security_Door_Speak));
             mState = 3;
-            mTimer = sGnFrame + 150;
+            mTimer = MakeTimer(150);
             return;
         }
         case 3:
@@ -196,14 +196,14 @@ void GlukkonSwitch::VUpdate()
                 if (lastEventIdx2 == GameSpeakEvents::eGlukkon_Hey_36)
                 {
                     mState = 4;
-                    mTimer = sGnFrame + 30;
+                    mTimer = MakeTimer(30);
                 }
                 else
                 {
                     if (lastEventIdx2 < GameSpeakEvents::eGlukkon_Hey_36)
                     {
                         mState = 8;
-                        mTimer = sGnFrame + 30;
+                        mTimer = MakeTimer(30);
                     }
 
                     if (static_cast<s32>(sGnFrame) > mTimer)
@@ -223,7 +223,7 @@ void GlukkonSwitch::VUpdate()
             Glukkon::PlaySound_GameSpeak(GlukkonSpeak::What_11, 127, -200, 0);
             GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Security_Door_Speak));
             mState = 5;
-            mTimer = sGnFrame + 60;
+            mTimer = MakeTimer(60);
             return;
         }
         case 5:
@@ -234,23 +234,23 @@ void GlukkonSwitch::VUpdate()
                     if (static_cast<s32>(sGnFrame) > mTimer)
                     {
                         mState = 7;
-                        mTimer = sGnFrame + 15;
+                        mTimer = MakeTimer(15);
                     }
                 }
                 else if (lastEventIdx2 == GameSpeakEvents::eGlukkon_DoIt_37)
                 {
                     mState = 6;
-                    mTimer = sGnFrame + 30;
+                    mTimer = MakeTimer(30);
                 }
                 else if (lastEventIdx2 < GameSpeakEvents::eGlukkon_Hey_36)
                 {
                     mState = 8;
-                    mTimer = sGnFrame + 30;
+                    mTimer = MakeTimer(30);
                 }
                 else
                 {
                     mState = 7;
-                    mTimer = sGnFrame + 15;
+                    mTimer = MakeTimer(15);
                 }
             }
             else
@@ -271,7 +271,7 @@ void GlukkonSwitch::VUpdate()
             GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Security_Door_Speak));
             SwitchStates_Do_Operation(mOkSwitchId, relive::reliveSwitchOp::eToggle);
             mState = 1;
-            mTimer = sGnFrame + 15;
+            mTimer = MakeTimer(15);
             return;
         }
         case 7:
@@ -283,7 +283,7 @@ void GlukkonSwitch::VUpdate()
             Glukkon::PlaySound_GameSpeak(GlukkonSpeak::Heh_5, 127, -200, 0);
             GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Security_Door_Speak));
             mState = 0;
-            mTimer = sGnFrame + 90;
+            mTimer = MakeTimer(90);
             return;
         }
         case 8:
@@ -296,7 +296,7 @@ void GlukkonSwitch::VUpdate()
             GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Security_Door_Speak));
             SwitchStates_Do_Operation(mFailSwitchId, relive::reliveSwitchOp::eSetTrue);
             mState = 0;
-            mTimer = sGnFrame + 90;
+            mTimer = MakeTimer(90);
             return;
         }
         default:

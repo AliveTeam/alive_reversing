@@ -35,7 +35,7 @@ public:
         if (mState == BoomMachineStates::eInactive_0)
         {
             mState = BoomMachineStates::eDropGrenadeAnimation_2;
-            mTimer = sGnFrame + 10;
+            mTimer = MakeTimer(10);
         }
 	}
 
@@ -44,7 +44,7 @@ public:
 	    if (mState == BoomMachineStates::eInactive_0)
         {
             mState = BoomMachineStates::eAlreadyUsed_1;
-            mTimer = sGnFrame + 10;
+            mTimer = MakeTimer(10);
         }
 	}
 

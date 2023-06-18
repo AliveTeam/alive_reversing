@@ -269,7 +269,7 @@ void Meat::VUpdate()
             case 4:
                 if (gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0))
                 {
-                    mDeadTimer = sGnFrame + 600;
+                    mDeadTimer = MakeTimer(600);
                 }
 
                 if (static_cast<s32>(sGnFrame) > mShimmerTimer)
@@ -279,7 +279,7 @@ void Meat::VUpdate()
                         mYPos + (GetSpriteScale() * FP_FromInteger(-7)),
                         FP_FromDouble(0.3),
                         Layer::eLayer_Foreground_36);
-                    mShimmerTimer = Math_NextRandom() % 16 + sGnFrame + 60;
+                    mShimmerTimer = Math_NextRandom() % 16 + MakeTimer(60);
                 }
                 if (mDeadTimer < static_cast<s32>(sGnFrame))
                 {

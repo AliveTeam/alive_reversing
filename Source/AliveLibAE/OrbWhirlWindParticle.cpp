@@ -49,7 +49,7 @@ s32 OrbWhirlWindParticle::IsActive()
 
 void OrbWhirlWindParticle::Spin(FP xpos, FP ypos, FP scale, BaseGameObject* pObj)
 {
-    mPositionTimer = sGnFrame + Math_RandomRange(0, 16);
+    mPositionTimer = BaseGameObject::MakeTimer(Math_RandomRange(0, 16));
     mState = State::eSpin;
     mRingTargetObjId = pObj;
 
@@ -62,7 +62,7 @@ void OrbWhirlWindParticle::Spin(FP xpos, FP ypos, FP scale, BaseGameObject* pObj
 void OrbWhirlWindParticle::ToStop()
 {
     mState = State::eStop;
-    mPositionTimer = sGnFrame + Math_RandomRange(0, 32);
+    mPositionTimer = BaseGameObject::MakeTimer(Math_RandomRange(0, 32));
 }
 
 void OrbWhirlWindParticle::Update()
@@ -97,7 +97,7 @@ void OrbWhirlWindParticle::Update()
                     mYPosOffset2 = mYPosMid;
                     mYPosOffset = mYPosMid;
                     mScaleOffsetFlyToTarget = (mTargetObjScale - mCurrentScale) / FP_FromInteger(16);
-                    mPositionTimer = sGnFrame + 16;
+                    mPositionTimer = BaseGameObject::MakeTimer(16);
                     mState = State::eFlyToTarget;
                     CalculateRenderProperties(1);
                 }
@@ -145,7 +145,7 @@ void OrbWhirlWindParticle::Update()
                     mRadiusX = FP_FromInteger(40);
                     mRadiusOffsetX = mRadiusX / FP_FromInteger(32);
                     mScaleOffsetSpinAtTarget = mCurrentScale * FP_FromInteger(Math_RandomRange(-16, 16));
-                    mPositionTimer = sGnFrame + 32;
+                    mPositionTimer = BaseGameObject::MakeTimer(32);
                     mState = State::eSpinAtTarget;
                 }
                 CalculateRenderProperties(1);

@@ -296,7 +296,7 @@ void TimedMine::VOnPickUpOrSlapped()
         }
         mOldGnFrame = sGnFrame;
         GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::TimedMine_Activated));
-        mExplosionTimer = sGnFrame + mTicksUntilExplosion;
+        mExplosionTimer = MakeTimer(mTicksUntilExplosion);
         mTickAnim.Set_Animation_Data(GetAnimRes(AnimId::Bomb_Flash));
         SfxPlayMono(relive::SoundEffects::GreenTick, 0);
     }

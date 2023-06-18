@@ -301,7 +301,7 @@ void EvilFart::VUpdate()
             {
                 GetAnimation().SetRender(false);
                 mFartExploded = 1;
-                mBackToAbeTimer = sGnFrame + 35;
+                mBackToAbeTimer = MakeTimer(35);
             }
         }
     }
@@ -486,8 +486,8 @@ void EvilFart::VUpdate()
                 if (!mPossessed)
                 {
                     mState = FartStates::eDechanting_2;
-                    mUnpossessionTimer = sGnFrame + 15;
-                    mBackToAbeTimer = sGnFrame + 50;
+                    mUnpossessionTimer = MakeTimer(15);
+                    mBackToAbeTimer = MakeTimer(50);
                     SfxPlayMono(relive::SoundEffects::PossessEffect, 0);
                 }
             }

@@ -52,7 +52,7 @@ void SligGetPantsAndWings::VUpdate()
             if (pTlv->mTlvSpecificMeaning)
             {
                 mState = State::eActive;
-                mTransformTimer = sGnFrame + 8;
+                mTransformTimer = MakeTimer(8);
             }
             break;
 

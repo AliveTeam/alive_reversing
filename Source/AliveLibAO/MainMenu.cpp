@@ -434,7 +434,7 @@ Menu::Menu(relive::Path_TLV* /*pTlv*/, const Guid& tlvId)
     mButtonRgb = 40;
     mButtonRgbModifier = -8;
     field_1D4_tlvInfo = tlvId;
-    field_1D8_timer = sGnFrame + 150;
+    field_1D8_timer = MakeTimer(150);
 
     // copy right boot screen
     mFnUpdate = &Menu::CopyRight_Update;
@@ -570,7 +570,7 @@ void Menu::WaitForDoorToOpen()
        // ResourceManager::FreeResource_455550(field_E4_res_array[3]);
         field_204_flags &= ~2u;
         //field_E4_res_array[3] = nullptr;
-        field_1D8_timer = sGnFrame + 15;
+        field_1D8_timer = MakeTimer(15);
     }
 }
 
@@ -605,7 +605,7 @@ void Menu::CopyRight_Update()
     {
         if (static_cast<s32>(sGnFrame) > field_1D8_timer)
         {
-            field_1D8_timer = sGnFrame + 150;
+            field_1D8_timer = MakeTimer(150);
             gMap.SetActiveCam(EReliveLevelIds::eMenu, 1, CameraIds::Menu::eCopyright_10, CameraSwapEffects::eInstantChange_0, 0, 0);
         }
     }
@@ -917,7 +917,7 @@ void Menu::WaitForAbeSayHello()
         GetAnimation().SetFrame(7u);
         mFnUpdate = &Menu::MainScreen_Update;
         mFnRender = &Menu::MainScreen_Render;
-        field_1D8_timer = sGnFrame + Math_RandomRange(300, 450);
+        field_1D8_timer = MakeTimer(Math_RandomRange(300, 450));
     }
 }
 
@@ -1163,7 +1163,7 @@ void Menu::MainScreen_Update()
         {
             GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_Idle));
             field_204_flags &= ~4u;
-            field_1D8_timer = sGnFrame + Math_RandomRange(120, 450);
+            field_1D8_timer = MakeTimer(Math_RandomRange(120, 450));
         }
     }
     else if (field_1D8_timer <= static_cast<s32>(sGnFrame))
@@ -1798,7 +1798,7 @@ void Menu::Options_Update()
         {
             GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_Idle));
             field_204_flags &= ~4u;
-            field_1D8_timer = sGnFrame + Math_RandomRange(120, 450);
+            field_1D8_timer = MakeTimer(Math_RandomRange(120, 450));
         }
     }
     else if (field_1D8_timer <= static_cast<s32>(sGnFrame))
@@ -2156,7 +2156,7 @@ void Menu::Options_Sound_Update()
         {
             GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_Idle));
             field_204_flags &= ~4u;
-            field_1D8_timer = sGnFrame + Math_RandomRange(120, 450);
+            field_1D8_timer = MakeTimer(Math_RandomRange(120, 450));
         }
     }
     else if (field_1D8_timer <= static_cast<s32>(sGnFrame))
@@ -2473,7 +2473,7 @@ void Menu::CycleGameSpeakIdleAnims()
             {
                 GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_Idle));
                 field_204_flags &= ~4u;
-                field_1D8_timer = sGnFrame + Math_RandomRange(120, 450);
+                field_1D8_timer = MakeTimer(Math_RandomRange(120, 450));
             }
         }
         else
@@ -2504,7 +2504,7 @@ void Menu::To_Credits_Update()
 {
     mFnUpdate = &Menu::Credits_Update;
     mFnRender = &Menu::Empty_Render;
-    field_1D8_timer = sGnFrame + 60;
+    field_1D8_timer = MakeTimer(60);
 }
 
 void Menu::Level_Cheat_To_Loading_Update()
@@ -3072,7 +3072,7 @@ void Menu::Credits_Update()
         {
             // Next credits screen
             gMap.SetActiveCam(EReliveLevelIds::eCredits, 1, static_cast<s16>(mCurrentCreditsCamera), CameraSwapEffects::eTopToBottom_3, 0, 0);
-            field_1D8_timer = sGnFrame + 60;
+            field_1D8_timer = MakeTimer(60);
         }
     }
 }

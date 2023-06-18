@@ -139,7 +139,7 @@ void DoorLight::VUpdate()
 {
     if (static_cast<s32>(sGnFrame) > sDoorLightUpdateTimer)
     {
-        sNextDoorLightUpdate = sGnFrame + Math_RandomRange(6, 20);
+        sNextDoorLightUpdate = MakeTimer(Math_RandomRange(6, 20));
         sDoorLightUpdateTimer = sNextDoorLightUpdate + Math_RandomRange(30, 45);
         mRGB.SetRGB(32, 32, 32);
     }

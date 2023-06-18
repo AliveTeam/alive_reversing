@@ -147,7 +147,7 @@ void Bat::VUpdate()
     {
         case BatStates::eSetTimer_0:
             mBatState = BatStates::eInit_1;
-            mTimer = sGnFrame + mTimeBeforeMoving;
+            mTimer = MakeTimer(mTimeBeforeMoving);
             break;
 
         case BatStates::eInit_1:
@@ -178,7 +178,7 @@ void Bat::VUpdate()
             {
                 mBatState = BatStates::eFlying_3;
                 GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Bat_Flying));
-                mTimer = sGnFrame + Math_RandomRange(0, 90);
+                mTimer = MakeTimer(Math_RandomRange(0, 90));
             }
             break;
 
@@ -200,7 +200,7 @@ void Bat::VUpdate()
             if (static_cast<s32>(sGnFrame) > mTimer)
             {
                 SND_SEQ_PlaySeq(SeqId::eBatSqueaking_18, 1, 1);
-                mTimer = sGnFrame + Math_RandomRange(120, 240);
+                mTimer = MakeTimer(Math_RandomRange(120, 240));
             }
 
             if (mBatLine)
@@ -279,7 +279,7 @@ void Bat::VUpdate()
                 if (FP_Abs(ySpeed) < FP_FromInteger(20) && static_cast<s32>(sGnFrame) > mTimer)
                 {
                     mAttackTarget->VTakeDamage(this);
-                    mTimer = sGnFrame + 30;
+                    mTimer = MakeTimer(30);
                     SND_SEQ_PlaySeq(SeqId::eBatSqueaking_18, 1, 1);
                 }
             }

@@ -309,7 +309,7 @@ bool Scrab::VTakeDamage(BaseGameObject* pFrom)
             case ReliveTypes::eRollingBall:
                 mHealth = FP_FromInteger(0);
                 SetBrain(&Scrab::Brain_Death);
-                field_118_timer = sGnFrame + 90;
+                field_118_timer = MakeTimer(90);
                 mCurrentMotion = eScrabMotions::Motion_29_DeathBegin;
                 vUpdateAnim();
                 break;
@@ -337,7 +337,7 @@ bool Scrab::VTakeDamage(BaseGameObject* pFrom)
                 SfxPlayMono(relive::SoundEffects::FallingItemHit, 90);
                 mHealth = FP_FromInteger(0);
                 SetBrain(&Scrab::Brain_Death);
-                field_118_timer = sGnFrame + 90;
+                field_118_timer = MakeTimer(90);
                 mCurrentMotion = eScrabMotions::Motion_29_DeathBegin;
                 vUpdateAnim();
                 break;
@@ -2141,7 +2141,7 @@ s16 Scrab::Brain_Fighting()
                 return mBrainSubState;
             }
             mNextMotion = eScrabMotions::Motion_1_Stand;
-            field_118_timer = sGnFrame + 30;
+            field_118_timer = MakeTimer(30);
             return 6;
 
         case 6:
@@ -2159,7 +2159,7 @@ s16 Scrab::Brain_Fighting()
                 return mBrainSubState;
             }
             mNextMotion = eScrabMotions::Motion_1_Stand;
-            field_118_timer = sGnFrame + 20;
+            field_118_timer = MakeTimer(20);
             return 8;
 
         case 8:
@@ -2205,7 +2205,7 @@ s16 Scrab::Brain_Fighting()
             }
             mCurrentMotion = eScrabMotions::Motion_23_ScrabBattleAnim;
             field_188_flags &= ~1u;
-            field_118_timer = sGnFrame + 40;
+            field_118_timer = MakeTimer(40);
             return 12;
 
         case 12:
@@ -2225,7 +2225,7 @@ s16 Scrab::Brain_Fighting()
             {
                 SetFightTarget(nullptr);
                 mCurrentMotion = eScrabMotions::Motion_1_Stand;
-                field_118_timer = sGnFrame + 20;
+                field_118_timer = MakeTimer(20);
                 return 13;
             }
             else
@@ -2235,7 +2235,7 @@ s16 Scrab::Brain_Fighting()
                 SetFightTarget(nullptr);
                 SetBrain(&Scrab::Brain_Death);
                 mCurrentMotion = eScrabMotions::Motion_29_DeathBegin;
-                field_118_timer = sGnFrame + 90;
+                field_118_timer = MakeTimer(90);
                 return 0;
             }
             break;
@@ -2246,7 +2246,7 @@ s16 Scrab::Brain_Fighting()
                 return mBrainSubState;
             }
             mNextMotion = eScrabMotions::Motion_16_Stamp;
-            field_118_timer = sGnFrame + 75;
+            field_118_timer = MakeTimer(75);
             return 14;
 
         case 14:
@@ -2255,7 +2255,7 @@ s16 Scrab::Brain_Fighting()
                 return mBrainSubState;
             }
             mNextMotion = eScrabMotions::Motion_20_HowlBegin;
-            field_118_timer = sGnFrame + 45;
+            field_118_timer = MakeTimer(45);
             return 15;
 
         case 15:
@@ -2285,7 +2285,7 @@ s16 Scrab::Brain_BatDeath()
             if (mCurrentMotion == eScrabMotions::Motion_1_Stand)
             {
                 mNextMotion = eScrabMotions::Motion_20_HowlBegin;
-                field_118_timer = sGnFrame + 45;
+                field_118_timer = MakeTimer(45);
                 return Brain_BatDeath::eWalkAway_1;
             }
             break;
@@ -2321,7 +2321,7 @@ s16 Scrab::Brain_BatDeath()
                 if (GetAnimation().GetIsLastFrame())
                 {
                     SetBrain(&Scrab::Brain_Death);
-                    field_118_timer = sGnFrame + 90;
+                    field_118_timer = MakeTimer(90);
                     mCurrentMotion = eScrabMotions::Motion_29_DeathBegin;
                 }
             }
@@ -2438,7 +2438,7 @@ s16 Scrab::Brain_ChasingEnemy()
             {
                 return mBrainSubState;
             }
-            field_13C_spotting_timer = sGnFrame + field_138_spotting_abe_delay;
+            field_13C_spotting_timer = MakeTimer(field_138_spotting_abe_delay);
             return 1;
 
         case 1:
@@ -2553,7 +2553,7 @@ s16 Scrab::Brain_ChasingEnemy()
                 return 10;
             }
 
-            field_118_timer = sGnFrame + mAttackDelay;
+            field_118_timer = MakeTimer(mAttackDelay);
             return 8;
         }
 
@@ -2870,7 +2870,7 @@ s16 Scrab::Brain_ChasingEnemy()
 
                     field_188_flags &= ~4u;
                     mNextMotion = eScrabMotions::Motion_16_Stamp;
-                    field_118_timer = sGnFrame + 30;
+                    field_118_timer = MakeTimer(30);
                     return 15;
                 }
 
@@ -2953,7 +2953,7 @@ s16 Scrab::Brain_ChasingEnemy()
             {
                 field_188_flags &= ~4u;
                 mNextMotion = eScrabMotions::Motion_16_Stamp;
-                field_118_timer = sGnFrame + 30;
+                field_118_timer = MakeTimer(30);
                 return 15;
             }
             return mBrainSubState;
@@ -2981,7 +2981,7 @@ s16 Scrab::Brain_ChasingEnemy()
             }
             field_188_flags &= ~4u;
             mNextMotion = eScrabMotions::Motion_16_Stamp;
-            field_118_timer = sGnFrame + 30;
+            field_118_timer = MakeTimer(30);
             return 15;
 
         case 15:
@@ -3199,7 +3199,7 @@ s16 Scrab::Brain_Patrol()
             if (mCurrentMotion == eScrabMotions::Motion_4_Turn && GetAnimation().GetIsLastFrame())
             {
                 mNextMotion = eScrabMotions::Motion_1_Stand;
-                field_118_timer = sGnFrame + Math_RandomRange(mPauseLeftMin, mPauseLeftMax);
+                field_118_timer = MakeTimer(Math_RandomRange(mPauseLeftMin, mPauseLeftMax));
                 return 3;
             }
             return mBrainSubState;
@@ -3226,7 +3226,7 @@ s16 Scrab::Brain_Patrol()
             if (Math_NextRandom() < 30u)
             {
                 mNextMotion = eScrabMotions::Motion_20_HowlBegin;
-                field_118_timer = sGnFrame + 30;
+                field_118_timer = MakeTimer(30);
                 return 7;
             }
 
@@ -3276,7 +3276,7 @@ s16 Scrab::Brain_Patrol()
             if (mCurrentMotion == eScrabMotions::Motion_4_Turn && GetAnimation().GetIsLastFrame())
             {
                 mNextMotion = eScrabMotions::Motion_1_Stand;
-                field_118_timer = sGnFrame + Math_RandomRange(mPauseRightMin, mPauseRightMax);
+                field_118_timer = MakeTimer(Math_RandomRange(mPauseRightMin, mPauseRightMax));
                 return 6;
             }
             return mBrainSubState;
@@ -3303,7 +3303,7 @@ s16 Scrab::Brain_Patrol()
             if (Math_NextRandom() < 30u)
             {
                 mNextMotion = eScrabMotions::Motion_20_HowlBegin;
-                field_118_timer = sGnFrame + 30;
+                field_118_timer = MakeTimer(30);
                 return 7;
             }
 
@@ -3609,11 +3609,11 @@ s16 Scrab::Brain_WalkAround()
 
             if (GetAnimation().GetFlipX())
             {
-                field_118_timer = sGnFrame + Math_RandomRange(mPauseLeftMin, mPauseLeftMax);
+                field_118_timer = MakeTimer(Math_RandomRange(mPauseLeftMin, mPauseLeftMax));
             }
             else
             {
-                field_118_timer = sGnFrame + Math_RandomRange(mPauseRightMin, mPauseRightMax);
+                field_118_timer = MakeTimer(Math_RandomRange(mPauseRightMin, mPauseRightMax));
             }
 
             return 1;

@@ -59,7 +59,7 @@ void InvisibleSwitch::VUpdate()
                             || (mScale == relive::Path_InvisibleSwitch::InvisibleSwitchScale::eFull && sControlledCharacter->GetSpriteScale() == FP_FromInteger(1)))
                         {
                             mState = States::eWaitForDelayTimer_1;
-                            mDelayTimer = sGnFrame + mActivationDelay;
+                            mDelayTimer = MakeTimer(mActivationDelay);
                         }
                     }
                 }

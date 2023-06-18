@@ -28,7 +28,7 @@ Alarm::Alarm(s32 durationOffset, u16 switchId, s32 timerOffset, Layer layer)
 {
     SetType(ReliveTypes::eAlarm);
 
-    mAlarmPauseTimer = sGnFrame + timerOffset;
+    mAlarmPauseTimer = MakeTimer(timerOffset);
     mAlarmDurationTimer = mAlarmPauseTimer + durationOffset;
 
     gAlarmInstanceCount++;
@@ -115,7 +115,7 @@ void Alarm::VUpdate()
 
             mAlarmState = States::eEnabling_2;
             SfxPlayMono(relive::SoundEffects::SecurityDoorDeny, 0);
-            mAlarmDurationTimer = sGnFrame + mAlarmDuration;
+            mAlarmDurationTimer = MakeTimer(mAlarmDuration);
             mEffectBaseRed = mAlarmRed;
             break;
 
@@ -157,7 +157,7 @@ void Alarm::VUpdate()
 
             mAlarmRed = 100;
             mAlarmState = States::eOnFlash_3;
-            mAlarmPauseTimer = sGnFrame + 15;
+            mAlarmPauseTimer = MakeTimer(15);
             SfxPlayMono(relive::SoundEffects::SecurityDoorDeny, 0);
             mEffectBaseRed = mAlarmRed;
             break;
@@ -183,7 +183,7 @@ void Alarm::VUpdate()
             }
 
             mAlarmRed = 0;
-            mAlarmPauseTimer = sGnFrame + 15;
+            mAlarmPauseTimer = MakeTimer(15);
             mAlarmState = States::eDisabled_5;
             mEffectBaseRed = mAlarmRed;
             break;

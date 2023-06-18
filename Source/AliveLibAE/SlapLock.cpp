@@ -49,7 +49,7 @@ SlapLock::SlapLock(relive::Path_SlapLock* pTlv, const Guid& tlvId)
     }
 
     mState = SlapLockStates::eShaking_0;
-    mTimer1 = (Math_NextRandom() & 7) + sGnFrame + 25;
+    mTimer1 = (Math_NextRandom() & 7) + MakeTimer(25);
     mAbilityRingId = Guid{};
     mPossessionFlickerId = Guid{};
     const FP midX = FP_FromInteger((pTlv->mTopLeftX + pTlv->mBottomRightX) / 2);
@@ -86,8 +86,8 @@ SlapLock::SlapLock(relive::Path_SlapLock* pTlv, const Guid& tlvId)
 
     GetAnimation().SetRender(false);
 
-    mTimer1 = sGnFrame + 60;
-    mShinyParticleTimer = sGnFrame + 30;
+    mTimer1 = MakeTimer(60);
+    mShinyParticleTimer = MakeTimer(30);
 
     if (mSlapLockTlv->mGiveInvisibilityPowerup == relive::reliveChoice::eYes)
     {
@@ -143,7 +143,7 @@ void SlapLock::GiveInvisibility()
         sActiveHero->mInvisibilityDuration = mSlapLockTlv->mInvisibilityDuration;
         sActiveHero->mHaveShrykull = 0;
         sActiveHero->mHaveInvisibility = 1;
-        sActiveHero->mRingPulseTimer = sGnFrame + 200000;
+        sActiveHero->mRingPulseTimer = MakeTimer(200000);
     }
 }
 
@@ -269,7 +269,7 @@ void SlapLock::VUpdate()
                 GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::SlapLock_Initiate));
 
                 mState = SlapLockStates::eShaking_0;
-                mTimer1 = Math_NextRandom() + sGnFrame + 25;
+                mTimer1 = Math_NextRandom() + MakeTimer(25);
                 return;
             }
             case SlapLockStates::eSlapped_2:
@@ -283,7 +283,7 @@ void SlapLock::VUpdate()
 
                 if (mSlapLockTlv->mGiveInvisibilityPowerup == relive::reliveChoice::eNo)
                 {
-                    mShinyParticleTimer = sGnFrame + 60;
+                    mShinyParticleTimer = MakeTimer(60);
                     mState = SlapLockStates::eBroken_3;
                     break;
                 }
@@ -308,7 +308,7 @@ void SlapLock::VUpdate()
                     FP_FromDouble(0.3),
                     GetAnimation().GetRenderLayer());
 
-                mShinyParticleTimer = Math_RandomRange(-30, 30) + sGnFrame + 60;
+                mShinyParticleTimer = Math_RandomRange(-30, 30) + MakeTimer(60);
                 return;
             }
             case SlapLockStates::eEmitInvisibilityPowerupRing_4:
@@ -329,7 +329,7 @@ void SlapLock::VUpdate()
                             mYPos - (FP_FromInteger(40) * GetSpriteScale()),
                             RingTypes::eInvisible_Pulse_Large_8,
                             GetSpriteScale());
-                        mTimer1 = Math_RandomRange(1, 10) + sGnFrame + 55;
+                        mTimer1 = Math_RandomRange(1, 10) + MakeTimer(55);
                     }
                     else
                     {
@@ -350,7 +350,7 @@ void SlapLock::VUpdate()
                     FP_FromDouble(0.3),
                     GetAnimation().GetRenderLayer());
 
-                mShinyParticleTimer = Math_RandomRange(-30, 30) + sGnFrame + 60;
+                mShinyParticleTimer = Math_RandomRange(-30, 30) + MakeTimer(60);
                 return;
             }
             case SlapLockStates::eFlickerHero_5:
@@ -382,14 +382,14 @@ void SlapLock::VUpdate()
                     return;
                 }
                 GiveInvisibility();
-                mShinyParticleTimer = sGnFrame + 60;
+                mShinyParticleTimer = MakeTimer(60);
                 mState = SlapLockStates::eBroken_3;
                 break;
             }
             case SlapLockStates::eGiveInvisibility_7:
             {
                 GiveInvisibility();
-                mShinyParticleTimer = sGnFrame + 60;
+                mShinyParticleTimer = MakeTimer(60);
                 mState = SlapLockStates::eBroken_3;
                 break;
             }

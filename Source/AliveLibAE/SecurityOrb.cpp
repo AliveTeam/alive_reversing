@@ -166,7 +166,7 @@ void SecurityOrb::VUpdate()
                 if (!sActiveHero->mRingPulseTimer || !sActiveHero->mHaveShrykull || sActiveHero->GetSpriteScale() != FP_FromInteger(1))
                 {
                     mState = States::eDoZapEffects_1;
-                    mTimer = sGnFrame + 20;
+                    mTimer = MakeTimer(20);
                 }
             }
             break;
@@ -195,7 +195,7 @@ void SecurityOrb::VUpdate()
                     sActiveHero->VTakeDamage(this);
                 }
 
-                mTimer = sGnFrame + 8;
+                mTimer = MakeTimer(8);
                 mState = States::eDoFlashAndSound_2;
 
                 relive_new ScreenShake(1, 0);

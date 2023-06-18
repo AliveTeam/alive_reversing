@@ -207,7 +207,7 @@ void MeatSaw::VUpdate()
                 GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::MeatSaw_Moving));
                 mAutomaticMeatSawIsDown = false;
                 field_E8_speed2 = field_EA_speed1;
-                mSfxTimer = sGnFrame + 2;
+                mSfxTimer = MakeTimer(2);
             }
             else
             {
@@ -223,7 +223,7 @@ void MeatSaw::VUpdate()
                                 GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::MeatSaw_Moving));
                                 mAutomaticMeatSawIsDown = true;
                                 field_E8_speed2 = field_EC_off_speed;
-                                mSfxTimer = sGnFrame + 2;
+                                mSfxTimer = MakeTimer(2);
                             }
                         }
                     }
@@ -242,7 +242,7 @@ void MeatSaw::VUpdate()
             if (field_F4 >= field_E6_max_rise_time)
             {
                 mState = MeatSawStates::eGoingUp_2;
-                mSfxTimer = sGnFrame + 2;
+                mSfxTimer = MakeTimer(2);
             }
             break;
 
@@ -271,7 +271,7 @@ void MeatSaw::VUpdate()
                     minRnd = field_F6_switch_min_time_off;
                 }
 
-                mIdleTimer = sGnFrame + Math_RandomRange(minRnd, maxRnd);
+                mIdleTimer = MakeTimer(Math_RandomRange(minRnd, maxRnd));
                 GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::MeatSaw_Idle));
                 if (mUsesSwitchId)
                 {

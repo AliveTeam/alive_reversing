@@ -37,7 +37,7 @@ Bone::Bone(FP xpos, FP ypos, s16 countId)
 
     GetAnimation().SetRender(false);
 
-    mDeadTimer = sGnFrame + 300;
+    mDeadTimer = MakeTimer(300);
     mBaseThrowableCount = countId;
 
     CreateShadow();
@@ -479,7 +479,7 @@ void Bone::VUpdate()
         case BoneStates::eOnGround_3:
             if (gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0))
             {
-                mDeadTimer = sGnFrame + 300;
+                mDeadTimer = MakeTimer(300);
             }
 
             if (static_cast<s32>(sGnFrame) > mShimmerTimer && !pObj)
@@ -491,7 +491,7 @@ void Bone::VUpdate()
                     FP_FromDouble(0.3),
                     Layer::eLayer_Foreground_36);
 
-                mShimmerTimer = (Math_NextRandom() % 16) + sGnFrame + 60;
+                mShimmerTimer = (Math_NextRandom() % 16) + MakeTimer(60);
             }
 
             if (mDeadTimer < static_cast<s32>(sGnFrame))

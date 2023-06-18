@@ -698,7 +698,7 @@ void Slig::VOnTrapDoorOpen()
 void Slig::VUnPosses()
 {
     mNextMotion = eSligMotions::Motion_0_StandIdle;
-    field_114_timer = sGnFrame + 180;
+    field_114_timer = MakeTimer(180);
     MusicController::static_PlayMusic(MusicController::MusicTypes::eType0, this, 0, 0);
 }
 
@@ -769,11 +769,11 @@ bool Slig::VTakeDamage(BaseGameObject* pFrom)
 
             mbGotShot = true;
             SetBrain(&Slig::Brain_Death);
-            field_154_death_by_being_shot_timer = sGnFrame + 5;
+            field_154_death_by_being_shot_timer = MakeTimer(5);
 
             if (mCurrentMotion != eSligMotions::Motion_38_Possess && mCurrentMotion != eSligMotions::Motion_45_Smash && mCurrentMotion != eSligMotions::Motion_35_Knockback)
             {
-                mExplodeTimer = sGnFrame + 20;
+                mExplodeTimer = MakeTimer(20);
                 mNextMotion = eSligMotions::Motion_38_Possess;
                 field_13A_shot_motion = eSligMotions::Motion_38_Possess;
                 VShot();
@@ -856,7 +856,7 @@ bool Slig::VTakeDamage(BaseGameObject* pFrom)
                     mVelX = -(ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(4));
                 }
                 mbMotionChanged = true;
-                field_128_timer = sGnFrame + 10;
+                field_128_timer = MakeTimer(10);
                 mCurrentMotion = eSligMotions::Motion_35_Knockback;
                 mNextMotion = eSligMotions::Motion_35_Knockback;
                 field_13A_shot_motion = eSligMotions::Motion_35_Knockback;
@@ -1002,7 +1002,7 @@ void Slig::VShot()
     mNextMotion = -1;
     field_13A_shot_motion = -1;
     mbGotShot = false;
-    field_114_timer = sGnFrame + 60;
+    field_114_timer = MakeTimer(60);
     SetBrain(&Slig::Brain_Death);
 }
 
@@ -1130,7 +1130,7 @@ void Slig::ToAbeDead()
 {
     mNextMotion = eSligMotions::Motion_25_SpeakLaugh;
     SetBrain(&Slig::Brain_EnemyDead);
-    field_114_timer = sGnFrame + 45;
+    field_114_timer = MakeTimer(45);
 }
 
 void Slig::WaitOrWalk()
@@ -1231,7 +1231,7 @@ void Slig::ToKilledAbe()
 {
     mNextMotion = eSligMotions::Motion_0_StandIdle;
     SetBrain(&Slig::Brain_KilledEnemy);
-    field_114_timer = sGnFrame + 15;
+    field_114_timer = MakeTimer(15);
 }
 
 inline PSX_RECT MakeRectFromFP(FP x, FP y, FP w, FP h)
@@ -1484,7 +1484,7 @@ s16 Slig::GetNextMotionIncGameSpeak(u16 input)
             return -1;
         }
 
-        field_128_timer = sGnFrame + 30;
+        field_128_timer = MakeTimer(30);
         SfxPlayMono(relive::SoundEffects::PossessEffect, 0);
         return eSligMotions::Motion_37_Depossessing;
     }
@@ -1638,7 +1638,7 @@ void Slig::ToStand()
     mVelY = FP_FromInteger(0);
     mCurrentMotion = eSligMotions::Motion_0_StandIdle;
     mInput = 0;
-    field_128_timer = Math_RandomRange(0, 60) + sGnFrame + 120;
+    field_128_timer = Math_RandomRange(0, 60) + MakeTimer(120);
     MapFollowMe(true);
 }
 
@@ -2051,7 +2051,7 @@ s16 Slig::HandlePlayerControlled()
         if (!Input_IsChanting())
         {
             mCurrentMotion = eSligMotions::Motion_6_Shoot;
-            field_128_timer = sGnFrame + 60;
+            field_128_timer = MakeTimer(60);
             return 1;
         }
     }
@@ -2061,7 +2061,7 @@ s16 Slig::HandlePlayerControlled()
         if (!Input_IsChanting())
         {
             mCurrentMotion = eSligMotions::Motion_52_Beat;
-            field_128_timer = sGnFrame + 60;
+            field_128_timer = MakeTimer(60);
             return 1;
         }
     }
@@ -2277,7 +2277,7 @@ s16 Slig::MainMovement()
             mFallingVelxScaleFactor = FP_FromInteger(0);
             mVelX = FP_FromInteger(0);
             mVelY = FP_FromInteger(0);
-            field_128_timer = sGnFrame + 60;
+            field_128_timer = MakeTimer(60);
             mCurrentMotion = mNextMotion;
             mNextMotion = -1;
             break;
@@ -2345,7 +2345,7 @@ void Slig::ToKnockBack()
     }
 
     mCurrentMotion = eSligMotions::Motion_35_Knockback;
-    field_128_timer = sGnFrame + 10;
+    field_128_timer = MakeTimer(10);
 }
 
 void Slig::Motion_0_StandIdle()
@@ -2359,7 +2359,7 @@ void Slig::Motion_0_StandIdle()
                 if (!(mPreventDepossession & 4))
                 {
                     mCurrentMotion = eSligMotions::Motion_37_Depossessing;
-                    field_128_timer = sGnFrame + 30;
+                    field_128_timer = MakeTimer(30);
                     SfxPlayMono(relive::SoundEffects::PossessEffect, 0);
                     return;
                 }
@@ -2473,7 +2473,7 @@ void Slig::Motion_2_Walking()
                     if (mNextMotion == eSligMotions::Motion_6_Shoot)
                     {
                         mCurrentMotion = eSligMotions::Motion_19_WalkToStand;
-                        field_128_timer = sGnFrame + 60;
+                        field_128_timer = MakeTimer(60);
                     }
                     else if (mNextMotion != -1)
                     {
@@ -2621,7 +2621,7 @@ void Slig::Motion_4_Running()
                     {
                         mCurrentMotion = eSligMotions::Motion_6_Shoot;
                         mNextMotion = -1;
-                        field_128_timer = sGnFrame + 60;
+                        field_128_timer = MakeTimer(60);
                     }
                     else if (mNextMotion != -1)
                     {
@@ -3156,7 +3156,7 @@ void Slig::Motion_20_Recoil()
             {
                 mVelX = FP_FromInteger(0);
                 mPreviousMotion = eSligMotions::Motion_6_Shoot;
-                field_128_timer = sGnFrame + 60;
+                field_128_timer = MakeTimer(60);
                 mBaseAliveGameObjectLastAnimFrame = 2;
                 mReturnToPreviousMotion = true;
             }
@@ -3376,7 +3376,7 @@ void Slig::Motion_35_Knockback()
         if (mCurrentMotion == eSligMotions::Motion_41_LandingSoft)
         {
             mCurrentMotion = eSligMotions::Motion_35_Knockback;
-            field_128_timer = sGnFrame + 10;
+            field_128_timer = MakeTimer(10);
         }
     }
 
@@ -3561,7 +3561,7 @@ void Slig::Motion_38_Possess()
             mHealth = FP_FromInteger(0);
             MusicController::static_PlayMusic(MusicController::MusicTypes::eType0, this, 0, 0);
             SetUpdateDelay(40);
-            field_114_timer = sGnFrame + 60;
+            field_114_timer = MakeTimer(60);
             SetBrain(&Slig::Brain_Death);
         }
     }
@@ -3605,7 +3605,7 @@ void Slig::Motion_39_OutToFall()
         if (mYPos - BaseAliveGameObjectLastLineYPos > FP_FromInteger(180))
         {
             mCurrentMotion = eSligMotions::Motion_42_LandingFatal;
-            field_128_timer = sGnFrame + 30;
+            field_128_timer = MakeTimer(30);
             mHealth = FP_FromInteger(0);
             EventBroadcast(kEventMudokonComfort, sActiveHero);
         }
@@ -3650,7 +3650,7 @@ void Slig::Motion_42_LandingFatal()
         if (static_cast<s32>(sGnFrame) >= field_128_timer && !BrainIs(&Slig::Brain_Death))
         {
             mHealth = FP_FromInteger(0);
-            field_114_timer = sGnFrame + 60;
+            field_114_timer = MakeTimer(60);
             SetBrain(&Slig::Brain_Death);
         }
     }
@@ -4051,7 +4051,7 @@ s16 Slig::Brain_EnemyDead()
         if (rnd < 25u)
         {
             mNextMotion = eSligMotions::Motion_26_SpeakBullshit1;
-            field_114_timer = sGnFrame + 15;
+            field_114_timer = MakeTimer(15);
             return 113;
         }
 
@@ -4059,7 +4059,7 @@ s16 Slig::Brain_EnemyDead()
         if (rnd < 50u)
         {
             mNextMotion = eSligMotions::Motion_28_SpeakBullshit2;
-            field_114_timer = sGnFrame + 15;
+            field_114_timer = MakeTimer(15);
             return 113;
         }
 
@@ -4082,7 +4082,7 @@ s16 Slig::Brain_KilledEnemy()
     else
     {
         mNextMotion = eSligMotions::Motion_25_SpeakLaugh;
-        field_114_timer = sGnFrame + 45;
+        field_114_timer = MakeTimer(45);
         SetBrain(&Slig::Brain_EnemyDead);
     }
     return 114;
@@ -4291,16 +4291,16 @@ s16 Slig::Brain_Possessed()
             mBrainSubState = Brain_Possessed::ePossessionShaking_1;
             mHealth = FP_FromInteger(0);
             mCurrentMotion = eSligMotions::Motion_38_Possess;
-            field_114_timer = sGnFrame + 30;
-            mExplodeTimer = sGnFrame + 1000;
-            field_154_death_by_being_shot_timer = sGnFrame + 1000;
+            field_114_timer = MakeTimer(30);
+            mExplodeTimer = MakeTimer(1000);
+            field_154_death_by_being_shot_timer = MakeTimer(1000);
             return mBrainSubState;
 
         case Brain_Possessed::ePossessionShaking_1:
             if (static_cast<s32>(sGnFrame) >= field_114_timer)
             {
                 mBrainSubState = Brain_Possessed::ePossessionInactive_2;
-                field_114_timer = sGnFrame + 20;
+                field_114_timer = MakeTimer(20);
                 mCurrentMotion = eSligMotions::Motion_0_StandIdle;
                 return mBrainSubState;
             }
@@ -4311,13 +4311,13 @@ s16 Slig::Brain_Possessed()
             {
                 if (Math_NextRandom() & 1)
                 {
-                    field_114_timer = sGnFrame + 20;
+                    field_114_timer = MakeTimer(20);
                     mCurrentMotion = eSligMotions::Motion_22_SpeakHi;
                     Slig_GameSpeak_SFX(SligSpeak::eHi_0, 0, mGameSpeakPitchMin, this);
                 }
                 else
                 {
-                    field_114_timer = sGnFrame + 20;
+                    field_114_timer = MakeTimer(20);
                     mCurrentMotion = eSligMotions::Motion_25_SpeakLaugh;
                     Slig_GameSpeak_SFX(SligSpeak::eLaugh_7, 0, mGameSpeakPitchMin, this);
                 }
@@ -4355,7 +4355,7 @@ s16 Slig::Brain_Possessed()
             if (mHealth <= FP_FromInteger(0))
             {
                 SetBrain(&Slig::Brain_Death);
-                field_114_timer = sGnFrame + 60;
+                field_114_timer = MakeTimer(60);
                 return mBrainSubState;
             }
             break;
@@ -4434,7 +4434,7 @@ s16 Slig::Brain_DeathDropDeath()
     {
         case Brain_DeathDropDeath::eSayHelpOnce_0:
             Slig_GameSpeak_SFX(SligSpeak::eHelp_10, 0, mGameSpeakPitchMin, this);
-            field_114_timer = sGnFrame + 60;
+            field_114_timer = MakeTimer(60);
             return Brain_DeathDropDeath::eSayHelpAndDie_1;
 
         case Brain_DeathDropDeath::eSayHelpAndDie_1:
@@ -4460,7 +4460,7 @@ s16 Slig::Brain_DeathDropDeath()
             Environment_SFX(EnvironmentSfx::eFallingDeathScreamHitGround_15, 0, 32767, this);
 
             relive_new ScreenShake(0);
-            field_114_timer = sGnFrame + 30;
+            field_114_timer = MakeTimer(30);
             return Brain_DeathDropDeath::eSwitchCamToAbe_2;
         }
 
@@ -4682,7 +4682,7 @@ s16 Slig::Brain_Chasing()
     {
         mNextMotion = eSligMotions::Motion_0_StandIdle;
         SetBrain(&Slig::Brain_Idle);
-        field_114_timer = sGnFrame + 1;
+        field_114_timer = MakeTimer(1);
         return 118;
     }
 
@@ -4719,7 +4719,7 @@ s16 Slig::Brain_StopChasing()
         {
             mNextMotion = eSligMotions::Motion_0_StandIdle;
             SetBrain(&Slig::Brain_Idle);
-            field_114_timer = sGnFrame + 1;
+            field_114_timer = MakeTimer(1);
         }
     }
     else
@@ -5024,7 +5024,7 @@ s16 Slig::Brain_Walking()
             }
         }
         GameSpeakResponse();
-        field_114_timer = sGnFrame + 20;
+        field_114_timer = MakeTimer(20);
         if (!VIsFacingMe(sControlledCharacter))
         {
             mNextMotion = eSligMotions::Motion_5_TurnAroundStanding;
@@ -5082,7 +5082,7 @@ s16 Slig::Brain_GetAlertedTurn()
         else
         {
             GameSpeakResponse();
-            field_114_timer = sGnFrame + 20;
+            field_114_timer = MakeTimer(20);
 
             if (!VIsFacingMe(sControlledCharacter))
             {
@@ -5199,7 +5199,7 @@ s16 Slig::Brain_GetAlerted()
                     else
                     {
                         GameSpeakResponse();
-                        field_114_timer = sGnFrame + 20;
+                        field_114_timer = MakeTimer(20);
                         if (!VIsFacingMe(sControlledCharacter))
                         {
                             mNextMotion = eSligMotions::Motion_5_TurnAroundStanding;
@@ -5334,7 +5334,7 @@ s16 Slig::Brain_ChaseAndDisappear()
             return mBrainSubState;
         }
         mCurrentMotion = eSligMotions::Motion_0_StandIdle;
-        field_114_timer = sGnFrame + mGameEnderPauseTime;
+        field_114_timer = MakeTimer(mGameEnderPauseTime);
         return Brain_ChaseAndDisappear::eRunning_1;
     }
     else if (mBrainSubState == Brain_ChaseAndDisappear::eRunning_1)
@@ -5528,7 +5528,7 @@ void Slig::BlowToGibs()
     mVelX = FP_FromInteger(0);
     mHealth = FP_FromInteger(0);
     MusicController::static_PlayMusic(MusicController::MusicTypes::eType0, this, 0, 0);
-    field_114_timer = sGnFrame + 60;
+    field_114_timer = MakeTimer(60);
     SetUpdateDelay(40);
     SetBrain(&Slig::Brain_Death);
     EventBroadcast(kEventMudokonComfort, sActiveHero);

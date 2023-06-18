@@ -357,7 +357,7 @@ void MotionDetector::VUpdate()
                 if (pLaser->mXPos >= mBottomRightX)
                 {
                     mState = States::eWaitThenMoveLeft_1;
-                    mPauseTimer = sGnFrame + 15;
+                    mPauseTimer = MakeTimer(15);
                     const CameraPos soundDirection = gMap.GetDirection(
                         mCurrentLevel,
                         mCurrentPath,
@@ -382,7 +382,7 @@ void MotionDetector::VUpdate()
                 if (pLaser->mXPos <= mTopLeftX)
                 {
                     mState = States::eWaitThenMoveRight_3;
-                    mPauseTimer = sGnFrame + 15;
+                    mPauseTimer = MakeTimer(15);
                     const CameraPos soundDirection = gMap.GetDirection(
                         mCurrentLevel,
                         mCurrentPath,

@@ -1013,7 +1013,7 @@ void Fleech::Motion_16_DeathByFalling()
         SetBrain(IFleechBrain::EBrainTypes::Death);
         mShrivelDeath = true;
         SetNextMotion(eFleechMotions::eNone_m1);
-        field_12C_shrivel_timer = sGnFrame + 127;
+        field_12C_shrivel_timer = MakeTimer(127);
         sFleechCount_5BC20E--;
     }
 }
@@ -2107,7 +2107,7 @@ bool Fleech::VTakeDamage(BaseGameObject* pFrom)
             mHealth = FP_FromInteger(0);
             SetBrain(IFleechBrain::EBrainTypes::Death);
             SetNextMotion(eFleechMotions::eNone_m1);
-            field_12C_shrivel_timer = sGnFrame + 127;
+            field_12C_shrivel_timer = MakeTimer(127);
             SetCurrentMotion(eFleechMotions::Motion_3_Idle);
             SetAnim();
             GetAnimation().SetAnimate(true);
@@ -2139,7 +2139,7 @@ bool Fleech::VTakeDamage(BaseGameObject* pFrom)
             mHealth = FP_FromInteger(0);
             SetBrain(IFleechBrain::EBrainTypes::Death);
             SetCurrentMotion(eFleechMotions::Motion_3_Idle);
-            field_12C_shrivel_timer = sGnFrame + 127;
+            field_12C_shrivel_timer = MakeTimer(127);
             SetNextMotion(eFleechMotions::eNone_m1);
             SetAnim();
             GetAnimation().SetAnimate(true);

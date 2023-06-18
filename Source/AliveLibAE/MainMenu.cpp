@@ -1464,7 +1464,7 @@ MainMenuNextCam MainMenuController::Page_FMV_Level_Update_4D4AB0(u32 input_held)
         {
             gCreditsControllerExists = 1;
             field_240_credits_current_cam = 1;
-            field_1F4_credits_next_frame = sGnFrame + 160;
+            field_1F4_credits_next_frame = MakeTimer(160);
             gMap.SetActiveCam(EReliveLevelIds::eCredits, 1, 1, CameraSwapEffects::eInstantChange_0, 0, 0);
         }
         return MainMenuNextCam(MainMenuCams::eNoChange);
@@ -2721,7 +2721,7 @@ void MainMenuController::HandleCreditsControllerUpdate()
     {
         const auto currentCam = field_240_credits_current_cam + 1;
         field_240_credits_current_cam = currentCam;
-        field_1F4_credits_next_frame = sGnFrame + 160;
+        field_1F4_credits_next_frame = MakeTimer(160);
         if (gMap.mCurrentPath == 2)
         {
             if (currentCam > 22)
@@ -3259,7 +3259,7 @@ void MainMenuController::AnimationAndSoundLogic_4CFE80()
                 if (field_224_timer_anim_delay <= static_cast<s32>(sGnFrame))
                 {
                     Set_Anim_4D05E0(eAbe_IdleBlinking, 0);
-                    field_224_timer_anim_delay = sGnFrame + Math_RandomRange(120, 450);
+                    field_224_timer_anim_delay = MakeTimer(Math_RandomRange(120, 450));
                 }
                 break;
 
@@ -3272,7 +3272,7 @@ void MainMenuController::AnimationAndSoundLogic_4CFE80()
 
             case MainMenuGamespeakAnimIds::eAbe_EnterThroughDoorHello:
                 mDisableChangingSelection = false;
-                field_224_timer_anim_delay = sGnFrame + Math_RandomRange(300, 450);
+                field_224_timer_anim_delay = MakeTimer(Math_RandomRange(300, 450));
                 break;
 
             case MainMenuGamespeakAnimIds::eAbe_Chant:
@@ -3301,7 +3301,7 @@ void MainMenuController::AnimationAndSoundLogic_4CFE80()
                 if (field_224_timer_anim_delay <= static_cast<s32>(sGnFrame))
                 {
                     Set_Anim_4D05E0(eGlukkon_IdleVariation);
-                    field_224_timer_anim_delay = sGnFrame + Math_RandomRange(120, 450);
+                    field_224_timer_anim_delay = MakeTimer(Math_RandomRange(120, 450));
                 }
                 break;
 
@@ -3309,7 +3309,7 @@ void MainMenuController::AnimationAndSoundLogic_4CFE80()
                 if (field_224_timer_anim_delay <= static_cast<s32>(sGnFrame))
                 {
                     Set_Anim_4D05E0(eScrab_IdleVariation);
-                    field_224_timer_anim_delay = sGnFrame + Math_RandomRange(120, 450);
+                    field_224_timer_anim_delay = MakeTimer(Math_RandomRange(120, 450));
                 }
                 break;
 
@@ -3317,7 +3317,7 @@ void MainMenuController::AnimationAndSoundLogic_4CFE80()
                 if (field_224_timer_anim_delay <= static_cast<s32>(sGnFrame))
                 {
                     Set_Anim_4D05E0(eParamite_IdleVariation);
-                    field_224_timer_anim_delay = sGnFrame + Math_RandomRange(120, 450);
+                    field_224_timer_anim_delay = MakeTimer(Math_RandomRange(120, 450));
                 }
                 break;
 

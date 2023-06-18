@@ -151,7 +151,7 @@ void Mine::VOnPickUpOrSlapped()
     if (mDetonating != true)
     {
         mDetonating = true;
-        mExplosionTimer = sGnFrame + 5;
+        mExplosionTimer = MakeTimer(5);
     }
 }
 

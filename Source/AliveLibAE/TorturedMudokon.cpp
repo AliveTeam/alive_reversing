@@ -39,7 +39,7 @@ TorturedMudokon::TorturedMudokon(relive::Path_TorturedMudokon* pTlv, const Guid&
     SetupTearsAnimation(&mTearsAnim);
     SetupZapAnimation(&mZapAnim);
     mPainSoundPitch = Math_RandomRange(800, 1000);
-    mFlashColourTimer = sGnFrame + 100;
+    mFlashColourTimer = MakeTimer(100);
     mFlashColourCounter = 0;
 }
 
@@ -121,7 +121,7 @@ void TorturedMudokon::VUpdate()
     if (mFlashColourTimer == static_cast<s32>(sGnFrame))
     {
         mFlashColourCounter++;
-        mFlashColourTimer = sGnFrame + 100;
+        mFlashColourTimer = MakeTimer(100);
         if (mFlashColourCounter == 4)
         {
             mFlashColourCounter = 0;

@@ -14,7 +14,7 @@ CreditsController::CreditsController(relive::Path_CreditsController* /*pTlv*/, c
     : BaseGameObject(true, 0)
 {
     mCurrentCamera = gMap.mCurrentCamera;
-    mNextCameraTimer = sGnFrame + kShowCreditScreenForTicks;
+    mNextCameraTimer = MakeTimer(kShowCreditScreenForTicks);
 
     gCreditsControllerExists = true;
 }
@@ -31,7 +31,7 @@ void CreditsController::VUpdate()
         mCurrentCamera++;
         if (mCurrentCamera > 24u)
         {
-            mNextCameraTimer = sGnFrame + 60;
+            mNextCameraTimer = MakeTimer(60);
             mCurrentCamera = 1;
             gMap.SetActiveCam(EReliveLevelIds::eCredits, 1, 1, CameraSwapEffects::eTopToBottom_3, 0, 0);
             sBreakGameLoop = 1;
@@ -39,7 +39,7 @@ void CreditsController::VUpdate()
         else
         {
             gMap.SetActiveCam(EReliveLevelIds::eCredits, 1, mCurrentCamera, CameraSwapEffects::eTopToBottom_3, 0, 0);
-            mNextCameraTimer = sGnFrame + 60;
+            mNextCameraTimer = MakeTimer(60);
         }
     }
 }

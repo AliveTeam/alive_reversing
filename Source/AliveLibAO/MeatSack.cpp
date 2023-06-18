@@ -174,7 +174,7 @@ Meat::Meat(FP xpos, FP ypos, s16 count)
     GetAnimation().SetRender(false);
     GetAnimation().SetSemiTrans(false);
 
-    mDeadTimer = sGnFrame + 600;
+    mDeadTimer = MakeTimer(600);
     mPathLine = 0;
     mBaseThrowableCount = count;
     mState = 0;

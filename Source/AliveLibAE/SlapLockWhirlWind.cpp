@@ -67,7 +67,7 @@ SlapLockWhirlWind::SlapLockWhirlWind(s16 doorNumber, s16 switchId, FP xpos, FP y
             mOrbWhirlWindId = pWhirlWind->mBaseGameObjectId;
         }
         mState = 0;
-        mTimer = sGnFrame + 70;
+        mTimer = MakeTimer(70);
     }
     else
     {

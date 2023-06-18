@@ -223,7 +223,7 @@ void FallingItem::VUpdate()
 
                 GetAnimation().Set_Animation_Data(GetAnimRes(sFallingItemData[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))][1]));
 
-                mFallIntervalTimer = sGnFrame + mFallInterval;
+                mFallIntervalTimer = MakeTimer(mFallInterval);
             }
             break;
 
@@ -237,7 +237,7 @@ void FallingItem::VUpdate()
 
             GetAnimation().Set_Animation_Data(GetAnimRes(sFallingItemData[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))][1]));
 
-            mFallIntervalTimer = sGnFrame + mFallInterval;
+            mFallIntervalTimer = MakeTimer(mFallInterval);
             break;
         }
 

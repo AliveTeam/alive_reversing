@@ -384,7 +384,7 @@ void GiveCodeBrain::VUpdate()
                 }
                 else
                 {
-                    mSlingMudokon.field_140_timer = sGnFrame + 30;
+                    mSlingMudokon.field_140_timer = BaseGameObject::MakeTimer(30);
                     mBrainState = EState::PauseABit;
                     return;
                 }
@@ -418,7 +418,7 @@ void GiveCodeBrain::VUpdate()
                 return;
             }
 
-            mSlingMudokon.field_144_timer2 = sGnFrame + 40;
+            mSlingMudokon.field_144_timer2 = BaseGameObject::MakeTimer(40);
             mSlingMudokon.mBufferIdx = static_cast<s16>(gEventSystem->mLastEventIndex);
             mBrainState = EState::CheckCodeMatching;
             return;
@@ -434,8 +434,8 @@ void GiveCodeBrain::VUpdate()
                 GameSpeakEvents lastIdx = mSlingMudokon.getLastIdx();
                 if (lastIdx != GameSpeakEvents::eNone_m1)
                 {
-                    mSlingMudokon.mLastEventIndex = sGnFrame + 40;
-                    mSlingMudokon.field_144_timer2 = sGnFrame + 40;
+                    mSlingMudokon.mLastEventIndex = BaseGameObject::MakeTimer(40);
+                    mSlingMudokon.field_144_timer2 = BaseGameObject::MakeTimer(40);
                 }
 
                 if (static_cast<s32>(sGnFrame) <= mSlingMudokon.field_144_timer2)
@@ -451,12 +451,12 @@ void GiveCodeBrain::VUpdate()
                 const GameSpeakMatch MatchBuffer = gEventSystem->MatchBuffer(mSlingMudokon.mCodeBuffer, mSlingMudokon.mBufferStart, mSlingMudokon.mBufferIdx);
                 if (MatchBuffer == GameSpeakMatch::eFullMatch_1 || gVoiceCheat)
                 {
-                    mSlingMudokon.field_140_timer = sGnFrame + 30;
+                    mSlingMudokon.field_140_timer = BaseGameObject::MakeTimer(30);
                     mSlingMudokon.mCodeMatches = true;
                 }
                 else
                 {
-                    mSlingMudokon.field_140_timer = sGnFrame + 10;
+                    mSlingMudokon.field_140_timer = BaseGameObject::MakeTimer(10);
                     mSlingMudokon.mCodeMatches = false;
                 }
                 mBrainState = EState::RespondToProvidedCode;
@@ -498,7 +498,7 @@ void SpawnBrain::VUpdate()
     switch (mBrainState)
     {
         case EState::Init:
-            mSlingMudokon.field_140_timer = sGnFrame + 10;
+            mSlingMudokon.field_140_timer = BaseGameObject::MakeTimer(10);
             mBrainState = EState::CreateParticle;
             return;
 
@@ -513,7 +513,7 @@ void SpawnBrain::VUpdate()
                 mSlingMudokon.mXPos,
                 (mSlingMudokon.GetSpriteScale() * FP_FromInteger(20)) + mSlingMudokon.mYPos,
                 mSlingMudokon.GetSpriteScale());
-            mSlingMudokon.field_140_timer = sGnFrame + 2;
+            mSlingMudokon.field_140_timer = BaseGameObject::MakeTimer(2);
             mBrainState = EState::CreateFlash;
             return;
 
@@ -530,7 +530,7 @@ void SpawnBrain::VUpdate()
                 {
                     mSlingMudokon.GetAnimation().SetFlipX(true);
                 }
-                mSlingMudokon.field_140_timer = sGnFrame + 40;
+                mSlingMudokon.field_140_timer = BaseGameObject::MakeTimer(40);
                 mBrainState = EState::GetAngry;
                 return;
             }
@@ -540,7 +540,7 @@ void SpawnBrain::VUpdate()
             if (mSlingMudokon.VIsObj_GettingNear_On_X(sActiveHero))
             {
                 mSlingMudokon.SetNextMotion(eSlingMudMotions::Motion_1_Angry);
-                mSlingMudokon.field_140_timer = sGnFrame + 40;
+                mSlingMudokon.field_140_timer = BaseGameObject::MakeTimer(40);
                 Mudokon_SFX(MudSounds::eAngry_5, 0, 300, &mSlingMudokon);
                 mBrainState = EState::PrepareToShoot;
                 return;
@@ -558,7 +558,7 @@ void SpawnBrain::VUpdate()
         case EState::ObserveAbe:
             if (mSlingMudokon.mCodeMatches)
             {
-                mSlingMudokon.field_140_timer = sGnFrame + 30;
+                mSlingMudokon.field_140_timer = BaseGameObject::MakeTimer(30);
                 SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 0, -600);
                 mBrainState = EState::DisappearAsDoves;
                 return;
@@ -566,14 +566,14 @@ void SpawnBrain::VUpdate()
             else if (mSlingMudokon.mAbeGettingCloser)
             {
                 mSlingMudokon.SetNextMotion(eSlingMudMotions::Motion_1_Angry);
-                mSlingMudokon.field_140_timer = sGnFrame + 40;
+                mSlingMudokon.field_140_timer = BaseGameObject::MakeTimer(40);
                 Mudokon_SFX(MudSounds::eAngry_5, 0, 300, &mSlingMudokon);
                 mBrainState = EState::PrepareToShoot;
                 return;
             }
             else
             {
-                mSlingMudokon.field_140_timer = sGnFrame + 40;
+                mSlingMudokon.field_140_timer = BaseGameObject::MakeTimer(40);
                 mBrainState = EState::GetAngry;
                 return;
             }
@@ -584,21 +584,21 @@ void SpawnBrain::VUpdate()
             {
                 mSlingMudokon.mDontSetDestroyed = true;
                 mSlingMudokon.SetNextMotion(eSlingMudMotions::Motion_3_ShootStart);
-                mSlingMudokon.field_140_timer = sGnFrame + 15;
+                mSlingMudokon.field_140_timer = BaseGameObject::MakeTimer(15);
                 mBrainState = EState::Shoot;
                 return;
             }
 
             if (mSlingMudokon.VIsObj_GettingNear_On_X(sActiveHero))
             {
-                mSlingMudokon.field_140_timer = sGnFrame + 40;
+                mSlingMudokon.field_140_timer = BaseGameObject::MakeTimer(40);
             }
             else
             {
                 if (mSlingMudokon.field_140_timer <= static_cast<s32>(sGnFrame))
                 {
                     mSlingMudokon.mAbeGettingCloser = false;
-                    mSlingMudokon.field_140_timer = sGnFrame + 40;
+                    mSlingMudokon.field_140_timer = BaseGameObject::MakeTimer(40);
                     mSlingMudokon.SetNextMotion(eSlingMudMotions::Motion_5_AngryToIdle);
                     mBrainState = EState::GetAngry;
                     return;
@@ -617,7 +617,7 @@ void SpawnBrain::VUpdate()
                 return;
             }
 
-            mSlingMudokon.field_140_timer = sGnFrame + 30;
+            mSlingMudokon.field_140_timer = BaseGameObject::MakeTimer(30);
             mBrainState = EState::GetAngry;
             return;
 
@@ -670,7 +670,7 @@ void AskForPasswordBrain::VUpdate()
     switch (mBrainState)
     {
         case EState::Unknown_0:
-            mSlingMudokon.field_140_timer = sGnFrame + 10;
+            mSlingMudokon.field_140_timer = BaseGameObject::MakeTimer(10);
             SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 0, -600);
             mBrainState = EState::Unknown_1;
             return;
@@ -686,7 +686,7 @@ void AskForPasswordBrain::VUpdate()
                 (mSlingMudokon.GetSpriteScale() * FP_FromInteger(20)) + mSlingMudokon.mYPos,
                 mSlingMudokon.GetSpriteScale());
 
-            mSlingMudokon.field_140_timer = sGnFrame + 2;
+            mSlingMudokon.field_140_timer = BaseGameObject::MakeTimer(2);
             mBrainState = EState::Unknown_2;
             return;
 
@@ -698,7 +698,7 @@ void AskForPasswordBrain::VUpdate()
 
                 relive_new Flash(Layer::eLayer_Above_FG1_39, 255u, 0, 255u);
 
-                mSlingMudokon.field_140_timer = sGnFrame + 30;
+                mSlingMudokon.field_140_timer = BaseGameObject::MakeTimer(30);
 
                 mSlingMudokon.SetCurrentMotion(eSlingMudMotions::Motion_0_Idle);
                 if (mSlingMudokon.mXPos > sActiveHero->mXPos)
@@ -716,7 +716,7 @@ void AskForPasswordBrain::VUpdate()
             if (mSlingMudokon.VIsObj_GettingNear_On_X(sActiveHero))
             {
                 mSlingMudokon.SetNextMotion(eSlingMudMotions::Motion_1_Angry);
-                mSlingMudokon.field_140_timer = sGnFrame + 40;
+                mSlingMudokon.field_140_timer = BaseGameObject::MakeTimer(40);
                 Mudokon_SFX(MudSounds::eAngry_5, 0, 300, &mSlingMudokon);
                 mBrainState = EState::Unknown_7;
                 return;
@@ -735,7 +735,7 @@ void AskForPasswordBrain::VUpdate()
             if (mSlingMudokon.VIsObj_GettingNear_On_X(sActiveHero))
             {
                 mSlingMudokon.SetNextMotion(eSlingMudMotions::Motion_1_Angry);
-                mSlingMudokon.field_140_timer = sGnFrame + 40;
+                mSlingMudokon.field_140_timer = BaseGameObject::MakeTimer(40);
                 Mudokon_SFX(MudSounds::eAngry_5, 0, 300, &mSlingMudokon);
                 mBrainState = EState::Unknown_7;
                 return;
@@ -766,7 +766,7 @@ void AskForPasswordBrain::VUpdate()
                 }
 
                 mSlingMudokon.mBufferIdx = static_cast<s16>(gEventSystem->mLastEventIndex);
-                mSlingMudokon.field_144_timer2 = sGnFrame + 40;
+                mSlingMudokon.field_144_timer2 = BaseGameObject::MakeTimer(40);
                 mBrainState = EState::Unknown_5;
                 return;
             }
@@ -795,7 +795,7 @@ void AskForPasswordBrain::VUpdate()
 
                 if (speak != GameSpeakEvents::eNone_m1)
                 {
-                    mSlingMudokon.field_144_timer2 = sGnFrame + 40;
+                    mSlingMudokon.field_144_timer2 = BaseGameObject::MakeTimer(40);
                 }
 
                 if (static_cast<s32>(sGnFrame) <= mSlingMudokon.field_144_timer2)
@@ -824,13 +824,13 @@ void AskForPasswordBrain::VUpdate()
                              == GameSpeakMatch::eFullMatch_1
                          || gVoiceCheat;
 
-                mSlingMudokon.field_140_timer = mSlingMudokon.mCodeMatches ? sGnFrame + 30 : sGnFrame + 10;
+                mSlingMudokon.field_140_timer = mSlingMudokon.mCodeMatches ? BaseGameObject::MakeTimer(30) : BaseGameObject::MakeTimer(10);
                 mBrainState = EState::Unknown_6;
                 return;
             }
 
             mSlingMudokon.SetNextMotion(eSlingMudMotions::Motion_1_Angry);
-            mSlingMudokon.field_140_timer = sGnFrame + 40;
+            mSlingMudokon.field_140_timer = BaseGameObject::MakeTimer(40);
             Mudokon_SFX(MudSounds::eAngry_5, 0, 300, &mSlingMudokon);
             mBrainState = EState::Unknown_7;
             return;
@@ -850,14 +850,14 @@ void AskForPasswordBrain::VUpdate()
 
             if (!mSlingMudokon.mCodeMatches)
             {
-                mSlingMudokon.field_140_timer = sGnFrame + 60;
+                mSlingMudokon.field_140_timer = BaseGameObject::MakeTimer(60);
                 Mudokon_SFX(MudSounds::eRefuse_14, 0, 300, &mSlingMudokon);
                 mBrainState = EState::Unknown_3;
                 return;
             }
             else
             {
-                mSlingMudokon.field_140_timer = sGnFrame + 30;
+                mSlingMudokon.field_140_timer = BaseGameObject::MakeTimer(30);
                 Mudokon_SFX(MudSounds::eOkay_13, 0, 300, &mSlingMudokon);
                 SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 0, -600);
                 mBrainState = EState::Unknown_9;
@@ -870,7 +870,7 @@ void AskForPasswordBrain::VUpdate()
             {
                 mSlingMudokon.mDontSetDestroyed = true;
                 mSlingMudokon.SetNextMotion(eSlingMudMotions::Motion_3_ShootStart);
-                mSlingMudokon.field_140_timer = sGnFrame + 15;
+                mSlingMudokon.field_140_timer = BaseGameObject::MakeTimer(15);
                 mBrainState = EState::Unknown_8;
                 return;
             }
@@ -881,7 +881,7 @@ void AskForPasswordBrain::VUpdate()
             }
 
             mSlingMudokon.SetNextMotion(eSlingMudMotions::Motion_5_AngryToIdle);
-            mSlingMudokon.field_140_timer = sGnFrame + 30;
+            mSlingMudokon.field_140_timer = BaseGameObject::MakeTimer(30);
             mBrainState = EState::Unknown_3;
             return;
 
@@ -896,7 +896,7 @@ void AskForPasswordBrain::VUpdate()
                 return;
             }
 
-            mSlingMudokon.field_140_timer = sGnFrame + 30;
+            mSlingMudokon.field_140_timer = BaseGameObject::MakeTimer(30);
             mBrainState = EState::Unknown_3;
             return;
 

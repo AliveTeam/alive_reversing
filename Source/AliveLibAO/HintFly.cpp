@@ -1592,7 +1592,7 @@ void HintFly::VUpdate()
             {
                 mMsgIdx = 0;
                 mState = State::eState_3;
-                mTimer = sGnFrame + 15;
+                mTimer = MakeTimer(15);
             }
             return;
 
@@ -1620,7 +1620,7 @@ void HintFly::VUpdate()
                 {
                     FormWordAndAdvanceToNextWord();
                     mState = State::eState_4;
-                    mTimer = sGnFrame + 30;
+                    mTimer = MakeTimer(30);
                 }
             }
 
@@ -1667,7 +1667,7 @@ void HintFly::VUpdate()
             {
                 FormWordAndAdvanceToNextWord();
                 mState = State::eState_4;
-                mTimer = sGnFrame + 30;
+                mTimer = MakeTimer(30);
             }
             break;
 
@@ -1720,7 +1720,7 @@ void HintFly::VUpdate()
                         mHintFlyParticle[i].mState = 3;
                     }
                     mState = State::eState_3;
-                    mTimer = sGnFrame + 15;
+                    mTimer = MakeTimer(15);
                 }
             }
             else

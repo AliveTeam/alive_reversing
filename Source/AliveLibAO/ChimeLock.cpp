@@ -561,7 +561,7 @@ void ChimeLock::VUpdate()
             if (static_cast<s32>(sGnFrame) >= field_12C_timer)
             {
                 SetTargetBellIfSpace(field_124_code1 / dword_4C5054[field_120_max_idx - field_128_idx] % 10);
-                field_12C_timer = sGnFrame + 15;
+                field_12C_timer = MakeTimer(15);
             }
             return;
 
@@ -646,7 +646,7 @@ void ChimeLock::VPossessed()
     SetPossessed(true);
     mChimeLockState = ChimeLockStates::ePossessed_2;
     field_128_idx = 0;
-    field_12C_timer = sGnFrame + 45;
+    field_12C_timer = MakeTimer(45);
     mBallState = BallStates::eIdle_0;
     field_164_ChimeLock_num[0] = BellPositions::eNone_0;
     field_164_ChimeLock_num[1] = BellPositions::eNone_0;

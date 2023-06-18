@@ -148,7 +148,7 @@ void Dove::AsJoin(FP xpos, FP ypos)
     mJoinX = xpos;
     mJoinY = ypos;
     mDoveState = State::eJoin_2;
-    mJoinDeadTimer = sGnFrame + 47;
+    mJoinDeadTimer = MakeTimer(47);
 }
 
 void Dove::FlyAway(bool spookedInstantly)

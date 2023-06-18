@@ -77,7 +77,7 @@ GameSpeak::~GameSpeak()
 void GameSpeak::VPushEvent(GameSpeakEvents event)
 {
     PushEvent_Impl(event);
-    mLastEventFrame = sGnFrame + 60;
+    mLastEventFrame = MakeTimer(60);
 }
 
 

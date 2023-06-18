@@ -140,7 +140,7 @@ void MovingBomb::BlowUp()
     SetCanExplode(false);
     mState = States::eBlowingUp_6;
     mVelY = FP_FromInteger(0);
-    mTimer = sGnFrame + 1;
+    mTimer = MakeTimer(1);
     SfxPlayMono(relive::SoundEffects::GreenTick, 100, GetSpriteScale());
 }
 
@@ -206,7 +206,7 @@ bool MovingBomb::VTakeDamage(BaseGameObject* pFrom)
             mState = States::eKillMovingBomb_7;
 
             GetAnimation().SetRender(false);
-            mTimer = sGnFrame + 4;
+            mTimer = MakeTimer(4);
         }
             return false;
 
@@ -365,7 +365,7 @@ void MovingBomb::VUpdate()
             if (mVelX < FP_FromInteger(0))
             {
                 mState = States::eWaitABit_4;
-                mTimer = sGnFrame + Math_RandomRange(mMinStopTime, mMaxStopTime);
+                mTimer = MakeTimer(Math_RandomRange(mMinStopTime, mMaxStopTime));
             }
 
             FollowLine();
@@ -423,7 +423,7 @@ void MovingBomb::VUpdate()
 
                 mState = States::eKillMovingBomb_7;
                 GetAnimation().SetRender(false);
-                mTimer = sGnFrame + 4;
+                mTimer = MakeTimer(4);
             }
             break;
 

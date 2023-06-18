@@ -135,12 +135,12 @@ void BackgroundGlukkon::VUpdate()
     {
         case BackgroundGlukkon::State::eToSetSpeakPauseTimer_0:
             field_110_state = BackgroundGlukkon::State::eSetSpeakPauseTimer_1;
-            field_118_never_read = sGnFrame + Math_RandomRange(20, 40);
+            field_118_never_read = MakeTimer(Math_RandomRange(20, 40));
             break;
 
         case BackgroundGlukkon::State::eSetSpeakPauseTimer_1:
             field_110_state = BackgroundGlukkon::State::eRandomizedLaugh_2;
-            field_114_speak_pause_timer = sGnFrame + Math_RandomRange(12, 20);
+            field_114_speak_pause_timer = MakeTimer(Math_RandomRange(12, 20));
             break;
 
         case BackgroundGlukkon::State::eRandomizedLaugh_2:

@@ -98,7 +98,7 @@ void BeeSwarm::VScreenChanged()
         {
             mSwarmState = BeeSwarmStates::eFlyAwayAndDie_3;
             mChaseTargetY -= FP_FromInteger(240);
-            mAliveTimer = sGnFrame + 120;
+            mAliveTimer = MakeTimer(120);
             gBeesNearAbe = 0;
             mChaseTarget->mBaseGameObjectRefCount--;
             mChaseTarget = nullptr;
@@ -138,7 +138,7 @@ void BeeSwarm::Chase(BaseAliveGameObject* pChaseTarget)
     mChaseTargetX = pChaseTarget->mXPos;
     mChaseTargetY = pChaseTarget->mYPos;
 
-    mAliveTimer = sGnFrame + mTotalChaseTime;
+    mAliveTimer = MakeTimer(mTotalChaseTime);
 }
 
 void BeeSwarm::VUpdate()
@@ -269,7 +269,7 @@ void BeeSwarm::VUpdate()
                 }
                 else
                 {
-                    field_DA0_do_damage_or_pain_sound_timer = sGnFrame + 30;
+                    field_DA0_do_damage_or_pain_sound_timer = MakeTimer(30);
 
                     for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
                     {
@@ -355,8 +355,8 @@ void BeeSwarm::VUpdate()
                             mChaseTargetX = pObjIter->mXPos;
                             mChaseTargetY = pObjIter->mYPos;
 
-                            mAliveTimer = sGnFrame + mTotalChaseTime;
-                            field_DA4_update_chase_timer = sGnFrame + 60;
+                            mAliveTimer = MakeTimer(mTotalChaseTime);
+                            field_DA4_update_chase_timer = MakeTimer(60);
 
                             // ?? why not check < 0 then calc
                             if (oldChaseTimer != 0)
@@ -430,7 +430,7 @@ void BeeSwarm::VUpdate()
             }
 
             pBee->field_9_angle_speed = static_cast<s8>(angSpeed >> 2);
-            pBee->mTimer = sGnFrame + 5;
+            pBee->mTimer = MakeTimer(5);
         }
 
         FP xMove = {};
@@ -505,7 +505,7 @@ void BeeSwarm::VUpdate()
         pBee->field_8_angle = Math_NextRandom();
         pBee->field_9_angle_speed = (Math_NextRandom() >> 4) - 8;
 
-        pBee->mTimer = sGnFrame + 5;
+        pBee->mTimer = MakeTimer(5);
 
         mCurrentBeesCount++;
     }
@@ -516,7 +516,7 @@ void BeeSwarm::VUpdate()
 
 void BeeSwarm::ToFlyAwayAndDie()
 {
-    mAliveTimer = sGnFrame + 120;
+    mAliveTimer = MakeTimer(120);
     mChaseTargetY -= FP_FromInteger(240);
     mSwarmState = BeeSwarmStates::eFlyAwayAndDie_3;
 

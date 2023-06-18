@@ -81,7 +81,7 @@ SecurityDoor::SecurityDoor(relive::Path_SecurityDoor* pTlv, const Guid& tlvId)
 
     if (mState != SecurityDoorStates::eSuccessChime_1)
     {
-        mTimer = sGnFrame + 10;
+        mTimer = MakeTimer(10);
     }
 }
 
@@ -143,7 +143,7 @@ void SecurityDoor::VUpdate()
             Slig::Slig_GameSpeak_SFX(SligSpeak::eHi_0, 127, -200, 0);
             GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Security_Door_Speak));
             mState = SecurityDoorStates::eListeningForHi_3;
-            mTimer = sGnFrame + 150;
+            mTimer = MakeTimer(150);
             break;
 
         case SecurityDoorStates::eListeningForHi_3:
@@ -169,7 +169,7 @@ void SecurityDoor::VUpdate()
             if (last_event == GameSpeakEvents::Slig_Hi_23)
             {
                 mState = SecurityDoorStates::eWaitingToSayPassword_4;
-                mTimer = sGnFrame + 30;
+                mTimer = MakeTimer(30);
             }
             else if (static_cast<s32>(sGnFrame) > mTimer)
             {
@@ -219,12 +219,12 @@ void SecurityDoor::VUpdate()
             if (mMaxIdx2 >= mCodeLength)
             {
                 mState = SecurityDoorStates::eListeningForPassword_8;
-                mTimer = sGnFrame + 60;
+                mTimer = MakeTimer(60);
             }
             else
             {
                 mState = SecurityDoorStates::ePausing_7;
-                mTimer = sGnFrame + 30;
+                mTimer = MakeTimer(30);
             }
             break;
         }
@@ -242,7 +242,7 @@ void SecurityDoor::VUpdate()
             {
                 SFX_Play_Pitch(relive::SoundEffects::Alarm, 60, -720);
                 mState = SecurityDoorStates::eLaughAtFailure_10;
-                mTimer = sGnFrame + 15;
+                mTimer = MakeTimer(15);
             }
 
             GameSpeakEvents last_event = {};
@@ -299,13 +299,13 @@ void SecurityDoor::VUpdate()
                     SwitchStates_Set(mSwitchId, 1);
                     SFX_Play_Pitch(relive::SoundEffects::SligBleh, 127, -700);
                     mState = SecurityDoorStates::eSuccessChime_1;
-                    mTimer = sGnFrame + 15;
+                    mTimer = MakeTimer(15);
                 }
                 else
                 {
                     SFX_Play_Pitch(relive::SoundEffects::Alarm, 60, -720);
                     mState = SecurityDoorStates::eLaughAtFailure_10;
-                    mTimer = sGnFrame + 15;
+                    mTimer = MakeTimer(15);
                 }
             }
             break;
@@ -316,7 +316,7 @@ void SecurityDoor::VUpdate()
             {
                 SFX_Play_Pitch(relive::SoundEffects::SligLaugh, 127, -1000);
                 mState = SecurityDoorStates::eInactive_0;
-                mTimer = sGnFrame + 90;
+                mTimer = MakeTimer(90);
             }
             break;
 

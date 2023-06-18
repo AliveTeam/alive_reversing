@@ -389,7 +389,7 @@ Mudokon::~Mudokon()
         }
         else
         {
-            sActiveHero->field_168_ring_pulse_timer = sGnFrame + 200000;
+            sActiveHero->field_168_ring_pulse_timer = MakeTimer(200000);
         }
         sActiveHero->field_16C_bHaveShrykull = false;
     }
@@ -690,7 +690,7 @@ bool Mudokon::VTakeDamage(BaseGameObject* pFrom)
                 mPersist = false;
                 mHealth = FP_FromInteger(0);
                 field_1B8_brain_state = 11;
-                field_1C0_timer = sGnFrame + 90;
+                field_1C0_timer = MakeTimer(90);
                 SetCurrentMotion(eMudMotions::Motion_46_FallLandDie);
                 VUpdateResBlock();
             }
@@ -712,7 +712,7 @@ bool Mudokon::VTakeDamage(BaseGameObject* pFrom)
                     mPersist = false;
                     mHealth = FP_FromInteger(0);
                     field_1B8_brain_state = 11;
-                    field_1C0_timer = sGnFrame + 90;
+                    field_1C0_timer = MakeTimer(90);
                     SetCurrentMotion(eMudMotions::Motion_46_FallLandDie);
                     SetNextMotion(-1);
                     VUpdateResBlock();
@@ -727,7 +727,7 @@ bool Mudokon::VTakeDamage(BaseGameObject* pFrom)
                 mHealth -= FP_FromDouble(0.06);
                 SetCurrentMotion(eMudMotions::Motion_46_FallLandDie);
                 SetNextMotion(-1);
-                field_1C0_timer = sGnFrame + 30;
+                field_1C0_timer = MakeTimer(30);
                 VUpdateResBlock();
                 field_1B8_brain_state = 9;
                 field_1BA_brain_sub_state = 6;
@@ -738,7 +738,7 @@ bool Mudokon::VTakeDamage(BaseGameObject* pFrom)
                 {
                     mPersist = false;
                     field_1B8_brain_state = 11;
-                    field_1C0_timer = sGnFrame + 90;
+                    field_1C0_timer = MakeTimer(90);
                 }
             }
             return true;
@@ -750,7 +750,7 @@ bool Mudokon::DoSmashDamage()
     if (mHealth > FP_FromInteger(0))
     {
         mPersist = false;
-        field_1C0_timer = sGnFrame + 90;
+        field_1C0_timer = MakeTimer(90);
         mHealth = FP_FromInteger(0);
         field_1B8_brain_state = 11;
         SetCurrentMotion(eMudMotions::Motion_46_FallLandDie);
@@ -2425,7 +2425,7 @@ void Mudokon::Motion_51_Fall()
                     ToKnockback();
                     mPersist = false;
                     field_1B8_brain_state = 11;
-                    field_1C0_timer = sGnFrame + 90;
+                    field_1C0_timer = MakeTimer(90);
                     SetCurrentMotion(eMudMotions::Motion_46_FallLandDie);
                 }
 
@@ -2612,7 +2612,7 @@ void Mudokon::Motion_62_PoisonGasDeath()
         mPersist = false;
         mHealth = FP_FromInteger(0);
         field_1B8_brain_state = 11;
-        field_1C0_timer = sGnFrame + 90;
+        field_1C0_timer = MakeTimer(90);
         SetNextMotion(-1);
     }
 }
@@ -2621,7 +2621,7 @@ s16 Mudokon::Brain_0_ComingIn()
 {
     if (field_1BA_brain_sub_state == 0)
     {
-        field_1C0_timer = sGnFrame + 120;
+        field_1C0_timer = MakeTimer(120);
         return 1;
     }
 
@@ -2708,7 +2708,7 @@ s16 Mudokon::Brain_2_SingSequenceIdle()
             }
             else
             {
-                field_1C0_timer = sGnFrame + 60;
+                field_1C0_timer = MakeTimer(60);
                 return 1;
             }
             break;
@@ -2746,7 +2746,7 @@ s16 Mudokon::Brain_2_SingSequenceIdle()
 
                 if (last_speak == GameSpeakEvents::eAbe_Hello_9)
                 {
-                    field_1C0_timer = sGnFrame + 20;
+                    field_1C0_timer = MakeTimer(20);
                     return 3;
                 }
             }
@@ -2818,7 +2818,7 @@ s16 Mudokon::Brain_3_SingSequenceSing()
             }
             else
             {
-                field_1C0_timer = sGnFrame + 30;
+                field_1C0_timer = MakeTimer(30);
                 return 2;
             }
             break;
@@ -2853,7 +2853,7 @@ s16 Mudokon::Brain_3_SingSequenceSing()
             else
             {
                 field_1A0 = 0;
-                field_1C0_timer = sGnFrame + 30;
+                field_1C0_timer = MakeTimer(30);
                 return 5;
             }
             break;
@@ -2882,7 +2882,7 @@ s16 Mudokon::Brain_3_SingSequenceSing()
             if (last_speak != GameSpeakEvents::eNone_m1 && last_speak != GameSpeakEvents::eSameAsLast_m2)
             {
                 field_13E = static_cast<s16>(gEventSystem->mLastEventIndex);
-                field_118 = sGnFrame + 60;
+                field_118 = MakeTimer(60);
                 return 4;
             }
             break;
@@ -2911,7 +2911,7 @@ s16 Mudokon::Brain_3_SingSequenceSing()
 
             if (last_speak != GameSpeakEvents::eNone_m1 && last_speak != GameSpeakEvents::eSameAsLast_m2)
             {
-                field_118 = sGnFrame + 60;
+                field_118 = MakeTimer(60);
             }
 
             if (static_cast<s32>(sGnFrame) <= field_118)
@@ -2930,7 +2930,7 @@ s16 Mudokon::Brain_3_SingSequenceSing()
             }
 
             field_1A0 = gEventSystem->MatchBuffer(field_12C, field_13C, field_13E) == GameSpeakMatch::eFullMatch_1 || gVoiceCheat;
-            field_1C0_timer = sGnFrame + 30;
+            field_1C0_timer = MakeTimer(30);
             return 5;
         }
 
@@ -3016,7 +3016,7 @@ s16 Mudokon::Brain_4_SingSequencePassword()
             if (last_speak != GameSpeakEvents::eNone_m1 && last_speak != GameSpeakEvents::eSameAsLast_m2)
             {
                 field_13E = static_cast<s16>(gEventSystem->mLastEventIndex);
-                field_118 = sGnFrame + 60;
+                field_118 = MakeTimer(60);
                 return 3;
             }
             break;
@@ -3044,7 +3044,7 @@ s16 Mudokon::Brain_4_SingSequencePassword()
 
             if (last_speak != GameSpeakEvents::eNone_m1 && last_speak != GameSpeakEvents::eSameAsLast_m2)
             {
-                field_118 = sGnFrame + 60;
+                field_118 = MakeTimer(60);
             }
 
             if (static_cast<s32>(sGnFrame) <= field_118)
@@ -3069,7 +3069,7 @@ s16 Mudokon::Brain_4_SingSequencePassword()
                          == GameSpeakMatch::eFullMatch_1
                      || gVoiceCheat;
 
-            field_1C0_timer = sGnFrame + 30;
+            field_1C0_timer = MakeTimer(30);
             return 4;
         }
 
@@ -3208,7 +3208,7 @@ s16 Mudokon::Brain_7_GiveRings()
             if (sActiveHero->field_168_ring_pulse_timer <= 0)
             {
                 SetNextMotion(eMudMotions::Motion_52_Chant);
-                field_1C0_timer = sGnFrame + 30;
+                field_1C0_timer = MakeTimer(30);
                 return 1;
             }
             return 4;
@@ -3217,7 +3217,7 @@ s16 Mudokon::Brain_7_GiveRings()
             if (static_cast<s32>(sGnFrame) > field_1C0_timer)
             {
                 relive_new PossessionFlicker(this, 10, 255, 128, 128);
-                field_1C0_timer = sGnFrame + 15;
+                field_1C0_timer = MakeTimer(15);
                 return 2;
             }
             break;
@@ -3242,7 +3242,7 @@ s16 Mudokon::Brain_7_GiveRings()
                 {
                     pAbeRing->SetTarget(sActiveHero);
                 }
-                field_1C0_timer = sGnFrame + 30;
+                field_1C0_timer = MakeTimer(30);
                 return 3;
             }
             break;
@@ -3256,7 +3256,7 @@ s16 Mudokon::Brain_7_GiveRings()
                 }
                 else
                 {
-                    sActiveHero->field_168_ring_pulse_timer = sGnFrame + 200000;
+                    sActiveHero->field_168_ring_pulse_timer = MakeTimer(200000);
                 }
 
                 SetNextMotion(eMudMotions::Motion_0_Idle);
@@ -3302,7 +3302,7 @@ s16 Mudokon::Brain_8_StandScrub()
         case 0:
             SetCurrentMotion(eMudMotions::Motion_16_StandScrubLoop);
             SetNextMotion(-1);
-            field_1C0_timer = (Math_NextRandom() % 64) + sGnFrame + 35;
+            field_1C0_timer = (Math_NextRandom() % 64) + MakeTimer(35);
             return 1;
 
         case 1:
@@ -3310,7 +3310,7 @@ s16 Mudokon::Brain_8_StandScrub()
             {
                 AddAlerted();
                 SetNextMotion(eMudMotions::Motion_21_StandScrubToIdle);
-                field_1C0_timer = sGnFrame + 15;
+                field_1C0_timer = MakeTimer(15);
                 return 3;
             }
 
@@ -3322,7 +3322,7 @@ s16 Mudokon::Brain_8_StandScrub()
 
             if (GetCurrentMotion() == eMudMotions::Motion_19_StandScrubPause)
             {
-                field_1C0_timer = (Math_NextRandom() % 64) + sGnFrame + 35;
+                field_1C0_timer = (Math_NextRandom() % 64) + MakeTimer(35);
                 return 2;
             }
             return field_1BA_brain_sub_state;
@@ -3332,14 +3332,14 @@ s16 Mudokon::Brain_8_StandScrub()
             {
                 AddAlerted();
                 SetNextMotion(eMudMotions::Motion_21_StandScrubToIdle);
-                field_1C0_timer = sGnFrame + 15;
+                field_1C0_timer = MakeTimer(15);
                 return 3;
             }
 
             if (static_cast<s32>(sGnFrame) > field_1C0_timer)
             {
                 SetNextMotion(eMudMotions::Motion_18_StandScrubPauseToLoop);
-                field_1C0_timer = (Math_NextRandom() % 64) + sGnFrame + 35;
+                field_1C0_timer = (Math_NextRandom() % 64) + MakeTimer(35);
                 return 1;
             }
             return field_1BA_brain_sub_state;
@@ -3371,7 +3371,7 @@ s16 Mudokon::Brain_8_StandScrub()
 
                 case eMudMotions::Motion_23_CrouchIdle:
                     SetNextMotion(eMudMotions::Motion_55_Duck);
-                    field_1C0_timer = sGnFrame + 60;
+                    field_1C0_timer = MakeTimer(60);
                     return 5;
 
                 default:
@@ -3424,7 +3424,7 @@ s16 Mudokon::Brain_9_CrouchScrub()
     if (last_speak == GameSpeakEvents::Slig_LookOut_6)
     {
         SetNextMotion(eMudMotions::Motion_55_Duck);
-        field_1C0_timer = sGnFrame + 60;
+        field_1C0_timer = MakeTimer(60);
         return 5;
     }
 
@@ -3441,20 +3441,20 @@ s16 Mudokon::Brain_9_CrouchScrub()
             if (last_speak == GameSpeakEvents::eAbe_Hello_9 && sAlertedMudCount_507B90 == 0 && IAmNearestToAbe())
             {
                 AddAlerted();
-                field_1C0_timer = sGnFrame + 15;
+                field_1C0_timer = MakeTimer(15);
                 return 3;
             }
 
             if (GetCurrentMotion() == eMudMotions::Motion_23_CrouchIdle && static_cast<s32>(sGnFrame) > field_114)
             {
                 SetNextMotion(eMudMotions::Motion_24_CrouchTurn);
-                field_114 = (Math_NextRandom() % 64) + sGnFrame + 240;
+                field_114 = (Math_NextRandom() % 64) + MakeTimer(240);
             }
 
             if (GetCurrentMotion() == eMudMotions::Motion_23_CrouchIdle && static_cast<s32>(sGnFrame) > field_1C0_timer)
             {
                 SetNextMotion(eMudMotions::Motion_22_CrouchScrub);
-                field_1C0_timer = (Math_NextRandom() % 64) + sGnFrame + 35;
+                field_1C0_timer = (Math_NextRandom() % 64) + MakeTimer(35);
             }
 
             if (GetCurrentMotion() != eMudMotions::Motion_22_CrouchScrub)
@@ -3470,7 +3470,7 @@ s16 Mudokon::Brain_9_CrouchScrub()
                 {
                     if (static_cast<s32>(sGnFrame) > field_1C0_timer)
                     {
-                        field_1C0_timer = (Math_NextRandom() % 64) + sGnFrame + 15;
+                        field_1C0_timer = (Math_NextRandom() % 64) + MakeTimer(15);
                         return 1;
                     }
                     SetCurrentMotion(eMudMotions::Motion_22_CrouchScrub);
@@ -3482,14 +3482,14 @@ s16 Mudokon::Brain_9_CrouchScrub()
                         mYPos,
                         GetSpriteScale()))
                 {
-                    field_1C0_timer = (Math_NextRandom() % 64) + sGnFrame + 15;
+                    field_1C0_timer = (Math_NextRandom() % 64) + MakeTimer(15);
                     return 4;
                 }
             }
             else
             {
                 AddAlerted();
-                field_1C0_timer = sGnFrame + 15;
+                field_1C0_timer = MakeTimer(15);
                 return 3;
             }
             break;
@@ -3524,7 +3524,7 @@ s16 Mudokon::Brain_9_CrouchScrub()
             else
             {
                 AddAlerted();
-                field_1C0_timer = sGnFrame + 15;
+                field_1C0_timer = MakeTimer(15);
                 return 3;
             }
             break;
@@ -3534,8 +3534,8 @@ s16 Mudokon::Brain_9_CrouchScrub()
             {
                 SetNextMotion(eMudMotions::Motion_23_CrouchIdle);
 
-                field_1C0_timer = (Math_NextRandom() % 64) + sGnFrame + 15;
-                field_114 = (Math_NextRandom() % 64) + sGnFrame + 240;
+                field_1C0_timer = (Math_NextRandom() % 64) + MakeTimer(15);
+                field_114 = (Math_NextRandom() % 64) + MakeTimer(240);
 
                 if (mHealth > FP_FromInteger(0))
                 {
@@ -3549,7 +3549,7 @@ s16 Mudokon::Brain_9_CrouchScrub()
             if (static_cast<s32>(sGnFrame) > field_1C0_timer)
             {
                 SetNextMotion(eMudMotions::Motion_61_DuckKnockback);
-                field_1C0_timer = sGnFrame + 60;
+                field_1C0_timer = MakeTimer(60);
                 return 5;
             }
             break;
@@ -3678,7 +3678,7 @@ s16 Mudokon::Brain_10_ListeningToAbe()
                             1))
                     {
                         field_1B0 = field_1BA_brain_sub_state;
-                        field_1C0_timer = sGnFrame + Math_RandomRange(22, 30);
+                        field_1C0_timer = MakeTimer(Math_RandomRange(22, 30));
                         return 13;
                     }
 
@@ -3688,7 +3688,7 @@ s16 Mudokon::Brain_10_ListeningToAbe()
                     }
 
                     field_1B0 = field_1BA_brain_sub_state;
-                    field_1C0_timer = sGnFrame + 20;
+                    field_1C0_timer = MakeTimer(20);
 
                     switch (last_speak)
                     {
@@ -3699,7 +3699,7 @@ s16 Mudokon::Brain_10_ListeningToAbe()
                             return 18;
 
                         case GameSpeakEvents::eAbe_Fart_3:
-                            field_1C0_timer = sGnFrame + 30;
+                            field_1C0_timer = MakeTimer(30);
                             return 13;
 
                         case GameSpeakEvents::eAbe_Laugh_4:
@@ -3950,7 +3950,7 @@ s16 Mudokon::Brain_10_ListeningToAbe()
                         1))
                 {
                     field_1B0 = field_1BA_brain_sub_state;
-                    field_1C0_timer = sGnFrame + Math_RandomRange(22, 30);
+                    field_1C0_timer = MakeTimer(Math_RandomRange(22, 30));
                     return 13;
                 }
                 const GameSpeakEvents speak = LastGameSpeak();
@@ -3959,7 +3959,7 @@ s16 Mudokon::Brain_10_ListeningToAbe()
                     return field_1BA_brain_sub_state;
                 }
 
-                field_1C0_timer = sGnFrame + 20;
+                field_1C0_timer = MakeTimer(20);
                 field_1B0 = field_1BA_brain_sub_state;
 
                 switch (speak)
@@ -3971,7 +3971,7 @@ s16 Mudokon::Brain_10_ListeningToAbe()
                         return 18;
 
                     case GameSpeakEvents::eAbe_Fart_3:
-                        field_1C0_timer = sGnFrame + 30;
+                        field_1C0_timer = MakeTimer(30);
                         return 13;
 
                     case GameSpeakEvents::eAbe_Laugh_4:
@@ -4017,7 +4017,7 @@ s16 Mudokon::Brain_10_ListeningToAbe()
         case 8:
             if (GetCurrentMotion() == eMudMotions::Motion_0_Idle)
             {
-                field_1C0_timer = sGnFrame + 20;
+                field_1C0_timer = MakeTimer(20);
                 field_1B0 = 6;
                 return 10;
             }
@@ -4338,7 +4338,7 @@ s16 Mudokon::Brain_13_FallAndSmackDeath()
     else
     {
         Mudokon_SFX(MudSounds::eDeathDropScream_17, 0, 0, this);
-        field_1C0_timer = sGnFrame + 60;
+        field_1C0_timer = MakeTimer(60);
         return 1;
     }
 }
@@ -4356,7 +4356,7 @@ s16 Mudokon::Brain_14_Chant()
     if (lastSpeak == GameSpeakEvents::Slig_LookOut_6)
     {
         SetNextMotion(eMudMotions::Motion_55_Duck);
-        field_1C0_timer = sGnFrame + 60;
+        field_1C0_timer = MakeTimer(60);
         return 5;
     }
 
@@ -4377,7 +4377,7 @@ s16 Mudokon::Brain_14_Chant()
             if (lastSpeak == GameSpeakEvents::eAbe_Hello_9 && sAlertedMudCount_507B90 == 0 && IAmNearestToAbe())
             {
                 AddAlerted();
-                field_1C0_timer = sGnFrame + 15;
+                field_1C0_timer = MakeTimer(15);
                 return 2;
             }
             break;
@@ -4395,7 +4395,7 @@ s16 Mudokon::Brain_14_Chant()
             if (GetCurrentMotion() == eMudMotions::Motion_57_Struggle)
             {
                 field_1B6 = 0;
-                field_1C0_timer = sGnFrame + 32;
+                field_1C0_timer = MakeTimer(32);
                 return 4;
             }
             SetNextMotion(eMudMotions::Motion_57_Struggle);
@@ -4410,7 +4410,7 @@ s16 Mudokon::Brain_14_Chant()
                     return 5;
                 }
                 field_1B6 = 0;
-                field_1C0_timer = sGnFrame + 32;
+                field_1C0_timer = MakeTimer(32);
             }
             break;
 

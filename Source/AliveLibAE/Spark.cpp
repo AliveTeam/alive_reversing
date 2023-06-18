@@ -58,7 +58,7 @@ Spark::Spark(FP xpos, FP ypos, FP scale, s32 count, s32 minAngle, s32 maxAngle, 
             pSparkIter->mLen = FP_FromInteger(Math_RandomRange(2, 4));
         }
 
-        mTimer = sGnFrame + 3;
+        mTimer = MakeTimer(3);
 
         if (mSparkType == SparkType::eBigChantParticle_1)
         {

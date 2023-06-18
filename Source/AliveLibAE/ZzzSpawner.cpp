@@ -50,6 +50,6 @@ void ZzzSpawner::VUpdate()
     {
         relive_new SnoozeParticle(mXPos, mYPos, Layer::eLayer_Above_FG1_39, mSpriteScale);
 
-        mTimer = sGnFrame + mZzzInterval;
+        mTimer = MakeTimer(mZzzInterval);
     }
 }

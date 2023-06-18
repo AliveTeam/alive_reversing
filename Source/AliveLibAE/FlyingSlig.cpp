@@ -202,7 +202,7 @@ FlyingSlig::FlyingSlig(relive::Path_FlyingSlig* pTlv, const Guid& tlvId)
     }
     else if (field_118_data.mSpawnDelayState == relive::Path_FlyingSlig::SpawnDelayStates::eMoveImmediately)
     {
-        field_14C_timer = sGnFrame + 1;
+        field_14C_timer = MakeTimer(1);
     }
 
     field_2A8_max_x_speed = FP_FromInteger(field_118_data.mMaxVelocity) * GetSpriteScale();
@@ -2206,7 +2206,7 @@ void FlyingSlig::BlowUp()
     field_184_xSpeed = FP_FromInteger(0);
     mHealth = FP_FromInteger(0);
     SetBrain(&FlyingSlig::Brain_1_Death);
-    field_14C_timer = sGnFrame + 40;
+    field_14C_timer = MakeTimer(40);
 }
 
 s16 FlyingSlig::sub_436730()
@@ -2260,7 +2260,7 @@ void FlyingSlig::ToSpottedEnemy()
 void FlyingSlig::ToAbeDead()
 {
     SetBrain(&FlyingSlig::Brain_11_AbeDead);
-    field_14C_timer = sGnFrame + 70;
+    field_14C_timer = MakeTimer(70);
 }
 
 void FlyingSlig::ToAlerted()
@@ -2273,7 +2273,7 @@ void FlyingSlig::ToAlerted()
 void FlyingSlig::ToPanicMoving()
 {
     MusicController::static_PlayMusic(MusicController::MusicTypes::eSoftChase_8, this, 0, 0);
-    field_14C_timer = (Math_NextRandom() & 7) + sGnFrame + 12;
+    field_14C_timer = (Math_NextRandom() & 7) + MakeTimer(12);
     SetBrain(&FlyingSlig::Brain_7_PanicMoving);
 }
 
@@ -2290,7 +2290,7 @@ void FlyingSlig::ToChantShake()
     SfxPlayMono(relive::SoundEffects::PossessEffect, 0);
     SetMotionHelper(eFlyingSligMotions::Motion_9_Possession);
     SetBrain(&FlyingSlig::Brain_14_DePossession);
-    field_14C_timer = sGnFrame + 45;
+    field_14C_timer = MakeTimer(45);
 }
 
 void FlyingSlig::ToPossesed()
@@ -2298,7 +2298,7 @@ void FlyingSlig::ToPossesed()
     Slig_GameSpeak_SFX(SligSpeak::eHelp_10, 0, field_15C_voice_pitch_min, this);
     SetMotionHelper(eFlyingSligMotions::Motion_9_Possession);
     SetBrain(&FlyingSlig::Brain_13_Possession);
-    field_14C_timer = sGnFrame + 35;
+    field_14C_timer = MakeTimer(35);
 }
 
 void FlyingSlig::vUpdateAnimRes_4350A0()
@@ -2921,7 +2921,7 @@ s16 FlyingSlig::CollisionUp(FP velY)
         if (static_cast<s32>(sGnFrame) > field_154_collision_reaction_timer)
         {
             Slig_GameSpeak_SFX(sGnFrame & 1 ? SligSpeak::eOuch2_14 : SligSpeak::eOuch1_13, 127, Math_RandomRange(256, 512), this);
-            field_154_collision_reaction_timer = (Math_NextRandom() & 3) + sGnFrame + 10;
+            field_154_collision_reaction_timer = (Math_NextRandom() & 3) + MakeTimer(10);
             relive_new ParticleBurst(
                 mXPos,
                 hitY + (FP_FromInteger(7) * GetSpriteScale()),
@@ -2995,7 +2995,7 @@ s16 FlyingSlig::CollisionDown(FP velY)
         if (static_cast<s32>(sGnFrame) > field_154_collision_reaction_timer)
         {
             Slig_GameSpeak_SFX(sGnFrame & 1 ? SligSpeak::eOuch2_14 : SligSpeak::eOuch1_13, 127, Math_RandomRange(256, 512), this);
-            field_154_collision_reaction_timer = (Math_NextRandom() & 3) + sGnFrame + 10;
+            field_154_collision_reaction_timer = (Math_NextRandom() & 3) + MakeTimer(10);
         }
 
         mYPos += velY + hitY - y2;
@@ -3080,7 +3080,7 @@ s16 FlyingSlig::CollisionLeftRight(FP velX)
         if (static_cast<s32>(sGnFrame) > field_154_collision_reaction_timer)
         {
             Slig_GameSpeak_SFX(sGnFrame & 1 ? SligSpeak::eOuch2_14 : SligSpeak::eOuch1_13, 127, Math_RandomRange(256, 512), this);
-            field_154_collision_reaction_timer = (Math_NextRandom() & 3) + sGnFrame + 10;
+            field_154_collision_reaction_timer = (Math_NextRandom() & 3) + MakeTimer(10);
             relive_new ParticleBurst(sparkX, hitY + (FP_FromInteger(16) * GetSpriteScale()), 5u, GetSpriteScale(), BurstType::eSmallPurpleSparks_6, 9);
         }
         mXPos += velX + hitX - xOff;

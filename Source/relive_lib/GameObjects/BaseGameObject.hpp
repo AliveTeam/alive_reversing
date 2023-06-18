@@ -49,19 +49,6 @@ public:
 protected:
     static Guid RefreshId(const Guid& objectId);
 
-    // Helper to check if a timer has expired
-    template <class T>
-    static inline bool Expired(const T& value)
-    {
-        return static_cast<s32>(sGnFrame) > value;
-    }
-
-    template <class T>
-    static s32 MakeTimer(const T value)
-    {
-        return static_cast<s32>(sGnFrame) + value;
-    }
-
 public:
     void SetUpdateDelay(s32 updateDelay);
 
@@ -94,6 +81,18 @@ public:
     bool GetCantKill() const { return mCantKill; }
     void SetCantKill(bool val) { mCantKill = val; }
 
+    // Helper to check if a timer has expired
+    template <class T>
+    static inline bool Expired(const T& value)
+    {
+        return static_cast<s32>(sGnFrame) > value;
+    }
+
+    template <class T>
+    static s32 MakeTimer(const T value)
+    {
+        return static_cast<s32>(sGnFrame) + value;
+    }
 public:
     Guid mBaseGameObjectId;                  // AE
     Guid mBaseGameObjectTlvInfo;                 // AE

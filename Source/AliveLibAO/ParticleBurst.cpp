@@ -117,7 +117,7 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, s32 particleCount, FP scale, Burs
             }
 
             field_EC_count = static_cast<s16>(particleCount);
-            field_F0_timer = sGnFrame + 91;
+            field_F0_timer = MakeTimer(91);
             mXPos = xpos;
             mYPos = ypos;
 

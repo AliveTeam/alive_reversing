@@ -65,7 +65,7 @@ void Bells::VUpdate()
 {
     if (mSoundPitchFactor > 0 && static_cast<s32>(sGnFrame) >= mSoundCooldownTimer)
     {
-        mSoundCooldownTimer = sGnFrame + 4;
+        mSoundCooldownTimer = MakeTimer(4);
         mSoundPitchFactor--;
 
         if (mBellPitch == BellPitch::eLowPitch)
