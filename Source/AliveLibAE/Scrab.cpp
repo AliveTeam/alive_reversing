@@ -2273,7 +2273,7 @@ void Scrab::Motion_2_Run()
                                 return;
                             }
 
-                            if (Input().IsAnyHeld(InputCommands::eThrowItem | InputCommands::eSneak) && mShredPowerActive)
+                            if (Input().IsAnyHeld(InputCommands::eThrowItem | InputCommands::eDoAction) && mShredPowerActive)
                             {
                                 field_12C_timer = MakeTimer(mPossessedMaxWhirlAttackDuration);
                                 SetCurrentMotion(eScrabMotions::Motion_32_AttackSpin);
