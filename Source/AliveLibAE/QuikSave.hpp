@@ -78,6 +78,14 @@ public:
         return v;
     }
 
+    template <typename T>
+    const T* PeekTmpPtr() const
+    {
+        ReadCheck(sizeof(T));
+        const T* v = reinterpret_cast<const T*>(mBuffer.data() + mBufferReadPos);
+        return v;
+    }
+
     void WriteU8(u8 v)
     {
         ReadCheck(sizeof(u8));
