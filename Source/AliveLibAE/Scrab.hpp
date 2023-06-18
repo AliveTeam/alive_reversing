@@ -3,6 +3,7 @@
 #include "BaseAliveGameObject.hpp"
 #include "GameSpeak.hpp"
 #include "Path.hpp"
+#include "../relive_lib/SaveStateBase.hpp"
 
 #define SCRAB_MOTIONS_ENUM_AE(ENTRY)          \
     ENTRY(Motion_0_Stand)                \
@@ -70,9 +71,11 @@ enum class LevelIds : s16;
 enum class GameSpeakEvents : s16;
 enum eLineTypes : s16;
 
-struct ScrabSaveState final
+struct ScrabSaveState final : public SaveStateBase
 {
-    ReliveTypes mType;
+    ScrabSaveState()
+        : SaveStateBase(ReliveTypes::eScrab, sizeof(*this))
+    { }
     Guid field_4_obj_id;
     FP mXPos;
     FP mYPos;

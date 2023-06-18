@@ -1,7 +1,7 @@
 #pragma once
 
 #include "BaseAliveGameObject.hpp"
-#include "SaveStateBase.hpp"
+#include "../relive_lib/SaveStateBase.hpp"
 
 class Bone;
 enum eLineTypes : s16;

@@ -2,15 +2,18 @@
 
 #include "../relive_lib/GameObjects/BaseGameObject.hpp"
 #include "../relive_lib/MapWrapper.hpp"
+#include "../relive_lib/SaveStateBase.hpp"
 
 enum class LevelIds : s16;
 
 void FreeResourceArray(DynamicArrayT<u8*>* pArray);
 void LoadRockTypes(EReliveLevelIds levelNumber, u16 pathNumber);
 
-struct ThrowableArraySaveState final
+struct ThrowableArraySaveState final : public SaveStateBase
 {
-    ReliveTypes mType;
+    ThrowableArraySaveState()
+        : SaveStateBase(ReliveTypes::eThrowableArray, sizeof(*this))
+    { }
     s16 mCount;
 };
 

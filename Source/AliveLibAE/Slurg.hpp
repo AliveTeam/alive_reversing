@@ -1,6 +1,7 @@
 #pragma once
 
 #include "BaseAliveGameObject.hpp"
+#include "../relive_lib/SaveStateBase.hpp"
 
 namespace relive
 {
@@ -27,10 +28,11 @@ enum class SlurgStates : s16
     eBurst_2 = 2
 };
 
-struct SlurgSaveState final
+struct SlurgSaveState final : public SaveStateBase
 {
-    ReliveTypes mType;
-    s16 padding1;
+    SlurgSaveState()
+        : SaveStateBase(ReliveTypes::eSlurg, sizeof(*this))
+    { }
     FP mXPos;
     FP mYPos;
     FP mVelX;

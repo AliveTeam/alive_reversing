@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../relive_lib/GameObjects/BaseGameObject.hpp"
+#include "../relive_lib/SaveStateBase.hpp"
 
 void CreateGameEnderController();
 
@@ -15,9 +16,11 @@ enum class GameEnderControllerStates : s16
     eAngelicEndingCredits_6 = 6,
 };
 
-struct GameEnderControllerSaveState final
+struct GameEnderControllerSaveState final : public SaveStateBase
 {
-    ReliveTypes mType;
+    GameEnderControllerSaveState()
+        : SaveStateBase(ReliveTypes::eGameEnderController, sizeof(*this))
+    { }
     Guid mObjId;
     s32 mTimer;
     GameEnderControllerStates mState;

@@ -2,6 +2,7 @@
 
 #include "PlatformBase.hpp"
 #include "../relive_lib/data_conversion/relive_tlvs.hpp"
+#include "../relive_lib/SaveStateBase.hpp"
 
 enum class TrapDoorState : s16
 {
@@ -11,9 +12,11 @@ enum class TrapDoorState : s16
     eClosing_3 = 3,
 };
 
-struct TrapDoorSaveState final
+struct TrapDoorSaveState final : public SaveStateBase
 {
-    ReliveTypes mType;
+    TrapDoorSaveState()
+        : SaveStateBase(ReliveTypes::eTrapDoor, sizeof(*this))
+    { }
     TrapDoorState mState;
     s32 mOpenTime;
     Guid mTlvId;

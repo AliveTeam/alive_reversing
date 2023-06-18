@@ -1,6 +1,7 @@
 #pragma once
 
 #include "BaseAliveGameObject.hpp"
+#include "../relive_lib/SaveStateBase.hpp"
 
 namespace relive
 {
@@ -19,9 +20,11 @@ enum class GreeterBrainStates : s16
     eBrain_7_Fall
 };
 
-struct GreeterSaveState final
+struct GreeterSaveState final : public SaveStateBase
 {
-    ReliveTypes mType;
+    GreeterSaveState()
+        : SaveStateBase(ReliveTypes::eGreeter, sizeof(*this))
+    { }
     s16 field_2_r;
     s16 field_4_g;
     s16 field_6_b;

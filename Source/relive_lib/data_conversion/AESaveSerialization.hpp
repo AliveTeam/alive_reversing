@@ -3175,11 +3175,6 @@ static void write_object_state(const nlohmann::json& j, SerializedObjectData& ob
 {
     T data = j.get<T>();
     object_states.Write(data);
-    if ((u32)data.mType > 7199)
-    {
-        __debugbreak();
-    }
-    LOG_INFO("writing object state with type %d", data.mType);
 }
 
 static void WriteObjectStateFromJson(const nlohmann::json& j, SerializedObjectData& object_states)

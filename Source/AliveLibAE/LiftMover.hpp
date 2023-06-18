@@ -2,6 +2,7 @@
 
 #include "../relive_lib/GameObjects/BaseGameObject.hpp"
 #include "../relive_lib/FixedPoint.hpp"
+#include "../relive_lib/SaveStateBase.hpp"
 
 namespace relive
 {
@@ -20,9 +21,11 @@ enum class LiftMoverStates : s16
     eMovingDone_5 = 5,
 };
 
-struct LiftMoverSaveState final
+struct LiftMoverSaveState final : public SaveStateBase
 {
-    ReliveTypes mType;
+    LiftMoverSaveState()
+        : SaveStateBase(ReliveTypes::eLiftMover, sizeof(*this))
+    { }
     Guid mTlvId;
     LiftMoverStates mState;
 };

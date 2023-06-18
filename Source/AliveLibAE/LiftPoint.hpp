@@ -2,10 +2,13 @@
 
 #include "PlatformBase.hpp"
 #include "../relive_lib/data_conversion/relive_tlvs.hpp"
+#include "../relive_lib/SaveStateBase.hpp"
 
-struct LiftPointSaveState final
+struct LiftPointSaveState final : public SaveStateBase
 {
-    ReliveTypes mType;
+    LiftPointSaveState()
+        : SaveStateBase(ReliveTypes::eLiftPoint, sizeof(*this))
+    { }
     FP mXPos;
     FP mYPos;
     Guid mPlatformId;

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Throwable.hpp"
+#include "../relive_lib/SaveStateBase.hpp"
 
 enum class MeatStates : s16
 {
@@ -14,9 +15,11 @@ enum class MeatStates : s16
 
 enum eLineTypes : s16;
 
-struct MeatSaveState final
+struct MeatSaveState final : public SaveStateBase
 {
-    ReliveTypes mType;
+    MeatSaveState()
+        : SaveStateBase(ReliveTypes::eMeat, sizeof(*this))
+    { }
     Guid mTlvId;
     FP mXPos;
     FP mYPos;

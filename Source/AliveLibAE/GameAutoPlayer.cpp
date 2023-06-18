@@ -81,7 +81,6 @@ bool Player::ValidateObjectStates()
         // set in the VGetSaveState function so we assume that this is the case here to avoid desyncing.
         if (pObj->Type() == ReliveTypes::eThrowableArray && reliveObjType == ReliveTypes::eNone)
         {
-            LOG_INFO("Ignoring validation for AEType 0 which is likely eThrowableArray");
             continue;
         }
 

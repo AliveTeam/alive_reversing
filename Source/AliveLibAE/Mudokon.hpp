@@ -4,6 +4,7 @@
 #include "GameSpeak.hpp"
 #include "AbilityRing.hpp"
 #include "MudokonEnums.hpp"
+#include "../relive_lib/SaveStateBase.hpp"
 
 namespace relive
 {
@@ -107,10 +108,11 @@ enum eLineTypes : s16;
 
 class BirdPortal;
 
-struct MudokonSaveState final
+struct MudokonSaveState final : public SaveStateBase
 {
-    ReliveTypes mType;
-    s16 field_2_pad;
+    MudokonSaveState()
+        : SaveStateBase(ReliveTypes::eMudokon, sizeof(*this))
+    { }
     FP field_4_xpos;
     FP field_8_ypos;
     FP field_C_velx;

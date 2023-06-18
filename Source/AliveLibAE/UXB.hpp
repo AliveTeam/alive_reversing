@@ -4,6 +4,7 @@
 #include "BaseAliveGameObject.hpp"
 #include "../relive_lib/Animation.hpp"
 #include "Sfx.hpp"
+#include "../relive_lib/SaveStateBase.hpp"
 
 namespace relive
 {
@@ -18,10 +19,11 @@ enum class UXBState : u16
     eDeactivated = 3
 };
 
-struct UXBSaveState final
+struct UXBSaveState final : public SaveStateBase
 {
-    ReliveTypes mType;
-    s16 field_2_padding;
+    UXBSaveState()
+        : SaveStateBase(ReliveTypes::eUXB, sizeof(*this))
+    { }
     Guid mTlvInfo;
     u32 mNextStateTimer;
     UXBState mCurrentState;

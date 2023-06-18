@@ -2,6 +2,7 @@
 
 #include "../relive_lib/GameObjects/BaseAnimatedWithPhysicsGameObject.hpp"
 #include "../relive_lib/data_conversion/relive_tlvs.hpp"
+#include "../relive_lib/SaveStateBase.hpp"
 
 enum class WheelStates : s16
 {
@@ -9,15 +10,14 @@ enum class WheelStates : s16
     eTurning_1 = 1,
 };
 
-struct WorkWheelSaveState final
+struct WorkWheelSaveState final : public SaveStateBase
 {
-    ReliveTypes mType;
-    s16 padding_1;
+    WorkWheelSaveState()
+        : SaveStateBase(ReliveTypes::eWorkWheel, sizeof(*this))
+    { }
     Guid mTlvId;
     s16 mTurningTime;
-    s16 padding_2;
     WheelStates mState;
-    s16 padding_3;
 };
 
 class WorkWheel final : public ::BaseAnimatedWithPhysicsGameObject

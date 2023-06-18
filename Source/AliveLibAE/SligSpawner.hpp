@@ -3,6 +3,7 @@
 #include "../relive_lib/GameObjects/BaseGameObject.hpp"
 #include "../relive_lib/Psx.hpp"
 #include "Slig.hpp"
+#include "../relive_lib/SaveStateBase.hpp"
 
 enum class SpawnerStates : s16
 {
@@ -10,9 +11,11 @@ enum class SpawnerStates : s16
     eSligSpawned_1 = 1,
 };
 
-struct SligSpawnerSaveState final
+struct SligSpawnerSaveState final : public SaveStateBase
 {
-    ReliveTypes mType = ReliveTypes::eSligSpawner;
+    SligSpawnerSaveState()
+        : SaveStateBase(ReliveTypes::eSligSpawner, sizeof(*this))
+    { }
     Guid mTlvId;
     SpawnerStates mState;
     Guid mSpawnedSligId;

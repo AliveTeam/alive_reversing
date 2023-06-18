@@ -1,6 +1,7 @@
 #pragma once
 
 #include "BaseAliveGameObject.hpp"
+#include "../relive_lib/SaveStateBase.hpp"
 
 namespace relive
 {
@@ -88,10 +89,11 @@ enum class ParamiteSpeak : s8
     None_11 = 11,
 };
 
-struct ParamiteSaveState final
+struct ParamiteSaveState final : public SaveStateBase
 {
-    ReliveTypes mType;
-    s16 field_2_pad;
+    ParamiteSaveState()
+        : SaveStateBase(ReliveTypes::eParamite, sizeof(*this))
+    { }
     FP mXPos;
     FP mYPos;
     FP mVelX;

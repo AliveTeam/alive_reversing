@@ -1,15 +1,18 @@
 #pragma once
 
 #include "BaseAliveGameObject.hpp"
+#include "../relive_lib/SaveStateBase.hpp"
 
 namespace relive
 {
     struct Path_SlamDoor;
 }
 
-struct SlamDoorSaveState final
+struct SlamDoorSaveState final : public SaveStateBase
 {
-    ReliveTypes mType;
+    SlamDoorSaveState()
+        : SaveStateBase(ReliveTypes::eSlamDoor, sizeof(*this))
+    { }
     Guid mTlvInfo;
 };
 

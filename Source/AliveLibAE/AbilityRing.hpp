@@ -5,6 +5,7 @@
 #include "../relive_lib/Primitives.hpp"
 #include "../relive_lib/Layer.hpp"
 #include "../relive_lib/MapWrapper.hpp"
+#include "../relive_lib/SaveStateBase.hpp"
 
 enum class RingTypes : s16
 {
@@ -37,9 +38,11 @@ struct AbilityRing_PolyBuffer final
     Poly_G4 mPolys[2];
 };
 
-struct AbilityRingSaveState final
+struct AbilityRingSaveState final : public SaveStateBase
 {
-    ReliveTypes mType;
+    AbilityRingSaveState()
+        : SaveStateBase(ReliveTypes::eAbilityRing, sizeof(*this))
+    { }
     FP mRingXPos;
     FP mRingYPos;
     RingTypes mRingType;

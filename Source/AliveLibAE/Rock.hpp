@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Throwable.hpp"
+#include "../relive_lib/SaveStateBase.hpp"
 
 enum class LevelIds : s16;
 enum eLineTypes : s16;
@@ -15,9 +16,11 @@ enum class RockStates : s16
     eFallingOutOfWorld_5 = 5,
 };
 
-struct RockSaveState final
+struct RockSaveState final : public SaveStateBase
 {
-    ReliveTypes mType;
+    RockSaveState()
+        : SaveStateBase(ReliveTypes::eRock, sizeof(*this))
+    { }
     Guid mTlvId;
     FP mXPos;
     FP mYPos;

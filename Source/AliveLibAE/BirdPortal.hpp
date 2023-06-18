@@ -2,6 +2,7 @@
 
 #include "../relive_lib/GameObjects/BaseAnimatedWithPhysicsGameObject.hpp"
 #include "../relive_lib/data_conversion/relive_tlvs.hpp"
+#include "../relive_lib/SaveStateBase.hpp"
 
 enum class LevelIds : s16;
 enum class CameraSwapEffects : s16;
@@ -33,9 +34,11 @@ enum class PortalStates : s16
     FadeoutTerminators_22 = 22,
 };
 
-struct BirdPortalSaveState final
+struct BirdPortalSaveState final : public SaveStateBase
 {
-    ReliveTypes mType;
+    BirdPortalSaveState()
+        : SaveStateBase(ReliveTypes::eBirdPortal, sizeof(*this))
+    { }
     PortalStates mState;
     u8 mMudCountForShrykull;
     Guid mTlvInfo;

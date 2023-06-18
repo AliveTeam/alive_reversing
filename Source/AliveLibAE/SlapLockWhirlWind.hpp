@@ -2,10 +2,13 @@
 
 #include "../relive_lib/GameObjects/BaseGameObject.hpp"
 #include "../relive_lib/FixedPoint.hpp"
+#include "../relive_lib/SaveStateBase.hpp"
 
-struct SlapLockWhirlWindSaveState final
+struct SlapLockWhirlWindSaveState final : public SaveStateBase
 {
-    ReliveTypes mType;
+    SlapLockWhirlWindSaveState()
+        : SaveStateBase(ReliveTypes::eSlapLock_OrbWhirlWind, sizeof(*this))
+    { }
     s16 mSwitchId;
 };
 

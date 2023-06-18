@@ -3,6 +3,7 @@
 #include "BaseAliveGameObject.hpp"
 #include "Sfx.hpp"
 #include "../relive_lib/data_conversion/relive_tlvs.hpp"
+#include "../relive_lib/SaveStateBase.hpp"
 
 enum class LevelIds : s16;
 
@@ -46,9 +47,11 @@ enum class eFlyingSligMotions : s32
 
 enum class SligSpeak : s8;
 
-struct FlyingSligSaveState final
+struct FlyingSligSaveState final : public SaveStateBase
 {
-    ReliveTypes mType;
+    FlyingSligSaveState()
+        : SaveStateBase(ReliveTypes::eFlyingSlig, sizeof(*this))
+    { }
     FP field_4_xpos;
     FP field_8_ypos;
     FP field_C_velx;

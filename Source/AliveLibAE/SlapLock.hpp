@@ -2,6 +2,7 @@
 
 #include "BaseAliveGameObject.hpp"
 #include "Path.hpp" // reliveChoice only
+#include "../relive_lib/SaveStateBase.hpp"
 
 namespace relive
 {
@@ -20,9 +21,11 @@ enum class SlapLockStates : s16
     eGiveInvisibility_7 = 7,
 };
 
-struct SlapLockSaveState final
+struct SlapLockSaveState final : public SaveStateBase
 {
-    ReliveTypes mType;
+    SlapLockSaveState()
+        : SaveStateBase(ReliveTypes::eSlapLock, sizeof(*this))
+    { }
     s16 mAnimRender;
     Guid mTlvInfo;
     s8 mTlvState;

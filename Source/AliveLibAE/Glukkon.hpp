@@ -3,6 +3,7 @@
 #include "BaseAliveGameObject.hpp"
 #include "../relive_lib/MapWrapper.hpp"
 #include "../relive_lib/data_conversion/relive_tlvs.hpp"
+#include "../relive_lib/SaveStateBase.hpp"
 
 #define GLUKKON_MOTIONS_ENUM(ENTRY)        \
     ENTRY(Motion_0_Idle)                 \
@@ -61,9 +62,11 @@ class Glukkon;
 using TGlukkonBrainFn = s16 (Glukkon::*)();
 using TGlukkonMotionFn = void (Glukkon::*)();
 
-struct GlukkonSaveState final
+struct GlukkonSaveState final : public SaveStateBase
 {
-    ReliveTypes mType;
+    GlukkonSaveState()
+        : SaveStateBase(ReliveTypes::eSlog, sizeof(*this))
+    { }
     Guid field_4_object_id;
     FP mXPos;
     FP mYPos;

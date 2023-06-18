@@ -2,6 +2,7 @@
 
 #include "BaseAliveGameObject.hpp"
 #include "MudokonEnums.hpp"
+#include "../relive_lib/SaveStateBase.hpp"
 
 #define ABE_MOTIONS_ENUM(ENTRY)                      \
     ENTRY(Motion_0_Idle_44EEB0)                      \
@@ -229,9 +230,11 @@ enum eLineTypes : s16;
 
 void Mudokon_SFX(MudSounds idx, s16 volume, s32 pitch, BaseAliveGameObject* pHero);
 
-struct AbeSaveState final
+struct AbeSaveState final : public SaveStateBase
 {
-    ReliveTypes mType;
+    AbeSaveState()
+        : SaveStateBase(ReliveTypes::eAbe, sizeof(*this))
+    { }
     s16 field_2_padding;
     FP mXPos;
     FP mYPos;

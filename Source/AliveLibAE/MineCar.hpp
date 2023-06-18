@@ -3,6 +3,7 @@
 #include "BaseAliveGameObject.hpp"
 #include "Input.hpp"
 #include "../relive_lib/data_conversion/relive_tlvs.hpp"
+#include "../relive_lib/SaveStateBase.hpp"
 
 class CollisionMask;
 enum eLineTypes : s16;
@@ -23,9 +24,11 @@ enum class MineCarDirs : s16
     eUp_3 = 3,
 };
 
-struct MineCarSaveState final
+struct MineCarSaveState final : public SaveStateBase
 {
-    ReliveTypes mType;
+    MineCarSaveState()
+        : SaveStateBase(ReliveTypes::eMineCar, sizeof(*this))
+    { }
     FP field_4_xpos;
     FP field_8_ypos;
     FP field_C_velx;

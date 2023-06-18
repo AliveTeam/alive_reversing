@@ -1,10 +1,13 @@
 #pragma once
 
 #include "../relive_lib/GameObjects/BaseGameObject.hpp"
+#include "../relive_lib/SaveStateBase.hpp"
 
-struct MinesAlarmSaveState final
+struct MinesAlarmSaveState final : public SaveStateBase
 {
-    ReliveTypes mType;
+    MinesAlarmSaveState()
+        : SaveStateBase(ReliveTypes::eMinesAlarm, sizeof(*this))
+    { }
     s32 mExplosionTimer;
 };
 

@@ -3,6 +3,7 @@
 #include "BaseAliveGameObject.hpp"
 #include "../relive_lib/MapWrapper.hpp"
 #include "../relive_lib/data_conversion/relive_tlvs.hpp"
+#include "../relive_lib/SaveStateBase.hpp"
 
 #define SLIG_MOTIONS_ENUM_AE(ENTRY)         \
     ENTRY(Motion_0_StandIdle)          \
@@ -93,9 +94,11 @@ class Slig;
 using TSligBrainFn = s16 (Slig::*)();
 using TSligMotionFn = void (Slig::*)();
 
-struct SligSaveState final
+struct SligSaveState final : public SaveStateBase
 {
-    ReliveTypes mType;
+    SligSaveState()
+        : SaveStateBase(ReliveTypes::eSlig, sizeof(*this))
+    { }
     FP field_4_xpos;
     FP field_8_ypos;
     FP field_C_velx;

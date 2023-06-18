@@ -3,6 +3,7 @@
 #include "BaseAliveGameObject.hpp"
 #include "Sfx.hpp"
 #include "../relive_lib/data_conversion/relive_tlvs.hpp"
+#include "../relive_lib/SaveStateBase.hpp"
 
 class CrawlingSlig;
 
@@ -180,9 +181,11 @@ private:
     CrawlingSlig& mCrawlingSlig;
 };
 
-struct CrawlingSligSaveState final
+struct CrawlingSligSaveState final : public SaveStateBase
 {
-    ReliveTypes mType;
+    CrawlingSligSaveState()
+        : SaveStateBase(ReliveTypes::eCrawlingSlig, sizeof(*this))
+    { }
     Guid mBaseTlvId;
     FP mXPos;
     FP mYPos;

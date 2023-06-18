@@ -2,6 +2,7 @@
 
 #include "../relive_lib/GameObjects/BaseAnimatedWithPhysicsGameObject.hpp"
 #include "../relive_lib/data_conversion/relive_tlvs.hpp"
+#include "../relive_lib/SaveStateBase.hpp"
 
 enum class DrillStates : s16
 {
@@ -10,9 +11,11 @@ enum class DrillStates : s16
     eGoingUp_2 = 2,
 };
 
-struct DrillSaveState final
+struct DrillSaveState final : public SaveStateBase
 {
-    ReliveTypes mType;
+    DrillSaveState()
+        : SaveStateBase(ReliveTypes::eDrill, sizeof(*this))
+    { }
     Guid mDrillTlvId;
     s32 mOffTimer;
     DrillStates mState;

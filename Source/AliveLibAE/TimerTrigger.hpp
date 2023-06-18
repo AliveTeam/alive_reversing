@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../relive_lib/GameObjects/BaseGameObject.hpp"
+#include "../relive_lib/SaveStateBase.hpp"
 
 namespace relive
 {
@@ -15,9 +16,11 @@ enum class TimerTriggerStates : s16
     eWaitForSecondTrigger_3 = 3,
 };
 
-struct TimerTriggerSaveState final
+struct TimerTriggerSaveState final : public SaveStateBase
 {
-    ReliveTypes mType;
+    TimerTriggerSaveState()
+        : SaveStateBase(ReliveTypes::eTimerTrigger, sizeof(*this))
+    { }
     Guid mTlvId;
     s32 mActivationDelayTimer;
     TimerTriggerStates mState;

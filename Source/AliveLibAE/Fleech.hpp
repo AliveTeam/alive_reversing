@@ -1,6 +1,7 @@
 #pragma once
 
 #include "BaseAliveGameObject.hpp"
+#include "../relive_lib/SaveStateBase.hpp"
 
 namespace relive
 {
@@ -204,9 +205,11 @@ private:
     Fleech& mFleech;
 };
 
-struct FleechSaveState final
+struct FleechSaveState final : public SaveStateBase
 {
-    ReliveTypes mType;
+    FleechSaveState()
+        : SaveStateBase(ReliveTypes::eFleech, sizeof(*this))
+    { }
     Guid field_4_obj_id;
     FP mXPos;
     FP mYPos;

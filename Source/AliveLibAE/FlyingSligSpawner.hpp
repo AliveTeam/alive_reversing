@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../relive_lib/GameObjects/BaseGameObject.hpp"
+#include "../relive_lib/SaveStateBase.hpp"
 
 namespace relive
 {
@@ -8,10 +9,11 @@ namespace relive
     class Path_TLV;
 }
 
-struct FlyingSligSpawnerSaveState final
+struct FlyingSligSpawnerSaveState final : public SaveStateBase
 {
-    ReliveTypes mType;
-    s16 field_2_pad;
+    FlyingSligSpawnerSaveState()
+        : SaveStateBase(ReliveTypes::eFlyingSligSpawner, sizeof(*this))
+    { }
     Guid field_4_tlvInfo;
     s32 field_8_bSpawned;
     Guid field_C_spawned_slig_obj_id;

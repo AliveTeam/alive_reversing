@@ -1,6 +1,7 @@
 #pragma once
 
 #include "BaseAliveGameObject.hpp"
+#include "../relive_lib/SaveStateBase.hpp"
 
 enum class EReliveLevelIds : s16;
 
@@ -11,9 +12,11 @@ enum class FartStates : s16
     eDechanting_2 = 2
 };
 
-struct EvilFartSaveState final
+struct EvilFartSaveState final : public SaveStateBase
 {
-    ReliveTypes mType;
+    EvilFartSaveState()
+        : SaveStateBase(ReliveTypes::eEvilFart, sizeof(*this))
+    { }
     s16 mRed;
     s16 mGreen;
     s16 mBlue;

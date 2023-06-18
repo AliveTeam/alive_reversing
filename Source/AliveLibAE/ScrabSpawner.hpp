@@ -2,6 +2,7 @@
 
 #include "../relive_lib/GameObjects/BaseGameObject.hpp"
 #include "../relive_lib/data_conversion/relive_tlvs.hpp"
+#include "../relive_lib/SaveStateBase.hpp"
 
 enum class ScrabSpawnerStates : s32
 {
@@ -9,10 +10,11 @@ enum class ScrabSpawnerStates : s32
     eScrabSpawned_1 = 1
 };
 
-struct ScrabSpawnerSaveState final
+struct ScrabSpawnerSaveState final : public SaveStateBase
 {
-    ReliveTypes mType;
-    s16 field_2_pad;
+    ScrabSpawnerSaveState()
+        : SaveStateBase(ReliveTypes::eScrabSpawner, sizeof(*this))
+    { }
     Guid field_4_tlvInfo;
     ScrabSpawnerStates field_8_state;
     Guid field_C_spawned_scrab_id;
