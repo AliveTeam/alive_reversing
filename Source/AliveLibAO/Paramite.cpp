@@ -84,8 +84,8 @@ const static AnimId sParamiteMotionAnimIds[] = {
     AnimId::Paramite_WebLeaveDown,
     AnimId::Paramite_AO_M_22_Unknown,
     AnimId::Paramite_Eating,
-    AnimId::Paramite_Struggle,
-    AnimId::Paramite_Death};
+    AnimId::Paramite_Death,
+    AnimId::Paramite_Struggle};
 
 Paramite::Paramite(relive::Path_Paramite* pTlv, const Guid& tlvId)
     : BaseAliveGameObject()
