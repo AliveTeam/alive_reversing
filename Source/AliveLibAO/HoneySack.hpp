@@ -34,7 +34,7 @@ public:
     State mState = State::eDripHoney_0;
     s16 mHitGround = 0;
     s32 mTimer = 0;
-    Guid mBeeSwarm = {};
+    BeeSwarm* mBeeSwarm = nullptr;
     FP mDripTargetX = {};
     FP mDripTargetY = {};
     FP mObjectYPos = {};

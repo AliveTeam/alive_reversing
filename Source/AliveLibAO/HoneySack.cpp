@@ -11,7 +11,6 @@
 #include "../relive_lib/Collisions.hpp"
 #include "../relive_lib/data_conversion/relive_tlvs.hpp"
 #include "Path.hpp"
-#include "../relive_lib/ObjectIds.hpp"
 
 namespace AO {
 
@@ -60,6 +59,7 @@ HoneySack::HoneySack(relive::Path_HoneySack* pTlv, const Guid& tlvId)
 
         mState = State::eUpdateHoneySackOnGround_3;
         GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::HoneySack_OnGround));
+        mBeeSwarm = nullptr;
     }
     else
     {
@@ -68,11 +68,11 @@ HoneySack::HoneySack(relive::Path_HoneySack* pTlv, const Guid& tlvId)
         mState = State::eDripHoney_0;
         mTimer = MakeTimer(90);
 
-        auto pBeeSwarm = relive_new BeeSwarm(mXPos, mYPos, FP_FromInteger(0), 5, 0);
-        if (pBeeSwarm)
+        mBeeSwarm = relive_new BeeSwarm(mXPos, mYPos, FP_FromInteger(0), 5, 0);
+        if (mBeeSwarm)
         {
-            pBeeSwarm->SetSpriteScale(GetSpriteScale());
-            mBeeSwarm = pBeeSwarm->mBaseGameObjectId;
+            mBeeSwarm->mBaseGameObjectRefCount++;
+            mBeeSwarm->SetSpriteScale(GetSpriteScale());
         }
 
         mDripTargetX = FP_FromInteger(0);
@@ -99,6 +99,12 @@ HoneySack::~HoneySack()
     {
         Path::TLV_Reset(mTlvInfo, FP_GetExponent(mYPos - mObjectYPos), 0, 0);
     }
+
+    if (mBeeSwarm)
+    {
+        mBeeSwarm->mBaseGameObjectRefCount--;
+        mBeeSwarm = nullptr;
+    }
 }
 
 void HoneySack::VScreenChanged()
@@ -120,6 +126,15 @@ void HoneySack::VUpdate()
     if (EventGet(kEventDeathReset))
     {
         SetDead(true);
+    }
+
+    if (mBeeSwarm)
+    {
+        if (mBeeSwarm->GetDead())
+        {
+            mBeeSwarm->mBaseGameObjectRefCount--;
+            mBeeSwarm = nullptr;
+        }
     }
 
     switch (mState)
@@ -162,11 +177,10 @@ void HoneySack::VUpdate()
             const FP oldY = mYPos;
             mYPos += mVelY;
 
-            BeeSwarm* pBeeSwarm = static_cast<BeeSwarm*>(sObjectIds.Find(mBeeSwarm, ReliveTypes::eBeeSwarm));
-            if (pBeeSwarm)
+            if (mBeeSwarm)
             {
-                pBeeSwarm->mChaseTargetX = mXPos;
-                pBeeSwarm->mChaseTargetY = mYPos;
+                mBeeSwarm->mChaseTargetX = mXPos;
+                mBeeSwarm->mChaseTargetY = mYPos;
             }
 
             PathLine* pLine = nullptr;
@@ -200,9 +214,11 @@ void HoneySack::VUpdate()
                     pNewBee->Chase(sActiveHero);
                 }
 
-                if (pBeeSwarm)
+                if (mBeeSwarm)
                 {
-                    pBeeSwarm->SetDead(true);
+                    mBeeSwarm->mBaseGameObjectRefCount--;
+                    mBeeSwarm->SetDead(true);
+                    mBeeSwarm = nullptr;
                 }
 
                 for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
