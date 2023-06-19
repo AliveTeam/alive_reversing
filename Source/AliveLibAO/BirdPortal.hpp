@@ -100,13 +100,13 @@ public:
     BirdPortalTerminator* mTerminator2 = nullptr;
     ScreenClipper* mScreenClipper1 = nullptr;
     ScreenClipper* mScreenClipper2 = nullptr;
-    Guid mDoveIds[6] = {};
+    DynamicArrayT<Dove>* mDovesArray = {};
     EReliveLevelIds mExitLevel = EReliveLevelIds::eNone;
     s16 mExitPath = 0;
     s16 mExitCamera = 0;
     s16 mMudCountForShrykull = 0;
     s16 mReceivedDovesCount = 0;
-    Guid mThrowableTotalIndicator = {};
+    ThrowableTotalIndicator* mThrowableTotalIndicator = nullptr;
     OrbWhirlWind* mOrbWhirlWind = nullptr;
     EReliveLevelIds mCurrentLevel = EReliveLevelIds::eNone;
     s16 mCurrentPath = 0;
