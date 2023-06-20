@@ -1492,10 +1492,10 @@ void MainMenuController::tLoadGame_Render_4D44D0(PrimHeader** ot)
 {
     s32 polyOffset = 0;
     RenderScrollableTextEntries(
-        ot, gSavedGameToLoadIdx, sSelectedSavedGameIdx_BB43E8, gTotalSaveFilesCount,
-        sTextYPos_BB43F0, dword_BB43E4, field_234_pStr, gSaveFileRecords, field_120_font, polyOffset);
+        ot, QuikSave::gSavedGameToLoadIdx, sSelectedSavedGameIdx_BB43E8, QuikSave::gTotalSaveFilesCount,
+        sTextYPos_BB43F0, dword_BB43E4, field_234_pStr, QuikSave::gSaveFileRecords, field_120_font, polyOffset);
 
-    if (gTotalSaveFilesCount <= 0) // max save files count
+    if (QuikSave::gTotalSaveFilesCount <= 0) // max save files count
     {
         DrawMenuStringWithShadow(ot, field_120_font, "No Saved Games", 120, 110, 255, 218, 140, polyOffset);
     }
@@ -1712,7 +1712,7 @@ MainMenuNextCam MainMenuController::LoadNewGame_Update_4D0920(u32 /*input*/)
             sActiveHero->mXPos = FP_FromInteger(0);
             sActiveHero->mYPos = FP_FromInteger(0);
 
-            Quicksave_LoadActive();
+            QuikSave::LoadActive();
 
             return MainMenuNextCam(MainMenuCams::eNoChange);
         }
@@ -2006,7 +2006,7 @@ MainMenuNextCam MainMenuController::LoadDemo_Update_4D1040(u32)
         char_type file[32] = {};
         sprintf(file, "ATTR%04d.SAV", sDemos_5617F0[demoId].field_A_id);
 
-        Quicksave_LoadActive();
+        QuikSave::LoadActive();
     }
     else
     {
@@ -2122,7 +2122,7 @@ MainMenuNextCam MainMenuController::tLoadGame_Input_4D3EF0(u32 input)
     // Down a single save
     else if (input & InputCommands::eDown)
     {
-        if (sSelectedSavedGameIdx_BB43E8 < gTotalSaveFilesCount - 1 && !sTextYPos_BB43F0.fpValue)
+        if (sSelectedSavedGameIdx_BB43E8 < QuikSave::gTotalSaveFilesCount - 1 && !sTextYPos_BB43F0.fpValue)
         {
             sSelectedSavedGameIdx_BB43E8++;
             indexChanged = true;
@@ -2145,14 +2145,14 @@ MainMenuNextCam MainMenuController::tLoadGame_Input_4D3EF0(u32 input)
     else if (input & InputCommands::ePageDown)
     {
         // Page down overflow
-        if (sSelectedSavedGameIdx_BB43E8 < gTotalSaveFilesCount - 3 && !sTextYPos_BB43F0.fpValue)
+        if (sSelectedSavedGameIdx_BB43E8 < QuikSave::gTotalSaveFilesCount - 3 && !sTextYPos_BB43F0.fpValue)
         {
             sSelectedSavedGameIdx_BB43E8 += 3;
             indexChanged = true;
         }
         else
         {
-            sSelectedSavedGameIdx_BB43E8 = gTotalSaveFilesCount - 1;
+            sSelectedSavedGameIdx_BB43E8 = QuikSave::gTotalSaveFilesCount - 1;
             indexChanged = true;
         }
     }
@@ -2165,7 +2165,7 @@ MainMenuNextCam MainMenuController::tLoadGame_Input_4D3EF0(u32 input)
     if (input & InputCommands::eUnPause_OrConfirm)
     {
         // No save to load, go back
-        if (gTotalSaveFilesCount == 0)
+        if (QuikSave::gTotalSaveFilesCount == 0)
         {
             // Go back to start page
             mLoadingSave = false;
@@ -2175,7 +2175,7 @@ MainMenuNextCam MainMenuController::tLoadGame_Input_4D3EF0(u32 input)
 
         // Load selected save
         char_type filename[40] = {};
-        strcpy(filename, gSaveFileRecords[gSavedGameToLoadIdx].mFileName);
+        strcpy(filename, QuikSave::gSaveFileRecords[QuikSave::gSavedGameToLoadIdx].mFileName);
         strcat(filename, ".json");
 
         FileSystem fs;
@@ -2187,8 +2187,8 @@ MainMenuNextCam MainMenuController::tLoadGame_Input_4D3EF0(u32 input)
         }
 
         nlohmann::json j = nlohmann::json::parse(jsonStr);
-        gActiveQuicksaveData = {};
-        from_json(j, gActiveQuicksaveData);
+        QuikSave::gActiveQuicksaveData = {};
+        from_json(j, QuikSave::gActiveQuicksaveData);
 
         mLoadingSave = true;
         return MainMenuNextCam(MainMenuCams::eGameIsLoading_ShaddapCam, NO_SELECTABLE_BUTTONS);
@@ -2202,8 +2202,8 @@ void MainMenuController::tLoadGame_Load_4D42F0()
     field_23A_Inside_LoadGame_Screen = 6;
     field_230_target_entry_index = 0;
     field_1FC_button_index = NO_SELECTABLE_BUTTONS;
-    Quicksave_FindSaves();
-    sSelectedSavedGameIdx_BB43E8 = gSavedGameToLoadIdx;
+    QuikSave::FindSaves();
+    sSelectedSavedGameIdx_BB43E8 = QuikSave::gSavedGameToLoadIdx;
     field_1F4_credits_next_frame = 0;
 }
 

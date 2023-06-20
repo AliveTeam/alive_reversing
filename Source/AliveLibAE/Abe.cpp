@@ -1252,11 +1252,11 @@ void Abe::VUpdate()
         if (mDoQuicksave)
         {
             mDoQuicksave = false;
-            gActiveQuicksaveData.mWorldInfo.mSaveFileId = mSaveFileId;
-            Quicksave_SaveWorldInfo(&gActiveQuicksaveData.mRestartPathWorldInfo);
-            GetSaveState(gActiveQuicksaveData.mRestartPathAbeState);
-            gActiveQuicksaveData.mRestartPathSwitchStates = gSwitchStates;
-            DoQuicksave();
+            QuikSave::gActiveQuicksaveData.mWorldInfo.mSaveFileId = mSaveFileId;
+            QuikSave::SaveWorldInfo(&QuikSave::gActiveQuicksaveData.mRestartPathWorldInfo);
+            GetSaveState(QuikSave::gActiveQuicksaveData.mRestartPathAbeState);
+            QuikSave::gActiveQuicksaveData.mRestartPathSwitchStates = gSwitchStates;
+            QuikSave::DoQuicksave();
         }
     }
 }
@@ -5111,13 +5111,13 @@ void Abe::Motion_57_Dead_4589A0()
                 return;
             }
             Make_Circular_Fade(
-                FP_FromInteger(gActiveQuicksaveData.mWorldInfo.mControlledCharX),
-                FP_FromInteger(gActiveQuicksaveData.mWorldInfo.mControlledCharY),
-                gActiveQuicksaveData.mWorldInfo.mControlledCharScale != 0 ? FP_FromDouble(1.0) : FP_FromDouble(0.5),
+                FP_FromInteger(QuikSave::gActiveQuicksaveData.mWorldInfo.mControlledCharX),
+                FP_FromInteger(QuikSave::gActiveQuicksaveData.mWorldInfo.mControlledCharY),
+                QuikSave::gActiveQuicksaveData.mWorldInfo.mControlledCharScale != 0 ? FP_FromDouble(1.0) : FP_FromDouble(0.5),
                 0,
                 1,
                 true);
-            Quicksave_LoadActive();
+            QuikSave::LoadActive();
             return;
         default:
             return;
