@@ -53,8 +53,6 @@
 #include "nlohmann/json.hpp" // TODO: temp
 #include "../relive_lib/data_conversion/AESaveSerialization.hpp"
 
-u16 sQuickSave_saved_switchResetters_count_BB234C = 0;
-
 static void ConvertObjectSaveStateDataToJson(nlohmann::json& j, ReliveTypes type, const SerializedObjectData& pData)
 {
     switch (type)
@@ -467,77 +465,6 @@ void Quicksave_SaveBlyData_4C9660(SerializedObjectData& pSaveBuffer)
     pSaveBuffer.WriteU32(flagsCount);
 
     Quicksave_SaveBlyData_CountOrSave(&pSaveBuffer);
-}
-
-// TODO: See if this can be nuked in both games
-struct SaveFlagsAndData final
-{
-    BitField8<relive::TlvFlags> flags;
-    u8 data;
-};
-SaveFlagsAndData sSwitchReset_Saved_States_BB233C[8] = {};
-
-void QuikSave::SaveSwitchResetterStates()
-{
-    sQuickSave_saved_switchResetters_count_BB234C = 0;
-
-    for (auto& binaryPath : gMap.GetLoadedPaths())
-    {
-        for (auto& cam : binaryPath->GetCameras())
-        {
-            auto pTlv = reinterpret_cast<relive::Path_TLV*>(cam->mBuffer.data());
-            while (pTlv)
-            {
-                if (pTlv->mTlvType == ReliveTypes::eResetPath)
-                {
-                    if (sQuickSave_saved_switchResetters_count_BB234C < 8)
-                    {
-                        sSwitchReset_Saved_States_BB233C[sQuickSave_saved_switchResetters_count_BB234C].flags = pTlv->mTlvFlags;
-                        sSwitchReset_Saved_States_BB233C[sQuickSave_saved_switchResetters_count_BB234C].data = pTlv->mTlvSpecificMeaning;
-
-                        sQuickSave_saved_switchResetters_count_BB234C++;
-                    }
-                    else
-                    {
-                        LOG_WARNING("Out of write space !!");
-                    }
-                }
-                pTlv = Path::Next_TLV(pTlv);
-            }
-        }
-    }
-}
-
-void QuikSave::RestoreSwitchResetterStates()
-{
-    s32 idx = 0;
-    for (auto& binaryPath : gMap.GetLoadedPaths())
-    {
-        for (auto& cam : binaryPath->GetCameras())
-        {
-            auto pTlv = reinterpret_cast<relive::Path_TLV*>(cam->mBuffer.data());
-            while (pTlv)
-            {
-                if (pTlv->mTlvType == ReliveTypes::eResetPath)
-                {
-                    if (idx < 8)
-                    {
-                        pTlv->mTlvFlags = sSwitchReset_Saved_States_BB233C[idx].flags;
-                        pTlv->mTlvSpecificMeaning = sSwitchReset_Saved_States_BB233C[idx].data;
-
-                        idx++;
-                    }
-                    else
-                    {
-                        LOG_WARNING("Out of read space !!");
-                    }
-                }
-                pTlv = Path::Next_TLV(pTlv);
-            }
-        }
-    }
-
-    sQuickSave_saved_switchResetters_count_BB234C = 0;
 }
 
 void QuikSave::SaveToMemory_4C91A0(Quicksave& pSave)

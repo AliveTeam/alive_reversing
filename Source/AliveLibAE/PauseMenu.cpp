@@ -418,8 +418,6 @@ void PauseMenu::RestartPath()
 {
     DestroyObjects();
 
-    QuikSave::SaveSwitchResetterStates();
-
     gSwitchStates = gActiveQuicksaveData.mRestartPathSwitchStates;
 
     Abe::CreateFromSaveState(gActiveQuicksaveData.mRestartPathAbeState);

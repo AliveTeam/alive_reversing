@@ -718,11 +718,6 @@ void Map::GoTo_Camera()
         mNextCamera,
         GetPathResourceBlockPtr(mNextPath));
 
-    if (sQuickSave_saved_switchResetters_count_BB234C > 0)
-    {
-        QuikSave::RestoreSwitchResetterStates();
-    }
-
     char_type camNameBuffer[20] = {};
     Path_Format_CameraName(camNameBuffer, mNextLevel, mNextPath, mNextCamera);
 
