@@ -744,7 +744,7 @@ void Map::GoTo_Camera()
 
     if (mRestoreMapObjectStates)
     {
-        QuikSave::RestoreBlyData(gActiveQuicksaveData);
+        QuikSave::RestoreBlyData(QuikSave::gActiveQuicksaveData);
         mRestoreMapObjectStates = false;
     }
 

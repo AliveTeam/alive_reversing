@@ -57,7 +57,7 @@ void CheatController_Cheat_PathSkip()
     char_type nameBuffer[20];
 
     DestroyObjects();
-    sprintf(nameBuffer, "NXTP%04d.SAV", gActiveQuicksaveData.mWorldInfo.mSaveFileId);
+    sprintf(nameBuffer, "NXTP%04d.SAV", QuikSave::gActiveQuicksaveData.mWorldInfo.mSaveFileId);
 
     // TODO: Fix path skip with json saves - need to load the converted json save here
     //memcpy(&gActiveQuicksaveData, res.data(), sizeof(gActiveQuicksaveData));

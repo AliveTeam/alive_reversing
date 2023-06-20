@@ -53,6 +53,11 @@
 #include "nlohmann/json.hpp" // TODO: temp
 #include "../relive_lib/data_conversion/AESaveSerialization.hpp"
 
+SaveFileRec QuikSave::gSaveFileRecords[128];
+Quicksave QuikSave::gActiveQuicksaveData;
+s32 QuikSave::gSavedGameToLoadIdx;
+s32 QuikSave::gTotalSaveFilesCount;
+
 static void ConvertObjectSaveStateDataToJson(nlohmann::json& j, ReliveTypes type, const SerializedObjectData& pData)
 {
     switch (type)

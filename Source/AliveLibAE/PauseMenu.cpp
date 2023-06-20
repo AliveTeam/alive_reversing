@@ -418,15 +418,15 @@ void PauseMenu::RestartPath()
 {
     DestroyObjects();
 
-    gSwitchStates = gActiveQuicksaveData.mRestartPathSwitchStates;
+    gSwitchStates = QuikSave::gActiveQuicksaveData.mRestartPathSwitchStates;
 
-    Abe::CreateFromSaveState(gActiveQuicksaveData.mRestartPathAbeState);
-    QuikSave::ReadWorldInfo(&gActiveQuicksaveData.mRestartPathWorldInfo);
+    Abe::CreateFromSaveState(QuikSave::gActiveQuicksaveData.mRestartPathAbeState);
+    QuikSave::ReadWorldInfo(&QuikSave::gActiveQuicksaveData.mRestartPathWorldInfo);
 
     gMap.SetActiveCam(
-        MapWrapper::FromAE(gActiveQuicksaveData.mRestartPathWorldInfo.mLevel),
-        gActiveQuicksaveData.mRestartPathWorldInfo.mPath,
-        gActiveQuicksaveData.mRestartPathWorldInfo.mCam,
+        MapWrapper::FromAE(QuikSave::gActiveQuicksaveData.mRestartPathWorldInfo.mLevel),
+        QuikSave::gActiveQuicksaveData.mRestartPathWorldInfo.mPath,
+        QuikSave::gActiveQuicksaveData.mRestartPathWorldInfo.mCam,
         CameraSwapEffects::eInstantChange_0,
         1,
         1);
@@ -435,8 +435,8 @@ void PauseMenu::RestartPath()
     if (sActiveHero->mBaseThrowableCount)
     {
         LoadRockTypes(
-            MapWrapper::FromAE(gActiveQuicksaveData.mRestartPathWorldInfo.mLevel),
-            gActiveQuicksaveData.mRestartPathWorldInfo.mPath);
+            MapWrapper::FromAE(QuikSave::gActiveQuicksaveData.mRestartPathWorldInfo.mLevel),
+            QuikSave::gActiveQuicksaveData.mRestartPathWorldInfo.mPath);
 
         if (!gThrowableArray)
         {
@@ -628,10 +628,10 @@ void PauseMenu::Page_Save_Update()
             bWriteSaveFile_5C937C = false;
             nlohmann::json j;
 
-            to_json(j, gActiveQuicksaveData);
+            to_json(j, QuikSave::gActiveQuicksaveData);
             FileSystem fs;
             SaveJson(j, fs, &savFileName[0]);
-            gSavedGameToLoadIdx = 0;
+            QuikSave::gSavedGameToLoadIdx = 0;
 
             mPauseRenderLoop = false;
             SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 40, 2400);
@@ -825,9 +825,9 @@ void PauseMenu::Page_Load_Update()
     if (pressed & InputCommands::eUp)
     {
         // Don't underflow
-        if (gSavedGameToLoadIdx > 0)
+        if (QuikSave::gSavedGameToLoadIdx > 0)
         {
-            gSavedGameToLoadIdx--;
+            QuikSave::gSavedGameToLoadIdx--;
         }
         SFX_Play_Pitch(relive::SoundEffects::MenuNavigation, 35, 400);
         return;
@@ -837,9 +837,9 @@ void PauseMenu::Page_Load_Update()
     if (pressed & InputCommands::eDown)
     {
         // Don't overflow
-        if (gSavedGameToLoadIdx < gTotalSaveFilesCount - 1)
+        if (QuikSave::gSavedGameToLoadIdx < QuikSave::gTotalSaveFilesCount - 1)
         {
-            gSavedGameToLoadIdx++;
+            QuikSave::gSavedGameToLoadIdx++;
         }
         SFX_Play_Pitch(relive::SoundEffects::MenuNavigation, 35, 400);
         return;
@@ -848,12 +848,12 @@ void PauseMenu::Page_Load_Update()
     // Page up saves
     if (pressed & InputCommands::ePageUp)
     {
-        gSavedGameToLoadIdx -= 4;
+        QuikSave::gSavedGameToLoadIdx -= 4;
 
         // Don't underflow
-        if (gSavedGameToLoadIdx < 0)
+        if (QuikSave::gSavedGameToLoadIdx < 0)
         {
-            gSavedGameToLoadIdx = 0;
+            QuikSave::gSavedGameToLoadIdx = 0;
         }
 
         SFX_Play_Pitch(relive::SoundEffects::MenuNavigation, 35, 400);
@@ -864,10 +864,10 @@ void PauseMenu::Page_Load_Update()
     if (pressed & InputCommands::ePageDown)
     {
         // Don't overflow
-        gSavedGameToLoadIdx += 4;
-        if (gSavedGameToLoadIdx > gTotalSaveFilesCount - 1)
+        QuikSave::gSavedGameToLoadIdx += 4;
+        if (QuikSave::gSavedGameToLoadIdx > QuikSave::gTotalSaveFilesCount - 1)
         {
-            gSavedGameToLoadIdx = gTotalSaveFilesCount - 1;
+            QuikSave::gSavedGameToLoadIdx = QuikSave::gTotalSaveFilesCount - 1;
         }
         SFX_Play_Pitch(relive::SoundEffects::MenuNavigation, 35, 400);
         return;
@@ -878,9 +878,9 @@ void PauseMenu::Page_Load_Update()
     {
         mActiveMenu = sMainMenuPage;
 
-        if (gTotalSaveFilesCount)
+        if (QuikSave::gTotalSaveFilesCount)
         {
-            strcpy(saveFileName, gSaveFileRecords[gSavedGameToLoadIdx].mFileName);
+            strcpy(saveFileName, QuikSave::gSaveFileRecords[QuikSave::gSavedGameToLoadIdx].mFileName);
             strcat(saveFileName, ".json");
 
             FileSystem fs;
@@ -892,8 +892,8 @@ void PauseMenu::Page_Load_Update()
             }
 
             nlohmann::json j = nlohmann::json::parse(jsonStr);
-            gActiveQuicksaveData = {};
-            from_json(j, gActiveQuicksaveData);
+            QuikSave::gActiveQuicksaveData = {};
+            from_json(j, QuikSave::gActiveQuicksaveData);
 
             sActiveHero->mXPos = FP_FromInteger(0);
             sActiveHero->mYPos = FP_FromInteger(0);
@@ -911,9 +911,9 @@ void PauseMenu::Page_Load_Update()
     // Delete (del)
     else if (pressed & InputCommands::eDelete)
     {
-        if (gTotalSaveFilesCount)
+        if (QuikSave::gTotalSaveFilesCount)
         {
-            strcpy(saveFileName, gSaveFileRecords[gSavedGameToLoadIdx].mFileName);
+            strcpy(saveFileName, QuikSave::gSaveFileRecords[QuikSave::gSavedGameToLoadIdx].mFileName);
             strcat(saveFileName, ".json");
             relive_remove(saveFileName);
             QuikSave::FindSaves();
@@ -923,10 +923,10 @@ void PauseMenu::Page_Load_Update()
 
 void PauseMenu::Page_Load_Render(PrimHeader** ot, PauseMenuPage* pPage)
 {
-    s32 saveIdx = gSavedGameToLoadIdx - 2;
+    s32 saveIdx = QuikSave::gSavedGameToLoadIdx - 2;
     for (s32 i = 0; i < 6; i++)
     {
-        if (saveIdx < 0 || saveIdx >= gTotalSaveFilesCount)
+        if (saveIdx < 0 || saveIdx >= QuikSave::gTotalSaveFilesCount)
         {
             // When at the top of the list set the first 2 entries to a blank, and when at the end of the list set the
             // remaining save text slots to blank.
@@ -934,12 +934,12 @@ void PauseMenu::Page_Load_Render(PrimHeader** ot, PauseMenuPage* pPage)
         }
         else
         {
-            sLoadPageEntries[i].mText = gSaveFileRecords[saveIdx].mFileName;
+            sLoadPageEntries[i].mText = QuikSave::gSaveFileRecords[saveIdx].mFileName;
         }
         saveIdx++;
     }
 
-    if (gTotalSaveFilesCount > 0)
+    if (QuikSave::gTotalSaveFilesCount > 0)
     {
         // This has to be set every time there is at least one save,
         // otherwise a call to this function with no saves hides this row forever

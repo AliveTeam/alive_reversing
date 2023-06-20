@@ -8,7 +8,6 @@
 
 class SerializedObjectData;
 
-
 enum class LevelIds : s16;
 
 struct Quicksave_WorldInfo final
@@ -160,7 +159,6 @@ struct Quicksave final
     SwitchStates mSwitchStates;
     SerializedObjectData mObjectsStateData;
     SerializedObjectData mObjectBlyData;
-
 };
 
 struct SaveFileRec final
@@ -168,12 +166,6 @@ struct SaveFileRec final
     char_type mFileName[32];
     u32 mLastWriteTimeStamp;
 };
-ALIVE_ASSERT_SIZEOF(SaveFileRec, 0x24);
-
-extern SaveFileRec gSaveFileRecords[128];
-extern Quicksave gActiveQuicksaveData;
-extern s32 gSavedGameToLoadIdx;
-extern s32 gTotalSaveFilesCount;
 
 class QuikSave final
 {
@@ -184,6 +176,12 @@ public:
     static void SaveWorldInfo(Quicksave_WorldInfo* pInfo);
     static void FindSaves();
     static void RestoreBlyData(Quicksave& pSaveData);
+
+public:
+    static SaveFileRec gSaveFileRecords[128];
+    static Quicksave gActiveQuicksaveData;
+    static s32 gSavedGameToLoadIdx;
+    static s32 gTotalSaveFilesCount;
 
 private:
     static void SaveToMemory_4C91A0(Quicksave& pSave);
