@@ -14,9 +14,6 @@ namespace AO {
 extern s32 sGasTimer;
 extern s16 sRescuedMudokons;
 extern s16 sKilledMudokons;
-Save_PSX_Header sSaveHeader2_4CF2B0 = {};
-Save_PSX_Header sSaveHeader1_4BC250 = {};
-u16 bUseAltSaveHeader_5076B4 = 0;
 
 static SaveData sSaveToLoadBuffer = {};
 
@@ -62,8 +59,6 @@ void SaveGame::LoadFromMemory(SaveData* pData, s32 bKillObjects)
         Kill_Objects();
     }
 
-    bUseAltSaveHeader_5076B4 = pData->field_2AC_bUseAltSaveHeader;
-
     sControlledCharacter = sActiveHero;
 
     sActiveHero->mContinueZoneNumber = pData->mContinuePoint_ZoneNumber;
@@ -71,7 +66,7 @@ void SaveGame::LoadFromMemory(SaveData* pData, s32 bKillObjects)
     sActiveHero->mContinueClearToId = pData->mContinuePoint_ClearToId;
     sActiveHero->mContinueTopLeft = pData->mContinuePoint_TopLeft;
     sActiveHero->mContinueBottomRight = pData->mContinuePoint_BottomRight;
-    sActiveHero->mContinueLevel = MapWrapper::FromAO(pData->mContinuePoint_Level);
+    sActiveHero->mContinueLevel = pData->mContinuePoint_Level;
     sActiveHero->mContinuePath = pData->mContinuePoint_Path;
     sActiveHero->mContinueCamera = pData->mContinuePoint_Camera;
     sActiveHero->mContinueSpriteScale = pData->mContinuePoint_SpriteScale;
@@ -139,7 +134,7 @@ void SaveGame::LoadFromMemory(SaveData* pData, s32 bKillObjects)
     MusicController::static_PlayMusic(MusicController::MusicTypes::eType0, sActiveHero, 0, 0);
 
     gMap.SetActiveCam(
-        MapWrapper::FromAO(pData->mCurrentLevel),
+        pData->mCurrentLevel,
         pData->mCurrentPath,
         pData->mCurrentCamera,
         CameraSwapEffects::eInstantChange_0,
@@ -200,48 +195,12 @@ s16 SaveGame::GetPathId(s16 pathToFind, s16* outFoundPathRow)
 
 void SaveGame::SaveToMemory(SaveData* pSaveData)
 {
-    Save_PSX_Header* pHeaderToUse = nullptr;
-    if (bUseAltSaveHeader_5076B4)
-    {
-        pHeaderToUse = &sSaveHeader1_4BC250;
-    }
-    else
-    {
-        pHeaderToUse = &sSaveHeader2_4CF2B0;
-    }
-
-    pSaveData->mSavePsxHeader = *pHeaderToUse;
-
-    auto lvName = rawLevelNames[static_cast<s32>(MapWrapper::ToAO(gMap.mCurrentLevel))];
-    if (lvName != nullptr)
-    {
-        memcpy(
-            reinterpret_cast<s8*>(&pSaveData->mSavePsxHeader.field_0_frame_1_name[4]),
-            lvName,
-            18);
-    }
-
-    if (gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarmsReturn)
-    {
-        s16 path_id = GetPathId(gMap.mCurrentPath);
-
-        if (path_id != -1)
-        {
-            // - (minus sign)
-            pSaveData->mSavePsxHeader.field_0_frame_1_name[44] = 0x81u;
-            pSaveData->mSavePsxHeader.field_0_frame_1_name[45] = 0x7C;
-
-            // 0x8250 = 1
-            pSaveData->mSavePsxHeader.field_0_frame_1_name[46] = 0x82u;
-            pSaveData->mSavePsxHeader.field_0_frame_1_name[47] = static_cast<s8>(path_id + 0x50);
-        }
-    }
-    pSaveData->mCurrentLevel = MapWrapper::ToAO(gMap.mCurrentLevel);
+    pSaveData->mCurrentLevel = gMap.mCurrentLevel;
     pSaveData->mContinuePoint_ClearFromId = sActiveHero->mContinueClearFromId;
     pSaveData->mContinuePoint_TopLeft = sActiveHero->mContinueTopLeft;
     pSaveData->mContinuePoint_BottomRight = sActiveHero->mContinueBottomRight;
     pSaveData->mContinuePoint_ZoneNumber = sActiveHero->mContinueZoneNumber;
-    pSaveData->mContinuePoint_Level = MapWrapper::ToAO(sActiveHero->mContinueLevel);
+    pSaveData->mContinuePoint_Level = sActiveHero->mContinueLevel;
     pSaveData->mContinuePoint_ClearToId = sActiveHero->mContinueClearToId;
     pSaveData->mContinuePoint_Camera = sActiveHero->mContinueCamera;
     pSaveData->field_21C_saved_ring_timer = sActiveHero->field_150_saved_ring_timer;
@@ -287,9 +246,9 @@ void SaveGame::SaveToMemory(SaveData* pSaveData)
         pSaveData->mElum_PreviousContinueZoneNumber = gElum->mPreviousContinueZoneNumber;
         pSaveData->mElum_AbeZoneNumber = gElum->mAbeZoneNumber;
         pSaveData->mElum_ContinuePath = gElum->mContinuePath;
-        pSaveData->mElum_ContinueLevel = MapWrapper::ToAO(gElum->mContinueLevel);
+        pSaveData->mElum_ContinueLevel = gElum->mContinueLevel;
         pSaveData->mElum_ContinueSpriteScale = gElum->mContinueSpriteScale;
-        pSaveData->mElum_CurrentLevel = MapWrapper::ToAO(gElum->mCurrentLevel);
+        pSaveData->mElum_CurrentLevel = gElum->mCurrentLevel;
         pSaveData->mElum_CurrentPath = gElum->mCurrentPath;
         pSaveData->mElum_XPos = FP_GetExponent(gElum->mXPos);
         pSaveData->mElum_YPos = FP_GetExponent(gElum->mYPos);
@@ -307,7 +266,6 @@ void SaveGame::SaveToMemory(SaveData* pSaveData)
         pSaveData->mElum_DontFollowAbe = gElum->mDontFollowAbe;
         pSaveData->mElum_HoneyXPos = gElum->mHoneyXPos;
         pSaveData->mElum_BrainSubState = gElum->mBrainSubState;
-        pSaveData->field_284_unused = 0;
         pSaveData->mElum_HoneyCamera = gElum->mHoneyCamera;
         pSaveData->mElum_StrugglingWithBees = gElum->mStrugglingWithBees;
         pSaveData->mElum_StungByBees = gElum->mStungByBees;
@@ -322,7 +280,6 @@ void SaveGame::SaveToMemory(SaveData* pSaveData)
     {
         pSaveData->field_2A8_gasTimer = 0;
     }
-    pSaveData->field_2AC_bUseAltSaveHeader = bUseAltSaveHeader_5076B4;
     pSaveData->mCurrentControllerIdx = Input().CurrentController() == InputObject::PadIndex::First ? 0 : 1;
     gMap.SaveBlyData(pSaveData->field_2B0_pSaveBuffer);
 
@@ -346,7 +303,7 @@ s16 SaveGame::LoadFromFile(const char_type* name)
     char_type buffer[40] = {};
 
     strcpy(buffer, name);
-    strcat(buffer, ".sav");
+    strcat(buffer, ".json");
 
     const auto file = fopen(buffer, "rb");
     if (!file)
@@ -382,7 +339,7 @@ bool SaveGame::SaveToFile(const char_type* name)
     char_type buffer[40] = {};
 
     strcpy(buffer, name);
-    strcat(buffer, ".sav");
+    strcat(buffer, ".json");
     const auto file = fopen(buffer, "wb");
     if (!file)
     {

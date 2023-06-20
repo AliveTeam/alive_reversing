@@ -2,36 +2,7 @@
 
 #include "AESaveConverter.hpp"
 #include "relive_tlvs_serialization.hpp" // needed for some common enum and struct serialization (should probably move those to a different file)
-
-inline void to_json(nlohmann::json& j, const PSX_RECT& p)
-{
-    j = nlohmann::json{
-        {"x", p.x},
-        {"y", p.y},
-        {"w", p.w},
-        {"h", p.h},
-    };
-}
-
-inline void from_json(const nlohmann::json& j, PSX_RECT& p)
-{
-    j.at("x").get_to(p.x);
-    j.at("y").get_to(p.y);
-    j.at("w").get_to(p.w);
-    j.at("h").get_to(p.h);
-}
-
-inline void to_json(nlohmann::json& j, const FP& p)
-{
-    j = nlohmann::json{
-        {"fp_value", p.fpValue},
-    };
-}
-
-inline void from_json(const nlohmann::json& j, FP& p)
-{
-    j.at("fp_value").get_to(p.fpValue);
-}
+#include "CommonTypesSerialization.hpp"
 
 NLOHMANN_JSON_SERIALIZE_ENUM(LevelIds, {
     {LevelIds::eNone, "none"},

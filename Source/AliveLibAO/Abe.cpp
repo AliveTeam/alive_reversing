@@ -6255,7 +6255,7 @@ void Abe::Motion_61_Respawn()
                 SaveGame::LoadFromMemory(&gSaveBuffer, 0);
                 if (field_19C_throwable_count)
                 {
-                    LoadRockTypes(MapWrapper::FromAO(gSaveBuffer.mCurrentLevel), gSaveBuffer.mCurrentPath);
+                    LoadRockTypes(gSaveBuffer.mCurrentLevel, gSaveBuffer.mCurrentPath);
                     if (!gThrowableArray)
                     {
                         gThrowableArray = relive_new ThrowableArray();
@@ -6432,7 +6432,7 @@ void Abe::Motion_62_LoadedSaveSpawn()
         {
             if (!gThrowableArray)
             {
-                LoadRockTypes(MapWrapper::FromAO(gSaveBuffer.mCurrentLevel), gSaveBuffer.mCurrentPath);
+                LoadRockTypes(gSaveBuffer.mCurrentLevel, gSaveBuffer.mCurrentPath);
 
                 gThrowableArray = relive_new ThrowableArray();
             }
@@ -6467,10 +6467,10 @@ void Abe::Motion_62_LoadedSaveSpawn()
                 gElum->mPreviousContinueZoneNumber = pSaveData->mElum_PreviousContinueZoneNumber;
                 gElum->mAbeZoneNumber = pSaveData->mElum_AbeZoneNumber;
                 gElum->mContinuePath = pSaveData->mElum_ContinuePath;
-                gElum->mContinueLevel = MapWrapper::FromAO(pSaveData->mElum_ContinueLevel);
+                gElum->mContinueLevel = pSaveData->mElum_ContinueLevel;
                 gElum->mContinueSpriteScale = pSaveData->mElum_ContinueSpriteScale;
                 gElum->mRespawnOnDead = pSaveData->mElum_RespawnOnDead;
-                gElum->mCurrentLevel = MapWrapper::FromAO(pSaveData->mElum_CurrentLevel);
+                gElum->mCurrentLevel = pSaveData->mElum_CurrentLevel;
                 gElum->mCurrentPath = pSaveData->mElum_CurrentPath;
                 gElum->mXPos = FP_FromInteger(pSaveData->mElum_XPos);
                 gElum->mYPos = FP_FromInteger(pSaveData->mElum_YPos);
