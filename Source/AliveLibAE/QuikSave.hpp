@@ -176,11 +176,18 @@ extern s32 gSavedGameToLoadIdx;
 extern s32 gTotalSaveFilesCount;
 extern u16 sQuickSave_saved_switchResetters_count_BB234C;
 
-void Quicksave_LoadActive();
-void DoQuicksave();
-void Quicksave_ReadWorldInfo(const Quicksave_WorldInfo* pInfo);
-void Quicksave_SaveWorldInfo(Quicksave_WorldInfo* pInfo);
-void Quicksave_FindSaves();
-void QuikSave_RestoreBlyData(Quicksave& pSaveData);
-void Quicksave_SaveSwitchResetterStates();
-void Quicksave_RestoreSwitchResetterStates();
+class QuikSave final
+{
+public:
+    static void LoadActive();
+    static void DoQuicksave();
+    static void ReadWorldInfo(const Quicksave_WorldInfo* pInfo);
+    static void SaveWorldInfo(Quicksave_WorldInfo* pInfo);
+    static void FindSaves();
+    static void RestoreBlyData(Quicksave& pSaveData);
+    static void SaveSwitchResetterStates();
+    static void RestoreSwitchResetterStates();
+
+private:
+    static void SaveToMemory_4C91A0(Quicksave& pSave);
+};

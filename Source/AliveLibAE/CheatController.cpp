@@ -61,7 +61,7 @@ void CheatController_Cheat_PathSkip()
 
     // TODO: Fix path skip with json saves - need to load the converted json save here
     //memcpy(&gActiveQuicksaveData, res.data(), sizeof(gActiveQuicksaveData));
-    Quicksave_LoadActive();
+    QuikSave::LoadActive();
 }
 
 static CheatEntry sCheatArray[3] = {

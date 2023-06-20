@@ -720,7 +720,7 @@ void Map::GoTo_Camera()
 
     if (sQuickSave_saved_switchResetters_count_BB234C > 0)
     {
-        Quicksave_RestoreSwitchResetterStates();
+        QuikSave::RestoreSwitchResetterStates();
     }
 
     char_type camNameBuffer[20] = {};
@@ -749,7 +749,7 @@ void Map::GoTo_Camera()
 
     if (mRestoreMapObjectStates)
     {
-        QuikSave_RestoreBlyData(gActiveQuicksaveData);
+        QuikSave::RestoreBlyData(gActiveQuicksaveData);
         mRestoreMapObjectStates = false;
     }
 

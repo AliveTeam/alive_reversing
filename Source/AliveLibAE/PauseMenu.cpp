@@ -418,12 +418,12 @@ void PauseMenu::RestartPath()
 {
     DestroyObjects();
 
-    Quicksave_SaveSwitchResetterStates();
+    QuikSave::SaveSwitchResetterStates();
 
     gSwitchStates = gActiveQuicksaveData.mRestartPathSwitchStates;
 
     Abe::CreateFromSaveState(gActiveQuicksaveData.mRestartPathAbeState);
-    Quicksave_ReadWorldInfo(&gActiveQuicksaveData.mRestartPathWorldInfo);
+    QuikSave::ReadWorldInfo(&gActiveQuicksaveData.mRestartPathWorldInfo);
 
     gMap.SetActiveCam(
         MapWrapper::FromAE(gActiveQuicksaveData.mRestartPathWorldInfo.mLevel),
@@ -498,7 +498,7 @@ void PauseMenu::Page_Main_Update()
                 mPauseRenderLoop = false;
                 SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 40, 2400);
                 GetSoundAPI().mSND_Restart();
-                DoQuicksave();
+                QuikSave::DoQuicksave();
                 return;
 
             case MainPages::ePage_Controls_2:
@@ -518,7 +518,7 @@ void PauseMenu::Page_Main_Update()
                 mActiveMenu = sSaveMenuPage;
                 SfxPlayMono(relive::SoundEffects::IngameTransition, 90);
                 mSaveState = SaveState::ReadingInput_0;
-                DoQuicksave();
+                QuikSave::DoQuicksave();
                 // Set the default save name to be the current level/path/camera
                 Path_Format_CameraName(
                     sSaveString,
@@ -538,7 +538,7 @@ void PauseMenu::Page_Main_Update()
                 return;
 
             case MainPages::ePage_Load_5:
-                Quicksave_FindSaves();
+                QuikSave::FindSaves();
                 mActiveMenu = sLoadMenuPage;
                 SfxPlayMono(relive::SoundEffects::IngameTransition, 90);
                 mSaveState = SaveState::ReadingInput_0;
@@ -816,7 +816,7 @@ void PauseMenu::Page_Load_Update()
     // When F6 is pressed
     if (gQuicksave_LoadNextFrame)
     {
-        Quicksave_LoadActive();
+        QuikSave::LoadActive();
         gQuicksave_LoadNextFrame = false;
         mPauseRenderLoop = false;
     }
@@ -899,7 +899,7 @@ void PauseMenu::Page_Load_Update()
 
             sActiveHero->mXPos = FP_FromInteger(0);
             sActiveHero->mYPos = FP_FromInteger(0);
-            Quicksave_LoadActive();
+            QuikSave::LoadActive();
             mPauseRenderLoop = false;
             SfxPlayMono(relive::SoundEffects::IngameTransition, 90);
         }
@@ -918,7 +918,7 @@ void PauseMenu::Page_Load_Update()
             strcpy(saveFileName, gSaveFileRecords[gSavedGameToLoadIdx].mFileName);
             strcat(saveFileName, ".json");
             relive_remove(saveFileName);
-            Quicksave_FindSaves();
+            QuikSave::FindSaves();
         }
     }
 }
@@ -997,7 +997,7 @@ void PauseMenu::VUpdate()
             {
                 if (gQuicksave_SaveNextFrame)
                 {
-                    DoQuicksave();
+                    QuikSave::DoQuicksave();
                     pHero = sActiveHero;
                     pControlledChar = sControlledCharacter;
                     gQuicksave_SaveNextFrame = false;
@@ -1005,7 +1005,7 @@ void PauseMenu::VUpdate()
                 }
                 else if (gQuicksave_LoadNextFrame)
                 {
-                    Quicksave_LoadActive();
+                    QuikSave::LoadActive();
                     SND_SEQ_Stop(SeqId::MudokonChant1_10);
                     pHero = sActiveHero;
                     pControlledChar = sControlledCharacter;

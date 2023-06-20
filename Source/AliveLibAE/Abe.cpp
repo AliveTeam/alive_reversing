@@ -1253,10 +1253,10 @@ void Abe::VUpdate()
         {
             mDoQuicksave = false;
             gActiveQuicksaveData.mWorldInfo.mSaveFileId = mSaveFileId;
-            Quicksave_SaveWorldInfo(&gActiveQuicksaveData.mRestartPathWorldInfo);
+            QuikSave::SaveWorldInfo(&gActiveQuicksaveData.mRestartPathWorldInfo);
             GetSaveState(gActiveQuicksaveData.mRestartPathAbeState);
             gActiveQuicksaveData.mRestartPathSwitchStates = gSwitchStates;
-            DoQuicksave();
+            QuikSave::DoQuicksave();
         }
     }
 }
@@ -5117,7 +5117,7 @@ void Abe::Motion_57_Dead_4589A0()
                 0,
                 1,
                 true);
-            Quicksave_LoadActive();
+            QuikSave::LoadActive();
             return;
         default:
             return;

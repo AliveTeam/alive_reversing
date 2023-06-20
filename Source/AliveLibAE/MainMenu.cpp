@@ -1712,7 +1712,7 @@ MainMenuNextCam MainMenuController::LoadNewGame_Update_4D0920(u32 /*input*/)
             sActiveHero->mXPos = FP_FromInteger(0);
             sActiveHero->mYPos = FP_FromInteger(0);
 
-            Quicksave_LoadActive();
+            QuikSave::LoadActive();
 
             return MainMenuNextCam(MainMenuCams::eNoChange);
         }
@@ -2006,7 +2006,7 @@ MainMenuNextCam MainMenuController::LoadDemo_Update_4D1040(u32)
         char_type file[32] = {};
         sprintf(file, "ATTR%04d.SAV", sDemos_5617F0[demoId].field_A_id);
 
-        Quicksave_LoadActive();
+        QuikSave::LoadActive();
     }
     else
     {
@@ -2202,7 +2202,7 @@ void MainMenuController::tLoadGame_Load_4D42F0()
     field_23A_Inside_LoadGame_Screen = 6;
     field_230_target_entry_index = 0;
     field_1FC_button_index = NO_SELECTABLE_BUTTONS;
-    Quicksave_FindSaves();
+    QuikSave::FindSaves();
     sSelectedSavedGameIdx_BB43E8 = gSavedGameToLoadIdx;
     field_1F4_credits_next_frame = 0;
 }

@@ -338,7 +338,7 @@ void ConvertObjectsStatesToJson(nlohmann::json& j, const SerializedObjectData& p
     }
 }
 
-void QuikSave_RestoreBlyData(Quicksave& pSaveData)
+void QuikSave::RestoreBlyData(Quicksave& pSaveData)
 {
     pSaveData.mObjectsStateData.ReadRewind();
     while (pSaveData.mObjectsStateData.CanRead())
@@ -388,7 +388,7 @@ void Quicksave_LoadFromMemory_4C95A0()
     DestroyObjects();
     EventsReset();
     gSkipGameObjectUpdates = true;
-    Quicksave_ReadWorldInfo(&gActiveQuicksaveData.mWorldInfo);
+    QuikSave::ReadWorldInfo(&gActiveQuicksaveData.mWorldInfo);
     gSwitchStates = gActiveQuicksaveData.mSwitchStates;
     gMap.mRestoreMapObjectStates = true;
     gMap.SetActiveCam(
@@ -401,7 +401,7 @@ void Quicksave_LoadFromMemory_4C95A0()
     gMap.mForceLoad = 1;
 }
 
-void Quicksave_LoadActive()
+void QuikSave::LoadActive()
 {
     Game_ShowLoadingIcon();
     Quicksave_LoadFromMemory_4C95A0();
@@ -477,7 +477,7 @@ struct SaveFlagsAndData final
 };
 SaveFlagsAndData sSwitchReset_Saved_States_BB233C[8] = {};
 
-void Quicksave_SaveSwitchResetterStates()
+void QuikSave::SaveSwitchResetterStates()
 {
     sQuickSave_saved_switchResetters_count_BB234C = 0;
 
@@ -508,7 +508,7 @@ void Quicksave_SaveSwitchResetterStates()
     }
 }
 
-void Quicksave_RestoreSwitchResetterStates()
+void QuikSave::RestoreSwitchResetterStates()
 {
     s32 idx = 0;
     for (auto& binaryPath : gMap.GetLoadedPaths())
@@ -540,7 +540,7 @@ void Quicksave_RestoreSwitchResetterStates()
     sQuickSave_saved_switchResetters_count_BB234C = 0;
 }
 
-void Quicksave_SaveToMemory_4C91A0(Quicksave& pSave)
+void QuikSave::SaveToMemory_4C91A0(Quicksave& pSave)
 {
     if (sActiveHero->mHealth > FP_FromInteger(0))
     {
@@ -550,7 +550,7 @@ void Quicksave_SaveToMemory_4C91A0(Quicksave& pSave)
                 gMap.mCurrentPath,
                 gMap.mCurrentCamera);
 
-        Quicksave_SaveWorldInfo(&pSave.mWorldInfo);
+        QuikSave::SaveWorldInfo(&pSave.mWorldInfo);
         pSave.mSwitchStates = gSwitchStates;
 
         pSave.mObjectsStateData.WriteRewind();
@@ -572,13 +572,13 @@ void Quicksave_SaveToMemory_4C91A0(Quicksave& pSave)
     }
 }
 
-void DoQuicksave()
+void QuikSave::DoQuicksave()
 {
     Game_ShowLoadingIcon();
-    Quicksave_SaveToMemory_4C91A0(gActiveQuicksaveData);
+    QuikSave::SaveToMemory_4C91A0(gActiveQuicksaveData);
 }
 
-void Quicksave_ReadWorldInfo(const Quicksave_WorldInfo* pInfo)
+void QuikSave::ReadWorldInfo(const Quicksave_WorldInfo* pInfo)
 {
     // Read all fields bar the last
     for (s32 i = 0; i < ALIVE_COUNTOF(pInfo->field_18_saved_killed_muds_per_zulag); i++)
@@ -604,7 +604,7 @@ void Quicksave_ReadWorldInfo(const Quicksave_WorldInfo* pInfo)
     sGnFrame = pInfo->mGnFrame;
 }
 
-void Quicksave_SaveWorldInfo(Quicksave_WorldInfo* pInfo)
+void QuikSave::SaveWorldInfo(Quicksave_WorldInfo* pInfo)
 {
     const PSX_RECT rect = sControlledCharacter->VGetBoundingRect();
 
@@ -636,7 +636,7 @@ void Quicksave_SaveWorldInfo(Quicksave_WorldInfo* pInfo)
     pInfo->mControlledCharScale = sControlledCharacter->GetSpriteScale() == FP_FromDouble(1.0);
 }
 
-s32 Sort_comparitor_4D42C0(const void* pSaveRecLeft, const void* pSaveRecRight)
+static s32 Sort_comparitor_4D42C0(const void* pSaveRecLeft, const void* pSaveRecRight)
 {
     const s32 leftTime = reinterpret_cast<const SaveFileRec*>(pSaveRecLeft)->mLastWriteTimeStamp;
     const s32 rightTime = reinterpret_cast<const SaveFileRec*>(pSaveRecRight)->mLastWriteTimeStamp;
@@ -651,7 +651,7 @@ s32 Sort_comparitor_4D42C0(const void* pSaveRecLeft, const void* pSaveRecRight)
     }
 }
 
-void Quicksave_FindSaves()
+void QuikSave::FindSaves()
 {
     gTotalSaveFilesCount = 0;
 
