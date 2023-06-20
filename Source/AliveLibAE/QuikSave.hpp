@@ -172,7 +172,7 @@ class QuikSave final
 public:
     static void LoadActive();
     static void DoQuicksave();
-    static void ReadWorldInfo(const Quicksave_WorldInfo* pInfo);
+    static void RestoreWorldInfo(const Quicksave_WorldInfo& rInfo);
     static void SaveWorldInfo(Quicksave_WorldInfo* pInfo);
     static void FindSaves();
     static void RestoreBlyData(Quicksave& pSaveData);

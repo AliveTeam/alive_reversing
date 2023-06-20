@@ -391,7 +391,7 @@ void Quicksave_LoadFromMemory_4C95A0()
     DestroyObjects();
     EventsReset();
     gSkipGameObjectUpdates = true;
-    QuikSave::ReadWorldInfo(&gActiveQuicksaveData.mWorldInfo);
+    QuikSave::RestoreWorldInfo(gActiveQuicksaveData.mWorldInfo);
     gSwitchStates = gActiveQuicksaveData.mSwitchStates;
     gMap.mRestoreMapObjectStates = true;
     gMap.SetActiveCam(
@@ -510,30 +510,30 @@ void QuikSave::DoQuicksave()
     QuikSave::SaveToMemory_4C91A0(gActiveQuicksaveData);
 }
 
-void QuikSave::ReadWorldInfo(const Quicksave_WorldInfo* pInfo)
+void QuikSave::RestoreWorldInfo(const Quicksave_WorldInfo& rInfo)
 {
     // Read all fields bar the last
-    for (s32 i = 0; i < ALIVE_COUNTOF(pInfo->field_18_saved_killed_muds_per_zulag); i++)
+    for (s32 i = 0; i < ALIVE_COUNTOF(rInfo.field_18_saved_killed_muds_per_zulag); i++)
     {
-        sSavedKilledMudsPerZulag_5C1B50.mData[i] = pInfo->field_18_saved_killed_muds_per_zulag[i];
+        sSavedKilledMudsPerZulag_5C1B50.mData[i] = rInfo.field_18_saved_killed_muds_per_zulag[i];
     }
 
     // Last is read from another field
-    sSavedKilledMudsPerZulag_5C1B50.mData[ALIVE_COUNTOF(sSavedKilledMudsPerZulag_5C1B50.mData) - 1] = pInfo->field_17_last_saved_killed_muds_per_path;
+    sSavedKilledMudsPerZulag_5C1B50.mData[ALIVE_COUNTOF(sSavedKilledMudsPerZulag_5C1B50.mData) - 1] = rInfo.field_17_last_saved_killed_muds_per_path;
 
     sActiveHero->SetRestoredFromQuickSave(true);
-    gZulagNumber = pInfo->field_2C_current_zulag_number;
-    gKilledMudokons = pInfo->mKilledMudokons;
-    gRescuedMudokons = pInfo->mRescuedMudokons;
-    gMudokonsInArea = pInfo->field_16_muds_in_area; // TODO: Check types
-    gTotalMeterBars = pInfo->mTotalMeterBars;
-    gbDrawMeterCountDown = pInfo->field_30_bDrawMeterCountDown;
-    gGasTimer = pInfo->mGasTimer;
-    gAbeInvincible = pInfo->mAbeInvincible;
-    gVisitedBonewerkz = pInfo->mVisitedBonewerkz;
-    gVisitedBarracks = pInfo->mVisitedBarracks;
-    gVisitedFeecoEnder = pInfo->mVisitedFeecoEnder;
-    sGnFrame = pInfo->mGnFrame;
+    gZulagNumber = rInfo.field_2C_current_zulag_number;
+    gKilledMudokons = rInfo.mKilledMudokons;
+    gRescuedMudokons = rInfo.mRescuedMudokons;
+    gMudokonsInArea = rInfo.field_16_muds_in_area; // TODO: Check types
+    gTotalMeterBars = rInfo.mTotalMeterBars;
+    gbDrawMeterCountDown = rInfo.field_30_bDrawMeterCountDown;
+    gGasTimer = rInfo.mGasTimer;
+    gAbeInvincible = rInfo.mAbeInvincible;
+    gVisitedBonewerkz = rInfo.mVisitedBonewerkz;
+    gVisitedBarracks = rInfo.mVisitedBarracks;
+    gVisitedFeecoEnder = rInfo.mVisitedFeecoEnder;
+    sGnFrame = rInfo.mGnFrame;
 }
 
 void QuikSave::SaveWorldInfo(Quicksave_WorldInfo* pInfo)

@@ -421,7 +421,7 @@ void PauseMenu::RestartPath()
     gSwitchStates = QuikSave::gActiveQuicksaveData.mRestartPathSwitchStates;
 
     Abe::CreateFromSaveState(QuikSave::gActiveQuicksaveData.mRestartPathAbeState);
-    QuikSave::ReadWorldInfo(&QuikSave::gActiveQuicksaveData.mRestartPathWorldInfo);
+    QuikSave::RestoreWorldInfo(QuikSave::gActiveQuicksaveData.mRestartPathWorldInfo);
 
     gMap.SetActiveCam(
         MapWrapper::FromAE(QuikSave::gActiveQuicksaveData.mRestartPathWorldInfo.mLevel),
