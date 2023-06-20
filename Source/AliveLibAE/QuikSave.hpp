@@ -39,21 +39,12 @@ struct Quicksave_WorldInfo final
 
 class SerializedObjectData final
 {
-private:
-    void ReadCheck(u32 readSize) const 
-    {
-        if (mBufferReadPos + readSize > mBuffer.size())
-        {
-            ALIVE_FATAL("Attempted to read %d bytes from offset %d but total length is %d", readSize, mBufferReadPos, mBuffer.size());
-        }
-    }
-
 public:
     SerializedObjectData()
     {
         // OG allowed for 6820 bytes of data, we allow for as
         // big as whatever we can allocate
-        mBuffer.reserve(8192);
+        mBuffer.reserve(1024 * 8);
     }
 
     template<typename T>
@@ -70,58 +61,42 @@ public:
     }
 
     template<typename T>
-    const T* ReadTmpPtr() const 
+    const T* ReadTmpPtr() const
     {
-        ReadCheck(sizeof(T));
-        const T* v = reinterpret_cast<const T*>(mBuffer.data() + mBufferReadPos);
+        const T* tmp = PeekPtr<T>();
         mBufferReadPos += sizeof(T);
-        return v;
+        return tmp;
     }
 
     template <typename T>
     const T* PeekTmpPtr() const
     {
-        ReadCheck(sizeof(T));
-        const T* v = reinterpret_cast<const T*>(mBuffer.data() + mBufferReadPos);
-        return v;
+        return PeekPtr<T>();
     }
 
     void WriteU8(u8 v)
     {
-        ReadCheck(sizeof(u8));
-        const auto writePos = mBuffer.size();
-        mBuffer.resize(mBuffer.size() + 1);
-        *reinterpret_cast<u8*>(mBuffer.data() + writePos) = v;
+        WriteBasicType(v);
     }
 
     void WriteU32(u32 v)
     {
-        const auto writePos = mBuffer.size();
-        mBuffer.resize(mBuffer.size() + 4);
-        *reinterpret_cast<u32*>(mBuffer.data() + writePos) = v;
+        WriteBasicType(v);
     }
 
     [[nodiscard]] u32 PeekU32() const
     {
-        ReadCheck(sizeof(u32));
-        const u32 v = *reinterpret_cast<const u32*>(mBuffer.data() + mBufferReadPos);
-        return v;
+        return *PeekPtr<u32>();
     }
 
     [[nodiscard]] u32 ReadU32() const
     {
-        ReadCheck(sizeof(u32));
-        const u32 v = *reinterpret_cast<const u32*>(mBuffer.data() + mBufferReadPos);
-        mBufferReadPos += 4;
-        return v;
+        return ReadBasicType<u32>();
     }
 
     [[nodiscard]] u8 ReadU8() const
     {
-        ReadCheck(sizeof(u8));
-        const u8 v = *reinterpret_cast<const u8*>(mBuffer.data() + mBufferReadPos);
-        mBufferReadPos += 1;
-        return v;
+        return ReadBasicType<u8>();
     }
 
     void ReadRewind() const
@@ -141,6 +116,37 @@ public:
     }
 
 private:
+    void ReadCheck(u32 readSize) const
+    {
+        if (mBufferReadPos + readSize > mBuffer.size())
+        {
+            ALIVE_FATAL("Attempted to read %d bytes from offset %d but total length is %d", readSize, mBufferReadPos, mBuffer.size());
+        }
+    }
+
+    template<typename T>
+    void WriteBasicType(T value)
+    {
+        const auto writePos = mBuffer.size();
+        mBuffer.resize(mBuffer.size() + sizeof(T));
+        *reinterpret_cast<T*>(mBuffer.data() + writePos) = value;
+    }
+
+    template <typename T>
+    [[nodiscard]] const T* PeekPtr() const
+    {
+        ReadCheck(sizeof(T));
+        return reinterpret_cast<const T*>(mBuffer.data() + mBufferReadPos);
+    }
+
+    template <typename T>
+    [[nodiscard]] T ReadBasicType() const
+    {
+        const T* v = PeekPtr<T>();
+        mBufferReadPos += sizeof(T);
+        return *v;
+    }
+
     mutable u32 mBufferReadPos = 0;
     std::vector<u8> mBuffer;
 };
