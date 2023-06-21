@@ -5,6 +5,7 @@
 #include "../../AliveLibAE/Resources.hpp"
 #include "../../AliveLibAE/Map.hpp"
 #include "GameObjects/BaseAnimatedWithPhysicsGameObject.hpp"
+#include "AnimationConverter.hpp"
 
 DataConversionUI::DataConversionUI(GameType gameType)
     : BaseGameObject(FALSE, 0)

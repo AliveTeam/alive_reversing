@@ -7,6 +7,7 @@
 #include "../relive_lib/ObjectIds.hpp"
 #include "BaseAliveGameObject.hpp"
 #include "stdlib.hpp"
+#include "../relive_lib/data_conversion/AnimationConverter.hpp"
 
 #define TRANSITION_FRAMECOUNT 24
 

@@ -10,6 +10,7 @@
 #include "data_conversion/data_conversion.hpp"
 #include "data_conversion/AnimConversionInfo.hpp"
 #include "data_conversion/PNGFile.hpp"
+#include "data_conversion/AnimationConverter.hpp"
 
 #include "BinaryPath.hpp"
 #include "BaseGameAutoPlayer.hpp"

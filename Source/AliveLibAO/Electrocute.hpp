@@ -2,6 +2,7 @@
 
 #include "../relive_lib/GameObjects/BaseGameObject.hpp"
 #include "../relive_lib/Psx.hpp"
+#include "../relive_lib/data_conversion/AnimationConverter.hpp"
 
 class IBaseAliveGameObject;
 

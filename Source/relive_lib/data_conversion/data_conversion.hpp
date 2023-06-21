@@ -6,6 +6,8 @@
 #include "../MapWrapper.hpp"
 #include "nlohmann/json_fwd.hpp"
 
+#include "file_system.hpp"
+
 bool SaveJson(const nlohmann::json& j, FileSystem& fs, const FileSystem::Path& path);
 bool SaveJson(const nlohmann::json& j, FileSystem& fs, const char_type* path);
 

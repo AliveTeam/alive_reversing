@@ -34,6 +34,7 @@
 #include "../relive_lib/Camera.hpp"
 #include "Path.hpp"
 #include "QuikSave.hpp"
+#include "../relive_lib/data_conversion/AnimationConverter.hpp"
 
 constexpr TGlukkonMotionFn sGlukkonMotionTable[25] = {
     &Glukkon::Motion_0_Idle,

@@ -10,6 +10,7 @@
 #include "CamConverter.hpp"
 #include "JsonModelTypes.hpp"
 #include "ApiFG1Reader.hpp"
+#include "../../relive_lib/data_conversion/file_system.hpp"
 
 #include <gmock/gmock.h>
 

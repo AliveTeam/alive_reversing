@@ -33,6 +33,7 @@
 #include "../relive_lib/FixedPoint.hpp"
 #include "Path.hpp"
 #include "QuikSave.hpp"
+#include "../relive_lib/data_conversion/AnimationConverter.hpp"
 
 // Warning, index is saved, order matters here
 const static TFlyingSligBrainFn sFlyingSligMotionTable[26] =

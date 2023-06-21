@@ -1,11 +1,12 @@
 #pragma once
 
-#include "data_conversion/AnimationConverter.hpp" // TODO: Don't depend on this
+#include "AnimResources.hpp"
 
 enum class AnimId;
 enum class EReliveLevelIds : s16;
 
 class BinaryPath;
+struct AnimationPal;
 
 class UniqueResId final
 {

@@ -10,6 +10,7 @@
 #include "ApiFG1Reader.hpp"
 #include "../../relive_lib/data_conversion/rgb_conversion.hpp"
 #include "../../relive_lib/data_conversion/PNGFile.hpp"
+#include "../../relive_lib/data_conversion/file_system.hpp"
 
 namespace ReliveAPI {
 

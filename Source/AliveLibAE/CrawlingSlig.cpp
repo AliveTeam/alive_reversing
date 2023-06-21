@@ -30,6 +30,7 @@
 #include "Game.hpp"
 #include "../relive_lib/FatalError.hpp"
 #include "QuikSave.hpp"
+#include "../relive_lib/data_conversion/AnimationConverter.hpp"
 
 const static TintEntry kCrawlingSligTints[16] = {
     {EReliveLevelIds::eMenu, 127u, 127u, 127u},

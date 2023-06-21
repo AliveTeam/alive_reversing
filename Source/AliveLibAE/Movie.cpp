@@ -13,6 +13,7 @@
 #include "GameAutoPlayer.hpp"
 #include "Game.hpp"
 #include "../relive_lib/Renderer/IRenderer.hpp"
+#include "../relive_lib/data_conversion/rgb_conversion.hpp"
 
 // Inputs on the controller that can be used for aborting skippable movies
 const u32 MOVIE_SKIPPER_GAMEPAD_INPUTS = (InputCommands::eUnPause_OrConfirm | InputCommands::eBack | InputCommands::ePause);
