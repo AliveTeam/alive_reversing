@@ -43,7 +43,7 @@ void SlogSpawner::VUpdate()
         SetDead(true);
     }
 
-    if (static_cast<s32>(sGnFrame) > mSpawnTimer && gNumSlogs_9F11C8 < mMaxSlogsAtATime)
+    if (static_cast<s32>(sGnFrame) > mSpawnTimer && sSlogCount < mMaxSlogsAtATime)
     {
         if (SwitchStates_Get(mSpawnerSwitchId))
         {

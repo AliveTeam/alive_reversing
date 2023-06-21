@@ -114,7 +114,6 @@ Slog::Slog(FP xpos, FP ypos, FP scale, s16 bListenToSligs, s16 chaseDelay)
     : BaseAliveGameObject(5)
 {
     LoadAnimations();
-    field_134_last_event_index = -1;
 
     mYPos = ypos;
     mXPos = xpos;
@@ -135,8 +134,7 @@ Slog::Slog(FP xpos, FP ypos, FP scale, s16 bListenToSligs, s16 chaseDelay)
     }
     mTargetId = pTarget->mBaseGameObjectId;
 
-    mListenToSligs = false;
-    eBit7_Asleep = false;
+    mAsleep = false;
     mMovedOffScreen = false;
 
     mListenToSligs = bListenToSligs;
@@ -145,8 +143,8 @@ Slog::Slog(FP xpos, FP ypos, FP scale, s16 bListenToSligs, s16 chaseDelay)
     mChaseDelay = chaseDelay;
     mAngerSwitchId = 0;
     SetCurrentMotion(eSlogMotions::Motion_0_Idle);
-    field_146_total_anger = 10;
-    field_148_chase_anger = 20;
+    mTotalAnger = 10;
+    mChaseAnger = 20;
     mBoneEatingTime = 60;
 }
 
@@ -162,7 +160,6 @@ Slog::Slog(relive::Path_Slog* pTlv, const Guid& tlvId)
     : BaseAliveGameObject(5)
 {
     LoadAnimations();
-    field_134_last_event_index = -1;
 
     mXPos = FP_FromInteger(pTlv->mTopLeftX);
     mYPos = FP_FromInteger(pTlv->mTopLeftY);
@@ -182,7 +179,7 @@ Slog::Slog(relive::Path_Slog* pTlv, const Guid& tlvId)
 
     mMovedOffScreen = false;
     mListenToSligs = true;
-    eBit7_Asleep = pTlv->mAsleep == relive::reliveChoice::eYes;
+    mAsleep = pTlv->mAsleep == relive::reliveChoice::eYes;
     mCommandedToAttack = false;
 
     SetCanExplode(true);
@@ -194,13 +191,13 @@ Slog::Slog(relive::Path_Slog* pTlv, const Guid& tlvId)
     mBrainState = eSlogBrains::Brain_1_Idle;
     mTargetId = Guid{};
     mWakeUpAnger = pTlv->mWakeUpAnger;
-    field_146_total_anger = pTlv->mWakeUpAnger + pTlv->mBarkAnger;
-    field_148_chase_anger = field_146_total_anger + pTlv->mChaseAnger;
+    mTotalAnger = pTlv->mWakeUpAnger + pTlv->mBarkAnger;
+    mChaseAnger = mTotalAnger + pTlv->mChaseAnger;
     mChaseDelay = pTlv->mChaseDelay;
     mAngerSwitchId = pTlv->mAngerSwitchId;
     mBoneEatingTime = pTlv->mBoneEatingTime;
 
-    if (eBit7_Asleep)
+    if (mAsleep)
     {
         SetCurrentMotion(eSlogMotions::Motion_15_Sleeping);
         SetAnimFrame();
@@ -1423,7 +1420,7 @@ s16 Slog::Brain_ListeningToSlig_2_Listening(const FP xpos1GridAHead, IBaseAliveG
     }
 
     GameSpeakEvents speakValue = GameSpeakEvents::eNone_m1;
-    if (field_134_last_event_index == gEventSystem->mLastEventIndex)
+    if (mLastGameSpeakEvent == gEventSystem->mLastEventIndex)
     {
         if (gEventSystem->mLastEvent == GameSpeakEvents::eNone_m1)
         {
@@ -1436,7 +1433,7 @@ s16 Slog::Brain_ListeningToSlig_2_Listening(const FP xpos1GridAHead, IBaseAliveG
     }
     else
     {
-        field_134_last_event_index = gEventSystem->mLastEventIndex;
+        mLastGameSpeakEvent = gEventSystem->mLastEventIndex;
         speakValue = gEventSystem->mLastEvent;
     }
 
@@ -1603,9 +1600,9 @@ s16 Slog::Brain_1_Idle()
         mTargetId = Guid{};
     }
 
-    if (field_134_last_event_index != gEventSystem->mLastEventIndex)
+    if (mLastGameSpeakEvent != gEventSystem->mLastEventIndex)
     {
-        field_134_last_event_index = gEventSystem->mLastEventIndex;
+        mLastGameSpeakEvent = gEventSystem->mLastEventIndex;
         if (gEventSystem->mLastEvent == GameSpeakEvents::eSlig_HereBoy_28 && sControlledCharacter->Type() == ReliveTypes::eSlig)
         {
             mBrainState = eSlogBrains::Brain_0_ListeningToSlig;
@@ -1631,7 +1628,7 @@ s16 Slog::Brain_1_Idle()
                 return mBrainSubState;
             }
 
-            if (eBit7_Asleep)
+            if (mAsleep)
             {
                 mAngerLevel = 0;
                 return 1;
@@ -1711,7 +1708,7 @@ s16 Slog::Brain_1_Idle()
             {
                 if (mAngerLevel)
                 {
-                    if (eBit7_Asleep)
+                    if (mAsleep)
                     {
                         mAngerLevel--;
                     }
@@ -1731,10 +1728,10 @@ s16 Slog::Brain_1_Idle()
 
             if (static_cast<s32>(sGnFrame) > mGrowlTimer && GetCurrentMotion() == eSlogMotions::Motion_0_Idle)
             {
-                mGrowlTimer = Math_NextRandom() % 32 + MakeTimer(60);
                 SetCurrentMotion(eSlogMotions::Motion_23_Growl);
                 SetNextMotion(eSlogMotions::Motion_0_Idle);
-                sGnFrame = sGnFrame; // TODO: rev bug? check this in IDA
+
+                mGrowlTimer = Math_NextRandom() % 32 + MakeTimer(60);
             }
 
             if (static_cast<s32>(sGnFrame) > mScratchTimer && GetCurrentMotion() == eSlogMotions::Motion_0_Idle)
@@ -1744,7 +1741,7 @@ s16 Slog::Brain_1_Idle()
                 SetNextMotion(eSlogMotions::Motion_0_Idle);
             }
 
-            if (mAngerLevel > field_146_total_anger)
+            if (mAngerLevel > mTotalAnger)
             {
                 SetNextMotion(eSlogMotions::Motion_14_AngryBark);
                 mAngerLevel = mAngerLevel + Slog_NextRandom() % 8;
@@ -1783,9 +1780,9 @@ s16 Slog::Brain_1_Idle()
                 mAngerLevel += 2;
             }
 
-            if (mAngerLevel >= field_146_total_anger)
+            if (mAngerLevel >= mTotalAnger)
             {
-                if (mAngerLevel <= field_148_chase_anger)
+                if (mAngerLevel <= mChaseAnger)
                 {
                     return mBrainSubState;
                 }
@@ -1815,9 +1812,9 @@ s16 Slog::Brain_2_ChasingAbe()
     auto pTarget = static_cast<IBaseAliveGameObject*>(sObjectIds.Find_Impl(mTargetId));
     if (mListenToSligs)
     {
-        if (field_134_last_event_index != gEventSystem->mLastEventIndex)
+        if (mLastGameSpeakEvent != gEventSystem->mLastEventIndex)
         {
-            field_134_last_event_index = gEventSystem->mLastEventIndex;
+            mLastGameSpeakEvent = gEventSystem->mLastEventIndex;
             if (gEventSystem->mLastEvent == GameSpeakEvents::eSlig_HereBoy_28 && sControlledCharacter->Type() == ReliveTypes::eSlig)
             {
                 mBrainState = eSlogBrains::Brain_0_ListeningToSlig;
@@ -2701,45 +2698,6 @@ s16 Slog::Brain_3_Death()
     return 100;
 }
 
-u8** Slog::ResBlockForMotion(s16 motion)
-{
-    const auto slogMotion = static_cast<eSlogMotions>(motion);
-    if (slogMotion < eSlogMotions::Motion_14_AngryBark)
-    {
-        field_130_motion_resource_block_index = 0;
-        return mBaseGameObjectResArray.ItemAt(field_130_motion_resource_block_index);
-    }
-
-    if (slogMotion < eSlogMotions::Motion_18_JumpForwards)
-    {
-        field_130_motion_resource_block_index = 1;
-        return mBaseGameObjectResArray.ItemAt(field_130_motion_resource_block_index);
-    }
-
-    if (slogMotion < eSlogMotions::Motion_21_Dying)
-    {
-        field_130_motion_resource_block_index = 2;
-        return mBaseGameObjectResArray.ItemAt(field_130_motion_resource_block_index);
-    }
-
-    if (slogMotion < eSlogMotions::Motion_22_Scratch)
-    {
-        field_130_motion_resource_block_index = 3;
-        return mBaseGameObjectResArray.ItemAt(field_130_motion_resource_block_index);
-    }
-
-    if (motion < 24) // last + 1
-    {
-        field_130_motion_resource_block_index = 4;
-        return mBaseGameObjectResArray.ItemAt(field_130_motion_resource_block_index);
-    }
-    else
-    {
-        field_130_motion_resource_block_index = 0;
-        return mBaseGameObjectResArray.ItemAt(field_130_motion_resource_block_index);
-    }
-}
-
 void Slog::SetAnimFrame()
 {
     GetAnimation().Set_Animation_Data(GetAnimRes(sSlogAnimIdTable[mCurrentMotion]));
@@ -2779,7 +2737,7 @@ void Slog::Init()
     mMultiUseTimer = 0;
     mBrainSubState = 0;
     SetNextMotion(eSlogMotions::m1);
-    field_130_motion_resource_block_index = 0;
+
     BaseAliveGameObject_PlatformId = Guid{};
     mListeningToSligId = Guid{};
     mTargetId = Guid{};
@@ -3400,7 +3358,7 @@ bool Slog::VTakeDamage(BaseGameObject* pFrom)
 
 void Slog::VOnThrowableHit(BaseGameObject* /*pFrom*/)
 {
-    mAngerLevel += field_148_chase_anger; // on throwable hit?
+    mAngerLevel += mChaseAnger;
 }
 
 s16 Slog::PlayerOrNakedSligNear()

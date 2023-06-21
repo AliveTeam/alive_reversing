@@ -216,7 +216,6 @@ public:
     s16 Brain_3_Death();
 
 private:
-    u8** ResBlockForMotion(s16 motion);
     void SetAnimFrame();
     void Init();
 
@@ -253,17 +252,16 @@ private:
     s32 mMultiUseTimer = 0; // this timer is used for multiple things like chase delay, bone eating time etc.
     FP mFallingVelxScaleFactor = {};
     Guid mTlvId;
-    s16 field_130_motion_resource_block_index = 0;
     s16 mHasWoofed = 0;
-    s32 field_134_last_event_index = 0;
+    s32 mLastGameSpeakEvent = -1;
     Guid mListeningToSligId;
     s16 mWaitingCounter = 0;
     s16 mResponseIdx = 0;
     s16 mResponsePart = 0;
     s16 mAngerLevel = 0;
     s16 mWakeUpAnger = 0;
-    s16 field_146_total_anger = 0;
-    s16 field_148_chase_anger = 0;
+    s16 mTotalAnger = 0;
+    s16 mChaseAnger = 0;
     s32 mScratchTimer = 0;
     s32 mGrowlTimer = 0;
     s16 mAngerSwitchId = 0;
@@ -279,7 +277,7 @@ private:
     bool mCommandedToAttack = false;
     bool mHitByAbilityRing = false;
     bool mListenToSligs = false;
-    bool eBit7_Asleep = false;
+    bool mAsleep = false;
 };
 
 extern s16 sSlogCount;
