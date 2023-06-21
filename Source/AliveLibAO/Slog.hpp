@@ -123,36 +123,33 @@ public:
     s16 mBitingTarget = 0;
 
 private:
-    s16 field_114_brain_idx = 0;
-    s16 field_116_brain_sub_state = 0;
-    s32 field_11C_timer = 0;
-    s16 field_126_movedOffScreen = 0;
-    Guid field_138_tlvInfo;
-    s16 field_13C_res_idx = 0;
-    s32 field_144 = 0;
-    s32 field_148 = -1;
-    IBaseAliveGameObject* field_14C_pSlig = nullptr;
-    s16 field_150_waiting_counter = 0;
-    s16 field_152_response_index = 0;
-    s16 field_154_response_part = 0;
-    s16 field_156 = 0;
-    s16 field_158_wake_up_anger = 0;
-    s16 field_15A_total_anger = 0;
-    s16 field_15C_chase_anger = 0;
-    s32 field_160 = 0;
-    s32 field_164_timer = 0;
+    s16 mBrainState = 0;
+    s16 mBrainSubState = 0;
+    s32 mMultiUseTimer = 0;
+    s16 mMovedOffScreen = 0;
+    Guid mTlvId;
+    s32 mHasWoofed = 0;
+    s32 mLastGameSpeakEvent = -1;
+    IBaseAliveGameObject* mListeningToSligId = nullptr;
+    s16 mWaitingCounter = 0;
+    s16 mResponseIdx = 0;
+    s16 mResponsePart = 0;
+    s16 mAngerLevel = 0;
+    s16 mWakeUpAnger = 0;
+    s16 mTotalAnger = 0;
+    s16 mChaseAnger = 0;
+    s32 mScratchTimer = 0;
+    s32 mGrowlTimer = 0;
     s16 mAngerSwitchId = 0;
-    IBaseAliveGameObject* field_16C_pUnknown = nullptr;
     s16 mChaseDelay = 0;
-    s16 field_172 = 0;
-    s16 field_174 = 0; // slog moving left?
-    s16 field_176 = 0; // set to 1 in the tlv slog ctor but set to 0 in the other slog ctor
-    s16 field_178_bShot = 0; // flag in AE
-    s16 field_17C_res = 0; // skips playing a sound after taking damage from a slig
+    s16 mJumpCounter = 0;
+    s16 mStopRunning = 0;
+    s16 mListenToSligs = 0; // set to 1 in the tlv slog ctor but set to 0 in the other slog ctor
+    s16 mShot = 0;
+    s16 mHitByAbilityRing = 0;
     relive::reliveChoice mAsleep = relive::reliveChoice::eNo;
-   // u8** field_184_resources[5] = {};
 };
 
-extern s16 gNumSlogs_9F11C8;
+extern s16 sSlogCount;
 
 } // namespace AO
