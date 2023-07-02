@@ -65,9 +65,9 @@ public:
         const u8 b5 = ((pixel >> 10) & 0x1F);
         bool bSemi = (pixel >> 15) & 0x1;
 
-        const u32 r8 = ((r5 * 527) + 23) >> 6;
-        const u32 g8 = ((g5 * 527) + 23) >> 6;
-        const u32 b8 = ((b5 * 527) + 23) >> 6;
+        const u32 r8 = r5 << 3;
+        const u32 g8 = g5 << 3;
+        const u32 b8 = b5 << 3;
         u32 a8 = 0;
         if (bSemi)
         {
@@ -93,9 +93,9 @@ public:
         const u8 g6 = ((pixel >> 5) & 0x3F);
         const u8 b5 = (pixel & 0x1F);
 
-        const u32 r8 = ((r5 * 527) + 23) >> 6;
-        const u32 g8 = ((g6 * 259) + 33) >> 6;
-        const u32 b8 = ((b5 * 527) + 23) >> 6;
+        const u32 r8 = r5 << 3;
+        const u32 g8 = g6 << 2;
+        const u32 b8 = b5 << 3;
 
         const u32 rgb888 = (b8 << 16) | (g8 << 8) | r8;
         return rgb888;
@@ -110,9 +110,9 @@ public:
         const u8 b5 = (pixel & 0x1F);
         bool bSemi = (pixel >> 15) & 0x1;
 
-        const u32 r8 = ((r5 * 527) + 23) >> 6;
-        const u32 g8 = ((g5 * 527) + 23) >> 6;
-        const u32 b8 = ((b5 * 527) + 23) >> 6;
+        const u32 r8 = r5 << 3;
+        const u32 g8 = g5 << 3;
+        const u32 b8 = b5 << 3;
         u32 a8 = bSemi ? 127 : 255;
 
         if (!bSemi && r5 == 0 && g5 == 0 && b5 == 0)
