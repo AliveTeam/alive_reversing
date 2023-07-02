@@ -143,10 +143,10 @@ void Animation::VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width, s32 he
     SetXY3(pPoly, polyXPos + FP_GetExponent(scaled_width), polyYPos + FP_GetExponent(scaled_height));
 
     // TPage blend mode
-    u16 tpageEmptyBlend = GetTPage(pPoly) & !PSX_getTPage(TPageAbr::eBlend_3);
-    u16 blendModeBits = PSX_getTPage((TPageAbr) GetRenderMode());
+    s32 tpageEmptyBlend = GetTPage(pPoly) & ~PSX_getTPage(TPageAbr::eBlend_3);
+    s32 blendModeBits = PSX_getTPage(GetRenderMode());
 
-    SetTPage(pPoly, tpageEmptyBlend | blendModeBits);
+    SetTPage(pPoly, static_cast<u16>(tpageEmptyBlend | blendModeBits));
 
     pPoly->mFlipX = kFlipX;
     pPoly->mFlipY = kFlipY;
