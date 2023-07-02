@@ -339,11 +339,19 @@ void OpenGLRenderer::Draw(const Poly_FT4& poly)
     else
     {
         // ScreenWave (Bell Song framebuffer effect)
+        u16 baseU, baseV;
+        f32 baseUf, baseVf;
+
+        GetTPageCoords(GetTPage(&poly), &baseU, &baseV);
+
+        baseUf = static_cast<f32>(baseU);
+        baseVf = static_cast<f32>(baseV);
+
         PsxVertexData verts[4] = {
-            { static_cast<f32>(X0(&poly)), static_cast<f32>(Y0(&poly)), 127.0f, 127.0f, 127.0f, static_cast<f32>(U0(&poly)), static_cast<f32>(V0(&poly)), PsxDrawMode::DefaultFT4, 0, 0, 0, 0, 0 },
-            { static_cast<f32>(X1(&poly)), static_cast<f32>(Y1(&poly)), 127.0f, 127.0f, 127.0f, static_cast<f32>(U1(&poly)), static_cast<f32>(V1(&poly)), PsxDrawMode::DefaultFT4, 0, 0, 0, 0, 0 },
-            { static_cast<f32>(X2(&poly)), static_cast<f32>(Y2(&poly)), 127.0f, 127.0f, 127.0f, static_cast<f32>(U2(&poly)), static_cast<f32>(V2(&poly)), PsxDrawMode::DefaultFT4, 0, 0, 0, 0, 0 },
-            { static_cast<f32>(X3(&poly)), static_cast<f32>(Y3(&poly)), 127.0f, 127.0f, 127.0f, static_cast<f32>(U3(&poly)), static_cast<f32>(V3(&poly)), PsxDrawMode::DefaultFT4, 0, 0, 0, 0, 0 }
+            { static_cast<f32>(X0(&poly)), static_cast<f32>(Y0(&poly)), 127.0f, 127.0f, 127.0f, baseUf + static_cast<f32>(U0(&poly)), kPsxFramebufferHeight - (baseVf + static_cast<f32>(V0(&poly))), PsxDrawMode::DefaultFT4, 0, 0, 0, 0, 0 },
+            { static_cast<f32>(X1(&poly)), static_cast<f32>(Y1(&poly)), 127.0f, 127.0f, 127.0f, baseUf + static_cast<f32>(U1(&poly)), kPsxFramebufferHeight - (baseVf + static_cast<f32>(V1(&poly))), PsxDrawMode::DefaultFT4, 0, 0, 0, 0, 0 },
+            { static_cast<f32>(X2(&poly)), static_cast<f32>(Y2(&poly)), 127.0f, 127.0f, 127.0f, baseUf + static_cast<f32>(U2(&poly)), kPsxFramebufferHeight - (baseVf + static_cast<f32>(V2(&poly))), PsxDrawMode::DefaultFT4, 0, 0, 0, 0, 0 },
+            { static_cast<f32>(X3(&poly)), static_cast<f32>(Y3(&poly)), 127.0f, 127.0f, 127.0f, baseUf + static_cast<f32>(U3(&poly)), kPsxFramebufferHeight - (baseVf + static_cast<f32>(V3(&poly))), PsxDrawMode::DefaultFT4, 0, 0, 0, 0, 0 }
         };
 
         mBatcher.PushFramebufferVertexData(verts, ALIVE_COUNTOF(verts));
@@ -363,7 +371,13 @@ void OpenGLRenderer::Draw(const Poly_G4& poly)
 
 u16 OpenGLRenderer::GetTPageBlendMode(u16 tpage)
 {
-    return (tpage >> 4) & 3;
+    return (tpage & 0x0060) >> 5;
+}
+
+void OpenGLRenderer::GetTPageCoords(u16 tPage, u16 *x, u16 *y)
+{
+    *x = (tPage & 0x000F) << 6;
+    *y = (tPage & 0x0010) << 4;
 }
 
 u32 OpenGLRenderer::PreparePalette(AnimationPal& pCache)

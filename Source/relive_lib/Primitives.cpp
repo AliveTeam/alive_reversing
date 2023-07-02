@@ -125,9 +125,11 @@ PrimHeader** OtLayer(PrimHeader** ppOt, Layer layer)
     return &ppOt[static_cast<u32>(layer)];
 }
 
-s32 PSX_getTPage(TPageAbr abr)
+s32 PSX_getTPage(TPageAbr abr, s16 x, s16 y)
 {
-    return ((static_cast<s8>(abr)) & 0x3) << 4;
+    return (((static_cast<s8>(abr)) & 0x3) << 5) |
+           ((y & 0x0100) >> 4) |
+           ((x & 0x02C0) >> 6);
 }
 
 void SetCode(PrimHeader* pPrim, u8 code)

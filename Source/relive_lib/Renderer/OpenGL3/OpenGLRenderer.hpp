@@ -81,6 +81,7 @@ private:
 
 private:
     u16 GetTPageBlendMode(u16 tPage);
+    void GetTPageCoords(u16 tPage, u16* x, u16* y);
     u32 PreparePalette(AnimationPal& pCache);
     std::shared_ptr<GLTexture2D> PrepareTextureFromAnim(Animation& anim);
     std::shared_ptr<GLTexture2D> PrepareTextureFromPoly(const Poly_FT4& poly);

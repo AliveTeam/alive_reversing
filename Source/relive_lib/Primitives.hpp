@@ -37,7 +37,7 @@ enum class TPageAbr : s8
 };
 
 void Init_SetTPage(Prim_SetTPage* pPrim, s32 tpage);
-s32 PSX_getTPage(TPageAbr abr);
+s32 PSX_getTPage(TPageAbr abr, s16 x = 0, s16 y = 0);
 
 struct PrimHeaderPart_Normal final
 {

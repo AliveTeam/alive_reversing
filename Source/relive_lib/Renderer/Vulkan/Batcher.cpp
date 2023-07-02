@@ -10,7 +10,7 @@
 // TODO: Copy pasted from GL renderer
 inline u16 GetTPageBlendMode(u16 tpage)
 {
-    return (tpage >> 4) & 3;
+    return (tpage >> 5) & 3;
 }
 
 template <typename TextureType, typename RenderBatchType, std::size_t kTextureBatchSize>
