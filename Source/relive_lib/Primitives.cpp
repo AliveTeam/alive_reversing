@@ -129,7 +129,7 @@ s32 PSX_getTPage(TPageAbr abr, s16 x, s16 y)
 {
     return (((static_cast<s8>(abr)) & 0x3) << 5) |
            ((y & 0x0100) >> 4) |
-           ((x & 0x02C0) >> 6);
+           ((x & 0x03C0) >> 6);
 }
 
 void SetCode(PrimHeader* pPrim, u8 code)
