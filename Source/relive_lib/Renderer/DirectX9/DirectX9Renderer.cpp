@@ -35,12 +35,6 @@
     #define DX_VERIFY(x) (x);
 #endif
 
-// TODO: Copy pasted from GL renderer
-inline u16 GetTPageBlendMode(u16 tpage)
-{
-    return (tpage >> 5) & 3;
-}
-
 namespace DXTexture {
 static void LoadSubImage(IDirect3DTexture9& texture, u32 xStart, u32 yStart, u32 width, u32 height, const RGBA32* pixels)
 {

@@ -369,17 +369,6 @@ void OpenGLRenderer::Draw(const Poly_G4& poly)
     mBatcher.PushPolyG4(poly, blendMode);
 }
 
-u16 OpenGLRenderer::GetTPageBlendMode(u16 tpage)
-{
-    return (tpage & 0x0060) >> 5;
-}
-
-void OpenGLRenderer::GetTPageCoords(u16 tPage, u16 *x, u16 *y)
-{
-    *x = (tPage & 0x000F) << 6;
-    *y = (tPage & 0x0010) << 4;
-}
-
 u32 OpenGLRenderer::PreparePalette(AnimationPal& pCache)
 {
     const PaletteCache::AddResult addRet = mPaletteCache.Add(pCache);

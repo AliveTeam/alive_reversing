@@ -1725,12 +1725,6 @@ void VulkanRenderer::SetClip(const Prim_PrimClipper& clipper)
     mBatcher[mCurrentFrame].SetScissor(rect);
 }
 
-// TODO: Copy pasted from GL renderer
-inline u16 GetTPageBlendMode(u16 tpage)
-{
-    return (tpage >> 4) & 3;
-}
-
 void VulkanRenderer::Draw(const Prim_GasEffect& gasEffect)
 {
     const u32 gasWidth = static_cast<u32>(std::floor((gasEffect.w - gasEffect.x) / 4));

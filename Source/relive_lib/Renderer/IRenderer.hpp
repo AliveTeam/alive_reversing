@@ -79,6 +79,9 @@ public: // TODO: Make protected later
 
     static Quad2D LineToQuad(const Point2D& p1, const Point2D& p2);
 
+    static u16 GetTPageBlendMode(u16 tPage);
+    static void GetTPageCoords(u16 tPage, u16* x, u16* y);
+
 public:
     enum class Renderers
     {
