@@ -685,12 +685,13 @@ s32 AliveFont::DrawString(PrimHeader** ppOt, const char_type* text, s32 x, s16 y
         SetXY3(poly, offsetX + widthScaled, y + heightScaled);
         SetUV3(poly, texture_u + charWidth, texture_v + charHeight);
 
-        // TPage blend mode start
-        u16 tpageEmptyBlend = GetTPage(poly) & 0xFFCF;
-        u16 blendModeBit = ((u16) abr) << 4;
-        SetTPage(poly, tpageEmptyBlend | blendModeBit);
+        // TPage blend mode
+        s32 tpageEmptyBlend = GetTPage(poly) & ~PSX_getTPage(TPageAbr::eBlend_3);
+        s32 blendModeBits = PSX_getTPage(abr);
+
+        SetTPage(poly, static_cast<u16>(tpageEmptyBlend | blendModeBits));
+
         poly->mFont = mFontContext;
-        // TPage blend mode start
 
         OrderingTable_Add(OtLayer(ppOt, layer), &poly->mBase.header);
 
