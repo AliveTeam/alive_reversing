@@ -127,7 +127,7 @@ public:
 
     virtual void VScreenChanged() override;
     virtual void VUpdate() override;
-    virtual void VRender(PrimHeader** ppOt) override;
+    virtual void VRender(BasePrimitive** ppOt) override;
     virtual void VOnTrapDoorOpen() override;
     virtual void VUnPosses() override;
     virtual void VPossessed() override;

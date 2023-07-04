@@ -78,7 +78,7 @@ void TorturedMudokon::VScreenChanged()
     SetDead(true);
 }
 
-void TorturedMudokon::VRender(PrimHeader** ppOt)
+void TorturedMudokon::VRender(BasePrimitive** ppOt)
 {
     mTearsAnim.VRender(
         FP_GetExponent(mXPos - gScreenManager->CamXPos()),
@@ -194,7 +194,7 @@ void TorturedMudokon::VUpdate()
 
     if (GetAnimation().GetCurrentFrame() == 6 && GetAnimation().GetFrameChangeCounter() == GetAnimation().GetFrameDelay())
     {
-        relive_new Flash(Layer::eLayer_Above_FG1_39, rgbBase + 50, rgbBase + 50, rgbBase + 110, TPageAbr::eBlend_1, 1);
+        relive_new Flash(Layer::eLayer_Above_FG1_39, rgbBase + 50, rgbBase + 50, rgbBase + 110, relive::TBlendModes::eBlend_1, 1);
         mZapAnim.SetRender(true);
         SfxPlayMono(relive::SoundEffects::ElectricZap, 70);
         const s16 sndRnd = Math_RandomRange(0, 3) - 1;
@@ -213,7 +213,7 @@ void TorturedMudokon::VUpdate()
 
     if (GetAnimation().GetCurrentFrame() >= 7 && !Math_RandomRange(0, 10))
     {
-        relive_new Flash(Layer::eLayer_Above_FG1_39, rgbBase + 10, rgbBase + 10, rgbBase + 50, TPageAbr::eBlend_1, 1);
+        relive_new Flash(Layer::eLayer_Above_FG1_39, rgbBase + 10, rgbBase + 10, rgbBase + 50, relive::TBlendModes::eBlend_1, 1);
     }
 
     if (SwitchStates_Get(mReleaseSwitchId))

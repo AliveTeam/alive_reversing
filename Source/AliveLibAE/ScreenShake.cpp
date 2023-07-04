@@ -66,7 +66,7 @@ static const ScreenOffset sShakeOffsets[16] = {
     {-9, 9},
 };
 
-void ScreenShake::VRender(PrimHeader** ppOt)
+void ScreenShake::VRender(BasePrimitive** ppOt)
 {
     Prim_ScreenOffset* pPrim = &mScreenOffset[gPsxDisplay.mBufferIndex];
     if (mShakeNumber < 14)
@@ -96,8 +96,8 @@ void ScreenShake::VRender(PrimHeader** ppOt)
             offset.y = yoff;
         }
 
-        InitType_ScreenOffset(pPrim, &offset);
-        OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_0), &pPrim->mBase);
+        pPrim->SetOffset(offset.x, offset.y);
+        OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_0), pPrim);
 
         if (offset.y != 0)
         {

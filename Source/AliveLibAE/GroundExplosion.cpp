@@ -22,7 +22,7 @@ GroundExplosion::GroundExplosion(FP x, FP y, FP scale)
 
     GetAnimation().SetIsLastFrame(false); // Double Check
 
-    GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
+    GetAnimation().SetBlendMode(relive::TBlendModes::eBlend_1);
 
     GetAnimation().SetRGB(128, 128, 128);
 
@@ -111,7 +111,7 @@ void GroundExplosion::VUpdate()
                 BurstType::eBigRedSparks_3,
                 13);
 
-            relive_new Flash(Layer::eLayer_Above_FG1_39, 255, 255, 255, TPageAbr::eBlend_3, 1);
+            relive_new Flash(Layer::eLayer_Above_FG1_39, 255, 255, 255, relive::TBlendModes::eBlend_3, 1);
 
             rect.x = FP_GetExponent(FP_FromInteger(-113) * mBombSpriteScale);
             rect.w = FP_GetExponent(FP_FromInteger(113) * mBombSpriteScale);
@@ -123,7 +123,7 @@ void GroundExplosion::VUpdate()
 
         case 4:
         {
-            relive_new Flash(Layer::eLayer_Above_FG1_39, 255, 255, 255, TPageAbr::eBlend_1, 1);
+            relive_new Flash(Layer::eLayer_Above_FG1_39, 255, 255, 255, relive::TBlendModes::eBlend_1, 1);
             break;
         }
 
@@ -137,7 +137,7 @@ void GroundExplosion::VUpdate()
                 BurstType::eBigRedSparks_3,
                 13);
 
-            relive_new Flash(Layer::eLayer_Above_FG1_39, 255, 255, 255, TPageAbr::eBlend_3, 1);
+            relive_new Flash(Layer::eLayer_Above_FG1_39, 255, 255, 255, relive::TBlendModes::eBlend_3, 1);
             break;
         }
 
@@ -155,7 +155,7 @@ void GroundExplosion::VUpdate()
         {
             pParticle->GetAnimation().SetFlipX(true);
             pParticle->SetApplyShadowZoneColour(false);
-            pParticle->GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
+            pParticle->GetAnimation().SetBlendMode(relive::TBlendModes::eBlend_1);
             pParticle->SetSpriteScale(GetSpriteScale() * FP_FromDouble(0.7));
         }
     }

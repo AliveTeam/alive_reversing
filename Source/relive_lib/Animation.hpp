@@ -15,7 +15,7 @@ class Animation final : public AnimationBase
 {
 public:
     virtual void VDecode() override;
-    virtual void VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width, s32 height) override;
+    virtual void VRender(s32 xpos, s32 ypos, BasePrimitive** ppOt, s16 width, s32 height) override;
     virtual void VCleanUp() override;
 
     s16 Set_Animation_Data(AnimResource& pAnimRes);

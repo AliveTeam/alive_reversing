@@ -230,18 +230,13 @@ void OpenGLRenderer::EndFrame()
     GetDestinationPsxFramebuffer().BindAsTarget();
 }
 
-void OpenGLRenderer::SetTPage(u16 tPage)
-{
-    mGlobalTPage = tPage;
-}
-
-void OpenGLRenderer::SetClip(const Prim_PrimClipper& clipper)
+void OpenGLRenderer::SetClip(const Prim_ScissorRect& clipper)
 {
     SDL_Rect rect;
-    rect.x = clipper.field_C_x;
-    rect.y = clipper.field_E_y;
-    rect.w = clipper.mBase.header.mRect.w;
-    rect.h = clipper.mBase.header.mRect.h;
+    rect.x = clipper.mRect.x;
+    rect.y = clipper.mRect.y;
+    rect.w = clipper.mRect.w;
+    rect.h = clipper.mRect.h;
 
     if (rect.x == 0 && rect.y == 0 && rect.w == 1 && rect.h == 1)
     {
@@ -279,8 +274,7 @@ void OpenGLRenderer::Draw(const Line_G2& line)
         return;
     }
 
-    const u32 blendMode = GetTPageBlendMode(mGlobalTPage);
-    mBatcher.PushLine(line, blendMode);
+    mBatcher.PushLine(line, line.mBlendMode);
 }
 
 void OpenGLRenderer::Draw(const Line_G4& line)
@@ -290,8 +284,7 @@ void OpenGLRenderer::Draw(const Line_G4& line)
         return;
     }
 
-    const u32 blendMode = GetTPageBlendMode(mGlobalTPage);
-    mBatcher.PushLine(line, blendMode);
+    mBatcher.PushLine(line, line.mBlendMode);
 }
 
 void OpenGLRenderer::Draw(const Poly_G3& poly)
@@ -301,8 +294,7 @@ void OpenGLRenderer::Draw(const Poly_G3& poly)
         return;
     }
 
-    const u32 blendMode = GetTPageBlendMode(mGlobalTPage);
-    mBatcher.PushPolyG3(poly, blendMode);
+    mBatcher.PushPolyG3(poly, poly.mBlendMode);
 }
 
 void OpenGLRenderer::Draw(const Poly_FT4& poly)
@@ -339,19 +331,14 @@ void OpenGLRenderer::Draw(const Poly_FT4& poly)
     else
     {
         // ScreenWave (Bell Song framebuffer effect)
-        u16 baseU, baseV;
-        f32 baseUf, baseVf;
-
-        GetTPageCoords(GetTPage(&poly), &baseU, &baseV);
-
-        baseUf = static_cast<f32>(baseU);
-        baseVf = static_cast<f32>(baseV);
+        const f32 baseUf = poly.uBase;
+        const f32 baseVf = poly.vBase;
 
         PsxVertexData verts[4] = {
-            { static_cast<f32>(X0(&poly)), static_cast<f32>(Y0(&poly)), 127.0f, 127.0f, 127.0f, baseUf + static_cast<f32>(U0(&poly)), kPsxFramebufferHeight - (baseVf + static_cast<f32>(V0(&poly))), PsxDrawMode::DefaultFT4, 0, 0, 0, 0, 0 },
-            { static_cast<f32>(X1(&poly)), static_cast<f32>(Y1(&poly)), 127.0f, 127.0f, 127.0f, baseUf + static_cast<f32>(U1(&poly)), kPsxFramebufferHeight - (baseVf + static_cast<f32>(V1(&poly))), PsxDrawMode::DefaultFT4, 0, 0, 0, 0, 0 },
-            { static_cast<f32>(X2(&poly)), static_cast<f32>(Y2(&poly)), 127.0f, 127.0f, 127.0f, baseUf + static_cast<f32>(U2(&poly)), kPsxFramebufferHeight - (baseVf + static_cast<f32>(V2(&poly))), PsxDrawMode::DefaultFT4, 0, 0, 0, 0, 0 },
-            { static_cast<f32>(X3(&poly)), static_cast<f32>(Y3(&poly)), 127.0f, 127.0f, 127.0f, baseUf + static_cast<f32>(U3(&poly)), kPsxFramebufferHeight - (baseVf + static_cast<f32>(V3(&poly))), PsxDrawMode::DefaultFT4, 0, 0, 0, 0, 0 }
+            {static_cast<f32>(poly.X0()), static_cast<f32>(poly.Y0()), 127.0f, 127.0f, 127.0f, baseUf + static_cast<f32>(poly.U0()), kPsxFramebufferHeight - (baseVf + static_cast<f32>(poly.V0())), PsxDrawMode::DefaultFT4, 0, 0, relive::TBlendModes::eBlend_0, 0, 0},
+            {static_cast<f32>(poly.X1()), static_cast<f32>(poly.Y1()), 127.0f, 127.0f, 127.0f, baseUf + static_cast<f32>(poly.U1()), kPsxFramebufferHeight - (baseVf + static_cast<f32>(poly.V1())), PsxDrawMode::DefaultFT4, 0, 0, relive::TBlendModes::eBlend_0, 0, 0},
+            {static_cast<f32>(poly.X2()), static_cast<f32>(poly.Y2()), 127.0f, 127.0f, 127.0f, baseUf + static_cast<f32>(poly.U2()), kPsxFramebufferHeight - (baseVf + static_cast<f32>(poly.V2())), PsxDrawMode::DefaultFT4, 0, 0, relive::TBlendModes::eBlend_0, 0, 0},
+            {static_cast<f32>(poly.X3()), static_cast<f32>(poly.Y3()), 127.0f, 127.0f, 127.0f, baseUf + static_cast<f32>(poly.U3()), kPsxFramebufferHeight - (baseVf + static_cast<f32>(poly.V3())), PsxDrawMode::DefaultFT4, 0, 0, relive::TBlendModes::eBlend_0, 0, 0}
         };
 
         mBatcher.PushFramebufferVertexData(verts, ALIVE_COUNTOF(verts));
@@ -365,8 +352,7 @@ void OpenGLRenderer::Draw(const Poly_G4& poly)
         return;
     }
 
-    const u32 blendMode = GetTPageBlendMode(mGlobalTPage);
-    mBatcher.PushPolyG4(poly, blendMode);
+    mBatcher.PushPolyG4(poly, poly.mBlendMode);
 }
 
 u32 OpenGLRenderer::PreparePalette(AnimationPal& pCache)
@@ -564,9 +550,9 @@ void OpenGLRenderer::DrawFramebufferToScreen(s32 x, s32 y, s32 width, s32 height
     GL_VERIFY(glDisableVertexAttribArray(1));
 }
 
-void OpenGLRenderer::SetupBlendMode(u16 blendMode)
+void OpenGLRenderer::SetupBlendMode(relive::TBlendModes blendMode)
 {
-    if (static_cast<TPageAbr>(blendMode) == TPageAbr::eBlend_2)
+    if (blendMode == relive::TBlendModes::eBlend_2)
     {
         GL_VERIFY(glBlendFunc(GL_SRC_ALPHA, GL_ONE));
         GL_VERIFY(glBlendEquation(GL_FUNC_REVERSE_SUBTRACT));
@@ -796,7 +782,7 @@ void OpenGLRenderer::DrawBatches()
 
             mPsxShader.Uniform1i("texFramebuffer", 7);
 
-            SetupBlendMode(0); // Ensure we're using additive blend mode
+            SetupBlendMode(relive::TBlendModes::eBlend_0); // Ensure we're using additive blend mode
         }
         else
         {
@@ -818,9 +804,9 @@ void OpenGLRenderer::DrawBatches()
             mPsxShader.Uniform2fv("fsSpriteSheetSize", kSpriteTextureUnitCount, texSizes);
 
             // Assign blend mode
-            if (batch.mBlendMode <= static_cast<u32>(TPageAbr::eBlend_3))
+            if (batch.mBlendMode != relive::TBlendModes::None)
             {
-                SetupBlendMode(static_cast<u16>(batch.mBlendMode));
+                SetupBlendMode(batch.mBlendMode);
             }
         }
 

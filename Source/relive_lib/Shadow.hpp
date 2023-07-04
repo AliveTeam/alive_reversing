@@ -11,7 +11,7 @@ public:
     ~Shadow();
 
     void Calculate_Position(FP xpos, FP ypos, PSX_RECT* frameRect, FP spriteScale, Scale scale);
-    void Render(PrimHeader** ppOt);
+    void Render(BasePrimitive** ppOt);
 
 private:
     s16 mX1 = 0;

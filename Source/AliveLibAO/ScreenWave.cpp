@@ -105,8 +105,7 @@ ScreenWave::ScreenWave(FP xpos, FP ypos, Layer layer, FP width, FP speed, s32 ra
         {
             for (s32 k = 0; k < 4; k++)
             {
-                PolyFT4_Init(&pData->field_B00_poly[i][j][k]);
-                Poly_Set_SemiTrans(&pData->field_B00_poly[i][j][k].mBase.header, 0);
+                pData->field_B00_poly[i][j][k].SetSemiTransparent(false);
             }
         }
     }
@@ -152,7 +151,7 @@ void ScreenWave::VUpdate()
     }
 }
 
-void ScreenWave::VRender(PrimHeader** ppOt)
+void ScreenWave::VRender(BasePrimitive** ppOt)
 {
     if (!gMap.Is_Point_In_Current_Camera(
             field_3A_level,
@@ -215,16 +214,16 @@ void ScreenWave::VRender(PrimHeader** ppOt)
             {
                 Poly_FT4* pPoly = &pScreenWaveData->field_B00_poly[gPsxDisplay.mBufferIndex][i][j];
 
-                SetXY0(pPoly,
+                pPoly->SetXY0(
                        static_cast<s16>(PsxToPCX(x0, 11)),
                        static_cast<s16>(y0));
-                SetXY1(pPoly,
+                pPoly->SetXY1(
                        static_cast<s16>(PsxToPCX(x1, 11)),
                        static_cast<s16>(y1));
-                SetXY2(pPoly,
+                pPoly->SetXY2(
                        static_cast<s16>(PsxToPCX(x2, 11)),
                        static_cast<s16>(y2));
-                SetXY3(pPoly,
+                pPoly->SetXY3(
                        static_cast<s16>(PsxToPCX(x3, 11)),
                        static_cast<s16>(y3));
 
@@ -250,30 +249,28 @@ void ScreenWave::VRender(PrimHeader** ppOt)
                 u2 -= minU_capped;
                 u3 -= minU_capped;
 
-                SetTPage(pPoly, static_cast<s16>(PSX_getTPage(
-                                    TPageAbr::eBlend_0,
-                                    static_cast<s16>(minU_capped),
-                                    0)));
+                pPoly->SetBlendMode(relive::TBlendModes::eBlend_0);
 
-                SetUV0(pPoly,
+                pPoly->uBase = static_cast<s16>(minU_capped);
+                pPoly->vBase = 0.0f;
+
+                pPoly->SetUV0(
                        static_cast<u8>(u0),
                        static_cast<u8>(v0));
-                SetUV1(pPoly,
+                pPoly->SetUV1(
                        static_cast<u8>(u1),
                        static_cast<u8>(v1));
-                SetUV2(pPoly,
+                pPoly->SetUV2(
                        static_cast<u8>(u2),
                        static_cast<u8>(v2));
-                SetUV3(pPoly,
+                pPoly->SetUV3(
                        static_cast<u8>(u3),
                        static_cast<u8>(v3));
 
-                Poly_Set_SemiTrans(&pPoly->mBase.header, 0);
-                Poly_Set_Blending(&pPoly->mBase.header, 1);
+                pPoly->SetSemiTransparent(false);
+                pPoly->DisableBlending(true);
 
-                SetPrimExtraPointerHack(pPoly, nullptr);
-
-                OrderingTable_Add(OtLayer(ppOt, field_10_layer), &pPoly->mBase.header);
+                OrderingTable_Add(OtLayer(ppOt, field_10_layer), pPoly);
 
                 clearRectSize.x = std::min(clearRectSize.x, minX);
                 clearRectSize.y = std::min(clearRectSize.y, minY);

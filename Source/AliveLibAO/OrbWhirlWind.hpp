@@ -23,7 +23,7 @@ public:
     ~OrbWhirlWind();
 
     virtual void VUpdate() override;
-    virtual void VRender(PrimHeader** ppOt) override;
+    virtual void VRender(BasePrimitive** ppOt) override;
 
     void ToSpin(FP xpos, FP ypos, IBaseAliveGameObject* pObj);
     void ToStop();

@@ -17,7 +17,7 @@ public:
 
     void VUpdate() override;
 
-    void VRender(PrimHeader** pOrderingTable) override;
+    void VRender(BasePrimitive** pOrderingTable) override;
 
     bool ConversionRequired();
 

@@ -155,17 +155,6 @@ SDL_Rect IRenderer::GetTargetDrawRect()
     return rect;
 }
 
-u16 IRenderer::GetTPageBlendMode(u16 tPage)
-{
-    return (tPage & 0x0060) >> 5;
-}
-
-void IRenderer::GetTPageCoords(u16 tPage, u16 *x, u16 *y)
-{
-    *x = (tPage & 0x000F) << 6;
-    *y = (tPage & 0x0010) << 4;
-}
-
 IRenderer::Quad2D IRenderer::LineToQuad(const Point2D& p1, const Point2D& p2)
 {
     constexpr f32 halfPi = 1.57f;

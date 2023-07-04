@@ -70,7 +70,7 @@ public:
         return static_cast<eParamiteMotions>(mCurrentMotion);
     }
 
-    virtual void VRender(PrimHeader** ppOt) override;
+    virtual void VRender(BasePrimitive** ppOt) override;
     virtual bool VTakeDamage(BaseGameObject* pFrom) override;
     virtual void VOnTlvCollision(relive::Path_TLV* pTlv) override;
     virtual void VScreenChanged() override;

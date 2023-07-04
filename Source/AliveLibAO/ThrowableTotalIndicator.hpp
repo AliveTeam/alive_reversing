@@ -22,7 +22,7 @@ public:
 
     virtual void VScreenChanged() override;
     virtual void VUpdate() override;
-    virtual void VRender(PrimHeader** ppOt) override;
+    virtual void VRender(BasePrimitive** ppOt) override;
 
 private:
     FP mStartXPos = {};
@@ -37,7 +37,6 @@ private:
     s16 mNumToShow = 0;
 
     Line_G2 mLines[2][8] = {};
-    Prim_SetTPage mTPage[2] = {};
     ThrowableTotalIndicatorState mState = ThrowableTotalIndicatorState::eCreated;
     s16 mFade = 0;
 };

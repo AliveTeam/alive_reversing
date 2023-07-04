@@ -15,7 +15,7 @@ public:
     ~BrewMachine();
     
     virtual void VUpdate() override;
-    virtual void VRender(PrimHeader** ppOt) override;
+    virtual void VRender(BasePrimitive** ppOt) override;
     s16 GetRemainingBrewCount() const { return mRemainingBrewCount; }
     void DecreaseRemainingBrewCount() { mRemainingBrewCount--; }
 

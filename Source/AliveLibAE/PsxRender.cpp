@@ -6,195 +6,91 @@
 #include "../relive_lib/Renderer/IRenderer.hpp"
 #include "../relive_lib/FatalError.hpp"
 
-static void DrawOTag_HandlePrimRendering(IRenderer& renderer, PrimAny& any)
+static void DrawOTag_HandlePrimRendering(IRenderer& renderer, const BasePrimitive& any)
 {
-    switch (PSX_Prim_Code_Without_Blending_Or_SemiTransparency(any.mPrimHeader->rgb_code.code_or_pad))
+    switch (any.mType)
     {
-        case PrimTypeCodes::eLineG2:
-            renderer.Draw(*any.mLineG2);
+        case PrimitivesTypes::eLineG2:
+            renderer.Draw(static_cast<const Line_G2&>(any));
             break;
 
-        case PrimTypeCodes::eLineG4:
-            renderer.Draw(*any.mLineG4);
+        case PrimitivesTypes::eLineG4:
+            renderer.Draw(static_cast<const Line_G4&>(any));
             break;
 
-        case PrimTypeCodes::ePolyG3:
-            renderer.Draw(*any.mPolyG3);
+        case PrimitivesTypes::ePolyG3:
+            renderer.Draw(static_cast<const Poly_G3&>(any));
             break;
 
-        case PrimTypeCodes::ePolyFT4:
-            renderer.Draw(*any.mPolyFT4);
+        case PrimitivesTypes::ePolyFT4:
+            renderer.Draw(static_cast<const Poly_FT4&>(any));
             break;
 
-        case PrimTypeCodes::ePolyG4:
-            renderer.Draw(*any.mPolyG4);
+        case PrimitivesTypes::ePolyG4:
+            renderer.Draw(static_cast<const Poly_G4&>(any));
             break;
 
         default:
-            ALIVE_FATAL("Unknown prim type %d", static_cast<s32>(any.mPrimHeader->rgb_code.code_or_pad));
+            ALIVE_FATAL("Unknown prim type %d", static_cast<s32>(any.mType));
             break;
     }
 }
 
-
-struct OTInformation final
-{
-    PrimHeader** mOt;
-    s32 mOtSize;
-
-    // A "root" pointer is one of the root elements of the OT linked list. These are not pointers to actual PrimHeader
-    // objects but actually only a pointer to another PrimHeader. Therefore dereferencing any field other than "tag" which
-    // is at offset 0 and the pointer to the next item or the terminator value is UB as it will point to random and invalid data.
-    // These root pointers can ONLY be used to get the pointer to the next item in the OT.
-    bool IsRootPointer(PrimHeader* pItem) const
-    {
-        const u8* ptr = reinterpret_cast<const u8*>(pItem);
-        const u8* pStart = reinterpret_cast<const u8*>(mOt);
-        const u8* pEnd = pStart + (mOtSize * sizeof(void*));
-        return ptr >= pStart && ptr <= pEnd;
-    }
-};
-
-static OTInformation gSavedOtInfo[32] = {};
-
-static void Push_OTInformation(PrimHeader** otBuffer, s32 otBufferSize)
-{
-    for (s32 i = 0; i < ALIVE_COUNTOF(gSavedOtInfo); i++)
-    {
-        if (gSavedOtInfo[i].mOt == otBuffer)
-        {
-            // LOG_WARNING("OT record pushed more than once, update existing");
-            gSavedOtInfo[i].mOt = otBuffer;
-            gSavedOtInfo[i].mOtSize = otBufferSize;
-            return;
-        }
-    }
-
-    for (s32 i = 0; i < ALIVE_COUNTOF(gSavedOtInfo); i++)
-    {
-        if (gSavedOtInfo[i].mOt == nullptr)
-        {
-            gSavedOtInfo[i].mOt = otBuffer;
-            gSavedOtInfo[i].mOtSize = otBufferSize;
-            return;
-        }
-    }
-}
-
-static bool Pop_OTInformation(PrimHeader** otBuffer, OTInformation& info)
-{
-    for (s32 i = 0; i < ALIVE_COUNTOF(gSavedOtInfo); i++)
-    {
-        if (gSavedOtInfo[i].mOt == otBuffer)
-        {
-            info = gSavedOtInfo[i];
-            gSavedOtInfo[i] = {};
-            return true;
-        }
-    }
-    return false;
-}
 
 s32 gScreenXOffset = 0;
 s32 gScreenYOffset = 0;
 
-void PSX_ClearOTag(PrimHeader** otBuffer, s32 otBufferSize)
-{
-    // PSX_OrderingTable_SaveRecord_4F62C0(otBuffer, otBufferSize);
-    Push_OTInformation(otBuffer, otBufferSize);
-
-    // Set each element to point to the next
-    s32 i = 0;
-    for (i = 0; i < otBufferSize - 1; i++)
-    {
-        // If you think this seems strange you are correct. See OTInformation::IsRootPointer
-        // for why.
-        otBuffer[i] = reinterpret_cast<PrimHeader*>(&otBuffer[i + 1]);
-    }
-
-    // Terminate the list
-    otBuffer[i] = reinterpret_cast<PrimHeader*>(static_cast<size_t>(0xFFFFFFFF));
-}
-
-static bool DrawOTagImpl(PrimHeader** ppOt)
+static void DrawOTagImpl(BasePrimitive** ppOt, u32 len)
 {
     gScreenXOffset = 0;
     gScreenYOffset = 0;
-
-    OTInformation otInfo = {};
-    if (!Pop_OTInformation(ppOt, otInfo))
-    {
-        ALIVE_FATAL("Failed to look up OT info record");
-    }
 
     IRenderer& renderer = *IRenderer::GetRenderer();
 
     renderer.StartFrame();
 
-    PrimHeader* pOtItem = ppOt[0];
-    while (pOtItem)
+    for (u32 i = 0; i < len; i++)
     {
-        if (pOtItem == reinterpret_cast<PrimHeader*>(static_cast<size_t>(0xFFFFFFFF)))
+        BasePrimitive* pOtItem = ppOt[i];
+        while (pOtItem)
         {
-            break;
-        }
+            SsSeqCalledTbyT();
 
-        SsSeqCalledTbyT();
-
-        PrimAny any;
-        any.mVoid = pOtItem;
-
-        if (!otInfo.IsRootPointer(pOtItem))
-        {
-            const s32 itemToDrawType = any.mPrimHeader->rgb_code.code_or_pad;
-            switch (itemToDrawType)
+            switch (pOtItem->mType)
             {
-                case PrimTypeCodes::eSetTPage:
-                    renderer.SetTPage(static_cast<s16>(any.mSetTPage->field_C_tpage));
+                case PrimitivesTypes::eScissorRect:
+                    renderer.SetClip(*static_cast<const Prim_ScissorRect*>(pOtItem));
                     break;
 
-                case PrimTypeCodes::ePrimClipper:
-                    renderer.SetClip(*any.mPrimClipper);
+                // Always the lowest command in the list (due to where its added to the OT)
+                case PrimitivesTypes::eScreenOffset:
+                {
+                    auto pScreenOffSet = static_cast<const Prim_ScreenOffset*>(pOtItem);
+                    renderer.SetScreenOffset(*pScreenOffSet);
+                    gScreenXOffset = pScreenOffSet->field_C_xoff * 2;
+                    gScreenYOffset = pScreenOffSet->field_E_yoff;
                     break;
+                }
 
-                // Always the lowest command in the list
-                case PrimTypeCodes::eScreenOffset:
-                    // NOTE: Conditional on dword_55EF94 removed as it is constant 1
-                    renderer.SetScreenOffset(*any.mScreenOffset);
-                    gScreenXOffset = any.mScreenOffset->field_C_xoff * 2;
-                    gScreenYOffset = any.mScreenOffset->field_E_yoff;
-                    break;
-
-                case PrimTypeCodes::eLaughingGas:
-                    renderer.Draw(*any.mGas);
+                case PrimitivesTypes::eLaughingGas:
+                    renderer.Draw(*static_cast<const Prim_GasEffect*>(pOtItem));
                     break;
 
                 default:
-                    DrawOTag_HandlePrimRendering(renderer, any);
+                    DrawOTag_HandlePrimRendering(renderer, *pOtItem);
                     break;
             }
-        }
-        else
-        {
-            //LOG_INFO("Skip root");
-        }
 
-        // To the next item
-        pOtItem = any.mPrimHeader->tag; // offset 0
+            // To the next item
+            pOtItem = pOtItem->mNext;
+        }
     }
-
-    return false;
 }
 
-void PSX_DrawOTag(PrimHeader** ppOt)
+void PSX_DrawOTag(BasePrimitive** ppOt, u32 len)
 {
-    if (gTurnOffRendering)
+    if (!gTurnOffRendering)
     {
-        return;
-    }
-
-    if (DrawOTagImpl(ppOt))
-    {
-        return;
+        DrawOTagImpl(ppOt, len);
     }
 }

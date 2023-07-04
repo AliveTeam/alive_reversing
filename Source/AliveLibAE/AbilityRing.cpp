@@ -217,14 +217,13 @@ AbilityRing::AbilityRing(FP xpos, FP ypos, RingTypes ringType, FP scale)
             for (s32 x = 0; x < 64; x++)
             {
                 Poly_G4* pPoly = &mRingPolyBuffer[x].mPolys[y];
-                PolyG4_Init(pPoly);
-                SetRGB0(pPoly, mRingRed & 255, mRingGreen & 255, mRingBlue & 255);
-                SetRGB1(pPoly, mRingRed & 255, mRingGreen & 255, mRingBlue & 255);
-                SetRGB2(pPoly, mRingRed & 255, mRingGreen & 255, mRingBlue & 255);
-                SetRGB3(pPoly, mRingRed & 255, mRingGreen & 255, mRingBlue & 255);
-                Poly_Set_SemiTrans(&pPoly->mBase.header, mRingSemiTrans);
+                pPoly->SetRGB0(mRingRed & 255, mRingGreen & 255, mRingBlue & 255);
+                pPoly->SetRGB1(mRingRed & 255, mRingGreen & 255, mRingBlue & 255);
+                pPoly->SetRGB2(mRingRed & 255, mRingGreen & 255, mRingBlue & 255);
+                pPoly->SetRGB3(mRingRed & 255, mRingGreen & 255, mRingBlue & 255);
+                pPoly->SetSemiTransparent(mRingSemiTrans);
+                pPoly->SetBlendMode(relive::TBlendModes::eBlend_1);
             }
-            Init_SetTPage(&mRingPrimSetTPage[y], PSX_getTPage(TPageAbr::eBlend_1));
         }
     }
     else
@@ -239,7 +238,7 @@ AbilityRing::~AbilityRing()
     gObjListDrawables->Remove_Item(this);
 }
 
-void AbilityRing::VRender(PrimHeader** ppOt)
+void AbilityRing::VRender(BasePrimitive** ppOt)
 {
     if (gMap.Is_Point_In_Current_Camera(
             mRingLevel,
@@ -301,12 +300,12 @@ void AbilityRing::VRender(PrimHeader** ppOt)
             else
             {
                 Poly_G4* pPoly = &mRingPolyBuffer[i].mPolys[gPsxDisplay.mBufferIndex];
-                SetXY0(pPoly, x1, y1);
-                SetXY1(pPoly, x2, y2);
-                SetXY2(pPoly, x3, y3);
-                SetXY3(pPoly, x4, y4);
+                pPoly->SetXY0(x1, y1);
+                pPoly->SetXY1(x2, y2);
+                pPoly->SetXY2(x3, y3);
+                pPoly->SetXY3(x4, y4);
 
-                OrderingTable_Add(OtLayer(ppOt, mRingLayer), &pPoly->mBase.header);
+                OrderingTable_Add(OtLayer(ppOt, mRingLayer), pPoly);
 
 
                 mRingCollideRects[i] = rect;
@@ -321,7 +320,6 @@ void AbilityRing::VRender(PrimHeader** ppOt)
 
             ang += angIncrement;
         }
-        OrderingTable_Add(OtLayer(ppOt, mRingLayer), &mRingPrimSetTPage[gPsxDisplay.mBufferIndex].mBase);
     }
 }
 
@@ -374,10 +372,10 @@ void AbilityRing::VUpdate()
                 {
                     for (s32 j = 0; j < 64; j++)
                     {
-                        SetRGB0(&mRingPolyBuffer[j].mPolys[i], mRingRed & 255, mRingGreen & 255, mRingBlue & 255);
-                        SetRGB1(&mRingPolyBuffer[j].mPolys[i], mRingRed & 255, mRingGreen & 255, mRingBlue & 255);
-                        SetRGB2(&mRingPolyBuffer[j].mPolys[i], mRingRed & 255, mRingGreen & 255, mRingBlue & 255);
-                        SetRGB3(&mRingPolyBuffer[j].mPolys[i], mRingRed & 255, mRingGreen & 255, mRingBlue & 255);
+                        mRingPolyBuffer[j].mPolys[i].SetRGB0(mRingRed & 255, mRingGreen & 255, mRingBlue & 255);
+                        mRingPolyBuffer[j].mPolys[i].SetRGB1(mRingRed & 255, mRingGreen & 255, mRingBlue & 255);
+                        mRingPolyBuffer[j].mPolys[i].SetRGB2(mRingRed & 255, mRingGreen & 255, mRingBlue & 255);
+                        mRingPolyBuffer[j].mPolys[i].SetRGB3(mRingRed & 255, mRingGreen & 255, mRingBlue & 255);
                     }
                 }
             }

@@ -240,8 +240,7 @@ s8 DDV_Play_Impl(const char_type* pMovieName)
     fmvFrame.mData.mPixels->resize(fmvFrame.mData.mWidth * fmvFrame.mData.mHeight * sizeof(RGBA32));
 
     Poly_FT4 polyFT4 = {};
-    PolyFT4_Init(&polyFT4);
-    SetXYWH(&polyFT4, 0, 0, 640, 240);
+    polyFT4.SetXYWH(0, 0, 640, 240);
     polyFT4.mCam = &fmvFrame;
 
     if (DDV_StartAudio() && Masher_ReadNextFrame(sMasherInstance) && Masher_ReadNextFrame(sMasherInstance))

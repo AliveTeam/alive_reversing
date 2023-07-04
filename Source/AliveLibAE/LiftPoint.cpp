@@ -152,7 +152,7 @@ LiftPoint::LiftPoint(relive::Path_LiftPoint* pTlv, const Guid& tlvId)
         //mLiftWheelAnim.mBlue = static_cast<u8>(mRGB.r);
 
         mLiftWheelAnim.SetRGB(mRGB.r, mRGB.g, mRGB.b);
-        mLiftWheelAnim.SetRenderMode(TPageAbr::eBlend_0);
+        mLiftWheelAnim.SetBlendMode(relive::TBlendModes::eBlend_0);
 
         mVelX = FP_FromInteger(0);
         mVelY = FP_FromInteger(0);
@@ -597,7 +597,7 @@ void LiftPoint::VUpdate()
     }
 }
 
-void LiftPoint::VRender(PrimHeader** ppOt)
+void LiftPoint::VRender(BasePrimitive** ppOt)
 {
     // Renders the pulley, lift platform and lift platform wheel
 
@@ -858,7 +858,7 @@ void LiftPoint::CreatePulleyIfExists()
 
     mPulleyAnim.SetRGB(mRGB.r, mRGB.g, mRGB.b);
 
-    mPulleyAnim.SetRenderMode(TPageAbr::eBlend_0);
+    mPulleyAnim.SetBlendMode(relive::TBlendModes::eBlend_0);
 
     // Set the top of the ropes to be the bottom of the pulley
     Rope* pRope1 = static_cast<Rope*>(sObjectIds.Find(mRopeId2, ReliveTypes::eRope));

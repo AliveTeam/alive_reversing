@@ -22,7 +22,7 @@ public:
     ~ParticleBurst();
 
     virtual void VUpdate() override;
-    virtual void VRender(PrimHeader** ppOt) override;
+    virtual void VRender(BasePrimitive** ppOt) override;
 
 private:
     FP* Random_Speed(FP* random);

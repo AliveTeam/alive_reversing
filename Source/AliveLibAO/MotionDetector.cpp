@@ -30,7 +30,7 @@ MotionDetector::MotionDetector(relive::Path_MotionDetector* pTlv, const Guid& tl
     Animation_Init(GetAnimRes(AnimId::MotionDetector_Flare));
 
     GetAnimation().SetSwapXY(true);
-    GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
+    GetAnimation().SetBlendMode(relive::TBlendModes::eBlend_1);
     GetAnimation().SetRenderLayer(Layer::eLayer_Foreground_36);
     mYOffset = 0;
     mRGB.SetRGB(64, 0, 0);
@@ -69,7 +69,7 @@ MotionDetector::MotionDetector(relive::Path_MotionDetector* pTlv, const Guid& tl
             
             pMotionDetectors->Animation_Init(pMotionDetectors->GetAnimRes(AnimId::MotionDetector_Laser));
             
-            pMotionDetectors->GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
+            pMotionDetectors->GetAnimation().SetBlendMode(relive::TBlendModes::eBlend_1);
             pMotionDetectors->GetAnimation().SetRenderLayer(Layer::eLayer_Foreground_36);
 
             pMotionDetectors->mXPos = mTopLeftX;
@@ -90,7 +90,7 @@ MotionDetector::MotionDetector(relive::Path_MotionDetector* pTlv, const Guid& tl
             
             pMotionDetectors->Animation_Init(pMotionDetectors->GetAnimRes(AnimId::MotionDetector_Laser));
             
-            pMotionDetectors->GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
+            pMotionDetectors->GetAnimation().SetBlendMode(relive::TBlendModes::eBlend_1);
             pMotionDetectors->GetAnimation().SetRenderLayer(Layer::eLayer_Foreground_36);
             pMotionDetectors->mXPos = mBottomRightX;
             pMotionDetectors->mYPos = mBottomRightY;
@@ -276,7 +276,7 @@ void MotionDetector::VUpdate()
     }
 }
 
-void MotionDetector::VRender(PrimHeader** ppOt)
+void MotionDetector::VRender(BasePrimitive** ppOt)
 {
     mXPos += FP_FromInteger(11);
     BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
@@ -298,23 +298,20 @@ void MotionDetector::VRender(PrimHeader** ppOt)
         const s16 x1 = static_cast<s16>(PsxToPCX(FP_GetExponent(pLaser->mXPos) - screen_left, 11));
 
         Poly_G3* pPrim = &mPrims[gPsxDisplay.mBufferIndex];
-        PolyG3_Init(pPrim);
 
-        SetXY0(pPrim, x0, y0);
-        SetXY1(pPrim, x1, y1);
-        SetXY2(pPrim, x1, y2);
+        pPrim->SetXY0(x0, y0);
+        pPrim->SetXY1(x1, y1);
+        pPrim->SetXY2(x1, y2);
 
-        SetRGB0(pPrim, 64, 0, 0);
-        SetRGB1(pPrim, 64, 0, 0);
-        SetRGB2(pPrim, 64, 0, 0);
+        pPrim->SetRGB0(64, 0, 0);
+        pPrim->SetRGB1(64, 0, 0);
+        pPrim->SetRGB2(64, 0, 0);
 
         // Add triangle
-        Poly_Set_SemiTrans(&pPrim->mBase.header, true);
-        OrderingTable_Add(OtLayer(ppOt, GetAnimation().GetRenderLayer()), &pPrim->mBase.header);
-
-        // Add tpage
-        Init_SetTPage(&mTPage[gPsxDisplay.mBufferIndex], PSX_getTPage(mObjectInLaser != 0 ? TPageAbr::eBlend_1 : TPageAbr::eBlend_3)); // When detected transparency is off, gives the "solid red" triangle
-        OrderingTable_Add(OtLayer(ppOt, GetAnimation().GetRenderLayer()), &mTPage[gPsxDisplay.mBufferIndex].mBase);
+        pPrim->SetSemiTransparent(true);
+        // When detected transparency is off, gives the "solid red" triangle
+        pPrim->SetBlendMode(mObjectInLaser != 0 ? relive::TBlendModes::eBlend_1 : relive::TBlendModes::eBlend_3);
+        OrderingTable_Add(OtLayer(ppOt, GetAnimation().GetRenderLayer()), pPrim);
     }
 }
 

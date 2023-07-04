@@ -1209,7 +1209,7 @@ void Fleech::VUpdate()
     }
 }
 
-void Fleech::VRender(PrimHeader** ot)
+void Fleech::VRender(BasePrimitive** ot)
 {
     if (UpdateDelay() == 0)
     {
@@ -1218,7 +1218,7 @@ void Fleech::VRender(PrimHeader** ot)
     }
 }
 
-void Fleech::RenderEx(PrimHeader** ot)
+void Fleech::RenderEx(BasePrimitive** ot)
 {
     if (mRenderTongue)
     {
@@ -1294,45 +1294,39 @@ void Fleech::RenderEx(PrimHeader** ot)
             const s32 tonguePolyX2 = PsxToPCX(FP_GetExponent(tongueBlock_X[i + 1]));
             const s32 tonguePolyY2 = FP_GetExponent(tongueBlock_Y[i + 1]);
 
-            SetXY0(
-                currTonguePoly1,
+            currTonguePoly1->SetXY0(
                 static_cast<s16>(tonguePolyX1),
                 static_cast<s16>(tonguePolyY1 - 1));
-            SetXY1(
-                currTonguePoly1,
+            currTonguePoly1->SetXY1(
                 static_cast<s16>(tonguePolyX2),
                 static_cast<s16>(tonguePolyY2 - 1));
-            SetXY2(
-                currTonguePoly1,
+            currTonguePoly1->SetXY2(
                 static_cast<s16>(tonguePolyX1),
                 static_cast<s16>(tonguePolyY1 + 1));
-            SetXY3(
-                currTonguePoly1,
+            currTonguePoly1->SetXY3(
                 static_cast<s16>(tonguePolyX2),
                 static_cast<s16>(tonguePolyY2 + 1));
 
-            SetRGB0(
-                currTonguePoly1,
+            currTonguePoly1->SetRGB0(
                 static_cast<u8>(r2),
                 static_cast<u8>(g2),
                 static_cast<u8>(b2));
-            SetRGB1(
-                currTonguePoly1,
+            currTonguePoly1->SetRGB1(
                 static_cast<u8>(r),
                 static_cast<u8>(g),
                 static_cast<u8>(b));
-            SetRGB2(
-                currTonguePoly1,
+            currTonguePoly1->SetRGB2(
                 static_cast<u8>(r2),
                 static_cast<u8>(g2),
                 static_cast<u8>(b2));
-            SetRGB3(
-                currTonguePoly1,
+            currTonguePoly1->SetRGB3(
                 static_cast<u8>(r),
                 static_cast<u8>(g),
                 static_cast<u8>(b));
+            
+            currTonguePoly1->SetBlendMode(relive::TBlendModes::eBlend_0);
 
-            OrderingTable_Add(OtLayer(ot, GetAnimation().GetRenderLayer()), &currTonguePoly1->mBase.header);
+            OrderingTable_Add(OtLayer(ot, GetAnimation().GetRenderLayer()), currTonguePoly1);
 
             Poly_G4* currTonguePoly2 = &mTonguePolys2[i][gPsxDisplay.mBufferIndex];
 
@@ -1342,49 +1336,41 @@ void Fleech::RenderEx(PrimHeader** ot)
                 minus_one_one_switch = 1;
             }
 
-            SetXY0(
-                currTonguePoly2,
+            currTonguePoly2->SetXY0(
                 static_cast<s16>(tonguePolyX1 - minus_one_one_switch),
                 static_cast<s16>(tonguePolyY1 - 1));
-            SetXY1(
-                currTonguePoly2,
+            currTonguePoly2->SetXY1(
                 static_cast<s16>(tonguePolyX2 - minus_one_one_switch),
                 static_cast<s16>(tonguePolyY2 - 1));
-            SetXY2(
-                currTonguePoly2,
+            currTonguePoly2->SetXY2(
                 static_cast<s16>(tonguePolyX1 + minus_one_one_switch),
                 static_cast<s16>(tonguePolyY1 + 1));
-            SetXY3(
-                currTonguePoly2,
+            currTonguePoly2->SetXY3(
                 static_cast<s16>(tonguePolyX2 + minus_one_one_switch),
                 static_cast<s16>(tonguePolyY2 + 1));
 
-            SetRGB0(
-                currTonguePoly2,
+            currTonguePoly2->SetRGB0(
                 static_cast<u8>(r2),
                 static_cast<u8>(g2),
                 static_cast<u8>(b2));
-            SetRGB1(
-                currTonguePoly2,
+            currTonguePoly2->SetRGB1(
                 static_cast<u8>(r),
                 static_cast<u8>(g),
                 static_cast<u8>(b));
-            SetRGB2(
-                currTonguePoly2,
+            currTonguePoly2->SetRGB2(
                 static_cast<u8>(r2),
                 static_cast<u8>(g2),
                 static_cast<u8>(b2));
-            SetRGB3(
-                currTonguePoly2,
+            currTonguePoly2->SetRGB3(
                 static_cast<u8>(r),
                 static_cast<u8>(g),
                 static_cast<u8>(b));
 
-            OrderingTable_Add(OtLayer(ot, GetAnimation().GetRenderLayer()), &currTonguePoly2->mBase.header);
+            currTonguePoly2->SetBlendMode(relive::TBlendModes::eBlend_0);
+
+            OrderingTable_Add(OtLayer(ot, GetAnimation().GetRenderLayer()), currTonguePoly2);
         }
-        const s32 tPage = PSX_getTPage(TPageAbr::eBlend_0);
-        Init_SetTPage(&field_40C[gPsxDisplay.mBufferIndex], tPage);
-        OrderingTable_Add(OtLayer(ot, GetAnimation().GetRenderLayer()), &field_40C[gPsxDisplay.mBufferIndex].mBase);
+
         return;
     }
 }
@@ -1590,19 +1576,17 @@ void Fleech::InitTonguePolys()
     {
         for (s32 j = 0; j < 2; j++)
         {
-            PolyG4_Init(&mTonguePolys1[i][j]);
-            SetRGB0(&mTonguePolys1[i][j], 150, 100, 100);
-            SetRGB1(&mTonguePolys1[i][j], 150, 100, 100);
-            SetRGB2(&mTonguePolys1[i][j], 150, 100, 100);
-            SetRGB3(&mTonguePolys1[i][j], 150, 100, 100);
-            Poly_Set_SemiTrans(&mTonguePolys1[i][j].mBase.header, false);
+            mTonguePolys1[i][j].SetRGB0(150, 100, 100);
+            mTonguePolys1[i][j].SetRGB1(150, 100, 100);
+            mTonguePolys1[i][j].SetRGB2(150, 100, 100);
+            mTonguePolys1[i][j].SetRGB3(150, 100, 100);
+            mTonguePolys1[i][j].SetSemiTransparent(false);
 
-            PolyG4_Init(&mTonguePolys2[i][j]);
-            SetRGB0(&mTonguePolys2[i][j], 150, 100, 100);
-            SetRGB1(&mTonguePolys2[i][j], 150, 100, 100);
-            SetRGB2(&mTonguePolys2[i][j], 150, 100, 100);
-            SetRGB3(&mTonguePolys2[i][j], 150, 100, 100);
-            Poly_Set_SemiTrans(&mTonguePolys2[i][j].mBase.header, true);
+            mTonguePolys2[i][j].SetRGB0(150, 100, 100);
+            mTonguePolys2[i][j].SetRGB1(150, 100, 100);
+            mTonguePolys2[i][j].SetRGB2(150, 100, 100);
+            mTonguePolys2[i][j].SetRGB3(150, 100, 100);
+            mTonguePolys2[i][j].SetSemiTransparent(true);
         }
     }
 }

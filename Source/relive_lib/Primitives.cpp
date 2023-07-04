@@ -1,54 +1,17 @@
 #include "stdafx.h"
 #include "Primitives.hpp"
 #include "FatalError.hpp"
+#include "Animation.hpp"
 
-void Init_SetTPage(Prim_SetTPage* pPrim, s32 tpage)
-{
-    SetUnknown(&pPrim->mBase);
-    SetCode(&pPrim->mBase, PrimTypeCodes::eSetTPage);
-    pPrim->field_C_tpage = tpage;
-}
-
-void Init_PrimClipper(Prim_PrimClipper* pPrim, const PSX_RECT* pClipRect)
-{
-    SetUnknown(&pPrim->mBase);
-    SetCode(&pPrim->mBase, PrimTypeCodes::ePrimClipper);
-    pPrim->field_C_x = pClipRect->x;
-    pPrim->field_E_y = pClipRect->y;
-    pPrim->mBase.header.mRect.w = pClipRect->w;
-    pPrim->mBase.header.mRect.h = pClipRect->h;
-}
-
-void InitType_ScreenOffset(Prim_ScreenOffset* pPrim, const PSX_Pos16* pOffset)
-{
-    SetUnknown(&pPrim->mBase);
-    SetCode(&pPrim->mBase, PrimTypeCodes::eScreenOffset);
-    pPrim->field_C_xoff = pOffset->x;
-    pPrim->field_E_yoff = pOffset->y;
-}
-
-void PolyG3_Init(Poly_G3* pPrim)
-{
-    SetNumLongs(&pPrim->mBase.header, 6);
-    SetUnknown(&pPrim->mBase.header);
-    SetCode(&pPrim->mBase.header, PrimTypeCodes::ePolyG3);
-}
-
-void PolyG4_Init(Poly_G4* pPrim)
-{
-    SetNumLongs(&pPrim->mBase.header, 8);
-    SetUnknown(&pPrim->mBase.header);
-    SetCode(&pPrim->mBase.header, PrimTypeCodes::ePolyG4);
-}
 
 void Poly_FT4_Get_Rect(PSX_RECT* pRect, const Poly_FT4* pPoly)
 {
-    if (PSX_Prim_Code_Without_Blending_Or_SemiTransparency(pPoly->mBase.header.rgb_code.code_or_pad) == PrimTypeCodes::ePolyFT4)
+    if (pPoly->mType == PrimitivesTypes::ePolyFT4)
     {
-        pRect->x = pPoly->mBase.vert.x;
-        pRect->y = pPoly->mBase.vert.y;
-        pRect->w = pPoly->mVerts[2].mVert.x;
-        pRect->h = pPoly->mVerts[2].mVert.y;
+        pRect->x = pPoly->X0();
+        pRect->y = pPoly->Y0();
+        pRect->w = pPoly->X3();
+        pRect->h = pPoly->Y3();
     }
     else
     {
@@ -59,156 +22,20 @@ void Poly_FT4_Get_Rect(PSX_RECT* pRect, const Poly_FT4* pPoly)
     }
 }
 
-void Poly_Set_Blending(PrimHeader* pPrim, s32 bFlag1)
+void OrderingTable_Add(BasePrimitive** ppOt, BasePrimitive* pItem)
 {
-    SetUnknown(pPrim);
-    if (bFlag1)
-    {
-        pPrim->rgb_code.code_or_pad |= 1;
-    }
-    else
-    {
-        pPrim->rgb_code.code_or_pad &= ~1;
-    }
-}
-
-void Poly_Set_SemiTrans(PrimHeader* pPrim, s32 bSemiTrans)
-{
-    SetUnknown(pPrim);
-    if (bSemiTrans)
-    {
-        pPrim->rgb_code.code_or_pad |= 2;
-    }
-    else
-    {
-        pPrim->rgb_code.code_or_pad &= ~2;
-    }
-}
-
-#include "Animation.hpp"
-
-void OrderingTable_Add(PrimHeader** ppOt, PrimHeader* pItem)
-{
-    // Debugging code, rendering type 2 will currently crash.
-    // I can't see where in the code type 2 is ever used but somehow it must be
-    // given it crashed in standalone rendering type 2. Type may also be 0 with blending enabled.
-    if (pItem->rgb_code.code_or_pad == 2 || pItem->rgb_code.code_or_pad == 0)
-    {
-        abort();
-    }
-
-    if ((pItem->rgb_code.code_or_pad & ~2) == PrimTypeCodes::ePolyFT4)
-    {
-        auto pPoly = reinterpret_cast<Poly_FT4*>(pItem);
-        if (pPoly->mAnim)
-        {
-            if (!pPoly->mAnim->mAnimRes.mCurPal)
-            {
-                ALIVE_FATAL("Cur pal not set on poly_ft4 prim");
-            }
-        }
-    }
-
     // Get current OT ptr
-    PrimHeader* pOt = *ppOt;
+    BasePrimitive* pOt = *ppOt;
 
     // OT points to the new item
     *ppOt = pItem;
 
     // Item points back to whatever used to be in the OT, either a pointer to the next OT element
     // or the previously added prim.
-    pItem->tag = pOt;
+    pItem->mNext = pOt;
 }
 
-PrimHeader** OtLayer(PrimHeader** ppOt, Layer layer)
+BasePrimitive** OtLayer(BasePrimitive** ppOt, Layer layer)
 {
     return &ppOt[static_cast<u32>(layer)];
-}
-
-s32 PSX_getTPage(TPageAbr abr, s16 x, s16 y)
-{
-    return (((static_cast<s8>(abr)) & 0x3) << 5) |
-           ((y & 0x0100) >> 4) |
-           ((x & 0x03C0) >> 6);
-}
-
-void SetCode(PrimHeader* pPrim, u8 code)
-{
-    pPrim->rgb_code.code_or_pad = code;
-#if !_WIN32 || _WIN64
-    pPrim->hackPtr = nullptr;
-#endif
-}
-
-void SetUnknown(PrimHeader* pPrim)
-{
-    pPrim->header.mNormal.field_5_unknown = 0; // byte_BD146C; // Note not using the AE or AO value but shouldn't matter as its never read
-}
-
-void SetNumLongs(PrimHeader* pPrim, s8 numLongs)
-{
-    pPrim->header.mNormal.field_4_num_longs = numLongs;
-}
-
-void PolyFT4_Init(Poly_FT4* pPrim)
-{
-    SetNumLongs(&pPrim->mBase.header, 9);
-    SetUnknown(&pPrim->mBase.header);
-    SetCode(&pPrim->mBase.header, PrimTypeCodes::ePolyFT4);
-    pPrim->mAnim = nullptr;
-    pPrim->mCam = nullptr;
-    pPrim->mFont = nullptr;
-    pPrim->mFg1 = nullptr;
-    pPrim->mFlipX = false;
-    pPrim->mFlipY = false;
-}
-
-// Note: Inlined everywhere in real game
-void LineG2_Init(Line_G2* pPrim)
-{
-    SetNumLongs(&pPrim->mBase.header, 4);
-    SetUnknown(&pPrim->mBase.header);
-    SetCode(&pPrim->mBase.header, PrimTypeCodes::eLineG2);
-}
-
-// Note: Inlined everywhere in real game
-void LineG4_Init(Line_G4* pPrim)
-{
-    SetNumLongs(&pPrim->mBase.header, 9);
-    SetUnknown(&pPrim->mBase.header);
-    SetCode(&pPrim->mBase.header, PrimTypeCodes::eLineG4);
-    pPrim->field_28_pad = 0x55555555;
-}
-
-s32 PSX_Prim_Code_Without_Blending_Or_SemiTransparency(s32 code)
-{
-    // Last 2 bits are for blending and semi transparency enable
-    return code & 0xFC;
-}
-
-
-void SetPrimExtraPointerHack(Poly_FT4* pPoly, const void* ptr)
-{
-#if _WIN32 && !_WIN64
-    // Store the pointer to the bit field data - this gets used by the lowest level software rendering func
-    // TODO: OG game hack
-    // TODO: 64bit fail
-    u32 asPtr = *((u32*)&ptr);
-
-    s32 ptr_first_half = (s32)asPtr >> 16;
-    s16 ptr_second_half = (u16)(s32)(asPtr);
-    pPoly->mVerts[1].mUv.tpage_clut_pad = ptr_second_half;
-    pPoly->mVerts[2].mUv.tpage_clut_pad = static_cast<u16>(ptr_first_half);
-#else
-    pPoly->mBase.header.hackPtr = ptr;
-#endif
-}
-
-const void* GetPrimExtraPointerHack(Poly_FT4* pPoly)
-{
-#if _WIN32 && !_WIN64
-    return reinterpret_cast<void*>(pPoly->mVerts[1].mUv.tpage_clut_pad + (pPoly->mVerts[2].mUv.tpage_clut_pad << 16));
-#else
-    return pPoly->mBase.header.hackPtr;
-#endif
 }

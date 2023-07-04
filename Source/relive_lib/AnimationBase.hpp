@@ -16,7 +16,7 @@ public:
 
     virtual void VDecode() = 0;
 
-    virtual void VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width, s32 height) = 0;
+    virtual void VRender(s32 xpos, s32 ypos, BasePrimitive** ppOt, s16 width, s32 height) = 0;
 
     virtual void VCleanUp() = 0;
 
@@ -49,8 +49,8 @@ public:
     void SetRender(bool val) { mRender = val; }
     bool GetAnimate() const { return mAnimate; }
     void SetAnimate(bool val) { mAnimate = val; }
-    const TPageAbr& GetRenderMode() const { return mRenderMode; }
-    void SetRenderMode(TPageAbr val) { mRenderMode = val; }
+    const relive::TBlendModes& GetBlendMode() const { return mBlendMode; }
+    void SetBlendMode(relive::TBlendModes val) { mBlendMode = val; }
     const Layer& GetRenderLayer() const { return mRenderLayer; }
     void SetRenderLayer(Layer val) { mRenderLayer = val; }
     u32 GetFrameChangeCounter() const { return mFrameChangeCounter; }
@@ -75,7 +75,7 @@ private:
     bool mIsLastFrame = false;
     bool mLoopBackwards = false;
     bool mIgnorePosOffset = false;
-    TPageAbr mRenderMode = TPageAbr::eBlend_0;
+    relive::TBlendModes mBlendMode = relive::TBlendModes::eBlend_0;
     Layer mRenderLayer = Layer::eLayer_0;
     u32 mFrameChangeCounter = 0;
 

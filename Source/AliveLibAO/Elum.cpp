@@ -3449,7 +3449,7 @@ void Elum::VUpdate()
     }
 }
 
-void Elum::VRender(PrimHeader** ppOt)
+void Elum::VRender(BasePrimitive** ppOt)
 {
     if (mCurrentLevel == gMap.mCurrentLevel
         && mCurrentPath == gMap.mCurrentPath

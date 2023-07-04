@@ -37,7 +37,7 @@ PossessionFlicker::PossessionFlicker(IBaseAliveGameObject* pToApplyFlicker, s32 
     mOldGreen = pToApplyFlicker->mRGB.g;
     mOldBlue = pToApplyFlicker->mRGB.b;
 
-    pToApplyFlicker->GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
+    pToApplyFlicker->GetAnimation().SetBlendMode(relive::TBlendModes::eBlend_1);
 
     mTimeToFlicker = duration + sGnFrame;
 }
@@ -48,7 +48,7 @@ PossessionFlicker::~PossessionFlicker()
     BaseAnimatedWithPhysicsGameObject* pToApplyFlicker = static_cast<BaseAnimatedWithPhysicsGameObject*>(sObjectIds.Find_Impl(mTargetObjId));
     if (pToApplyFlicker)
     {
-        pToApplyFlicker->GetAnimation().SetRenderMode(TPageAbr::eBlend_0);
+        pToApplyFlicker->GetAnimation().SetBlendMode(relive::TBlendModes::eBlend_0);
         pToApplyFlicker->mRGB.SetRGB(mOldRed, mOldGreen, mOldBlue);
     }
 }

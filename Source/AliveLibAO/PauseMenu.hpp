@@ -13,7 +13,7 @@ public:
 
     virtual void VScreenChanged() override;
     virtual void VUpdate() override;
-    virtual void VRender(PrimHeader** ppOt) override;
+    virtual void VRender(BasePrimitive** ppOt) override;
 
     struct PauseEntry final
     {
@@ -25,7 +25,7 @@ public:
         u8 mBlue;
         s8 field_B;
     };
-    void DrawEntries(PrimHeader** ppOt, PauseEntry* entries, s16 compilerhack, s32 polyOffset);
+    void DrawEntries(BasePrimitive** ppOt, PauseEntry* entries, s16 compilerhack, s32 polyOffset);
 
     FontContext mFontContext;
     PalResource mPal;
@@ -38,7 +38,6 @@ public:
     s16 field_128_controller_id = 0;
     s16 field_12C = 0;
     s16 field_134 = 0;
-    Prim_SetTPage field_138_tPage[2] = {};
     Poly_G4 field_158[2] = {};
 };
 

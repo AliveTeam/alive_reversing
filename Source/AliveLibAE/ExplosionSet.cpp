@@ -103,7 +103,7 @@ static const Point2 mScreenShakeOffsets[12] = {
     {0, 0},
     {0, 0}};
 
-void ExplosionSet::VRender(PrimHeader** ppOt)
+void ExplosionSet::VRender(BasePrimitive** ppOt)
 {
     if (gExplosionSetEnabled)
     {
@@ -117,8 +117,8 @@ void ExplosionSet::VRender(PrimHeader** ppOt)
             point.y += 256;
         }
 
-        InitType_ScreenOffset(pScreenOff, &point);
-        OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_0), &pScreenOff->mBase);
+        pScreenOff->SetOffset(point.x, point.y);
+        OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_0), pScreenOff);
     }
 }
 

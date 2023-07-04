@@ -4,8 +4,8 @@
 #include "../../AliveLibAE/Path.hpp"
 #include "../Psx.hpp"
 
+// TODO: Don't use this directly in here, use AE type and convert to relive type
 enum class SwitchOp : s16;
-enum class TPageAbr : s8;
 
 struct Path_TLV
 {
@@ -389,7 +389,7 @@ struct Path_BackgroundAnimation final : public Path_TLV
 {
     u16 mAnimId;
     Choice_short mIsSemiTrans;
-    TPageAbr mSemiTransMode;
+    u8 mSemiTransMode; // Must match size on disk, TODO: need OG data enum
     // pad
     s16 field_16_sound_effect; // unused
     s16 field_18_id; // probably also unused

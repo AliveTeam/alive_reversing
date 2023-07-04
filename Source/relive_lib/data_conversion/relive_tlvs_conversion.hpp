@@ -34,6 +34,26 @@ inline void BaseConvert(relive::Path_TLV& r, const AO::Path_TLV& base, const Gui
     }
 
     // also used for AO
+    static relive::TBlendModes ToReliveBlendMode(u32 blendMode)
+    {
+        // TODO: This should be an enum but there is no sane place to put it yet
+        switch (blendMode)
+        {
+            case 0:
+                return TBlendModes::eBlend_0;
+            case 1:
+                return TBlendModes::eBlend_1;
+            case 2:
+                return TBlendModes::eBlend_2;
+            case 3:
+                return TBlendModes::eBlend_3;
+            default:
+                LOG_WARNING("remapping blend mode value %d to eBlend_0", blendMode);
+                return TBlendModes::eBlend_0;
+        }
+    }
+
+    // also used for AO
     static reliveScale From(const ::Scale_short scale)
     {
         switch (scale)
@@ -1775,7 +1795,7 @@ public:
         BaseConvert(r, tlv, tlvId);
         r.mAnimId = tlv.mAnimId;
         r.mIsSemiTrans = relive::From(tlv.mIsSemiTrans);
-        r.mSemiTransMode = tlv.mSemiTransMode;
+        r.mSemiTransMode = relive::ToReliveBlendMode(tlv.mSemiTransMode);
         r.mSoundEffect = From(tlv.mSoundEffect);
         return r;
     }
@@ -1786,7 +1806,7 @@ public:
         BaseConvert(r, tlv, tlvId);
         r.mAnimId = tlv.mAnimId;
         r.mIsSemiTrans = relive::From(tlv.mIsSemiTrans);
-        r.mSemiTransMode = tlv.mSemiTransMode;
+        r.mSemiTransMode = relive::ToReliveBlendMode(tlv.mSemiTransMode);
         r.mLayer = From(tlv.mLayer);
         return r;
     }

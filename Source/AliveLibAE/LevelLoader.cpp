@@ -33,7 +33,7 @@ void LevelLoader::VUpdate()
         {
             if (SwitchStates_Get(mSwitchId))
             {
-                auto pFade = relive_new Fade(Layer::eLayer_FadeFlash_40, FadeOptions::eFadeIn, true, 32, TPageAbr::eBlend_2);
+                auto pFade = relive_new Fade(Layer::eLayer_FadeFlash_40, FadeOptions::eFadeIn, true, 32, relive::TBlendModes::eBlend_2);
                 if (pFade)
                 {
                     mState = States::eFadingOut_1;

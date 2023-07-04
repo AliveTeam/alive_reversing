@@ -24,7 +24,6 @@ struct Data_Byte final
 Data_FP xData_5BC600 = {};
 Data_FP yData_5BD11C = {};
 
-Prim_SetTPage gGasTPages_5BC6C8[2] = {};
 GasPolys gasPolys_5BC6E8 = {};
 Data_Byte sbyte_3_5BD0E8 = {};
 Data_Byte sbyte_1_5BD1E4 = {};
@@ -42,9 +41,6 @@ DeathGas::DeathGas(Layer layer, s32 amount)
     gObjListDrawables->Push_Back(this);
     SetDrawable(true);
 
-    Init_SetTPage(&gGasTPages_5BC6C8[0], PSX_getTPage(TPageAbr::eBlend_1));
-    Init_SetTPage(&gGasTPages_5BC6C8[1], PSX_getTPage(TPageAbr::eBlend_1));
-
     for (s32 i = 0; i < 2; i++)
     {
         for (s32 j = 0; j < 2; j++)
@@ -54,8 +50,8 @@ DeathGas::DeathGas(Layer layer, s32 amount)
                 for (s32 l = 0; l < 4; l++)
                 {
                     Poly_G4* pPoly = &gasPolys_5BC6E8.polys[i][k][l][j];
-                    PolyG4_Init(pPoly);
-                    Poly_Set_SemiTrans(&pPoly->mBase.header, true);
+                    pPoly->SetSemiTransparent(true);
+                    pPoly->SetBlendMode(relive::TBlendModes::eBlend_1);
                 }
             }
         }
@@ -106,7 +102,7 @@ void DeathGas::VUpdate()
     }
 }
 
-void DeathGas::VRender(PrimHeader** ppOt)
+void DeathGas::VRender(BasePrimitive** ppOt)
 {
     for (s32 i = 0; i < 2; i++)
     {
@@ -176,18 +172,18 @@ void DeathGas::VRender(PrimHeader** ppOt)
             {
                 Poly_G4* pPoly = &gasPolys_5BC6E8.polys[i][j][k][gPsxDisplay.mBufferIndex];
 
-                SetRGB0(pPoly, 0, sbyte_3_5BD0E8.data[i][j][k], 0);
-                SetRGB1(pPoly, 0, sbyte_3_5BD0E8.data[i][j][k + 1], 0);
+                pPoly->SetRGB0(0, sbyte_3_5BD0E8.data[i][j][k], 0);
+                pPoly->SetRGB1(0, sbyte_3_5BD0E8.data[i][j][k + 1], 0);
 
                 if (j == 3)
                 {
-                    SetRGB2(pPoly, 0, 0, 0);
-                    SetRGB3(pPoly, 0, 0, 0);
+                    pPoly->SetRGB2(0, 0, 0);
+                    pPoly->SetRGB3(0, 0, 0);
                 }
                 else
                 {
-                    SetRGB2(pPoly, 0, sbyte_3_5BD0E8.data[i][j + 1][k], 0);
-                    SetRGB3(pPoly, 0, sbyte_3_5BD0E8.data[i][j + 1][k + 1], 0);
+                    pPoly->SetRGB2(0, sbyte_3_5BD0E8.data[i][j + 1][k], 0);
+                    pPoly->SetRGB3(0, sbyte_3_5BD0E8.data[i][j + 1][k + 1], 0);
                 }
 
                 const s32 heightBase = (gPsxDisplay.mHeight + 56) / 4;
@@ -225,17 +221,15 @@ void DeathGas::VRender(PrimHeader** ppOt)
 
                 const s32 yVal = (gPsxDisplay.mHeight + 28) * (255 - mTotal) / 255;
 
-                SetXY0(pPoly, static_cast<s16>(x0), static_cast<s16>(y0 - yVal));
-                SetXY1(pPoly, static_cast<s16>(x1), static_cast<s16>(y1 - yVal));
-                SetXY2(pPoly, static_cast<s16>(x2), static_cast<s16>(y2 - yVal));
-                SetXY3(pPoly, static_cast<s16>(x3), static_cast<s16>(y3 - yVal));
+                pPoly->SetXY0( static_cast<s16>(x0), static_cast<s16>(y0 - yVal));
+                pPoly->SetXY1( static_cast<s16>(x1), static_cast<s16>(y1 - yVal));
+                pPoly->SetXY2( static_cast<s16>(x2), static_cast<s16>(y2 - yVal));
+                pPoly->SetXY3( static_cast<s16>(x3), static_cast<s16>(y3 - yVal));
 
-                OrderingTable_Add(OtLayer(ppOt, mLayer), &pPoly->mBase.header);
+                OrderingTable_Add(OtLayer(ppOt, mLayer), pPoly);
             }
         }
     }
-
-    OrderingTable_Add(OtLayer(ppOt, mLayer), &gGasTPages_5BC6C8[gPsxDisplay.mBufferIndex].mBase);
 
     if (mTotal >= 255)
     {

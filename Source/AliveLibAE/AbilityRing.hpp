@@ -65,7 +65,7 @@ public:
     ~AbilityRing();
 
     virtual void VUpdate() override;
-    virtual void VRender(PrimHeader** ppOt) override;
+    virtual void VRender(BasePrimitive** ppOt) override;
     virtual void VScreenChanged() override;
     virtual void VGetSaveState(SerializedObjectData& pSaveBuffer) override;
 
@@ -78,7 +78,6 @@ private:
 
     Layer mRingLayer = Layer::eLayer_0;
     AbilityRing_PolyBuffer* mRingPolyBuffer = relive_new AbilityRing_PolyBuffer[64];
-    Prim_SetTPage mRingPrimSetTPage[2] = {};
     PSX_RECT mRingCollideRects[64] = {};
     FP mRingXPos = {};
     FP mRingYPos = {};

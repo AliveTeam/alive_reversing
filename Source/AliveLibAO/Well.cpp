@@ -32,7 +32,7 @@ void Well::VScreenChanged()
     SetDead(true);
 }
 
-void Well::VRender(PrimHeader** ppOt)
+void Well::VRender(BasePrimitive** ppOt)
 {
     mXPos += FP_FromInteger(gTweakX);
     mYPos += FP_FromInteger(gTweakY);

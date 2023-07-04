@@ -1184,7 +1184,7 @@ void VulkanRenderer::recordCommandBuffer(vk::raii::CommandBuffer& commandBuffer,
     {
         if (mBatcher[mCurrentFrame].mBatches[i].mNumTrisToDraw > 0)
         {
-            const auto pipeLineForThisBatch = mBatcher[mCurrentFrame].mBatches[i].mBlendMode == 2 ? PipelineIndex::eReverseBlending : PipelineIndex::eAddBlending;
+            const auto pipeLineForThisBatch = mBatcher[mCurrentFrame].mBatches[i].mBlendMode == relive::TBlendModes::eBlend_2 ? PipelineIndex::eReverseBlending : PipelineIndex::eAddBlending;
             if (lastPipeLine != pipeLineForThisBatch)
             {
                 commandBuffer.bindPipeline(vk::PipelineBindPoint::eGraphics, **mGraphicsPipelines[pipeLineForThisBatch]);
@@ -1675,9 +1675,8 @@ void VulkanRenderer::EndFrame()
         mBatcher[mCurrentFrame].NewBatch();
 
         Poly_FT4 fullScreenPoly;
-        PolyFT4_Init(&fullScreenPoly);
-        SetRGB0(&fullScreenPoly, 255, 255, 255);
-        SetXYWH(&fullScreenPoly, 0, 0, 640, 240);
+        fullScreenPoly.SetRGB0(255, 255, 255);
+        fullScreenPoly.SetXYWH(0, 0, 640, 240);
         // NOTE: This texture in the last batch is always used as the FB source
         std::shared_ptr<Texture> nullTex;
         mBatcher[mCurrentFrame].PushCAM(fullScreenPoly, nullTex);
@@ -1701,18 +1700,13 @@ void VulkanRenderer::EndFrame()
     DecreaseResourceLifetimes();
 }
 
-void VulkanRenderer::SetTPage(u16 tPage)
-{
-    mGlobalTPage = tPage;
-}
-
-void VulkanRenderer::SetClip(const Prim_PrimClipper& clipper)
+void VulkanRenderer::SetClip(const Prim_ScissorRect& clipper)
 {
     SDL_Rect rect;
-    rect.x = clipper.field_C_x;
-    rect.y = clipper.field_E_y;
-    rect.w = clipper.mBase.header.mRect.w;
-    rect.h = clipper.mBase.header.mRect.h;
+    rect.x = clipper.mRect.x;
+    rect.y = clipper.mRect.y;
+    rect.w = clipper.mRect.w;
+    rect.h = clipper.mRect.h;
 
     mBatcher[mCurrentFrame].NewBatch();
 
@@ -1738,17 +1732,17 @@ void VulkanRenderer::Draw(const Prim_GasEffect& gasEffect)
 
 void VulkanRenderer::Draw(const Line_G2& line)
 {
-    mBatcher[mCurrentFrame].PushLine(line, GetTPageBlendMode(mGlobalTPage));
+    mBatcher[mCurrentFrame].PushLine(line, line.mBlendMode);
 }
 
 void VulkanRenderer::Draw(const Line_G4& line)
 {
-    mBatcher[mCurrentFrame].PushLine(line, GetTPageBlendMode(mGlobalTPage));
+    mBatcher[mCurrentFrame].PushLine(line, line.mBlendMode);
 }
 
 void VulkanRenderer::Draw(const Poly_G3& poly)
 {
-    mBatcher[mCurrentFrame].PushPolyG3(poly, GetTPageBlendMode(mGlobalTPage));
+    mBatcher[mCurrentFrame].PushPolyG3(poly, poly.mBlendMode);
 }
 
 u32 VulkanRenderer::PreparePalette(AnimationPal& pCache)
@@ -1827,7 +1821,7 @@ void VulkanRenderer::Draw(const Poly_FT4& poly)
 
 void VulkanRenderer::Draw(const Poly_G4& poly)
 {
-    mBatcher[mCurrentFrame].PushPolyG4(poly, GetTPageBlendMode(mGlobalTPage));
+    mBatcher[mCurrentFrame].PushPolyG4(poly, poly.mBlendMode);
 }
 
 void VulkanRenderer::DecreaseResourceLifetimes()

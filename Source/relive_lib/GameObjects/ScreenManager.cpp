@@ -47,7 +47,7 @@ void ScreenManager::VUpdate()
     // Empty
 }
 
-void ScreenManager::VRender(PrimHeader** ppOt)
+void ScreenManager::VRender(BasePrimitive** ppOt)
 {
     if (mRenderingDisabled)
     {
@@ -56,14 +56,12 @@ void ScreenManager::VRender(PrimHeader** ppOt)
 
     if (mCamRes.mData.mPixels)
     {
-        PolyFT4_Init(&mPoly);
-
-        SetXY0(&mPoly, 0, 0);
-        SetXY1(&mPoly, 640, 0);
-        SetXY2(&mPoly, 0, 240);
-        SetXY3(&mPoly, 640, 240);
-        SetRGB0(&mPoly, 127, 127, 127);
-        OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_1), &mPoly.mBase.header);
+        mPoly.SetXY0(0, 0);
+        mPoly.SetXY1(640, 0);
+        mPoly.SetXY2( 0, 240);
+        mPoly.SetXY3( 640, 240);
+        mPoly.SetRGB0(127, 127, 127);
+        OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_1), &mPoly);
         mPoly.mCam = &mCamRes;
     }
 }

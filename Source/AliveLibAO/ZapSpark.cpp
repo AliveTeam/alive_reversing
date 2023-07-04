@@ -25,7 +25,7 @@ ZapSpark::ZapSpark(FP xpos, FP ypos, FP scale)
     SetApplyShadowZoneColour(false);
 
     GetAnimation().SetRenderLayer(Layer::eLayer_FG1_37);
-    GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
+    GetAnimation().SetBlendMode(relive::TBlendModes::eBlend_1);
 
     GetAnimation().SetRGB(80, 80, 80);
 

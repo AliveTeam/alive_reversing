@@ -52,7 +52,7 @@ void DemoPlayback::VScreenChanged()
     // Keep alive
 }
 
-void DemoPlayback::VRender(PrimHeader** /*ppOt*/)
+void DemoPlayback::VRender(BasePrimitive** /*ppOt*/)
 {
     // Render nothing
 }

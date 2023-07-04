@@ -173,7 +173,7 @@ void SnoozeParticle::VUpdate()
     }
 }
 
-void SnoozeParticle::VRender(PrimHeader** ppOt)
+void SnoozeParticle::VRender(BasePrimitive** ppOt)
 {
     const s16 bufIdx = gPsxDisplay.mBufferIndex;
 
@@ -185,36 +185,34 @@ void SnoozeParticle::VRender(PrimHeader** ppOt)
         for (s32 i = 0; i < ALIVE_COUNTOF(explosionVerts); i++)
         {
             Line_G2* pZExplosionLine = &mG2Lines[bufIdx][i];
-            LineG2_Init(pZExplosionLine);
 
             const s32 scaledLineRelativeStartX = FP_GetExponent(FP_FromInteger(explosionVerts[i][0].x) * mSpriteScale);
             const s32 scaledLineRelativeStartY = FP_GetExponent(FP_FromInteger(explosionVerts[i][0].y) * mSpriteScale);
             const s32 scaledLineRelativeEndX = FP_GetExponent(FP_FromInteger(explosionVerts[i][1].x) * mSpriteScale);
             const s32 scaledLineRelativeEndY = FP_GetExponent(FP_FromInteger(explosionVerts[i][1].y) * mSpriteScale);
-            SetXY0(pZExplosionLine,
+            pZExplosionLine->SetXY0(
                    static_cast<s16>(PsxToPCX(xInScreen + scaledLineRelativeStartX, 11)),
                    static_cast<s16>(yInScreen + scaledLineRelativeStartY));
-            SetXY1(pZExplosionLine,
+            pZExplosionLine->SetXY1(
                    static_cast<s16>(PsxToPCX(xInScreen + scaledLineRelativeEndX, 11)),
                    static_cast<s16>(yInScreen + scaledLineRelativeEndY));
 
-            SetRGB0(pZExplosionLine,
+            pZExplosionLine->SetRGB0(
                     static_cast<u8>(mRGB.r / 2),
                     static_cast<u8>(mRGB.g / 2),
                     static_cast<u8>(mRGB.b / 2));
-            SetRGB1(pZExplosionLine,
+            pZExplosionLine->SetRGB1(
                     static_cast<u8>(mRGB.r),
                     static_cast<u8>(mRGB.g),
                     static_cast<u8>(mRGB.b));
 
-            Poly_Set_SemiTrans(&pZExplosionLine->mBase.header, 1);
-            OrderingTable_Add(OtLayer(ppOt, mOtLayer), &pZExplosionLine->mBase.header);
+            pZExplosionLine->SetSemiTransparent(true);
+            OrderingTable_Add(OtLayer(ppOt, mOtLayer), pZExplosionLine);
         }
     }
     else
     {
         Line_G4* pZLine = &mG4Lines[bufIdx];
-        LineG4_Init(pZLine);
 
         const s16 xInScreen = FP_GetExponent(mXPos - FP_FromInteger(FP_GetExponent(gScreenManager->CamXPos())));
         const s16 yInScreen = FP_GetExponent(mYPos - FP_FromInteger(FP_GetExponent(gScreenManager->CamYPos())));
@@ -227,41 +225,38 @@ void SnoozeParticle::VRender(PrimHeader** ppOt)
         const s16 rectW_v = PsxToPCX(RectW_v_Psx, 11);
         const s16 rectH_v = yInScreen + FP_GetExponent(FP_FromInteger(zVerts[7]) * mSpriteScale);
 
-        SetXY0(pZLine,
+        pZLine->SetXY0(
                rectX_v,
                rectY_v);
-        SetXY1(pZLine,
+        pZLine->SetXY1(
                static_cast<s16>(PsxToPCX(xInScreen + FP_GetExponent(FP_FromInteger(zVerts[2]) * mSpriteScale), 11)),
                yInScreen + FP_GetExponent(FP_FromInteger(zVerts[3]) * mSpriteScale));
-        SetXY2(pZLine,
+        pZLine->SetXY2(
                static_cast<s16>(PsxToPCX(xInScreen + FP_GetExponent(FP_FromInteger(zVerts[4]) * mSpriteScale), 11)),
                yInScreen + FP_GetExponent(FP_FromInteger(zVerts[5]) * mSpriteScale));
-        SetXY3(pZLine,
+        pZLine->SetXY3(
                rectW_v,
                rectH_v);
 
-        SetRGB0(pZLine,
+        pZLine->SetRGB0(
                 static_cast<u8>(mRGB.r * 8 / 10),
                 static_cast<u8>(mRGB.g * 8 / 10),
                 static_cast<u8>(mRGB.b * 8 / 10));
-        SetRGB1(pZLine,
+        pZLine->SetRGB1(
                 static_cast<u8>(mRGB.r),
                 static_cast<u8>(mRGB.g),
                 static_cast<u8>(mRGB.b));
-        SetRGB2(pZLine,
+        pZLine->SetRGB2(
                 static_cast<u8>(mRGB.r * 7 / 10),
                 static_cast<u8>(mRGB.g * 7 / 10),
                 static_cast<u8>(mRGB.b * 7 / 10));
-        SetRGB3(pZLine,
+        pZLine->SetRGB3(
                 static_cast<u8>(mRGB.r / 2),
                 static_cast<u8>(mRGB.g / 2),
                 static_cast<u8>(mRGB.b / 2));
 
-        Poly_Set_SemiTrans(&pZLine->mBase.header, 1);
-        OrderingTable_Add(OtLayer(ppOt, mOtLayer), &pZLine->mBase.header);
+        pZLine->SetSemiTransparent(true);
+        pZLine->SetBlendMode(relive::TBlendModes::eBlend_1);
+        OrderingTable_Add(OtLayer(ppOt, mOtLayer), pZLine);
     }
-    Prim_SetTPage* thisTPage = &mTPage[bufIdx];
-    const s32 tPage = PSX_getTPage(TPageAbr::eBlend_1);
-    Init_SetTPage(thisTPage, tPage);
-    OrderingTable_Add(OtLayer(ppOt, mOtLayer), &thisTPage->mBase);
 }

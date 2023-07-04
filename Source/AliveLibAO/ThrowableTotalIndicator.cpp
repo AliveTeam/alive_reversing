@@ -279,7 +279,7 @@ void ThrowableTotalIndicator::VUpdate()
     }
 }
 
-void ThrowableTotalIndicator::VRender(PrimHeader** ppOt)
+void ThrowableTotalIndicator::VRender(BasePrimitive** ppOt)
 {
     const FP_Point* camPos = gScreenManager->mCamPos;
     const FP camX = FP_FromInteger(FP_GetExponent(camPos->x - FP_FromInteger(gScreenManager->mCamXOff)));
@@ -299,33 +299,29 @@ void ThrowableTotalIndicator::VRender(PrimHeader** ppOt)
         const FP x1 = FP_FromInteger(pointData.mPoints[counter].mX2) * mSpriteScale;
         const FP y1 = FP_FromInteger(pointData.mPoints[counter].mY2) * mSpriteScale;
 
-        s16 primBaseX = 0;
+        s16 BasePrimitiveX = 0;
         if (mNumToShow == 11) // CheckPoint
         {
-            primBaseX = PsxToPCX(xpos);
+            BasePrimitiveX = PsxToPCX(xpos);
         }
         else
         {
-            primBaseX = PsxToPCX(xpos, 11);
+            BasePrimitiveX = PsxToPCX(xpos, 11);
         }
 
         Line_G2* pLine = &mLines[gPsxDisplay.mBufferIndex][counter];
-        LineG2_Init(pLine);
 
-        SetXY0(pLine, primBaseX + FP_GetExponent(x0), ypos + FP_GetExponent(y0));
-        SetXY1(pLine, primBaseX + FP_GetExponent(x1), ypos + FP_GetExponent(y1));
+        pLine->SetXY0(BasePrimitiveX + FP_GetExponent(x0), ypos + FP_GetExponent(y0));
+        pLine->SetXY1(BasePrimitiveX + FP_GetExponent(x1), ypos + FP_GetExponent(y1));
 
-        SetRGB0(pLine, static_cast<u8>(mRGB.r), static_cast<u8>(mRGB.g), static_cast<u8>(mRGB.b));
-        SetRGB1(pLine, static_cast<u8>(mRGB.r), static_cast<u8>(mRGB.g), static_cast<u8>(mRGB.b));
-        SetRGB2(pLine, static_cast<u8>(mRGB.r), static_cast<u8>(mRGB.g), static_cast<u8>(mRGB.b));
+        pLine->SetRGB0(static_cast<u8>(mRGB.r), static_cast<u8>(mRGB.g), static_cast<u8>(mRGB.b));
+        pLine->SetRGB1(static_cast<u8>(mRGB.r), static_cast<u8>(mRGB.g), static_cast<u8>(mRGB.b));
+        pLine->SetRGB2(static_cast<u8>(mRGB.r), static_cast<u8>(mRGB.g), static_cast<u8>(mRGB.b));
 
-
-        Poly_Set_SemiTrans(&pLine->mBase.header, true);
-        OrderingTable_Add(OtLayer(ppOt, mOtLayer), &pLine->mBase.header);
+        pLine->SetBlendMode(relive::TBlendModes::eBlend_1);
+        pLine->SetSemiTransparent(true);
+        OrderingTable_Add(OtLayer(ppOt, mOtLayer), pLine);
     }
-
-    Init_SetTPage(&mTPage[gPsxDisplay.mBufferIndex], PSX_getTPage(TPageAbr::eBlend_1));
-    OrderingTable_Add(OtLayer(ppOt, mOtLayer), &mTPage[gPsxDisplay.mBufferIndex].mBase);
 }
 
 

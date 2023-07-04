@@ -82,7 +82,7 @@ EvilFart::EvilFart()
 
     ResetFartColour();
 
-    GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
+    GetAnimation().SetBlendMode(relive::TBlendModes::eBlend_1);
     mPossessedAliveTimer = 220;
 }
 
@@ -242,7 +242,7 @@ void EvilFart::VPossessed()
 
     mPossessedAliveTimer = 900;
 
-    GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
+    GetAnimation().SetBlendMode(relive::TBlendModes::eBlend_1);
 
     mAbeLevel = gMap.mCurrentLevel;
     mAbePath = gMap.mCurrentPath;
@@ -478,7 +478,7 @@ void EvilFart::VUpdate()
 
         GetAnimation().SetSemiTrans(true);
 
-        GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
+        GetAnimation().SetBlendMode(relive::TBlendModes::eBlend_1);
         if (mVelX == FP_FromInteger(0) && mVelY == FP_FromInteger(0))
         {
             if (Input_IsChanting())

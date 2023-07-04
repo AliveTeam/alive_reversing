@@ -119,7 +119,7 @@ TrapDoor::TrapDoor(relive::Path_TrapDoor* pTlv, const Guid& tlvId)
     mBoundingRect.h = pTlv->mBottomRightY;
 }
 
-void TrapDoor::VRender(PrimHeader** ppOt)
+void TrapDoor::VRender(BasePrimitive** ppOt)
 {
     mXPos += FP_FromInteger(mTrapDoorXOffset);
     BaseAnimatedWithPhysicsGameObject::VRender(ppOt);

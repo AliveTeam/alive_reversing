@@ -68,7 +68,7 @@ void BrewMachine::VUpdate()
     }
 }
 
-void BrewMachine::VRender(PrimHeader** ppOt)
+void BrewMachine::VRender(BasePrimitive** ppOt)
 {
     if (gMap.mCurrentCamera == mBrewMachineCamera)
     {
@@ -86,7 +86,7 @@ void BrewMachine::VRender(PrimHeader** ppOt)
             text,
             mTextX,
             mTextY,
-            TPageAbr::eBlend_1,
+            relive::TBlendModes::eBlend_1,
             1,
             0,
             Layer::eLayer_BeforeWell_22,

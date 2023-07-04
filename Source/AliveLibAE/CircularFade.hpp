@@ -10,7 +10,7 @@ public:
 
     virtual void VScreenChanged() override;
     virtual void VUpdate() override;
-    virtual void VRender(PrimHeader** ppOt) override;
+    virtual void VRender(BasePrimitive** ppOt) override;
 
     // New virtuals
     virtual void VFadeIn(s16 direction, s8 destroyOnDone);
@@ -24,7 +24,6 @@ private:
     Poly_G4 mTile2[2] = {};
     Poly_G4 mTile3[2] = {};
     Poly_G4 mTile4[2] = {};
-    Prim_SetTPage mTPages[2] = {};
     s16 mFadeColour = 0;
     s16 mSpeed = 0;
 };

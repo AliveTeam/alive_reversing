@@ -33,7 +33,7 @@ void ScreenClipper::VUpdate()
     // Empty
 }
 
-void ScreenClipper::VRender(PrimHeader** ot)
+void ScreenClipper::VRender(BasePrimitive** ot)
 {
     PSX_RECT clipRect = {};
 
@@ -48,9 +48,9 @@ void ScreenClipper::VRender(PrimHeader** ot)
         clipRect.y += 256;
     }
 
-    Prim_PrimClipper* pClipper = &mClippers[gPsxDisplay.mBufferIndex];
-    Init_PrimClipper(pClipper, &clipRect);
-    OrderingTable_Add(OtLayer(ot, mOtLayer), &pClipper->mBase);
+    Prim_ScissorRect* pClipper = &mClippers[gPsxDisplay.mBufferIndex];
+    pClipper->SetRect(clipRect);
+    OrderingTable_Add(OtLayer(ot, mOtLayer), pClipper);
 }
 
 ScreenClipper::~ScreenClipper()

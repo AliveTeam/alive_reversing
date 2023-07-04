@@ -79,26 +79,23 @@ Water::Water(relive::Path_Water* pTlv, const Guid& tlvId)
         const u8 u1 = static_cast<u8>(pFrameHeader->mWidth + u0 - 1);
         const u8 v1 = static_cast<u8>(pFrameHeader->mHeight + v0 - 1);
 
-        const s32 tPage = PSX_getTPage(TPageAbr::eBlend_3);
-
         for (s32 i = 0; i < field_124_tlv_data.mMaxDrops; i++)
         {
             field_F8_pWaterRes[i].field_18_enabled = 0;
             // HACK/OG BUG: PC only uses first poly ??
             Poly_FT4* pPoly = &field_F8_pWaterRes[i].field_20_polys[0];
 
-            PolyFT4_Init(pPoly);
-            Poly_Set_SemiTrans(&pPoly->mBase.header, true);
-            Poly_Set_Blending(&pPoly->mBase.header, true);
+            pPoly->SetSemiTransparent(true);
+            pPoly->DisableBlending(true);
 
-            SetTPage(pPoly, static_cast<s16>(tPage));
+            pPoly->SetBlendMode(relive::TBlendModes::eBlend_3);
 
             pPoly->mAnim = &GetAnimation();
 
-            SetUV0(pPoly, u0, v0);
-            SetUV1(pPoly, u1, v0);
-            SetUV2(pPoly, u0, v1);
-            SetUV3(pPoly, u1, v1);
+            pPoly->SetUV0(u0, v0);
+            pPoly->SetUV1(u1, v0);
+            pPoly->SetUV2(u0, v1);
+            pPoly->SetUV3(u1, v1);
         }
 
         field_100_screen_x = FP_GetExponent(mXPos - gScreenManager->CamXPos());
@@ -455,7 +452,7 @@ void Water::VUpdate()
     }
 }
 
-void Water::VRender(PrimHeader** ppOt)
+void Water::VRender(BasePrimitive** ppOt)
 {
     if (gMap.Is_Point_In_Current_Camera(
             mCurrentLevel,
@@ -516,12 +513,8 @@ void Water::VRender(PrimHeader** ppOt)
 
                 Poly_FT4* pPoly = &pWaterRes->field_20_polys[gPsxDisplay.mBufferIndex];
 
-                // Clear out the data pointer hack.
-                pPoly->mVerts[1].mUv.tpage_clut_pad = 0;
-                pPoly->mVerts[2].mUv.tpage_clut_pad = 0;
-
-                SetXYWH(pPoly, polyX, polyY, width, height);
-                OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_Above_FG1_39), &pPoly->mBase.header);
+                pPoly->SetXYWH(polyX, polyY, width, height);
+                OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_Above_FG1_39), pPoly);
 
                 if (polyX < xMin)
                 {

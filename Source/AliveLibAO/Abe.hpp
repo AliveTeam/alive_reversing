@@ -315,7 +315,7 @@ public:
     ~Abe();
 
     virtual void VUpdate() override;
-    virtual void VRender(PrimHeader** ppOt) override;
+    virtual void VRender(BasePrimitive** ppOt) override;
     virtual void VScreenChanged() override;
     virtual void VOnTlvCollision(relive::Path_TLV* pTlv) override;
     BirdPortal* VIntoBirdPortal(s16 gridBlocks) override;

@@ -306,7 +306,7 @@ MainMenuFade::MainMenuFade(s32 xpos, s32 ypos, buttonType buttonType, s32 bDestr
     LoadAnimations();
     Animation_Init(GetAnimRes(sButtonAnimIds[buttonType]));
 
-    GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
+    GetAnimation().SetBlendMode(relive::TBlendModes::eBlend_1);
     mXPos = FP_FromInteger(xpos);
     mYPos = FP_FromInteger(ypos);
     field_E8_bDestroyOnDone = static_cast<s16>(bDestroyOnDone);
@@ -351,7 +351,7 @@ void MainMenuFade::VUpdate()
     GetAnimation().SetRGB(mRgbValue, mRgbValue, mRgbValue);
 }
 
-void MainMenuFade::VRender(PrimHeader** ppOt)
+void MainMenuFade::VRender(BasePrimitive** ppOt)
 {
     GetAnimation().VRender(
         FP_GetExponent(mXPos),
@@ -428,7 +428,7 @@ Menu::Menu(relive::Path_TLV* /*pTlv*/, const Guid& tlvId)
 
     mButtonAnim.SetRenderLayer(Layer::eLayer_MainMenuButtonBees_38);
     mButtonAnim.SetSpriteScale(GetSpriteScale());
-    mButtonAnim.SetRenderMode(TPageAbr::eBlend_1);
+    mButtonAnim.SetBlendMode(relive::TBlendModes::eBlend_1);
     mButtonAnim.LoadPal(GetPalRes(PalId::WhiteHighlite));
     field_204_flags &= ~6u;
     mButtonRgb = 40;
@@ -526,7 +526,7 @@ Menu::~Menu()
     gMainMenuInstanceCount--;
 }
 
-void Menu::VRender(PrimHeader** ppOt)
+void Menu::VRender(BasePrimitive** ppOt)
 {
     if ((field_204_flags >> 1) & 1)
     {
@@ -656,7 +656,7 @@ void Menu::FMV_Select_Update()
             }
             else
             {
-                pMenuTrans = relive_new MainMenuTransition(Layer::eLayer_FadeFlash_40, 1, 0, 16, TPageAbr::eBlend_1);
+                pMenuTrans = relive_new MainMenuTransition(Layer::eLayer_FadeFlash_40, 1, 0, 16, relive::TBlendModes::eBlend_1);
                 mMenuTransId = pMenuTrans->mBaseGameObjectId;
             }
             mFnUpdate = &Menu::FMV_Or_Level_Select_To_Back_Update;
@@ -734,7 +734,7 @@ void Menu::FMV_Select_Update()
     }
 }
 
-void Menu::Empty_Render(PrimHeader**)
+void Menu::Empty_Render(BasePrimitive**)
 {
     // Draw nothing
 }
@@ -779,7 +779,7 @@ void NavigateBetweenTwoPoints(FP& a, FP& b)
     }
 }
 
-void Menu::FMV_Or_Level_Select_Render(PrimHeader** ppOt)
+void Menu::FMV_Or_Level_Select_Render(BasePrimitive** ppOt)
 {
     // Glow hilight
     mButtonAnim.VRender(
@@ -848,7 +848,7 @@ void Menu::FMV_Or_Level_Select_Render(PrimHeader** ppOt)
                 field_1F4_text,
                 textXPos,
                 textYPos,
-                TPageAbr::eBlend_0,
+                relive::TBlendModes::eBlend_0,
                 1,
                 0,
                 Layer::eLayer_AbeMenu_32,
@@ -865,7 +865,7 @@ void Menu::FMV_Or_Level_Select_Render(PrimHeader** ppOt)
                 field_1F4_text,
                 textXPos + 2,
                 textYPos + 2,
-                TPageAbr::eBlend_0,
+                relive::TBlendModes::eBlend_0,
                 1,
                 0,
                 Layer::eLayer_AbeMenu_32,
@@ -946,7 +946,7 @@ void Menu::ProgressInProgressFilesLoading()
     */
 }
 
-void Menu::MainScreen_Render(PrimHeader** ppOt)
+void Menu::MainScreen_Render(BasePrimitive** ppOt)
 {
     mButtonAnim.VRender(
         sMainScreenButtons[mSelectedButtonIndex.raw].xpos,
@@ -1050,7 +1050,7 @@ void Menu::MainScreen_Update()
                 }
                 else
                 {
-                    mMenuTransId = relive_new MainMenuTransition(Layer::eLayer_FadeFlash_40, 1, 0, 16, TPageAbr::eBlend_1);
+                    mMenuTransId = relive_new MainMenuTransition(Layer::eLayer_FadeFlash_40, 1, 0, 16, relive::TBlendModes::eBlend_1);
                     if (mMenuTransId)
                     {
                         mMenuTransId->mBaseGameObjectRefCount++;
@@ -1079,7 +1079,7 @@ void Menu::MainScreen_Update()
                 mMenuTransId = Guid{};
             }
 
-            pMenuTrans = relive_new MainMenuTransition(Layer::eLayer_FadeFlash_40, 1, 0, 16, TPageAbr::eBlend_1);
+            pMenuTrans = relive_new MainMenuTransition(Layer::eLayer_FadeFlash_40, 1, 0, 16, relive::TBlendModes::eBlend_1);
             if (pMenuTrans)
             {
                 mMenuTransId = pMenuTrans->mBaseGameObjectId;
@@ -1110,7 +1110,7 @@ void Menu::MainScreen_Update()
             }
             else
             {
-                mMenuTransId = relive_new MainMenuTransition(Layer::eLayer_FadeFlash_40, 1, 0, 16, TPageAbr::eBlend_1);
+                mMenuTransId = relive_new MainMenuTransition(Layer::eLayer_FadeFlash_40, 1, 0, 16, relive::TBlendModes::eBlend_1);
                 if (mMenuTransId)
                 {
                     mMenuTransId->mBaseGameObjectRefCount++;
@@ -1144,7 +1144,7 @@ void Menu::MainScreen_Update()
             }
             else
             {
-                mMenuTransId = relive_new MainMenuTransition(Layer::eLayer_FadeFlash_40, 1, 0, 16, TPageAbr::eBlend_1);
+                mMenuTransId = relive_new MainMenuTransition(Layer::eLayer_FadeFlash_40, 1, 0, 16, relive::TBlendModes::eBlend_1);
                 if (mMenuTransId)
                 {
                     mMenuTransId->mBaseGameObjectRefCount++;
@@ -1259,7 +1259,7 @@ void Menu::WaitForSpeakFinishAndStartChangeEffect()
         }
         else
         {
-            pMenuTrans = relive_new MainMenuTransition(Layer::eLayer_FadeFlash_40, 1, 0, 16, TPageAbr::eBlend_1);
+            pMenuTrans = relive_new MainMenuTransition(Layer::eLayer_FadeFlash_40, 1, 0, 16, relive::TBlendModes::eBlend_1);
             if (pMenuTrans)
             {
                 mMenuTransId = pMenuTrans->mBaseGameObjectId;
@@ -1363,7 +1363,7 @@ void Menu::ToGameSpeak_Update()
 }
 
 
-void Menu::GameSpeak_Render(PrimHeader** ppOt)
+void Menu::GameSpeak_Render(BasePrimitive** ppOt)
 {
 #if AUTO_SWITCH_CONTROLLER // OG Change - Automatically switch between Gamepad/Keyboard GameSpeak Menu if joystick is added/removed
     if (Input().IsJoyStickEnabled() && gMap.mNextCamera == CameraIds::Menu::eGamespeakKeyboard_33)
@@ -1409,7 +1409,7 @@ void Menu::Update_NoRefs()
 }
 
 
-void Menu::Render_NoRefs(PrimHeader** /*ppOt*/)
+void Menu::Render_NoRefs(BasePrimitive** /*ppOt*/)
 {
     
 }
@@ -1458,7 +1458,7 @@ void Menu::To_Load_Update()
 }
 
 
-void Menu::Load_Render(PrimHeader** ppOt)
+void Menu::Load_Render(BasePrimitive** ppOt)
 {
     if (field_230_bGoBack || !sSaveIdx)
     {
@@ -1555,7 +1555,7 @@ void Menu::Load_Render(PrimHeader** ppOt)
                 field_1F4_text,
                 text_x,
                 text_y,
-                TPageAbr::eBlend_0,
+                relive::TBlendModes::eBlend_0,
                 1,
                 0,
                 Layer::eLayer_AbeMenu_32,
@@ -1572,7 +1572,7 @@ void Menu::Load_Render(PrimHeader** ppOt)
                 field_1F4_text,
                 text_x + 2,
                 text_y + 2,
-                TPageAbr::eBlend_0,
+                relive::TBlendModes::eBlend_0,
                 1,
                 0,
                 Layer::eLayer_AbeMenu_32,
@@ -1612,7 +1612,7 @@ void Menu::To_Options_Update()
     }
 }
 
-void Menu::Options_Render(PrimHeader** ppOt)
+void Menu::Options_Render(BasePrimitive** ppOt)
 {
     mButtonAnim.VRender(
         sOptionsButtons[mSelectedButtonIndex.raw].xpos,
@@ -1928,7 +1928,7 @@ static const MenuButtonInputInfo controllerSelectElements_4D0678[2] = {
     {43, 200, InputCommands::eUnPause_OrConfirm},
     {289, 200, InputCommands::eBack}};
 
-void Menu::Options_Controller_Render(PrimHeader** ppOt)
+void Menu::Options_Controller_Render(BasePrimitive** ppOt)
 {
     if (field_230_bGoBack != -1)
     {
@@ -1993,7 +1993,7 @@ void Menu::Options_Controller_Render(PrimHeader** ppOt)
                 field_1F4_text,
                 x,
                 y,
-                TPageAbr::eBlend_0,
+                relive::TBlendModes::eBlend_0,
                 1,
                 0,
                 Layer::eLayer_AbeMenu_32,
@@ -2009,7 +2009,7 @@ void Menu::Options_Controller_Render(PrimHeader** ppOt)
                 field_1F4_text,
                 x + 2,
                 y + 2,
-                TPageAbr::eBlend_0,
+                relive::TBlendModes::eBlend_0,
                 1,
                 0,
                 Layer::eLayer_AbeMenu_32,
@@ -2063,7 +2063,7 @@ void Menu::To_MainScreen_Update()
     }
 }
 
-void Menu::Options_Sound_Render(PrimHeader** ppOt)
+void Menu::Options_Sound_Render(BasePrimitive** ppOt)
 {
     mButtonAnim.VRender(
         sSoundOptionsButtons[mSelectedButtonIndex.raw].xpos,
@@ -2236,7 +2236,7 @@ void Menu::GameSpeak_Update()
                 GetAnimRes(AnimId::OptionChantOrb_Particle));
             if (pParticle)
             {
-                pParticle->GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
+                pParticle->GetAnimation().SetBlendMode(relive::TBlendModes::eBlend_1);
                 pParticle->GetAnimation().SetRenderLayer(Layer::eLayer_Above_FG1_39);
             }
         }
@@ -2632,7 +2632,7 @@ const char_type* inputActions_4D0070[8] = {
     "Run", "Sneak", "Jump", "Speak 1", "Action", "Throw", "Crouch", "Speak 2"};
 
 
-void Menu::ButtonRemap_Render(PrimHeader** ppOt)
+void Menu::ButtonRemap_Render(BasePrimitive** ppOt)
 {
     AnimId animId = AnimId::None;
     if (field_230_bGoBack == -1)
@@ -2701,7 +2701,7 @@ void Menu::ButtonRemap_Render(PrimHeader** ppOt)
             field_1F4_text,
             calculatedXposBasedOnWidth,
             88,
-            TPageAbr::eBlend_0,
+            relive::TBlendModes::eBlend_0,
             1,
             0,
             Layer::eLayer_Menu_41,
@@ -2732,7 +2732,7 @@ void Menu::ButtonRemap_Render(PrimHeader** ppOt)
             field_1F4_text,
             calculatedXposBasedOnWidth2,
             120,
-            TPageAbr::eBlend_0,
+            relive::TBlendModes::eBlend_0,
             1,
             0,
             Layer::eLayer_Menu_41,
@@ -2759,7 +2759,7 @@ void Menu::ButtonRemap_Render(PrimHeader** ppOt)
             field_1F4_text,
             calculatedXposBasedOnWidth3,
             152,
-            TPageAbr::eBlend_0,
+            relive::TBlendModes::eBlend_0,
             1,
             0,
             Layer::eLayer_Menu_41,
@@ -2969,7 +2969,7 @@ void Menu::SaveLoadFailed_Update()
     }
 }
 
-void Menu::SaveLoadFailed_Render(PrimHeader** ppOt)
+void Menu::SaveLoadFailed_Render(BasePrimitive** ppOt)
 {
     // Note: This string in OG was just "Error" which is completely useless, changed to at least
     // give people a clue about what broke.
@@ -2981,7 +2981,7 @@ void Menu::SaveLoadFailed_Render(PrimHeader** ppOt)
         kErrStr,
         xpos,
         210,
-        TPageAbr::eBlend_0,
+        relive::TBlendModes::eBlend_0,
         1,
         0,
         Layer::eLayer_FG1_37,
@@ -2998,7 +2998,7 @@ void Menu::SaveLoadFailed_Render(PrimHeader** ppOt)
         kErrStr,
         xpos + 2,
         212,
-        TPageAbr::eBlend_0,
+        relive::TBlendModes::eBlend_0,
         1,
         0,
         Layer::eLayer_FG1_37,
@@ -3171,7 +3171,7 @@ s32 Menu::StringsEqual(const void* pStr1, const void* pStr2)
     return _strcmpi(static_cast<const char_type*>(pStr1), static_cast<const char_type*>(pStr2));
 }
 
-void Menu::ToggleMotions_Render(PrimHeader** ppOt)
+void Menu::ToggleMotions_Render(BasePrimitive** ppOt)
 {
     mButtonAnim.VRender(
         sAbeMotionsButtons[mSelectedButtonIndex.raw].xpos,
@@ -3414,7 +3414,7 @@ void Menu::OnResourceLoaded(Menu* /*pMenu*/)
     
 }
 
-void Menu::RenderElement(s32 xpos, s32 ypos, s32 input_command, PrimHeader** ot, AliveFont* pFont, s32* pPolyOffset)
+void Menu::RenderElement(s32 xpos, s32 ypos, s32 input_command, BasePrimitive** ot, AliveFont* pFont, s32* pPolyOffset)
 {
     char_type text[32] = {};
     strcpy(text, Input_GetButtonString(static_cast<InputCommands>(input_command), false)); // TODO: Strongly type all the way back to the button structure
@@ -3451,7 +3451,7 @@ void Menu::RenderElement(s32 xpos, s32 ypos, s32 input_command, PrimHeader** ot,
         text,
         converted_x,
         text_y,
-        TPageAbr::eBlend_0,
+        relive::TBlendModes::eBlend_0,
         1,
         0,
         Layer::eLayer_Above_FG1_39,
@@ -3469,7 +3469,7 @@ void Menu::RenderElement(s32 xpos, s32 ypos, s32 input_command, PrimHeader** ot,
         text,
         converted_x - 1,
         text_y,
-        TPageAbr::eBlend_0,
+        relive::TBlendModes::eBlend_0,
         1,
         0,
         Layer::eLayer_Above_FG1_39,
@@ -3487,7 +3487,7 @@ void Menu::RenderElement(s32 xpos, s32 ypos, s32 input_command, PrimHeader** ot,
         text,
         converted_x + 1,
         text_y,
-        TPageAbr::eBlend_3,
+        relive::TBlendModes::eBlend_3,
         1,
         0,
         Layer::eLayer_Above_FG1_39,

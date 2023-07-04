@@ -148,7 +148,7 @@ LiftPoint::LiftPoint(relive::Path_LiftPoint* pTlv, const Guid& tlvId)
         mMoving = false;
         mVelX = FP_FromInteger(0);
         mLiftWheelAnim.SetRGB(128, 128, 128);
-        mLiftWheelAnim.SetRenderMode(TPageAbr::eBlend_0);
+        mLiftWheelAnim.SetBlendMode(relive::TBlendModes::eBlend_0);
 
         mVelY = FP_FromInteger(0);
         mLiftPointStopType = relive::Path_LiftPoint::LiftPointStopType::eStartPointOnly;
@@ -548,7 +548,7 @@ void LiftPoint::VUpdate()
     }
 }
 
-void LiftPoint::VRender(PrimHeader** ppOt)
+void LiftPoint::VRender(BasePrimitive** ppOt)
 {
     PSX_Point mapCoord = {};
     gMap.GetCurrentCamCoords(&mapCoord);
@@ -718,7 +718,7 @@ void LiftPoint::CreatePulleyIfExists(s16 camX, s16 camY)
 
         mPulleyAnim.SetRenderLayer(GetAnimation().GetRenderLayer());
         mPulleyAnim.SetSpriteScale(GetSpriteScale());
-        mPulleyAnim.SetRenderMode(TPageAbr::eBlend_0);
+        mPulleyAnim.SetBlendMode(relive::TBlendModes::eBlend_0);
 
         mRope2->mTop = FP_GetExponent(FP_FromInteger(mPulleyYPos) + (FP_FromInteger(-19) * mPulleyAnim.GetSpriteScale()));
         mRope1->mTop = FP_GetExponent(FP_FromInteger(mPulleyYPos) + (FP_FromInteger(-19) * mPulleyAnim.GetSpriteScale()));

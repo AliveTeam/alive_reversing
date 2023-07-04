@@ -165,7 +165,7 @@ void Mine::VOnPickUpOrSlapped()
     }
 }
 
-void Mine::VRender(PrimHeader** ppOt)
+void Mine::VRender(BasePrimitive** ppOt)
 {
     if (GetAnimation().GetRender())
     {

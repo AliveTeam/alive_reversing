@@ -4,16 +4,15 @@
 #include "PsxDisplay.hpp"
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 
-EffectBase::EffectBase(Layer layer, TPageAbr abr)
+EffectBase::EffectBase(Layer layer, relive::TBlendModes blendMode)
     : BaseGameObject(true, 0)
+    , mBlendMode(blendMode)
 {
     SetType(ReliveTypes::eEffectBase);
     gObjListDrawables->Push_Back(this);
     SetDrawable(true);
     mEffectBasePathId = GetMap().mCurrentPath;
     mEffectBaseLevelId = GetMap().mCurrentLevel;
-    Init_SetTPage(&mEffectBaseTPage[0], PSX_getTPage(abr));
-    Init_SetTPage(&mEffectBaseTPage[1], PSX_getTPage(abr));
     mEffectBaseLayer = layer;
     mSemiTrans = 1;
 }
@@ -23,20 +22,19 @@ EffectBase::~EffectBase()
     gObjListDrawables->Remove_Item(this);
 }
 
-void EffectBase::VRender(PrimHeader** ppOt)
+void EffectBase::VRender(BasePrimitive** ppOt)
 {
     Poly_G4* pTile = &mEffectBaseTile[gPsxDisplay.mBufferIndex];
-    PolyG4_Init(pTile);
-    SetRGB0(pTile, static_cast<u8>(mEffectBaseRed), static_cast<u8>(mEffectBaseGreen), static_cast<u8>(mEffectBaseBlue));
-    SetRGB1(pTile, static_cast<u8>(mEffectBaseRed), static_cast<u8>(mEffectBaseGreen), static_cast<u8>(mEffectBaseBlue));
-    SetRGB2(pTile, static_cast<u8>(mEffectBaseRed), static_cast<u8>(mEffectBaseGreen), static_cast<u8>(mEffectBaseBlue));
-    SetRGB3(pTile, static_cast<u8>(mEffectBaseRed), static_cast<u8>(mEffectBaseGreen), static_cast<u8>(mEffectBaseBlue));  
-    SetXYWH(pTile, 0, 0, gPsxDisplay.mWidth, gPsxDisplay.mHeight);
+    pTile->SetRGB0(static_cast<u8>(mEffectBaseRed), static_cast<u8>(mEffectBaseGreen), static_cast<u8>(mEffectBaseBlue));
+    pTile->SetRGB1(static_cast<u8>(mEffectBaseRed), static_cast<u8>(mEffectBaseGreen), static_cast<u8>(mEffectBaseBlue));
+    pTile->SetRGB2(static_cast<u8>(mEffectBaseRed), static_cast<u8>(mEffectBaseGreen), static_cast<u8>(mEffectBaseBlue));
+    pTile->SetRGB3(static_cast<u8>(mEffectBaseRed), static_cast<u8>(mEffectBaseGreen), static_cast<u8>(mEffectBaseBlue));  
+    pTile->SetXYWH(0, 0, gPsxDisplay.mWidth, gPsxDisplay.mHeight);
+    pTile->SetBlendMode(mBlendMode);
 
     if (mEffectBaseRed || mEffectBaseGreen || mEffectBaseBlue || !mSemiTrans)
     {
-        Poly_Set_SemiTrans(&pTile->mBase.header, mSemiTrans);
-        OrderingTable_Add(OtLayer(ppOt, mEffectBaseLayer), &pTile->mBase.header);
-        OrderingTable_Add(OtLayer(ppOt, mEffectBaseLayer), &mEffectBaseTPage[gPsxDisplay.mBufferIndex].mBase);
+        pTile->SetSemiTransparent(mSemiTrans);
+        OrderingTable_Add(OtLayer(ppOt, mEffectBaseLayer), pTile);
     }
 }

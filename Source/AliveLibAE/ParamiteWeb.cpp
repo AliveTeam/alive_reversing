@@ -94,7 +94,7 @@ void ParamiteWeb::VScreenChanged()
     }
 }
 
-void ParamiteWeb::VRender(PrimHeader** ppOt)
+void ParamiteWeb::VRender(BasePrimitive** ppOt)
 {
     PSX_Point camCoords = {};
     gMap.GetCurrentCamCoords(&camCoords);

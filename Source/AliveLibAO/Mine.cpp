@@ -62,7 +62,7 @@ Mine::Mine(relive::Path_Mine* pTlv, const Guid& tlvId)
     mFlashAnim.SetSpriteScale(GetSpriteScale());
     mFlashAnim.SetRGB(128, 128, 128);
 
-    mFlashAnim.SetRenderMode(TPageAbr::eBlend_0);
+    mFlashAnim.SetBlendMode(relive::TBlendModes::eBlend_0);
 
     if (pTlv->mPersistOffscreen == relive::reliveChoice::eYes)
     {
@@ -155,7 +155,7 @@ void Mine::VOnPickUpOrSlapped()
     }
 }
 
-void Mine::VRender(PrimHeader** ppOt)
+void Mine::VRender(BasePrimitive** ppOt)
 {
     if (gMap.Is_Point_In_Current_Camera(
             mCurrentLevel,

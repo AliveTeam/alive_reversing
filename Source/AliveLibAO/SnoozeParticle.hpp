@@ -22,7 +22,7 @@ public:
 
     virtual void VScreenChanged() override;
     virtual void VUpdate() override;
-    virtual void VRender(PrimHeader** ppOt) override;
+    virtual void VRender(BasePrimitive** ppOt) override;
 
     FP mStartY = {};
     FP mXPos = {};
@@ -37,7 +37,6 @@ public:
     bool mBlowUp = false;
     Line_G4 mG4Lines[2] = {};
     Line_G2 mG2Lines[2][6] = {};
-    Prim_SetTPage mTPage[2] = {};
     SnoozeParticleState mState = SnoozeParticleState::eRising_0;
 };
 

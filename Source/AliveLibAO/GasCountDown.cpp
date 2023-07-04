@@ -138,7 +138,7 @@ void GasCountDown::DealDamage()
     }
 }
 
-void GasCountDown::VRender(PrimHeader** ppOt)
+void GasCountDown::VRender(BasePrimitive** ppOt)
 {
     char_type text[128] = {}; // Bigger buffer to handle large numbers or negative numbers causing a buffer overflow/crash.
     sprintf(text, "%02d:%02d", mGasTimeLeftSecs / 60, mGasTimeLeftSecs % 60);
@@ -149,7 +149,7 @@ void GasCountDown::VRender(PrimHeader** ppOt)
         text,
         mGasXPos,
         mGasYPos,
-        TPageAbr::eBlend_1,
+        relive::TBlendModes::eBlend_1,
         1,
         0,
         Layer::eLayer_BeforeWell_22,

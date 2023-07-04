@@ -25,8 +25,7 @@ public:
     void Clear(u8 r, u8 g, u8 b) override;
     void StartFrame() override;
     void EndFrame() override;
-    void SetTPage(u16 tPage) override;
-    void SetClip(const Prim_PrimClipper& clipper) override;
+    void SetClip(const Prim_ScissorRect& clipper) override;
     void Draw(const Prim_GasEffect& gasEffect) override;
     void Draw(const Line_G2& line) override;
     void Draw(const Line_G4& line) override;
@@ -57,9 +56,6 @@ private:
     TDX9Texture MakeCachedTexture(u32 uniqueId, const std::vector<u8>& pixels, u32 textureW, u32 textureH, u32 actualW, u32 actualH);
 
     bool mFrameStarted = false;
-    
-    // TODO: Simply down the prim types so we don't need this
-    u16 mGlobalTPage = 0;
 
     D3DPRESENT_PARAMETERS mPresentParams = {};
 

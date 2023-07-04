@@ -24,10 +24,10 @@ public:
 
     virtual void VScreenChanged() override;
     virtual void VUpdate() override;
-    virtual void VRender(PrimHeader** ppOt) override;
+    virtual void VRender(BasePrimitive** ppOt) override;
 
 private:
-    Prim_PrimClipper mPrimClippers[2][2] = {};
+    Prim_ScissorRect mPrimClippers[2][2] = {};
     FontContext mFontContext;
     AliveFont mFont;
     char_type* mActiveMessage = nullptr;

@@ -25,13 +25,29 @@ inline T PCToPsxX(T x, s32 addX = 0)
     return (((x) *23 + static_cast<T>(addX)) / 40);
 }
 
-struct PrimHeader;
+struct BasePrimitive;
+
+template<u32 OtLen>
+class OrderingObject final
+{
+public:
+    void Clear()
+    {
+        for (u32 i = 0; i < mLen; i++)
+        {
+            mOrderingTable[i] = nullptr;
+        }
+    }
+
+    const u32 mLen = OtLen;
+    BasePrimitive* mOrderingTable[OtLen] = {};
+};
 
 class PSX_Display_Buffer final
 {
 public:
     PSX_DISPENV mDisplayEnv;
-    PrimHeader* mOrderingTable[256];
+    OrderingObject<256> mOrderingTable;
 };
 
 class PsxDisplay final

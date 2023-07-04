@@ -66,7 +66,7 @@ HoistRocksEffect::HoistRocksEffect(relive::Path_Hoist* pTlv, const Guid& tlvId)
             particle.mAnim.SetRenderLayer(Layer::eLayer_BeforeShadow_25);
         }
 
-        particle.mAnim.SetRenderMode(TPageAbr::eBlend_0);
+        particle.mAnim.SetBlendMode(relive::TBlendModes::eBlend_0);
         particle.mAnim.SetBlending(false);
         particle.mAnim.SetSemiTrans(true);
         particle.mAnim.SetSpriteScale(mSpriteScale);
@@ -171,7 +171,7 @@ void HoistRocksEffect::VUpdate()
     }
 }
 
-void HoistRocksEffect::VRender(PrimHeader** ppOt)
+void HoistRocksEffect::VRender(BasePrimitive** ppOt)
 {
     for (HoistRockParticle& particle : mRocks)
     {

@@ -604,7 +604,7 @@ AliveFont::~AliveFont()
     relive_delete[] mFntPolyArray;
 }
 
-s32 AliveFont::DrawString(PrimHeader** ppOt, const char_type* text, s32 x, s16 y, TPageAbr abr, s32 bSemiTrans, s32 blendMode, Layer layer, u8 r, u8 g, u8 b, s32 polyOffset, FP scale, s32 maxRenderWidth, s16 colorRandomRange)
+s32 AliveFont::DrawString(BasePrimitive** ppOt, const char_type* text, s32 x, s16 y, relive::TBlendModes blendMode, s32 bSemiTrans, s32 disableBlending, Layer layer, u8 r, u8 g, u8 b, s32 polyOffset, FP scale, s32 maxRenderWidth, s16 colorRandomRange)
 {
     if (!gFontDrawScreenSpace)
     {
@@ -652,48 +652,35 @@ s32 AliveFont::DrawString(PrimHeader** ppOt, const char_type* text, s32 x, s16 y
         const s16 widthScaled = static_cast<s16>(charWidth * FP_GetDouble(scale));
         const s16 heightScaled = static_cast<s16>(charHeight * FP_GetDouble(scale));
 
-        PolyFT4_Init(poly);
+        poly->SetSemiTransparent(bSemiTrans);
+        poly->DisableBlending(disableBlending);
 
-        SetPrimExtraPointerHack(poly, nullptr);
-
-        Poly_Set_SemiTrans(&poly->mBase.header, bSemiTrans);
-        Poly_Set_Blending(&poly->mBase.header, blendMode);
-
-        SetRGB0(
-            poly,
+        poly->SetRGB0(
             static_cast<u8>(r + Math_RandomRange(-colorRandomRange, colorRandomRange)),
             static_cast<u8>(g + Math_RandomRange(-colorRandomRange, colorRandomRange)),
             static_cast<u8>(b + Math_RandomRange(-colorRandomRange, colorRandomRange)));
 
-        // Padding
-        poly->mVerts[1].mUv.tpage_clut_pad = 0;
-        poly->mVerts[2].mUv.tpage_clut_pad = 0;
-
         // P0
-        SetXY0(poly, offsetX, y);
-        SetUV0(poly, texture_u, texture_v);
+        poly->SetXY0(offsetX, y);
+        poly->SetUV0(texture_u, texture_v);
 
         // P1
-        SetXY1(poly, offsetX + widthScaled, y);
-        SetUV1(poly, texture_u + charWidth, texture_v);
+        poly->SetXY1(offsetX + widthScaled, y);
+        poly->SetUV1(texture_u + charWidth, texture_v);
 
         // P2
-        SetXY2(poly, offsetX, y + heightScaled);
-        SetUV2(poly, texture_u, texture_v + charHeight);
+        poly->SetXY2(offsetX, y + heightScaled);
+        poly->SetUV2(texture_u, texture_v + charHeight);
 
         // P3
-        SetXY3(poly, offsetX + widthScaled, y + heightScaled);
-        SetUV3(poly, texture_u + charWidth, texture_v + charHeight);
+        poly->SetXY3(offsetX + widthScaled, y + heightScaled);
+        poly->SetUV3(texture_u + charWidth, texture_v + charHeight);
 
-        // TPage blend mode
-        s32 tpageEmptyBlend = GetTPage(poly) & ~PSX_getTPage(TPageAbr::eBlend_3);
-        s32 blendModeBits = PSX_getTPage(abr);
-
-        SetTPage(poly, static_cast<u16>(tpageEmptyBlend | blendModeBits));
+        poly->SetBlendMode(blendMode);
 
         poly->mFont = mFontContext;
 
-        OrderingTable_Add(OtLayer(ppOt, layer), &poly->mBase.header);
+        OrderingTable_Add(OtLayer(ppOt, layer), poly);
 
         ++characterRenderCount;
 

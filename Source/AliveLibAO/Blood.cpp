@@ -65,23 +65,22 @@ Blood::Blood(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s32 count)
             {
                 BloodParticle* pParticle = &mBloodParticle[i];
                 Poly_FT4* pSprt = &pParticle->field_10_prims[j];
-                PolyFT4_Init(pSprt);
-                Poly_Set_SemiTrans(&pSprt->mBase.header, 1);
+                pSprt->SetSemiTransparent(true);
 
                 if (GetAnimation().GetBlending())
                 {
-                    Poly_Set_Blending(&pSprt->mBase.header, 1);
+                    pSprt->DisableBlending(true);
                 }
                 else
                 {
-                    Poly_Set_Blending(&pSprt->mBase.header, 0);
+                    pSprt->DisableBlending(false);
                     const auto rgb = GetAnimation().GetRgb();
-                    SetRGB0(pSprt, rgb.r, rgb.g, rgb.b);
+                    pSprt->SetRGB0(rgb.r & 0xFF, rgb.g & 0xFF, rgb.b & 0xFF);
                 }
 
                 pSprt->mAnim = &GetAnimation();
 
-                SetUV0(pSprt, u0, v0);
+                pSprt->SetUV0(u0, v0);
             }
         }
 
@@ -144,7 +143,7 @@ void Blood::VUpdate()
     mUpdateCalls++;
 }
 
-void Blood::VRender(PrimHeader** ppOt)
+void Blood::VRender(BasePrimitive** ppOt)
 {
     if (gMap.Is_Point_In_Current_Camera(
             mCurrentLevel,
@@ -158,25 +157,23 @@ void Blood::VRender(PrimHeader** ppOt)
             BloodParticle* pParticle = &mBloodParticle[i];
             Poly_FT4* pSprt = &pParticle->field_10_prims[gPsxDisplay.mBufferIndex];
 
-            const u8 u0 = 0; // mAnim.mVramRect.x & 63;
-
-            SetUV0(pSprt, u0, 0 /*static_cast<u8>(mAnim.mVramRect.y)*/);
-            SetTPage(pSprt, static_cast<u16>(PSX_getTPage(TPageAbr::eBlend_0)));
+            pSprt->SetUV0(0, 0);
+            pSprt->SetBlendMode(relive::TBlendModes::eBlend_0);
 
             const PerFrameInfo* pFrameHeader = GetAnimation().Get_FrameHeader(-1);
 
             const s16 x0 = PsxToPCX(FP_GetExponent(pParticle->x));
             const s16 y0 = FP_GetExponent(pParticle->y);
 
-            SetXYWH(pSprt, x0, y0, static_cast<s16>(pFrameHeader->mWidth - 1), static_cast<s16>(pFrameHeader->mHeight - 1));
+            pSprt->SetXYWH(x0, y0, static_cast<s16>(pFrameHeader->mWidth - 1), static_cast<s16>(pFrameHeader->mHeight - 1));
 
             if (!GetAnimation().GetBlending())
             {
                 const auto rgb = GetAnimation().GetRgb();
-                SetRGB0(pSprt, rgb.r, rgb.g, rgb.b);
+                pSprt->SetRGB0(rgb.r & 0xFF, rgb.g & 0xFF, rgb.b & 0xFF);
             }
 
-            OrderingTable_Add(OtLayer(ppOt, mOtLayer), &pSprt->mBase.header);
+            OrderingTable_Add(OtLayer(ppOt, mOtLayer), pSprt);
         }
     }
 }

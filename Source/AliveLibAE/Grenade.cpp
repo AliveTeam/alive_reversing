@@ -143,7 +143,7 @@ void Grenade::Init(FP xpos, FP ypos)
     GetAnimation().SetRender(false);
     GetAnimation().SetSemiTrans(false);
 
-    GetAnimation().SetRenderMode(TPageAbr::eBlend_0);
+    GetAnimation().SetBlendMode(relive::TBlendModes::eBlend_0);
 
     mExplosionId = Guid{};
     mXPos = xpos;

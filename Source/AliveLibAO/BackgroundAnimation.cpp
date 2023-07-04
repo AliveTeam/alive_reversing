@@ -80,7 +80,7 @@ BackgroundAnimation::BackgroundAnimation(relive::Path_BackgroundAnimation* pTlv,
     GetAnimation().SetSemiTrans(pTlv->mIsSemiTrans == relive::reliveChoice::eYes);
     GetAnimation().SetBlending(true);
 
-    GetAnimation().SetRenderMode(pTlv->mSemiTransMode);
+    GetAnimation().SetBlendMode(pTlv->mSemiTransMode);
 
     GetAnimation().SetRenderLayer(Layer::eLayer_1);
     mYOffset = 0;

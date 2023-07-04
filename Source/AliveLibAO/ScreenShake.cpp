@@ -62,7 +62,7 @@ static const FP_Point sShakeOffsets[16] = {
     {FP_FromInteger(-9), FP_FromInteger(9)}};
 
 
-void ScreenShake::VRender(PrimHeader** ppOt)
+void ScreenShake::VRender(BasePrimitive** ppOt)
 {
     if (mShakeNumber < 14)
     {
@@ -89,8 +89,8 @@ void ScreenShake::VRender(PrimHeader** ppOt)
             offset.y = yoff;
         }
 
-        InitType_ScreenOffset(pPrim, &offset);
-        OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_0), &pPrim->mBase);
+        pPrim->SetOffset(offset.x, offset.y);
+        OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_0), pPrim);
 
         if (offset.y != 0)
         {

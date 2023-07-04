@@ -148,7 +148,7 @@ void ThrowableArray::Add(s16 count)
     mCount += count;
 }
 
-void ThrowableArray::VRender(PrimHeader** /*ppOt*/)
+void ThrowableArray::VRender(BasePrimitive** /*ppOt*/)
 {
     // Nothing to do here
 }

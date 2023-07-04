@@ -61,7 +61,7 @@ void BaseGameObject::VUpdate()
 
 }
 
-void BaseGameObject::VRender(PrimHeader** /*pOrderingTable*/)
+void BaseGameObject::VRender(BasePrimitive** /*pOrderingTable*/)
 {
 
 }

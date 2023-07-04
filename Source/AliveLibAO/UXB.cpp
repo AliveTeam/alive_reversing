@@ -35,7 +35,7 @@ UXB::UXB(relive::Path_UXB* pTlv, const Guid& tlvId)
     mLoadedPals.push_back(ResourceManagerWrapper::LoadPal(PalId::GreenFlash));
 
     GetAnimation().SetSemiTrans(true);
-    GetAnimation().SetRenderMode(TPageAbr::eBlend_0);
+    GetAnimation().SetBlendMode(relive::TBlendModes::eBlend_0);
 
     SetInteractive(true);
     mCurrentState = UXBState::eDelay;
@@ -153,7 +153,7 @@ void UXB::InitBlinkAnim()
         mFlashAnim.SetRenderLayer(GetAnimation().GetRenderLayer());
         mFlashAnim.SetSpriteScale(GetSpriteScale());
         mFlashAnim.SetRGB(128, 128, 128);
-        mFlashAnim.SetRenderMode(TPageAbr::eBlend_1);
+        mFlashAnim.SetBlendMode(relive::TBlendModes::eBlend_1);
     }
     else
     {
@@ -435,7 +435,7 @@ s16 UXB::IsColliding()
     return 0;
 }
 
-void UXB::VRender(PrimHeader** ppOt)
+void UXB::VRender(BasePrimitive** ppOt)
 {
     if (gMap.Is_Point_In_Current_Camera(
             mCurrentLevel,

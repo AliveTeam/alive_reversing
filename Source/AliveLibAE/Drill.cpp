@@ -61,7 +61,7 @@ Drill::Drill(relive::Path_Drill* pTlv, const Guid& tlvId)
     Animation_Init(GetAnimRes(AnimId::Drill_Vertical_Off));
 
     GetAnimation().SetSemiTrans(true);
-    GetAnimation().SetRenderMode(TPageAbr::eBlend_0);
+    GetAnimation().SetBlendMode(relive::TBlendModes::eBlend_0);
 
     SetTint(kDrillTints, gMap.mCurrentLevel);
     relive::Path_Drill tlvData = *pTlv;
@@ -466,7 +466,7 @@ void Drill::VScreenChanged()
     SetDead(true);
 }
 
-void Drill::VRender(PrimHeader** ppOt)
+void Drill::VRender(BasePrimitive** ppOt)
 {
     if (gMap.Is_Point_In_Current_Camera(
             mCurrentLevel,

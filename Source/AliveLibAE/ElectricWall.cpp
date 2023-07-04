@@ -27,7 +27,7 @@ ElectricWall::ElectricWall(relive::Path_ElectricWall* pTlv, const Guid& tlvId)
     mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Electric_Wall));
     Animation_Init(GetAnimRes(AnimId::Electric_Wall));
     GetAnimation().SetSemiTrans(true);
-    GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
+    GetAnimation().SetBlendMode(relive::TBlendModes::eBlend_1);
     GetAnimation().SetRenderLayer(Layer::eLayer_Foreground_36);
 
     if (GetAnimation().Get_Frame_Count() > 0)
@@ -175,7 +175,7 @@ void ElectricWall::VUpdate()
 
                                 SFX_Play_Camera(relive::SoundEffects::ElectricZap, 127, soundDirection, GetSpriteScale());
 
-                                relive_new Flash(Layer::eLayer_Above_FG1_39, 255, 255, 255, TPageAbr::eBlend_3, 1);
+                                relive_new Flash(Layer::eLayer_Above_FG1_39, 255, 255, 255, relive::TBlendModes::eBlend_3, 1);
                             }
                         }
                     }

@@ -39,8 +39,7 @@ public:
     void Draw(const Poly_FT4& poly) override;
     void Draw(const Poly_G4& poly) override;
     void EndFrame() override;
-    void SetClip(const Prim_PrimClipper& clipper) override;
-    void SetTPage(u16 tPage) override;
+    void SetClip(const Prim_ScissorRect& clipper) override;
     void StartFrame() override;
     
 private:
@@ -85,7 +84,7 @@ private:
     std::shared_ptr<GLTexture2D> PrepareTextureFromPoly(const Poly_FT4& poly);
 
     void DrawFramebufferToScreen(s32 x, s32 y, s32 width, s32 height);
-    void SetupBlendMode(u16 blendMode);
+    void SetupBlendMode(relive::TBlendModes blendMode);
     void UpdateFilterFramebuffer();
 
     GLFramebuffer& GetSourcePsxFramebuffer();
@@ -114,8 +113,6 @@ private:
     Stats mStats;
 
     bool mFrameStarted = false;
-
-    u16 mGlobalTPage = 0;
 
     struct BatchData
     {

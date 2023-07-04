@@ -56,7 +56,7 @@ void LCDStatusBoard::VUpdate()
 }
 
 // Todo: clean up
-void LCDStatusBoard::VRender(PrimHeader** ppOt)
+void LCDStatusBoard::VRender(BasePrimitive** ppOt)
 {
     if (!mHideBoard)
     {
@@ -76,7 +76,7 @@ void LCDStatusBoard::VRender(PrimHeader** ppOt)
             text,
             mXPos - maxWidth + 33,
             mYPos,
-            TPageAbr::eBlend_1,
+            relive::TBlendModes::eBlend_1,
             1,
             0,
             Layer::eLayer_BeforeWell_22,
@@ -98,7 +98,7 @@ void LCDStatusBoard::VRender(PrimHeader** ppOt)
             text,
             mXPos - font4Width + 33,
             mYPos + 16,
-            TPageAbr::eBlend_1,
+            relive::TBlendModes::eBlend_1,
             1,
             0,
             Layer::eLayer_BeforeWell_22,
@@ -119,7 +119,7 @@ void LCDStatusBoard::VRender(PrimHeader** ppOt)
             text,
             mXPos - font2Width + 33,
             mYPos + 32,
-            TPageAbr::eBlend_1,
+            relive::TBlendModes::eBlend_1,
             1,
             0,
             Layer::eLayer_BeforeWell_22,
@@ -140,7 +140,7 @@ void LCDStatusBoard::VRender(PrimHeader** ppOt)
             text,
             mXPos - font1Width + 33,
             mYPos + 48,
-            TPageAbr::eBlend_1,
+            relive::TBlendModes::eBlend_1,
             1,
             0,
             Layer::eLayer_BeforeWell_22,

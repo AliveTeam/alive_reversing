@@ -295,7 +295,7 @@ void LCDScreen::VUpdate()
     }
 }
 
-void LCDScreen::VRender(PrimHeader** ppOt)
+void LCDScreen::VRender(BasePrimitive** ppOt)
 {
     if (gNumCamSwappers == 0)
     {
@@ -315,10 +315,8 @@ void LCDScreen::VRender(PrimHeader** ppOt)
             static_cast<s16>(gPsxDisplay.mHeight)};
 
         auto* pClippers = &mPrimClippers[0][gPsxDisplay.mBufferIndex];
-        Init_PrimClipper(
-            pClippers,
-            &clipRect);
-        OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_BeforeWell_22), &pClippers->mBase);
+        pClippers->SetRect(clipRect);
+        OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_BeforeWell_22), pClippers);
 
         auto fontFlickerAmount = 50;
         if (gDisableFontFlicker)
@@ -336,7 +334,7 @@ void LCDScreen::VRender(PrimHeader** ppOt)
             mActiveMessage,
             static_cast<s16>(PsxToPCX(screenX, 11) - mOffsetX),
             static_cast<s16>(screenY),
-            TPageAbr::eBlend_1,
+            relive::TBlendModes::eBlend_1,
             1,
             0,
             Layer::eLayer_BeforeWell_22,
@@ -357,8 +355,8 @@ void LCDScreen::VRender(PrimHeader** ppOt)
         clipRect2.h = 48;
 
         auto* clipper = &mPrimClippers[1][gPsxDisplay.mBufferIndex];
-        Init_PrimClipper(clipper, &clipRect2);
-        OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_BeforeWell_22), &clipper->mBase);
+        clipper->SetRect(clipRect2);
+        OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_BeforeWell_22), clipper);
     }
 }
 

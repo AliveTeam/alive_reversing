@@ -32,7 +32,7 @@ DeathBirdParticle::DeathBirdParticle(FP xpos, FP ypos, s32 startTimer, bool play
     else
     {
         SetApplyShadowZoneColour(false);
-        GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
+        GetAnimation().SetBlendMode(relive::TBlendModes::eBlend_1);
         SetSpriteScale(scale);
         GetAnimation().SetSpriteScale(scale);
 

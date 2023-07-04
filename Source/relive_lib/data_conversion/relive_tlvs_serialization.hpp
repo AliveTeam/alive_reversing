@@ -71,12 +71,16 @@ inline void from_json(const nlohmann::json& j, RGB16& p)
     j.at("b").get_to(p.b);
 }
 
-NLOHMANN_JSON_SERIALIZE_ENUM(TPageAbr, {
-    {TPageAbr::eBlend_0, "blend_0"},
-    {TPageAbr::eBlend_1, "blend_1"},
-    {TPageAbr::eBlend_2, "blend_2"},
-    {TPageAbr::eBlend_3, "blend_3"},
-})
+namespace relive
+{
+    NLOHMANN_JSON_SERIALIZE_ENUM(TBlendModes, {
+        {TBlendModes::None, "none"},
+        {TBlendModes::eBlend_0, "blend_0"},
+        {TBlendModes::eBlend_1, "blend_1"},
+        {TBlendModes::eBlend_2, "blend_2"},
+        {TBlendModes::eBlend_3, "blend_3"},
+    })
+}
 
 namespace relive {
 template<class T>

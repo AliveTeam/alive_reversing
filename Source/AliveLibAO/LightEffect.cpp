@@ -30,7 +30,7 @@ LightEffect::LightEffect(relive::Path_LightEffect* pTlv, const Guid& tlvId)
     GetAnimation().SetBlending(true);
 
     GetAnimation().SetRenderLayer(Layer::eLayer_Foreground_Half_17);
-    GetAnimation().SetRenderMode(TPageAbr::eBlend_0);
+    GetAnimation().SetBlendMode(relive::TBlendModes::eBlend_0);
     GetAnimation().SetFrame(1);
 
     SetSpriteScale(FP_FromDouble(0.4));
@@ -43,7 +43,7 @@ LightEffect::~LightEffect()
     Path::TLV_Reset(mTlvId, -1, 0, 0);
 }
 
-void LightEffect::VRender(PrimHeader** /*ppOt*/)
+void LightEffect::VRender(BasePrimitive** /*ppOt*/)
 {
     // Pretty much the same as door effect render - commented out because OG is empty which means the "stock yard stars" are missing.
     // However rendering as-is produces over bright ugly looking stars and is probably why DD turned it off

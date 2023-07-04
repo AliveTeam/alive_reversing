@@ -59,7 +59,7 @@ void Text::SetYPos(s32 /*not_used*/, s16 ypos)
     field_5E_ypos = ypos;
 }
 
-void Text::VRender(PrimHeader** ppOt)
+void Text::VRender(BasePrimitive** ppOt)
 {
     const s16 ypos = field_5E_ypos + 100;
     const s32 xpos = (368 / 2) - (field_5C_xpos / 2);
@@ -69,7 +69,7 @@ void Text::VRender(PrimHeader** ppOt)
         field_68_txt_buffer,
         xpos,
         ypos,
-        TPageAbr::eBlend_0,
+        relive::TBlendModes::eBlend_0,
         1,
         0,
         Layer::eLayer_Text_42,
@@ -89,7 +89,7 @@ void Text::VRender(PrimHeader** ppOt)
             field_68_txt_buffer,
             xpos + 2,
             ypos + 2,
-            TPageAbr::eBlend_0,
+            relive::TBlendModes::eBlend_0,
             1,
             0,
             Layer::eLayer_Text_42,
@@ -106,7 +106,7 @@ void Text::VRender(PrimHeader** ppOt)
             field_68_txt_buffer,
             xpos - 1,
             ypos - 1,
-            TPageAbr::eBlend_0,
+            relive::TBlendModes::eBlend_0,
             1,
             0,
             Layer::eLayer_Text_42,
@@ -177,11 +177,11 @@ s8 Display_Full_Screen_Message_Blocking(s32 /*not_used*/, MessageType messageTyp
    // const PSX_RECT rect = {0, 0, 640, 240};
     //PSX_ClearImage_4F5BD0(&rect, 0, 0, 0);
     SYS_EventsPump();
-    pTextObj->VRender(gPsxDisplay.mDrawEnvs[gPsxDisplay.mBufferIndex].mOrderingTable);
+    pTextObj->VRender(gPsxDisplay.mDrawEnvs[gPsxDisplay.mBufferIndex].mOrderingTable.mOrderingTable);
 
     if (pTextObj2)
     {
-        pTextObj2->VRender(gPsxDisplay.mDrawEnvs[gPsxDisplay.mBufferIndex].mOrderingTable);
+        pTextObj2->VRender(gPsxDisplay.mDrawEnvs[gPsxDisplay.mBufferIndex].mOrderingTable.mOrderingTable);
     }
 
     //Add_Dirty_Area_4ED970(0, 0, 640, 240);

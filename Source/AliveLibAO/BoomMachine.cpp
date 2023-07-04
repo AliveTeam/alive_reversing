@@ -133,7 +133,7 @@ BoomMachine::BoomMachine(relive::Path_BoomMachine* pTlv, const Guid& tlvId)
 
     SetApplyShadowZoneColour(false);
     mTlvId = tlvId;
-    GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
+    GetAnimation().SetBlendMode(relive::TBlendModes::eBlend_1);
 
     if (pTlv->mScale == relive::reliveScale::eHalf)
     {

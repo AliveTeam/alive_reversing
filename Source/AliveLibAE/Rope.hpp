@@ -11,7 +11,7 @@ public:
     ~Rope();
 
     virtual void VUpdate() override;
-    virtual void VRender(PrimHeader** ppOt) override;
+    virtual void VRender(BasePrimitive** ppOt) override;
 
 private:
     s16 mRopeSegmentCount = 0;

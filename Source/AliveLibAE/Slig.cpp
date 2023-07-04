@@ -473,7 +473,7 @@ Slig::Slig(relive::Path_Slig* pTlv, const Guid& tlvId)
     CreateShadow();
 }
 
-void renderWithGlowingEyes(PrimHeader** ot, BaseAliveGameObject* actor, std::shared_ptr<AnimationPal>& pal, s16 palSize, s16& r, s16& g, s16& b,
+void renderWithGlowingEyes(BasePrimitive** ot, BaseAliveGameObject* actor, std::shared_ptr<AnimationPal>& pal, s16 palSize, s16& r, s16& g, s16& b,
                            const s16* eyeColourIndices, s16 eyeColourIndicesSize)
 {
     if (actor->GetAnimation().GetRender())
@@ -561,7 +561,7 @@ void renderWithGlowingEyes(PrimHeader** ot, BaseAliveGameObject* actor, std::sha
     }
 }
 
-void Slig::VRender(PrimHeader** ot)
+void Slig::VRender(BasePrimitive** ot)
 {
     const s16 eyeIndices[] = {61, 62};
 

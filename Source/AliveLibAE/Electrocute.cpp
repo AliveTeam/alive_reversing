@@ -85,7 +85,7 @@ public:
         }
     }
 
-    void VRender(PrimHeader** /*ppOt*/) override
+    void VRender(BasePrimitive** /*ppOt*/) override
     {
         if (!field_CE_bDone)
         {

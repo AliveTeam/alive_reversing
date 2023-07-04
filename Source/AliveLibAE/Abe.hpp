@@ -328,7 +328,7 @@ public:
     ~Abe();
 
     virtual void VUpdate() override;
-    virtual void VRender(PrimHeader** ppOt) override;
+    virtual void VRender(BasePrimitive** ppOt) override;
     virtual void VScreenChanged() override;
     virtual void VGetSaveState(SerializedObjectData& pSaveBuffer) override;
     void GetSaveState(AbeSaveState& pSaveBuffer);

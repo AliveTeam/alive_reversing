@@ -1397,8 +1397,6 @@ HintFly::HintFly(relive::Path_HintFly* pTlv, const Guid& tlvId)
         mState = State::eIdleWaitForChanting_1;
         mTimer = 0;
 
-        const s32 vram_x = 0 /* mAnim.mVramRect.x & 0x3F*/;
-
         const auto pHeader = GetAnimation().Get_FrameHeader(-1);
 
         for (s32 i = 0; i < mMsgLength; i++)
@@ -1407,15 +1405,13 @@ HintFly::HintFly(relive::Path_HintFly* pTlv, const Guid& tlvId)
             {
                 Poly_FT4* pSprt = &mHintFlyParticle[i].mSprt[j];
 
-                PolyFT4_Init(pSprt);
+                pSprt->SetSemiTransparent(true);
+                pSprt->DisableBlending(true);
 
-                Poly_Set_SemiTrans(&pSprt->mBase.header, 1);
-                Poly_Set_Blending(&pSprt->mBase.header, 1);
-
-                SetUV0(pSprt, vram_x & 0xFF, 0 /* mAnim.mVramRect.y & 0xFF*/);
+                pSprt->SetUV0(0, 0);
 
                 pSprt->mAnim = &GetAnimation();
-                SetXYWH(pSprt, 0, 0, static_cast<s16>(pHeader->mWidth - 1), static_cast<s16>(pHeader->mHeight - 1));
+                pSprt->SetXYWH(0, 0, static_cast<s16>(pHeader->mWidth - 1), static_cast<s16>(pHeader->mHeight - 1));
             }
         }
 
@@ -1774,7 +1770,7 @@ void HintFly::VUpdate()
     }
 }
 
-void HintFly::VRender(PrimHeader** ppOt)
+void HintFly::VRender(BasePrimitive** ppOt)
 {
     for (s32 i = 0; i < mCounter; i++)
     {
@@ -1784,13 +1780,13 @@ void HintFly::VRender(PrimHeader** ppOt)
         const s16 flyX = FP_GetExponent(PsxToPCX(pParticle->mXPos, FP_FromInteger(11)));
         const s16 flyY = FP_GetExponent(pParticle->mYPos);
 
-        const s16 flyW = static_cast<s16>(abs(X0(&pSprt[0]) - X3(&pSprt[0])));
-        const s16 flyH = static_cast<s16>(abs(Y0(&pSprt[0]) - Y3(&pSprt[0])));
+        const s16 flyW = static_cast<s16>(abs(pSprt[0].X0() - pSprt[0].X3()));
+        const s16 flyH = static_cast<s16>(abs(pSprt[0].Y0() - pSprt[0].Y3()));
 
-        SetXYWH(pSprt, flyX, flyY, flyW, flyH);
-        SetTPage(pSprt, static_cast<u16>(PSX_getTPage(TPageAbr::eBlend_1)));
+        pSprt->SetXYWH(flyX, flyY, flyW, flyH);
+        pSprt->SetBlendMode(relive::TBlendModes::eBlend_1);
 
-        OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_Above_FG1_39), &pSprt->mBase.header);
+        OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_Above_FG1_39), pSprt);
     }
 }
 

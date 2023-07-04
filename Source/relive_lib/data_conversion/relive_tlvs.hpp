@@ -8,7 +8,9 @@
 #include "guid.hpp"
 #include "../ObjectTypes.hpp"
 
+
 namespace relive {
+
 
 enum class reliveScale : s16
 {
@@ -827,7 +829,7 @@ struct Path_BackgroundAnimation final : public Path_TLV
         eFire,
     };
 
-    TPageAbr mSemiTransMode = TPageAbr::eBlend_0;
+    relive::TBlendModes mSemiTransMode = relive::TBlendModes::eBlend_0;
 
     // AO only
     BgAnimSounds mSoundEffect = BgAnimSounds::eNone;

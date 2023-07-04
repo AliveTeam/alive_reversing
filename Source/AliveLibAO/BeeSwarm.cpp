@@ -529,7 +529,7 @@ void BeeSwarm::ToFlyAwayAndDie()
     }
 }
 
-void BeeSwarm::VRender(PrimHeader** ppOt)
+void BeeSwarm::VRender(BasePrimitive** ppOt)
 {
     GetAnimation().SetRenderLayer(Layer::eLayer_MainMenuButtonBees_38);
     GetAnimation().SetRGB(mRGB.r, mRGB.g, mRGB.b);

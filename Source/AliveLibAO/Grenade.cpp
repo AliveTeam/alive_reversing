@@ -29,7 +29,7 @@ Grenade::Grenade(FP xpos, FP ypos, s16 numGrenades)
     Animation_Init(GetAnimRes(AnimId::Grenade));
 
     SetInteractive(false);
-    GetAnimation().SetRenderMode(TPageAbr::eBlend_0);
+    GetAnimation().SetBlendMode(relive::TBlendModes::eBlend_0);
 
     GetAnimation().SetRender(false);
     GetAnimation().SetSemiTrans(true);

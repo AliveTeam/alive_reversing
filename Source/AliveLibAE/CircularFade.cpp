@@ -36,12 +36,9 @@ CircularFade::CircularFade(FP xpos, FP ypos, FP scale, s16 direction, s8 destroy
 
     mXPos = xpos;
     mYPos = ypos;
-    GetAnimation().SetRenderMode(TPageAbr::eBlend_2);
+    GetAnimation().SetBlendMode(relive::TBlendModes::eBlend_2);
     GetAnimation().SetRenderLayer(Layer::eLayer_FadeFlash_40);
     mRGB.SetRGB(mFadeColour, mFadeColour, mFadeColour);
-
-    Init_SetTPage(&mTPages[0], PSX_getTPage(TPageAbr::eBlend_2));
-    Init_SetTPage(&mTPages[1], PSX_getTPage(TPageAbr::eBlend_2));
 }
 
 CircularFade::~CircularFade()
@@ -52,7 +49,7 @@ CircularFade::~CircularFade()
     }
 }
 
-void CircularFade::VRender(PrimHeader** ppOt)
+void CircularFade::VRender(BasePrimitive** ppOt)
 {
     const u8 fade_rgb = static_cast<u8>((mFadeColour * 60) / 100);
 
@@ -96,49 +93,44 @@ void CircularFade::VRender(PrimHeader** ppOt)
     const u8 fadeColour = static_cast<u8>(mFadeColour);
 
     Poly_G4* pTile1 = &mTile1[gPsxDisplay.mBufferIndex];
-    PolyG4_Init(pTile1);
-    SetRGB0(pTile1, fadeColour, fadeColour, fadeColour);
-    SetRGB1(pTile1, fadeColour, fadeColour, fadeColour);
-    SetRGB2(pTile1, fadeColour, fadeColour, fadeColour);
-    SetRGB3(pTile1, fadeColour, fadeColour, fadeColour);
-    SetXYWH(pTile1, 0, 0, gPsxDisplay.mWidth, frameRect.y);
-    Poly_Set_SemiTrans(&pTile1->mBase.header, 1);
-    OrderingTable_Add(OtLayer(ppOt, GetAnimation().GetRenderLayer()), &pTile1->mBase.header);
+    pTile1->SetRGB0(fadeColour, fadeColour, fadeColour);
+    pTile1->SetRGB1(fadeColour, fadeColour, fadeColour);
+    pTile1->SetRGB2(fadeColour, fadeColour, fadeColour);
+    pTile1->SetRGB3(fadeColour, fadeColour, fadeColour);
+    pTile1->SetXYWH(0, 0, gPsxDisplay.mWidth, frameRect.y);
+    pTile1->SetSemiTransparent(true);
+    pTile1->SetBlendMode(relive::TBlendModes::eBlend_2);
+    OrderingTable_Add(OtLayer(ppOt, GetAnimation().GetRenderLayer()), pTile1);
 
     Poly_G4* pTile2 = &mTile2[gPsxDisplay.mBufferIndex];
-    PolyG4_Init(pTile2);
-    SetRGB0(pTile2, fadeColour, fadeColour, fadeColour);
-    SetRGB1(pTile2, fadeColour, fadeColour, fadeColour);
-    SetRGB2(pTile2, fadeColour, fadeColour, fadeColour);
-    SetRGB3(pTile2, fadeColour, fadeColour, fadeColour);
-    SetXYWH(pTile2, 0, frameRect.y, GetAnimation().GetFlipX() ? frameRect.x + 1 : frameRect.x, frameRect.h - frameRect.y);
-
-    Poly_Set_SemiTrans(&pTile2->mBase.header, 1);
-    OrderingTable_Add(OtLayer(ppOt, GetAnimation().GetRenderLayer()), &pTile2->mBase.header);
+    pTile2->SetRGB0(fadeColour, fadeColour, fadeColour);
+    pTile2->SetRGB1(fadeColour, fadeColour, fadeColour);
+    pTile2->SetRGB2(fadeColour, fadeColour, fadeColour);
+    pTile2->SetRGB3(fadeColour, fadeColour, fadeColour);
+    pTile2->SetXYWH(0, frameRect.y, GetAnimation().GetFlipX() ? frameRect.x + 1 : frameRect.x, frameRect.h - frameRect.y);
+    pTile2->SetSemiTransparent(true);
+    pTile2->SetBlendMode(relive::TBlendModes::eBlend_2);
+    OrderingTable_Add(OtLayer(ppOt, GetAnimation().GetRenderLayer()), pTile2);
 
     Poly_G4* pTile3 = &mTile3[gPsxDisplay.mBufferIndex];
-    PolyG4_Init(pTile3);
-    SetRGB0(pTile3, fadeColour, fadeColour, fadeColour);
-    SetRGB1(pTile3, fadeColour, fadeColour, fadeColour);
-    SetRGB2(pTile3, fadeColour, fadeColour, fadeColour);
-    SetRGB3(pTile3, fadeColour, fadeColour, fadeColour);
-    SetXYWH(pTile3, frameRect.w, frameRect.y, gPsxDisplay.mWidth - frameRect.w, frameRect.h - frameRect.y);
-
-    Poly_Set_SemiTrans(&pTile3->mBase.header, 1);
-    OrderingTable_Add(OtLayer(ppOt, GetAnimation().GetRenderLayer()), &pTile3->mBase.header);
+    pTile3->SetRGB0(fadeColour, fadeColour, fadeColour);
+    pTile3->SetRGB1(fadeColour, fadeColour, fadeColour);
+    pTile3->SetRGB2(fadeColour, fadeColour, fadeColour);
+    pTile3->SetRGB3(fadeColour, fadeColour, fadeColour);
+    pTile3->SetXYWH(frameRect.w, frameRect.y, gPsxDisplay.mWidth - frameRect.w, frameRect.h - frameRect.y);
+    pTile3->SetSemiTransparent(true);
+    pTile3->SetBlendMode(relive::TBlendModes::eBlend_2);
+    OrderingTable_Add(OtLayer(ppOt, GetAnimation().GetRenderLayer()), pTile3);
 
     Poly_G4* pTile4 = &mTile4[gPsxDisplay.mBufferIndex];
-    PolyG4_Init(pTile4);
-    SetRGB0(pTile4, fadeColour, fadeColour, fadeColour);
-    SetRGB1(pTile4, fadeColour, fadeColour, fadeColour);
-    SetRGB2(pTile4, fadeColour, fadeColour, fadeColour);
-    SetRGB3(pTile4, fadeColour, fadeColour, fadeColour);
-    SetXYWH(pTile4, 0, frameRect.h, gPsxDisplay.mWidth, gPsxDisplay.mHeight - frameRect.h);
-
-    Poly_Set_SemiTrans(&pTile4->mBase.header, 1);
-    OrderingTable_Add(OtLayer(ppOt, GetAnimation().GetRenderLayer()), &pTile4->mBase.header);
-
-    OrderingTable_Add(OtLayer(ppOt, GetAnimation().GetRenderLayer()), &mTPages[gPsxDisplay.mBufferIndex].mBase);
+    pTile4->SetRGB0(fadeColour, fadeColour, fadeColour);
+    pTile4->SetRGB1(fadeColour, fadeColour, fadeColour);
+    pTile4->SetRGB2(fadeColour, fadeColour, fadeColour);
+    pTile4->SetRGB3(fadeColour, fadeColour, fadeColour);
+    pTile4->SetXYWH(0, frameRect.h, gPsxDisplay.mWidth, gPsxDisplay.mHeight - frameRect.h);
+    pTile4->SetSemiTransparent(true);
+    pTile4->SetBlendMode(relive::TBlendModes::eBlend_2);
+    OrderingTable_Add(OtLayer(ppOt, GetAnimation().GetRenderLayer()), pTile4);
 
     if ((mFadeColour == 255 && mFadeIn) || (mFadeColour == 0 && !mFadeIn))
     {

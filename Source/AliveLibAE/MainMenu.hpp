@@ -155,7 +155,7 @@ public:
     void LoadAnimations();
 
     virtual void VUpdate() override;
-    virtual void VRender(PrimHeader** ppOt) override;
+    virtual void VRender(BasePrimitive** ppOt) override;
     virtual void VScreenChanged() override
     { 
         // Empty
@@ -224,44 +224,44 @@ public:
     s32 ChangeScreenAndIntroLogic_4CF640();
     void AnimationAndSoundLogic_4CFE80();
     void UpdateHighliteGlow_4D0630();
-    static void DrawMenuText_4D20D0(const MainMenuText* array, PrimHeader** ot, AliveFont* font, s32* polyIndex, s8 a5);
+    static void DrawMenuText_4D20D0(const MainMenuText* array, BasePrimitive** ot, AliveFont* font, s32* polyIndex, s8 a5);
 
     // Page Functions
-    void AbeSpeak_Render_4D2060(PrimHeader** ot);
+    void AbeSpeak_Render_4D2060(BasePrimitive** ot);
     MainMenuNextCam AbeSpeak_Update_4D2D20(u32 input_held);
 
-    void SligSpeak_Render_4D2370(PrimHeader** ot);
+    void SligSpeak_Render_4D2370(BasePrimitive** ot);
     MainMenuNextCam SligSpeak_Update_4D3280(u32 input_held);
     void SligSpeak_Unload_4D3170();
     void SligSpeak_Load_4D3090();
 
-    void GlukkonSpeak_Render_4D23C0(PrimHeader** ot);
+    void GlukkonSpeak_Render_4D23C0(BasePrimitive** ot);
     MainMenuNextCam GlukkonSpeak_Update_4D3670(u32 input_held);
     void GlukkonSpeak_Unload_4D3560();
     void GlukkonSpeak_Load_4D3480();
 
-    void ScrabSpeak_Render_4D2410(PrimHeader** ot);
+    void ScrabSpeak_Render_4D2410(BasePrimitive** ot);
     MainMenuNextCam ScrabSpeak_Update_4D3A60(u32 input_held);
     void ScrabSpeak_Unload_4D3950();
     void ScrabSpeak_Load_4D3870();
 
-    void ParamiteSpeak_Render_4D2460(PrimHeader** ot);
+    void ParamiteSpeak_Render_4D2460(BasePrimitive** ot);
     MainMenuNextCam ParamiteSpeak_Update_4D3D60(u32 input_held);
     void ParamiteSpeak_Unload_4D3C50();
     void ParamiteSpeak_Load_4D3B70();
 
     MainMenuNextCam Gamespeak_Update_4D1FC0(u32 input_held);
 
-    void RenderOnScreenTextHelper(PrimHeader** ot, const MainMenuText* menuTextArray, s32 count, s8 isSingleChar);
+    void RenderOnScreenTextHelper(BasePrimitive** ot, const MainMenuText* menuTextArray, s32 count, s8 isSingleChar);
 
-    void AbeMotions_Render_4D25E0(PrimHeader** ot);
-    void Gamespeak_Render_4D24F0(PrimHeader** ot);
-    void Options_Render_4D2540(PrimHeader** ot);
-    void BackStory_Or_NewGame_Render_4D2630(PrimHeader** ot);
+    void AbeMotions_Render_4D25E0(BasePrimitive** ot);
+    void Gamespeak_Render_4D24F0(BasePrimitive** ot);
+    void Options_Render_4D2540(BasePrimitive** ot);
+    void BackStory_Or_NewGame_Render_4D2630(BasePrimitive** ot);
 
-    void ControllerMenu_Render_Text_4D26C0(PrimHeader** pOt);
+    void ControllerMenu_Render_Text_4D26C0(BasePrimitive** pOt);
 
-    void Demo_And_FMV_List_Render_4D4F30(PrimHeader** ppOt);
+    void Demo_And_FMV_List_Render_4D4F30(BasePrimitive** ppOt);
 
     void t_Unload_AbeSpeak_Res_4D49F0();
 
@@ -271,7 +271,7 @@ public:
 
     // Front End
     MainMenuNextCam Page_Front_Update_4D0720(u32 input);
-    void Page_Front_Render_4D24B0(PrimHeader** ot);
+    void Page_Front_Render_4D24B0(BasePrimitive** ot);
 
     MainMenuNextCam LoadNewGame_Update_4D0920(u32 input);
 
@@ -293,14 +293,14 @@ public:
 
     void ControllerMenu_Load_4D16B0();
 
-    void RemapInput_Render_4D2A10(PrimHeader** ot);
+    void RemapInput_Render_4D2A10(BasePrimitive** ot);
 
     MainMenuNextCam ControllerMenu_Update_4D16D0(u32 input);
 
     MainMenuNextCam RemapInput_Update_4D1820(u32 input);
 
     MainMenuNextCam tLoadGame_Input_4D3EF0(u32 input);
-    void tLoadGame_Render_4D44D0(PrimHeader** pOt);
+    void tLoadGame_Render_4D44D0(BasePrimitive** pOt);
 
     void tLoadGame_Load_4D42F0();
     static s8 checkIfDemoFileExists_4D1430(char_type* path);
@@ -379,7 +379,7 @@ private:
 };
 
 using TFnInput = MainMenuNextCam (MainMenuController::*)(u32);
-using TFnRender = void (MainMenuController::*)(PrimHeader**);
+using TFnRender = void (MainMenuController::*)(BasePrimitive**);
 using TFnLoad = void (MainMenuController::*)();
 using TFnUnLoad = void (MainMenuController::*)();
 

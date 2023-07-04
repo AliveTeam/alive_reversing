@@ -21,11 +21,11 @@ public:
     ~LCDScreen();
 
     virtual void VUpdate() override;
-    virtual void VRender(PrimHeader** ppOt) override;
+    virtual void VRender(BasePrimitive** ppOt) override;
     virtual void VScreenChanged() override;
 
 private:
-    Prim_PrimClipper mPrimClippers[2][2] = {};
+    Prim_ScissorRect mPrimClippers[2][2] = {};
     FontContext mFontContext;
     AliveFont mFont = {};
     const char_type* mActiveMessage = nullptr;

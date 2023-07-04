@@ -162,7 +162,7 @@ BoomMachine::BoomMachine(relive::Path_BoomMachine* pTlv, const Guid& tlvId)
     Animation_Init(GetAnimRes(AnimId::BoomMachine_Button_Off));
 
     SetApplyShadowZoneColour(false);
-    GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
+    GetAnimation().SetBlendMode(relive::TBlendModes::eBlend_1);
 
     if (pTlv->mScale == relive::reliveScale::eHalf)
     {

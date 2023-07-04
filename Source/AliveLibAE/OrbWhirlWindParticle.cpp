@@ -14,7 +14,7 @@ OrbWhirlWindParticle::OrbWhirlWindParticle(FP xpos, FP ypos, FP scale, bool isMu
     mAnim.SetSemiTrans(true);
 
     mAnim.SetRenderLayer(Layer::eLayer_AbeMenu_32);
-    mAnim.SetRenderMode(TPageAbr::eBlend_1);
+    mAnim.SetBlendMode(relive::TBlendModes::eBlend_1);
     if (isMudokonSpirit)
     {
         mAnim.SetBlending(false);
@@ -176,7 +176,7 @@ void OrbWhirlWindParticle::Update()
     }
 }
 
-void OrbWhirlWindParticle::Render(PrimHeader** ppOt)
+void OrbWhirlWindParticle::Render(BasePrimitive** ppOt)
 {
     const FP x = std::min(gScreenManager->CamXPos(),
                           gScreenManager->CamXPos() + FP_FromInteger(367));

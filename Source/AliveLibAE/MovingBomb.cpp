@@ -50,7 +50,7 @@ MovingBomb::MovingBomb(relive::Path_MovingBomb* pTlv, const Guid& tlvId)
     Animation_Init(GetAnimRes(AnimId::MovingBomb));
 
     GetAnimation().SetSemiTrans(true);
-    GetAnimation().SetRenderMode(TPageAbr::eBlend_0);
+    GetAnimation().SetBlendMode(relive::TBlendModes::eBlend_0);
     mState = States::eTriggeredBySwitch_1;
 
     if (pTlv->mScale == relive::reliveScale::eHalf)
@@ -144,7 +144,7 @@ void MovingBomb::BlowUp()
     SfxPlayMono(relive::SoundEffects::GreenTick, 100, GetSpriteScale());
 }
 
-void MovingBomb::VRender(PrimHeader** ot)
+void MovingBomb::VRender(BasePrimitive** ot)
 {
     if (GetAnimation().GetRender())
     {

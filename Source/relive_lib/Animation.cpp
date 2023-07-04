@@ -33,7 +33,7 @@ void Animation::DecompressFrame()
     //UploadTexture(pFrameHeader, vram_rect, width_bpp_adjusted);
 }
 
-void Animation::VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width, s32 height)
+void Animation::VRender(s32 xpos, s32 ypos, BasePrimitive** ppOt, s16 width, s32 height)
 {
     const s16 xpos_pc = static_cast<s16>(PsxToPCX(xpos));
     const s16 width_pc = static_cast<s16>(PsxToPCX(width));
@@ -72,11 +72,10 @@ void Animation::VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width, s32 he
     }
 
     Poly_FT4* pPoly = &mOtData[gPsxDisplay.mBufferIndex];
-    PolyFT4_Init(pPoly);
-    Poly_Set_SemiTrans(&pPoly->mBase.header, GetSemiTrans());
-    Poly_Set_Blending(&pPoly->mBase.header, GetBlending());
+    pPoly->SetSemiTransparent( GetSemiTrans());
+    pPoly->DisableBlending(GetBlending());
 
-    SetRGB0(pPoly, mRgb);
+    pPoly->SetRGB0(mRgb.r & 0xFF, mRgb.g & 0xFF, mRgb.b & 0xFF);
 
     u8 u1 = 0 /*mVramRect.x & 63*/;
 
@@ -132,29 +131,24 @@ void Animation::VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width, s32 he
         polyYPos += FP_GetExponent(FP_NoFractional(yOffset_scaled));
     }
 
-    SetUV0(pPoly, kFlipX ? u0 : u1, kFlipY ? v1 : v0);
-    SetUV1(pPoly, kFlipX ? u1 : u0, kFlipY ? v1 : v0);
-    SetUV2(pPoly, kFlipX ? u0 : u1, kFlipY ? v0 : v1);
-    SetUV3(pPoly, kFlipX ? u1 : u0, kFlipY ? v0 : v1);
+    pPoly->SetUV0(kFlipX ? u0 : u1, kFlipY ? v1 : v0);
+    pPoly->SetUV1(kFlipX ? u1 : u0, kFlipY ? v1 : v0);
+    pPoly->SetUV2(kFlipX ? u0 : u1, kFlipY ? v0 : v1);
+    pPoly->SetUV3(kFlipX ? u1 : u0, kFlipY ? v0 : v1);
 
-    SetXY0(pPoly, polyXPos, polyYPos);
-    SetXY1(pPoly, polyXPos + FP_GetExponent(scaled_width), polyYPos);
-    SetXY2(pPoly, polyXPos, polyYPos + FP_GetExponent(scaled_height));
-    SetXY3(pPoly, polyXPos + FP_GetExponent(scaled_width), polyYPos + FP_GetExponent(scaled_height));
+    pPoly->SetXY0(polyXPos, polyYPos);
+    pPoly->SetXY1(polyXPos + FP_GetExponent(scaled_width), polyYPos);
+    pPoly->SetXY2(polyXPos, polyYPos + FP_GetExponent(scaled_height));
+    pPoly->SetXY3(polyXPos + FP_GetExponent(scaled_width), polyYPos + FP_GetExponent(scaled_height));
 
-    // TPage blend mode
-    s32 tpageEmptyBlend = GetTPage(pPoly) & ~PSX_getTPage(TPageAbr::eBlend_3);
-    s32 blendModeBits = PSX_getTPage(GetRenderMode());
-
-    SetTPage(pPoly, static_cast<u16>(tpageEmptyBlend | blendModeBits));
+    pPoly->SetBlendMode(GetBlendMode());
 
     pPoly->mFlipX = kFlipX;
     pPoly->mFlipY = kFlipY;
     pPoly->mAnim = this;
 
-    SetPrimExtraPointerHack(pPoly, &mAnimRes);
 
-    OrderingTable_Add(OtLayer(ppOt, GetRenderLayer()), &pPoly->mBase.header);
+    OrderingTable_Add(OtLayer(ppOt, GetRenderLayer()), pPoly);
 }
 
 void Animation::VCleanUp()
@@ -341,7 +335,7 @@ s16 Animation::Init(const AnimResource& ppAnimData, BaseGameObject* pGameObj)
     mFrameDelay = mAnimRes.mJsonPtr->mAttributes.mFrameRate;
     SetFrameChangeCounter(1);
     mCurrentFrame = -1;
-    SetRenderMode(TPageAbr::eBlend_0);
+    SetBlendMode(relive::TBlendModes::eBlend_0);
     mSpriteScale = FP_FromInteger(1);
 
     // NOTE: OG bug or odd compiler code gen? Why isn't it using the passed in list which appears to always be this anyway ??
@@ -395,20 +389,20 @@ void Animation::Get_Frame_Rect(PSX_RECT* pRect)
         return;
     }
 
-    const auto min_x0_x1 = std::min(X0(pPoly), X1(pPoly));
-    const auto min_x2_x3 = std::min(X2(pPoly), X3(pPoly));
+    const auto min_x0_x1 = std::min(pPoly->X0(), pPoly->X1());
+    const auto min_x2_x3 = std::min(pPoly->X2(), pPoly->X3());
     pRect->x = std::min(min_x0_x1, min_x2_x3);
 
-    const auto max_x0_x1 = std::max(X0(pPoly), X1(pPoly));
-    const auto max_x2_x3 = std::max(X2(pPoly), X3(pPoly));
+    const auto max_x0_x1 = std::max(pPoly->X0(), pPoly->X1());
+    const auto max_x2_x3 = std::max(pPoly->X2(), pPoly->X3());
     pRect->w = std::max(max_x0_x1, max_x2_x3);
 
-    const auto min_y0_y1 = std::min(Y0(pPoly), Y1(pPoly));
-    const auto min_y2_y3 = std::min(Y2(pPoly), Y3(pPoly));
+    const auto min_y0_y1 = std::min(pPoly->Y0(), pPoly->Y1());
+    const auto min_y2_y3 = std::min(pPoly->Y2(), pPoly->Y3());
     pRect->y = std::min(min_y0_y1, min_y2_y3);
 
-    const auto max_y0_y1 = std::max(Y0(pPoly), Y1(pPoly));
-    const auto max_y2_y3 = std::max(Y2(pPoly), Y3(pPoly));
+    const auto max_y0_y1 = std::max(pPoly->Y0(), pPoly->Y1());
+    const auto max_y2_y3 = std::max(pPoly->Y2(), pPoly->Y3());
     pRect->h = std::max(max_y0_y1, max_y2_y3);
 }
 

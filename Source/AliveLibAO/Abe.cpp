@@ -705,7 +705,7 @@ Abe::Abe()
     SetTint(sAbeTints_4C6438, gMap.mCurrentLevel);
 
     GetAnimation().SetSemiTrans(true);
-    GetAnimation().SetRenderMode(TPageAbr::eBlend_0);
+    GetAnimation().SetBlendMode(relive::TBlendModes::eBlend_0);
 
     field_110_state.raw = 0;
     field_114_gnFrame = sGnFrame;
@@ -1039,7 +1039,7 @@ void Abe::VUpdate()
     }
 }
 
-void Abe::VRender(PrimHeader** ppOt)
+void Abe::VRender(BasePrimitive** ppOt)
 {
     // When in death shrivel don't reset scale else can't shrivel into a black blob
     if (!mShrivel)
@@ -6128,7 +6128,7 @@ void Abe::Motion_60_Dead()
                 mFadeId = Guid{};
             }
 
-            pFade = relive_new Fade(Layer::eLayer_FadeFlash_40, FadeOptions::eFadeIn, 0, 8, TPageAbr::eBlend_2);
+            pFade = relive_new Fade(Layer::eLayer_FadeFlash_40, FadeOptions::eFadeIn, 0, 8, relive::TBlendModes::eBlend_2);
             if (pFade)
             {
                 mFadeId = pFade->mBaseGameObjectId;
@@ -7441,7 +7441,7 @@ void Abe::Motion_88_HandstoneBegin()
                         field_16E_cameraIdx = 1;
                         pCircularFade->SetDead(true);
                         mCircularFadeId = Guid{};
-                        auto pFade = relive_new Fade(Layer::eLayer_FadeFlash_40, FadeOptions::eFadeOut, 0, 8, TPageAbr::eBlend_2);
+                        auto pFade = relive_new Fade(Layer::eLayer_FadeFlash_40, FadeOptions::eFadeOut, 0, 8, relive::TBlendModes::eBlend_2);
                         if (pFade)
                         {
                             mFadeId = pFade->mBaseGameObjectId;
@@ -7570,7 +7570,7 @@ void Abe::Motion_88_HandstoneBegin()
                     pFade->SetDead(true);
                     field_110_state.stone = StoneStates::eWaitForInput_6;
                     field_16E_cameraIdx++;
-                    pFade = relive_new Fade(Layer::eLayer_FadeFlash_40, FadeOptions::eFadeOut, 0, 8, TPageAbr::eBlend_2);
+                    pFade = relive_new Fade(Layer::eLayer_FadeFlash_40, FadeOptions::eFadeOut, 0, 8, relive::TBlendModes::eBlend_2);
                     mFadeId = pFade->mBaseGameObjectId;
                     gMap.SetActiveCam(MapWrapper::FromAO(camera.level), camera.path, camera.camera, CameraSwapEffects::eInstantChange_0, 0, 0);
                 }

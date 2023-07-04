@@ -361,9 +361,8 @@ void DirectX9Renderer::EndFrame()
         SDL_Rect viewPortRect = GetTargetDrawRect();
 
         Poly_FT4 fullScreenPoly;
-        PolyFT4_Init(&fullScreenPoly);
-        SetRGB0(&fullScreenPoly, 255, 255, 255);
-        SetXYWH(&fullScreenPoly, (s16) viewPortRect.x, (s16) viewPortRect.y, (s16) viewPortRect.w, (s16) viewPortRect.h);
+        fullScreenPoly.SetRGB0(255, 255, 255);
+        fullScreenPoly.SetXYWH( (s16) viewPortRect.x, (s16) viewPortRect.y, (s16) viewPortRect.w, (s16) viewPortRect.h);
 
         // NOTE: This texture in the last batch is always used as the FB source
         std::shared_ptr<ATL::CComPtr<IDirect3DTexture9>> nullTex;
@@ -409,18 +408,13 @@ void DirectX9Renderer::EndFrame()
     DecreaseResourceLifetimes();
 }
 
-void DirectX9Renderer::SetTPage(u16 tPage)
-{
-    mGlobalTPage = tPage;
-}
-
-void DirectX9Renderer::SetClip(const Prim_PrimClipper& clipper)
+void DirectX9Renderer::SetClip(const Prim_ScissorRect& clipper)
 {
     SDL_Rect rect ;
-    rect.x = clipper.field_C_x;
-    rect.y = clipper.field_E_y;
-    rect.w = clipper.mBase.header.mRect.w;
-    rect.h = clipper.mBase.header.mRect.h;
+    rect.x = clipper.mRect.x;
+    rect.y = clipper.mRect.y;
+    rect.w = clipper.mRect.w;
+    rect.h = clipper.mRect.h;
 
     if (rect.x == 0 && rect.y == 0 && rect.w == 1 && rect.h == 1)
     {
@@ -444,22 +438,22 @@ void DirectX9Renderer::Draw(const Prim_GasEffect& gasEffect)
 
 void DirectX9Renderer::Draw(const Line_G2& line)
 {
-    mBatcher.PushLine(line, GetTPageBlendMode(mGlobalTPage));
+    mBatcher.PushLine(line, line.mBlendMode);
 }
 
 void DirectX9Renderer::Draw(const Line_G4& line)
 {
-    mBatcher.PushLine(line, GetTPageBlendMode(mGlobalTPage));
+    mBatcher.PushLine(line, line.mBlendMode);
 }
 
 void DirectX9Renderer::Draw(const Poly_G3& poly)
 {
-    mBatcher.PushPolyG3(poly, GetTPageBlendMode(mGlobalTPage));
+    mBatcher.PushPolyG3(poly, poly.mBlendMode);
 }
 
 void DirectX9Renderer::SetupBlendMode(u16 blendMode)
 {
-    if (static_cast<TPageAbr>(blendMode) == TPageAbr::eBlend_2)
+    if (static_cast<relive::TBlendModes>(blendMode) == relive::TBlendModes::eBlend_2)
     {
         DX_VERIFY(mDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA));
         DX_VERIFY(mDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE));
@@ -520,7 +514,7 @@ void DirectX9Renderer::Draw(const Poly_FT4& poly)
 
 void DirectX9Renderer::Draw(const Poly_G4& poly)
 {
-    mBatcher.PushPolyG4(poly, GetTPageBlendMode(mGlobalTPage));
+    mBatcher.PushPolyG4(poly, poly.mBlendMode);
 }
 
 void DirectX9Renderer::DecreaseResourceLifetimes()

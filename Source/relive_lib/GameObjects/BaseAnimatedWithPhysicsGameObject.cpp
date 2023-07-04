@@ -93,7 +93,7 @@ BaseAnimatedWithPhysicsGameObject::~BaseAnimatedWithPhysicsGameObject()
     }
 }
 
-void BaseAnimatedWithPhysicsGameObject::VRender(PrimHeader** ppOt)
+void BaseAnimatedWithPhysicsGameObject::VRender(BasePrimitive** ppOt)
 {
     if (GetAnimation().GetRender())
     {
@@ -178,7 +178,7 @@ void BaseAnimatedWithPhysicsGameObject::Animation_Init(const AnimResource& res)
         const bool added = gObjListDrawables->Push_Back(this) ? true : false;
         if (added)
         {
-            GetAnimation().SetRenderMode(TPageAbr::eBlend_0);
+            GetAnimation().SetBlendMode(relive::TBlendModes::eBlend_0);
             GetAnimation().SetBlending(false);
             GetAnimation().SetSemiTrans(true);
         }

@@ -326,7 +326,7 @@ void FallingItem::VUpdate()
                                                   GetAnimRes(AnimId::AirExplosion));
                 if (pParticle)
                 {
-                    pParticle->GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
+                    pParticle->GetAnimation().SetBlendMode(relive::TBlendModes::eBlend_1);
                     pParticle->SetSpriteScale(GetSpriteScale() * FP_FromDouble(0.75));
                 }
             }

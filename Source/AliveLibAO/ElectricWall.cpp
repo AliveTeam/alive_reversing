@@ -24,7 +24,7 @@ ElectricWall::ElectricWall(relive::Path_ElectricWall* pTlv, const Guid& tlvId)
     Animation_Init(GetAnimRes(AnimId::Electric_Wall));
 
     GetAnimation().SetSemiTrans(true);
-    GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
+    GetAnimation().SetBlendMode(relive::TBlendModes::eBlend_1);
     GetAnimation().SetRenderLayer(Layer::eLayer_Foreground_36);
 
     if (GetAnimation().Get_Frame_Count() > 0)

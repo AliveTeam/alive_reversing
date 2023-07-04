@@ -116,8 +116,7 @@ public:
     void Clear(u8 r, u8 g, u8 b) override;
     void StartFrame() override;
     void EndFrame() override;
-    void SetTPage(u16 tPage) override;
-    void SetClip(const Prim_PrimClipper& clipper) override;
+    void SetClip(const Prim_ScissorRect& clipper) override;
     void Draw(const Prim_GasEffect& gasEffect) override;
     void Draw(const Line_G2& line) override;
     void Draw(const Line_G4& line) override;
@@ -152,9 +151,6 @@ private:
     };
 
     bool mFrameStarted = false;
-
-    // TODO: Simply down the prim types so we don't need this
-    u16 mGlobalTPage = 0;
 
     PaletteCache mPaletteCache[MAX_FRAMES_IN_FLIGHT];
 
@@ -359,7 +355,7 @@ private:
         u32 mPalIdx;
         IRenderer::PsxDrawMode mDrawType;
         u32 mIsShaded;
-        u32 mBlendMode;
+        relive::TBlendModes mBlendMode;
         u32 mIsSemiTrans;
 
         static vk::VertexInputBindingDescription getBindingDescription()

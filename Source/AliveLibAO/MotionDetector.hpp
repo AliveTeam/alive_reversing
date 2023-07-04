@@ -34,7 +34,7 @@ public:
 
     virtual void VScreenChanged() override;
     virtual void VUpdate() override;
-    virtual void VRender(PrimHeader** ppOt) override;
+    virtual void VRender(BasePrimitive** ppOt) override;
 
     void SetDontComeBack(bool bDontComeBack);
 
@@ -58,7 +58,6 @@ public:
     FP mBottomRightY = {};
     Guid mLaserId;
     Poly_G3 mPrims[2] = {};
-    Prim_SetTPage mTPage[2] = {};
     FP mSpeed = {};
     bool mObjectInLaser = false;
 };

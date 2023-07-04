@@ -77,7 +77,7 @@ void Animation_OnFrame_Common(BaseGameObject* pObjPtr, u32&, const IndexedPoint&
     auto pPartical = relive_new Particle(xpos, ypos, ppAnimData);
     if (pPartical)
     {
-        pPartical->GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
+        pPartical->GetAnimation().SetBlendMode(relive::TBlendModes::eBlend_1);
 
         if (pObj->GetScale() == Scale::Fg)
         {
@@ -148,7 +148,7 @@ void Animation_OnFrame_FlyingSlig(BaseGameObject* pObjPtr, u32&, const IndexedPo
     auto pParticle = relive_new Particle(xpos, ypos, pObj->GetAnimRes(AnimId::Vaporize_Particle));
     if (pParticle)
     {
-        pParticle->GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
+        pParticle->GetAnimation().SetBlendMode(relive::TBlendModes::eBlend_1);
         pParticle->GetAnimation().SetRenderLayer(Layer::eLayer_Foreground_36);
         pParticle->mRGB.SetRGB(64, 64, 64);
         pParticle->SetSpriteScale(FP_FromDouble(0.6) * pObj->GetSpriteScale());

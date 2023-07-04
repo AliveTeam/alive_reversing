@@ -17,7 +17,7 @@ ScreenClipper::~ScreenClipper()
     gObjListDrawables->Remove_Item(this);
 }
 
-void ScreenClipper::VRender(PrimHeader** ppOt)
+void ScreenClipper::VRender(BasePrimitive** ppOt)
 {
     PSX_RECT clipRect = {};
 
@@ -32,9 +32,9 @@ void ScreenClipper::VRender(PrimHeader** ppOt)
         clipRect.y += gPsxDisplay.mHeight;
     }
 
-    Prim_PrimClipper* pClipper = &mClippers[gPsxDisplay.mBufferIndex];
-    Init_PrimClipper(pClipper, &clipRect);
-    OrderingTable_Add(OtLayer(ppOt, mOtLayer), &pClipper->mBase);
+    Prim_ScissorRect* pClipper = &mClippers[gPsxDisplay.mBufferIndex];
+    pClipper->SetRect(clipRect);
+    OrderingTable_Add(OtLayer(ppOt, mOtLayer), pClipper);
 }
 
 void ScreenClipper::VUpdate()

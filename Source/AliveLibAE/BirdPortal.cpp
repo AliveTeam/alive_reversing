@@ -258,7 +258,7 @@ void BirdPortal::VUpdate()
                         if (pParticle)
                         {
                             pParticle->SetApplyShadowZoneColour(false);
-                            pParticle->GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
+                            pParticle->GetAnimation().SetBlendMode(relive::TBlendModes::eBlend_1);
                             pParticle->SetType(ReliveTypes::eBirdPortalTerminator);
                             pParticle->SetSpriteScale(mSpriteScale);
 
@@ -372,7 +372,7 @@ void BirdPortal::VUpdate()
                     pTerminator2->mXPos,
                     pTerminator2->mYPos,
                     GetAnimRes(AnimId::BirdPortal_Flash));
-                pParticle->GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
+                pParticle->GetAnimation().SetBlendMode(relive::TBlendModes::eBlend_1);
                 pParticle->SetApplyShadowZoneColour(false);
                 pParticle->SetSpriteScale(mSpriteScale);
 
@@ -400,21 +400,21 @@ void BirdPortal::VUpdate()
 
         case PortalStates::CreateFlash1_12:
         {
-            relive_new Flash(Layer::eLayer_FadeFlash_40, 255, 255, 255, TPageAbr::eBlend_3, 1);
+            relive_new Flash(Layer::eLayer_FadeFlash_40, 255, 255, 255, relive::TBlendModes::eBlend_3, 1);
             mState = PortalStates::CreateFlash2_13;
         }
         break;
 
         case PortalStates::CreateFlash2_13:
         {
-            relive_new Flash(Layer::eLayer_FadeFlash_40, 255, 255, 255, TPageAbr::eBlend_0, 1);
+            relive_new Flash(Layer::eLayer_FadeFlash_40, 255, 255, 255, relive::TBlendModes::eBlend_0, 1);
             mState = PortalStates::CreateFlash3_14;
         }
         break;
 
         case PortalStates::CreateFlash3_14:
         {
-            relive_new Flash(Layer::eLayer_FadeFlash_40, 255, 255, 255, TPageAbr::eBlend_0, 1);
+            relive_new Flash(Layer::eLayer_FadeFlash_40, 255, 255, 255, relive::TBlendModes::eBlend_0, 1);
             mState = PortalStates::KillPortal_15;
             mTimer = MakeTimer(5);
         }
@@ -674,7 +674,7 @@ void BirdPortal::VGetSaveState(SerializedObjectData& pBuffer)
     pBuffer.Write(data);
 }
 
-void BirdPortal::VRender(PrimHeader** /*ppOt*/)
+void BirdPortal::VRender(BasePrimitive** /*ppOt*/)
 {
     // Null
 }
@@ -1050,7 +1050,7 @@ BirdPortalTerminator::BirdPortalTerminator(FP xpos, FP ypos, FP scale, relive::P
     LoadAnimations();
     Animation_Init(GetAnimRes(AnimId::BirdPortal_TerminatorGrow));
 
-    GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
+    GetAnimation().SetBlendMode(relive::TBlendModes::eBlend_1);
     SetSpriteScale(scale);
     if (GetSpriteScale() == FP_FromInteger(1))
     {

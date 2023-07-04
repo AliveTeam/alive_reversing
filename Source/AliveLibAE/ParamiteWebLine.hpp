@@ -20,7 +20,7 @@ public:
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
     virtual PSX_RECT VGetBoundingRect() override;
-    virtual void VRender(PrimHeader** ppOt) override;
+    virtual void VRender(BasePrimitive** ppOt) override;
 
 private:
     s16 field_F4_anim_segment_count = 0;

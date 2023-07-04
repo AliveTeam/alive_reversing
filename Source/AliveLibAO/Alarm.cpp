@@ -14,7 +14,7 @@ namespace AO {
 s16 gAlarmInstanceCount = 0;
 
 Alarm::Alarm(s32 duration_timer, u16 switchId, s32 timer, Layer layer)
-    : EffectBase(layer, TPageAbr::eBlend_1),
+    : EffectBase(layer, relive::TBlendModes::eBlend_1),
     mAlarmState(States::eAfterConstructed_0),
     mAlarmSwitchId(switchId)
 {
@@ -44,7 +44,7 @@ Alarm::~Alarm()
     SwitchStates_Set(mAlarmSwitchId, 0);
 }
 
-void Alarm::VRender(PrimHeader** ppOt)
+void Alarm::VRender(BasePrimitive** ppOt)
 {
     if (gNumCamSwappers == 0)
     {

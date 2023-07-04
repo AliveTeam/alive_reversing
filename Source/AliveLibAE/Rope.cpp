@@ -29,25 +29,25 @@ static const TintEntry kRopeTints[16] = {
 
 void ClipPoly_Vertically(Poly_FT4* pPoly, s32 minY, s32 maxY)
 {
-    const s32 d1 = minY - Y0(pPoly);
-    const s16 polyHeight = Y3(pPoly) - Y0(pPoly);
-    if (minY - Y0(pPoly) > 0 && d1 <= polyHeight)
+    const s32 d1 = minY - pPoly->Y0();
+    const s16 polyHeight = pPoly->Y3() - pPoly->Y0();
+    if (minY - pPoly->Y0() > 0 && d1 <= polyHeight)
     {
-        SetXY0(pPoly, X0(pPoly), Y0(pPoly) + (s16) d1);
-        SetXY1(pPoly, X1(pPoly), Y1(pPoly) + (s16) d1);
+        pPoly->SetXY0(pPoly->X0(), pPoly->Y0() + (s16) d1);
+        pPoly->SetXY1(pPoly->X1(), pPoly->Y1() + (s16) d1);
 
-        SetUV0(pPoly, U0(pPoly), V0(pPoly) + (u8) d1);
-        SetUV1(pPoly, U1(pPoly), V1(pPoly) + (u8) d1);
+        pPoly->SetUV0(pPoly->U0(), pPoly->V0() + (u8) d1);
+        pPoly->SetUV1(pPoly->U1(), pPoly->V1() + (u8) d1);
     }
 
-    const s32 d2 = Y3(pPoly) - maxY;
+    const s32 d2 = pPoly->Y3() - maxY;
     if (d2 > 0 && d2 <= polyHeight)
     {
-        SetXY2(pPoly, X2(pPoly), Y2(pPoly) - (s16) d2);
-        SetXY3(pPoly, X3(pPoly), Y3(pPoly) - (s16) d2);
+        pPoly->SetXY2(pPoly->X2(), pPoly->Y2() - (s16) d2);
+        pPoly->SetXY3(pPoly->X3(), pPoly->Y3() - (s16) d2);
 
-        SetUV2(pPoly, U2(pPoly), V2(pPoly) - (u8) d2);
-        SetUV3(pPoly, U3(pPoly), V3(pPoly) - (u8) d2);
+        pPoly->SetUV2(pPoly->U2(), pPoly->V2() - (u8) d2);
+        pPoly->SetUV3(pPoly->U3(), pPoly->V3() - (u8) d2);
     }
 }
 
@@ -116,7 +116,7 @@ Rope::~Rope()
     relive_delete[] mRopeAnim;
 }
 
-void Rope::VRender(PrimHeader** ppOt)
+void Rope::VRender(BasePrimitive** ppOt)
 {
     PSX_Point camPos = {};
     gMap.GetCurrentCamCoords(&camPos);

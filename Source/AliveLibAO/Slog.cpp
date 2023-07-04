@@ -768,7 +768,7 @@ void Slog::VScreenChanged()
     }
 }
 
-void Slog::VRender(PrimHeader** ppOt)
+void Slog::VRender(BasePrimitive** ppOt)
 {
     if (UpdateDelay() == 0)
     {

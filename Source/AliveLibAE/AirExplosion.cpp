@@ -39,7 +39,7 @@ AirExplosion::AirExplosion(FP xpos, FP ypos, FP explosion_size, bool bSmall)
     }
 
     GetAnimation().SetIsLastFrame(false);
-    GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
+    GetAnimation().SetBlendMode(relive::TBlendModes::eBlend_1);
     mParticleScale = explosion_size;
     SetScale(explosion_size == FP_FromInteger(1) ? Scale::Fg : Scale::Bg);
     SetSpriteScale(explosion_size * FP_FromInteger(2));
@@ -86,7 +86,7 @@ void AirExplosion::VUpdate()
 
         case 4:
         {
-            relive_new Flash(Layer::eLayer_Above_FG1_39, 255, 255, 255, TPageAbr::eBlend_1, 1);
+            relive_new Flash(Layer::eLayer_Above_FG1_39, 255, 255, 255, relive::TBlendModes::eBlend_1, 1);
             rect.x = FP_GetExponent(FP_FromInteger(-38) * mExplosionSize);
             rect.w = FP_GetExponent(FP_FromInteger(38) * mExplosionSize);
             rect.y = FP_GetExponent(FP_FromInteger(-38) * mExplosionSize);
@@ -107,7 +107,7 @@ void AirExplosion::VUpdate()
         case 8:
         {
             relive_new ParticleBurst(mXPos, mYPos, mSmallExplosion ? 6 : 20, mParticleScale, BurstType::eBigRedSparks_3, mSmallExplosion ? 11 : 13);
-            relive_new Flash(Layer::eLayer_Above_FG1_39, 255, 255, 255, TPageAbr::eBlend_3, 1);
+            relive_new Flash(Layer::eLayer_Above_FG1_39, 255, 255, 255, relive::TBlendModes::eBlend_3, 1);
             break;
         }
 
@@ -143,7 +143,7 @@ void AirExplosion::VUpdate()
             }
 
             pParticle->SetApplyShadowZoneColour(false);
-            pParticle->GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
+            pParticle->GetAnimation().SetBlendMode(relive::TBlendModes::eBlend_1);
 
             if (GetAnimation().GetCurrentFrame() == 3)
             {

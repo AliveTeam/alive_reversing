@@ -45,7 +45,7 @@ BirdPortalTerminator::BirdPortalTerminator(FP xpos, FP ypos, FP scale, relive::P
 
     Animation_Init(GetAnimRes(AnimId::BirdPortal_TerminatorGrow));
     
-    GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
+    GetAnimation().SetBlendMode(relive::TBlendModes::eBlend_1);
     SetSpriteScale(scale);
     if (scale == FP_FromInteger(1))
     {
@@ -430,7 +430,7 @@ void BirdPortal::VUpdate()
                     if (pParticle)
                     {
                         pParticle->SetApplyShadowZoneColour(false);
-                        pParticle->GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
+                        pParticle->GetAnimation().SetBlendMode(relive::TBlendModes::eBlend_1);
                         pParticle->SetType(ReliveTypes::eBirdPortalTerminator);
                         pParticle->SetSpriteScale(mSpriteScale);
 
@@ -544,7 +544,7 @@ void BirdPortal::VUpdate()
                 if (pParticle_1)
                 {
                     pParticle_1->SetApplyShadowZoneColour(false);
-                    pParticle_1->GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
+                    pParticle_1->GetAnimation().SetBlendMode(relive::TBlendModes::eBlend_1);
                     pParticle_1->SetSpriteScale(mSpriteScale);
                 }
 
@@ -579,14 +579,14 @@ void BirdPortal::VUpdate()
 
         case PortalStates::CreateFlash2_13:
         {
-            relive_new Flash(Layer::eLayer_FadeFlash_40, 255u, 255u, 255u, TPageAbr::eBlend_0, 1);
+            relive_new Flash(Layer::eLayer_FadeFlash_40, 255u, 255u, 255u, relive::TBlendModes::eBlend_0, 1);
             mState = PortalStates::CreateFlash3_14;
         }
         break;
 
         case PortalStates::CreateFlash3_14:
         {
-            relive_new Flash(Layer::eLayer_FadeFlash_40, 255u, 255u, 255u, TPageAbr::eBlend_0, 1);
+            relive_new Flash(Layer::eLayer_FadeFlash_40, 255u, 255u, 255u, relive::TBlendModes::eBlend_0, 1);
             mState = PortalStates::KillPortal_15;
             mTimer = MakeTimer(5);
         }

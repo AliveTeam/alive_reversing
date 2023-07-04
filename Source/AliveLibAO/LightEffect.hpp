@@ -15,7 +15,7 @@ public:
     LightEffect(relive::Path_LightEffect* pTlv, const Guid& tlvId);
     ~LightEffect();
 
-    virtual void VRender(PrimHeader** ppOt) override;
+    virtual void VRender(BasePrimitive** ppOt) override;
     virtual void VScreenChanged() override;
     virtual void VUpdate() override;
 

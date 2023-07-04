@@ -172,7 +172,7 @@ void ThrowableArray::CreateFromSaveState(SerializedObjectData& pBuffer)
     pArray->Add(pState->mCount);
 }
 
-void ThrowableArray::VRender(PrimHeader** /*ppOt*/)
+void ThrowableArray::VRender(BasePrimitive** /*ppOt*/)
 {
     // Nothing to do here
 }

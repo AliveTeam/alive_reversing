@@ -151,7 +151,6 @@ void LaughingGas::Init()
         }
     }
 
-    field_5C_prim.mPrimHeader.rgb_code.code_or_pad = PrimTypeCodes::eLaughingGas;
     field_5C_prim.x = field_2A_x;
     field_5C_prim.y = field_28_y;
     field_5C_prim.w = field_2E_w;
@@ -159,7 +158,7 @@ void LaughingGas::Init()
     field_5C_prim.pData = field_19C_pMem;
 }
 
-void LaughingGas::VRender(PrimHeader** ppOt)
+void LaughingGas::VRender(BasePrimitive** ppOt)
 {
     if (field_54_amount_on > FP_FromDouble(0.1) || field_36_bLaughing_gas == Choice_short::eNo_0)
     {
@@ -169,7 +168,7 @@ void LaughingGas::VRender(PrimHeader** ppOt)
             {
                 DoRender();
             }
-            OrderingTable_Add(OtLayer(ppOt, field_58_layer), &field_5C_prim.mPrimHeader);
+            OrderingTable_Add(OtLayer(ppOt, field_58_layer), &field_5C_prim);
         }
     }
 }

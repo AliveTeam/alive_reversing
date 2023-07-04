@@ -39,25 +39,25 @@ public:
     void LoadAnimations();
 
     virtual void VUpdate() override;
-    virtual void VRender(PrimHeader** ppOt) override;
+    virtual void VRender(BasePrimitive** ppOt) override;
     virtual void VScreenChanged() override;
 
     void Init();
 
     void Page_Main_Update();
-    void Page_Base_Render(PrimHeader** ot, PauseMenuPage* pPage);
+    void Page_Base_Render(BasePrimitive** ot, PauseMenuPage* pPage);
 
     void Page_ControlsActions_Update();
     void Page_QuitConfirmation_Update();
 
     void Page_Save_Update();
-    void Page_Save_Render(PrimHeader** ot, PauseMenuPage* pPage);
+    void Page_Save_Render(BasePrimitive** ot, PauseMenuPage* pPage);
 
     void Page_Status_Update();
-    void Page_Status_Render(PrimHeader** ot, PauseMenuPage* pPage);
+    void Page_Status_Render(BasePrimitive** ot, PauseMenuPage* pPage);
 
     void Page_Load_Update();
-    void Page_Load_Render(PrimHeader** ot, PauseMenuPage* pPage);
+    void Page_Load_Render(BasePrimitive** ot, PauseMenuPage* pPage);
 
     using t_PmPage_Update = decltype(&PauseMenu::Page_Main_Update);
     using t_PmPage_Render = decltype(&PauseMenu::Page_Base_Render);
@@ -109,7 +109,6 @@ public:
     s16 mPolyOffset = 0;
     PauseMenu::PauseMenuPage mActiveMenu = {};
     Animation mMudIconAnim = {};
-    Prim_SetTPage mPrimitives[2] = {};
     Poly_G4 mPolyG4s[2] = {};
     bool mPauseRenderLoop = false;
 };

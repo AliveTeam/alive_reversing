@@ -11,12 +11,11 @@ DataConversionUI::DataConversionUI(GameType gameType)
     : BaseGameObject(FALSE, 0)
     , mGameType(gameType)
 {
-    PolyG4_Init(&mPoly);
-    SetXYWH(&mPoly, 0, 0, 640, 240);
-    SetRGB0(&mPoly, 255, 0, 0);
-    SetRGB1(&mPoly, 0, 255, 255);
-    SetRGB2(&mPoly, 0, 0, 255);
-    SetRGB3(&mPoly, 255, 0, 255);
+    mPoly.SetXYWH(0, 0, 640, 240);
+    mPoly.SetRGB0(255, 0, 0);
+    mPoly.SetRGB1(0, 255, 255);
+    mPoly.SetRGB2(0, 0, 255);
+    mPoly.SetRGB3(255, 0, 255);
 
     /*
     mFontContext.LoadFontType(FontType::LcdFont);
@@ -119,10 +118,10 @@ void DataConversionUI::VUpdate()
         SetDead(true);
     }
 
-    SetRGB0(&mPoly, 0, 0, 0);
-    SetRGB1(&mPoly, 0, 0, 0);
-    SetRGB2(&mPoly, 0, 0, 0);
-    SetRGB3(&mPoly, 0, 0, 0);
+    mPoly.SetRGB0(0, 0, 0);
+    mPoly.SetRGB1(0, 0, 0);
+    mPoly.SetRGB2(0, 0, 0);
+    mPoly.SetRGB3(0, 0, 0);
 
     //mLcdStatusBoard->VUpdate();
     //mLcd->VUpdate();
@@ -143,14 +142,14 @@ void DataConversionUI::VUpdate()
     }
 }
 
-void DataConversionUI::VRender(PrimHeader** ppOt)
+void DataConversionUI::VRender(BasePrimitive** ppOt)
 {
     //mLcdStatusBoard->VRender(ppOt);
     //mLcd->VRender(ppOt);
 
     gFontDrawScreenSpace = true;
-    mFont.DrawString(ppOt, mCurMessage.c_str(), 20, (240)-15, TPageAbr::eBlend_0, 0, 0, Layer::eLayer_0, 127, 127, 127, 0, FP_FromInteger(1), 640, 0);
-    OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_0), &mPoly.mBase.header);
+    mFont.DrawString(ppOt, mCurMessage.c_str(), 20, (240)-15, relive::TBlendModes::eBlend_0, 0, 0, Layer::eLayer_0, 127, 127, 127, 0, FP_FromInteger(1), 640, 0);
+    OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_0), &mPoly);
     gFontDrawScreenSpace = false;
 }
 

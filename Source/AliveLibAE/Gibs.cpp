@@ -318,7 +318,7 @@ void Gibs::VUpdate()
     }
 }
 
-void Gibs::VRender(PrimHeader** ppOt)
+void Gibs::VRender(BasePrimitive** ppOt)
 {
     if (gNumCamSwappers > 0)
     {

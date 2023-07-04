@@ -286,7 +286,7 @@ void LCDScreen::VUpdate()
     }
 }
 
-void LCDScreen::VRender(PrimHeader** ppOt)
+void LCDScreen::VRender(BasePrimitive** ppOt)
 {
     if (gNumCamSwappers == 0)
     {
@@ -301,8 +301,8 @@ void LCDScreen::VRender(PrimHeader** ppOt)
             640,
             240};
 
-        Init_PrimClipper(&mPrimClippers[0][gPsxDisplay.mBufferIndex], &clipRect);
-        OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_RopeWebDrillMeatSaw_24), &mPrimClippers[0][gPsxDisplay.mBufferIndex].mBase);
+        mPrimClippers[0][gPsxDisplay.mBufferIndex].SetRect(clipRect);
+        OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_RopeWebDrillMeatSaw_24), &mPrimClippers[0][gPsxDisplay.mBufferIndex]);
 
         gFontDrawScreenSpace = true;
         mFont.DrawString(
@@ -310,7 +310,7 @@ void LCDScreen::VRender(PrimHeader** ppOt)
             mActiveMessage,
             static_cast<s16>(screenXWorld - mOffsetX),
             static_cast<s16>(screenY),
-            TPageAbr::eBlend_1,
+            relive::TBlendModes::eBlend_1,
             1,
             0,
             Layer::eLayer_RopeWebDrillMeatSaw_24,
@@ -330,8 +330,8 @@ void LCDScreen::VRender(PrimHeader** ppOt)
             48};
 
         auto* clipper = &mPrimClippers[1][gPsxDisplay.mBufferIndex];
-        Init_PrimClipper(clipper, &clipRect);
-        OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_RopeWebDrillMeatSaw_24), &clipper->mBase);
+        clipper->SetRect(clipRect);
+        OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_RopeWebDrillMeatSaw_24), clipper);
     }
 }
 

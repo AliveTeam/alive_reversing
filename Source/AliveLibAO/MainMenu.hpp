@@ -25,7 +25,7 @@ public:
     void LoadAnimations();
 
     virtual void VUpdate() override;
-    virtual void VRender(PrimHeader** ppOt) override;
+    virtual void VRender(BasePrimitive** ppOt) override;
 
     s16 mRgbValue;
     s16 mRgbModifier;
@@ -111,7 +111,7 @@ public:
     void LoadAnimations();
 
     virtual void VUpdate() override;
-    virtual void VRender(PrimHeader** ppOt) override;
+    virtual void VRender(BasePrimitive** ppOt) override;
     virtual void VScreenChanged() override;
 
     void ProgressInProgressFilesLoading();
@@ -188,24 +188,24 @@ public:
 
     void GameSpeak_To_MainScreen_Update();
 
-    void ToggleMotions_Render(PrimHeader** ppOt);
-    void SaveLoadFailed_Render(PrimHeader** ppOt);
-    void ButtonRemap_Render(PrimHeader** ppOt);
-    void Options_Sound_Render(PrimHeader** ppOt);
-    void Options_Controller_Render(PrimHeader** ppOt);
-    void Empty_Render(PrimHeader** ppOt);
-    void FMV_Or_Level_Select_Render(PrimHeader** ppOt);
-    void MainScreen_Render(PrimHeader** ppOt);
-    void GameSpeak_Render(PrimHeader** ppOt);
-    void Render_NoRefs(PrimHeader** ppOt);
-    void Load_Render(PrimHeader** ppOt);
-    void Options_Render(PrimHeader** ppOt);
+    void ToggleMotions_Render(BasePrimitive** ppOt);
+    void SaveLoadFailed_Render(BasePrimitive** ppOt);
+    void ButtonRemap_Render(BasePrimitive** ppOt);
+    void Options_Sound_Render(BasePrimitive** ppOt);
+    void Options_Controller_Render(BasePrimitive** ppOt);
+    void Empty_Render(BasePrimitive** ppOt);
+    void FMV_Or_Level_Select_Render(BasePrimitive** ppOt);
+    void MainScreen_Render(BasePrimitive** ppOt);
+    void GameSpeak_Render(BasePrimitive** ppOt);
+    void Render_NoRefs(BasePrimitive** ppOt);
+    void Load_Render(BasePrimitive** ppOt);
+    void Options_Render(BasePrimitive** ppOt);
 
     void FMV_Or_Level_Select_Back_Update();
 
     static void OnResourceLoaded(Menu* pMenu);
 
-    static void RenderElement(s32 xpos, s32 ypos, s32 input_command, PrimHeader** ot, AliveFont* pFont, s32* pPolyOffset);
+    static void RenderElement(s32 xpos, s32 ypos, s32 input_command, BasePrimitive** ot, AliveFont* pFont, s32* pPolyOffset);
 
    // u8** field_E4_res_array[6] = {};
     FontContext mFontContext;

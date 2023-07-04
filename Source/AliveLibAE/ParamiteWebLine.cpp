@@ -114,7 +114,7 @@ ParamiteWebLine::ParamiteWebLine(relive::Path_ParamiteWebLine* pTlv, const Guid&
 
         field_108_anim_flare.SetRenderLayer(GetAnimation().GetRenderLayer());
         field_108_anim_flare.SetSpriteScale(FP_FromDouble(0.3));
-        field_108_anim_flare.SetRenderMode(TPageAbr::eBlend_1);
+        field_108_anim_flare.SetBlendMode(relive::TBlendModes::eBlend_1);
 
         field_108_anim_flare.SetSemiTrans(false);
         field_108_anim_flare.SetBlending(false);
@@ -199,7 +199,7 @@ PSX_RECT ParamiteWebLine::VGetBoundingRect()
 
 const s16 word_563A8C[10] = {0, 1, -3, 2, -4, 4, -6, 4, 0, 0};
 
-void ParamiteWebLine::VRender(PrimHeader** ppOt)
+void ParamiteWebLine::VRender(BasePrimitive** ppOt)
 {
     if (!field_104_wobble_idx && !field_1A4_delay_counter)
     {

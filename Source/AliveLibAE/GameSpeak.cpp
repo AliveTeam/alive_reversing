@@ -146,7 +146,7 @@ GameSpeak::~GameSpeak()
     gEventSystem = nullptr;
 }
 
-void GameSpeak::VRender(PrimHeader** /*ppOt*/)
+void GameSpeak::VRender(BasePrimitive** /*ppOt*/)
 {
     // Null @ 0x4DBF80
 }

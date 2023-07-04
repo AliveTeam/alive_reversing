@@ -8,7 +8,7 @@
 
 extern u32 sGnFrame;
 
-struct PrimHeader;
+struct BasePrimitive;
 
 class SerializedObjectData;
 
@@ -22,7 +22,7 @@ public:
 
     virtual void VUpdate();
 
-    virtual void VRender(PrimHeader** pOrderingTable);
+    virtual void VRender(BasePrimitive** pOrderingTable);
 
     virtual void VScreenChanged();
 

@@ -48,7 +48,7 @@ void LCDStatusBoard::VUpdate()
     }
 }
 
-void LCDStatusBoard::VRender(PrimHeader** ppOt)
+void LCDStatusBoard::VRender(BasePrimitive** ppOt)
 {
     char_type text[12] = {};
     sprintf(text, "%02d", Path_GetTotalMuds(gMap.mCurrentLevel, gMap.mCurrentPath) - sRescuedMudokons - sKilledMudokons);
@@ -60,7 +60,7 @@ void LCDStatusBoard::VRender(PrimHeader** ppOt)
         text,
         mXPos - w1 + 22,
         mYPos,
-        TPageAbr::eBlend_1,
+        relive::TBlendModes::eBlend_1,
         1,
         0,
         Layer::eLayer_BeforeWell_22,
@@ -79,7 +79,7 @@ void LCDStatusBoard::VRender(PrimHeader** ppOt)
         text,
         mXPos - w2 + 22,
         mYPos + 16,
-        TPageAbr::eBlend_1,
+        relive::TBlendModes::eBlend_1,
         1,
         0,
         Layer::eLayer_BeforeWell_22,
@@ -98,7 +98,7 @@ void LCDStatusBoard::VRender(PrimHeader** ppOt)
         text,
         mXPos - w3 + 22,
         mYPos + 32,
-        TPageAbr::eBlend_1,
+        relive::TBlendModes::eBlend_1,
         1,
         0,
         Layer::eLayer_BeforeWell_22,

@@ -106,7 +106,7 @@ DoorLight::DoorLight(relive::Path_LightEffect* pTlv, const Guid& tlvId)
 
     SetApplyShadowZoneColour(false);
     GetAnimation().SetRenderLayer(Layer::eLayer_Foreground_Half_17);
-    GetAnimation().SetRenderMode(TPageAbr::eBlend_3);
+    GetAnimation().SetBlendMode(relive::TBlendModes::eBlend_3);
 
     GetAnimation().SetBlending(false);
     GetAnimation().SetSemiTrans(true);
@@ -191,7 +191,7 @@ void DoorLight::VUpdate()
     }
 }
 
-void DoorLight::VRender(PrimHeader** ppOt)
+void DoorLight::VRender(BasePrimitive** ppOt)
 {
     if (gNumCamSwappers == 0)
     {

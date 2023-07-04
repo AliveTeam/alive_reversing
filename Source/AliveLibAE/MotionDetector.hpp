@@ -25,7 +25,7 @@ public:
     ~MotionDetector();
 
     virtual void VUpdate() override;
-    virtual void VRender(PrimHeader** ppOt) override;
+    virtual void VRender(BasePrimitive** ppOt) override;
     virtual void VScreenChanged() override;
 
 private:
@@ -58,7 +58,6 @@ private:
     FP mBottomRightX = {};
     FP mBottomRightY = {};
     Poly_G3 mPrims[2] = {};
-    Prim_SetTPage mTPage[2] = {};
     FP mSpeed = {};
     bool mObjectInLaser = false;
 };

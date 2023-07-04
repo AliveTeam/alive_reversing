@@ -605,7 +605,7 @@ Abe::Abe() :
     SetTint(&sAbeTintTable[0], gMap.mCurrentLevel);
 
     GetAnimation().SetSemiTrans(true);
-    GetAnimation().SetRenderMode(TPageAbr::eBlend_0);
+    GetAnimation().SetBlendMode(relive::TBlendModes::eBlend_0);
 
     field_120_state.raw = 0;
     field_124_timer = sGnFrame;
@@ -754,7 +754,7 @@ void Abe::CreateFromSaveState(const AbeSaveState& pData)
     sActiveHero->GetAnimation().ReloadPal();
 
     sActiveHero->SetTint(sAbeTintTable, gMap.mCurrentLevel);
-    sActiveHero->GetAnimation().SetRenderMode(TPageAbr::eBlend_0);
+    sActiveHero->GetAnimation().SetBlendMode(relive::TBlendModes::eBlend_0);
     sActiveHero->GetAnimation().SetSemiTrans(true);
     sActiveHero->GetAnimation().SetBlending(false);
     sActiveHero->mHealth = pData.mHealth;
@@ -1357,7 +1357,7 @@ void Abe::ToKnockback_44E700(s16 bKnockbackSound, s16 bDelayedAnger)
     }
 }
 
-void Abe::VRender(PrimHeader** ppOt)
+void Abe::VRender(BasePrimitive** ppOt)
 {
     // When in death shrivel don't reset scale else can't shrivel into a black blob
     if (!mShrivel)
@@ -5074,7 +5074,7 @@ void Abe::Motion_57_Dead_4589A0()
                 pFade_1->SetDead(true);
                 mFadeId = Guid{};
             }
-            auto pFade = relive_new Fade(Layer::eLayer_FadeFlash_40, FadeOptions::eFadeIn, false, 8, TPageAbr::eBlend_2);
+            auto pFade = relive_new Fade(Layer::eLayer_FadeFlash_40, FadeOptions::eFadeIn, false, 8, relive::TBlendModes::eBlend_2);
             if (pFade)
             {
                 mFadeId = pFade->mBaseGameObjectId;
@@ -6132,7 +6132,7 @@ void Abe::Motion_86_HandstoneBegin()
                     field_120_state.stone = StoneStates::eWaitForInput_4;
                     pCircularFade->SetDead(true);
                     mCircularFadeId = Guid{};
-                    Fade* pFade33 = relive_new Fade(Layer::eLayer_FadeFlash_40, FadeOptions::eFadeOut, 0, 8, TPageAbr::eBlend_2);
+                    Fade* pFade33 = relive_new Fade(Layer::eLayer_FadeFlash_40, FadeOptions::eFadeOut, 0, 8, relive::TBlendModes::eBlend_2);
                     if (pFade33)
                     {
                         mFadeId = pFade33->mBaseGameObjectId;
@@ -6192,7 +6192,7 @@ void Abe::Motion_86_HandstoneBegin()
                     field_120_state.stone = StoneStates::eWaitForInput_4;
 
                     pFade->SetDead(true);
-                    pFade = relive_new Fade(Layer::eLayer_FadeFlash_40, FadeOptions::eFadeOut, 0, 8, TPageAbr::eBlend_2);
+                    pFade = relive_new Fade(Layer::eLayer_FadeFlash_40, FadeOptions::eFadeOut, 0, 8, relive::TBlendModes::eBlend_2);
                     if (pFade)
                     {
                         mFadeId = pFade->mBaseGameObjectId;

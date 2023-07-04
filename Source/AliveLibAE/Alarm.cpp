@@ -11,7 +11,7 @@ s16 gAlarmInstanceCount = 0;
 Guid gAlarmObjId = Guid{};
 
 Alarm::Alarm(relive::Path_Alarm* pTlv, const Guid& tlvId)
-    : EffectBase(Layer::eLayer_Above_FG1_39, TPageAbr::eBlend_3),
+    : EffectBase(Layer::eLayer_Above_FG1_39, relive::TBlendModes::eBlend_3),
     mAlarmTlvInfo(tlvId),
     mAlarmState(States::eWaitForSwitchEnable_0),
     mAlarmSwitchId(pTlv->mSwitchId), // This won't count as an alarm instance till this id is enabled
@@ -21,7 +21,7 @@ Alarm::Alarm(relive::Path_Alarm* pTlv, const Guid& tlvId)
 }
 
 Alarm::Alarm(s32 durationOffset, u16 switchId, s32 timerOffset, Layer layer)
-    : EffectBase(layer, TPageAbr::eBlend_3),
+    : EffectBase(layer, relive::TBlendModes::eBlend_3),
     mAlarmTlvInfo(Guid{}),
     mAlarmState(States::eAfterConstructed_1),
     mAlarmSwitchId(switchId)
@@ -69,7 +69,7 @@ Alarm::~Alarm()
     }
 }
 
-void Alarm::VRender(PrimHeader** ppOt)
+void Alarm::VRender(BasePrimitive** ppOt)
 {
     if (gNumCamSwappers == 0)
     {

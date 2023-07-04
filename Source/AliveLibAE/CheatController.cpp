@@ -117,7 +117,7 @@ void CheatController::VUpdate()
     }
 }
 
-void CheatController::VRender(PrimHeader** /*ppOt*/)
+void CheatController::VRender(BasePrimitive** /*ppOt*/)
 {
     // NULL
 }

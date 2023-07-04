@@ -40,7 +40,7 @@ MovingBomb::MovingBomb(relive::Path_MovingBomb* pTlv, const Guid& tlvId)
     Animation_Init(GetAnimRes(AnimId::MovingBomb));
 
     GetAnimation().SetSemiTrans(true);
-    GetAnimation().SetRenderMode(TPageAbr::eBlend_0);
+    GetAnimation().SetBlendMode(relive::TBlendModes::eBlend_0);
     mState = States::eTriggeredBySwitch_1;
 
     if (pTlv->mScale == relive::reliveScale::eHalf)
@@ -172,7 +172,7 @@ bool MovingBomb::VTakeDamage(BaseGameObject* pFrom)
     return false;
 }
 
-void MovingBomb::VRender(PrimHeader** ppOt)
+void MovingBomb::VRender(BasePrimitive** ppOt)
 {
     if (GetAnimation().GetRender())
     {

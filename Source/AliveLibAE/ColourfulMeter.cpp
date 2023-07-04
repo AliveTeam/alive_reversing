@@ -164,7 +164,7 @@ static const PSX_Point sMeterBarsInfo[kMeterBarsXCount] = {
     {42, 9},
 };
 
-void ColourfulMeter::VRender(PrimHeader** ppOt)
+void ColourfulMeter::VRender(BasePrimitive** ppOt)
 {
     const s16 screenXOff = FP_GetExponent(gScreenManager->CamXPos() + FP_FromInteger(4));
     const s16 screenYOff = FP_GetExponent(gScreenManager->CamYPos() + FP_FromInteger(4));
@@ -172,7 +172,6 @@ void ColourfulMeter::VRender(PrimHeader** ppOt)
     for (s16 poly_idx = 0; poly_idx < mPolysToRenderCount && poly_idx < kMeterBarsXCount - 1; poly_idx++)
     {
         Poly_G4* pPolyG4 = &mPolyG4s[gPsxDisplay.mBufferIndex][poly_idx];
-        PolyG4_Init(pPolyG4);
 
         const s16 x0 = mTlvX + (FP_GetExponent(FP_FromInteger(sMeterBarsInfo[poly_idx].x))) - screenXOff;
         const s16 y0 = FP_GetExponent(FP_FromInteger(sMeterBarsInfo[poly_idx].y)) - screenYOff + mTlvY - 20;
@@ -183,30 +182,30 @@ void ColourfulMeter::VRender(PrimHeader** ppOt)
         const s16 x2 = mTlvX + FP_GetExponent(FP_FromInteger(sMeterBarsInfo[poly_idx + 1].x)) - screenXOff;
         const s16 y2 = FP_GetExponent(FP_FromInteger(sMeterBarsInfo[poly_idx + 1].y)) - screenYOff + mTlvY - 20;
 
-        SetXY0(pPolyG4, static_cast<s16>(PsxToPCX(x0)), y0);
-        SetXY1(pPolyG4, static_cast<s16>(PsxToPCX(x1)), y1);
-        SetXY2(pPolyG4, static_cast<s16>(PsxToPCX(x2)), y2);
-        SetXY3(pPolyG4, static_cast<s16>(PsxToPCX(x1 + 2)), y1);
+        pPolyG4->SetXY0(static_cast<s16>(PsxToPCX(x0)), y0);
+        pPolyG4->SetXY1(static_cast<s16>(PsxToPCX(x1)), y1);
+        pPolyG4->SetXY2(static_cast<s16>(PsxToPCX(x2)), y2);
+        pPolyG4->SetXY3(static_cast<s16>(PsxToPCX(x1 + 2)), y1);
 
         if (((poly_idx + 1)) >= (kMeterBarsXCount / 2) + 1)
         {
             // 1st half
-            SetRGB0(pPolyG4, 127, static_cast<u8>(240 - 12 * poly_idx), 0);
-            SetRGB1(pPolyG4, 127, static_cast<u8>(240 - 12 * poly_idx), 0);
-            SetRGB2(pPolyG4, 127, static_cast<u8>(228 - 12 * poly_idx), 0);
-            SetRGB3(pPolyG4, 127, static_cast<u8>(228 - 12 * poly_idx), 0);
+            pPolyG4->SetRGB0(127, static_cast<u8>(240 - 12 * poly_idx), 0);
+            pPolyG4->SetRGB1(127, static_cast<u8>(240 - 12 * poly_idx), 0);
+            pPolyG4->SetRGB2(127, static_cast<u8>(228 - 12 * poly_idx), 0);
+            pPolyG4->SetRGB3(127, static_cast<u8>(228 - 12 * poly_idx), 0);
         }
         else
         {
             // 2nd half
-            SetRGB0(pPolyG4, static_cast<u8>(12 * poly_idx), 127, 0);
-            SetRGB1(pPolyG4, static_cast<u8>(12 * poly_idx), 127, 0);
-            SetRGB2(pPolyG4, static_cast<u8>(12 * (poly_idx + 1)), 127, 0);
-            SetRGB3(pPolyG4, static_cast<u8>(12 * (poly_idx + 1)), 127, 0);
+            pPolyG4->SetRGB0(static_cast<u8>(12 * poly_idx), 127, 0);
+            pPolyG4->SetRGB1(static_cast<u8>(12 * poly_idx), 127, 0);
+            pPolyG4->SetRGB2(static_cast<u8>(12 * (poly_idx + 1)), 127, 0);
+            pPolyG4->SetRGB3(static_cast<u8>(12 * (poly_idx + 1)), 127, 0);
         }
 
-        Poly_Set_SemiTrans(&pPolyG4->mBase.header, false);
-        OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_Well_23), &pPolyG4->mBase.header);
+        pPolyG4->SetSemiTransparent(false);
+        OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_Well_23), pPolyG4);
     }
 
     if (gbDrawMeterCountDown)
@@ -226,7 +225,7 @@ void ColourfulMeter::VRender(PrimHeader** ppOt)
             text,
             mTextX + 1,
             mTextY - 5,
-            TPageAbr::eBlend_1,
+            relive::TBlendModes::eBlend_1,
             1,
             0,
             Layer::eLayer_BeforeWell_22,

@@ -16,7 +16,7 @@ public:
 
     
     virtual void VScreenChanged() override;
-    virtual void VRender(PrimHeader** ppOt) override;
+    virtual void VRender(BasePrimitive** ppOt) override;
     virtual void VUpdate() override;
 
     void Init(relive::Path_ExplosionSet* pTlv);

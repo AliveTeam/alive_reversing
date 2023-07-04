@@ -77,7 +77,7 @@ Spark::Spark(FP xpos, FP ypos, FP scale, s32 count, s32 minAngle, s32 maxAngle, 
                 pParticle->GetAnimation().SetSemiTrans(true);
                 pParticle->GetAnimation().SetBlending(true);
 
-                pParticle->GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
+                pParticle->GetAnimation().SetBlendMode(relive::TBlendModes::eBlend_1);
 
                 pParticle->GetAnimation().SetRGB(128, 128, 128);
 
@@ -135,7 +135,7 @@ void Spark::VUpdate()
     }
 }
 
-void Spark::VRender(PrimHeader** ppOt)
+void Spark::VRender(BasePrimitive** ppOt)
 {
     if (gMap.Is_Point_In_Current_Camera(
             sActiveHero->mCurrentLevel,
@@ -153,7 +153,6 @@ void Spark::VRender(PrimHeader** ppOt)
             SparkRes* pSpark = &mSparkRes[i];
 
             Line_G2* pPrim = &pSpark->mLineG2s[gPsxDisplay.mBufferIndex];
-            LineG2_Init(pPrim);
 
             const s32 y0 = yOrg + FP_GetExponent(pSpark->mY0 * mSpriteScale);
             const s32 y1 = yOrg + FP_GetExponent(pSpark->mY1 * mSpriteScale);
@@ -161,26 +160,24 @@ void Spark::VRender(PrimHeader** ppOt)
             const s32 x0 = PsxToPCX(xOrg + FP_GetExponent(pSpark->mX0 * mSpriteScale));
             const s32 x1 = PsxToPCX(xOrg + FP_GetExponent(pSpark->mX1 * mSpriteScale));
 
-            SetXY0(pPrim, static_cast<s16>(x0), static_cast<s16>(y0));
-            SetXY1(pPrim, static_cast<s16>(x1), static_cast<s16>(y1));
+            pPrim->SetXY0(static_cast<s16>(x0), static_cast<s16>(y0));
+            pPrim->SetXY1(static_cast<s16>(x1), static_cast<s16>(y1));
 
-            SetRGB0(pPrim,
+            pPrim->SetRGB0(
                     static_cast<u8>(mRed / 2),
                     static_cast<u8>(mGreen / 2),
                     static_cast<u8>(mBlue / 2));
 
-            SetRGB1(pPrim,
+            pPrim->SetRGB1(
                     static_cast<u8>(mRed),
                     static_cast<u8>(mGreen),
                     static_cast<u8>(mBlue));
 
-            Poly_Set_SemiTrans(&pPrim->mBase.header, true);
-            OrderingTable_Add(OtLayer(ppOt, mLayer), &pPrim->mBase.header);
-        }
+            pPrim->SetSemiTransparent(true);
+            pPrim->SetBlendMode(relive::TBlendModes::eBlend_1);
 
-        Prim_SetTPage* pTPage = &mTPage[gPsxDisplay.mBufferIndex];
-        Init_SetTPage(pTPage, PSX_getTPage(TPageAbr::eBlend_1));
-        OrderingTable_Add(OtLayer(ppOt, mLayer), &pTPage->mBase);
+            OrderingTable_Add(OtLayer(ppOt, mLayer), pPrim);
+        }
     }
 }
 

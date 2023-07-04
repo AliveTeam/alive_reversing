@@ -32,7 +32,7 @@ AirExplosion::AirExplosion(FP xpos, FP ypos, FP explosion_size)
     Animation_Init(GetAnimRes(AnimId::AirExplosion));
 
     GetAnimation().SetIsLastFrame(false);
-    GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
+    GetAnimation().SetBlendMode(relive::TBlendModes::eBlend_1);
 
     SetSpriteScale(explosion_size * FP_FromInteger(2));
     SetApplyShadowZoneColour(false);
@@ -80,7 +80,7 @@ void AirExplosion::VUpdate()
 
         case 4:
         {
-            relive_new Flash(Layer::eLayer_Above_FG1_39, 255u, 255u, 255u, TPageAbr::eBlend_1, 1);
+            relive_new Flash(Layer::eLayer_Above_FG1_39, 255u, 255u, 255u, relive::TBlendModes::eBlend_1, 1);
 
             rect.x = FP_GetExponent(FP_FromInteger(-38) * mExplosionSize);
             rect.w = FP_GetExponent(FP_FromInteger(38) * mExplosionSize);
@@ -127,7 +127,7 @@ void AirExplosion::VUpdate()
 
             pParticle->SetApplyShadowZoneColour(false);
             pParticle->GetAnimation().SetFlipX(false);
-            pParticle->GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
+            pParticle->GetAnimation().SetBlendMode(relive::TBlendModes::eBlend_1);
             pParticle->SetSpriteScale(GetSpriteScale() * FP_FromDouble(0.25));
         }
         else

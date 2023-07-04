@@ -5,23 +5,23 @@
 #include "../Layer.hpp"
 #include "../MapWrapper.hpp"
 
-enum class TPageAbr : s8;
+enum class relive::TBlendModes : u32;
 
 class EffectBase : public BaseGameObject
 {
 public:
-    virtual void VRender(PrimHeader** ppOt) override;
-    EffectBase(Layer layer, TPageAbr abr);
+    virtual void VRender(BasePrimitive** ppOt) override;
+    EffectBase(Layer layer, relive::TBlendModes blendMode);
     ~EffectBase();
 
 protected:
     s16 mEffectBasePathId = 0;
     EReliveLevelIds mEffectBaseLevelId = EReliveLevelIds::eNone;
     Poly_G4 mEffectBaseTile[2] = {};
-    Prim_SetTPage mEffectBaseTPage[2] = {};
     Layer mEffectBaseLayer = Layer::eLayer_0;
     s32 mEffectBaseRed = 0;
     s32 mEffectBaseGreen = 0;
     s32 mEffectBaseBlue = 0;
-    s16 mSemiTrans = 0;
+    bool mSemiTrans = false;
+    const relive::TBlendModes mBlendMode = {};
 };

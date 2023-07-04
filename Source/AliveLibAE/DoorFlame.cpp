@@ -37,7 +37,7 @@ public:
         mYPos = ypos + FP_FromInteger(4);
 
         GetAnimation().SetRenderLayer(Layer::eLayer_DoorFlameRollingBallFallingItemPortalClip_Half_12);
-        GetAnimation().SetRenderMode(TPageAbr::eBlend_3);
+        GetAnimation().SetBlendMode(relive::TBlendModes::eBlend_3);
 
         mRGB.SetRGB(140, 90, 53);
 
@@ -75,7 +75,7 @@ public:
         field_100_yOff = screenY + FP_FromInteger(offYScaled + FP_GetExponent(frameHScaled)) + FP_FromInteger(Math_NextRandom() % 3) - FP_FromInteger(1);
     }
 
-    virtual void VRender(PrimHeader** ppOt) override
+    virtual void VRender(BasePrimitive** ppOt) override
     {
         if (Is_In_Current_Camera() == CameraPos::eCamCurrent_0)
         {
@@ -214,7 +214,7 @@ private:
         }
     }
 
-    virtual void VRender(PrimHeader** ppOt) override
+    virtual void VRender(BasePrimitive** ppOt) override
     {
         if (gNumCamSwappers == 0)
         {

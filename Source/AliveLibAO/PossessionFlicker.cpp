@@ -19,7 +19,7 @@ PossessionFlicker::PossessionFlicker(IBaseAliveGameObject* pToApplyFlicker, s32 
     mOldGreen = pToApplyFlicker->mRGB.g;
     mOldBlue = pToApplyFlicker->mRGB.b;
 
-    pToApplyFlicker->GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
+    pToApplyFlicker->GetAnimation().SetBlendMode(relive::TBlendModes::eBlend_1);
 
     mTimeToFlicker = duration + sGnFrame;
 }
@@ -28,7 +28,7 @@ PossessionFlicker::~PossessionFlicker()
 {
     if (mTargetObj)
     {
-        mTargetObj->GetAnimation().SetRenderMode(TPageAbr::eBlend_0);
+        mTargetObj->GetAnimation().SetBlendMode(relive::TBlendModes::eBlend_0);
 
         mTargetObj->mRGB.r = mOldRed;
         mTargetObj->mRGB.g = mOldGreen;

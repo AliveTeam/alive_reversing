@@ -5,7 +5,7 @@
 static bool sIsFadingOut = false;
 
 
-Fade::Fade(Layer layer, FadeOptions fade, bool destroyOnDone, s32 speed, TPageAbr abr)
+Fade::Fade(Layer layer, FadeOptions fade, bool destroyOnDone, s32 speed, relive::TBlendModes abr)
     : EffectBase(layer, abr)
 {
     SetType(ReliveTypes::eMainMenuTransistion);
@@ -77,7 +77,7 @@ void Fade::VUpdate()
     }
 }
 
-void Fade::VRender(PrimHeader** ppOt)
+void Fade::VRender(BasePrimitive** ppOt)
 {
     mEffectBaseBlue = mFadeColour;
     mEffectBaseGreen = mFadeColour;

@@ -214,7 +214,7 @@ Paramite::~Paramite()
     MusicController::ClearObject(this);
 }
 
-void Paramite::VRender(PrimHeader** ppOt)
+void Paramite::VRender(BasePrimitive** ppOt)
 {
     if (UpdateDelay() == 0)
     {

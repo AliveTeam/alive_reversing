@@ -72,7 +72,7 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, u32 numOfParticles, FP scale, Bur
                 Animation_Init(ResourceManagerWrapper::LoadAnimation(AnimId::DeathFlare_2));
                 GetAnimation().SetSemiTrans(true);
                 GetAnimation().SetBlending(true);
-                GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
+                GetAnimation().SetBlendMode(relive::TBlendModes::eBlend_1);
                 break;
             }
 
@@ -81,7 +81,7 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, u32 numOfParticles, FP scale, Bur
             case BurstType::eSmallPurpleSparks_6:
             {
                 Animation_Init(ResourceManagerWrapper::LoadAnimation(AnimId::DeathFlare_2));
-                GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
+                GetAnimation().SetBlendMode(relive::TBlendModes::eBlend_1);
                 GetAnimation().SetSemiTrans(true);
                 GetAnimation().SetBlending(false);
 
@@ -178,7 +178,7 @@ ParticleBurst::~ParticleBurst()
     relive_delete[] field_F8_pRes;
 }
 
-void ParticleBurst::VRender(PrimHeader** ppOt)
+void ParticleBurst::VRender(BasePrimitive** ppOt)
 {
     bool bFirst = true;
     if (gNumCamSwappers == 0)

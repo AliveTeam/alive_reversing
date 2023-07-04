@@ -2,8 +2,8 @@
 
 #include "SDL.h"
 
-struct PrimHeader;
-struct Prim_PrimClipper;
+struct BasePrimitive;
+struct Prim_ScissorRect;
 struct Prim_ScreenOffset;
 struct Prim_GasEffect;
 struct Line_G2;
@@ -13,6 +13,10 @@ struct Poly_FT4;
 struct Poly_G4;
 struct SDL_Window;
 using TWindowHandleType = SDL_Window*;
+
+namespace relive {
+enum class TBlendModes : u32;
+}
 
 class RendererException final : public std::exception
 {
@@ -52,7 +56,7 @@ public: // TODO: Make protected later
         PsxDrawMode drawMode;
         u32 isSemiTrans;
         u32 isShaded;
-        u32 blendMode;
+        relive::TBlendModes blendMode;
         u32 paletteIndex;
         u32 textureUnitIndex;
     };
@@ -78,9 +82,6 @@ public: // TODO: Make protected later
     };
 
     static Quad2D LineToQuad(const Point2D& p1, const Point2D& p2);
-
-    static u16 GetTPageBlendMode(u16 tPage);
-    static void GetTPageCoords(u16 tPage, u16* x, u16* y);
 
 public:
     enum class Renderers
@@ -141,9 +142,7 @@ public:
 
     virtual void EndFrame() = 0;
 
-    virtual void SetTPage(u16 tPage) = 0;
-
-    virtual void SetClip(const Prim_PrimClipper& clipper) = 0;
+    virtual void SetClip(const Prim_ScissorRect& clipper) = 0;
     void SetScreenOffset(const Prim_ScreenOffset& offset);
 
     virtual void Draw(const Prim_GasEffect& gasEffect) = 0;

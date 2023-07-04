@@ -20,7 +20,7 @@ public:
 
     virtual void VScreenChanged() override;
     virtual void VUpdate() override;
-    virtual void VRender(PrimHeader** ppOt) override;
+    virtual void VRender(BasePrimitive** ppOt) override;
 
     Layer field_10_layer = Layer::eLayer_0;
     ScreenWave_Data* field_14_ppRes = nullptr;

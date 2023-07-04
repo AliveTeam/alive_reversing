@@ -5,594 +5,419 @@
 #include "Function.hpp"
 #include "RGB16.hpp"
 
-struct Poly_G3;
-struct Poly_G4;
-struct Prim_SetTPage;
-struct Prim_PrimClipper;
-struct Prim_ScreenOffset;
-struct PSX_RECT;
-struct PSX_Pos16;
-struct PrimHeader;
 struct Poly_FT4;
 
-void PolyG3_Init(Poly_G3* pPoly);
-void PolyG4_Init(Poly_G4* pPoly);
-
-
-void Init_PrimClipper(Prim_PrimClipper* pPrim, const PSX_RECT* pClipRect);
-void InitType_ScreenOffset(Prim_ScreenOffset* pPrim, const PSX_Pos16* pOffset);
-
 void Poly_FT4_Get_Rect(PSX_RECT* pRect, const Poly_FT4* pPoly);
-void Poly_Set_Blending(PrimHeader* pPrim, s32 bBlending);
-void Poly_Set_SemiTrans(PrimHeader* pPrim, s32 bSemiTrans);
-PrimHeader** OtLayer(PrimHeader** ppOt, Layer layer);
-void OrderingTable_Add(PrimHeader** ppOt, PrimHeader* pItem);
 
-enum class TPageAbr : s8
+namespace relive {
+
+enum class TBlendModes : u32
 {
-    eBlend_0 = 0,
-    eBlend_1 = 1,
-    eBlend_2 = 2,
-    eBlend_3 = 3,
+    eBlend_0,
+    eBlend_1,
+    eBlend_2,
+    eBlend_3,
+    None,
 };
+} // namespace relive
 
-void Init_SetTPage(Prim_SetTPage* pPrim, s32 tpage);
-s32 PSX_getTPage(TPageAbr abr, s16 x = 0, s16 y = 0);
+struct BasePrimitive;
 
-struct PrimHeaderPart_Normal final
+BasePrimitive** OtLayer(BasePrimitive** ppOt, Layer layer);
+void OrderingTable_Add(BasePrimitive** ppOt, BasePrimitive* pItem);
+
+enum class PrimitivesTypes : u8
 {
-    s8 field_4_num_longs;
-    s8 field_5_unknown;
-    s16 field_6_pad0;
-};
-ALIVE_ASSERT_SIZEOF(PrimHeaderPart_Normal, 0x4);
+    eLaughingGas,
+    eScreenOffset,
 
-struct PrimHeaderPart_PsxRect final
-{
-    s16 w;
-    s16 h;
-};
-ALIVE_ASSERT_SIZEOF(PrimHeaderPart_PsxRect, 0x4);
+    ePolyG3,
+    ePolyG4,
 
-union PrimHeaderPart final
-{
-    PrimHeaderPart_Normal mNormal;
-    PrimHeaderPart_PsxRect mRect;
+    eLineG2,
+    eLineG4,
+
+    ePolyFT4,
+    eScissorRect,
 };
-ALIVE_ASSERT_SIZEOF(PrimHeaderPart, 4);
 
 struct Prim_RGB final
 {
-    u8 r;
-    u8 g;
-    u8 b;
-    u8 code_or_pad;
+    u8 r = 0;
+    u8 g = 0;
+    u8 b = 0;
 };
-ALIVE_ASSERT_SIZEOF(Prim_RGB, 0x4);
-
-struct PrimHeader
-{
-    struct PrimHeader* tag;
-#if !_WIN32 || _WIN64
-    const void* hackPtr;
-#endif
-    PrimHeaderPart header;
-    Prim_RGB rgb_code;
-};
-ALIVE_ASSERT_SIZEOF(PrimHeader, 0xC);
-
-struct FVert final
-{
-    s16 x;
-    s16 y;
-};
-ALIVE_ASSERT_SIZEOF(FVert, 0x4);
-
-struct GVert final
-{
-    Prim_RGB mRgb;
-    FVert mVert;
-};
-ALIVE_ASSERT_SIZEOF(GVert, 0x8);
-
-struct Poly_Base
-{
-    PrimHeader header;
-    FVert vert;
-};
-ALIVE_ASSERT_SIZEOF(Poly_Base, 0x10);
 
 struct UV final
 {
-    u8 u;
-    u8 v;
-    u16 tpage_clut_pad;
-};
-ALIVE_ASSERT_SIZEOF(UV, 0x4);
-
-struct TVert final
-{
-    FVert mVert;
-    UV mUv;
-};
-ALIVE_ASSERT_SIZEOF(TVert, 0x8);
-
-struct TGVert final
-{
-    Prim_RGB mRgb;
-    FVert mVert;
-    UV mUv;
-};
-// TODO: Assert size
-
-struct Poly_G3 final
-{
-    Poly_Base mBase;
-    GVert mVerts[2];
-};
-ALIVE_ASSERT_SIZEOF(Poly_G3, 0x20);
-
-struct FVertWrapper final
-{
-    FVert mVert;
+    u8 u = 0;
+    u8 v = 0;
 };
 
-struct Poly_FT4 final
+struct Vert final
 {
-    Poly_Base mBase;
-    UV mUv;
-    TVert mVerts[3];
-    class Animation* mAnim;
-    bool mFlipX;
-    bool mFlipY;
-    class CamResource* mCam;
-    class FontContext* mFont;
-    class Fg1Layer* mFg1;
-
-};
-// ALIVE_ASSERT_SIZEOF(Poly_FT4, 0x2C);
-
-struct Poly_G4 final
-{
-    Poly_Base mBase;
-    GVert mVerts[3];
-};
-ALIVE_ASSERT_SIZEOF(Poly_G4, 0x28);
-
-// TODO: FIX ME - in hacked window mode screen offset doesn't actually work. Notice how explosion/screen shakes do nothing.
-struct Prim_ScreenOffset final
-{
-    PrimHeader mBase;
-    s16 field_C_xoff;
-    s16 field_E_yoff;
-};
-ALIVE_ASSERT_SIZEOF(Prim_ScreenOffset, 0x10);
-
-struct Prim_PrimClipper final
-{
-    PrimHeader mBase;
-    s16 field_C_x;
-    s16 field_E_y;
-};
-ALIVE_ASSERT_SIZEOF(Prim_PrimClipper, 0x10);
-
-struct Prim_SetTPage final
-{
-    PrimHeader mBase;
-    s32 field_C_tpage;
-};
-ALIVE_ASSERT_SIZEOF(Prim_SetTPage, 0x10);
-
-
-struct Line_G2 final
-{
-    Poly_Base mBase;
-    GVert mVerts[1];
-};
-// TODO: Assert size
-
-struct Line_G4 final
-{
-    Poly_Base mBase;
-    GVert mVerts[3];
-    u32 field_28_pad;
-};
-ALIVE_ASSERT_SIZEOF(Line_G4, 0x2C);
-
-enum PrimTypeCodes
-{
-    eSetTPage = 0x80,
-    ePrimClipper = 0x81,
-    eScreenOffset = 0x82,
-    eLaughingGas = 0x84,
-
-    //                         G  3  T
-    ePolyG3 = 0x30,  // 0b1[1][0][0]00
-
-    //                         F  4  T
-    ePolyFT4 = 0x2C, // 0b1[0][1][1]00
-
-    //                         G  4  T
-    ePolyG4 = 0x38,  // 0b1[1][1][0]00
-
-    // Line prims
-    eLineG2 = 0x50,
-    eLineG4 = 0x5C
+    s16 x = 0;
+    s16 y = 0;
 };
 
-// Could be used for other stuff but only seen for gas so far
-struct Prim_GasEffect final
+// TODO: This still needs a big refactor
+struct BasePrimitive
 {
-    PrimHeader mPrimHeader;
-    s32 x;
-    s32 y;
-    s32 w;
-    s32 h;
-    u16* pData;
+    explicit BasePrimitive(PrimitivesTypes type)
+        : mType(type)
+    {
+    }
+
+    void SetBlendMode(relive::TBlendModes blendMode)
+    {
+        mBlendMode = blendMode;
+    }
+
+    void SetSemiTransparent(bool bSemiTrans)
+    {
+        mSemiTransparent = bSemiTrans;
+    }
+
+    void DisableBlending(bool disableBlending)
+    {
+        // TODO: HACK check whatever uses this, seems wrong
+        mDisableBlending = !disableBlending;
+    }
+
+    void SetRGB0(u8 r, u8 g, u8 b)
+    {
+        SetRGB(0, r, g, b);
+    }
+
+    void SetXY0(s16 x, s16 y)
+    {
+        SetXY(0, x, y);
+    }
+
+    void SetUV0(u8 u, u8 v)
+    {
+        SetUV(0, u, v);
+    }
+
+    void SetRGB1(u8 r, u8 g, u8 b)
+    {
+        SetRGB(1, r, g, b);
+    }
+
+    void SetXY1(s16 x, s16 y)
+    {
+        SetXY(1, x, y);
+    }
+
+    void SetUV1(u8 u, u8 v)
+    {
+        SetUV(1, u, v);
+    }
+
+    void SetRGB2(u8 r, u8 g, u8 b)
+    {
+        SetRGB(2, r, g, b);
+    }
+
+    void SetXY2(s16 x, s16 y)
+    {
+        SetXY(2, x, y);
+    }
+
+    void SetUV2(u8 u, u8 v)
+    {
+        SetUV(2, u, v);
+    }
+
+    void SetRGB3(u8 r, u8 g, u8 b)
+    {
+        SetRGB(3, r, g, b);
+    }
+
+    void SetXY3(s16 x, s16 y)
+    {
+        SetXY(3, x, y);
+    }
+
+    void SetUV3(u8 u, u8 v)
+    {
+        SetUV(3, u, v);
+    }
+
+    void SetXYWH(s16 x, s16 y, s16 w, s16 h)
+    {
+        SetXY0(x, y);
+        SetXY1(x + w, y);
+        SetXY2(x, y + h);
+        SetXY3(x + w, y + h);
+    }
+
+    s16 X0() const
+    {
+        return mVerts[0].x;
+    }
+
+    s16 X1() const
+    {
+        return mVerts[1].x;
+    }
+
+    s16 X2() const
+    {
+        return mVerts[2].x;
+    }
+
+    s16 X3() const
+    {
+        return mVerts[3].x;
+    }
+
+    s16 Y0() const
+    {
+        return mVerts[0].y;
+    }
+
+    s16 Y1() const
+    {
+        return mVerts[1].y;
+    }
+
+    s16 Y2() const
+    {
+        return mVerts[2].y;
+    }
+
+    s16 Y3() const
+    {
+        return mVerts[3].y;
+    }
+
+    u8 R0() const
+    {
+        return mRgbs[0].r;
+    }
+
+    u8 G0() const
+    {
+        return mRgbs[0].g;
+    }
+
+    u8 B0() const
+    {
+        return mRgbs[0].b;
+    }
+
+    u8 R1() const
+    {
+        return mRgbs[1].r;
+    }
+
+    u8 G1() const
+    {
+        return mRgbs[1].g;
+    }
+
+    u8 B1() const
+    {
+        return mRgbs[1].b;
+    }
+
+    u8 R2() const
+    {
+        return mRgbs[2].r;
+    }
+
+    u8 G2() const
+    {
+        return mRgbs[2].g;
+    }
+
+    u8 B2() const
+    {
+        return mRgbs[2].b;
+    }
+
+    u8 R3() const
+    {
+        return mRgbs[3].r;
+    }
+
+    u8 G3() const
+    {
+        return mRgbs[3].g;
+    }
+
+    u8 B3() const
+    {
+        return mRgbs[3].b;
+    }
+
+    u8 U0() const
+    {
+        return mUvs[0].u;
+    }
+
+    u8 V0() const
+    {
+        return mUvs[0].v;
+    }
+
+    u8 U1() const
+    {
+        return mUvs[1].u;
+    }
+
+    u8 V1() const
+    {
+        return mUvs[1].v;
+    }
+
+    u8 U2() const
+    {
+        return mUvs[2].u;
+    }
+
+    u8 V2() const
+    {
+        return mUvs[2].v;
+    }
+
+    u8 U3() const
+    {
+        return mUvs[3].u;
+    }
+
+    u8 V3() const
+    {
+        return mUvs[3].v;
+    }
+
+    PrimitivesTypes mType = {};
+    relive::TBlendModes mBlendMode = {};
+
+    bool mSemiTransparent = false;
+    bool mDisableBlending = false;
+
+    Prim_RGB mRgbs[4];
+    UV mUvs[4];
+    Vert mVerts[4];
+
+    BasePrimitive* mNext = nullptr;
+
+private:
+    void SetRGB(u32 idx, u8 r, u8 g, u8 b)
+    {
+        mRgbs[idx].r = r;
+        mRgbs[idx].g = g;
+        mRgbs[idx].b = b;
+    }
+
+    void SetXY(u32 idx, s16 x, s16 y)
+    {
+        mVerts[idx].x = x;
+        mVerts[idx].y = y;
+    }
+
+    void SetUV(u32 idx, u8 u, u8 v)
+    {
+        mUvs[idx].u = u;
+        mUvs[idx].v = v;
+    }
 };
 
-union PrimAny
+struct Prim_GasEffect final : public BasePrimitive
 {
-    void* mVoid;
-    PrimHeader* mPrimHeader;
+    Prim_GasEffect()
+        : BasePrimitive(PrimitivesTypes::eLaughingGas)
+    {
+    }
 
-    Prim_SetTPage* mSetTPage;
-    Prim_PrimClipper* mPrimClipper;
-    Prim_ScreenOffset* mScreenOffset;
-
-    Poly_G3* mPolyG3;
-
-    Poly_FT4* mPolyFT4;
-    Poly_G4* mPolyG4;
-
-    Line_G2* mLineG2;
-    Line_G4* mLineG4;
-
-    Prim_GasEffect* mGas;
+    s32 x = 0;
+    s32 y = 0;
+    s32 w = 0;
+    s32 h = 0;
+    u16* pData = nullptr;
 };
-ALIVE_ASSERT_SIZEOF(PrimAny, sizeof(void*));
 
-template <class T>
-inline void SetRGB0(T* prim, const RGB16& rgb)
+struct Prim_ScreenOffset final : public BasePrimitive
 {
-    prim->mBase.header.rgb_code.r = static_cast<u8>(rgb.r);
-    prim->mBase.header.rgb_code.g = static_cast<u8>(rgb.g);
-    prim->mBase.header.rgb_code.b = static_cast<u8>(rgb.b);
-}
+    Prim_ScreenOffset()
+        : BasePrimitive(PrimitivesTypes::eScreenOffset)
+    {
+    }
 
-template <class T>
-inline void SetRGB0(T* prim, u32 r, u32 g, u32 b)
-{
-    prim->mBase.header.rgb_code.r = static_cast<u8>(r);
-    prim->mBase.header.rgb_code.g = static_cast<u8>(g);
-    prim->mBase.header.rgb_code.b = static_cast<u8>(b);
-}
+    void SetOffset(s16 x, s16 y)
+    {
+        field_C_xoff = x;
+        field_E_yoff = y;
+    }
 
-template <class T>
-inline u8 R0(T* prim)
-{
-    return prim->mBase.header.rgb_code.r;
-}
-template <class T>
-inline u8 G0(T* prim)
-{
-    return prim->mBase.header.rgb_code.g;
-}
-template <class T>
-inline u8 B0(T* prim)
-{
-    return prim->mBase.header.rgb_code.b;
-}
+    s16 field_C_xoff = 0;
+    s16 field_E_yoff = 0;
+};
 
-template <class T>
-inline u8 R_Generic(T* prim, s32 idx)
+struct Poly_G3 final : public BasePrimitive
 {
-    return prim->mVerts[idx].mRgb.r;
-}
-template <class T>
-inline u8 G_Generic(T* prim, s32 idx)
-{
-    return prim->mVerts[idx].mRgb.g;
-}
-template <class T>
-inline u8 B_Generic(T* prim, s32 idx)
-{
-    return prim->mVerts[idx].mRgb.b;
-}
-template <class T>
-inline u8 R1(T* prim)
-{
-    return R_Generic(prim, 0);
-}
-template <class T>
-inline u8 G1(T* prim)
-{
-    return G_Generic(prim, 0);
-}
-template <class T>
-inline u8 B1(T* prim)
-{
-    return B_Generic(prim, 0);
-}
-template <class T>
-inline u8 R2(T* prim)
-{
-    return R_Generic(prim, 1);
-}
-template <class T>
-inline u8 G2(T* prim)
-{
-    return G_Generic(prim, 1);
-}
-template <class T>
-inline u8 B2(T* prim)
-{
-    return B_Generic(prim, 1);
-}
-template <class T>
-inline u8 R3(T* prim)
-{
-    return R_Generic(prim, 2);
-}
-template <class T>
-inline u8 G3(T* prim)
-{
-    return G_Generic(prim, 2);
-}
-template <class T>
-inline u8 B3(T* prim)
-{
-    return B_Generic(prim, 2);
-}
+    Poly_G3()
+        : BasePrimitive(PrimitivesTypes::ePolyG3)
+    {
+    }
+};
 
-template <class T>
-inline s16 X0(T* prim)
+struct Poly_G4 final : public BasePrimitive
 {
-    return prim->mBase.vert.x;
-}
-template <class T>
-inline s16 Y0(T* prim)
-{
-    return prim->mBase.vert.y;
-}
+    Poly_G4()
+        : BasePrimitive(PrimitivesTypes::ePolyG4)
+    {
+    }
+};
 
-template <class T>
-inline s16 X_Generic(T* prim, s32 idx)
+struct Line_G2 final : public BasePrimitive
 {
-    return prim->mVerts[idx].mVert.x;
-}
-template <class T>
-inline s16 Y_Generic(T* prim, s32 idx)
-{
-    return prim->mVerts[idx].mVert.y;
-}
-template <class T>
-inline s16 X1(T* prim)
-{
-    return X_Generic(prim, 0);
-}
-template <class T>
-inline s16 Y1(T* prim)
-{
-    return Y_Generic(prim, 0);
-}
-template <class T>
-inline s16 X2(T* prim)
-{
-    return X_Generic(prim, 1);
-}
-template <class T>
-inline s16 Y2(T* prim)
-{
-    return Y_Generic(prim, 1);
-}
-template <class T>
-inline s16 X3(T* prim)
-{
-    return X_Generic(prim, 2);
-}
-template <class T>
-inline s16 Y3(T* prim)
-{
-    return Y_Generic(prim, 2);
-}
+    Line_G2()
+        : BasePrimitive(PrimitivesTypes::eLineG2)
+    {
+    }
+};
 
-template <class T>
-inline u8 U0(T* prim)
+struct Line_G4 final : public BasePrimitive
 {
-    return prim->mUv.u;
-}
-template <class T>
-inline u8 V0(T* prim)
-{
-    return prim->mUv.v;
-}
-template <class T>
-inline u8 U_Generic(T* prim, s32 idx)
-{
-    return prim->mVerts[idx].mUv.u;
-}
-template <class T>
-inline u8 V_Generic(T* prim, s32 idx)
-{
-    return prim->mVerts[idx].mUv.v;
-}
-template <class T>
-inline u8 U1(T* prim)
-{
-    return U_Generic(prim, 0);
-}
-template <class T>
-inline u8 V1(T* prim)
-{
-    return V_Generic(prim, 0);
-}
-template <class T>
-inline u8 U2(T* prim)
-{
-    return U_Generic(prim, 1);
-}
-template <class T>
-inline u8 V2(T* prim)
-{
-    return V_Generic(prim, 1);
-}
-template <class T>
-inline u8 U3(T* prim)
-{
-    return U_Generic(prim, 2);
-}
-template <class T>
-inline u8 V3(T* prim)
-{
-    return V_Generic(prim, 2);
-}
+    Line_G4()
+        : BasePrimitive(PrimitivesTypes::eLineG4)
+    {
+    }
+};
 
-template <class T>
-inline void SetXY_Generic(T* prim, s32 idx, s16 x, s16 y)
+struct Poly_FT4 final : public BasePrimitive
 {
-    prim->mVerts[idx].mVert.x = x;
-    prim->mVerts[idx].mVert.y = y;
-}
+    Poly_FT4()
+        : BasePrimitive(PrimitivesTypes::ePolyFT4)
+    {
+    }
 
-template <class T>
-inline void SetUV_Generic(T* prim, s32 idx, u8 u, u8 v)
+    // TODO: Remove these
+    class Animation* mAnim= nullptr;
+    bool mFlipX = false;
+    bool mFlipY = false;
+    class CamResource* mCam = nullptr;
+    class FontContext* mFont = nullptr;
+    class Fg1Layer* mFg1 = nullptr;
+
+    f32 uBase = 0.0f;
+    f32 vBase = 0.0f;
+};
+
+struct Prim_ScissorRect final : public BasePrimitive
 {
-    prim->mVerts[idx].mUv.u = u;
-    prim->mVerts[idx].mUv.v = v;
-}
+    Prim_ScissorRect()
+        : BasePrimitive(PrimitivesTypes::eScissorRect)
+    {
+    }
 
-template <class T>
-inline void SetRGB_Generic(T* prim, s32 idx, u8 r, u8 g, u8 b)
-{
-    prim->mVerts[idx].mRgb.r = r;
-    prim->mVerts[idx].mRgb.g = g;
-    prim->mVerts[idx].mRgb.b = b;
-}
+    void SetRect(const PSX_RECT& r)
+    {
+        mRect = r;
+    }
 
-template <class T>
-inline void SetRGB1(T* prim, u8 r, u8 g, u8 b)
-{
-    SetRGB_Generic(prim, 0, r, g, b);
-}
-
-template <class T>
-inline void SetRGB2(T* prim, u8 r, u8 g, u8 b)
-{
-    SetRGB_Generic(prim, 1, r, g, b);
-}
-
-template <class T>
-inline void SetRGB3(T* prim, u8 r, u8 g, u8 b)
-{
-    SetRGB_Generic(prim, 2, r, g, b);
-}
-
-template <class T>
-inline void SetXY0(T* prim, s16 x, s16 y)
-{
-    prim->mBase.vert.x = x;
-    prim->mBase.vert.y = y;
-}
-
-template <class T>
-inline void SetUV0(T* prim, u8 u, u8 v)
-{
-    prim->mUv.u = u;
-    prim->mUv.v = v;
-}
-
-template <class T>
-inline void SetUV1(T* prim, u8 u, u8 v)
-{
-    SetUV_Generic(prim, 0, u, v);
-}
-template <class T>
-inline void SetUV2(T* prim, u8 u, u8 v)
-{
-    SetUV_Generic(prim, 1, u, v);
-}
-
-template <class T>
-inline void SetUV3(T* prim, u8 u, u8 v)
-{
-    SetUV_Generic(prim, 2, u, v);
-}
-
-template <class T>
-inline void SetXY1(T* prim, s16 x, s16 y)
-{
-    SetXY_Generic(prim, 0, x, y);
-}
-
-template <class T>
-inline void SetXY2(T* prim, s16 x, s16 y)
-{
-    SetXY_Generic(prim, 1, x, y);
-}
-
-template <class T>
-inline void SetXY3(T* prim, s16 x, s16 y)
-{
-    SetXY_Generic(prim, 2, x, y);
-}
-
-template <class T>
-inline void SetTPage(T* prim, u16 tpage)
-{
-    prim->mVerts[0].mUv.tpage_clut_pad = tpage;
-}
-
-template <class T>
-inline u16 GetTPage(T* prim)
-{
-    return prim->mVerts[0].mUv.tpage_clut_pad;
-}
-
-template <class T>
-inline void SetClut(T* prim, s16 clut)
-{
-    prim->mUv.tpage_clut_pad = clut;
-}
-
-template <class T>
-inline s16 GetClut(T* prim)
-{
-    return prim->mUv.tpage_clut_pad;
-}
-
-template <class T>
-inline void SetXYWH(T pPoly, s16 x, s16 y, s16 w, s16 h)
-{
-    SetXY0(pPoly, x, y);
-    SetXY1(pPoly, x + w, y);
-    SetXY2(pPoly, x, y + h);
-    SetXY3(pPoly, x + w, y + h);
-}
-
-template <class T>
-inline bool GetPolyIsSemiTrans(T* prim)
-{
-    return (prim->mBase.header.rgb_code.code_or_pad & 2) > 0;
-}
-
-template <class T>
-inline bool GetPolyIsShaded(T* prim)
-{
-    return (prim->mBase.header.rgb_code.code_or_pad & 1) == 0;
-}
-
-void SetCode(PrimHeader* pPrim, u8 code);
-void SetUnknown(PrimHeader* pPrim);
-void SetNumLongs(PrimHeader* pPrim, s8 numLongs);
-
-void LineG2_Init(Line_G2* pLine);
-void LineG4_Init(Line_G4* pLine);
-
-void PolyFT4_Init(Poly_FT4* pPrim);
-
-s32 PSX_Prim_Code_Without_Blending_Or_SemiTransparency(s32 code);
-
-
-void SetPrimExtraPointerHack(Poly_FT4* pPoly, const void* ptr);
-const void* GetPrimExtraPointerHack(Poly_FT4* pPoly);
+    PSX_RECT mRect = {};
+};

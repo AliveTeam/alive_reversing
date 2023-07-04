@@ -34,8 +34,8 @@ InvisibleEffect::InvisibleEffect(BaseAliveGameObject* pTarget)
         mBlending = true;
     }
 
-    mOldRenderMode = pTarget->GetAnimation().GetRenderMode();
-    mState = InvisibleState::eSetRenderMode1_0;
+    mOldRenderMode = pTarget->GetAnimation().GetBlendMode();
+    mState = InvisibleState::eSetBlendMode1_0;
 }
 
 InvisibleEffect::~InvisibleEffect()
@@ -85,9 +85,9 @@ void InvisibleEffect::VUpdate()
     {
         switch (mState)
         {
-            case InvisibleState::eSetRenderMode1_0:
+            case InvisibleState::eSetBlendMode1_0:
             {
-                pTarget->GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
+                pTarget->GetAnimation().SetBlendMode(relive::TBlendModes::eBlend_1);
                 return;
             }
             case InvisibleState::eSetInvisibile_1:
@@ -102,7 +102,7 @@ void InvisibleEffect::VUpdate()
 
                 pTarget->GetAnimation().SetBlending(false);
                 pTarget->GetAnimation().SetSemiTrans(true);
-                pTarget->GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
+                pTarget->GetAnimation().SetBlendMode(relive::TBlendModes::eBlend_1);
 
                 SetUpdateDelay(1);
                 mState = InvisibleState::eBecomeInvisible_2;
@@ -117,7 +117,7 @@ void InvisibleEffect::VUpdate()
                 /* - should never have been possible
                 if (pTarget->mAnim.mPalDepth <= 8)
                 {
-                    mState = InvisibleState::eSetRenderMode1_0;
+                    mState = InvisibleState::eSetBlendMode1_0;
                     return;
                 }*/
 
@@ -159,7 +159,7 @@ void InvisibleEffect::VUpdate()
                 else
                 {
                     mTransitionFrameCount = 0;
-                    mState = InvisibleState::eSetRenderMode1_0;
+                    mState = InvisibleState::eSetBlendMode1_0;
                 }
 
                 break;
@@ -178,7 +178,7 @@ void InvisibleEffect::VUpdate()
 
                 mIsInvisible = false;
                 SetUpdateDelay(1);
-                mState = InvisibleState::eSetRenderMode1_0;
+                mState = InvisibleState::eSetBlendMode1_0;
                 break;
             }
             case InvisibleState::eBecomeVisible_4:
@@ -215,7 +215,7 @@ void InvisibleEffect::VUpdate()
 
                     //Pal_Set(pTarget->mAnim.mPalVramXY, pTarget->mAnim.mPalDepth, (u8*) field_30_pPal2, &field_34_pal_rect2);
 
-                    pTarget->GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
+                    pTarget->GetAnimation().SetBlendMode(relive::TBlendModes::eBlend_1);
                     SetUpdateDelay(5);
 
                     mTransitionFrameCount++;
@@ -237,7 +237,7 @@ void InvisibleEffect::VUpdate()
 
                 pTarget->GetAnimation().SetSemiTrans(mSemiTrans);
                 pTarget->GetAnimation().SetBlending(mBlending);
-                pTarget->GetAnimation().SetRenderMode(mOldRenderMode);
+                pTarget->GetAnimation().SetBlendMode(mOldRenderMode);
 
                 pTarget->SetInvisible(false);
 

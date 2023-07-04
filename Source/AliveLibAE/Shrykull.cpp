@@ -279,7 +279,7 @@ void Shrykull::VUpdate()
                             FP_FromInteger((zapRect.y + zapRect.h) / 2),
                             20, GetSpriteScale(), BurstType::eBigPurpleSparks_2, 13);
 
-                        relive_new Flash(Layer::eLayer_Above_FG1_39, 255, 255, 255, TPageAbr::eBlend_3, 1);
+                        relive_new Flash(Layer::eLayer_Above_FG1_39, 255, 255, 255, relive::TBlendModes::eBlend_3, 1);
                     }
                     pExistingZapLine->CalculateSourceAndDestinationPositions(
                         FP_FromInteger((ourRect.x + ourRect.w) / 2),

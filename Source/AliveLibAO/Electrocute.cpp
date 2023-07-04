@@ -42,7 +42,7 @@ public:
         // Stayin' alive
     }
 
-    virtual void VRender(PrimHeader** /*ppOt*/) override
+    virtual void VRender(BasePrimitive** /*ppOt*/) override
     {
         if (!field_BE_bDone)
         {

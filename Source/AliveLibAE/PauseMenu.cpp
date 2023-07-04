@@ -324,7 +324,7 @@ void PauseMenu::Init()
     }
 }
 
-void PauseMenu::VRender(PrimHeader** ot)
+void PauseMenu::VRender(BasePrimitive** ot)
 {
     mPolyOffset = 0;
 
@@ -332,21 +332,18 @@ void PauseMenu::VRender(PrimHeader** ot)
     (this->*mActiveMenu.mFnRender)(ot, &mActiveMenu);
 
     // Draw a full screen polygon that "dims" out the screen while paused
-    Prim_SetTPage* pTPage = &mPrimitives[gPsxDisplay.mBufferIndex];
     Poly_G4* pPolys = &mPolyG4s[gPsxDisplay.mBufferIndex];
-    PolyG4_Init(pPolys);
-    Poly_Set_SemiTrans(&pPolys->mBase.header, true);
-    Poly_Set_Blending(&pPolys->mBase.header, false);
-    SetRGB0(pPolys, mActiveMenu.mBgRed, mActiveMenu.mBgGreen, mActiveMenu.mBgBlue);
-    SetRGB1(pPolys, mActiveMenu.mBgRed, mActiveMenu.mBgGreen, mActiveMenu.mBgBlue);
-    SetRGB2(pPolys, mActiveMenu.mBgRed, mActiveMenu.mBgGreen, mActiveMenu.mBgBlue);
-    SetXY0(pPolys, 0, 0);
-    SetXY1(pPolys, 640, 0);
-    SetXY2(pPolys, 0, 240);
-    SetXY3(pPolys, 640, 240);
-    Init_SetTPage(pTPage, PSX_getTPage(TPageAbr::eBlend_2));
-    OrderingTable_Add(OtLayer(ot, Layer::eLayer_Menu_41), &pPolys->mBase.header);
-    OrderingTable_Add(OtLayer(ot, Layer::eLayer_Menu_41), &pTPage->mBase);
+    pPolys->SetSemiTransparent(true);
+    pPolys->DisableBlending(false);
+    pPolys->SetRGB0(mActiveMenu.mBgRed, mActiveMenu.mBgGreen, mActiveMenu.mBgBlue);
+    pPolys->SetRGB1(mActiveMenu.mBgRed, mActiveMenu.mBgGreen, mActiveMenu.mBgBlue);
+    pPolys->SetRGB2(mActiveMenu.mBgRed, mActiveMenu.mBgGreen, mActiveMenu.mBgBlue);
+    pPolys->SetXY0(0, 0);
+    pPolys->SetXY1(640, 0);
+    pPolys->SetXY2(0, 240);
+    pPolys->SetXY3(640, 240);
+    pPolys->SetBlendMode(relive::TBlendModes::eBlend_2);
+    OrderingTable_Add(OtLayer(ot, Layer::eLayer_Menu_41), pPolys);
 }
 
 void PauseMenu::VScreenChanged()
@@ -357,7 +354,7 @@ void PauseMenu::VScreenChanged()
     }
 }
 
-void PauseMenu::Page_Base_Render(PrimHeader** ot, PauseMenu::PauseMenuPage* pPage)
+void PauseMenu::Page_Base_Render(BasePrimitive** ot, PauseMenu::PauseMenuPage* pPage)
 {
     s32 i = 0;
     PauseMenuPageEntry* e = &pPage->mMenuItems[i];
@@ -398,7 +395,7 @@ void PauseMenu::Page_Base_Render(PrimHeader** ot, PauseMenu::PauseMenuPage* pPag
             textFormatted,
             x,            // X
             e->y, // Y
-            TPageAbr::eBlend_0,
+            relive::TBlendModes::eBlend_0,
             1,
             0,
             Layer::eLayer_Menu_41,
@@ -776,7 +773,7 @@ static PauseMenu::PauseMenuPage sOverwriteSaveMenuPage = {
     0u};
 
 
-void PauseMenu::Page_Save_Render(PrimHeader** ot, PauseMenuPage* pPage)
+void PauseMenu::Page_Save_Render(BasePrimitive** ot, PauseMenuPage* pPage)
 {
     PauseMenuPage* pPageToRender = &sOverwriteSaveMenuPage;
     if (mSaveState != SaveState::SaveConfirmOverwrite_8)
@@ -797,7 +794,7 @@ void PauseMenu::Page_Status_Update()
     }
 }
 
-void PauseMenu::Page_Status_Render(PrimHeader** ot, PauseMenuPage* pPage)
+void PauseMenu::Page_Status_Render(BasePrimitive** ot, PauseMenuPage* pPage)
 {
     // Render the status icon
     mMudIconAnim.SetRenderLayer(Layer::eLayer_Menu_41);
@@ -921,7 +918,7 @@ void PauseMenu::Page_Load_Update()
     }
 }
 
-void PauseMenu::Page_Load_Render(PrimHeader** ot, PauseMenuPage* pPage)
+void PauseMenu::Page_Load_Render(BasePrimitive** ot, PauseMenuPage* pPage)
 {
     s32 saveIdx = QuikSave::gSavedGameToLoadIdx - 2;
     for (s32 i = 0; i < 6; i++)
@@ -1112,12 +1109,12 @@ void PauseMenu::VUpdate()
                         {
                             if (pObj->GetDrawable())
                             {
-                                pObj->VRender(gPsxDisplay.mDrawEnvs[gPsxDisplay.mBufferIndex].mOrderingTable);
+                                pObj->VRender(gPsxDisplay.mDrawEnvs[gPsxDisplay.mBufferIndex].mOrderingTable.mOrderingTable);
                             }
                         }
                     }
 
-                    gScreenManager->VRender(gPsxDisplay.mDrawEnvs[gPsxDisplay.mBufferIndex].mOrderingTable);
+                    gScreenManager->VRender(gPsxDisplay.mDrawEnvs[gPsxDisplay.mBufferIndex].mOrderingTable.mOrderingTable);
 
                     gPsxDisplay.RenderOrderingTable();
                     Input().Update(GetGameAutoPlayer());

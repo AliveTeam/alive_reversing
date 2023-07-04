@@ -303,7 +303,7 @@ public:
     void LoadAnimations();
 
     virtual void VUpdate() override;
-    virtual void VRender(PrimHeader** ppOt) override;
+    virtual void VRender(BasePrimitive** ppOt) override;
     virtual void VScreenChanged() override;
     virtual void VOnTlvCollision(relive::Path_TLV* pTlv) override;
     virtual bool VTakeDamage(BaseGameObject* pFrom) override;
@@ -346,7 +346,7 @@ private:
         return static_cast<eFleechMotions>(mCurrentMotion);
     }
 
-    void RenderEx(PrimHeader** ot);
+    void RenderEx(BasePrimitive** ot);
     s16 IsScrabOrParamiteNear(FP radius);
     void Init();
     void InitTonguePolys();
@@ -429,7 +429,6 @@ private:
     bool mRenderTongue = false;
     Poly_G4 mTonguePolys1[4][2] = {};
     Poly_G4 mTonguePolys2[4][2] = {};
-    Prim_SetTPage field_40C[2] = {};
     friend class PatrolBrain;
     friend class ChasingAbeBrain;
     friend class ScaredBrain;

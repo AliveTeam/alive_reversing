@@ -17,7 +17,7 @@ Shadow::Shadow()
     mShadowAtBottom = false;
     mEnabled = true;
 
-    mAnim.SetRenderMode(TPageAbr::eBlend_2);
+    mAnim.SetBlendMode(relive::TBlendModes::eBlend_2);
 
     mAnim.SetRender(false);
     mAnim.SetBlending(false);
@@ -157,7 +157,7 @@ void Shadow::Calculate_Position(FP xpos, FP ypos, PSX_RECT* frameRect, FP sprite
     }
 }
 
-void Shadow::Render(PrimHeader** ppOt)
+void Shadow::Render(BasePrimitive** ppOt)
 {
     if (mEnabled)
     {

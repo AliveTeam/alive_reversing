@@ -46,7 +46,7 @@ MeatSaw::MeatSaw(relive::Path_MeatSaw* pTlv, const Guid& tlvId)
     Animation_Init(GetAnimRes(AnimId::MeatSaw_Idle));
     
     GetAnimation().SetSemiTrans(true);
-    GetAnimation().SetRenderMode(TPageAbr::eBlend_0);
+    GetAnimation().SetBlendMode(relive::TBlendModes::eBlend_0);
 
     if (pTlv->mScale == relive::reliveScale::eHalf)
     {
@@ -148,7 +148,7 @@ MeatSaw::MeatSaw(relive::Path_MeatSaw* pTlv, const Guid& tlvId)
 
         mMotorAnim.SetRGB(mRGB.r, mRGB.g, mRGB.b);
 
-        mMotorAnim.SetRenderMode(TPageAbr::eBlend_0);
+        mMotorAnim.SetBlendMode(relive::TBlendModes::eBlend_0);
 
         mMotorAnim.SetBlending(false);
         mMotorAnim.SetSemiTrans(true);
@@ -350,7 +350,7 @@ void MeatSaw::GrindUpObjects_439CD0()
     }
 }
 
-void MeatSaw::VRender(PrimHeader** ppOt)
+void MeatSaw::VRender(BasePrimitive** ppOt)
 {
     if (gMap.Is_Point_In_Current_Camera(
             mCurrentLevel,

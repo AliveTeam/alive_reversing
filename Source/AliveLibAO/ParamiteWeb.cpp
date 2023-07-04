@@ -96,7 +96,7 @@ void ParamiteWeb::VScreenChanged()
 }
 
 //TODO @ 100% - merge with Rope::vRender()
-void ParamiteWeb::VRender(PrimHeader** ppOt)
+void ParamiteWeb::VRender(BasePrimitive** ppOt)
 {
     PSX_Point camCoords = {};
     gMap.GetCurrentCamCoords(&camCoords);

@@ -83,7 +83,7 @@ UXB::UXB(relive::Path_UXB* pTlv, const Guid& tlvId)
     mLoadedPals.push_back(ResourceManagerWrapper::LoadPal(PalId::GreenFlash));
 
     GetAnimation().SetSemiTrans(true);
-    GetAnimation().SetRenderMode(TPageAbr::eBlend_0);
+    GetAnimation().SetBlendMode(relive::TBlendModes::eBlend_0);
 
     SetTint(sTintMap_UXB_563A3C, gMap.mCurrentLevel);
 
@@ -208,7 +208,7 @@ void UXB::InitBlinkAnim(Animation* pAnimation)
         pAnimation->SetBlending(true);
         pAnimation->SetSpriteScale(GetSpriteScale());
         pAnimation->SetRGB(128, 128, 128);
-        pAnimation->SetRenderMode(TPageAbr::eBlend_1);
+        pAnimation->SetBlendMode(relive::TBlendModes::eBlend_1);
     }
     else
     {
@@ -471,7 +471,7 @@ s32 UXB::IsColliding()
     return 0;
 }
 
-void UXB::VRender(PrimHeader** ppOt)
+void UXB::VRender(BasePrimitive** ppOt)
 {
     if (GetAnimation().GetRender())
     {

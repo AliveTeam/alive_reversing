@@ -675,7 +675,7 @@ void Slig::VUpdate()
     }
 }
 
-void Slig::VRender(PrimHeader** ppOt)
+void Slig::VRender(BasePrimitive** ppOt)
 {
     if (UpdateDelay() == 0)
     {

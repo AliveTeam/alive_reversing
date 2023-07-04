@@ -18,7 +18,7 @@ OrbWhirlWindParticle::OrbWhirlWindParticle(FP xpos, FP ypos, FP scale)
     mAnim.SetSemiTrans(true);
 
     mAnim.SetRenderLayer(Layer::eLayer_AbeMenu_32);
-    mAnim.SetRenderMode(TPageAbr::eBlend_1);
+    mAnim.SetBlendMode(relive::TBlendModes::eBlend_1);
 
     mAnim.SetRGB(80, 80, 80);
 
@@ -161,7 +161,7 @@ void OrbWhirlWindParticle::Update()
     }
 }
 
-void OrbWhirlWindParticle::Render(PrimHeader** ppOt)
+void OrbWhirlWindParticle::Render(BasePrimitive** ppOt)
 {
     mAnim.SetSpriteScale(mRenderAsScale);
 

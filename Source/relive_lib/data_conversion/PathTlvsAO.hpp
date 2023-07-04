@@ -596,7 +596,7 @@ struct Path_BackgroundAnimation final : public Path_TLV
     };
     u16 mAnimId;
     Choice_short mIsSemiTrans;
-    TPageAbr mSemiTransMode;
+    u8 mSemiTransMode; // TODO: Use AEType
     // pad
     BgAnimSounds mSoundEffect;
 };

@@ -184,7 +184,7 @@ CrawlingSlig::CrawlingSlig(relive::Path_CrawlingSlig* pTlv, const Guid& guid)
     }
 }
 
-void CrawlingSlig::VRender(PrimHeader** ot)
+void CrawlingSlig::VRender(BasePrimitive** ot)
 {
     const s16 eyeIndices[] = {60, 62};
     renderWithGlowingEyes(ot, this, field_11C_mPal, 64, field_1A4_r, field_1A6_g, field_1A8_b, &eyeIndices[0], ALIVE_COUNTOF(eyeIndices));

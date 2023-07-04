@@ -267,7 +267,7 @@ Glukkon::Glukkon(relive::Path_Glukkon* pTlv, const Guid& tlvId)
     Init();
 }
 
-void Glukkon::VRender(PrimHeader** ot)
+void Glukkon::VRender(BasePrimitive** ot)
 {
     s16 eyeIndices[1];
     if (mTlvData.mGlukkonType == relive::Path_Glukkon::GlukkonTypes::eStoryAslik || mTlvData.mGlukkonType == relive::Path_Glukkon::GlukkonTypes::eStoryPhleg)
@@ -1572,7 +1572,7 @@ s16 Glukkon::Brain_3_PlayerControlled()
                 gVisitedBonewerkz = true;
             }
 
-            auto pFadeMem = relive_new Fade(Layer::eLayer_FadeFlash_40, FadeOptions::eFadeIn, 0, 8, TPageAbr::eBlend_2);
+            auto pFadeMem = relive_new Fade(Layer::eLayer_FadeFlash_40, FadeOptions::eFadeIn, 0, 8, relive::TBlendModes::eBlend_2);
             if (pFadeMem)
             {
                 mFadeId = pFadeMem->mBaseGameObjectId;

@@ -115,12 +115,12 @@ void PauseMenu::VUpdate()
                 {
                     if (pObjIter->GetDrawable())
                     {
-                        pObjIter->VRender(gPsxDisplay.mDrawEnvs[gPsxDisplay.mBufferIndex].mOrderingTable);
+                        pObjIter->VRender(gPsxDisplay.mDrawEnvs[gPsxDisplay.mBufferIndex].mOrderingTable.mOrderingTable);
                     }
                 }
             }
             gScreenManager->VRender(
-                gPsxDisplay.mDrawEnvs[gPsxDisplay.mBufferIndex].mOrderingTable);
+                gPsxDisplay.mDrawEnvs[gPsxDisplay.mBufferIndex].mOrderingTable.mOrderingTable);
             gPsxDisplay.RenderOrderingTable();
             Input().Update(GetGameAutoPlayer());
 
@@ -544,7 +544,7 @@ PauseMenu::PauseEntry keyboardGameSpeak_4CE0D0[21] = {
     {202, 170, "8", 160u, 160u, 160u, '\0'},
     {0, 0, nullptr, 0u, 0u, 0u, '\0'}};
 
-void PauseMenu::DrawEntries(PrimHeader** ppOt, PauseEntry* entry, s16 selectedEntryId, s32 polyOffset = 0)
+void PauseMenu::DrawEntries(BasePrimitive** ppOt, PauseEntry* entry, s16 selectedEntryId, s32 polyOffset = 0)
 {
     for (s16 entryId = 0; entry[entryId].field_4_strBuf; ++entryId)
     {
@@ -587,7 +587,7 @@ void PauseMenu::DrawEntries(PrimHeader** ppOt, PauseEntry* entry, s16 selectedEn
             formattedString,
             clampedFontWidth,
             entry[entryId].y,
-            TPageAbr::eBlend_0,
+            relive::TBlendModes::eBlend_0,
             1,
             0,
             Layer::eLayer_Menu_41,
@@ -599,29 +599,23 @@ void PauseMenu::DrawEntries(PrimHeader** ppOt, PauseEntry* entry, s16 selectedEn
             640,
             0);
     }
+
+    const u8 color = field_126_page != PauseMenuPages::ePause_0 ? 100 : 160;
     Poly_G4* pPrim = &field_158[gPsxDisplay.mBufferIndex];
-    PolyG4_Init(pPrim);
-    Poly_Set_SemiTrans(&pPrim->mBase.header, 1);
-    Poly_Set_Blending(&pPrim->mBase.header, 0);
-    u8 color = 0x64;
-    if (field_126_page != PauseMenuPages::ePause_0)
-    {
-        color = 160;
-    }
-    SetRGB0(pPrim, color, color, color);
-    SetRGB1(pPrim, color, color, color);
-    SetRGB2(pPrim, color, color, color);
-    SetXY0(pPrim, 0, 0);
-    SetXY1(pPrim, 640, 0);
-    SetXY2(pPrim, 0, 240);
-    SetXY3(pPrim, 640, 240);
-    Prim_SetTPage* prim_tpage = &field_138_tPage[gPsxDisplay.mBufferIndex];
-    Init_SetTPage(prim_tpage, PSX_getTPage(TPageAbr::eBlend_2));
-    OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_Menu_41), &pPrim->mBase.header);
-    OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_Menu_41), &prim_tpage->mBase);
+    pPrim->SetRGB0(color, color, color);
+    pPrim->SetRGB1(color, color, color);
+    pPrim->SetRGB2(color, color, color);
+    pPrim->SetXY0(0, 0);
+    pPrim->SetXY1(640, 0);
+    pPrim->SetXY2(0, 240);
+    pPrim->SetXY3(640, 240);
+    pPrim->SetBlendMode(relive::TBlendModes::eBlend_2);
+    pPrim->SetSemiTransparent(true);
+    pPrim->DisableBlending(false);
+    OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_Menu_41), pPrim);
 }
 
-void PauseMenu::VRender(PrimHeader** ppOt)
+void PauseMenu::VRender(BasePrimitive** ppOt)
 {
     switch (field_126_page)
     {
@@ -666,7 +660,7 @@ void PauseMenu::VRender(PrimHeader** ppOt)
                 cameraNameBuffer,
                 static_cast<s16>(PauseEntry2_4CDE98[0].x - field_E4_font.MeasureTextWidth(cameraNameBuffer) / 2),
                 PauseEntry2_4CDE98[0].y,
-                TPageAbr::eBlend_0,
+                relive::TBlendModes::eBlend_0,
                 1,
                 0,
                 Layer::eLayer_Menu_41,

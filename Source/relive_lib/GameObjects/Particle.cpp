@@ -69,7 +69,7 @@ Particle* New_DestroyOrCreateObject_Particle(FP xpos, FP ypos, FP scale)
         return nullptr;
     }
 
-    pParticle->GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
+    pParticle->GetAnimation().SetBlendMode(relive::TBlendModes::eBlend_1);
     pParticle->SetSpriteScale(FP_FromInteger(2) * scale);
 
     if (scale == FP_FromInteger(1))
@@ -101,7 +101,7 @@ void New_Smoke_Particles(FP xpos, FP ypos, FP scale, s16 count, const RGB16& rgb
             pParticle->SetApplyShadowZoneColour(false);
             pParticle->GetAnimation().SetBlending(false);
             pParticle->GetAnimation().SetSemiTrans(true);
-            pParticle->GetAnimation().SetRenderMode(TPageAbr::eBlend_3);
+            pParticle->GetAnimation().SetBlendMode(relive::TBlendModes::eBlend_3);
 
             pParticle->mRGB = rgb;
 
@@ -136,7 +136,7 @@ Particle* New_Orb_Particle(FP xpos, FP ypos, FP velX, FP velY, FP scale, Layer l
     if (pParticle)
     {
         pParticle->SetApplyShadowZoneColour(false);
-        pParticle->GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
+        pParticle->GetAnimation().SetBlendMode(relive::TBlendModes::eBlend_1);
 
         pParticle->mRGB = rgb;
 
@@ -197,7 +197,7 @@ void New_ShootingZFire_Particle(FP xpos, FP ypos, FP scale)
 
         pParticle->mRGB.SetRGB(55, 55, 55);
 
-        pParticle->GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
+        pParticle->GetAnimation().SetBlendMode(relive::TBlendModes::eBlend_1);
 
         if (scale == FP_FromInteger(1))
         {
@@ -220,7 +220,7 @@ void New_ShootingFire_Particle(FP xpos, FP ypos, s8 direction, FP scale)
     {
         pParticle->SetApplyShadowZoneColour(false);
         pParticle->mRGB.SetRGB(55, 55, 55);
-        pParticle->GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
+        pParticle->GetAnimation().SetBlendMode(relive::TBlendModes::eBlend_1);
 
         if (scale == FP_FromInteger(1))
         {

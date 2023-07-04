@@ -2,6 +2,7 @@
 
 #include "../../Types.hpp"
 #include "../IRenderer.hpp"
+#include "Primitives.hpp"
 #include <vector>
 #include <memory>
 
@@ -15,7 +16,7 @@ template <typename TextureType, typename RenderBatchType, std::size_t kTextureBa
 class Batcher final
 {
 public:
-    static constexpr u32 kBatchValueUnset = 999;
+    static constexpr relive::TBlendModes kBatchValueUnset = relive::TBlendModes::None;
 
     bool mBatchingEnabled = true;
 
@@ -43,7 +44,7 @@ public:
         u32 mNumTrisToDraw = 0;
         u32 mTexturesInBatch = 0;
         u32 mTextureIds[kTextureBatchSize] = {};
-        u32 mBlendMode = 0;
+        relive::TBlendModes mBlendMode = {};
         SDL_Rect mScissor = {};
         bool mSourceIsFramebuffer = false;
 
@@ -77,13 +78,13 @@ public:
 
     void PushGas(const Prim_GasEffect& gasEffect);
 
-    void PushPolyG4(const Poly_G4& poly, u32 blendMode);
+    void PushPolyG4(const Poly_G4& poly, relive::TBlendModes blendMode);
 
-    void PushPolyG3(const Poly_G3& poly, u32 blendMode);
+    void PushPolyG3(const Poly_G3& poly, relive::TBlendModes blendMode);
 
-    void PushLine(const Line_G2& line, u32 blendMode);
+    void PushLine(const Line_G2& line, relive::TBlendModes blendMode);
 
-    void PushLine(const Line_G4& line, u32 blendMode);
+    void PushLine(const Line_G4& line, relive::TBlendModes blendMode);
 
     void PushFont(const Poly_FT4& poly, u32 palIndex, std::shared_ptr<TextureType>& texture);
 

@@ -5580,7 +5580,7 @@ PathLine* Paramite::WebCollision(FP yOff, FP xOff)
     return pLine;
 }
 
-void Paramite::VRender(PrimHeader** ppOt)
+void Paramite::VRender(BasePrimitive** ppOt)
 {
     if (UpdateDelay() == 0)
     {

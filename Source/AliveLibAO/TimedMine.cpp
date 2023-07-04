@@ -136,7 +136,7 @@ bool TimedMine::VTakeDamage(BaseGameObject* pFrom)
     }
 }
 
-void TimedMine::VRender(PrimHeader** ppOt)
+void TimedMine::VRender(BasePrimitive** ppOt)
 {
     if (gMap.Is_Point_In_Current_Camera(
             mCurrentLevel,
@@ -166,7 +166,7 @@ void TimedMine::InitTickAnimation()
         mTickAnim.SetBlending(true);
         mTickAnim.SetSpriteScale(GetSpriteScale());
         mTickAnim.SetRGB(128, 128, 128);
-        mTickAnim.SetRenderMode(TPageAbr::eBlend_1);
+        mTickAnim.SetBlendMode(relive::TBlendModes::eBlend_1);
     }
     else
     {

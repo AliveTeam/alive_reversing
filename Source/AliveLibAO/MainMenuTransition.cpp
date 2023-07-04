@@ -78,7 +78,7 @@ void MainMenuTransition::VUpdate()
     }
 }
 
-MainMenuTransition::MainMenuTransition(Layer layer, s32 fadeDirection, s32 bKillWhenDone, s32 speed, TPageAbr abr)
+MainMenuTransition::MainMenuTransition(Layer layer, s32 fadeDirection, s32 bKillWhenDone, s32 speed, relive::TBlendModes blendMode)
     : BaseGameObject(true, 0)
 {
     SetType(ReliveTypes::eFade);
@@ -87,18 +87,14 @@ MainMenuTransition::MainMenuTransition(Layer layer, s32 fadeDirection, s32 bKill
 
     SetDrawable(true);
 
-    for (s32 i = 0; i < 2; i++)
-    {
-        Init_SetTPage(&field_21C_tPage[i], PSX_getTPage(abr));
-    }
 
     for (s32 i = 0; i < 8; i++)
     {
-        PolyG3_Init(&field_1C_polys[0].field_0_polys[i]);
-        Poly_Set_SemiTrans(&field_1C_polys[0].field_0_polys[i].mBase.header, 1);
+        field_1C_polys[0].field_0_polys[i].SetSemiTransparent(true);
+        field_1C_polys[0].field_0_polys[i].SetBlendMode(blendMode);
 
-        PolyG3_Init(&field_1C_polys[1].field_0_polys[i]);
-        Poly_Set_SemiTrans(&field_1C_polys[1].field_0_polys[i].mBase.header, 1);
+        field_1C_polys[1].field_0_polys[i].SetSemiTransparent(true);
+        field_1C_polys[1].field_0_polys[i].SetBlendMode(blendMode);
     }
 
     field_23C_layer = layer;
@@ -147,7 +143,7 @@ void MainMenuTransition::StartTrans_436560(Layer layer, s16 fadeDirection, s16 b
     }
 }
 
-void MainMenuTransition::VRender(PrimHeader** ppOt)
+void MainMenuTransition::VRender(BasePrimitive** ppOt)
 {
     // TODO: The fixed point math/var needs cleaning up/refactoring in here
     s32 currentValue = field_10_current_Value;
@@ -232,18 +228,16 @@ void MainMenuTransition::VRender(PrimHeader** ppOt)
         y1 = field_240_k120 + (Math_FixedPoint_Multiply(v27, v28) >> 16); // LOWORD
         Poly_G3* pPoly = &field_1C_polys[gPsxDisplay.mBufferIndex].field_0_polys[i];
 
-        SetRGB0(pPoly, static_cast<u8>(r0g0), static_cast<u8>(r0g0), 255);
-        SetRGB1(pPoly, static_cast<u8>(rgValue), static_cast<u8>(rgValue), static_cast<u8>(bValue));
-        SetRGB2(pPoly, static_cast<u8>(rgValue), static_cast<u8>(rgValue), static_cast<u8>(bValue));
+        pPoly->SetRGB0(static_cast<u8>(r0g0), static_cast<u8>(r0g0), 255);
+        pPoly->SetRGB1(static_cast<u8>(rgValue), static_cast<u8>(rgValue), static_cast<u8>(bValue));
+        pPoly->SetRGB2(static_cast<u8>(rgValue), static_cast<u8>(rgValue), static_cast<u8>(bValue));
 
-        SetXY0(pPoly, field_23E_width, field_240_k120);
-        SetXY1(pPoly, x0, y0);
-        SetXY2(pPoly, static_cast<s16>(x1), static_cast<s16>(y1));
+        pPoly->SetXY0(field_23E_width, field_240_k120);
+        pPoly->SetXY1(x0, y0);
+        pPoly->SetXY2(static_cast<s16>(x1), static_cast<s16>(y1));
 
-        OrderingTable_Add(OtLayer(ppOt, field_23C_layer), &pPoly->mBase.header);
+        OrderingTable_Add(OtLayer(ppOt, field_23C_layer), pPoly);
     }
-
-    OrderingTable_Add(OtLayer(ppOt, field_23C_layer), &field_21C_tPage[gPsxDisplay.mBufferIndex].mBase);
 
     if ((field_10_current_Value == 255 && field_14_fade_direction) || (field_10_current_Value == 0 && !field_14_fade_direction))
     {

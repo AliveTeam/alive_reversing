@@ -12,7 +12,7 @@ void AnimationUnknown::VDecode()
     // Empty
 }
 
-void AnimationUnknown::VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 /*width*/, s32 /*height*/)
+void AnimationUnknown::VRender(s32 xpos, s32 ypos, BasePrimitive** ppOt, s16 /*width*/, s32 /*height*/)
 {
     Poly_FT4* pPoly = &mPolys[gPsxDisplay.mBufferIndex];
     if (GetRender())
@@ -98,19 +98,17 @@ void AnimationUnknown::VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 /*widt
 
         if (!GetBlending())
         {
-            SetRGB0(pPoly, mRgb);
+            pPoly->SetRGB0(mRgb.r & 0xFF, mRgb.g & 0xFF, mRgb.b & 0xFF);
         }
         
-        SetXYWH(pPoly,
+        pPoly->SetXYWH(
                 static_cast<s16>(polyX),
                 static_cast<s16>(polyY),
                 static_cast<s16>(frameW - 1),
                 static_cast<s16>(frameH - 1));
 
 
-        // TODO: Or pass this mAnimRes ?
-        SetPrimExtraPointerHack(pPoly, &mAnimPtr->mAnimRes);
-        OrderingTable_Add(OtLayer(ppOt, GetRenderLayer()), &pPoly->mBase.header);
+        OrderingTable_Add(OtLayer(ppOt, GetRenderLayer()), pPoly);
     }
 }
 

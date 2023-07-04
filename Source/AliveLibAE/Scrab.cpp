@@ -3519,7 +3519,7 @@ void Scrab::VScreenChanged()
     }
 }
 
-void Scrab::VRender(PrimHeader** ppOt)
+void Scrab::VRender(BasePrimitive** ppOt)
 {
     if (UpdateDelay() == 0)
     {

@@ -62,7 +62,7 @@ public:
     Scrab(relive::Path_Scrab* pTlv, const Guid& tlvId);
     ~Scrab();
 
-    virtual void VRender(PrimHeader** ppOt) override;
+    virtual void VRender(BasePrimitive** ppOt) override;
     virtual void VUpdate() override;
     virtual bool VTakeDamage(BaseGameObject* pFrom) override;
     virtual void VOnTlvCollision(relive::Path_TLV* pTlv) override;

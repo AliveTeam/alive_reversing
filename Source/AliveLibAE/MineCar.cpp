@@ -349,7 +349,7 @@ bool MineCar::CheckFloorCollision(FP hitX, FP hitY)
     return true;
 }
 
-void MineCar::VRender(PrimHeader** ppOt)
+void MineCar::VRender(BasePrimitive** ppOt)
 {
     if (GetAnimation().GetRender())
     {

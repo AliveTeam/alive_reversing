@@ -21,7 +21,7 @@ ZapLine::ZapLine(FP xPosSource, FP yPosSource, FP xPosDest, FP yPosDest, s32 ali
     SetType(ReliveTypes::eZapLine);
     mZapLineType = type;
 
-    TPageAbr blendMode = TPageAbr::eBlend_0;
+    relive::TBlendModes blendMode = relive::TBlendModes::eBlend_0;
     if (type == ZapLineType::eThin_1)
     {
         // Creates thin blue zap lines.
@@ -29,7 +29,7 @@ ZapLine::ZapLine(FP xPosSource, FP yPosSource, FP xPosDest, FP yPosDest, s32 ali
         mNumberOfSegments = 12;
         mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Zap_Line_Blue));
         Animation_Init(GetAnimRes(AnimId::Zap_Line_Blue));
-        blendMode = TPageAbr::eBlend_3;
+        blendMode = relive::TBlendModes::eBlend_3;
     }
     else if (type == ZapLineType::eThick_0)
     {
@@ -38,7 +38,7 @@ ZapLine::ZapLine(FP xPosSource, FP yPosSource, FP xPosDest, FP yPosDest, s32 ali
         mNumberOfSegments = 28;
         mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Zap_Line_Red));
         Animation_Init(GetAnimRes(AnimId::Zap_Line_Red));
-        blendMode = TPageAbr::eBlend_1;
+        blendMode = relive::TBlendModes::eBlend_1;
     }
 
     GetAnimation().SetSemiTrans(false);
@@ -71,20 +71,19 @@ ZapLine::ZapLine(FP xPosSource, FP yPosSource, FP xPosDest, FP yPosDest, s32 ali
             for (s32 k = 0; k < mNumberOfPiecesPerSegment; k++)
             {
                 Poly_FT4* pSprt = &mSprites[(j * mNumberOfPiecesPerSegment) + k].mSprts[i];
-                PolyFT4_Init(pSprt);
 
-                Poly_Set_SemiTrans(&pSprt->mBase.header, 1);
-                Poly_Set_Blending(&pSprt->mBase.header, 0);
+                pSprt->SetSemiTransparent(true);
+                pSprt->DisableBlending(false);
 
-                SetTPage(pSprt, static_cast<s16>(PSX_getTPage(blendMode)));
+                pSprt->SetBlendMode(blendMode);
 
                 pSprt->mAnim = &GetAnimation();
 
-                SetUV0(pSprt, 0, 0);
-                SetRGB0(pSprt, 127, 127, 127);
+                pSprt->SetUV0(0, 0);
+                pSprt->SetRGB0(127, 127, 127);
 
 
-                SetXYWH(pSprt, 0, 0, static_cast<s16>(frameW - 1), static_cast<s16>(frameH - 1));
+                pSprt->SetXYWH(0, 0, static_cast<s16>(frameW - 1), static_cast<s16>(frameH - 1));
             }
         }
     }
@@ -252,13 +251,13 @@ void ZapLine::UpdateSpriteVertexPositions()
             const auto pPoint = &mSpritePositions[j + (i * mNumberOfPiecesPerSegment)];
             Poly_FT4* pSprt = &mSprites->mSprts[j + (i * mNumberOfPiecesPerSegment)];
             
-            const s16 w1 = static_cast<s16>(abs(X0(&pSprt[0]) - X3(&pSprt[0])));
-            const s16 h1 = static_cast<s16>(abs(Y0(&pSprt[0]) - Y3(&pSprt[0])));
-            SetXYWH(&pSprt[0], pPoint->x, pPoint->y, w1, h1);
+            const s16 w1 = static_cast<s16>(abs(pSprt[0].X0() - pSprt[0].X3()));
+            const s16 h1 = static_cast<s16>(abs(pSprt[0].Y0() - pSprt[0].Y3()));
+            pSprt[0].SetXYWH(pPoint->x, pPoint->y, w1, h1);
 
-            const s16 w2 = static_cast<s16>(abs(X0(&pSprt[1]) - X3(&pSprt[1])));
-            const s16 h2 = static_cast<s16>(abs(Y0(&pSprt[1]) - Y3(&pSprt[1])));
-            SetXYWH(&pSprt[1], pPoint->x, pPoint->y, w2, h2);
+            const s16 w2 = static_cast<s16>(abs(pSprt[1].X0() - pSprt[1].X3()));
+            const s16 h2 = static_cast<s16>(abs(pSprt[1].Y0() - pSprt[1].Y3()));
+            pSprt[1].SetXYWH(pPoint->x, pPoint->y, w2, h2);
         }
     }
 }
@@ -344,7 +343,7 @@ void ZapLine::VUpdate()
     }
 }
 
-void ZapLine::VRender(PrimHeader** ppOt)
+void ZapLine::VRender(BasePrimitive** ppOt)
 {
     if (gMap.Is_Point_In_Current_Camera(
             mCurrentLevel,
@@ -360,7 +359,7 @@ void ZapLine::VRender(PrimHeader** ppOt)
             for (s32 j = 0; j < mNumberOfPiecesPerSegment; j++)
             {
                 Poly_FT4* pSprt = &mSprites->mSprts[j + (i * mNumberOfPiecesPerSegment)];
-                OrderingTable_Add(OtLayer(ppOt, GetAnimation().GetRenderLayer()), &pSprt[bufferIdx].mBase.header);
+                OrderingTable_Add(OtLayer(ppOt, GetAnimation().GetRenderLayer()), &pSprt[bufferIdx]);
             }
         }
     }

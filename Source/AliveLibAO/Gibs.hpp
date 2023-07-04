@@ -43,7 +43,7 @@ public:
     void LoadAnimations();
 
     virtual void VUpdate() override;
-    virtual void VRender(PrimHeader** ppOt) override;
+    virtual void VRender(BasePrimitive** ppOt) override;
 
     const Gib_Data* mGibData = nullptr;
     FP field_E8_z = {};

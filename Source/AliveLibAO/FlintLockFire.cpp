@@ -94,20 +94,20 @@ FlintLockFire::FlintLockFire(relive::Path_FlintLockFire* pTlv, const Guid& tlvId
         GetAnimRes(sFlintLockFireData[cur_lvl].mGourdAnimId),
         this);
 
-    mGourdAnim.SetRenderMode(TPageAbr::eBlend_0);
+    mGourdAnim.SetBlendMode(relive::TBlendModes::eBlend_0);
     mGourdAnim.SetAnimate(false);
     mGourdAnim.SetSemiTrans(true);
 
     if (sFlintLockFireData[cur_lvl].mIsFire)
     {
         mFire1Anim.Init(GetAnimRes(AnimId::Fire), this);
-        mFire1Anim.SetRenderMode(TPageAbr::eBlend_0);
+        mFire1Anim.SetBlendMode(relive::TBlendModes::eBlend_0);
         mFire1Anim.SetAnimate(false);
         mFire1Anim.SetRender(false);
         mFire1Anim.SetSemiTrans(true);
 
         mFire2Anim.Init(GetAnimRes(AnimId::Fire), this);
-        mFire2Anim.SetRenderMode(TPageAbr::eBlend_0);
+        mFire2Anim.SetBlendMode(relive::TBlendModes::eBlend_0);
         mFire2Anim.SetAnimate(false);
         mFire2Anim.SetRender(false);
         mFire2Anim.SetSemiTrans(true);
@@ -231,7 +231,7 @@ void FlintLockFire::VUpdate()
     }
 }
 
-void FlintLockFire::VRender(PrimHeader** ppOt)
+void FlintLockFire::VRender(BasePrimitive** ppOt)
 {
     if (Is_In_Current_Camera() == CameraPos::eCamCurrent_0)
     {
