@@ -53,8 +53,8 @@
 #include "nlohmann/json.hpp" // TODO: temp
 #include "../relive_lib/data_conversion/AESaveSerialization.hpp"
 
-SaveFileRec QuikSave::gSaveFileRecords[128];
 Quicksave QuikSave::gActiveQuicksaveData;
+SaveFileRec QuikSave::gSaveFileRecords[128];
 s32 QuikSave::gSavedGameToLoadIdx;
 s32 QuikSave::gTotalSaveFilesCount;
 
@@ -380,24 +380,18 @@ void QuikSave::RestoreBlyData(Quicksave& pSaveData)
     ResourceManagerWrapper::LoadingLoop(false);
 }
 
-
-Quicksave gActiveQuicksaveData = {};
-SaveFileRec gSaveFileRecords[128] = {};
-s32 gSavedGameToLoadIdx = 0;
-s32 gTotalSaveFilesCount = 0;
-
 void Quicksave_LoadFromMemory_4C95A0()
 {
     DestroyObjects();
     EventsReset();
     gSkipGameObjectUpdates = true;
-    QuikSave::RestoreWorldInfo(gActiveQuicksaveData.mWorldInfo);
-    gSwitchStates = gActiveQuicksaveData.mSwitchStates;
+    QuikSave::RestoreWorldInfo(QuikSave::gActiveQuicksaveData.mWorldInfo);
+    gSwitchStates = QuikSave::gActiveQuicksaveData.mSwitchStates;
     gMap.mRestoreMapObjectStates = true;
     gMap.SetActiveCam(
-        MapWrapper::FromAE(gActiveQuicksaveData.mWorldInfo.mLevel),
-        gActiveQuicksaveData.mWorldInfo.mPath,
-        gActiveQuicksaveData.mWorldInfo.mCam,
+        QuikSave::gActiveQuicksaveData.mWorldInfo.mLevel,
+        QuikSave::gActiveQuicksaveData.mWorldInfo.mPath,
+        QuikSave::gActiveQuicksaveData.mWorldInfo.mCam,
         CameraSwapEffects::eInstantChange_0,
         0,
         1);
@@ -541,7 +535,7 @@ void QuikSave::SaveWorldInfo(Quicksave_WorldInfo* pInfo)
     const PSX_RECT rect = sControlledCharacter->VGetBoundingRect();
 
     pInfo->mGnFrame = sGnFrame;
-    pInfo->mLevel = MapWrapper::ToAE(gMap.mCurrentLevel);
+    pInfo->mLevel = gMap.mCurrentLevel;
     pInfo->mPath = gMap.mCurrentPath;
     pInfo->mCam = gMap.mCurrentCamera;
 

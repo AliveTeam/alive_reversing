@@ -8,12 +8,12 @@
 
 class SerializedObjectData;
 
-enum class LevelIds : s16;
+enum class EReliveLevelIds : s16;
 
 struct Quicksave_WorldInfo final
 {
     s32 mGnFrame;
-    LevelIds mLevel;
+    EReliveLevelIds mLevel;
     s16 mPath;
     s16 mCam;
     s16 mSaveFileId;

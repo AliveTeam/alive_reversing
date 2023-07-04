@@ -421,7 +421,7 @@ void PauseMenu::RestartPath()
     QuikSave::RestoreWorldInfo(QuikSave::gActiveQuicksaveData.mRestartPathWorldInfo);
 
     gMap.SetActiveCam(
-        MapWrapper::FromAE(QuikSave::gActiveQuicksaveData.mRestartPathWorldInfo.mLevel),
+        QuikSave::gActiveQuicksaveData.mRestartPathWorldInfo.mLevel,
         QuikSave::gActiveQuicksaveData.mRestartPathWorldInfo.mPath,
         QuikSave::gActiveQuicksaveData.mRestartPathWorldInfo.mCam,
         CameraSwapEffects::eInstantChange_0,
@@ -432,7 +432,7 @@ void PauseMenu::RestartPath()
     if (sActiveHero->mBaseThrowableCount)
     {
         LoadRockTypes(
-            MapWrapper::FromAE(QuikSave::gActiveQuicksaveData.mRestartPathWorldInfo.mLevel),
+            QuikSave::gActiveQuicksaveData.mRestartPathWorldInfo.mLevel,
             QuikSave::gActiveQuicksaveData.mRestartPathWorldInfo.mPath);
 
         if (!gThrowableArray)

@@ -5163,7 +5163,7 @@ struct Quicksave_WorldInfo final
     {
         ::Quicksave_WorldInfo d;
         d.mGnFrame = data.mGnFrame;
-        d.mLevel = data.mLevel;
+        d.mLevel = MapWrapper::FromAE(data.mLevel);
         d.mPath = data.mPath;
         d.mCam = data.mCam;
         d.mSaveFileId = data.mSaveFileId;

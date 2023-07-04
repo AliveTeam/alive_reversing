@@ -29,7 +29,7 @@
 #include "file_system.hpp"
 
 // Bump this if any data format breaks are made so that OG/mod data is re-converted/upgraded
-const u32 DataConversion::kVersion = 7;
+const u32 DataConversion::kVersion = 8;
 
 static bool ReadLvlFileInto(ReliveAPI::LvlReader& archive, const char_type* fileName, std::vector<u8>& fileBuffer)
 {
