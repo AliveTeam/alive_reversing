@@ -5,7 +5,9 @@
 #include "../relive_lib/Primitives.hpp"
 #include "../relive_lib/Layer.hpp"
 
-enum class relive::TBlendModes : u32;
+namespace relive {
+    enum class TBlendModes : u32;
+}
 
 struct MainMenuTransition_Polys final
 {

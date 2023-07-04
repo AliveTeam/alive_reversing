@@ -5,7 +5,9 @@
 #include "../Layer.hpp"
 #include "../MapWrapper.hpp"
 
-enum class relive::TBlendModes : u32;
+namespace relive {
+enum class TBlendModes : u32;
+}
 
 class EffectBase : public BaseGameObject
 {
