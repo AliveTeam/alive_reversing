@@ -7,6 +7,7 @@
 #include "nlohmann/json_fwd.hpp"
 
 #include "file_system.hpp"
+#include <optional>
 
 bool SaveJson(const nlohmann::json& j, FileSystem& fs, const FileSystem::Path& path);
 bool SaveJson(const nlohmann::json& j, FileSystem& fs, const char_type* path);
@@ -92,15 +93,100 @@ inline const char* ToString(::LevelIds lvlId)
     }
 }
 
-
-class DataConversion final
+class [[nodiscard]] DataConversion final
 {
 public:
-    static const u32 kVersion;
+    struct [[nodiscard]] DataVersions final
+    {
+    private:
+        // Bump this if any data format breaks are made so that OG/mod data is re-converted/upgraded
+        static constexpr u32 kFmvVersion = 1;
+        static constexpr u32 kPathVersion = 1;
+        static constexpr u32 kPaletteVersion = 1;
+        static constexpr u32 kAnimationVersion = 1;
+        static constexpr u32 kCameraVersion = 1;
+        static constexpr u32 kSaveFileVersion = 1;
+        static constexpr u32 kFontFileVersion = 1;
+        static constexpr u32 kDemoFileVersion = 1;
 
-    u32 DataVersionAO();
-    u32 DataVersionAE();
+        static constexpr char_type kDataVersionFileName[] = "data_version.json";
+    public:
+        static DataVersions LatestVersion()
+        {
+            DataVersions dv;
+            dv.mFmvVersion = kFmvVersion;
+            dv.mPathVersion = kPathVersion;
+            dv.mPaletteVersion = kPaletteVersion;
+            dv.mAnimationVersion = kAnimationVersion;
+            dv.mCameraVersion = kCameraVersion;
+            dv.mSaveFileVersion = kSaveFileVersion;
+            dv.mFontFileVersion = kFontFileVersion;
+            dv.mDemoFileVersion = kDemoFileVersion;
+            return dv;
+        }
 
-    void ConvertDataAO();
-    void ConvertDataAE();
+        u32 mFmvVersion = 0;
+        u32 mPathVersion = 0;
+        u32 mPaletteVersion = 0;
+        u32 mAnimationVersion = 0;
+        u32 mCameraVersion = 0;
+        u32 mSaveFileVersion = 0;
+        u32 mFontFileVersion = 0;
+        u32 mDemoFileVersion = 0;
+
+        void Save(const FileSystem::Path& dataDir) const;
+
+        bool Load(const FileSystem::Path& dataDir);
+
+        bool ConvertFmvs() const
+        {
+            return mFmvVersion != kFmvVersion;
+        }
+
+        bool ConvertPaths() const
+        {
+            return mPathVersion != kPathVersion;
+        }
+
+        bool ConvertPalettes() const
+        {
+            return mPaletteVersion != kPaletteVersion;
+        }
+
+        bool ConvertAnimations() const
+        {
+            return mAnimationVersion != kAnimationVersion;
+        }
+
+        bool ConvertCameras() const
+        {
+            return mCameraVersion != kCameraVersion;
+        }
+
+        bool ConvertSaves() const
+        {
+            return mSaveFileVersion != kSaveFileVersion;
+        }
+
+        bool ConvertFonts() const
+        {
+            return mFontFileVersion != kFontFileVersion;
+        }
+
+        bool ConvertDemos() const
+        {
+            return mDemoFileVersion != kDemoFileVersion;
+        }
+
+        bool AnyConversionRequired() const
+        {
+            return ConvertFmvs() || ConvertPaths() || ConvertPalettes() || ConvertAnimations() || ConvertCameras() || ConvertSaves() || ConvertFonts() || ConvertDemos();
+        }
+    };
+
+    std::optional<DataVersions> DataVersionAO();
+    std::optional<DataVersions> DataVersionAE();
+
+    void ConvertDataAO(const DataVersions& dv);
+    void ConvertDataAE(const DataVersions& dv);
 };

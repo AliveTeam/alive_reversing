@@ -94,13 +94,21 @@ void DataConversionUI::ThreadFunc()
     // TODO: The thread saftey here is questionable and we also need
     // to be able to incrementally call/poll the conversion for info/progress/errors
     DataConversion dataConversion;
+    DataConversion::DataVersions zeroVersions;
+
+#if 0
+    // Dev hack to control which data files to convert (can force reconvert/force skip)
+    zeroVersions = DataConversion::DataVersions::LatestVersion();
+    zeroVersions.mFmvVersion = 0;
+#endif
+
     if (mGameType == GameType::eAe)
     {
-        dataConversion.ConvertDataAE();
+        dataConversion.ConvertDataAE(dataConversion.DataVersionAE().value_or(zeroVersions));
     }
     else
     {
-        dataConversion.ConvertDataAO();
+        dataConversion.ConvertDataAO(dataConversion.DataVersionAO().value_or(zeroVersions));
     }
 
     mDone = true;
@@ -156,13 +164,13 @@ void DataConversionUI::VRender(BasePrimitive** ppOt)
 bool DataConversionUI::ConversionRequired()
 {
     DataConversion dataConversion;
+    DataConversion::DataVersions zeroVersions;
     if (mGameType == GameType::eAe)
     {
-        //return true;
-        return dataConversion.DataVersionAE() != DataConversion::kVersion;
+        return dataConversion.DataVersionAE().value_or(zeroVersions).AnyConversionRequired();
     }
     else
     {
-        return dataConversion.DataVersionAO() != DataConversion::kVersion;
+        return dataConversion.DataVersionAO().value_or(zeroVersions).AnyConversionRequired();
     }
 }

@@ -28,8 +28,6 @@
 #include "fmv_converter.hpp"
 #include "file_system.hpp"
 
-// Bump this if any data format breaks are made so that OG/mod data is re-converted/upgraded
-const u32 DataConversion::kVersion = 8;
 
 static bool ReadLvlFileInto(ReliveAPI::LvlReader& archive, const char_type* fileName, std::vector<u8>& fileBuffer)
 {
@@ -1577,7 +1575,7 @@ static void ConvertFont(const FileSystem::Path& dataDir, const std::string& file
 }
 
 template<typename LevelIdType, typename TlvType>
-static void ConvertFilesInLvl(const FileSystem::Path& dataDir, FileSystem& fs, ReliveAPI::LvlReader& lvlReader, std::vector<u8>& fileBuffer, LevelIdType lvlIdxAsLvl, EReliveLevelIds reliveLvl, bool isAo, bool onlySaves)
+static void ConvertFilesInLvl(const FileSystem::Path& dataDir, FileSystem& fs, ReliveAPI::LvlReader& lvlReader, std::vector<u8>& fileBuffer, LevelIdType lvlIdxAsLvl, EReliveLevelIds reliveLvl, const DataConversion::DataVersions& dv, bool isAo, bool onlySaves)
 {
     // Iterate and convert specific file types in the LVL
     AESaveConverter::PathsCache pathsCache;
@@ -1588,6 +1586,7 @@ static void ConvertFilesInLvl(const FileSystem::Path& dataDir, FileSystem& fs, R
         {
             if (onlySaves)
             {
+                // caller checks if save conv is enabled
                 if (endsWith(fileName, ".SAV"))
                 {
                     if (ReadLvlFileInto(lvlReader, fileName.c_str(), fileBuffer))
@@ -1608,28 +1607,43 @@ static void ConvertFilesInLvl(const FileSystem::Path& dataDir, FileSystem& fs, R
             {
                 if (endsWith(fileName, ".FNT"))
                 {
-                    if (fileName == "LCDFONT.FNT")
+                    if (dv.ConvertFonts())
                     {
-                        ConvertFont(dataDir, fileName, lvlReader, fileBuffer, false);
+                        if (fileName == "LCDFONT.FNT")
+                        {
+                            ConvertFont(dataDir, fileName, lvlReader, fileBuffer, false);
+                        }
                     }
                 }
                 else if (endsWith(fileName, ".CAM"))
                 {
-                    if (fileName == "S1P01C01.CAM" || fileName == "STP01C06.CAM")
+                    if (dv.ConvertFonts())
                     {
-                        ConvertFont(dataDir, fileName, lvlReader, fileBuffer, true);
+                        if (fileName == "S1P01C01.CAM" || fileName == "STP01C06.CAM")
+                        {
+                            ConvertFont(dataDir, fileName, lvlReader, fileBuffer, true);
+                        }
                     }
 
-                     ConvertCamera(dataDir, fileName, fs, fileBuffer, lvlReader, lvlIdxAsLvl, isAo);
+                    if (dv.ConvertCameras())
+                    {
+                        ConvertCamera(dataDir, fileName, fs, fileBuffer, lvlReader, lvlIdxAsLvl, isAo);
+                    }
                 }
                 else if (endsWith(fileName, ".JOY"))
                 {
-                    // TODO: Actually convert at some later point
-                    SaveFileFromLvlDirect(fileName.c_str(), dataDir, lvlReader, lvlIdxAsLvl, fileBuffer);
+                    if (dv.ConvertDemos())
+                    {
+                        // TODO: Actually convert at some later point
+                        SaveFileFromLvlDirect(fileName.c_str(), dataDir, lvlReader, lvlIdxAsLvl, fileBuffer);
+                    }
                 }
                 else if (endsWith(fileName, "PATH.BND"))
                 {
-                    ConvertPathBND<LevelIdType, TlvType>(dataDir, fileName, fs, fileBuffer, lvlReader, lvlIdxAsLvl, reliveLvl, isAo);
+                    if (dv.ConvertPaths())
+                    {
+                        ConvertPathBND<LevelIdType, TlvType>(dataDir, fileName, fs, fileBuffer, lvlReader, lvlIdxAsLvl, reliveLvl, isAo);
+                    }
                 }
             }
         }
@@ -1768,25 +1782,147 @@ static void IterateAOLvls(FnOnLvl fnOnLvl)
     }
 }
 
-const char_type kDataVersionFileName[] = "data_version.json";
 
-static void WriteDataVersion(const FileSystem::Path& path, u32 version)
+std::optional<DataConversion::DataVersions> DataConversion::DataVersionAO()
 {
-    auto j = nlohmann::json{{"data_version", version}};
+    FileSystem::Path dataDir;
+    dataDir.Append("relive_data");
+    dataDir.Append("ao");
+    DataVersions dv;
+    return dv.Load(dataDir) ? std::make_optional(dv) : std::nullopt;
+}
+
+std::optional<DataConversion::DataVersions> DataConversion::DataVersionAE()
+{
+    FileSystem::Path dataDir;
+    dataDir.Append("relive_data");
+    dataDir.Append("ae");
+    DataVersions dv;
+    return dv.Load(dataDir) ? std::make_optional(dv) : std::nullopt;
+}
+
+static void WriteDataVersion(const FileSystem::Path& path)
+{
+    const DataConversion::DataVersions dv = DataConversion::DataVersions::LatestVersion();
+    dv.Save(path);
+}
+
+void DataConversion::ConvertDataAO(const DataVersions& dv)
+{
     FileSystem fs;
-    auto fileName = path;
+
+    FileSystem::Path dataDir;
+    dataDir.Append("relive_data");
+    dataDir.Append("ao");
+    fs.CreateDirectory(dataDir);
+
+    if (dv.ConvertFmvs())
+    {
+        ConvertFMVs(dataDir, true);
+    }
+
+    // TODO: Prob diff data in AO, check me
+    if (dv.ConvertPalettes())
+    {
+        ConvertHardcodedPals(dataDir);
+    }
+
+    std::vector<u8> fileBuffer;
+    IterateAOLvls([&](ReliveAPI::LvlReader& lvlReader, EReliveLevelIds reliveLvl, AO::LevelIds lvlIdxAsLvl)
+    {
+        if (dv.ConvertAnimations())
+        {
+            ConvertAnimations(dataDir, fs, fileBuffer, lvlReader, reliveLvl, true);
+        }
+
+        if (dv.ConvertPalettes())
+        {
+            ConvertPals(dataDir, fileBuffer, lvlReader, true);
+        }
+
+        ConvertFilesInLvl<AO::LevelIds, AO::Path_TLV>(dataDir, fs, lvlReader, fileBuffer, lvlIdxAsLvl, reliveLvl, dv, true, false);
+    });
+
+    if (dv.ConvertSaves())
+    {
+        IterateAOLvls([&](ReliveAPI::LvlReader& lvlReader, EReliveLevelIds reliveLvl, AO::LevelIds lvlIdxAsLvl)
+        {
+            ConvertFilesInLvl<AO::LevelIds, AO::Path_TLV>(dataDir, fs, lvlReader, fileBuffer, lvlIdxAsLvl, reliveLvl, dv, true, true);
+        });
+    }
+
+    WriteDataVersion(dataDir);
+
+    LogNonConvertedAnims(true);
+    LogNonConvertedPals(true);
+}
+
+void DataConversion::ConvertDataAE(const DataVersions& dv)
+{
+    FileSystem fs;
+
+    FileSystem::Path dataDir;
+    dataDir.Append("relive_data");
+    dataDir.Append("ae");
+    fs.CreateDirectory(dataDir);
+
+    if (dv.ConvertFmvs())
+    {
+        ConvertFMVs(dataDir, false);
+    }
+
+    if (dv.ConvertPalettes())
+    {
+        ConvertHardcodedPals(dataDir);
+    }
+
+    std::vector<u8> fileBuffer;
+    IterateAELvls([&](ReliveAPI::LvlReader& lvlReader, EReliveLevelIds reliveLvl, LevelIds lvlIdxAsLvl) 
+    {
+        if (dv.ConvertAnimations())
+        {
+            ConvertAnimations(dataDir, fs, fileBuffer, lvlReader, reliveLvl, false);
+        }
+
+        if (dv.ConvertPalettes())
+        {
+            ConvertPals(dataDir, fileBuffer, lvlReader, false);
+        }
+
+        ConvertFilesInLvl<::LevelIds, ::Path_TLV>(dataDir, fs, lvlReader, fileBuffer, lvlIdxAsLvl, reliveLvl, dv, false, false);
+    });
+
+    if (dv.ConvertSaves())
+    {
+        IterateAELvls([&](ReliveAPI::LvlReader& lvlReader, EReliveLevelIds reliveLvl, LevelIds lvlIdxAsLvl) 
+        { 
+            ConvertFilesInLvl<::LevelIds, ::Path_TLV>(dataDir, fs, lvlReader, fileBuffer, lvlIdxAsLvl, reliveLvl, dv, false, true);
+        });
+    }
+    WriteDataVersion(dataDir);
+
+    LogNonConvertedAnims(false);
+}
+
+void DataConversion::DataVersions::Save(const FileSystem::Path& dataDir) const
+{
+    auto j = nlohmann::json{
+        {"fmv_version", mFmvVersion},
+        {"path_version", mPathVersion},
+        {"palette_version", mPaletteVersion},
+        {"animation_version", mAnimationVersion},
+        {"camera_version", mCameraVersion},
+        {"save_file_version", mSaveFileVersion},
+        {"font_file_version", mFontFileVersion},
+        {"demo_file_version", mDemoFileVersion},
+    };
+    FileSystem fs;
+    FileSystem::Path fileName = dataDir;
     fileName.Append(kDataVersionFileName);
     SaveJson(j, fs, fileName);
 }
 
-static u32 data_version_from_json(const nlohmann::json& j)
-{
-    u32 version = 0;
-    j.at("data_version").get_to(version);
-    return version;
-}
-
-static u32 data_version_from_path(const FileSystem::Path& dataDir)
+bool DataConversion::DataVersions::Load(const FileSystem::Path& dataDir)
 {
     auto path = dataDir;
     path.Append(kDataVersionFileName);
@@ -1795,91 +1931,27 @@ static u32 data_version_from_path(const FileSystem::Path& dataDir)
     if (fs.FileExists(path.GetPath().c_str()))
     {
         const std::string jsonStr = fs.LoadToString(path);
-        nlohmann::json j = nlohmann::json::parse(jsonStr);
-        return data_version_from_json(j);
+        nlohmann::json j;
+        try
+        {
+            DataVersions dv;
+            j = nlohmann::json::parse(jsonStr);
+            j.at("fmv_version").get_to(dv.mFmvVersion);
+            j.at("path_version").get_to(dv.mPathVersion);
+            j.at("palette_version").get_to(dv.mPaletteVersion);
+            j.at("animation_version").get_to(dv.mAnimationVersion);
+            j.at("camera_version").get_to(dv.mCameraVersion);
+            j.at("save_file_version").get_to(dv.mSaveFileVersion);
+            j.at("font_file_version").get_to(dv.mFontFileVersion);
+            j.at("demo_file_version").get_to(dv.mDemoFileVersion);
+            *this = dv;
+        }
+        catch (const nlohmann::json::exception&)
+        {
+            return false;
+        }
+
+        return true;
     }
-    return 0;
-}
-
-u32 DataConversion::DataVersionAO()
-{
-    FileSystem::Path dataDir;
-    dataDir.Append("relive_data");
-    dataDir.Append("ao");
-    return data_version_from_path(dataDir);
-}
-
-u32 DataConversion::DataVersionAE()
-{
-    FileSystem::Path dataDir;
-    dataDir.Append("relive_data");
-    dataDir.Append("ae");
-    return data_version_from_path(dataDir);
-}
-
-void DataConversion::ConvertDataAO()
-{
-    FileSystem fs;
-
-    FileSystem::Path dataDir;
-    dataDir.Append("relive_data");
-    dataDir.Append("ao");
-    fs.CreateDirectory(dataDir);
-
-    //ConvertFMVs(dataDir, true);
-
-    // TODO: Prob diff data in AO, check me
-    ConvertHardcodedPals(dataDir);
-
-    std::vector<u8> fileBuffer;
-    IterateAOLvls([&](ReliveAPI::LvlReader& lvlReader, EReliveLevelIds reliveLvl, AO::LevelIds lvlIdxAsLvl)
-    {
-        ConvertAnimations(dataDir, fs, fileBuffer, lvlReader, reliveLvl, true);
-
-        ConvertPals(dataDir, fileBuffer, lvlReader, true);
-
-        ConvertFilesInLvl<AO::LevelIds, AO::Path_TLV>(dataDir, fs, lvlReader, fileBuffer, lvlIdxAsLvl, reliveLvl, true, false);
-    });
-
-    IterateAOLvls([&](ReliveAPI::LvlReader& lvlReader, EReliveLevelIds reliveLvl, AO::LevelIds lvlIdxAsLvl)
-    {
-        ConvertFilesInLvl<AO::LevelIds, AO::Path_TLV>(dataDir, fs, lvlReader, fileBuffer, lvlIdxAsLvl, reliveLvl, true, true);
-    });
-
-    WriteDataVersion(dataDir, DataConversion::kVersion);
-
-    LogNonConvertedAnims(true);
-    LogNonConvertedPals(true);
-}
-
-void DataConversion::ConvertDataAE()
-{
-    FileSystem fs;
-
-    FileSystem::Path dataDir;
-    dataDir.Append("relive_data");
-    dataDir.Append("ae");
-    fs.CreateDirectory(dataDir);
-
-    //ConvertFMVs(dataDir, false);
-    ConvertHardcodedPals(dataDir);
-
-    std::vector<u8> fileBuffer;
-    IterateAELvls([&](ReliveAPI::LvlReader& lvlReader, EReliveLevelIds reliveLvl, LevelIds lvlIdxAsLvl) 
-    {
-        ConvertAnimations(dataDir, fs, fileBuffer, lvlReader, reliveLvl, false);
-
-        ConvertPals(dataDir, fileBuffer, lvlReader, false);
-
-        ConvertFilesInLvl<::LevelIds, ::Path_TLV>(dataDir, fs, lvlReader, fileBuffer, lvlIdxAsLvl, reliveLvl, false, false);
-    });
-
-    IterateAELvls([&](ReliveAPI::LvlReader& lvlReader, EReliveLevelIds reliveLvl, LevelIds lvlIdxAsLvl) 
-    { 
-        ConvertFilesInLvl<::LevelIds, ::Path_TLV>(dataDir, fs, lvlReader, fileBuffer, lvlIdxAsLvl, reliveLvl, false, true);
-    });
-
-    WriteDataVersion(dataDir, DataConversion::kVersion);
-
-    LogNonConvertedAnims(false);
+    return false;
 }
