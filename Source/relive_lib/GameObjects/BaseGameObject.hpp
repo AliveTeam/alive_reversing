@@ -12,7 +12,7 @@ struct BasePrimitive;
 
 class SerializedObjectData;
 
-class BaseGameObject
+class [[nodiscard]] BaseGameObject
 {
 public:
     BaseGameObject(s16 bAddToObjectList, s16 resourceArraySize);
