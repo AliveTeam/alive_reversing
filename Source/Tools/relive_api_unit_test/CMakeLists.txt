@@ -28,9 +28,9 @@ target_compile_definitions(relive_api_unit_test PRIVATE "_CRT_SECURE_NO_WARNINGS
 if (NOT MSVC)
     set(THREADS_PREFER_PTHREAD_FLAG ON)
     find_package(Threads REQUIRED)
-    target_link_libraries(relive_api_unit_test relive_api relive_lib googletest jsonxx_reliveapi libglew_static project_warnings Threads::Threads)
+    target_link_libraries(relive_api_unit_test relive_api relive_lib googletest jsonxx libglew_static project_warnings Threads::Threads)
 else()
-    target_link_libraries(relive_api_unit_test relive_api relive_lib googletest jsonxx_reliveapi libglew_static project_warnings)
+    target_link_libraries(relive_api_unit_test relive_api relive_lib googletest jsonxx libglew_static project_warnings)
 endif()
 
 if (MSVC AND CMAKE_GENERATOR MATCHES "Visual Studio")
