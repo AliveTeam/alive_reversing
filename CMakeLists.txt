@@ -19,6 +19,7 @@ endif()
 
 # From: https://medium.com/@alasher/colored-c-compiler-output-with-ninja-clang-gcc-10bfe7f2b949
 option (FORCE_COLORED_OUTPUT "Always produce ANSI-colored output (GNU/Clang only)." FALSE)
+option ( "Build the Qt editor, override to false to avoid installing Qt etc if you only want to build the engine" TRUE)
 
 if (UNIX)
     #add_compile_options(-ftime-trace)
@@ -98,6 +99,9 @@ add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Source/relive_lib)
 #add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Source/AliveLibAO)
 #add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Source/AliveLibAE)
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Source/relive)
+#if (${BUILD_EDITOR})
+add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Source/Tools/editor)
+#endif()
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Source/Tools/vab_tool)
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Source/Tools/relive_api)
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Source/Tools/relive_api_integration_test)
@@ -185,8 +189,6 @@ target_precompile_headers(
 # -----------------------------------------------------------------------------
 
 add_dependencies(relive_lib UpdateConfigHeader)
-add_dependencies(AliveLibAE_reliveapi UpdateConfigHeader)
-add_dependencies(AliveLibAO_reliveapi UpdateConfigHeader)
 
 #add_dependencies(AliveLibAO UpdateConfigHeader)
 #add_dependencies(AliveLibAE UpdateConfigHeader)

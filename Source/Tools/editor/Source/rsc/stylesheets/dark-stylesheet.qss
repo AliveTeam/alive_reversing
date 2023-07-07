@@ -1,0 +1,143 @@
+QProgressBar {
+background-color: rgb(50, 50, 50);
+border: 1px solid rgb(80, 80, 80);
+border-radius: 2px;
+}
+
+QProgressBar::chunk {
+background-color: rgb(130, 130, 255);
+}
+
+QSlider::groove:horizontal {
+height: 3px;
+background-color: rgb(80, 80, 80);
+}
+
+QSlider::sub-page:horizontal {
+background-color: rgb(130, 130, 255);
+}
+
+QSlider::handle:horizontal {
+margin: -8px 0;
+border-radius: 2px;
+width: 12px;
+background-color: rgb(30, 30, 30);
+}
+
+QScrollBar:horizontal {
+background-color: rgb(120, 120, 120);
+padding-left: 16px;
+padding-right: 16px;
+}
+
+QScrollBar:vertical {
+background-color: rgb(120, 120, 120);
+padding-top: 16px;
+padding-bottom: 16px;
+}
+
+QScrollBar::handle:horizontal, QScrollBar::handle:vertical {
+border: none;
+}
+
+QScrollBar::sub-page, QScrollBar::add-page {
+background-color: rgb(80, 80, 80);
+}
+
+QToolTip {
+border: 1px solid rgb(80, 80, 80);
+background-color: rgb(50, 50, 50);
+color: white;
+}
+
+QTabWidget::pane {
+border-top: 1px solid rgb(80, 80, 80);
+}
+
+QTabBar::tab {
+background-color: rgb(80, 80, 80);
+border-top-left-radius: 4px;
+border-top-right-radius: 4px;
+min-height: 25px;
+padding-left: 4px;
+}
+
+QTabBar::tab:hover {
+background-color: rgb(100, 100, 100);
+}
+
+QTabBar::tab:selected {
+background-color: rgb(100, 100, 100);
+border: 1px solid rgb(130, 130, 255);
+}
+
+QTabBar::tab:!selected {
+margin-top: 3px;
+}
+
+QMenuBar, QStatusBar, QMenuBar::item {
+background-color: rgb(30, 30, 30);
+}
+
+QListView::item:hover, QTreeView::item:hover, QMenu::item:selected
+, QMenuBar::item:selected, QPushButton:hover, QToolButton:hover {
+color: white;
+background-color: rgb(80, 80, 80);
+}
+
+QPushButton {
+background-color: rgb(60, 60, 60);
+border-style: solid;
+border-width: 1px;
+border-radius: 5px;
+border-color: rgb(70, 70, 70);
+min-width: 70px;
+min-height: 20px;
+}
+
+QPushButton:pressed {
+background-color: rgb(130, 130, 255);
+}
+
+QTextEdit, QLineEdit, QSpinBox, QComboBox, QAbstractSpinBox {
+background-color: rgb(100, 100, 100);
+border: 1px solid rgb(130, 130, 255);
+}
+
+QToolBar {
+background-color: rgb(50, 50, 50);
+border: none;
+}
+
+QHeaderView::section {
+background-color: rgb(50, 50, 50);
+border: 1px solid rgb(100, 100, 100);
+padding-left: 4px;
+}
+
+QDockWidget, QDialog, QMessageBox, QAbstractItemView, QMainWindow,
+QMenu {
+background-color: rgb(50, 50, 50);
+}
+
+QGraphicsView {
+border: none;
+background-color: rgb(50, 50, 50);
+}
+
+QTreeView, QListWidget {
+border: 1px solid rgb(80, 80, 80);
+alternate-background-color: rgb(60, 60, 60);
+}
+
+QUndoView, QGroupBox {
+border: 1px solid rgb(80, 80, 80);
+}
+
+QWidget {
+color: white;
+}
+
+QWidget:disabled {
+color: grey;
+}

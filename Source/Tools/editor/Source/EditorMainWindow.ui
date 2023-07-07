@@ -1,0 +1,956 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>EditorMainWindow</class>
+ <widget class="QMainWindow" name="EditorMainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>606</width>
+    <height>390</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string/>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>:/images/app.ico</normaloff>:/images/app.ico</iconset>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QHBoxLayout" name="horizontalLayout">
+    <property name="leftMargin">
+     <number>0</number>
+    </property>
+    <property name="topMargin">
+     <number>0</number>
+    </property>
+    <property name="rightMargin">
+     <number>0</number>
+    </property>
+    <property name="bottomMargin">
+     <number>0</number>
+    </property>
+    <item>
+     <widget class="QStackedWidget" name="stackedWidget">
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <widget class="QWidget" name="page">
+       <layout class="QHBoxLayout" name="horizontalLayout_3">
+        <item>
+         <widget class="QLabel" name="lblStatus">
+          <property name="text">
+           <string>Choose File &gt; Open to start editing</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="page_2">
+       <layout class="QHBoxLayout" name="horizontalLayout_2">
+        <item>
+         <widget class="QTabWidget" name="tabWidget">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
+          <property name="tabPosition">
+           <enum>QTabWidget::North</enum>
+          </property>
+          <property name="tabShape">
+           <enum>QTabWidget::Rounded</enum>
+          </property>
+          <property name="currentIndex">
+           <number>-1</number>
+          </property>
+          <property name="documentMode">
+           <bool>true</bool>
+          </property>
+          <property name="tabsClosable">
+           <bool>true</bool>
+          </property>
+          <property name="movable">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>606</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>File</string>
+    </property>
+    <addaction name="actionNew_path"/>
+    <addaction name="action_open_path"/>
+    <addaction name="separator"/>
+    <addaction name="action_save_path"/>
+    <addaction name="action_save_path_as"/>
+    <addaction name="action_run_level"/>
+    <addaction name="action_exit_application"/>
+    <addaction name="actionSave_As"/>
+    <addaction name="actionSave_all"/>
+    <addaction name="actionExport_to_lvl"/>
+    <addaction name="actionExport_and_play"/>
+    <addaction name="separator"/>
+    <addaction name="action_close_path"/>
+   </widget>
+   <widget class="QMenu" name="menuHelp">
+    <property name="title">
+     <string>Help</string>
+    </property>
+    <addaction name="action_about"/>
+    <addaction name="action_about_qt"/>
+   </widget>
+   <widget class="QMenu" name="menuOptions">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="title">
+     <string>Options</string>
+    </property>
+    <addaction name="action_toggle_show_grid"/>
+    <addaction name="action_toggle_bring_selection_to_front"/>
+    <addaction name="actionItem_transparency"/>
+   </widget>
+   <widget class="QMenu" name="menuEdit">
+    <property name="title">
+     <string>Edit</string>
+    </property>
+    <addaction name="action_undo"/>
+    <addaction name="action_redo"/>
+    <addaction name="action_cut"/>
+    <addaction name="action_copy"/>
+    <addaction name="action_paste"/>
+    <addaction name="separator"/>
+    <addaction name="actionCut"/>
+    <addaction name="actionCopy"/>
+    <addaction name="actionPaste"/>
+    <addaction name="separator"/>
+    <addaction name="action_zoom_in"/>
+    <addaction name="action_zoom_out"/>
+    <addaction name="action_zoom_reset"/>
+    <addaction name="action_add_new_collision_item"/>
+    <addaction name="action_add_new_map_object"/>
+    <addaction name="action_delete_selected_items"/>
+    <addaction name="separator"/>
+    <addaction name="actionEdit_HintFly_messages"/>
+    <addaction name="actionEdit_LCDScreen_messages"/>
+    <addaction name="actionEdit_path_data"/>
+    <addaction name="actionEdit_map_size"/>
+    <addaction name="separator"/>
+    <addaction name="actionAdd_object"/>
+    <addaction name="actionAdd_collision"/>
+    <addaction name="separator"/>
+    <addaction name="actionConnect_collisions"/>
+   </widget>
+   <widget class="QMenu" name="menuSnapping">
+    <property name="title">
+     <string>Snapping</string>
+    </property>
+    <addaction name="action_snap_collision_items_on_x"/>
+    <addaction name="action_snap_collision_objects_on_y"/>
+    <addaction name="action_snap_map_objects_x"/>
+    <addaction name="action_snap_map_objects_y"/>
+   </widget>
+   <widget class="QMenu" name="menuTheme">
+    <property name="title">
+     <string>Theme</string>
+    </property>
+    <addaction name="actionDark_theme"/>
+    <addaction name="actionDark_Fusion_theme"/>
+   </widget>
+   <addaction name="menuFile"/>
+   <addaction name="menuEdit"/>
+   <addaction name="menuSnapping"/>
+   <addaction name="menuOptions"/>
+   <addaction name="menuTheme"/>
+   <addaction name="menuHelp"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <widget class="QToolBar" name="toolBar">
+   <property name="windowTitle">
+    <string>toolBar</string>
+   </property>
+   <property name="movable">
+    <bool>true</bool>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>16</width>
+     <height>16</height>
+    </size>
+   </property>
+   <property name="toolButtonStyle">
+    <enum>Qt::ToolButtonIconOnly</enum>
+   </property>
+   <property name="floatable">
+    <bool>false</bool>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+  </widget>
+  <action name="action_open_path">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/icons/rsc/icons/open.png</normaloff>:/icons/rsc/icons/open.png</iconset>
+   </property>
+   <property name="text">
+    <string>Open path</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+O</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="action_close_path">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/icons/rsc/icons/Close.png</normaloff>:/icons/rsc/icons/Close.png</iconset>
+   </property>
+   <property name="text">
+    <string>Close path</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+W</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="action_exit_application">
+   <property name="icon">
+    <iconset>
+     <normaloff>:/images/delete.png</normaloff>:/images/delete.png</iconset>
+   </property>
+   <property name="text">
+    <string>Exit</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Q</string>
+   </property>
+   <property name="visible">
+    <bool>false</bool>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="action_save_path">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/icons/rsc/icons/Save.png</normaloff>:/icons/rsc/icons/Save.png</iconset>
+   </property>
+   <property name="text">
+    <string>Save</string>
+   </property>
+   <property name="iconText">
+    <string>Save</string>
+   </property>
+   <property name="toolTip">
+    <string>Save</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
+   </property>
+   <property name="shortcutContext">
+    <enum>Qt::WindowShortcut</enum>
+   </property>
+   <property name="visible">
+    <bool>true</bool>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="action_about_qt">
+   <property name="icon">
+    <iconset>
+     <normaloff>:/images/qt.png</normaloff>:/images/qt.png</iconset>
+   </property>
+   <property name="text">
+    <string>About Qt</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="action_about">
+   <property name="icon">
+    <iconset>
+     <normaloff>:/images/application_osx_terminal.png</normaloff>:/images/application_osx_terminal.png</iconset>
+   </property>
+   <property name="text">
+    <string>About</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="action_toggle_show_grid">
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
+   <property name="checked">
+    <bool>false</bool>
+   </property>
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>:/images/grid.png</normaloff>:/images/grid.png</iconset>
+   </property>
+   <property name="text">
+    <string>Toggle grid</string>
+   </property>
+   <property name="visible">
+    <bool>true</bool>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="action_toggle_show_screens">
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
+   <property name="checked">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>:/images/screen.png</normaloff>:/images/screen.png</iconset>
+   </property>
+   <property name="text">
+    <string>Toggle show screens</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="action_toggle_show_collision_items">
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
+   <property name="checked">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>:/images/collisionitem.png</normaloff>:/images/collisionitem.png</iconset>
+   </property>
+   <property name="text">
+    <string>Toggle show collision items</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="action_toggle_show_map_objects">
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
+   <property name="checked">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>:/images/map.png</normaloff>:/images/map.png</iconset>
+   </property>
+   <property name="text">
+    <string>Toggle show map objects</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="action_undo">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Undo</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Z</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="action_redo">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Redo</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Y</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="action_zoom_reset">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/icons/rsc/icons/zoom_reset.png</normaloff>:/icons/rsc/icons/zoom_reset.png</iconset>
+   </property>
+   <property name="text">
+    <string>Reset zoom</string>
+   </property>
+   <property name="shortcut">
+    <string>/</string>
+   </property>
+   <property name="visible">
+    <bool>true</bool>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="action_zoom_in">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/icons/rsc/icons/zoom_in.png</normaloff>:/icons/rsc/icons/zoom_in.png</iconset>
+   </property>
+   <property name="text">
+    <string>Zoom in</string>
+   </property>
+   <property name="shortcut">
+    <string>+</string>
+   </property>
+   <property name="visible">
+    <bool>true</bool>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="action_zoom_out">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/icons/rsc/icons/zoom_out.png</normaloff>:/icons/rsc/icons/zoom_out.png</iconset>
+   </property>
+   <property name="text">
+    <string>Zoom out</string>
+   </property>
+   <property name="shortcut">
+    <string>-</string>
+   </property>
+   <property name="visible">
+    <bool>true</bool>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="action_add_new_collision_item">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>:/images/wrench.png</normaloff>:/images/wrench.png</iconset>
+   </property>
+   <property name="text">
+    <string>Add new collision item</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+M</string>
+   </property>
+   <property name="visible">
+    <bool>false</bool>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="action_add_new_map_object">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>:/images/add.png</normaloff>:/images/add.png</iconset>
+   </property>
+   <property name="text">
+    <string>Add new map object</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+N</string>
+   </property>
+   <property name="visible">
+    <bool>false</bool>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="action_save_path_as">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>:/images/database_save.png</normaloff>:/images/database_save.png</iconset>
+   </property>
+   <property name="text">
+    <string>Save as</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+A</string>
+   </property>
+   <property name="visible">
+    <bool>false</bool>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="action_delete_selected_items">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>:/images/application_delete.png</normaloff>:/images/application_delete.png</iconset>
+   </property>
+   <property name="text">
+    <string>Delete selected item(s)</string>
+   </property>
+   <property name="iconText">
+    <string>Delete selected item(s)</string>
+   </property>
+   <property name="shortcut">
+    <string>Del</string>
+   </property>
+   <property name="visible">
+    <bool>false</bool>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="action_run_level">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>:/images/wrench_orange.png</normaloff>:/images/wrench_orange.png</iconset>
+   </property>
+   <property name="text">
+    <string>Run game</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+R</string>
+   </property>
+   <property name="visible">
+    <bool>false</bool>
+   </property>
+  </action>
+  <action name="action_copy">
+   <property name="icon">
+    <iconset>
+     <normaloff>:/images/copy.png</normaloff>:/images/copy.png</iconset>
+   </property>
+   <property name="text">
+    <string>Copy</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+C</string>
+   </property>
+   <property name="visible">
+    <bool>false</bool>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="action_paste">
+   <property name="icon">
+    <iconset>
+     <normaloff>:/images/paste.png</normaloff>:/images/paste.png</iconset>
+   </property>
+   <property name="text">
+    <string>Paste</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+V</string>
+   </property>
+   <property name="visible">
+    <bool>false</bool>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="action_snap_collision_items_on_x">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/icons/rsc/icons/Snap_Line_X.png</normaloff>:/icons/rsc/icons/Snap_Line_X.png</iconset>
+   </property>
+   <property name="text">
+    <string>Snap collision objects on X</string>
+   </property>
+   <property name="visible">
+    <bool>true</bool>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="action_snap_map_objects_x">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/icons/rsc/icons/Snap_Object_X.png</normaloff>:/icons/rsc/icons/Snap_Object_X.png</iconset>
+   </property>
+   <property name="text">
+    <string>Snap map objects on X</string>
+   </property>
+   <property name="visible">
+    <bool>true</bool>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="action_set_transparency_levels">
+   <property name="icon">
+    <iconset>
+     <normaloff>:/images/transparency.png</normaloff>:/images/transparency.png</iconset>
+   </property>
+   <property name="text">
+    <string>Set transparency levels</string>
+   </property>
+   <property name="iconText">
+    <string>Set transparency levels</string>
+   </property>
+   <property name="toolTip">
+    <string>Set transparency levels</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="action_cut">
+   <property name="icon">
+    <iconset>
+     <normaloff>:/images/cut.png</normaloff>:/images/cut.png</iconset>
+   </property>
+   <property name="text">
+    <string>Cut</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+X</string>
+   </property>
+   <property name="visible">
+    <bool>false</bool>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="action_toggle_freeze_collision_objects">
+   <property name="icon">
+    <iconset>
+     <normaloff>:/images/lock_open.png</normaloff>:/images/lock_open.png</iconset>
+   </property>
+   <property name="text">
+    <string>Toggle freeze collision objects</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="action_toggle_freeze_map_objects">
+   <property name="icon">
+    <iconset>
+     <normaloff>:/images/lock_open.png</normaloff>:/images/lock_open.png</iconset>
+   </property>
+   <property name="text">
+    <string>Toggle freeze map objects</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="action_toggle_map_object_wire_frame_mode">
+   <property name="icon">
+    <iconset>
+     <normaloff>:/images/wireframe.png</normaloff>:/images/wireframe.png</iconset>
+   </property>
+   <property name="text">
+    <string>Toggle map object wire frame mode</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="action_path_map_stats">
+   <property name="icon">
+    <iconset>
+     <normaloff>:/images/mapstats.png</normaloff>:/images/mapstats.png</iconset>
+   </property>
+   <property name="text">
+    <string>Path/map stats</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+I</string>
+   </property>
+  </action>
+  <action name="action_snap_collision_objects_on_y">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/icons/rsc/icons/Snap_Line_Y.png</normaloff>:/icons/rsc/icons/Snap_Line_Y.png</iconset>
+   </property>
+   <property name="text">
+    <string>Snap collision objects on Y</string>
+   </property>
+   <property name="visible">
+    <bool>true</bool>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="action_snap_map_objects_y">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/icons/rsc/icons/Snap_Object_Y.png</normaloff>:/icons/rsc/icons/Snap_Object_Y.png</iconset>
+   </property>
+   <property name="text">
+    <string>Snap map objects on Y</string>
+   </property>
+   <property name="visible">
+    <bool>true</bool>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="action_toggle_bring_selection_to_front">
+   <property name="icon">
+    <iconset>
+     <normaloff>:/images/bring_to_front.png</normaloff>:/images/bring_to_front.png</iconset>
+   </property>
+   <property name="text">
+    <string>Toggle bring selection to front</string>
+   </property>
+   <property name="visible">
+    <bool>false</bool>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="action_reload_xml_properties">
+   <property name="icon">
+    <iconset>
+     <normaloff>:/images/wrench_orange.png</normaloff>:/images/wrench_orange.png</iconset>
+   </property>
+   <property name="text">
+    <string>Debug / Reload xml properties</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>false</bool>
+   </property>
+  </action>
+  <action name="actionExport_to_lvl">
+   <property name="text">
+    <string>Export to lvl</string>
+   </property>
+  </action>
+  <action name="actionEdit_HintFly_messages">
+   <property name="text">
+    <string>Edit HintFly messages</string>
+   </property>
+  </action>
+  <action name="actionEdit_LCDScreen_messages">
+   <property name="text">
+    <string>Edit LCDScreen messages</string>
+   </property>
+  </action>
+  <action name="actionEdit_path_data">
+   <property name="text">
+    <string>Edit path data</string>
+   </property>
+   <property name="shortcut">
+    <string>Shift+P</string>
+   </property>
+  </action>
+  <action name="actionEdit_map_size">
+   <property name="text">
+    <string>Edit map size</string>
+   </property>
+   <property name="shortcut">
+    <string>Shift+M</string>
+   </property>
+  </action>
+  <action name="actionNew_path">
+   <property name="text">
+    <string>New path</string>
+   </property>
+  </action>
+  <action name="actionSave_As">
+   <property name="text">
+    <string>Save As...</string>
+   </property>
+  </action>
+  <action name="actionAdd_object">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/icons/rsc/icons/New_Object.png</normaloff>:/icons/rsc/icons/New_Object.png</iconset>
+   </property>
+   <property name="text">
+    <string>Add object</string>
+   </property>
+   <property name="shortcut">
+    <string>Shift+A</string>
+   </property>
+  </action>
+  <action name="actionAdd_collision">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/icons/rsc/icons/New_Line.png</normaloff>:/icons/rsc/icons/New_Line.png</iconset>
+   </property>
+   <property name="text">
+    <string>Add collision</string>
+   </property>
+   <property name="shortcut">
+    <string>Shift+C</string>
+   </property>
+  </action>
+  <action name="actionConnect_collisions">
+   <property name="text">
+    <string>Connect collisions</string>
+   </property>
+   <property name="shortcut">
+    <string>CTRL+J</string>
+   </property>
+  </action>
+  <action name="actionItem_transparency">
+   <property name="text">
+    <string>Item transparency</string>
+   </property>
+  </action>
+  <action name="actionCut">
+   <property name="text">
+    <string>Cut</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+X</string>
+   </property>
+  </action>
+  <action name="actionCopy">
+   <property name="text">
+    <string>Copy</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+C</string>
+   </property>
+  </action>
+  <action name="actionPaste">
+   <property name="text">
+    <string>Paste</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+V</string>
+   </property>
+  </action>
+  <action name="actionDark_theme">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Dark</string>
+   </property>
+  </action>
+  <action name="actionDefault_theme">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Default</string>
+   </property>
+  </action>
+  <action name="actionDark_Fusion_theme">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Dark Fusion</string>
+   </property>
+  </action>
+  <action name="actionSave_all">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/icons/rsc/icons/Save_All.png</normaloff>:/icons/rsc/icons/Save_All.png</iconset>
+   </property>
+   <property name="text">
+    <string>Save all</string>
+   </property>
+  </action>
+  <action name="actionExport_and_play">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/icons/rsc/icons/Save_Export_Play.png</normaloff>:/icons/rsc/icons/Save_Export_Play.png</iconset>
+   </property>
+   <property name="text">
+    <string>Export and play</string>
+   </property>
+  </action>
+ </widget>
+ <resources>
+  <include location="resources.qrc"/>
+ </resources>
+ <connections/>
+</ui>

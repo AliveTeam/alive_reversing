@@ -10,6 +10,9 @@ jobs:
   - script: |
         sudo apt-get update
         sudo apt-get install libsdl2-dev
+        sudo apt-get install qtdeclarative5-dev
+        sudo apt-get install qtmultimedia5-dev
+        sudo apt-get install qttools5-dev
         git submodule update --init --depth=1
         cmake --version
         mkdir build
@@ -27,6 +30,11 @@ jobs:
   - script: |
         brew install sdl2
         brew install molten-vk
+        brew install qt5
+        export LDFLAGS="-L/usr/local/opt/qt@5/lib"
+        export CPPFLAGS="-I/usr/local/opt/qt@5/include"
+        export QT_DIR=/usr/local/opt/qt@5
+        echo 'export PATH="/usr/local/opt/qt@5/bin:$PATH"' >> /Users/runner/.bash_profile
         git submodule update --init --depth=1
         cmake --version
         mkdir build
@@ -53,9 +61,18 @@ jobs:
         mkdir C:\temp
         powershell Invoke-WebRequest 'https://github.com/AliveTeam/SDL2_win32_dev_mirror/files/8710940/SDL2-devel-2.0.22-VC.zip' -OutFile C:\temp\SDL2-devel-2.0.22-VC.zip
         7z x C:\Temp\SDL2-devel-2.0.22-VC.zip -oC:\Temp
+        pip install aqtinstall
+        aqt list-qt windows desktop --arch 5.15.2
+        mkdir Qt
+        cd Qt
+        aqt install-qt windows desktop 5.15.2 win32_msvc2019
         mkdir build
         cd build
-        cmake .. -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON -DBUILD_NUMBER=$(Build.BuildId) -DCI_PROVIDER="AzureDevOps" -DSDL2_DIR=C:\Temp\SDL2-2.0.22 -G "Visual Studio 16 2019" -A Win32
+        dir $(Build.SourcesDirectory)\Qt\5.15.2\msvc2019
+        set QT_DIR=$(Build.SourcesDirectory)\Qt\5.15.2\msvc2019\lib\cmake\Qt5
+        dir %QT_DIR$
+        set path=%path%;$(Build.SourcesDirectory)\Qt\5.15.2\msvc2019
+        cmake .. -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON -DBUILD_NUMBER=$(Build.BuildId) -DCI_PROVIDER="AzureDevOps" -DQt5_DIR="$(Build.SourcesDirectory)\Qt\5.15.2\msvc2019\lib\cmake\Qt5" -DSDL2_DIR=C:\Temp\SDL2-2.0.22 -G "Visual Studio 16 2019" -A Win32
         cmake --build .
         cpack.exe -G ZIP -C Debug
         ctest
@@ -74,9 +91,18 @@ jobs:
         mkdir C:\temp
         powershell Invoke-WebRequest 'https://github.com/AliveTeam/SDL2_win32_dev_mirror/files/8710940/SDL2-devel-2.0.22-VC.zip' -OutFile C:\temp\SDL2-devel-2.0.22-VC.zip
         7z x C:\Temp\SDL2-devel-2.0.22-VC.zip -oC:\Temp
+        pip install aqtinstall
+        aqt list-qt windows desktop --arch 5.15.2
+        mkdir Qt
+        cd Qt
+        aqt install-qt windows desktop 5.15.2 win64_msvc2019_64
         mkdir build
         cd build
-        cmake .. -DBUILD_NUMBER=$(Build.BuildId) -DCI_PROVIDER="AzureDevOps" -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON -DSDL2_DIR=C:\Temp\SDL2-2.0.22 -G "Visual Studio 16 2019" -A x64
+        dir $(Build.SourcesDirectory)\Qt\5.15.2\msvc2019_64
+        set QT_DIR=$(Build.SourcesDirectory)\Qt\5.15.2\msvc2019_64\lib\cmake\Qt5
+        dir %QT_DIR$
+        set path=%path%;$(Build.SourcesDirectory)\Qt\5.15.2\msvc2019_64
+        cmake .. -DBUILD_NUMBER=$(Build.BuildId) -DCI_PROVIDER="AzureDevOps" -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON -DQt5_DIR="$(Build.SourcesDirectory)\Qt\5.15.2\msvc2019_64\lib\cmake\Qt5" -DSDL2_DIR=C:\Temp\SDL2-2.0.22 -G "Visual Studio 16 2019" -A x64
         cmake --build .
         cpack.exe -G ZIP -C Debug
         ctest

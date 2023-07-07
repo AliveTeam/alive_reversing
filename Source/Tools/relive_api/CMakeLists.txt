@@ -7,55 +7,6 @@ endif()
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# jsonxx lib, ditto defining here for relive_api upstream editor projects
-add_library(jsonxx_reliveapi ../../../3rdParty/jsonxx/jsonxx.cc)
-target_include_directories(jsonxx_reliveapi SYSTEM PUBLIC
-    $<BUILD_INTERFACE:
-    ${CMAKE_CURRENT_SOURCE_DIR}/../../../3rdParty
-    ${CMAKE_CURRENT_SOURCE_DIR}/../../../3rdParty/json/single_include
-    ${CMAKE_CURRENT_SOURCE_DIR}/../../../3rdParty/jsonxx>)
-export(TARGETS jsonxx_reliveapi FILE jsonxx_reliveapi.cmake)
-set_property(TARGET jsonxx_reliveapi PROPERTY FOLDER "ReliveAPI")
-
-# relive_lib entry HACK! fix later after engine merge is finished
-add_library(AliveLibAO_reliveapi
-    ../../AliveLibAO/Grid.cpp
-    ../../AliveLibAO/PathData.cpp
-    ../../relive_lib/MapWrapper.cpp
-    )
-target_include_directories(AliveLibAO_reliveapi PUBLIC
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../../../3rdParty/json/single_include>
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>/../../../3rdParty/EasyLogging++/EasyLogging/src
-    $<INSTALL_INTERFACE:include>
-    PRIVATE ${CMAKE_BINARY_DIR})
-export(TARGETS AliveLibAO_reliveapi FILE AliveLibAO_reliveapi.cmake)
-set_property(TARGET AliveLibAO_reliveapi PROPERTY FOLDER "ReliveAPI")
-
-add_library(AliveLibAE_reliveapi
-    ../../AliveLibAE/Grid.cpp
-    ../../AliveLibAE/PathData.cpp
-    )
-target_include_directories(AliveLibAE_reliveapi PUBLIC
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>/../../../3rdParty/EasyLogging++/EasyLogging/src
-    $<INSTALL_INTERFACE:include>
-    PRIVATE ${CMAKE_BINARY_DIR})
-export(TARGETS AliveLibAE_reliveapi FILE AliveLibAE_reliveapi.cmake)
-set_property(TARGET AliveLibAE_reliveapi PROPERTY FOLDER "ReliveAPI")
-
-add_library(relive_lib_reliveapi
-    ../../relive_lib/AnimResources.cpp
-    ../../relive_lib/CamDecompressor.cpp
-    ../../relive_lib/CompressionType_4Or5.cpp
-    )
-target_include_directories(relive_lib_reliveapi PUBLIC
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>/../../../3rdParty/EasyLogging++/EasyLogging/src
-    $<INSTALL_INTERFACE:include>
-    PRIVATE ${CMAKE_BINARY_DIR})
-export(TARGETS relive_lib_reliveapi FILE relive_lib_reliveapi.cmake)
-set_property(TARGET relive_lib_reliveapi PROPERTY FOLDER "ReliveAPI")
-
 set(relive_api_src
     ApiContext.hpp
     RoundUp.hpp
@@ -127,11 +78,7 @@ set(relive_api_src
     TypesCollectionBase.hpp
 )
 add_library(relive_api ${relive_api_src})
-target_link_libraries(relive_api 
-    relive_lib_reliveapi
-    AliveLibAO_reliveapi
-    AliveLibAE_reliveapi
-    jsonxx_reliveapi)
+target_link_libraries(relive_api jsonxx)
 set_property(TARGET relive_api PROPERTY FOLDER "ReliveAPI")
 export(TARGETS relive_api FILE relive_api.cmake)
 
@@ -140,5 +87,7 @@ target_include_directories(relive_api PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>/../../../3rdParty/EasyLogging++/EasyLogging/src
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>/../../../3rdParty/googletest/googlemock/include
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>/../../../3rdParty/googletest/googletest/include
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>/../../../3rdParty
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>/../../../3rdParty/json/include
     $<INSTALL_INTERFACE:include>
     PRIVATE ${CMAKE_BINARY_DIR})

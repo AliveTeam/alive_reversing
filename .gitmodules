@@ -40,3 +40,6 @@
 [submodule "3rdParty/volk"]
 	path = 3rdParty/volk
 	url = https://github.com/zeux/volk.git
+[submodule "3rdParty/libmodplug"]
+	path = 3rdParty/libmodplug
+	url = https://github.com/AliveTeam/libmodplug.git

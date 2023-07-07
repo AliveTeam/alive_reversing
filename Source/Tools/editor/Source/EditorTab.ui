@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>EditorTab</class>
+ <widget class="QMainWindow" name="EditorTab">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>598</width>
+    <height>499</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QDockWidget" name="propertyDockWidget">
+    <property name="geometry">
+     <rect>
+      <x>345</x>
+      <y>40</y>
+      <width>241</width>
+      <height>211</height>
+     </rect>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>171</width>
+      <height>93</height>
+     </size>
+    </property>
+    <property name="floating">
+     <bool>false</bool>
+    </property>
+    <property name="features">
+     <set>QDockWidget::DockWidgetMovable</set>
+    </property>
+    <property name="allowedAreas">
+     <set>Qt::AllDockWidgetAreas</set>
+    </property>
+    <property name="windowTitle">
+     <string>Property editor</string>
+    </property>
+    <widget class="QWidget" name="dockWidgetContents_2">
+     <layout class="QVBoxLayout" name="verticalLayout_5">
+      <property name="spacing">
+       <number>0</number>
+      </property>
+      <property name="leftMargin">
+       <number>0</number>
+      </property>
+      <property name="topMargin">
+       <number>0</number>
+      </property>
+      <property name="rightMargin">
+       <number>0</number>
+      </property>
+      <property name="bottomMargin">
+       <number>0</number>
+      </property>
+      <item>
+       <widget class="QTreeWidget" name="treeWidget">
+        <column>
+         <property name="text">
+          <string>Property</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Value</string>
+         </property>
+        </column>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </widget>
+   <widget class="QDockWidget" name="undoHistoryDockWidget">
+    <property name="geometry">
+     <rect>
+      <x>345</x>
+      <y>260</y>
+      <width>241</width>
+      <height>211</height>
+     </rect>
+    </property>
+    <property name="floating">
+     <bool>false</bool>
+    </property>
+    <property name="features">
+     <set>QDockWidget::DockWidgetMovable</set>
+    </property>
+    <property name="allowedAreas">
+     <set>Qt::AllDockWidgetAreas</set>
+    </property>
+    <property name="windowTitle">
+     <string>Undo history</string>
+    </property>
+    <widget class="QWidget" name="dockWidgetContents">
+     <layout class="QVBoxLayout" name="verticalLayout_4">
+      <property name="spacing">
+       <number>0</number>
+      </property>
+      <property name="leftMargin">
+       <number>0</number>
+      </property>
+      <property name="topMargin">
+       <number>0</number>
+      </property>
+      <property name="rightMargin">
+       <number>0</number>
+      </property>
+      <property name="bottomMargin">
+       <number>0</number>
+      </property>
+      <item>
+       <widget class="QUndoView" name="undoView"/>
+      </item>
+     </layout>
+    </widget>
+   </widget>
+   <widget class="QGraphicsView" name="graphicsView">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>40</y>
+      <width>321</width>
+      <height>451</height>
+     </rect>
+    </property>
+    <property name="dragMode">
+     <enum>QGraphicsView::RubberBandDrag</enum>
+    </property>
+   </widget>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
