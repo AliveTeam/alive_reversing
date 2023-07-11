@@ -1097,7 +1097,6 @@ struct Path_BeeNest final : public Path_TLV
     static constexpr char kClassName[] = "bee_nest";
 };
 
-
 struct Path_BellsongStone final : public Path_TLV
 {
     Path_BellsongStone()
