@@ -126,6 +126,24 @@ target_include_directories(miniz SYSTEM PUBLIC
 export(TARGETS miniz FILE miniz.cmake)
 set_property(TARGET miniz PROPERTY FOLDER "3rdParty")
 
+# miniz lib dynamic crt
+add_library(miniz_dynamic_crt
+    miniz/miniz.c
+    miniz/miniz.h
+    )
+
+target_include_directories(miniz_dynamic_crt SYSTEM PUBLIC
+    $<BUILD_INTERFACE:
+    ${CMAKE_CURRENT_SOURCE_DIR}/miniz;
+    $<INSTALL_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/miniz>
+    )
+if (MSVC)
+    target_compile_options(miniz_dynamic_crt PRIVATE /MDd)
+endif()
+export(TARGETS miniz_dynamic_crt FILE miniz_dynamic_crt.cmake)
+set_property(TARGET miniz_dynamic_crt PROPERTY FOLDER "3rdParty")
+
+
 # spng lib
 add_library(spng
     libspng/spng/spng.c
@@ -146,6 +164,28 @@ target_include_directories(spng SYSTEM PUBLIC
 export(TARGETS spng FILE spng.cmake)
 set_property(TARGET spng PROPERTY FOLDER "3rdParty")
 
+# spng lib dynamic crt
+add_library(spng_dynamic_crt
+    libspng/spng/spng.c
+    libspng/spng/spng.h
+    )
+
+target_compile_definitions(spng_dynamic_crt PRIVATE SPNG_USE_MINIZ)
+target_compile_definitions(spng_dynamic_crt PRIVATE SPNG_STATIC)
+target_compile_definitions(spng_dynamic_crt PUBLIC SPNG_STATIC)
+
+target_include_directories(spng_dynamic_crt SYSTEM PUBLIC
+    $<BUILD_INTERFACE:
+    ${CMAKE_CURRENT_SOURCE_DIR}/libspng;
+    ${CMAKE_CURRENT_SOURCE_DIR}/miniz;
+    $<INSTALL_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/libspng>
+    )
+if (MSVC)
+    target_compile_options(spng_dynamic_crt PRIVATE /MDd)
+endif()
+export(TARGETS spng_dynamic_crt FILE spng_dynamic_crt.cmake)
+set_property(TARGET spng_dynamic_crt PROPERTY FOLDER "3rdParty")
+
 add_library(shelf-pack-cpp INTERFACE)
 target_include_directories(shelf-pack-cpp SYSTEM INTERFACE shelf-pack-cpp/include)
 export(TARGETS shelf-pack-cpp FILE shelf-pack-cpp.cmake)
@@ -153,6 +193,9 @@ export(TARGETS shelf-pack-cpp FILE shelf-pack-cpp.cmake)
 # Used only by the editor
 add_subdirectory(libmodplug)
 set_property(TARGET modplug PROPERTY FOLDER "3rdParty")
+if (MSVC)
+    target_compile_options(modplug PRIVATE /MDd)
+endif()
 
 # Used only by the editor
 include_directories(jsonxx)
@@ -162,3 +205,6 @@ target_include_directories(jsonxx PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/jsonxx)
 export(TARGETS jsonxx FILE jsonxx.cmake)
 set_property(TARGET jsonxx PROPERTY FOLDER "3rdParty")
+if (MSVC)
+    target_compile_options(jsonxx PRIVATE /MDd)
+endif()

@@ -9,6 +9,7 @@ add_executable(relive MACOSX_BUNDLE WIN32
     resource.rc
     resource.h
     app.ico)
+
 target_include_directories(relive PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
     $<INSTALL_INTERFACE:include>

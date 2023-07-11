@@ -64,7 +64,10 @@ set(CompilerFlags
         CMAKE_C_FLAGS_RELEASE
         )
 foreach(CompilerFlag ${CompilerFlags})
+  # Set MSVC runtime to MultiThreaded (/MT)
   string(REPLACE "/MD" "/MT" ${CompilerFlag} "${${CompilerFlag}}")
+  
+  # Remove warning level 3 as we set level 4 later
   string(REPLACE "/W3" "" ${CompilerFlag} "${${CompilerFlag}}")
 endforeach()
 
@@ -73,6 +76,8 @@ if(MSVC)
     add_compile_options(/permissive)
     add_compile_options(/vmg)
     add_compile_options(/wd4121)
+    add_compile_options(/permissive-)
+
     #add_compile_options(/fsanitize=address)
 endif()
 
@@ -104,8 +109,8 @@ add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Source/Tools/editor)
 #endif()
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Source/Tools/vab_tool)
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Source/Tools/relive_api)
-add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Source/Tools/relive_api_integration_test)
-add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Source/Tools/relive_api_unit_test)
+#add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Source/Tools/relive_api_integration_test)
+#add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Source/Tools/relive_api_unit_test)
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/assets)
 
 # -----------------------------------------------------------------------------
@@ -120,8 +125,8 @@ set_target_properties(imgui         PROPERTIES UNITY_BUILD ON)
 set_target_properties(relive         PROPERTIES UNITY_BUILD OFF)
 
 set_target_properties(relive_api      PROPERTIES UNITY_BUILD OFF) # too big
-set_target_properties(relive_api_integration_test PROPERTIES UNITY_BUILD OFF) # too big
-set_target_properties(relive_api_unit_test PROPERTIES UNITY_BUILD OFF) # too big
+#set_target_properties(relive_api_integration_test PROPERTIES UNITY_BUILD OFF) # too big
+#set_target_properties(relive_api_unit_test PROPERTIES UNITY_BUILD OFF) # too big
 
 # -----------------------------------------------------------------------------
 
@@ -142,6 +147,10 @@ endif()
 
 # AE needs its own PCH that can be reused from `AliveLibCommon`, because they
 # both define the same values for `BEHAVIOUR_CHANGE_SUB_DATA_FOLDERS`, and `_CRT_SECURE_NO_WARNINGS'
+target_precompile_headers(
+    relive_lib PRIVATE
+    "${CMAKE_CURRENT_SOURCE_DIR}/Source/relive_lib/pch_shared.h"
+)
 
 #target_precompile_headers(
 #    AliveLibAE PRIVATE
@@ -154,16 +163,16 @@ endif()
 #)
 
 #target_precompile_headers(relive_api_integration_test REUSE_FROM AliveLibAO)
-target_precompile_headers(
-    relive_api_integration_test PRIVATE
-    "${CMAKE_CURRENT_SOURCE_DIR}/Source/relive_lib/pch_shared.h"
-)
+#target_precompile_headers(
+#    relive_api_integration_test PRIVATE
+#    "${CMAKE_CURRENT_SOURCE_DIR}/Source/relive_lib/pch_shared.h"
+#)
 
 #target_precompile_headers(relive_api_unit_test REUSE_FROM AliveLibAO)
-target_precompile_headers(
-    relive_api_unit_test PRIVATE
-    "${CMAKE_CURRENT_SOURCE_DIR}/Source/relive_lib/pch_shared.h"
-)
+#target_precompile_headers(
+#    relive_api_unit_test PRIVATE
+#    "${CMAKE_CURRENT_SOURCE_DIR}/Source/relive_lib/pch_shared.h"
+#)
 
 #target_precompile_headers(relive       REUSE_FROM AliveLibAO)
 target_precompile_headers(

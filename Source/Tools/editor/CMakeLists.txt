@@ -32,6 +32,29 @@ include_directories(../../../3rdParty/EasyLogging++/EasyLogging/src)
 
 include_directories(Source)
 
+add_library(editor_glue_dynamic_crt
+    # Hack to include bits the editor uses, can't link the libs directly
+    # due to diff CRT settings (static vs dynamic)
+    ../../AliveLibAE/Grid.cpp
+    ../../AliveLibAE/PathData.cpp
+    ../../AliveLibAO/Grid.cpp
+    ../../AliveLibAO/PathData.cpp
+    ../../relive_lib/CompressionType_4Or5.cpp
+    ../../relive_lib/CamDecompressor.cpp
+    ../../relive_lib/AnimResources.cpp
+    ../../relive_lib/MapWrapper.cpp
+    ../../relive_lib/data_conversion/PNGFile.cpp
+    ../../relive_lib/data_conversion/file_system.cpp
+)
+target_include_directories(editor_glue_dynamic_crt PRIVATE
+    ../../relive_lib
+)
+target_link_libraries(editor_glue_dynamic_crt PUBLIC spng_dynamic_crt miniz_dynamic_crt)
+
+if (MSVC)
+    target_compile_options(editor_glue_dynamic_crt PRIVATE /MDd)
+endif()
+
 set(PROJECT_SOURCES
         Source/ReliveApiWrapper.hpp
         Source/SnapSettings.hpp
@@ -128,9 +151,10 @@ else()
     endif()
 endif()
 
-# TODO: Move to main engine targets
 if (MSVC)
-target_compile_options(qt-editor PUBLIC "/permissive-")
+    target_compile_options(qt-editor PRIVATE /MDd)
+    set(MY_PATH "PATH=%PATH%;${QT_DIR}/../../../bin")
+    set_target_properties(qt-editor PROPERTIES VS_DEBUGGER_ENVIRONMENT "${MY_PATH}")
 endif()
 
-target_link_libraries(qt-editor PUBLIC relive_api relive_lib Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::Multimedia modplug jsonxx)
+target_link_libraries(qt-editor PUBLIC relive_api Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::Multimedia modplug jsonxx editor_glue_dynamic_crt)

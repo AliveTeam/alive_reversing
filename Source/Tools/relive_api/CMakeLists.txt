@@ -82,6 +82,10 @@ target_link_libraries(relive_api jsonxx)
 set_property(TARGET relive_api PROPERTY FOLDER "ReliveAPI")
 export(TARGETS relive_api FILE relive_api.cmake)
 
+if (MSVC)
+    target_compile_options(relive_api PRIVATE /MDd)
+endif()
+
 target_include_directories(relive_api PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>/../../../3rdParty/EasyLogging++/EasyLogging/src
