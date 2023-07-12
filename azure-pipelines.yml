@@ -10,7 +10,7 @@ strategy:
       cpack_executable: cpack
       installer_package_path: $(System.DefaultWorkingDirectory)/build/relive-0.1-Linux.deb
       installer_package_artifact_name: RELIVE-Linux.deb
-      qt_dir: ''
+      qt5_dir: ''
       sdl2_dir: ''
     macOS:
       imageName: macOS-latest
@@ -20,7 +20,7 @@ strategy:
       cpack_executable: cpack
       installer_package_path: $(System.DefaultWorkingDirectory)/build/relive-0.1-Darwin.dmg
       installer_package_artifact_name: RELIVE-MacOSX.dmg
-      qt_dir: /usr/local/opt/qt@5
+      qt5_dir: /usr/local/opt/qt@5
       sdl2_dir: ''
     Windows32:
       imageName: windows-2019
@@ -30,7 +30,7 @@ strategy:
       cpack_executable: cpack.exe
       installer_package_path: $(System.DefaultWorkingDirectory)/build/relive-0.1-win32.zip
       installer_package_artifact_name: RELIVE-Windows32.zip
-      qt_dir: $(Build.SourcesDirectory)\Qt\5.15.2\msvc2019\lib\cmake\Qt5
+      qt5_dir: $(Build.SourcesDirectory)\Qt\5.15.2\msvc2019\lib\cmake\Qt5
       sdl2_dir: C:\Temp\SDL2-2.0.22
     Windows64:
       imageName: windows-2019
@@ -40,7 +40,7 @@ strategy:
       cpack_executable: cpack.exe
       installer_package_path: $(System.DefaultWorkingDirectory)/build/relive-0.1-win64.zip
       installer_package_artifact_name: RELIVE-Windows64.zip
-      qt_dir: $(Build.SourcesDirectory)\Qt\5.15.2\msvc2019_64\lib\cmake\Qt5
+      qt5_dir: $(Build.SourcesDirectory)\Qt\5.15.2\msvc2019_64\lib\cmake\Qt5
       sdl2_dir: C:\Temp\SDL2-2.0.22
 pool:
   vmImage: $(imageName)
@@ -87,7 +87,7 @@ steps:
         cmake --version
         mkdir build
         cd build
-        cmake -DQt5_DIR="$(Build.qt_dir)" -DSDL2_DIR="$(sdl2_dir)" -DBUILD_NUMBER=$(Build.BuildId) -DCI_PROVIDER="AzureDevOps" -G"$(cmake_generator_type)" "$(cmake_vs_arch)" ..
+        cmake -DQt5_DIR="$(qt5_dir)" -DSDL2_DIR="$(sdl2_dir)" -DBUILD_NUMBER=$(Build.BuildId) -DCI_PROVIDER="AzureDevOps" -G"$(cmake_generator_type)" "$(cmake_vs_arch)" ..
     displayName: cmake configure
 
   - script: |
@@ -95,10 +95,14 @@ steps:
         cmake --build .
     displayName: Compile
 
-  - script: ctest
+  - script: |
+        cd build
+        ctest
     displayName: Run tests
 
-  - script: $(cpack_executable) -G $(cpack_package_type)
+  - script: |
+        cd build
+        $(cpack_executable) -G $(cpack_package_type)
     displayName: Build installer
 
   - publish: $(installer_package_path)
