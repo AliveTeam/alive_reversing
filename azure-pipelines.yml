@@ -72,12 +72,12 @@ steps:
 
    # Windows specific, create game dirs, install SDL2 and Qt
   - powershell: |
-       mkdir C:\temp
+       New-Item -ItemType Directory -Force -Path C:\temp
        Invoke-WebRequest 'https://github.com/AliveTeam/SDL2_win32_dev_mirror/files/8710940/SDL2-devel-2.0.22-VC.zip' -OutFile C:\temp\SDL2-devel-2.0.22-VC.zip
        7z x C:\Temp\SDL2-devel-2.0.22-VC.zip -oC:\Temp
        pip install aqtinstall
        aqt list-qt windows desktop --arch 5.15.2
-       mkdir C:\Qt
+       New-Item -ItemType Directory -Force -Path C:\Qt
        cd C:\Qt
        aqt install-qt windows desktop 5.15.2 win32_msvc2019
     condition: eq( variables['Agent.OS'], 'Windows_NT' )
@@ -90,7 +90,9 @@ steps:
         cmake -DQt5_DIR="$(Build.qt_dir)" -DSDL2_DIR="$(sdl2_dir)" -DBUILD_NUMBER=$(Build.BuildId) -DCI_PROVIDER="AzureDevOps" -G"$(cmake_generator_type)" "$(cmake_vs_arch)" ..
     displayName: cmake configure
 
-  - script: cmake --build .
+  - script: |
+        cd build
+        cmake --build .
     displayName: Compile
 
   - script: ctest
