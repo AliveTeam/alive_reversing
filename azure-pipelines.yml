@@ -6,6 +6,7 @@ strategy:
       imageName: ubuntu-latest
       cmake_generator_type: 'Unix Makefiles'
       cmake_vs_arch: ''
+      cpack_package_config: ''
       cpack_package_type: DEB
       cpack_executable: cpack
       installer_package_path: $(System.DefaultWorkingDirectory)/build/relive-0.1-Linux.deb
@@ -17,6 +18,7 @@ strategy:
       imageName: macOS-latest
       cmake_generator_type: 'Unix Makefiles'
       cmake_vs_arch: ''
+      cpack_package_config: ''
       cpack_package_type: DragNDrop
       cpack_executable: cpack
       installer_package_path: $(System.DefaultWorkingDirectory)/build/relive-0.1-Darwin.dmg
@@ -28,6 +30,7 @@ strategy:
       imageName: windows-2019
       cmake_generator_type: 'Visual Studio 16 2019'
       cmake_vs_arch: '-A Win32'
+      cpack_package_config: '-C Debug'
       cpack_package_type: ZIP
       cpack_executable: cpack.exe
       installer_package_path: $(System.DefaultWorkingDirectory)/build/relive-0.1-win32.zip
@@ -39,6 +42,7 @@ strategy:
       imageName: windows-2019
       cmake_generator_type: 'Visual Studio 16 2019'
       cmake_vs_arch: '-A x64'
+      cpack_package_config: '-C Debug'
       cpack_package_type: ZIP
       cpack_executable: cpack.exe
       installer_package_path: $(System.DefaultWorkingDirectory)/build/relive-0.1-win64.zip
@@ -111,7 +115,7 @@ steps:
 
   - script: |
         cd build
-        $(cpack_executable) -G $(cpack_package_type)
+        $(cpack_executable) -G $(cpack_package_type) "$(cpack_package_config)"
     displayName: Build installer
 
   - publish: $(installer_package_path)
