@@ -18,14 +18,14 @@ strategy:
       installer_package_artifact_name: RELIVE-MacOSX.dmg
     Windows32:
       imageName: windows-2019
-      cmake_generator_type: "Visual Studio 16 2019" -A Win32
+      cmake_generator_type: \"Visual Studio 16 2019\" -A Win32
       cpack_package_type: ZIP
       cpack_executable: cpack.exe
       installer_package_path: $(System.DefaultWorkingDirectory)/build/relive-0.1-win32.zip
       installer_package_artifact_name: RELIVE-Windows32.zip
     Windows64:
       imageName: windows-2019
-      cmake_generator_type: "Visual Studio 16 2019" -A x64
+      cmake_generator_type: \"Visual Studio 16 2019\" -A x64
       cpack_package_type: ZIP
       cpack_executable: cpack.exe
       installer_package_path: $(System.DefaultWorkingDirectory)/build/relive-0.1-win64.zip
@@ -66,7 +66,7 @@ steps:
     displayName: Get IP on macOS
 
    # Windows specific, create game dirs, install SDL2 and Qt
- - powershell: |
+  - powershell: |
        set AE_PATH=C:\\GOG Games\\Abes Exoddus
        set AO_PATH=C:\\GOG Games\\Abes Oddysee
        mkdir "C:\\GOG Games\\Abes Exoddus"
@@ -79,8 +79,8 @@ steps:
        mkdir C:\Qt
        cd C:\Qt
        aqt install-qt windows desktop 5.15.2 win32_msvc2019
-   condition: eq( variables['Agent.OS'], 'Windows_NT' )
-   displayName: Create game dirs, install SDL2 and Qt on Windows
+    condition: eq( variables['Agent.OS'], 'Windows_NT' )
+    displayName: Create game dirs, install SDL2 and Qt on Windows
 
   - script: cmake --build .
     displayName: Compile
