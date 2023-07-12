@@ -9,10 +9,7 @@ jobs:
   steps:
   - script: |
         sudo apt-get update
-        sudo apt-get install libsdl2-dev
-        sudo apt-get install qtdeclarative5-dev
-        sudo apt-get install qtmultimedia5-dev
-        sudo apt-get install qttools5-dev
+        sudo apt-get install libsdl2-dev qtdeclarative5-dev qtmultimedia5-dev qttools5-dev
         git submodule update --init --depth=1
         cmake --version
         mkdir build
@@ -28,9 +25,7 @@ jobs:
     vmImage: 'macOS-latest'
   steps:
   - script: |
-        brew install sdl2
-        brew install molten-vk
-        brew install qt5
+        brew install sdl2 molten-vk qt5
         export LDFLAGS="-L/usr/local/opt/qt@5/lib"
         export CPPFLAGS="-I/usr/local/opt/qt@5/include"
         export QT_DIR=/usr/local/opt/qt@5
@@ -108,3 +103,6 @@ jobs:
         ctest
   - publish: $(System.DefaultWorkingDirectory)/build/relive-0.1-win64.zip
     artifact: RELIVE-Windows64.zip
+steps:
+ - script: |
+        echo "when does this run, if at all?"
