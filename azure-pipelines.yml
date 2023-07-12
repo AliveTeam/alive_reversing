@@ -4,14 +4,14 @@ strategy:
   matrix:
     Linux:
       imageName: ubuntu-latest
-      cmake_generator_type: 'Unix&#x20;Makefiles'
+      cmake_generator_type: 'Unix Makefiles'
       cpack_package_type: DEB
       cpack_executable: cpack
       installer_package_path: $(System.DefaultWorkingDirectory)/build/relive-0.1-Linux.deb
       installer_package_artifact_name: RELIVE-Linux.deb
     macOS:
       imageName: macOS-latest
-      cmake_generator_type: 'Unix&#x20;Makefiles'
+      cmake_generator_type: 'Unix Makefiles'
       cpack_package_type: DragNDrop
       cpack_executable: cpack
       installer_package_path: $(System.DefaultWorkingDirectory)/build/relive-0.1-Darwin.dmg
@@ -40,7 +40,7 @@ steps:
         cmake --version
         mkdir build
         cd build
-        cmake -DBUILD_NUMBER=$(Build.BuildId) -DCI_PROVIDER="AzureDevOps" -G$(cmake_generator_type) ..
+        cmake -DBUILD_NUMBER=$(Build.BuildId) -DCI_PROVIDER="AzureDevOps" -G"$(cmake_generator_type)" ..
     displayName: cmake configure
 
    # Linux specific, install dev packages
