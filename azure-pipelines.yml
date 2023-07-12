@@ -10,6 +10,8 @@ strategy:
       cpack_executable: cpack
       installer_package_path: $(System.DefaultWorkingDirectory)/build/relive-0.1-Linux.deb
       installer_package_artifact_name: RELIVE-Linux.deb
+      qt_dir: ''
+      sdl2_dir: ''
     macOS:
       imageName: macOS-latest
       cmake_generator_type: 'Unix Makefiles'
@@ -18,6 +20,8 @@ strategy:
       cpack_executable: cpack
       installer_package_path: $(System.DefaultWorkingDirectory)/build/relive-0.1-Darwin.dmg
       installer_package_artifact_name: RELIVE-MacOSX.dmg
+      qt_dir: /usr/local/opt/qt@5
+      sdl2_dir: ''
     Windows32:
       imageName: windows-2019
       cmake_generator_type: \"Visual Studio 16 2019\"
@@ -26,6 +30,8 @@ strategy:
       cpack_executable: cpack.exe
       installer_package_path: $(System.DefaultWorkingDirectory)/build/relive-0.1-win32.zip
       installer_package_artifact_name: RELIVE-Windows32.zip
+      qt_dir: $(Build.SourcesDirectory)\Qt\5.15.2\msvc2019\lib\cmake\Qt5
+      sdl2_dir: C:\Temp\SDL2-2.0.22
     Windows64:
       imageName: windows-2019
       cmake_generator_type: \"Visual Studio 16 2019\"
@@ -34,6 +40,8 @@ strategy:
       cpack_executable: cpack.exe
       installer_package_path: $(System.DefaultWorkingDirectory)/build/relive-0.1-win64.zip
       installer_package_artifact_name: RELIVE-Windows64.zip
+      qt_dir: $(Build.SourcesDirectory)\Qt\5.15.2\msvc2019_64\lib\cmake\Qt5
+      sdl2_dir: C:\Temp\SDL2-2.0.22
 pool:
   vmImage: $(imageName)
 steps:
@@ -42,7 +50,7 @@ steps:
 
    # Linux specific, install dev packages
   - bash: |
-        apt-get update
+        sudo apt-get update
         sudo apt-get install libsdl2-dev qtdeclarative5-dev qtmultimedia5-dev qttools5-dev -y
     condition: eq( variables['Agent.OS'], 'Linux' )
     displayName: Linux install dev packages
@@ -64,10 +72,6 @@ steps:
 
    # Windows specific, create game dirs, install SDL2 and Qt
   - powershell: |
-       set AE_PATH=C:\\GOG Games\\Abes Exoddus
-       set AO_PATH=C:\\GOG Games\\Abes Oddysee
-       mkdir "C:\\GOG Games\\Abes Exoddus"
-       mkdir "C:\\GOG Games\\Abes Oddysee"
        mkdir C:\temp
        Invoke-WebRequest 'https://github.com/AliveTeam/SDL2_win32_dev_mirror/files/8710940/SDL2-devel-2.0.22-VC.zip' -OutFile C:\temp\SDL2-devel-2.0.22-VC.zip
        7z x C:\Temp\SDL2-devel-2.0.22-VC.zip -oC:\Temp
@@ -83,7 +87,7 @@ steps:
         cmake --version
         mkdir build
         cd build
-        cmake -DBUILD_NUMBER=$(Build.BuildId) -DCI_PROVIDER="AzureDevOps" -G"$(cmake_generator_type)" "$(cmake_vs_arch)" ..
+        cmake -DQt5_DIR="$(Build.qt_dir)" -DSDL2_DIR="$(sdl2_dir)" -DBUILD_NUMBER=$(Build.BuildId) -DCI_PROVIDER="AzureDevOps" -G"$(cmake_generator_type)" "$(cmake_vs_arch)" ..
     displayName: cmake configure
 
   - script: cmake --build .
