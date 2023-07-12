@@ -1,54 +1,41 @@
 trigger:
-- abi_break_refcount
-
+  - abi_break_refcount
 strategy:
   matrix:
     Linux:
-      imageName: 'ubuntu-latest'
-      cpack_package_type: 'DEB'
-      cpack_executable: 'cpack'
-      installer_package_path: '$(System.DefaultWorkingDirectory)/build/relive-0.1-Linux.deb'
-      installer_package_artifact_name: 'RELIVE-Linux.deb'
-
+      imageName: ubuntu-latest
+      cpack_package_type: DEB
+      cpack_executable: cpack
+      installer_package_path: $(System.DefaultWorkingDirectory)/build/relive-0.1-Linux.deb
+      installer_package_artifact_name: RELIVE-Linux.deb
     macOS:
-      imageName: 'macOS-latest'
-      cpack_package_type: 'DragNDrop'
-      cpack_executable: 'cpack'
-      installer_package_path: '$(System.DefaultWorkingDirectory)/build/relive-0.1-Darwin.dmg'
-      installer_package_artifact_name: 'RELIVE-MacOSX.dmg'
-
+      imageName: macOS-latest
+      cpack_package_type: DragNDrop
+      cpack_executable: cpack
+      installer_package_path: $(System.DefaultWorkingDirectory)/build/relive-0.1-Darwin.dmg
+      installer_package_artifact_name: RELIVE-MacOSX.dmg
     Windows32:
-      imageName: 'windows-2019'
-      cpack_package_type: 'ZIP'
-      # .exe required due to another file in the path named 'pack'
-      cpack_executable: 'cpack.exe'
-      installer_package_path: '$(System.DefaultWorkingDirectory)/build/relive-0.1-win32.zip'
-      installer_package_artifact_name: 'RELIVE-Windows32.zip'
-
+      imageName: windows-2019
+      cpack_package_type: ZIP
+      cpack_executable: cpack.exe
+      installer_package_path: $(System.DefaultWorkingDirectory)/build/relive-0.1-win32.zip
+      installer_package_artifact_name: RELIVE-Windows32.zip
     Windows64:
-      imageName: 'windows-2019'
-      cpack_package_type: 'ZIP'
-      # .exe required due to another file in the path named 'pack'
-      cpack_executable: 'cpack.exe'
-      installer_package_path: '$(System.DefaultWorkingDirectory)/build/relive-0.1-win64.zip'
-      installer_package_artifact_name: 'RELIVE-Windows64.zip'
-
-# Below runs for every instance of the matrix strategy unless it is specfically conditioned not to
+      imageName: windows-2019
+      cpack_package_type: ZIP
+      cpack_executable: cpack.exe
+      installer_package_path: $(System.DefaultWorkingDirectory)/build/relive-0.1-win64.zip
+      installer_package_artifact_name: RELIVE-Windows64.zip
 pool:
   vmImage: $(imageName)
-
 steps:
-- script: git submodule update --init --depth=1
-  displayName: 'shallow clone submodules'
-
-- script: $(cpack_executable) -G $(cpack_package_type)
-  displayName: 'Build installer'
-
-- script: cmake --build .
-  displayName: 'Compile'
-
-- script: ctest
-  displayName: 'Run tests'
-
-- publish: $(installer_package_path)
+  - script: git submodule update --init --depth=1
+    displayName: shallow clone submodules
+  - script: $(cpack_executable) -G $(cpack_package_type)
+    displayName: Build installer
+  - script: cmake --build .
+    displayName: Compile
+  - script: ctest
+    displayName: Run tests
+  - publish: $(installer_package_path)
     artifact: $(installer_package_artifact_name)
