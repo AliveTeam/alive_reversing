@@ -95,7 +95,8 @@ steps:
         echo "$(qt5_dir)"
         echo "$(cmake_generator_type)"
         echo "$(cmake_vs_arch)"
-        cmake -DQT_DIR="$(qt5_dir)" -DSDL2_DIR="$(sdl2_dir)" -DBUILD_NUMBER=$(Build.BuildId) -DCI_PROVIDER="AzureDevOps" -G"$(cmake_generator_type)" "$(cmake_vs_arch)" ..
+        dir "$(qt5_dir)"
+        cmake -DQt5_DIR="$(qt5_dir)" -DQT_DIR="$(qt5_dir)" -DSDL2_DIR="$(sdl2_dir)" -DBUILD_NUMBER=$(Build.BuildId) -DCI_PROVIDER="AzureDevOps" -G"$(cmake_generator_type)" "$(cmake_vs_arch)" ..
     displayName: cmake configure
 
   - script: |
