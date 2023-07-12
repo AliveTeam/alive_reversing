@@ -5,6 +5,7 @@ strategy:
     Linux:
       imageName: ubuntu-latest
       cmake_generator_type: 'Unix Makefiles'
+      cmake_vs_arch: ''
       cpack_package_type: DEB
       cpack_executable: cpack
       installer_package_path: $(System.DefaultWorkingDirectory)/build/relive-0.1-Linux.deb
@@ -12,20 +13,23 @@ strategy:
     macOS:
       imageName: macOS-latest
       cmake_generator_type: 'Unix Makefiles'
+      cmake_vs_arch: ''
       cpack_package_type: DragNDrop
       cpack_executable: cpack
       installer_package_path: $(System.DefaultWorkingDirectory)/build/relive-0.1-Darwin.dmg
       installer_package_artifact_name: RELIVE-MacOSX.dmg
     Windows32:
       imageName: windows-2019
-      cmake_generator_type: \"Visual Studio 16 2019\" -A Win32
+      cmake_generator_type: \"Visual Studio 16 2019\"
+      cmake_vs_arch: -A Win32
       cpack_package_type: ZIP
       cpack_executable: cpack.exe
       installer_package_path: $(System.DefaultWorkingDirectory)/build/relive-0.1-win32.zip
       installer_package_artifact_name: RELIVE-Windows32.zip
     Windows64:
       imageName: windows-2019
-      cmake_generator_type: \"Visual Studio 16 2019\" -A x64
+      cmake_generator_type: \"Visual Studio 16 2019\"
+      cmake_vs_arch: -A x64
       cpack_package_type: ZIP
       cpack_executable: cpack.exe
       installer_package_path: $(System.DefaultWorkingDirectory)/build/relive-0.1-win64.zip
@@ -35,13 +39,6 @@ pool:
 steps:
   - script: git submodule update --init --depth=1
     displayName: shallow clone submodules
-
-  - script: |
-        cmake --version
-        mkdir build
-        cd build
-        cmake -DBUILD_NUMBER=$(Build.BuildId) -DCI_PROVIDER="AzureDevOps" -G"$(cmake_generator_type)" ..
-    displayName: cmake configure
 
    # Linux specific, install dev packages
   - bash: |
@@ -81,6 +78,13 @@ steps:
        aqt install-qt windows desktop 5.15.2 win32_msvc2019
     condition: eq( variables['Agent.OS'], 'Windows_NT' )
     displayName: Windows Create game dirs, install SDL2 and Qt
+
+  - script: |
+        cmake --version
+        mkdir build
+        cd build
+        cmake -DBUILD_NUMBER=$(Build.BuildId) -DCI_PROVIDER="AzureDevOps" -G"$(cmake_generator_type)" "$(cmake_vs_arch)" ..
+    displayName: cmake configure
 
   - script: cmake --build .
     displayName: Compile
