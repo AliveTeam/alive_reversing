@@ -4,14 +4,14 @@ strategy:
   matrix:
     Linux:
       imageName: ubuntu-latest
-      cmake_generator_type: Unix Makefiles
+      cmake_generator_type: 'Unix Makefiles'
       cpack_package_type: DEB
       cpack_executable: cpack
       installer_package_path: $(System.DefaultWorkingDirectory)/build/relive-0.1-Linux.deb
       installer_package_artifact_name: RELIVE-Linux.deb
     macOS:
       imageName: macOS-latest
-      cmake_generator_type: Unix Makefiles
+      cmake_generator_type: 'Unix Makefiles'
       cpack_package_type: DragNDrop
       cpack_executable: cpack
       installer_package_path: $(System.DefaultWorkingDirectory)/build/relive-0.1-Darwin.dmg
@@ -48,7 +48,7 @@ steps:
         apt-get update
         sudo apt-get install libsdl2-dev qtdeclarative5-dev qtmultimedia5-dev qttools5-dev -y
     condition: eq( variables['Agent.OS'], 'Linux' )
-    displayName: Install linux dev packages
+    displayName: Linux install dev packages
 
    # Mac specific, install moltekn-vk, Qt5
   - bash: |
@@ -63,7 +63,7 @@ steps:
         cp /usr/local/lib/libSDL2.dylib ./Frameworks/libSDL2.dylib
         cp /usr/local/lib/libMoltenVK.dylib ./Frameworks/libMoltenVK.dylib
     condition: eq( variables['Agent.OS'], 'Darwin' )
-    displayName: Get IP on macOS
+    displayName: macOS install moltken-vk and Qt
 
    # Windows specific, create game dirs, install SDL2 and Qt
   - powershell: |
@@ -80,7 +80,7 @@ steps:
        cd C:\Qt
        aqt install-qt windows desktop 5.15.2 win32_msvc2019
     condition: eq( variables['Agent.OS'], 'Windows_NT' )
-    displayName: Create game dirs, install SDL2 and Qt on Windows
+    displayName: Windows Create game dirs, install SDL2 and Qt
 
   - script: cmake --build .
     displayName: Compile
