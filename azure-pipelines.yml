@@ -4,24 +4,28 @@ strategy:
   matrix:
     Linux:
       imageName: ubuntu-latest
+      cmake_generator_type: Unix Makefiles
       cpack_package_type: DEB
       cpack_executable: cpack
       installer_package_path: $(System.DefaultWorkingDirectory)/build/relive-0.1-Linux.deb
       installer_package_artifact_name: RELIVE-Linux.deb
     macOS:
       imageName: macOS-latest
+      cmake_generator_type: Unix Makefiles
       cpack_package_type: DragNDrop
       cpack_executable: cpack
       installer_package_path: $(System.DefaultWorkingDirectory)/build/relive-0.1-Darwin.dmg
       installer_package_artifact_name: RELIVE-MacOSX.dmg
     Windows32:
       imageName: windows-2019
+      cmake_generator_type: "Visual Studio 16 2019" -A Win32
       cpack_package_type: ZIP
       cpack_executable: cpack.exe
       installer_package_path: $(System.DefaultWorkingDirectory)/build/relive-0.1-win32.zip
       installer_package_artifact_name: RELIVE-Windows32.zip
     Windows64:
       imageName: windows-2019
+      cmake_generator_type: "Visual Studio 16 2019" -A x64
       cpack_package_type: ZIP
       cpack_executable: cpack.exe
       installer_package_path: $(System.DefaultWorkingDirectory)/build/relive-0.1-win64.zip
@@ -31,11 +35,61 @@ pool:
 steps:
   - script: git submodule update --init --depth=1
     displayName: shallow clone submodules
-  - script: $(cpack_executable) -G $(cpack_package_type)
-    displayName: Build installer
+
+  - script: |
+        cmake --version
+        mkdir build
+        cd build
+        cmake -DBUILD_NUMBER=$(Build.BuildId) -DCI_PROVIDER="AzureDevOps" -G$(cmake_generator_type) ..
+    displayName: cmake configure
+
+   # Linux specific, install dev packages
+  - bash: |
+        apt-get update
+        sudo apt-get install libsdl2-dev qtdeclarative5-dev qtmultimedia5-dev qttools5-dev -y
+    condition: eq( variables['Agent.OS'], 'Linux' )
+    displayName: Install linux dev packages
+
+   # Mac specific, install moltekn-vk, Qt5
+  - bash: |
+        brew install sdl2 molten-vk qt5
+        export LDFLAGS="-L/usr/local/opt/qt@5/lib"
+        export CPPFLAGS="-I/usr/local/opt/qt@5/include"
+        export QT_DIR=/usr/local/opt/qt@5
+        echo 'export PATH="/usr/local/opt/qt@5/bin:$PATH"' >> /Users/runner/.bash_profile
+        mkdir build
+        cd build
+        mkdir Frameworks
+        cp /usr/local/lib/libSDL2.dylib ./Frameworks/libSDL2.dylib
+        cp /usr/local/lib/libMoltenVK.dylib ./Frameworks/libMoltenVK.dylib
+    condition: eq( variables['Agent.OS'], 'Darwin' )
+    displayName: Get IP on macOS
+
+   # Windows specific, create game dirs, install SDL2 and Qt
+ - powershell: |
+       set AE_PATH=C:\\GOG Games\\Abes Exoddus
+       set AO_PATH=C:\\GOG Games\\Abes Oddysee
+       mkdir "C:\\GOG Games\\Abes Exoddus"
+       mkdir "C:\\GOG Games\\Abes Oddysee"
+       mkdir C:\temp
+       Invoke-WebRequest 'https://github.com/AliveTeam/SDL2_win32_dev_mirror/files/8710940/SDL2-devel-2.0.22-VC.zip' -OutFile C:\temp\SDL2-devel-2.0.22-VC.zip
+       7z x C:\Temp\SDL2-devel-2.0.22-VC.zip -oC:\Temp
+       pip install aqtinstall
+       aqt list-qt windows desktop --arch 5.15.2
+       mkdir C:\Qt
+       cd C:\Qt
+       aqt install-qt windows desktop 5.15.2 win32_msvc2019
+   condition: eq( variables['Agent.OS'], 'Windows_NT' )
+   displayName: Create game dirs, install SDL2 and Qt on Windows
+
   - script: cmake --build .
     displayName: Compile
+
   - script: ctest
     displayName: Run tests
+
+  - script: $(cpack_executable) -G $(cpack_package_type)
+    displayName: Build installer
+
   - publish: $(installer_package_path)
     artifact: $(installer_package_artifact_name)
