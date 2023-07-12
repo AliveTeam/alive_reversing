@@ -21,7 +21,7 @@ strategy:
       cpack_executable: cpack
       installer_package_path: $(System.DefaultWorkingDirectory)/build/relive-0.1-Darwin.dmg
       installer_package_artifact_name: RELIVE-MacOSX.dmg
-      qt5_dir: /usr/local/opt/qt@5
+      qt5_dir: /usr/local/opt/qt@5/lib/cmake/Qt5
       sdl2_dir: ''
       qt5_windows_name: ''
     Windows32:
@@ -32,7 +32,7 @@ strategy:
       cpack_executable: cpack.exe
       installer_package_path: $(System.DefaultWorkingDirectory)/build/relive-0.1-win32.zip
       installer_package_artifact_name: RELIVE-Windows32.zip
-      qt5_dir: $(Build.SourcesDirectory)\Qt\5.15.2\msvc2019\lib\cmake\Qt5
+      qt5_dir: C:\Qt\5.15.2\msvc2019\lib\cmake\Qt5
       sdl2_dir: C:\Temp\SDL2-2.0.22
       qt5_windows_name: win32_msvc2019
     Windows64:
@@ -43,7 +43,7 @@ strategy:
       cpack_executable: cpack.exe
       installer_package_path: $(System.DefaultWorkingDirectory)/build/relive-0.1-win64.zip
       installer_package_artifact_name: RELIVE-Windows64.zip
-      qt5_dir: $(Build.SourcesDirectory)\Qt\5.15.2\msvc2019_64\lib\cmake\Qt5
+      qt5_dir: C:\Qt\5.15.2\msvc2019_64\lib\cmake\Qt5
       sdl2_dir: C:\Temp\SDL2-2.0.22
       qt5_windows_name: win64_msvc2019_64
 pool:
@@ -65,6 +65,7 @@ steps:
         export LDFLAGS="-L/usr/local/opt/qt@5/lib"
         export CPPFLAGS="-I/usr/local/opt/qt@5/include"
         export QT_DIR=/usr/local/opt/qt@5
+        export PKG_CONFIG_PATH="/usr/local/opt/qt@5/lib/pkgconfig"
         echo 'export PATH="/usr/local/opt/qt@5/bin:$PATH"' >> /Users/runner/.bash_profile
         mkdir build
         cd build
