@@ -339,7 +339,6 @@ private:
     bool mPreventDepossession = false;
     bool mSpawned = false;
     bool mAlerted = false;
-    bool mCanBePossessed = false;
     bool mAttackFleeches = false;
     bool mOutOfSight = false;
 };

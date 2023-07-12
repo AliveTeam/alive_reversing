@@ -403,18 +403,7 @@ void Paramite::VGetSaveState(SerializedObjectData& pSaveBuffer)
         data.field_36_line_type = eLineTypes::eNone_m1;
     }
 
-    data.mControlled = false;
-    data.mRunning = false;
-    data.mHissedOrLeftScreen = false;
-    data.mPreventDepossession = false;
-    data.mSpawned = false;
-    data.mAlerted = false;
-    data.mCanBePossessed = false;
-
-    if (this == sControlledCharacter)
-    {
-        data.mControlled = true;
-    }
+    data.mControlled = this == sControlledCharacter;
 
     data.field_3C_tlvInfo = field_140_tlvInfo;
     data.field_40_meat_id = ResolveId(mMeatGuid);
@@ -456,7 +445,7 @@ void Paramite::VGetSaveState(SerializedObjectData& pSaveBuffer)
     data.mPreventDepossession = mPreventDepossession;
     data.mSpawned = mSpawned;
     data.mAlerted = mAlerted;
-    data.mCanBePossessed = mCanBePossessed;
+    data.mCanBePossessed = GetCanBePossessed();
 
     pSaveBuffer.Write(data);
 }
