@@ -21,13 +21,7 @@ void Game_ShowLoadingIcon()
 
         pParticle->GetAnimation().SetRenderLayer(Layer::eLayer_0);
 
-        // This was doing something odd with OT index.. I think its trying to simulate double buffering by
-        // using other parts of the OT while another part is drawn, but it was bugged because it cleared the other anyway
-        // on PC it seems fine to just always start at zero.
         pParticle->GetAnimation().VRender(320, 220, dispBuffer.mOrderingTable, 0, 0);
-        PSX_DrawOTag(dispBuffer.mOrderingTable);
-
-        pParticle->GetAnimation().VRender(320, 640 - 164, dispBuffer.mOrderingTable, 0, 0);
         PSX_DrawOTag(dispBuffer.mOrderingTable);
 
         PSX_SetDefDispEnv_4F55A0(&dispBuffer.mDisplayEnv);
