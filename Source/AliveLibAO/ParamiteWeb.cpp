@@ -135,7 +135,7 @@ void ParamiteWeb::VRender(OrderingTable& ot)
                 maxY = 240;
             }
 
-            GetAnimation().VRender(640, 240, ppOt, 0, 0);
+            GetAnimation().VRender(640, 240, ot, 0, 0);
 
             if (y_start >= minY)
             {
@@ -146,7 +146,7 @@ void ParamiteWeb::VRender(OrderingTable& ot)
                     s16 b = 128;
                     ShadowZone::ShadowZones_Calculate_Colour(FP_GetExponent(mXPos), ypos_int - (idx * mSegmentLength), GetScale(), &r, &g, &b);
                     mWebRes[idx].SetRGB(r, g, b);
-                    mWebRes[idx].VRender(x_start, y_start + mYOffset, ppOt, 0, 0);
+                    mWebRes[idx].VRender(x_start, y_start + mYOffset, ot, 0, 0);
                     ClipPoly_Vertically(&mWebRes[idx].mPolys[gPsxDisplay.mBufferIndex], mYOffset + minY, mYOffset + maxY);
                     y_start -= mSegmentLength;
                     if (y_start < minY)

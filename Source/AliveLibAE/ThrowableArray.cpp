@@ -172,7 +172,7 @@ void ThrowableArray::CreateFromSaveState(SerializedObjectData& pBuffer)
     pArray->Add(pState->mCount);
 }
 
-void ThrowableArray::VRender(BasePrimitive** /*ppOt*/)
+void ThrowableArray::VRender(OrderingTable& /*ot*/)
 {
     // Nothing to do here
 }

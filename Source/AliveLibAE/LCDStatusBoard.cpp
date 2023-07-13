@@ -72,7 +72,7 @@ void LCDStatusBoard::VRender(OrderingTable& ot)
 
         // Muds In This Level
         mMudsInLevelFont.DrawString(
-            ppOt,
+            ot,
             text,
             mXPos - maxWidth + 33,
             mYPos,
@@ -94,7 +94,7 @@ void LCDStatusBoard::VRender(OrderingTable& ot)
         sprintf(text, "%3d", mudsLeftInArea);
         const s32 font4Width = mMudsInAreaFont.MeasureTextWidth(text);
         mMudsInAreaFont.DrawString(
-            ppOt,
+            ot,
             text,
             mXPos - font4Width + 33,
             mYPos + 16,
@@ -115,7 +115,7 @@ void LCDStatusBoard::VRender(OrderingTable& ot)
         sprintf(text, "%3d", gRescuedMudokons);
         const s32 font2Width = mRescuedMudsFont.MeasureTextWidth(text);
         mRescuedMudsFont.DrawString(
-            ppOt,
+            ot,
             text,
             mXPos - font2Width + 33,
             mYPos + 32,
@@ -136,7 +136,7 @@ void LCDStatusBoard::VRender(OrderingTable& ot)
         sprintf(text, "%3d", gKilledMudokons);
         const s32 font1Width = mKilledMudsFont.MeasureTextWidth(text);
         mKilledMudsFont.DrawString(
-            ppOt,
+            ot,
             text,
             mXPos - font1Width + 33,
             mYPos + 48,

@@ -558,7 +558,7 @@ void LiftPoint::VRender(OrderingTable& ot)
         {
             if (mXPos >= FP_FromInteger(mapCoord.x) && mXPos <= FP_FromInteger(mapCoord.x + 1024))
             {
-                BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
+                BaseAnimatedWithPhysicsGameObject::VRender(ot);
 
                 s16 liftWheelR = mRGB.r;
                 s16 liftWheelG = mRGB.g;
@@ -586,7 +586,7 @@ void LiftPoint::VRender(OrderingTable& ot)
                     FP_GetExponent(mYPos
                                    + yOff
                                    + FP_FromInteger(gScreenManager->mCamYOff) - gScreenManager->mCamPos->y),
-                    ppOt,
+                    ot,
                     0,
                     0);
 
@@ -621,7 +621,7 @@ void LiftPoint::VRender(OrderingTable& ot)
                         mPulleyAnim.VRender(
                             FP_GetExponent(pulley_xpos + FP_FromInteger(gScreenManager->mCamXOff) - gScreenManager->mCamPos->x),
                             FP_GetExponent(pulley_ypos + FP_FromInteger(gScreenManager->mCamYOff) - gScreenManager->mCamPos->y),
-                            ppOt,
+                            ot,
                             0,
                             0);
                         PSX_RECT pulleyRect = {};

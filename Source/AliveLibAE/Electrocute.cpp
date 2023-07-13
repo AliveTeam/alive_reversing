@@ -85,7 +85,7 @@ public:
         }
     }
 
-    void VRender(BasePrimitive** /*ppOt*/) override
+    void VRender(OrderingTable& /*ot*/) override
     {
         if (!field_CE_bDone)
         {

@@ -115,12 +115,12 @@ void PauseMenu::VUpdate()
                 {
                     if (pObjIter->GetDrawable())
                     {
-                        pObjIter->VRender(gPsxDisplay.mDrawEnvs[gPsxDisplay.mBufferIndex].mOrderingTable.mOrderingTable);
+                        pObjIter->VRender(gPsxDisplay.mDrawEnvs[gPsxDisplay.mBufferIndex].mOrderingTable);
                     }
                 }
             }
             gScreenManager->VRender(
-                gPsxDisplay.mDrawEnvs[gPsxDisplay.mBufferIndex].mOrderingTable.mOrderingTable);
+                gPsxDisplay.mDrawEnvs[gPsxDisplay.mBufferIndex].mOrderingTable);
             gPsxDisplay.RenderOrderingTable();
             Input().Update(GetGameAutoPlayer());
 
@@ -583,7 +583,7 @@ void PauseMenu::DrawEntries(OrderingTable& ot, PauseEntry* entry, s16 selectedEn
             clampedFontWidth = entry[entryId].x;
         }
         polyOffset = field_E4_font.DrawString(
-            ppOt,
+            ot,
             formattedString,
             clampedFontWidth,
             entry[entryId].y,
@@ -612,7 +612,7 @@ void PauseMenu::DrawEntries(OrderingTable& ot, PauseEntry* entry, s16 selectedEn
     pPrim->SetBlendMode(relive::TBlendModes::eBlend_2);
     pPrim->SetSemiTransparent(true);
     pPrim->DisableBlending(false);
-    OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_Menu_41), pPrim);
+    ot.Add(Layer::eLayer_Menu_41, pPrim);
 }
 
 void PauseMenu::VRender(OrderingTable& ot)
@@ -656,7 +656,7 @@ void PauseMenu::VRender(OrderingTable& ot)
                 }
             }
             auto polyOffset = field_E4_font.DrawString(
-                ppOt,
+                ot,
                 cameraNameBuffer,
                 static_cast<s16>(PauseEntry2_4CDE98[0].x - field_E4_font.MeasureTextWidth(cameraNameBuffer) / 2),
                 PauseEntry2_4CDE98[0].y,
@@ -671,12 +671,12 @@ void PauseMenu::VRender(OrderingTable& ot)
                 FP_FromInteger(1),
                 640,
                 0);
-            DrawEntries(ppOt, entries, field_124, polyOffset);
+            DrawEntries(ot, entries, field_124, polyOffset);
             break;
         }
         case PauseMenuPages::eSave_1:
         {
-            DrawEntries(ppOt, &saveEntries_4CDED0[0], -1);
+            DrawEntries(ot, &saveEntries_4CDED0[0], -1);
             break;
         }
         case PauseMenuPages::eControls_2:
@@ -697,7 +697,7 @@ void PauseMenu::VRender(OrderingTable& ot)
             {
                 entries = &controlsPageOne_4CDF00[0] + field_128_controller_id;
             }
-            DrawEntries(ppOt, entries, 0);
+            DrawEntries(ot, entries, 0);
             break;
         }
         default:

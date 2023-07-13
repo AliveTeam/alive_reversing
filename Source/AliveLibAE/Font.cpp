@@ -680,7 +680,7 @@ s32 AliveFont::DrawString(OrderingTable& ot, const char_type* text, s32 x, s16 y
 
         poly->mFont = mFontContext;
 
-        OrderingTable_Add(OtLayer(ppOt, layer), poly);
+        ot.Add(layer, poly);
 
         ++characterRenderCount;
 

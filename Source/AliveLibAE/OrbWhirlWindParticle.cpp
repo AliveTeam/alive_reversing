@@ -201,7 +201,7 @@ void OrbWhirlWindParticle::Render(OrderingTable& ot)
             mAnim.VRender(
                 FP_GetExponent(xpos),
                 FP_GetExponent(ypos),
-                ppOt,
+                ot,
                 0,
                 0);
         }

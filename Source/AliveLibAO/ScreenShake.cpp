@@ -90,7 +90,7 @@ void ScreenShake::VRender(OrderingTable& ot)
         }
 
         pPrim->SetOffset(offset.x, offset.y);
-        OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_0), pPrim);
+        ot.Add(Layer::eLayer_0, pPrim);
 
         if (offset.y != 0)
         {

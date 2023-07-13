@@ -207,7 +207,7 @@ void SnoozeParticle::VRender(OrderingTable& ot)
                     static_cast<u8>(mRGB.b));
 
             pZExplosionLine->SetSemiTransparent(true);
-            OrderingTable_Add(OtLayer(ppOt, mOtLayer), pZExplosionLine);
+            ot.Add(mOtLayer, pZExplosionLine);
         }
     }
     else
@@ -257,6 +257,6 @@ void SnoozeParticle::VRender(OrderingTable& ot)
 
         pZLine->SetSemiTransparent(true);
         pZLine->SetBlendMode(relive::TBlendModes::eBlend_1);
-        OrderingTable_Add(OtLayer(ppOt, mOtLayer), pZLine);
+        ot.Add(mOtLayer, pZLine);
     }
 }

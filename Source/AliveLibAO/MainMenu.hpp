@@ -205,7 +205,7 @@ public:
 
     static void OnResourceLoaded(Menu* pMenu);
 
-    static void RenderElement(s32 xpos, s32 ypos, s32 input_command, BasePrimitive** ot, AliveFont* pFont, s32* pPolyOffset);
+    static void RenderElement(s32 xpos, s32 ypos, s32 input_command, OrderingTable& ot, AliveFont* pFont, s32* pPolyOffset);
 
    // u8** field_E4_res_array[6] = {};
     FontContext mFontContext;

@@ -117,7 +117,7 @@ void CheatController::VUpdate()
     }
 }
 
-void CheatController::VRender(BasePrimitive** /*ppOt*/)
+void CheatController::VRender(OrderingTable& /*ot*/)
 {
     // NULL
 }

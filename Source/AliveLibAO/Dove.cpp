@@ -184,7 +184,7 @@ static bool sExtraSeqStarted = false;
 
 void Dove::VRender(OrderingTable& ot)
 {
-    BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
+    BaseAnimatedWithPhysicsGameObject::VRender(ot);
 }
 
 void Dove::VUpdate()

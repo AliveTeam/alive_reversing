@@ -144,7 +144,7 @@ void MovingBomb::BlowUp()
     SfxPlayMono(relive::SoundEffects::GreenTick, 100, GetSpriteScale());
 }
 
-void MovingBomb::VRender(BasePrimitive** ot)
+void MovingBomb::VRender(OrderingTable& ot)
 {
     if (GetAnimation().GetRender())
     {

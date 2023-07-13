@@ -52,7 +52,7 @@ void CircularFade::VRender(OrderingTable& ot)
     GetAnimation().VRender(
         FP_GetExponent(mXPos + (FP_FromInteger(gScreenManager->mCamXOff + mXOffset)) - gScreenManager->mCamPos->x),
         FP_GetExponent(mYPos + (FP_FromInteger(gScreenManager->mCamYOff + mYOffset)) - gScreenManager->mCamPos->y),
-        ppOt,
+        ot,
         0,
         0);
 
@@ -93,7 +93,7 @@ void CircularFade::VRender(OrderingTable& ot)
     pTile->SetSemiTransparent(true);
     pTile->SetBlendMode(relive::TBlendModes::eBlend_2);
 
-    OrderingTable_Add(OtLayer(ppOt, GetAnimation().GetRenderLayer()), pTile);
+    ot.Add(GetAnimation().GetRenderLayer(), pTile);
 
     Poly_G4* pTile2_1 = &mTile2[gPsxDisplay.mBufferIndex];
     pTile2_1->SetRGB0(fadeColour, fadeColour, fadeColour);
@@ -103,7 +103,7 @@ void CircularFade::VRender(OrderingTable& ot)
     pTile2_1->SetXYWH(0, frameRect.y, GetAnimation().GetFlipX() ? frameRect.x + 1 : frameRect.x, frameRect.h - frameRect.y);
     pTile2_1->SetSemiTransparent(true);
     pTile2_1->SetBlendMode(relive::TBlendModes::eBlend_2);
-    OrderingTable_Add(OtLayer(ppOt, GetAnimation().GetRenderLayer()), pTile2_1);
+    ot.Add(GetAnimation().GetRenderLayer(), pTile2_1);
 
     Poly_G4* pTile2 = &mTile3[gPsxDisplay.mBufferIndex];
     pTile2->SetRGB0(fadeColour, fadeColour, fadeColour);
@@ -113,7 +113,7 @@ void CircularFade::VRender(OrderingTable& ot)
     pTile2->SetXYWH(frameRect.w + 1, frameRect.y, gPsxDisplay.mWidth - frameRect.w, frameRect.h - frameRect.y);
     pTile2->SetSemiTransparent(true);
     pTile2->SetBlendMode(relive::TBlendModes::eBlend_2);
-    OrderingTable_Add(OtLayer(ppOt, GetAnimation().GetRenderLayer()), pTile2);
+    ot.Add(GetAnimation().GetRenderLayer(), pTile2);
 
     Poly_G4* pTile3 = &mTile4[gPsxDisplay.mBufferIndex];
     pTile3->SetRGB0(fadeColour, fadeColour, fadeColour);
@@ -123,7 +123,7 @@ void CircularFade::VRender(OrderingTable& ot)
     pTile3->SetXYWH(0, frameRect.h, gPsxDisplay.mWidth, gPsxDisplay.mHeight - frameRect.h);
     pTile3->SetSemiTransparent(true);
     pTile3->SetBlendMode(relive::TBlendModes::eBlend_2);
-    OrderingTable_Add(OtLayer(ppOt, GetAnimation().GetRenderLayer()), pTile3);
+    ot.Add(GetAnimation().GetRenderLayer(), pTile3);
 
     if ((mFadeColour == 255 && mFadeIn) || (mFadeColour == 0 && !mFadeIn))
     {

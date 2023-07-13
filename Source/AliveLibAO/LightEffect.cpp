@@ -43,7 +43,7 @@ LightEffect::~LightEffect()
     Path::TLV_Reset(mTlvId, -1, 0, 0);
 }
 
-void LightEffect::VRender(OrderingTable& /*ppOt*/)
+void LightEffect::VRender(OrderingTable& /*ot*/)
 {
     // Pretty much the same as door effect render - commented out because OG is empty which means the "stock yard stars" are missing.
     // However rendering as-is produces over bright ugly looking stars and is probably why DD turned it off

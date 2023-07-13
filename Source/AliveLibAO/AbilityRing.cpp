@@ -226,7 +226,7 @@ void AbilityRing::VRender(OrderingTable& ot)
                 pPoly->SetXY2( x3, y3);
                 pPoly->SetXY3( x4, y4);
 
-                OrderingTable_Add(OtLayer(ppOt, mRingLayer), pPoly);
+                ot.Add(mRingLayer, pPoly);
 
                 mRingCollideRects[i] = rect;
                 mRingCollideRects[i].x = PCToPsxX(mRingCollideRects[i].x, 20);

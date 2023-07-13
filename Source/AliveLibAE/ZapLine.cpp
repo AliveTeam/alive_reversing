@@ -359,7 +359,7 @@ void ZapLine::VRender(OrderingTable& ot)
             for (s32 j = 0; j < mNumberOfPiecesPerSegment; j++)
             {
                 Poly_FT4* pSprt = &mSprites->mSprts[j + (i * mNumberOfPiecesPerSegment)];
-                OrderingTable_Add(OtLayer(ppOt, GetAnimation().GetRenderLayer()), &pSprt[bufferIdx]);
+                ot.Add(GetAnimation().GetRenderLayer(), &pSprt[bufferIdx]);
             }
         }
     }

@@ -148,7 +148,7 @@ void ThrowableArray::Add(s16 count)
     mCount += count;
 }
 
-void ThrowableArray::VRender(BasePrimitive** /*ppOt*/)
+void ThrowableArray::VRender(OrderingTable& /*ot*/)
 {
     // Nothing to do here
 }

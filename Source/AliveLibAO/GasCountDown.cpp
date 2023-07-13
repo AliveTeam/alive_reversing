@@ -145,7 +145,7 @@ void GasCountDown::VRender(OrderingTable& ot)
     const auto textWidth = mFont.MeasureTextWidth(text);
 
     mFont.DrawString(
-        ppOt,
+        ot,
         text,
         mGasXPos,
         mGasYPos,

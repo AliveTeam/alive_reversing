@@ -52,7 +52,7 @@ void DemoPlayback::VScreenChanged()
     // Keep alive
 }
 
-void DemoPlayback::VRender(BasePrimitive** /*ppOt*/)
+void DemoPlayback::VRender(OrderingTable& /*ot*/)
 {
     // Render nothing
 }

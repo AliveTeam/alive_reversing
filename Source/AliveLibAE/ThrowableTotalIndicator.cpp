@@ -302,6 +302,6 @@ void ThrowableTotalIndicator::VRender(OrderingTable& ot)
 
         pLine->SetSemiTransparent(true);
         pLine->SetBlendMode(relive::TBlendModes::eBlend_1);
-        OrderingTable_Add(OtLayer(ppOt, mOtLayer), pLine);
+        ot.Add(mOtLayer, pLine);
     }
 }

@@ -42,7 +42,7 @@ public:
         // Stayin' alive
     }
 
-    virtual void VRender(BasePrimitive** /*ppOt*/) override
+    virtual void VRender(OrderingTable& /*ot*/) override
     {
         if (!field_BE_bDone)
         {

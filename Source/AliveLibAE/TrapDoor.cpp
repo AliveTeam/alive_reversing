@@ -154,7 +154,7 @@ TrapDoor::TrapDoor(relive::Path_TrapDoor* pTlv, const Guid& tlvId)
 void TrapDoor::VRender(OrderingTable& ot)
 {
     mXPos += FP_FromInteger(mTrapDoorXOffset);
-    BaseAliveGameObject::VRender(ppOt);
+    BaseAliveGameObject::VRender(ot);
     mXPos -= FP_FromInteger(mTrapDoorXOffset);
 }
 

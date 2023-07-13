@@ -235,7 +235,7 @@ void DeathGas::VRender(OrderingTable& ot)
                 pPoly->SetXY2( static_cast<s16>(x2), static_cast<s16>(y2 - yVal));
                 pPoly->SetXY3( static_cast<s16>(x3), static_cast<s16>(y3 - yVal));
 
-                OrderingTable_Add(OtLayer(ppOt, mLayer), pPoly);
+                ot.Add(mLayer, pPoly);
             }
         }
     }

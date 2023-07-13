@@ -87,7 +87,7 @@ public:
             GetAnimation().VRender(
                 FP_GetExponent(field_F4_xPos),
                 FP_GetExponent(field_F8_yPos),
-                ppOt,
+                ot,
                 FP_GetExponent(xOff) + 1,
                 FP_GetExponent(yOff) + 1);
         }
@@ -225,7 +225,7 @@ private:
                 GetAnimation().VRender(
                     FP_GetExponent(mXPos - gScreenManager->CamXPos()),
                     FP_GetExponent(mYPos - gScreenManager->CamYPos()),
-                    ppOt,
+                    ot,
                     0,
                     0);
 
@@ -241,7 +241,7 @@ private:
                                 anim.field_14.VRender(
                                     FP_GetExponent(anim.x - gScreenManager->CamXPos()),
                                     FP_GetExponent(anim.y - gScreenManager->CamYPos()),
-                                    ppOt, 0, 0);
+                                    ot, 0, 0);
                             }
                         }
                     }

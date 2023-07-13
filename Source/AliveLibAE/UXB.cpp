@@ -485,11 +485,11 @@ void UXB::VRender(OrderingTable& ot)
             mFlashAnim.VRender(
                 FP_GetExponent((mXPos - gScreenManager->CamXPos())),
                 FP_GetExponent((mYPos - gScreenManager->CamYPos() - FP_NoFractional(GetSpriteScale() * FP_FromInteger(17)))),
-                ppOt,
+                ot,
                 0,
                 0);
 
-            BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
+            BaseAnimatedWithPhysicsGameObject::VRender(ot);
         }
     }
 }

@@ -1049,7 +1049,7 @@ void Abe::VRender(OrderingTable& ot)
 
     if (mCurrentMotion != eAbeMotions::Motion_15_Null && mCurrentMotion != eAbeMotions::Motion_78_InsideWellLocal && mCurrentMotion != eAbeMotions::Motion_81_InsideWellExpress && mCurrentMotion != eAbeMotions::Motion_84_ToInsideWellLocal && mCurrentMotion != eAbeMotions::Motion_75_ToInsideOfAWellLocal)
     {
-        BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
+        BaseAnimatedWithPhysicsGameObject::VRender(ot);
     }
 }
 

@@ -157,7 +157,7 @@ void Rope::VRender(OrderingTable& ot)
                 maxY = 240;
             }
 
-            GetAnimation().VRender(640, 240, ppOt, 0, 0);
+            GetAnimation().VRender(640, 240, ot, 0, 0);
 
             if (screenY >= minY)
             {
@@ -182,7 +182,7 @@ void Rope::VRender(OrderingTable& ot)
                     mRopeAnim[idx].VRender(
                         screenX,
                         screenY,
-                        ppOt,
+                        ot,
                         0,
                         0);
 

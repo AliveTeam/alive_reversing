@@ -674,7 +674,7 @@ void BirdPortal::VGetSaveState(SerializedObjectData& pBuffer)
     pBuffer.Write(data);
 }
 
-void BirdPortal::VRender(BasePrimitive** /*ppOt*/)
+void BirdPortal::VRender(OrderingTable& /*ot*/)
 {
     // Null
 }

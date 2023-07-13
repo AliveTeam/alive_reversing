@@ -149,11 +149,11 @@ void TimedMine::VRender(OrderingTable& ot)
             FP_GetExponent(mXPos + FP_FromInteger(gScreenManager->mCamXOff) - gScreenManager->mCamPos->x),
             FP_GetExponent(mYPos + FP_FromInteger(gScreenManager->mCamYOff - FP_GetExponent(GetSpriteScale() * FP_FromInteger(14)))
                            - gScreenManager->mCamPos->y),
-            ppOt,
+            ot,
             0,
             0);
 
-        BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
+        BaseAnimatedWithPhysicsGameObject::VRender(ot);
     }
 }
 

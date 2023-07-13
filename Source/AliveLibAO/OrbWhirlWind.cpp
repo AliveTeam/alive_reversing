@@ -65,7 +65,7 @@ void OrbWhirlWind::VRender(OrderingTable& ot)
         {
             if (!mOrbParticles[i]->IsActive())
             {
-                mOrbParticles[i]->Render(ppOt);
+                mOrbParticles[i]->Render(ot);
             }
         }
     }

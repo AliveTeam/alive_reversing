@@ -269,7 +269,7 @@ void ParticleBurst::VRender(OrderingTable& ot)
                     GetAnimation().VRender(
                         FP_GetExponent(PsxToPCX(pItem->x - screen_left, FP_FromInteger(11))),
                         FP_GetExponent(pItem->y - screen_bottom),
-                        ppOt,
+                        ot,
                         0,
                         0);
                     GetAnimation().Get_Frame_Rect(&rect);
@@ -281,7 +281,7 @@ void ParticleBurst::VRender(OrderingTable& ot)
                     pItem->field_18_animation.VRender(
                         FP_GetExponent(PsxToPCX(pItem->x - screen_left, FP_FromInteger(11))),
                         FP_GetExponent(pItem->y - screen_bottom),
-                        ppOt, 0, 0);
+                        ot, 0, 0);
                     pItem->field_18_animation.GetRenderedSize(&rect);
                 }
             }

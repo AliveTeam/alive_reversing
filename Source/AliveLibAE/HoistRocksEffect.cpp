@@ -180,7 +180,7 @@ void HoistRocksEffect::VRender(OrderingTable& ot)
             particle.mAnim.VRender(
                 FP_GetExponent(particle.mXPos - gScreenManager->CamXPos()),
                 FP_GetExponent(particle.mYPos - gScreenManager->CamYPos()),
-                ppOt,
+                ot,
                 0,
                 0);
         }

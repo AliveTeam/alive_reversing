@@ -159,7 +159,7 @@ void Blood::VRender(OrderingTable& ot)
                 pSprt->SetRGB0(rgb.r & 0xFF, rgb.g & 0xFF, rgb.b & 0xFF);
             }
 
-            OrderingTable_Add(OtLayer(ppOt, mOtLayer), pSprt);
+            ot.Add(mOtLayer, pSprt);
         }
     }
 }

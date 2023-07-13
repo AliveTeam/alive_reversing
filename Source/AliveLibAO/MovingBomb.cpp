@@ -176,7 +176,7 @@ void MovingBomb::VRender(OrderingTable& ot)
 {
     if (GetAnimation().GetRender())
     {
-        BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
+        BaseAnimatedWithPhysicsGameObject::VRender(ot);
     }
 }
 

@@ -73,7 +73,7 @@ void Alarm::VRender(OrderingTable& ot)
 {
     if (gNumCamSwappers == 0)
     {
-        EffectBase::VRender(ppOt);
+        EffectBase::VRender(ot);
     }
 }
 

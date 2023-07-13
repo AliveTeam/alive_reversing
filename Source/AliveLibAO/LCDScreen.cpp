@@ -316,7 +316,7 @@ void LCDScreen::VRender(OrderingTable& ot)
 
         auto* pClippers = &mPrimClippers[0][gPsxDisplay.mBufferIndex];
         pClippers->SetRect(clipRect);
-        OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_BeforeWell_22), pClippers);
+        ot.Add(Layer::eLayer_BeforeWell_22, pClippers);
 
         auto fontFlickerAmount = 50;
         if (gDisableFontFlicker)
@@ -330,7 +330,7 @@ void LCDScreen::VRender(OrderingTable& ot)
 
         gFontDrawScreenSpace = true;
         mFont.DrawString(
-            ppOt,
+            ot,
             mActiveMessage,
             static_cast<s16>(PsxToPCX(screenX, 11) - mOffsetX),
             static_cast<s16>(screenY),
@@ -356,7 +356,7 @@ void LCDScreen::VRender(OrderingTable& ot)
 
         auto* clipper = &mPrimClippers[1][gPsxDisplay.mBufferIndex];
         clipper->SetRect(clipRect2);
-        OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_BeforeWell_22), clipper);
+        ot.Add(Layer::eLayer_BeforeWell_22, clipper);
     }
 }
 

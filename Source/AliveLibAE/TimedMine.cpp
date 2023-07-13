@@ -180,11 +180,11 @@ void TimedMine::VRender(OrderingTable& ot)
         mTickAnim.VRender(
             FP_GetExponent((mXPos - gScreenManager->CamXPos())),
             FP_GetExponent((mYPos - gScreenManager->CamYPos() - FP_NoFractional(GetSpriteScale() * FP_FromDouble(14)))),
-            ppOt,
+            ot,
             0,
             0);
 
-        BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
+        BaseAnimatedWithPhysicsGameObject::VRender(ot);
     }
 }
 

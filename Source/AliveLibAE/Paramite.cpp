@@ -5573,7 +5573,7 @@ void Paramite::VRender(OrderingTable& ot)
 {
     if (UpdateDelay() == 0)
     {
-        BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
+        BaseAnimatedWithPhysicsGameObject::VRender(ot);
     }
 }
 

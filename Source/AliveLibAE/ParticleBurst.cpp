@@ -223,7 +223,7 @@ void ParticleBurst::VRender(OrderingTable& ot)
                     GetAnimation().VRender(
                         FP_GetExponent(field_F8_pRes[i].x - camX),
                         FP_GetExponent(field_F8_pRes[i].y - camY),
-                        ppOt,
+                        ot,
                         0,
                         0);
 
@@ -274,7 +274,7 @@ void ParticleBurst::VRender(OrderingTable& ot)
                     field_F8_pRes[i].field_18_animation.VRender(
                         FP_GetExponent(field_F8_pRes[i].x - camX),
                         FP_GetExponent(field_F8_pRes[i].y - camY),
-                        ppOt,
+                        ot,
                         0,
                         0);
 

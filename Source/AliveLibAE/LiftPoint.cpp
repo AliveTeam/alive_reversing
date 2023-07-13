@@ -630,7 +630,7 @@ void LiftPoint::VRender(OrderingTable& ot)
                 mLiftWheelAnim.VRender(
                     FP_GetExponent(mXPos - gScreenManager->CamXPos() + (FP_FromInteger(3) * GetSpriteScale())),
                     FP_GetExponent(mYPos - gScreenManager->CamYPos() + (FP_FromInteger(-5) * GetSpriteScale())),
-                    ppOt,
+                    ot,
                     0,
                     0);
 
@@ -664,7 +664,7 @@ void LiftPoint::VRender(OrderingTable& ot)
                     mPulleyAnim.VRender(
                         FP_GetExponent(FP_FromInteger(mPulleyXPos) - gScreenManager->CamXPos()),
                         FP_GetExponent(FP_FromInteger(mPulleyYPos) - gScreenManager->CamYPos()),
-                        ppOt,
+                        ot,
                         0,
                         0);
 
@@ -674,14 +674,14 @@ void LiftPoint::VRender(OrderingTable& ot)
             }
 
             // The base animation is the actual lift/platform itself
-            BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
+            BaseAnimatedWithPhysicsGameObject::VRender(ot);
 
             if (gMap.mCurrentLevel == EReliveLevelIds::eNecrum && Is_In_Current_Camera() == CameraPos::eCamCurrent_0)
             {
                 mLiftWheelAnim.VRender(
                     FP_GetExponent(mXPos - gScreenManager->CamXPos() + (FP_FromInteger(3) * GetSpriteScale())),
                     FP_GetExponent(mYPos - gScreenManager->CamYPos() + (FP_FromInteger(-5) * GetSpriteScale())),
-                    ppOt,
+                    ot,
                     0,
                     0);
 

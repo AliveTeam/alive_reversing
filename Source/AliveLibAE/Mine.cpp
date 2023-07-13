@@ -178,11 +178,11 @@ void Mine::VRender(OrderingTable& ot)
         {
             mFlashAnim.VRender(FP_GetExponent(mXPos - gScreenManager->CamXPos()),
                 FP_GetExponent(FP_FromInteger(mYOffset) + mYPos - gScreenManager->CamYPos()),
-                ppOt,
+                ot,
                 0,
                 0);
 
-            BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
+            BaseAnimatedWithPhysicsGameObject::VRender(ot);
         }
     }
 }

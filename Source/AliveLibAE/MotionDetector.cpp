@@ -408,7 +408,7 @@ void MotionDetector::VUpdate()
 
 void MotionDetector::VRender(OrderingTable& ot)
 {
-    BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
+    BaseAnimatedWithPhysicsGameObject::VRender(ot);
 
     if (GetAnimation().GetRender())
     {
@@ -440,6 +440,6 @@ void MotionDetector::VRender(OrderingTable& ot)
         pPrim->SetSemiTransparent(true);
         // When detected transparency is off, gives the "solid red" triangle
         pPrim->SetBlendMode(mObjectInLaser ? relive::TBlendModes::eBlend_1 : relive::TBlendModes::eBlend_3);
-        OrderingTable_Add(OtLayer(ppOt, GetAnimation().GetRenderLayer()), pPrim);
+        ot.Add(GetAnimation().GetRenderLayer(), pPrim);
     }
 }

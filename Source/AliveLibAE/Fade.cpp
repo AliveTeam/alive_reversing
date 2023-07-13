@@ -83,7 +83,7 @@ void Fade::VRender(OrderingTable& ot)
     mEffectBaseGreen = mFadeColour;
     mEffectBaseRed = mFadeColour;
 
-    EffectBase::VRender(ppOt);
+    EffectBase::VRender(ot);
 
     if ((mFadeColour == 255 && mFadeOption == FadeOptions::eFadeIn) ||
         (mFadeColour == 0 && mFadeOption == FadeOptions::eFadeOut))

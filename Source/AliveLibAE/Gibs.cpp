@@ -333,7 +333,7 @@ void Gibs::VRender(OrderingTable& ot)
     }
 
     // Head part rendering
-    BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
+    BaseAnimatedWithPhysicsGameObject::VRender(ot);
 
    const FP camXPos = gScreenManager->CamXPos();
     const FP camYPos = gScreenManager->CamYPos();
@@ -367,7 +367,7 @@ void Gibs::VRender(OrderingTable& ot)
                     const s32 xpos = FP_GetExponent(mGibParts[i].x - camXPos);
                     const s32 ypos = FP_GetExponent(mGibParts[i].y - camYPos);
 
-                    mGibParts[i].mAnimation.VRender(xpos, ypos, ppOt, 0, 0);
+                    mGibParts[i].mAnimation.VRender(xpos, ypos, ot, 0, 0);
 
                     PSX_RECT frameRect = {};
                     mGibParts[i].mAnimation.Get_Frame_Rect(&frameRect);

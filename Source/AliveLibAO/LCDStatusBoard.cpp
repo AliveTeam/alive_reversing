@@ -56,7 +56,7 @@ void LCDStatusBoard::VRender(OrderingTable& ot)
     const s16 w1 = static_cast<s16>(mEmployeesFont.MeasureTextWidth(text));
     const s16 colourRange = gDisableFontFlicker ? 0 : 50;
     mEmployeesFont.DrawString(
-        ppOt,
+        ot,
         text,
         mXPos - w1 + 22,
         mYPos,
@@ -75,7 +75,7 @@ void LCDStatusBoard::VRender(OrderingTable& ot)
     sprintf(text, "%02d", sKilledMudokons);
     const s16 w2 = static_cast<s16>(mKilledMudsFont.MeasureTextWidth(text));
     mKilledMudsFont.DrawString(
-        ppOt,
+        ot,
         text,
         mXPos - w2 + 22,
         mYPos + 16,
@@ -94,7 +94,7 @@ void LCDStatusBoard::VRender(OrderingTable& ot)
     sprintf(text, "%02d", sRescuedMudokons);
     s16 w3 = static_cast<s16>(mRescuedMudsFont.MeasureTextWidth(text));
     mRescuedMudsFont.DrawString(
-        ppOt,
+        ot,
         text,
         mXPos - w3 + 22,
         mYPos + 32,

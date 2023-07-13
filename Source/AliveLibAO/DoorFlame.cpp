@@ -93,7 +93,7 @@ public:
             GetAnimation().VRender(
                 FP_GetExponent(field_E4_xPos),
                 FP_GetExponent(field_E8_yPos),
-                ppOt,
+                ot,
                 FP_GetExponent(field_EC_xOff - field_E4_xPos) + 1,
                 FP_GetExponent(field_F0_yOff - field_E8_yPos) + 1);
         }
@@ -232,7 +232,7 @@ private:
                 GetAnimation().VRender(
                     FP_GetExponent(PsxToPCX(mXPos - screen_left)),
                     FP_GetExponent(mYPos - screen_top),
-                    ppOt,
+                    ot,
                     0,
                     0);
 
@@ -247,7 +247,7 @@ private:
                                 anim.field_14.VRender(
                                     FP_GetExponent(PsxToPCX(anim.x - screen_left)),
                                     FP_GetExponent(anim.y - screen_top),
-                                    ppOt, 0, 0);
+                                    ot, 0, 0);
                             }
                         }
                     }

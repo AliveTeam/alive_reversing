@@ -229,7 +229,7 @@ void Gibs::VRender(OrderingTable& ot)
     SetSpriteScale(FP_FromInteger(100) / (field_E8_z + FP_FromInteger(100)));
 
     // Head part rendering
-    BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
+    BaseAnimatedWithPhysicsGameObject::VRender(ot);
 
     const FP_Point* pCamPos = gScreenManager->mCamPos;
     const FP left = pCamPos->x - FP_FromInteger(gScreenManager->mCamXOff);
@@ -258,7 +258,7 @@ void Gibs::VRender(OrderingTable& ot)
                 pGib->mAnimation.VRender(
                     FP_GetExponent(pGib->x - left),
                     FP_GetExponent(pGib->y - up),
-                    ppOt,
+                    ot,
                     0,
                     0);
             }

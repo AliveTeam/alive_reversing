@@ -451,11 +451,11 @@ void UXB::VRender(OrderingTable& ot)
             FP_GetExponent(mYPos
                            + (FP_FromInteger(gScreenManager->mCamYOff) - FP_NoFractional(GetSpriteScale() * FP_FromInteger(12)))
                            - gScreenManager->mCamPos->y),
-            ppOt,
+            ot,
             0,
             0);
 
-        BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
+        BaseAnimatedWithPhysicsGameObject::VRender(ot);
     }
 }
 

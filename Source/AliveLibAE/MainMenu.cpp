@@ -630,7 +630,7 @@ void MainMenuController::VRender(OrderingTable& ot)
         && sMainMenuPages_561960[field_214_page_index].field_E_show_character
         && GetAnimation().GetRender())
     {
-        GetAnimation().VRender(184, 162, ppOt, 0, 0);
+        GetAnimation().VRender(184, 162, ot, 0, 0);
     }
 
     const MainMenuButton* pButtons = sMainMenuPages_561960[field_214_page_index].field_18_buttons;
@@ -640,7 +640,7 @@ void MainMenuController::VRender(OrderingTable& ot)
         {
             if (field_1FC_button_index != NO_SELECTABLE_BUTTONS)
             {
-                field_158_animation.VRender(pButtons[field_1FC_button_index].field_2_x, pButtons[field_1FC_button_index].y, ppOt, 0, 0);
+                field_158_animation.VRender(pButtons[field_1FC_button_index].field_2_x, pButtons[field_1FC_button_index].y, ot, 0, 0);
             }
         }
     }
@@ -648,7 +648,7 @@ void MainMenuController::VRender(OrderingTable& ot)
     auto renderFunc = sMainMenuPages_561960[field_214_page_index].field_14_fn_render;
     if (renderFunc)
     {
-        (this->*renderFunc)(ppOt);
+        (this->*renderFunc)(ot);
     }
 }
 
@@ -731,7 +731,7 @@ const MainMenuText sAbeMotions_562448[15] = {
     {330, 174, kAnger, 2u, 0u, 0u, 0u, 0.88f, 0u, 0u, 0u, 0u},            //angry slap [5]
 };
 
-void MainMenuController::AbeSpeak_Render_4D2060(BasePrimitive** ot)
+void MainMenuController::AbeSpeak_Render_4D2060(OrderingTable& ot)
 {
     RenderOnScreenTextHelper(ot, &sAbeGameSpeak_561F38[0], ALIVE_COUNTOF(sAbeGameSpeak_561F38), 1);
 }
@@ -809,17 +809,17 @@ MainMenuNextCam MainMenuController::AbeSpeak_Update_4D2D20(u32 input_held)
     });
 }
 
-void MainMenuController::SligSpeak_Render_4D2370(BasePrimitive** ot)
+void MainMenuController::SligSpeak_Render_4D2370(OrderingTable& ot)
 {
     RenderOnScreenTextHelper(ot, &sSligGameSpeak_562058[0], ALIVE_COUNTOF(sSligGameSpeak_562058), 1);
 }
 
-void MainMenuController::GlukkonSpeak_Render_4D23C0(BasePrimitive** ot)
+void MainMenuController::GlukkonSpeak_Render_4D23C0(OrderingTable& ot)
 {
     RenderOnScreenTextHelper(ot, &sGlukkonGameSpeak_562160[0], ALIVE_COUNTOF(sGlukkonGameSpeak_562160), 1);
 }
 
-void MainMenuController::ScrabSpeak_Render_4D2410(BasePrimitive** ot)
+void MainMenuController::ScrabSpeak_Render_4D2410(OrderingTable& ot)
 {
     RenderOnScreenTextHelper(ot, &sScrabGameSpeak_562268[0], ALIVE_COUNTOF(sScrabGameSpeak_562268), 1);
 }
@@ -983,7 +983,7 @@ void MainMenuController::ScrabSpeak_Load_4D3870()
     Set_Anim_4D05E0(MainMenuGamespeakAnimIds::eScrab_Idle);
 }
 
-void MainMenuController::ParamiteSpeak_Render_4D2460(BasePrimitive** ot)
+void MainMenuController::ParamiteSpeak_Render_4D2460(OrderingTable& ot)
 {
     RenderOnScreenTextHelper(ot, &sParamiteSpeak_5622C8[0], ALIVE_COUNTOF(sParamiteSpeak_5622C8), 1);
 }
@@ -1045,7 +1045,7 @@ static s32 DrawMenuStringWithShadow(OrderingTable& ot, AliveFont& field_120_font
 {
     s32 polyOff = polyOffset;
     polyOff = field_120_font.DrawString(
-        ppOt,
+        ot,
         text,
         x,
         y,
@@ -1062,7 +1062,7 @@ static s32 DrawMenuStringWithShadow(OrderingTable& ot, AliveFont& field_120_font
         0);
 
     polyOffset = field_120_font.DrawString(
-        ppOt,
+        ot,
         text,
         x + 2,
         y + 2,
@@ -1084,7 +1084,7 @@ FP sTextYPos_BB43F0 = {};
 FP dword_BB43E4 = {};
 
 static void RenderScrollableTextEntries(
-    BasePrimitive** ot, s32& targetEntry, s32& selectedEntry, s32 totalItemsCount,
+    OrderingTable& ot, s32& targetEntry, s32& selectedEntry, s32 totalItemsCount,
     FP& TextYPos, FP& TextYPos2, const char_type* field_234_pStr, const SaveFileRec* stringList, AliveFont& field_120_font, s32& polyOffset)
 {
     s32 i_start = 0;
@@ -1200,7 +1200,7 @@ s32 sControllerEntryToSelect_BB43D8 = 0;
 s32 sSelectedControllerEntry_BB43F4 = 0;
 s32 sControllerCount_55E838 = ALIVE_COUNTOF(aKeyboard_1);
 
-void MainMenuController::ControllerMenu_Render_Text_4D26C0(BasePrimitive** ot)
+void MainMenuController::ControllerMenu_Render_Text_4D26C0(OrderingTable& ot)
 {
     s32 polyOffset = 0;
     RenderScrollableTextEntries(ot, sControllerEntryToSelect_BB43D8, sSelectedControllerEntry_BB43F4, sControllerCount_55E838, sTextYPos_BB43F0, dword_BB43E4, field_234_pStr, aKeyboard_1, field_120_font, polyOffset);
@@ -1288,7 +1288,7 @@ void MainMenuController::Demo_And_FMV_List_Render_4D4F30(OrderingTable& ot)
     s32 polyIndex = 0;
     for (const MainMenuText& text : stru_5625F8)
     {
-        DrawMenuText_4D20D0(&text, ppOt, &field_120_font, &polyIndex, 1);
+        DrawMenuText_4D20D0(&text, ot, &field_120_font, &polyIndex, 1);
     }
 
     s32 loopCount = -2;
@@ -1312,13 +1312,13 @@ void MainMenuController::Demo_And_FMV_List_Render_4D4F30(OrderingTable& ot)
             const s16 textYPos = static_cast<s16>((FP_GetExponent(field_254 + FP_FromDouble(0.5))) + 26 * loopCount + 117);
             if (loopCount)
             {
-                polyIndex = field_120_font.DrawString(ppOt, field_234_pStr, nextTextXPos, textYPos, relive::TBlendModes::eBlend_0, 1, 0, Layer::eLayer_AbeMenu_32, 210, 150, 80, polyIndex, FP_FromInteger(1), 640, 0);
+                polyIndex = field_120_font.DrawString(ot, field_234_pStr, nextTextXPos, textYPos, relive::TBlendModes::eBlend_0, 1, 0, Layer::eLayer_AbeMenu_32, 210, 150, 80, polyIndex, FP_FromInteger(1), 640, 0);
             }
             else
             {
-                polyIndex = field_120_font.DrawString(ppOt, field_234_pStr, nextTextXPos, textYPos, relive::TBlendModes::eBlend_0, 1, 0, Layer::eLayer_AbeMenu_32, 255, 218, 140, polyIndex, FP_FromInteger(1), 640, 0);
+                polyIndex = field_120_font.DrawString(ot, field_234_pStr, nextTextXPos, textYPos, relive::TBlendModes::eBlend_0, 1, 0, Layer::eLayer_AbeMenu_32, 255, 218, 140, polyIndex, FP_FromInteger(1), 640, 0);
             }
-            polyIndex = field_120_font.DrawString(ppOt, field_234_pStr, nextTextXPos + 2, textYPos + 2, relive::TBlendModes::eBlend_0, 1, 0, Layer::eLayer_AbeMenu_32, 0, 0, 0, polyIndex, FP_FromInteger(1), 640, 0);
+            polyIndex = field_120_font.DrawString(ot, field_234_pStr, nextTextXPos + 2, textYPos + 2, relive::TBlendModes::eBlend_0, 1, 0, Layer::eLayer_AbeMenu_32, 0, 0, 0, polyIndex, FP_FromInteger(1), 640, 0);
         }
         loopCount++;
     }
@@ -1488,7 +1488,7 @@ MainMenuText sLoadButtonGraphics[2] = {
 
 s32 sSelectedSavedGameIdx_BB43E8 = 0;
 
-void MainMenuController::tLoadGame_Render_4D44D0(BasePrimitive** ot)
+void MainMenuController::tLoadGame_Render_4D44D0(OrderingTable& ot)
 {
     s32 polyOffset = 0;
     RenderScrollableTextEntries(
@@ -1505,7 +1505,7 @@ void MainMenuController::tLoadGame_Render_4D44D0(BasePrimitive** ot)
     }
 }
 
-void MainMenuController::AbeMotions_Render_4D25E0(BasePrimitive** ot)
+void MainMenuController::AbeMotions_Render_4D25E0(OrderingTable& ot)
 {
     RenderOnScreenTextHelper(ot, &sAbeMotions_562448[0], ALIVE_COUNTOF(sAbeMotions_562448), 0);
 }
@@ -1541,7 +1541,7 @@ MainMenuNextCam MainMenuController::Gamespeak_Update_4D1FC0(u32 input_held)
     }
 }
 
-void MainMenuController::RenderOnScreenTextHelper(BasePrimitive** ot, const MainMenuText* menuTextArray, s32 count, s8 isSingleChar)
+void MainMenuController::RenderOnScreenTextHelper(OrderingTable& ot, const MainMenuText* menuTextArray, s32 count, s8 isSingleChar)
 {
     s32 polyIndex = 0;
 
@@ -1566,17 +1566,17 @@ MainMenuText sMTxt_NewGame_562598[3] = {
     {161, 164, "x", 3u, 0u, 0u, 0u, 0.75, 0u, 0u, 0u, 0u},
 };
 
-void MainMenuController::Gamespeak_Render_4D24F0(BasePrimitive** ot)
+void MainMenuController::Gamespeak_Render_4D24F0(OrderingTable& ot)
 {
     RenderOnScreenTextHelper(ot, sMTxt_Gamespeak_5623B8, 2, 1);
 }
 
-void MainMenuController::Options_Render_4D2540(BasePrimitive** ot)
+void MainMenuController::Options_Render_4D2540(OrderingTable& ot)
 {
     RenderOnScreenTextHelper(ot, sMTxt_Gamespeak_5623E8, 2, 1);
 }
 
-void MainMenuController::BackStory_Or_NewGame_Render_4D2630(BasePrimitive** ot)
+void MainMenuController::BackStory_Or_NewGame_Render_4D2630(OrderingTable& ot)
 {
     RenderOnScreenTextHelper(ot, sMTxt_NewGame_562598, 2, 1);
 }
@@ -1657,7 +1657,7 @@ MainMenuNextCam MainMenuController::Page_Front_Update_4D0720(u32 input)
     return MainMenuNextCam(MainMenuCams::eNoChange);
 }
 
-void MainMenuController::Page_Front_Render_4D24B0(BasePrimitive** ot)
+void MainMenuController::Page_Front_Render_4D24B0(OrderingTable& ot)
 {
     RenderOnScreenTextHelper(ot, &sMMT_FrontPage_5623A0[0], ALIVE_COUNTOF(sMMT_FrontPage_5623A0), 1);
 }
@@ -2395,7 +2395,7 @@ void MainMenuController::RemapInput_Render_4D2A10(OrderingTable& ot)
         {
             nextTextXPos = (368 - textWidth) / 2;
         }
-        polyIndex = field_120_font.DrawString(ppOt, field_234_pStr, nextTextXPos, 88, relive::TBlendModes::eBlend_0, 1, 0, Layer::eLayer_Menu_41, 40, 20, 0, polyIndex, FP_FromInteger(1), 640, 0);
+        polyIndex = field_120_font.DrawString(ot, field_234_pStr, nextTextXPos, 88, relive::TBlendModes::eBlend_0, 1, 0, Layer::eLayer_Menu_41, 40, 20, 0, polyIndex, FP_FromInteger(1), 640, 0);
         char_type buffer[512] = {};
         sprintf(buffer, "for %s", sInputButtonNames_562790[sButtonToRemapIdx_BB43EC]);
         field_234_pStr = buffer;
@@ -2408,7 +2408,7 @@ void MainMenuController::RemapInput_Render_4D2A10(OrderingTable& ot)
         {
             nextTextXPos = (368 - textWidth) / 2;
         }
-        polyIndex = field_120_font.DrawString(ppOt, field_234_pStr, nextTextXPos, 120, relive::TBlendModes::eBlend_0, 1, 0, Layer::eLayer_Menu_41, 40, 20, 0, polyIndex, FP_FromInteger(1), 640, 0);
+        polyIndex = field_120_font.DrawString(ot, field_234_pStr, nextTextXPos, 120, relive::TBlendModes::eBlend_0, 1, 0, Layer::eLayer_Menu_41, 40, 20, 0, polyIndex, FP_FromInteger(1), 640, 0);
         field_234_pStr = "Press BackSpace for none, Esc to exit";
         textWidth = field_120_font.MeasureScaledTextWidth(field_234_pStr, FP_FromInteger(1));
         if (textWidth >= 336)
@@ -2419,7 +2419,7 @@ void MainMenuController::RemapInput_Render_4D2A10(OrderingTable& ot)
         {
             nextTextXPos = (368 - textWidth) / 2;
         }
-        field_120_font.DrawString(ppOt, field_234_pStr, nextTextXPos, 152, relive::TBlendModes::eBlend_0, 1, 0, Layer::eLayer_Menu_41, 40, 20, 0, polyIndex, FP_FromInteger(1), 640, 0);
+        field_120_font.DrawString(ot, field_234_pStr, nextTextXPos, 152, relive::TBlendModes::eBlend_0, 1, 0, Layer::eLayer_Menu_41, 40, 20, 0, polyIndex, FP_FromInteger(1), 640, 0);
     }
     else
     {
@@ -2431,14 +2431,14 @@ void MainMenuController::RemapInput_Render_4D2A10(OrderingTable& ot)
             // Speak 2
             const MainMenuText speak2Stru_562778 = {250, 174, "-", 3u, 0u, 0u, 0u, 0.88f, 0u, 0u, 0u, 0u};
 
-            DrawMenuText_4D20D0(&speak1Stru_562760, ppOt, &field_120_font, &polyIndex, 1);
-            DrawMenuText_4D20D0(&speak2Stru_562778, ppOt, &field_120_font, &polyIndex, 1);
+            DrawMenuText_4D20D0(&speak1Stru_562760, ot, &field_120_font, &polyIndex, 1);
+            DrawMenuText_4D20D0(&speak2Stru_562778, ot, &field_120_font, &polyIndex, 1);
         }
 
         // Note: OG renders this list backwards
         for (const MainMenuText& item : kTextInfo_5626A0)
         {
-            DrawMenuText_4D20D0(&item, ppOt, &field_120_font, &polyIndex, 1);
+            DrawMenuText_4D20D0(&item, ot, &field_120_font, &polyIndex, 1);
         }
 
         // Render "glowing" box around the selected buttons
@@ -2447,7 +2447,7 @@ void MainMenuController::RemapInput_Render_4D2A10(OrderingTable& ot)
         field_158_animation.VRender(
             kTextInfo_5626A0[sButtonToRemapIdx_BB43EC + 2].x - 18,
             kTextInfo_5626A0[sButtonToRemapIdx_BB43EC + 2].y + 8,
-            ppOt, 0, 0);
+            ot, 0, 0);
     }
 }
 
@@ -3493,7 +3493,7 @@ void MainMenuController::UpdateHighliteGlow_4D0630()
     field_158_animation.SetRGB(field_1FE_highlite_alpha, field_1FE_highlite_alpha, field_1FE_highlite_alpha);
 }
 
-void MainMenuController::DrawMenuText_4D20D0(const MainMenuText* array, BasePrimitive** ot, AliveFont* font, s32* polyIndex, s8 op2)
+void MainMenuController::DrawMenuText_4D20D0(const MainMenuText* array, OrderingTable& ot, AliveFont* font, s32* polyIndex, s8 op2)
 {
     const bool bSpeak1 = strstr(array->field_8_text, kSpeak1) != 0;
     const bool bSpeak2 = strstr(array->field_8_text, kSpeak2) != 0;

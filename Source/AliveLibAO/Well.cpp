@@ -36,7 +36,7 @@ void Well::VRender(OrderingTable& ot)
 {
     mXPos += FP_FromInteger(gTweakX);
     mYPos += FP_FromInteger(gTweakY);
-    BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
+    BaseAnimatedWithPhysicsGameObject::VRender(ot);
     mXPos -= FP_FromInteger(gTweakX);
     mYPos -= FP_FromInteger(gTweakY);
 }

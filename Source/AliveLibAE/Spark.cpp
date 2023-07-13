@@ -176,7 +176,7 @@ void Spark::VRender(OrderingTable& ot)
             pPrim->SetSemiTransparent(true);
             pPrim->SetBlendMode(relive::TBlendModes::eBlend_1);
 
-            OrderingTable_Add(OtLayer(ppOt, mLayer), pPrim);
+            ot.Add(mLayer, pPrim);
         }
     }
 }

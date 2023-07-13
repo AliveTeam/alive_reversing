@@ -34,7 +34,7 @@ void ScreenClipper::VRender(OrderingTable& ot)
 
     Prim_ScissorRect* pClipper = &mClippers[gPsxDisplay.mBufferIndex];
     pClipper->SetRect(clipRect);
-    OrderingTable_Add(OtLayer(ppOt, mOtLayer), pClipper);
+    ot.Add(mOtLayer, pClipper);
 }
 
 void ScreenClipper::VUpdate()

@@ -225,7 +225,7 @@ void MainMenuTransition::VRender(OrderingTable& ot)
         pPoly->SetXY1( x0, y0);
         pPoly->SetXY2( static_cast<s16>(x1), static_cast<s16>(y1));
 
-        OrderingTable_Add(OtLayer(ppOt, mLayer), pPoly);
+        ot.Add(mLayer, pPoly);
     }
 
     if ((field_20_current_value == 255 && field_24_fade_direction) || (field_20_current_value == 0 && !field_24_fade_direction))

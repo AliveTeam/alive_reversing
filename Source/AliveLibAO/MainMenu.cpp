@@ -356,7 +356,7 @@ void MainMenuFade::VRender(OrderingTable& ot)
     GetAnimation().VRender(
         FP_GetExponent(mXPos),
         FP_GetExponent(mYPos),
-        ppOt,
+        ot,
         0,
         0);
 
@@ -530,12 +530,12 @@ void Menu::VRender(OrderingTable& ot)
 {
     if ((field_204_flags >> 1) & 1)
     {
-        GetAnimation().VRender(184, 162, ppOt, 0, 0);
+        GetAnimation().VRender(184, 162, ot, 0, 0);
 
         PSX_RECT rect = {};
         GetAnimation().Get_Frame_Rect(&rect);
     }
-    (this->*mFnRender)(ppOt);
+    (this->*mFnRender)(ot);
 }
 
 void Menu::VScreenChanged()
@@ -734,7 +734,7 @@ void Menu::FMV_Select_Update()
     }
 }
 
-void Menu::Empty_Render(BasePrimitive**)
+void Menu::Empty_Render(OrderingTable& /*ot*/)
 {
     // Draw nothing
 }
@@ -785,7 +785,7 @@ void Menu::FMV_Or_Level_Select_Render(OrderingTable& ot)
     mButtonAnim.VRender(
         sFmvOrLevelSelectButtons.xpos,
         sFmvOrLevelSelectButtons.ypos,
-        ppOt,
+        ot,
         0,
         0);
 
@@ -844,7 +844,7 @@ void Menu::FMV_Or_Level_Select_Render(OrderingTable& ot)
             const s16 textYPos = static_cast<s16>((FP_GetExponent(field_21C + FP_FromDouble(0.5))) + textYOff + 114);
             const s16 textXPos = textXOff + 6;
             polyOffset = mFont.DrawString(
-                ppOt,
+                ot,
                 field_1F4_text,
                 textXPos,
                 textYPos,
@@ -861,7 +861,7 @@ void Menu::FMV_Or_Level_Select_Render(OrderingTable& ot)
                 0);
 
             polyOffset = mFont.DrawString(
-                ppOt,
+                ot,
                 field_1F4_text,
                 textXPos + 2,
                 textYPos + 2,
@@ -887,7 +887,7 @@ void Menu::FMV_Or_Level_Select_Render(OrderingTable& ot)
 
     for (s32 i = 0; i < 2; i++)
     {
-        RenderElement(x_and_esc_4D0660[i].xpos, x_and_esc_4D0660[i].ypos, x_and_esc_4D0660[i].inputCommand, ppOt, &mFont, &polyOffset);
+        RenderElement(x_and_esc_4D0660[i].xpos, x_and_esc_4D0660[i].ypos, x_and_esc_4D0660[i].inputCommand, ot, &mFont, &polyOffset);
     }
 }
 
@@ -951,7 +951,7 @@ void Menu::MainScreen_Render(OrderingTable& ot)
     mButtonAnim.VRender(
         sMainScreenButtons[mSelectedButtonIndex.raw].xpos,
         sMainScreenButtons[mSelectedButtonIndex.raw].ypos,
-        ppOt,
+        ot,
         0,
         0);
 
@@ -961,7 +961,7 @@ void Menu::MainScreen_Render(OrderingTable& ot)
     s32 polyOffset = 0;
     for (const auto& element : sMainScreenInputs)
     {
-        RenderElement(element.xpos, element.ypos, element.inputCommand, ppOt, &mFont, &polyOffset);
+        RenderElement(element.xpos, element.ypos, element.inputCommand, ot, &mFont, &polyOffset);
     }
 }
 
@@ -1385,7 +1385,7 @@ void Menu::GameSpeak_Render(OrderingTable& ot)
             sGameSpeakInputs[i].xpos,
             sGameSpeakInputs[i].ypos,
             sGameSpeakInputs[i].inputCommand,
-            ppOt,
+            ot,
             &mFont,
             &polyOffset);
     }
@@ -1409,7 +1409,7 @@ void Menu::Update_NoRefs()
 }
 
 
-void Menu::Render_NoRefs(BasePrimitive** /*ppOt*/)
+void Menu::Render_NoRefs(OrderingTable& /*ot*/)
 {
     
 }
@@ -1462,13 +1462,13 @@ void Menu::Load_Render(OrderingTable& ot)
 {
     if (field_230_bGoBack || !sSaveIdx)
     {
-        mButtonAnim.VRender(sLoadButtons[1].xpos, sLoadButtons[1].ypos + 36, ppOt, 0, 0);
+        mButtonAnim.VRender(sLoadButtons[1].xpos, sLoadButtons[1].ypos + 36, ot, 0, 0);
         PSX_RECT rect = {};
         mButtonAnim.Get_Frame_Rect(&rect);
     }
     else
     {
-        mButtonAnim.VRender(sLoadButtons[0].xpos, sLoadButtons[0].ypos + 36, ppOt, 0, 0);
+        mButtonAnim.VRender(sLoadButtons[0].xpos, sLoadButtons[0].ypos + 36, ot, 0, 0);
         PSX_RECT rect = {};
         mButtonAnim.Get_Frame_Rect(&rect);
     }
@@ -1551,7 +1551,7 @@ void Menu::Load_Render(OrderingTable& ot)
             }
 
             const s32 nextPolyOff = mFont.DrawString(
-                ppOt,
+                ot,
                 field_1F4_text,
                 text_x,
                 text_y,
@@ -1568,7 +1568,7 @@ void Menu::Load_Render(OrderingTable& ot)
                 0);
 
             polyOffset = mFont.DrawString(
-                ppOt,
+                ot,
                 field_1F4_text,
                 text_x + 2,
                 text_y + 2,
@@ -1593,7 +1593,7 @@ void Menu::Load_Render(OrderingTable& ot)
             sLoadInputs[i].xpos,
             sLoadInputs[i].ypos,
             sLoadInputs[i].inputCommand,
-            ppOt,
+            ot,
             &mFont,
             &polyOffset);
     }
@@ -1617,7 +1617,7 @@ void Menu::Options_Render(OrderingTable& ot)
     mButtonAnim.VRender(
         sOptionsButtons[mSelectedButtonIndex.raw].xpos,
         sOptionsButtons[mSelectedButtonIndex.raw].ypos,
-        ppOt,
+        ot,
         0,
         0);
 
@@ -1627,7 +1627,7 @@ void Menu::Options_Render(OrderingTable& ot)
     s32 polyOff = 0;
     for (const auto& element : sOptionsInputs)
     {
-        RenderElement(element.xpos, element.ypos, element.inputCommand, ppOt, &mFont, &polyOff);
+        RenderElement(element.xpos, element.ypos, element.inputCommand, ot, &mFont, &polyOff);
     }
 }
 
@@ -1935,7 +1935,7 @@ void Menu::Options_Controller_Render(OrderingTable& ot)
         mButtonAnim.VRender(
             sControlledSelectButtons[field_230_bGoBack].xpos,
             sControlledSelectButtons[field_230_bGoBack].ypos,
-            ppOt,
+            ot,
             0,
             0);
     }
@@ -1989,7 +1989,7 @@ void Menu::Options_Controller_Render(OrderingTable& ot)
             const s16 y = static_cast<s16>(FP_GetExponent(field_228 + FP_FromDouble(0.5)) + yOffset + 112);
 
             polyOffset = mFont.DrawString(
-                ppOt,
+                ot,
                 field_1F4_text,
                 x,
                 y,
@@ -2005,7 +2005,7 @@ void Menu::Options_Controller_Render(OrderingTable& ot)
                 640,
                 0);
             polyOffset = mFont.DrawString(
-                ppOt,
+                ot,
                 field_1F4_text,
                 x + 2,
                 y + 2,
@@ -2031,7 +2031,7 @@ void Menu::Options_Controller_Render(OrderingTable& ot)
             menuElement.xpos,
             menuElement.ypos,
             menuElement.inputCommand,
-            ppOt,
+            ot,
             &mFont,
             &polyOffset);
     }
@@ -2068,7 +2068,7 @@ void Menu::Options_Sound_Render(OrderingTable& ot)
     mButtonAnim.VRender(
         sSoundOptionsButtons[mSelectedButtonIndex.raw].xpos,
         sSoundOptionsButtons[mSelectedButtonIndex.raw].ypos,
-        ppOt,
+        ot,
         0,
         0);
 
@@ -2078,7 +2078,7 @@ void Menu::Options_Sound_Render(OrderingTable& ot)
     s32 polyOffset = 0;
     for (s32 i = 0; i < 2; i++)
     {
-        RenderElement(sAbeMotionsInputs[i].xpos, sAbeMotionsInputs[i].ypos, sAbeMotionsInputs[i].inputCommand, ppOt, &mFont, &polyOffset);
+        RenderElement(sAbeMotionsInputs[i].xpos, sAbeMotionsInputs[i].ypos, sAbeMotionsInputs[i].inputCommand, ot, &mFont, &polyOffset);
     }
 }
 
@@ -2652,7 +2652,7 @@ void Menu::ButtonRemap_Render(OrderingTable& ot)
             sRemapScreenButtons[i].xpos,
             sRemapScreenButtons[i].ypos,
             sRemappableInputs.buttons[Input().IsJoyStickEnabled() != 0][i],
-            ppOt,
+            ot,
             &mFont,
             &polyOffset);
     }
@@ -2662,7 +2662,7 @@ void Menu::ButtonRemap_Render(OrderingTable& ot)
         mButtonAnim.VRender(
             sRemapScreenButtons[mSelectedButtonIndex.raw].xpos - 3,
             sRemapScreenButtons[mSelectedButtonIndex.raw].ypos + 1,
-            ppOt,
+            ot,
             0,
             0);
     }
@@ -2671,7 +2671,7 @@ void Menu::ButtonRemap_Render(OrderingTable& ot)
         mButtonAnim.VRender(
             sRemapScreenButtons[field_230_bGoBack].xpos,
             sRemapScreenButtons[field_230_bGoBack].ypos,
-            ppOt,
+            ot,
             0,
             0);
     }
@@ -2697,7 +2697,7 @@ void Menu::ButtonRemap_Render(OrderingTable& ot)
             calculatedXposBasedOnWidth = static_cast<s16>((368 - fontWidth) / 2);
         }
         s32 drawnStringOffset = mFont.DrawString(
-            ppOt,
+            ot,
             field_1F4_text,
             calculatedXposBasedOnWidth,
             88,
@@ -2728,7 +2728,7 @@ void Menu::ButtonRemap_Render(OrderingTable& ot)
             calculatedXposBasedOnWidth2 = static_cast<s16>((368 - fontWidth2) / 2);
         }
         polyOffset = mFont.DrawString(
-            ppOt,
+            ot,
             field_1F4_text,
             calculatedXposBasedOnWidth2,
             120,
@@ -2755,7 +2755,7 @@ void Menu::ButtonRemap_Render(OrderingTable& ot)
             calculatedXposBasedOnWidth3 = static_cast<s16>((368 - fontWidth3) / 2);
         }
         polyOffset = mFont.DrawString(
-            ppOt,
+            ot,
             field_1F4_text,
             calculatedXposBasedOnWidth3,
             152,
@@ -2781,7 +2781,7 @@ void Menu::ButtonRemap_Render(OrderingTable& ot)
             chooseAndExitRemapButtons_4D0690[i].xpos,
             chooseAndExitRemapButtons_4D0690[i].ypos,
             chooseAndExitRemapButtons_4D0690[i].inputCommand,
-            ppOt,
+            ot,
             &mFont,
             &polyOffset);
     }
@@ -2977,7 +2977,7 @@ void Menu::SaveLoadFailed_Render(OrderingTable& ot)
 
     s16 xpos = 16;
     const s32 drawWidth = mFont.DrawString(
-        ppOt,
+        ot,
         kErrStr,
         xpos,
         210,
@@ -2994,7 +2994,7 @@ void Menu::SaveLoadFailed_Render(OrderingTable& ot)
         0);
 
     mFont.DrawString(
-        ppOt,
+        ot,
         kErrStr,
         xpos + 2,
         212,
@@ -3176,7 +3176,7 @@ void Menu::ToggleMotions_Render(OrderingTable& ot)
     mButtonAnim.VRender(
         sAbeMotionsButtons[mSelectedButtonIndex.raw].xpos,
         sAbeMotionsButtons[mSelectedButtonIndex.raw].ypos,
-        ppOt,
+        ot,
         0,
         0);
 
@@ -3185,7 +3185,7 @@ void Menu::ToggleMotions_Render(OrderingTable& ot)
         s32 polyOffset = 0;
         for (s32 i = 2; i <= 10; i++)
         {
-            RenderElement(sAbeMotionsInputs[i].xpos, sAbeMotionsInputs[i].ypos, sAbeMotionsInputs[i].inputCommand, ppOt, &mFont, &polyOffset);
+            RenderElement(sAbeMotionsInputs[i].xpos, sAbeMotionsInputs[i].ypos, sAbeMotionsInputs[i].inputCommand, ot, &mFont, &polyOffset);
         }
     }
     else if (mFnUpdate == &Menu::Toggle_Motions_Screens_Update)
@@ -3199,7 +3199,7 @@ void Menu::ToggleMotions_Render(OrderingTable& ot)
                     sGameSpeakInputs[i].xpos,
                     sGameSpeakInputs[i].ypos,
                     sGameSpeakInputs[i].inputCommand,
-                    ppOt,
+                    ot,
                     &mFont,
                     &polyOffset);
             }
@@ -3208,7 +3208,7 @@ void Menu::ToggleMotions_Render(OrderingTable& ot)
         {
             for (s32 i = 9; i < 11; i++)
             {
-                RenderElement(sAbeMotionsInputs[i].xpos, sAbeMotionsInputs[i].ypos, sAbeMotionsInputs[i].inputCommand, ppOt, &mFont, &polyOffset);
+                RenderElement(sAbeMotionsInputs[i].xpos, sAbeMotionsInputs[i].ypos, sAbeMotionsInputs[i].inputCommand, ot, &mFont, &polyOffset);
             }
         }
     }
@@ -3414,7 +3414,7 @@ void Menu::OnResourceLoaded(Menu* /*pMenu*/)
     
 }
 
-void Menu::RenderElement(s32 xpos, s32 ypos, s32 input_command, BasePrimitive** ot, AliveFont* pFont, s32* pPolyOffset)
+void Menu::RenderElement(s32 xpos, s32 ypos, s32 input_command, OrderingTable& ot, AliveFont* pFont, s32* pPolyOffset)
 {
     char_type text[32] = {};
     strcpy(text, Input_GetButtonString(static_cast<InputCommands>(input_command), false)); // TODO: Strongly type all the way back to the button structure

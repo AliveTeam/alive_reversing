@@ -176,7 +176,7 @@ void OrbWhirlWindParticle::Render(OrderingTable& ot)
     mAnim.VRender(
         xpos,
         ypos,
-        ppOt,
+        ot,
         0,
         0);
 }

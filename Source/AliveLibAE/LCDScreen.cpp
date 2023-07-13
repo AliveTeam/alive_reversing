@@ -302,11 +302,11 @@ void LCDScreen::VRender(OrderingTable& ot)
             240};
 
         mPrimClippers[0][gPsxDisplay.mBufferIndex].SetRect(clipRect);
-        OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_RopeWebDrillMeatSaw_24), &mPrimClippers[0][gPsxDisplay.mBufferIndex]);
+        ot.Add(Layer::eLayer_RopeWebDrillMeatSaw_24, &mPrimClippers[0][gPsxDisplay.mBufferIndex]);
 
         gFontDrawScreenSpace = true;
         mFont.DrawString(
-            ppOt,
+            ot,
             mActiveMessage,
             static_cast<s16>(screenXWorld - mOffsetX),
             static_cast<s16>(screenY),
@@ -331,7 +331,7 @@ void LCDScreen::VRender(OrderingTable& ot)
 
         auto* clipper = &mPrimClippers[1][gPsxDisplay.mBufferIndex];
         clipper->SetRect(clipRect);
-        OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_RopeWebDrillMeatSaw_24), clipper);
+        ot.Add(Layer::eLayer_RopeWebDrillMeatSaw_24, clipper);
     }
 }
 
