@@ -383,7 +383,7 @@ s8 DDV_Play_Impl(const char_type* pMovieName)
             }
 
             SYS_EventsPump();
-            PSX_VSync(0);
+            PSX_VSync(VSyncMode::UncappedFps);
 
             if (!bMoreFrames)
             {
@@ -484,7 +484,7 @@ void Movie::VUpdate()
 
 void Movie::DeInit()
 {
-    PSX_VSync(2);
+    PSX_VSync(VSyncMode::LimitTo30Fps);
 
     --gMovieRefCount;
 

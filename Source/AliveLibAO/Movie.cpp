@@ -406,7 +406,7 @@ void Movie::VUpdate()
         }
 
         SYS_EventsPump();
-        PSX_VSync(0);
+        PSX_VSync(VSyncMode::UncappedFps);
     }
 
     if (sFmvSoundEntry.field_4_pDSoundBuffer)

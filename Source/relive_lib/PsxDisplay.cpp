@@ -7,6 +7,8 @@
 #include "Psx.hpp"
 
 PsxDisplay gPsxDisplay = {};
+bool gCommandLine_NoFrameSkip = false;
+bool gDisplayRenderFrame = true;
 
 
 void PSX_Calc_FrameSkip()
@@ -119,7 +121,6 @@ s32 DebugFont_Init() // Font
     }
     DebugFont_Reset_4F8B40();
     sDebugTextIdx = DebugFont_Open_4F8AB0(8, 16, static_cast<u8>(gPsxDisplay.mWidth), 200, 600u);
-    //nullsub_7(sTextIdx_BB47C8);
     sDebugFontTmpBuffer[0] = 0;
     return 0;
 }
@@ -174,34 +175,17 @@ void PSX_DrawDebugTextBuffers()
 
 void PsxDisplay::Init()
 {
-    PSX_VSync(0);
+    PSX_VSync(VSyncMode::UncappedFps);
 
     mBufferIndex = 0;
-    mBitsPerPixel = 16;
 
     mWidth = 640;
     mHeight = 240;
 
-    mMaxBuffers = 1;
-    mBufferSize = 43;
-
     mDrawEnvs[0].mOrderingTable.Clear();
     mDrawEnvs[1].mOrderingTable.Clear();
 
-    PSX_SetDefDispEnv_4F55A0(&mDrawEnvs[0].mDisplayEnv);
-
-    mDrawEnvs[1].mDisplayEnv.screen.x = 0;
-    mDrawEnvs[0].mDisplayEnv.screen.x = 0;
-
-    mDrawEnvs[1].mDisplayEnv.screen.y = 0;
-    mDrawEnvs[0].mDisplayEnv.screen.y = 0;
-
-    mDrawEnvs[1].mDisplayEnv.screen.h = 240;
-    mDrawEnvs[0].mDisplayEnv.screen.h = 240;
-
-   // PSX_PutDispEnv_4F5890();
-
-    PSX_VSync(0);
+    PSX_VSync(VSyncMode::UncappedFps);
 }
 
 void PsxDisplay::PutCurrentDispEnv()
@@ -209,37 +193,27 @@ void PsxDisplay::PutCurrentDispEnv()
     PSX_PutDispEnv_4F5890();
 }
 
-bool gCommandLine_NoFrameSkip = false;
-bool gDisplayRenderFrame = true;
-
 void PsxDisplay::RenderOrderingTable()
 {
-    if (mMaxBuffers <= 1)
+    // Single buffered rendering
+    PSX_Calc_FrameSkip();
+    if (gCommandLine_NoFrameSkip)
     {
-        // Single buffered rendering
-        PSX_Calc_FrameSkip();
-        if (gCommandLine_NoFrameSkip)
+        PSX_DrawOTag(mDrawEnvs[0].mOrderingTable);
+    }
+    else
+    {
+        if (gDisplayRenderFrame)
         {
             PSX_DrawOTag(mDrawEnvs[0].mOrderingTable);
         }
         else
         {
-            if (gDisplayRenderFrame)
-            {
-                PSX_DrawOTag(mDrawEnvs[0].mOrderingTable);
-            }
-            else
-            {
-                gTurnOffRendering = true;
-            }
-            PSX_VSync(2);
+            gTurnOffRendering = true;
         }
-        PSX_PutDispEnv_4F58E0();
-        mDrawEnvs[0].mOrderingTable.Clear();
-        mBufferIndex = 0;
+        PSX_VSync(VSyncMode::LimitTo30Fps);
     }
-    else
-    {
-        ALIVE_FATAL("More than 1 render buffer used");
-    }
+    PSX_PutDispEnv_4F58E0();
+    mDrawEnvs[0].mOrderingTable.Clear();
+    mBufferIndex = 0;
 }

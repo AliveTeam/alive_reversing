@@ -364,7 +364,7 @@ void ResourceManagerWrapper::LoadingLoop(bool bShowLoadingIcon)
         // TODO: Fix
         SYS_EventsPump();
         ProcessLoadingFiles();
-        PSX_VSync(0);
+        PSX_VSync(VSyncMode::UncappedFps);
         const s32 ticks = loading_ticks++ + 1;
         if (bShowLoadingIcon && !bHideLoadingIcon && ticks > 180)
         {

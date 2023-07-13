@@ -9,7 +9,7 @@
 
 extern bool gLatencyHack;
 
-static s32 sVSyncLastMillisecond_BD0F2C = 0;
+static s32 sVSyncLastMillisecond = 0;
 static s32 sLastFrameTimestampMilliseconds_BD0F24 = 0;
 static TPsxEmuCallBack sPsxEmu_put_disp_env_callback_C1D184 = nullptr;
 
@@ -46,21 +46,6 @@ void PSX_PutDispEnv_4F58E0()
     }
 }
 
-
-void PSX_SetDefDispEnv_4F55A0(PSX_DISPENV* pOutEnv)
-{
-    if (!pOutEnv)
-    {
-        ALIVE_FATAL("SetDefDispEnv(): env == NULL");
-        return;
-    }
-
-    PSX_DISPENV defEnv = {};
-    defEnv.screen.w = 256;
-    defEnv.screen.h = 240;
-    memcpy(pOutEnv, &defEnv, sizeof(PSX_DISPENV));
-}
-
 void PSX_PutDispEnv_4F5890()
 {
     if (sPsxEmu_put_disp_env_callback_C1D184)
@@ -92,16 +77,17 @@ void PSX_Prevent_Rendering()
     gTurnOffRendering = true;
 }
 
+
 // If mode is 1, game doesn't frame cap at all. If it is greater than 1, then it caps to (60 / mode) fps.
-void PSX_VSync(s32 mode)
+void PSX_VSync(VSyncMode mode)
 {
     SsSeqCalledTbyT();
 
     const s32 currentTime = SYS_GetTicks();
 
-    if (!sVSyncLastMillisecond_BD0F2C)
+    if (!sVSyncLastMillisecond)
     {
-        sVSyncLastMillisecond_BD0F2C = currentTime;
+        sVSyncLastMillisecond = currentTime;
     }
 
     if (GetGameAutoPlayer().IsPlaying() && GetGameAutoPlayer().NoFpsLimitPlayBack())
@@ -110,43 +96,32 @@ void PSX_VSync(s32 mode)
         return;
     }
 
-    if (mode == 1) // Ignore Frame cap
+    s32 frameTimeInMilliseconds = currentTime - sVSyncLastMillisecond;
+    if (mode == VSyncMode::LimitTo30Fps && frameTimeInMilliseconds < (1000 * 2) / 60)
     {
-        // Do nothing
-    }
-    else if (mode < 0) // Error
-    {
-        ALIVE_FATAL("VSync(): negative param unsupported");
-    }
-    else
-    {
-        s32 frameTimeInMilliseconds = currentTime - sVSyncLastMillisecond_BD0F2C;
-        if (mode > 0 && frameTimeInMilliseconds < 1000 * mode / 60)
+        s32 timeSinceLastFrame = 0;
+        do
         {
-            s32 timeSinceLastFrame = 0;
+            timeSinceLastFrame = SYS_GetTicks() - sVSyncLastMillisecond;
 
-            do
+            // During recording or playback do not call SsSeqCalledTbyT an undeterminate
+            // amount of times as this can leak to de-syncs.
+            if (!GetGameAutoPlayer().IsRecording() && !GetGameAutoPlayer().IsPlaying())
             {
-                timeSinceLastFrame = SYS_GetTicks() - sVSyncLastMillisecond_BD0F2C;
-                // During recording or playback do not call SsSeqCalledTbyT an undeterminate
-                // amount of times as this can leak to de-syncs.
-                if (!GetGameAutoPlayer().IsRecording() && !GetGameAutoPlayer().IsPlaying())
-                {
-                    SsSeqCalledTbyT();
+                SsSeqCalledTbyT();
 
-                    // Prevent max CPU usage, will probably cause stuttering on weaker machines
-                    if (gLatencyHack)
-                    {
-                        SDL_Delay(1);
-                    }
+                // Prevent max CPU usage, will probably cause stuttering on weaker machines
+                if (gLatencyHack)
+                {
+                    SDL_Delay(1);
                 }
             }
-            while (timeSinceLastFrame < 1000 * mode / 60);
-
-            frameTimeInMilliseconds = 1000 * mode / 60;
         }
+        while (timeSinceLastFrame < (1000 * 2) / 60);
 
-        sVSyncLastMillisecond_BD0F2C += frameTimeInMilliseconds;
-        sLastFrameTimestampMilliseconds_BD0F24 = currentTime + frameTimeInMilliseconds;
+        frameTimeInMilliseconds = (1000 * 2) / 60;
     }
+
+    sVSyncLastMillisecond += frameTimeInMilliseconds;
+    sLastFrameTimestampMilliseconds_BD0F24 = currentTime + frameTimeInMilliseconds;
 }

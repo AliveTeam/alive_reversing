@@ -10,8 +10,13 @@ struct PSX_RECT;
 
 using TPsxEmuCallBack = AddPointer_t<s32(u32)>;
 
-void PSX_VSync(s32 mode);
-void PSX_SetDefDispEnv_4F55A0(PSX_DISPENV* pOutEnv);
+enum class VSyncMode
+{
+    UncappedFps,
+    LimitTo30Fps,
+};
+
+void PSX_VSync(VSyncMode mode);
 void PSX_PutDispEnv_4F5890();
 void PSX_PutDispEnv_4F58E0();
 void PSX_EMU_SetCallBack_4F9430(TPsxEmuCallBack fnPtr);
@@ -73,15 +78,6 @@ struct PSX_Pos16 final
 };
 ALIVE_ASSERT_SIZEOF(PSX_Pos16, 0x4);
 
-struct PSX_DISPENV final
-{
-    PSX_RECT screen;
-    s8 isinter;
-    s8 isrgb24;
-    s8 pad0;
-    s8 pad1;
-};
-// TODO: Size
 
 inline bool PSX_Rects_overlap_no_adjustment(const PSX_RECT* pRect1, const PSX_RECT* pRect2)
 {

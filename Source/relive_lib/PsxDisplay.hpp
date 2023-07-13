@@ -29,7 +29,6 @@ inline T PCToPsxX(T x, s32 addX = 0)
 class PSX_Display_Buffer final
 {
 public:
-    PSX_DISPENV mDisplayEnv;
     OrderingTable mOrderingTable;
 };
 
@@ -42,9 +41,6 @@ public:
 
 	s16 mWidth = 0;
 	s16 mHeight = 0;
-    s16 mBitsPerPixel = 0;
-    s16 mMaxBuffers = 0;
-    u16 mBufferSize = 0;
     u16 mBufferIndex = 0;
     PSX_Display_Buffer mDrawEnvs[2] = {};
 };

@@ -24,7 +24,6 @@ void Game_ShowLoadingIcon()
         pParticle->GetAnimation().VRender(320, 220, dispBuffer.mOrderingTable, 0, 0);
         PSX_DrawOTag(dispBuffer.mOrderingTable);
 
-        PSX_SetDefDispEnv_4F55A0(&dispBuffer.mDisplayEnv);
         PSX_PutDispEnv_4F5890();
         pParticle->SetDead(true);
         ResourceManagerWrapper::bHideLoadingIcon = 1;
@@ -39,28 +38,6 @@ ResourceManager::ResourceManager()
 
     SetType(ReliveTypes::eResourceManager);
 }
-
-//void ResourceManager::LoadingLoop(s16 )
-//{
-    //GetGameAutoPlayer().DisableRecorder();
-
-    /*
-    while (!field_20_files_pending_loading.IsEmpty())
-    {
-        SYS_EventsPump();
-        VUpdate(); // vLoadFile_StateMachine_464A70 - process loading of files
-        PSX_VSync(0);
-        const s32 ticks = loading_ticks++ + 1;
-        if (bShowLoadingIcon && !bHideLoadingIcon && ticks > 180)
-        {
-            // Render everything in the ordering table including the loading icon
-            Game_ShowLoadingIcon();
-        }
-    }*/
-
-    //GetGameAutoPlayer().EnableRecorder();
-//}
-
 
 void ResourceManager::VUpdate()
 {

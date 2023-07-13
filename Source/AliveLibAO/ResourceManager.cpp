@@ -22,8 +22,7 @@ void Game_ShowLoadingIcon()
         pParticle->GetAnimation().SetRenderLayer(Layer::eLayer_0);
 
         OrderingTable local_ot;
-        local_ot.Clear();
- 
+
         pParticle->GetAnimation().VRender(320, 220, local_ot, 0, 0);
         PSX_DrawOTag(local_ot);
 
@@ -32,52 +31,5 @@ void Game_ShowLoadingIcon()
         ResourceManagerWrapper::bHideLoadingIcon = true;
     }
 }
-
-//void ResourceManager::LoadingLoop(s16)
-//{
-    //GetGameAutoPlayer().DisableRecorder();
-
-    /*
-    while (gFilesPending_507714 > 0)
-    {
-        SYS_EventsPump();
-
-        for (s32 i = 0; i < gLoadingFiles->Size(); i++)
-        {
-            BaseGameObject* pObjIter = gLoadingFiles->ItemAt(i);
-            if (!pObjIter)
-            {
-                break;
-            }
-
-            if (!pObjIter->GetDead())
-            {
-                pObjIter->VUpdate();
-            }
-
-            if (pObjIter->GetDead())
-            {
-                i = gLoadingFiles->RemoveAt(i);
-                relive_delete pObjIter;
-            }
-        }
-
-        Odd_Sleep_48DD90(16u);
-        PSX_VSync(0);
-
-        loading_ticks++;
-
-        if (bShowLoadingIcon)
-        {
-            if (!bHideLoadingIcon && loading_ticks > 180)
-            {
-                Game_ShowLoadingIcon();
-            }
-        }
-    }
-    */
-
-    //GetGameAutoPlayer().EnableRecorder();
-//}
 
 } // namespace AO

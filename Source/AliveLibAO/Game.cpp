@@ -252,7 +252,7 @@ void Game_Loop()
 
     } // Main loop end
 
-    PSX_VSync(0);
+    PSX_VSync(VSyncMode::UncappedFps);
 
     // Destroy all game objects
     for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
