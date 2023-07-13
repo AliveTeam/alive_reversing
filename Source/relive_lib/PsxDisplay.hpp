@@ -3,7 +3,7 @@
 #include "pch_shared.h"
 #include "Psx.hpp"
 #include "FixedPoint.hpp"
-#include "..\AliveLibAE\PsxRender.hpp"
+#include "../AliveLibAE/PsxRender.hpp"
 
 // 368*40/23 =640
 // This seems to convert from PSX coordinate space to PC coordinate space
