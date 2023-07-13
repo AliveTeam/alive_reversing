@@ -172,7 +172,7 @@ bool MovingBomb::VTakeDamage(BaseGameObject* pFrom)
     return false;
 }
 
-void MovingBomb::VRender(BasePrimitive** ppOt)
+void MovingBomb::VRender(OrderingTable& ot)
 {
     if (GetAnimation().GetRender())
     {

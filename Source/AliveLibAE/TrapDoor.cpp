@@ -151,7 +151,7 @@ TrapDoor::TrapDoor(relive::Path_TrapDoor* pTlv, const Guid& tlvId)
     mStayOpenTime = pTlv->mStayOpenTime;
 }
 
-void TrapDoor::VRender(BasePrimitive** ppOt)
+void TrapDoor::VRender(OrderingTable& ot)
 {
     mXPos += FP_FromInteger(mTrapDoorXOffset);
     BaseAliveGameObject::VRender(ppOt);

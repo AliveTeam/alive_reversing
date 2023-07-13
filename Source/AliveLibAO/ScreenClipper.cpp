@@ -17,7 +17,7 @@ ScreenClipper::~ScreenClipper()
     gObjListDrawables->Remove_Item(this);
 }
 
-void ScreenClipper::VRender(BasePrimitive** ppOt)
+void ScreenClipper::VRender(OrderingTable& ot)
 {
     PSX_RECT clipRect = {};
 

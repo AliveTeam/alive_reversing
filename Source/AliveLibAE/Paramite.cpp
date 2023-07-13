@@ -5569,7 +5569,7 @@ PathLine* Paramite::WebCollision(FP yOff, FP xOff)
     return pLine;
 }
 
-void Paramite::VRender(BasePrimitive** ppOt)
+void Paramite::VRender(OrderingTable& ot)
 {
     if (UpdateDelay() == 0)
     {

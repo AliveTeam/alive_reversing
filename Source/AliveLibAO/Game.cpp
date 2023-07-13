@@ -175,7 +175,7 @@ void Game_Loop()
         }
 
         // Render objects
-        BasePrimitive** ppOt = gPsxDisplay.mDrawEnvs[gPsxDisplay.mBufferIndex].mOrderingTable.mOrderingTable;
+        OrderingTable& ot = gPsxDisplay.mDrawEnvs[gPsxDisplay.mBufferIndex].mOrderingTable.mOrderingTable;
 
         // Render objects
         GetGameAutoPlayer().SyncPoint(SyncPoints::DrawAllStart);

@@ -529,7 +529,7 @@ void BeeSwarm::ToFlyAwayAndDie()
     }
 }
 
-void BeeSwarm::VRender(BasePrimitive** ppOt)
+void BeeSwarm::VRender(OrderingTable& ot)
 {
     GetAnimation().SetRenderLayer(Layer::eLayer_MainMenuButtonBees_38);
     GetAnimation().SetRGB(mRGB.r, mRGB.g, mRGB.b);
@@ -555,7 +555,7 @@ void BeeSwarm::VRender(BasePrimitive** ppOt)
                 GetAnimation().VRender(
                     FP_GetExponent(bee->mXPos - campos_x_delta),
                     FP_GetExponent(bee->mYPos - campos_y_delta),
-                    ppOt,
+                    ot,
                     0,
                     0);
                 bDontClear = 0;
@@ -566,7 +566,7 @@ void BeeSwarm::VRender(BasePrimitive** ppOt)
                 bee->field_10_anim.VRender(
                     FP_GetExponent(PsxToPCX((bee->mXPos - campos_x_delta), FP_FromInteger(11))),
                     FP_GetExponent(bee->mYPos - campos_y_delta),
-                    ppOt, 0, 0);
+                    ot, 0, 0);
                 bee->field_10_anim.GetRenderedSize(&out);
             }
 

@@ -32,7 +32,7 @@ void Well::VScreenChanged()
     SetDead(true);
 }
 
-void Well::VRender(BasePrimitive** ppOt)
+void Well::VRender(OrderingTable& ot)
 {
     mXPos += FP_FromInteger(gTweakX);
     mYPos += FP_FromInteger(gTweakY);

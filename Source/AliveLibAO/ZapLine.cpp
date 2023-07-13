@@ -345,7 +345,7 @@ void ZapLine::VUpdate()
     }
 }
 
-void ZapLine::VRender(BasePrimitive** ppOt)
+void ZapLine::VRender(OrderingTable& ot)
 {
     if (gMap.Is_Point_In_Current_Camera(
             mCurrentLevel,

@@ -548,7 +548,7 @@ void LiftPoint::VUpdate()
     }
 }
 
-void LiftPoint::VRender(BasePrimitive** ppOt)
+void LiftPoint::VRender(OrderingTable& ot)
 {
     PSX_Point mapCoord = {};
     gMap.GetCurrentCamCoords(&mapCoord);

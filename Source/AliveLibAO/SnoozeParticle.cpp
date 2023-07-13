@@ -177,7 +177,7 @@ void SnoozeParticle::VUpdate()
     }
 }
 
-void SnoozeParticle::VRender(BasePrimitive** ppOt)
+void SnoozeParticle::VRender(OrderingTable& ot)
 {
     //Identical to AE except xInScreen, yInScreen are offset by gScreenManager positions
     FP_Point* pCamPos = gScreenManager->mCamPos;

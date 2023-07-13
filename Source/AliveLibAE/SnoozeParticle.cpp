@@ -173,7 +173,7 @@ void SnoozeParticle::VUpdate()
     }
 }
 
-void SnoozeParticle::VRender(BasePrimitive** ppOt)
+void SnoozeParticle::VRender(OrderingTable& ot)
 {
     const s16 bufIdx = gPsxDisplay.mBufferIndex;
 

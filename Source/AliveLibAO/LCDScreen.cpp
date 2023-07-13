@@ -295,7 +295,7 @@ void LCDScreen::VUpdate()
     }
 }
 
-void LCDScreen::VRender(BasePrimitive** ppOt)
+void LCDScreen::VRender(OrderingTable& ot)
 {
     if (gNumCamSwappers == 0)
     {

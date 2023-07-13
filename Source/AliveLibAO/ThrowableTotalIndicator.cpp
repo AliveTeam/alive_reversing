@@ -279,7 +279,7 @@ void ThrowableTotalIndicator::VUpdate()
     }
 }
 
-void ThrowableTotalIndicator::VRender(BasePrimitive** ppOt)
+void ThrowableTotalIndicator::VRender(OrderingTable& ot)
 {
     const FP_Point* camPos = gScreenManager->mCamPos;
     const FP camX = FP_FromInteger(FP_GetExponent(camPos->x - FP_FromInteger(gScreenManager->mCamXOff)));

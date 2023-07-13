@@ -78,12 +78,12 @@ void TorturedMudokon::VScreenChanged()
     SetDead(true);
 }
 
-void TorturedMudokon::VRender(BasePrimitive** ppOt)
+void TorturedMudokon::VRender(OrderingTable& ot)
 {
     mTearsAnim.VRender(
         FP_GetExponent(mXPos - gScreenManager->CamXPos()),
         FP_GetExponent(mYPos - gScreenManager->CamYPos()),
-        ppOt,
+        ot,
         0,
         0);
     if (mTearsAnim.GetRender())
@@ -91,12 +91,12 @@ void TorturedMudokon::VRender(BasePrimitive** ppOt)
         mZapAnim.VRender(
             FP_GetExponent(mXPos - gScreenManager->CamXPos()),
             FP_GetExponent(mYPos - gScreenManager->CamYPos()),
-            ppOt,
+            ot,
             0,
             0);
     }
 
-    BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
+    BaseAnimatedWithPhysicsGameObject::VRender(ot);
 }
 
 TorturedMudokon::~TorturedMudokon()

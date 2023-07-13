@@ -21,10 +21,6 @@ enum class TBlendModes : u32
 };
 } // namespace relive
 
-struct BasePrimitive;
-
-BasePrimitive** OtLayer(BasePrimitive** ppOt, Layer layer);
-void OrderingTable_Add(BasePrimitive** ppOt, BasePrimitive* pItem);
 
 enum class PrimitivesTypes : u8
 {

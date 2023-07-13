@@ -20,7 +20,7 @@ public:
     virtual void VStopAudio() override;
     virtual void VScreenChanged() override;
     virtual void VUpdate() override;
-    virtual void VRender(BasePrimitive** ppOt) override;
+    virtual void VRender(OrderingTable& ot) override;
 
     enum class States : s16
     {

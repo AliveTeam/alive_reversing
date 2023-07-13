@@ -84,7 +84,7 @@ public:
         field_F0_yOff = screenY + FP_FromInteger(offYScaled) + frameHScaled + FP_FromInteger(Math_NextRandom() % 3);
     }
 
-    virtual void VRender(BasePrimitive** ppOt) override
+    virtual void VRender(OrderingTable& ot) override
     {
         if (Is_In_Current_Camera() == CameraPos::eCamCurrent_0)
         {
@@ -214,7 +214,7 @@ private:
         }
     }
 
-    virtual void VRender(BasePrimitive** ppOt) override
+    virtual void VRender(OrderingTable& ot) override
     {
         if (gNumCamSwappers == 0)
         {

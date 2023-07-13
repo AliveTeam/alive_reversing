@@ -12,7 +12,7 @@ void AnimationUnknown::VDecode()
     // Empty
 }
 
-void AnimationUnknown::VRender(s32 xpos, s32 ypos, BasePrimitive** ppOt, s16 /*width*/, s32 /*height*/)
+void AnimationUnknown::VRender(s32 xpos, s32 ypos, OrderingTable& ot, s16 /*width*/, s32 /*height*/)
 {
     Poly_FT4* pPoly = &mPolys[gPsxDisplay.mBufferIndex];
     if (GetRender())
@@ -108,7 +108,7 @@ void AnimationUnknown::VRender(s32 xpos, s32 ypos, BasePrimitive** ppOt, s16 /*w
                 static_cast<s16>(frameH - 1));
 
 
-        OrderingTable_Add(OtLayer(ppOt, GetRenderLayer()), pPoly);
+        ot.Add(GetRenderLayer(), pPoly);
     }
 }
 

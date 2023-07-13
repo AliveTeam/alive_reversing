@@ -12,7 +12,7 @@ public:
     ~RollingBallShaker();
 
     virtual void VUpdate() override;
-    virtual void VRender(BasePrimitive** ppOt) override;
+    virtual void VRender(OrderingTable& ot) override;
 
     Prim_ScreenOffset mPrimScreenOffset[2] = {};
     s16 mShakeTableIdx = 0;

@@ -349,7 +349,7 @@ bool MineCar::CheckFloorCollision(FP hitX, FP hitY)
     return true;
 }
 
-void MineCar::VRender(BasePrimitive** ppOt)
+void MineCar::VRender(OrderingTable& ot)
 {
     if (GetAnimation().GetRender())
     {
@@ -377,12 +377,12 @@ void MineCar::VRender(BasePrimitive** ppOt)
             mTreadAnim.VRender(
                 FP_GetExponent(mXPos - gScreenManager->CamXPos()),
                 FP_GetExponent(mYPos - gScreenManager->CamYPos()),
-                ppOt,
+                ot,
                 0,
                 0);
         }
 
-        BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
+        BaseAnimatedWithPhysicsGameObject::VRender(ot);
     }
 }
 

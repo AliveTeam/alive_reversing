@@ -13,7 +13,7 @@ public:
 
     void LoadAnimations();
     virtual void VUpdate() override;
-    virtual void VRender(BasePrimitive** ppOt) override;
+    virtual void VRender(OrderingTable& ot) override;
 
 
     void AsAlmostACircle(FP xpos, FP ypos, u8 angle);

@@ -29,7 +29,7 @@ public:
     virtual void VScreenChanged() override;
     virtual void VAdd(BaseAliveGameObject* pObj) override;
     virtual void VRemove(BaseAliveGameObject* pObj) override;
-    virtual void VRender(BasePrimitive** ppOt) override;
+    virtual void VRender(OrderingTable& ot) override;
     virtual void VUpdate() override;
 
     s32 mStayOpenTimeTimer = 0;

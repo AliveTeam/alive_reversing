@@ -1209,7 +1209,7 @@ void Fleech::VUpdate()
     }
 }
 
-void Fleech::VRender(BasePrimitive** ot)
+void Fleech::VRender(OrderingTable& ot)
 {
     if (UpdateDelay() == 0)
     {
@@ -1218,7 +1218,7 @@ void Fleech::VRender(BasePrimitive** ot)
     }
 }
 
-void Fleech::RenderEx(BasePrimitive** ot)
+void Fleech::RenderEx(OrderingTable& ot)
 {
     if (mRenderTongue)
     {
@@ -1326,7 +1326,7 @@ void Fleech::RenderEx(BasePrimitive** ot)
             
             currTonguePoly1->SetBlendMode(relive::TBlendModes::eBlend_0);
 
-            OrderingTable_Add(OtLayer(ot, GetAnimation().GetRenderLayer()), currTonguePoly1);
+            ot.Add(GetAnimation().GetRenderLayer(), currTonguePoly1);
 
             Poly_G4* currTonguePoly2 = &mTonguePolys2[i][gPsxDisplay.mBufferIndex];
 
@@ -1368,7 +1368,7 @@ void Fleech::RenderEx(BasePrimitive** ot)
 
             currTonguePoly2->SetBlendMode(relive::TBlendModes::eBlend_0);
 
-            OrderingTable_Add(OtLayer(ot, GetAnimation().GetRenderLayer()), currTonguePoly2);
+            ot.Add(GetAnimation().GetRenderLayer(), currTonguePoly2);
         }
 
         return;

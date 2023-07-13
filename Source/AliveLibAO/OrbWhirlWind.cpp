@@ -57,7 +57,7 @@ void OrbWhirlWind::ToStop()
     mState = ParticlesState::eActive;
 }
 
-void OrbWhirlWind::VRender(BasePrimitive** ppOt)
+void OrbWhirlWind::VRender(OrderingTable& ot)
 {
     for (s32 i = 0; i < mParticleIdx; i++)
     {

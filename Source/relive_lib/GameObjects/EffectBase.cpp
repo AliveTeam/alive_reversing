@@ -22,7 +22,7 @@ EffectBase::~EffectBase()
     gObjListDrawables->Remove_Item(this);
 }
 
-void EffectBase::VRender(BasePrimitive** ppOt)
+void EffectBase::VRender(OrderingTable& ot)
 {
     Poly_G4* pTile = &mEffectBaseTile[gPsxDisplay.mBufferIndex];
     pTile->SetRGB0(static_cast<u8>(mEffectBaseRed), static_cast<u8>(mEffectBaseGreen), static_cast<u8>(mEffectBaseBlue));
@@ -35,6 +35,6 @@ void EffectBase::VRender(BasePrimitive** ppOt)
     if (mEffectBaseRed || mEffectBaseGreen || mEffectBaseBlue || !mSemiTrans)
     {
         pTile->SetSemiTransparent(mSemiTrans);
-        OrderingTable_Add(OtLayer(ppOt, mEffectBaseLayer), pTile);
+        ot.Add(mEffectBaseLayer, pTile);
     }
 }

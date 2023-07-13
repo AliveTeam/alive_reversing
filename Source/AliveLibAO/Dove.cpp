@@ -182,7 +182,7 @@ void Dove::FlyAway(bool spookedInstantly)
 static bool sExtraSeqStarted = false;
 
 
-void Dove::VRender(BasePrimitive** ppOt)
+void Dove::VRender(OrderingTable& ot)
 {
     BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
 }

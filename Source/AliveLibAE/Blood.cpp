@@ -129,7 +129,7 @@ void Blood::VUpdate()
     mUpdateCalls++;
 }
 
-void Blood::VRender(BasePrimitive** ppOt)
+void Blood::VRender(OrderingTable& ot)
 {
     if (gMap.Is_Point_In_Current_Camera(
             mCurrentLevel,

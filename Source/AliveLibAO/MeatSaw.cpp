@@ -350,7 +350,7 @@ void MeatSaw::GrindUpObjects_439CD0()
     }
 }
 
-void MeatSaw::VRender(BasePrimitive** ppOt)
+void MeatSaw::VRender(OrderingTable& ot)
 {
     if (gMap.Is_Point_In_Current_Camera(
             mCurrentLevel,
@@ -360,7 +360,7 @@ void MeatSaw::VRender(BasePrimitive** ppOt)
             0))
     {
         mYOffset = field_F4;
-        BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
+        BaseAnimatedWithPhysicsGameObject::VRender(ot);
 
         mMotorAnim.VRender(
             FP_GetExponent(mXPos
@@ -369,12 +369,9 @@ void MeatSaw::VRender(BasePrimitive** ppOt)
             FP_GetExponent(mYPos
                            + (FP_FromInteger(gScreenManager->mCamYOff + field_E6_max_rise_time))
                            - gScreenManager->mCamPos->y),
-            ppOt,
+            ot,
             0,
             0);
-
-        PSX_RECT rect = {};
-        mMotorAnim.Get_Frame_Rect(&rect);
     }
 }
 

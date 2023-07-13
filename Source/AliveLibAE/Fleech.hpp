@@ -303,7 +303,7 @@ public:
     void LoadAnimations();
 
     virtual void VUpdate() override;
-    virtual void VRender(BasePrimitive** ppOt) override;
+    virtual void VRender(OrderingTable& ot) override;
     virtual void VScreenChanged() override;
     virtual void VOnTlvCollision(relive::Path_TLV* pTlv) override;
     virtual bool VTakeDamage(BaseGameObject* pFrom) override;
@@ -346,7 +346,7 @@ private:
         return static_cast<eFleechMotions>(mCurrentMotion);
     }
 
-    void RenderEx(BasePrimitive** ot);
+    void RenderEx(OrderingTable& ot);
     s16 IsScrabOrParamiteNear(FP radius);
     void Init();
     void InitTonguePolys();

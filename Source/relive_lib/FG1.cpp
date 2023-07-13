@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "FG1.hpp"
 #include "Primitives.hpp"
+#include "../AliveLibAE/PsxRender.hpp"
 
 extern DynamicArrayT<BaseGameObject>* gObjListDrawables;
 
@@ -28,7 +29,7 @@ void FG1::VScreenChanged()
     SetDead(true);
 }
 
-void FG1::VRender(BasePrimitive** ppOt)
+void FG1::VRender(OrderingTable& ot)
 {
     if (mFG1Res.Any())
     {
@@ -38,7 +39,7 @@ void FG1::VRender(BasePrimitive** ppOt)
             mPolys[0].mCam = &mCamRes;
             mPolys[0].SetRGB0(127, 127, 127);
             mPolys[0].SetXYWH(0, 0, 640, 240);
-            OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_FG1_Half_18), &mPolys[0]);
+            ot.Add(Layer::eLayer_FG1_Half_18, &mPolys[0]);
         }
 
         if (mFG1Res.mFg.mImage.mPixels)
@@ -47,7 +48,7 @@ void FG1::VRender(BasePrimitive** ppOt)
             mPolys[1].mCam = &mCamRes;
             mPolys[1].SetRGB0(127, 127, 127);
             mPolys[1].SetXYWH(0, 0, 640, 240);
-            OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_FG1_37), &mPolys[1]);
+            ot.Add(Layer::eLayer_FG1_37, &mPolys[1]);
         }
 
         if (mFG1Res.mBgWell.mImage.mPixels)
@@ -56,7 +57,7 @@ void FG1::VRender(BasePrimitive** ppOt)
             mPolys[2].mCam = &mCamRes;
             mPolys[2].SetRGB0(127, 127, 127);
             mPolys[2].SetXYWH(0, 0, 640, 240);
-            OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_Well_Half_4), &mPolys[2]);
+            ot.Add(Layer::eLayer_Well_Half_4, &mPolys[2]);
         }
 
         if (mFG1Res.mFgWell.mImage.mPixels)
@@ -65,7 +66,7 @@ void FG1::VRender(BasePrimitive** ppOt)
             mPolys[3].mCam = &mCamRes;
             mPolys[3].SetRGB0(127, 127, 127);
             mPolys[3].SetXYWH(0, 0, 640, 240);
-            OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_Well_23), &mPolys[3]);
+            ot.Add(Layer::eLayer_Well_23, &mPolys[3]);
         }
     }
 }

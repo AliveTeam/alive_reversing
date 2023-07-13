@@ -18,7 +18,7 @@ public:
     ~OrbWhirlWind();
 
     virtual void VUpdate() override;
-    virtual void VRender(BasePrimitive** ppOt) override;
+    virtual void VRender(OrderingTable& ot) override;
 
     void ToSpin(FP xpos, FP ypos, FP scale, BaseGameObject* pObj);
     void ToStop();

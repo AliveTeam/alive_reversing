@@ -164,7 +164,7 @@ static const PSX_Point sMeterBarsInfo[kMeterBarsXCount] = {
     {42, 9},
 };
 
-void ColourfulMeter::VRender(BasePrimitive** ppOt)
+void ColourfulMeter::VRender(OrderingTable& ot)
 {
     const s16 screenXOff = FP_GetExponent(gScreenManager->CamXPos() + FP_FromInteger(4));
     const s16 screenYOff = FP_GetExponent(gScreenManager->CamYPos() + FP_FromInteger(4));
@@ -205,7 +205,7 @@ void ColourfulMeter::VRender(BasePrimitive** ppOt)
         }
 
         pPolyG4->SetSemiTransparent(false);
-        OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_Well_23), pPolyG4);
+        ot.Add(Layer::eLayer_Well_23, pPolyG4);
     }
 
     if (gbDrawMeterCountDown)
@@ -221,7 +221,7 @@ void ColourfulMeter::VRender(BasePrimitive** ppOt)
         }
 
         mFont.DrawString(
-            ppOt,
+            ot,
             text,
             mTextX + 1,
             mTextY - 5,

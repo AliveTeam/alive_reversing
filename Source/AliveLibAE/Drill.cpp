@@ -466,7 +466,7 @@ void Drill::VScreenChanged()
     SetDead(true);
 }
 
-void Drill::VRender(BasePrimitive** ppOt)
+void Drill::VRender(OrderingTable& ot)
 {
     if (gMap.Is_Point_In_Current_Camera(
             mCurrentLevel,
@@ -478,17 +478,17 @@ void Drill::VRender(BasePrimitive** ppOt)
         if (mDrillDirection == relive::Path_Drill::DrillDirection::eDown)
         {
             mYPos = mAdjustedYPos - mXYOff;
-            BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
+            BaseAnimatedWithPhysicsGameObject::VRender(ot);
         }
         else if (mDrillDirection == relive::Path_Drill::DrillDirection::eRight)
         {
             mXPos = mAdjustedXPos + mXYOff;
-            BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
+            BaseAnimatedWithPhysicsGameObject::VRender(ot);
         }
         else if (mDrillDirection == relive::Path_Drill::DrillDirection::eLeft)
         {
             mXPos = mAdjustedXPos - mXYOff;
-            BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
+            BaseAnimatedWithPhysicsGameObject::VRender(ot);
         }
     }
 }

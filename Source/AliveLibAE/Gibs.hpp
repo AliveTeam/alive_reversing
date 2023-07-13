@@ -39,7 +39,7 @@ public:
     void LoadAnimations();
 
     virtual void VUpdate() override;
-    virtual void VRender(BasePrimitive** ppOt) override;
+    virtual void VRender(OrderingTable& ot) override;
 
 private:
     FP field_F8_z = {};

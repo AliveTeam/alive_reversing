@@ -158,7 +158,7 @@ void LaughingGas::Init()
     field_5C_prim.pData = field_19C_pMem;
 }
 
-void LaughingGas::VRender(BasePrimitive** ppOt)
+void LaughingGas::VRender(OrderingTable& ot)
 {
     if (field_54_amount_on > FP_FromDouble(0.1) || field_36_bLaughing_gas == Choice_short::eNo_0)
     {
@@ -168,7 +168,7 @@ void LaughingGas::VRender(BasePrimitive** ppOt)
             {
                 DoRender();
             }
-            OrderingTable_Add(OtLayer(ppOt, field_58_layer), &field_5C_prim);
+            ot.Add(field_58_layer, &field_5C_prim);
         }
     }
 }

@@ -146,7 +146,7 @@ GameSpeak::~GameSpeak()
     gEventSystem = nullptr;
 }
 
-void GameSpeak::VRender(BasePrimitive** /*ppOt*/)
+void GameSpeak::VRender(OrderingTable& /*ot*/)
 {
     // Null @ 0x4DBF80
 }

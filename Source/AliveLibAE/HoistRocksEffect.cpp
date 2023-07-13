@@ -171,7 +171,7 @@ void HoistRocksEffect::VUpdate()
     }
 }
 
-void HoistRocksEffect::VRender(BasePrimitive** ppOt)
+void HoistRocksEffect::VRender(OrderingTable& ot)
 {
     for (HoistRockParticle& particle : mRocks)
     {

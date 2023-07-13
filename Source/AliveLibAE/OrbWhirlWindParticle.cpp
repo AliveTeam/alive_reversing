@@ -176,7 +176,7 @@ void OrbWhirlWindParticle::Update()
     }
 }
 
-void OrbWhirlWindParticle::Render(BasePrimitive** ppOt)
+void OrbWhirlWindParticle::Render(OrderingTable& ot)
 {
     const FP x = std::min(gScreenManager->CamXPos(),
                           gScreenManager->CamXPos() + FP_FromInteger(367));

@@ -12,7 +12,7 @@ public:
     FG1(Fg1Resource& pFg1Res, CamResource& camRes);
     ~FG1();
 
-    virtual void VRender(BasePrimitive** ppOt) override;
+    virtual void VRender(OrderingTable& ot) override;
 
     virtual void VUpdate() override
     {

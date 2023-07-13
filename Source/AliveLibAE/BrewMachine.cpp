@@ -68,7 +68,7 @@ void BrewMachine::VUpdate()
     }
 }
 
-void BrewMachine::VRender(BasePrimitive** ppOt)
+void BrewMachine::VRender(OrderingTable& ot)
 {
     if (gMap.mCurrentCamera == mBrewMachineCamera)
     {
@@ -82,7 +82,7 @@ void BrewMachine::VRender(BasePrimitive** ppOt)
         }
 
         mFont.DrawString(
-            ppOt,
+            ot,
             text,
             mTextX,
             mTextY,
@@ -99,5 +99,5 @@ void BrewMachine::VRender(BasePrimitive** ppOt)
             flickerAmount);
     }
 
-    BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
+    BaseAnimatedWithPhysicsGameObject::VRender(ot);
 }

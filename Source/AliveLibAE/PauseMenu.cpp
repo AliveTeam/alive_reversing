@@ -324,7 +324,7 @@ void PauseMenu::Init()
     }
 }
 
-void PauseMenu::VRender(BasePrimitive** ot)
+void PauseMenu::VRender(OrderingTable& ot)
 {
     mPolyOffset = 0;
 
@@ -343,7 +343,7 @@ void PauseMenu::VRender(BasePrimitive** ot)
     pPolys->SetXY2(0, 240);
     pPolys->SetXY3(640, 240);
     pPolys->SetBlendMode(relive::TBlendModes::eBlend_2);
-    OrderingTable_Add(OtLayer(ot, Layer::eLayer_Menu_41), pPolys);
+    ot.Add(Layer::eLayer_Menu_41, pPolys);
 }
 
 void PauseMenu::VScreenChanged()
@@ -354,7 +354,7 @@ void PauseMenu::VScreenChanged()
     }
 }
 
-void PauseMenu::Page_Base_Render(BasePrimitive** ot, PauseMenu::PauseMenuPage* pPage)
+void PauseMenu::Page_Base_Render(OrderingTable& ot, PauseMenu::PauseMenuPage* pPage)
 {
     s32 i = 0;
     PauseMenuPageEntry* e = &pPage->mMenuItems[i];
@@ -773,7 +773,7 @@ static PauseMenu::PauseMenuPage sOverwriteSaveMenuPage = {
     0u};
 
 
-void PauseMenu::Page_Save_Render(BasePrimitive** ot, PauseMenuPage* pPage)
+void PauseMenu::Page_Save_Render(OrderingTable& ot, PauseMenuPage* pPage)
 {
     PauseMenuPage* pPageToRender = &sOverwriteSaveMenuPage;
     if (mSaveState != SaveState::SaveConfirmOverwrite_8)
@@ -794,7 +794,7 @@ void PauseMenu::Page_Status_Update()
     }
 }
 
-void PauseMenu::Page_Status_Render(BasePrimitive** ot, PauseMenuPage* pPage)
+void PauseMenu::Page_Status_Render(OrderingTable& ot, PauseMenuPage* pPage)
 {
     // Render the status icon
     mMudIconAnim.SetRenderLayer(Layer::eLayer_Menu_41);
@@ -918,7 +918,7 @@ void PauseMenu::Page_Load_Update()
     }
 }
 
-void PauseMenu::Page_Load_Render(BasePrimitive** ot, PauseMenuPage* pPage)
+void PauseMenu::Page_Load_Render(OrderingTable& ot, PauseMenuPage* pPage)
 {
     s32 saveIdx = QuikSave::gSavedGameToLoadIdx - 2;
     for (s32 i = 0; i < 6; i++)
@@ -1109,12 +1109,12 @@ void PauseMenu::VUpdate()
                         {
                             if (pObj->GetDrawable())
                             {
-                                pObj->VRender(gPsxDisplay.mDrawEnvs[gPsxDisplay.mBufferIndex].mOrderingTable.mOrderingTable);
+                                pObj->VRender(gPsxDisplay.mDrawEnvs[gPsxDisplay.mBufferIndex].mOrderingTable);
                             }
                         }
                     }
 
-                    gScreenManager->VRender(gPsxDisplay.mDrawEnvs[gPsxDisplay.mBufferIndex].mOrderingTable.mOrderingTable);
+                    gScreenManager->VRender(gPsxDisplay.mDrawEnvs[gPsxDisplay.mBufferIndex].mOrderingTable);
 
                     gPsxDisplay.RenderOrderingTable();
                     Input().Update(GetGameAutoPlayer());

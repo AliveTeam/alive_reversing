@@ -435,7 +435,7 @@ s16 UXB::IsColliding()
     return 0;
 }
 
-void UXB::VRender(BasePrimitive** ppOt)
+void UXB::VRender(OrderingTable& ot)
 {
     if (gMap.Is_Point_In_Current_Camera(
             mCurrentLevel,

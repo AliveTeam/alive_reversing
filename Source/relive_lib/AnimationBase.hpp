@@ -6,6 +6,8 @@
 #include "DynamicArray.hpp"
 #include "RGB16.hpp"
 
+class OrderingTable;
+
 class AnimationBase
 {
 public:
@@ -16,7 +18,7 @@ public:
 
     virtual void VDecode() = 0;
 
-    virtual void VRender(s32 xpos, s32 ypos, BasePrimitive** ppOt, s16 width, s32 height) = 0;
+    virtual void VRender(s32 xpos, s32 ypos, OrderingTable& ppOt, s16 width, s32 height) = 0;
 
     virtual void VCleanUp() = 0;
 

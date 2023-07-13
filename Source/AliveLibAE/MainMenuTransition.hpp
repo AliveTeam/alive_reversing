@@ -23,7 +23,7 @@ public:
 
     void StartTrans(Layer layer, s16 fadeDirection, bool killWhenDone, s16 speed);
 
-    virtual void VRender(BasePrimitive** ppOt) override;
+    virtual void VRender(OrderingTable& ot) override;
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
 

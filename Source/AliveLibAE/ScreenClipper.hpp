@@ -10,7 +10,7 @@ public:
     ScreenClipper(PSX_Point xy, PSX_Point wh, Layer layer);
     ~ScreenClipper();
 
-    virtual void VRender(BasePrimitive** ppOt) override;
+    virtual void VRender(OrderingTable& ot) override;
     virtual void VScreenChanged() override;
     virtual void VUpdate() override;
 

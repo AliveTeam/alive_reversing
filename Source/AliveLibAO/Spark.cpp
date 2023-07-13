@@ -142,7 +142,7 @@ void Spark::VUpdate()
     }
 }
 
-void Spark::VRender(BasePrimitive** ppOt)
+void Spark::VRender(OrderingTable& ot)
 {
     if (gMap.Is_Point_In_Current_Camera(
             sActiveHero->mCurrentLevel,

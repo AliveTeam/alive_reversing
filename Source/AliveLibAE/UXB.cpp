@@ -471,7 +471,7 @@ s32 UXB::IsColliding()
     return 0;
 }
 
-void UXB::VRender(BasePrimitive** ppOt)
+void UXB::VRender(OrderingTable& ot)
 {
     if (GetAnimation().GetRender())
     {

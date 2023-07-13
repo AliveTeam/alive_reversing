@@ -231,7 +231,7 @@ void FlintLockFire::VUpdate()
     }
 }
 
-void FlintLockFire::VRender(BasePrimitive** ppOt)
+void FlintLockFire::VRender(OrderingTable& ot)
 {
     if (Is_In_Current_Camera() == CameraPos::eCamCurrent_0)
     {
@@ -274,14 +274,14 @@ void FlintLockFire::VRender(BasePrimitive** ppOt)
             mFire2Anim.VRender(
                 FP_GetExponent(mXPos + (FP_FromInteger(gScreenManager->mCamXOff)) - gScreenManager->mCamPos->x),
                 FP_GetExponent(mYPos + (FP_FromInteger(gScreenManager->mCamYOff + mYOffset - 28)) - gScreenManager->mCamPos->y),
-                ppOt,
+                ot,
                 0,
                 0);
 
             mFire1Anim.VRender(
                 FP_GetExponent(mXPos + (FP_FromInteger(gScreenManager->mCamXOff - 3)) - gScreenManager->mCamPos->x),
                 FP_GetExponent(mYPos + (FP_FromInteger(gScreenManager->mCamYOff + mYOffset - 28)) - gScreenManager->mCamPos->y),
-                ppOt,
+                ot,
                 0,
                 0);
         }
@@ -289,7 +289,7 @@ void FlintLockFire::VRender(BasePrimitive** ppOt)
         GetAnimation().VRender(
             FP_GetExponent(mXPos + FP_FromInteger(gScreenManager->mCamXOff) - gScreenManager->mCamPos->x),
             FP_GetExponent(mYPos + (FP_FromInteger(mYOffset + gScreenManager->mCamYOff)) - gScreenManager->mCamPos->y),
-            ppOt,
+            ot,
             0,
             0);
 
@@ -300,7 +300,7 @@ void FlintLockFire::VRender(BasePrimitive** ppOt)
             FP_GetExponent(mYPos
                            + (FP_FromInteger(mYOffset + gScreenManager->mCamYOff))
                            - gScreenManager->mCamPos->y),
-            ppOt,
+            ot,
             0,
             0);
 

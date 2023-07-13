@@ -155,7 +155,7 @@ public:
     void LoadAnimations();
 
     virtual void VUpdate() override;
-    virtual void VRender(BasePrimitive** ppOt) override;
+    virtual void VRender(OrderingTable& ot) override;
     virtual void VScreenChanged() override
     { 
         // Empty
@@ -261,7 +261,7 @@ public:
 
     void ControllerMenu_Render_Text_4D26C0(BasePrimitive** pOt);
 
-    void Demo_And_FMV_List_Render_4D4F30(BasePrimitive** ppOt);
+    void Demo_And_FMV_List_Render_4D4F30(OrderingTable& ot);
 
     void t_Unload_AbeSpeak_Res_4D49F0();
 

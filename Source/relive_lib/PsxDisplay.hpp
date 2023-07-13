@@ -3,6 +3,7 @@
 #include "pch_shared.h"
 #include "Psx.hpp"
 #include "FixedPoint.hpp"
+#include "..\AliveLibAE\PsxRender.hpp"
 
 // 368*40/23 =640
 // This seems to convert from PSX coordinate space to PC coordinate space
@@ -25,29 +26,11 @@ inline T PCToPsxX(T x, s32 addX = 0)
     return (((x) *23 + static_cast<T>(addX)) / 40);
 }
 
-struct BasePrimitive;
-
-template<u32 OtLen>
-class OrderingObject final
-{
-public:
-    void Clear()
-    {
-        for (u32 i = 0; i < mLen; i++)
-        {
-            mOrderingTable[i] = nullptr;
-        }
-    }
-
-    const u32 mLen = OtLen;
-    BasePrimitive* mOrderingTable[OtLen] = {};
-};
-
 class PSX_Display_Buffer final
 {
 public:
     PSX_DISPENV mDisplayEnv;
-    OrderingObject<256> mOrderingTable;
+    OrderingTable mOrderingTable;
 };
 
 class PsxDisplay final

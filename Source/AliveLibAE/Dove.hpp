@@ -11,9 +11,10 @@ public:
 
     void LoadAnimations();
     virtual void VUpdate() override;
-    virtual void VRender(BasePrimitive** ppOt) override
+    virtual void VRender(OrderingTable& ot) override
     {
-        BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
+        // TODO: redundant override ?
+        BaseAnimatedWithPhysicsGameObject::VRender(ot);
     }
 
 

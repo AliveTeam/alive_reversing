@@ -143,7 +143,7 @@ void MainMenuTransition::StartTrans_436560(Layer layer, s16 fadeDirection, s16 b
     }
 }
 
-void MainMenuTransition::VRender(BasePrimitive** ppOt)
+void MainMenuTransition::VRender(OrderingTable& ot)
 {
     // TODO: The fixed point math/var needs cleaning up/refactoring in here
     s32 currentValue = field_10_current_Value;

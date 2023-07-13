@@ -177,7 +177,7 @@ AbilityRing::~AbilityRing()
     gObjListDrawables->Remove_Item(this);
 }
 
-void AbilityRing::VRender(BasePrimitive** ppOt)
+void AbilityRing::VRender(OrderingTable& ot)
 {
     if (gMap.Is_Point_In_Current_Camera(
             mRingLevel,

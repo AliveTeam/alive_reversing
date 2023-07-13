@@ -14,7 +14,7 @@ public:
 
     void VUpdate() override;
     void VScreenChanged() override;
-    void VRender(BasePrimitive** ppOt) override;
+    void VRender(OrderingTable& ot) override;
 
     FP CamXPos() const
     {

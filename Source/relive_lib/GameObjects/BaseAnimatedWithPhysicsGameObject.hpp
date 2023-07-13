@@ -39,7 +39,7 @@ public:
     explicit BaseAnimatedWithPhysicsGameObject(s16 resourceArraySize);
     ~BaseAnimatedWithPhysicsGameObject();
 
-    virtual void VRender(BasePrimitive** ppOt) override;
+    virtual void VRender(OrderingTable& ot) override;
 
     virtual PSX_RECT VGetBoundingRect();
     virtual bool VIsObjNearby(FP radius, BaseAnimatedWithPhysicsGameObject* pObj);

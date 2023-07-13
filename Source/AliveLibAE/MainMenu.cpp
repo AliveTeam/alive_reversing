@@ -624,7 +624,7 @@ MainMenuController::~MainMenuController()
     sMainMenuObjectCounter_BB4400--;
 }
 
-void MainMenuController::VRender(BasePrimitive** ppOt)
+void MainMenuController::VRender(OrderingTable& ot)
 {
     if (GetAnimation().GetAnimate()
         && sMainMenuPages_561960[field_214_page_index].field_E_show_character
@@ -1041,7 +1041,7 @@ void MainMenuController::ParamiteSpeak_Load_4D3B70()
     Set_Anim_4D05E0(MainMenuGamespeakAnimIds::eParamite_Idle);
 }
 
-static s32 DrawMenuStringWithShadow(BasePrimitive** ppOt, AliveFont& field_120_font, const char_type* text, s16 x, s16 y, u8 r, u8 g, u8 b, s32& polyOffset)
+static s32 DrawMenuStringWithShadow(OrderingTable& ot, AliveFont& field_120_font, const char_type* text, s16 x, s16 y, u8 r, u8 g, u8 b, s32& polyOffset)
 {
     s32 polyOff = polyOffset;
     polyOff = field_120_font.DrawString(
@@ -1213,7 +1213,7 @@ void MainMenuController::ControllerMenu_Render_Text_4D26C0(BasePrimitive** ot)
 
 s16 word_BB4418 = 0;
 
-void MainMenuController::Demo_And_FMV_List_Render_4D4F30(BasePrimitive** ppOt)
+void MainMenuController::Demo_And_FMV_List_Render_4D4F30(OrderingTable& ot)
 {
     if (word_BB4418)
     {
@@ -2371,7 +2371,7 @@ const MainMenuText kTextInfo_5626A0[10] = {
     {250, 140, kFart, 3u, 0u, 0u, 0u, 0.88f, 1u, 0u, 0u, 0u},
     {250, 172, kSpeak2, 3u, 0u, 0u, 0u, 0.88f, 1u, 0u, 0u, 0u}};
 
-void MainMenuController::RemapInput_Render_4D2A10(BasePrimitive** ppOt)
+void MainMenuController::RemapInput_Render_4D2A10(OrderingTable& ot)
 {
     s32 polyIndex = 0;
     if (dword_BB43F8 == 3)

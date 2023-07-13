@@ -33,7 +33,7 @@ void Animation::DecompressFrame()
     //UploadTexture(pFrameHeader, vram_rect, width_bpp_adjusted);
 }
 
-void Animation::VRender(s32 xpos, s32 ypos, BasePrimitive** ppOt, s16 width, s32 height)
+void Animation::VRender(s32 xpos, s32 ypos, OrderingTable& ot, s16 width, s32 height)
 {
     const s16 xpos_pc = static_cast<s16>(PsxToPCX(xpos));
     const s16 width_pc = static_cast<s16>(PsxToPCX(width));
@@ -147,8 +147,7 @@ void Animation::VRender(s32 xpos, s32 ypos, BasePrimitive** ppOt, s16 width, s32
     pPoly->mFlipY = kFlipY;
     pPoly->mAnim = this;
 
-
-    OrderingTable_Add(OtLayer(ppOt, GetRenderLayer()), pPoly);
+    ot.Add(GetRenderLayer(), pPoly);
 }
 
 void Animation::VCleanUp()

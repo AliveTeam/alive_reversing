@@ -3449,13 +3449,13 @@ void Elum::VUpdate()
     }
 }
 
-void Elum::VRender(BasePrimitive** ppOt)
+void Elum::VRender(OrderingTable& ot)
 {
     if (mCurrentLevel == gMap.mCurrentLevel
         && mCurrentPath == gMap.mCurrentPath
         && !UpdateDelay())
     {
-        BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
+        BaseAnimatedWithPhysicsGameObject::VRender(ot);
     }
 }
 

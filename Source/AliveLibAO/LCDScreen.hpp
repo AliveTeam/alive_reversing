@@ -24,7 +24,7 @@ public:
 
     virtual void VScreenChanged() override;
     virtual void VUpdate() override;
-    virtual void VRender(BasePrimitive** ppOt) override;
+    virtual void VRender(OrderingTable& ot) override;
 
 private:
     Prim_ScissorRect mPrimClippers[2][2] = {};

@@ -452,7 +452,7 @@ void Water::VUpdate()
     }
 }
 
-void Water::VRender(BasePrimitive** ppOt)
+void Water::VRender(OrderingTable& ot)
 {
     if (gMap.Is_Point_In_Current_Camera(
             mCurrentLevel,
@@ -514,7 +514,7 @@ void Water::VRender(BasePrimitive** ppOt)
                 Poly_FT4* pPoly = &pWaterRes->field_20_polys[gPsxDisplay.mBufferIndex];
 
                 pPoly->SetXYWH(polyX, polyY, width, height);
-                OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_Above_FG1_39), pPoly);
+                ot.Add(Layer::eLayer_Above_FG1_39, pPoly);
 
                 if (polyX < xMin)
                 {

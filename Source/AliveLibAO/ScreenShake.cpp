@@ -62,7 +62,7 @@ static const FP_Point sShakeOffsets[16] = {
     {FP_FromInteger(-9), FP_FromInteger(9)}};
 
 
-void ScreenShake::VRender(BasePrimitive** ppOt)
+void ScreenShake::VRender(OrderingTable& ot)
 {
     if (mShakeNumber < 14)
     {

@@ -11,6 +11,7 @@ extern u32 sGnFrame;
 struct BasePrimitive;
 
 class SerializedObjectData;
+class OrderingTable;
 
 class [[nodiscard]] BaseGameObject
 {
@@ -22,7 +23,7 @@ public:
 
     virtual void VUpdate();
 
-    virtual void VRender(BasePrimitive** pOrderingTable);
+    virtual void VRender(OrderingTable& ot);
 
     virtual void VScreenChanged();
 

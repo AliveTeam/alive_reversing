@@ -768,7 +768,7 @@ void Slog::VScreenChanged()
     }
 }
 
-void Slog::VRender(BasePrimitive** ppOt)
+void Slog::VRender(OrderingTable& ot)
 {
     if (UpdateDelay() == 0)
     {

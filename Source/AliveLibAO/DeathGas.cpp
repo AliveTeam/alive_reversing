@@ -111,7 +111,7 @@ void DeathGas::VUpdate()
     }
 }
 
-void DeathGas::VRender(BasePrimitive** ppOt)
+void DeathGas::VRender(OrderingTable& ot)
 {
     for (s32 i = 0; i < 2; i++)
     {

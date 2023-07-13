@@ -25,7 +25,7 @@ public:
     void LoadAnimations();
 
     virtual void VUpdate() override;
-    virtual void VRender(BasePrimitive** ppOt) override;
+    virtual void VRender(OrderingTable& ot) override;
 
     s16 mRgbValue;
     s16 mRgbModifier;
@@ -111,7 +111,7 @@ public:
     void LoadAnimations();
 
     virtual void VUpdate() override;
-    virtual void VRender(BasePrimitive** ppOt) override;
+    virtual void VRender(OrderingTable& ot) override;
     virtual void VScreenChanged() override;
 
     void ProgressInProgressFilesLoading();
@@ -188,18 +188,18 @@ public:
 
     void GameSpeak_To_MainScreen_Update();
 
-    void ToggleMotions_Render(BasePrimitive** ppOt);
-    void SaveLoadFailed_Render(BasePrimitive** ppOt);
-    void ButtonRemap_Render(BasePrimitive** ppOt);
-    void Options_Sound_Render(BasePrimitive** ppOt);
-    void Options_Controller_Render(BasePrimitive** ppOt);
-    void Empty_Render(BasePrimitive** ppOt);
-    void FMV_Or_Level_Select_Render(BasePrimitive** ppOt);
-    void MainScreen_Render(BasePrimitive** ppOt);
-    void GameSpeak_Render(BasePrimitive** ppOt);
-    void Render_NoRefs(BasePrimitive** ppOt);
-    void Load_Render(BasePrimitive** ppOt);
-    void Options_Render(BasePrimitive** ppOt);
+    void ToggleMotions_Render(OrderingTable& ot);
+    void SaveLoadFailed_Render(OrderingTable& ot);
+    void ButtonRemap_Render(OrderingTable& ot);
+    void Options_Sound_Render(OrderingTable& ot);
+    void Options_Controller_Render(OrderingTable& ot);
+    void Empty_Render(OrderingTable& ot);
+    void FMV_Or_Level_Select_Render(OrderingTable& ot);
+    void MainScreen_Render(OrderingTable& ot);
+    void GameSpeak_Render(OrderingTable& ot);
+    void Render_NoRefs(OrderingTable& ot);
+    void Load_Render(OrderingTable& ot);
+    void Options_Render(OrderingTable& ot);
 
     void FMV_Or_Level_Select_Back_Update();
 

@@ -161,7 +161,7 @@ void OrbWhirlWindParticle::Update()
     }
 }
 
-void OrbWhirlWindParticle::Render(BasePrimitive** ppOt)
+void OrbWhirlWindParticle::Render(OrderingTable& ot)
 {
     mAnim.SetSpriteScale(mRenderAsScale);
 

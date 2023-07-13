@@ -675,7 +675,7 @@ void Slig::VUpdate()
     }
 }
 
-void Slig::VRender(BasePrimitive** ppOt)
+void Slig::VRender(OrderingTable& ot)
 {
     if (UpdateDelay() == 0)
     {

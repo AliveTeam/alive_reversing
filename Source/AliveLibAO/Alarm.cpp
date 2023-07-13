@@ -44,7 +44,7 @@ Alarm::~Alarm()
     SwitchStates_Set(mAlarmSwitchId, 0);
 }
 
-void Alarm::VRender(BasePrimitive** ppOt)
+void Alarm::VRender(OrderingTable& ot)
 {
     if (gNumCamSwappers == 0)
     {

@@ -93,7 +93,7 @@ BaseAnimatedWithPhysicsGameObject::~BaseAnimatedWithPhysicsGameObject()
     }
 }
 
-void BaseAnimatedWithPhysicsGameObject::VRender(BasePrimitive** ppOt)
+void BaseAnimatedWithPhysicsGameObject::VRender(OrderingTable& ot)
 {
     if (GetAnimation().GetRender())
     {
@@ -128,7 +128,7 @@ void BaseAnimatedWithPhysicsGameObject::VRender(BasePrimitive** ppOt)
                 GetAnimation().VRender(
                     FP_GetExponent((FP_FromInteger(mXOffset) + mXPos - gScreenManager->CamXPos())),
                     FP_GetExponent((FP_FromInteger(mYOffset) + mYPos - gScreenManager->CamYPos())),
-                    ppOt,
+                    ot,
                     0,
                     0);
             }
@@ -139,7 +139,7 @@ void BaseAnimatedWithPhysicsGameObject::VRender(BasePrimitive** ppOt)
                                    + mXPos - gScreenManager->mCamPos->x),
                     FP_GetExponent((FP_FromInteger(gScreenManager->mCamYOff + mYOffset))
                                    + mYPos - gScreenManager->mCamPos->y),
-                    ppOt,
+                    ot,
                     0,
                     0);
             }
@@ -155,7 +155,7 @@ void BaseAnimatedWithPhysicsGameObject::VRender(BasePrimitive** ppOt)
                     &frameRect,
                     GetSpriteScale(),
                     GetScale());
-                GetShadow()->Render(ppOt);
+                GetShadow()->Render(ot);
             }
         }
     }

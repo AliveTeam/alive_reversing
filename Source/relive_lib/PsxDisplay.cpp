@@ -220,13 +220,13 @@ void PsxDisplay::RenderOrderingTable()
         PSX_Calc_FrameSkip();
         if (gCommandLine_NoFrameSkip)
         {
-            PSX_DrawOTag(mDrawEnvs[0].mOrderingTable.mOrderingTable, mDrawEnvs[0].mOrderingTable.mLen);
+            PSX_DrawOTag(mDrawEnvs[0].mOrderingTable);
         }
         else
         {
             if (gDisplayRenderFrame)
             {
-                PSX_DrawOTag(mDrawEnvs[0].mOrderingTable.mOrderingTable, mDrawEnvs[0].mOrderingTable.mLen);
+                PSX_DrawOTag(mDrawEnvs[0].mOrderingTable);
             }
             else
             {

@@ -48,7 +48,7 @@ void LCDStatusBoard::VUpdate()
     }
 }
 
-void LCDStatusBoard::VRender(BasePrimitive** ppOt)
+void LCDStatusBoard::VRender(OrderingTable& ot)
 {
     char_type text[12] = {};
     sprintf(text, "%02d", Path_GetTotalMuds(gMap.mCurrentLevel, gMap.mCurrentPath) - sRescuedMudokons - sKilledMudokons);

@@ -84,7 +84,7 @@ public:
     static void Spawn(const Guid& tlvInfo);
 
     virtual void VUpdate() override;
-    virtual void VRender(BasePrimitive** ppOt) override;
+    virtual void VRender(OrderingTable& ot) override;
     virtual void VScreenChanged() override;
 
     Elum(const Guid& tlvInfo);

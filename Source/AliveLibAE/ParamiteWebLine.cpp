@@ -199,17 +199,17 @@ PSX_RECT ParamiteWebLine::VGetBoundingRect()
 
 const s16 word_563A8C[10] = {0, 1, -3, 2, -4, 4, -6, 4, 0, 0};
 
-void ParamiteWebLine::VRender(BasePrimitive** ppOt)
+void ParamiteWebLine::VRender(OrderingTable& ot)
 {
     if (!field_104_wobble_idx && !field_1A4_delay_counter)
     {
         field_108_anim_flare.VRender(
             FP_GetExponent(mXPos - gScreenManager->CamXPos()),
             FP_GetExponent(FP_FromInteger(field_1A0_pulse_position) - gScreenManager->CamYPos()),
-            ppOt, 0, 0);
+            ot, 0, 0);
     }
 
-    GetAnimation().VRender(640, 240, ppOt, 0, 0);
+    GetAnimation().VRender(640, 240, ot, 0, 0);
 
     s32 idx = 0;
     s16 render_ypos = field_FA_bottom;
@@ -251,7 +251,7 @@ void ParamiteWebLine::VRender(BasePrimitive** ppOt)
         field_FC_pRes[idx].VRender(
             FP_GetExponent(FP_FromInteger(render_xpos) - gScreenManager->CamXPos()),
             FP_GetExponent(FP_FromInteger(render_ypos) - gScreenManager->CamYPos()),
-            ppOt, 0, 0);
+            ot, 0, 0);
 
         ClipPoly_Vertically(
             &field_FC_pRes[idx].mPolys[gPsxDisplay.mBufferIndex],

@@ -22,7 +22,7 @@ public:
     ~ParticleBurst();
 
     virtual void VUpdate() override;
-    virtual void VRender(BasePrimitive** ppOt) override;
+    virtual void VRender(OrderingTable& ot) override;
 
     ParticleBurst_Item* field_E8_pRes = nullptr;
     s16 field_EC_count = 0;

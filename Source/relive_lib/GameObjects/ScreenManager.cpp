@@ -4,6 +4,7 @@
 #include "ResourceManagerWrapper.hpp"
 #include "Layer.hpp"
 #include "Primitives.hpp"
+#include "../AliveLibAE/PsxRender.hpp"
 
 ScreenManager* gScreenManager = nullptr;
 
@@ -47,7 +48,7 @@ void ScreenManager::VUpdate()
     // Empty
 }
 
-void ScreenManager::VRender(BasePrimitive** ppOt)
+void ScreenManager::VRender(OrderingTable& ot)
 {
     if (mRenderingDisabled)
     {
@@ -61,7 +62,7 @@ void ScreenManager::VRender(BasePrimitive** ppOt)
         mPoly.SetXY2( 0, 240);
         mPoly.SetXY3( 640, 240);
         mPoly.SetRGB0(127, 127, 127);
-        OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_1), &mPoly);
+        ot.Add(Layer::eLayer_1, &mPoly);
         mPoly.mCam = &mCamRes;
     }
 }

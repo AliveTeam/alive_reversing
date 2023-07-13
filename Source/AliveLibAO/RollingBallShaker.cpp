@@ -55,7 +55,7 @@ void RollingBallShaker::VUpdate()
     }
 }
 
-void RollingBallShaker::VRender(BasePrimitive** ppOt)
+void RollingBallShaker::VRender(OrderingTable& ot)
 {
     Prim_ScreenOffset* pPrim = &mPrimScreenOffset[gPsxDisplay.mBufferIndex + 1];
     if (mStopShaking)
@@ -67,7 +67,7 @@ void RollingBallShaker::VRender(BasePrimitive** ppOt)
             screenOff.y = gPsxDisplay.mHeight;
         }
         pPrim->SetOffset(screenOff.x, screenOff.y);
-        OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_0), pPrim);
+        ot.Add(Layer::eLayer_0, pPrim);
 
         // Kill yourself
         SetDead(true);
@@ -81,7 +81,7 @@ void RollingBallShaker::VRender(BasePrimitive** ppOt)
         }
 
         pPrim->SetOffset(screenOff.x, screenOff.y);
-        OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_0), pPrim);
+        ot.Add(Layer::eLayer_0, pPrim);
     }
 }
 

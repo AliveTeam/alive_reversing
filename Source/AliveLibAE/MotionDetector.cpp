@@ -406,7 +406,7 @@ void MotionDetector::VUpdate()
     }
 }
 
-void MotionDetector::VRender(BasePrimitive** ppOt)
+void MotionDetector::VRender(OrderingTable& ot)
 {
     BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
 

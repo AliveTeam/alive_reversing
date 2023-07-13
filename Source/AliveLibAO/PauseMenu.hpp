@@ -13,7 +13,7 @@ public:
 
     virtual void VScreenChanged() override;
     virtual void VUpdate() override;
-    virtual void VRender(BasePrimitive** ppOt) override;
+    virtual void VRender(OrderingTable& ot) override;
 
     struct PauseEntry final
     {
@@ -25,7 +25,7 @@ public:
         u8 mBlue;
         s8 field_B;
     };
-    void DrawEntries(BasePrimitive** ppOt, PauseEntry* entries, s16 compilerhack, s32 polyOffset);
+    void DrawEntries(OrderingTable& ot, PauseEntry* entries, s16 compilerhack, s32 polyOffset);
 
     FontContext mFontContext;
     PalResource mPal;

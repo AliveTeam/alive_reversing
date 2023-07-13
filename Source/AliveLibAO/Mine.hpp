@@ -21,7 +21,7 @@ public:
     virtual bool VTakeDamage(BaseGameObject* pFrom) override;
     virtual void VOnThrowableHit(BaseGameObject* pFrom) override;
     virtual void VOnPickUpOrSlapped() override;
-    virtual void VRender(BasePrimitive** ppOt) override;
+    virtual void VRender(OrderingTable& ot) override;
     virtual void VUpdate() override;
 
     s16 IsColliding();

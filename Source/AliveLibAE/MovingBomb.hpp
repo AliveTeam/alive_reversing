@@ -10,7 +10,7 @@ public:
     ~MovingBomb();
     
     virtual void VUpdate() override;
-    virtual void VRender(BasePrimitive** ppOt) override;
+    virtual void VRender(OrderingTable& ot) override;
     virtual void VOnThrowableHit(BaseGameObject* pFrom) override;
     virtual bool VTakeDamage(BaseGameObject* pFrom) override;
     virtual void VScreenChanged() override;

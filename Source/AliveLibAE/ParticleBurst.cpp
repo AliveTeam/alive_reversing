@@ -178,7 +178,7 @@ ParticleBurst::~ParticleBurst()
     relive_delete[] field_F8_pRes;
 }
 
-void ParticleBurst::VRender(BasePrimitive** ppOt)
+void ParticleBurst::VRender(OrderingTable& ot)
 {
     bool bFirst = true;
     if (gNumCamSwappers == 0)

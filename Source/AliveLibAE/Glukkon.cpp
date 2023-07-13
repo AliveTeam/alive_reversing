@@ -267,7 +267,7 @@ Glukkon::Glukkon(relive::Path_Glukkon* pTlv, const Guid& tlvId)
     Init();
 }
 
-void Glukkon::VRender(BasePrimitive** ot)
+void Glukkon::VRender(OrderingTable& ot)
 {
     s16 eyeIndices[1];
     if (mTlvData.mGlukkonType == relive::Path_Glukkon::GlukkonTypes::eStoryAslik || mTlvData.mGlukkonType == relive::Path_Glukkon::GlukkonTypes::eStoryPhleg)

@@ -136,7 +136,7 @@ bool TimedMine::VTakeDamage(BaseGameObject* pFrom)
     }
 }
 
-void TimedMine::VRender(BasePrimitive** ppOt)
+void TimedMine::VRender(OrderingTable& ot)
 {
     if (gMap.Is_Point_In_Current_Camera(
             mCurrentLevel,

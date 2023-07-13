@@ -577,7 +577,7 @@ void FlyingSlig::VUpdate()
     }
 }
 
-void FlyingSlig::VRender(BasePrimitive** ot)
+void FlyingSlig::VRender(OrderingTable& ot)
 {
     const s16 eyeIndices[] = {60, 62};
     renderWithGlowingEyes(ot, this, field_1F4_mPal, 64, field_27C_r, field_27E_g, field_280_b, &eyeIndices[0], ALIVE_COUNTOF(eyeIndices));

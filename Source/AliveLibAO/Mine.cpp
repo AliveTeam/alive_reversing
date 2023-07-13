@@ -155,7 +155,7 @@ void Mine::VOnPickUpOrSlapped()
     }
 }
 
-void Mine::VRender(BasePrimitive** ppOt)
+void Mine::VRender(OrderingTable& ot)
 {
     if (gMap.Is_Point_In_Current_Camera(
             mCurrentLevel,

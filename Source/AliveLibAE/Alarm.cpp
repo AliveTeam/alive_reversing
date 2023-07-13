@@ -69,7 +69,7 @@ Alarm::~Alarm()
     }
 }
 
-void Alarm::VRender(BasePrimitive** ppOt)
+void Alarm::VRender(OrderingTable& ot)
 {
     if (gNumCamSwappers == 0)
     {

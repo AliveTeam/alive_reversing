@@ -72,7 +72,7 @@ void Fade::VUpdate()
     }
 }
 
-void Fade::VRender(BasePrimitive** ppOt)
+void Fade::VRender(OrderingTable& ot)
 {
     mEffectBaseBlue = mFadeColour;
     mEffectBaseGreen = mFadeColour;

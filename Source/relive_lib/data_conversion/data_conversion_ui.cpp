@@ -4,6 +4,7 @@
 #include <functional>
 #include "../../AliveLibAE/Resources.hpp"
 #include "../../AliveLibAE/Map.hpp"
+#include "../../AliveLibAE/PsxRender.hpp"
 #include "GameObjects/BaseAnimatedWithPhysicsGameObject.hpp"
 #include "AnimationConverter.hpp"
 
@@ -150,14 +151,14 @@ void DataConversionUI::VUpdate()
     }
 }
 
-void DataConversionUI::VRender(BasePrimitive** ppOt)
+void DataConversionUI::VRender(OrderingTable& ot)
 {
-    //mLcdStatusBoard->VRender(ppOt);
-    //mLcd->VRender(ppOt);
+    //mLcdStatusBoard->VRender(ot);
+    //mLcd->VRender(ot);
 
     gFontDrawScreenSpace = true;
-    mFont.DrawString(ppOt, mCurMessage.c_str(), 20, (240)-15, relive::TBlendModes::eBlend_0, 0, 0, Layer::eLayer_0, 127, 127, 127, 0, FP_FromInteger(1), 640, 0);
-    OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_0), &mPoly);
+    mFont.DrawString(ot, mCurMessage.c_str(), 20, (240) - 15, relive::TBlendModes::eBlend_0, 0, 0, Layer::eLayer_0, 127, 127, 127, 0, FP_FromInteger(1), 640, 0);
+    ot.Add(Layer::eLayer_0, &mPoly);
     gFontDrawScreenSpace = false;
 }
 

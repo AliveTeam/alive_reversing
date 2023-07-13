@@ -44,7 +44,7 @@ public:
     s32 MeasureCharacterWidth(char_type character);
     s32 MeasureScaledTextWidth(const char_type* text, FP scale);
 
-    s32 DrawString(BasePrimitive** ppOt, const char_type* text, s32 x, s16 y, relive::TBlendModes blendMode, s32 bSemiTrans, bool disableBlending, Layer layer, u8 r, u8 g, u8 b, s32 polyOffset, FP scale, s32 maxRenderWidth, s16 colorRandomRange);
+    s32 DrawString(OrderingTable& ot, const char_type* text, s32 x, s16 y, relive::TBlendModes blendMode, s32 bSemiTrans, bool disableBlending, Layer layer, u8 r, u8 g, u8 b, s32 polyOffset, FP scale, s32 maxRenderWidth, s16 colorRandomRange);
 
     const char_type* SliceText(const char_type* text, s32 left, FP scale, s32 right);
 

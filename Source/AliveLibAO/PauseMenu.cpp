@@ -544,7 +544,7 @@ PauseMenu::PauseEntry keyboardGameSpeak_4CE0D0[21] = {
     {202, 170, "8", 160u, 160u, 160u, '\0'},
     {0, 0, nullptr, 0u, 0u, 0u, '\0'}};
 
-void PauseMenu::DrawEntries(BasePrimitive** ppOt, PauseEntry* entry, s16 selectedEntryId, s32 polyOffset = 0)
+void PauseMenu::DrawEntries(OrderingTable& ot, PauseEntry* entry, s16 selectedEntryId, s32 polyOffset = 0)
 {
     for (s16 entryId = 0; entry[entryId].field_4_strBuf; ++entryId)
     {
@@ -615,7 +615,7 @@ void PauseMenu::DrawEntries(BasePrimitive** ppOt, PauseEntry* entry, s16 selecte
     OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_Menu_41), pPrim);
 }
 
-void PauseMenu::VRender(BasePrimitive** ppOt)
+void PauseMenu::VRender(OrderingTable& ot)
 {
     switch (field_126_page)
     {

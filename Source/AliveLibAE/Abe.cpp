@@ -1357,7 +1357,7 @@ void Abe::ToKnockback_44E700(s16 bKnockbackSound, s16 bDelayedAnger)
     }
 }
 
-void Abe::VRender(BasePrimitive** ppOt)
+void Abe::VRender(OrderingTable& ot)
 {
     // When in death shrivel don't reset scale else can't shrivel into a black blob
     if (!mShrivel)

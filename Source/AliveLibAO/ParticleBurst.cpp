@@ -238,7 +238,7 @@ void ParticleBurst::VUpdate()
     }
 }
 
-void ParticleBurst::VRender(BasePrimitive** ppOt)
+void ParticleBurst::VRender(OrderingTable& ot)
 {
     if (gNumCamSwappers != 0)
     {

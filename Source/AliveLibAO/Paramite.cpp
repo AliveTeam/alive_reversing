@@ -214,7 +214,7 @@ Paramite::~Paramite()
     MusicController::ClearObject(this);
 }
 
-void Paramite::VRender(BasePrimitive** ppOt)
+void Paramite::VRender(OrderingTable& ot)
 {
     if (UpdateDelay() == 0)
     {

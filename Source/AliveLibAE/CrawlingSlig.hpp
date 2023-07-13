@@ -236,7 +236,7 @@ public:
     ~CrawlingSlig();
 
     virtual void VUpdate() override;
-    virtual void VRender(BasePrimitive** ppOt) override;
+    virtual void VRender(OrderingTable& ot) override;
     virtual void VPossessed() override;
     virtual void VOnTrapDoorOpen() override;
     virtual void VOnTlvCollision(relive::Path_TLV* pTlv) override;

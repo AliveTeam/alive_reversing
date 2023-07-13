@@ -165,7 +165,7 @@ void Mine::VOnPickUpOrSlapped()
     }
 }
 
-void Mine::VRender(BasePrimitive** ppOt)
+void Mine::VRender(OrderingTable& ot)
 {
     if (GetAnimation().GetRender())
     {

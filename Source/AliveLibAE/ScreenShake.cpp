@@ -66,7 +66,7 @@ static const ScreenOffset sShakeOffsets[16] = {
     {-9, 9},
 };
 
-void ScreenShake::VRender(BasePrimitive** ppOt)
+void ScreenShake::VRender(OrderingTable& ot)
 {
     Prim_ScreenOffset* pPrim = &mScreenOffset[gPsxDisplay.mBufferIndex];
     if (mShakeNumber < 14)

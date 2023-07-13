@@ -13,7 +13,7 @@ public:
 
     virtual void VScreenChanged() override;
     virtual bool VTakeDamage(BaseGameObject* pFrom) override;
-    virtual void VRender(BasePrimitive** ppOt) override;
+    virtual void VRender(OrderingTable& ot) override;
     virtual void VOnThrowableHit(BaseGameObject* pFrom) override;
     virtual void VUpdate() override;
 

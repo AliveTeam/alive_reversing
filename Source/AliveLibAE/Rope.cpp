@@ -116,7 +116,7 @@ Rope::~Rope()
     relive_delete[] mRopeAnim;
 }
 
-void Rope::VRender(BasePrimitive** ppOt)
+void Rope::VRender(OrderingTable& ot)
 {
     PSX_Point camPos = {};
     gMap.GetCurrentCamCoords(&camPos);

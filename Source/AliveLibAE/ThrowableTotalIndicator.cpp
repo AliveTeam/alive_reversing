@@ -273,7 +273,7 @@ void ThrowableTotalIndicator::VUpdate()
     }
 }
 
-void ThrowableTotalIndicator::VRender(BasePrimitive** ppOt)
+void ThrowableTotalIndicator::VRender(OrderingTable& ot)
 {
     const FP camX = FP_NoFractional(gScreenManager->CamXPos());
     const FP camY = FP_NoFractional(gScreenManager->CamYPos());

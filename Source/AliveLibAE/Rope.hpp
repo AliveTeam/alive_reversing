@@ -11,7 +11,7 @@ public:
     ~Rope();
 
     virtual void VUpdate() override;
-    virtual void VRender(BasePrimitive** ppOt) override;
+    virtual void VRender(OrderingTable& ot) override;
 
 private:
     s16 mRopeSegmentCount = 0;

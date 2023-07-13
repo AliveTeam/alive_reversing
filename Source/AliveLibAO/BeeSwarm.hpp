@@ -35,7 +35,7 @@ public:
 
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
-    virtual void VRender(BasePrimitive** ppOt) override;
+    virtual void VRender(OrderingTable& ot) override;
 
     void FollowLine(PathLine* pLine, FP target_x, FP target_y, FP speed);
     void Chase(BaseAliveGameObject* pChaseTarget);

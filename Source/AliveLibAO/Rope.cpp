@@ -120,7 +120,7 @@ void Rope::VUpdate()
     // Empty
 }
 
-void Rope::VRender(BasePrimitive** ppOt)
+void Rope::VRender(OrderingTable& ot)
 {
     PSX_Point camPos = {};
     gMap.GetCurrentCamCoords(&camPos);

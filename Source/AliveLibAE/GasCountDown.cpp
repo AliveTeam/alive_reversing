@@ -151,7 +151,7 @@ void GasCountDown::DealDamage()
     }
 }
 
-void GasCountDown::VRender(BasePrimitive** ppOt)
+void GasCountDown::VRender(OrderingTable& ot)
 {
     char_type text[128] = {}; // Bigger buffer to handle large numbers or negative numbers causing a buffer overflow/crash.
     sprintf(text, "%02d:%02d", mGasTimeLeftSecs / 60, mGasTimeLeftSecs % 60);

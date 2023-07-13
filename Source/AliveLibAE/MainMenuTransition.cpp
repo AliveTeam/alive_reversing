@@ -131,7 +131,7 @@ void MainMenuTransition::VUpdate()
     }
 }
 
-void MainMenuTransition::VRender(BasePrimitive** ppOt)
+void MainMenuTransition::VRender(OrderingTable& ot)
 {
     // TODO: The fixed point math/var needs cleaning up/refactoring in here
 

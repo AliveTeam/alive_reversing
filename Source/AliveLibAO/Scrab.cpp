@@ -172,7 +172,7 @@ Scrab::~Scrab()
     MusicController::ClearObject(this);
 }
 
-void Scrab::VRender(BasePrimitive** ppOt)
+void Scrab::VRender(OrderingTable& ot)
 {
     if (UpdateDelay() == 0)
     {

@@ -1770,7 +1770,7 @@ void HintFly::VUpdate()
     }
 }
 
-void HintFly::VRender(BasePrimitive** ppOt)
+void HintFly::VRender(OrderingTable& ot)
 {
     for (s32 i = 0; i < mCounter; i++)
     {
@@ -1786,7 +1786,7 @@ void HintFly::VRender(BasePrimitive** ppOt)
         pSprt->SetXYWH(flyX, flyY, flyW, flyH);
         pSprt->SetBlendMode(relive::TBlendModes::eBlend_1);
 
-        OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_Above_FG1_39), pSprt);
+        ot.Add(Layer::eLayer_Above_FG1_39, pSprt);
     }
 }
 

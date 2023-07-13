@@ -11,7 +11,7 @@ public:
     ~SnoozeParticle();
 
     virtual void VScreenChanged() override;
-    virtual void VRender(BasePrimitive** ppOt) override;
+    virtual void VRender(OrderingTable& ot) override;
     virtual void VUpdate() override;
 
     enum class SnoozeParticleState : s16

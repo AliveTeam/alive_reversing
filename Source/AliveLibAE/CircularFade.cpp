@@ -49,7 +49,7 @@ CircularFade::~CircularFade()
     }
 }
 
-void CircularFade::VRender(BasePrimitive** ppOt)
+void CircularFade::VRender(OrderingTable& ot)
 {
     const u8 fade_rgb = static_cast<u8>((mFadeColour * 60) / 100);
 

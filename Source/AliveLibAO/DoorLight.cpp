@@ -191,7 +191,7 @@ void DoorLight::VUpdate()
     }
 }
 
-void DoorLight::VRender(BasePrimitive** ppOt)
+void DoorLight::VRender(OrderingTable& ot)
 {
     if (gNumCamSwappers == 0)
     {
@@ -203,7 +203,7 @@ void DoorLight::VRender(BasePrimitive** ppOt)
         GetAnimation().VRender(
             FP_GetExponent(FP_FromInteger((FP_GetExponent(xpos) - mWidth / 2))),
             FP_GetExponent(FP_FromInteger((FP_GetExponent(ypos) - mHeight / 2))),
-            ppOt,
+            ot,
             mWidth,
             mHeight);
     }

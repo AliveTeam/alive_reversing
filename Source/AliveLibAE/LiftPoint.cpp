@@ -597,7 +597,7 @@ void LiftPoint::VUpdate()
     }
 }
 
-void LiftPoint::VRender(BasePrimitive** ppOt)
+void LiftPoint::VRender(OrderingTable& ot)
 {
     // Renders the pulley, lift platform and lift platform wheel
 

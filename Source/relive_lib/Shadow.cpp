@@ -157,7 +157,7 @@ void Shadow::Calculate_Position(FP xpos, FP ypos, PSX_RECT* frameRect, FP sprite
     }
 }
 
-void Shadow::Render(BasePrimitive** ppOt)
+void Shadow::Render(OrderingTable& ot)
 {
     if (mEnabled)
     {
@@ -175,7 +175,7 @@ void Shadow::Render(BasePrimitive** ppOt)
             // Note: OG converted to FP and back here but its pointless
             mX1,
             mY1,
-            ppOt,
+            ot,
             (mX2 - mX1) + 1,
             (mY2 - mY1) + 1);
 

@@ -59,13 +59,13 @@ void Text::SetYPos(s32 /*not_used*/, s16 ypos)
     field_5E_ypos = ypos;
 }
 
-void Text::VRender(BasePrimitive** ppOt)
+void Text::VRender(OrderingTable& ot)
 {
     const s16 ypos = field_5E_ypos + 100;
     const s32 xpos = (368 / 2) - (field_5C_xpos / 2);
 
     s32 drawRet1 = field_20_font.DrawString(
-        ppOt,
+        ot,
         field_68_txt_buffer,
         xpos,
         ypos,
@@ -85,7 +85,7 @@ void Text::VRender(BasePrimitive** ppOt)
     if (field_60_bShadow)
     {
         s32 drawRet2 = field_20_font.DrawString(
-            ppOt,
+            ot,
             field_68_txt_buffer,
             xpos + 2,
             ypos + 2,
@@ -102,7 +102,7 @@ void Text::VRender(BasePrimitive** ppOt)
             0);
 
         field_20_font.DrawString(
-            ppOt,
+            ot,
             field_68_txt_buffer,
             xpos - 1,
             ypos - 1,
@@ -177,11 +177,11 @@ s8 Display_Full_Screen_Message_Blocking(s32 /*not_used*/, MessageType messageTyp
    // const PSX_RECT rect = {0, 0, 640, 240};
     //PSX_ClearImage_4F5BD0(&rect, 0, 0, 0);
     SYS_EventsPump();
-    pTextObj->VRender(gPsxDisplay.mDrawEnvs[gPsxDisplay.mBufferIndex].mOrderingTable.mOrderingTable);
+    pTextObj->VRender(gPsxDisplay.mDrawEnvs[gPsxDisplay.mBufferIndex].mOrderingTable);
 
     if (pTextObj2)
     {
-        pTextObj2->VRender(gPsxDisplay.mDrawEnvs[gPsxDisplay.mBufferIndex].mOrderingTable.mOrderingTable);
+        pTextObj2->VRender(gPsxDisplay.mDrawEnvs[gPsxDisplay.mBufferIndex].mOrderingTable);
     }
 
     //Add_Dirty_Area_4ED970(0, 0, 640, 240);

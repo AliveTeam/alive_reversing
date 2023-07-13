@@ -276,7 +276,7 @@ void MotionDetector::VUpdate()
     }
 }
 
-void MotionDetector::VRender(BasePrimitive** ppOt)
+void MotionDetector::VRender(OrderingTable& ot)
 {
     mXPos += FP_FromInteger(11);
     BaseAnimatedWithPhysicsGameObject::VRender(ppOt);

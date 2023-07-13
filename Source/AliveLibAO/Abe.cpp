@@ -1039,7 +1039,7 @@ void Abe::VUpdate()
     }
 }
 
-void Abe::VRender(BasePrimitive** ppOt)
+void Abe::VRender(OrderingTable& ot)
 {
     // When in death shrivel don't reset scale else can't shrivel into a black blob
     if (!mShrivel)

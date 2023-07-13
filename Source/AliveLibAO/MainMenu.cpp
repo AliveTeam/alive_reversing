@@ -351,7 +351,7 @@ void MainMenuFade::VUpdate()
     GetAnimation().SetRGB(mRgbValue, mRgbValue, mRgbValue);
 }
 
-void MainMenuFade::VRender(BasePrimitive** ppOt)
+void MainMenuFade::VRender(OrderingTable& ot)
 {
     GetAnimation().VRender(
         FP_GetExponent(mXPos),
@@ -526,7 +526,7 @@ Menu::~Menu()
     gMainMenuInstanceCount--;
 }
 
-void Menu::VRender(BasePrimitive** ppOt)
+void Menu::VRender(OrderingTable& ot)
 {
     if ((field_204_flags >> 1) & 1)
     {
@@ -779,7 +779,7 @@ void NavigateBetweenTwoPoints(FP& a, FP& b)
     }
 }
 
-void Menu::FMV_Or_Level_Select_Render(BasePrimitive** ppOt)
+void Menu::FMV_Or_Level_Select_Render(OrderingTable& ot)
 {
     // Glow hilight
     mButtonAnim.VRender(
@@ -946,7 +946,7 @@ void Menu::ProgressInProgressFilesLoading()
     */
 }
 
-void Menu::MainScreen_Render(BasePrimitive** ppOt)
+void Menu::MainScreen_Render(OrderingTable& ot)
 {
     mButtonAnim.VRender(
         sMainScreenButtons[mSelectedButtonIndex.raw].xpos,
@@ -1363,7 +1363,7 @@ void Menu::ToGameSpeak_Update()
 }
 
 
-void Menu::GameSpeak_Render(BasePrimitive** ppOt)
+void Menu::GameSpeak_Render(OrderingTable& ot)
 {
 #if AUTO_SWITCH_CONTROLLER // OG Change - Automatically switch between Gamepad/Keyboard GameSpeak Menu if joystick is added/removed
     if (Input().IsJoyStickEnabled() && gMap.mNextCamera == CameraIds::Menu::eGamespeakKeyboard_33)
@@ -1458,7 +1458,7 @@ void Menu::To_Load_Update()
 }
 
 
-void Menu::Load_Render(BasePrimitive** ppOt)
+void Menu::Load_Render(OrderingTable& ot)
 {
     if (field_230_bGoBack || !sSaveIdx)
     {
@@ -1612,7 +1612,7 @@ void Menu::To_Options_Update()
     }
 }
 
-void Menu::Options_Render(BasePrimitive** ppOt)
+void Menu::Options_Render(OrderingTable& ot)
 {
     mButtonAnim.VRender(
         sOptionsButtons[mSelectedButtonIndex.raw].xpos,
@@ -1928,7 +1928,7 @@ static const MenuButtonInputInfo controllerSelectElements_4D0678[2] = {
     {43, 200, InputCommands::eUnPause_OrConfirm},
     {289, 200, InputCommands::eBack}};
 
-void Menu::Options_Controller_Render(BasePrimitive** ppOt)
+void Menu::Options_Controller_Render(OrderingTable& ot)
 {
     if (field_230_bGoBack != -1)
     {
@@ -2063,7 +2063,7 @@ void Menu::To_MainScreen_Update()
     }
 }
 
-void Menu::Options_Sound_Render(BasePrimitive** ppOt)
+void Menu::Options_Sound_Render(OrderingTable& ot)
 {
     mButtonAnim.VRender(
         sSoundOptionsButtons[mSelectedButtonIndex.raw].xpos,
@@ -2632,7 +2632,7 @@ const char_type* inputActions_4D0070[8] = {
     "Run", "Sneak", "Jump", "Speak 1", "Action", "Throw", "Crouch", "Speak 2"};
 
 
-void Menu::ButtonRemap_Render(BasePrimitive** ppOt)
+void Menu::ButtonRemap_Render(OrderingTable& ot)
 {
     AnimId animId = AnimId::None;
     if (field_230_bGoBack == -1)
@@ -2969,7 +2969,7 @@ void Menu::SaveLoadFailed_Update()
     }
 }
 
-void Menu::SaveLoadFailed_Render(BasePrimitive** ppOt)
+void Menu::SaveLoadFailed_Render(OrderingTable& ot)
 {
     // Note: This string in OG was just "Error" which is completely useless, changed to at least
     // give people a clue about what broke.
@@ -3171,7 +3171,7 @@ s32 Menu::StringsEqual(const void* pStr1, const void* pStr2)
     return _strcmpi(static_cast<const char_type*>(pStr1), static_cast<const char_type*>(pStr2));
 }
 
-void Menu::ToggleMotions_Render(BasePrimitive** ppOt)
+void Menu::ToggleMotions_Render(OrderingTable& ot)
 {
     mButtonAnim.VRender(
         sAbeMotionsButtons[mSelectedButtonIndex.raw].xpos,

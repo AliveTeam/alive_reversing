@@ -96,8 +96,8 @@ void Engine::Run()
         {
             dcu.VUpdate();
 
-            BasePrimitive** ppOt = gPsxDisplay.mDrawEnvs[gPsxDisplay.mBufferIndex].mOrderingTable.mOrderingTable;
-            dcu.VRender(ppOt);
+            OrderingTable& ot = gPsxDisplay.mDrawEnvs[gPsxDisplay.mBufferIndex].mOrderingTable;
+            dcu.VRender(ot);
 
             SYS_EventsPump();
             gPsxDisplay.RenderOrderingTable();

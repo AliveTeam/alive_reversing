@@ -6,7 +6,11 @@
 #include "../relive_lib/Renderer/IRenderer.hpp"
 #include "../relive_lib/FatalError.hpp"
 
-static void DrawOTag_HandlePrimRendering(IRenderer& renderer, const BasePrimitive& any)
+// TODO: Refactor, only used by input to enable controller vibration
+s32 gScreenXOffset = 0;
+s32 gScreenYOffset = 0;
+
+void OrderingTable::HandlePrimRendering(IRenderer& renderer, const BasePrimitive& any)
 {
     switch (any.mType)
     {
@@ -36,11 +40,15 @@ static void DrawOTag_HandlePrimRendering(IRenderer& renderer, const BasePrimitiv
     }
 }
 
+void OrderingTable::Clear()
+{
+    for (u32 i = 0; i < mLen; i++)
+    {
+        mOrderingTable[i] = nullptr;
+    }
+}
 
-s32 gScreenXOffset = 0;
-s32 gScreenYOffset = 0;
-
-static void DrawOTagImpl(BasePrimitive** ppOt, u32 len)
+void OrderingTable::DrawOTag()
 {
     gScreenXOffset = 0;
     gScreenYOffset = 0;
@@ -49,9 +57,9 @@ static void DrawOTagImpl(BasePrimitive** ppOt, u32 len)
 
     renderer.StartFrame();
 
-    for (u32 i = 0; i < len; i++)
+    for (u32 i = 0; i < mLen; i++)
     {
-        BasePrimitive* pOtItem = ppOt[i];
+        BasePrimitive* pOtItem = mOrderingTable[i];
         while (pOtItem)
         {
             SsSeqCalledTbyT();
@@ -77,7 +85,7 @@ static void DrawOTagImpl(BasePrimitive** ppOt, u32 len)
                     break;
 
                 default:
-                    DrawOTag_HandlePrimRendering(renderer, *pOtItem);
+                    HandlePrimRendering(renderer, *pOtItem);
                     break;
             }
 
@@ -87,10 +95,30 @@ static void DrawOTagImpl(BasePrimitive** ppOt, u32 len)
     }
 }
 
-void PSX_DrawOTag(BasePrimitive** ppOt, u32 len)
+void OrderingTable::Add(Layer layer, BasePrimitive* pPrim)
 {
+    const u32 otLayer = static_cast<u32>(layer);
+    if (otLayer > mLen)
+    {
+        ALIVE_FATAL("%d layer is out of the ordering table bounds", otLayer);
+    }
+
+    BasePrimitive* pOld = mOrderingTable[otLayer];
+
+    // OT points to the new item
+    mOrderingTable[otLayer] = pPrim;
+
+    // Item points back to whatever used to be in the OT, either a pointer to the next OT element
+    // or the previously added prim.
+    pPrim->mNext = pOld;
+}
+
+void PSX_DrawOTag(OrderingTable& ot)
+{
+    // TODO: refactor global - which also makes this func redundant
     if (!gTurnOffRendering)
     {
-        DrawOTagImpl(ppOt, len);
+        ot.DrawOTag();
+        ot.Clear();
     }
 }

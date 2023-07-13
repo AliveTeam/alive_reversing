@@ -17,7 +17,7 @@ public:
     
     virtual void VScreenChanged() override;
     virtual void VUpdate() override;
-    virtual void VRender(BasePrimitive** ppOt) override;
+    virtual void VRender(OrderingTable& ot) override;
 
 public:
     Guid mTlvId;

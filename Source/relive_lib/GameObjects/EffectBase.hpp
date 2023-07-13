@@ -12,7 +12,7 @@ enum class TBlendModes : u32;
 class EffectBase : public BaseGameObject
 {
 public:
-    virtual void VRender(BasePrimitive** ppOt) override;
+    virtual void VRender(OrderingTable& ot) override;
     EffectBase(Layer layer, relive::TBlendModes blendMode);
     ~EffectBase();
 

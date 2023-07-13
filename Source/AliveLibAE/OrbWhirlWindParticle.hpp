@@ -15,7 +15,7 @@ public:
     void Spin(FP xpos, FP ypos, FP scale, BaseGameObject* pObj);
     void ToStop();
     void Update();
-    void Render(BasePrimitive** ppOt);
+    void Render(OrderingTable& ot);
 
 private:
     void CalculateRenderProperties(s16 bStarted);

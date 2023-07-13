@@ -151,7 +151,7 @@ void ScreenWave::VUpdate()
     }
 }
 
-void ScreenWave::VRender(BasePrimitive** ppOt)
+void ScreenWave::VRender(OrderingTable& ot)
 {
     if (!gMap.Is_Point_In_Current_Camera(
             field_3A_level,
@@ -270,17 +270,8 @@ void ScreenWave::VRender(BasePrimitive** ppOt)
                 pPoly->SetSemiTransparent(false);
                 pPoly->DisableBlending(true);
 
-                OrderingTable_Add(OtLayer(ppOt, field_10_layer), pPoly);
-
-                clearRectSize.x = std::min(clearRectSize.x, minX);
-                clearRectSize.y = std::min(clearRectSize.y, minY);
-                clearRectSize.w = std::max(clearRectSize.w, maxX);
-                clearRectSize.h = std::max(clearRectSize.h, maxY);
+                ot.Add(field_10_layer, pPoly);
             }
-        }
-        if (clearRectSize.y <= clearRectSize.h && clearRectSize.x <= clearRectSize.w)
-        {
-
         }
     }
 }

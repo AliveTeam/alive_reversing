@@ -56,7 +56,7 @@ void LCDStatusBoard::VUpdate()
 }
 
 // Todo: clean up
-void LCDStatusBoard::VRender(BasePrimitive** ppOt)
+void LCDStatusBoard::VRender(OrderingTable& ot)
 {
     if (!mHideBoard)
     {

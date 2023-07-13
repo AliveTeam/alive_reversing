@@ -19,7 +19,7 @@ public:
 private:
 
     virtual void VUpdate() override;
-    virtual void VRender(BasePrimitive** ppOt) override;
+    virtual void VRender(OrderingTable& ot) override;
 
     s16 mAlarmRed = 0;
     s32 mAlarmPauseTimer = 0;
