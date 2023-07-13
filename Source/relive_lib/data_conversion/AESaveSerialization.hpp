@@ -2108,6 +2108,7 @@ inline void to_json(nlohmann::json& j, const ParamiteSaveState& p)
         {"vely", p.mVelY},
         {"path_number", p.mCurrentPath},
         {"lvl_number", p.mCurrentLevel},
+        {"sprite_scale", p.mSpriteScale},
         {"r", p.mR},
         {"g", p.mG},
         {"b", p.mB},
@@ -2157,6 +2158,7 @@ inline void from_json(const nlohmann::json& j, ParamiteSaveState& p)
     j.at("vely").get_to(p.mVelY);
     j.at("path_number").get_to(p.mCurrentPath);
     j.at("lvl_number").get_to(p.mCurrentLevel);
+    j.at("sprite_scale").get_to(p.mSpriteScale);
     j.at("r").get_to(p.mR);
     j.at("g").get_to(p.mG);
     j.at("b").get_to(p.mB);
