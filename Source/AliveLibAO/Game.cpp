@@ -175,9 +175,6 @@ void Game_Loop()
         }
 
         // Render objects
-        OrderingTable& ot = gPsxDisplay.mDrawEnvs[gPsxDisplay.mBufferIndex].mOrderingTable;
-
-        // Render objects
         GetGameAutoPlayer().SyncPoint(SyncPoints::DrawAllStart);
         for (s32 i = 0; i < gObjListDrawables->Size(); i++)
         {
@@ -194,13 +191,13 @@ void Game_Loop()
             else if (pDrawable->GetDrawable())
             {
                 pDrawable->SetCantKill(true);
-                pDrawable->VRender(ot);
+                pDrawable->VRender(gPsxDisplay.mDrawEnv.mOrderingTable);
             }
         }
         GetGameAutoPlayer().SyncPoint(SyncPoints::DrawAllEnd);
 
         DebugFont_Flush();
-        gScreenManager->VRender(ot);
+        gScreenManager->VRender(gPsxDisplay.mDrawEnv.mOrderingTable);
         SYS_EventsPump(); // Exit checking?
 
         GetGameAutoPlayer().SyncPoint(SyncPoints::RenderOT);

@@ -115,12 +115,11 @@ void PauseMenu::VUpdate()
                 {
                     if (pObjIter->GetDrawable())
                     {
-                        pObjIter->VRender(gPsxDisplay.mDrawEnvs[gPsxDisplay.mBufferIndex].mOrderingTable);
+                        pObjIter->VRender(gPsxDisplay.mDrawEnv.mOrderingTable);
                     }
                 }
             }
-            gScreenManager->VRender(
-                gPsxDisplay.mDrawEnvs[gPsxDisplay.mBufferIndex].mOrderingTable);
+            gScreenManager->VRender(gPsxDisplay.mDrawEnv.mOrderingTable);
             gPsxDisplay.RenderOrderingTable();
             Input().Update(GetGameAutoPlayer());
 
@@ -601,7 +600,7 @@ void PauseMenu::DrawEntries(OrderingTable& ot, PauseEntry* entry, s16 selectedEn
     }
 
     const u8 color = field_126_page != PauseMenuPages::ePause_0 ? 100 : 160;
-    Poly_G4* pPrim = &field_158[gPsxDisplay.mBufferIndex];
+    Poly_G4* pPrim = &field_158;
     pPrim->SetRGB0(color, color, color);
     pPrim->SetRGB1(color, color, color);
     pPrim->SetRGB2(color, color, color);

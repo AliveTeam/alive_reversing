@@ -177,13 +177,10 @@ void PsxDisplay::Init()
 {
     PSX_VSync(VSyncMode::UncappedFps);
 
-    mBufferIndex = 0;
-
     mWidth = 640;
     mHeight = 240;
 
-    mDrawEnvs[0].mOrderingTable.Clear();
-    mDrawEnvs[1].mOrderingTable.Clear();
+    mDrawEnv.mOrderingTable.Clear();
 
     PSX_VSync(VSyncMode::UncappedFps);
 }
@@ -199,13 +196,13 @@ void PsxDisplay::RenderOrderingTable()
     PSX_Calc_FrameSkip();
     if (gCommandLine_NoFrameSkip)
     {
-        PSX_DrawOTag(mDrawEnvs[0].mOrderingTable);
+        PSX_DrawOTag(mDrawEnv.mOrderingTable);
     }
     else
     {
         if (gDisplayRenderFrame)
         {
-            PSX_DrawOTag(mDrawEnvs[0].mOrderingTable);
+            PSX_DrawOTag(mDrawEnv.mOrderingTable);
         }
         else
         {
@@ -214,6 +211,5 @@ void PsxDisplay::RenderOrderingTable()
         PSX_VSync(VSyncMode::LimitTo30Fps);
     }
     PSX_PutDispEnv_4F58E0();
-    mDrawEnvs[0].mOrderingTable.Clear();
-    mBufferIndex = 0;
+    mDrawEnv.mOrderingTable.Clear();
 }

@@ -12,7 +12,6 @@ namespace AO {
     inline void to_json(nlohmann::json& j, const SaveData& p)
     {
         j = nlohmann::json{
-            {"save_hash_value", p.mSaveHashValue},
             {"continue_point_zone_number", p.mContinuePoint_ZoneNumber},
             {"continue_point_clear_from_id", p.mContinuePoint_ClearFromId},
             {"continue_point_clear_to_id", p.mContinuePoint_ClearToId},
@@ -81,7 +80,6 @@ namespace AO {
 
     inline void from_json(const nlohmann::json& j, SaveData& p)
     {
-        j.at("save_hash_value").get_to(p.mSaveHashValue);
         j.at("continue_point_zone_number").get_to(p.mContinuePoint_ZoneNumber);
         j.at("continue_point_clear_from_id").get_to(p.mContinuePoint_ClearFromId);
         j.at("continue_point_clear_to_id").get_to(p.mContinuePoint_ClearToId);

@@ -18,7 +18,7 @@ public:
     void Update_Clip_Rect(PSX_Point xy, PSX_Point wh);
 
 private:
-    Prim_ScissorRect mClippers[2] = {};
+    Prim_ScissorRect mClipper = {};
     PSX_RECT mRect = {};
 
 public:

@@ -159,7 +159,7 @@ void Spark::VRender(OrderingTable& ot)
         {
             SparkRes* pSpark = &mSparkRes[i];
 
-            Line_G2* pPrim = &pSpark->mLineG2s[gPsxDisplay.mBufferIndex];
+            Line_G2* pPrim = &pSpark->mLineG2;
 
             const s32 y0 = yOrg + FP_GetExponent(pSpark->mY0 * mSpriteScale);
             const s32 y1 = yOrg + FP_GetExponent(pSpark->mY1 * mSpriteScale);

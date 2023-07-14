@@ -24,7 +24,7 @@ struct ScreenWave_Data final
     FP_Point field_0_uv1[kMaxUVCount][kMaxPolygons + 1];
     FP_Point field_500_uv2[kMaxUVCount][kMaxPolygons + 1];
     FP_Point field_A00_xy[kMaxUVCount];
-    Poly_FT4 field_B00_poly[2][kMaxUVCount][kMaxPolygons];
+    Poly_FT4 field_B00_poly[kMaxUVCount][kMaxPolygons];
 };
 ALIVE_ASSERT_SIZEOF(ScreenWave_Data, 0x3700);
 
@@ -99,14 +99,11 @@ ScreenWave::ScreenWave(FP xpos, FP ypos, Layer layer, FP width, FP speed, s32 ra
         ang2 += 8;
     }
 
-    for (s32 i = 0; i < 2; i++)
+    for (s32 j = 0; j < 32; j++)
     {
-        for (s32 j = 0; j < 32; j++)
+        for (s32 k = 0; k < 4; k++)
         {
-            for (s32 k = 0; k < 4; k++)
-            {
-                pData->field_B00_poly[i][j][k].SetSemiTransparent(false);
-            }
+            pData->field_B00_poly[j][k].SetSemiTransparent(false);
         }
     }
 }
@@ -212,7 +209,7 @@ void ScreenWave::VRender(OrderingTable& ot)
             if (
                 maxX >= 0 && maxY >= 0 && minX < displaySize.x && minY < displaySize.y)
             {
-                Poly_FT4* pPoly = &pScreenWaveData->field_B00_poly[gPsxDisplay.mBufferIndex][i][j];
+                Poly_FT4* pPoly = &pScreenWaveData->field_B00_poly[i][j];
 
                 pPoly->SetXY0(
                        static_cast<s16>(PsxToPCX(x0, 11)),

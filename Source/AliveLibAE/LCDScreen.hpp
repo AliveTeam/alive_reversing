@@ -25,7 +25,7 @@ public:
     virtual void VScreenChanged() override;
 
 private:
-    Prim_ScissorRect mPrimClippers[2][2] = {};
+    Prim_ScissorRect mPrimClippers[2] = {};
     FontContext mFontContext;
     AliveFont mFont = {};
     const char_type* mActiveMessage = nullptr;

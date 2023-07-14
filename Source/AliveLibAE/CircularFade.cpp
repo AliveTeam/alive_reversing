@@ -92,7 +92,7 @@ void CircularFade::VRender(OrderingTable& ot)
 
     const u8 fadeColour = static_cast<u8>(mFadeColour);
 
-    Poly_G4* pTile1 = &mTile1[gPsxDisplay.mBufferIndex];
+    Poly_G4* pTile1 = &mTile1;
     pTile1->SetRGB0(fadeColour, fadeColour, fadeColour);
     pTile1->SetRGB1(fadeColour, fadeColour, fadeColour);
     pTile1->SetRGB2(fadeColour, fadeColour, fadeColour);
@@ -102,7 +102,7 @@ void CircularFade::VRender(OrderingTable& ot)
     pTile1->SetBlendMode(relive::TBlendModes::eBlend_2);
     ot.Add(GetAnimation().GetRenderLayer(), pTile1);
 
-    Poly_G4* pTile2 = &mTile2[gPsxDisplay.mBufferIndex];
+    Poly_G4* pTile2 = &mTile2;
     pTile2->SetRGB0(fadeColour, fadeColour, fadeColour);
     pTile2->SetRGB1(fadeColour, fadeColour, fadeColour);
     pTile2->SetRGB2(fadeColour, fadeColour, fadeColour);
@@ -112,7 +112,7 @@ void CircularFade::VRender(OrderingTable& ot)
     pTile2->SetBlendMode(relive::TBlendModes::eBlend_2);
     ot.Add(GetAnimation().GetRenderLayer(), pTile2);
 
-    Poly_G4* pTile3 = &mTile3[gPsxDisplay.mBufferIndex];
+    Poly_G4* pTile3 = &mTile3;
     pTile3->SetRGB0(fadeColour, fadeColour, fadeColour);
     pTile3->SetRGB1(fadeColour, fadeColour, fadeColour);
     pTile3->SetRGB2(fadeColour, fadeColour, fadeColour);
@@ -122,7 +122,7 @@ void CircularFade::VRender(OrderingTable& ot)
     pTile3->SetBlendMode(relive::TBlendModes::eBlend_2);
     ot.Add(GetAnimation().GetRenderLayer(), pTile3);
 
-    Poly_G4* pTile4 = &mTile4[gPsxDisplay.mBufferIndex];
+    Poly_G4* pTile4 = &mTile4;
     pTile4->SetRGB0(fadeColour, fadeColour, fadeColour);
     pTile4->SetRGB1(fadeColour, fadeColour, fadeColour);
     pTile4->SetRGB2(fadeColour, fadeColour, fadeColour);

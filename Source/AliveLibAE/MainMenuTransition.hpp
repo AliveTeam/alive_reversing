@@ -36,7 +36,7 @@ private:
     s16 field_24_fade_direction = 0;
     bool mKillWhenDone = false;
     s16 field_2A = 0;
-    MainMenuTransition_Polys field_2C_polys[2] = {};
+    MainMenuTransition_Polys field_2C_polys = {};
     Layer mLayer = Layer::eLayer_0;
     s16 field_24E_width = 0;
     s16 field_250_k120 = 0;

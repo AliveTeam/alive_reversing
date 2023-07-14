@@ -19,7 +19,7 @@ public:
 protected:
     s16 mEffectBasePathId = 0;
     EReliveLevelIds mEffectBaseLevelId = EReliveLevelIds::eNone;
-    Poly_G4 mEffectBaseTile[2] = {};
+    Poly_G4 mEffectBaseTile = {};
     Layer mEffectBaseLayer = Layer::eLayer_0;
     s32 mEffectBaseRed = 0;
     s32 mEffectBaseGreen = 0;

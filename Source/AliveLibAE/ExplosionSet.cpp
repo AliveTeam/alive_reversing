@@ -107,18 +107,8 @@ void ExplosionSet::VRender(OrderingTable& ot)
 {
     if (gExplosionSetEnabled)
     {
-        Prim_ScreenOffset* pScreenOff = &mScreenOffset[gPsxDisplay.mBufferIndex];
-
-        PSX_Pos16 point = {};
-        point.x = mScreenShakeOffsets[mScreenShakeIdx].x;
-        point.y = mScreenShakeOffsets[mScreenShakeIdx].y;
-        if (gPsxDisplay.mBufferIndex)
-        {
-            point.y += 256;
-        }
-
-        pScreenOff->SetOffset(point.x, point.y);
-        ot.Add(Layer::eLayer_0, pScreenOff);
+        mScreenOffset.SetOffset(mScreenShakeOffsets[mScreenShakeIdx].x, mScreenShakeOffsets[mScreenShakeIdx].y);
+        ot.Add(Layer::eLayer_0, &mScreenOffset);
     }
 }
 

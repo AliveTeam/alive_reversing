@@ -254,7 +254,7 @@ void ParamiteWebLine::VRender(OrderingTable& ot)
             ot, 0, 0);
 
         ClipPoly_Vertically(
-            &field_FC_pRes[idx].mPolys[gPsxDisplay.mBufferIndex],
+            &field_FC_pRes[idx].mPoly,
             FP_GetExponent(FP_FromInteger(field_F8_top) - gScreenManager->CamYPos()),
             FP_GetExponent(FP_FromInteger(field_FA_bottom) - gScreenManager->CamYPos()));
 

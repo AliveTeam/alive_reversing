@@ -301,8 +301,8 @@ void LCDScreen::VRender(OrderingTable& ot)
             640,
             240};
 
-        mPrimClippers[0][gPsxDisplay.mBufferIndex].SetRect(clipRect);
-        ot.Add(Layer::eLayer_RopeWebDrillMeatSaw_24, &mPrimClippers[0][gPsxDisplay.mBufferIndex]);
+        mPrimClippers[0].SetRect(clipRect);
+        ot.Add(Layer::eLayer_RopeWebDrillMeatSaw_24, &mPrimClippers[0]);
 
         gFontDrawScreenSpace = true;
         mFont.DrawString(
@@ -329,9 +329,8 @@ void LCDScreen::VRender(OrderingTable& ot)
             static_cast<s16>(PsxToPCX(maxWidth - screenX)),
             48};
 
-        auto* clipper = &mPrimClippers[1][gPsxDisplay.mBufferIndex];
-        clipper->SetRect(clipRect);
-        ot.Add(Layer::eLayer_RopeWebDrillMeatSaw_24, clipper);
+        mPrimClippers[1].SetRect(clipRect);
+        ot.Add(Layer::eLayer_RopeWebDrillMeatSaw_24, &mPrimClippers[1]);
     }
 }
 

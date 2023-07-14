@@ -34,7 +34,7 @@ private:
     s16 mStartingSwitchState = 0;
     s16 mBarCount = 0;
     relive::reliveChoice mStartFilled = relive::reliveChoice::eNo;
-    Poly_G4 mPolyG4s[2][kMeterBarsXCount] = {};
+    Poly_G4 mPolyG4s[kMeterBarsXCount] = {};
 };
 
 extern u8 gTotalMeterBars;

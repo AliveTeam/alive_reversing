@@ -291,7 +291,7 @@ void ThrowableTotalIndicator::VRender(OrderingTable& ot)
         const FP y0 = FP_FromInteger(pointData.mPoints[counter].mY1) * mSpriteScale;
         const FP x1 = FP_FromInteger(pointData.mPoints[counter].mX2) * mSpriteScale;
         const FP y1 = FP_FromInteger(pointData.mPoints[counter].mY2) * mSpriteScale;
-        Line_G2* pLine = &mLines[gPsxDisplay.mBufferIndex][counter];
+        Line_G2* pLine = &mLines[counter];
 
         pLine->SetXY0(xpos + FP_GetExponent(x0), ypos + FP_GetExponent(y0));
         pLine->SetXY1(xpos + FP_GetExponent(x1), ypos + FP_GetExponent(y1));

@@ -14,11 +14,11 @@ void AnimationUnknown::VDecode()
 
 void AnimationUnknown::VRender(s32 xpos, s32 ypos, OrderingTable& ot, s16 /*width*/, s32 /*height*/)
 {
-    Poly_FT4* pPoly = &mPolys[gPsxDisplay.mBufferIndex];
+    Poly_FT4* pPoly = &mPoly;
     if (GetRender())
     {
         // Copy from animation to local
-        *pPoly = mAnimPtr->mOtData[gPsxDisplay.mBufferIndex];
+        *pPoly = mAnimPtr->mPoly;
 
         const PerFrameInfo* pFrameInfoHeader = mAnimPtr->Get_FrameHeader(-1);
 
@@ -114,6 +114,6 @@ void AnimationUnknown::VRender(s32 xpos, s32 ypos, OrderingTable& ot, s16 /*widt
 
 void AnimationUnknown::GetRenderedSize(PSX_RECT* pRect)
 {
-    Poly_FT4_Get_Rect(pRect, &mPolys[gPsxDisplay.mBufferIndex]);
+    Poly_FT4_Get_Rect(pRect, &mPoly);
 }
 

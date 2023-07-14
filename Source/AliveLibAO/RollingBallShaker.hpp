@@ -14,7 +14,7 @@ public:
     virtual void VUpdate() override;
     virtual void VRender(OrderingTable& ot) override;
 
-    Prim_ScreenOffset mPrimScreenOffset[2] = {};
+    Prim_ScreenOffset mPrimScreenOffset = {};
     s16 mShakeTableIdx = 0;
     bool mStopShaking = false;
 };

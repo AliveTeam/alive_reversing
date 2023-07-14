@@ -27,7 +27,7 @@ public:
     virtual void VRender(OrderingTable& ot) override;
 
 private:
-    Prim_ScissorRect mPrimClippers[2][2] = {};
+    Prim_ScissorRect mPrimClippers[2] = {};
     FontContext mFontContext;
     AliveFont mFont;
     char_type* mActiveMessage = nullptr;

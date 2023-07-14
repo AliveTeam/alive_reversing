@@ -135,27 +135,19 @@ void Text::VRender(OrderingTable& ot)
 // MainMenuController::ChangeScreenAndIntroLogic_4CF640 will call with type 3 (Shown on boot, says Abe's Exoddus).
 
 // TODO: When above functions are reversed clean up this function to remove strange dead cases..
-s8 Display_Full_Screen_Message_Blocking(s32 /*not_used*/, MessageType messageType)
+s8 Display_Full_Screen_Message_Blocking(MessageType messageType)
 {
+    // TODO: Why doesn't this go into the switch ??
     if (messageType == MessageType::eSkipMovie_1)
     {
         return 0;
     }
 
-    auto pTextObj = relive_new Text(messageType == MessageType::eShortTitle_3 ? "    Abe's Exoddus    " : "       Oddworld Abe's Exoddus        ", 1, 0);
+    auto pTextObj = relive_new Text("       Oddworld Abe's Exoddus        ", 1, 0);
 
     Text* pTextObj2 = nullptr;
     switch (messageType)
     {
-        case MessageType::eLongTitle_0:
-            // Never read ?
-            //dword_55C128 = -1;
-            break;
-
-        case MessageType::eShortTitle_3:
-            // Do nothing
-            break;
-
         // Dead due to early return ??
         case MessageType::eSkipMovie_1:
             pTextObj2 = relive_new Text("or esc to skip the movie", 1, 0);
@@ -174,17 +166,14 @@ s8 Display_Full_Screen_Message_Blocking(s32 /*not_used*/, MessageType messageTyp
             break;
     }
 
-   // const PSX_RECT rect = {0, 0, 640, 240};
-    //PSX_ClearImage_4F5BD0(&rect, 0, 0, 0);
     SYS_EventsPump();
-    pTextObj->VRender(gPsxDisplay.mDrawEnvs[gPsxDisplay.mBufferIndex].mOrderingTable);
+    pTextObj->VRender(gPsxDisplay.mDrawEnv.mOrderingTable);
 
     if (pTextObj2)
     {
-        pTextObj2->VRender(gPsxDisplay.mDrawEnvs[gPsxDisplay.mBufferIndex].mOrderingTable);
+        pTextObj2->VRender(gPsxDisplay.mDrawEnv.mOrderingTable);
     }
 
-    //Add_Dirty_Area_4ED970(0, 0, 640, 240);
     gDisplayRenderFrame = false;
     gPsxDisplay.RenderOrderingTable();
 
@@ -194,11 +183,6 @@ s8 Display_Full_Screen_Message_Blocking(s32 /*not_used*/, MessageType messageTyp
     }
 
     u32 displayForMsecs = GetGameAutoPlayer().SysGetTicks() + 1000;
-
-    if (messageType == MessageType::eShortTitle_3)
-    {
-        displayForMsecs += 4000;
-    }
 
     if (GetGameAutoPlayer().IsRecording() || GetGameAutoPlayer().IsPlaying())
     {
@@ -212,12 +196,9 @@ s8 Display_Full_Screen_Message_Blocking(s32 /*not_used*/, MessageType messageTyp
         while (!Input_IsVKPressed_4EDD40(VK_RETURN))
         {
             // User quit
-            if (messageType != MessageType::eLongTitle_0 && Input_IsVKPressed_4EDD40(VK_ESCAPE))
+            if (Input_IsVKPressed_4EDD40(VK_ESCAPE))
             {
                 bQuitViaEnterOrTimeOut = 0; // Nope, quitting via escape key
-
-                // TODO: Never read?
-                //dword_55C128 = sLevelId_dword_5CA408;
 
                 // Wait for escape to come back up
                 while (Input_IsVKPressed_4EDD40(VK_ESCAPE))
@@ -263,13 +244,13 @@ s8 Display_Full_Screen_Message_Blocking(s32 /*not_used*/, MessageType messageTyp
     if (pTextObj)
     {
         gBaseGameObjects->Remove_Item(pTextObj);
-        delete pTextObj;
+        relive_delete pTextObj;
     }
 
     if (pTextObj2)
     {
         gBaseGameObjects->Remove_Item(pTextObj2);
-        delete pTextObj2;
+        relive_delete pTextObj2;
     }
 
     return bQuitViaEnterOrTimeOut;

@@ -42,15 +42,8 @@ void ScreenClipper::VRender(OrderingTable& ot)
     clipRect.w = mRect.w - mRect.x;
     clipRect.h = mRect.h - mRect.y;
 
-    if (gPsxDisplay.mBufferIndex)
-    {
-        // Move to the lower buffer if not using the top buffer
-        clipRect.y += 256;
-    }
-
-    Prim_ScissorRect* pClipper = &mClippers[gPsxDisplay.mBufferIndex];
-    pClipper->SetRect(clipRect);
-    ot.Add(mOtLayer, pClipper);
+    mClipper.SetRect(clipRect);
+    ot.Add(mOtLayer, &mClipper);
 }
 
 ScreenClipper::~ScreenClipper()

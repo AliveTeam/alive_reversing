@@ -297,7 +297,7 @@ void MotionDetector::VRender(OrderingTable& ot)
         const s16 y2 = y1 + bLaserRect.y - bLaserRect.h;
         const s16 x1 = static_cast<s16>(PsxToPCX(FP_GetExponent(pLaser->mXPos) - screen_left, 11));
 
-        Poly_G3* pPrim = &mPrims[gPsxDisplay.mBufferIndex];
+        Poly_G3* pPrim = &mPrim;
 
         pPrim->SetXY0(x0, y0);
         pPrim->SetXY1(x1, y1);

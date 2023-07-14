@@ -56,11 +56,8 @@ MainMenuTransition::MainMenuTransition(Layer layer, s32 fadeDirection, bool kill
 
     for (s32 i = 0; i < 8; i++)
     {
-        field_2C_polys[0].mPolys[i].SetSemiTransparent(true);
-        field_2C_polys[0].mPolys[i].SetBlendMode(blendMode);
-
-        field_2C_polys[1].mPolys[i].SetSemiTransparent(true);
-        field_2C_polys[1].mPolys[i].SetBlendMode(blendMode);
+        field_2C_polys.mPolys[i].SetSemiTransparent(true);
+        field_2C_polys.mPolys[i].SetBlendMode(blendMode);
     }
 
     mLayer = layer;
@@ -215,7 +212,7 @@ void MainMenuTransition::VRender(OrderingTable& ot)
         s32 v27 = v26 + Math_FixedPoint_Multiply(v36, val1);
         s32 v28 = Math_FixedPoint_Multiply(op1, y1);
         y1 = this->field_250_k120 + (Math_FixedPoint_Multiply(v27, v28) >> 16); // LOWORD
-        Poly_G3* pPoly = &field_2C_polys[gPsxDisplay.mBufferIndex].mPolys[i];
+        Poly_G3* pPoly = &field_2C_polys.mPolys[i];
 
         pPoly->SetRGB0(static_cast<u8>(r0g0), static_cast<u8>(r0g0), 255);
         pPoly->SetRGB1(static_cast<u8>(rgValue), static_cast<u8>(rgValue), static_cast<u8>(bValue));

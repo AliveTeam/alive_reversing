@@ -82,8 +82,8 @@ Water::Water(relive::Path_Water* pTlv, const Guid& tlvId)
         for (s32 i = 0; i < field_124_tlv_data.mMaxDrops; i++)
         {
             field_F8_pWaterRes[i].field_18_enabled = 0;
-            // HACK/OG BUG: PC only uses first poly ??
-            Poly_FT4* pPoly = &field_F8_pWaterRes[i].field_20_polys[0];
+
+            Poly_FT4* pPoly = &field_F8_pWaterRes[i].field_20_poly;
 
             pPoly->SetSemiTransparent(true);
             pPoly->DisableBlending(true);
@@ -511,7 +511,7 @@ void Water::VRender(OrderingTable& ot)
                     }
                 }
 
-                Poly_FT4* pPoly = &pWaterRes->field_20_polys[gPsxDisplay.mBufferIndex];
+                Poly_FT4* pPoly = &pWaterRes->field_20_poly;
 
                 pPoly->SetXYWH(polyX, polyY, width, height);
                 ot.Add(Layer::eLayer_Above_FG1_39, pPoly);

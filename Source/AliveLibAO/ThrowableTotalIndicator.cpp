@@ -309,7 +309,7 @@ void ThrowableTotalIndicator::VRender(OrderingTable& ot)
             BasePrimitiveX = PsxToPCX(xpos, 11);
         }
 
-        Line_G2* pLine = &mLines[gPsxDisplay.mBufferIndex][counter];
+        Line_G2* pLine = &mLines[counter];
 
         pLine->SetXY0(BasePrimitiveX + FP_GetExponent(x0), ypos + FP_GetExponent(y0));
         pLine->SetXY1(BasePrimitiveX + FP_GetExponent(x1), ypos + FP_GetExponent(y1));

@@ -12,7 +12,7 @@ struct BloodParticle final
     FP y;
     FP mOffX;
     FP mOffY;
-    Poly_FT4 field_10_prims[2];
+    Poly_FT4 field_10_prim;
 };
 ALIVE_ASSERT_SIZEOF(BloodParticle, 0x40);
 

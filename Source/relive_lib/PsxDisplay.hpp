@@ -41,8 +41,7 @@ public:
 
 	s16 mWidth = 0;
 	s16 mHeight = 0;
-    u16 mBufferIndex = 0;
-    PSX_Display_Buffer mDrawEnvs[2] = {};
+    PSX_Display_Buffer mDrawEnv = {};
 };
 
 extern PsxDisplay gPsxDisplay;

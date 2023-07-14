@@ -332,7 +332,7 @@ void PauseMenu::VRender(OrderingTable& ot)
     (this->*mActiveMenu.mFnRender)(ot, &mActiveMenu);
 
     // Draw a full screen polygon that "dims" out the screen while paused
-    Poly_G4* pPolys = &mPolyG4s[gPsxDisplay.mBufferIndex];
+    Poly_G4* pPolys = &mPolyG4;
     pPolys->SetSemiTransparent(true);
     pPolys->DisableBlending(false);
     pPolys->SetRGB0(mActiveMenu.mBgRed, mActiveMenu.mBgGreen, mActiveMenu.mBgBlue);
@@ -1109,12 +1109,12 @@ void PauseMenu::VUpdate()
                         {
                             if (pObj->GetDrawable())
                             {
-                                pObj->VRender(gPsxDisplay.mDrawEnvs[gPsxDisplay.mBufferIndex].mOrderingTable);
+                                pObj->VRender(gPsxDisplay.mDrawEnv.mOrderingTable);
                             }
                         }
                     }
 
-                    gScreenManager->VRender(gPsxDisplay.mDrawEnvs[gPsxDisplay.mBufferIndex].mOrderingTable);
+                    gScreenManager->VRender(gPsxDisplay.mDrawEnv.mOrderingTable);
 
                     gPsxDisplay.RenderOrderingTable();
                     Input().Update(GetGameAutoPlayer());

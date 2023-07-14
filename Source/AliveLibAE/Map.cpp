@@ -356,12 +356,12 @@ void Map::RemoveObjectsWithPurpleLight(s16 bMakeInvisible)
                     // TODO: Seems strange to check this flag, how did it get in the drawable list if its not a drawable ??
                     if (pDrawable->GetDrawable())
                     {
-                        pDrawable->VRender(gPsxDisplay.mDrawEnvs[gPsxDisplay.mBufferIndex].mOrderingTable);
+                        pDrawable->VRender(gPsxDisplay.mDrawEnv.mOrderingTable);
                     }
                 }
             }
 
-            gScreenManager->VRender(gPsxDisplay.mDrawEnvs[gPsxDisplay.mBufferIndex].mOrderingTable);
+            gScreenManager->VRender(gPsxDisplay.mDrawEnv.mOrderingTable);
             SYS_EventsPump();
             gPsxDisplay.RenderOrderingTable();
         }

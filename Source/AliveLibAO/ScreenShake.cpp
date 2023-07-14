@@ -66,71 +66,17 @@ void ScreenShake::VRender(OrderingTable& ot)
 {
     if (mShakeNumber < 14)
     {
-        Prim_ScreenOffset* pPrim = &mScreenOffset[gPsxDisplay.mBufferIndex];
-
-        s16 xoff = 0;
-        s16 yoff = 0;
-        xoff = FP_GetExponent(sShakeOffsets[mShakeNumber].x); // TODO: Div 16 ??
-        yoff = FP_GetExponent(sShakeOffsets[mShakeNumber].y);
-
-        if (gPsxDisplay.mBufferIndex)
-        {
-            yoff += gPsxDisplay.mHeight;
-        }
+        const s16 xoff = FP_GetExponent(sShakeOffsets[mShakeNumber].x); // TODO: Div 16 ??
+        const s16 yoff = FP_GetExponent(sShakeOffsets[mShakeNumber].y);
 
         PSX_Pos16 offset = {};
         offset.x = PsxToPCX(xoff); // TODO + 11 ?
-        if (gPsxDisplay.mBufferIndex)
-        {
-            offset.y = yoff + gPsxDisplay.mHeight;
-        }
-        else
-        {
-            offset.y = yoff;
-        }
+        offset.y = yoff;
 
-        pPrim->SetOffset(offset.x, offset.y);
-        ot.Add(Layer::eLayer_0, pPrim);
+        mScreenOffset.SetOffset(offset.x, offset.y);
+        ot.Add(Layer::eLayer_0, &mScreenOffset);
 
-        if (offset.y != 0)
-        {
-            PSX_RECT clearRect = {};
-            if (offset.y < 0)
-            {
-                clearRect.y = offset.y + gPsxDisplay.mHeight;
-                clearRect.h = -offset.y;
-            }
-            else if (offset.y > 0)
-            {
-                clearRect.y = 0;
-                clearRect.h = offset.y;
-            }
-
-            clearRect.x = 0;
-            clearRect.w = 640; // Could probably replace with `gPsxDisplay.mWidth`
-            //PSX_ClearImage_496020(&clearRect, 0, 0, 0);
-        }
-
-        if (offset.x != 0)
-        {
-            PSX_RECT clearRect = {};
-            if (offset.x < 0)
-            {
-                clearRect.x = offset.x + 640; // Could probably replace with `gPsxDisplay.mWidth`
-                clearRect.w = -offset.x;
-            }
-            else if (offset.x > 0)
-            {
-                clearRect.x = 0;
-                clearRect.w = offset.x;
-            }
-
-            clearRect.y = 0;
-            clearRect.h = gPsxDisplay.mHeight;
-            //PSX_ClearImage_496020(&clearRect, 0, 0, 0);
-        }
-
-        if (!mShakeNumber)
+        if (mShakeNumber == 0)
         {
             SetDead(true);
         }

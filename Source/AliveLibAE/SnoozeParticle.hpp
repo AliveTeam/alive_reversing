@@ -33,8 +33,8 @@ private:
     RGB16 mRGB;
     u16 mIdx = 0;
     bool mBlowUp = false;
-    Line_G4 mG4Lines[2] = {};
-    Line_G2 mG2Lines[2][6] = {};
+    Line_G4 mG4Line = {};
+    Line_G2 mG2Lines[6] = {};
 
 public:
     SnoozeParticleState mState = SnoozeParticleState::eRising_0;

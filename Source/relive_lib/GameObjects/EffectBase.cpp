@@ -24,7 +24,7 @@ EffectBase::~EffectBase()
 
 void EffectBase::VRender(OrderingTable& ot)
 {
-    Poly_G4* pTile = &mEffectBaseTile[gPsxDisplay.mBufferIndex];
+    Poly_G4* pTile = &mEffectBaseTile;
     pTile->SetRGB0(static_cast<u8>(mEffectBaseRed), static_cast<u8>(mEffectBaseGreen), static_cast<u8>(mEffectBaseBlue));
     pTile->SetRGB1(static_cast<u8>(mEffectBaseRed), static_cast<u8>(mEffectBaseGreen), static_cast<u8>(mEffectBaseBlue));
     pTile->SetRGB2(static_cast<u8>(mEffectBaseRed), static_cast<u8>(mEffectBaseGreen), static_cast<u8>(mEffectBaseBlue));

@@ -33,10 +33,6 @@ enum class RingTypes : s16
     eHealing_Pulse_14 = 14,
 };
 
-struct AbilityRing_PolyBuffer final
-{
-    Poly_G4 mPolys[2];
-};
 
 struct AbilityRingSaveState final : public SaveStateBase
 {
@@ -77,7 +73,7 @@ private:
     void CollideWithObjects(s16 bDealDamage);
 
     Layer mRingLayer = Layer::eLayer_0;
-    AbilityRing_PolyBuffer* mRingPolyBuffer = relive_new AbilityRing_PolyBuffer[64];
+    Poly_G4 mRingPolyBuffer[64] = {};
     PSX_RECT mRingCollideRects[64] = {};
     FP mRingXPos = {};
     FP mRingYPos = {};

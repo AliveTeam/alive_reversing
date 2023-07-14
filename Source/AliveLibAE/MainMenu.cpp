@@ -1934,7 +1934,7 @@ MainMenuNextCam MainMenuController::LoadDemo_Update_4D1040(u32)
             {
                 dword_55C128 = -1;
             }
-            if (!Display_Full_Screen_Message_Blocking(Path_Get_Unknown(sDemos_5617F0[demoId].field_4_level), MessageType::eSkipDemo_2))
+            if (!Display_Full_Screen_Message_Blocking(MessageType::eSkipDemo_2))
             {
                 field_1F8_page_timeout = 0;
                 if (gIsDemoStartedManually)

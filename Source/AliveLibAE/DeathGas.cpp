@@ -13,7 +13,7 @@ struct Data_FP final
 
 struct GasPolys final
 {
-    Poly_G4 polys[2][4][4][2];
+    Poly_G4 polys[2][4][4];
 };
 
 struct Data_Byte final
@@ -43,16 +43,13 @@ DeathGas::DeathGas(Layer layer, s32 amount)
 
     for (s32 i = 0; i < 2; i++)
     {
-        for (s32 j = 0; j < 2; j++)
+        for (s32 k = 0; k < 4; k++)
         {
-            for (s32 k = 0; k < 4; k++)
+            for (s32 l = 0; l < 4; l++)
             {
-                for (s32 l = 0; l < 4; l++)
-                {
-                    Poly_G4* pPoly = &gasPolys_5BC6E8.polys[i][k][l][j];
-                    pPoly->SetSemiTransparent(true);
-                    pPoly->SetBlendMode(relive::TBlendModes::eBlend_1);
-                }
+                Poly_G4* pPoly = &gasPolys_5BC6E8.polys[i][k][l];
+                pPoly->SetSemiTransparent(true);
+                pPoly->SetBlendMode(relive::TBlendModes::eBlend_1);
             }
         }
     }
@@ -170,7 +167,7 @@ void DeathGas::VRender(OrderingTable& ot)
         {
             for (s32 k = 0; k < 4; k++)
             {
-                Poly_G4* pPoly = &gasPolys_5BC6E8.polys[i][j][k][gPsxDisplay.mBufferIndex];
+                Poly_G4* pPoly = &gasPolys_5BC6E8.polys[i][j][k];
 
                 pPoly->SetRGB0(0, sbyte_3_5BD0E8.data[i][j][k], 0);
                 pPoly->SetRGB1(0, sbyte_3_5BD0E8.data[i][j][k + 1], 0);

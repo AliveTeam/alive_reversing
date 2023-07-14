@@ -57,31 +57,19 @@ void RollingBallShaker::VUpdate()
 
 void RollingBallShaker::VRender(OrderingTable& ot)
 {
-    Prim_ScreenOffset* pPrim = &mPrimScreenOffset[gPsxDisplay.mBufferIndex + 1];
     if (mStopShaking)
     {
         // Unshake the screen
-        PSX_Pos16 screenOff = {};
-        if (gPsxDisplay.mBufferIndex)
-        {
-            screenOff.y = gPsxDisplay.mHeight;
-        }
-        pPrim->SetOffset(screenOff.x, screenOff.y);
-        ot.Add(Layer::eLayer_0, pPrim);
+        mPrimScreenOffset.SetOffset(0, 0);
+        ot.Add(Layer::eLayer_0, &mPrimScreenOffset);
 
         // Kill yourself
         SetDead(true);
     }
     else
     {
-        PSX_Pos16 screenOff = sRollingBallShakerScreenOffsets[mShakeTableIdx];
-        if (gPsxDisplay.mBufferIndex)
-        {
-            screenOff.y += gPsxDisplay.mHeight;
-        }
-
-        pPrim->SetOffset(screenOff.x, screenOff.y);
-        ot.Add(Layer::eLayer_0, pPrim);
+        mPrimScreenOffset.SetOffset(sRollingBallShakerScreenOffsets[mShakeTableIdx].x, sRollingBallShakerScreenOffsets[mShakeTableIdx].y);
+        ot.Add(Layer::eLayer_0, &mPrimScreenOffset);
     }
 }
 

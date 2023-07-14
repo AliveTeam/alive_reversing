@@ -32,7 +32,7 @@ public:
     s16 field_14_fade_direction = 0;
     s16 field_16_bDone = 0;
     s16 field_18_bKillOnDone = 0;
-    MainMenuTransition_Polys field_1C_polys[2] = {};
+    MainMenuTransition_Polys field_1C_poly = {};
     Layer field_23C_layer = Layer::eLayer_0;
     s16 field_23E_width = 0;
     s16 field_240_k120 = 0;

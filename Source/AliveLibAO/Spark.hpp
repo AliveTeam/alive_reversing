@@ -17,7 +17,7 @@ struct SparkRes final
     // 3 byte pad
     FP mRadius;
     FP mLen;
-    Line_G2 mLineG2s[2];
+    Line_G2 mLineG2;
 };
 
 enum class SparkType : s16

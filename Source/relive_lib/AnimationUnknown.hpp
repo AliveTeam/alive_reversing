@@ -13,7 +13,7 @@ public:
     void GetRenderedSize(PSX_RECT* pRect);
 
 public:
-    Poly_FT4 mPolys[2] = {};
+    Poly_FT4 mPoly = {};
     Animation* mAnimPtr = nullptr;
     FP mSpriteScale = {};
 };

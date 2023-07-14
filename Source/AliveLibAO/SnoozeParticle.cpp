@@ -181,7 +181,6 @@ void SnoozeParticle::VRender(OrderingTable& ot)
 {
     //Identical to AE except xInScreen, yInScreen are offset by gScreenManager positions
     FP_Point* pCamPos = gScreenManager->mCamPos;
-    const s16 bufIdx = gPsxDisplay.mBufferIndex;
 
     if (mState == SnoozeParticleState::eBlowingUp_2)
     {
@@ -190,7 +189,7 @@ void SnoozeParticle::VRender(OrderingTable& ot)
 
         for (s32 i = 0; i < ALIVE_COUNTOF(explosionVerts); i++)
         {
-            Line_G2* pZExplosionLine = &mG2Lines[bufIdx][i];
+            Line_G2* pZExplosionLine = &mG2Lines[i];
 
             const s32 scaledLineRelativeStartX = FP_GetExponent(FP_FromInteger(explosionVerts[i][0].x) * mSpriteScale);
             const s32 scaledLineRelativeStartY = FP_GetExponent(FP_FromInteger(explosionVerts[i][0].y) * mSpriteScale);
@@ -218,7 +217,7 @@ void SnoozeParticle::VRender(OrderingTable& ot)
     }
     else
     {
-        Line_G4* pZLine = &mG4Lines[bufIdx];
+        Line_G4* pZLine = &mG4Line;
 
         const s16 xInScreen = FP_GetExponent(mXPos - pCamPos->x) + gScreenManager->mCamXOff;
         const s16 yInScreen = FP_GetExponent(mYPos - pCamPos->y) + gScreenManager->mCamYOff;

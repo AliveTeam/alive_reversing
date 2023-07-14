@@ -6,9 +6,9 @@
 
 namespace AO {
 
+// Note this is the "relive" copy/format of the save data
 struct SaveData final
 {
-    s32 mSaveHashValue;
     s16 mContinuePoint_ZoneNumber;
     s16 mContinuePoint_ClearFromId;
     s16 mContinuePoint_ClearToId;
@@ -84,7 +84,6 @@ public:
     static bool SaveToFile(const char_type* name);
 
     static s16 GetPathId(s16 pathToFind, s16* outFoundPathRow = nullptr);
-    static s32 Hash(SaveData* table);
 };
 
 extern const s8 word_4BC670[6][8];

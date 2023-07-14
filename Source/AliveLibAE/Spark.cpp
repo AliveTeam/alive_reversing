@@ -23,6 +23,7 @@ Spark::Spark(FP xpos, FP ypos, FP scale, s32 count, s32 minAngle, s32 maxAngle, 
     mXPos = xpos;
     mYPos = ypos;
     mSpriteScale = scale;
+    mSparkCount = count;
 
     if (scale == FP_FromDouble(0.5))
     {
@@ -37,7 +38,6 @@ Spark::Spark(FP xpos, FP ypos, FP scale, s32 count, s32 minAngle, s32 maxAngle, 
     mRed = 31;
     mGreen = 31;
 
-    mSparkCount = static_cast<s16>(count);
     mSparkRes = relive_new SparkRes[mSparkCount];
     if (mSparkRes)
     {
@@ -152,7 +152,7 @@ void Spark::VRender(OrderingTable& ot)
         {
             SparkRes* pSpark = &mSparkRes[i];
 
-            Line_G2* pPrim = &pSpark->mLineG2s[gPsxDisplay.mBufferIndex];
+            Line_G2* pPrim = &pSpark->mLineG2;
 
             const s32 y0 = yOrg + FP_GetExponent(pSpark->mY0 * mSpriteScale);
             const s32 y1 = yOrg + FP_GetExponent(pSpark->mY1 * mSpriteScale);

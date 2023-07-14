@@ -14,7 +14,7 @@ struct SparkRes final
     // 3 byte pad
     FP mRadius;
     FP mLen;
-    Line_G2 mLineG2s[2];
+    Line_G2 mLineG2;
 };
 
 enum class SparkType : s16
@@ -42,7 +42,7 @@ private:
     s16 mBlue = 0;
     Layer mLayer = Layer::eLayer_0;
     SparkRes* mSparkRes = nullptr;
-    s16 mSparkCount = 0;
+    s32 mSparkCount = 0;
     s32 mTimer = 0;
     SparkType mSparkType = SparkType::eSmallChantParticle_0;
 };

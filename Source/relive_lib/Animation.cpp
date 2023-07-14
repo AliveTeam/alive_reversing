@@ -71,11 +71,10 @@ void Animation::VRender(s32 xpos, s32 ypos, OrderingTable& ot, s16 width, s32 he
         yOffset_scaled = FP_FromInteger(pFrameInfoHeader->mYOffset);
     }
 
-    Poly_FT4* pPoly = &mOtData[gPsxDisplay.mBufferIndex];
-    pPoly->SetSemiTransparent( GetSemiTrans());
-    pPoly->DisableBlending(GetBlending());
+    mPoly.SetSemiTransparent(GetSemiTrans());
+    mPoly.DisableBlending(GetBlending());
 
-    pPoly->SetRGB0(mRgb.r & 0xFF, mRgb.g & 0xFF, mRgb.b & 0xFF);
+    mPoly.SetRGB0(mRgb.r & 0xFF, mRgb.g & 0xFF, mRgb.b & 0xFF);
 
     u8 u1 = 0 /*mVramRect.x & 63*/;
 
@@ -131,23 +130,23 @@ void Animation::VRender(s32 xpos, s32 ypos, OrderingTable& ot, s16 width, s32 he
         polyYPos += FP_GetExponent(FP_NoFractional(yOffset_scaled));
     }
 
-    pPoly->SetUV0(kFlipX ? u0 : u1, kFlipY ? v1 : v0);
-    pPoly->SetUV1(kFlipX ? u1 : u0, kFlipY ? v1 : v0);
-    pPoly->SetUV2(kFlipX ? u0 : u1, kFlipY ? v0 : v1);
-    pPoly->SetUV3(kFlipX ? u1 : u0, kFlipY ? v0 : v1);
+    mPoly.SetUV0(kFlipX ? u0 : u1, kFlipY ? v1 : v0);
+    mPoly.SetUV1(kFlipX ? u1 : u0, kFlipY ? v1 : v0);
+    mPoly.SetUV2(kFlipX ? u0 : u1, kFlipY ? v0 : v1);
+    mPoly.SetUV3(kFlipX ? u1 : u0, kFlipY ? v0 : v1);
 
-    pPoly->SetXY0(polyXPos, polyYPos);
-    pPoly->SetXY1(polyXPos + FP_GetExponent(scaled_width), polyYPos);
-    pPoly->SetXY2(polyXPos, polyYPos + FP_GetExponent(scaled_height));
-    pPoly->SetXY3(polyXPos + FP_GetExponent(scaled_width), polyYPos + FP_GetExponent(scaled_height));
+    mPoly.SetXY0(polyXPos, polyYPos);
+    mPoly.SetXY1(polyXPos + FP_GetExponent(scaled_width), polyYPos);
+    mPoly.SetXY2(polyXPos, polyYPos + FP_GetExponent(scaled_height));
+    mPoly.SetXY3(polyXPos + FP_GetExponent(scaled_width), polyYPos + FP_GetExponent(scaled_height));
 
-    pPoly->SetBlendMode(GetBlendMode());
+    mPoly.SetBlendMode(GetBlendMode());
 
-    pPoly->mFlipX = kFlipX;
-    pPoly->mFlipY = kFlipY;
-    pPoly->mAnim = this;
+    mPoly.mFlipX = kFlipX;
+    mPoly.mFlipY = kFlipY;
+    mPoly.mAnim = this;
 
-    ot.Add(GetRenderLayer(), pPoly);
+    ot.Add(GetRenderLayer(), &mPoly);
 }
 
 void Animation::VCleanUp()
@@ -381,7 +380,7 @@ const PerFrameInfo* Animation::Get_FrameHeader(s32 frame)
 
 void Animation::Get_Frame_Rect(PSX_RECT* pRect)
 {
-    Poly_FT4* pPoly = &mOtData[gPsxDisplay.mBufferIndex];
+    Poly_FT4* pPoly = &mPoly;
     if (!GetIgnorePosOffset())
     {
         Poly_FT4_Get_Rect(pRect, pPoly);

@@ -314,9 +314,8 @@ void LCDScreen::VRender(OrderingTable& ot)
             640,
             static_cast<s16>(gPsxDisplay.mHeight)};
 
-        auto* pClippers = &mPrimClippers[0][gPsxDisplay.mBufferIndex];
-        pClippers->SetRect(clipRect);
-        ot.Add(Layer::eLayer_BeforeWell_22, pClippers);
+        mPrimClippers[0].SetRect(clipRect);
+        ot.Add(Layer::eLayer_BeforeWell_22, &mPrimClippers[0]);
 
         auto fontFlickerAmount = 50;
         if (gDisableFontFlicker)
@@ -354,9 +353,8 @@ void LCDScreen::VRender(OrderingTable& ot)
         clipRect2.w = static_cast<s16>(PsxToPCX(maxWidth - screenX, 51));
         clipRect2.h = 48;
 
-        auto* clipper = &mPrimClippers[1][gPsxDisplay.mBufferIndex];
-        clipper->SetRect(clipRect2);
-        ot.Add(Layer::eLayer_BeforeWell_22, clipper);
+        mPrimClippers[1].SetRect(clipRect2);
+        ot.Add(Layer::eLayer_BeforeWell_22, &mPrimClippers[1]);
     }
 }
 

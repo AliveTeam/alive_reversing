@@ -23,7 +23,7 @@ public:
     void Start();
 
 private:
-    Prim_ScreenOffset mScreenOffset[2] = {};
+    Prim_ScreenOffset mScreenOffset = {};
     s16 mScreenShakeIdx = 0;
     s16 mScreenShakeIdxModifier = 1;
     s16 mStartDelay = 0;

@@ -57,7 +57,7 @@ private:
     FP mTopLeftY = {};
     FP mBottomRightX = {};
     FP mBottomRightY = {};
-    Poly_G3 mPrims[2] = {};
+    Poly_G3 mPrims = {};
     FP mSpeed = {};
     bool mObjectInLaser = false;
 };

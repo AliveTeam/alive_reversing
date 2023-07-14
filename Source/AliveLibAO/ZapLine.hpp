@@ -7,7 +7,7 @@ namespace AO {
 
 struct ZapLineSprites final
 {
-    Poly_FT4 mSprts[2];
+    Poly_FT4 mSprt;
 };
 ALIVE_ASSERT_SIZEOF(ZapLineSprites, 0x30);
 

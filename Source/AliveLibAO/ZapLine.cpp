@@ -67,26 +67,23 @@ ZapLine::ZapLine(FP x1, FP y1, FP x2, FP y2, s32 aliveTime, ZapLineType type, La
     const u32 frameW = pFrameHeader->mWidth;
     const u32 frameH = pFrameHeader->mHeight;
 
-    for (s32 i = 0; i < 2; i++)
+    for (s32 j = 0; j < mNumberOfSegments; j++)
     {
-        for (s32 j = 0; j < mNumberOfSegments; j++)
+        for (s32 k = 0; k < mNumberOfPiecesPerSegment; k++)
         {
-            for (s32 k = 0; k < mNumberOfPiecesPerSegment; k++)
-            {
-                Poly_FT4* pSprt = &mSprites[(j * mNumberOfPiecesPerSegment) + k].mSprts[i];
+            Poly_FT4* pSprt = &mSprites[(j * mNumberOfPiecesPerSegment) + k].mSprt;
 
-                pSprt->SetSemiTransparent(true);
-                pSprt->DisableBlending(false);
+            pSprt->SetSemiTransparent(true);
+            pSprt->DisableBlending(false);
 
-                pSprt->SetBlendMode(blendMode);
+            pSprt->SetBlendMode(blendMode);
 
-                pSprt->mAnim = &GetAnimation();
+            pSprt->mAnim = &GetAnimation();
 
-                pSprt->SetUV0(0, 0);
-                pSprt->SetRGB0(127, 127, 127);
+            pSprt->SetUV0(0, 0);
+            pSprt->SetRGB0(127, 127, 127);
 
-                pSprt->SetXYWH( 0, 0, static_cast<s16>(frameW - 1), static_cast<s16>(frameH - 1));
-            }
+            pSprt->SetXYWH(0, 0, static_cast<s16>(frameW - 1), static_cast<s16>(frameH - 1));
         }
     }
 
@@ -251,15 +248,11 @@ void ZapLine::UpdateSpriteVertexPositions()
         for (s32 j = 0; j < mNumberOfPiecesPerSegment; j++)
         {
             const auto pPoint = &mSpritePositions[j + (i * mNumberOfPiecesPerSegment)];
-            Poly_FT4* pSprt = &mSprites->mSprts[j + (i * mNumberOfPiecesPerSegment)];
+            Poly_FT4* pSprt = &mSprites[j + (i * mNumberOfPiecesPerSegment)].mSprt;
             
-            const s16 w1 = static_cast<s16>(abs(pSprt[0].X0() - pSprt[0].X3()));
-            const s16 h1 = static_cast<s16>(abs(pSprt[0].Y0() - pSprt[0].Y3()));
-            pSprt[0].SetXYWH(pPoint->x, pPoint->y, w1, h1);
-
-            const s16 w2 = static_cast<s16>(abs(pSprt[1].X0() - pSprt[1].X3()));
-            const s16 h2 = static_cast<s16>(abs(pSprt[1].Y0() - pSprt[1].Y3()));
-            pSprt[1].SetXYWH(pPoint->x, pPoint->y, w2, h2);
+            const s16 w1 = static_cast<s16>(abs(pSprt->X0() - pSprt->X3()));
+            const s16 h1 = static_cast<s16>(abs(pSprt->Y0() - pSprt->Y3()));
+            pSprt->SetXYWH(pPoint->x, pPoint->y, w1, h1);
         }
     }
 }
@@ -355,13 +348,12 @@ void ZapLine::VRender(OrderingTable& ot)
             0)
         && mState > ZapLineState::eInitSpriteVertices_2)
     {
-        const auto bufferIdx = gPsxDisplay.mBufferIndex;
         for (s32 i = 0; i < mNumberOfSegments; i++)
         {
             for (s32 j = 0; j < mNumberOfPiecesPerSegment; j++)
             {
-                Poly_FT4* pSprt = &mSprites->mSprts[j + (i * mNumberOfPiecesPerSegment)];
-                ot.Add(GetAnimation().GetRenderLayer(), &pSprt[bufferIdx]);
+                Poly_FT4* pSprt = &mSprites[j + (i * mNumberOfPiecesPerSegment)].mSprt;
+                ot.Add(GetAnimation().GetRenderLayer(), pSprt);
             }
         }
     }

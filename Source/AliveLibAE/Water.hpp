@@ -16,7 +16,7 @@ struct Water_Res final
     s16 field_1A_splash_time;
     s16 field_1C_state;
     s16 field_1E_padding;
-    Poly_FT4 field_20_polys[2];
+    Poly_FT4 field_20_poly;
 };
 ALIVE_ASSERT_SIZEOF(Water_Res, 0x78);
 

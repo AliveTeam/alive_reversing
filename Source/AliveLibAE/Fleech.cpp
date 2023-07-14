@@ -1287,7 +1287,7 @@ void Fleech::RenderEx(OrderingTable& ot)
                 &g2,
                 &b2);
 
-            Poly_G4* currTonguePoly1 = &mTonguePolys1[i][gPsxDisplay.mBufferIndex];
+            Poly_G4* currTonguePoly1 = &mTonguePolys1[i];
 
             const s32 tonguePolyX1 = PsxToPCX(FP_GetExponent(currTongueBlock_X));
             const s32 tonguePolyY1 = FP_GetExponent(currTongueBlock_Y);
@@ -1328,7 +1328,7 @@ void Fleech::RenderEx(OrderingTable& ot)
 
             ot.Add(GetAnimation().GetRenderLayer(), currTonguePoly1);
 
-            Poly_G4* currTonguePoly2 = &mTonguePolys2[i][gPsxDisplay.mBufferIndex];
+            Poly_G4* currTonguePoly2 = &mTonguePolys2[i];
 
             s32 minus_one_one_switch = -1;
             if (FP_GetExponent(Tan_fp) <= 64 || FP_GetExponent(Tan_fp) >= 192)
@@ -1574,20 +1574,17 @@ void Fleech::InitTonguePolys()
 
     for (s32 i = 0; i < 4; i++)
     {
-        for (s32 j = 0; j < 2; j++)
-        {
-            mTonguePolys1[i][j].SetRGB0(150, 100, 100);
-            mTonguePolys1[i][j].SetRGB1(150, 100, 100);
-            mTonguePolys1[i][j].SetRGB2(150, 100, 100);
-            mTonguePolys1[i][j].SetRGB3(150, 100, 100);
-            mTonguePolys1[i][j].SetSemiTransparent(false);
+        mTonguePolys1[i].SetRGB0(150, 100, 100);
+        mTonguePolys1[i].SetRGB1(150, 100, 100);
+        mTonguePolys1[i].SetRGB2(150, 100, 100);
+        mTonguePolys1[i].SetRGB3(150, 100, 100);
+        mTonguePolys1[i].SetSemiTransparent(false);
 
-            mTonguePolys2[i][j].SetRGB0(150, 100, 100);
-            mTonguePolys2[i][j].SetRGB1(150, 100, 100);
-            mTonguePolys2[i][j].SetRGB2(150, 100, 100);
-            mTonguePolys2[i][j].SetRGB3(150, 100, 100);
-            mTonguePolys2[i][j].SetSemiTransparent(true);
-        }
+        mTonguePolys2[i].SetRGB0(150, 100, 100);
+        mTonguePolys2[i].SetRGB1(150, 100, 100);
+        mTonguePolys2[i].SetRGB2(150, 100, 100);
+        mTonguePolys2[i].SetRGB3(150, 100, 100);
+        mTonguePolys2[i].SetSemiTransparent(true);
     }
 }
 

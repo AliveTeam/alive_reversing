@@ -175,8 +175,6 @@ void SnoozeParticle::VUpdate()
 
 void SnoozeParticle::VRender(OrderingTable& ot)
 {
-    const s16 bufIdx = gPsxDisplay.mBufferIndex;
-
     if (mState == SnoozeParticleState::eBlowingUp_2)
     {
         const s16 xInScreen = FP_GetExponent(mXPos - gScreenManager->CamXPos());
@@ -184,7 +182,7 @@ void SnoozeParticle::VRender(OrderingTable& ot)
 
         for (s32 i = 0; i < ALIVE_COUNTOF(explosionVerts); i++)
         {
-            Line_G2* pZExplosionLine = &mG2Lines[bufIdx][i];
+            Line_G2* pZExplosionLine = &mG2Lines[i];
 
             const s32 scaledLineRelativeStartX = FP_GetExponent(FP_FromInteger(explosionVerts[i][0].x) * mSpriteScale);
             const s32 scaledLineRelativeStartY = FP_GetExponent(FP_FromInteger(explosionVerts[i][0].y) * mSpriteScale);
@@ -212,7 +210,7 @@ void SnoozeParticle::VRender(OrderingTable& ot)
     }
     else
     {
-        Line_G4* pZLine = &mG4Lines[bufIdx];
+        Line_G4* pZLine = &mG4Line;
 
         const s16 xInScreen = FP_GetExponent(mXPos - FP_FromInteger(FP_GetExponent(gScreenManager->CamXPos())));
         const s16 yInScreen = FP_GetExponent(mYPos - FP_FromInteger(FP_GetExponent(gScreenManager->CamYPos())));

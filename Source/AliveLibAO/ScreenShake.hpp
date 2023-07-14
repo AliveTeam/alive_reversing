@@ -15,7 +15,7 @@ public:
     virtual void VRender(OrderingTable& ot) override;
 
 private:
-    Prim_ScreenOffset mScreenOffset[2] = {};
+    Prim_ScreenOffset mScreenOffset = {};
     s16 mShakeNumber = 0;
     bool mEnableShakeEvent = false;
 };

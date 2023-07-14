@@ -192,7 +192,7 @@ void Rope::VRender(OrderingTable& ot)
                         mRopeAnim[idx].GetRenderedSize(&rect);
 
                         ClipPoly_Vertically(
-                            &mRopeAnim[idx].mPolys[gPsxDisplay.mBufferIndex],
+                            &mRopeAnim[idx].mPoly,
                             minY + mYOffset,
                             maxY + mYOffset);
 

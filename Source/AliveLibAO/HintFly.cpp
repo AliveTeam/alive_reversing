@@ -105,7 +105,7 @@ struct HintFlyParticle final
     s16 mSoundPitchSpeed;
     s8 mAngle;
     s8 mAngleSpeed;
-    Poly_FT4 mSprt[2];
+    Poly_FT4 mSprt;
 };
 
 static const u8 sHintFlyLetter_A[20] = {
@@ -1401,18 +1401,15 @@ HintFly::HintFly(relive::Path_HintFly* pTlv, const Guid& tlvId)
 
         for (s32 i = 0; i < mMsgLength; i++)
         {
-            for (s32 j = 0; j < 2; j++)
-            {
-                Poly_FT4* pSprt = &mHintFlyParticle[i].mSprt[j];
+            Poly_FT4* pSprt = &mHintFlyParticle[i].mSprt;
 
-                pSprt->SetSemiTransparent(true);
-                pSprt->DisableBlending(true);
+            pSprt->SetSemiTransparent(true);
+            pSprt->DisableBlending(true);
 
-                pSprt->SetUV0(0, 0);
+            pSprt->SetUV0(0, 0);
 
-                pSprt->mAnim = &GetAnimation();
-                pSprt->SetXYWH(0, 0, static_cast<s16>(pHeader->mWidth - 1), static_cast<s16>(pHeader->mHeight - 1));
-            }
+            pSprt->mAnim = &GetAnimation();
+            pSprt->SetXYWH(0, 0, static_cast<s16>(pHeader->mWidth - 1), static_cast<s16>(pHeader->mHeight - 1));
         }
 
 
@@ -1775,7 +1772,7 @@ void HintFly::VRender(OrderingTable& ot)
     for (s32 i = 0; i < mCounter; i++)
     {
         HintFlyParticle* pParticle = &mHintFlyParticle[i];
-        Poly_FT4* pSprt = &pParticle->mSprt[gPsxDisplay.mBufferIndex];
+        Poly_FT4* pSprt = &pParticle->mSprt;
 
         const s16 flyX = FP_GetExponent(PsxToPCX(pParticle->mXPos, FP_FromInteger(11)));
         const s16 flyY = FP_GetExponent(pParticle->mYPos);

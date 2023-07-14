@@ -22,7 +22,7 @@ void AliveFont::Load(s32 maxCharLength, const PalResource& pal, FontContext* fon
     mFontContext = fontContext;
     mFontContext->mFntResource.mCurPal = pal.mPal;
     mPolyCount = maxCharLength;
-    mFntPolyArray = relive_new Poly_FT4[maxCharLength * 2];
+    mFntPolyArray = relive_new Poly_FT4[maxCharLength];
 }
 
 AliveFont::~AliveFont()
@@ -41,7 +41,7 @@ s32 AliveFont::DrawString(OrderingTable& ot, const char_type* text, s32 x, s16 y
     const s32 maxRenderX = PsxToPCX(maxRenderWidth, 11);
     s16 offsetX = static_cast<s16>(x);
     s32 charInfoIndex = 0;
-    auto poly = &mFntPolyArray[gPsxDisplay.mBufferIndex + (2 * polyOffset)];
+    auto poly = &mFntPolyArray[polyOffset];
 
     for (u32 i = 0; i < strlen(text); i++)
     {
@@ -112,7 +112,7 @@ s32 AliveFont::DrawString(OrderingTable& ot, const char_type* text, s32 x, s16 y
 
         offsetX += widthScaled + FP_GetExponent(FP_FromInteger(mFontContext->mAtlasArray[0].mWidth) * scale);
 
-        poly += 2;
+        poly++;
     }
 
     return polyOffset + characterRenderCount;

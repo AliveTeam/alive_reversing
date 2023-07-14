@@ -20,7 +20,7 @@ public:
 
 private:
 
-    Prim_ScissorRect mClippers[2] = {};
+    Prim_ScissorRect mClipper = {};
     PSX_RECT mRect = {};
 
 public:

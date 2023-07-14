@@ -20,10 +20,10 @@ private:
     bool mFadeIn = false;
     bool mDone = false;
     bool mDestroyOnDone = false;
-    Poly_G4 mTile1[2] = {};
-    Poly_G4 mTile2[2] = {};
-    Poly_G4 mTile3[2] = {};
-    Poly_G4 mTile4[2] = {};
+    Poly_G4 mTile1 = {};
+    Poly_G4 mTile2 = {};
+    Poly_G4 mTile3 = {};
+    Poly_G4 mTile4 = {};
     s16 mFadeColour = 0;
     s16 mSpeed = 0;
 };

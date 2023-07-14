@@ -212,18 +212,15 @@ AbilityRing::AbilityRing(FP xpos, FP ypos, RingTypes ringType, FP scale)
         mRingLeft = (mRingLeft * scale);
         mRingRight = (mRingRight * scale);
 
-        for (s32 y = 0; y < 2; y++)
+        for (s32 x = 0; x < 64; x++)
         {
-            for (s32 x = 0; x < 64; x++)
-            {
-                Poly_G4* pPoly = &mRingPolyBuffer[x].mPolys[y];
-                pPoly->SetRGB0(mRingRed & 255, mRingGreen & 255, mRingBlue & 255);
-                pPoly->SetRGB1(mRingRed & 255, mRingGreen & 255, mRingBlue & 255);
-                pPoly->SetRGB2(mRingRed & 255, mRingGreen & 255, mRingBlue & 255);
-                pPoly->SetRGB3(mRingRed & 255, mRingGreen & 255, mRingBlue & 255);
-                pPoly->SetSemiTransparent(mRingSemiTrans);
-                pPoly->SetBlendMode(relive::TBlendModes::eBlend_1);
-            }
+            Poly_G4* pPoly = &mRingPolyBuffer[x];
+            pPoly->SetRGB0(mRingRed & 255, mRingGreen & 255, mRingBlue & 255);
+            pPoly->SetRGB1(mRingRed & 255, mRingGreen & 255, mRingBlue & 255);
+            pPoly->SetRGB2(mRingRed & 255, mRingGreen & 255, mRingBlue & 255);
+            pPoly->SetRGB3(mRingRed & 255, mRingGreen & 255, mRingBlue & 255);
+            pPoly->SetSemiTransparent(mRingSemiTrans);
+            pPoly->SetBlendMode(relive::TBlendModes::eBlend_1);
         }
     }
     else
@@ -234,7 +231,6 @@ AbilityRing::AbilityRing(FP xpos, FP ypos, RingTypes ringType, FP scale)
 
 AbilityRing::~AbilityRing()
 {
-    relive_delete[] mRingPolyBuffer;
     gObjListDrawables->Remove_Item(this);
 }
 
@@ -299,7 +295,7 @@ void AbilityRing::VRender(OrderingTable& ot)
             }
             else
             {
-                Poly_G4* pPoly = &mRingPolyBuffer[i].mPolys[gPsxDisplay.mBufferIndex];
+                Poly_G4* pPoly = &mRingPolyBuffer[i];
                 pPoly->SetXY0(x1, y1);
                 pPoly->SetXY1(x2, y2);
                 pPoly->SetXY2(x3, y3);
@@ -368,15 +364,12 @@ void AbilityRing::VUpdate()
                 mRingRed = (mRingRed >> 1) + (mRingRed >> 2);
                 mRingGreen = (mRingGreen >> 1) + (mRingGreen >> 2);
                 mRingBlue = (mRingBlue >> 1) + (mRingBlue >> 2);
-                for (s32 i = 0; i < 2; i++)
+                for (s32 j = 0; j < 64; j++)
                 {
-                    for (s32 j = 0; j < 64; j++)
-                    {
-                        mRingPolyBuffer[j].mPolys[i].SetRGB0(mRingRed & 255, mRingGreen & 255, mRingBlue & 255);
-                        mRingPolyBuffer[j].mPolys[i].SetRGB1(mRingRed & 255, mRingGreen & 255, mRingBlue & 255);
-                        mRingPolyBuffer[j].mPolys[i].SetRGB2(mRingRed & 255, mRingGreen & 255, mRingBlue & 255);
-                        mRingPolyBuffer[j].mPolys[i].SetRGB3(mRingRed & 255, mRingGreen & 255, mRingBlue & 255);
-                    }
+                    mRingPolyBuffer[j].SetRGB0(mRingRed & 255, mRingGreen & 255, mRingBlue & 255);
+                    mRingPolyBuffer[j].SetRGB1(mRingRed & 255, mRingGreen & 255, mRingBlue & 255);
+                    mRingPolyBuffer[j].SetRGB2(mRingRed & 255, mRingGreen & 255, mRingBlue & 255);
+                    mRingPolyBuffer[j].SetRGB3(mRingRed & 255, mRingGreen & 255, mRingBlue & 255);
                 }
             }
             else

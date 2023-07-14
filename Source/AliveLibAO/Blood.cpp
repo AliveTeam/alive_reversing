@@ -61,27 +61,24 @@ Blood::Blood(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s32 count)
 
         for (s32 i = 0; i < mTotalBloodCount; i++)
         {
-            for (s32 j = 0; j < 2; j++)
+            BloodParticle* pParticle = &mBloodParticle[i];
+            Poly_FT4* pSprt = &pParticle->field_10_prim;
+            pSprt->SetSemiTransparent(true);
+
+            if (GetAnimation().GetBlending())
             {
-                BloodParticle* pParticle = &mBloodParticle[i];
-                Poly_FT4* pSprt = &pParticle->field_10_prims[j];
-                pSprt->SetSemiTransparent(true);
-
-                if (GetAnimation().GetBlending())
-                {
-                    pSprt->DisableBlending(true);
-                }
-                else
-                {
-                    pSprt->DisableBlending(false);
-                    const auto rgb = GetAnimation().GetRgb();
-                    pSprt->SetRGB0(rgb.r & 0xFF, rgb.g & 0xFF, rgb.b & 0xFF);
-                }
-
-                pSprt->mAnim = &GetAnimation();
-
-                pSprt->SetUV0(u0, v0);
+                pSprt->DisableBlending(true);
             }
+            else
+            {
+                pSprt->DisableBlending(false);
+                const auto rgb = GetAnimation().GetRgb();
+                pSprt->SetRGB0(rgb.r & 0xFF, rgb.g & 0xFF, rgb.b & 0xFF);
+            }
+
+            pSprt->mAnim = &GetAnimation();
+
+            pSprt->SetUV0(u0, v0);
         }
 
         // Has its own random seed based on the frame counter.. no idea why
@@ -155,7 +152,7 @@ void Blood::VRender(OrderingTable& ot)
         for (s32 i = 0; i < mCurrentBloodCount; i++)
         {
             BloodParticle* pParticle = &mBloodParticle[i];
-            Poly_FT4* pSprt = &pParticle->field_10_prims[gPsxDisplay.mBufferIndex];
+            Poly_FT4* pSprt = &pParticle->field_10_prim;
 
             pSprt->SetUV0(0, 0);
             pSprt->SetBlendMode(relive::TBlendModes::eBlend_0);

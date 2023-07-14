@@ -5,10 +5,8 @@
 
 enum class MessageType : s32
 {
-    eLongTitle_0 = 0,
     eSkipMovie_1 = 1,
     eSkipDemo_2 = 2,
-    eShortTitle_3 = 3
 };
 
 class Text final : public BaseGameObject
@@ -36,4 +34,4 @@ private:
     char_type field_68_txt_buffer[60] = {};
 };
 
-s8 Display_Full_Screen_Message_Blocking(s32 /*not_used*/, MessageType messageType);
+s8 Display_Full_Screen_Message_Blocking(MessageType messageType);

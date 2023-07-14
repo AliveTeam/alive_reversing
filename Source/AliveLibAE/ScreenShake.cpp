@@ -68,7 +68,6 @@ static const ScreenOffset sShakeOffsets[16] = {
 
 void ScreenShake::VRender(OrderingTable& ot)
 {
-    Prim_ScreenOffset* pPrim = &mScreenOffset[gPsxDisplay.mBufferIndex];
     if (mShakeNumber < 14)
     {
         s16 xoff = 0;
@@ -87,55 +86,10 @@ void ScreenShake::VRender(OrderingTable& ot)
 
         PSX_Pos16 offset = {};
         offset.x = PsxToPCX(xoff); // TODO + 11 ?
-        if (gPsxDisplay.mBufferIndex)
-        {
-            offset.y = yoff + 256;
-        }
-        else
-        {
-            offset.y = yoff;
-        }
+        offset.y = yoff;
 
-        pPrim->SetOffset(offset.x, offset.y);
-        ot.Add(Layer::eLayer_0, pPrim);
-
-        if (offset.y != 0)
-        {
-            PSX_RECT clearRect = {};
-            if (offset.y < 0)
-            {
-                clearRect.y = offset.y + gPsxDisplay.mHeight;
-                clearRect.h = -offset.y;
-            }
-            else if (offset.y > 0)
-            {
-                clearRect.y = 0;
-                clearRect.h = offset.y;
-            }
-
-            clearRect.x = 0;
-            clearRect.w = 640; // Could probably replace with `gPsxDisplay.mWidth`
-            //PSX_ClearImage_4F5BD0(&clearRect, 0, 0, 0);
-        }
-
-        if (offset.x != 0)
-        {
-            PSX_RECT clearRect = {};
-            if (offset.x < 0)
-            {
-                clearRect.x = offset.x + 640; // Could probably replace with `gPsxDisplay.mWidth`
-                clearRect.w = -offset.x;
-            }
-            else if (offset.x > 0)
-            {
-                clearRect.x = 0;
-                clearRect.w = offset.x;
-            }
-
-            clearRect.y = 0;
-            clearRect.h = gPsxDisplay.mHeight;
-            //PSX_ClearImage_4F5BD0(&clearRect, 0, 0, 0);
-        }
+        mScreenOffset.SetOffset(offset.x, offset.y);
+        ot.Add(Layer::eLayer_0, &mScreenOffset);
 
         if (!mShakeNumber)
         {

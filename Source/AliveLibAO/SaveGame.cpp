@@ -282,21 +282,8 @@ void SaveGame::SaveToMemory(SaveData* pSaveData)
     }
     pSaveData->mCurrentControllerIdx = Input().CurrentController() == InputObject::PadIndex::First ? 0 : 1;
     gMap.SaveBlyData(pSaveData->field_2B0_pSaveBuffer);
-
-    pSaveData->mSaveHashValue = Hash(pSaveData);
 }
 
-s32 SaveGame::Hash(SaveData* sData)
-{
-    auto table = reinterpret_cast<s32*>(&sData->mContinuePoint_ZoneNumber);
-    s32 counter = 0;
-    for (s32 hashIter = 1919; hashIter > 0; hashIter--)
-    {
-        counter += *table;
-        table++;
-    }
-    return counter;
-}
 
 s16 SaveGame::LoadFromFile(const char_type* name)
 {
@@ -317,21 +304,13 @@ s16 SaveGame::LoadFromFile(const char_type* name)
         return 0;
     }
 
-    auto hashVal = Hash(&sSaveToLoadBuffer);
-    if (hashVal == sSaveToLoadBuffer.mSaveHashValue)
-    {
-        gSaveBuffer = sSaveToLoadBuffer;
-        LoadFromMemory(&gSaveBuffer, 1);
-        gSaveBuffer.mCurrentCamera = gSaveBuffer.mContinuePoint_Camera;
-        Input().SetCurrentController(InputObject::PadIndex::First);
-        gSaveBuffer.mCurrentLevel = gSaveBuffer.mContinuePoint_Level;
-        gSaveBuffer.mCurrentPath = gSaveBuffer.mContinuePoint_Path;
-        return 1;
-    }
-    else
-    {
-        return 0;
-    }
+    gSaveBuffer = sSaveToLoadBuffer;
+    LoadFromMemory(&gSaveBuffer, 1);
+    gSaveBuffer.mCurrentCamera = gSaveBuffer.mContinuePoint_Camera;
+    Input().SetCurrentController(InputObject::PadIndex::First);
+    gSaveBuffer.mCurrentLevel = gSaveBuffer.mContinuePoint_Level;
+    gSaveBuffer.mCurrentPath = gSaveBuffer.mContinuePoint_Path;
+    return 1;
 }
 
 bool SaveGame::SaveToFile(const char_type* name)

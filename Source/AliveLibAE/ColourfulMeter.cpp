@@ -171,7 +171,7 @@ void ColourfulMeter::VRender(OrderingTable& ot)
 
     for (s16 poly_idx = 0; poly_idx < mPolysToRenderCount && poly_idx < kMeterBarsXCount - 1; poly_idx++)
     {
-        Poly_G4* pPolyG4 = &mPolyG4s[gPsxDisplay.mBufferIndex][poly_idx];
+        Poly_G4* pPolyG4 = &mPolyG4s[poly_idx];
 
         const s16 x0 = mTlvX + (FP_GetExponent(FP_FromInteger(sMeterBarsInfo[poly_idx].x))) - screenXOff;
         const s16 y0 = FP_GetExponent(FP_FromInteger(sMeterBarsInfo[poly_idx].y)) - screenYOff + mTlvY - 20;

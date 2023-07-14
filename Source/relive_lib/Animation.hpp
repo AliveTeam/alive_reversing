@@ -43,7 +43,7 @@ public:
     FP GetSpriteScale() const { return mSpriteScale; }
     void SetSpriteScale(FP val) { mSpriteScale = val; }
 
-    Poly_FT4 mOtData[2] = {};
+    Poly_FT4 mPoly = {};
 
 private:
     u32 mFrameDelay = 0;

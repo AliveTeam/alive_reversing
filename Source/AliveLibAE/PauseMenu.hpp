@@ -109,7 +109,7 @@ public:
     s16 mPolyOffset = 0;
     PauseMenu::PauseMenuPage mActiveMenu = {};
     Animation mMudIconAnim = {};
-    Poly_G4 mPolyG4s[2] = {};
+    Poly_G4 mPolyG4 = {};
     bool mPauseRenderLoop = false;
 };
 

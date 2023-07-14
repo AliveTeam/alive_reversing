@@ -145,7 +145,7 @@ void ParamiteWeb::VRender(OrderingTable& ot)
                     ShadowZone::ShadowZones_Calculate_Colour(FP_GetExponent(mXPos), ypos_int - (idx * mSegmentLength), GetScale(), &r, &g, &b);
                     mWebRes[idx].SetRGB(r, g, b);
                     mWebRes[idx].VRender(x_start, y_start, ot, 0, 0);
-                    ClipPoly_Vertically(&mWebRes[idx].mPolys[gPsxDisplay.mBufferIndex], minY, maxY);
+                    ClipPoly_Vertically(&mWebRes[idx].mPoly, minY, maxY);
                     y_start -= mSegmentLength;
                     if (y_start < minY)
                     {

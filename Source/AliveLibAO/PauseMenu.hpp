@@ -38,7 +38,7 @@ public:
     s16 field_128_controller_id = 0;
     s16 field_12C = 0;
     s16 field_134 = 0;
-    Poly_G4 field_158[2] = {};
+    Poly_G4 field_158 = {};
 };
 
 extern PauseMenu* gPauseMenu;

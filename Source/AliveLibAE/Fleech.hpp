@@ -427,8 +427,8 @@ private:
     s16 field_188 = 0;
     bool mTongueActive = false;
     bool mRenderTongue = false;
-    Poly_G4 mTonguePolys1[4][2] = {};
-    Poly_G4 mTonguePolys2[4][2] = {};
+    Poly_G4 mTonguePolys1[4] = {};
+    Poly_G4 mTonguePolys2[4] = {};
     friend class PatrolBrain;
     friend class ChasingAbeBrain;
     friend class ScaredBrain;

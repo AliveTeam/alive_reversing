@@ -57,7 +57,7 @@ public:
     FP mBottomRightX = {};
     FP mBottomRightY = {};
     Guid mLaserId;
-    Poly_G3 mPrims[2] = {};
+    Poly_G3 mPrim = {};
     FP mSpeed = {};
     bool mObjectInLaser = false;
 };
