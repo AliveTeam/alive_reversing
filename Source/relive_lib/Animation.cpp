@@ -35,9 +35,6 @@ void Animation::DecompressFrame()
 
 void Animation::VRender(s32 xpos, s32 ypos, OrderingTable& ot, s16 width, s32 height)
 {
-    const s16 xpos_pc = static_cast<s16>(PsxToPCX(xpos));
-    const s16 width_pc = static_cast<s16>(PsxToPCX(width));
-
     if (!GetRender())
     {
         return;
@@ -47,27 +44,29 @@ void Animation::VRender(s32 xpos, s32 ypos, OrderingTable& ot, s16 width, s32 he
 
     FP scaled_width = {};
     FP scaled_height = {};
-    if (width_pc)
+
+    if (width)
     {
-        scaled_width = FP_FromInteger(width_pc);
+        scaled_width = FP_FromInteger(width);
         scaled_height = FP_FromInteger(height);
     }
     else
     {
-        scaled_width = FP_FromInteger(pFrameInfoHeader->mWidth);
+        scaled_width = FP_FromInteger(PCToPsxX(pFrameInfoHeader->mWidth, 20));
         scaled_height = FP_FromInteger(pFrameInfoHeader->mHeight);
     }
 
-    FP xOffSet_scaled = {};
+    FP xOffset_scaled = {};
     FP yOffset_scaled = {};
+
     if (GetIgnorePosOffset())
     {
-        xOffSet_scaled = FP_FromInteger(0);
+        xOffset_scaled = FP_FromInteger(0);
         yOffset_scaled = FP_FromInteger(0);
     }
     else
     {
-       	xOffSet_scaled = FP_FromInteger(pFrameInfoHeader->mXOffset);
+        xOffset_scaled = FP_FromInteger(pFrameInfoHeader->mXOffset);
         yOffset_scaled = FP_FromInteger(pFrameInfoHeader->mYOffset);
     }
 
@@ -76,46 +75,33 @@ void Animation::VRender(s32 xpos, s32 ypos, OrderingTable& ot, s16 width, s32 he
 
     mPoly.SetRGB0(mRgb.r & 0xFF, mRgb.g & 0xFF, mRgb.b & 0xFF);
 
-    u8 u1 = 0 /*mVramRect.x & 63*/;
-
-    const u8 v0 = 0; /*static_cast<u8>(mVramRect.y);*/
     // TODO: u/v overflow on big sprites
-    const u8 u0 = static_cast<u8>(pFrameInfoHeader->mWidth) + u1 - 1;
-    const u8 v1 = static_cast<u8>(pFrameInfoHeader->mHeight) + v0 - 1;
+    const u8 u0 = static_cast<u8>(pFrameInfoHeader->mWidth) - 1;
+    const u8 v0 = 0;
+    const u8 u1 = 0;
+    const u8 v1 = static_cast<u8>(pFrameInfoHeader->mHeight) - 1;
 
     if (mSpriteScale != FP_FromInteger(1))
     {
         // Apply scale to x/y pos
         scaled_height *= mSpriteScale;
-        scaled_width *= mSpriteScale;
-
-		// TODO: Factor out when data conversion completed
-		if (GetGameType() == GameType::eAe)
-		{
-			// If applied to AO causes BG sprites to bounce by 1 pixel on Y
-	        if (mSpriteScale == FP_FromDouble(0.5))
-	        {
-	            // Add 1 if half scale
-	            scaled_height += FP_FromDouble(1.0);
-	            scaled_width += FP_FromDouble(1.0);
-	        }
-		}
+        scaled_width  *= mSpriteScale;
 
         // Apply scale to x/y offset
-        xOffSet_scaled *= mSpriteScale;
+        xOffset_scaled = (xOffset_scaled * mSpriteScale);
         yOffset_scaled = (yOffset_scaled * mSpriteScale) - FP_FromInteger(1);
     }
 
-    s16 polyXPos = xpos_pc;
+    s16 polyXPos = xpos;
     const bool kFlipX = GetFlipX();
 
     if (kFlipX)
     {
-        polyXPos -= FP_GetExponent(FP_NoFractional(xOffSet_scaled) + scaled_width);
+        polyXPos -= FP_GetExponent(xOffset_scaled + scaled_width + FP_FromDouble(0.499));
     }
     else
     {
-        polyXPos += FP_GetExponent(FP_NoFractional(xOffSet_scaled));
+        polyXPos += FP_GetExponent(xOffset_scaled + FP_FromDouble(0.499));
     }
 
     s16 polyYPos = static_cast<s16>(ypos);
@@ -123,11 +109,11 @@ void Animation::VRender(s32 xpos, s32 ypos, OrderingTable& ot, s16 width, s32 he
 
     if (kFlipY)
     {
-        polyYPos -= FP_GetExponent(FP_NoFractional(yOffset_scaled) + scaled_height);
+        polyYPos -= FP_GetExponent(yOffset_scaled + scaled_height + FP_FromDouble(0.499));
     }
     else
     {
-        polyYPos += FP_GetExponent(FP_NoFractional(yOffset_scaled));
+        polyYPos += FP_GetExponent(yOffset_scaled + FP_FromDouble(0.499));
     }
 
     mPoly.SetUV0(kFlipX ? u0 : u1, kFlipY ? v1 : v0);
@@ -135,10 +121,14 @@ void Animation::VRender(s32 xpos, s32 ypos, OrderingTable& ot, s16 width, s32 he
     mPoly.SetUV2(kFlipX ? u0 : u1, kFlipY ? v0 : v1);
     mPoly.SetUV3(kFlipX ? u1 : u0, kFlipY ? v0 : v1);
 
-    mPoly.SetXY0(polyXPos, polyYPos);
-    mPoly.SetXY1(polyXPos + FP_GetExponent(scaled_width), polyYPos);
-    mPoly.SetXY2(polyXPos, polyYPos + FP_GetExponent(scaled_height));
-    mPoly.SetXY3(polyXPos + FP_GetExponent(scaled_width), polyYPos + FP_GetExponent(scaled_height));
+    const s16 xConverted = static_cast<s16>(PsxToPCX(polyXPos));
+    const s16 width_adjusted = FP_GetExponent(PsxToPCX(scaled_width) - FP_FromDouble(0.501)) + xConverted;
+    const s16 height_adjusted = FP_GetExponent(scaled_height - FP_FromDouble(0.501)) + polyYPos;
+
+    mPoly.SetXY0(xConverted, polyYPos);
+    mPoly.SetXY1(width_adjusted, polyYPos);
+    mPoly.SetXY2(xConverted, height_adjusted);
+    mPoly.SetXY3(width_adjusted, height_adjusted);
 
     mPoly.SetBlendMode(GetBlendMode());
 

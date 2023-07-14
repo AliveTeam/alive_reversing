@@ -439,8 +439,8 @@ void Batcher<TextureType, RenderBatchType, kTextureBatchSize>::PushAnim(const Po
         u0 = static_cast<f32>(pHeader->mSpriteSheetX);
         v0 = static_cast<f32>(pHeader->mSpriteSheetY);
 
-        u1 = u0 + pHeader->mSpriteWidth;
-        v1 = v0 + pHeader->mSpriteHeight;
+        u1 = u0 + pHeader->mSpriteWidth - 1;
+        v1 = v0 + pHeader->mSpriteHeight - 1;
     }
     else
     {

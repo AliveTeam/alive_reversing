@@ -229,15 +229,7 @@ AnimationConverter::AnimationConverter(const FileSystem::Path& outputFile, const
         perFrameInfos[i].mSpriteWidth = pFrameHeader->field_4_width;
         perFrameInfos[i].mSpriteHeight = pFrameHeader->field_5_height;
 
-        if (mIsAoData)
-        {
-            perFrameInfos[i].mXOffset = PsxToPCX(pFrameInfoHeader->field_8_data.offsetAndRect.mOffset.x);
-        }
-        else
-        {
-            perFrameInfos[i].mXOffset = pFrameInfoHeader->field_8_data.offsetAndRect.mOffset.x;
-        }
-
+        perFrameInfos[i].mXOffset = pFrameInfoHeader->field_8_data.offsetAndRect.mOffset.x;
         perFrameInfos[i].mYOffset = pFrameInfoHeader->field_8_data.offsetAndRect.mOffset.y;
 
         perFrameInfos[i].mSpriteSheetX = baseX;

@@ -143,68 +143,57 @@ void draw_flat()
 
 vec4 sample_texture()
 {
-    vec2 scaledUV = vec2(0.0);
+    ivec2 iUV = ivec2(fsUV);
     vec4 texelSprite = vec4(0.0);
+
     switch (fsTexIndexing.y)
     {
         case 0u:
-            scaledUV = fsUV / fsSpriteSheetSize[0];
-            texelSprite = texture(texSpriteSheets[0], scaledUV);
+            texelSprite = texelFetch(texSpriteSheets[0], iUV, 0);
             break;
 
         case 1u:
-            scaledUV = fsUV / fsSpriteSheetSize[1];
-            texelSprite = texture(texSpriteSheets[1], scaledUV);
+            texelSprite = texelFetch(texSpriteSheets[1], iUV, 0);
             break;
 
         case 2u:
-            scaledUV = fsUV / fsSpriteSheetSize[2];
-            texelSprite = texture(texSpriteSheets[2], scaledUV);
+            texelSprite = texelFetch(texSpriteSheets[2], iUV, 0);
             break;
 
         case 3u:
-            scaledUV = fsUV / fsSpriteSheetSize[3];
-            texelSprite = texture(texSpriteSheets[3], scaledUV);
+            texelSprite = texelFetch(texSpriteSheets[3], iUV, 0);
             break;
 
         case 4u:
-            scaledUV = fsUV / fsSpriteSheetSize[4];
-            texelSprite = texture(texSpriteSheets[4], scaledUV);
+            texelSprite = texelFetch(texSpriteSheets[4], iUV, 0);
             break;
 
         case 5u:
-            scaledUV = fsUV / fsSpriteSheetSize[5];
-            texelSprite = texture(texSpriteSheets[5], scaledUV);
+            texelSprite = texelFetch(texSpriteSheets[5], iUV, 0);
             break;
 
         case 6u:
-            scaledUV = fsUV / fsSpriteSheetSize[6];
-            texelSprite = texture(texSpriteSheets[6], scaledUV);
+            texelSprite = texelFetch(texSpriteSheets[6], iUV, 0);
             break;
 
         case 7u:
-            scaledUV = fsUV / fsSpriteSheetSize[7];
-            texelSprite = texture(texSpriteSheets[7], scaledUV);
+            texelSprite = texelFetch(texSpriteSheets[7], iUV, 0);
             break;
 
         case 8u:
-            scaledUV = fsUV / fsSpriteSheetSize[8];
-            texelSprite = texture(texSpriteSheets[8], scaledUV);
+            texelSprite = texelFetch(texSpriteSheets[8], iUV, 0);
             break;
 
         case 9u:
-            scaledUV = fsUV / fsSpriteSheetSize[9];
-            texelSprite = texture(texSpriteSheets[9], scaledUV);
+            texelSprite = texelFetch(texSpriteSheets[9], iUV, 0);
             break;
 
         case 10u:
-            scaledUV = fsUV / fsSpriteSheetSize[10];
-            texelSprite = texture(texSpriteSheets[10], scaledUV);
+            texelSprite = texelFetch(texSpriteSheets[10], iUV, 0);
             break;
 
         case 11u:
-            scaledUV = fsUV / fsSpriteSheetSize[11];
-            texelSprite = texture(texSpriteSheets[11], scaledUV);
+            texelSprite = texelFetch(texSpriteSheets[11], iUV, 0);
             break;
     }
     return texelSprite;
