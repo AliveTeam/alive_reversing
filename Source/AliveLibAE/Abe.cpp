@@ -838,6 +838,7 @@ void Abe::CreateFromSaveState(const AbeSaveState& pData)
     sActiveHero->mHaveHealing = pData.mHaveHealing;
     sActiveHero->SetTeleporting(pData.mTeleporting);
 
+    sActiveHero->mMudancheeDone = pData.mMudancheeDone;
     sActiveHero->mMudomoDone = pData.mMudomoDone;
 
     sActiveHero->GetShadow()->mEnabled = pData.mShadowEnabled;
