@@ -631,7 +631,7 @@ void Map::GoTo_Camera()
             || mForceLoad
             || (mNextPath != mCurrentPath && mCameraSwapEffect == CameraSwapEffects::ePlay1FMV_5))
         {
-            Game_ShowLoadingIcon();
+            ResourceManagerWrapper::ShowLoadingIcon();
         }
     }
 

@@ -822,7 +822,7 @@ void Map::GoTo_Camera()
     {
         if (mNextLevel != mCurrentLevel || (mNextPath != mCurrentPath && mCameraSwapEffect == CameraSwapEffects::ePlay1FMV_5))
         {
-            Game_ShowLoadingIcon();
+            ResourceManagerWrapper::ShowLoadingIcon();
         }
     }
 

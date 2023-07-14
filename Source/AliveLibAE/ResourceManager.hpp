@@ -2,8 +2,6 @@
 
 #include "../relive_lib/GameObjects/BaseGameObject.hpp"
 
-void Game_ShowLoadingIcon();
-
 class ResourceManager final : public BaseGameObject
 {
 public:

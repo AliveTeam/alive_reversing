@@ -259,6 +259,8 @@ public:
     static s16 bHideLoadingIcon;
     static s32 loading_ticks;
 
+    static void ShowLoadingIcon();
+
 private:
     static void ProcessLoadingFiles();
 

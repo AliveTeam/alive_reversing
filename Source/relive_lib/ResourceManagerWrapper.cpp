@@ -4,6 +4,7 @@
 #include "Psx.hpp"
 #include "../AliveLibAE/ResourceManager.hpp"
 #include "../AliveLibAO/ResourceManager.hpp"
+#include "../AliveLibAE/PsxRender.hpp"
 
 #include "data_conversion/file_system.hpp"
 
@@ -14,7 +15,7 @@
 
 #include "BinaryPath.hpp"
 #include "BaseGameAutoPlayer.hpp"
-
+#include "GameObjects/Particle.hpp"
 #include "nlohmann/json.hpp"
 #include "Sys.hpp"
 
@@ -369,7 +370,7 @@ void ResourceManagerWrapper::LoadingLoop(bool bShowLoadingIcon)
         if (bShowLoadingIcon && !bHideLoadingIcon && ticks > 180)
         {
             // Render everything in the ordering table including the loading icon
-            Game_ShowLoadingIcon();
+            ResourceManagerWrapper::ShowLoadingIcon();
         }
     }
 
@@ -418,4 +419,26 @@ s32 ResourceManagerWrapper::SEQ_HashName(const char_type* seqFileName)
 void ResourceManagerWrapper::ProcessLoadingFiles()
 {
 
+}
+
+void ResourceManagerWrapper::ShowLoadingIcon()
+{
+    AnimResource res = ResourceManagerWrapper::LoadAnimation(AnimId::Loading_Icon2);
+    auto pParticle = relive_new Particle(FP_FromInteger(0), FP_FromInteger(0), res);
+    if (pParticle)
+    {
+        pParticle->GetAnimation().SetSemiTrans(false);
+        pParticle->GetAnimation().SetBlending(true);
+
+        pParticle->GetAnimation().SetRenderLayer(Layer::eLayer_0);
+
+        OrderingTable local_ot;
+
+        pParticle->GetAnimation().VRender(320, 220, local_ot, 0, 0);
+        PSX_DrawOTag(local_ot);
+
+        PSX_PutDispEnv_4F5890();
+        pParticle->SetDead(true);
+        ResourceManagerWrapper::bHideLoadingIcon = true;
+    }
 }

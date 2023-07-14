@@ -400,7 +400,7 @@ void Quicksave_LoadFromMemory_4C95A0()
 
 void QuikSave::LoadActive()
 {
-    Game_ShowLoadingIcon();
+    ResourceManagerWrapper::ShowLoadingIcon();
     Quicksave_LoadFromMemory_4C95A0();
 }
 
@@ -470,12 +470,6 @@ void QuikSave::SaveToMemory_4C91A0(Quicksave& pSave)
 {
     if (sActiveHero->mHealth > FP_FromInteger(0))
     {
-        char_type src[12] = {};
-        sprintf(src, "%2sP%02dC%02d",
-                Path_Get_Lvl_Name(gMap.mCurrentLevel),
-                gMap.mCurrentPath,
-                gMap.mCurrentCamera);
-
         QuikSave::SaveWorldInfo(&pSave.mWorldInfo);
         pSave.mSwitchStates = gSwitchStates;
 
@@ -500,7 +494,7 @@ void QuikSave::SaveToMemory_4C91A0(Quicksave& pSave)
 
 void QuikSave::DoQuicksave()
 {
-    Game_ShowLoadingIcon();
+    ResourceManagerWrapper::ShowLoadingIcon();
     QuikSave::SaveToMemory_4C91A0(gActiveQuicksaveData);
 }
 
