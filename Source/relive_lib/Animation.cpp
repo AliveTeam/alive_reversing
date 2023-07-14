@@ -42,17 +42,35 @@ void Animation::VRender(s32 xpos, s32 ypos, OrderingTable& ot, s16 width, s32 he
 
     const PerFrameInfo* pFrameInfoHeader = Get_FrameHeader(-1);
 
+    s16 x_true     = static_cast<s16>(xpos);
+    s16 width_true = static_cast<s16>(width);
+
+    // (AE) Scale X and Width values *before* any maths
+    if (GetGameType() == GameType::eAe)
+    {
+        x_true     = PsxToPCX(x_true);
+        width_true = PsxToPCX(width_true);
+    }
+
     FP scaled_width = {};
     FP scaled_height = {};
 
-    if (width)
+    if (width_true)
     {
-        scaled_width = FP_FromInteger(width);
+        scaled_width = FP_FromInteger(width_true);
         scaled_height = FP_FromInteger(height);
     }
     else
     {
-        scaled_width = FP_FromInteger(PCToPsxX(pFrameInfoHeader->mWidth, 20));
+        if (GetGameType() == GameType::eAo)
+        {
+            scaled_width = FP_FromInteger(PCToPsxX(pFrameInfoHeader->mWidth, 20));
+        }
+        else
+        {
+            scaled_width = FP_FromInteger(pFrameInfoHeader->mWidth);
+        }
+
         scaled_height = FP_FromInteger(pFrameInfoHeader->mHeight);
     }
 
@@ -87,17 +105,32 @@ void Animation::VRender(s32 xpos, s32 ypos, OrderingTable& ot, s16 width, s32 he
         scaled_height *= mSpriteScale;
         scaled_width  *= mSpriteScale;
 
+        // (AE) Add 1 if half scale
+        if (GetGameType() == GameType::eAe && mSpriteScale == FP_FromDouble(0.5))
+        {
+            scaled_height += FP_FromDouble(1.0);
+            scaled_width  += FP_FromDouble(1.0);
+        }
+
         // Apply scale to x/y offset
         xOffset_scaled = (xOffset_scaled * mSpriteScale);
         yOffset_scaled = (yOffset_scaled * mSpriteScale) - FP_FromInteger(1);
     }
 
-    s16 polyXPos = xpos;
+    s16 polyXPos = x_true;
     const bool kFlipX = GetFlipX();
 
     if (kFlipX)
     {
-        polyXPos -= FP_GetExponent(xOffset_scaled + scaled_width + FP_FromDouble(0.499));
+        if (GetGameType() == GameType::eAo)
+        {
+            polyXPos -= FP_GetExponent(xOffset_scaled + scaled_width + FP_FromDouble(0.499));
+        }
+        else
+        {
+            polyXPos -= FP_GetExponent(xOffset_scaled + FP_FromDouble(0.499));
+            polyXPos -= FP_GetExponent(scaled_width + FP_FromDouble(0.499));
+        }
     }
     else
     {
@@ -109,7 +142,15 @@ void Animation::VRender(s32 xpos, s32 ypos, OrderingTable& ot, s16 width, s32 he
 
     if (kFlipY)
     {
-        polyYPos -= FP_GetExponent(yOffset_scaled + scaled_height + FP_FromDouble(0.499));
+        if (GetGameType() == GameType::eAo)
+        {
+            polyYPos -= FP_GetExponent(yOffset_scaled + scaled_height + FP_FromDouble(0.499));
+        }
+        else
+        {
+            polyYPos -= FP_GetExponent(yOffset_scaled + FP_FromDouble(0.499));
+            polyYPos -= FP_GetExponent(scaled_height + FP_FromDouble(0.499));
+        }
     }
     else
     {
@@ -121,14 +162,21 @@ void Animation::VRender(s32 xpos, s32 ypos, OrderingTable& ot, s16 width, s32 he
     mPoly.SetUV2(kFlipX ? u0 : u1, kFlipY ? v0 : v1);
     mPoly.SetUV3(kFlipX ? u1 : u0, kFlipY ? v0 : v1);
 
-    const s16 xConverted = static_cast<s16>(PsxToPCX(polyXPos));
-    const s16 width_adjusted = FP_GetExponent(PsxToPCX(scaled_width) - FP_FromDouble(0.501)) + xConverted;
-    const s16 height_adjusted = FP_GetExponent(scaled_height - FP_FromDouble(0.501)) + polyYPos;
+    s16 final_polyX1 = polyXPos;
+    s16 final_polyX2 = FP_GetExponent(scaled_width - FP_FromDouble(0.501)) + final_polyX1;
+    const s16 final_polyY2 = FP_GetExponent(scaled_height - FP_FromDouble(0.501)) + polyYPos;
 
-    mPoly.SetXY0(xConverted, polyYPos);
-    mPoly.SetXY1(width_adjusted, polyYPos);
-    mPoly.SetXY2(xConverted, height_adjusted);
-    mPoly.SetXY3(width_adjusted, height_adjusted);
+    // (AO) Scale X and Width values at the end here
+    if (GetGameType() == GameType::eAo)
+    {
+        final_polyX1 = PsxToPCX(polyXPos);
+        final_polyX2 = FP_GetExponent(PsxToPCX(scaled_width) - FP_FromDouble(0.501)) + final_polyX1;
+    }
+
+    mPoly.SetXY0(final_polyX1, polyYPos);
+    mPoly.SetXY1(final_polyX2, polyYPos);
+    mPoly.SetXY2(final_polyX1, final_polyY2);
+    mPoly.SetXY3(final_polyX2, final_polyY2);
 
     mPoly.SetBlendMode(GetBlendMode());
 
