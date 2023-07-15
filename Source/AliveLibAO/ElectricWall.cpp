@@ -68,7 +68,7 @@ ElectricWall::~ElectricWall()
 
 void ElectricWall::VScreenChanged()
 {
-    if (gMap.mCurrentLevel != gMap.mNextLevel || gMap.mCurrentPath != gMap.mNextPath || gMap.GetDirection(mCurrentLevel, mCurrentPath, mXPos, mYPos) == CameraPos::eCamInvalid_m1)
+    if (gMap.LevelChanged() || gMap.PathChanged() || gMap.GetDirection(mCurrentLevel, mCurrentPath, mXPos, mYPos) == CameraPos::eCamInvalid_m1)
     {
         SetDead(true);
     }

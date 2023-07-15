@@ -193,7 +193,7 @@ void Grenade::VThrow(FP velX, FP velY)
 
 void Grenade::VScreenChanged()
 {
-    if (gMap.mCurrentLevel != gMap.mNextLevel || gMap.mCurrentPath != gMap.mNextPath)
+    if (gMap.LevelChanged() || gMap.PathChanged())
     {
         SetDead(true);
     }

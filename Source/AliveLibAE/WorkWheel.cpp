@@ -167,7 +167,7 @@ void WorkWheel::VUpdate()
 
 void WorkWheel::VScreenChanged()
 {
-    if (gMap.mCurrentLevel != gMap.mNextLevel || gMap.mCurrentPath != gMap.mNextPath || mState == WheelStates::eIdle_0)
+    if (gMap.LevelChanged() || gMap.PathChanged() || mState == WheelStates::eIdle_0)
     {
         SetDead(true);
     }

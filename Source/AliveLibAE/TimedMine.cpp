@@ -131,7 +131,7 @@ TimedMine::~TimedMine()
 
 void TimedMine::VScreenChanged()
 {
-    if (gMap.mCurrentLevel != gMap.mNextLevel || gMap.mCurrentPath != gMap.mNextPath)
+    if (gMap.LevelChanged() || gMap.PathChanged())
     {
         SetDead(true);
     }

@@ -331,9 +331,9 @@ void Map::ScreenChange()
         }
     }
 
-    if (gMap_bDoPurpleLightEffect || mNextLevel != mCurrentLevel)
+    if (gMap_bDoPurpleLightEffect || LevelChanged())
     {
-        if (mNextLevel != mCurrentLevel)
+        if (LevelChanged())
         {
             SsUtAllKeyOff(0);
         }
@@ -820,18 +820,18 @@ void Map::GoTo_Camera()
     // NOTE: None check changed to match AE
     if (mCurrentLevel != EReliveLevelIds::eMenu && mCurrentLevel != EReliveLevelIds::eNone)
     {
-        if (mNextLevel != mCurrentLevel || (mNextPath != mCurrentPath && mCameraSwapEffect == CameraSwapEffects::ePlay1FMV_5))
+        if (LevelChanged() || (PathChanged() && mCameraSwapEffect == CameraSwapEffects::ePlay1FMV_5))
         {
             ResourceManagerWrapper::ShowLoadingIcon();
         }
     }
 
-    if (mNextLevel != mCurrentLevel || mNextPath != mCurrentPath)
+    if (LevelChanged() || PathChanged())
     {
         mOverlayId = GetOverlayId();
     }
 
-    if (mNextLevel != mCurrentLevel)
+    if (LevelChanged())
     {
         ResourceManagerWrapper::LoadingLoop(bShowLoadingIcon);
 
@@ -847,7 +847,7 @@ void Map::GoTo_Camera()
 
         if (mCurrentLevel != EReliveLevelIds::eNone)
         {
-            if (mNextLevel != mCurrentLevel)
+            if (LevelChanged())
             {
                 SND_Reset_476BA0();
                 FreePathResourceBlocks();
@@ -857,7 +857,7 @@ void Map::GoTo_Camera()
 
         ResourceManagerWrapper::LoadingLoop(bShowLoadingIcon);
 
-        if (mNextLevel != mCurrentLevel)
+        if (LevelChanged())
         {
             mLoadedPaths = ResourceManagerWrapper::LoadPaths(mNextLevel);
         }
@@ -888,7 +888,7 @@ void Map::GoTo_Camera()
     const auto old_current_path = mCurrentPath;
     const auto old_current_level = mCurrentLevel;
 
-    mMapChanged = mNextPath != old_current_path || mNextLevel != mCurrentLevel;
+    mMapChanged = mNextPath != old_current_path || LevelChanged();
 
     mCurrentCamera = mNextCamera;
     mCurrentPath = mNextPath;

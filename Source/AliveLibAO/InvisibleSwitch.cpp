@@ -88,7 +88,7 @@ void InvisibleSwitch::VUpdate()
 
 void InvisibleSwitch::VScreenChanged()
 {
-    if (gMap.mCurrentLevel != gMap.mNextLevel || gMap.mCurrentPath != gMap.mNextPath)
+    if (gMap.LevelChanged() || gMap.PathChanged())
     {
         SetDead(true);
     }

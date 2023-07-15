@@ -102,7 +102,7 @@ void Meat::VTimeToExplodeRandom()
 
 void Meat::VScreenChanged()
 {
-    if (gMap.mCurrentPath != gMap.mNextPath || gMap.mCurrentLevel != gMap.mNextLevel)
+    if (gMap.PathChanged() || gMap.LevelChanged())
     {
         SetDead(true);
     }

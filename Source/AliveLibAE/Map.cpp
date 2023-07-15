@@ -148,7 +148,7 @@ void Map::ScreenChange()
         return;
     }
 
-    if (mNextLevel != mCurrentLevel)
+    if (LevelChanged())
     {
         SsUtAllKeyOff(0);
     }
@@ -627,21 +627,21 @@ void Map::GoTo_Camera()
 
     if (mCurrentLevel != EReliveLevelIds::eMenu && mCurrentLevel != EReliveLevelIds::eNone)
     {
-        if (mNextLevel != mCurrentLevel
+        if (LevelChanged()
             || mForceLoad
-            || (mNextPath != mCurrentPath && mCameraSwapEffect == CameraSwapEffects::ePlay1FMV_5))
+            || (PathChanged() && mCameraSwapEffect == CameraSwapEffects::ePlay1FMV_5))
         {
             ResourceManagerWrapper::ShowLoadingIcon();
         }
     }
 
-    if (mNextLevel != mCurrentLevel || mNextPath != mCurrentPath || mForceLoad)
+    if (LevelChanged() || PathChanged() || mForceLoad)
     {
         mOverlayId = GetOverlayId();
     }
 
 
-    if (mNextLevel != mCurrentLevel || mForceLoad)
+    if (LevelChanged() || mForceLoad)
     {
         ResourceManagerWrapper::LoadingLoop(bShowLoadingIcon);
 
@@ -657,7 +657,7 @@ void Map::GoTo_Camera()
 
         if (mCurrentLevel != EReliveLevelIds::eNone)
         {
-            if (mNextLevel != mCurrentLevel)
+            if (LevelChanged())
             {
                 SND_Reset();
                 FreePathResourceBlocks();

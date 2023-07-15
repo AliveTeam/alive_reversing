@@ -2430,7 +2430,7 @@ void Abe::VScreenChanged()
     }
 
     // Level has changed?
-    if (gMap.mCurrentLevel != gMap.mNextLevel)
+    if (gMap.LevelChanged())
     {
         // Set the correct tint for this map
         SetTint(sAbeTints_4C6438, gMap.mNextLevel);

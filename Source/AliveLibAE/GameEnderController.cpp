@@ -70,7 +70,7 @@ void GameEnderController::VScreenChanged()
         }
     }
 
-    if (gMap.mCurrentLevel != gMap.mNextLevel)
+    if (gMap.LevelChanged())
     {
         SetDead(true);
     }

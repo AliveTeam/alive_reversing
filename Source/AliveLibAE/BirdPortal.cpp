@@ -601,7 +601,7 @@ void BirdPortal::VGiveShrykull(s16 bPlaySound)
 }
 void BirdPortal::VScreenChanged()
 {
-    if (mState <= PortalStates::IdlePortal_1 || mState >= PortalStates::KillPortalClipper_21 || ((gMap.mCurrentLevel != gMap.mNextLevel || gMap.mCurrentPath != gMap.mNextPath) &&
+    if (mState <= PortalStates::IdlePortal_1 || mState >= PortalStates::KillPortalClipper_21 || ((gMap.LevelChanged() || gMap.PathChanged()) &&
 
                                                                                                                  (mState != PortalStates::AbeInsidePortal_16 || mPortalType != relive::Path_BirdPortal::PortalType::eAbe || gMap.mNextLevel != mExitLevel || gMap.mNextPath != mExitPath)))
     {

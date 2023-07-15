@@ -117,8 +117,8 @@ FallingItem::~FallingItem()
 
 void FallingItem::VScreenChanged()
 {
-    if (gMap.mCurrentLevel != gMap.mNextLevel
-        || gMap.mCurrentPath != gMap.mNextPath
+    if (gMap.LevelChanged()
+        || gMap.PathChanged()
         || mState != State::eFalling_3)
     {
         SetDead(true);

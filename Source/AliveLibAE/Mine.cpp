@@ -114,7 +114,7 @@ Mine::~Mine()
 
 void Mine::VScreenChanged()
 {
-    if (gMap.mCurrentLevel != gMap.mNextLevel || gMap.mCurrentPath != gMap.mNextPath || !mPersistOffscreen)
+    if (gMap.LevelChanged() || gMap.PathChanged() || !mPersistOffscreen)
     {
         SetDead(true);
     }

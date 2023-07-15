@@ -72,7 +72,7 @@ void ColourfulMeter::VScreenChanged()
 {
     SetDead(true);
 
-    if (gMap.mCurrentLevel != gMap.mNextLevel || gMap.mCurrentPath != gMap.mNextPath)
+    if (gMap.LevelChanged() || gMap.PathChanged())
     {
         gTotalMeterBars = 0;
     }

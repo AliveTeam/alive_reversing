@@ -205,8 +205,8 @@ void Rock::VTimeToExplodeRandom()
 //TODO Identical to AO - merge
 void Rock::VScreenChanged()
 {
-    if (gMap.mCurrentPath != gMap.mNextPath
-        || gMap.mCurrentLevel != gMap.mNextLevel)
+    if (gMap.PathChanged()
+        || gMap.LevelChanged())
     {
         SetDead(true);
     }

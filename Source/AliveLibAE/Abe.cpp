@@ -1381,7 +1381,7 @@ void Abe::VScreenChanged()
     }
 
     // Level has changed?
-    if (gMap.mCurrentLevel != gMap.mNextLevel)
+    if (gMap.LevelChanged())
     {
         // Hack to make Abe mSay hello in the first screen of the mines
         if (gMap.mNextLevel == EReliveLevelIds::eMines && !gAttract)
@@ -1434,7 +1434,7 @@ void Abe::VScreenChanged()
     }
 
     // If level or path changed then kill rings and farts
-    if (gMap.mCurrentLevel != gMap.mNextLevel || gMap.mCurrentPath != gMap.mNextPath)
+    if (gMap.LevelChanged() || gMap.PathChanged())
     {
         mRingPulseTimer = 0;
         if (gMap.mCurrentLevel != EReliveLevelIds::eNone)
@@ -1443,7 +1443,7 @@ void Abe::VScreenChanged()
         }
     }
 
-    if (gMap.mCurrentLevel != gMap.mNextLevel && !(GetRestoredFromQuickSave()))
+    if (gMap.LevelChanged() && !(GetRestoredFromQuickSave()))
     {
         for (s8& val : sSavedKilledMudsPerZulag_5C1B50.mData)
         {

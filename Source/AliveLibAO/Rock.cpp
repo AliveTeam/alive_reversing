@@ -188,8 +188,8 @@ void Rock::VUpdate()
 //TODO Identical to AE - merge
 void Rock::VScreenChanged()
 {
-    if (gMap.mCurrentPath != gMap.mNextPath
-        || gMap.mCurrentLevel != gMap.mNextLevel)
+    if (gMap.PathChanged()
+        || gMap.LevelChanged())
     {
         SetDead(true);
     }

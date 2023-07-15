@@ -663,12 +663,12 @@ void LiftPoint::VScreenChanged()
         CreatePulleyIfExists(0, -1);
     }
 
-    if (gMap.mCurrentLevel != gMap.mNextLevel)
+    if (gMap.LevelChanged())
     {
         SetDead(true);
     }
 
-    if (gMap.mCurrentPath != gMap.mNextPath)
+    if (gMap.PathChanged())
     {
         SetDead(true);
     }

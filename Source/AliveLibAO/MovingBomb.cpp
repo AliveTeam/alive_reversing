@@ -128,7 +128,7 @@ MovingBomb::~MovingBomb()
 
 void MovingBomb::VScreenChanged()
 {
-    if (mPersistOffscreen == relive::reliveChoice::eNo || gMap.mCurrentLevel != gMap.mNextLevel || gMap.mCurrentPath != gMap.mNextPath)
+    if (mPersistOffscreen == relive::reliveChoice::eNo || gMap.LevelChanged() || gMap.PathChanged())
     {
         SetDead(true);
     }

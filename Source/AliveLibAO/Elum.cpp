@@ -3461,13 +3461,13 @@ void Elum::VRender(OrderingTable& ot)
 
 void Elum::VScreenChanged()
 {
-    if (gMap.mCurrentLevel != gMap.mNextLevel)
+    if (gMap.LevelChanged())
     {
         SetDead(true);
     }
     else
     {
-        if (gMap.mCurrentPath != gMap.mNextPath)
+        if (gMap.PathChanged())
         {
             if (gMap.mCurrentLevel == EReliveLevelIds::eLines)
             {

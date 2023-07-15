@@ -50,7 +50,7 @@ GasCountDown::~GasCountDown()
 void GasCountDown::VScreenChanged()
 {
     SetDead(true);
-    if (gMap.mCurrentLevel != gMap.mNextLevel || gMap.mCurrentPath != gMap.mNextPath)
+    if (gMap.LevelChanged() || gMap.PathChanged())
     {
         sGasTimer = 0;
     }

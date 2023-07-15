@@ -226,7 +226,7 @@ UXB::~UXB()
 
 void UXB::VScreenChanged()
 {
-    if (gMap.mCurrentLevel != gMap.mNextLevel || gMap.mCurrentPath != gMap.mNextPath)
+    if (gMap.LevelChanged() || gMap.PathChanged())
     {
         if (mStartingState == UXBState::eDeactivated && mCurrentState != UXBState::eDeactivated)
         {

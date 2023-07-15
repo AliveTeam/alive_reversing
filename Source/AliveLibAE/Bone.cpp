@@ -207,7 +207,7 @@ bool Bone::OnCollision(BaseAnimatedWithPhysicsGameObject* pObj)
 
 void Bone::VScreenChanged()
 {
-    if (gMap.mCurrentPath != gMap.mNextPath || gMap.mCurrentLevel != gMap.mNextLevel)
+    if (gMap.PathChanged() || gMap.LevelChanged())
     {
         SetDead(true);
     }

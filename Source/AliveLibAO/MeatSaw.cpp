@@ -163,7 +163,7 @@ MeatSaw::MeatSaw(relive::Path_MeatSaw* pTlv, const Guid& tlvId)
 
 void MeatSaw::VScreenChanged()
 {
-    if (gMap.mCurrentLevel != gMap.mNextLevel || gMap.mCurrentPath != gMap.mNextPath || !sControlledCharacter || // Can be nullptr during the game ender
+    if (gMap.LevelChanged() || gMap.PathChanged() || !sControlledCharacter || // Can be nullptr during the game ender
         FP_Abs(sControlledCharacter->mXPos - mXPos) > FP_FromInteger(1024))
     {
         SetDead(true);
