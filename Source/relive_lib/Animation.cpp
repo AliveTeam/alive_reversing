@@ -105,13 +105,6 @@ void Animation::VRender(s32 xpos, s32 ypos, OrderingTable& ot, s16 width, s32 he
         scaled_height *= mSpriteScale;
         scaled_width  *= mSpriteScale;
 
-        // (AE) Add 1 if half scale
-        if (GetGameType() == GameType::eAe && mSpriteScale == FP_FromDouble(0.5))
-        {
-            scaled_height += FP_FromDouble(1.0);
-            scaled_width  += FP_FromDouble(1.0);
-        }
-
         // Apply scale to x/y offset
         xOffset_scaled = (xOffset_scaled * mSpriteScale);
         yOffset_scaled = (yOffset_scaled * mSpriteScale) - FP_FromInteger(1);
