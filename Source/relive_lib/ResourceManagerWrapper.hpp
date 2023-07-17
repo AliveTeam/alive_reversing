@@ -1,6 +1,8 @@
 #pragma once
 
 #include "AnimResources.hpp"
+#include <mutex>
+#include <queue>
 
 enum class AnimId;
 enum class EReliveLevelIds : s16;
@@ -190,16 +192,14 @@ public:
     std::shared_ptr<AnimationPal> mCurPal;
 };
 
-class PendingResource final
-{
-public:
 
-};
+class ThreadPool;
 
 // Temp adapter interface
 class ResourceManagerWrapper
 {
 public:
+
     // TODO: Remove/unify when both games resource managers are merged into one object
     enum ResourceType : u32
     {
@@ -237,6 +237,7 @@ public:
 
 
     // TODO: needs to be async like og
+    static void PendAnimation(AnimId anim);
     static AnimResource LoadAnimation(AnimId anim);
 
     static PalResource LoadPal(PalId pal);
@@ -253,6 +254,9 @@ public:
 
     static void LoadingLoop(bool bShowLoadingIcon);
 
+    // TODO: Call LoadingLoop after master/engine merge, LoadingLoop will
+    // cause a de-sync due to calling sound funcs
+    static void LoadingLoop2();
 
     static s32 SEQ_HashName(const char_type* seqFileName);
 
@@ -261,18 +265,34 @@ public:
 
     static void ShowLoadingIcon();
 
+    template <typename T, int size>
+    static void PendAnims(const T (&anims)[size])
+    {
+        for (const auto& anim : anims)
+        {
+            if (anim != AnimId::None)
+            {
+                PendAnimation(anim);
+            }
+        }
+    }
+
 private:
-    static void ProcessLoadingFiles();
 
-    static std::vector<PendingResource> mFilesPendingLoading;
-
-    // TODO: don't use stl directly
     struct AnimCache final
     {
-        std::weak_ptr<AnimationAttributesAndFrames> mAnimAttributes;
-        std::weak_ptr<PngData> mAnimPng;
+        // TODO: Need to be weak_ptrs
+        std::shared_ptr<AnimationAttributesAndFrames> mAnimAttributes;
+        std::shared_ptr<PngData> mAnimPng;
         UniqueResId mAnimUniqueId;
     };
-    static std::map<AnimId, AnimCache> mAnims;
-};
 
+public:
+    static std::mutex mLoadedAnimationsMutex;
+    // TODO: Remove dead entries at some point
+    static std::map<AnimId, AnimCache> mLoadedAnimations;
+
+private:
+    // unique_ptr to avoid bringing the header in
+    static std::unique_ptr<ThreadPool> mThreadPool;
+};

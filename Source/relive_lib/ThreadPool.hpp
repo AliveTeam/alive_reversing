@@ -7,19 +7,20 @@
 #include <atomic>
 #include <condition_variable>
 
+class IJob
+{
+public:
+    virtual ~IJob() = default;
+    virtual void Execute() = 0;
+};
+
+using UP_IJob = std::unique_ptr<IJob>;
+
 // Note: This thread pool will abondon yet to be run jobs when it
 // goes out of scope.
 class ThreadPool final
 {
 public:
-    class IJob
-    {
-    public:
-        virtual ~IJob() = default;
-        virtual void Execute() = 0;
-    };
-
-    using UP_IJob = std::unique_ptr<IJob>;
 
     ThreadPool()
     {
@@ -28,6 +29,16 @@ public:
         {
             mThreads.emplace_back(std::thread(&ThreadPool::ThreadProc, this));
         }
+    }
+
+    [[nodiscard]] bool Busy() const
+    {
+        bool isBusy = false;
+        {
+            std::unique_lock lock(mJobsQueueMutex);
+            isBusy = !mJobs.empty() || mBusyJobs != 0;
+        }
+        return isBusy;
     }
 
     ~ThreadPool()
@@ -87,14 +98,17 @@ private:
                 {
                     job = std::move(mJobs.front());
                     mJobs.pop();
+                    ++mBusyJobs;
                 }
             }
             job->Execute();
+            --mBusyJobs;
         }
     }
 
+    std::atomic<int> mBusyJobs{0};
     std::atomic<bool> mStopThreads{false};
-    std::mutex mJobsQueueMutex;
+    mutable std::mutex mJobsQueueMutex;
     std::condition_variable mWaitForWork;
     std::vector<std::thread> mThreads;
     std::queue<UP_IJob> mJobs;

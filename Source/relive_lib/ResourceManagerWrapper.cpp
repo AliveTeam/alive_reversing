@@ -18,11 +18,83 @@
 #include "GameObjects/Particle.hpp"
 #include "nlohmann/json.hpp"
 #include "Sys.hpp"
+#include "ThreadPool.hpp"
 
 u32 UniqueResId::mGlobalId = 1;
-std::vector<PendingResource> ResourceManagerWrapper::mFilesPendingLoading;
 
-std::map<AnimId, ResourceManagerWrapper::AnimCache> ResourceManagerWrapper::mAnims;
+std::unique_ptr<ThreadPool> ResourceManagerWrapper::mThreadPool = std::make_unique<ThreadPool>();
+std::mutex ResourceManagerWrapper::mLoadedAnimationsMutex;
+std::map<AnimId, ResourceManagerWrapper::AnimCache> ResourceManagerWrapper::mLoadedAnimations;
+
+static FileSystem::Path BasePath()
+{
+    FileSystem::Path filePath;
+    filePath.Append("relive_data");
+    if (GetGameType() == GameType::eAe)
+    {
+        filePath.Append("ae");
+    }
+    else
+    {
+        filePath.Append("ao");
+    }
+    return filePath;
+}
+
+class AnimationLoaderJob final : public IJob
+{
+public:
+    explicit AnimationLoaderJob(AnimId anim)
+        : mAnimId(anim)
+    {
+
+    }
+
+    void Execute() override
+    {
+        // One huge blocking func for now - needs to work like OG res man
+        FileSystem::Path filePath = BasePath();
+
+        filePath.Append("animations");
+
+        const char_type* groupName = AnimRecGroupName(mAnimId);
+        filePath.Append(groupName);
+
+        const char_type* animName = AnimRecName(mAnimId);
+        filePath.Append(animName);
+
+        // TODO: fs instance should probably be shared and thread safe
+        FileSystem fs;
+        const std::string jsonStr = fs.LoadToString((filePath.GetPath() + ".json").c_str());
+        if (jsonStr.empty())
+        {
+            ALIVE_FATAL("Missing anim json for anim: %s", animName);
+        }
+
+        // TODO: Use FS
+        auto pPngData = std::make_shared<PngData>();
+        PNGFile pngFile;
+        pPngData->mPal = std::make_shared<AnimationPal>();
+        pngFile.Load((filePath.GetPath() + ".png").c_str(), *pPngData->mPal, pPngData->mPixels, pPngData->mWidth, pPngData->mHeight);
+
+        auto pAnimationAttributesAndFrames = std::make_shared<AnimationAttributesAndFrames>(jsonStr);
+
+        AnimResource newRes;
+        newRes.mId = mAnimId;
+        newRes.mJsonPtr = pAnimationAttributesAndFrames;
+        newRes.mPngPtr = pPngData;
+        newRes.mCurPal = newRes.mPngPtr->mPal;
+
+        std::unique_lock<std::mutex> lock(ResourceManagerWrapper::mLoadedAnimationsMutex);
+
+        ResourceManagerWrapper::mLoadedAnimations[mAnimId] = {pAnimationAttributesAndFrames, pPngData, {}};
+    }
+
+private:
+    ResourceManagerWrapper* mResMan = nullptr;
+    AnimId mAnimId;
+};
+
 
 inline void from_json(const nlohmann::json& j, Point32& p)
 {
@@ -81,74 +153,38 @@ AnimationAttributesAndFrames::AnimationAttributesAndFrames(const std::string& js
     from_json(j["attributes"], mAttributes);
 }
 
-static FileSystem::Path BasePath()
-{
-    FileSystem::Path filePath;
-    filePath.Append("relive_data");
-    if (GetGameType() == GameType::eAe)
-    {
-        filePath.Append("ae");
-    }
-    else
-    {
-        filePath.Append("ao");
-    }
-    return filePath;
-}
-
 s16 ResourceManagerWrapper::bHideLoadingIcon = 0;
 s32 ResourceManagerWrapper::loading_ticks = 0;
 
+void ResourceManagerWrapper::PendAnimation(AnimId anim)
+{
+    auto job = std::make_unique<AnimationLoaderJob>(anim);
+    mThreadPool->AddJob(std::move(job));
+}
+
 AnimResource ResourceManagerWrapper::LoadAnimation(AnimId anim)
 {
-    auto it = mAnims.find(anim);
-    if (it != std::end(mAnims))
+    std::map<AnimId, ResourceManagerWrapper::AnimCache>::iterator it;
     {
-        auto jsonPtr = it->second.mAnimAttributes.lock();
-        auto pngPtr = it->second.mAnimPng.lock();
-
-        if (jsonPtr && pngPtr)
-        {
-            AnimResource res(anim, jsonPtr, pngPtr);
-            res.mUniqueId = it->second.mAnimUniqueId;
-            return res;
-        }
+        std::unique_lock<std::mutex> lock(mLoadedAnimationsMutex);
+        it = mLoadedAnimations.find(anim);
     }
 
-    // One huge blocking func for now - needs to work like OG res man
-    FileSystem::Path filePath = BasePath();
-
-    filePath.Append("animations");
-
-    const char_type* groupName = AnimRecGroupName(anim);
-    filePath.Append(groupName);
-
-    const char_type* animName = AnimRecName(anim);
-    filePath.Append(animName);
-
-    FileSystem fs;
-    const std::string jsonStr = fs.LoadToString((filePath.GetPath() + ".json").c_str());
-    if (jsonStr.empty())
+    if (it == std::end(mLoadedAnimations))
     {
-        ALIVE_FATAL("Missing anim json for anim: %s", animName);
+        ALIVE_FATAL("Animation wasn't loaded async before calling LoadAnimation, or didn't wait for async loading to finish");
     }
 
-    // TODO: Use FS
-    auto pPngData = std::make_shared<PngData>();
-    PNGFile pngFile;
-    pPngData->mPal = std::make_shared<AnimationPal>();
-    pngFile.Load((filePath.GetPath() + ".png").c_str(), *pPngData->mPal, pPngData->mPixels, pPngData->mWidth, pPngData->mHeight);
+    auto jsonPtr = it->second.mAnimAttributes;
+    auto pngPtr = it->second.mAnimPng;
+    if (jsonPtr && pngPtr)
+    {
+        AnimResource res(anim, jsonPtr, pngPtr);
+        res.mUniqueId = it->second.mAnimUniqueId;
+        return res;
+    }
 
-    auto pAnimationAttributesAndFrames = std::make_shared<AnimationAttributesAndFrames>(jsonStr);
-
-    AnimResource newRes;
-    newRes.mId = anim;
-    newRes.mJsonPtr = pAnimationAttributesAndFrames;
-    newRes.mPngPtr = pPngData;
-    newRes.mCurPal = newRes.mPngPtr->mPal;
-    mAnims[anim] = {pAnimationAttributesAndFrames, pPngData, {}};
-
-    return newRes;
+    ALIVE_FATAL("Json or PNG resources have gone out of scope");
 }
 
 PalResource ResourceManagerWrapper::LoadPal(PalId pal)
@@ -360,11 +396,10 @@ void ResourceManagerWrapper::LoadingLoop(bool bShowLoadingIcon)
 {
     GetGameAutoPlayer().DisableRecorder();
 
-    while (!mFilesPendingLoading.empty())
+    while (mThreadPool->Busy())
     {
         // TODO: Fix
         SYS_EventsPump();
-        ProcessLoadingFiles();
         PSX_VSync(VSyncMode::UncappedFps);
         const s32 ticks = loading_ticks++ + 1;
         if (bShowLoadingIcon && !bHideLoadingIcon && ticks > 180)
@@ -376,6 +411,15 @@ void ResourceManagerWrapper::LoadingLoop(bool bShowLoadingIcon)
 
     GetGameAutoPlayer().EnableRecorder();
 }
+
+void ResourceManagerWrapper::LoadingLoop2()
+{
+    while (mThreadPool->Busy())
+    {
+        // Just block, hang everything
+    }
+}
+
 
 s32 ResourceManagerWrapper::SEQ_HashName(const char_type* seqFileName)
 {
@@ -414,11 +458,6 @@ s32 ResourceManagerWrapper::SEQ_HashName(const char_type* seqFileName)
         }
     }
     return hashId;
-}
-
-void ResourceManagerWrapper::ProcessLoadingFiles()
-{
-
 }
 
 void ResourceManagerWrapper::ShowLoadingIcon()

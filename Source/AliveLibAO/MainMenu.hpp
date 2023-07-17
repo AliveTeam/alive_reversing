@@ -105,6 +105,29 @@ union MenuOption
 class Menu final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
+    static constexpr AnimId kAnims[] = {
+        AnimId::MenuHighlight_ButtonRemapSquare,
+        AnimId::MenuHighlight_Circle,
+        AnimId::MenuHighlight_Square,
+        AnimId::MenuHighlight_Triangle,
+        AnimId::MenuDoor,
+        AnimId::AbeIntro,
+        AnimId::MenuAbeSpeak_Laugh,
+        AnimId::MenuAbeSpeak_WhistleHigh,
+        AnimId::MenuAbeSpeak_WhistleLow,
+        AnimId::MenuAbeSpeak_Fart,
+        AnimId::MenuAbeSpeak_Hello,
+        AnimId::MenuAbeSpeak_Idle,
+        AnimId::MenuAbeSpeak_IdleBlink,
+        AnimId::MenuAbeSpeak_Ok,
+        AnimId::MenuAbeSpeak_FollowMe,
+        AnimId::MenuAbeSpeak_Wait,
+        AnimId::MenuAbeSpeak_Anger,
+        AnimId::MenuAbeSpeak_Chant,
+        AnimId::MenuAbeSpeak_ChantEnd,
+        AnimId::MenuAbeSpeak_Goodbye,
+        AnimId::OptionChantOrb_Particle};
+
     Menu(relive::Path_TLV* pTlv, const Guid& tlvId);
     ~Menu();
 

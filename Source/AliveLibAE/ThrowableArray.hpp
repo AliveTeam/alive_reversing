@@ -14,7 +14,7 @@ struct ThrowableArraySaveState final : public SaveStateBase
     ThrowableArraySaveState()
         : SaveStateBase(ReliveTypes::eThrowableArray, sizeof(*this))
     { }
-    s16 mCount;
+    s16 mCount = 0;
 };
 
 class ThrowableArray final : public BaseGameObject

@@ -366,32 +366,7 @@ void MainMenuFade::VRender(OrderingTable& ot)
 
 void Menu::LoadAnimations()
 {
-    static AnimId animIds[] =
-    {
-        AnimId::MenuHighlight_ButtonRemapSquare,
-        AnimId::MenuHighlight_Circle,
-        AnimId::MenuHighlight_Square,
-        AnimId::MenuHighlight_Triangle,
-        AnimId::MenuDoor,
-        AnimId::AbeIntro,
-        AnimId::MenuAbeSpeak_Laugh,
-        AnimId::MenuAbeSpeak_WhistleHigh,
-        AnimId::MenuAbeSpeak_WhistleLow,
-        AnimId::MenuAbeSpeak_Fart,
-        AnimId::MenuAbeSpeak_Hello,
-        AnimId::MenuAbeSpeak_Idle,
-        AnimId::MenuAbeSpeak_IdleBlink,
-        AnimId::MenuAbeSpeak_Ok,
-        AnimId::MenuAbeSpeak_FollowMe,
-        AnimId::MenuAbeSpeak_Wait,
-        AnimId::MenuAbeSpeak_Anger,
-        AnimId::MenuAbeSpeak_Chant,
-        AnimId::MenuAbeSpeak_ChantEnd,
-        AnimId::MenuAbeSpeak_Goodbye,
-        AnimId::OptionChantOrb_Particle
-    };
-
-    for (auto& animId : animIds)
+    for (auto& animId : kAnims)
     {
         mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(animId));
     }
@@ -1689,6 +1664,10 @@ void Menu::NewGameStart()
 {
     if (!sActiveHero)
     {
+        ResourceManagerWrapper::PendAnims(Abe::sAbeMotionAnimIds);
+        // TODO: Hack - should be part of abes anim array
+        ResourceManagerWrapper::PendAnimation(AnimId::ObjectShadow);
+        ResourceManagerWrapper::LoadingLoop2();
         sActiveHero = relive_new Abe();
     }
 
