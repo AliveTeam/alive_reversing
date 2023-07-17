@@ -172,7 +172,13 @@ AnimResource ResourceManagerWrapper::LoadAnimation(AnimId anim)
 
     if (it == std::end(mLoadedAnimations))
     {
-        ALIVE_FATAL("Animation wasn't loaded async before calling LoadAnimation, or didn't wait for async loading to finish");
+        LOG_ERROR("Animation wasn't loaded async before calling LoadAnimation, or didn't wait for async loading to finish");
+
+        // TODO: Remove this when all of factory etc is updated
+        AnimationLoaderJob hack(anim);
+        hack.Execute();
+        std::unique_lock<std::mutex> lock(mLoadedAnimationsMutex);
+        it = mLoadedAnimations.find(anim);
     }
 
     auto jsonPtr = it->second.mAnimAttributes;
