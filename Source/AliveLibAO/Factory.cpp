@@ -649,6 +649,10 @@ static void Factory_AbeStart(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& 
             }
         }
     }
+    else
+    {
+        ResourceManagerWrapper::PendAnims(Abe::sAbeMotionAnimIds);
+    }
 }
 
 static void Factory_ElumWall(relive::Path_TLV* /*pTlv*/, Map* /*pMap*/, const Guid& tlvId, LoadMode loadMode)
@@ -1104,6 +1108,7 @@ static void Factory_MainMenuController(relive::Path_TLV* pTlv, Map* /*pMap*/, co
     {
         if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
         {
+            ResourceManagerWrapper::PendAnims(Menu::kAnims);
         }
         else
         {

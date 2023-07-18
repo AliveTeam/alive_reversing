@@ -91,6 +91,9 @@ void Init_Sound_DynamicArrays_And_Others()
 
 void Game_Init_LoadingIcon()
 {
+    ResourceManagerWrapper::PendAnimation(AnimId::Loading_Icon2);
+    ResourceManagerWrapper::LoadingLoop2();
+
     /*
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kLoadingAOResID, 1, 0);
     if (!ppRes)
