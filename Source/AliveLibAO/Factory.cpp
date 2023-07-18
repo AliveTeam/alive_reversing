@@ -83,13 +83,15 @@ static void Factory_Hoist(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& tlv
         {
             case EReliveLevelIds::eRuptureFarms:
             case EReliveLevelIds::eRuptureFarmsReturn:
-                break;
-
-           case EReliveLevelIds::eForest:
-           case EReliveLevelIds::eDesert:
+                ResourceManagerWrapper::PendAnimation(AnimId::RuptureFarms_HoistRock1);
+                ResourceManagerWrapper::PendAnimation(AnimId::RuptureFarms_HoistRock2);
+                ResourceManagerWrapper::PendAnimation(AnimId::RuptureFarms_HoistRock3);
                 break;
 
             default:
+                ResourceManagerWrapper::PendAnimation(AnimId::AO_HoistRock1);
+                ResourceManagerWrapper::PendAnimation(AnimId::AO_HoistRock2);
+                ResourceManagerWrapper::PendAnimation(AnimId::AO_HoistRock3);
                 break;
         }
     }
@@ -112,7 +114,7 @@ static void Factory_Edge(relive::Path_TLV* /*pTlv*/, Map* /*pMap*/, const Guid& 
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
-
+        //ResourceManagerWrapper::PendAnims(::);
         if (gMap.mCurrentLevel == EReliveLevelIds::eForest || gMap.mCurrentLevel == EReliveLevelIds::eDesert)
         {
         }
@@ -132,17 +134,29 @@ static void Factory_Door(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& tlvI
             case EReliveLevelIds::eRuptureFarms:
             case EReliveLevelIds::eBoardRoom:
             case EReliveLevelIds::eRuptureFarmsReturn:
+                ResourceManagerWrapper::PendAnimation(AnimId::Door_RuptureFarms_Open);
+                ResourceManagerWrapper::PendAnimation(AnimId::Door_RuptureFarms_Closed);
                 break;
 
             case EReliveLevelIds::eLines:
+                ResourceManagerWrapper::PendAnimation(AnimId::Door_Lines_Open);
+                ResourceManagerWrapper::PendAnimation(AnimId::Door_Lines_Closed);
                 break;
 
             case EReliveLevelIds::eDesert:
             case EReliveLevelIds::eDesertTemple:
             case EReliveLevelIds::eDesertEscape:
+                ResourceManagerWrapper::PendAnimation(AnimId::Door_Desert_Open);
+                ResourceManagerWrapper::PendAnimation(AnimId::Door_Desert_Closed);
+                ResourceManagerWrapper::PendAnimation(AnimId::FinalTestDoor_Desert_Open);
+                ResourceManagerWrapper::PendAnimation(AnimId::FinalTestDoor_Desert_Closed);
                 break;
 
             default:
+                ResourceManagerWrapper::PendAnimation(AnimId::Door_Forest_Open);
+                ResourceManagerWrapper::PendAnimation(AnimId::Door_Forest_Closed);
+                ResourceManagerWrapper::PendAnimation(AnimId::FinalTestDoor_Forest_Open);
+                ResourceManagerWrapper::PendAnimation(AnimId::FinalTestDoor_Forest_Closed);
                 break;
         }
     }
@@ -169,19 +183,39 @@ static void Factory_LiftPoint(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid&
             case EReliveLevelIds::eRuptureFarms:
             case EReliveLevelIds::eBoardRoom:
             case EReliveLevelIds::eRuptureFarmsReturn:
+                ResourceManagerWrapper::PendAnimation(AnimId::Rope_R1);
+                ResourceManagerWrapper::PendAnimation(AnimId::LiftPlatform_RuptureFarms);
+                ResourceManagerWrapper::PendAnimation(AnimId::LiftBottomWheel_RuptureFarms);
+                ResourceManagerWrapper::PendAnimation(AnimId::LiftTopWheel_RuptureFarms);
                 break;
 
             case EReliveLevelIds::eLines:
+                ResourceManagerWrapper::PendAnimation(AnimId::Rope_Lines);
+                ResourceManagerWrapper::PendAnimation(AnimId::LiftPlatform_Lines);
+                ResourceManagerWrapper::PendAnimation(AnimId::LiftBottomWheel_Lines);
+                ResourceManagerWrapper::PendAnimation(AnimId::LiftTopWheel_Lines);
                 break;
 
             case EReliveLevelIds::eDesert:
+                ResourceManagerWrapper::PendAnimation(AnimId::Rope_R1);
+                ResourceManagerWrapper::PendAnimation(AnimId::LiftPlatform_Desert);
+                ResourceManagerWrapper::PendAnimation(AnimId::LiftBottomWheel_Desert);
+                ResourceManagerWrapper::PendAnimation(AnimId::LiftTopWheel_Desert);
                 break;
 
             case EReliveLevelIds::eDesertTemple:
             case EReliveLevelIds::eDesertEscape:
+                ResourceManagerWrapper::PendAnimation(AnimId::Rope_R1);
+                ResourceManagerWrapper::PendAnimation(AnimId::LiftPlatform_Desert2);
+                ResourceManagerWrapper::PendAnimation(AnimId::LiftBottomWheel_Desert2);
+                ResourceManagerWrapper::PendAnimation(AnimId::LiftTopWheel_Desert2);
                 break;
 
             default:
+                ResourceManagerWrapper::PendAnimation(AnimId::Rope_Lines);
+                ResourceManagerWrapper::PendAnimation(AnimId::LiftPlatform_Forest);
+                ResourceManagerWrapper::PendAnimation(AnimId::LiftBottomWheel_Forest);
+                ResourceManagerWrapper::PendAnimation(AnimId::LiftTopWheel_Forest);
                 break;
         }
     }
@@ -253,6 +287,8 @@ static void Factory_Well(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& tlvI
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
+        // TODO:
+        //ResourceManagerWrapper::PendAnims(::);
     }
     else
     {
@@ -297,12 +333,22 @@ static void Factory_Dove(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& tlvI
             }
         }
     }
+    else
+    {
+        ResourceManagerWrapper::PendAnimation(AnimId::Dove_Idle);
+        ResourceManagerWrapper::PendAnimation(AnimId::Dove_Flying);
+    }
 }
 
 static void Factory_RockSack(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& tlvId, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
+        ResourceManagerWrapper::PendAnimation(AnimId::Rock);
+        ResourceManagerWrapper::PendAnimation(AnimId::RockSack_Idle);
+        ResourceManagerWrapper::PendAnimation(AnimId::RockSack_SoftHit);
+        ResourceManagerWrapper::PendAnimation(AnimId::RockSack_HardHit);
+
         if (gMap.mCurrentLevel == EReliveLevelIds::eStockYards || gMap.mCurrentLevel == EReliveLevelIds::eStockYardsReturn)
         {
         }
@@ -317,9 +363,9 @@ static void Factory_ZBall(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& tlv
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
-        if (gMap.mCurrentLevel == EReliveLevelIds::eForestTemple)
-        {
-        }
+        ResourceManagerWrapper::PendAnimation(AnimId::Swinging_Ball_Fast);
+        ResourceManagerWrapper::PendAnimation(AnimId::Swinging_Ball_Normal);
+        ResourceManagerWrapper::PendAnimation(AnimId::Swinging_Ball_Slow);
     }
     else
     {
@@ -331,48 +377,36 @@ static void Factory_FallingItem(relive::Path_TLV* pTlv, Map* /*pMap*/, const Gui
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
+        ResourceManagerWrapper::PendAnimation(AnimId::Stick_Gib);
         switch (gMap.mCurrentLevel)
         {
             case EReliveLevelIds::eRuptureFarms:
             case EReliveLevelIds::eRuptureFarmsReturn:
+                ResourceManagerWrapper::PendAnimation(AnimId::FallingMeat_Waiting);
+                ResourceManagerWrapper::PendAnimation(AnimId::FallingMeat_Falling);
+                ResourceManagerWrapper::PendAnimation(AnimId::Meat_Gib);
                 break;
 
             case EReliveLevelIds::eLines:
             case EReliveLevelIds::eBoardRoom:
-                break;
-
             case EReliveLevelIds::eStockYards:
-                break;
-
             case EReliveLevelIds::eDesert:
             case EReliveLevelIds::eDesertTemple:
             case EReliveLevelIds::eDesertEscape:
+                ResourceManagerWrapper::PendAnimation(AnimId::AO_FallingRock_Falling);
+                ResourceManagerWrapper::PendAnimation(AnimId::AO_FallingRock_Waiting);
+                ResourceManagerWrapper::PendAnimation(AnimId::Rock_Gib);
                 break;
 
             default:
+                ResourceManagerWrapper::PendAnimation(AnimId::AO_FallingRock_Falling);
+                ResourceManagerWrapper::PendAnimation(AnimId::AO_FallingRock_Waiting);
+                ResourceManagerWrapper::PendAnimation(AnimId::Rock_Gib);
                 break;
         }
     }
     else
     {
-        switch (gMap.mCurrentLevel)
-        {
-            case EReliveLevelIds::eRuptureFarms:
-            case EReliveLevelIds::eRuptureFarmsReturn:
-                break;
-
-            case EReliveLevelIds::eLines:
-                break;
-
-            case EReliveLevelIds::eStockYards:
-            case EReliveLevelIds::eDesert:
-            case EReliveLevelIds::eDesertTemple:
-                break;
-
-            default:
-                break;
-        }
-
         relive_new FallingItem(static_cast<relive::Path_FallingItem*>(pTlv), tlvId);
     }
 }
@@ -386,13 +420,25 @@ static void Factory_PullRingRope(relive::Path_TLV* pTlv, Map* /*pMap*/, const Gu
             case EReliveLevelIds::eRuptureFarms:
             case EReliveLevelIds::eBoardRoom:
             case EReliveLevelIds::eRuptureFarmsReturn:
+                ResourceManagerWrapper::PendAnimation(AnimId::Rope_R1);
+                ResourceManagerWrapper::PendAnimation(AnimId::Pullring_Farms_Idle);
+                ResourceManagerWrapper::PendAnimation(AnimId::Pullring_Farms_UseBegin);
+                ResourceManagerWrapper::PendAnimation(AnimId::Pullring_Farms_UseEnd);
                 break;
 
             case EReliveLevelIds::eDesert:
             case EReliveLevelIds::eDesertTemple:
+                ResourceManagerWrapper::PendAnimation(AnimId::Rope_Lines);
+                ResourceManagerWrapper::PendAnimation(AnimId::Pullring_Desert_Idle);
+                ResourceManagerWrapper::PendAnimation(AnimId::Pullring_Desert_UseBegin);
+                ResourceManagerWrapper::PendAnimation(AnimId::Pullring_Desert_UseEnd);
                 break;
 
             default:
+                ResourceManagerWrapper::PendAnimation(AnimId::Rope_Lines);
+                ResourceManagerWrapper::PendAnimation(AnimId::Pullring_Desert_Idle);
+                ResourceManagerWrapper::PendAnimation(AnimId::Pullring_Desert_UseBegin);
+                ResourceManagerWrapper::PendAnimation(AnimId::Pullring_Desert_UseEnd);
                 break;
         }
     }
@@ -414,6 +460,8 @@ static void Factory_Honey(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& tlv
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
+        ResourceManagerWrapper::PendAnimation(AnimId::Honey);
+        ResourceManagerWrapper::PendAnimation(AnimId::Honey_Drip);
     }
     else
     {
@@ -432,9 +480,20 @@ static void Factory_Honey(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& tlv
 static void Factory_TimedMine(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& tlvId, LoadMode loadMode)
 {
     auto pTimedMineTlv = static_cast<relive::Path_TimedMine*>(pTlv);
-    const auto disabledResource = pTimedMineTlv->mDisabledResources;
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
+        ResourceManagerWrapper::PendAnimation(AnimId::TimedMine_Activated);
+        ResourceManagerWrapper::PendAnimation(AnimId::TimedMine_Idle);
+        ResourceManagerWrapper::PendAnimation(AnimId::Abe_Head_Gib);
+        ResourceManagerWrapper::PendAnimation(AnimId::Abe_Arm_Gib);
+        ResourceManagerWrapper::PendAnimation(AnimId::Abe_Body_Gib);
+        ResourceManagerWrapper::PendAnimation(AnimId::Slog_Head_Gib);
+        ResourceManagerWrapper::PendAnimation(AnimId::Slog_Body_Gib);
+        ResourceManagerWrapper::PendAnimation(AnimId::Elum_Head_Gib);
+        ResourceManagerWrapper::PendAnimation(AnimId::Elum_Arm_Gib);
+        ResourceManagerWrapper::PendAnimation(AnimId::Elum_Body_Gib);
+        ResourceManagerWrapper::PendAnimation(AnimId::GroundExplosion);
+        ResourceManagerWrapper::PendAnimation(AnimId::Elum_Body_Gib);
         if (gMap.mCurrentLevel == EReliveLevelIds::eStockYards || gMap.mCurrentLevel == EReliveLevelIds::eStockYardsReturn)
         {
         }
@@ -442,14 +501,6 @@ static void Factory_TimedMine(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid&
     }
     else
     {
-        if (!(disabledResource & 1))
-        {
-        }
-
-        if (!(disabledResource & 2))
-        {
-        }
-
         relive_new TimedMine(pTimedMineTlv, tlvId);
     }
 }
@@ -458,6 +509,7 @@ static void LoadWalkingSligResources(LoadMode loadMode, BitField16<SligFlags_Dis
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
+        ResourceManagerWrapper::PendAnims(Slig::sSligMotionAnimIds);
         if (gMap.mCurrentLevel == EReliveLevelIds::eStockYards || gMap.mCurrentLevel == EReliveLevelIds::eStockYardsReturn)
         {
         }
@@ -966,6 +1018,7 @@ static void Factory_Elum(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& tlvI
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
+        ResourceManagerWrapper::PendAnims(Elum::gElumMotionAnimIds);
     }
     else
     {
@@ -980,6 +1033,9 @@ static void Factory_MeatSack(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& 
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
+        ResourceManagerWrapper::PendAnimation(AnimId::Meat);
+        ResourceManagerWrapper::PendAnimation(AnimId::MeatSack_Idle);
+        ResourceManagerWrapper::PendAnimation(AnimId::MeatSack_Hit);
     }
     else
     {
@@ -992,6 +1048,7 @@ static void Factory_Scrab(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& tlv
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
+        ResourceManagerWrapper::PendAnims(Scrab::sScrabMotionAnimIds);
         return;
     }
     relive_new Scrab(static_cast<relive::Path_Scrab*>(pTlv), tlvId);
@@ -1002,6 +1059,10 @@ static void Factory_FlintLockFire(relive::Path_TLV* pTlv, Map* /*pMap*/, const G
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
+        ResourceManagerWrapper::PendAnimation(AnimId::Fire);
+        ResourceManagerWrapper::PendAnimation(AnimId::FlintLock_Gourd);
+        ResourceManagerWrapper::PendAnimation(AnimId::FlintLock_Hammers_Disabled);
+        ResourceManagerWrapper::PendAnimation(AnimId::FlintLock_Hammers_Activating);
     }
     else
     {
@@ -1064,6 +1125,8 @@ static void Factory_DoorFlame(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid&
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
+        ResourceManagerWrapper::PendAnimation(AnimId::Fire);
+        ResourceManagerWrapper::PendAnimation(AnimId::Door_FireBackgroundGlow);
     }
     else
     {
@@ -1077,16 +1140,22 @@ static void Factory_MovingBomb(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid
 
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
+        ResourceManagerWrapper::PendAnimation(AnimId::MovingBomb);
+        ResourceManagerWrapper::PendAnimation(AnimId::AirExplosion);
+        ResourceManagerWrapper::PendAnimation(AnimId::Metal_Gib);
+        ResourceManagerWrapper::PendAnimation(AnimId::Abe_Head_Gib);
+        ResourceManagerWrapper::PendAnimation(AnimId::Abe_Arm_Gib);
+        ResourceManagerWrapper::PendAnimation(AnimId::Abe_Body_Gib);
+        ResourceManagerWrapper::PendAnimation(AnimId::Elum_Head_Gib);
+        ResourceManagerWrapper::PendAnimation(AnimId::Elum_Arm_Gib);
+        ResourceManagerWrapper::PendAnimation(AnimId::Elum_Body_Gib);
+
         if (gMap.mCurrentLevel == EReliveLevelIds::eStockYards || gMap.mCurrentLevel == EReliveLevelIds::eStockYardsReturn)
         {
         }
     }
     else
     {
-        if (!(pMovingBombTlv->mDisabledResources & 1))
-        {
-        }
-
         relive_new MovingBomb(pMovingBombTlv, tlvId);
     }
 }
@@ -1233,21 +1302,29 @@ static void Factory_LightEffect(relive::Path_TLV* pTlv, Map* /*pMap*/, const Gui
         switch (pPathLightTlv->mType)
         {
             case relive::Path_LightEffect::Type::Star:
+                ResourceManagerWrapper::PendAnimation(AnimId::Star);
                 break;
 
             case relive::Path_LightEffect::Type::GoldGlow:
+                ResourceManagerWrapper::PendAnimation(AnimId::GoldGlow);
                 break;
 
             case relive::Path_LightEffect::Type::GreenGlow:
+                ResourceManagerWrapper::PendAnimation(AnimId::GreenGlow);
                 break;
 
             case relive::Path_LightEffect::Type::FlintGlow:
+                ResourceManagerWrapper::PendAnimation(AnimId::FlintGlow);
                 break;
 
             case relive::Path_LightEffect::Type::Switchable_RedGreenDoorLights:
+                ResourceManagerWrapper::PendAnimation(AnimId::RedDoorLight);
+                ResourceManagerWrapper::PendAnimation(AnimId::GreenDoorLight);
                 break;
 
             case relive::Path_LightEffect::Type::Switchable_RedGreenHubLight:
+                ResourceManagerWrapper::PendAnimation(AnimId::RedHubLight);
+                ResourceManagerWrapper::PendAnimation(AnimId::GreenHubLight);
                 break;
 
             default:

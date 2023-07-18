@@ -33,38 +33,6 @@ const TScrabMotionFunction sScrabMotionTable[30] = {
 #undef MAKE_FN
 };
 
-const AnimId sScrabMotionAnimIds[30] = {
-    AnimId::Scrab_Idle,
-    AnimId::Scrab_Idle,
-    AnimId::Scrab_Walk,
-    AnimId::Scrab_Run,
-    AnimId::Scrab_Turn,
-    AnimId::Scrab_RunToStand,
-    AnimId::Scrab_HopBegin,
-    AnimId::Scrab_Jump,
-    AnimId::Scrab_Landing,
-    AnimId::Scrab_Idle,
-    AnimId::Scrab_StandToWalk,
-    AnimId::Scrab_StandToRun,
-    AnimId::Scrab_WalkToStand,
-    AnimId::Scrab_Jump,
-    AnimId::Scrab_Landing,
-    AnimId::Scrab_AO_ToFall,
-    AnimId::Scrab_Stamp,
-    AnimId::Scrab_GetEaten,
-    AnimId::Scrab_GetEaten,
-    AnimId::Scrab_AO_M_19_Unused,
-    AnimId::Scrab_HowlBegin,
-    AnimId::Scrab_HowlEnd,
-    AnimId::Scrab_Shriek,
-    AnimId::Scrab_ScrabBattleAnim,
-    AnimId::Scrab_FeedToGulp,
-    AnimId::Scrab_AO_ToFeed,
-    AnimId::Scrab_Feed,
-    AnimId::Scrab_AttackLunge,
-    AnimId::Scrab_LegKick,
-    AnimId::Scrab_DeathBegin};
-
 Scrab::Scrab(relive::Path_Scrab* pTlv, const Guid& tlvId)
     : BaseAliveGameObject()
 {
