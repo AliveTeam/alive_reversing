@@ -164,6 +164,8 @@ static void Factory_Door(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& tlvI
             case EReliveLevelIds::eDesertEscape:
                 ResourceManagerWrapper::PendAnimation(AnimId::Door_Desert_Open);
                 ResourceManagerWrapper::PendAnimation(AnimId::Door_Desert_Closed);
+                ResourceManagerWrapper::PendAnimation(AnimId::HubDoor_Desert_Open);
+                ResourceManagerWrapper::PendAnimation(AnimId::HubDoor_Desert_Closed);
                 ResourceManagerWrapper::PendAnimation(AnimId::FinalTestDoor_Desert_Open);
                 ResourceManagerWrapper::PendAnimation(AnimId::FinalTestDoor_Desert_Closed);
                 break;
@@ -171,6 +173,8 @@ static void Factory_Door(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& tlvI
             default:
                 ResourceManagerWrapper::PendAnimation(AnimId::Door_Forest_Open);
                 ResourceManagerWrapper::PendAnimation(AnimId::Door_Forest_Closed);
+                ResourceManagerWrapper::PendAnimation(AnimId::HubDoor_Forest_Open);
+                ResourceManagerWrapper::PendAnimation(AnimId::HubDoor_Forest_Closed);
                 ResourceManagerWrapper::PendAnimation(AnimId::FinalTestDoor_Forest_Open);
                 ResourceManagerWrapper::PendAnimation(AnimId::FinalTestDoor_Forest_Closed);
                 break;
@@ -717,6 +721,10 @@ static void Factory_HoneySack(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid&
     {
         ResourceManagerWrapper::PendAnimation(AnimId::Honey);
         ResourceManagerWrapper::PendAnimation(AnimId::Honey_Drip);
+        ResourceManagerWrapper::PendAnimation(AnimId::HoneySack_Hanging);
+        ResourceManagerWrapper::PendAnimation(AnimId::HoneySack_OnGround);
+        ResourceManagerWrapper::PendAnimation(AnimId::HoneySack_Falling);
+        ResourceManagerWrapper::PendAnimation(AnimId::HoneySack_FallingToSmashed);
     }
     else
     {
@@ -839,6 +847,7 @@ static void Factory_Paramite(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& 
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
         ResourceManagerWrapper::PendAnims(Paramite::sParamiteMotionAnimIds);
+        ResourceManagerWrapper::PendAnimation(AnimId::ParamiteWeb);
         return;
     }
     relive_new Paramite(static_cast<relive::Path_Paramite*>(pTlv), tlvId);

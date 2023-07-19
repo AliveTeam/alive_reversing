@@ -1676,6 +1676,11 @@ void Menu::NewGameStart()
         ResourceManagerWrapper::PendAnimation(AnimId::DeathFlare_2);
         ResourceManagerWrapper::PendAnimation(AnimId::Dove_Idle);
         ResourceManagerWrapper::PendAnimation(AnimId::Dove_Flying);
+
+        // Required after abe gets back from both temples and gets the ring from big face
+        ResourceManagerWrapper::PendAnimation(AnimId::ShrykullStart);
+        ResourceManagerWrapper::PendAnimation(AnimId::ShrykullTransform);
+        ResourceManagerWrapper::PendAnimation(AnimId::ShrykullDetransform);
         ResourceManagerWrapper::LoadingLoop2();
         sActiveHero = relive_new Abe();
     }

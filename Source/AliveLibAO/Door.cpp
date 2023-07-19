@@ -54,6 +54,8 @@ void Door::LoadAnimations()
         case EReliveLevelIds::eDesertEscape:
             mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Door_Desert_Open));
             mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Door_Desert_Closed));
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::HubDoor_Desert_Open));
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::HubDoor_Desert_Closed));
             mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::FinalTestDoor_Desert_Open));
             mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::FinalTestDoor_Desert_Closed));
             break;
@@ -61,6 +63,8 @@ void Door::LoadAnimations()
         default:
             mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Door_Forest_Open));
             mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Door_Forest_Closed));
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::HubDoor_Forest_Open));
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::HubDoor_Forest_Closed));
             mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::FinalTestDoor_Forest_Open));
             mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::FinalTestDoor_Forest_Closed));
             break;

@@ -277,26 +277,6 @@ public:
         }
     }
 
-    template <typename T, int rows, int cols>
-    static void PendAnims(const T (&anims)[rows][cols])
-    {
-        for (int i = 0; i < rows; i++)
-        {
-            for (int j = 0; j < cols; j++)
-            {
-                if (anims[i][j] == AnimId::Door_RuptureFarms_Open)
-                {
-                    __debugbreak();
-                }
-
-                if (anims[i][j] != AnimId::None)
-                {
-                    PendAnimation(anims[i][j]);
-                }
-            }
-        }
-    }
-
 private:
 
     struct AnimCache final

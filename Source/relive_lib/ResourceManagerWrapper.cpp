@@ -405,13 +405,13 @@ void ResourceManagerWrapper::LoadingLoop(bool bShowLoadingIcon)
 {
     GetGameAutoPlayer().DisableRecorder();
 
+    u32 startTime = SYS_GetTicks();
     while (mThreadPool->Busy())
     {
         // TODO: Fix
         SYS_EventsPump();
         PSX_VSync(VSyncMode::UncappedFps);
-        const s32 ticks = loading_ticks++ + 1;
-        if (bShowLoadingIcon && !bHideLoadingIcon && ticks > 180)
+        if (bShowLoadingIcon && !bHideLoadingIcon && SYS_GetTicks() > startTime + 5940)
         {
             // Render everything in the ordering table including the loading icon
             ResourceManagerWrapper::ShowLoadingIcon();
