@@ -39,10 +39,28 @@ static const FallingItem_Data sFallingItemData[16] = {
 
 void FallingItem::LoadAnimations()
 {
-    for (u32 i = 0; i < ALIVE_COUNTOF(sFallingItemData); i++)
+    switch (gMap.mCurrentLevel)
     {
-        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(sFallingItemData[i].mFallingAnimId));
-        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(sFallingItemData[i].mWaitingAnimId));
+        case EReliveLevelIds::eRuptureFarms:
+        case EReliveLevelIds::eRuptureFarmsReturn:
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::FallingMeat_Waiting));
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::FallingMeat_Falling));
+            break;
+
+        case EReliveLevelIds::eLines:
+        case EReliveLevelIds::eBoardRoom:
+        case EReliveLevelIds::eStockYards:
+        case EReliveLevelIds::eDesert:
+        case EReliveLevelIds::eDesertTemple:
+        case EReliveLevelIds::eDesertEscape:
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::AO_FallingRock_Falling));
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::AO_FallingRock_Waiting));
+            break;
+
+        default:
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::AO_FallingRock_Falling));
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::AO_FallingRock_Waiting));
+            break;
     }
 }
 

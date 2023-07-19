@@ -43,12 +43,37 @@ static const TrapDoor_Data sTrapDoorData[16] = {
 
 void TrapDoor::LoadAnimations()
 {
-    for (u32 i = 0; i < ALIVE_COUNTOF(sTrapDoorData); i++)
+    switch (gMap.mCurrentLevel)
     {
-        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(sTrapDoorData[i].mOpen));
-        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(sTrapDoorData[i].mClosed));
-        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(sTrapDoorData[i].mOpening));
-        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(sTrapDoorData[i].mClosing));
+        case EReliveLevelIds::eRuptureFarms:
+        case EReliveLevelIds::eBoardRoom:
+        case EReliveLevelIds::eRuptureFarmsReturn:
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::R1_TrapDoor_Open));
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::R1_TrapDoor_Closed));
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::R1_TrapDoor_Opening));
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::R1_TrapDoor_Closing));
+            break;
+        case EReliveLevelIds::eLines:
+        case EReliveLevelIds::eStockYards:
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Lines_TrapDoor_Open));
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Lines_TrapDoor_Closed));
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Lines_TrapDoor_Opening));
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Lines_TrapDoor_Closing));
+            break;
+        case EReliveLevelIds::eDesert:
+        case EReliveLevelIds::eDesertTemple:
+        case EReliveLevelIds::eDesertEscape:
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Desert_TrapDoor_Open));
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Desert_TrapDoor_Closed));
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Desert_TrapDoor_Opening));
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Desert_TrapDoor_Closing));
+            break;
+        default:
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Lines_TrapDoor_Open));
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Lines_TrapDoor_Closed));
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Lines_TrapDoor_Opening));
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Lines_TrapDoor_Closing));
+            break;
     }
 }
 

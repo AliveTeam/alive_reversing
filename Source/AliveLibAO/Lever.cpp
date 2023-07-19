@@ -39,13 +39,45 @@ static const Lever_Data sLeverData[16] = {
 
 void Lever::LoadAnimations()
 {
-    for (u32 i = 0; i < ALIVE_COUNTOF(sLeverData); i++)
+    switch (gMap.mCurrentLevel)
     {
-        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(sLeverData[i].mIdleAnimId));
-        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(sLeverData[i].mReleasingLeftAnimId));
-        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(sLeverData[i].mPullingRightAnimId));
-        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(sLeverData[i].mReleasingRightAnimId));
-        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(sLeverData[i].mPullingLeftAnimId));
+        case EReliveLevelIds::eRuptureFarms:
+        case EReliveLevelIds::eStockYards:
+        case EReliveLevelIds::eStockYardsReturn:
+        case EReliveLevelIds::eBoardRoom:
+        case EReliveLevelIds::eRuptureFarmsReturn:
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::RuptureFarms_Lever_Idle));
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::RuptureFarms_Lever_Pull_Left));
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::RuptureFarms_Lever_Pull_Release_Left));
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::RuptureFarms_Lever_Pull_Right));
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::RuptureFarms_Lever_Pull_Release_Right));
+            break;
+
+        case EReliveLevelIds::eLines:
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Lines_Lever_Idle));
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Lines_Lever_Pull_Left));
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Lines_Lever_Pull_Release_Left));
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Lines_Lever_Pull_Right));
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Lines_Lever_Pull_Release_Right));
+            break;
+
+        case EReliveLevelIds::eDesert:
+        case EReliveLevelIds::eDesertTemple:
+        case EReliveLevelIds::eDesertEscape:
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Lever_Idle));
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Lever_Pull_Left));
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Lever_Pull_Release_Left));
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Lever_Pull_Right));
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Lever_Pull_Release_Right));
+            break;
+
+        default:
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Lever_Idle));
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Lever_Pull_Left));
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Lever_Pull_Release_Left));
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Lever_Pull_Right));
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Lever_Pull_Release_Right));
+            break;
     }
 }
 

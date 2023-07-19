@@ -1666,7 +1666,16 @@ void Menu::NewGameStart()
     {
         ResourceManagerWrapper::PendAnims(Abe::sAbeMotionAnimIds);
         // TODO: Hack - should be part of abes anim array
+        // These animations were originally loaded in the abe ctor in OG
+        ResourceManagerWrapper::PendAnimation(AnimId::ChantOrb_Particle);
+        ResourceManagerWrapper::PendAnimation(AnimId::ChantOrb_Particle_Small);
+        ResourceManagerWrapper::PendAnimation(AnimId::SquibSmoke_Particle);
+        ResourceManagerWrapper::PendAnimation(AnimId::BloodDrop);
         ResourceManagerWrapper::PendAnimation(AnimId::ObjectShadow);
+        ResourceManagerWrapper::PendAnimation(AnimId::DeathFlare_1);
+        ResourceManagerWrapper::PendAnimation(AnimId::DeathFlare_2);
+        ResourceManagerWrapper::PendAnimation(AnimId::Dove_Idle);
+        ResourceManagerWrapper::PendAnimation(AnimId::Dove_Flying);
         ResourceManagerWrapper::LoadingLoop2();
         sActiveHero = relive_new Abe();
     }

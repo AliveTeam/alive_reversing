@@ -21,12 +21,6 @@ static s32 sAbePortalTimer = 0;
 static s16 sAbePortalWidth = 30;
 static s16 sAbePortalDirection = -1;
 
-void Dove::LoadAnimations()
-{
-    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Dove_Flying));
-    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Dove_Idle));
-}
-
 Dove::Dove(AnimId animId, const Guid& tlvId, FP scale)
     : BaseAnimatedWithPhysicsGameObject(0),
     mDoveState(State::eOnGround_0),
@@ -35,7 +29,9 @@ Dove::Dove(AnimId animId, const Guid& tlvId, FP scale)
 {
     SetType(ReliveTypes::eDove);
 
-    LoadAnimations();
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Dove_Flying));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Dove_Idle));
+
     Animation_Init(GetAnimRes(animId));
 
     GetAnimation().SetSemiTrans(false);
@@ -83,7 +79,7 @@ Dove::Dove(AnimId animId, FP xpos, FP ypos, FP scale)
 {
     SetType(ReliveTypes::eDove);
 
-    LoadAnimations();
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(animId));
     Animation_Init(GetAnimRes(animId));
 
     GetAnimation().SetSemiTrans(false);

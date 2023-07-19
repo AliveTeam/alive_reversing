@@ -40,7 +40,7 @@ public:
     Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale);
     ~Gibs();
 
-    void LoadAnimations();
+    void LoadAnimations(const Gib_Data& data);
 
     virtual void VUpdate() override;
     virtual void VRender(OrderingTable& ot) override;

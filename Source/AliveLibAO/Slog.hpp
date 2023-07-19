@@ -43,6 +43,33 @@ enum class eSlogMotions : s32
 class Slog final : public BaseAliveGameObject
 {
 public:
+    static constexpr AnimId sSlogMotionAnimIds[25] = {
+        AnimId::Slog_Idle,
+        AnimId::Slog_Walk,
+        AnimId::Slog_Run,
+        AnimId::Slog_TurnAround,
+        AnimId::Slog_Fall,
+        AnimId::Slog_Idle,
+        AnimId::Slog_MoveHeadUpwards,
+        AnimId::Slog_SlideTurn,
+        AnimId::Slog_StopRunning,
+        AnimId::Slog_StartWalking,
+        AnimId::Slog_EndWalking,
+        AnimId::Slog_Land,
+        AnimId::Slog_AO_M_12_Unknown,
+        AnimId::Slog_StartFastBarking,
+        AnimId::Slog_EndFastBarking,
+        AnimId::Slog_AngryBark,
+        AnimId::Slog_Sleeping,
+        AnimId::Slog_MoveHeadDownwards,
+        AnimId::Slog_WakeUp,
+        AnimId::Slog_JumpForwards,
+        AnimId::Slog_JumpUpwards,
+        AnimId::Slog_Eating,
+        AnimId::Slog_Dying,
+        AnimId::Slog_Scratch,
+        AnimId::Slog_Growl};
+
     Slog(relive::Path_Slog* pTlv, const Guid& tlvId);
     Slog(FP xpos, FP ypos, FP scale);
     ~Slog();

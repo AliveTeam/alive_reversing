@@ -37,22 +37,19 @@ static FP GibRand(FP scale)
     return FP_FromRaw((static_cast<u32>(Math_NextRandom()) - 128) << 13) * scale;
 }
 
-void Gibs::LoadAnimations()
+void Gibs::LoadAnimations(const Gib_Data& data)
 {
-    for (u32 i = 0; i < ALIVE_COUNTOF(sGibData); i++)
-    {
-        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(sGibData[i].mHead));
-        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(sGibData[i].mArm));
-        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(sGibData[i].mBody));
-    }
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(data.mHead));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(data.mArm));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(data.mBody));
 }
 
 Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
-    LoadAnimations();
-
     mGibData = &sGibData[gibType];
+
+    LoadAnimations(*mGibData);
 
     // The base class renders the head gib
     Animation_Init(GetAnimRes(mGibData->mHead));

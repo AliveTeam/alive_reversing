@@ -67,33 +67,6 @@ static const TSlogBrainFunction sSlogBrainTable[] = {
     &Slog::Brain_2_ChasingAbe,
     &Slog::Brain_3_Dead};
 
-static const AnimId sSlogMotionAnimIds[25] = {
-    AnimId::Slog_Idle,
-    AnimId::Slog_Walk,
-    AnimId::Slog_Run,
-    AnimId::Slog_TurnAround,
-    AnimId::Slog_Fall,
-    AnimId::Slog_Idle,
-    AnimId::Slog_MoveHeadUpwards,
-    AnimId::Slog_SlideTurn,
-    AnimId::Slog_StopRunning,
-    AnimId::Slog_StartWalking,
-    AnimId::Slog_EndWalking,
-    AnimId::Slog_Land,
-    AnimId::Slog_AO_M_12_Unknown,
-    AnimId::Slog_StartFastBarking,
-    AnimId::Slog_EndFastBarking,
-    AnimId::Slog_AngryBark,
-    AnimId::Slog_Sleeping,
-    AnimId::Slog_MoveHeadDownwards,
-    AnimId::Slog_WakeUp,
-    AnimId::Slog_JumpForwards,
-    AnimId::Slog_JumpUpwards,
-    AnimId::Slog_Eating,
-    AnimId::Slog_Dying,
-    AnimId::Slog_Scratch,
-    AnimId::Slog_Growl};
-
 s16 sSlogCount = 0;
 u8 sSlogRndSeed_9F11C4 = 0;
 

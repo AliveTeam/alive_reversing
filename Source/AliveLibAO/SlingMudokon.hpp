@@ -130,6 +130,14 @@ private:
 class SlingMudokon final : public BaseAliveGameObject
 {
 public:
+    static constexpr AnimId sSlingMudMotionAnimIds[6] = {
+        AnimId::Mudokon_Sling_Idle,
+        AnimId::Mudokon_Sling_Angry,
+        AnimId::Mudokon_Sling_Speak,
+        AnimId::Mudokon_Sling_ShootStart,
+        AnimId::Mudokon_Sling_ShootEnd,
+        AnimId::Mudokon_Sling_AngryToIdle};
+
     SlingMudokon(relive::Path_SlingMudokon* pTlv, const Guid& tlvId);
     ~SlingMudokon();
 

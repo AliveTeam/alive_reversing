@@ -11,7 +11,6 @@ public:
     Dove(AnimId animId, FP xpos, FP ypos, FP scale);
     ~Dove();
 
-    void LoadAnimations();
     virtual void VUpdate() override;
     virtual void VRender(OrderingTable& ot) override;
 

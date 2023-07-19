@@ -1312,6 +1312,7 @@ constexpr CombinedAnimRecord kAnimRecords[1027] = {
     {AnimId::SmallChime, kNullAnimDetails, { "CHIMES.BAN", 19252, 49, 46, AO::kChimeAOResID, PalId::Default}, false},
     {AnimId::SmallChime_Moving, kNullAnimDetails, { "CHIMES.BAN", 19264, 49, 46, AO::kChimeAOResID, PalId::Default}, false},
     {AnimId::Chime_Ball, kNullAnimDetails, { "F2CHMBAL.BAN", 136, 16, 8, AO::kF2ChimeBallAOResID, PalId::Default}, false},
+    // TODO: merge with AnimId::SpotLight if identical
     {AnimId::Circular_Fade, kNullAnimDetails, { "SPOTLITE.BAN", 2472, 57, 32, AO::kSpotliteAOResID, PalId::Default}, false},
     {AnimId::DeathFlare_1,
         { "DEADFLR.BAN", 9940, 122, 43, kDeathFlareResID, PalId::Default},
@@ -1625,7 +1626,7 @@ constexpr CombinedAnimRecord kAnimRecords[1027] = {
 
     {AnimId::ChantOrb_Particle_Small,
         {"OMMFLARE.BAN", 1672, 39, 21, kOmmflareResID, PalId::Default},
-        {"OMMFLARE.BAN", 1532, 38, 21, kOmmflareResID, PalId::Default}, false},
+        {"OMMFLARE.BAN", 1532, 38, 21, AO::kOmmflareAOResID, PalId::Default}, false},
 
     {AnimId::GoldGlow,
         {"GOLDGLOW.BAN", 356, 33, 15, kGoldGlowResID_6011, PalId::Default},

@@ -32,14 +32,6 @@ const TSlingMudStateFunction gSlingMudMotionTable_4CFCB0[] = {
     &SlingMudokon::Motion_4_ShootEnd,
     &SlingMudokon::Motion_5_AngryToIdle};
 
-const AnimId sSlingMudMotionAnimIds[6] = {
-    AnimId::Mudokon_Sling_Idle, 
-    AnimId::Mudokon_Sling_Angry,
-    AnimId::Mudokon_Sling_Speak,
-    AnimId::Mudokon_Sling_ShootStart,
-    AnimId::Mudokon_Sling_ShootEnd,
-    AnimId::Mudokon_Sling_AngryToIdle};
-
 
 void SlingMudokon::LoadAnimations()
 {

@@ -172,7 +172,10 @@ AnimResource ResourceManagerWrapper::LoadAnimation(AnimId anim)
 
     if (it == std::end(mLoadedAnimations))
     {
-        LOG_ERROR("Animation %d wasn't loaded async before calling LoadAnimation, or didn't wait for async loading to finish", static_cast<s32>(anim));
+        if (static_cast<s32>(anim) <= 908) // ignore background animations for now
+        {
+            LOG_ERROR("Animation %d wasn't loaded async before calling LoadAnimation, or didn't wait for async loading to finish", static_cast<s32>(anim));
+        }
 
         // TODO: Remove this when all of factory etc is updated
         AnimationLoaderJob hack(anim);

@@ -59,34 +59,6 @@ const TParamiteMotionFunction sParamiteMotionTable[] = {
     &Paramite::Motion_25_Death,
 };
 
-const static AnimId sParamiteMotionAnimIds[] = {
-    AnimId::Paramite_Idle,
-    AnimId::Paramite_WalkBegin,
-    AnimId::Paramite_Walking,
-    AnimId::Paramite_Running,
-    AnimId::Paramite_Idle,
-    AnimId::Paramite_Turn,
-    AnimId::Paramite_Hop,
-    AnimId::Paramite_Hop,// HACK fix unused not converting // AnimId::Paramite_AO_M_7_Unknown,
-    AnimId::Paramite_WalkRunTransition,
-    AnimId::Paramite_WalkEnd,
-    AnimId::Paramite_RunBegin,
-    AnimId::Paramite_RunEnd,
-    AnimId::Paramite_Falling,
-    AnimId::Paramite_GameSpeakBegin,
-    AnimId::Paramite_PreHiss,
-    AnimId::Paramite_Hiss,
-    AnimId::Paramite_PostHiss,
-    AnimId::Paramite_GameSpeakEnd,
-    AnimId::Paramite_RunningAttack,
-    AnimId::Paramite_SurpriseWeb,
-    AnimId::Paramite_SurpriseWeb,
-    AnimId::Paramite_WebLeaveDown,
-    AnimId::Paramite_AO_M_22_Unknown,
-    AnimId::Paramite_Eating,
-    AnimId::Paramite_Death,
-    AnimId::Paramite_Struggle};
-
 Paramite::Paramite(relive::Path_Paramite* pTlv, const Guid& tlvId)
     : BaseAliveGameObject()
 {
