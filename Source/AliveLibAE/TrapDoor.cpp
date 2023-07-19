@@ -58,14 +58,25 @@ static const TintEntry sTrapDoorTints[16] = {
 
 void TrapDoor::LoadAnimations()
 {
-    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Trap_Door_Open));
-    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Trap_Door_Closed));
-    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Trap_Door_Opening));
-    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Trap_Door_Closing));
-    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Trap_Door_Tribal_Open));
-    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Trap_Door_Tribal_Closed));
-    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Trap_Door_Tribal_Opening));
-    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Trap_Door_Tribal_Closing));
+    switch (gMap.mCurrentLevel)
+    {
+        case EReliveLevelIds::eMudomoVault:
+        case EReliveLevelIds::eMudancheeVault:
+        case EReliveLevelIds::eMudancheeVault_Ender:
+        case EReliveLevelIds::eMudomoVault_Ender:
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Trap_Door_Tribal_Open));
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Trap_Door_Tribal_Closed));
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Trap_Door_Tribal_Opening));
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Trap_Door_Tribal_Closing));
+            break;
+
+        default:
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Trap_Door_Open));
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Trap_Door_Closed));
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Trap_Door_Opening));
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Trap_Door_Closing));
+            break;
+    }
 }
 
 TrapDoor::TrapDoor(relive::Path_TrapDoor* pTlv, const Guid& tlvId)

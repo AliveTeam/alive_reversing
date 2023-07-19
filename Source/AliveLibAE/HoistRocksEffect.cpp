@@ -20,10 +20,9 @@ const static s16 sRndValues[12] = {5, 0, 10, 0, 30, 0, 5, 0, 0, 0, 0, 0};
 
 void HoistRocksEffect::LoadAnimations()
 {
-    for (auto& animId : HoistRocksAnimIdTable)
-    {
-        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(animId));
-    }
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::HoistRock1));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::HoistRock2));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::HoistRock3));
 }
 
 HoistRocksEffect::HoistRocksEffect(relive::Path_Hoist* pTlv, const Guid& tlvId)
@@ -119,7 +118,12 @@ void HoistRocksEffect::VUpdate()
             mRocks[idx].mState = 1;
 
             const s32 randomAnimAndUpdate = 2 * Math_RandomRange(0, 3);
-            mRocks[idx].mAnim.Set_Animation_Data(mLoadedAnims[randomAnimAndUpdate / 2]);
+            auto rndAnimIdx = randomAnimAndUpdate / 2;
+            if (rndAnimIdx >= mLoadedAnims.size())
+            {
+                rndAnimIdx = 0;
+            }
+            mRocks[idx].mAnim.Set_Animation_Data(mLoadedAnims[rndAnimIdx]);
             mTimer = sGnFrame + Math_RandomRange(sRndValues[randomAnimAndUpdate], 2 * sRndValues[randomAnimAndUpdate]);
         }
     }

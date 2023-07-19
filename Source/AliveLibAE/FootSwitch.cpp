@@ -53,19 +53,23 @@ static const AnimId sFootSwitchAnimIds[15][2] = {
 
 void FootSwitch::LoadAnimations()
 {
-    const AnimId footSwitchAnimIds[] =
+    switch (gMap.mCurrentLevel)
     {
-        AnimId::Foot_Switch_Industrial_Idle,
-        AnimId::Foot_Switch_Industrial_Pressed,
-        AnimId::Foot_Switch_Vault_Idle,
-        AnimId::Foot_Switch_Vault_Pressed,
-        AnimId::Foot_Switch_Bonewerkz_Idle,
-        AnimId::Foot_Switch_Bonewerkz_Pressed,
-    };
-
-    for (auto& animId : footSwitchAnimIds)
-    {
-        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(animId));
+        case EReliveLevelIds::eMudomoVault:
+        case EReliveLevelIds::eMudancheeVault:
+        case EReliveLevelIds::eMudancheeVault_Ender:
+        case EReliveLevelIds::eMudomoVault_Ender:
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Foot_Switch_Vault_Idle));
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Foot_Switch_Vault_Pressed));
+            break;
+        case EReliveLevelIds::eBonewerkz:
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Foot_Switch_Bonewerkz_Idle));
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Foot_Switch_Bonewerkz_Pressed));
+            break;
+        default:
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Foot_Switch_Industrial_Idle));
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Foot_Switch_Industrial_Pressed));
+            break;
     }
 }
 

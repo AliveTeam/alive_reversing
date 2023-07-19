@@ -39,20 +39,17 @@ static FallingItem* sPrimaryFallingItem = nullptr;
 
 void FallingItem::LoadAnimations()
 {
-    const AnimId FallingItemAnimIds[] =
+    if (gMap.mCurrentLevel == EReliveLevelIds::eBonewerkz)
     {
-        AnimId::AE_FallingRock_Falling,
-        AnimId::AE_FallingRock_Waiting,
-        AnimId::FallingCrate_Falling,
-        AnimId::FallingCrate_Waiting,
-    };
-
-    for (auto& animId : FallingItemAnimIds)
-    {
-        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(animId));
+        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::FallingCrate_Falling));
+        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::FallingCrate_Waiting));
+        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::AirExplosion));
     }
-
-    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::AirExplosion));
+    else
+    {
+        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::AE_FallingRock_Falling));
+        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::AE_FallingRock_Waiting));
+    }
 }
 
 FallingItem::FallingItem(relive::Path_FallingItem* pTlv, const Guid& tlvId)

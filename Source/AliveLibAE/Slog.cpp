@@ -30,32 +30,6 @@
 
 s16 sSlogCount = 0;
 
-const AnimId sSlogAnimIdTable[24] = {
-    AnimId::Slog_Idle,
-    AnimId::Slog_Walk,
-    AnimId::Slog_Run,
-    AnimId::Slog_TurnAround,
-    AnimId::Slog_Fall,
-    AnimId::Slog_MoveHeadUpwards,
-    AnimId::Slog_StopRunning,
-    AnimId::Slog_SlideTurn,
-    AnimId::Slog_StartWalking,
-    AnimId::Slog_EndWalking,
-    AnimId::Slog_Land,
-    AnimId::Slog_Unused,
-    AnimId::Slog_StartFastBarking,
-    AnimId::Slog_EndFastBarking,
-    AnimId::Slog_AngryBark,
-    AnimId::Slog_Sleeping,
-    AnimId::Slog_MoveHeadDownwards,
-    AnimId::Slog_WakeUp,
-    AnimId::Slog_JumpForwards,
-    AnimId::Slog_JumpUpwards,
-    AnimId::Slog_Eating,
-    AnimId::Slog_Dying,
-    AnimId::Slog_Scratch,
-    AnimId::Slog_Growl };
-
 const TSlogMotionFn sSlogMotionTable[24] = {
     &Slog::Motion_0_Idle,
     &Slog::Motion_1_Walk,

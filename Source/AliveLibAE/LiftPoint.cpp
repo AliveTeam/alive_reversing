@@ -62,12 +62,37 @@ static const TintEntry sLiftTints[16] = {
 
 void LiftPoint::LoadAnimations()
 {
-    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::LiftPlatform_Mines));
-    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::LiftBottomWheel_Mines));
-    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::LiftTopWheel_Mines));
-    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::LiftPlatform_Necrum));
-    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::LiftBottomWheel_Necrum));
-    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::LiftTopWheel_Necrum));
+    switch (gMap.mCurrentLevel)
+    {
+        case EReliveLevelIds::eNecrum:
+        case EReliveLevelIds::eMudomoVault:
+        case EReliveLevelIds::eMudomoVault_Ender:
+        case EReliveLevelIds::eMudancheeVault:
+        case EReliveLevelIds::eMudancheeVault_Ender:
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::LiftPlatform_Necrum));
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::LiftBottomWheel_Necrum));
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::LiftTopWheel_Necrum));
+            break;
+
+        case EReliveLevelIds::eFeeCoDepot:
+        case EReliveLevelIds::eFeeCoDepot_Ender:
+        case EReliveLevelIds::eBarracks:
+        case EReliveLevelIds::eBarracks_Ender:
+        case EReliveLevelIds::eBonewerkz:
+        case EReliveLevelIds::eBonewerkz_Ender:
+        case EReliveLevelIds::eBrewery:
+        case EReliveLevelIds::eBrewery_Ender:
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::LiftPlatform_Mines));
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::LiftBottomWheel_Mines));
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::LiftTopWheel_Mines));
+            break;
+
+        default:
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::LiftPlatform_Mines));
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::LiftBottomWheel_Mines));
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::LiftTopWheel_Mines));
+            break;
+    }
 }
 
 LiftPoint::LiftPoint(relive::Path_LiftPoint* pTlv, const Guid& tlvId)

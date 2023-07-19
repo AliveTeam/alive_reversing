@@ -46,27 +46,53 @@ Door::Door()
 
 void Door::LoadAnimations()
 {
-    const AnimId doorAnimIds[] =
+    switch (gMap.mCurrentLevel)
     {
-        AnimId::Door_Mines_Closed,
-        AnimId::Door_Mines_Open,
-        AnimId::Door_Temple_Closed,
-        AnimId::Door_Temple_Open,
-        AnimId::Door_Feeco_Closed,
-        AnimId::Door_Feeco_Open,
-        AnimId::Door_Barracks_Closed,
-        AnimId::Door_Barracks_Open,
-        AnimId::Door_Bonewerkz_Closed,
-        AnimId::Door_Bonewerkz_Open,
-        AnimId::Door_Brewery_Closed,
-        AnimId::Door_Brewery_Open,
-        AnimId::Door_BarracksMetal_Open,
-        AnimId::Door_BarracksMetal_Closed
-    };
+        case EReliveLevelIds::eNecrum:
+        case EReliveLevelIds::eMudomoVault:
+        case EReliveLevelIds::eMudancheeVault:
+        case EReliveLevelIds::eMudancheeVault_Ender:
+        case EReliveLevelIds::eMudomoVault_Ender:
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Door_Temple_Closed));
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Door_Temple_Open));
+            break;
 
-    for (auto& animId : doorAnimIds)
-    {
-        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(animId));
+        case EReliveLevelIds::eFeeCoDepot:
+        case EReliveLevelIds::eFeeCoDepot_Ender:
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Door_Feeco_Closed));
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Door_Feeco_Open));
+            break;
+
+        case EReliveLevelIds::eBarracks:
+        case EReliveLevelIds::eBarracks_Ender:
+            if (gMap.mOverlayId == 108)
+            {
+                mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Door_BarracksMetal_Closed));
+                mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Door_BarracksMetal_Open));
+            }
+            else
+            {
+                mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Door_Barracks_Closed));
+                mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Door_Barracks_Open));
+            }
+            break;
+
+        case EReliveLevelIds::eBonewerkz:
+        case EReliveLevelIds::eBonewerkz_Ender:
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Door_Bonewerkz_Closed));
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Door_Bonewerkz_Open));
+            break;
+
+        case EReliveLevelIds::eBrewery:
+        case EReliveLevelIds::eBrewery_Ender:
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Door_Brewery_Closed));
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Door_Brewery_Open));
+            break;
+
+        default:
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Door_Mines_Closed));
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Door_Mines_Open));
+            break;
     }
 }
 

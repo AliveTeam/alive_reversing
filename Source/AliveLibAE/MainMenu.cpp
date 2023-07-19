@@ -426,60 +426,9 @@ PerLvlData sDemos_5617F0[23] = {
     {"Tortured Mudokons", EReliveLevelIds::eBrewery, 27, 7, 24, 0, 0},
     {"Greeters Go Boom", EReliveLevelIds::eBrewery, 28, 4, 25, 0, 0}};
 
-MainMenuFrameTable sMainMenuFrameTable_561CC8[49] = {
-    {AnimId::None, 0, 0, 0, 0},
-    {AnimId::MenuAbeSpeak_Idle, 1, -1, 1, 0},
-    {AnimId::MenuAbeSpeak_IdleBlink, 1, -1, 1, 0},
-    {AnimId::MenuAbeSpeak_Hello, 1, 3, 1, 0},
-    {AnimId::MenuAbeSpeak_Ok, 1, 12, 1, 14},
-    {AnimId::MenuAbeSpeak_FollowMe, 0, 4, 1, 0},
-    {AnimId::MenuAbeSpeak_Goodbye, 0, 11, 1, 14},
-    {AnimId::MenuAbeSpeak_Wait, 0, 6, 1, 0},
-    {AnimId::MenuAbeSpeak_Anger, 0, 5, 1, 14},
-    {AnimId::MenuDoor, 3, -1, 10, 0},
-    {AnimId::AbeIntro, 2, -1, 11, 0},
-    {AnimId::MenuAbeSpeak_IdleBlink, 1, -1, 3, 0},
-    {AnimId::MenuAbeSpeak_Chant, 0, -1, 0, 0},
-    {AnimId::MenuAbeSpeak_ChantEnd, 0, -1, 1, 0},
-    {AnimId::MenuAbeSpeak_Work, 0, 25, 1, 0},
-    {AnimId::MenuAbeSpeak_AllYa, 0, 17, 1, 0},
-    {AnimId::MenuAbeSpeak_StopIt, 0, 26, 1, 0},
-    {AnimId::MenuAbeSpeak_Sympathy, 0, 27, 1, 14},
-    {AnimId::MenuSligSpeak_Idle, 7, -1, 18, 0},
-    {AnimId::MenuSligSpeak_Freeze, 7, 8, 18, 0},
-    {AnimId::MenuSligSpeak_GetEm, 7, 2, 18, 0},
-    {AnimId::MenuSligSpeak_HereBoy, 7, 1, 18, 0},
-    {AnimId::MenuSligSpeak_Laugh, 7, 3, 18, 14},
-    {AnimId::MenuSligSpeak_LookOut, 7, 6, 18, 14},
-    {AnimId::MenuSligSpeak_Bs, 7, 5, 18, 0},
-    {AnimId::MenuSligSpeak_SmoBs, 7, 7, 18, 0},
-    {AnimId::MenuSligSpeak_Hi, 7, 0, 18, 0},
-    {AnimId::MenuGlukkonSpeak_Idle, 8, -1, 27, 0},
-    {AnimId::MenuGlukkonSpeak_IdleVariation, 8, -1, 27, 0},
-    {AnimId::MenuGlukkonSpeak_KillEm, 8, 8, 27, 17},
-    {AnimId::MenuGlukkonSpeak_Laugh, 8, 7, 27, 0},
-    {AnimId::MenuGlukkonSpeak_StayHere, 8, 2, 27, 0},
-    {AnimId::MenuGlukkonSpeak_Commere, 8, 3, 27, 17},
-    {AnimId::MenuGlukkonSpeak_DoIt, 8, 1, 27, 17},
-    {AnimId::MenuGlukkonSpeak_Help, 8, 6, 27, 17},
-    {AnimId::MenuGlukkonSpeak_Hey, 8, 0, 27, 0},
-    {AnimId::MenuGlukkonSpeak_AllOYa, 8, 4, 27, 0},
-    {AnimId::MenuScrabSpeak_Idle, 9, -1, 37, 0},
-    {AnimId::MenuScrabSpeak_IdleVariation, 9, -1, 37, 0},
-    {AnimId::MenuScrabSpeak_ShredPower, 9, 8, 37, 0},
-    {AnimId::MenuScrabSpeak_Howl, 9, 0, 37, 0},
-    {AnimId::MenuParamiteSpeak_Idle, 10, -1, 41, 0},
-    {AnimId::MenuParamiteSpeak_IdleVariation, 10, -1, 41, 0},
-    {AnimId::MenuParamiteSpeak_Attack, 10, 9, 41, 0},
-    {AnimId::MenuParamiteSpeak_Howdy, 10, 5, 41, 14},
-    {AnimId::MenuParamiteSpeak_Cmon, 10, 0, 41, 14},
-    {AnimId::MenuParamiteSpeak_Stay, 10, 1, 41, 14},
-    {AnimId::MenuParamiteSpeak_DoIt, 10, 2, 41, 14},
-    {AnimId::MenuParamiteSpeak_AllAYa, 10, 0, 41, 14}};
-
 void MainMenuController::LoadAnimations()
 {
-    for (auto& info : sMainMenuFrameTable_561CC8)
+    for (const auto& info : sMainMenuFrameTable_561CC8)
     {
         if (info.field_0_animation != AnimId::None)
         {
@@ -487,13 +436,6 @@ void MainMenuController::LoadAnimations()
         }
     }
 
-    const AnimId kMenuAnims[] = {
-        AnimId::MenuHighlight_Circle,
-        AnimId::MenuHighlight_ButtonRemapSquare,
-        AnimId::MenuHighlight_Square,
-        AnimId::MenuHighlight_Triangle,
-        AnimId::OptionChantOrb_Particle
-    };
     for (const auto& animId : kMenuAnims)
     {
         mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(animId));
@@ -1748,6 +1690,8 @@ MainMenuNextCam MainMenuController::LoadNewGame_Update_4D0920(u32 /*input*/)
 
     if (!sActiveHero)
     {
+        ResourceManagerWrapper::PendAnimation(AnimId::ObjectShadow);
+        ResourceManagerWrapper::LoadingLoop2();
         sActiveHero = relive_new Abe();
     }
 

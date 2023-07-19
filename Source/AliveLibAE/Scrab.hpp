@@ -135,6 +135,48 @@ using TScrabMotionFn = void (Scrab::*)();
 class Scrab final : public BaseAliveGameObject
 {
 public:
+    static constexpr AnimId sScrabMotionAnimIds[40] = {
+        AnimId::Scrab_Idle,
+        AnimId::Scrab_Walk,
+        AnimId::Scrab_Run,
+        AnimId::Scrab_Turn,
+        AnimId::Scrab_RunToStand,
+        AnimId::Scrab_HopBegin,
+        AnimId::Scrab_Jump,
+        AnimId::Scrab_Landing,
+        AnimId::Scrab_JumpAndRunToFall,
+        AnimId::Scrab_StandToWalk,
+        AnimId::Scrab_StandToRun,
+        AnimId::Scrab_WalkToStand,
+        AnimId::Scrab_Jump,
+        AnimId::Scrab_Landing,
+        AnimId::Scrab_WalkToFall,
+        AnimId::Scrab_JumpAndRunToFall,
+        AnimId::Scrab_WalkToRun,
+        AnimId::Scrab_RunToWalk,
+        AnimId::Scrab_Knockback,
+        AnimId::Scrab_GetEaten,
+        AnimId::Scrab_Landing,
+        AnimId::Scrab_Stamp,
+        AnimId::Scrab_Stamp,
+        AnimId::Scrab_DeathEnd,
+        AnimId::Scrab_DeathEnd,
+        AnimId::Scrab_Empty,
+        AnimId::Scrab_HowlBegin,
+        AnimId::Scrab_HowlEnd,
+        AnimId::Scrab_HowlBegin,
+        AnimId::Scrab_HowlEnd,
+        AnimId::Scrab_Shriek,
+        AnimId::Scrab_ScrabBattleAnim,
+        AnimId::Scrab_AttackSpin,
+        AnimId::Scrab_FeedToGulp,
+        AnimId::Scrab_GulpToStand,
+        AnimId::Scrab_StandToFeed,
+        AnimId::Scrab_Feed,
+        AnimId::Scrab_AttackLunge,
+        AnimId::Scrab_LegKick,
+        AnimId::Scrab_DeathBegin};
+
     Scrab(relive::Path_Scrab* pTlv, const Guid& tlvId, relive::Path_ScrabSpawner::SpawnDirection spawnDirection);
     ~Scrab();
 
