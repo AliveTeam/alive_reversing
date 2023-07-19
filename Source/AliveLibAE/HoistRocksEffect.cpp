@@ -118,7 +118,7 @@ void HoistRocksEffect::VUpdate()
             mRocks[idx].mState = 1;
 
             const s32 randomAnimAndUpdate = 2 * Math_RandomRange(0, 3);
-            auto rndAnimIdx = randomAnimAndUpdate / 2;
+            size_t rndAnimIdx = randomAnimAndUpdate / 2;
             if (rndAnimIdx >= mLoadedAnims.size())
             {
                 rndAnimIdx = 0;
