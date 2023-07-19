@@ -59,12 +59,23 @@ static const TintEntry sSlamDoorTints[16] = {
 
 void SlamDoor::LoadAnimations()
 {
-    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Slam_Door_Industrial_Closing));
-    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Slam_Door_Industrial_Closed));
-    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Slam_Door_Industrial_Opening));
-    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Slam_Door_Vault_Closing));
-    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Slam_Door_Vault_Closed));
-    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Slam_Door_Vault_Opening));
+    switch (gMap.mCurrentLevel)
+    {
+        case EReliveLevelIds::eNecrum:
+        case EReliveLevelIds::eMudomoVault:
+        case EReliveLevelIds::eMudancheeVault:
+        case EReliveLevelIds::eMudancheeVault_Ender:
+        case EReliveLevelIds::eMudomoVault_Ender:
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Slam_Door_Vault_Closing));
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Slam_Door_Vault_Closed));
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Slam_Door_Vault_Opening));
+            break;
+        default:
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Slam_Door_Industrial_Closing));
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Slam_Door_Industrial_Closed));
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Slam_Door_Industrial_Opening));
+            break;
+    }
 }
 
 SlamDoor::SlamDoor(relive::Path_SlamDoor* pTlv, const Guid& tlvId)

@@ -112,6 +112,14 @@ static void Factory_MainMenuController(relive::Path_TLV* pTlv, Path* /*pPath*/, 
                 }
             }
             ResourceManagerWrapper::PendAnims(MainMenuController::kMenuAnims);
+
+            // Originally loaded in the PauseMenu::Init()
+            ResourceManagerWrapper::PendAnimation(AnimId::NormalMudIcon);
+            ResourceManagerWrapper::PendAnimation(AnimId::AngryMudIcon);
+            ResourceManagerWrapper::PendAnimation(AnimId::HappyMudIcon);
+
+            // Originally loaded in Game_Init_LoadingIcon()
+            ResourceManagerWrapper::PendAnimation(AnimId::Loading_Icon2);
         }
         else
         {
@@ -901,18 +909,15 @@ static void Factory_BoomMachine(relive::Path_TLV* pTlv, Path*, const Guid& tlvId
     auto pTlvBooMachine = static_cast<relive::Path_BoomMachine*>(pTlv);
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
-        /*
-        static CompileTimeResourceList<3> kResources(
-            {{ResourceManager::Resource_Animation, AEResourceID::kAbethrowResID},
-             {ResourceManager::Resource_Animation, AEResourceID::kAbepickResID},
-             {ResourceManager::Resource_Animation, AEResourceID::kGrenadeResID}});
-             */
-
-        //gMap.LoadResourcesFromList("GTHROW.BND", kResources.AsList(), loadMode, 0);
-        //gMap.LoadResource("EXPLO2.BAN", ResourceManager::Resource_Animation, AEResourceID::kExplo2ResID, loadMode);
-        //gMap.LoadResource("ABEBLOW.BAN", ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID, loadMode);
-        //gMap.LoadResource("METAL.BAN", ResourceManager::Resource_Animation, AEResourceID::kMetalGibResID, loadMode);
-        //gMap.LoadResource("DOGBLOW.BAN", ResourceManager::Resource_Animation, AEResourceID::kSlogBlowResID, loadMode, pTlvBooMachine->mDisabledResources & 2);
+        ResourceManagerWrapper::PendAnimation(AnimId::Grenade);
+        ResourceManagerWrapper::PendAnimation(AnimId::AirExplosion);
+        ResourceManagerWrapper::PendAnims(kAbeGibs);
+        ResourceManagerWrapper::PendAnimation(AnimId::Metal_Gib);
+        ResourceManagerWrapper::PendAnims(kSlogGibs);
+        ResourceManagerWrapper::PendAnimation(AnimId::BoomMachine_Nozzle_DropGrenade);
+        ResourceManagerWrapper::PendAnimation(AnimId::BoomMachine_Nozzle_Idle);
+        ResourceManagerWrapper::PendAnimation(AnimId::BoomMachine_Button_Off);
+        ResourceManagerWrapper::PendAnimation(AnimId::BoomMachine_Button_On);
     }
     else
     {
@@ -943,8 +948,7 @@ static void Factory_HandStone(relive::Path_TLV*, Path*, const Guid& tlvId, LoadM
 {
     if (loadmode == LoadMode::LoadResourceFromList_1 || loadmode == LoadMode::LoadResource_2)
     {
-        //Map::LoadResource("ABESTONE.BAN", ResourceManager::Resource_Animation, AEResourceID::kAbestoneResID, loadmode, false);
-        //Map::LoadResource("SPOTLITE.BAN", ResourceManager::Resource_Animation, AEResourceID::kSpotliteResID, loadmode, false);
+        ResourceManagerWrapper::PendAnimation(AnimId::SpotLight);
     }
     else
     {
@@ -1030,41 +1034,55 @@ static void Factory_ZzzSpawner(relive::Path_TLV* pTlv, Path*, const Guid& tlvId,
 
 static void Factory_Glukkon(relive::Path_TLV* pTlv, Path*, const Guid& tlvId, LoadMode loadMode)
 {
-    /*
-    static CompileTimeResourceList<2> kGlukkon_563534({{ResourceManager::Resource_Animation, AEResourceID::kGlkbasicResID},
-                                                       {ResourceManager::Resource_Animation, AEResourceID::kGlukkonResID_801}});
-
-    static CompileTimeResourceList<2> kAslik_563548({{ResourceManager::Resource_Animation, AEResourceID::kGlukAslikResID},
-                                                     {ResourceManager::Resource_Animation, AEResourceID::kAslikResID_803}});
-
-    static CompileTimeResourceList<2> KDripik_56355C({{ResourceManager::Resource_Animation, AEResourceID::kGlukDripikResID},
-                                                      {ResourceManager::Resource_Animation, AEResourceID::kDripikResID_805}});
-
-    static CompileTimeResourceList<2> kPhleg_563570({{ResourceManager::Resource_Animation, AEResourceID::kGlukPhlegResID},
-                                                     {ResourceManager::Resource_Animation, AEResourceID::kPhlegResID_807}});
-                                                     */
-
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
         switch (gMap.mCurrentLevel)
         {
             case EReliveLevelIds::eFeeCoDepot:
             case EReliveLevelIds::eFeeCoDepot_Ender:
-                //gMap.LoadResourcesFromList("ASLIK.BND", kAslik_563548.AsList(), loadMode);
+                for (s32 i = 0; i < 25; i++)
+                {
+                    const auto& anim = Glukkon::sGlukkonsAnimIdTable[1][i];
+                    ResourceManagerWrapper::PendAnimation(anim);
+                }
+                ResourceManagerWrapper::PendAnimation(AnimId::Aslik_Head_Gib);
+                ResourceManagerWrapper::PendAnimation(AnimId::Aslik_Arm_Gib);
+                ResourceManagerWrapper::PendAnimation(AnimId::Aslik_Body_Gib);
                 break;
 
             case EReliveLevelIds::eBarracks:
             case EReliveLevelIds::eBarracks_Ender:
-                //gMap.LoadResourcesFromList("DRIPIK.BND", KDripik_56355C.AsList(), loadMode);
+                for (s32 i = 0; i < 25; i++)
+                {
+                    const auto& anim = Glukkon::sGlukkonsAnimIdTable[2][i];
+                    ResourceManagerWrapper::PendAnimation(anim);
+                }
+                ResourceManagerWrapper::PendAnimation(AnimId::Dripik_Head_Gib);
+                ResourceManagerWrapper::PendAnimation(AnimId::Dripik_Arm_Gib);
+                ResourceManagerWrapper::PendAnimation(AnimId::Dripik_Body_Gib);
                 break;
 
             case EReliveLevelIds::eBonewerkz:
             case EReliveLevelIds::eBonewerkz_Ender:
-                //gMap.LoadResourcesFromList("PHLEG.BND", kPhleg_563570.AsList(), loadMode);
+                for (s32 i = 0; i < 25; i++)
+                {
+                    const auto& anim = Glukkon::sGlukkonsAnimIdTable[3][i];
+                    ResourceManagerWrapper::PendAnimation(anim);
+                }
+                ResourceManagerWrapper::PendAnimation(AnimId::Phleg_Head_Gib);
+                ResourceManagerWrapper::PendAnimation(AnimId::Phleg_Arm_Gib);
+                ResourceManagerWrapper::PendAnimation(AnimId::Phleg_Body_Gib);
                 break;
 
             default:
-                //gMap.LoadResourcesFromList("GLUKKON.BND", kGlukkon_563534.AsList(), loadMode);
+                for (s32 i = 0; i < 25; i++)
+                {
+                    const auto& anim = Glukkon::sGlukkonsAnimIdTable[0][i];
+                    ResourceManagerWrapper::PendAnimation(anim);
+                }
+                ResourceManagerWrapper::PendAnimation(AnimId::Glukkon_Head_Gib);
+                ResourceManagerWrapper::PendAnimation(AnimId::Glukkon_Arm_Gib);
+                ResourceManagerWrapper::PendAnimation(AnimId::Glukkon_Body_Gib);
                 break;
         }
     }
@@ -1078,8 +1096,8 @@ static void Factory_Water(relive::Path_TLV* pTlv, Path*, const Guid& tlvId, Load
 {
     if (loadmode == LoadMode::LoadResourceFromList_1 || loadmode == LoadMode::LoadResource_2)
     {
-        //Map::LoadResource("WDROP.BAN", ResourceManager::Resource_Animation, AEResourceID::kWaterDropResID, loadmode);
-        //Map::LoadResource("SPLASH.BAN", ResourceManager::Resource_Animation, AEResourceID::kSplashResID, loadmode);
+        ResourceManagerWrapper::PendAnimation(AnimId::WaterDrop);
+        ResourceManagerWrapper::PendAnimation(AnimId::WaterSplash);
     }
     else
     {
@@ -1091,8 +1109,8 @@ static void Factory_WorkWheel(relive::Path_TLV* pTlv, Path*, const Guid& tlvId, 
 {
     if (loadmode == LoadMode::LoadResourceFromList_1 || loadmode == LoadMode::LoadResource_2)
     {
-        //Map::LoadResource("ABEWORK.BAN", ResourceManager::Resource_Animation, AEResourceID::kAbeworkResID, loadmode, false);
-        //Map::LoadResource("WORKWHEL.BAN", ResourceManager::Resource_Animation, AEResourceID::kWorkwhelResID, loadmode, false);
+        ResourceManagerWrapper::PendAnimation(AnimId::Work_Wheel_Idle);
+        ResourceManagerWrapper::PendAnimation(AnimId::Work_Wheel_Turning);
     }
     else
     {
@@ -1100,11 +1118,11 @@ static void Factory_WorkWheel(relive::Path_TLV* pTlv, Path*, const Guid& tlvId, 
     }
 }
 
-static void Create_Gas_4DA8B0(Layer layer, s32 neverUsed, relive::Path_TLV* pTlv, const Guid& tlvId)
+static void Create_LaughingGas(Layer layer, relive::Path_TLV* pTlv, const Guid& tlvId)
 {
-    if (!gGasInstanceCount_5BC214)
+    if (!gLaughingGasInstanceCount)
     {
-        relive_new LaughingGas(layer, neverUsed, static_cast<relive::Path_LaughingGas*>(pTlv), tlvId);
+        relive_new LaughingGas(layer, static_cast<relive::Path_LaughingGas*>(pTlv), tlvId);
     }
 }
 
@@ -1112,32 +1130,28 @@ static void Factory_LaughingGas(relive::Path_TLV* pTlv, Path*, const Guid& tlvId
 {
     if (loadMode != LoadMode::LoadResourceFromList_1 && loadMode != LoadMode::LoadResource_2)
     {
-        Create_Gas_4DA8B0(Layer::eLayer_Above_FG1_39, 2, pTlv, tlvId);
+        Create_LaughingGas(Layer::eLayer_Above_FG1_39, pTlv, tlvId);
     }
 }
 
-//static CompileTimeResourceList<1> kResources_5632E0({{ResourceManager::Resource_Animation, AEResourceID::kFlySligResID}});
-
-static void LoadFlyingSligResources(LoadMode /*loadMode*/)
+static void LoadFlyingSligResources()
 {
-    //gMap.LoadResourcesFromList("FLYSLIG.BND", kResources_5632E0.AsList(), loadMode, 0);
-
-    //gMap.LoadResource("SLGBLOW.BAN", ResourceManager::Resource_Animation, AEResourceID::kSligBlowResID, loadMode);
-    //gMap.LoadResource("GRENADE.BAN", ResourceManager::Resource_Animation, AEResourceID::kGrenadeResID, loadMode);
-    //gMap.LoadResource("SMEXP.BAN", ResourceManager::Resource_Animation, AEResourceID::kSmallExplo2ResID, loadMode);
-    //gMap.LoadResource("METAL.BAN", ResourceManager::Resource_Animation, AEResourceID::kMetalGibResID, loadMode);
-    //gMap.LoadResource("ABEBLOW.BAN", ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID, loadMode);
-    //gMap.LoadResource("BIGFLASH.BAN", ResourceManager::Resource_Animation, AEResourceID::kBigflashResID, loadMode);
-    //gMap.LoadResource("VAPOR.BAN", ResourceManager::Resource_Animation, AEResourceID::kVaporResID, loadMode);
-    //gMap.LoadResource("DOGBLOW.BAN", ResourceManager::Resource_Animation, AEResourceID::kSlogBlowResID, loadMode);
+    ResourceManagerWrapper::PendAnims(FlyingSlig::sFlyingSligAnimIdTable);
+    ResourceManagerWrapper::PendAnims(kSligGibs);
+    ResourceManagerWrapper::PendAnimation(AnimId::Grenade);
+    ResourceManagerWrapper::PendAnimation(AnimId::AirExplosion_Small);
+    ResourceManagerWrapper::PendAnimation(AnimId::Metal_Gib);
+    ResourceManagerWrapper::PendAnims(kAbeGibs);
+    ResourceManagerWrapper::PendAnimation(AnimId::ShootingFire_Particle);
+    ResourceManagerWrapper::PendAnimation(AnimId::Vaporize_Particle);
+    ResourceManagerWrapper::PendAnims(kSlogGibs);
 }
-
 
 static void Factory_FlyingSlig(relive::Path_TLV* pTlv, Path*, const Guid& tlvId, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
-        LoadFlyingSligResources(loadMode);
+        LoadFlyingSligResources();
     }
     else
     {
@@ -1149,11 +1163,11 @@ static void Factory_Fleech(relive::Path_TLV* pTlv, Path*, const Guid& tlvId, Loa
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
-        //gMap.LoadResource("FLEECH.BAN", ResourceManager::Resource_Animation, AEResourceID::kFleechResID, loadMode);
-        //gMap.LoadResource("FLEEBLOW.BAN", ResourceManager::Resource_Animation, AEResourceID::kFleeBlowResID_580, loadMode);
+        ResourceManagerWrapper::PendAnims(Fleech::sFleechAnimFromMotion);
+        ResourceManagerWrapper::PendAnimation(AnimId::Fleech_Head_Gib);
+        ResourceManagerWrapper::PendAnimation(AnimId::Fleech_Body_Gib);
     }
-    else if (
-        gMap.mCurrentLevel != EReliveLevelIds::eMudancheeVault_Ender || gMap.mCurrentPath != 9 || gMap.mCurrentCamera != 4)
+    else if (gMap.mCurrentLevel != EReliveLevelIds::eMudancheeVault_Ender || gMap.mCurrentPath != 9 || gMap.mCurrentCamera != 4)
     {
         relive_new Fleech(static_cast<relive::Path_Fleech*>(pTlv), tlvId);
     }
@@ -1163,7 +1177,9 @@ static void Factory_Slurg(relive::Path_TLV* pTlv, Path*, const Guid& tlvId, Load
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
-        //gMap.LoadResource("SLURG.BAN", ResourceManager::Resource_Animation, AEResourceID::kSlurgResID, loadMode);
+        ResourceManagerWrapper::PendAnimation(AnimId::Slurg_Move);
+        ResourceManagerWrapper::PendAnimation(AnimId::Slurg_Burst);
+        ResourceManagerWrapper::PendAnimation(AnimId::Slurg_Turn_Around);
     }
     else
     {
@@ -1182,10 +1198,14 @@ static void Factory_SlamDoor(relive::Path_TLV* pTlv, Path*, const Guid& tlvId, L
             case EReliveLevelIds::eMudancheeVault:
             case EReliveLevelIds::eMudancheeVault_Ender:
             case EReliveLevelIds::eMudomoVault_Ender:
-                //Map::LoadResource("SLAMVLTS.BAN", ResourceManager::Resource_Animation, AEResourceID::kSlamResID, loadmode);
+                ResourceManagerWrapper::PendAnimation(AnimId::Slam_Door_Vault_Closed);
+                ResourceManagerWrapper::PendAnimation(AnimId::Slam_Door_Vault_Closing);
+                ResourceManagerWrapper::PendAnimation(AnimId::Slam_Door_Vault_Opening);
                 break;
             default:
-                //Map::LoadResource("SLAM.BAN", ResourceManager::Resource_Animation, AEResourceID::kSlamResID, loadmode);
+                ResourceManagerWrapper::PendAnimation(AnimId::Slam_Door_Industrial_Closed);
+                ResourceManagerWrapper::PendAnimation(AnimId::Slam_Door_Industrial_Closing);
+                ResourceManagerWrapper::PendAnimation(AnimId::Slam_Door_Industrial_Opening);
                 break;
         }
     }
@@ -1229,7 +1249,9 @@ static void Factory_SlurgSpawner(relive::Path_TLV* /*pTlv*/, Path*, const Guid& 
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
-        //gMap.LoadResource("SLURG.BAN", ResourceManager::Resource_Animation, AEResourceID::kSlurgResID, loadMode);
+        ResourceManagerWrapper::PendAnimation(AnimId::Slurg_Move);
+        ResourceManagerWrapper::PendAnimation(AnimId::Slurg_Burst);
+        ResourceManagerWrapper::PendAnimation(AnimId::Slurg_Turn_Around);
     }
     else
     {
@@ -1247,9 +1269,12 @@ static void Factory_Drill(relive::Path_TLV* pTlv, Path*, const Guid& tlvId, Load
 {
     if (loadmode == LoadMode::LoadResourceFromList_1 || loadmode == LoadMode::LoadResource_2)
     {
-        //Map::LoadResource("DRILL.BAN", ResourceManager::Resource_Animation, AEResourceID::kDrillResID, loadmode);
-        //Map::LoadResource("ABEBLOW.BAN", ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID, loadmode);
-        //Map::LoadResource("DOGBLOW.BAN", ResourceManager::Resource_Animation, AEResourceID::kSlogBlowResID, loadmode);
+        ResourceManagerWrapper::PendAnimation(AnimId::Drill_Horizontal_Off);
+        ResourceManagerWrapper::PendAnimation(AnimId::Drill_Horizontal_On);
+        ResourceManagerWrapper::PendAnimation(AnimId::Drill_Vertical_Off);
+        ResourceManagerWrapper::PendAnimation(AnimId::Drill_Vertical_On);
+        ResourceManagerWrapper::PendAnims(kAbeGibs);
+        ResourceManagerWrapper::PendAnims(kSlogGibs);
     }
     else
     {
@@ -1273,18 +1298,7 @@ static void Factory_FlyingSligSpawner(relive::Path_TLV* pTlv, Path*, const Guid&
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
-        // TODO: Resource Ids
-        //static CompileTimeResourceList<1> kResources({{ResourceManager::Resource_Animation, AEResourceID::kFlySligResID}});
-
-        //gMap.LoadResourcesFromList("FLYSLIG.BND", kResources.AsList(), loadMode);
-        //gMap.LoadResource("SLGBLOW.BAN", ResourceManager::Resource_Animation, AEResourceID::kSligBlowResID, loadMode);
-        //gMap.LoadResource("GRENADE.BAN", ResourceManager::Resource_Animation, AEResourceID::kGrenadeResID, loadMode);
-        //gMap.LoadResource("SMEXP.BAN", ResourceManager::Resource_Animation, AEResourceID::kSmallExplo2ResID, loadMode);
-        //gMap.LoadResource("METAL.BAN", ResourceManager::Resource_Animation, AEResourceID::kMetalGibResID, loadMode);
-        //gMap.LoadResource("ABEBLOW.BAN", ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID, loadMode);
-        //gMap.LoadResource("BIGFLASH.BAN", ResourceManager::Resource_Animation, AEResourceID::kBigflashResID, loadMode);
-        //gMap.LoadResource("VAPOR.BAN", ResourceManager::Resource_Animation, AEResourceID::kVaporResID, loadMode);
-        //gMap.LoadResource("DOGBLOW.BAN", ResourceManager::Resource_Animation, AEResourceID::kSlogBlowResID, loadMode);
+        LoadFlyingSligResources();
     }
     else
     {
@@ -1296,11 +1310,16 @@ static void Factory_MineCar(relive::Path_TLV* pTlv, Path*, const Guid& tlvId, Lo
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
-        //gMap.LoadResource("BAYROLL.BAN", ResourceManager::Resource_Animation, AEResourceID::kBayrollResID_6013, loadMode, 0);
-        //gMap.LoadResource("ABECAR.BAN", ResourceManager::Resource_Animation, AEResourceID::kAbeCarResId, loadMode, 0);
-        //gMap.LoadResource("METAL.BAN", ResourceManager::Resource_Animation, AEResourceID::kMetalGibResID, loadMode, 0);
-        //gMap.LoadResource("EXPLO2.BAN", ResourceManager::Resource_Animation, AEResourceID::kExplo2ResID, loadMode, 0);
-        //gMap.LoadResource("ABEBLOW.BAN", ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID, loadMode, 0);
+        ResourceManagerWrapper::PendAnimation(AnimId::Mine_Car_Closed);
+        ResourceManagerWrapper::PendAnimation(AnimId::Mine_Car_Open);
+        ResourceManagerWrapper::PendAnimation(AnimId::Mine_Car_Shake_A);
+        ResourceManagerWrapper::PendAnimation(AnimId::Mine_Car_Shake_B);
+        ResourceManagerWrapper::PendAnimation(AnimId::Mine_Car_Tread_Idle);
+        ResourceManagerWrapper::PendAnimation(AnimId::Mine_Car_Tread_Move_A);
+        ResourceManagerWrapper::PendAnimation(AnimId::Mine_Car_Tread_Move_B);
+        ResourceManagerWrapper::PendAnimation(AnimId::Metal_Gib);
+        ResourceManagerWrapper::PendAnimation(AnimId::AirExplosion);
+        ResourceManagerWrapper::PendAnims(kAbeGibs);
     }
     else
     {
@@ -1312,13 +1331,10 @@ static void Factory_BoneBag(relive::Path_TLV* pTlv, Path*, const Guid& tlvId, Lo
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
-        //gMap.LoadResource("BONEBAG.BAN", ResourceManager::Resource_Animation, AEResourceID::kBoneBagResID_590, loadMode);
-        /*
-        static CompileTimeResourceList<3> kResources({{ResourceManager::Resource_Animation, AEResourceID::kAbepickResID},
-                                                      {ResourceManager::Resource_Animation, AEResourceID::kAbethrowResID},
-                                                      {ResourceManager::Resource_Animation, AEResourceID::kBoneResID}});
-                                                      */
-        //gMap.LoadResourcesFromList("BTHROW.BND", kResources.AsList(), loadMode);
+        ResourceManagerWrapper::PendAnimation(AnimId::BoneBag_Idle);
+        ResourceManagerWrapper::PendAnimation(AnimId::BoneBag_HardHit);
+        ResourceManagerWrapper::PendAnimation(AnimId::BoneBag_SoftHit);
+        ResourceManagerWrapper::PendAnimation(AnimId::Bone);
     }
     else
     {
@@ -1330,20 +1346,24 @@ static void Factory_ExplosionSet(relive::Path_TLV* pTlv, Path*, const Guid& tlvI
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
+
         if (gMap.mCurrentLevel == EReliveLevelIds::eBonewerkz)
         {
-            //gMap.LoadResource("DRPROCK.BAN", ResourceManager::Resource_Animation, AEResourceID::kHoistRocks, loadMode);
-            //gMap.LoadResource("FALLBONZ.BAN", ResourceManager::Resource_Animation, AEResourceID::kF2rockResID, loadMode);
+            ResourceManagerWrapper::PendAnimation(AnimId::FallingCrate_Falling);
+            ResourceManagerWrapper::PendAnimation(AnimId::FallingCrate_Waiting);
         }
         else
         {
-            //gMap.LoadResource("DRPROCK.BAN", ResourceManager::Resource_Animation, AEResourceID::kHoistRocks, loadMode);
-            //gMap.LoadResource("FALLROCK.BAN", ResourceManager::Resource_Animation, AEResourceID::kF2rockResID, loadMode);
+            ResourceManagerWrapper::PendAnimation(AnimId::AE_FallingRock_Falling);
+            ResourceManagerWrapper::PendAnimation(AnimId::AE_FallingRock_Waiting);
         }
-        //gMap.LoadResource("STICK.BAN", ResourceManager::Resource_Animation, AEResourceID::kStickGibResID, loadMode);
-        //gMap.LoadResource("SHADOW.BAN", ResourceManager::Resource_Animation, AEResourceID::kObjectShadowResID, loadMode);
-        //gMap.LoadResource("DEBRIS00.BAN", ResourceManager::Resource_Animation, AEResourceID::kDebrisID00ResID, loadMode);
-        //gMap.LoadResource("EXPLO2.BAN", ResourceManager::Resource_Animation, AEResourceID::kExplo2ResID, loadMode);
+        ResourceManagerWrapper::PendAnimation(AnimId::HoistRock1);
+        ResourceManagerWrapper::PendAnimation(AnimId::HoistRock2);
+        ResourceManagerWrapper::PendAnimation(AnimId::HoistRock3);
+        ResourceManagerWrapper::PendAnimation(AnimId::Explosion_Sticks);
+        ResourceManagerWrapper::PendAnimation(AnimId::ObjectShadow);
+        ResourceManagerWrapper::PendAnimation(AnimId::Explosion_Rocks);
+        ResourceManagerWrapper::PendAnimation(AnimId::AirExplosion);
     }
     else
     {
@@ -1369,7 +1389,8 @@ static void Factory_StatusLight(relive::Path_TLV* pTlv, Path*, const Guid& tlvId
 {
     if (loadmode == LoadMode::LoadResourceFromList_1 || loadmode == LoadMode::LoadResource_2)
     {
-        //Map::LoadResource("STATUSLT.BAN", ResourceManager::Resource_Animation, AEResourceID::kStatusLightResID, loadmode);
+        ResourceManagerWrapper::PendAnimation(AnimId::Status_Light_Green);
+        ResourceManagerWrapper::PendAnimation(AnimId::Status_Light_Red);
     }
     else
     {
@@ -1381,7 +1402,9 @@ static void Factory_SlapLock(relive::Path_TLV* pTlv, Path*, const Guid& tlvId, L
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
-        //Map::LoadResource("GHOSTTRP.BAN", ResourceManager::ResourceType::Resource_Animation, AEResourceID::kGhostTrpResID_1053, loadMode, 0);
+        ResourceManagerWrapper::PendAnimation(AnimId::SlapLock_Initiate);
+        ResourceManagerWrapper::PendAnimation(AnimId::SlapLock_Punched);
+        ResourceManagerWrapper::PendAnimation(AnimId::SlapLock_Shaking);
     }
     else
     {
@@ -1393,7 +1416,7 @@ static void Factory_ParamiteWebLine(relive::Path_TLV* pTlv, Path*, const Guid& t
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
-        //gMap.LoadResource("WEB.BAN", ResourceManager::Resource_Animation, AEResourceID::kWebResID, loadMode);
+        ResourceManagerWrapper::PendAnimation(AnimId::ParamiteWeb);
     }
     else
     {
@@ -1413,12 +1436,11 @@ static void Factory_BrewMachine(relive::Path_TLV* pTlv, Path*, const Guid& tlvId
 {
     if (loadmode == LoadMode::LoadResourceFromList_1 || loadmode == LoadMode::LoadResource_2)
     {
-        //gMap.LoadResource("ABESTONE.BAN", ResourceManager::Resource_Animation, AEResourceID::kAbestoneResID, loadmode);
+        ResourceManagerWrapper::PendAnimation(AnimId::BrewMachine_Button);
+        ResourceManagerWrapper::PendAnimation(AnimId::Fart);
+        ResourceManagerWrapper::PendAnimation(AnimId::AirExplosion);
+        ResourceManagerWrapper::PendAnims(kAbeGibs);
         //gMap.LoadResource("LCDFONT.FNT", ResourceManager::Resource_Font, AEResourceID::kLcdfontResID, loadmode);
-        //gMap.LoadResource("BREWBTN.BAN", ResourceManager::Resource_Animation, AEResourceID::kBrewButtonResID_6016, loadmode);
-        //gMap.LoadResource("EVILFART.BAN", ResourceManager::Resource_Animation, AEResourceID::kEvilFartResID, loadmode);
-        //gMap.LoadResource("EXPLO2.BAN", ResourceManager::Resource_Animation, AEResourceID::kExplo2ResID, loadmode);
-        //gMap.LoadResource("ABEBLOW.BAN", ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID, loadmode);
     }
     else
     {
@@ -1430,7 +1452,7 @@ static void Factory_ScrabSpawner(relive::Path_TLV* pTlv, Path*, const Guid& tlvI
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
-        //Map::LoadResourcesFromList("SCRAB.BND", kScrabResources.AsList(), loadMode);
+        ResourceManagerWrapper::PendAnims(Scrab::sScrabMotionAnimIds);
     }
     else
     {
@@ -1442,18 +1464,15 @@ static void Factory_CrawlingSlig(relive::Path_TLV* pTlv, Path*, const Guid& tlvI
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
-       // static CompileTimeResourceList<1> kResource(
-       //     {{ResourceManager::Resource_Animation, AEResourceID::kCrawlingSligResID_449}});
-
-        //gMap.LoadResourcesFromList("CRAWLSLG.BND", kResource.AsList(), loadMode);
-        //gMap.LoadResource("SLGBLOW.BAN", ResourceManager::Resource_Animation, AEResourceID::kSligBlowResID, loadMode);
-        //gMap.LoadResource("GRENADE.BAN", ResourceManager::Resource_Animation, AEResourceID::kGrenadeResID, loadMode);
-        //gMap.LoadResource("SMEXP.BAN", ResourceManager::Resource_Animation, AEResourceID::kSmallExplo2ResID, loadMode);
-        //gMap.LoadResource("METAL.BAN", ResourceManager::Resource_Animation, AEResourceID::kMetalGibResID, loadMode);
-        //gMap.LoadResource("ABEBLOW.BAN", ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID, loadMode);
-        //gMap.LoadResource("BIGFLASH.BAN", ResourceManager::Resource_Animation, AEResourceID::kBigflashResID, loadMode);
-        //gMap.LoadResource("VAPOR.BAN", ResourceManager::Resource_Animation, AEResourceID::kVaporResID, loadMode);
-        //gMap.LoadResource("DOGBLOW.BAN", ResourceManager::Resource_Animation, AEResourceID::kSlogBlowResID, loadMode);
+        ResourceManagerWrapper::PendAnims(CrawlingSlig::sCrawlingSligAnimIdTable);
+        ResourceManagerWrapper::PendAnims(kSligGibs);
+        ResourceManagerWrapper::PendAnimation(AnimId::Grenade);
+        ResourceManagerWrapper::PendAnimation(AnimId::AirExplosion_Small);
+        ResourceManagerWrapper::PendAnimation(AnimId::Metal_Gib);
+        ResourceManagerWrapper::PendAnims(kAbeGibs);
+        ResourceManagerWrapper::PendAnimation(AnimId::ShootingFire_Particle);
+        ResourceManagerWrapper::PendAnimation(AnimId::Vaporize_Particle);
+        ResourceManagerWrapper::PendAnims(kSlogGibs);
     }
     else
     {
@@ -1466,7 +1485,8 @@ static void Factory_SligGetPants(relive::Path_TLV* pTlv, Path*, const Guid& tlvI
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
         LoadWalkingSligResources();
-        //gMap.LoadResource("LOCKER.BAN", ResourceManager::Resource_Animation, AEResourceID::kCrawlingSligLockerResID_448, loadMode);
+        ResourceManagerWrapper::PendAnimation(AnimId::CrawlingSligLocker_Closed);
+        ResourceManagerWrapper::PendAnimation(AnimId::CrawlingSligLocker_Open);
     }
     else
     {
@@ -1478,8 +1498,9 @@ static void Factory_SligGetWings(relive::Path_TLV* pTlv, Path*, const Guid& tlvI
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
-        LoadFlyingSligResources(loadMode);
-        //gMap.LoadResource("LOCKER.BAN", ResourceManager::Resource_Animation, AEResourceID::kCrawlingSligLockerResID_448, loadMode, 0);
+        LoadFlyingSligResources();
+        ResourceManagerWrapper::PendAnimation(AnimId::CrawlingSligLocker_Closed);
+        ResourceManagerWrapper::PendAnimation(AnimId::CrawlingSligLocker_Open);
     }
     else
     {
@@ -1491,13 +1512,19 @@ static void Factory_Greeter(relive::Path_TLV* pTlv, Path*, const Guid& tlvId, Lo
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
-        //gMap.LoadResource("MFLARE.BAN", ResourceManager::Resource_Animation, AEResourceID::kMflareResID, loadMode, 0);
-        //gMap.LoadResource("MOTION.BAN", ResourceManager::Resource_Animation, AEResourceID::kMotionResID, loadMode, 0);
-        //gMap.LoadResource("GREETER.BAN", ResourceManager::Resource_Animation, AEResourceID::kGreeterResID, loadMode, 0);
-        //gMap.LoadResource("SPLINE.BAN", ResourceManager::Resource_Animation, AEResourceID::kSplineResID, loadMode, 0);
-        //gMap.LoadResource("METAL.BAN", ResourceManager::Resource_Animation, AEResourceID::kMetalGibResID, loadMode, 0);
-        //gMap.LoadResource("EXPLO2.BAN", ResourceManager::Resource_Animation, AEResourceID::kExplo2ResID, loadMode, 0);
-        //gMap.LoadResource("ABEBLOW.BAN", ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID, loadMode, 0);
+        ResourceManagerWrapper::PendAnimation(AnimId::MotionDetector_Flare);
+        ResourceManagerWrapper::PendAnimation(AnimId::MotionDetector_Laser);
+        ResourceManagerWrapper::PendAnimation(AnimId::Greeter_Moving);
+        ResourceManagerWrapper::PendAnimation(AnimId::Greeter_Turn);
+        ResourceManagerWrapper::PendAnimation(AnimId::Greeter_Hit);
+        ResourceManagerWrapper::PendAnimation(AnimId::Greeter_Speak);
+        ResourceManagerWrapper::PendAnimation(AnimId::Greeter_Chase);
+        ResourceManagerWrapper::PendAnimation(AnimId::Greeter_Falling);
+        ResourceManagerWrapper::PendAnimation(AnimId::Zap_Line_Blue);
+        ResourceManagerWrapper::PendAnimation(AnimId::Zap_Line_Red);
+        ResourceManagerWrapper::PendAnimation(AnimId::Metal_Gib);
+        ResourceManagerWrapper::PendAnimation(AnimId::AirExplosion);
+        ResourceManagerWrapper::PendAnims(kAbeGibs);
     }
     else
     {
@@ -1509,7 +1536,8 @@ static void Factory_CrawlingSligButton(relive::Path_TLV* pTlv, Path*, const Guid
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
-        //gMap.LoadResource("CSLGBUTN.BAN", ResourceManager::Resource_Animation, AEResourceID::kCrawlingSligButtonResID_1057, loadMode);
+        ResourceManagerWrapper::PendAnimation(AnimId::CrawlingSligButton);
+        ResourceManagerWrapper::PendAnimation(AnimId::CrawlingSligButtonUse);
     }
     else
     {
@@ -1521,7 +1549,8 @@ static void Factory_GlukkonSwitch(relive::Path_TLV* pTlv, Path*, const Guid& tlv
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
-        //gMap.LoadResource("SECDOOR.BAN", ResourceManager::Resource_Animation, AEResourceID::kR1sdosResID_6027, loadMode);
+        ResourceManagerWrapper::PendAnimation(AnimId::Security_Door_Idle);
+        ResourceManagerWrapper::PendAnimation(AnimId::Security_Door_Speak);
     }
     else
     {
@@ -1533,7 +1562,8 @@ static void Factory_DoorBlocker(relive::Path_TLV* pTlv, Path*, const Guid& tlvId
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
-        //gMap.LoadResource("DOORLOCK.BAN", ResourceManager::Resource_Animation, AEResourceID::kDoorLockResID_374, loadMode);
+        ResourceManagerWrapper::PendAnimation(AnimId::Door_Lock_Idle);
+        ResourceManagerWrapper::PendAnimation(AnimId::Door_Lock_Open);
     }
     else
     {
@@ -1547,9 +1577,11 @@ static void Factory_TorturedMudokon(relive::Path_TLV* pTlv, Path*, const Guid& t
     {
         if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
         {
-            //gMap.LoadResource("MUDTORT.BAN", ResourceManager::Resource_Animation, AEResourceID::kTorturedMud, loadMode);
-            //gMap.LoadResource("TEARS.BAN", ResourceManager::Resource_Animation, AEResourceID::kTorturedMudTearsResID, loadMode);
-            //gMap.LoadResource("ELECWALL.BAN", ResourceManager::Resource_Animation, AEResourceID::kElecwallResID, loadMode);
+            ResourceManagerWrapper::PendAnimation(AnimId::Tortured_Mudokon);
+            ResourceManagerWrapper::PendAnimation(AnimId::Tortured_Mudokon_Released);
+            ResourceManagerWrapper::PendAnimation(AnimId::Tortured_Mudokon_Zap);
+            ResourceManagerWrapper::PendAnimation(AnimId::Tortured_Mudokon_Tears);
+            ResourceManagerWrapper::PendAnimation(AnimId::Electric_Wall);
         }
         else
         {
@@ -1562,7 +1594,8 @@ static void Factory_TrainDoor(relive::Path_TLV* pTlv, Path*, const Guid& tlvId, 
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
-        //gMap.LoadResource("TRAINDOR.BAN", ResourceManager::Resource_Animation, AEResourceID::kTrainDoorResID_2013, loadMode);
+        ResourceManagerWrapper::PendAnimation(AnimId::Door_Train_Closed);
+        ResourceManagerWrapper::PendAnimation(AnimId::Door_Train_Closing);
     }
     else
     {

@@ -36,7 +36,7 @@ public:
     Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale, bool bMakeSmaller);
     ~Gibs();
 
-    void LoadAnimations();
+    void LoadAnimations(AnimId head, AnimId arm, AnimId body);
 
     virtual void VUpdate() override;
     virtual void VRender(OrderingTable& ot) override;

@@ -71,31 +71,6 @@ static const TGlukkonBrainFn sGlukkonBrainTable[6] = {
     &Glukkon::Brain_4_Death,
     &Glukkon::Brain_5_WaitToSpawn};
 
-static const AnimId sGlukkonsAnimIdTable[4][25] = {
-    {AnimId::Glukkon_Normal_Idle, AnimId::Glukkon_Normal_Walk, AnimId::Glukkon_Normal_Turn, AnimId::Glukkon_Normal_KnockBack, AnimId::Glukkon_Normal_Jump,
-     AnimId::Glukkon_Normal_JumpToFall, AnimId::Glukkon_Normal_WalkToFall, AnimId::Glukkon_Normal_Fall, AnimId::Glukkon_Normal_DeathFall, AnimId::Glukkon_Normal_Land,
-     AnimId::Glukkon_Normal_ChantShake, AnimId::Glukkon_Normal_Speak1, AnimId::Glukkon_Normal_Speak2, AnimId::Glukkon_Normal_LongLaugh, AnimId::Glukkon_Normal_BeginWalk,
-     AnimId::Glukkon_Normal_EndWalk, AnimId::Glukkon_Normal_StandToJump, AnimId::Glukkon_Normal_JumpToStand, AnimId::Glukkon_Normal_WalkToJump, AnimId::Glukkon_Normal_JumpToWalk,
-     AnimId::Glukkon_Normal_KnockBackStandBegin, AnimId::Glukkon_Normal_GetShot, AnimId::Glukkon_Normal_KnockBackStandEnd, AnimId::Glukkon_Normal_Speak3, AnimId::Glukkon_Normal_EndSingleStep},
-
-    {AnimId::Glukkon_Aslik_Idle, AnimId::Glukkon_Aslik_Walk, AnimId::Glukkon_Aslik_Turn, AnimId::Glukkon_Aslik_KnockBack, AnimId::Glukkon_Aslik_Jump,
-     AnimId::Glukkon_Aslik_JumpToFall, AnimId::Glukkon_Aslik_WalkToFall, AnimId::Glukkon_Aslik_Fall, AnimId::Glukkon_Aslik_DeathFall, AnimId::Glukkon_Aslik_Land,
-     AnimId::Glukkon_Aslik_ChantShake, AnimId::Glukkon_Aslik_Speak1, AnimId::Glukkon_Aslik_Speak2, AnimId::Glukkon_Aslik_LongLaugh, AnimId::Glukkon_Aslik_BeginWalk,
-     AnimId::Glukkon_Aslik_EndWalk, AnimId::Glukkon_Aslik_StandToJump, AnimId::Glukkon_Aslik_JumpToStand, AnimId::Glukkon_Aslik_WalkToJump, AnimId::Glukkon_Aslik_JumpToWalk,
-     AnimId::Glukkon_Aslik_KnockBackStandBegin, AnimId::Glukkon_Aslik_GetShot, AnimId::Glukkon_Aslik_KnockBackStandEnd, AnimId::Glukkon_Aslik_Speak3, AnimId::Glukkon_Aslik_EndSingleStep},
-
-    {AnimId::Glukkon_Dripik_Idle, AnimId::Glukkon_Dripik_Walk, AnimId::Glukkon_Dripik_Turn, AnimId::Glukkon_Dripik_KnockBack, AnimId::Glukkon_Dripik_Jump,
-     AnimId::Glukkon_Dripik_JumpToFall, AnimId::Glukkon_Dripik_WalkToFall, AnimId::Glukkon_Dripik_Fall, AnimId::Glukkon_Dripik_DeathFall, AnimId::Glukkon_Dripik_Land,
-     AnimId::Glukkon_Dripik_ChantShake, AnimId::Glukkon_Dripik_Speak1, AnimId::Glukkon_Dripik_Speak2, AnimId::Glukkon_Dripik_LongLaugh, AnimId::Glukkon_Dripik_BeginWalk,
-     AnimId::Glukkon_Dripik_EndWalk, AnimId::Glukkon_Dripik_StandToJump, AnimId::Glukkon_Dripik_JumpToStand, AnimId::Glukkon_Dripik_WalkToJump, AnimId::Glukkon_Dripik_JumpToWalk,
-     AnimId::Glukkon_Dripik_KnockBackStandBegin, AnimId::Glukkon_Dripik_GetShot, AnimId::Glukkon_Dripik_KnockBackStandEnd, AnimId::Glukkon_Dripik_Speak3, AnimId::Glukkon_Dripik_EndSingleStep},
-
-    {AnimId::Glukkon_Phleg_Idle, AnimId::Glukkon_Phleg_Walk, AnimId::Glukkon_Phleg_Turn, AnimId::Glukkon_Phleg_KnockBack, AnimId::Glukkon_Phleg_Jump,
-     AnimId::Glukkon_Phleg_JumpToFall, AnimId::Glukkon_Phleg_WalkToFall, AnimId::Glukkon_Phleg_Fall, AnimId::Glukkon_Phleg_DeathFall, AnimId::Glukkon_Phleg_Land,
-     AnimId::Glukkon_Phleg_ChantShake, AnimId::Glukkon_Phleg_Speak1, AnimId::Glukkon_Phleg_Speak2, AnimId::Glukkon_Phleg_LongLaugh, AnimId::Glukkon_Phleg_BeginWalk,
-     AnimId::Glukkon_Phleg_EndWalk, AnimId::Glukkon_Phleg_StandToJump, AnimId::Glukkon_Phleg_JumpToStand, AnimId::Glukkon_Phleg_WalkToJump, AnimId::Glukkon_Phleg_JumpToWalk,
-     AnimId::Glukkon_Phleg_KnockBackStandBegin, AnimId::Glukkon_Phleg_GetShot, AnimId::Glukkon_Phleg_KnockBackStandEnd, AnimId::Glukkon_Phleg_Speak3, AnimId::Glukkon_Phleg_EndSingleStep}};
-
 static const TintEntry kGlukkonTints[16] = {
     {EReliveLevelIds::eMenu, 137u, 137u, 137u},
     {EReliveLevelIds::eMines, 137u, 137u, 137u},
@@ -211,13 +186,42 @@ bool Glukkon::BrainIs(TGlukkonBrainFn fn)
 
 void Glukkon::LoadAnimations()
 {
-    for (s32 i = 0; i < 4; i++)
+    switch (gMap.mCurrentLevel)
     {
-        for (s32 j = 0; j < 25; j++)
-        {
-            auto& animId = sGlukkonsAnimIdTable[i][j];
-            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(animId));
-        }
+        case EReliveLevelIds::eFeeCoDepot:
+        case EReliveLevelIds::eFeeCoDepot_Ender:
+            for (s32 i = 0; i < 25; i++)
+            {
+                const auto& anim = Glukkon::sGlukkonsAnimIdTable[1][i];
+                mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(anim));
+            }
+            break;
+
+        case EReliveLevelIds::eBarracks:
+        case EReliveLevelIds::eBarracks_Ender:
+            for (s32 i = 0; i < 25; i++)
+            {
+                const auto& anim = Glukkon::sGlukkonsAnimIdTable[2][i];
+                mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(anim));
+            }
+            break;
+
+        case EReliveLevelIds::eBonewerkz:
+        case EReliveLevelIds::eBonewerkz_Ender:
+            for (s32 i = 0; i < 25; i++)
+            {
+                const auto& anim = Glukkon::sGlukkonsAnimIdTable[3][i];
+                mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(anim));
+            }
+            break;
+
+        default:
+            for (s32 i = 0; i < 25; i++)
+            {
+                const auto& anim = Glukkon::sGlukkonsAnimIdTable[0][i];
+                mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(anim));
+            }
+            break;
     }
 }
 

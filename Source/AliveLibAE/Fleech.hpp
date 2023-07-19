@@ -297,6 +297,26 @@ using TFleechMotionFn = void (Fleech::*)();
 class Fleech final : public BaseAliveGameObject
 {
 public:
+    static constexpr AnimId sFleechAnimFromMotion[19] = {
+        AnimId::Fleech_Sleeping,
+        AnimId::Fleech_WakingUp,
+        AnimId::Fleech_Unused,
+        AnimId::Fleech_Idle,
+        AnimId::Fleech_Crawl,
+        AnimId::Fleech_PatrolCry,
+        AnimId::Fleech_Knockback,
+        AnimId::Fleech_StopCrawling,
+        AnimId::Fleech_StopMidCrawlCycle,
+        AnimId::Fleech_Fall,
+        AnimId::Fleech_Land,
+        AnimId::Fleech_RaiseHead,
+        AnimId::Fleech_Climb,
+        AnimId::Fleech_SettleOnGround,
+        AnimId::Fleech_ExtendTongueFromEnemy,
+        AnimId::Fleech_RetractTongueFromEnemey,
+        AnimId::Fleech_DeathByFalling,
+        AnimId::Fleech_SleepingWithTongue,
+        AnimId::Fleech_Consume};
     Fleech(relive::Path_Fleech* pTlv, const Guid& tlvId);
     ~Fleech();
     

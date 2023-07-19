@@ -50,27 +50,6 @@ const static TintEntry kCrawlingSligTints[16] = {
     {EReliveLevelIds::eBonewerkz_Ender, 127u, 127u, 127u},
     {EReliveLevelIds::eCredits, 127u, 127u, 127u}};
 
-const static AnimId sCrawlingSligAnimIdTable[18] = {
-    AnimId::CrawlingSlig_Idle,
-    AnimId::CrawlingSlig_UsingButton,
-    AnimId::CrawlingSlig_WakingUp,
-    AnimId::CrawlingSlig_Crawling,
-    AnimId::CrawlingSlig_StartFalling,
-    AnimId::CrawlingSlig_Falling,
-    AnimId::CrawlingSlig_Landing,
-    AnimId::CrawlingSlig_ToShakingToIdle,
-    AnimId::CrawlingSlig_Speaking,
-    AnimId::CrawlingSlig_Snoozing,
-    AnimId::CrawlingSlig_PushingWall,
-    AnimId::CrawlingSlig_TurnAround,
-    AnimId::CrawlingSlig_Shaking,
-    AnimId::CrawlingSlig_Empty,
-    AnimId::CrawlingSlig_ShakingToIdle,
-    AnimId::CrawlingSlig_EndCrawling,
-    AnimId::CrawlingSlig_IdleToPushingWall,
-    AnimId::CrawlingSlig_EndPushingWall 
-};
-
 const static TCrawlingSligMotionFn sCrawlingSligMotions[18] = {
     &CrawlingSlig::Motion_0_Idle,
     &CrawlingSlig::Motion_1_UsingButton,

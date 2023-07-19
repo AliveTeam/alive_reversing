@@ -34,41 +34,16 @@ FP Random_40FAF0(FP scale)
     return FP_FromRaw((static_cast<u32>(Math_NextRandom()) - 128) << sGibRandom_550E80) * scale;
 }
 
-void Gibs::LoadAnimations()
+void Gibs::LoadAnimations(AnimId head, AnimId arm, AnimId body)
 {
-    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Abe_Head_Gib));
-    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Abe_Arm_Gib));
-    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Abe_Body_Gib));
-    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Slig_Head_Gib));
-    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Slig_Arm_Gib));
-    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Slig_Body_Gib));
-    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Slog_Head_Gib));
-    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Slog_Body_Gib));
-    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::BlindMud_Head_Gib));
-    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::BlindMud_Arm_Gib));
-    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::BlindMud_Body_Gib));
-    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Metal_Gib));
-    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Glukkon_Head_Gib));
-    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Glukkon_Arm_Gib));
-    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Glukkon_Body_Gib));
-    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Aslik_Head_Gib));
-    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Aslik_Arm_Gib));
-    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Aslik_Body_Gib));
-    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Dripik_Head_Gib));
-    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Dripik_Arm_Gib));
-    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Dripik_Body_Gib));
-    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Phleg_Head_Gib));
-    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Phleg_Arm_Gib));
-    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Phleg_Body_Gib));
-    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Fleech_Head_Gib));
-    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Fleech_Body_Gib));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(head));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(arm));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(body));
 }
 
 Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale, bool bMakeSmaller)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
-    LoadAnimations();
-
     AnimId headGib = AnimId::None;
     AnimId armGib = AnimId::None;
     AnimId bodyGib = AnimId::None;
@@ -140,6 +115,7 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale, bool b
             break;
     }
 
+
     const AnimRecord& headGibRec = AnimRec(headGib);
 
     // TODO: It is assumed all 3 gib parts use the same pal - might not be true for mods
@@ -147,6 +123,8 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale, bool b
     {
         mLoadedPals.push_back(ResourceManagerWrapper::LoadPal(PalId::BlindMud));
     }
+
+    LoadAnimations(headGib, armGib, bodyGib);
 
     // The base class renders the head gib
     Animation_Init(GetAnimRes(headGib));

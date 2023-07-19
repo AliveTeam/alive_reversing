@@ -20,7 +20,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_LaughingGas_Data, 0xC);
 class LaughingGas final : public BaseGameObject
 {
 public:
-    LaughingGas(Layer layer, s32 notUsed, relive::Path_LaughingGas* pTlv, const Guid& tlvId);
+    LaughingGas(Layer layer, relive::Path_LaughingGas* pTlv, const Guid& tlvId);
     ~LaughingGas();
 
     virtual void VScreenChanged() override;
@@ -66,5 +66,5 @@ private:
     s32 field_31FC_h_count = 0;
 };
 
-extern s32 gGasInstanceCount_5BC214;
+extern s32 gLaughingGasInstanceCount;
 extern s16 gLaughingGasOn_5C1BA4;

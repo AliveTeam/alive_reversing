@@ -232,6 +232,26 @@ struct CrawlingSligSaveState final : public SaveStateBase
 class CrawlingSlig final : public BaseAliveGameObject
 {
 public:
+    static constexpr AnimId sCrawlingSligAnimIdTable[18] = {
+        AnimId::CrawlingSlig_Idle,
+        AnimId::CrawlingSlig_UsingButton,
+        AnimId::CrawlingSlig_WakingUp,
+        AnimId::CrawlingSlig_Crawling,
+        AnimId::CrawlingSlig_StartFalling,
+        AnimId::CrawlingSlig_Falling,
+        AnimId::CrawlingSlig_Landing,
+        AnimId::CrawlingSlig_ToShakingToIdle,
+        AnimId::CrawlingSlig_Speaking,
+        AnimId::CrawlingSlig_Snoozing,
+        AnimId::CrawlingSlig_PushingWall,
+        AnimId::CrawlingSlig_TurnAround,
+        AnimId::CrawlingSlig_Shaking,
+        AnimId::CrawlingSlig_Empty,
+        AnimId::CrawlingSlig_ShakingToIdle,
+        AnimId::CrawlingSlig_EndCrawling,
+        AnimId::CrawlingSlig_IdleToPushingWall,
+        AnimId::CrawlingSlig_EndPushingWall};
+
     CrawlingSlig(relive::Path_CrawlingSlig* pTlv, const Guid& guid);
     ~CrawlingSlig();
 

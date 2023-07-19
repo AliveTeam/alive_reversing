@@ -114,6 +114,35 @@ struct FlyingSligSaveState final : public SaveStateBase
 class FlyingSlig final : public BaseAliveGameObject
 {
 public:
+    static constexpr AnimId sFlyingSligAnimIdTable[26] = {
+        AnimId::FlyingSlig_Idle,
+        AnimId::FlyingSlig_MoveHorizontal,
+        AnimId::FlyingSlig_IdleTurnAround,
+        AnimId::FlyingSlig_MoveDown,
+        AnimId::FlyingSlig_MoveDownTurnAround,
+        AnimId::FlyingSlig_MoveUp,
+        AnimId::FlyingSlig_MoveUpTurnAround,
+        AnimId::FlyingSlig_PullLever,
+        AnimId::FlyingSlig_Speak,
+        AnimId::FlyingSlig_Possession,
+        AnimId::FlyingSlig_MoveHorizontalEnd,
+        AnimId::FlyingSlig_MoveUpStart,
+        AnimId::FlyingSlig_MoveHorizontalToDown,
+        AnimId::FlyingSlig_MoveUpToHorizontal,
+        AnimId::FlyingSlig_MoveDownToHorizontal,
+        AnimId::FlyingSlig_TurnQuick,
+        AnimId::FlyingSlig_IdleToHorizontal,
+        AnimId::FlyingSlig_BeginDownMovement,
+        AnimId::FlyingSlig_EndDownMovement,
+        AnimId::FlyingSlig_DownKnockback,
+        AnimId::FlyingSlig_UpKnockback,
+        AnimId::FlyingSlig_EndUpMovement,
+        AnimId::FlyingSlig_InstantUpXTurn,
+        AnimId::FlyingSlig_InstantDownXTurn,
+        AnimId::FlyingSlig_HorizontalToUpMovement,
+        AnimId::FlyingSlig_TurnToHorizontalMovement,
+    };
+
     FlyingSlig(relive::Path_FlyingSlig* pTlv, const Guid& tlvId);
     ~FlyingSlig();
 

@@ -1690,7 +1690,18 @@ MainMenuNextCam MainMenuController::LoadNewGame_Update_4D0920(u32 /*input*/)
 
     if (!sActiveHero)
     {
+        ResourceManagerWrapper::PendAnims(Abe::sAbeAnimIdTable);
+        ResourceManagerWrapper::PendAnimation(AnimId::ChantOrb_Particle);
+        ResourceManagerWrapper::PendAnimation(AnimId::ChantOrb_Particle_Small);
+        ResourceManagerWrapper::PendAnimation(AnimId::SquibSmoke_Particle);
+        ResourceManagerWrapper::PendAnimation(AnimId::Dust_Particle);
+        ResourceManagerWrapper::PendAnimation(AnimId::BloodDrop);
         ResourceManagerWrapper::PendAnimation(AnimId::ObjectShadow);
+        ResourceManagerWrapper::PendAnimation(AnimId::DeathFlare_1);
+        ResourceManagerWrapper::PendAnimation(AnimId::DeathFlare_2);
+        ResourceManagerWrapper::PendAnimation(AnimId::Dove_Idle);
+        ResourceManagerWrapper::PendAnimation(AnimId::Dove_Flying);
+        ResourceManagerWrapper::PendAnimation(AnimId::SpotLight);
         ResourceManagerWrapper::LoadingLoop2();
         sActiveHero = relive_new Abe();
     }

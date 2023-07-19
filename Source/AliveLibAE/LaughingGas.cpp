@@ -9,7 +9,7 @@
 #include <math.h>
 #include "../relive_lib/GameObjects/BaseAnimatedWithPhysicsGameObject.hpp"
 
-s32 gGasInstanceCount_5BC214 = 0;
+s32 gLaughingGasInstanceCount = 0;
 s16 gLaughingGasOn_5C1BA4 = false;
 
 const u32 sRedShift_C215C4 = 11;
@@ -25,10 +25,10 @@ static s32 gas_rand()
     return static_cast<s32>((random_seed >> 16) & 0x7FFF);
 }
 
-LaughingGas::LaughingGas(Layer layer, s32 /*notUsed*/, relive::Path_LaughingGas* pTlv, const Guid& tlvId)
+LaughingGas::LaughingGas(Layer layer, relive::Path_LaughingGas* pTlv, const Guid& tlvId)
     : BaseGameObject(true, 0)
 {
-    gGasInstanceCount_5BC214++;
+    gLaughingGasInstanceCount++;
 
     SetType(ReliveTypes::eLaughingGas);
     Path_LaughingGas_Data* pData = &field_48_tlv_data;
@@ -86,7 +86,7 @@ LaughingGas::~LaughingGas()
     Path::TLV_Reset(field_24_tlvInfo, -1, 0, 0);
     gObjListDrawables->Remove_Item(this);
     gLaughingGasOn_5C1BA4 = false;
-    gGasInstanceCount_5BC214--;
+    gLaughingGasInstanceCount--;
     relive_delete[] field_19C_pMem;
 }
 
