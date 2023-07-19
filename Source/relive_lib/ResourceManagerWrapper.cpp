@@ -158,8 +158,17 @@ s32 ResourceManagerWrapper::loading_ticks = 0;
 
 void ResourceManagerWrapper::PendAnimation(AnimId anim)
 {
-    auto job = std::make_unique<AnimationLoaderJob>(anim);
-    mThreadPool->AddJob(std::move(job));
+    std::map<AnimId, ResourceManagerWrapper::AnimCache>::iterator it;
+    {
+        std::unique_lock<std::mutex> lock(mLoadedAnimationsMutex);
+        it = mLoadedAnimations.find(anim);
+    }
+
+    if (it == std::end(mLoadedAnimations))
+    {
+        auto job = std::make_unique<AnimationLoaderJob>(anim);
+        mThreadPool->AddJob(std::move(job));
+    }
 }
 
 AnimResource ResourceManagerWrapper::LoadAnimation(AnimId anim)
@@ -405,16 +414,26 @@ void ResourceManagerWrapper::LoadingLoop(bool bShowLoadingIcon)
 {
     GetGameAutoPlayer().DisableRecorder();
 
-    u32 startTime = SYS_GetTicks();
+    const u32 startTime = SYS_GetTicks();
     while (mThreadPool->Busy())
     {
-        // TODO: Fix
         SYS_EventsPump();
-        PSX_VSync(VSyncMode::UncappedFps);
-        if (bShowLoadingIcon && !bHideLoadingIcon && SYS_GetTicks() > startTime + 5940)
+
+        // If not uncapped fps playback then actually wait for 1 frame on each iteration of the loop
+        const bool unCappedFps = GetGameAutoPlayer().IsPlaying() && GetGameAutoPlayer().NoFpsLimitPlayBack();
+
+        PSX_VSync(unCappedFps ? VSyncMode::UncappedFps : VSyncMode::LimitTo30Fps);
+        const u32 k1Second = 1000; // Show loading icon after 1 second of loading
+        if (bShowLoadingIcon && !bHideLoadingIcon && SYS_GetTicks() > startTime + k1Second)
         {
-            // Render everything in the ordering table including the loading icon
-            ResourceManagerWrapper::ShowLoadingIcon();
+            // master branch never hits the below code path so don't let the playback hit it
+            // if it does hit the loading icon Particle object will bump the object list count
+            // by 1 and desync the playback.
+            if (!GetGameAutoPlayer().IsPlaying())
+            {
+                // Render everything in the ordering table including the loading icon
+                ResourceManagerWrapper::ShowLoadingIcon();
+            }
         }
     }
 
