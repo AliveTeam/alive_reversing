@@ -30,6 +30,7 @@
 #include "ThreadPool.hpp"
 #include "TLVConverter.hpp"
 #include "CollisionLineConverter.hpp"
+#include "PathDataExtensionsTypes.hpp"
 
 static bool ReadLvlFileInto(ReliveAPI::LvlReader& archive, const char_type* fileName, std::vector<u8>& fileBuffer)
 {
@@ -283,7 +284,7 @@ static void ConvertPath(FileSystem& fs, const FileSystem::Path& path, const Reli
 
 
 template <typename LevelIdType>
-static void SaveLevelInfoJson(const FileSystem::Path& dataDir, EReliveLevelIds /*reliveLvl*/, LevelIdType lvlIdxAsLvl, FileSystem& fs, const ReliveAPI::ChunkedLvlFile& pathBndFile)
+static void SaveLevelInfoJson(const FileSystem::Path& dataDir, EReliveLevelIds /*reliveLvl*/, LevelIdType lvlIdxAsLvl, FileSystem& fs, const ReliveAPI::ChunkedLvlFile& pathBndFile, bool isAo)
 {
     FileSystem::Path pathDir = dataDir;
     pathDir.Append(ToString(lvlIdxAsLvl)).Append("paths");
@@ -295,192 +296,181 @@ static void SaveLevelInfoJson(const FileSystem::Path& dataDir, EReliveLevelIds /
     nlohmann::json jsonPathFilesArray;
 
     // TODO: Handle conversion of path extension blocks from custom lvls
+    std::optional<ReliveAPI::LvlFileChunk> extensionBlock = pathBndFile.ChunkByType(ResourceManagerWrapper::ResourceType::Resource_Pxtd);
+    if (extensionBlock)
+    {
+        auto dataCopy = extensionBlock->Data();
+        auto pExt = reinterpret_cast<PerPathExtension*>(dataCopy.data());
+        if (pExt->mSize != sizeof(PerPathExtension))
+        {
+            LOG_INFO("%s expected size %d but got %d", pExt->mBlyName, sizeof(PerPathExtension), pExt->mSize);
+        }
+        else
+        {
+            LOG_INFO("Applying %s", pExt->mBlyName);
 
-    /*
-    // AO data
- if (pHeader->mLineType == Resource_Pxtd)
+            const u32 lvlIdx = static_cast<u32>(lvlIdxAsLvl);
+            // AO data
+            if (isAo)
+            {
+                auto pChunkData = reinterpret_cast<u8*>(pExt);
+                pChunkData += sizeof(PerPathExtension);
+
+                // Apply LCD Screen messages
+                auto pLCDScreenMsgs = reinterpret_cast<StringTable*>(pChunkData);
+                pChunkData = StringTable::MakeTable(pLCDScreenMsgs);
+                //AO::SetLcdMessagesForLvl(*pLCDScreenMsgs, static_cast<LevelIds>(lvlIdx), pExt->mPathId);
+
+                // Apply hint fly messages
+                auto pHintFlyMsgs = reinterpret_cast<StringTable*>(pChunkData);
+                pChunkData = StringTable::MakeTable(pHintFlyMsgs);
+                //AO::SetHintFlyMessagesForLvl(*pHintFlyMsgs, static_cast<LevelIds>(lvlIdx), pExt->mPathId);
+
+                // Apply the data
+                AO::PathRoot& rPath = *AO::Path_Get_PathRoot(lvlIdx);
+                rPath.field_0_pBlyArrayPtr[pExt->mPathId].field_0_blyName = pExt->mBlyName;
+
+                AO::PathBlyRec& rBlyRec = rPath.field_0_pBlyArrayPtr[pExt->mPathId];
+                if (!rBlyRec.field_4_pPathData)
+                {
+                    rBlyRec.field_4_pPathData = &AO::GetPathData(lvlIdx)[pExt->mPathId];
+                    // HACK: Set throwable type in this path to grenades
+                    rBlyRec.mOverlayId = 3;
+                    rPath.field_18_num_paths++;
+                }
+                AO::PathData& rPathData = *rBlyRec.field_4_pPathData;
+
+               // rPathData.field_0 = sub_402560;
+                rPathData.field_4_bLeft = 0;
+                rPathData.field_6_bRight = 0;
+                /*
+                SetAndLog("top", rPathData.field_8_bTop, static_cast<s16>(pExt->mXSize * pExt->mGridWidth));
+                SetAndLog("bottom", rPathData.field_A_bBottom, static_cast<s16>(pExt->mYSize * pExt->mGridHeight));
+
+                SetAndLog("grid width", rPathData.field_C_grid_width, static_cast<s16>(pExt->mGridWidth));
+                SetAndLog("grid height", rPathData.field_E_grid_height, static_cast<s16>(pExt->mGridHeight));
+
+                SetAndLog("field_10", rPathData.field_10, static_cast<s16>(pExt->mGridWidth));
+                SetAndLog("field_12", rPathData.field_12, static_cast<s16>(pExt->mGridHeight));
+
+                SetAndLog<s32>("object offset", rPathData.field_14_object_offset, pExt->mObjectOffset);
+                SetAndLog<s32>("index table offset", rPathData.field_18_object_index_table_offset, pExt->mIndexTableOffset);
+                */
+                // rPathData.field_1C_object_funcs = kObjectFactory;
+
+                rBlyRec.field_8_pCollisionData = &AO::GetCollisions(lvlIdx)[pExt->mPathId];
+
+                CollisionInfo& rColInfo = *rBlyRec.field_8_pCollisionData;
+                rColInfo.mLeft = 0;
+                rColInfo.mRight = 0;
+                /*
+                SetAndLog("top", rColInfo.mTop, static_cast<s16>(pExt->mXSize * pExt->mGridWidth));
+                SetAndLog("bottom", rColInfo.mBottom, static_cast<s16>(pExt->mYSize * pExt->mGridHeight));
+                SetAndLog("collision offset", rColInfo.mCollisionOffset, pExt->mCollisionOffset);
+                SetAndLog("num collision items", rColInfo.mNumCollisionItems, pExt->mNumCollisionLines);
+                SetAndLog<u32>("grid width", rColInfo.mGridWidth, pExt->mGridWidth);
+                SetAndLog<u32>("grid height", rColInfo.mGridHeight, pExt->mGridHeight);
+
+                if (pExt->mTotalMuds != 0)
+                {
+                    SetAndLog("sTotalMuds", sMudExtData[lvlIdx][pExt->mPathId].mTotal, pExt->mTotalMuds);
+                }
+
+                if (pExt->mBadEndingMuds != 0)
+                {
+                    SetAndLog("sBadEndingMuds", sMudExtData[lvlIdx][pExt->mPathId].mBadEnding, pExt->mBadEndingMuds);
+                }
+
+                if (pExt->mGoodEndingMuds)
+                {
+                    SetAndLog("sGoodEndingMuds", sMudExtData[lvlIdx][pExt->mPathId].mGoodEnding, pExt->mGoodEndingMuds);
+                }
+                */
+            }
+            else
+            {
+                /*
+                pChunkData += sizeof(PerPathExtension);
+
+                // Apply LCD Screen messages
+                auto pLCDScreenMsgs = reinterpret_cast<StringTable*>(pChunkData);
+                pChunkData = StringTable::MakeTable(pLCDScreenMsgs);
+                SetLcdMessagesForLvl(*pLCDScreenMsgs, static_cast<LevelIds>(lvlIdx), pExt->mPathId);
+
+                // Will be empty for AE
+                auto pHintFlyMsgs = reinterpret_cast<StringTable*>(pChunkData);
+                pChunkData = StringTable::MakeTable(pHintFlyMsgs);
+
+                // Apply the data
+                PathRoot& rPath = *Path_Get_PathRoot(lvlIdx);
+                rPath.field_0_pBlyArrayPtr[pExt->mPathId].field_0_blyName = pExt->mBlyName;
+
+                PathBlyRec& rBlyRec = rPath.field_0_pBlyArrayPtr[pExt->mPathId];
+                if (!rBlyRec.field_4_pPathData)
+                {
+                    rBlyRec.field_4_pPathData = &GetPathData(lvlIdx)[pExt->mPathId];
+                    // HACK: Set throwable type in this path to grenades
+                    rBlyRec.mOverlayId = 100;
+                    rPath.field_18_num_paths++;
+                }
+                PathData& rPathData = *rBlyRec.field_4_pPathData;
+
+                rPathData.field_0_bLeft = 0;
+                rPathData.field_2_bRight = 0;
+                SetAndLog("top", rPathData.field_4_bTop, static_cast<s16>(pExt->mXSize * pExt->mGridWidth));
+                SetAndLog("bottom", rPathData.field_6_bBottom, static_cast<s16>(pExt->mYSize * pExt->mGridHeight));
+
+                SetAndLog("grid width", rPathData.field_A_grid_width, static_cast<s16>(pExt->mGridWidth));
+                SetAndLog("grid height", rPathData.field_C_grid_height, static_cast<s16>(pExt->mGridHeight));
+
+                SetAndLog("width", rPathData.field_E_width, static_cast<s16>(pExt->mGridWidth));
+                SetAndLog("height", rPathData.field_10_height, static_cast<s16>(pExt->mGridHeight));
+
+                SetAndLog("object offset", rPathData.field_12_object_offset, pExt->mObjectOffset);
+                SetAndLog("index table offset", rPathData.field_16_object_indextable_offset, pExt->mIndexTableOffset);
+
+                SetAndLog("abe start xpos", rPathData.field_1A_abe_start_xpos, static_cast<s16>(pExt->mAbeStartXPos));
+                SetAndLog("abe start ypos", rPathData.field_1C_abe_start_ypos, static_cast<s16>(pExt->mAbeStartYPos));
+
+                rBlyRec.field_8_pCollisionData = &GetCollisions(lvlIdx)[pExt->mPathId];
+
+                CollisionInfo& rColInfo = *rBlyRec.field_8_pCollisionData;
+                rColInfo.mLeft = 0;
+                rColInfo.mRight = 0;
+                SetAndLog("top", rColInfo.mTop, static_cast<s16>(pExt->mXSize * pExt->mGridWidth));
+                SetAndLog("bottom", rColInfo.mBottom, static_cast<s16>(pExt->mYSize * pExt->mGridHeight));
+                SetAndLog("collision offset", rColInfo.mCollisionOffset, pExt->mCollisionOffset);
+                SetAndLog("num collision items", rColInfo.mNumCollisionItems, pExt->mNumCollisionLines);
+                SetAndLog<u32>("grid width", rColInfo.mGridWidth, pExt->mGridWidth);
+                SetAndLog<u32>("grid height", rColInfo.mGridHeight, pExt->mGridHeight);
+
+                if (pExt->mTotalMuds != 0)
+                {
+                    SetAndLog("sTotalMuds", sMudExtData[lvlIdx][pExt->mPathId].mTotal, pExt->mTotalMuds);
+                }
+
+                if (pExt->mBadEndingMuds != 0)
+                {
+                    SetAndLog("sBadEndingMuds", sMudExtData[lvlIdx][pExt->mPathId].mBadEnding, pExt->mBadEndingMuds);
+                }
+
+                if (pExt->mGoodEndingMuds)
+                {
+                    SetAndLog("sGoodEndingMuds", sMudExtData[lvlIdx][pExt->mPathId].mGoodEnding, pExt->mGoodEndingMuds);
+                }
+
+                if (pExt->mNumMudsInPath != 0)
+                {
+                    if (pExt->mNumMudsInPath != Path_GetMudsInLevel(MapWrapper::FromAE(static_cast<LevelIds>(lvlIdx)), pExt->mPathId))
                     {
-                        auto pChunkData = reinterpret_cast<u8*>(&pHeader[1]);
-                        auto pExt = reinterpret_cast<const PerPathExtension*>(pChunkData);
-                        if (pExt->mSize != sizeof(PerPathExtension))
-                        {
-                            LOG_INFO("Skip " << pExt->mBlyName << " expected size " << sizeof(PerPathExtension) << " but got " << pExt->mSize);
-                            pChunkData += pExt->mSize;
-                        }
-                        else
-                        {
-                            LOG_INFO("Applying " << pExt->mBlyName);
-
-                            pChunkData += sizeof(PerPathExtension);
-
-                            // Apply LCD Screen messages
-                            auto pLCDScreenMsgs = reinterpret_cast<StringTable*>(pChunkData);
-                            pChunkData = StringTable::MakeTable(pLCDScreenMsgs);
-                            SetLcdMessagesForLvl(*pLCDScreenMsgs, static_cast<LevelIds>(lvlIdx), pExt->mPathId);
-
-                            // Apply hint fly messages
-                            auto pHintFlyMsgs = reinterpret_cast<StringTable*>(pChunkData);
-                            pChunkData = StringTable::MakeTable(pHintFlyMsgs);
-                            SetHintFlyMessagesForLvl(*pHintFlyMsgs, static_cast<LevelIds>(lvlIdx), pExt->mPathId);
-
-                            // Apply the data
-                            PathRoot& rPath = *Path_Get_PathRoot(lvlIdx);
-                            rPath.field_0_pBlyArrayPtr[pExt->mPathId].field_0_blyName = pExt->mBlyName;
-
-                            PathBlyRec& rBlyRec = rPath.field_0_pBlyArrayPtr[pExt->mPathId];
-                            if (!rBlyRec.field_4_pPathData)
-                            {
-                                rBlyRec.field_4_pPathData = &GetPathData(lvlIdx)[pExt->mPathId];
-                                // HACK: Set throwable type in this path to grenades
-                                rBlyRec.mOverlayId = 3;
-                                rPath.field_18_num_paths++;
-                            }
-                            PathData& rPathData = *rBlyRec.field_4_pPathData;
-
-                            rPathData.field_0 = sub_402560;
-                            rPathData.field_4_bLeft = 0;
-                            rPathData.field_6_bRight = 0;
-                            SetAndLog("top", rPathData.field_8_bTop, static_cast<s16>(pExt->mXSize * pExt->mGridWidth));
-                            SetAndLog("bottom", rPathData.field_A_bBottom, static_cast<s16>(pExt->mYSize * pExt->mGridHeight));
-
-                            SetAndLog("grid width", rPathData.field_C_grid_width, static_cast<s16>(pExt->mGridWidth));
-                            SetAndLog("grid height", rPathData.field_E_grid_height, static_cast<s16>(pExt->mGridHeight));
-
-                            SetAndLog("field_10", rPathData.field_10, static_cast<s16>(pExt->mGridWidth));
-                            SetAndLog("field_12", rPathData.field_12, static_cast<s16>(pExt->mGridHeight));
-
-                            SetAndLog<s32>("object offset", rPathData.field_14_object_offset, pExt->mObjectOffset);
-                            SetAndLog<s32>("index table offset", rPathData.field_18_object_index_table_offset, pExt->mIndexTableOffset);
-
-                           // rPathData.field_1C_object_funcs = kObjectFactory;
-
-                            rBlyRec.field_8_pCollisionData = &GetCollisions(lvlIdx)[pExt->mPathId];
-
-                            CollisionInfo& rColInfo = *rBlyRec.field_8_pCollisionData;
-                            rColInfo.mLeft = 0;
-                            rColInfo.mRight = 0;
-                            SetAndLog("top", rColInfo.mTop, static_cast<s16>(pExt->mXSize * pExt->mGridWidth));
-                            SetAndLog("bottom", rColInfo.mBottom, static_cast<s16>(pExt->mYSize * pExt->mGridHeight));
-                            SetAndLog("collision offset", rColInfo.mCollisionOffset, pExt->mCollisionOffset);
-                            SetAndLog("num collision items", rColInfo.mNumCollisionItems, pExt->mNumCollisionLines);
-                            SetAndLog<u32>("grid width", rColInfo.mGridWidth, pExt->mGridWidth);
-                            SetAndLog<u32>("grid height", rColInfo.mGridHeight, pExt->mGridHeight);
-
-                            if (pExt->mTotalMuds != 0)
-                            {
-                                SetAndLog("sTotalMuds", sMudExtData[lvlIdx][pExt->mPathId].mTotal, pExt->mTotalMuds);
-                            }
-
-                            if (pExt->mBadEndingMuds != 0)
-                            {
-                                SetAndLog("sBadEndingMuds", sMudExtData[lvlIdx][pExt->mPathId].mBadEnding, pExt->mBadEndingMuds);
-                            }
-
-                            if (pExt->mGoodEndingMuds)
-                            {
-                                SetAndLog("sGoodEndingMuds", sMudExtData[lvlIdx][pExt->mPathId].mGoodEnding, pExt->mGoodEndingMuds);
-                            }
-                        }
+                        LOG_INFO("Set muds in lvl count to " << pExt->mNumMudsInPath);
+                        Path_SetMudsInLevel(MapWrapper::FromAE(static_cast<LevelIds>(lvlIdx)), pExt->mPathId, pExt->mNumMudsInPath);
                     }
-    */
-
-    /*
-     // AE data
-     if (pHeader->mResourceType == Resource_Pxtd)
-                    {
-                        auto pChunkData = reinterpret_cast<u8*>(&pHeader[1]);
-                        auto pExt = reinterpret_cast<const PerPathExtension*>(pChunkData);
-                        if (pExt->mSize != sizeof(PerPathExtension))
-                        {
-                            LOG_INFO("Skip " << pExt->mBlyName << " expected size " << sizeof(PerPathExtension) << " but got " << pExt->mSize);
-                            pChunkData += pExt->mSize;
-                        }
-                        else
-                        {
-                            LOG_INFO("Applying " << pExt->mBlyName);
-
-                            pChunkData += sizeof(PerPathExtension);
-
-                            // Apply LCD Screen messages
-                            auto pLCDScreenMsgs = reinterpret_cast<StringTable*>(pChunkData);
-                            pChunkData = StringTable::MakeTable(pLCDScreenMsgs);
-                            SetLcdMessagesForLvl(*pLCDScreenMsgs, static_cast<LevelIds>(lvlIdx), pExt->mPathId);
-
-                            // Will be empty for AE
-                            auto pHintFlyMsgs = reinterpret_cast<StringTable*>(pChunkData);
-                            pChunkData = StringTable::MakeTable(pHintFlyMsgs);
-
-                            // Apply the data
-                            PathRoot& rPath = *Path_Get_PathRoot(lvlIdx);
-                            rPath.field_0_pBlyArrayPtr[pExt->mPathId].field_0_blyName = pExt->mBlyName;
-
-                            PathBlyRec& rBlyRec = rPath.field_0_pBlyArrayPtr[pExt->mPathId];
-                            if (!rBlyRec.field_4_pPathData)
-                            {
-                                rBlyRec.field_4_pPathData = &GetPathData(lvlIdx)[pExt->mPathId];
-                                // HACK: Set throwable type in this path to grenades
-                                rBlyRec.mOverlayId = 100;
-                                rPath.field_18_num_paths++;
-                            }
-                            PathData& rPathData = *rBlyRec.field_4_pPathData;
-
-                            rPathData.field_0_bLeft = 0;
-                            rPathData.field_2_bRight = 0;
-                            SetAndLog("top", rPathData.field_4_bTop, static_cast<s16>(pExt->mXSize * pExt->mGridWidth));
-                            SetAndLog("bottom", rPathData.field_6_bBottom, static_cast<s16>(pExt->mYSize * pExt->mGridHeight));
-
-                            SetAndLog("grid width", rPathData.field_A_grid_width, static_cast<s16>(pExt->mGridWidth));
-                            SetAndLog("grid height", rPathData.field_C_grid_height, static_cast<s16>(pExt->mGridHeight));
-
-                            SetAndLog("width", rPathData.field_E_width, static_cast<s16>(pExt->mGridWidth));
-                            SetAndLog("height", rPathData.field_10_height, static_cast<s16>(pExt->mGridHeight));
-
-                            SetAndLog("object offset", rPathData.field_12_object_offset, pExt->mObjectOffset);
-                            SetAndLog("index table offset", rPathData.field_16_object_indextable_offset, pExt->mIndexTableOffset);
-
-                            SetAndLog("abe start xpos", rPathData.field_1A_abe_start_xpos, static_cast<s16>(pExt->mAbeStartXPos));
-                            SetAndLog("abe start ypos", rPathData.field_1C_abe_start_ypos, static_cast<s16>(pExt->mAbeStartYPos));
-
-                            rBlyRec.field_8_pCollisionData = &GetCollisions(lvlIdx)[pExt->mPathId];
-
-                            CollisionInfo& rColInfo = *rBlyRec.field_8_pCollisionData;
-                            rColInfo.mLeft = 0;
-                            rColInfo.mRight = 0;
-                            SetAndLog("top", rColInfo.mTop, static_cast<s16>(pExt->mXSize * pExt->mGridWidth));
-                            SetAndLog("bottom", rColInfo.mBottom, static_cast<s16>(pExt->mYSize * pExt->mGridHeight));
-                            SetAndLog("collision offset", rColInfo.mCollisionOffset, pExt->mCollisionOffset);
-                            SetAndLog("num collision items", rColInfo.mNumCollisionItems, pExt->mNumCollisionLines);
-                            SetAndLog<u32>("grid width", rColInfo.mGridWidth, pExt->mGridWidth);
-                            SetAndLog<u32>("grid height", rColInfo.mGridHeight, pExt->mGridHeight);
-
-                            if (pExt->mTotalMuds != 0)
-                            {
-                                SetAndLog("sTotalMuds", sMudExtData[lvlIdx][pExt->mPathId].mTotal, pExt->mTotalMuds);
-                            }
-
-                            if (pExt->mBadEndingMuds != 0)
-                            {
-                                SetAndLog("sBadEndingMuds", sMudExtData[lvlIdx][pExt->mPathId].mBadEnding, pExt->mBadEndingMuds);
-                            }
-
-                            if (pExt->mGoodEndingMuds)
-                            {
-                                SetAndLog("sGoodEndingMuds", sMudExtData[lvlIdx][pExt->mPathId].mGoodEnding, pExt->mGoodEndingMuds);
-                            }
-
-                            if (pExt->mNumMudsInPath != 0)
-                            {
-                                if (pExt->mNumMudsInPath != Path_GetMudsInLevel(MapWrapper::FromAE(static_cast<LevelIds>(lvlIdx)), pExt->mPathId))
-                                {
-                                    LOG_INFO("Set muds in lvl count to " << pExt->mNumMudsInPath);
-                                    Path_SetMudsInLevel(MapWrapper::FromAE(static_cast<LevelIds>(lvlIdx)), pExt->mPathId, pExt->mNumMudsInPath);
-                                }
-                            }
-                        }
-                    }
-
-    */
-
+                }
+                */
+            }
+        }
+    }
 
     // Convert hard coded path data json
     for (u32 j = 0; j < pathBndFile.ChunkCount(); j++)
@@ -648,7 +638,7 @@ static void ConvertPathBND(const FileSystem::Path& dataDir, const std::string& f
         }
     }
 
-    SaveLevelInfoJson(dataDir, reliveLvl, lvlIdxAsLvl, fs, pathBndFile);
+    SaveLevelInfoJson(dataDir, reliveLvl, lvlIdxAsLvl, fs, pathBndFile, isAo);
 }
 
 /*static*/ void SaveCameraJsonManifest(const std::string& baseName, ReliveAPI::ApiFG1Reader& reader, const FileSystem::Path& dataDir, u32 fg1ResBlockCount)
