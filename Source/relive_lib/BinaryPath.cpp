@@ -15,6 +15,7 @@ static void from_json(const nlohmann::json& j, PathSoundInfo& s)
 class ITlvAllocator
 {
 public:
+    virtual ~ITlvAllocator() = default;
     virtual void Alloc(nlohmann::json& j, BinaryPath::CamEntry* pCamEntry) = 0;
 };
 

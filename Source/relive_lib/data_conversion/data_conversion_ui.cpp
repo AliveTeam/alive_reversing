@@ -112,6 +112,13 @@ void DataConversionUI::ThreadFunc()
         dataConversion.ConvertDataAO(dataConversion.DataVersionAO().value_or(zeroVersions));
     }
 
+    // Don't exit till any async jobs are finished
+    // TODO: Don't busy loop here
+    while (dataConversion.AsyncTasksInProgress())
+    {
+        // Hang on a sec..
+    }
+
     mDone = true;
 }
 

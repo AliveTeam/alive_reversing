@@ -9,6 +9,8 @@
 #include "file_system.hpp"
 #include <optional>
 
+class ThreadPool;
+
 bool SaveJson(const nlohmann::json& j, FileSystem& fs, const FileSystem::Path& path);
 bool SaveJson(const nlohmann::json& j, FileSystem& fs, const char_type* path);
 
@@ -96,15 +98,20 @@ inline const char* ToString(::LevelIds lvlId)
 class [[nodiscard]] DataConversion final
 {
 public:
+    DataConversion();
+    ~DataConversion();
+
+    bool AsyncTasksInProgress() const;
+
     struct [[nodiscard]] DataVersions final
     {
     private:
         // Bump this if any data format breaks are made so that OG/mod data is re-converted/upgraded
         static constexpr u32 kFmvVersion = 1;
-        static constexpr u32 kPathVersion = 1;
+        static constexpr u32 kPathVersion = 3;
         static constexpr u32 kPaletteVersion = 1;
         static constexpr u32 kAnimationVersion = 2;
-        static constexpr u32 kCameraVersion = 1;
+        static constexpr u32 kCameraVersion = 3;
         static constexpr u32 kSaveFileVersion = 1;
         static constexpr u32 kFontFileVersion = 1;
         static constexpr u32 kDemoFileVersion = 1;
@@ -189,4 +196,7 @@ public:
 
     void ConvertDataAO(const DataVersions& dv);
     void ConvertDataAE(const DataVersions& dv);
+
+private:
+    std::unique_ptr<ThreadPool> mThreadPool;
 };

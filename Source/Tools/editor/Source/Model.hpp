@@ -258,7 +258,7 @@ using UP_BasicType = std::unique_ptr<BasicType>;
 
 struct MapInfo final
 {
-    int mApiVersion = 0;
+    int mPathVersion = 0;
     std::string mGame;
     std::string mPathBnd;
     int mPathId = 0;

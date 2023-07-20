@@ -383,7 +383,7 @@ std::vector<std::unique_ptr<BinaryPath>> ResourceManagerWrapper::LoadPaths(EReli
         nlohmann::json pathJson = nlohmann::json::parse(pathJsonStr);
         LOG_INFO("Cam count %d", pathJson["cameras"].size());
 
-        auto pathBuffer = std::make_unique<BinaryPath>(pathJson["id"]);
+        auto pathBuffer = std::make_unique<BinaryPath>(pathJson["path_id"]);
         pathBuffer->CreateFromJson(pathJson);
         ret.emplace_back(std::move(pathBuffer));
     }

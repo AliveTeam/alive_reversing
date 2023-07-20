@@ -207,7 +207,7 @@ void Model::LoadJsonFromString(const std::string& json)
         throw InvalidJsonException();
     }
 
-    mMapInfo.mApiVersion = ReadNumber(root, "api_version");
+    mMapInfo.mPathVersion = ReadNumber(root, "path_version");
     mMapInfo.mGame = ReadString(root, "game");
 
     jsonxx::Object map = ReadObject(root, "map");
@@ -381,7 +381,7 @@ std::string Model::ToJson() const
 {
     jsonxx::Object root;
 
-    root << "api_version" << mMapInfo.mApiVersion;
+    root << "api_version" << mMapInfo.mPathVersion;
     root << "game" << mMapInfo.mGame;
 
     jsonxx::Object map;

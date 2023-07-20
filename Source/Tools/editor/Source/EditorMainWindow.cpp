@@ -270,13 +270,13 @@ bool EditorMainWindow::onOpenPath(QString fullFileName, bool createNewPath)
         auto model = std::make_unique<Model>();
         model->LoadJsonFromFile(fullFileName.toStdString());
 
-        if (model->GetMapInfo().mApiVersion > ReliveAPI::GetApiVersion())
+        if (model->GetMapInfo().mPathVersion > ReliveAPI::GetApiVersion())
         {
             // The json API level is higher than what we support
-            QMessageBox::critical(this, "Error", "Editor is too old to load this json. Editor API version is " + QString::number(ReliveAPI::GetApiVersion()) + " but json API version is " + QString::number(model->GetMapInfo().mApiVersion));
+            QMessageBox::critical(this, "Error", "Editor is too old to load this json. Editor API version is " + QString::number(ReliveAPI::GetApiVersion()) + " but json API version is " + QString::number(model->GetMapInfo().mPathVersion));
             return false;
         }
-        else if (model->GetMapInfo().mApiVersion < ReliveAPI::GetApiVersion())
+        else if (model->GetMapInfo().mPathVersion < ReliveAPI::GetApiVersion())
         {
             // The json API level is lower than what we support - but we can upgrade it
             std::string upgradedJson = ReliveAPI::UpgradePathJson(fileIo, fullFileName.toStdString());
