@@ -14,7 +14,6 @@
 #include "../relive_lib/GameObjects/ScreenManager.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
 
-// TODO: Remove spaces and add them at runtime.
 static const char_type* sLCDMessageTable[101] = {
     "",
     "                               SoulStorm Mining Company is an equal opportunity employer.",
@@ -191,19 +190,22 @@ LCDScreen::LCDScreen(relive::Path_LCDScreen* pTlv, const Guid& tlvId)
         mActiveMessage = gLCDMessages.GetMessage(gMap.mCurrentLevel, gMap.mCurrentPath, mMessageId1);
     }
 
-    //mActiveMessage = "                               THIS IS A TEST";
-
     String_FormatString(mActiveMessage, mMessageBuffer, 1);
     mActiveMessage = mMessageBuffer;
     mMessageCutoffPtr = nullptr;
     mOffsetX = 0;
-    gFontDrawScreenSpace = true;
-    mCharacterWidth = static_cast<u16>(mFont.MeasureCharacterWidth(*mActiveMessage) + 2);
-    gFontDrawScreenSpace = false;
-    mShowRandomMessage = true;
-    mMessageRandMinId = pTlv->mMessageRandMinId;
+
     SetDrawable(true);
+
+    mMessageRandMinId = pTlv->mMessageRandMinId;
     mMessageRandMaxId = pTlv->mMessageRandMaxId;
+
+    gFontDrawScreenSpace = true;
+    mCharacterWidth = mFont.MeasureCharacterWidth(mActiveMessage[0]) + 2;
+    gFontDrawScreenSpace = false;
+
+    mShowRandomMessage = true;
+
     mPlayLetterSound = false;
     gObjListDrawables->Push_Back(this);
 }
@@ -224,8 +226,8 @@ void LCDScreen::VUpdate()
     if (mOffsetX > mCharacterWidth)
     {
         mOffsetX -= mCharacterWidth;
-        s8 lastChar = *mActiveMessage;
-        mActiveMessage++; // Offset s8 index
+        const s8 lastChar = *mActiveMessage;
+        mActiveMessage++;
 
         if (lastChar == 0)
         {
@@ -258,15 +260,16 @@ void LCDScreen::VUpdate()
         }
 
         gFontDrawScreenSpace = true;
-        mCharacterWidth = static_cast<u16>(mFont.MeasureCharacterWidth(*mActiveMessage) + 2);
+        mCharacterWidth = mFont.MeasureCharacterWidth(mActiveMessage[0]) + 2;
         gFontDrawScreenSpace = false;
     }
+
+    gFontDrawScreenSpace = true;
 
     auto screenLeft = mTlvTopLeft.x - FP_GetExponent(gScreenManager->CamXPos());
     auto screenRight = mTlvBottomRight.x - FP_GetExponent(gScreenManager->CamXPos());
 
-    gFontDrawScreenSpace = true;
-    auto slicedText = mFont.SliceText(
+    const char_type* slicedText = mFont.SliceText(
         mActiveMessage,
         PCToPsxX(screenLeft) - mOffsetX,
         FP_FromInteger(1),
@@ -291,7 +294,7 @@ void LCDScreen::VRender(OrderingTable& ot)
     if (gNumCamSwappers == 0)
     {
         const s32 screenX = mTlvTopLeft.x - FP_GetExponent(gScreenManager->CamXPos());
-        const s32 screenY = ((mTlvTopLeft.y + mTlvBottomRight.y) / 2 - FP_GetExponent(gScreenManager->CamYPos())) - 7;
+        const s32 screenY = ((mTlvTopLeft.y + mTlvBottomRight.y) / 2) - (FP_GetExponent(gScreenManager->CamYPos())) - 7;
         const s32 screenXWorld = PsxToPCX(screenX);
         const s32 maxWidth = mTlvBottomRight.x - FP_GetExponent(gScreenManager->CamXPos());
 

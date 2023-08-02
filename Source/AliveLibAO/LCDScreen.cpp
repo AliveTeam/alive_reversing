@@ -152,15 +152,16 @@ static LCDMessages gLCDMessages;
 LCDScreen::LCDScreen(relive::Path_LCDScreen* pTlv, const Guid& tlvId)
     : BaseGameObject(true, 0)
 {
+    mBaseGameObjectTlvInfo = tlvId;
+
     mTlvTopLeft.x = pTlv->mTopLeftX;
     mTlvTopLeft.y = pTlv->mTopLeftY;
 
     mTlvBottomRight.x = pTlv->mBottomRightX;
     mTlvBottomRight.y = pTlv->mBottomRightY;
 
-    mTlvId = tlvId;
-
     mMessageId1 = pTlv->mMessageId1;
+    mTlvId = tlvId;
 
     mFontContext.LoadFontType(FontType::LcdFont);
 
@@ -181,7 +182,7 @@ LCDScreen::LCDScreen(relive::Path_LCDScreen* pTlv, const Guid& tlvId)
     }
 
     mActiveMessage = mMessageBuffer;
-    mMessageCutoffPtr = 0;
+    mMessageCutoffPtr = nullptr;
     mOffsetX = 0;
 
     SetDrawable(true);
@@ -194,18 +195,8 @@ LCDScreen::LCDScreen(relive::Path_LCDScreen* pTlv, const Guid& tlvId)
     gFontDrawScreenSpace = false;
 
     mShowRandomMessage = 0;
+
     gObjListDrawables->Push_Back(this);
-}
-
-LCDScreen::~LCDScreen()
-{
-    gObjListDrawables->Remove_Item(this);
-    Path::TLV_Reset(mTlvId, -1, 0, 0);
-}
-
-void LCDScreen::VScreenChanged()
-{
-    SetDead(true);
 }
 
 void LCDScreen::VUpdate()
@@ -224,13 +215,13 @@ void LCDScreen::VUpdate()
     if (mOffsetX > mCharacterWidth)
     {
         mOffsetX -= mCharacterWidth;
-        char_type* pMsg = mActiveMessage;
+        const s8 lastChar = *mActiveMessage;
         mActiveMessage++;
-        if (!*pMsg)
+
+        if (lastChar == 0)
         {
-            mActiveMessage = mMessageBuffer;
-            mShowRandomMessage++;
-            if (mShowRandomMessage == 1)
+            mShowRandomMessage++; // TODO: wot? must be a bug?
+            if (mShowRandomMessage == 1) // TODO: Double wot
             {
                 const auto rangedRandom = Math_RandomRange(
                     mMessageRandMinId,
@@ -247,7 +238,7 @@ void LCDScreen::VUpdate()
                         "                               To alert a Mudokon, say hello by holding (1) on the keyboard.   Then, talk to Mudokons by using the keyboard numbers (1) thru (8).   Experiment!");
                 }
 
-                 // Change pal
+                // Change pal
                 mFont.mFontContext->mFntResource.mCurPal = mPal2.mPal;
             }
             else
@@ -270,10 +261,15 @@ void LCDScreen::VUpdate()
                 // Change pal
                 mFont.mFontContext->mFntResource.mCurPal = mPal1.mPal;
             }
+
+            mActiveMessage = mMessageBuffer;
         }
+
         gFontDrawScreenSpace = true;
-        mCharacterWidth = mFont.MeasureCharacterWidth(*mActiveMessage);
+        mCharacterWidth = mFont.MeasureCharacterWidth(mActiveMessage[0]);
+        gFontDrawScreenSpace = false;
     }
+
     gFontDrawScreenSpace = true;
 
     auto screenLeft = mTlvTopLeft.x - FP_GetExponent(gScreenManager->mCamPos->x);
@@ -299,14 +295,9 @@ void LCDScreen::VRender(OrderingTable& ot)
 {
     if (gNumCamSwappers == 0)
     {
-        const FP_Point* camPos = gScreenManager->mCamPos;
-
-        auto endY = mTlvTopLeft.y + mTlvBottomRight.y;
-        auto endX = gScreenManager->mCamXOff + mTlvBottomRight.x;
-
-        const s32 screenX = mTlvTopLeft.x - FP_GetExponent(camPos->x - FP_FromInteger(gScreenManager->mCamXOff));
-        const s32 screenY = endY / 2 - FP_GetExponent(camPos->y - FP_FromInteger(gScreenManager->mCamYOff)) - 7;
-        const s32 maxWidth = FP_GetExponent(FP_FromInteger(endX) - camPos->x);
+        const s32 screenX = mTlvTopLeft.x - FP_GetExponent(gScreenManager->mCamPos->x - FP_FromInteger(gScreenManager->mCamXOff));
+        const s32 screenY = (mTlvTopLeft.y + mTlvBottomRight.y) / 2 - FP_GetExponent(gScreenManager->mCamPos->y - FP_FromInteger(gScreenManager->mCamYOff)) - 7;
+        const s32 maxWidth = FP_GetExponent(FP_FromInteger(gScreenManager->mCamXOff + mTlvBottomRight.x) - gScreenManager->mCamPos->x);
 
         PSX_RECT clipRect = {
             0,
@@ -316,16 +307,6 @@ void LCDScreen::VRender(OrderingTable& ot)
 
         mPrimClippers[0].SetRect(clipRect);
         ot.Add(Layer::eLayer_BeforeWell_22, &mPrimClippers[0]);
-
-        auto fontFlickerAmount = 50;
-        if (gDisableFontFlicker)
-        {
-            fontFlickerAmount = 0;
-        }
-        if (fontFlickerAmount)
-        {
-            fontFlickerAmount = 40;
-        }
 
         gFontDrawScreenSpace = true;
         mFont.DrawString(
@@ -343,19 +324,29 @@ void LCDScreen::VRender(OrderingTable& ot)
             0,
             FP_FromInteger(1),
             maxWidth,
-            static_cast<s16>(fontFlickerAmount));
+            gDisableFontFlicker != false ? 0 : 40);
         gFontDrawScreenSpace = false;
 
-        PSX_RECT clipRect2 = {};
+        clipRect = {
+            static_cast<s16>(PsxToPCX(screenX, 11)),
+            static_cast<s16>(screenY - 12),
+            static_cast<s16>(PsxToPCX(maxWidth - screenX, 51)),
+            48};
 
-        clipRect2.x = static_cast<s16>(PsxToPCX(screenX, 11));
-        clipRect2.y = static_cast<s16>(screenY - 12);
-        clipRect2.w = static_cast<s16>(PsxToPCX(maxWidth - screenX, 51));
-        clipRect2.h = 48;
-
-        mPrimClippers[1].SetRect(clipRect2);
+        mPrimClippers[1].SetRect(clipRect);
         ot.Add(Layer::eLayer_BeforeWell_22, &mPrimClippers[1]);
     }
+}
+
+void LCDScreen::VScreenChanged()
+{
+    SetDead(true);
+}
+
+LCDScreen::~LCDScreen()
+{
+    gObjListDrawables->Remove_Item(this);
+    Path::TLV_Reset(mTlvId, -1, 0, 0);
 }
 
 } // namespace AO

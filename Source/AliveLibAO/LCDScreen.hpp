@@ -22,24 +22,24 @@ public:
     LCDScreen(relive::Path_LCDScreen* pTlv, const Guid& tlvId);
     ~LCDScreen();
 
-    virtual void VScreenChanged() override;
     virtual void VUpdate() override;
     virtual void VRender(OrderingTable& ot) override;
+    virtual void VScreenChanged() override;
 
 private:
     Prim_ScissorRect mPrimClippers[2] = {};
     FontContext mFontContext;
-    AliveFont mFont;
-    char_type* mActiveMessage = nullptr;
+    AliveFont mFont = {};
+    const char_type* mActiveMessage = nullptr;
     const char_type* mMessageCutoffPtr = nullptr;
     char_type mMessageBuffer[512] = {};
     s32 mMessageId1 = 0;
     s32 mOffsetX = 0;
     s32 mCharacterWidth = 0;
-    Guid mTlvId;
     s32 mShowRandomMessage = 0;
-    s16 mMessageRandMinId = 0;
-    s16 mMessageRandMaxId = 0;
+    u16 mMessageRandMinId = 0;
+    u16 mMessageRandMaxId = 0;
+    Guid mTlvId;
     PSX_Point mTlvTopLeft = {};
     PSX_Point mTlvBottomRight = {};
 

@@ -31,12 +31,12 @@ private:
     const char_type* mActiveMessage = nullptr;
     const char_type* mMessageCutoffPtr = nullptr;
     char_type mMessageBuffer[512] = {};
-    bool mPlayLetterSound = false;
-    s16 mMessageId1 = 0;
-    s16 mOffsetX = 0;
-    u16 mCharacterWidth = 0;
+    s32 mMessageId1 = 0;
     u16 mMessageId2 = 0;
     u16 mToggleMessageSwitchId = 0;
+    bool mPlayLetterSound = false;
+    s32 mOffsetX = 0;
+    s32 mCharacterWidth = 0;
     bool mShowRandomMessage = false;
     u16 mMessageRandMinId = 0;
     u16 mMessageRandMaxId = 0;
