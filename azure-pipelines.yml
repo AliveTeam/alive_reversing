@@ -11,7 +11,7 @@ strategy:
       cpack_executable: cpack
       installer_package_path: $(System.DefaultWorkingDirectory)/build/relive-0.1-Linux.deb
       installer_package_artifact_name: RELIVE-Linux.deb
-      qt5_dir: ''
+      qt5_dir: '$(Build.SourcesDirectory)/qt/5.15.2/gcc_64/lib/cmake/Qt5'
       sdl2_dir: ''
       qt5_windows_name: ''
     macOS:
@@ -23,7 +23,7 @@ strategy:
       cpack_executable: cpack
       installer_package_path: $(System.DefaultWorkingDirectory)/build/relive-0.1-Darwin.dmg
       installer_package_artifact_name: RELIVE-MacOSX.dmg
-      qt5_dir: /usr/local/opt/qt@5/lib/cmake/Qt5
+      qt5_dir: '$(Build.SourcesDirectory)/qt/5.15.2/clang_64/lib/cmake/Qt5'
       sdl2_dir: ''
       qt5_windows_name: ''
     Windows32:
@@ -56,21 +56,32 @@ steps:
   - script: git submodule update --init --depth=1
     displayName: shallow clone submodules
 
+  - task: UsePythonVersion@0
+    inputs:
+      versionSpec: '3.10'
+    condition: eq( variables['Agent.OS'], 'Darwin' )
+
    # Linux specific, install dev packages
   - bash: |
         sudo apt-get update
-        sudo apt-get install libsdl2-dev qtdeclarative5-dev qtmultimedia5-dev qttools5-dev -y
+        sudo apt-get install libsdl2-dev -y
+        pip install aqtinstall
+        aqt list-qt linux desktop --arch 5.15.2
+        aqt install-qt linux desktop 5.15.2 --outputdir qt
     condition: eq( variables['Agent.OS'], 'Linux' )
     displayName: Linux install dev packages
 
-   # Mac specific, install moltekn-vk, Qt5
+   # Mac specific, install molten-vk, Qt5
   - bash: |
-        brew install sdl2 molten-vk qt5
-        export LDFLAGS="-L/usr/local/opt/qt@5/lib"
-        export CPPFLAGS="-I/usr/local/opt/qt@5/include"
-        export QT_DIR=/usr/local/opt/qt@5
-        export PKG_CONFIG_PATH="/usr/local/opt/qt@5/lib/pkgconfig"
-        echo 'export PATH="/usr/local/opt/qt@5/bin:$PATH"' >> /Users/runner/.bash_profile
+        brew install sdl2 molten-vk
+        pip install aqtinstall
+        aqt list-qt mac desktop --arch 5.15.2
+        aqt install-qt mac desktop 5.15.2 --outputdir qt
+        export LDFLAGS="-L$(Build.SourcesDirectory)/qt/5.15.2/clang_64/lib"
+        export CPPFLAGS="-I$(Build.SourcesDirectory)/qt/5.15.2/clang_64/include"
+        export QT_DIR=$(Build.SourcesDirectory)/qt/5.15.2/clang_64/
+        export PKG_CONFIG_PATH="$(Build.SourcesDirectory)/qt/5.15.2/clang_64/lib/pkgconfig"
+        echo 'export PATH="$(Build.SourcesDirectory)/qt/5.15.2/clang_64/bin:$PATH"' >> /Users/runner/.bash_profile
         mkdir build
         cd build
         mkdir Frameworks
