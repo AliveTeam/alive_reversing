@@ -56,6 +56,11 @@ steps:
   - script: git submodule update --init --depth=1
     displayName: shallow clone submodules
 
+  - task: UsePythonVersion@0
+    inputs:
+      versionSpec: '3.10'
+  condition: eq( variables['Agent.OS'], 'Darwin' )
+
    # Linux specific, install dev packages
   - bash: |
         sudo apt-get update
