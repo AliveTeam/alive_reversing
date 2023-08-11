@@ -80,8 +80,8 @@ steps:
         export LDFLAGS="-L$(Build.SourcesDirectory)/qt/5.15.2/clang_64/lib"
         export CPPFLAGS="-I$(Build.SourcesDirectory)/qt/5.15.2/clang_64/include"
         export QT_DIR=$(Build.SourcesDirectory)/qt/5.15.2/clang_64/
-        export PKG_CONFIG_PATH="/usr/local/opt/qt@5/lib/pkgconfig"
-        echo 'export PATH="/usr/local/opt/qt@5/bin:$PATH"' >> /Users/runner/.bash_profile
+        export PKG_CONFIG_PATH="$(Build.SourcesDirectory)/qt/5.15.2/clang_64/lib/pkgconfig"
+        echo 'export PATH="$(Build.SourcesDirectory)/qt/5.15.2/clang_64/bin:$PATH"' >> /Users/runner/.bash_profile
         mkdir build
         cd build
         mkdir Frameworks
