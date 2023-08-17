@@ -349,40 +349,35 @@ ALIVE_ARY(1, 0x561960, MainMenuPage, 24, sMainMenuPages_561960,
             &MainMenuController::BackStory_Or_NewGame_Load_4D1BA0,
             &MainMenuController::BackStory_Or_NewGame_Unload_4D1BE0}});
 
-inline std::int16_t operator"" _s(unsigned long long value)
-{
-    return static_cast<std::int16_t>(value);
-}
-
 MenuFMV sFmvs_561540[28] = {
-    {"GT Logo", LevelIds::eMenu_0, 65535_s, 65535_s, 3_s, 65535_s, 65535_s},
-    {"Oddworld Intro", LevelIds::eMenu_0, 65535_s, 65535_s, 1, 65535_s, 65535_s},
-    {"Abe's Exoddus", LevelIds::eMenu_0, 65535_s, 65535_s, 5, 65535_s, 65535_s},
-    {"Backstory", LevelIds::eMenu_0, 65535_s, 65535_s, 4, 65535_s, 65535_s},
-    {"Prophecy", LevelIds::eMines_1, 65535_s, 65535_s, 1, 65535_s, 65535_s},
-    {"Vision", LevelIds::eMines_1, 65535_s, 65535_s, 24, 65535_s, 65535_s},
-    {"Game Opening", LevelIds::eMines_1, 65535_s, 65535_s, 2, 65535_s, 65535_s},
-    {"Brew", LevelIds::eMines_1, 65535_s, 65535_s, 26, 65535_s, 65535_s},
-    {"Brew Transition", LevelIds::eMines_1, 65535_s, 65535_s, 31, 65535_s, 65535_s},
-    {"Escape", LevelIds::eMines_1, 65535_s, 65535_s, 25, 65535_s, 65535_s},
-    {"Reward", LevelIds::eNecrum_2, 65535_s, 65535_s, 22, 65535_s, 65535_s},
-    {"FeeCo", LevelIds::eFeeCoDepot_5, 65535_s, 65535_s, 4, 65535_s, 65535_s},
-    {"Information Booth", LevelIds::eFeeCoDepot_5, 65535_s, 65535_s, 3, 65535_s, 65535_s},
-    {"Train 1", LevelIds::eBarracks_6, 65535_s, 65535_s, 5, 65535_s, 65535_s},
-    {"Train 2", LevelIds::eBrewery_9, 65535_s, 65535_s, 15, 65535_s, 65535_s},
-    {"Train 3", LevelIds::eBonewerkz_8, 65535_s, 65535_s, 6, 65535_s, 65535_s},
-    {"Aslik Info", LevelIds::eFeeCoDepot_5, 65535_s, 65535_s, 2, 65535_s, 65535_s},
-    {"Aslik Explodes", LevelIds::eFeeCoDepot_5, 65535_s, 65535_s, 1, 65535_s, 65535_s},
-    {"Dripek Info", LevelIds::eBarracks_6, 65535_s, 65535_s, 4, 65535_s, 65535_s},
-    {"Dripek Explodes", LevelIds::eBarracks_6, 65535_s, 65535_s, 3, 65535_s, 65535_s},
-    {"Phleg Info", LevelIds::eBonewerkz_8, 65535_s, 65535_s, 4, 65535_s, 65535_s},
-    {"Phleg Explodes", LevelIds::eBonewerkz_8, 65535_s, 65535_s, 5, 65535_s, 65535_s},
-    {"Soulstorm Info", LevelIds::eBrewery_9, 65535_s, 65535_s, 14, 65535_s, 65535_s},
-    {"Ingredient", LevelIds::eBrewery_9, 65535_s, 65535_s, 16, 65535_s, 65535_s},
-    {"Conference", LevelIds::eBrewery_9, 65535_s, 65535_s, 13, 65535_s, 65535_s},
-    {"Happy Ending", LevelIds::eBrewery_9, 65535_s, 65535_s, 17, 65535_s, 65535_s},
-    {"Sad Ending", LevelIds::eBrewery_9, 65535_s, 65535_s, 18, 65535_s, 65535_s},
-    {"Credits", LevelIds::eCredits_16, 65535_s, 65535_s, 65535_s, 65535_s, 65535_s}};
+    {"GT Logo", LevelIds::eMenu_0, -1, -1, 3, -1, -1},
+    {"Oddworld Intro", LevelIds::eMenu_0, -1, -1, 1, -1, -1},
+    {"Abe's Exoddus", LevelIds::eMenu_0, -1, -1, 5, -1, -1},
+    {"Backstory", LevelIds::eMenu_0, -1, -1, 4, -1, -1},
+    {"Prophecy", LevelIds::eMines_1, -1, -1, 1, -1, -1},
+    {"Vision", LevelIds::eMines_1, -1, -1, 24, -1, -1},
+    {"Game Opening", LevelIds::eMines_1, -1, -1, 2, -1, -1},
+    {"Brew", LevelIds::eMines_1, -1, -1, 26, -1, -1},
+    {"Brew Transition", LevelIds::eMines_1, -1, -1, 31, -1, -1},
+    {"Escape", LevelIds::eMines_1, -1, -1, 25, -1, -1},
+    {"Reward", LevelIds::eNecrum_2, -1, -1, 22, -1, -1},
+    {"FeeCo", LevelIds::eFeeCoDepot_5, -1, -1, 4, -1, -1},
+    {"Information Booth", LevelIds::eFeeCoDepot_5, -1, -1, 3, -1, -1},
+    {"Train 1", LevelIds::eBarracks_6, -1, -1, 5, -1, -1},
+    {"Train 2", LevelIds::eBrewery_9, -1, -1, 15, -1, -1},
+    {"Train 3", LevelIds::eBonewerkz_8, -1, -1, 6, -1, -1},
+    {"Aslik Info", LevelIds::eFeeCoDepot_5, -1, -1, 2, -1, -1},
+    {"Aslik Explodes", LevelIds::eFeeCoDepot_5, -1, -1, 1, -1, -1},
+    {"Dripek Info", LevelIds::eBarracks_6, -1, -1, 4, -1, -1},
+    {"Dripek Explodes", LevelIds::eBarracks_6, -1, -1, 3, -1, -1},
+    {"Phleg Info", LevelIds::eBonewerkz_8, -1, -1, 4, -1, -1},
+    {"Phleg Explodes", LevelIds::eBonewerkz_8, -1, -1, 5, -1, -1},
+    {"Soulstorm Info", LevelIds::eBrewery_9, -1, -1, 14, -1, -1},
+    {"Ingredient", LevelIds::eBrewery_9, -1, -1, 16, -1, -1},
+    {"Conference", LevelIds::eBrewery_9, -1, -1, 13, -1, -1},
+    {"Happy Ending", LevelIds::eBrewery_9, -1, -1, 17, -1, -1},
+    {"Sad Ending", LevelIds::eBrewery_9, -1, -1, 18, -1, -1},
+    {"Credits", LevelIds::eCredits_16, -1, -1, -1, -1, -1}};
 
 // Used by the level skip cheat/ui/menu
 PerLvlData gPerLvlData_561700[17] = {
@@ -3844,7 +3839,7 @@ void MainMenuController::DrawMenuText_4D20D0(const MainMenuText* array, PrimHead
     }
 
     FP fontScale;
-    if (array->field_10_scale == 0.0)
+    if (array->field_10_scale == 0.0f)
     {
         fontScale = FP_FromDouble(0.84f); // 0xD70A
     }
