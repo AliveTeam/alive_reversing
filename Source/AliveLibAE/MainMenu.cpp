@@ -349,40 +349,35 @@ ALIVE_ARY(1, 0x561960, MainMenuPage, 24, sMainMenuPages_561960,
             &MainMenuController::BackStory_Or_NewGame_Load_4D1BA0,
             &MainMenuController::BackStory_Or_NewGame_Unload_4D1BE0}});
 
-inline std::int16_t operator"" _s(unsigned long long value)
-{
-    return static_cast<std::int16_t>(value);
-}
-
 MenuFMV sFmvs_561540[28] = {
-    {"GT Logo", LevelIds::eMenu_0, 65535_s, 65535_s, 3_s, 65535_s, 65535_s},
-    {"Oddworld Intro", LevelIds::eMenu_0, 65535_s, 65535_s, 1, 65535_s, 65535_s},
-    {"Abe's Exoddus", LevelIds::eMenu_0, 65535_s, 65535_s, 5, 65535_s, 65535_s},
-    {"Backstory", LevelIds::eMenu_0, 65535_s, 65535_s, 4, 65535_s, 65535_s},
-    {"Prophecy", LevelIds::eMines_1, 65535_s, 65535_s, 1, 65535_s, 65535_s},
-    {"Vision", LevelIds::eMines_1, 65535_s, 65535_s, 24, 65535_s, 65535_s},
-    {"Game Opening", LevelIds::eMines_1, 65535_s, 65535_s, 2, 65535_s, 65535_s},
-    {"Brew", LevelIds::eMines_1, 65535_s, 65535_s, 26, 65535_s, 65535_s},
-    {"Brew Transition", LevelIds::eMines_1, 65535_s, 65535_s, 31, 65535_s, 65535_s},
-    {"Escape", LevelIds::eMines_1, 65535_s, 65535_s, 25, 65535_s, 65535_s},
-    {"Reward", LevelIds::eNecrum_2, 65535_s, 65535_s, 22, 65535_s, 65535_s},
-    {"FeeCo", LevelIds::eFeeCoDepot_5, 65535_s, 65535_s, 4, 65535_s, 65535_s},
-    {"Information Booth", LevelIds::eFeeCoDepot_5, 65535_s, 65535_s, 3, 65535_s, 65535_s},
-    {"Train 1", LevelIds::eBarracks_6, 65535_s, 65535_s, 5, 65535_s, 65535_s},
-    {"Train 2", LevelIds::eBrewery_9, 65535_s, 65535_s, 15, 65535_s, 65535_s},
-    {"Train 3", LevelIds::eBonewerkz_8, 65535_s, 65535_s, 6, 65535_s, 65535_s},
-    {"Aslik Info", LevelIds::eFeeCoDepot_5, 65535_s, 65535_s, 2, 65535_s, 65535_s},
-    {"Aslik Explodes", LevelIds::eFeeCoDepot_5, 65535_s, 65535_s, 1, 65535_s, 65535_s},
-    {"Dripek Info", LevelIds::eBarracks_6, 65535_s, 65535_s, 4, 65535_s, 65535_s},
-    {"Dripek Explodes", LevelIds::eBarracks_6, 65535_s, 65535_s, 3, 65535_s, 65535_s},
-    {"Phleg Info", LevelIds::eBonewerkz_8, 65535_s, 65535_s, 4, 65535_s, 65535_s},
-    {"Phleg Explodes", LevelIds::eBonewerkz_8, 65535_s, 65535_s, 5, 65535_s, 65535_s},
-    {"Soulstorm Info", LevelIds::eBrewery_9, 65535_s, 65535_s, 14, 65535_s, 65535_s},
-    {"Ingredient", LevelIds::eBrewery_9, 65535_s, 65535_s, 16, 65535_s, 65535_s},
-    {"Conference", LevelIds::eBrewery_9, 65535_s, 65535_s, 13, 65535_s, 65535_s},
-    {"Happy Ending", LevelIds::eBrewery_9, 65535_s, 65535_s, 17, 65535_s, 65535_s},
-    {"Sad Ending", LevelIds::eBrewery_9, 65535_s, 65535_s, 18, 65535_s, 65535_s},
-    {"Credits", LevelIds::eCredits_16, 65535_s, 65535_s, 65535_s, 65535_s, 65535_s}};
+    {"GT Logo", LevelIds::eMenu_0, static_cast<s16>(65535), static_cast<s16>(65535), 3, static_cast<s16>(65535), static_cast<s16>(65535)},
+    {"Oddworld Intro", LevelIds::eMenu_0, static_cast<s16>(65535), static_cast<s16>(65535), 1, static_cast<s16>(65535), static_cast<s16>(65535)},
+    {"Abe's Exoddus", LevelIds::eMenu_0, static_cast<s16>(65535), static_cast<s16>(65535), 5, static_cast<s16>(65535), static_cast<s16>(65535)},
+    {"Backstory", LevelIds::eMenu_0, static_cast<s16>(65535), static_cast<s16>(65535), 4, static_cast<s16>(65535), static_cast<s16>(65535)},
+    {"Prophecy", LevelIds::eMines_1, static_cast<s16>(65535), static_cast<s16>(65535), 1, static_cast<s16>(65535), static_cast<s16>(65535)},
+    {"Vision", LevelIds::eMines_1, static_cast<s16>(65535), static_cast<s16>(65535), 24, static_cast<s16>(65535), static_cast<s16>(65535)},
+    {"Game Opening", LevelIds::eMines_1, static_cast<s16>(65535), static_cast<s16>(65535), 2, static_cast<s16>(65535), static_cast<s16>(65535)},
+    {"Brew", LevelIds::eMines_1, static_cast<s16>(65535), static_cast<s16>(65535), 26, static_cast<s16>(65535), static_cast<s16>(65535)},
+    {"Brew Transition", LevelIds::eMines_1, static_cast<s16>(65535), static_cast<s16>(65535), 31, static_cast<s16>(65535), static_cast<s16>(65535)},
+    {"Escape", LevelIds::eMines_1, static_cast<s16>(65535), static_cast<s16>(65535), 25, static_cast<s16>(65535), static_cast<s16>(65535)},
+    {"Reward", LevelIds::eNecrum_2, static_cast<s16>(65535), static_cast<s16>(65535), 22, static_cast<s16>(65535), static_cast<s16>(65535)},
+    {"FeeCo", LevelIds::eFeeCoDepot_5, static_cast<s16>(65535), static_cast<s16>(65535), 4, static_cast<s16>(65535), static_cast<s16>(65535)},
+    {"Information Booth", LevelIds::eFeeCoDepot_5, static_cast<s16>(65535), static_cast<s16>(65535), 3, static_cast<s16>(65535), static_cast<s16>(65535)},
+    {"Train 1", LevelIds::eBarracks_6, static_cast<s16>(65535), static_cast<s16>(65535), 5, static_cast<s16>(65535), static_cast<s16>(65535)},
+    {"Train 2", LevelIds::eBrewery_9, static_cast<s16>(65535), static_cast<s16>(65535), 15, static_cast<s16>(65535), static_cast<s16>(65535)},
+    {"Train 3", LevelIds::eBonewerkz_8, static_cast<s16>(65535), static_cast<s16>(65535), 6, static_cast<s16>(65535), static_cast<s16>(65535)},
+    {"Aslik Info", LevelIds::eFeeCoDepot_5, static_cast<s16>(65535), static_cast<s16>(65535), 2, static_cast<s16>(65535), static_cast<s16>(65535)},
+    {"Aslik Explodes", LevelIds::eFeeCoDepot_5, static_cast<s16>(65535), static_cast<s16>(65535), 1, static_cast<s16>(65535), static_cast<s16>(65535)},
+    {"Dripek Info", LevelIds::eBarracks_6, static_cast<s16>(65535), static_cast<s16>(65535), 4, static_cast<s16>(65535), static_cast<s16>(65535)},
+    {"Dripek Explodes", LevelIds::eBarracks_6, static_cast<s16>(65535), static_cast<s16>(65535), 3, static_cast<s16>(65535), static_cast<s16>(65535)},
+    {"Phleg Info", LevelIds::eBonewerkz_8, static_cast<s16>(65535), static_cast<s16>(65535), 4, static_cast<s16>(65535), static_cast<s16>(65535)},
+    {"Phleg Explodes", LevelIds::eBonewerkz_8, static_cast<s16>(65535), static_cast<s16>(65535), 5, static_cast<s16>(65535), static_cast<s16>(65535)},
+    {"Soulstorm Info", LevelIds::eBrewery_9, static_cast<s16>(65535), static_cast<s16>(65535), 14, static_cast<s16>(65535), static_cast<s16>(65535)},
+    {"Ingredient", LevelIds::eBrewery_9, static_cast<s16>(65535), static_cast<s16>(65535), 16, static_cast<s16>(65535), static_cast<s16>(65535)},
+    {"Conference", LevelIds::eBrewery_9, static_cast<s16>(65535), static_cast<s16>(65535), 13, static_cast<s16>(65535), static_cast<s16>(65535)},
+    {"Happy Ending", LevelIds::eBrewery_9, static_cast<s16>(65535), static_cast<s16>(65535), 17, static_cast<s16>(65535), static_cast<s16>(65535)},
+    {"Sad Ending", LevelIds::eBrewery_9, static_cast<s16>(65535), static_cast<s16>(65535), 18, static_cast<s16>(65535), static_cast<s16>(65535)},
+    {"Credits", LevelIds::eCredits_16, static_cast<s16>(65535), static_cast<s16>(65535), static_cast<s16>(65535), static_cast<s16>(65535), static_cast<s16>(65535)}};
 
 // Used by the level skip cheat/ui/menu
 PerLvlData gPerLvlData_561700[17] = {
