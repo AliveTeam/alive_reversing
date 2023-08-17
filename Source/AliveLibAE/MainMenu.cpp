@@ -350,34 +350,34 @@ ALIVE_ARY(1, 0x561960, MainMenuPage, 24, sMainMenuPages_561960,
             &MainMenuController::BackStory_Or_NewGame_Unload_4D1BE0}});
 
 MenuFMV sFmvs_561540[28] = {
-    {"GT Logo", LevelIds::eMenu_0, static_cast<s16>(65535), static_cast<s16>(65535), 3, static_cast<s16>(65535), static_cast<s16>(65535)},
-    {"Oddworld Intro", LevelIds::eMenu_0, static_cast<s16>(65535), static_cast<s16>(65535), 1, static_cast<s16>(65535), static_cast<s16>(65535)},
-    {"Abe's Exoddus", LevelIds::eMenu_0, static_cast<s16>(65535), static_cast<s16>(65535), 5, static_cast<s16>(65535), static_cast<s16>(65535)},
-    {"Backstory", LevelIds::eMenu_0, static_cast<s16>(65535), static_cast<s16>(65535), 4, static_cast<s16>(65535), static_cast<s16>(65535)},
-    {"Prophecy", LevelIds::eMines_1, static_cast<s16>(65535), static_cast<s16>(65535), 1, static_cast<s16>(65535), static_cast<s16>(65535)},
-    {"Vision", LevelIds::eMines_1, static_cast<s16>(65535), static_cast<s16>(65535), 24, static_cast<s16>(65535), static_cast<s16>(65535)},
-    {"Game Opening", LevelIds::eMines_1, static_cast<s16>(65535), static_cast<s16>(65535), 2, static_cast<s16>(65535), static_cast<s16>(65535)},
-    {"Brew", LevelIds::eMines_1, static_cast<s16>(65535), static_cast<s16>(65535), 26, static_cast<s16>(65535), static_cast<s16>(65535)},
-    {"Brew Transition", LevelIds::eMines_1, static_cast<s16>(65535), static_cast<s16>(65535), 31, static_cast<s16>(65535), static_cast<s16>(65535)},
-    {"Escape", LevelIds::eMines_1, static_cast<s16>(65535), static_cast<s16>(65535), 25, static_cast<s16>(65535), static_cast<s16>(65535)},
-    {"Reward", LevelIds::eNecrum_2, static_cast<s16>(65535), static_cast<s16>(65535), 22, static_cast<s16>(65535), static_cast<s16>(65535)},
-    {"FeeCo", LevelIds::eFeeCoDepot_5, static_cast<s16>(65535), static_cast<s16>(65535), 4, static_cast<s16>(65535), static_cast<s16>(65535)},
-    {"Information Booth", LevelIds::eFeeCoDepot_5, static_cast<s16>(65535), static_cast<s16>(65535), 3, static_cast<s16>(65535), static_cast<s16>(65535)},
-    {"Train 1", LevelIds::eBarracks_6, static_cast<s16>(65535), static_cast<s16>(65535), 5, static_cast<s16>(65535), static_cast<s16>(65535)},
-    {"Train 2", LevelIds::eBrewery_9, static_cast<s16>(65535), static_cast<s16>(65535), 15, static_cast<s16>(65535), static_cast<s16>(65535)},
-    {"Train 3", LevelIds::eBonewerkz_8, static_cast<s16>(65535), static_cast<s16>(65535), 6, static_cast<s16>(65535), static_cast<s16>(65535)},
-    {"Aslik Info", LevelIds::eFeeCoDepot_5, static_cast<s16>(65535), static_cast<s16>(65535), 2, static_cast<s16>(65535), static_cast<s16>(65535)},
-    {"Aslik Explodes", LevelIds::eFeeCoDepot_5, static_cast<s16>(65535), static_cast<s16>(65535), 1, static_cast<s16>(65535), static_cast<s16>(65535)},
-    {"Dripek Info", LevelIds::eBarracks_6, static_cast<s16>(65535), static_cast<s16>(65535), 4, static_cast<s16>(65535), static_cast<s16>(65535)},
-    {"Dripek Explodes", LevelIds::eBarracks_6, static_cast<s16>(65535), static_cast<s16>(65535), 3, static_cast<s16>(65535), static_cast<s16>(65535)},
-    {"Phleg Info", LevelIds::eBonewerkz_8, static_cast<s16>(65535), static_cast<s16>(65535), 4, static_cast<s16>(65535), static_cast<s16>(65535)},
-    {"Phleg Explodes", LevelIds::eBonewerkz_8, static_cast<s16>(65535), static_cast<s16>(65535), 5, static_cast<s16>(65535), static_cast<s16>(65535)},
-    {"Soulstorm Info", LevelIds::eBrewery_9, static_cast<s16>(65535), static_cast<s16>(65535), 14, static_cast<s16>(65535), static_cast<s16>(65535)},
-    {"Ingredient", LevelIds::eBrewery_9, static_cast<s16>(65535), static_cast<s16>(65535), 16, static_cast<s16>(65535), static_cast<s16>(65535)},
-    {"Conference", LevelIds::eBrewery_9, static_cast<s16>(65535), static_cast<s16>(65535), 13, static_cast<s16>(65535), static_cast<s16>(65535)},
-    {"Happy Ending", LevelIds::eBrewery_9, static_cast<s16>(65535), static_cast<s16>(65535), 17, static_cast<s16>(65535), static_cast<s16>(65535)},
-    {"Sad Ending", LevelIds::eBrewery_9, static_cast<s16>(65535), static_cast<s16>(65535), 18, static_cast<s16>(65535), static_cast<s16>(65535)},
-    {"Credits", LevelIds::eCredits_16, static_cast<s16>(65535), static_cast<s16>(65535), static_cast<s16>(65535), static_cast<s16>(65535), static_cast<s16>(65535)}};
+    {"GT Logo", LevelIds::eMenu_0, -1, -1, 3, -1, -1},
+    {"Oddworld Intro", LevelIds::eMenu_0, -1, -1, 1, -1, -1},
+    {"Abe's Exoddus", LevelIds::eMenu_0, -1, -1, 5, -1, -1},
+    {"Backstory", LevelIds::eMenu_0, -1, -1, 4, -1, -1},
+    {"Prophecy", LevelIds::eMines_1, -1, -1, 1, -1, -1},
+    {"Vision", LevelIds::eMines_1, -1, -1, 24, -1, -1},
+    {"Game Opening", LevelIds::eMines_1, -1, -1, 2, -1, -1},
+    {"Brew", LevelIds::eMines_1, -1, -1, 26, -1, -1},
+    {"Brew Transition", LevelIds::eMines_1, -1, -1, 31, -1, -1},
+    {"Escape", LevelIds::eMines_1, -1, -1, 25, -1, -1},
+    {"Reward", LevelIds::eNecrum_2, -1, -1, 22, -1, -1},
+    {"FeeCo", LevelIds::eFeeCoDepot_5, -1, -1, 4, -1, -1},
+    {"Information Booth", LevelIds::eFeeCoDepot_5, -1, -1, 3, -1, -1},
+    {"Train 1", LevelIds::eBarracks_6, -1, -1, 5, -1, -1},
+    {"Train 2", LevelIds::eBrewery_9, -1, -1, 15, -1, -1},
+    {"Train 3", LevelIds::eBonewerkz_8, -1, -1, 6, -1, -1},
+    {"Aslik Info", LevelIds::eFeeCoDepot_5, -1, -1, 2, -1, -1},
+    {"Aslik Explodes", LevelIds::eFeeCoDepot_5, -1, -1, 1, -1, -1},
+    {"Dripek Info", LevelIds::eBarracks_6, -1, -1, 4, -1, -1},
+    {"Dripek Explodes", LevelIds::eBarracks_6, -1, -1, 3, -1, -1},
+    {"Phleg Info", LevelIds::eBonewerkz_8, -1, -1, 4, -1, -1},
+    {"Phleg Explodes", LevelIds::eBonewerkz_8, -1, -1, 5, -1, -1},
+    {"Soulstorm Info", LevelIds::eBrewery_9, -1, -1, 14, -1, -1},
+    {"Ingredient", LevelIds::eBrewery_9, -1, -1, 16, -1, -1},
+    {"Conference", LevelIds::eBrewery_9, -1, -1, 13, -1, -1},
+    {"Happy Ending", LevelIds::eBrewery_9, -1, -1, 17, -1, -1},
+    {"Sad Ending", LevelIds::eBrewery_9, -1, -1, 18, -1, -1},
+    {"Credits", LevelIds::eCredits_16, -1, -1, -1, -1, -1}};
 
 // Used by the level skip cheat/ui/menu
 PerLvlData gPerLvlData_561700[17] = {
@@ -3839,7 +3839,7 @@ void MainMenuController::DrawMenuText_4D20D0(const MainMenuText* array, PrimHead
     }
 
     FP fontScale;
-    if (array->field_10_scale == 0.0)
+    if (array->field_10_scale == 0.0f)
     {
         fontScale = FP_FromDouble(0.84f); // 0xD70A
     }
