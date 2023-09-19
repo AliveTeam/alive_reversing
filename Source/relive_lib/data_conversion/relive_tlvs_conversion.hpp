@@ -594,11 +594,8 @@ public:
     {
         Path_TimedMine r;
         BaseConvert(r, tlv, tlvId);
-        r.mSwitchId = tlv.mSwitchId;
-        r.mState = tlv.mState;
         r.mScale = relive::From(tlv.mScale);
         r.mTicksUntilExplosion = tlv.mTicksUntilExplosion;
-        r.mDisabledResources = tlv.mDisabledResources;
         return r;
     }
 
@@ -606,11 +603,8 @@ public:
     {
         Path_TimedMine r;
         BaseConvert(r, tlv, tlvId);
-        r.mSwitchId = tlv.mSwitchId;
-        r.mState = tlv.mState;
         r.mScale = relive::From(tlv.mScale);
         r.mTicksUntilExplosion = tlv.mTicksUntilExplosion;
-        r.mDisabledResources = tlv.mDisabledResources;
         return r;
     }
 };
@@ -914,7 +908,6 @@ public:
         BaseConvert(r, tlv, tlvId);
         r.mScale = relive::From(tlv.mScale);
         r.mNozzleSide = From(tlv.mNozzleSide);
-        r.mDisabledResources = tlv.mDisabledResources;
         r.mGrenadeAmount = tlv.mGrenadeAmount;
         return r;
     }
@@ -925,7 +918,6 @@ public:
         BaseConvert(r, tlv, tlvId);
         r.mScale = relive::From(tlv.mScale);
         r.mNozzleSide = From(tlv.mNozzleSide);
-        r.mDisabledResources = tlv.mDisabledResources;
         r.mGrenadeAmount = tlv.mGrenadeAmount;
         return r;
     }

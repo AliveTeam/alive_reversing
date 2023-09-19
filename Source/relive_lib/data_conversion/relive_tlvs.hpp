@@ -293,11 +293,8 @@ struct Path_TimedMine final : public Path_TLV
         mTlvType = ReliveTypes::eTimedMine;
         mAttribute = QuiksaveAttribute::eClearTlvFlags_1;
     }
-    s16 mSwitchId = 0;
-    s16 mState = 0;
     reliveScale mScale = reliveScale::eFull;
     s16 mTicksUntilExplosion = 0;
-    s32 mDisabledResources = 0;
     static constexpr char kClassName[] = "timed_mine";
 };
 
@@ -434,7 +431,6 @@ struct Path_BoomMachine final : public Path_TLV
         eLeft,
     };
     NozzleSide mNozzleSide = NozzleSide::eRight;
-    s16 mDisabledResources = 0;
     s16 mGrenadeAmount = 0;
     static constexpr char kClassName[] = "boom_machine";
 };

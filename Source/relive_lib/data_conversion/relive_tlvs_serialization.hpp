@@ -421,22 +421,16 @@ inline void to_json(nlohmann::json& j, const Path_TimedMine& p)
     j = nlohmann::json{
         {"tlv_type", "timed_mine"},
         {"base", ToBase(p)},
-        {"switch_id", p.mSwitchId},
-        {"state", p.mState},
         {"scale", p.mScale},
         {"ticks_until_explosion", p.mTicksUntilExplosion},
-        {"disabled_resources", p.mDisabledResources},
     };
 }
 
 inline void from_json(const nlohmann::json& j, Path_TimedMine& p)
 {
     j.at("base").get_to(ToBase(p));
-    j.at("switch_id").get_to(p.mSwitchId);
-    j.at("state").get_to(p.mState);
     j.at("scale").get_to(p.mScale);
     j.at("ticks_until_explosion").get_to(p.mTicksUntilExplosion);
-    j.at("disabled_resources").get_to(p.mDisabledResources);
 }
 
 // Path_Hoist
@@ -613,7 +607,6 @@ inline void to_json(nlohmann::json& j, const Path_BoomMachine& p)
         {"base", ToBase(p)},
         {"scale", p.mScale},
         {"nozzle_side", p.mNozzleSide},
-        {"disabled_resources", p.mDisabledResources},
         {"grenade_amount", p.mGrenadeAmount},
     };
 }
@@ -623,7 +616,6 @@ inline void from_json(const nlohmann::json& j, Path_BoomMachine& p)
     j.at("base").get_to(ToBase(p));
     j.at("scale").get_to(p.mScale);
     j.at("nozzle_side").get_to(p.mNozzleSide);
-    j.at("disabled_resources").get_to(p.mDisabledResources);
     j.at("grenade_amount").get_to(p.mGrenadeAmount);
 }
 
