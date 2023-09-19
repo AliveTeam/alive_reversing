@@ -22,7 +22,6 @@ public:
     virtual ~JsonWriterBase();
 
     void Save(std::vector<u8>& fileDataBuffer, LvlReader& lvlReader, const PathInfo& info, std::vector<u8>& pathResource, IFileIO& fileIO, const std::string& fileName, Context& context);
-    virtual void DebugDumpTlvs(IFileIO& fileIo, const std::string& prefix, const PathInfo& info, std::vector<u8>& pathResource) = 0;
 
     virtual jsonxx::Array ReadTlvStream(u8* ptr, Context& context) = 0;
     virtual jsonxx::Array AddCollisionLineStructureJson() = 0;

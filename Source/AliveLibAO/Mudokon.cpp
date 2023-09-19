@@ -173,7 +173,7 @@ Mudokon::Mudokon(relive::Path_TLV* pTlv, const Guid& tlvId)
     switch (pTlv->mTlvType)
     {
         case ReliveTypes::eNone:
-            ALIVE_FATAL("Mudokon ctor pTlv->mTlvType32.mType was None_m1. This shouldn't happen.");
+            ALIVE_FATAL("Mudokon ctor pTlv->mTlvType was eNone. This shouldn't happen.");
             break;
         case ReliveTypes::eLiftMudokon:
         {
@@ -272,7 +272,7 @@ Mudokon::Mudokon(relive::Path_TLV* pTlv, const Guid& tlvId)
         }
         break;
         default:
-            LOG_WARNING("Mudokon ctor pTlv->mTlvType32.mType was %d. This is unhandled.", static_cast<s32>(pTlv->mTlvType));
+            LOG_WARNING("Mudokon ctor pTlv->mTlvType was %d. This is unhandled.", static_cast<s32>(pTlv->mTlvType));
             break;
     }
 

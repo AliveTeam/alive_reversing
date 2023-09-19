@@ -88,8 +88,6 @@ set(PROJECT_SOURCES
         Source/CollisionConnect.hpp
         Source/ExportPathDialog.hpp
         Source/ExportPathDialog.cpp
-        Source/Exporter.hpp
-        Source/Exporter.cpp
         Source/ExportPathDialog.ui
         Source/PathSelectionDialog.hpp
         Source/PathSelectionDialog.cpp

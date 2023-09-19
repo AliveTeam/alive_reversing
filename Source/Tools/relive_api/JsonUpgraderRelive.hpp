@@ -3,7 +3,7 @@
 #include "JsonUpgrader.hpp"
 
 namespace ReliveAPI {
-class JsonUpgraderAE : public JsonUpgraderBase
+class JsonUpgraderRelive : public JsonUpgraderBase
 {
 public:
     virtual void AddUpgraders() override;

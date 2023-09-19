@@ -4,16 +4,16 @@
 
 namespace ReliveAPI {
 class Context;
-struct LoadedJsonAE final
+struct LoadedJsonRelive final
 {
     std::vector<CameraNameAndTlvBlob> mPerCamData;
     std::set<AnimId> mResourcesRequiredInLvl;
-    std::vector<::PathLineAE> mCollisions;
+    std::vector<::PathLine> mCollisions;
 };
 
-class JsonReaderAE final : public JsonReaderBase
+class JsonReaderRelive final : public JsonReaderBase
 {
 public:
-    LoadedJsonAE Load(IFileIO& fileIO, const std::string& fileName, Context& context);
+    LoadedJsonRelive Load(IFileIO& fileIO, const std::string& fileName, Context& context);
 };
 } // namespace ReliveAPI

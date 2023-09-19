@@ -24,22 +24,15 @@ set(relive_api_src
     JsonMapRootInfoReader.cpp
     JsonReaderBase.hpp
     JsonReaderBase.cpp
-    JsonReaderAE.hpp
-    JsonReaderAE.cpp
-    JsonReaderAO.hpp
-    JsonReaderAO.cpp
+    JsonReaderRelive.hpp
+    JsonReaderRelive.cpp
     JsonWriterBase.hpp
     JsonWriterBase.cpp
-    JsonWriterAE.hpp
-    JsonWriterAE.cpp
-    JsonWriterAO.hpp
-    JsonWriterAO.cpp
-    JsonUpgraderAE.cpp
-    JsonUpgraderAE.hpp
-    TlvsAE.hpp
-    JsonUpgraderAO.cpp
-    JsonUpgraderAO.hpp
-    TlvsAO.hpp
+    JsonWriterRelive.hpp
+    JsonWriterRelive.cpp
+    JsonUpgraderRelive.cpp
+    JsonUpgraderRelive.hpp
+    TlvsRelive.hpp
     BaseProperty.cpp
     BaseProperty.hpp
     BasicType.hpp
@@ -53,7 +46,6 @@ set(relive_api_src
     JsonUpgrader.cpp
     JsonUpgrader.hpp
     JsonUpgraderMacros.hpp
-    LvlReaderWriter.hpp
     PropertyCollection.cpp
     PropertyCollection.hpp
     relive_api.cpp
@@ -63,17 +55,13 @@ set(relive_api_src
     TlvFactory.hpp
     TlvObjectBase.cpp
     TlvObjectBase.hpp
-    TlvObjectBaseAE.cpp
-    TlvObjectBaseAE.hpp
-    TlvObjectBaseAO.cpp
-    TlvObjectBaseAO.hpp
+    TlvObjectBaseRelive.cpp
+    TlvObjectBaseRelive.hpp
     TlvObjectBaseMacros.hpp
     TypedProperty.cpp
     TypedProperty.hpp
-    TypesCollectionAE.cpp
-    TypesCollectionAE.hpp
-    TypesCollectionAO.cpp
-    TypesCollectionAO.hpp
+    TypesCollectionRelive.cpp
+    TypesCollectionRelive.hpp
     TypesCollectionBase.cpp
     TypesCollectionBase.hpp
 )

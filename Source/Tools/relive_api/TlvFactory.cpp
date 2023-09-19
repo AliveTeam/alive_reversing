@@ -49,6 +49,5 @@ void TlvFactory<TlvEnumType, PathTlvType>::AddTlvsToJsonArray(TypesCollectionBas
     }
 }
 
-template class TlvFactory<TlvTypes, Path_TLV>;
-template class TlvFactory<AO::TlvTypes, AO::Path_TLV>;
+template class TlvFactory<ReliveTypes, relive::Path_TLV>;
 } // namespace ReliveAPI

@@ -11,7 +11,7 @@
 #include <cctype>
 
 #include "nlohmann/json.hpp"
-#include "../../Tools/relive_api/LvlReaderWriter.hpp"
+#include "LvlReaderWriter.hpp"
 #include "../../Tools/relive_api/file_api.hpp"
 #include "../../Tools/relive_api/CamConverter.hpp"
 #include "../../Tools/relive_api/PathCamerasEnumerator.hpp"

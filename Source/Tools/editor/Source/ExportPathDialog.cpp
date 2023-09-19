@@ -5,7 +5,6 @@
 #include <QUuid>
 #include "relive_api.hpp"
 #include <QProcess>
-#include "Exporter.hpp"
 #include "ShowContext.hpp"
 
 ExportPathDialog::ExportPathDialog(QWidget *parent, bool exportAndPlay) :
@@ -107,10 +106,14 @@ bool ExportPathDialog::ExportToLvl(ReliveAPI::Context& context)
         stdLvls.insert(lvls[i].absoluteFilePath().toStdString());
     }
 
+    /*
     return exportJsonToLvl(jsonPath, lvlPath, partialTemporaryFilePath, [&](const QString text)
         {
             QMessageBox::critical(this, "Error", text);
         }, stdLvls, context);
+        */
+    QMessageBox::critical(this, "Error", "Exporting to lvls is obsolete now, this will be removed soon");
+    return false;
 }
 
 void ExportPathDialog::on_buttonBox_accepted()

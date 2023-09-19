@@ -1,14 +1,14 @@
 #pragma once
 
-#include "ByteStream.hpp"
+#include "../../Tools/relive_api/ByteStream.hpp"
 
 
 #include "../../relive_lib/Function.hpp"
 #include "../../relive_lib/ResourceManagerWrapper.hpp"
 
-#include "relive_api_exceptions.hpp"
-#include "file_api.hpp"
-#include "RoundUp.hpp"
+#include "../../Tools/relive_api/relive_api_exceptions.hpp"
+#include "../../Tools/relive_api/file_api.hpp"
+#include "../../Tools/relive_api/RoundUp.hpp"
 
 #include <cstddef>
 #include <cstring>

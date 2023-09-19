@@ -1,4 +1,4 @@
-#include "JsonUpgraderAE.hpp"
+#include "JsonUpgraderRelive.hpp"
 #include "JsonUpgraderMacros.hpp"
 #include "nlohmann/json.hpp"
 
@@ -14,7 +14,9 @@ public:
     }
 };
 
-class UpgraderAE3 final : public IJsonUpgrader
+// Old example
+/*
+class UpgraderRelive2 final : public IJsonUpgrader
 {
 public:
     std::string Upgrade(JsonUpgraderBase& upgrader, nlohmann::basic_json<>& rootObj) override
@@ -35,21 +37,10 @@ public:
         return rootObj.dump(4);
     }
 };
+*/
 
-class UpgraderAE4 final : public IJsonUpgrader
+void JsonUpgraderRelive::AddUpgraders()
 {
-public:
-    std::string Upgrade(JsonUpgraderBase& upgrader, nlohmann::basic_json<>& rootObj) override
-    {
-        upgrader.RenameMapObjectStructure(rootObj, "ResetSwitchRange", "ResetPath");
-        upgrader.RenameMapObjectStructure(rootObj, "SligRightBound", "SligBoundRight");
-        upgrader.RenameMapObjectStructure(rootObj, "SligLeftBound", "SligBoundLeft");
-        return rootObj.dump(4);
-    }
-};
-
-void JsonUpgraderAE::AddUpgraders()
-{
-    ADD_UPGRADE_STEP_FROM(3, UpgraderAE3);
+    //ADD_UPGRADE_STEP_FROM(3, TestUpgrader);
 }
 } // namespace ReliveAPI

@@ -6,26 +6,15 @@
 #include <set>
 
 namespace ReliveAPI {
-std::vector<PathLineAO> JsonReaderBase::ReadAOLines(TypesCollectionBase& types, const jsonxx::Array& collisionsArray, Context& context)
-{
-    std::vector<PathLineAO> lines;
-    for (auto i = 0u; i < collisionsArray.values().size(); i++)
-    {
-        const jsonxx::Object& collision = collisionsArray.get<jsonxx::Object>(i);
-        AOLine tmpLine(types);
-        tmpLine.PropertiesFromJson(types, collision, context);
-        lines.emplace_back(tmpLine.mLine);
-    }
-    return lines;
-}
 
-std::vector<::PathLineAE> JsonReaderBase::ReadAELines(TypesCollectionBase& types, const jsonxx::Array& collisionsArray, Context& context)
+
+std::vector<::PathLine> JsonReaderBase::ReadReliveLines(TypesCollectionBase& types, const jsonxx::Array& collisionsArray, Context& context)
 {
-    std::vector<::PathLineAE> lines;
+    std::vector<::PathLine> lines;
     for (auto i = 0u; i < collisionsArray.values().size(); i++)
     {
         const jsonxx::Object& collision = collisionsArray.get<jsonxx::Object>(i);
-        AELine tmpLine(types);
+        ReliveLine tmpLine(types);
         tmpLine.PropertiesFromJson(types, collision, context);
         lines.emplace_back(tmpLine.mLine);
     }

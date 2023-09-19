@@ -673,6 +673,7 @@ SET(data_conversion_src
     data_conversion/data_conversion_ui.cpp
     data_conversion/fmv_converter.cpp
     data_conversion/fmv_converter.hpp
+    data_conversion/LvlReaderWriter.hpp
 )
 
 source_group("Source Files/AE"               FILES ${AliveLibAESrc})

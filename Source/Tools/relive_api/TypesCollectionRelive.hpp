@@ -11,21 +11,21 @@
 namespace ReliveAPI {
 class TlvObjectBase;
 
-class TypesCollectionAE final : public TypesCollectionBase
+class TypesCollectionRelive final : public TypesCollectionBase
 {
 public:
-    TypesCollectionAE();
+    TypesCollectionRelive();
 
     void AddTlvsToJsonArray(jsonxx::Array& array) override;
 
-    [[nodiscard]] std::unique_ptr<TlvObjectBase> MakeTlvAE(TlvTypes tlvType, Path_TLV* pTlv, s32 instanceCount);
-    [[nodiscard]] std::unique_ptr<TlvObjectBase> MakeTlvAE(const std::string& tlvTypeName, Path_TLV* pTlv);
+    [[nodiscard]] std::unique_ptr<TlvObjectBase> MakeTlvRelive(ReliveTypes tlvType, relive::Path_TLV* pTlv, s32 instanceCount);
+    [[nodiscard]] std::unique_ptr<TlvObjectBase> MakeTlvRelive(const std::string& tlvTypeName, relive::Path_TLV* pTlv);
 
     [[nodiscard]] std::unique_ptr<TlvObjectBase> MakeTlvFromString(const std::string& tlvTypeName) override;
 
 private:
-    void AddAETypes();
+    void AddReliveTypes();
 
-    TlvFactory<TlvTypes, Path_TLV> mTlvFactoryAE;
+    TlvFactory<ReliveTypes, relive::Path_TLV> mTlvFactoryRelive;
 };
 } // namespace ReliveAPI

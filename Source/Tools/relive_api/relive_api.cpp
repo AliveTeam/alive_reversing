@@ -3,20 +3,16 @@
 #include "../../AliveLibAE/Path.hpp"
 #include "../../AliveLibAE/PathData.hpp"
 #include "../../relive_lib/Collisions.hpp"
-#include "LvlReaderWriter.hpp"
-#include "JsonUpgraderAO.hpp"
-#include "JsonUpgraderAE.hpp"
+#include "../../relive_lib/data_conversion/LvlReaderWriter.hpp"
+#include "JsonUpgraderRelive.hpp"
 #include "JsonModelTypes.hpp"
-#include "JsonReaderAE.hpp"
-#include "JsonReaderAO.hpp"
-#include "JsonWriterAE.hpp"
-#include "JsonWriterAO.hpp"
+#include "JsonReaderRelive.hpp"
+#include "JsonWriterRelive.hpp"
 #include "JsonMapRootInfoReader.hpp"
 #include "Base64.hpp"
 #include "CamConverter.hpp"
-#include "TypesCollectionAE.hpp"
-#include "TypesCollectionAO.hpp"
 #include "ApiContext.hpp"
+#include "TypesCollectionRelive.hpp"
 #include "../../relive_lib/FG1Reader.hpp"
 #include "../../relive_lib/PathDataExtensionsTypes.hpp"
 #include "../../relive_lib/data_conversion/rgb_conversion.hpp"
@@ -258,18 +254,11 @@ std::string UpgradePathJson(IFileIO& fileIO, const std::string& jsonFile)
     JsonMapRootInfoReader rootInfo;
     rootInfo.Read(fileIO, jsonFile);
 
-    if (rootInfo.mMapRootInfo.mGame == "AO")
-    {
-        JsonUpgraderAO upgrader;
-        TypesCollectionAO aoTypes;
-        return upgrader.Upgrade(aoTypes, fileIO, jsonFile, rootInfo.mMapRootInfo.mVersion, GetApiVersion());
-    }
-    else
-    {
-        JsonUpgraderAE upgrader;
-        TypesCollectionAE aeTypes;
-        return upgrader.Upgrade(aeTypes, fileIO, jsonFile, rootInfo.mMapRootInfo.mVersion, GetApiVersion());
-    }
+    // TODO: impl
+    // TODO: Pass in rootInfo.mMapRootInfo.mGame
+    JsonUpgraderRelive upgrader;
+    TypesCollectionRelive reliveTypes;
+    return upgrader.Upgrade(reliveTypes, fileIO, jsonFile, rootInfo.mMapRootInfo.mVersion, GetApiVersion());
 }
 
 template <typename ReturnType, typename ContainerType>
@@ -301,7 +290,7 @@ static void ForEachItemAtXY(u32 xSize, u32 ySize, ContainerType& container, FnOn
     }
 }
 
-static void WriteCollisionLine(ByteStream& s, const PathLineAO& line)
+static void WriteCollisionLine(ByteStream& s, const ::PathLine& line)
 {
     s.Write(line.mRect.x);
     s.Write(line.mRect.y);
@@ -309,29 +298,9 @@ static void WriteCollisionLine(ByteStream& s, const PathLineAO& line)
     s.Write(line.mRect.h);
 
     s.Write(static_cast<u8>(line.mLineType));
-    s.Write(line.pad1);
-    s.Write(line.pad2);
-    s.Write(line.pad3);
 
     s.Write(line.mPrevious);
     s.Write(line.mNext);
-}
-
-static void WriteCollisionLine(ByteStream& s, const ::PathLineAE& line)
-{
-    s.Write(line.mRect.x);
-    s.Write(line.mRect.y);
-    s.Write(line.mRect.w);
-    s.Write(line.mRect.h);
-
-    s.Write(static_cast<u8>(line.mLineType));
-    s.Write(line.pad);
-
-    s.Write(line.mPrevious);
-    s.Write(line.mNext);
-
-    s.Write(line.mPrevious2);
-    s.Write(line.mNext2);
 
     s.Write(line.mLineLength);
 }
@@ -639,213 +608,6 @@ private:
     std::vector<std::unique_ptr<LvlReader>> mOpenLvls;
 };
 
-template <typename JsonReaderType>
-static void SaveBinaryPathToLvl(IFileIO& fileIo, Game game, std::vector<u8>& fileDataBuffer, IFileIO& fileIO, const std::string& jsonInputFile, const std::string& inputLvlFile, const std::string& outputLvlFile, bool skipCamsAndFG1, bool allowFullFG1Blocks, Context& context, const std::vector<std::string>& lvlResourceSources)
-{
-    JsonReaderType doc;
-    auto loadedJsonData = doc.Load(fileIO, jsonInputFile, context);
-
-    LvlWriter inputLvl(fileIO, inputLvlFile.c_str());
-    if (!inputLvl.IsOpen())
-    {
-        throw ReliveAPI::IOReadException(inputLvlFile.c_str());
-    }
-
-    std::optional<std::vector<u8>> oldPathBnd = inputLvl.ReadFile(doc.mRootInfo.mPathBnd.c_str());
-    if (!oldPathBnd)
-    {
-        // XXPATH.BND should always be present
-        throw ReliveAPI::OpenPathException();
-    }
-
-    ByteStream s;
-    s.ReserveSize(1024 * 20); // 20 kb estimate
-
-    // Write camera array
-    for (s32 y = 0; y < doc.mRootInfo.mYSize; y++)
-    {
-        for (s32 x = 0; x < doc.mRootInfo.mXSize; x++)
-        {
-            CameraNameAndTlvBlob* pItem = ItemAtXY<CameraNameAndTlvBlob>(loadedJsonData.mPerCamData, x, y);
-            if (pItem)
-            {
-                // We have a camera
-                if (pItem->mName.empty())
-                {
-                    // With a blank name
-                    const static u8 blank[8] = {};
-                    s.Write(blank);
-                }
-                else if (pItem->mName.length() == 8)
-                {
-                    // With a non blank name
-                    s.Write(pItem->mName);
-                }
-                else
-                {
-                    // With a name that isn't 8 chars
-                    throw ReliveAPI::BadCameraNameException(pItem->mName);
-                }
-            }
-            else
-            {
-                // No camera
-                const static u8 blank[8] = {};
-                s.Write(blank);
-            }
-        }
-    }
-    const size_t collisionOffsetPos = s.WritePos();
-
-    // Write collision lines
-    for (const auto& line : loadedJsonData.mCollisions)
-    {
-        WriteCollisionLine(s, line);
-    }
-
-    struct IndexTableEntry final
-    {
-        s32 x = 0;
-        s32 y = 0;
-        s32 objectsOffset = 0;
-    };
-
-    const size_t objectOffsetPos = s.WritePos();
-
-    // Write TLVs
-    std::vector<IndexTableEntry> indexTable;
-    for (s32 y = 0; y < doc.mRootInfo.mYSize; y++)
-    {
-        for (s32 x = 0; x < doc.mRootInfo.mXSize; x++)
-        {
-            CameraNameAndTlvBlob* pItem = ItemAtXY<CameraNameAndTlvBlob>(loadedJsonData.mPerCamData, x, y);
-            if (pItem)
-            {
-                if (pItem->mTlvBlobs.empty())
-                {
-                    // Dont add a table entry for a camera that has no TLV data
-                    indexTable.push_back({x, y, -1});
-                }
-                else
-                {
-                    indexTable.push_back({x, y, static_cast<s32>(s.WritePos())});
-                    for (const auto& tlv : pItem->mTlvBlobs)
-                    {
-                        s.Write(tlv);
-                    }
-                }
-            }
-            else
-            {
-                indexTable.push_back({x, y, -1});
-            }
-        }
-    }
-
-    // Write index table values we just populated, correcting their offsets
-    const size_t indexTableOffSetPos = s.WritePos();
-    for (auto& indexTableEntry : indexTable)
-    {
-        if (indexTableEntry.objectsOffset != -1)
-        {
-            indexTableEntry.objectsOffset -= static_cast<s32>(objectOffsetPos);
-        }
-    }
-
-    ForEachItemAtXY<IndexTableEntry>(doc.mRootInfo.mXSize, doc.mRootInfo.mYSize, indexTable, [&](const IndexTableEntry& tableEntry)
-                                     { s.Write(tableEntry.objectsOffset); });
-
-    // Push the path resource into a file chunk
-    std::vector<u8> tmpPathVec = s.GetBuffer();
-    LvlFileChunk newPathBlock(doc.mRootInfo.mPathId, ResourceManagerWrapper::ResourceType::Resource_Path, std::move(tmpPathVec));
-
-    ChunkedLvlFile pathBndFile(*oldPathBnd);
-
-    // Add or replace the original file chunk
-    pathBndFile.AddChunk(std::move(newPathBlock));
-
-    // Construct chunk with new "hard coded" info
-    PerPathExtension pathExtData = {};
-    pathExtData.mSize = sizeof(PerPathExtension);
-    pathExtData.mNumCollisionLines = static_cast<u32>(loadedJsonData.mCollisions.size());
-    pathExtData.mIndexTableOffset = static_cast<u32>(indexTableOffSetPos);
-    pathExtData.mObjectOffset = static_cast<u32>(objectOffsetPos);
-    pathExtData.mXSize = doc.mRootInfo.mXSize;
-    pathExtData.mYSize = doc.mRootInfo.mYSize;
-    pathExtData.mPathId = doc.mRootInfo.mPathId;
-    pathExtData.mCollisionOffset = static_cast<u32>(collisionOffsetPos);
-    pathExtData.mGridWidth = game == Game::AE ? 375 : 1024;
-    pathExtData.mGridHeight = game == Game::AE ? 260 : 480;
-
-    pathExtData.mAbeStartXPos = doc.mRootInfo.mAbeStartXPos;
-    pathExtData.mAbeStartYPos = doc.mRootInfo.mAbeStartYPos;
-
-    pathExtData.mNumMudsInPath = doc.mRootInfo.mNumMudsInPath;
-
-    pathExtData.mTotalMuds = doc.mRootInfo.mTotalMuds;
-    pathExtData.mBadEndingMuds = doc.mRootInfo.mBadEndingMuds;
-    pathExtData.mGoodEndingMuds = doc.mRootInfo.mGoodEndingMuds;
-
-    // Create the BLY name
-    std::string strPathId = std::to_string(doc.mRootInfo.mPathId);
-    std::string blyName = doc.mRootInfo.mPathBnd.substr(0, 2) + "P" + strPathId + ".BLY";
-    strcpy(pathExtData.mBlyName, blyName.c_str());
-
-    // Add the fixed sized data
-    ByteStream perPathExtensionStream;
-    perPathExtensionStream.WriteBytes(reinterpret_cast<const u8*>(&pathExtData), sizeof(PerPathExtension));
-
-    WriteStringTable(doc.mRootInfo.mLCDScreenMessages, perPathExtensionStream);
-    WriteStringTable(doc.mRootInfo.mHintFlyMessages, perPathExtensionStream);
-
-    // Add it as a chunk
-    std::vector<u8> extBuffer = perPathExtensionStream.GetBuffer();
-    LvlFileChunk pathExtDataChunk(doc.mRootInfo.mPathId | doc.mRootInfo.mPathId << 8, ResourceManagerWrapper::Resource_Pxtd, std::move(extBuffer));
-    pathBndFile.AddChunk(std::move(pathExtDataChunk));
-
-    // Add or replace the original path BND in the lvl
-    inputLvl.AddFile(doc.mRootInfo.mPathBnd.c_str(), std::move(pathBndFile).Data());
-
-    ResourceLocator resourceLocator(fileIO, lvlResourceSources, context);
-    auto findResourceForCam = [&](AnimId id)
-    {
-        const AnimRecord& rec = game == Game::AE ? AnimRec(id) : AO::AnimRec(id);
-        return resourceLocator.FindChunk(rec);
-    };
-
-    if (!skipCamsAndFG1)
-    {
-        ImportCamerasAndFG1(fileDataBuffer, inputLvl, loadedJsonData.mPerCamData, allowFullFG1Blocks, findResourceForCam);
-    }
-
-    // Add any BAN/BNDs required for objects in this path that are missing
-    for (const AnimId& id : loadedJsonData.mResourcesRequiredInLvl)
-    {
-        const AnimRecord& rec = game == Game::AE ? AnimRec(id) : AO::AnimRec(id);
-        if (!inputLvl.FindFile(rec.mBanName))
-        {
-            auto banFile = resourceLocator.FindFile(rec);
-            if (banFile)
-            {
-                inputLvl.AddFile(rec.mBanName, banFile->Data());
-            }
-        }
-    }
-
-    // Write out the updated lvl to disk
-    if (!inputLvl.Save(fileIo, fileDataBuffer, outputLvlFile.c_str()))
-    {
-        throw ReliveAPI::IOWriteException(outputLvlFile);
-    }
-}
-
-void ImportPathJsonToBinary(IFileIO& fileIO, const std::string& jsonInputFile, const std::string& inputLvl, const std::string& outputLvlFile, const std::vector<std::string>& lvlResourceSources, Context& context)
-{
-    std::vector<u8> buffer;
-    Detail::ImportPathJsonToBinary(buffer, fileIO, jsonInputFile, inputLvl, outputLvlFile, lvlResourceSources, false, context);
-}
-
-
 [[nodiscard]] EnumeratePathsResult EnumeratePaths(IFileIO& fileIO, const std::string& inputLvlFile)
 {
     std::vector<u8> buffer;
@@ -853,26 +615,6 @@ void ImportPathJsonToBinary(IFileIO& fileIO, const std::string& jsonInputFile, c
 }
 
 namespace Detail {
-
-void DebugDumpTlvs(const std::string& prefix, IFileIO& fileIO, const std::string& lvlFile, s32 pathId)
-{
-    Game game = {};
-
-    LvlReader lvl(fileIO, lvlFile.c_str());
-    std::vector<u8> buffer;
-    ReliveAPI::PathBND pathBnd = ReliveAPI::OpenPathBnd(lvl, buffer, game, &pathId);
-
-    if (game == Game::AO)
-    {
-        JsonWriterAO doc(pathId, pathBnd.mPathBndName, pathBnd.mPathInfo);
-        doc.DebugDumpTlvs(fileIO, prefix, pathBnd.mPathInfo, pathBnd.mFileData);
-    }
-    else
-    {
-        JsonWriterAE doc(pathId, pathBnd.mPathBndName, pathBnd.mPathInfo);
-        doc.DebugDumpTlvs(fileIO, prefix, pathBnd.mPathInfo, pathBnd.mFileData);
-    }
-}
 
 
 [[nodiscard]] static OpenPathBndResult OpenPathBndGeneric(std::vector<u8>& fileDataBuffer, PathBND& ret, LvlReader& lvl, Game game, s32* pathId)
@@ -1002,25 +744,6 @@ void DebugDumpTlvs(const std::string& prefix, IFileIO& fileIO, const std::string
     return OpenPathBndResult::NoPaths;
 }
 
-void ImportPathJsonToBinary(std::vector<u8>& fileDataBuffer, IFileIO& fileIO, const std::string& jsonInputFile, const std::string& inputLvl, const std::string& outputLvlFile, const std::vector<std::string>& lvlResourceSources, bool skipCamerasAndFG1, Context& context)
-{
-    JsonMapRootInfoReader rootInfo;
-    rootInfo.Read(fileIO, jsonInputFile);
-
-    if (rootInfo.mMapRootInfo.mVersion != GetApiVersion())
-    {
-        context.JsonNeedsUpgrading(GetApiVersion(), rootInfo.mMapRootInfo.mVersion);
-    }
-
-    if (rootInfo.mMapRootInfo.mGame == "AO")
-    {
-        SaveBinaryPathToLvl<JsonReaderAO>(fileIO, Game::AO, fileDataBuffer, fileIO, jsonInputFile, inputLvl, outputLvlFile, skipCamerasAndFG1, false, context, lvlResourceSources);
-    }
-    else
-    {
-        SaveBinaryPathToLvl<JsonReaderAE>(fileIO, Game::AE, fileDataBuffer, fileIO, jsonInputFile, inputLvl, outputLvlFile, skipCamerasAndFG1, true, context, lvlResourceSources);
-    }
-}
 
 [[nodiscard]] EnumeratePathsResult EnumeratePaths(std::vector<u8>& fileDataBuffer, IFileIO& fileIO, const std::string& inputLvlFile)
 {
@@ -1041,16 +764,8 @@ void ExportPathBinaryToJson(std::vector<u8>& fileDataBuffer, IFileIO& fileIO, co
     LvlReader lvl(fileIO, inputLvlFile.c_str());
     ReliveAPI::PathBND pathBnd = ReliveAPI::OpenPathBnd(lvl, fileDataBuffer, game, &pathResourceId);
 
-    if (game == Game::AO)
-    {
-        JsonWriterAO doc(pathResourceId, pathBnd.mPathBndName, pathBnd.mPathInfo);
-        doc.Save(fileDataBuffer, lvl, pathBnd.mPathInfo, pathBnd.mFileData, fileIO, jsonOutputFile, context);
-    }
-    else
-    {
-        JsonWriterAE doc(pathResourceId, pathBnd.mPathBndName, pathBnd.mPathInfo);
-        doc.Save(fileDataBuffer, lvl, pathBnd.mPathInfo, pathBnd.mFileData, fileIO, jsonOutputFile, context);
-    }
+    JsonWriterRelive doc(game, pathResourceId, pathBnd.mPathBndName, pathBnd.mPathInfo);
+    doc.Save(fileDataBuffer, lvl, pathBnd.mPathInfo, pathBnd.mFileData, fileIO, jsonOutputFile, context);
 }
 
 void ImportCameraAndFG1(std::vector<u8>& fileDataBuffer, LvlWriter& inputLvl, const std::string& camName, const CameraImageAndLayers& imageAndLayers, bool allowFullFG1Blocks, const std::vector<LvlFileChunk>& additionalResourceBlocks)
