@@ -190,7 +190,6 @@ inline void to_json(nlohmann::json& j, const Path_SecurityOrb& p)
         {"tlv_type", "security_orb"},
         {"base", ToBase(p)},
         {"scale", p.mScale},
-        {"disabled_resources", p.mDisabledResources},
     };
 }
 
@@ -198,7 +197,6 @@ inline void from_json(const nlohmann::json& j, Path_SecurityOrb& p)
 {
     j.at("base").get_to(ToBase(p));
     j.at("scale").get_to(p.mScale);
-    j.at("disabled_resources").get_to(p.mDisabledResources);
 }
 
 // Path_ContinuePoint
@@ -1947,7 +1945,6 @@ inline void to_json(nlohmann::json& j, const Path_MovingBomb& p)
         {"start_moving_switch_id", p.mStartMovingSwitchId},
         {"triggered_by_alarm", p.mTriggeredByAlarm},
         {"scale", p.mScale},
-        {"disabled_resources", p.mDisabledResources},
         {"start_speed", p.mStartSpeed},
         {"persist_offscreen", p.mPersistOffscreen},
     };
@@ -1960,7 +1957,6 @@ inline void from_json(const nlohmann::json& j, Path_MovingBomb& p)
     j.at("start_moving_switch_id").get_to(p.mStartMovingSwitchId);
     j.at("triggered_by_alarm").get_to(p.mTriggeredByAlarm);
     j.at("scale").get_to(p.mScale);
-    j.at("disabled_resources").get_to(p.mDisabledResources);
     j.at("start_speed").get_to(p.mStartSpeed);
     j.at("persist_offscreen").get_to(p.mPersistOffscreen);
 }
@@ -2014,7 +2010,6 @@ inline void to_json(nlohmann::json& j, const Path_SecurityClaw& p)
         {"scale", p.mScale},
         {"alarm_switch_id", p.mAlarmSwitchId},
         {"alarm_duration", p.mAlarmDuration},
-        {"disabled_resources", p.mDisabledResources},
     };
 }
 
@@ -2024,7 +2019,6 @@ inline void from_json(const nlohmann::json& j, Path_SecurityClaw& p)
     j.at("scale").get_to(p.mScale);
     j.at("alarm_switch_id").get_to(p.mAlarmSwitchId);
     j.at("alarm_duration").get_to(p.mAlarmDuration);
-    j.at("disabled_resources").get_to(p.mDisabledResources);
 }
 
 // Path_SlingMudokon
@@ -2433,7 +2427,6 @@ inline void to_json(nlohmann::json& j, const Path_Slog& p)
         {"bark_anger", p.mBarkAnger},
         {"chase_anger", p.mChaseAnger},
         {"chase_delay", p.mChaseDelay},
-        {"disabled_resources", p.mDisabledResources},
         {"anger_switch_id", p.mAngerSwitchId},
         {"bone_eating_time", p.mBoneEatingTime},
     };
@@ -2449,7 +2442,6 @@ inline void from_json(const nlohmann::json& j, Path_Slog& p)
     j.at("bark_anger").get_to(p.mBarkAnger);
     j.at("chase_anger").get_to(p.mChaseAnger);
     j.at("chase_delay").get_to(p.mChaseDelay);
-    j.at("disabled_resources").get_to(p.mDisabledResources);
     j.at("anger_switch_id").get_to(p.mAngerSwitchId);
     j.at("bone_eating_time").get_to(p.mBoneEatingTime);
 }
@@ -2513,7 +2505,6 @@ inline void to_json(nlohmann::json& j, const Path_Scrab& p)
         {"right_max_delay", p.mPauseRightMax},
         {"pause_after_chase_delay", p.mPauseAfterChaseTime},
         {"spotting_abe_delay", p.mSpottingAbeDelay},
-        {"disabled_resources", p.mDisabledResources},
         {"roar_randomly", p.mRoarRandomly},
         {"persistant", p.mPersistant},
         {"possessed_max_whirl_attack_duration", p.mPossessedMaxWhirlAttackDuration},
@@ -2534,7 +2525,6 @@ inline void from_json(const nlohmann::json& j, Path_Scrab& p)
     j.at("right_max_delay").get_to(p.mPauseRightMax);
     j.at("pause_after_chase_delay").get_to(p.mPauseAfterChaseTime);
     j.at("spotting_abe_delay").get_to(p.mSpottingAbeDelay);
-    j.at("disabled_resources").get_to(p.mDisabledResources);
     j.at("roar_randomly").get_to(p.mRoarRandomly);
     j.at("persistant").get_to(p.mPersistant);
     j.at("possessed_max_whirl_attack_duration").get_to(p.mPossessedMaxWhirlAttackDuration);
@@ -3552,7 +3542,6 @@ inline void to_json(nlohmann::json& j, const Path_ScrabSpawner& p)
         {"right_min_delay", p.mPauseRightMin},
         {"right_max_delay", p.mPauseRightMax},
         {"pause_after_chase_delay", p.mPauseAfterChaseTime},
-        {"disabled_resources", p.mDisabledResources},
         {"roar_randomly", p.mRoarRandomly},
         {"persistant", p.mPersistant},
         {"possessed_max_whirl_attack_duration", p.mPossessedMaxWhirlAttackDuration},
@@ -3573,7 +3562,6 @@ inline void from_json(const nlohmann::json& j, Path_ScrabSpawner& p)
     j.at("right_min_delay").get_to(p.mPauseRightMin);
     j.at("right_max_delay").get_to(p.mPauseRightMax);
     j.at("pause_after_chase_delay").get_to(p.mPauseAfterChaseTime);
-    j.at("disabled_resources").get_to(p.mDisabledResources);
     j.at("roar_randomly").get_to(p.mRoarRandomly);
     j.at("persistant").get_to(p.mPersistant);
     j.at("possessed_max_whirl_attack_duration").get_to(p.mPossessedMaxWhirlAttackDuration);

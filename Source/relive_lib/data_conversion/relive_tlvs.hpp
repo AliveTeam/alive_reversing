@@ -126,7 +126,6 @@ public:
         mAttribute = QuiksaveAttribute::eClearTlvFlags_1;
     }
     reliveScale mScale = reliveScale::eFull;
-    s16 mDisabledResources = 0;
     static constexpr char kClassName[] = "security_orb";
 };
 
@@ -1163,7 +1162,7 @@ struct Path_PathTransition final : public Path_TLV
     s16 mNextPath = 0;
     s16 mNextCamera = 0;
     s16 mMovieId = 0;
-    s16 mWipeEffect = 0;
+    s16 mWipeEffect = 0; // TODO: enum
     reliveScale mNextPathScale = reliveScale::eFull;
     static constexpr char kClassName[] = "path_transition";
 };
@@ -1384,7 +1383,6 @@ struct Path_MovingBomb final : public Path_TLV
     s16 mStartMovingSwitchId = 0;
     reliveChoice mTriggeredByAlarm = reliveChoice::eNo;
     reliveScale mScale = reliveScale::eFull;
-    s16 mDisabledResources = 0;
     u16 mStartSpeed = 0;
     reliveChoice mPersistOffscreen = reliveChoice::eYes;
     static constexpr char kClassName[] = "moving_bomb";
@@ -1424,7 +1422,6 @@ struct Path_SecurityClaw final : public Path_TLV
     reliveScale mScale = reliveScale::eFull;
     s16 mAlarmSwitchId = 0;
     s16 mAlarmDuration = 0;
-    s16 mDisabledResources = 0;
     static constexpr char kClassName[] = "security_claw";
 };
 
@@ -1687,7 +1684,6 @@ struct Path_Slog final : public Path_TLV
     s16 mBarkAnger = 0;
     s16 mChaseAnger = 0;
     s16 mChaseDelay = 0;
-    s16 mDisabledResources = 0;
     s16 mAngerSwitchId = 0;
 
     // AE only
@@ -1729,7 +1725,7 @@ struct Path_Scrab : public Path_TLV
         mAttribute = QuiksaveAttribute::eKeepTlvFlags_2;
     }
 
-        enum class ScrabPatrolType : s16
+    enum class ScrabPatrolType : s16
     {
         eWalk,
         eRunOrWalk192,
@@ -1747,7 +1743,6 @@ struct Path_Scrab : public Path_TLV
     s16 mPauseRightMax = 0;
     u16 mPauseAfterChaseTime = 0;
     s16 mSpottingAbeDelay = 0; // TODO: check if the same field as below?
-    s16 mDisabledResources = 0;
     reliveChoice mRoarRandomly = reliveChoice::eNo;
 
     // AE only
@@ -1765,7 +1760,6 @@ struct Path_ScrabSpawner : public Path_Scrab
         mTlvType = ReliveTypes::eScrabSpawner;
         mAttribute = QuiksaveAttribute::eKeepTlvFlags_2;
     }
-
 
     enum class SpawnDirection : s16
     {

@@ -237,7 +237,6 @@ public:
         Path_SecurityOrb r;
         BaseConvert(r, tlv, tlvId);
         r.mScale = relive::From(tlv.mScale);
-        r.mDisabledResources = tlv.mDisabledResources;
         return r;
     }
 
@@ -246,7 +245,6 @@ public:
         Path_SecurityOrb r;
         BaseConvert(r, tlv, tlvId);
         r.mScale = relive::From(tlv.mScale);
-        r.mDisabledResources = tlv.mDisabledResources;
         return r;
     }
 };
@@ -2669,7 +2667,6 @@ public:
         r.mStartMovingSwitchId = tlv.mStartMovingSwitchId;
         r.mTriggeredByAlarm = relive::From(tlv.mTriggeredByAlarm);
         r.mScale = relive::From(tlv.mScale);
-        r.mDisabledResources = tlv.mDisabledResources;
         r.mStartSpeed = tlv.mStartSpeed;
         r.mPersistOffscreen = relive::From(tlv.mPersistOffscreen);
         return r;
@@ -2683,7 +2680,6 @@ public:
         r.mStartMovingSwitchId = tlv.mStartMovingSwitchId;
         r.mTriggeredByAlarm = relive::From(tlv.mTriggeredByAlarm);
         r.mScale = relive::From(tlv.mScale);
-        r.mDisabledResources = tlv.mDisabledResources;
         r.mStartSpeed = tlv.mStartSpeed;
         r.mPersistOffscreen = relive::From(tlv.mPersistOffscreen);
         return r;
@@ -2728,7 +2724,6 @@ public:
         r.mScale = relive::From(tlv.mScale);
         r.mAlarmSwitchId = tlv.mAlarmSwitchId;
         r.mAlarmDuration = tlv.mAlarmDuration;
-        r.mDisabledResources = tlv.mDisabledResources;
         return r;
     }
 
@@ -2738,7 +2733,6 @@ public:
         Path_SecurityClaw r;
         BaseConvert(r, tlv, tlvId);
         r.mScale = relive::From(tlv.mScale);
-        r.mDisabledResources = tlv.mDisabledResources;
         return r;
     }
 };
@@ -3226,7 +3220,6 @@ public:
         r.mBarkAnger = tlv.mBarkAnger;
         r.mChaseAnger = tlv.mChaseAnger;
         r.mChaseDelay = tlv.mChaseDelay;
-        r.mDisabledResources = tlv.mDisabledResources;
         r.mAngerSwitchId = tlv.mAngerSwitchId;
         return r;
     }
@@ -3242,7 +3235,6 @@ public:
         r.mBarkAnger = tlv.mBarkAnger;
         r.mChaseAnger = tlv.mChaseAnger;
         r.mChaseDelay = tlv.mChaseDelay;
-        r.mDisabledResources = tlv.mDisabledResources;
         r.mAngerSwitchId = tlv.mAngerSwitchId;
         r.mBoneEatingTime = tlv.mBoneEatingTime;
         return r;
@@ -3320,7 +3312,6 @@ public:
         r.mPauseRightMin = tlv.mPauseRightMin;
         r.mPauseRightMax = tlv.mPauseRightMax;
         r.mSpottingAbeDelay = tlv.mSpottingAbeDelay;
-        r.mDisabledResources = tlv.mDisabledResources;
         r.mRoarRandomly = relive::From(tlv.mRoarRandomly);
         return r;
     }
@@ -3337,7 +3328,6 @@ public:
         r.mPauseRightMin = tlv.mPauseRightMin;
         r.mPauseRightMax = tlv.mPauseRightMax;
         r.mPauseAfterChaseTime = tlv.mPauseAfterChaseTime;
-        r.mDisabledResources = tlv.mDisabledResources;
         r.mRoarRandomly = relive::From(tlv.mRoarRandomly);
         r.mPersistant = relive::From(tlv.mPersistant);
         r.mPossessedMaxWhirlAttackDuration = tlv.mPossessedMaxWhirlAttackDuration;
@@ -4400,7 +4390,6 @@ public:
         r.mPauseRightMin = tlv.mPauseRightMin;
         r.mPauseRightMax = tlv.mPauseRightMax;
         r.mPauseAfterChaseTime = tlv.mPauseAfterChaseTime;
-        r.mDisabledResources = tlv.mDisabledResources;
         r.mRoarRandomly = relive::From(tlv.mRoarRandomly);
         r.mPersistant = relive::From(tlv.mPersistant);
         r.mPossessedMaxWhirlAttackDuration = tlv.mPossessedMaxWhirlAttackDuration;

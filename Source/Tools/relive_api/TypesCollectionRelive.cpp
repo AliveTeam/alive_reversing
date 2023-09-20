@@ -41,17 +41,124 @@ void TypesCollectionRelive::AddReliveTypes()
 #define REGISTER_TYPE_RELIVE(TlvWrapperType) mTlvFactoryRelive.DoRegisterType<TlvWrapperType>(*this)
 
     REGISTER_TYPE_RELIVE(ReliveTlvs::Path_TimedMine);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_ElectricWall);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_Mudokon);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_BirdPortal);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_LCDStatusBoard);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_Door);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_Lever);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_Hoist);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_BoomMachine);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_Slig);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_Fleech);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_EnemyStopper);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_Teleporter);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_UXB);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_LCDScreen);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_Edge);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_StatusLight);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_ShadowZone);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_WorkWheel);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_MusicTrigger);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_AbeStart);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_SoftLanding);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_WellExpress);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_SlamDoor);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_HandStone);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_LaughingGas);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_InvisibleSwitch);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_Water);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_GasEmitter);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_BackgroundAnimation);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_LiftPoint);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_PullRingRope);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_MultiSwitchController);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_SecurityOrb);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_InvisibleZone);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_ContinuePoint);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_WheelSyncer);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_LevelLoader);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_Pulley);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_FlyingSlig);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_FlyingSligSpawner);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_DeathDrop);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_SligSpawner);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_SligBoundLeft);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_SligBoundRight);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_SligPersist);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_ZSligCover);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_WellLocal);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_BrewMachine);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_Drill);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_Mine);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_Slog);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_ResetPath);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_TrapDoor);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_PathTransition);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_LiftMover);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_RockSack);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_TimerTrigger);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_MotionDetector);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_MineCar);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_ExplosionSet);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_ColourfulMeter);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_Alarm);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_DemoSpawnPoint);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_SlapLock);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_Slurg);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_DoorBlocker);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_Dove);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_BirdPortalExit);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_DoorFlame);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_TrainDoor);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_Greeter);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_ScrabBoundLeft);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_ScrabBoundRight);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_CreditsController);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_MovieStone);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_MovingBomb);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_MovingBombStopper);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_SecurityDoor);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_CrawlingSlig);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_SligGetPants);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_SligGetWings);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_CrawlingSligButton);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_Glukkon);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_GlukkonSwitch);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_GasCountDown);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_FallingItem);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_BoneBag);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_SecurityClaw);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_FootSwitch);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_ZzzSpawner);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_SlogSpawner);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_MainMenuController);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_Scrab);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_ScrabSpawner);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_SlurgSpawner);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_Paramite);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_ParamiteWebLine);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_MeatSack);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_TorturedMudokon);
+
+
     // TODO: Others
 
 #undef REGISTER_TYPE_RELIVE
 
     // TODO: relive type global enums
-    /*
-    AddEnum<::Path_FlyingSlig_Data::SpawnDelayStates>("Enum_FlyingSligSpawnDelayStates",
+    
+    AddEnum<relive::Path_BirdPortal::PortalSide>("Enum_PortalSide",
     {
-        {::Path_FlyingSlig_Data::SpawnDelayStates::eMoveImmediately_0, "Move Immediately"},
-        {::Path_FlyingSlig_Data::SpawnDelayStates::eUseCustomSpawnMoveDelay_1, "Use Custom Spawn Move Delay"},
-    });*/
+        {relive::Path_BirdPortal::PortalSide::eRight, "Right"},
+        {relive::Path_BirdPortal::PortalSide::eLeft, "Left"},
+    });
+
+    AddEnum<relive::Path_FlyingSlig::SpawnDelayStates>("Enum_FlyingSligSpawnDelayStates",
+    {
+        {relive::Path_FlyingSlig::SpawnDelayStates::eMoveImmediately, "Move Immediately"},
+        {relive::Path_FlyingSlig::SpawnDelayStates::eUseCustomSpawnMoveDelay, "Use Custom Spawn Move Delay"},
+    });
 
     AddEnum<relive::Path_Slig_Data::DeathMode>("Enum_SligDeathMode",
     {
