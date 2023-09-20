@@ -2130,7 +2130,6 @@ public:
         r.mSwarmSize = tlv.mSwarmSize;
         r.mChaseTime = tlv.mChaseTime;
         r.mSpeed = tlv.mSpeed;
-        r.mDisabledResources = tlv.mDisabledResources;
         r.mBeesAmount = tlv.mBeesAmount;
         return r;
     }

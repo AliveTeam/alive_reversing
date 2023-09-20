@@ -140,14 +140,38 @@ void TypesCollectionRelive::AddReliveTypes()
     REGISTER_TYPE_RELIVE(ReliveTlvs::Path_ParamiteWebLine);
     REGISTER_TYPE_RELIVE(ReliveTlvs::Path_MeatSack);
     REGISTER_TYPE_RELIVE(ReliveTlvs::Path_TorturedMudokon);
-
-
-    // TODO: Others
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_KillUnsavedMuds);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_BackgroundGlukkon);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_BellsongStone);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_LightEffect);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_StartController);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_HintFly);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_Bat);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_BellHammer);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_ElumPathTrans);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_ElumStart);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_ElumWall);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_RingMudokon);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_RingCancel);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_MeatSaw);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_ChimeLock);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_FlintLockFire);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_MudokonPathTrans);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_ScrabNoFall);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_LiftMudokon);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_HoneySack);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_SlingMudokon);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_BeeSwarmHole);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_RollingBall);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_RollingBallStopper);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_BeeNest);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_ZBall);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_Honey);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_HoneyDripTarget);
+    REGISTER_TYPE_RELIVE(ReliveTlvs::Path_Elum);
 
 #undef REGISTER_TYPE_RELIVE
 
-    // TODO: relive type global enums
-    
     AddEnum<relive::Path_BirdPortal::PortalSide>("Enum_PortalSide",
     {
         {relive::Path_BirdPortal::PortalSide::eRight, "Right"},

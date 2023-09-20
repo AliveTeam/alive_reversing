@@ -1795,6 +1795,390 @@ struct Path_TorturedMudokon final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
+struct Path_KillUnsavedMuds final : public ReliveAPI::TlvObjectBaseRelive
+{
+    CTOR_RELIVE(relive::Path_KillUnsavedMuds, ReliveTypes::eKillUnsavedMuds)
+    {
+        EMPTY_CTOR_RELIVE();
+    }
+};
+
+struct Path_BackgroundGlukkon final : public ReliveAPI::TlvObjectBaseRelive
+{
+    CTOR_RELIVE(relive::Path_BackgroundGlukkon, ReliveTypes::eBackgroundGlukkon)
+    {
+        ADD("Scale Percent", mTlv.mScalePercent);
+        ADD("Pal ID", mTlv.mPalId);
+    }
+};
+
+struct Path_BellsongStone final : public ReliveAPI::TlvObjectBaseRelive
+{
+    void AddTypes(ReliveAPI::TypesCollectionBase& types) override
+    {
+        types.AddEnum<relive::Path_BellsongStone::BellsongTypes>("Enum_BellsongTypes",
+        {
+            {relive::Path_BellsongStone::BellsongTypes::eWhistle, "Whistle"},
+            {relive::Path_BellsongStone::BellsongTypes::eChimes, "Chimes"},
+        });
+    }
+
+    CTOR_RELIVE(relive::Path_BellsongStone, ReliveTypes::eBellSongStone)
+    {
+        ADD("Scale", mTlv.mScale);
+        ADD("Type", mTlv.mType);
+        ADD("Code 1", mTlv.mCode1);
+        ADD("Code 2", mTlv.mCode2);
+        ADD("Switch ID", mTlv.mSwitchId);
+    }
+};
+
+struct Path_LightEffect final : public ReliveAPI::TlvObjectBaseRelive
+{
+    void AddTypes(ReliveAPI::TypesCollectionBase& types) override
+    {
+        types.AddEnum<relive::Path_LightEffect::Type>("Enum_LightType",
+        {
+            {relive::Path_LightEffect::Type::Star, "Star"},
+            {relive::Path_LightEffect::Type::GoldGlow, "Gold Glow"},
+            {relive::Path_LightEffect::Type::GreenGlow, "Green Glow"},
+            {relive::Path_LightEffect::Type::FlintGlow, "Flint Glow"},
+            {relive::Path_LightEffect::Type::Switchable_RedGreenDoorLights, "RedGreen Door Light"},
+            {relive::Path_LightEffect::Type::Switchable_RedGreenHubLight, "RedGreen Hub Light"},
+        });
+    }
+
+    CTOR_RELIVE(relive::Path_LightEffect, ReliveTypes::eLightEffect)
+    {
+        ADD("Type", mTlv.mType);
+        ADD("Size", mTlv.mSize);
+        ADD("Switch ID", mTlv.mSwitchId);
+        ADD("Direction", mTlv.mDirection);
+    }
+};
+
+struct Path_StartController final : public ReliveAPI::TlvObjectBaseRelive
+{
+    CTOR_RELIVE(relive::Path_StartController, ReliveTypes::eStartController)
+    {
+        EMPTY_CTOR_RELIVE();
+    }
+};
+
+struct Path_HintFly final : public ReliveAPI::TlvObjectBaseRelive
+{
+    CTOR_RELIVE(relive::Path_HintFly, ReliveTypes::eHintFly)
+    {
+        ADD("Message ID", mTlv.mMessageId);
+    }
+};
+
+struct Path_Bat final : public ReliveAPI::TlvObjectBaseRelive
+{
+    CTOR_RELIVE(relive::Path_Bat, ReliveTypes::eBat)
+    {
+        ADD("Time Before Moving", mTlv.mTimeBeforeMoving);
+        ADD("Speed", mTlv.mSpeed);
+        ADD("Scale", mTlv.mScale);
+        ADD("Attack Duration", mTlv.mAttackDuration);
+    }
+};
+
+struct Path_BellHammer final : public ReliveAPI::TlvObjectBaseRelive
+{
+    CTOR_RELIVE(relive::Path_BellHammer, ReliveTypes::eBellHammer)
+    {
+        ADD("Switch ID", mTlv.mSwitchId);
+        ADD("Action", mTlv.mAction);
+        ADD("Scale", mTlv.mScale);
+        ADD("Direction", mTlv.mDirection);
+    }
+};
+
+struct Path_ElumPathTrans final : public ReliveAPI::TlvObjectBaseRelive
+{
+    CTOR_RELIVE(relive::Path_ElumPathTrans, ReliveTypes::eElumPathTrans)
+    {
+        ADD("Level", mTlv.mNextLevel);
+        ADD("Path", mTlv.mNextPath);
+        ADD("Camera", mTlv.mNextCamera);
+    }
+};
+
+struct Path_ElumStart final : public ReliveAPI::TlvObjectBaseRelive
+{
+    CTOR_RELIVE(relive::Path_ElumStart, ReliveTypes::eElumStart)
+    {
+        EMPTY_CTOR_RELIVE();
+    }
+};
+
+struct Path_ElumWall final : public ReliveAPI::TlvObjectBaseRelive
+{
+    CTOR_RELIVE(relive::Path_ElumWall, ReliveTypes::eElumWall)
+    {
+        EMPTY_CTOR_RELIVE();
+    }
+};
+
+struct Path_RingMudokon final : public ReliveAPI::TlvObjectBaseRelive
+{
+    void AddTypes(ReliveAPI::TypesCollectionBase& types) override
+    {
+        types.AddEnum<relive::Path_RingMudokon::MustFaceMud>("Enum_RingMudokon_MustFaceMud",
+        {
+            {relive::Path_RingMudokon::MustFaceMud::eYes, "Yes"},
+            {relive::Path_RingMudokon::MustFaceMud::eNo, "No"},
+        });
+    }
+
+    CTOR_RELIVE(relive::Path_RingMudokon, ReliveTypes::eRingMudokon)
+    {
+        ADD("Start Direction", mTlv.mFacing);
+        ADD("Abe Must Face Mudokon", mTlv.mAbeMustFaceMud);
+        ADD("Scale", mTlv.mScale);
+        ADD("Give Password", mTlv.mGivePassword);
+        ADD("Code 1", mTlv.mCode1);
+        ADD("Code 2", mTlv.mCode2);
+        ADD("Action", mTlv.mAction);
+        ADD("Ring And Angry Mudokon Timeout", mTlv.mRingTimeout);
+        ADD("Give Ring Without Password", mTlv.mGiveRingWithoutPassword);
+    }
+};
+
+struct Path_RingCancel final : public ReliveAPI::TlvObjectBaseRelive
+{
+    CTOR_RELIVE(relive::Path_RingCancel, ReliveTypes::eRingCancel)
+    {
+        EMPTY_CTOR_RELIVE();
+    }
+};
+
+struct Path_MeatSaw final : public ReliveAPI::TlvObjectBaseRelive
+{
+    void AddTypes(ReliveAPI::TypesCollectionBase& types) override
+    {
+        types.AddEnum<relive::Path_MeatSaw::Type>("Enum_MeatSawType",
+        {
+            {relive::Path_MeatSaw::Type::eAutomaticPersistOffscreen, "Automatic Persist Offscreen"},
+            {relive::Path_MeatSaw::Type::eAutomatic, "Automatic"},
+            {relive::Path_MeatSaw::Type::eSwitchId, "Switch ID"},
+        });
+
+        types.AddEnum<relive::Path_MeatSaw::StartState>("Enum_MeatSawStartState",
+        {
+            {relive::Path_MeatSaw::StartState::eOff, "Off"},
+            {relive::Path_MeatSaw::StartState::eOn, "On"},
+        });
+    }
+
+    CTOR_RELIVE(relive::Path_MeatSaw, ReliveTypes::eMeatSaw)
+    {
+        ADD("Scale", mTlv.mScale);
+        ADD("Switch Min Time Off", mTlv.mSwitchMinTimeOff);
+        ADD("Switch Max Time Off", mTlv.mSwitchMaxTimeOff);
+        ADD("Max Rise Time", mTlv.mMaxRiseTime);
+        ADD("Switch ID", mTlv.mSwitchId);
+        ADD("Type", mTlv.mType);
+        ADD("Speed", mTlv.mSpeed);
+        ADD("Start State", mTlv.mStartState);
+        ADD("Off Speed", mTlv.mOffSpeed);
+        ADD("Automatic Min Time Off", mTlv.mAutomaticMinTimeOff);
+        ADD("Automatic Max Time Off", mTlv.mAutomaticMaxTimeOff);
+        ADD("Initial Position", mTlv.mInitialPosition);
+    }
+};
+
+struct Path_ChimeLock final : public ReliveAPI::TlvObjectBaseRelive
+{
+    CTOR_RELIVE(relive::Path_ChimeLock, ReliveTypes::eChimeLock)
+    {
+        ADD("Scale", mTlv.mScale);
+        ADD("Solve Switch ID", mTlv.mSolveSwitchId);
+        ADD("Code 1", mTlv.mCode1);
+        ADD("Code 2", mTlv.mCode2);
+        ADD("Password Switch ID", mTlv.mPasswordSwitchId);
+    }
+};
+
+struct Path_FlintLockFire final : public ReliveAPI::TlvObjectBaseRelive
+{
+    CTOR_RELIVE(relive::Path_FlintLockFire, ReliveTypes::eFlintLockFire)
+    {
+        ADD("Scale", mTlv.mScale);
+        ADD("Switch ID", mTlv.mSwitchId);
+    }
+};
+
+struct Path_MudokonPathTrans final : public ReliveAPI::TlvObjectBaseRelive
+{
+    CTOR_RELIVE(relive::Path_MudokonPathTrans, ReliveTypes::eMudokonPathTrans)
+    {
+        ADD("Next Level", mTlv.mNextLevel);
+        ADD("Next Path", mTlv.mNextPath);
+        ADD("Next Camera", mTlv.mNextCamera);
+    }
+};
+
+struct Path_ScrabNoFall final : public ReliveAPI::TlvObjectBaseRelive
+{
+    CTOR_RELIVE(relive::Path_ScrabNoFall, ReliveTypes::eScrabNoFall)
+    {
+        EMPTY_CTOR_RELIVE();
+    }
+};
+
+struct Path_LiftMudokon final : public ReliveAPI::TlvObjectBaseRelive
+{
+    void AddTypes(ReliveAPI::TypesCollectionBase& types) override
+    {
+        types.AddEnum<relive::Path_LiftMudokon::Direction>("Enum_LiftMudokonDirection",
+        {
+            {relive::Path_LiftMudokon::Direction::eRight, "Right"},
+            {relive::Path_LiftMudokon::Direction::eLeft, "Left"},
+        });
+    }
+
+    CTOR_RELIVE(relive::Path_LiftMudokon, ReliveTypes::eLiftMudokon)
+    {
+        ADD("How Far To Walk", mTlv.mHowFarToWalk);
+        ADD("Lift Switch ID", mTlv.mLiftSwitchId);
+        ADD("Facing", mTlv.mFacing);
+        ADD("Give Password", mTlv.mGivePassword);
+        ADD("Scale", mTlv.mScale);
+        ADD("Code 1", mTlv.mCode1);
+        ADD("Code 2", mTlv.mCode2);
+    }
+};
+
+struct Path_HoneySack final : public ReliveAPI::TlvObjectBaseRelive
+{
+    CTOR_RELIVE(relive::Path_HoneySack, ReliveTypes::eHoneySack)
+    {
+        ADD("Chase Time", mTlv.mChaseTime);
+        ADD("Scale", mTlv.mScale);
+    }
+};
+
+struct Path_SlingMudokon final : public ReliveAPI::TlvObjectBaseRelive
+{
+    CTOR_RELIVE(relive::Path_SlingMudokon, ReliveTypes::SlingMud)
+    {
+        ADD("Scale", mTlv.mScale);
+        ADD("Don't Whistle Password", mTlv.mDontWhistlePassword);
+        ADD("Code 1", mTlv.mCode1);
+        ADD("Code 2", mTlv.mCode2);
+    }
+};
+
+struct Path_BeeSwarmHole final : public ReliveAPI::TlvObjectBaseRelive
+{
+    void AddTypes(ReliveAPI::TypesCollectionBase& types) override
+    {
+        types.AddEnum<relive::Path_BeeSwarmHole::MovementType>("Enum_BeeSwarmHoleMovementType",
+        {
+            {relive::Path_BeeSwarmHole::MovementType::eHover, "Hover"},
+            {relive::Path_BeeSwarmHole::MovementType::eAttack, "Attack"},
+            {relive::Path_BeeSwarmHole::MovementType::eFollowPath, "Follow Path"},
+        });
+    }
+
+    CTOR_RELIVE(relive::Path_BeeSwarmHole, ReliveTypes::eBeeSwarmHole)
+    {
+        ADD("Start Interval", mTlv.mStartInterval);
+        ADD("Movement Type", mTlv.mMovementType);
+        ADD("Bees Amount", mTlv.mBeesAmount);
+        ADD("Chase Time", mTlv.mChaseTime);
+        ADD("Speed", mTlv.mSpeed);
+    }
+};
+
+struct Path_RollingBall final : public ReliveAPI::TlvObjectBaseRelive
+{
+    CTOR_RELIVE(relive::Path_RollingBall, ReliveTypes::eRollingBall)
+    {
+        ADD("Scale", mTlv.mScale);
+        ADD("Roll Direction", mTlv.mRollDirection);
+        ADD("Release Switch ID", mTlv.mReleaseSwitchId);
+        ADD("Max Speed", mTlv.mMaxSpeed);
+        ADD("Acceleration", mTlv.mAcceleration);
+    }
+};
+
+struct Path_RollingBallStopper final : public ReliveAPI::TlvObjectBaseRelive
+{
+    CTOR_RELIVE(relive::Path_RollingBallStopper, ReliveTypes::eRollingBallStopper)
+    {
+        ADD("Stopper Switch ID", mTlv.mStopperSwitchId);
+        ADD("Scale", mTlv.mScale);
+        ADD("Ball Switch ID", mTlv.mBallSwitchId);
+        ADD("Stop Direction", mTlv.mStopDirection);
+    }
+};
+
+struct Path_BeeNest final : public ReliveAPI::TlvObjectBaseRelive
+{
+    CTOR_RELIVE(relive::Path_BeeNest, ReliveTypes::eBeeNest)
+    {
+        ADD("Switch ID", mTlv.mSwitchId);
+        ADD("Swarm Size", mTlv.mSwarmSize);
+        ADD("Chase Time", mTlv.mChaseTime);
+        ADD("Speed", mTlv.mSpeed);
+        ADD("Amount Of Bees", mTlv.mBeesAmount);
+    }
+};
+
+struct Path_ZBall final : public ReliveAPI::TlvObjectBaseRelive
+{
+    void AddTypes(ReliveAPI::TypesCollectionBase& types) override
+    {
+        types.AddEnum<relive::Path_ZBall::StartPos>("Enum_ZBallStartPos",
+        {
+            {relive::Path_ZBall::StartPos::eCenter, "Center"},
+            {relive::Path_ZBall::StartPos::eOut, "Out"},
+            {relive::Path_ZBall::StartPos::eIn, "In"},
+        });
+
+        types.AddEnum<relive::Path_ZBall::Speed>("Enum_ZBallSpeed",
+        {
+            {relive::Path_ZBall::Speed::eNormal, "Normal"},
+            {relive::Path_ZBall::Speed::eFast, "Fast"},
+            {relive::Path_ZBall::Speed::eSlow, "Slow"},
+        });
+    }
+
+    CTOR_RELIVE(relive::Path_ZBall, ReliveTypes::eZBall)
+    {
+        ADD("Start Position", mTlv.mStartPos);
+        ADD("Scale", mTlv.mScale);
+        ADD("Speed", mTlv.mSpeed);
+    }
+};
+
+struct Path_Honey final : public ReliveAPI::TlvObjectBaseRelive
+{
+    CTOR_RELIVE(relive::Path_Honey, ReliveTypes::eHoney)
+    {
+        EMPTY_CTOR_RELIVE();
+    }
+};
+
+struct Path_HoneyDripTarget final : public ReliveAPI::TlvObjectBaseRelive
+{
+    CTOR_RELIVE(relive::Path_HoneyDripTarget, ReliveTypes::eHoneyDripTarget)
+    {
+        EMPTY_CTOR_RELIVE();
+    }
+};
+
+struct Path_Elum final : public ReliveAPI::TlvObjectBaseRelive
+{
+    CTOR_RELIVE(relive::Path_Elum, ReliveTypes::eElum)
+    {
+        EMPTY_CTOR_RELIVE();
+    }
+};
+
 } // namespace ReliveTlvs
 
 #undef EMPTY_CTOR_RELIVE

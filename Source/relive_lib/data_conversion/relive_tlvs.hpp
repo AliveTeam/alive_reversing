@@ -908,6 +908,16 @@ struct Path_ElumStart final : public Path_TLV
     static constexpr char kClassName[] = "elum_start";
 };
 
+struct Path_Elum final : public Path_TLV
+{
+    // No fields
+    Path_Elum()
+    {
+        mTlvType = ReliveTypes::eElum;
+    }
+    static constexpr char kClassName[] = "elum";
+};
+
 struct Path_KillUnsavedMuds final : public Path_TLV
 {
     // No fields
@@ -1087,7 +1097,6 @@ struct Path_BeeNest final : public Path_TLV
     s16 mSwarmSize = 0;
     s16 mChaseTime = 0;
     s16 mSpeed = 0;
-    s16 mDisabledResources = 0;
     s16 mBeesAmount = 0;
     static constexpr char kClassName[] = "bee_nest";
 };
