@@ -269,10 +269,13 @@ static void ConvertPath(FileSystem& fs, const FileSystem::Path& path, const Reli
 
     nlohmann::json j = {
         {"path_version", DataConversion::DataVersions::LatestVersion().mPathVersion},
-        {"path_id", pathBndChunk.Id()}, // TODO: Try to remove this in the future, ids make adding new paths a bit more tricky
-        {"cameras", camerasArray},
-        {"collisions", collisionsArray},
-        {"sound_info", soundInfo},
+        {"game", isAo ? "AO" : "AE"},
+        {"map", {
+            {"path_id", pathBndChunk.Id()}, // TODO: Try to remove this in the future, ids make adding new paths a bit more tricky
+            {"cameras", camerasArray},
+            {"collisions", collisionsArray},
+            {"sound_info", soundInfo},
+        }}
     };
 
     FileSystem::Path pathJsonFile = path;

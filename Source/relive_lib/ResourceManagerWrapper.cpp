@@ -381,9 +381,9 @@ std::vector<std::unique_ptr<BinaryPath>> ResourceManagerWrapper::LoadPaths(EReli
 
         // TODO: set the res ptrs to the parsed json data
         nlohmann::json pathJson = nlohmann::json::parse(pathJsonStr);
-        LOG_INFO("Cam count %d", pathJson["cameras"].size());
+        LOG_INFO("Cam count %d", pathJson["map"]["cameras"].size());
 
-        auto pathBuffer = std::make_unique<BinaryPath>(pathJson["path_id"]);
+        auto pathBuffer = std::make_unique<BinaryPath>(pathJson["map"]["path_id"]);
         pathBuffer->CreateFromJson(pathJson);
         ret.emplace_back(std::move(pathBuffer));
     }

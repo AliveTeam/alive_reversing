@@ -201,7 +201,7 @@ void BinaryPath::CreateFromJson(nlohmann::json& pathJson)
 {
     // TODO: Do a pass to collect the total required buffer size
 
-    nlohmann::json& collisions = pathJson["collisions"];
+    nlohmann::json& collisions = pathJson["map"]["collisions"];
     mCollisions.resize(collisions.size());
     s32 idx = 0;
     for (auto& collision : collisions)
@@ -210,7 +210,7 @@ void BinaryPath::CreateFromJson(nlohmann::json& pathJson)
         idx++;
     }
 
-    for (auto& cam : pathJson["cameras"])
+    for (auto& cam : pathJson["map"]["cameras"])
     {
         auto camEntry = std::make_unique<CamEntry>();
         camEntry->mX = cam["x"];
@@ -236,7 +236,7 @@ void BinaryPath::CreateFromJson(nlohmann::json& pathJson)
     }
 
     mSoundInfo = std::make_shared<PathSoundInfo>();
-    from_json(pathJson["sound_info"], *mSoundInfo);
+    from_json(pathJson["map"]["sound_info"], *mSoundInfo);
 }
 
 relive::Path_TLV* BinaryPath::TlvsById(const Guid& id)
