@@ -32,6 +32,7 @@ static std::string PixmapToBase64PngString(QPixmap img)
 
 static std::string CameraNameFromId(Model& model, int camId)
 {
+    /*
     std::string lvl = model.GetMapInfo().mPathBnd.substr(0, 2);
     std::string path = std::to_string(model.GetMapInfo().mPathId);
     if (path.length() != 2)
@@ -46,6 +47,8 @@ static std::string CameraNameFromId(Model& model, int camId)
     }
 
     return lvl + "P" + path + "C" + strCamId;
+    */
+    return "todo";
 }
 
 static int CamIdFromCamName(const std::string camName)
@@ -74,15 +77,18 @@ public:
     NewCameraCommand(CameraGraphicsItem* pCameraGraphicsItem, QPixmap newImage, EditorTab* pEditorTab, const std::string& newCamName, int newCamId)
         : mItem(pCameraGraphicsItem), mCamImage(newImage), mTab(pEditorTab), mNewCamName(newCamName), mNewCamId(newCamId)
     {
+        /*
         int pathIdShifted = mTab->GetModel().GetMapInfo().mPathId * 100;
         mNewCamId += pathIdShifted;
         QString posStr = QString::number(pCameraGraphicsItem->GetCamera()->mX) + "," + QString::number(pCameraGraphicsItem->GetCamera()->mY);
 
         setText("Create new camera at " + posStr);
+        */
     }
     
     void redo() override
     {
+        /*
         mItem->GetCamera()->mId = mNewCamId;
         mItem->GetCamera()->mName = mNewCamName;
 
@@ -97,10 +103,12 @@ public:
         {
             pMgr->OnCameraIdChanged(mItem->GetCamera());
         }
+        */
     }
 
     void undo() override
     {
+        /*
         mItem->GetCamera()->mId = 0;
         mItem->GetCamera()->mName.clear();
 
@@ -115,6 +123,7 @@ public:
         {
             pMgr->OnCameraIdChanged(mItem->GetCamera());
         }
+        */
     }
 
 private:
@@ -131,6 +140,7 @@ public:
     ChangeCameraImageCommand(CameraGraphicsItem* pCameraGraphicsItem, QPixmap newImage, TabImageIdx imgIdx, EditorTab* pEditorTab)
         : mCameraGraphicsItem(pCameraGraphicsItem), mEditorTab(pEditorTab),  mNewImage(newImage), mImgIdx(imgIdx)
     {
+        /*
         // todo: set correctly
         QString posStr = QString::number(mCameraGraphicsItem->GetCamera()->mX) + "," + QString::number(mCameraGraphicsItem->GetCamera()->mY);
 
@@ -162,6 +172,7 @@ public:
             setText("Change camera background well image at " + posStr);
             break;
         }
+        */
     }
 
     void undo() override
@@ -177,6 +188,7 @@ public:
 private:
     void UpdateImage(QPixmap img)
     {
+        /*
         switch (mImgIdx)
         {
         case Main:
@@ -201,6 +213,7 @@ private:
             mCameraGraphicsItem->GetCamera()->mCameraImageandLayers.mBackgroundWellLayer = PixmapToBase64PngString(img);
             break;
         };
+        */
     }
 
     CameraGraphicsItem* mCameraGraphicsItem = nullptr;
@@ -218,6 +231,7 @@ public:
     DeleteCameraCommand(EditorTab* pTab, CameraGraphicsItem* pItem)
         : mSelectionSaver(pTab), mTab(pTab), mCameraOriginal(pItem)
     {
+        /*
         setText("Delete camera at " + QString::number(pItem->GetCamera()->mX) + "," + QString::number(pItem->GetCamera()->mY));
 
         mEmptyCameraModel = std::make_unique<Camera>();
@@ -232,6 +246,7 @@ public:
             mTab->GetModel().GetMapInfo().mYGridSize);
 
         mGraphicsItemMapObjects = mTab->GetScene().MapObjectsForCamera(mCameraOriginal);
+        */
     }
 
     ~DeleteCameraCommand()
@@ -254,6 +269,7 @@ public:
 
     void undo() override
     {
+        /*
         // Remove "blank" graphics item
         mTab->GetScene().removeItem(mEmptyCamera);
         mEmptyCameraModel = mTab->GetModel().RemoveCamera(mEmptyCamera->GetCamera());
@@ -280,10 +296,12 @@ public:
         mSelectionSaver.undo();
 
         mAdded = true;
+        */
     }
 
     void redo() override
     {
+        /*
         // Remove original camera
         mCameraOriginalModel = mTab->GetModel().RemoveCamera(mCameraOriginal->GetCamera());
         mTab->GetScene().removeItem(mCameraOriginal);
@@ -310,6 +328,7 @@ public:
         mSelectionSaver.redo();
 
         mAdded = false;
+        */
     }
 
 private:
@@ -319,10 +338,10 @@ private:
     SelectionSaver mSelectionSaver;
     EditorTab* mTab = nullptr;
     CameraGraphicsItem* mCameraOriginal = nullptr;
-    UP_Camera mCameraOriginalModel;
+   // UP_Camera mCameraOriginalModel;
 
     CameraGraphicsItem* mEmptyCamera = nullptr;
-    UP_Camera mEmptyCameraModel;
+   // UP_Camera mEmptyCameraModel;
 
     bool mAdded = false;
 };
@@ -338,17 +357,19 @@ public:
 
     const Camera* GetCamera() const
     {
-        return mCamera;
+       // return mCamera;
+        return nullptr;
     }
 
     void SetCamera(Camera* pNew)
     {
-        mCamera = pNew;
+      //  mCamera = pNew;
         SetLabel();
     }
 
     void SetLabel()
     {
+        /*
         QString camPos = QString::number(mCamera->mX) + "," + QString::number(mCamera->mY);
 
         if (!mCamera->mName.empty())
@@ -358,7 +379,7 @@ public:
         else
         {
             setText(camPos);
-        }
+        }*/
     }
 
 private:
@@ -371,7 +392,7 @@ CameraManager::CameraManager(QWidget *parent, EditorTab* pParentTab, const QPoin
     mTab(pParentTab)
 {
     ui->setupUi(this);
-
+    /*
     const MapInfo& mapInfo = mTab->GetModel().GetMapInfo();
 
     const auto& cameras = mTab->GetModel().GetCameras();
@@ -403,6 +424,7 @@ CameraManager::CameraManager(QWidget *parent, EditorTab* pParentTab, const QPoin
             }
         }
     }
+    */
 }
 
 CameraManager::~CameraManager()
@@ -459,6 +481,7 @@ void CameraManager::CreateCamera(bool dropEvent, QPixmap img)
         }
     }
 
+    /*
     if (!pItem->GetCamera()->mName.empty())
     {
         // Update image of existing camera
@@ -490,10 +513,12 @@ void CameraManager::CreateCamera(bool dropEvent, QPixmap img)
             UpdateTabImages(pCameraGraphicsItem);
         }
     }
+    */
 }
 
 void CameraManager::on_btnExportImage_clicked()
 {
+    /*
     if (!ui->lstCameras->selectedItems().empty())
     {
         auto pItem = static_cast<CameraListItem*>(ui->lstCameras->selectedItems()[0]);
@@ -561,7 +586,7 @@ void CameraManager::on_btnExportImage_clicked()
         {
             camToExport.save(cameraSaveFileName);
         }
-    }
+    }*/
 }
 
 void CameraManager::on_btnSelectImage_clicked()
@@ -610,6 +635,7 @@ CameraGraphicsItem* CameraManager::CameraGraphicsItemByModelPtr(const Camera* ca
 
 void CameraManager::on_btnDeleteImage_clicked()
 {
+    /*
     if (!ui->lstCameras->selectedItems().empty())
     {
         auto pItem = static_cast<CameraListItem*>(ui->lstCameras->selectedItems()[0]);
@@ -627,7 +653,7 @@ void CameraManager::on_btnDeleteImage_clicked()
                 on_btnDeleteCamera_clicked();
             }
         }
-    }
+    }*/
 }
 
 class ChangeCameraIdCommand final : public QUndoCommand
@@ -637,14 +663,16 @@ public:
         : mTab(pTab), mItem(pItem), mOldId(oldId), mNewId(newId)
     {
         setText("Change camera id from " + QString::number(oldId) + " to " + QString::number(newId));
-
+        /*
         const int pathIdShifted = mTab->GetModel().GetMapInfo().mPathId * 100;
         mOldId += pathIdShifted;
         mNewId += pathIdShifted;
+        */
     }
 
     void redo() override
     {
+        /*
         mItem->GetCamera()->mId = mNewId;
         int pathIdShifted = mTab->GetModel().GetMapInfo().mPathId * 100;
         const int id = mNewId - pathIdShifted;
@@ -657,11 +685,12 @@ public:
         if (pMgr)
         {
             pMgr->OnCameraIdChanged(mItem->GetCamera());
-        }
+        }*/
     }
 
     void undo() override
     {
+        /*
         mItem->GetCamera()->mId = mOldId;
         int pathIdShifted = mTab->GetModel().GetMapInfo().mPathId * 100;
         const int id = mOldId - pathIdShifted;
@@ -675,6 +704,8 @@ public:
         {
             pMgr->OnCameraIdChanged(mItem->GetCamera());
         }
+        */
+        
     }
 
 private:
@@ -686,6 +717,7 @@ private:
 
 int CameraManager::NextFreeCamId()
 {
+    /*
     for (int i = 0; i < 99; i++)
     {
         bool used = false;
@@ -702,12 +734,13 @@ int CameraManager::NextFreeCamId()
         {
             return i;
         }
-    }
+    }*/
     return -1;
 }
 
 void CameraManager::on_btnSetCameraId_clicked()
 {
+    /*
     if (!ui->lstCameras->selectedItems().empty())
     {
         auto pItem = static_cast<CameraListItem*>(ui->lstCameras->selectedItems()[0]);
@@ -731,6 +764,7 @@ void CameraManager::on_btnSetCameraId_clicked()
             }
         }
     }
+    */
 }
 
 void CameraManager::SetTabImage(int idx, QPixmap img)
@@ -746,15 +780,18 @@ void CameraManager::SetTabImage(int idx, QPixmap img)
 
 void CameraManager::UpdateTabImages(CameraGraphicsItem* pItem)
 {
+    /*
     SetTabImage(TabImageIdx::Main, pItem->GetImage());
     SetTabImage(TabImageIdx::Foreground, Base64ToPixmap(pItem->GetCamera()->mCameraImageandLayers.mForegroundLayer));
     SetTabImage(TabImageIdx::Background, Base64ToPixmap(pItem->GetCamera()->mCameraImageandLayers.mBackgroundLayer));
     SetTabImage(TabImageIdx::ForegroundWell, Base64ToPixmap(pItem->GetCamera()->mCameraImageandLayers.mForegroundWellLayer));
     SetTabImage(TabImageIdx::BackgroundWell, Base64ToPixmap(pItem->GetCamera()->mCameraImageandLayers.mBackgroundWellLayer));
+    */
 }
 
 void CameraManager::on_btnDeleteCamera_clicked()
 {
+    /*
     if (!ui->lstCameras->selectedItems().isEmpty())
     {
         auto pItem = static_cast<CameraListItem*>(ui->lstCameras->selectedItems()[0]);
@@ -763,7 +800,7 @@ void CameraManager::on_btnDeleteCamera_clicked()
             CameraGraphicsItem* pCameraGraphicsItem = CameraGraphicsItemByModelPtr(pItem->GetCamera());
             mTab->AddCommand(new DeleteCameraCommand(mTab, pCameraGraphicsItem));
         }
-    }
+    }*/
 }
 
 

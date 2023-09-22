@@ -26,13 +26,13 @@ private:
 
     struct PastedMapObject final
     {
-        UP_MapObject mPastedMapObject;
+        //UP_MapObject mPastedMapObject;
         Camera* mContainingCamera;
     };
     std::vector<PastedMapObject> mMapObjects;
     std::vector<ResizeableRectItem*> mMapGraphicsObjects;
 
-    std::vector<UP_CollisionObject> mCollisions;
+    //std::vector<UP_CollisionObject> mCollisions;
     std::vector<ResizeableArrowItem*> mCollisionGraphicsObjects;
 
     SelectionSaver mSelectionSaver;
@@ -48,11 +48,11 @@ public:
 
     const std::string& SourceGame() const;
 
-    std::vector<UP_MapObject> CloneMapObjects(QPoint* pos) const;
-    std::vector<UP_CollisionObject> CloneCollisions(QPoint* pos) const;
+    //std::vector<UP_MapObject> CloneMapObjects(QPoint* pos) const;
+   // std::vector<UP_CollisionObject> CloneCollisions(QPoint* pos) const;
 private:
     std::string mSourceGame;
 
-    std::vector<UP_CollisionObject> mCollisions;
-    std::vector<UP_MapObject> mMapObjects;
+   // std::vector<UP_CollisionObject> mCollisions;
+   // std::vector<UP_MapObject> mMapObjects;
 };

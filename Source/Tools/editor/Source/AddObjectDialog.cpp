@@ -7,6 +7,7 @@
 #include "ResizeableRectItem.hpp"
 #include "SelectionSaver.hpp"
 
+/*
 class ObjectListItem final : public QListWidgetItem
 {
 public:
@@ -193,3 +194,4 @@ void AddObjectDialog::on_buttonBox_accepted()
         mTab->AddCommand(new AddNewObjectCommand(mTab, objStructure));
     }
 }
+*/

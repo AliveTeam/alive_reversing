@@ -46,20 +46,21 @@ class BasicTypeProperty final : public QObject, public PropertyTreeItemBase
 {
     Q_OBJECT
 public:
-    BasicTypeProperty(QUndoStack& undoStack, QTreeWidgetItem* pParent, QString propertyName, ObjectProperty* pProperty, IGraphicsItem* pGraphicsItem, BasicType* pBasicType);
+    BasicTypeProperty(QUndoStack& undoStack, QTreeWidgetItem* pParent, QString propertyName, IGraphicsItem* pGraphicsItem, BasicType* pBasicType);
 
     QWidget* CreateEditorWidget(PropertyTreeWidget* pParent) override;
 
     const void* GetPropertyLookUpKey() const override
     {
-        return mProperty;
+      //  return mProperty;
+        return nullptr;
     }
 
     void Refresh() override;
 
 private:
     QUndoStack& mUndoStack;
-    ObjectProperty* mProperty = nullptr;
+   // ObjectProperty* mProperty = nullptr;
     IGraphicsItem* mGraphicsItem = nullptr;
     BasicType* mBasicType = nullptr;
     int mOldValue = 0;

@@ -8,8 +8,13 @@
 #include "PropertyTreeWidget.hpp"
 #include "SnapSettings.hpp"
 
-ResizeableArrowItem::ResizeableArrowItem(QGraphicsView* pView, CollisionObject* pLine, ISyncPropertiesToTree& propSyncer, int transparency, SnapSettings& snapSettings, IPointSnapper& snapper)
-    : QGraphicsLineItem(pLine->X2(), pLine->Y2(), pLine->X1(), pLine->Y1()), mView(pView), mLine(pLine), mPropSyncer(propSyncer), mSnapSettings(snapSettings), mSnapper(snapper)
+ResizeableArrowItem::ResizeableArrowItem(QGraphicsView* pView, Model::CollisionObject* pLine, ISyncPropertiesToTree& propSyncer, int transparency, SnapSettings& snapSettings, IPointSnapper& snapper)
+    : QGraphicsLineItem(pLine->X2(), pLine->Y2(), pLine->X1(), pLine->Y1())
+    , mView(pView)
+    , mLine(pLine)
+    , mPropSyncer(propSyncer)
+    , mSnapSettings(snapSettings)
+    , mSnapper(snapper)
 {
     Init();
     setZValue(2.0);
@@ -119,35 +124,48 @@ void ResizeableArrowItem::paint( QPainter* aPainter, const QStyleOptionGraphicsI
 
     // Only draw what is required
     aPainter->setClipRect( aOption->exposedRect );
-    std::string prop_id = PropertyByName("Type",mLine->mProperties)->mEnumValue;
-    
-    if(prop_id == "Art")
+    switch (mLine->mLine.mLineType)
     {
-        aPainter->setBrush( QColor(100, 100, 100, 255) );
-    }
-    else if(prop_id.find("Background") != std::string::npos)
-    {
-        aPainter->setBrush( QColor(150, 150, 75, 255) );
-    }
-    else if(prop_id == "Bullet Wall")
-    {
-        aPainter->setBrush( QColor(255, 70, 70, 255) );
-    }
-    else if(prop_id.find("Flying Slig") != std::string::npos)
-    {
-        aPainter->setBrush( QColor(30, 200, 15, 255) );
-    }
-    else if(prop_id.find("Mine Car") != std::string::npos)
-    {
-        aPainter->setBrush( QColor(190, 70, 255, 255) );
-    }
-    else if(prop_id == "Track Line")
-    {
-        aPainter->setBrush( QColor(0, 215, 215, 255) );
-    }
-    else
-    {
-        aPainter->setBrush( QColor(255, 255, 100, 255) );
+        case eLineTypes::eArt_9:
+            aPainter->setBrush(QColor(100, 100, 100, 255));
+            break;
+
+        case eLineTypes::eBackgroundFloor_4:
+        case eLineTypes::eBackgroundWallLeft_5:
+        case eLineTypes::eBackgroundWallRight_6:
+        case eLineTypes::eBackgroundCeiling_7:
+            aPainter->setBrush(QColor(150, 150, 75, 255));
+            break;
+
+        case eLineTypes::eTrackLine_8:
+            aPainter->setBrush(QColor(0, 215, 215, 255));
+            break;
+
+        case eLineTypes::eBulletWall_10:
+            aPainter->setBrush(QColor(255, 70, 70, 255));
+            break;
+
+        case eLineTypes::eMineCarFloor_11:
+        case eLineTypes::eMineCarWall_12:
+        case eLineTypes::eMineCarCeiling_13:
+        case eLineTypes::eBackgroundMineCarFloor_14:
+        case eLineTypes::eBackgroundMineCarWall_15:
+        case eLineTypes::eBackgroundMineCarCeiling_16:
+            aPainter->setBrush(QColor(190, 70, 255, 255));
+            break;
+
+        case eLineTypes::eFlyingObjectWall_17:
+        case eLineTypes::eBackgroundFlyingObjectWall_18:
+            aPainter->setBrush(QColor(30, 200, 15, 255));
+            break;
+
+        case eLineTypes::eFloor_0:
+        case eLineTypes::eWallLeft_1:
+        case eLineTypes::eWallRight_2:
+        case eLineTypes::eCeiling_3:
+        default:
+            aPainter->setBrush(QColor(255, 255, 100, 255));
+            break;
     }
 
     // Change the pen depending on selection

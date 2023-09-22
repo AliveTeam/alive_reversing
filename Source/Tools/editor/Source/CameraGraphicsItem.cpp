@@ -37,6 +37,7 @@ void CameraGraphicsItem::paint(QPainter* aPainter, const QStyleOptionGraphicsIte
     // Draw the rect outline of the camera
     QGraphicsRectItem::paint(aPainter, aOption, aWidget);
 
+    /*
     // Draw the camera name
     if (mCamera && !mCamera->mName.empty())
     {
@@ -47,16 +48,18 @@ void CameraGraphicsItem::paint(QPainter* aPainter, const QStyleOptionGraphicsIte
         const QRect textRect = QRect(rect().x() + 10, rect().y() + 10, 80, 20);
         aPainter->drawRect(textRect);
         aPainter->drawText(textRect, Qt::AlignCenter, mCamera->mName.c_str());
-    }
+    }*/
 }
 
 void CameraGraphicsItem::LoadImages()
 {
+    /*/
     if (mCamera)
     {
         if (!mCamera->mCameraImageandLayers.mCameraImage.empty())
         {
             mImages.mCamera.loadFromData(QByteArray::fromBase64(QByteArray(mCamera->mCameraImageandLayers.mCameraImage.c_str(), static_cast<int>(mCamera->mCameraImageandLayers.mCameraImage.length()))));
         }
-    }
+    }*/
+
 }

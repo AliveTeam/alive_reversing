@@ -33,16 +33,19 @@ void PropertyTreeWidget::Populate(Model& model, QUndoStack& undoStack, QGraphics
     {
         MapObject* pMapObject = pRect->GetMapObject();
 
-        items.append(new StringProperty(undoStack, parent, kIndent + "Name", &pMapObject->mName));
-        AddProperties(model, undoStack, items, pMapObject->mProperties, pRect);
+       // items.append(new StringProperty(undoStack, parent, kIndent + "Name", &pMapObject->mName));
+      //  AddProperties(model, undoStack, items, pMapObject->mProperties, pRect);
     }
     else if (pLine)
     {
-        CollisionObject* pCollisionItem = pLine->GetCollisionItem();
+        Model::CollisionObject* pCollisionItem = pLine->GetCollisionItem();
 
         items.append(new ReadOnlyStringProperty(parent, kIndent + "Id", &pCollisionItem->mId));
 
-        AddProperties(model, undoStack, items, pCollisionItem->mProperties, pLine);
+        //items.append(new BasicTypeProperty(undoStack, parent, "X1", pCollisionItem, &bt);
+
+        // TODO line properties
+        //AddProperties(model, undoStack, items, pCollisionItem->mProperties, pLine);
     }
 
     insertTopLevelItems(0, items);
@@ -100,6 +103,7 @@ void PropertyTreeWidget::Init()
 
 void PropertyTreeWidget::Sync(IGraphicsItem* pItem)
 {
+    /*
     auto& props = pItem->GetProperties();
     for (auto& prop : props)
     {
@@ -108,11 +112,12 @@ void PropertyTreeWidget::Sync(IGraphicsItem* pItem)
         {
             pTreeItem->Refresh();
         }
-    }
+    }*/
 }
 
-void PropertyTreeWidget::AddProperties(Model& model, QUndoStack& undoStack, QList<QTreeWidgetItem*>& items, std::vector<UP_ObjectProperty>& props, IGraphicsItem* pGraphicsItem)
-{
+//void PropertyTreeWidget::AddProperties(Model& model, QUndoStack& undoStack, QList<QTreeWidgetItem*>& items, std::vector<UP_ObjectProperty>& props, IGraphicsItem* pGraphicsItem)
+//{
+    /*
     QTreeWidgetItem* parent = nullptr;
     for (UP_ObjectProperty& property : props)
     {
@@ -135,5 +140,5 @@ void PropertyTreeWidget::AddProperties(Model& model, QUndoStack& undoStack, QLis
                 break;
             }
         }
-    }
-}
+    }*/
+//}

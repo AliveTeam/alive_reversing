@@ -26,17 +26,18 @@ public:
 
     void undo() override
     {
-        MapInfo& info = mModel.GetMapInfo();
-        SetPd(info, mOldPd);
+       // MapInfo& info = mModel.GetMapInfo();
+      //  SetPd(info, mOldPd);
     }
 
     void redo() override
     {
-        MapInfo& info = mModel.GetMapInfo();
-        SetPd(info, mNewPd);
+       // MapInfo& info = mModel.GetMapInfo();
+       // SetPd(info, mNewPd);
     }
 
 private:
+    /*
     void SetPd(MapInfo& info, const UndoRedoPathData& pd)
     {
         info.mAbeStartXPos = pd.abeXPos;
@@ -45,7 +46,7 @@ private:
         info.mGoodEndingMuds = pd.goodEndingMuds;
         info.mTotalMuds = pd.totalMuds;
         info.mNumMudsInPath = pd.mudsInLvl;
-    }
+    }*/
 
     Model& mModel;
     const UndoRedoPathData mOldPd;
@@ -59,6 +60,7 @@ PathDataEditorDialog::PathDataEditorDialog(QWidget *parent, EditorTab* pTab) :
 {
     ui->setupUi(this);
 
+    /*
     ui->spnNumMudsInLvl->setValue(mTab->GetModel().GetMapInfo().mNumMudsInPath);
     ui->spnAbeStartXPos->setValue(mTab->GetModel().GetMapInfo().mAbeStartXPos);
     ui->spnAbeStartYPos->setValue(mTab->GetModel().GetMapInfo().mAbeStartYPos);
@@ -66,6 +68,7 @@ PathDataEditorDialog::PathDataEditorDialog(QWidget *parent, EditorTab* pTab) :
     ui->spnBadEndingMuds->setValue(mTab->GetModel().GetMapInfo().mBadEndingMuds);
     ui->spnGoodEndingMuds->setValue(mTab->GetModel().GetMapInfo().mGoodEndingMuds);
     ui->spnTotalMudsInGame->setValue(mTab->GetModel().GetMapInfo().mTotalMuds);
+    */
 }
 
 PathDataEditorDialog::~PathDataEditorDialog()
@@ -84,6 +87,7 @@ void PathDataEditorDialog::on_buttonBox_accepted()
     pd.goodEndingMuds = ui->spnGoodEndingMuds->value();
     pd.totalMuds = ui->spnTotalMudsInGame->value();
     
+    /*
     MapInfo& info = mTab->GetModel().GetMapInfo();
 
     if (info.mNumMudsInPath != pd.mudsInLvl ||
@@ -103,6 +107,7 @@ void PathDataEditorDialog::on_buttonBox_accepted()
 
         mTab->AddCommand(new EditPathDataCommand(mTab->GetModel(), oldPd, pd));
     }
+    */
 }
 
 

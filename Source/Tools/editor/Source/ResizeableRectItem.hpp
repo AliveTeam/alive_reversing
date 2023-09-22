@@ -24,10 +24,7 @@ public:
         SyncFromMapObject();
     }
 
-    std::vector<UP_ObjectProperty>& GetProperties() override
-    {
-        return mMapObject->mProperties;
-    }
+
 
 private:  // From QGraphicsItem
     void mousePressEvent(QGraphicsSceneMouseEvent* aEvent) override;

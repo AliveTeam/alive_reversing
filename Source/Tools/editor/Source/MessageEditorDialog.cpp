@@ -28,11 +28,11 @@ public:
     {
         if (mIsLCDScreenMsgs)
         {
-            mModel.GetMapInfo().mLCDScreenMessages = mOldMsgs;
+            //mModel.GetMapInfo().mLCDScreenMessages = mOldMsgs;
         }
         else
         {
-            mModel.GetMapInfo().mHintFlyMessages = mOldMsgs;
+            //mModel.GetMapInfo().mHintFlyMessages = mOldMsgs;
         }
     }
 
@@ -40,11 +40,11 @@ public:
     {
         if (mIsLCDScreenMsgs)
         {
-            mModel.GetMapInfo().mLCDScreenMessages = mNewMsgs;
+           // mModel.GetMapInfo().mLCDScreenMessages = mNewMsgs;
         }
         else
         {
-            mModel.GetMapInfo().mHintFlyMessages = mNewMsgs;
+          //  mModel.GetMapInfo().mHintFlyMessages = mNewMsgs;
         }
     }
 
@@ -184,10 +184,12 @@ std::vector<std::string>& MessageEditorDialog::GetMsgs()
 {
     if (mIsLCDScreenMsgs)
     {
-        return mModel.GetMapInfo().mLCDScreenMessages;
+      //  return mModel.GetMapInfo().mLCDScreenMessages;
     }
     else
     {
-        return mModel.GetMapInfo().mHintFlyMessages;
+      //  return mModel.GetMapInfo().mHintFlyMessages;
     }
+    static std::vector<std::string> a;
+    return a;
 }

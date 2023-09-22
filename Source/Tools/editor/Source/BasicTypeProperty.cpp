@@ -12,20 +12,25 @@ ChangeBasicTypePropertyCommand::ChangeBasicTypePropertyCommand(LinkedProperty li
 
 void ChangeBasicTypePropertyCommand::undo()
 {
+    /*
     mLinkedProperty.mProperty->mBasicTypeValue = mPropertyData.mOldValue;
     mLinkedProperty.mTreeWidget->FindObjectPropertyByKey(mLinkedProperty.mProperty)->Refresh();
     mLinkedProperty.mGraphicsItem->SyncInternalObject();
+    */
 }
 
 void ChangeBasicTypePropertyCommand::redo()
 {
+    /*
     mLinkedProperty.mProperty->mBasicTypeValue = mPropertyData.mNewValue;
     mLinkedProperty.mTreeWidget->FindObjectPropertyByKey(mLinkedProperty.mProperty)->Refresh();
     mLinkedProperty.mGraphicsItem->SyncInternalObject();
+    */
 }
 
 bool ChangeBasicTypePropertyCommand::mergeWith(const QUndoCommand* command)
 {
+    /*
     if (command->id() == id())
     {
         auto pOther = static_cast<const ChangeBasicTypePropertyCommand*>(command);
@@ -41,36 +46,45 @@ bool ChangeBasicTypePropertyCommand::mergeWith(const QUndoCommand* command)
             }
         }
     }
+    */
     return false;
 }
 
 void ChangeBasicTypePropertyCommand::UpdateText()
 {
-    setText(QString("Change property %1 from %2 to %3").arg(mLinkedProperty.mProperty->mName.c_str(), QString::number(mPropertyData.mOldValue), QString::number(mPropertyData.mNewValue)));
+   // setText(QString("Change property %1 from %2 to %3").arg(mLinkedProperty.mProperty->mName.c_str(), QString::number(mPropertyData.mOldValue), QString::number(mPropertyData.mNewValue)));
 }
 
-BasicTypeProperty::BasicTypeProperty(QUndoStack& undoStack, QTreeWidgetItem* pParent, QString propertyName, ObjectProperty* pProperty, IGraphicsItem* pGraphicsItem, BasicType* pBasicType) : PropertyTreeItemBase(pParent, QStringList{ propertyName, QString::number(pProperty->mBasicTypeValue) }), mUndoStack(undoStack), mProperty(pProperty), mBasicType(pBasicType), mGraphicsItem(pGraphicsItem)
+BasicTypeProperty::BasicTypeProperty(QUndoStack& undoStack, QTreeWidgetItem* pParent, QString propertyName, IGraphicsItem* pGraphicsItem, BasicType* pBasicType) 
+    : PropertyTreeItemBase(pParent, QStringList{propertyName, ""})
+    , mUndoStack(undoStack)
+    , mBasicType(pBasicType)
+    , mGraphicsItem(pGraphicsItem)
 {
 
 }
 
 QWidget* BasicTypeProperty::CreateEditorWidget(PropertyTreeWidget* pParent)
 {
+    /*
     mSpinBox = new BigSpinBox(pParent);
     mSpinBox->setMax(mBasicType->mMaxValue);
     mSpinBox->setMin(mBasicType->mMinValue);
     mSpinBox->setValue(mProperty->mBasicTypeValue);
+    */
 
-    mOldValue = mProperty->mBasicTypeValue;
+    //mOldValue = mProperty->mBasicTypeValue;
 
     connect(mSpinBox, &BigSpinBox::valueChanged, this, [pParent, this](qint64 newValue, bool closeEditor)
         {
+            /*
             if (mOldValue != newValue)
             {
                 mUndoStack.push(new ChangeBasicTypePropertyCommand(
                     LinkedProperty(pParent, this->mProperty, this->mGraphicsItem),
                     BasicTypePropertyChangeData(this->mBasicType, this->mOldValue, newValue)));
             }
+            */
             mOldValue = newValue;
 
             if (closeEditor)
@@ -89,10 +103,10 @@ QWidget* BasicTypeProperty::CreateEditorWidget(PropertyTreeWidget* pParent)
 
 void BasicTypeProperty::Refresh()
 {
-    setText(1, QString::number(mProperty->mBasicTypeValue));
+    //setText(1, QString::number(mProperty->mBasicTypeValue));
 
     if (mSpinBox)
     {
-        mSpinBox->setValue(mProperty->mBasicTypeValue, false);
+        //mSpinBox->setValue(mProperty->mBasicTypeValue, false);
     }
 }

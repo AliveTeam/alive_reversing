@@ -118,6 +118,7 @@ void ResizeableRectItem::paint( QPainter* aPainter, const QStyleOptionGraphicsIt
     // Draw the object name on the rect if no image is provided
     if (m_Pixmap.isNull())
     {
+        /*
         const auto objectName = mMapObject->mObjectStructureType.c_str();
         for (int sizeCandidate = 8; sizeCandidate > 1; sizeCandidate--)
         {
@@ -134,6 +135,7 @@ void ResizeableRectItem::paint( QPainter* aPainter, const QStyleOptionGraphicsIt
             }
         }
         aPainter->drawText(cRect, Qt::AlignCenter | Qt::TextWrapAnywhere, objectName);
+        */
     }
 }
 
@@ -375,21 +377,25 @@ void ResizeableRectItem::SetRect(const QRectF& rect)
 }
 
 void ResizeableRectItem::SyncFromMapObject()
-{
+{ 
+    /*
     setX(mMapObject->XPos());
     setY(mMapObject->YPos());
     setWidth(mMapObject->Width());
     setHeight(mMapObject->Height());
     UpdateIcon();
+    */
 }
 
 void ResizeableRectItem::SyncToMapObject()
 {
+    /*
     mMapObject->SetXPos(static_cast<int>(pos().x()));
     mMapObject->SetYPos(static_cast<int>(pos().y()));
     mMapObject->SetWidth(mWidth);
     mMapObject->SetHeight(mHeight);
     UpdateIcon();
+    */
 }
 
 void ResizeableRectItem::PosOrRectChanged()
@@ -403,6 +409,7 @@ void ResizeableRectItem::PosOrRectChanged()
 void ResizeableRectItem::UpdateIcon()
 {
     QString images_path = ":/object_images/rsc/object_images/";
+    /*
     QString object_name = mMapObject->mObjectStructureType.c_str();
     
     if( object_name == "BirdPortal" )
@@ -504,4 +511,5 @@ void ResizeableRectItem::UpdateIcon()
         m_Pixmap = QPixmap(images_path + object_name + ".png");
         QPixmapCache::insert(images_path + object_name + ".png", m_Pixmap );
     }
+    */
 }

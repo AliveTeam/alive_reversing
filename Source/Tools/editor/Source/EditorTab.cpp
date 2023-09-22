@@ -390,6 +390,7 @@ EditorTab::EditorTab(QTabWidget* aParent, UP_Model model, QString jsonFileName, 
     ui->propertyDockWidget->setContextMenuPolicy(Qt::PreventContextMenu);
     ui->undoHistoryDockWidget->setContextMenuPolicy(Qt::PreventContextMenu);
 
+    /*
     const MapInfo& mapInfo = mModel->GetMapInfo();
 
     for (int x = 0; x < mapInfo.mXSize; x++)
@@ -410,6 +411,7 @@ EditorTab::EditorTab(QTabWidget* aParent, UP_Model model, QString jsonFileName, 
             }
         }
     }
+    */
 
     for (auto& collision : mModel->CollisionItems())
     {
@@ -441,7 +443,7 @@ ResizeableRectItem* EditorTab::MakeResizeableRectItem(MapObject* pMapObject)
     return new ResizeableRectItem(ui->graphicsView, pMapObject, *static_cast<PropertyTreeWidget*>(ui->treeWidget), mScene->GetTransparencySettings().MapObjectTransparency(), mSnapSettings, *this);
 }
 
-ResizeableArrowItem* EditorTab::MakeResizeableArrowItem(CollisionObject* pCollisionObject)
+ResizeableArrowItem* EditorTab::MakeResizeableArrowItem(Model::CollisionObject* pCollisionObject)
 {
     return new ResizeableArrowItem(ui->graphicsView, pCollisionObject, *static_cast<PropertyTreeWidget*>(ui->treeWidget), mScene->GetTransparencySettings().CollisionTransparency(), mSnapSettings, *this);
 }
@@ -691,6 +693,7 @@ bool EditorTab::DoSave(QString fileName)
 
 void EditorTab::Export(bool exportAndPlay)
 {
+    /*
     if (!IsClean())
     {
         Save();
@@ -753,6 +756,7 @@ void EditorTab::Export(bool exportAndPlay)
     }
 
     delete exportDialog;
+    */
 }
 
 void EditorTab::EditHintFlyMessages()
@@ -790,16 +794,18 @@ void EditorTab::UpdateCleanState()
 
 void EditorTab::AddObject()
 {
+    /*
     auto pDlg = new AddObjectDialog(this, this);
     pDlg->exec();
     delete pDlg;
+    */
 }
 
 class AddCollisionCommand final : public QUndoCommand
 {
 public:
     explicit AddCollisionCommand(EditorTab* pTab)
-        : mTab(pTab), mSelectionSaver(pTab)
+
     {
         MakeNewCollision();
 
@@ -817,6 +823,7 @@ public:
 
     void undo() override
     {
+        /*
         mTab->GetScene().removeItem(mArrowItem);
 
         mNewObject = mTab->GetModel().RemoveCollisionItem(mArrowItem->GetCollisionItem());
@@ -824,10 +831,12 @@ public:
         mAdded = false;
 
         mSelectionSaver.undo();
+        */
     }
 
     void redo() override
     {
+        /*
         mTab->GetScene().addItem(mArrowItem);
         mTab->GetModel().CollisionItems().push_back(std::move(mNewObject));
 
@@ -838,11 +847,13 @@ public:
         mAdded = true;
 
         mSelectionSaver.redo();
+        */
     }
 
 private:
     void MakeNewCollision()
     {
+        /*
         mNewObject = std::make_unique<CollisionObject>(mTab->GetModel().NextCollisionId());
         // TODO: Duplicated with AddNewObjectCommand::MakeNewObject
         for (auto& prop : mTab->GetModel().CollisionStructure().mEnumAndBasicTypeProperties)
@@ -858,22 +869,25 @@ private:
 
             mNewObject->mProperties.emplace_back(std::move(newProp));
         }
+        */
 
         QGraphicsView* pView = mTab->GetScene().views().at(0);
         QPoint scenePos = pView->mapToScene(pView->pos()).toPoint();
+        /*
         mNewObject->SetX1(scenePos.x() + 100);
         mNewObject->SetX2(scenePos.x() + 200);
 
         mNewObject->SetY1(scenePos.y() + 100);
         mNewObject->SetY2(scenePos.y() + 100);
+        */
 
-        mArrowItem = mTab->MakeResizeableArrowItem(mNewObject.get());
+       // mArrowItem = mTab->MakeResizeableArrowItem(mNewObject.get());
     }
 
-    SelectionSaver mSelectionSaver;
+   // SelectionSaver mSelectionSaver;
     bool mAdded = false;
     EditorTab* mTab = nullptr;
-    UP_CollisionObject mNewObject;
+   // UP_CollisionObject mNewObject;
     ResizeableArrowItem* mArrowItem = nullptr;
 };
 
@@ -912,6 +926,7 @@ int EditorTab::SnapX(bool enabled, int x)
 {
     if (enabled)
     {
+        /*
         if (mModel->GetMapInfo().mXGridSize == 1024)
         {
             x = AO::SnapToXGrid(FP_FromInteger(1), x) + 13;
@@ -919,7 +934,7 @@ int EditorTab::SnapX(bool enabled, int x)
         else
         {
             x = SnapToXGrid(FP_FromInteger(1), x) + 13;
-        }
+        }*/
     }
     return x;
 }

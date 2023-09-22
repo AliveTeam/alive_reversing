@@ -2,6 +2,7 @@
 #include "ReliveApiWrapper.hpp"
 #include <optional>
 #include <fstream>
+#include "../../relive_lib/data_conversion/relive_tlvs_serialization.hpp"
 
 static std::optional<std::string> LoadFileToString(const std::string& fileName)
 {
@@ -16,89 +17,63 @@ static std::optional<std::string> LoadFileToString(const std::string& fileName)
     return { s };
 }
 
-static jsonxx::Array ReadArray(jsonxx::Object& o, const std::string& key)
+static nlohmann::json ReadArray(nlohmann::json& o, const std::string& key)
 {
-    if (!o.has<jsonxx::Array>(key))
+    if (!o.contains(key) || !o[key].is_array())
     {
-        throw JsonKeyNotFoundException(key);
+        throw Model::JsonKeyNotFoundException(key);
     }
-    return o.get<jsonxx::Array>(key);
+    return o[key];
 }
 
-static jsonxx::Object ReadObject(jsonxx::Object& o, const std::string& key)
+static nlohmann::json ReadObject(nlohmann::json& o, const std::string& key)
 {
-    if (!o.has<jsonxx::Object>(key))
+    if (!o.contains(key) || !o[key].is_object())
     {
-        throw JsonKeyNotFoundException(key);
+        throw Model::JsonKeyNotFoundException(key);
     }
-    return o.get<jsonxx::Object>(key);
+    return o[key];
 }
 
-static int ReadNumber(jsonxx::Object& o, const std::string& key)
+static int ReadNumber(nlohmann::json& o, const std::string& key)
 {
-    if (!o.has<jsonxx::Number>(key))
+    if (!o.contains(key) || !o[key].is_number())
     {
-        throw JsonKeyNotFoundException(key);
+        throw Model::JsonKeyNotFoundException(key);
     }
-    return static_cast<int>(o.get<jsonxx::Number>(key));
+    return static_cast<int>(o[key]);
 }
 
-static std::string ReadString(jsonxx::Object& o, const std::string& key)
+static std::string ReadString(nlohmann::json& o, const std::string& key)
 {
-    if (!o.has<jsonxx::String>(key))
+    if (!o.contains(key) || !o[key].is_string())
     {
-        throw JsonKeyNotFoundException(key);
+        throw Model::JsonKeyNotFoundException(key);
     }
-    return o.get<jsonxx::String>(key);
+    return o[key];
 }
 
-static std::string ReadStringOptional(jsonxx::Object& o, const std::string& key)
+static std::string ReadStringOptional(nlohmann::json& o, const std::string& key)
 {
-    if (!o.has<jsonxx::String>(key))
+    if (!o.contains(key))
     {
         return "";
     }
-    return o.get<jsonxx::String>(key);
+    return o[key];
 }
 
-static bool ReadBool(jsonxx::Object& o, const std::string& key)
+static bool ReadBool(nlohmann::json& o, const std::string& key)
 {
-    if (!o.has<jsonxx::Boolean>(key))
+    if (!o.contains(key) || !o[key].is_boolean())
     {
-        throw JsonKeyNotFoundException(key);
+        throw Model::JsonKeyNotFoundException(key);
     }
-    return o.get<jsonxx::Boolean>(key);
+    return o[key];
 }
 
-static std::vector<EnumOrBasicTypeProperty> ReadObjectStructureProperties(jsonxx::Array& enumAndBasicTypes)
+Model::Camera* Model::GetContainingCamera(MapObjectBase* pMapObject)
 {
-    std::vector<EnumOrBasicTypeProperty> properties;
-    for (size_t j = 0; j < enumAndBasicTypes.size(); j++)
-    {
-        jsonxx::Object enumOrBasicType = enumAndBasicTypes.get<jsonxx::Object>(static_cast<unsigned int>(j));
-        EnumOrBasicTypeProperty tmpEnumOrBasicTypeProperty;
-        tmpEnumOrBasicTypeProperty.mName = ReadString(enumOrBasicType, "name");
-        tmpEnumOrBasicTypeProperty.mType = ReadString(enumOrBasicType, "Type");
-        tmpEnumOrBasicTypeProperty.mVisible = ReadBool(enumOrBasicType, "Visible");
-        properties.push_back(tmpEnumOrBasicTypeProperty);
-    }
-    return properties;
-}
-
-static UP_ObjectStructure ReadObjectStructure(jsonxx::Object& objectStructure)
-{
-    auto tmpObjectStructure = std::make_unique<ObjectStructure>();
-    tmpObjectStructure->mName = ReadString(objectStructure, "name");
-
-    jsonxx::Array enumAndBasicTypes = ReadArray(objectStructure, "enum_and_basic_type_properties");
-    tmpObjectStructure->mEnumAndBasicTypeProperties = ReadObjectStructureProperties(enumAndBasicTypes);
-
-    return tmpObjectStructure;
-}
-
-Camera* Model::GetContainingCamera(MapObject* pMapObject)
-{
-    Camera* pContainingCamera = nullptr;
+    Model::Camera* pContainingCamera = nullptr;
     for (auto& camera : mCameras)
     {
         for (auto& mapObj : camera->mMapObjects)
@@ -113,7 +88,7 @@ Camera* Model::GetContainingCamera(MapObject* pMapObject)
     return pContainingCamera;
 }
 
-UP_MapObject Model::TakeFromContainingCamera(MapObject* pMapObject)
+UP_MapObjectBase Model::TakeFromContainingCamera(MapObjectBase* pMapObject)
 {
     for (auto& camera : mCameras)
     {
@@ -121,7 +96,7 @@ UP_MapObject Model::TakeFromContainingCamera(MapObject* pMapObject)
         {
             if ((*it).get() == pMapObject)
             {
-                UP_MapObject takenObj((*it).release());
+                UP_MapObjectBase takenObj((*it).release());
                 camera->mMapObjects.erase(it);
                 return takenObj;
             }
@@ -131,7 +106,7 @@ UP_MapObject Model::TakeFromContainingCamera(MapObject* pMapObject)
     return nullptr;
 }
 
-UP_Camera Model::RemoveCamera(Camera* pCamera)
+Model::UP_Camera Model::RemoveCamera(Model::Camera* pCamera)
 {
     for (auto it = mCameras.begin(); it != mCameras.end(); )
     {
@@ -151,199 +126,72 @@ void Model::AddCamera(UP_Camera pCamera)
     mCameras.push_back(std::move(pCamera));
 }
 
-void Model::SwapContainingCamera(MapObject* pMapObject, Camera* pTargetCamera)
+void Model::SwapContainingCamera(MapObjectBase* pMapObject, Camera* pTargetCamera)
 {
     pTargetCamera->mMapObjects.push_back(TakeFromContainingCamera(pMapObject));
 }
 
-UP_ObjectProperty Model::MakeProperty(const Model::FoundType foundTypes, const EnumOrBasicTypeProperty& property, const ObjectStructure* pObjStructure)
-{
-    auto tmpProperty = std::make_unique<ObjectProperty>();
-    tmpProperty->mName = property.mName;
-    tmpProperty->mTypeName = property.mType;
-    tmpProperty->mVisible = property.mVisible;
-    if (foundTypes.mBasicType)
-    {
-        tmpProperty->mType = ObjectProperty::Type::BasicType;
-    }
-    else
-    {
-        tmpProperty->mType = ObjectProperty::Type::Enumeration;
-    }
-    return tmpProperty;
-}
-
-std::vector<UP_ObjectProperty> Model::ReadProperties(const ObjectStructure* pObjStructure, jsonxx::Object& properties)
-{
-    std::vector<UP_ObjectProperty> tmpProperties;
-    for (const EnumOrBasicTypeProperty& property : pObjStructure->mEnumAndBasicTypeProperties)
-    {
-        const FoundType foundTypes = FindType(property.mType);
-        if (!foundTypes.mEnum && !foundTypes.mBasicType)
-        {
-            // corrupted schema type name has no definition
-            throw ObjectPropertyTypeNotFoundException(property.mName, property.mType);
-        }
-
-        auto tmpProperty = MakeProperty(foundTypes, property, pObjStructure);
-        if (foundTypes.mBasicType)
-        {
-            tmpProperty->mBasicTypeValue = ReadNumber(properties, property.mName);
-        }
-        else
-        {
-            tmpProperty->mEnumValue = ReadString(properties, property.mName);
-        }
-        tmpProperties.push_back(std::move(tmpProperty));
-    }
-    return tmpProperties;
-}
 
 void Model::LoadJsonFromString(const std::string& json)
 {
-    jsonxx::Object root;
-    if (!root.parse(json))
-    {
-        throw InvalidJsonException();
-    }
+    // TODO: Handle exception on bad data
+    nlohmann::json root = nlohmann::json::parse(json);
 
-    mMapInfo.mPathVersion = ReadNumber(root, "path_version");
-    mMapInfo.mGame = ReadString(root, "game");
 
-    jsonxx::Object map = ReadObject(root, "map");
+   // mMapInfo.mGame = ReadString(root, "game");
 
-    mMapInfo.mPathBnd = ReadString(map, "path_bnd");
-    mMapInfo.mPathId = ReadNumber(map, "path_id");
-    mMapInfo.mXGridSize = ReadNumber(map, "x_grid_size");
-    mMapInfo.mXSize = ReadNumber(map, "x_size");
-    mMapInfo.mYGridSize = ReadNumber(map, "y_grid_size");
-    mMapInfo.mYSize = ReadNumber(map, "y_size");
+    nlohmann::json map = ReadObject(root, "map");
 
-    mMapInfo.mAbeStartXPos = ReadNumber(map, "abe_start_xpos");
-    mMapInfo.mAbeStartYPos = ReadNumber(map, "abe_start_ypos");
-    mMapInfo.mNumMudsInPath = ReadNumber(map, "num_muds_in_path");
-    mMapInfo.mTotalMuds = ReadNumber(map, "total_muds");
-    mMapInfo.mBadEndingMuds = ReadNumber(map, "num_muds_for_bad_ending");
-    mMapInfo.mGoodEndingMuds = ReadNumber(map, "num_muds_for_good_ending");
 
-    jsonxx::Array LCDScreenMessages = ReadArray(map, "lcdscreen_messages");
-    for (size_t i = 0; i < LCDScreenMessages.size(); i++)
-    {
-        mMapInfo.mLCDScreenMessages.emplace_back(LCDScreenMessages.get<jsonxx::String>(static_cast<unsigned int>(i)));
-    }
-
-    jsonxx::Array hintFlyMessages = ReadArray(map, "hintfly_messages");
-    for (size_t i = 0; i < hintFlyMessages.size(); i++)
-    {
-        mMapInfo.mHintFlyMessages.emplace_back(hintFlyMessages.get<jsonxx::String>(static_cast<unsigned int>(i)));
-    }
-
-    mSchema = ReadObject(root, "schema");
-
-    jsonxx::Array basicTypes = ReadArray(mSchema, "object_structure_property_basic_types");
-    for (size_t i = 0; i < basicTypes.size(); i++)
-    {
-        jsonxx::Object basicType = basicTypes.get<jsonxx::Object>(static_cast<unsigned int>(i));
-        auto tmpBasicType = std::make_unique<BasicType>();
-        tmpBasicType->mName = ReadString(basicType, "name");
-        tmpBasicType->mMaxValue = ReadNumber(basicType, "max_value");
-        tmpBasicType->mMinValue = ReadNumber(basicType, "min_value");
-        mBasicTypes.push_back(std::move(tmpBasicType));
-    }
-
-    jsonxx::Array enums = ReadArray(mSchema, "object_structure_property_enums");
-    for (size_t i = 0; i < enums.size(); i++)
-    {
-        jsonxx::Object enumObject = enums.get<jsonxx::Object>(static_cast<unsigned int>(i));
-        auto tmpEnum = std::make_unique<Enum>();
-        tmpEnum->mName = ReadString(enumObject, "name");
-
-        jsonxx::Array enumValuesArray = ReadArray(enumObject, "values");
-        for (size_t j = 0; j < enumValuesArray.size(); j++)
-        {
-            tmpEnum->mValues.push_back(enumValuesArray.get<jsonxx::String>(static_cast<unsigned int>(j)));
-        }
-        mEnums.push_back(std::move(tmpEnum));
-    }
-
-    jsonxx::Array objectStructures = ReadArray(mSchema, "object_structures");
-    for (size_t i = 0; i < objectStructures.size(); i++)
-    {
-        jsonxx::Object objectStructure = objectStructures.get<jsonxx::Object>(static_cast<unsigned int>(i));
-        auto tmpObjectStructure = ReadObjectStructure(objectStructure);
-        mObjectStructures.push_back(std::move(tmpObjectStructure));
-    }
-
-    jsonxx::Array cameras = ReadArray(map, "cameras");
+    nlohmann::json cameras = ReadArray(map, "cameras");
     for (size_t i = 0; i < cameras.size(); i++)
     {
-        jsonxx::Object camera = cameras.get<jsonxx::Object>(static_cast<unsigned int>(i));
+        nlohmann::json camera = cameras.at(static_cast<unsigned int>(i));
 
         auto tmpCamera = std::make_unique<Camera>();
         tmpCamera->mId = ReadNumber(camera, "id");
-        tmpCamera->mName = ReadString(camera, "name");
+       // tmpCamera->mName = ReadString(camera, "name");
         tmpCamera->mX = ReadNumber(camera, "x");
         tmpCamera->mY = ReadNumber(camera, "y");
 
+        /*
         tmpCamera->mCameraImageandLayers.mCameraImage = ReadStringOptional(camera, "image");
         tmpCamera->mCameraImageandLayers.mForegroundLayer = ReadStringOptional(camera, "foreground_layer");
         tmpCamera->mCameraImageandLayers.mBackgroundLayer = ReadStringOptional(camera, "background_layer");
         tmpCamera->mCameraImageandLayers.mForegroundWellLayer = ReadStringOptional(camera, "foreground_well_layer");
         tmpCamera->mCameraImageandLayers.mBackgroundWellLayer = ReadStringOptional(camera, "background_well_layer");
+        */
 
-        if (camera.has<jsonxx::Array>("map_objects"))
+        if (camera.contains("map_objects") && camera["map_objects"].is_array())
         {
-            jsonxx::Array mapObjects = ReadArray(camera, "map_objects");
+            nlohmann::json mapObjects = ReadArray(camera, "map_objects");
 
             for (size_t j = 0; j < mapObjects.size(); j++)
             {
-                jsonxx::Object mapObject = mapObjects.get<jsonxx::Object>(static_cast<unsigned int>(j));
-                auto tmpMapObject = std::make_unique<MapObject>();
-                tmpMapObject->mName = ReadString(mapObject, "name");
-                tmpMapObject->mObjectStructureType = ReadString(mapObject, "object_structures_type");
+                nlohmann::json mapObject = mapObjects.at(static_cast<unsigned int>(j));
+                auto tmpMapObject = std::make_unique<Path_TimedMine>(); // TODO: Create correct type based on the name
+                //tmpMapObject->mName = ReadString(mapObject, "name");
 
+                /*
                 if (mapObject.has<jsonxx::Object>("properties"))
                 {
-                    const ObjectStructure* pObjStructure = nullptr;
-                    for (const auto& objStruct : mObjectStructures)
-                    {
-                        if (objStruct->mName == tmpMapObject->mObjectStructureType)
-                        {
-                            pObjStructure = objStruct.get();
-                            break;
-                        }
-                    }
-
-                    if (!pObjStructure)
-                    {
-                        throw JsonKeyNotFoundException(tmpMapObject->mObjectStructureType);
-                    }
-
                     jsonxx::Object properties = ReadObject(mapObject, "properties");
                     tmpMapObject->mProperties = ReadProperties(pObjStructure, properties);
                 }
-
+                */
                 tmpCamera->mMapObjects.push_back(std::move(tmpMapObject));
+                
             }
         }
         mCameras.push_back(std::move(tmpCamera));
     }
 
-
-    jsonxx::Object collisionObject = ReadObject(map, "collisions");
-    jsonxx::Array collisionsArray = ReadArray(collisionObject, "items");
-    mCollisionStructureSchema = ReadArray(collisionObject, "structure");
-
-    mCollisionStructure = std::make_unique<ObjectStructure>();
-    mCollisionStructure->mName = "Collision";
-    mCollisionStructure->mEnumAndBasicTypeProperties = ReadObjectStructureProperties(mCollisionStructureSchema);
-
+    nlohmann::json collisionsArray = ReadArray(map, "collisions");
     for (size_t i = 0; i < collisionsArray.size(); i++)
     {
-        jsonxx::Object collision = collisionsArray.get<jsonxx::Object>(static_cast<unsigned int>(i));
-
+        nlohmann::json collision = collisionsArray.at(static_cast<unsigned int>(i));
         auto tmpCollision = std::make_unique<CollisionObject>(static_cast<int>(i));
-        tmpCollision->mProperties = ReadProperties(mCollisionStructure.get(), collision);
+        collision.get_to(tmpCollision->mLine);
         mCollisions.push_back(std::move(tmpCollision));
     }
 
@@ -364,9 +212,11 @@ void Model::LoadJsonFromFile(const std::string& jsonFile)
 void Model::CreateAsNewPath(int newPathId)
 {
     // Reset everything to a 1x1 empty map
+    /*
     mMapInfo.mPathId = newPathId;
     mMapInfo.mXSize = 1;
     mMapInfo.mYSize = 1;
+    */
 
     mCameras.clear();
     mCollisions.clear();
@@ -379,12 +229,13 @@ void Model::CreateAsNewPath(int newPathId)
 
 std::string Model::ToJson() const
 {
-    jsonxx::Object root;
+    nlohmann::json root;
 
-    root << "api_version" << mMapInfo.mPathVersion;
-    root << "game" << mMapInfo.mGame;
+   // root << "path_version" << mMapInfo.mPathVersion;
+   // root << "game" << mMapInfo.mGame;
 
-    jsonxx::Object map;
+    nlohmann::json map;
+    /*
     map << "path_bnd" << mMapInfo.mPathBnd;
     map << "path_id" << mMapInfo.mPathId;
     map << "x_grid_size" << mMapInfo.mXGridSize;
@@ -413,18 +264,24 @@ std::string Model::ToJson() const
         hintFlyMessages << msg;
     }
     map << "hintfly_messages" << hintFlyMessages;
+    */
 
-    jsonxx::Array cameras;
+    nlohmann::json cameras;
     for (auto& camera : mCameras)
     {
-        if (!camera->mMapObjects.empty() || !camera->mCameraImageandLayers.mCameraImage.empty())
+       // if (!camera->mMapObjects.empty() || !camera->mCameraImageandLayers.mCameraImage.empty())
         {
-            jsonxx::Object camObj;
-            camObj << "id" << camera->mId;
-            camObj << "name" << camera->mName;
-            camObj << "x" << camera->mX;
-            camObj << "y" << camera->mY;
 
+            /*
+            nlohmann::json{
+            {"continue_point_zone_number", p.mContinuePoint_ZoneNumber},
+            */
+
+           
+           // camObj << "name" << camera->mName;
+
+
+            /*/
             if (!camera->mCameraImageandLayers.mCameraImage.empty())
             {
                 camObj << "image" << camera->mCameraImageandLayers.mCameraImage;
@@ -449,78 +306,48 @@ std::string Model::ToJson() const
             {
                 camObj << "background_well_layer" << camera->mCameraImageandLayers.mBackgroundWellLayer;
             }
+            */
 
-            jsonxx::Array mapObjects;
+            nlohmann::json mapObjects;
             for (auto& mapObject : camera->mMapObjects)
             {
-                jsonxx::Object mapObj;
-                mapObj << "name" << mapObject->mName;
-                mapObj << "object_structures_type" << mapObject->mObjectStructureType;
-                jsonxx::Object propertiesObject;
-                for (auto& property : mapObject->mProperties)
-                {
-                    switch (property->mType)
-                    {
-                    case ObjectProperty::Type::BasicType:
-                        propertiesObject << property->mName << property->mBasicTypeValue;
-                        break;
-
-                    case ObjectProperty::Type::Enumeration:
-                        propertiesObject << property->mName << property->mEnumValue;
-                        break;
-                    }
-                }
-                mapObj << "properties" << propertiesObject;
-                mapObjects << mapObj;
+                //nlohmann::json mapObj{
+                //    {mapObjects, mapObj};
+               // mapObj << "name" << mapObject->mName;
+               // mapObj << "properties" << propertiesObject;
             }
-            camObj << "map_objects" << mapObjects;
 
-            cameras << camObj;
+            nlohmann::json camObj{
+                {"id", camera->mId},
+                {"x", camera->mX},
+                {"y", camera->mY},
+                {"map_objects", mapObjects}
+            };
+
+           // cameras << camObj;
         }
     }
 
-    jsonxx::Object collisionsObject;
-    jsonxx::Array collisionItems;
+    nlohmann::json collisionsObject;
+    nlohmann::json collisionItems;
     for (auto& collision : mCollisions)
     {
-        jsonxx::Object collisionObj;
-        for (auto& property : collision->mProperties)
-        {
-            switch (property->mType)
-            {
-            case ObjectProperty::Type::BasicType:
-                // Special case handling for next/previous property links, map line Ids to line index
-                if (property->mName == "Previous" || property->mName == "Next")
-                {
-                    collisionObj << property->mName << IndexOfCollisionId(property->mBasicTypeValue);
-                }
-                else
-                {
-                    collisionObj << property->mName << property->mBasicTypeValue;
-                }
-                break;
-
-            case ObjectProperty::Type::Enumeration:
-                collisionObj << property->mName << property->mEnumValue;
-                break;
-            }
-        }
-        collisionItems << collisionObj;
+        nlohmann::json collisionObj;
+    //    collisionItems << collisionObj;
     }
 
+    /*
     collisionsObject << "items" << collisionItems;
-    collisionsObject << "structure" << mCollisionStructureSchema;
     map << "collisions" << collisionsObject;
 
     map << "cameras" << cameras;
     root << "map" << map;
+    */
 
-    root << "schema" << mSchema;
-
-    return root.json();
+    return root;
 }
 
-UP_CollisionObject Model::RemoveCollisionItem(CollisionObject* pItem)
+Model::UP_CollisionObject Model::RemoveCollisionItem(Model::CollisionObject* pItem)
 {
     for (auto it = mCollisions.begin(); it != mCollisions.end(); )
     {
@@ -537,6 +364,7 @@ UP_CollisionObject Model::RemoveCollisionItem(CollisionObject* pItem)
 
 void Model::CreateEmptyCameras()
 {
+    /*
     // Make sure every cell in the "map" has a camera object
     for (int x = 0; x < mMapInfo.mXSize; x++)
     {
@@ -551,47 +379,12 @@ void Model::CreateEmptyCameras()
             }
         }
     }
+    */
 }
 
-ObjectProperty* PropertyByName(const std::string& name, std::vector<UP_ObjectProperty>& props)
-{
-    for (auto& prop : props)
-    {
-        if (prop->mName == name)
-        {
-            return prop.get();
-        }
-    }
-    return nullptr;
-}
 
-const ObjectProperty* PropertyByName(const std::string& name, const std::vector<UP_ObjectProperty>& props)
-{
-    for (const auto& prop : props)
-    {
-        if (prop->mName == name)
-        {
-            return prop.get();
-        }
-    }
-    return nullptr;
-}
-
-MapObject::MapObject(const MapObject& rhs)
-    : mName(rhs.mName),
-      mObjectStructureType(rhs.mObjectStructureType)
-{
-    for (auto& prop : rhs.mProperties)
-    {
-        mProperties.emplace_back(std::make_unique<ObjectProperty>(*prop));
-    }
-}
-
-CollisionObject::CollisionObject(int id, const CollisionObject& rhs)
+Model::CollisionObject::CollisionObject(int id, const Model::CollisionObject& rhs)
     : mId(id)
 {
-    for (auto& prop : rhs.mProperties)
-    {
-        mProperties.emplace_back(std::make_unique<ObjectProperty>(*prop));
-    }
+
 }

@@ -6,6 +6,7 @@
 PasteItemsCommand::PasteItemsCommand(EditorTab* pTab, ClipBoard& clipBoard)
     : mTab(pTab), mSelectionSaver(pTab)
 {
+    /*
     // Make another deep copy of the items and create graphics items for them
     mCollisions = clipBoard.CloneCollisions(nullptr);
     for (auto& obj : mCollisions)
@@ -34,6 +35,7 @@ PasteItemsCommand::PasteItemsCommand(EditorTab* pTab, ClipBoard& clipBoard)
     }
 
     setText("Paste " + QString::number(mCollisions.size() + mMapObjects.size()) +  " item(s)");
+    */
 }
 
 PasteItemsCommand::~PasteItemsCommand()
@@ -55,6 +57,7 @@ PasteItemsCommand::~PasteItemsCommand()
 
 void PasteItemsCommand::redo()
 {
+    /*
     // Add to scene
     for (auto& obj : mMapGraphicsObjects)
     {
@@ -97,10 +100,12 @@ void PasteItemsCommand::redo()
     mPasted = true;
 
     mSelectionSaver.redo();
+    */
 }
 
 void PasteItemsCommand::undo()
 {
+    /*
     for (auto& obj : mMapGraphicsObjects)
     {
         // Remove from model
@@ -126,10 +131,12 @@ void PasteItemsCommand::undo()
     mPasted = false;
 
     mSelectionSaver.undo();
+    */
 }
 
 void ClipBoard::Set(const QList<QGraphicsItem*>& items, Model& model)
 {
+    /*
     if (items.isEmpty())
     {
         return;
@@ -158,11 +165,13 @@ void ClipBoard::Set(const QList<QGraphicsItem*>& items, Model& model)
             }
         }
     }
+    */
 }
 
 bool ClipBoard::IsEmpty() const
 {
-    return mMapObjects.empty() && mCollisions.empty();
+    //return mMapObjects.empty() && mCollisions.empty();
+    return true;
 }
 
 const std::string& ClipBoard::SourceGame() const
@@ -170,7 +179,7 @@ const std::string& ClipBoard::SourceGame() const
     return mSourceGame;
 }
 
-
+/*/
 std::vector<UP_MapObject> ClipBoard::CloneMapObjects(QPoint* pos) const
 {
     QPoint offset(50, 50);
@@ -202,3 +211,4 @@ std::vector<UP_CollisionObject> ClipBoard::CloneCollisions(QPoint* pos) const
     }
     return r;
 }
+*/

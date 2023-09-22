@@ -6,13 +6,12 @@
 
 struct CollisionConnectData
 {
-    CollisionConnectData(ObjectProperty *mObjectProperty, int mOldValue, int mNewValue) : mObjectProperty(
-            mObjectProperty), mOldValue(mOldValue), mNewValue(mNewValue)
+    CollisionConnectData(int mOldValue, int mNewValue) : mOldValue(mOldValue), mNewValue(mNewValue)
     {
 
     }
 
-    ObjectProperty* mObjectProperty;
+  //  ObjectProperty* mObjectProperty;
     int mOldValue;
     int mNewValue;
 };

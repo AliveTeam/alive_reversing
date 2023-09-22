@@ -380,6 +380,8 @@ std::vector<std::unique_ptr<BinaryPath>> ResourceManagerWrapper::LoadPaths(EReli
         const std::string pathJsonStr = fs.LoadToString(pathJsonFile);
 
         // TODO: set the res ptrs to the parsed json data
+        // TODO: Handle exception on bad data
+
         nlohmann::json pathJson = nlohmann::json::parse(pathJsonStr);
         LOG_INFO("Cam count %d", pathJson["map"]["cameras"].size());
 

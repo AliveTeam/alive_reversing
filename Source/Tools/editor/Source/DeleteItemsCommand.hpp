@@ -19,10 +19,10 @@ public:
     void redo() override;
 
 private:
-    std::vector<UP_CollisionObject> mRemovedCollisions;
+  //  std::vector<UP_CollisionObject> mRemovedCollisions;
     struct DeletedMapObject final
     {
-        UP_MapObject mRemovedMapObject;
+      //  UP_MapObject mRemovedMapObject;
         Camera* mContainingCamera;
     };
     std::vector<DeletedMapObject> mRemovedMapObjects;

@@ -12,22 +12,21 @@ class IPointSnapper;
 class ResizeableArrowItem final : public IGraphicsItem, public QGraphicsLineItem
 {
 public:
-    ResizeableArrowItem(QGraphicsView* pView, CollisionObject* pLine, ISyncPropertiesToTree& propSyncer, int transparency, SnapSettings& snapSettings, IPointSnapper& snapper);
+    ResizeableArrowItem(QGraphicsView* pView, Model::CollisionObject* pLine, ISyncPropertiesToTree& propSyncer, int transparency, SnapSettings& snapSettings, IPointSnapper& snapper);
     enum { Type = UserType + 2 };
     int type() const override { return Type; }
     QLineF SaveLine() const;
     void RestoreLine(const QLineF& line);
-    CollisionObject* GetCollisionItem() const { return mLine; }
+    Model::CollisionObject* GetCollisionItem() const
+    {
+        return mLine;
+    }
 
     void SyncInternalObject() override
     {
         SyncToCollisionItem();
     }
 
-    std::vector<UP_ObjectProperty>& GetProperties() override
-    {
-        return mLine->mProperties;
-    }
 
 protected:
     void hoverLeaveEvent( QGraphicsSceneHoverEvent* aEvent ) override;
@@ -58,7 +57,7 @@ private:
     QLineF m_MouseDownLine;
     bool m_MouseIsDown = false;
     QGraphicsView* mView = nullptr;
-    CollisionObject* mLine = nullptr;
+    Model::CollisionObject* mLine = nullptr;
     ISyncPropertiesToTree& mPropSyncer;
 
     SnapSettings& mSnapSettings;

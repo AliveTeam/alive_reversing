@@ -37,7 +37,7 @@ class EnumProperty final : public QObject, public PropertyTreeItemBase
 {
     Q_OBJECT
 public:
-    EnumProperty(QUndoStack& undoStack, QTreeWidgetItem* pParent, ObjectProperty* pProperty, IGraphicsItem* pGraphicsItem, Enum* pEnum);
+    EnumProperty(QUndoStack& undoStack, QTreeWidgetItem* pParent, IGraphicsItem* pGraphicsItem, Enum* pEnum);
 
     QWidget* CreateEditorWidget(PropertyTreeWidget* pParent) override;
 
@@ -45,7 +45,8 @@ public:
 
     const void* GetPropertyLookUpKey() const override
     {
-        return mProperty;
+        //return mProperty;
+        return nullptr;
     }
 
 
@@ -53,7 +54,7 @@ private:
     void SetPropertyIndexFromEnumValue();
 
     QUndoStack& mUndoStack;
-    ObjectProperty* mProperty = nullptr;
+   // ObjectProperty* mProperty = nullptr;
     IGraphicsItem* mGraphicsItem = nullptr;
     Enum* mEnum = nullptr;
     int mOldIdx = -1;

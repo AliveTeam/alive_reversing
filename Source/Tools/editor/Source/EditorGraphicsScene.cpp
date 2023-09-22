@@ -18,6 +18,7 @@ EditorGraphicsScene::EditorGraphicsScene(EditorTab* pTab)
 
 QList<ResizeableRectItem*> EditorGraphicsScene::MapObjectsForCamera(CameraGraphicsItem* pCameraGraphicsItem)
 {
+    /*
     const auto& modelMapObjects = pCameraGraphicsItem->GetCamera()->mMapObjects;
 
     QList<ResizeableRectItem*> graphicsItemMapObjects;
@@ -38,18 +39,23 @@ QList<ResizeableRectItem*> EditorGraphicsScene::MapObjectsForCamera(CameraGraphi
         }
     }
     return graphicsItemMapObjects;
+    */
+    return {};
 }
 
 void EditorGraphicsScene::UpdateSceneRect()
 {
+    /*
     const int kXMargin = 100;
     const int kYMargin = 100;
     const auto& mapInfo = mTab->GetModel().GetMapInfo();
     setSceneRect(-kXMargin, -kYMargin, (mapInfo.mXSize * mapInfo.mXGridSize) + (kXMargin * 2), (mapInfo.mYSize * mapInfo.mYGridSize) + (kYMargin * 2));
+    */
 }
 
 CameraGraphicsItem* EditorGraphicsScene::CameraAt(int x, int y)
 {
+    /*
     QList<QGraphicsItem*> allItems = items();
     for (QGraphicsItem* item : allItems)
     {
@@ -62,6 +68,7 @@ CameraGraphicsItem* EditorGraphicsScene::CameraAt(int x, int y)
             }
         }
     }
+    */
     return nullptr;
 }
 
@@ -251,6 +258,7 @@ void EditorGraphicsScene::keyPressEvent(QKeyEvent* keyEvent)
 
 Camera* CalcContainingCamera(ResizeableRectItem* pItem, Model& model)
 {
+    /*
     QPoint midPoint = pItem->CurrentRect().center().toPoint();
 
     int camX = midPoint.x() / model.GetMapInfo().mXGridSize;
@@ -276,6 +284,8 @@ Camera* CalcContainingCamera(ResizeableRectItem* pItem, Model& model)
     }
 
     return model.CameraAt(camX, camY);
+    */
+    return nullptr;
 }
 
 
@@ -307,7 +317,7 @@ void ItemPositionData::Restore(Model& model)
     for (auto& [rect, pos] : mRects)
     {
         rect->SetRect(pos.rect);
-        model.SwapContainingCamera(rect->GetMapObject(), pos.containingCamera);
+        //model.SwapContainingCamera(rect->GetMapObject(), pos.containingCamera);
     }
 
     for (auto& [line, pos] : mLines)
@@ -327,11 +337,11 @@ void ItemPositionData::AddRect(ResizeableRectItem* pItem, Model& model, bool rec
     {
         pContainingCamera = CalcContainingCamera(pItem, model);
 
-        model.SwapContainingCamera(pMapObject, pContainingCamera);
+       //model.SwapContainingCamera(pMapObject, pContainingCamera);
     }
     else
     {
-        pContainingCamera = model.GetContainingCamera(pMapObject);
+      //  pContainingCamera = model.GetContainingCamera(pMapObject);
     }
 
     mRects[pItem] = { pItem->CurrentRect(), pContainingCamera };

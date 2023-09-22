@@ -75,7 +75,7 @@ public:
     void ConnectCollisions();
 
     ResizeableRectItem* MakeResizeableRectItem(MapObject* pMapObject);
-    ResizeableArrowItem* MakeResizeableArrowItem(CollisionObject* pCollisionObject);
+    ResizeableArrowItem* MakeResizeableArrowItem(Model::CollisionObject* pCollisionObject);
     CameraGraphicsItem* MakeCameraGraphicsItem(Camera* pCamera, int x, int y, int w, int h);
 
     CameraManager* GetCameraManagerDialog()

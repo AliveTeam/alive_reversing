@@ -269,7 +269,7 @@ bool EditorMainWindow::onOpenPath(QString fullFileName, bool createNewPath)
         // Load the json file into the editors object model
         auto model = std::make_unique<Model>();
         model->LoadJsonFromFile(fullFileName.toStdString());
-
+        /*
         if (model->GetMapInfo().mPathVersion > ReliveAPI::GetApiVersion())
         {
             // The json API level is higher than what we support
@@ -281,19 +281,20 @@ bool EditorMainWindow::onOpenPath(QString fullFileName, bool createNewPath)
             // The json API level is lower than what we support - but we can upgrade it
             std::string upgradedJson = ReliveAPI::UpgradePathJson(fileIo, fullFileName.toStdString());
             {
-                /*
+                
                 QString filename = "upgrade_test.json";
                 QFile file(filename);
                 if (file.open(QIODevice::ReadWrite)) 
                 {
                     QTextStream stream(&file);
                     stream << upgradedJson.c_str() << endl;
-                }*/
+                }
             }
             model = std::make_unique<Model>();
             model->LoadJsonFromString(upgradedJson);
             isUpgraded = true;
         }
+        */
 
         if (createNewPath)
         {
@@ -307,8 +308,8 @@ bool EditorMainWindow::onOpenPath(QString fullFileName, bool createNewPath)
 
             // Also change the file name to something more sane and force SaveAs if the user
             // attempts to save this path.
-            const auto generatedName = model->GetMapInfo().mGame + "_" + model->GetMapInfo().mPathBnd + "_" + QString::number(*selectedPath).toStdString();
-            fullFileName = QString(generatedName.c_str());
+           // const auto generatedName = model->GetMapInfo().mGame + "_" + model->GetMapInfo().mPathBnd + "_" + QString::number(*selectedPath).toStdString();
+           // fullFileName = QString(generatedName.c_str());
         }
 
         EditorTab* view = new EditorTab(m_ui->tabWidget, std::move(model), fullFileName, isTempfile, statusBar(), mSnapSettings);
@@ -335,12 +336,12 @@ bool EditorMainWindow::onOpenPath(QString fullFileName, bool createNewPath)
 
         return true;
     }
-    catch (const JsonKeyNotFoundException& e)
+    catch (const Model::JsonKeyNotFoundException& e)
     {
         QMessageBox::critical(this, "Error", QString("Key missing from json: ") + e.Key().c_str());
         return false;
     }
-    catch (const ModelException&)
+    catch (const Model::ModelException&)
     {
         QMessageBox::critical(this, "Error", "Failed to load json");
         return false;
@@ -805,6 +806,7 @@ void EditorMainWindow::on_actionPaste_triggered()
         EditorTab* pTab = getActiveTab(m_ui->tabWidget);
         if (pTab)
         {
+            /*
             if (mClipBoard.SourceGame() != pTab->GetModel().GetMapInfo().mGame)
             {
                 QMessageBox::critical(this, "Error", "You can't cut/copy paste data between AO and AE");
@@ -812,7 +814,7 @@ void EditorMainWindow::on_actionPaste_triggered()
             else
             {
                 pTab->Paste(mClipBoard);
-            }
+            }*/
         }
     }
 }

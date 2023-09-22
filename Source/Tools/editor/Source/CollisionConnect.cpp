@@ -10,24 +10,27 @@ CollisionConnectCommand::CollisionConnectCommand(std::vector<CollisionConnectDat
 
 void CollisionConnectCommand::undo()
 {
+    /*
     for (auto& joinDatum : mCollisionConnectData)
     {
         joinDatum.mObjectProperty->mBasicTypeValue = joinDatum.mOldValue;
-    }
+    }*/
 }
 
 void CollisionConnectCommand::redo()
 {
+    /*
     for (auto& joinDatum : mCollisionConnectData)
     {
         joinDatum.mObjectProperty->mBasicTypeValue = joinDatum.mNewValue;
-    }
+    }*/
 }
 
 std::vector<CollisionConnectData> CollisionConnectCommand::getConnectCollisionsChanges(const std::vector<ResizeableArrowItem*> &collisions)
 {
     std::vector<CollisionConnectData> collisionConnectData;
 
+    /*
     for (int i = 0; i < collisions.size(); i++)
     {
         auto& collision = collisions[i];
@@ -76,5 +79,6 @@ std::vector<CollisionConnectData> CollisionConnectCommand::getConnectCollisionsC
 
         }
     }
+    */
     return collisionConnectData;
 }
