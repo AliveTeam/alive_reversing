@@ -389,13 +389,15 @@ void Game_Run()
     // AO doesn't have an instance, only statics
     relive_new ResourceManager();
 
+    // NOTE: We need to call Input_Init() before Init_Sound_DynamicArrays_And_Others() because of gLatencyHack
+    // which can be configured from the ini
+    Input_Init();
+
     Init_Sound_DynamicArrays_And_Others();
 
     // Not technically needed yet but will de-sync if not instantiated here
     CamResource nullCamRes;
     gScreenManager = relive_new ScreenManager(nullCamRes, &gMap.mCameraOffset);
-
-    Input_Init();
 
     gMap.Init(EReliveLevelIds::eMenu, 1, 25, CameraSwapEffects::eInstantChange_0, 0, 0);
 
