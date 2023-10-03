@@ -614,8 +614,11 @@ EXPORT void Game_Run_4373D0()
     gObjList_animations_505564 = ao_new<DynamicArrayT<AnimationBase>>();
     gObjList_animations_505564->ctor_4043E0(80);
 
-    Init_Sound_DynamicArrays_And_Others_41CD20();
+    // NOTE: We need to call Input_Init() before Init_Sound_DynamicArrays_And_Others() because of gLatencyHack
+    // which can be configured from the ini
     Input_Init_44EB60();
+
+    Init_Sound_DynamicArrays_And_Others_41CD20();
 
     Path_Set_NewData_FromLvls();
 

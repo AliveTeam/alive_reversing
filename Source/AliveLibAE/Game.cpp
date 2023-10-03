@@ -490,6 +490,10 @@ EXPORT void CC Game_Run_466D40()
     pResourceManager_5C1BB0 = ae_new<ResourceManager>();
     pResourceManager_5C1BB0->ctor_464910();
 
+    // NOTE: We need to call Input_Init() before Init_Sound_DynamicArrays_And_Others() because of gLatencyHack
+    // which can be configured from the ini
+    Input_Init_491BC0();
+
     Init_Sound_DynamicArrays_And_Others_43BDB0();
 
     Camera camera;
@@ -515,7 +519,6 @@ EXPORT void CC Game_Run_466D40()
 
     camera.dtor_480E00();
 
-    Input_Init_491BC0();
     s16 cameraId = 25;
 #if DEVELOPER_MODE
     #if _WIN32
