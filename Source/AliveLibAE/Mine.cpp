@@ -45,19 +45,19 @@ Mine::Mine(relive::Path_Mine* pTlv, const Guid& tlvId)
         SetScale(Scale::Fg);
     }
 
-    const s32 v7 = pTlv->mTopLeftX + pTlv->mBottomRightX;
-    mXPos = FP_FromInteger(v7 / 2);
-    const FP v8 = FP_FromInteger(pTlv->mTopLeftY);
-    mYPos = v8;
+    const FP tlvMidPointX = FP_FromInteger(pTlv->MidPointX());
+    mXPos = tlvMidPointX;
+    const FP tlvTopLeftY = FP_FromInteger(pTlv->mTopLeftY);
+    mYPos = tlvTopLeftY;
 
     FP hitY;
     FP hitX;
-
+    
     if (gCollisions->Raycast(
-            FP_FromInteger(v7 / 2),
-            v8,
-            FP_FromInteger(v7 / 2),
-            v8 + FP_FromInteger(24),
+            tlvMidPointX,
+            tlvTopLeftY,
+            tlvMidPointX,
+            tlvTopLeftY + FP_FromInteger(24),
             &BaseAliveGameObjectCollisionLine,
             &hitX,
             &hitY,
@@ -86,9 +86,9 @@ Mine::Mine(relive::Path_Mine* pTlv, const Guid& tlvId)
     SetInteractive(true);
     SetDoPurpleLightEffect(true);
 
-    mCollectionRect.x = mXPos - (gridSnap / FP_FromDouble(2.0));
+    mCollectionRect.x = mXPos - (gridSnap / FP_FromInteger(2));
     mCollectionRect.y = mYPos - gridSnap;
-    mCollectionRect.w = (gridSnap / FP_FromDouble(2.0)) + mXPos;
+    mCollectionRect.w = mXPos + (gridSnap / FP_FromInteger(2));
     mCollectionRect.h = mYPos;
 }
 
@@ -158,7 +158,7 @@ void Mine::VOnThrowableHit(BaseGameObject* /*pFrom*/)
 
 void Mine::VOnPickUpOrSlapped()
 {
-    if (mDetonating != true)
+    if (!mDetonating)
     {
         mDetonating = true;
         mExplosionTimer = MakeTimer(5);
@@ -198,7 +198,7 @@ void Mine::VUpdate()
 
     if (mDetonating)
     {
-        if (mDetonating == true && sGnFrame >= mExplosionTimer)
+        if (mDetonating && sGnFrame >= mExplosionTimer)
         {
             relive_new GroundExplosion(mXPos, mYPos, GetSpriteScale());
             SetDead(true);
@@ -218,16 +218,15 @@ void Mine::VUpdate()
                 sMinePlayingSound = nullptr;
             }
         }
-        if (Mine::IsColliding())
+        if (IsColliding())
         {
             mDetonating = true;
             mExplosionTimer = sGnFrame;
         }
     }
-    if (mDetonating != true)
+    if (!mDetonating)
     {
-        BaseGameObject* pEventObj = EventGet(kEventDeathReset);
-        if (pEventObj || mCurrentLevel != gMap.mCurrentLevel || mCurrentPath != gMap.mCurrentPath)
+        if (EventGet(kEventDeathReset) || mCurrentLevel != gMap.mCurrentLevel || mCurrentPath != gMap.mCurrentPath)
         {
             SetDead(true);
         }
@@ -240,7 +239,6 @@ bool Mine::IsColliding()
     for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
     {
         IBaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
-
         if (!pObj)
         {
             break;
@@ -254,10 +252,9 @@ bool Mine::IsColliding()
 
             if (objX > mineBound.x && objX < mineBound.w && objY < mineBound.h + 12 && mineBound.x <= objBound.w && mineBound.w >= objBound.x && mineBound.h >= objBound.y && mineBound.y <= objBound.h && pObj->GetSpriteScale() == GetSpriteScale())
             {
-                return 1;
+                return true;
             }
         }
     }
-
-    return 0;
+    return false;
 }

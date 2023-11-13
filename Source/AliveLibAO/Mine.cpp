@@ -77,17 +77,18 @@ Mine::Mine(relive::Path_Mine* pTlv, const Guid& tlvId)
         //ResourceManager::GetLoadedResource(ResourceManager::Resource_Palt, AOResourceID::kSlogBlowAOResID, 1, 0);
     }
 
+    const FP gridSnap = ScaleToGridSize(GetSpriteScale());
     SetInteractive(true);
 
-    mCollectionRect.x = mXPos - (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(2));
-    mCollectionRect.y = mYPos - ScaleToGridSize(GetSpriteScale());
-    mCollectionRect.w = mXPos + (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(2));
+    mCollectionRect.x = mXPos - (gridSnap / FP_FromInteger(2));
+    mCollectionRect.y = mYPos - gridSnap;
+    mCollectionRect.w = mXPos + (gridSnap / FP_FromInteger(2));
     mCollectionRect.h = mYPos;
 }
 
 Mine::~Mine()
 {
-    if (mDetonating == true)
+    if (mDetonating)
     {
         Path::TLV_Reset(mTlvId, -1, 0, 1);
     }
@@ -97,7 +98,6 @@ Mine::~Mine()
     }
 
     mFlashAnim.VCleanUp();
-
     SetInteractive(false);
 
     if (sMinePlayingSound == this)
@@ -148,7 +148,7 @@ void Mine::VOnThrowableHit(BaseGameObject* /*pFrom*/)
 
 void Mine::VOnPickUpOrSlapped()
 {
-    if (mDetonating != true)
+    if (!mDetonating)
     {
         mDetonating = true;
         mExplosionTimer = MakeTimer(5);
@@ -185,7 +185,7 @@ void Mine::VUpdate()
 
     if (mDetonating)
     {
-        if (mDetonating == true && static_cast<s32>(sGnFrame) >= mExplosionTimer)
+        if (mDetonating && sGnFrame >= mExplosionTimer)
         {
             relive_new GroundExplosion(mXPos, mYPos, GetSpriteScale());
             SetDead(true);
@@ -193,7 +193,7 @@ void Mine::VUpdate()
     }
     else
     {
-        if (GetAnimation().GetCurrentFrame() == 1 && (sMinePlayingSound == nullptr || sMinePlayingSound == this))
+        if (GetAnimation().GetCurrentFrame() == 1 && (!sMinePlayingSound || sMinePlayingSound == this))
         {
             if (bInCamera)
             {
@@ -208,17 +208,16 @@ void Mine::VUpdate()
             mExplosionTimer = sGnFrame;
         }
     }
-
-    if (mDetonating != true
-        && (EventGet(kEventDeathReset)
-            || mCurrentLevel != gMap.mCurrentLevel
-            || mCurrentPath != gMap.mCurrentPath))
+    if (!mDetonating)
     {
-        SetDead(true);
+        if (EventGet(kEventDeathReset) || mCurrentLevel != gMap.mCurrentLevel || mCurrentPath != gMap.mCurrentPath)
+        {
+            SetDead(true);
+        }
     }
 }
 
-s16 Mine::IsColliding()
+bool Mine::IsColliding()
 {
     const PSX_RECT mineBound = VGetBoundingRect();
     for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
@@ -237,11 +236,11 @@ s16 Mine::IsColliding()
 
             if (objX > mineBound.x && objX < mineBound.w && objY < mineBound.h + 5 && mineBound.x <= objBound.w && mineBound.w >= objBound.x && mineBound.h >= objBound.y && mineBound.y <= objBound.h && pObj->GetSpriteScale() == GetSpriteScale())
             {
-                return 1;
+                return true;
             }
         }
     }
-    return 0;
+    return false;
 }
 
 } // namespace AO

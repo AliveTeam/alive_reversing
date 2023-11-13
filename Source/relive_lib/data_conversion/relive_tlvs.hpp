@@ -95,6 +95,16 @@ public:
     {
         return mBottomRightY - mTopLeftY;
     }
+
+    s16 MidPointX() const
+    {
+        return (mTopLeftX + mBottomRightX) / 2;
+    }
+
+    s16 MidPointY() const
+    {
+        return (mTopLeftY + mBottomRightY) / 2;
+    }
 };
 
 class Path_ShadowZone final : public Path_TLV

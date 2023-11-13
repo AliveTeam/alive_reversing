@@ -24,11 +24,11 @@ public:
     virtual void VRender(OrderingTable& ot) override;
     virtual void VUpdate() override;
 
-    s16 IsColliding();
+    bool IsColliding();
 
     bool mDetonating = false;
     Guid mTlvId;
-    s32 mExplosionTimer = 0;
+    u32 mExplosionTimer = 0;
     Animation mFlashAnim;
     s32 field_1B0_flags = 0;
     bool mPersistOffscreen = false;
