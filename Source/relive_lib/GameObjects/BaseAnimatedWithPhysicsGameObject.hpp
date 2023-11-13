@@ -47,7 +47,7 @@ public:
     virtual bool VIsFacingMe(BaseAnimatedWithPhysicsGameObject* pOther);
     virtual bool VOnSameYLevel(BaseAnimatedWithPhysicsGameObject* pOther);
     virtual void VStackOnObjectsOfType(ReliveTypes typeToFind);
-    virtual void VOnPickUpOrSlapped();
+    virtual void VOnAbeInteraction();
     virtual void VOnThrowableHit(BaseGameObject* pFrom);
 
     void SetTint(const TintEntry* pTintArray, EReliveLevelIds levelId);

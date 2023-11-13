@@ -216,7 +216,7 @@ void UXB::InitBlinkAnim(Animation* pAnimation)
     }
 }
 
-void UXB::VOnPickUpOrSlapped()
+void UXB::VOnAbeInteraction()
 {
     if (mCurrentState != UXBState::eExploding)
     {

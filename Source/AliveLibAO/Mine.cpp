@@ -146,7 +146,7 @@ void Mine::VOnThrowableHit(BaseGameObject* /*pFrom*/)
     mDetonating = true;
 }
 
-void Mine::VOnPickUpOrSlapped()
+void Mine::VOnAbeInteraction()
 {
     if (!mDetonating)
     {

@@ -335,7 +335,7 @@ void BaseAnimatedWithPhysicsGameObject::VStackOnObjectsOfType(ReliveTypes typeTo
 	}
 }
 
-void BaseAnimatedWithPhysicsGameObject::VOnPickUpOrSlapped()
+void BaseAnimatedWithPhysicsGameObject::VOnAbeInteraction()
 {
     // Empty
 }

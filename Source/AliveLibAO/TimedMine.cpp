@@ -281,7 +281,7 @@ void TimedMine::VOnThrowableHit(BaseGameObject* /*pHitBy*/)
     mExplosionTimer = sGnFrame;
 }
 
-void TimedMine::VOnPickUpOrSlapped()
+void TimedMine::VOnAbeInteraction()
 {
     if (mSlappedMine != 1)
     {

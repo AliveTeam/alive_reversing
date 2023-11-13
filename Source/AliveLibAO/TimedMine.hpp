@@ -22,7 +22,7 @@ public:
     virtual void VScreenChanged() override;
     virtual bool VTakeDamage(BaseGameObject* pFrom) override;
     virtual void VOnThrowableHit(BaseGameObject* pFrom) override;
-    virtual void VOnPickUpOrSlapped() override;
+    virtual void VOnAbeInteraction() override;
 
 private:
     void StickToLiftPoint();

@@ -23,7 +23,7 @@ public:
 
     virtual s16 VGetCount();
     virtual void VToDead();
-    virtual void VOnPickUpOrSlapped() override;
+    virtual void VOnAbeInteraction() override;
 
     using FnTypeMatcher = AddPointer_t<bool(ReliveTypes type)>;
     void BaseAddToPlatform(FnTypeMatcher cb);

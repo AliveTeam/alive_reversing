@@ -24,7 +24,7 @@ public:
 
     virtual s16 VGetCount();
     virtual void VToDead();
-    virtual void VOnPickUpOrSlapped() override;
+    virtual void VOnAbeInteraction() override;
 
     void BaseAddToPlatform();
 protected:

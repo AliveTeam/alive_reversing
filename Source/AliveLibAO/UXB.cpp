@@ -161,7 +161,7 @@ void UXB::InitBlinkAnim()
     }
 }
 
-void UXB::VOnPickUpOrSlapped()
+void UXB::VOnAbeInteraction()
 {
     if (mCurrentState != UXBState::eExploding)
     {

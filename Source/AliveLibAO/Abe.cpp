@@ -977,7 +977,7 @@ void Abe::FollowLift()
         mVelY = pLift->mVelY;
         if (pLift->GetDead())
         {
-            pLift->VOnPickUpOrSlapped();
+            pLift->VOnAbeInteraction();
         }
         SetActiveCameraDelayedFromDir();
     }
@@ -1644,7 +1644,7 @@ void Abe::PickUpThrowabe_Or_PressBomb(FP fpX, s32 fpY, s16 bStandToCrouch)
                 {
                     SfxPlayMono(relive::SoundEffects::PickupItem, 0, GetSpriteScale());
                     field_15C_pThrowable->mBaseGameObjectRefCount--;
-                    field_15C_pThrowable->VOnPickUpOrSlapped();
+                    field_15C_pThrowable->VOnAbeInteraction();
                     field_15C_pThrowable = nullptr;
                     mCurrentMotion = eAbeMotions::Motion_19_CrouchIdle;
                 }
@@ -7810,7 +7810,7 @@ void Abe::Motion_127_SlapBomb()
         if (field_15C_pThrowable)
         {
             field_15C_pThrowable->mBaseGameObjectRefCount--;
-            field_15C_pThrowable->VOnPickUpOrSlapped();
+            field_15C_pThrowable->VOnAbeInteraction();
             field_15C_pThrowable = nullptr;
         }
     }
@@ -8389,7 +8389,7 @@ void Abe::Motion_149_PickupItem()
         if (field_15C_pThrowable)
         {
             field_15C_pThrowable->mBaseGameObjectRefCount--;
-            field_15C_pThrowable->VOnPickUpOrSlapped();
+            field_15C_pThrowable->VOnAbeInteraction();
             field_15C_pThrowable = nullptr;
         }
     }

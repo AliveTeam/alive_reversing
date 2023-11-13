@@ -6313,7 +6313,7 @@ void Abe::Motion_100_SlapBomb()
     {
         if (pItem)
         {
-            pItem->VOnPickUpOrSlapped();
+            pItem->VOnAbeInteraction();
             mSlappableOrPickupId = Guid{};
         }
     }
@@ -6579,7 +6579,7 @@ void Abe::Motion_111_PickupItem()
     {
         if (pRock)
         {
-            pRock->VOnPickUpOrSlapped();
+            pRock->VOnAbeInteraction();
             mSlappableOrPickupId = Guid{};
         }
     }
@@ -7590,7 +7590,7 @@ void Abe::PickUpThrowabe_Or_PressBomb_454090(FP fpX, s32 fpY, s32 bStandToCrouch
                 if (bStandToCrouch)
                 {
                     SfxPlayMono(relive::SoundEffects::PickupItem, 0, GetSpriteScale());
-                    pSlappableOrCollectable->VOnPickUpOrSlapped();
+                    pSlappableOrCollectable->VOnAbeInteraction();
                     mSlappableOrPickupId = Guid{};
                     mCurrentMotion = eAbeMotions::Motion_17_CrouchIdle_456BC0;
                 }

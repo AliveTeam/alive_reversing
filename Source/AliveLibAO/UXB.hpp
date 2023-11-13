@@ -28,7 +28,7 @@ public:
     virtual void VUpdate() override;
     virtual void VRender(OrderingTable& ot) override;
     virtual void VScreenChanged() override;
-    virtual void VOnPickUpOrSlapped() override;
+    virtual void VOnAbeInteraction() override;
     virtual void VOnThrowableHit(BaseGameObject* pFrom) override;
     virtual bool VTakeDamage(BaseGameObject* pFrom) override;
 

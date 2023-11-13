@@ -120,7 +120,7 @@ void BaseThrowable::VToDead()
     mBaseThrowableDead = true;
 }
 
-void BaseThrowable::VOnPickUpOrSlapped()
+void BaseThrowable::VOnAbeInteraction()
 {
     VToDead();
 }
