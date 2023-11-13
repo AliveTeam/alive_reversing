@@ -107,7 +107,7 @@ public:
 
     s16 Get_Camera_World_Rect(CameraPos camIdx, PSX_RECT* pRect);
 
-    s16 Is_Point_In_Current_Camera(EReliveLevelIds level, s32 path, FP xpos, FP ypos, s16 width);
+    s16 Is_Point_In_Current_Camera(EReliveLevelIds level, s32 path, FP xpos, FP ypos, s16 width) override;
 
     // NOTE: Global func in AE
     void Start_Sounds_For_Objects_In_Near_Cameras();

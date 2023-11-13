@@ -58,7 +58,7 @@ public:
 
     static void LoadResource(const char_type* pFileName, s32 type, s32 resourceId, LoadMode loadMode, s16 bDontLoad = 0);
 
-    s16 Is_Point_In_Current_Camera(EReliveLevelIds level, s32 path, FP xpos, FP ypos, s16 width);
+    s16 Is_Point_In_Current_Camera(EReliveLevelIds level, s32 path, FP xpos, FP ypos, s16 width) override;
     CameraPos GetDirection(EReliveLevelIds level, s32 path, FP xpos, FP ypos);
 
     s16 Get_Camera_World_Rect(CameraPos camIdx, PSX_RECT* pRect);

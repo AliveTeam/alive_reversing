@@ -1,16 +1,11 @@
-#include "stdafx_ao.h"
+#include "stdafx.h"
 #include "Leaf.hpp"
-#include "../AliveLibAE/stdlib.hpp"
-#include "Math.hpp"
 #include "Sfx.hpp"
-#include "../relive_lib/Collisions.hpp"
-#include "Map.hpp"
-#include "../relive_lib/FixedPoint.hpp"
+#include "../Collisions.hpp"
+#include "../FixedPoint.hpp"
+#include "../GameType.hpp"
 
-namespace AO {
-
-u8 sLeafRandIdx_4D148C = 8;
-
+static u8 sLeafRandIdx = 8;
 
 Leaf::Leaf(FP xpos, FP ypos, FP xVel, FP yVel, FP scale)
     : BaseAnimatedWithPhysicsGameObject(0)
@@ -39,18 +34,21 @@ Leaf::Leaf(FP xpos, FP ypos, FP xVel, FP yVel, FP scale)
     mVelX = xVel * GetSpriteScale();
     mVelY = yVel * GetSpriteScale();
 
-    sLeafRandIdx_4D148C++;
-
-    field_E4_bHitSomething &= ~1u;
+    sLeafRandIdx++;
 
     s16 randLeftVol = Math_RandomRange(19, 24);
-    if (GetSpriteScale() == FP_FromDouble(0.4)) // ??
+    if (GetSpriteScale() == FP_FromDouble(0.5))
     {
         randLeftVol -= 7;
     }
 
     const s16 randRightVol = Math_RandomRange(-900, -700);
     SFX_Play_Pitch(relive::SoundEffects::Leaf, (3 * randLeftVol) / 4, randRightVol);
+
+    if (GetGameType() == GameType::eAe)
+    {
+        SetUpdateDelay(1);
+    }
 }
 
 void Leaf::VUpdate()
@@ -60,11 +58,11 @@ void Leaf::VUpdate()
     mVelX = mVelX * FP_FromDouble(0.8);
     mVelY = mVelY * FP_FromDouble(0.8);
 
-    const s32 randX = gRandomBytes[sLeafRandIdx_4D148C++] - 127;
+    const s32 randX = gRandomBytes[sLeafRandIdx++] - 127;
     mVelX += GetSpriteScale() * (FP_FromInteger(randX) / FP_FromInteger(64));
 
-    const s32 randY = gRandomBytes[sLeafRandIdx_4D148C++] - 127;
-    mVelY += (GetSpriteScale() * (FP_FromInteger(randY) / FP_FromInteger(64)));
+    const s32 randY = gRandomBytes[sLeafRandIdx++] - 127;
+    mVelY += GetSpriteScale() * (FP_FromInteger(randY) / FP_FromInteger(64));
 
     const FP x2 = mVelX + mXPos;
     const FP y2 = mVelY + mYPos;
@@ -89,7 +87,7 @@ void Leaf::VUpdate()
         return;
     }
 
-    if (field_E4_bHitSomething & 1 || !bCollision || 
+    if (mHitSomething || !bCollision || 
         (
         (GetSpriteScale() != FP_FromDouble(0.5) || pLine->mLineType != eLineTypes::eBackgroundFloor_4) &&
         (GetSpriteScale() != FP_FromInteger(1) || pLine->mLineType != eLineTypes::eFloor_0))
@@ -103,14 +101,14 @@ void Leaf::VUpdate()
         mVelX = FP_FromInteger(0);
         mVelY = FP_FromInteger(0);
 
-        field_E4_bHitSomething |= 1;
+        mHitSomething = true;
 
         mXPos = hitX;
         mYPos = hitY;
     }
 
     // Out of the camera, die
-    if (!gMap.Is_Point_In_Current_Camera(
+    if (!GetMap().Is_Point_In_Current_Camera(
             mCurrentLevel,
             mCurrentPath,
             mXPos,
@@ -125,4 +123,3 @@ void Leaf::VScreenChanged()
 {
     SetDead(true);
 }
-} // namespace AO

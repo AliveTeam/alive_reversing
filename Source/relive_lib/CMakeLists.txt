@@ -137,8 +137,6 @@ SET(AliveLibSrcAO
    ../AliveLibAO/Lever.cpp
    ../AliveLibAO/RollingBall.hpp
    ../AliveLibAO/RollingBall.cpp
-   ../AliveLibAO/Leaf.hpp
-   ../AliveLibAO/Leaf.cpp
    ../AliveLibAO/DeathBirdParticle.hpp
    ../AliveLibAO/DeathBirdParticle.cpp
    ../AliveLibAO/PossessionFlicker.hpp
@@ -428,8 +426,6 @@ SET(AliveLibAESrc
     ../AliveLibAE/Spark.hpp
     ../AliveLibAE/SlamDoor.hpp
     ../AliveLibAE/SlamDoor.cpp
-    ../AliveLibAE/Leaf.hpp
-    ../AliveLibAE/Leaf.cpp
     ../AliveLibAE/Well.hpp
     ../AliveLibAE/Well.cpp
     ../AliveLibAE/Water.hpp
@@ -646,6 +642,8 @@ SET(game_objects_src
     GameObjects/ScreenManager.hpp
     GameObjects/ShadowZone.hpp
     GameObjects/ShadowZone.cpp
+    GameObjects/Leaf.hpp
+    GameObjects/Leaf.cpp
 )
 
 SET(data_conversion_src

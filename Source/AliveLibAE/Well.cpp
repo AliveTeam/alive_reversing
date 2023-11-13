@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Well.hpp"
 #include "../relive_lib/Function.hpp"
-#include "Leaf.hpp"
+#include "../relive_lib/GameObjects/Leaf.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
 #include "../relive_lib/Events.hpp"
 #include "stdlib.hpp"

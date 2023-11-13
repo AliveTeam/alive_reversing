@@ -2,8 +2,6 @@
 
 #include "../relive_lib/GameObjects/BaseAnimatedWithPhysicsGameObject.hpp"
 
-namespace AO {
-
 class Leaf final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
@@ -13,7 +11,5 @@ public:
     virtual void VScreenChanged() override;
 
 private:
-    s16 field_E4_bHitSomething = 0;
+    bool mHitSomething = false;
 };
-
-} // namespace AO

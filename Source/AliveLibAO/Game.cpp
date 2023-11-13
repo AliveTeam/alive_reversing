@@ -294,11 +294,19 @@ void Game_Run()
 
     AnimationBase::CreateAnimationArray();
 
-    // NOTE: We need to call Input_Init() before Init_Sound_DynamicArrays_And_Others() because of gLatencyHack
-    // which can be configured from the ini
-    Input_Init();
-
-    Init_Sound_DynamicArrays_And_Others();
+    if (GetGameAutoPlayer().IsPlaying())
+    {
+        // temp de-sync fix
+        Init_Sound_DynamicArrays_And_Others();
+        Input_Init();
+    }
+    else
+    {
+        // NOTE: We need to call Input_Init() before Init_Sound_DynamicArrays_And_Others() because of gLatencyHack
+        // which can be configured from the ini
+        Input_Init();
+        Init_Sound_DynamicArrays_And_Others();
+    }
 
     gMap.Init(EReliveLevelIds::eMenu, 1, 10, CameraSwapEffects::eInstantChange_0, 0, 0);
 
