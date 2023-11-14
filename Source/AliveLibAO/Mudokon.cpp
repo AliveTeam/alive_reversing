@@ -22,7 +22,7 @@
 #include "../relive_lib/GameObjects/Particle.hpp"
 #include "CameraSwapper.hpp"
 #include "Lever.hpp"
-#include "ScreenShake.hpp"
+#include "../relive_lib/GameObjects/ScreenShake.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
 #include "PossessionFlicker.hpp"
 #include "AbilityRing.hpp"
@@ -4263,7 +4263,7 @@ s16 Mudokon::Brain_13_FallAndSmackDeath()
             if (static_cast<s32>(sGnFrame) > field_1C0_timer)
             {
                 Environment_SFX(EnvironmentSfx::eFallingDeathScreamHitGround_15, 0, 0x7FFF, this);
-                relive_new ScreenShake(0);
+                relive_new ScreenShake(false, false);
                 SetDead(true);
             }
         }

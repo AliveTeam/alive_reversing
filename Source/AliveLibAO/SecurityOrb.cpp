@@ -10,7 +10,7 @@
 #include "ZapSpark.hpp"
 #include "Abe.hpp"
 #include "PossessionFlicker.hpp"
-#include "ScreenShake.hpp"
+#include "../relive_lib/GameObjects/ScreenShake.hpp"
 #include "../relive_lib/GameObjects/Flash.hpp"
 #include "Game.hpp"
 #include "../relive_lib/Events.hpp"
@@ -165,7 +165,7 @@ void SecurityOrb::VUpdate()
                 mTimer = MakeTimer(8);
                 mState = States::eDoFlashAndSound_2;
 
-                relive_new ScreenShake(1);
+                relive_new ScreenShake(true, false);
 
                 auto pSpark1 = relive_new ZapSpark(mXPos, mYPos - (FP_FromInteger(8) * GetSpriteScale()), GetSpriteScale());
                 if (pSpark1)

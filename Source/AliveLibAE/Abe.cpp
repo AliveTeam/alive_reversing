@@ -15,7 +15,7 @@
 #include "MusicController.hpp"
 #include "GameSpeak.hpp"
 #include "MusicTrigger.hpp"
-#include "ScreenShake.hpp"
+#include "../relive_lib/GameObjects/ScreenShake.hpp"
 #include "InvisibleEffect.hpp"
 #include "Gibs.hpp"
 #include "Throwable.hpp"

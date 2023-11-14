@@ -12,11 +12,12 @@
 #include "../relive_lib/data_conversion/relive_tlvs.hpp"
 #include "Map.hpp"
 #include "Path.hpp"
+#include "Collisions.hpp"
+#include "../relive_lib/GameType.hpp"
 
 namespace AO {
 
 static Mine* sMinePlayingSound = nullptr;
-
 
 void Mine::LoadAnimations()
 {
@@ -28,10 +29,10 @@ Mine::Mine(relive::Path_Mine* pTlv, const Guid& tlvId)
     : BaseAliveGameObject()
 {
     SetType(ReliveTypes::eMine);
-    
+
     LoadAnimations();
     Animation_Init(GetAnimRes(AnimId::Mine));
-    
+
     SetInteractive(true);
     SetCanExplode(true);
 
@@ -48,11 +49,38 @@ Mine::Mine(relive::Path_Mine* pTlv, const Guid& tlvId)
         SetScale(Scale::Fg);
     }
 
-    mXPos = FP_FromInteger(pTlv->mTopLeftX + 12);
-    mYPos = FP_FromInteger(pTlv->mTopLeftY + 24);
+    if (GetGameType() == GameType::eAe)
+    {
+        const FP tlvMidPointX = FP_FromInteger(pTlv->MidPointX());
+        mXPos = tlvMidPointX;
+        const FP tlvTopLeftY = FP_FromInteger(pTlv->mTopLeftY);
+        mYPos = tlvTopLeftY;
+
+        FP hitY;
+        FP hitX;
+
+        if (gCollisions->Raycast(
+                tlvMidPointX,
+                tlvTopLeftY,
+                tlvMidPointX,
+                tlvTopLeftY + FP_FromInteger(24),
+                &BaseAliveGameObjectCollisionLine,
+                &hitX,
+                &hitY,
+                GetScale() == Scale::Fg ? kFgFloor : kBgFloor)
+            == 1)
+        {
+            mYPos = hitY;
+        }
+    }
+    else
+    {
+        mXPos = FP_FromInteger(pTlv->mTopLeftX + 12);
+        mYPos = FP_FromInteger(pTlv->mTopLeftY + 24);
+    }
+
     mTlvId = tlvId;
     mExplosionTimer = sGnFrame;
-
     mFlashAnim.Init(GetAnimRes(AnimId::Mine_Flash), this);
 
     mFlashAnim.SetSemiTrans(true);
@@ -62,23 +90,25 @@ Mine::Mine(relive::Path_Mine* pTlv, const Guid& tlvId)
     mFlashAnim.SetSpriteScale(GetSpriteScale());
     mFlashAnim.SetRGB(128, 128, 128);
 
-    mFlashAnim.SetBlendMode(relive::TBlendModes::eBlend_0);
-
     if (pTlv->mPersistOffscreen == relive::reliveChoice::eYes)
     {
         mPersistOffscreen = true;
     }
 
-    if (gMap.mCurrentLevel == EReliveLevelIds::eStockYards || gMap.mCurrentLevel == EReliveLevelIds::eStockYardsReturn)
+    if (GetMap().mCurrentLevel == EReliveLevelIds::eStockYards || GetMap().mCurrentLevel == EReliveLevelIds::eStockYardsReturn)
     {
         mRGB.SetRGB(50, 50, 50);
         // TODO: Set the pal
-        //ResourceManager::GetLoadedResource(ResourceManager::Resource_Palt, AOResourceID::kAbeblowAOResID, 1, 0);
-        //ResourceManager::GetLoadedResource(ResourceManager::Resource_Palt, AOResourceID::kSlogBlowAOResID, 1, 0);
+        // ResourceManager::GetLoadedResource(ResourceManager::Resource_Palt, AOResourceID::kAbeblowAOResID, 1, 0);
+        // ResourceManager::GetLoadedResource(ResourceManager::Resource_Palt, AOResourceID::kSlogBlowAOResID, 1, 0);
     }
 
     const FP gridSnap = ScaleToGridSize(GetSpriteScale());
     SetInteractive(true);
+    if (GetGameType() == GameType::eAe)
+    {
+        SetDoPurpleLightEffect(true);
+    }
 
     mCollectionRect.x = mXPos - (gridSnap / FP_FromInteger(2));
     mCollectionRect.y = mYPos - gridSnap;
@@ -108,7 +138,7 @@ Mine::~Mine()
 
 void Mine::VScreenChanged()
 {
-    if (gMap.LevelChanged() || gMap.PathChanged() || !mPersistOffscreen)
+    if (GetMap().LevelChanged() || GetMap().PathChanged() || !mPersistOffscreen)
     {
         SetDead(true);
     }
@@ -123,9 +153,12 @@ bool Mine::VTakeDamage(BaseGameObject* pFrom)
 
     switch (pFrom->Type())
     {
+        case ReliveTypes::eGreeter:
         case ReliveTypes::eAbe:
+        case ReliveTypes::eMineCar:
         case ReliveTypes::eAbilityRing:
         case ReliveTypes::eAirExplosion:
+        case ReliveTypes::eMudokon: // might cause issues in AO?
         case ReliveTypes::eShrykull:
         {
             relive_new GroundExplosion(mXPos, mYPos, GetSpriteScale());
@@ -143,6 +176,10 @@ bool Mine::VTakeDamage(BaseGameObject* pFrom)
 void Mine::VOnThrowableHit(BaseGameObject* /*pFrom*/)
 {
     relive_new GroundExplosion(mXPos, mYPos, GetSpriteScale());
+    if (GetGameType() == GameType::eAe)
+    {
+        SetDead(true);
+    }
     mDetonating = true;
 }
 
@@ -157,26 +194,29 @@ void Mine::VOnAbeInteraction()
 
 void Mine::VRender(OrderingTable& ot)
 {
-    if (gMap.Is_Point_In_Current_Camera(
-            mCurrentLevel,
-            mCurrentPath,
-            mXPos,
-            mYPos,
-            0))
+    if (GetAnimation().GetRender())
     {
-        mFlashAnim.VRender(
-            FP_GetExponent(mXPos + (FP_FromInteger(gScreenManager->mCamXOff) - gScreenManager->mCamPos->x)),
-            FP_GetExponent(mYPos + (FP_FromInteger(gScreenManager->mCamYOff + mYOffset)) - gScreenManager->mCamPos->y),
-            ot,
-            0,
-            0);
-        BaseAnimatedWithPhysicsGameObject::VRender(ot);
+        if (GetMap().Is_Point_In_Current_Camera(
+                mCurrentLevel,
+                mCurrentPath,
+                mXPos,
+                mYPos,
+                0))
+        {
+            mFlashAnim.VRender(
+                FP_GetExponent(mXPos - gScreenManager->CamXPos()),
+                FP_GetExponent(FP_FromInteger(mYOffset) + mYPos - gScreenManager->CamYPos()),
+                ot,
+                0,
+                0);
+            BaseAnimatedWithPhysicsGameObject::VRender(ot);
+        }
     }
 }
 
 void Mine::VUpdate()
 {
-    const s16 bInCamera = gMap.Is_Point_In_Current_Camera(
+    const s16 bInCamera = GetMap().Is_Point_In_Current_Camera(
         mCurrentLevel,
         mCurrentPath,
         mXPos,
@@ -198,10 +238,13 @@ void Mine::VUpdate()
             if (bInCamera)
             {
                 SfxPlayMono(relive::SoundEffects::RedTick, 35);
+                sMinePlayingSound = this;
             }
-            sMinePlayingSound = this;
+            else
+            {
+                sMinePlayingSound = nullptr;
+            }
         }
-
         if (IsColliding())
         {
             mDetonating = true;
@@ -210,7 +253,7 @@ void Mine::VUpdate()
     }
     if (!mDetonating)
     {
-        if (EventGet(kEventDeathReset) || mCurrentLevel != gMap.mCurrentLevel || mCurrentPath != gMap.mCurrentPath)
+        if (EventGet(kEventDeathReset) || mCurrentLevel != GetMap().mCurrentLevel || mCurrentPath != GetMap().mCurrentPath)
         {
             SetDead(true);
         }
@@ -234,7 +277,10 @@ bool Mine::IsColliding()
             const s32 objX = FP_GetExponent(pObj->mXPos);
             const s32 objY = FP_GetExponent(pObj->mYPos);
 
-            if (objX > mineBound.x && objX < mineBound.w && objY < mineBound.h + 5 && mineBound.x <= objBound.w && mineBound.w >= objBound.x && mineBound.h >= objBound.y && mineBound.y <= objBound.h && pObj->GetSpriteScale() == GetSpriteScale())
+            // TODO: add to conversion instead?
+            s16 boundAdjustment = GetGameType() == GameType::eAe ? 12 : 5;
+
+            if (objX > mineBound.x && objX < mineBound.w && objY < mineBound.h + boundAdjustment && mineBound.x <= objBound.w && mineBound.w >= objBound.x && mineBound.h >= objBound.y && mineBound.y <= objBound.h && pObj->GetSpriteScale() == GetSpriteScale())
             {
                 return true;
             }

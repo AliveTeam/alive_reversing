@@ -11,7 +11,7 @@
 #include "../relive_lib/Sound/Midi.hpp"
 #include "ParticleBurst.hpp"
 #include "../relive_lib/GameObjects/Particle.hpp"
-#include "ScreenShake.hpp"
+#include "../relive_lib/GameObjects/ScreenShake.hpp"
 #include "Abe.hpp"
 #include "Map.hpp"
 #include "Path.hpp"
@@ -307,7 +307,7 @@ void FallingItem::VUpdate()
             mHitDrillOrMineCar = false;
             mState = State::eSmashed_4;
 
-            relive_new ScreenShake(0, GetSpriteScale() == FP_FromDouble(0.5));
+            relive_new ScreenShake(false, GetSpriteScale() == FP_FromDouble(0.5));
 
             if (gMap.mCurrentLevel == EReliveLevelIds::eBonewerkz)
             {

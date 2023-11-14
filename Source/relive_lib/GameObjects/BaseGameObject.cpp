@@ -238,7 +238,7 @@ ReliveTypes BaseGameObject::FromAO(AO::AOTypes aoType)
         case AO::AOTypes::eFlash_81:
             return ReliveTypes::eFlash;
         case AO::AOTypes::ScreenShake_82:
-            return ReliveTypes::ScreenShake;
+            return ReliveTypes::eScreenShake;
         case AO::AOTypes::eScreenWave_83:
             return ReliveTypes::eScreenWave;
         case AO::AOTypes::eUnknown_84:
@@ -424,7 +424,7 @@ AO::AOTypes BaseGameObject::ToAO(ReliveTypes reliveType)
             return AO::AOTypes::eDeathFadeOut_80;
         case ReliveTypes::eFlash:
             return AO::AOTypes::eFlash_81;
-        case ReliveTypes::ScreenShake:
+        case ReliveTypes::eScreenShake:
             return AO::AOTypes::ScreenShake_82;
         case ReliveTypes::eScreenWave:
             return AO::AOTypes::eScreenWave_83;

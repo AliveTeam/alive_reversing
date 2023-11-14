@@ -18,7 +18,7 @@
 #include "../relive_lib/GameObjects/Particle.hpp"
 #include "Gibs.hpp"
 #include "Blood.hpp"
-#include "ScreenShake.hpp"
+#include "../relive_lib/GameObjects/ScreenShake.hpp"
 #include "../relive_lib/Sound/Midi.hpp"
 #include "Slig.hpp"
 #include "FlyingSlig.hpp"
@@ -1208,7 +1208,7 @@ void GetKilledBrain::VUpdate()
             else
             {
                 Environment_SFX(EnvironmentSfx::eFallingDeathScreamHitGround_15, 0, 0x7FFF, &mCrawlingSlig);
-                relive_new ScreenShake(0, 0);
+                relive_new ScreenShake(false, false);
                 mCrawlingSlig.mMultiUseTimer = BaseGameObject::MakeTimer(30);
                 mBrainState = EState::eSetDead;
                 return;

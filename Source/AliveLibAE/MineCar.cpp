@@ -12,7 +12,7 @@
 #include "Sfx.hpp"
 #include "../relive_lib/Events.hpp"
 #include "ParticleBurst.hpp"
-#include "ScreenShake.hpp"
+#include "../relive_lib/GameObjects/ScreenShake.hpp"
 #include "Grid.hpp"
 #include "Map.hpp"
 #include "Path.hpp"

@@ -24,7 +24,7 @@
 #include "GameSpeak.hpp"
 #include "ParamiteWeb.hpp"
 #include "ParamiteWebLine.hpp"
-#include "ScreenShake.hpp"
+#include "../relive_lib/GameObjects/ScreenShake.hpp"
 #include "Grid.hpp"
 #include "Path.hpp"
 #include "PathData.hpp"
@@ -2416,7 +2416,7 @@ s16 Paramite::Brain_7_DeathDrop()
 
         Environment_SFX(EnvironmentSfx::eFallingDeathScreamHitGround_15, 0, 0x7FFF, this);
 
-        relive_new ScreenShake(0, 0);
+        relive_new ScreenShake(false, false);
         field_130_timer = MakeTimer(30);
         return 2;
     }

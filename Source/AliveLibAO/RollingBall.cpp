@@ -8,7 +8,7 @@
 #include "../relive_lib/SwitchStates.hpp"
 #include "ParticleBurst.hpp"
 #include "../relive_lib/GameObjects/Flash.hpp"
-#include "ScreenShake.hpp"
+#include "../relive_lib/GameObjects/ScreenShake.hpp"
 #include "../relive_lib/Events.hpp"
 #include "Sfx.hpp"
 #include "Abe.hpp"
@@ -224,7 +224,7 @@ void RollingBall::VUpdate()
 
                 relive_new Flash(Layer::eLayer_Above_FG1_39, 255, 255, 255, relive::TBlendModes::eBlend_1, 1);
 
-                relive_new ScreenShake(0);
+                relive_new ScreenShake(false, false);
 
                 SetDead(true);
 
@@ -292,7 +292,7 @@ void RollingBall::VUpdate()
             BaseAliveGameObjectLastLineYPos = mYPos;
             mVelY = (-mVelY * FP_FromDouble(0.8));
 
-            relive_new ScreenShake(0);
+            relive_new ScreenShake(false, false);
 
             const CameraPos direction = gMap.GetDirection(mCurrentLevel, mCurrentPath, mXPos, mYPos);
             SFX_Play_Camera(relive::SoundEffects::IngameTransition, 50, direction);

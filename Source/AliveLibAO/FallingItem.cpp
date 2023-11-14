@@ -8,7 +8,7 @@
 #include "Sfx.hpp"
 #include "Abe.hpp"
 #include "../relive_lib/Collisions.hpp"
-#include "ScreenShake.hpp"
+#include "../relive_lib/GameObjects/ScreenShake.hpp"
 #include "ParticleBurst.hpp"
 #include "Midi.hpp"
 #include "../relive_lib/SwitchStates.hpp"
@@ -231,7 +231,7 @@ void FallingItem::VUpdate()
                 mYPos = hitY;
                 mState = State::eSmashed_4;
 
-                relive_new ScreenShake(0);
+                relive_new ScreenShake(false, false);
 
                 if (gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarms || gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarmsReturn)
                 {

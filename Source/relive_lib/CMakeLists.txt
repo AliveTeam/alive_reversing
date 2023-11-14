@@ -57,8 +57,6 @@ SET(AliveLibSrcAO
    ../AliveLibAO/MainMenu.cpp
    ../AliveLibAO/MainMenuTransition.hpp
    ../AliveLibAO/MainMenuTransition.cpp
-   ../AliveLibAO/Mine.hpp
-   ../AliveLibAO/Mine.cpp
    ../AliveLibAO/Door.hpp
    ../AliveLibAO/Door.cpp
    ../AliveLibAO/HintFly.hpp
@@ -177,8 +175,6 @@ SET(AliveLibSrcAO
    ../AliveLibAO/Fade.cpp
    ../AliveLibAO/Gibs.hpp
    ../AliveLibAO/Gibs.cpp
-   ../AliveLibAO/ScreenShake.hpp
-   ../AliveLibAO/ScreenShake.cpp
    ../AliveLibAO/AirExplosion.hpp
    ../AliveLibAO/AirExplosion.cpp
    ../AliveLibAO/MotionDetector.hpp
@@ -273,6 +269,8 @@ SET(AliveLibSrcAO
    ../AliveLibAO/ZBall.cpp
    ../AliveLibAO/RollingBallShaker.hpp
    ../AliveLibAO/RollingBallShaker.cpp
+   ../AliveLibAO/Mine.hpp
+   ../AliveLibAO/Mine.cpp
 )
 
 SET(AliveLibAESrc
@@ -360,16 +358,12 @@ SET(AliveLibAESrc
     ../AliveLibAE/ThrowableArray.hpp
     ../AliveLibAE/UXB.cpp
     ../AliveLibAE/UXB.hpp
-    ../AliveLibAE/Mine.cpp
-    ../AliveLibAE/Mine.hpp
     ../AliveLibAE/TimedMine.cpp
     ../AliveLibAE/TimedMine.hpp
     ../AliveLibAE/TrapDoor.cpp
     ../AliveLibAE/TrapDoor.hpp
     ../AliveLibAE/MusicTrigger.cpp
     ../AliveLibAE/MusicTrigger.hpp
-    ../AliveLibAE/ScreenShake.cpp
-    ../AliveLibAE/ScreenShake.hpp
     ../AliveLibAE/InvisibleEffect.cpp
     ../AliveLibAE/InvisibleEffect.hpp
     ../AliveLibAE/Gibs.cpp
@@ -575,6 +569,8 @@ SET(AliveLibAESrc
     ../AliveLibAE/ZapSpark.hpp
     ../AliveLibAE/ZapSpark.cpp
     ../AliveLibAE/MudokonEnums.hpp
+    ../AliveLibAE/Mine.hpp
+    ../AliveLibAE/Mine.cpp
 )
 
 SET(renderer_src
@@ -644,6 +640,8 @@ SET(game_objects_src
     GameObjects/ShadowZone.cpp
     GameObjects/Leaf.hpp
     GameObjects/Leaf.cpp
+    GameObjects/ScreenShake.hpp
+    GameObjects/ScreenShake.cpp
 )
 
 SET(data_conversion_src

@@ -28,7 +28,7 @@
 #include "GameEnderController.hpp"
 #include "SnoozeParticle.hpp"
 #include "GameSpeak.hpp"
-#include "ScreenShake.hpp"
+#include "../relive_lib/GameObjects/ScreenShake.hpp"
 #include "../relive_lib/SwitchStates.hpp"
 #include <algorithm>
 #include "../relive_lib/Psx.hpp"
@@ -4403,7 +4403,7 @@ s16 Slig::Brain_DeathDropDeath()
 
             Environment_SFX(EnvironmentSfx::eFallingDeathScreamHitGround_15, 0, 32767, this);
 
-            relive_new ScreenShake(0);
+            relive_new ScreenShake(false, false);
             field_114_timer = MakeTimer(30);
             return Brain_DeathDropDeath::eSwitchCamToAbe_2;
         }

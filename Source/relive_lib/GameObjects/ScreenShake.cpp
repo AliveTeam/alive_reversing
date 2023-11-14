@@ -1,12 +1,13 @@
 #include "stdafx.h"
 #include "ScreenShake.hpp"
 #include "../relive_lib/Events.hpp"
-#include "stdlib.hpp"
+#include "../AliveLibAE/stdlib.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
+#include "../relive_lib/Primitives.hpp"
 
- ScreenShake::ScreenShake(bool enableShakeEvent, bool softerShakes)
-     : BaseGameObject(true, 0)
- {
+ScreenShake::ScreenShake(bool enableShakeEvent, bool softerShakes)
+    : BaseGameObject(true, 0)
+{
     SetType(ReliveTypes::eScreenShake);
 
     SetDrawable(true);
@@ -91,7 +92,7 @@ void ScreenShake::VRender(OrderingTable& ot)
         mScreenOffset.SetOffset(offset.x, offset.y);
         ot.Add(Layer::eLayer_0, &mScreenOffset);
 
-        if (!mShakeNumber)
+        if (mShakeNumber == 0)
         {
             SetDead(true);
         }

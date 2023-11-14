@@ -3,7 +3,7 @@
 #include "../relive_lib/Sound/Midi.hpp"
 #include "stdlib.hpp"
 #include "Gibs.hpp"
-#include "ScreenShake.hpp"
+#include "../relive_lib/GameObjects/ScreenShake.hpp"
 #include "../relive_lib/Events.hpp"
 #include "../relive_lib/GameObjects/Flash.hpp"
 #include "Abe.hpp"
@@ -198,7 +198,7 @@ void SecurityOrb::VUpdate()
                 mTimer = MakeTimer(8);
                 mState = States::eDoFlashAndSound_2;
 
-                relive_new ScreenShake(1, 0);
+                relive_new ScreenShake(true, false);
 
                 auto pSpark1 = relive_new ZapSpark(mXPos, mYPos - (FP_FromInteger(8) * GetSpriteScale()), GetSpriteScale());
                 if (pSpark1)

@@ -9,7 +9,7 @@
 #include "../relive_lib/ObjectIds.hpp"
 #include "Abe.hpp"
 #include "Sfx.hpp"
-#include "ScreenShake.hpp"
+#include "../relive_lib/GameObjects/ScreenShake.hpp"
 #include "ParticleBurst.hpp"
 #include "Electrocute.hpp"
 #include "ZapLine.hpp"
@@ -419,7 +419,7 @@ void Greeter::VOnThrowableHit(BaseGameObject* /*pFrom*/)
 
 void Greeter::ZapTarget(FP xpos, FP ypos, IBaseAliveGameObject* pTarget)
 {
-    relive_new ScreenShake(0, 0);
+    relive_new ScreenShake(false, false);
 
     relive_new ZapLine(
         mXPos,

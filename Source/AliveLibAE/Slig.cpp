@@ -20,7 +20,7 @@
 #include "../relive_lib/Sound/Midi.hpp"
 #include "../relive_lib/ObjectIds.hpp"
 #include "PlatformBase.hpp"
-#include "ScreenShake.hpp"
+#include "../relive_lib/GameObjects/ScreenShake.hpp"
 #include "../relive_lib/GameObjects/ScreenManager.hpp"
 #include "LiftPoint.hpp"
 #include "Lever.hpp"
@@ -2546,7 +2546,7 @@ s16 Slig::Brain_3_DeathDropDeath()
 
             Environment_SFX(EnvironmentSfx::eFallingDeathScreamHitGround_15, 0, 0x7FFF, this);
 
-            relive_new ScreenShake(0, 0);
+            relive_new ScreenShake(false, false);
 
             field_120_timer = MakeTimer(30);
             return Brain_3_DeathDropDeath::eBrain3_SwitchCamToAbe_2;

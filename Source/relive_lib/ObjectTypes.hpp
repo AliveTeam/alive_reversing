@@ -135,7 +135,6 @@ enum class ReliveTypes : s16
     eEffectBase,
     eFade,
     eFlash,
-    ScreenShake, // TODO: rename to eScreenShake
     eScreenWave,
     eUnknown, // todo: remove ?
     eShrykull,

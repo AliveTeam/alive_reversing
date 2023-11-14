@@ -4,7 +4,7 @@
 #include "Map.hpp"
 #include "../relive_lib/GameObjects/Particle.hpp"
 #include "../relive_lib/GameObjects/Flash.hpp"
-#include "ScreenShake.hpp"
+#include "../relive_lib/GameObjects/ScreenShake.hpp"
 #include "Gibs.hpp"
 #include "../relive_lib/Events.hpp"
 #include "ParticleBurst.hpp"

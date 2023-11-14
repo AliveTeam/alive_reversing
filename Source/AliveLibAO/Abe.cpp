@@ -33,7 +33,7 @@
 #include "LiftPoint.hpp"
 #include "Input.hpp"
 #include "PullRingRope.hpp"
-#include "ScreenShake.hpp"
+#include "../relive_lib/GameObjects/ScreenShake.hpp"
 #include "Sfx.hpp"
 #include "MusicController.hpp"
 #include "AbilityRing.hpp"
@@ -5849,7 +5849,7 @@ void Abe::Motion_59_DeathDropFall()
         {
             Environment_SFX(EnvironmentSfx::eFallingDeathScreamHitGround_15, 0, 0x7FFF, this);
 
-            relive_new ScreenShake(true);
+            relive_new ScreenShake(true, false);
         }
         else if (static_cast<s32>(sGnFrame) >= field_118_timer)
         {
@@ -7117,7 +7117,7 @@ void Abe::Motion_86_FallLandDie()
     {
         SfxPlayMono(relive::SoundEffects::KillEffect, 85);
         SND_SEQ_Play(SeqId::eHitBottomOfDeathPit_10, 1, 95, 95);
-        relive_new ScreenShake(true);
+        relive_new ScreenShake(true, false);
     }
 
     if (GetAnimation().GetIsLastFrame())

@@ -16,7 +16,7 @@
 #include "../relive_lib/Events.hpp"
 #include "../relive_lib/ObjectIds.hpp"
 #include "Alarm.hpp"
-#include "ScreenShake.hpp"
+#include "../relive_lib/GameObjects/ScreenShake.hpp"
 #include "PossessionFlicker.hpp"
 #include "../relive_lib/data_conversion/relive_tlvs.hpp"
 #include "../relive_lib/FixedPoint.hpp"
@@ -327,7 +327,7 @@ void SecurityClaw::VUpdate()
                 const FP hero_mid_x = FP_FromInteger((rect.w + rect.x) / 2);
                 const FP hero_mid_y = FP_FromInteger((rect.h + rect.y) / 2);
 
-                relive_new ScreenShake(1);
+                relive_new ScreenShake(true, false);
 
                 relive_new ZapLine(
                     mXPos - (FP_FromInteger(3) * GetSpriteScale()),

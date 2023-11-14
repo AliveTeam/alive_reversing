@@ -5,14 +5,14 @@
 #include "../relive_lib/Events.hpp"
 #include "Sfx.hpp"
 #include "../relive_lib/Sound/Midi.hpp"
-#include "ScreenShake.hpp"
+#include "../relive_lib/GameObjects/ScreenShake.hpp"
 #include "ParticleBurst.hpp"
 #include "../relive_lib/GameObjects/Flash.hpp"
 #include "../relive_lib/GameObjects/Particle.hpp"
 #include "../relive_lib/FixedPoint.hpp"
 #include "../relive_lib/GameObjects/IBaseAliveGameObject.hpp"
 
-GroundExplosion::GroundExplosion(FP x, FP y, FP scale)
+GroundExplosion::GroundExplosion(FP xpos, FP ypos, FP scale)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
     SetType(ReliveTypes::eGroundExplosion);
@@ -28,7 +28,7 @@ GroundExplosion::GroundExplosion(FP x, FP y, FP scale)
 
     mBombSpriteScale = scale;
 
-    if (scale == FP_FromDouble(1.0))
+    if (scale == FP_FromInteger(1))
     {
         GetAnimation().SetRenderLayer(Layer::eLayer_Foreground_36);
     }
@@ -40,8 +40,8 @@ GroundExplosion::GroundExplosion(FP x, FP y, FP scale)
     SetApplyShadowZoneColour(false);
     SetSpriteScale(scale * FP_FromDouble(2.75));
 
-    mXPos = x;
-    mYPos = y;
+    mXPos = xpos;
+    mYPos = ypos;
 
     relive_new ScreenShake(true, false);
 
@@ -75,7 +75,7 @@ void GroundExplosion::VUpdate()
     EventBroadcast(kEventLoudNoise, this);
     EventBroadcast(kEventSuspiciousNoise, this);
 
-    switch (this->GetAnimation().GetCurrentFrame())
+    switch (GetAnimation().GetCurrentFrame())
     {
         case 0:
             rect.x = FP_GetExponent(FP_FromInteger(-30) * mBombSpriteScale);
@@ -111,7 +111,7 @@ void GroundExplosion::VUpdate()
                 BurstType::eBigRedSparks_3,
                 13);
 
-            relive_new Flash(Layer::eLayer_Above_FG1_39, 255, 255, 255, relive::TBlendModes::eBlend_3, 1);
+            relive_new Flash(Layer::eLayer_Above_FG1_39, 255, 255, 255);
 
             rect.x = FP_GetExponent(FP_FromInteger(-113) * mBombSpriteScale);
             rect.w = FP_GetExponent(FP_FromInteger(113) * mBombSpriteScale);
@@ -132,12 +132,12 @@ void GroundExplosion::VUpdate()
             relive_new ParticleBurst(
                 mXPos,
                 mYPos,
-                20u,
+                20,
                 GetSpriteScale(),
                 BurstType::eBigRedSparks_3,
                 13);
 
-            relive_new Flash(Layer::eLayer_Above_FG1_39, 255, 255, 255, relive::TBlendModes::eBlend_3, 1);
+            relive_new Flash(Layer::eLayer_Above_FG1_39, 255, 255, 255);
             break;
         }
 

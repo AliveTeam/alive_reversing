@@ -4,7 +4,7 @@
 #include "Map.hpp"
 #include "../relive_lib/GameObjects/Particle.hpp"
 #include "../relive_lib/GameObjects/Flash.hpp"
-#include "ScreenShake.hpp"
+#include "../relive_lib/GameObjects/ScreenShake.hpp"
 #include "Gibs.hpp"
 #include "../relive_lib/Events.hpp"
 #include "ParticleBurst.hpp"
@@ -39,7 +39,7 @@ AirExplosion::AirExplosion(FP xpos, FP ypos, FP explosion_size)
     mXPos = xpos;
     mYPos = ypos;
 
-    relive_new ScreenShake(true);
+    relive_new ScreenShake(true, false);
 
     PSX_RECT rect = {};
     rect.x = FP_GetExponent(FP_FromInteger(-10) * explosion_size);

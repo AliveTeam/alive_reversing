@@ -6,6 +6,7 @@
 #include <assert.h>
 #include "Path.hpp"
 #include "Factory.hpp"
+#include "MapWrapper.hpp"
 
 Path* gPathInfo = nullptr;
 

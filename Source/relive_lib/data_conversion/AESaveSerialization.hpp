@@ -162,7 +162,6 @@ NLOHMANN_JSON_SERIALIZE_ENUM(ReliveTypes, {
     { ReliveTypes::eEffectBase, "effect_base" },
     { ReliveTypes::eFade, "fade" },
     { ReliveTypes::eFlash, "flash" },
-    { ReliveTypes::ScreenShake, "screen_shake" },
     { ReliveTypes::eScreenWave, "screen_wave" },
     { ReliveTypes::eUnknown, "unknown" },
     { ReliveTypes::eShrykull, "shrykull" },

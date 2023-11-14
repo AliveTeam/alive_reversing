@@ -22,7 +22,7 @@
 #include "Lever.hpp"
 #include "../relive_lib/GameObjects/Particle.hpp"
 #include "PossessionFlicker.hpp"
-#include "ScreenShake.hpp"
+#include "../relive_lib/GameObjects/ScreenShake.hpp"
 #include "MainMenu.hpp"
 #include "LCDStatusBoard.hpp"
 #include "MusicTrigger.hpp"
@@ -4792,7 +4792,7 @@ s16 Mudokon::Brain_7_FallAndSmackDeath()
         if (static_cast<s32>(sGnFrame) > field_194_timer)
         {
             Environment_SFX(EnvironmentSfx::eFallingDeathScreamHitGround_15, 0, 32767, this);
-            relive_new ScreenShake(0, 0);
+            relive_new ScreenShake(false, false);
             SetDead(true);
         }
     }

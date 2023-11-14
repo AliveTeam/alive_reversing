@@ -3,7 +3,7 @@
 #include "GroundExplosion.hpp"
 #include "../AliveLibAE/stdlib.hpp"
 #include "ParticleBurst.hpp"
-#include "ScreenShake.hpp"
+#include "../relive_lib/GameObjects/ScreenShake.hpp"
 #include "Midi.hpp"
 #include "../relive_lib/Events.hpp"
 #include "../relive_lib/GameObjects/Flash.hpp"
@@ -22,7 +22,7 @@ GroundExplosion::GroundExplosion(FP xpos, FP ypos, FP scale)
     mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::GroundExplosion));
     Animation_Init(GetAnimRes(AnimId::GroundExplosion));
 
-    GetAnimation().SetIsLastFrame(false);
+    GetAnimation().SetIsLastFrame(false); // Double Check
 
     GetAnimation().SetBlendMode(relive::TBlendModes::eBlend_1);
 
@@ -45,7 +45,7 @@ GroundExplosion::GroundExplosion(FP xpos, FP ypos, FP scale)
     mXPos = xpos;
     mYPos = ypos;
 
-    relive_new ScreenShake(1);
+    relive_new ScreenShake(true, false);
 
     relive_new ParticleBurst(
         mXPos,
