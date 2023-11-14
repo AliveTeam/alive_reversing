@@ -136,10 +136,10 @@ set(PROJECT_SOURCES
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
-    qt_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
+    qt_create_translation(QM_FILES "${CMAKE_CURRENT_SOURCE_DIR}/Source" ${TS_FILES})
     qt_add_executable(qt-editor ${PROJECT_SOURCES} ${QM_FILES})
 else()
-    qt5_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
+    qt5_create_translation(QM_FILES "${CMAKE_CURRENT_SOURCE_DIR}/Source" ${TS_FILES})
     if(ANDROID)
         add_library(qt-editor SHARED ${PROJECT_SOURCES} ${QM_FILES})
     elseif(WIN32)
