@@ -9,6 +9,7 @@
 #include "../relive_lib/GameObjects/ScreenManager.hpp"
 #include "Sfx.hpp"
 #include "../relive_lib/Primitives.hpp"
+#include "../AliveLibAE/Game.hpp"
 
 namespace AO {
 

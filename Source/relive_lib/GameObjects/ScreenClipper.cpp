@@ -1,16 +1,33 @@
-#include "stdafx_ao.h"
+#include "stdafx.h"
 #include "ScreenClipper.hpp"
-#include "../AliveLibAE/stdlib.hpp"
-#include "../relive_lib/PsxDisplay.hpp"
-#include "../relive_lib/Primitives.hpp"
-#include "../relive_lib/GameObjects/BaseAnimatedWithPhysicsGameObject.hpp"
+#include "../../AliveLibAE/stdlib.hpp"
+#include "../PsxDisplay.hpp"
+#include "../Primitives.hpp"
+#include "BaseAnimatedWithPhysicsGameObject.hpp"
 
 #undef min
 #undef max
 
 #include <algorithm>
 
-namespace AO {
+ScreenClipper::ScreenClipper(PSX_Point xy, PSX_Point wh, Layer layer)
+    : BaseGameObject(true, 0)
+{
+    SetType(ReliveTypes::eScreenClipper);
+
+    SetUpdateDuringCamSwap(true);
+    SetDrawable(true);
+
+    mRect.x = xy.x;
+    mRect.y = xy.y;
+
+    mRect.w = wh.x;
+    mRect.h = wh.y;
+
+    mOtLayer = layer;
+
+    gObjListDrawables->Push_Back(this);
+}
 
 ScreenClipper::~ScreenClipper()
 {
@@ -40,25 +57,6 @@ void ScreenClipper::VScreenChanged()
     // Empty
 }
 
-ScreenClipper::ScreenClipper(PSX_Point xy, PSX_Point wh, Layer layer)
-    : BaseGameObject(true, 0)
-{
-    SetType(ReliveTypes::eScreenClipper);
-
-    SetUpdateDuringCamSwap(true);
-    SetDrawable(true);
-
-    mRect.x = xy.x;
-    mRect.y = xy.y;
-
-    mRect.w = wh.x;
-    mRect.h = wh.y;
-
-    mOtLayer = layer;
-
-    gObjListDrawables->Push_Back(this);
-}
-
 void ScreenClipper::Update_Clip_Rect(PSX_Point xy, PSX_Point wh)
 {
     mRect.x = std::min(xy.x, mRect.x);
@@ -67,5 +65,3 @@ void ScreenClipper::Update_Clip_Rect(PSX_Point xy, PSX_Point wh)
     mRect.w = std::max(wh.x, mRect.w);
     mRect.h = std::max(wh.y, mRect.h);
 }
-
-} // namespace AO

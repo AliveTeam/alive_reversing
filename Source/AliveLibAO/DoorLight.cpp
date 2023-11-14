@@ -9,7 +9,7 @@
 #include "Abe.hpp"
 #include "Midi.hpp"
 #include "../relive_lib/GameObjects/ScreenManager.hpp"
-#include "CameraSwapper.hpp"
+#include "../AliveLibAE/Game.hpp"
 #include "Path.hpp"
 #include "../relive_lib/FixedPoint.hpp"
 

@@ -131,7 +131,7 @@ Dove::~Dove()
 
     if (bTheOneControllingTheMusic)
     {
-        SND_Seq_Stop(SeqId::Unknown_24);
+        SND_SEQ_Stop(SeqId::Unknown_24);
         bTheOneControllingTheMusic = false;
     }
 }
@@ -322,7 +322,7 @@ void Dove::All_FlyAway(bool spookedInstantly)
     sExtraSeqStarted = false;
     if (bTheOneControllingTheMusic)
     {
-        SND_Seq_Stop(SeqId::Unknown_24);
+        SND_SEQ_Stop(SeqId::Unknown_24);
         bTheOneControllingTheMusic = false;
     }
 }

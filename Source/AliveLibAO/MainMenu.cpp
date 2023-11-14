@@ -28,6 +28,7 @@
 #include "../relive_lib/Psx.hpp"
 #include "MainMenuTransition.hpp"
 #include "../relive_lib/ObjectIds.hpp"
+#include "../AliveLibAE/Game.hpp"
 
 namespace AO {
 
@@ -2240,7 +2241,7 @@ void Menu::GameSpeak_Update()
             {
                 if (!Input_IsChanting())
                 {
-                    SND_Seq_Stop(SeqId::eMudokonChant1_11);
+                    SND_SEQ_Stop(SeqId::eMudokonChant1_11);
 
                     pMenuFade1->field_E8_bDestroyOnDone = 1;
                     mMenuFadeId1 = Guid{};

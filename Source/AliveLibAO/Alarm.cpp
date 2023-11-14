@@ -5,7 +5,7 @@
 #include "../relive_lib/DynamicArray.hpp"
 #include "../relive_lib/SwitchStates.hpp"
 #include "../AliveLibAE/stdlib.hpp"
-#include "CameraSwapper.hpp"
+#include "../AliveLibAE/Game.hpp"
 #include "../relive_lib/Events.hpp"
 #include "Sfx.hpp"
 

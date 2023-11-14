@@ -1,21 +1,19 @@
-#include "stdafx_ao.h"
-#include "CameraSwapper.hpp"
-#include "../relive_lib/Events.hpp"
-#include "../relive_lib/Function.hpp"
+#include "stdafx.h"
+#include "../Events.hpp"
+#include "../Function.hpp"
 #include "Spark.hpp"
-#include "Game.hpp"
 #include "Math.hpp"
-#include "Map.hpp"
-#include "Abe.hpp"
+#include "../MapWrapper.hpp"
 #include "../AliveLibAE/stdlib.hpp"
-#include "../relive_lib/Animation.hpp"
-#include "../relive_lib/GameObjects/Particle.hpp"
-#include "../relive_lib/GameObjects/ScreenManager.hpp"
-#include "../relive_lib/PsxDisplay.hpp"
-#include "../relive_lib/Primitives.hpp"
-
-
-namespace AO {
+#include "../Animation.hpp"
+#include "Particle.hpp"
+#include "ScreenManager.hpp"
+#include "../PsxDisplay.hpp"
+#include "../Primitives.hpp"
+#include "../GameType.hpp"
+#include "../../AliveLibAO/Abe.hpp"
+#include "../../AliveLibAE/Abe.hpp"
+#include "../../AliveLibAE/Game.hpp"
 
 Spark::Spark(FP xpos, FP ypos, FP scale, s32 count, s32 minAngle, s32 maxAngle, SparkType type)
     : BaseGameObject(true, 0)
@@ -30,6 +28,7 @@ Spark::Spark(FP xpos, FP ypos, FP scale, s32 count, s32 minAngle, s32 maxAngle, 
     mXPos = xpos;
     mYPos = ypos;
     mSpriteScale = scale;
+    mSparkCount = count;
 
     if (scale == FP_FromDouble(0.5))
     {
@@ -44,7 +43,6 @@ Spark::Spark(FP xpos, FP ypos, FP scale, s32 count, s32 minAngle, s32 maxAngle, 
     mRed = 31;
     mGreen = 31;
 
-    mSparkCount = static_cast<s16>(count);
     mSparkRes = relive_new SparkRes[mSparkCount];
     if (mSparkRes)
     {
@@ -75,9 +73,12 @@ Spark::Spark(FP xpos, FP ypos, FP scale, s32 count, s32 minAngle, s32 maxAngle, 
         {
             // Normal drill type sparks
             AnimResource ppRes = ResourceManagerWrapper::LoadAnimation(AnimId::ChantOrb_Particle_Small);
+
+            // subtract 4 in AO for some reason
+            const FP particleYPos = GetGameType() == GameType::eAo ? mYPos - FP_FromInteger(4) : mYPos;
             auto pParticle = relive_new Particle(
                 mXPos,
-                mYPos - FP_FromInteger(4), // AO only for some reason
+                particleYPos,
                 ppRes);
             if (pParticle)
             {
@@ -144,16 +145,29 @@ void Spark::VUpdate()
 
 void Spark::VRender(OrderingTable& ot)
 {
-    if (gMap.Is_Point_In_Current_Camera(
-            sActiveHero->mCurrentLevel,
-            sActiveHero->mCurrentPath,
+    // TODO: remove this when abe is common
+    EReliveLevelIds abeLevel;
+    s16 abePath;
+    if (GetGameType() == GameType::eAe)
+    {
+        abeLevel = ::sActiveHero->mCurrentLevel;
+        abePath = ::sActiveHero->mCurrentPath;
+    }
+    else
+    {
+        abeLevel = AO::sActiveHero->mCurrentLevel;
+        abePath = AO::sActiveHero->mCurrentPath;
+    }
+
+    if (GetMap().Is_Point_In_Current_Camera(
+            abeLevel,
+            abePath,
             mXPos,
             mYPos,
             0))
     {
-        const FP_Point* pCamPos = gScreenManager->mCamPos;
-        const s16 xOrg = FP_GetExponent(mXPos) - FP_GetExponent(pCamPos->x - FP_FromInteger(gScreenManager->mCamXOff));
-        const s16 yOrg = FP_GetExponent(mYPos) - FP_GetExponent(pCamPos->y - FP_FromInteger(gScreenManager->mCamYOff));
+        const s16 xOrg = FP_GetExponent(mXPos) - FP_GetExponent(gScreenManager->CamXPos());
+        const s16 yOrg = FP_GetExponent(mYPos) - FP_GetExponent(gScreenManager->CamYPos());
 
         for (s32 i = 0; i < mSparkCount; i++)
         {
@@ -164,8 +178,10 @@ void Spark::VRender(OrderingTable& ot)
             const s32 y0 = yOrg + FP_GetExponent(pSpark->mY0 * mSpriteScale);
             const s32 y1 = yOrg + FP_GetExponent(pSpark->mY1 * mSpriteScale);
 
-            const s32 x0 = PsxToPCX(xOrg + FP_GetExponent(pSpark->mX0 * mSpriteScale), 11);
-            const s32 x1 = PsxToPCX(xOrg + FP_GetExponent(pSpark->mX1 * mSpriteScale), 11);
+            const s32 addToX = GetGameType() == GameType::eAo ? 11 : 0;
+
+            const s32 x0 = PsxToPCX(xOrg + FP_GetExponent(pSpark->mX0 * mSpriteScale), addToX);
+            const s32 x1 = PsxToPCX(xOrg + FP_GetExponent(pSpark->mX1 * mSpriteScale), addToX);
 
             pPrim->SetXY0(static_cast<s16>(x0), static_cast<s16>(y0));
             pPrim->SetXY1(static_cast<s16>(x1), static_cast<s16>(y1));
@@ -182,6 +198,7 @@ void Spark::VRender(OrderingTable& ot)
 
             pPrim->SetSemiTransparent(true);
             pPrim->SetBlendMode(relive::TBlendModes::eBlend_1);
+
             ot.Add(mLayer, pPrim);
         }
     }
@@ -201,5 +218,3 @@ Spark::~Spark()
 
     relive_delete[] mSparkRes;
 }
-
-} // namespace AO

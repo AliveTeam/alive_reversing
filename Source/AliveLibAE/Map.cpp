@@ -9,7 +9,7 @@
 #include "Game.hpp"
 #include "Abe.hpp"
 #include "MusicController.hpp"
-#include "BackgroundMusic.hpp"
+#include "../relive_lib/GameObjects/BackgroundMusic.hpp"
 #include "stdlib.hpp"
 #include "QuikSave.hpp"
 #include "Sfx.hpp"

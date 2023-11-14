@@ -40,6 +40,7 @@
 #include "../relive_lib/FixedPoint.hpp"
 #include "Path.hpp"
 #include "ScopedSeq.hpp"
+#include "../AliveLibAE/Game.hpp"
 
 // TODO: fix
 #undef max

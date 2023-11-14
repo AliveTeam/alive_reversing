@@ -123,26 +123,12 @@ void BaseAnimatedWithPhysicsGameObject::VRender(OrderingTable& ot)
 
             GetAnimation().SetRGB(r, g, b);
 
-            if (GetGameType() == GameType::eAe)
-            {
-                GetAnimation().VRender(
-                    FP_GetExponent((FP_FromInteger(mXOffset) + mXPos - gScreenManager->CamXPos())),
-                    FP_GetExponent((FP_FromInteger(mYOffset) + mYPos - gScreenManager->CamYPos())),
-                    ot,
-                    0,
-                    0);
-            }
-            else
-            {
-                GetAnimation().VRender(
-                    FP_GetExponent((FP_FromInteger(gScreenManager->mCamXOff + mXOffset))
-                                   + mXPos - gScreenManager->mCamPos->x),
-                    FP_GetExponent((FP_FromInteger(gScreenManager->mCamYOff + mYOffset))
-                                   + mYPos - gScreenManager->mCamPos->y),
-                    ot,
-                    0,
-                    0);
-            }
+            GetAnimation().VRender(
+                FP_GetExponent((FP_FromInteger(mXOffset) + mXPos - gScreenManager->CamXPos())),
+                FP_GetExponent((FP_FromInteger(mYOffset) + mYPos - gScreenManager->CamYPos())),
+                ot,
+                0,
+                0);
 
             PSX_RECT frameRect = {};
             GetAnimation().Get_Frame_Rect(&frameRect);

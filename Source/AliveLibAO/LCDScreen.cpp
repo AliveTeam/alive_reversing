@@ -15,6 +15,7 @@
 #include "PathData.hpp"
 #include "Path.hpp"
 #include "Map.hpp"
+#include "../AliveLibAE/Game.hpp"
 
 namespace AO {
 

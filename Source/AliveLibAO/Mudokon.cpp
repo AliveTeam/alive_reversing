@@ -31,6 +31,7 @@
 #include "../relive_lib/FatalError.hpp"
 #include "../relive_lib/ObjectIds.hpp"
 #include "Path.hpp"
+#include "../AliveLibAE/Game.hpp"
 
 namespace AO {
 
@@ -396,7 +397,7 @@ Mudokon::~Mudokon()
 
     if (GetCurrentMotion() == eMudMotions::Motion_52_Chant || GetCurrentMotion() == eMudMotions::Motion_59_CrouchChant)
     {
-        SND_Seq_Stop(SeqId::eMudokonChant_12);
+        SND_SEQ_Stop(SeqId::eMudokonChant_12);
     }
 }
 
@@ -2417,7 +2418,7 @@ void Mudokon::Motion_52_Chant()
     {
         if (GetAnimation().GetIsLastFrame())
         {
-            SND_Seq_Stop(SeqId::eMudokonChant_12);
+            SND_SEQ_Stop(SeqId::eMudokonChant_12);
             SetCurrentMotion(eMudMotions::Motion_53_ChantEnd);
             SetNextMotion(-1);
         }

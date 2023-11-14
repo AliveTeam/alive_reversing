@@ -3,7 +3,7 @@
 #include "Map.hpp"
 #include "MusicController.hpp"
 #include "Midi.hpp"
-#include "BackgroundMusic.hpp"
+#include "../relive_lib/GameObjects/BackgroundMusic.hpp"
 
 #include "../relive_lib/Sound/Sound.hpp"
 

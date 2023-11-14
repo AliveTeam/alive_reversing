@@ -13,6 +13,7 @@
 #include "../relive_lib/AnimationUnknown.hpp"
 #include "Path.hpp"
 #include "../relive_lib/ObjectIds.hpp"
+#include "../AliveLibAE/Game.hpp"
 
 namespace AO {
 

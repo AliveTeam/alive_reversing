@@ -361,7 +361,7 @@ MusicController::~MusicController()
 {
     if (field_38_music_seq != SeqId::None_M1)
     {
-        SND_Seq_Stop(field_38_music_seq);
+        SND_SEQ_Stop(field_38_music_seq);
     }
 }
 
@@ -396,13 +396,13 @@ void MusicController::VUpdate()
 
             if (field_26_ambient_seq > SeqId::None_M1)
             {
-                SND_Seq_Stop(field_26_ambient_seq);
+                SND_SEQ_Stop(field_26_ambient_seq);
                 field_26_ambient_seq = SeqId::None_M1;
             }
 
             if (field_38_music_seq > SeqId::None_M1)
             {
-                SND_Seq_Stop(field_38_music_seq);
+                SND_SEQ_Stop(field_38_music_seq);
                 field_38_music_seq = SeqId::None_M1;
             }
 
@@ -498,13 +498,13 @@ void MusicController::UpdateVolumeState()
 
             if (field_26_ambient_seq > SeqId::None_M1)
             {
-                SND_Seq_Stop(field_26_ambient_seq);
+                SND_SEQ_Stop(field_26_ambient_seq);
                 field_26_ambient_seq = SeqId::None_M1;
             }
 
             if (field_38_music_seq > SeqId::None_M1)
             {
-                SND_Seq_Stop(field_38_music_seq);
+                SND_SEQ_Stop(field_38_music_seq);
                 field_38_music_seq = SeqId::None_M1;
             }
             break;
@@ -691,7 +691,7 @@ void MusicController::UpdateMusic()
     {
         if (field_38_music_seq != SeqId::None_M1)
         {
-            SND_Seq_Stop(field_38_music_seq);
+            SND_SEQ_Stop(field_38_music_seq);
         }
 
         s32 idx = 0;
@@ -955,7 +955,7 @@ void MusicController::UpdateAmbiance()
             // Stop current if there is one
             if (field_26_ambient_seq != SeqId::None_M1)
             {
-                SND_Seq_Stop(field_26_ambient_seq);
+                SND_SEQ_Stop(field_26_ambient_seq);
             }
 
             s16 random = -1;
@@ -995,7 +995,7 @@ void MusicController::UpdateAmbiance()
     }
     else
     {
-        SND_Seq_Stop(field_26_ambient_seq);
+        SND_SEQ_Stop(field_26_ambient_seq);
         field_26_ambient_seq = SeqId::None_M1;
     }
 }

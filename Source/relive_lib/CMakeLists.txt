@@ -197,16 +197,12 @@ SET(AliveLibSrcAO
    ../AliveLibAO/MeatSack.cpp
    ../AliveLibAO/CreditsController.hpp
    ../AliveLibAO/CreditsController.cpp
-   ../AliveLibAO/ScreenClipper.hpp
-   ../AliveLibAO/ScreenClipper.cpp
    ../AliveLibAO/Bells.hpp
    ../AliveLibAO/Bells.cpp
    ../AliveLibAO/ChimeLock.hpp
    ../AliveLibAO/ChimeLock.cpp
    ../AliveLibAO/ZapSpark.hpp
    ../AliveLibAO/ZapSpark.cpp
-   ../AliveLibAO/Spark.hpp
-   ../AliveLibAO/Spark.cpp
    ../AliveLibAO/Bullet.hpp
    ../AliveLibAO/Bullet.cpp
    ../AliveLibAO/PlatformBase.hpp
@@ -249,8 +245,6 @@ SET(AliveLibSrcAO
    ../AliveLibAO/AmbientSound.cpp
    ../AliveLibAO/Movie.hpp
    ../AliveLibAO/Movie.cpp
-   ../AliveLibAO/BackgroundMusic.hpp
-   ../AliveLibAO/BackgroundMusic.cpp
    ../AliveLibAO/MusicController.hpp
    ../AliveLibAO/MusicController.cpp
    ../AliveLibAO/CheatController.hpp
@@ -328,8 +322,6 @@ SET(AliveLibAESrc
     ../AliveLibAE/Abe.cpp
     ../AliveLibAE/MusicController.hpp
     ../AliveLibAE/MusicController.cpp
-    ../AliveLibAE/BackgroundMusic.hpp
-    ../AliveLibAE/BackgroundMusic.cpp
     ../AliveLibAE/Path.hpp
     ../AliveLibAE/Path.cpp
     ../AliveLibAE/QuikSave.hpp
@@ -416,8 +408,6 @@ SET(AliveLibAESrc
     ../AliveLibAE/Drill.hpp
     ../AliveLibAE/Teleporter.cpp
     ../AliveLibAE/Teleporter.hpp
-    ../AliveLibAE/Spark.cpp
-    ../AliveLibAE/Spark.hpp
     ../AliveLibAE/SlamDoor.hpp
     ../AliveLibAE/SlamDoor.cpp
     ../AliveLibAE/Well.hpp
@@ -488,8 +478,6 @@ SET(AliveLibAESrc
     ../AliveLibAE/SlapLockWhirlWind.hpp
     ../AliveLibAE/Glukkon.cpp
     ../AliveLibAE/Glukkon.hpp
-    ../AliveLibAE/ScreenClipper.cpp
-    ../AliveLibAE/ScreenClipper.hpp
     ../AliveLibAE/MovingBomb.hpp
     ../AliveLibAE/MovingBomb.cpp
     ../AliveLibAE/DoorFlame.cpp
@@ -642,6 +630,12 @@ SET(game_objects_src
     GameObjects/Leaf.cpp
     GameObjects/ScreenShake.hpp
     GameObjects/ScreenShake.cpp
+    GameObjects/Spark.hpp
+    GameObjects/Spark.cpp
+    GameObjects/ScreenClipper.hpp
+    GameObjects/ScreenClipper.cpp
+    GameObjects/BackgroundMusic.hpp
+    GameObjects/BackgroundMusic.cpp
 )
 
 SET(data_conversion_src

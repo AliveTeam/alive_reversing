@@ -5,7 +5,7 @@
 #include "Map.hpp"
 #include "stdlib.hpp"
 #include "Slig.hpp"
-#include "Spark.hpp"
+#include "../relive_lib/GameObjects/Spark.hpp"
 #include "Sfx.hpp"
 #include "../relive_lib/GameObjects/Particle.hpp"
 #include "../relive_lib/GameObjects/ScreenManager.hpp"

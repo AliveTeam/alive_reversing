@@ -4,7 +4,7 @@
 
 #include "Midi.hpp"
 #include "PathData.hpp"
-#include "BackgroundMusic.hpp"
+#include "../relive_lib/GameObjects/BackgroundMusic.hpp"
 #include "MusicController.hpp"
 #include "AmbientSound.hpp"
 #include "Sound.hpp"
@@ -274,7 +274,7 @@ s16 SND_SEQ_PlaySeq(SeqId idx, s32 repeatCount, s16 bDontStop)
     return ::SND_SEQ_PlaySeq(static_cast<u16>(idx), static_cast<s16>(repeatCount), bDontStop);
 }
 
-void SND_Seq_Stop(SeqId idx)
+void SND_SEQ_Stop(SeqId idx)
 {
     ::SND_SEQ_Stop(static_cast<u16>(idx));
 }
@@ -1031,7 +1031,7 @@ void SND_StopAll()
 
     if (gBackgroundMusicSeqId >= 0)
     {
-        SND_Seq_Stop(static_cast<SeqId>(gBackgroundMusicSeqId));
+        SND_SEQ_Stop(static_cast<SeqId>(gBackgroundMusicSeqId));
     }
 
     SND_Reset_Ambiance();

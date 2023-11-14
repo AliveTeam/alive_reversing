@@ -4,7 +4,7 @@
 #include "../relive_lib/Function.hpp"
 #include "Map.hpp"
 #include "../AliveLibAE/stdlib.hpp"
-#include "Spark.hpp"
+#include "../relive_lib/GameObjects/Spark.hpp"
 #include "Sfx.hpp"
 #include "../relive_lib/GameObjects/Particle.hpp"
 #include "../relive_lib/Collisions.hpp"

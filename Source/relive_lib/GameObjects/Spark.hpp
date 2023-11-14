@@ -1,8 +1,9 @@
 #pragma once
 
-#include "../relive_lib/GameObjects/BaseGameObject.hpp"
-#include "../relive_lib/Primitives.hpp"
-#include "../relive_lib/Layer.hpp"
+#include "../FixedPoint.hpp"
+#include "BaseGameObject.hpp"
+#include "../Primitives.hpp"
+#include "../Layer.hpp"
 
 struct SparkRes final
 {

@@ -5,7 +5,7 @@
 #include "../AliveLibAE/ResourceManager.hpp"
 #include "../AliveLibAE/stdlib.hpp"
 #include "../AliveLibAE/MusicController.hpp"
-#include "../AliveLibAE/BackgroundMusic.hpp"
+#include "../GameObjects/BackgroundMusic.hpp"
 
 #include "../Sfx.hpp"
 #include "../AliveLibAE/PathData.hpp"

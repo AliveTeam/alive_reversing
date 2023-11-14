@@ -6,19 +6,18 @@
 #include "Map.hpp"
 #include "../AliveLibAE/stdlib.hpp"
 #include "../relive_lib/Psx.hpp"
-#include "ScreenClipper.hpp"
+#include "../relive_lib/GameObjects/ScreenClipper.hpp"
 #include "MusicController.hpp"
-#include "BackgroundMusic.hpp"
+#include "../relive_lib/GameObjects/BackgroundMusic.hpp"
 #include "../relive_lib/GameObjects/ScreenManager.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
 #include "Sfx.hpp"
 #include "../relive_lib/FatalError.hpp"
 #include "../relive_lib/Sys.hpp"
 #include "../relive_lib/BaseGameAutoPlayer.hpp"
+#include "../AliveLibAE/Game.hpp"
 
 namespace AO {
-
-s16 gNumCamSwappers = 0;
 
 CameraSwapper::CameraSwapper(CamResource& camRes, bool bPutDispEnv1, const char_type* pFmv1, bool bPutDispEnv2, const char_type* pFmv2, bool bPutDispEnv3, const char_type* pFmv3)
     : BaseGameObject(true, 0)

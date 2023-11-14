@@ -19,7 +19,7 @@
 #include "../relive_lib/GameObjects/ScreenManager.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
 #include "OrbWhirlWind.hpp"
-#include "ScreenClipper.hpp"
+#include "../relive_lib/GameObjects/ScreenClipper.hpp"
 #include "AbilityRing.hpp"
 #include "Map.hpp"
 #include "Path.hpp"

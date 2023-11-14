@@ -4,7 +4,7 @@
 #include "../AliveLibAE/stdlib.hpp"
 #include "../relive_lib/Collisions.hpp"
 #include "Abe.hpp"
-#include "ScreenClipper.hpp"
+#include "../relive_lib/GameObjects/ScreenClipper.hpp"
 #include "ThrowableTotalIndicator.hpp"
 #include "../relive_lib/GameObjects/Flash.hpp"
 #include "Midi.hpp"

@@ -6,7 +6,7 @@
 #include "BaseAliveGameObject.hpp"
 #include "Sfx.hpp"
 #include "Abe.hpp"
-#include "Spark.hpp"
+#include "../relive_lib/GameObjects/Spark.hpp"
 #include "ParticleBurst.hpp"
 #include "PathData.hpp"
 #include "../relive_lib/ObjectIds.hpp"

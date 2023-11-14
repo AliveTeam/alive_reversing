@@ -4,11 +4,9 @@
 #include "../relive_lib/MapWrapper.hpp"
 
 enum class CameraSwapEffects : s16;
+class ScreenClipper;
 
 namespace AO {
-
-
-class ScreenClipper;
 
 class CameraSwapper final : public ::BaseGameObject
 {
@@ -38,7 +36,5 @@ public:
     s16 mYSlices = 0;
     s16 mSliceWidth = 0;
 };
-
-extern s16 gNumCamSwappers; // TODO: Move to own file
 
 } // namespace AO

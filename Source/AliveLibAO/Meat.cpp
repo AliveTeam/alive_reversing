@@ -12,7 +12,7 @@
 #include "PlatformBase.hpp"
 #include "../relive_lib/Collisions.hpp"
 #include "Throwable.hpp"
-#include "CameraSwapper.hpp"
+#include "../AliveLibAE/Game.hpp"
 #include "../relive_lib/GameObjects/Particle.hpp"
 #include "Grid.hpp"
 #include "PathData.hpp"

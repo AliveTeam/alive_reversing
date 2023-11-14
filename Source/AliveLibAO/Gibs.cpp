@@ -5,7 +5,7 @@
 #include "Game.hpp"
 #include "Map.hpp"
 #include "../AliveLibAE/stdlib.hpp"
-#include "CameraSwapper.hpp"
+#include "../AliveLibAE/Game.hpp"
 #include "../relive_lib/GameObjects/ScreenManager.hpp"
 #include "../relive_lib/FixedPoint.hpp"
 

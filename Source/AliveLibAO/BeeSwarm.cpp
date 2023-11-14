@@ -9,7 +9,7 @@
 #include "../relive_lib/GameObjects/ScreenManager.hpp"
 #include "../relive_lib/Events.hpp"
 #include "Math.hpp"
-#include "CameraSwapper.hpp"
+#include "../AliveLibAE/Game.hpp"
 #include "Sfx.hpp"
 #include "../relive_lib/Collisions.hpp"
 #include <algorithm>

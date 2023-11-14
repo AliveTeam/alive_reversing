@@ -16,7 +16,7 @@
 #include "../relive_lib/SwitchStates.hpp"
 #include "Math.hpp"
 #include "Sfx.hpp"
-#include "Spark.hpp"
+#include "../relive_lib/GameObjects/Spark.hpp"
 #include "../relive_lib/Sound/Midi.hpp"
 #include "../relive_lib/GameObjects/ScreenManager.hpp"
 #include "Lever.hpp"

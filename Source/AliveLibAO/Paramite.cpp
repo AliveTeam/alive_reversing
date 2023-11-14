@@ -25,6 +25,7 @@
 #include "../relive_lib/ObjectIds.hpp"
 #include "Path.hpp"
 #include "../relive_lib/FixedPoint.hpp"
+#include "../AliveLibAE/Game.hpp"
 
 namespace AO {
 
@@ -180,7 +181,7 @@ Paramite::~Paramite()
         Path::TLV_Reset(field_12C_tlvInfo, -1, 0, 0);
     }
 
-    SND_Seq_Stop(SeqId::eParamiteNearby_30);
+    SND_SEQ_Stop(SeqId::eParamiteNearby_30);
 
     MusicController::static_PlayMusic(MusicController::MusicTypes::eType0, this, 0, 0);
     MusicController::ClearObject(this);
@@ -338,7 +339,7 @@ void Paramite::VUpdate()
 
         if (!bFound)
         {
-            SND_Seq_Stop(SeqId::eParamiteNearby_30);
+            SND_SEQ_Stop(SeqId::eParamiteNearby_30);
         }
     }
 

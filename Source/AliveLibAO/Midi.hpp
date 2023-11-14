@@ -192,7 +192,7 @@ void SND_Load_Seqs_477AB0(OpenSeqHandle* pSeqTable, std::shared_ptr<PathSoundInf
 
 s16 SND_SEQ_PlaySeq(SeqId idx, s32 repeatCount, s16 bDontStop);
 
-void SND_Seq_Stop(SeqId idx);
+void SND_SEQ_Stop(SeqId idx);
 
 s16 SND_SEQ_Play(SeqId idx, s32 repeatCount, s16 volLeft, s16 volRight);
 

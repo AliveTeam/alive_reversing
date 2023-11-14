@@ -554,7 +554,7 @@ Abe::~Abe()
 {
     MusicController::ClearObject(this);
 
-    SND_Seq_Stop(SeqId::eMudokonChant1_11);
+    SND_SEQ_Stop(SeqId::eMudokonChant1_11);
 
     auto pFade = sObjectIds.Find(mFadeId, ReliveTypes::eFade);
     if (pFade)
@@ -1093,7 +1093,7 @@ void Abe::ToKnockback(s16 bKnockbackSound, s16 bDelayedAnger)
 {
     if (sControlledCharacter->Type() != ReliveTypes::eSlig || mHealth <= FP_FromInteger(0))
     {
-        SND_Seq_Stop(SeqId::eMudokonChant1_11);
+        SND_SEQ_Stop(SeqId::eMudokonChant1_11);
         mElumMountEnd = false;
         mElumUnmountBegin = false;
 
@@ -2470,7 +2470,7 @@ s16 Abe::HandleDoAction()
 
 bool Abe::VTakeDamage(BaseGameObject* pFrom)
 {
-    SND_Seq_Stop(SeqId::eMudokonChant1_11);
+    SND_SEQ_Stop(SeqId::eMudokonChant1_11);
 
     const auto old_say = field_130_say;
     field_130_say = -1;
@@ -8557,7 +8557,7 @@ void Abe::Motion_150_Chant()
 
                 relive_new PossessionFlicker(sControlledCharacter, 60, 128, 255, 255);
 
-                SND_Seq_Stop(SeqId::eMudokonChant1_11);
+                SND_SEQ_Stop(SeqId::eMudokonChant1_11);
                 SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 70, 400);
                 field_110_state.chant = ChantStates::eWaitForUnpossessing_3;
             }
@@ -8611,7 +8611,7 @@ void Abe::Motion_150_Chant()
 
 void Abe::Motion_151_ChantEnd()
 {
-    SND_Seq_Stop(SeqId::eMudokonChant1_11);
+    SND_SEQ_Stop(SeqId::eMudokonChant1_11);
 
     FollowLift();
 

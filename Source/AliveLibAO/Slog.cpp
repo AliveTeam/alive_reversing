@@ -26,6 +26,7 @@
 #include "AnimationCallBacks.hpp"
 #include "../relive_lib/ObjectIds.hpp"
 #include "Path.hpp"
+#include "../AliveLibAE/Game.hpp"
 
 namespace AO {
 
@@ -1567,7 +1568,7 @@ void Slog::Motion_20_JumpUpwards()
 
 void Slog::Motion_21_Eating()
 {
-    SND_Seq_Stop(SeqId::Unknown_17);
+    SND_SEQ_Stop(SeqId::Unknown_17);
 
     if (GetAnimation().GetCurrentFrame() != 0
         || (GetAnimation().SetLoopBackwards(false),

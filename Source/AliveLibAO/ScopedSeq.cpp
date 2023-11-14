@@ -67,7 +67,7 @@ ScopedSeq::~ScopedSeq()
 {
     if (mSeqId >= 0)
     {
-        SND_Seq_Stop(static_cast<SeqId>(mSeqId));
+        SND_SEQ_Stop(static_cast<SeqId>(mSeqId));
     }
 
     if (mChannelMask)

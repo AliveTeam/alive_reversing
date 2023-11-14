@@ -5,6 +5,7 @@
 #include "../relive_lib/data_conversion/relive_tlvs.hpp"
 
 enum class EReliveLevelIds : s16;
+class ScreenClipper;
 
 namespace AO {
 
@@ -26,7 +27,6 @@ public:
 
 class OrbWhirlWind;
 class ThrowableTotalIndicator;
-class ScreenClipper;
 class Dove;
 
 class BirdPortal final : public ::BaseGameObject

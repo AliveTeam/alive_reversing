@@ -6,7 +6,7 @@
 #include "Game.hpp"
 #include "Sfx.hpp"
 #include "Abe.hpp"
-#include "CameraSwapper.hpp"
+#include "../AliveLibAE/Game.hpp"
 #include "../AliveLibAE/stdlib.hpp"
 #include "Midi.hpp"
 #include "../relive_lib/data_conversion/relive_tlvs.hpp"

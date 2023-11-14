@@ -22,6 +22,7 @@
 #include "../relive_lib/FixedPoint.hpp"
 #include "Path.hpp"
 #include "Abe.hpp"
+#include "../AliveLibAE/Game.hpp"
 
 namespace AO {
 

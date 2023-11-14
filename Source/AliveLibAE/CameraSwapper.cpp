@@ -3,7 +3,7 @@
 #include "../relive_lib/Function.hpp"
 #include "Game.hpp"
 #include "Map.hpp"
-#include "BackgroundMusic.hpp"
+#include "../relive_lib/GameObjects/BackgroundMusic.hpp"
 #include "MusicController.hpp"
 #include "AmbientSound.hpp"
 #include "stdlib.hpp"
@@ -11,7 +11,7 @@
 #include "../relive_lib/PsxDisplay.hpp"
 #include "Sfx.hpp"
 #include "Movie.hpp"
-#include "ScreenClipper.hpp"
+#include "../relive_lib/GameObjects/ScreenClipper.hpp"
 #include "../relive_lib/FatalError.hpp"
 
 CameraSwapper::CameraSwapper(CamResource& camRes, bool bPutDispEnv1, const char_type* pFmv1, bool bPutDispEnv2, const char_type* pFmv2, bool bPutDispEnv3, const char_type* pFmv3)
