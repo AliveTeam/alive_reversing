@@ -9,7 +9,7 @@
 #include "../relive_lib/Shadow.hpp"
 #include "MusicController.hpp"
 #include "../relive_lib/SwitchStates.hpp"
-#include "Spark.hpp"
+#include "../relive_lib/GameObjects/Spark.hpp"
 #include "Slig.hpp" //used for renderWithGlowingEyes() only - TODO refactor
 #include "ParticleBurst.hpp"
 #include "Sfx.hpp"

@@ -8,7 +8,7 @@
 #include "../relive_lib/Sound/Midi.hpp"
 #include "Abe.hpp"
 #include "../relive_lib/Events.hpp"
-#include "Spark.hpp"
+#include "../relive_lib/GameObjects/Spark.hpp"
 #include "Blood.hpp"
 #include "Map.hpp"
 #include "Path.hpp"

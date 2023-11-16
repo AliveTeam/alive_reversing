@@ -3,7 +3,7 @@
 #include "../relive_lib/Function.hpp"
 #include "stdlib.hpp"
 #include "../relive_lib/Events.hpp"
-#include "SnoozeParticle.hpp"
+#include "../relive_lib/GameObjects/SnoozeParticle.hpp"
 #include "Game.hpp"
 #include "../relive_lib/SwitchStates.hpp"
 #include "Path.hpp"

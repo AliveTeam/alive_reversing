@@ -1,13 +1,11 @@
 #pragma once
 
-#include "../relive_lib/GameObjects/BaseGameObject.hpp"
-#include "../relive_lib/Primitives.hpp"
-#include "../relive_lib/FixedPoint.hpp"
-#include "../relive_lib/Layer.hpp"
+#include "BaseGameObject.hpp"
+#include "../Primitives.hpp"
+#include "../FixedPoint.hpp"
+#include "../Layer.hpp"
 
-namespace AO {
-
-class SnoozeParticle final : public ::BaseGameObject
+class SnoozeParticle final : public BaseGameObject
 {
 public:
     enum class SnoozeParticleState : s16
@@ -21,9 +19,10 @@ public:
     ~SnoozeParticle();
 
     virtual void VScreenChanged() override;
-    virtual void VUpdate() override;
     virtual void VRender(OrderingTable& ot) override;
+    virtual void VUpdate() override;
 
+private:
     FP mStartY = {};
     FP mXPos = {};
     FP mYPos = {};
@@ -33,12 +32,11 @@ public:
     FP mScaleDx = {};
     Layer mOtLayer = Layer::eLayer_0;
     RGB16 mRGB;
-    s16 mIdx = 0;
+    u16 mIdx = 0;
     bool mBlowUp = false;
     Line_G4 mG4Line = {};
     Line_G2 mG2Lines[6] = {};
+
+public:
     SnoozeParticleState mState = SnoozeParticleState::eRising_0;
 };
-
-
-} // namespace AO

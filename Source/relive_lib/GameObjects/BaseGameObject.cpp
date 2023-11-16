@@ -246,7 +246,7 @@ ReliveTypes BaseGameObject::FromAO(AO::AOTypes aoType)
         case AO::AOTypes::eShrykull_85:
             return ReliveTypes::eShrykull;
         case AO::AOTypes::eSnoozParticle_87:
-            return ReliveTypes::eSnoozParticle;
+            return ReliveTypes::eSnoozeParticle;
         case AO::AOTypes::eSlig_88:
             return ReliveTypes::eSlig;
         case AO::AOTypes::eSlog_89:
@@ -432,7 +432,7 @@ AO::AOTypes BaseGameObject::ToAO(ReliveTypes reliveType)
             return AO::AOTypes::eUnknown_84;
         case ReliveTypes::eShrykull:
             return AO::AOTypes::eShrykull_85;
-        case ReliveTypes::eSnoozParticle:
+        case ReliveTypes::eSnoozeParticle:
             return AO::AOTypes::eSnoozParticle_87;
         case ReliveTypes::eSlig:
             return AO::AOTypes::eSlig_88;

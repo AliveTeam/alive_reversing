@@ -9,7 +9,7 @@
 #include "Abe.hpp"
 #include "Sfx.hpp"
 #include "../relive_lib/GameObjects/Particle.hpp"
-#include "Spark.hpp"
+#include "../relive_lib/GameObjects/Spark.hpp"
 #include "ParticleBurst.hpp"
 #include "Electrocute.hpp"
 #include "Path.hpp"

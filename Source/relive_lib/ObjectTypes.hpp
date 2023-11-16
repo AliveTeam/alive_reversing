@@ -138,7 +138,6 @@ enum class ReliveTypes : s16
     eScreenWave,
     eUnknown, // todo: remove ?
     eShrykull,
-    eSnoozParticle, // TODO: remove this typo version of eSnoozeParticle
     eSlig,
     eSlog,
     SlingMud, // TODO: rename to eSlingMud

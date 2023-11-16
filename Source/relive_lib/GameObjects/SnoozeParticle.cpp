@@ -1,17 +1,15 @@
-#include "stdafx_ao.h"
-#include "../relive_lib/Function.hpp"
+#include "stdafx.h"
+#include "../Function.hpp"
 #include "SnoozeParticle.hpp"
-#include "../AliveLibAE/stdlib.hpp"
+#include "../../AliveLibAE/stdlib.hpp"
 #include "Math.hpp"
-#include "../relive_lib/Events.hpp"
-#include "CameraSwapper.hpp"
-#include "../relive_lib/PsxDisplay.hpp"
-#include "../relive_lib/GameObjects/ScreenManager.hpp"
+#include "../Events.hpp"
+#include "../PsxDisplay.hpp"
+#include "ScreenManager.hpp"
 #include "Sfx.hpp"
-#include "../relive_lib/Primitives.hpp"
-#include "../AliveLibAE/Game.hpp"
-
-namespace AO {
+#include "../Primitives.hpp"
+#include "../../AliveLibAE/Game.hpp"
+#include "../GameType.hpp"
 
 static const s16 xPositionDeltaEntries[36] = {
     1,
@@ -67,14 +65,14 @@ static const s16 zVerts[8] = {
     -4,
     4,
     4,
-    4 };
+    4};
 
 SnoozeParticle::SnoozeParticle(FP xpos, FP ypos, Layer layer, FP scale)
     : BaseGameObject(true, 0)
 {
     SetDrawable(true);
 
-    SetType(ReliveTypes::eSnoozParticle);
+    SetType(ReliveTypes::eSnoozeParticle);
     gObjListDrawables->Push_Back(this);
 
     mStartY = ypos;
@@ -89,12 +87,13 @@ SnoozeParticle::SnoozeParticle(FP xpos, FP ypos, Layer layer, FP scale)
 
     mOtLayer = layer;
 
-    mSpriteScale = (scale * FP_FromDouble(0.4));
+    mSpriteScale = scale * FP_FromDouble(0.4);
 
     mScaleDx = FP_FromDouble(0.30);
     mScaleDx = mScaleDx / (FP_FromInteger(20) / -mDestY);
 
     mRGB.SetRGB(0, 0, 0);
+
     mState = SnoozeParticleState::eRising_0;
     mBlowUp = false;
     mIdx = Math_NextRandom() % 36;
@@ -121,7 +120,6 @@ void SnoozeParticle::VUpdate()
     {
         SetDead(true);
     }
-
     if (!gNumCamSwappers)
     {
         switch (mState)
@@ -159,7 +157,7 @@ void SnoozeParticle::VUpdate()
                 break;
 
             case SnoozeParticleState::eBlowingUp_2:
-                mRGB.r /= 2;
+                mRGB.r /= 2; //fade to transparent
                 mRGB.g /= 2;
                 mRGB.b /= 2;
                 mXPos += mDestX;
@@ -167,7 +165,14 @@ void SnoozeParticle::VUpdate()
 
                 if (mBlowUp)
                 {
-                    SfxPlayMono(relive::SoundEffects::ZPop, 0);
+                    if (GetGameType() == GameType::eAe)
+                    {
+                        SfxPlayMono(relive::SoundEffects::ZPop, 0, mSpriteScale);
+                    }
+                    else
+                    {
+                        SfxPlayMono(relive::SoundEffects::ZPop, 0);
+                    }
                     SetDead(true);
                 }
                 else
@@ -180,13 +185,10 @@ void SnoozeParticle::VUpdate()
 
 void SnoozeParticle::VRender(OrderingTable& ot)
 {
-    //Identical to AE except xInScreen, yInScreen are offset by gScreenManager positions
-    FP_Point* pCamPos = gScreenManager->mCamPos;
-
     if (mState == SnoozeParticleState::eBlowingUp_2)
     {
-        const s16 xInScreen = FP_GetExponent(mXPos - pCamPos->x) + gScreenManager->mCamXOff;
-        const s16 yInScreen = FP_GetExponent(mYPos - pCamPos->y) + gScreenManager->mCamYOff;
+        const s16 xInScreen = FP_GetExponent(mXPos - gScreenManager->CamXPos());
+        const s16 yInScreen = FP_GetExponent(mYPos - gScreenManager->CamYPos());
 
         for (s32 i = 0; i < ALIVE_COUNTOF(explosionVerts); i++)
         {
@@ -220,8 +222,8 @@ void SnoozeParticle::VRender(OrderingTable& ot)
     {
         Line_G4* pZLine = &mG4Line;
 
-        const s16 xInScreen = FP_GetExponent(mXPos - pCamPos->x) + gScreenManager->mCamXOff;
-        const s16 yInScreen = FP_GetExponent(mYPos - pCamPos->y) + gScreenManager->mCamYOff;
+        const s16 xInScreen = FP_GetExponent(mXPos - gScreenManager->CamXPos());
+        const s16 yInScreen = FP_GetExponent(mYPos - gScreenManager->CamYPos());
 
         const s16 RectX_v_Psx = xInScreen + FP_GetExponent(FP_FromInteger(zVerts[0]) * mSpriteScale);
         const s16 RectW_v_Psx = xInScreen + FP_GetExponent(FP_FromInteger(zVerts[5]) * mSpriteScale);
@@ -266,5 +268,3 @@ void SnoozeParticle::VRender(OrderingTable& ot)
         ot.Add(mOtLayer, pZLine);
     }
 }
-
-} // namespace AO

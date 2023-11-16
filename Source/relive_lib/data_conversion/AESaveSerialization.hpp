@@ -165,7 +165,6 @@ NLOHMANN_JSON_SERIALIZE_ENUM(ReliveTypes, {
     { ReliveTypes::eScreenWave, "screen_wave" },
     { ReliveTypes::eUnknown, "unknown" },
     { ReliveTypes::eShrykull, "shrykull" },
-    { ReliveTypes::eSnoozParticle, "snooz_particle" },
     { ReliveTypes::eSlig, "slig" },
     { ReliveTypes::eSlog, "slog" },
     { ReliveTypes::SlingMud, "sling_mud" },

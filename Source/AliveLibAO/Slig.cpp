@@ -26,7 +26,7 @@
 #include "../relive_lib/GameObjects/Particle.hpp"
 #include "Midi.hpp"
 #include "GameEnderController.hpp"
-#include "SnoozeParticle.hpp"
+#include "../relive_lib/GameObjects/SnoozeParticle.hpp"
 #include "GameSpeak.hpp"
 #include "../relive_lib/GameObjects/ScreenShake.hpp"
 #include "../relive_lib/SwitchStates.hpp"
@@ -3247,7 +3247,7 @@ void Slig::Motion_34_SleepingToStand()
             break;
         }
 
-        if (pObj->Type() == ReliveTypes::eSnoozParticle)
+        if (pObj->Type() == ReliveTypes::eSnoozeParticle)
         {
             static_cast<SnoozeParticle*>(pObj)->mState = SnoozeParticle::SnoozeParticleState::eBlowingUp_2;
         }

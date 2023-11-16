@@ -61,8 +61,6 @@ SET(AliveLibSrcAO
    ../AliveLibAO/Door.cpp
    ../AliveLibAO/HintFly.hpp
    ../AliveLibAO/HintFly.cpp
-   ../AliveLibAO/SnoozeParticle.hpp
-   ../AliveLibAO/SnoozeParticle.cpp
    ../AliveLibAO/ScopedSeq.hpp
    ../AliveLibAO/ScopedSeq.cpp
    ../AliveLibAO/TrapDoor.hpp
@@ -484,8 +482,6 @@ SET(AliveLibAESrc
     ../AliveLibAE/DoorFlame.hpp
     ../AliveLibAE/CrawlingSlig.cpp
     ../AliveLibAE/CrawlingSlig.hpp
-    ../AliveLibAE/SnoozeParticle.cpp
-    ../AliveLibAE/SnoozeParticle.hpp
     ../AliveLibAE/Fleech.cpp
     ../AliveLibAE/Fleech.hpp
     ../AliveLibAE/Scrab.cpp
@@ -636,6 +632,8 @@ SET(game_objects_src
     GameObjects/ScreenClipper.cpp
     GameObjects/BackgroundMusic.hpp
     GameObjects/BackgroundMusic.cpp
+    GameObjects/SnoozeParticle.hpp
+    GameObjects/SnoozeParticle.cpp
 )
 
 SET(data_conversion_src

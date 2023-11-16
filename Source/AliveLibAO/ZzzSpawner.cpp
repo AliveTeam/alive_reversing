@@ -2,7 +2,7 @@
 #include "../relive_lib/Function.hpp"
 #include "ZzzSpawner.hpp"
 #include "../AliveLibAE/stdlib.hpp"
-#include "SnoozeParticle.hpp"
+#include "../relive_lib/GameObjects/SnoozeParticle.hpp"
 #include "../relive_lib/Events.hpp"
 #include "Game.hpp"
 #include "../relive_lib/SwitchStates.hpp"

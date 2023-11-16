@@ -11,7 +11,7 @@
 #include "DDCheat.hpp"
 #include "../relive_lib/GameObjects/BaseGameObject.hpp"
 #include "CrawlingSlig.hpp" // TODO: SFX playing only
-#include "SnoozeParticle.hpp"
+#include "../relive_lib/GameObjects/SnoozeParticle.hpp"
 #include "../relive_lib/Events.hpp"
 #include "Sfx.hpp"
 #include "Blood.hpp"

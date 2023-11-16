@@ -17,7 +17,7 @@
 #include "../relive_lib/SwitchStates.hpp"
 #include "PlatformBase.hpp"
 #include "CameraSwapper.hpp"
-#include "SnoozeParticle.hpp"
+#include "../relive_lib/GameObjects/SnoozeParticle.hpp"
 #include "../relive_lib/Shadow.hpp"
 #include "../relive_lib/Events.hpp"
 #include "DDCheat.hpp"
@@ -1427,7 +1427,7 @@ void Slog::Motion_18_WakeUp()
             break;
         }
 
-        if (pObj->Type() == ReliveTypes::eSnoozParticle)
+        if (pObj->Type() == ReliveTypes::eSnoozeParticle)
         {
             static_cast<SnoozeParticle*>(pObj)->mState = SnoozeParticle::SnoozeParticleState::eBlowingUp_2;
         }

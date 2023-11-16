@@ -7,7 +7,7 @@
 #include "MusicController.hpp"
 #include "stdlib.hpp"
 #include "../relive_lib/Events.hpp"
-#include "SnoozeParticle.hpp"
+#include "../relive_lib/GameObjects/SnoozeParticle.hpp"
 #include "Dove.hpp"
 #include "Blood.hpp"
 #include "../relive_lib/Shadow.hpp"
