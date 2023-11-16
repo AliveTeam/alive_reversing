@@ -43,7 +43,7 @@
 #include "SecurityDoor.hpp"
 #include "BackgroundGlukkon.hpp"
 #include "Well.hpp"
-#include "ZzzSpawner.hpp"
+#include "../relive_lib/GameObjects/ZzzSpawner.hpp"
 #include "BirdPortal.hpp"
 #include "SlogSpawner.hpp"
 #include "DoorFlame.hpp"

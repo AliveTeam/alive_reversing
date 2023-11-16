@@ -105,8 +105,6 @@ SET(AliveLibSrcAO
    ../AliveLibAO/AbilityRing.cpp
    ../AliveLibAO/BirdPortal.hpp
    ../AliveLibAO/BirdPortal.cpp
-   ../AliveLibAO/ZzzSpawner.hpp
-   ../AliveLibAO/ZzzSpawner.cpp
    ../AliveLibAO/OrbWhirlWindParticle.hpp
    ../AliveLibAO/OrbWhirlWindParticle.cpp
    ../AliveLibAO/OrbWhirlWind.hpp
@@ -169,8 +167,6 @@ SET(AliveLibSrcAO
    ../AliveLibAO/BeeSwarmHole.cpp
    ../AliveLibAO/BeeSwarm.hpp
    ../AliveLibAO/BeeSwarm.cpp
-   ../AliveLibAO/Fade.hpp
-   ../AliveLibAO/Fade.cpp
    ../AliveLibAO/Gibs.hpp
    ../AliveLibAO/Gibs.cpp
    ../AliveLibAO/AirExplosion.hpp
@@ -378,8 +374,6 @@ SET(AliveLibAESrc
     ../AliveLibAE/CircularFade.cpp
     ../AliveLibAE/Alarm.hpp
     ../AliveLibAE/Alarm.cpp
-    ../AliveLibAE/Fade.hpp
-    ../AliveLibAE/Fade.cpp
     ../AliveLibAE/PossessionFlicker.hpp
     ../AliveLibAE/PossessionFlicker.cpp
     ../AliveLibAE/Door.hpp
@@ -526,8 +520,6 @@ SET(AliveLibAESrc
     ../AliveLibAE/ScrabSpawner.cpp
     ../AliveLibAE/SlogSpawner.hpp
     ../AliveLibAE/SlogSpawner.cpp
-    ../AliveLibAE/ZzzSpawner.hpp
-    ../AliveLibAE/ZzzSpawner.cpp
     ../AliveLibAE/GameEnderController.hpp
     ../AliveLibAE/GameEnderController.cpp
     ../AliveLibAE/Shrykull.hpp
@@ -634,6 +626,10 @@ SET(game_objects_src
     GameObjects/BackgroundMusic.cpp
     GameObjects/SnoozeParticle.hpp
     GameObjects/SnoozeParticle.cpp
+    GameObjects/ZzzSpawner.hpp
+    GameObjects/ZzzSpawner.cpp
+    GameObjects/Fade.hpp
+    GameObjects/Fade.cpp
 )
 
 SET(data_conversion_src

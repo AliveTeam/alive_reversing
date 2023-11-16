@@ -1,9 +1,7 @@
 #pragma once
 
-#include "../relive_lib/GameObjects/EffectBase.hpp"
-#include "../relive_lib/Layer.hpp"
-
-namespace AO {
+#include "EffectBase.hpp"
+#include "../Layer.hpp"
 
 enum class FadeOptions
 {
@@ -15,7 +13,7 @@ class Fade final : public EffectBase
 {
 public:
     Fade(Layer layer, FadeOptions fade, bool destroyOnDone, s32 speed, relive::TBlendModes abr);
-
+    ~Fade();
     void Init(Layer layer, FadeOptions fade, bool destroyOnDone, s32 speed);
     virtual void VScreenChanged() override;
     virtual void VUpdate() override;
@@ -30,5 +28,3 @@ private:
     FadeOptions mFadeOption = FadeOptions::eFadeOut;
     bool mDestroyOnDone = false;
 };
-
-} // namespace AO

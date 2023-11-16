@@ -73,7 +73,7 @@
 #include "SligSpawner.hpp"
 #include "ScrabSpawner.hpp"
 #include "SlogSpawner.hpp"
-#include "ZzzSpawner.hpp"
+#include "../relive_lib/GameObjects/ZzzSpawner.hpp"
 #include "ParamiteWebLine.hpp"
 #include "ExplosionSet.hpp"
 #include "ColourfulMeter.hpp"

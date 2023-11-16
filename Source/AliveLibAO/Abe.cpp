@@ -19,7 +19,7 @@
 #include "Midi.hpp"
 #include "Movie.hpp"
 #include "CircularFade.hpp"
-#include "Fade.hpp"
+#include "../relive_lib/GameObjects/Fade.hpp"
 #include "Throwable.hpp"
 #include "OrbWhirlWind.hpp"
 #include "../relive_lib/GameObjects/Particle.hpp"

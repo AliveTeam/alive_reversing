@@ -3,7 +3,7 @@
 #include "../relive_lib/Function.hpp"
 #include "../relive_lib/Events.hpp"
 #include "../relive_lib/SwitchStates.hpp"
-#include "Fade.hpp"
+#include "../relive_lib/GameObjects/Fade.hpp"
 #include "../relive_lib/ObjectIds.hpp"
 #include "Map.hpp"
 #include "stdlib.hpp"

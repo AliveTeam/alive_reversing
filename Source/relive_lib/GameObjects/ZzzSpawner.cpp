@@ -1,15 +1,11 @@
-#include "stdafx_ao.h"
-#include "../relive_lib/Function.hpp"
+#include "stdafx.h"
+#include "../Function.hpp"
 #include "ZzzSpawner.hpp"
-#include "../AliveLibAE/stdlib.hpp"
-#include "../relive_lib/GameObjects/SnoozeParticle.hpp"
-#include "../relive_lib/Events.hpp"
-#include "Game.hpp"
-#include "../relive_lib/SwitchStates.hpp"
-#include "Path.hpp"
-
-namespace AO {
-
+#include "../../AliveLibAE/stdlib.hpp"
+#include "SnoozeParticle.hpp"
+#include "../Events.hpp"
+#include "../SwitchStates.hpp"
+#include "../GameType.hpp"
 
 ZzzSpawner::ZzzSpawner(relive::Path_ZzzSpawner* pTlv, const Guid& tlvId)
     : BaseGameObject(true, 0)
@@ -34,7 +30,7 @@ ZzzSpawner::ZzzSpawner(relive::Path_ZzzSpawner* pTlv, const Guid& tlvId)
 
 ZzzSpawner::~ZzzSpawner()
 {
-    Path::TLV_Reset(mTlvInfo, -1, 0, 0);
+    GetMap().TLV_Reset(mTlvInfo, -1, 0, 0);
 }
 
 void ZzzSpawner::VScreenChanged()
@@ -51,19 +47,18 @@ void ZzzSpawner::VUpdate()
 
     if (!SwitchStates_Get(mSwitchId) && static_cast<s32>(sGnFrame) > mTimer)
     {
-        Layer snoozeLayer = Layer::eLayer_0;
-        if (mSpriteScale != FP_FromInteger(1))
+        Layer snoozeLayer = Layer::eLayer_Above_FG1_39;
+        // AO doesn't set a different layer for the bg
+        if (GetGameType() == GameType::eAe)
         {
-            snoozeLayer = Layer::eLayer_Above_FG1_Half_20;
+            if (mSpriteScale != FP_FromInteger(1))
+            {
+                snoozeLayer = Layer::eLayer_Above_FG1_Half_20;
+            }
         }
-        else
-        {
-            snoozeLayer = Layer::eLayer_Above_FG1_39;
-        }
+
         relive_new SnoozeParticle(mXPos, mYPos, snoozeLayer, mSpriteScale);
 
         mTimer = MakeTimer(mZzzInterval);
     }
 }
-
-} // namespace AO

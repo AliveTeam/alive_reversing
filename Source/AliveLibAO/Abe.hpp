@@ -10,6 +10,8 @@ namespace relive
     struct Path_BellsongStone;
 }
 
+class Fade;
+
 namespace AO {
 
 #define AO_ABE_MOTIONS_ENUM(ENTRY)                   \
@@ -185,7 +187,6 @@ enum eAbeMotions : s16
     AO_ABE_MOTIONS_ENUM(MAKE_ENUM)
 };
 
-class Fade;
 class OrbWhirlWind;
 class BirdPortal;
 class PullRingRope;

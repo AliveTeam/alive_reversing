@@ -1,14 +1,21 @@
 #include "stdafx.h"
 #include "Fade.hpp"
-#include "stdlib.hpp"
-
-static bool sIsFadingOut = false;
-
+#include "../../AliveLibAE/stdlib.hpp"
+#include "../FatalError.hpp"
+#include "../GameType.hpp"
 
 Fade::Fade(Layer layer, FadeOptions fade, bool destroyOnDone, s32 speed, relive::TBlendModes abr)
     : EffectBase(layer, abr)
 {
-    SetType(ReliveTypes::eMainMenuTransistion);
+    // TODO: sort this out
+    if (GetGameType() == GameType::eAe)
+    {
+        SetType(ReliveTypes::eMainMenuTransistion);
+    }
+    else
+    {
+        SetType(ReliveTypes::eFade);
+    }
 
     if (fade == FadeOptions::eFadeIn)
     {
@@ -51,8 +58,6 @@ void Fade::Init(Layer layer, FadeOptions fade, bool destroyOnDone, s32 speed)
     {
         mSpeed = speed;
     }
-
-    sIsFadingOut = true;
 }
 
 void Fade::VUpdate()
@@ -89,16 +94,9 @@ void Fade::VRender(OrderingTable& ot)
         (mFadeColour == 0 && mFadeOption == FadeOptions::eFadeOut))
     {
         mDone = true;
-        if (!sIsFadingOut)
+        if (mDestroyOnDone)
         {
-            if (mDestroyOnDone)
-            {
-                SetDead(true);
-            }
-        }
-        else
-        {
-            sIsFadingOut = false;
+            SetDead(true);
         }
     }
 }

@@ -18,7 +18,7 @@
 #include "LiftPoint.hpp"
 #include "Map.hpp"
 #include "Slurg.hpp"
-#include "Fade.hpp"
+#include "../relive_lib/GameObjects/Fade.hpp"
 #include "../relive_lib/GameObjects/ScreenManager.hpp"
 #include "Movie.hpp"
 #include "DDCheat.hpp"

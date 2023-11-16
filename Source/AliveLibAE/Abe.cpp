@@ -25,7 +25,7 @@
 #include "Blood.hpp"
 #include "PullRingRope.hpp"
 #include "CircularFade.hpp"
-#include "Fade.hpp"
+#include "../relive_lib/GameObjects/Fade.hpp"
 #include "Movie.hpp"
 #include "PossessionFlicker.hpp"
 #include "Door.hpp"
