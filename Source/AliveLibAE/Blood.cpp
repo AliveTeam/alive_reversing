@@ -8,6 +8,9 @@
 #include "Map.hpp"
 #include <algorithm>
 
+#undef min
+#undef max
+
 Blood::Blood(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s32 count)
     : BaseAnimatedWithPhysicsGameObject(0),
     mTotalBloodCount(count),

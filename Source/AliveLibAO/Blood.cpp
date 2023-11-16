@@ -16,7 +16,10 @@
 namespace AO {
 
 Blood::Blood(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s32 count)
-    : BaseAnimatedWithPhysicsGameObject(0)
+    : BaseAnimatedWithPhysicsGameObject(0), 
+    mTotalBloodCount(count),
+    mCurrentBloodCount(count),
+    mBloodParticle(relive_new BloodParticle[count])
 {
     SetSpriteScale(scale);
 
@@ -40,10 +43,6 @@ Blood::Blood(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s32 count)
         GetAnimation().SetFrame((GetAnimation().Get_Frame_Count() >> 1) + 1);
     }
 
-    mTotalBloodCount = static_cast<s16>(count);
-    mCurrentBloodCount = static_cast<s16>(count);
-
-    mBloodParticle = relive_new BloodParticle[count];
     if (mBloodParticle)
     {
         mUpdateCalls = 0;
@@ -62,23 +61,23 @@ Blood::Blood(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s32 count)
         for (s32 i = 0; i < mTotalBloodCount; i++)
         {
             BloodParticle* pParticle = &mBloodParticle[i];
-            Poly_FT4* pSprt = &pParticle->field_10_prim;
-            pSprt->SetSemiTransparent(true);
+            Poly_FT4* pPoly = &pParticle->mPoly;
+            pPoly->SetSemiTransparent(true);
 
             if (GetAnimation().GetBlending())
             {
-                pSprt->DisableBlending(true);
+                pPoly->DisableBlending(true);
             }
             else
             {
-                pSprt->DisableBlending(false);
+                pPoly->DisableBlending(false);
                 const auto rgb = GetAnimation().GetRgb();
-                pSprt->SetRGB0(rgb.r & 0xFF, rgb.g & 0xFF, rgb.b & 0xFF);
+                pPoly->SetRGB0(rgb.r & 0xFF, rgb.g & 0xFF, rgb.b & 0xFF);
             }
 
-            pSprt->mAnim = &GetAnimation();
+            pPoly->mAnim = &GetAnimation();
 
-            pSprt->SetUV0(u0, v0);
+            pPoly->SetUV0(u0, v0);
         }
 
         // Has its own random seed based on the frame counter.. no idea why
@@ -89,11 +88,11 @@ Blood::Blood(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s32 count)
             mBloodParticle[i].x = FP_FromInteger(mBloodXPos);
             mBloodParticle[i].y = FP_FromInteger(mBloodYPos);
 
-            const FP randX = (FP_FromInteger(gRandomBytes[mRandSeed++]) / FP_FromInteger(16));
+            const FP randX = FP_FromInteger(gRandomBytes[mRandSeed++]) / FP_FromInteger(16);
             const FP adjustedX = FP_FromDouble(1.3) * (randX - FP_FromInteger(8));
             mBloodParticle[i].mOffX = GetSpriteScale() * (xOff + adjustedX);
 
-            const FP randY = (FP_FromInteger(gRandomBytes[mRandSeed++]) / FP_FromInteger(16));
+            const FP randY = FP_FromInteger(gRandomBytes[mRandSeed++]) / FP_FromInteger(16);
             const FP adjustedY = FP_FromDouble(1.3) * (randY - FP_FromInteger(8));
             mBloodParticle[i].mOffY = GetSpriteScale() * (yOff + adjustedY);
         }
@@ -152,25 +151,25 @@ void Blood::VRender(OrderingTable& ot)
         for (s32 i = 0; i < mCurrentBloodCount; i++)
         {
             BloodParticle* pParticle = &mBloodParticle[i];
-            Poly_FT4* pSprt = &pParticle->field_10_prim;
+            Poly_FT4* pPoly = &pParticle->mPoly;
 
-            pSprt->SetUV0(0, 0);
-            pSprt->SetBlendMode(relive::TBlendModes::eBlend_0);
+            pPoly->SetUV0(0, 0);
+            pPoly->SetBlendMode(relive::TBlendModes::eBlend_0);
 
             const PerFrameInfo* pFrameHeader = GetAnimation().Get_FrameHeader(-1);
 
             const s16 x0 = PsxToPCX(FP_GetExponent(pParticle->x));
             const s16 y0 = FP_GetExponent(pParticle->y);
 
-            pSprt->SetXYWH(x0, y0, static_cast<s16>(pFrameHeader->mWidth - 1), static_cast<s16>(pFrameHeader->mHeight - 1));
+            pPoly->SetXYWH(x0, y0, static_cast<s16>(pFrameHeader->mWidth - 1), static_cast<s16>(pFrameHeader->mHeight - 1));
 
             if (!GetAnimation().GetBlending())
             {
                 const auto rgb = GetAnimation().GetRgb();
-                pSprt->SetRGB0(rgb.r & 0xFF, rgb.g & 0xFF, rgb.b & 0xFF);
+                pPoly->SetRGB0(rgb.r & 0xFF, rgb.g & 0xFF, rgb.b & 0xFF);
             }
 
-            ot.Add(mOtLayer, pSprt);
+            ot.Add(mOtLayer, pPoly);
         }
     }
 }
