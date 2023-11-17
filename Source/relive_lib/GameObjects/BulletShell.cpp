@@ -1,20 +1,21 @@
 #include "stdafx.h"
 #include "BulletShell.hpp"
-#include "stdlib.hpp"
-#include "../relive_lib/Collisions.hpp"
-#include "Sfx.hpp"
-#include "Map.hpp"
-#include "../relive_lib/FixedPoint.hpp"
 #include "Math.hpp"
+#include "../../AliveLibAE/stdlib.hpp"
+#include "../MapWrapper.hpp"
+#include "../Collisions.hpp"
+#include "Sfx.hpp"
+#include "../FixedPoint.hpp"
+#include "../GameType.hpp"
 
 static s16 sShellCount = 0;
 
-BulletShell::BulletShell(FP xpos, FP ypos, s16 direction, FP scale)
+BulletShell::BulletShell(FP xpos, FP ypos, bool flipX, FP scale)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
     sShellCount++;
 
-    if (sShellCount >= 11)
+    if (sShellCount >= 11 && GetGameType() == GameType::eAe)
     {
         SetDrawable(false);
         SetDead(true);
@@ -37,12 +38,12 @@ BulletShell::BulletShell(FP xpos, FP ypos, s16 direction, FP scale)
         }
 
         SetApplyShadowZoneColour(false);
-        GetAnimation().SetFlipX(direction & 1);
+        GetAnimation().SetFlipX(flipX);
 
         mXPos = xpos;
         mYPos = ypos;
 
-        if (direction)
+        if (flipX)
         {
             mVelX = FP_FromInteger(Math_RandomRange(-6, -3));
         }
@@ -52,6 +53,7 @@ BulletShell::BulletShell(FP xpos, FP ypos, s16 direction, FP scale)
         }
         mVelY = FP_FromInteger(Math_RandomRange(-4, -1));
     }
+
 }
 
 BulletShell::~BulletShell()
@@ -61,7 +63,7 @@ BulletShell::~BulletShell()
 
 void BulletShell::VUpdate()
 {
-    if (GetDead())
+    if (GetDead() && GetGameType() == GameType::eAe)
     {
         return;
     }
@@ -70,6 +72,11 @@ void BulletShell::VUpdate()
     mYPos += mVelY;
 
     mVelY += mSpeed;
+
+    const CollisionMask aeMask = GetScale() == Scale::Fg ? kFgFloorCeilingOrWalls : kBgFloorCeilingOrWalls;
+    const CollisionMask aoMask = GetSpriteScale() != FP_FromDouble(0.5) ? kFgWallsOrFloor : kBgWallsOrFloor;
+
+    const CollisionMask usedMask = GetGameType() == GameType::eAe ? aeMask : aoMask;
 
     FP hitX = {};
     FP hitY = {};
@@ -81,7 +88,7 @@ void BulletShell::VUpdate()
             &mLine,
             &hitX,
             &hitY,
-            GetScale() == Scale::Fg ? kFgFloorCeilingOrWalls : kBgFloorCeilingOrWalls)
+            usedMask)
         == 1)
     {
         if (mLine->mLineType == eLineTypes::eFloor_0 ||
@@ -111,7 +118,7 @@ void BulletShell::VUpdate()
         }
     }
 
-    if (!gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0))
+    if (!GetMap().Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0))
     {
         SetDead(true);
     }

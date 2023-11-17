@@ -1,7 +1,7 @@
 #include "Slig.hpp"
 #include "Dove.hpp"
 #include "Bullet.hpp"
-#include "BulletShell.hpp"
+#include "../relive_lib/GameObjects/BulletShell.hpp"
 #include "Dove.hpp"
 #include "Slog.hpp"
 #include "Blood.hpp"

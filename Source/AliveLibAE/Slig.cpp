@@ -26,7 +26,7 @@
 #include "Lever.hpp"
 #include "Bullet.hpp"
 #include "Dove.hpp"
-#include "BulletShell.hpp"
+#include "../relive_lib/GameObjects/BulletShell.hpp"
 #include "GameSpeak.hpp"
 #include "AmbientSound.hpp"
 #include "Electrocute.hpp"

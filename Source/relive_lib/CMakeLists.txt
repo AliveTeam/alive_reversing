@@ -147,8 +147,6 @@ SET(AliveLibSrcAO
    ../AliveLibAO/Rope.cpp
    ../AliveLibAO/PullRingRope.hpp
    ../AliveLibAO/PullRingRope.cpp
-   ../AliveLibAO/BulletShell.hpp
-   ../AliveLibAO/BulletShell.cpp
    ../AliveLibAO/TimerTrigger.hpp
    ../AliveLibAO/TimerTrigger.cpp
    ../AliveLibAO/BellSong.hpp
@@ -506,8 +504,6 @@ SET(AliveLibAESrc
     ../AliveLibAE/Rock.cpp
     ../AliveLibAE/RockSack.hpp
     ../AliveLibAE/RockSack.cpp
-    ../AliveLibAE/BulletShell.hpp
-    ../AliveLibAE/BulletShell.cpp
     ../AliveLibAE/SligSpawner.hpp
     ../AliveLibAE/SligSpawner.cpp
     ../AliveLibAE/ScrabSpawner.hpp
@@ -626,6 +622,8 @@ SET(game_objects_src
     GameObjects/ZapLine.cpp
     GameObjects/ZapSpark.hpp
     GameObjects/ZapSpark.cpp
+    GameObjects/BulletShell.hpp
+    GameObjects/BulletShell.cpp
 )
 
 SET(data_conversion_src
