@@ -18,7 +18,7 @@
 #include "../AliveLibAE/stdlib.hpp"
 #include "Midi.hpp"
 #include "Movie.hpp"
-#include "CircularFade.hpp"
+#include "../relive_lib/GameObjects/CircularFade.hpp"
 #include "../relive_lib/GameObjects/Fade.hpp"
 #include "Throwable.hpp"
 #include "OrbWhirlWind.hpp"

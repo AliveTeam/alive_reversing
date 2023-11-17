@@ -119,8 +119,6 @@ SET(AliveLibSrcAO
    ../AliveLibAO/BackgroundGlukkon.cpp
    ../AliveLibAO/ThrowableTotalIndicator.hpp
    ../AliveLibAO/ThrowableTotalIndicator.cpp
-   ../AliveLibAO/CircularFade.hpp
-   ../AliveLibAO/CircularFade.cpp
    ../AliveLibAO/SecurityDoor.hpp
    ../AliveLibAO/SecurityDoor.cpp
    ../AliveLibAO/GroundExplosion.hpp
@@ -364,8 +362,6 @@ SET(AliveLibAESrc
     ../AliveLibAE/PullRingRope.cpp
     ../AliveLibAE/HoistRocksEffect.hpp
     ../AliveLibAE/HoistRocksEffect.cpp
-    ../AliveLibAE/CircularFade.hpp
-    ../AliveLibAE/CircularFade.cpp
     ../AliveLibAE/Alarm.hpp
     ../AliveLibAE/Alarm.cpp
     ../AliveLibAE/PossessionFlicker.hpp
@@ -624,6 +620,8 @@ SET(game_objects_src
     GameObjects/ZapSpark.cpp
     GameObjects/BulletShell.hpp
     GameObjects/BulletShell.cpp
+    GameObjects/CircularFade.hpp
+    GameObjects/CircularFade.cpp
 )
 
 SET(data_conversion_src

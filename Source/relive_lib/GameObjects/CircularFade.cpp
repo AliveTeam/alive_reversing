@@ -1,17 +1,27 @@
 #include "stdafx.h"
 #include "CircularFade.hpp"
-#include "../relive_lib/Function.hpp"
-#include "../relive_lib/GameObjects/ScreenManager.hpp"
-#include "../relive_lib/PsxDisplay.hpp"
-#include "Game.hpp"
-#include "stdlib.hpp"
+#include "ScreenManager.hpp"
+#include "../PsxDisplay.hpp"
+#include "../../AliveLibAE/stdlib.hpp"
+#include "../Primitives.hpp"
+#include "../GameType.hpp"
+#include "../../AliveLibAE/Game.hpp"
 
-CircularFade::CircularFade(FP xpos, FP ypos, FP scale, s16 direction, s8 destroyOnDone)
+CircularFade::CircularFade(FP xpos, FP ypos, FP scale, bool fadeIn, s8 destroyOnDone)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
-    SetUpdateDuringCamSwap(true);
+    AnimId anim;
+    if (GetGameType() == GameType::eAe)
+    {
+        SetUpdateDuringCamSwap(true);
+        anim = AnimId::SpotLight;
+    }
+    else
+    {
+        anim = AnimId::Circular_Fade;
+    }
 
-    if (direction)
+    if (fadeIn)
     {
         mFadeColour = 0;
     }
@@ -20,13 +30,14 @@ CircularFade::CircularFade(FP xpos, FP ypos, FP scale, s16 direction, s8 destroy
         mFadeColour = 255;
     }
 
-    VFadeIn(direction, destroyOnDone);
+    // NOTE: Inlined
+    VFadeIn(fadeIn, destroyOnDone);
 
     const u8 fade_rgb = static_cast<u8>((mFadeColour * 60) / 100);
     mRGB.SetRGB(fade_rgb, fade_rgb, fade_rgb);
 
-    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::SpotLight));
-    Animation_Init(GetAnimRes(AnimId::SpotLight));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(anim));
+    Animation_Init(GetAnimRes(anim));
 
     SetApplyShadowZoneColour(false);
 
@@ -43,9 +54,9 @@ CircularFade::CircularFade(FP xpos, FP ypos, FP scale, s16 direction, s8 destroy
 
 CircularFade::~CircularFade()
 {
-    if (!mDone)
+    if (!mDone && GetGameType() == GameType::eAe)
     {
-        --gNumCamSwappers;
+        gNumCamSwappers--;
     }
 }
 
@@ -117,7 +128,8 @@ void CircularFade::VRender(OrderingTable& ot)
     pTile3->SetRGB1(fadeColour, fadeColour, fadeColour);
     pTile3->SetRGB2(fadeColour, fadeColour, fadeColour);
     pTile3->SetRGB3(fadeColour, fadeColour, fadeColour);
-    pTile3->SetXYWH(frameRect.w, frameRect.y, gPsxDisplay.mWidth - frameRect.w, frameRect.h - frameRect.y);
+    const s16 tile3RectW = GetGameType() == GameType::eAo ? frameRect.w + 1 : frameRect.w;
+    pTile3->SetXYWH(tile3RectW, frameRect.y, gPsxDisplay.mWidth - frameRect.w, frameRect.h - frameRect.y);
     pTile3->SetSemiTransparent(true);
     pTile3->SetBlendMode(relive::TBlendModes::eBlend_2);
     ot.Add(GetAnimation().GetRenderLayer(), pTile3);
@@ -134,10 +146,17 @@ void CircularFade::VRender(OrderingTable& ot)
 
     if ((mFadeColour == 255 && mFadeIn) || (mFadeColour == 0 && !mFadeIn))
     {
-        if (!mDone)
+        if (GetGameType() == GameType::eAe)
+        {
+            if (!mDone)
+            {
+                mDone = true;
+                gNumCamSwappers--;
+            }
+        }
+        else
         {
             mDone = true;
-            --gNumCamSwappers;
         }
 
         if (mDestroyOnDone)
@@ -166,11 +185,14 @@ void CircularFade::VUpdate()
     }
 }
 
-void CircularFade::VFadeIn(s16 direction, s8 destroyOnDone)
+void CircularFade::VFadeIn(bool fadeIn, s8 destroyOnDone)
 {
-    gNumCamSwappers++;
+    if (GetGameType() == GameType::eAe)
+    {
+        gNumCamSwappers++;
+    }
 
-    mFadeIn = direction;
+    mFadeIn = fadeIn;
 
     mDone = false;
 
@@ -196,14 +218,13 @@ s32 CircularFade::VDone()
     return mDone;
 }
 
-CircularFade* Make_Circular_Fade(FP xpos, FP ypos, FP scale, s16 direction, s8 destroyOnDone, bool surviveDeathReset)
+CircularFade* Make_Circular_Fade(FP xpos, FP ypos, FP scale, bool fadeIn, s8 destroyOnDone, bool surviveDeathReset)
 {
-    auto pCircularFade = relive_new CircularFade(xpos, ypos, scale, direction, destroyOnDone);
+    auto pCircularFade = relive_new CircularFade(xpos, ypos, scale, fadeIn, destroyOnDone);
     if (!pCircularFade)
     {
         return nullptr;
     }
-
     pCircularFade->SetSurviveDeathReset(surviveDeathReset);
     return pCircularFade;
 }

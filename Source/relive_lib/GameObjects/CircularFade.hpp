@@ -1,20 +1,19 @@
 #pragma once
 
-#include "../relive_lib/GameObjects/BaseAnimatedWithPhysicsGameObject.hpp"
-
-namespace AO {
+#include "BaseAnimatedWithPhysicsGameObject.hpp"
 
 class CircularFade final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    CircularFade(FP xpos, FP ypos, FP scale, s16 direction, s8 destroyOnDone);
+    CircularFade(FP xpos, FP ypos, FP scale, bool fadeIn, s8 destroyOnDone);
+    ~CircularFade();
 
     virtual void VScreenChanged() override;
     virtual void VUpdate() override;
     virtual void VRender(OrderingTable& ot) override;
 
     // New virtuals
-    virtual void VFadeIn(u8 direction, s8 destroyOnDone);
+    virtual void VFadeIn(bool fadeIn, s8 destroyOnDone);
     virtual s32 VDone();
 
 private:
@@ -29,4 +28,4 @@ private:
     s16 mSpeed = 0;
 };
 
-} // namespace AO
+CircularFade* Make_Circular_Fade(FP xpos, FP ypos, FP scale, bool fadeIn, s8 destroyOnDone, bool surviveDeathReset);

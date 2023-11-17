@@ -24,7 +24,7 @@
 #include "OrbWhirlWind.hpp"
 #include "Blood.hpp"
 #include "PullRingRope.hpp"
-#include "CircularFade.hpp"
+#include "../relive_lib/GameObjects/CircularFade.hpp"
 #include "../relive_lib/GameObjects/Fade.hpp"
 #include "Movie.hpp"
 #include "PossessionFlicker.hpp"
@@ -4984,7 +4984,7 @@ void Abe::Motion_57_Dead_4589A0()
                 FP_FromInteger(QuikSave::gActiveQuicksaveData.mWorldInfo.mControlledCharY),
                 QuikSave::gActiveQuicksaveData.mWorldInfo.mControlledCharScale != 0 ? FP_FromDouble(1.0) : FP_FromDouble(0.5),
                 0,
-                1,
+                true,
                 true);
             QuikSave::LoadActive();
             return;
@@ -5906,7 +5906,7 @@ void Abe::Motion_86_HandstoneBegin()
                     mYPos,
                     GetSpriteScale(),
                     1,
-                    0,
+                    false,
                     false);
 
                 if (GetAnimation().GetFlipX())
@@ -6102,7 +6102,7 @@ void Abe::Motion_86_HandstoneBegin()
             pFade->SetDead(true);
             mFadeId = Guid{};
 
-            CircularFade* pCircularFade2 = Make_Circular_Fade(mXPos, mYPos, GetSpriteScale(), 0, 0, false);
+            CircularFade* pCircularFade2 = Make_Circular_Fade(mXPos, mYPos, GetSpriteScale(), 0, false, false);
             if (GetAnimation().GetFlipX())
             {
                 pCircularFade2->GetAnimation().SetFlipX(true);

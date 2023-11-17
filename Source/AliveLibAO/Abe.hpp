@@ -11,6 +11,7 @@ namespace relive
 }
 
 class Fade;
+class CircularFade;
 
 namespace AO {
 
@@ -190,7 +191,6 @@ enum eAbeMotions : s16
 class OrbWhirlWind;
 class BirdPortal;
 class PullRingRope;
-class CircularFade;
 class BaseThrowable;
 class Rope;
 class Bullet;
