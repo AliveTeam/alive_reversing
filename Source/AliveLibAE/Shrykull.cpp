@@ -4,7 +4,7 @@
 #include "stdlib.hpp"
 #include "../relive_lib/Shadow.hpp"
 #include "../relive_lib/ObjectIds.hpp"
-#include "ZapLine.hpp"
+#include "../relive_lib/GameObjects/ZapLine.hpp"
 #include "Sfx.hpp"
 #include "Game.hpp"
 #include "ParticleBurst.hpp"

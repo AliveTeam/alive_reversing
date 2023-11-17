@@ -12,7 +12,7 @@
 #include "../relive_lib/GameObjects/ScreenShake.hpp"
 #include "ParticleBurst.hpp"
 #include "Electrocute.hpp"
-#include "ZapLine.hpp"
+#include "../relive_lib/GameObjects/ZapLine.hpp"
 #include "../relive_lib/Events.hpp"
 #include "MotionDetector.hpp"
 #include "../relive_lib/Function.hpp"

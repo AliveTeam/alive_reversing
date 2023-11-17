@@ -1,16 +1,20 @@
-#include "stdafx_ao.h"
+#include "stdafx.h"
 #include "ZapSpark.hpp"
 #include "Math.hpp"
-#include "Map.hpp"
-#include "../AliveLibAE/stdlib.hpp"
-#include "../relive_lib/FixedPoint.hpp"
+#include "../MapWrapper.hpp"
+#include "../../AliveLibAE/stdlib.hpp"
+#include "../FixedPoint.hpp"
+#include "../GameType.hpp"
 
-namespace AO {
-
-void ZapSpark::LoadAnimations()
+void ZapSpark::LoadAnimationsAO()
 {
     mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::ChantOrb_Particle_Small));
     mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::ChantOrb_Particle));
+}
+
+void ZapSpark::LoadAnimationsAE()
+{
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::AE_ZapSpark));
 }
 
 ZapSpark::ZapSpark(FP xpos, FP ypos, FP scale)
@@ -18,9 +22,19 @@ ZapSpark::ZapSpark(FP xpos, FP ypos, FP scale)
 {
     SetType(ReliveTypes::eZapSpark);
 
-    LoadAnimations();
-
-    Animation_Init(GetAnimRes(AnimId::ChantOrb_Particle_Small));
+    FP spriteScaleAddition;
+    if (GetGameType() == GameType::eAe)
+    {
+        LoadAnimationsAE();
+        Animation_Init(GetAnimRes(AnimId::AE_ZapSpark));
+        spriteScaleAddition = FP_FromDouble(0.7);
+    }
+    else
+    {
+        LoadAnimationsAO();
+        Animation_Init(GetAnimRes(AnimId::ChantOrb_Particle_Small));
+        spriteScaleAddition = FP_FromDouble(0.2);
+    }
 
     SetApplyShadowZoneColour(false);
 
@@ -29,7 +43,7 @@ ZapSpark::ZapSpark(FP xpos, FP ypos, FP scale)
 
     GetAnimation().SetRGB(80, 80, 80);
 
-    SetSpriteScale(scale * ((FP_FromInteger(Math_NextRandom() % 6) / FP_FromInteger(10)) + FP_FromDouble(0.2)));
+    SetSpriteScale(scale * ((FP_FromInteger(Math_NextRandom() % 6) / FP_FromInteger(10)) + spriteScaleAddition));
     mSparkTimer = Math_RandomRange(0, 16);
 
     mXPos = xpos;
@@ -48,7 +62,8 @@ void ZapSpark::VUpdate()
 
     if (mSparkTimer == 0)
     {
-        GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::ChantOrb_Particle));
+        const AnimId anim = GetGameType() == GameType::eAe ? AnimId::AE_ZapSpark : AnimId::ChantOrb_Particle;
+        GetAnimation().Set_Animation_Data(GetAnimRes(anim));
         mSparkTimer = -1;
     }
 
@@ -63,7 +78,7 @@ void ZapSpark::VUpdate()
     mXPos += mVelX;
     mYPos += mVelY;
 
-    if (!gMap.Is_Point_In_Current_Camera(
+    if (!GetMap().Is_Point_In_Current_Camera(
         mCurrentLevel,
         mCurrentPath,
         mXPos,
@@ -78,5 +93,3 @@ void ZapSpark::VScreenChanged()
 {
     SetDead(true);
 }
-
-} // namespace AO

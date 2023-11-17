@@ -1,14 +1,11 @@
-#include "stdafx_ao.h"
-#include "../relive_lib/Function.hpp"
+#include "stdafx.h"
+#include "../Function.hpp"
 #include "ZapLine.hpp"
-#include "../AliveLibAE/stdlib.hpp"
-#include "Map.hpp"
-#include "../relive_lib/PsxDisplay.hpp"
-#include "../relive_lib/GameObjects/ScreenManager.hpp"
-#include "Game.hpp"
+#include "../../AliveLibAE/stdlib.hpp"
+#include "../MapWrapper.hpp"
+#include "../PsxDisplay.hpp"
+#include "ScreenManager.hpp"
 #include "Math.hpp"
-
-namespace AO {
 
 ZapLine::~ZapLine()
 {
@@ -18,7 +15,7 @@ ZapLine::~ZapLine()
     relive_delete[] mSpriteSegmentPositions;
 }
 
-ZapLine::ZapLine(FP x1, FP y1, FP x2, FP y2, s32 aliveTime, ZapLineType type, Layer layer)
+ZapLine::ZapLine(FP xPosSource, FP yPosSource, FP xPosDest, FP yPosDest, s32 aliveTime, ZapLineType type, Layer layer)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
     SetType(ReliveTypes::eZapLine);
@@ -56,8 +53,8 @@ ZapLine::ZapLine(FP x1, FP y1, FP x2, FP y2, s32 aliveTime, ZapLineType type, La
 
     mMaxAliveTime = static_cast<s16>(aliveTime);
 
-    mXPos = x1;
-    mYPos = y1;
+    mXPos = xPosSource;
+    mYPos = yPosSource;
 
     mState = ZapLineState::eInit_0;
     mAliveTimer = 0;
@@ -87,15 +84,15 @@ ZapLine::ZapLine(FP x1, FP y1, FP x2, FP y2, s32 aliveTime, ZapLineType type, La
         }
     }
 
-    CalculateSourceAndDestinationPositions(x1, y1, x2, y2);
+    CalculateSourceAndDestinationPositions(xPosSource, yPosSource, xPosDest, yPosDest);
 }
 
 void ZapLine::CalculateSourceAndDestinationPositions(FP xPosSource, FP yPosSource, FP xPosDest, FP yPosDest)
 {
-    mXPosSrc = FP_GetExponent(xPosSource - (gScreenManager->mCamPos->x - FP_FromInteger(gScreenManager->mCamXOff)));
-    mYPosSrc = FP_GetExponent(yPosSource - (gScreenManager->mCamPos->y - FP_FromInteger(gScreenManager->mCamYOff)));
-    mXPosDst = FP_GetExponent(xPosDest - (gScreenManager->mCamPos->x - FP_FromInteger(gScreenManager->mCamXOff)));
-    mYPosDst = FP_GetExponent(yPosDest - (gScreenManager->mCamPos->y - FP_FromInteger(gScreenManager->mCamYOff)));
+    mXPosSrc = FP_GetExponent(xPosSource - gScreenManager->CamXPos());
+    mYPosSrc = FP_GetExponent(yPosSource - gScreenManager->CamYPos());
+    mXPosDst = FP_GetExponent(xPosDest - gScreenManager->CamXPos());
+    mYPosDst = FP_GetExponent(yPosDest - gScreenManager->CamYPos());
 
     mXPosSrc = PsxToPCX(mXPosSrc, 11);
     mXPosDst = PsxToPCX(mXPosDst, 11);
@@ -113,7 +110,7 @@ void ZapLine::CalculateSourceAndDestinationPositions(FP xPosSource, FP yPosSourc
 
 void ZapLine::VScreenChanged()
 {
-    if (gMap.LevelChanged() || gMap.PathChanged())
+    if (GetMap().LevelChanged() || GetMap().PathChanged())
     {
         SetDead(true);
     }
@@ -160,19 +157,19 @@ void ZapLine::CalculateThickSpriteSegmentPositions()
     }
 
     const FP xDiff = FP_FromInteger(mXPosDst - mXPosSrc) / FP_FromInteger(mNumberOfSegments);
-    const FP xDiffDiv = xDiff * FP_FromDouble(1.5);
+    const FP xDiffDiv = -xDiff * FP_FromDouble(1.5);
 
     const FP yDiff = FP_FromInteger(mYPosDst - mYPosSrc) / FP_FromInteger(mNumberOfSegments);
-    const FP yDiffDiv = -yDiff * FP_FromDouble(1.5);
+    const FP yDiffDiv = yDiff * FP_FromDouble(1.5);
 
 
     // First and last done above.
     for (s32 i = 1; i < mNumberOfSegments - 1; i++)
     {
         const u8 ang = static_cast<u8>(angExtra + 18 * i);
-        mSpriteSegmentPositions[i].x = FP_FromInteger(Math_NextRandom() % v5) + (Math_Cosine(ang) * yDiffDiv) + FP_FromInteger(mXPosSrc) + (FP_FromInteger(i) * xDiff) - FP_FromInteger(v6);
+        mSpriteSegmentPositions[i].x = FP_FromInteger(Math_NextRandom() % v5) + (Math_Cosine(ang) * xDiffDiv) + FP_FromInteger(mXPosSrc) + (FP_FromInteger(i) * xDiff) - FP_FromInteger(v6);
 
-        mSpriteSegmentPositions[i].y = FP_FromInteger(Math_NextRandom() % v5) + (Math_Cosine(ang) * xDiffDiv) + FP_FromInteger(mYPosSrc) + (FP_FromInteger(i) * yDiff) - FP_FromInteger(v6);
+        mSpriteSegmentPositions[i].y = FP_FromInteger(Math_NextRandom() % v5) + (Math_Cosine(ang) * yDiffDiv) + FP_FromInteger(mYPosSrc) + (FP_FromInteger(i) * yDiff) - FP_FromInteger(v6);
     }
 
 }
@@ -198,7 +195,7 @@ void ZapLine::CalculateThinSpriteSegmentPositions()
     }
 }
 
-void ZapLine::CalculateZapPoints_479380()
+void ZapLine::CalculateZapPoints()
 {
     FP acc = FP_FromInteger(0);
     const FP delta = FP_FromInteger(1) / FP_FromInteger(mNumberOfPiecesPerSegment);
@@ -291,7 +288,7 @@ void ZapLine::VUpdate()
     switch (mState)
     {
         case ZapLineState::eInit_0:
-            CalculateZapPoints_479380();
+            CalculateZapPoints();
 
             if (mZapLineType == ZapLineType::eThin_1)
             {
@@ -340,7 +337,7 @@ void ZapLine::VUpdate()
 
 void ZapLine::VRender(OrderingTable& ot)
 {
-    if (gMap.Is_Point_In_Current_Camera(
+    if (GetMap().Is_Point_In_Current_Camera(
             mCurrentLevel,
             mCurrentPath,
             mXPos,
@@ -358,5 +355,3 @@ void ZapLine::VRender(OrderingTable& ot)
         }
     }
 }
-
-} // namespace AO

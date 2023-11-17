@@ -87,8 +87,6 @@ SET(AliveLibSrcAO
    ../AliveLibAO/LCDStatusBoard.cpp
    ../AliveLibAO/ParamiteWeb.hpp
    ../AliveLibAO/ParamiteWeb.cpp
-   ../AliveLibAO/ZapLine.hpp
-   ../AliveLibAO/ZapLine.cpp
    ../AliveLibAO/Shrykull.hpp
    ../AliveLibAO/Shrykull.cpp
    ../AliveLibAO/GasEmitter.hpp
@@ -195,8 +193,6 @@ SET(AliveLibSrcAO
    ../AliveLibAO/Bells.cpp
    ../AliveLibAO/ChimeLock.hpp
    ../AliveLibAO/ChimeLock.cpp
-   ../AliveLibAO/ZapSpark.hpp
-   ../AliveLibAO/ZapSpark.cpp
    ../AliveLibAO/Bullet.hpp
    ../AliveLibAO/Bullet.cpp
    ../AliveLibAO/PlatformBase.hpp
@@ -444,8 +440,6 @@ SET(AliveLibAESrc
     ../AliveLibAE/AirExplosion.cpp
     ../AliveLibAE/Greeter.hpp
     ../AliveLibAE/Greeter.cpp
-    ../AliveLibAE/ZapLine.hpp
-    ../AliveLibAE/ZapLine.cpp
     ../AliveLibAE/MotionDetector.hpp
     ../AliveLibAE/MotionDetector.cpp
     ../AliveLibAE/Slurg.cpp
@@ -542,8 +536,6 @@ SET(AliveLibAESrc
     ../AliveLibAE/DeathGas.hpp
     ../AliveLibAE/ScopedSeq.cpp
     ../AliveLibAE/ScopedSeq.hpp
-    ../AliveLibAE/ZapSpark.hpp
-    ../AliveLibAE/ZapSpark.cpp
     ../AliveLibAE/MudokonEnums.hpp
     ../AliveLibAE/Mine.hpp
     ../AliveLibAE/Mine.cpp
@@ -630,6 +622,10 @@ SET(game_objects_src
     GameObjects/ZzzSpawner.cpp
     GameObjects/Fade.hpp
     GameObjects/Fade.cpp
+    GameObjects/ZapLine.hpp
+    GameObjects/ZapLine.cpp
+    GameObjects/ZapSpark.hpp
+    GameObjects/ZapSpark.cpp
 )
 
 SET(data_conversion_src

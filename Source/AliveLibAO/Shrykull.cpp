@@ -4,7 +4,7 @@
 #include "Map.hpp"
 #include "../AliveLibAE/stdlib.hpp"
 #include "Abe.hpp"
-#include "ZapLine.hpp"
+#include "../relive_lib/GameObjects/ZapLine.hpp"
 #include "../relive_lib/Shadow.hpp"
 #include "Sfx.hpp"
 #include "PossessionFlicker.hpp"

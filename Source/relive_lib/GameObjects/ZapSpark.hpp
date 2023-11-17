@@ -1,13 +1,14 @@
 #pragma once
 
-#include "../relive_lib/GameObjects/BaseAnimatedWithPhysicsGameObject.hpp"
+#include "BaseAnimatedWithPhysicsGameObject.hpp"
 
 class ZapSpark final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
     ZapSpark(FP xpos, FP ypos, FP scale);
     
-    void LoadAnimations();
+    void LoadAnimationsAO();
+    void LoadAnimationsAE();
 
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;

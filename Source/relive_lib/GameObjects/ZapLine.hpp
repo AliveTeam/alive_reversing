@@ -1,15 +1,12 @@
 #pragma once
 
-#include "../relive_lib/Function.hpp"
-#include "../relive_lib/GameObjects/BaseAnimatedWithPhysicsGameObject.hpp"
-
-namespace AO {
+#include "../Function.hpp"
+#include "BaseAnimatedWithPhysicsGameObject.hpp"
 
 struct ZapLineSprites final
 {
     Poly_FT4 mSprt;
 };
-ALIVE_ASSERT_SIZEOF(ZapLineSprites, 0x30);
 
 // TODO: Give better names to the ZapPoint fields.
 struct ZapPoint final
@@ -18,7 +15,6 @@ struct ZapPoint final
     FP mPart2;
     FP mPart3;
 };
-ALIVE_ASSERT_SIZEOF(ZapPoint, 0xC);
 
 enum class ZapLineType : s16
 {
@@ -29,7 +25,7 @@ enum class ZapLineType : s16
 class ZapLine final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    ZapLine(FP x1, FP y1, FP x2, FP y2, s32 aliveTime, ZapLineType type, Layer layer);
+    ZapLine(FP xPosSource, FP yPosSource, FP xPosDest, FP yPosDest, s32 aliveTime, ZapLineType type, Layer layer);
     ~ZapLine();
 
     virtual void VUpdate() override;
@@ -42,7 +38,7 @@ public:
 private:
     void CalculateThickSpriteSegmentPositions();
     void CalculateThinSpriteSegmentPositions();
-    void CalculateZapPoints_479380();
+    void CalculateZapPoints();
     void CalculateSpritePositionsInner(s32 idx1, s32 idx2, s32 idx3, s16 idx4);
     void UpdateSpriteVertexPositions();
     void CalculateSpritePositionsOuter();
@@ -74,5 +70,3 @@ private:
     ZapPoint* mZapPoints = nullptr;
     FP_Point* mSpriteSegmentPositions = nullptr;
 };
-
-} // namespace AO

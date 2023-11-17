@@ -2,9 +2,9 @@
 
 #include "BaseAliveGameObject.hpp"
 
-namespace AO {
-
 class ZapLine;
+
+namespace AO {
 
 class Shrykull final : public BaseAliveGameObject
 {

@@ -3,7 +3,7 @@
 #include "Bells.hpp"
 #include "../AliveLibAE/stdlib.hpp"
 #include "ScreenWave.hpp"
-#include "ZapSpark.hpp"
+#include "../relive_lib/GameObjects/ZapSpark.hpp"
 #include "Game.hpp"
 #include "Math.hpp"
 #include "Sfx.hpp"
