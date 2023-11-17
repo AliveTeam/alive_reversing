@@ -26,7 +26,7 @@
 #include "MainMenu.hpp"
 #include "LCDStatusBoard.hpp"
 #include "MusicTrigger.hpp"
-#include "Blood.hpp"
+#include "../relive_lib/GameObjects/Blood.hpp"
 #include "Gibs.hpp"
 #include "Bullet.hpp"
 #include "LaughingGas.hpp"

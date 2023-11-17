@@ -13,7 +13,7 @@
 #include "DDCheat.hpp"
 #include "../relive_lib/Events.hpp"
 #include "Gibs.hpp"
-#include "Blood.hpp"
+#include "../relive_lib/GameObjects/Blood.hpp"
 #include "Math.hpp"
 #include "Bullet.hpp"
 #include "Sfx.hpp"

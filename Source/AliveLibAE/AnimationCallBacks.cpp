@@ -6,7 +6,7 @@
 #include "Slurg.hpp"
 #include "Slog.hpp"
 #include "Sfx.hpp"
-#include "Blood.hpp"
+#include "../relive_lib/GameObjects/Blood.hpp"
 #include "../relive_lib/GameObjects/Particle.hpp"
 #include "../relive_lib/ObjectIds.hpp"
 #include "../relive_lib/FatalError.hpp"

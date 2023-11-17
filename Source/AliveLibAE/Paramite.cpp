@@ -14,7 +14,7 @@
 #include "Map.hpp"
 #include "Meat.hpp"
 #include "Gibs.hpp"
-#include "Blood.hpp"
+#include "../relive_lib/GameObjects/Blood.hpp"
 #include "PlatformBase.hpp"
 #include "../relive_lib/SwitchStates.hpp"
 #include "PullRingRope.hpp"

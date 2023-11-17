@@ -12,7 +12,7 @@
 #include "Midi.hpp"
 #include "PlatformBase.hpp"
 #include "Gibs.hpp"
-#include "Blood.hpp"
+#include "../relive_lib/GameObjects/Blood.hpp"
 #include "Game.hpp"
 #include "../relive_lib/Events.hpp"
 #include "DDCheat.hpp"

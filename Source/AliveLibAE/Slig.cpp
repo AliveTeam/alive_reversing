@@ -14,7 +14,7 @@
 #include "../relive_lib/GameObjects/SnoozeParticle.hpp"
 #include "../relive_lib/Events.hpp"
 #include "Sfx.hpp"
-#include "Blood.hpp"
+#include "../relive_lib/GameObjects/Blood.hpp"
 #include "Gibs.hpp"
 #include "../relive_lib/GameObjects/Particle.hpp"
 #include "../relive_lib/Sound/Midi.hpp"

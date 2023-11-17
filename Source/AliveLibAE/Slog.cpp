@@ -13,7 +13,7 @@
 #include "PlatformBase.hpp"
 #include "Bone.hpp"
 #include "Sfx.hpp"
-#include "Blood.hpp"
+#include "../relive_lib/GameObjects/Blood.hpp"
 #include "../relive_lib/GameObjects/SnoozeParticle.hpp"
 #include "Gibs.hpp"
 #include "Bullet.hpp"

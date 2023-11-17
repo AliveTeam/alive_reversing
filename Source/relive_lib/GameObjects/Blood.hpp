@@ -1,10 +1,9 @@
 #pragma once
 
-#include "../relive_lib/Function.hpp"
-#include "../relive_lib/GameObjects/BaseAnimatedWithPhysicsGameObject.hpp"
-#include "../relive_lib/Layer.hpp"
+#include "../Function.hpp"
+#include "BaseAnimatedWithPhysicsGameObject.hpp"
+#include "../Layer.hpp"
 
-namespace AO {
 
 struct BloodParticle final
 {
@@ -14,7 +13,6 @@ struct BloodParticle final
     FP mOffY;
     Poly_FT4 mPoly;
 };
-ALIVE_ASSERT_SIZEOF(BloodParticle, 0x40);
 
 class Blood final : public BaseAnimatedWithPhysicsGameObject
 {
@@ -36,5 +34,3 @@ private:
     s32 mUpdateCalls = 0;
     Layer mOtLayer = Layer::eLayer_0;
 };
-
-} // namespace AO

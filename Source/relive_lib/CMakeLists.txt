@@ -197,8 +197,6 @@ SET(AliveLibSrcAO
    ../AliveLibAO/LiftPoint.cpp
    ../AliveLibAO/TimedMine.hpp
    ../AliveLibAO/TimedMine.cpp
-   ../AliveLibAO/Blood.hpp
-   ../AliveLibAO/Blood.cpp
    ../AliveLibAO/LightEffect.hpp
    ../AliveLibAO/LightEffect.cpp
    ../AliveLibAO/DoorLight.hpp
@@ -356,8 +354,6 @@ SET(AliveLibAESrc
     ../AliveLibAE/OrbWhirlWind.hpp
     ../AliveLibAE/OrbWhirlWindParticle.cpp
     ../AliveLibAE/OrbWhirlWindParticle.hpp
-    ../AliveLibAE/Blood.cpp
-    ../AliveLibAE/Blood.hpp
     ../AliveLibAE/PullRingRope.hpp
     ../AliveLibAE/PullRingRope.cpp
     ../AliveLibAE/HoistRocksEffect.hpp
@@ -622,6 +618,8 @@ SET(game_objects_src
     GameObjects/BulletShell.cpp
     GameObjects/CircularFade.hpp
     GameObjects/CircularFade.cpp
+    GameObjects/Blood.hpp
+    GameObjects/Blood.cpp
 )
 
 SET(data_conversion_src

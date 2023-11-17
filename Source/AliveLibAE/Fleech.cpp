@@ -9,7 +9,7 @@
 #include "../relive_lib/Events.hpp"
 #include "../relive_lib/GameObjects/SnoozeParticle.hpp"
 #include "Dove.hpp"
-#include "Blood.hpp"
+#include "../relive_lib/GameObjects/Blood.hpp"
 #include "../relive_lib/Shadow.hpp"
 #include "../relive_lib/GameObjects/ScreenManager.hpp"
 #include "../relive_lib/GameObjects/ShadowZone.hpp"

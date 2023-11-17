@@ -9,7 +9,7 @@
 #include "Abe.hpp"
 #include "../relive_lib/Events.hpp"
 #include "../relive_lib/GameObjects/Spark.hpp"
-#include "Blood.hpp"
+#include "../relive_lib/GameObjects/Blood.hpp"
 #include "Map.hpp"
 #include "Path.hpp"
 #include "../relive_lib/FixedPoint.hpp"

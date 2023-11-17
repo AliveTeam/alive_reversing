@@ -4,7 +4,7 @@
 #include "../relive_lib/GameObjects/BulletShell.hpp"
 #include "Dove.hpp"
 #include "Slog.hpp"
-#include "Blood.hpp"
+#include "../relive_lib/GameObjects/Blood.hpp"
 #include "Sfx.hpp"
 #include "../relive_lib/Events.hpp"
 #include "../relive_lib/GameObjects/Particle.hpp"

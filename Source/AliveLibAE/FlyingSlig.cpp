@@ -18,7 +18,7 @@
 #include "CrawlingSlig.hpp"
 #include "../relive_lib/GameObjects/Particle.hpp"
 #include "Gibs.hpp"
-#include "Blood.hpp"
+#include "../relive_lib/GameObjects/Blood.hpp"
 #include "GameSpeak.hpp"
 #include "AirExplosion.hpp"
 #include "Bullet.hpp"

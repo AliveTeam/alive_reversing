@@ -27,7 +27,7 @@
 #include "MainMenu.hpp"
 #include "GameSpeak.hpp"
 #include "Gibs.hpp"
-#include "Blood.hpp"
+#include "../relive_lib/GameObjects/Blood.hpp"
 #include "Bullet.hpp"
 #include "../relive_lib/Sound/Midi.hpp"
 #include "Grid.hpp"

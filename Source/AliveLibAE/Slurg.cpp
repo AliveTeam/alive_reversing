@@ -3,7 +3,7 @@
 #include "../relive_lib/Function.hpp"
 #include "../relive_lib/Shadow.hpp"
 #include "../relive_lib/Collisions.hpp"
-#include "Blood.hpp"
+#include "../relive_lib/GameObjects/Blood.hpp"
 #include "Sfx.hpp"
 #include "../relive_lib/Events.hpp"
 #include "../relive_lib/SwitchStates.hpp"

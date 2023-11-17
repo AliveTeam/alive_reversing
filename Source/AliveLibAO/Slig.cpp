@@ -15,7 +15,7 @@
 #include "DDCheat.hpp"
 #include "Input.hpp"
 #include "../relive_lib/GameObjects/Particle.hpp"
-#include "Blood.hpp"
+#include "../relive_lib/GameObjects/Blood.hpp"
 #include "Gibs.hpp"
 #include "Sfx.hpp"
 #include "CameraSwapper.hpp"

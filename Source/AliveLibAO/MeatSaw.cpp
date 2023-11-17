@@ -9,7 +9,7 @@
 #include "Sfx.hpp"
 #include "../relive_lib/Events.hpp"
 #include "Math.hpp"
-#include "Blood.hpp"
+#include "../relive_lib/GameObjects/Blood.hpp"
 #include "../relive_lib/GameObjects/ScreenManager.hpp"
 #include "Path.hpp"
 

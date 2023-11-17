@@ -1,19 +1,17 @@
-#include "stdafx_ao.h"
-#include "../relive_lib/Function.hpp"
+#include "stdafx.h"
+#include "../Function.hpp"
 #include "Blood.hpp"
-#include "../relive_lib/GameObjects/ScreenManager.hpp"
-#include "Game.hpp"
+#include "ScreenManager.hpp"
 #include "Math.hpp"
-#include "Map.hpp"
-#include "../relive_lib/PsxDisplay.hpp"
-#include "../AliveLibAE/stdlib.hpp"
-#include "../relive_lib/Primitives.hpp"
+#include "../MapWrapper.hpp"
+#include "../PsxDisplay.hpp"
+#include "../../AliveLibAE/stdlib.hpp"
+#include "../Primitives.hpp"
 #include <algorithm>
+#include "../GameType.hpp"
 
 #undef min
 #undef max
-
-namespace AO {
 
 Blood::Blood(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s32 count)
     : BaseAnimatedWithPhysicsGameObject(0), 
@@ -38,20 +36,18 @@ Blood::Blood(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s32 count)
         mOtLayer = Layer::eLayer_Foreground_Half_17;
     }
 
-    if (GetSpriteScale() != FP_FromInteger(1))
+    if (GetSpriteScale() != FP_FromInteger(1) && GetGameType() == GameType::eAo)
     {
-        GetAnimation().SetFrame((GetAnimation().Get_Frame_Count() >> 1) + 1);
+        GetAnimation().SetFrame((GetAnimation().Get_Frame_Count() / 2) + 1);
     }
 
     if (mBloodParticle)
     {
-        mUpdateCalls = 0;
-
         mXPos = xpos - FP_FromInteger(12);
         mYPos = ypos - FP_FromInteger(12);
 
-        mBloodXPos = FP_GetExponent(xpos - FP_FromInteger(12) + FP_FromInteger(gScreenManager->mCamXOff) - gScreenManager->mCamPos->x);
-        mBloodYPos = FP_GetExponent(ypos - FP_FromInteger(12) + FP_FromInteger(gScreenManager->mCamYOff) - gScreenManager->mCamPos->y);
+        mBloodXPos = FP_GetExponent(xpos - FP_FromInteger(12) - gScreenManager->CamXPos());
+        mBloodYPos = FP_GetExponent(ypos - FP_FromInteger(12) - gScreenManager->CamYPos());
 
         const u8 u0 = 0;// mAnim.mVramRect.x & 0x3F;
         const u8 v0 = 0;//mAnim.mVramRect.y & 0xFF;
@@ -141,7 +137,7 @@ void Blood::VUpdate()
 
 void Blood::VRender(OrderingTable& ot)
 {
-    if (gMap.Is_Point_In_Current_Camera(
+    if (GetMap().Is_Point_In_Current_Camera(
             mCurrentLevel,
             mCurrentPath,
             mXPos,
@@ -178,5 +174,3 @@ void Blood::VScreenChanged()
 {
     SetDead(true);
 }
-
-} // namespace AO

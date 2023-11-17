@@ -2,7 +2,7 @@
 #include "../relive_lib/Function.hpp"
 #include "Abe.hpp"
 #include "BellSong.hpp"
-#include "Blood.hpp"
+#include "../relive_lib/GameObjects/Blood.hpp"
 #include "BoomMachine.hpp"
 #include "Bullet.hpp"
 #include "CheatController.hpp"
