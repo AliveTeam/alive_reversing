@@ -4,6 +4,8 @@
 #include "../FatalError.hpp"
 #include "../GameType.hpp"
 
+static bool sIsFadingOut = false;
+
 Fade::Fade(Layer layer, FadeOptions fade, bool destroyOnDone, s32 speed, relive::TBlendModes abr)
     : EffectBase(layer, abr)
 {
@@ -58,6 +60,8 @@ void Fade::Init(Layer layer, FadeOptions fade, bool destroyOnDone, s32 speed)
     {
         mSpeed = speed;
     }
+
+    sIsFadingOut = true;
 }
 
 void Fade::VUpdate()
@@ -94,9 +98,17 @@ void Fade::VRender(OrderingTable& ot)
         (mFadeColour == 0 && mFadeOption == FadeOptions::eFadeOut))
     {
         mDone = true;
-        if (mDestroyOnDone)
+        // we skip this if statement in AO because sIsFadingOut is only used in AE
+        if (!sIsFadingOut || GetGameType() == GameType::eAo)
         {
-            SetDead(true);
+            if (mDestroyOnDone)
+            {
+                SetDead(true);
+            }
+        }
+        else
+        {
+            sIsFadingOut = false;
         }
     }
 }
