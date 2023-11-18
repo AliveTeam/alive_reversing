@@ -1,11 +1,7 @@
 #pragma once
 
-#include "../relive_lib/GameObjects/BaseAnimatedWithPhysicsGameObject.hpp"
-
-namespace relive
-{
-    struct Path_BackgroundAnimation;
-}
+#include "BaseAnimatedWithPhysicsGameObject.hpp"
+#include "../data_conversion/relive_tlvs.hpp"
 
 class BackgroundAnimation final : public BaseAnimatedWithPhysicsGameObject
 {
@@ -14,12 +10,13 @@ public:
     ~BackgroundAnimation();
 
     virtual void VScreenChanged() override;
+    virtual void VStopAudio() override;
     virtual void VUpdate() override;
 
-
 private:
-    //AnimationFileHeader** field_F4_res = nullptr;
     Guid mTlvId;
     FP mObjectXPos = {};
     FP mObjectYPos = {};
+    relive::Path_BackgroundAnimation::BgAnimSounds mSoundEffect = relive::Path_BackgroundAnimation::BgAnimSounds::eNone;
+    s32 mSoundChannelsMask = 0;
 };

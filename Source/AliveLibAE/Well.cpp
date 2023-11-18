@@ -11,6 +11,19 @@
 
 static u32 sWellRndSeed = 4;
 
+static s16 Well_NextRandom()
+{
+    const auto curRand = gRandomBytes[sWellRndSeed];
+    sWellRndSeed++;
+
+    if (sWellRndSeed > 255)
+    {
+        sWellRndSeed = 0;
+    }
+
+    return curRand;
+}
+
 Well::Well(relive::Path_WellBase* pTlv, FP xpos, FP ypos, const Guid& tlvId)
     : BaseGameObject(true, 0)
 {
@@ -24,6 +37,14 @@ Well::Well(relive::Path_WellBase* pTlv, FP xpos, FP ypos, const Guid& tlvId)
     else
     {
         WellExpress_Init(static_cast<relive::Path_WellExpress*>(pTlv), xpos, ypos);
+    }
+}
+
+Well::~Well()
+{
+    if (mTlvInfo != Guid{})
+    {
+        Path::TLV_Reset(mTlvInfo, -1, 0, 0);
     }
 }
 
@@ -114,30 +135,9 @@ void Well::WellLocal_Init(relive::Path_WellLocal* pTlv, FP /*xpos*/, FP ypos)
     }
 }
 
-Well::~Well()
-{
-    if (mTlvInfo != Guid{})
-    {
-        Path::TLV_Reset(mTlvInfo, -1, 0, 0);
-    }
-}
-
 void Well::VScreenChanged()
 {
     SetDead(true);
-}
-
-static s16 Well_NextRandom()
-{
-    const auto curRand = gRandomBytes[sWellRndSeed];
-    sWellRndSeed++;
-
-    if (sWellRndSeed > 255)
-    {
-        sWellRndSeed = 0;
-    }
-
-    return curRand;
 }
 
 void Well::VUpdate()

@@ -21,6 +21,18 @@ const AnimRecord PerGameAnimRec(AnimId id)
     }
 }
 
+const AnimRecord PerGameBgAnimRec(s32 toFindResId)
+{
+    if (GetGameType() == GameType::eAe)
+    {
+        return BgAnimRec(toFindResId);
+    }
+    else
+    {
+        return AO::BgAnimRec(toFindResId);
+    }
+}
+
 void Animation::DecompressFrame()
 {
     const PerFrameInfo* pFrameInfoHeader = Get_FrameHeader(-1); // -1 = use current frame

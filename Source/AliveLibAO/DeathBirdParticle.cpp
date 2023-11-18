@@ -17,7 +17,9 @@ void DeathBirdParticle::LoadAnimations()
 }
 
 DeathBirdParticle::DeathBirdParticle(FP xpos, FP ypos, s32 startTimer, bool playSound, FP scale)
-    : BaseAnimatedWithPhysicsGameObject(0)
+    : BaseAnimatedWithPhysicsGameObject(0),
+      mStartTimer(startTimer),
+      mPlaySound(playSound)
 {
     SetType(ReliveTypes::eDeathBird);
 
@@ -48,9 +50,6 @@ DeathBirdParticle::DeathBirdParticle(FP xpos, FP ypos, s32 startTimer, bool play
         mXPos = xpos;
         mYPos = ypos;
         mRandom = Math_NextRandom();
-        mStartTimer = startTimer;
-        mState = States::eAnimateDeathFlares_0;
-        mPlaySound = playSound;
     }
 }
 
@@ -77,24 +76,22 @@ void DeathBirdParticle::VUpdate()
                     mXPos,
                     mYPos - FP_FromInteger(15),
                     GetSpriteScale());
-                if (pDove)
+
+                if (pDove->GetAnimation().GetFlipX())
                 {
-                    if (pDove->GetAnimation().GetFlipX())
-                    {
-                        pDove->mXPos += FP_FromInteger(8);
-                    }
-                    else
-                    {
-                        pDove->mXPos -= FP_FromInteger(8);
-                    }
+                    pDove->mXPos += FP_FromInteger(8);
+                }
+                else
+                {
+                    pDove->mXPos -= FP_FromInteger(8);
+                }
 
-                    SetDead(true);
+                SetDead(true);
+                pDove->SetSpriteScale(GetSpriteScale());
 
-                    pDove->SetSpriteScale(GetSpriteScale());
-                    if (mPlaySound)
-                    {
-                        SfxPlayMono(relive::SoundEffects::AbeDove, 0);
-                    }
+                if (mPlaySound)
+                {
+                    SfxPlayMono(relive::SoundEffects::AbeDove, 0);
                 }
             }
             break;

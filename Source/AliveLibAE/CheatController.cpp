@@ -16,7 +16,8 @@ static const InputCommands sCheatKeyArray_MovieSelect[8] = {
     InputCommands::eRight,
     InputCommands::eLeft,
     InputCommands::eRight,
-    InputCommands::eDown};
+    InputCommands::eDown
+};
 
 static const InputCommands sCheatKeyArray_LevelSelect[8] = {
     InputCommands::eDown,
@@ -26,7 +27,8 @@ static const InputCommands sCheatKeyArray_LevelSelect[8] = {
     InputCommands::eLeft,
     InputCommands::eRight,
     InputCommands::eLeft,
-    InputCommands::eUp};
+    InputCommands::eUp
+};
 
 static const InputCommands sCheatKeyArray_PathSkip[6] = {
     InputCommands::eLeft,
@@ -34,9 +36,10 @@ static const InputCommands sCheatKeyArray_PathSkip[6] = {
     InputCommands::eUp,
     InputCommands::eDown,
     InputCommands::eLeft,
-    InputCommands::eRight};
+    InputCommands::eRight
+};
 
-void CheatController_Cheat_FMV()
+void CheatController_Cheat_MovieSelect()
 {
     if (gMap.mCurrentCamera == 1)
     {
@@ -65,7 +68,7 @@ void CheatController_Cheat_PathSkip()
 }
 
 static CheatEntry sCheatArray[3] = {
-    {1u, ALIVE_COUNTOF(sCheatKeyArray_MovieSelect), sCheatKeyArray_MovieSelect, 0, &CheatController_Cheat_FMV},
+    {1u, ALIVE_COUNTOF(sCheatKeyArray_MovieSelect), sCheatKeyArray_MovieSelect, 0, &CheatController_Cheat_MovieSelect},
     {1u, ALIVE_COUNTOF(sCheatKeyArray_LevelSelect), sCheatKeyArray_LevelSelect, 0, &CheatController_Cheat_LevelSelect},
     {0xFFFFFFFE, ALIVE_COUNTOF(sCheatKeyArray_PathSkip), sCheatKeyArray_PathSkip, 0, &CheatController_Cheat_PathSkip}};
 

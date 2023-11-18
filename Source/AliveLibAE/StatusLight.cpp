@@ -93,8 +93,8 @@ void StatusLight::VUpdate()
 {
     // TODO: Document how this works
 
-    mXPos = FP_FromInteger(gTweakX) + mUntweakedXPos;
-    mYPos = FP_FromInteger(gTweakY) + mUntweakedYPos;
+    mXPos = mUntweakedXPos;
+    mYPos = mUntweakedYPos;
 
     if (SwitchStates_Get(mInputSwitchId))
     {

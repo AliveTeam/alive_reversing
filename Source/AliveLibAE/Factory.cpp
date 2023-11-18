@@ -8,7 +8,7 @@
 #include "Mine.hpp"
 #include "TimedMine.hpp"
 #include "LCDStatusBoard.hpp"
-#include "BackgroundAnimation.hpp"
+#include "../relive_lib/GameObjects/BackgroundAnimation.hpp"
 #include "HoistRocksEffect.hpp"
 #include "Alarm.hpp"
 #include "Door.hpp"

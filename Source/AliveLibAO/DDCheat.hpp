@@ -74,9 +74,6 @@ public:
     s32 field_24_input = 0;
 };
 
-extern s32 gTweakX;
-extern s32 gTweakY;
-
 extern s16 sRescuedMudokons;
 extern s16 sKilledMudokons;
 extern s16 showDebugCreatureInfo_5076E0;

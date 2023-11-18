@@ -201,7 +201,7 @@ void Dove::VUpdate()
         case State::eOnGround_0:
             if (EventGet(kEventSpeaking))
             {
-                Dove::All_FlyAway(false);
+                Dove::All_FlyAway(false); // something is speaking, leg it
             }
 
             if (FP_GetExponent(FP_Abs(mXPos - sControlledCharacter->mXPos)) < 100)

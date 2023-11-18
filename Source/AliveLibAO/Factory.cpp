@@ -15,7 +15,7 @@
 #include "Bat.hpp"
 #include "BellHammer.hpp"
 #include "LiftMover.hpp"
-#include "BackgroundAnimation.hpp"
+#include "../relive_lib/GameObjects/BackgroundAnimation.hpp"
 #include "DoorLight.hpp"
 #include "LightEffect.hpp"
 #include "TimedMine.hpp"

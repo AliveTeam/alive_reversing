@@ -19,67 +19,32 @@ static s16 Well_NextRandom()
     return gRandomBytes[sWellRndSeed++];
 }
 
+Well::Well(relive::Path_WellBase* pTlv, FP xpos, FP ypos, const Guid& tlvId)
+    : BaseAnimatedWithPhysicsGameObject(0)
+{
+    mTlvInfo = tlvId;
+    SetType(ReliveTypes::eWell);
+
+    mRGB.SetRGB(128, 128, 128);
+
+    mYPos = ypos;
+    mXPos = xpos;
+
+    if (pTlv->mTlvType == ReliveTypes::eWellLocal)
+    {
+        WellLocal_Init(static_cast<relive::Path_WellLocal*>(pTlv), xpos, ypos);
+    }
+    else
+    {
+        WellExpress_Init(static_cast<relive::Path_WellExpress*>(pTlv), xpos, ypos);
+    }
+}
+
 Well::~Well()
 {
     if (mTlvInfo.IsValid())
     {
         Path::TLV_Reset(mTlvInfo, -1, 0, 0);
-    }
-}
-
-void Well::VScreenChanged()
-{
-    SetDead(true);
-}
-
-void Well::VRender(OrderingTable& ot)
-{
-    mXPos += FP_FromInteger(gTweakX);
-    mYPos += FP_FromInteger(gTweakY);
-    BaseAnimatedWithPhysicsGameObject::VRender(ot);
-    mXPos -= FP_FromInteger(gTweakX);
-    mYPos -= FP_FromInteger(gTweakY);
-}
-
-void Well::VUpdate()
-{
-    if (EventGet(kEventDeathReset))
-    {
-        SetDead(true);
-        Path::TLV_Reset(mTlvInfo, -1, 0, 0);
-    }
-
-    if (mEmitLeaves == relive::reliveChoice::eYes)
-    {
-        // Always on or has been enabled?
-        if (!mSwitchId || SwitchStates_Get(mSwitchId))
-        {
-            // Random chance of leaves emitting
-            if (Well_NextRandom() < 10)
-            {
-                auto pLeaf = relive_new Leaf(
-                    mLeafX,
-                    mLeafY,
-                    mExitX,
-                    mExitY,
-                    mLeafScale);
-
-                if (mExitY > FP_FromInteger(0))
-                {
-                    if (pLeaf)
-                    {
-                        if (mLeafScale == FP_FromDouble(0.5))
-                        {
-                            pLeaf->GetAnimation().SetRenderLayer(Layer::eLayer_BeforeWell_Half_3);
-                        }
-                        else
-                        {
-                            pLeaf->GetAnimation().SetRenderLayer(Layer::eLayer_BeforeWell_22);
-                        }
-                    }
-                }
-            }
-        }
     }
 }
 
@@ -119,8 +84,8 @@ void Well::WellExpress_Init(relive::Path_WellExpress* pTlv, FP /*xpos*/, FP ypos
         if (!FP_GetExponent(mLeafX))
         {
             mLeafX = FP_FromInteger(pTlv->mTopLeftX
-                                                + (PsxToPCX(pTlv->mBottomRightX - pTlv->mTopLeftX, +11)
-                                                   / 2));
+                                    + (PsxToPCX(pTlv->mBottomRightX - pTlv->mTopLeftX, +11)
+                                       / 2));
         }
 
         mLeafY = FP_FromInteger(pTlv->mLeafY);
@@ -175,25 +140,56 @@ void Well::WellLocal_Init(relive::Path_WellLocal* pTlv, FP /*xpos*/, FP ypos)
     }
 }
 
-Well::Well(relive::Path_WellBase* pTlv, FP xpos, FP ypos, const Guid& tlvId)
-    : BaseAnimatedWithPhysicsGameObject(0)
+void Well::VScreenChanged()
 {
-    mTlvInfo = tlvId;
-    SetType(ReliveTypes::eWell);
+    SetDead(true);
+}
 
-    mRGB.SetRGB(128, 128, 128);
-
-    mYPos = ypos;
-    mXPos = xpos;
-
-    if (pTlv->mTlvType == ReliveTypes::eWellLocal)
+void Well::VUpdate()
+{
+    if (EventGet(kEventDeathReset))
     {
-        WellLocal_Init(static_cast<relive::Path_WellLocal*>(pTlv), xpos, ypos);
+        SetDead(true);
+        Path::TLV_Reset(mTlvInfo, -1, 0, 0);
     }
-    else
+
+    if (mEmitLeaves == relive::reliveChoice::eYes)
     {
-        WellExpress_Init(static_cast<relive::Path_WellExpress*>(pTlv), xpos, ypos);
+        // Always on or has been enabled?
+        if (!mSwitchId || SwitchStates_Get(mSwitchId))
+        {
+            // Random chance of leaves emitting
+            if (Well_NextRandom() < 10)
+            {
+                auto pLeaf = relive_new Leaf(
+                    mLeafX,
+                    mLeafY,
+                    mExitX,
+                    mExitY,
+                    mLeafScale);
+
+                if (mExitY > FP_FromInteger(0))
+                {
+                    if (pLeaf)
+                    {
+                        if (mLeafScale == FP_FromDouble(0.5))
+                        {
+                            pLeaf->GetAnimation().SetRenderLayer(Layer::eLayer_BeforeWell_Half_3);
+                        }
+                        else
+                        {
+                            pLeaf->GetAnimation().SetRenderLayer(Layer::eLayer_BeforeWell_22);
+                        }
+                    }
+                }
+            }
+        }
     }
+}
+
+void Well::VRender(OrderingTable& ot)
+{
+    BaseAnimatedWithPhysicsGameObject::VRender(ot);
 }
 
 } // namespace AO

@@ -79,9 +79,6 @@ extern bool gDDCheat_FlyingEnabled;
 extern s16 gRescuedMudokons;
 extern s16 gKilledMudokons;
 
-extern s32 gTweakX;
-extern s32 gTweakY;
-
 extern bool gVisitedBonewerkz;
 extern bool gVisitedBarracks;
 extern bool gVisitedFeecoEnder;

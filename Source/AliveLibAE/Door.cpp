@@ -602,6 +602,6 @@ void TrainDoor::VUpdate()
         }
     }
 
-    mXPos = sTrainDoorXPos + FP_FromInteger(gTweakX);
-    mYPos = sTrainDoorYPos + FP_FromInteger(gTweakY);
+    mXPos = sTrainDoorXPos;
+    mYPos = sTrainDoorYPos;
 }

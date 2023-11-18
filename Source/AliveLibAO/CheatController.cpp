@@ -9,10 +9,61 @@ namespace AO {
 
 CheatController* gCheatController = nullptr;
 
-bool gEnableFartGasCheat = false;
-bool gVoiceCheat = false;
-bool gEnableCheatFMV = false;
-bool gEnableCheatLevelSelect = false;
+static const InputCommands sCheatKeyArray_MovieSelect[8] = {
+    InputCommands::eUp,
+    InputCommands::eLeft,
+    InputCommands::eRight,
+    InputCommands::eLeft,
+    InputCommands::eRight,
+    InputCommands::eLeft,
+    InputCommands::eRight,
+    InputCommands::eDown
+};
+
+static const InputCommands sCheatKeyArray_LevelSelect[8] = {
+    InputCommands::eDown,
+    InputCommands::eRight,
+    InputCommands::eLeft,
+    InputCommands::eRight,
+    InputCommands::eLeft,
+    InputCommands::eRight,
+    InputCommands::eLeft,
+    InputCommands::eUp
+};
+
+static const InputCommands sCheatKeyArray_FartGas[] = {
+    InputCommands::eThrowItem,
+    InputCommands::eThrowItem,
+    InputCommands::eThrowItem,
+    InputCommands::eThrowItem,
+    InputCommands::eThrowItem,
+    InputCommands::eThrowItem
+};
+
+static const InputCommands sCheatKeyArray_VoiceLocks[] = {
+    InputCommands::eCrouchOrRoll,
+    InputCommands::eDown,
+    InputCommands::eThrowItem,
+    InputCommands::eDoAction,
+    InputCommands::eDown,
+    InputCommands::eCrouchOrRoll
+};
+
+void CheatController_Cheat_MovieSelect()
+{
+    if (gMap.mCurrentCamera == 1)
+    {
+        gEnableCheatFMV = !gEnableCheatFMV;
+    }
+}
+
+void CheatController_Cheat_LevelSelect()
+{
+    if (gMap.mCurrentCamera == 1)
+    {
+        gEnableCheatLevelSelect = !gEnableCheatLevelSelect;
+    }
+}
 
 void CheatController_Cheat_FartGas()
 {
@@ -24,21 +75,10 @@ void CheatController_Cheat_VoiceLocks()
     gVoiceCheat = !gVoiceCheat;
 }
 
-void CheatController_Cheat_LevelSelect()
-{
-    if (gMap.mCurrentCamera == 1)
-    {
-        gEnableCheatLevelSelect = !gEnableCheatLevelSelect;
-    }
-}
-
-void CheatController_Cheat_FMV()
-{
-    if (gMap.mCurrentCamera == 1)
-    {
-        gEnableCheatFMV = !gEnableCheatFMV;
-    }
-}
+bool gEnableFartGasCheat = false;
+bool gVoiceCheat = false;
+bool gEnableCheatFMV = false;
+bool gEnableCheatLevelSelect = false;
 
 struct CheatEntry final
 {
@@ -49,50 +89,10 @@ struct CheatEntry final
     void (*mCallBack)(void);
 };
 
-const InputCommands sCheatKeyArray_FartGas[] = {
-    eThrowItem,
-    eThrowItem,
-    eThrowItem,
-    eThrowItem,
-    eThrowItem,
-    eThrowItem,
-};
-
-const InputCommands sCheatKeyArray_VoiceLocks[] = {
-    eCrouchOrRoll,
-    eDown,
-    eThrowItem,
-    eDoAction,
-    eDown,
-    eCrouchOrRoll,
-};
-
-const InputCommands sCheatKeyArray_FMV[] = {
-    eUp,
-    eLeft,
-    eRight,
-    eLeft,
-    eRight,
-    eLeft,
-    eRight,
-    eDown,
-};
-
-const InputCommands sCheatKeyArray_LevelSelect[] = {
-    eDown,
-    eRight,
-    eLeft,
-    eRight,
-    eLeft,
-    eRight,
-    eLeft,
-    eUp,
-};
-
 static CheatEntry sCheatArray[4] = {
     {~0, ALIVE_COUNTOF(sCheatKeyArray_FartGas), sCheatKeyArray_FartGas, 0, &CheatController_Cheat_FartGas},
     {~0, ALIVE_COUNTOF(sCheatKeyArray_VoiceLocks), sCheatKeyArray_VoiceLocks, 0, &CheatController_Cheat_VoiceLocks},
-    {1, ALIVE_COUNTOF(sCheatKeyArray_FMV), sCheatKeyArray_FMV, 0, &CheatController_Cheat_FMV},
+    {1, ALIVE_COUNTOF(sCheatKeyArray_MovieSelect), sCheatKeyArray_MovieSelect, 0, &CheatController_Cheat_MovieSelect},
     {1, ALIVE_COUNTOF(sCheatKeyArray_LevelSelect), sCheatKeyArray_LevelSelect, 0, &CheatController_Cheat_LevelSelect}};
 
 CheatController::CheatController()

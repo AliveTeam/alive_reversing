@@ -201,8 +201,6 @@ SET(AliveLibSrcAO
    ../AliveLibAO/LightEffect.cpp
    ../AliveLibAO/DoorLight.hpp
    ../AliveLibAO/DoorLight.cpp
-   ../AliveLibAO/BackgroundAnimation.hpp
-   ../AliveLibAO/BackgroundAnimation.cpp
    ../AliveLibAO/LiftMover.hpp
    ../AliveLibAO/LiftMover.cpp
    ../AliveLibAO/BellHammer.hpp
@@ -290,8 +288,6 @@ SET(AliveLibAESrc
     ../AliveLibAE/Map.hpp
     ../AliveLibAE/AnimationCallBacks.cpp
     ../AliveLibAE/AnimationCallBacks.hpp
-    ../AliveLibAE/BackgroundAnimation.cpp
-    ../AliveLibAE/BackgroundAnimation.hpp
     ../AliveLibAE/PathData.cpp
     ../AliveLibAE/PathData.hpp
     ../AliveLibAE/Io.cpp
@@ -620,6 +616,8 @@ SET(game_objects_src
     GameObjects/CircularFade.cpp
     GameObjects/Blood.hpp
     GameObjects/Blood.cpp
+    GameObjects/BackgroundAnimation.hpp
+    GameObjects/BackgroundAnimation.cpp
 )
 
 SET(data_conversion_src

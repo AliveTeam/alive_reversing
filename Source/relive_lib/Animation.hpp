@@ -7,6 +7,7 @@ enum class AnimId;
 struct AnimRecord;
 
 const AnimRecord PerGameAnimRec(AnimId id);
+const AnimRecord PerGameBgAnimRec(s32 toFindResId);
 class BaseGameObject;
 
 using TFrameCallBackType = void(*)(BaseGameObject*, u32& pointIdx, const IndexedPoint&);
