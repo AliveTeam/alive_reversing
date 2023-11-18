@@ -23,10 +23,10 @@ void BellSong::VUpdate()
             {
                 switch (code_looked_up)
                 {
-                    case GameSpeakEvents::eAbe_WhistleHigh_1:
+                    case GameSpeakEvents::eAbe_WhistleHigh:
                         SfxPlayMono(relive::SoundEffects::BellChime_LowPitch, 0);
                         break;
-                    case GameSpeakEvents::eAbe_WhistleLow_2:
+                    case GameSpeakEvents::eAbe_WhistleLow:
                         SfxPlayMono(relive::SoundEffects::BellChime_MediumPitch, 0);
                         break;
                     default:
@@ -39,10 +39,10 @@ void BellSong::VUpdate()
             {
                 switch (code_looked_up)
                 {
-                    case GameSpeakEvents::eAbe_WhistleHigh_1:
+                    case GameSpeakEvents::eAbe_WhistleHigh:
                         Mudokon_SFX(MudSounds::eWhistleHigh_1, 0, 0, 0);
                         break;
-                    case GameSpeakEvents::eAbe_WhistleLow_2:
+                    case GameSpeakEvents::eAbe_WhistleLow:
                         Mudokon_SFX(MudSounds::eWhistleLow_2, 0, 0, 0);
                         break;
                     default:

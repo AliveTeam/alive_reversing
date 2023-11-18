@@ -2315,7 +2315,7 @@ void Abe::Motion_0_Idle_44EEB0()
     {
         // Do the fart sound
         Mudokon_SFX(MudSounds::eFart_7, 0, 0, this);
-        gEventSystem->PushEvent(GameSpeakEvents::eAbe_Fart_3);
+        gEventSystem->PushEvent(GameSpeakEvents::eAbe_Fart);
 
         // Let others hear the fart
         EventBroadcast(kEventNoise, this);
@@ -3407,7 +3407,7 @@ void Abe::Motion_17_CrouchIdle_456BC0()
         // Crouching farts
         if (Input().IsAnyPressed(InputCommands::eFartOrRoll))
         {
-            gEventSystem->PushEvent(GameSpeakEvents::eAbe_Fart_3);
+            gEventSystem->PushEvent(GameSpeakEvents::eAbe_Fart);
 
             Mudokon_SFX(MudSounds::eFart_7, 0, 0, this);
 
@@ -7934,21 +7934,21 @@ s16 Abe::CrouchingGameSpeak_453E10()
 
     if (InputCommands::eGameSpeak2 & mPrevInput)
     {
-        gEventSystem->PushEvent(GameSpeakEvents::eAbe_FollowMe_10);
+        gEventSystem->PushEvent(GameSpeakEvents::eAbe_FollowMe);
         Mudokon_SFX(MudSounds::eFollowMe_4, 0, 0, this);
         mCurrentMotion = eAbeMotions::Motion_20_CrouchSpeak_454550;
         return true;
     }
     else if (InputCommands::eGameSpeak3 & mPrevInput)
     {
-        gEventSystem->PushEvent(GameSpeakEvents::eAbe_Wait_12);
+        gEventSystem->PushEvent(GameSpeakEvents::eAbe_Wait);
         Mudokon_SFX(MudSounds::eWait_6, 0, 0, this);
         mCurrentMotion = eAbeMotions::jMotion_21_ToCrouchSpeak_4545E0;
         return true;
     }
     else if (mPrevInput & InputCommands::eGameSpeak1)
     {
-        gEventSystem->PushEvent(GameSpeakEvents::eAbe_Hello_9);
+        gEventSystem->PushEvent(GameSpeakEvents::eAbe_Hello);
 
         if (mMood == Mud_Emotion::eHappy_5 || mMood == Mud_Emotion::eWired_6)
         {
@@ -7971,7 +7971,7 @@ s16 Abe::CrouchingGameSpeak_453E10()
     }
     else if (mPrevInput & InputCommands::eGameSpeak4)
     {
-        gEventSystem->PushEvent(GameSpeakEvents::eAbe_Work_21);
+        gEventSystem->PushEvent(GameSpeakEvents::eAbe_Work);
         Mudokon_SFX(MudSounds::eWork_25, 0, 0, this);
         mCurrentMotion = eAbeMotions::jMotion_21_ToCrouchSpeak_4545E0;
         return true;
@@ -7979,28 +7979,28 @@ s16 Abe::CrouchingGameSpeak_453E10()
     else if (mPrevInput & InputCommands::eGameSpeak6)
     {
         Mudokon_SFX(MudSounds::eAllOYa_17, 0, 0, this);
-        gEventSystem->PushEvent(GameSpeakEvents::eAbe_AllYa_23);
+        gEventSystem->PushEvent(GameSpeakEvents::eAbe_AllYa);
         mCurrentMotion = eAbeMotions::jMotion_21_ToCrouchSpeak_4545E0;
         return true;
     }
     else if (mPrevInput & InputCommands::eGameSpeak5)
     {
         Mudokon_SFX(MudSounds::eAnger_5, 0, 0, this);
-        gEventSystem->PushEvent(GameSpeakEvents::eAbe_Anger_11);
+        gEventSystem->PushEvent(GameSpeakEvents::eAbe_Anger);
         mCurrentMotion = eAbeMotions::Motion_20_CrouchSpeak_454550;
         return true;
     }
     else if (mPrevInput & InputCommands::eGameSpeak8)
     {
         Mudokon_SFX(MudSounds::eStopIt_26, 0, 0, this);
-        gEventSystem->PushEvent(GameSpeakEvents::eAbe_StopIt_22);
+        gEventSystem->PushEvent(GameSpeakEvents::eAbe_StopIt);
         mCurrentMotion = eAbeMotions::jMotion_21_ToCrouchSpeak_4545E0;
         return true;
     }
     else if (mPrevInput & InputCommands::eGameSpeak7)
     {
         Mudokon_SFX(MudSounds::eSadUgh_28, 0, 0, this);
-        gEventSystem->PushEvent(GameSpeakEvents::eAbe_Sorry_24);
+        gEventSystem->PushEvent(GameSpeakEvents::eAbe_Sorry);
         mCurrentMotion = eAbeMotions::Motion_20_CrouchSpeak_454550;
         return true;
     }
@@ -8184,18 +8184,18 @@ s16 Abe::DoGameSpeak_45AB70(s32 input)
     else if (input & InputCommands::eGameSpeak2)
     {
         Mudokon_SFX(MudSounds::eFollowMe_4, 0, 0, this);
-        gEventSystem->PushEvent(GameSpeakEvents::eAbe_FollowMe_10);
+        gEventSystem->PushEvent(GameSpeakEvents::eAbe_FollowMe);
         nextMotion = eAbeMotions::Motion_7_Speak_45B140;
     }
     else if (input & InputCommands::eGameSpeak3)
     {
         Mudokon_SFX(MudSounds::eWait_6, 0, 0, this);
-        gEventSystem->PushEvent(GameSpeakEvents::eAbe_Wait_12);
+        gEventSystem->PushEvent(GameSpeakEvents::eAbe_Wait);
         nextMotion = eAbeMotions::Motion_8_Speak_45B160;
     }
     else if (input & InputCommands::eGameSpeak1)
     {
-        gEventSystem->PushEvent(GameSpeakEvents::eAbe_Hello_9);
+        gEventSystem->PushEvent(GameSpeakEvents::eAbe_Hello);
         if (mMood == Mud_Emotion::eHappy_5 || mMood == Mud_Emotion::eWired_6)
         {
             Mudokon_SFX(MudSounds::eHiHappy_19, 0, 0, this);
@@ -8216,14 +8216,14 @@ s16 Abe::DoGameSpeak_45AB70(s32 input)
     }
     else if (input & InputCommands::eGameSpeak4)
     {
-        gEventSystem->PushEvent(GameSpeakEvents::eAbe_Work_21);
+        gEventSystem->PushEvent(GameSpeakEvents::eAbe_Work);
         Mudokon_SFX(MudSounds::eWork_25, 0, 0, this);
         nextMotion = eAbeMotions::Motion_10_Fart_45B1A0;
     }
     else if (input & InputCommands::eGameSpeak6)
     {
         Mudokon_SFX(MudSounds::eAllOYa_17, 0, 0, this);
-        gEventSystem->PushEvent(GameSpeakEvents::eAbe_AllYa_23);
+        gEventSystem->PushEvent(GameSpeakEvents::eAbe_AllYa);
         nextMotion = eAbeMotions::Motion_9_Speak_45B180;
     }
     else if (input & InputCommands::eGameSpeak5)
@@ -8274,7 +8274,7 @@ s16 Abe::DoGameSpeak_45AB70(s32 input)
             {
                 // Didn't hit anything, just anger.
                 Mudokon_SFX(MudSounds::eAnger_5, 0, 0, this);
-                gEventSystem->PushEvent(GameSpeakEvents::eAbe_Anger_11);
+                gEventSystem->PushEvent(GameSpeakEvents::eAbe_Anger);
                 nextMotion = eAbeMotions::Motion_8_Speak_45B160;
             }
         }
@@ -8282,7 +8282,7 @@ s16 Abe::DoGameSpeak_45AB70(s32 input)
     else if (input & InputCommands::eGameSpeak8)
     {
         Mudokon_SFX(MudSounds::eStopIt_26, 0, 0, this);
-        gEventSystem->PushEvent(GameSpeakEvents::eAbe_StopIt_22);
+        gEventSystem->PushEvent(GameSpeakEvents::eAbe_StopIt);
         nextMotion = eAbeMotions::Motion_7_Speak_45B140;
     }
     else if (input & InputCommands::eGameSpeak7)
@@ -8297,7 +8297,7 @@ s16 Abe::DoGameSpeak_45AB70(s32 input)
             gridSize = ScaleToGridSize(GetSpriteScale());
         }
 
-        gEventSystem->PushEvent(GameSpeakEvents::eAbe_Sorry_24);
+        gEventSystem->PushEvent(GameSpeakEvents::eAbe_Sorry);
         if (FindObjectOfType(ReliveTypes::eMudokon, mXPos + gridSize, mYPos - (GetSpriteScale() * FP_FromInteger(40))))
         {
             nextMotion = eAbeMotions::Motion_63_Sorry_454670;

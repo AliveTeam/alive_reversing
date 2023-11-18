@@ -151,13 +151,13 @@ void SecurityDoor::VUpdate()
             GameSpeakEvents last_event = {};
             if (mLastEventIdx == gEventSystem->mLastEventIndex)
             {
-                if (gEventSystem->mLastEvent == GameSpeakEvents::eNone_m1)
+                if (gEventSystem->mLastEvent == GameSpeakEvents::eNone)
                 {
-                    last_event = GameSpeakEvents::eNone_m1;
+                    last_event = GameSpeakEvents::eNone;
                 }
                 else
                 {
-                    last_event = GameSpeakEvents::eSameAsLast_m2;
+                    last_event = GameSpeakEvents::eSameAsLast;
                 }
             }
             else
@@ -166,7 +166,7 @@ void SecurityDoor::VUpdate()
                 mLastEventIdx = gEventSystem->mLastEventIndex;
             }
 
-            if (last_event == GameSpeakEvents::Slig_Hi_23)
+            if (last_event == GameSpeakEvents::eSlig_Hi)
             {
                 mState = SecurityDoorStates::eWaitingToSayPassword_4;
                 mTimer = MakeTimer(30);
@@ -187,7 +187,7 @@ void SecurityDoor::VUpdate()
 
         case SecurityDoorStates::ePreparingToSayPassword_5:
             mMaxIdx2 = 0;
-            mMaxIdx = GameSpeak::sub_40FA60(mCodeConverted, mPasswordBuffer);
+            mMaxIdx = GameSpeak::FillBuffer(mCodeConverted, mPasswordBuffer);
             mState = SecurityDoorStates::eSayingPassword_6;
             break;
 
@@ -196,16 +196,16 @@ void SecurityDoor::VUpdate()
             const GameSpeakEvents code = Code_LookUp(mCodeConverted, mMaxIdx2, mCodeLength);
             switch (code)
             {
-                case GameSpeakEvents::eSlig_Bullshit1_5:
+                case GameSpeakEvents::eSlig_BS:
                     Slig::Slig_GameSpeak_SFX(SligSpeak::eBullshit_4, 127, -100, 0);
                     break;
-                case GameSpeakEvents::Slig_LookOut_6:
+                case GameSpeakEvents::eSlig_LookOut:
                     Slig::Slig_GameSpeak_SFX(SligSpeak::eLookOut_5, 127, -100, 0);
                     break;
-                case GameSpeakEvents::eSlig_Bullshit2_7:
+                case GameSpeakEvents::eSlig_BS2:
                     Slig::Slig_GameSpeak_SFX(SligSpeak::eBullshit2_6, 127, -100, 0);
                     break;
-                case GameSpeakEvents::eSlig_Laugh_8:
+                case GameSpeakEvents::eSlig_Laugh:
                     Slig::Slig_GameSpeak_SFX(SligSpeak::eHereBoy_1, 127, -100, 0);
                     break;
                 default:
@@ -248,13 +248,13 @@ void SecurityDoor::VUpdate()
             GameSpeakEvents last_event = {};
             if (mLastEventIdx == gEventSystem->mLastEventIndex)
             {
-                if (gEventSystem->mLastEvent == GameSpeakEvents::eNone_m1)
+                if (gEventSystem->mLastEvent == GameSpeakEvents::eNone)
                 {
-                    last_event = GameSpeakEvents::eNone_m1;
+                    last_event = GameSpeakEvents::eNone;
                 }
                 else
                 {
-                    last_event = GameSpeakEvents::eSameAsLast_m2;
+                    last_event = GameSpeakEvents::eSameAsLast;
                 }
             }
             else
@@ -263,7 +263,7 @@ void SecurityDoor::VUpdate()
                 mLastEventIdx = gEventSystem->mLastEventIndex;
             }
 
-            if (last_event != GameSpeakEvents::eNone_m1)
+            if (last_event != GameSpeakEvents::eNone)
             {
                 mState = SecurityDoorStates::eCheckingIfPasswordMatches_9;
             }
@@ -275,13 +275,13 @@ void SecurityDoor::VUpdate()
             GameSpeakEvents last_event = {};
             if (mLastEventIdx == gEventSystem->mLastEventIndex)
             {
-                if (gEventSystem->mLastEvent == GameSpeakEvents::eNone_m1)
+                if (gEventSystem->mLastEvent == GameSpeakEvents::eNone)
                 {
-                    last_event = GameSpeakEvents::eNone_m1;
+                    last_event = GameSpeakEvents::eNone;
                 }
                 else
                 {
-                    last_event = GameSpeakEvents::eSameAsLast_m2;
+                    last_event = GameSpeakEvents::eSameAsLast;
                 }
             }
             else
@@ -290,10 +290,10 @@ void SecurityDoor::VUpdate()
                 last_event = gEventSystem->mLastEvent;
             }
 
-            if (last_event == GameSpeakEvents::eNone_m1)
+            if (last_event == GameSpeakEvents::eNone)
             {
                 const auto MatchBuffer = gEventSystem->MatchBuffer(mPasswordBuffer, mMaxIdx, mBufferStartIdx);
-                if (MatchBuffer == GameSpeakMatch::eFullMatch_1 || gVoiceCheat)
+                if (MatchBuffer == GameSpeakMatch::eFullMatch || gVoiceCheat)
                 {
                     GetAnimation().SetRender(false);
                     SwitchStates_Set(mSwitchId, 1);

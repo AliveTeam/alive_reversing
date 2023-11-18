@@ -1393,16 +1393,16 @@ s16 Slog::Brain_ListeningToSlig_2_Listening(const FP xpos1GridAHead, IBaseAliveG
         return mBrainSubState;
     }
 
-    GameSpeakEvents speakValue = GameSpeakEvents::eNone_m1;
+    GameSpeakEvents speakValue = GameSpeakEvents::eNone;
     if (mLastGameSpeakEvent == gEventSystem->mLastEventIndex)
     {
-        if (gEventSystem->mLastEvent == GameSpeakEvents::eNone_m1)
+        if (gEventSystem->mLastEvent == GameSpeakEvents::eNone)
         {
-            speakValue = GameSpeakEvents::eNone_m1;
+            speakValue = GameSpeakEvents::eNone;
         }
         else
         {
-            speakValue = GameSpeakEvents::eSameAsLast_m2;
+            speakValue = GameSpeakEvents::eSameAsLast;
         }
     }
     else
@@ -1413,11 +1413,11 @@ s16 Slog::Brain_ListeningToSlig_2_Listening(const FP xpos1GridAHead, IBaseAliveG
 
     switch (speakValue)
     {
-        case GameSpeakEvents::Slig_LookOut_6:
+        case GameSpeakEvents::eSlig_LookOut:
             DelayedResponse(2);
             return 6;
 
-        case GameSpeakEvents::eSlig_Hi_27:
+        case GameSpeakEvents::eSlig_Hi:
             mWaitingCounter++;
             if (static_cast<s32>(sGnFrame) % 2)
             {
@@ -1425,12 +1425,12 @@ s16 Slog::Brain_ListeningToSlig_2_Listening(const FP xpos1GridAHead, IBaseAliveG
             }
             [[fallthrough]];
 
-        case GameSpeakEvents::eSlig_HereBoy_28:
+        case GameSpeakEvents::eSlig_HereBoy:
             mMultiUseTimer = sGnFrame - Math_NextRandom() % 8 + 15;
             mWaitingCounter++;
             break;
 
-        case GameSpeakEvents::eSlig_GetEm_29:
+        case GameSpeakEvents::eSlig_GetEm:
         {
             auto pTarget = FindTarget(1, 0);
             if (pTarget)
@@ -1577,7 +1577,7 @@ s16 Slog::Brain_1_Idle()
     if (mLastGameSpeakEvent != gEventSystem->mLastEventIndex)
     {
         mLastGameSpeakEvent = gEventSystem->mLastEventIndex;
-        if (gEventSystem->mLastEvent == GameSpeakEvents::eSlig_HereBoy_28 && sControlledCharacter->Type() == ReliveTypes::eSlig)
+        if (gEventSystem->mLastEvent == GameSpeakEvents::eSlig_HereBoy && sControlledCharacter->Type() == ReliveTypes::eSlig)
         {
             mBrainState = eSlogBrains::Brain_0_ListeningToSlig;
             mTargetId = Guid{};
@@ -1789,7 +1789,7 @@ s16 Slog::Brain_2_ChasingAbe()
         if (mLastGameSpeakEvent != gEventSystem->mLastEventIndex)
         {
             mLastGameSpeakEvent = gEventSystem->mLastEventIndex;
-            if (gEventSystem->mLastEvent == GameSpeakEvents::eSlig_HereBoy_28 && sControlledCharacter->Type() == ReliveTypes::eSlig)
+            if (gEventSystem->mLastEvent == GameSpeakEvents::eSlig_HereBoy && sControlledCharacter->Type() == ReliveTypes::eSlig)
             {
                 mBrainState = eSlogBrains::Brain_0_ListeningToSlig;
                 mTargetId = Guid{};

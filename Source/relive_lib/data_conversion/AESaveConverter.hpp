@@ -304,9 +304,9 @@ static ::GameSpeakEvents From(const GameSpeakEvents event)
     switch (event)
     {
         case GameSpeakEvents::eSameAsLast_m2:
-            return ::GameSpeakEvents::eSameAsLast_m2;
+            return ::GameSpeakEvents::eSameAsLast;
         case GameSpeakEvents::eNone_m1:
-            return ::GameSpeakEvents::eNone_m1;
+            return ::GameSpeakEvents::eNone;
         case GameSpeakEvents::eUnknown_0:
             return ::GameSpeakEvents::eUnknown_0;
         case GameSpeakEvents::eUnknown_1:
@@ -314,25 +314,25 @@ static ::GameSpeakEvents From(const GameSpeakEvents event)
         case GameSpeakEvents::eUnknown_2:
             ALIVE_FATAL("GameSpeakEvents %d isn't used", static_cast<s32>(event));
         case GameSpeakEvents::eFart_3:
-            return ::GameSpeakEvents::eAbe_Fart_3;
+            return ::GameSpeakEvents::eAbe_Fart;
         case GameSpeakEvents::eUnknown_4:
             ALIVE_FATAL("GameSpeakEvents %d isn't used", static_cast<s32>(event));
         case GameSpeakEvents::Slig_BS_5:
-            return ::GameSpeakEvents::Slig_BS_5;
+            return ::GameSpeakEvents::eSlig_BS;
         case GameSpeakEvents::Slig_LookOut_6:
-            return ::GameSpeakEvents::Slig_LookOut_6;
+            return ::GameSpeakEvents::eSlig_LookOut;
         case GameSpeakEvents::Slig_BS2_7:
-            return ::GameSpeakEvents::Slig_BS2_7;
+            return ::GameSpeakEvents::eSlig_BS2;
         case GameSpeakEvents::Slig_Laugh_8:
-            return ::GameSpeakEvents::Slig_Laugh_8;
+            return ::GameSpeakEvents::eSlig_Laugh;
         case GameSpeakEvents::eHello_9:
-            return ::GameSpeakEvents::eAbe_Hello_9;
+            return ::GameSpeakEvents::eAbe_Hello;
         case GameSpeakEvents::eFollowMe_10:
-            return ::GameSpeakEvents::eAbe_FollowMe_10;
+            return ::GameSpeakEvents::eAbe_FollowMe;
         case GameSpeakEvents::eAnger_11:
-            return ::GameSpeakEvents::eAbe_Anger_11;
+            return ::GameSpeakEvents::eAbe_Anger;
         case GameSpeakEvents::eWait_12:
-            return ::GameSpeakEvents::eAbe_Wait_12;
+            return ::GameSpeakEvents::eAbe_Wait;
         case GameSpeakEvents::eUnknown_13:
             ALIVE_FATAL("GameSpeakEvents %d isn't used", static_cast<s32>(event));
         case GameSpeakEvents::eUnknown_14:
@@ -350,27 +350,27 @@ static ::GameSpeakEvents From(const GameSpeakEvents event)
         case GameSpeakEvents::eUnknown_20:
             ALIVE_FATAL("GameSpeakEvents %d isn't used", static_cast<s32>(event));
         case GameSpeakEvents::eWork_21:
-            return ::GameSpeakEvents::eAbe_Work_21;
+            return ::GameSpeakEvents::eAbe_Work;
         case GameSpeakEvents::eStopIt_22:
-            return ::GameSpeakEvents::eAbe_StopIt_22;
+            return ::GameSpeakEvents::eAbe_StopIt;
         case GameSpeakEvents::eAllYa_23:
-            return ::GameSpeakEvents::eAbe_AllYa_23;
+            return ::GameSpeakEvents::eAbe_AllYa;
         case GameSpeakEvents::eSorry_24:
-            return ::GameSpeakEvents::eAbe_Sorry_24;
+            return ::GameSpeakEvents::eAbe_Sorry;
         case GameSpeakEvents::eUnknown_25:
             ALIVE_FATAL("GameSpeakEvents %d isn't used", static_cast<s32>(event));
         case GameSpeakEvents::eUnknown_26:
             ALIVE_FATAL("GameSpeakEvents %d isn't used", static_cast<s32>(event));
         case GameSpeakEvents::Slig_Hi_27:
-            return ::GameSpeakEvents::eSlig_Hi_27;
+            return ::GameSpeakEvents::eSlig_Hi;
         case GameSpeakEvents::Slig_HereBoy_28:
-            return ::GameSpeakEvents::eSlig_HereBoy_28;
+            return ::GameSpeakEvents::eSlig_HereBoy;
         case GameSpeakEvents::Slig_GetEm_29:
-            return ::GameSpeakEvents::eSlig_GetEm_29;
+            return ::GameSpeakEvents::eSlig_GetEm;
         case GameSpeakEvents::eUnknown_30:
             ALIVE_FATAL("GameSpeakEvents %d isn't used", static_cast<s32>(event));
         case GameSpeakEvents::Slig_Freeze_31:
-            return ::GameSpeakEvents::eSlig_Freeze_31;
+            return ::GameSpeakEvents::eSlig_Freeze;
         case GameSpeakEvents::eUnknown_32:
             ALIVE_FATAL("GameSpeakEvents %d isn't used", static_cast<s32>(event));
         case GameSpeakEvents::eUnknown_33:
@@ -378,49 +378,49 @@ static ::GameSpeakEvents From(const GameSpeakEvents event)
         case GameSpeakEvents::eUnknown_34:
             ALIVE_FATAL("GameSpeakEvents %d isn't used", static_cast<s32>(event));
         case GameSpeakEvents::eUnknown_35:
-            return ::GameSpeakEvents::eGlukkon_None_35;
+            return ::GameSpeakEvents::eGlukkon_None;
         case GameSpeakEvents::Glukkon_Hey_36:
-            return ::GameSpeakEvents::eGlukkon_Hey_36;
+            return ::GameSpeakEvents::eGlukkon_Hey;
         case GameSpeakEvents::Glukkon_DoIt_37:
-            return ::GameSpeakEvents::eGlukkon_DoIt_37;
+            return ::GameSpeakEvents::eGlukkon_DoIt;
         case GameSpeakEvents::Glukkon_StayHere_38:
-            return ::GameSpeakEvents::eGlukkon_StayHere_38;
+            return ::GameSpeakEvents::eGlukkon_StayHere;
         case GameSpeakEvents::Glukkon_Commere_39:
-            return ::GameSpeakEvents::eGlukkon_Commere_39;
+            return ::GameSpeakEvents::eGlukkon_Commere;
         case GameSpeakEvents::Glukkon_AllOYa_40:
-            return ::GameSpeakEvents::eGlukkon_AllOYa_40;
+            return ::GameSpeakEvents::eGlukkon_AllOYa;
         case GameSpeakEvents::Glukkon_Heh_41:
-            return ::GameSpeakEvents::eGlukkon_Heh_41;
+            return ::GameSpeakEvents::eGlukkon_Heh;
         case GameSpeakEvents::Glukkon_Help_42:
-            return ::GameSpeakEvents::eGlukkon_Help_42;
+            return ::GameSpeakEvents::eGlukkon_Help;
         case GameSpeakEvents::Glukkon_Laugh_43:
-            return ::GameSpeakEvents::eGlukkon_Laugh_43;
+            return ::GameSpeakEvents::eGlukkon_Laugh;
         case GameSpeakEvents::Glukkon_KillEm_44:
-            return ::GameSpeakEvents::eGlukkon_KillEm_44;
+            return ::GameSpeakEvents::eGlukkon_KillEm;
         case GameSpeakEvents::Glukkon_Unknown_45:
-            return ::GameSpeakEvents::eGlukkon_Unknown_45;
+            return ::GameSpeakEvents::eGlukkon_Unknown;
         case GameSpeakEvents::Glukkon_Unknown_46:
             ALIVE_FATAL("GameSpeakEvents %d isn't used", static_cast<s32>(event));
         case GameSpeakEvents::Glukkon_What_47:
-            return ::GameSpeakEvents::eGlukkon_What_47;
+            return ::GameSpeakEvents::eGlukkon_What;
         case GameSpeakEvents::Paramite_Howdy_48:
-            return ::GameSpeakEvents::eParamite_Howdy_48;
+            return ::GameSpeakEvents::eParamite_Howdy;
         case GameSpeakEvents::Paramite_Stay_49:
-            return ::GameSpeakEvents::eParamite_Stay_49;
+            return ::GameSpeakEvents::eParamite_Stay;
         case GameSpeakEvents::Paramite_CMon_or_Attack_50:
-            return ::GameSpeakEvents::eParamite_CMon_or_Attack_50;
+            return ::GameSpeakEvents::eParamite_CMon_or_Attack;
         case GameSpeakEvents::Paramite_DoIt_51:
-            return ::GameSpeakEvents::eParamite_DoIt_51;
+            return ::GameSpeakEvents::eParamite_DoIt;
         case GameSpeakEvents::Paramite_AllYa_52:
-            return ::GameSpeakEvents::eParamite_AllYa_52;
+            return ::GameSpeakEvents::eParamite_AllYa;
         case GameSpeakEvents::Scrab_Howl_53:
-            return ::GameSpeakEvents::eScrab_Howl_53;
+            return ::GameSpeakEvents::eScrab_Howl;
         case GameSpeakEvents::Scrab_Shriek_54:
-            return ::GameSpeakEvents::eScrab_Shriek_54;
+            return ::GameSpeakEvents::eScrab_Shriek;
         default:
             // For bad OG save data
             LOG_WARNING("Bad gamespeak event value %d", static_cast<u32>(event));
-            return ::GameSpeakEvents::eNone_m1;
+            return ::GameSpeakEvents::eNone;
     }
 }
 

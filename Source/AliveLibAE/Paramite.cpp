@@ -688,7 +688,7 @@ s16 Paramite::Brain_Patrol_State_12_Idle(BaseAliveGameObject* pObj)
     }
 
     const GameSpeakEvents lastSpeak = LastSpeak();
-    if (lastSpeak == GameSpeakEvents::eParamite_Howdy_48)
+    if (lastSpeak == GameSpeakEvents::eParamite_Howdy)
     {
         if (sControlledCharacter->Type() == ReliveTypes::eParamite && sControlledCharacter->mHealth > FP_FromInteger(0) && sControlledCharacter->GetSpriteScale() == GetSpriteScale())
         {
@@ -700,7 +700,7 @@ s16 Paramite::Brain_Patrol_State_12_Idle(BaseAliveGameObject* pObj)
             }
         }
     }
-    else if (lastSpeak == GameSpeakEvents::eParamite_AllYa_52)
+    else if (lastSpeak == GameSpeakEvents::eParamite_AllYa)
     {
         if (sControlledCharacter->Type() == ReliveTypes::eParamite && sControlledCharacter->mHealth > FP_FromInteger(0) && sControlledCharacter->GetSpriteScale() == GetSpriteScale())
         {
@@ -2513,20 +2513,20 @@ s16 Paramite::Brain_8_ControlledByGameSpeak()
                 const GameSpeakEvents lastSpeak = LastSpeak();
                 switch (lastSpeak)
                 {
-                    case GameSpeakEvents::eParamite_Stay_49:
+                    case GameSpeakEvents::eParamite_Stay:
                         SetGamespeakNextMotion(eParamiteMotions::Motion_22_Hiss1);
                         field_130_timer = MakeTimer(StableDelay());
                         field_158_next_brain_ret = 9;
                         return ParamiteEnums::Brain_8_ControlledByGameSpeak::eBrain8_RecievedCommand_10;
 
-                    case GameSpeakEvents::eParamite_Howdy_48:
-                    case GameSpeakEvents::eParamite_AllYa_52:
+                    case GameSpeakEvents::eParamite_Howdy:
+                    case GameSpeakEvents::eParamite_AllYa:
                         SetGamespeakNextMotion(eParamiteMotions::Motion_24_Empty);
                         field_130_timer = MakeTimer(StableDelay());
                         field_158_next_brain_ret = 1;
                         return ParamiteEnums::Brain_8_ControlledByGameSpeak::eBrain8_RecievedCommand_10;
 
-                    case GameSpeakEvents::eParamite_DoIt_51:
+                    case GameSpeakEvents::eParamite_DoIt:
                         SetGamespeakNextMotion(eParamiteMotions::Motion_26_Hiss3);
                         field_130_timer = MakeTimer(StableDelay());
                         field_158_next_brain_ret = 7;
@@ -2571,7 +2571,7 @@ s16 Paramite::Brain_8_ControlledByGameSpeak()
                         }
 
                         const auto controlledParamiteMotion = static_cast<eParamiteMotions>(sControlledCharacter->mCurrentMotion);
-                        if (lastSpeak == GameSpeakEvents::eParamite_CMon_or_Attack_50)
+                        if (lastSpeak == GameSpeakEvents::eParamite_CMon_or_Attack)
                         {
                             SetGamespeakNextMotion(eParamiteMotions::Motion_23_Hiss2);
                             field_130_timer = MakeTimer(StableDelay());
@@ -2779,26 +2779,26 @@ s16 Paramite::Brain_8_ControlledByGameSpeak()
                 const GameSpeakEvents lastSpeak = LastSpeak();
                 switch (lastSpeak)
                 {
-                    case GameSpeakEvents::eParamite_CMon_or_Attack_50:
+                    case GameSpeakEvents::eParamite_CMon_or_Attack:
                         SetGamespeakNextMotion(eParamiteMotions::Motion_23_Hiss2);
                         field_130_timer = MakeTimer(StableDelay());
                         field_158_next_brain_ret = 1;
                         return ParamiteEnums::Brain_8_ControlledByGameSpeak::eBrain8_RecievedCommand_10;
 
-                    case GameSpeakEvents::eParamite_Stay_49:
+                    case GameSpeakEvents::eParamite_Stay:
                         SetGamespeakNextMotion(eParamiteMotions::Motion_22_Hiss1);
                         field_130_timer = MakeTimer(StableDelay());
                         field_158_next_brain_ret = 9;
                         return ParamiteEnums::Brain_8_ControlledByGameSpeak::eBrain8_RecievedCommand_10;
 
-                    case GameSpeakEvents::eParamite_Howdy_48:
-                    case GameSpeakEvents::eParamite_AllYa_52:
+                    case GameSpeakEvents::eParamite_Howdy:
+                    case GameSpeakEvents::eParamite_AllYa:
                         SetGamespeakNextMotion(eParamiteMotions::Motion_24_Empty);
                         field_130_timer = MakeTimer(StableDelay());
                         field_158_next_brain_ret = 9;
                         return ParamiteEnums::Brain_8_ControlledByGameSpeak::eBrain8_RecievedCommand_10;
 
-                    case GameSpeakEvents::eParamite_DoIt_51:
+                    case GameSpeakEvents::eParamite_DoIt:
                         SetGamespeakNextMotion(eParamiteMotions::Motion_26_Hiss3);
                         field_130_timer = MakeTimer(StableDelay());
                         field_158_next_brain_ret = 7;
@@ -2911,7 +2911,7 @@ s16 Paramite::Brain_9_ParamiteSpawn()
             if (field_160_last_event_index != gEventSystem->mLastEventIndex)
             {
                 field_160_last_event_index = gEventSystem->mLastEventIndex;
-                if (gEventSystem->mLastEvent == GameSpeakEvents::eParamite_Howdy_48)
+                if (gEventSystem->mLastEvent == GameSpeakEvents::eParamite_Howdy)
                 {
                     GetAnimation().SetRender(true);
                     SetBrain(&Paramite::Brain_8_ControlledByGameSpeak);
@@ -2925,7 +2925,7 @@ s16 Paramite::Brain_9_ParamiteSpawn()
             {
                 field_160_last_event_index = gEventSystem->mLastEventIndex;
 
-                if (gEventSystem->mLastEvent == GameSpeakEvents::eParamite_Howdy_48)
+                if (gEventSystem->mLastEvent == GameSpeakEvents::eParamite_Howdy)
                 {
                     GetAnimation().SetRender(true);
                     mVelY = FP_FromInteger(0);
@@ -4102,7 +4102,7 @@ void Paramite::Motion_21_PreHiss()
 
             if (sControlledCharacter == this)
             {
-                gEventSystem->PushEvent(GameSpeakEvents::eParamite_Howdy_48);
+                gEventSystem->PushEvent(GameSpeakEvents::eParamite_Howdy);
             }
             break;
 
@@ -4165,7 +4165,7 @@ void Paramite::Motion_22_Hiss1()
 
         if (sControlledCharacter == this)
         {
-            gEventSystem->PushEvent(GameSpeakEvents::eParamite_Stay_49);
+            gEventSystem->PushEvent(GameSpeakEvents::eParamite_Stay);
         }
     }
 
@@ -4201,7 +4201,7 @@ void Paramite::Motion_23_Hiss2()
         Sound(ParamiteSpeak::CMon_or_Attack_0, 0);
         if (sControlledCharacter == this)
         {
-            gEventSystem->PushEvent(GameSpeakEvents::eParamite_CMon_or_Attack_50);
+            gEventSystem->PushEvent(GameSpeakEvents::eParamite_CMon_or_Attack);
         }
     }
 
@@ -4223,7 +4223,7 @@ void Paramite::Motion_25_AllOYaGameSpeakBegin()
         Sound(ParamiteSpeak::AllYa_9, 0);
         if (sControlledCharacter == this)
         {
-            gEventSystem->PushEvent(GameSpeakEvents::eParamite_AllYa_52);
+            gEventSystem->PushEvent(GameSpeakEvents::eParamite_AllYa);
         }
     }
     else if (GetAnimation().GetIsLastFrame())
@@ -4245,7 +4245,7 @@ void Paramite::Motion_26_Hiss3()
         Sound(ParamiteSpeak::DoIt_2, 0);
         if (sControlledCharacter == this)
         {
-            gEventSystem->PushEvent(GameSpeakEvents::eParamite_DoIt_51);
+            gEventSystem->PushEvent(GameSpeakEvents::eParamite_DoIt);
         }
     }
 
@@ -6193,16 +6193,16 @@ void Paramite::UpdateSlurgWatchPoints()
 
 GameSpeakEvents Paramite::LastSpeak()
 {
-    GameSpeakEvents ret = GameSpeakEvents::eNone_m1;
+    GameSpeakEvents ret = GameSpeakEvents::eNone;
     if (field_160_last_event_index == gEventSystem->mLastEventIndex)
     {
-        if (gEventSystem->mLastEvent == GameSpeakEvents::eNone_m1)
+        if (gEventSystem->mLastEvent == GameSpeakEvents::eNone)
         {
-            ret = GameSpeakEvents::eNone_m1;
+            ret = GameSpeakEvents::eNone;
         }
         else
         {
-            ret = GameSpeakEvents::eSameAsLast_m2;
+            ret = GameSpeakEvents::eSameAsLast;
         }
     }
     else
@@ -6216,7 +6216,7 @@ GameSpeakEvents Paramite::LastSpeak()
         return ret;
     }
 
-    return GameSpeakEvents::eNone_m1;
+    return GameSpeakEvents::eNone;
 }
 
 

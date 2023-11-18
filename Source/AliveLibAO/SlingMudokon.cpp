@@ -301,13 +301,13 @@ GameSpeakEvents SlingMudokon::getLastIdx()
 {
     if (mLastEventIndex == gEventSystem->mLastEventIndex)
     {
-        if (gEventSystem->mLastEvent == GameSpeakEvents::eNone_m1)
+        if (gEventSystem->mLastEvent == GameSpeakEvents::eNone)
         {
-            return GameSpeakEvents::eNone_m1;
+            return GameSpeakEvents::eNone;
         }
         else
         {
-            return GameSpeakEvents::eSameAsLast_m2;
+            return GameSpeakEvents::eSameAsLast;
         }
     }
     else
@@ -351,16 +351,16 @@ void GiveCodeBrain::VUpdate()
                 mSlingMudokon.mNextMotion = 2;
                 switch (Code_LookUp(mSlingMudokon.mCodeConverted, mSlingMudokon.mCodePos, mSlingMudokon.mCodeLength))
                 {
-                    case GameSpeakEvents::eAbe_WhistleHigh_1:
+                    case GameSpeakEvents::eAbe_WhistleHigh:
                         Mudokon_SFX(MudSounds::eWhistleHigh_1, 0, 0, &mSlingMudokon);
                         break;
-                    case GameSpeakEvents::eAbe_WhistleLow_2:
+                    case GameSpeakEvents::eAbe_WhistleLow:
                         Mudokon_SFX(MudSounds::eWhistleLow_2, 0, 0, &mSlingMudokon);
                         break;
-                    case GameSpeakEvents::eAbe_Fart_3:
+                    case GameSpeakEvents::eAbe_Fart:
                         Mudokon_SFX(MudSounds::eFart_7, 0, 300, &mSlingMudokon);
                         break;
-                    case GameSpeakEvents::eAbe_Laugh_4:
+                    case GameSpeakEvents::eAbe_Laugh:
                         Mudokon_SFX(MudSounds::eLaugh1_8, 0, 300, &mSlingMudokon);
                         break;
                     default:
@@ -370,7 +370,7 @@ void GiveCodeBrain::VUpdate()
                 mSlingMudokon.mCodePos++;
                 if (mSlingMudokon.mCodePos >= mSlingMudokon.mCodeLength)
                 {
-                    mSlingMudokon.mBufferStart = GameSpeak::sub_40FA60(mSlingMudokon.mCodeConverted, mSlingMudokon.mCodeBuffer);
+                    mSlingMudokon.mBufferStart = GameSpeak::FillBuffer(mSlingMudokon.mCodeConverted, mSlingMudokon.mCodeBuffer);
                     mBrainState = EState::WaitForCode;
                     return;
                 }
@@ -405,7 +405,7 @@ void GiveCodeBrain::VUpdate()
             }
 
             GameSpeakEvents lastIdx = mSlingMudokon.getLastIdx();
-            if (lastIdx == GameSpeakEvents::eNone_m1)
+            if (lastIdx == GameSpeakEvents::eNone)
             {
                 return;
             }
@@ -424,7 +424,7 @@ void GiveCodeBrain::VUpdate()
             else
             {
                 GameSpeakEvents lastIdx = mSlingMudokon.getLastIdx();
-                if (lastIdx != GameSpeakEvents::eNone_m1)
+                if (lastIdx != GameSpeakEvents::eNone)
                 {
                     mSlingMudokon.mLastEventIndex = BaseGameObject::MakeTimer(40);
                     mSlingMudokon.field_144_timer2 = BaseGameObject::MakeTimer(40);
@@ -433,15 +433,15 @@ void GiveCodeBrain::VUpdate()
                 if (static_cast<s32>(sGnFrame) <= mSlingMudokon.field_144_timer2)
                 {
                     const auto result = gEventSystem->MatchBuffer(mSlingMudokon.mCodeBuffer, mSlingMudokon.mBufferStart, mSlingMudokon.mBufferIdx);
-                    if (result != GameSpeakMatch::eFullMatch_1 &&
-                        result > GameSpeakMatch::eFullMatch_1)
+                    if (result != GameSpeakMatch::eFullMatch &&
+                        result > GameSpeakMatch::eFullMatch)
                     {
                         return;
                     }
                 }
 
                 const GameSpeakMatch MatchBuffer = gEventSystem->MatchBuffer(mSlingMudokon.mCodeBuffer, mSlingMudokon.mBufferStart, mSlingMudokon.mBufferIdx);
-                if (MatchBuffer == GameSpeakMatch::eFullMatch_1 || gVoiceCheat)
+                if (MatchBuffer == GameSpeakMatch::eFullMatch || gVoiceCheat)
                 {
                     mSlingMudokon.field_140_timer = BaseGameObject::MakeTimer(30);
                     mSlingMudokon.mCodeMatches = true;
@@ -698,7 +698,7 @@ void AskForPasswordBrain::VUpdate()
                     mSlingMudokon.GetAnimation().SetFlipX(true);
                 }
 
-                mSlingMudokon.mBufferStart = GameSpeak::sub_40FA60(mSlingMudokon.mCodeConverted, mSlingMudokon.mCodeBuffer);
+                mSlingMudokon.mBufferStart = GameSpeak::FillBuffer(mSlingMudokon.mCodeConverted, mSlingMudokon.mCodeBuffer);
                 mBrainState = EState::Unknown_3;
                 return;
             }
@@ -737,13 +737,13 @@ void AskForPasswordBrain::VUpdate()
                 GameSpeakEvents speak = {};
                 if (mSlingMudokon.mLastEventIndex == gEventSystem->mLastEventIndex)
                 {
-                    if (gEventSystem->mLastEvent == GameSpeakEvents::eNone_m1)
+                    if (gEventSystem->mLastEvent == GameSpeakEvents::eNone)
                     {
-                        speak = GameSpeakEvents::eNone_m1;
+                        speak = GameSpeakEvents::eNone;
                     }
                     else
                     {
-                        speak = GameSpeakEvents::eSameAsLast_m2;
+                        speak = GameSpeakEvents::eSameAsLast;
                     }
                 }
                 else
@@ -752,7 +752,7 @@ void AskForPasswordBrain::VUpdate()
                     speak = gEventSystem->mLastEvent;
                 }
 
-                if (speak == GameSpeakEvents::eNone_m1)
+                if (speak == GameSpeakEvents::eNone)
                 {
                     return;
                 }
@@ -770,13 +770,13 @@ void AskForPasswordBrain::VUpdate()
                 GameSpeakEvents speak = {};
                 if (mSlingMudokon.mLastEventIndex == gEventSystem->mLastEventIndex)
                 {
-                    if (gEventSystem->mLastEvent == GameSpeakEvents::eNone_m1)
+                    if (gEventSystem->mLastEvent == GameSpeakEvents::eNone)
                     {
-                        speak = GameSpeakEvents::eNone_m1;
+                        speak = GameSpeakEvents::eNone;
                     }
                     else
                     {
-                        speak = GameSpeakEvents::eSameAsLast_m2;
+                        speak = GameSpeakEvents::eSameAsLast;
                     }
                 }
                 else
@@ -785,7 +785,7 @@ void AskForPasswordBrain::VUpdate()
                     speak = gEventSystem->mLastEvent;
                 }
 
-                if (speak != GameSpeakEvents::eNone_m1)
+                if (speak != GameSpeakEvents::eNone)
                 {
                     mSlingMudokon.field_144_timer2 = BaseGameObject::MakeTimer(40);
                 }
@@ -796,13 +796,13 @@ void AskForPasswordBrain::VUpdate()
                             mSlingMudokon.mCodeBuffer,
                             mSlingMudokon.mBufferStart,
                             mSlingMudokon.mBufferIdx)
-                        != GameSpeakMatch::eFullMatch_1)
+                        != GameSpeakMatch::eFullMatch)
                     {
                         if (gEventSystem->MatchBuffer(
                                 mSlingMudokon.mCodeBuffer,
                                 mSlingMudokon.mBufferStart,
                                 mSlingMudokon.mBufferIdx)
-                            != GameSpeakMatch::eNoMatch_0)
+                            != GameSpeakMatch::eNoMatch)
                         {
                             return;
                         }
@@ -813,7 +813,7 @@ void AskForPasswordBrain::VUpdate()
                                 mSlingMudokon.mCodeBuffer,
                                 mSlingMudokon.mBufferStart,
                                 mSlingMudokon.mBufferIdx)
-                             == GameSpeakMatch::eFullMatch_1
+                             == GameSpeakMatch::eFullMatch
                          || gVoiceCheat;
 
                 mSlingMudokon.field_140_timer = mSlingMudokon.mCodeMatches ? BaseGameObject::MakeTimer(30) : BaseGameObject::MakeTimer(10);

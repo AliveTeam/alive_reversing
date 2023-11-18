@@ -169,9 +169,9 @@ void SecurityDoor::VUpdate()
             if (mLastEventIdx != gEventSystem->mLastEventIndex)
             {
                 mLastEventIdx = gEventSystem->mLastEventIndex;
-                if (gEventSystem->mLastEvent != GameSpeakEvents::eNone_m1 && gEventSystem->mLastEvent != GameSpeakEvents::eSameAsLast_m2)
+                if (gEventSystem->mLastEvent != GameSpeakEvents::eNone && gEventSystem->mLastEvent != GameSpeakEvents::eSameAsLast)
                 {
-                    if (gEventSystem->mLastEvent == GameSpeakEvents::eSlig_Hi_27)
+                    if (gEventSystem->mLastEvent == GameSpeakEvents::eSlig_Hi)
                     {
                         mState = SecurityDoorStates::eWaitingToSayPassword_4;
                         mTimer = MakeTimer(30);
@@ -200,7 +200,7 @@ void SecurityDoor::VUpdate()
 
         case SecurityDoorStates::ePreparingToSayPassword_5:
             mMaxIdx2 = 0;
-            mMaxIdx = static_cast<s16>(GameSpeak::FillBuffer(mCodeConverted, mPasswordBuffer));
+            mMaxIdx = GameSpeak::FillBuffer(mCodeConverted, mPasswordBuffer);
             mState = SecurityDoorStates::eSayingPassword_6;
             return;
 
@@ -209,15 +209,15 @@ void SecurityDoor::VUpdate()
             const GameSpeakEvents code = Code_LookUp(mCodeConverted, mMaxIdx2, mCodeLength);
             switch (code)
             {
-                case GameSpeakEvents::Slig_BS_5:
+                case GameSpeakEvents::eSlig_BS:
                     Slig_GameSpeak_SFX(SligSpeak::eBullshit_5, 127, -100, nullptr);
                     break;
 
-                case GameSpeakEvents::Slig_Laugh_8:
+                case GameSpeakEvents::eSlig_Laugh:
                     Slig_GameSpeak_SFX(SligSpeak::eLaugh_3, 127, -100, nullptr);
                     break;
 
-                case GameSpeakEvents::Slig_BS2_7:
+                case GameSpeakEvents::eSlig_BS2:
                     Slig_GameSpeak_SFX(SligSpeak::eBullshit2_7, 127, -100, nullptr);
                     break;
             }
@@ -249,7 +249,7 @@ void SecurityDoor::VUpdate()
                 if (mLastEventIdx != gEventSystem->mLastEventIndex)
                 {
                     mLastEventIdx = gEventSystem->mLastEventIndex;
-                    if (gEventSystem->mLastEvent != GameSpeakEvents::eNone_m1 && gEventSystem->mLastEvent != GameSpeakEvents::eSameAsLast_m2)
+                    if (gEventSystem->mLastEvent != GameSpeakEvents::eNone && gEventSystem->mLastEvent != GameSpeakEvents::eSameAsLast)
                     {
                         mBufferStartIdx = static_cast<s16>(gEventSystem->mLastEventIndex);
                         mState = SecurityDoorStates::eCheckingIfPasswordMatches_10;
@@ -267,23 +267,23 @@ void SecurityDoor::VUpdate()
         {
             switch (gEventSystem->MatchBuffer(mPasswordBuffer, mMaxIdx, mBufferStartIdx))
             {
-                case GameSpeakMatch::eNoMatch_0:
+                case GameSpeakMatch::eNoMatch:
                     mState = SecurityDoorStates::eFailure_12;
                     mTimer = MakeTimer(15);
                     break;
 
-                case GameSpeakMatch::eFullMatch_1:
+                case GameSpeakMatch::eFullMatch:
                     mState = SecurityDoorStates::eSuccess_11;
                     mTimer = MakeTimer(15);
                     break;
 
-                case GameSpeakMatch::ePartMatch_2:
+                case GameSpeakMatch::ePartMatch:
                     if (mLastEventIdx != gEventSystem->mLastEventIndex)
                     {
                         mLastEventIdx = gEventSystem->mLastEventIndex;
                     }
 
-                    if (gEventSystem->mLastEvent == GameSpeakEvents::eNone_m1)
+                    if (gEventSystem->mLastEvent == GameSpeakEvents::eNone)
                     {
                         mState = SecurityDoorStates::eFailure_12;
                         mTimer = sGnFrame;

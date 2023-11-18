@@ -875,7 +875,7 @@ s16 Scrab::Brain_0_Patrol()
             if (GetCurrentMotion() == eScrabMotions::Motion_0_Stand)
             {
                 field_194_speak = LastSpeak();
-                if (field_1A2_speak_counter < field_1A0_speak_max && (field_194_speak == GameSpeakEvents::eScrab_Howl_53 || field_194_speak == GameSpeakEvents::eScrab_Shriek_54))
+                if (field_1A2_speak_counter < field_1A0_speak_max && (field_194_speak == GameSpeakEvents::eScrab_Howl || field_194_speak == GameSpeakEvents::eScrab_Shriek))
                 {
                     return Scrab_Brain_0_Patrol::eBrain0_ToSpeak_8;
                 }
@@ -902,7 +902,7 @@ s16 Scrab::Brain_0_Patrol()
 
         case Scrab_Brain_0_Patrol::eBrain0_Moving_1:
             field_194_speak = Scrab::LastSpeak();
-            if (field_1A2_speak_counter >= field_1A0_speak_max || (field_194_speak != GameSpeakEvents::eScrab_Howl_53 && field_194_speak != GameSpeakEvents::eScrab_Shriek_54))
+            if (field_1A2_speak_counter >= field_1A0_speak_max || (field_194_speak != GameSpeakEvents::eScrab_Howl && field_194_speak != GameSpeakEvents::eScrab_Shriek))
             {
                 if (Find_Fleech())
                 {
@@ -963,7 +963,7 @@ s16 Scrab::Brain_0_Patrol()
 
         case Scrab_Brain_0_Patrol::eBrain0_Idle_3:
             field_194_speak = LastSpeak();
-            if (field_1A2_speak_counter >= field_1A0_speak_max || (field_194_speak != GameSpeakEvents::eScrab_Howl_53 && field_194_speak != GameSpeakEvents::eScrab_Shriek_54))
+            if (field_1A2_speak_counter >= field_1A0_speak_max || (field_194_speak != GameSpeakEvents::eScrab_Howl && field_194_speak != GameSpeakEvents::eScrab_Shriek))
             {
                 if (Find_Fleech())
                 {
@@ -1046,13 +1046,13 @@ s16 Scrab::Brain_0_Patrol()
 
             field_1A2_speak_counter++;
 
-            if (field_194_speak == GameSpeakEvents::eScrab_Shriek_54)
+            if (field_194_speak == GameSpeakEvents::eScrab_Shriek)
             {
                 SetNextMotion(eScrabMotions::Motion_30_Shriek);
                 field_154_movement_timer = sGnFrame;
                 return Scrab_Brain_0_Patrol::eBrain0_Shriek_5;
             }
-            else if (field_194_speak == GameSpeakEvents::eScrab_Howl_53)
+            else if (field_194_speak == GameSpeakEvents::eScrab_Howl)
             {
                 SetNextMotion(eScrabMotions::Motion_26_HowlBegin);
                 return Scrab_Brain_0_Patrol::eBrain0_Howling_4;
@@ -1165,8 +1165,8 @@ s16 Scrab::Brain_1_ChasingEnemy()
             {
                 field_194_speak = LastSpeak();
                 if (field_1A2_speak_counter < field_1A0_speak_max
-                    && (LastSpeak() == GameSpeakEvents::eScrab_Howl_53
-                        || LastSpeak() == GameSpeakEvents::eScrab_Shriek_54))
+                    && (LastSpeak() == GameSpeakEvents::eScrab_Howl
+                        || LastSpeak() == GameSpeakEvents::eScrab_Shriek))
                 {
                     return Brain_1_ChasingEnemy::eBrain1_PreparingToHowlOrShriek_15;
                 }
@@ -1407,14 +1407,14 @@ s16 Scrab::Brain_1_ChasingEnemy()
             }
 
             field_1A2_speak_counter++;
-            if (field_194_speak == GameSpeakEvents::eScrab_Shriek_54)
+            if (field_194_speak == GameSpeakEvents::eScrab_Shriek)
             {
                 SetNextMotion(eScrabMotions::Motion_30_Shriek);
                 field_154_movement_timer = sGnFrame;
                 return Brain_1_ChasingEnemy::eBrain1_Shriek_14;
             }
 
-            if (field_194_speak != GameSpeakEvents::eScrab_Howl_53)
+            if (field_194_speak != GameSpeakEvents::eScrab_Howl)
             {
                 return mBrainSubState;
             }
@@ -1443,8 +1443,8 @@ s16 Scrab::Brain_ChasingEnemy_State_2_Running(BaseAliveGameObject* pObj)
 {
     field_194_speak = LastSpeak();
     if (field_1A2_speak_counter < field_1A0_speak_max
-        && (LastSpeak() == GameSpeakEvents::eScrab_Howl_53
-            || LastSpeak() == GameSpeakEvents::eScrab_Shriek_54))
+        && (LastSpeak() == GameSpeakEvents::eScrab_Howl
+            || LastSpeak() == GameSpeakEvents::eScrab_Shriek))
     {
         SetNextMotion(eScrabMotions::Motion_0_Stand);
         return Brain_1_ChasingEnemy::eBrain1_PreparingToHowlOrShriek_15;
@@ -2939,7 +2939,7 @@ void Scrab::Motion_26_HowlBegin()
             Scrab_SFX(ScrabSounds::eYell_8, 0, Math_RandomRange(-1600, -900), 1);
             if (BrainIs(&Scrab::Brain_5_Possessed))
             {
-                gEventSystem->PushEvent(GameSpeakEvents::eScrab_Howl_53);
+                gEventSystem->PushEvent(GameSpeakEvents::eScrab_Howl);
             }
         }
     }
@@ -3037,7 +3037,7 @@ void Scrab::Motion_30_Shriek()
             Scrab_SFX(ScrabSounds::eHowl_0, 0, 0x7FFF, 1);
             if (BrainIs(&Scrab::Brain_5_Possessed))
             {
-                gEventSystem->PushEvent(GameSpeakEvents::eScrab_Shriek_54);
+                gEventSystem->PushEvent(GameSpeakEvents::eScrab_Shriek);
             }
         }
     }
@@ -4225,18 +4225,18 @@ GameSpeakEvents Scrab::LastSpeak()
 {
     if (!gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 1))
     {
-        return GameSpeakEvents::eNone_m1;
+        return GameSpeakEvents::eNone;
     }
 
     if (field_17C_last_event == gEventSystem->mLastEventIndex)
     {
-        if (gEventSystem->mLastEvent == GameSpeakEvents::eNone_m1)
+        if (gEventSystem->mLastEvent == GameSpeakEvents::eNone)
         {
-            return GameSpeakEvents::eNone_m1;
+            return GameSpeakEvents::eNone;
         }
         else
         {
-            return GameSpeakEvents::eSameAsLast_m2;
+            return GameSpeakEvents::eSameAsLast;
         }
     }
     else

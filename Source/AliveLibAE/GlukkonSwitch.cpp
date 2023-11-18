@@ -120,16 +120,16 @@ void GlukkonSwitch::VUpdate()
     }
 
     const s32 lastEventIdx = gEventSystem->mLastEventIndex;
-    GameSpeakEvents lastEventIdx2 = GameSpeakEvents::eNone_m1;
+    GameSpeakEvents lastEventIdx2 = GameSpeakEvents::eNone;
     if (mLastEventIdx == lastEventIdx)
     {
-        if (gEventSystem->mLastEvent == GameSpeakEvents::eNone_m1)
+        if (gEventSystem->mLastEvent == GameSpeakEvents::eNone)
         {
-            lastEventIdx2 = GameSpeakEvents::eNone_m1;
+            lastEventIdx2 = GameSpeakEvents::eNone;
         }
         else
         {
-            lastEventIdx2 = GameSpeakEvents::eSameAsLast_m2;
+            lastEventIdx2 = GameSpeakEvents::eSameAsLast;
         }
     }
     else
@@ -184,7 +184,7 @@ void GlukkonSwitch::VUpdate()
                 return;
             }
 
-            if (lastEventIdx2 == GameSpeakEvents::eNone_m1 || lastEventIdx2 == GameSpeakEvents::eSameAsLast_m2)
+            if (lastEventIdx2 == GameSpeakEvents::eNone || lastEventIdx2 == GameSpeakEvents::eSameAsLast)
             {
                 if (static_cast<s32>(sGnFrame) > mTimer)
                 {
@@ -193,14 +193,14 @@ void GlukkonSwitch::VUpdate()
             }
             else
             {
-                if (lastEventIdx2 == GameSpeakEvents::eGlukkon_Hey_36)
+                if (lastEventIdx2 == GameSpeakEvents::eGlukkon_Hey)
                 {
                     mState = 4;
                     mTimer = MakeTimer(30);
                 }
                 else
                 {
-                    if (lastEventIdx2 < GameSpeakEvents::eGlukkon_Hey_36)
+                    if (lastEventIdx2 < GameSpeakEvents::eGlukkon_Hey)
                     {
                         mState = 8;
                         mTimer = MakeTimer(30);
@@ -229,7 +229,7 @@ void GlukkonSwitch::VUpdate()
         case 5:
             if (PlayerNearMe())
             {
-                if (lastEventIdx2 == GameSpeakEvents::eNone_m1 || lastEventIdx2 == GameSpeakEvents::eSameAsLast_m2)
+                if (lastEventIdx2 == GameSpeakEvents::eNone || lastEventIdx2 == GameSpeakEvents::eSameAsLast)
                 {
                     if (static_cast<s32>(sGnFrame) > mTimer)
                     {
@@ -237,12 +237,12 @@ void GlukkonSwitch::VUpdate()
                         mTimer = MakeTimer(15);
                     }
                 }
-                else if (lastEventIdx2 == GameSpeakEvents::eGlukkon_DoIt_37)
+                else if (lastEventIdx2 == GameSpeakEvents::eGlukkon_DoIt)
                 {
                     mState = 6;
                     mTimer = MakeTimer(30);
                 }
-                else if (lastEventIdx2 < GameSpeakEvents::eGlukkon_Hey_36)
+                else if (lastEventIdx2 < GameSpeakEvents::eGlukkon_Hey)
                 {
                     mState = 8;
                     mTimer = MakeTimer(30);

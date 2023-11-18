@@ -1296,7 +1296,7 @@ s16 Abe::DoGameSpeak(u16 input)
     {
         if (input & InputCommands::eGameSpeak2)
         {
-            gEventSystem->VPushEvent(GameSpeakEvents::eAbe_FollowMe_10);
+            gEventSystem->PushEvent(GameSpeakEvents::eAbe_FollowMe);
             Mudokon_SFX(MudSounds::eFollowMe_4, 0, 0, this);
             if (mCurrentMotion == eAbeMotions::Motion_14_Speak)
             {
@@ -1306,7 +1306,7 @@ s16 Abe::DoGameSpeak(u16 input)
         }
         if (input & InputCommands::eGameSpeak4)
         {
-            gEventSystem->VPushEvent(GameSpeakEvents::eAbe_Wait_12);
+            gEventSystem->PushEvent(GameSpeakEvents::eAbe_Wait);
             Mudokon_SFX(MudSounds::eWait_6, 0, 0, this);
             if (mCurrentMotion == eAbeMotions::Motion_14_Speak)
             {
@@ -1316,7 +1316,7 @@ s16 Abe::DoGameSpeak(u16 input)
         }
         if (input & InputCommands::eGameSpeak1)
         {
-            gEventSystem->VPushEvent(GameSpeakEvents::eAbe_Hello_9);
+            gEventSystem->PushEvent(GameSpeakEvents::eAbe_Hello);
             Mudokon_SFX(MudSounds::eHello_3, 0, 0, this);
             if (mCurrentMotion == eAbeMotions::Motion_9_Speak)
             {
@@ -1326,7 +1326,7 @@ s16 Abe::DoGameSpeak(u16 input)
         }
         if (input & InputCommands::eGameSpeak3)
         {
-            gEventSystem->VPushEvent(GameSpeakEvents::eAbe_Anger_11);
+            gEventSystem->PushEvent(GameSpeakEvents::eAbe_Anger);
             Mudokon_SFX(MudSounds::eAngry_5, 0, 0, this);
             if (mCurrentMotion == eAbeMotions::Motion_10_Speak)
             {
@@ -1340,7 +1340,7 @@ s16 Abe::DoGameSpeak(u16 input)
     {
         if (input & InputCommands::eGameSpeak6)
         {
-            gEventSystem->VPushEvent(GameSpeakEvents::eAbe_WhistleHigh_1);
+            gEventSystem->PushEvent(GameSpeakEvents::eAbe_WhistleHigh);
             Mudokon_SFX(MudSounds::eWhistleHigh_1, 0, 0, this);
             if (mCurrentMotion == eAbeMotions::Motion_9_Speak)
             {
@@ -1350,7 +1350,7 @@ s16 Abe::DoGameSpeak(u16 input)
         }
         if (input & InputCommands::eGameSpeak5)
         {
-            gEventSystem->VPushEvent(GameSpeakEvents::eAbe_WhistleLow_2);
+            gEventSystem->PushEvent(GameSpeakEvents::eAbe_WhistleLow);
             Mudokon_SFX(MudSounds::eWhistleLow_2, 0, 0, this);
             if (mCurrentMotion == eAbeMotions::Motion_8_Speak)
             {
@@ -1360,7 +1360,7 @@ s16 Abe::DoGameSpeak(u16 input)
         }
         if (input & InputCommands::eGameSpeak8)
         {
-            gEventSystem->VPushEvent(GameSpeakEvents::eAbe_Laugh_4);
+            gEventSystem->PushEvent(GameSpeakEvents::eAbe_Laugh);
             Mudokon_SFX(MudSounds::eLaugh1_8, 0, 0, this);
             if (mCurrentMotion == eAbeMotions::Motion_12_Speak)
             {
@@ -1370,7 +1370,7 @@ s16 Abe::DoGameSpeak(u16 input)
         }
         if (input & InputCommands::eGameSpeak7)
         {
-            gEventSystem->VPushEvent(GameSpeakEvents::eAbe_Fart_3);
+            gEventSystem->PushEvent(GameSpeakEvents::eAbe_Fart);
             Mudokon_SFX(MudSounds::eFart_7, 0, 0, this);
             if (gEnableFartGasCheat)
             {
@@ -1661,25 +1661,25 @@ void Abe::CrouchingGameSpeak()
     {
         if (field_10C_prev_held & InputCommands::eGameSpeak2)
         {
-            gEventSystem->VPushEvent(GameSpeakEvents::eAbe_FollowMe_10);
+            gEventSystem->PushEvent(GameSpeakEvents::eAbe_FollowMe);
             Mudokon_SFX(MudSounds::eFollowMe_4, 0, 0, this);
             mCurrentMotion = eAbeMotions::Motion_22_CrouchSpeak;
         }
         else if (field_10C_prev_held & InputCommands::eGameSpeak4)
         {
-            gEventSystem->VPushEvent(GameSpeakEvents::eAbe_Wait_12);
+            gEventSystem->PushEvent(GameSpeakEvents::eAbe_Wait);
             Mudokon_SFX(MudSounds::eWait_6, 0, 0, this);
             mCurrentMotion = eAbeMotions::Motion_23_CrouchSpeak;
         }
         else if (field_10C_prev_held & InputCommands::eGameSpeak1)
         {
-            gEventSystem->VPushEvent(GameSpeakEvents::eAbe_Hello_9);
+            gEventSystem->PushEvent(GameSpeakEvents::eAbe_Hello);
             Mudokon_SFX(MudSounds::eHello_3, 0, 0, this);
             mCurrentMotion = eAbeMotions::Motion_22_CrouchSpeak;
         }
         else if (field_10C_prev_held & InputCommands::eGameSpeak3)
         {
-            gEventSystem->VPushEvent(GameSpeakEvents::eAbe_Anger_11);
+            gEventSystem->PushEvent(GameSpeakEvents::eAbe_Anger);
             Mudokon_SFX(MudSounds::eAngry_5, 0, 0, this);
             mCurrentMotion = eAbeMotions::Motion_23_CrouchSpeak;
         }
@@ -1688,25 +1688,25 @@ void Abe::CrouchingGameSpeak()
     {
         if (field_10C_prev_held & InputCommands::eGameSpeak6)
         {
-            gEventSystem->VPushEvent(GameSpeakEvents::eAbe_WhistleHigh_1);
+            gEventSystem->PushEvent(GameSpeakEvents::eAbe_WhistleHigh);
             Mudokon_SFX(MudSounds::eWhistleHigh_1, 0, 0, this);
             mCurrentMotion = eAbeMotions::Motion_23_CrouchSpeak;
         }
         else if (field_10C_prev_held & InputCommands::eGameSpeak5)
         {
-            gEventSystem->VPushEvent(GameSpeakEvents::eAbe_WhistleLow_2);
+            gEventSystem->PushEvent(GameSpeakEvents::eAbe_WhistleLow);
             Mudokon_SFX(MudSounds::eWhistleLow_2, 0, 0, this);
             mCurrentMotion = eAbeMotions::Motion_22_CrouchSpeak;
         }
         else if (field_10C_prev_held & InputCommands::eGameSpeak8)
         {
-            gEventSystem->VPushEvent(GameSpeakEvents::eAbe_Laugh_4);
+            gEventSystem->PushEvent(GameSpeakEvents::eAbe_Laugh);
             Mudokon_SFX(MudSounds::eLaugh1_8, 0, 0, this);
             mCurrentMotion = eAbeMotions::Motion_23_CrouchSpeak;
         }
         else if (field_10C_prev_held & InputCommands::eGameSpeak7)
         {
-            gEventSystem->VPushEvent(GameSpeakEvents::eAbe_Fart_3);
+            gEventSystem->PushEvent(GameSpeakEvents::eAbe_Fart);
             Mudokon_SFX(MudSounds::eFart_7, 0, 0, this);
             if (gEnableFartGasCheat)
             {
@@ -7637,22 +7637,22 @@ void Abe::Motion_103_ElumIdle()
         {
             if (Input().IsAnyPressed(InputCommands::eGameSpeak2))
             {
-                gEventSystem->VPushEvent(GameSpeakEvents::eAbe_FollowMe_10);
+                gEventSystem->PushEvent(GameSpeakEvents::eAbe_FollowMe);
                 Mudokon_SFX(MudSounds::eFollowMe_4, 0, 0, this);
             }
             else if (Input().IsAnyPressed(InputCommands::eGameSpeak4))
             {
-                gEventSystem->VPushEvent(GameSpeakEvents::eAbe_Wait_12);
+                gEventSystem->PushEvent(GameSpeakEvents::eAbe_Wait);
                 Mudokon_SFX(MudSounds::eWait_6, 0, 0, this);
             }
             else if (Input().IsAnyPressed(InputCommands::eGameSpeak1))
             {
-                gEventSystem->VPushEvent(GameSpeakEvents::eAbe_Hello_9);
+                gEventSystem->PushEvent(GameSpeakEvents::eAbe_Hello);
                 Mudokon_SFX(MudSounds::eHello_3, 0, 0, this);
             }
             else if (Input().IsAnyPressed(InputCommands::eGameSpeak3))
             {
-                gEventSystem->VPushEvent(GameSpeakEvents::eAbe_Anger_11);
+                gEventSystem->PushEvent(GameSpeakEvents::eAbe_Anger);
                 Mudokon_SFX(MudSounds::eAngry_5, 0, 0, this);
             }
         }
@@ -7661,22 +7661,22 @@ void Abe::Motion_103_ElumIdle()
         {
             if (Input().IsAnyPressed(InputCommands::eGameSpeak6))
             {
-                gEventSystem->VPushEvent(GameSpeakEvents::eAbe_WhistleHigh_1);
+                gEventSystem->PushEvent(GameSpeakEvents::eAbe_WhistleHigh);
                 Mudokon_SFX(MudSounds::eWhistleHigh_1, 0, 0, this);
             }
             else if (Input().IsAnyPressed(InputCommands::eGameSpeak5))
             {
-                gEventSystem->VPushEvent(GameSpeakEvents::eAbe_WhistleLow_2);
+                gEventSystem->PushEvent(GameSpeakEvents::eAbe_WhistleLow);
                 Mudokon_SFX(MudSounds::eWhistleLow_2, 0, 0, this);
             }
             else if (Input().IsAnyPressed(InputCommands::eGameSpeak8))
             {
-                gEventSystem->VPushEvent(GameSpeakEvents::eAbe_Laugh_4);
+                gEventSystem->PushEvent(GameSpeakEvents::eAbe_Laugh);
                 Mudokon_SFX(MudSounds::eLaugh1_8, 0, 0, this);
             }
             else if (Input().IsAnyPressed(InputCommands::eGameSpeak7))
             {
-                gEventSystem->VPushEvent(GameSpeakEvents::eAbe_Fart_3);
+                gEventSystem->PushEvent(GameSpeakEvents::eAbe_Fart);
                 Mudokon_SFX(MudSounds::eFart_7, 0, 0, this);
             }
         }

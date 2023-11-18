@@ -4,34 +4,35 @@
 
 namespace AO {
 
+// NOTE: the order actually matters
 enum class GameSpeakEvents : s16
 {
-    eSameAsLast_m2 = -2,
-    eNone_m1 = -1,
-
-    eAbe_WhistleHigh_1 = 1,
-    eAbe_WhistleLow_2 = 2,
-    eAbe_Fart_3 = 3,
-    eAbe_Laugh_4 = 4,
-    eSlig_Bullshit1_5 = 5,
-    Slig_LookOut_6 = 6,
-    eSlig_Bullshit2_7 = 7,
-    eSlig_Laugh_8 = 8,
-    eAbe_Hello_9 = 9,
-    eAbe_FollowMe_10 = 10,
-    eAbe_Anger_11 = 11,
-    eAbe_Wait_12 = 12,
-    Slig_Hi_23 = 23,
-    Slig_HereBoy_24 = 24,
-    eSlig_GetHim_25 = 25,
-    eSlig_Freeze_27 = 27,
+    eSameAsLast = -2,
+    eNone = -1,
+    eUnknown_0 = 0,
+    eAbe_WhistleHigh = 1,
+    eAbe_WhistleLow = 2,
+    eAbe_Fart = 3,
+    eAbe_Laugh = 4,
+    eSlig_BS = 5,
+    eSlig_LookOut = 6,
+    eSlig_BS2 = 7,
+    eSlig_Laugh = 8,
+    eAbe_Hello = 9,
+    eAbe_FollowMe = 10,
+    eAbe_Anger = 11,
+    eAbe_Wait = 12,
+    eSlig_Hi = 23,
+    eSlig_HereBoy = 24,
+    eSlig_GetEm = 25,
+    eSlig_Freeze = 27,
 };
 
 enum class GameSpeakMatch : s16
 {
-    eNoMatch_0 = 0,
-    eFullMatch_1 = 1,
-    ePartMatch_2 = 2,
+    eNoMatch = 0,
+    eFullMatch = 1,
+    ePartMatch = 2,
 };
 
 class GameSpeak final : public ::BaseGameObject
@@ -40,17 +41,20 @@ public:
     GameSpeak();
     ~GameSpeak();
 
-    virtual void VScreenChanged() override;
     virtual void VUpdate() override;
+    virtual void VRender(OrderingTable& ot) override;
+    virtual void VScreenChanged() override;
 
-    // A new virtual that is never overridden as there are no other known super classes
-    virtual void VPushEvent(GameSpeakEvents event);
+    void PushEvent(GameSpeakEvents event);
 
-    void PushEvent_Impl(GameSpeakEvents event);
-    static s16 sub_40FA60(s32 code, u8* pBuffer);
     GameSpeakMatch MatchBuffer(u8* pBuffer, s16 bufferLen, s16 bufferStartIdx);
+    static s16 FillBuffer(s32 code, u8* pBuffer);
 
-    GameSpeakEvents mLastEvent = GameSpeakEvents::eNone_m1;
+private:
+    void PushEvent_Impl(GameSpeakEvents event);
+
+public:
+    GameSpeakEvents mLastEvent = GameSpeakEvents::eNone;
     u32 mLastEventFrame = 0;
     s32 mLastEventIndex = 0;
     s8 mEventBuffer[32] = {};

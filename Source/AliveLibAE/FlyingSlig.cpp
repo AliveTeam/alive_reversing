@@ -1482,28 +1482,28 @@ void FlyingSlig::Motion_8_GameSpeak()
             switch (field_17D_next_speak)
             {
                 case SligSpeak::eHi_0:
-                    gEventSystem->PushEvent(GameSpeakEvents::eSlig_Hi_27);
+                    gEventSystem->PushEvent(GameSpeakEvents::eSlig_Hi);
                     break;
                 case SligSpeak::eHereBoy_1:
-                    gEventSystem->PushEvent(GameSpeakEvents::eSlig_HereBoy_28);
+                    gEventSystem->PushEvent(GameSpeakEvents::eSlig_HereBoy);
                     break;
                 case SligSpeak::eGetHim_2:
-                    gEventSystem->PushEvent(GameSpeakEvents::eSlig_GetEm_29);
+                    gEventSystem->PushEvent(GameSpeakEvents::eSlig_GetEm);
                     break;
                 case SligSpeak::eLaugh_3:
-                    gEventSystem->PushEvent(GameSpeakEvents::Slig_Laugh_8);
+                    gEventSystem->PushEvent(GameSpeakEvents::eSlig_Laugh);
                     break;
                 case SligSpeak::eBullshit_5:
-                    gEventSystem->PushEvent(GameSpeakEvents::Slig_BS_5);
+                    gEventSystem->PushEvent(GameSpeakEvents::eSlig_BS);
                     break;
                 case SligSpeak::eLookOut_6:
-                    gEventSystem->PushEvent(GameSpeakEvents::Slig_LookOut_6);
+                    gEventSystem->PushEvent(GameSpeakEvents::eSlig_LookOut);
                     break;
                 case SligSpeak::eBullshit2_7:
-                    gEventSystem->PushEvent(GameSpeakEvents::Slig_BS2_7);
+                    gEventSystem->PushEvent(GameSpeakEvents::eSlig_BS2);
                     break;
                 case SligSpeak::eFreeze_8:
-                    gEventSystem->PushEvent(GameSpeakEvents::eSlig_Freeze_31);
+                    gEventSystem->PushEvent(GameSpeakEvents::eSlig_Freeze);
                     break;
                 default:
                     break;

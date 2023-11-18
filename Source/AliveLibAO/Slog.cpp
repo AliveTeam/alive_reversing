@@ -1733,7 +1733,7 @@ s16 Slog::Brain_0_ListeningToSlig()
     u16 result = 0;
     const FP xSkip = CamX_VoidSkipper(scaled1Directed + mListeningToSligId->mXPos, scaled1Directed, 0, &result);
 
-    GameSpeakEvents speak = GameSpeakEvents::eNone_m1;
+    GameSpeakEvents speak = GameSpeakEvents::eNone;
     switch (mBrainSubState)
     {
         case 0:
@@ -1770,13 +1770,13 @@ s16 Slog::Brain_0_ListeningToSlig()
 
             if (mLastGameSpeakEvent == gEventSystem->mLastEventIndex)
             {
-                if (gEventSystem->mLastEvent == GameSpeakEvents::eNone_m1)
+                if (gEventSystem->mLastEvent == GameSpeakEvents::eNone)
                 {
-                    speak = GameSpeakEvents::eNone_m1;
+                    speak = GameSpeakEvents::eNone;
                 }
                 else
                 {
-                    speak = GameSpeakEvents::eSameAsLast_m2;
+                    speak = GameSpeakEvents::eSameAsLast;
                 }
             }
             else
@@ -1874,23 +1874,23 @@ s16 Slog::Brain_0_ListeningToSlig()
 
     switch (speak)
     {
-        case GameSpeakEvents::Slig_LookOut_6:
+        case GameSpeakEvents::eSlig_LookOut:
             DelayedResponse(2);
             return 6;
 
-        case GameSpeakEvents::Slig_Hi_23:
+        case GameSpeakEvents::eSlig_Hi:
             mWaitingCounter++;
             if (static_cast<s32>(sGnFrame) % 2)
             {
                 mWaitingCounter++;
             }
             [[fallthrough]];
-        case GameSpeakEvents::Slig_HereBoy_24:
+        case GameSpeakEvents::eSlig_HereBoy:
             mWaitingCounter++;
             mMultiUseTimer = sGnFrame - (Math_NextRandom() % 8) + 15;
             break;
 
-        case GameSpeakEvents::eSlig_GetHim_25:
+        case GameSpeakEvents::eSlig_GetEm:
         {
             mTarget = FindAbeMudOrSlig();
             if (mTarget)
@@ -2007,17 +2007,17 @@ s16 Slog::Brain_1_Idle()
         }
     }
 
-    GameSpeakEvents speak = GameSpeakEvents::eNone_m1;
+    GameSpeakEvents speak = GameSpeakEvents::eNone;
 
     if (mLastGameSpeakEvent == gEventSystem->mLastEventIndex)
     {
-        if (gEventSystem->mLastEvent == GameSpeakEvents::eNone_m1)
+        if (gEventSystem->mLastEvent == GameSpeakEvents::eNone)
         {
-            speak = GameSpeakEvents::eNone_m1;
+            speak = GameSpeakEvents::eNone;
         }
         else
         {
-            speak = GameSpeakEvents::eSameAsLast_m2;
+            speak = GameSpeakEvents::eSameAsLast;
         }
     }
     else
@@ -2026,7 +2026,7 @@ s16 Slog::Brain_1_Idle()
         mLastGameSpeakEvent = gEventSystem->mLastEventIndex;
     }
 
-    if (speak == GameSpeakEvents::Slig_HereBoy_24)
+    if (speak == GameSpeakEvents::eSlig_HereBoy)
     {
         // Listen to slig
         mBrainState = 0;
@@ -2242,17 +2242,17 @@ s16 Slog::Brain_2_ChasingAbe()
 {
     const s32 lastIdx = gEventSystem->mLastEventIndex;
 
-    GameSpeakEvents speak = GameSpeakEvents::eNone_m1;
+    GameSpeakEvents speak = GameSpeakEvents::eNone;
 
     if (mLastGameSpeakEvent == lastIdx)
     {
-        if (gEventSystem->mLastEvent == GameSpeakEvents::eNone_m1)
+        if (gEventSystem->mLastEvent == GameSpeakEvents::eNone)
         {
-            speak = GameSpeakEvents::eNone_m1;
+            speak = GameSpeakEvents::eNone;
         }
         else
         {
-            speak = GameSpeakEvents::eSameAsLast_m2;
+            speak = GameSpeakEvents::eSameAsLast;
         }
     }
     else
@@ -2261,7 +2261,7 @@ s16 Slog::Brain_2_ChasingAbe()
         speak = gEventSystem->mLastEvent;
     }
 
-    if (mListenToSligs && speak == GameSpeakEvents::Slig_HereBoy_24)
+    if (mListenToSligs && speak == GameSpeakEvents::eSlig_HereBoy)
     {
         // Listen to slig
         mBrainState = 0;

@@ -1438,27 +1438,27 @@ s16 Slig::GetNextMotionIncGameSpeak(u16 input)
     {
         if (input & InputCommands::eGameSpeak2)
         {
-            gEventSystem->VPushEvent(GameSpeakEvents::Slig_HereBoy_24);
+            gEventSystem->PushEvent(GameSpeakEvents::eSlig_HereBoy);
             Slig_GameSpeak_SFX(SligSpeak::eHereBoy_1, 0, mGameSpeakPitchMin, this);
             return eSligMotions::Motion_21_SpeakHereBoy;
         }
         if (input & InputCommands::eGameSpeak1)
         {
-            gEventSystem->VPushEvent(GameSpeakEvents::Slig_Hi_23);
+            gEventSystem->PushEvent(GameSpeakEvents::eSlig_Hi);
             Slig_GameSpeak_SFX(SligSpeak::eHi_0, 0, mGameSpeakPitchMin, this);
             return eSligMotions::Motion_22_SpeakHi;
         }
 
         if (input & InputCommands::eGameSpeak3)
         {
-            gEventSystem->VPushEvent(GameSpeakEvents::eSlig_Freeze_27);
+            gEventSystem->PushEvent(GameSpeakEvents::eSlig_Freeze);
             Slig_GameSpeak_SFX(SligSpeak::eFreeze_8, 0, mGameSpeakPitchMin, this);
             return eSligMotions::Motion_23_SpeakFreeze;
         }
 
         if (input & InputCommands::eGameSpeak4)
         {
-            gEventSystem->VPushEvent(GameSpeakEvents::eSlig_GetHim_25);
+            gEventSystem->PushEvent(GameSpeakEvents::eSlig_GetEm);
             Slig_GameSpeak_SFX(SligSpeak::eGetHim_2, 0, mGameSpeakPitchMin, this);
             return eSligMotions::Motion_24_SpeakGetHim;
         }
@@ -1468,28 +1468,28 @@ s16 Slig::GetNextMotionIncGameSpeak(u16 input)
     {
         if (input & InputCommands::eGameSpeak8)
         {
-            gEventSystem->VPushEvent(GameSpeakEvents::eSlig_Laugh_8);
+            gEventSystem->PushEvent(GameSpeakEvents::eSlig_Laugh);
             Slig_GameSpeak_SFX(SligSpeak::eLaugh_7, 0, mGameSpeakPitchMin, this);
             return eSligMotions::Motion_25_SpeakLaugh;
         }
 
         if (input & InputCommands::eGameSpeak6)
         {
-            gEventSystem->VPushEvent(GameSpeakEvents::eSlig_Bullshit1_5);
+            gEventSystem->PushEvent(GameSpeakEvents::eSlig_BS);
             Slig_GameSpeak_SFX(SligSpeak::eBullshit_4, 0, mGameSpeakPitchMin, this);
             return eSligMotions::Motion_26_SpeakBullshit1;
         }
 
         if (input & InputCommands::eGameSpeak7)
         {
-            gEventSystem->VPushEvent(GameSpeakEvents::Slig_LookOut_6);
+            gEventSystem->PushEvent(GameSpeakEvents::eSlig_LookOut);
             Slig_GameSpeak_SFX(SligSpeak::eLookOut_5, 0, mGameSpeakPitchMin, this);
             return eSligMotions::Motion_27_SpeakLookOut;
         }
 
         if (input & InputCommands::eGameSpeak5)
         {
-            gEventSystem->VPushEvent(GameSpeakEvents::eSlig_Bullshit2_7);
+            gEventSystem->PushEvent(GameSpeakEvents::eSlig_BS2);
             Slig_GameSpeak_SFX(SligSpeak::eBullshit2_6, 0, mGameSpeakPitchMin, this);
             return eSligMotions::Motion_28_SpeakBullshit2;
         }
@@ -1676,18 +1676,18 @@ s16 Slig::MoveLift(FP ySpeed)
 
 void Slig::GameSpeakResponse()
 {
-    GameSpeakEvents speak = GameSpeakEvents::eNone_m1;
+    GameSpeakEvents speak = GameSpeakEvents::eNone;
 
     const s32 lastIdx = gEventSystem->mLastEventIndex;
     if (field_15C_last_event_index == lastIdx)
     {
-        if (gEventSystem->mLastEvent == GameSpeakEvents::eNone_m1)
+        if (gEventSystem->mLastEvent == GameSpeakEvents::eNone)
         {
-            speak = GameSpeakEvents::eNone_m1;
+            speak = GameSpeakEvents::eNone;
         }
         else
         {
-            speak = GameSpeakEvents::eSameAsLast_m2;
+            speak = GameSpeakEvents::eSameAsLast;
         }
     }
     else
@@ -1698,8 +1698,8 @@ void Slig::GameSpeakResponse()
 
     switch (speak)
     {
-        case GameSpeakEvents::eAbe_WhistleHigh_1:
-        case GameSpeakEvents::eAbe_WhistleLow_2:
+        case GameSpeakEvents::eAbe_WhistleHigh:
+        case GameSpeakEvents::eAbe_WhistleLow:
             if (!(Math_NextRandom() & 4))
             {
                 field_258_next_gamespeak_motion = eSligMotions::Motion_26_SpeakBullshit1;
@@ -1710,18 +1710,18 @@ void Slig::GameSpeakResponse()
             }
             break;
 
-        case GameSpeakEvents::eAbe_Fart_3:
-        case GameSpeakEvents::eAbe_Laugh_4:
-        case GameSpeakEvents::eSlig_Laugh_8:
-        case GameSpeakEvents::eSlig_GetHim_25:
+        case GameSpeakEvents::eAbe_Fart:
+        case GameSpeakEvents::eAbe_Laugh:
+        case GameSpeakEvents::eSlig_Laugh:
+        case GameSpeakEvents::eSlig_GetEm:
             field_258_next_gamespeak_motion = eSligMotions::Motion_32_Blurgh;
             return;
 
-        case GameSpeakEvents::eSlig_Bullshit1_5:
+        case GameSpeakEvents::eSlig_BS:
             field_258_next_gamespeak_motion = eSligMotions::Motion_26_SpeakBullshit1;
             break;
 
-        case GameSpeakEvents::Slig_LookOut_6:
+        case GameSpeakEvents::eSlig_LookOut:
             if (!(Math_NextRandom() & 4))
             {
                 field_258_next_gamespeak_motion = eSligMotions::Motion_30_SpeakWhat;
@@ -1732,17 +1732,17 @@ void Slig::GameSpeakResponse()
             }
             break;
 
-        case GameSpeakEvents::eSlig_Bullshit2_7:
+        case GameSpeakEvents::eSlig_BS2:
             field_258_next_gamespeak_motion = eSligMotions::Motion_28_SpeakBullshit2;
             break;
 
-        case GameSpeakEvents::eAbe_Hello_9:
-        case GameSpeakEvents::Slig_Hi_23:
+        case GameSpeakEvents::eAbe_Hello:
+        case GameSpeakEvents::eSlig_Hi:
             field_258_next_gamespeak_motion = eSligMotions::Motion_22_SpeakHi;
             break;
 
-        case GameSpeakEvents::eAbe_FollowMe_10:
-        case GameSpeakEvents::eAbe_Wait_12:
+        case GameSpeakEvents::eAbe_FollowMe:
+        case GameSpeakEvents::eAbe_Wait:
             if (Math_NextRandom() & 8)
             {
                 field_258_next_gamespeak_motion = eSligMotions::Motion_26_SpeakBullshit1;
@@ -1753,8 +1753,8 @@ void Slig::GameSpeakResponse()
             }
             break;
 
-        case GameSpeakEvents::eAbe_Anger_11:
-        case GameSpeakEvents::eSlig_Freeze_27:
+        case GameSpeakEvents::eAbe_Anger:
+        case GameSpeakEvents::eSlig_Freeze:
             field_258_next_gamespeak_motion = eSligMotions::Motion_25_SpeakLaugh;
             break;
 

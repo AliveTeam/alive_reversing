@@ -2,8 +2,10 @@
 #include "GameSpeak.hpp"
 #include "stdlib.hpp"
 #include "../relive_lib/Function.hpp"
+#include "../relive_lib/GameType.hpp"
 
-const s32 code_base_560F0C[12] = {
+// NOTE: AO only had 11 entries
+const static s32 sCodeBase[12] = {
     0,
     1,
     10,
@@ -15,7 +17,7 @@ const s32 code_base_560F0C[12] = {
     10000000,
     100000000,
     1000000000,
-    0,
+    0
 };
 
 s16 Code_Length(u32 code)
@@ -32,7 +34,7 @@ s32 Code_Convert(u16 code1, u16 code2)
 {
     if (code2)
     {
-        return code2 + code1 * code_base_560F0C[Code_Length(code2) + 1];
+        return code2 + code1 * sCodeBase[Code_Length(code2) + 1];
     }
     else
     {
@@ -40,10 +42,9 @@ s32 Code_Convert(u16 code1, u16 code2)
     }
 }
 
-
 GameSpeakEvents Code_LookUp(u32 code, u16 idx, u16 code_len)
 {
-    if (!code)
+    if (!code && GetGameType() == GameType::eAe)
     {
         return GameSpeakEvents::eUnknown_0;
     }
@@ -53,8 +54,7 @@ GameSpeakEvents Code_LookUp(u32 code, u16 idx, u16 code_len)
     {
         code_len_to_use = Code_Length(code);
     }
-
-    return static_cast<GameSpeakEvents>(code / code_base_560F0C[code_len_to_use - idx] % 10);
+    return static_cast<GameSpeakEvents>(code / sCodeBase[code_len_to_use - idx] % 10);
 }
 
 GameSpeak* gEventSystem = nullptr;
@@ -64,105 +64,18 @@ GameSpeak::GameSpeak()
 {
     SetSurviveDeathReset(true); // Dont destroy on loading save
     mEventBuffer[0] = -1;
-    mLastEvent = GameSpeakEvents::eNone_m1;
     SetType(ReliveTypes::eGameSpeak);
     mLastEventIndex = 0;
 }
 
-GameSpeakMatch GameSpeak::MatchBuffer(u8* pBuffer, s16 max_idx, s16 src_idx)
+void GameSpeak::VScreenChanged()
 {
-    if (src_idx == -1)
-    {
-        src_idx = static_cast<s16>(mLastEventIndex - max_idx);
-        if (src_idx < 0)
-        {
-            src_idx += ALIVE_COUNTOF(mEventBuffer);
-        }
-    }
-
-    s16 dst_idx = 0;
-    while (1)
-    {
-        if (mEventBuffer[src_idx] == static_cast<s8>(GameSpeakEvents::eNone_m1))
-        {
-            bool bContinue = true;
-            while (src_idx != mLastEventIndex)
-            {
-                src_idx++;
-                if (src_idx == ALIVE_COUNTOF(mEventBuffer))
-                {
-                    src_idx = 0;
-                }
-
-                if (mEventBuffer[src_idx] != -1)
-                {
-                    bContinue = false;
-                    break;
-                }
-            }
-
-            if (bContinue)
-            {
-                return GameSpeakMatch::ePartMatch_2;
-            }
-        }
-
-        if (pBuffer[dst_idx] != mEventBuffer[src_idx])
-        {
-            return GameSpeakMatch::eNoMatch_0;
-        }
-
-        if (dst_idx == max_idx - 1)
-        {
-            return GameSpeakMatch::eFullMatch_1;
-        }
-
-        if (src_idx == mLastEventIndex)
-        {
-            return GameSpeakMatch::ePartMatch_2;
-        }
-
-        src_idx++;
-        if (src_idx == ALIVE_COUNTOF(mEventBuffer))
-        {
-            src_idx = 0;
-        }
-        dst_idx++;
-    }
-}
-
-s32 GameSpeak::FillBuffer(s32 code, u8* pBufffer)
-{
-    const s16 len = Code_Length(code);
-    for (s16 idx = 0; idx < len; idx++)
-    {
-        pBufffer[idx] = static_cast<u8>(Code_LookUp(code, idx, len));
-    }
-    return len;
+    // Empty
 }
 
 GameSpeak::~GameSpeak()
 {
     gEventSystem = nullptr;
-}
-
-void GameSpeak::VRender(OrderingTable& /*ot*/)
-{
-    // Null @ 0x4DBF80
-}
-
-
-void GameSpeak::VScreenChanged()
-{
-    // Null @ 0x421AB0
-}
-
-void GameSpeak::VUpdate()
-{
-    if (mLastEvent != GameSpeakEvents::eNone_m1 && sGnFrame > mLastEventFrame)
-    {
-        PushEvent_Impl(GameSpeakEvents::eNone_m1);
-    }
 }
 
 void GameSpeak::PushEvent(GameSpeakEvents event)
@@ -184,4 +97,90 @@ void GameSpeak::PushEvent_Impl(GameSpeakEvents event)
     // TODO: This isn't ever used ??
     mEventBuffer[mLastEventIndex] = static_cast<s8>(event);
     mLastEvent = event;
+}
+
+GameSpeakMatch GameSpeak::MatchBuffer(u8* pBuffer, s16 bufferLen, s16 bufferStartIdx)
+{
+    if (bufferStartIdx == -1)
+    {
+        bufferStartIdx = static_cast<s16>(mLastEventIndex - bufferLen);
+        if (bufferStartIdx < 0)
+        {
+            bufferStartIdx += ALIVE_COUNTOF(mEventBuffer);
+        }
+    }
+
+    s16 pBufferIdx = 0;
+    while (1)
+    {
+        if (mEventBuffer[bufferStartIdx] == static_cast<s8>(GameSpeakEvents::eNone))
+        {
+            // Hit the end of events?
+            if (bufferStartIdx == mLastEventIndex)
+            {
+                // Partial match as we got to the end but ran out of events
+                return GameSpeakMatch::ePartMatch;
+            }
+
+            // To next event
+            bufferStartIdx++;
+            if (bufferStartIdx == ALIVE_COUNTOF(mEventBuffer))
+            {
+                bufferStartIdx = 0;
+            }
+        }
+
+        if (pBuffer[pBufferIdx] != mEventBuffer[bufferStartIdx])
+        {
+            // Buffers didn't match
+            return GameSpeakMatch::eNoMatch;
+        }
+
+        if (pBufferIdx == bufferLen - 1)
+        {
+            // Buffers have fully matched
+            return GameSpeakMatch::eFullMatch;
+        }
+
+        // Hit the end of events?
+        if (bufferStartIdx == mLastEventIndex)
+        {
+            // Partial match as we got to the end but ran out of events
+            return GameSpeakMatch::ePartMatch;
+        }
+
+        // To next event
+        bufferStartIdx++;
+        if (bufferStartIdx == ALIVE_COUNTOF(mEventBuffer))
+        {
+            bufferStartIdx = 0;
+        }
+
+        // To next source event
+        pBufferIdx++;
+    }
+}
+
+void GameSpeak::VUpdate()
+{
+    // If the last thing pushed wasn't nothing and its been around for a while then set the last event to nothing
+    if (mLastEvent != GameSpeakEvents::eNone && sGnFrame > mLastEventFrame)
+    {
+        PushEvent_Impl(GameSpeakEvents::eNone);
+    }
+}
+
+s16 GameSpeak::FillBuffer(s32 code, u8* pBuffer)
+{
+    const s16 len = Code_Length(code);
+    for (s16 idx = 0; idx < len; idx++)
+    {
+        pBuffer[idx] = static_cast<u8>(Code_LookUp(code, idx, len));
+    }
+    return len;
+}
+
+void GameSpeak::VRender(OrderingTable& /*ot*/)
+{
+    // Empty
 }

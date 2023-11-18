@@ -790,43 +790,43 @@ void Glukkon::Motion_11_Speak1()
                 switch (mSpeak)
                 {
                     case GlukkonSpeak::Hey_0:
-                        evToBePushed = GameSpeakEvents::eGlukkon_Hey_36;
+                        evToBePushed = GameSpeakEvents::eGlukkon_Hey;
                         break;
                     case GlukkonSpeak::DoIt_1:
-                        evToBePushed = GameSpeakEvents::eGlukkon_DoIt_37;
+                        evToBePushed = GameSpeakEvents::eGlukkon_DoIt;
                         break;
                     case GlukkonSpeak::StayHere_2:
-                        evToBePushed = GameSpeakEvents::eGlukkon_StayHere_38;
+                        evToBePushed = GameSpeakEvents::eGlukkon_StayHere;
                         break;
                     case GlukkonSpeak::Commere_3:
-                        evToBePushed = GameSpeakEvents::eGlukkon_Commere_39;
+                        evToBePushed = GameSpeakEvents::eGlukkon_Commere;
                         break;
                     case GlukkonSpeak::AllOYa_4:
-                        evToBePushed = GameSpeakEvents::eGlukkon_AllOYa_40;
+                        evToBePushed = GameSpeakEvents::eGlukkon_AllOYa;
                         break;
                     case GlukkonSpeak::Heh_5:
-                        evToBePushed = GameSpeakEvents::eGlukkon_Heh_41;
+                        evToBePushed = GameSpeakEvents::eGlukkon_Heh;
                         break;
                     case GlukkonSpeak::Help_6:
-                        evToBePushed = GameSpeakEvents::eGlukkon_Help_42;
+                        evToBePushed = GameSpeakEvents::eGlukkon_Help;
                         break;
                     case GlukkonSpeak::Laugh_7:
-                        evToBePushed = GameSpeakEvents::eGlukkon_Laugh_43;
+                        evToBePushed = GameSpeakEvents::eGlukkon_Laugh;
                         break;
                     case GlukkonSpeak::KillEm_8:
-                        evToBePushed = GameSpeakEvents::eGlukkon_KillEm_44;
+                        evToBePushed = GameSpeakEvents::eGlukkon_KillEm;
                         break;
                     case GlukkonSpeak::Unused_9:
-                        evToBePushed = GameSpeakEvents::eGlukkon_Unknown_45;
+                        evToBePushed = GameSpeakEvents::eGlukkon_Unknown;
                         break;
                     case GlukkonSpeak::What_11:
-                        evToBePushed = GameSpeakEvents::eGlukkon_What_47;
+                        evToBePushed = GameSpeakEvents::eGlukkon_What;
                         break;
                     default:
-                        evToBePushed = GameSpeakEvents::eGlukkon_None_35;
+                        evToBePushed = GameSpeakEvents::eGlukkon_None;
                         break;
                 }
-                if (evToBePushed != GameSpeakEvents::eGlukkon_None_35)
+                if (evToBePushed != GameSpeakEvents::eGlukkon_None)
                 {
                     gEventSystem->PushEvent(evToBePushed);
                 }
