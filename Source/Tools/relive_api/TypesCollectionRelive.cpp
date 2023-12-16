@@ -39,7 +39,7 @@ void TypesCollectionRelive::AddTlvsToJsonArray(jsonxx::Array& array)
 void TypesCollectionRelive::AddReliveTypes()
 {
 #define REGISTER_TYPE_RELIVE(TlvWrapperType) mTlvFactoryRelive.DoRegisterType<TlvWrapperType>(*this)
-
+/*
     REGISTER_TYPE_RELIVE(ReliveTlvs::Path_TimedMine);
     REGISTER_TYPE_RELIVE(ReliveTlvs::Path_ElectricWall);
     REGISTER_TYPE_RELIVE(ReliveTlvs::Path_Mudokon);
@@ -169,6 +169,7 @@ void TypesCollectionRelive::AddReliveTypes()
     REGISTER_TYPE_RELIVE(ReliveTlvs::Path_Honey);
     REGISTER_TYPE_RELIVE(ReliveTlvs::Path_HoneyDripTarget);
     REGISTER_TYPE_RELIVE(ReliveTlvs::Path_Elum);
+*/
 
 #undef REGISTER_TYPE_RELIVE
 

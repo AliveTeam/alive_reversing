@@ -5,6 +5,7 @@
 #include "../../relive_lib/data_conversion/relive_tlvs.hpp"
 #include "../../relive_lib/AnimResources.hpp"
 
+/*
 #define CTOR_RELIVE(className, tlvEnumType)\
     className() : TlvObjectBaseRelive(sizeof(::className), tlvEnumType, className::kClassName, &mTlv)\
     {\
@@ -2183,3 +2184,4 @@ struct Path_Elum final : public ReliveAPI::TlvObjectBaseRelive
 
 #undef EMPTY_CTOR_RELIVE
 #undef CTOR_RELIVE
+*/
