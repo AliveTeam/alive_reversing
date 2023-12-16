@@ -130,15 +130,15 @@ BirdPortal::~BirdPortal()
     Path::TLV_Reset(mTlvInfo, -1, 0, 0);
     if (mState >= PortalStates::PortalExit_SetPosition_17)
     {
-        if (sActiveHero)
+        if (gAbe)
         {
             if (mSpriteScale == FP_FromInteger(1))
             {
-                sActiveHero->GetAnimation().SetRenderLayer(Layer::eLayer_AbeMenu_32);
+                gAbe->GetAnimation().SetRenderLayer(Layer::eLayer_AbeMenu_32);
             }
             else
             {
-                sActiveHero->GetAnimation().SetRenderLayer(Layer::eLayer_AbeMenu_Half_13);
+                gAbe->GetAnimation().SetRenderLayer(Layer::eLayer_AbeMenu_Half_13);
             }
         }
     }
@@ -494,16 +494,16 @@ void BirdPortal::VUpdate()
                     {
                         SfxPlayMono(relive::SoundEffects::Dove, 70);
                         pDoveMem->SetSpriteScale(mSpriteScale);
-                        pDoveMem->AsJoin(sActiveHero->mXPos, FP_FromInteger(Math_RandomRange(-36, 4)) + sActiveHero->mYPos);
+                        pDoveMem->AsJoin(gAbe->mXPos, FP_FromInteger(Math_RandomRange(-36, 4)) + gAbe->mYPos);
                     }
 
                     mReceivedDovesCount++;
                     if (mReceivedDovesCount == 6)
                     {
                         mOrbWhirlWind->ToSpin(
-                            sActiveHero->mXPos,
-                            sActiveHero->mYPos - (sActiveHero->GetSpriteScale() * FP_FromInteger(38)),
-                            sActiveHero);
+                            gAbe->mXPos,
+                            gAbe->mYPos - (gAbe->GetSpriteScale() * FP_FromInteger(38)),
+                            gAbe);
                         mOrbWhirlWind = nullptr;
                     }
                 }
@@ -513,12 +513,12 @@ void BirdPortal::VUpdate()
         case PortalStates::GetShrykull_9:
             if (static_cast<s32>(sGnFrame) >= mTimer)
             {
-                sActiveHero->field_168_ring_pulse_timer = MakeTimer(32000);
-                sActiveHero->field_16C_bHaveShrykull = true;
+                gAbe->field_168_ring_pulse_timer = MakeTimer(32000);
+                gAbe->field_16C_bHaveShrykull = true;
                 mState = PortalStates::CollapseTerminators_10;
-				if (sActiveHero->mCurrentMotion == eAbeMotions::Motion_150_Chant)
+				if (gAbe->mCurrentMotion == eAbeMotions::Motion_150_Chant)
                 {
-                    sActiveHero->ChangeChantState(0);
+                    gAbe->ChangeChantState(0);
                 }
             }
             break;
@@ -717,21 +717,21 @@ void BirdPortal::VGiveShrykull(s16 bPlaySound)
         mReceivedDovesCount = 0;
 
         mOrbWhirlWind = relive_new OrbWhirlWind(
-            sActiveHero->mXPos,
-            sActiveHero->mYPos - (sActiveHero->GetSpriteScale() * FP_FromInteger(38)),
-            sActiveHero->GetSpriteScale());
+            gAbe->mXPos,
+            gAbe->mYPos - (gAbe->GetSpriteScale() * FP_FromInteger(38)),
+            gAbe->GetSpriteScale());
 
-        if (sActiveHero->mCurrentMotion == eAbeMotions::Motion_150_Chant)
+        if (gAbe->mCurrentMotion == eAbeMotions::Motion_150_Chant)
         {
-            sActiveHero->ChangeChantState(1);
+            gAbe->ChangeChantState(1);
         }
     }
     else
     {
         mState = PortalStates::CollapseTerminators_10;
-        if ((mPortalType == relive::Path_BirdPortal::PortalType::eWorker || mPortalType == relive::Path_BirdPortal::PortalType::eShrykull) && sActiveHero->mCurrentMotion == eAbeMotions::Motion_150_Chant)
+        if ((mPortalType == relive::Path_BirdPortal::PortalType::eWorker || mPortalType == relive::Path_BirdPortal::PortalType::eShrykull) && gAbe->mCurrentMotion == eAbeMotions::Motion_150_Chant)
         {
-            sActiveHero->ChangeChantState(0);
+            gAbe->ChangeChantState(0);
         }
     }
 
@@ -862,17 +862,17 @@ void BirdPortal::VExitPortal()
         if (pPortalExitTlv->mScale == relive::reliveScale::eHalf)
         {
             mSpriteScale = FP_FromDouble(0.5);
-            sActiveHero->GetAnimation().SetRenderLayer(Layer::eLayer_InBirdPortal_Half_11);
+            gAbe->GetAnimation().SetRenderLayer(Layer::eLayer_InBirdPortal_Half_11);
         }
         else
         {
             mSpriteScale = FP_FromInteger(1);
-            sActiveHero->GetAnimation().SetRenderLayer(Layer::eLayer_InBirdPortal_30);
+            gAbe->GetAnimation().SetRenderLayer(Layer::eLayer_InBirdPortal_30);
         }
 
-        sActiveHero->SetSpriteScale(mSpriteScale);
-        sActiveHero->mCurrentLevel = gMap.mCurrentLevel;
-        sActiveHero->mCurrentPath = gMap.mCurrentPath;
+        gAbe->SetSpriteScale(mSpriteScale);
+        gAbe->mCurrentLevel = gMap.mCurrentLevel;
+        gAbe->mCurrentPath = gMap.mCurrentPath;
 
         mState = PortalStates::PortalExit_SetPosition_17;
     }
@@ -920,7 +920,7 @@ void BirdPortal::VGetMapChange(EReliveLevelIds* level, u16* path, u16* camera, C
     }
 
     // Negative cases - dead code ??
-    if (sActiveHero->mParamoniaDone && sActiveHero->mScrabaniaDone)
+    if (gAbe->mParamoniaDone && gAbe->mScrabaniaDone)
     {
         *movieId = 1617 - (10000 * mMovieId);
         *screenChangeEffect = CameraSwapEffects::ePlay1FMV_5;

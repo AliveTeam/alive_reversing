@@ -213,7 +213,7 @@ void Bat::VUpdate()
                 SetDead(true);
             }
 
-            if (!sActiveHero->mShrivel)
+            if (!gAbe->mShrivel)
             {
                 for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
                 {

@@ -133,7 +133,7 @@ Paramite::Paramite(relive::Path_Paramite* pTlv, const Guid& tlvId)
         SetScale(Scale::Fg);
     }
 
-    if (!VIsFacingMe(sActiveHero))
+    if (!VIsFacingMe(gAbe))
     {
         GetAnimation().ToggleFlipX();
     }
@@ -661,9 +661,9 @@ s16 Paramite::Brain_Patrol_State_12_Idle(BaseAliveGameObject* pObj)
     const auto pEventNoise = IsEventInRange(kEventNoise, mXPos, mYPos, AsEventScale(GetScale()));
     const auto pEventSpeaking = IsEventInRange(kEventSpeaking, mXPos, mYPos, AsEventScale(GetScale()));
 
-    if (IsActiveHero(pEventNoise) || IsActiveHero(pEventSpeaking))
+    if (IgAbe(pEventNoise) || IgAbe(pEventSpeaking))
     {
-        if (sActiveHero->GetInvisible())
+        if (gAbe->GetInvisible())
         {
             SetNextMotion(sParamitePatrolMotionTable[Math_RandomRange(0, 4)]);
             return ParamiteEnums::Brain_0_Patrol::eBrain0_LookingForInvisibleAbe_15;
@@ -1267,7 +1267,7 @@ s16 Paramite::Brain_1_Death()
     {
         if (field_130_timer < static_cast<s32>(sGnFrame))
         {
-            sControlledCharacter = sActiveHero;
+            sControlledCharacter = gAbe;
             gMap.SetActiveCam(mAbeLevel, mAbePath, mAbeCamera, CameraSwapEffects::eInstantChange_0, 0, 0);
         }
     }
@@ -2429,7 +2429,7 @@ s16 Paramite::Brain_7_DeathDrop()
 
         if (sControlledCharacter == this)
         {
-            sControlledCharacter = sActiveHero;
+            sControlledCharacter = gAbe;
             gMap.SetActiveCam(mAbeLevel, mAbePath, mAbeCamera, CameraSwapEffects::eInstantChange_0, 0, 0);
         }
 
@@ -4340,7 +4340,7 @@ void Paramite::Motion_29_GetDepossessedBegin()
 
         if (static_cast<s32>(sGnFrame) > field_138_depossession_timer)
         {
-            sControlledCharacter = sActiveHero;
+            sControlledCharacter = gAbe;
             SetPossessed(false);
             SetCurrentMotion(eParamiteMotions::Motion_30_GetDepossessedEnd);
             SetBrain(&Paramite::Brain_0_Patrol);
@@ -4965,7 +4965,7 @@ Paramite::~Paramite()
 
     if (sControlledCharacter == this)
     {
-        sControlledCharacter = sActiveHero;
+        sControlledCharacter = gAbe;
         if (gMap.mNextLevel != EReliveLevelIds::eMenu)
         {
             gMap.SetActiveCam(
@@ -5365,7 +5365,7 @@ bool Paramite::VTakeDamage(BaseGameObject* pFrom)
             }
             if (sControlledCharacter != this)
             {
-                if (mTargetGuid == Guid{} || mTargetGuid == sActiveHero->mBaseGameObjectId)
+                if (mTargetGuid == Guid{} || mTargetGuid == gAbe->mBaseGameObjectId)
                 {
                     if (BrainIs(&Paramite::Brain_0_Patrol) || BrainIs(&Paramite::Brain_8_ControlledByGameSpeak))
                     {
@@ -5831,9 +5831,9 @@ s16 Paramite::FindTarget()
         }
     }
 
-    if (VOnSameYLevel(sActiveHero) && !sActiveHero->GetInvisible() && GetSpriteScale() == sActiveHero->GetSpriteScale() && !WallHit((sActiveHero->GetSpriteScale() * FP_FromInteger(20)), sActiveHero->mXPos - mXPos))
+    if (VOnSameYLevel(gAbe) && !gAbe->GetInvisible() && GetSpriteScale() == gAbe->GetSpriteScale() && !WallHit((gAbe->GetSpriteScale() * FP_FromInteger(20)), gAbe->mXPos - mXPos))
     {
-        mTargetGuid = sActiveHero->mBaseGameObjectId;
+        mTargetGuid = gAbe->mBaseGameObjectId;
         return 1;
     }
     else

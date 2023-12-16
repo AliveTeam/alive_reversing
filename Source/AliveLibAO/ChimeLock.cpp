@@ -174,7 +174,7 @@ void ChimeLock::VUnPosses()
 {
     SetPossessed(false);
     mChimeLockState = ChimeLockStates::eIdle_0;
-    sActiveHero->SetActiveControlledCharacter();
+    gAbe->SetActiveControlledCharacter();
     SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 70, 400);
 }
 

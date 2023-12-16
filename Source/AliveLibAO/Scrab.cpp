@@ -184,8 +184,8 @@ void Scrab::VUpdate()
         }
     }
 
-    const FP hero_xd = FP_Abs(mXPos - sActiveHero->mXPos);
-    const FP hero_yd = FP_Abs(mYPos - sActiveHero->mYPos);
+    const FP hero_xd = FP_Abs(mXPos - gAbe->mXPos);
+    const FP hero_yd = FP_Abs(mYPos - gAbe->mYPos);
 
     if (hero_xd > FP_FromInteger(2048) || hero_yd > FP_FromInteger(960))
     {
@@ -727,9 +727,9 @@ Scrab* Scrab::FindScrabToFight()
 
 bool Scrab::FindAbeOrMud()
 {
-    if (CanSeeAbe(sActiveHero) && sActiveHero->mHealth > FP_FromInteger(0) && sActiveHero->GetSpriteScale() == GetSpriteScale() && !WallHit(sActiveHero->mXPos - mXPos, GetSpriteScale() * FP_FromInteger(35)))
+    if (CanSeeAbe(gAbe) && gAbe->mHealth > FP_FromInteger(0) && gAbe->GetSpriteScale() == GetSpriteScale() && !WallHit(gAbe->mXPos - mXPos, GetSpriteScale() * FP_FromInteger(35)))
     {
-        SetTarget(sActiveHero);
+        SetTarget(gAbe);
         return true;
     }
 
@@ -765,10 +765,10 @@ s16 Scrab::CanSeeAbe(BaseAliveGameObject* pObj)
         return 0;
     }
 
-    if (pObj == sActiveHero)
+    if (pObj == gAbe)
     {
-        if (sActiveHero->mCurrentMotion == eAbeMotions::Motion_66_LedgeHang
-            || sActiveHero->mCurrentMotion == eAbeMotions::Motion_68_LedgeHangWobble)
+        if (gAbe->mCurrentMotion == eAbeMotions::Motion_66_LedgeHang
+            || gAbe->mCurrentMotion == eAbeMotions::Motion_68_LedgeHangWobble)
         {
             return VOnSameYLevel(pObj);
         }
@@ -964,7 +964,7 @@ void Scrab::Motion_3_Run()
 
         if (mCurrentMotion == eScrabMotions::Motion_3_Run)
         {
-            if (mAbeOrMudTarget == sActiveHero)
+            if (mAbeOrMudTarget == gAbe)
             {
                 const PSX_RECT objRect = mAbeOrMudTarget->VGetBoundingRect();
                 const PSX_RECT bRect = VGetBoundingRect();

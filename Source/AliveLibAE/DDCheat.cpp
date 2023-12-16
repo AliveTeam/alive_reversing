@@ -212,7 +212,7 @@ void DDCheat::DebugStr(const char_type* pFormatStr, ...)
 
 void DDCheat::VUpdate()
 {
-    if (!sActiveHero)
+    if (!gAbe)
     {
         return;
     }
@@ -224,16 +224,16 @@ void DDCheat::VUpdate()
         if (mTeleporting)
         {
             mTeleporting = false;
-            if (sActiveHero)
+            if (gAbe)
             {
                 PSX_Point pos;
                 gMap.GetCurrentCamCoords(&pos);
-                sActiveHero->mXPos = FP_FromInteger(pos.x + 184);
-                sActiveHero->mYPos = FP_FromInteger(pos.y + 60);
-                sActiveHero->mCurrentMotion = 3;
-                sActiveHero->mLandSoftly = true;
-                sActiveHero->mCurrentLevel = MapWrapper::FromAE(static_cast<LevelIds>(sTeleport_Level));
-                sActiveHero->mCurrentPath = sTeleport_Path;
+                gAbe->mXPos = FP_FromInteger(pos.x + 184);
+                gAbe->mYPos = FP_FromInteger(pos.y + 60);
+                gAbe->mCurrentMotion = 3;
+                gAbe->mLandSoftly = true;
+                gAbe->mCurrentLevel = MapWrapper::FromAE(static_cast<LevelIds>(sTeleport_Level));
+                gAbe->mCurrentPath = sTeleport_Path;
                 gDDCheat_FlyingEnabled = false;
                 sControlledCharacter->BaseAliveGameObjectCollisionLine = nullptr;
                 sControlledCharacter->BaseAliveGameObjectLastLineYPos = sControlledCharacter->mYPos;
@@ -241,7 +241,7 @@ void DDCheat::VUpdate()
             }
         }
 
-        if ((gMap.mCurrentLevel != EReliveLevelIds::eMenu && gMap.mCurrentLevel != EReliveLevelIds::eNone) && sActiveHero && activePadPressed & InputCommands::eCheatMode)
+        if ((gMap.mCurrentLevel != EReliveLevelIds::eMenu && gMap.mCurrentLevel != EReliveLevelIds::eNone) && gAbe && activePadPressed & InputCommands::eCheatMode)
         {
             switch (sControlledCharacter->Type())
             {
@@ -262,9 +262,9 @@ void DDCheat::VUpdate()
             gDDCheat_FlyingEnabled = !gDDCheat_FlyingEnabled;
             if (!gDDCheat_FlyingEnabled)
             {
-                if (IsActiveHero(sControlledCharacter))
+                if (IgAbe(sControlledCharacter))
                 {
-                    sActiveHero->mLandSoftly = true;
+                    gAbe->mLandSoftly = true;
                 }
                 sControlledCharacter->BaseAliveGameObjectCollisionLine = nullptr;
                 sControlledCharacter->BaseAliveGameObjectLastLineYPos = sControlledCharacter->mYPos;
@@ -284,8 +284,8 @@ void DDCheat::VUpdate()
 
             DebugStr(
                 "\nheroxy=%4d,%4d",
-                FP_GetExponent(sActiveHero->mXPos),
-                FP_GetExponent(sActiveHero->mYPos));
+                FP_GetExponent(gAbe->mXPos),
+                FP_GetExponent(gAbe->mYPos));
 
             if (gDDCheat_FlyingEnabled)
             {
@@ -299,9 +299,9 @@ void DDCheat::VUpdate()
                     sDDCheat_AlwaysShow = !sDDCheat_AlwaysShow;
                 }
 
-                if (IsActiveHero(sControlledCharacter))
+                if (IgAbe(sControlledCharacter))
                 {
-                    sActiveHero->mLandSoftly = true;
+                    gAbe->mLandSoftly = true;
                 }
 
                 sControlledCharacter->BaseAliveGameObjectCollisionLine = nullptr;

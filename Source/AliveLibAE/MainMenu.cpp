@@ -1634,9 +1634,9 @@ MainMenuNextCam MainMenuController::LoadNewGame_Update_4D0920(u32 /*input*/)
                 gPauseMenu = relive_new PauseMenu();
             }
 
-            if (!sActiveHero)
+            if (!gAbe)
             {
-                sActiveHero = relive_new Abe();
+                gAbe = relive_new Abe();
             }
 
             if (field_208_transition_obj)
@@ -1651,8 +1651,8 @@ MainMenuNextCam MainMenuController::LoadNewGame_Update_4D0920(u32 /*input*/)
 
             SetDead(true);
 
-            sActiveHero->mXPos = FP_FromInteger(0);
-            sActiveHero->mYPos = FP_FromInteger(0);
+            gAbe->mXPos = FP_FromInteger(0);
+            gAbe->mYPos = FP_FromInteger(0);
 
             QuikSave::LoadActive();
 
@@ -1688,7 +1688,7 @@ MainMenuNextCam MainMenuController::LoadNewGame_Update_4D0920(u32 /*input*/)
         gPauseMenu = relive_new PauseMenu();
     }
 
-    if (!sActiveHero)
+    if (!gAbe)
     {
         ResourceManagerWrapper::PendAnims(Abe::sAbeAnimIdTable);
         ResourceManagerWrapper::PendAnimation(AnimId::ChantOrb_Particle);
@@ -1703,39 +1703,39 @@ MainMenuNextCam MainMenuController::LoadNewGame_Update_4D0920(u32 /*input*/)
         ResourceManagerWrapper::PendAnimation(AnimId::Dove_Flying);
         ResourceManagerWrapper::PendAnimation(AnimId::SpotLight);
         ResourceManagerWrapper::LoadingLoop2();
-        sActiveHero = relive_new Abe();
+        gAbe = relive_new Abe();
     }
 
     if (mCheatLevelSelectLoading)
     {
         mCheatLevelSelectLoading = false;
 
-        sActiveHero->SetUpdateDelay(1);
+        gAbe->SetUpdateDelay(1);
         gMap.SetActiveCam(field_244_lvl_id, field_246_path_id, field_248_camera, CameraSwapEffects::eInstantChange_0, 0, 0);
 
         const PathBlyRec* pPathData = Path_Get_Bly_Record(field_244_lvl_id, field_246_path_id);
-        sActiveHero->mXPos = FP_FromInteger(field_24A_abeXOff - pPathData->field_4_pPathData->field_1A_abe_start_xpos);
-        sActiveHero->mYPos = FP_FromInteger(field_24C_abeYOff - pPathData->field_4_pPathData->field_1C_abe_start_ypos);
+        gAbe->mXPos = FP_FromInteger(field_24A_abeXOff - pPathData->field_4_pPathData->field_1A_abe_start_xpos);
+        gAbe->mYPos = FP_FromInteger(field_24C_abeYOff - pPathData->field_4_pPathData->field_1C_abe_start_ypos);
 
         if (field_24E_start_scale == -1)
         {
-            sActiveHero->SetSpriteScale(FP_FromDouble(1.0));
-            sActiveHero->SetScale(Scale::Fg);
-            sActiveHero->GetAnimation().SetRenderLayer(Layer::eLayer_AbeMenu_32);
+            gAbe->SetSpriteScale(FP_FromDouble(1.0));
+            gAbe->SetScale(Scale::Fg);
+            gAbe->GetAnimation().SetRenderLayer(Layer::eLayer_AbeMenu_32);
         }
         else if (field_24E_start_scale == -2)
         {
-            sActiveHero->SetSpriteScale(FP_FromDouble(0.5));
-            sActiveHero->SetScale(Scale::Bg);
-            sActiveHero->GetAnimation().SetRenderLayer(Layer::eLayer_AbeMenu_Half_13);
+            gAbe->SetSpriteScale(FP_FromDouble(0.5));
+            gAbe->SetScale(Scale::Bg);
+            gAbe->GetAnimation().SetRenderLayer(Layer::eLayer_AbeMenu_Half_13);
         }
     }
     else
     {
         gMap.SetActiveCam(EReliveLevelIds::eMines, 1, 4, CameraSwapEffects::ePlay1FMV_5, 12402, 0);
-        sActiveHero->mXPos = FP_FromInteger(837);
-        sActiveHero->mYPos = FP_FromInteger(1300);
-        sActiveHero->BaseAliveGameObjectLastLineYPos = FP_FromInteger(1400);
+        gAbe->mXPos = FP_FromInteger(837);
+        gAbe->mYPos = FP_FromInteger(1300);
+        gAbe->BaseAliveGameObjectLastLineYPos = FP_FromInteger(1400);
     }
 
     if (field_208_transition_obj)
@@ -1915,18 +1915,18 @@ MainMenuNextCam MainMenuController::LoadDemo_Update_4D1040(u32)
         */
         GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_Idle));
 
-        if (!sActiveHero)
+        if (!gAbe)
         {
             auto abe = relive_new Abe();
             if (abe)
             {
-                sActiveHero = abe;
-                sActiveHero->mXPos = FP_FromInteger(0);
-                sActiveHero->mYPos = FP_FromInteger(0);
+                gAbe = abe;
+                gAbe->mXPos = FP_FromInteger(0);
+                gAbe->mYPos = FP_FromInteger(0);
             }
             else
             {
-                sActiveHero = nullptr;
+                gAbe = nullptr;
             }
         }
         

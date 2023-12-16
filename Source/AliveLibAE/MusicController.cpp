@@ -544,7 +544,7 @@ void MusicController::VUpdate()
     if (EventGet(kEventDeathReset))
     {
         mMusicDead = true;
-        field_28_object_id = sActiveHero->mBaseGameObjectId;
+        field_28_object_id = gAbe->mBaseGameObjectId;
     }
 
     if (mScreenChanged)

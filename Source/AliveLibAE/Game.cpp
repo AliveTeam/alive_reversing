@@ -53,7 +53,7 @@ s32 sFrameCount_5CA300 = 0;
 
 u16 gAttract = 0;
 
-Abe* sActiveHero = nullptr;
+Abe* gAbe = nullptr;
 
 
 void DestroyObjects()
@@ -155,7 +155,7 @@ void Init_Sound_DynamicArrays_And_Others()
     DebugFont_Init();
 
     gPauseMenu = nullptr;
-    sActiveHero = nullptr;
+    gAbe = nullptr;
     sControlledCharacter = nullptr;
     gNumCamSwappers = 0;
     sGnFrame = 0;

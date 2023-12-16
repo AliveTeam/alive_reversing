@@ -595,21 +595,21 @@ void Map::Handle_PathTransition()
         switch (next_path_scale)
         {
             case relive::reliveScale::eFull:
-                sActiveHero->SetSpriteScale(FP_FromInteger(1));
-                sActiveHero->GetAnimation().SetRenderLayer(Layer::eLayer_AbeMenu_32);
+                gAbe->SetSpriteScale(FP_FromInteger(1));
+                gAbe->GetAnimation().SetRenderLayer(Layer::eLayer_AbeMenu_32);
                 if (gElum)
                 {
-                    gElum->SetSpriteScale(sActiveHero->GetSpriteScale());
+                    gElum->SetSpriteScale(gAbe->GetSpriteScale());
                     gElum->GetAnimation().SetRenderLayer(Layer::eLayer_ZapLinesElumMuds_28);
                 }
                 break;
 
             case relive::reliveScale::eHalf:
-                sActiveHero->SetSpriteScale(FP_FromDouble(0.5));
-                sActiveHero->GetAnimation().SetRenderLayer(Layer::eLayer_AbeMenu_Half_13);
+                gAbe->SetSpriteScale(FP_FromDouble(0.5));
+                gAbe->GetAnimation().SetRenderLayer(Layer::eLayer_AbeMenu_Half_13);
                 if (gElum)
                 {
-                    gElum->SetSpriteScale(sActiveHero->GetSpriteScale());
+                    gElum->SetSpriteScale(gAbe->GetSpriteScale());
                     gElum->GetAnimation().SetRenderLayer(Layer::eLayer_ZapLinesMudsElum_Half_9);
                 }
                 break;
@@ -1008,9 +1008,9 @@ void Map::GoTo_Camera()
 
     if (old_current_path != mCurrentPath || old_current_level != mCurrentLevel)
     {
-        if (sActiveHero && mCurrentPath == sActiveHero->mCurrentPath)
+        if (gAbe && mCurrentPath == gAbe->mCurrentPath)
         {
-            sActiveHero->VCheckCollisionLineStillValid(10);
+            gAbe->VCheckCollisionLineStillValid(10);
         }
 
         if (gElum && sControlledCharacter != gElum && mCurrentPath == gElum->mCurrentPath)
@@ -1037,7 +1037,7 @@ void Map::GoTo_Camera()
         if (field_1E_door)
         {
             relive::Path_Door* pTlvIter = static_cast<relive::Path_Door*>(TLV_First_Of_Type_In_Camera(ReliveTypes::eDoor, 0));
-            while (pTlvIter->mDoorId != sActiveHero->field_196_door_id)
+            while (pTlvIter->mDoorId != gAbe->field_196_door_id)
             {
                 pTlvIter = static_cast<relive::Path_Door*>(Path_TLV::TLV_Next_Of_Type_446500(pTlvIter, ReliveTypes::eDoor));
             }

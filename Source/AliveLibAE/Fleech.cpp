@@ -967,7 +967,7 @@ void Fleech::Motion_13_SettleOnGround()
 
 void Fleech::Motion_14_ExtendTongueFromEnemy()
 {
-    if (mFoodObjId == sActiveHero->mBaseGameObjectId && (sActiveHero->CantBeDamaged_44BAB0() || sActiveHero->GetInvisible()))
+    if (mFoodObjId == gAbe->mBaseGameObjectId && (gAbe->CantBeDamaged_44BAB0() || gAbe->GetInvisible()))
     {
         ToIdle();
     }
@@ -980,7 +980,7 @@ void Fleech::Motion_14_ExtendTongueFromEnemy()
 
 void Fleech::Motion_15_RetractTongueFromEnemey()
 {
-    if (IsActiveHero(sObjectIds.Find_Impl(mFoodObjId)) && ((sActiveHero->CantBeDamaged_44BAB0()) || sActiveHero->GetInvisible()))
+    if (IgAbe(sObjectIds.Find_Impl(mFoodObjId)) && ((gAbe->CantBeDamaged_44BAB0()) || gAbe->GetInvisible()))
     {
         sub_42B8C0();
         ToIdle();
@@ -1065,9 +1065,9 @@ void Fleech::Motion_18_Consume()
     {
         Sound(FleechSound::Digesting_2);
     }
-    else if (GetAnimation().GetCurrentFrame() == 15 && mFoodObjId == sActiveHero->mBaseGameObjectId)
+    else if (GetAnimation().GetCurrentFrame() == 15 && mFoodObjId == gAbe->mBaseGameObjectId)
     {
-        sActiveHero->SetAsDead_459430();
+        gAbe->SetAsDead_459430();
 
         Sound(FleechSound::Burp_1);
 
@@ -1111,11 +1111,11 @@ Fleech::~Fleech()
 
     if (mCurrentMotion == 18)
     {
-        if (sActiveHero)
+        if (gAbe)
         {
-            if (mFoodObjId == sActiveHero->mBaseGameObjectId)
+            if (mFoodObjId == gAbe->mBaseGameObjectId)
             {
-                sActiveHero->SetAsDead_459430();
+                gAbe->SetAsDead_459430();
             }
         }
     }
@@ -1789,9 +1789,9 @@ void Fleech::TongueUpdate()
                         pTarget->GetAnimation().SetRender(false);
                         pTarget->mXPos = mXPos;
                         pTarget->mYPos = mYPos;
-                        if (IsActiveHero(pTarget))
+                        if (IgAbe(pTarget))
                         {
-                            sActiveHero->FleechDeath_459350();
+                            gAbe->FleechDeath_459350();
                         }
                         break;
 
@@ -2178,7 +2178,7 @@ void Fleech::IncreaseAnger()
 
         if (pEvent)
         {
-            if ((!IsActiveHero(pEvent) || !sActiveHero->GetInvisible()) && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, pEvent->mXPos, pEvent->mYPos, 0))
+            if ((!IgAbe(pEvent) || !gAbe->GetInvisible()) && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, pEvent->mXPos, pEvent->mYPos, 0))
             {
                 mCurrentAnger += mAttackAngerIncreaser;
                 if (VOnSameYLevel(static_cast<BaseAnimatedWithPhysicsGameObject*>(pEvent)))
@@ -2200,7 +2200,7 @@ void Fleech::IncreaseAnger()
         {
             if (VIsObjNearby(ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(6),static_cast<BaseAnimatedWithPhysicsGameObject*>(pEvent)))
             {
-                if ((!IsActiveHero(pEvent) || !sActiveHero->GetInvisible()) && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, pEvent->mXPos, pEvent->mYPos, 0))
+                if ((!IgAbe(pEvent) || !gAbe->GetInvisible()) && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, pEvent->mXPos, pEvent->mYPos, 0))
                 {
                     mCurrentAnger += mMaxAnger;
                 }
@@ -2211,7 +2211,7 @@ void Fleech::IncreaseAnger()
 
 s16 Fleech::AngerFleech(IBaseAliveGameObject* pObj)
 {
-    if (!pObj || (IsActiveHero(pObj) && sActiveHero->GetInvisible()))
+    if (!pObj || (IgAbe(pObj) && gAbe->GetInvisible()))
     {
         return false;
     }
@@ -3031,7 +3031,7 @@ PatrolBrain::EState PatrolBrain::Brain_Patrol_State_7()
 
 PatrolBrain::EState PatrolBrain::Brain_Patrol_State_8(IBaseAliveGameObject* pTarget)
 {
-    if (IsActiveHero(pTarget) && sActiveHero->GetInvisible())
+    if (IgAbe(pTarget) && gAbe->GetInvisible())
     {
         return EState::eInit;
     }
@@ -3077,7 +3077,7 @@ void ChasingAbeBrain::VUpdate()
     auto pObj = static_cast<IBaseAliveGameObject*>(sObjectIds.Find_Impl(mFleech.mFoodObjId));
     if (pObj)
     {
-        if (pObj->GetDead() || (IsActiveHero(pObj) && sActiveHero->GetInvisible()))
+        if (pObj->GetDead() || (IgAbe(pObj) && gAbe->GetInvisible()))
         {
             mFleech.mFoodObjId = Guid{};
             pObj = nullptr;
@@ -3162,11 +3162,11 @@ void ChasingAbeBrain::VUpdate()
                 return;
             }
 
-            if (IsActiveHero(pObj) &&
-                mFleech.VOnSameYLevel(sActiveHero) &&
-                gMap.Is_Point_In_Current_Camera(mFleech.mCurrentLevel, mFleech.mCurrentPath, sActiveHero->mXPos, sActiveHero->mYPos, 0) &&
+            if (IgAbe(pObj) &&
+                mFleech.VOnSameYLevel(gAbe) &&
+                gMap.Is_Point_In_Current_Camera(mFleech.mCurrentLevel, mFleech.mCurrentPath, gAbe->mXPos, gAbe->mYPos, 0) &&
                 gMap.Is_Point_In_Current_Camera(mFleech.mCurrentLevel, mFleech.mCurrentPath, mFleech.mXPos, mFleech.mYPos, 0) &&
-                !mFleech.WallHit(FP_FromInteger((mFleech.GetSpriteScale() >= FP_FromInteger(1) ? 10 : 5)), sActiveHero->mXPos - mFleech.mXPos))
+                !mFleech.WallHit(FP_FromInteger((mFleech.GetSpriteScale() >= FP_FromInteger(1) ? 10 : 5)), gAbe->mXPos - mFleech.mXPos))
             {
                 mBrainState = EState::eChasingAbe_1;
                 return;
@@ -3621,7 +3621,7 @@ ChasingAbeBrain::EState ChasingAbeBrain::Brain_ChasingAbe_State_1(IBaseAliveGame
     }
 
     // Can we get to a hanging abe?
-    if (IsActiveHero(pObj) && pObj->mCurrentMotion == eAbeMotions::Motion_67_LedgeHang_454E20 && mFleech.mYPos > pObj->mYPos)
+    if (IgAbe(pObj) && pObj->mCurrentMotion == eAbeMotions::Motion_67_LedgeHang_454E20 && mFleech.mYPos > pObj->mYPos)
     {
         if (mFleech.mYPos - pObj->mYPos <= (ScaleToGridSize(mFleech.GetSpriteScale()) * FP_FromInteger(6)))
         {

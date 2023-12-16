@@ -168,7 +168,7 @@ void DoorLight::VUpdate()
                 {
                     mSwitchState = 1;
 
-                    if (sControlledCharacter == sActiveHero)
+                    if (sControlledCharacter == gAbe)
                     {
                         relive_new MusicTrigger(relive::Path_MusicTrigger::MusicTriggerMusicType::eSecretAreaShort, relive::Path_MusicTrigger::TriggeredBy::eTouching, 0, 15);
                     }

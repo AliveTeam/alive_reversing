@@ -152,7 +152,7 @@ void BackgroundGlukkon::VUpdate()
                 switch (Math_NextRandom() % 5)
                 {
                     case 0:
-                        if (sActiveHero->mHealth <= FP_FromInteger(0))
+                        if (gAbe->mHealth <= FP_FromInteger(0))
                         {
                             GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Background_Glukkon_Laugh));
                             SFX_Play_Pitch(relive::SoundEffects::GlukkonLaugh1, rndVol, rndPitch);
@@ -166,7 +166,7 @@ void BackgroundGlukkon::VUpdate()
                         break;
 
                     case 1:
-                        if (sActiveHero->mHealth <= FP_FromInteger(0))
+                        if (gAbe->mHealth <= FP_FromInteger(0))
                         {
                             GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Background_Glukkon_Laugh));
                             SFX_Play_Pitch(relive::SoundEffects::GlukkonLaugh1, rndVol, rndPitch);
@@ -180,7 +180,7 @@ void BackgroundGlukkon::VUpdate()
                         break;
 
                     case 2:
-                        if (sActiveHero->mHealth <= FP_FromInteger(0))
+                        if (gAbe->mHealth <= FP_FromInteger(0))
                         {
                             GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Background_Glukkon_Laugh));
                             SFX_Play_Pitch(relive::SoundEffects::GlukkonLaugh1, rndVol, rndPitch);
@@ -194,7 +194,7 @@ void BackgroundGlukkon::VUpdate()
                         break;
 
                     case 3:
-                        if (sActiveHero->mHealth > FP_FromInteger(0))
+                        if (gAbe->mHealth > FP_FromInteger(0))
                         {
                             GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Background_Glukkon_KillHim2));
                             SFX_Play_Pitch(relive::SoundEffects::Empty, rndVol, rndPitch);

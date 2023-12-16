@@ -541,7 +541,7 @@ IBaseAliveGameObject* Greeter::GetMudToZap()
             const FP xMid = FP_FromInteger((bRect.x + bRect.w) / 2);
             const FP yMid = FP_FromInteger((bRect.y + bRect.h) / 2);
 
-            if (xMid - mXPos < (GetSpriteScale() * FP_FromInteger(60)) && mXPos - xMid < (GetSpriteScale() * FP_FromInteger(60)) && yMid - (mYPos - FP_FromInteger(4)) < (GetSpriteScale() * FP_FromInteger(60)) && mYPos - FP_FromInteger(4) - yMid < (GetSpriteScale() * FP_FromInteger(60)) && !(sActiveHero->GetElectrocuted()) && !ZapIsNotBlocked(this, pObj))
+            if (xMid - mXPos < (GetSpriteScale() * FP_FromInteger(60)) && mXPos - xMid < (GetSpriteScale() * FP_FromInteger(60)) && yMid - (mYPos - FP_FromInteger(4)) < (GetSpriteScale() * FP_FromInteger(60)) && mYPos - FP_FromInteger(4) - yMid < (GetSpriteScale() * FP_FromInteger(60)) && !(gAbe->GetElectrocuted()) && !ZapIsNotBlocked(this, pObj))
             {
                 return pObj;
             }
@@ -664,12 +664,12 @@ void Greeter::VUpdate()
                 mVelX = GetSpriteScale() * FP_FromInteger(5);
             }
 
-            const PSX_RECT bRect = sActiveHero->VGetBoundingRect();
+            const PSX_RECT bRect = gAbe->VGetBoundingRect();
 
             const FP midX = FP_FromInteger((bRect.x + bRect.w) / 2);
             const FP midY = FP_FromInteger((bRect.y + bRect.h) / 2);
 
-            if (midX - mXPos >= (GetSpriteScale() * FP_FromInteger(60)) || mXPos - midX >= (GetSpriteScale() * FP_FromInteger(60)) || midY - (mYPos - FP_FromInteger(4)) >= (GetSpriteScale() * FP_FromInteger(60)) || mYPos - FP_FromInteger(4) - midY >= (GetSpriteScale() * FP_FromInteger(60)) || sActiveHero->GetElectrocuted() || sActiveHero->CantBeDamaged_44BAB0() || ZapIsNotBlocked(this, sActiveHero))
+            if (midX - mXPos >= (GetSpriteScale() * FP_FromInteger(60)) || mXPos - midX >= (GetSpriteScale() * FP_FromInteger(60)) || midY - (mYPos - FP_FromInteger(4)) >= (GetSpriteScale() * FP_FromInteger(60)) || mYPos - FP_FromInteger(4) - midY >= (GetSpriteScale() * FP_FromInteger(60)) || gAbe->GetElectrocuted() || gAbe->CantBeDamaged_44BAB0() || ZapIsNotBlocked(this, gAbe))
             {
                 IBaseAliveGameObject* pGonnaZapYa = GetMudToZap();
                 if (pGonnaZapYa)
@@ -684,7 +684,7 @@ void Greeter::VUpdate()
             }
             else
             {
-                ZapTarget(midX, midY, sActiveHero);
+                ZapTarget(midX, midY, gAbe);
             }
         }
         break;

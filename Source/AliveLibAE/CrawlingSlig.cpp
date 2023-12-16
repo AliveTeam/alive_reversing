@@ -648,7 +648,7 @@ CrawlingSlig::~CrawlingSlig()
 {
     if (sControlledCharacter == this)
     {
-        sControlledCharacter = sActiveHero;
+        sControlledCharacter = gAbe;
         MusicController::static_PlayMusic(MusicController::MusicTypes::eNone_0, this, 0, 0);
         if (gMap.mNextLevel != EReliveLevelIds::eMenu)
         {
@@ -1042,12 +1042,12 @@ void PossessedBrain::VUpdate()
                         Layer::eLayer_0);
                 }
 
-                if (static_cast<s32>(sGnFrame) <= mCrawlingSlig.mMultiUseTimer && sActiveHero->mHealth > FP_FromInteger(0))
+                if (static_cast<s32>(sGnFrame) <= mCrawlingSlig.mMultiUseTimer && gAbe->mHealth > FP_FromInteger(0))
                 {
                     return;
                 }
 
-                sControlledCharacter = sActiveHero;
+                sControlledCharacter = gAbe;
                 mCrawlingSlig.SetPossessed(false);
                 gMap.SetActiveCam(mCrawlingSlig.mAbeLevel, mCrawlingSlig.mAbePath, mCrawlingSlig.mAbeCamera, CameraSwapEffects::eInstantChange_0, 0, 0);
                 mCrawlingSlig.SetBrain(ICrawlingSligBrain::EBrainTypes::GetKilled);

@@ -664,9 +664,9 @@ void Slog::Sfx(s32 soundId)
 
 s16 Slog::IsPlayerNear()
 {
-    if (FP_Abs(sActiveHero->mXPos - mXPos) >= (FP_FromInteger(100) * GetSpriteScale()) ||
-        FP_Abs(sActiveHero->mYPos - mYPos) >= (FP_FromInteger(25) * GetSpriteScale()) ||
-        sActiveHero->GetSpriteScale() != GetSpriteScale())
+    if (FP_Abs(gAbe->mXPos - mXPos) >= (FP_FromInteger(100) * GetSpriteScale()) ||
+        FP_Abs(gAbe->mYPos - mYPos) >= (FP_FromInteger(25) * GetSpriteScale()) ||
+        gAbe->GetSpriteScale() != GetSpriteScale())
     {
         return 0;
     }
@@ -2035,8 +2035,8 @@ s16 Slog::Brain_1_Idle()
 
         if (mTarget)
         {
-            mTarget = nullptr;
             mTarget->mBaseGameObjectRefCount--;
+            mTarget = nullptr;
         }
         return 0;
     }
@@ -2292,7 +2292,7 @@ s16 Slog::Brain_2_ChasingAbe()
         case 0:
             if (!mTarget)
             {
-                mTarget = sActiveHero;
+                mTarget = gAbe;
                 mTarget->mBaseGameObjectRefCount++;
             }
             mBitingTarget = 0;

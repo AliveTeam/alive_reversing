@@ -421,13 +421,13 @@ void Map::Handle_PathTransition()
         switch (next_path_scale)
         {
             case relive::reliveScale::eFull:
-                sActiveHero->SetSpriteScale(FP_FromInteger(1));
-                sActiveHero->GetAnimation().SetRenderLayer(Layer::eLayer_AbeMenu_32);
+                gAbe->SetSpriteScale(FP_FromInteger(1));
+                gAbe->GetAnimation().SetRenderLayer(Layer::eLayer_AbeMenu_32);
                 break;
 
             case relive::reliveScale::eHalf:
-                sActiveHero->SetSpriteScale(FP_FromDouble(0.5));
-                sActiveHero->GetAnimation().SetRenderLayer(Layer::eLayer_AbeMenu_Half_13);
+                gAbe->SetSpriteScale(FP_FromDouble(0.5));
+                gAbe->GetAnimation().SetRenderLayer(Layer::eLayer_AbeMenu_Half_13);
                 break;
 
             default:
@@ -670,7 +670,7 @@ void Map::GoTo_Camera()
 
         if (mNextLevel == mCurrentLevel)
         {
-            MusicController::static_PlayMusic(MusicController::MusicTypes::eNone_0, sActiveHero, 0, 0);
+            MusicController::static_PlayMusic(MusicController::MusicTypes::eNone_0, gAbe, 0, 0);
         }
         else
         {
@@ -799,11 +799,11 @@ void Map::GoTo_Camera()
 
     if (prevPathId != mCurrentPath || prevLevelId != mCurrentLevel)
     {
-        if (sActiveHero)
+        if (gAbe)
         {
-            if (mCurrentPath == sActiveHero->mCurrentPath)
+            if (mCurrentPath == gAbe->mCurrentPath)
             {
-                sActiveHero->VCheckCollisionLineStillValid(10);
+                gAbe->VCheckCollisionLineStillValid(10);
             }
         }
     }
@@ -834,7 +834,7 @@ void Map::GoTo_Camera()
 
             // Door transition
             relive::Path_Door* pDoorTlv = static_cast<relive::Path_Door*>(gPathInfo->TLV_First_Of_Type_In_Camera(ReliveTypes::eDoor, 0));
-            while (pDoorTlv->mDoorId != sActiveHero->field_1A0_door_id)
+            while (pDoorTlv->mDoorId != gAbe->field_1A0_door_id)
             {
                 pDoorTlv = static_cast<relive::Path_Door*>(Path::TLV_Next_Of_Type(pDoorTlv, ReliveTypes::eDoor));
             }
@@ -853,7 +853,7 @@ void Map::GoTo_Camera()
 
                 // Teleporter transition
                 relive::Path_Teleporter* pTeleporterTlv = static_cast<relive::Path_Teleporter*>(gPathInfo->TLV_First_Of_Type_In_Camera(ReliveTypes::eTeleporter, 0));
-                while (pTeleporterTlv->mTeleporterId != sActiveHero->field_1A0_door_id)
+                while (pTeleporterTlv->mTeleporterId != gAbe->field_1A0_door_id)
                 {
                     pTeleporterTlv = static_cast<relive::Path_Teleporter*>(Path::TLV_Next_Of_Type(pTeleporterTlv, ReliveTypes::eTeleporter));
                 }

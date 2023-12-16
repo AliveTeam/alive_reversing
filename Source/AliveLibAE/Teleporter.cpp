@@ -226,7 +226,7 @@ void Teleporter::VUpdate()
                 bForceChange);
 
             sControlledCharacter->SetUpdateDelay(3);
-            sActiveHero->field_1A0_door_id = mTlvData.mOtherTeleporterId;
+            gAbe->field_1A0_door_id = mTlvData.mOtherTeleporterId;
             mState = TeleporterState::eTeleporting_2;
         }
         break;

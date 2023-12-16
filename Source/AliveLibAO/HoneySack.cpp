@@ -211,7 +211,7 @@ void HoneySack::VUpdate()
                     mChaseTime);
                 if (pNewBee)
                 {
-                    pNewBee->Chase(sActiveHero);
+                    pNewBee->Chase(gAbe);
                 }
 
                 if (mBeeSwarm)

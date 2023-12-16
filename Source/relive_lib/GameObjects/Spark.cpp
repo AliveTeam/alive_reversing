@@ -150,13 +150,13 @@ void Spark::VRender(OrderingTable& ot)
     s16 abePath;
     if (GetGameType() == GameType::eAe)
     {
-        abeLevel = ::sActiveHero->mCurrentLevel;
-        abePath = ::sActiveHero->mCurrentPath;
+        abeLevel = ::gAbe->mCurrentLevel;
+        abePath = ::gAbe->mCurrentPath;
     }
     else
     {
-        abeLevel = AO::sActiveHero->mCurrentLevel;
-        abePath = AO::sActiveHero->mCurrentPath;
+        abeLevel = AO::gAbe->mCurrentLevel;
+        abePath = AO::gAbe->mCurrentPath;
     }
 
     if (GetMap().Is_Point_In_Current_Camera(

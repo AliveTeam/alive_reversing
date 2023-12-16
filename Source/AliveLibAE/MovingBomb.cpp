@@ -287,9 +287,9 @@ void MovingBomb::VUpdate()
                 SND_Stop_Channels_Mask(mChannelMask);
             }
 
-            if (VIsObjNearby(FP_FromInteger(700), sActiveHero))
+            if (VIsObjNearby(FP_FromInteger(700), gAbe))
             {
-                const FP yDelta = FP_Abs(sActiveHero->mYPos - mYPos);
+                const FP yDelta = FP_Abs(gAbe->mYPos - mYPos);
                 if (yDelta <= FP_FromInteger(700))
                 {
                     if (mState == States::eWaitABit_4)

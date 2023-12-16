@@ -199,7 +199,7 @@ void FallingItem::VUpdate()
         {
             if (mDoAirStreamSound)
             {
-                if (mYPos >= sActiveHero->mYPos - FP_FromInteger(120))
+                if (mYPos >= gAbe->mYPos - FP_FromInteger(120))
                 {
                     mDoAirStreamSound = false;
                     SFX_Play_Pitch(relive::SoundEffects::AirStream, 127, -1300);

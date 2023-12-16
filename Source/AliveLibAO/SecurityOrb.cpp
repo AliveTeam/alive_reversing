@@ -145,7 +145,7 @@ void SecurityOrb::VUpdate()
         case States::eDoZapEffects_1:
             if (static_cast<s32>(sGnFrame) > mTimer)
             {
-                const PSX_RECT abeRect = sActiveHero->VGetBoundingRect();
+                const PSX_RECT abeRect = gAbe->VGetBoundingRect();
 
                 const FP xpos = FP_FromInteger((abeRect.x + abeRect.w) / 2);
                 const FP ypos = FP_FromInteger((abeRect.y + abeRect.h) / 2);
@@ -159,9 +159,9 @@ void SecurityOrb::VUpdate()
                     ZapLineType::eThick_0,
                     Layer::eLayer_ZapLinesElumMuds_28);
 
-                relive_new PossessionFlicker(sActiveHero, 8, 255, 100, 100);
+                relive_new PossessionFlicker(gAbe, 8, 255, 100, 100);
 
-                sActiveHero->VTakeDamage(this);
+                gAbe->VTakeDamage(this);
                 mTimer = MakeTimer(8);
                 mState = States::eDoFlashAndSound_2;
 

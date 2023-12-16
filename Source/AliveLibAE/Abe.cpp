@@ -153,11 +153,11 @@ const relive::SfxDefinition sSFXList_555160[] = {
     {0u, 23u, 64u, 90u, 0, 0}};
 
 
-bool IsActiveHero(BaseGameObject* pObj)
+bool IgAbe(BaseGameObject* pObj)
 {
-    if (sActiveHero)
+    if (gAbe)
     {
-        return sActiveHero == pObj;
+        return gAbe == pObj;
     }
     return false;
 }
@@ -310,7 +310,7 @@ s32 Environment_SFX(EnvironmentSfx sfxId, s32 volume, s32 pitchMin, BaseAliveGam
         sndVolume = 2 * sndVolume / 3;
     }
 
-    if (!IsActiveHero(pAliveObj))
+    if (!IgAbe(pAliveObj))
     {
         switch (gMap.GetDirection(
             pAliveObj->mCurrentLevel,
@@ -365,13 +365,13 @@ void Animation_OnFrame_Abe(BaseGameObject* pPtr, u32&, const IndexedPoint& point
 {
     auto pAbe = static_cast<Abe*>(pPtr);
 
-    auto pThrowable = static_cast<BaseThrowable*>(sObjectIds.Find_Impl(sActiveHero->mThrowableId));
+    auto pThrowable = static_cast<BaseThrowable*>(sObjectIds.Find_Impl(gAbe->mThrowableId));
 
     auto tableX = sThrowVelocities[pAbe->mThrowDirection].x * pAbe->GetSpriteScale();
     const auto tableY = sThrowVelocities[pAbe->mThrowDirection].y * pAbe->GetSpriteScale();
 
     FP xOff = {};
-    if (sActiveHero->GetAnimation().GetFlipX())
+    if (gAbe->GetAnimation().GetFlipX())
     {
         tableX = -tableX;
         xOff = -(pAbe->GetSpriteScale() * FP_FromInteger(point.mPoint.x));
@@ -400,12 +400,12 @@ void Animation_OnFrame_Abe(BaseGameObject* pPtr, u32&, const IndexedPoint& point
 
     if (pThrowable)
     {
-        pThrowable->mXPos = xOff + sActiveHero->mXPos;
-        pThrowable->mYPos = (pAbe->GetSpriteScale() * FP_FromInteger(point.mPoint.y)) + sActiveHero->mYPos;
+        pThrowable->mXPos = xOff + gAbe->mXPos;
+        pThrowable->mYPos = (pAbe->GetSpriteScale() * FP_FromInteger(point.mPoint.y)) + gAbe->mYPos;
         pThrowable->VThrow(tableX, tableY);
         pThrowable->SetSpriteScale(pAbe->GetSpriteScale());
         pThrowable->SetScale(pAbe->GetScale());
-        sActiveHero->mThrowableId = Guid{};
+        gAbe->mThrowableId = Guid{};
     }
 }
 
@@ -549,7 +549,7 @@ Abe::~Abe()
     {
         sControlledCharacter = nullptr;
     }
-    sActiveHero = nullptr;
+    gAbe = nullptr;
 }
 
 
@@ -561,11 +561,11 @@ void Abe::CreateFromSaveState(SerializedObjectData& pData)
 
 void Abe::CreateFromSaveState(const AbeSaveState& pData)
 {
-    Abe* pAbe = sActiveHero;
-    if (!sActiveHero)
+    Abe* pAbe = gAbe;
+    if (!gAbe)
     {
         pAbe = relive_new Abe();
-        sActiveHero = pAbe;
+        gAbe = pAbe;
     }
 
     if (pData.mIsAbeControlled)
@@ -573,144 +573,144 @@ void Abe::CreateFromSaveState(const AbeSaveState& pData)
         sControlledCharacter = pAbe;
     }
 
-    sActiveHero->BaseAliveGameObjectPathTLV = nullptr;
-    sActiveHero->BaseAliveGameObjectCollisionLine = nullptr;
-    sActiveHero->mXPos = pData.mXPos;
-    sActiveHero->mYPos = pData.mYPos;
-    sActiveHero->mVelX = pData.mVelX;
-    sActiveHero->mVelY = pData.mVelY;
-    sActiveHero->field_8_x_vel_slow_by = pData.field_48_x_vel_slow_by;
-    sActiveHero->mCurrentPath = pData.mCurrentPath;
-    sActiveHero->mCurrentLevel = pData.mCurrentLevel;
-    sActiveHero->SetSpriteScale(pData.mSpriteScale);
-    sActiveHero->SetScale(pData.mScale);
+    gAbe->BaseAliveGameObjectPathTLV = nullptr;
+    gAbe->BaseAliveGameObjectCollisionLine = nullptr;
+    gAbe->mXPos = pData.mXPos;
+    gAbe->mYPos = pData.mYPos;
+    gAbe->mVelX = pData.mVelX;
+    gAbe->mVelY = pData.mVelY;
+    gAbe->field_8_x_vel_slow_by = pData.field_48_x_vel_slow_by;
+    gAbe->mCurrentPath = pData.mCurrentPath;
+    gAbe->mCurrentLevel = pData.mCurrentLevel;
+    gAbe->SetSpriteScale(pData.mSpriteScale);
+    gAbe->SetScale(pData.mScale);
 
-    sActiveHero->mCurrentMotion = pData.mCurrentMotion;
+    gAbe->mCurrentMotion = pData.mCurrentMotion;
 
     /* TODO: Async load if res unloaded
-    u8** animFromState = sActiveHero->MotionToAnimResource_44AAB0(sActiveHero->mCurrentMotion);
+    u8** animFromState = gAbe->MotionToAnimResource_44AAB0(gAbe->mCurrentMotion);
     if (!animFromState)
     {
-        u32 id = sAbeResourceIDTable_554D60[sActiveHero->field_10_resource_index];
-        // ResourceManager::LoadResourceFile_49C170(sAbe_ResNames_545830[sActiveHero->field_10_resource_index], 0);
-        sActiveHero->mBaseGameObjectResArray.SetAt(sActiveHero->field_10_resource_index, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, id, true, false));
-        animFromState = sActiveHero->mBaseGameObjectResArray.ItemAt(sActiveHero->field_10_resource_index);
+        u32 id = sAbeResourceIDTable_554D60[gAbe->field_10_resource_index];
+        // ResourceManager::LoadResourceFile_49C170(sAbe_ResNames_545830[gAbe->field_10_resource_index], 0);
+        gAbe->mBaseGameObjectResArray.SetAt(gAbe->field_10_resource_index, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, id, true, false));
+        animFromState = gAbe->mBaseGameObjectResArray.ItemAt(gAbe->field_10_resource_index);
     }*/
 
-    sActiveHero->GetAnimation().Set_Animation_Data(sActiveHero->GetAnimRes(sAbeAnimIdTable[sActiveHero->mCurrentMotion]));
-    // sActiveHero->mAnim.Set_Animation_Data_409C80(sAbeAnimIdTable[sActiveHero->mCurrentMotion], animFromState);
+    gAbe->GetAnimation().Set_Animation_Data(gAbe->GetAnimRes(sAbeAnimIdTable[gAbe->mCurrentMotion]));
+    // gAbe->mAnim.Set_Animation_Data_409C80(sAbeAnimIdTable[gAbe->mCurrentMotion], animFromState);
 
-    sActiveHero->GetAnimation().SetCurrentFrame(pData.mCurrentFrame);
-    sActiveHero->GetAnimation().SetFrameChangeCounter(pData.mFrameChangeCounter);
+    gAbe->GetAnimation().SetCurrentFrame(pData.mCurrentFrame);
+    gAbe->GetAnimation().SetFrameChangeCounter(pData.mFrameChangeCounter);
 
-    sActiveHero->GetAnimation().SetFlipX(pData.bAnimFlipX & 1);
-    sActiveHero->GetAnimation().SetRender(pData.mAnimRender & 1);
-    sActiveHero->SetDrawable(pData.mIsDrawable & 1);
+    gAbe->GetAnimation().SetFlipX(pData.bAnimFlipX & 1);
+    gAbe->GetAnimation().SetRender(pData.mAnimRender & 1);
+    gAbe->SetDrawable(pData.mIsDrawable & 1);
 
-    sActiveHero->GetAnimation().SetRenderLayer(static_cast<Layer>(pData.mRenderLayer));
+    gAbe->GetAnimation().SetRenderLayer(static_cast<Layer>(pData.mRenderLayer));
 
-    if (IsLastFrame(&sActiveHero->GetAnimation()))
+    if (IsLastFrame(&gAbe->GetAnimation()))
     {
-        sActiveHero->GetAnimation().SetIsLastFrame(true);
+        gAbe->GetAnimation().SetIsLastFrame(true);
     }
 
     // TODO: Pal re-loading
     /*
-    const PerFrameInfo* pFrameInfoHeader = sActiveHero->mAnim.Get_FrameHeader(-1);
-    sActiveHero->mAnim.LoadPal(sActiveHero->mAnim.field_20_ppBlock, pFrameHeader->field_0_clut_offset);
+    const PerFrameInfo* pFrameInfoHeader = gAbe->mAnim.Get_FrameHeader(-1);
+    gAbe->mAnim.LoadPal(gAbe->mAnim.field_20_ppBlock, pFrameHeader->field_0_clut_offset);
     */
-    sActiveHero->GetAnimation().ReloadPal();
+    gAbe->GetAnimation().ReloadPal();
 
-    sActiveHero->SetTint(sAbeTintTable, gMap.mCurrentLevel);
-    sActiveHero->GetAnimation().SetBlendMode(relive::TBlendModes::eBlend_0);
-    sActiveHero->GetAnimation().SetSemiTrans(true);
-    sActiveHero->GetAnimation().SetBlending(false);
-    sActiveHero->mHealth = pData.mHealth;
-    sActiveHero->mCurrentMotion = pData.mCurrentMotion2;
-    sActiveHero->mNextMotion = pData.mNextMotion;
-    sActiveHero->BaseAliveGameObjectLastLineYPos = FP_FromInteger(pData.mLastLineYPos);
-    sActiveHero->BaseAliveGameObject_PlatformId = pData.mPlatformId;
-    sActiveHero->field_120_state.raw = static_cast<u16>(pData.field_50_state);
-    sActiveHero->field_124_timer = pData.field_54_timer;
-    sActiveHero->field_0_abe_timer = pData.field_58_abe_timer;
-    sActiveHero->mRegenHealthTimer = pData.mRegenHealthTimer;
-    sActiveHero->mMood = pData.mMood;
-    sActiveHero->mSay = pData.mSay;
-    sActiveHero->mAutoSayTimer = pData.mAutoSayTimer;
-    sActiveHero->mBaseThrowableCount = pData.mBaseThrowableCount;
-    sActiveHero->mRingPulseTimer = pData.mRingPulseTimer;
-    sActiveHero->mHaveShrykull = pData.mHaveShrykull;
+    gAbe->SetTint(sAbeTintTable, gMap.mCurrentLevel);
+    gAbe->GetAnimation().SetBlendMode(relive::TBlendModes::eBlend_0);
+    gAbe->GetAnimation().SetSemiTrans(true);
+    gAbe->GetAnimation().SetBlending(false);
+    gAbe->mHealth = pData.mHealth;
+    gAbe->mCurrentMotion = pData.mCurrentMotion2;
+    gAbe->mNextMotion = pData.mNextMotion;
+    gAbe->BaseAliveGameObjectLastLineYPos = FP_FromInteger(pData.mLastLineYPos);
+    gAbe->BaseAliveGameObject_PlatformId = pData.mPlatformId;
+    gAbe->field_120_state.raw = static_cast<u16>(pData.field_50_state);
+    gAbe->field_124_timer = pData.field_54_timer;
+    gAbe->field_0_abe_timer = pData.field_58_abe_timer;
+    gAbe->mRegenHealthTimer = pData.mRegenHealthTimer;
+    gAbe->mMood = pData.mMood;
+    gAbe->mSay = pData.mSay;
+    gAbe->mAutoSayTimer = pData.mAutoSayTimer;
+    gAbe->mBaseThrowableCount = pData.mBaseThrowableCount;
+    gAbe->mRingPulseTimer = pData.mRingPulseTimer;
+    gAbe->mHaveShrykull = pData.mHaveShrykull;
 
-    if (sActiveHero->mRingPulseTimer && sActiveHero->mHaveShrykull)
+    if (gAbe->mRingPulseTimer && gAbe->mHaveShrykull)
     {
-        if (!sActiveHero->mBaseGameObjectResArray.ItemAt(25))
+        if (!gAbe->mBaseGameObjectResArray.ItemAt(25))
         {
         }
     }
     else
     {
-        if (sActiveHero->mBaseGameObjectResArray.ItemAt(25))
+        if (gAbe->mBaseGameObjectResArray.ItemAt(25))
         {
-            sActiveHero->Free_Shrykull_Resources_45AA90();
+            gAbe->Free_Shrykull_Resources_45AA90();
         }
     }
 
-    sActiveHero->mHaveInvisibility = pData.bHaveInvisiblity;
-    sActiveHero->BaseAliveGameObjectCollisionLineType = pData.mCollisionLineType;
+    gAbe->mHaveInvisibility = pData.bHaveInvisiblity;
+    gAbe->BaseAliveGameObjectCollisionLineType = pData.mCollisionLineType;
 
-    sActiveHero->mPrevInput = InputObject::PsxButtonsToKeyboardInput_45EE40(pData.mPrevInput);
-    sActiveHero->mReleasedButtons = InputObject::PsxButtonsToKeyboardInput_45EE40(pData.mReleasedButtons);
-    sActiveHero->mKnockdownMotion = pData.mKnockdownMotion;
-    sActiveHero->mRollingMotionTimer = sGnFrame - pData.mRollingMotionTimer;
+    gAbe->mPrevInput = InputObject::PsxButtonsToKeyboardInput_45EE40(pData.mPrevInput);
+    gAbe->mReleasedButtons = InputObject::PsxButtonsToKeyboardInput_45EE40(pData.mReleasedButtons);
+    gAbe->mKnockdownMotion = pData.mKnockdownMotion;
+    gAbe->mRollingMotionTimer = sGnFrame - pData.mRollingMotionTimer;
 
-    sActiveHero->mFadeId = pData.mDeathFadeOutId;
-    sActiveHero->mCircularFadeId = pData.mCircularFadeId;
-    sActiveHero->mOrbWhirlWindId = pData.mOrbWhirlWindId;
-    sActiveHero->mPossessedObjectId = pData.mPossessedObjectId;
-    sActiveHero->mThrowableId = pData.mThrowableId;
-    sActiveHero->mPullRingRopeId = pData.mPullRingRopeId;
-    sActiveHero->mSlappableOrPickupId = pData.mSlappableOrPickupId;
-    sActiveHero->mWorkWheelId = pData.mWorkWheelId;
-    sActiveHero->mInvisibleEffectId = Guid{};
+    gAbe->mFadeId = pData.mDeathFadeOutId;
+    gAbe->mCircularFadeId = pData.mCircularFadeId;
+    gAbe->mOrbWhirlWindId = pData.mOrbWhirlWindId;
+    gAbe->mPossessedObjectId = pData.mPossessedObjectId;
+    gAbe->mThrowableId = pData.mThrowableId;
+    gAbe->mPullRingRopeId = pData.mPullRingRopeId;
+    gAbe->mSlappableOrPickupId = pData.mSlappableOrPickupId;
+    gAbe->mWorkWheelId = pData.mWorkWheelId;
+    gAbe->mInvisibleEffectId = Guid{};
 
-    sActiveHero->mInvisibilityTimer = pData.mInvisibilityTimer;
-    sActiveHero->mInvisibilityDuration = pData.mInvisibilityDuration;
+    gAbe->mInvisibilityTimer = pData.mInvisibilityTimer;
+    gAbe->mInvisibilityDuration = pData.mInvisibilityDuration;
 
-    sActiveHero->mHandStoneCamIdx = pData.mHandStoneCamIdx;
-    sActiveHero->mHandStoneType = pData.mHandStoneType;
-    sActiveHero->mFmvId = pData.mFmvId;
-    sActiveHero->mHandStoneCams[0] = pData.mHandStoneCam1;
-    sActiveHero->mHandStoneCams[1] = pData.mHandStoneCam2;
-    sActiveHero->mHandStoneCams[2] = pData.mHandStoneCam3;
+    gAbe->mHandStoneCamIdx = pData.mHandStoneCamIdx;
+    gAbe->mHandStoneType = pData.mHandStoneType;
+    gAbe->mFmvId = pData.mFmvId;
+    gAbe->mHandStoneCams[0] = pData.mHandStoneCam1;
+    gAbe->mHandStoneCams[1] = pData.mHandStoneCam2;
+    gAbe->mHandStoneCams[2] = pData.mHandStoneCam3;
 
-    sActiveHero->mHasEvilFart = pData.mHasEvilFart;
-    sActiveHero->mDstWellLevel = pData.mDstWellLevel;
-    sActiveHero->mDstWellPath = pData.mDstWellPath;
-    sActiveHero->mDstWellCamera = pData.mDstWellCamera;
-    sActiveHero->field_1A0_door_id = pData.door_id;
-    sActiveHero->mThrowDirection = pData.mThrowDirection;
-    sActiveHero->mBirdPortalSubState = static_cast<PortalSubStates>(pData.mBirdPortalSubState);
-    sActiveHero->mBirdPortalId = pData.mBirdPortalId;
+    gAbe->mHasEvilFart = pData.mHasEvilFart;
+    gAbe->mDstWellLevel = pData.mDstWellLevel;
+    gAbe->mDstWellPath = pData.mDstWellPath;
+    gAbe->mDstWellCamera = pData.mDstWellCamera;
+    gAbe->field_1A0_door_id = pData.door_id;
+    gAbe->mThrowDirection = pData.mThrowDirection;
+    gAbe->mBirdPortalSubState = static_cast<PortalSubStates>(pData.mBirdPortalSubState);
+    gAbe->mBirdPortalId = pData.mBirdPortalId;
 
-    sActiveHero->SetElectrocuted(pData.mIsElectrocuted & 1);
-    sActiveHero->SetInvisible(pData.mIsInvisible & 1);
-    sActiveHero->SetTeleporting(pData.mTeleporting);
+    gAbe->SetElectrocuted(pData.mIsElectrocuted & 1);
+    gAbe->SetInvisible(pData.mIsInvisible & 1);
+    gAbe->SetTeleporting(pData.mTeleporting);
 
-    sActiveHero->mReturnToPreviousMotion = pData.mReturnToPreviousMotion;
-    sActiveHero->mShrivel = pData.mShrivel;
-    sActiveHero->mPreventChanting = pData.mPreventChanting;
-    sActiveHero->mLandSoftly = pData.mLandSoftly;
-    sActiveHero->mLaughAtChantEnd = pData.mLaughAtChantEnd;
+    gAbe->mReturnToPreviousMotion = pData.mReturnToPreviousMotion;
+    gAbe->mShrivel = pData.mShrivel;
+    gAbe->mPreventChanting = pData.mPreventChanting;
+    gAbe->mLandSoftly = pData.mLandSoftly;
+    gAbe->mLaughAtChantEnd = pData.mLaughAtChantEnd;
 
-    sActiveHero->mPlayLedgeGrabSounds = pData.mPlayLedgeGrabSounds;
-    sActiveHero->mHaveHealing = pData.mHaveHealing;
-    sActiveHero->SetTeleporting(pData.mTeleporting);
+    gAbe->mPlayLedgeGrabSounds = pData.mPlayLedgeGrabSounds;
+    gAbe->mHaveHealing = pData.mHaveHealing;
+    gAbe->SetTeleporting(pData.mTeleporting);
 
-    sActiveHero->mMudancheeDone = pData.mMudancheeDone;
-    sActiveHero->mMudomoDone = pData.mMudomoDone;
+    gAbe->mMudancheeDone = pData.mMudancheeDone;
+    gAbe->mMudomoDone = pData.mMudomoDone;
 
-    sActiveHero->GetShadow()->mEnabled = pData.mShadowEnabled;
-    sActiveHero->GetShadow()->mShadowAtBottom = pData.mShadowAtBottom;
+    gAbe->GetShadow()->mEnabled = pData.mShadowEnabled;
+    gAbe->GetShadow()->mShadowAtBottom = pData.mShadowAtBottom;
 }
 
 
@@ -976,7 +976,7 @@ void Abe::VUpdate()
                 if (mSay == MudSounds::eAnger_5)
                 {
                     // Other evil muds laugh at the abe grr
-                    EventBroadcast(kEventMudokonLaugh, sActiveHero);
+                    EventBroadcast(kEventMudokonLaugh, gAbe);
                 }
 
                 if (mSay == MudSounds::eSadUgh_28)
@@ -1543,7 +1543,7 @@ void Abe::GetSaveState(AbeSaveState& pSaveState)
 
     pSaveState.mIsElectrocuted = GetElectrocuted();
     pSaveState.mIsInvisible = GetInvisible();
-    pSaveState.mTeleporting = sActiveHero->GetTeleporting();
+    pSaveState.mTeleporting = gAbe->GetTeleporting();
 
     pSaveState.mReturnToPreviousMotion = mReturnToPreviousMotion;
     pSaveState.mShrivel = mShrivel;
@@ -1748,7 +1748,7 @@ bool Abe::VTakeDamage(BaseGameObject* pFrom)
                 if (mHealth > FP_FromInteger(0))
                 {
                     // The damage sound from a Fleech keeps getting high and higher pitch till death
-                    const FP hpRandSoundRange = (FP_FromInteger(1) - sActiveHero->mHealth) / FP_FromDouble(0.15);
+                    const FP hpRandSoundRange = (FP_FromInteger(1) - gAbe->mHealth) / FP_FromDouble(0.15);
                     const s16 pitchRand = Math_RandomRange(
                         200 * (FP_GetExponent(hpRandSoundRange)),
                         40 * (5 * (FP_GetExponent(hpRandSoundRange)) + 5));
@@ -6309,7 +6309,7 @@ void Abe::Motion_99_LeverUse()
 void Abe::Motion_100_SlapBomb()
 {
     BaseAliveGameObject* pItem = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(mSlappableOrPickupId));
-    if (sActiveHero->GetAnimation().GetCurrentFrame() >= 6)
+    if (gAbe->GetAnimation().GetCurrentFrame() >= 6)
     {
         if (pItem)
         {
@@ -6575,7 +6575,7 @@ void Abe::Motion_111_PickupItem()
         mCurrentMotion = eAbeMotions::Motion_17_CrouchIdle_456BC0;
     }
 
-    if (sActiveHero->GetAnimation().GetCurrentFrame() >= 5)
+    if (gAbe->GetAnimation().GetCurrentFrame() >= 5)
     {
         if (pRock)
         {
@@ -6762,7 +6762,7 @@ void Abe::Motion_112_Chant()
                 pObj->GetSpriteScale(),
                 pObj);
 
-            relive_new PossessionFlicker(sActiveHero, 30, 128, 255, 255);
+            relive_new PossessionFlicker(gAbe, 30, 128, 255, 255);
         }
             return;
 
@@ -8972,7 +8972,7 @@ void Mudokon_SFX(MudSounds idx, s16 volume, s32 pitch, BaseAliveGameObject* pHer
         }
         case MudSounds::eGiggle_8:
         {
-            if (IsActiveHero(pHero) && gMap.mCurrentLevel == EReliveLevelIds::eBrewery_Ender)
+            if (IgAbe(pHero) && gMap.mCurrentLevel == EReliveLevelIds::eBrewery_Ender)
             {
                 idx = MudSounds::eLaugh_10;
             }
@@ -8999,7 +8999,7 @@ void Mudokon_SFX(MudSounds idx, s16 volume, s32 pitch, BaseAliveGameObject* pHer
                 volume = 2 * volume / 3;
             }
 
-            if (IsActiveHero(pHero))
+            if (IgAbe(pHero))
             {
                 playAbeSFX(idx, volume, pitch);
                 return;

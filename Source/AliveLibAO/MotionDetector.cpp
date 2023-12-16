@@ -183,7 +183,7 @@ void MotionDetector::VUpdate()
                         && bLaserRect.y <= objRect.h 
                         && pObj->GetSpriteScale() == GetSpriteScale())
                     {
-                        if (pObj == sActiveHero)
+                        if (pObj == gAbe)
                         {
                             if (sGnFrame % 2)
                             {
@@ -216,7 +216,7 @@ void MotionDetector::VUpdate()
                                     0,
                                     Layer::eLayer_Above_FG1_39);
 
-                                if (pObj == sActiveHero)
+                                if (pObj == gAbe)
                                 {
                                     Mudokon_SFX(MudSounds::eOops_16, 0, 0, nullptr);
                                 }

@@ -35,9 +35,9 @@ EvilFart::EvilFart()
 
     SetApplyShadowZoneColour(false);
 
-    SetSpriteScale(sActiveHero->GetSpriteScale());
+    SetSpriteScale(gAbe->GetSpriteScale());
 
-    SetScale(sActiveHero->GetScale());
+    SetScale(gAbe->GetScale());
     if (GetScale() == Scale::Fg)
     {
         GetAnimation().SetRenderLayer(Layer::eLayer_SligGreeterFartsBats_33);
@@ -47,16 +47,16 @@ EvilFart::EvilFart()
         GetAnimation().SetRenderLayer(Layer::eLayer_SligGreeterFartsBat_Half_14);
     }
 
-    if (sActiveHero->GetAnimation().GetFlipX())
+    if (gAbe->GetAnimation().GetFlipX())
     {
-        mXPos = sActiveHero->mXPos + (FP_FromInteger(12) * GetSpriteScale());
+        mXPos = gAbe->mXPos + (FP_FromInteger(12) * GetSpriteScale());
     }
     else
     {
-        mXPos = sActiveHero->mXPos - (FP_FromInteger(12) * GetSpriteScale());
+        mXPos = gAbe->mXPos - (FP_FromInteger(12) * GetSpriteScale());
     }
 
-    mYPos = (GetSpriteScale() * FP_FromInteger(22)) + sActiveHero->mYPos;
+    mYPos = (GetSpriteScale() * FP_FromInteger(22)) + gAbe->mYPos;
 
     FP hitX = {};
     FP hitY = {};
@@ -71,7 +71,7 @@ EvilFart::EvilFart()
             &hitY,
             GetScale() == Scale::Fg ? CollisionMask(eFlyingObjectWall_17, eWallRight_2, eWallLeft_1) : CollisionMask(eBackgroundFlyingObjectWall_18, eBackgroundWallRight_6, eBackgroundWallLeft_5)))
     {
-        mXPos = sActiveHero->mXPos;
+        mXPos = gAbe->mXPos;
     }
     
     GetAnimation().SetSemiTrans(true);
@@ -283,12 +283,12 @@ void EvilFart::VUpdate()
         SetDead(true);
     }
 
-    if (sActiveHero->mCurrentMotion != eAbeMotions::Motion_86_HandstoneBegin)
+    if (gAbe->mCurrentMotion != eAbeMotions::Motion_86_HandstoneBegin)
     {
         mPossessedAliveTimer--;
     }
 
-    if ((sActiveHero->mCurrentMotion != eAbeMotions::Motion_86_HandstoneBegin) && mPossessedAliveTimer + 1 <= 0)
+    if ((gAbe->mCurrentMotion != eAbeMotions::Motion_86_HandstoneBegin) && mPossessedAliveTimer + 1 <= 0)
     {
         if (!mFartExploded)
         {
@@ -308,7 +308,7 @@ void EvilFart::VUpdate()
 
     if (mFartExploded && static_cast<s32>(sGnFrame) > mBackToAbeTimer)
     {
-        sControlledCharacter = sActiveHero;
+        sControlledCharacter = gAbe;
         SetDead(true);
         gMap.SetActiveCam(mAbeLevel, mAbePath, mAbeCamera, CameraSwapEffects::eInstantChange_0, 0, 0);
     }

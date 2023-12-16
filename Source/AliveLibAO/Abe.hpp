@@ -757,7 +757,7 @@ public:
     bool mRidingElum = false;
 };
 
-extern Abe* sActiveHero;
+extern Abe* gAbe;
 extern s16 gAbeInvulnerableCheat;
 extern s16 gAbeInvisibleCheat;
 

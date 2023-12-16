@@ -848,9 +848,9 @@ private:
         &Abe::Motion_129_PoisonGasDeath};
 };
 
-bool IsActiveHero(BaseGameObject* pObj);
+bool IgAbe(BaseGameObject* pObj);
 
-extern Abe* sActiveHero;
+extern Abe* gAbe;
 extern IBaseAliveGameObject* sControlledCharacter;
 
 extern bool gAbeInvincible;

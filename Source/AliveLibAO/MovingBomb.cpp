@@ -305,9 +305,9 @@ void MovingBomb::VUpdate()
                 SND_Stop_Channels_Mask(mChannelMask);
             }
 
-            if (VIsObjNearby(FP_FromInteger(700), sActiveHero))
+            if (VIsObjNearby(FP_FromInteger(700), gAbe))
             {
-                if (FP_Abs(sActiveHero->mYPos - mYPos) <= FP_FromInteger(700))
+                if (FP_Abs(gAbe->mYPos - mYPos) <= FP_FromInteger(700))
                 {
                     if (mState == States::eWaitABit_4)
                     {

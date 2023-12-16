@@ -138,27 +138,27 @@ void Bullet::VUpdate()
             PSX_RECT shootRect = {};
             if (sControlledCharacter == gElum)
             {
-                distX_1 = sActiveHero->mXPos;
+                distX_1 = gAbe->mXPos;
                 distX_2 = gElum->mVelX * FP_FromInteger(4);
             }
             else
             {
-                if (mXPos >= sActiveHero->mXPos)
+                if (mXPos >= gAbe->mXPos)
                 {
-                    distX_1 = sActiveHero->mXPos + FP_FromInteger(mNumberOfBullets * 16);
+                    distX_1 = gAbe->mXPos + FP_FromInteger(mNumberOfBullets * 16);
                 }
                 else
                 {
-                    distX_1 = sActiveHero->mXPos - FP_FromInteger(mNumberOfBullets * 16);
+                    distX_1 = gAbe->mXPos - FP_FromInteger(mNumberOfBullets * 16);
                 }
-                distX_2 = sActiveHero->mVelX * FP_FromInteger(2);
+                distX_2 = gAbe->mVelX * FP_FromInteger(2);
             }
 
             shootRect.x = FP_GetExponent(distX_1 - distX_2);
             shootRect.w = shootRect.x + 2;
-            shootRect.y = static_cast<s16>(FP_GetExponent(sActiveHero->mYPos)
+            shootRect.y = static_cast<s16>(FP_GetExponent(gAbe->mYPos)
               
-                        + sActiveHero->GetAnimation().Get_FrameHeader(-1)->mBoundMin.y // or points 3?!
+                        + gAbe->GetAnimation().Get_FrameHeader(-1)->mBoundMin.y // or points 3?!
                         - 10);
             shootRect.h = shootRect.y + 10;
 
@@ -174,7 +174,7 @@ void Bullet::VUpdate()
                     mXPos,
                     mYPos,
                     distX_1 - distX_2,
-                    sActiveHero->mYPos + FP_FromInteger(10),
+                    gAbe->mYPos + FP_FromInteger(10),
                     &mLine,
                     &hitX,
                     &hitY,

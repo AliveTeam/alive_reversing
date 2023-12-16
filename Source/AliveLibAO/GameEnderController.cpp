@@ -59,7 +59,7 @@ void GameEnderController::VUpdate()
             if (mTimer <= static_cast<s32>(sGnFrame))
             {
                 // Wait for murdering everyone to finish
-                if (sActiveHero->mCurrentMotion != eAbeMotions::Motion_162_ToShrykull && sActiveHero->mCurrentMotion != eAbeMotions::Motion_163_ShrykullEnd)
+                if (gAbe->mCurrentMotion != eAbeMotions::Motion_162_ToShrykull && gAbe->mCurrentMotion != eAbeMotions::Motion_163_ShrykullEnd)
                 {
                     // Kill certain types of objects to prevent them appearing on the ending screen or crashing the game
                     // by trying to use the sControlledCharacter pointer.
@@ -96,7 +96,7 @@ void GameEnderController::VUpdate()
                         if (sRescuedMudokons >= Path_GetTotalMuds(gMap.mCurrentLevel, gMap.mCurrentPath))
                         {
                             // Perfect ending
-                            sActiveHero->SetDead(true);
+                            gAbe->SetDead(true);
                             gMap.SetActiveCam(EReliveLevelIds::eBoardRoom, 6, 11, CameraSwapEffects::eUnknown_11, 316, 0);
                             mState = GameEnderControllerStates::ePerfectEnding_4;
                         }
@@ -125,7 +125,7 @@ void GameEnderController::VUpdate()
 
                             sKilledMudokons = gRestartRuptureFarmsKilledMuds;
                             sRescuedMudokons = gRestartRuptureFarmsSavedMuds;
-                            sActiveHero->SetDead(true);
+                            gAbe->SetDead(true);
 
                             gMap.SetActiveCam(EReliveLevelIds::eBoardRoom, 6, 9, CameraSwapEffects::eUnknown_11, 304, 0);
 
@@ -134,7 +134,7 @@ void GameEnderController::VUpdate()
                         else
                         {
                             // Bad ending
-                            sActiveHero->SetDead(true);
+                            gAbe->SetDead(true);
 
                             gInfiniteGrenades = false;
 

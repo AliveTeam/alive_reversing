@@ -1663,7 +1663,7 @@ void Menu::Loading_Update()
 
 void Menu::NewGameStart()
 {
-    if (!sActiveHero)
+    if (!gAbe)
     {
         ResourceManagerWrapper::PendAnims(Abe::sAbeMotionAnimIds);
         // TODO: Hack - should be part of abes anim array
@@ -1683,7 +1683,7 @@ void Menu::NewGameStart()
         ResourceManagerWrapper::PendAnimation(AnimId::ShrykullTransform);
         ResourceManagerWrapper::PendAnimation(AnimId::ShrykullDetransform);
         ResourceManagerWrapper::LoadingLoop2();
-        sActiveHero = relive_new Abe();
+        gAbe = relive_new Abe();
     }
 
     if (gAttract)
@@ -1707,8 +1707,8 @@ void Menu::NewGameStart()
         {
             mUsingLvlSelectCheat = false;
             gMap.SetActiveCam(mLvlSelectCheatLevel, mLvlSelectCheatPath, mLvlSelectCheatCamera, CameraSwapEffects::eInstantChange_0, 0, 0);
-            sActiveHero->mXPos = FP_FromInteger(mLvlSelectCheatAbeSpawnX);
-            sActiveHero->mYPos = FP_FromInteger(mLvlSelectCheatAbeSpawnY);
+            gAbe->mXPos = FP_FromInteger(mLvlSelectCheatAbeSpawnX);
+            gAbe->mYPos = FP_FromInteger(mLvlSelectCheatAbeSpawnY);
         }
         else
         {
@@ -1717,8 +1717,8 @@ void Menu::NewGameStart()
             gMap.SetActiveCam(EReliveLevelIds::eRuptureFarms, 15, 1, CameraSwapEffects::ePlay1FMV_5, 102, 0);
 
             // What if someone made a level editor and wanted to change where abe spawns on the first map? Well... hard luck pal
-            sActiveHero->mXPos = FP_FromInteger(1378);
-            sActiveHero->mYPos = FP_FromInteger(83);
+            gAbe->mXPos = FP_FromInteger(1378);
+            gAbe->mYPos = FP_FromInteger(83);
         }
     }
     SetDead(true);
@@ -2940,16 +2940,16 @@ void Menu::LoadSave_Update()
     }
 
 
-    if (!sActiveHero)
+    if (!gAbe)
     {
-        sActiveHero = relive_new Abe();
+        gAbe = relive_new Abe();
     }
 
     if (!SaveGame::LoadFromFile(sSaveNames_9F1DD8[mSelectedButtonIndex.raw].field_0_mName))
     {
         mFnUpdate = &Menu::SaveLoadFailed_Update;
         mFnRender = &Menu::SaveLoadFailed_Render;
-        sActiveHero->SetDead(true);
+        gAbe->SetDead(true);
     }
 }
 

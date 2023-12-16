@@ -228,9 +228,9 @@ void SecurityClaw::VUpdate()
         mOrbSoundChannels = SFX_Play_Pitch(relive::SoundEffects::SecurityOrb, 55, -300);
     }
 
-    if (sActiveHero == sControlledCharacter)
+    if (gAbe == sControlledCharacter)
     {
-        if (sActiveHero->mXPos < mClawX)
+        if (gAbe->mXPos < mClawX)
         {
             if (FP_GetExponent(mClawX) > mTlvTopLeft.x)
             {
@@ -238,7 +238,7 @@ void SecurityClaw::VUpdate()
             }
         }
 
-        if (sActiveHero->mXPos >= mClawX)
+        if (gAbe->mXPos >= mClawX)
         {
             if (FP_GetExponent(mClawX) < mTlvBottomRight.x)
             {
@@ -323,7 +323,7 @@ void SecurityClaw::VUpdate()
         case SecurityClawStates::eDoZapEffects_2:
             if (static_cast<s32>(sGnFrame) > mTimer)
             {
-                const PSX_RECT rect = sActiveHero->VGetBoundingRect();
+                const PSX_RECT rect = gAbe->VGetBoundingRect();
                 const FP hero_mid_x = FP_FromInteger((rect.w + rect.x) / 2);
                 const FP hero_mid_y = FP_FromInteger((rect.h + rect.y) / 2);
 
@@ -337,9 +337,9 @@ void SecurityClaw::VUpdate()
                     8, ZapLineType::eThick_0,
                     Layer::eLayer_ZapLinesElumMuds_28);
 
-                relive_new PossessionFlicker(sActiveHero, 8, 255, 100, 100);
+                relive_new PossessionFlicker(gAbe, 8, 255, 100, 100);
 
-                sActiveHero->VTakeDamage(this);
+                gAbe->VTakeDamage(this);
 
                 auto pSpark = relive_new ZapSpark(
                     mXPos,

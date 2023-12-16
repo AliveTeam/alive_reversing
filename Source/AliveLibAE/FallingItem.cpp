@@ -258,7 +258,7 @@ void FallingItem::VUpdate()
         {
             if (mDoAirStreamSound)
             {
-                if (mYPos >= sActiveHero->mYPos - FP_FromInteger(240 / 2))
+                if (mYPos >= gAbe->mYPos - FP_FromInteger(240 / 2))
                 {
                     mDoAirStreamSound = false;
                     if (GetScale() == Scale::Fg)

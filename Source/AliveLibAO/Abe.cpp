@@ -238,7 +238,7 @@ const TAbeMotionFunction sAbeMotionMachineTable_4C5F08[] = {
     &Abe::Motion_164_PoisonGasDeath};
 
 
-Abe* sActiveHero = nullptr;
+Abe* gAbe = nullptr;
 
 const relive::SfxDefinition sSFXList_4C6638[49] = {
     {0, 3, 69, 60, -1, 1},
@@ -427,7 +427,7 @@ s32 Environment_SFX(EnvironmentSfx sfxId, s32 volume, s32 pitchMin, BaseAliveGam
 s32 Mudokon_SFX(MudSounds idx, s32 volume, s32 pitch, BaseAliveGameObject* pHero)
 {
     if (idx == MudSounds::eLaugh1_8
-        && pHero == sActiveHero
+        && pHero == gAbe
         && (gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarmsReturn || gMap.mCurrentLevel == EReliveLevelIds::eBoardRoom))
     {
         idx = MudSounds::eLaugh2_11;
@@ -605,7 +605,7 @@ Abe::~Abe()
         mThrowable = nullptr;
     }
 
-    sActiveHero = nullptr;
+    gAbe = nullptr;
 
     // OG fix for going back to menu with DDCheat on and then it crashes reading a deleted pointer
     // ditto for the ending where MeatSaw/Invisible switch screen change/update funcs read it.
@@ -834,7 +834,7 @@ void Abe::VUpdate()
                         }
                         if (field_130_say == 5)
                         {
-                            EventBroadcast(kEventMudokonComfort, sActiveHero);
+                            EventBroadcast(kEventMudokonComfort, gAbe);
                         }
                         Mudokon_SFX(static_cast<MudSounds>(field_130_say), 0, 0, this);
                     }
@@ -1894,7 +1894,7 @@ void Abe::ElumKnockForward()
     mbMotionChanged = true;
     GetAnimation().Set_Animation_Data(GetAnimRes(sAbeMotionAnimIds[mCurrentMotion]));
 
-    sControlledCharacter = sActiveHero;
+    sControlledCharacter = gAbe;
     gElum->field_154_bAbeForcedDownFromElum = 1;
 }
 
@@ -2356,7 +2356,7 @@ void Abe::VOnTlvCollision(relive::Path_TLV* pTlv)
 
             if (mRidingElum && sControlledCharacter != this)
             {
-                sControlledCharacter = sActiveHero;
+                sControlledCharacter = gAbe;
                 FreeElumRes();
             }
             ToDeathDropFall();
@@ -2859,7 +2859,7 @@ bool Abe::VTakeDamage(BaseGameObject* pFrom)
                 if (mHealth > FP_FromInteger(0))
                 {
                     const auto rnd_sfx = Math_RandomRange(0, 127) >= 64 ? MudSounds::eBeesStruggle_18 : MudSounds::eKnockbackOuch_10;
-                    const FP v16 = (FP_FromInteger(1) - sActiveHero->mHealth) / FP_FromDouble(0.15);
+                    const FP v16 = (FP_FromInteger(1) - gAbe->mHealth) / FP_FromDouble(0.15);
                     const s16 calc_pitch = Math_RandomRange(200 * FP_GetExponent(v16), 200 * FP_GetExponent(v16) + 1);
                     Mudokon_SFX(rnd_sfx, 0, calc_pitch, this);
                 }
@@ -6039,7 +6039,7 @@ void Abe::Motion_61_Respawn()
         // by killing abe so the bad save cant get loaded before we return to the menu.
         LOG_WARNING("Destroying abe to prevent game crash, he isnt supposed to die in a demo!");
         SetDead(true);
-        sActiveHero = nullptr;
+        gAbe = nullptr;
         sControlledCharacter = nullptr;
         return;
     }
@@ -6236,32 +6236,32 @@ void Abe::Motion_62_LoadedSaveSpawn()
         FP hitX2 = {};
         FP hitY2 = {};
         if (gCollisions->Raycast(
-                sActiveHero->mXPos,
-                sActiveHero->mYPos - FP_FromInteger(60),
-                sActiveHero->mXPos,
-                sActiveHero->mYPos + FP_FromInteger(60),
+                gAbe->mXPos,
+                gAbe->mYPos - FP_FromInteger(60),
+                gAbe->mXPos,
+                gAbe->mYPos + FP_FromInteger(60),
                 &pLine2,
                 &hitX2,
                 &hitY2,
                 CollisionMask(static_cast<eLineTypes>(pSaveData->field_23A_mode_mask))))
         {
-            sActiveHero->BaseAliveGameObjectCollisionLine = pLine2;
-            sActiveHero->mYPos = hitY2;
-            sActiveHero->mCurrentMotion = eAbeMotions::Motion_0_Idle;
+            gAbe->BaseAliveGameObjectCollisionLine = pLine2;
+            gAbe->mYPos = hitY2;
+            gAbe->mCurrentMotion = eAbeMotions::Motion_0_Idle;
         }
         else
         {
-            sActiveHero->mCurrentMotion = eAbeMotions::Motion_3_Fall;
+            gAbe->mCurrentMotion = eAbeMotions::Motion_3_Fall;
         }
-        sActiveHero->mLandSoft = false;
-        sActiveHero->BaseAliveGameObjectLastLineYPos = sActiveHero->mYPos;
-        sActiveHero->field_110_state.raw = static_cast<s16>(pSaveData->field_244_stone_state);
-        sActiveHero->field_114_gnFrame = pSaveData->field_248_gnFrame;
-        sActiveHero->mBaseAliveGameObjectLastAnimFrame = pSaveData->mActiveHero_CurrentFrame;
-        sActiveHero->GetAnimation().SetFlipX(pSaveData->mActiveHero_FlipX & 1);
-        sActiveHero->MapFollowMe(true);
-        sActiveHero->GetAnimation().SetRender(true);
-        if (sActiveHero->field_19C_throwable_count)
+        gAbe->mLandSoft = false;
+        gAbe->BaseAliveGameObjectLastLineYPos = gAbe->mYPos;
+        gAbe->field_110_state.raw = static_cast<s16>(pSaveData->field_244_stone_state);
+        gAbe->field_114_gnFrame = pSaveData->field_248_gnFrame;
+        gAbe->mBaseAliveGameObjectLastAnimFrame = pSaveData->mActiveHero_CurrentFrame;
+        gAbe->GetAnimation().SetFlipX(pSaveData->mActiveHero_FlipX & 1);
+        gAbe->MapFollowMe(true);
+        gAbe->GetAnimation().SetRender(true);
+        if (gAbe->field_19C_throwable_count)
         {
             if (!gThrowableArray)
             {
@@ -6269,7 +6269,7 @@ void Abe::Motion_62_LoadedSaveSpawn()
 
                 gThrowableArray = relive_new ThrowableArray();
             }
-            gThrowableArray->Add(sActiveHero->field_19C_throwable_count);
+            gThrowableArray->Add(gAbe->field_19C_throwable_count);
         }
         if (pSaveData->mInfiniteGrenades == -1)
         {
@@ -6319,7 +6319,7 @@ void Abe::Motion_62_LoadedSaveSpawn()
                 gElum->mFoundHoney = pSaveData->mElum_FoundHoney & 1;
                 gElum->mFalling = pSaveData->mElum_Falling & 1;
                 gElum->mStungByBees = pSaveData->mElum_StungByBees & 1;
-                if (gElum->mCurrentPath == sActiveHero->mCurrentPath)
+                if (gElum->mCurrentPath == gAbe->mCurrentPath)
                 {
                     if (pSaveData->mElum_LineType != -1)
                     {
@@ -7805,7 +7805,7 @@ void Abe::Motion_126_ElumBeesStruggling()
 
 void Abe::Motion_127_SlapBomb()
 {
-    if (sActiveHero->GetAnimation().GetCurrentFrame() >= 6)
+    if (gAbe->GetAnimation().GetCurrentFrame() >= 6)
     {
         if (field_15C_pThrowable)
         {
@@ -8052,7 +8052,7 @@ void Abe::Motion_136_ElumMountEnd()
         mCurrentMotion = eAbeMotions::Motion_103_ElumIdle;
         sControlledCharacter = gElum;
         MusicController::static_PlayMusic(MusicController::MusicTypes::eAbeOnElum_1, nullptr, 0, 0);
-        sActiveHero->GetShadow()->mEnabled = false;
+        gAbe->GetShadow()->mEnabled = false;
         Environment_SFX(EnvironmentSfx::eAbeMountedElumNoise_19, 0, 0x7FFF, this);
     }
 }
@@ -8136,9 +8136,9 @@ void Abe::Motion_138_ElumUnmountEnd()
                     gPlatformsArray);
             }
         }
-        sControlledCharacter = sActiveHero;
+        sControlledCharacter = gAbe;
         MusicController::static_PlayMusic(MusicController::MusicTypes::eType0, this, 0, 0);
-        sActiveHero->GetShadow()->mEnabled = false;
+        gAbe->GetShadow()->mEnabled = false;
         ToIdle();
     }
 }
@@ -8384,7 +8384,7 @@ void Abe::Motion_149_PickupItem()
         mCurrentMotion = eAbeMotions::Motion_19_CrouchIdle;
     }
 
-    if (sActiveHero->GetAnimation().GetCurrentFrame() >= 5)
+    if (gAbe->GetAnimation().GetCurrentFrame() >= 5)
     {
         if (field_15C_pThrowable)
         {
@@ -8490,7 +8490,7 @@ void Abe::Motion_150_Chant()
                         FP_FromInteger((rect.h + rect.y) / 2),
                         pObjToPossess);
 
-                    relive_new PossessionFlicker(sActiveHero, 30, 128, 255, 255);
+                    relive_new PossessionFlicker(gAbe, 30, 128, 255, 255);
                 }
             }
             break;

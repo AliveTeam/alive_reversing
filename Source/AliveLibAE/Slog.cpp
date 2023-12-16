@@ -1094,7 +1094,7 @@ void Slog::Motion_19_JumpUpwards()
 
     if (GetAnimation().GetCurrentFrame() == 5)
     {
-        if (mHungry && mTargetId == sActiveHero->mBaseGameObjectId && sActiveHero->GetScale() == GetScale() && (sActiveHero->mCurrentMotion == eAbeMotions::Motion_104_RockThrowStandingHold || sActiveHero->mCurrentMotion == eAbeMotions::Motion_107_RockThrowCrouchingHold))
+        if (mHungry && mTargetId == gAbe->mBaseGameObjectId && gAbe->GetScale() == GetScale() && (gAbe->mCurrentMotion == eAbeMotions::Motion_104_RockThrowStandingHold || gAbe->mCurrentMotion == eAbeMotions::Motion_107_RockThrowCrouchingHold))
         {
             Sfx(SlogSound::HungryYip_13);
         }
@@ -2595,7 +2595,7 @@ s16 Slog::Brain_ChasingAbe_State_2_Thinking(IBaseAliveGameObject* pTarget)
         SetCurrentMotion(eSlogMotions::Motion_3_TurnAround);
     }
 
-    if (mHungry && IsActiveHero(pTarget) && pTarget->GetScale() == GetScale() && (sActiveHero->mCurrentMotion == eAbeMotions::Motion_104_RockThrowStandingHold || sActiveHero->mCurrentMotion == eAbeMotions::Motion_107_RockThrowCrouchingHold))
+    if (mHungry && IgAbe(pTarget) && pTarget->GetScale() == GetScale() && (gAbe->mCurrentMotion == eAbeMotions::Motion_104_RockThrowStandingHold || gAbe->mCurrentMotion == eAbeMotions::Motion_107_RockThrowCrouchingHold))
     {
         SetNextMotion(eSlogMotions::Motion_6_StopRunning);
         mMultiUseTimer = MakeTimer(90);
@@ -3341,7 +3341,7 @@ s16 Slog::PlayerOrNakedSligNear()
     const FP kMinYDist = FP_FromInteger(25) * GetSpriteScale();
 
     // Is the player near?
-    if (FP_Abs(sActiveHero->mXPos - mXPos) < kMinXDist && FP_Abs(sActiveHero->mYPos - mYPos) < kMinYDist && sActiveHero->GetSpriteScale() == FP_FromInteger(1))
+    if (FP_Abs(gAbe->mXPos - mXPos) < kMinXDist && FP_Abs(gAbe->mYPos - mYPos) < kMinYDist && gAbe->GetSpriteScale() == FP_FromInteger(1))
     {
         return 1;
     }

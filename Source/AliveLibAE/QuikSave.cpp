@@ -468,7 +468,7 @@ void Quicksave_SaveBlyData_4C9660(SerializedObjectData& pSaveBuffer)
 
 void QuikSave::SaveToMemory_4C91A0(Quicksave& pSave)
 {
-    if (sActiveHero->mHealth > FP_FromInteger(0))
+    if (gAbe->mHealth > FP_FromInteger(0))
     {
         QuikSave::SaveWorldInfo(&pSave.mWorldInfo);
         pSave.mSwitchStates = gSwitchStates;
@@ -509,7 +509,7 @@ void QuikSave::RestoreWorldInfo(const Quicksave_WorldInfo& rInfo)
     // Last is read from another field
     sSavedKilledMudsPerZulag_5C1B50.mData[ALIVE_COUNTOF(sSavedKilledMudsPerZulag_5C1B50.mData) - 1] = rInfo.field_17_last_saved_killed_muds_per_path;
 
-    sActiveHero->SetRestoredFromQuickSave(true);
+    gAbe->SetRestoredFromQuickSave(true);
     gZulagNumber = rInfo.field_2C_current_zulag_number;
     gKilledMudokons = rInfo.mKilledMudokons;
     gRescuedMudokons = rInfo.mRescuedMudokons;

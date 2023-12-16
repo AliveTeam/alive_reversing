@@ -118,20 +118,20 @@ void RockSack::VUpdate()
             GetAnimation().SetFrameChangeCounter(Math_RandomRange(2, 10));
         }
 
-        const PSX_RECT bPlayerRect = sActiveHero->VGetBoundingRect();
+        const PSX_RECT bPlayerRect = gAbe->VGetBoundingRect();
         const PSX_RECT bRect = VGetBoundingRect();
 
         if (bRect.x <= bPlayerRect.w
             && bRect.w >= bPlayerRect.x
             && bRect.h >= bPlayerRect.y
             && bRect.y <= bPlayerRect.h
-            && GetSpriteScale() == sActiveHero->GetSpriteScale())
+            && GetSpriteScale() == gAbe->GetSpriteScale())
         {
             if (gThrowableArray)
             {
                 if (gThrowableArray->mCount)
                 {
-                    if (sActiveHero->mCurrentMotion == eAbeMotions::Motion_33_RunJumpMid)
+                    if (gAbe->mCurrentMotion == eAbeMotions::Motion_33_RunJumpMid)
                     {
                         GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::RockSack_HardHit));
                     }
@@ -159,7 +159,7 @@ void RockSack::VUpdate()
             SfxPlayMono(relive::SoundEffects::SackHit, 0);
             Environment_SFX(EnvironmentSfx::eDeathNoise_7, 0, 0x7FFF, 0);
 
-            if (sActiveHero->mCurrentMotion == eAbeMotions::Motion_33_RunJumpMid)
+            if (gAbe->mCurrentMotion == eAbeMotions::Motion_33_RunJumpMid)
             {
                 GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::RockSack_HardHit));
             }

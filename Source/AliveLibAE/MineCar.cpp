@@ -890,12 +890,12 @@ void MineCar::VUpdate()
 void MineCar::State_0_ParkedWithoutAbe()
 {
     const PSX_RECT carRect = VGetBoundingRect();
-    const PSX_RECT abeRect = sActiveHero->VGetBoundingRect();
+    const PSX_RECT abeRect = gAbe->VGetBoundingRect();
 
     if (
-        sActiveHero->mCurrentMotion == eAbeMotions::Motion_117_InMineCar &&
+        gAbe->mCurrentMotion == eAbeMotions::Motion_117_InMineCar &&
         PSX_Rects_overlap_4FA0B0(&carRect, &abeRect) &&
-        sActiveHero->GetSpriteScale() == GetSpriteScale()
+        gAbe->GetSpriteScale() == GetSpriteScale()
     )
     {
         GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Mine_Car_Closed));
@@ -925,20 +925,20 @@ void MineCar::State_1_ParkedWithAbe()
 
     // Abe exits minecar
     //
-    if (sActiveHero->mCurrentMotion != eAbeMotions::Motion_117_InMineCar)
+    if (gAbe->mCurrentMotion != eAbeMotions::Motion_117_InMineCar)
     {
-        sActiveHero->mXPos = mXPos;
-        sActiveHero->mYPos = mYPos;
+        gAbe->mXPos = mXPos;
+        gAbe->mYPos = mYPos;
         field_11C_state = MineCarStates::eParkedWithoutAbe_0;
         
         mTreadAnim.Set_Animation_Data(GetAnimRes(AnimId::Mine_Car_Tread_Idle));
         GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Mine_Car_Open));
 
-        sControlledCharacter = sActiveHero;
+        sControlledCharacter = gAbe;
         field_1CC_spawned_path = gMap.mCurrentPath;
         field_1CE_spawned_camera = gMap.mCurrentCamera;
 
-        sActiveHero->VCheckCollisionLineStillValid(10);
+        gAbe->VCheckCollisionLineStillValid(10);
 
         SFX_Play_Pitch(relive::SoundEffects::DoorEffect, 100, 500, GetSpriteScale());
 
@@ -1367,8 +1367,8 @@ void MineCar::State_2_Moving()
     const FP mineCarWidth = GetSpriteScale() * mineCarWidthUnscaled;
     const FP mineCarWidthAdjusted = mineCarWidth + kGridSize;
 
-    sActiveHero->mXPos = mXPos;
-    sActiveHero->mYPos = mYPos;
+    gAbe->mXPos = mXPos;
+    gAbe->mYPos = mYPos;
 
     if (!field_1D0_sound_channels_mask)
     {
@@ -1616,9 +1616,9 @@ void MineCar::State_3_Falling()
 
             Stop();
 
-            sActiveHero->BaseAliveGameObjectCollisionLine = BaseAliveGameObjectCollisionLine;
-            sActiveHero->mXPos = mXPos;
-            sActiveHero->mYPos = mYPos;
+            gAbe->BaseAliveGameObjectCollisionLine = BaseAliveGameObjectCollisionLine;
+            gAbe->mXPos = mXPos;
+            gAbe->mYPos = mYPos;
             field_1BC_turn_direction = MineCarDirs::eUp_3;
         }
     }

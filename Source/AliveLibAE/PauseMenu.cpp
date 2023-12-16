@@ -429,7 +429,7 @@ void PauseMenu::RestartPath()
         1);
 
     gMap.mForceLoad = true;
-    if (sActiveHero->mBaseThrowableCount)
+    if (gAbe->mBaseThrowableCount)
     {
         LoadRockTypes(
             QuikSave::gActiveQuicksaveData.mRestartPathWorldInfo.mLevel,
@@ -440,7 +440,7 @@ void PauseMenu::RestartPath()
             gThrowableArray = relive_new ThrowableArray();
         }
 
-        gThrowableArray->Add(sActiveHero->mBaseThrowableCount);
+        gThrowableArray->Add(gAbe->mBaseThrowableCount);
     }
 
     mPauseRenderLoop = false;
@@ -892,8 +892,8 @@ void PauseMenu::Page_Load_Update()
             QuikSave::gActiveQuicksaveData = {};
             from_json(j, QuikSave::gActiveQuicksaveData);
 
-            sActiveHero->mXPos = FP_FromInteger(0);
-            sActiveHero->mYPos = FP_FromInteger(0);
+            gAbe->mXPos = FP_FromInteger(0);
+            gAbe->mYPos = FP_FromInteger(0);
             QuikSave::LoadActive();
             mPauseRenderLoop = false;
             SfxPlayMono(relive::SoundEffects::IngameTransition, 90);
@@ -957,7 +957,7 @@ void PauseMenu::Page_Load_Render(OrderingTable& ot, PauseMenuPage* pPage)
 
 void PauseMenu::VUpdate()
 {
-    Abe* pHero = sActiveHero;
+    Abe* pHero = gAbe;
     IBaseAliveGameObject* pControlledChar = nullptr;
 
     if (!pHero)
@@ -965,7 +965,7 @@ void PauseMenu::VUpdate()
         return;
     }
 
-    if (sActiveHero->mHealth <= FP_FromInteger(0) || sActiveHero->GetElectrocuted())
+    if (gAbe->mHealth <= FP_FromInteger(0) || gAbe->GetElectrocuted())
     {
         pControlledChar = sControlledCharacter;
     }
@@ -974,7 +974,7 @@ void PauseMenu::VUpdate()
         pControlledChar = sControlledCharacter;
         if (!sControlledCharacter->GetTeleporting())
         {
-            const s16 heroState = sActiveHero->mCurrentMotion;
+            const s16 heroState = gAbe->mCurrentMotion;
             if (heroState != eAbeMotions::Motion_86_HandstoneBegin
                 && heroState != eAbeMotions::Motion_119_ToShrykull
                 && heroState != eAbeMotions::Motion_120_EndShrykull
@@ -988,12 +988,12 @@ void PauseMenu::VUpdate()
                 && heroState != eAbeMotions::Motion_82_InsideWellExpress_45CC80
                 && heroState != eAbeMotions::Motion_83_WellExpressShotOut_45CF70
                 && !(sControlledCharacter->Type() == ReliveTypes::eEvilFart && static_cast<EvilFart*>(sControlledCharacter)->mState == FartStates::eDechanting_2)
-                && sActiveHero->mBirdPortalId == Guid{})
+                && gAbe->mBirdPortalId == Guid{})
             {
                 if (gQuicksave_SaveNextFrame)
                 {
                     QuikSave::DoQuicksave();
-                    pHero = sActiveHero;
+                    pHero = gAbe;
                     pControlledChar = sControlledCharacter;
                     gQuicksave_SaveNextFrame = false;
                     gQuicksave_LoadNextFrame = false;
@@ -1002,7 +1002,7 @@ void PauseMenu::VUpdate()
                 {
                     QuikSave::LoadActive();
                     SND_SEQ_Stop(SeqId::MudokonChant1_10);
-                    pHero = sActiveHero;
+                    pHero = gAbe;
                     pControlledChar = sControlledCharacter;
                     gQuicksave_SaveNextFrame = false;
                     gQuicksave_LoadNextFrame = false;
@@ -1074,15 +1074,15 @@ void PauseMenu::VUpdate()
                 sprintf(sSavedMudokonsText, "%d OF %d MUDOKONS", gRescuedMudokons, Path_GetTotalMuds(gMap.mCurrentLevel, gMap.mCurrentPath));
                 sprintf(sTerminatedMudokonsText, "%d HA%s BEEN TERMINATED", gKilledMudokons, (gKilledMudokons != 1) ? "VE" : "S");
 
-                if (sActiveHero->mMood == Mud_Emotion::eNormal_0)
+                if (gAbe->mMood == Mud_Emotion::eNormal_0)
                 {
                     mMudIconAnim.Set_Animation_Data(GetAnimRes(AnimId::NormalMudIcon));
                 }
-                else if (sActiveHero->mMood == Mud_Emotion::eSad_3)
+                else if (gAbe->mMood == Mud_Emotion::eSad_3)
                 {
                     mMudIconAnim.Set_Animation_Data(GetAnimRes(AnimId::AngryMudIcon));
                 }
-                else if (sActiveHero->mMood == Mud_Emotion::eHappy_5)
+                else if (gAbe->mMood == Mud_Emotion::eHappy_5)
                 {
                     mMudIconAnim.Set_Animation_Data(GetAnimRes(AnimId::HappyMudIcon));
                 }

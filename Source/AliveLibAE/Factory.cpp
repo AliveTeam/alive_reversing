@@ -540,13 +540,13 @@ static void Factory_AbeStart(relive::Path_TLV* pTlv, Path*, const Guid& /*tlvId*
             gPauseMenu = relive_new PauseMenu();
         }
 
-        if (!sActiveHero)
+        if (!gAbe)
         {
-            sActiveHero = relive_new Abe();
-            if (sActiveHero)
+            gAbe = relive_new Abe();
+            if (gAbe)
             {
-                sActiveHero->mXPos = FP_FromInteger(pTlv->mTopLeftX + 12);
-                sActiveHero->mYPos = FP_FromInteger(pTlv->mTopLeftY);
+                gAbe->mXPos = FP_FromInteger(pTlv->mTopLeftX + 12);
+                gAbe->mYPos = FP_FromInteger(pTlv->mTopLeftY);
             }
         }
     }

@@ -992,7 +992,7 @@ s16 Glukkon::Brain_0_Calm_WalkAround()
         return 8;
     }
 
-    if (sActiveHero->mHealth < FP_FromInteger(0))
+    if (gAbe->mHealth < FP_FromInteger(0))
     {
         Speak(GlukkonSpeak::Laugh_7);
         SetBrain(&Glukkon::Brain_4_Death);
@@ -1289,7 +1289,7 @@ s16 Glukkon::Brain_1_Panic()
         return 7;
     }
 
-    if (sActiveHero->mHealth < FP_FromInteger(0))
+    if (gAbe->mHealth < FP_FromInteger(0))
     {
         Glukkon::Speak(GlukkonSpeak::Laugh_7);
         SetBrain(&Glukkon::Brain_4_Death);
@@ -1430,7 +1430,7 @@ s16 Glukkon::Brain_2_Slapped()
         return 3;
     }
 
-    if (sActiveHero->mHealth < FP_FromInteger(0))
+    if (gAbe->mHealth < FP_FromInteger(0))
     {
         Glukkon::Speak(GlukkonSpeak::Laugh_7);
         SetBrain(&Glukkon::Brain_4_Death);
@@ -1600,7 +1600,7 @@ s16 Glukkon::Brain_3_PlayerControlled()
                         Layer::eLayer_0);
                 }
 
-                if (static_cast<s32>(sGnFrame) > field_1D4_timer || sActiveHero->mHealth <= FP_FromInteger(0))
+                if (static_cast<s32>(sGnFrame) > field_1D4_timer || gAbe->mHealth <= FP_FromInteger(0))
                 {
                     SetPossessed(false);
                     SetBrain(&Glukkon::Brain_4_Death);
@@ -2005,7 +2005,7 @@ Glukkon::~Glukkon()
 
     if (this == sControlledCharacter)
     {
-        sControlledCharacter = sActiveHero;
+        sControlledCharacter = gAbe;
     }
 }
 
@@ -2721,7 +2721,7 @@ void Glukkon::ToDead()
     if (sControlledCharacter == this)
     {
         // When its a player controlled gluk go back to the screen the player is in
-        sControlledCharacter = sActiveHero;
+        sControlledCharacter = gAbe;
         MusicController::static_PlayMusic(MusicController::MusicTypes::eNone_0, this, 0, 0);
 
         if (gMap.mNextLevel != EReliveLevelIds::eMenu)
@@ -3033,7 +3033,7 @@ bool Glukkon::VTakeDamage(BaseGameObject* pFrom)
             break;
 
         case ReliveTypes::eAbe:
-            if (sActiveHero->mCurrentMotion == eAbeMotions::Motion_62_Punch_454750)
+            if (gAbe->mCurrentMotion == eAbeMotions::Motion_62_Punch_454750)
             {
                 if (Math_NextRandom() <= 32u)
                 {

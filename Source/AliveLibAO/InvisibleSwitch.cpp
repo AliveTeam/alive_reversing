@@ -49,9 +49,9 @@ void InvisibleSwitch::VUpdate()
                 if (charYPos >= FP_FromInteger(mTlvTopLeft.y) && charYPos <= FP_FromInteger(mTlvBottomRight.y))
                 {
                     // TODO: ???
-                    if (sControlledCharacter != sActiveHero
-                        || (sActiveHero->mCurrentMotion != eAbeMotions::Motion_157_DoorExit
-                            && sActiveHero->mCurrentMotion != eAbeMotions::Motion_156_DoorEnter))
+                    if (sControlledCharacter != gAbe
+                        || (gAbe->mCurrentMotion != eAbeMotions::Motion_157_DoorExit
+                            && gAbe->mCurrentMotion != eAbeMotions::Motion_156_DoorEnter))
                     {
                         // Scale matches ?
                         if (mScale == relive::Path_InvisibleSwitch::InvisibleSwitchScale::eAny

@@ -163,7 +163,7 @@ void SecurityOrb::VUpdate()
 
             if (EventGet(kEventAbeOhm))
             {
-                if (!sActiveHero->mRingPulseTimer || !sActiveHero->mHaveShrykull || sActiveHero->GetSpriteScale() != FP_FromInteger(1))
+                if (!gAbe->mRingPulseTimer || !gAbe->mHaveShrykull || gAbe->GetSpriteScale() != FP_FromInteger(1))
                 {
                     mState = States::eDoZapEffects_1;
                     mTimer = MakeTimer(20);
@@ -174,7 +174,7 @@ void SecurityOrb::VUpdate()
         case States::eDoZapEffects_1:
             if (static_cast<s32>(sGnFrame) > mTimer)
             {
-                const PSX_RECT abeRect = sActiveHero->VGetBoundingRect();
+                const PSX_RECT abeRect = gAbe->VGetBoundingRect();
 
                 const FP xpos = FP_FromInteger((abeRect.x + abeRect.w) / 2);
                 const FP ypos = FP_FromInteger((abeRect.y + abeRect.h) / 2);
@@ -188,11 +188,11 @@ void SecurityOrb::VUpdate()
                     ZapLineType::eThick_0,
                     Layer::eLayer_ZapLinesElumMuds_28);
 
-                relive_new PossessionFlicker(sActiveHero, 8, 255, 100, 100);
+                relive_new PossessionFlicker(gAbe, 8, 255, 100, 100);
 
-                if (sActiveHero->mHealth > FP_FromInteger(0))
+                if (gAbe->mHealth > FP_FromInteger(0))
                 {
-                    sActiveHero->VTakeDamage(this);
+                    gAbe->VTakeDamage(this);
                 }
 
                 mTimer = MakeTimer(8);

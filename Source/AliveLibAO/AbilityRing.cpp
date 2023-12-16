@@ -101,7 +101,7 @@ AbilityRing::AbilityRing(FP xpos, FP ypos, RingTypes ring_type)
 
         case RingTypes::eExplosive_Pulse_0:
         case RingTypes::eShrykull_Pulse_Small_4:
-            SetTarget(sActiveHero);
+            SetTarget(gAbe);
             [[fallthrough]];
 
         case RingTypes::eShrykull_Pulse_Large_5:
@@ -313,7 +313,7 @@ void AbilityRing::VUpdate()
                 SetDead(true);
                 mRingLeft = FP_FromInteger(0);
                 SfxPlayMono(relive::SoundEffects::IngameTransition, 0);
-                relive_new PossessionFlicker(sActiveHero, 8, 255, 128, 128);
+                relive_new PossessionFlicker(gAbe, 8, 255, 128, 128);
             }
             break;
 

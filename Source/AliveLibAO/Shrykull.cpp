@@ -58,13 +58,13 @@ Shrykull::Shrykull()
     mZapLine = nullptr;
     mZapTarget = nullptr;
 
-    mXPos = sActiveHero->mXPos;
-    mYPos = sActiveHero->mYPos;
-    SetSpriteScale(sActiveHero->GetSpriteScale());
-    SetScale(sActiveHero->GetScale());
+    mXPos = gAbe->mXPos;
+    mYPos = gAbe->mYPos;
+    SetSpriteScale(gAbe->GetSpriteScale());
+    SetScale(gAbe->GetScale());
     mState = State::eTransform_0;
 
-    GetAnimation().SetFlipX(sActiveHero->GetAnimation().GetFlipX());
+    GetAnimation().SetFlipX(gAbe->GetAnimation().GetFlipX());
 
     CreateShadow();
 
@@ -250,7 +250,7 @@ void Shrykull::VUpdate()
 
             if (GetAnimation().GetForwardLoopCompleted())
             {
-                sActiveHero->ExitShrykull(mResetRingTimer);
+                gAbe->ExitShrykull(mResetRingTimer);
                 SetDead(true);
             }
             break;

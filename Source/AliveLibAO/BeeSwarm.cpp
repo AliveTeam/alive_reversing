@@ -105,7 +105,7 @@ void BeeSwarm::VScreenChanged()
         }
     }
 
-    if (!sActiveHero || (mChaseTarget == sActiveHero && sActiveHero->mCurrentMotion == eAbeMotions::Motion_156_DoorEnter))
+    if (!gAbe || (mChaseTarget == gAbe && gAbe->mCurrentMotion == eAbeMotions::Motion_156_DoorEnter))
     {
         SetDead(true);
     }
@@ -228,7 +228,7 @@ void BeeSwarm::VUpdate()
                         FP_GetExponent(mChaseTargetX),
                         FP_GetExponent(mChaseTargetY))
                         < 60
-                    && mChaseTarget == sActiveHero)
+                    && mChaseTarget == gAbe)
                 {
                     gBeesNearAbe = true;
                 }
@@ -241,7 +241,7 @@ void BeeSwarm::VUpdate()
                 {
                     if (!(sGnFrame % 10) && Math_RandomRange(0, 100) < 70)
                     {
-                        // Check every single object just to see if its sActiveHero (nice algorithm lads)
+                        // Check every single object just to see if its gAbe (nice algorithm lads)
                         // and play pain sounds if so and in the damage rect.
                         for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
                         {
@@ -254,14 +254,14 @@ void BeeSwarm::VUpdate()
                             const PSX_RECT obj_rect = pObjIter->VGetBoundingRect();
                             if (FP_FromInteger(obj_rect.x) <= mRectW && FP_FromInteger(obj_rect.w) >= mRectX && FP_FromInteger(obj_rect.h) >= mRectY && FP_FromInteger(obj_rect.y) <= mRectH)
                             {
-                                if (pObjIter == sActiveHero && sActiveHero->mHealth > FP_FromInteger(0))
+                                if (pObjIter == gAbe && gAbe->mHealth > FP_FromInteger(0))
                                 {
                                     const MudSounds snd = Math_RandomRange(0, 127) >= 64 ? MudSounds::eBeesStruggle_18 : MudSounds::eKnockbackOuch_10;
-                                    const FP pitch_val = (FP_FromInteger(1) - sActiveHero->mHealth) / FP_FromDouble(0.15);
+                                    const FP pitch_val = (FP_FromInteger(1) - gAbe->mHealth) / FP_FromDouble(0.15);
                                     const s16 pitch = Math_RandomRange(
                                         200 * FP_GetExponent(pitch_val),
                                         200 * (FP_GetExponent(pitch_val) + 1));
-                                    Mudokon_SFX(snd, 0, pitch, sActiveHero);
+                                    Mudokon_SFX(snd, 0, pitch, gAbe);
                                 }
                             }
                         }

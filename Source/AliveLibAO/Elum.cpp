@@ -153,7 +153,7 @@ bool Elum::VTakeDamage(BaseGameObject* pFrom)
                 Elum_SFX(ElumSounds::eExploding_7, 0);
                 SfxPlayMono(relive::SoundEffects::KillEffect, 75);
 
-                if (sActiveHero->mHealth > FP_FromInteger(0))
+                if (gAbe->mHealth > FP_FromInteger(0))
                 {
                     SetCurrentMotion(eElumMotions::Motion_20_Fall);
                 }
@@ -390,8 +390,8 @@ void Elum::SetAbeAsPlayer(s16 abeMotion)
     // Back to Abe
     if (sControlledCharacter == this)
     {
-        sControlledCharacter = sActiveHero;
-        sActiveHero->mNextMotion = abeMotion;
+        sControlledCharacter = gAbe;
+        gAbe->mNextMotion = abeMotion;
     }
 
     /*
@@ -560,7 +560,7 @@ void Elum::HandleElumPathTrans()
     PSX_Point camCoords = {};
     gMap.GetCurrentCamCoords(&camCoords);
 
-    if (sActiveHero->GetAnimation().GetFlipX())
+    if (gAbe->GetAnimation().GetFlipX())
     {
         mXPos = ScaleToGridSize(GetSpriteScale()) + FP_FromInteger(camCoords.x + XGrid_Index_To_XPos(GetSpriteScale(), MaxGridBlocks(GetSpriteScale())));
     }
@@ -569,9 +569,9 @@ void Elum::HandleElumPathTrans()
         mXPos = FP_FromInteger(camCoords.x + XGrid_Index_To_XPos(GetSpriteScale(), 0)) - ScaleToGridSize(GetSpriteScale());
     }
 
-    if (sActiveHero->BaseAliveGameObjectCollisionLine)
+    if (gAbe->BaseAliveGameObjectCollisionLine)
     {
-        mYPos = sActiveHero->mYPos;
+        mYPos = gAbe->mYPos;
     }
     else
     {
@@ -812,7 +812,7 @@ s16 Elum::Brain_0_WithoutAbe()
 
         case 1:
         {
-            const FP xd = sActiveHero->mXPos - mXPos;
+            const FP xd = gAbe->mXPos - mXPos;
             if (FP_Abs(xd) < (kGridSize * FP_FromInteger(2)))
             {
                 SetNextMotion(eElumMotions::Motion_1_Idle);
@@ -864,7 +864,7 @@ s16 Elum::Brain_0_WithoutAbe()
                 return 0;
             }
 
-            const FP xd = sActiveHero->mXPos - mXPos;
+            const FP xd = gAbe->mXPos - mXPos;
             if (xd > (kGridSize / FP_FromInteger(2)) && GetAnimation().GetFlipX())
             {
                 SetNextMotion(eElumMotions::Motion_4_Turn);
@@ -882,12 +882,12 @@ s16 Elum::Brain_0_WithoutAbe()
                 auto pLift = static_cast<LiftPoint*>(pPlatform);
                 if (!pLift->OnAnyFloor()) // TODO: Check logic
                 {
-                    if (mXPos == sActiveHero->mXPos)
+                    if (mXPos == gAbe->mXPos)
                     {
                         return 2;
                     }
 
-                    if (VIsFacingMe(sActiveHero))
+                    if (VIsFacingMe(gAbe))
                     {
                         SetNextMotion(eElumMotions::Motion_3_WalkLoop);
                         return 3;
@@ -898,7 +898,7 @@ s16 Elum::Brain_0_WithoutAbe()
                 }
             }
 
-            if (sActiveHero->mCurrentMotion == eAbeMotions::Motion_139_ElumMountBegin)
+            if (gAbe->mCurrentMotion == eAbeMotions::Motion_139_ElumMountBegin)
             {
                 SetCurrentMotion(eElumMotions::Motion_48_AbeMoutingBegin);
                 return 16;
@@ -952,7 +952,7 @@ s16 Elum::Brain_0_WithoutAbe()
                 return 5;
             }
 
-            if (FP_Abs(xd) > (kGridSize * FP_FromInteger(3)) && VOnSameYLevel(sActiveHero))
+            if (FP_Abs(xd) > (kGridSize * FP_FromInteger(3)) && VOnSameYLevel(gAbe))
             {
                 if (xd < FP_FromInteger(0))
                 {
@@ -991,7 +991,7 @@ s16 Elum::Brain_0_WithoutAbe()
                 return mBrainSubState;
             }
 
-            if (mXPos == sActiveHero->mXPos)
+            if (mXPos == gAbe->mXPos)
             {
                 return 2;
             }
@@ -1023,7 +1023,7 @@ s16 Elum::Brain_0_WithoutAbe()
                 return 0;
             }
 
-            const FP xd_1 = sActiveHero->mXPos - mXPos;
+            const FP xd_1 = gAbe->mXPos - mXPos;
             if (xd_1 > (kGridSize / FP_FromInteger(2)) && GetAnimation().GetFlipX())
             {
                 SetNextMotion(eElumMotions::Motion_4_Turn);
@@ -1035,7 +1035,7 @@ s16 Elum::Brain_0_WithoutAbe()
                 return 7;
             }
 
-            if (sActiveHero->mCurrentMotion == eAbeMotions::Motion_139_ElumMountBegin)
+            if (gAbe->mCurrentMotion == eAbeMotions::Motion_139_ElumMountBegin)
             {
                 SetCurrentMotion(eElumMotions::Motion_48_AbeMoutingBegin);
                 return 16;
@@ -1156,7 +1156,7 @@ s16 Elum::Brain_0_WithoutAbe()
                 return mBrainSubState;
             }
 
-            const FP xd = sActiveHero->mXPos - mXPos;
+            const FP xd = gAbe->mXPos - mXPos;
             if (xd >= FP_FromInteger(0))
             {
                 if (xd >= (kGridSize / FP_FromInteger(2)))
@@ -1187,7 +1187,7 @@ s16 Elum::Brain_0_WithoutAbe()
                 return 5;
             }
 
-            const FP xd = sActiveHero->mXPos - mXPos;
+            const FP xd = gAbe->mXPos - mXPos;
             if (FP_Abs(xd) < (kGridSize / FP_FromInteger(2)))
             {
                 SetNextMotion(eElumMotions::Motion_1_Idle);
@@ -1238,7 +1238,7 @@ s16 Elum::Brain_0_WithoutAbe()
                 return mBrainSubState;
             }
 
-            if (FP_Abs(sActiveHero->mXPos - mXPos) < (kGridSize / FP_FromInteger(2)))
+            if (FP_Abs(gAbe->mXPos - mXPos) < (kGridSize / FP_FromInteger(2)))
             {
                 SetNextMotion(eElumMotions::Motion_1_Idle);
                 return 2;
@@ -1638,13 +1638,13 @@ void Elum::Motion_1_Idle()
 {
     CheckLiftPointGoneAndSetCamera();
 
-    if (sActiveHero->mCurrentMotion != eAbeMotions::Motion_115_ElumSpeak && !ToNextMotion())
+    if (gAbe->mCurrentMotion != eAbeMotions::Motion_115_ElumSpeak && !ToNextMotion())
     {
-        if (sActiveHero->mCurrentMotion == eAbeMotions::Motion_150_Chant && sControlledCharacter == sActiveHero)
+        if (gAbe->mCurrentMotion == eAbeMotions::Motion_150_Chant && sControlledCharacter == gAbe)
         {
             SetCurrentMotion(eElumMotions::Motion_9_ToYell);
         }
-        else if (sActiveHero->mCurrentMotion == eAbeMotions::Motion_137_ElumUnmountBegin)
+        else if (gAbe->mCurrentMotion == eAbeMotions::Motion_137_ElumUnmountBegin)
         {
             SetCurrentMotion(eElumMotions::Motion_49_AbeUnmountingBegin);
         }
@@ -1842,7 +1842,7 @@ void Elum::Motion_4_Turn()
             GetAnimation().Set_Animation_Data(GetAnimation().mAnimRes);
             if (sControlledCharacter == this)
             {
-                sActiveHero->SyncToElum(mCurrentMotion);
+                gAbe->SyncToElum(mCurrentMotion);
             }
         }
         else
@@ -2141,9 +2141,9 @@ void Elum::Motion_18_Unknown()
 
 void Elum::Motion_19_Dead()
 {
-    if (sActiveHero->mHealth > FP_FromInteger(0))
+    if (gAbe->mHealth > FP_FromInteger(0))
     {
-        if (!sActiveHero->mShrivel && sActiveHero->mLandSoft /* && field_104_pending_resource_count == 0*/)
+        if (!gAbe->mShrivel && gAbe->mLandSoft /* && field_104_pending_resource_count == 0*/)
         {
             mXPos = FP_FromInteger(mContinueRect.x);
             mYPos = FP_FromInteger(mContinueRect.y);
@@ -2168,7 +2168,7 @@ void Elum::Motion_19_Dead()
             mFoundHoney = false;
             field_110_timer = sGnFrame;
 
-            GetAnimation().SetFlipX(sActiveHero->GetAnimation().GetFlipX());
+            GetAnimation().SetFlipX(gAbe->GetAnimation().GetFlipX());
 
             if (mStungByBees)
             {
@@ -2203,7 +2203,7 @@ void Elum::Motion_19_Dead()
 
 void Elum::Motion_20_Fall()
 {
-    if (sActiveHero->mHealth <= FP_FromInteger(0))
+    if (gAbe->mHealth <= FP_FromInteger(0))
     {
         SetCurrentMotion(eElumMotions::Motion_19_Dead);
     }
@@ -2377,7 +2377,7 @@ void Elum::Motion_26_LickingToStruggling()
 
 void Elum::Motion_27_AbeMountingEnd()
 {
-    if (sActiveHero->mCurrentMotion != eAbeMotions::Motion_136_ElumMountEnd)
+    if (gAbe->mCurrentMotion != eAbeMotions::Motion_136_ElumMountEnd)
     {
         ToIdle();
     }
@@ -2385,7 +2385,7 @@ void Elum::Motion_27_AbeMountingEnd()
 
 void Elum::Motion_28_AbeUnmountingEnd()
 {
-    if (sActiveHero->mCurrentMotion != eAbeMotions::Motion_138_ElumUnmountEnd)
+    if (gAbe->mCurrentMotion != eAbeMotions::Motion_138_ElumUnmountEnd)
     {
         ToIdle();
     }
@@ -3131,7 +3131,7 @@ void Elum::Motion_47_Unknown()
 
 void Elum::Motion_48_AbeMoutingBegin()
 {
-    if (sActiveHero->mCurrentMotion == eAbeMotions::Motion_136_ElumMountEnd)
+    if (gAbe->mCurrentMotion == eAbeMotions::Motion_136_ElumMountEnd)
     {
         SetCurrentMotion(eElumMotions::Motion_27_AbeMountingEnd);
     }
@@ -3139,7 +3139,7 @@ void Elum::Motion_48_AbeMoutingBegin()
 
 void Elum::Motion_49_AbeUnmountingBegin()
 {
-    if (sActiveHero->mCurrentMotion != eAbeMotions::Motion_137_ElumUnmountBegin)
+    if (gAbe->mCurrentMotion != eAbeMotions::Motion_137_ElumUnmountBegin)
     {
         SetCurrentMotion(eElumMotions::Motion_28_AbeUnmountingEnd);
     }
@@ -3247,8 +3247,8 @@ void Elum::VUpdate()
 
         SetActiveCameraDelayedFromDir();
 
-        sActiveHero->mXPos = mXPos;
-        sActiveHero->mYPos = mYPos;
+        gAbe->mXPos = mXPos;
+        gAbe->mYPos = mYPos;
         return;
     }
 
@@ -3347,7 +3347,7 @@ void Elum::VUpdate()
                 field_120_bUnknown = 0;
                 if (sControlledCharacter == this)
                 {
-                    sActiveHero->SyncToElum(mCurrentMotion);
+                    gAbe->SyncToElum(mCurrentMotion);
                 }
             }
         }
@@ -3356,7 +3356,7 @@ void Elum::VUpdate()
             GetAnimation().Set_Animation_Data(GetAnimRes(gElumMotionAnimIds[mCurrentMotion]));
             if (sControlledCharacter == this)
             {
-                sActiveHero->SyncToElum(mCurrentMotion);
+                gAbe->SyncToElum(mCurrentMotion);
             }
         }
 
@@ -3364,7 +3364,7 @@ void Elum::VUpdate()
         {
             if (!field_154_bAbeForcedDownFromElum)
             {
-                if (sActiveHero->mContinueZoneNumber != mPreviousContinueZoneNumber)
+                if (gAbe->mContinueZoneNumber != mPreviousContinueZoneNumber)
                 {
                     mBrainIdx = 0;
                     mBrainSubState = 6;
@@ -3372,9 +3372,9 @@ void Elum::VUpdate()
 
                     if (sControlledCharacter == this)
                     {
-                        sActiveHero->mXPos = mXPos;
-                        sActiveHero->mYPos = mYPos;
-                        sActiveHero->GetAnimation().SetFlipX(GetAnimation().GetFlipX());
+                        gAbe->mXPos = mXPos;
+                        gAbe->mYPos = mYPos;
+                        gAbe->GetAnimation().SetFlipX(GetAnimation().GetFlipX());
                     }
                     return;
                 }
@@ -3387,9 +3387,9 @@ void Elum::VUpdate()
 
         if (sControlledCharacter == this)
         {
-            sActiveHero->mXPos = mXPos;
-            sActiveHero->mYPos = mYPos;
-            sActiveHero->GetAnimation().SetFlipX(GetAnimation().GetFlipX());
+            gAbe->mXPos = mXPos;
+            gAbe->mYPos = mYPos;
+            gAbe->GetAnimation().SetFlipX(GetAnimation().GetFlipX());
         }
         return;
     }
@@ -3489,7 +3489,7 @@ Elum::Elum(const Guid& tlvInfo)
     LoadAnimations();
     Animation_Init(GetAnimRes(AnimId::Elum_Land));
 
-    SetSpriteScale(sActiveHero->GetSpriteScale());
+    SetSpriteScale(gAbe->GetSpriteScale());
 
     if (GetSpriteScale() == FP_FromInteger(1))
     {
@@ -3520,8 +3520,8 @@ Elum::Elum(const Guid& tlvInfo)
     mRespawnOnDead = 0;
     field_110_timer = sGnFrame;
 
-    mXPos = sActiveHero->mXPos - (ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(2));
-    mYPos = sActiveHero->mYPos - FP_FromInteger(5);
+    mXPos = gAbe->mXPos - (ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(2));
+    mYPos = gAbe->mYPos - FP_FromInteger(5);
 
     mDontFollowAbe = 0;
     field_124_bShould_IdleToWalk1 = 1;
@@ -3530,7 +3530,7 @@ Elum::Elum(const Guid& tlvInfo)
     mBaseAliveGameObjectLastAnimFrame = 0;
 
     mPreviousContinueZoneNumber = 0;
-    mAbeZoneNumber = sActiveHero->mContinueZoneNumber;
+    mAbeZoneNumber = gAbe->mContinueZoneNumber;
 
     field_154_bAbeForcedDownFromElum = 0;
     mBrainIdx = 0;

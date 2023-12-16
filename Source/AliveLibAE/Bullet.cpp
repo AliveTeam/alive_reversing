@@ -298,7 +298,7 @@ void Bullet::VUpdate()
                         mXPos,
                         mYPos,
                         rectXPos,
-                        sActiveHero->mYPos + FP_FromInteger(10),
+                        gAbe->mYPos + FP_FromInteger(10),
                         &mLine, &hitX, &hitY, CollisionMask(eBulletWall_10))
                     == 1)
                 {

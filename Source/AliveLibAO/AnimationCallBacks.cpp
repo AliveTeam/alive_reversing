@@ -159,7 +159,7 @@ void Abe_OnFrame(::BaseGameObject* pObj, u32&, const IndexedPoint& pData)
     const FP yVel = sThrowVelocities[pAbe->mThrowDirection].y * pAbe->GetSpriteScale();
 
     FP directed_x = {};
-    if (sActiveHero->GetAnimation().GetFlipX())
+    if (gAbe->GetAnimation().GetFlipX())
     {
         xVel = -xVel;
         directed_x = -(pAbe->GetSpriteScale() * FP_FromInteger(pData.mPoint.x));
@@ -188,14 +188,14 @@ void Abe_OnFrame(::BaseGameObject* pObj, u32&, const IndexedPoint& pData)
         xVel = -xVel;
     }
 
-    if (sActiveHero->mThrowable)
+    if (gAbe->mThrowable)
     {
-        sActiveHero->mThrowable->mXPos = directed_x + sActiveHero->mXPos;
-        BaseThrowable* pThrowable = sActiveHero->mThrowable;
-        pThrowable->mYPos = (pAbe->GetSpriteScale() * data_y) + sActiveHero->mYPos;
+        gAbe->mThrowable->mXPos = directed_x + gAbe->mXPos;
+        BaseThrowable* pThrowable = gAbe->mThrowable;
+        pThrowable->mYPos = (pAbe->GetSpriteScale() * data_y) + gAbe->mYPos;
         pThrowable->VThrow(xVel, yVel);
         pThrowable->SetSpriteScale(pAbe->GetSpriteScale());
-        sActiveHero->mThrowable = nullptr;
+        gAbe->mThrowable = nullptr;
     }
 }
 

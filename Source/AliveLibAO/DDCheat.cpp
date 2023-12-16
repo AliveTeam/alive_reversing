@@ -106,7 +106,7 @@ void DDCheat::VUpdate()
     if (gDDCheatOn)
     {
         const InputObject::PadIndex otherController = Input().CurrentController() == InputObject::PadIndex::First ? InputObject::PadIndex::Second : InputObject::PadIndex::First;
-        Abe* pAbe = sActiveHero;
+        Abe* pAbe = gAbe;
         bool cheat_enabled = false;
 
         if (field_20_bTeleportCheatActive == 0)
@@ -120,7 +120,7 @@ void DDCheat::VUpdate()
             {
                 PSX_Point point = {};
                 gMap.GetCurrentCamCoords(&point);
-                pAbe = sActiveHero;
+                pAbe = gAbe;
                 cheat_enabled = true;
                 pAbe->mXPos = FP_FromInteger(point.x + 448);
                 pAbe->mYPos = FP_FromInteger(point.y + 180);
@@ -210,12 +210,12 @@ void DDCheat::VUpdate()
                 gMap.mCurrentCamera,
                 sGnFrame);
 
-            if (sActiveHero)
+            if (gAbe)
             {
                 DebugStr(
                     "\nheroxy=%4d,%4d\n",
-                    FP_GetExponent(sActiveHero->mXPos),
-                    FP_GetExponent(sActiveHero->mYPos));
+                    FP_GetExponent(gAbe->mXPos),
+                    FP_GetExponent(gAbe->mYPos));
             }
 
             cheat_enabled = gDDCheat_FlyingEnabled;
@@ -441,8 +441,8 @@ void DDCheat::Misc()
             return;
         }
     }
-    sActiveHero->SetSpriteScale(sControlledCharacter->GetSpriteScale());
-    sActiveHero->SetScale(sControlledCharacter->GetScale());
+    gAbe->SetSpriteScale(sControlledCharacter->GetSpriteScale());
+    gAbe->SetScale(sControlledCharacter->GetScale());
 }
 
 

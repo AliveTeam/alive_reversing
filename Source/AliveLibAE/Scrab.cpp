@@ -436,7 +436,7 @@ Scrab::~Scrab()
 
     if (sControlledCharacter == this)
     {
-        sControlledCharacter = sActiveHero;
+        sControlledCharacter = gAbe;
         if (gMap.mNextLevel != EReliveLevelIds::eMenu)
         {
             gMap.SetActiveCam(
@@ -846,7 +846,7 @@ s16 Scrab::Brain_0_Patrol()
         return Brain_1_ChasingEnemy::eBrain1_Inactive_0;
     }
 
-    if (IsEventInRange(kEventAbeOhm, mXPos, mYPos, EventScale::Both) && !sActiveHero->GetInvisible())
+    if (IsEventInRange(kEventAbeOhm, mXPos, mYPos, EventScale::Both) && !gAbe->GetInvisible())
     {
         SetNextMotion(eScrabMotions::Motion_26_HowlBegin);
         return Scrab_Brain_0_Patrol::eBrain0_Howling_4;
@@ -1881,9 +1881,9 @@ s16 Scrab::Brain_4_ShrinkDeath()
 s16 Scrab::Brain_5_Possessed()
 {
     // Abe is dead, go back to patrolling
-    if (sActiveHero->mHealth <= FP_FromInteger(0))
+    if (gAbe->mHealth <= FP_FromInteger(0))
     {
-        sControlledCharacter = sActiveHero;
+        sControlledCharacter = gAbe;
         SetPossessed(false);
         field_1A2_speak_counter = 0;
         MusicController::static_PlayMusic(MusicController::MusicTypes::eNone_0, this, 0, 0);
@@ -3005,9 +3005,9 @@ void Scrab::Motion_28_GetDepossessedBegin()
             New_TintChant_Particle(xpos, ypos, GetSpriteScale(), Layer::eLayer_0);
         }
 
-        if (static_cast<s32>(sGnFrame) > field_130_depossession_timer || sActiveHero->mHealth <= FP_FromInteger(0))
+        if (static_cast<s32>(sGnFrame) > field_130_depossession_timer || gAbe->mHealth <= FP_FromInteger(0))
         {
-            sControlledCharacter = sActiveHero;
+            sControlledCharacter = gAbe;
             SetPossessed(false);
             field_1A2_speak_counter = 0;
             MusicController::static_PlayMusic(MusicController::MusicTypes::eNone_0, this, 0, 0);
@@ -3957,7 +3957,7 @@ void Scrab::KillTarget(BaseAliveGameObject* pTarget)
                                                     SfxPlayMono(relive::SoundEffects::KillEffect, 0);
                                                     if (pObj->Type() == ReliveTypes::eAbe)
                                                     {
-                                                        Mudokon_SFX(MudSounds::eHurt2_9, 0, 0, sActiveHero);
+                                                        Mudokon_SFX(MudSounds::eHurt2_9, 0, 0, gAbe);
                                                     }
                                                 }
                                             }
@@ -3993,11 +3993,11 @@ void Scrab::KillTarget(BaseAliveGameObject* pTarget)
 
 s16 Scrab::FindAbeOrMud()
 {
-    if (CanSeeAbe(sActiveHero) && sActiveHero->mHealth > FP_FromInteger(0) && sActiveHero->GetSpriteScale() == GetSpriteScale() && !sActiveHero->GetInvisible())
+    if (CanSeeAbe(gAbe) && gAbe->mHealth > FP_FromInteger(0) && gAbe->GetSpriteScale() == GetSpriteScale() && !gAbe->GetInvisible())
     {
-        if (!WallHit(GetSpriteScale() * FP_FromInteger(45), sActiveHero->mXPos - mXPos))
+        if (!WallHit(GetSpriteScale() * FP_FromInteger(45), gAbe->mXPos - mXPos))
         {
-            mTargetGuid = sActiveHero->mBaseGameObjectId;
+            mTargetGuid = gAbe->mBaseGameObjectId;
             return true;
         }
     }
@@ -4033,9 +4033,9 @@ s16 Scrab::CanSeeAbe(BaseAliveGameObject* pObj)
         return 0;
     }
 
-    if (IsActiveHero(pObj))
+    if (IgAbe(pObj))
     {
-        if (sActiveHero->mCurrentMotion == eAbeMotions::Motion_67_LedgeHang_454E20 || sActiveHero->mCurrentMotion == eAbeMotions::Motion_69_LedgeHangWobble_454EF0)
+        if (gAbe->mCurrentMotion == eAbeMotions::Motion_67_LedgeHang_454E20 || gAbe->mCurrentMotion == eAbeMotions::Motion_69_LedgeHangWobble_454EF0)
         {
             return VOnSameYLevel(pObj);
         }

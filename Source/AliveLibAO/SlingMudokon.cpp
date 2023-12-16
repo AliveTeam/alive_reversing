@@ -387,7 +387,7 @@ void GiveCodeBrain::VUpdate()
         case EState::PauseABit:
             if (static_cast<s32>(sGnFrame) <= mSlingMudokon.field_140_timer)
             {
-                if (mSlingMudokon.VIsObj_GettingNear_On_X(sActiveHero))
+                if (mSlingMudokon.VIsObj_GettingNear_On_X(gAbe))
                 {
                     break;
                 }
@@ -399,7 +399,7 @@ void GiveCodeBrain::VUpdate()
 
         case EState::WaitForCode:
         {
-            if (mSlingMudokon.VIsObj_GettingNear_On_X(sActiveHero))
+            if (mSlingMudokon.VIsObj_GettingNear_On_X(gAbe))
             {
                 break;
             }
@@ -417,7 +417,7 @@ void GiveCodeBrain::VUpdate()
         }
 
         case EState::CheckCodeMatching:
-            if (mSlingMudokon.VIsObj_GettingNear_On_X(sActiveHero))
+            if (mSlingMudokon.VIsObj_GettingNear_On_X(gAbe))
             {
                 break;
             }
@@ -518,7 +518,7 @@ void SpawnBrain::VUpdate()
 
                 relive_new Flash(Layer::eLayer_Above_FG1_39, 255u, 0, 255u);
 
-                if (mSlingMudokon.mXPos > sActiveHero->mXPos)
+                if (mSlingMudokon.mXPos > gAbe->mXPos)
                 {
                     mSlingMudokon.GetAnimation().SetFlipX(true);
                 }
@@ -529,7 +529,7 @@ void SpawnBrain::VUpdate()
             return;
 
         case EState::GetAngry:
-            if (mSlingMudokon.VIsObj_GettingNear_On_X(sActiveHero))
+            if (mSlingMudokon.VIsObj_GettingNear_On_X(gAbe))
             {
                 mSlingMudokon.SetNextMotion(eSlingMudMotions::Motion_1_Angry);
                 mSlingMudokon.field_140_timer = BaseGameObject::MakeTimer(40);
@@ -572,7 +572,7 @@ void SpawnBrain::VUpdate()
             break;
 
         case EState::PrepareToShoot:
-            if (mSlingMudokon.VIsObjNearby((ScaleToGridSize(mSlingMudokon.GetSpriteScale()) * FP_FromInteger(4)), sActiveHero))
+            if (mSlingMudokon.VIsObjNearby((ScaleToGridSize(mSlingMudokon.GetSpriteScale()) * FP_FromInteger(4)), gAbe))
             {
                 mSlingMudokon.mDontSetDestroyed = true;
                 mSlingMudokon.SetNextMotion(eSlingMudMotions::Motion_3_ShootStart);
@@ -581,7 +581,7 @@ void SpawnBrain::VUpdate()
                 return;
             }
 
-            if (mSlingMudokon.VIsObj_GettingNear_On_X(sActiveHero))
+            if (mSlingMudokon.VIsObj_GettingNear_On_X(gAbe))
             {
                 mSlingMudokon.field_140_timer = BaseGameObject::MakeTimer(40);
             }
@@ -604,7 +604,7 @@ void SpawnBrain::VUpdate()
                 mSlingMudokon.SetDead(true);
             }
 
-            if (mSlingMudokon.field_140_timer > static_cast<s32>(sGnFrame) || sActiveHero->mHealth <= FP_FromInteger(0))
+            if (mSlingMudokon.field_140_timer > static_cast<s32>(sGnFrame) || gAbe->mHealth <= FP_FromInteger(0))
             {
                 return;
             }
@@ -693,7 +693,7 @@ void AskForPasswordBrain::VUpdate()
                 mSlingMudokon.field_140_timer = BaseGameObject::MakeTimer(30);
 
                 mSlingMudokon.SetCurrentMotion(eSlingMudMotions::Motion_0_Idle);
-                if (mSlingMudokon.mXPos > sActiveHero->mXPos)
+                if (mSlingMudokon.mXPos > gAbe->mXPos)
                 {
                     mSlingMudokon.GetAnimation().SetFlipX(true);
                 }
@@ -705,7 +705,7 @@ void AskForPasswordBrain::VUpdate()
             return;
 
         case EState::Unknown_3:
-            if (mSlingMudokon.VIsObj_GettingNear_On_X(sActiveHero))
+            if (mSlingMudokon.VIsObj_GettingNear_On_X(gAbe))
             {
                 mSlingMudokon.SetNextMotion(eSlingMudMotions::Motion_1_Angry);
                 mSlingMudokon.field_140_timer = BaseGameObject::MakeTimer(40);
@@ -724,7 +724,7 @@ void AskForPasswordBrain::VUpdate()
             return;
 
         case EState::Unknown_4:
-            if (mSlingMudokon.VIsObj_GettingNear_On_X(sActiveHero))
+            if (mSlingMudokon.VIsObj_GettingNear_On_X(gAbe))
             {
                 mSlingMudokon.SetNextMotion(eSlingMudMotions::Motion_1_Angry);
                 mSlingMudokon.field_140_timer = BaseGameObject::MakeTimer(40);
@@ -765,7 +765,7 @@ void AskForPasswordBrain::VUpdate()
             break;
 
         case EState::Unknown_5:
-            if (!mSlingMudokon.VIsObj_GettingNear_On_X(sActiveHero))
+            if (!mSlingMudokon.VIsObj_GettingNear_On_X(gAbe))
             {
                 GameSpeakEvents speak = {};
                 if (mSlingMudokon.mLastEventIndex == gEventSystem->mLastEventIndex)
@@ -858,7 +858,7 @@ void AskForPasswordBrain::VUpdate()
             break;
 
         case EState::Unknown_7:
-            if (mSlingMudokon.VIsObjNearby((ScaleToGridSize(mSlingMudokon.GetSpriteScale()) * FP_FromInteger(4)), sActiveHero))
+            if (mSlingMudokon.VIsObjNearby((ScaleToGridSize(mSlingMudokon.GetSpriteScale()) * FP_FromInteger(4)), gAbe))
             {
                 mSlingMudokon.mDontSetDestroyed = true;
                 mSlingMudokon.SetNextMotion(eSlingMudMotions::Motion_3_ShootStart);
@@ -883,7 +883,7 @@ void AskForPasswordBrain::VUpdate()
                 mSlingMudokon.SetDead(true);
             }
 
-            if (mSlingMudokon.field_140_timer > static_cast<s32>(sGnFrame) || sActiveHero->mHealth <= FP_FromInteger(0))
+            if (mSlingMudokon.field_140_timer > static_cast<s32>(sGnFrame) || gAbe->mHealth <= FP_FromInteger(0))
             {
                 return;
             }

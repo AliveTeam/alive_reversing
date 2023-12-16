@@ -225,7 +225,7 @@ void SND_Load_VABS(std::shared_ptr<PathSoundInfo>& info, s32 reverb)
         if (GetMidiVars()->sSnd_ReloadAbeResources())
         {
             GetMidiVars()->Reclaim_Memory(0);
-            sActiveHero->Load_Basic_Resources_44D460();
+            gAbe->Load_Basic_Resources_44D460();
         }*/
 
         SsUtSetReverbDepth_4FE380(reverb, reverb);

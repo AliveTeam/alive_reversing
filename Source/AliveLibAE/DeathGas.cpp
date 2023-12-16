@@ -75,7 +75,7 @@ DeathGas::~DeathGas()
 
 void DeathGas::VScreenChanged()
 {
-    if (gMap.LevelChanged() || gMap.PathChanged() || !sActiveHero)
+    if (gMap.LevelChanged() || gMap.PathChanged() || !gAbe)
     {
         SetDead(true);
     }

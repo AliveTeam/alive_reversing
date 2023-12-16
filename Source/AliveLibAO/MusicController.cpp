@@ -377,7 +377,7 @@ void MusicController::VUpdate()
     if (EventGet(kEventDeathReset))
     {
         field_20 = 1;
-        field_1C_pObj = sActiveHero;
+        field_1C_pObj = gAbe;
     }
 
     if (field_16_bScreenChanged)

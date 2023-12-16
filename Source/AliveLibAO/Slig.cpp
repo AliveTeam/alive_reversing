@@ -302,7 +302,7 @@ Slig::~Slig()
 {
     if (sControlledCharacter == this)
     {
-        sControlledCharacter = sActiveHero;
+        sControlledCharacter = gAbe;
         MusicController::static_PlayMusic(MusicController::MusicTypes::eType0, this, 0, 0);
 
         if (gMap.mNextLevel != EReliveLevelIds::eMenu && gMap.mNextLevel != EReliveLevelIds::eNone)
@@ -744,7 +744,7 @@ bool Slig::VTakeDamage(BaseGameObject* pFrom)
                 field_13A_shot_motion = eSligMotions::Motion_38_Possess;
             }
             mHealth = FP_FromInteger(0);
-            EventBroadcast(kEventMudokonComfort, sActiveHero);
+            EventBroadcast(kEventMudokonComfort, gAbe);
             return true;
         }
 
@@ -773,7 +773,7 @@ bool Slig::VTakeDamage(BaseGameObject* pFrom)
                 SetBrain(&Slig::Brain_ReturnControlToAbeAndDie);
                 mCurrentMotion = eSligMotions::Motion_0_StandIdle;
                 VUpdateAnimData();
-                EventBroadcast(kEventMudokonComfort, sActiveHero);
+                EventBroadcast(kEventMudokonComfort, gAbe);
             }
             return true;
 
@@ -833,7 +833,7 @@ bool Slig::VTakeDamage(BaseGameObject* pFrom)
             {
                 SetDead(true);
                 mHealth = FP_FromInteger(0);
-                EventBroadcast(kEventMudokonComfort, sActiveHero);
+                EventBroadcast(kEventMudokonComfort, gAbe);
             }
             return true;
 
@@ -880,7 +880,7 @@ void Slig::VOnTlvCollision(relive::Path_TLV* pTlv)
                 mVelY = FP_FromInteger(0);
                 mVelX = FP_FromInteger(0);
                 VSetMotion(eSligMotions::Motion_7_Falling);
-                EventBroadcast(kEventMudokonComfort, sActiveHero);
+                EventBroadcast(kEventMudokonComfort, gAbe);
             }
         }
 
@@ -3341,7 +3341,7 @@ void Slig::Motion_35_Knockback()
         {
             mVelX = FP_FromInteger(0);
 
-            if (mHealth > FP_FromInteger(0) && field_128_timer <= static_cast<s32>(sGnFrame) && sActiveHero->mHealth > FP_FromInteger(0))
+            if (mHealth > FP_FromInteger(0) && field_128_timer <= static_cast<s32>(sGnFrame) && gAbe->mHealth > FP_FromInteger(0))
             {
                 mCurrentMotion = eSligMotions::Motion_36_KnockbackToStand;
             }
@@ -3552,7 +3552,7 @@ void Slig::Motion_39_OutToFall()
             mCurrentMotion = eSligMotions::Motion_42_LandingFatal;
             field_128_timer = MakeTimer(30);
             mHealth = FP_FromInteger(0);
-            EventBroadcast(kEventMudokonComfort, sActiveHero);
+            EventBroadcast(kEventMudokonComfort, gAbe);
         }
     }
 }
@@ -3845,7 +3845,7 @@ s16 Slig::Brain_SpottedEnemy()
         }
         else if (field_114_timer > static_cast<s32>(sGnFrame))
         {
-            if (sActiveHero->mHealth > FP_FromInteger(0))
+            if (gAbe->mHealth > FP_FromInteger(0))
             {
                 ShouldStillBeAlive();
             }
@@ -3895,7 +3895,7 @@ s16 Slig::Brain_Paused()
             break;
 
         case Brain_Paused::eSayFreezeOrTurnAround_1:
-            if (VIsFacingMe(sActiveHero))
+            if (VIsFacingMe(gAbe))
             {
                 if (mCurrentMotion != eSligMotions::Motion_0_StandIdle)
                 {
@@ -4009,7 +4009,7 @@ s16 Slig::Brain_EnemyDead()
         }
 
         // And turn even less often
-        if (sActiveHero->mHealth > FP_FromInteger(0))
+        if (gAbe->mHealth > FP_FromInteger(0))
         {
             TurnOrWalk();
             return 113;
@@ -4062,7 +4062,7 @@ s16 Slig::Brain_Unknown()
                 0)
             || EventGet(kEventResetting))
         {
-            if (sActiveHero->mHealth > FP_FromInteger(0))
+            if (gAbe->mHealth > FP_FromInteger(0))
             {
                 BaseAnimatedWithPhysicsGameObject* pEvent = static_cast<BaseAnimatedWithPhysicsGameObject*>(EventGet(kEventSuspiciousNoise));
                 if (!pEvent)
@@ -4075,7 +4075,7 @@ s16 Slig::Brain_Unknown()
                     ToTurn();
                 }
                 else if (sControlledCharacter->GetSpriteScale() <= GetSpriteScale()
-                         || (sControlledCharacter != sActiveHero
+                         || (sControlledCharacter != gAbe
                              && sControlledCharacter != gElum)
                          || !VIsFacingMe(sControlledCharacter)
                          || IsInInvisibleZone(sControlledCharacter)
@@ -4199,7 +4199,7 @@ s16 Slig::Brain_Inactive()
 {
     if (field_114_timer > static_cast<s32>(sGnFrame))
     {
-        if (sActiveHero->mHealth > FP_FromInteger(0))
+        if (gAbe->mHealth > FP_FromInteger(0))
         {
             if (!VOnSameYLevel(sControlledCharacter)
                 || !VIsFacingMe(sControlledCharacter)
@@ -4340,7 +4340,7 @@ s16 Slig::Brain_Death()
     {
         if (field_114_timer < static_cast<s32>(sGnFrame))
         {
-            sControlledCharacter = sActiveHero;
+            sControlledCharacter = gAbe;
             MusicController::static_PlayMusic(MusicController::MusicTypes::eType0, this, 0, 0);
             gMap.SetActiveCam(
                 mAbeLevel,
@@ -4415,7 +4415,7 @@ s16 Slig::Brain_DeathDropDeath()
                 if (sControlledCharacter == this)
                 {
                     MusicController::static_PlayMusic(MusicController::MusicTypes::eType0, this, 0, 0);
-                    sControlledCharacter = sActiveHero;
+                    sControlledCharacter = gAbe;
                     gMap.SetActiveCam(mAbeLevel, mAbePath, mAbeCamera, CameraSwapEffects::eInstantChange_0, 0, 0);
                 }
                 SetDead(true);
@@ -4431,7 +4431,7 @@ s16 Slig::Brain_ReturnControlToAbeAndDie()
 {
     if (sControlledCharacter == this)
     {
-        sControlledCharacter = sActiveHero;
+        sControlledCharacter = gAbe;
         MusicController::static_PlayMusic(MusicController::MusicTypes::eType0, this, 0, 0);
         gMap.SetActiveCam(
             mAbeLevel,
@@ -4547,7 +4547,7 @@ s16 Slig::Brain_PanicRunning()
         {
             ToShoot();
         }
-        else if (sActiveHero->mHealth > FP_FromInteger(0))
+        else if (gAbe->mHealth > FP_FromInteger(0))
         {
             if (field_114_timer > static_cast<s32>(sGnFrame))
             {
@@ -4738,7 +4738,7 @@ s16 Slig::Brain_Idle()
         return 104;
     }
 
-    if (sActiveHero->mHealth <= FP_FromInteger(0))
+    if (gAbe->mHealth <= FP_FromInteger(0))
     {
         ToAbeDead();
         return 104;
@@ -4753,7 +4753,7 @@ s16 Slig::Brain_Idle()
     if (!pEvent || pEvent->GetSpriteScale() != GetSpriteScale() || pEvent == this || !gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) || EventGet(kEventResetting))
     {
         if (sControlledCharacter->GetSpriteScale() > GetSpriteScale()
-            && (sControlledCharacter == sActiveHero
+            && (sControlledCharacter == gAbe
                 || sControlledCharacter == gElum))
         {
             if (VIsFacingMe(sControlledCharacter) && !IsInInvisibleZone(sControlledCharacter) && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && !IsInZCover(sControlledCharacter) && !IsInZCover(this) && !EventGet(kEventResetting))
@@ -4936,7 +4936,7 @@ s16 Slig::Brain_Walking()
         ToPanic();
         return 108;
     }
-    if (sActiveHero->mHealth <= FP_FromInteger(0))
+    if (gAbe->mHealth <= FP_FromInteger(0))
     {
         ToAbeDead();
         return 108;
@@ -4978,7 +4978,7 @@ s16 Slig::Brain_Walking()
         return 108;
     }
     else if (sControlledCharacter->GetSpriteScale() <= GetSpriteScale()
-             || (sControlledCharacter != sActiveHero
+             || (sControlledCharacter != gAbe
                  && sControlledCharacter != gElum)
              || !VIsFacingMe(sControlledCharacter)
              || IsInInvisibleZone(sControlledCharacter)
@@ -5274,7 +5274,7 @@ s16 Slig::Brain_ChaseAndDisappear()
 
     if (mBrainSubState == Brain_ChaseAndDisappear::eSummoned_0)
     {
-        if (gNumCamSwappers > 0 || sActiveHero->mShrivel)
+        if (gNumCamSwappers > 0 || gAbe->mShrivel)
         {
             return mBrainSubState;
         }
@@ -5317,16 +5317,16 @@ s16 Slig::Brain_Shooting()
         mShootCount++;
 
         if (mShootCount < field_174_tlv->mData.mNumTimesToShoot
-            || sActiveHero->mCurrentMotion == eAbeMotions::Motion_137_ElumUnmountBegin
-            || sActiveHero->mCurrentMotion == eAbeMotions::Motion_139_ElumMountBegin
-            || sActiveHero->mCurrentMotion == eAbeMotions::Motion_138_ElumUnmountEnd
-            || sActiveHero->mCurrentMotion == eAbeMotions::Motion_136_ElumMountEnd)
+            || gAbe->mCurrentMotion == eAbeMotions::Motion_137_ElumUnmountBegin
+            || gAbe->mCurrentMotion == eAbeMotions::Motion_139_ElumMountBegin
+            || gAbe->mCurrentMotion == eAbeMotions::Motion_138_ElumUnmountEnd
+            || gAbe->mCurrentMotion == eAbeMotions::Motion_136_ElumMountEnd)
         {
             mNextMotion = eSligMotions::Motion_6_Shoot;
             return 111;
         }
 
-        if (sActiveHero->mHealth <= FP_FromInteger(0))
+        if (gAbe->mHealth <= FP_FromInteger(0))
         {
             ToKilledAbe();
             return 111;
@@ -5410,17 +5410,17 @@ s16 Slig::Brain_ZShooting()
         return 127;
     }
 
-    if (sActiveHero->mCurrentMotion == eAbeMotions::Motion_138_ElumUnmountEnd
-        || sActiveHero->mCurrentMotion == eAbeMotions::Motion_136_ElumMountEnd
-        || sActiveHero->mCurrentMotion == eAbeMotions::Motion_137_ElumUnmountBegin
-        || sActiveHero->mCurrentMotion == eAbeMotions::Motion_139_ElumMountBegin)
+    if (gAbe->mCurrentMotion == eAbeMotions::Motion_138_ElumUnmountEnd
+        || gAbe->mCurrentMotion == eAbeMotions::Motion_136_ElumMountEnd
+        || gAbe->mCurrentMotion == eAbeMotions::Motion_137_ElumUnmountBegin
+        || gAbe->mCurrentMotion == eAbeMotions::Motion_139_ElumMountBegin)
     {
         return 127;
     }
 
     mShootCount = 0;
 
-    if (sActiveHero->mHealth > FP_FromInteger(0))
+    if (gAbe->mHealth > FP_FromInteger(0))
     {
         WaitOrWalk();
     }
@@ -5476,7 +5476,7 @@ void Slig::BlowToGibs()
     field_114_timer = MakeTimer(60);
     SetUpdateDelay(40);
     SetBrain(&Slig::Brain_Death);
-    EventBroadcast(kEventMudokonComfort, sActiveHero);
+    EventBroadcast(kEventMudokonComfort, gAbe);
 }
 
 void Slig::SetBrain(Slig::TBrainFn fn)

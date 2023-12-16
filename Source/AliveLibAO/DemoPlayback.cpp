@@ -64,8 +64,8 @@ void DemoPlayback::VUpdate()
     switch (mState)
     {
         case States::eInit_0:
-            sActiveHero->SetDrawable(true);
-            sActiveHero->GetAnimation().SetRender(true);
+            gAbe->SetDrawable(true);
+            gAbe->GetAnimation().SetRender(true);
 
             Input().SetDemoRes(reinterpret_cast<u32**>(mDemoRes));
 

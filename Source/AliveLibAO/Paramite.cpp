@@ -144,7 +144,7 @@ Paramite::Paramite(relive::Path_Paramite* pTlv, const Guid& tlvId)
 
     field_12C_tlvInfo = tlvId;
 
-    if (!VIsFacingMe(sActiveHero))
+    if (!VIsFacingMe(gAbe))
     {
         GetAnimation().ToggleFlipX();
     }
@@ -348,7 +348,7 @@ void Paramite::VUpdate()
         SetDead(true);
     }
 
-    if (FP_Abs(mXPos - sActiveHero->mXPos) > FP_FromInteger(1536) || FP_Abs(mYPos - sActiveHero->mYPos) > FP_FromInteger(480))
+    if (FP_Abs(mXPos - gAbe->mXPos) > FP_FromInteger(1536) || FP_Abs(mYPos - gAbe->mYPos) > FP_FromInteger(480))
     {
         if (mDeleteWhenOutOfSight == relive::reliveChoice::eYes)
         {
@@ -836,15 +836,15 @@ s16 Paramite::Brain_0_Patrol()
                 return Brain_0_Patrol::eBrain0_Inactive_0;
             }
 
-            if (!VOnSameYLevel(sActiveHero)
-                || GetSpriteScale() != sActiveHero->GetSpriteScale()
-                || WallHit(GetSpriteScale() * FP_FromInteger(5), sActiveHero->mXPos - mXPos))
+            if (!VOnSameYLevel(gAbe)
+                || GetSpriteScale() != gAbe->GetSpriteScale()
+                || WallHit(GetSpriteScale() * FP_FromInteger(5), gAbe->mXPos - mXPos))
             {
                 mWaitTimer = MakeTimer(Math_RandomRange(45, 135));
                 return Brain_0_Patrol::eBrain0_Idle_12;
             }
 
-            if (EventGet(kEventAbeOhm) && VIsFacingMe(sActiveHero))
+            if (EventGet(kEventAbeOhm) && VIsFacingMe(gAbe))
             {
                 SetNextMotion(eParamiteMotions::Motion_15_Hiss);
                 return Brain_0_Patrol::eBrain0_Panic_15;
@@ -861,7 +861,7 @@ s16 Paramite::Brain_0_Patrol()
             if (BaseAliveGameObjectPathTLV)
             {
                 auto pStopper = static_cast<relive::Path_EnemyStopper*>(BaseAliveGameObjectPathTLV);
-                if ((pStopper->mStopDirection == relive::Path_EnemyStopper::StopDirection::Left && sActiveHero->mXPos < mXPos) || (pStopper->mStopDirection == relive::Path_EnemyStopper::StopDirection::Right && sActiveHero->mXPos > mXPos))
+                if ((pStopper->mStopDirection == relive::Path_EnemyStopper::StopDirection::Left && gAbe->mXPos < mXPos) || (pStopper->mStopDirection == relive::Path_EnemyStopper::StopDirection::Right && gAbe->mXPos > mXPos))
                 {
                     if (!SwitchStates_Get(pStopper->mSwitchId))
                     {
@@ -870,7 +870,7 @@ s16 Paramite::Brain_0_Patrol()
                 }
             }
 
-            if ((AnotherParamiteNear() || sActiveHero->mHealth <= FP_FromInteger(0)) && GetSpriteScale() == sActiveHero->GetSpriteScale())
+            if ((AnotherParamiteNear() || gAbe->mHealth <= FP_FromInteger(0)) && GetSpriteScale() == gAbe->GetSpriteScale())
             {
                 Sound(ParamiteSpeak::Howdy_5);
                 SetNextMotion(eParamiteMotions::Motion_0_Idle);
@@ -879,11 +879,11 @@ s16 Paramite::Brain_0_Patrol()
                 return Brain_0_Patrol::eBrain0_Inactive_0;
             }
 
-            if (!VIsObjNearby(kGridSize * FP_FromInteger(6), sActiveHero))
+            if (!VIsObjNearby(kGridSize * FP_FromInteger(6), gAbe))
             {
-                if (!VIsObjNearby(kGridSize * FP_FromInteger(8), sActiveHero))
+                if (!VIsObjNearby(kGridSize * FP_FromInteger(8), gAbe))
                 {
-                    if (!VIsFacingMe(sActiveHero))
+                    if (!VIsFacingMe(gAbe))
                     {
                         if ((GetAnimation().GetFlipX() && !Check_IsOnEndOfLine(0, 2)) || (!GetAnimation().GetFlipX() && !Check_IsOnEndOfLine(1, 2)))
                         {
@@ -901,7 +901,7 @@ s16 Paramite::Brain_0_Patrol()
                     }
                 }
 
-                if (!VIsFacingMe(sActiveHero))
+                if (!VIsFacingMe(gAbe))
                 {
                     SetNextMotion(eParamiteMotions::Motion_5_Turn);
                     return Brain_0_Patrol::eBrain0_TurningForAbe_6;
@@ -909,7 +909,7 @@ s16 Paramite::Brain_0_Patrol()
 
                 return mBrainSubState;
             }
-            else if (VIsFacingMe(sActiveHero))
+            else if (VIsFacingMe(gAbe))
             {
                 if ((GetAnimation().GetFlipX() && Check_IsOnEndOfLine(0, 2)) || (!GetAnimation().GetFlipX() && Check_IsOnEndOfLine(1, 2)))
                 {
@@ -921,7 +921,7 @@ s16 Paramite::Brain_0_Patrol()
                 SetNextMotion(eParamiteMotions::Motion_5_Turn);
                 return Brain_0_Patrol::eBrain0_TurningForAbe_6;
             }
-            else if (!VIsObjNearby(kGridSize * FP_FromInteger(4), sActiveHero))
+            else if (!VIsObjNearby(kGridSize * FP_FromInteger(4), gAbe))
             {
                 if ((GetAnimation().GetFlipX() && Check_IsOnEndOfLine(1, 2)) || (!GetAnimation().GetFlipX() && Check_IsOnEndOfLine(0, 2)))
                 {
@@ -946,7 +946,7 @@ s16 Paramite::Brain_0_Patrol()
         }
 
         case Brain_0_Patrol::eBrain0_FearingAbe_2:
-            if (!VOnSameYLevel(sActiveHero) || GetSpriteScale() != sActiveHero->GetSpriteScale())
+            if (!VOnSameYLevel(gAbe) || GetSpriteScale() != gAbe->GetSpriteScale())
             {
                 SetNextMotion(eParamiteMotions::Motion_0_Idle);
                 return Brain_0_Patrol::eBrain0_IdleForAbe_1;
@@ -979,18 +979,18 @@ s16 Paramite::Brain_0_Patrol()
                 return 0;
             }
 
-            if (VIsObj_GettingNear_On_X(sActiveHero) && VIsObjNearby(kGridSize * FP_FromInteger(4), sActiveHero))
+            if (VIsObj_GettingNear_On_X(gAbe) && VIsObjNearby(kGridSize * FP_FromInteger(4), gAbe))
             {
                 SetNextMotion(eParamiteMotions::Motion_3_Running);
                 return Brain_0_Patrol::eBrain0_RunningFromAbe_3;
             }
 
-            if (VIsObj_GettingNear_On_X(sActiveHero))
+            if (VIsObj_GettingNear_On_X(gAbe))
             {
                 return mBrainSubState;
             }
 
-            if (VIsObjNearby(kGridSize * FP_FromInteger(7), sActiveHero))
+            if (VIsObjNearby(kGridSize * FP_FromInteger(7), gAbe))
             {
                 return mBrainSubState;
             }
@@ -999,7 +999,7 @@ s16 Paramite::Brain_0_Patrol()
             return Brain_0_Patrol::eBrain0_IdleForAbe_1;
 
         case Brain_0_Patrol::eBrain0_RunningFromAbe_3:
-            if (!VOnSameYLevel(sActiveHero) || GetSpriteScale() != sActiveHero->GetSpriteScale())
+            if (!VOnSameYLevel(gAbe) || GetSpriteScale() != gAbe->GetSpriteScale())
             {
                 SetNextMotion(eParamiteMotions::Motion_0_Idle);
                 return Brain_0_Patrol::eBrain0_IdleForAbe_1;
@@ -1032,12 +1032,12 @@ s16 Paramite::Brain_0_Patrol()
                 return 0;
             }
 
-            if (VIsObj_GettingNear_On_X(sActiveHero))
+            if (VIsObj_GettingNear_On_X(gAbe))
             {
                 return mBrainSubState;
             }
 
-            if (VIsObjNearby(kGridSize * FP_FromInteger(7), sActiveHero))
+            if (VIsObjNearby(kGridSize * FP_FromInteger(7), gAbe))
             {
                 return mBrainSubState;
             }
@@ -1046,7 +1046,7 @@ s16 Paramite::Brain_0_Patrol()
             return Brain_0_Patrol::eBrain0_FearingAbe_2;
 
         case Brain_0_Patrol::eBrain0_ApproachingAbe_4:
-            if (!VOnSameYLevel(sActiveHero) || GetSpriteScale() != sActiveHero->GetSpriteScale())
+            if (!VOnSameYLevel(gAbe) || GetSpriteScale() != gAbe->GetSpriteScale())
             {
                 SetNextMotion(eParamiteMotions::Motion_0_Idle);
                 return Brain_0_Patrol::eBrain0_IdleForAbe_1;
@@ -1091,14 +1091,14 @@ s16 Paramite::Brain_0_Patrol()
                 }
             }
 
-            if (VIsObj_GettingNear_On_X(sActiveHero) || VIsObjNearby(kGridSize * FP_FromInteger(10), sActiveHero))
+            if (VIsObj_GettingNear_On_X(gAbe) || VIsObjNearby(kGridSize * FP_FromInteger(10), gAbe))
             {
-                if (!VIsObj_GettingNear_On_X(sActiveHero))
+                if (!VIsObj_GettingNear_On_X(gAbe))
                 {
                     return mBrainSubState;
                 }
 
-                if (!VIsObjNearby(kGridSize * FP_FromInteger(8), sActiveHero))
+                if (!VIsObjNearby(kGridSize * FP_FromInteger(8), gAbe))
                 {
                     return mBrainSubState;
                 }
@@ -1109,7 +1109,7 @@ s16 Paramite::Brain_0_Patrol()
             return Brain_0_Patrol::eBrain0_StopApproachingAbe_5;
 
         case Brain_0_Patrol::eBrain0_StopApproachingAbe_5:
-            if (!VOnSameYLevel(sActiveHero) || GetSpriteScale() != sActiveHero->GetSpriteScale())
+            if (!VOnSameYLevel(gAbe) || GetSpriteScale() != gAbe->GetSpriteScale())
             {
                 SetNextMotion(eParamiteMotions::Motion_0_Idle);
                 return Brain_0_Patrol::eBrain0_IdleForAbe_1;
@@ -1154,18 +1154,18 @@ s16 Paramite::Brain_0_Patrol()
                 }
             }
 
-            if (!VIsObj_GettingNear_On_X(sActiveHero))
+            if (!VIsObj_GettingNear_On_X(gAbe))
             {
                 return mBrainSubState;
             }
 
-            if (VIsObjNearby(kGridSize * FP_FromInteger(8), sActiveHero))
+            if (VIsObjNearby(kGridSize * FP_FromInteger(8), gAbe))
             {
                 SetNextMotion(eParamiteMotions::Motion_0_Idle);
                 return Brain_0_Patrol::eBrain0_IdleForAbe_1;
             }
 
-            if (!VIsObjNearby(kGridSize * FP_FromInteger(10), sActiveHero))
+            if (!VIsObjNearby(kGridSize * FP_FromInteger(10), gAbe))
             {
                 return mBrainSubState;
             }
@@ -1198,25 +1198,25 @@ s16 Paramite::Brain_0_Patrol()
                 return 0;
             }
 
-            if (!VOnSameYLevel(sActiveHero) || GetSpriteScale() != sActiveHero->GetSpriteScale())
+            if (!VOnSameYLevel(gAbe) || GetSpriteScale() != gAbe->GetSpriteScale())
             {
                 SetNextMotion(eParamiteMotions::Motion_0_Idle);
                 return Brain_0_Patrol::eBrain0_IdleForAbe_1;
             }
 
-            if (VIsObjNearby(kGridSize * FP_FromInteger(3), sActiveHero))
+            if (VIsObjNearby(kGridSize * FP_FromInteger(3), gAbe))
             {
                 SetNextMotion(eParamiteMotions::Motion_18_RunningAttack);
                 return Brain_0_Patrol::eBrain0_Attacking_9;
             }
 
-            if (VIsObj_GettingNear_On_X(sActiveHero))
+            if (VIsObj_GettingNear_On_X(gAbe))
             {
                 SetNextMotion(eParamiteMotions::Motion_15_Hiss);
             }
             else
             {
-                if (!VIsObjNearby(kGridSize * FP_FromInteger(8), sActiveHero))
+                if (!VIsObjNearby(kGridSize * FP_FromInteger(8), gAbe))
                 {
                     SetNextMotion(eParamiteMotions::Motion_2_Walking);
                     return Brain_0_Patrol::eBrain0_ApproachingAbe_4;
@@ -1243,7 +1243,7 @@ s16 Paramite::Brain_0_Patrol()
                 return mBrainSubState;
             }
             SetNextMotion(eParamiteMotions::Motion_0_Idle);
-            if (sActiveHero->mHealth > FP_FromInteger(0))
+            if (gAbe->mHealth > FP_FromInteger(0))
             {
                 return Brain_0_Patrol::eBrain0_IdleForAbe_1;
             }
@@ -1259,9 +1259,9 @@ s16 Paramite::Brain_0_Patrol()
                 return 0;
             }
 
-            if (VOnSameYLevel(sActiveHero)
-                && GetSpriteScale() == sActiveHero->GetSpriteScale()
-                && !WallHit(GetSpriteScale() * FP_FromInteger(5), sActiveHero->mXPos - mXPos))
+            if (VOnSameYLevel(gAbe)
+                && GetSpriteScale() == gAbe->GetSpriteScale()
+                && !WallHit(GetSpriteScale() * FP_FromInteger(5), gAbe->mXPos - mXPos))
             {
                 return Brain_0_Patrol::eBrain0_IdleForAbe_1;
             }
@@ -1360,7 +1360,7 @@ s16 Paramite::Brain_1_SurpriseWeb()
                 mParamiteWeb = pWeb;
             }
 
-            if (sActiveHero->mXPos >= mXPos)
+            if (gAbe->mXPos >= mXPos)
             {
                 return Brain_1_SurpriseWeb::eBrain1_AppearingLeft_2;
             }
@@ -1368,8 +1368,8 @@ s16 Paramite::Brain_1_SurpriseWeb()
         }
 
         case Brain_1_SurpriseWeb::eBrain1_AppearingRight_1:
-            if (sActiveHero->mXPos <= mXPos
-                || GetSpriteScale() != sActiveHero->GetSpriteScale()
+            if (gAbe->mXPos <= mXPos
+                || GetSpriteScale() != gAbe->GetSpriteScale()
                 || !gMap.Is_Point_In_Current_Camera(
                     mCurrentLevel,
                     mCurrentPath,
@@ -1387,8 +1387,8 @@ s16 Paramite::Brain_1_SurpriseWeb()
             return Brain_1_SurpriseWeb::eBrain1_StartAnimation_3;
 
         case Brain_1_SurpriseWeb::eBrain1_AppearingLeft_2:
-            if (sActiveHero->mXPos >= mXPos
-                || GetSpriteScale() != sActiveHero->GetSpriteScale()
+            if (gAbe->mXPos >= mXPos
+                || GetSpriteScale() != gAbe->GetSpriteScale()
                 || !gMap.Is_Point_In_Current_Camera(
                     mCurrentLevel,
                     mCurrentPath,
@@ -1611,9 +1611,9 @@ s16 Paramite::Brain_4_ChasingAbe()
     }
 
     if (mAttackTimer <= static_cast<s32>(sGnFrame)
-        && (!VOnSameYLevel(sActiveHero)
-            || GetSpriteScale() != sActiveHero->GetSpriteScale())
-        && sActiveHero->mHealth > FP_FromInteger(0))
+        && (!VOnSameYLevel(gAbe)
+            || GetSpriteScale() != gAbe->GetSpriteScale())
+        && gAbe->mHealth > FP_FromInteger(0))
     {
         SetNextMotion(eParamiteMotions::Motion_0_Idle);
         SetBrain(&Paramite::Brain_0_Patrol);
@@ -1631,14 +1631,14 @@ s16 Paramite::Brain_4_ChasingAbe()
     switch (mBrainSubState)
     {
         case Brain_4_ChasingAbe::eBrain4_Inactive_0:
-            if (!VOnSameYLevel(sActiveHero))
+            if (!VOnSameYLevel(gAbe))
             {
                 return Brain_4_ChasingAbe::eBrain4_Inactive_0;
             }
 
-            if (sActiveHero->mHealth > FP_FromInteger(0))
+            if (gAbe->mHealth > FP_FromInteger(0))
             {
-                if (VIsFacingMe(sActiveHero))
+                if (VIsFacingMe(gAbe))
                 {
                     if (mHissBeforeAttack == relive::reliveChoice::eYes)
                     {
@@ -1659,9 +1659,9 @@ s16 Paramite::Brain_4_ChasingAbe()
             }
             else
             {
-                if (VIsFacingMe(sActiveHero))
+                if (VIsFacingMe(gAbe))
                 {
-                    if (VIsObjNearby(kGridSize, sActiveHero))
+                    if (VIsObjNearby(kGridSize, gAbe))
                     {
                         SetNextMotion(eParamiteMotions::Motion_23_Eating);
                         field_114_timer = MakeTimer(28);
@@ -1702,13 +1702,13 @@ s16 Paramite::Brain_4_ChasingAbe()
                 return mBrainSubState;
             }
 
-            if (sActiveHero->mHealth > FP_FromInteger(0))
+            if (gAbe->mHealth > FP_FromInteger(0))
             {
-                if (VIsFacingMe(sActiveHero))
+                if (VIsFacingMe(gAbe))
                 {
-                    if (VIsObjNearby(kGridSize * FP_FromInteger(4), sActiveHero))
+                    if (VIsObjNearby(kGridSize * FP_FromInteger(4), gAbe))
                     {
-                        if (WallHit(GetSpriteScale() * FP_FromInteger(10), sActiveHero->mXPos - mXPos))
+                        if (WallHit(GetSpriteScale() * FP_FromInteger(10), gAbe->mXPos - mXPos))
                         {
                             SetNextMotion(eParamiteMotions::Motion_0_Idle);
                             return Brain_4_ChasingAbe::eBrain4_ToChasing_5;
@@ -1747,9 +1747,9 @@ s16 Paramite::Brain_4_ChasingAbe()
             }
             else
             {
-                if (VIsFacingMe(sActiveHero))
+                if (VIsFacingMe(gAbe))
                 {
-                    if (VIsObjNearby(kGridSize, sActiveHero))
+                    if (VIsObjNearby(kGridSize, gAbe))
                     {
                         SetNextMotion(eParamiteMotions::Motion_23_Eating);
                         field_114_timer = MakeTimer(28);
@@ -1819,12 +1819,12 @@ s16 Paramite::Brain_4_ChasingAbe()
             break;
 
         case Brain_4_ChasingAbe::eBrain4_ToChasing_5:
-            if (!VOnSameYLevel(sActiveHero))
+            if (!VOnSameYLevel(gAbe))
             {
                 return Brain_4_ChasingAbe::eBrain4_Inactive_0;
             }
 
-            if (!VIsFacingMe(sActiveHero))
+            if (!VIsFacingMe(gAbe))
             {
                 SetNextMotion(eParamiteMotions::Motion_5_Turn);
                 return 6;
@@ -1841,7 +1841,7 @@ s16 Paramite::Brain_4_ChasingAbe()
             if (BaseAliveGameObjectPathTLV)
             {
                 auto pStopper = static_cast<relive::Path_EnemyStopper*>(BaseAliveGameObjectPathTLV);
-                if ((pStopper->mStopDirection == relive::Path_EnemyStopper::StopDirection::Left && sActiveHero->mXPos < mXPos) || (pStopper->mStopDirection == relive::Path_EnemyStopper::StopDirection::Right && sActiveHero->mXPos > mXPos))
+                if ((pStopper->mStopDirection == relive::Path_EnemyStopper::StopDirection::Left && gAbe->mXPos < mXPos) || (pStopper->mStopDirection == relive::Path_EnemyStopper::StopDirection::Right && gAbe->mXPos > mXPos))
                 {
                     if (!SwitchStates_Get(pStopper->mSwitchId))
                     {
@@ -1850,9 +1850,9 @@ s16 Paramite::Brain_4_ChasingAbe()
                 }
             }
 
-            if (VIsObjNearby(kGridSize * FP_FromInteger(4), sActiveHero))
+            if (VIsObjNearby(kGridSize * FP_FromInteger(4), gAbe))
             {
-                if (WallHit(GetSpriteScale() * FP_FromInteger(10), sActiveHero->mXPos - mXPos))
+                if (WallHit(GetSpriteScale() * FP_FromInteger(10), gAbe->mXPos - mXPos))
                 {
                     SetNextMotion(eParamiteMotions::Motion_0_Idle);
                     return Brain_4_ChasingAbe::eBrain4_ToChasing_5;
@@ -1904,13 +1904,13 @@ s16 Paramite::Brain_4_ChasingAbe()
 
         case Brain_4_ChasingAbe::eBrain4_Chasing_7:
         {
-            if (!VOnSameYLevel(sActiveHero))
+            if (!VOnSameYLevel(gAbe))
             {
                 SetNextMotion(eParamiteMotions::Motion_0_Idle);
                 return Brain_4_ChasingAbe::eBrain4_Inactive_0;
             }
 
-            if (!VIsFacingMe(sActiveHero))
+            if (!VIsFacingMe(gAbe))
             {
                 SetNextMotion(eParamiteMotions::Motion_5_Turn);
                 return Brain_4_ChasingAbe::eBrain4_TurningWhileChasing_9;
@@ -1955,12 +1955,12 @@ s16 Paramite::Brain_4_ChasingAbe()
                 }
             }
 
-            if (!VIsObjNearby(kGridSize * FP_FromInteger(4), sActiveHero))
+            if (!VIsObjNearby(kGridSize * FP_FromInteger(4), gAbe))
             {
                 return mBrainSubState;
             }
 
-            if (WallHit(GetSpriteScale() * FP_FromInteger(10), sActiveHero->mXPos - mXPos))
+            if (WallHit(GetSpriteScale() * FP_FromInteger(10), gAbe->mXPos - mXPos))
             {
                 SetNextMotion(eParamiteMotions::Motion_0_Idle);
                 return Brain_4_ChasingAbe::eBrain4_ToChasing_5;
@@ -1996,7 +1996,7 @@ s16 Paramite::Brain_4_ChasingAbe()
                 return mBrainSubState;
             }
 
-            if (VIsObjNearby(kGridSize, sActiveHero))
+            if (VIsObjNearby(kGridSize, gAbe))
             {
                 SetNextMotion(eParamiteMotions::Motion_23_Eating);
                 field_114_timer = MakeTimer(28);
@@ -2024,19 +2024,19 @@ s16 Paramite::Brain_4_ChasingAbe()
 
         case Brain_4_ChasingAbe::eBrain4_Walking_11:
         {
-            if (!VIsFacingMe(sActiveHero))
+            if (!VIsFacingMe(gAbe))
             {
                 SetNextMotion(eParamiteMotions::Motion_5_Turn);
                 return Brain_4_ChasingAbe::eBrain4_Turning_10;
             }
 
-            if (!VOnSameYLevel(sActiveHero))
+            if (!VOnSameYLevel(gAbe))
             {
                 SetNextMotion(eParamiteMotions::Motion_0_Idle);
                 return Brain_4_ChasingAbe::eBrain4_Walking_11;
             }
 
-            if (VIsObjNearby(kGridSize, sActiveHero))
+            if (VIsObjNearby(kGridSize, gAbe))
             {
                 SetNextMotion(eParamiteMotions::Motion_23_Eating);
                 field_114_timer = MakeTimer(28);
@@ -2070,9 +2070,9 @@ s16 Paramite::Brain_4_ChasingAbe()
                 return mBrainSubState;
             }
 
-            if (VIsFacingMe(sActiveHero))
+            if (VIsFacingMe(gAbe))
             {
-                if (VIsObjNearby(kGridSize, sActiveHero))
+                if (VIsObjNearby(kGridSize, gAbe))
                 {
                     SetNextMotion(eParamiteMotions::Motion_23_Eating);
                     field_114_timer = MakeTimer(28);
@@ -3164,7 +3164,7 @@ void Paramite::Motion_12_Falling()
 
 void Paramite::Motion_13_GameSpeakBegin()
 {
-    const PSX_RECT abeRect = sActiveHero->VGetBoundingRect();
+    const PSX_RECT abeRect = gAbe->VGetBoundingRect();
     const PSX_RECT ourRect = VGetBoundingRect();
 
     if (abeRect.x <= ourRect.w
@@ -3172,16 +3172,16 @@ void Paramite::Motion_13_GameSpeakBegin()
         && abeRect.h >= ourRect.y
         && abeRect.y <= ourRect.h)
     {
-        if (VIsObj_GettingNear_On_X(sActiveHero))
+        if (VIsObj_GettingNear_On_X(gAbe))
         {
-            if (GetSpriteScale() == sActiveHero->GetSpriteScale())
+            if (GetSpriteScale() == gAbe->GetSpriteScale())
             {
-                if (sActiveHero->mHealth > FP_FromInteger(0))
+                if (gAbe->mHealth > FP_FromInteger(0))
                 {
                     SfxPlayMono(relive::SoundEffects::KillEffect, 0);
-                    Mudokon_SFX(MudSounds::eKnockbackOuch_10, 0, 0, sActiveHero);
+                    Mudokon_SFX(MudSounds::eKnockbackOuch_10, 0, 0, gAbe);
                 }
-                sActiveHero->VTakeDamage(this);
+                gAbe->VTakeDamage(this);
             }
         }
     }
@@ -3204,7 +3204,7 @@ void Paramite::Motion_13_GameSpeakBegin()
 
 void Paramite::Motion_14_PreHiss()
 {
-    const PSX_RECT abeRect = sActiveHero->VGetBoundingRect();
+    const PSX_RECT abeRect = gAbe->VGetBoundingRect();
     const PSX_RECT rect = VGetBoundingRect();
 
     if (abeRect.x <= rect.w
@@ -3212,11 +3212,11 @@ void Paramite::Motion_14_PreHiss()
         && abeRect.h >= rect.y
         && abeRect.y <= rect.h)
     {
-        if (VIsObj_GettingNear_On_X(sActiveHero))
+        if (VIsObj_GettingNear_On_X(gAbe))
         {
-            if (GetSpriteScale() == sActiveHero->GetSpriteScale())
+            if (GetSpriteScale() == gAbe->GetSpriteScale())
             {
-                sActiveHero->VTakeDamage(this);
+                gAbe->VTakeDamage(this);
             }
         }
     }
@@ -3265,7 +3265,7 @@ void Paramite::Motion_14_PreHiss()
 
 void Paramite::Motion_15_Hiss()
 {
-    const PSX_RECT abeRect = sActiveHero->VGetBoundingRect();
+    const PSX_RECT abeRect = gAbe->VGetBoundingRect();
     const PSX_RECT rect = VGetBoundingRect();
 
     if (GetAnimation().GetCurrentFrame() == 2)
@@ -3278,11 +3278,11 @@ void Paramite::Motion_15_Hiss()
         && abeRect.h >= rect.y
         && abeRect.y <= rect.h)
     {
-        if (VIsObj_GettingNear_On_X(sActiveHero))
+        if (VIsObj_GettingNear_On_X(gAbe))
         {
-            if (GetSpriteScale() == sActiveHero->GetSpriteScale())
+            if (GetSpriteScale() == gAbe->GetSpriteScale())
             {
-                sActiveHero->VTakeDamage(this);
+                gAbe->VTakeDamage(this);
             }
         }
     }
@@ -3308,7 +3308,7 @@ void Paramite::Motion_15_Hiss()
 
 void Paramite::Motion_16_PostHiss()
 {
-    const PSX_RECT abeRect = sActiveHero->VGetBoundingRect();
+    const PSX_RECT abeRect = gAbe->VGetBoundingRect();
     const PSX_RECT rect = VGetBoundingRect();
 
     if (abeRect.x <= rect.w
@@ -3316,11 +3316,11 @@ void Paramite::Motion_16_PostHiss()
         && abeRect.h >= rect.y
         && abeRect.y <= rect.h)
     {
-        if (VIsObj_GettingNear_On_X(sActiveHero))
+        if (VIsObj_GettingNear_On_X(gAbe))
         {
-            if (GetSpriteScale() == sActiveHero->GetSpriteScale())
+            if (GetSpriteScale() == gAbe->GetSpriteScale())
             {
-                sActiveHero->VTakeDamage(this);
+                gAbe->VTakeDamage(this);
             }
         }
     }
@@ -3333,7 +3333,7 @@ void Paramite::Motion_16_PostHiss()
 
 void Paramite::Motion_17_GameSpeakEnd()
 {
-    const PSX_RECT abeRect = sActiveHero->VGetBoundingRect();
+    const PSX_RECT abeRect = gAbe->VGetBoundingRect();
     const PSX_RECT rect = VGetBoundingRect();
 
     if (abeRect.x <= rect.w
@@ -3341,11 +3341,11 @@ void Paramite::Motion_17_GameSpeakEnd()
         && abeRect.h >= rect.y
         && abeRect.y <= rect.h)
     {
-        if (VIsObj_GettingNear_On_X(sActiveHero))
+        if (VIsObj_GettingNear_On_X(gAbe))
         {
-            if (GetSpriteScale() == sActiveHero->GetSpriteScale())
+            if (GetSpriteScale() == gAbe->GetSpriteScale())
             {
-                sActiveHero->VTakeDamage(this);
+                gAbe->VTakeDamage(this);
             }
         }
     }
@@ -3377,16 +3377,16 @@ void Paramite::Motion_18_RunningAttack()
     mXPos += mVelX;
     MapFollowMe(false);
 
-    const PSX_RECT abeRect = sActiveHero->VGetBoundingRect();
+    const PSX_RECT abeRect = gAbe->VGetBoundingRect();
     const PSX_RECT rect = VGetBoundingRect();
 
     if (abeRect.x <= rect.w
         && abeRect.w >= rect.x
         && abeRect.h >= rect.y
         && abeRect.y <= rect.h
-        && GetSpriteScale() == sActiveHero->GetSpriteScale())
+        && GetSpriteScale() == gAbe->GetSpriteScale())
     {
-        sActiveHero->VTakeDamage(this);
+        gAbe->VTakeDamage(this);
     }
 
     if (GetAnimation().GetCurrentFrame() == 3)
@@ -3531,16 +3531,16 @@ void Paramite::Motion_21_WebLeaveDown()
 
 void Paramite::Motion_22_Unknown()
 {
-    const PSX_RECT abeRect = sActiveHero->VGetBoundingRect();
+    const PSX_RECT abeRect = gAbe->VGetBoundingRect();
     const PSX_RECT rect = VGetBoundingRect();
 
     if (abeRect.x <= rect.w
         && abeRect.w >= rect.x
         && abeRect.h >= rect.y
         && abeRect.y <= rect.h
-        && GetSpriteScale() == sActiveHero->GetSpriteScale())
+        && GetSpriteScale() == gAbe->GetSpriteScale())
     {
-        sActiveHero->VTakeDamage(this);
+        gAbe->VTakeDamage(this);
     }
 
     if (GetAnimation().GetIsLastFrame())

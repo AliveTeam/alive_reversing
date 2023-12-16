@@ -138,12 +138,12 @@ void SlapLock::VScreenChanged()
 void SlapLock::GiveInvisibility()
 {
     mSlapLockTlv = static_cast<relive::Path_SlapLock*>(gPathInfo->TLV_From_Offset_Lvl_Cam(mTlvInfo));
-    if (sActiveHero)
+    if (gAbe)
     {
-        sActiveHero->mInvisibilityDuration = mSlapLockTlv->mInvisibilityDuration;
-        sActiveHero->mHaveShrykull = 0;
-        sActiveHero->mHaveInvisibility = 1;
-        sActiveHero->mRingPulseTimer = MakeTimer(200000);
+        gAbe->mInvisibilityDuration = mSlapLockTlv->mInvisibilityDuration;
+        gAbe->mHaveShrykull = 0;
+        gAbe->mHaveInvisibility = 1;
+        gAbe->mRingPulseTimer = MakeTimer(200000);
     }
 }
 
@@ -316,13 +316,13 @@ void SlapLock::VUpdate()
                 if (static_cast<s32>(sGnFrame) > mTimer1)
                 {
                     if (!gMap.Is_Point_In_Current_Camera(
-                            sActiveHero->mCurrentLevel,
-                            sActiveHero->mCurrentPath,
-                            sActiveHero->mXPos,
-                            sActiveHero->mYPos,
+                            gAbe->mCurrentLevel,
+                            gAbe->mCurrentPath,
+                            gAbe->mXPos,
+                            gAbe->mYPos,
                             1)
-                        || sActiveHero->mRingPulseTimer
-                        || sActiveHero->GetInvisible())
+                        || gAbe->mRingPulseTimer
+                        || gAbe->GetInvisible())
                     {
                         AbilityRing::Factory(
                             mXPos,
@@ -360,13 +360,13 @@ void SlapLock::VUpdate()
                     return;
                 }
 
-                if (sActiveHero->GetInvisible())
+                if (gAbe->GetInvisible())
                 {
                     mState = SlapLockStates::eGiveInvisibility_7;
                 }
                 else
                 {
-                    auto pFlicker = relive_new PossessionFlicker(sActiveHero, 8, 128, 255, 128);
+                    auto pFlicker = relive_new PossessionFlicker(gAbe, 8, 128, 255, 128);
                     if (pFlicker)
                     {
                         mPossessionFlickerId = pFlicker->mBaseGameObjectId;
@@ -409,18 +409,18 @@ void SlapLock::SetInvisibilityTarget()
         RingTypes::eInvisible_Pulse_Emit_9,
         GetSpriteScale());
 
-    const PSX_RECT bRect = sActiveHero->VGetBoundingRect();
+    const PSX_RECT bRect = gAbe->VGetBoundingRect();
 
     AbilityRing* pRing = AbilityRing::Factory(
         FP_FromInteger((bRect.x + bRect.w) / 2),
         FP_FromInteger((bRect.y + bRect.h) / 2),
         RingTypes::eInvisible_Pulse_Give_10,
-        sActiveHero->GetSpriteScale());
+        gAbe->GetSpriteScale());
 
     pRing->mBaseGameObjectTlvInfo = mBaseGameObjectTlvInfo;
     mAbilityRingId = pRing->mBaseGameObjectId;
 
-    pRing->VSetTarget(sActiveHero);
+    pRing->VSetTarget(gAbe);
 }
 
 bool SlapLock::VTakeDamage(BaseGameObject* pFrom)
@@ -433,7 +433,7 @@ bool SlapLock::VTakeDamage(BaseGameObject* pFrom)
         return false;
     }
 
-    if (sActiveHero->mCurrentMotion != eAbeMotions::Motion_62_Punch_454750)
+    if (gAbe->mCurrentMotion != eAbeMotions::Motion_62_Punch_454750)
     {
         // If Abe isn't slapping then he can't hurt me
         return false;
@@ -449,7 +449,7 @@ bool SlapLock::VTakeDamage(BaseGameObject* pFrom)
         return false;
     }
 
-    sActiveHero->ToKnockback_44E700(1, 0);
+    gAbe->ToKnockback_44E700(1, 0);
 
     if (mHasGhost == relive::reliveChoice::eYes)
     {

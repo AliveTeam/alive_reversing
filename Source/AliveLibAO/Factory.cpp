@@ -741,13 +741,13 @@ static void Factory_AbeStart(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& 
             gPauseMenu = relive_new PauseMenu();
         }
 
-        if (!sActiveHero)
+        if (!gAbe)
         {
-            sActiveHero = relive_new Abe();
-            if (sActiveHero)
+            gAbe = relive_new Abe();
+            if (gAbe)
             {
-                sActiveHero->mXPos = FP_FromInteger(pTlv->mTopLeftX + 12);
-                sActiveHero->mYPos = FP_FromInteger(pTlv->mTopLeftY);
+                gAbe->mXPos = FP_FromInteger(pTlv->mTopLeftX + 12);
+                gAbe->mYPos = FP_FromInteger(pTlv->mTopLeftY);
             }
         }
     }
@@ -1538,19 +1538,19 @@ static void Factory_RingCancel(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid
         auto pRingCancel = static_cast<relive::Path_RingCancel*>(pTlv);
         if (pRingCancel->mRemovesShrykull)
         {
-            if (sActiveHero->field_168_ring_pulse_timer)
+            if (gAbe->field_168_ring_pulse_timer)
             {
-                if (sActiveHero->field_16C_bHaveShrykull)
+                if (gAbe->field_16C_bHaveShrykull)
                 {
-                    sActiveHero->field_168_ring_pulse_timer = 0;
+                    gAbe->field_168_ring_pulse_timer = 0;
                 }
             }
         }
         else
         {
-            if (!sActiveHero->field_16C_bHaveShrykull)
+            if (!gAbe->field_16C_bHaveShrykull)
             {
-                sActiveHero->field_168_ring_pulse_timer = 0;
+                gAbe->field_168_ring_pulse_timer = 0;
             }
         }
         Path::TLV_Reset(tlvId, -1, 0, 0);

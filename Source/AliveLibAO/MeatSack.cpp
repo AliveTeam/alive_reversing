@@ -101,12 +101,12 @@ void MeatSack::VUpdate()
         return;
     }
 
-    const PSX_RECT abeRect = sActiveHero->VGetBoundingRect();
+    const PSX_RECT abeRect = gAbe->VGetBoundingRect();
     const PSX_RECT ourRect = VGetBoundingRect();
 
     if (RectsOverlap(ourRect, abeRect))
     {
-        if (GetSpriteScale() == sActiveHero->GetSpriteScale())
+        if (GetSpriteScale() == gAbe->GetSpriteScale())
         {
             if (!gThrowableArray)
             {

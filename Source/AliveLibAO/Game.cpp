@@ -67,7 +67,7 @@ void Init_Sound_DynamicArrays_And_Others()
     DebugFont_Init();
 
     gPauseMenu = nullptr;
-    sActiveHero = nullptr;
+    gAbe = nullptr;
     sControlledCharacter = nullptr;
     gNumCamSwappers = 0;
     sGnFrame = 0;

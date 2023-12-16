@@ -113,7 +113,7 @@ void GasCountDown::DealDamage()
     {
         if (-mGasTimeLeftSecs > 2)
         {
-            sActiveHero->VTakeDamage(this);
+            gAbe->VTakeDamage(this);
             for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
             {
                 IBaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);

@@ -90,7 +90,7 @@ extern "C"
         &gMap.mCurrentCamera,
         &gMap.mFmvBaseId,
         &sGnFrame,
-        &sActiveHero,
+        &gAbe,
         offsetof(Abe, mYPos),
         &gDisableFontFlicker};
 
@@ -107,7 +107,7 @@ extern "C"
         &AO::gMap.mCurrentPath,
         &AO::gMap.mCurrentCamera,
         &::sGnFrame,
-        &AO::sActiveHero,
+        &AO::gAbe,
         offsetof(AO::Abe, mYPos) + sizeof(s16), // +2 for exp only
         &gDisableFontFlicker,
         &gSwitchStates.mData[70]};

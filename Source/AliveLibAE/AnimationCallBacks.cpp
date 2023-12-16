@@ -54,7 +54,7 @@ void Animation_OnFrame_Common(BaseGameObject* pObjPtr, u32&, const IndexedPoint&
         gSlurgStepWatchPointsCount[gSlurgStepWatchPointsIdx] = count + 1;
     }
 
-    if (!IsActiveHero(pObj))
+    if (!IgAbe(pObj))
     {
         return;
     }

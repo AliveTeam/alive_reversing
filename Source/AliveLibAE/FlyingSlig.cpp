@@ -453,7 +453,7 @@ FlyingSlig::~FlyingSlig()
 {
     if (sControlledCharacter == this)
     {
-        sControlledCharacter = sActiveHero;
+        sControlledCharacter = gAbe;
         MusicController::static_PlayMusic(MusicController::MusicTypes::eNone_0, this, 0, 0);
         if (gMap.mNextLevel != EReliveLevelIds::eMenu)
         {
@@ -969,7 +969,7 @@ void FlyingSlig::Brain_4_ChasingEnemy()
         return;
     }
 
-    if (EventGet(kEventResetting) || sControlledCharacter->GetSpriteScale() != GetSpriteScale() || IsInInvisibleZone(sControlledCharacter) || sControlledCharacter->GetInvisible() || (!IsWallBetween(this, sControlledCharacter) && (!IsActiveHero(sControlledCharacter) || sActiveHero->mCurrentMotion != eAbeMotions::Motion_65_LedgeAscend_4548E0) && sControlledCharacter->Type() != ReliveTypes::eMineCar))
+    if (EventGet(kEventResetting) || sControlledCharacter->GetSpriteScale() != GetSpriteScale() || IsInInvisibleZone(sControlledCharacter) || sControlledCharacter->GetInvisible() || (!IsWallBetween(this, sControlledCharacter) && (!IgAbe(sControlledCharacter) || gAbe->mCurrentMotion != eAbeMotions::Motion_65_LedgeAscend_4548E0) && sControlledCharacter->Type() != ReliveTypes::eMineCar))
     {
         PatrolDelay();
         return;
@@ -1895,7 +1895,7 @@ s16 FlyingSlig::IsPossessed()
 
 s16 FlyingSlig::CanChase(IBaseAliveGameObject* pObj)
 {
-    if (!gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) || !gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) || EventGet(kEventResetting) || IsAbeEnteringDoor(pObj) || sActiveHero->GetSpriteScale() != GetSpriteScale() || !IsWallBetween(this, pObj))
+    if (!gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) || !gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) || EventGet(kEventResetting) || IsAbeEnteringDoor(pObj) || gAbe->GetSpriteScale() != GetSpriteScale() || !IsWallBetween(this, pObj))
     {
         return 0;
     }
@@ -2200,7 +2200,7 @@ s16 FlyingSlig::sub_436730()
     }
     else
     {
-        if (sActiveHero && sActiveHero->mHealth < FP_FromInteger(0) && FP_Abs(mXPos - sActiveHero->mXPos) < FP_FromInteger(640) && FP_Abs(mYPos - sActiveHero->mYPos) < FP_FromInteger(240))
+        if (gAbe && gAbe->mHealth < FP_FromInteger(0) && FP_Abs(mXPos - gAbe->mXPos) < FP_FromInteger(640) && FP_Abs(mYPos - gAbe->mYPos) < FP_FromInteger(240))
         {
             ToAbeDead();
             return 1;
@@ -2211,7 +2211,7 @@ s16 FlyingSlig::sub_436730()
 
 s16 FlyingSlig::CanHearAbe()
 {
-    return IsActiveHero(IsEventInRange(kEventSuspiciousNoise, mXPos, mYPos, AsEventScale(GetScale()))) || IsActiveHero(IsEventInRange(kEventSpeaking, mXPos, mYPos, AsEventScale(GetScale())));
+    return IgAbe(IsEventInRange(kEventSuspiciousNoise, mXPos, mYPos, AsEventScale(GetScale()))) || IgAbe(IsEventInRange(kEventSpeaking, mXPos, mYPos, AsEventScale(GetScale())));
 }
 
 void FlyingSlig::ToSpottedEnemy()
