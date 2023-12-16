@@ -49,122 +49,115 @@ AbilityRing::AbilityRing(FP xpos, FP ypos, RingTypes ring_type)
     gObjListDrawables->Push_Back(this);
     SetDrawable(true);
 
-    if (mRingPolyBuffer)
+    mRingScreenX = FP_GetExponent(gScreenManager->mCamPos->x - FP_FromInteger(gScreenManager->mCamXOff));
+    mRingScreenY = FP_GetExponent(gScreenManager->mCamPos->y - FP_FromInteger(gScreenManager->mCamYOff));
+
+    mRingScreenXPos = FP_GetExponent(xpos) - mRingScreenX;
+    mRingScreenYPos = FP_GetExponent(ypos) - mRingScreenY;
+
+    const s32 d1 = MinDistance(mRingScreenXPos, mRingScreenYPos, gPsxDisplay.mWidth, 0, 0, 0);
+    const s32 d2 = MinDistance(mRingScreenXPos, mRingScreenYPos, gPsxDisplay.mWidth, gPsxDisplay.mHeight, 0, gPsxDisplay.mHeight);
+
+    if (d1 <= d2)
     {
-        mRingScreenX = FP_GetExponent(gScreenManager->mCamPos->x - FP_FromInteger(gScreenManager->mCamXOff));
-        mRingScreenY = FP_GetExponent(gScreenManager->mCamPos->y - FP_FromInteger(gScreenManager->mCamYOff));
-
-        mRingScreenXPos = FP_GetExponent(xpos) - mRingScreenX;
-        mRingScreenYPos = FP_GetExponent(ypos) - mRingScreenY;
-
-        const s32 d1 = MinDistance(mRingScreenXPos, mRingScreenYPos, gPsxDisplay.mWidth, 0, 0, 0);
-        const s32 d2 = MinDistance(mRingScreenXPos, mRingScreenYPos, gPsxDisplay.mWidth, gPsxDisplay.mHeight, 0, gPsxDisplay.mHeight);
-
-        if (d1 <= d2)
-        {
-            mRingFadeoutDistance = static_cast<s16>(MinDistance(mRingScreenXPos, mRingScreenYPos, gPsxDisplay.mWidth, gPsxDisplay.mHeight, 0, gPsxDisplay.mHeight));
-        }
-        else
-        {
-            mRingFadeoutDistance = static_cast<s16>(MinDistance(mRingScreenXPos, mRingScreenYPos, gPsxDisplay.mWidth, 0, 0, 0));
-        }
-
-        mRingType = ring_type;
-
-        switch (mRingType)
-        {
-            case RingTypes::eExplosive_Emit_1:
-                for (PSX_RECT& r : mRingCollideRects)
-                {
-                    r = {};
-                }
-                [[fallthrough]];
-
-            case RingTypes::eExplosive_Emit_Effect_2:
-                mRingThickness = FP_FromInteger(8);
-                mRingSpeed = FP_FromInteger(6);
-                mRingRight = FP_FromInteger(6);
-                mRingLeft = FP_FromInteger(0);
-                mRingRed = 80;
-                mRingGreen = 0;
-                mRingBlue = 0;
-                SfxPlayMono(relive::SoundEffects::IngameTransition, 0);
-                break;
-
-            case RingTypes::eExplosive_Give_3:
-                mRingThickness = FP_FromInteger(8);
-                mRingSpeed = FP_FromInteger(6);
-                mRingRight = FP_FromInteger(350);
-                mRingLeft = FP_FromInteger(342);
-                mRingRed = 80;
-                mRingGreen = 0;
-                mRingBlue = 0;
-                break;
-
-            case RingTypes::eExplosive_Pulse_0:
-            case RingTypes::eShrykull_Pulse_Small_4:
-                SetTarget(sActiveHero);
-                [[fallthrough]];
-
-            case RingTypes::eShrykull_Pulse_Large_5:
-            case RingTypes::eShrykull_Pulse_Orange_6:
-                mRingThickness = FP_FromInteger(5);
-                mRingSpeed = FP_FromInteger(4);
-                mRingRight = FP_FromInteger(4);
-                mRingLeft = FP_FromInteger(0);
-                mRingFadeoutDistance = 50;
-                switch (ring_type)
-                {
-                    case RingTypes::eExplosive_Pulse_0:
-                        mRingRed = 255;
-                        mRingGreen = 0;
-                        mRingBlue = 0;
-                        break;
-                    case RingTypes::eShrykull_Pulse_Small_4:
-                        mRingRed = 0;
-                        mRingGreen = 0;
-                        mRingBlue = 255;
-                        break;
-                    case RingTypes::eShrykull_Pulse_Large_5:
-                        mRingRed = 0;
-                        mRingGreen = 0;
-                        mRingBlue = 80;
-                        break;
-                    case RingTypes::eShrykull_Pulse_Orange_6:
-                        mRingRed = 255;
-                        mRingGreen = 128;
-                        mRingBlue = 64;
-                        break;
-                    default:
-                        break;
-                }
-                break;
-
-            default:
-                break;
-        }
-
-        mRingPath = gMap.mCurrentPath;
-        mRingLayer = Layer::eLayer_Above_FG1_39;
-        mRingLevel = gMap.mCurrentLevel;
-
-        mRingScaleX = FP_FromDouble(1.0999); // TODO: Matching ?? 0x11999
-        mRingScaleY = FP_FromInteger(1);
-
-        for (s32 x = 0; x < 64; x++)
-        {
-            Poly_G4* pPoly = &mRingPolyBuffer[x];
-            pPoly->SetRGB0(mRingRed & 255, mRingGreen & 255, mRingBlue & 255);
-            pPoly->SetRGB1(mRingRed & 255, mRingGreen & 255, mRingBlue & 255);
-            pPoly->SetRGB2(mRingRed & 255, mRingGreen & 255, mRingBlue & 255);
-            pPoly->SetRGB3(mRingRed & 255, mRingGreen & 255, mRingBlue & 255);
-            pPoly->SetBlendMode(relive::TBlendModes::eBlend_1);
-            pPoly->SetSemiTransparent(mRingSemiTrans);
-        }
+        mRingFadeoutDistance = static_cast<s16>(MinDistance(mRingScreenXPos, mRingScreenYPos, gPsxDisplay.mWidth, gPsxDisplay.mHeight, 0, gPsxDisplay.mHeight));
     }
     else
     {
-        SetDead(true);
+        mRingFadeoutDistance = static_cast<s16>(MinDistance(mRingScreenXPos, mRingScreenYPos, gPsxDisplay.mWidth, 0, 0, 0));
+    }
+
+    mRingType = ring_type;
+
+    switch (mRingType)
+    {
+        case RingTypes::eExplosive_Emit_1:
+            for (PSX_RECT& r : mRingCollideRects)
+            {
+                r = {};
+            }
+            [[fallthrough]];
+
+        case RingTypes::eExplosive_Emit_Effect_2:
+            mRingThickness = FP_FromInteger(8);
+            mRingSpeed = FP_FromInteger(6);
+            mRingRight = FP_FromInteger(6);
+            mRingLeft = FP_FromInteger(0);
+            mRingRed = 80;
+            mRingGreen = 0;
+            mRingBlue = 0;
+            SfxPlayMono(relive::SoundEffects::IngameTransition, 0);
+            break;
+
+        case RingTypes::eExplosive_Give_3:
+            mRingThickness = FP_FromInteger(8);
+            mRingSpeed = FP_FromInteger(6);
+            mRingRight = FP_FromInteger(350);
+            mRingLeft = FP_FromInteger(342);
+            mRingRed = 80;
+            mRingGreen = 0;
+            mRingBlue = 0;
+            break;
+
+        case RingTypes::eExplosive_Pulse_0:
+        case RingTypes::eShrykull_Pulse_Small_4:
+            SetTarget(sActiveHero);
+            [[fallthrough]];
+
+        case RingTypes::eShrykull_Pulse_Large_5:
+        case RingTypes::eShrykull_Pulse_Orange_6:
+            mRingThickness = FP_FromInteger(5);
+            mRingSpeed = FP_FromInteger(4);
+            mRingRight = FP_FromInteger(4);
+            mRingLeft = FP_FromInteger(0);
+            mRingFadeoutDistance = 50;
+            switch (ring_type)
+            {
+                case RingTypes::eExplosive_Pulse_0:
+                    mRingRed = 255;
+                    mRingGreen = 0;
+                    mRingBlue = 0;
+                    break;
+                case RingTypes::eShrykull_Pulse_Small_4:
+                    mRingRed = 0;
+                    mRingGreen = 0;
+                    mRingBlue = 255;
+                    break;
+                case RingTypes::eShrykull_Pulse_Large_5:
+                    mRingRed = 0;
+                    mRingGreen = 0;
+                    mRingBlue = 80;
+                    break;
+                case RingTypes::eShrykull_Pulse_Orange_6:
+                    mRingRed = 255;
+                    mRingGreen = 128;
+                    mRingBlue = 64;
+                    break;
+                default:
+                    break;
+            }
+            break;
+
+        default:
+            break;
+    }
+
+    mRingPath = gMap.mCurrentPath;
+    mRingLayer = Layer::eLayer_Above_FG1_39;
+    mRingLevel = gMap.mCurrentLevel;
+
+    mRingScaleX = FP_FromDouble(1.0999); // TODO: Matching ?? 0x11999
+    mRingScaleY = FP_FromInteger(1);
+
+    for (s32 x = 0; x < 64; x++)
+    {
+        Poly_G4* pPoly = &mRingPolyBuffer[x];
+        pPoly->SetRGB0(mRingRed & 255, mRingGreen & 255, mRingBlue & 255);
+        pPoly->SetRGB1(mRingRed & 255, mRingGreen & 255, mRingBlue & 255);
+        pPoly->SetRGB2(mRingRed & 255, mRingGreen & 255, mRingBlue & 255);
+        pPoly->SetRGB3(mRingRed & 255, mRingGreen & 255, mRingBlue & 255);
+        pPoly->SetBlendMode(relive::TBlendModes::eBlend_1);
+        pPoly->SetSemiTransparent(mRingSemiTrans);
     }
 }
 
