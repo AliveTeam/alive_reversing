@@ -1353,7 +1353,10 @@ void Input_InitJoyStick_460080()
 
                 sJoystickAvailable = true;
 
-                strncpy(sGamePadStr_55E85C, SDL_GameControllerName(pSDLController), 32u);
+                memset(sGamePadStr_55E85C, 0, ALIVE_COUNTOF(sGamePadStr_55E85C));
+
+                // Copy up to buffer size - 1 else if the buffer is full of chars there won't be a null terminator
+                strncpy(sGamePadStr_55E85C, SDL_GameControllerName(pSDLController), ALIVE_COUNTOF(sGamePadStr_55E85C) - 1);
 
                 //TODO add binding
                 break;

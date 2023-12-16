@@ -290,6 +290,7 @@ static void ForEachItemAtXY(u32 xSize, u32 ySize, ContainerType& container, FnOn
     }
 }
 
+/*
 static void WriteCollisionLine(ByteStream& s, const ::PathLine& line)
 {
     s.Write(line.mRect.x);
@@ -304,6 +305,7 @@ static void WriteCollisionLine(ByteStream& s, const ::PathLine& line)
 
     s.Write(line.mLineLength);
 }
+*/
 
 static std::vector<u8> Base64Png2RawPixels(const std::string& base64EncodedPng)
 {
@@ -473,6 +475,7 @@ static void ImportCamerasAndFG1(std::vector<u8>& fileDataBuffer, LvlWriter& inpu
     }
 }
 
+/*
 static void WriteStringTable(const std::vector<std::string>& strings, ByteStream& s)
 {
     // String count
@@ -491,6 +494,7 @@ static void WriteStringTable(const std::vector<std::string>& strings, ByteStream
         s.Write(u8(0));
     }
 }
+*/
 
 class ResourceLocator final
 {

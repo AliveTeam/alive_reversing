@@ -26,7 +26,6 @@ static u16 sTeleport_Cam = 0;
 bool gDDCheat_FlyingEnabled = false;
 bool gDDCheat_ShowAI_Info = false;
 static bool sDDCheat_AlwaysShow = false;
-static s32 sDDCheat_Unknown_5BC004 = 0;
 static u32 sDDCheat_PrevDebugInput = 0;
 static s32 sDDCheat_DebugInputDelay = 0;
 

@@ -170,8 +170,8 @@ static PauseMenuPageEntry sQuitConfirmationEntries[3] = {
     {184, 135, "Enter yes   Esc no", 160, 160, 160, Centre},
     {0, 0, nullptr, 0u, 0u, 0u, 0u}};
 
-static PauseMenuPageEntry sStatusPageEntries[1] = {
-    {0, 0, nullptr, 0u, 0u, 0u, 0u}};
+//static PauseMenuPageEntry sStatusPageEntries[1] = {
+//    {0, 0, nullptr, 0u, 0u, 0u, 0u}};
 
 static PauseMenuPageEntry sLoadPageEntries[9] = {
     {184, 5, "", 128, 16, 255, Centre},
