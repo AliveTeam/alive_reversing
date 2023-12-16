@@ -118,7 +118,6 @@ BirdPortal::~BirdPortal()
     if (mThrowableTotalIndicator)
     {
         mThrowableTotalIndicator->SetDead(true);
-        mThrowableTotalIndicator->mBaseGameObjectRefCount--;
         mThrowableTotalIndicator = nullptr;
     }
 
@@ -251,11 +250,6 @@ void BirdPortal::CreateDovesAndShrykullNumber()
             mSpriteScale,
             mMudCountForShrykull,
             0);
-
-        if (mThrowableTotalIndicator)
-        {
-            mThrowableTotalIndicator->mBaseGameObjectRefCount++;
-        }
     }
 }
 
@@ -328,7 +322,6 @@ void BirdPortal::VUpdate()
                     if (mThrowableTotalIndicator)
                     {
                         mThrowableTotalIndicator->SetDead(true);
-                        mThrowableTotalIndicator->mBaseGameObjectRefCount--;
                         mThrowableTotalIndicator = nullptr;
                     }
 
@@ -341,7 +334,6 @@ void BirdPortal::VUpdate()
                 if (mThrowableTotalIndicator)
                 {
                     mThrowableTotalIndicator->SetDead(true);
-                    mThrowableTotalIndicator->mBaseGameObjectRefCount--;
                     mThrowableTotalIndicator = nullptr;
                 }
                 for (s32 i = 0; i < mDovesArray->Size(); i++)
