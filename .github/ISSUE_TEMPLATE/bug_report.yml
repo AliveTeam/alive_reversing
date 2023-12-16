@@ -1,0 +1,59 @@
+name: Bug report
+description: File a bug report
+body:
+  - type: dropdown
+    attributes:
+      label: Original bug
+      description: Does this bug also occur in the original version of the game without R.E.L.I.V.E.? 
+      options:
+       - "Yes"
+       - "No"
+       - Unsure
+      default: 2
+    validations:
+      required: true
+        
+  - type: dropdown
+    attributes:
+      label: Operating system
+      description: On which operating system did you encounter the bug?
+      options:
+        - Windows
+        - Linux
+        - macOS
+      default: 0
+    validations:
+      required: true
+      
+  - type: textarea
+    attributes:
+      label: Bug description
+    validations:
+      required: true
+      
+  - type: textarea
+    attributes:
+      label: Repro steps
+      description: How do we reproduce the bug?
+    validations:
+      required: false
+      
+  - type: textarea
+    attributes:
+      label: Save file
+      description: The game save files are located inside the game folder and end with .sav
+      placeholder: Drag and drop your save file into this box.
+    validations:
+      required: false
+      
+  - type: markdown
+    attributes:
+      value: |
+        The R.E.L.I.V.E. log file is located in your game directory e.g `C:\Program Files (x86)\Steam\steamapps\common\Oddworld Abes Exoddus\logs\myeasylog.log` if you installed the game through steam.
+      
+  - type: textarea
+    attributes:
+      label: Log
+      placeholder: Drag and drop myeasylog.log into this box.
+    validations:
+      required: true
