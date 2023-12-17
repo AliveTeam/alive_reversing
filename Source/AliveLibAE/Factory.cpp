@@ -49,7 +49,7 @@
 #include "Mudokon.hpp"
 #include "BirdPortal.hpp"
 #include "TorturedMudokon.hpp"
-#include "Dove.hpp"
+#include "../relive_lib/GameObjects/Dove.hpp"
 #include "DoorBlocker.hpp"
 #include "SlapLock.hpp"
 #include "Glukkon.hpp"

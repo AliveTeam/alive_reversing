@@ -11,7 +11,7 @@
 #include "CheatController.hpp"
 #include "../relive_lib/GameObjects/Particle.hpp"
 #include "../relive_lib/GameObjects/Flash.hpp"
-#include "Dove.hpp"
+#include "../relive_lib/GameObjects/Dove.hpp"
 #include "Math.hpp"
 #include "Grid.hpp"
 #include "../relive_lib/Events.hpp"

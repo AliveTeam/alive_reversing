@@ -2,18 +2,18 @@
 #include "Dove.hpp"
 #include "../relive_lib/Sound/Midi.hpp"
 #include "Math.hpp"
-#include "Game.hpp"
 #include "../relive_lib/Events.hpp"
 #include "Sfx.hpp"
-#include "Abe.hpp"
-#include "stdlib.hpp"
-#include "Grid.hpp"
-#include "Map.hpp"
-#include "Path.hpp"
-#include "../relive_lib/FixedPoint.hpp"
+#include "../../AliveLibAE/Grid.hpp"
+#include "../MapWrapper.hpp"
+#include "../FixedPoint.hpp"
+#include "../../AliveLibAO/Midi.hpp"
+#include "../GameType.hpp"
+#include "ScreenManager.hpp"
+#include "IBaseAliveGameObject.hpp"
 
 static bool bTheOneControllingTheMusic = false;
-static DynamicArrayT<Dove> gDovesArray{3};
+static DynamicArrayT<Dove> gDovesArray{10};
 static s32 sAbePortalTimer = 0;
 static s16 sAbePortalWidth = 0;
 static s16 sAbePortalDirection = 0;
@@ -22,6 +22,30 @@ void Dove::LoadAnimations()
 {
     mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Dove_Flying));
     mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Dove_Idle));
+}
+
+static inline void PlayAmbientSeq()
+{
+    if (GetGameType() == GameType::eAo)
+    {
+        SND_SEQ_PlaySeq(AO::SeqId::Unknown_24, 0, 1);
+    }
+    else
+    {
+        SND_SEQ_PlaySeq(::SeqId::NecrumAmbient2_17, 0, 1);
+    }
+}
+
+static inline void StopAmbientSeq()
+{
+    if (GetGameType() == GameType::eAo)
+    {
+        SND_SEQ_Stop(AO::SeqId::Unknown_24);
+    }
+    else
+    {
+        SND_SEQ_Stop(SeqId::NecrumAmbient2_17);
+    }
 }
 
 Dove::Dove(AnimId animId, const Guid& tlvId, FP scale)
@@ -58,12 +82,17 @@ Dove::Dove(AnimId animId, const Guid& tlvId, FP scale)
     mVelY = FP_FromInteger(-4 - (Math_NextRandom() % 4));
     GetAnimation().SetFrame(Math_NextRandom() % 8);
 
+    if (GetMap().mCurrentLevel == EReliveLevelIds::eStockYards || GetMap().mCurrentLevel == EReliveLevelIds::eStockYardsReturn)
+    {
+        mRGB.SetRGB(30, 30, 30);
+    }
+
     if (bTheOneControllingTheMusic)
     {
         return;
     }
 
-    SND_SEQ_PlaySeq(SeqId::NecrumAmbient2_17, 0, 1);
+    PlayAmbientSeq();
     bTheOneControllingTheMusic = true;
 }
 
@@ -75,7 +104,7 @@ Dove::Dove(AnimId animId, FP xpos, FP ypos, FP scale)
 {
     SetType(ReliveTypes::eDove);
 
-    LoadAnimations();
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(animId));
     Animation_Init(GetAnimRes(animId));
 
     GetAnimation().SetSemiTrans(false);
@@ -92,7 +121,6 @@ Dove::Dove(AnimId animId, FP xpos, FP ypos, FP scale)
     }
 
     mVelX = FP_FromInteger(Math_NextRandom() / 12 - 11);
-
     GetAnimation().SetFlipX(mVelX < FP_FromInteger(0));
 
     mVelY = FP_FromInteger(-4 - (Math_NextRandom() % 4));
@@ -100,14 +128,21 @@ Dove::Dove(AnimId animId, FP xpos, FP ypos, FP scale)
     mXPos = xpos;
     mYPos = ypos;
 
-    GetAnimation().SetFrame(Math_NextRandom() % 7); // AO does % 8, rip
+    // TODO: factor out
+    s32 rndVal = GetGameType() == GameType::eAo ? 8 : 7;
+
+    GetAnimation().SetFrame(Math_NextRandom() % rndVal);
+
+    if (GetMap().mCurrentLevel == EReliveLevelIds::eStockYards || GetMap().mCurrentLevel == EReliveLevelIds::eStockYardsReturn)
+    {
+        mRGB.SetRGB(30, 30, 30);
+    }
 
     if (bTheOneControllingTheMusic)
     {
         return;
     }
-
-    SND_SEQ_PlaySeq(SeqId::NecrumAmbient2_17, 0, 1);
+    PlayAmbientSeq();
     bTheOneControllingTheMusic = true;
 }
 
@@ -118,13 +153,13 @@ Dove::~Dove()
         gDovesArray.Remove_Item(this);
         if (mTlvInfo.IsValid())
         {
-            Path::TLV_Reset(mTlvInfo, -1, 0, 0);
+            GetMap().TLV_Reset(mTlvInfo, -1, 0, 0);
         }
     }
 
     if (bTheOneControllingTheMusic)
     {
-        SND_SEQ_Stop(SeqId::NecrumAmbient2_17);
+        StopAmbientSeq();
         bTheOneControllingTheMusic = false;
     }
 }
@@ -179,7 +214,7 @@ void Dove::VUpdate()
 
     if (!bTheOneControllingTheMusic)
     {
-        SND_SEQ_PlaySeq(SeqId::NecrumAmbient2_17, 0, 1);
+        PlayAmbientSeq();
         bTheOneControllingTheMusic = true;
     }
 
@@ -193,15 +228,25 @@ void Dove::VUpdate()
 
             if (EventGet(kEventNoise))
             {
-                // player getting near
-                if (VIsObjNearby(ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(2), sControlledCharacter))
+                if (GetGameType() == GameType::eAo)
                 {
-                    Dove::All_FlyAway(true);
+                    if (FP_GetExponent(FP_Abs(mXPos - sControlledCharacter->mXPos)) < 100)
+                    {
+                        Dove::All_FlyAway(false);
+                    }
                 }
-                if (VIsObjNearby(ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(4), sControlledCharacter))
+                else
                 {
-                    // noise is too near, leg it
-                    Dove::All_FlyAway(false);
+                    // player getting near
+                    if (VIsObjNearby(ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(2), sControlledCharacter))
+                    {
+                        Dove::All_FlyAway(true);
+                    }
+                    if (VIsObjNearby(ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(4), sControlledCharacter))
+                    {
+                        // noise is too near, leg it
+                        Dove::All_FlyAway(false);
+                    }
                 }
             }
             break;
@@ -286,14 +331,31 @@ void Dove::VUpdate()
             break;
     }
 
-    if (!gMap.Is_Point_In_Current_Camera(
-            mCurrentLevel,
-            mCurrentPath,
-            mXPos,
-            mYPos,
-            0))
+    if (GetGameType() == GameType::eAo)
     {
-        SetDead(true);
+        const s32 doveScreenYPos = FP_GetExponent(FP_Abs(mYPos - gScreenManager->mCamPos->y));
+        if (doveScreenYPos > gScreenManager->mCamYOff)
+        {
+            SetDead(true);
+        }
+
+        const s32 doveScreenXPos = FP_GetExponent(FP_Abs(mXPos - gScreenManager->mCamPos->x));
+        if (doveScreenXPos > gScreenManager->mCamXOff)
+        {
+            SetDead(true);
+        }
+    }
+    else
+    {
+        if (!GetMap().Is_Point_In_Current_Camera(
+                mCurrentLevel,
+                mCurrentPath,
+                mXPos,
+                mYPos,
+                0))
+        {
+            SetDead(true);
+        }
     }
 }
 
@@ -313,7 +375,7 @@ void Dove::All_FlyAway(bool spookedInstantly)
     sExtraSeqStarted = false;
     if (bTheOneControllingTheMusic)
     {
-        SND_SEQ_Stop(SeqId::NecrumAmbient2_17);
+        StopAmbientSeq();
         bTheOneControllingTheMusic = false;
     }
 }

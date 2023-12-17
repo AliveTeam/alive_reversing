@@ -25,7 +25,7 @@
 #include "LiftPoint.hpp"
 #include "Lever.hpp"
 #include "Bullet.hpp"
-#include "Dove.hpp"
+#include "../relive_lib/GameObjects/Dove.hpp"
 #include "../relive_lib/GameObjects/BulletShell.hpp"
 #include "GameSpeak.hpp"
 #include "AmbientSound.hpp"

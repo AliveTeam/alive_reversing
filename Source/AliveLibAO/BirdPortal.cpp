@@ -8,7 +8,7 @@
 #include "ThrowableTotalIndicator.hpp"
 #include "../relive_lib/GameObjects/Flash.hpp"
 #include "Midi.hpp"
-#include "Dove.hpp"
+#include "../relive_lib/GameObjects/Dove.hpp"
 #include "OrbWhirlWind.hpp"
 #include "../relive_lib/GameObjects/Particle.hpp"
 #include "../relive_lib/Events.hpp"

@@ -117,3 +117,4 @@ private:
 };
 
 extern DynamicArrayT<IBaseAliveGameObject>* gBaseAliveGameObjects;
+extern IBaseAliveGameObject* sControlledCharacter;

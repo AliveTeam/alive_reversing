@@ -427,8 +427,6 @@ s32 XGrid_Index_To_XPos_4498F0(FP scale, s32 xGridIndex)
     return (374 / 2);
 }
 
-IBaseAliveGameObject* sControlledCharacter = nullptr;
-
 static constexpr s32 kResourceArraySize = 28;
 
 void Abe::LoadAnimations()

@@ -23,7 +23,7 @@
 #include "CreditsController.hpp"
 #include "Meat.hpp"
 #include "ElectricWall.hpp"
-#include "Dove.hpp"
+#include "../relive_lib/GameObjects/Dove.hpp"
 #include "Math.hpp"
 #include "MusicTrigger.hpp"
 #include "SecurityOrb.hpp"

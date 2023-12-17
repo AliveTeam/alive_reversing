@@ -21,7 +21,7 @@
 #include "CameraSwapper.hpp"
 #include "PlatformBase.hpp"
 #include "LiftPoint.hpp"
-#include "Dove.hpp"
+#include "../relive_lib/GameObjects/Dove.hpp"
 #include "Bullet.hpp"
 #include "../relive_lib/GameObjects/Particle.hpp"
 #include "Midi.hpp"

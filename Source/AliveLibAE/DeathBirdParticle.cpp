@@ -2,7 +2,7 @@
 #include "DeathBirdParticle.hpp"
 #include "../relive_lib/Function.hpp"
 #include "Game.hpp"
-#include "Dove.hpp"
+#include "../relive_lib/GameObjects/Dove.hpp"
 #include "stdlib.hpp"
 #include "Sfx.hpp"
 #include "Math.hpp"

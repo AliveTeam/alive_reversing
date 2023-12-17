@@ -8,7 +8,7 @@
 DynamicArrayT<IBaseAliveGameObject>* gBaseAliveGameObjects = nullptr;
 
 // TODO: Remove after abe.cpp merge
-extern IBaseAliveGameObject* sControlledCharacter;
+IBaseAliveGameObject* sControlledCharacter = nullptr;
 
 
 IBaseAliveGameObject::~IBaseAliveGameObject()

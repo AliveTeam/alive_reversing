@@ -8,7 +8,7 @@
 #include "CheatController.hpp"
 #include "DeathBirdParticle.hpp"
 #include "Door.hpp"
-#include "Dove.hpp"
+#include "../relive_lib/GameObjects/Dove.hpp"
 #include "ThrowableArray.hpp"
 #include "Elum.hpp"
 #include "../relive_lib/GameObjects/Flash.hpp"

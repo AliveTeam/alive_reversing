@@ -14,7 +14,7 @@
 #include "MusicController.hpp"
 #include "Slig.hpp"
 #include "Grenade.hpp"
-#include "Dove.hpp"
+#include "../relive_lib/GameObjects/Dove.hpp"
 #include "CrawlingSlig.hpp"
 #include "../relive_lib/GameObjects/Particle.hpp"
 #include "../relive_lib/GameObjects/Gibs.hpp"

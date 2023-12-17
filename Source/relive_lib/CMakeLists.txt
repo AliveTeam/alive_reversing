@@ -173,8 +173,6 @@ SET(AliveLibSrcAO
    ../AliveLibAO/Electrocute.cpp
    ../AliveLibAO/MusicTrigger.hpp
    ../AliveLibAO/MusicTrigger.cpp
-   ../AliveLibAO/Dove.hpp
-   ../AliveLibAO/Dove.cpp
    ../AliveLibAO/ElectricWall.hpp
    ../AliveLibAO/ElectricWall.cpp
    ../AliveLibAO/Meat.hpp
@@ -358,8 +356,6 @@ SET(AliveLibAESrc
     ../AliveLibAE/Door.cpp
     ../AliveLibAE/DeathBirdParticle.hpp
     ../AliveLibAE/DeathBirdParticle.cpp
-    ../AliveLibAE/Dove.hpp
-    ../AliveLibAE/Dove.cpp
     ../AliveLibAE/WorkWheel.hpp
     ../AliveLibAE/WorkWheel.cpp
     ../AliveLibAE/StatusLight.hpp
@@ -616,6 +612,8 @@ SET(game_objects_src
     GameObjects/BackgroundAnimation.cpp
     GameObjects/Gibs.hpp
     GameObjects/Gibs.cpp
+    GameObjects/Dove.hpp
+    GameObjects/Dove.cpp
 )
 
 SET(data_conversion_src

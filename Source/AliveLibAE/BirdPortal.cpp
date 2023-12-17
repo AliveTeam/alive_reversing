@@ -8,7 +8,7 @@
 #include "../relive_lib/Sound/Midi.hpp"
 #include "../relive_lib/Function.hpp"
 #include "BaseAliveGameObject.hpp"
-#include "Dove.hpp"
+#include "../relive_lib/GameObjects/Dove.hpp"
 #include "ThrowableTotalIndicator.hpp"
 #include "Game.hpp"
 #include "../relive_lib/Events.hpp"

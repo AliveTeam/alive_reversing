@@ -3,7 +3,7 @@
 #include "DeathBirdParticle.hpp"
 #include "Game.hpp"
 #include "../AliveLibAE/stdlib.hpp"
-#include "Dove.hpp"
+#include "../relive_lib/GameObjects/Dove.hpp"
 #include "Math.hpp"
 #include "Sfx.hpp"
 #include "../relive_lib/FixedPoint.hpp"
