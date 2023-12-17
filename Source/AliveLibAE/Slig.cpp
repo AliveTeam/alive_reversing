@@ -15,7 +15,7 @@
 #include "../relive_lib/Events.hpp"
 #include "Sfx.hpp"
 #include "../relive_lib/GameObjects/Blood.hpp"
-#include "Gibs.hpp"
+#include "../relive_lib/GameObjects/Gibs.hpp"
 #include "../relive_lib/GameObjects/Particle.hpp"
 #include "../relive_lib/Sound/Midi.hpp"
 #include "../relive_lib/ObjectIds.hpp"
@@ -1918,7 +1918,7 @@ void Slig::Motion_37_Possess()
             }
 
             relive_new Gibs(
-                GibType::Slig_1,
+                GibType::eSlig,
                 mXPos,
                 mYPos,
                 xOff,
@@ -4928,7 +4928,7 @@ void Slig::ToStand()
 void Slig::BlowToGibs()
 {
     relive_new Gibs(
-        GibType::Slig_1,
+        GibType::eSlig,
         mXPos,
         mYPos,
         mVelX,
@@ -6489,7 +6489,7 @@ bool Slig::VTakeDamage(BaseGameObject* pFrom)
                 return true;
             }
 
-            relive_new Gibs(GibType::Slig_1, mXPos, mYPos, mVelX, mVelY, GetSpriteScale(), 0);
+            relive_new Gibs(GibType::eSlig, mXPos, mYPos, mVelX, mVelY, GetSpriteScale(), 0);
             mHealth = FP_FromInteger(0);
             SfxPlayMono(relive::SoundEffects::FallingItemHit, 90);
             GetAnimation().SetAnimate(false);

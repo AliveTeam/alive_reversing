@@ -12,7 +12,7 @@
 #include "LiftPoint.hpp"
 #include "DDCheat.hpp"
 #include "../relive_lib/Events.hpp"
-#include "Gibs.hpp"
+#include "../relive_lib/GameObjects/Gibs.hpp"
 #include "../relive_lib/GameObjects/Blood.hpp"
 #include "Math.hpp"
 #include "Bullet.hpp"
@@ -551,20 +551,22 @@ bool Mudokon::VTakeDamage(BaseGameObject* pFrom)
                 mHealth = FP_FromInteger(0);
 
                 relive_new Gibs(
-                    GibType::Mud_4,
+                    GibType::eMud,
                     mXPos,
                     mYPos,
                     FP_FromInteger(0),
                     FP_FromInteger(0),
-                    GetSpriteScale());
+                    GetSpriteScale(),
+                    false);
 
                 relive_new Gibs(
-                    GibType::Mud_4,
+                    GibType::eMud,
                     mXPos,
                     mYPos,
                     FP_FromInteger(0),
                     FP_FromInteger(0),
-                    GetSpriteScale());
+                    GetSpriteScale(),
+                    false);
 
                 SetDead(true);
                 EventBroadcast(kEventMudokonDead, gAbe);

@@ -144,8 +144,6 @@ enum eAbeMotions : s32
 
 class PullRingRope;
 
-extern const TintEntry sAbeTintTable[16];
-
 enum class EnvironmentSfx : s8
 {
     eSlideStop_0 = 0,

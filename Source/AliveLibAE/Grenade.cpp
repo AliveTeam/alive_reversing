@@ -7,7 +7,7 @@
 #include "Sfx.hpp"
 #include "../relive_lib/ObjectIds.hpp"
 #include "../relive_lib/Events.hpp"
-#include "Gibs.hpp"
+#include "../relive_lib/GameObjects/Gibs.hpp"
 #include "AirExplosion.hpp"
 #include "Grid.hpp"
 #include "Map.hpp"
@@ -603,7 +603,7 @@ void Grenade::BlowUp(s16 bSmallExplosion)
 
     mState = GrenadeStates::eWaitForExplodeEnd_6;
 
-    relive_new Gibs(GibType::Metal_5, mXPos, mYPos, FP_FromInteger(0), FP_FromInteger(5), GetSpriteScale(), bSmallExplosion);
+    relive_new Gibs(GibType::eMetal, mXPos, mYPos, FP_FromInteger(0), FP_FromInteger(5), GetSpriteScale(), bSmallExplosion);
 }
 
 bool Grenade::VCanThrow()

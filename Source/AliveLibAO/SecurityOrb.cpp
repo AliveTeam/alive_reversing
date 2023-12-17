@@ -4,7 +4,7 @@
 #include "Midi.hpp"
 #include "../AliveLibAE/stdlib.hpp"
 #include "AirExplosion.hpp"
-#include "Gibs.hpp"
+#include "../relive_lib/GameObjects/Gibs.hpp"
 #include "../relive_lib/GameObjects/ZapLine.hpp"
 #include "Sfx.hpp"
 #include "../relive_lib/GameObjects/ZapSpark.hpp"
@@ -88,12 +88,13 @@ bool SecurityOrb::VTakeDamage(BaseGameObject* pFrom)
                 GetSpriteScale());
 
             relive_new Gibs(
-                GibType::Metal_5,
+                GibType::eMetal,
                 mXPos,
                 mYPos,
                 FP_FromInteger(0),
                 FP_FromInteger(0),
-                GetSpriteScale());
+                GetSpriteScale(),
+                false);
 
             mHealth = FP_FromInteger(0);
         }

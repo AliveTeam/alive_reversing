@@ -16,7 +16,7 @@
 #include "PlatformBase.hpp"
 #include "Sfx.hpp"
 #include "../relive_lib/GameObjects/Particle.hpp"
-#include "Gibs.hpp"
+#include "../relive_lib/GameObjects/Gibs.hpp"
 #include "../relive_lib/GameObjects/Blood.hpp"
 #include "../relive_lib/GameObjects/ScreenShake.hpp"
 #include "../relive_lib/Sound/Midi.hpp"
@@ -1132,7 +1132,7 @@ void GetKilledBrain::VUpdate()
         case EState::eGibsDeath:
         {
             relive_new Gibs(
-                GibType::Slig_1,
+                GibType::eSlig,
                 mCrawlingSlig.mXPos,
                 mCrawlingSlig.mYPos,
                 mCrawlingSlig.mVelX,

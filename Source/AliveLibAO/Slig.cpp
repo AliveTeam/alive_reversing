@@ -16,7 +16,7 @@
 #include "Input.hpp"
 #include "../relive_lib/GameObjects/Particle.hpp"
 #include "../relive_lib/GameObjects/Blood.hpp"
-#include "Gibs.hpp"
+#include "../relive_lib/GameObjects/Gibs.hpp"
 #include "Sfx.hpp"
 #include "CameraSwapper.hpp"
 #include "PlatformBase.hpp"
@@ -758,12 +758,13 @@ bool Slig::VTakeDamage(BaseGameObject* pFrom)
             if (GetAnimation().GetRender())
             {
                 relive_new Gibs(
-                    GibType::Slig_1,
+                    GibType::eSlig,
                     mXPos,
                     mYPos,
                     mVelX,
                     mVelY,
-                    GetSpriteScale());
+                    GetSpriteScale(),
+                    false);
 
                 mHealth = FP_FromInteger(0);
                 SfxPlayMono(relive::SoundEffects::FallingItemHit, 90);
@@ -3474,12 +3475,13 @@ void Slig::Motion_38_Possess()
             }
 
             relive_new Gibs(
-                GibType::Slig_1,
+                GibType::eSlig,
                 mXPos,
                 mYPos,
                 xOff,
                 FP_FromInteger(0),
-                GetSpriteScale());
+                GetSpriteScale(),
+                false);
 
             New_Smoke_Particles(
                 mXPos,
@@ -5434,12 +5436,13 @@ s16 Slig::Brain_ZShooting()
 void Slig::BlowToGibs()
 {
     relive_new Gibs(
-        GibType::Slig_1,
+        GibType::eSlig,
         mXPos,
         mYPos,
         mVelX,
         mVelY,
-        GetSpriteScale());
+        GetSpriteScale(),
+        false);
 
     relive_new Blood(
         mXPos,

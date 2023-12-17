@@ -11,7 +11,7 @@
 #include "Sfx.hpp"
 #include "Abe.hpp"
 #include "AirExplosion.hpp"
-#include "Gibs.hpp"
+#include "../relive_lib/GameObjects/Gibs.hpp"
 #include "BaseAliveGameObject.hpp"
 #include "../relive_lib/Events.hpp"
 #include "../relive_lib/SwitchStates.hpp"
@@ -201,7 +201,7 @@ bool MovingBomb::VTakeDamage(BaseGameObject* pFrom)
             mHealth = FP_FromInteger(0);
             relive_new AirExplosion(mXPos, mYPos, GetSpriteScale(), 0);
 
-            relive_new Gibs(GibType::Metal_5, mXPos, mYPos, FP_FromInteger(0), FP_FromInteger(5), GetSpriteScale(), 0);
+            relive_new Gibs(GibType::eMetal, mXPos, mYPos, FP_FromInteger(0), FP_FromInteger(5), GetSpriteScale(), 0);
 
             mState = States::eKillMovingBomb_7;
 
@@ -413,7 +413,7 @@ void MovingBomb::VUpdate()
                     0);
 
                 relive_new Gibs(
-                    GibType::Metal_5,
+                    GibType::eMetal,
                     mXPos,
                     mYPos,
                     FP_FromInteger(0),

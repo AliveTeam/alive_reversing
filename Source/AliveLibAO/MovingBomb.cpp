@@ -8,7 +8,7 @@
 #include "../relive_lib/Collisions.hpp"
 #include "PlatformBase.hpp"
 #include "Midi.hpp"
-#include "Gibs.hpp"
+#include "../relive_lib/GameObjects/Gibs.hpp"
 #include "AirExplosion.hpp"
 #include "Sfx.hpp"
 #include "../relive_lib/SwitchStates.hpp"
@@ -159,12 +159,13 @@ bool MovingBomb::VTakeDamage(BaseGameObject* pFrom)
         GetSpriteScale());
 
     relive_new Gibs(
-        GibType::Metal_5,
+        GibType::eMetal,
         mXPos,
         mYPos,
         FP_FromInteger(0),
         FP_FromInteger(5),
-        GetSpriteScale());
+        GetSpriteScale(),
+        false);
 
     mState = States::eKillMovingBomb_7;
     GetAnimation().SetRender(false);
@@ -427,12 +428,13 @@ void MovingBomb::VUpdate()
                     GetSpriteScale());
 
                 relive_new Gibs(
-                    GibType::Metal_5,
+                    GibType::eMetal,
                     mXPos,
                     mYPos,
                     FP_FromInteger(0),
                     FP_FromInteger(5),
-                    GetSpriteScale());
+                    GetSpriteScale(),
+                    false);
 
                 mState = States::eKillMovingBomb_7;
                 GetAnimation().SetRender(false);

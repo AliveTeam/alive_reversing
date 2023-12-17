@@ -1,6 +1,5 @@
 #pragma once
 
-#include "../relive_lib/Function.hpp"
 #include "../relive_lib/GameObjects/BaseAnimatedWithPhysicsGameObject.hpp"
 
 struct GibPart final
@@ -16,17 +15,18 @@ struct GibPart final
 
 enum class GibType : s32
 {
-    Abe_0 = 0,
-    Slig_1 = 1,
-    Slog_2 = 2,
-    Mud_3 = 3,
-    BlindMud_4 = 4,
-    Metal_5 = 5,
-    Glukkon_6 = 6,
-    Aslik_7 = 7,
-    Dripik_8 = 8,
-    Phleg_9 = 9,
-    Fleech_10 = 10,
+    eAbe,
+    eSlig,
+    eSlog,
+    eMud,
+    eBlindMud,
+    eMetal,
+    eGlukkon,
+    eAslik,
+    eDripik,
+    ePhleg,
+    eFleech,
+    eElum,
 };
 
 class Gibs final : public ::BaseAnimatedWithPhysicsGameObject

@@ -13,7 +13,7 @@
 #include "Throwable.hpp"
 #include "Map.hpp"
 #include "Meat.hpp"
-#include "Gibs.hpp"
+#include "../relive_lib/GameObjects/Gibs.hpp"
 #include "../relive_lib/GameObjects/Blood.hpp"
 #include "PlatformBase.hpp"
 #include "../relive_lib/SwitchStates.hpp"
@@ -5344,7 +5344,7 @@ bool Paramite::VTakeDamage(BaseGameObject* pFrom)
         case ReliveTypes::eAirExplosion:
         {
             EventBroadcast(kScrabOrParamiteDied, this);
-            relive_new Gibs(GibType::Slog_2, mXPos, mYPos, mVelX, mVelY, GetSpriteScale(), 0);
+            relive_new Gibs(GibType::eSlog, mXPos, mYPos, mVelX, mVelY, GetSpriteScale(), 0);
             mHealth = FP_FromInteger(0);
             SetDead(true);
             GetAnimation().SetRender(false);

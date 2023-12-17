@@ -15,7 +15,7 @@
 #include "Sfx.hpp"
 #include "../relive_lib/GameObjects/Blood.hpp"
 #include "../relive_lib/GameObjects/SnoozeParticle.hpp"
-#include "Gibs.hpp"
+#include "../relive_lib/GameObjects/Gibs.hpp"
 #include "Bullet.hpp"
 #include "GameSpeak.hpp"
 #include "../relive_lib/SwitchStates.hpp"
@@ -3282,7 +3282,7 @@ bool Slog::VTakeDamage(BaseGameObject* pFrom)
         {
             Sfx(SlogSound::DeathWhine_9);
             mHealth = FP_FromInteger(0);
-            relive_new Gibs(GibType::Slog_2, mXPos, mYPos, mVelX, mVelY, GetSpriteScale(), 0);
+            relive_new Gibs(GibType::eSlog, mXPos, mYPos, mVelX, mVelY, GetSpriteScale(), 0);
 
             const PSX_RECT bRect = VGetBoundingRect();
             relive_new Blood(FP_FromInteger((bRect.x + bRect.w) / 2),

@@ -13,7 +13,7 @@
 #include "../relive_lib/Shadow.hpp"
 #include "../relive_lib/GameObjects/ScreenManager.hpp"
 #include "../relive_lib/GameObjects/ShadowZone.hpp"
-#include "Gibs.hpp"
+#include "../relive_lib/GameObjects/Gibs.hpp"
 #include "../relive_lib/ObjectIds.hpp"
 #include "PlatformBase.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
@@ -2068,7 +2068,7 @@ bool Fleech::VTakeDamage(BaseGameObject* pFrom)
             Sound(FleechSound::Scared_7);
             mHealth = FP_FromInteger(0);
 
-            relive_new Gibs(GibType::Fleech_10, mXPos, mYPos, mVelX, mVelY, GetSpriteScale(), 0);
+            relive_new Gibs(GibType::eFleech, mXPos, mYPos, mVelX, mVelY, GetSpriteScale(), 0);
 
             const PSX_RECT bRect = VGetBoundingRect();
             relive_new Blood(
@@ -2100,7 +2100,7 @@ bool Fleech::VTakeDamage(BaseGameObject* pFrom)
 
         case ReliveTypes::eScrab:
         {
-            relive_new Gibs(GibType::Fleech_10, mXPos, mYPos, mVelX, mVelY, GetSpriteScale(), 0);
+            relive_new Gibs(GibType::eFleech, mXPos, mYPos, mVelX, mVelY, GetSpriteScale(), 0);
 
             if (static_cast<BaseAliveGameObject*>(pFrom)->GetAnimation().GetFlipX())
             {

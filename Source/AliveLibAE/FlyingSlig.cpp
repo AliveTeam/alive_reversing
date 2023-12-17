@@ -17,7 +17,7 @@
 #include "Dove.hpp"
 #include "CrawlingSlig.hpp"
 #include "../relive_lib/GameObjects/Particle.hpp"
-#include "Gibs.hpp"
+#include "../relive_lib/GameObjects/Gibs.hpp"
 #include "../relive_lib/GameObjects/Blood.hpp"
 #include "GameSpeak.hpp"
 #include "AirExplosion.hpp"
@@ -2159,7 +2159,7 @@ void FlyingSlig::BlowUp()
 {
     MusicController::static_PlayMusic(MusicController::MusicTypes::eNone_0, this, 0, 0);
 
-    relive_new Gibs(GibType::Slig_1, mXPos, mYPos, mVelX, mVelY, GetSpriteScale(), 0);
+    relive_new Gibs(GibType::eSlig, mXPos, mYPos, mVelX, mVelY, GetSpriteScale(), 0);
 
     relive_new Blood(mXPos, mYPos - (FP_FromInteger(30) * GetSpriteScale()), FP_FromInteger(0), FP_FromInteger(0), GetSpriteScale(), 20);
 

@@ -14,7 +14,7 @@
 #include "CameraSwapper.hpp"
 #include "LiftPoint.hpp"
 #include "Game.hpp"
-#include "Gibs.hpp"
+#include "../relive_lib/GameObjects/Gibs.hpp"
 #include "Midi.hpp"
 #include "../relive_lib/SwitchStates.hpp"
 #include "Grid.hpp"
@@ -287,12 +287,13 @@ bool Scrab::VTakeDamage(BaseGameObject* pFrom)
             case ReliveTypes::eAirExplosion:
             {
                 relive_new Gibs(
-                    GibType::Slog_2,
+                    GibType::eSlog,
                     mXPos,
                     mYPos,
                     mVelX,
                     mVelY,
-                    GetSpriteScale());
+                    GetSpriteScale(),
+                    false);
 
                 SetDead(true);
                 return true;

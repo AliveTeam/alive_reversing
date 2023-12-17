@@ -161,8 +161,6 @@ SET(AliveLibSrcAO
    ../AliveLibAO/BeeSwarmHole.cpp
    ../AliveLibAO/BeeSwarm.hpp
    ../AliveLibAO/BeeSwarm.cpp
-   ../AliveLibAO/Gibs.hpp
-   ../AliveLibAO/Gibs.cpp
    ../AliveLibAO/AirExplosion.hpp
    ../AliveLibAO/AirExplosion.cpp
    ../AliveLibAO/MotionDetector.hpp
@@ -338,8 +336,6 @@ SET(AliveLibAESrc
     ../AliveLibAE/MusicTrigger.hpp
     ../AliveLibAE/InvisibleEffect.cpp
     ../AliveLibAE/InvisibleEffect.hpp
-    ../AliveLibAE/Gibs.cpp
-    ../AliveLibAE/Gibs.hpp
     ../AliveLibAE/Throwable.cpp
     ../AliveLibAE/Throwable.hpp
     ../AliveLibAE/ThrowableTotalIndicator.hpp
@@ -618,6 +614,8 @@ SET(game_objects_src
     GameObjects/Blood.cpp
     GameObjects/BackgroundAnimation.hpp
     GameObjects/BackgroundAnimation.cpp
+    GameObjects/Gibs.hpp
+    GameObjects/Gibs.cpp
 )
 
 SET(data_conversion_src

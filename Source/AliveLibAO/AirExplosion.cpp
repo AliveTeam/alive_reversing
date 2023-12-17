@@ -5,7 +5,7 @@
 #include "../relive_lib/GameObjects/Particle.hpp"
 #include "../relive_lib/GameObjects/Flash.hpp"
 #include "../relive_lib/GameObjects/ScreenShake.hpp"
-#include "Gibs.hpp"
+#include "../relive_lib/GameObjects/Gibs.hpp"
 #include "../relive_lib/Events.hpp"
 #include "ParticleBurst.hpp"
 #include "Midi.hpp"
@@ -226,11 +226,11 @@ void AirExplosion::DealBlastDamage(PSX_RECT* pRect)
 
             if (dir == CameraPos::eCamLeft_3)
             {
-                relive_new Gibs(GibType::Slig_1, mXPos + FP_FromInteger(656), mYPos, FP_FromInteger(0), FP_FromInteger(0), FP_FromInteger(1));
+                relive_new Gibs(GibType::eSlig, mXPos + FP_FromInteger(656), mYPos, FP_FromInteger(0), FP_FromInteger(0), FP_FromInteger(1), false);
             }
             else if (dir == CameraPos::eCamRight_4)
             {
-                relive_new Gibs(GibType::Slig_1, mXPos - FP_FromInteger(656), mYPos, FP_FromInteger(0), FP_FromInteger(0), FP_FromInteger(1));
+                relive_new Gibs(GibType::eSlig, mXPos - FP_FromInteger(656), mYPos, FP_FromInteger(0), FP_FromInteger(0), FP_FromInteger(1), false);
             }
 
             AO::Stop_slig_sounds(dir, 0);

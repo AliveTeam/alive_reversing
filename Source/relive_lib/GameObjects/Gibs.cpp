@@ -1,15 +1,37 @@
 #include "stdafx.h"
 #include "Gibs.hpp"
-#include "Game.hpp"
-#include "Abe.hpp"
 #include "Math.hpp"
-#include "stdlib.hpp"
-#include "../relive_lib/GameObjects/ScreenManager.hpp"
-#include "../relive_lib/AnimResources.hpp"
-#include "Map.hpp"
-#include "../relive_lib/FixedPoint.hpp"
+#include "ScreenManager.hpp"
+#include "../AnimResources.hpp"
+#include "../MapWrapper.hpp"
+#include "../FixedPoint.hpp"
+#include "../GameType.hpp"
+#include "../../AliveLibAE/Game.hpp"
 
-static const TintEntry kGibTints_55C744[16] = {
+static const TintEntry sAbeTintTable[21] = {
+    {EReliveLevelIds::eMenu, 102u, 102u, 102u},
+    {EReliveLevelIds::eMines, 102u, 102u, 102u},
+    {EReliveLevelIds::eNecrum, 102u, 102u, 80u},
+    {EReliveLevelIds::eMudomoVault, 120u, 90u, 120u},
+    {EReliveLevelIds::eMudancheeVault, 102u, 70u, 90u},
+    {EReliveLevelIds::eFeeCoDepot, 120u, 102u, 82u},
+    {EReliveLevelIds::eBarracks, 102u, 102u, 102u},
+    {EReliveLevelIds::eMudancheeVault_Ender, 102u, 70u, 90u},
+    {EReliveLevelIds::eBonewerkz, 102u, 102u, 102u},
+    {EReliveLevelIds::eBrewery, 102u, 102u, 102u},
+    {EReliveLevelIds::eBrewery_Ender, 102u, 102u, 102u},
+    {EReliveLevelIds::eMudomoVault_Ender, 120u, 90u, 120u},
+    {EReliveLevelIds::eFeeCoDepot_Ender, 120u, 102u, 82u},
+    {EReliveLevelIds::eBarracks_Ender, 102u, 102u, 102u},
+    {EReliveLevelIds::eBonewerkz_Ender, 120u, 90u, 80u},
+    {EReliveLevelIds::eCredits, 102u, 102u, 102u},
+    {EReliveLevelIds::eStockYards, 25u, 25u, 25u},
+    {EReliveLevelIds::eStockYardsReturn, 25u, 25u, 25u},
+    {EReliveLevelIds::eDesert, 125u, 125u, 95u},
+    {EReliveLevelIds::eDesertTemple, 120u, 120u, 90u},
+    {EReliveLevelIds::eNone, 102u, 102u, 102u}};
+
+static const TintEntry sMudGibTints[19] = {
     {EReliveLevelIds::eMenu, 87u, 103u, 67u},
     {EReliveLevelIds::eMines, 87u, 103u, 67u},
     {EReliveLevelIds::eNecrum, 87u, 103u, 67u},
@@ -25,7 +47,10 @@ static const TintEntry kGibTints_55C744[16] = {
     {EReliveLevelIds::eFeeCoDepot_Ender, 87u, 103u, 67u},
     {EReliveLevelIds::eBarracks_Ender, 87u, 103u, 67u},
     {EReliveLevelIds::eBonewerkz_Ender, 87u, 103u, 67u},
-    {EReliveLevelIds::eCredits, 87u, 103u, 67u}};
+    {EReliveLevelIds::eCredits, 87u, 103u, 67u},
+    {EReliveLevelIds::eStockYards, 25u, 25u, 25u},
+    {EReliveLevelIds::eStockYardsReturn, 25u, 25u, 25u},
+    {EReliveLevelIds::eNone, 87u, 103u, 67u}};
 
 static s16 sGibRandom = 13;
 
@@ -50,73 +75,78 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale, bool b
 
     switch (gibType)
     {
-        case GibType::Abe_0:
+        case GibType::eAbe:
             [[fallthrough]];
 
-        case GibType::Mud_3:
+        case GibType::eMud:
             headGib = AnimId::Abe_Head_Gib;
             armGib = AnimId::Abe_Arm_Gib;
             bodyGib = AnimId::Abe_Body_Gib;
             break;
 
-        case GibType::Slig_1:
+        case GibType::eSlig:
             headGib = AnimId::Slig_Head_Gib;
             armGib = AnimId::Slig_Arm_Gib;
             bodyGib = AnimId::Slig_Body_Gib;
             break;
 
-        case GibType::Slog_2:
+        case GibType::eSlog:
             headGib = AnimId::Slog_Head_Gib;
             armGib = AnimId::Slog_Body_Gib; // No arms
             bodyGib = AnimId::Slog_Body_Gib;
             break;
 
-        case GibType::BlindMud_4:
+        case GibType::eBlindMud:
             headGib = AnimId::BlindMud_Head_Gib;
             armGib = AnimId::BlindMud_Arm_Gib;
             bodyGib = AnimId::BlindMud_Body_Gib;
             break;
 
-        case GibType::Metal_5:
+        case GibType::eMetal:
             // No body parts, all metal
             headGib = AnimId::Metal_Gib;
             armGib = AnimId::Metal_Gib;
             bodyGib = AnimId::Metal_Gib;
             break;
 
-        case GibType::Glukkon_6:
+        case GibType::eGlukkon:
             headGib = AnimId::Glukkon_Head_Gib;
             armGib = AnimId::Glukkon_Arm_Gib;
             bodyGib = AnimId::Glukkon_Body_Gib;
             break;
 
-        case GibType::Aslik_7:
+        case GibType::eAslik:
             headGib = AnimId::Aslik_Head_Gib;
             armGib = AnimId::Aslik_Arm_Gib;
             bodyGib = AnimId::Aslik_Body_Gib;
             break;
 
-        case GibType::Dripik_8:
+        case GibType::eDripik:
             headGib = AnimId::Dripik_Head_Gib;
             armGib = AnimId::Dripik_Arm_Gib;
             bodyGib = AnimId::Dripik_Body_Gib;
             break;
 
-        case GibType::Phleg_9:
+        case GibType::ePhleg:
             headGib = AnimId::Phleg_Head_Gib;
             armGib = AnimId::Phleg_Arm_Gib;
             bodyGib = AnimId::Phleg_Body_Gib;
             break;
 
-        case GibType::Fleech_10:
+        case GibType::eFleech:
             headGib = AnimId::Fleech_Head_Gib;
             armGib = AnimId::Fleech_Body_Gib; // No arms
             bodyGib = AnimId::Fleech_Body_Gib;
             break;
+
+        case GibType::eElum:
+            headGib = AnimId::Elum_Head_Gib;
+            armGib = AnimId::Elum_Arm_Gib;
+            bodyGib = AnimId::Elum_Body_Gib;
+            break;
     }
 
-
-    const AnimRecord& headGibRec = AnimRec(headGib);
+    const AnimRecord& headGibRec = PerGameAnimRec(headGib);
 
     // TODO: It is assumed all 3 gib parts use the same pal - might not be true for mods
     if (headGibRec.mPalOverride == PalId::BlindMud)
@@ -163,31 +193,61 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale, bool b
 
     // OG Bug? WTF?? Looks like somehow they didn't condition this param correctly
     // because mVelY and mDz are always overwritten
-    if (!mMakeSmaller)
+    
+    // NOTE: we don't want to desync the AE recording due to different
+    // RNG values so we keep this for now
+    if (!mMakeSmaller && GetGameType() == GameType::eAe)
     {
         mVelY = yOff + GibRand(scale);
         mDz = FP_Abs(GibRand(scale) / FP_FromInteger(2));
     }
 
-    sGibRandom = 12;
-
-    mVelY = (yOff + GibRand(scale)) / FP_FromInteger(2);
-    mDz = FP_Abs(GibRand(scale) / FP_FromInteger(4));
-
-    if (gibType == GibType::Abe_0)
+    if (GetGameType() == GameType::eAe)
     {
-        SetTint(sAbeTintTable, gMap.mCurrentLevel);
+        sGibRandom = 12;
+        mVelY = (yOff + GibRand(scale)) / FP_FromInteger(2);
+        mDz = FP_Abs(GibRand(scale) / FP_FromInteger(4));
     }
-    else if (gibType == GibType::Mud_3)
+    else
     {
-        SetTint(kGibTints_55C744, gMap.mCurrentLevel);
+        mVelY = yOff + GibRand(scale);
+        if ((GibRand(scale) / FP_FromInteger(2)) >= FP_FromInteger(0))
+        {
+            mDz = -(GibRand(scale) / FP_FromInteger(2));
+        }
+        else
+        {
+            mDz = GibRand(scale) / FP_FromInteger(2);
+        }
     }
-    else if (gibType == GibType::BlindMud_4)
+
+    PalId gibPal = PalId::Default;
+    if (GetMap().mCurrentLevel == EReliveLevelIds::eStockYards || GetMap().mCurrentLevel == EReliveLevelIds::eStockYardsReturn)
+    {
+        if (gibType == GibType::eAbe || gibType == GibType::eMud)
+        {
+            gibPal = PalId::StockYardsAbeGib;
+        }
+        else if (gibType == GibType::eSlog)
+        {
+            gibPal = PalId::StockYardsSlogGib;
+        }
+    }
+
+    if (gibType == GibType::eAbe)
+    {
+        SetTint(sAbeTintTable, GetMap().mCurrentLevel);
+    }
+    else if (gibType == GibType::eMud)
+    {
+        SetTint(sMudGibTints, GetMap().mCurrentLevel);
+    }
+    else if (gibType == GibType::eBlindMud)
     {
         mRGB.SetRGB(63, 63, 63);
     }
 
-    mPartsUsedCount = 4;
+    mPartsUsedCount = GetGameType() == GameType::eAo ? 7 : 4;
 
     GibPart* pPart = &mGibParts[0];
     for (s16 i = 0; i < mPartsUsedCount; i++)
@@ -215,7 +275,9 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale, bool b
 
         pPart->mAnimation.SetRenderLayer(GetAnimation().GetRenderLayer());
         pPart->mAnimation.SetSpriteScale(scale);
+
         pPart->mAnimation.SetBlending(false);
+        pPart->mAnimation.SetSemiTrans(false);
 
         pPart->mAnimation.SetRGB(mRGB.r, mRGB.g, mRGB.b);
 
@@ -225,22 +287,40 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale, bool b
 
         pPart->dx = xOff + GibRand(scale);
 
-        if (mMakeSmaller)
+        if (GetGameType() == GameType::eAe)
         {
-            pPart->dy = (yOff + GibRand(scale)) / FP_FromInteger(2);
-            pPart->dz = FP_Abs(GibRand(scale) / FP_FromInteger(4));
+            if (mMakeSmaller)
+            {
+                pPart->dy = (yOff + GibRand(scale)) / FP_FromInteger(2);
+                pPart->dz = FP_Abs(GibRand(scale) / FP_FromInteger(4));
+            }
+            else
+            {
+                pPart->dy = yOff + GibRand(scale);
+                pPart->dz = FP_Abs(GibRand(scale) / FP_FromInteger(2));
+            }
         }
         else
         {
             pPart->dy = yOff + GibRand(scale);
-            pPart->dz = FP_Abs(GibRand(scale) / FP_FromInteger(2));
+            if ((GibRand(scale) / FP_FromInteger(2)) >= FP_FromInteger(0))
+            {
+                pPart->dz = -(GibRand(scale) / FP_FromInteger(2));
+            }
+            else
+            {
+                pPart->dz = GibRand(scale) / FP_FromInteger(2);
+            }
         }
-
-        pPart->mAnimation.SetSemiTrans(false);
 
         if (headGibRec.mPalOverride == PalId::BlindMud)
         {
             pPart->mAnimation.LoadPal(GetPalRes(PalId::BlindMud));
+        }
+        else if (gibPal != PalId::Default)
+        {
+            mLoadedPals.push_back(ResourceManagerWrapper::LoadPal(gibPal));
+            pPart->mAnimation.LoadPal(GetPalRes(gibPal));
         }
 
         pPart++;
@@ -249,7 +329,7 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale, bool b
 
 Gibs::~Gibs()
 {
-    for (s32 i = 0; i < mPartsUsedCount; i++)
+    for (s16 i = 0; i < mPartsUsedCount; i++)
     {
         mGibParts[i].mAnimation.VCleanUp();
     }
@@ -265,9 +345,8 @@ void Gibs::VUpdate()
 
     if (mZ + FP_FromInteger(100) < FP_FromInteger(15))
     {
-        const FP dz = -mDz;
-        mDz = dz;
-        mZ += dz;
+        mZ -= mDz;
+        mDz = -mDz;
     }
 
     for (s32 i = 0; i < mPartsUsedCount; i++)
@@ -280,9 +359,8 @@ void Gibs::VUpdate()
 
         if (mGibParts[i].z + FP_FromInteger(100) < FP_FromInteger(15))
         {
-            const FP dz = -mGibParts[i].dz;
-            mGibParts[i].dz = dz;
-            mGibParts[i].z += dz;
+            mGibParts[i].z -= mGibParts[i].dz;
+            mGibParts[i].dz = -mGibParts[i].dz;
         }
     }
 
@@ -309,43 +387,67 @@ void Gibs::VRender(OrderingTable& ot)
     // Head part rendering
     BaseAnimatedWithPhysicsGameObject::VRender(ot);
 
-   const FP camXPos = gScreenManager->CamXPos();
+    // AO consts
+    const FP_Point* pCamPos = gScreenManager->mCamPos;
+    const FP left = pCamPos->x - FP_FromInteger(gScreenManager->mCamXOff);
+    const FP right = pCamPos->x + FP_FromInteger(gScreenManager->mCamXOff);
+
+    const FP up = pCamPos->y - FP_FromInteger(gScreenManager->mCamYOff);
+    const FP down = pCamPos->y + FP_FromInteger(gScreenManager->mCamYOff);
+
+    // AE consts
+    const FP camXPos = gScreenManager->CamXPos();
     const FP camYPos = gScreenManager->CamYPos();
+
+    bool withinCameraX = false;
+    bool withinCameraY = false;
+
+    s32 renderX = 0;
+    s32 renderY = 0;
 
     for (s32 i = 0; i < mPartsUsedCount; i++)
     {
+        GibPart* pGib = &mGibParts[i];
+        if (GetGameType() == GameType::eAo)
+        {
+            withinCameraX = pGib->x >= left && pGib->x <= right;
+            withinCameraY = pGib->y >= up && pGib->y <= down;
+
+            renderX = FP_GetExponent(pGib->x - left);
+            renderY = FP_GetExponent(pGib->y - up);
+        }
+        else
+        {
+            withinCameraX = pGib->x >= camXPos && pGib->x <= camXPos + FP_FromInteger(640);
+            withinCameraY = pGib->y >= camYPos && pGib->y <= camYPos + FP_FromInteger(240);
+
+            renderX = FP_GetExponent(pGib->x - camXPos);
+            renderY = FP_GetExponent(pGib->y - camYPos);
+        }
+
         // Part is within camera X?
-        if (mGibParts[i].x >= camXPos && mGibParts[i].x <= camXPos + FP_FromInteger(640))
+        if (withinCameraX)
         {
             // Part is within camera Y?
-            if (mGibParts[i].y >= camYPos && mGibParts[i].y <= camYPos + FP_FromInteger(240))
+            if (withinCameraY)
             {
-                mGibParts[i].mAnimation.SetSpriteScale(FP_FromInteger(100) / (mGibParts[i].z + FP_FromInteger(100)));
+                pGib->mAnimation.SetSpriteScale(FP_FromInteger(100) / (pGib->z + FP_FromInteger(100)));
 
                 if (mMakeSmaller)
                 {
-                    mGibParts[i].mAnimation.SetSpriteScale(mGibParts[i].mAnimation.GetSpriteScale() / FP_FromInteger(2));
+                    pGib->mAnimation.SetSpriteScale(pGib->mAnimation.GetSpriteScale() / FP_FromInteger(2));
                 }
 
-                if (mGibParts[i].mAnimation.GetSpriteScale() < FP_FromInteger(1))
+                if (pGib->mAnimation.GetSpriteScale() < FP_FromInteger(1))
                 {
-                    mGibParts[i].mAnimation.SetRenderLayer(Layer::eLayer_Foreground_Half_17);
+                    pGib->mAnimation.SetRenderLayer(Layer::eLayer_Foreground_Half_17);
                 }
                 else
                 {
-                    mGibParts[i].mAnimation.SetRenderLayer(Layer::eLayer_FG1_37);
+                    pGib->mAnimation.SetRenderLayer(Layer::eLayer_FG1_37);
                 }
 
-                if (mGibParts[i].mAnimation.GetSpriteScale() <= FP_FromInteger(1))
-                {
-                    const s32 xpos = FP_GetExponent(mGibParts[i].x - camXPos);
-                    const s32 ypos = FP_GetExponent(mGibParts[i].y - camYPos);
-
-                    mGibParts[i].mAnimation.VRender(xpos, ypos, ot, 0, 0);
-
-                    PSX_RECT frameRect = {};
-                    mGibParts[i].mAnimation.Get_Frame_Rect(&frameRect);
-                }
+                pGib->mAnimation.VRender(renderX, renderY, ot, 0, 0);
             }
         }
     }

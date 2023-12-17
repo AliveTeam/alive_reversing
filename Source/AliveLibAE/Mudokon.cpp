@@ -27,7 +27,7 @@
 #include "LCDStatusBoard.hpp"
 #include "MusicTrigger.hpp"
 #include "../relive_lib/GameObjects/Blood.hpp"
-#include "Gibs.hpp"
+#include "../relive_lib/GameObjects/Gibs.hpp"
 #include "Bullet.hpp"
 #include "LaughingGas.hpp"
 #include "Grid.hpp"
@@ -1315,7 +1315,7 @@ bool Mudokon::VTakeDamage(BaseGameObject* pFrom)
             mHealth = FP_FromInteger(0);
 
             relive_new Gibs(
-                mBlind ? GibType::BlindMud_4 : GibType::Mud_3,
+                mBlind ? GibType::eBlindMud : GibType::eMud,
                 mXPos,
                 mYPos,
                 FP_FromInteger(0),
@@ -1324,7 +1324,7 @@ bool Mudokon::VTakeDamage(BaseGameObject* pFrom)
                 0);
 
             relive_new Gibs(
-                mBlind ? GibType::BlindMud_4 : GibType::Mud_3,
+                mBlind ? GibType::eBlindMud : GibType::eMud,
                 mXPos,
                 mYPos,
                 FP_FromInteger(0),

@@ -8,7 +8,7 @@
 #include "Math.hpp"
 #include "Sfx.hpp"
 #include "AirExplosion.hpp"
-#include "Gibs.hpp"
+#include "../relive_lib/GameObjects/Gibs.hpp"
 #include "../relive_lib/Events.hpp"
 #include "../relive_lib/Collisions.hpp"
 #include "Grid.hpp"
@@ -418,7 +418,7 @@ bool Grenade::BlowUpAfterCountdown()
         mState = States::eWaitForExplodeEnd_6;
     }
 
-    relive_new Gibs(GibType::Metal_5, mXPos, mYPos, FP_FromInteger(0), FP_FromInteger(5), GetSpriteScale());
+    relive_new Gibs(GibType::eMetal, mXPos, mYPos, FP_FromInteger(0), FP_FromInteger(5), GetSpriteScale(), false);
     return true;
 }
 

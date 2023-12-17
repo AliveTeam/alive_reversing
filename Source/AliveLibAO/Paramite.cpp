@@ -11,7 +11,7 @@
 #include "MusicController.hpp"
 #include "Midi.hpp"
 #include "PlatformBase.hpp"
-#include "Gibs.hpp"
+#include "../relive_lib/GameObjects/Gibs.hpp"
 #include "../relive_lib/GameObjects/Blood.hpp"
 #include "Game.hpp"
 #include "../relive_lib/Events.hpp"
@@ -214,12 +214,13 @@ bool Paramite::VTakeDamage(BaseGameObject* pFrom)
         case ReliveTypes::eAirExplosion:
         {
             relive_new Gibs(
-                GibType::Slog_2,
+                GibType::eSlog,
                 mXPos,
                 mYPos,
                 mVelX,
                 mVelY,
-                GetSpriteScale());
+                GetSpriteScale(),
+                false);
 
             SetDead(true);
             GetAnimation().SetRender(false);

@@ -2,7 +2,7 @@
 #include "SecurityOrb.hpp"
 #include "../relive_lib/Sound/Midi.hpp"
 #include "stdlib.hpp"
-#include "Gibs.hpp"
+#include "../relive_lib/GameObjects/Gibs.hpp"
 #include "../relive_lib/GameObjects/ScreenShake.hpp"
 #include "../relive_lib/Events.hpp"
 #include "../relive_lib/GameObjects/Flash.hpp"
@@ -115,7 +115,7 @@ bool SecurityOrb::VTakeDamage(BaseGameObject* pFrom)
                 0);
 
             relive_new Gibs(
-                GibType::Metal_5,
+                GibType::eMetal,
                 mXPos,
                 mYPos,
                 FP_FromInteger(0),

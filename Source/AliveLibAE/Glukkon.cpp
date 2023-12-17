@@ -26,7 +26,7 @@
 #include "../relive_lib/Sound/Sound.hpp"
 #include "MainMenu.hpp"
 #include "GameSpeak.hpp"
-#include "Gibs.hpp"
+#include "../relive_lib/GameObjects/Gibs.hpp"
 #include "../relive_lib/GameObjects/Blood.hpp"
 #include "Bullet.hpp"
 #include "../relive_lib/Sound/Midi.hpp"
@@ -1676,18 +1676,18 @@ static GibType AsGibType(relive::Path_Glukkon::GlukkonTypes glukkonType)
     switch (glukkonType)
     {
         case relive::Path_Glukkon::GlukkonTypes::eNormal:
-            return GibType::Glukkon_6;
+            return GibType::eGlukkon;
 
         case relive::Path_Glukkon::GlukkonTypes::eStoryAslik:
-            return GibType::Aslik_7;
+            return GibType::eAslik;
 
         case relive::Path_Glukkon::GlukkonTypes::eStoryDripik:
-            return GibType::Dripik_8;
+            return GibType::eDripik;
 
         case relive::Path_Glukkon::GlukkonTypes::eStoryPhleg:
-            return GibType::Phleg_9;
+            return GibType::ePhleg;
         default:
-            return GibType::Glukkon_6;
+            return GibType::eGlukkon;
     }
 }
 

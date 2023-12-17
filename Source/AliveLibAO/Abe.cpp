@@ -49,7 +49,7 @@
 #include "Lever.hpp"
 #include "GameSpeak.hpp"
 #include "ZBall.hpp"
-#include "Gibs.hpp"
+#include "../relive_lib/GameObjects/Gibs.hpp"
 #include "../relive_lib/Camera.hpp"
 #include "AnimationCallBacks.hpp"
 #include "Grid.hpp"
@@ -491,7 +491,7 @@ void Abe::VOnTrapDoorOpen()
     }
 }
 
-const TintEntry sAbeTints_4C6438[] = {
+const TintEntry sAbeTintTable[] = {
     {EReliveLevelIds::eStockYards, 25u, 25u, 25u},
     {EReliveLevelIds::eStockYardsReturn, 25u, 25u, 25u},
     {EReliveLevelIds::eDesert, 125u, 125u, 95u},
@@ -535,7 +535,7 @@ Abe::Abe()
     mContinueLevel = gMap.mCurrentLevel;
 
     // Changes Abe's "default" colour depending on the level we are in
-    SetTint(sAbeTints_4C6438, gMap.mCurrentLevel);
+    SetTint(sAbeTintTable, gMap.mCurrentLevel);
 
     GetAnimation().SetSemiTrans(true);
     GetAnimation().SetBlendMode(relive::TBlendModes::eBlend_0);
@@ -2266,7 +2266,7 @@ void Abe::VScreenChanged()
     if (gMap.LevelChanged())
     {
         // Set the correct tint for this map
-        SetTint(sAbeTints_4C6438, gMap.mNextLevel);
+        SetTint(sAbeTintTable, gMap.mNextLevel);
 
         if (gMap.mCurrentLevel != EReliveLevelIds::eMenu)
         {
@@ -2610,12 +2610,13 @@ bool Abe::VTakeDamage(BaseGameObject* pFrom)
                 mRGB.SetRGB(30, 30, 30);
 
                 relive_new Gibs(
-                    GibType::Abe_0,
+                    GibType::eAbe,
                     mXPos,
                     mYPos,
                     FP_FromInteger(0),
                     FP_FromInteger(0),
-                    GetSpriteScale());
+                    GetSpriteScale(),
+                    false);
 
                 GetAnimation().SetRender(false);
                 GetShadow()->mEnabled = false;
@@ -2673,20 +2674,22 @@ bool Abe::VTakeDamage(BaseGameObject* pFrom)
                 mRGB.SetRGB(30, 30, 30);
 
                 relive_new Gibs(
-                    GibType::Abe_0,
+                    GibType::eAbe,
                     mXPos,
                     mYPos,
                     FP_FromInteger(0),
                     FP_FromInteger(0),
-                    GetSpriteScale());
+                    GetSpriteScale(),
+                    false);
 
                 relive_new Gibs(
-                    GibType::Abe_0,
+                    GibType::eAbe,
                     mXPos,
                     mYPos,
                     FP_FromInteger(0),
                     FP_FromInteger(0),
-                    GetSpriteScale());
+                    GetSpriteScale(),
+                    false);
 
                 GetAnimation().SetRender(false);
             }
@@ -6111,7 +6114,7 @@ void Abe::Motion_61_Respawn()
 
             GetAnimation().SetFlipX(mAbeRespawnFlipX);
             MapFollowMe(true);
-            SetTint(sAbeTints_4C6438, gMap.mCurrentLevel);
+            SetTint(sAbeTintTable, gMap.mCurrentLevel);
             if (gElum)
             {
                 gElum->SetSpriteScale(GetSpriteScale());

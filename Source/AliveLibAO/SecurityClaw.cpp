@@ -5,7 +5,7 @@
 #include "../AliveLibAE/stdlib.hpp"
 #include "Midi.hpp"
 #include "MotionDetector.hpp"
-#include "Gibs.hpp"
+#include "../relive_lib/GameObjects/Gibs.hpp"
 #include "AirExplosion.hpp"
 #include "../relive_lib/GameObjects/ZapLine.hpp"
 #include "Sfx.hpp"
@@ -177,32 +177,35 @@ bool SecurityClaw::VTakeDamage(BaseGameObject* pFrom)
                 GetSpriteScale());
 
             relive_new Gibs(
-                GibType::Metal_5,
+                GibType::eMetal,
                 mXPos,
                 mYPos + FP_FromInteger(50),
                 FP_FromInteger(0),
                 FP_FromInteger(0),
-                GetSpriteScale());
+                GetSpriteScale(),
+                false);
         }
         else
         {
             mDetectorComeBack = false;
 
             relive_new Gibs(
-                GibType::Metal_5,
+                GibType::eMetal,
                 mXPos,
                 mYPos + FP_FromInteger(50),
                 FP_FromInteger(0),
                 FP_FromInteger(0),
-                GetSpriteScale());
+                GetSpriteScale(),
+                false);
 
             relive_new Gibs(
-                GibType::Metal_5,
+                GibType::eMetal,
                 mXPos,
                 mYPos + FP_FromInteger(50),
                 FP_FromInteger(0),
                 FP_FromInteger(0),
-                GetSpriteScale());
+                GetSpriteScale(),
+                false);
 
             SetDead(true);
         }

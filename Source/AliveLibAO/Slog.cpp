@@ -10,7 +10,7 @@
 #include "../relive_lib/GameObjects/Blood.hpp"
 #include "Sfx.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
-#include "Gibs.hpp"
+#include "../relive_lib/GameObjects/Gibs.hpp"
 #include "Bullet.hpp"
 #include "../relive_lib/SwitchStates.hpp"
 #include "PlatformBase.hpp"
@@ -239,12 +239,13 @@ bool Slog::VTakeDamage(BaseGameObject* pFrom)
             Sfx(9);
             mHealth = FP_FromInteger(0);
             relive_new Gibs(
-                GibType::Slog_2,
+                GibType::eSlog,
                 mXPos,
                 mYPos,
                 mVelX,
                 mVelY,
-                GetSpriteScale());
+                GetSpriteScale(),
+                false);
 
             const PSX_RECT bRect = VGetBoundingRect();
             relive_new Blood(

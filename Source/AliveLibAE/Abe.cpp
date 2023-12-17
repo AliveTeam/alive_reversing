@@ -17,7 +17,7 @@
 #include "MusicTrigger.hpp"
 #include "../relive_lib/GameObjects/ScreenShake.hpp"
 #include "InvisibleEffect.hpp"
-#include "Gibs.hpp"
+#include "../relive_lib/GameObjects/Gibs.hpp"
 #include "Throwable.hpp"
 #include "ThrowableTotalIndicator.hpp"
 #include "AbilityRing.hpp"
@@ -1635,7 +1635,7 @@ bool Abe::VTakeDamage(BaseGameObject* pFrom)
 
             mRGB.SetRGB(30, 30, 30);
 
-            relive_new Gibs(GibType::Abe_0,
+            relive_new Gibs(GibType::eAbe,
                 mXPos,
                 mYPos,
                 FP_FromInteger(0),
@@ -1643,7 +1643,7 @@ bool Abe::VTakeDamage(BaseGameObject* pFrom)
                 GetSpriteScale(),
                 false);
 
-            relive_new Gibs(GibType::Abe_0,
+            relive_new Gibs(GibType::eAbe,
                 mXPos,
                 mYPos,
                 FP_FromInteger(0),
@@ -1675,7 +1675,7 @@ bool Abe::VTakeDamage(BaseGameObject* pFrom)
 
                 mRGB.SetRGB(30, 30, 30);
 
-                relive_new Gibs(GibType::Abe_0,
+                relive_new Gibs(GibType::eAbe,
                     mXPos,
                     mYPos,
                     FP_FromInteger(0),

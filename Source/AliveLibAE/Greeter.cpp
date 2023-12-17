@@ -4,7 +4,7 @@
 #include "Game.hpp"
 #include "../relive_lib/Shadow.hpp"
 #include "stdlib.hpp"
-#include "Gibs.hpp"
+#include "../relive_lib/GameObjects/Gibs.hpp"
 #include "AirExplosion.hpp"
 #include "../relive_lib/ObjectIds.hpp"
 #include "Abe.hpp"
@@ -258,7 +258,7 @@ void Greeter::BlowUp()
         0);
 
     relive_new Gibs(
-        GibType::Metal_5,
+        GibType::eMetal,
         mXPos,
         mYPos + FP_FromInteger(50),
         FP_FromInteger(0),

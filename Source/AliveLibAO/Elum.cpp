@@ -9,7 +9,7 @@
 #include "Abe.hpp"
 #include "../relive_lib/Collisions.hpp"
 #include "Sfx.hpp"
-#include "Gibs.hpp"
+#include "../relive_lib/GameObjects/Gibs.hpp"
 #include "MusicTrigger.hpp"
 #include "../relive_lib/Shadow.hpp"
 #include "Midi.hpp"
@@ -163,12 +163,13 @@ bool Elum::VTakeDamage(BaseGameObject* pFrom)
                 }
 
                 relive_new Gibs(
-                    GibType::Elum_3,
+                    GibType::eElum,
                     mXPos,
                     mYPos,
                     mVelX,
                     mVelY,
-                    GetSpriteScale());
+                    GetSpriteScale(),
+                    false);
 
                 mHealth = FP_FromInteger(0);
 
