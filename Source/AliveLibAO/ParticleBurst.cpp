@@ -38,10 +38,10 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, s32 particleCount, FP scale, Burs
     SetType(ReliveTypes::eParticleBurst);
     SetSpriteScale(scale);
 
-    field_E8_pRes = relive_new ParticleBurst_Item[particleCount];
-    if (field_E8_pRes)
+    mParticleItems = relive_new ParticleBurst_Item[particleCount];
+    if (mParticleItems)
     {
-        field_F4_type = type;
+        mType = type;
         switch (type)
         {
             case BurstType::eFallingRocks_0:
@@ -116,41 +116,41 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, s32 particleCount, FP scale, Burs
                 GetAnimation().SetRenderLayer(Layer::eLayer_Above_FG1_Half_20);
             }
 
-            field_EC_count = static_cast<s16>(particleCount);
-            field_F0_timer = MakeTimer(91);
+            mParticleCount = static_cast<s16>(particleCount);
+            mAliveTimer = MakeTimer(91);
             mXPos = xpos;
             mYPos = ypos;
 
             for (s32 i = 0; i < particleCount; i++)
             {
-                field_E8_pRes[i].field_18_animation.mAnimPtr = &GetAnimation();
-                field_E8_pRes[i].field_18_animation.SetRenderLayer(GetAnimation().GetRenderLayer());
-                field_E8_pRes[i].field_18_animation.mSpriteScale = FP_FromDouble(0.95) * GetSpriteScale();
+                mParticleItems[i].field_18_animation.mAnimPtr = &GetAnimation();
+                mParticleItems[i].field_18_animation.SetRenderLayer(GetAnimation().GetRenderLayer());
+                mParticleItems[i].field_18_animation.mSpriteScale = FP_FromDouble(0.95) * GetSpriteScale();
 
-                field_E8_pRes[i].field_18_animation.SetRender(true);
+                mParticleItems[i].field_18_animation.SetRender(true);
 
-                field_E8_pRes[i].field_18_animation.SetSemiTrans(GetAnimation().GetSemiTrans());
+                mParticleItems[i].field_18_animation.SetSemiTrans(GetAnimation().GetSemiTrans());
 
-                field_E8_pRes[i].field_18_animation.SetBlending(GetAnimation().GetBlending());
+                mParticleItems[i].field_18_animation.SetBlending(GetAnimation().GetBlending());
 
                 if (type == BurstType::eBigPurpleSparks_2)
                 {
                     if (i % 2)
                     {
-                        field_E8_pRes[i].field_18_animation.SetBlending(true);
+                        mParticleItems[i].field_18_animation.SetBlending(true);
                     }
                 }
 
                 const auto rgb = GetAnimation().GetRgb();
-                field_E8_pRes[i].field_18_animation.SetRGB(rgb.r, rgb.g, rgb.b);
+                mParticleItems[i].field_18_animation.SetRGB(rgb.r, rgb.g, rgb.b);
 
-                field_E8_pRes[i].x = xpos;
-                field_E8_pRes[i].y = ypos;
-                field_E8_pRes[i].field_8_z = FP_FromInteger(0);
+                mParticleItems[i].x = xpos;
+                mParticleItems[i].y = ypos;
+                mParticleItems[i].field_8_z = FP_FromInteger(0);
 
-                field_E8_pRes[i].field_C_x_speed = Random_Speed(scale);
-                field_E8_pRes[i].field_10_y_speed = -Random_Speed(scale);
-                field_E8_pRes[i].field_14_z_speed = -FP_Abs(Random_Speed(scale));
+                mParticleItems[i].field_C_x_speed = Random_Speed(scale);
+                mParticleItems[i].field_10_y_speed = -Random_Speed(scale);
+                mParticleItems[i].field_14_z_speed = -FP_Abs(Random_Speed(scale));
             }
 
             if (gMap.mCurrentLevel == EReliveLevelIds::eStockYards || gMap.mCurrentLevel == EReliveLevelIds::eStockYardsReturn)
@@ -167,14 +167,14 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, s32 particleCount, FP scale, Burs
 
 ParticleBurst::~ParticleBurst()
 {
-    relive_delete[] field_E8_pRes;
+    relive_delete[] mParticleItems;
 }
 
 void ParticleBurst::VUpdate()
 {
-    for (s32 i = 0; i < field_EC_count; i++)
+    for (s32 i = 0; i < mParticleCount; i++)
     {
-        ParticleBurst_Item* pItem = &field_E8_pRes[i];
+        ParticleBurst_Item* pItem = &mParticleItems[i];
 
         pItem->x += pItem->field_C_x_speed;
         pItem->y += pItem->field_10_y_speed;
@@ -191,7 +191,7 @@ void ParticleBurst::VUpdate()
             pItem->field_14_z_speed = -pItem->field_14_z_speed;
             pItem->field_8_z += pItem->field_14_z_speed;
 
-            if (field_F4_type == BurstType::eMeat_4)
+            if (mType == BurstType::eMeat_4)
             {
                 if (gMap.Is_Point_In_Current_Camera(
                         gMap.mCurrentLevel,
@@ -208,7 +208,7 @@ void ParticleBurst::VUpdate()
                 // TODO: Never used by OG ??
                 // Math_RandomRange(-64, 46);
 
-                const s16 volume = static_cast<s16>(Math_RandomRange(-10, 10) + ((field_F0_timer - sGnFrame) / 91) + 25);
+                const s16 volume = static_cast<s16>(Math_RandomRange(-10, 10) + ((mAliveTimer - sGnFrame) / 91) + 25);
 
                 const u8 next_rand = Math_NextRandom();
                 if (next_rand < 43)
@@ -227,7 +227,7 @@ void ParticleBurst::VUpdate()
         }
     }
 
-    if (static_cast<s32>(sGnFrame) > field_F0_timer)
+    if (sGnFrame > mAliveTimer)
     {
         SetDead(true);
     }
@@ -255,24 +255,20 @@ void ParticleBurst::VRender(OrderingTable& ot)
     const FP screen_bottom = pCamPos->y - FP_FromInteger(gScreenManager->mCamYOff);
 
     bool bFirst = true;
-    for (s32 i = 0; i < field_EC_count; i++)
+    for (s32 i = 0; i < mParticleCount; i++)
     {
-        ParticleBurst_Item* pItem = &field_E8_pRes[i];
+        ParticleBurst_Item* pItem = &mParticleItems[i];
         if (pItem->x >= screen_left && pItem->x <= screen_right)
         {
             if (pItem->y >= screen_bottom && pItem->y <= screen_top)
             {
-                PSX_RECT rect = {};
                 if (bFirst)
                 {
                     GetAnimation().SetSpriteScale(FP_FromInteger(100) / (pItem->field_8_z + FP_FromInteger(300)));
                     GetAnimation().VRender(
                         FP_GetExponent(PsxToPCX(pItem->x - screen_left, FP_FromInteger(11))),
                         FP_GetExponent(pItem->y - screen_bottom),
-                        ot,
-                        0,
-                        0);
-                    GetAnimation().Get_Frame_Rect(&rect);
+                        ot, 0, 0);
                     bFirst = false;
                 }
                 else
@@ -282,7 +278,6 @@ void ParticleBurst::VRender(OrderingTable& ot)
                         FP_GetExponent(PsxToPCX(pItem->x - screen_left, FP_FromInteger(11))),
                         FP_GetExponent(pItem->y - screen_bottom),
                         ot, 0, 0);
-                    pItem->field_18_animation.GetRenderedSize(&rect);
                 }
             }
         }

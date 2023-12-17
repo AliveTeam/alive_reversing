@@ -24,10 +24,10 @@ public:
     virtual void VUpdate() override;
     virtual void VRender(OrderingTable& ot) override;
 
-    ParticleBurst_Item* field_E8_pRes = nullptr;
-    s16 field_EC_count = 0;
-    s32 field_F0_timer = 0;
-    BurstType field_F4_type = BurstType::eFallingRocks_0;
+    ParticleBurst_Item* mParticleItems = nullptr;
+    u32 mAliveTimer = 0;
+    BurstType mType = BurstType::eFallingRocks_0;
+    s16 mParticleCount = 0;
 };
 
 } // namespace AO

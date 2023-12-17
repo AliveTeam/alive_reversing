@@ -20,36 +20,42 @@ struct ParticleBurst_Item final
     FP field_14_z_speed;
     AnimationUnknown field_18_animation;
 };
-ALIVE_ASSERT_SIZEOF(ParticleBurst_Item, 0x88);
 
+FP* ParticleBurst::Random_Speed(FP* random)
+{
+    const FP v2 = FP_FromRaw((static_cast<u32>(Math_NextRandom()) - 128) << (mUnknownCount & 0xFF));
+    *random = v2 * GetSpriteScale();
+    return random;
+}
 
-ParticleBurst::ParticleBurst(FP xpos, FP ypos, u32 numOfParticles, FP scale, BurstType type, s32 count)
+ParticleBurst::ParticleBurst(FP xpos, FP ypos, u32 particleCount, FP scale, BurstType type, s32 unknownCount)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
     SetType(ReliveTypes::eParticleBurst);
 
-    // TODO: Check it
-    if (numOfParticles > 5)
+    // NOTE: likely a quick OWI hack for AE to improve the performance
+    // of particle bursts in the PSX version
+    if (particleCount > 5)
     {
-        numOfParticles /= 2;
+        particleCount /= 2;
     }
 
-    if (count > 13)
+    if (unknownCount > 13)
     {
-        count = 13;
+        unknownCount = 13;
     }
-    else if (count <= 0)
+    else if (unknownCount <= 0)
     {
-        count = 1;
+        unknownCount = 1;
     }
 
-    field_106_count = static_cast<s16>(count);
+    mUnknownCount = static_cast<s16>(unknownCount);
     SetSpriteScale(scale);
-    field_F8_pRes = relive_new ParticleBurst_Item[numOfParticles];
-    if (field_F8_pRes)
+    mParticleItems = relive_new ParticleBurst_Item[particleCount];
+    if (mParticleItems)
     {
-        field_104_type = type;
-        switch (field_104_type)
+        mType = type;
+        switch (mType)
         {
             case BurstType::eFallingRocks_0:
             {
@@ -85,11 +91,11 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, u32 numOfParticles, FP scale, Bur
                 GetAnimation().SetSemiTrans(true);
                 GetAnimation().SetBlending(false);
 
-                if (field_104_type == BurstType::eBigRedSparks_3)
+                if (mType == BurstType::eBigRedSparks_3)
                 {
                     GetAnimation().SetRGB(254, 148, 18);
                 }
-                else if (field_104_type == BurstType::eSmallPurpleSparks_6)
+                else if (mType == BurstType::eSmallPurpleSparks_6)
                 {
                     GetAnimation().SetRGB(127, 127, 127);
                 }
@@ -120,43 +126,43 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, u32 numOfParticles, FP scale, Bur
                 GetAnimation().SetRenderLayer(Layer::eLayer_Above_FG1_Half_20);
             }
 
-            field_FC_number_of_particles = static_cast<s16>(numOfParticles);
-            field_100_timer = MakeTimer(91);
+            mParticleCount = static_cast<s16>(particleCount);
+            mAliveTimer = MakeTimer(91);
             mXPos = xpos;
             mYPos = ypos;
 
-            for (u32 i = 0; i < numOfParticles; i++)
+            for (u32 i = 0; i < particleCount; i++)
             {
-                field_F8_pRes[i].field_18_animation.mAnimPtr = &GetAnimation();
-                field_F8_pRes[i].field_18_animation.SetRenderLayer(GetAnimation().GetRenderLayer());
-                field_F8_pRes[i].field_18_animation.mSpriteScale = FP_FromDouble(0.95) * GetSpriteScale();
+                mParticleItems[i].field_18_animation.mAnimPtr = &GetAnimation();
+                mParticleItems[i].field_18_animation.SetRenderLayer(GetAnimation().GetRenderLayer());
+                mParticleItems[i].field_18_animation.mSpriteScale = FP_FromDouble(0.95) * GetSpriteScale();
 
-                field_F8_pRes[i].field_18_animation.SetRender(true);
-                //field_F8_pRes[i].field_18_animation.mFlags.Set(AnimFlags::eBit25_bDecompressDone); // TODO: HIWORD &= ~0x0100u ??
+                mParticleItems[i].field_18_animation.SetRender(true);
+                //mParticleItems[i].field_18_animation.mFlags.Set(AnimFlags::eBit25_bDecompressDone); // TODO: HIWORD &= ~0x0100u ??
 
-                field_F8_pRes[i].field_18_animation.SetSemiTrans(GetAnimation().GetSemiTrans());
+                mParticleItems[i].field_18_animation.SetSemiTrans(GetAnimation().GetSemiTrans());
 
-                field_F8_pRes[i].field_18_animation.SetBlending(GetAnimation().GetBlending());
+                mParticleItems[i].field_18_animation.SetBlending(GetAnimation().GetBlending());
 
                 if (type == BurstType::eBigPurpleSparks_2)
                 {
                     if (i % 2)
                     {
-                        field_F8_pRes[i].field_18_animation.SetBlending(true);
+                        mParticleItems[i].field_18_animation.SetBlending(true);
                     }
                 }
 
-                field_F8_pRes[i].field_18_animation.SetRGB(GetAnimation().GetRgb());
+                mParticleItems[i].field_18_animation.SetRGB(GetAnimation().GetRgb());
 
-                field_F8_pRes[i].x = mXPos;
-                field_F8_pRes[i].y = mYPos;
-                field_F8_pRes[i].field_8_z = FP_FromInteger(0);
+                mParticleItems[i].x = mXPos;
+                mParticleItems[i].y = mYPos;
+                mParticleItems[i].field_8_z = FP_FromInteger(0);
 
-                Random_Speed(&field_F8_pRes[i].field_C_x_speed);
-                Random_Speed(&field_F8_pRes[i].field_10_y_speed);
+                Random_Speed(&mParticleItems[i].field_C_x_speed);
+                Random_Speed(&mParticleItems[i].field_10_y_speed);
                 // OG bug sign could be wrong here as it called random again to Abs() it!
                 FP zRandom = {};
-                field_F8_pRes[i].field_14_z_speed = -FP_Abs(*Random_Speed(&zRandom));
+                mParticleItems[i].field_14_z_speed = -FP_Abs(*Random_Speed(&zRandom));
             }
         }
     }
@@ -166,190 +172,46 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, u32 numOfParticles, FP scale, Bur
     }
 }
 
-FP* ParticleBurst::Random_Speed(FP* random)
-{
-    const FP v2 = FP_FromRaw((static_cast<u32>(Math_NextRandom()) - 128) << (field_106_count & 0xFF));
-    *random = v2 * GetSpriteScale();
-    return random;
-}
-
 ParticleBurst::~ParticleBurst()
 {
-    relive_delete[] field_F8_pRes;
-}
-
-void ParticleBurst::VRender(OrderingTable& ot)
-{
-    bool bFirst = true;
-    if (gNumCamSwappers == 0)
-    {
-        GetAnimation().SetSpriteScale(GetSpriteScale());
-        const FP camX = gScreenManager->CamXPos();
-        const FP camY = gScreenManager->CamYPos();
-
-        for (s32 i = 0; i < field_FC_number_of_particles; i++)
-        {
-            if (field_F8_pRes[i].x < camX)
-            {
-                continue;
-            }
-
-            if (field_F8_pRes[i].x > camX + FP_FromInteger(640))
-            {
-                continue;
-            }
-
-            if (field_F8_pRes[i].y < camY)
-            {
-                continue;
-            }
-
-            if (field_F8_pRes[i].y > camY + FP_FromInteger(240))
-            {
-                continue;
-            }
-
-            const FP zPos = field_F8_pRes[i].field_8_z;
-
-            // TODO: Much duplicated code in each branch
-            if (bFirst)
-            {
-                GetAnimation().SetSpriteScale(FP_FromInteger(100) / (zPos + FP_FromInteger(300)));
-                GetAnimation().SetSpriteScale(GetAnimation().GetSpriteScale() * GetSpriteScale());
-                GetAnimation().SetSpriteScale(GetAnimation().GetSpriteScale() * FP_FromInteger(field_106_count) / FP_FromInteger(13));
-
-                if (GetAnimation().GetSpriteScale() <= FP_FromInteger(1))
-                {
-                    GetAnimation().VRender(
-                        FP_GetExponent(field_F8_pRes[i].x - camX),
-                        FP_GetExponent(field_F8_pRes[i].y - camY),
-                        ot,
-                        0,
-                        0);
-
-                    bFirst = false;
-
-                    PSX_RECT frameRect = {};
-                    GetAnimation().Get_Frame_Rect(&frameRect);
-                    if (field_106_count == 9)
-                    {
-                        RGB16& rgb = GetAnimation().GetRgb();
-                        if (rgb.r > 5)
-                        {
-                            rgb.r -= 6;
-                        }
-                        else
-                        {
-                            rgb.r = 0;
-                        }
-
-                        if (rgb.g > 5)
-                        {
-                            rgb.g -= 6;
-                        }
-                        else
-                        {
-                            rgb.g = 0;
-                        }
-
-                        if (rgb.b > 5)
-                        {
-                            rgb.b -= 6;
-                        }
-                        else
-                        {
-                            rgb.b = 0;
-                        }
-                    }
-                }
-            }
-            else
-            {
-                field_F8_pRes[i].field_18_animation.mSpriteScale = FP_FromInteger(100) / (zPos + FP_FromInteger(300));
-                field_F8_pRes[i].field_18_animation.mSpriteScale *= GetSpriteScale();
-                field_F8_pRes[i].field_18_animation.mSpriteScale *= FP_FromInteger(field_106_count) / FP_FromInteger(13);
-
-                if (field_F8_pRes[i].field_18_animation.mSpriteScale <= FP_FromInteger(1))
-                {
-                    field_F8_pRes[i].field_18_animation.VRender(
-                        FP_GetExponent(field_F8_pRes[i].x - camX),
-                        FP_GetExponent(field_F8_pRes[i].y - camY),
-                        ot,
-                        0,
-                        0);
-
-                    PSX_RECT frameRect = {};
-                    field_F8_pRes[i].field_18_animation.GetRenderedSize(&frameRect);
-
-                    if (field_106_count == 9)
-                    {
-                        RGB16& rgb = field_F8_pRes[i].field_18_animation.GetRgb();
-                        if (rgb.r > 5)
-                        {
-                            rgb.r -= 6;
-                        }
-                        else
-                        {
-                            rgb.r = 0;
-                        }
-
-                        if (rgb.g > 5)
-                        {
-                            rgb.g -= 6;
-                        }
-                        else
-                        {
-                            rgb.g = 0;
-                        }
-
-                        if (rgb.b > 5)
-                        {
-                            rgb.b -= 6;
-                        }
-                        else
-                        {
-                            rgb.b = 0;
-                        }
-                    }
-                }
-            }
-        }
-    }
+    relive_delete[] mParticleItems;
 }
 
 void ParticleBurst::VUpdate()
 {
     const s32 v3 = GetSpriteScale() != FP_FromInteger(1) ? 2 : 4;
-    for (s32 i = 0; i < field_FC_number_of_particles; i++)
+    for (s32 i = 0; i < mParticleCount; i++)
     {
-        field_F8_pRes[i].x += field_F8_pRes[i].field_C_x_speed;
-        field_F8_pRes[i].y += field_F8_pRes[i].field_10_y_speed;
-        field_F8_pRes[i].field_8_z += field_F8_pRes[i].field_14_z_speed;
+        ParticleBurst_Item* pItem = &mParticleItems[i];
 
-        field_F8_pRes[i].field_10_y_speed += FP_FromDouble(0.25);
+        pItem->x += pItem->field_C_x_speed;
+        pItem->y += pItem->field_10_y_speed;
+        pItem->field_8_z += pItem->field_14_z_speed;
 
-        if (field_106_count == 9)
+        pItem->field_10_y_speed += FP_FromDouble(0.25);
+
+        if (mUnknownCount == 9)
         {
             if ((sGnFrame + i) & v3)
             {
-                field_F8_pRes[i].x -= FP_FromInteger(1);
+                pItem->x -= FP_FromInteger(1);
             }
             else
             {
-                field_F8_pRes[i].x += FP_FromInteger(1);
+                pItem->x += FP_FromInteger(1);
             }
         }
 
-        if (field_F8_pRes[i].field_8_z + FP_FromInteger(300) < FP_FromInteger(15))
+        if (pItem->field_8_z + FP_FromInteger(300) < FP_FromInteger(15))
         {
-            field_F8_pRes[i].field_14_z_speed = -field_F8_pRes[i].field_14_z_speed;
-            field_F8_pRes[i].field_8_z += field_F8_pRes[i].field_14_z_speed;
+            pItem->field_14_z_speed = -pItem->field_14_z_speed;
+            pItem->field_8_z += pItem->field_14_z_speed;
 
             // TODO: Never used by OG ??
-            //Math_RandomRange_496AB0(-64, 46);
+            // Math_RandomRange_496AB0(-64, 46);
 
             // TODO: This might be wrong
-            const s16 volume = static_cast<s16>(Math_RandomRange(-10, 10) + ((field_100_timer - sGnFrame) / 91) + 25);
+            const s16 volume = static_cast<s16>(Math_RandomRange(-10, 10) + ((mAliveTimer - sGnFrame) / 91) + 25);
 
             const u8 next_rand = Math_NextRandom();
             if (next_rand < 43)
@@ -367,7 +229,7 @@ void ParticleBurst::VUpdate()
         }
     }
 
-    if (static_cast<s32>(sGnFrame) > field_100_timer)
+    if (sGnFrame > mAliveTimer)
     {
         SetDead(true);
     }
@@ -377,3 +239,73 @@ void ParticleBurst::VUpdate()
         SetDead(true);
     }
 }
+
+static inline void FadeoutRgb(RGB16& rgb)
+{
+    rgb.r = (rgb.r > 5) ? rgb.r - 6 : 0;
+    rgb.g = (rgb.g > 5) ? rgb.g - 6 : 0;
+    rgb.b = (rgb.b > 5) ? rgb.b - 6 : 0;
+}
+
+void ParticleBurst::VRender(OrderingTable& ot)
+{
+    if (gNumCamSwappers != 0)
+    {
+        return;
+    }
+
+    GetAnimation().SetSpriteScale(GetSpriteScale());
+
+    const FP camX = gScreenManager->CamXPos();
+    const FP camY = gScreenManager->CamYPos();
+
+    bool bFirst = true;
+    for (s32 i = 0; i < mParticleCount; i++)
+    {
+        ParticleBurst_Item* pItem = &mParticleItems[i];
+        if (pItem->x >= camX && pItem->x <= camX + FP_FromInteger(640))
+        {
+            if (pItem->y >= camY && pItem->y <= camY + FP_FromInteger(240))
+            {
+                if (bFirst)
+                {
+                    GetAnimation().SetSpriteScale(FP_FromInteger(100) / (pItem->field_8_z + FP_FromInteger(300)));
+                    GetAnimation().SetSpriteScale(GetAnimation().GetSpriteScale() * GetSpriteScale());
+                    GetAnimation().SetSpriteScale(GetAnimation().GetSpriteScale() * FP_FromInteger(mUnknownCount) / FP_FromInteger(13));
+
+                    if (GetAnimation().GetSpriteScale() <= FP_FromInteger(1))
+                    {
+                        GetAnimation().VRender(
+                            FP_GetExponent(pItem->x - camX),
+                            FP_GetExponent(pItem->y - camY),
+                            ot, 0, 0);
+                        if (mUnknownCount == 9)
+                        {
+                            FadeoutRgb(GetAnimation().GetRgb());
+                        }
+                        bFirst = false;
+                    }
+                }
+                else
+                {
+                    pItem->field_18_animation.mSpriteScale = FP_FromInteger(100) / (pItem->field_8_z + FP_FromInteger(300));
+                    pItem->field_18_animation.mSpriteScale *= GetSpriteScale();
+                    pItem->field_18_animation.mSpriteScale *= FP_FromInteger(mUnknownCount) / FP_FromInteger(13);
+
+                    if (pItem->field_18_animation.mSpriteScale <= FP_FromInteger(1))
+                    {
+                        pItem->field_18_animation.VRender(
+                            FP_GetExponent(pItem->x - camX),
+                            FP_GetExponent(pItem->y - camY),
+                            ot, 0, 0);
+                        if (mUnknownCount == 9)
+                        {
+                            FadeoutRgb(pItem->field_18_animation.GetRgb());
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+

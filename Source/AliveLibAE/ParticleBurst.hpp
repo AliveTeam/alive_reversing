@@ -18,7 +18,7 @@ enum class BurstType : s16
 class ParticleBurst final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
-    ParticleBurst(FP xpos, FP ypos, u32 numOfParticles, FP scale, BurstType type, s32 count);
+    ParticleBurst(FP xpos, FP ypos, u32 particleCount, FP scale, BurstType type, s32 unknownCount);
     ~ParticleBurst();
 
     virtual void VUpdate() override;
@@ -28,9 +28,9 @@ private:
     FP* Random_Speed(FP* random);
 
 private:
-    ParticleBurst_Item* field_F8_pRes = nullptr;
-    s16 field_FC_number_of_particles = 0;
-    s32 field_100_timer = 0;
-    BurstType field_104_type = BurstType::eFallingRocks_0;
-    s16 field_106_count = 0;
+    ParticleBurst_Item* mParticleItems = nullptr;
+    s16 mParticleCount = 0;
+    u32 mAliveTimer = 0;
+    BurstType mType = BurstType::eFallingRocks_0;
+    s16 mUnknownCount = 0;
 };
