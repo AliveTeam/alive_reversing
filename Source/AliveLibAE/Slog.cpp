@@ -2595,7 +2595,7 @@ s16 Slog::Brain_ChasingAbe_State_2_Thinking(IBaseAliveGameObject* pTarget)
         SetCurrentMotion(eSlogMotions::Motion_3_TurnAround);
     }
 
-    if (mHungry && IgAbe(pTarget) && pTarget->GetScale() == GetScale() && (gAbe->mCurrentMotion == eAbeMotions::Motion_104_RockThrowStandingHold || gAbe->mCurrentMotion == eAbeMotions::Motion_107_RockThrowCrouchingHold))
+    if (mHungry && IsAbe(pTarget) && pTarget->GetScale() == GetScale() && (gAbe->mCurrentMotion == eAbeMotions::Motion_104_RockThrowStandingHold || gAbe->mCurrentMotion == eAbeMotions::Motion_107_RockThrowCrouchingHold))
     {
         SetNextMotion(eSlogMotions::Motion_6_StopRunning);
         mMultiUseTimer = MakeTimer(90);

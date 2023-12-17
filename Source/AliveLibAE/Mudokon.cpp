@@ -7137,7 +7137,7 @@ void Mudokon::TakeASlap(BaseGameObject* pFrom)
             mBrainSubState = field_188_pTblEntry->field_6_sub_state;
         }
 
-        if (field_180_emo_tbl != Mud_Emotion::eSad_3 || IgAbe(pFrom))
+        if (field_180_emo_tbl != Mud_Emotion::eSad_3 || IsAbe(pFrom))
         {
             field_180_emo_tbl = field_188_pTblEntry->field_4_emo_tbl;
         }

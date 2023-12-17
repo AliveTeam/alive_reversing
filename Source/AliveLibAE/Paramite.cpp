@@ -661,7 +661,7 @@ s16 Paramite::Brain_Patrol_State_12_Idle(BaseAliveGameObject* pObj)
     const auto pEventNoise = IsEventInRange(kEventNoise, mXPos, mYPos, AsEventScale(GetScale()));
     const auto pEventSpeaking = IsEventInRange(kEventSpeaking, mXPos, mYPos, AsEventScale(GetScale()));
 
-    if (IgAbe(pEventNoise) || IgAbe(pEventSpeaking))
+    if (IsAbe(pEventNoise) || IsAbe(pEventSpeaking))
     {
         if (gAbe->GetInvisible())
         {

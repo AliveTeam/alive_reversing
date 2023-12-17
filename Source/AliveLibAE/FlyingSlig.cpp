@@ -969,7 +969,7 @@ void FlyingSlig::Brain_4_ChasingEnemy()
         return;
     }
 
-    if (EventGet(kEventResetting) || sControlledCharacter->GetSpriteScale() != GetSpriteScale() || IsInInvisibleZone(sControlledCharacter) || sControlledCharacter->GetInvisible() || (!IsWallBetween(this, sControlledCharacter) && (!IgAbe(sControlledCharacter) || gAbe->mCurrentMotion != eAbeMotions::Motion_65_LedgeAscend_4548E0) && sControlledCharacter->Type() != ReliveTypes::eMineCar))
+    if (EventGet(kEventResetting) || sControlledCharacter->GetSpriteScale() != GetSpriteScale() || IsInInvisibleZone(sControlledCharacter) || sControlledCharacter->GetInvisible() || (!IsWallBetween(this, sControlledCharacter) && (!IsAbe(sControlledCharacter) || gAbe->mCurrentMotion != eAbeMotions::Motion_65_LedgeAscend_4548E0) && sControlledCharacter->Type() != ReliveTypes::eMineCar))
     {
         PatrolDelay();
         return;
@@ -2211,7 +2211,7 @@ s16 FlyingSlig::sub_436730()
 
 s16 FlyingSlig::CanHearAbe()
 {
-    return IgAbe(IsEventInRange(kEventSuspiciousNoise, mXPos, mYPos, AsEventScale(GetScale()))) || IgAbe(IsEventInRange(kEventSpeaking, mXPos, mYPos, AsEventScale(GetScale())));
+    return IsAbe(IsEventInRange(kEventSuspiciousNoise, mXPos, mYPos, AsEventScale(GetScale()))) || IsAbe(IsEventInRange(kEventSpeaking, mXPos, mYPos, AsEventScale(GetScale())));
 }
 
 void FlyingSlig::ToSpottedEnemy()

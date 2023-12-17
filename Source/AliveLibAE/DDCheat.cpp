@@ -262,7 +262,7 @@ void DDCheat::VUpdate()
             gDDCheat_FlyingEnabled = !gDDCheat_FlyingEnabled;
             if (!gDDCheat_FlyingEnabled)
             {
-                if (IgAbe(sControlledCharacter))
+                if (IsAbe(sControlledCharacter))
                 {
                     gAbe->mLandSoftly = true;
                 }
@@ -299,7 +299,7 @@ void DDCheat::VUpdate()
                     sDDCheat_AlwaysShow = !sDDCheat_AlwaysShow;
                 }
 
-                if (IgAbe(sControlledCharacter))
+                if (IsAbe(sControlledCharacter))
                 {
                     gAbe->mLandSoftly = true;
                 }

@@ -63,7 +63,7 @@ void InvisibleSwitch::VUpdate()
                 if (charYPos >= FP_FromInteger(mTlvTopLeft.y) && charYPos <= FP_FromInteger(mTlvBottomRight.y))
                 {
                     // TODO: ???
-                    if (!IgAbe(gAbe)
+                    if (!IsAbe(gAbe)
                         || (gAbe->mCurrentMotion != eAbeMotions::Motion_115_DoorExit
                             && gAbe->mCurrentMotion != eAbeMotions::Motion_114_DoorEnter))
                     {

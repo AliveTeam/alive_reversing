@@ -153,7 +153,7 @@ const relive::SfxDefinition sSFXList_555160[] = {
     {0u, 23u, 64u, 90u, 0, 0}};
 
 
-bool IgAbe(BaseGameObject* pObj)
+bool IsAbe(BaseGameObject* pObj)
 {
     if (gAbe)
     {
@@ -310,7 +310,7 @@ s32 Environment_SFX(EnvironmentSfx sfxId, s32 volume, s32 pitchMin, BaseAliveGam
         sndVolume = 2 * sndVolume / 3;
     }
 
-    if (!IgAbe(pAliveObj))
+    if (!IsAbe(pAliveObj))
     {
         switch (gMap.GetDirection(
             pAliveObj->mCurrentLevel,
@@ -8972,7 +8972,7 @@ void Mudokon_SFX(MudSounds idx, s16 volume, s32 pitch, BaseAliveGameObject* pHer
         }
         case MudSounds::eGiggle_8:
         {
-            if (IgAbe(pHero) && gMap.mCurrentLevel == EReliveLevelIds::eBrewery_Ender)
+            if (IsAbe(pHero) && gMap.mCurrentLevel == EReliveLevelIds::eBrewery_Ender)
             {
                 idx = MudSounds::eLaugh_10;
             }
@@ -8999,7 +8999,7 @@ void Mudokon_SFX(MudSounds idx, s16 volume, s32 pitch, BaseAliveGameObject* pHer
                 volume = 2 * volume / 3;
             }
 
-            if (IgAbe(pHero))
+            if (IsAbe(pHero))
             {
                 playAbeSFX(idx, volume, pitch);
                 return;

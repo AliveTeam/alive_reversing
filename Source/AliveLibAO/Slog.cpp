@@ -3,7 +3,6 @@
 #include "Slog.hpp"
 #include "Abe.hpp"
 #include "MusicController.hpp"
-#include "../AliveLibAE/stdlib.hpp"
 #include "Midi.hpp"
 #include "Math.hpp"
 #include "Game.hpp"
@@ -15,7 +14,6 @@
 #include "Bullet.hpp"
 #include "../relive_lib/SwitchStates.hpp"
 #include "PlatformBase.hpp"
-#include "CameraSwapper.hpp"
 #include "../relive_lib/GameObjects/SnoozeParticle.hpp"
 #include "../relive_lib/Shadow.hpp"
 #include "../relive_lib/Events.hpp"
@@ -751,6 +749,7 @@ void Slog::VRender(OrderingTable& ot)
 
 void Slog::VOnThrowableHit(BaseGameObject* /*pFrom*/)
 {
+    // Hit me with whatever ya like an I'll fuckin kill ya
     mAngerLevel += mChaseAnger;
 }
 

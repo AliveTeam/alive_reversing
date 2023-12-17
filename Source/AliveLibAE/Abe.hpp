@@ -848,7 +848,7 @@ private:
         &Abe::Motion_129_PoisonGasDeath};
 };
 
-bool IgAbe(BaseGameObject* pObj);
+bool IsAbe(BaseGameObject* pObj);
 
 extern Abe* gAbe;
 extern IBaseAliveGameObject* sControlledCharacter;

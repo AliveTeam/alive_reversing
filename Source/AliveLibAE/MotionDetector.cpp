@@ -279,7 +279,7 @@ void MotionDetector::VUpdate()
                     && bLaserRect.y <= objRect.h
                     && pObj->GetSpriteScale() == GetSpriteScale())
                 {
-                    if (IgAbe(pObj))
+                    if (IsAbe(pObj))
                     {
                         if (sGnFrame % 2)
                         {
@@ -298,7 +298,7 @@ void MotionDetector::VUpdate()
                             {
                                 relive_new Alarm(mAlarmDuration, mAlarmSwitchId, 0, Layer::eLayer_Above_FG1_39);
 
-                                if (IgAbe(pObj) && pObj->mHealth > FP_FromInteger(0))
+                                if (IsAbe(pObj) && pObj->mHealth > FP_FromInteger(0))
                                 {
                                     Mudokon_SFX(MudSounds::eOops_14, 0, 0, 0);
                                 }

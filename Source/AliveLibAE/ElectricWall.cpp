@@ -165,7 +165,7 @@ void ElectricWall::VUpdate()
                         else
                         {
                             // Touching the wall, rip
-                            if (!(pObj->GetElectrocuted()) && (!IgAbe(pObj) || !gAbeInvincible))
+                            if (!(pObj->GetElectrocuted()) && (!IsAbe(pObj) || !gAbeInvincible))
                             {
                                 pObj->SetElectrocuted(true);
 
