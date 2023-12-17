@@ -6,7 +6,7 @@
 #include "BoomMachine.hpp"
 #include "Bullet.hpp"
 #include "CheatController.hpp"
-#include "DeathBirdParticle.hpp"
+#include "../relive_lib/GameObjects/DeathBirdParticle.hpp"
 #include "Door.hpp"
 #include "../relive_lib/GameObjects/Dove.hpp"
 #include "ThrowableArray.hpp"

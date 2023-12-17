@@ -30,7 +30,7 @@
 #include "PossessionFlicker.hpp"
 #include "Door.hpp"
 #include "QuikSave.hpp"
-#include "DeathBirdParticle.hpp"
+#include "../relive_lib/GameObjects/DeathBirdParticle.hpp"
 #include "WorkWheel.hpp"
 #include "../relive_lib/GameObjects/Particle.hpp"
 #include "Lever.hpp"

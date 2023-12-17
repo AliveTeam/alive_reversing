@@ -1,14 +1,10 @@
-#include "stdafx_ao.h"
-#include "../relive_lib/Function.hpp"
+#include "stdafx.h"
 #include "DeathBirdParticle.hpp"
-#include "Game.hpp"
-#include "../AliveLibAE/stdlib.hpp"
-#include "../relive_lib/GameObjects/Dove.hpp"
-#include "Math.hpp"
+#include "../Function.hpp"
+#include "Dove.hpp"
 #include "Sfx.hpp"
-#include "../relive_lib/FixedPoint.hpp"
-
-namespace AO {
+#include "../../AliveLibAE/Math.hpp"
+#include "../FixedPoint.hpp"
 
 void DeathBirdParticle::LoadAnimations()
 {
@@ -18,8 +14,8 @@ void DeathBirdParticle::LoadAnimations()
 
 DeathBirdParticle::DeathBirdParticle(FP xpos, FP ypos, s32 startTimer, bool playSound, FP scale)
     : BaseAnimatedWithPhysicsGameObject(0),
-      mStartTimer(startTimer),
-      mPlaySound(playSound)
+    mStartTimer(startTimer),
+    mPlaySound(playSound)
 {
     SetType(ReliveTypes::eDeathBird);
 
@@ -101,5 +97,3 @@ void DeathBirdParticle::VUpdate()
     mYPos -= FP_FromInteger(2);
     mRandom += 5;
 }
-
-} // namespace AO

@@ -127,8 +127,6 @@ SET(AliveLibSrcAO
    ../AliveLibAO/Lever.cpp
    ../AliveLibAO/RollingBall.hpp
    ../AliveLibAO/RollingBall.cpp
-   ../AliveLibAO/DeathBirdParticle.hpp
-   ../AliveLibAO/DeathBirdParticle.cpp
    ../AliveLibAO/PossessionFlicker.hpp
    ../AliveLibAO/PossessionFlicker.cpp
    ../AliveLibAO/HoistRocksEffect.hpp
@@ -354,8 +352,6 @@ SET(AliveLibAESrc
     ../AliveLibAE/PossessionFlicker.cpp
     ../AliveLibAE/Door.hpp
     ../AliveLibAE/Door.cpp
-    ../AliveLibAE/DeathBirdParticle.hpp
-    ../AliveLibAE/DeathBirdParticle.cpp
     ../AliveLibAE/WorkWheel.hpp
     ../AliveLibAE/WorkWheel.cpp
     ../AliveLibAE/StatusLight.hpp
@@ -614,6 +610,8 @@ SET(game_objects_src
     GameObjects/Gibs.cpp
     GameObjects/Dove.hpp
     GameObjects/Dove.cpp
+    GameObjects/DeathBirdParticle.hpp
+    GameObjects/DeathBirdParticle.cpp
 )
 
 SET(data_conversion_src
