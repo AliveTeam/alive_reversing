@@ -9,13 +9,12 @@ struct GibPart final
 {
     FP x;
     FP y;
-    FP field_8_z;
-    FP field_C_dx;
-    FP field_10_dy;
-    FP field_14_dz;
+    FP z;
+    FP dx;
+    FP dy;
+    FP dz;
     Animation mAnimation;
 };
-ALIVE_ASSERT_SIZEOF(GibPart, 0xB0);
 
 struct Gib_Data final
 {
@@ -46,8 +45,8 @@ public:
     virtual void VRender(OrderingTable& ot) override;
 
     const Gib_Data* mGibData = nullptr;
-    FP field_E8_z = {};
-    FP field_EC_dz = {};
+    FP mZ = {};
+    FP mDz = {};
     s32 mAliveTimer = 0;
     GibPart mGibParts[7] = {};
     s16 mPartsUsedCount = 0;

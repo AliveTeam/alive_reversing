@@ -7,13 +7,12 @@ struct GibPart final
 {
     FP x;
     FP y;
-    FP field_8_z;
-    FP field_C_dx;
-    FP field_10_dy;
-    FP field_14_dz;
+    FP z;
+    FP dx;
+    FP dy;
+    FP dz;
     Animation mAnimation;
 };
-ALIVE_ASSERT_SIZEOF(GibPart, 0xB0);
 
 enum class GibType : s32
 {
@@ -42,10 +41,10 @@ public:
     virtual void VRender(OrderingTable& ot) override;
 
 private:
-    FP field_F8_z = {};
-    FP field_FC_dz = {};
+    FP mZ = {};
+    FP mDz = {};
     s32 mAliveTimer = 0;
     GibPart mGibParts[7] = {};
     s16 mPartsUsedCount = 0;
-    bool field_5D6_bMakeSmaller = false;
+    bool mMakeSmaller = false;
 };

@@ -47,7 +47,12 @@ void Gibs::LoadAnimations(const Gib_Data& data)
 Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
+    // remove sGibData and replace it with a switch statement like AE
     mGibData = &sGibData[gibType];
+
+    //AnimId headGib = AnimId::None;
+    //AnimId armGib = AnimId::None;
+    //AnimId bodyGib = AnimId::None;
 
     LoadAnimations(*mGibData);
 
@@ -62,13 +67,13 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale)
 
     if (scale == FP_FromInteger(1))
     {
-        field_E8_z = FP_FromInteger(0);
+        mZ = FP_FromInteger(0);
         GetAnimation().SetRenderLayer(Layer::eLayer_FG1_37);
         SetScale(Scale::Fg);
     }
     else if (scale == FP_FromDouble(0.5))
     {
-        field_E8_z = FP_FromInteger(100);
+        mZ = FP_FromInteger(100);
         GetAnimation().SetRenderLayer(Layer::eLayer_Foreground_Half_17);
         SetScale(Scale::Bg);
     }
@@ -83,11 +88,11 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale)
 
     if ((GibRand(scale) / FP_FromInteger(2)) >= FP_FromInteger(0))
     {
-        field_EC_dz = -(GibRand(scale) / FP_FromInteger(2));
+        mDz = -(GibRand(scale) / FP_FromInteger(2));
     }
     else
     {
-        field_EC_dz = GibRand(scale) / FP_FromInteger(2);
+        mDz = GibRand(scale) / FP_FromInteger(2);
     }
 
     PalId gibPal = PalId::Default;
@@ -148,18 +153,18 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale)
 
         pPart->x = mXPos;
         pPart->y = mYPos;
-        pPart->field_8_z = field_E8_z;
+        pPart->z = mZ;
 
-        pPart->field_C_dx = xOff + GibRand(scale);
-        pPart->field_10_dy = yOff + GibRand(scale);
+        pPart->dx = xOff + GibRand(scale);
+        pPart->dy = yOff + GibRand(scale);
 
         if ((GibRand(scale) / FP_FromInteger(2)) >= FP_FromInteger(0))
         {
-            pPart->field_14_dz = -(GibRand(scale) / FP_FromInteger(2));
+            pPart->dz = -(GibRand(scale) / FP_FromInteger(2));
         }
         else
         {
-            pPart->field_14_dz = GibRand(scale) / FP_FromInteger(2);
+            pPart->dz = GibRand(scale) / FP_FromInteger(2);
         }
 
         if (gibPal != PalId::Default)
@@ -176,28 +181,28 @@ void Gibs::VUpdate()
 {
     mXPos += mVelX;
     mYPos += mVelY;
-    field_E8_z += field_EC_dz;
+    mZ += mDz;
 
     mVelY += FP_FromDouble(0.25);
 
-    if (field_E8_z + FP_FromInteger(100) < FP_FromInteger(15))
+    if (mZ + FP_FromInteger(100) < FP_FromInteger(15))
     {
-        field_E8_z -= field_EC_dz;
-        field_EC_dz = -field_EC_dz;
+        mZ -= mDz;
+        mDz = -mDz;
     }
 
     for (s32 i = 0; i < mPartsUsedCount; i++)
     {
-        mGibParts[i].x += mGibParts[i].field_C_dx;
-        mGibParts[i].y += mGibParts[i].field_10_dy;
-        mGibParts[i].field_8_z += mGibParts[i].field_14_dz;
+        mGibParts[i].x += mGibParts[i].dx;
+        mGibParts[i].y += mGibParts[i].dy;
+        mGibParts[i].z += mGibParts[i].dz;
 
-        mGibParts[i].field_10_dy += FP_FromDouble(0.25);
+        mGibParts[i].dy += FP_FromDouble(0.25);
 
-        if ((mGibParts[i].field_8_z + FP_FromInteger(100)) < FP_FromInteger(15))
+        if ((mGibParts[i].z + FP_FromInteger(100)) < FP_FromInteger(15))
         {
-            mGibParts[i].field_8_z -= mGibParts[i].field_14_dz;
-            mGibParts[i].field_14_dz = -mGibParts[i].field_14_dz;
+            mGibParts[i].z -= mGibParts[i].dz;
+            mGibParts[i].dz = -mGibParts[i].dz;
         }
     }
 
@@ -223,7 +228,7 @@ void Gibs::VRender(OrderingTable& ot)
         return;
     }
 
-    SetSpriteScale(FP_FromInteger(100) / (field_E8_z + FP_FromInteger(100)));
+    SetSpriteScale(FP_FromInteger(100) / (mZ + FP_FromInteger(100)));
 
     // Head part rendering
     BaseAnimatedWithPhysicsGameObject::VRender(ot);
@@ -242,7 +247,7 @@ void Gibs::VRender(OrderingTable& ot)
         {
             if (pGib->y >= up && pGib->y <= down)
             {
-                pGib->mAnimation.SetSpriteScale(FP_FromInteger(100) / (pGib->field_8_z + FP_FromInteger(100)));
+                pGib->mAnimation.SetSpriteScale(FP_FromInteger(100) / (pGib->z + FP_FromInteger(100)));
                 if (pGib->mAnimation.GetSpriteScale() < FP_FromInteger(1))
                 {
                     pGib->mAnimation.SetRenderLayer(Layer::eLayer_Foreground_Half_17);

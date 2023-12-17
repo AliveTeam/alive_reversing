@@ -9,7 +9,7 @@
 #include "Map.hpp"
 #include "../relive_lib/FixedPoint.hpp"
 
-const TintEntry kGibTints_55C744[16] = {
+static const TintEntry kGibTints_55C744[16] = {
     {EReliveLevelIds::eMenu, 87u, 103u, 67u},
     {EReliveLevelIds::eMines, 87u, 103u, 67u},
     {EReliveLevelIds::eNecrum, 87u, 103u, 67u},
@@ -27,11 +27,11 @@ const TintEntry kGibTints_55C744[16] = {
     {EReliveLevelIds::eBonewerkz_Ender, 87u, 103u, 67u},
     {EReliveLevelIds::eCredits, 87u, 103u, 67u}};
 
-s16 sGibRandom_550E80 = 13;
+static s16 sGibRandom = 13;
 
-FP Random_40FAF0(FP scale)
+static FP GibRand(FP scale)
 {
-    return FP_FromRaw((static_cast<u32>(Math_NextRandom()) - 128) << sGibRandom_550E80) * scale;
+    return FP_FromRaw((static_cast<u32>(Math_NextRandom()) - 128) << sGibRandom) * scale;
 }
 
 void Gibs::LoadAnimations(AnimId head, AnimId arm, AnimId body)
@@ -142,13 +142,13 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale, bool b
 
     if (scale == FP_FromInteger(1))
     {
-        field_F8_z = FP_FromInteger(0);
+        mZ = FP_FromInteger(0);
         GetAnimation().SetRenderLayer(Layer::eLayer_FG1_37);
         SetScale(Scale::Fg);
     }
     else if (scale == FP_FromDouble(0.5))
     {
-        field_F8_z = FP_FromInteger(100);
+        mZ = FP_FromInteger(100);
         GetAnimation().SetRenderLayer(Layer::eLayer_Foreground_Half_17);
         SetScale(Scale::Bg);
     }
@@ -158,21 +158,21 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale, bool b
         SetDead(true);
     }
 
-    field_5D6_bMakeSmaller = bMakeSmaller;
-    mVelX = xOff + Random_40FAF0(scale);
+    mMakeSmaller = bMakeSmaller;
+    mVelX = xOff + GibRand(scale);
 
     // OG Bug? WTF?? Looks like somehow they didn't condition this param correctly
-    // because mVelY and field_FC_dz are always overwritten
-    if (!field_5D6_bMakeSmaller)
+    // because mVelY and mDz are always overwritten
+    if (!mMakeSmaller)
     {
-        mVelY = yOff + Random_40FAF0(scale);
-        field_FC_dz = FP_Abs(Random_40FAF0(scale) / FP_FromInteger(2));
+        mVelY = yOff + GibRand(scale);
+        mDz = FP_Abs(GibRand(scale) / FP_FromInteger(2));
     }
 
-    sGibRandom_550E80 = 12;
+    sGibRandom = 12;
 
-    mVelY = (yOff + Random_40FAF0(scale)) / FP_FromInteger(2);
-    field_FC_dz = FP_Abs(Random_40FAF0(scale) / FP_FromInteger(4));
+    mVelY = (yOff + GibRand(scale)) / FP_FromInteger(2);
+    mDz = FP_Abs(GibRand(scale) / FP_FromInteger(4));
 
     if (gibType == GibType::Abe_0)
     {
@@ -195,9 +195,7 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale, bool b
         if (i < 2)
         {
             // 2 arm parts
-            if (!pPart->mAnimation.Init(
-                    GetAnimRes(armGib),
-                    this))
+            if (!pPart->mAnimation.Init(GetAnimRes(armGib), this))
             {
                 mPartsUsedCount = i;
                 SetDead(true);
@@ -207,9 +205,7 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale, bool b
         else
         {
             // 2 body parts
-            if (!pPart->mAnimation.Init(
-                    GetAnimRes(bodyGib),
-                    this))
+            if (!pPart->mAnimation.Init(GetAnimRes(bodyGib), this))
             {
                 mPartsUsedCount = i;
                 SetDead(true);
@@ -225,19 +221,19 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale, bool b
 
         pPart->x = mXPos;
         pPart->y = mYPos;
-        pPart->field_8_z = field_F8_z;
+        pPart->z = mZ;
 
-        pPart->field_C_dx = xOff + Random_40FAF0(scale);
+        pPart->dx = xOff + GibRand(scale);
 
-        if (field_5D6_bMakeSmaller)
+        if (mMakeSmaller)
         {
-            pPart->field_10_dy = (yOff + Random_40FAF0(scale)) / FP_FromInteger(2);
-            pPart->field_14_dz = FP_Abs(Random_40FAF0(scale) / FP_FromInteger(4));
+            pPart->dy = (yOff + GibRand(scale)) / FP_FromInteger(2);
+            pPart->dz = FP_Abs(GibRand(scale) / FP_FromInteger(4));
         }
         else
         {
-            pPart->field_10_dy = yOff + Random_40FAF0(scale);
-            pPart->field_14_dz = FP_Abs(Random_40FAF0(scale) / FP_FromInteger(2));
+            pPart->dy = yOff + GibRand(scale);
+            pPart->dz = FP_Abs(GibRand(scale) / FP_FromInteger(2));
         }
 
         pPart->mAnimation.SetSemiTrans(false);
@@ -263,30 +259,30 @@ void Gibs::VUpdate()
 {
     mXPos += mVelX;
     mYPos += mVelY;
-    field_F8_z += field_FC_dz;
+    mZ += mDz;
 
     mVelY += FP_FromDouble(0.25);
 
-    if (field_F8_z + FP_FromInteger(100) < FP_FromInteger(15))
+    if (mZ + FP_FromInteger(100) < FP_FromInteger(15))
     {
-        const FP dz = -field_FC_dz;
-        field_FC_dz = dz;
-        field_F8_z += dz;
+        const FP dz = -mDz;
+        mDz = dz;
+        mZ += dz;
     }
 
     for (s32 i = 0; i < mPartsUsedCount; i++)
     {
-        mGibParts[i].x += mGibParts[i].field_C_dx;
-        mGibParts[i].y += mGibParts[i].field_10_dy;
-        mGibParts[i].field_8_z += mGibParts[i].field_14_dz;
+        mGibParts[i].x += mGibParts[i].dx;
+        mGibParts[i].y += mGibParts[i].dy;
+        mGibParts[i].z += mGibParts[i].dz;
 
-        mGibParts[i].field_10_dy += FP_FromDouble(0.25);
+        mGibParts[i].dy += FP_FromDouble(0.25);
 
-        if (mGibParts[i].field_8_z + FP_FromInteger(100) < FP_FromInteger(15))
+        if (mGibParts[i].z + FP_FromInteger(100) < FP_FromInteger(15))
         {
-            const FP dz = -mGibParts[i].field_14_dz;
-            mGibParts[i].field_14_dz = dz;
-            mGibParts[i].field_8_z += dz;
+            const FP dz = -mGibParts[i].dz;
+            mGibParts[i].dz = dz;
+            mGibParts[i].z += dz;
         }
     }
 
@@ -304,8 +300,8 @@ void Gibs::VRender(OrderingTable& ot)
         return;
     }
 
-    SetSpriteScale(FP_FromInteger(100) / (field_F8_z + FP_FromInteger(100)));
-    if (field_5D6_bMakeSmaller)
+    SetSpriteScale(FP_FromInteger(100) / (mZ + FP_FromInteger(100)));
+    if (mMakeSmaller)
     {
         SetSpriteScale(GetSpriteScale() / FP_FromInteger(2));
     }
@@ -324,9 +320,9 @@ void Gibs::VRender(OrderingTable& ot)
             // Part is within camera Y?
             if (mGibParts[i].y >= camYPos && mGibParts[i].y <= camYPos + FP_FromInteger(240))
             {
-                mGibParts[i].mAnimation.SetSpriteScale(FP_FromInteger(100) / (mGibParts[i].field_8_z + FP_FromInteger(100)));
+                mGibParts[i].mAnimation.SetSpriteScale(FP_FromInteger(100) / (mGibParts[i].z + FP_FromInteger(100)));
 
-                if (field_5D6_bMakeSmaller)
+                if (mMakeSmaller)
                 {
                     mGibParts[i].mAnimation.SetSpriteScale(mGibParts[i].mAnimation.GetSpriteScale() / FP_FromInteger(2));
                 }
