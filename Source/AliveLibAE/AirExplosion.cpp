@@ -15,15 +15,16 @@
 #include "../relive_lib/FixedPoint.hpp"
 #include "../relive_lib/GameObjects/IBaseAliveGameObject.hpp"
 #include "../relive_lib/GameType.hpp"
+#include "../AliveLibAO/Midi.hpp"
 
 #undef min
 #undef max
 
 #include <algorithm>
 
-AirExplosion::AirExplosion(FP xpos, FP ypos, FP explosion_size, bool bSmall)
+AirExplosion::AirExplosion(FP xpos, FP ypos, FP explosionScale, bool bSmall)
     : BaseAnimatedWithPhysicsGameObject(0),
-    mExplosionSize(explosion_size),
+    mExplosionScale(explosionScale),
     mSmallExplosion(bSmall)
 {
     SetType(ReliveTypes::eAirExplosion);
@@ -42,13 +43,21 @@ AirExplosion::AirExplosion(FP xpos, FP ypos, FP explosion_size, bool bSmall)
     GetAnimation().SetIsLastFrame(false);
     GetAnimation().SetBlendMode(relive::TBlendModes::eBlend_1);
 
-    mParticleScale = explosion_size;
-    SetScale(explosion_size == FP_FromInteger(1) ? Scale::Fg : Scale::Bg);
-    SetSpriteScale(explosion_size * FP_FromInteger(2));
+    if (GetGameType() == GameType::eAo)
+    {
+        mParticleBurstScale = explosionScale * FP_FromInteger(2);
+    }
+    else
+    {
+        mParticleBurstScale = explosionScale;
+    }
+
+    SetScale(explosionScale == FP_FromInteger(1) ? Scale::Fg : Scale::Bg);
+    SetSpriteScale(explosionScale * FP_FromInteger(2));
 
     if (mSmallExplosion)
     {
-        mExplosionSize = explosion_size * FP_FromDouble(0.5);
+        mExplosionScale = explosionScale * FP_FromDouble(0.5);
     }
 
     SetApplyShadowZoneColour(false);
@@ -58,14 +67,21 @@ AirExplosion::AirExplosion(FP xpos, FP ypos, FP explosion_size, bool bSmall)
     relive_new ScreenShake(gExplosionSetEnabled ? false : true, mSmallExplosion);
 
     PSX_RECT rect = {};
-    rect.x = FP_GetExponent(FP_FromInteger(-10) * mExplosionSize);
-    rect.y = FP_GetExponent(FP_FromInteger(-10) * mExplosionSize);
-    rect.w = FP_GetExponent(FP_FromInteger(10) * mExplosionSize);
-    rect.h = FP_GetExponent(FP_FromInteger(10) * mExplosionSize);
+    rect.x = FP_GetExponent(FP_FromInteger(-10) * mExplosionScale);
+    rect.y = FP_GetExponent(FP_FromInteger(-10) * mExplosionScale);
+    rect.w = FP_GetExponent(FP_FromInteger(10) * mExplosionScale);
+    rect.h = FP_GetExponent(FP_FromInteger(10) * mExplosionScale);
 
     DealBlastDamage(&rect);
 
-    SND_SEQ_PlaySeq(SeqId::Explosion1_14, 1, 1);
+    if (GetGameType() == GameType::eAe)
+    {
+        SND_SEQ_PlaySeq(SeqId::Explosion1_14, 1, 1);
+    }
+    else
+    {
+        SND_SEQ_PlaySeq(AO::SeqId::eExplosion1_21, 1, 1);
+    }
 }
 
 void AirExplosion::VUpdate()
@@ -79,10 +95,10 @@ void AirExplosion::VUpdate()
     switch (GetAnimation().GetCurrentFrame())
     {
         case 2:
-            rect.x = FP_GetExponent(FP_FromInteger(-20) * mExplosionSize);
-            rect.w = FP_GetExponent(FP_FromInteger(20) * mExplosionSize);
-            rect.y = FP_GetExponent(FP_FromInteger(-20) * mExplosionSize);
-            rect.h = FP_GetExponent(FP_FromInteger(10) * mExplosionSize);
+            rect.x = FP_GetExponent(FP_FromInteger(-20) * mExplosionScale);
+            rect.w = FP_GetExponent(FP_FromInteger(20) * mExplosionScale);
+            rect.y = FP_GetExponent(FP_FromInteger(-20) * mExplosionScale);
+            rect.h = FP_GetExponent(FP_FromInteger(10) * mExplosionScale);
             DealBlastDamage(&rect);
             break;
 
@@ -93,15 +109,15 @@ void AirExplosion::VUpdate()
             // recording for AE
             if (GetGameType() == GameType::eAe)
             {
-                rect.x = FP_GetExponent(FP_FromInteger(-60) * mExplosionSize);
-                rect.w = FP_GetExponent(FP_FromInteger(60) * mExplosionSize);
-                rect.y = FP_GetExponent(FP_FromInteger(-60) * mExplosionSize);
-                rect.h = FP_GetExponent(FP_FromInteger(30) * mExplosionSize);
+                rect.x = FP_GetExponent(FP_FromInteger(-60) * mExplosionScale);
+                rect.w = FP_GetExponent(FP_FromInteger(60) * mExplosionScale);
+                rect.y = FP_GetExponent(FP_FromInteger(-60) * mExplosionScale);
+                rect.h = FP_GetExponent(FP_FromInteger(30) * mExplosionScale);
                 DealBlastDamage(&rect);
             }
             else
             {
-                relive_new ParticleBurst(mXPos, mYPos, mSmallExplosion ? 6 : 20, mParticleScale, BurstType::eBigRedSparks, mSmallExplosion ? 11 : 13, false);
+                relive_new ParticleBurst(mXPos, mYPos, mSmallExplosion ? 6 : 20, mParticleBurstScale, BurstType::eBigRedSparks, mSmallExplosion ? 11 : 13, false);
                 relive_new Flash(Layer::eLayer_Above_FG1_39, 255, 255, 255, relive::TBlendModes::eBlend_3, 1);
             }
             break;
@@ -110,25 +126,25 @@ void AirExplosion::VUpdate()
         case 4:
         {
             relive_new Flash(Layer::eLayer_Above_FG1_39, 255, 255, 255, relive::TBlendModes::eBlend_1, 1);
-            rect.x = FP_GetExponent(FP_FromInteger(-38) * mExplosionSize);
-            rect.w = FP_GetExponent(FP_FromInteger(38) * mExplosionSize);
-            rect.y = FP_GetExponent(FP_FromInteger(-38) * mExplosionSize);
-            rect.h = FP_GetExponent(FP_FromInteger(19) * mExplosionSize);
+            rect.x = FP_GetExponent(FP_FromInteger(-38) * mExplosionScale);
+            rect.w = FP_GetExponent(FP_FromInteger(38) * mExplosionScale);
+            rect.y = FP_GetExponent(FP_FromInteger(-38) * mExplosionScale);
+            rect.h = FP_GetExponent(FP_FromInteger(19) * mExplosionScale);
             DealBlastDamage(&rect);
             break;
         }
 
         case 6:
-            rect.x = FP_GetExponent(FP_FromInteger(-60) * mExplosionSize);
-            rect.w = FP_GetExponent(FP_FromInteger(60) * mExplosionSize);
-            rect.y = FP_GetExponent(FP_FromInteger(-60) * mExplosionSize);
-            rect.h = FP_GetExponent(FP_FromInteger(30) * mExplosionSize);
+            rect.x = FP_GetExponent(FP_FromInteger(-60) * mExplosionScale);
+            rect.w = FP_GetExponent(FP_FromInteger(60) * mExplosionScale);
+            rect.y = FP_GetExponent(FP_FromInteger(-60) * mExplosionScale);
+            rect.h = FP_GetExponent(FP_FromInteger(30) * mExplosionScale);
             DealBlastDamage(&rect);
             break;
 
         case 8:
         {
-            relive_new ParticleBurst(mXPos, mYPos, mSmallExplosion ? 6 : 20, mParticleScale, BurstType::eBigRedSparks, mSmallExplosion ? 11 : 13, false);
+            relive_new ParticleBurst(mXPos, mYPos, mSmallExplosion ? 6 : 20, mParticleBurstScale, BurstType::eBigRedSparks, mSmallExplosion ? 11 : 13, false);
             relive_new Flash(Layer::eLayer_Above_FG1_39, 255, 255, 255, relive::TBlendModes::eBlend_3, 1);
             break;
         }
@@ -178,9 +194,20 @@ void AirExplosion::VUpdate()
 
 void AirExplosion::VScreenChanged()
 {
-    if (gMap.mOverlayId != gMap.GetOverlayId())
+    // TODO: check if AE can do gMap.LevelChanged() || gMap.PathChanged() without desyncing
+    if (GetGameType() == GameType::eAe)
     {
-        SetDead(true);
+        if (gMap.mOverlayId != gMap.GetOverlayId())
+        {
+            SetDead(true);
+        }
+    }
+    else
+    {
+        if (gMap.LevelChanged() || gMap.PathChanged())
+        {
+            SetDead(true);
+        }
     }
 }
 
@@ -234,15 +261,25 @@ void AirExplosion::DealBlastDamage(PSX_RECT* pRect)
 
         if (pObj->GetIsBaseAliveGameObject())
         {
+            bool scaleMatches = false;
+            if (GetGameType() == GameType::eAo)
+            {
+                scaleMatches = mExplosionScale == pObj->GetSpriteScale();
+            }
+            else
+            {
+                scaleMatches = GetScale() == pObj->GetScale();
+            }
+
             const PSX_RECT boundRect = pObj->VGetBoundingRect();
-            if (PSX_Rects_overlap_no_adjustment(&boundRect, &expandedRect) && GetScale() == pObj->GetScale())
+            if (PSX_Rects_overlap_no_adjustment(&boundRect, &expandedRect) && scaleMatches)
             {
                 pObj->VTakeDamage(this);
             }
         }
     }
 
-    auto pTlv = static_cast<relive::Path_Slig*>(gPathInfo->TLV_Get_At(
+    auto pTlv = static_cast<relive::Path_Slig*>(GetMap().VTLV_Get_At(
         expandedRect.x,
         expandedRect.y,
         expandedRect.w,
