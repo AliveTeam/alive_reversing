@@ -12,7 +12,7 @@ environment:
       appveyor_build_worker_image: macos-monterey
 
     - job_name: Linux
-      appveyor_build_worker_image: Ubuntu
+      appveyor_build_worker_image: Ubuntu2204
 
     - job_name: Windows32
       appveyor_build_worker_image: Visual Studio 2022
@@ -35,6 +35,12 @@ for:
     build_script:
       - brew install sdl2
       - brew install molten-vk
+      - export LDFLAGS="-L$HOME/Qt/5.15.2/clang_64/lib"
+      - export CPPFLAGS="-I$HOME/Qt/5.15.2/clang_64/include"
+      - echo 'export PATH="$HOME/Qt/5.15.2/clang_64/bin:$PATH"' >> ~/.bash_profile
+      - source ~/.bash_profile
+      - export QT_DIR=$HOME/Qt
+      - export PATH="$HOME/Qt/5.15.2/clang_64/bin:$PATH"
       - git submodule update --init --depth=1
       - cmake --version
       - mkdir build
@@ -42,7 +48,7 @@ for:
       - mkdir Frameworks
       - cp /usr/local/lib/libSDL2.dylib ./Frameworks/libSDL2.dylib
       - cp /usr/local/lib/libMoltenVK.dylib ./Frameworks/libMoltenVK.dylib
-      - cmake -D BUILD_NUMBER=$APPVEYOR_BUILD_NUMBER -D CI_PROVIDER="AppVeyor" -G "Unix Makefiles" ..
+      - cmake -DQt5_DIR=$HOME/Qt/5.15.2/clang_64/lib/cmake/Qt5 -DCMAKE_PREFIX_PATH=$HOME/Qt/5.15.2/clang_64 -D BUILD_NUMBER=$APPVEYOR_BUILD_NUMBER -D CI_PROVIDER="AppVeyor" -G "Unix Makefiles" ..
       - make -j4
       - cpack -G DragNDrop
 
@@ -62,14 +68,16 @@ for:
       - x64
 
     build_script:
-      - sudo add-apt-repository ppa:savoury1/multimedia
       - sudo apt-get update
       - sudo apt-get install libsdl2-dev -y
+      - echo 'export PATH=$PATH:$HOME/Qt/5.15.2/gcc_64/bin' >> ~/.profile
+      - echo 'export PATH=$PATH:~/.local/bin' >> ~/.profile
+      - source ~/.profile
       - git submodule update --init --depth=1
       - cmake --version
       - mkdir build
       - cd build
-      - cmake -D BUILD_NUMBER=$APPVEYOR_BUILD_NUMBER -D CI_PROVIDER="AppVeyor" -G "Unix Makefiles" ..
+      - cmake -DQt5_DIR=$HOME/Qt/5.15.2/gcc_64/lib/cmake/Qt5 -DCMAKE_PREFIX_PATH=$HOME/Qt/5.15.2/gcc_64 -D BUILD_NUMBER=$APPVEYOR_BUILD_NUMBER -D CI_PROVIDER="AppVeyor" -G "Unix Makefiles" ..
       - make -j4
       - cpack -G DEB
 
@@ -95,6 +103,9 @@ for:
       - mkdir build
       - cd build
       - echo %APPVEYOR_BUILD_NUMBER%
+      - set QT_DIR=C:\Qt\5.15.2\msvc2019
+      - set PATH=%PATH%;%QT_DIR%;%QT_DIR%\bin
+      - echo %PATH%
       - cmake .. -DSDL2_DIR=c:\relive\SDL2-2.0.22 -DBUILD_NUMBER=%APPVEYOR_BUILD_NUMBER% -DCI_PROVIDER=AppVeyor -G "Visual Studio 17 2022" -A Win32
       - cmake --build . --config %configuration% -- /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
       - call "C:\Program Files\cmake\bin\cpack" -G ZIP -C %configuration%
@@ -135,6 +146,9 @@ for:
       - mkdir build
       - cd build
       - echo %APPVEYOR_BUILD_NUMBER%
+      - set QT_DIR=C:\Qt\5.15.2\msvc2019_64
+      - set PATH=%PATH%;%QT_DIR%;%QT_DIR%\bin
+      - echo %PATH%
       - cmake .. -DSDL2_DIR=c:\relive\SDL2-2.0.22 -DBUILD_NUMBER=%APPVEYOR_BUILD_NUMBER% -DCI_PROVIDER=AppVeyor -G "Visual Studio 17 2022" -A x64
       - cmake --build . --config %configuration% -- /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
       - call "C:\Program Files\cmake\bin\cpack" -G ZIP -C %configuration%
