@@ -156,7 +156,8 @@ bool MovingBomb::VTakeDamage(BaseGameObject* pFrom)
     relive_new AirExplosion(
         mXPos,
         mYPos,
-        GetSpriteScale());
+        GetSpriteScale(),
+        false);
 
     relive_new Gibs(
         GibType::eMetal,
@@ -425,7 +426,8 @@ void MovingBomb::VUpdate()
                 relive_new AirExplosion(
                     mXPos,
                     mYPos,
-                    GetSpriteScale());
+                    GetSpriteScale(),
+                    false);
 
                 relive_new Gibs(
                     GibType::eMetal,

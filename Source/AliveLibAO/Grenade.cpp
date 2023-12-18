@@ -409,7 +409,8 @@ bool Grenade::BlowUpAfterCountdown()
     auto pExplosion = relive_new AirExplosion(
         mXPos,
         mYPos - (GetSpriteScale() * FP_FromInteger(5)),
-        GetSpriteScale());
+        GetSpriteScale(),
+        false);
     if (pExplosion)
     {
         GetAnimation().SetRender(false);

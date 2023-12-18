@@ -11,6 +11,8 @@
 #include "../relive_lib/GameObjects/Particle.hpp"
 #include "../relive_lib/FixedPoint.hpp"
 #include "../relive_lib/GameObjects/IBaseAliveGameObject.hpp"
+#include "../relive_lib/GameType.hpp"
+#include "../AliveLibAO/Midi.hpp"
 
 GroundExplosion::GroundExplosion(FP xpos, FP ypos, FP scale)
     : BaseAnimatedWithPhysicsGameObject(0)
@@ -50,8 +52,7 @@ GroundExplosion::GroundExplosion(FP xpos, FP ypos, FP scale)
         mYPos,
         35,
         mBombSpriteScale,
-        BurstType::eRocks,
-        13, false);
+        BurstType::eRocks);
 
     PSX_RECT damageRect = {
         FP_GetExponent(FP_FromInteger(-10) * mBombSpriteScale),
@@ -60,11 +61,19 @@ GroundExplosion::GroundExplosion(FP xpos, FP ypos, FP scale)
         FP_GetExponent(FP_FromInteger(10) * mBombSpriteScale)};
     DealDamageRect(&damageRect);
 
-    // alternate between Explosion1 and Explosion2 on each call
-    static s32 staticIdFlip = 0;
-    const s16 explosionSeqId = static_cast<s16>(staticIdFlip ? SeqId::Explosion1_14 : SeqId::Explosion2_15);
-    SND_SEQ_PlaySeq(explosionSeqId, 1, 1);
-    staticIdFlip = !staticIdFlip;
+    if (GetGameType() == GameType::eAe)
+    {
+        // alternate between Explosion1 and Explosion2 on each call
+        static bool staticIdFlip = false;
+        const u16 explosionSeqId = static_cast<u16>(staticIdFlip ? SeqId::Explosion1_14 : SeqId::Explosion2_15);
+        SND_SEQ_PlaySeq(explosionSeqId, 1, 1);
+        staticIdFlip = !staticIdFlip;
+
+    }
+    else
+    {
+        SND_SEQ_PlaySeq(AO::SeqId::eExplosion1_21, 1, 1);
+    }
 }
 
 void GroundExplosion::VUpdate()
@@ -108,8 +117,7 @@ void GroundExplosion::VUpdate()
                 mYPos,
                 20,
                 GetSpriteScale(),
-                BurstType::eBigRedSparks,
-                13, false);
+                BurstType::eBigRedSparks);
 
             relive_new Flash(Layer::eLayer_Above_FG1_39, 255, 255, 255);
 
@@ -134,8 +142,7 @@ void GroundExplosion::VUpdate()
                 mYPos,
                 20,
                 GetSpriteScale(),
-                BurstType::eBigRedSparks,
-                13, false);
+                BurstType::eBigRedSparks);
 
             relive_new Flash(Layer::eLayer_Above_FG1_39, 255, 255, 255);
             break;
@@ -195,10 +202,33 @@ void GroundExplosion::DealDamageRect(const PSX_RECT* pRect)
             min_h_y = pRect->y;
         }
 
-        const auto right = FP_GetExponent(mXPos) + min_x_w;
-        const auto left = FP_GetExponent(mXPos) + min_w_x;
-        const auto top = FP_GetExponent(mYPos) + min_y_h;
-        const auto bottom = FP_GetExponent(mYPos) + min_h_y;
+        auto right = FP_GetExponent(mXPos) + min_w_x;
+        auto left = FP_GetExponent(mXPos) + min_x_w;
+        auto top = FP_GetExponent(mYPos) + min_y_h;
+        auto bottom = FP_GetExponent(mYPos) + min_h_y;
+
+        if (GetGameType() == GameType::eAo)
+        {
+            if ((abs(left) & 1023) < 256)
+            {
+                left -= 656;
+            }
+
+            if ((abs(right) & 1023) > 624)
+            {
+                right += 656;
+            }
+
+            if (top % 480 < 120)
+            {
+                top -= 240;
+            }
+
+            if (bottom % 480 > 360)
+            {
+                bottom += 240;
+            }
+        }
 
         for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
         {
@@ -211,7 +241,7 @@ void GroundExplosion::DealDamageRect(const PSX_RECT* pRect)
             const auto objXPos = FP_GetExponent(pObj->mXPos);
             const auto objYPos = FP_GetExponent(pObj->mYPos);
 
-            if (objXPos >= right && objXPos <= left)
+            if (objXPos >= left && objXPos <= right)
             {
                 if (objYPos >= top && objYPos <= bottom)
                 {

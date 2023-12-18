@@ -85,7 +85,8 @@ bool SecurityOrb::VTakeDamage(BaseGameObject* pFrom)
             relive_new AirExplosion(
                 mXPos,
                 mYPos - (GetSpriteScale() * FP_FromInteger(5)),
-                GetSpriteScale());
+                GetSpriteScale(),
+                false);
 
             relive_new Gibs(
                 GibType::eMetal,

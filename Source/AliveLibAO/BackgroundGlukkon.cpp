@@ -117,7 +117,8 @@ bool BackgroundGlukkon::VTakeDamage(BaseGameObject* pFrom)
         relive_new AirExplosion(
             mXPos,
             mYPos - (GetSpriteScale() * FP_FromInteger(40)),
-            GetSpriteScale());
+            GetSpriteScale(),
+            false);
 
         SetDead(true);
     }

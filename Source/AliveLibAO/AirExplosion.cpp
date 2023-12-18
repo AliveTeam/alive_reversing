@@ -14,6 +14,8 @@
 #include "BaseAliveGameObject.hpp"
 #include "../relive_lib/FixedPoint.hpp"
 #include "../relive_lib/data_conversion/relive_tlvs.hpp"
+#include "../AliveLibAE/ExplosionSet.hpp"
+#include "../relive_lib/GameType.hpp"
 
 #undef min
 #undef max
@@ -22,30 +24,47 @@
 
 namespace AO {
 
-AirExplosion::AirExplosion(FP xpos, FP ypos, FP explosion_size)
+AirExplosion::AirExplosion(FP xpos, FP ypos, FP explosion_size, bool bSmall)
     : BaseAnimatedWithPhysicsGameObject(0),
-    mExplosionSize(explosion_size)
+    mExplosionSize(explosion_size), 
+    mSmallExplosion(bSmall)
 {
     SetType(ReliveTypes::eAirExplosion);
 
-    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::AirExplosion));
-    Animation_Init(GetAnimRes(AnimId::AirExplosion));
+    if (mSmallExplosion)
+    {
+        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::AirExplosion_Small));
+        Animation_Init(GetAnimRes(AnimId::AirExplosion_Small));
+    }
+    else
+    {
+        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::AirExplosion));
+        Animation_Init(GetAnimRes(AnimId::AirExplosion));
+    }
 
     GetAnimation().SetIsLastFrame(false);
     GetAnimation().SetBlendMode(relive::TBlendModes::eBlend_1);
 
+    mParticleScale = explosion_size;
+    SetScale(explosion_size == FP_FromInteger(1) ? Scale::Fg : Scale::Bg);
     SetSpriteScale(explosion_size * FP_FromInteger(2));
+
+    if (mSmallExplosion)
+    {
+        mExplosionSize = explosion_size * FP_FromDouble(0.5);
+    }
+
     SetApplyShadowZoneColour(false);
     mXPos = xpos;
     mYPos = ypos;
 
-    relive_new ScreenShake(true, false);
+    relive_new ScreenShake(gExplosionSetEnabled ? false : true, mSmallExplosion);
 
     PSX_RECT rect = {};
-    rect.x = FP_GetExponent(FP_FromInteger(-10) * explosion_size);
-    rect.y = FP_GetExponent(FP_FromInteger(-10) * explosion_size);
-    rect.w = FP_GetExponent(FP_FromInteger(10) * explosion_size);
-    rect.h = FP_GetExponent(FP_FromInteger(10) * explosion_size);
+    rect.x = FP_GetExponent(FP_FromInteger(-10) * mExplosionSize);
+    rect.y = FP_GetExponent(FP_FromInteger(-10) * mExplosionSize);
+    rect.w = FP_GetExponent(FP_FromInteger(10) * mExplosionSize);
+    rect.h = FP_GetExponent(FP_FromInteger(10) * mExplosionSize);
 
     DealBlastDamage(&rect);
 
@@ -72,16 +91,28 @@ void AirExplosion::VUpdate()
 
         case 3:
         {
-            relive_new ParticleBurst(mXPos, mYPos, 20, GetSpriteScale(), BurstType::eBigRedSparks);
-
-            relive_new Flash(Layer::eLayer_Above_FG1_39, 255u, 255u, 255u);
+            // TODO: AE has a rev bug and should've done what AO does
+            // in the else block but we have to keep the bug until we do a new
+            // recording for AE
+            if (GetGameType() == GameType::eAe)
+            {
+                rect.x = FP_GetExponent(FP_FromInteger(-60) * mExplosionSize);
+                rect.w = FP_GetExponent(FP_FromInteger(60) * mExplosionSize);
+                rect.y = FP_GetExponent(FP_FromInteger(-60) * mExplosionSize);
+                rect.h = FP_GetExponent(FP_FromInteger(30) * mExplosionSize);
+                DealBlastDamage(&rect);
+            }
+            else
+            {
+                relive_new ParticleBurst(mXPos, mYPos, mSmallExplosion ? 6 : 20, mParticleScale, BurstType::eBigRedSparks, mSmallExplosion ? 11 : 13, false);
+                relive_new Flash(Layer::eLayer_Above_FG1_39, 255, 255, 255, relive::TBlendModes::eBlend_3, 1);
+            }
             break;
         }
 
         case 4:
         {
-            relive_new Flash(Layer::eLayer_Above_FG1_39, 255u, 255u, 255u, relive::TBlendModes::eBlend_1, 1);
-
+            relive_new Flash(Layer::eLayer_Above_FG1_39, 255, 255, 255, relive::TBlendModes::eBlend_1, 1);
             rect.x = FP_GetExponent(FP_FromInteger(-38) * mExplosionSize);
             rect.w = FP_GetExponent(FP_FromInteger(38) * mExplosionSize);
             rect.y = FP_GetExponent(FP_FromInteger(-38) * mExplosionSize);
@@ -100,9 +131,8 @@ void AirExplosion::VUpdate()
 
         case 8:
         {
-            relive_new ParticleBurst(mXPos, mYPos, 20, GetSpriteScale(), BurstType::eBigRedSparks);
-
-            relive_new Flash(Layer::eLayer_Above_FG1_39, 255u, 255u, 255u);
+            relive_new ParticleBurst(mXPos, mYPos, mSmallExplosion ? 6 : 20, mParticleScale, BurstType::eBigRedSparks, mSmallExplosion ? 11 : 13, false);
+            relive_new Flash(Layer::eLayer_Above_FG1_39, 255, 255, 255, relive::TBlendModes::eBlend_3, 1);
             break;
         }
 
@@ -112,12 +142,22 @@ void AirExplosion::VUpdate()
 
     if (GetAnimation().GetCurrentFrame() > 9)
     {
-        SetSpriteScale(GetSpriteScale() - FP_FromDouble(0.2));
+        if (mSmallExplosion)
+        {
+            SetSpriteScale(GetSpriteScale() - FP_FromDouble(0.066));
+        }
+        else
+        {
+            SetSpriteScale(GetSpriteScale() - FP_FromDouble(0.2));
+        }
     }
 
     if (GetAnimation().GetCurrentFrame() == 1)
     {
-        auto pParticle = relive_new Particle(mXPos, mYPos, GetAnimRes(AnimId::AirExplosion));
+        const bool explosionSizeHack = GetGameType() == GameType::eAe;
+        const AnimId explosionId = mSmallExplosion ? AnimId::AirExplosion_Small : AnimId::AirExplosion;
+        auto pParticle = relive_new Particle(mXPos, mYPos, GetAnimRes(explosionId), explosionSizeHack);
+
         if (pParticle)
         {
             if (pParticle->GetListAddFailed())
@@ -126,13 +166,10 @@ void AirExplosion::VUpdate()
             }
 
             pParticle->SetApplyShadowZoneColour(false);
-            pParticle->GetAnimation().SetFlipX(false);
             pParticle->GetAnimation().SetBlendMode(relive::TBlendModes::eBlend_1);
+
+            pParticle->GetAnimation().SetFlipX(false);
             pParticle->SetSpriteScale(GetSpriteScale() * FP_FromDouble(0.25));
-        }
-        else
-        {
-            pParticle = nullptr;
         }
     }
 
@@ -170,21 +207,24 @@ void AirExplosion::DealBlastDamage(PSX_RECT* pRect)
     expandedRect.w += FP_GetExponent(mXPos);
     expandedRect.h += FP_GetExponent(mYPos);
 
-    if ((expandedRect.x % 1024) < 256)
+    if (GetGameType() == GameType::eAo)
     {
-        expandedRect.x -= 656;
-    }
-    if ((expandedRect.w % 1024) > 624)
-    {
-        expandedRect.w += 656;
-    }
-    if (expandedRect.y % 480 < 120)
-    {
-        expandedRect.y -= 240;
-    }
-    if (expandedRect.h % 480 > 360)
-    {
-        expandedRect.h += 240;
+        if ((expandedRect.x % 1024) < 256)
+        {
+            expandedRect.x -= 656;
+        }
+        if ((expandedRect.w % 1024) > 624)
+        {
+            expandedRect.w += 656;
+        }
+        if (expandedRect.y % 480 < 120)
+        {
+            expandedRect.y -= 240;
+        }
+        if (expandedRect.h % 480 > 360)
+        {
+            expandedRect.h += 240;
+        }
     }
 
     for (s32 idx = 0; idx < gBaseAliveGameObjects->Size(); idx++)

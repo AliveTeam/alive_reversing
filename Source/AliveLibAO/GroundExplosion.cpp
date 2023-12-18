@@ -10,6 +10,8 @@
 #include "../relive_lib/GameObjects/Particle.hpp"
 #include "BaseAliveGameObject.hpp"
 #include "../relive_lib/FixedPoint.hpp"
+#include "../relive_lib/GameType.hpp"
+#include "../relive_lib/Sound/Midi.hpp"
 
 namespace AO {
 
@@ -61,7 +63,18 @@ GroundExplosion::GroundExplosion(FP xpos, FP ypos, FP scale)
         FP_GetExponent(FP_FromInteger(10) * mBombSpriteScale)};
     DealDamageRect(&damageRect);
 
-    SND_SEQ_PlaySeq(SeqId::eExplosion1_21, 1, 1);
+    if (GetGameType() == GameType::eAe)
+    {
+        // alternate between Explosion1 and Explosion2 on each call
+        static bool staticIdFlip = false;
+        const u16 explosionSeqId = static_cast<u16>(staticIdFlip ? ::SeqId::Explosion1_14 : ::SeqId::Explosion2_15);
+        ::SND_SEQ_PlaySeq(explosionSeqId, 1, 1);
+        staticIdFlip = !staticIdFlip;
+    }
+    else
+    {
+        SND_SEQ_PlaySeq(SeqId::eExplosion1_21, 1, 1);
+    }
 }
 
 void GroundExplosion::VUpdate()
@@ -107,7 +120,7 @@ void GroundExplosion::VUpdate()
                 GetSpriteScale(),
                 BurstType::eBigRedSparks);
 
-            relive_new Flash(Layer::eLayer_Above_FG1_39, 255u, 255u, 255u);
+            relive_new Flash(Layer::eLayer_Above_FG1_39, 255, 255, 255);
 
             rect.x = FP_GetExponent(FP_FromInteger(-113) * mBombSpriteScale);
             rect.w = FP_GetExponent(FP_FromInteger(113) * mBombSpriteScale);
@@ -119,7 +132,7 @@ void GroundExplosion::VUpdate()
 
         case 4:
         {
-            relive_new Flash(Layer::eLayer_Above_FG1_39, 255u, 255u, 255u, relive::TBlendModes::eBlend_1, 1);
+            relive_new Flash(Layer::eLayer_Above_FG1_39, 255, 255, 255, relive::TBlendModes::eBlend_1, 1);
             break;
         }
 
@@ -132,7 +145,7 @@ void GroundExplosion::VUpdate()
                 GetSpriteScale(),
                 BurstType::eBigRedSparks);
 
-            relive_new Flash(Layer::eLayer_Above_FG1_39, 255u, 255u, 255u);
+            relive_new Flash(Layer::eLayer_Above_FG1_39, 255, 255, 255);
             break;
         }
 
@@ -166,16 +179,16 @@ void GroundExplosion::DealDamageRect(const PSX_RECT* pRect)
 {
     if (gBaseAliveGameObjects)
     {
-        s16 min_w_x = pRect->w;
+        auto min_x_w = pRect->w;
         if (pRect->x <= pRect->w)
         {
-            min_w_x = pRect->x;
+            min_x_w = pRect->x;
         }
 
-        auto min_x_w = pRect->w;
+        auto min_w_x = pRect->w;
         if (pRect->w <= pRect->x)
         {
-            min_x_w = pRect->x;
+            min_w_x = pRect->x;
         }
 
         auto min_y_h = pRect->h;
@@ -184,52 +197,59 @@ void GroundExplosion::DealDamageRect(const PSX_RECT* pRect)
             min_y_h = pRect->y;
         }
 
-        s16 min_h_y = pRect->h;
+        auto min_h_y = pRect->h;
         if (pRect->h <= pRect->y)
         {
             min_h_y = pRect->y;
         }
 
-        auto right = FP_GetExponent(mXPos) + min_x_w;
-        auto left = FP_GetExponent(mXPos) + min_w_x;
+        auto right = FP_GetExponent(mXPos) + min_w_x;
+        auto left = FP_GetExponent(mXPos) + min_x_w;
         auto top = FP_GetExponent(mYPos) + min_y_h;
         auto bottom = FP_GetExponent(mYPos) + min_h_y;
 
-        if ((abs(left) & 1023) < 256)
+        if (GetGameType() == GameType::eAo)
         {
-            left -= 656;
-        }
+            if ((abs(left) & 1023) < 256)
+            {
+                left -= 656;
+            }
 
-        if ((abs(right) & 1023) > 624)
-        {
-            right += 656;
-        }
+            if ((abs(right) & 1023) > 624)
+            {
+                right += 656;
+            }
 
-        if (top % 480 < 120)
-        {
-            top -= 240;
-        }
+            if (top % 480 < 120)
+            {
+                top -= 240;
+            }
 
-        if (bottom % 480 > 360)
-        {
-            bottom += 240;
+            if (bottom % 480 > 360)
+            {
+                bottom += 240;
+            }
         }
 
         for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
         {
-            IBaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
+            auto pObj = gBaseAliveGameObjects->ItemAt(i);
             if (!pObj)
             {
                 break;
             }
 
-            const s16 obj_xpos = FP_GetExponent(pObj->mXPos);
-            if (obj_xpos >= left && obj_xpos <= right)
+            const auto objXPos = FP_GetExponent(pObj->mXPos);
+            const auto objYPos = FP_GetExponent(pObj->mYPos);
+
+            if (objXPos >= left && objXPos <= right)
             {
-                const s16 obj_ypos = FP_GetExponent(pObj->mYPos);
-                if (obj_ypos >= top && obj_ypos <= bottom && GetSpriteScale() == (pObj->GetSpriteScale() * FP_FromDouble(2.75)))
+                if (objYPos >= top && objYPos <= bottom)
                 {
-                    pObj->VTakeDamage(this);
+                    if (GetSpriteScale() == (pObj->GetSpriteScale() * FP_FromDouble(2.75)))
+                    {
+                        pObj->VTakeDamage(this);
+                    }
                 }
             }
         }
