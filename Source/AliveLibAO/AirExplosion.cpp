@@ -72,7 +72,7 @@ void AirExplosion::VUpdate()
 
         case 3:
         {
-            relive_new ParticleBurst(mXPos, mYPos, 20, GetSpriteScale(), BurstType::eBigRedSparks_3);
+            relive_new ParticleBurst(mXPos, mYPos, 20, GetSpriteScale(), BurstType::eBigRedSparks);
 
             relive_new Flash(Layer::eLayer_Above_FG1_39, 255u, 255u, 255u);
             break;
@@ -100,7 +100,7 @@ void AirExplosion::VUpdate()
 
         case 8:
         {
-            relive_new ParticleBurst(mXPos, mYPos, 20, GetSpriteScale(), BurstType::eBigRedSparks_3);
+            relive_new ParticleBurst(mXPos, mYPos, 20, GetSpriteScale(), BurstType::eBigRedSparks);
 
             relive_new Flash(Layer::eLayer_Above_FG1_39, 255u, 255u, 255u);
             break;

@@ -52,7 +52,7 @@ GroundExplosion::GroundExplosion(FP xpos, FP ypos, FP scale)
         mYPos,
         35,
         mBombSpriteScale,
-        BurstType::eFallingRocks_0);
+        BurstType::eRocks);
 
     PSX_RECT damageRect = {
         FP_GetExponent(FP_FromInteger(-10) * mBombSpriteScale),
@@ -105,7 +105,7 @@ void GroundExplosion::VUpdate()
                 mYPos,
                 20,
                 GetSpriteScale(),
-                BurstType::eBigRedSparks_3);
+                BurstType::eBigRedSparks);
 
             relive_new Flash(Layer::eLayer_Above_FG1_39, 255u, 255u, 255u);
 
@@ -130,7 +130,7 @@ void GroundExplosion::VUpdate()
                 mYPos,
                 20,
                 GetSpriteScale(),
-                BurstType::eBigRedSparks_3);
+                BurstType::eBigRedSparks);
 
             relive_new Flash(Layer::eLayer_Above_FG1_39, 255u, 255u, 255u);
             break;

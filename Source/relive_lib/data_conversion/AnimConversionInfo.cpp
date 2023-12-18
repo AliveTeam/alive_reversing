@@ -27,13 +27,13 @@ AnimRecConversionInfo kAnimRecConversionInfo[1023] = {
     { AnimId::Elum_Body_Gib, EAnimGroup::Gibs, EReliveLevelIds::eNone, EReliveLevelIds::eDesert, false },
     { AnimId::Meat_Gib, EAnimGroup::Gibs, EReliveLevelIds::eNone, EReliveLevelIds::eRuptureFarms, false },
     { AnimId::Metal_Gib, EAnimGroup::Gibs, EReliveLevelIds::eBarracks, EReliveLevelIds::eRuptureFarms, false },
-    { AnimId::Rock_Gib, EAnimGroup::Gibs, EReliveLevelIds::eNone, EReliveLevelIds::eDesert, false },
+    { AnimId::Explosion_Rock, EAnimGroup::Gibs, EReliveLevelIds::eNone, EReliveLevelIds::eDesert, false },
     { AnimId::Slig_Head_Gib, EAnimGroup::Gibs, EReliveLevelIds::eMines, EReliveLevelIds::eRuptureFarms, false },
     { AnimId::Slig_Arm_Gib, EAnimGroup::Gibs, EReliveLevelIds::eMines, EReliveLevelIds::eRuptureFarms, false },
     { AnimId::Slig_Body_Gib, EAnimGroup::Gibs, EReliveLevelIds::eMines, EReliveLevelIds::eRuptureFarms, false },
     { AnimId::Slog_Head_Gib, EAnimGroup::Gibs, EReliveLevelIds::eMines, EReliveLevelIds::eStockYards, false },
     { AnimId::Slog_Body_Gib, EAnimGroup::Gibs, EReliveLevelIds::eMines, EReliveLevelIds::eStockYards, false },
-    { AnimId::Stick_Gib, EAnimGroup::Gibs, EReliveLevelIds::eNone, EReliveLevelIds::eForestTemple, false },
+    { AnimId::Explosion_Stick, EAnimGroup::Gibs, EReliveLevelIds::eNone, EReliveLevelIds::eForestTemple, false },
 
     { AnimId::Mudokon_RunToRoll, EAnimGroup::Abe, EReliveLevelIds::eMines, EReliveLevelIds::eRuptureFarms, false },
     { AnimId::Mudokon_CrouchSpeak, EAnimGroup::Abe, EReliveLevelIds::eMines, EReliveLevelIds::eNone, false },
@@ -823,8 +823,8 @@ AnimRecConversionInfo kAnimRecConversionInfo[1023] = {
     { AnimId::RuptureFarms_HoistRock2, EAnimGroup::HoistRocks, EReliveLevelIds::eNone, EReliveLevelIds::eRuptureFarms, false },
     { AnimId::RuptureFarms_HoistRock3, EAnimGroup::HoistRocks, EReliveLevelIds::eNone, EReliveLevelIds::eRuptureFarms, false },
 
-    { AnimId::Explosion_Rocks, EAnimGroup::ExplosionRocks, EReliveLevelIds::eMines, EReliveLevelIds::eNone, false },
-    { AnimId::Explosion_Sticks, EAnimGroup::ExplosionRocks, EReliveLevelIds::eBonewerkz, EReliveLevelIds::eNone, false },
+    { AnimId::Explosion_Rock, EAnimGroup::ExplosionRocks, EReliveLevelIds::eMines, EReliveLevelIds::eNone, false },
+    { AnimId::Explosion_Stick, EAnimGroup::ExplosionRocks, EReliveLevelIds::eBonewerkz, EReliveLevelIds::eNone, false },
 
     { AnimId::CrawlingSligLocker_Closed, EAnimGroup::CrawlingSligLocker, EReliveLevelIds::eBarracks, EReliveLevelIds::eNone, false },
     { AnimId::CrawlingSligLocker_Open, EAnimGroup::CrawlingSligLocker, EReliveLevelIds::eBarracks, EReliveLevelIds::eNone, false },
@@ -1136,7 +1136,7 @@ AnimRecConversionInfo kAnimRecConversionInfo[1023] = {
     { AnimId::BG_PinkFlame2, EAnimGroup::BackgroundAnimation, EReliveLevelIds::eNone, EReliveLevelIds::eRuptureFarmsReturn, false },
 };
 
-AnimRecNames kAnimRecNames[1026] = {
+AnimRecNames kAnimRecNames[1024] = {
     {AnimId::None, "None"},
     {AnimId::Abe_Head_Gib, "Abe_Head_Gib"},
     {AnimId::Abe_Arm_Gib, "Abe_Arm_Gib"},
@@ -1163,13 +1163,11 @@ AnimRecNames kAnimRecNames[1026] = {
     {AnimId::Elum_Body_Gib, "Elum_Body_Gib"},
     {AnimId::Meat_Gib, "Meat_Gib"},
     {AnimId::Metal_Gib, "Metal_Gib"},
-    {AnimId::Rock_Gib, "Rock_Gib"},
     {AnimId::Slig_Head_Gib, "Slig_Head_Gib"},
     {AnimId::Slig_Arm_Gib, "Slig_Arm_Gib"},
     {AnimId::Slig_Body_Gib, "Slig_Body_Gib"},
     {AnimId::Slog_Head_Gib, "Slog_Head_Gib"},
     {AnimId::Slog_Body_Gib, "Slog_Body_Gib"},
-    {AnimId::Stick_Gib, "Stick_Gib"},
     {AnimId::Mudokon_RunToRoll, "Mudokon_RunToRoll"},
     {AnimId::Mudokon_CrouchSpeak, "Mudokon_CrouchSpeak"},
     {AnimId::Mudokon_ToCrouchSpeak, "Mudokon_ToCrouchSpeak"},
@@ -1829,8 +1827,8 @@ AnimRecNames kAnimRecNames[1026] = {
     {AnimId::ShootingFire_Particle, "ShootingFire_Particle"},
     {AnimId::ChantOrb_Particle, "ChantOrb_Particle"},
     {AnimId::SquibSmoke_Particle, "SquibSmoke_Particle"},
-    {AnimId::Explosion_Rocks, "Explosion_Rocks"},
-    {AnimId::Explosion_Sticks, "Explosion_Sticks"},
+    {AnimId::Explosion_Rock, "Explosion_Rock"},
+    {AnimId::Explosion_Stick, "Explosion_Stick"},
     //{AnimId::Explosion_Skull, "Explosion_Skull"},
     //{AnimId::Explosion_Bone, "Explosion_Bone"},
     {AnimId::Mine_Flash, "Mine_Flash"},

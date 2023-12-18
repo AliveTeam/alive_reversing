@@ -177,8 +177,8 @@ void Teleporter::VUpdate()
                                               sControlledCharacter->mYPos - FP_FromInteger(9), // 18/2
                                               9u,
                                               FP_FromDouble(0.5),
-                                              BurstType::eBigRedSparks_3,
-                                              9);
+                                              BurstType::eBigRedSparks,
+                                              9, true);
                     }
                     else
                     {
@@ -194,8 +194,8 @@ void Teleporter::VUpdate()
                                                                     sControlledCharacter->mYPos - FP_FromInteger(18),
                                                                     9u,
                                                                     FP_FromInteger(1),
-                                                                    BurstType::eBigRedSparks_3,
-                                                                    9);
+                                                                    BurstType::eBigRedSparks,
+                                                                    9, true);
                     }
                     mEffectsCreated = true;
                 }
@@ -328,8 +328,8 @@ void Teleporter::VUpdate()
                                                             sControlledCharacter->mYPos - FP_FromInteger(9),
                                                             6u,
                                                             FP_FromDouble(0.5),
-                                                            BurstType::eBigRedSparks_3,
-                                                            9);
+                                                            BurstType::eBigRedSparks,
+                                                            9, true);
             }
             else
             {
@@ -337,8 +337,8 @@ void Teleporter::VUpdate()
                                                             sControlledCharacter->mYPos - FP_FromInteger(18),
                                                             6u,
                                                             FP_FromInteger(1),
-                                                            BurstType::eBigRedSparks_3,
-                                                            9);
+                                                            BurstType::eBigRedSparks,
+                                                            9, true);
             }
 
             mEffectsCreated = false;

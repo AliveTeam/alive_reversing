@@ -315,8 +315,8 @@ void FallingItem::VUpdate()
                                                    mYPos,
                                                    20,
                                                    GetSpriteScale(),
-                                                   BurstType::eSticks_1,
-                                                   13);
+                                                   BurstType::eSticks,
+                                                   13, false);
 
                 auto pParticle = relive_new Particle(mXPos,
                                                   mYPos - (FP_FromInteger(15) * GetSpriteScale()),
@@ -333,8 +333,8 @@ void FallingItem::VUpdate()
                                                         mYPos,
                                                         25,
                                                         GetSpriteScale(),
-                                                        BurstType::eFallingRocks_0,
-                                                        13);
+                                                        BurstType::eRocks,
+                                                        13, false);
             }
         }
         break;

@@ -396,7 +396,7 @@ static void Factory_FallingItem(relive::Path_TLV* pTlv, Map* /*pMap*/, const Gui
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
-        ResourceManagerWrapper::PendAnimation(AnimId::Stick_Gib);
+        ResourceManagerWrapper::PendAnimation(AnimId::Explosion_Stick);
         switch (gMap.mCurrentLevel)
         {
             case EReliveLevelIds::eRuptureFarms:
@@ -414,13 +414,13 @@ static void Factory_FallingItem(relive::Path_TLV* pTlv, Map* /*pMap*/, const Gui
             case EReliveLevelIds::eDesertEscape:
                 ResourceManagerWrapper::PendAnimation(AnimId::AO_FallingRock_Falling);
                 ResourceManagerWrapper::PendAnimation(AnimId::AO_FallingRock_Waiting);
-                ResourceManagerWrapper::PendAnimation(AnimId::Rock_Gib);
+                ResourceManagerWrapper::PendAnimation(AnimId::Explosion_Rock);
                 break;
 
             default:
                 ResourceManagerWrapper::PendAnimation(AnimId::AO_FallingRock_Falling);
                 ResourceManagerWrapper::PendAnimation(AnimId::AO_FallingRock_Waiting);
-                ResourceManagerWrapper::PendAnimation(AnimId::Rock_Gib);
+                ResourceManagerWrapper::PendAnimation(AnimId::Explosion_Rock);
                 break;
         }
     }
@@ -510,7 +510,7 @@ static void Factory_TimedMine(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid&
         ResourceManagerWrapper::PendAnimation(AnimId::TimedMine_Idle);
         ResourceManagerWrapper::PendAnimation(AnimId::Bomb_Flash);
         ResourceManagerWrapper::PendAnimation(AnimId::Bomb_RedGreenTick);
-        ResourceManagerWrapper::PendAnimation(AnimId::Rock_Gib);
+        ResourceManagerWrapper::PendAnimation(AnimId::Explosion_Rock);
         ResourceManagerWrapper::PendAnimation(AnimId::GroundExplosion);
         if (gMap.mCurrentLevel == EReliveLevelIds::eStockYards || gMap.mCurrentLevel == EReliveLevelIds::eStockYardsReturn)
         {
@@ -804,7 +804,7 @@ static void Factory_Mine(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& tlvI
         ResourceManagerWrapper::PendAnims(kElumGibs);
         ResourceManagerWrapper::PendAnimation(AnimId::Mine);
         ResourceManagerWrapper::PendAnimation(AnimId::Mine_Flash);
-        ResourceManagerWrapper::PendAnimation(AnimId::Rock_Gib);
+        ResourceManagerWrapper::PendAnimation(AnimId::Explosion_Rock);
         ResourceManagerWrapper::PendAnimation(AnimId::GroundExplosion);
         if (gMap.mCurrentLevel == EReliveLevelIds::eStockYards || gMap.mCurrentLevel == EReliveLevelIds::eStockYardsReturn)
         {
@@ -830,7 +830,7 @@ static void Factory_Uxb(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& tlvId
         ResourceManagerWrapper::PendAnimation(AnimId::UXB_Disabled);
         ResourceManagerWrapper::PendAnimation(AnimId::Bomb_Flash);
         ResourceManagerWrapper::PendAnimation(AnimId::Bomb_RedGreenTick);
-        ResourceManagerWrapper::PendAnimation(AnimId::Rock_Gib);
+        ResourceManagerWrapper::PendAnimation(AnimId::Explosion_Rock);
         ResourceManagerWrapper::PendAnimation(AnimId::GroundExplosion);
         if (gMap.mCurrentLevel == EReliveLevelIds::eStockYards || gMap.mCurrentLevel == EReliveLevelIds::eStockYardsReturn)
         {
@@ -965,7 +965,7 @@ static void Factory_RollingBall(relive::Path_TLV* pTlv, Map* /*pMap*/, const Gui
     {
         ResourceManagerWrapper::PendAnimation(AnimId::Stone_Ball);
         ResourceManagerWrapper::PendAnimation(AnimId::Stone_Ball_Rolling);
-        ResourceManagerWrapper::PendAnimation(AnimId::Rock_Gib);
+        ResourceManagerWrapper::PendAnimation(AnimId::Explosion_Rock);
     }
     else
     {

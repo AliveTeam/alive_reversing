@@ -220,7 +220,7 @@ void RollingBall::VUpdate()
                     mYPos - FP_FromInteger(30),
                     150,
                     GetSpriteScale(),
-                    BurstType::eFallingRocks_0);
+                    BurstType::eRocks);
 
                 relive_new Flash(Layer::eLayer_Above_FG1_39, 255, 255, 255, relive::TBlendModes::eBlend_1, 1);
 

@@ -2899,8 +2899,8 @@ s16 FlyingSlig::CollisionUp(FP velY)
                 hitY + (FP_FromInteger(7) * GetSpriteScale()),
                 5u,
                 GetSpriteScale(),
-                BurstType::eSmallPurpleSparks_6,
-                9);
+                BurstType::eSmallPurpleSparks,
+                9, true);
         }
 
         Slig_SoundEffect(sGnFrame & 1 ? SligSfx::eCollideWithWall1_12 : SligSfx::eCollideWithWall2_13, this);
@@ -3053,7 +3053,7 @@ s16 FlyingSlig::CollisionLeftRight(FP velX)
         {
             Slig_GameSpeak_SFX(sGnFrame & 1 ? SligSpeak::eOuch2_14 : SligSpeak::eOuch1_13, 127, Math_RandomRange(256, 512), this);
             field_154_collision_reaction_timer = (Math_NextRandom() & 3) + MakeTimer(10);
-            relive_new ParticleBurst(sparkX, hitY + (FP_FromInteger(16) * GetSpriteScale()), 5u, GetSpriteScale(), BurstType::eSmallPurpleSparks_6, 9);
+            relive_new ParticleBurst(sparkX, hitY + (FP_FromInteger(16) * GetSpriteScale()), 5u, GetSpriteScale(), BurstType::eSmallPurpleSparks, 9, true);
         }
         mXPos += velX + hitX - xOff;
         return 1;

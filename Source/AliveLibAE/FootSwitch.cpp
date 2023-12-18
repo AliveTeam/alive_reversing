@@ -148,8 +148,8 @@ void FootSwitch::VUpdate()
                                                             mYPos + FP_FromInteger(10),
                                                             3,
                                                             GetSpriteScale(),
-                                                            BurstType::eBigRedSparks_3,
-                                                            9);
+                                                            BurstType::eBigRedSparks,
+                                                            9, true);
 
                 if (gMap.mCurrentLevel == EReliveLevelIds::eMines || gMap.mCurrentLevel == EReliveLevelIds::eBonewerkz || gMap.mCurrentLevel == EReliveLevelIds::eFeeCoDepot || gMap.mCurrentLevel == EReliveLevelIds::eBarracks || gMap.mCurrentLevel == EReliveLevelIds::eBrewery)
                 {
@@ -182,8 +182,8 @@ void FootSwitch::VUpdate()
                                                             mYPos + (GetSpriteScale() * FP_FromInteger(10)),
                                                             1,
                                                             GetSpriteScale(),
-                                                            BurstType::eBigRedSparks_3,
-                                                            9);
+                                                            BurstType::eBigRedSparks,
+                                                            9, true);
 
                 mCreateSparks = false;
             }

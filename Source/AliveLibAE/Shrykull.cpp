@@ -277,7 +277,7 @@ void Shrykull::VUpdate()
                         relive_new ParticleBurst(
                             FP_FromInteger((zapRect.x + zapRect.w) / 2),
                             FP_FromInteger((zapRect.y + zapRect.h) / 2),
-                            20, GetSpriteScale(), BurstType::eBigPurpleSparks_2, 13);
+                            20, GetSpriteScale(), BurstType::eBigPurpleSparks, 13, false);
 
                         relive_new Flash(Layer::eLayer_Above_FG1_39, 255, 255, 255, relive::TBlendModes::eBlend_3, 1);
                     }

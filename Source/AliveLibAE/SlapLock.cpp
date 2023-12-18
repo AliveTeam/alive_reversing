@@ -477,8 +477,8 @@ bool SlapLock::VTakeDamage(BaseGameObject* pFrom)
         mYPos - (FP_FromInteger(40) * GetSpriteScale()),
         15,
         GetSpriteScale(),
-        BurstType::eGreenSparks_5,
-        11);
+        BurstType::eGreenSparks,
+        11, false);
 
     GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::SlapLock_Punched));
 

@@ -286,7 +286,7 @@ void Shrykull::VUpdate()
                             FP_FromInteger((zapRect.y + zapRect.h) / 2),
                             20,
                             GetSpriteScale(),
-                            BurstType::eBigPurpleSparks_2);
+                            BurstType::eBigPurpleSparks);
 
                        relive_new Flash(Layer::eLayer_Above_FG1_39, 255u, 255u, 255u);
                     }

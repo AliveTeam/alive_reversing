@@ -398,9 +398,9 @@ static void Factory_FallingItem(relive::Path_TLV* pTlv, Path*, const Guid& tlvId
 {
     if (loadmode == LoadMode::LoadResourceFromList_1 || loadmode == LoadMode::LoadResource_2)
     {
-        ResourceManagerWrapper::PendAnimation(AnimId::Explosion_Sticks);
+        ResourceManagerWrapper::PendAnimation(AnimId::Explosion_Stick);
         ResourceManagerWrapper::PendAnimation(AnimId::ObjectShadow);
-        ResourceManagerWrapper::PendAnimation(AnimId::Explosion_Rocks);
+        ResourceManagerWrapper::PendAnimation(AnimId::Explosion_Rock);
         if (gMap.mCurrentLevel == EReliveLevelIds::eBonewerkz)
         {
             ResourceManagerWrapper::PendAnimation(AnimId::FallingCrate_Falling);
@@ -446,7 +446,7 @@ static void Factory_TimedMine(relive::Path_TLV* pTlv, Path* /*pPath*/, const Gui
         ResourceManagerWrapper::PendAnimation(AnimId::TimedMine_Idle);
         ResourceManagerWrapper::PendAnimation(AnimId::Bomb_Flash);
         ResourceManagerWrapper::PendAnimation(AnimId::Bomb_RedGreenTick);
-        ResourceManagerWrapper::PendAnimation(AnimId::Explosion_Rocks);
+        ResourceManagerWrapper::PendAnimation(AnimId::Explosion_Rock);
         ResourceManagerWrapper::PendAnimation(AnimId::GroundExplosion);
     }
     else
@@ -562,7 +562,7 @@ static void Factory_Mine(relive::Path_TLV* pTlv, Path* /*pPath*/, const Guid& tl
         ResourceManagerWrapper::PendAnims(kSlogGibs);
         ResourceManagerWrapper::PendAnimation(AnimId::Mine);
         ResourceManagerWrapper::PendAnimation(AnimId::Mine_Flash);
-        ResourceManagerWrapper::PendAnimation(AnimId::Explosion_Rocks);
+        ResourceManagerWrapper::PendAnimation(AnimId::Explosion_Rock);
         ResourceManagerWrapper::PendAnimation(AnimId::GroundExplosion);
     }
     else
@@ -583,7 +583,7 @@ static void Factory_UXB(relive::Path_TLV* pTlv, Path* /*pPath*/, const Guid& tlv
         ResourceManagerWrapper::PendAnimation(AnimId::UXB_Disabled);
         ResourceManagerWrapper::PendAnimation(AnimId::Bomb_Flash);
         ResourceManagerWrapper::PendAnimation(AnimId::Bomb_RedGreenTick);
-        ResourceManagerWrapper::PendAnimation(AnimId::Explosion_Rocks);
+        ResourceManagerWrapper::PendAnimation(AnimId::Explosion_Rock);
         ResourceManagerWrapper::PendAnimation(AnimId::GroundExplosion);
     }
     else
@@ -1360,9 +1360,9 @@ static void Factory_ExplosionSet(relive::Path_TLV* pTlv, Path*, const Guid& tlvI
         ResourceManagerWrapper::PendAnimation(AnimId::HoistRock1);
         ResourceManagerWrapper::PendAnimation(AnimId::HoistRock2);
         ResourceManagerWrapper::PendAnimation(AnimId::HoistRock3);
-        ResourceManagerWrapper::PendAnimation(AnimId::Explosion_Sticks);
+        ResourceManagerWrapper::PendAnimation(AnimId::Explosion_Stick);
         ResourceManagerWrapper::PendAnimation(AnimId::ObjectShadow);
-        ResourceManagerWrapper::PendAnimation(AnimId::Explosion_Rocks);
+        ResourceManagerWrapper::PendAnimation(AnimId::Explosion_Rock);
         ResourceManagerWrapper::PendAnimation(AnimId::AirExplosion);
     }
     else

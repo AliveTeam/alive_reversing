@@ -1539,8 +1539,8 @@ void MineCar::State_3_Falling()
                 sControlledCharacter->mYPos - ((mineCarHeight + kGridSize) * FP_FromDouble(0.5)),
                 4u,
                 GetSpriteScale(),
-                BurstType::eBigRedSparks_3,
-                9
+                BurstType::eBigRedSparks,
+                9, true
             );
 
             SfxPlayMono(relive::SoundEffects::FallingItemHit, 80, GetSpriteScale());
@@ -1561,8 +1561,8 @@ void MineCar::State_3_Falling()
                 sControlledCharacter->mYPos - ((mineCarHeight + kGridSize) * FP_FromDouble(0.5)),
                 4u,
                 GetSpriteScale(),
-                BurstType::eBigRedSparks_3,
-                9
+                BurstType::eBigRedSparks,
+                9, true
             );
 
             SfxPlayMono(relive::SoundEffects::FallingItemHit, 80, GetSpriteScale());
@@ -1584,8 +1584,8 @@ void MineCar::State_3_Falling()
             sControlledCharacter->mYPos,
             5u,
             FP_FromInteger(1),
-            BurstType::eBigRedSparks_3,
-            9
+            BurstType::eBigRedSparks,
+            9, true
         );
 
         if (field_1C2_falling_counter > 4)

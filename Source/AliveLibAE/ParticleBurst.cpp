@@ -9,6 +9,9 @@
 #include "stdlib.hpp"
 #include "../relive_lib/AnimationUnknown.hpp"
 #include "../relive_lib/FixedPoint.hpp"
+#include "../relive_lib/GameType.hpp"
+#include "Map.hpp"
+#include "../AliveLibAO/Grid.hpp"
 
 struct ParticleBurst_Item final
 {
@@ -21,81 +24,92 @@ struct ParticleBurst_Item final
     AnimationUnknown field_18_animation;
 };
 
-FP* ParticleBurst::Random_Speed(FP* random)
+FP ParticleBurst::Random_Speed(FP scale)
 {
-    const FP v2 = FP_FromRaw((static_cast<u32>(Math_NextRandom()) - 128) << (mUnknownCount & 0xFF));
-    *random = v2 * GetSpriteScale();
-    return random;
+    return FP_FromRaw((static_cast<u32>(Math_NextRandom()) - 128) << mFineScale) * scale;
 }
 
-ParticleBurst::ParticleBurst(FP xpos, FP ypos, u32 particleCount, FP scale, BurstType type, s32 unknownCount)
+ParticleBurst::ParticleBurst(FP xpos, FP ypos, u32 particleCount, FP scale, BurstType type, s32 fineScale, bool bFadeOut)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
     SetType(ReliveTypes::eParticleBurst);
-
-    // NOTE: likely a quick OWI hack for AE to improve the performance
-    // of particle bursts in the PSX version
-    if (particleCount > 5)
-    {
-        particleCount /= 2;
-    }
-
-    if (unknownCount > 13)
-    {
-        unknownCount = 13;
-    }
-    else if (unknownCount <= 0)
-    {
-        unknownCount = 1;
-    }
-
-    mUnknownCount = static_cast<s16>(unknownCount);
     SetSpriteScale(scale);
+
+    if (GetGameType() == GameType::eAe)
+    {
+        // NOTE: likely a quick OWI hack for AE to improve the performance
+        // of particle bursts in the PSX version
+        if (particleCount > 5)
+        {
+            particleCount /= 2;
+        }
+    }
+
+    if (fineScale > 13)
+    {
+        fineScale = 13;
+    }
+    else if (fineScale <= 0)
+    {
+        fineScale = 1;
+    }
+    mFineScale = static_cast<s16>(fineScale);
+
+    mFadeout = bFadeOut;
+
     mParticleItems = relive_new ParticleBurst_Item[particleCount];
     if (mParticleItems)
     {
         mType = type;
         switch (mType)
         {
-            case BurstType::eFallingRocks_0:
+            case BurstType::eRocks:
             {
-                Animation_Init(ResourceManagerWrapper::LoadAnimation(AnimId::Explosion_Rocks));
+                mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Explosion_Rock));
+                Animation_Init(GetAnimRes(AnimId::Explosion_Rock));
                 GetAnimation().SetSemiTrans(false);
                 GetAnimation().SetBlending(true);
                 break;
             }
 
-            case BurstType::eSticks_1:
+            case BurstType::eSticks:
             {
-                Animation_Init(ResourceManagerWrapper::LoadAnimation(AnimId::Explosion_Sticks));
+                mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Explosion_Stick));
+                Animation_Init(GetAnimRes(AnimId::Explosion_Stick));
+                if (GetGameType() == GameType::eAo)
+                {
+                    scale = FP_FromDouble(0.4) * scale;
+                }
                 GetAnimation().SetSemiTrans(false);
                 GetAnimation().SetBlending(true);
                 break;
             }
 
-            case BurstType::eBigPurpleSparks_2:
+            case BurstType::eBigPurpleSparks:
             {
-                Animation_Init(ResourceManagerWrapper::LoadAnimation(AnimId::DeathFlare_2));
+                mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::DeathFlare_2));
+                Animation_Init(GetAnimRes(AnimId::DeathFlare_2));
                 GetAnimation().SetSemiTrans(true);
                 GetAnimation().SetBlending(true);
                 GetAnimation().SetBlendMode(relive::TBlendModes::eBlend_1);
                 break;
             }
 
-            case BurstType::eBigRedSparks_3:
-            case BurstType::eGreenSparks_5:
-            case BurstType::eSmallPurpleSparks_6:
+            case BurstType::eBigRedSparks:
+            case BurstType::eGreenSparks:
+            case BurstType::eSmallPurpleSparks:
             {
-                Animation_Init(ResourceManagerWrapper::LoadAnimation(AnimId::DeathFlare_2));
+                mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::DeathFlare_2));
+                Animation_Init(GetAnimRes(AnimId::DeathFlare_2));
                 GetAnimation().SetBlendMode(relive::TBlendModes::eBlend_1);
                 GetAnimation().SetSemiTrans(true);
                 GetAnimation().SetBlending(false);
 
-                if (mType == BurstType::eBigRedSparks_3)
+                if (mType == BurstType::eBigRedSparks)
                 {
                     GetAnimation().SetRGB(254, 148, 18);
                 }
-                else if (mType == BurstType::eSmallPurpleSparks_6)
+                else if (mType == BurstType::eSmallPurpleSparks)
                 {
                     GetAnimation().SetRGB(127, 127, 127);
                 }
@@ -105,6 +119,16 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, u32 particleCount, FP scale, Burs
                 }
                 break;
             }
+
+            case BurstType::eMeat:
+            {
+                mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Meat_Gib));
+                Animation_Init(GetAnimRes(AnimId::Meat_Gib));
+                GetAnimation().SetSemiTrans(false);
+                GetAnimation().SetBlending(true);
+                break;
+            }
+
             default:
                 break;
         }
@@ -138,13 +162,12 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, u32 particleCount, FP scale, Burs
                 mParticleItems[i].field_18_animation.mSpriteScale = FP_FromDouble(0.95) * GetSpriteScale();
 
                 mParticleItems[i].field_18_animation.SetRender(true);
-                //mParticleItems[i].field_18_animation.mFlags.Set(AnimFlags::eBit25_bDecompressDone); // TODO: HIWORD &= ~0x0100u ??
 
                 mParticleItems[i].field_18_animation.SetSemiTrans(GetAnimation().GetSemiTrans());
 
                 mParticleItems[i].field_18_animation.SetBlending(GetAnimation().GetBlending());
 
-                if (type == BurstType::eBigPurpleSparks_2)
+                if (type == BurstType::eBigPurpleSparks)
                 {
                     if (i % 2)
                     {
@@ -158,11 +181,15 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, u32 particleCount, FP scale, Burs
                 mParticleItems[i].y = mYPos;
                 mParticleItems[i].field_8_z = FP_FromInteger(0);
 
-                Random_Speed(&mParticleItems[i].field_C_x_speed);
-                Random_Speed(&mParticleItems[i].field_10_y_speed);
+                mParticleItems[i].field_C_x_speed = Random_Speed(scale);
+                mParticleItems[i].field_10_y_speed = Random_Speed(scale);
                 // OG bug sign could be wrong here as it called random again to Abs() it!
-                FP zRandom = {};
-                mParticleItems[i].field_14_z_speed = -FP_Abs(*Random_Speed(&zRandom));
+                mParticleItems[i].field_14_z_speed = -FP_Abs(Random_Speed(scale));
+
+                if (gMap.mCurrentLevel == EReliveLevelIds::eStockYards || gMap.mCurrentLevel == EReliveLevelIds::eStockYardsReturn)
+                {
+                    mRGB.SetRGB(60, 60, 60);
+                }
             }
         }
     }
@@ -190,7 +217,8 @@ void ParticleBurst::VUpdate()
 
         pItem->field_10_y_speed += FP_FromDouble(0.25);
 
-        if (mUnknownCount == 9)
+        // TODO: sort this out
+        if (mFadeout)
         {
             if ((sGnFrame + i) & v3)
             {
@@ -202,29 +230,51 @@ void ParticleBurst::VUpdate()
             }
         }
 
+        if (GetGameType() == GameType::eAo)
+        {
+            u16 result = 0;
+            pItem->x = AO::CamX_VoidSkipper(pItem->x, pItem->field_C_x_speed, 16, &result);
+            pItem->y = AO::CamY_VoidSkipper(pItem->y, pItem->field_10_y_speed, 16, &result);
+        }
+
         if (pItem->field_8_z + FP_FromInteger(300) < FP_FromInteger(15))
         {
             pItem->field_14_z_speed = -pItem->field_14_z_speed;
             pItem->field_8_z += pItem->field_14_z_speed;
 
-            // TODO: Never used by OG ??
-            // Math_RandomRange_496AB0(-64, 46);
-
-            // TODO: This might be wrong
-            const s16 volume = static_cast<s16>(Math_RandomRange(-10, 10) + ((mAliveTimer - sGnFrame) / 91) + 25);
-
-            const u8 next_rand = Math_NextRandom();
-            if (next_rand < 43)
+            if (mType == BurstType::eMeat)
             {
-                SFX_Play_Camera(relive::SoundEffects::ParticleBurst, volume, CameraPos::eCamLeft_3);
-            }
-            else if (next_rand >= 85)
-            {
-                SFX_Play_Camera(relive::SoundEffects::ParticleBurst, volume, CameraPos::eCamRight_4);
+                if (gMap.Is_Point_In_Current_Camera(
+                        gMap.mCurrentLevel,
+                        gMap.mCurrentPath,
+                        pItem->x,
+                        pItem->y,
+                        0))
+                {
+                    SFX_Play_Pitch(relive::SoundEffects::KillEffect, 50, Math_RandomRange(-900, -300));
+                }
             }
             else
             {
-                SFX_Play_Camera(relive::SoundEffects::ParticleBurst, volume, CameraPos::eCamCurrent_0);
+                // TODO: Never used by OG ??
+                // Math_RandomRange_496AB0(-64, 46);
+
+                // TODO: This might be wrong
+                const s16 volume = static_cast<s16>(Math_RandomRange(-10, 10) + ((mAliveTimer - sGnFrame) / 91) + 25);
+
+                const u8 next_rand = Math_NextRandom();
+                if (next_rand < 43)
+                {
+                    SFX_Play_Camera(relive::SoundEffects::ParticleBurst, volume, CameraPos::eCamLeft_3);
+                }
+                else if (next_rand >= 85)
+                {
+                    SFX_Play_Camera(relive::SoundEffects::ParticleBurst, volume, CameraPos::eCamRight_4);
+                }
+                else
+                {
+                    SFX_Play_Camera(relive::SoundEffects::ParticleBurst, volume, CameraPos::eCamCurrent_0);
+                }
             }
         }
     }
@@ -271,7 +321,7 @@ void ParticleBurst::VRender(OrderingTable& ot)
                 {
                     GetAnimation().SetSpriteScale(FP_FromInteger(100) / (pItem->field_8_z + FP_FromInteger(300)));
                     GetAnimation().SetSpriteScale(GetAnimation().GetSpriteScale() * GetSpriteScale());
-                    GetAnimation().SetSpriteScale(GetAnimation().GetSpriteScale() * FP_FromInteger(mUnknownCount) / FP_FromInteger(13));
+                    GetAnimation().SetSpriteScale(GetAnimation().GetSpriteScale() * FP_FromInteger(mFineScale) / FP_FromInteger(13));
 
                     if (GetAnimation().GetSpriteScale() <= FP_FromInteger(1))
                     {
@@ -279,7 +329,7 @@ void ParticleBurst::VRender(OrderingTable& ot)
                             FP_GetExponent(pItem->x - camX),
                             FP_GetExponent(pItem->y - camY),
                             ot, 0, 0);
-                        if (mUnknownCount == 9)
+                        if (mFadeout)
                         {
                             FadeoutRgb(GetAnimation().GetRgb());
                         }
@@ -290,7 +340,7 @@ void ParticleBurst::VRender(OrderingTable& ot)
                 {
                     pItem->field_18_animation.mSpriteScale = FP_FromInteger(100) / (pItem->field_8_z + FP_FromInteger(300));
                     pItem->field_18_animation.mSpriteScale *= GetSpriteScale();
-                    pItem->field_18_animation.mSpriteScale *= FP_FromInteger(mUnknownCount) / FP_FromInteger(13);
+                    pItem->field_18_animation.mSpriteScale *= FP_FromInteger(mFineScale) / FP_FromInteger(13);
 
                     if (pItem->field_18_animation.mSpriteScale <= FP_FromInteger(1))
                     {
@@ -298,7 +348,7 @@ void ParticleBurst::VRender(OrderingTable& ot)
                             FP_GetExponent(pItem->x - camX),
                             FP_GetExponent(pItem->y - camY),
                             ot, 0, 0);
-                        if (mUnknownCount == 9)
+                        if (mFadeout)
                         {
                             FadeoutRgb(pItem->field_18_animation.GetRgb());
                         }

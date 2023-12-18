@@ -453,16 +453,16 @@ void Greeter::ZapTarget(FP xpos, FP ypos, IBaseAliveGameObject* pTarget)
         ypos,
         10,
         GetSpriteScale(),
-        BurstType::eBigRedSparks_3,
-        11);
+        BurstType::eBigRedSparks,
+        11, false);
 
     relive_new ParticleBurst(
         mXPos,
         mYPos - (FP_FromInteger(10) * GetSpriteScale()),
         10,
         GetSpriteScale(),
-        BurstType::eBigRedSparks_3,
-        11);
+        BurstType::eBigRedSparks,
+        11, false);
 
     pTarget->SetElectrocuted(true);
 

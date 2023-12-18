@@ -6,28 +6,36 @@ namespace AO {
 
 struct ParticleBurst_Item;
 
-enum class BurstType : s16
+enum class BurstType
 {
-    eFallingRocks_0 = 0,
-    eSticks_1 = 1,
-    eBigPurpleSparks_2 = 2,
-    eBigRedSparks_3 = 3,
-    eMeat_4 = 4,
+    eRocks,
+    eSticks,
+    eBigPurpleSparks,
+    eBigRedSparks,
+    eGreenSparks,
+    eSmallPurpleSparks,
+    eMeat,
 };
 
 class ParticleBurst final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    ParticleBurst(FP xpos, FP ypos, s32 particleCount, FP scale, BurstType type);
+    ParticleBurst(FP xpos, FP ypos, u32 particleCount, FP scale, BurstType type, s32 fineScale = 13, bool bFadeOut = false);
     ~ParticleBurst();
 
     virtual void VUpdate() override;
     virtual void VRender(OrderingTable& ot) override;
 
+private:
+    FP Random_Speed(FP scale);
+
+private:
     ParticleBurst_Item* mParticleItems = nullptr;
-    u32 mAliveTimer = 0;
-    BurstType mType = BurstType::eFallingRocks_0;
     s16 mParticleCount = 0;
+    u32 mAliveTimer = 0;
+    BurstType mType = BurstType::eRocks;
+    s16 mFineScale = 0;
+    bool mFadeout = false;
 };
 
 } // namespace AO

@@ -110,7 +110,7 @@ public:
         static constexpr u32 kFmvVersion = 1;
         static constexpr u32 kPathVersion = 4;
         static constexpr u32 kPaletteVersion = 1;
-        static constexpr u32 kAnimationVersion = 2;
+        static constexpr u32 kAnimationVersion = 3;
         static constexpr u32 kCameraVersion = 3;
         static constexpr u32 kSaveFileVersion = 1;
         static constexpr u32 kFontFileVersion = 1;

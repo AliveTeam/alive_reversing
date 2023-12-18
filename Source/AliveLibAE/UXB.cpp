@@ -45,7 +45,7 @@ void UXB::LoadAnimations()
         AnimId::UXB_Active,
         AnimId::Bomb_Flash,
         AnimId::Mudokon_SlapBomb,
-        AnimId::Explosion_Rocks,
+        AnimId::Explosion_Rock,
         AnimId::GroundExplosion,
         AnimId::Abe_Head_Gib,
         AnimId::Abe_Arm_Gib,

@@ -1881,8 +1881,8 @@ s16 Glukkon::Brain_5_WaitToSpawn()
                 mYPos - FP_FromInteger(18),
                 6,
                 FP_FromInteger(1),
-                BurstType::eBigRedSparks_3,
-                9);
+                BurstType::eBigRedSparks,
+                9, true);
 
             Speak(GlukkonSpeak::Heh_5);
             return 2;

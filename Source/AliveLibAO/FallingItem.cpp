@@ -240,7 +240,7 @@ void FallingItem::VUpdate()
                         mYPos,
                         25,
                         GetSpriteScale(),
-                        BurstType::eMeat_4);
+                        BurstType::eMeat);
                 }
                 else
                 {
@@ -249,7 +249,7 @@ void FallingItem::VUpdate()
                         mYPos,
                         25,
                         GetSpriteScale(),
-                        BurstType::eFallingRocks_0);
+                        BurstType::eRocks);
                 }
 
                 relive_new ParticleBurst(
@@ -257,7 +257,7 @@ void FallingItem::VUpdate()
                     mYPos,
                     25,
                     GetSpriteScale(),
-                    BurstType::eSticks_1);
+                    BurstType::eSticks);
             }
             else
             {
