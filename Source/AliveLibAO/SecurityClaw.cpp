@@ -6,7 +6,7 @@
 #include "Midi.hpp"
 #include "MotionDetector.hpp"
 #include "../relive_lib/GameObjects/Gibs.hpp"
-#include "AirExplosion.hpp"
+#include "../relive_lib/GameObjects/AirExplosion.hpp"
 #include "../relive_lib/GameObjects/ZapLine.hpp"
 #include "Sfx.hpp"
 #include "../relive_lib/GameObjects/ZapSpark.hpp"

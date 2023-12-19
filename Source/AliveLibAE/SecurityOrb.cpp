@@ -10,7 +10,7 @@
 #include "PossessionFlicker.hpp"
 #include "Game.hpp"
 #include "Sfx.hpp"
-#include "AirExplosion.hpp"
+#include "../relive_lib/GameObjects/AirExplosion.hpp"
 #include "../relive_lib/GameObjects/ZapLine.hpp"
 #include "../relive_lib/Function.hpp"
 #include "../relive_lib/GameObjects/ZapSpark.hpp"

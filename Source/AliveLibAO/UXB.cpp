@@ -4,7 +4,7 @@
 #include "Sfx.hpp"
 #include "../AliveLibAE/stdlib.hpp"
 #include "Game.hpp"
-#include "GroundExplosion.hpp"
+#include "../relive_lib/GameObjects/GroundExplosion.hpp"
 #include "../relive_lib/Events.hpp"
 #include "../relive_lib/GameObjects/ScreenManager.hpp"
 #include "Grid.hpp"

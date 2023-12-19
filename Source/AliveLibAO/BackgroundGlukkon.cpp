@@ -2,7 +2,7 @@
 #include "../relive_lib/Function.hpp"
 #include "BackgroundGlukkon.hpp"
 #include "../AliveLibAE/stdlib.hpp"
-#include "AirExplosion.hpp"
+#include "../relive_lib/GameObjects/AirExplosion.hpp"
 #include "Math.hpp"
 #include "Sfx.hpp"
 #include "Abe.hpp"

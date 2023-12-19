@@ -5,7 +5,7 @@
 #include "../relive_lib/Shadow.hpp"
 #include "stdlib.hpp"
 #include "../relive_lib/GameObjects/Gibs.hpp"
-#include "AirExplosion.hpp"
+#include "../relive_lib/GameObjects/AirExplosion.hpp"
 #include "../relive_lib/ObjectIds.hpp"
 #include "Abe.hpp"
 #include "Sfx.hpp"

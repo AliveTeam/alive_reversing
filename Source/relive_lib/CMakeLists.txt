@@ -119,8 +119,6 @@ SET(AliveLibSrcAO
    ../AliveLibAO/ThrowableTotalIndicator.cpp
    ../AliveLibAO/SecurityDoor.hpp
    ../AliveLibAO/SecurityDoor.cpp
-   ../AliveLibAO/GroundExplosion.hpp
-   ../AliveLibAO/GroundExplosion.cpp
    ../AliveLibAO/Lever.hpp
    ../AliveLibAO/Lever.cpp
    ../AliveLibAO/RollingBall.hpp
@@ -155,8 +153,6 @@ SET(AliveLibSrcAO
    ../AliveLibAO/BeeSwarmHole.cpp
    ../AliveLibAO/BeeSwarm.hpp
    ../AliveLibAO/BeeSwarm.cpp
-   ../AliveLibAO/AirExplosion.hpp
-   ../AliveLibAO/AirExplosion.cpp
    ../AliveLibAO/MotionDetector.hpp
    ../AliveLibAO/MotionDetector.cpp
    ../AliveLibAO/SecurityClaw.hpp
@@ -386,8 +382,6 @@ SET(AliveLibAESrc
     ../AliveLibAE/FallingItem.hpp
     ../AliveLibAE/MineCar.cpp
     ../AliveLibAE/MineCar.hpp
-    ../AliveLibAE/GroundExplosion.cpp
-    ../AliveLibAE/GroundExplosion.hpp
     ../AliveLibAE/ElectricWall.cpp
     ../AliveLibAE/ElectricWall.hpp
     ../AliveLibAE/Electrocute.cpp
@@ -400,8 +394,6 @@ SET(AliveLibAESrc
     ../AliveLibAE/DemoPlayback.hpp
     ../AliveLibAE/SecurityOrb.cpp
     ../AliveLibAE/SecurityOrb.hpp
-    ../AliveLibAE/AirExplosion.hpp
-    ../AliveLibAE/AirExplosion.cpp
     ../AliveLibAE/Greeter.hpp
     ../AliveLibAE/Greeter.cpp
     ../AliveLibAE/MotionDetector.hpp
@@ -602,6 +594,10 @@ SET(game_objects_src
     GameObjects/DeathBirdParticle.cpp
     GameObjects/ParticleBurst.hpp
     GameObjects/ParticleBurst.cpp
+    GameObjects/GroundExplosion.hpp
+    GameObjects/GroundExplosion.cpp
+    GameObjects/AirExplosion.hpp
+    GameObjects/AirExplosion.cpp
 )
 
 SET(data_conversion_src

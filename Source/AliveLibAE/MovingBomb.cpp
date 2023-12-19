@@ -10,7 +10,7 @@
 #include "PlatformBase.hpp"
 #include "Sfx.hpp"
 #include "Abe.hpp"
-#include "AirExplosion.hpp"
+#include "../relive_lib/GameObjects/AirExplosion.hpp"
 #include "../relive_lib/GameObjects/Gibs.hpp"
 #include "BaseAliveGameObject.hpp"
 #include "../relive_lib/Events.hpp"

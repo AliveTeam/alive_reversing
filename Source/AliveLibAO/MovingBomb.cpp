@@ -9,7 +9,7 @@
 #include "PlatformBase.hpp"
 #include "Midi.hpp"
 #include "../relive_lib/GameObjects/Gibs.hpp"
-#include "AirExplosion.hpp"
+#include "../relive_lib/GameObjects/AirExplosion.hpp"
 #include "Sfx.hpp"
 #include "../relive_lib/SwitchStates.hpp"
 #include "../relive_lib/Events.hpp"

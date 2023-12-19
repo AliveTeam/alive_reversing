@@ -5,7 +5,7 @@
 #include "Map.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
 #include "../relive_lib/Events.hpp"
-#include "AirExplosion.hpp"
+#include "../relive_lib/GameObjects/AirExplosion.hpp"
 #include "../relive_lib/SwitchStates.hpp"
 #include "FallingItem.hpp"
 #include "Grid.hpp"

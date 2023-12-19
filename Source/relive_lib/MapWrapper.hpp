@@ -154,6 +154,8 @@ public:
 
     virtual s16 Is_Point_In_Current_Camera(EReliveLevelIds level, s32 path, FP xpos, FP ypos, s16 width) = 0;
 
+    virtual CameraPos GetDirection(EReliveLevelIds level, s32 path, FP xpos, FP ypos) = 0;
+
 public:
     MapDirections mMapDirection = MapDirections::eMapLeft_0;
     IBaseAliveGameObject* mAliveObj = nullptr;

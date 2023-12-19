@@ -7,7 +7,7 @@
 #include "Map.hpp"
 #include "Math.hpp"
 #include "Sfx.hpp"
-#include "AirExplosion.hpp"
+#include "../relive_lib/GameObjects/AirExplosion.hpp"
 #include "../relive_lib/GameObjects/Gibs.hpp"
 #include "../relive_lib/Events.hpp"
 #include "../relive_lib/Collisions.hpp"

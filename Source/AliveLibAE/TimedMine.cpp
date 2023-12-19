@@ -7,7 +7,7 @@
 #include "Game.hpp"
 #include "../relive_lib/GameObjects/ScreenManager.hpp"
 #include "../relive_lib/ObjectIds.hpp"
-#include "GroundExplosion.hpp"
+#include "../relive_lib/GameObjects/GroundExplosion.hpp"
 #include "LiftPoint.hpp"
 #include "Grid.hpp"
 #include "Map.hpp"

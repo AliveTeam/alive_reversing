@@ -8,7 +8,7 @@
 #include "../relive_lib/ObjectIds.hpp"
 #include "../relive_lib/Events.hpp"
 #include "../relive_lib/GameObjects/Gibs.hpp"
-#include "AirExplosion.hpp"
+#include "../relive_lib/GameObjects/AirExplosion.hpp"
 #include "Grid.hpp"
 #include "Map.hpp"
 #include "../relive_lib/Collisions.hpp"

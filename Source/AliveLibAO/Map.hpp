@@ -101,7 +101,7 @@ public:
 
     void ResetPathObjects(u16 pathNum);
 
-    CameraPos GetDirection(EReliveLevelIds level, s32 path, FP xpos, FP ypos);
+    virtual CameraPos GetDirection(EReliveLevelIds level, s32 path, FP xpos, FP ypos) override;
 
     virtual CameraPos Rect_Location_Relative_To_Active_Camera(const PSX_RECT* pRect, s16 width = 0) override;
 

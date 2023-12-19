@@ -1,22 +1,21 @@
 #include "stdafx.h"
 #include "AirExplosion.hpp"
-#include "../relive_lib/Function.hpp"
-#include "Map.hpp"
-#include "../relive_lib/GameObjects/Particle.hpp"
-#include "../relive_lib/GameObjects/Flash.hpp"
-#include "../relive_lib/GameObjects/ScreenShake.hpp"
-#include "../relive_lib/GameObjects/Gibs.hpp"
-#include "../relive_lib/Events.hpp"
-#include "../relive_lib/GameObjects/ParticleBurst.hpp"
-#include "../relive_lib/Sound/Midi.hpp"
-#include "stdlib.hpp"
-#include "ExplosionSet.hpp"
-#include "Path.hpp"
-#include "../relive_lib/FixedPoint.hpp"
-#include "../relive_lib/GameObjects/IBaseAliveGameObject.hpp"
-#include "../relive_lib/GameType.hpp"
+#include "../Function.hpp"
+#include "MapWrapper.hpp"
+#include "Particle.hpp"
+#include "Flash.hpp"
+#include "ScreenShake.hpp"
+#include "Gibs.hpp"
+#include "../Events.hpp"
+#include "ParticleBurst.hpp"
+#include "../Sound/Midi.hpp"
+#include "../../AliveLibAE/ExplosionSet.hpp"
+#include "../FixedPoint.hpp"
+#include "IBaseAliveGameObject.hpp"
+#include "../GameType.hpp"
 #include "../AliveLibAO/Midi.hpp"
 #include "AmbientSound.hpp"
+#include "../data_conversion/relive_tlvs.hpp"
 
 #undef min
 #undef max
@@ -198,14 +197,14 @@ void AirExplosion::VScreenChanged()
     // TODO: check if AE can do gMap.LevelChanged() || gMap.PathChanged() without desyncing
     if (GetGameType() == GameType::eAe)
     {
-        if (gMap.mOverlayId != gMap.GetOverlayId())
+        if (GetMap().mOverlayId != GetMap().GetOverlayId())
         {
             SetDead(true);
         }
     }
     else
     {
-        if (gMap.LevelChanged() || gMap.PathChanged())
+        if (GetMap().LevelChanged() || GetMap().PathChanged())
         {
             SetDead(true);
         }
@@ -293,9 +292,9 @@ void AirExplosion::DealBlastDamage(PSX_RECT* pRect)
         {
             pTlv->mTlvFlags.Set(relive::TlvFlags::eBit2_Destroyed);
 
-            const CameraPos dir = gMap.GetDirection(
-                gMap.mCurrentLevel,
-                gMap.mCurrentPath,
+            const CameraPos dir = GetMap().GetDirection(
+                GetMap().mCurrentLevel,
+                GetMap().mCurrentPath,
                 FP_FromInteger(pTlv->mTopLeftX),
                 FP_FromInteger(pTlv->mTopLeftY));
 

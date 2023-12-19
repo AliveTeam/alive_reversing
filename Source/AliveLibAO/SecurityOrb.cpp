@@ -3,7 +3,7 @@
 #include "SecurityOrb.hpp"
 #include "Midi.hpp"
 #include "../AliveLibAE/stdlib.hpp"
-#include "AirExplosion.hpp"
+#include "../relive_lib/GameObjects/AirExplosion.hpp"
 #include "../relive_lib/GameObjects/Gibs.hpp"
 #include "../relive_lib/GameObjects/ZapLine.hpp"
 #include "Sfx.hpp"

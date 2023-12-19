@@ -20,7 +20,7 @@
 #include "../relive_lib/GameObjects/Gibs.hpp"
 #include "../relive_lib/GameObjects/Blood.hpp"
 #include "GameSpeak.hpp"
-#include "AirExplosion.hpp"
+#include "../relive_lib/GameObjects/AirExplosion.hpp"
 #include "Bullet.hpp"
 #include "../relive_lib/GameObjects/ParticleBurst.hpp"
 #include "Lever.hpp"

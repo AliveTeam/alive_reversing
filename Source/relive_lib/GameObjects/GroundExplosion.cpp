@@ -1,20 +1,17 @@
-#include "stdafx_ao.h"
-#include "../relive_lib/Function.hpp"
+#include "stdafx.h"
 #include "GroundExplosion.hpp"
-#include "../AliveLibAE/stdlib.hpp"
-#include "../relive_lib/GameObjects/ParticleBurst.hpp"
-#include "../relive_lib/GameObjects/ScreenShake.hpp"
-#include "Midi.hpp"
-#include "../relive_lib/Events.hpp"
-#include "../relive_lib/GameObjects/Flash.hpp"
-#include "../relive_lib/GameObjects/Particle.hpp"
-#include "BaseAliveGameObject.hpp"
-#include "../relive_lib/FixedPoint.hpp"
-#include "../relive_lib/GameType.hpp"
-#include "../relive_lib/Sound/Midi.hpp"
-
-namespace AO {
-
+#include "../Function.hpp"
+#include "../Events.hpp"
+#include "Sfx.hpp"
+#include "../Sound/Midi.hpp"
+#include "ScreenShake.hpp"
+#include "ParticleBurst.hpp"
+#include "Flash.hpp"
+#include "Particle.hpp"
+#include "../FixedPoint.hpp"
+#include "IBaseAliveGameObject.hpp"
+#include "../GameType.hpp"
+#include "../../AliveLibAO/Midi.hpp"
 
 GroundExplosion::GroundExplosion(FP xpos, FP ypos, FP scale)
     : BaseAnimatedWithPhysicsGameObject(0)
@@ -67,13 +64,14 @@ GroundExplosion::GroundExplosion(FP xpos, FP ypos, FP scale)
     {
         // alternate between Explosion1 and Explosion2 on each call
         static bool staticIdFlip = false;
-        const u16 explosionSeqId = static_cast<u16>(staticIdFlip ? ::SeqId::Explosion1_14 : ::SeqId::Explosion2_15);
-        ::SND_SEQ_PlaySeq(explosionSeqId, 1, 1);
+        const u16 explosionSeqId = static_cast<u16>(staticIdFlip ? SeqId::Explosion1_14 : SeqId::Explosion2_15);
+        SND_SEQ_PlaySeq(explosionSeqId, 1, 1);
         staticIdFlip = !staticIdFlip;
+
     }
     else
     {
-        SND_SEQ_PlaySeq(SeqId::eExplosion1_21, 1, 1);
+        SND_SEQ_PlaySeq(AO::SeqId::eExplosion1_21, 1, 1);
     }
 }
 
@@ -255,5 +253,3 @@ void GroundExplosion::DealDamageRect(const PSX_RECT* pRect)
         }
     }
 }
-
-} // namespace AO
