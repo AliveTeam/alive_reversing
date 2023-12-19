@@ -98,7 +98,7 @@ GasEmitter* GasEmitter::ctor_41D760(Path_GasEmitter* pTlv, s32 tlvInfo)
 
 void GasEmitter::VUpdate_41D7D0()
 {
-    if (gGasOn_4FF888 && !(gnFrameCount_507670 + field_14_emit_power % 4))
+    if (gGasOn_4FF888 && !((gnFrameCount_507670 + field_14_emit_power) % 4))
     {
         New_Smoke_Particles_419A80(field_18_xpos, field_1C_ypos, field_20_fp_not_used, 3, 1);
 
