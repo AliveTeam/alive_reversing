@@ -7,7 +7,7 @@
 #include "../relive_lib/Events.hpp"
 #include "Abe.hpp"
 #include "Sfx.hpp"
-#include "DeathGas.hpp"
+#include "../relive_lib/GameObjects/DeathGas.hpp"
 #include "Path.hpp"
 #include "../relive_lib/GameObjects/ScreenManager.hpp"
 

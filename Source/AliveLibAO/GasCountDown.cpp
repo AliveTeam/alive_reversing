@@ -10,7 +10,7 @@
 #include "Abe.hpp"
 #include "Alarm.hpp"
 #include "Sfx.hpp"
-#include "DeathGas.hpp"
+#include "../relive_lib/GameObjects/DeathGas.hpp"
 #include "Path.hpp"
 
 namespace AO {

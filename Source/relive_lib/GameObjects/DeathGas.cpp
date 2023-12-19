@@ -1,10 +1,10 @@
 #include "stdafx.h"
 #include "DeathGas.hpp"
-#include "../relive_lib/Events.hpp"
-#include "stdlib.hpp"
-#include "Map.hpp"
-#include "Abe.hpp"
-#include "../relive_lib/PsxDisplay.hpp"
+#include "../Events.hpp"
+#include "../../AliveLibAO/Abe.hpp"
+#include "../../AliveLibAE/Abe.hpp"
+#include "../PsxDisplay.hpp"
+#include "../GameType.hpp"
 
 struct Data_FP final
 {
@@ -21,13 +21,14 @@ struct Data_Byte final
     u8 data[2][5][5];
 };
 
-Data_FP xData_5BC600 = {};
-Data_FP yData_5BD11C = {};
+static Data_FP sDataX = {};
+static Data_FP sDataY = {};
 
-GasPolys gasPolys_5BC6E8 = {};
-Data_Byte sbyte_3_5BD0E8 = {};
-Data_Byte sbyte_1_5BD1E4 = {};
-Data_Byte sbyte_2_5BD218 = {};
+static GasPolys sGasPolys = {};
+static Data_Byte sByte3 = {};
+static Data_Byte sByte1 = {};
+static Data_Byte sByte2 = {};
+
 s32 gDeathGasCount = 0;
 
 DeathGas::DeathGas(Layer layer, s32 amount)
@@ -37,7 +38,15 @@ DeathGas::DeathGas(Layer layer, s32 amount)
 {
     gDeathGasCount++;
 
-    SetType(ReliveTypes::eMainMenuTransistion); // wot moment
+    if (GetGameType() == GameType::eAo)
+    {
+        SetType(ReliveTypes::eFade); // wot moment
+    }
+    else
+    {
+        SetType(ReliveTypes::eMainMenuTransistion); // wot moment
+    }
+
     gObjListDrawables->Push_Back(this);
     SetDrawable(true);
 
@@ -47,7 +56,7 @@ DeathGas::DeathGas(Layer layer, s32 amount)
         {
             for (s32 l = 0; l < 4; l++)
             {
-                Poly_G4* pPoly = &gasPolys_5BC6E8.polys[i][k][l];
+                Poly_G4* pPoly = &sGasPolys.polys[i][k][l];
                 pPoly->SetSemiTransparent(true);
                 pPoly->SetBlendMode(relive::TBlendModes::eBlend_1);
             }
@@ -60,8 +69,8 @@ DeathGas::DeathGas(Layer layer, s32 amount)
         {
             for (s32 k = 0; k < 5; k++)
             {
-                sbyte_1_5BD1E4.data[i][j][k] = Math_NextRandom();
-                sbyte_2_5BD218.data[i][j][k] = (Math_NextRandom() & 3) + 2;
+                sByte1.data[i][j][k] = Math_NextRandom();
+                sByte2.data[i][j][k] = (Math_NextRandom() & 3) + 2;
             }
         }
     }
@@ -75,7 +84,9 @@ DeathGas::~DeathGas()
 
 void DeathGas::VScreenChanged()
 {
-    if (gMap.LevelChanged() || gMap.PathChanged() || !gAbe)
+    // TODO: remove after abe merge
+    void* abePtr = GetGameType() == GameType::eAe ? static_cast<void*>(gAbe) : static_cast<void*>(AO::gAbe);
+    if (GetMap().LevelChanged() || GetMap().PathChanged() || !abePtr)
     {
         SetDead(true);
     }
@@ -107,9 +118,9 @@ void DeathGas::VRender(OrderingTable& ot)
         {
             for (s32 k = 0; k < 5; k++)
             {
-                xData_5BC600.data[i][j][k] = FP_FromInteger(10) * Math_Cosine(sbyte_1_5BD1E4.data[i][j][k]);
-                yData_5BD11C.data[i][j][k] = FP_FromInteger(10) * Math_Sine(sbyte_1_5BD1E4.data[i][j][k]);
-                sbyte_1_5BD1E4.data[i][j][k] += sbyte_2_5BD218.data[i][j][k];
+                sDataX.data[i][j][k] = FP_FromInteger(10) * Math_Cosine(sByte1.data[i][j][k]);
+                sDataY.data[i][j][k] = FP_FromInteger(10) * Math_Sine(sByte1.data[i][j][k]);
+                sByte1.data[i][j][k] += sByte2.data[i][j][k];
             }
         }
     }
@@ -118,8 +129,8 @@ void DeathGas::VRender(OrderingTable& ot)
     {
         for (s32 j = 0; j < 5; j++)
         {
-            const FP cosVal = Math_Cosine(sbyte_1_5BD1E4.data[0][i][j]);
-            const FP sinVal = Math_Sine(sbyte_1_5BD1E4.data[0][i][j]);
+            const FP cosVal = Math_Cosine(sByte1.data[0][i][j]);
+            const FP sinVal = Math_Sine(sByte1.data[0][i][j]);
             const s16 cosMul10 = FP_GetExponent(FP_FromInteger(20) * cosVal);
             const s16 sinMul10 = FP_GetExponent(FP_FromInteger(20) * sinVal);
 
@@ -136,7 +147,7 @@ void DeathGas::VRender(OrderingTable& ot)
             {
                 tableVal = 20;
             }
-            sbyte_3_5BD0E8.data[0][i][j] = static_cast<u8>(tableVal);
+            sByte3.data[0][i][j] = static_cast<u8>(tableVal);
         }
     }
 
@@ -145,7 +156,7 @@ void DeathGas::VRender(OrderingTable& ot)
     {
         for (s32 j = 0; j < 5; j++)
         {
-            const FP cosVal = Math_Cosine(sbyte_1_5BD1E4.data[1][i][j]);
+            const FP cosVal = Math_Cosine(sByte1.data[1][i][j]);
             const s16 cosMul10 = FP_GetExponent(FP_FromInteger(20) * cosVal);
 
             s32 tableVal = 0;
@@ -157,7 +168,7 @@ void DeathGas::VRender(OrderingTable& ot)
             {
                 tableVal = 20;
             }
-            sbyte_3_5BD0E8.data[1][i][j] = static_cast<u8>(tableVal);
+            sByte3.data[1][i][j] = static_cast<u8>(tableVal);
         }
     }
 
@@ -167,10 +178,10 @@ void DeathGas::VRender(OrderingTable& ot)
         {
             for (s32 k = 0; k < 4; k++)
             {
-                Poly_G4* pPoly = &gasPolys_5BC6E8.polys[i][j][k];
+                Poly_G4* pPoly = &sGasPolys.polys[i][j][k];
 
-                pPoly->SetRGB0(0, sbyte_3_5BD0E8.data[i][j][k], 0);
-                pPoly->SetRGB1(0, sbyte_3_5BD0E8.data[i][j][k + 1], 0);
+                pPoly->SetRGB0(0, sByte3.data[i][j][k], 0);
+                pPoly->SetRGB1(0, sByte3.data[i][j][k + 1], 0);
 
                 if (j == 3)
                 {
@@ -179,8 +190,8 @@ void DeathGas::VRender(OrderingTable& ot)
                 }
                 else
                 {
-                    pPoly->SetRGB2(0, sbyte_3_5BD0E8.data[i][j + 1][k], 0);
-                    pPoly->SetRGB3(0, sbyte_3_5BD0E8.data[i][j + 1][k + 1], 0);
+                    pPoly->SetRGB2(0, sByte3.data[i][j + 1][k], 0);
+                    pPoly->SetRGB3(0, sByte3.data[i][j + 1][k + 1], 0);
                 }
 
                 const s32 heightBase = (gPsxDisplay.mHeight + 56) / 4;
@@ -192,17 +203,17 @@ void DeathGas::VRender(OrderingTable& ot)
                 const s32 width1 = ((gPsxDisplay.mWidth + 32) / 4) * (k + 1) - 16;
 
 
-                s32 x0 = FP_GetExponent(xData_5BC600.data[i][j][k]);
-                s32 y0 = FP_GetExponent(yData_5BD11C.data[i][j][k]);
+                s32 x0 = FP_GetExponent(sDataX.data[i][j][k]);
+                s32 y0 = FP_GetExponent(sDataY.data[i][j][k]);
 
-                s32 x1 = FP_GetExponent(xData_5BC600.data[i][j][k + 1]);
-                s32 y1 = FP_GetExponent(yData_5BD11C.data[i][j][k + 1]);
+                s32 x1 = FP_GetExponent(sDataX.data[i][j][k + 1]);
+                s32 y1 = FP_GetExponent(sDataY.data[i][j][k + 1]);
 
-                s32 x2 = FP_GetExponent(xData_5BC600.data[i][j + 1][k]);
-                s32 y2 = FP_GetExponent(yData_5BD11C.data[i][j + 1][k]);
+                s32 x2 = FP_GetExponent(sDataX.data[i][j + 1][k]);
+                s32 y2 = FP_GetExponent(sDataY.data[i][j + 1][k]);
 
-                s32 x3 = FP_GetExponent(xData_5BC600.data[i][j + 1][k + 1]);
-                s32 y3 = FP_GetExponent(yData_5BD11C.data[i][j + 1][k + 1]);
+                s32 x3 = FP_GetExponent(sDataX.data[i][j + 1][k + 1]);
+                s32 y3 = FP_GetExponent(sDataY.data[i][j + 1][k + 1]);
 
                 x0 += width0;
                 y0 += height0;

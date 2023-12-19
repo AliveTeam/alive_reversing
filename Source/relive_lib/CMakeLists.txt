@@ -91,8 +91,6 @@ SET(AliveLibSrcAO
    ../AliveLibAO/GasEmitter.cpp
    ../AliveLibAO/BoomMachine.hpp
    ../AliveLibAO/BoomMachine.cpp
-   ../AliveLibAO/DeathGas.hpp
-   ../AliveLibAO/DeathGas.cpp
    ../AliveLibAO/DoorFlame.hpp
    ../AliveLibAO/DoorFlame.cpp
    ../AliveLibAO/SlogSpawner.hpp
@@ -486,8 +484,6 @@ SET(AliveLibAESrc
     ../AliveLibAE/SecurityDoor.hpp
     ../AliveLibAE/LaughingGas.cpp
     ../AliveLibAE/LaughingGas.hpp
-    ../AliveLibAE/DeathGas.cpp
-    ../AliveLibAE/DeathGas.hpp
     ../AliveLibAE/MudokonEnums.hpp
     ../AliveLibAE/Mine.hpp
     ../AliveLibAE/Mine.cpp
@@ -598,6 +594,8 @@ SET(game_objects_src
     GameObjects/GroundExplosion.cpp
     GameObjects/AirExplosion.hpp
     GameObjects/AirExplosion.cpp
+    GameObjects/DeathGas.hpp
+    GameObjects/DeathGas.cpp
 )
 
 SET(data_conversion_src
