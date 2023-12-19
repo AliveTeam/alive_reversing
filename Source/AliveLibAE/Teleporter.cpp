@@ -10,7 +10,7 @@
 #include "Sfx.hpp"
 #include "../relive_lib/GameObjects/Particle.hpp"
 #include "../relive_lib/GameObjects/Spark.hpp"
-#include "ParticleBurst.hpp"
+#include "../relive_lib/GameObjects/ParticleBurst.hpp"
 #include "Electrocute.hpp"
 #include "Path.hpp"
 #include "../relive_lib/Collisions.hpp"

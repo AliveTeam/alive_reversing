@@ -133,8 +133,6 @@ SET(AliveLibSrcAO
    ../AliveLibAO/FootSwitch.cpp
    ../AliveLibAO/FallingItem.hpp
    ../AliveLibAO/FallingItem.cpp
-   ../AliveLibAO/ParticleBurst.hpp
-   ../AliveLibAO/ParticleBurst.cpp
    ../AliveLibAO/InvisibleSwitch.hpp
    ../AliveLibAO/InvisibleSwitch.cpp
    ../AliveLibAO/Rope.hpp
@@ -382,8 +380,6 @@ SET(AliveLibAESrc
     ../AliveLibAE/TimerTrigger.hpp
     ../AliveLibAE/FootSwitch.cpp
     ../AliveLibAE/FootSwitch.hpp
-    ../AliveLibAE/ParticleBurst.cpp
-    ../AliveLibAE/ParticleBurst.hpp
     ../AliveLibAE/BrewMachine.cpp
     ../AliveLibAE/BrewMachine.hpp
     ../AliveLibAE/FallingItem.cpp
@@ -604,6 +600,8 @@ SET(game_objects_src
     GameObjects/Dove.cpp
     GameObjects/DeathBirdParticle.hpp
     GameObjects/DeathBirdParticle.cpp
+    GameObjects/ParticleBurst.hpp
+    GameObjects/ParticleBurst.cpp
 )
 
 SET(data_conversion_src

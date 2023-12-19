@@ -22,7 +22,7 @@
 #include "GameSpeak.hpp"
 #include "AirExplosion.hpp"
 #include "Bullet.hpp"
-#include "ParticleBurst.hpp"
+#include "../relive_lib/GameObjects/ParticleBurst.hpp"
 #include "Lever.hpp"
 #include "Grid.hpp"
 #include "../relive_lib/Function.hpp"

@@ -7,7 +7,7 @@
 #include "../relive_lib/GameObjects/ScreenShake.hpp"
 #include "../relive_lib/GameObjects/Gibs.hpp"
 #include "../relive_lib/Events.hpp"
-#include "ParticleBurst.hpp"
+#include "../relive_lib/GameObjects/ParticleBurst.hpp"
 #include "../relive_lib/Sound/Midi.hpp"
 #include "stdlib.hpp"
 #include "ExplosionSet.hpp"

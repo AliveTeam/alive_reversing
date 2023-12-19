@@ -11,7 +11,7 @@
 #include "../relive_lib/Function.hpp"
 #include "Sfx.hpp"
 #include "../relive_lib/Events.hpp"
-#include "ParticleBurst.hpp"
+#include "../relive_lib/GameObjects/ParticleBurst.hpp"
 #include "../relive_lib/GameObjects/ScreenShake.hpp"
 #include "Grid.hpp"
 #include "Map.hpp"

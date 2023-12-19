@@ -6,7 +6,7 @@
 #include "RollingBallShaker.hpp"
 #include "../relive_lib/Shadow.hpp"
 #include "../relive_lib/SwitchStates.hpp"
-#include "ParticleBurst.hpp"
+#include "../relive_lib/GameObjects/ParticleBurst.hpp"
 #include "../relive_lib/GameObjects/Flash.hpp"
 #include "../relive_lib/GameObjects/ScreenShake.hpp"
 #include "../relive_lib/Events.hpp"

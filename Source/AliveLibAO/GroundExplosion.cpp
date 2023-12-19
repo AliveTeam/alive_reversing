@@ -2,7 +2,7 @@
 #include "../relive_lib/Function.hpp"
 #include "GroundExplosion.hpp"
 #include "../AliveLibAE/stdlib.hpp"
-#include "ParticleBurst.hpp"
+#include "../relive_lib/GameObjects/ParticleBurst.hpp"
 #include "../relive_lib/GameObjects/ScreenShake.hpp"
 #include "Midi.hpp"
 #include "../relive_lib/Events.hpp"

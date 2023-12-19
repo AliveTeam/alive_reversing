@@ -9,7 +9,7 @@
 #include "Abe.hpp"
 #include "../relive_lib/Collisions.hpp"
 #include "../relive_lib/GameObjects/ScreenShake.hpp"
-#include "ParticleBurst.hpp"
+#include "../relive_lib/GameObjects/ParticleBurst.hpp"
 #include "Midi.hpp"
 #include "../relive_lib/SwitchStates.hpp"
 #include "Path.hpp"

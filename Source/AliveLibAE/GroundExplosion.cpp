@@ -6,7 +6,7 @@
 #include "Sfx.hpp"
 #include "../relive_lib/Sound/Midi.hpp"
 #include "../relive_lib/GameObjects/ScreenShake.hpp"
-#include "ParticleBurst.hpp"
+#include "../relive_lib/GameObjects/ParticleBurst.hpp"
 #include "../relive_lib/GameObjects/Flash.hpp"
 #include "../relive_lib/GameObjects/Particle.hpp"
 #include "../relive_lib/FixedPoint.hpp"

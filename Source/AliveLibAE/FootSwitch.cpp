@@ -7,7 +7,7 @@
 #include "Sfx.hpp"
 #include "Abe.hpp"
 #include "../relive_lib/GameObjects/Spark.hpp"
-#include "ParticleBurst.hpp"
+#include "../relive_lib/GameObjects/ParticleBurst.hpp"
 #include "PathData.hpp"
 #include "../relive_lib/ObjectIds.hpp"
 #include "Map.hpp"

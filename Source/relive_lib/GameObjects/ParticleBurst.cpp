@@ -1,17 +1,18 @@
 #include "stdafx.h"
 #include "ParticleBurst.hpp"
 #include "Math.hpp"
-#include "Game.hpp"
-#include "../relive_lib/Function.hpp"
-#include "../relive_lib/Events.hpp"
+#include "../Function.hpp"
+#include "../Events.hpp"
 #include "Sfx.hpp"
-#include "../relive_lib/GameObjects/ScreenManager.hpp"
-#include "stdlib.hpp"
-#include "../relive_lib/AnimationUnknown.hpp"
-#include "../relive_lib/FixedPoint.hpp"
-#include "../relive_lib/GameType.hpp"
-#include "Map.hpp"
-#include "../AliveLibAO/Grid.hpp"
+#include "ScreenManager.hpp"
+#include "../AnimationUnknown.hpp"
+#include "../FixedPoint.hpp"
+#include "../GameType.hpp"
+#include "MapWrapper.hpp"
+#include "../../AliveLibAO/Grid.hpp"
+#include "../PsxDisplay.hpp"
+#include "../../AliveLibAE/Game.hpp"
+#include "../../AliveLibAE/Sfx.hpp"
 
 struct ParticleBurst_Item final
 {
@@ -182,11 +183,11 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, u32 particleCount, FP scale, Burs
                 mParticleItems[i].field_8_z = FP_FromInteger(0);
 
                 mParticleItems[i].field_C_x_speed = Random_Speed(scale);
-                mParticleItems[i].field_10_y_speed = Random_Speed(scale);
+                mParticleItems[i].field_10_y_speed = GetGameType() == GameType::eAo ? -Random_Speed(scale) : Random_Speed(scale);
                 // OG bug sign could be wrong here as it called random again to Abs() it!
                 mParticleItems[i].field_14_z_speed = -FP_Abs(Random_Speed(scale));
 
-                if (gMap.mCurrentLevel == EReliveLevelIds::eStockYards || gMap.mCurrentLevel == EReliveLevelIds::eStockYardsReturn)
+                if (GetMap().mCurrentLevel == EReliveLevelIds::eStockYards || GetMap().mCurrentLevel == EReliveLevelIds::eStockYardsReturn)
                 {
                     mRGB.SetRGB(60, 60, 60);
                 }
@@ -244,9 +245,9 @@ void ParticleBurst::VUpdate()
 
             if (mType == BurstType::eMeat)
             {
-                if (gMap.Is_Point_In_Current_Camera(
-                        gMap.mCurrentLevel,
-                        gMap.mCurrentPath,
+                if (GetMap().Is_Point_In_Current_Camera(
+                        GetMap().mCurrentLevel,
+                        GetMap().mCurrentPath,
                         pItem->x,
                         pItem->y,
                         0))
@@ -256,9 +257,6 @@ void ParticleBurst::VUpdate()
             }
             else
             {
-                // TODO: Never used by OG ??
-                // Math_RandomRange_496AB0(-64, 46);
-
                 // TODO: This might be wrong
                 const s16 volume = static_cast<s16>(Math_RandomRange(-10, 10) + ((mAliveTimer - sGnFrame) / 91) + 25);
 
@@ -306,52 +304,64 @@ void ParticleBurst::VRender(OrderingTable& ot)
 
     GetAnimation().SetSpriteScale(GetSpriteScale());
 
-    const FP camX = gScreenManager->CamXPos();
-    const FP camY = gScreenManager->CamYPos();
-
     bool bFirst = true;
     for (s32 i = 0; i < mParticleCount; i++)
     {
         ParticleBurst_Item* pItem = &mParticleItems[i];
-        if (pItem->x >= camX && pItem->x <= camX + FP_FromInteger(640))
+        if (gScreenManager->InScreenBounds(pItem->x, pItem->y))
         {
-            if (pItem->y >= camY && pItem->y <= camY + FP_FromInteger(240))
+            const auto bounds = gScreenManager->PerGameScreenBounds();
+
+            auto renderX = pItem->x - bounds.screenLeft;
+            const auto renderY = pItem->y - bounds.screenTop;
+
+            if (GetGameType() == GameType::eAo)
             {
-                if (bFirst)
+                renderX = PsxToPCX(renderX, FP_FromInteger(11));
+            }
+
+            if (bFirst)
+            {
+                GetAnimation().SetSpriteScale(FP_FromInteger(100) / (pItem->field_8_z + FP_FromInteger(300)));
+                if (GetGameType() == GameType::eAe)
                 {
-                    GetAnimation().SetSpriteScale(FP_FromInteger(100) / (pItem->field_8_z + FP_FromInteger(300)));
                     GetAnimation().SetSpriteScale(GetAnimation().GetSpriteScale() * GetSpriteScale());
-                    GetAnimation().SetSpriteScale(GetAnimation().GetSpriteScale() * FP_FromInteger(mFineScale) / FP_FromInteger(13));
-
-                    if (GetAnimation().GetSpriteScale() <= FP_FromInteger(1))
-                    {
-                        GetAnimation().VRender(
-                            FP_GetExponent(pItem->x - camX),
-                            FP_GetExponent(pItem->y - camY),
-                            ot, 0, 0);
-                        if (mFadeout)
-                        {
-                            FadeoutRgb(GetAnimation().GetRgb());
-                        }
-                        bFirst = false;
-                    }
                 }
-                else
-                {
-                    pItem->field_18_animation.mSpriteScale = FP_FromInteger(100) / (pItem->field_8_z + FP_FromInteger(300));
-                    pItem->field_18_animation.mSpriteScale *= GetSpriteScale();
-                    pItem->field_18_animation.mSpriteScale *= FP_FromInteger(mFineScale) / FP_FromInteger(13);
+                GetAnimation().SetSpriteScale(GetAnimation().GetSpriteScale() * FP_FromInteger(mFineScale) / FP_FromInteger(13));
 
-                    if (pItem->field_18_animation.mSpriteScale <= FP_FromInteger(1))
+                // NOTE: only AE was checking sprite scale <= 1
+                if (GetAnimation().GetSpriteScale() <= FP_FromInteger(1) || GetGameType() == GameType::eAo)
+                {
+                    GetAnimation().VRender(
+                        FP_GetExponent(renderX),
+                        FP_GetExponent(renderY),
+                        ot, 0, 0);
+                    if (mFadeout)
                     {
-                        pItem->field_18_animation.VRender(
-                            FP_GetExponent(pItem->x - camX),
-                            FP_GetExponent(pItem->y - camY),
-                            ot, 0, 0);
-                        if (mFadeout)
-                        {
-                            FadeoutRgb(pItem->field_18_animation.GetRgb());
-                        }
+                        FadeoutRgb(GetAnimation().GetRgb());
+                    }
+                    bFirst = false;
+                }
+            }
+            else
+            {
+                pItem->field_18_animation.mSpriteScale = FP_FromInteger(100) / (pItem->field_8_z + FP_FromInteger(300));
+                if (GetGameType() == GameType::eAe)
+                {
+                    pItem->field_18_animation.mSpriteScale *= GetSpriteScale();
+                }
+                pItem->field_18_animation.mSpriteScale *= FP_FromInteger(mFineScale) / FP_FromInteger(13);
+
+                // NOTE: only AE was checking sprite scale <= 1
+                if (pItem->field_18_animation.mSpriteScale <= FP_FromInteger(1) || GetGameType() == GameType::eAo)
+                {
+                    pItem->field_18_animation.VRender(
+                        FP_GetExponent(renderX),
+                        FP_GetExponent(renderY),
+                        ot, 0, 0);
+                    if (mFadeout)
+                    {
+                        FadeoutRgb(pItem->field_18_animation.GetRgb());
                     }
                 }
             }

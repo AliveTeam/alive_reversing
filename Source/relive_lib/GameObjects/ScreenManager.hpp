@@ -3,6 +3,14 @@
 #include "BaseGameObject.hpp"
 #include "../Primitives.hpp"
 
+struct ScreenBounds
+{
+    FP screenLeft;
+    FP screenRight;
+    FP screenTop;
+    FP screenBottom;
+};
+
 class ScreenManager final : public BaseGameObject
 {
 public:
@@ -15,6 +23,12 @@ public:
     void VUpdate() override;
     void VScreenChanged() override;
     void VRender(OrderingTable& ot) override;
+
+
+
+    // Common screen bounds difference between AO and AE
+    ScreenBounds PerGameScreenBounds();
+    bool InScreenBounds(FP x, FP y);
 
     FP CamXPos() const
     {

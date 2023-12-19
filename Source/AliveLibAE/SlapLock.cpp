@@ -11,7 +11,7 @@
 #include "AbilityRing.hpp"
 #include "PossessionFlicker.hpp"
 #include "../relive_lib/GameObjects/Particle.hpp"
-#include "ParticleBurst.hpp"
+#include "../relive_lib/GameObjects/ParticleBurst.hpp"
 #include "Map.hpp"
 #include "QuikSave.hpp"
 

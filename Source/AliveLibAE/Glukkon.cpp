@@ -11,7 +11,7 @@
 #include "../relive_lib/SwitchStates.hpp"
 #include "../relive_lib/GameObjects/Spark.hpp"
 #include "Slig.hpp" //used for renderWithGlowingEyes() only - TODO refactor
-#include "ParticleBurst.hpp"
+#include "../relive_lib/GameObjects/ParticleBurst.hpp"
 #include "Sfx.hpp"
 #include "../relive_lib/GameObjects/Particle.hpp"
 #include "../relive_lib/ObjectIds.hpp"

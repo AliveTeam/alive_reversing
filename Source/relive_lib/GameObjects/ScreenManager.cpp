@@ -71,3 +71,42 @@ void ScreenManager::VScreenChanged()
 {
     // Empty
 }
+
+ScreenBounds ScreenManager::PerGameScreenBounds()
+{
+    ScreenBounds bounds = {};
+    if (GetGameType() == GameType::eAo)
+    {
+        bounds.screenLeft = gScreenManager->mCamPos->x - FP_FromInteger(gScreenManager->mCamXOff);
+        bounds.screenRight = gScreenManager->mCamPos->x + FP_FromInteger(gScreenManager->mCamXOff);
+
+        bounds.screenTop = gScreenManager->mCamPos->y - FP_FromInteger(gScreenManager->mCamYOff);
+        bounds.screenBottom = gScreenManager->mCamPos->y + FP_FromInteger(gScreenManager->mCamYOff);
+        return bounds;
+    }
+    else
+    {
+        const FP camX = gScreenManager->CamXPos();
+        const FP camY = gScreenManager->CamYPos();
+
+        bounds.screenLeft = camX;
+        bounds.screenRight = camX + FP_FromInteger(640);
+
+        bounds.screenTop = camY;
+        bounds.screenBottom = camY + FP_FromInteger(240);
+        return bounds;
+    }
+}
+
+bool ScreenManager::InScreenBounds(FP x, FP y)
+{
+    ScreenBounds bounds = PerGameScreenBounds();
+    if (x >= bounds.screenLeft && x <= bounds.screenRight)
+    {
+        if (y >= bounds.screenTop && y <= bounds.screenBottom)
+        {
+            return true;
+        }
+    }
+    return false;
+}

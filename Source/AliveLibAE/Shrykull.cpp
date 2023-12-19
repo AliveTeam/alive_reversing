@@ -7,7 +7,7 @@
 #include "../relive_lib/GameObjects/ZapLine.hpp"
 #include "Sfx.hpp"
 #include "Game.hpp"
-#include "ParticleBurst.hpp"
+#include "../relive_lib/GameObjects/ParticleBurst.hpp"
 #include "../relive_lib/GameObjects/Flash.hpp"
 #include "PossessionFlicker.hpp"
 #include "AbilityRing.hpp"
