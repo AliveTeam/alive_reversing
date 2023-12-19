@@ -54,8 +54,8 @@ void Init_GameStates()
     sKilledMudokons = gRestartRuptureFarmsKilledMuds;
     sRescuedMudokons = gRestartRuptureFarmsSavedMuds;
 
-    gGasOn = false;
-    gGasTimer = 0;
+    gDeathGasOn = false;
+    gDeathGasTimer = 0;
 
     gSwitchStates = {};
     gbKillUnsavedMudsDone = false;

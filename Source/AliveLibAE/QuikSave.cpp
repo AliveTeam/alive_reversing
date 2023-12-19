@@ -516,7 +516,7 @@ void QuikSave::RestoreWorldInfo(const Quicksave_WorldInfo& rInfo)
     gMudokonsInArea = rInfo.field_16_muds_in_area; // TODO: Check types
     gTotalMeterBars = rInfo.mTotalMeterBars;
     gbDrawMeterCountDown = rInfo.field_30_bDrawMeterCountDown;
-    gGasTimer = rInfo.mGasTimer;
+    gDeathGasTimer = rInfo.mGasTimer;
     gAbeInvincible = rInfo.mAbeInvincible;
     gVisitedBonewerkz = rInfo.mVisitedBonewerkz;
     gVisitedBarracks = rInfo.mVisitedBarracks;
@@ -550,7 +550,7 @@ void QuikSave::SaveWorldInfo(Quicksave_WorldInfo* pInfo)
     pInfo->mVisitedBonewerkz = gVisitedBonewerkz;
     pInfo->mVisitedBarracks = gVisitedBarracks;
     pInfo->mVisitedFeecoEnder = gVisitedFeecoEnder;
-    pInfo->mGasTimer = gGasTimer;
+    pInfo->mGasTimer = gDeathGasTimer;
     pInfo->mControlledCharX = FP_GetExponent(sControlledCharacter->mXPos);
     pInfo->mControlledCharY = rect.h;
     pInfo->mControlledCharScale = sControlledCharacter->GetSpriteScale() == FP_FromDouble(1.0);

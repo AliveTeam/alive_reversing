@@ -172,6 +172,8 @@ void DeathGas::VRender(OrderingTable& ot)
         }
     }
 
+    LOG("--- START ---");
+
     for (s32 i = 0; i < 2; i++)
     {
         for (s32 j = 0; j < 4; j++)
@@ -234,6 +236,7 @@ void DeathGas::VRender(OrderingTable& ot)
                 pPoly->SetXY2( static_cast<s16>(x2), static_cast<s16>(y2 - yVal));
                 pPoly->SetXY3( static_cast<s16>(x3), static_cast<s16>(y3 - yVal));
 
+                LOG("adding death gas prim to OT: 0x%p", pPoly);
                 ot.Add(mLayer, pPoly);
             }
         }

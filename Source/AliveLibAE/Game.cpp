@@ -139,8 +139,8 @@ void Init_GameStates()
     gKilledMudokons = gFeeco_Restart_KilledMudCount;
     gRescuedMudokons = gFeecoRestart_SavedMudCount;
 
-    gGasOn = false;
-    gGasTimer = 0;
+    gDeathGasOn = false;
+    gDeathGasTimer = 0;
 
     gbDrawMeterCountDown = false;
     gTotalMeterBars = 0;

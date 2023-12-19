@@ -81,7 +81,7 @@ void GameEnderController::VUpdate()
                     if (sRescuedMudokons >= Path_GoodEndingMuds(gMap.mCurrentLevel, gMap.mCurrentPath))
                     {
                         // Stop the death timer
-                        gGasTimer = 0;
+                        gDeathGasTimer = 0;
 
                         gInfiniteGrenades = false;
                         gRestartRuptureFarmsKilledMuds = 0;

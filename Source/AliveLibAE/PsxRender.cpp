@@ -105,6 +105,11 @@ void OrderingTable::Add(Layer layer, BasePrimitive* pPrim)
 
     BasePrimitive* pOld = mOrderingTable[otLayer];
 
+    if (pPrim == pOld)
+    {
+        ALIVE_FATAL("tried to add the same prim to the ordering table");
+    }
+
     // OT points to the new item
     mOrderingTable[otLayer] = pPrim;
 

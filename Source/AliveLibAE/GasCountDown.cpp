@@ -12,8 +12,8 @@
 #include "../relive_lib/GameObjects/ScreenManager.hpp"
 
 // NOTE: shared by AE and AO until GasCountDown is merged
-s32 gGasTimer = 0;
-bool gGasOn = false;
+s32 gDeathGasTimer = 0;
+bool gDeathGasOn = false;
 
 GasCountDown::GasCountDown(relive::Path_GasCountDown* pTlv, const Guid& tlvInfo)
     : BaseGameObject(true, 0)
@@ -30,15 +30,15 @@ GasCountDown::GasCountDown(relive::Path_GasCountDown* pTlv, const Guid& tlvInfo)
     mGasXPos = FP_GetExponent(FP_FromInteger(pTlv->mTopLeftX) - gScreenManager->CamXPos());
     mGasYPos = FP_GetExponent(FP_FromInteger(pTlv->mTopLeftY) - gScreenManager->CamYPos());
 
-    gGasOn = false;
+    gDeathGasOn = false;
 
     mStartTimerSwitchId = pTlv->mStartTimerSwitchId;
     mGasCountdownTimer = pTlv->mGasCountdownTimer;
     mStopTimerSwitchId = pTlv->mStopTimerSwitchId;
 
-    if (gGasTimer)
+    if (gDeathGasTimer)
     {
-        mGasTimeLeftSecs = static_cast<s16>((mGasCountdownTimer - (sGnFrame - gGasTimer)) / 30);
+        mGasTimeLeftSecs = static_cast<s16>((mGasCountdownTimer - (sGnFrame - gDeathGasTimer)) / 30);
         if (mGasTimeLeftSecs < 0)
         {
             mGasTimeLeftSecs = 0;
@@ -63,7 +63,7 @@ void GasCountDown::VScreenChanged()
     SetDead(true);
     if (gMap.LevelChanged() || gMap.PathChanged())
     {
-        gGasTimer = 0;
+        gDeathGasTimer = 0;
     }
 }
 
@@ -76,18 +76,18 @@ void GasCountDown::VUpdate()
 
     if (EventGet(kEventDeathResetEnd))
     {
-        gGasTimer = 0;
-        gGasOn = false;
+        gDeathGasTimer = 0;
+        gDeathGasOn = false;
     }
 
     // Enable
-    if (!gGasTimer && SwitchStates_Get(mStartTimerSwitchId) && !SwitchStates_Get(mStopTimerSwitchId))
+    if (!gDeathGasTimer && SwitchStates_Get(mStartTimerSwitchId) && !SwitchStates_Get(mStopTimerSwitchId))
     {
-        gGasTimer = sGnFrame;
+        gDeathGasTimer = sGnFrame;
         relive_new Alarm(mGasCountdownTimer, 0, 0, Layer::eLayer_Above_FG1_39);
     }
 
-    if (!gGasTimer)
+    if (!gDeathGasTimer)
     {
         // Off/idle
         mGasTimeLeftSecs = mGasCountdownTimer / 30;
@@ -97,17 +97,17 @@ void GasCountDown::VUpdate()
         // Running
         if (SwitchStates_Get(mStopTimerSwitchId))
         {
-            gGasTimer = 0;
+            gDeathGasTimer = 0;
             return;
         }
 
         if (EventGet(kEventResetting))
         {
-            gGasTimer++;
+            gDeathGasTimer++;
         }
 
         const s32 oldTimer = mGasTimeLeftSecs;
-        const s32 newTimer = (mGasCountdownTimer - static_cast<s32>(sGnFrame - gGasTimer)) / 30;
+        const s32 newTimer = (mGasCountdownTimer - static_cast<s32>(sGnFrame - gDeathGasTimer)) / 30;
         mGasTimeLeftSecs = static_cast<s16>(newTimer);
         if (oldTimer != mGasTimeLeftSecs && mGasTimeLeftSecs > 0)
         {
@@ -142,9 +142,9 @@ void GasCountDown::DealDamage()
         mGasTimeLeftSecs = 0;
     }
 
-    if (!gGasOn && mGasTimeLeftSecs <= 0)
+    if (!gDeathGasOn && mGasTimeLeftSecs <= 0)
     {
-        gGasOn = true;
+        gDeathGasOn = true;
         if (!gDeathGasCount)
         {
             relive_new DeathGas(Layer::eLayer_Above_FG1_39, 2);

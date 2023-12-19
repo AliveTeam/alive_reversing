@@ -120,11 +120,11 @@ void SaveGame::LoadFromMemory(SaveData* pData, s32 bKillObjects)
 
     if (pData->field_2A8_gasTimer)
     {
-        gGasTimer = sGnFrame - pData->field_2A8_gasTimer;
+        gDeathGasTimer = sGnFrame - pData->field_2A8_gasTimer;
     }
     else
     {
-        gGasTimer = 0;
+        gDeathGasTimer = 0;
     }
 
     gAbe->field_2AC_pSaveData = pData;
@@ -272,9 +272,9 @@ void SaveGame::SaveToMemory(SaveData* pSaveData)
         pSaveData->mElum_Falling = gElum->mFalling;
         pSaveData->mElum_FoundHoney = gElum->mFoundHoney;
     }
-    if (gGasTimer)
+    if (gDeathGasTimer)
     {
-        pSaveData->field_2A8_gasTimer = (sGnFrame - gGasTimer <= 1) ? 1 : sGnFrame - gGasTimer;
+        pSaveData->field_2A8_gasTimer = (sGnFrame - gDeathGasTimer <= 1) ? 1 : sGnFrame - gDeathGasTimer;
     }
     else
     {
