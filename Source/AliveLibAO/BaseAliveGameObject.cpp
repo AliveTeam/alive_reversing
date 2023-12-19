@@ -202,14 +202,14 @@ void BaseAliveGameObject::VCheckCollisionLineStillValid(s32 distance)
         mYPos = hitY;
         if (pLine->mLineType == eLineTypes ::eDynamicCollision_32 || pLine->mLineType == eLineTypes::eBackgroundDynamicCollision_36)
         {
-            PSX_RECT bRect = VGetBoundingRect();
-            bRect.y += 5;
-            bRect.h += 5;
+            const PSX_RECT bRect = VGetBoundingRect();
 
-            OnCollisionWith(
-                {bRect.x, bRect.y},
-                {bRect.w, bRect.h},
-                gPlatformsArray);
+            PSX_Point xy = {bRect.x, bRect.y};
+            PSX_Point wh = {bRect.w, bRect.h};
+            xy.y += 5;
+            wh.y += 5;
+
+            OnCollisionWith(xy, wh, gPlatformsArray);
         }
     }
     else
@@ -492,28 +492,27 @@ void BaseAliveGameObject::VOnPathTransition(s32 camWorldX, s32 camWorldY, Camera
 
     if (GetSpriteScale() == FP_FromInteger(1) && GetAnimation().GetSpriteScale() == FP_FromDouble(0.5))
     {
-        mVelX = (mVelX * FP_FromInteger(2));
+        mVelX *= FP_FromInteger(2);
         return;
     }
 
     if (GetSpriteScale() == FP_FromDouble(0.5) && GetAnimation().GetSpriteScale() == FP_FromInteger(1))
     {
-        mVelX = (mVelX * FP_FromDouble(0.5));
+        mVelX *= FP_FromDouble(0.5);
         return;
     }
 }
 
-
 bool BaseAliveGameObject::MapFollowMe(bool snapToGrid)
 {
-    PSX_Point camCoords = {};
-    gMap.GetCurrentCamCoords(&camCoords);
+    PSX_Point currentCamCoords = {};
+    gMap.GetCurrentCamCoords(&currentCamCoords);
 
     // Are we "in" the current camera X bounds?
-    if (mCurrentLevel == gMap.mCurrentLevel && mCurrentPath == gMap.mCurrentPath && mXPos > FP_FromInteger(camCoords.x) && mXPos < FP_FromInteger(camCoords.x + 1024))
+    if (mCurrentLevel == gMap.mCurrentLevel && mCurrentPath == gMap.mCurrentPath && mXPos > FP_FromInteger(currentCamCoords.x) && mXPos < FP_FromInteger(currentCamCoords.x + 1024))
     {
         // Snapped XPos in camera space
-        const s32 snappedXLocalCoords = SnapToXGrid(GetSpriteScale(), FP_GetExponent(mXPos - FP_FromInteger(camCoords.x)));
+        const s32 snappedXLocalCoords = SnapToXGrid(GetSpriteScale(), FP_GetExponent(mXPos - FP_FromInteger(currentCamCoords.x)));
 
         // In the left camera void and moving left?
         if (snappedXLocalCoords < 256 && mVelX < FP_FromInteger(0))
@@ -556,8 +555,8 @@ bool BaseAliveGameObject::MapFollowMe(bool snapToGrid)
                 const s32 x_i = abs(FP_GetExponent(mXPos));
                 const s32 camXIndex = x_i % 1024;
 
-                gMap.Get_map_size(&camCoords);
-                if (x_i < (camCoords.x - 1024))
+                gMap.Get_map_size(&currentCamCoords);
+                if (x_i < (currentCamCoords.x - 1024))
                 {
                     UsePathTransScale();
 
@@ -573,7 +572,7 @@ bool BaseAliveGameObject::MapFollowMe(bool snapToGrid)
         else if (snapToGrid)
         {
             // Not in the voids of the camera, just snap to the x grid
-            mXPos = FP_FromInteger(snappedXLocalCoords + camCoords.x);
+            mXPos = FP_FromInteger(snappedXLocalCoords + currentCamCoords.x);
         }
         return false;
     }
@@ -599,8 +598,8 @@ bool BaseAliveGameObject::MapFollowMe(bool snapToGrid)
         // In the right camera void and moving right?
         else if (camXIndex > 624 && mVelX > FP_FromInteger(0)) // Never hit as velx is < 0
         {
-            gMap.Get_map_size(&camCoords);
-            if (x_i < (camCoords.x - 1024))
+            gMap.Get_map_size(&currentCamCoords);
+            if (x_i < (currentCamCoords.x - 1024))
             {
                 UsePathTransScale();
 
@@ -630,9 +629,9 @@ bool BaseAliveGameObject::WallHit(FP offY, FP offX)
         != 0;
 }
 
-bool BaseAliveGameObject::InAirCollision(PathLine** ppLine, FP* hitX, FP* hitY, FP vely)
+bool BaseAliveGameObject::InAirCollision(PathLine** ppLine, FP* hitX, FP* hitY, FP velY)
 {
-    mVelY += GetSpriteScale() * vely;
+    mVelY += GetSpriteScale() * velY;
 
     if (mVelY > (GetSpriteScale() * FP_FromInteger(20)))
     {
@@ -656,9 +655,61 @@ bool BaseAliveGameObject::InAirCollision(PathLine** ppLine, FP* hitX, FP* hitY, 
         GetSpriteScale() != FP_FromDouble(0.5) ? kFgWallsOrFloor : kBgWallsOrFloor) ? 1 : 0;
 }
 
+BaseGameObject* BaseAliveGameObject::FindObjectOfType(ReliveTypes typeToFind, FP xpos, FP ypos)
+{
+    const s32 xpos_int = FP_GetExponent(xpos);
+    const s32 ypos_int = FP_GetExponent(ypos);
+
+    for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
+    {
+        BaseGameObject* pObj = gBaseGameObjects->ItemAt(i);
+        if (!pObj)
+        {
+            break;
+        }
+
+        if (pObj->Type() == typeToFind)
+        {
+            auto pObj2 = static_cast<BaseAnimatedWithPhysicsGameObject*>(pObj);
+
+            const PSX_RECT bRect = pObj2->VGetBoundingRect();
+            if (xpos_int >= bRect.x && xpos_int <= bRect.w && ypos_int >= bRect.y && ypos_int <= bRect.h)
+            {
+                return pObj;
+            }
+        }
+    }
+    return nullptr;
+}
+
+bool BaseAliveGameObject::VOnPlatformIntersection(BaseAnimatedWithPhysicsGameObject* pPlatform)
+{
+    const PSX_RECT bRect = pPlatform->VGetBoundingRect();
+    if (FP_GetExponent(mXPos) < bRect.x || FP_GetExponent(mXPos) > bRect.w || FP_GetExponent(mYPos) > bRect.h)
+    {
+        return true;
+    }
+
+    // OG bug fix, when we call VCheckCollisionLineStillValid it can place us on a new lift
+    // but then we call OnCollisionWith which can sometimes add us to the same lift again
+    // result in the lift being leaked and then memory corruption/crash later.
+    BaseAliveGameObject* pCurrentPlatform = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
+    if (pCurrentPlatform != pPlatform)
+    {
+        static_cast<PlatformBase*>(pPlatform)->VAdd(this);
+        BaseAliveGameObject_PlatformId = pPlatform->mBaseGameObjectId;
+    }
+    else
+    {
+        LOG_WARNING("Trying to add to a platform we are already on");
+    }
+
+    return true;
+}
+
 void BaseAliveGameObject::OnResourceLoaded(BaseAliveGameObject* /*ppRes*/)
 {
-    //ppRes->field_104_pending_resource_count--;
+    // ppRes->field_104_pending_resource_count--;
 }
 
 void BaseAliveGameObject::UsePathTransScale()
@@ -691,58 +742,6 @@ void BaseAliveGameObject::UsePathTransScale()
             }
         }
     }
-}
-
-BaseGameObject* BaseAliveGameObject::FindObjectOfType(ReliveTypes typeToFind, FP xpos, FP ypos)
-{
-    const s32 xpos_int = FP_GetExponent(xpos);
-    const s32 ypos_int = FP_GetExponent(ypos);
-
-    for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
-    {
-        BaseGameObject* pObj = gBaseGameObjects->ItemAt(i);
-        if (!pObj)
-        {
-            break;
-        }
-
-        if (pObj->Type() == typeToFind)
-        {
-            auto pObj2 = static_cast<BaseAnimatedWithPhysicsGameObject*>(pObj);
-
-            const PSX_RECT bRect = pObj2->VGetBoundingRect();
-            if (xpos_int >= bRect.x && xpos_int <= bRect.w && ypos_int >= bRect.y && ypos_int <= bRect.h)
-            {
-                return pObj;
-            }
-        }
-    }
-    return nullptr;
-}
-
-bool BaseAliveGameObject::VOnPlatformIntersection(BaseAnimatedWithPhysicsGameObject* pPlatform)
-{
-    const PSX_RECT rect = pPlatform->VGetBoundingRect();
-    if (FP_GetExponent(mXPos) < rect.x || FP_GetExponent(mXPos) > rect.w || FP_GetExponent(mYPos) > rect.h)
-    {
-        return true;
-    }
-
-    // OG bug fix, when we call VCheckCollisionLineStillValid it can place us on a new lift
-    // but then we call OnCollisionWith which can sometimes add us to the same lift again
-    // result in the lift being leaked and then memory corruption/crash later.
-    BaseAliveGameObject* pCurrentPlatform = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
-    if (pCurrentPlatform != pPlatform)
-    {
-        static_cast<PlatformBase*>(pPlatform)->VAdd(this);
-        BaseAliveGameObject_PlatformId = pPlatform->mBaseGameObjectId;
-    }
-    else
-    {
-        LOG_WARNING("Trying to add to a platform we are already on");
-    }
-
-    return true;
 }
 
 } // namespace AO

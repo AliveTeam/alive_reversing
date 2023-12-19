@@ -20,7 +20,7 @@ public:
     explicit BaseAliveGameObject(s16 resourceArraySize);
     ~BaseAliveGameObject();
 
-    virtual void VOnPathTransition(s32 cameraWorldXPos, s32 cameraWorldYPos, CameraPos direction) override;
+    virtual void VOnPathTransition(s32 camWorldX, s32 camWorldY, CameraPos direction) override;
     virtual void VCheckCollisionLineStillValid(s32 distance);
 
     static bool IsInInvisibleZone(IBaseAliveGameObject* pObj);
