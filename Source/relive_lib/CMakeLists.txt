@@ -87,8 +87,6 @@ SET(AliveLibSrcAO
    ../AliveLibAO/ParamiteWeb.cpp
    ../AliveLibAO/Shrykull.hpp
    ../AliveLibAO/Shrykull.cpp
-   ../AliveLibAO/GasEmitter.hpp
-   ../AliveLibAO/GasEmitter.cpp
    ../AliveLibAO/BoomMachine.hpp
    ../AliveLibAO/BoomMachine.cpp
    ../AliveLibAO/DoorFlame.hpp
@@ -386,8 +384,6 @@ SET(AliveLibAESrc
     ../AliveLibAE/Electrocute.hpp
     ../AliveLibAE/EvilFart.cpp
     ../AliveLibAE/EvilFart.hpp
-    ../AliveLibAE/GasEmitter.cpp
-    ../AliveLibAE/GasEmitter.hpp
     ../AliveLibAE/DemoPlayback.cpp
     ../AliveLibAE/DemoPlayback.hpp
     ../AliveLibAE/SecurityOrb.cpp
@@ -596,6 +592,8 @@ SET(game_objects_src
     GameObjects/AirExplosion.cpp
     GameObjects/DeathGas.hpp
     GameObjects/DeathGas.cpp
+    GameObjects/GasEmitter.hpp
+    GameObjects/GasEmitter.cpp
 )
 
 SET(data_conversion_src

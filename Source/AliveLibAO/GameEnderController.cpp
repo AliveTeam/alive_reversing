@@ -13,7 +13,7 @@
 #include "PauseMenu.hpp"
 #include "Game.hpp"
 #include "Grenade.hpp"
-#include "GasCountDown.hpp"
+#include "../AliveLibAE/GasCountDown.hpp"
 #include "PathDataExtensions.hpp"
 
 namespace AO {
@@ -81,7 +81,7 @@ void GameEnderController::VUpdate()
                     if (sRescuedMudokons >= Path_GoodEndingMuds(gMap.mCurrentLevel, gMap.mCurrentPath))
                     {
                         // Stop the death timer
-                        sGasTimer = 0;
+                        gGasTimer = 0;
 
                         gInfiniteGrenades = false;
                         gRestartRuptureFarmsKilledMuds = 0;

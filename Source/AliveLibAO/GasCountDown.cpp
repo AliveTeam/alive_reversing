@@ -12,11 +12,9 @@
 #include "Sfx.hpp"
 #include "../relive_lib/GameObjects/DeathGas.hpp"
 #include "Path.hpp"
+#include "../AliveLibAE/GasCountDown.hpp"
 
 namespace AO {
-
-s32 sGasTimer = 0;
-s16 gGasOn = 0;
 
 GasCountDown::GasCountDown(relive::Path_GasCountDown* pTlv, const Guid& tlvInfo)
     : BaseGameObject(true, 0)
@@ -33,7 +31,7 @@ GasCountDown::GasCountDown(relive::Path_GasCountDown* pTlv, const Guid& tlvInfo)
     mGasXPos = FP_GetExponent((FP_FromInteger(gScreenManager->mCamXOff + pTlv->mTopLeftX) - gScreenManager->mCamPos->x));
     mGasYPos = FP_GetExponent((FP_FromInteger(gScreenManager->mCamYOff + pTlv->mTopLeftY)) - gScreenManager->mCamPos->y);
 
-    gGasOn = 0;
+    gGasOn = false;
 
     mGasTimeLeftSecs = 120;
 
@@ -52,7 +50,7 @@ void GasCountDown::VScreenChanged()
     SetDead(true);
     if (gMap.LevelChanged() || gMap.PathChanged())
     {
-        sGasTimer = 0;
+        gGasTimer = 0;
     }
 }
 
@@ -65,18 +63,18 @@ void GasCountDown::VUpdate()
 
     if (EventGet(kEventDeathResetEnd))
     {
-        sGasTimer = 0;
+        gGasTimer = 0;
         gGasOn = false;
     }
 
     // Enable
-    if (!sGasTimer && SwitchStates_Get(mStartTimerSwitchId) && !SwitchStates_Get(70))
+    if (!gGasTimer && SwitchStates_Get(mStartTimerSwitchId) && !SwitchStates_Get(70))
     {
-        sGasTimer = sGnFrame;
+        gGasTimer = sGnFrame;
         relive_new Alarm(3600, 0, 0, Layer::eLayer_Above_FG1_39);
     }
 
-    if (!sGasTimer)
+    if (!gGasTimer)
     {
         // Off/idle
         mGasTimeLeftSecs = 120;
@@ -86,17 +84,17 @@ void GasCountDown::VUpdate()
         // Running
         if (SwitchStates_Get(70))
         {
-            sGasTimer = 0;
+            gGasTimer = 0;
             return;
         }
 
         if (EventGet(kEventResetting))
         {
-            sGasTimer++;
+            gGasTimer++;
         }
 
         const s32 oldTimer = mGasTimeLeftSecs;
-        const s32 newTimer = 120 - (static_cast<s32>(sGnFrame) - sGasTimer) / 30;
+        const s32 newTimer = 120 - (static_cast<s32>(sGnFrame) - gGasTimer) / 30;
         mGasTimeLeftSecs = static_cast<s16>(newTimer);
         if (oldTimer != mGasTimeLeftSecs && mGasTimeLeftSecs > 0)
         {

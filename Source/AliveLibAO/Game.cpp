@@ -32,7 +32,7 @@
 #include "PathDataExtensions.hpp"
 #include "GameAutoPlayer.hpp"
 #include "../AliveLibAE/VGA.hpp"
-#include "GasCountDown.hpp"
+#include "../AliveLibAE/GasCountDown.hpp"
 
 // Note: Using AE var
 //bool gDDCheatOn = false;
@@ -54,8 +54,8 @@ void Init_GameStates()
     sKilledMudokons = gRestartRuptureFarmsKilledMuds;
     sRescuedMudokons = gRestartRuptureFarmsSavedMuds;
 
-    gGasOn = 0;
-    sGasTimer = 0;
+    gGasOn = false;
+    gGasTimer = 0;
 
     gSwitchStates = {};
     gbKillUnsavedMudsDone = false;

@@ -34,7 +34,4 @@ private:
     s16 mGasTimeLeftSecs = 0;
 };
 
-extern s16 gGasOn;
-extern s32 sGasTimer;
-
 } // namespace AO

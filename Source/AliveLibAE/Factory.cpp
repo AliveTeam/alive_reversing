@@ -39,7 +39,7 @@
 #include "FallingItem.hpp"
 #include "MineCar.hpp"
 #include "ElectricWall.hpp"
-#include "GasEmitter.hpp"
+#include "../relive_lib/GameObjects/GasEmitter.hpp"
 #include "DemoPlayback.hpp"
 #include "SecurityOrb.hpp"
 #include "Greeter.hpp"

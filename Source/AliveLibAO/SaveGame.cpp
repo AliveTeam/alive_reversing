@@ -8,10 +8,10 @@
 #include "SaveGame.hpp"
 #include "MusicController.hpp"
 #include "ResourceManager.hpp"
+#include "../AliveLibAE/GasCountDown.hpp"
 
 namespace AO {
 
-extern s32 sGasTimer;
 extern s16 sRescuedMudokons;
 extern s16 sKilledMudokons;
 
@@ -120,11 +120,11 @@ void SaveGame::LoadFromMemory(SaveData* pData, s32 bKillObjects)
 
     if (pData->field_2A8_gasTimer)
     {
-        sGasTimer = sGnFrame - pData->field_2A8_gasTimer;
+        gGasTimer = sGnFrame - pData->field_2A8_gasTimer;
     }
     else
     {
-        sGasTimer = 0;
+        gGasTimer = 0;
     }
 
     gAbe->field_2AC_pSaveData = pData;
@@ -272,9 +272,9 @@ void SaveGame::SaveToMemory(SaveData* pSaveData)
         pSaveData->mElum_Falling = gElum->mFalling;
         pSaveData->mElum_FoundHoney = gElum->mFoundHoney;
     }
-    if (sGasTimer)
+    if (gGasTimer)
     {
-        pSaveData->field_2A8_gasTimer = (sGnFrame - sGasTimer <= 1) ? 1 : sGnFrame - sGasTimer;
+        pSaveData->field_2A8_gasTimer = (sGnFrame - gGasTimer <= 1) ? 1 : sGnFrame - gGasTimer;
     }
     else
     {

@@ -1,14 +1,12 @@
 #include "stdafx.h"
 #include "GasEmitter.hpp"
 #include "Math.hpp"
-#include "../relive_lib/Sound/Midi.hpp"
-#include "stdlib.hpp"
-#include "../relive_lib/SwitchStates.hpp"
-#include "../relive_lib/GameObjects/Particle.hpp"
-#include "Game.hpp"
+#include "../Sound/Midi.hpp"
+#include "../SwitchStates.hpp"
+#include "Particle.hpp"
 #include "Sfx.hpp"
-#include "GasCountDown.hpp"
-#include "Path.hpp"
+#include "../../AliveLibAE/GasCountDown.hpp"
+#include "../GameType.hpp"
 
 static GasEmitter* sMainGasEmitter = nullptr;
 static u32 sGasEmitterAudioMask = 0;
@@ -18,10 +16,19 @@ GasEmitter::GasEmitter(relive::Path_GasEmitter* pTlv, const Guid& tlvId)
 {
     SetType(ReliveTypes::eNone);
 
-    mDrawFlipper = 1;
-
-    mSwitchId = pTlv->mSwitchId;
-    mGasColour = pTlv->mColour;
+    if (GetGameType() == GameType::eAo)
+    {
+        mSmokeScale = FP_FromInteger(1);
+        mParticleCount = 3;
+        mGasColour = relive::Path_GasEmitter::GasColour::eGreen;
+    }
+    else
+    {
+        mSmokeScale = FP_FromDouble(0.5);
+        mParticleCount = 1;
+        mGasColour = pTlv->mColour;
+        mSwitchId = pTlv->mSwitchId;
+    }
 
     mTlvId = tlvId;
 
@@ -33,7 +40,7 @@ GasEmitter::GasEmitter(relive::Path_GasEmitter* pTlv, const Guid& tlvId)
 
 GasEmitter::~GasEmitter()
 {
-    Path::TLV_Reset(mTlvId, -1, 0, 0);
+    GetMap().TLV_Reset(mTlvId, -1, 0, 0);
 
     if (sMainGasEmitter == this)
     {
@@ -60,28 +67,30 @@ void GasEmitter::VScreenChanged()
 
 void GasEmitter::VUpdate()
 {
-    if ((gGasOn && !((sGnFrame + mEmitPower) % 4)) || (SwitchStates_Get(mSwitchId) && mDrawFlipper && Math_RandomRange(0, 1)))
+    // AO: !(gnFrameCount_507670 + this->field_14_emit_power) % 4
+    // AE: !(sGnFrame_5C1B84 + this->field_24_emit_power) % 4
+    if (gGasOn && !(sGnFrame + mEmitPower % 4) || (SwitchStates_Get(mSwitchId) && mDrawFlipper && Math_RandomRange(0, 1)))
     {
         switch (mGasColour)
         {
             case relive::Path_GasEmitter::GasColour::eYellow:
-                New_Smoke_Particles(mEmitterXPos, mEmitterYPos, FP_FromDouble(0.5), 1, RGB16{ 128, 128, 32 });
+                New_Smoke_Particles(mEmitterXPos, mEmitterYPos, mSmokeScale, mParticleCount, RGB16{128, 128, 32});
                 break;
 
             case relive::Path_GasEmitter::GasColour::eRed:
-                New_Smoke_Particles(mEmitterXPos, mEmitterYPos, FP_FromDouble(0.5), 1, RGB16{ 128, 32, 32 });
+                New_Smoke_Particles(mEmitterXPos, mEmitterYPos, mSmokeScale, mParticleCount, RGB16{128, 32, 32});
                 break;
 
             case relive::Path_GasEmitter::GasColour::eGreen:
-                New_Smoke_Particles(mEmitterXPos, mEmitterYPos, FP_FromDouble(0.5), 1, RGB16{ 32, 128, 32 });
+                New_Smoke_Particles(mEmitterXPos, mEmitterYPos, mSmokeScale, mParticleCount, RGB16{32, 128, 32});
                 break;
 
             case relive::Path_GasEmitter::GasColour::eBlue:
-                New_Smoke_Particles(mEmitterXPos, mEmitterYPos, FP_FromDouble(0.5), 1, RGB16{ 32, 32, 128 });
+                New_Smoke_Particles(mEmitterXPos, mEmitterYPos, mSmokeScale, mParticleCount, RGB16{32, 32, 128});
                 break;
 
             case relive::Path_GasEmitter::GasColour::eWhite:
-                New_Smoke_Particles(mEmitterXPos, mEmitterYPos, FP_FromDouble(0.5), 1, RGB16{ 128, 128, 128 });
+                New_Smoke_Particles(mEmitterXPos, mEmitterYPos, mSmokeScale, mParticleCount, RGB16{128, 128, 128});
                 break;
 
             default:

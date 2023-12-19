@@ -1,14 +1,8 @@
 #pragma once
 
 #include "../relive_lib/GameObjects/BaseGameObject.hpp"
+#include "../relive_lib/data_conversion/relive_tlvs.hpp"
 #include "../relive_lib/FixedPoint.hpp"
-
-namespace relive
-{
-    struct Path_GasEmitter;
-}
-
-namespace AO {
 
 class GasEmitter final : public BaseGameObject
 {
@@ -26,6 +20,8 @@ private:
     FP mEmitterXPos = {};
     FP mEmitterYPos = {};
     FP mSmokeScale = {};
+    s16 mParticleCount = 0;
+    s16 mSwitchId = 0;
+    bool mDrawFlipper = true;
+    relive::Path_GasEmitter::GasColour mGasColour = relive::Path_GasEmitter::GasColour::eYellow;
 };
-
-} // namespace AO

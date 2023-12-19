@@ -34,5 +34,5 @@ private:
     u16 mGasCountdownTimer = 0;
 };
 
-extern s16 gGasOn;
+extern bool gGasOn;
 extern s32 gGasTimer;

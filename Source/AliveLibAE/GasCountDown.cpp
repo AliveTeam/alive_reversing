@@ -11,8 +11,9 @@
 #include "Path.hpp"
 #include "../relive_lib/GameObjects/ScreenManager.hpp"
 
+// NOTE: shared by AE and AO until GasCountDown is merged
 s32 gGasTimer = 0;
-s16 gGasOn = 0;
+bool gGasOn = false;
 
 GasCountDown::GasCountDown(relive::Path_GasCountDown* pTlv, const Guid& tlvInfo)
     : BaseGameObject(true, 0)
@@ -29,7 +30,7 @@ GasCountDown::GasCountDown(relive::Path_GasCountDown* pTlv, const Guid& tlvInfo)
     mGasXPos = FP_GetExponent(FP_FromInteger(pTlv->mTopLeftX) - gScreenManager->CamXPos());
     mGasYPos = FP_GetExponent(FP_FromInteger(pTlv->mTopLeftY) - gScreenManager->CamYPos());
 
-    gGasOn = 0;
+    gGasOn = false;
 
     mStartTimerSwitchId = pTlv->mStartTimerSwitchId;
     mGasCountdownTimer = pTlv->mGasCountdownTimer;

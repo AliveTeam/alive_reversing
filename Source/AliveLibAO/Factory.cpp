@@ -48,7 +48,7 @@
 #include "SlogSpawner.hpp"
 #include "DoorFlame.hpp"
 #include "BoomMachine.hpp"
-#include "GasEmitter.hpp"
+#include "../relive_lib/GameObjects/GasEmitter.hpp"
 #include "MotionDetector.hpp"
 #include "LCDStatusBoard.hpp"
 #include "FlintLockFire.hpp"
