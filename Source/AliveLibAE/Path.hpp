@@ -261,6 +261,4 @@ public:
 
 enum class CameraPos : s16;
 
-void Stop_slig_sounds(CameraPos direction, s8 kZero);
-
 extern Path* gPathInfo;

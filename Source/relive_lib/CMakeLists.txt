@@ -61,8 +61,6 @@ SET(AliveLibSrcAO
    ../AliveLibAO/Door.cpp
    ../AliveLibAO/HintFly.hpp
    ../AliveLibAO/HintFly.cpp
-   ../AliveLibAO/ScopedSeq.hpp
-   ../AliveLibAO/ScopedSeq.cpp
    ../AliveLibAO/TrapDoor.hpp
    ../AliveLibAO/TrapDoor.cpp
    ../AliveLibAO/MeatSaw.hpp
@@ -217,8 +215,6 @@ SET(AliveLibSrcAO
    ../AliveLibAO/Factory.cpp
    ../AliveLibAO/GasCountDown.hpp
    ../AliveLibAO/GasCountDown.cpp
-   ../AliveLibAO/AmbientSound.hpp
-   ../AliveLibAO/AmbientSound.cpp
    ../AliveLibAO/Movie.hpp
    ../AliveLibAO/Movie.cpp
    ../AliveLibAO/MusicController.hpp
@@ -268,8 +264,6 @@ SET(AliveLibAESrc
     ../AliveLibAE/Game.hpp
     ../AliveLibAE/stdlib.cpp
     ../AliveLibAE/stdlib.hpp
-    ../AliveLibAE/AmbientSound.cpp
-    ../AliveLibAE/AmbientSound.hpp
     ../AliveLibAE/ResourceManager.cpp
     ../AliveLibAE/ResourceManager.hpp
     ../AliveLibAE/BaseAliveGameObject.cpp
@@ -506,8 +500,6 @@ SET(AliveLibAESrc
     ../AliveLibAE/LaughingGas.hpp
     ../AliveLibAE/DeathGas.cpp
     ../AliveLibAE/DeathGas.hpp
-    ../AliveLibAE/ScopedSeq.cpp
-    ../AliveLibAE/ScopedSeq.hpp
     ../AliveLibAE/MudokonEnums.hpp
     ../AliveLibAE/Mine.hpp
     ../AliveLibAE/Mine.cpp
@@ -747,6 +739,10 @@ SET(relive_lib_src
     Psx.cpp
     FixedPoint.hpp
     FixedPoint.cpp
+    ScopedSeq.hpp
+    ScopedSeq.cpp
+    AmbientSound.hpp
+    AmbientSound.cpp
 )
 
 add_library(relive_lib ${relive_lib_src})

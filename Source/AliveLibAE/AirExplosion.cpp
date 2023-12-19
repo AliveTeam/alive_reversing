@@ -16,6 +16,7 @@
 #include "../relive_lib/GameObjects/IBaseAliveGameObject.hpp"
 #include "../relive_lib/GameType.hpp"
 #include "../AliveLibAO/Midi.hpp"
+#include "AmbientSound.hpp"
 
 #undef min
 #undef max
@@ -307,7 +308,7 @@ void AirExplosion::DealBlastDamage(PSX_RECT* pRect)
                 relive_new Gibs(GibType::eSlig, mXPos - FP_FromInteger(656), mYPos, FP_FromInteger(0), FP_FromInteger(0), FP_FromInteger(1), false);
             }
 
-            Stop_slig_sounds(dir, 0);
+            Stop_slig_sounds(dir);
         }
     }
 }

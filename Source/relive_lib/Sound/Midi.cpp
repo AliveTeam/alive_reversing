@@ -12,7 +12,7 @@
 
 #include "PsxSpuApi.hpp"
 #include "../../relive_lib/BinaryPath.hpp"
-#include "../../AliveLibAE/AmbientSound.hpp"
+#include "../AmbientSound.hpp"
 #include "../../relive_lib/FatalError.hpp"
 #include "../Math.hpp"
 

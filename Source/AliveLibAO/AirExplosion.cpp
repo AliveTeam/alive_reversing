@@ -310,7 +310,7 @@ void AirExplosion::DealBlastDamage(PSX_RECT* pRect)
                 relive_new Gibs(GibType::eSlig, mXPos - FP_FromInteger(656), mYPos, FP_FromInteger(0), FP_FromInteger(0), FP_FromInteger(1), false);
             }
 
-            AO::Stop_slig_sounds(dir, 0);
+            Stop_slig_sounds(dir);
         }
     }
 }

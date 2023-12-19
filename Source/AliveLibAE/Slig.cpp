@@ -4281,7 +4281,7 @@ s16 Slig::Brain_34_Sleeping()
     if (GetDead())
     {
         const CameraPos direction = gMap.GetDirection(mCurrentLevel, mCurrentPath, mXPos, mYPos);
-        Start_Slig_sounds(direction, 0);
+        Start_Slig_sounds(direction);
     }
     return 102;
 }

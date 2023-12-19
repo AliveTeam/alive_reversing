@@ -4132,14 +4132,6 @@ void Slig::WakeUp()
     }
 }
 
-void Start_Slig_Sounds_Helper(Sound_Ambiance_Array array, CameraPos camPos, u8 ambianceId)
-{
-    if (!array.mArray[ambianceId].mScopedSeq)
-    {
-        array.mArray[ambianceId].mScopedSeq = relive_new ScopedSeq(ambianceId, camPos);
-    }
-}
-
 s16 Slig::Brain_Sleeping()
 {
     const auto pEvent = static_cast<BaseAnimatedWithPhysicsGameObject*>(EventGet(kEventNoise));
@@ -4182,8 +4174,7 @@ s16 Slig::Brain_Sleeping()
                                      mCurrentLevel,
                                      mCurrentPath,
                                      mXPos,
-                                     mYPos),
-                                 0);
+                                     mYPos));
     }
     return 102;
 }

@@ -1,20 +1,12 @@
 #include "stdafx.h"
-#include "../relive_lib/Function.hpp"
+#include "AmbientSound.hpp"
+#include "Function.hpp"
 #include "ScopedSeq.hpp"
-#include "stdlib.hpp"
-#include "../relive_lib/MapWrapper.hpp"
-#include "../relive_lib/data_conversion/relive_tlvs.hpp"
-#include "Path.hpp"
-
-struct Sound_Ambiance final
-{
-    ScopedSeq* mScopedSeq;
-};
-
-struct Sound_Ambiance_Array final
-{
-    Sound_Ambiance mArray[8];
-};
+#include "MapWrapper.hpp"
+#include "data_conversion/relive_tlvs.hpp"
+#include "../AliveLibAE/Path.hpp"
+#include "GameType.hpp"
+#include "../AliveLibAO/MusicTrigger.hpp"
 
 static Sound_Ambiance_Array sTopBottomAmbiance = {};
 static Sound_Ambiance_Array sRightAmbiance = {};
@@ -70,20 +62,32 @@ void SND_Reset_Ambiance()
 
 void Start_Sounds_for_TLV(CameraPos direction, relive::Path_TLV* pTlv)
 {
-    Sound_Ambiance_Array* pAmbianceTbl = nullptr;
+    bool bDangerMusic = false;
+
+    Sound_Ambiance* pAmbianceTbl = nullptr;
     switch (direction)
     {
         case CameraPos::eCamTop_1:
         case CameraPos::eCamBottom_2:
-            pAmbianceTbl = &sTopBottomAmbiance;
+            pAmbianceTbl = sTopBottomAmbiance.mArray;
             break;
 
         case CameraPos::eCamLeft_3:
-            pAmbianceTbl = &sLeftAmbiance;
+        {
+            if (GetGameType() == GameType::eAo)
+            {
+                // TODO: this is supposed to be sLeftAmbiance but it will desync the recording
+                pAmbianceTbl = sRightAmbiance.mArray;
+            }
+            else
+            {
+                pAmbianceTbl = sLeftAmbiance.mArray;
+            }
             break;
+        }
 
         case CameraPos::eCamRight_4:
-            pAmbianceTbl = &sRightAmbiance;
+            pAmbianceTbl = sRightAmbiance.mArray;
             break;
 
         default:
@@ -94,19 +98,21 @@ void Start_Sounds_for_TLV(CameraPos direction, relive::Path_TLV* pTlv)
     {
         case ReliveTypes::eSlig:
         {
-            auto pSligTlv = static_cast<relive::Path_Slig*>(pTlv);
+            const auto pSligTlv = static_cast<relive::Path_Slig*>(pTlv);
             if (pSligTlv->mData.mStartState == relive::Path_Slig_Data::StartState::Patrol)
             {
-                if (!pAmbianceTbl->mArray[1].mScopedSeq)
+                if (!pAmbianceTbl[AmbienceId::eSligPatrol].mScopedSeq)
                 {
-                    pAmbianceTbl->mArray[1].mScopedSeq = relive_new ScopedSeq(1, direction);
+                    pAmbianceTbl[AmbienceId::eSligPatrol].mScopedSeq = relive_new ScopedSeq(AmbienceId::eSligPatrol, direction);
+                    bDangerMusic = true;
                 }
             }
             else if (pSligTlv->mData.mStartState == relive::Path_Slig_Data::StartState::Sleeping)
             {
-                if (!pAmbianceTbl->mArray[0].mScopedSeq)
+                if (!pAmbianceTbl[AmbienceId::eSligSleeping].mScopedSeq)
                 {
-                    pAmbianceTbl->mArray[0].mScopedSeq = relive_new ScopedSeq(0, direction);
+                    pAmbianceTbl[AmbienceId::eSligSleeping].mScopedSeq = relive_new ScopedSeq(AmbienceId::eSligSleeping, direction);
+                    bDangerMusic = true;
                 }
             }
             break;
@@ -114,34 +120,46 @@ void Start_Sounds_for_TLV(CameraPos direction, relive::Path_TLV* pTlv)
 
         case ReliveTypes::eSlog:
         {
-            if (static_cast<relive::Path_Slog*>(pTlv)->mAsleep == relive::reliveChoice::eYes)
+            const auto pSlogTlv = static_cast<relive::Path_Slog*>(pTlv);
+            if (pSlogTlv->mAsleep == relive::reliveChoice::eYes)
             {
-                if (!pAmbianceTbl->mArray[3].mScopedSeq)
-                {
-                    pAmbianceTbl->mArray[3].mScopedSeq = relive_new ScopedSeq(3, direction);
+                if (!pAmbianceTbl[AmbienceId::eSlogSleeping].mScopedSeq)
+                {   
+                    pAmbianceTbl[AmbienceId::eSlogSleeping].mScopedSeq = relive_new ScopedSeq(AmbienceId::eSlogSleeping, direction);
+                    bDangerMusic = true;
                 }
             }
             else
             {
-                if (!pAmbianceTbl->mArray[2].mScopedSeq)
+                if (!pAmbianceTbl[AmbienceId::eSlogAwake].mScopedSeq)
                 {
-                    pAmbianceTbl->mArray[2].mScopedSeq = relive_new ScopedSeq(2, direction);
+                    pAmbianceTbl[AmbienceId::eSlogAwake].mScopedSeq = relive_new ScopedSeq(AmbienceId::eSlogAwake, direction);
+                    bDangerMusic = true;
                 }
             }
             break;
         }
 
         case ReliveTypes::eParamite:
-            if (!pAmbianceTbl->mArray[5].mScopedSeq)
+            if (!pAmbianceTbl[AmbienceId::eParamite].mScopedSeq)
             {
-                pAmbianceTbl->mArray[5].mScopedSeq = relive_new ScopedSeq(5, direction);
+                pAmbianceTbl[AmbienceId::eParamite].mScopedSeq = relive_new ScopedSeq(AmbienceId::eParamite, direction);
+                bDangerMusic = true;
             }
             break;
 
         case ReliveTypes::eScrab:
-            if (!pAmbianceTbl->mArray[6].mScopedSeq)
+            if (!pAmbianceTbl[AmbienceId::eNone].mScopedSeq)
             {
-                pAmbianceTbl->mArray[6].mScopedSeq = relive_new ScopedSeq(6, direction);
+                pAmbianceTbl[AmbienceId::eNone].mScopedSeq = relive_new ScopedSeq(AmbienceId::eNone, direction);
+                bDangerMusic = true;
+            }
+            break;
+
+        case ReliveTypes::eMeatSaw:
+            if (!pAmbianceTbl[AmbienceId::eMeatSaw].mScopedSeq)
+            {
+                pAmbianceTbl[AmbienceId::eMeatSaw].mScopedSeq = relive_new ScopedSeq(AmbienceId::eMeatSaw, direction);
             }
             break;
 
@@ -150,21 +168,26 @@ void Start_Sounds_for_TLV(CameraPos direction, relive::Path_TLV* pTlv)
             auto pFleechTlv = static_cast<relive::Path_Fleech*>(pTlv);
             if ((pFleechTlv->mAsleep == relive::reliveChoice::eYes || pFleechTlv->mHanging == relive::reliveChoice::eYes))
             {
-                if (!pAmbianceTbl->mArray[4].mScopedSeq)
+                if (!pAmbianceTbl[AmbienceId::eFleechAsleep].mScopedSeq)
                 {
-                    pAmbianceTbl->mArray[4].mScopedSeq = relive_new ScopedSeq(4, direction);
+                    pAmbianceTbl[AmbienceId::eFleechAsleep].mScopedSeq = relive_new ScopedSeq(AmbienceId::eFleechAsleep, direction);
                 }
             }
             break;
         }
 
         default:
-            return;
+            break;
+    }
+
+    if (bDangerMusic && GetGameType() == GameType::eAo)
+    {
+        relive_new AO::MusicTrigger(relive::Path_MusicTrigger::MusicTriggerMusicType::eDrumAmbience, relive::Path_MusicTrigger::TriggeredBy::eTouching, 0, 40);
     }
 }
 
 
-void Start_Slig_sounds(CameraPos direction, s8 kZero)
+void Start_Slig_sounds(CameraPos direction)
 {
     Sound_Ambiance_Array* pTable = nullptr;
     switch (direction)
@@ -183,15 +206,15 @@ void Start_Slig_sounds(CameraPos direction, s8 kZero)
             return;
     }
 
-    ScopedSeq** ppSeqPtr = &pTable->mArray[kZero].mScopedSeq;
+    ScopedSeq** ppSeqPtr = &pTable->mArray[AmbienceId::eSligSleeping].mScopedSeq;
     if (!*ppSeqPtr)
     {
-        *ppSeqPtr = relive_new ScopedSeq(kZero, direction);
+        *ppSeqPtr = relive_new ScopedSeq(AmbienceId::eSligSleeping, direction);
     }
 }
 
 
-void Stop_slig_sounds(CameraPos direction, s8 kZero)
+void Stop_slig_sounds(CameraPos direction)
 {
     Sound_Ambiance_Array* pTable = nullptr;
     switch (direction)
@@ -210,13 +233,14 @@ void Stop_slig_sounds(CameraPos direction, s8 kZero)
             return;
     }
 
-    if (pTable->mArray[kZero].mScopedSeq)
+    if (pTable->mArray[AmbienceId::eSligSleeping].mScopedSeq)
     {
-        delete pTable->mArray[kZero].mScopedSeq;
-        pTable->mArray[kZero].mScopedSeq = nullptr;
+        delete pTable->mArray[AmbienceId::eSligSleeping].mScopedSeq;
+        pTable->mArray[AmbienceId::eSligSleeping].mScopedSeq = nullptr;
     }
 }
 
+// AE only
 void Start_Sounds_For_Objects_In_Near_Cameras()
 {
     SND_Reset_Ambiance();
