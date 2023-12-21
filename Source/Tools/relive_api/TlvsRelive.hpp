@@ -5,18 +5,18 @@
 #include "../../relive_lib/data_conversion/relive_tlvs.hpp"
 #include "../../relive_lib/AnimResources.hpp"
 
-/*
-#define CTOR_RELIVE(className, tlvEnumType)\
-    className() : TlvObjectBaseRelive(sizeof(::className), tlvEnumType, className::kClassName, &mTlv)\
+
+#define CTOR_RELIVE(editorClassName, pathClassName, tlvEnumType)\
+    editorClassName() : TlvObjectBaseRelive(sizeof(relive::pathClassName), tlvEnumType, relive::pathClassName::kClassName, &mTlv)\
     {\
     }\
     \
-    className(ReliveAPI::TypesCollectionBase& globalTypes, const relive::Path_TLV* pTlvSrc = nullptr) \
-        : TlvObjectBaseRelive(sizeof(::className), globalTypes, tlvEnumType, className::kClassName, &mTlv)\
+    editorClassName(ReliveAPI::TypesCollectionBase& globalTypes, const relive::Path_TLV* pTlvSrc = nullptr) \
+        : TlvObjectBaseRelive(sizeof(relive::pathClassName), globalTypes, tlvEnumType, relive::pathClassName::kClassName, &mTlv)\
     {\
         if (pTlvSrc)\
         {\
-            mTlv = *static_cast<const ::className*>(pTlvSrc);\
+            mTlv = *static_cast<const ::relive::pathClassName*>(pTlvSrc);\
             ConvertXYPos(); \
         }\
         else\
@@ -25,22 +25,24 @@
         }\
         AddProperties(globalTypes);\
     }\
-    ::className mTlv = {};\
+    relive::pathClassName mTlv = {};\
     void AddProperties(ReliveAPI::TypesCollectionBase& globalTypes)
 
 #define EMPTY_CTOR_RELIVE() (void) globalTypes
 
-namespace ReliveTlvs {
-
-struct Path_TimedMine final : public ReliveAPI::TlvObjectBaseRelive
+namespace relive
 {
-    CTOR_RELIVE(relive::Path_TimedMine, ReliveTypes::eTimedMine)
+
+struct Editor_TimedMine final : public ReliveAPI::TlvObjectBaseRelive
+{
+    CTOR_RELIVE(Editor_TimedMine, Path_TimedMine, ReliveTypes::eTimedMine)
     {
         ADD("Scale", mTlv.mScale);
         ADD("Ticks Before Explosion", mTlv.mTicksUntilExplosion);
     }
 };
 
+/*
 struct Path_ElectricWall final : public ReliveAPI::TlvObjectBaseRelive
 {
     void AddTypes(ReliveAPI::TypesCollectionBase& types) override
@@ -2178,10 +2180,9 @@ struct Path_Elum final : public ReliveAPI::TlvObjectBaseRelive
     {
         EMPTY_CTOR_RELIVE();
     }
-};
-
-} // namespace ReliveTlvs
+};*/
+} // namespace relive
 
 #undef EMPTY_CTOR_RELIVE
 #undef CTOR_RELIVE
-*/
+
