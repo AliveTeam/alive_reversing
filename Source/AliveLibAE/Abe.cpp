@@ -19,7 +19,7 @@
 #include "InvisibleEffect.hpp"
 #include "../relive_lib/GameObjects/Gibs.hpp"
 #include "Throwable.hpp"
-#include "ThrowableTotalIndicator.hpp"
+#include "../relive_lib/GameObjects/ThrowableTotalIndicator.hpp"
 #include "AbilityRing.hpp"
 #include "OrbWhirlWind.hpp"
 #include "../relive_lib/GameObjects/Blood.hpp"

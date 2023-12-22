@@ -111,8 +111,6 @@ SET(AliveLibSrcAO
    ../AliveLibAO/RockSack.cpp
    ../AliveLibAO/BackgroundGlukkon.hpp
    ../AliveLibAO/BackgroundGlukkon.cpp
-   ../AliveLibAO/ThrowableTotalIndicator.hpp
-   ../AliveLibAO/ThrowableTotalIndicator.cpp
    ../AliveLibAO/SecurityDoor.hpp
    ../AliveLibAO/SecurityDoor.cpp
    ../AliveLibAO/Lever.hpp
@@ -318,8 +316,6 @@ SET(AliveLibAESrc
     ../AliveLibAE/InvisibleEffect.hpp
     ../AliveLibAE/Throwable.cpp
     ../AliveLibAE/Throwable.hpp
-    ../AliveLibAE/ThrowableTotalIndicator.hpp
-    ../AliveLibAE/ThrowableTotalIndicator.cpp
     ../AliveLibAE/AbilityRing.cpp
     ../AliveLibAE/AbilityRing.hpp
     ../AliveLibAE/OrbWhirlWind.cpp
@@ -594,6 +590,8 @@ SET(game_objects_src
     GameObjects/DeathGas.cpp
     GameObjects/GasEmitter.hpp
     GameObjects/GasEmitter.cpp
+    GameObjects/ThrowableTotalIndicator.hpp
+    GameObjects/ThrowableTotalIndicator.cpp
 )
 
 SET(data_conversion_src

@@ -1,15 +1,10 @@
-#include "stdafx_ao.h"
+#include "stdafx.h"
 #include "ThrowableTotalIndicator.hpp"
-#include "../AliveLibAE/stdlib.hpp"
-#include "Game.hpp"
+#include "../../AliveLibAE/Game.hpp"
 #include "../relive_lib/Events.hpp"
-#include "../relive_lib/PsxDisplay.hpp"
 #include "../relive_lib/GameObjects/ScreenManager.hpp"
-#include "Math.hpp"
-#include "../relive_lib/Primitives.hpp"
-#include "../AliveLibAE/Game.hpp"
-
-namespace AO {
+#include "../relive_lib/PsxDisplay.hpp"
+#include "../relive_lib/GameType.hpp"
 
 u16 gThrowableIndicatorExists = 0;
 
@@ -183,13 +178,14 @@ ThrowableTotalIndicator::ThrowableTotalIndicator(FP xpos, FP ypos, Layer layer, 
         mState = ThrowableTotalIndicatorState::eCreated;
     }
 
-    if (count == -1)
+    if ((GetGameType() == GameType::eAo && count == -1) ||
+        (GetGameType() == GameType::eAe && (count < 0 || count > 9)))
     {
         mNumToShow = 10;
     }
     else
     {
-        mNumToShow = static_cast<s16>(count);
+        mNumToShow = count;
     }
 
     if (bFade)
@@ -280,9 +276,14 @@ void ThrowableTotalIndicator::VUpdate()
 
 void ThrowableTotalIndicator::VRender(OrderingTable& ot)
 {
-    const FP_Point* camPos = gScreenManager->mCamPos;
-    const FP camX = FP_FromInteger(FP_GetExponent(camPos->x - FP_FromInteger(gScreenManager->mCamXOff)));
-    const FP camY = FP_FromInteger(FP_GetExponent(camPos->y - FP_FromInteger(gScreenManager->mCamYOff)));
+    FP camX = FP_NoFractional(gScreenManager->CamXPos());
+    FP camY = FP_NoFractional(gScreenManager->CamYPos());
+
+    if (GetGameType() == GameType::eAe)
+    {
+        camX = FP_NoFractional(camX);
+        camY = FP_NoFractional(camY);
+    }
 
     s16 xpos = 0;
     s16 ypos = 0;
@@ -317,11 +318,8 @@ void ThrowableTotalIndicator::VRender(OrderingTable& ot)
         pLine->SetRGB1(static_cast<u8>(mRGB.r), static_cast<u8>(mRGB.g), static_cast<u8>(mRGB.b));
         pLine->SetRGB2(static_cast<u8>(mRGB.r), static_cast<u8>(mRGB.g), static_cast<u8>(mRGB.b));
 
-        pLine->SetBlendMode(relive::TBlendModes::eBlend_1);
         pLine->SetSemiTransparent(true);
+        pLine->SetBlendMode(relive::TBlendModes::eBlend_1);
         ot.Add(mOtLayer, pLine);
     }
 }
-
-
-} // namespace AO

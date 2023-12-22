@@ -9,7 +9,7 @@
 #include "../relive_lib/Function.hpp"
 #include "BaseAliveGameObject.hpp"
 #include "../relive_lib/GameObjects/Dove.hpp"
-#include "ThrowableTotalIndicator.hpp"
+#include "../relive_lib/GameObjects/ThrowableTotalIndicator.hpp"
 #include "Game.hpp"
 #include "../relive_lib/Events.hpp"
 #include "Sfx.hpp"

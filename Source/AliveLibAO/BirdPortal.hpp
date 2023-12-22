@@ -7,6 +7,7 @@
 enum class EReliveLevelIds : s16;
 class ScreenClipper;
 class Dove;
+class ThrowableTotalIndicator;
 
 namespace AO {
 
@@ -27,7 +28,6 @@ public:
 };
 
 class OrbWhirlWind;
-class ThrowableTotalIndicator;
 
 class BirdPortal final : public ::BaseGameObject
 {

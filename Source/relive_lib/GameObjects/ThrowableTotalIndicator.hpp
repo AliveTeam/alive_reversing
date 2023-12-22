@@ -1,11 +1,8 @@
 #pragma once
 
 #include "../relive_lib/GameObjects/BaseGameObject.hpp"
-#include "../relive_lib/Primitives.hpp"
-#include "../relive_lib/FixedPoint.hpp"
 #include "../relive_lib/Layer.hpp"
-
-namespace AO {
+#include "../relive_lib/Primitives.hpp"
 
 enum class ThrowableTotalIndicatorState : s16
 {
@@ -34,7 +31,7 @@ private:
     FP mSpriteScale = {};
     Layer mOtLayer = Layer::eLayer_0;
     RGB16 mRGB;
-    s16 mNumToShow = 0;
+    s32 mNumToShow = 0;
 
     Line_G2 mLines[8] = {};
     ThrowableTotalIndicatorState mState = ThrowableTotalIndicatorState::eCreated;
@@ -42,5 +39,3 @@ private:
 };
 
 extern u16 gThrowableIndicatorExists;
-
-} // namespace AO

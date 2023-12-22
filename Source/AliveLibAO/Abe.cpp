@@ -27,7 +27,7 @@
 #include "PullRingRope.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
 #include "../relive_lib/GameObjects/ScreenManager.hpp"
-#include "ThrowableTotalIndicator.hpp"
+#include "../relive_lib/GameObjects/ThrowableTotalIndicator.hpp"
 #include "../relive_lib/Events.hpp"
 #include "DDCheat.hpp"
 #include "LiftPoint.hpp"

@@ -5,7 +5,7 @@
 #include "../relive_lib/Collisions.hpp"
 #include "Abe.hpp"
 #include "../relive_lib/GameObjects/ScreenClipper.hpp"
-#include "ThrowableTotalIndicator.hpp"
+#include "../relive_lib/GameObjects/ThrowableTotalIndicator.hpp"
 #include "../relive_lib/GameObjects/Flash.hpp"
 #include "Midi.hpp"
 #include "../relive_lib/GameObjects/Dove.hpp"
