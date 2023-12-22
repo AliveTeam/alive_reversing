@@ -3,7 +3,7 @@
 #include "../relive_lib/Function.hpp"
 #include "../relive_lib/SwitchStates.hpp"
 #include "stdlib.hpp"
-#include "OrbWhirlWind.hpp"
+#include "../relive_lib/GameObjects/OrbWhirlWind.hpp"
 #include "../relive_lib/Events.hpp"
 #include "Sfx.hpp"
 #include "../relive_lib/ObjectIds.hpp"
