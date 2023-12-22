@@ -18,7 +18,7 @@
 #include "Abe.hpp"
 #include "../relive_lib/GameObjects/ScreenManager.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
-#include "OrbWhirlWind.hpp"
+#include "../relive_lib/GameObjects/OrbWhirlWind.hpp"
 #include "../relive_lib/GameObjects/ScreenClipper.hpp"
 #include "AbilityRing.hpp"
 #include "Map.hpp"

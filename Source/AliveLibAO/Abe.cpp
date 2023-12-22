@@ -21,7 +21,7 @@
 #include "../relive_lib/GameObjects/CircularFade.hpp"
 #include "../relive_lib/GameObjects/Fade.hpp"
 #include "Throwable.hpp"
-#include "OrbWhirlWind.hpp"
+#include "../relive_lib/GameObjects/OrbWhirlWind.hpp"
 #include "../relive_lib/GameObjects/Particle.hpp"
 #include "PossessionFlicker.hpp"
 #include "PullRingRope.hpp"
@@ -8461,7 +8461,8 @@ void Abe::Motion_150_Chant()
                         pOrbWhirlWind = relive_new OrbWhirlWind(
                             xPos,
                             mYPos - GetSpriteScale() * FP_FromInteger(38),
-                            GetSpriteScale());;
+                            GetSpriteScale(),
+                            false);
 
                         mOrbWhirlWindId = pOrbWhirlWind->mBaseGameObjectId;
                     }
@@ -8491,6 +8492,7 @@ void Abe::Motion_150_Chant()
                     pOrbWhirlWind->ToSpin(
                         FP_FromInteger((rect.w + rect.x) / 2),
                         FP_FromInteger((rect.h + rect.y) / 2),
+                        pObjToPossess->GetSpriteScale(),
                         pObjToPossess);
 
                     relive_new PossessionFlicker(gAbe, 30, 128, 255, 255);

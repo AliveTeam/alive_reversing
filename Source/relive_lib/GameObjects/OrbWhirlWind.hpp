@@ -2,7 +2,8 @@
 
 #include "../relive_lib/GameObjects/BaseGameObject.hpp"
 #include "../relive_lib/FixedPoint.hpp"
-#include "OrbWhirlWindParticle.hpp"
+
+class OrbWhirlWindParticle;
 
 class OrbWhirlWind final : public BaseGameObject
 {

@@ -21,7 +21,7 @@
 #include "Throwable.hpp"
 #include "../relive_lib/GameObjects/ThrowableTotalIndicator.hpp"
 #include "AbilityRing.hpp"
-#include "OrbWhirlWind.hpp"
+#include "../relive_lib/GameObjects/OrbWhirlWind.hpp"
 #include "../relive_lib/GameObjects/Blood.hpp"
 #include "PullRingRope.hpp"
 #include "../relive_lib/GameObjects/CircularFade.hpp"

@@ -54,7 +54,7 @@ private:
     BaseGameObject* mRingTargetObjId = nullptr;
     FP mXPos = {};
     FP mYPos = {};
-    FP mTargetObjScale = {}; // AE only
+    FP mTargetObjScale = {};
     FP mXPosOffset = {};
     FP mYPosOffset = {};
     FP mXPosOffset2 = {};

@@ -97,10 +97,6 @@ SET(AliveLibSrcAO
    ../AliveLibAO/AbilityRing.cpp
    ../AliveLibAO/BirdPortal.hpp
    ../AliveLibAO/BirdPortal.cpp
-   ../AliveLibAO/OrbWhirlWindParticle.hpp
-   ../AliveLibAO/OrbWhirlWindParticle.cpp
-   ../AliveLibAO/OrbWhirlWind.hpp
-   ../AliveLibAO/OrbWhirlWind.cpp
    ../AliveLibAO/Well.hpp
    ../AliveLibAO/Well.cpp
    ../AliveLibAO/Throwable.hpp
@@ -318,10 +314,6 @@ SET(AliveLibAESrc
     ../AliveLibAE/Throwable.hpp
     ../AliveLibAE/AbilityRing.cpp
     ../AliveLibAE/AbilityRing.hpp
-    ../AliveLibAE/OrbWhirlWind.cpp
-    ../AliveLibAE/OrbWhirlWind.hpp
-    ../AliveLibAE/OrbWhirlWindParticle.cpp
-    ../AliveLibAE/OrbWhirlWindParticle.hpp
     ../AliveLibAE/PullRingRope.hpp
     ../AliveLibAE/PullRingRope.cpp
     ../AliveLibAE/HoistRocksEffect.hpp
@@ -592,6 +584,8 @@ SET(game_objects_src
     GameObjects/GasEmitter.cpp
     GameObjects/ThrowableTotalIndicator.hpp
     GameObjects/ThrowableTotalIndicator.cpp
+    GameObjects/OrbWhirlWind.cpp
+    GameObjects/OrbWhirlWind.hpp
 )
 
 SET(data_conversion_src
@@ -731,6 +725,8 @@ SET(relive_lib_src
     ScopedSeq.cpp
     AmbientSound.hpp
     AmbientSound.cpp
+    OrbWhirlWindParticle.hpp
+    OrbWhirlWindParticle.cpp
 )
 
 add_library(relive_lib ${relive_lib_src})

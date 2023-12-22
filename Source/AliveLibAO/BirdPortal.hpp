@@ -8,6 +8,7 @@ enum class EReliveLevelIds : s16;
 class ScreenClipper;
 class Dove;
 class ThrowableTotalIndicator;
+class OrbWhirlWind;
 
 namespace AO {
 
@@ -27,7 +28,6 @@ public:
     void Fadeout();
 };
 
-class OrbWhirlWind;
 
 class BirdPortal final : public ::BaseGameObject
 {

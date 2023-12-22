@@ -9,7 +9,7 @@
 #include "../relive_lib/GameObjects/Flash.hpp"
 #include "Midi.hpp"
 #include "../relive_lib/GameObjects/Dove.hpp"
-#include "OrbWhirlWind.hpp"
+#include "../relive_lib/GameObjects/OrbWhirlWind.hpp"
 #include "../relive_lib/GameObjects/Particle.hpp"
 #include "../relive_lib/Events.hpp"
 #include "Game.hpp"
@@ -503,6 +503,7 @@ void BirdPortal::VUpdate()
                         mOrbWhirlWind->ToSpin(
                             gAbe->mXPos,
                             gAbe->mYPos - (gAbe->GetSpriteScale() * FP_FromInteger(38)),
+                            gAbe->GetSpriteScale(),
                             gAbe);
                         mOrbWhirlWind = nullptr;
                     }
@@ -719,7 +720,8 @@ void BirdPortal::VGiveShrykull(s16 bPlaySound)
         mOrbWhirlWind = relive_new OrbWhirlWind(
             gAbe->mXPos,
             gAbe->mYPos - (gAbe->GetSpriteScale() * FP_FromInteger(38)),
-            gAbe->GetSpriteScale());
+            gAbe->GetSpriteScale(),
+            false);
 
         if (gAbe->mCurrentMotion == eAbeMotions::Motion_150_Chant)
         {
