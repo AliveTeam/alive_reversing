@@ -11,7 +11,7 @@
 #include "../relive_lib/FatalError.hpp"
 #include "../relive_lib/ObjectIds.hpp"
 #include "../relive_lib/FixedPoint.hpp"
-#include "../relive_lib/FixedPoint.hpp"
+#include "../relive_lib/GameType.hpp"
 
 namespace AO {
 
@@ -124,7 +124,7 @@ void BaseAliveGameObject::VSetXSpawn(s16 camWorldX, s32 screenXPos)
                     &pLine,
                     &hitX,
                     &hitY,
-                    GetSpriteScale() != FP_FromDouble(0.5) ? kFgWallsOrFloor : kBgWallsOrFloor))
+                    PerGameScale() == Scale::Fg ? kFgWallsOrFloor : kBgWallsOrFloor))
             {
                 mYPos += hitY - BaseAliveGameObjectLastLineYPos;
             }
@@ -187,7 +187,7 @@ void BaseAliveGameObject::VCheckCollisionLineStillValid(s32 distance)
     FP hitX = {};
     FP hitY = {};
 
-    const CollisionMask mask = GetSpriteScale() != FP_FromDouble(0.5) ? kFgWallsOrFloor : kBgWallsOrFloor;
+    const CollisionMask mask = PerGameScale() == Scale::Fg ? kFgWallsOrFloor : kBgWallsOrFloor;
     if (gCollisions->Raycast(
             mXPos,
             mYPos - FP_FromInteger(distance),
@@ -290,45 +290,6 @@ BirdPortal* BaseAliveGameObject::VIntoBirdPortal(s16 numGridBlocks)
         }
     }
     return nullptr;
-}
-
-bool BaseAliveGameObject::Check_IsOnEndOfLine(s16 direction, s16 distance)
-{
-    // Check if distance grid blocks from current snapped X is still on the line or not, if not then we are
-    // about to head off an edge.
-
-    const FP gridSize = ScaleToGridSize(GetSpriteScale());
-
-    FP xLoc = {};
-    if (direction == 1)
-    {
-        xLoc = -(gridSize * FP_FromInteger(distance));
-    }
-    else
-    {
-        xLoc = gridSize * FP_FromInteger(distance);
-    }
-
-    const s16 xposRounded = FP_GetExponent(mXPos) & 1023;
-    const FP xPosSnapped = FP_FromInteger((FP_GetExponent(mXPos) & 0xFC00) + SnapToXGrid(GetSpriteScale(), xposRounded));
-    if (xposRounded < (240 + 16) || xposRounded > (640 - 16))
-    {
-        return 0;
-    }
-
-    PathLine* pLine = nullptr;
-    FP hitX = {};
-    FP hitY = {};
-    return gCollisions->Raycast(
-               xLoc + xPosSnapped,
-               mYPos - FP_FromInteger(4),
-               xLoc + xPosSnapped,
-               mYPos + FP_FromInteger(4),
-               &pLine,
-               &hitX,
-               &hitY,
-               GetSpriteScale() != FP_FromDouble(0.5) ? kFgWallsOrFloor : kBgWallsOrFloor)
-        == 0;
 }
 
 void BaseAliveGameObject::VOnPathTransition(s32 camWorldX, s32 camWorldY, CameraPos direction)
@@ -453,7 +414,7 @@ void BaseAliveGameObject::VOnPathTransition(s32 camWorldX, s32 camWorldY, Camera
                     &pLine,
                     &hitX,
                     &hitY,
-                    GetSpriteScale() != FP_FromDouble(0.5) ? kFgWallsOrFloor : kBgWallsOrFloor))
+                    PerGameScale() == Scale::Fg ? kFgWallsOrFloor : kBgWallsOrFloor))
             {
                 BaseAliveGameObjectCollisionLine = pLine;
                 mYPos = hitY;
@@ -483,7 +444,7 @@ void BaseAliveGameObject::VOnPathTransition(s32 camWorldX, s32 camWorldY, Camera
                     &pLine,
                     &hitX,
                     &hitY,
-                    GetSpriteScale() != FP_FromDouble(0.5) ? kFgWallsOrFloor : kBgWallsOrFloor))
+                    PerGameScale() == Scale::Fg ? kFgWallsOrFloor : kBgWallsOrFloor))
             {
                 mYPos += hitY - BaseAliveGameObjectLastLineYPos;
             }
@@ -614,21 +575,6 @@ bool BaseAliveGameObject::MapFollowMe(bool snapToGrid)
     }
 }
 
-bool BaseAliveGameObject::WallHit(FP offY, FP offX)
-{
-    PathLine* pLine = nullptr;
-    return gCollisions->Raycast(
-               mXPos,
-               mYPos - offY,
-               mXPos + offX,
-               mYPos - offY,
-               &pLine,
-               &offX,
-               &offY,
-               GetSpriteScale() != FP_FromDouble(0.5) ? kFgWalls : kBgWalls)
-        != 0;
-}
-
 bool BaseAliveGameObject::InAirCollision(PathLine** ppLine, FP* hitX, FP* hitY, FP velY)
 {
     mVelY += GetSpriteScale() * velY;
@@ -652,7 +598,7 @@ bool BaseAliveGameObject::InAirCollision(PathLine** ppLine, FP* hitX, FP* hitY, 
         ppLine,
         hitX,
         hitY,
-        GetSpriteScale() != FP_FromDouble(0.5) ? kFgWallsOrFloor : kBgWallsOrFloor) ? 1 : 0;
+        PerGameScale() == Scale::Fg ? kFgWallsOrFloor : kBgWallsOrFloor);
 }
 
 BaseGameObject* BaseAliveGameObject::FindObjectOfType(ReliveTypes typeToFind, FP xpos, FP ypos)
@@ -670,9 +616,8 @@ BaseGameObject* BaseAliveGameObject::FindObjectOfType(ReliveTypes typeToFind, FP
 
         if (pObj->Type() == typeToFind)
         {
-            auto pObj2 = static_cast<BaseAnimatedWithPhysicsGameObject*>(pObj);
-
-            const PSX_RECT bRect = pObj2->VGetBoundingRect();
+            auto pCasted = static_cast<BaseAnimatedWithPhysicsGameObject*>(pObj);
+            const PSX_RECT bRect = pCasted->VGetBoundingRect();
             if (xpos_int >= bRect.x && xpos_int <= bRect.w && ypos_int >= bRect.y && ypos_int <= bRect.h)
             {
                 return pObj;
@@ -707,11 +652,6 @@ bool BaseAliveGameObject::VOnPlatformIntersection(BaseAnimatedWithPhysicsGameObj
     return true;
 }
 
-void BaseAliveGameObject::OnResourceLoaded(BaseAliveGameObject* /*ppRes*/)
-{
-    // ppRes->field_104_pending_resource_count--;
-}
-
 void BaseAliveGameObject::UsePathTransScale()
 {
     auto pPathTrans = static_cast<relive::Path_PathTransition*>(gMap.VTLV_Get_At(
@@ -725,7 +665,7 @@ void BaseAliveGameObject::UsePathTransScale()
     {
         if (pPathTrans->mNextPathScale == relive::reliveScale::eHalf)
         {
-            if (GetSpriteScale() != FP_FromDouble(0.5))
+            if (PerGameScale() == Scale::Fg)
             {
                 SetSpriteScale(FP_FromDouble(0.5));
                 SetScale(Scale::Bg);
@@ -734,7 +674,7 @@ void BaseAliveGameObject::UsePathTransScale()
         }
         else if (pPathTrans->mNextPathScale == relive::reliveScale::eFull)
         {
-            if (GetSpriteScale() != FP_FromInteger(1))
+            if (PerGameScale() == Scale::Bg)
             {
                 SetSpriteScale(FP_FromInteger(1));
                 SetScale(Scale::Fg);

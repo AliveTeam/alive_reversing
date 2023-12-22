@@ -39,6 +39,9 @@ public:
     virtual bool VOnPlatformIntersection(BaseAnimatedWithPhysicsGameObject* pPlatform) = 0;
 
     void SetActiveCameraDelayedFromDir();
+    Scale PerGameScale();
+    bool WallHit(FP offY, FP offX);
+    bool Check_IsOnEndOfLine(s16 direction, s16 distance);
 
     template <class T>
     inline void SetCurrentMotion(T motion)

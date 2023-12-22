@@ -31,8 +31,6 @@ public:
 
 protected:
 
-    bool Check_IsOnEndOfLine(s16 direction, s16 distance);
-    bool WallHit(FP offY, FP offX);
     bool InAirCollision(PathLine** ppPathLine, FP* hitX, FP* hitY, FP velY);
     BaseGameObject* FindObjectOfType(ReliveTypes typeToFind, FP xpos, FP ypos);
 

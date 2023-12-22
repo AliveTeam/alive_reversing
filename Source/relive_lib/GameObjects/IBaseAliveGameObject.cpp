@@ -1,9 +1,11 @@
 #include "IBaseAliveGameObject.hpp"
-#include "GameType.hpp"
-#include "ObjectIds.hpp"
+#include "../GameType.hpp"
+#include "../ObjectIds.hpp"
+#include "../Collisions.hpp"
+#include "../../AliveLibAE/Grid.hpp"
+#include "../../AliveLibAO/Grid.hpp"
 
-
-#include "../AliveLibAO/PlatformBase.hpp"
+#include "../../AliveLibAO/PlatformBase.hpp"
 
 DynamicArrayT<IBaseAliveGameObject>* gBaseAliveGameObjects = nullptr;
 
@@ -172,4 +174,79 @@ void IBaseAliveGameObject::SetActiveCameraDelayedFromDir()
                 return;
         }
     }
+}
+
+Scale IBaseAliveGameObject::PerGameScale()
+{
+    if (GetGameType() == GameType::eAo)
+    {
+        return GetSpriteScale() != FP_FromDouble(0.5) ? Scale::Fg : Scale::Bg;
+    }
+    return GetScale();
+}
+
+bool IBaseAliveGameObject::WallHit(FP offY, FP offX)
+{
+    PathLine* pLine = nullptr;
+    return gCollisions->Raycast(
+               mXPos,
+               mYPos - offY,
+               mXPos + offX,
+               mYPos - offY,
+               &pLine,
+               &offX,
+               &offY,
+               PerGameScale() == Scale::Fg ? kFgWalls : kBgWalls)
+        != 0;
+}
+
+bool IBaseAliveGameObject::Check_IsOnEndOfLine(s16 direction, s16 distance)
+{
+    // Check if distance grid blocks from current snapped X is still on the line or not, if not then we are
+    // about to head off an edge.
+
+    const FP gridSize = ScaleToGridSize(GetSpriteScale());
+
+    FP xLoc = {};
+    if (direction == 1)
+    {
+        xLoc = -(gridSize * FP_FromInteger(distance));
+    }
+    else
+    {
+        xLoc = gridSize * FP_FromInteger(distance);
+    }
+
+    FP xPosSnapped = {};
+    CollisionMask usedMask;
+    if (GetGameType() == GameType::eAo)
+    {
+        const s16 xposRoundedAO = FP_GetExponent(mXPos) & 1023;
+        const FP xPosSnappedAO = FP_FromInteger((FP_GetExponent(mXPos) & 0xFC00) + AO::SnapToXGrid(GetSpriteScale(), xposRoundedAO));
+        if (xposRoundedAO < (240 + 16) || xposRoundedAO > (640 - 16))
+        {
+            return 0;
+        }
+        xPosSnapped = xPosSnappedAO;
+        usedMask = PerGameScale() == Scale::Fg ? kFgWallsOrFloor : kBgWallsOrFloor;
+    }
+    else
+    {
+        xPosSnapped = FP_FromInteger(SnapToXGrid(GetSpriteScale(), FP_GetExponent(mXPos)));
+        usedMask = PerGameScale() == Scale::Fg ? kFgFloorCeilingOrWalls : kBgFloorCeilingOrWalls;
+    }
+
+    PathLine* pLine = nullptr;
+    FP hitX = {};
+    FP hitY = {};
+    return gCollisions->Raycast(
+               xLoc + xPosSnapped,
+               mYPos - FP_FromInteger(4),
+               xLoc + xPosSnapped,
+               mYPos + FP_FromInteger(4),
+               &pLine,
+               &hitX,
+               &hitY,
+               usedMask)
+        == 0;
 }

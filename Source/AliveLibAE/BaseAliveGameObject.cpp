@@ -14,6 +14,7 @@
 #include "Path.hpp"
 #include "../relive_lib/FatalError.hpp"
 #include "../relive_lib/FixedPoint.hpp"
+#include "../relive_lib/GameType.hpp"
 
 BaseAliveGameObject::BaseAliveGameObject(s16 resourceArraySize)
     : IBaseAliveGameObject(resourceArraySize)
@@ -55,6 +56,8 @@ void BaseAliveGameObject::VCheckCollisionLineStillValid(s32 distance)
     PathLine* pLine = nullptr;
     FP hitX = {};
     FP hitY = {};
+
+    const CollisionMask mask = PerGameScale() == Scale::Fg ? kFgFloorCeilingOrWalls : kBgFloorCeilingOrWalls;
     if (gCollisions->Raycast(
             mXPos,
             mYPos - FP_FromInteger(distance),
@@ -63,7 +66,7 @@ void BaseAliveGameObject::VCheckCollisionLineStillValid(s32 distance)
             &pLine,
             &hitX,
             &hitY,
-            GetScale() == Scale::Fg ? kFgFloorCeilingOrWalls : kBgFloorCeilingOrWalls))
+            mask))
     {
         BaseAliveGameObjectCollisionLine = pLine;
         mYPos = hitY;
@@ -144,40 +147,6 @@ BirdPortal* BaseAliveGameObject::VIntoBirdPortal(s16 numGridBlocks)
     return nullptr;
 }
 
-bool BaseAliveGameObject::Check_IsOnEndOfLine(s16 direction, s16 distance)
-{
-    // Check if distance grid blocks from current snapped X is still on the line or not, if not then we are
-    // about to head off an edge.
-
-    const FP gridSize = ScaleToGridSize(GetSpriteScale());
-
-    FP xLoc = {};
-    if (direction == 1)
-    {
-        xLoc = -(gridSize * FP_FromInteger(distance));
-    }
-    else
-    {
-        xLoc = gridSize * FP_FromInteger(distance);
-    }
-
-    const FP xPosSnapped = FP_FromInteger(SnapToXGrid(GetSpriteScale(), FP_GetExponent(mXPos)));
-
-    PathLine* pLine = nullptr;
-    FP hitX = {};
-    FP hitY = {};
-    return gCollisions->Raycast(
-               xLoc + xPosSnapped,
-               mYPos - FP_FromInteger(4),
-               xLoc + xPosSnapped,
-               mYPos + FP_FromInteger(4),
-               &pLine,
-               &hitX,
-               &hitY,
-               GetScale() == Scale::Fg ? kFgFloorCeilingOrWalls : kBgFloorCeilingOrWalls)
-        == 0;
-}
-
 void BaseAliveGameObject::VOnPathTransition(s32 camWorldX, s32 camWorldY, CameraPos direction)
 {
     const FP oldY = mYPos;
@@ -238,7 +207,7 @@ void BaseAliveGameObject::VOnPathTransition(s32 camWorldX, s32 camWorldY, Camera
                     &pLine, 
 					&hitX, 
 					&hitY, 
-					GetScale() == Scale::Fg ? kFgFloor : kBgFloor))
+					PerGameScale() == Scale::Fg ? kFgFloor : kBgFloor))
             {
                 mYPos = hitY;
                 BaseAliveGameObjectCollisionLine = pLine;
@@ -252,9 +221,14 @@ void BaseAliveGameObject::VOnPathTransition(s32 camWorldX, s32 camWorldY, Camera
         {
             BaseAliveGameObjectLastLineYPos = mYPos - oldY + BaseAliveGameObjectLastLineYPos;
             if (gCollisions->Raycast(
-                    mXPos, BaseAliveGameObjectLastLineYPos - FP_FromInteger(40),
-                    mXPos, BaseAliveGameObjectLastLineYPos + FP_FromInteger(40),
-                    &pLine, &hitX, &hitY, GetScale() == Scale::Fg ? kFgFloor : kBgFloor))
+                    mXPos,
+                    BaseAliveGameObjectLastLineYPos - FP_FromInteger(40),
+                    mXPos,
+                    BaseAliveGameObjectLastLineYPos + FP_FromInteger(40),
+                    &pLine,
+                    &hitX,
+                    &hitY,
+                    PerGameScale() == Scale::Fg ? kFgFloor : kBgFloor))
             {
                 mYPos = hitY - BaseAliveGameObjectLastLineYPos + mYPos;
             }
@@ -314,21 +288,6 @@ bool BaseAliveGameObject::MapFollowMe(bool snapToGrid)
     return false;
 }
 
-bool BaseAliveGameObject::WallHit(FP offY, FP offX)
-{
-    PathLine* pLine = nullptr;
-    return gCollisions->Raycast(
-               mXPos,
-               mYPos - offY,
-               mXPos + offX,
-               mYPos - offY,
-               &pLine,
-               &offX,
-               &offY,
-               GetScale() == Scale::Fg ? kFgWalls : kBgWalls)
-        != 0;
-}
-
 bool BaseAliveGameObject::InAirCollision(PathLine** ppLine, FP* hitX, FP* hitY, FP velY)
 {
     mVelY += GetSpriteScale() * velY;
@@ -352,7 +311,7 @@ bool BaseAliveGameObject::InAirCollision(PathLine** ppLine, FP* hitX, FP* hitY, 
         ppLine,
         hitX,
         hitY,
-        GetScale() == Scale::Fg ? kFgFloorCeilingOrWalls : kBgFloorCeilingOrWalls);
+        PerGameScale() == Scale::Fg ? kFgFloorCeilingOrWalls : kBgFloorCeilingOrWalls);
 
     if (bCollision)
     {
@@ -373,7 +332,7 @@ bool BaseAliveGameObject::InAirCollision(PathLine** ppLine, FP* hitX, FP* hitY, 
         ppLine,
         hitX,
         hitY,
-        GetScale() == Scale::Fg ? kFgFloor : kBgFloor);
+        PerGameScale() == Scale::Fg ? kFgFloor : kBgFloor);
 
     if (bCollision)
     {
@@ -400,7 +359,7 @@ bool BaseAliveGameObject::InAirCollision(PathLine** ppLine, FP* hitX, FP* hitY, 
         ppLine,
         hitX,
         hitY,
-        GetScale() == Scale::Fg ? kFgWalls : kBgWalls);
+        PerGameScale() == Scale::Fg ? kFgWalls : kBgWalls);
 }
 
 BaseGameObject* BaseAliveGameObject::FindObjectOfType(ReliveTypes typeToFind, FP xpos, FP ypos)
