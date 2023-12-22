@@ -315,7 +315,7 @@ Slig::~Slig()
                 0);
     }
 
-    auto pTlv = gMap.VTLV_Get_At(
+    auto pTlv = gMap.VTLV_Get_At_Of_Type(
         field_174_tlv->mTopLeftX,
         field_174_tlv->mTopLeftY,
         field_174_tlv->mTopLeftX,
@@ -1254,7 +1254,7 @@ s16 Slig::HandleEnemyStopper(s32 gridBlocks)
     }
 
     const auto dirScaled = ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(directedGirdBlocks) + mXPos;
-    auto pStopper = static_cast<relive::Path_EnemyStopper*>(gMap.VTLV_Get_At(
+    auto pStopper = static_cast<relive::Path_EnemyStopper*>(gMap.VTLV_Get_At_Of_Type(
         FP_GetExponent(mXPos),
         FP_GetExponent(mYPos),
         FP_GetExponent(dirScaled),
@@ -1562,7 +1562,7 @@ s16 Slig::IsInInvisibleZone(BaseAnimatedWithPhysicsGameObject* pObj)
 
     const PSX_RECT rect = pObj->VGetBoundingRect();
 
-    relive::Path_TLV* pTlv = gMap.VTLV_Get_At(rect.x, rect.y, rect.w, rect.h, ReliveTypes::eInvisibleZone);
+    relive::Path_TLV* pTlv = gMap.VTLV_Get_At_Of_Type(rect.x, rect.y, rect.w, rect.h, ReliveTypes::eInvisibleZone);
     if (pTlv)
     {
         if (rect.x >= pTlv->mTopLeftX && rect.x <= pTlv->mBottomRightX && rect.y >= pTlv->mTopLeftY)
@@ -1933,7 +1933,7 @@ s16 Slig::HandlePlayerControlled()
     {
         if (!Input_IsChanting())
         {
-            relive::Path_Lever* pTlv = static_cast<relive::Path_Lever*>(gMap.VTLV_Get_At(
+            relive::Path_Lever* pTlv = static_cast<relive::Path_Lever*>(gMap.VTLV_Get_At_Of_Type(
                 FP_GetExponent(mXPos),
                 FP_GetExponent(mYPos),
                 FP_GetExponent(mXPos),
@@ -4120,7 +4120,7 @@ void Slig::WakeUp()
     mNextMotion = eSligMotions::Motion_34_SleepingToStand;
     SetBrain(&Slig::Brain_WakingUp);
     MusicController::static_PlayMusic(MusicController::MusicTypes::eChase_4, this, 0, 0);
-    auto pTlv = static_cast<relive::Path_Slig*>(gMap.VTLV_Get_At(
+    auto pTlv = static_cast<relive::Path_Slig*>(gMap.VTLV_Get_At_Of_Type(
         field_174_tlv->mTopLeftX,
         field_174_tlv->mTopLeftY,
         field_174_tlv->mTopLeftX,

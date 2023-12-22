@@ -2815,7 +2815,7 @@ void Slog::VUpdate()
 
         if (oldXPos != mXPos || oldYPos != mYPos)
         {
-            BaseAliveGameObjectPathTLV = gPathInfo->TlvGetAt(
+            BaseAliveGameObjectPathTLV = gPathInfo->TLV_Get_At(
                 nullptr,
                 mXPos,
                 mYPos,
@@ -3211,7 +3211,7 @@ void Slog::VOnTlvCollision(relive::Path_TLV* pTlv)
             mHealth = FP_FromInteger(0);
             SetDead(true);
         }
-        pTlv = gPathInfo->TlvGetAt(pTlv, mXPos, mYPos, mXPos, mYPos);
+        pTlv = gPathInfo->TLV_Get_At(pTlv, mXPos, mYPos, mXPos, mYPos);
     }
 }
 
@@ -3392,7 +3392,7 @@ s16 Slog::HandleEnemyStopper()
     }
 
     const auto stopperPath = static_cast<relive::Path_EnemyStopper*>(
-        gPathInfo->TLV_Get_At(
+        gPathInfo->VTLV_Get_At_Of_Type(
             FP_GetExponent(xToUse), FP_GetExponent(mYPos),
             FP_GetExponent(width), FP_GetExponent(mYPos), ReliveTypes::eEnemyStopper));
 

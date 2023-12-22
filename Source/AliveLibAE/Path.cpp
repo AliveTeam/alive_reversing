@@ -118,7 +118,7 @@ relive::Path_TLV* Path::TLV_First_Of_Type_In_Camera(ReliveTypes objectType, s16 
     return pTlv;
 }
 
-relive::Path_TLV* Path::TLV_Get_At(s16 xpos, s16 ypos, s16 width, s16 height, ReliveTypes objectType)
+relive::Path_TLV* Path::VTLV_Get_At_Of_Type(s16 xpos, s16 ypos, s16 width, s16 height, ReliveTypes objectType)
 {
     // TODO: Can be refactored to use min/max
     s16 right = 0;
@@ -176,12 +176,12 @@ relive::Path_TLV* Path::TLV_Get_At(s16 xpos, s16 ypos, s16 width, s16 height, Re
     return pTlvIter;
 }
 
-relive::Path_TLV* Path::TlvGetAt(relive::Path_TLV* pTlv, FP xpos, FP ypos, FP w, FP h)
+relive::Path_TLV* Path::TLV_Get_At(relive::Path_TLV* pTlv, FP xpos, FP ypos, FP width, FP height)
 {
     const s32 xpos_converted = FP_GetExponent(xpos);
     const s32 ypos_converted = FP_GetExponent(ypos);
-    s32 width_converted = FP_GetExponent(w);
-    s32 height_converted = FP_GetExponent(h);
+    s32 width_converted = FP_GetExponent(width);
+    s32 height_converted = FP_GetExponent(height);
 
     s32 xyPosValid = 1;
     if (xpos_converted < 0 || ypos_converted < 0)

@@ -974,7 +974,7 @@ void Mudokon::VUpdate()
 
     if (oldXPos != mXPos || oldYPos != mYPos)
     {
-        BaseAliveGameObjectPathTLV = gPathInfo->TlvGetAt(
+        BaseAliveGameObjectPathTLV = gPathInfo->TLV_Get_At(
             nullptr,
             mXPos,
             mYPos,
@@ -1072,7 +1072,7 @@ void Mudokon::VOnTlvCollision(relive::Path_TLV* pTlv)
             }
         }
 
-        pTlvIter = gPathInfo->TlvGetAt(
+        pTlvIter = gPathInfo->TLV_Get_At(
             pTlvIter,
             mXPos,
             mYPos,
@@ -1500,7 +1500,7 @@ s16 Mudokon::TurningWheelHelloOrAllYaResponse()
         return mBrainSubState;
     }
 
-    auto pWheelTlv = static_cast<relive::Path_WorkWheel*>(gPathInfo->TLV_Get_At(
+    auto pWheelTlv = static_cast<relive::Path_WorkWheel*>(gPathInfo->VTLV_Get_At_Of_Type(
         FP_GetExponent(mXPos),
         FP_GetExponent(mYPos),
         FP_GetExponent(mXPos),
@@ -2994,7 +2994,7 @@ s16 Mudokon::Brain_4_ListeningToAbe()
             {
                 mDoAngry = true;
 
-                if (gPathInfo->TLV_Get_At(
+                if (gPathInfo->VTLV_Get_At_Of_Type(
                         FP_GetExponent(mXPos),
                         FP_GetExponent(mYPos - FP_FromInteger(5)),
                         FP_GetExponent(mXPos),
@@ -4843,7 +4843,7 @@ s16 Mudokon::Brain_8_AngryWorker()
             // adds mudokon lag when quicksaving/quickloading in the same screen
             AddAlerted();
 
-            return gPathInfo->TLV_Get_At(
+            return gPathInfo->VTLV_Get_At_Of_Type(
                        FP_GetExponent(mXPos),
                        FP_GetExponent(mYPos),
                        FP_GetExponent(mXPos),
@@ -4936,7 +4936,7 @@ s16 Mudokon::Brain_8_AngryWorker()
                 mNextMotion = eMudMotions::M_Speak_6_472FA0;
                 MudEmotionSound(field_160_delayed_speak);
                 field_194_timer = MakeTimer(Math_RandomRange(30, 45));
-                return gPathInfo->TLV_Get_At(
+                return gPathInfo->VTLV_Get_At_Of_Type(
                            FP_GetExponent(mXPos),
                            FP_GetExponent(mYPos),
                            FP_GetExponent(mXPos),
@@ -6374,7 +6374,7 @@ void Mudokon::Motion_49_Fall()
 
                 MapFollowMe(true);
 
-                if ((gPathInfo->TLV_Get_At(
+                if ((gPathInfo->VTLV_Get_At_Of_Type(
                          FP_GetExponent(mXPos),
                          FP_GetExponent(mYPos),
                          FP_GetExponent(mXPos),
@@ -6812,7 +6812,7 @@ void Mudokon::ToStand()
 s16 Mudokon::FindWheel(FP xpos, FP ypos)
 {
     auto* pWheelTlv = static_cast<relive::Path_WorkWheel*>(
-        gPathInfo->TLV_Get_At(
+        gPathInfo->VTLV_Get_At_Of_Type(
             FP_GetExponent(xpos), FP_GetExponent(ypos), FP_GetExponent(xpos), FP_GetExponent(ypos), ReliveTypes::eWorkWheel));
 
     if (pWheelTlv)
@@ -6887,7 +6887,7 @@ s16 Mudokon::StopAtWheel()
             // Check if the other mud has already take the spot of this work wheel
             if (bRect.x <= ourRect.w && bRect.w >= ourRect.x && bRect.h >= ourRect.y && bRect.y <= ourRect.h)
             {
-                if (pOtherMud->mStoppedAtWheel || (gPathInfo->TLV_Get_At(FP_GetExponent(pObj->mXPos), FP_GetExponent(pObj->mYPos), FP_GetExponent(pObj->mXPos), FP_GetExponent(pObj->mYPos), ReliveTypes::eWorkWheel) && pOtherMud->mVelX == FP_FromInteger(0)))
+                if (pOtherMud->mStoppedAtWheel || (gPathInfo->VTLV_Get_At_Of_Type(FP_GetExponent(pObj->mXPos), FP_GetExponent(pObj->mYPos), FP_GetExponent(pObj->mXPos), FP_GetExponent(pObj->mYPos), ReliveTypes::eWorkWheel) && pOtherMud->mVelX == FP_FromInteger(0)))
                 {
                     // Another mud has stolen this wheel so don't stop
                     return 0;

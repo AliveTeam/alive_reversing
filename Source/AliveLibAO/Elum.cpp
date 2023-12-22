@@ -3426,7 +3426,7 @@ void Elum::VScreenChanged()
             }
             else if (mCurrentPath == gMap.mCurrentPath)
             {
-                auto pElumPathTrans = static_cast<relive::Path_ElumPathTrans*>(gMap.VTLV_Get_At(
+                auto pElumPathTrans = static_cast<relive::Path_ElumPathTrans*>(gMap.VTLV_Get_At_Of_Type(
                     FP_GetExponent(mXPos),
                     FP_GetExponent(mYPos),
                     FP_GetExponent(mXPos),

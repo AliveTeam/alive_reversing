@@ -388,7 +388,7 @@ s16 Grenade::InTheAir(s16 blowUpOnFloorTouch)
     mYPos += mVelY;
 
     // Kill the nade if it hits a death drop
-    BaseAliveGameObjectPathTLV = gPathInfo->TlvGetAt(
+    BaseAliveGameObjectPathTLV = gPathInfo->TLV_Get_At(
         nullptr,
         mXPos,
         mYPos,
@@ -403,7 +403,7 @@ s16 Grenade::InTheAir(s16 blowUpOnFloorTouch)
             return 1;
         }
 
-        BaseAliveGameObjectPathTLV = gPathInfo->TlvGetAt(
+        BaseAliveGameObjectPathTLV = gPathInfo->TLV_Get_At(
             BaseAliveGameObjectPathTLV,
             mXPos,
             mYPos,

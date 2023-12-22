@@ -407,7 +407,7 @@ void CrawlingSlig::VUpdate()
 
         if (oldX != mXPos || oldY != mYPos)
         {
-            auto pTlv = gPathInfo->TlvGetAt(
+            auto pTlv = gPathInfo->TLV_Get_At(
                 nullptr,
                 mXPos,
                 mYPos,
@@ -439,7 +439,7 @@ s16 CrawlingSlig::HandleEnemyStopper(FP /*velX*/)
     }
 
     const FP gridSize = ScaleToGridSize(GetSpriteScale());
-    auto pSlamDoor = static_cast<relive::Path_SlamDoor*>(gPathInfo->TLV_Get_At(
+    auto pSlamDoor = static_cast<relive::Path_SlamDoor*>(gPathInfo->VTLV_Get_At_Of_Type(
         FP_GetExponent(mXPos),
         FP_GetExponent(mYPos),
         FP_GetExponent(mXPos + gridSizeDirected),
@@ -452,7 +452,7 @@ s16 CrawlingSlig::HandleEnemyStopper(FP /*velX*/)
         return 1;
     }
 
-    auto pStopper = static_cast<relive::Path_EnemyStopper*>(gPathInfo->TLV_Get_At(
+    auto pStopper = static_cast<relive::Path_EnemyStopper*>(gPathInfo->VTLV_Get_At_Of_Type(
         FP_GetExponent(mXPos),
         FP_GetExponent(mYPos),
         FP_GetExponent(mXPos + gridSizeDirected),
@@ -465,14 +465,14 @@ s16 CrawlingSlig::HandleEnemyStopper(FP /*velX*/)
 
 relive::Path_TLV* CrawlingSlig::FindPantsOrWings()
 {
-    relive::Path_TLV* pTlvIter = gPathInfo->TlvGetAt(nullptr, mXPos, mYPos, mXPos, mYPos);
+    relive::Path_TLV* pTlvIter = gPathInfo->TLV_Get_At(nullptr, mXPos, mYPos, mXPos, mYPos);
     while (pTlvIter)
     {
         if (pTlvIter->mTlvType == ReliveTypes::eSligGetPants || pTlvIter->mTlvType == ReliveTypes::eSligGetWings)
         {
             return pTlvIter;
         }
-        pTlvIter = gPathInfo->TlvGetAt(pTlvIter, mXPos, mYPos, mXPos, mYPos);
+        pTlvIter = gPathInfo->TLV_Get_At(pTlvIter, mXPos, mYPos, mXPos, mYPos);
     }
     return nullptr;
 }
@@ -512,7 +512,7 @@ void CrawlingSlig::VOnTlvCollision(relive::Path_TLV* pTlv)
             }
         }
 
-        pTlv = gPathInfo->TlvGetAt(
+        pTlv = gPathInfo->TLV_Get_At(
             pTlv,
             mXPos,
             mYPos,

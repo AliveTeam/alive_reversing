@@ -779,7 +779,7 @@ LiftPoint::~LiftPoint()
 
     Path::TLV_Reset(mPlatformBaseTlvInfo, -1, 0, 0);
 
-    auto pLiftPointTlv = gMap.VTLV_Get_At(
+    auto pLiftPointTlv = gMap.VTLV_Get_At_Of_Type(
         FP_GetExponent(mXPos),
         FP_GetExponent(FP_FromInteger(mPlatformBaseCollisionLine->mRect.y)),
         FP_GetExponent(mXPos),

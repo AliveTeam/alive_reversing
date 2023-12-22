@@ -5088,7 +5088,7 @@ void Paramite::HandleBrainsAndMotions()
 
     if (oldXPos != mXPos || oldYPos != mYPos)
     {
-        BaseAliveGameObjectPathTLV = gPathInfo->TlvGetAt(
+        BaseAliveGameObjectPathTLV = gPathInfo->TLV_Get_At(
             nullptr,
             mXPos,
             mYPos,
@@ -5475,7 +5475,7 @@ void Paramite::VOnTlvCollision(relive::Path_TLV* pTlv)
                 EventBroadcast(kScrabOrParamiteDied, this);
             }
         }
-        pTlv = gPathInfo->TlvGetAt(pTlv, mXPos, mYPos, mXPos, mYPos);
+        pTlv = gPathInfo->TLV_Get_At(pTlv, mXPos, mYPos, mXPos, mYPos);
     }
 }
 
@@ -5600,7 +5600,7 @@ s16 Paramite::CanIAcceptAGameSpeakCommand()
 
 s16 Paramite::HandleEnemyStopper(s16 numGridBlocks)
 {
-    auto pEnemyStopper = static_cast<relive::Path_EnemyStopper*>(gPathInfo->TLV_Get_At(
+    auto pEnemyStopper = static_cast<relive::Path_EnemyStopper*>(gPathInfo->VTLV_Get_At_Of_Type(
         FP_GetExponent(mXPos),
         FP_GetExponent(mYPos),
         FP_GetExponent(mXPos + (ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(numGridBlocks))),

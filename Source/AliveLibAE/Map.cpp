@@ -393,7 +393,7 @@ void Map::Handle_PathTransition()
     relive::Path_PathTransition* pTlv = nullptr;
     if (mAliveObj)
     {
-        pTlv = static_cast<relive::Path_PathTransition*>(gPathInfo->TLV_Get_At(
+        pTlv = static_cast<relive::Path_PathTransition*>(gPathInfo->VTLV_Get_At_Of_Type(
             FP_GetExponent(mAliveObj->mXPos),
             FP_GetExponent(mAliveObj->mYPos),
             FP_GetExponent(mAliveObj->mXPos),
@@ -1147,9 +1147,9 @@ void Map::LoadResource(const char_type* /*pFileName*/, s32 /*type*/, s32 /*resou
     }
 }
 
-relive::Path_TLV* Map::VTLV_Get_At(s16 xpos, s16 ypos, s16 width, s16 height, ReliveTypes typeToFind)
+relive::Path_TLV* Map::VTLV_Get_At_Of_Type(s16 xpos, s16 ypos, s16 width, s16 height, ReliveTypes typeToFind)
 {
-    return gPathInfo->TLV_Get_At(xpos, ypos, width, height, typeToFind);
+    return gPathInfo->VTLV_Get_At_Of_Type(xpos, ypos, width, height, typeToFind);
 }
 
 Map gMap = {};

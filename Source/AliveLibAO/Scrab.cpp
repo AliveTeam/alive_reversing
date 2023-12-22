@@ -2470,7 +2470,7 @@ s16 Scrab::Brain_ChasingEnemy()
             relive::Path_TLV* pTlv = nullptr;
             if (GetAnimation().GetFlipX())
             {
-                pTlv = gMap.VTLV_Get_At(
+                pTlv = gMap.VTLV_Get_At_Of_Type(
                     FP_GetExponent(mXPos - kGridSize),
                     FP_GetExponent(mYPos),
                     FP_GetExponent(mXPos - kGridSize),
@@ -2479,7 +2479,7 @@ s16 Scrab::Brain_ChasingEnemy()
             }
             else
             {
-                pTlv = gMap.VTLV_Get_At(
+                pTlv = gMap.VTLV_Get_At_Of_Type(
                     FP_GetExponent(mXPos + kGridSize),
                     FP_GetExponent(mYPos),
                     FP_GetExponent(mXPos + kGridSize),
@@ -2489,7 +2489,7 @@ s16 Scrab::Brain_ChasingEnemy()
 
             if (!pTlv)
             {
-                pTlv = gMap.VTLV_Get_At(
+                pTlv = gMap.VTLV_Get_At_Of_Type(
                     FP_GetExponent(mXPos),
                     FP_GetExponent(mYPos),
                     FP_GetExponent(mXPos),
@@ -2555,7 +2555,7 @@ s16 Scrab::Brain_ChasingEnemy()
                 if (abs(xSnapped - x_exp) < 6 && Check_IsOnEndOfLine(0, 1))
                 {
                     if (mAbeOrMudTarget->mYPos - mYPos < FP_FromInteger(5)
-                        || gMap.VTLV_Get_At(
+                        || gMap.VTLV_Get_At_Of_Type(
                             FP_GetExponent(mXPos + kGridSize),
                             FP_GetExponent(mYPos + FP_FromInteger(10)),
                             FP_GetExponent(mXPos + kGridSize),
@@ -2571,7 +2571,7 @@ s16 Scrab::Brain_ChasingEnemy()
                     }
                 }
 
-                BaseAliveGameObjectPathTLV = gMap.VTLV_Get_At(
+                BaseAliveGameObjectPathTLV = gMap.VTLV_Get_At_Of_Type(
                     FP_GetExponent(mXPos + (kGridSize * FP_FromInteger(2))),
                     FP_GetExponent(mYPos),
                     FP_GetExponent(mXPos + (kGridSize * FP_FromInteger(2))),
@@ -2598,7 +2598,7 @@ s16 Scrab::Brain_ChasingEnemy()
                 if (abs(xSnapped - x_exp) < 6 && Check_IsOnEndOfLine(1, 1))
                 {
                     if ((mAbeOrMudTarget->mYPos - mYPos < FP_FromInteger(5))
-                        || gMap.VTLV_Get_At(
+                        || gMap.VTLV_Get_At_Of_Type(
                             FP_GetExponent(mXPos - kGridSize),
                             FP_GetExponent(mYPos + FP_FromInteger(10)),
                             FP_GetExponent(mXPos - kGridSize),
@@ -2614,7 +2614,7 @@ s16 Scrab::Brain_ChasingEnemy()
                     }
                 }
 
-                BaseAliveGameObjectPathTLV = gMap.VTLV_Get_At(
+                BaseAliveGameObjectPathTLV = gMap.VTLV_Get_At_Of_Type(
                     FP_GetExponent(mXPos - (kGridSize * FP_FromInteger(2))),
                     FP_GetExponent(mYPos),
                     FP_GetExponent(mXPos - (kGridSize * FP_FromInteger(2))),
@@ -2760,7 +2760,7 @@ s16 Scrab::Brain_ChasingEnemy()
                 return mBrainSubState;
             }
 
-            BaseAliveGameObjectPathTLV = gMap.VTLV_Get_At(
+            BaseAliveGameObjectPathTLV = gMap.VTLV_Get_At_Of_Type(
                 FP_GetExponent(mXPos),
                 FP_GetExponent(mYPos),
                 FP_GetExponent(mXPos),
@@ -3063,7 +3063,7 @@ s16 Scrab::Brain_Patrol()
                 }
             }
 
-            auto pStopper = static_cast<relive::Path_EnemyStopper*>(gMap.VTLV_Get_At(
+            auto pStopper = static_cast<relive::Path_EnemyStopper*>(gMap.VTLV_Get_At_Of_Type(
                 FP_GetExponent(mXPos),
                 FP_GetExponent(mYPos),
                 FP_GetExponent(mXPos),
@@ -3096,7 +3096,7 @@ s16 Scrab::Brain_Patrol()
 
             if (GetAnimation().GetFlipX())
             {
-                BaseAliveGameObjectPathTLV = gMap.VTLV_Get_At(
+                BaseAliveGameObjectPathTLV = gMap.VTLV_Get_At_Of_Type(
                     FP_GetExponent(mXPos),
                     FP_GetExponent(mYPos),
                     FP_GetExponent(mXPos),
@@ -3111,7 +3111,7 @@ s16 Scrab::Brain_Patrol()
             }
             else
             {
-                BaseAliveGameObjectPathTLV = gMap.VTLV_Get_At(
+                BaseAliveGameObjectPathTLV = gMap.VTLV_Get_At_Of_Type(
                     FP_GetExponent(mXPos),
                     FP_GetExponent(mYPos),
                     FP_GetExponent(mXPos),
@@ -3140,7 +3140,7 @@ s16 Scrab::Brain_Patrol()
                 }
             }
 
-            if (gMap.VTLV_Get_At(
+            if (gMap.VTLV_Get_At_Of_Type(
                     FP_GetExponent(mXPos - ScaleToGridSize(GetSpriteScale())),
                     FP_GetExponent(mYPos),
                     FP_GetExponent(mXPos - ScaleToGridSize(GetSpriteScale())),
@@ -3217,7 +3217,7 @@ s16 Scrab::Brain_Patrol()
                 }
             }
 
-            if (gMap.VTLV_Get_At(
+            if (gMap.VTLV_Get_At_Of_Type(
                     FP_GetExponent(ScaleToGridSize(GetSpriteScale()) + mXPos),
                     FP_GetExponent(mYPos),
                     FP_GetExponent(ScaleToGridSize(GetSpriteScale()) + mXPos),
@@ -3406,7 +3406,7 @@ s16 Scrab::Brain_WalkAround()
 
             if (GetAnimation().GetFlipX())
             {
-                auto pStopper = static_cast<relive::Path_EnemyStopper*>(gMap.VTLV_Get_At(
+                auto pStopper = static_cast<relive::Path_EnemyStopper*>(gMap.VTLV_Get_At_Of_Type(
                     FP_GetExponent(mXPos),
                     FP_GetExponent(mYPos),
                     FP_GetExponent(mXPos),
@@ -3434,7 +3434,7 @@ s16 Scrab::Brain_WalkAround()
             }
             else
             {
-                auto pStopper = static_cast<relive::Path_EnemyStopper*>(gMap.VTLV_Get_At(
+                auto pStopper = static_cast<relive::Path_EnemyStopper*>(gMap.VTLV_Get_At_Of_Type(
                     FP_GetExponent(mXPos),
                     FP_GetExponent(mYPos),
                     FP_GetExponent(mXPos),
@@ -3466,7 +3466,7 @@ s16 Scrab::Brain_WalkAround()
 
         case 2:
         {
-            auto pStopper = static_cast<relive::Path_EnemyStopper*>(gMap.VTLV_Get_At(
+            auto pStopper = static_cast<relive::Path_EnemyStopper*>(gMap.VTLV_Get_At_Of_Type(
                 FP_GetExponent(mXPos),
                 FP_GetExponent(mYPos),
                 FP_GetExponent(mXPos),
@@ -3522,7 +3522,7 @@ s16 Scrab::Brain_WalkAround()
 
         case 3:
         {
-            auto pStopper = static_cast<relive::Path_EnemyStopper*>(gMap.VTLV_Get_At(
+            auto pStopper = static_cast<relive::Path_EnemyStopper*>(gMap.VTLV_Get_At_Of_Type(
                 FP_GetExponent(mXPos),
                 FP_GetExponent(mYPos),
                 FP_GetExponent(mXPos),
@@ -3682,7 +3682,7 @@ void Scrab::SetTarget(BaseAliveGameObject* pTarget)
 
 s16 Scrab::HandleRunning()
 {
-    BaseAliveGameObjectPathTLV = gMap.VTLV_Get_At(
+    BaseAliveGameObjectPathTLV = gMap.VTLV_Get_At_Of_Type(
         FP_GetExponent(mXPos),
         FP_GetExponent(mYPos),
         FP_GetExponent(mXPos),

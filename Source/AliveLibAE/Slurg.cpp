@@ -258,7 +258,7 @@ void Slurg::VUpdate()
 
     if (oldXPos != mXPos)
     {
-        mSlurgTlv = gPathInfo->TlvGetAt(
+        mSlurgTlv = gPathInfo->TLV_Get_At(
             nullptr,
             mXPos,
             mYPos,
@@ -299,7 +299,7 @@ void Slurg::VOnTlvCollision(relive::Path_TLV* pTlv)
                 GoRight();
             }
         }
-        pTlv = gPathInfo->TlvGetAt(pTlv, mXPos, mYPos, mXPos, mYPos);
+        pTlv = gPathInfo->TLV_Get_At(pTlv, mXPos, mYPos, mXPos, mYPos);
     }
 
     if (mGoingRight)

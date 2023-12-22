@@ -95,7 +95,7 @@ public:
 
     relive::Path_TLV* TLV_First_Of_Type_In_Camera(ReliveTypes type, s32 camX);
 
-    relive::Path_TLV* VTLV_Get_At(s16 xpos, s16 ypos, s16 width, s16 height, ReliveTypes typeToFind) override;
+    relive::Path_TLV* VTLV_Get_At_Of_Type(s16 xpos, s16 ypos, s16 width, s16 height, ReliveTypes typeToFind) override;
 
     relive::Path_TLV* TLV_Get_At(relive::Path_TLV* pTlv, FP xpos, FP ypos, FP width, FP height);
 

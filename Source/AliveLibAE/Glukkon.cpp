@@ -2073,7 +2073,7 @@ void Glukkon::VUpdate()
 
         if (oldXPos != mXPos || oldYPos != mYPos)
         {
-            relive::Path_TLV* pTlv = gPathInfo->TlvGetAt(
+            relive::Path_TLV* pTlv = gPathInfo->TLV_Get_At(
                 nullptr,
                 mXPos,
                 mYPos,
@@ -2398,7 +2398,7 @@ s16 Glukkon::PathBlocked(FP /*a2*/, s16 checkBounds)
         return 1;
     }
 
-    BaseAliveGameObjectPathTLV = gPathInfo->TLV_Get_At(
+    BaseAliveGameObjectPathTLV = gPathInfo->VTLV_Get_At_Of_Type(
         FP_GetExponent(mXPos),
         FP_GetExponent(mYPos), // TODO Abs() ??
         FP_GetExponent(mXPos + gridSize),
@@ -2412,7 +2412,7 @@ s16 Glukkon::PathBlocked(FP /*a2*/, s16 checkBounds)
         return 1;
     }
 
-    BaseAliveGameObjectPathTLV = gPathInfo->TLV_Get_At(
+    BaseAliveGameObjectPathTLV = gPathInfo->VTLV_Get_At_Of_Type(
         FP_GetExponent(mXPos),
         FP_GetExponent(mYPos),
         FP_GetExponent(mXPos + gridSize),
@@ -2432,7 +2432,7 @@ s16 Glukkon::PathBlocked(FP /*a2*/, s16 checkBounds)
         return 0;
     }
 
-    if (gPathInfo->TLV_Get_At(
+    if (gPathInfo->VTLV_Get_At_Of_Type(
             FP_GetExponent(mXPos),
             FP_GetExponent(mYPos), // TODO: Abs() ??
             FP_GetExponent(mXPos + gridSize),
@@ -2785,7 +2785,7 @@ void Glukkon::VOnTlvCollision(relive::Path_TLV* pTlv)
             }
         }
 
-        pTlv = gPathInfo->TlvGetAt(
+        pTlv = gPathInfo->TLV_Get_At(
             pTlv,
             mXPos,
             mYPos,

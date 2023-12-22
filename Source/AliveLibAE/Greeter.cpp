@@ -303,7 +303,7 @@ void Greeter::BounceBackFromShot()
 void Greeter::HandleRollingAlong()
 {
     for (relive::Path_TLV* pTlv = field_138_pTlv; pTlv;
-         pTlv = gPathInfo->TlvGetAt(pTlv,
+         pTlv = gPathInfo->TLV_Get_At(pTlv,
                                                       mVelX + mXPos + mVelX,
                                                       mVelY + mYPos + mVelY,
                                                       mVelX + mXPos + mVelX,
@@ -773,7 +773,7 @@ void Greeter::VUpdate()
                           + mYPos
                           + mVelY;
 
-            field_138_pTlv = gPathInfo->TlvGetAt(nullptr, xpos, ypos, xpos, ypos);
+            field_138_pTlv = gPathInfo->TLV_Get_At(nullptr, xpos, ypos, xpos, ypos);
             HandleRollingAlong();
         }
     }
@@ -781,7 +781,7 @@ void Greeter::VUpdate()
     bool collisionCheck = true;
     if (mBrainState == GreeterBrainStates::eBrain_7_Fall)
     {
-        field_138_pTlv = gPathInfo->TlvGetAt(
+        field_138_pTlv = gPathInfo->TLV_Get_At(
             nullptr,
             mXPos,
             mYPos,

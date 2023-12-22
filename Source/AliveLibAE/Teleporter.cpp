@@ -122,7 +122,7 @@ void Teleporter::VUpdate()
 
             mSwitchState = SwitchStates_Get(mTlvData.mSwitchId);
 
-            if (!gPathInfo->TLV_Get_At(
+            if (!gPathInfo->VTLV_Get_At_Of_Type(
                     FP_GetExponent(sControlledCharacter->mXPos),
                     FP_GetExponent(sControlledCharacter->mYPos),
                     FP_GetExponent(sControlledCharacter->mXPos),

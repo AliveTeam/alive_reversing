@@ -766,7 +766,7 @@ s16 Slog::HandleEnemyStopper()
         xpos = mXPos - (ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(2));
     }
 
-    auto pStopper = static_cast<relive::Path_EnemyStopper*>(gMap.VTLV_Get_At(
+    auto pStopper = static_cast<relive::Path_EnemyStopper*>(gMap.VTLV_Get_At_Of_Type(
         FP_GetExponent(xpos),
         FP_GetExponent(mYPos),
         FP_GetExponent(xpos),

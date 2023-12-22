@@ -150,7 +150,7 @@ public:
 
     Camera* GetCamera(CameraPos pos);
 
-    virtual relive::Path_TLV* VTLV_Get_At(s16 xpos, s16 ypos, s16 width, s16 height, ReliveTypes objectType) = 0;
+    virtual relive::Path_TLV* VTLV_Get_At_Of_Type(s16 xpos, s16 ypos, s16 width, s16 height, ReliveTypes typeToFind) = 0;
 
     virtual s16 Is_Point_In_Current_Camera(EReliveLevelIds level, s32 path, FP xpos, FP ypos, s16 width) = 0;
 

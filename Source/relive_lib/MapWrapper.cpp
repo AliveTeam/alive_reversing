@@ -207,7 +207,7 @@ s16 IMap::SetActiveCameraDelayed(MapDirections direction, IBaseAliveGameObject* 
     CameraSwapEffects convertedSwapEffect = CameraSwapEffects::eInstantChange_0;
     if (pObj)
     {
-        pPathChangeTLV = static_cast<relive::Path_PathTransition*>(VTLV_Get_At(
+        pPathChangeTLV = static_cast<relive::Path_PathTransition*>(VTLV_Get_At_Of_Type(
             FP_GetExponent(pObj->mXPos),
             FP_GetExponent(pObj->mYPos),
             FP_GetExponent(pObj->mXPos),

@@ -1777,7 +1777,7 @@ void Slig::Motion_34_Knockback()
             SetCurrentMotion(eSligMotions::Motion_34_Knockback);
             field_12C_timer = MakeTimer(10);
             if (mYPos - BaseAliveGameObjectLastLineYPos > FP_FromInteger(180)
-                && !gPathInfo->TLV_Get_At(
+                && !gPathInfo->VTLV_Get_At_Of_Type(
                     FP_GetExponent(mXPos),
                     FP_GetExponent(mYPos),
                     FP_GetExponent(mXPos),
@@ -1984,7 +1984,7 @@ void Slig::Motion_38_OutToFall()
         SetDead(true);
     }
 
-    if (GetCurrentMotion() == eSligMotions::Motion_40_LandingSoft && fallDepth > FP_FromInteger(180) && !gPathInfo->TLV_Get_At(FP_GetExponent(mXPos), FP_GetExponent(mYPos), FP_GetExponent(mXPos), FP_GetExponent(mYPos), ReliveTypes::eSoftLanding))
+    if (GetCurrentMotion() == eSligMotions::Motion_40_LandingSoft && fallDepth > FP_FromInteger(180) && !gPathInfo->VTLV_Get_At_Of_Type(FP_GetExponent(mXPos), FP_GetExponent(mYPos), FP_GetExponent(mXPos), FP_GetExponent(mYPos), ReliveTypes::eSoftLanding))
     {
         SetCurrentMotion(eSligMotions::Motion_41_LandingFatal);
         field_12C_timer = MakeTimer(30);
@@ -4672,7 +4672,7 @@ void Slig::VUpdate()
 
         if (oldXPos != mXPos || oldYPos != mYPos)
         {
-            BaseAliveGameObjectPathTLV = gPathInfo->TlvGetAt(
+            BaseAliveGameObjectPathTLV = gPathInfo->TLV_Get_At(
                 nullptr,
                 mXPos,
                 mYPos,
@@ -4746,7 +4746,7 @@ void Slig::VOnTlvCollision(relive::Path_TLV* pTlv)
                 EventBroadcast(kEventMudokonComfort, this);
             }
         }
-        pTlv = gPathInfo->TlvGetAt(pTlv, mXPos, mYPos, mXPos, mYPos);
+        pTlv = gPathInfo->TLV_Get_At(pTlv, mXPos, mYPos, mXPos, mYPos);
     }
 }
 
@@ -4782,7 +4782,7 @@ void Slig::WakeUp()
     SetBrain(&Slig::Brain_31_WakingUp);
 
     MusicController::static_PlayMusic(MusicController::MusicTypes::eTension_4, this, 0, 0);
-    relive::Path_TLV* pTlv = gPathInfo->TLV_Get_At(
+    relive::Path_TLV* pTlv = gPathInfo->VTLV_Get_At_Of_Type(
         mSligTlv.mTopLeftX,
         mSligTlv.mTopLeftY,
         mSligTlv.mTopLeftX,
@@ -5960,7 +5960,7 @@ s16 Slig::HandleEnemyStopper(s32 gridBlocks)
     }
 
     const FP width = ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(directedGirdBlocks) + mXPos;
-    auto pTlv = static_cast<relive::Path_EnemyStopper*>(gPathInfo->TLV_Get_At(
+    auto pTlv = static_cast<relive::Path_EnemyStopper*>(gPathInfo->VTLV_Get_At_Of_Type(
         FP_GetExponent(mXPos),
         FP_GetExponent(mYPos),
         FP_GetExponent(width),
@@ -6252,7 +6252,7 @@ s16 Slig::IsAbeEnteringDoor(IBaseAliveGameObject* pThis)
 s16 Slig::FindLever()
 {
     const s16 yPos = FP_GetExponent(mYPos - FP_FromInteger(5));
-    if (gPathInfo->TLV_Get_At(FP_GetExponent(mXPos), yPos, FP_GetExponent(mXPos), yPos, ReliveTypes::eLever))
+    if (gPathInfo->VTLV_Get_At_Of_Type(FP_GetExponent(mXPos), yPos, FP_GetExponent(mXPos), yPos, ReliveTypes::eLever))
     {
         return 0;
     }
@@ -6263,7 +6263,7 @@ s16 Slig::FindLever()
         xOff = -xOff;
     }
 
-    return gPathInfo->TLV_Get_At(
+    return gPathInfo->VTLV_Get_At_Of_Type(
                FP_GetExponent(FP_Abs(mXPos) + xOff),
                yPos,
                FP_GetExponent(FP_Abs(mXPos) + xOff),
@@ -6417,7 +6417,7 @@ bool Slig::VTakeDamage(BaseGameObject* pFrom)
                     relive::Path_TLV* pTlvIter = nullptr;
                     for (;;)
                     {
-                        pTlvIter = gPathInfo->TlvGetAt(pTlvIter, mXPos, rectY, mXPos, rectY);
+                        pTlvIter = gPathInfo->TLV_Get_At(pTlvIter, mXPos, rectY, mXPos, rectY);
                         if (!pTlvIter)
                         {
                             break;

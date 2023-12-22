@@ -396,7 +396,7 @@ void LiftPoint::VUpdate()
         {
             mLiftPointStopType = relive::Path_LiftPoint::LiftPointStopType::eStartPointOnly;
             const FP lineY = FP_FromInteger(mPlatformBaseCollisionLine->mRect.y);
-            relive::Path_TLV* pTlvIter = gPathInfo->TlvGetAt(
+            relive::Path_TLV* pTlvIter = gPathInfo->TLV_Get_At(
                 nullptr,
                 mXPos,
                 lineY,
@@ -407,7 +407,7 @@ void LiftPoint::VUpdate()
             {
                 while (pTlvIter->mTlvType != ReliveTypes::eLiftPoint)
                 {
-                    pTlvIter = gPathInfo->TlvGetAt(
+                    pTlvIter = gPathInfo->TLV_Get_At(
                         pTlvIter,
                         mXPos,
                         lineY,
@@ -911,7 +911,7 @@ LiftPoint::~LiftPoint()
 
     Path::TLV_Reset(mPlatformBaseTlvInfo, -1, 0, 0);
 
-    relive::Path_TLV* pTlv = gPathInfo->TLV_Get_At(
+    relive::Path_TLV* pTlv = gPathInfo->VTLV_Get_At_Of_Type(
         FP_GetExponent(mXPos),
         FP_GetExponent(GetSpriteScale() * FP_FromInteger(30)),
         FP_GetExponent(mXPos),

@@ -213,7 +213,7 @@ void Scrab::VOnTlvCollision(relive::Path_TLV* pTlv)
                 }
             }
         }
-        pTlv = gPathInfo->TlvGetAt(
+        pTlv = gPathInfo->TLV_Get_At(
             pTlv,
             mXPos,
             mYPos,
@@ -656,7 +656,7 @@ void Scrab::VUpdate()
 
             if (field_198_max_xpos != mXPos || field_19C_max_ypos != mYPos)
             {
-                BaseAliveGameObjectPathTLV = gPathInfo->TlvGetAt(
+                BaseAliveGameObjectPathTLV = gPathInfo->TLV_Get_At(
                     nullptr,
                     mXPos,
                     mYPos,
@@ -1463,7 +1463,7 @@ s16 Scrab::Brain_ChasingEnemy_State_2_Running(BaseAliveGameObject* pObj)
     if (xPosition < 6
         && Check_IsOnEndOfLine(mVelX < FP_FromInteger(0), 1)
         && ((pObj->mYPos - mYPos < FP_FromInteger(5))
-            || gPathInfo->TLV_Get_At(
+            || gPathInfo->VTLV_Get_At_Of_Type(
                 FP_GetExponent(mXPos + xOffset),
                 FP_GetExponent(mYPos + FP_FromInteger(10)),
                 FP_GetExponent(mXPos + xOffset),
@@ -4180,7 +4180,7 @@ s16 Scrab::Handle_SlamDoor_or_EnemyStopper(FP velX, s16 bCheckLeftRightBounds)
         return 1;
     }
 
-    BaseAliveGameObjectPathTLV = gPathInfo->TLV_Get_At(
+    BaseAliveGameObjectPathTLV = gPathInfo->VTLV_Get_At_Of_Type(
         FP_GetExponent(mXPos),
         FP_GetExponent(FP_Abs(mYPos)),
         FP_GetExponent(mXPos + gridSize),
@@ -4193,7 +4193,7 @@ s16 Scrab::Handle_SlamDoor_or_EnemyStopper(FP velX, s16 bCheckLeftRightBounds)
         return 1;
     }
 
-    BaseAliveGameObjectPathTLV = gPathInfo->TLV_Get_At(
+    BaseAliveGameObjectPathTLV = gPathInfo->VTLV_Get_At_Of_Type(
         FP_GetExponent(mXPos),
         FP_GetExponent(mYPos),
         FP_GetExponent(mXPos + gridSize),
@@ -4208,7 +4208,7 @@ s16 Scrab::Handle_SlamDoor_or_EnemyStopper(FP velX, s16 bCheckLeftRightBounds)
 
     if (bCheckLeftRightBounds)
     {
-        if (gPathInfo->TLV_Get_At(
+        if (gPathInfo->VTLV_Get_At_Of_Type(
                 FP_GetExponent(mXPos),
                 FP_GetExponent(FP_Abs(mYPos)),
                 FP_GetExponent(mXPos + gridSize),

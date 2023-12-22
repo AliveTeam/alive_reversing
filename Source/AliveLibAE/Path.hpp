@@ -238,8 +238,8 @@ public:
     }
 
     relive::Path_TLV* TLV_First_Of_Type_In_Camera(ReliveTypes objectType, s16 camX);
-    relive::Path_TLV* TLV_Get_At(s16 xpos, s16 ypos, s16 width, s16 height, ReliveTypes objectType);
-    relive::Path_TLV* TlvGetAt(relive::Path_TLV* pTlv, FP xpos, FP ypos, FP w, FP h);
+    relive::Path_TLV* VTLV_Get_At_Of_Type(s16 xpos, s16 ypos, s16 width, s16 height, ReliveTypes objectType);
+    relive::Path_TLV* TLV_Get_At(relive::Path_TLV* pTlv, FP xpos, FP ypos, FP w, FP h);
     relive::Path_TLV* TLV_From_Offset_Lvl_Cam(const Guid& tlvId);
 
     Guid TLVInfo_From_TLVPtr(relive::Path_TLV* pTlv);

@@ -353,7 +353,7 @@ void BaseAliveGameObject::VOnPathTransition(s32 camWorldX, s32 camWorldY, Camera
     }
 
     // Find the start controller at the position we will be at in the new map
-    BaseAliveGameObjectPathTLV = gMap.VTLV_Get_At(static_cast<s16>(xpos), static_cast<s16>(ypos), static_cast<s16>(width), static_cast<s16>(height), ReliveTypes::eStartController);
+    BaseAliveGameObjectPathTLV = gMap.VTLV_Get_At_Of_Type(static_cast<s16>(xpos), static_cast<s16>(ypos), static_cast<s16>(width), static_cast<s16>(height), ReliveTypes::eStartController);
 
     if (!BaseAliveGameObjectPathTLV)
     {
@@ -654,7 +654,7 @@ bool BaseAliveGameObject::VOnPlatformIntersection(BaseAnimatedWithPhysicsGameObj
 
 void BaseAliveGameObject::UsePathTransScale()
 {
-    auto pPathTrans = static_cast<relive::Path_PathTransition*>(gMap.VTLV_Get_At(
+    auto pPathTrans = static_cast<relive::Path_PathTransition*>(gMap.VTLV_Get_At_Of_Type(
         FP_GetExponent(mXPos),
         FP_GetExponent(mYPos),
         FP_GetExponent(mXPos),
