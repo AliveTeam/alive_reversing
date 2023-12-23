@@ -13,7 +13,7 @@
 #include "../relive_lib/GameObjects/Flash.hpp"
 #include "../relive_lib/GameObjects/Dove.hpp"
 #include "Math.hpp"
-#include "Grid.hpp"
+#include "../relive_lib/Grid.hpp"
 #include "../relive_lib/Events.hpp"
 #include "../relive_lib/FixedPoint.hpp"
 #include "../relive_lib/data_conversion/relive_tlvs.hpp"

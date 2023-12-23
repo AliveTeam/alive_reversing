@@ -1,24 +1,4 @@
-#include "Grid.hpp"
-
-namespace AO {
-
-s32 XGrid_Index_To_XPos(FP scale, s32 xGridIndex)
-{
-    if (scale == FP_FromDouble(0.5))
-    {
-        // 12.5 = half grid size
-        return 13 * xGridIndex + 245;
-    }
-
-    if (scale == FP_FromInteger(1))
-    {
-        // 25 = full grid size
-        return 25 * xGridIndex + 240;
-    }
-
-    // Default to middle of the screen
-    return 440;
-}
+#include "../relive_lib/Grid.hpp"
 
 FP ScaleToGridSize(FP scale)
 {
@@ -33,39 +13,6 @@ FP ScaleToGridSize(FP scale)
     }
     return FP_FromInteger(0);
 }
-
-s32 SnapToXGrid(FP scale, s32 x)
-{
-    if (scale == FP_FromDouble(0.5))
-    {
-        s32 v4 = (x - 11) % 13;
-        if (v4 >= 7)
-        {
-            return x - v4 + 13;
-        }
-        else
-        {
-            return x - v4;
-        }
-    }
-    else if (scale == FP_FromInteger(1))
-    {
-        s32 v3 = (x - 15) % 25;
-        if (v3 >= 13)
-        {
-            return x - v3 + 25;
-        }
-        else
-        {
-            return x - v3;
-        }
-    }
-    else
-    {
-        return 440;
-    }
-}
-
 
 FP CamX_VoidSkipper(FP xpos, FP xvel, s16 xMargin, u16* pResult)
 {
@@ -133,4 +80,96 @@ FP CamY_VoidSkipper(FP ypos, FP yvel, s16 yMargin, u16* pResult)
     return FP_FromInteger(newY);
 }
 
-} // namespace AO
+s32 XGrid_Index_To_XPos_AO(FP scale, s32 xGridIndex)
+{
+    if (scale == FP_FromDouble(0.5))
+    {
+        // 12.5 = half grid size
+        return 13 * xGridIndex + 245;
+    }
+
+    if (scale == FP_FromInteger(1))
+    {
+        // 25 = full grid size
+        return 25 * xGridIndex + 240;
+    }
+
+    // Default to middle of the screen
+    return 440;
+}
+
+s32 XGrid_Index_To_XPos_AE(FP scale, s32 xGridIndex)
+{
+    if (scale == FP_FromDouble(0.5))
+    {
+        // 12.5 = half grid size
+        return (13 * xGridIndex) - 8;
+    }
+
+    if (scale == FP_FromInteger(1))
+    {
+        // 25 = full grid size
+        return (25 * xGridIndex) - 13;
+    }
+
+    // Default to middle of the screen
+    return (374 / 2);
+}
+
+s32 SnapToXGrid_AO(FP scale, s32 x)
+{
+    if (scale == FP_FromDouble(0.5))
+    {
+        s32 v4 = (x - 11) % 13;
+        if (v4 >= 7)
+        {
+            return x - v4 + 13;
+        }
+        else
+        {
+            return x - v4;
+        }
+    }
+    else if (scale == FP_FromInteger(1))
+    {
+        s32 v3 = (x - 15) % 25;
+        if (v3 >= 13)
+        {
+            return x - v3 + 25;
+        }
+        else
+        {
+            return x - v3;
+        }
+    }
+    return 440;
+}
+
+s32 SnapToXGrid_AE(FP scale, s32 x)
+{
+    if (scale == FP_FromDouble(0.5))
+    {
+        s32 v4 = (x % 375 - 6) % 13;
+        if (v4 >= 7)
+        {
+            return x - v4 + 13;
+        }
+        else
+        {
+            return x - v4;
+        }
+    }
+    else if (scale == FP_FromInteger(1))
+    {
+        s32 v3 = (x - 12) % 25;
+        if (v3 >= 13)
+        {
+            return x - v3 + 25;
+        }
+        else
+        {
+            return x - v3;
+        }
+    }
+    return x;
+}

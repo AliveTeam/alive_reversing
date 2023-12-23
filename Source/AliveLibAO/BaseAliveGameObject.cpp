@@ -7,7 +7,7 @@
 #include "../AliveLibAE/stdlib.hpp"
 #include "Game.hpp"
 #include "BirdPortal.hpp"
-#include "Grid.hpp"
+#include "../relive_lib/Grid.hpp"
 #include "../relive_lib/FatalError.hpp"
 #include "../relive_lib/ObjectIds.hpp"
 #include "../relive_lib/FixedPoint.hpp"
@@ -58,7 +58,7 @@ void BaseAliveGameObject::VSetXSpawn(s16 camWorldX, s32 screenXPos)
     const FP old_x = mXPos;
     const FP old_y = mYPos;
 
-    mXPos = FP_FromInteger(camWorldX + XGrid_Index_To_XPos(GetSpriteScale(), screenXPos));
+    mXPos = FP_FromInteger(camWorldX + XGrid_Index_To_XPos_AO(GetSpriteScale(), screenXPos));
 
     BaseAliveGameObjectPathTLV = gMap.TLV_Get_At(0, mXPos, old_y, mXPos, old_y);
 
@@ -335,7 +335,7 @@ void BaseAliveGameObject::VOnPathTransition(s32 camWorldX, s32 camWorldY, Camera
             xpos = camWorldX + 524;
             ypos = camWorldY + 70;
             height = camWorldY + 410;
-            mXPos = FP_FromInteger(camWorldX + XGrid_Index_To_XPos(GetSpriteScale(), MaxGridBlocks(GetSpriteScale()) - 1));
+            mXPos = FP_FromInteger(camWorldX + XGrid_Index_To_XPos_AO(GetSpriteScale(), MaxGridBlocks(GetSpriteScale()) - 1));
             mYPos = FP_FromInteger(camWorldY + (FP_GetExponent(oldy) % 480));
             break;
 
@@ -344,7 +344,7 @@ void BaseAliveGameObject::VOnPathTransition(s32 camWorldX, s32 camWorldY, Camera
             xpos = camWorldX + 206;
             ypos = camWorldY + 70;
             height = camWorldY + 410;
-            mXPos = FP_FromInteger(camWorldX + XGrid_Index_To_XPos(GetSpriteScale(), 1));
+            mXPos = FP_FromInteger(camWorldX + XGrid_Index_To_XPos_AO(GetSpriteScale(), 1));
             mYPos = FP_FromInteger(camWorldY + (FP_GetExponent(oldy) % 480));
             break;
 
@@ -379,7 +379,7 @@ void BaseAliveGameObject::VOnPathTransition(s32 camWorldX, s32 camWorldY, Camera
     mXPos = FP_FromInteger((BaseAliveGameObjectPathTLV->mBottomRightX + BaseAliveGameObjectPathTLV->mTopLeftX) / 2);
     mYPos = FP_FromInteger(BaseAliveGameObjectPathTLV->mTopLeftY);
 
-    mXPos = FP_FromInteger(camLoc.x + SnapToXGrid(GetSpriteScale(), FP_GetExponent(mXPos - FP_FromInteger(camLoc.x))));
+    mXPos = FP_FromInteger(camLoc.x + SnapToXGrid_AO(GetSpriteScale(), FP_GetExponent(mXPos - FP_FromInteger(camLoc.x))));
 
     // TODO: Think a path changes deletes the platforms...
     PlatformBase* pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
@@ -473,7 +473,7 @@ bool BaseAliveGameObject::MapFollowMe(bool snapToGrid)
     if (mCurrentLevel == gMap.mCurrentLevel && mCurrentPath == gMap.mCurrentPath && mXPos > FP_FromInteger(currentCamCoords.x) && mXPos < FP_FromInteger(currentCamCoords.x + 1024))
     {
         // Snapped XPos in camera space
-        const s32 snappedXLocalCoords = SnapToXGrid(GetSpriteScale(), FP_GetExponent(mXPos - FP_FromInteger(currentCamCoords.x)));
+        const s32 snappedXLocalCoords = SnapToXGrid_AO(GetSpriteScale(), FP_GetExponent(mXPos - FP_FromInteger(currentCamCoords.x)));
 
         // In the left camera void and moving left?
         if (snappedXLocalCoords < 256 && mVelX < FP_FromInteger(0))
@@ -493,7 +493,7 @@ bool BaseAliveGameObject::MapFollowMe(bool snapToGrid)
                     UsePathTransScale();
 
                     // Put at the right side of the camera to the left
-                    const s32 cam1GridBeforeRight = XGrid_Index_To_XPos(GetSpriteScale(), (MaxGridBlocks(GetSpriteScale()) - 1));
+                    const s32 cam1GridBeforeRight = XGrid_Index_To_XPos_AO(GetSpriteScale(), (MaxGridBlocks(GetSpriteScale()) - 1));
                     const s32 camRightEdge = x_i - camXIndex - 1024;
                     mXPos = FP_FromInteger(camRightEdge) + FP_FromInteger(cam1GridBeforeRight) + ScaleToGridSize(GetSpriteScale());
 
@@ -522,7 +522,7 @@ bool BaseAliveGameObject::MapFollowMe(bool snapToGrid)
                     UsePathTransScale();
 
                     // Put at the left side of the camera to the right
-                    const s32 cam1GridAfterLeft = XGrid_Index_To_XPos(GetSpriteScale(), 1);
+                    const s32 cam1GridAfterLeft = XGrid_Index_To_XPos_AO(GetSpriteScale(), 1);
                     const s32 camLeftEdge = x_i - camXIndex + 1024;
                     mXPos = FP_FromInteger(camLeftEdge) + FP_FromInteger(cam1GridAfterLeft) - ScaleToGridSize(GetSpriteScale());
 
@@ -549,7 +549,7 @@ bool BaseAliveGameObject::MapFollowMe(bool snapToGrid)
             {
                 UsePathTransScale();
 
-                const s32 camRightGrid = XGrid_Index_To_XPos(GetSpriteScale(), MaxGridBlocks(GetSpriteScale()));
+                const s32 camRightGrid = XGrid_Index_To_XPos_AO(GetSpriteScale(), MaxGridBlocks(GetSpriteScale()));
                 const s32 camRightEdge = x_i - camXIndex - 1024;
                 mXPos = FP_FromInteger(camRightEdge) + FP_FromInteger(camRightGrid) + ScaleToGridSize(GetSpriteScale());
 
@@ -564,7 +564,7 @@ bool BaseAliveGameObject::MapFollowMe(bool snapToGrid)
             {
                 UsePathTransScale();
 
-                const s32 camLeftGrid = XGrid_Index_To_XPos(GetSpriteScale(), 0);
+                const s32 camLeftGrid = XGrid_Index_To_XPos_AO(GetSpriteScale(), 0);
                 const s32 camLeftEdge = x_i - camXIndex + 1024;
                 mXPos = FP_FromInteger(camLeftEdge) + FP_FromInteger(camLeftGrid) - ScaleToGridSize(GetSpriteScale());
 

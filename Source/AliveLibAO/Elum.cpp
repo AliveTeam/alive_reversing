@@ -18,7 +18,7 @@
 #include "Honey.hpp"
 #include "GameSpeak.hpp"
 #include "Math.hpp"
-#include "Grid.hpp"
+#include "../relive_lib/Grid.hpp"
 #include "../relive_lib/Sound/Midi.hpp"
 #include "../relive_lib/ObjectIds.hpp"
 #include "../relive_lib/FixedPoint.hpp"
@@ -563,11 +563,11 @@ void Elum::HandleElumPathTrans()
 
     if (gAbe->GetAnimation().GetFlipX())
     {
-        mXPos = ScaleToGridSize(GetSpriteScale()) + FP_FromInteger(camCoords.x + XGrid_Index_To_XPos(GetSpriteScale(), MaxGridBlocks(GetSpriteScale())));
+        mXPos = ScaleToGridSize(GetSpriteScale()) + FP_FromInteger(camCoords.x + XGrid_Index_To_XPos_AO(GetSpriteScale(), MaxGridBlocks(GetSpriteScale())));
     }
     else
     {
-        mXPos = FP_FromInteger(camCoords.x + XGrid_Index_To_XPos(GetSpriteScale(), 0)) - ScaleToGridSize(GetSpriteScale());
+        mXPos = FP_FromInteger(camCoords.x + XGrid_Index_To_XPos_AO(GetSpriteScale(), 0)) - ScaleToGridSize(GetSpriteScale());
     }
 
     if (gAbe->BaseAliveGameObjectCollisionLine)

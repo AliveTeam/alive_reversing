@@ -30,7 +30,7 @@
 #include "../relive_lib/GameObjects/Gibs.hpp"
 #include "Bullet.hpp"
 #include "LaughingGas.hpp"
-#include "Grid.hpp"
+#include "../relive_lib/Grid.hpp"
 #include "AnimationCallBacks.hpp"
 #include "Map.hpp"
 #include "../relive_lib/FatalError.hpp"

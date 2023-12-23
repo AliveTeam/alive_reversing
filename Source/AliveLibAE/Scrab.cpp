@@ -18,7 +18,7 @@
 #include "../relive_lib/SwitchStates.hpp"
 #include "LiftPoint.hpp"
 #include "Slurg.hpp"
-#include "Grid.hpp"
+#include "../relive_lib/Grid.hpp"
 #include "../relive_lib/Collisions.hpp"
 #include "Input.hpp"
 #include "Math.hpp"
@@ -1456,7 +1456,7 @@ s16 Scrab::Brain_ChasingEnemy_State_2_Running(BaseAliveGameObject* pObj)
         return Brain_1_ChasingEnemy::eBrain1_Idle_1;
     }
 
-    s32 xPosition = abs(FP_GetExponent(mXPos) - SnapToXGrid(GetSpriteScale(), FP_GetExponent(mXPos)));
+    s32 xPosition = abs(FP_GetExponent(mXPos) - SnapToXGrid_AE(GetSpriteScale(), FP_GetExponent(mXPos)));
 
     //Jump at the end of the ledge
     FP xOffset = (mVelX >= FP_FromInteger(0)) ? ScaleToGridSize(GetSpriteScale()) : -ScaleToGridSize(GetSpriteScale());

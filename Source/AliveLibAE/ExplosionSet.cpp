@@ -8,7 +8,7 @@
 #include "../relive_lib/GameObjects/AirExplosion.hpp"
 #include "../relive_lib/SwitchStates.hpp"
 #include "FallingItem.hpp"
-#include "Grid.hpp"
+#include "../relive_lib/Grid.hpp"
 
 ExplosionSet* gExplosionSet = nullptr;
 bool gExplosionSetEnabled = false;

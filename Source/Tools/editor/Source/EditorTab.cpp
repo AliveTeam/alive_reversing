@@ -26,7 +26,6 @@
 #include "EnumProperty.hpp"
 #include "CameraManager.hpp"
 #include "ExportPathDialog.hpp"
-//#include "easylogging++.h"
 #include "ChangeMapSizeDialog.hpp"
 #include "MessageEditorDialog.hpp"
 #include "PathDataEditorDialog.hpp"
@@ -39,8 +38,7 @@
 #include <QtConcurrent/QtConcurrent>
 #include "DeleteItemsCommand.hpp"
 #include "ClipBoard.hpp"
-#include "../../AliveLibAE/Grid.hpp"
-#include "../../AliveLibAO/Grid.hpp"
+#include "../../../relive_lib/Grid.hpp"
 #include "CollisionConnect.hpp"
 
 // Zoom by 10% each time.

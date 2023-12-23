@@ -10,7 +10,7 @@
 #include "../relive_lib/Events.hpp"
 #include "Abe.hpp"
 #include "../relive_lib/GameObjects/Particle.hpp"
-#include "Grid.hpp"
+#include "../relive_lib/Grid.hpp"
 #include "Map.hpp"
 #include "Path.hpp"
 #include "PathData.hpp"
@@ -188,7 +188,7 @@ void Meat::InTheAir()
             case eLineTypes::eBackgroundDynamicCollision_36:
                 if (mVelY > FP_FromInteger(0))
                 {
-                    mXPos = FP_FromInteger(SnapToXGrid(GetSpriteScale(), FP_GetExponent(hitX)));
+                    mXPos = FP_FromInteger(SnapToXGrid_AE(GetSpriteScale(), FP_GetExponent(hitX)));
                     mYPos = hitY;
                     mState = MeatStates::eBecomeAPickUp_3;
                     mVelY = FP_FromInteger(0);

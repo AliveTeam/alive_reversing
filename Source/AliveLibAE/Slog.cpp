@@ -21,7 +21,7 @@
 #include "../relive_lib/SwitchStates.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
 #include "Mudokon.hpp"
-#include "Grid.hpp"
+#include "../relive_lib/Grid.hpp"
 #include "../relive_lib/Function.hpp"
 #include "AnimationCallBacks.hpp"
 #include "Path.hpp"

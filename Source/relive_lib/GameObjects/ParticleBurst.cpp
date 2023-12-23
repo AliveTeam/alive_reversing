@@ -9,7 +9,7 @@
 #include "../FixedPoint.hpp"
 #include "../GameType.hpp"
 #include "MapWrapper.hpp"
-#include "../../AliveLibAO/Grid.hpp"
+#include "../Grid.hpp"
 #include "../PsxDisplay.hpp"
 #include "../../AliveLibAE/Game.hpp"
 #include "../../AliveLibAE/Sfx.hpp"
@@ -234,8 +234,8 @@ void ParticleBurst::VUpdate()
         if (GetGameType() == GameType::eAo)
         {
             u16 result = 0;
-            pItem->x = AO::CamX_VoidSkipper(pItem->x, pItem->field_C_x_speed, 16, &result);
-            pItem->y = AO::CamY_VoidSkipper(pItem->y, pItem->field_10_y_speed, 16, &result);
+            pItem->x = CamX_VoidSkipper(pItem->x, pItem->field_C_x_speed, 16, &result);
+            pItem->y = CamY_VoidSkipper(pItem->y, pItem->field_10_y_speed, 16, &result);
         }
 
         if (pItem->field_8_z + FP_FromInteger(300) < FP_FromInteger(15))

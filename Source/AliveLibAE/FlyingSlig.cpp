@@ -24,7 +24,7 @@
 #include "Bullet.hpp"
 #include "../relive_lib/GameObjects/ParticleBurst.hpp"
 #include "Lever.hpp"
-#include "Grid.hpp"
+#include "../relive_lib/Grid.hpp"
 #include "../relive_lib/Function.hpp"
 #include "AnimationCallBacks.hpp"
 #include "../relive_lib/FatalError.hpp"

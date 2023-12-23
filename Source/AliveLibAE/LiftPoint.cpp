@@ -11,7 +11,7 @@
 #include "../relive_lib/GameObjects/ScreenManager.hpp"
 #include "Sfx.hpp"
 #include "../relive_lib/Events.hpp"
-#include "Grid.hpp"
+#include "../relive_lib/Grid.hpp"
 #include "Map.hpp"
 #include "Path.hpp"
 #include "PathData.hpp"

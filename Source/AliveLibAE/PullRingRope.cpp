@@ -8,7 +8,7 @@
 #include "../relive_lib/Events.hpp"
 #include "../relive_lib/SwitchStates.hpp"
 #include "stdlib.hpp"
-#include "Grid.hpp"
+#include "../relive_lib/Grid.hpp"
 #include "Map.hpp"
 #include "Path.hpp"
 #include "../relive_lib/FixedPoint.hpp"
@@ -74,7 +74,7 @@ PullRingRope::PullRingRope(relive::Path_PullRingRope* pTlv, const Guid& tlvId)
         SetScale(Scale::Fg);
     }
 
-    mXPos = FP_FromInteger(SnapToXGrid(GetSpriteScale(), FP_GetExponent(mXPos)));
+    mXPos = FP_FromInteger(SnapToXGrid_AE(GetSpriteScale(), FP_GetExponent(mXPos)));
 
     mOnSound = pTlv->mOnSound;
     mOffSound = pTlv->mOffSound;

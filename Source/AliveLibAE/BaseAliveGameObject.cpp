@@ -10,7 +10,7 @@
 #include "Game.hpp"
 #include "BirdPortal.hpp"
 #include "../relive_lib/Events.hpp"
-#include "Grid.hpp"
+#include "../relive_lib/Grid.hpp"
 #include "Path.hpp"
 #include "../relive_lib/FatalError.hpp"
 #include "../relive_lib/FixedPoint.hpp"
@@ -168,12 +168,12 @@ void BaseAliveGameObject::VOnPathTransition(s32 camWorldX, s32 camWorldY, Camera
             break;
 
         case CameraPos::eCamLeft_3:
-            mXPos = FP_FromInteger(camWorldX + (XGrid_Index_To_XPos_4498F0(GetSpriteScale(), MaxGridBlocks(GetSpriteScale()) - 1)));
+            mXPos = FP_FromInteger(camWorldX + (XGrid_Index_To_XPos_AE(GetSpriteScale(), MaxGridBlocks(GetSpriteScale()) - 1)));
             mYPos = FP_FromInteger(camWorldY + FP_GetExponent(mYPos) % 260);
             break;
 
         case CameraPos::eCamRight_4:
-            mXPos = FP_FromInteger(camWorldX + XGrid_Index_To_XPos_4498F0(GetSpriteScale(), 1));
+            mXPos = FP_FromInteger(camWorldX + XGrid_Index_To_XPos_AE(GetSpriteScale(), 1));
             mYPos = FP_FromInteger(camWorldY + FP_GetExponent(mYPos) % 260);
             break;
 
@@ -181,7 +181,7 @@ void BaseAliveGameObject::VOnPathTransition(s32 camWorldX, s32 camWorldY, Camera
             break;
     }
 
-    mXPos = FP_FromInteger(SnapToXGrid(GetSpriteScale(), FP_GetExponent(mXPos)));
+    mXPos = FP_FromInteger(SnapToXGrid_AE(GetSpriteScale(), FP_GetExponent(mXPos)));
 
     if (IsAbe(this) && gMap.mCurrentLevel == EReliveLevelIds::eNecrum && gMap.mCurrentPath == 2 && (mCurrentMotion == eAbeMotions::Motion_23_RollLoop_453A90 || mCurrentMotion == eAbeMotions::Motion_17_CrouchIdle_456BC0))
     {
@@ -256,7 +256,7 @@ void BaseAliveGameObject::VOnPathTransition(s32 camWorldX, s32 camWorldY, Camera
 
 bool BaseAliveGameObject::MapFollowMe(bool snapToGrid)
 {
-    const s32 xposSnapped = SnapToXGrid(GetSpriteScale(), FP_GetExponent(mXPos));
+    const s32 xposSnapped = SnapToXGrid_AE(GetSpriteScale(), FP_GetExponent(mXPos));
     if (snapToGrid)
     {
         mXPos = FP_FromInteger(xposSnapped);

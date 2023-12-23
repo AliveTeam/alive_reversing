@@ -9,7 +9,7 @@
 #include "MusicTrigger.hpp"
 #include "../relive_lib/Sound/Midi.hpp"
 #include "DDCheat.hpp"
-#include "Grid.hpp"
+#include "../relive_lib/Grid.hpp"
 #include "Map.hpp"
 #include "Path.hpp"
 #include "../relive_lib/Collisions.hpp"
@@ -322,7 +322,7 @@ Door::Door(relive::Path_Door* pTlv, const Guid& tlvId)
         *yOff -= FP_FromInteger(12) * GetSpriteScale();
 
         // Snap on X
-        *xOff = FP_FromInteger(SnapToXGrid(GetSpriteScale(), FP_GetExponent(*xOff)));
+        *xOff = FP_FromInteger(SnapToXGrid_AE(GetSpriteScale(), FP_GetExponent(*xOff)));
     }
     else
     {

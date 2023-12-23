@@ -19,7 +19,7 @@
 #include "../relive_lib/PsxDisplay.hpp"
 #include "Sfx.hpp"
 #include "../relive_lib/Sound/Midi.hpp"
-#include "Grid.hpp"
+#include "../relive_lib/Grid.hpp"
 #include "../relive_lib/Math.hpp"
 #include "AnimationCallBacks.hpp"
 #include "Map.hpp"
@@ -2431,7 +2431,7 @@ relive::Path_Hoist* Fleech::TryGetHoist(s32 xDistance, s16 bIgnoreDirection)
     const FP y1 = mYPos - yAmount;
     const FP y2 = y1 - (yAmount * FP_FromInteger(1));
 
-    const FP xSnapped = FP_FromInteger(SnapToXGrid(GetSpriteScale(), FP_GetExponent(mXPos)));
+    const FP xSnapped = FP_FromInteger(SnapToXGrid_AE(GetSpriteScale(), FP_GetExponent(mXPos)));
     FP xCheck = {};
     if (GetAnimation().GetFlipX())
     {

@@ -4,7 +4,7 @@
 #include "Math.hpp"
 #include "../Events.hpp"
 #include "Sfx.hpp"
-#include "../../AliveLibAE/Grid.hpp"
+#include "../Grid.hpp"
 #include "../MapWrapper.hpp"
 #include "../FixedPoint.hpp"
 #include "../../AliveLibAO/Midi.hpp"

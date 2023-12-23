@@ -765,8 +765,6 @@ s32 Environment_SFX(EnvironmentSfx sfxId, s32 volume, s32 pitchMin, BaseAliveGam
 
 s32 Mudokon_SFX(MudSounds idx, s32 volume, s32 pitch, BaseAliveGameObject* pHero);
 
-s32 XGrid_Index_To_XPos(FP scale, s32 xGridIndex);
-
 } // namespace AO
 
 extern IBaseAliveGameObject* sControlledCharacter;

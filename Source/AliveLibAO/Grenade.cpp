@@ -11,7 +11,7 @@
 #include "../relive_lib/GameObjects/Gibs.hpp"
 #include "../relive_lib/Events.hpp"
 #include "../relive_lib/Collisions.hpp"
-#include "Grid.hpp"
+#include "../relive_lib/Grid.hpp"
 #include "../relive_lib/ObjectIds.hpp"
 #include "../relive_lib/FixedPoint.hpp"
 
@@ -143,7 +143,7 @@ void Grenade::VUpdate()
                     mState = States::eFallingToBeCollected_0;
                 }
             }
-            else if (abs(SnapToXGrid(GetSpriteScale(), FP_GetExponent(mXPos)) - FP_GetExponent(mXPos)) > 1)
+            else if (abs(SnapToXGrid_AO(GetSpriteScale(), FP_GetExponent(mXPos)) - FP_GetExponent(mXPos)) > 1)
             {
                 const auto oldLine = BaseAliveGameObjectCollisionLine;
                 BaseAliveGameObjectCollisionLine = BaseAliveGameObjectCollisionLine->MoveOnLine(&mXPos, &mYPos, mVelX);

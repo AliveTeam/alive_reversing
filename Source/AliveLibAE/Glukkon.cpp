@@ -30,7 +30,7 @@
 #include "../relive_lib/GameObjects/Blood.hpp"
 #include "Bullet.hpp"
 #include "../relive_lib/Sound/Midi.hpp"
-#include "Grid.hpp"
+#include "../relive_lib/Grid.hpp"
 #include "../relive_lib/Camera.hpp"
 #include "Path.hpp"
 #include "QuikSave.hpp"

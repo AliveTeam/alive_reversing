@@ -27,7 +27,7 @@
 #include "PossessionFlicker.hpp"
 #include "AbilityRing.hpp"
 #include "CheatController.hpp"
-#include "Grid.hpp"
+#include "../relive_lib/Grid.hpp"
 #include "../relive_lib/FatalError.hpp"
 #include "../relive_lib/ObjectIds.hpp"
 #include "Path.hpp"
@@ -790,11 +790,11 @@ void Mudokon::DoPathTrans()
 
     if (gAbe->GetAnimation().GetFlipX())
     {
-        mXPos = FP_FromInteger((camCoords.x + XGrid_Index_To_XPos(GetSpriteScale(), MaxGridBlocks(GetSpriteScale())))) + ScaleToGridSize(GetSpriteScale());
+        mXPos = FP_FromInteger((camCoords.x + XGrid_Index_To_XPos_AO(GetSpriteScale(), MaxGridBlocks(GetSpriteScale())))) + ScaleToGridSize(GetSpriteScale());
     }
     else
     {
-        mXPos = (FP_FromInteger(camCoords.x + XGrid_Index_To_XPos(GetSpriteScale(), 0))) - ScaleToGridSize(GetSpriteScale());
+        mXPos = (FP_FromInteger(camCoords.x + XGrid_Index_To_XPos_AO(GetSpriteScale(), 0))) - ScaleToGridSize(GetSpriteScale());
     }
 
     if (gAbe->BaseAliveGameObjectCollisionLine)

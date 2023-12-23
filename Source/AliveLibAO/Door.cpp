@@ -9,7 +9,7 @@
 #include "Sfx.hpp"
 #include "../relive_lib/Events.hpp"
 #include "MusicTrigger.hpp"
-#include "Grid.hpp"
+#include "../relive_lib/Grid.hpp"
 #include "../relive_lib/FixedPoint.hpp"
 #include "Path.hpp"
 
@@ -146,7 +146,7 @@ Door::Door(relive::Path_Door* pTlv, const Guid& tlvId)
                 {
                     mYPos -= (FP_FromInteger(12) * GetSpriteScale());
                     gMap.GetCurrentCamCoords(&mapCoords);
-                    auto aux = SnapToXGrid(GetSpriteScale(), FP_GetExponent(mXPos) - mapCoords.x);
+                    auto aux = SnapToXGrid_AO(GetSpriteScale(), FP_GetExponent(mXPos) - mapCoords.x);
                     mXPos = FP_FromInteger((aux)+mapCoords.x);
                 }
                 else
@@ -202,7 +202,7 @@ Door::Door(relive::Path_Door* pTlv, const Guid& tlvId)
             {
                 mYPos += FP_FromInteger(4);
                 gMap.GetCurrentCamCoords(&mapCoords);
-                mXPos = FP_FromInteger(SnapToXGrid(scale, FP_GetExponent(mXPos) - mapCoords.x) + mapCoords.x);
+                mXPos = FP_FromInteger(SnapToXGrid_AO(scale, FP_GetExponent(mXPos) - mapCoords.x) + mapCoords.x);
             }
             else
             {
@@ -243,7 +243,7 @@ Door::Door(relive::Path_Door* pTlv, const Guid& tlvId)
                     {
                         mYPos -= (FP_FromInteger(12) * GetSpriteScale());
                         gMap.GetCurrentCamCoords(&mapCoords);
-                        mXPos = FP_FromInteger(SnapToXGrid(FP_FromInteger(1), FP_GetExponent(mXPos) - mapCoords.x) + mapCoords.x);
+                        mXPos = FP_FromInteger(SnapToXGrid_AO(FP_FromInteger(1), FP_GetExponent(mXPos) - mapCoords.x) + mapCoords.x);
                     }
                     else
                     {

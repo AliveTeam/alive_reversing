@@ -858,5 +858,3 @@ extern const char_type* const sAbeMotionNames[130];
 s32 Environment_SFX(EnvironmentSfx sfxId, s32 volume, s32 pitchMin, BaseAliveGameObject* pAliveObj);
 
 void Animation_OnFrame_Abe(BaseGameObject* pPtr, u32&, const IndexedPoint& point);
-
-s32 XGrid_Index_To_XPos_4498F0(FP scale, s32 xGridIndex);

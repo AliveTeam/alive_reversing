@@ -15,7 +15,7 @@
 #include "../relive_lib/Events.hpp"
 #include "Abe.hpp"
 #include "Math.hpp"
-#include "Grid.hpp"
+#include "../relive_lib/Grid.hpp"
 #include "../relive_lib/ObjectIds.hpp"
 #include "Path.hpp"
 #include "../relive_lib/FixedPoint.hpp"

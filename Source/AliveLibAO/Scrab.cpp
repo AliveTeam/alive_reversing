@@ -17,7 +17,7 @@
 #include "../relive_lib/GameObjects/Gibs.hpp"
 #include "Midi.hpp"
 #include "../relive_lib/SwitchStates.hpp"
-#include "Grid.hpp"
+#include "../relive_lib/Grid.hpp"
 #include "../relive_lib/ObjectIds.hpp"
 #include "../relive_lib/FixedPoint.hpp"
 #include "Path.hpp"
@@ -2551,7 +2551,7 @@ s16 Scrab::Brain_ChasingEnemy()
             if (mVelX > FP_FromInteger(0))
             {
                 const s16 x_exp = FP_GetExponent(mXPos);
-                const s32 xSnapped = (x_exp & 0xFC00) + SnapToXGrid(GetSpriteScale(), x_exp & 0x3FF);
+                const s32 xSnapped = (x_exp & 0xFC00) + SnapToXGrid_AO(GetSpriteScale(), x_exp & 0x3FF);
                 if (abs(xSnapped - x_exp) < 6 && Check_IsOnEndOfLine(0, 1))
                 {
                     if (mAbeOrMudTarget->mYPos - mYPos < FP_FromInteger(5)
@@ -2594,7 +2594,7 @@ s16 Scrab::Brain_ChasingEnemy()
             else if (mVelX < FP_FromInteger(0))
             {
                 const s16 x_exp = FP_GetExponent(mXPos);
-                const s32 xSnapped = (x_exp & 0xFC00) + SnapToXGrid(GetSpriteScale(), x_exp & 0x3FF);
+                const s32 xSnapped = (x_exp & 0xFC00) + SnapToXGrid_AO(GetSpriteScale(), x_exp & 0x3FF);
                 if (abs(xSnapped - x_exp) < 6 && Check_IsOnEndOfLine(1, 1))
                 {
                     if ((mAbeOrMudTarget->mYPos - mYPos < FP_FromInteger(5))

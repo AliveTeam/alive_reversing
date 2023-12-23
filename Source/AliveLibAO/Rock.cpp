@@ -9,7 +9,7 @@
 #include "../relive_lib/Collisions.hpp"
 #include "Game.hpp"
 #include "../relive_lib/GameObjects/Particle.hpp"
-#include "Grid.hpp"
+#include "../relive_lib/Grid.hpp"
 #include "Map.hpp"
 #include "../relive_lib/FixedPoint.hpp"
 
@@ -109,7 +109,7 @@ void Rock::VUpdate()
             else
             {
                 const s16 x_exp = FP_GetExponent(mXPos);
-                const s32 xSnapped = (x_exp & 0xFC00) + SnapToXGrid(GetSpriteScale(), x_exp & 0x3FF);
+                const s32 xSnapped = (x_exp & 0xFC00) + SnapToXGrid_AO(GetSpriteScale(), x_exp & 0x3FF);
                 if (abs(xSnapped - x_exp) > 1)
                 {
                     mPathLine = mPathLine->MoveOnLine(

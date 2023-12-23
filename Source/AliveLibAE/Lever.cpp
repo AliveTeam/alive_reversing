@@ -5,7 +5,7 @@
 #include "../relive_lib/Events.hpp"
 #include "Sfx.hpp"
 #include "../relive_lib/SwitchStates.hpp"
-#include "Grid.hpp"
+#include "../relive_lib/Grid.hpp"
 #include "Map.hpp"
 #include "Path.hpp"
 
@@ -73,7 +73,7 @@ Lever::Lever(relive::Path_Lever* pTlv, const Guid& tlvId)
 
     SetTint(&kLeverTints[0], gMap.mCurrentLevel);
     mXPos = FP_FromInteger((pTlv->mTopLeftX + pTlv->mBottomRightX) / 2);
-    mXPos = FP_FromInteger(SnapToXGrid(GetSpriteScale(), FP_GetExponent(mXPos)));
+    mXPos = FP_FromInteger(SnapToXGrid_AE(GetSpriteScale(), FP_GetExponent(mXPos)));
     mYPos = FP_FromInteger(pTlv->mTopLeftY);
 
     PathLine* pPathLine = nullptr;

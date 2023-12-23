@@ -9,7 +9,7 @@
 #include "Sfx.hpp"
 #include "../relive_lib/GameObjects/Particle.hpp"
 #include "../relive_lib/GameObjects/ScreenManager.hpp"
-#include "Grid.hpp"
+#include "../relive_lib/Grid.hpp"
 #include "../relive_lib/Collisions.hpp"
 #include "../relive_lib/FixedPoint.hpp"
 #include "Math.hpp"
@@ -226,7 +226,7 @@ void Bullet::VUpdate()
 
         case BulletType::ePossessedSligZBullet_1:
         {
-            const s32 xSnapped = SnapToXGrid(FP_FromInteger(1), FP_GetExponent(sControlledCharacter->mXPos));
+            const s32 xSnapped = SnapToXGrid_AE(FP_FromInteger(1), FP_GetExponent(sControlledCharacter->mXPos));
             PSX_RECT rect = {};
             rect.x = static_cast<s16>(xSnapped - 25);
             rect.w = static_cast<s16>(xSnapped - 25 + 50);

@@ -9,7 +9,7 @@
 #include "../relive_lib/ObjectIds.hpp"
 #include "../relive_lib/GameObjects/GroundExplosion.hpp"
 #include "LiftPoint.hpp"
-#include "Grid.hpp"
+#include "../relive_lib/Grid.hpp"
 #include "Map.hpp"
 #include "Path.hpp"
 #include "../relive_lib/Collisions.hpp"

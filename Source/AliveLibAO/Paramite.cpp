@@ -20,7 +20,7 @@
 #include "CameraSwapper.hpp"
 #include "PlatformBase.hpp"
 #include "../relive_lib/SwitchStates.hpp"
-#include "Grid.hpp"
+#include "../relive_lib/Grid.hpp"
 #include "BeeSwarm.hpp"
 #include "../relive_lib/ObjectIds.hpp"
 #include "Path.hpp"
@@ -584,7 +584,7 @@ s16 Paramite::AnotherParamiteNear()
 void Paramite::ToKnockBack()
 {
     const FP nextX = mXPos - mVelX;
-    mXPos = FP_FromInteger((FP_GetExponent(nextX) & 0xFC00) + SnapToXGrid(GetSpriteScale(), FP_GetExponent(nextX) & 0x3FF));
+    mXPos = FP_FromInteger((FP_GetExponent(nextX) & 0xFC00) + SnapToXGrid_AO(GetSpriteScale(), FP_GetExponent(nextX) & 0x3FF));
 
     MapFollowMe(1);
 
@@ -1918,7 +1918,7 @@ s16 Paramite::Brain_4_ChasingAbe()
             }
 
             const s16 x_exp = FP_GetExponent(mXPos);
-            const s32 xSnapped = (x_exp & 0xFC00) + SnapToXGrid(GetSpriteScale(), x_exp & 0x3FF);
+            const s32 xSnapped = (x_exp & 0xFC00) + SnapToXGrid_AO(GetSpriteScale(), x_exp & 0x3FF);
             if (mVelX < FP_FromInteger(0))
             {
                 if (HandleEnemyStopper(-2, relive::Path_EnemyStopper::StopDirection::Left))
@@ -2045,7 +2045,7 @@ s16 Paramite::Brain_4_ChasingAbe()
             }
 
             const s16 x_exp = FP_GetExponent(mXPos);
-            const s32 xSnapped = (x_exp & 0xFC00) + SnapToXGrid(GetSpriteScale(), x_exp & 0x3FF);
+            const s32 xSnapped = (x_exp & 0xFC00) + SnapToXGrid_AO(GetSpriteScale(), x_exp & 0x3FF);
             if (mVelX > FP_FromInteger(0))
             {
                 if (abs(xSnapped - x_exp) < 6 && Check_IsOnEndOfLine(0, 1))
@@ -2232,7 +2232,7 @@ s16 Paramite::Brain_5_SpottedMeat()
         case Brain_5_SpottedMeat::eBrain5_Running_1:
         {
             const s16 x_exp = FP_GetExponent(mXPos);
-            const s32 xSnapped = (x_exp & 0xFC00) + SnapToXGrid(GetSpriteScale(), x_exp & 0x3FF);
+            const s32 xSnapped = (x_exp & 0xFC00) + SnapToXGrid_AO(GetSpriteScale(), x_exp & 0x3FF);
             if (mVelX < FP_FromInteger(0))
             {
                 if (abs(xSnapped - x_exp) < 6 && Check_IsOnEndOfLine(1, 1))
@@ -2283,7 +2283,7 @@ s16 Paramite::Brain_5_SpottedMeat()
         case Brain_5_SpottedMeat::eBrain5_Walking_2:
         {
             const s16 x_exp = FP_GetExponent(mXPos);
-            const s32 xSnapped = (x_exp & 0xFC00) + SnapToXGrid(GetSpriteScale(), x_exp & 0x3FF);
+            const s32 xSnapped = (x_exp & 0xFC00) + SnapToXGrid_AO(GetSpriteScale(), x_exp & 0x3FF);
             if (mVelX < FP_FromInteger(0))
             {
                 if (abs(xSnapped - x_exp) < 6 && Check_IsOnEndOfLine(1, 1))

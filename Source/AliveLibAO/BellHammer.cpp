@@ -6,7 +6,7 @@
 #include "../relive_lib/SwitchStates.hpp"
 #include "Sfx.hpp"
 #include "Midi.hpp"
-#include "Grid.hpp"
+#include "../relive_lib/Grid.hpp"
 #include "Path.hpp"
 
 namespace AO {
@@ -123,7 +123,7 @@ void BellHammer::VUpdate()
 
         if (gElum)
         {
-            gElum->mXPos = (FP_FromInteger(mapCoords.x + XGrid_Index_To_XPos(GetSpriteScale(), 0))) - ScaleToGridSize(GetSpriteScale());
+            gElum->mXPos = (FP_FromInteger(mapCoords.x + XGrid_Index_To_XPos_AO(GetSpriteScale(), 0))) - ScaleToGridSize(GetSpriteScale());
             gElum->mYPos = gElum->mYPos + FP_FromInteger(450);
         }
     }

@@ -24,7 +24,7 @@
 #include "FlyingSlig.hpp"
 #include "CrawlingSligButton.hpp"
 #include "Sfx.hpp"
-#include "Grid.hpp"
+#include "../relive_lib/Grid.hpp"
 #include "Path.hpp"
 #include "../relive_lib/FixedPoint.hpp"
 #include "Game.hpp"
@@ -1850,7 +1850,7 @@ s16 CrawlingSlig::CanCrawl()
         mVelxScaleFactor = FP_FromInteger(0);
         mVelY = FP_FromInteger(0);
         Set_AnimAndMotion(CrawlingSligMotion::Motion_10_PushingWall, true);
-        const s32 snappedX = SnapToXGrid(GetSpriteScale(), FP_GetExponent(mXPos));
+        const s32 snappedX = SnapToXGrid_AE(GetSpriteScale(), FP_GetExponent(mXPos));
         mVelX = ((FP_FromInteger(snappedX) - mXPos) / FP_FromInteger(4));
         Slig_GameSpeak_SFX(static_cast<SligSpeak>(Math_RandomRange(static_cast<s32>(SligSpeak::eOuch1_13), static_cast<s32>(SligSpeak::eOuch2_14))), 0, 0, this);
         return false;

@@ -36,9 +36,9 @@ include_directories(Source)
 add_library(editor_glue_dynamic_crt
     # Hack to include bits the editor uses, can't link the libs directly
     # due to diff CRT settings (static vs dynamic)
-    ../../AliveLibAE/Grid.cpp
+    ../../relive_lib/Grid.cpp
     ../../AliveLibAE/PathData.cpp
-    ../../AliveLibAO/Grid.cpp
+    ../../relive_lib/Grid.cpp
     ../../AliveLibAO/PathData.cpp
     ../../relive_lib/CompressionType_4Or5.cpp
     ../../relive_lib/CamDecompressor.cpp

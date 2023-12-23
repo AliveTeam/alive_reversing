@@ -4,7 +4,7 @@
 #include "../relive_lib/SwitchStates.hpp"
 #include "DDCheat.hpp"
 #include "stdlib.hpp"
-#include "Grid.hpp"
+#include "../relive_lib/Grid.hpp"
 #include "Path.hpp"
 #include "../relive_lib/FixedPoint.hpp"
 
@@ -54,7 +54,7 @@ StatusLight::StatusLight(relive::Path_StatusLight* pTlv, const Guid& tlvId)
 
     if (mIgnoreGridSnapping == relive::reliveChoice::eNo)
     {
-        mXPos = FP_FromInteger(SnapToXGrid(GetSpriteScale(), FP_GetExponent(mXPos)));
+        mXPos = FP_FromInteger(SnapToXGrid_AE(GetSpriteScale(), FP_GetExponent(mXPos)));
     }
 
     mYPos = FP_FromInteger((pTlv->mTopLeftY + pTlv->mBottomRightY) / 2);

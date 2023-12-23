@@ -14,7 +14,7 @@
 #include "Throwable.hpp"
 #include "../AliveLibAE/Game.hpp"
 #include "../relive_lib/GameObjects/Particle.hpp"
-#include "Grid.hpp"
+#include "../relive_lib/Grid.hpp"
 #include "PathData.hpp"
 #include "../relive_lib/ObjectIds.hpp"
 #include "../relive_lib/FixedPoint.hpp"
@@ -134,7 +134,7 @@ void Meat::InTheAir()
                 {
                     mState = 3;
 
-                    mXPos = FP_FromInteger(SnapToXGrid(GetSpriteScale(), FP_GetExponent(hitX)));
+                    mXPos = FP_FromInteger(SnapToXGrid_AO(GetSpriteScale(), FP_GetExponent(hitX)));
                     mYPos = hitY;
 
                     mVelY = FP_FromInteger(0);

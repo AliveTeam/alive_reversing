@@ -48,7 +48,7 @@
 #include "Shrykull.hpp"
 #include "Bullet.hpp"
 #include "../relive_lib/GameObjects/Spark.hpp"
-#include "Grid.hpp"
+#include "../relive_lib/Grid.hpp"
 #include "../relive_lib/Math.hpp"
 #include "AnimationCallBacks.hpp"
 #include "DDCheat.hpp"
@@ -409,24 +409,6 @@ void Animation_OnFrame_Abe(BaseGameObject* pPtr, u32&, const IndexedPoint& point
     }
 }
 
-s32 XGrid_Index_To_XPos_4498F0(FP scale, s32 xGridIndex)
-{
-    if (scale == FP_FromDouble(0.5))
-    {
-        // 12.5 = half grid size
-        return (13 * xGridIndex) - 8;
-    }
-
-    if (scale == FP_FromDouble(1.0))
-    {
-        // 25 = full grid size
-        return (25 * xGridIndex) - 13;
-    }
-
-    // Default to middle of the screen
-    return (374 / 2);
-}
-
 static constexpr s32 kResourceArraySize = 28;
 
 void Abe::LoadAnimations()
@@ -457,7 +439,7 @@ Abe::Abe() :
     PSX_Point point = {};
     gMap.GetCurrentCamCoords(&point);
 
-    mXPos = FP_FromInteger(point.x + XGrid_Index_To_XPos_4498F0(GetSpriteScale(), 4));
+    mXPos = FP_FromInteger(point.x + XGrid_Index_To_XPos_AE(GetSpriteScale(), 4));
     mYPos = FP_FromInteger(point.y + 120);
 
     BaseAliveGameObjectLastLineYPos = mYPos;

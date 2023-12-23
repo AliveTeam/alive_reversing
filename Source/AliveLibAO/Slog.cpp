@@ -19,7 +19,7 @@
 #include "../relive_lib/Events.hpp"
 #include "DDCheat.hpp"
 #include "GameSpeak.hpp"
-#include "Grid.hpp"
+#include "../relive_lib/Grid.hpp"
 #include "AnimationCallBacks.hpp"
 #include "../relive_lib/ObjectIds.hpp"
 #include "Path.hpp"

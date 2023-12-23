@@ -9,8 +9,6 @@ SET(AliveLibSrcAO
    ../AliveLibAO/Sfx.cpp
    ../AliveLibAO/Math.hpp
    ../AliveLibAO/Math.cpp
-   ../AliveLibAO/Grid.cpp
-   ../AliveLibAO/Grid.hpp
    ../AliveLibAO/StringFormatters.hpp
    ../AliveLibAO/StringFormatters.cpp
    ../AliveLibAO/BaseAliveGameObject.hpp
@@ -224,8 +222,6 @@ SET(AliveLibSrcAO
 )
 
 SET(AliveLibAESrc
-    ../AliveLibAE/Grid.hpp
-    ../AliveLibAE/Grid.cpp
     ../AliveLibAE/GameAutoPlayer.hpp
     ../AliveLibAE/GameAutoPlayer.cpp
     ../AliveLibAE/PathDataExtensions.cpp
@@ -727,6 +723,8 @@ SET(relive_lib_src
     AmbientSound.cpp
     OrbWhirlWindParticle.hpp
     OrbWhirlWindParticle.cpp
+    Grid.hpp
+    Grid.cpp
 )
 
 add_library(relive_lib ${relive_lib_src})

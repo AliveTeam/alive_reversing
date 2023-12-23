@@ -13,7 +13,7 @@
 #include "Sfx.hpp"
 #include "Abe.hpp"
 #include "Midi.hpp"
-#include "Grid.hpp"
+#include "../relive_lib/Grid.hpp"
 #include "../relive_lib/ObjectIds.hpp"
 #include "Path.hpp"
 #include "../relive_lib/FixedPoint.hpp"

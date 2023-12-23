@@ -25,7 +25,7 @@
 #include "ParamiteWeb.hpp"
 #include "ParamiteWebLine.hpp"
 #include "../relive_lib/GameObjects/ScreenShake.hpp"
-#include "Grid.hpp"
+#include "../relive_lib/Grid.hpp"
 #include "Path.hpp"
 #include "PathData.hpp"
 #include "../relive_lib/FixedPoint.hpp"
@@ -1487,7 +1487,7 @@ s16 Paramite::Brain_ChasingAbe_State_11_Walking(BaseAliveGameObject* pObj)
         return ParamiteEnums::Brain_2_ChasingAbe::eBrain2_Eating_13;
     }
 
-    const FP xSnapped = FP_FromInteger(SnapToXGrid(GetSpriteScale(), FP_GetExponent(mXPos)));
+    const FP xSnapped = FP_FromInteger(SnapToXGrid_AE(GetSpriteScale(), FP_GetExponent(mXPos)));
 
     if (mVelX > FP_FromInteger(0))
     {
@@ -1523,7 +1523,7 @@ s16 Paramite::Brain_ChasingAbe_State_7_Chasing(BaseAliveGameObject* pObj)
             return ParamiteEnums::Brain_2_ChasingAbe::eBrain2_TurningWhileChasing_9;
         }
 
-        const FP xSnapped = FP_FromInteger(SnapToXGrid(GetSpriteScale(), FP_GetExponent(mXPos)));
+        const FP xSnapped = FP_FromInteger(SnapToXGrid_AE(GetSpriteScale(), FP_GetExponent(mXPos)));
         if (mVelX < FP_FromInteger(0))
         {
             if (HandleEnemyStopper(-2))
@@ -2196,7 +2196,7 @@ s16 Paramite::Brain_SpottedMeat_State_3_Jumping()
 s16 Paramite::Brain_SpottedMeat_State_2_Walking(Meat* pMeat)
 {
     const s32 xPos_int = FP_GetExponent(mXPos);
-    const s32 xSnapped = SnapToXGrid(GetSpriteScale(), xPos_int);
+    const s32 xSnapped = SnapToXGrid_AE(GetSpriteScale(), xPos_int);
 
     if (mVelX < FP_FromInteger(0))
     {
@@ -2245,7 +2245,7 @@ s16 Paramite::Brain_SpottedMeat_State_1_Running(Meat* pMeat)
     const FP kGridSize = ScaleToGridSize(GetSpriteScale());
 
     const s32 xAsInt = FP_GetExponent(mXPos);
-    const s32 xSnapped = SnapToXGrid(GetSpriteScale(), xAsInt);
+    const s32 xSnapped = SnapToXGrid_AE(GetSpriteScale(), xAsInt);
 
     if (mVelX < FP_FromInteger(0))
     {
@@ -3753,7 +3753,7 @@ void Paramite::Motion_11_Falling()
                 case eLineTypes::eBackgroundWallLeft_5:
                 case eLineTypes::eBackgroundWallRight_6:
                     mXPos = hitX - mVelX;
-                    mXPos = FP_FromInteger(SnapToXGrid(GetSpriteScale(), FP_GetExponent(mXPos)));
+                    mXPos = FP_FromInteger(SnapToXGrid_AE(GetSpriteScale(), FP_GetExponent(mXPos)));
                     mYPos = hitY;
                     mVelX = FP_FromInteger(0);
                     MapFollowMe(true);

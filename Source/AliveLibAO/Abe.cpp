@@ -52,7 +52,7 @@
 #include "../relive_lib/GameObjects/Gibs.hpp"
 #include "../relive_lib/Camera.hpp"
 #include "AnimationCallBacks.hpp"
-#include "Grid.hpp"
+#include "../relive_lib/Grid.hpp"
 #include "../relive_lib/Sound/Midi.hpp"
 #include "../relive_lib/FatalError.hpp"
 #include "../relive_lib/ObjectIds.hpp"
@@ -523,7 +523,7 @@ Abe::Abe()
 
     PSX_Point pPoint = {};
     gMap.GetCurrentCamCoords(&pPoint);
-    mXPos = FP_FromInteger(pPoint.x + XGrid_Index_To_XPos(GetSpriteScale(), 4));
+    mXPos = FP_FromInteger(pPoint.x + XGrid_Index_To_XPos_AO(GetSpriteScale(), 4));
     mYPos = FP_FromInteger(pPoint.y + 240);
     BaseAliveGameObjectLastLineYPos = mYPos;
     mCurrentMotion = eAbeMotions::Motion_3_Fall;

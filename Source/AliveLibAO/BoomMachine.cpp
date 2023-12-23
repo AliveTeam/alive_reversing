@@ -11,7 +11,7 @@
 #include "../relive_lib/FixedPoint.hpp"
 #include "../relive_lib/data_conversion/relive_tlvs.hpp"
 #include "Path.hpp"
-#include "Grid.hpp"
+#include "../relive_lib/Grid.hpp"
 
 namespace AO {
 

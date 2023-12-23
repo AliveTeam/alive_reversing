@@ -30,7 +30,7 @@
 #include "GameSpeak.hpp"
 #include "AmbientSound.hpp"
 #include "Electrocute.hpp"
-#include "Grid.hpp"
+#include "../relive_lib/Grid.hpp"
 #include "AnimationCallBacks.hpp"
 #include "../relive_lib/FatalError.hpp"
 #include <algorithm>

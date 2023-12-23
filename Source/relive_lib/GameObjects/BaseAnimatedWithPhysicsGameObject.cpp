@@ -5,7 +5,7 @@
 #include "ScreenManager.hpp"
 #include "Sfx.hpp"
 #include "Particle.hpp"
-#include "../AliveLibAE/Grid.hpp"
+#include "../Grid.hpp"
 #include "GameType.hpp"
 #include "ShadowZone.hpp"
 #include "../AliveLibAE/Math.hpp"

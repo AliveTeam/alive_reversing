@@ -2,8 +2,7 @@
 #include "../GameType.hpp"
 #include "../ObjectIds.hpp"
 #include "../Collisions.hpp"
-#include "../../AliveLibAE/Grid.hpp"
-#include "../../AliveLibAO/Grid.hpp"
+#include "../Grid.hpp"
 
 #include "../../AliveLibAO/PlatformBase.hpp"
 
@@ -222,7 +221,7 @@ bool IBaseAliveGameObject::Check_IsOnEndOfLine(s16 direction, s16 distance)
     if (GetGameType() == GameType::eAo)
     {
         const s16 xposRoundedAO = FP_GetExponent(mXPos) & 1023;
-        const FP xPosSnappedAO = FP_FromInteger((FP_GetExponent(mXPos) & 0xFC00) + AO::SnapToXGrid(GetSpriteScale(), xposRoundedAO));
+        const FP xPosSnappedAO = FP_FromInteger((FP_GetExponent(mXPos) & 0xFC00) + SnapToXGrid_AO(GetSpriteScale(), xposRoundedAO));
         if (xposRoundedAO < (240 + 16) || xposRoundedAO > (640 - 16))
         {
             return 0;
@@ -232,7 +231,7 @@ bool IBaseAliveGameObject::Check_IsOnEndOfLine(s16 direction, s16 distance)
     }
     else
     {
-        xPosSnapped = FP_FromInteger(SnapToXGrid(GetSpriteScale(), FP_GetExponent(mXPos)));
+        xPosSnapped = FP_FromInteger(SnapToXGrid_AE(GetSpriteScale(), FP_GetExponent(mXPos)));
         usedMask = PerGameScale() == Scale::Fg ? kFgFloorCeilingOrWalls : kBgFloorCeilingOrWalls;
     }
 

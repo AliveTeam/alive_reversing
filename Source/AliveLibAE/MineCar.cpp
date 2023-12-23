@@ -13,7 +13,7 @@
 #include "../relive_lib/Events.hpp"
 #include "../relive_lib/GameObjects/ParticleBurst.hpp"
 #include "../relive_lib/GameObjects/ScreenShake.hpp"
-#include "Grid.hpp"
+#include "../relive_lib/Grid.hpp"
 #include "Map.hpp"
 #include "Path.hpp"
 #include "../relive_lib/Psx.hpp"
@@ -403,7 +403,7 @@ void MineCar::Stop()
 
     field_1C4_velx_index = 0;
 
-    mXPos = FP_FromInteger(SnapToXGrid(GetSpriteScale(), FP_GetExponent(mXPos)));
+    mXPos = FP_FromInteger(SnapToXGrid_AE(GetSpriteScale(), FP_GetExponent(mXPos)));
 }
 
 void MineCar::Move(AnimId animId, FP velX, FP velY, InputCommands input, MineCarDirs turnDirection, s8 bChangeDirection)
@@ -1481,7 +1481,7 @@ void MineCar::State_2_Moving()
     )
     {
         if (
-            mXPos == FP_FromInteger(SnapToXGrid(GetSpriteScale(), FP_GetExponent(mXPos))) &&
+            mXPos == FP_FromInteger(SnapToXGrid_AE(GetSpriteScale(), FP_GetExponent(mXPos))) &&
             !field_1C4_velx_index
         )
         {
@@ -1609,7 +1609,7 @@ void MineCar::State_3_Falling()
 
             if (FP_GetExponent(mVelX))
             {
-                mXPos = FP_FromInteger(SnapToXGrid(GetSpriteScale(), FP_GetExponent(mXPos)));
+                mXPos = FP_FromInteger(SnapToXGrid_AE(GetSpriteScale(), FP_GetExponent(mXPos)));
             }
 
             BaseAliveGameObjectLastLineYPos = mYPos;

@@ -8,7 +8,7 @@
 #include "../relive_lib/Events.hpp"
 #include "Sfx.hpp"
 #include "Grenade.hpp"
-#include "Grid.hpp"
+#include "../relive_lib/Grid.hpp"
 #include "Path.hpp"
 #include "../relive_lib/FixedPoint.hpp"
 

@@ -7,7 +7,7 @@
 #include "../relive_lib/GameObjects/GroundExplosion.hpp"
 #include "../relive_lib/Events.hpp"
 #include "../relive_lib/GameObjects/ScreenManager.hpp"
-#include "Grid.hpp"
+#include "../relive_lib/Grid.hpp"
 #include <math.h>
 #include "../relive_lib/FixedPoint.hpp"
 #include "../relive_lib/data_conversion/relive_tlvs.hpp"

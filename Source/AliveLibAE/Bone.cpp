@@ -10,7 +10,7 @@
 #include "../relive_lib/Events.hpp"
 #include "Abe.hpp"
 #include "../relive_lib/GameObjects/Particle.hpp"
-#include "Grid.hpp"
+#include "../relive_lib/Grid.hpp"
 #include "Map.hpp"
 #include "Path.hpp"
 #include "PathData.hpp"
@@ -448,7 +448,7 @@ void Bone::VUpdate()
             }
             else
             {
-                if (abs(SnapToXGrid(GetSpriteScale(), FP_GetExponent(mXPos)) - FP_GetExponent(mXPos)) <= 1)
+                if (abs(SnapToXGrid_AE(GetSpriteScale(), FP_GetExponent(mXPos)) - FP_GetExponent(mXPos)) <= 1)
                 {
                     mVelX = FP_FromInteger(0);
                     mCollectionRect.x = mXPos - (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(2));

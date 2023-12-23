@@ -9,7 +9,7 @@
 #include "../relive_lib/Events.hpp"
 #include "../relive_lib/GameObjects/Gibs.hpp"
 #include "../relive_lib/GameObjects/AirExplosion.hpp"
-#include "Grid.hpp"
+#include "../relive_lib/Grid.hpp"
 #include "Map.hpp"
 #include "../relive_lib/Collisions.hpp"
 #include "Path.hpp"
@@ -272,7 +272,7 @@ void Grenade::VUpdate()
                     mState = GrenadeStates::eFallingToBeCollected_0;
                 }
             }
-            else if (abs(SnapToXGrid(GetSpriteScale(), FP_GetExponent(mXPos)) - FP_GetExponent(mXPos)) > 1)
+            else if (abs(SnapToXGrid_AE(GetSpriteScale(), FP_GetExponent(mXPos)) - FP_GetExponent(mXPos)) > 1)
             {
                 auto oldLine = BaseAliveGameObjectCollisionLine;
                 BaseAliveGameObjectCollisionLine = BaseAliveGameObjectCollisionLine->MoveOnLine(&mXPos, &mYPos, mVelX);
