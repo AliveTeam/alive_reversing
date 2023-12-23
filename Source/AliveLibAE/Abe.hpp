@@ -469,7 +469,7 @@ public:
     virtual bool VTakeDamage(BaseGameObject* pFrom) override;
 
     s16 CantBeDamaged_44BAB0();
-    void ChangeChantState_45BB90(s16 bLaughAtChantEnd);
+    void ChangeChantState(bool bLaughAtChantEnd);
     void ToKnockback_44E700(s16 bKnockbackSound, s16 bDelayedAnger);
     void SetAsDead_459430();
     void FleechDeath_459350();

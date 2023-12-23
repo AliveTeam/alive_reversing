@@ -1044,7 +1044,7 @@ s16 Abe::RunTryEnterWell()
     return 0;
 }
 
-void Abe::ChangeChantState(s16 bKeepChanting)
+void Abe::ChangeChantState(bool bKeepChanting)
 {
     if (bKeepChanting)
     {

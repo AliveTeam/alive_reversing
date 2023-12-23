@@ -26,6 +26,59 @@
 #include "../relive_lib/FatalError.hpp"
 #include "QuikSave.hpp"
 
+void BirdPortalTerminator::LoadAnimations()
+{
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::BirdPortal_TerminatorIdle));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::BirdPortal_TerminatorShrink));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::BirdPortal_TerminatorGrow));
+}
+
+BirdPortalTerminator::BirdPortalTerminator(FP xpos, FP ypos, FP scale, relive::Path_BirdPortal::PortalType /*portalType*/)
+    : BaseAnimatedWithPhysicsGameObject(0)
+{
+    SetType(ReliveTypes::eEyeOrbPart);
+
+    LoadAnimations();
+    Animation_Init(GetAnimRes(AnimId::BirdPortal_TerminatorGrow));
+
+    GetAnimation().SetBlendMode(relive::TBlendModes::eBlend_1);
+    SetSpriteScale(scale);
+    if (scale == FP_FromInteger(1))
+    {
+        GetAnimation().SetRenderLayer(Layer::eLayer_Above_FG1_39);
+    }
+    else
+    {
+        GetAnimation().SetRenderLayer(Layer::eLayer_Above_FG1_Half_20);
+    }
+
+    SetApplyShadowZoneColour(false);
+
+    mYPos = ypos;
+    mXPos = xpos;
+
+    mRGB.SetRGB(255, 128, 64);
+}
+
+void BirdPortalTerminator::VScreenChanged()
+{
+    // Staying alive
+}
+
+void BirdPortalTerminator::Fadeout()
+{
+    const s16 r = mRGB.r;
+    mRGB.r = (r >> 1) + (r >> 2);
+
+    const s16 g = mRGB.g;
+    mRGB.g = (g >> 1) + (g >> 2);
+
+    const s16 b = mRGB.b;
+    mRGB.b = (b >> 1) + (b >> 2);
+}
+
+// ==========================================================================
+
 void BirdPortal::LoadAnimations()
 {
     mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::BirdPortal_Sparks));
@@ -61,8 +114,8 @@ BirdPortal::BirdPortal(relive::Path_BirdPortal* pTlv, const Guid& tlvId)
     mCurrentPath = gMap.mCurrentPath;
     mCurrentLevel = gMap.mCurrentLevel;
 
-    FP hitX = {};
     PathLine* pLine = nullptr;
+    FP hitX = {};
     gCollisions->Raycast(
         FP_FromInteger(pTlv->mTopLeftX),
         FP_FromInteger(pTlv->mTopLeftY),
@@ -77,24 +130,86 @@ BirdPortal::BirdPortal(relive::Path_BirdPortal* pTlv, const Guid& tlvId)
     mYPos = mHitY - (FP_FromInteger(55) * mSpriteScale);
 }
 
+BirdPortal::~BirdPortal()
+{
+    BaseGameObject* pTerminator1 = sObjectIds.Find_Impl(mTerminatorId1);
+    if (pTerminator1)
+    {
+        pTerminator1->SetDead(true);
+    }
+
+    BaseGameObject* pTerminator2 = sObjectIds.Find_Impl(mTerminatorId2);
+    if (pTerminator2)
+    {
+        pTerminator2->SetDead(true);
+    }
+
+    BaseGameObject* pClipper1 = sObjectIds.Find_Impl(mScreenClipperId1);
+    if (pClipper1)
+    {
+        pClipper1->SetDead(true);
+    }
+
+    BaseGameObject* pClipper2 = sObjectIds.Find_Impl(mScreenClipperId2);
+    if (pClipper2)
+    {
+        pClipper2->SetDead(true);
+    }
+
+    BaseGameObject* pDoves = sObjectIds.Find(mDoveIds[0], ReliveTypes::eDove);
+    if (pDoves && mDovesExist)
+    {
+        for (const auto& doveId : mDoveIds)
+        {
+            BaseGameObject* pDove = sObjectIds.Find(doveId, ReliveTypes::eDove);
+            if (pDove)
+            {
+                pDove->SetDead(true);
+            }
+        }
+    }
+
+    BaseGameObject* pThrowableIndicator = sObjectIds.Find(mThrowableTotalIndicator, ReliveTypes::eThrowableTotalIndicator);
+    if (pThrowableIndicator)
+    {
+        pThrowableIndicator->SetDead(true);
+    }
+
+    if (mSfxPlaying)
+    {
+        SND_Stop_Channels_Mask(mSfxPlaying);
+        mSfxPlaying = 0;
+    }
+
+    if (SwitchStates_Get(mDeletePortalSwitchId))
+    {
+        // Never come back
+        Path::TLV_Reset(mTlvInfo, -1, 0, 1);
+    }
+    else
+    {
+        // Always come back
+        Path::TLV_Reset(mTlvInfo, -1, 0, 0);
+    }
+}
+
 void BirdPortal::CreateDovesAndShrykullNumber()
 {
     for (u8 i = 0; i < ALIVE_COUNTOF(mDoveIds); i++)
     {
         auto pDove = relive_new Dove(AnimId::Dove_Flying, mXPos, mYPos, mSpriteScale);
-        mDoveIds[i] = pDove->mBaseGameObjectId;
 
         mDovesExist = true;
-
         if (mPortalType == relive::Path_BirdPortal::PortalType::eAbe)
         {
-            pDove->AsAlmostACircle(mXPos, (mSpriteScale * FP_FromInteger(30)) + mYPos, 42 * i);
+            pDove->AsAlmostACircle(mXPos, mYPos + (mSpriteScale * FP_FromInteger(30)), 42 * i);
         }
         else
         {
-            pDove->AsACircle(mXPos, (mSpriteScale * FP_FromInteger(30)) + mYPos, 42 * i);
+            pDove->AsACircle(mXPos, mYPos + (mSpriteScale * FP_FromInteger(30)), 42 * i);
         }
         pDove->SetSpriteScale(mSpriteScale);
+        mDoveIds[i] = pDove->mBaseGameObjectId;
     }
 
     if (mPortalType == relive::Path_BirdPortal::PortalType::eShrykull)
@@ -113,7 +228,6 @@ void BirdPortal::CreateDovesAndShrykullNumber()
         }
     }
 }
-
 
 void BirdPortal::VUpdate()
 {
@@ -144,6 +258,7 @@ void BirdPortal::VUpdate()
             break;
 
         case PortalStates::IdlePortal_1:
+        {
             if (static_cast<s32>(sGnFrame) >= mTimer)
             {
                 SfxPlayMono(relive::SoundEffects::Dove, 35, mSpriteScale);
@@ -193,7 +308,8 @@ void BirdPortal::VUpdate()
                 SfxPlayMono(relive::SoundEffects::Dove, 70, mSpriteScale);
                 SetDead(true);
             }
-            break;
+        }
+        break;
 
         case PortalStates::JoinDovesInCenter_2:
             EventBroadcast(GetEvent(), this);
@@ -318,22 +434,22 @@ void BirdPortal::VUpdate()
                 {
                     xOff = mSpriteScale * FP_FromInteger(-16);
                 }
-                const s16 xOffExp = FP_GetExponent(xOff);
-                const s16 scale32 = FP_GetExponent(mSpriteScale * FP_FromInteger(32));
 
+                const s16 scale32 = FP_GetExponent(mSpriteScale * FP_FromInteger(32));
                 if (static_cast<s32>(sGnFrame) >= mTimer)
                 {
                     mTimer = MakeTimer(Math_RandomRange(4, 12));
 
-                    auto pDove_1 = relive_new Dove(
+                    auto pDove = relive_new Dove(
                         AnimId::Dove_Flying,
-                        FP_FromInteger(xOffExp) + mXPos,
+                        mXPos + xOff,
                         mYPos + FP_FromInteger(Math_RandomRange(-scale32, scale32)),
                         mSpriteScale);
 
                     SfxPlayMono(relive::SoundEffects::Dove, 70, mSpriteScale);
-                    pDove_1->SetSpriteScale(mSpriteScale);
-                    pDove_1->AsJoin(gAbe->mXPos, FP_FromInteger(Math_RandomRange(-36, 4)) + gAbe->mYPos);
+                    pDove->SetSpriteScale(mSpriteScale);
+                    pDove->AsJoin(gAbe->mXPos, FP_FromInteger(Math_RandomRange(-36, 4)) + gAbe->mYPos);
+
                     mReceivedDovesCount++;
                     if (mReceivedDovesCount == 6)
                     {
@@ -357,7 +473,7 @@ void BirdPortal::VUpdate()
                 mState = PortalStates::CollapseTerminators_10;
                 if (gAbe->mCurrentMotion == eAbeMotions::Motion_112_Chant)
                 {
-                    gAbe->ChangeChantState_45BB90(0);
+                    gAbe->ChangeChantState(0);
                 }
             }
             break;
@@ -366,12 +482,14 @@ void BirdPortal::VUpdate()
             BirdPortal::KillTerminators();
             pTerminator1->mYPos += (FP_FromDouble(3.5) * mSpriteScale);
             pTerminator2->mYPos -= (FP_FromDouble(3.5) * mSpriteScale);
+
             if (FP_GetExponent(pTerminator1->mYPos) >= FP_GetExponent(pTerminator2->mYPos))
             {
                 auto pParticle = relive_new Particle(
                     pTerminator2->mXPos,
                     pTerminator2->mYPos,
                     GetAnimRes(AnimId::BirdPortal_Flash));
+
                 pParticle->GetAnimation().SetBlendMode(relive::TBlendModes::eBlend_1);
                 pParticle->SetApplyShadowZoneColour(false);
                 pParticle->SetSpriteScale(mSpriteScale);
@@ -423,7 +541,8 @@ void BirdPortal::VUpdate()
         case PortalStates::KillPortal_15:
             if (static_cast<s32>(sGnFrame) > mTimer)
             {
-                if (mPortalType == relive::Path_BirdPortal::PortalType::eWorker || mPortalType == relive::Path_BirdPortal::PortalType::eShrykull)
+                if (mPortalType == relive::Path_BirdPortal::PortalType::eWorker ||
+                    mPortalType == relive::Path_BirdPortal::PortalType::eShrykull)
                 {
                     SetDead(true);
                 }
@@ -581,7 +700,7 @@ void BirdPortal::VGiveShrykull(s16 bPlaySound)
 
             if (gAbe->mCurrentMotion == eAbeMotions::Motion_112_Chant)
             {
-                gAbe->ChangeChantState_45BB90(1);
+                gAbe->ChangeChantState(1);
             }
         }
         else
@@ -589,7 +708,7 @@ void BirdPortal::VGiveShrykull(s16 bPlaySound)
             mState = PortalStates::CollapseTerminators_10;
             if ((mPortalType == relive::Path_BirdPortal::PortalType::eWorker || mPortalType == relive::Path_BirdPortal::PortalType::eShrykull) && gAbe->mCurrentMotion == eAbeMotions::Motion_112_Chant)
             {
-                gAbe->ChangeChantState_45BB90(0);
+                gAbe->ChangeChantState(0);
             }
         }
 
@@ -599,6 +718,7 @@ void BirdPortal::VGiveShrykull(s16 bPlaySound)
         }
     }
 }
+
 void BirdPortal::VScreenChanged()
 {
     if (mState <= PortalStates::IdlePortal_1 || mState >= PortalStates::KillPortalClipper_21 || ((gMap.LevelChanged() || gMap.PathChanged()) &&
@@ -655,28 +775,133 @@ void BirdPortal::VStopAudio()
     }
 }
 
-void BirdPortal::VGetSaveState(SerializedObjectData& pBuffer)
+void BirdPortal::VKillPortalClipper()
 {
-    BirdPortalSaveState data = {};
-    auto pTlv = static_cast<relive::Path_BirdPortal*>(gPathInfo->TLV_From_Offset_Lvl_Cam(mTlvInfo));
+    BaseGameObject* pClipper1 = sObjectIds.Find_Impl(mScreenClipperId1);
+    BaseGameObject* pClipper2 = sObjectIds.Find_Impl(mScreenClipperId2);
 
-    s16 numMudsForShrykull = 0;
-    if (pTlv)
+    mScreenClipperId1 = Guid{};
+    mScreenClipperId2 = Guid{};
+
+    if (pClipper1)
     {
-        numMudsForShrykull = pTlv->mMudCountForShrykull;
+        pClipper1->SetDead(true);
+        if (pClipper2)
+        {
+            pClipper2->SetDead(true);
+        }
     }
-
-    data.mType = ReliveTypes::eBirdPortal;
-    data.mTlvInfo = mTlvInfo;
-    data.mState = mState;
-    data.mMudCountForShrykull = static_cast<u8>(numMudsForShrykull - mMudCountForShrykull);
-
-    pBuffer.Write(data);
 }
 
-void BirdPortal::VRender(OrderingTable& /*ot*/)
+bool BirdPortal::VActivePortal()
 {
-    // Null
+    return mState == PortalStates::ActivePortal_6;
+}
+
+bool BirdPortal::VAbeInsidePortal()
+{
+    return mState == PortalStates::AbeInsidePortal_16;
+}
+
+void BirdPortal::VExitPortal()
+{
+    mCurrentPath = gMap.mCurrentPath;
+    mCurrentLevel = gMap.mCurrentLevel;
+
+    auto pPortalExitTlv = static_cast<relive::Path_BirdPortalExit*>(gPathInfo->TLV_First_Of_Type_In_Camera(ReliveTypes::eBirdPortalExit, 0));
+    if (pPortalExitTlv)
+    {
+        // TODO: Clean up this hack by having a better way to match "any" type of line
+        CollisionMask allLinesHack;
+        allLinesHack.mMask = 0xFFFFFFFF;
+
+        PathLine* pLine = nullptr;
+        gCollisions->Raycast(
+            FP_FromInteger(pPortalExitTlv->mTopLeftX),
+            FP_FromInteger(pPortalExitTlv->mTopLeftY),
+            FP_FromInteger(pPortalExitTlv->mBottomRightX),
+            FP_FromInteger(pPortalExitTlv->mBottomRightY),
+            &pLine,
+            &mExitX,
+            &mExitY,
+            allLinesHack);
+
+        mExitX = FP_FromInteger((pPortalExitTlv->mTopLeftX + pPortalExitTlv->mBottomRightX) / 2);
+        mXPos = mExitX;
+        mYPos = mExitY - FP_FromInteger(55);
+        mEnterSide = pPortalExitTlv->mExitSide;
+
+        if (pPortalExitTlv->mScale == relive::reliveScale::eHalf)
+        {
+            mSpriteScale = FP_FromDouble(0.5);
+            gAbe->GetAnimation().SetRenderLayer(Layer::eLayer_InBirdPortal_Half_11);
+            gAbe->SetScale(Scale::Bg);
+        }
+        else
+        {
+            mSpriteScale = FP_FromInteger(1);
+            gAbe->GetAnimation().SetRenderLayer(Layer::eLayer_InBirdPortal_30);
+            gAbe->SetScale(Scale::Fg);
+        }
+
+        gAbe->SetSpriteScale(mSpriteScale);
+        gAbe->mCurrentLevel = gMap.mCurrentLevel;
+        gAbe->mCurrentPath = gMap.mCurrentPath;
+
+        mState = PortalStates::PortalExit_SetPosition_17;
+    }
+    else
+    {
+        LOG_WARNING("Bird portal exit object not found!");
+    }
+}
+
+bool BirdPortal::VPortalExit_AbeExitting()
+{
+    return mState == PortalStates::PortalExit_AbeExitting_20;
+}
+
+void BirdPortal::VIncreaseTimerAndKillPortalClipper()
+{
+    mState = PortalStates::KillPortalClipper_21;
+    mTimer = MakeTimer(30);
+}
+
+void BirdPortal::VMudSaved()
+{
+    mMudCountForShrykull--;
+}
+
+void BirdPortal::VGetMapChange(EReliveLevelIds* level, u16* path, u16* camera, CameraSwapEffects* screenChangeEffect, u16* movieId)
+{
+    *level = mExitLevel;
+    *path = mExitPath;
+    *camera = mExitCamera;
+
+    if (mMovieId <= 0)
+    {
+        *screenChangeEffect = CameraSwapEffects::eInstantChange_0;
+    }
+    else
+    {
+        *movieId = mMovieId;
+        *screenChangeEffect = CameraSwapEffects::ePlay1FMV_5;
+    }
+}
+
+void BirdPortal::CreateTerminators()
+{
+    auto pTerminator1 = relive_new BirdPortalTerminator(mXPos, mYPos, mSpriteScale, mPortalType);
+    if (pTerminator1)
+    {
+        mTerminatorId1 = pTerminator1->mBaseGameObjectId;
+    }
+
+    auto pTerminator2 = relive_new BirdPortalTerminator(mXPos, mYPos, mSpriteScale, mPortalType);
+    if (pTerminator2)
+    {
+        mTerminatorId2 = pTerminator2->mBaseGameObjectId;
+    }
 }
 
 void BirdPortal::CreateFromSaveState(SerializedObjectData& pBuffer)
@@ -774,240 +999,32 @@ s16 BirdPortal::VPortalClipper(s16 bIgnoreClipping)
         mScreenClipperId1 = pClipper1->mBaseGameObjectId;
         if (mSpriteScale == FP_FromInteger(1))
         {
-            pClipper1->mOtLayer = Layer::eLayer_BirdPortal_29;
+        pClipper1->mOtLayer = Layer::eLayer_BirdPortal_29;
         }
         else
         {
-            pClipper1->mOtLayer = Layer::eLayer_BirdPortal_Half_10;
+        pClipper1->mOtLayer = Layer::eLayer_BirdPortal_Half_10;
         }
     }
 
     // Clip whole screen when "in" the portal?
-    auto pClipper2 = relive_new ScreenClipper(PSX_Point{ 0, 0 }, PSX_Point{ 640, 240 }, Layer::eLayer_0);
+    auto pClipper2 = relive_new ScreenClipper(PSX_Point{0, 0}, PSX_Point{640, 240}, Layer::eLayer_0);
     if (pClipper2)
     {
         mScreenClipperId2 = pClipper2->mBaseGameObjectId;
         if (mSpriteScale == FP_FromInteger(1))
         {
-            pClipper2->mOtLayer = Layer::eLayer_FallingItemDoorFlameRollingBallPortalClip_Half_31;
+        pClipper2->mOtLayer = Layer::eLayer_FallingItemDoorFlameRollingBallPortalClip_Half_31;
         }
         else
         {
-            pClipper2->mOtLayer = Layer::eLayer_DoorFlameRollingBallFallingItemPortalClip_Half_12;
+        pClipper2->mOtLayer = Layer::eLayer_DoorFlameRollingBallFallingItemPortalClip_Half_12;
         }
     }
 
     return 1;
 }
 
-void BirdPortal::VKillPortalClipper()
-{
-    BaseGameObject* pClipper1 = sObjectIds.Find_Impl(mScreenClipperId1);
-    BaseGameObject* pClipper2 = sObjectIds.Find_Impl(mScreenClipperId2);
-
-    mScreenClipperId1 = Guid{};
-    mScreenClipperId2 = Guid{};
-
-    if (pClipper1)
-    {
-        pClipper1->SetDead(true);
-        if (pClipper2)
-        {
-            pClipper2->SetDead(true);
-        }
-    }
-}
-
-void BirdPortal::VMudSaved()
-{
-    mMudCountForShrykull--;
-}
-
-bool BirdPortal::VActivePortal()
-{
-    return mState == PortalStates::ActivePortal_6;
-}
-
-bool BirdPortal::VAbeInsidePortal()
-{
-    return mState == PortalStates::AbeInsidePortal_16;
-}
-
-void BirdPortal::VExitPortal()
-{
-    mCurrentPath = gMap.mCurrentPath;
-    mCurrentLevel = gMap.mCurrentLevel;
-
-    auto pPortalExitTlv = static_cast<relive::Path_BirdPortalExit*>(gPathInfo->TLV_First_Of_Type_In_Camera(ReliveTypes::eBirdPortalExit, 0));
-    if (pPortalExitTlv)
-    {
-        // TODO: Clean up this hack by having a better way to match "any" type of line
-        CollisionMask allLinesHack;
-        allLinesHack.mMask = 0xFFFFFFFF;
-
-        PathLine* pLine = nullptr;
-        gCollisions->Raycast(
-            FP_FromInteger(pPortalExitTlv->mTopLeftX),
-            FP_FromInteger(pPortalExitTlv->mTopLeftY),
-            FP_FromInteger(pPortalExitTlv->mBottomRightX),
-            FP_FromInteger(pPortalExitTlv->mBottomRightY),
-            &pLine,
-            &mExitX,
-            &mExitY,
-            allLinesHack);
-
-        mExitX = FP_FromInteger((pPortalExitTlv->mTopLeftX + pPortalExitTlv->mBottomRightX) / 2);
-        mXPos = mExitX;
-        mYPos = mExitY - FP_FromInteger(55);
-        mEnterSide = pPortalExitTlv->mExitSide;
-
-        if (pPortalExitTlv->mScale == relive::reliveScale::eHalf)
-        {
-            mSpriteScale = FP_FromDouble(0.5);
-            gAbe->GetAnimation().SetRenderLayer(Layer::eLayer_InBirdPortal_Half_11);
-            gAbe->SetScale(Scale::Bg);
-        }
-        else
-        {
-            mSpriteScale = FP_FromInteger(1);
-            gAbe->GetAnimation().SetRenderLayer(Layer::eLayer_InBirdPortal_30);
-            gAbe->SetScale(Scale::Fg);
-        }
-
-        gAbe->SetSpriteScale(mSpriteScale);
-        gAbe->mCurrentLevel = gMap.mCurrentLevel;
-        gAbe->mCurrentPath = gMap.mCurrentPath;
-
-        mState = PortalStates::PortalExit_SetPosition_17;
-    }
-    else
-    {
-        LOG_WARNING("Bird portal exit object not found!");
-    }
-}
-
-bool BirdPortal::VPortalExit_AbeExitting()
-{
-    return mState == PortalStates::PortalExit_AbeExitting_20;
-}
-
-void BirdPortal::VIncreaseTimerAndKillPortalClipper()
-{
-    mState = PortalStates::KillPortalClipper_21;
-    mTimer = MakeTimer(30);
-}
-
-void BirdPortal::VGetMapChange(EReliveLevelIds* level, u16* path, u16* camera, CameraSwapEffects* screenChangeEffect, u16* movieId)
-{
-    *level = mExitLevel;
-    *path = mExitPath;
-    *camera = mExitCamera;
-
-    if (mMovieId <= 0)
-    {
-        *screenChangeEffect = CameraSwapEffects::eInstantChange_0;
-    }
-    else
-    {
-        *movieId = mMovieId;
-        *screenChangeEffect = CameraSwapEffects::ePlay1FMV_5;
-    }
-}
-
-BirdPortal::~BirdPortal()
-{
-    BaseGameObject* pTerminator1 = sObjectIds.Find_Impl(mTerminatorId1);
-    if (pTerminator1)
-    {
-        pTerminator1->SetDead(true);
-    }
-
-    BaseGameObject* pTerminator2 = sObjectIds.Find_Impl(mTerminatorId2);
-    if (pTerminator2)
-    {
-        pTerminator2->SetDead(true);
-    }
-
-    BaseGameObject* pClipper1 = sObjectIds.Find_Impl(mScreenClipperId1);
-    if (pClipper1)
-    {
-        pClipper1->SetDead(true);
-    }
-
-    BaseGameObject* pClipper2 = sObjectIds.Find_Impl(mScreenClipperId2);
-    if (pClipper2)
-    {
-        pClipper2->SetDead(true);
-    }
-
-    BaseGameObject* pDoves = sObjectIds.Find(mDoveIds[0], ReliveTypes::eDove);
-    if (pDoves && mDovesExist)
-    {
-        for (const auto& doveId : mDoveIds)
-        {
-            BaseGameObject* pDove = sObjectIds.Find(doveId, ReliveTypes::eDove);
-            if (pDove)
-            {
-                pDove->SetDead(true);
-            }
-        }
-    }
-
-    BaseGameObject* pThrowableIndicator = sObjectIds.Find(mThrowableTotalIndicator, ReliveTypes::eThrowableTotalIndicator);
-    if (pThrowableIndicator)
-    {
-        pThrowableIndicator->SetDead(true);
-    }
-
-    if (mSfxPlaying)
-    {
-        SND_Stop_Channels_Mask(mSfxPlaying);
-        mSfxPlaying = 0;
-    }
-
-    if (SwitchStates_Get(mDeletePortalSwitchId))
-    {
-        // Never come back
-        Path::TLV_Reset(mTlvInfo, -1, 0, 1);
-    }
-    else
-    {
-        // Always come back
-        Path::TLV_Reset(mTlvInfo, -1, 0, 0);
-    }
-}
-
-void BirdPortal::KillTerminators()
-{
-    for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
-    {
-        BaseGameObject* pObj = gBaseGameObjects->ItemAt(i);
-        if (!pObj)
-        {
-            break;
-        }
-
-        if (pObj->Type() == ReliveTypes::eBirdPortalTerminator)
-        {
-            pObj->SetDead(true);
-        }
-    }
-}
-
-void BirdPortal::CreateTerminators()
-{
-    auto pTerminator1 = relive_new BirdPortalTerminator(mXPos, mYPos, mSpriteScale, mPortalType);
-    if (pTerminator1)
-    {
-        mTerminatorId1 = pTerminator1->mBaseGameObjectId;
-    }
-
-    auto pTerminator2 = relive_new BirdPortalTerminator(mXPos, mYPos, mSpriteScale, mPortalType);
-    if (pTerminator2)
-    {
-        mTerminatorId2 = pTerminator2->mBaseGameObjectId;
-    }
-}
 
 Event BirdPortal::GetEvent()
 {
@@ -1034,54 +1051,43 @@ Event BirdPortal::GetEvent()
     return kEventPortalOpen;
 }
 
-
-void BirdPortalTerminator::LoadAnimations()
+void BirdPortal::VGetSaveState(SerializedObjectData& pBuffer)
 {
-    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::BirdPortal_TerminatorIdle));
-    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::BirdPortal_TerminatorShrink));
-    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::BirdPortal_TerminatorGrow));
-}
+    BirdPortalSaveState data = {};
+    auto pTlv = static_cast<relive::Path_BirdPortal*>(gPathInfo->TLV_From_Offset_Lvl_Cam(mTlvInfo));
 
-BirdPortalTerminator::BirdPortalTerminator(FP xpos, FP ypos, FP scale, relive::Path_BirdPortal::PortalType /*portalType*/)
-    : BaseAnimatedWithPhysicsGameObject(0)
-{
-    SetType(ReliveTypes::eEyeOrbPart);
-
-    LoadAnimations();
-    Animation_Init(GetAnimRes(AnimId::BirdPortal_TerminatorGrow));
-
-    GetAnimation().SetBlendMode(relive::TBlendModes::eBlend_1);
-    SetSpriteScale(scale);
-    if (GetSpriteScale() == FP_FromInteger(1))
+    s16 numMudsForShrykull = 0;
+    if (pTlv)
     {
-        GetAnimation().SetRenderLayer(Layer::eLayer_Above_FG1_39);
-    }
-    else
-    {
-        GetAnimation().SetRenderLayer(Layer::eLayer_Above_FG1_Half_20);
+        numMudsForShrykull = pTlv->mMudCountForShrykull;
     }
 
-    SetApplyShadowZoneColour(false);
+    data.mType = ReliveTypes::eBirdPortal;
+    data.mTlvInfo = mTlvInfo;
+    data.mState = mState;
+    data.mMudCountForShrykull = static_cast<u8>(numMudsForShrykull - mMudCountForShrykull);
 
-    mYPos = ypos;
-    mXPos = xpos;
-
-    mRGB.SetRGB(255, 128, 64);
+    pBuffer.Write(data);
 }
 
-void BirdPortalTerminator::VScreenChanged()
+void BirdPortal::VRender(OrderingTable& /*ot*/)
 {
-    // Staying alive
+    // Null
 }
 
-void BirdPortalTerminator::Fadeout()
+void BirdPortal::KillTerminators()
 {
-    const s16 r = mRGB.r;
-    mRGB.r = (r >> 1) + (r >> 2);
+    for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
+    {
+        BaseGameObject* pObj = gBaseGameObjects->ItemAt(i);
+        if (!pObj)
+        {
+            break;
+        }
 
-    const s16 g = mRGB.g;
-    mRGB.g = (g >> 1) + (g >> 2);
-
-    const s16 b = mRGB.b;
-    mRGB.b = (b >> 1) + (b >> 2);
+        if (pObj->Type() == ReliveTypes::eBirdPortalTerminator)
+        {
+            pObj->SetDead(true);
+        }
+    }
 }

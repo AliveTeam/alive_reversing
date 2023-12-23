@@ -8894,7 +8894,7 @@ s16 Abe::GetEvilFart_4585F0(s16 bDontLoad)
     return 1;
 }
 
-void Abe::ChangeChantState_45BB90(s16 bLaughAtChantEnd)
+void Abe::ChangeChantState(bool bLaughAtChantEnd)
 {
     if (bLaughAtChantEnd)
     {

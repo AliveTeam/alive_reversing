@@ -499,7 +499,7 @@ public:
     void FollowLift();
     void ExitShrykull(s16 bResetRingTimer);
     s16 RunTryEnterWell();
-    void ChangeChantState(s16 bKeepChanting);
+    void ChangeChantState(bool bKeepChanting);
     static IBaseAliveGameObject* FindObjectToPossess();
     void ToDieFinal();
     void ToKnockback(s16 bUnknownSound, s16 bDelayedAnger);

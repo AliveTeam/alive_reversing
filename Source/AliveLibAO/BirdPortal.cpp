@@ -24,11 +24,6 @@
 
 namespace AO {
 
-void BirdPortalTerminator::VScreenChanged()
-{
-    // Staying alive
-}
-
 void BirdPortalTerminator::LoadAnimations()
 {
     mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::BirdPortal_TerminatorIdle));
@@ -64,6 +59,11 @@ BirdPortalTerminator::BirdPortalTerminator(FP xpos, FP ypos, FP scale, relive::P
     mRGB.SetRGB(255, 128, 64);
 }
 
+void BirdPortalTerminator::VScreenChanged()
+{
+    // Staying alive
+}
+
 void BirdPortalTerminator::Fadeout()
 {
     const s16 r = mRGB.r;
@@ -77,6 +77,60 @@ void BirdPortalTerminator::Fadeout()
 }
 
 // ==========================================================================
+
+void BirdPortal::LoadAnimations()
+{
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::BirdPortal_Sparks));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::BirdPortal_Flash));
+}
+
+BirdPortal::BirdPortal(relive::Path_BirdPortal* pTlv, const Guid& tlvId)
+    : BaseGameObject(true, 0), 
+    mPortalType(pTlv->mPortalType), 
+    mEnterSide(pTlv->mEnterSide),
+    mExitLevel(pTlv->mExitLevel), 
+    mExitPath(pTlv->mExitPath), 
+    mExitCamera(pTlv->mExitCamera), 
+    mMovieId(pTlv->mMovieId),
+    mMudCountForShrykull(pTlv->mMudCountForShrykull), 
+    mTlvInfo(tlvId)
+{
+    SetType(ReliveTypes::eBirdPortal);
+
+    LoadAnimations();
+
+    if (pTlv->mScale == relive::reliveScale::eHalf)
+    {
+        mSpriteScale = FP_FromDouble(0.5);
+    }
+    else
+    {
+        mSpriteScale = FP_FromInteger(1);
+    }
+
+    mCurrentPath = gMap.mCurrentPath;
+    mCurrentLevel = gMap.mCurrentLevel;
+    mState = PortalStates::CreatePortal_0;
+
+    // TODO: Clean up this hack by having a better way to match "any" type of line
+    CollisionMask allLinesHack;
+    allLinesHack.mMask = 0xFFFFFFFF;
+
+    PathLine* pLine = nullptr;
+    FP hitX = {};
+    gCollisions->Raycast(
+        FP_FromInteger(pTlv->mTopLeftX),
+        FP_FromInteger(pTlv->mTopLeftY),
+        FP_FromInteger(pTlv->mBottomRightX),
+        FP_FromInteger(pTlv->mBottomRightY),
+        &pLine,
+        &hitX,
+        &mHitY,
+        allLinesHack);
+
+    mXPos = FP_FromInteger(pTlv->mTopLeftX);
+    mYPos = mHitY - (FP_FromInteger(55) * mSpriteScale);
+}
 
 BirdPortal::~BirdPortal()
 {
@@ -144,105 +198,28 @@ BirdPortal::~BirdPortal()
     }
 }
 
-void BirdPortal::LoadAnimations()
-{
-    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::BirdPortal_Sparks));
-    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::BirdPortal_Flash));
-}
-
-BirdPortal::BirdPortal(relive::Path_BirdPortal* pTlv, const Guid& tlvId)
-    : BaseGameObject(true, 0)
-{
-    SetType(ReliveTypes::eBirdPortal);
-
-    LoadAnimations();
-
-    mTlvInfo = tlvId;
-
-    mExitLevel = pTlv->mExitLevel;
-    mEnterSide = pTlv->mEnterSide;
-    mExitCamera = pTlv->mExitCamera;
-    mExitPath = pTlv->mExitPath;
-    mPortalType = pTlv->mPortalType;
-    mMovieId = pTlv->mMovieId;
-    mMudCountForShrykull = pTlv->mMudCountForShrykull;
-    if (pTlv->mScale == relive::reliveScale::eHalf)
-    {
-        mSpriteScale = FP_FromDouble(0.5);
-    }
-    else
-    {
-        mSpriteScale = FP_FromInteger(1);
-    }
-
-    mCurrentPath = gMap.mCurrentPath;
-    mCurrentLevel = gMap.mCurrentLevel;
-    mState = PortalStates::CreatePortal_0;
-    mTimer = 0;
-
-    mTerminator1 = nullptr;
-    mTerminator2 = nullptr;
-    mScreenClipper1 = nullptr;
-    mScreenClipper2 = nullptr;
-    mOrbWhirlWind = nullptr;
-
-    // TODO: Clean up this hack by having a better way to match "any" type of line
-    CollisionMask allLinesHack;
-    allLinesHack.mMask = 0xFFFFFFFF;
-
-    PathLine* pLine = nullptr;
-    FP hitX = {};
-    gCollisions->Raycast(
-        FP_FromInteger(pTlv->mTopLeftX),
-        FP_FromInteger(pTlv->mTopLeftY),
-        FP_FromInteger(pTlv->mBottomRightX),
-        FP_FromInteger(pTlv->mBottomRightY),
-        &pLine,
-        &hitX,
-        &mHitY,
-        allLinesHack);
-
-    mXPos = FP_FromInteger(pTlv->mTopLeftX);
-    mSfxPlaying = 0;
-    mYPos = mHitY - (FP_FromInteger(55) * mSpriteScale);
-}
-
 void BirdPortal::CreateDovesAndShrykullNumber()
 {
     for (u8 i = 0; i < 6; i++)
     {
-        auto pDove = relive_new Dove(
-            AnimId::Dove_Flying,
-            mXPos,
-            mYPos,
-            mSpriteScale);
-        if (pDove)
+        auto pDove = relive_new Dove(AnimId::Dove_Flying, mXPos, mYPos, mSpriteScale);
+
+        pDove->mBaseGameObjectRefCount++;
+        if (mPortalType == relive::Path_BirdPortal::PortalType::eAbe)
         {
-            pDove->mBaseGameObjectRefCount++;
-            if (mPortalType == relive::Path_BirdPortal::PortalType::eAbe)
-            {
-                pDove->AsAlmostACircle(mXPos, mYPos + (mSpriteScale * FP_FromInteger(30)), 42 * i);
-            }
-            else
-            {
-                pDove->AsACircle(mXPos, mYPos + (mSpriteScale * FP_FromInteger(30)), 42 * i);
-            }
-            pDove->SetSpriteScale(mSpriteScale);
-            mDovesArray->Push_Back(pDove);
+            pDove->AsAlmostACircle(mXPos, mYPos + (mSpriteScale * FP_FromInteger(30)), 42 * i);
         }
+        else
+        {
+            pDove->AsACircle(mXPos, mYPos + (mSpriteScale * FP_FromInteger(30)), 42 * i);
+        }
+        pDove->SetSpriteScale(mSpriteScale);
+        mDovesArray->Push_Back(pDove);
     }
 
     if (mPortalType == relive::Path_BirdPortal::PortalType::eShrykull)
     {
-        Layer indicatorLayer = Layer::eLayer_0;
-        if (mSpriteScale != FP_FromDouble(0.5))
-        {
-            indicatorLayer = Layer::eLayer_27;
-        }
-        else
-        {
-            indicatorLayer = Layer::eLayer_8;
-        }
+        const Layer indicatorLayer = mSpriteScale != FP_FromDouble(0.5) ? Layer::eLayer_27 : Layer::eLayer_8;
         mThrowableTotalIndicator = relive_new ThrowableTotalIndicator(
             mXPos,
             mYPos + FP_FromInteger(10),
@@ -251,21 +228,6 @@ void BirdPortal::CreateDovesAndShrykullNumber()
             mMudCountForShrykull,
             0);
     }
-}
-
-void BirdPortal::CreateTerminators()
-{
-    mTerminator1 = relive_new BirdPortalTerminator(
-        mXPos,
-        mYPos,
-        mSpriteScale,
-        mPortalType);
-
-    mTerminator2 = relive_new BirdPortalTerminator(
-        mXPos,
-        mYPos,
-        mSpriteScale,
-        mPortalType);
 }
 
 void BirdPortal::VUpdate()
@@ -472,30 +434,27 @@ void BirdPortal::VUpdate()
                 FP xOff = {};
                 if (mEnterSide == relive::Path_BirdPortal::PortalSide::eLeft)
                 {
-                    xOff = (mSpriteScale * FP_FromInteger(16));
+                    xOff = mSpriteScale * FP_FromInteger(16);
                 }
                 else
                 {
-                    xOff = (mSpriteScale * FP_FromInteger(-16));
+                    xOff = mSpriteScale * FP_FromInteger(-16);
                 }
 
                 const s16 scale32 = FP_GetExponent(mSpriteScale * FP_FromInteger(32));
-
                 if (static_cast<s32>(sGnFrame) >= mTimer)
                 {
                     mTimer = MakeTimer(Math_RandomRange(4, 12));
 
-                    auto pDoveMem = relive_new Dove(
+                    auto pDove = relive_new Dove(
                         AnimId::Dove_Flying,
-                        mXPos + FP_FromInteger(FP_GetExponent(xOff)),
+                        mXPos + xOff,
                         mYPos + FP_FromInteger(Math_RandomRange(-scale32, scale32)),
                         mSpriteScale);
-                    if (pDoveMem)
-                    {
-                        SfxPlayMono(relive::SoundEffects::Dove, 70);
-                        pDoveMem->SetSpriteScale(mSpriteScale);
-                        pDoveMem->AsJoin(gAbe->mXPos, FP_FromInteger(Math_RandomRange(-36, 4)) + gAbe->mYPos);
-                    }
+
+                    SfxPlayMono(relive::SoundEffects::Dove, 70);
+                    pDove->SetSpriteScale(mSpriteScale);
+                    pDove->AsJoin(gAbe->mXPos, FP_FromInteger(Math_RandomRange(-36, 4)) + gAbe->mYPos);
 
                     mReceivedDovesCount++;
                     if (mReceivedDovesCount == 6)
@@ -530,16 +489,14 @@ void BirdPortal::VUpdate()
 
             if (FP_GetExponent(mTerminator1->mYPos) >= FP_GetExponent(mTerminator2->mYPos))
             {
-                auto pParticle_1 = relive_new Particle(
+                auto pParticle = relive_new Particle(
                     mTerminator2->mXPos,
                     mTerminator2->mYPos,
                     GetAnimRes(AnimId::BirdPortal_Flash));
-                if (pParticle_1)
-                {
-                    pParticle_1->SetApplyShadowZoneColour(false);
-                    pParticle_1->GetAnimation().SetBlendMode(relive::TBlendModes::eBlend_1);
-                    pParticle_1->SetSpriteScale(mSpriteScale);
-                }
+
+                pParticle->GetAnimation().SetBlendMode(relive::TBlendModes::eBlend_1);
+                pParticle->SetApplyShadowZoneColour(false);
+                pParticle->SetSpriteScale(mSpriteScale);
 
                 mState = PortalStates::StopSound_11;
                 mTimer = MakeTimer(5);
@@ -565,21 +522,21 @@ void BirdPortal::VUpdate()
 
         case PortalStates::CreateFlash1_12:
         {
-            relive_new Flash(Layer::eLayer_FadeFlash_40, 255u, 255u, 255u);
+            relive_new Flash(Layer::eLayer_FadeFlash_40, 255, 255, 255, relive::TBlendModes::eBlend_3, 1);
             mState = PortalStates::CreateFlash2_13;
         }
         break;
 
         case PortalStates::CreateFlash2_13:
         {
-            relive_new Flash(Layer::eLayer_FadeFlash_40, 255u, 255u, 255u, relive::TBlendModes::eBlend_0, 1);
+            relive_new Flash(Layer::eLayer_FadeFlash_40, 255, 255, 255, relive::TBlendModes::eBlend_0, 1);
             mState = PortalStates::CreateFlash3_14;
         }
         break;
 
         case PortalStates::CreateFlash3_14:
         {
-            relive_new Flash(Layer::eLayer_FadeFlash_40, 255u, 255u, 255u, relive::TBlendModes::eBlend_0, 1);
+            relive_new Flash(Layer::eLayer_FadeFlash_40, 255, 255, 255, relive::TBlendModes::eBlend_0, 1);
             mState = PortalStates::KillPortal_15;
             mTimer = MakeTimer(5);
         }
@@ -588,7 +545,8 @@ void BirdPortal::VUpdate()
         case PortalStates::KillPortal_15:
             if (static_cast<s32>(sGnFrame) > mTimer)
             {
-                if (mPortalType == relive::Path_BirdPortal::PortalType::eWorker || mPortalType == relive::Path_BirdPortal::PortalType::eShrykull)
+                if (mPortalType == relive::Path_BirdPortal::PortalType::eWorker ||
+                    mPortalType == relive::Path_BirdPortal::PortalType::eShrykull)
                 {
                     SetDead(true);
                 }
@@ -931,6 +889,20 @@ void BirdPortal::VGetMapChange(EReliveLevelIds* level, u16* path, u16* camera, C
 
     *movieId = 17 - (100 * mMovieId);
     *screenChangeEffect = CameraSwapEffects::ePlay1FMV_5;
+}
+void BirdPortal::CreateTerminators()
+{
+    mTerminator1 = relive_new BirdPortalTerminator(
+        mXPos,
+        mYPos,
+        mSpriteScale,
+        mPortalType);
+
+    mTerminator2 = relive_new BirdPortalTerminator(
+        mXPos,
+        mYPos,
+        mSpriteScale,
+        mPortalType);
 }
 
 s16 BirdPortal::VPortalClipper(s16 bUnknown)

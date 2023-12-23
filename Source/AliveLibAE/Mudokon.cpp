@@ -6608,7 +6608,7 @@ s16 Mudokon::FindBirdPortal()
                 {
                     if (pOpenPortal->mPortalType == relive::Path_BirdPortal::PortalType::eWorker || pOpenPortal->mPortalType == relive::Path_BirdPortal::PortalType::eShrykull)
                     {
-                        gAbe->ChangeChantState_45BB90(1);
+                        gAbe->ChangeChantState(1);
                         field_11C_bird_portal_id = pOpenPortal->mBaseGameObjectId;
                         sGoingToBirdPortalMudCount_5C3012++;
                         mEscaping = true;
@@ -6631,7 +6631,7 @@ s16 Mudokon::FindBirdPortal()
                 {
                     if (pPortal20->mPortalType == relive::Path_BirdPortal::PortalType::eWorker || pPortal20->mPortalType == relive::Path_BirdPortal::PortalType::eShrykull)
                     {
-                        gAbe->ChangeChantState_45BB90(1);
+                        gAbe->ChangeChantState(1);
                         field_11C_bird_portal_id = pPortal20->mBaseGameObjectId;
 
                         sGoingToBirdPortalMudCount_5C3012++;
