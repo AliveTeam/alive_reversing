@@ -291,6 +291,15 @@ const relive::SfxDefinition sSFXList_4C6638[49] = {
     {0, 65, 60, 127, 0, 0},
     {0, 65, 64, 80, 0, 0}};
 
+bool IsAbe(BaseGameObject* pObj)
+{
+    if (gAbe)
+    {
+        return gAbe == pObj;
+    }
+    return false;
+}
+
 s32 Environment_SFX(EnvironmentSfx sfxId, s32 volume, s32 pitchMin, BaseAliveGameObject* pAliveObj)
 {
     s16 sndIndex = 0;

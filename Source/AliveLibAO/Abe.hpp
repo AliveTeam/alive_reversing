@@ -761,6 +761,8 @@ extern Abe* gAbe;
 extern s16 gAbeInvulnerableCheat;
 extern s16 gAbeInvisibleCheat;
 
+bool IsAbe(BaseGameObject* pObj);
+
 s32 Environment_SFX(EnvironmentSfx sfxId, s32 volume, s32 pitchMin, BaseAliveGameObject* pAliveObj);
 
 s32 Mudokon_SFX(MudSounds idx, s32 volume, s32 pitch, BaseAliveGameObject* pHero);

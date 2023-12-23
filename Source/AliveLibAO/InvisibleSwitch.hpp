@@ -18,6 +18,9 @@ public:
     virtual void VScreenChanged() override;
 
 private:
+    bool IsAbeUsingDoor() const;
+
+private:
     s16 mSwitchId = 0;
     relive::reliveSwitchOp mAction = relive::reliveSwitchOp::eSetTrue;
     Guid mTlvId;

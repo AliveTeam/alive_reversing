@@ -8,6 +8,7 @@
 #include "../relive_lib/SwitchStates.hpp"
 #include "Abe.hpp"
 #include "Path.hpp"
+#include "../relive_lib/GameType.hpp"
 
 InvisibleSwitch::InvisibleSwitch(relive::Path_InvisibleSwitch* pTlv, const Guid& tlvId)
     : BaseGameObject(true, 0)
@@ -30,56 +31,72 @@ InvisibleSwitch::~InvisibleSwitch()
     Path::TLV_Reset(mTlvId, -1, 0, 0);
 }
 
+bool InvisibleSwitch::IsAbeUsingDoor() const
+{
+    return gAbe->mCurrentMotion == eAbeMotions::Motion_115_DoorExit
+        || gAbe->mCurrentMotion == eAbeMotions::Motion_114_DoorEnter;
+}
+
 void InvisibleSwitch::VUpdate()
 {
-    if (mState == States::eWaitForDelayTimer_1)
+    switch (mState)
     {
-        if (mDelayTimer <= static_cast<s32>(sGnFrame))
+        case States::eWaitForTrigger_0:
         {
-            // Timer expired, do the operation
-            SwitchStates_Do_Operation(mSwitchId, mAction);
-
-            // Fire alarm if set
-            if (mSetOffAlarm == relive::reliveChoice::eYes)
+            // sControlledCharacter can be nullptr during the game ender in AO
+            if (!sControlledCharacter)
             {
-                relive_new Alarm(150, 0, 30, Layer::eLayer_Above_FG1_39);
+                break;
             }
 
-            // Go back to waiting for trigger
-            mState = States::eWaitForTrigger_0;
-        }
-    }
-    else if (mState == States::eWaitForTrigger_0)
-    {
-        // If not trying to turn off the target and the state is set
-        if (mAction != relive::reliveSwitchOp::eSetFalse || SwitchStates_Get(mSwitchId))
-        {
-            // Within X bounds?
-            const FP charXPos = sControlledCharacter->mXPos;
-            if (charXPos >= FP_FromInteger(mTlvTopLeft.x) && charXPos <= FP_FromInteger(mTlvBottomRight.x))
+            // If not trying to turn off the target and the state is set
+            if ((mAction != relive::reliveSwitchOp::eSetFalse || SwitchStates_Get(mSwitchId))
+                || GetGameType() == GameType::eAo) // Ignore the action and state in AO
             {
-                // Within Y bounds?
-                const FP charYPos = sControlledCharacter->mYPos;
-                if (charYPos >= FP_FromInteger(mTlvTopLeft.y) && charYPos <= FP_FromInteger(mTlvBottomRight.y))
+                // Within X bounds?
+                const FP charXPos = sControlledCharacter->mXPos;
+                if (charXPos >= FP_FromInteger(mTlvTopLeft.x) && charXPos <= FP_FromInteger(mTlvBottomRight.x))
                 {
-                    // TODO: ???
-                    if (!IsAbe(gAbe)
-                        || (gAbe->mCurrentMotion != eAbeMotions::Motion_115_DoorExit
-                            && gAbe->mCurrentMotion != eAbeMotions::Motion_114_DoorEnter))
+                    // Within Y bounds?
+                    const FP charYPos = sControlledCharacter->mYPos;
+                    if (charYPos >= FP_FromInteger(mTlvTopLeft.y) && charYPos <= FP_FromInteger(mTlvBottomRight.y))
                     {
-                        // Scale matches ?
-                        if (mScale == relive::Path_InvisibleSwitch::InvisibleSwitchScale::eAny
-                            || (mScale == relive::Path_InvisibleSwitch::InvisibleSwitchScale::eHalf && sControlledCharacter->GetSpriteScale() == FP_FromDouble(0.5))
-                            || (mScale == relive::Path_InvisibleSwitch::InvisibleSwitchScale::eFull && sControlledCharacter->GetSpriteScale() == FP_FromDouble(1.0)))
+                        if ((IsAbe(sControlledCharacter) && !IsAbeUsingDoor())
+                            || !IsAbe(sControlledCharacter))
                         {
-                            mState = States::eWaitForDelayTimer_1;
-                            mDelayTimer = MakeTimer(mActivationDelay);
+                            // Scale matches ?
+                            if (mScale == relive::Path_InvisibleSwitch::InvisibleSwitchScale::eAny
+                                || (mScale == relive::Path_InvisibleSwitch::InvisibleSwitchScale::eHalf && sControlledCharacter->GetSpriteScale() == FP_FromDouble(0.5))
+                                || (mScale == relive::Path_InvisibleSwitch::InvisibleSwitchScale::eFull && sControlledCharacter->GetSpriteScale() == FP_FromInteger(1)))
+                            {
+                                mState = States::eWaitForDelayTimer_1;
+                                mDelayTimer = MakeTimer(mActivationDelay);
+                            }
                         }
                     }
                 }
             }
+            break;
         }
+
+        case States::eWaitForDelayTimer_1:
+            if (mDelayTimer <= static_cast<s32>(sGnFrame))
+            {
+                // Timer expired, do the operation
+                SwitchStates_Do_Operation(mSwitchId, mAction);
+
+                // Fire alarm if set
+                if (mSetOffAlarm == relive::reliveChoice::eYes)
+                {
+                    relive_new Alarm(150, 0, 30, Layer::eLayer_Above_FG1_39);
+                }
+
+                // Go back to waiting for trigger
+                mState = States::eWaitForTrigger_0;
+            }
+            break;
     }
+
 
     if (EventGet(kEventDeathReset))
     {
