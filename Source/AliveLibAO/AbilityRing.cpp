@@ -12,6 +12,7 @@
 #include "Math.hpp"
 #include "../AliveLibAE/stdlib.hpp"
 #include "../relive_lib/ObjectIds.hpp"
+#include "../relive_lib/GameType.hpp"
 
 #undef min
 #undef max
@@ -20,9 +21,9 @@
 
 namespace AO {
 
-AbilityRing* AbilityRing::Factory(FP xpos, FP ypos, RingTypes ring_type)
+AbilityRing* AbilityRing::Factory(FP xpos, FP ypos, RingTypes ringType, FP scale)
 {
-    return relive_new AbilityRing(xpos, ypos, ring_type);
+    return relive_new AbilityRing(xpos, ypos, ringType, scale);
 }
 
 static s32 MinDistance(s32 screenX, s32 screenY, s32 width1, s32 height1, s32 width2, s32 height2)
@@ -39,18 +40,17 @@ static s32 MinDistance(s32 screenX, s32 screenY, s32 width1, s32 height1, s32 wi
     }
 }
 
-AbilityRing::AbilityRing(FP xpos, FP ypos, RingTypes ring_type)
+AbilityRing::AbilityRing(FP xpos, FP ypos, RingTypes ringType, FP scale)
     : BaseGameObject(true, 0),
     mRingXPos(xpos),
     mRingYPos(ypos)
 {
     SetType(ReliveTypes::eAbilityRing);
-    mRingTargetObjId = Guid{};
     gObjListDrawables->Push_Back(this);
     SetDrawable(true);
 
-    mRingScreenX = FP_GetExponent(gScreenManager->mCamPos->x - FP_FromInteger(gScreenManager->mCamXOff));
-    mRingScreenY = FP_GetExponent(gScreenManager->mCamPos->y - FP_FromInteger(gScreenManager->mCamYOff));
+    mRingScreenX = FP_GetExponent(gScreenManager->CamXPos());
+    mRingScreenY = FP_GetExponent(gScreenManager->CamYPos());
 
     mRingScreenXPos = FP_GetExponent(xpos) - mRingScreenX;
     mRingScreenYPos = FP_GetExponent(ypos) - mRingScreenY;
@@ -67,11 +67,12 @@ AbilityRing::AbilityRing(FP xpos, FP ypos, RingTypes ring_type)
         mRingFadeoutDistance = static_cast<s16>(MinDistance(mRingScreenXPos, mRingScreenYPos, gPsxDisplay.mWidth, 0, 0, 0));
     }
 
-    mRingType = ring_type;
+    mRingType = ringType;
 
     switch (mRingType)
     {
         case RingTypes::eExplosive_Emit_1:
+        case RingTypes::eHealing_Emit_12:
             for (PSX_RECT& r : mRingCollideRects)
             {
                 r = {};
@@ -79,60 +80,120 @@ AbilityRing::AbilityRing(FP xpos, FP ypos, RingTypes ring_type)
             [[fallthrough]];
 
         case RingTypes::eExplosive_Emit_Effect_2:
+        case RingTypes::eInvisible_Pulse_Emit_9:
+        case RingTypes::eHealing_Emit_Effect_11:
             mRingThickness = FP_FromInteger(8);
             mRingSpeed = FP_FromInteger(6);
             mRingRight = FP_FromInteger(6);
             mRingLeft = FP_FromInteger(0);
-            mRingRed = 80;
-            mRingGreen = 0;
-            mRingBlue = 0;
+
+            if (mRingType == RingTypes::eInvisible_Pulse_Emit_9)
+            {
+                mRingRed = 0;
+                mRingGreen = 255;
+                mRingBlue = 32;
+            }
+            else
+            {
+                if (mRingType != RingTypes::eHealing_Emit_Effect_11 && mRingType != RingTypes::eHealing_Emit_12)
+                {
+                    mRingRed = 80;
+                    mRingGreen = 0;
+                    mRingBlue = 0;
+                }
+                else
+                {
+                    mRingRed = 255;
+                    mRingGreen = 255;
+                    mRingBlue = 32;
+                }
+            }
+
             SfxPlayMono(relive::SoundEffects::IngameTransition, 0);
             break;
 
         case RingTypes::eExplosive_Give_3:
+        case RingTypes::eInvisible_Pulse_Give_10:
+        case RingTypes::eHealing_Give_13:
             mRingThickness = FP_FromInteger(8);
             mRingSpeed = FP_FromInteger(6);
             mRingRight = FP_FromInteger(350);
             mRingLeft = FP_FromInteger(342);
-            mRingRed = 80;
-            mRingGreen = 0;
-            mRingBlue = 0;
+            if (mRingType == RingTypes::eInvisible_Pulse_Give_10)
+            {
+                mRingRed = 0;
+                mRingGreen = 255;
+                mRingBlue = 32;
+            }
+            else if (mRingType == RingTypes::eHealing_Give_13)
+            {
+                mRingBlue = 32;
+                mRingRed = 255;
+                mRingGreen = 255;
+            }
+            else
+            {
+                mRingRed = 80;
+                mRingGreen = 0;
+                mRingBlue = 0;
+            }
             break;
 
         case RingTypes::eExplosive_Pulse_0:
         case RingTypes::eShrykull_Pulse_Small_4:
+        case RingTypes::eInvisible_Pulse_Small_7:
+        case RingTypes::eHealing_Pulse_14:
             SetTarget(gAbe);
             [[fallthrough]];
 
         case RingTypes::eShrykull_Pulse_Large_5:
         case RingTypes::eShrykull_Pulse_Orange_6:
+        case RingTypes::eInvisible_Pulse_Large_8:
             mRingThickness = FP_FromInteger(5);
             mRingSpeed = FP_FromInteger(4);
             mRingRight = FP_FromInteger(4);
             mRingLeft = FP_FromInteger(0);
             mRingFadeoutDistance = 50;
-            switch (ring_type)
+
+            switch (mRingType)
             {
                 case RingTypes::eExplosive_Pulse_0:
                     mRingRed = 255;
                     mRingGreen = 0;
                     mRingBlue = 0;
                     break;
+
                 case RingTypes::eShrykull_Pulse_Small_4:
                     mRingRed = 0;
                     mRingGreen = 0;
                     mRingBlue = 255;
                     break;
+
                 case RingTypes::eShrykull_Pulse_Large_5:
                     mRingRed = 0;
                     mRingGreen = 0;
                     mRingBlue = 80;
                     break;
+
                 case RingTypes::eShrykull_Pulse_Orange_6:
                     mRingRed = 255;
                     mRingGreen = 128;
                     mRingBlue = 64;
                     break;
+
+                case RingTypes::eInvisible_Pulse_Small_7:
+                case RingTypes::eInvisible_Pulse_Large_8:
+                    mRingRed = 0;
+                    mRingGreen = 255;
+                    mRingBlue = 0;
+                    break;
+
+                case RingTypes::eHealing_Pulse_14:
+                    mRingBlue = 32;
+                    mRingRed = 255;
+                    mRingGreen = 255;
+                    break;
+
                 default:
                     break;
             }
@@ -146,8 +207,18 @@ AbilityRing::AbilityRing(FP xpos, FP ypos, RingTypes ring_type)
     mRingLayer = Layer::eLayer_Above_FG1_39;
     mRingLevel = gMap.mCurrentLevel;
 
+    if (mRingType == RingTypes::eShrykull_Pulse_Orange_6 && scale == FP_FromDouble(0.5))
+    {
+        mRingLayer = Layer::eLayer_RollingBallBombMineCar_Half_16;
+    }
+
     mRingScaleX = FP_FromDouble(1.0999); // TODO: Matching ?? 0x11999
     mRingScaleY = FP_FromInteger(1);
+
+    mRingThickness *= scale;
+    mRingSpeed *= scale;
+    mRingLeft *= scale;
+    mRingRight *= scale;
 
     for (s32 x = 0; x < 64; x++)
     {
@@ -156,8 +227,8 @@ AbilityRing::AbilityRing(FP xpos, FP ypos, RingTypes ring_type)
         pPoly->SetRGB1(mRingRed & 255, mRingGreen & 255, mRingBlue & 255);
         pPoly->SetRGB2(mRingRed & 255, mRingGreen & 255, mRingBlue & 255);
         pPoly->SetRGB3(mRingRed & 255, mRingGreen & 255, mRingBlue & 255);
-        pPoly->SetBlendMode(relive::TBlendModes::eBlend_1);
         pPoly->SetSemiTransparent(mRingSemiTrans);
+        pPoly->SetBlendMode(relive::TBlendModes::eBlend_1);
     }
 }
 
@@ -173,7 +244,8 @@ void AbilityRing::VRender(OrderingTable& ot)
             mRingPath,
             mRingXPos,
             mRingYPos,
-            0)) //&& !mRefreshTargetObjId) Missing part of the check from AE
+            0)
+        && !mRefreshTargetObjId)
     {
         s16 y3 = mRingScreenYPos;
         s16 y4 = mRingScreenYPos;
@@ -181,11 +253,26 @@ void AbilityRing::VRender(OrderingTable& ot)
         s16 x3 = PsxToPCX(FP_GetExponent(FP_FromInteger(mRingScreenXPos) + (mRingLeft * mRingScaleX)), 11);
         s16 x4 = PsxToPCX(FP_GetExponent(FP_FromInteger(mRingScreenXPos) + (mRingRight * mRingScaleX)), 11);
 
-        //Not hardcoded in Exoddus
-        u8 ang = 4;
-        auto count = 64;
+        mRingCount = 64;
+        u8 angIncrement = 4;
 
-        for (s32 i = 0; i < count; i++)
+        // AO always defaults to the values above
+        if (mRingRight <= FP_FromInteger(150) && GetGameType() == GameType::eAe)
+        {
+            if (mRingRight <= FP_FromInteger(50))
+            {
+                mRingCount = 16;
+                angIncrement = 16;
+            }
+            else
+            {
+                mRingCount = 32;
+                angIncrement = 8;
+            }
+        }
+
+        u8 ang = angIncrement;
+        for (s32 i = 0; i < mRingCount; i++)
         {
             const s16 x1 = (s16) PsxToPCX(mRingScreenXPos + FP_GetExponent(mRingLeft * Math_Sine(ang) * mRingScaleX), 11);
             const s16 x2 = (s16) PsxToPCX(mRingScreenXPos + FP_GetExponent(mRingRight * Math_Sine(ang) * mRingScaleX), 11);
@@ -210,10 +297,10 @@ void AbilityRing::VRender(OrderingTable& ot)
             else
             {
                 Poly_G4* pPoly = &mRingPolyBuffer[i];
-                pPoly->SetXY0( x1, y1);
-                pPoly->SetXY1( x2, y2);
-                pPoly->SetXY2( x3, y3);
-                pPoly->SetXY3( x4, y4);
+                pPoly->SetXY0(x1, y1);
+                pPoly->SetXY1(x2, y2);
+                pPoly->SetXY2(x3, y3);
+                pPoly->SetXY3(x4, y4);
 
                 ot.Add(mRingLayer, pPoly);
 
@@ -227,13 +314,19 @@ void AbilityRing::VRender(OrderingTable& ot)
             x4 = x2;
             y4 = y2;
 
-            ang += 4;
+            ang += angIncrement;
         }
     }
 }
 
 void AbilityRing::VUpdate()
 {
+    if (mRefreshTargetObjId)
+    {
+        mRefreshTargetObjId = false;
+        mRingTargetObjId = RefreshId(mRingTargetObjId);
+    }
+
     auto pTarget = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(mRingTargetObjId));
     if (pTarget)
     {
@@ -243,13 +336,12 @@ void AbilityRing::VUpdate()
         }
         else
         {
-            mRingScreenX = FP_GetExponent(gScreenManager->mCamPos->x - FP_FromInteger(gScreenManager->mCamXOff));
-            mRingScreenY = FP_GetExponent(gScreenManager->mCamPos->y - FP_FromInteger(gScreenManager->mCamYOff));
+            mRingScreenX = FP_GetExponent(gScreenManager->CamXPos());
+            mRingScreenY = FP_GetExponent(gScreenManager->CamYPos());
 
             const PSX_RECT bRect = pTarget->VGetBoundingRect();
-
-            mRingScreenXPos = (bRect.w + bRect.x) / 2 - mRingScreenX;
-            mRingScreenYPos = (bRect.h + bRect.y) / 2 - mRingScreenY;
+            mRingScreenXPos = (bRect.x + bRect.w) / 2 - mRingScreenX;
+            mRingScreenYPos = (bRect.y + bRect.h) / 2 - mRingScreenY;
         }
     }
 
@@ -258,6 +350,9 @@ void AbilityRing::VUpdate()
         case RingTypes::eExplosive_Pulse_0:
         case RingTypes::eShrykull_Pulse_Small_4:
         case RingTypes::eShrykull_Pulse_Orange_6:
+        case RingTypes::eInvisible_Pulse_Small_7:
+        case RingTypes::eInvisible_Pulse_Large_8:
+        case RingTypes::eHealing_Pulse_14:
             mRingRight += mRingSpeed;
             mRingLeft = mRingRight - mRingThickness;
 
@@ -287,12 +382,43 @@ void AbilityRing::VUpdate()
             return;
 
         case RingTypes::eExplosive_Emit_1:
-            CollideWithObjects();
+        case RingTypes::eHealing_Emit_12:
+            if (mRingType == RingTypes::eHealing_Emit_12)
+            {
+                CollideWithObjects(false);
+            }
+            else
+            {
+                CollideWithObjects(true);
+            }
             [[fallthrough]];
 
         case RingTypes::eExplosive_Emit_Effect_2:
+        case RingTypes::eInvisible_Pulse_Emit_9:
+        case RingTypes::eHealing_Emit_Effect_11:
+        case RingTypes::eShrykull_Pulse_Large_5:
             mRingRight += mRingSpeed;
             mRingLeft = mRingRight - mRingThickness;
+
+            if (GetGameType() == GameType::eAo && mRingType == RingTypes::eShrykull_Pulse_Large_5)
+            {
+                if (mRingLeft >= FP_FromInteger(0))
+                {
+                    if (FP_GetExponent(mRingLeft) > mRingFadeoutDistance)
+                    {
+                        SetDead(true);
+                    }
+                }
+                else
+                {
+                    mRingLeft = FP_FromInteger(0);
+                    if (mRingFadeoutDistance < 0)
+                    {
+                        SetDead(true);
+                    }
+                }
+                return;
+            }
 
             if (mRingLeft < FP_FromInteger(0))
             {
@@ -303,9 +429,11 @@ void AbilityRing::VUpdate()
             {
                 SetDead(true);
             }
-            break;
+            return;
 
         case RingTypes::eExplosive_Give_3:
+        case RingTypes::eInvisible_Pulse_Give_10:
+        case RingTypes::eHealing_Give_13:
             mRingRight -= mRingSpeed;
             mRingLeft = mRingRight - mRingThickness;
             if (mRingLeft < FP_FromInteger(0))
@@ -313,47 +441,26 @@ void AbilityRing::VUpdate()
                 SetDead(true);
                 mRingLeft = FP_FromInteger(0);
                 SfxPlayMono(relive::SoundEffects::IngameTransition, 0);
-                relive_new PossessionFlicker(gAbe, 8, 255, 128, 128);
+                if (mRingType == RingTypes::eExplosive_Give_3)
+                {
+                    relive_new PossessionFlicker(gAbe, 8, 255, 128, 128);
+                }
             }
-            break;
+            return;
 
-        case RingTypes::eShrykull_Pulse_Large_5:
-            mRingRight += mRingSpeed;
-            mRingLeft = mRingRight - mRingThickness;
-            if (mRingLeft >= FP_FromInteger(0))
-            {
-                if (FP_GetExponent(mRingLeft) > mRingFadeoutDistance)
-                {
-                    SetDead(true);
-                }
-            }
-            else
-            {
-                mRingLeft = FP_FromInteger(0);
-                if (mRingFadeoutDistance < 0)
-                {
-                    SetDead(true);
-                }
-            }
-            break;
         default:
             return;
     }
 }
 
-void AbilityRing::VScreenChanged()
+void AbilityRing::CollideWithObjects(bool bDealDamage)
 {
-    SetDead(true);
-}
-
-void AbilityRing::CollideWithObjects()
-{
-    for (auto& rect : mRingCollideRects)
+    for (s32 i = 0; i < mRingCount; i++)
     {
-        rect.x += mRingScreenX;
-        rect.y += mRingScreenY;
-        rect.w += mRingScreenX;
-        rect.h += mRingScreenY;
+        mRingCollideRects[i].x += mRingScreenX;
+        mRingCollideRects[i].y += mRingScreenY;
+        mRingCollideRects[i].w += mRingScreenX;
+        mRingCollideRects[i].h += mRingScreenY;
     }
 
     for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
@@ -366,22 +473,65 @@ void AbilityRing::CollideWithObjects()
 
         const PSX_RECT bRect = pObj->VGetBoundingRect();
 
-        if (!(pObj->GetDead()))
+        if (!pObj->GetDead())
         {
-            for (auto& rect : mRingCollideRects)
+            for (s32 j = 0; j < mRingCount; j++)
             {
-                if (rect.x <= bRect.w && rect.w >= bRect.x && rect.h >= bRect.y && rect.y <= bRect.h)
+                if (PSX_Rects_overlap_no_adjustment(&mRingCollideRects[j], &bRect))
                 {
-                    pObj->VTakeDamage(this);
+                    if (bDealDamage)
+                    {
+                        pObj->VTakeDamage(this);
+                    }
+                    else if (pObj->Type() == ReliveTypes::eMudokon)
+                    {
+                        // is the mudokon sick?
+                        if (pObj->GetCanBePossessed())
+                        {
+                            if (pObj->mHealth > FP_FromInteger(0))
+                            {
+                                // heal the sick mudokon
+                                pObj->VPossessed();
+                            }
+                        }
+                    }
                 }
             }
         }
     }
 }
 
-void AbilityRing::SetTarget(BaseAliveGameObject* pTarget)
+void AbilityRing::SetTarget(BaseGameObject* pTarget)
 {
     mRingTargetObjId = pTarget->mBaseGameObjectId;
+}
+
+void AbilityRing::VScreenChanged()
+{
+    if (mRingType == RingTypes::eHealing_Emit_12)
+    {
+        for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
+        {
+            IBaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
+            if (!pObj)
+            {
+                break;
+            }
+
+            if (pObj->Type() == ReliveTypes::eMudokon)
+            {
+                if (pObj->GetCanBePossessed())
+                {
+                    // Only heal alive muds in the same screen
+                    if (pObj->Is_In_Current_Camera() == CameraPos::eCamCurrent_0 && pObj->mHealth > FP_FromInteger(0))
+                    {
+                        pObj->VPossessed();
+                    }
+                }
+            }
+        }
+    }
+    SetDead(true);
 }
 
 } // namespace AO

@@ -853,7 +853,7 @@ s16 Scrab::Brain_0_Patrol()
     }
 
     auto pSwitch = static_cast<PlatformBase*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
-    if (pSwitch && pSwitch->Type() == ReliveTypes::eLiftPoint && !(static_cast<LiftPoint*>(pSwitch)->vOnAnyFloor() || mBrainSubState != Scrab_Brain_0_Patrol::eBrain0_OnLift_6))
+    if (pSwitch && pSwitch->Type() == ReliveTypes::eLiftPoint && !(static_cast<LiftPoint*>(pSwitch)->OnAnyFloor() || mBrainSubState != Scrab_Brain_0_Patrol::eBrain0_OnLift_6))
     {
         SetNextMotion(eScrabMotions::Motion_0_Stand);
         return Scrab_Brain_0_Patrol::eBrain0_OnLift_6;
@@ -1016,7 +1016,7 @@ s16 Scrab::Brain_0_Patrol()
         case Scrab_Brain_0_Patrol::eBrain0_OnLift_6:
             if (pSwitch)
             {
-                if (!static_cast<LiftPoint*>(pSwitch)->vOnAnyFloor())
+                if (!static_cast<LiftPoint*>(pSwitch)->OnAnyFloor())
                 {
                     return mBrainSubState;
                 }
@@ -1136,7 +1136,7 @@ s16 Scrab::Brain_1_ChasingEnemy()
     {
         pLiftPoint = nullptr; //OG bug fix: Before it could use the pointer as a LiftPoint even if it, in fact, wasn't one
     }
-    if (pLiftPoint && !pLiftPoint->vOnAnyFloor() && mBrainSubState != Brain_1_ChasingEnemy::eBrain1_Panic_4)
+    if (pLiftPoint && !pLiftPoint->OnAnyFloor() && mBrainSubState != Brain_1_ChasingEnemy::eBrain1_Panic_4)
     {
         SetNextMotion(eScrabMotions::Motion_0_Stand);
         return Brain_1_ChasingEnemy::eBrain1_Panic_4;
@@ -1259,7 +1259,7 @@ s16 Scrab::Brain_1_ChasingEnemy()
 
             if (pLiftPoint)
             {
-                if (!pLiftPoint->vOnAnyFloor())
+                if (!pLiftPoint->OnAnyFloor())
                 {
                     return mBrainSubState;
                 }

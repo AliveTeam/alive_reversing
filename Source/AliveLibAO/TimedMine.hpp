@@ -28,7 +28,7 @@ private:
     void StickToLiftPoint();
     void InitTickAnimation();
 public:
-    u16 mSlappedMine = 0;
+    bool mSlappedMine = false;
     u16 mTicksUntilExplosion = 0;
     Guid mTlvInfo;
     u32 mExplosionTimer = 0;

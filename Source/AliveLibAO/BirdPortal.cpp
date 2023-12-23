@@ -405,11 +405,13 @@ void BirdPortal::VUpdate()
                     AbilityRing::Factory(
                         mTerminator1->mXPos,
                         mTerminator1->mYPos + FP_FromInteger(7),
-                        RingTypes::eShrykull_Pulse_Orange_6);
+                        RingTypes::eShrykull_Pulse_Orange_6,
+                        FP_FromInteger(1));
                     AbilityRing::Factory(
                         mTerminator2->mXPos,
                         mTerminator2->mYPos + FP_FromInteger(7),
-                        RingTypes::eShrykull_Pulse_Orange_6);
+                        RingTypes::eShrykull_Pulse_Orange_6,
+                        FP_FromInteger(1));
                 }
             }
             else

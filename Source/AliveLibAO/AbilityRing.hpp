@@ -40,18 +40,18 @@ class BaseAliveGameObject;
 class AbilityRing final : public ::BaseGameObject
 {
 public:
-    AbilityRing(FP xpos, FP ypos, RingTypes type);
+    AbilityRing(FP xpos, FP ypos, RingTypes ringType, FP scale);
     ~AbilityRing();
 
     virtual void VUpdate() override;
     virtual void VRender(OrderingTable& ot) override;
     virtual void VScreenChanged() override;
 
-    static AbilityRing* Factory(FP xpos, FP ypos, RingTypes ring_type);
-    void SetTarget(BaseAliveGameObject* pTarget);
+    static AbilityRing* Factory(FP xpos, FP ypos, RingTypes ringType, FP scale);
+    void SetTarget(BaseGameObject* pTarget);
 
 private:
-    void CollideWithObjects();
+    void CollideWithObjects(bool bDealDamage);
 
     Layer mRingLayer = Layer::eLayer_0;
     Poly_G4 mRingPolyBuffer[64] = {};
@@ -77,6 +77,8 @@ private:
     s16 mRingPath = 0;
     RingTypes mRingType = RingTypes::eExplosive_Pulse_0;
     Guid mRingTargetObjId = {};
+    s32 mRingCount = 64;
+    bool mRefreshTargetObjId = false;
 };
 
 

@@ -2152,7 +2152,7 @@ void Slig::Motion_46_LiftGrip()
             {
                 if (Input().IsAnyHeld(InputCommands::eUp))
                 {
-                    if (pLiftPoint->vOnTopFloor())
+                    if (pLiftPoint->OnTopFloor())
                     {
                         SetCurrentMotion(eSligMotions::Motion_48_LiftGripping);
                     }
@@ -2165,7 +2165,7 @@ void Slig::Motion_46_LiftGrip()
 
                 if (Input().IsAnyHeld(InputCommands::eDown))
                 {
-                    if (pLiftPoint->vOnBottomFloor())
+                    if (pLiftPoint->OnBottomFloor())
                     {
                         SetCurrentMotion(eSligMotions::Motion_48_LiftGripping);
                     }
@@ -2180,12 +2180,12 @@ void Slig::Motion_46_LiftGrip()
             }
             else
             {
-                if (pLiftPoint->vOnTopFloor())
+                if (pLiftPoint->OnTopFloor())
                 {
                     SetCurrentMotion(eSligMotions::Motion_50_LiftDown);
                 }
 
-                if (pLiftPoint->vOnBottomFloor())
+                if (pLiftPoint->OnBottomFloor())
                 {
                     SetCurrentMotion(eSligMotions::Motion_49_LiftUp);
                 }
@@ -2216,19 +2216,19 @@ void Slig::Motion_48_LiftGripping()
 
         if (Input().IsAnyHeld(InputCommands::eUp))
         {
-            if (!pLiftPoint->vOnTopFloor())
+            if (!pLiftPoint->OnTopFloor())
             {
                 SetCurrentMotion(eSligMotions::Motion_49_LiftUp);
             }
         }
         else if (Input().IsAnyHeld(InputCommands::eDown))
         {
-            if (!pLiftPoint->vOnBottomFloor())
+            if (!pLiftPoint->OnBottomFloor())
             {
                 SetCurrentMotion(eSligMotions::Motion_50_LiftDown);
             }
         }
-        else if (pLiftPoint->vOnAnyFloor())
+        else if (pLiftPoint->OnAnyFloor())
         {
             SetCurrentMotion(eSligMotions::Motion_47_LiftUngrip);
         }
@@ -3084,7 +3084,7 @@ s16 Slig::Brain_ListenToGlukkon_IdleListen(BaseAliveGameObject* pGlukkonObj, Pla
                             const FP scaled_2 = (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(2));
                             const FP lineMidX = FP_FromInteger((BaseAliveGameObjectCollisionLine->mRect.x + BaseAliveGameObjectCollisionLine->mRect.w) / 2);
                             const FP v33 = mXPos - lineMidX >= FP_FromInteger(0) ? mXPos - lineMidX : lineMidX - mXPos;
-                            if (v33 < scaled_2 && (static_cast<LiftPoint*>(pPlatformObj)->vOnTopFloor() || static_cast<LiftPoint*>(pPlatformObj)->vOnBottomFloor()))
+                            if (v33 < scaled_2 && (static_cast<LiftPoint*>(pPlatformObj)->OnTopFloor() || static_cast<LiftPoint*>(pPlatformObj)->OnBottomFloor()))
                             {
                                 SetNextMotion(eSligMotions::Motion_46_LiftGrip);
 
@@ -5855,7 +5855,7 @@ eSligMotions Slig::MoveLift(FP ySpeed)
 
     if (ySpeed < FP_FromInteger(0))
     {
-        if (pLiftPoint->vOnTopFloor())
+        if (pLiftPoint->OnTopFloor())
         {
             return eSligMotions::Motion_48_LiftGripping;
         }
@@ -5877,7 +5877,7 @@ eSligMotions Slig::MoveLift(FP ySpeed)
     }
     else if (ySpeed > FP_FromInteger(0))
     {
-        if (pLiftPoint->vOnBottomFloor())
+        if (pLiftPoint->OnBottomFloor())
         {
             return eSligMotions::Motion_48_LiftGripping;
         }
@@ -5899,7 +5899,7 @@ eSligMotions Slig::MoveLift(FP ySpeed)
     }
 
     // Strange how this isn't "if nothing pressed and on a floor then let go ??"
-    if (Input().mPads[sCurrentControllerIndex].mRawInput && pLiftPoint->vOnAnyFloor())
+    if (Input().mPads[sCurrentControllerIndex].mRawInput && pLiftPoint->OnAnyFloor())
     {
         return eSligMotions::Motion_47_LiftUngrip;
     }

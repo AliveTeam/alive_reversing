@@ -13,10 +13,27 @@
 #include "../relive_lib/ObjectIds.hpp"
 #include "../relive_lib/FixedPoint.hpp"
 #include "Path.hpp"
+#include "../relive_lib/GameType.hpp"
 
 namespace AO {
 
-static const TintEntry sTimedMineTints[3] = {
+static const TintEntry sTimedMineTint[19] = {
+    {EReliveLevelIds::eMenu, 127u, 127u, 127u},
+    {EReliveLevelIds::eMines, 127u, 127u, 127u},
+    {EReliveLevelIds::eNecrum, 127u, 127u, 127u},
+    {EReliveLevelIds::eMudomoVault, 127u, 127u, 127u},
+    {EReliveLevelIds::eMudancheeVault, 127u, 127u, 127u},
+    {EReliveLevelIds::eFeeCoDepot, 127u, 127u, 127u},
+    {EReliveLevelIds::eBarracks, 127u, 127u, 127u},
+    {EReliveLevelIds::eMudancheeVault_Ender, 127u, 127u, 127u},
+    {EReliveLevelIds::eBonewerkz, 127u, 127u, 127u},
+    {EReliveLevelIds::eBrewery, 127u, 127u, 127u},
+    {EReliveLevelIds::eBrewery_Ender, 127u, 127u, 127u},
+    {EReliveLevelIds::eMudomoVault_Ender, 127u, 127u, 127u},
+    {EReliveLevelIds::eFeeCoDepot_Ender, 127u, 127u, 127u},
+    {EReliveLevelIds::eBarracks_Ender, 127u, 127u, 127u},
+    {EReliveLevelIds::eBonewerkz_Ender, 127u, 127u, 127u},
+    {EReliveLevelIds::eCredits, 127u, 127u, 127u},
     {EReliveLevelIds::eStockYards, 60u, 60u, 60u},
     {EReliveLevelIds::eStockYardsReturn, 60u, 60u, 60u},
     {EReliveLevelIds::eNone, 127u, 127u, 127u},
@@ -33,14 +50,20 @@ void TimedMine::LoadAnimations()
 TimedMine::TimedMine(relive::Path_TimedMine* pTlv, const Guid& tlvId)
     : BaseAliveGameObject()
 {
-    SetType(ReliveTypes::eTimedMine);
+    if (GetGameType() == GameType::eAe)
+    {
+        SetType(ReliveTypes::eTimedMine_or_MovingBomb);
+    }
+    else
+    {
+        SetType(ReliveTypes::eTimedMine);
+    }
 
     LoadAnimations();
     Animation_Init(GetAnimRes(AnimId::TimedMine_Idle));
 
     SetInteractive(true);
     mStickToLiftPoint = false;
-    mSlappedMine = 0;
 
     if (pTlv->mScale == relive::reliveScale::eHalf)
     {
@@ -59,25 +82,51 @@ TimedMine::TimedMine(relive::Path_TimedMine* pTlv, const Guid& tlvId)
 
     mTicksUntilExplosion = pTlv->mTicksUntilExplosion;
 
-    mXPos = FP_FromInteger(pTlv->mTopLeftX + 12);
-    mYPos = FP_FromInteger(pTlv->mTopLeftY + 24);
+    if (GetGameType() == GameType::eAo)
+    {
+        mXPos = FP_FromInteger(pTlv->mTopLeftX + 12);
+        mYPos = FP_FromInteger(pTlv->mTopLeftY + 24);
+    }
+    else
+    {
+        SetDoPurpleLightEffect(true);
+        mXPos = FP_FromInteger((pTlv->mTopLeftX + pTlv->mBottomRightX) / 2);
+        mYPos = FP_FromInteger(pTlv->mTopLeftY);
 
-    mExplosionTimer = sGnFrame;
+        FP hitY = {};
+        FP hitX = {};
+        if (gCollisions->Raycast(
+                mXPos,
+                mYPos,
+                mXPos,
+                mYPos + FP_FromInteger(24),
+                &BaseAliveGameObjectCollisionLine,
+                &hitX,
+                &hitY,
+                GetScale() == Scale::Fg ? kFgFloor : kBgFloor))
+        {
+            mYPos = hitY;
+        }
+    }
+
     mTlvInfo = tlvId;
-
-    SetBaseAnimPaletteTint(sTimedMineTints, gMap.mCurrentLevel, PalId::Default); // TODO: Bomb pal removed, check correct
-    mCollectionRect.x = mXPos - (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(2));
-    mCollectionRect.y = mYPos - ScaleToGridSize(GetSpriteScale());
-    mCollectionRect.w = mXPos + (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(2));
-    mCollectionRect.h = mYPos;
+    mExplosionTimer = sGnFrame;
+    SetBaseAnimPaletteTint(sTimedMineTint, gMap.mCurrentLevel, PalId::Default); // TODO: Bomb pal removed, check correct
 
     SetInteractive(true);
+
+    const FP gridSnap = ScaleToGridSize(GetSpriteScale());
+
+    mCollectionRect.x = mXPos - (gridSnap / FP_FromInteger(2));
+    mCollectionRect.y = mYPos - gridSnap;
+    mCollectionRect.w = mXPos + (gridSnap / FP_FromInteger(2));
+    mCollectionRect.h = mYPos;
 }
 
 TimedMine::~TimedMine()
 {
     auto pPlatform = static_cast<LiftPoint*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
-    if (mSlappedMine != 1 || sGnFrame < mExplosionTimer)
+    if (!mSlappedMine || sGnFrame < mExplosionTimer)
     {
         Path::TLV_Reset(mTlvInfo, -1, 0, 0);
     }
@@ -104,7 +153,7 @@ void TimedMine::VScreenChanged()
         SetDead(true);
     }
 
-    if (mSlappedMine != 1)
+    if (!mSlappedMine)
     {
         SetDead(true);
     }
@@ -126,7 +175,7 @@ bool TimedMine::VTakeDamage(BaseGameObject* pFrom)
         {
             SetDead(true);
             relive_new GroundExplosion(mXPos, mYPos, GetSpriteScale());
-            mSlappedMine = 1;
+            mSlappedMine = true;
             mExplosionTimer = sGnFrame;
             return true;
         }
@@ -146,9 +195,8 @@ void TimedMine::VRender(OrderingTable& ot)
             0))
     {
         mTickAnim.VRender(
-            FP_GetExponent(mXPos + FP_FromInteger(gScreenManager->mCamXOff) - gScreenManager->mCamPos->x),
-            FP_GetExponent(mYPos + FP_FromInteger(gScreenManager->mCamYOff - FP_GetExponent(GetSpriteScale() * FP_FromInteger(14)))
-                           - gScreenManager->mCamPos->y),
+            FP_GetExponent((mXPos - gScreenManager->CamXPos())),
+            FP_GetExponent((mYPos - gScreenManager->CamYPos() - FP_NoFractional(GetSpriteScale() * FP_FromDouble(14)))),
             ot,
             0,
             0);
@@ -180,6 +228,17 @@ void TimedMine::StickToLiftPoint()
     FP hitY = {};
     PathLine* pLine = nullptr;
     mStickToLiftPoint = true;
+
+    CollisionMask usedMask;
+    if (GetGameType() == GameType::eAo)
+    {
+        usedMask = PerGameScale() == Scale::Fg ? kFgWallsOrFloor : kBgWallsOrFloor;
+    }
+    else
+    {
+        usedMask = PerGameScale() == Scale::Fg ? kFgFloorCeilingOrWalls : kBgFloorCeilingOrWalls;
+    }
+
     if (gCollisions->Raycast(
             mXPos,
             mYPos - FP_FromInteger(20),
@@ -188,7 +247,7 @@ void TimedMine::StickToLiftPoint()
             &pLine,
             &hitX,
             &hitY,
-            (GetSpriteScale() != FP_FromDouble(0.5)) ? kFgWallsOrFloor : kBgWallsOrFloor))
+            usedMask))
     {
         if (pLine->mLineType == eLineTypes::eDynamicCollision_32 ||
             pLine->mLineType == eLineTypes::eBackgroundDynamicCollision_36)
@@ -241,9 +300,9 @@ void TimedMine::VUpdate()
         mCollectionRect.h = mYPos;
     }
 
-    if (mSlappedMine == 1)
+    if (mSlappedMine)
     {
-        if (static_cast<s32>(sGnFrame) > (mSingleTickTimer + mOldGnFrame))
+        if (sGnFrame > (mOldGnFrame + mSingleTickTimer))
         {
             mOldGnFrame = sGnFrame;
             const CameraPos soundDir = gMap.GetDirection(
@@ -253,8 +312,7 @@ void TimedMine::VUpdate()
                 mYPos);
             SFX_Play_Camera(relive::SoundEffects::GreenTick, 50, soundDir);
 
-            // ~7 limits the number to multiples of 8
-            if (((mExplosionTimer - sGnFrame) & ~7) >= 18 * 8)
+            if (((mExplosionTimer - sGnFrame) % 8) >= 18)
             {
                 mSingleTickTimer = 18;
             }
@@ -277,22 +335,22 @@ void TimedMine::VOnThrowableHit(BaseGameObject* /*pHitBy*/)
     relive_new GroundExplosion(mXPos, mYPos, GetSpriteScale());
 
     SetDead(true);
-    mSlappedMine = 1;
+    mSlappedMine = true;
     mExplosionTimer = sGnFrame;
 }
 
 void TimedMine::VOnAbeInteraction()
 {
-    if (mSlappedMine != 1)
+    if (!mSlappedMine)
     {
-        mSlappedMine = 1;
-        if ((s32)(mTicksUntilExplosion & 0xFFFC) >= 72)
+        mSlappedMine = true;
+        if (mTicksUntilExplosion >= 72)
         {
             mSingleTickTimer = 18;
         }
         else
         {
-            mSingleTickTimer = mTicksUntilExplosion >> 2;
+            mSingleTickTimer = mTicksUntilExplosion / 4;
         }
         mOldGnFrame = sGnFrame;
         GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::TimedMine_Activated));

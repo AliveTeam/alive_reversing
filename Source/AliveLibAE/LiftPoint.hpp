@@ -38,20 +38,20 @@ public:
 
     static void CreateFromSaveState(SerializedObjectData& pData);
 
-    void vKeepOnMiddleFloor();
-    bool vOnTopFloor();
-    bool vOnMiddleFloor();
-    bool vOnBottomFloor();
-    bool vOnAnyFloor();
-    bool vOnAFloorLiftMoverCanUse();
-    bool vMovingToFloorLevel();
+    void KeepOnMiddleFloor();
+    bool MovingToFloorLevel() const;
+    bool OnTopFloor() const;
+    bool OnBottomFloor() const;
+    bool OnMiddleFloor() const;
+    bool OnAnyFloor() const;
+    bool OnAFloorLiftMoverCanUse() const;
 
     void Move(FP xSpeed, FP ySpeed);
 
 private:
     void MoveObjectsOnLift(FP xVelocity);
     static void ClearTlvFlags(relive::Path_TLV* pTlv);
-    void vStayOnFloor(bool floor, relive::Path_LiftPoint* pTlv);
+    void StayOnFloor(bool floor, relive::Path_LiftPoint* pTlv);
 
     void CreatePulleyIfExists();
 

@@ -11,10 +11,11 @@
 #include "stdlib.hpp"
 #include <algorithm>
 #include "QuikSave.hpp"
+#include "../relive_lib/GameType.hpp"
 
-AbilityRing* AbilityRing::Factory(FP xpos, FP ypos, RingTypes type, FP scale)
+AbilityRing* AbilityRing::Factory(FP xpos, FP ypos, RingTypes ringType, FP scale)
 {
-    return relive_new AbilityRing(xpos, ypos, type, scale);
+    return relive_new AbilityRing(xpos, ypos, ringType, scale);
 }
 
 static s32 MinDistance(s32 screenX, s32 screenY, s32 width1, s32 height1, s32 width2, s32 height2)
@@ -86,7 +87,7 @@ AbilityRing::AbilityRing(FP xpos, FP ypos, RingTypes ringType, FP scale)
         }
         else
         {
-            if (ringType != RingTypes::eHealing_Emit_Effect_11 && ringType != RingTypes::eHealing_Emit_12)
+            if (mRingType != RingTypes::eHealing_Emit_Effect_11 && mRingType != RingTypes::eHealing_Emit_12)
             {
                 mRingRed = 80;
                 mRingGreen = 0;
@@ -110,13 +111,13 @@ AbilityRing::AbilityRing(FP xpos, FP ypos, RingTypes ringType, FP scale)
         mRingSpeed = FP_FromInteger(6);
         mRingRight = FP_FromInteger(350);
         mRingLeft = FP_FromInteger(342);
-        if (ringType == RingTypes::eInvisible_Pulse_Give_10)
+        if (mRingType == RingTypes::eInvisible_Pulse_Give_10)
         {
             mRingRed = 0;
             mRingGreen = 255;
             mRingBlue = 32;
         }
-        else if (ringType == RingTypes::eHealing_Give_13)
+        else if (mRingType == RingTypes::eHealing_Give_13)
         {
             mRingBlue = 32;
             mRingRed = 255;
@@ -134,7 +135,7 @@ AbilityRing::AbilityRing(FP xpos, FP ypos, RingTypes ringType, FP scale)
     case RingTypes::eShrykull_Pulse_Small_4:
     case RingTypes::eInvisible_Pulse_Small_7:
     case RingTypes::eHealing_Pulse_14:
-        VSetTarget(gAbe);
+        SetTarget(gAbe);
         [[fallthrough]];
 
     case RingTypes::eShrykull_Pulse_Large_5:
@@ -205,10 +206,11 @@ AbilityRing::AbilityRing(FP xpos, FP ypos, RingTypes ringType, FP scale)
 
     mRingScaleX = FP_FromDouble(1.0999); // TODO: Matching ?? 0x11999
     mRingScaleY = FP_FromInteger(1);
-    mRingThickness = (mRingThickness * scale);
-    mRingSpeed = (mRingSpeed * scale);
-    mRingLeft = (mRingLeft * scale);
-    mRingRight = (mRingRight * scale);
+
+    mRingThickness *= scale;
+    mRingSpeed *= scale;
+    mRingLeft *= scale;
+    mRingRight *= scale;
 
     for (s32 x = 0; x < 64; x++)
     {
@@ -243,8 +245,11 @@ void AbilityRing::VRender(OrderingTable& ot)
         s16 x3 = PsxToPCX(FP_GetExponent(FP_FromInteger(mRingScreenXPos) + (mRingLeft * mRingScaleX)), 11);
         s16 x4 = PsxToPCX(FP_GetExponent(FP_FromInteger(mRingScreenXPos) + (mRingRight * mRingScaleX)), 11);
 
-        u8 angIncrement = 0;
-        if (mRingRight <= FP_FromInteger(150))
+        mRingCount = 64;
+        u8 angIncrement = 4;
+
+        // AO always defaults to the values above
+        if (mRingRight <= FP_FromInteger(150) && GetGameType() == GameType::eAe)
         {
             if (mRingRight <= FP_FromInteger(50))
             {
@@ -256,11 +261,6 @@ void AbilityRing::VRender(OrderingTable& ot)
                 mRingCount = 32;
                 angIncrement = 8;
             }
-        }
-        else
-        {
-            mRingCount = 64;
-            angIncrement = 4;
         }
 
         u8 ang = angIncrement;
@@ -296,7 +296,6 @@ void AbilityRing::VRender(OrderingTable& ot)
 
                 ot.Add(mRingLayer, pPoly);
 
-
                 mRingCollideRects[i] = rect;
                 mRingCollideRects[i].x = PCToPsxX(mRingCollideRects[i].x, 20);
                 mRingCollideRects[i].w = PCToPsxX(mRingCollideRects[i].w, 20);
@@ -331,6 +330,7 @@ void AbilityRing::VUpdate()
         {
             mRingScreenX = FP_GetExponent(gScreenManager->CamXPos());
             mRingScreenY = FP_GetExponent(gScreenManager->CamYPos());
+
             const PSX_RECT bRect = pTarget->VGetBoundingRect();
             mRingScreenXPos = (bRect.x + bRect.w) / 2 - mRingScreenX;
             mRingScreenYPos = (bRect.y + bRect.h) / 2 - mRingScreenY;
@@ -347,6 +347,7 @@ void AbilityRing::VUpdate()
         case RingTypes::eHealing_Pulse_14:
             mRingRight += mRingSpeed;
             mRingLeft = mRingRight - mRingThickness;
+
             if (mRingLeft < FP_FromInteger(0))
             {
                 mRingLeft = FP_FromInteger(0);
@@ -357,6 +358,7 @@ void AbilityRing::VUpdate()
                 mRingRed = (mRingRed >> 1) + (mRingRed >> 2);
                 mRingGreen = (mRingGreen >> 1) + (mRingGreen >> 2);
                 mRingBlue = (mRingBlue >> 1) + (mRingBlue >> 2);
+
                 for (s32 j = 0; j < 64; j++)
                 {
                     mRingPolyBuffer[j].SetRGB0(mRingRed & 255, mRingGreen & 255, mRingBlue & 255);
@@ -389,6 +391,27 @@ void AbilityRing::VUpdate()
         case RingTypes::eShrykull_Pulse_Large_5:
             mRingRight += mRingSpeed;
             mRingLeft = mRingRight - mRingThickness;
+
+            if (GetGameType() == GameType::eAo && mRingType == RingTypes::eShrykull_Pulse_Large_5)
+            {
+                if (mRingLeft >= FP_FromInteger(0))
+                {
+                    if (FP_GetExponent(mRingLeft) > mRingFadeoutDistance)
+                    {
+                        SetDead(true);
+                    }
+                }
+                else
+                {
+                    mRingLeft = FP_FromInteger(0);
+                    if (mRingFadeoutDistance < 0)
+                    {
+                        SetDead(true);
+                    }
+                }
+                return;
+            }
+
             if (mRingLeft < FP_FromInteger(0))
             {
                 mRingLeft = FP_FromInteger(0);
@@ -398,7 +421,7 @@ void AbilityRing::VUpdate()
             {
                 SetDead(true);
             }
-            break;
+            return;
 
         case RingTypes::eExplosive_Give_3:
         case RingTypes::eInvisible_Pulse_Give_10:
@@ -415,11 +438,92 @@ void AbilityRing::VUpdate()
                     relive_new PossessionFlicker(gAbe, 8, 255, 128, 128);
                 }
             }
-            break;
+            return;
 
         default:
             return;
     }
+}
+
+void AbilityRing::CollideWithObjects(bool bDealDamage)
+{
+    for (s32 i = 0; i < mRingCount; i++)
+    {
+        mRingCollideRects[i].x += mRingScreenX;
+        mRingCollideRects[i].y += mRingScreenY;
+        mRingCollideRects[i].w += mRingScreenX;
+        mRingCollideRects[i].h += mRingScreenY;
+    }
+
+    for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
+    {
+        IBaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
+        if (!pObj)
+        {
+            break;
+        }
+
+        const PSX_RECT bRect = pObj->VGetBoundingRect();
+
+        if (!pObj->GetDead())
+        {
+            for (s32 j = 0; j < mRingCount; j++)
+            {
+                if (PSX_Rects_overlap_no_adjustment(&mRingCollideRects[j], &bRect))
+                {
+                    if (bDealDamage)
+                    {
+                        pObj->VTakeDamage(this);
+                    }
+                    else if (pObj->Type() == ReliveTypes::eMudokon)
+                    {
+                        // is the mudokon sick?
+                        if (pObj->GetCanBePossessed())
+                        {
+                            if (pObj->mHealth > FP_FromInteger(0))
+                            {
+                                // heal the sick mudokon
+                                pObj->VPossessed();
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+void AbilityRing::SetTarget(BaseGameObject* pTarget)
+{
+    mRingTargetObjId = pTarget->mBaseGameObjectId;
+}
+
+void AbilityRing::VScreenChanged()
+{
+    if (mRingType == RingTypes::eHealing_Emit_12)
+    {
+        for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
+        {
+            IBaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
+            if (!pObj)
+            {
+                break;
+            }
+
+            if (pObj->Type() == ReliveTypes::eMudokon)
+            {
+                if (pObj->GetCanBePossessed())
+                {
+                    // Only heal alive muds in the same screen
+                    if (pObj->Is_In_Current_Camera() == CameraPos::eCamCurrent_0 && pObj->mHealth > FP_FromInteger(0))
+                    {
+                        pObj->VPossessed();
+                    }
+                }
+            }
+        }
+    }
+    SetDead(true);
 }
 
 void AbilityRing::VGetSaveState(SerializedObjectData& pSaveBuffer)
@@ -476,89 +580,4 @@ void AbilityRing::CreateFromSaveState(SerializedObjectData& pBuffer)
         pRing->mRingTargetObjId = pState->mRingTlvInfo;
         pRing->mRefreshTargetObjId = true;
     }
-}
-
-
-void AbilityRing::CollideWithObjects(s16 bDealDamage)
-{
-    for (s32 i = 0; i < mRingCount; i++)
-    {
-        mRingCollideRects[i].x += mRingScreenX;
-        mRingCollideRects[i].y += mRingScreenY;
-        mRingCollideRects[i].w += mRingScreenX;
-        mRingCollideRects[i].h += mRingScreenY;
-    }
-
-    for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
-    {
-        IBaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
-        if (!pObj)
-        {
-            break;
-        }
-
-        const PSX_RECT bRect = pObj->VGetBoundingRect();
-
-        if (!(pObj->GetDead()))
-        {
-            for (s32 j = 0; j < mRingCount; j++)
-            {
-                if (mRingCollideRects[j].x <= bRect.w && mRingCollideRects[j].w >= bRect.x && mRingCollideRects[j].h >= bRect.y && mRingCollideRects[j].y <= bRect.h)
-                {
-                    if (bDealDamage)
-                    {
-                        if (bDealDamage == 1)
-                        {
-                            pObj->VTakeDamage(this);
-                        }
-                    }
-                    else if (pObj->Type() == ReliveTypes::eMudokon)
-                    {
-                        // is the mudokon sick?
-                        if (pObj->GetCanBePossessed())
-                        {
-                            if (pObj->mHealth > FP_FromInteger(0))
-                            {
-                                // heal the sick mudokon
-                                pObj->VPossessed();
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-}
-
-void AbilityRing::VSetTarget(BaseGameObject* pTarget)
-{
-    mRingTargetObjId = pTarget->mBaseGameObjectId;
-}
-
-void AbilityRing::VScreenChanged()
-{
-    if (mRingType == RingTypes::eHealing_Emit_12)
-    {
-        for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
-        {
-            IBaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
-            if (!pObj)
-            {
-                break;
-            }
-
-            if (pObj->Type() == ReliveTypes::eMudokon)
-            {
-                if (pObj->GetCanBePossessed())
-                {
-                    // Only heal alive muds in the same screen
-                    if (pObj->Is_In_Current_Camera() == CameraPos::eCamCurrent_0 && pObj->mHealth > FP_FromInteger(0))
-                    {
-                        pObj->VPossessed();
-                    }
-                }
-            }
-        }
-    }
-    SetDead(true);
 }

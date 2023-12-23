@@ -980,7 +980,7 @@ s16 Glukkon::Brain_0_Calm_WalkAround()
     if (pObj && pObj->Type() == ReliveTypes::eLiftPoint)
     {
         pLiftPoint = static_cast<LiftPoint*>(pObj);
-        if (!pLiftPoint->vOnAnyFloor() && mBrainSubState != 7)
+        if (!pLiftPoint->OnAnyFloor() && mBrainSubState != 7)
         {
             SetNextMotion(eGlukkonMotions::Motion_0_Idle);
             return 7;
@@ -1238,7 +1238,7 @@ s16 Glukkon::Brain_0_Calm_WalkAround()
         case 7:
             if (pLiftPoint)
             {
-                if (!pLiftPoint->vOnAnyFloor())
+                if (!pLiftPoint->OnAnyFloor())
                 {
                     return mBrainSubState;
                 }
@@ -1278,7 +1278,7 @@ s16 Glukkon::Brain_1_Panic()
     }
 
     auto pLiftPoint = static_cast<LiftPoint*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
-    if (pLiftPoint && pLiftPoint->Type() == ReliveTypes::eLiftPoint && !pLiftPoint->vOnAnyFloor() && mBrainSubState != 6)
+    if (pLiftPoint && pLiftPoint->Type() == ReliveTypes::eLiftPoint && !pLiftPoint->OnAnyFloor() && mBrainSubState != 6)
     {
         SetNextMotion(eGlukkonMotions::Motion_0_Idle);
         return 6;
@@ -1390,7 +1390,7 @@ s16 Glukkon::Brain_1_Panic()
         case 6:
             if (pLiftPoint)
             {
-                if (!pLiftPoint->vOnAnyFloor())
+                if (!pLiftPoint->OnAnyFloor())
                 {
                     return mBrainSubState;
                 }

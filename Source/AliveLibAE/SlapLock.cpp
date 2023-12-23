@@ -420,7 +420,7 @@ void SlapLock::SetInvisibilityTarget()
     pRing->mBaseGameObjectTlvInfo = mBaseGameObjectTlvInfo;
     mAbilityRingId = pRing->mBaseGameObjectId;
 
-    pRing->VSetTarget(gAbe);
+    pRing->SetTarget(gAbe);
 }
 
 bool SlapLock::VTakeDamage(BaseGameObject* pFrom)

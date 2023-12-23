@@ -783,7 +783,8 @@ void Abe::VUpdate()
                             AbilityRing::Factory(
                                 FP_FromInteger((bRect.w + bRect.x) / 2),
                                 FP_FromInteger((bRect.h + bRect.y) / 2),
-                                field_16C_bHaveShrykull != 0 ? RingTypes::eShrykull_Pulse_Small_4 : RingTypes::eExplosive_Pulse_0);
+                                field_16C_bHaveShrykull != 0 ? RingTypes::eShrykull_Pulse_Small_4 : RingTypes::eExplosive_Pulse_0,
+                                FP_FromInteger(1));
                             SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 25, 2650);
                         }
                     }
@@ -8422,7 +8423,8 @@ void Abe::Motion_150_Chant()
                     AbilityRing::Factory(
                         FP_FromInteger((rect.w + rect.x) / 2),
                         FP_FromInteger((rect.h + rect.y) / 2),
-                        RingTypes::eExplosive_Emit_1);
+                        RingTypes::eExplosive_Emit_1,
+                        FP_FromInteger(1));
                     field_168_ring_pulse_timer = 0;
                 }
             }

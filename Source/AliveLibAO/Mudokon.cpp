@@ -3167,14 +3167,16 @@ s16 Mudokon::Brain_7_GiveRings()
                     relive_new AbilityRing(
                         FP_FromInteger((ourRect.w + ourRect.x) / 2),
                         FP_FromInteger((ourRect.h + ourRect.y) / 2),
-                        RingTypes::eExplosive_Emit_Effect_2);
+                        RingTypes::eExplosive_Emit_Effect_2,
+                        FP_FromInteger(1));
 
                 const PSX_RECT heroRect = gAbe->VGetBoundingRect();
 
                 auto pAbeRing = relive_new AbilityRing(
                     FP_FromInteger((heroRect.w + heroRect.x) / 2),
                     FP_FromInteger((heroRect.h + heroRect.y) / 2),
-                    RingTypes::eExplosive_Give_3);
+                    RingTypes::eExplosive_Give_3,
+                    FP_FromInteger(1));
                 if (pAbeRing)
                 {
                     pAbeRing->SetTarget(gAbe);

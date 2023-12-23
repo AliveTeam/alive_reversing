@@ -65,12 +65,12 @@ public:
     virtual void VScreenChanged() override;
     virtual void VGetSaveState(SerializedObjectData& pSaveBuffer) override;
 
-    static AbilityRing* Factory(FP xpos, FP ypos, RingTypes type, FP scale);
-    virtual void VSetTarget(BaseGameObject* pTarget);
+    static AbilityRing* Factory(FP xpos, FP ypos, RingTypes ringType, FP scale);
+    void SetTarget(BaseGameObject* pTarget);
     static void CreateFromSaveState(SerializedObjectData& pBuffer);
 
 private:
-    void CollideWithObjects(s16 bDealDamage);
+    void CollideWithObjects(bool bDealDamage);
 
     Layer mRingLayer = Layer::eLayer_0;
     Poly_G4 mRingPolyBuffer[64] = {};
@@ -97,5 +97,5 @@ private:
     RingTypes mRingType = RingTypes::eExplosive_Pulse_0;
     Guid mRingTargetObjId = Guid{};
     s32 mRingCount = 64;
-    s16 mRefreshTargetObjId = 0;
+    bool mRefreshTargetObjId = false;
 };

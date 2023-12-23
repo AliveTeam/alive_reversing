@@ -302,38 +302,38 @@ void LiftPoint::CreateFromSaveState(SerializedObjectData& pData)
     pTlv2->mTlvSpecificMeaning = 3;
 }
 
-void LiftPoint::vKeepOnMiddleFloor()
+void LiftPoint::KeepOnMiddleFloor()
 {
     mKeepOnMiddleFloor = true;
 }
 
-bool LiftPoint::vOnTopFloor()
+bool LiftPoint::OnTopFloor() const
 {
     return mTopFloor && !mMoveToFloorLevel;
 }
 
-bool LiftPoint::vOnMiddleFloor()
+bool LiftPoint::OnMiddleFloor() const
 {
     return mMiddleFloor && !mMoveToFloorLevel;
 }
 
-bool LiftPoint::vOnBottomFloor()
+bool LiftPoint::OnBottomFloor() const
 {
     return mBottomFloor && !mMoveToFloorLevel;
 }
 
-bool LiftPoint::vOnAnyFloor()
+bool LiftPoint::OnAnyFloor() const
 {
-    return vOnBottomFloor() || vOnTopFloor() || vOnMiddleFloor();
+    return OnBottomFloor() || OnTopFloor() || OnMiddleFloor();
 }
 
-bool LiftPoint::vOnAFloorLiftMoverCanUse()
+bool LiftPoint::OnAFloorLiftMoverCanUse() const
 {
     // Top or bottom floor can still be activated by the lift mover?
-    return (vOnMiddleFloor() && !mIgnoreLiftMover) || vOnBottomFloor() || vOnTopFloor();
+    return (OnMiddleFloor() && !mIgnoreLiftMover) || OnBottomFloor() || OnTopFloor();
 }
 
-bool LiftPoint::vMovingToFloorLevel()
+bool LiftPoint::MovingToFloorLevel() const
 {
     return mMoveToFloorLevel;
 }
@@ -476,7 +476,7 @@ void LiftPoint::VUpdate()
                     }
                     else if (mVelY + lineY <= FP_FromInteger(pLiftTlv->mTopLeftY))
                     {
-                        vStayOnFloor(mTopFloor, pLiftTlv);
+                        StayOnFloor(mTopFloor, pLiftTlv);
                         mTopFloor = true;
                     }
                     break;
@@ -506,7 +506,7 @@ void LiftPoint::VUpdate()
                     }
                     else if (lineY + mVelY >= FP_FromInteger(pLiftTlv->mTopLeftY))
                     {
-                        vStayOnFloor(mBottomFloor, pLiftTlv);
+                        StayOnFloor(mBottomFloor, pLiftTlv);
                         mBottomFloor = true;
                     }
                     break;
@@ -521,7 +521,7 @@ void LiftPoint::VUpdate()
                     {
                         if (mKeepOnMiddleFloor)
                         {
-                            vStayOnFloor(mMiddleFloor, pLiftTlv);
+                            StayOnFloor(mMiddleFloor, pLiftTlv);
                             mKeepOnMiddleFloor = false;
                         }
 
@@ -774,7 +774,7 @@ void LiftPoint::ClearTlvFlags(relive::Path_TLV* pTlv)
     pTlv->mTlvSpecificMeaning |= 1;
 }
 
-void LiftPoint::vStayOnFloor(bool floor, relive::Path_LiftPoint* pTlv)
+void LiftPoint::StayOnFloor(bool floor, relive::Path_LiftPoint* pTlv)
 {
     if (!floor)
     {

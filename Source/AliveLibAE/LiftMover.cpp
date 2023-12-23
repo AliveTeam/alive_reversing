@@ -82,15 +82,15 @@ void LiftMover::VUpdate()
                 return;
             }
 
-            if (!pLift->vOnAnyFloor())
+            if (!pLift->OnAnyFloor())
             {
                 mState = LiftMoverStates::eMovingDown_2;
-                pLift->vKeepOnMiddleFloor();
+                pLift->KeepOnMiddleFloor();
             }
             else
             {
                 pLift->Move(FP_FromInteger(0), mLiftSpeed);
-                if ((mLiftSpeed > FP_FromInteger(0) && pLift->vOnBottomFloor()) || (mLiftSpeed < FP_FromInteger(0) && pLift->vOnTopFloor()))
+                if ((mLiftSpeed > FP_FromInteger(0) && pLift->OnBottomFloor()) || (mLiftSpeed < FP_FromInteger(0) && pLift->OnTopFloor()))
                 {
                     mState = LiftMoverStates::eMovingDown_2;
                 }
@@ -103,7 +103,7 @@ void LiftMover::VUpdate()
                 return;
             }
 
-            if (!pLift->vOnAFloorLiftMoverCanUse())
+            if (!pLift->OnAFloorLiftMoverCanUse())
             {
                 pLift->Move(FP_FromInteger(0), mLiftSpeed);
             }
@@ -120,12 +120,12 @@ void LiftMover::VUpdate()
                 return;
             }
 
-            if (pLift->vOnAFloorLiftMoverCanUse())
+            if (pLift->OnAFloorLiftMoverCanUse())
             {
                 pLift->Move(FP_FromInteger(0), mLiftSpeed);
                 if (mLiftSpeed < FP_FromInteger(0))
                 {
-                    if (pLift->vOnTopFloor())
+                    if (pLift->OnTopFloor())
                     {
                         mState = LiftMoverStates::eMovingDown_2;
                     }
@@ -133,7 +133,7 @@ void LiftMover::VUpdate()
 
                 if (mLiftSpeed > FP_FromInteger(0))
                 {
-                    if (pLift->vOnBottomFloor())
+                    if (pLift->OnBottomFloor())
                     {
                         mState = LiftMoverStates::eMovingDown_2;
                     }
@@ -141,7 +141,7 @@ void LiftMover::VUpdate()
             }
             else
             {
-                pLift->vKeepOnMiddleFloor();
+                pLift->KeepOnMiddleFloor();
                 mState = LiftMoverStates::eMovingUp_4;
             }
             break;
@@ -152,7 +152,7 @@ void LiftMover::VUpdate()
                 return;
             }
 
-            if (pLift->vOnAFloorLiftMoverCanUse())
+            if (pLift->OnAFloorLiftMoverCanUse())
             {
                 pLift->Move(FP_FromInteger(0), FP_FromInteger(0));
 

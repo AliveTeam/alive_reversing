@@ -203,14 +203,16 @@ void Shrykull::VUpdate()
                     relive_new AbilityRing(
                         FP_FromInteger((objRect.x + objRect.w) / 2),
                         FP_FromInteger((objRect.y + objRect.h) / 2),
-                        RingTypes::eShrykull_Pulse_Large_5);
+                        RingTypes::eShrykull_Pulse_Large_5,
+                        FP_FromInteger(1));
 
                     relive_new PossessionFlicker(this, 8, 255, 255, 255);
 
                     relive_new AbilityRing(
                         FP_FromInteger((ourRect.x + ourRect.w) / 2),
                         FP_FromInteger((ourRect.y + ourRect.h) / 2),
-                        RingTypes::eShrykull_Pulse_Large_5);
+                        RingTypes::eShrykull_Pulse_Large_5,
+                        FP_FromInteger(1));
 
                     mZapTarget->SetZappedByShrykull(true);
 

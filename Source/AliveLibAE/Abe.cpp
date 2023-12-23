@@ -7312,19 +7312,19 @@ void Abe::Motion_123_LiftGrabIdle()
     const u32 held = Input().GetHeld();
     if (InputCommands::eUp & held)
     {
-        if (!pLiftPoint->vOnTopFloor())
+        if (!pLiftPoint->OnTopFloor())
         {
             mCurrentMotion = eAbeMotions::Motion_124_LiftUseUp;
         }
     }
     else if (held & InputCommands::eDown)
     {
-        if (!pLiftPoint->vOnBottomFloor())
+        if (!pLiftPoint->OnBottomFloor())
         {
             mCurrentMotion = eAbeMotions::Motion_125_LiftUseDown;
         }
     }
-    else if (pLiftPoint->vOnAnyFloor())
+    else if (pLiftPoint->OnAnyFloor())
     {
         // You ain't letting go unless you are on a floor where you can walk off.
         mCurrentMotion = eAbeMotions::Motion_122_LiftGrabEnd;
@@ -8806,7 +8806,7 @@ s16 Abe::MoveLiftUpOrDown_45A7E0(FP yVelocity)
     {
         if (yVelocity > FP_FromInteger(0))
         {
-            if (pLiftPoint->vOnBottomFloor())
+            if (pLiftPoint->OnBottomFloor())
             {
                 return eAbeMotions::Motion_123_LiftGrabIdle;
             }
@@ -8825,7 +8825,7 @@ s16 Abe::MoveLiftUpOrDown_45A7E0(FP yVelocity)
     }
     else
     {
-        if (pLiftPoint->vOnTopFloor())
+        if (pLiftPoint->OnTopFloor())
         {
             return eAbeMotions::Motion_123_LiftGrabIdle;
         }
@@ -8841,7 +8841,7 @@ s16 Abe::MoveLiftUpOrDown_45A7E0(FP yVelocity)
         }
     }
 
-    if (Input().GetHeld() && pLiftPoint->vOnAnyFloor() && !(pLiftPoint->mMoving & 1))
+    if (Input().GetHeld() && pLiftPoint->OnAnyFloor() && !(pLiftPoint->mMoving & 1))
     {
         return eAbeMotions::Motion_122_LiftGrabEnd;
     }

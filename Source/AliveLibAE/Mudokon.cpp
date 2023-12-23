@@ -1722,7 +1722,7 @@ s16 Mudokon::Brain_0_GiveRings()
                 // Must set abe as the target to "lock on" to abe
                 if (pRing)
                 {
-                    pRing->VSetTarget(gAbe);
+                    pRing->SetTarget(gAbe);
                 }
 
                 field_194_timer = MakeTimer(30);
