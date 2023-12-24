@@ -19,7 +19,7 @@ build_script:
  - if %platform%==x64 (cmake .. -DSDL2_DIR=c:\relive\SDL2-2.0.22 -DBUILD_NUMBER=%APPVEYOR_BUILD_NUMBER% -DCI_PROVIDER=AppVeyor -G "Visual Studio 17 2022 Win64")
  - if %platform%==x86 (cmake .. -DSDL2_DIR=c:\relive\SDL2-2.0.22 -DBUILD_NUMBER=%APPVEYOR_BUILD_NUMBER% -DCI_PROVIDER=AppVeyor -G "Visual Studio 17 2022")
  - cmake --build . --config %configuration% -- /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
- - call "C:\Program Files (x86)\cmake\bin\cpack" -G ZIP -C %configuration%
+ - cpack -G ZIP -C %configuration%
  - ctest
 
 install:
