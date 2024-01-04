@@ -89,6 +89,7 @@ public:
         Vulkan,
         DirectX9,
         OpenGL,
+        Sdl2
     };
 
     static IRenderer* GetRenderer();

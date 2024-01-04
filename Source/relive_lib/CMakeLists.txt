@@ -492,6 +492,8 @@ SET(renderer_src
     Renderer/OpenGL3/OpenGLRenderer.cpp
     Renderer/OpenGL3/Shaders/ShaderPassthru.cpp
     Renderer/OpenGL3/Shaders/ShaderPsx.cpp
+    Renderer/SDL2/Sdl2Renderer.hpp
+    Renderer/SDL2/Sdl2Renderer.cpp
 )
 
 SET(sound_src

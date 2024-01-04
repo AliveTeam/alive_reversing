@@ -2,6 +2,7 @@
 #include "IRenderer.hpp"
 #include "DirectX9/DirectX9Renderer.hpp"
 #include "OpenGL3/OpenGLRenderer.hpp"
+#include "SDL2/Sdl2Renderer.hpp"
 #include "Vulkan/VulkanRenderer.hpp"
 
 #include "../../relive_lib/FatalError.hpp"
@@ -65,18 +66,24 @@ bool IRenderer::CreateRenderer(Renderers type, const std::string& windowTitle)
     AddRenderer(creationOrder, Renderers::DirectX9);
 #endif
     AddRenderer(creationOrder, Renderers::OpenGL);
+    AddRenderer(creationOrder, Renderers::Sdl2);
 
     for (Renderers typeToCreate : creationOrder)
     {
         switch (typeToCreate)
         {
+            case Renderers::Sdl2:
+                LOG_INFO("Create SDL2 renderer");
+                MakeRenderer<Sdl2Renderer>(windowTitle + " [SDL2]", 0);
+                break;
+
             case Renderers::OpenGL:
-                LOG_INFO("Create OpenGL");
+                LOG_INFO("Create OpenGL renderer");
                 MakeRenderer<OpenGLRenderer>(windowTitle + " [OpenGL3]", SDL_WINDOW_OPENGL);
                 break;
 
             case Renderers::Vulkan:
-                LOG_INFO("Create Vulkan");
+                LOG_INFO("Create Vulkan renderer");
                 #ifdef __APPLE__
                 // We need to manually load the moltenvk dylib from the app bundle BEFORE we create the window
                 gVulkanLib = std::make_unique<VulkanLib>();
@@ -87,7 +94,7 @@ bool IRenderer::CreateRenderer(Renderers type, const std::string& windowTitle)
 #ifdef _WIN32
             // Windows only
             case Renderers::DirectX9:
-                LOG_INFO("Create DirectX9");
+                LOG_INFO("Create DirectX9 renderer");
                 MakeRenderer<DirectX9Renderer>(windowTitle + " [DirectX9]", 0);
                 break;
 #endif
