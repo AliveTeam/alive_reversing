@@ -5,6 +5,7 @@ Sdl2Renderer::Sdl2Renderer(TWindowHandleType window)
     : IRenderer(window)
 {
     mRenderer = SDL_CreateRenderer(mWindow, -1, 0);
+    mRenderTargetSupported = SDL_RenderTargetSupported(mRenderer);
 }
 
 Sdl2Renderer::~Sdl2Renderer()
@@ -30,7 +31,7 @@ void Sdl2Renderer::Draw(const Prim_GasEffect& gasEffect)
 
     SDL_Color c = { 255, 255, 0, 127 };
 
-    SDL_Vertex gasVerts[] = {
+    std::vector<SDL_Vertex> gasVerts = {
         { {x, y}, c, { 0, 0 } },
         { {w, y}, c, { 0, 0 } },
         { {x, h}, c, { 0, 0 } },
@@ -40,7 +41,9 @@ void Sdl2Renderer::Draw(const Prim_GasEffect& gasEffect)
         { {w, h}, c, { 0, 0 } },
     };
 
-    SDL_RenderGeometry(mRenderer, NULL, gasVerts, 6, NULL, 0);
+    ScaleVertices(gasVerts);
+
+    SDL_RenderGeometry(mRenderer, NULL, gasVerts.data(), 6, NULL, 0);
 }
 
 void Sdl2Renderer::Draw(const Line_G2& line)
@@ -67,19 +70,21 @@ void Sdl2Renderer::Draw(const Line_G4& line)
 void Sdl2Renderer::Draw(const Poly_G3& poly)
 {
     // FIXME: Obviously unfinished (no blending, etc.)
-    SDL_Vertex vertices[] = {
+    std::vector<SDL_Vertex> vertices = {
         { { static_cast<f32>(poly.X0()), static_cast<f32>(poly.Y0()) }, { poly.R0(), poly.G0(), poly.B0(), 255 }, { 0, 0 } },
         { { static_cast<f32>(poly.X1()), static_cast<f32>(poly.Y1()) }, { poly.R1(), poly.G1(), poly.B1(), 255 }, { 0, 0 } },
         { { static_cast<f32>(poly.X2()), static_cast<f32>(poly.Y2()) }, { poly.R2(), poly.G2(), poly.B2(), 255 }, { 0, 0 } },
     };
 
-    SDL_RenderGeometry(mRenderer, NULL, vertices, 3, NULL, 0);
+    ScaleVertices(vertices);
+
+    SDL_RenderGeometry(mRenderer, NULL, vertices.data(), 3, NULL, 0);
 }
 
 void Sdl2Renderer::Draw(const Poly_FT4& poly)
 {
     // FIXME: Obviously unfinished (no blending, etc.)
-    SDL_Vertex vertices[] = {
+    std::vector<SDL_Vertex> vertices = {
         { { static_cast<f32>(poly.X0()), static_cast<f32>(poly.Y0()) }, { poly.R0(), poly.G0(), poly.B0(), 255 }, { 0, 0 } },
         { { static_cast<f32>(poly.X1()), static_cast<f32>(poly.Y1()) }, { poly.R1(), poly.G1(), poly.B1(), 255 }, { 0, 0 } },
         { { static_cast<f32>(poly.X2()), static_cast<f32>(poly.Y2()) }, { poly.R2(), poly.G2(), poly.B2(), 255 }, { 0, 0 } },
@@ -89,13 +94,15 @@ void Sdl2Renderer::Draw(const Poly_FT4& poly)
         { { static_cast<f32>(poly.X3()), static_cast<f32>(poly.Y3()) }, { poly.R3(), poly.G3(), poly.B3(), 255 }, { 0, 0 } },
     };
 
-    SDL_RenderGeometry(mRenderer, NULL, vertices, 6, NULL, 0);
+    ScaleVertices(vertices);
+
+    SDL_RenderGeometry(mRenderer, NULL, vertices.data(), 6, NULL, 0);
 }
 
 void Sdl2Renderer::Draw(const Poly_G4& poly)
 {
     // FIXME: Obviously unfinished (no blending, etc.)
-    SDL_Vertex vertices[] = {
+    std::vector<SDL_Vertex> vertices = {
         { { static_cast<f32>(poly.X0()), static_cast<f32>(poly.Y0()) }, { poly.R0(), poly.G0(), poly.B0(), 255 }, { 0, 0 } },
         { { static_cast<f32>(poly.X1()), static_cast<f32>(poly.Y1()) }, { poly.R1(), poly.G1(), poly.B1(), 255 }, { 0, 0 } },
         { { static_cast<f32>(poly.X2()), static_cast<f32>(poly.Y2()) }, { poly.R2(), poly.G2(), poly.B2(), 255 }, { 0, 0 } },
@@ -105,7 +112,9 @@ void Sdl2Renderer::Draw(const Poly_G4& poly)
         { { static_cast<f32>(poly.X3()), static_cast<f32>(poly.Y3()) }, { poly.R3(), poly.G3(), poly.B3(), 255 }, { 0, 0 } },
     };
 
-    SDL_RenderGeometry(mRenderer, NULL, vertices, 6, NULL, 0);
+    ScaleVertices(vertices);
+
+    SDL_RenderGeometry(mRenderer, NULL, vertices.data(), 6, NULL, 0);
 }
 
 void Sdl2Renderer::EndFrame()
@@ -129,4 +138,39 @@ void Sdl2Renderer::SetClip(const Prim_ScissorRect& clipper)
 void Sdl2Renderer::StartFrame()
 {
     IRenderer::StartFrame();
+
+    mOffsetX = 0;
+    mOffsetY = 0;
+}
+
+SDL_FPoint Sdl2Renderer::PointToViewport(const SDL_FPoint& point)
+{
+    if (mRenderTargetSupported && !mUseOriginalResolution)
+    {
+        return point;
+    }
+
+    SDL_Rect   wndRect     = GetTargetDrawRect();
+    SDL_FPoint scaledPoint = {
+        point.x * (wndRect.w / kPsxFramebufferWidth),
+        point.y * (wndRect.h / kPsxFramebufferHeight)
+    };
+
+    // If there's no backbuffer, then drawing must use offsets immediately
+    // rather than in EndFrame()
+    if (!mRenderTargetSupported)
+    {
+        scaledPoint.x = scaledPoint.x + mOffsetX;
+        scaledPoint.y = scaledPoint.y + mOffsetY;
+    }
+
+    return scaledPoint;
+}
+
+void Sdl2Renderer::ScaleVertices(std::vector<SDL_Vertex>& vertices)
+{
+    for (u8 i = 0; i < vertices.size(); i++)
+    {
+        vertices[i].position = PointToViewport(vertices[i].position);
+    }
 }

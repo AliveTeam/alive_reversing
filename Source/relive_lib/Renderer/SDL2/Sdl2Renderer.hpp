@@ -1,5 +1,6 @@
 #pragma once
 
+#include <vector>
 #include "../IRenderer.hpp"
 
 class Sdl2Renderer final : public IRenderer
@@ -20,5 +21,11 @@ public:
     void StartFrame() override;
 
 private:
+    SDL_FPoint PointToViewport(const SDL_FPoint& point);
+    void ScaleVertices(std::vector<SDL_Vertex>& vertices);
+
+private:
     SDL_Renderer* mRenderer;
+
+    bool mRenderTargetSupported;
 };
