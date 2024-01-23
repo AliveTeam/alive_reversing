@@ -1011,15 +1011,15 @@ public:
         r.mScale = relive::From(tlv.mScale);
         r.mSwitchMinTimeOff = tlv.mSwitchMinTimeOff;
         r.mSwitchMaxTimeOff = tlv.mSwitchMaxTimeOff;
-        r.mMaxRiseTime = tlv.mMaxRiseTime;
+        r.mYTravelDistance = tlv.mYTravelDistance;
         r.mSwitchId = tlv.mSwitchId;
         r.mType = From(tlv.mType);
-        r.mSpeed = tlv.mSpeed;
+        r.mSwitchSpeed = tlv.mSwitchSpeed;
         r.mStartState = From(tlv.mStartState);
-        r.mOffSpeed = tlv.mOffSpeed;
+        r.mAutomaticSpeed = tlv.mAutomaticSpeed;
         r.mAutomaticMinTimeOff = tlv.mAutomaticMinTimeOff;
         r.mAutomaticMaxTimeOff = tlv.mAutomaticMaxTimeOff;
-        r.mInitialPosition = tlv.mInitialPosition;
+        r.mStartAtBottom = tlv.mStartAtBottom;
         return r;
     }
 

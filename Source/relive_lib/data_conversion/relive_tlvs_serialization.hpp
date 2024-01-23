@@ -664,15 +664,15 @@ inline void to_json(nlohmann::json& j, const Path_MeatSaw& p)
         {"scale", p.mScale},
         {"switch_min_time_off", p.mSwitchMinTimeOff},
         {"switch_max_time_off", p.mSwitchMaxTimeOff},
-        {"max_rise_time", p.mMaxRiseTime},
+        {"y_travel_distance", p.mYTravelDistance},
         {"switch_id", p.mSwitchId},
         {"type", p.mType},
-        {"speed", p.mSpeed},
+        {"switch_speed", p.mSwitchSpeed},
         {"start_state", p.mStartState},
-        {"off_speed", p.mOffSpeed},
+        {"automatic_speed", p.mAutomaticSpeed},
         {"automatic_min_time_off", p.mAutomaticMinTimeOff},
         {"automatic_max_time_off", p.mAutomaticMaxTimeOff},
-        {"initial_position", p.mInitialPosition},
+        {"start_at_bottom", p.mStartAtBottom},
     };
 }
 
@@ -682,15 +682,15 @@ inline void from_json(const nlohmann::json& j, Path_MeatSaw& p)
     j.at("scale").get_to(p.mScale);
     j.at("switch_min_time_off").get_to(p.mSwitchMinTimeOff);
     j.at("switch_max_time_off").get_to(p.mSwitchMaxTimeOff);
-    j.at("max_rise_time").get_to(p.mMaxRiseTime);
+    j.at("y_travel_distance").get_to(p.mYTravelDistance);
     j.at("switch_id").get_to(p.mSwitchId);
     j.at("type").get_to(p.mType);
-    j.at("speed").get_to(p.mSpeed);
+    j.at("switch_speed").get_to(p.mSwitchSpeed);
     j.at("start_state").get_to(p.mStartState);
-    j.at("off_speed").get_to(p.mOffSpeed);
+    j.at("automatic_speed").get_to(p.mAutomaticSpeed);
     j.at("automatic_min_time_off").get_to(p.mAutomaticMinTimeOff);
     j.at("automatic_max_time_off").get_to(p.mAutomaticMaxTimeOff);
-    j.at("initial_position").get_to(p.mInitialPosition);
+    j.at("start_at_bottom").get_to(p.mStartAtBottom);
 }
 
 // Path_Lever

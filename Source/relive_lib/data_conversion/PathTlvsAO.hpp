@@ -299,7 +299,7 @@ struct Path_MeatSaw final : public Path_TLV
     Scale_short mScale;
     s16 mSwitchMinTimeOff;
     s16 mSwitchMaxTimeOff;
-    s16 mMaxRiseTime;
+    s16 mYTravelDistance;
     s16 mSwitchId;
     enum class Type : s16
     {
@@ -308,17 +308,17 @@ struct Path_MeatSaw final : public Path_TLV
         eSwitchId_2 = 2
     };
     Type mType;
-    s16 mSpeed;
+    s16 mSwitchSpeed;
     enum class StartState : s16
     {
         eOff_0 = 0,
         eOn_1 = 1
     };
     StartState mStartState;
-    s16 mOffSpeed;
+    s16 mAutomaticSpeed;
     s16 mAutomaticMinTimeOff;
     s16 mAutomaticMaxTimeOff;
-    s16 mInitialPosition;
+    s16 mStartAtBottom;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_MeatSaw, 0x30);
 

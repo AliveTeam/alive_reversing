@@ -74,10 +74,7 @@ MovingBomb::MovingBomb(relive::Path_MovingBomb* pTlv, const Guid& tlvId)
     mStartMovingSwitchId = pTlv->mStartMovingSwitchId;
     mTimer = sGnFrame;
     mTlvId = tlvId;
-    mMaxStopTime = 0;
-    mMinStopTime = 0;
     mPersistOffscreen = pTlv->mPersistOffscreen;
-    mChannelMask = 0;
 
     if (pTlv->mTriggeredByAlarm == relive::reliveChoice::eYes)
     {

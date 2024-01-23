@@ -64,14 +64,13 @@ MeatSaw::MeatSaw(relive::Path_MeatSaw* pTlv, const Guid& tlvId)
     mXPos = FP_FromInteger(pTlv->mTopLeftX + 8);
     mYPos = FP_FromInteger(pTlv->mTopLeftY);
 
-    field_F6_switch_min_time_off = pTlv->mSwitchMinTimeOff;
-    field_F8_switch_max_time_off = pTlv->mSwitchMaxTimeOff;
+    mSwitchMinTimeOff = pTlv->mSwitchMinTimeOff;
+    mSwitchMaxTimeOff = pTlv->mSwitchMaxTimeOff;
 
-    field_E6_max_rise_time = pTlv->mMaxRiseTime;
+    mYTravelDistance = pTlv->mYTravelDistance;
     mSwitchId = pTlv->mSwitchId;
 
     mYOffset = 0;
-    field_F4 = 0;
 
     if (pTlv->mType == relive::Path_MeatSaw::Type::eAutomatic)
     {
@@ -89,8 +88,9 @@ MeatSaw::MeatSaw(relive::Path_MeatSaw* pTlv, const Guid& tlvId)
         mUsesSwitchId = false;
     }
 
-    field_EA_speed1 = pTlv->mSpeed;
-    field_E8_speed2 = pTlv->mSpeed;
+    mSwitchSpeed = pTlv->mSwitchSpeed;
+    mCurrentSpeed = pTlv->mSwitchSpeed;
+
     if (pTlv->mStartState == relive::Path_MeatSaw::StartState::eOff)
     {
         field_F0_switch_value = SwitchStates_Get(pTlv->mSwitchId) == 0;
@@ -116,10 +116,10 @@ MeatSaw::MeatSaw(relive::Path_MeatSaw* pTlv, const Guid& tlvId)
         field_F2_switch_value = 0;
     }
 
-    field_FA_automatic_min_time_off = pTlv->mAutomaticMinTimeOff;
+    mAutomaticMinTimeOff = pTlv->mAutomaticMinTimeOff;
 
-    field_EC_off_speed = pTlv->mOffSpeed;
-    field_FC_automatic_max_time_off = pTlv->mAutomaticMaxTimeOff;
+    mAutomaticSpeed = pTlv->mAutomaticSpeed;
+    mAutomaticMaxTimeOff = pTlv->mAutomaticMaxTimeOff;
 
     if (pTlv->mTlvSpecificMeaning)
     {
@@ -129,19 +129,17 @@ MeatSaw::MeatSaw(relive::Path_MeatSaw* pTlv, const Guid& tlvId)
 
     mIdleTimer = 0;
     mState = MeatSawStates::eIdle_0;
-    field_10C_FrameCount = 0;
-    mYPos -= FP_FromInteger(pTlv->mMaxRiseTime);
+    mFrameCountForSfx = 0;
+    mYPos -= FP_FromInteger(pTlv->mYTravelDistance);
     mTlvId = tlvId;
 
-    if (pTlv->mInitialPosition != 0)
+    if (pTlv->mStartAtBottom)
     {
         mState = MeatSawStates::eGoingUp_2;
-        field_F4 = pTlv->mMaxRiseTime + pTlv->mSpeed - pTlv->mMaxRiseTime % pTlv->mSpeed;
+        mRenderYOffset = pTlv->mYTravelDistance + pTlv->mSwitchSpeed - pTlv->mYTravelDistance % pTlv->mSwitchSpeed;
     }
 
-    if (mMotorAnim.Init(
-        GetAnimRes(AnimId::MeatSawMotor),
-            this))
+    if (mMotorAnim.Init(GetAnimRes(AnimId::MeatSawMotor), this))
     {
         mMotorAnim.SetRenderLayer(GetAnimation().GetRenderLayer());
         mMotorAnim.SetSpriteScale(GetSpriteScale());
@@ -177,7 +175,7 @@ void MeatSaw::VUpdate()
         SetDead(true);
     }
 
-    GrindUpObjects_439CD0();
+    GrindUpObjects();
 
     const CameraPos direction = gMap.GetDirection(
         mCurrentLevel,
@@ -185,66 +183,61 @@ void MeatSaw::VUpdate()
         mXPos,
         mYPos);
 
-    if (!(field_10C_FrameCount % 87))
+    if (!(mFrameCountForSfx % 87))
     {
         SFX_Play_Camera(relive::SoundEffects::MeatsawOffscreen, 45, direction);
     }
 
-    if (!(field_10C_FrameCount % 25))
+    if (!(mFrameCountForSfx % 25))
     {
         SFX_Play_Camera(relive::SoundEffects::MeatsawIdle, 45, direction);
     }
 
-    field_10C_FrameCount++;
+    mFrameCountForSfx++;
 
     switch (mState)
     {
         case MeatSawStates::eIdle_0:
+            // Switch used, activate the meat saw
             if ((mIdleTimer <= static_cast<s32>(sGnFrame) || mUsesSwitchId) &&
                 (!mResetOffscreen || SwitchStates_Get(mSwitchId) == field_F0_switch_value))
             {
                 mState = MeatSawStates::eGoingDown_1;
                 GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::MeatSaw_Moving));
                 mAutomaticMeatSawIsDown = false;
-                field_E8_speed2 = field_EA_speed1;
+                mCurrentSpeed = mSwitchSpeed;
                 mSfxTimer = MakeTimer(2);
+                return;
             }
-            else
+
+            // Automatic meat saw, activate every x frames
+            if (mResetOffscreen && !mUsesSwitchId && mAutomaticSpeed)
             {
-                if (mResetOffscreen)
+                if (mIdleTimer <= static_cast<s32>(sGnFrame))
                 {
-                    if (!mUsesSwitchId)
-                    {
-                        if (field_EC_off_speed)
-                        {
-                            if (mIdleTimer <= static_cast<s32>(sGnFrame))
-                            {
-                                mState = MeatSawStates::eGoingDown_1;
-                                GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::MeatSaw_Moving));
-                                mAutomaticMeatSawIsDown = true;
-                                field_E8_speed2 = field_EC_off_speed;
-                                mSfxTimer = MakeTimer(2);
-                            }
-                        }
-                    }
+                    mState = MeatSawStates::eGoingDown_1;
+                    GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::MeatSaw_Moving));
+                    mAutomaticMeatSawIsDown = true;
+                    mCurrentSpeed = mAutomaticSpeed;
+                    mSfxTimer = MakeTimer(2);
                 }
             }
-            break;
+            return;
 
         case MeatSawStates::eGoingDown_1:
-            field_F4 += field_E8_speed2;
+            mRenderYOffset += mCurrentSpeed;
 
             if (!((sGnFrame - mSfxTimer) % 8))
             {
                 SFX_Play_Camera(relive::SoundEffects::MeatsawDown, 50, direction);
             }
 
-            if (field_F4 >= field_E6_max_rise_time)
+            if (mRenderYOffset >= mYTravelDistance)
             {
                 mState = MeatSawStates::eGoingUp_2;
                 mSfxTimer = MakeTimer(2);
             }
-            break;
+            return;
 
         case MeatSawStates::eGoingUp_2:
             if (!((sGnFrame - mSfxTimer) % 10))
@@ -253,22 +246,22 @@ void MeatSaw::VUpdate()
                 SFX_Play_Camera(relive::SoundEffects::MeatsawUp, 50, direction);
             }
 
-            field_F4 -= field_E8_speed2;
+            mRenderYOffset -= mCurrentSpeed;
 
-            if (field_F4 <= 0)
+            if (mRenderYOffset <= 0)
             {
                 mState = MeatSawStates::eIdle_0;
                 s16 minRnd = 0;
                 s16 maxRnd = 0;
                 if (mAutomaticMeatSawIsDown)
                 {
-                    maxRnd = field_FC_automatic_max_time_off;
-                    minRnd = field_FA_automatic_min_time_off;
+                    maxRnd = mAutomaticMaxTimeOff;
+                    minRnd = mAutomaticMinTimeOff;
                 }
                 else
                 {
-                    maxRnd = field_F8_switch_max_time_off;
-                    minRnd = field_F6_switch_min_time_off;
+                    maxRnd = mSwitchMaxTimeOff;
+                    minRnd = mSwitchMinTimeOff;
                 }
 
                 mIdleTimer = MakeTimer(Math_RandomRange(minRnd, maxRnd));
@@ -278,11 +271,11 @@ void MeatSaw::VUpdate()
                     SwitchStates_Set(mSwitchId, field_F0_switch_value == 0 ? 1 : 0);
                 }
             }
-            break;
+            return;
     }
 }
 
-void MeatSaw::GrindUpObjects_439CD0()
+void MeatSaw::GrindUpObjects()
 {
     PSX_RECT ourRect = VGetBoundingRect();
 
@@ -297,53 +290,54 @@ void MeatSaw::GrindUpObjects_439CD0()
             break;
         }
 
-        if (pObjIter->GetIsBaseAliveGameObject())
+        if (pObjIter->GetIsBaseAliveGameObject() && pObjIter->GetDrawable())
         {
-            if (pObjIter->GetDrawable())
+            // Can't grind meat with a meat saw, that would be grindception
+            if (pObjIter->Type() == ReliveTypes::eMeat)
             {
-                // Can't grind meat with a meat saw, that would be grindception
-                if (pObjIter->Type() != ReliveTypes::eMeat)
+                continue;
+            }
+
+            const PSX_RECT objRect = pObjIter->VGetBoundingRect();
+
+            if (RectsOverlap(ourRect, objRect) &&
+                pObjIter->GetSpriteScale() == GetSpriteScale() &&
+                pObjIter->mHealth > FP_FromInteger(0))
+            {
+                if (pObjIter->mXPos >= FP_FromInteger(ourRect.x) && pObjIter->mXPos <= FP_FromInteger(ourRect.w))
                 {
-                    const PSX_RECT objRect = pObjIter->VGetBoundingRect();
-
-                    if (RectsOverlap(ourRect, objRect) && pObjIter->GetSpriteScale() == GetSpriteScale() && pObjIter->mHealth > FP_FromInteger(0))
+                    if (!pObjIter->VTakeDamage(this))
                     {
-                        if (pObjIter->mXPos >= FP_FromInteger(ourRect.x) && pObjIter->mXPos <= FP_FromInteger(ourRect.w))
-                        {
-                            if (!pObjIter->VTakeDamage(this))
-                            {
-                                return;
-                            }
-
-                            relive_new Blood(
-                                pObjIter->mXPos,
-                                FP_FromInteger(ourRect.h - 10),
-                                FP_FromInteger(-5),
-                                FP_FromInteger(5),
-                                GetSpriteScale(),
-                                50);
-
-                            relive_new Blood(
-                                pObjIter->mXPos,
-                                FP_FromInteger(ourRect.h - 10),
-                                FP_FromInteger(0),
-                                FP_FromInteger(5),
-                                GetSpriteScale(),
-                                50);
-
-                            relive_new Blood(
-                                pObjIter->mXPos,
-                                FP_FromInteger(ourRect.h - 10),
-                                FP_FromInteger(5),
-                                FP_FromInteger(5),
-                                GetSpriteScale(),
-                                50);
-
-                            SfxPlayMono(relive::SoundEffects::KillEffect, 127);
-                            SFX_Play_Pitch(relive::SoundEffects::KillEffect, 127, -700);
-                            return;
-                        }
+                        return;
                     }
+
+                    relive_new Blood(
+                        pObjIter->mXPos,
+                        FP_FromInteger(ourRect.h - 10),
+                        FP_FromInteger(-5),
+                        FP_FromInteger(5),
+                        GetSpriteScale(),
+                        50);
+
+                    relive_new Blood(
+                        pObjIter->mXPos,
+                        FP_FromInteger(ourRect.h - 10),
+                        FP_FromInteger(0),
+                        FP_FromInteger(5),
+                        GetSpriteScale(),
+                        50);
+
+                    relive_new Blood(
+                        pObjIter->mXPos,
+                        FP_FromInteger(ourRect.h - 10),
+                        FP_FromInteger(5),
+                        FP_FromInteger(5),
+                        GetSpriteScale(),
+                        50);
+
+                    SfxPlayMono(relive::SoundEffects::KillEffect, 127);
+                    SFX_Play_Pitch(relive::SoundEffects::KillEffect, 127, -700);
+                    return;
                 }
             }
         }
@@ -359,7 +353,7 @@ void MeatSaw::VRender(OrderingTable& ot)
             mYPos,
             0))
     {
-        mYOffset = field_F4;
+        mYOffset = mRenderYOffset;
         BaseAnimatedWithPhysicsGameObject::VRender(ot);
 
         mMotorAnim.VRender(
@@ -367,7 +361,7 @@ void MeatSaw::VRender(OrderingTable& ot)
                            + FP_FromInteger(gScreenManager->mCamXOff)
                            - gScreenManager->mCamPos->x),
             FP_GetExponent(mYPos
-                           + (FP_FromInteger(gScreenManager->mCamYOff + field_E6_max_rise_time))
+                           + (FP_FromInteger(gScreenManager->mCamYOff + mYTravelDistance))
                            - gScreenManager->mCamPos->y),
             ot,
             0,

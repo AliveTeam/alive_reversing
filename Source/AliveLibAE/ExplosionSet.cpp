@@ -63,7 +63,6 @@ void ExplosionSet::Init(relive::Path_ExplosionSet* pTlv)
     }
 
     mActive = true;
-    mSpacingMultiplicator = 0;
 }
 
 ExplosionSet::~ExplosionSet()
@@ -74,7 +73,7 @@ ExplosionSet::~ExplosionSet()
 
 void ExplosionSet::VScreenChanged()
 {
-    if (gMap.mCurrentLevel == gMap.mNextLevel && gMap.mCurrentPath == gMap.mNextPath)
+    if (!gMap.LevelChanged() && !gMap.PathChanged())
     {
         mActive = false;
     }
@@ -89,7 +88,7 @@ struct Point2 final
     s8 x, y;
 };
 
-static const Point2 mScreenShakeOffsets[12] = {
+static const Point2 sScreenShakeOffsets[12] = {
     {0, -2},
     {-2, 0},
     {2, -2},
@@ -107,7 +106,7 @@ void ExplosionSet::VRender(OrderingTable& ot)
 {
     if (gExplosionSetEnabled)
     {
-        mScreenOffset.SetOffset(mScreenShakeOffsets[mScreenShakeIdx].x, mScreenShakeOffsets[mScreenShakeIdx].y);
+        mScreenOffset.SetOffset(sScreenShakeOffsets[mScreenShakeIdx].x, sScreenShakeOffsets[mScreenShakeIdx].y);
         ot.Add(Layer::eLayer_0, &mScreenOffset);
     }
 }
@@ -119,67 +118,60 @@ void ExplosionSet::VUpdate()
         SetDead(true);
     }
 
-    if (gExplosionSetEnabled)
+    if (!gExplosionSetEnabled)
     {
-        mScreenShakeIdx += mScreenShakeIdxModifier;
-
-        if (mScreenShakeIdx >= 7 || mScreenShakeIdx <= 0)
+        if (mActive && mSwitchId > 0 && SwitchStates_Get(mSwitchId))
         {
-            mScreenShakeIdxModifier = -mScreenShakeIdxModifier;
+            gExplosionSetEnabled = true;
         }
-
-        if (mActive && mSpawnAssets)
-        {
-            if (mStartDelay > 0)
-            {
-                mStartDelay--;
-                return;
-            }
-
-            s16 xpos = 0;
-            if (mFlipX)
-            {
-                xpos = mTlvRect.w + mTlvRect.x - (mSpacingMultiplicator * mIncreasingGridSpacing) - mGridSpacing;
-                if (xpos <= mTlvRect.x)
-                {
-                    xpos = mTlvRect.w + mTlvRect.x - mGridSpacing;
-                    mSpacingMultiplicator = 0;
-                }
-            }
-            else
-            {
-                xpos = mGridSpacing + mTlvRect.x + (mSpacingMultiplicator * mIncreasingGridSpacing);
-                if (xpos >= mTlvRect.x + mTlvRect.w)
-                {
-                    xpos = mTlvRect.x + mGridSpacing;
-                    mSpacingMultiplicator = 0;
-                }
-            }
-
-            relive_new FallingItem(xpos, mTlvRect.y, mSpriteScale < FP_FromInteger(1), 0, 0, 1, 0);
-
-            mSpacingMultiplicator++;
-            mStartDelay = mAssetInterval;
-
-            if (gMap.mCurrentLevel == EReliveLevelIds::eMines && Math_RandomRange(1, 5) >= 4)
-            {
-                const FP explodeX = FP_FromInteger(Math_RandomRange(mTlvRect.y + 20, mTlvRect.y + 230));
-                const FP explodeY = FP_FromInteger(Math_RandomRange(mTlvRect.x, xpos));
-                relive_new AirExplosion(explodeY, explodeX, mSpriteScale, 0);
-            }
-        }
+        return;
     }
-    else
+
+    mScreenShakeIdx += mScreenShakeIdxModifier;
+
+    if (mScreenShakeIdx >= 7 || mScreenShakeIdx <= 0)
     {
-        if (mActive)
+        mScreenShakeIdxModifier = -mScreenShakeIdxModifier;
+    }
+
+    if (mActive && mSpawnAssets)
+    {
+        if (mStartDelay > 0)
         {
-            if (mSwitchId > 0)
+            mStartDelay--;
+            return;
+        }
+
+        s16 xpos = 0;
+        if (mFlipX)
+        {
+            xpos = mTlvRect.w + mTlvRect.x - (mSpacingMultiplicator * mIncreasingGridSpacing) - mGridSpacing;
+            if (xpos <= mTlvRect.x)
             {
-                if (SwitchStates_Get(mSwitchId))
-                {
-                    gExplosionSetEnabled = true;
-                }
+                xpos = mTlvRect.w + mTlvRect.x - mGridSpacing;
+                mSpacingMultiplicator = 0;
             }
+        }
+        else
+        {
+            xpos = mGridSpacing + mTlvRect.x + (mSpacingMultiplicator * mIncreasingGridSpacing);
+            if (xpos >= mTlvRect.x + mTlvRect.w)
+            {
+                xpos = mTlvRect.x + mGridSpacing;
+                mSpacingMultiplicator = 0;
+            }
+        }
+
+        relive_new FallingItem(xpos, mTlvRect.y, mSpriteScale < FP_FromInteger(1), 0, 0, 1, 0);
+
+        mSpacingMultiplicator++;
+        mStartDelay = mAssetInterval;
+
+        if (gMap.mCurrentLevel == EReliveLevelIds::eMines && Math_RandomRange(1, 5) >= 4)
+        {
+            const FP explodeX = FP_FromInteger(Math_RandomRange(mTlvRect.y + 20, mTlvRect.y + 230));
+            const FP explodeY = FP_FromInteger(Math_RandomRange(mTlvRect.x, xpos));
+            relive_new AirExplosion(explodeY, explodeX, mSpriteScale, 0);
         }
     }
 }

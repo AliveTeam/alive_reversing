@@ -472,7 +472,7 @@ struct Path_MeatSaw final : public Path_TLV
     reliveScale mScale = reliveScale::eFull;
     s16 mSwitchMinTimeOff = 0;
     s16 mSwitchMaxTimeOff = 0;
-    s16 mMaxRiseTime = 0;
+    s16 mYTravelDistance = 0;
     s16 mSwitchId = 0;
     enum class Type : s16
     {
@@ -481,17 +481,17 @@ struct Path_MeatSaw final : public Path_TLV
         eSwitchId,
     };
     Type mType = Type::eAutomatic;
-    s16 mSpeed = 0;
+    s16 mSwitchSpeed = 0;
     enum class StartState : s16
     {
         eOff,
         eOn,
     };
     StartState mStartState = StartState::eOn;
-    s16 mOffSpeed = 0;
+    s16 mAutomaticSpeed = 0;
     s16 mAutomaticMinTimeOff = 0;
     s16 mAutomaticMaxTimeOff = 0;
-    s16 mInitialPosition = 0;
+    s16 mStartAtBottom = 0;
     static constexpr char kClassName[] = "meat_saw";
 };
 

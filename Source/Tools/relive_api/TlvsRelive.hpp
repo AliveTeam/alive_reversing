@@ -1980,15 +1980,15 @@ struct Path_MeatSaw final : public ReliveAPI::TlvObjectBaseRelive
         ADD("Scale", mTlv.mScale);
         ADD("Switch Min Time Off", mTlv.mSwitchMinTimeOff);
         ADD("Switch Max Time Off", mTlv.mSwitchMaxTimeOff);
-        ADD("Max Rise Time", mTlv.mMaxRiseTime);
+        ADD("Y Travel Distance", mTlv.mYTravelDistance);
         ADD("Switch ID", mTlv.mSwitchId);
         ADD("Type", mTlv.mType);
-        ADD("Speed", mTlv.mSpeed);
+        ADD("Switch Speed", mTlv.mSwitchSpeed);
         ADD("Start State", mTlv.mStartState);
-        ADD("Off Speed", mTlv.mOffSpeed);
+        ADD("Automatic Speed", mTlv.mAutomaticSpeed);
         ADD("Automatic Min Time Off", mTlv.mAutomaticMinTimeOff);
         ADD("Automatic Max Time Off", mTlv.mAutomaticMaxTimeOff);
-        ADD("Initial Position", mTlv.mInitialPosition);
+        ADD("Start At Bottom", mTlv.mStartAtBottom);
     }
 };
 
