@@ -777,7 +777,7 @@ LiftPoint::~LiftPoint()
     mRope2 = nullptr;
     mRope1 = nullptr;
 
-    Path::TLV_Reset(mPlatformBaseTlvInfo, -1, 0, 0);
+    Path::TLV_Reset(mPlatformBaseTlvInfo);
 
     auto pLiftPointTlv = gMap.VTLV_Get_At_Of_Type(
         FP_GetExponent(mXPos),

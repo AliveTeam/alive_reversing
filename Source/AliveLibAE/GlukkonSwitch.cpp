@@ -91,7 +91,7 @@ GlukkonSwitch::GlukkonSwitch(relive::Path_GlukkonSwitch* pTlv, const Guid& tlvId
 
 GlukkonSwitch::~GlukkonSwitch()
 {
-    Path::TLV_Reset(mTlvId, -1, 0, 0);
+    Path::TLV_Reset(mTlvId);
 }
 
 void GlukkonSwitch::VScreenChanged()

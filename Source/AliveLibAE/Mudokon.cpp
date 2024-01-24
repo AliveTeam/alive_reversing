@@ -1137,11 +1137,11 @@ Mudokon::~Mudokon()
 
     if (!mNotRescued || mHealth <= FP_FromInteger(0) || GetElectrocuted())
     {
-        Path::TLV_Reset(field_118_tlvInfo, -1, 0, 1);
+        Path::TLV_Delete(field_118_tlvInfo);
     }
     else
     {
-        Path::TLV_Reset(field_118_tlvInfo, -1, 0, 0);
+        Path::TLV_Reset(field_118_tlvInfo);
     }
 
     if (!mBrainState && mBrainSubState > 4u)

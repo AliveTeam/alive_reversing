@@ -93,11 +93,11 @@ HoneySack::~HoneySack()
 
     if (mState == State::eDripHoney_0)
     {
-        Path::TLV_Reset(mTlvInfo, -1, 0, 0);
+        Path::TLV_Reset(mTlvInfo);
     }
     else
     {
-        Path::TLV_Reset(mTlvInfo, FP_GetExponent(mYPos - mObjectYPos), 0, 0);
+        Path::TLV_Reset(mTlvInfo, FP_GetExponent(mYPos - mObjectYPos));
     }
 
     if (mBeeSwarm)

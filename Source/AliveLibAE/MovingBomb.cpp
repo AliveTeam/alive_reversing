@@ -114,11 +114,11 @@ MovingBomb::~MovingBomb()
 
     if (mState >= States::eBlowingUp_6)
     {
-        Path::TLV_Reset(mTlvId, -1, 0, 1);
+        Path::TLV_Delete(mTlvId);
     }
     else
     {
-        Path::TLV_Reset(mTlvId, -1, 0, 0);
+        Path::TLV_Reset(mTlvId);
     }
 
     if (sMovingBomb == this)

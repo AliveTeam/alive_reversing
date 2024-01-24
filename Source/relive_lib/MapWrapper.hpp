@@ -142,7 +142,10 @@ public:
 
     virtual s16 GetOverlayId() = 0;
 
-    virtual void TLV_Reset(const Guid& tlvId, s16 hiFlags, s8 bSetCreated, s8 bSetDestroyed) = 0;
+    virtual void TLV_Reset(const Guid& tlvId, s16 hiFlags = -1) = 0;
+    virtual void TLV_Persist(const Guid& tlvId, s16 hiFlags = -1) = 0;
+    virtual void TLV_Delete(const Guid& tlvId, s16 hiFlags = -1) = 0;
+    virtual void Set_TLVData(const Guid& tlvId, s16 hiFlags, s8 bSetCreated, s8 bSetDestroyed) = 0;
 
     virtual CameraPos Rect_Location_Relative_To_Active_Camera(const PSX_RECT* pRect, s16 width = 0) = 0;
 

@@ -68,7 +68,10 @@ public:
         return mLoadedPaths;
     }
 
-    void TLV_Reset(const Guid& tlvId, s16 hiFlags, s8 bSetCreated, s8 bSetDestroyed) override;
+    virtual void TLV_Reset(const Guid& tlvId, s16 hiFlags = -1) override;
+    virtual void TLV_Persist(const Guid& tlvId, s16 hiFlags = -1) override;
+    virtual void TLV_Delete(const Guid& tlvId, s16 hiFlags = -1) override;
+    void Set_TLVData(const Guid& tlvId, s16 hiFlags, s8 bSetCreated, s8 bSetDestroyed) override;
 
     relive::Path_TLV* VTLV_Get_At_Of_Type(s16 xpos, s16 ypos, s16 width, s16 height, ReliveTypes typeToFind) override;
 

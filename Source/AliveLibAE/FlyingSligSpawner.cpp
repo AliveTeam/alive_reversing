@@ -49,7 +49,7 @@ void FlyingSligSpawner::CreateFromSaveState(SerializedObjectData& pBuffer)
 
 FlyingSligSpawner::~FlyingSligSpawner()
 {
-    Path::TLV_Reset(mTlvId, -1, 0, 0);
+    Path::TLV_Reset(mTlvId);
 }
 
 void FlyingSligSpawner::VUpdate()

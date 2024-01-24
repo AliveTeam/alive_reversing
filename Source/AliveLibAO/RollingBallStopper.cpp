@@ -95,11 +95,11 @@ RollingBallStopper::~RollingBallStopper()
 {
     if (mState != States::eWaitForTrigger)
     {
-        Path::TLV_Reset(mTlvInfo, 1, 0, 0);
+        Path::TLV_Reset(mTlvInfo, 1);
     }
     else
     {
-        Path::TLV_Reset(mTlvInfo, 0, 0, 0);
+        Path::TLV_Reset(mTlvInfo, 0);
     }
 
     if (mCollisionLine)

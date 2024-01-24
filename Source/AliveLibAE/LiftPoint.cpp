@@ -909,7 +909,7 @@ LiftPoint::~LiftPoint()
         mRopeId1 = Guid{};
     }
 
-    Path::TLV_Reset(mPlatformBaseTlvInfo, -1, 0, 0);
+    Path::TLV_Reset(mPlatformBaseTlvInfo);
 
     relive::Path_TLV* pTlv = gPathInfo->VTLV_Get_At_Of_Type(
         FP_GetExponent(mXPos),

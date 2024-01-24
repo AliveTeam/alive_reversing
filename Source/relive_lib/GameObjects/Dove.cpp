@@ -153,7 +153,7 @@ Dove::~Dove()
         gDovesArray.Remove_Item(this);
         if (mTlvInfo.IsValid())
         {
-            GetMap().TLV_Reset(mTlvInfo, -1, 0, 0);
+            GetMap().TLV_Reset(mTlvInfo);
         }
     }
 

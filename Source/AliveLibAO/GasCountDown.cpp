@@ -42,7 +42,7 @@ GasCountDown::GasCountDown(relive::Path_GasCountDown* pTlv, const Guid& tlvInfo)
 GasCountDown::~GasCountDown()
 {
     gObjListDrawables->Remove_Item(this);
-    Path::TLV_Reset(mTlvId, -1, 0, 0);
+    Path::TLV_Reset(mTlvId);
 }
 
 void GasCountDown::VScreenChanged()

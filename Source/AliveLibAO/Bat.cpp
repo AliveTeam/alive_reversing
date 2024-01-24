@@ -81,7 +81,7 @@ Bat::~Bat()
     {
         mAttackTarget->mBaseGameObjectRefCount--;
     }
-    Path::TLV_Reset(mTlvInfo, -1, 0, 0);
+    Path::TLV_Reset(mTlvInfo);
 }
 
 void Bat::VScreenChanged()

@@ -13,7 +13,7 @@ namespace AO {
 
 void SlogSpawner::VScreenChanged()
 {
-    Path::TLV_Reset(mTlvInfo, mSpawnedSlogsCount, 0, 0);
+    Path::TLV_Reset(mTlvInfo, mSpawnedSlogsCount);
     SetDead(true);
 }
 
@@ -64,7 +64,7 @@ void SlogSpawner::VUpdate()
 
             if (mSpawnedSlogsCount >= mMaxSlogs)
             {
-                Path::TLV_Reset(mTlvInfo, mSpawnedSlogsCount, 0, 1);
+                Path::TLV_Delete(mTlvInfo, mSpawnedSlogsCount);
                 SetDead(true);
             }
         }

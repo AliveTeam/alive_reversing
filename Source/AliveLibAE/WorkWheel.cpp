@@ -84,7 +84,7 @@ WorkWheel::WorkWheel(relive::Path_WorkWheel* pTlv, const Guid& tlvId)
 
 WorkWheel::~WorkWheel()
 {
-    Path::TLV_Reset(mTlvInfo, -1, 0, 0);
+    Path::TLV_Reset(mTlvInfo);
 }
 
 void WorkWheel::CreateFromSaveState(SerializedObjectData& pState)

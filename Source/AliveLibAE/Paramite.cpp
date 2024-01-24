@@ -4953,11 +4953,11 @@ Paramite::~Paramite()
 
     if (mHealth > FP_FromInteger(0) || mSpawned)
     {
-        Path::TLV_Reset(field_140_tlvInfo, -1, 0, 0);
+        Path::TLV_Reset(field_140_tlvInfo);
     }
     else
     {
-        Path::TLV_Reset(field_140_tlvInfo, -1, 0, 1);
+        Path::TLV_Delete(field_140_tlvInfo);
     }
 
     SND_SEQ_Stop(SeqId::ParamiteNearby_25);

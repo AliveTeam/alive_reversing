@@ -47,7 +47,7 @@ BrewMachine::BrewMachine(relive::Path_BrewMachine* pTlv, const Guid& tlvId)
 
 BrewMachine::~BrewMachine()
 {
-    Path::TLV_Reset(mTlvInfo, -1, 0, 0);
+    Path::TLV_Reset(mTlvInfo);
 }
 
 void BrewMachine::VUpdate()

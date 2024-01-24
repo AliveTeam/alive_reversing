@@ -411,7 +411,7 @@ void Door::PlaySound()
 
 Door::~Door()
 {
-    Path::TLV_Reset(mTlvId, -1, 0, 0);
+    Path::TLV_Reset(mTlvId);
 }
 
 void Door::VUpdate()
@@ -579,11 +579,11 @@ TrainDoor::~TrainDoor()
 {
     if (mCurrentState == relive::Path_Door::DoorStates::eOpen)
     {
-        Path::TLV_Reset(mTlvId, -1, 0, 0);
+        Path::TLV_Reset(mTlvId);
     }
     else
     {
-        Path::TLV_Reset(mTlvId, 1, 0, 0);
+        Path::TLV_Reset(mTlvId, 1);
     }
 }
 

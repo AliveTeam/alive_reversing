@@ -117,7 +117,7 @@ PullRingRope::PullRingRope(relive::Path_PullRingRope* pTlv, const Guid& tlvId)
 
 PullRingRope::~PullRingRope()
 {
-    Path::TLV_Reset(mTlvId, -1, 0, 0);
+    Path::TLV_Reset(mTlvId);
 
     if (mRingPuller)
     {

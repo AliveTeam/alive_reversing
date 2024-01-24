@@ -101,7 +101,7 @@ SlapLock::SlapLock(relive::Path_SlapLock* pTlv, const Guid& tlvId)
 
 SlapLock::~SlapLock()
 {
-    Path::TLV_Reset(mTlvInfo, -1, 0, 0);
+    Path::TLV_Reset(mTlvInfo);
 }
 
 void SlapLock::CreateFromSaveState(SerializedObjectData& pBuffer)

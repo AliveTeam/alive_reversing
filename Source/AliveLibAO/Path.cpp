@@ -4,7 +4,23 @@
 #include "../relive_lib/BinaryPath.hpp"
 
 namespace AO {
-void Path::TLV_Reset(const Guid& tlvId, s16 hiFlags, s8 bSetCreated, s8 bSetDestroyed)
+
+void Path::TLV_Reset(const Guid& tlvId, s16 hiFlags)
+{
+    Path::Set_TLVData(tlvId, hiFlags, 0, 0);
+}
+
+void Path::TLV_Persist(const Guid& tlvId, s16 hiFlags)
+{
+    Path::Set_TLVData(tlvId, hiFlags, 1, 0);
+}
+
+void Path::TLV_Delete(const Guid& tlvId, s16 hiFlags)
+{
+    Path::Set_TLVData(tlvId, hiFlags, 0, 1);
+}
+
+void Path::Set_TLVData(const Guid& tlvId, s16 hiFlags, s8 bSetCreated, s8 bSetDestroyed)
 {
     auto& paths = gMap.GetLoadedPaths();
     for (std::unique_ptr<BinaryPath>& pBinPath : paths)

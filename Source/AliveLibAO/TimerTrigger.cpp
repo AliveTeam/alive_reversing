@@ -102,7 +102,7 @@ void TimerTrigger::VScreenChanged()
 
 TimerTrigger::~TimerTrigger()
 {
-    Path::TLV_Reset(mTlvInfo, -1, 0, 0);
+    Path::TLV_Reset(mTlvInfo);
 }
 
 } // namespace AO

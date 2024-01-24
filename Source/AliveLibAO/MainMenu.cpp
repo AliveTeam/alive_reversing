@@ -466,7 +466,7 @@ Menu::Menu(relive::Path_TLV* /*pTlv*/, const Guid& tlvId)
 
 Menu::~Menu()
 {
-    Path::TLV_Reset(field_1D4_tlvInfo, -1, 0, 0);
+    Path::TLV_Reset(field_1D4_tlvInfo);
     mButtonAnim.VCleanUp();
 
     /*

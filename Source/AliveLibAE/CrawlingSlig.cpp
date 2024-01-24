@@ -663,11 +663,11 @@ CrawlingSlig::~CrawlingSlig()
     }
     if (mHealth > FP_FromInteger(0) || mTlv.mRespawnOnDeath == relive::reliveChoice::eYes)
     {
-        Path::TLV_Reset(mGuid, -1, 0, 0);
+        Path::TLV_Reset(mGuid);
     }
     else
     {
-        Path::TLV_Reset(mGuid, -1, 0, 1);
+        Path::TLV_Delete(mGuid);
     }
 }
 

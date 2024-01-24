@@ -184,12 +184,12 @@ BirdPortal::~BirdPortal()
     if (SwitchStates_Get(mDeletePortalSwitchId))
     {
         // Never come back
-        Path::TLV_Reset(mTlvInfo, -1, 0, 1);
+        Path::TLV_Delete(mTlvInfo);
     }
     else
     {
         // Always come back
-        Path::TLV_Reset(mTlvInfo, -1, 0, 0);
+        Path::TLV_Reset(mTlvInfo);
     }
 }
 

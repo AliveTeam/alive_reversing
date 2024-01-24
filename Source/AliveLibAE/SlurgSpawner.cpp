@@ -51,6 +51,6 @@ void SlurgSpawner::VUpdate()
 
 void SlurgSpawner::VScreenChanged()
 {
-    Path::TLV_Reset(mTlvInfo, mSpawnedCount, 0, 0);
+    Path::TLV_Reset(mTlvInfo, mSpawnedCount);
     SetDead(true);
 }

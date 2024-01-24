@@ -2839,7 +2839,14 @@ Slog::~Slog()
 
     if (mTlvId != Guid{})
     {
-        Path::TLV_Reset(mTlvId, -1, 0, mHealth <= FP_FromInteger(0));
+        if (mHealth <= FP_FromInteger(0))
+        {
+            Path::TLV_Delete(mTlvId);
+        }
+        else
+        {
+            Path::TLV_Reset(mTlvId);
+        }
     }
 
     MusicController::static_PlayMusic(MusicController::MusicTypes::eNone_0, this, 0, 0);

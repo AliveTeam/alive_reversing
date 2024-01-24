@@ -30,7 +30,7 @@ ZzzSpawner::ZzzSpawner(relive::Path_ZzzSpawner* pTlv, const Guid& tlvId)
 
 ZzzSpawner::~ZzzSpawner()
 {
-    GetMap().TLV_Reset(mTlvInfo, -1, 0, 0);
+    GetMap().TLV_Reset(mTlvInfo);
 }
 
 void ZzzSpawner::VScreenChanged()

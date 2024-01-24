@@ -71,7 +71,7 @@ void CrawlingSligButton::UseButton()
 
 CrawlingSligButton::~CrawlingSligButton()
 {
-    Path::TLV_Reset(mTlvId, -1, 0, 0);
+    Path::TLV_Reset(mTlvId);
 }
 
 void CrawlingSligButton::VUpdate()

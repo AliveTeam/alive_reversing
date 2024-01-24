@@ -44,7 +44,7 @@ Well::~Well()
 {
     if (mTlvInfo.IsValid())
     {
-        Path::TLV_Reset(mTlvInfo, -1, 0, 0);
+        Path::TLV_Reset(mTlvInfo);
     }
 }
 
@@ -150,7 +150,7 @@ void Well::VUpdate()
     if (EventGet(kEventDeathReset))
     {
         SetDead(true);
-        Path::TLV_Reset(mTlvInfo, -1, 0, 0);
+        Path::TLV_Reset(mTlvInfo);
     }
 
     if (mEmitLeaves == relive::reliveChoice::eYes)

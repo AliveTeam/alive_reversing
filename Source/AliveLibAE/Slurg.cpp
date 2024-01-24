@@ -155,7 +155,15 @@ Slurg::~Slurg()
 {
     if (mTlvInfo.IsValid())
     {
-        Path::TLV_Reset({}, -1, 0, mSlurgState == SlurgStates::eBurst_2);
+        // NOTE: OG bug? OG passed in 0xFFFFFFFF but it probably should've been mTlvInfo?
+        if (mSlurgState == SlurgStates::eBurst_2)
+        {
+            Path::TLV_Delete({});
+        }
+        else
+        {
+            Path::TLV_Reset({});
+        }
     }
 }
 

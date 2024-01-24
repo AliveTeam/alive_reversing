@@ -44,7 +44,7 @@ Well::~Well()
 {
     if (mTlvInfo != Guid{})
     {
-        Path::TLV_Reset(mTlvInfo, -1, 0, 0);
+        Path::TLV_Reset(mTlvInfo);
     }
 }
 
@@ -146,7 +146,7 @@ void Well::VUpdate()
     {
         SetDead(true);
         // Reset well state when Abe dies.
-        Path::TLV_Reset(mTlvInfo, -1, 0, 0);
+        Path::TLV_Reset(mTlvInfo);
     }
 
     if (mEmitLeaves == relive::reliveChoice::eYes)

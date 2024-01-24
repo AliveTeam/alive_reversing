@@ -48,7 +48,7 @@ Teleporter::Teleporter(relive::Path_Teleporter* pTlv, const Guid& tlvId)
 
 Teleporter::~Teleporter()
 {
-    Path::TLV_Reset(mTlvId, -1, 0, 0);
+    Path::TLV_Reset(mTlvId);
 }
 
 void Teleporter::VScreenChanged()

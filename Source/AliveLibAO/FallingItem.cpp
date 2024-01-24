@@ -130,7 +130,7 @@ FallingItem::~FallingItem()
     {
         sPrimaryFallingItem = nullptr;
     }
-    Path::TLV_Reset(mTlvId, -1, 0, 0);
+    Path::TLV_Reset(mTlvId);
 }
 
 void FallingItem::VScreenChanged()

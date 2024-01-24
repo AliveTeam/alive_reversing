@@ -245,7 +245,7 @@ SlamDoor::~SlamDoor()
 {
     if (!mDelete || mClosed)
     {
-        Path::TLV_Reset(mTlvInfo, -1, 0, 0);
+        Path::TLV_Reset(mTlvInfo);
     }
 
     if (mCollisionLine1)

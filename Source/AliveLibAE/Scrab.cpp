@@ -425,11 +425,11 @@ Scrab::~Scrab()
 
     if (mHealth <= FP_FromInteger(0))
     {
-        Path::TLV_Reset(field_144_tlvInfo, -1, 0, 1);
+        Path::TLV_Delete(field_144_tlvInfo);
     }
     else
     {
-        Path::TLV_Reset(field_144_tlvInfo, -1, 0, 0);
+        Path::TLV_Reset(field_144_tlvInfo);
     }
 
     MusicController::static_PlayMusic(MusicController::MusicTypes::eNone_0, this, 0, 0);

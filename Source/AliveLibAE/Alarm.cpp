@@ -65,7 +65,7 @@ Alarm::~Alarm()
     }
     else
     {
-        Path::TLV_Reset(mAlarmTlvInfo, -1, 0, 0);
+        Path::TLV_Reset(mAlarmTlvInfo);
     }
 }
 

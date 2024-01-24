@@ -34,7 +34,7 @@ LiftMover::LiftMover(relive::Path_LiftMover* pTlv, const Guid& tlvId)
 
 LiftMover::~LiftMover()
 {
-    Path::TLV_Reset(mTlvId, -1, 0, 0);
+    Path::TLV_Reset(mTlvId);
 }
 
 void LiftMover::VUpdate()

@@ -408,11 +408,11 @@ Drill::~Drill()
 
     if (mUseId && !!SwitchStates_Get(mDrillSwitchId) != mStartOff)
     {
-        Path::TLV_Reset(mTlvInfo, 1, 0, 0);
+        Path::TLV_Reset(mTlvInfo, 1);
     }
     else
     {
-        Path::TLV_Reset(mTlvInfo, 0, 0, 0);
+        Path::TLV_Reset(mTlvInfo, 0);
     }
 }
 

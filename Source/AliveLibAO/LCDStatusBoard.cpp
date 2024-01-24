@@ -18,7 +18,7 @@ void LCDStatusBoard::VScreenChanged()
 LCDStatusBoard::~LCDStatusBoard()
 {
     gObjListDrawables->Remove_Item(this);
-    Path::TLV_Reset(mTlvId, -1, 0, 0);
+    Path::TLV_Reset(mTlvId);
 }
 
 LCDStatusBoard::LCDStatusBoard(relive::Path_LCDStatusBoard* pTlv, const Guid& tlvId)

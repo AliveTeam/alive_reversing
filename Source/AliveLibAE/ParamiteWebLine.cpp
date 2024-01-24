@@ -153,7 +153,7 @@ ParamiteWebLine::~ParamiteWebLine()
 {
     relive_delete[] field_FC_pRes;
     field_108_anim_flare.VCleanUp();
-    Path::TLV_Reset(field_100_tlv_info, -1, 0, 0);
+    Path::TLV_Reset(field_100_tlv_info);
 }
 
 void ParamiteWebLine::VUpdate()

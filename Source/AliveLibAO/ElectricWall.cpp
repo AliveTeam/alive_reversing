@@ -63,7 +63,7 @@ ElectricWall::ElectricWall(relive::Path_ElectricWall* pTlv, const Guid& tlvId)
 
 ElectricWall::~ElectricWall()
 {
-    Path::TLV_Reset(mTlvInfo, -1, 0, 0);
+    Path::TLV_Reset(mTlvInfo);
 }
 
 void ElectricWall::VScreenChanged()

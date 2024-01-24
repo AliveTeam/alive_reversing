@@ -113,7 +113,7 @@ void ShadowZone::ShadowZones_Calculate_Colour(s32 xpos, s32 ypos, Scale scale, s
 
 ShadowZone::~ShadowZone()
 {
-    GetMap().TLV_Reset(mTlvId, -1, 0, 0);
+    GetMap().TLV_Reset(mTlvId);
     sShadowZoneArray->Remove_Item(this);
 }
 

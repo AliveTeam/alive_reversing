@@ -112,7 +112,7 @@ FootSwitch::FootSwitch(relive::Path_FootSwitch* pTlv, const Guid& tlvId)
 FootSwitch::~FootSwitch()
 {
     mStoodOnMeId = Guid{};
-    Path::TLV_Reset(mTlvId, -1, 0, 0);
+    Path::TLV_Reset(mTlvId);
 }
 
 void FootSwitch::VUpdate()

@@ -94,7 +94,7 @@ void HoistRocksEffect::VScreenChanged()
 
 HoistRocksEffect::~HoistRocksEffect()
 {
-    Path::TLV_Reset(mTlvId, -1, 0, 0);
+    Path::TLV_Reset(mTlvId);
 }
 
 HoistRocksEffect::HoistRocksEffect(relive::Path_Hoist* pTlv, const Guid& tlvInfo)

@@ -144,7 +144,7 @@ static void Factory_Hoist(relive::Path_TLV* pTlv, Path* /*pPath*/, const Guid& t
     }
     else
     {
-        Path::TLV_Reset(tlvId, -1, 0, 0);
+        Path::TLV_Reset(tlvId);
     }
 }
 
@@ -156,7 +156,7 @@ static void Factory_Edge(relive::Path_TLV* /*pTlv*/, Path* /*pPath*/, const Guid
     }
     else
     {
-        Path::TLV_Reset(tlvId, -1, 0, 0);
+        Path::TLV_Reset(tlvId);
     }
 }
 
@@ -283,7 +283,7 @@ static void Factory_LiftPoint(relive::Path_TLV* pTlv, Path*, const Guid& tlvId, 
                 if (pTlv->mTopLeftX <= xpos && xpos <= pTlv->mBottomRightX && pLiftPoint->mLiftPointId == pLiftTlv->mLiftPointId && pLiftPoint->mCurrentLevel == gMap.mCurrentLevel && pLiftPoint->mCurrentPath == gMap.mCurrentPath)
                 {
                     // Yes so just reset its data
-                    Path::TLV_Reset(tlvId, -1, 0, 0);
+                    Path::TLV_Reset(tlvId);
                     return;
                 }
             }
@@ -613,7 +613,7 @@ static void Factory_MovieHandStone(relive::Path_TLV*, Path*, const Guid& tlvId, 
     }
     else
     {
-        Path::TLV_Reset(tlvId, -1, 0, 0);
+        Path::TLV_Reset(tlvId);
     }
 }
 
@@ -643,7 +643,7 @@ static void Factory_BirdPortal(relive::Path_TLV* pTlv, Path*, const Guid& tlvId,
     }
     else
     {
-        Path::TLV_Reset(tlvId, -1, 0, 0);
+        Path::TLV_Reset(tlvId);
     }
 }
 
@@ -952,7 +952,7 @@ static void Factory_HandStone(relive::Path_TLV*, Path*, const Guid& tlvId, LoadM
     }
     else
     {
-        Path::TLV_Reset(tlvId, -1, 0, 0);
+        Path::TLV_Reset(tlvId);
     }
 }
 
@@ -1373,7 +1373,7 @@ static void Factory_ExplosionSet(relive::Path_TLV* pTlv, Path*, const Guid& tlvI
             relive_new ExplosionSet();
         }
         gExplosionSet->Init(static_cast<relive::Path_ExplosionSet*>(pTlv));
-        Path::TLV_Reset(tlvId, -1, 0, 0);
+        Path::TLV_Reset(tlvId);
     }
 }
 

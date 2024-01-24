@@ -85,7 +85,7 @@ MeatSack::MeatSack(relive::Path_MeatSack* pTlv, const Guid& tlvId)
 
 MeatSack::~MeatSack()
 {
-    Path::TLV_Reset(mTlvId, -1, 0, 0);
+    Path::TLV_Reset(mTlvId);
 }
 
 void MeatSack::VUpdate()

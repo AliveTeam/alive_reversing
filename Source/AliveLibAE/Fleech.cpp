@@ -1103,7 +1103,14 @@ Fleech::~Fleech()
     mScrabOrParamite = Guid{};
     if (mTlvInfo != Guid{})
     {
-        Path::TLV_Reset(mTlvInfo, -1, 0, mHealth <= FP_FromInteger(0));
+        if (mHealth <= FP_FromInteger(0))
+        {
+            Path::TLV_Delete(mTlvInfo);
+        }
+        else
+        {
+            Path::TLV_Reset(mTlvInfo);
+        }
     }
 
     MusicController::static_PlayMusic(MusicController::MusicTypes::eNone_0, this, 0, 0);

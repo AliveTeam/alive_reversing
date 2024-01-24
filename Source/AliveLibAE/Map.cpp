@@ -881,9 +881,24 @@ void Map::Create_FG1s()
     pCamera->CreateFG1();
 }
 
-void Map::TLV_Reset(const Guid& tlvId, s16 hiFlags, s8 bSetCreated, s8 bSetDestroyed)
+void Map::TLV_Reset(const Guid& tlvId, s16 hiFlags)
 {
-    Path::TLV_Reset(tlvId, hiFlags, bSetCreated, bSetDestroyed);
+    Path::TLV_Reset(tlvId, hiFlags);
+}
+
+void Map::TLV_Persist(const Guid& tlvId, s16 hiFlags)
+{
+    Path::TLV_Persist(tlvId, hiFlags);
+}
+
+void Map::TLV_Delete(const Guid& tlvId, s16 hiFlags)
+{
+    Path::TLV_Delete(tlvId, hiFlags);
+}
+
+void Map::Set_TLVData(const Guid& tlvId, s16 hiFlags, s8 bSetCreated, s8 bSetDestroyed)
+{
+    Path::Set_TLVData(tlvId, hiFlags, bSetCreated, bSetDestroyed);
 }
 
 void Map::CreateScreenTransistionForTLV(relive::Path_TLV* pTlv)

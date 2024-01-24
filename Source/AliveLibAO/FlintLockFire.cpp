@@ -64,7 +64,7 @@ void FlintLockFire::VStopAudio()
 
 FlintLockFire::~FlintLockFire()
 {
-    Path::TLV_Reset(mTlvId, -1, 0, 0);
+    Path::TLV_Reset(mTlvId);
     mGourdAnim.VCleanUp();
 
     if (sFlintLockFireData[static_cast<s32>(MapWrapper::ToAO(gMap.mCurrentLevel))].mIsFire)

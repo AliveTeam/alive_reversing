@@ -40,7 +40,7 @@ GasEmitter::GasEmitter(relive::Path_GasEmitter* pTlv, const Guid& tlvId)
 
 GasEmitter::~GasEmitter()
 {
-    GetMap().TLV_Reset(mTlvId, -1, 0, 0);
+    GetMap().TLV_Reset(mTlvId);
 
     if (sMainGasEmitter == this)
     {

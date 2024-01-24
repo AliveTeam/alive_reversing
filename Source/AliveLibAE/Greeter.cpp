@@ -233,11 +233,11 @@ Greeter::~Greeter()
 {
     if (field_12E_bDontSetDestroyed)
     {
-        Path::TLV_Reset(mTlvId, -1, 0, 0);
+        Path::TLV_Reset(mTlvId);
     }
     else
     {
-        Path::TLV_Reset(mTlvId, -1, 0, 1);
+        Path::TLV_Delete(mTlvId);
     }
 
     BaseGameObject* pMotionDetector = sObjectIds.Find_Impl(field_11C_motionDetectorId);

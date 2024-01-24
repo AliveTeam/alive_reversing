@@ -92,7 +92,7 @@ void BackgroundAnimation::VScreenChanged()
 
 BackgroundAnimation::~BackgroundAnimation()
 {
-    GetMap().TLV_Reset(mTlvId, -1, 0, 0);
+    GetMap().TLV_Reset(mTlvId);
     if (mSoundChannelsMask)
     {
         SND_Stop_Channels_Mask(mSoundChannelsMask);

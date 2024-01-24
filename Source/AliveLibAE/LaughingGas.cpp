@@ -83,7 +83,7 @@ LaughingGas::LaughingGas(Layer layer, relive::Path_LaughingGas* pTlv, const Guid
 
 LaughingGas::~LaughingGas()
 {
-    Path::TLV_Reset(field_24_tlvInfo, -1, 0, 0);
+    Path::TLV_Reset(field_24_tlvInfo);
     gObjListDrawables->Remove_Item(this);
     gLaughingGasOn_5C1BA4 = false;
     gLaughingGasInstanceCount--;

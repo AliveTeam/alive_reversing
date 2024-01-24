@@ -474,11 +474,11 @@ FlyingSlig::~FlyingSlig()
         {
             if (mHealth <= FP_FromInteger(0))
             {
-                Path::TLV_Reset(field_148_tlvInfo, -1, 0, 1);
+                Path::TLV_Delete(field_148_tlvInfo);
             }
             else
             {
-                Path::TLV_Reset(field_148_tlvInfo, -1, 0, 0);
+                Path::TLV_Reset(field_148_tlvInfo);
             }
         }
     }

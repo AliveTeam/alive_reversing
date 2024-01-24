@@ -31,7 +31,7 @@ InvisibleSwitch::InvisibleSwitch(relive::Path_InvisibleSwitch* pTlv, const Guid&
 
 InvisibleSwitch::~InvisibleSwitch()
 {
-    Path::TLV_Reset(mTlvId, -1, 0, 0);
+    Path::TLV_Reset(mTlvId);
 }
 
 bool InvisibleSwitch::IsAbeUsingDoor() const

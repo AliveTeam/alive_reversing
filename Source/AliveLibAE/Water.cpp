@@ -143,11 +143,11 @@ Water::~Water()
 
     if (field_148_bHitTimeout & 1)
     {
-        Path::TLV_Reset(field_114_tlvInfo, static_cast<s16>(field_FC_state), 0, 1);
+        Path::TLV_Delete(field_114_tlvInfo, static_cast<s16>(field_FC_state));
     }
     else
     {
-        Path::TLV_Reset(field_114_tlvInfo, static_cast<s16>(field_FC_state), 0, 0);
+        Path::TLV_Reset(field_114_tlvInfo, static_cast<s16>(field_FC_state));
     }
 }
 

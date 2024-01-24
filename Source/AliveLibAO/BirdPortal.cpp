@@ -181,7 +181,7 @@ BirdPortal::~BirdPortal()
         mSfxPlaying = 0;
     }
 
-    Path::TLV_Reset(mTlvInfo, -1, 0, 0);
+    Path::TLV_Reset(mTlvInfo);
     if (mState >= PortalStates::PortalExit_SetPosition_17)
     {
         if (gAbe)

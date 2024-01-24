@@ -291,7 +291,7 @@ void MineCar::VScreenChanged()
 
 MineCar::~MineCar()
 {
-    Path::TLV_Reset(field_118_tlvInfo, -1, 0, 1);
+    Path::TLV_Delete(field_118_tlvInfo);
     if (field_1D0_sound_channels_mask)
     {
         SND_Stop_Channels_Mask(field_1D0_sound_channels_mask);

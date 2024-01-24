@@ -52,7 +52,7 @@ FootSwitch::~FootSwitch()
         mStoodOnMe->mBaseGameObjectRefCount--;
         mStoodOnMe = nullptr;
     }
-    Path::TLV_Reset(mTlvId, -1, 0, 0);
+    Path::TLV_Reset(mTlvId);
 }
 
 void FootSwitch::VUpdate()

@@ -128,11 +128,11 @@ TimedMine::~TimedMine()
     auto pPlatform = static_cast<LiftPoint*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
     if (!mSlappedMine || sGnFrame < mExplosionTimer)
     {
-        Path::TLV_Reset(mTlvInfo, -1, 0, 0);
+        Path::TLV_Reset(mTlvInfo);
     }
     else
     {
-        Path::TLV_Reset(mTlvInfo, -1, 0, 1);
+        Path::TLV_Delete(mTlvInfo);
     }
 
     mTickAnim.VCleanUp();

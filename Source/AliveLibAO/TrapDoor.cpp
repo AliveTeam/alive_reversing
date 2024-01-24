@@ -180,7 +180,7 @@ PSX_RECT TrapDoor::VGetBoundingRect()
 
 TrapDoor::~TrapDoor()
 {
-    Path::TLV_Reset(mPlatformBaseTlvInfo, -1, 0, 0);
+    Path::TLV_Reset(mPlatformBaseTlvInfo);
 }
 
 void TrapDoor::Open()

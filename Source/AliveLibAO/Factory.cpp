@@ -124,7 +124,7 @@ static void Factory_Hoist(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& tlv
         }
         else
         {
-            Path::TLV_Reset(tlvId, -1, 0, 0);
+            Path::TLV_Reset(tlvId);
         }
     }
 }
@@ -137,7 +137,7 @@ static void Factory_Edge(relive::Path_TLV* /*pTlv*/, Map* /*pMap*/, const Guid& 
     }
     else
     {
-        Path::TLV_Reset(tlvId, -1, 0, 0);
+        Path::TLV_Reset(tlvId);
     }
 }
 
@@ -259,7 +259,7 @@ static void Factory_LiftPoint(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid&
                     && pLiftObj->mCurrentLevel == gMap.mCurrentLevel
                     && pLiftObj->mCurrentPath == gMap.mCurrentPath)
                 {
-                    Path::TLV_Reset(tlvId, -1, 0, 0);
+                    Path::TLV_Reset(tlvId);
                     return;
                 }
             }
@@ -764,7 +764,7 @@ static void Factory_ElumWall(relive::Path_TLV* /*pTlv*/, Map* /*pMap*/, const Gu
     }
     else
     {
-        Path::TLV_Reset(tlvId, -1, 0, 0);
+        Path::TLV_Reset(tlvId);
     }
 }
 
@@ -910,7 +910,7 @@ static void Factory_BellSongStone(relive::Path_TLV* /*pTlv*/, Map* /*pMap*/, con
 {
     if (loadMode != LoadMode::LoadResourceFromList_1 && loadMode != LoadMode::LoadResource_2)
     {
-        Path::TLV_Reset(tlvId, -1, 0, 0);
+        Path::TLV_Reset(tlvId);
     }
 }
 
@@ -1381,7 +1381,7 @@ static void Factory_HandStone(relive::Path_TLV* /*pTlv*/, Map* /*pMap*/, const G
     }
     else
     {
-        Path::TLV_Reset(tlvId, -1, 0, 0);
+        Path::TLV_Reset(tlvId);
     }
 }
 
@@ -1553,7 +1553,7 @@ static void Factory_RingCancel(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid
                 gAbe->field_168_ring_pulse_timer = 0;
             }
         }
-        Path::TLV_Reset(tlvId, -1, 0, 0);
+        Path::TLV_Reset(tlvId);
     }
 }
 
@@ -1606,7 +1606,7 @@ static void Factory_KillUnsavedMuds(relive::Path_TLV* /*pTlv*/, Map* pMap, const
         {
             gbKillUnsavedMudsDone = true;
             sKilledMudokons = 28 - sRescuedMudokons;
-            Path::TLV_Reset(tlvId, -1, 0, 1);
+            Path::TLV_Delete(tlvId);
         }
     }
 }

@@ -27,7 +27,7 @@ SecurityDoor::~SecurityDoor()
     {
         mState = SecurityDoorStates::eInactive_0;
     }
-    Path::TLV_Reset(mTlvId, mState + 1, 0, 0);
+    Path::TLV_Reset(mTlvId, mState + 1);
 }
 
 SecurityDoor::SecurityDoor(relive::Path_SecurityDoor* pTlv, const Guid& tlvId)

@@ -1994,11 +1994,11 @@ Glukkon::~Glukkon()
 {
     if (mHealth <= FP_FromInteger(0))
     {
-        Path::TLV_Reset(mTlvId, -1, 0, 1);
+        Path::TLV_Delete(mTlvId);
     }
     else
     {
-        Path::TLV_Reset(mTlvId, -1, 0, 0);
+        Path::TLV_Reset(mTlvId);
     }
 
     SetDrawable(true); // Seems wrong to do this here ??

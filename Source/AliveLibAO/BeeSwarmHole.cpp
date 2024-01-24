@@ -38,7 +38,7 @@ void BeeSwarmHole::VUpdate()
     if (gMap.Rect_Location_Relative_To_Active_Camera(&field_14_rect, 0) != CameraPos::eCamCurrent_0)
     {
         SetDead(true);
-        Path::TLV_Reset(mTlvId, -1, 0, 0);
+        Path::TLV_Reset(mTlvId);
     }
 
     if (static_cast<s32>(sGnFrame) < mStartIntervalTimer)

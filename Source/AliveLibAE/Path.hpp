@@ -245,7 +245,10 @@ public:
     Guid TLVInfo_From_TLVPtr(relive::Path_TLV* pTlv);
 
     static relive::Path_TLV* TLV_Next_Of_Type(relive::Path_TLV* pTlv, ReliveTypes type);
-    static void TLV_Reset(const Guid& tlvId, s16 hiFlags, s8 bSetCreated, s8 bSetDestroyed);
+    static void TLV_Reset(const Guid& tlvId, s16 hiFlags = -1);
+    static void TLV_Persist(const Guid& tlvId, s16 hiFlags = -1);
+    static void TLV_Delete(const Guid& tlvId, s16 hiFlags = -1);
+    static void Set_TLVData(const Guid& tlvId, s16 hiFlags, s8 bSetCreated, s8 bSetDestroyed);
     static void Start_Sounds_For_Objects_In_Camera(CameraPos direction, s16 cam_x_idx, s16 cam_y_idx);
 
     static void Reset_TLVs(u16 pathId);

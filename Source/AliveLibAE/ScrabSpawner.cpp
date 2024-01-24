@@ -49,7 +49,7 @@ void ScrabSpawner::CreateFromSaveState(SerializedObjectData& pBuffer)
 
 ScrabSpawner::~ScrabSpawner()
 {
-    Path::TLV_Reset(mTlvId, -1, 0, 0);
+    Path::TLV_Reset(mTlvId);
 }
 
 void ScrabSpawner::VGetSaveState(SerializedObjectData& pSaveBuffer)

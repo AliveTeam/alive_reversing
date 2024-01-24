@@ -83,5 +83,5 @@ void SligGetPantsAndWings::VScreenChanged()
 
 SligGetPantsAndWings::~SligGetPantsAndWings()
 {
-    Path::TLV_Reset(mTlvInfo, 0, 0, 0);
+    Path::TLV_Reset(mTlvInfo, 0);
 }
