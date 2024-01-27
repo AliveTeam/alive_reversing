@@ -19,11 +19,23 @@ public:
     virtual void VScreenChanged() override;
 
 private:
-    bool PlayerNearMe();
+    bool PlayerNearMe() const;
 
 private:
     Guid mTlvId;
-    s16 mState = 0; // TODO: state enum
+    enum class State : s16
+    {
+        eWaitUntilGlukkonNearby,
+        eSuccessFinish,
+        eSayHey,
+        eWaitForHeyInput,
+        eSayWhat,
+        eWaitForDoItInput,
+        eSuccess,
+        eListeningTimedOut,
+        eFail
+    };
+    State mState = State::eWaitUntilGlukkonNearby;
     s16 mOkSwitchId = 0;
     s16 mFailSwitchId = 0;
     s32 mLastEventIdx = 0;

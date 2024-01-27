@@ -471,9 +471,9 @@ public:
     s16 CantBeDamaged_44BAB0();
     void ChangeChantState(bool bLaughAtChantEnd);
     void ToKnockback_44E700(s16 bKnockbackSound, s16 bDelayedAnger);
-    void SetAsDead_459430();
+    void SetAsDead();
     void FleechDeath_459350();
-    void ExitShrykull_45A9D0(bool bResetRingTimer);
+    void ExitShrykull(bool bResetRingTimer);
 
     static void CreateFromSaveState(SerializedObjectData& pData);
     static void CreateFromSaveState(const AbeSaveState& pData);

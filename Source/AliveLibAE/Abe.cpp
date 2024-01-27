@@ -1293,7 +1293,7 @@ void Abe::VScreenChanged()
 
     if (gMap.LevelChanged() && !(GetRestoredFromQuickSave()))
     {
-        for (s8& val : sSavedKilledMudsPerZulag_5C1B50.mData)
+        for (s8& val : gSavedKilledMudsPerZulag.mData)
         {
             val = 0;
         }
@@ -5969,7 +5969,6 @@ void Abe::Motion_86_HandstoneBegin()
                     gScreenManager->EnableRendering();
 
                     FmvInfo* pFmvRec = Path_Get_FMV_Record(gMap.mCurrentLevel, mFmvId);
-                    sLevelId_dword_5CA408 = static_cast<u32>(MapWrapper::ToAE(gMap.mCurrentLevel));
 
                     relive_new Movie(pFmvRec->field_0_pName);
                     field_120_state.stone = StoneStates::eHandstoneMovieDone_2;
@@ -8893,12 +8892,12 @@ void Abe::ChangeChantState(bool bLaughAtChantEnd)
     }
 }
 
-void Abe::SetAsDead_459430()
+void Abe::SetAsDead()
 {
     field_120_state.raw = 1;
 }
 
-void Abe::ExitShrykull_45A9D0(bool bResetRingTimer)
+void Abe::ExitShrykull(bool bResetRingTimer)
 {
     GetAnimation().SetAnimate(true);
     GetAnimation().SetRender(true);

@@ -19,11 +19,11 @@ BackgroundGlukkon::~BackgroundGlukkon()
 {
     if (mHealth <= FP_FromInteger(0))
     {
-        Path::TLV_Delete(field_10C_tlvInfo);
+        Path::TLV_Delete(mTlvId);
     }
     else
     {
-        Path::TLV_Reset(field_10C_tlvInfo);
+        Path::TLV_Reset(mTlvId);
     }
 }
 
@@ -45,7 +45,7 @@ BackgroundGlukkon::BackgroundGlukkon(relive::Path_BackgroundGlukkon* pTlv, const
 
     Animation_Init(GetAnimRes(AnimId::Background_Glukkon_Idle));
 
-    field_10C_tlvInfo = tlvId;
+    mTlvId = tlvId;
 
     mXPos = FP_FromInteger(pTlv->mTopLeftX);
     mYPos = FP_FromInteger(pTlv->mTopLeftY);
@@ -77,7 +77,7 @@ BackgroundGlukkon::BackgroundGlukkon(relive::Path_BackgroundGlukkon* pTlv, const
     mLoadedPals.push_back(ResourceManagerWrapper::LoadPal(pal));
     GetAnimation().LoadPal(GetPalRes(pal));
 
-    field_110_state = BackgroundGlukkon::State::eToSetSpeakPauseTimer_0;
+    mState = BackgroundGlukkon::State::eToSetSpeakPauseTimer;
 }
 
 void BackgroundGlukkon::VScreenChanged()
@@ -108,7 +108,7 @@ bool BackgroundGlukkon::VTakeDamage(BaseGameObject* pFrom)
         }
 
         GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Background_Glukkon_Dying));
-        field_110_state = BackgroundGlukkon::State::eKilledByShrykull_7;
+        mState = BackgroundGlukkon::State::eKilledByShrykull;
     }
     else if (pFrom->Type() == ReliveTypes::eElectrocute && mHealth > FP_FromInteger(0))
     {
@@ -132,20 +132,20 @@ void BackgroundGlukkon::VUpdate()
         SetDead(true);
     }
 
-    switch (field_110_state)
+    switch (mState)
     {
-        case BackgroundGlukkon::State::eToSetSpeakPauseTimer_0:
-            field_110_state = BackgroundGlukkon::State::eSetSpeakPauseTimer_1;
-            field_118_never_read = MakeTimer(Math_RandomRange(20, 40));
+        case BackgroundGlukkon::State::eToSetSpeakPauseTimer:
+            mState = BackgroundGlukkon::State::eSetSpeakPauseTimer;
+            MakeTimer(Math_RandomRange(20, 40)); // TODO: remove and make a new recording
             break;
 
-        case BackgroundGlukkon::State::eSetSpeakPauseTimer_1:
-            field_110_state = BackgroundGlukkon::State::eRandomizedLaugh_2;
-            field_114_speak_pause_timer = MakeTimer(Math_RandomRange(12, 20));
+        case BackgroundGlukkon::State::eSetSpeakPauseTimer:
+            mState = BackgroundGlukkon::State::eRandomizedLaugh;
+            mSpeakPauseTimer = MakeTimer(Math_RandomRange(12, 20));
             break;
 
-        case BackgroundGlukkon::State::eRandomizedLaugh_2:
-            if (static_cast<s32>(sGnFrame) > field_114_speak_pause_timer)
+        case BackgroundGlukkon::State::eRandomizedLaugh:
+            if (static_cast<s32>(sGnFrame) > mSpeakPauseTimer)
             {
                 const auto rndVol = Math_RandomRange(110, 127);
                 const auto rndPitch = ((Math_NextRandom() % 4) * 128) + 200;
@@ -163,7 +163,7 @@ void BackgroundGlukkon::VUpdate()
                             GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Background_Glukkon_KillHim1));
                             SFX_Play_Pitch(relive::SoundEffects::GlukkonKillHim1, rndVol, rndPitch);
                         }
-                        field_110_state = BackgroundGlukkon::State::eAfterLaugh_SetSpeakPauseTimer_3;
+                        mState = BackgroundGlukkon::State::eAfterLaugh_SetSpeakPauseTimer;
                         break;
 
                     case 1:
@@ -177,7 +177,7 @@ void BackgroundGlukkon::VUpdate()
                             GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Background_Glukkon_KillHim2));
                             SFX_Play_Pitch(relive::SoundEffects::GlukkonKillHim2, rndVol, rndPitch);
                         }
-                        field_110_state = BackgroundGlukkon::State::eAfterLaugh_SetSpeakPauseTimer_3;
+                        mState = BackgroundGlukkon::State::eAfterLaugh_SetSpeakPauseTimer;
                         break;
 
                     case 2:
@@ -191,7 +191,7 @@ void BackgroundGlukkon::VUpdate()
                             GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Background_Glukkon_KillHim1));
                             SFX_Play_Pitch(relive::SoundEffects::Empty, rndVol, rndPitch);
                         }
-                        field_110_state = BackgroundGlukkon::State::eAfterLaugh_SetSpeakPauseTimer_3;
+                        mState = BackgroundGlukkon::State::eAfterLaugh_SetSpeakPauseTimer;
                         break;
 
                     case 3:
@@ -200,24 +200,24 @@ void BackgroundGlukkon::VUpdate()
                             GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Background_Glukkon_KillHim2));
                             SFX_Play_Pitch(relive::SoundEffects::Empty, rndVol, rndPitch);
                         }
-                        field_110_state = BackgroundGlukkon::State::eAfterLaugh_SetSpeakPauseTimer_3;
+                        mState = BackgroundGlukkon::State::eAfterLaugh_SetSpeakPauseTimer;
                         break;
 
                     case 4:
                         return;
 
                     default:
-                        field_110_state = BackgroundGlukkon::State::eAfterLaugh_SetSpeakPauseTimer_3;
+                        mState = BackgroundGlukkon::State::eAfterLaugh_SetSpeakPauseTimer;
                         break;
                 }
             }
             break;
 
-        case BackgroundGlukkon::State::eAfterLaugh_SetSpeakPauseTimer_3:
+        case BackgroundGlukkon::State::eAfterLaugh_SetSpeakPauseTimer:
             if (GetAnimation().GetIsLastFrame())
             {
                 GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Background_Glukkon_Idle));
-                field_110_state = BackgroundGlukkon::State::eSetSpeakPauseTimer_1;
+                mState = BackgroundGlukkon::State::eSetSpeakPauseTimer;
             }
             break;
 

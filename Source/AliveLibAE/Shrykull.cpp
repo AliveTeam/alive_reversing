@@ -243,7 +243,7 @@ void Shrykull::VUpdate()
         case State::eFinish_3:
             if (GetAnimation().GetForwardLoopCompleted())
             {
-                gAbe->ExitShrykull_45A9D0(mResetRingTimer);
+                gAbe->ExitShrykull(mResetRingTimer);
                 SetDead(true);
             }
             break;

@@ -300,7 +300,7 @@ void EvilFart::VUpdate()
             else
             {
                 GetAnimation().SetRender(false);
-                mFartExploded = 1;
+                mFartExploded = true;
                 mBackToAbeTimer = MakeTimer(35);
             }
         }
@@ -335,200 +335,201 @@ void EvilFart::VUpdate()
         }
     }
 
-    if (mState == FartStates::eIdle_0)
+    switch (mState)
     {
-        CalculateFartColour();
-        return;
-    }
+        case FartStates::eIdle_0:
+            CalculateFartColour();
+            return;
 
-    if (mState == FartStates::eFlying_1)
-    {
-        if (FP_GetExponent(mVelX) || FP_GetExponent(mVelY))
+        case FartStates::eFlying_1:
         {
-            if (!(sGnFrame % 3))
+            if (FP_GetExponent(mVelX) || FP_GetExponent(mVelY))
             {
-                FP velocityToUse = {};
-
-                FP directedVelY = mVelY;
-                if (directedVelY < FP_FromInteger(0))
+                if (!(sGnFrame % 3))
                 {
-                    directedVelY = -directedVelY;
-                }
+                    FP velocityToUse = {};
 
-                FP directedVelX = mVelX;
-                if (directedVelX < FP_FromInteger(0))
-                {
-                    directedVelX = -mVelX;
-                }
-
-                if (directedVelX <= directedVelY)
-                {
-                    if (mVelY >= FP_FromInteger(0))
+                    FP directedVelY = mVelY;
+                    if (directedVelY < FP_FromInteger(0))
                     {
-                        velocityToUse = mVelY;
+                        directedVelY = -directedVelY;
+                    }
+
+                    FP directedVelX = mVelX;
+                    if (directedVelX < FP_FromInteger(0))
+                    {
+                        directedVelX = -mVelX;
+                    }
+
+                    if (directedVelX <= directedVelY)
+                    {
+                        if (mVelY >= FP_FromInteger(0))
+                        {
+                            velocityToUse = mVelY;
+                        }
+                        else
+                        {
+                            velocityToUse = -mVelY;
+                        }
+                    }
+                    else if (mVelX >= FP_FromInteger(0))
+                    {
+                        velocityToUse = mVelX;
                     }
                     else
                     {
-                        velocityToUse = -mVelY;
+                        velocityToUse = -mVelX;
                     }
-                }
-                else if (mVelX >= FP_FromInteger(0))
-                {
-                    velocityToUse = mVelX;
-                }
-                else
-                {
-                    velocityToUse = -mVelX;
-                }
 
-                New_Smoke_Particles(
-                    mXPos * GetSpriteScale(),
-                    (mYPos - FP_FromInteger(55)) * GetSpriteScale(),
-                    FP_FromDouble(0.5) * GetSpriteScale(),
-                    3,
-                    RGB16{mRGB.r, mRGB.b, 32});
+                    New_Smoke_Particles(
+                        mXPos * GetSpriteScale(),
+                        (mYPos - FP_FromInteger(55)) * GetSpriteScale(),
+                        FP_FromDouble(0.5) * GetSpriteScale(),
+                        3,
+                        RGB16{mRGB.r, mRGB.b, 32});
 
 
+                    if (mSoundChannels)
+                    {
+                        SND_Stop_Channels_Mask(mSoundChannels);
+                    }
+
+                    Mudokon_SFX(MudSounds::eFart_7, 50, FP_GetExponent(velocityToUse * FP_FromInteger(250)) - 2000, nullptr);
+                    mSoundChannels = 0; // TODO OG BUG ?? v32;
+                }
+            }
+            else
+            {
                 if (mSoundChannels)
                 {
                     SND_Stop_Channels_Mask(mSoundChannels);
+                    mSoundChannels = 0;
                 }
-
-                Mudokon_SFX(MudSounds::eFart_7, 50, FP_GetExponent(velocityToUse * FP_FromInteger(250)) - 2000, nullptr);
-                mSoundChannels = 0; // TODO OG BUG ?? v32;
-            }
-        }
-        else
-        {
-            if (mSoundChannels)
-            {
-                SND_Stop_Channels_Mask(mSoundChannels);
-                mSoundChannels = 0;
-            }
-            if (!(sGnFrame % 30) && !Math_RandomRange(0, 1))
-            {
-                Mudokon_SFX(MudSounds::eFart_7, 50, Math_RandomRange(-1500, -2000), nullptr);
-            }
-        }
-
-        InputControlFart();
-        SetActiveCameraDelayedFromDir();
-
-        FP x2Offset = {};
-        if (mVelX < FP_FromInteger(0))
-        {
-            x2Offset = FP_FromInteger(-3);
-        }
-        else
-        {
-            FP_FromInteger(3);
-        }
-
-        FP y2Offset = {};
-        if (mVelY < FP_FromInteger(0))
-        {
-            y2Offset = FP_FromInteger(-3);
-        }
-        else
-        {
-            y2Offset = FP_FromInteger(3);
-        }
-
-        PathLine* pLine = nullptr;
-        FP hitX = {};
-        FP hitY = {};
-        if (gCollisions->Raycast(
-                mXPos,
-                mYPos - (GetSpriteScale() * FP_FromInteger(54)),
-                x2Offset + mXPos + mVelX,
-                y2Offset + mYPos + mVelY - (GetSpriteScale() * FP_FromInteger(54)),
-                &pLine,
-                &hitX,
-                &hitY,
-                GetScale() == Scale::Fg ? CollisionMask(eFlyingObjectWall_17, eWallRight_2, eWallLeft_1) : CollisionMask(eBackgroundFlyingObjectWall_18, eBackgroundWallRight_6, eBackgroundWallLeft_5)))
-        {
-            mVelX = FP_FromInteger(0);
-        }
-        else
-        {
-            mXPos += mVelX;
-        }
-
-        if (gCollisions->Raycast(
-                mXPos,
-                mYPos - (GetSpriteScale() * FP_FromInteger(54)),
-                mXPos + mVelX + x2Offset,
-                y2Offset + mYPos + mVelY - (GetSpriteScale() * FP_FromInteger(54)),
-                &pLine,
-                &hitX,
-                &hitY,
-                GetScale() == Scale::Fg ? CollisionMask(eFlyingObjectWall_17, eCeiling_3, eFloor_0, eDynamicCollision_32) : CollisionMask(eBackgroundFlyingObjectWall_18, eBackgroundCeiling_7, eBackgroundFloor_4, eBackgroundDynamicCollision_36)))
-        {
-            mVelY = FP_FromInteger(0);
-        }
-        else
-        {
-            mYPos += mVelY;
-        }
-
-        if (!Input_IsChanting())
-        {
-            mPossessed = false;
-        }
-
-        GetAnimation().SetSemiTrans(true);
-
-        GetAnimation().SetBlendMode(relive::TBlendModes::eBlend_1);
-        if (mVelX == FP_FromInteger(0) && mVelY == FP_FromInteger(0))
-        {
-            if (Input_IsChanting())
-            {
-                if (!mPossessed)
+                if (!(sGnFrame % 30) && !Math_RandomRange(0, 1))
                 {
-                    mState = FartStates::eDechanting_2;
-                    mUnpossessionTimer = MakeTimer(15);
-                    mBackToAbeTimer = MakeTimer(50);
-                    SfxPlayMono(relive::SoundEffects::PossessEffect, 0);
+                    Mudokon_SFX(MudSounds::eFart_7, 50, Math_RandomRange(-1500, -2000), nullptr);
                 }
             }
-        }
 
-        CalculateFartColour();
-        return;
-    }
+            InputControlFart();
+            SetActiveCameraDelayedFromDir();
 
-    if (mState == FartStates::eDechanting_2)
-    {
-        if (!Input_IsChanting())
-        {
-            mState = FartStates::eFlying_1;
+            FP x2Offset = {};
+            if (mVelX < FP_FromInteger(0))
+            {
+                x2Offset = FP_FromInteger(-3);
+            }
+            else
+            {
+                FP_FromInteger(3);
+            }
+
+            FP y2Offset = {};
+            if (mVelY < FP_FromInteger(0))
+            {
+                y2Offset = FP_FromInteger(-3);
+            }
+            else
+            {
+                y2Offset = FP_FromInteger(3);
+            }
+
+            PathLine* pLine = nullptr;
+            FP hitX = {};
+            FP hitY = {};
+            if (gCollisions->Raycast(
+                    mXPos,
+                    mYPos - (GetSpriteScale() * FP_FromInteger(54)),
+                    x2Offset + mXPos + mVelX,
+                    y2Offset + mYPos + mVelY - (GetSpriteScale() * FP_FromInteger(54)),
+                    &pLine,
+                    &hitX,
+                    &hitY,
+                    GetScale() == Scale::Fg ? CollisionMask(eFlyingObjectWall_17, eWallRight_2, eWallLeft_1) : CollisionMask(eBackgroundFlyingObjectWall_18, eBackgroundWallRight_6, eBackgroundWallLeft_5)))
+            {
+                mVelX = FP_FromInteger(0);
+            }
+            else
+            {
+                mXPos += mVelX;
+            }
+
+            if (gCollisions->Raycast(
+                    mXPos,
+                    mYPos - (GetSpriteScale() * FP_FromInteger(54)),
+                    mXPos + mVelX + x2Offset,
+                    y2Offset + mYPos + mVelY - (GetSpriteScale() * FP_FromInteger(54)),
+                    &pLine,
+                    &hitX,
+                    &hitY,
+                    GetScale() == Scale::Fg ? CollisionMask(eFlyingObjectWall_17, eCeiling_3, eFloor_0, eDynamicCollision_32) : CollisionMask(eBackgroundFlyingObjectWall_18, eBackgroundCeiling_7, eBackgroundFloor_4, eBackgroundDynamicCollision_36)))
+            {
+                mVelY = FP_FromInteger(0);
+            }
+            else
+            {
+                mYPos += mVelY;
+            }
+
+            if (!Input_IsChanting())
+            {
+                mPossessed = false;
+            }
+
+            GetAnimation().SetSemiTrans(true);
+
+            GetAnimation().SetBlendMode(relive::TBlendModes::eBlend_1);
+            if (mVelX == FP_FromInteger(0) && mVelY == FP_FromInteger(0))
+            {
+                if (Input_IsChanting())
+                {
+                    if (!mPossessed)
+                    {
+                        mState = FartStates::eDechanting_2;
+                        mUnpossessionTimer = MakeTimer(15);
+                        mBackToAbeTimer = MakeTimer(50);
+                        SfxPlayMono(relive::SoundEffects::PossessEffect, 0);
+                    }
+                }
+            }
+
+            CalculateFartColour();
             return;
         }
-
-        if (!(sGnFrame % 4))
-        {
-            if (mFartExploded)
+        case FartStates::eDechanting_2:
+            if (!Input_IsChanting())
             {
+                mState = FartStates::eFlying_1;
                 return;
             }
 
-            const FP yposOffset = (GetSpriteScale() * FP_FromInteger(Math_RandomRange(-20, 10)));
-            const FP xposOffset = (GetSpriteScale() * FP_FromInteger(Math_RandomRange(-20, 20)));
-            New_TintChant_Particle(
-                xposOffset + mXPos,
-                yposOffset + mYPos - (GetSpriteScale() * FP_FromInteger(54)),
-                GetSpriteScale(),
-                Layer::eLayer_0);
-        }
+            if (!(sGnFrame % 4))
+            {
+                if (mFartExploded)
+                {
+                    return;
+                }
 
-        if (!mFartExploded && static_cast<s32>(sGnFrame) > mUnpossessionTimer)
-        {
-            BlowUp();
+                const FP yposOffset = (GetSpriteScale() * FP_FromInteger(Math_RandomRange(-20, 10)));
+                const FP xposOffset = (GetSpriteScale() * FP_FromInteger(Math_RandomRange(-20, 20)));
+                New_TintChant_Particle(
+                    xposOffset + mXPos,
+                    yposOffset + mYPos - (GetSpriteScale() * FP_FromInteger(54)),
+                    GetSpriteScale(),
+                    Layer::eLayer_0);
+            }
 
-            GetAnimation().SetRender(false);
-            mFartExploded = 1;
-        }
-        return;
+            if (!mFartExploded && static_cast<s32>(sGnFrame) > mUnpossessionTimer)
+            {
+                BlowUp();
+
+                GetAnimation().SetRender(false);
+                mFartExploded = true;
+            }
+            return;
+
+        default:
+            return;
     }
 }
 

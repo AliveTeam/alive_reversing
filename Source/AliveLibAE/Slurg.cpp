@@ -36,7 +36,7 @@ void Slurg::Clear_Slurg_Step_Watch_Points()
     }
 }
 
-TintEntry sSlurgTints_560BCC[16] = {
+static const TintEntry sSlurgTints[16] = {
     {EReliveLevelIds::eMenu, 102u, 127u, 118u},
     {EReliveLevelIds::eMines, 102u, 127u, 118u},
     {EReliveLevelIds::eNecrum, 102u, 127u, 118u},
@@ -88,7 +88,7 @@ Slurg::Slurg(relive::Path_Slurg* pTlv, const Guid& tlvId)
     mMovingTimer = pTlv->mMovingTimer;
     mRngForMovingTimer = pTlv->mMovingTimer;
 
-    SetTint(&sSlurgTints_560BCC[0], gMap.mCurrentLevel);
+    SetTint(&sSlurgTints[0], gMap.mCurrentLevel);
 
     FP hitX = {};
     FP hitY = {};

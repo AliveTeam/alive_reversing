@@ -76,14 +76,14 @@ GlukkonSwitch::GlukkonSwitch(relive::Path_GlukkonSwitch* pTlv, const Guid& tlvId
 
     if (pTlv->mTlvSpecificMeaning)
     {
-        mState = pTlv->mTlvSpecificMeaning - 1;
+        mState = static_cast<State>(pTlv->mTlvSpecificMeaning - 1);
     }
     else
     {
-        mState = 0;
+        mState = State::eWaitUntilGlukkonNearby;
     }
 
-    if (mState != 1)
+    if (mState != State::eSuccessFinish)
     {
         mTimer = MakeTimer(10);
     }
@@ -99,7 +99,7 @@ void GlukkonSwitch::VScreenChanged()
     SetDead(true);
 }
 
-bool GlukkonSwitch::PlayerNearMe()
+bool GlukkonSwitch::PlayerNearMe() const
 {
     const s16 playerXPos = FP_GetExponent(sControlledCharacter->mXPos);
     const s16 playerYPos = FP_GetExponent(sControlledCharacter->mYPos);
@@ -140,7 +140,7 @@ void GlukkonSwitch::VUpdate()
 
     switch (mState)
     {
-        case 0:
+        case State::eWaitUntilGlukkonNearby:
             if (static_cast<s32>(sGnFrame) <= mTimer)
             {
                 return;
@@ -149,7 +149,7 @@ void GlukkonSwitch::VUpdate()
             if (PlayerNearMe())
             {
                 GetAnimation().SetRender(true);
-                mState = 2;
+                mState = State::eSayHey;
             }
             else
             {
@@ -157,29 +157,29 @@ void GlukkonSwitch::VUpdate()
             }
             return;
 
-        case 1:
+        case State::eSuccessFinish:
             if (static_cast<s32>(sGnFrame) == mTimer)
             {
                 SND_SEQ_Play(SeqId::SaveTriggerMusic_31, 1, 127, 127);
             }
             else if (static_cast<s32>(sGnFrame) > mTimer && !PlayerNearMe())
             {
-                mState = 0;
+                mState = State::eWaitUntilGlukkonNearby;
             }
             return;
 
-        case 2:
+        case State::eSayHey:
         {
             Glukkon::PlaySound_GameSpeak(GlukkonSpeak::Hey_0, 127, -200, 0);
             GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Security_Door_Speak));
-            mState = 3;
+            mState = State::eWaitForHeyInput;
             mTimer = MakeTimer(150);
             return;
         }
-        case 3:
+        case State::eWaitForHeyInput:
             if (!PlayerNearMe())
             {
-                mState = 0;
+                mState = State::eWaitUntilGlukkonNearby;
                 mTimer = sGnFrame - 1;
                 return;
             }
@@ -188,33 +188,33 @@ void GlukkonSwitch::VUpdate()
             {
                 if (static_cast<s32>(sGnFrame) > mTimer)
                 {
-                    mState = 0;
+                    mState = State::eWaitUntilGlukkonNearby;
                 }
             }
             else
             {
                 if (lastEventIdx2 == GameSpeakEvents::eGlukkon_Hey)
                 {
-                    mState = 4;
+                    mState = State::eSayWhat;
                     mTimer = MakeTimer(30);
                 }
                 else
                 {
                     if (lastEventIdx2 < GameSpeakEvents::eGlukkon_Hey)
                     {
-                        mState = 8;
+                        mState = State::eFail;
                         mTimer = MakeTimer(30);
                     }
 
                     if (static_cast<s32>(sGnFrame) > mTimer)
                     {
-                        mState = 0;
+                        mState = State::eWaitUntilGlukkonNearby;
                     }
                 }
             }
             return;
 
-        case 4:
+        case State::eSayWhat:
         {
             if (static_cast<s32>(sGnFrame) <= mTimer)
             {
@@ -222,45 +222,45 @@ void GlukkonSwitch::VUpdate()
             }
             Glukkon::PlaySound_GameSpeak(GlukkonSpeak::What_11, 127, -200, 0);
             GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Security_Door_Speak));
-            mState = 5;
+            mState = State::eWaitForDoItInput;
             mTimer = MakeTimer(60);
             return;
         }
-        case 5:
+        case State::eWaitForDoItInput:
             if (PlayerNearMe())
             {
                 if (lastEventIdx2 == GameSpeakEvents::eNone || lastEventIdx2 == GameSpeakEvents::eSameAsLast)
                 {
                     if (static_cast<s32>(sGnFrame) > mTimer)
                     {
-                        mState = 7;
+                        mState = State::eListeningTimedOut;
                         mTimer = MakeTimer(15);
                     }
                 }
                 else if (lastEventIdx2 == GameSpeakEvents::eGlukkon_DoIt)
                 {
-                    mState = 6;
+                    mState = State::eSuccess;
                     mTimer = MakeTimer(30);
                 }
                 else if (lastEventIdx2 < GameSpeakEvents::eGlukkon_Hey)
                 {
-                    mState = 8;
+                    mState = State::eFail;
                     mTimer = MakeTimer(30);
                 }
                 else
                 {
-                    mState = 7;
+                    mState = State::eListeningTimedOut;
                     mTimer = MakeTimer(15);
                 }
             }
             else
             {
-                mState = 0;
+                mState = State::eWaitUntilGlukkonNearby;
                 mTimer = sGnFrame - 1;
             }
             return;
 
-        case 6:
+        case State::eSuccess:
         {
             if (static_cast<s32>(sGnFrame) != mTimer)
             {
@@ -270,11 +270,11 @@ void GlukkonSwitch::VUpdate()
             Glukkon::PlaySound_GameSpeak(GlukkonSpeak::Laugh_7, 127, -200, 0);
             GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Security_Door_Speak));
             SwitchStates_Do_Operation(mOkSwitchId, relive::reliveSwitchOp::eToggle);
-            mState = 1;
+            mState = State::eSuccessFinish;
             mTimer = MakeTimer(15);
             return;
         }
-        case 7:
+        case State::eListeningTimedOut:
         {
             if (static_cast<s32>(sGnFrame) != mTimer)
             {
@@ -282,11 +282,11 @@ void GlukkonSwitch::VUpdate()
             }
             Glukkon::PlaySound_GameSpeak(GlukkonSpeak::Heh_5, 127, -200, 0);
             GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Security_Door_Speak));
-            mState = 0;
+            mState = State::eWaitUntilGlukkonNearby;
             mTimer = MakeTimer(90);
             return;
         }
-        case 8:
+        case State::eFail:
         {
             if (static_cast<s32>(sGnFrame) != mTimer)
             {
@@ -295,7 +295,7 @@ void GlukkonSwitch::VUpdate()
             Glukkon::PlaySound_GameSpeak(GlukkonSpeak::Heh_5, 127, -200, 0);
             GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Security_Door_Speak));
             SwitchStates_Do_Operation(mFailSwitchId, relive::reliveSwitchOp::eSetTrue);
-            mState = 0;
+            mState = State::eWaitUntilGlukkonNearby;
             mTimer = MakeTimer(90);
             return;
         }

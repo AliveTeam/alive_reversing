@@ -1067,7 +1067,7 @@ void Fleech::Motion_18_Consume()
     }
     else if (GetAnimation().GetCurrentFrame() == 15 && mFoodObjId == gAbe->mBaseGameObjectId)
     {
-        gAbe->SetAsDead_459430();
+        gAbe->SetAsDead();
 
         Sound(FleechSound::Burp_1);
 
@@ -1122,7 +1122,7 @@ Fleech::~Fleech()
         {
             if (mFoodObjId == gAbe->mBaseGameObjectId)
             {
-                gAbe->SetAsDead_459430();
+                gAbe->SetAsDead();
             }
         }
     }

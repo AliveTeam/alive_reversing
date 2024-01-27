@@ -38,7 +38,6 @@ static TDDCheatMenu sDDCheat_FnTable[DDCHEAT_MENU_COUNT] = {
 };
 
 static s16 sDDCheat_MovieSelectIdx = 0;
-extern u32 sLevelId_dword_5CA408;
 
 struct DDCheatProperties final
 {
@@ -149,7 +148,6 @@ void DDCheat::Menu_Movies()
     if (mInputPressed & InputCommands::eUp)
     {
         FmvInfo* movieToPlayInfo = Path_Get_FMV_Record(gMap.mCurrentLevel, sDDCheat_MovieSelectIdx);
-        sLevelId_dword_5CA408 = static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel));
         relive_new Movie(movieToPlayInfo->field_0_pName);
     }
 

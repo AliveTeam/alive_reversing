@@ -503,11 +503,11 @@ void QuikSave::RestoreWorldInfo(const Quicksave_WorldInfo& rInfo)
     // Read all fields bar the last
     for (s32 i = 0; i < ALIVE_COUNTOF(rInfo.field_18_saved_killed_muds_per_zulag); i++)
     {
-        sSavedKilledMudsPerZulag_5C1B50.mData[i] = rInfo.field_18_saved_killed_muds_per_zulag[i];
+        gSavedKilledMudsPerZulag.mData[i] = rInfo.field_18_saved_killed_muds_per_zulag[i];
     }
 
     // Last is read from another field
-    sSavedKilledMudsPerZulag_5C1B50.mData[ALIVE_COUNTOF(sSavedKilledMudsPerZulag_5C1B50.mData) - 1] = rInfo.field_17_last_saved_killed_muds_per_path;
+    gSavedKilledMudsPerZulag.mData[ALIVE_COUNTOF(gSavedKilledMudsPerZulag.mData) - 1] = rInfo.field_17_last_saved_killed_muds_per_path;
 
     gAbe->SetRestoredFromQuickSave(true);
     gZulagNumber = rInfo.field_2C_current_zulag_number;
@@ -535,10 +535,10 @@ void QuikSave::SaveWorldInfo(Quicksave_WorldInfo* pInfo)
 
     for (s32 i = 0; i < ALIVE_COUNTOF(pInfo->field_18_saved_killed_muds_per_zulag); i++)
     {
-        pInfo->field_18_saved_killed_muds_per_zulag[i] = sSavedKilledMudsPerZulag_5C1B50.mData[i];
+        pInfo->field_18_saved_killed_muds_per_zulag[i] = gSavedKilledMudsPerZulag.mData[i];
     }
 
-    pInfo->field_17_last_saved_killed_muds_per_path = sSavedKilledMudsPerZulag_5C1B50.mData[ALIVE_COUNTOF(sSavedKilledMudsPerZulag_5C1B50.mData) - 1];
+    pInfo->field_17_last_saved_killed_muds_per_path = gSavedKilledMudsPerZulag.mData[ALIVE_COUNTOF(gSavedKilledMudsPerZulag.mData) - 1];
 
     pInfo->field_2C_current_zulag_number = gZulagNumber;
     pInfo->mRescuedMudokons = gRescuedMudokons;

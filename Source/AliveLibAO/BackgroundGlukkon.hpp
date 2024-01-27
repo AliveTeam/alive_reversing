@@ -21,20 +21,17 @@ public:
     virtual bool VTakeDamage(BaseGameObject* pFrom) override;
     virtual void VUpdate() override;
 
-    Guid field_10C_tlvInfo;
-    enum class State : s16
+    Guid mTlvId;
+    enum class State
     {
-        eToSetSpeakPauseTimer_0 = 0,
-        eSetSpeakPauseTimer_1 = 1,
-        eRandomizedLaugh_2 = 2,
-        eAfterLaugh_SetSpeakPauseTimer_3 = 3,
-        eKilledByShrykull_7 = 7
+        eToSetSpeakPauseTimer,
+        eSetSpeakPauseTimer,
+        eRandomizedLaugh,
+        eAfterLaugh_SetSpeakPauseTimer,
+        eKilledByShrykull
     };
-    State field_110_state = State::eToSetSpeakPauseTimer_0;
-    s32 field_114_speak_pause_timer = 0;
-    s32 field_118_never_read = 0;
-    s32 field_11C_voice_adjust = 0;
-    s16 field_120_target_id = 0;
+    State mState = State::eToSetSpeakPauseTimer;
+    s32 mSpeakPauseTimer = 0;
 };
 
 } // namespace AO

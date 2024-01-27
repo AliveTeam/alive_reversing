@@ -35,7 +35,7 @@ LCDStatusBoard::LCDStatusBoard(relive::Path_LCDStatusBoard* pTlv, const Guid& tl
     gMudokonsInArea = pTlv->mNumberOfMuds;
     mHideBoard = static_cast<s16>(pTlv->mHideBoard);
     gZulagNumber = static_cast<s8>(pTlv->mZulagNumber);
-    if (gZulagNumber > ALIVE_COUNTOF(sSavedKilledMudsPerZulag_5C1B50.mData))
+    if (gZulagNumber > ALIVE_COUNTOF(gSavedKilledMudsPerZulag.mData))
     {
         ALIVE_FATAL("sZulagNumber_5C1A20 out of bounds %d max is 20. Don't set your zulag number to > 20", gZulagNumber);
     }
@@ -87,7 +87,7 @@ void LCDStatusBoard::VRender(OrderingTable& ot)
             FP_FromDouble(1.0),
             mXPos + maxWidth,
             flickerAmount);
-        const s16 mudsLeftInArea = gMudokonsInArea - sSavedKilledMudsPerZulag_5C1B50.mData[gZulagNumber];
+        const s16 mudsLeftInArea = gMudokonsInArea - gSavedKilledMudsPerZulag.mData[gZulagNumber];
         mMudsLeftInArea = mudsLeftInArea;
 
         // Muds in this Area

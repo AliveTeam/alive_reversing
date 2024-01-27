@@ -42,7 +42,7 @@ bool gEnableCheatFMV = false;
 s16 sDemoIdChosenFromDemoMenu_5C1B9E = 0;
 
 s16 sMenuItemCount_561538 = 0;
-PerPathMudStats sSavedKilledMudsPerZulag_5C1B50 = {};
+PerPathMudStats gSavedKilledMudsPerZulag = {};
 
 union DemoOrFmv
 {
@@ -518,14 +518,14 @@ MainMenuController::MainMenuController(relive::Path_TLV* /*pTlv*/, const Guid& t
     field_25C_Inside_FMV_Screen = 0;
     field_25E_Inside_CheatLevelSelect_Screen = 0;
 
-    sSavedKilledMudsPerZulag_5C1B50 = {};
+    gSavedKilledMudsPerZulag = {};
 
     gEnableCheatFMV = false;
     gEnableCheatLevelSelect = false;
     gKilledMudokons = 0;
     gRescuedMudokons = 0;
     gAttract = 0;
-    sSavedKilledMudsPerZulag_5C1B50.mData[ALIVE_COUNTOF(sSavedKilledMudsPerZulag_5C1B50.mData) - 1] = 0;
+    gSavedKilledMudsPerZulag.mData[ALIVE_COUNTOF(gSavedKilledMudsPerZulag.mData) - 1] = 0;
     gFeeco_Restart_KilledMudCount = 0;
     gFeecoRestart_SavedMudCount = 0;
 
@@ -1282,8 +1282,6 @@ void MainMenuController::t_Load_AbeSpeak_Res_4D4A20()
     field_25E_Inside_CheatLevelSelect_Screen = 0;
 }
 
-s32 dword_55C128 = 0;
-
 MainMenuNextCam MainMenuController::Page_FMV_Level_Update_4D4AB0(u32 input_held)
 {
     gEnableCheatFMV = false;
@@ -1381,9 +1379,6 @@ MainMenuNextCam MainMenuController::Page_FMV_Level_Update_4D4AB0(u32 input_held)
         if (pMenuFMV->field_A_fmv_id >= 0)
         {
             FmvInfo* pFmvRecord = Path_Get_FMV_Record(pMenuFMV->field_4_level_id, pMenuFMV->field_A_fmv_id);
-            sLevelId_dword_5CA408 = static_cast<u32>(MapWrapper::ToAE(pMenuFMV->field_4_level_id));
-
-            dword_55C128 = -1;
 
             auto pMovie = relive_new Movie(pFmvRecord->field_0_pName);
 
@@ -1604,9 +1599,6 @@ void MainMenuController::Page_Front_Render_4D24B0(OrderingTable& ot)
     RenderOnScreenTextHelper(ot, &sMMT_FrontPage_5623A0[0], ALIVE_COUNTOF(sMMT_FrontPage_5623A0), 1);
 }
 
-s16 word_BB43DC = 0;
-s32 sGameStartedFrame_5C1B88 = 0;
-
 MainMenuNextCam MainMenuController::LoadNewGame_Update_4D0920(u32 /*input*/)
 {
     // TODO: De-dupe the big parts of duplicated code in here
@@ -1769,8 +1761,6 @@ MainMenuNextCam MainMenuController::BackStory_Or_NewGame_Update_4D1C60(u32 input
                 }
             }
 
-            sLevelId_dword_5CA408 = 0;
-
             auto pMovie = relive_new Movie(pFmvRecord->field_0_pName);
 
             while (gMovieRefCount)
@@ -1794,13 +1784,11 @@ MainMenuNextCam MainMenuController::BackStory_Or_NewGame_Update_4D1C60(u32 input
         else if (field_1FC_button_index == 1) // Start game
         {
             sCurrentControllerIndex = 0;
-            sGameStartedFrame_5C1B88 = sGnFrame;
             return MainMenuNextCam(MainMenuCams::eGameIsLoading_ShaddapCam, NO_SELECTABLE_BUTTONS);
         }
     }
     else if (input_held & InputCommands::eBack) // Escape/back
     {
-        word_BB43DC = 1;
         mCheatLevelSelectLoading = false;
         return MainMenuNextCam(MainMenuCams::eMainMenuCam);
     }
@@ -1812,7 +1800,6 @@ void MainMenuController::BackStory_Or_NewGame_Load_4D1BA0()
 {
    // ResourceManager::FreeResource_49C330(field_F4_resources.field_0_resources[MenuResIds::eAbeIntro]);
 //    field_F4_resources.field_0_resources[MenuResIds::eAbeIntro] = nullptr;
-    word_BB43DC = 0;
 }
 
 void MainMenuController::BackStory_Or_NewGame_Unload_4D1BE0()
@@ -1875,7 +1862,6 @@ MainMenuNextCam MainMenuController::LoadDemo_Update_4D1040(u32)
         {
             demoId = 0;
         }
-        const s32 levelId = static_cast<s32>(sDemos_5617F0[demoId].field_4_level);
         char_type lvFilename[256] = {};
         strcpy(lvFilename, "ATTRACT");
         memset(&lvFilename[8], 0, 0xF8u);
@@ -1884,11 +1870,6 @@ MainMenuNextCam MainMenuController::LoadDemo_Update_4D1040(u32)
 
         while (!MainMenuController::checkIfDemoFileExists_4D1430(lvFilenameNoPrefix) && !MainMenuController::checkIfDemoFileExists_4D1430(lvFilename))
         {
-            sLevelId_dword_5CA408 = levelId;
-            if (gIsDemoStartedManually)
-            {
-                dword_55C128 = -1;
-            }
             if (!Display_Full_Screen_Message_Blocking(MessageType::eSkipDemo_2))
             {
                 field_1F8_page_timeout = 0;
@@ -2259,7 +2240,6 @@ MainMenuNextCam MainMenuController::PSX_Gamemode_Selection_Update_4D48C0(u32 inp
 {
     if (input & InputCommands::eUnPause_OrConfirm)
     {
-        sGameStartedFrame_5C1B88 = sGnFrame;
         sCurrentControllerIndex = 0;
         const bool twoPlayerModeSelected = field_1FC_button_index == 1;
 
@@ -2909,8 +2889,6 @@ void MainMenuController::Load_Anim_Pal_4D06A0(Animation* pAnim)
     pAnim->ReloadPal();
 }
 
-u32 sLevelId_dword_5CA408 = 0;
-
 s32 MainMenuController::ChangeScreenAndIntroLogic_4CF640()
 {
     if (field_21E_changeScreenState == 0 || mGameSpeakPlaying || field_228_res_idx != 0)
@@ -2977,8 +2955,6 @@ s32 MainMenuController::ChangeScreenAndIntroLogic_4CF640()
                     }
                 }
 
-                sLevelId_dword_5CA408 = 0;
-
                 auto pMovie = relive_new Movie("GTILOGO.DDV");
 
                 // Run the movie till its done
@@ -3002,7 +2978,6 @@ s32 MainMenuController::ChangeScreenAndIntroLogic_4CF640()
                 }
 
                 // Create movie object for the DD logo
-                sLevelId_dword_5CA408 = 0;
                 pMovie = relive_new Movie("DDLOGO.DDV");
 
                 // Run the movie till its done

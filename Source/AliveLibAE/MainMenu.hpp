@@ -468,6 +468,4 @@ extern s32 sMainMenuObjectCounter_BB4400;
 
 extern bool gEnableCheatLevelSelect;
 extern bool gEnableCheatFMV;
-extern PerPathMudStats sSavedKilledMudsPerZulag_5C1B50;
-extern u32 sLevelId_dword_5CA408;
-extern s32 sGameStartedFrame_5C1B88;
+extern PerPathMudStats gSavedKilledMudsPerZulag;
