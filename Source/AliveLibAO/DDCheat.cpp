@@ -155,12 +155,12 @@ void DDCheat::VUpdate()
                             }
                             case ReliveTypes::eAbe:
                             {
-                                sControlledCharacter->mCurrentMotion = eAbeMotions::Motion_3_Fall;
+                                static_cast<Abe*>(sControlledCharacter)->mCurrentMotion = eAbeMotions::Motion_3_Fall;
                                 break;
                             }
                             case ReliveTypes::eSlig:
                             {
-                                sControlledCharacter->mCurrentMotion = eSligMotions::Motion_7_Falling;
+                                static_cast<Slig*>(sControlledCharacter)->mCurrentMotion = eSligMotions::Motion_7_Falling;
                                 break;
                             }
                             default:

@@ -41,7 +41,7 @@ using TFlyingSligBrainFn = void (FlyingSlig::*)(void);
     ENTRY(Motion_25_TurnToHorizontalMovement)
 
 #define MAKE_ENUM(VAR) VAR,
-enum class eFlyingSligMotions : s32
+enum class eFlyingSligMotions
 {
     None_m1 = -1,
     FLYING_SLIG_MOTIONS_ENUM(MAKE_ENUM)

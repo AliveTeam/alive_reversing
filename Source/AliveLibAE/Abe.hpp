@@ -3,7 +3,7 @@
 #include "BaseAliveGameObject.hpp"
 #include "MudokonEnums.hpp"
 #include "../relive_lib/SaveStateBase.hpp"
-
+#include "../relive_lib/FatalError.hpp"
 
 enum class eAbeMotions
 {
@@ -465,6 +465,20 @@ public:
     virtual BirdPortal* VIntoBirdPortal(s16 gridBlocks) override;
     virtual void VOnTrapDoorOpen() override;
     virtual bool VTakeDamage(BaseGameObject* pFrom) override;
+    virtual s16 VGetMotion(eMotionType motionType) override
+    {
+        switch (motionType)
+        {
+            case eMotionType::ePreviousMotion:
+                return static_cast<s16>(mPreviousMotion);
+            case eMotionType::eCurrentMotion:
+                return static_cast<s16>(mCurrentMotion);
+            case eMotionType::eNextMotion:
+                return static_cast<s16>(mNextMotion);
+            default:
+                ALIVE_FATAL("Invalid motion type %d", static_cast<s32>(motionType));
+        }
+    }
 
     s16 CantBeDamaged_44BAB0();
     void ChangeChantState(bool bLaughAtChantEnd);

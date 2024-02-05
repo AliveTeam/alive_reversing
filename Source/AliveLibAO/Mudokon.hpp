@@ -2,6 +2,7 @@
 
 #include "BaseAliveGameObject.hpp"
 #include "../relive_lib/data_conversion/relive_tlvs.hpp"
+#include "../relive_lib/FatalError.hpp"
 
 namespace AO {
 
@@ -71,8 +72,9 @@ namespace AO {
     ENTRY(Motion_62_PoisonGasDeath)
 
 #define MAKE_ENUM(VAR) VAR,
-enum class eMudMotions : s32
+enum class eMudMotions
 {
+    None_m1 = -1,
     MUD_STATES_ENUM(MAKE_ENUM)
 };
 
@@ -286,6 +288,22 @@ public:
     s16 Brain_13_FallAndSmackDeath();
     s16 Brain_14_Chant();
     s16 Brain_15_Choke();
+
+    // TODO: remove these later
+    void SetPreviousMotion(eMudMotions motion)
+    {
+        mPreviousMotion = motion;
+    }
+
+    void SetCurrentMotion(eMudMotions motion)
+    {
+        mCurrentMotion = motion;
+    }
+
+    void SetNextMotion(eMudMotions motion)
+    {
+        mNextMotion = motion;
+    }
 
     Guid mTlvId;
     s16 field_110_lift_switch_id = 0;

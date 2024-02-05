@@ -443,6 +443,10 @@ public:
     s16 mAbePath = 0;
     s16 mAbeCamera = 0;
     s16 mBrainSubState = 0;
+    eSligMotions mPreviousMotion = eSligMotions::Motion_0_StandIdle;
+    eSligMotions mCurrentMotion = eSligMotions::Motion_0_StandIdle;
+    eSligMotions mNextMotion = eSligMotions::Motion_0_StandIdle;
+    bool mbMotionChanged = false;
 
 private:
     Guid field_118_tlvInfo;
@@ -480,10 +484,6 @@ private:
     s16 field_290_points_count = 0;
     s16 mPreventDepossession = 0;
     eSligMotions field_294_next_gamespeak_motion = eSligMotions::Motion_0_StandIdle;
-    eSligMotions mPreviousMotion = eSligMotions::Motion_0_StandIdle;
-    eSligMotions mCurrentMotion = eSligMotions::Motion_0_StandIdle;
-    eSligMotions mNextMotion = eSligMotions::Motion_0_StandIdle;
-    bool mbMotionChanged = false;
 };
 
 void Animation_OnFrame_Slig(BaseGameObject* pObj, u32&, const IndexedPoint& point);

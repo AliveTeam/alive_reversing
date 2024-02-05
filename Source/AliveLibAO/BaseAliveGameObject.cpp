@@ -33,11 +33,7 @@ BaseAliveGameObject::BaseAliveGameObject()
     mHealth = FP_FromInteger(1);
     BaseAliveGameObject_PlatformId = Guid{};
     mbGotShot = false;
-    mbMotionChanged = false;
     SetCanBeesChase(false);
-    mCurrentMotion = 0;
-    mNextMotion = 0;
-    mPreviousMotion = 0;
     mBaseAliveGameObjectLastAnimFrame = 0;
     BaseAliveGameObjectLastLineYPos = FP_FromInteger(0);
 

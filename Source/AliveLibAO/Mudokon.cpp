@@ -141,7 +141,7 @@ Mudokon::Mudokon(relive::Path_TLV* pTlv, const Guid& tlvId)
 {
     field_128 = -1;
     field_13E = -1;
-    SetNextMotion(-1);
+    mNextMotion = eMudMotions::None_m1;
     field_13C = 0;
     field_1C0_timer = 0;
     field_1B8_brain_state = 0;
@@ -395,7 +395,7 @@ Mudokon::~Mudokon()
         gAbe->field_16C_bHaveShrykull = false;
     }
 
-    if (GetCurrentMotion() == eMudMotions::Motion_52_Chant || GetCurrentMotion() == eMudMotions::Motion_59_CrouchChant)
+    if (mCurrentMotion == eMudMotions::Motion_52_Chant || mCurrentMotion == eMudMotions::Motion_59_CrouchChant)
     {
         SND_SEQ_Stop(SeqId::eMudokonChant_12);
     }
@@ -424,7 +424,7 @@ void Mudokon::VUpdate()
         field_1C4_bDoPathTrans = false;
     }
 
-    const auto old_motion = GetCurrentMotion();
+    const auto old_motion = mCurrentMotion;
     const auto old_brain = field_1B8_brain_state;
     const auto old_brain_sub_state = field_1BA_brain_sub_state;
     field_1BA_brain_sub_state = InvokeMemberFunction(this, gMudBrains_4CD430, field_1B8_brain_state);
@@ -454,7 +454,7 @@ void Mudokon::VUpdate()
         VOnTlvCollision(BaseAliveGameObjectPathTLV);
     }
 
-    if (old_motion != GetCurrentMotion() || mbMotionChanged)
+    if (old_motion != mCurrentMotion || mbMotionChanged)
     {
         mbMotionChanged = false;
         VUpdateResBlock();
@@ -491,7 +491,7 @@ void Mudokon::LoadAnimations()
 
 void Mudokon::VUpdateResBlock()
 {
-    GetAnimation().Set_Animation_Data(GetAnimRes(sMudMotionAnimIds[mCurrentMotion]));
+    GetAnimation().Set_Animation_Data(GetAnimRes(sMudMotionAnimIds[static_cast<u32>(mCurrentMotion)]));
 }
 
 void Mudokon::VScreenChanged()
@@ -651,7 +651,7 @@ bool Mudokon::VTakeDamage(BaseGameObject* pFrom)
                     field_1B8_brain_state = 11;
                     field_1C0_timer = MakeTimer(90);
                     SetCurrentMotion(eMudMotions::Motion_46_FallLandDie);
-                    SetNextMotion(-1);
+                    mNextMotion = eMudMotions::None_m1;
                     VUpdateResBlock();
                 }
             }
@@ -663,7 +663,7 @@ bool Mudokon::VTakeDamage(BaseGameObject* pFrom)
                 Mudokon_SFX(Math_RandomRange(0, 127) >= 64 ? MudSounds::eBeesStruggle_18 : MudSounds::eKnockbackOuch_10, 127, 2 * Math_NextRandom() - 256, 0);
                 mHealth -= FP_FromDouble(0.06);
                 SetCurrentMotion(eMudMotions::Motion_46_FallLandDie);
-                SetNextMotion(-1);
+                mNextMotion = eMudMotions::None_m1;
                 field_1C0_timer = MakeTimer(30);
                 VUpdateResBlock();
                 field_1B8_brain_state = 9;
@@ -691,7 +691,7 @@ bool Mudokon::DoSmashDamage()
         mHealth = FP_FromInteger(0);
         field_1B8_brain_state = 11;
         SetCurrentMotion(eMudMotions::Motion_46_FallLandDie);
-        SetNextMotion(-1);
+        mNextMotion = eMudMotions::None_m1;
         VUpdateResBlock();
         Mudokon_SFX(MudSounds::eKnockbackOuch_10, 0, Math_RandomRange(-127, 127), this);
         return true;
@@ -1122,8 +1122,8 @@ void Mudokon::VOnTrapDoorOpen()
         }
         else
         {
-            const auto motion = static_cast<s16>(eMudMotions::Motion_49_WalkOffEdge);
-            VSetMotion(motion);
+            mCurrentMotion = eMudMotions::Motion_49_WalkOffEdge;
+            mbMotionChanged = true;
         }
 
         pPlatform->VRemove(this);
@@ -1158,7 +1158,7 @@ void Mudokon::Motion_0_Idle()
 
     BaseAliveGameObjectLastLineYPos = mYPos;
 
-    switch (GetNextMotion())
+    switch (mNextMotion)
     {
         case eMudMotions::Motion_1_WalkLoop:
             if (GetAnimation().GetFlipX())
@@ -1170,7 +1170,7 @@ void Mudokon::Motion_0_Idle()
                 mVelX = (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(9));
             }
             SetCurrentMotion(eMudMotions::Motion_7_WalkBegin);
-            SetNextMotion(-1);
+            mNextMotion = eMudMotions::None_m1;
             break;
 
         case eMudMotions::Motion_35_SneakLoop:
@@ -1183,7 +1183,7 @@ void Mudokon::Motion_0_Idle()
                 mVelX = (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(10));
             }
             SetCurrentMotion(eMudMotions::Motion_40_SneakBegin);
-            SetNextMotion(-1);
+            mNextMotion = eMudMotions::None_m1;
             break;
 
         case eMudMotions::Motion_29_RunLoop:
@@ -1196,35 +1196,35 @@ void Mudokon::Motion_0_Idle()
                 mVelX = ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(4);
             }
             SetCurrentMotion(eMudMotions::Motion_45_StandToRun);
-            SetNextMotion(-1);
+            mNextMotion = eMudMotions::None_m1;
             break;
 
         case eMudMotions::Motion_52_Chant:
             SND_SEQ_PlaySeq(SeqId::eMudokonChant_12, 0, 1);
             SetCurrentMotion(eMudMotions::Motion_52_Chant);
-            SetNextMotion(-1);
+            mNextMotion = eMudMotions::None_m1;
             break;
 
         case eMudMotions::Motion_23_CrouchIdle:
             SetCurrentMotion(eMudMotions::Motion_25_StandToCrouch);
-            SetNextMotion(-1);
+            mNextMotion = eMudMotions::None_m1;
             break;
 
         case eMudMotions::Motion_59_CrouchChant:
             SetCurrentMotion(eMudMotions::Motion_58_StruggleToCrouchChant);
-            SetNextMotion(-1);
+            mNextMotion = eMudMotions::None_m1;
             break;
 
         case eMudMotions::Motion_16_StandScrubLoop:
             SetCurrentMotion(eMudMotions::Motion_20_IdleToStandScrub);
-            SetNextMotion(-1);
+            mNextMotion = eMudMotions::None_m1;
             break;
 
         default:
-            if (mNextMotion != -1)
+            if (mNextMotion != eMudMotions::None_m1)
             {
                 SetCurrentMotion(mNextMotion);
-                SetNextMotion(-1);
+                mNextMotion = eMudMotions::None_m1;
             }
             break;
     }
@@ -1244,15 +1244,15 @@ void Mudokon::Motion_1_WalkLoop()
     else
     {
         MoveOnLine();
-        if (GetCurrentMotion() == eMudMotions::Motion_1_WalkLoop)
+        if (mCurrentMotion == eMudMotions::Motion_1_WalkLoop)
         {
             switch (GetAnimation().GetCurrentFrame())
             {
                 case 2:
-                    if (GetNextMotion() == eMudMotions::Motion_0_Idle)
+                    if (mNextMotion == eMudMotions::Motion_0_Idle)
                     {
                         SetCurrentMotion(eMudMotions::Motion_9_MidWalkToIdle);
-                        SetNextMotion(-1);
+                        mNextMotion = eMudMotions::None_m1;
                     }
                     break;
 
@@ -1264,23 +1264,23 @@ void Mudokon::Motion_1_WalkLoop()
                         MapFollowMe(mSnapToGrid);
                     }
 
-                    if (GetNextMotion() == eMudMotions::Motion_29_RunLoop)
+                    if (mNextMotion == eMudMotions::Motion_29_RunLoop)
                     {
                         SetCurrentMotion(eMudMotions::Motion_28_MidWalkToRun);
-                        SetNextMotion(-1);
+                        mNextMotion = eMudMotions::None_m1;
                     }
-                    else if (GetNextMotion() == eMudMotions::Motion_35_SneakLoop)
+                    else if (mNextMotion == eMudMotions::Motion_35_SneakLoop)
                     {
                         SetCurrentMotion(eMudMotions::Motion_36_MidWalkToSneak);
-                        SetNextMotion(-1);
+                        mNextMotion = eMudMotions::None_m1;
                     }
                     break;
 
                 case 11:
-                    if (GetNextMotion() == eMudMotions::Motion_0_Idle)
+                    if (mNextMotion == eMudMotions::Motion_0_Idle)
                     {
                         SetCurrentMotion(eMudMotions::Motion_8_WalkToIdle);
-                        SetNextMotion(-1);
+                        mNextMotion = eMudMotions::None_m1;
                     }
                     break;
 
@@ -1292,15 +1292,15 @@ void Mudokon::Motion_1_WalkLoop()
                         MapFollowMe(mSnapToGrid);
                     }
 
-                    if (GetNextMotion() == eMudMotions::Motion_29_RunLoop)
+                    if (mNextMotion == eMudMotions::Motion_29_RunLoop)
                     {
                         SetCurrentMotion(eMudMotions::Motion_27_WalkToRun);
-                        SetNextMotion(-1);
+                        mNextMotion = eMudMotions::None_m1;
                     }
-                    else if (GetNextMotion() == eMudMotions::Motion_35_SneakLoop)
+                    else if (mNextMotion == eMudMotions::Motion_35_SneakLoop)
                     {
                         SetCurrentMotion(eMudMotions::Motion_38_WalkToSneak);
-                        SetNextMotion(-1);
+                        mNextMotion = eMudMotions::None_m1;
                     }
                     break;
 
@@ -1491,11 +1491,11 @@ void Mudokon::Motion_16_StandScrubLoop()
         }
     }
 
-    if (mNextMotion != -1)
+    if (mNextMotion != eMudMotions::None_m1)
     {
         if (GetAnimation().GetIsLastFrame())
         {
-            if (GetNextMotion() != eMudMotions::Motion_0_Idle)
+            if (mNextMotion != eMudMotions::Motion_0_Idle)
             {
                 SetCurrentMotion(mNextMotion);
             }
@@ -1503,7 +1503,7 @@ void Mudokon::Motion_16_StandScrubLoop()
             {
                 SetCurrentMotion(eMudMotions::Motion_21_StandScrubToIdle);
             }
-            SetNextMotion(-1);
+            mNextMotion = eMudMotions::None_m1;
         }
     }
 }
@@ -1526,12 +1526,12 @@ void Mudokon::Motion_18_StandScrubPauseToLoop()
 
 void Mudokon::Motion_19_StandScrubPause()
 {
-    if (mNextMotion != -1)
+    if (mNextMotion != eMudMotions::None_m1)
     {
         if (GetAnimation().GetIsLastFrame())
         {
             SetCurrentMotion(eMudMotions::Motion_18_StandScrubPauseToLoop);
-            SetNextMotion(-1);
+            mNextMotion = eMudMotions::None_m1;
         }
     }
 }
@@ -1581,20 +1581,20 @@ void Mudokon::Motion_23_CrouchIdle()
 {
     CheckFloorGone();
 
-    if (GetNextMotion() == eMudMotions::Motion_55_Duck)
+    if (mNextMotion == eMudMotions::Motion_55_Duck)
     {
         SetCurrentMotion(eMudMotions::Motion_54_ToDuck);
-        SetNextMotion(-1);
+        mNextMotion = eMudMotions::None_m1;
     }
-    else if (GetNextMotion() == eMudMotions::Motion_0_Idle)
+    else if (mNextMotion == eMudMotions::Motion_0_Idle)
     {
         SetCurrentMotion(eMudMotions::Motion_26_CrouchToStand);
-        SetNextMotion(-1);
+        mNextMotion = eMudMotions::None_m1;
     }
-    else if (mNextMotion != -1)
+    else if (mNextMotion != eMudMotions::None_m1)
     {
         SetCurrentMotion(mNextMotion);
-        SetNextMotion(-1);
+        mNextMotion = eMudMotions::None_m1;
     }
 }
 
@@ -1702,7 +1702,7 @@ void Mudokon::Motion_29_RunLoop()
 
     MoveOnLine();
 
-    if (GetCurrentMotion() == eMudMotions::Motion_29_RunLoop)
+    if (mCurrentMotion == eMudMotions::Motion_29_RunLoop)
     {
         if (GetAnimation().GetCurrentFrame() == 0 || GetAnimation().GetCurrentFrame() == 8)
         {
@@ -1712,10 +1712,10 @@ void Mudokon::Motion_29_RunLoop()
                 MapFollowMe(mSnapToGrid);
             }
 
-            if (GetNextMotion() == eMudMotions::Motion_44_RunJumpMid)
+            if (mNextMotion == eMudMotions::Motion_44_RunJumpMid)
             {
                 SetCurrentMotion(eMudMotions::Motion_43_RunJumpBegin);
-                SetNextMotion(-1);
+                mNextMotion = eMudMotions::None_m1;
             }
         }
         else if (GetAnimation().GetCurrentFrame() == 4 || GetAnimation().GetCurrentFrame() == 12)
@@ -1727,13 +1727,13 @@ void Mudokon::Motion_29_RunLoop()
                 MapFollowMe(mSnapToGrid);
             }
 
-            switch (GetNextMotion())
+            switch (mNextMotion)
             {
                 case eMudMotions::Motion_1_WalkLoop:
                     if (GetAnimation().GetCurrentFrame() == 4)
                     {
                         SetCurrentMotion(eMudMotions::Motion_30_RunToWalk);
-                        SetNextMotion(-1);
+                        mNextMotion = eMudMotions::None_m1;
                     }
                     return;
 
@@ -1750,19 +1750,19 @@ void Mudokon::Motion_29_RunLoop()
 
                 case eMudMotions::Motion_0_Idle:
                     SetCurrentMotion(eMudMotions::Motion_32_RunSlideStop);
-                    SetNextMotion(-1);
+                    mNextMotion = eMudMotions::None_m1;
                     Environment_SFX(EnvironmentSfx::eRunSlide_4, 0, 0x7FFF, this);
                     return;
 
                 case eMudMotions::Motion_33_RunSlideTurn:
                     SetCurrentMotion(eMudMotions::Motion_33_RunSlideTurn);
-                    SetNextMotion(-1);
+                    mNextMotion = eMudMotions::None_m1;
                     Environment_SFX(EnvironmentSfx::eRunSlide_4, 0, 0x7FFF, this);
                     return;
 
                 case eMudMotions::Motion_44_RunJumpMid:
                     SetCurrentMotion(eMudMotions::Motion_43_RunJumpBegin);
-                    SetNextMotion(-1);
+                    mNextMotion = eMudMotions::None_m1;
                     return;
             }
         }
@@ -1846,7 +1846,7 @@ void Mudokon::Motion_32_RunSlideStop()
     {
         ReduceXVelocityBy(FP_FromDouble(0.375));
 
-        if (GetCurrentMotion() == eMudMotions::Motion_32_RunSlideStop)
+        if (mCurrentMotion == eMudMotions::Motion_32_RunSlideStop)
         {
             if (GetAnimation().GetIsLastFrame())
             {
@@ -1871,7 +1871,7 @@ void Mudokon::Motion_33_RunSlideTurn()
     {
         ReduceXVelocityBy(FP_FromDouble(0.375));
 
-        if (GetCurrentMotion() == eMudMotions::Motion_33_RunSlideTurn)
+        if (mCurrentMotion == eMudMotions::Motion_33_RunSlideTurn)
         {
             if (GetAnimation().GetIsLastFrame())
             {
@@ -1921,15 +1921,15 @@ void Mudokon::Motion_35_SneakLoop()
     else
     {
         MoveOnLine();
-        if (GetCurrentMotion() == eMudMotions::Motion_35_SneakLoop)
+        if (mCurrentMotion == eMudMotions::Motion_35_SneakLoop)
         {
             switch (GetAnimation().GetCurrentFrame())
             {
                 case 3:
-                    if (!mNextMotion)
+                    if (mNextMotion == eMudMotions::Motion_0_Idle)
                     {
                         SetCurrentMotion(eMudMotions::Motion_41_SneakToIdle);
-                        SetNextMotion(-1);
+                        mNextMotion = eMudMotions::None_m1;
                     }
                     break;
 
@@ -1937,18 +1937,18 @@ void Mudokon::Motion_35_SneakLoop()
                     Environment_SFX(EnvironmentSfx::eSneakFootstep_3, 0, 0x7FFF, this);
                     MapFollowMe(mSnapToGrid);
 
-                    if (GetNextMotion() == eMudMotions::Motion_1_WalkLoop || GetNextMotion() == eMudMotions::Motion_29_RunLoop)
+                    if (mNextMotion == eMudMotions::Motion_1_WalkLoop || mNextMotion == eMudMotions::Motion_29_RunLoop)
                     {
                         SetCurrentMotion(eMudMotions::Motion_37_SneakToWalk);
-                        SetNextMotion(-1);
+                        mNextMotion = eMudMotions::None_m1;
                     }
                     break;
 
                 case 13:
-                    if (!mNextMotion)
+                    if (mNextMotion == eMudMotions::Motion_0_Idle)
                     {
                         SetCurrentMotion(eMudMotions::Motion_42_MidSneakToIdle);
-                        SetNextMotion(-1);
+                        mNextMotion = eMudMotions::None_m1;
                     }
                     break;
 
@@ -1956,10 +1956,10 @@ void Mudokon::Motion_35_SneakLoop()
                     Environment_SFX(EnvironmentSfx::eSneakFootstep_3, 0, 0x7FFF, this);
                     MapFollowMe(mSnapToGrid);
 
-                    if (GetNextMotion() == eMudMotions::Motion_1_WalkLoop || GetNextMotion() == eMudMotions::Motion_29_RunLoop)
+                    if (mNextMotion == eMudMotions::Motion_1_WalkLoop || mNextMotion == eMudMotions::Motion_29_RunLoop)
                     {
                         SetCurrentMotion(eMudMotions::Motion_39_MidSneakToWalk);
-                        SetNextMotion(-1);
+                        mNextMotion = eMudMotions::None_m1;
                     }
                     break;
             }
@@ -2230,10 +2230,10 @@ void Mudokon::Motion_46_FallLandDie()
 
     CheckFloorGone();
 
-    if (mNextMotion != -1)
+    if (mNextMotion != eMudMotions::None_m1)
     {
         SetCurrentMotion(mNextMotion);
-        SetNextMotion(-1);
+        mNextMotion = eMudMotions::None_m1;
     }
 }
 
@@ -2254,7 +2254,7 @@ void Mudokon::Motion_47_Knockback()
     {
         Motion_51_Fall();
 
-        if (GetCurrentMotion() == eMudMotions::Motion_46_FallLandDie || GetCurrentMotion() == eMudMotions::Motion_50_LandSoft)
+        if (mCurrentMotion == eMudMotions::Motion_46_FallLandDie || mCurrentMotion == eMudMotions::Motion_50_LandSoft)
         {
             SetCurrentMotion(eMudMotions::Motion_47_Knockback);
         }
@@ -2297,7 +2297,7 @@ void Mudokon::Motion_50_LandSoft()
 
     if (GetAnimation().GetCurrentFrame() == 2)
     {
-        if (GetPreviousMotion() == eMudMotions::Motion_51_Fall)
+        if (mPreviousMotion == eMudMotions::Motion_51_Fall)
         {
             Environment_SFX(EnvironmentSfx::eLandingSoft_5, 0, 0x7FFF, this);
         }
@@ -2416,13 +2416,13 @@ void Mudokon::Motion_52_Chant()
         SND_SEQ_Play(SeqId::eMudokonChant_12, 1, 50, 50);
     }
 
-    if (GetNextMotion() == eMudMotions::Motion_0_Idle)
+    if (mNextMotion == eMudMotions::Motion_0_Idle)
     {
         if (GetAnimation().GetIsLastFrame())
         {
             SND_SEQ_Stop(SeqId::eMudokonChant_12);
             SetCurrentMotion(eMudMotions::Motion_53_ChantEnd);
-            SetNextMotion(-1);
+            mNextMotion = eMudMotions::None_m1;
         }
     }
 }
@@ -2447,9 +2447,9 @@ void Mudokon::Motion_55_Duck()
 {
     if (GetAnimation().GetIsLastFrame())
     {
-        if (GetNextMotion() == eMudMotions::Motion_23_CrouchIdle)
+        if (mNextMotion == eMudMotions::Motion_23_CrouchIdle)
         {
-            SetNextMotion(-1);
+            mNextMotion = eMudMotions::None_m1;
             SetCurrentMotion(eMudMotions::Motion_56_DuckToCrouch);
         }
     }
@@ -2467,7 +2467,7 @@ void Mudokon::Motion_57_Struggle()
 {
     if (GetAnimation().GetIsLastFrame())
     {
-        if (GetNextMotion() == eMudMotions::Motion_0_Idle)
+        if (mNextMotion == eMudMotions::Motion_0_Idle)
         {
             SetCurrentMotion(eMudMotions::Motion_0_Idle);
         }
@@ -2486,9 +2486,9 @@ void Mudokon::Motion_59_CrouchChant()
 {
     if (GetAnimation().GetIsLastFrame())
     {
-        if (mNextMotion != -1)
+        if (mNextMotion != eMudMotions::None_m1)
         {
-            SetNextMotion(-1);
+            mNextMotion = eMudMotions::None_m1;
             SetCurrentMotion(eMudMotions::Motion_60_CrouchChantToStruggle);
         }
     }
@@ -2538,7 +2538,7 @@ void Mudokon::Motion_61_DuckKnockback()
     if (GetAnimation().GetIsLastFrame())
     {
         SetCurrentMotion(eMudMotions::Motion_55_Duck);
-        SetNextMotion(-1);
+        mNextMotion = eMudMotions::None_m1;
     }
 }
 
@@ -2550,7 +2550,7 @@ void Mudokon::Motion_62_PoisonGasDeath()
         mHealth = FP_FromInteger(0);
         field_1B8_brain_state = 11;
         field_1C0_timer = MakeTimer(90);
-        SetNextMotion(-1);
+        mNextMotion = eMudMotions::None_m1;
     }
 }
 
@@ -2596,7 +2596,7 @@ s16 Mudokon::Brain_1_ComingOut()
 {
     if (field_1BA_brain_sub_state == 0)
     {
-        if (GetCurrentMotion() == eMudMotions::Motion_0_Idle)
+        if (mCurrentMotion == eMudMotions::Motion_0_Idle)
         {
             SetCurrentMotion(eMudMotions::Motion_2_StandingTurn);
             SetNextMotion(eMudMotions::Motion_1_WalkLoop);
@@ -2605,7 +2605,7 @@ s16 Mudokon::Brain_1_ComingOut()
     }
     else if (field_1BA_brain_sub_state == 1)
     {
-        if (GetCurrentMotion() == eMudMotions::Motion_1_WalkLoop)
+        if (mCurrentMotion == eMudMotions::Motion_1_WalkLoop)
         {
             mBit2_Unknown = false;
             field_190 = field_18C_how_far_to_walk;
@@ -2877,19 +2877,19 @@ s16 Mudokon::Brain_3_SingSequenceSing()
                 if (field_1A0)
                 {
                     Mudokon_SFX(MudSounds::eOkay_13, 0, 300, this);
-                    SetNextMotion(3);
+                    mNextMotion = eMudMotions::Motion_3_Speak;
                 }
                 else
                 {
                     Mudokon_SFX(MudSounds::eRefuse_14, 0, 300, this);
-                    SetNextMotion(6);
+                    mNextMotion = eMudMotions::Motion_6_Speak;
                 }
                 return 6;
             }
             break;
 
         case 6:
-            if (GetCurrentMotion() == eMudMotions::Motion_0_Idle)
+            if (mCurrentMotion == eMudMotions::Motion_0_Idle)
             {
                 if (field_1A0)
                 {
@@ -3035,7 +3035,7 @@ s16 Mudokon::Brain_4_SingSequencePassword()
             break;
 
         case 5:
-            if (GetCurrentMotion() == eMudMotions::Motion_0_Idle)
+            if (mCurrentMotion == eMudMotions::Motion_0_Idle)
             {
                 if (field_1A0)
                 {
@@ -3067,7 +3067,7 @@ s16 Mudokon::Brain_5_LiftUse()
 {
     if (field_1BA_brain_sub_state)
     {
-        if (field_1BA_brain_sub_state == 1 && !mCurrentMotion)
+        if (field_1BA_brain_sub_state == 1 && mCurrentMotion == eMudMotions::Motion_0_Idle)
         {
             if (field_184)
             {
@@ -3080,7 +3080,7 @@ s16 Mudokon::Brain_5_LiftUse()
             }
         }
     }
-    else if (GetCurrentMotion() == eMudMotions::Motion_0_Idle)
+    else if (mCurrentMotion == eMudMotions::Motion_0_Idle)
     {
         SetCurrentMotion(eMudMotions::Motion_13_LiftGrabBegin);
         SetNextMotion(eMudMotions::Motion_12_LiftUse);
@@ -3111,7 +3111,7 @@ s16 Mudokon::Brain_5_LiftUse()
 
 s16 Mudokon::Brain_6_LeverUse()
 {
-    if (field_1BA_brain_sub_state || mCurrentMotion)
+    if (field_1BA_brain_sub_state || mCurrentMotion != eMudMotions::Motion_0_Idle)
     {
         return field_1BA_brain_sub_state;
     }
@@ -3240,7 +3240,7 @@ s16 Mudokon::Brain_8_StandScrub()
     {
         case 0:
             SetCurrentMotion(eMudMotions::Motion_16_StandScrubLoop);
-            SetNextMotion(-1);
+            mNextMotion = eMudMotions::None_m1;
             field_1C0_timer = (Math_NextRandom() % 64) + MakeTimer(35);
             return 1;
 
@@ -3254,12 +3254,12 @@ s16 Mudokon::Brain_8_StandScrub()
             }
 
             if (static_cast<s32>(sGnFrame) > field_1C0_timer
-                && GetCurrentMotion() == eMudMotions::Motion_16_StandScrubLoop)
+                && mCurrentMotion == eMudMotions::Motion_16_StandScrubLoop)
             {
                 SetNextMotion(eMudMotions::Motion_17_StandScrubLoopToPause);
             }
 
-            if (GetCurrentMotion() == eMudMotions::Motion_19_StandScrubPause)
+            if (mCurrentMotion == eMudMotions::Motion_19_StandScrubPause)
             {
                 field_1C0_timer = (Math_NextRandom() % 64) + MakeTimer(35);
                 return 2;
@@ -3284,9 +3284,9 @@ s16 Mudokon::Brain_8_StandScrub()
             return field_1BA_brain_sub_state;
 
         case 3:
-            if (static_cast<s32>(sGnFrame) <= field_1C0_timer || GetCurrentMotion() != eMudMotions::Motion_0_Idle)
+            if (static_cast<s32>(sGnFrame) <= field_1C0_timer || mCurrentMotion != eMudMotions::Motion_0_Idle)
             {
-                if (mNextMotion != -1 || GetCurrentMotion() != eMudMotions::Motion_16_StandScrubLoop)
+                if (mNextMotion != eMudMotions::None_m1 || mCurrentMotion != eMudMotions::Motion_16_StandScrubLoop)
                 {
                     return field_1BA_brain_sub_state;
                 }
@@ -3297,7 +3297,7 @@ s16 Mudokon::Brain_8_StandScrub()
             return 0;
 
         case 4:
-            switch (GetCurrentMotion())
+            switch (mCurrentMotion)
             {
                 case eMudMotions::Motion_0_Idle:
                     SetNextMotion(eMudMotions::Motion_23_CrouchIdle);
@@ -3327,18 +3327,18 @@ s16 Mudokon::Brain_8_StandScrub()
             return field_1BA_brain_sub_state;
 
         case 6:
-            if (GetCurrentMotion() == eMudMotions::Motion_0_Idle)
+            if (mCurrentMotion == eMudMotions::Motion_0_Idle)
             {
                 SetNextMotion(eMudMotions::Motion_16_StandScrubLoop);
             }
             else
             {
-                if (GetCurrentMotion() == eMudMotions::Motion_16_StandScrubLoop)
+                if (mCurrentMotion == eMudMotions::Motion_16_StandScrubLoop)
                 {
                     return 0;
                 }
 
-                if (GetCurrentMotion() == eMudMotions::Motion_23_CrouchIdle)
+                if (mCurrentMotion == eMudMotions::Motion_23_CrouchIdle)
                 {
                     SetNextMotion(eMudMotions::Motion_0_Idle);
                 }
@@ -3371,7 +3371,7 @@ s16 Mudokon::Brain_9_CrouchScrub()
     {
         case 0:
             SetCurrentMotion(eMudMotions::Motion_22_CrouchScrub);
-            SetNextMotion(-1);
+            mNextMotion = eMudMotions::None_m1;
             field_1C0_timer = (Math_NextRandom() % 64) + 15;
             field_114 = (Math_NextRandom() % 64) + 240;
             return 2;
@@ -3384,19 +3384,19 @@ s16 Mudokon::Brain_9_CrouchScrub()
                 return 3;
             }
 
-            if (GetCurrentMotion() == eMudMotions::Motion_23_CrouchIdle && static_cast<s32>(sGnFrame) > field_114)
+            if (mCurrentMotion == eMudMotions::Motion_23_CrouchIdle && static_cast<s32>(sGnFrame) > field_114)
             {
                 SetNextMotion(eMudMotions::Motion_24_CrouchTurn);
                 field_114 = (Math_NextRandom() % 64) + MakeTimer(240);
             }
 
-            if (GetCurrentMotion() == eMudMotions::Motion_23_CrouchIdle && static_cast<s32>(sGnFrame) > field_1C0_timer)
+            if (mCurrentMotion == eMudMotions::Motion_23_CrouchIdle && static_cast<s32>(sGnFrame) > field_1C0_timer)
             {
                 SetNextMotion(eMudMotions::Motion_22_CrouchScrub);
                 field_1C0_timer = (Math_NextRandom() % 64) + MakeTimer(35);
             }
 
-            if (GetCurrentMotion() != eMudMotions::Motion_22_CrouchScrub)
+            if (mCurrentMotion != eMudMotions::Motion_22_CrouchScrub)
             {
                 return field_1BA_brain_sub_state;
             }
@@ -3405,7 +3405,7 @@ s16 Mudokon::Brain_9_CrouchScrub()
         case 2:
             if (last_speak != GameSpeakEvents::eAbe_Hello || sAlertedMudCount_507B90 || !IAmNearestToAbe())
             {
-                if (GetCurrentMotion() == eMudMotions::Motion_23_CrouchIdle)
+                if (mCurrentMotion == eMudMotions::Motion_23_CrouchIdle)
                 {
                     if (static_cast<s32>(sGnFrame) > field_1C0_timer)
                     {
@@ -3436,12 +3436,12 @@ s16 Mudokon::Brain_9_CrouchScrub()
         case 3:
             if (static_cast<s32>(sGnFrame) > field_1C0_timer)
             {
-                if (GetCurrentMotion() == eMudMotions::Motion_23_CrouchIdle)
+                if (mCurrentMotion == eMudMotions::Motion_23_CrouchIdle)
                 {
                     SetNextMotion(eMudMotions::Motion_26_CrouchToStand);
                 }
 
-                if (GetCurrentMotion() == eMudMotions::Motion_0_Idle)
+                if (mCurrentMotion == eMudMotions::Motion_0_Idle)
                 {
                     field_1BA_brain_sub_state = 0;
                     field_1B8_brain_state = 10;
@@ -3513,13 +3513,13 @@ s16 Mudokon::Brain_10_ListeningToAbe()
     {
         case 0:
             mPersist = true;
-            SetNextMotion(-1);
+            mNextMotion = eMudMotions::None_m1;
             SetCurrentMotion(eMudMotions::Motion_0_Idle);
             field_1B0 = -1;
             return 1;
 
         case 1:
-            if (GetCurrentMotion() != eMudMotions::Motion_0_Idle)
+            if (mCurrentMotion != eMudMotions::Motion_0_Idle)
             {
                 return field_1BA_brain_sub_state;
             }
@@ -3534,13 +3534,13 @@ s16 Mudokon::Brain_10_ListeningToAbe()
             return 6;
 
         case 2:
-            if (GetCurrentMotion() == eMudMotions::Motion_0_Idle)
+            if (mCurrentMotion == eMudMotions::Motion_0_Idle)
             {
                 SetNextMotion(eMudMotions::Motion_1_WalkLoop);
                 return field_1BA_brain_sub_state;
             }
 
-            if (GetCurrentMotion() == eMudMotions::Motion_1_WalkLoop)
+            if (mCurrentMotion == eMudMotions::Motion_1_WalkLoop)
             {
                 SetNextMotion(eMudMotions::Motion_0_Idle);
                 return 3;
@@ -3561,7 +3561,7 @@ s16 Mudokon::Brain_10_ListeningToAbe()
             const s16 bHitWall = WallHit(GetSpriteScale() * FP_FromInteger(50), gridSizeDirected);
             const s16 bEndOfLine = Check_IsOnEndOfLine(GetAnimation().GetFlipX(), 1);
 
-            if (GetCurrentMotion() != eMudMotions::Motion_0_Idle)
+            if (mCurrentMotion != eMudMotions::Motion_0_Idle)
             {
                 const s16 oldState = field_1BA_brain_sub_state;
                 SetNextMotion(eMudMotions::Motion_0_Idle);
@@ -3700,12 +3700,12 @@ s16 Mudokon::Brain_10_ListeningToAbe()
 
         case 4:
         {
-            if (GetCurrentMotion() == eMudMotions::Motion_0_Idle)
+            if (mCurrentMotion == eMudMotions::Motion_0_Idle)
             {
                 return 3;
             }
 
-            if (GetCurrentMotion() != eMudMotions::Motion_1_WalkLoop && GetCurrentMotion() != eMudMotions::Motion_35_SneakLoop)
+            if (mCurrentMotion != eMudMotions::Motion_1_WalkLoop && mCurrentMotion != eMudMotions::Motion_35_SneakLoop)
             {
                 return field_1BA_brain_sub_state;
             }
@@ -3773,12 +3773,12 @@ s16 Mudokon::Brain_10_ListeningToAbe()
             }
 
             if (gAbe->mCurrentMotion == eAbeMotions::Motion_42_SneakLoop
-                && GetCurrentMotion() == eMudMotions::Motion_1_WalkLoop)
+                && mCurrentMotion == eMudMotions::Motion_1_WalkLoop)
             {
                 SetNextMotion(eMudMotions::Motion_35_SneakLoop);
             }
 
-            if (gAbe->mCurrentMotion == eAbeMotions::Motion_1_WalkLoop && GetCurrentMotion() == eMudMotions::Motion_35_SneakLoop)
+            if (gAbe->mCurrentMotion == eAbeMotions::Motion_1_WalkLoop && mCurrentMotion == eMudMotions::Motion_35_SneakLoop)
             {
                 SetNextMotion(eMudMotions::Motion_1_WalkLoop);
             }
@@ -3788,13 +3788,13 @@ s16 Mudokon::Brain_10_ListeningToAbe()
 
         case 5:
         {
-            if (GetCurrentMotion() == eMudMotions::Motion_0_Idle)
+            if (mCurrentMotion == eMudMotions::Motion_0_Idle)
             {
                 return 3;
             }
 
             SetNextMotion(eMudMotions::Motion_29_RunLoop);
-            if (GetCurrentMotion() != eMudMotions::Motion_29_RunLoop)
+            if (mCurrentMotion != eMudMotions::Motion_29_RunLoop)
             {
                 return field_1BA_brain_sub_state;
             }
@@ -3857,7 +3857,7 @@ s16 Mudokon::Brain_10_ListeningToAbe()
         }
 
         case 6:
-            if (GetCurrentMotion() != eMudMotions::Motion_0_Idle)
+            if (mCurrentMotion != eMudMotions::Motion_0_Idle)
             {
                 field_1B4_idle_time = 0;
                 return field_1BA_brain_sub_state;
@@ -3947,14 +3947,14 @@ s16 Mudokon::Brain_10_ListeningToAbe()
             return 19;
 
         case 7:
-            if (GetCurrentMotion() == eMudMotions::Motion_29_RunLoop)
+            if (mCurrentMotion == eMudMotions::Motion_29_RunLoop)
             {
                 return 5;
             }
             return field_1BA_brain_sub_state;
 
         case 8:
-            if (GetCurrentMotion() == eMudMotions::Motion_0_Idle)
+            if (mCurrentMotion == eMudMotions::Motion_0_Idle)
             {
                 field_1C0_timer = MakeTimer(20);
                 field_1B0 = 6;
@@ -4073,7 +4073,7 @@ s16 Mudokon::Brain_10_ListeningToAbe()
             break;
 
         case 19:
-            if (GetCurrentMotion() != eMudMotions::Motion_23_CrouchIdle && GetCurrentMotion() != eMudMotions::Motion_59_CrouchChant)
+            if (mCurrentMotion != eMudMotions::Motion_23_CrouchIdle && mCurrentMotion != eMudMotions::Motion_59_CrouchChant)
             {
                 return field_1BA_brain_sub_state;
             }
@@ -4165,22 +4165,22 @@ s16 Mudokon::Brain_12_Escape()
             break;
 
         case 2:
-            if (GetCurrentMotion() == eMudMotions::Motion_23_CrouchIdle)
+            if (mCurrentMotion == eMudMotions::Motion_23_CrouchIdle)
             {
                 SetNextMotion(eMudMotions::Motion_26_CrouchToStand);
             }
 
-            if (GetCurrentMotion() == eMudMotions::Motion_16_StandScrubLoop)
+            if (mCurrentMotion == eMudMotions::Motion_16_StandScrubLoop)
             {
                 SetNextMotion(eMudMotions::Motion_21_StandScrubToIdle);
             }
 
-            if (GetCurrentMotion() == eMudMotions::Motion_19_StandScrubPause)
+            if (mCurrentMotion == eMudMotions::Motion_19_StandScrubPause)
             {
                 SetNextMotion(eMudMotions::Motion_18_StandScrubPauseToLoop);
             }
 
-            if (GetCurrentMotion() == eMudMotions::Motion_0_Idle || GetCurrentMotion() == eMudMotions::Motion_1_WalkLoop)
+            if (mCurrentMotion == eMudMotions::Motion_0_Idle || mCurrentMotion == eMudMotions::Motion_1_WalkLoop)
             {
                 if (FacingBirdPortal(pPortal))
                 {
@@ -4192,7 +4192,7 @@ s16 Mudokon::Brain_12_Escape()
                 }
             }
 
-            if (GetCurrentMotion() == eMudMotions::Motion_29_RunLoop)
+            if (mCurrentMotion == eMudMotions::Motion_29_RunLoop)
             {
                 if (!FacingBirdPortal(field_1AC_pBirdPortal))
                 {
@@ -4210,22 +4210,22 @@ s16 Mudokon::Brain_12_Escape()
             break;
 
         case 4:
-            if (GetCurrentMotion() == eMudMotions::Motion_23_CrouchIdle)
+            if (mCurrentMotion == eMudMotions::Motion_23_CrouchIdle)
             {
                 SetNextMotion(eMudMotions::Motion_26_CrouchToStand);
             }
 
-            if (GetCurrentMotion() == eMudMotions::Motion_16_StandScrubLoop)
+            if (mCurrentMotion == eMudMotions::Motion_16_StandScrubLoop)
             {
                 SetNextMotion(eMudMotions::Motion_21_StandScrubToIdle);
             }
 
-            if (GetCurrentMotion() == eMudMotions::Motion_19_StandScrubPause)
+            if (mCurrentMotion == eMudMotions::Motion_19_StandScrubPause)
             {
                 SetNextMotion(eMudMotions::Motion_18_StandScrubPauseToLoop);
             }
 
-            if (GetCurrentMotion() == eMudMotions::Motion_0_Idle || GetCurrentMotion() == eMudMotions::Motion_1_WalkLoop)
+            if (mCurrentMotion == eMudMotions::Motion_0_Idle || mCurrentMotion == eMudMotions::Motion_1_WalkLoop)
             {
                 if ((pPortal->mEnterSide == relive::Path_BirdPortal::PortalSide::eRight) == GetAnimation().GetFlipX())
                 {
@@ -4237,7 +4237,7 @@ s16 Mudokon::Brain_12_Escape()
                 }
             }
 
-            if (GetCurrentMotion() == eMudMotions::Motion_29_RunLoop)
+            if (mCurrentMotion == eMudMotions::Motion_29_RunLoop)
             {
                 if (FP_Abs(pPortal->mXPos - mXPos) <= ScaleToGridSize(GetSpriteScale()))
                 {
@@ -4303,7 +4303,7 @@ s16 Mudokon::Brain_14_Chant()
     {
         case 0:
             SetCurrentMotion(eMudMotions::Motion_59_CrouchChant);
-            SetNextMotion(-1);
+            mNextMotion = eMudMotions::None_m1;
             return 1;
 
         case 1:
@@ -4322,7 +4322,7 @@ s16 Mudokon::Brain_14_Chant()
             break;
 
         case 2:
-            if (static_cast<s32>(sGnFrame) > field_1C0_timer && GetCurrentMotion() == eMudMotions::Motion_0_Idle)
+            if (static_cast<s32>(sGnFrame) > field_1C0_timer && mCurrentMotion == eMudMotions::Motion_0_Idle)
             {
                 field_1BA_brain_sub_state = 0;
                 field_1B8_brain_state = 10;
@@ -4331,7 +4331,7 @@ s16 Mudokon::Brain_14_Chant()
             break;
 
         case 3:
-            if (GetCurrentMotion() == eMudMotions::Motion_57_Struggle)
+            if (mCurrentMotion == eMudMotions::Motion_57_Struggle)
             {
                 field_1B6 = 0;
                 field_1C0_timer = MakeTimer(32);
@@ -4354,7 +4354,7 @@ s16 Mudokon::Brain_14_Chant()
             break;
 
         case 5:
-            if (GetCurrentMotion() == eMudMotions::Motion_0_Idle)
+            if (mCurrentMotion == eMudMotions::Motion_0_Idle)
             {
                 SetNextMotion(eMudMotions::Motion_59_CrouchChant);
                 return 1;
@@ -4369,7 +4369,7 @@ s16 Mudokon::Brain_14_Chant()
 
 s16 Mudokon::Brain_15_Choke()
 {
-    if (GetCurrentMotion() != eMudMotions::Motion_62_PoisonGasDeath)
+    if (mCurrentMotion != eMudMotions::Motion_62_PoisonGasDeath)
     {
         SetNextMotion(eMudMotions::Motion_62_PoisonGasDeath);
     }

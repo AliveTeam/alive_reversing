@@ -4743,7 +4743,8 @@ void Slig::VOnTlvCollision(relive::Path_TLV* pTlv)
                 SetBrain(&Slig::Brain_3_DeathDropDeath);
                 mVelY = FP_FromInteger(0);
                 mVelX = FP_FromInteger(0);
-                VSetMotion(static_cast<s16>(eSligMotions::Motion_7_Falling));
+                mCurrentMotion = eSligMotions::Motion_7_Falling;
+                mbMotionChanged = true;
                 EventBroadcast(kEventMudokonComfort, this);
             }
         }
@@ -5833,7 +5834,8 @@ void Slig::VOnTrapDoorOpen()
         pPlatform->VRemove(this);
         BaseAliveGameObject_PlatformId = Guid{};
         BaseAliveGameObjectLastLineYPos = mYPos;
-        VSetMotion(static_cast<s16>(eSligMotions::Motion_38_OutToFall));
+        mCurrentMotion = eSligMotions::Motion_38_OutToFall;
+        mbMotionChanged = true;
     }
 }
 

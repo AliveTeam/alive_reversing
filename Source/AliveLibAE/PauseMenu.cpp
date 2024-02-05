@@ -974,7 +974,7 @@ void PauseMenu::VUpdate()
         pControlledChar = sControlledCharacter;
         if (!sControlledCharacter->GetTeleporting())
         {
-            const s16 heroState = gAbe->mCurrentMotion;
+            const eAbeMotions heroState = gAbe->mCurrentMotion;
             if (heroState != eAbeMotions::Motion_86_HandstoneBegin
                 && heroState != eAbeMotions::Motion_119_ToShrykull
                 && heroState != eAbeMotions::Motion_120_EndShrykull
@@ -1022,7 +1022,7 @@ void PauseMenu::VUpdate()
             && !(pHero->GetElectrocuted())
             && !(pControlledChar->GetTeleporting()))
         {
-            const s16 heroState = pHero->mCurrentMotion;
+            const eAbeMotions heroState = pHero->mCurrentMotion;
             if (heroState != eAbeMotions::Motion_86_HandstoneBegin
                 && heroState != eAbeMotions::Motion_119_ToShrykull
                 && heroState != eAbeMotions::Motion_120_EndShrykull

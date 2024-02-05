@@ -194,7 +194,8 @@ void MotionDetector::VUpdate()
                         bool alarm = false;
                         if (pObj->Type() == ReliveTypes::eAbe)
                         {
-                            if (pObj->mCurrentMotion != eAbeMotions::Motion_0_Idle && pObj->mCurrentMotion != eAbeMotions::Motion_19_CrouchIdle && pObj->mCurrentMotion != eAbeMotions::Motion_66_LedgeHang && pObj->mCurrentMotion != eAbeMotions::Motion_62_LoadedSaveSpawn && pObj->mCurrentMotion != eAbeMotions::Motion_60_Dead && !gDDCheat_FlyingEnabled)
+                            const auto pAbe = static_cast<Abe*>(pObj);
+                            if (pAbe->mCurrentMotion != eAbeMotions::Motion_0_Idle && pAbe->mCurrentMotion != eAbeMotions::Motion_19_CrouchIdle && pAbe->mCurrentMotion != eAbeMotions::Motion_66_LedgeHang && pAbe->mCurrentMotion != eAbeMotions::Motion_62_LoadedSaveSpawn && pAbe->mCurrentMotion != eAbeMotions::Motion_60_Dead && !gDDCheat_FlyingEnabled)
                             {
                                 alarm = true;
                             }

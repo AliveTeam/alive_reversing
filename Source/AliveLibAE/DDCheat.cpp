@@ -10,6 +10,8 @@
 #include "Abe.hpp"
 #include "Input.hpp"
 #include "Game.hpp"
+#include "Scrab.hpp"
+#include "Slig.hpp"
 
 static s16 sDoorsOpen = 0;
 s16 gRescuedMudokons = 0;
@@ -228,7 +230,7 @@ void DDCheat::VUpdate()
                 gMap.GetCurrentCamCoords(&pos);
                 gAbe->mXPos = FP_FromInteger(pos.x + 184);
                 gAbe->mYPos = FP_FromInteger(pos.y + 60);
-                gAbe->mCurrentMotion = 3;
+                gAbe->mCurrentMotion = eAbeMotions::Motion_3_Fall_459B60;
                 gAbe->mLandSoftly = true;
                 gAbe->mCurrentLevel = MapWrapper::FromAE(static_cast<LevelIds>(sTeleport_Level));
                 gAbe->mCurrentPath = sTeleport_Path;
@@ -244,13 +246,13 @@ void DDCheat::VUpdate()
             switch (sControlledCharacter->Type())
             {
                 case ReliveTypes::eSlig:
-                    sControlledCharacter->mCurrentMotion = 7;
+                    static_cast<Slig*>(sControlledCharacter)->mCurrentMotion = eSligMotions::Motion_7_Falling;
                     break;
                 case ReliveTypes::eAbe:
-                    sControlledCharacter->mCurrentMotion = eAbeMotions::Motion_3_Fall_459B60;
+                    static_cast<Abe*>(sControlledCharacter)->mCurrentMotion = eAbeMotions::Motion_3_Fall_459B60;
                     break;
                 case ReliveTypes::eScrab:
-                    sControlledCharacter->mCurrentMotion = 8;
+                    static_cast<Scrab*>(sControlledCharacter)->mCurrentMotion = eScrabMotions::Motion_8_JumpToFall;
                     break;
                 default:
                     LOG_INFO("ddcheat for this controlled character not implemented");

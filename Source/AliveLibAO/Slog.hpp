@@ -2,6 +2,7 @@
 
 #include "BaseAliveGameObject.hpp"
 #include "../relive_lib/data_conversion/relive_tlvs.hpp"
+#include "../relive_lib/FatalError.hpp"
 
 namespace AO {
 
@@ -33,7 +34,7 @@ namespace AO {
     ENTRY(Motion_24_Growl)
 
 #define MAKE_ENUM(VAR) VAR,
-enum class eSlogMotions : s32
+enum class eSlogMotions
 {
     None_m2 = -2,
     None_m1 = -1,
@@ -81,6 +82,20 @@ public:
     virtual void VOnThrowableHit(BaseGameObject* pFrom) override;
     virtual void VOnTrapDoorOpen() override;
     virtual void VUpdate() override;
+    virtual s16 VGetMotion(eMotionType motionType) override
+    {
+        switch (motionType)
+        {
+            case eMotionType::ePreviousMotion:
+                return static_cast<s16>(mPreviousMotion);
+            case eMotionType::eCurrentMotion:
+                return static_cast<s16>(mCurrentMotion);
+            case eMotionType::eNextMotion:
+                return static_cast<s16>(mNextMotion);
+            default:
+                ALIVE_FATAL("Invalid motion type %d", static_cast<s32>(motionType));
+        }
+    }
 
     // Motions
     void Motion_0_Idle();
@@ -135,14 +150,21 @@ private:
 
     // Inlined
     void DelayedResponse(s16 responseIdx);
-    eSlogMotions GetCurrentMotion() const
+
+    // TODO: remove these later
+    void SetPreviousMotion(eSlogMotions motion)
     {
-        return static_cast<eSlogMotions>(mCurrentMotion);
+        mPreviousMotion = motion;
     }
 
-    eSlogMotions GetNextMotion() const
+    void SetCurrentMotion(eSlogMotions motion)
     {
-        return static_cast<eSlogMotions>(mNextMotion);
+        mCurrentMotion = motion;
+    }
+
+    void SetNextMotion(eSlogMotions motion)
+    {
+        mNextMotion = motion;
     }
 
 public:
@@ -175,6 +197,10 @@ private:
     s16 mShot = 0;
     s16 mHitByAbilityRing = 0;
     relive::reliveChoice mAsleep = relive::reliveChoice::eNo;
+    eSlogMotions mPreviousMotion = eSlogMotions::Motion_0_Idle;
+    eSlogMotions mCurrentMotion = eSlogMotions::Motion_0_Idle;
+    eSlogMotions mNextMotion = eSlogMotions::Motion_0_Idle;
+    bool mbMotionChanged = false;
 };
 
 extern s16 sSlogCount;

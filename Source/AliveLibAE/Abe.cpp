@@ -5040,8 +5040,8 @@ void Abe::Motion_62_Punch_454750()
         while (pSlapTarget)
         {
             // Is it in a motion where we can slap it?
-            const s16 mud_motion = static_cast<Mudokon*>(pSlapTarget)->mCurrentMotion;
-            if (mud_motion != 46 && mud_motion != 47)
+            const eMudMotions mud_motion = static_cast<Mudokon*>(pSlapTarget)->mCurrentMotion;
+            if (mud_motion != eMudMotions::Motion_46_Knockback && mud_motion != eMudMotions::Motion_47_KnockbackGetUp)
             {
                 // Can slap, so exit
                 break;

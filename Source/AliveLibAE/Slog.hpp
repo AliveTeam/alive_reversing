@@ -2,6 +2,7 @@
 
 #include "BaseAliveGameObject.hpp"
 #include "../relive_lib/SaveStateBase.hpp"
+#include "../relive_lib/FatalError.hpp"
 
 class Bone;
 enum eLineTypes : s16;

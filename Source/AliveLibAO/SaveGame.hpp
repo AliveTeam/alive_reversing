@@ -4,6 +4,10 @@
 #include "PathData.hpp"
 #include "../relive_lib/Psx.hpp"
 
+// Just for the motion enums
+#include "Abe.hpp"
+#include "Elum.hpp"
+
 namespace AO {
 
 // Note this is the "relive" copy/format of the save data

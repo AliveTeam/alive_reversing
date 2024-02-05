@@ -352,6 +352,7 @@ private:
     bool mRoarRandomly = false;
     bool mPersistant = false;
 
+public:
     eScrabMotions mPreviousMotion = eScrabMotions::Motion_0_Stand;
     eScrabMotions mCurrentMotion = eScrabMotions::Motion_0_Stand;
     eScrabMotions mNextMotion = eScrabMotions::Motion_0_Stand;

@@ -59,17 +59,18 @@ void Animation_OnFrame_Common(BaseGameObject* pObjPtr, u32&, const IndexedPoint&
         return;
     }
 
-    if (pObj->GetSpriteScale() == FP_FromDouble(0.5))
+    const auto pAbe = static_cast<Abe*>(pObj);
+    if (pAbe->GetSpriteScale() == FP_FromDouble(0.5))
     {
         ypos -= FP_FromInteger(14);
     }
 
-    if (pObj->mCurrentMotion == eAbeMotions::Motion_71_Knockback_455090 && pObj->GetSpriteScale() == FP_FromDouble(0.5))
+    if (pAbe->mCurrentMotion == eAbeMotions::Motion_71_Knockback_455090 && pAbe->GetSpriteScale() == FP_FromDouble(0.5))
     {
         ypos += FP_FromInteger(5);
     }
 
-    if (pObj->mCurrentMotion == eAbeMotions::Motion_1_WalkLoop_44FBA0)
+    if (pAbe->mCurrentMotion == eAbeMotions::Motion_1_WalkLoop_44FBA0)
     {
         ypos -= FP_FromInteger(5);
     }
@@ -79,7 +80,7 @@ void Animation_OnFrame_Common(BaseGameObject* pObjPtr, u32&, const IndexedPoint&
     {
         pPartical->GetAnimation().SetBlendMode(relive::TBlendModes::eBlend_1);
 
-        if (pObj->GetScale() == Scale::Fg)
+        if (pAbe->GetScale() == Scale::Fg)
         {
             pPartical->GetAnimation().SetRenderLayer(Layer::eLayer_Foreground_36);
         }
@@ -90,10 +91,10 @@ void Animation_OnFrame_Common(BaseGameObject* pObjPtr, u32&, const IndexedPoint&
 
         pPartical->mRGB.SetRGB(45, 35, 5);
 
-        switch (pObj->mCurrentMotion)
+        switch (pAbe->mCurrentMotion)
         {
             case eAbeMotions::Motion_1_WalkLoop_44FBA0:
-                pPartical->SetSpriteScale(FP_FromDouble(0.3) * pObj->GetSpriteScale());
+                pPartical->SetSpriteScale(FP_FromDouble(0.3) * pAbe->GetSpriteScale());
                 break;
 
             case eAbeMotions::Motion_40_SneakLoop_450550:
@@ -101,11 +102,11 @@ void Animation_OnFrame_Common(BaseGameObject* pObjPtr, u32&, const IndexedPoint&
                 break;
 
             case eAbeMotions::Motion_71_Knockback_455090:
-                pPartical->SetSpriteScale(FP_FromInteger(1) * pObj->GetSpriteScale());
+                pPartical->SetSpriteScale(FP_FromInteger(1) * pAbe->GetSpriteScale());
                 break;
 
             default:
-                pPartical->SetSpriteScale(FP_FromDouble(0.6) * pObj->GetSpriteScale());
+                pPartical->SetSpriteScale(FP_FromDouble(0.6) * pAbe->GetSpriteScale());
                 break;
         }
     }
@@ -164,7 +165,7 @@ void Animation_OnFrame_Slog(BaseGameObject* pObjPtr, u32&, const IndexedPoint& p
         return;
     }
 
-    if ((pTarget->Type() == ReliveTypes::eAbe && pTarget->mCurrentMotion == eAbeMotions::Motion_68_ToOffScreenHoist_454B80) || pSlog->GetElectrocuted())
+    if ((pTarget->Type() == ReliveTypes::eAbe && static_cast<Abe*>(pTarget)->mCurrentMotion == eAbeMotions::Motion_68_ToOffScreenHoist_454B80) || pSlog->GetElectrocuted())
     {
         return;
     }
