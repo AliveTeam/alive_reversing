@@ -498,12 +498,12 @@ public:
     bool mPlayLedgeGrabSounds = false;
     bool mHaveHealing = false;
     bool mMudancheeDone = false;
-    s32 field_0_abe_timer;
-    s32 mRegenHealthTimer;
+    s32 field_0_abe_timer = 0;
+    s32 mRegenHealthTimer = 0;
     FP field_8_x_vel_slow_by = {};
     //u16 field_10_resource_index;
     Mud_Emotion mMood = Mud_Emotion::eNormal_0;
-    s32 mRollingMotionTimer;
+    s32 mRollingMotionTimer = 0;
     MudSounds mSay = MudSounds::eNone;
     s32 field_124_timer = 0;
     Guid mBirdPortalId;
