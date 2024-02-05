@@ -610,7 +610,7 @@ s16 Drill::DamageTouchingObjects()
         {
             if (pObj->GetDrawable())
             {
-                if (pObj->Type() != ReliveTypes::eMeat && pObj->Type() != ReliveTypes::eEvilFart && (pObj->Type() != ReliveTypes::eAbe || pObj->mCurrentMotion != eAbeMotions::Motion_68_ToOffScreenHoist_454B80))
+                if (pObj->Type() != ReliveTypes::eMeat && pObj->Type() != ReliveTypes::eEvilFart && (pObj->Type() != ReliveTypes::eAbe || static_cast<Abe*>(pObj)->mCurrentMotion != eAbeMotions::Motion_68_ToOffScreenHoist_454B80))
                 {
                     const PSX_RECT objRect = pObj->VGetBoundingRect();
 

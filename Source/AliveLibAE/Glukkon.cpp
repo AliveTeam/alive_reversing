@@ -369,15 +369,15 @@ void Glukkon::VGetSaveState(SerializedObjectData& pSaveBuffer)
     data.mRed = mRGB.r;
     data.mGreen = mRGB.g;
     data.mBlue = mRGB.b;
-    data.mCurrentMotion = GetCurrentMotion();
+    data.mCurrentMotion = mCurrentMotion;
     data.mCurrentFrame = static_cast<u16>(GetAnimation().GetCurrentFrame());
     data.mFrameChangeCounter = static_cast<u16>(GetAnimation().GetFrameChangeCounter());
     data.mFlipX = GetAnimation().GetFlipX();
     data.mRender = GetAnimation().GetRender();
     data.mDrawable = GetDrawable();
     data.mHealth = mHealth;
-    data.mCurrentMotion2 = GetCurrentMotion();
-    data.mNextMotion = GetNextMotion();
+    data.mCurrentMotion2 = mCurrentMotion;
+    data.mNextMotion = mNextMotion;
     data.field_38_last_line_ypos = FP_GetExponent(BaseAliveGameObjectLastLineYPos);
     if (BaseAliveGameObjectCollisionLine)
     {
@@ -441,7 +441,7 @@ void Glukkon::Motion_1_Walk()
             case 9:
                 if (sControlledCharacter != this || mHealth <= FP_FromInteger(0))
                 {
-                    if (GetNextMotion() == eGlukkonMotions::Motion_4_Jump)
+                    if (mNextMotion == eGlukkonMotions::Motion_4_Jump)
                     {
                         SetAnim(eGlukkonMotions::Motion_18_WalkToJump);
                     }
@@ -466,7 +466,7 @@ void Glukkon::Motion_1_Walk()
             case 17:
                 if (sControlledCharacter != this || mHealth <= FP_FromInteger(0))
                 {
-                    if (GetNextMotion() == eGlukkonMotions::Motion_0_Idle || GetNextMotion() == eGlukkonMotions::Motion_2_Turn || GetNextMotion() == eGlukkonMotions::Motion_11_Speak1 || GetNextMotion() == eGlukkonMotions::Motion_12_Speak2 || GetNextMotion() == eGlukkonMotions::Motion_23_Speak3 || GetNextMotion() == eGlukkonMotions::Motion_13_LongLaugh)
+                    if (mNextMotion == eGlukkonMotions::Motion_0_Idle || mNextMotion == eGlukkonMotions::Motion_2_Turn || mNextMotion == eGlukkonMotions::Motion_11_Speak1 || mNextMotion == eGlukkonMotions::Motion_12_Speak2 || mNextMotion == eGlukkonMotions::Motion_23_Speak3 || mNextMotion == eGlukkonMotions::Motion_13_LongLaugh)
                     {
                         if (GetAnimation().GetCurrentFrame() != 8)
                         {
@@ -699,9 +699,9 @@ void Glukkon::JumpHelper()
     }
     else
     {
-        if (mNextMotion != 1)
+        if (mNextMotion != eGlukkonMotions::Motion_1_Walk)
         {
-            if (GetNextMotion() == eGlukkonMotions::Motion_0_Idle || GetNextMotion() == eGlukkonMotions::Motion_2_Turn || GetNextMotion() == eGlukkonMotions::Motion_11_Speak1 || GetNextMotion() == eGlukkonMotions::Motion_12_Speak2 || GetNextMotion() == eGlukkonMotions::Motion_23_Speak3 || GetNextMotion() == eGlukkonMotions::Motion_13_LongLaugh)
+            if (mNextMotion == eGlukkonMotions::Motion_0_Idle || mNextMotion == eGlukkonMotions::Motion_2_Turn || mNextMotion == eGlukkonMotions::Motion_11_Speak1 || mNextMotion == eGlukkonMotions::Motion_12_Speak2 || mNextMotion == eGlukkonMotions::Motion_23_Speak3 || mNextMotion == eGlukkonMotions::Motion_13_LongLaugh)
             {
                 // Leaving jump to a motion that requires standing
                 SetAnim(eGlukkonMotions::Motion_17_JumpToStand);
@@ -783,7 +783,7 @@ void Glukkon::Motion_7_Fall()
                     SetBrain(&Glukkon::Brain_4_Death);
                     mBrainSubState = Brain_4_Death::eBrain4_ToVaporizeDeath0;
                 }
-                else if (GetCurrentMotion() != eGlukkonMotions::Motion_3_KnockBack)
+                else if (mCurrentMotion != eGlukkonMotions::Motion_3_KnockBack)
                 {
                     SetAnim(eGlukkonMotions::Motion_9_Land, true);
                 }
@@ -978,7 +978,7 @@ void Glukkon::Motion_21_GetShot()
     if (!BaseAliveGameObjectCollisionLine)
     {
         Motion_7_Fall();
-        if (GetCurrentMotion() != eGlukkonMotions::Motion_21_GetShot)
+        if (mCurrentMotion != eGlukkonMotions::Motion_21_GetShot)
         {
             SetAnim(eGlukkonMotions::Motion_21_GetShot, true);
         }
@@ -1067,7 +1067,7 @@ s16 Glukkon::Brain_0_Calm_WalkAround()
     switch (mBrainSubState)
     {
         case Brain_0_Calm_WalkAround::eBrain0_WalkAround0:
-            if (GetCurrentMotion() != eGlukkonMotions::Motion_0_Idle)
+            if (mCurrentMotion != eGlukkonMotions::Motion_0_Idle)
             {
                 return mBrainSubState;
             }
@@ -1193,14 +1193,14 @@ s16 Glukkon::Brain_0_Calm_WalkAround()
 
         case Brain_0_Calm_WalkAround::eBrain0_Unknown2:
         case Brain_0_Calm_WalkAround::eBrain0_InAir8:
-            if (GetCurrentMotion() != eGlukkonMotions::Motion_0_Idle)
+            if (mCurrentMotion != eGlukkonMotions::Motion_0_Idle)
             {
                 return mBrainSubState;
             }
             return Brain_0_Calm_WalkAround::eBrain0_WalkAround0;
 
         case Brain_0_Calm_WalkAround::eBrain0_Unknown3:
-            if (GetCurrentMotion() != eGlukkonMotions::Motion_0_Idle || mSpeak != GlukkonSpeak::None)
+            if (mCurrentMotion != eGlukkonMotions::Motion_0_Idle || mSpeak != GlukkonSpeak::None)
             {
                 return mBrainSubState;
             }
@@ -1291,7 +1291,7 @@ s16 Glukkon::Brain_0_Calm_WalkAround()
             break;
 
         case Brain_0_Calm_WalkAround::eBrain0_Unknown6:
-            if (GetCurrentMotion() != eGlukkonMotions::Motion_0_Idle)
+            if (mCurrentMotion != eGlukkonMotions::Motion_0_Idle)
             {
                 return mBrainSubState;
             }
@@ -1362,7 +1362,7 @@ s16 Glukkon::Brain_1_Panic()
     switch (mBrainSubState)
     {
         case Brain_1_Panic::eBrain1_PanicStart0:
-            if (static_cast<s32>(sGnFrame) <= field_1D4_timer || GetCurrentMotion() != eGlukkonMotions::Motion_0_Idle)
+            if (static_cast<s32>(sGnFrame) <= field_1D4_timer || mCurrentMotion != eGlukkonMotions::Motion_0_Idle)
             {
                 return mBrainSubState;
             }
@@ -1371,7 +1371,7 @@ s16 Glukkon::Brain_1_Panic()
             return Brain_1_Panic::eBrain1_SetupSpeakTimer4;
 
         case Brain_1_Panic::eBrain1_PanicWalk1:
-            if (GetCurrentMotion() != eGlukkonMotions::Motion_0_Idle)
+            if (mCurrentMotion != eGlukkonMotions::Motion_0_Idle)
             {
                 return mBrainSubState;
             }
@@ -1428,14 +1428,14 @@ s16 Glukkon::Brain_1_Panic()
             return Brain_1_Panic::eBrain1_SetupSpeakTimer4;
 
         case Brain_1_Panic::eBrain1_WaitUntilIdleMotion3:
-            if (GetCurrentMotion() != eGlukkonMotions::Motion_0_Idle)
+            if (mCurrentMotion != eGlukkonMotions::Motion_0_Idle)
             {
                 return mBrainSubState;
             }
             return Brain_1_Panic::eBrain1_PanicWalk1;
 
         case Brain_1_Panic::eBrain1_SetupSpeakTimer4:
-            if (GetCurrentMotion() != eGlukkonMotions::Motion_0_Idle)
+            if (mCurrentMotion != eGlukkonMotions::Motion_0_Idle)
             {
                 return mBrainSubState;
             }
@@ -1443,7 +1443,7 @@ s16 Glukkon::Brain_1_Panic()
             return Brain_1_Panic::eBrain1_PanicWalk1;
 
         case Brain_1_Panic::eBrain1_TurnAround5:
-            if (GetCurrentMotion() != eGlukkonMotions::Motion_0_Idle || mSpeak != GlukkonSpeak::None)
+            if (mCurrentMotion != eGlukkonMotions::Motion_0_Idle || mSpeak != GlukkonSpeak::None)
             {
                 return mBrainSubState;
             }
@@ -1465,7 +1465,7 @@ s16 Glukkon::Brain_1_Panic()
             return Brain_1_Panic::eBrain1_PanicWalk1;
 
         case Brain_1_Panic::eBrain1_InAir7:
-            if (GetCurrentMotion() != eGlukkonMotions::Motion_0_Idle)
+            if (mCurrentMotion != eGlukkonMotions::Motion_0_Idle)
             {
                 return mBrainSubState;
             }
@@ -1488,7 +1488,7 @@ s16 Glukkon::Brain_2_Slapped()
         MusicController::static_PlayMusic(MusicController::MusicTypes::eSoftChase_8, this, 0, 0);
     }
 
-    if (GetCurrentMotion() == eGlukkonMotions::Motion_7_Fall)
+    if (mCurrentMotion == eGlukkonMotions::Motion_7_Fall)
     {
         return Brain_2_Slapped::eBrain2_Unknown3;
     }
@@ -1503,7 +1503,7 @@ s16 Glukkon::Brain_2_Slapped()
     switch (mBrainSubState)
     {
         case Brain_2_Slapped::eBrain2_Unknown0:
-            if (mCurrentMotion)
+            if (mCurrentMotion != eGlukkonMotions::Motion_0_Idle)
             {
                 return mBrainSubState;
             }
@@ -1575,7 +1575,7 @@ s16 Glukkon::Brain_2_Slapped()
 
         case Brain_2_Slapped::eBrain2_Unknown2:
         case Brain_2_Slapped::eBrain2_Unknown3:
-            if (GetCurrentMotion() != eGlukkonMotions::Motion_0_Idle)
+            if (mCurrentMotion != eGlukkonMotions::Motion_0_Idle)
             {
                 return mBrainSubState;
             }
@@ -1616,7 +1616,7 @@ s16 Glukkon::Brain_3_PlayerControlled()
                 mTlvData.mGlukkonType != relive::Path_Glukkon::GlukkonTypes::eStoryPhleg) ||
                 !SwitchStates_Get(mTlvData.mPlayMovieSwitchId))
             {
-                if (Input_IsChanting() && GetCurrentMotion() != eGlukkonMotions::Motion_4_Jump && !mPreventDepossession)
+                if (Input_IsChanting() && mCurrentMotion != eGlukkonMotions::Motion_4_Jump && !mPreventDepossession)
                 {
                     field_1D4_timer = MakeTimer(30);
                     SfxPlayMono(relive::SoundEffects::PossessEffect, 0);
@@ -1768,7 +1768,7 @@ s16 Glukkon::Brain_4_Death()
     switch (mBrainSubState)
     {
         case Brain_4_Death::eBrain4_ToVaporizeDeath0:
-            if (GetCurrentMotion() != eGlukkonMotions::Motion_8_DeathFall || !(GetAnimation().GetIsLastFrame()))
+            if (mCurrentMotion != eGlukkonMotions::Motion_8_DeathFall || !(GetAnimation().GetIsLastFrame()))
             {
                 return mBrainSubState;
             }
@@ -1850,7 +1850,7 @@ s16 Glukkon::Brain_4_Death()
 
         case Brain_4_Death::eBrain4_ToVaporize4:
         case Brain_4_Death::eBrain4_ToVaporizeKilledBySlog5:
-            if (!BaseAliveGameObjectCollisionLine || GetCurrentMotion() != eGlukkonMotions::Motion_3_KnockBack || !(GetAnimation().GetIsLastFrame()))
+            if (!BaseAliveGameObjectCollisionLine || mCurrentMotion != eGlukkonMotions::Motion_3_KnockBack || !(GetAnimation().GetIsLastFrame()))
             {
                 return mBrainSubState;
             }
@@ -1899,7 +1899,7 @@ s16 Glukkon::Brain_5_WaitToSpawn()
     }
     else if (mBrainSubState == Brain_5_WaitToSpawn::eBrain5_ToWalking2)
     {
-        if (GetCurrentMotion() != eGlukkonMotions::Motion_0_Idle || mSpeak != GlukkonSpeak::None)
+        if (mCurrentMotion != eGlukkonMotions::Motion_0_Idle || mSpeak != GlukkonSpeak::None)
         {
             return mBrainSubState;
         }
@@ -2170,7 +2170,7 @@ void Glukkon::VPossessed()
 
 void Glukkon::Update_Slurg_WatchPoints()
 {
-    if (GetCurrentMotion() == eGlukkonMotions::Motion_1_Walk || (GetCurrentMotion() == eGlukkonMotions::Motion_4_Jump && GetAnimation().GetCurrentFrame() > 8))
+    if (mCurrentMotion == eGlukkonMotions::Motion_1_Walk || (mCurrentMotion == eGlukkonMotions::Motion_4_Jump && GetAnimation().GetCurrentFrame() > 8))
     {
         if (sGnFrame & 1)
         {
@@ -2200,7 +2200,7 @@ void Glukkon::SetAnim(eGlukkonMotions currentMotion, s16 bClearNextMotion)
     SetCurrentMotion(currentMotion);
     if (bClearNextMotion)
     {
-        mNextMotion = -1;
+        mNextMotion = eGlukkonMotions::eNone_m1;
     }
 }
 
@@ -2319,7 +2319,7 @@ void Glukkon::HandleInput()
 
             if (held & InputCommands::eRun)
             {
-                if (GetNextMotion() == eGlukkonMotions::Motion_1_Walk)
+                if (mNextMotion == eGlukkonMotions::Motion_1_Walk)
                 {
                     SetNextMotion(eGlukkonMotions::Motion_4_Jump);
                 }
@@ -2332,15 +2332,15 @@ void Glukkon::HandleInput()
         }
     }
 
-    switch (GetNextMotion())
+    switch (mNextMotion)
     {
     case eGlukkonMotions::eNone_m1:
-            if (GetCurrentMotion() == eGlukkonMotions::Motion_0_Idle)
+            if (mCurrentMotion == eGlukkonMotions::Motion_0_Idle)
             {
                 return;
             }
             SetNextMotion(eGlukkonMotions::Motion_0_Idle);
-            SetAnim(GetNextMotion(), true);
+            SetAnim(mNextMotion, true);
             break;
 
         case eGlukkonMotions::Motion_0_Idle:
@@ -2349,12 +2349,12 @@ void Glukkon::HandleInput()
         case eGlukkonMotions::Motion_12_Speak2:
         case eGlukkonMotions::Motion_13_LongLaugh:
         case eGlukkonMotions::Motion_23_Speak3:
-            SetAnim(GetNextMotion(), true);
+            SetAnim(mNextMotion, true);
             break;
 
         case eGlukkonMotions::Motion_1_Walk:
         case eGlukkonMotions::Motion_14_BeginWalk:
-            if (GetCurrentMotion() != eGlukkonMotions::Motion_1_Walk)
+            if (mCurrentMotion != eGlukkonMotions::Motion_1_Walk)
             {
                 mCurrentWalkPitch = 0;
             }
@@ -2374,7 +2374,7 @@ void Glukkon::HandleInput()
             }
             if (!WallHit(GetSpriteScale() * FP_FromInteger(50), xOff))
             {
-                SetAnim(GetNextMotion(), true);
+                SetAnim(mNextMotion, true);
             }
         }
         break;
@@ -2435,7 +2435,7 @@ s16 Glukkon::ShouldPanic(s16 panicEvenIfNotFacingMe)
 s16 Glukkon::PathBlocked(FP /*a2*/, s16 checkBounds)
 {
     FP gridSize = ScaleToGridSize(GetSpriteScale());
-    if (GetCurrentMotion() == eGlukkonMotions::Motion_4_Jump)
+    if (mCurrentMotion == eGlukkonMotions::Motion_4_Jump)
     {
         gridSize = (gridSize * FP_FromInteger(4));
     }
@@ -2584,7 +2584,7 @@ const FP* motion_velx_table_5547C4[25] = {
 
 s16 Glukkon::DoMovement()
 {
-    const FP* pTable = motion_velx_table_5547C4[mCurrentMotion];
+    const FP* pTable = motion_velx_table_5547C4[static_cast<u32>(mCurrentMotion)];
     if (pTable)
     {
         if (GetAnimation().GetFlipX())
@@ -2656,11 +2656,11 @@ void Glukkon::FollowLine()
 
             VOnTrapDoorOpen();
 
-            if (GetCurrentMotion() == eGlukkonMotions::Motion_1_Walk || GetCurrentMotion() == eGlukkonMotions::Motion_14_BeginWalk || GetCurrentMotion() == eGlukkonMotions::Motion_15_EndWalk || GetCurrentMotion() == eGlukkonMotions::Motion_18_WalkToJump)
+            if (mCurrentMotion == eGlukkonMotions::Motion_1_Walk || mCurrentMotion == eGlukkonMotions::Motion_14_BeginWalk || mCurrentMotion == eGlukkonMotions::Motion_15_EndWalk || mCurrentMotion == eGlukkonMotions::Motion_18_WalkToJump)
             {
                 SetAnim(eGlukkonMotions::Motion_6_WalkToFall, true);
             }
-            else if (GetCurrentMotion() == eGlukkonMotions::Motion_4_Jump || GetCurrentMotion() == eGlukkonMotions::Motion_16_StandToJump || GetCurrentMotion() == eGlukkonMotions::Motion_17_JumpToStand || GetCurrentMotion() == eGlukkonMotions::Motion_19_JumpToWalk)
+            else if (mCurrentMotion == eGlukkonMotions::Motion_4_Jump || mCurrentMotion == eGlukkonMotions::Motion_16_StandToJump || mCurrentMotion == eGlukkonMotions::Motion_17_JumpToStand || mCurrentMotion == eGlukkonMotions::Motion_19_JumpToWalk)
             {
                 SetAnim(eGlukkonMotions::Motion_5_JumpToFall, true);
             }
@@ -2672,7 +2672,7 @@ void Glukkon::FollowLine()
             mXPos = prevXPos + mVelX;
             mFallingVelXScaleFactor = FP_FromInteger(1);
 
-            if (GetCurrentMotion() == eGlukkonMotions::Motion_3_KnockBack)
+            if (mCurrentMotion == eGlukkonMotions::Motion_3_KnockBack)
             {
                 mFallingVelXScaleFactor = FP_FromDouble(0.67);
             }
@@ -3034,14 +3034,14 @@ bool Glukkon::VTakeDamage(BaseGameObject* pFrom)
 
             mKnockbackDelayAfterGettingShotTimer = MakeTimer(5);
 
-            if (GetCurrentMotion() == eGlukkonMotions::Motion_21_GetShot)
+            if (mCurrentMotion == eGlukkonMotions::Motion_21_GetShot)
             {
                 mHealth = FP_FromInteger(0);
                 EventBroadcast(kEventMudokonComfort, this);
                 return true;
             }
 
-            if (GetCurrentMotion() == eGlukkonMotions::Motion_3_KnockBack)
+            if (mCurrentMotion == eGlukkonMotions::Motion_3_KnockBack)
             {
                 if (mHealth > FP_FromInteger(0))
                 {
@@ -3112,7 +3112,7 @@ bool Glukkon::VTakeDamage(BaseGameObject* pFrom)
             break;
 
         case ReliveTypes::eSlog:
-            if (GetCurrentMotion() != eGlukkonMotions::Motion_3_KnockBack)
+            if (mCurrentMotion != eGlukkonMotions::Motion_3_KnockBack)
             {
                 mHealth = FP_FromInteger(0);
                 SetBrain(&Glukkon::Brain_4_Death);

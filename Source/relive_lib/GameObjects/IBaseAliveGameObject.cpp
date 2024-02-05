@@ -58,12 +58,6 @@ void IBaseAliveGameObject::VOnTrapDoorOpen()
     // Empty
 }
 
-void IBaseAliveGameObject::VSetMotion(s16 state)
-{
-    mbMotionChanged = true;
-    mCurrentMotion = state;
-}
-
 void IBaseAliveGameObject::OnCollisionWith(PSX_Point xy, PSX_Point wh, DynamicArrayT<BaseGameObject>* pObjList)
 {
     if (pObjList)

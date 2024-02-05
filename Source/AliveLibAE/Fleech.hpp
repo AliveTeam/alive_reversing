@@ -396,6 +396,22 @@ private:
     bool Collision(s16 alwaysOne);
     relive::Path_Hoist* TryGetHoist(s32 xDistance, s16 bIgnoreDirection);
 
+    // TODO: remove these later
+    void SetPreviousMotion(eFleechMotions motion)
+    {
+        mPreviousMotion = motion;
+    }
+
+    void SetCurrentMotion(eFleechMotions motion)
+    {
+        mCurrentMotion = motion;
+    }
+
+    void SetNextMotion(eFleechMotions motion)
+    {
+        mNextMotion = motion;
+    }
+
 public:
     void VOnFrame(const Point32& point);
 
@@ -459,6 +475,10 @@ private:
     DeathBrain mDeathBrain;
 
     IFleechBrain* mCurrentBrain = nullptr;
+    eFleechMotions mPreviousMotion = eFleechMotions::Motion_0_Sleeping;
+    eFleechMotions mCurrentMotion = eFleechMotions::Motion_0_Sleeping;
+    eFleechMotions mNextMotion = eFleechMotions::Motion_0_Sleeping;
+    bool mbMotionChanged = false;
 };
 
 void Animation_OnFrame_Fleech(BaseGameObject* pObj, u32&, const IndexedPoint&);

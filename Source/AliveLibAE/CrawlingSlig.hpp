@@ -289,15 +289,6 @@ private:
     void SetBrain(ICrawlingSligBrain::EBrainTypes brain);
     bool BrainIs(ICrawlingSligBrain::EBrainTypes brain);
 
-    CrawlingSligMotion GetNextMotion() const
-    {
-        return static_cast<CrawlingSligMotion>(mNextMotion);
-    }
-    CrawlingSligMotion GetCurrentMotion() const
-    {
-        return static_cast<CrawlingSligMotion>(mCurrentMotion);
-    }
-
     void Set_AnimAndMotion(CrawlingSligMotion currentMotion, s16 bClearNextMotion);
     void UpdateAnimBlock();
     u8** GetAnimBlock(s32 currentMotion);
@@ -312,6 +303,22 @@ private:
     s16 CanCrawl();
     void MoveOnLine();
     void PlatformCollide();
+
+    // TODO: remove these later
+    void SetPreviousMotion(CrawlingSligMotion motion)
+    {
+        mPreviousMotion = motion;
+    }
+
+    void SetCurrentMotion(CrawlingSligMotion motion)
+    {
+        mCurrentMotion = motion;
+    }
+
+    void SetNextMotion(CrawlingSligMotion motion)
+    {
+        mNextMotion = motion;
+    }
 
 private:
     std::shared_ptr<AnimationPal> field_11C_mPal;
@@ -351,4 +358,8 @@ private:
     GetKilledBrain mGetKilledBrain;
     TransformedBrain mTransformedBrain;
     ICrawlingSligBrain* mCurrentBrain = nullptr;
+    CrawlingSligMotion mPreviousMotion = CrawlingSligMotion::Motion_0_Idle;
+    CrawlingSligMotion mCurrentMotion = CrawlingSligMotion::Motion_0_Idle;
+    CrawlingSligMotion mNextMotion = CrawlingSligMotion::Motion_0_Idle;
+    bool mbMotionChanged = false;
 };

@@ -4,6 +4,13 @@
 
 class PathLine;
 
+enum class eMotionType
+{
+    ePreviousMotion,
+    eCurrentMotion,
+    eNextMotion
+};
+
 // Temp glue interface to make BaseAliveGameObject common piece by piece
 class IBaseAliveGameObject : public BaseAnimatedWithPhysicsGameObject
 {
@@ -18,7 +25,12 @@ public:
     virtual bool VTakeDamage(BaseGameObject* pFrom);
     virtual void VOnTlvCollision(relive::Path_TLV* pTlv);
     virtual void VOnTrapDoorOpen();
-    virtual void VSetMotion(s16 state);
+
+    // Note: this is only used for the GameAutoPlayer
+    virtual s16 VGetMotion(eMotionType /*motionType*/)
+    {
+        return 0;
+    }
 
     void OnCollisionWith(PSX_Point xy, PSX_Point wh, DynamicArrayT<BaseGameObject>* pObjList);
 

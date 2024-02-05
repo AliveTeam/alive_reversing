@@ -237,15 +237,6 @@ public:
     static void CreateFromSaveState(SerializedObjectData& pBuffer);
     static s16 IsAbeEnteringDoor(IBaseAliveGameObject* pThis);
 
-    eSligMotions GetNextMotion() const
-    {
-        return static_cast<eSligMotions>(mNextMotion);
-    }
-    eSligMotions GetCurrentMotion() const
-    {
-        return static_cast<eSligMotions>(mCurrentMotion);
-    }
-
     bool vUnderGlukkonCommand_4B1760();
     void SetBrain(TSligBrainFn fn);
     bool BrainIs(TSligBrainFn fn);
@@ -417,6 +408,22 @@ private:
     s16 FindLiftPoint();
     AnimId MotionToAnimId(eSligMotions motion);
 
+    // TODO: remove these later
+    void SetPreviousMotion(eSligMotions motion)
+    {
+        mPreviousMotion = motion;
+    }
+
+    void SetCurrentMotion(eSligMotions motion)
+    {
+        mCurrentMotion = motion;
+    }
+
+    void SetNextMotion(eSligMotions motion)
+    {
+        mNextMotion = motion;
+    }
+
 public:
     EReliveLevelIds mAbeLevel = EReliveLevelIds::eNone;
     s16 mAbePath = 0;
@@ -459,6 +466,10 @@ private:
     s16 field_290_points_count = 0;
     s16 mPreventDepossession = 0;
     eSligMotions field_294_next_gamespeak_motion = eSligMotions::Motion_0_StandIdle;
+    eSligMotions mPreviousMotion = eSligMotions::Motion_0_StandIdle;
+    eSligMotions mCurrentMotion = eSligMotions::Motion_0_StandIdle;
+    eSligMotions mNextMotion = eSligMotions::Motion_0_StandIdle;
+    bool mbMotionChanged = false;
 };
 
 void Animation_OnFrame_Slig(BaseGameObject* pObj, u32&, const IndexedPoint& point);

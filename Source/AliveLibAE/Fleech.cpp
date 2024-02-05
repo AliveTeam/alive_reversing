@@ -213,8 +213,8 @@ void Fleech::CreateFromSaveState(SerializedObjectData& pBuffer)
 
         pFleech->mRGB.SetRGB(pState->mRed, pState->mGreen, pState->mBlue);
 
-        pFleech->mCurrentMotion = static_cast<s16>(pState->field_28_current_motion);
-        pFleech->GetAnimation().Set_Animation_Data(pFleech->GetAnimRes(sFleechAnimFromMotion[pFleech->mCurrentMotion]));
+        pFleech->mCurrentMotion = pState->field_28_current_motion;
+        pFleech->GetAnimation().Set_Animation_Data(pFleech->GetAnimRes(sFleechAnimFromMotion[static_cast<u32>(pFleech->mCurrentMotion)]));
         pFleech->GetAnimation().SetCurrentFrame(pState->field_2A_anim_current_frame);
         pFleech->GetAnimation().SetFrameChangeCounter(pState->field_2C_frame_change_counter);
 
@@ -228,8 +228,8 @@ void Fleech::CreateFromSaveState(SerializedObjectData& pBuffer)
             pFleech->GetAnimation().SetIsLastFrame(true);
         }
         pFleech->mHealth = pState->mHealth;
-        pFleech->mCurrentMotion = static_cast<s16>(pState->mCurrentMotion);
-        pFleech->mNextMotion = static_cast<s16>(pState->mNextMotion);
+        pFleech->mCurrentMotion = pState->mCurrentMotion;
+        pFleech->mNextMotion = pState->mNextMotion;
 
         pFleech->BaseAliveGameObjectLastLineYPos = FP_FromInteger(pState->mLastLineYPos);
 
@@ -446,7 +446,7 @@ void Fleech::VGetSaveState(SerializedObjectData& pSaveBuffer)
 
 void Fleech::Motion_0_Sleeping()
 {
-    if (mNextMotion == -1)
+    if (mNextMotion == eFleechMotions::eNone_m1)
     {
         if (GetAnimation().GetCurrentFrame() || sGnFrame & 3)
         {
@@ -498,7 +498,7 @@ void Fleech::Motion_1_WakingUp()
         }
     }
 
-    if (mNextMotion != -1)
+    if (mNextMotion != eFleechMotions::eNone_m1)
     {
         if (GetAnimation().GetIsLastFrame())
         {
@@ -512,7 +512,7 @@ void Fleech::Motion_1_WakingUp()
 // this function is actually used
 void Fleech::Motion_2_Unknown()
 {
-    if (mNextMotion != -1)
+    if (mNextMotion != eFleechMotions::eNone_m1)
     {
         if (GetAnimation().GetIsLastFrame())
         {
@@ -526,7 +526,7 @@ void Fleech::Motion_3_Idle()
 {
     if (!CanMove())
     {
-        if (mNextMotion == -1)
+        if (mNextMotion == eFleechMotions::eNone_m1)
         {
             FP hitX = {};
             FP hitY = {};
@@ -601,7 +601,7 @@ void Fleech::Motion_4_Crawl()
                     SetCurrentMotion(eFleechMotions::Motion_8_StopMidCrawlCycle);
                     SetNextMotion(eFleechMotions::eNone_m1);
                 }
-                else if (mNextMotion != -1)
+                else if (mNextMotion != eFleechMotions::eNone_m1)
                 {
                     mCurrentMotion = mNextMotion;
                     SetNextMotion(eFleechMotions::eNone_m1);
@@ -1020,7 +1020,7 @@ void Fleech::Motion_16_DeathByFalling()
 
 void Fleech::Motion_17_SleepingWithTongue()
 {
-    if (mNextMotion != -1)
+    if (mNextMotion != eFleechMotions::eNone_m1)
     {
         SetTongueState1();
         mCurrentMotion = mNextMotion;
@@ -1116,7 +1116,7 @@ Fleech::~Fleech()
     MusicController::static_PlayMusic(MusicController::MusicTypes::eNone_0, this, 0, 0);
     ResetTarget();
 
-    if (mCurrentMotion == 18)
+    if (mCurrentMotion == eFleechMotions::Motion_18_Consume)
     {
         if (gAbe)
         {
@@ -1597,7 +1597,7 @@ void Fleech::InitTonguePolys()
 
 void Fleech::SetAnim()
 {
-    GetAnimation().Set_Animation_Data(GetAnimRes(sFleechAnimFromMotion[mCurrentMotion]));
+    GetAnimation().Set_Animation_Data(GetAnimRes(sFleechAnimFromMotion[static_cast<u32>(mCurrentMotion)]));
 }
 
 void Fleech::ResetTarget()
@@ -3203,7 +3203,7 @@ void ChasingAbeBrain::VUpdate()
             return;
 
         case EState::eScrabOrParamiteNearby_6:
-            if (mFleech.GetCurrentMotion() != eFleechMotions::Motion_7_StopCrawling && mFleech.GetCurrentMotion() != eFleechMotions::Motion_6_Knockback && mFleech.mNextMotion != -1)
+            if (mFleech.GetCurrentMotion() != eFleechMotions::Motion_7_StopCrawling && mFleech.GetCurrentMotion() != eFleechMotions::Motion_6_Knockback && mFleech.mNextMotion != eFleechMotions::eNone_m1)
             {
                 return;
             }
@@ -3216,7 +3216,7 @@ void ChasingAbeBrain::VUpdate()
             auto v70 = static_cast<BaseAnimatedWithPhysicsGameObject*>(sObjectIds.Find_Impl(mFleech.mScrabOrParamite));
             if (mFleech.GetCurrentMotion() != eFleechMotions::Motion_4_Crawl || (v70 && mFleech.VIsObjNearby(ScaleToGridSize(mFleech.GetSpriteScale()) * FP_FromInteger(5), v70)))
             {
-                if (mFleech.GetCurrentMotion() != eFleechMotions::Motion_3_Idle && mFleech.mNextMotion != -1)
+                if (mFleech.GetCurrentMotion() != eFleechMotions::Motion_3_Idle && mFleech.mNextMotion != eFleechMotions::eNone_m1)
                 {
                     return;
                 }
@@ -3628,7 +3628,7 @@ ChasingAbeBrain::EState ChasingAbeBrain::Brain_ChasingAbe_State_1(IBaseAliveGame
     }
 
     // Can we get to a hanging abe?
-    if (IsAbe(pObj) && pObj->mCurrentMotion == eAbeMotions::Motion_67_LedgeHang_454E20 && mFleech.mYPos > pObj->mYPos)
+    if (IsAbe(pObj) && static_cast<Abe*>(pObj)->mCurrentMotion == eAbeMotions::Motion_67_LedgeHang_454E20 && mFleech.mYPos > pObj->mYPos)
     {
         if (mFleech.mYPos - pObj->mYPos <= (ScaleToGridSize(mFleech.GetSpriteScale()) * FP_FromInteger(6)))
         {

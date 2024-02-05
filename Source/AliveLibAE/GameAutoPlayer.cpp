@@ -2,6 +2,9 @@
 #include "Input.hpp"
 #include "BaseAliveGameObject.hpp"
 #include <algorithm>
+#include "Mudokon.hpp"
+#include "Slig.hpp"
+
 
 void Recorder::SaveObjectStates()
 {
@@ -30,9 +33,9 @@ void Recorder::SaveObjectStates()
 
             mFile.Write(pAliveObj->BaseAliveGameObjectLastLineYPos.fpValue);
 
-            mFile.Write(pAliveObj->mCurrentMotion);
-            mFile.Write(pAliveObj->mNextMotion);
-            mFile.Write(pAliveObj->mPreviousMotion);
+            mFile.Write(pAliveObj->VGetMotion(eMotionType::eCurrentMotion));
+            mFile.Write(pAliveObj->VGetMotion(eMotionType::eNextMotion));
+            mFile.Write(pAliveObj->VGetMotion(eMotionType::ePreviousMotion));
 
             mFile.Write(pAliveObj->mHealth.fpValue);
         }
@@ -99,9 +102,9 @@ bool Player::ValidateObjectStates()
             validateFailed |= ValidField(mFile, pAliveObj->mXPos, "xpos");
             validateFailed |= ValidField(mFile, pAliveObj->mYPos, "ypos");
             validateFailed |= ValidField(mFile, pAliveObj->BaseAliveGameObjectLastLineYPos, "last line ypos");
-            validateFailed |= ValidField(mFile, pAliveObj->mCurrentMotion, "current motion");
-            validateFailed |= ValidField(mFile, pAliveObj->mNextMotion, "next motion");
-            validateFailed |= ValidField(mFile, pAliveObj->mPreviousMotion, "previous motion");
+            validateFailed |= ValidField(mFile, pAliveObj->VGetMotion(eMotionType::eCurrentMotion), "current motion");
+            validateFailed |= ValidField(mFile, pAliveObj->VGetMotion(eMotionType::eNextMotion), "next motion");
+            validateFailed |= ValidField(mFile, pAliveObj->VGetMotion(eMotionType::ePreviousMotion), "previous motion");
             validateFailed |= ValidField(mFile, pAliveObj->mHealth, "health motion");
             if (validateFailed)
             {

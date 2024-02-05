@@ -199,15 +199,6 @@ public:
     static void PlaySound_GameSpeak(GlukkonSpeak sndIdx, s16 volume, s16 pitch, Glukkon* pGlukkon);
 
 private:
-    eGlukkonMotions GetNextMotion() const
-    {
-        return static_cast<eGlukkonMotions>(mNextMotion);
-    }
-
-    eGlukkonMotions GetCurrentMotion() const
-    {
-        return static_cast<eGlukkonMotions>(mCurrentMotion);
-    }
 
     void Init();
     void Update_Slurg_WatchPoints();
@@ -227,6 +218,22 @@ private:
     void SlowDown(FP speed);
     void SetBrain(TGlukkonBrainFn fn);
     bool BrainIs(TGlukkonBrainFn fn);
+
+    // TODO: remove these later
+    void SetPreviousMotion(eGlukkonMotions motion)
+    {
+        mPreviousMotion = motion;
+    }
+
+    void SetCurrentMotion(eGlukkonMotions motion)
+    {
+        mCurrentMotion = motion;
+    }
+
+    void SetNextMotion(eGlukkonMotions motion)
+    {
+        mNextMotion = motion;
+    }
 
 private:
     std::shared_ptr<AnimationPal> mPal;
@@ -254,4 +261,11 @@ private:
     s16 mBrainSubState = 0;
     s16 mCurrentWalkPitch = 0;
     Guid mTlvId;
+
+
+public:
+    eGlukkonMotions mPreviousMotion = eGlukkonMotions::Motion_0_Idle;
+    eGlukkonMotions mCurrentMotion = eGlukkonMotions::Motion_0_Idle;
+    eGlukkonMotions mNextMotion = eGlukkonMotions::Motion_0_Idle;
+    bool mbMotionChanged = false;
 };

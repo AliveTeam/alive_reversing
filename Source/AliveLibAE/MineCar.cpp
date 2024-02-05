@@ -140,8 +140,6 @@ void MineCar::CreateFromSaveState(SerializedObjectData& pBuffer)
 
         pMineCar->mRGB.SetRGB(pState->field_1C_r, pState->field_1E_g, pState->field_20_b);
 
-        pMineCar->mCurrentMotion = pState->field_28_current_motion;
-
         // TODO: replace Set_Animation_Data sMineCarAnimIdTable[] with the actual anim id's
         switch (pState->field_24_frame_table)
         {
@@ -224,9 +222,6 @@ void MineCar::CreateFromSaveState(SerializedObjectData& pBuffer)
         pMineCar->mTreadAnim.SetFrameChangeCounter(pState->field_2C_frame_change_counter);
 
         pMineCar->mHealth = pState->field_3C_health;
-        pMineCar->mCurrentMotion = pState->field_40_current_motion;
-
-        pMineCar->mNextMotion = pState->field_42_next_motion;
 
         pMineCar->BaseAliveGameObjectLastLineYPos = FP_FromInteger(pState->field_44_last_line_ypos);
 
@@ -684,7 +679,6 @@ void MineCar::VGetSaveState(SerializedObjectData& pSaveBuffer)
     data.field_1E_g = mRGB.g;
     data.field_20_b = mRGB.b;
 
-    data.field_28_current_motion = mCurrentMotion;
     data.field_2A_current_anim_frame = static_cast<s16>(GetAnimation().GetCurrentFrame());
     data.field_2C_frame_change_counter = static_cast<s16>(GetAnimation().GetFrameChangeCounter());
 
@@ -748,9 +742,6 @@ void MineCar::VGetSaveState(SerializedObjectData& pSaveBuffer)
     }
 
     data.field_3C_health = mHealth;
-    data.field_42_next_motion = mNextMotion;
-
-    data.field_40_current_motion = mCurrentMotion;
 
     data.field_44_last_line_ypos = FP_GetExponent(FP_Abs(BaseAliveGameObjectLastLineYPos));
 

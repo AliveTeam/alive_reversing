@@ -258,7 +258,7 @@ void FlyingSlig::CreateFromSaveState(SerializedObjectData& pBuffer)
 
         pFlyingSlig->SetCurrentMotion(pSaveState->field_24_current_state);
 
-        pFlyingSlig->GetAnimation().Set_Animation_Data(pFlyingSlig->GetAnimRes(sFlyingSligAnimIdTable[pFlyingSlig->mCurrentMotion]));
+        pFlyingSlig->GetAnimation().Set_Animation_Data(pFlyingSlig->GetAnimRes(sFlyingSligAnimIdTable[static_cast<u32>(pFlyingSlig->mCurrentMotion)]));
 
         pFlyingSlig->GetAnimation().SetCurrentFrame(pSaveState->field_26_current_frame);
 
@@ -741,7 +741,7 @@ void FlyingSlig::Movement()
 
     if (mDoAction)
     {
-        if (GetCurrentMotion() == eFlyingSligMotions::Motion_0_Idle)
+        if (mCurrentMotion == eFlyingSligMotions::Motion_0_Idle)
         {
             TryPullLever();
         }
@@ -941,7 +941,7 @@ void FlyingSlig::Brain_2_Moving()
 
 void FlyingSlig::Brain_3_GetAlerted()
 {
-    if (GetCurrentMotion() != eFlyingSligMotions::Motion_0_Idle)
+    if (mCurrentMotion != eFlyingSligMotions::Motion_0_Idle)
     {
         field_14C_timer++;
     }
@@ -1016,7 +1016,7 @@ void FlyingSlig::Brain_5_Idle()
 
 void FlyingSlig::Brain_6_GameSpeakToMoving()
 {
-    if (GetCurrentMotion() != eFlyingSligMotions::Motion_8_GameSpeak)
+    if (mCurrentMotion != eFlyingSligMotions::Motion_8_GameSpeak)
     {
         ToMoving();
     }
@@ -1056,7 +1056,7 @@ void FlyingSlig::Brain_8_PanicIdle()
     }
     else if (IsEventInRange(kEventAbeOhm, mXPos, mYPos, AsEventScale(GetScale())))
     {
-        if (static_cast<s32>(sGnFrame) >= field_14C_timer && GetCurrentMotion() != eFlyingSligMotions::Motion_8_GameSpeak)
+        if (static_cast<s32>(sGnFrame) >= field_14C_timer && mCurrentMotion != eFlyingSligMotions::Motion_8_GameSpeak)
         {
             ToPanicMoving();
         }
@@ -1198,7 +1198,7 @@ void FlyingSlig::Brain_15_FlyingSligSpawn()
             SetMotionHelper(eFlyingSligMotions::Motion_7_LeverPull);
         }
     }
-    else if (GetCurrentMotion() == eFlyingSligMotions::Motion_0_Idle)
+    else if (mCurrentMotion == eFlyingSligMotions::Motion_0_Idle)
     {
         ToPlayerControlled();
     }
@@ -1915,7 +1915,7 @@ s16 FlyingSlig::CanChase(IBaseAliveGameObject* pObj)
 
 void FlyingSlig::Say(SligSpeak speak, s16 pitch)
 {
-    if (GetCurrentMotion() != eFlyingSligMotions::Motion_8_GameSpeak)
+    if (mCurrentMotion != eFlyingSligMotions::Motion_8_GameSpeak)
     {
         mSpeaking1 = true;
         mSpeaking2 = true;
@@ -2251,10 +2251,10 @@ void FlyingSlig::ToPanicMoving()
 
 s16 FlyingSlig::IsTurning()
 {
-    return GetCurrentMotion() == eFlyingSligMotions::Motion_2_IdleToTurn ||
-        GetCurrentMotion() == eFlyingSligMotions::Motion_15_QuickTurn ||
-        GetCurrentMotion() == eFlyingSligMotions::Motion_4_DownMovementToTurn ||
-        GetCurrentMotion() == eFlyingSligMotions::Motion_6_UpMovementToTurn;
+    return mCurrentMotion == eFlyingSligMotions::Motion_2_IdleToTurn ||
+        mCurrentMotion == eFlyingSligMotions::Motion_15_QuickTurn ||
+        mCurrentMotion == eFlyingSligMotions::Motion_4_DownMovementToTurn ||
+        mCurrentMotion == eFlyingSligMotions::Motion_6_UpMovementToTurn;
 }
 
 void FlyingSlig::ToChantShake()
@@ -2275,7 +2275,7 @@ void FlyingSlig::ToPossesed()
 
 void FlyingSlig::vUpdateAnimRes_4350A0()
 {
-    GetAnimation().Set_Animation_Data(GetAnimRes(sFlyingSligAnimIdTable[mCurrentMotion]));
+    GetAnimation().Set_Animation_Data(GetAnimRes(sFlyingSligAnimIdTable[static_cast<u32>(mCurrentMotion)]));
 }
 
 void FlyingSlig::PatrolDelay()
@@ -2300,18 +2300,18 @@ void FlyingSlig::PatrolDelay()
 
 s16 FlyingSlig::CanThrowGrenade()
 {
-    return GetCurrentMotion() == eFlyingSligMotions::Motion_0_Idle ||
-        GetCurrentMotion() == eFlyingSligMotions::Motion_1_HorizontalMovement ||
-        GetCurrentMotion() == eFlyingSligMotions::Motion_3_DownMovement ||
-        GetCurrentMotion() == eFlyingSligMotions::Motion_5_UpMovement ||
-        GetCurrentMotion() == eFlyingSligMotions::Motion_16_IdleToHorizontalMovement ||
-        GetCurrentMotion() == eFlyingSligMotions::Motion_10_EndHorizontalMovement ||
-        GetCurrentMotion() == eFlyingSligMotions::Motion_11_BeginUpMovement ||
-        GetCurrentMotion() == eFlyingSligMotions::Motion_13_UpToHorizontalMovement ||
-        GetCurrentMotion() == eFlyingSligMotions::Motion_12_HorizontalToDownMovement ||
-        GetCurrentMotion() == eFlyingSligMotions::Motion_14_DownToHorizontalMovement ||
-        GetCurrentMotion() == eFlyingSligMotions::Motion_18_EndDownMovement ||
-        GetCurrentMotion() == eFlyingSligMotions::Motion_17_BeginDownMovement;
+    return mCurrentMotion == eFlyingSligMotions::Motion_0_Idle ||
+        mCurrentMotion == eFlyingSligMotions::Motion_1_HorizontalMovement ||
+        mCurrentMotion == eFlyingSligMotions::Motion_3_DownMovement ||
+        mCurrentMotion == eFlyingSligMotions::Motion_5_UpMovement ||
+        mCurrentMotion == eFlyingSligMotions::Motion_16_IdleToHorizontalMovement ||
+        mCurrentMotion == eFlyingSligMotions::Motion_10_EndHorizontalMovement ||
+        mCurrentMotion == eFlyingSligMotions::Motion_11_BeginUpMovement ||
+        mCurrentMotion == eFlyingSligMotions::Motion_13_UpToHorizontalMovement ||
+        mCurrentMotion == eFlyingSligMotions::Motion_12_HorizontalToDownMovement ||
+        mCurrentMotion == eFlyingSligMotions::Motion_14_DownToHorizontalMovement ||
+        mCurrentMotion == eFlyingSligMotions::Motion_18_EndDownMovement ||
+        mCurrentMotion == eFlyingSligMotions::Motion_17_BeginDownMovement;
 }
 
 void FlyingSlig::ToLaunchingGrenade()
@@ -2830,7 +2830,7 @@ void FlyingSlig::sub_4373B0()
     }
 }
 
-void FlyingSlig::VSetMotion(s16 newMotion)
+void FlyingSlig::VSetMotion(eFlyingSligMotions newMotion)
 {
     SetCurrentMotion(newMotion);
     vUpdateAnimRes_4350A0();
@@ -2885,7 +2885,7 @@ s16 FlyingSlig::CollisionUp(FP velY)
 
     if (bCollision)
     {
-        if (FP_Abs(field_184_xSpeed) < FP_FromDouble(0.1) && GetCurrentMotion() != eFlyingSligMotions::Motion_20_UpKnockback)
+        if (FP_Abs(field_184_xSpeed) < FP_FromDouble(0.1) && mCurrentMotion != eFlyingSligMotions::Motion_20_UpKnockback)
         {
             SetMotionHelper(eFlyingSligMotions::Motion_20_UpKnockback);
         }
@@ -2959,7 +2959,7 @@ s16 FlyingSlig::CollisionDown(FP velY)
 
     if (bCollision)
     {
-        if (FP_Abs(field_184_xSpeed) < FP_FromDouble(0.1) && GetCurrentMotion() != eFlyingSligMotions::Motion_19_DownKnockback)
+        if (FP_Abs(field_184_xSpeed) < FP_FromDouble(0.1) && mCurrentMotion != eFlyingSligMotions::Motion_19_DownKnockback)
         {
             SetMotionHelper(eFlyingSligMotions::Motion_19_DownKnockback);
         }

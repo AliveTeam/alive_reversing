@@ -4,6 +4,7 @@
 #include "Sfx.hpp"
 #include "../relive_lib/data_conversion/relive_tlvs.hpp"
 #include "../relive_lib/SaveStateBase.hpp"
+#include "../relive_lib/FatalError.hpp"
 
 enum class LevelIds : s16;
 
@@ -42,6 +43,7 @@ using TFlyingSligBrainFn = void (FlyingSlig::*)(void);
 #define MAKE_ENUM(VAR) VAR,
 enum class eFlyingSligMotions : s32
 {
+    None_m1 = -1,
     FLYING_SLIG_MOTIONS_ENUM(MAKE_ENUM)
 };
 
@@ -63,14 +65,14 @@ struct FlyingSligSaveState final : public SaveStateBase
     s16 field_1E_oldg;
     s16 field_20_oldb;
     s16 field_22_bAnimFlipX;
-    s16 field_24_current_state;
+    eFlyingSligMotions field_24_current_state;
     s16 field_26_current_frame;
     s16 field_28_frame_change_counter;
     u8 field_2A_bAnimRender;
     u8 field_2B_bDrawable;
     FP field_2C_current_health;
-    s16 field_30_current_state;
-    s16 field_32_delayed_state;
+    eFlyingSligMotions field_30_current_state;
+    eFlyingSligMotions field_32_delayed_state;
     s16 field_34_lastLineYPos;
     s16 field_36_line_idx;
     u8 field_38_launch_switch_id;
@@ -151,8 +153,22 @@ public:
     virtual void VScreenChanged() override;
     virtual bool VTakeDamage(BaseGameObject* pFrom) override;
     virtual void VPossessed() override;
-    virtual void VSetMotion(s16 newMotion) override;
+    void VSetMotion(eFlyingSligMotions newMotion);
     virtual void VGetSaveState(SerializedObjectData& pSaveBuffer) override;
+    virtual s16 VGetMotion(eMotionType motionType) override
+    {
+        switch (motionType)
+        {
+            case eMotionType::ePreviousMotion:
+                return static_cast<s16>(mPreviousMotion);
+            case eMotionType::eCurrentMotion:
+                return static_cast<s16>(mCurrentMotion);
+            case eMotionType::eNextMotion:
+                return static_cast<s16>(mNextMotion);
+            default:
+                ALIVE_FATAL("Invalid motion type %d", static_cast<s32>(motionType));
+        }
+    }
 
     static void CreateFromSaveState(SerializedObjectData& pBuffer);
     void ToPlayerControlled();
@@ -205,13 +221,9 @@ public:
     void Motion_25_TurnToHorizontalMovement();
 
 private:
-    eFlyingSligMotions GetCurrentMotion() const
-    {
-        return static_cast<eFlyingSligMotions>(mCurrentMotion);
-    }
     inline void SetMotionHelper(eFlyingSligMotions motion)
     {
-        VSetMotion(static_cast<s16>(motion));
+        VSetMotion(motion);
     }
 
     void LoadAnimations();
@@ -256,6 +268,22 @@ private:
     bool sub_436B20();
     void sub_4373B0();
     void sub_437AC0(FP a2, FP_Point* pPoint);
+
+    // TODO: remove these later
+    void SetPreviousMotion(eFlyingSligMotions motion)
+    {
+        mPreviousMotion = motion;
+    }
+
+    void SetCurrentMotion(eFlyingSligMotions motion)
+    {
+        mCurrentMotion = motion;
+    }
+
+    void SetNextMotion(eFlyingSligMotions motion)
+    {
+        mNextMotion = motion;
+    }
 
 private:
     relive::Path_FlyingSlig field_118_data;
@@ -303,6 +331,10 @@ private:
     FP field_284_bobbing_value = {};
     s16 field_28C_bobbing_values_table_index = 0;
     s32 field_290_bobbing_values_index = 0;
+    eFlyingSligMotions mPreviousMotion = eFlyingSligMotions::Motion_0_Idle;
+    eFlyingSligMotions mCurrentMotion = eFlyingSligMotions::Motion_0_Idle;
+    eFlyingSligMotions mNextMotion = eFlyingSligMotions::Motion_0_Idle;
+    bool mbMotionChanged = false;
 
 public:
     FP field_294_nextXPos = {};

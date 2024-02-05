@@ -173,7 +173,20 @@ public:
     virtual bool VTakeDamage(BaseGameObject* pFrom) override;
     virtual void VOnThrowableHit(BaseGameObject* pFrom) override;
     virtual void VGetSaveState(SerializedObjectData& pSaveBuffer) override;
-
+    virtual s16 VGetMotion(eMotionType motionType) override
+    {
+        switch (motionType)
+        {
+            case eMotionType::ePreviousMotion:
+                return static_cast<s16>(mPreviousMotion);
+            case eMotionType::eCurrentMotion:
+                return static_cast<s16>(mCurrentMotion);
+            case eMotionType::eNextMotion:
+                return static_cast<s16>(mNextMotion);
+            default:
+                ALIVE_FATAL("Invalid motion type %d", static_cast<s32>(motionType));
+        }
+    }
     static void CreateFromSaveState(SerializedObjectData& pBuffer);
 
 public:
@@ -246,14 +259,6 @@ private:
     void Init();
 
 private:
-    eSlogMotions GetNextMotion() const
-    {
-        return static_cast<eSlogMotions>(mNextMotion);
-    }
-    eSlogMotions GetCurrentMotion() const
-    {
-        return static_cast<eSlogMotions>(mCurrentMotion);
-    }
 
     void ToIdle();
     void Sfx(SlogSound effectId);
@@ -267,6 +272,22 @@ private:
     void DelayedResponse(s16 responseIdx);
     s16 HandleEnemyStopper();
     s16 Facing(FP xpos);
+
+    // TODO: remove these later
+    void SetPreviousMotion(eSlogMotions motion)
+    {
+        mPreviousMotion = motion;
+    }
+
+    void SetCurrentMotion(eSlogMotions motion)
+    {
+        mCurrentMotion = motion;
+    }
+
+    void SetNextMotion(eSlogMotions motion)
+    {
+        mNextMotion = motion;
+    }
 
 public:
     Guid mTargetId;
@@ -304,6 +325,10 @@ private:
     bool mHitByAbilityRing = false;
     bool mListenToSligs = false;
     bool mAsleep = false;
+    eSlogMotions mPreviousMotion = eSlogMotions::Motion_0_Idle;
+    eSlogMotions mCurrentMotion = eSlogMotions::Motion_0_Idle;
+    eSlogMotions mNextMotion = eSlogMotions::Motion_0_Idle;
+    bool mbMotionChanged = false;
 };
 
 extern s16 sSlogCount;

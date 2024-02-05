@@ -41,15 +41,12 @@ struct MineCarSaveState final : public SaveStateBase
     s16 field_20_b;
     s16 field_22_xFlip;
     s32 field_24_frame_table;
-    s16 field_28_current_motion;
     s16 field_2A_current_anim_frame;
     s16 field_2C_frame_change_counter;
     s8 field_2E_render;
     s8 field_2F_drawable;
     s32 field_38_frame_table_offset2;
     FP field_3C_health;
-    s16 field_40_current_motion;
-    s16 field_42_next_motion;
     s16 field_44_last_line_ypos;
     eLineTypes field_46_collision_line_type;
     Guid field_4C_tlvInfo;
