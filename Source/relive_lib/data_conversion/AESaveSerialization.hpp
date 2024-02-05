@@ -1659,6 +1659,7 @@ NLOHMANN_JSON_SERIALIZE_ENUM(Mud_Brain_State, {
 })
 
 NLOHMANN_JSON_SERIALIZE_ENUM(eMudMotions, {
+    {eMudMotions::None_m1, "none"},
     {eMudMotions::Motion_0_Idle, "idle"},
     {eMudMotions::Motion_1_WalkLoop, "walk_loop"},
     {eMudMotions::Motion_2_StandingTurn, "standing_turn"},
@@ -1987,15 +1988,12 @@ inline void to_json(nlohmann::json& j, const MineCarSaveState& p)
         {"b", p.field_20_b},
         {"x_flip", p.field_22_xFlip},
         {"frame_table", p.field_24_frame_table},
-        {"field_28_current_motion", p.field_28_current_motion},
         {"current_anim_frame", p.field_2A_current_anim_frame},
         {"frame_change_counter", p.field_2C_frame_change_counter},
         {"render", p.field_2E_render},
         {"drawable", p.field_2F_drawable},
         {"frame_table_offset2", p.field_38_frame_table_offset2},
         {"health", p.field_3C_health},
-        {"field_40_current_motion", p.field_40_current_motion},
-        {"next_motion", p.field_42_next_motion},
         {"last_line_ypos", p.field_44_last_line_ypos},
         {"collision_line_type", p.field_46_collision_line_type},
         {"tlv_info", p.field_4C_tlvInfo},
@@ -2026,15 +2024,12 @@ inline void from_json(const nlohmann::json& j, MineCarSaveState& p)
     j.at("b").get_to(p.field_20_b);
     j.at("x_flip").get_to(p.field_22_xFlip);
     j.at("frame_table").get_to(p.field_24_frame_table);
-    j.at("field_28_current_motion").get_to(p.field_28_current_motion);
     j.at("current_anim_frame").get_to(p.field_2A_current_anim_frame);
     j.at("frame_change_counter").get_to(p.field_2C_frame_change_counter);
     j.at("render").get_to(p.field_2E_render);
     j.at("drawable").get_to(p.field_2F_drawable);
     j.at("frame_table_offset2").get_to(p.field_38_frame_table_offset2);
     j.at("health").get_to(p.field_3C_health);
-    j.at("field_40_current_motion").get_to(p.field_40_current_motion);
-    j.at("next_motion").get_to(p.field_42_next_motion);
     j.at("last_line_ypos").get_to(p.field_44_last_line_ypos);
     j.at("collision_line_type").get_to(p.field_46_collision_line_type);
     j.at("tlv_info").get_to(p.field_4C_tlvInfo);
@@ -2891,7 +2886,6 @@ inline void to_json(nlohmann::json& j, const SlurgSaveState& p)
         {"velx", p.mVelX},
         {"slurg_sprite_scale", p.mSlurgSpriteScale},
         {"flipx", p.mFlipX},
-        {"current_motion", p.mCurrentMotion},
         {"anim_current_frame", p.mAnimCurrentFrame},
         {"frame_change_counter", p.mFrameChangeCounter},
         {"drawable", p.mDrawable},
@@ -2911,7 +2905,6 @@ inline void from_json(const nlohmann::json& j, SlurgSaveState& p)
     j.at("velx").get_to(p.mVelX);
     j.at("slurg_sprite_scale").get_to(p.mSlurgSpriteScale);
     j.at("flipx").get_to(p.mFlipX);
-    j.at("current_motion").get_to(p.mCurrentMotion);
     j.at("anim_current_frame").get_to(p.mAnimCurrentFrame);
     j.at("frame_change_counter").get_to(p.mFrameChangeCounter);
     j.at("drawable").get_to(p.mDrawable);

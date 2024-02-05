@@ -38,7 +38,6 @@ struct SlurgSaveState final : public SaveStateBase
     FP mVelX;
     FP mSlurgSpriteScale;
     s16 mFlipX;
-    s16 mCurrentMotion;
     s16 mAnimCurrentFrame;
     s16 mFrameChangeCounter;
     s8 mDrawable;

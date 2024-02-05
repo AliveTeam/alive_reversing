@@ -4,6 +4,7 @@
 #include "../relive_lib/MapWrapper.hpp"
 #include "../relive_lib/data_conversion/relive_tlvs.hpp"
 #include "../relive_lib/SaveStateBase.hpp"
+#include "../relive_lib/FatalError.hpp"
 
 #define SLIG_MOTIONS_ENUM_AE(ENTRY)         \
     ENTRY(Motion_0_StandIdle)          \
@@ -233,7 +234,20 @@ public:
     virtual bool VIsFacingMe(BaseAnimatedWithPhysicsGameObject* pOther) override;
     virtual bool VOnSameYLevel(BaseAnimatedWithPhysicsGameObject* pOther) override;
     virtual void VGetSaveState(SerializedObjectData& pSaveBuffer) override;
-
+    virtual s16 VGetMotion(eMotionType motionType) override
+    {
+        switch (motionType)
+        {
+            case eMotionType::ePreviousMotion:
+                return static_cast<s16>(mPreviousMotion);
+            case eMotionType::eCurrentMotion:
+                return static_cast<s16>(mCurrentMotion);
+            case eMotionType::eNextMotion:
+                return static_cast<s16>(mNextMotion);
+            default:
+                ALIVE_FATAL("Invalid motion type %d", static_cast<s32>(motionType));
+        }
+    }
     static void CreateFromSaveState(SerializedObjectData& pBuffer);
     static s16 IsAbeEnteringDoor(IBaseAliveGameObject* pThis);
 

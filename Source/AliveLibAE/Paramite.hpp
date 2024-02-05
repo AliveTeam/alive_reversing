@@ -208,6 +208,20 @@ public:
     virtual void VOnTlvCollision(relive::Path_TLV* pTlv) override;
     virtual void VOnTrapDoorOpen() override;
     virtual void VGetSaveState(SerializedObjectData& pSaveBuffer) override;
+    virtual s16 VGetMotion(eMotionType motionType) override
+    {
+        switch (motionType)
+        {
+            case eMotionType::ePreviousMotion:
+                return static_cast<s16>(mPreviousMotion);
+            case eMotionType::eCurrentMotion:
+                return static_cast<s16>(mCurrentMotion);
+            case eMotionType::eNextMotion:
+                return static_cast<s16>(mNextMotion);
+            default:
+                ALIVE_FATAL("Invalid motion type %d", static_cast<s32>(motionType));
+        }
+    }
 
     static void CreateFromSaveState(SerializedObjectData& pBuffer);
 

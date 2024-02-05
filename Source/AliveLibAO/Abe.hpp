@@ -2,6 +2,7 @@
 
 #include "BaseAliveGameObject.hpp"
 #include "Map.hpp"
+#include "../relive_lib/FatalError.hpp"
 
 namespace relive
 {
@@ -184,8 +185,9 @@ namespace AO {
     ENTRY(Motion_164_PoisonGasDeath)
 
 #define MAKE_ENUM(VAR) VAR,
-enum eAbeMotions : s16
+enum class eAbeMotions
 {
+    None_m1 = -1,
     AO_ABE_MOTIONS_ENUM(MAKE_ENUM)
 };
 
@@ -490,7 +492,20 @@ public:
     BirdPortal* VIntoBirdPortal(s16 gridBlocks) override;
     virtual void VOnTrapDoorOpen() override;
     virtual bool VTakeDamage(BaseGameObject* pFrom) override;
-
+    virtual s16 VGetMotion(eMotionType motionType) override
+    {
+        switch (motionType)
+        {
+            case eMotionType::ePreviousMotion:
+                return static_cast<s16>(mPreviousMotion);
+            case eMotionType::eCurrentMotion:
+                return static_cast<s16>(mCurrentMotion);
+            case eMotionType::eNextMotion:
+                return static_cast<s16>(mNextMotion);
+            default:
+                ALIVE_FATAL("Invalid motion type %d", static_cast<s32>(motionType));
+        }
+    }
 
     bool CheckForPortalAndRunJump();
     void FreeElumRes();
@@ -505,10 +520,10 @@ public:
     void ToKnockback(s16 bUnknownSound, s16 bDelayedAnger);
     void ToIdle();
     void MoveForward();
-    s16 MoveLiftUpOrDown(FP ySpeed);
+    eAbeMotions MoveLiftUpOrDown(FP ySpeed);
     void ElumFree();
-    s16 DoGameSpeak(u16 input);
-    void SyncToElum(s16 elumMotion);
+    eAbeMotions DoGameSpeak(u16 input);
+    void SyncToElum(s16 elumMotion); // TODO: use elum motion enum instead
     void PickUpThrowabe_Or_PressBomb(FP fpX, s32 fpY, s16 bStandToCrouch);
     void CrouchingGameSpeak();
     void FallOnBombs(); // TODO: this has nothing to do with falling
@@ -518,13 +533,13 @@ public:
     void SetActiveControlledCharacter();
     PullRingRope* GetPullRope();
     void ElumKnockForward();
-    s16 TryMountElum();
+    eAbeMotions TryMountElum();
     void BulletDamage(Bullet* a2);
     s16 RunTryEnterDoor();
     bool NearDoorIsOpen();
     void IntoPortalStates();
     void TryHoist();
-    s16 HandleDoAction();
+    eAbeMotions HandleDoAction();
 
     // Motions
     void Motion_0_Idle();
@@ -696,7 +711,7 @@ public:
     s16 field_10C_prev_held = 0;
     s16 field_10E_released_buttons = 0;
     AllInternalStates field_110_state = {};
-    s16 field_112_prev_motion = -1;
+    eAbeMotions field_112_prev_motion = eAbeMotions::None_m1;
     s32 field_114_gnFrame = 0;
     s32 field_118_timer = 0;
     s32 field_11C_regen_health_timer = 0;
@@ -755,6 +770,10 @@ public:
     bool mElumUnmountBegin = false;
     SaveData* field_2AC_pSaveData = nullptr;
     bool mRidingElum = false;
+    eAbeMotions mPreviousMotion = eAbeMotions::Motion_0_Idle;
+    eAbeMotions mCurrentMotion = eAbeMotions::Motion_0_Idle;
+    eAbeMotions mNextMotion = eAbeMotions::Motion_0_Idle;
+    bool mbMotionChanged = false;
 };
 
 extern Abe* gAbe;

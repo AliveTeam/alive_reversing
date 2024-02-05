@@ -169,18 +169,19 @@ public:
     virtual bool VTakeDamage(BaseGameObject* pFrom) override;
 
     virtual void VUpdateResBlock();
-
-    eMudMotions GetNextMotion() const
+    virtual s16 VGetMotion(eMotionType motionType) override
     {
-        return static_cast<eMudMotions>(mNextMotion);
-    }
-    eMudMotions GetCurrentMotion() const
-    {
-        return static_cast<eMudMotions>(mCurrentMotion);
-    }
-    eMudMotions GetPreviousMotion() const
-    {
-        return static_cast<eMudMotions>(mPreviousMotion);
+        switch (motionType)
+        {
+            case eMotionType::ePreviousMotion:
+                return static_cast<s16>(mPreviousMotion);
+            case eMotionType::eCurrentMotion:
+                return static_cast<s16>(mCurrentMotion);
+            case eMotionType::eNextMotion:
+                return static_cast<s16>(mNextMotion);
+            default:
+                ALIVE_FATAL("Invalid motion type %d", static_cast<s32>(motionType));
+        }
     }
 
     bool DoSmashDamage();
@@ -328,6 +329,10 @@ public:
     s16 field_1BC = 0;
     s32 field_1C0_timer = 0;
     s16 field_1C4_bDoPathTrans = 0;
+    eMudMotions mPreviousMotion = eMudMotions::Motion_0_Idle;
+    eMudMotions mCurrentMotion = eMudMotions::Motion_0_Idle;
+    eMudMotions mNextMotion = eMudMotions::Motion_0_Idle;
+    bool mbMotionChanged = false;
 };
 
 } // namespace AO

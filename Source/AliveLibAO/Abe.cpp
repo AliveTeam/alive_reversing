@@ -491,7 +491,8 @@ void Abe::VOnTrapDoorOpen()
     {
         if (!mShrivel)
         {
-            VSetMotion(eAbeMotions::Motion_93_WalkOffEdge);
+            mCurrentMotion = eAbeMotions::Motion_93_WalkOffEdge;
+            mbMotionChanged = true;
         }
 
         pPlatform->VRemove(this);
@@ -699,7 +700,7 @@ void Abe::VUpdate()
 
 
         // Execute the current state
-        s16 motion_idx = mCurrentMotion;
+        eAbeMotions motion_idx = mCurrentMotion;
         const FP oldX = mXPos;
         const FP oldY = mYPos;
 
@@ -732,8 +733,8 @@ void Abe::VUpdate()
                 motion_idx = field_112_prev_motion;
                 ToKnockback(1, 0);
                 mCurrentMotion = motion_idx;
-                mNextMotion = 0;
-                field_112_prev_motion = 0;
+                mNextMotion = eAbeMotions::Motion_0_Idle;
+                field_112_prev_motion = eAbeMotions::Motion_0_Idle;
                 mbMotionChanged = true;
                 mbGotShot = false;
 #if ORIGINAL_GAME_FIXES || ORIGINAL_GAME_FIX_DEATH_DELAY_AO
@@ -755,7 +756,7 @@ void Abe::VUpdate()
 
                 if (mCurrentMotion != eAbeMotions::Motion_15_Null && !mShrivel)
                 {
-                    GetAnimation().Set_Animation_Data(GetAnimRes(sAbeMotionAnimIds[mCurrentMotion]));
+                    GetAnimation().Set_Animation_Data(GetAnimRes(sAbeMotionAnimIds[static_cast<u32>(mCurrentMotion)]));
 
                     field_12C_timer = sGnFrame;
 
@@ -768,7 +769,7 @@ void Abe::VUpdate()
             else if (mReturnToPreviousMotion)
             {
                 mCurrentMotion = mPreviousMotion;
-                GetAnimation().Set_Animation_Data(GetAnimRes(sAbeMotionAnimIds[mCurrentMotion]));
+                GetAnimation().Set_Animation_Data(GetAnimRes(sAbeMotionAnimIds[static_cast<u32>(mCurrentMotion)]));
 
                 field_12C_timer = sGnFrame;
                 GetAnimation().SetFrame(mBaseAliveGameObjectLastAnimFrame);
@@ -1269,7 +1270,7 @@ void Abe::ElumFree()
 {
     if (mElumMountEnd)
     {
-        if (gElum->GetCurrentMotion() != eElumMotions::Motion_1_Idle)
+        if (gElum->mCurrentMotion != eElumMotions::Motion_1_Idle)
         {
             gElum->Vsub_416120();
         }
@@ -1277,14 +1278,14 @@ void Abe::ElumFree()
 
     if (mElumUnmountBegin)
     {
-        if (gElum->GetCurrentMotion() != eElumMotions::Motion_1_Idle)
+        if (gElum->mCurrentMotion != eElumMotions::Motion_1_Idle)
         {
             gElum->Vsub_416120();
         }
     }
 }
 
-s16 Abe::DoGameSpeak(u16 input)
+eAbeMotions Abe::DoGameSpeak(u16 input)
 {
     if (Input_IsChanting())
     {
@@ -1409,7 +1410,7 @@ s16 Abe::DoGameSpeak(u16 input)
             return eAbeMotions::Motion_10_Speak;
         }
     }
-    return -1;
+    return eAbeMotions::None_m1;
 }
 
 void Abe::SyncToElum(s16 elumMotion)
@@ -1856,7 +1857,7 @@ void Abe::MoveWithVelocity(FP speed)
 
 void Abe::ToNewElumSyncMotion(s32 elum_frame)
 {
-    GetAnimation().Set_Animation_Data(GetAnimRes(sAbeMotionAnimIds[mCurrentMotion]));
+    GetAnimation().Set_Animation_Data(GetAnimRes(sAbeMotionAnimIds[static_cast<u32>(mCurrentMotion)]));
 
     field_12C_timer = sGnFrame;
     GetAnimation().SetFrame(elum_frame + 1);
@@ -1902,13 +1903,13 @@ void Abe::ElumKnockForward()
     mCurrentMotion = eAbeMotions::Motion_128_KnockForward;
     mNextMotion = eAbeMotions::Motion_0_Idle;
     mbMotionChanged = true;
-    GetAnimation().Set_Animation_Data(GetAnimRes(sAbeMotionAnimIds[mCurrentMotion]));
+    GetAnimation().Set_Animation_Data(GetAnimRes(sAbeMotionAnimIds[static_cast<u32>(mCurrentMotion)]));
 
     sControlledCharacter = gAbe;
     gElum->field_154_bAbeForcedDownFromElum = 1;
 }
 
-s16 Abe::TryMountElum()
+eAbeMotions Abe::TryMountElum()
 {
     if (gElum)
     {
@@ -1920,7 +1921,7 @@ s16 Abe::TryMountElum()
                 return eAbeMotions::Motion_2_StandingTurn;
             }
 
-            if (gElum->GetCurrentMotion() != eElumMotions::Motion_1_Idle
+            if (gElum->mCurrentMotion != eElumMotions::Motion_1_Idle
                 || gElum->mBrainIdx == 1
                 || gElum->mStrugglingWithBees)
             {
@@ -2202,7 +2203,7 @@ s16 Abe::RunTryEnterDoor()
     return 1;
 }
 
-s16 Abe::MoveLiftUpOrDown(FP yVelocity)
+eAbeMotions Abe::MoveLiftUpOrDown(FP yVelocity)
 {
     LiftPoint* pLiftPoint = static_cast<LiftPoint*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
     if (!pLiftPoint)
@@ -2377,9 +2378,9 @@ void Abe::VOnTlvCollision(relive::Path_TLV* pTlv)
     }
 }
 
-s16 Abe::HandleDoAction()
+eAbeMotions Abe::HandleDoAction()
 {
-    s16 mountMotion = TryMountElum();
+    eAbeMotions mountMotion = TryMountElum();
     if (mountMotion != eAbeMotions::Motion_0_Idle)
     {
         return mountMotion;
@@ -3499,11 +3500,11 @@ void Abe::Motion_2_StandingTurn()
     {
         GetAnimation().ToggleFlipX();
 
-        if (mNextMotion)
+        if (mNextMotion != eAbeMotions::Motion_0_Idle)
         {
             // OG bug: this local variable allows you to "store" your next state if you face the opposite
             // ledge direction and press down/up and then interrupt it by running away before you hoist.
-            const s16 kNext_state = mNextMotion;
+            const eAbeMotions kNext_state = mNextMotion;
             if (mNextMotion != eAbeMotions::Motion_139_ElumMountBegin)
             {
                 if (mNextMotion == eAbeMotions::Motion_101_LeverUse)
@@ -3530,7 +3531,7 @@ void Abe::Motion_2_StandingTurn()
 
             if (gElum)
             {
-                if (gElum->GetCurrentMotion() == eElumMotions::Motion_1_Idle && !gElum->mStrugglingWithBees)
+                if (gElum->mCurrentMotion == eElumMotions::Motion_1_Idle && !gElum->mStrugglingWithBees)
                 {
                     mRidingElum = true;
                     mNextMotion = eAbeMotions::Motion_0_Idle;
@@ -3806,7 +3807,7 @@ void Abe::Motion_5_MidWalkToIdle()
             MapFollowMe(1);
             if (mNextMotion == eAbeMotions::Motion_30_HopMid)
             {
-                mNextMotion = 0;
+                mNextMotion = eAbeMotions::Motion_0_Idle;
                 mCurrentMotion = eAbeMotions::Motion_29_HopBegin;
                 field_1A0_portal = VIntoBirdPortal(2);
                 if (field_1A0_portal)
@@ -4050,7 +4051,7 @@ void Abe::Motion_18_HoistLand()
 
     if (GetAnimation().GetCurrentFrame() == 2)
     {
-        if (mPreviousMotion == 3)
+        if (mPreviousMotion == eAbeMotions::Motion_3_Fall)
         {
             Environment_SFX(EnvironmentSfx::eLandingSoft_5, 0, 0x7FFF, this);
         }
@@ -5275,7 +5276,7 @@ void Abe::Motion_39_CrouchTurn()
             else
             {
                 mCurrentMotion = mNextMotion;
-                mNextMotion = 0;
+                mNextMotion = eAbeMotions::Motion_0_Idle;
             }
         }
     }
@@ -5500,7 +5501,7 @@ void Abe::Motion_45_MidWalkToSneak()
     if (GetAnimation().GetIsLastFrame())
     {
         mReturnToPreviousMotion = true;
-        mPreviousMotion = 42;
+        mPreviousMotion = eAbeMotions::Motion_42_SneakLoop;
         mBaseAliveGameObjectLastAnimFrame = 10;
     }
 
@@ -5531,7 +5532,7 @@ void Abe::Motion_46_MidSneakToWalk()
     if (GetAnimation().GetIsLastFrame())
     {
         mReturnToPreviousMotion = true;
-        mPreviousMotion = 1;
+        mPreviousMotion = eAbeMotions::Motion_1_WalkLoop;
         mBaseAliveGameObjectLastAnimFrame = 9;
     }
 
@@ -5651,7 +5652,7 @@ void Abe::Motion_51_MidWalkToRun()
     if (GetAnimation().GetIsLastFrame())
     {
         mReturnToPreviousMotion = true;
-        mPreviousMotion = 35;
+        mPreviousMotion = eAbeMotions::Motion_35_RunLoop;
         mBaseAliveGameObjectLastAnimFrame = 8;
     }
 
@@ -5716,7 +5717,7 @@ void Abe::Motion_53_MidRunToWalk()
     if (GetAnimation().GetIsLastFrame())
     {
         mReturnToPreviousMotion = true;
-        mPreviousMotion = 1;
+        mPreviousMotion = eAbeMotions::Motion_1_WalkLoop;
         mBaseAliveGameObjectLastAnimFrame = 9;
     }
 
@@ -5826,7 +5827,7 @@ void Abe::Motion_58_ToSpeak()
     if (GetAnimation().GetIsLastFrame())
     {
         mCurrentMotion = DoGameSpeak(field_10C_prev_held);
-        if (mCurrentMotion == -1)
+        if (mCurrentMotion == eAbeMotions::None_m1)
         {
             ToIdle();
         }
@@ -6880,7 +6881,10 @@ void Abe::Motion_78_InsideWellLocal()
 
         SfxPlayMono(relive::SoundEffects::WellExit, 0, GetSpriteScale());
 
-        mCurrentMotion++; // can be motion 76 and 79 maybe more?
+        // TODO: handle this better
+        s16 nextMotion = static_cast<s16>(mCurrentMotion);
+        nextMotion++;
+        mCurrentMotion = static_cast<eAbeMotions>(nextMotion); // can be motion 76 and 79 maybe more?
 
         if (GetSpriteScale() == FP_FromDouble(0.5))
         {

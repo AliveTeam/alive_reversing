@@ -4901,7 +4901,6 @@ struct SlurgSaveState final
         d.mVelX = data.mVelX;
         d.mSlurgSpriteScale = data.mSlurgSpriteScale;
         d.mFlipX = data.mFlipX;
-        d.mCurrentMotion = data.mCurrentMotion;
         d.mAnimCurrentFrame = data.mAnimCurrentFrame;
         d.mFrameChangeCounter = data.mFrameChangeCounter;
         d.mDrawable = data.mDrawable;

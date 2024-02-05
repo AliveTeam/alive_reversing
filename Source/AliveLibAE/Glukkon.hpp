@@ -4,6 +4,7 @@
 #include "../relive_lib/MapWrapper.hpp"
 #include "../relive_lib/data_conversion/relive_tlvs.hpp"
 #include "../relive_lib/SaveStateBase.hpp"
+#include "../relive_lib/FatalError.hpp"
 
 #define GLUKKON_MOTIONS_ENUM(ENTRY)        \
     ENTRY(Motion_0_Idle)                 \
@@ -156,6 +157,20 @@ public:
     virtual void VOnTlvCollision(relive::Path_TLV* pTlv) override;
     virtual void VOnTrapDoorOpen() override;
     virtual bool VTakeDamage(BaseGameObject* pFrom) override;
+    virtual s16 VGetMotion(eMotionType motionType) override
+    {
+        switch (motionType)
+        {
+            case eMotionType::ePreviousMotion:
+                return static_cast<s16>(mPreviousMotion);
+            case eMotionType::eCurrentMotion:
+                return static_cast<s16>(mCurrentMotion);
+            case eMotionType::eNextMotion:
+                return static_cast<s16>(mNextMotion);
+            default:
+                ALIVE_FATAL("Invalid motion type %d", static_cast<s32>(motionType));
+        }
+    }
 
 public:
     void Motion_0_Idle();

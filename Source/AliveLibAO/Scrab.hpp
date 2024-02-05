@@ -2,6 +2,7 @@
 
 #include "BaseAliveGameObject.hpp"
 #include "../relive_lib/data_conversion/relive_tlvs.hpp"
+#include "../relive_lib/FatalError.hpp"
 
 namespace AO {
 
@@ -38,8 +39,9 @@ namespace AO {
     ENTRY(Motion_29_DeathBegin)
 
 #define MAKE_ENUM(VAR) VAR,
-enum eScrabMotions : s32
+enum class eScrabMotions
 {
+    None_m1 = -1,
     SCRAB_MOTIONS_ENUM_AO(MAKE_ENUM)
 };
 
@@ -101,6 +103,20 @@ public:
     virtual void VScreenChanged() override;
     virtual void VOnTrapDoorOpen() override;
     virtual bool VOnSameYLevel(BaseAnimatedWithPhysicsGameObject* pOther) override;
+    virtual s16 VGetMotion(eMotionType motionType) override
+    {
+        switch (motionType)
+        {
+            case eMotionType::ePreviousMotion:
+                return static_cast<s16>(mPreviousMotion);
+            case eMotionType::eCurrentMotion:
+                return static_cast<s16>(mCurrentMotion);
+            case eMotionType::eNextMotion:
+                return static_cast<s16>(mNextMotion);
+            default:
+                ALIVE_FATAL("Invalid motion type %d", static_cast<s32>(motionType));
+        }
+    }
 
     s16 CanSeeAbe(BaseAliveGameObject* pObj);
     void vUpdateAnim();
@@ -115,7 +131,7 @@ public:
     Scrab* FindScrabToFight();
     bool FindAbeOrMud();
     s16 HandleRunning(); // returns the brain sub state
-    s16 GetMotionForPatrolType(relive::Path_Scrab::ScrabPatrolType ScrabPatrolType);
+    eScrabMotions GetMotionForPatrolType(relive::Path_Scrab::ScrabPatrolType ScrabPatrolType);
 
     // Motions
     void Motion_0_Empty();
@@ -185,6 +201,10 @@ public:
     s16 mPauseRightMax = 0;
     s32 field_14C = 0; // scrab sfx channel mask
     s16 field_188_flags = 0;
+    eScrabMotions mPreviousMotion = eScrabMotions::Motion_0_Empty;
+    eScrabMotions mCurrentMotion = eScrabMotions::Motion_0_Empty;
+    eScrabMotions mNextMotion = eScrabMotions::Motion_0_Empty;
+    bool mbMotionChanged = false;
 };
 
 } // namespace AO

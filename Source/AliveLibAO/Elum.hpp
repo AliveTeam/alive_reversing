@@ -1,6 +1,7 @@
 #pragma once
 
 #include "BaseAliveGameObject.hpp"
+#include "../relive_lib/FatalError.hpp"
 
 namespace AO {
 
@@ -60,8 +61,9 @@ enum class EnvironmentSfx : u8;
     ENTRY(Motion_50_Knockback)
 
 #define MAKE_ENUM(VAR) VAR,
-enum class eElumMotions : s32
+enum class eElumMotions
 {
+    None_m1 = -1,
     ELUM_MOTIONS_ENUM(MAKE_ENUM)
 };
 
@@ -148,18 +150,22 @@ public:
     virtual void VOnTlvCollision(relive::Path_TLV* pTlv) override;
     virtual bool VTakeDamage(BaseGameObject* pFrom) override;
     virtual void VOnTrapDoorOpen() override;
+    virtual s16 VGetMotion(eMotionType motionType) override
+    {
+        switch (motionType)
+        {
+            case eMotionType::ePreviousMotion:
+                return static_cast<s16>(mPreviousMotion);
+            case eMotionType::eCurrentMotion:
+                return static_cast<s16>(mCurrentMotion);
+            case eMotionType::eNextMotion:
+                return static_cast<s16>(mNextMotion);
+            default:
+                ALIVE_FATAL("Invalid motion type %d", static_cast<s32>(motionType));
+        }
+    }
 
     void Vsub_416120();
-
-    eElumMotions GetCurrentMotion() const
-    {
-        return static_cast<eElumMotions>(mCurrentMotion);
-    }
-
-    eElumMotions GetNextMotion() const
-    {
-        return static_cast<eElumMotions>(mNextMotion);
-    }
 
     // Motions
     void Motion_0_Respawn();
@@ -223,6 +229,22 @@ public:
     s16 Brain_0_WithoutAbe();
     s16 Brain_1_HoneyAddiction();
 
+        // TODO: remove these later
+    void SetPreviousMotion(eElumMotions motion)
+    {
+        mPreviousMotion = motion;
+    }
+
+    void SetCurrentMotion(eElumMotions motion)
+    {
+        mCurrentMotion = motion;
+    }
+
+    void SetNextMotion(eElumMotions motion)
+    {
+        mNextMotion = motion;
+    }
+
 private:
     void ToKnockback();
     void MidWalkToNextMotion();
@@ -230,7 +252,7 @@ private:
     void SlowOnX(FP amount);
     void CheckLiftPointGoneAndSetCamera();
     void MoveOnLine(s16 xLookAhead);
-    void SetAbeAsPlayer(s16 abeMotion);
+    void KnockAbeOffElum();
     bool ToNextMotion();
     bool ToNextMotionAbeControlled();
     void HandleElumPathTrans();
@@ -267,6 +289,10 @@ public:
     FP mContinueSpriteScale = {};
     bool mFalling = false; // falling straight down?
     s16 mHoneyCamera = 0;
+    eElumMotions mPreviousMotion = eElumMotions::Motion_0_Respawn;
+    eElumMotions mCurrentMotion = eElumMotions::Motion_0_Respawn;
+    eElumMotions mNextMotion = eElumMotions::Motion_0_Respawn;
+    bool mbMotionChanged = false;
 
 private:
     s16 field_10C_bFootStep2 = 0;

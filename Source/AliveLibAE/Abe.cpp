@@ -5631,7 +5631,11 @@ void Abe::Motion_79_InsideWellLocal_45CA60()
 
         SfxPlayMono(relive::SoundEffects::WellExit, 0, GetSpriteScale());
 
-        mCurrentMotion = eAbeMotions::Motion_80_WellShotOut_45D150; // Note: used to be mCurrentMotion++
+        // TODO: handle this better
+        s16 nextMotion = static_cast<s16>(mCurrentMotion);
+        nextMotion++;
+        mCurrentMotion = static_cast<eAbeMotions>(nextMotion); // Note: used to be mCurrentMotion++
+
         BaseAliveGameObjectLastLineYPos = mYPos;
 
         if (GetSpriteScale() == FP_FromDouble(0.5))

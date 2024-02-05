@@ -2,6 +2,7 @@
 
 #include "BaseAliveGameObject.hpp"
 #include "GameSpeak.hpp"
+#include "../relive_lib/FatalError.hpp"
 
 namespace relive
 {
@@ -10,8 +11,9 @@ namespace relive
 
 namespace AO {
 
-enum class eSlingMudMotions : s32
+enum class eSlingMudMotions
 {
+    None_m1 = -1,
     Motion_0_Idle,
     Motion_1_Angry,
     Motion_2_Speak,
@@ -148,13 +150,22 @@ public:
 
     virtual void VCallBrain();
     virtual void VCallMotion();
+    virtual s16 VGetMotion(eMotionType motionType) override
+    {
+        switch (motionType)
+        {
+            case eMotionType::ePreviousMotion:
+                return static_cast<s16>(mPreviousMotion);
+            case eMotionType::eCurrentMotion:
+                return static_cast<s16>(mCurrentMotion);
+            case eMotionType::eNextMotion:
+                return static_cast<s16>(mNextMotion);
+            default:
+                ALIVE_FATAL("Invalid motion type %d", static_cast<s32>(motionType));
+        }
+    }
 
     void VUpdateAnimData();
-
-    eSlingMudMotions GetNextMotion() const
-    {
-        return static_cast<eSlingMudMotions>(mNextMotion);
-    }
 
     GameSpeakEvents getLastIdx();
 
@@ -168,6 +179,22 @@ public:
 
 private:
     void SetBrain(ISlingMudokonBrain::EBrainTypes brain);
+
+    // TODO: remove these later
+    void SetPreviousMotion(eSlingMudMotions motion)
+    {
+        mPreviousMotion = motion;
+    }
+
+    void SetCurrentMotion(eSlingMudMotions motion)
+    {
+        mCurrentMotion = motion;
+    }
+
+    void SetNextMotion(eSlingMudMotions motion)
+    {
+        mNextMotion = motion;
+    }
 
 public:
     Guid mTlvId;
@@ -192,6 +219,10 @@ public:
     AskForPasswordBrain mAskForPasswordBrain;
 
     ISlingMudokonBrain* mCurrentBrain = nullptr;
+    eSlingMudMotions mPreviousMotion = eSlingMudMotions::Motion_0_Idle;
+    eSlingMudMotions mCurrentMotion = eSlingMudMotions::Motion_0_Idle;
+    eSlingMudMotions mNextMotion = eSlingMudMotions::Motion_0_Idle;
+    bool mbMotionChanged = false;
 };
 
 } // namespace AO

@@ -2,6 +2,7 @@
 
 #include "BaseAliveGameObject.hpp"
 #include "../relive_lib/data_conversion/relive_tlvs.hpp"
+#include "../relive_lib/FatalError.hpp"
 
 namespace AO {
 
@@ -22,8 +23,9 @@ enum class ParamiteSpeak : u8
     None_11 = 11,
 };
 
-enum class eParamiteMotions : s32
+enum class eParamiteMotions
 {
+    None_m1 = -1,
     Motion_0_Idle,
     Motion_1_WalkBegin,
     Motion_2_Walking,
@@ -89,15 +91,6 @@ public:
     Paramite(relive::Path_Paramite* pTlv, const Guid& tlvId);
     ~Paramite();
 
-    eParamiteMotions GetNextMotion() const
-    {
-        return static_cast<eParamiteMotions>(mNextMotion);
-    }
-    eParamiteMotions GetCurrentMotion() const
-    {
-        return static_cast<eParamiteMotions>(mCurrentMotion);
-    }
-
     virtual void VRender(OrderingTable& ot) override;
     virtual bool VTakeDamage(BaseGameObject* pFrom) override;
     virtual void VOnTlvCollision(relive::Path_TLV* pTlv) override;
@@ -105,6 +98,20 @@ public:
     virtual bool VOnSameYLevel(BaseAnimatedWithPhysicsGameObject* pOther) override;
     virtual void VOnTrapDoorOpen() override;
     virtual void VUpdate() override;
+    virtual s16 VGetMotion(eMotionType motionType) override
+    {
+        switch (motionType)
+        {
+            case eMotionType::ePreviousMotion:
+                return static_cast<s16>(mPreviousMotion);
+            case eMotionType::eCurrentMotion:
+                return static_cast<s16>(mCurrentMotion);
+            case eMotionType::eNextMotion:
+                return static_cast<s16>(mNextMotion);
+            default:
+                ALIVE_FATAL("Invalid motion type %d", static_cast<s32>(motionType));
+        }
+    }
 
     void ToIdle();
     s16 ToNextMotion();
@@ -169,6 +176,21 @@ public:
     void Motion_24_Struggle();
     void Motion_25_Death();
 
+    // TODO: remove these later
+    void SetPreviousMotion(eParamiteMotions motion)
+    {
+        mPreviousMotion = motion;
+    }
+
+    void SetCurrentMotion(eParamiteMotions motion)
+    {
+        mCurrentMotion = motion;
+    }
+
+    void SetNextMotion(eParamiteMotions motion)
+    {
+        mNextMotion = motion;
+    }
 
     TParamiteBrain mBrainState = nullptr;
     s16 mBrainSubState = 0;
@@ -189,6 +211,10 @@ public:
     relive::reliveChoice mDeleteWhenOutOfSight = relive::reliveChoice::eNo;
     Meat* mMeat = nullptr;
     ParamiteWeb* mParamiteWeb = nullptr;
+    eParamiteMotions mPreviousMotion = eParamiteMotions::Motion_0_Idle;
+    eParamiteMotions mCurrentMotion = eParamiteMotions::Motion_0_Idle;
+    eParamiteMotions mNextMotion = eParamiteMotions::Motion_0_Idle;
+    bool mbMotionChanged = false;
 };
 
 } // namespace AO

@@ -2,6 +2,7 @@
 
 #include "Map.hpp"
 #include "BaseAliveGameObject.hpp"
+#include "../relive_lib/FatalError.hpp"
 
 namespace relive
 {
@@ -66,8 +67,9 @@ namespace AO {
     ENTRY(Motion_52_Beat)
 
 #define MAKE_ENUM(VAR) VAR,
-enum eSligMotions : s32
+enum eSligMotions
 {
+    None_m1 = -1,
     SLIG_MOTIONS_ENUM_AO(MAKE_ENUM)
 };
 
@@ -191,6 +193,20 @@ public:
     virtual void VOnTlvCollision(relive::Path_TLV* pTlv) override;
     virtual bool VIsFacingMe(BaseAnimatedWithPhysicsGameObject* pOther) override;
     virtual bool VOnSameYLevel(BaseAnimatedWithPhysicsGameObject* pOther) override;
+    virtual s16 VGetMotion(eMotionType motionType) override
+    {
+        switch (motionType)
+        {
+            case eMotionType::ePreviousMotion:
+                return static_cast<s16>(mPreviousMotion);
+            case eMotionType::eCurrentMotion:
+                return static_cast<s16>(mCurrentMotion);
+            case eMotionType::eNextMotion:
+                return static_cast<s16>(mNextMotion);
+            default:
+                ALIVE_FATAL("Invalid motion type %d", static_cast<s32>(motionType));
+        }
+    }
 
     void VUpdateAnimData();
     void VShot();
@@ -204,7 +220,7 @@ public:
     s16 MainMovement();
     void Slig_SoundEffect(SligSfx sfxIdx);
     u8** ResBlockForMotion(s16 motion);
-    bool VIs8_465630(s16 motion);
+    bool VIs8_465630(eSligMotions motion);
     void ToShoot();
     void ToZShoot();
     void ShouldStillBeAlive();
@@ -223,7 +239,7 @@ public:
     void TurnOrWalk();
     void ToPanicTurn();
     void PlayerControlRunningSlideStopOrTurn(s16 last_anim_frame);
-    s16 GetNextMotionIncGameSpeak(u16 input);
+    eSligMotions GetNextMotionIncGameSpeak(u16 input);
     static bool InAnyWellRenderLayer(IBaseAliveGameObject* pThis);
     static s16 IsAbeEnteringDoor(IBaseAliveGameObject* pThis);
     static s16 IsWallBetween(Slig* pLeft, IBaseAliveGameObject* pRight);
@@ -232,7 +248,7 @@ public:
     void ToStand();
     static s16 IsInZCover(BaseAnimatedWithPhysicsGameObject* pObj);
     void CheckPlatformVanished();
-    s16 MoveLift(FP ySpeed);
+    eSligMotions MoveLift(FP ySpeed);
     void GameSpeakResponse();
 
 
@@ -343,7 +359,7 @@ public:
     s16 mGameEnderPauseTime = 0;
     Guid field_134_tlvInfo;
     s16 field_138_res_idx = 0;
-    s16 field_13A_shot_motion = 0;
+    eSligMotions field_13A_shot_motion = eSligMotions::Motion_0_StandIdle;
     PSX_RECT field_13C_zone_rect = {};
     EReliveLevelIds mAbeLevel = EReliveLevelIds::eNone;
     s16 mAbePath = 0;
@@ -360,7 +376,11 @@ public:
     s16 mSpottedPossessedSlig = 0;
     SligResources field_210_resources = {};
     s16 mPreventDepossession = 0;
-    s32 field_258_next_gamespeak_motion = 0;
+    eSligMotions field_258_next_gamespeak_motion = eSligMotions::Motion_0_StandIdle;
+    eSligMotions mPreviousMotion = eSligMotions::Motion_0_StandIdle;
+    eSligMotions mCurrentMotion = eSligMotions::Motion_0_StandIdle;
+    eSligMotions mNextMotion = eSligMotions::Motion_0_StandIdle;
+    bool mbMotionChanged = false;
 };
 
 } // namespace AO

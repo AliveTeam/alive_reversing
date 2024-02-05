@@ -29,7 +29,7 @@ struct SaveData final
     s16 mCurrentCamera;
     s16 field_23A_mode_mask;
     s16 mActiveHero_FlipX;
-    s16 mActiveHero_CurrentMotion;
+    eAbeMotions mActiveHero_CurrentMotion;
     u16 mActiveHero_CurrentFrame;
     s32 field_244_stone_state; //TODO @ 100%  fix type length
     u32 field_248_gnFrame;
@@ -49,7 +49,7 @@ struct SaveData final
     u32 mElum_YPos;
     s16 mElum_LineType;
     s16 mElum_FlipX;
-    s16 mElum_CurrentMotion;
+    eElumMotions mElum_CurrentMotion;
     u16 mElum_DontFollowAbe;
     u16 mElum_BrainIdx;
     u16 mElum_BrainSubState;

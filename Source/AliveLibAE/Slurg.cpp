@@ -341,7 +341,6 @@ void Slurg::VGetSaveState(SerializedObjectData& pSaveBuffer)
     data.mVelX = mVelX;
     data.mSlurgSpriteScale = mSlurgSpriteScale;
     data.mFlipX = GetAnimation().GetFlipX();
-    data.mCurrentMotion = mCurrentMotion;
     data.mAnimCurrentFrame = static_cast<s16>(GetAnimation().GetCurrentFrame());
     data.mFrameChangeCounter = static_cast<s16>(GetAnimation().GetFrameChangeCounter());
     data.mDrawable = GetDrawable();

@@ -191,23 +191,23 @@ void SlingMudokon::VCallMotion()
 
 void SlingMudokon::VUpdateAnimData()
 {
-    if (mCurrentMotion < 6)
+    if (static_cast<u32>(mCurrentMotion) < 6) // out of bounds check
     {
-        GetAnimation().Set_Animation_Data(GetAnimRes(sSlingMudMotionAnimIds[mCurrentMotion]));
+        GetAnimation().Set_Animation_Data(GetAnimRes(sSlingMudMotionAnimIds[static_cast<u32>(mCurrentMotion)]));
     }
 }
 
 void SlingMudokon::Motion_0_Idle()
 {
-    if (GetNextMotion() == eSlingMudMotions::Motion_1_Angry)
+    if (mNextMotion == eSlingMudMotions::Motion_1_Angry)
     {
         SetCurrentMotion(eSlingMudMotions::Motion_1_Angry);
-        mNextMotion = -1;
+        mNextMotion = eSlingMudMotions::None_m1;
     }
-    else if (!GetAnimation().GetCurrentFrame() && GetNextMotion() == eSlingMudMotions::Motion_2_Speak)
+    else if (!GetAnimation().GetCurrentFrame() && mNextMotion == eSlingMudMotions::Motion_2_Speak)
     {
         SetCurrentMotion(eSlingMudMotions::Motion_2_Speak);
-        mNextMotion = -1;
+        mNextMotion = eSlingMudMotions::None_m1;
     }
 }
 
@@ -218,15 +218,15 @@ void SlingMudokon::Motion_1_Angry()
         SfxPlayMono(relive::SoundEffects::SlingshotExtend, 0);
     }
 
-    if (GetNextMotion() == eSlingMudMotions::Motion_3_ShootStart)
+    if (mNextMotion == eSlingMudMotions::Motion_3_ShootStart)
     {
         SetCurrentMotion(eSlingMudMotions::Motion_3_ShootStart);
-        mNextMotion = -1;
+        mNextMotion = eSlingMudMotions::None_m1;
     }
-    else if (GetNextMotion() == eSlingMudMotions::Motion_5_AngryToIdle)
+    else if (mNextMotion == eSlingMudMotions::Motion_5_AngryToIdle)
     {
         SetCurrentMotion(eSlingMudMotions::Motion_5_AngryToIdle);
-        mNextMotion = -1;
+        mNextMotion = eSlingMudMotions::None_m1;
     }
 }
 
@@ -346,9 +346,9 @@ void GiveCodeBrain::VUpdate()
             return;
 
         case EState::GiveCode:
-            if (mSlingMudokon.mCurrentMotion || mSlingMudokon.GetAnimation().GetCurrentFrame() == 0)
+            if (mSlingMudokon.mCurrentMotion != eSlingMudMotions::Motion_0_Idle || mSlingMudokon.GetAnimation().GetCurrentFrame() == 0)
             {
-                mSlingMudokon.mNextMotion = 2;
+                mSlingMudokon.mNextMotion = eSlingMudMotions::Motion_2_Speak;
                 switch (Code_LookUp(mSlingMudokon.mCodeConverted, mSlingMudokon.mCodePos, mSlingMudokon.mCodeLength))
                 {
                     case GameSpeakEvents::eAbe_WhistleHigh:
@@ -838,7 +838,7 @@ void AskForPasswordBrain::VUpdate()
                 return;
             }
 
-            mSlingMudokon.mNextMotion = 2;
+            mSlingMudokon.mNextMotion = eSlingMudMotions::Motion_2_Speak;
 
             if (!mSlingMudokon.mCodeMatches)
             {
