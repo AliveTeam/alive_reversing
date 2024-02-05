@@ -605,6 +605,7 @@ SET(data_conversion_src
     data_conversion/AESaveConverter.hpp
     data_conversion/AESaveConverter.cpp
     data_conversion/AESaveSerialization.hpp
+    data_conversion/AOSaveSerialization.hpp
     data_conversion/data_conversion_ui.hpp
     data_conversion/data_conversion_ui.cpp
     data_conversion/fmv_converter.cpp
