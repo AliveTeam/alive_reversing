@@ -229,22 +229,6 @@ public:
     s16 Brain_0_WithoutAbe();
     s16 Brain_1_HoneyAddiction();
 
-        // TODO: remove these later
-    void SetPreviousMotion(eElumMotions motion)
-    {
-        mPreviousMotion = motion;
-    }
-
-    void SetCurrentMotion(eElumMotions motion)
-    {
-        mCurrentMotion = motion;
-    }
-
-    void SetNextMotion(eElumMotions motion)
-    {
-        mNextMotion = motion;
-    }
-
 private:
     void ToKnockback();
     void MidWalkToNextMotion();
@@ -292,7 +276,6 @@ public:
     eElumMotions mPreviousMotion = eElumMotions::Motion_0_Respawn;
     eElumMotions mCurrentMotion = eElumMotions::Motion_0_Respawn;
     eElumMotions mNextMotion = eElumMotions::Motion_0_Respawn;
-    bool mbMotionChanged = false;
 
 private:
     s16 field_10C_bFootStep2 = 0;

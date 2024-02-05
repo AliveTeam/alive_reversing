@@ -289,22 +289,6 @@ public:
     s16 Brain_14_Chant();
     s16 Brain_15_Choke();
 
-    // TODO: remove these later
-    void SetPreviousMotion(eMudMotions motion)
-    {
-        mPreviousMotion = motion;
-    }
-
-    void SetCurrentMotion(eMudMotions motion)
-    {
-        mCurrentMotion = motion;
-    }
-
-    void SetNextMotion(eMudMotions motion)
-    {
-        mNextMotion = motion;
-    }
-
     Guid mTlvId;
     s16 field_110_lift_switch_id = 0;
     s32 field_114 = 0;

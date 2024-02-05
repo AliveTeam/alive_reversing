@@ -151,22 +151,6 @@ private:
     // Inlined
     void DelayedResponse(s16 responseIdx);
 
-    // TODO: remove these later
-    void SetPreviousMotion(eSlogMotions motion)
-    {
-        mPreviousMotion = motion;
-    }
-
-    void SetCurrentMotion(eSlogMotions motion)
-    {
-        mCurrentMotion = motion;
-    }
-
-    void SetNextMotion(eSlogMotions motion)
-    {
-        mNextMotion = motion;
-    }
-
 public:
     IBaseAliveGameObject* mTarget = nullptr;
     s16 mBitingTarget = 0;
@@ -200,7 +184,6 @@ private:
     eSlogMotions mPreviousMotion = eSlogMotions::Motion_0_Idle;
     eSlogMotions mCurrentMotion = eSlogMotions::Motion_0_Idle;
     eSlogMotions mNextMotion = eSlogMotions::Motion_0_Idle;
-    bool mbMotionChanged = false;
 };
 
 extern s16 sSlogCount;

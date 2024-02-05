@@ -352,22 +352,6 @@ private:
     void UpdateSlurgWatchPoints();
     GameSpeakEvents LastSpeak();
 
-    // TODO: remove these later
-    void SetPreviousMotion(eParamiteMotions motion)
-    {
-        mPreviousMotion = motion;
-    }
-
-    void SetCurrentMotion(eParamiteMotions motion)
-    {
-        mCurrentMotion = motion;
-    }
-
-    void SetNextMotion(eParamiteMotions motion)
-    {
-        mNextMotion = motion;
-    }
-
 private:
     Guid mMeatGuid;
     Guid mWebGuid;
@@ -407,5 +391,4 @@ public:
     eParamiteMotions mPreviousMotion = eParamiteMotions::Motion_0_Idle;
     eParamiteMotions mCurrentMotion = eParamiteMotions::Motion_0_Idle;
     eParamiteMotions mNextMotion = eParamiteMotions::Motion_0_Idle;
-    bool mbMotionChanged = false;
 };

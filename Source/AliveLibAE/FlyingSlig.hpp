@@ -72,7 +72,6 @@ struct FlyingSligSaveState final : public SaveStateBase
     u8 field_2B_bDrawable;
     FP field_2C_current_health;
     eFlyingSligMotions field_30_current_state;
-    eFlyingSligMotions field_32_delayed_state;
     s16 field_34_lastLineYPos;
     s16 field_36_line_idx;
     u8 field_38_launch_switch_id;
@@ -160,11 +159,11 @@ public:
         switch (motionType)
         {
             case eMotionType::ePreviousMotion:
-                return static_cast<s16>(mPreviousMotion);
+                return 0;
             case eMotionType::eCurrentMotion:
                 return static_cast<s16>(mCurrentMotion);
             case eMotionType::eNextMotion:
-                return static_cast<s16>(mNextMotion);
+                return 0;
             default:
                 ALIVE_FATAL("Invalid motion type %d", static_cast<s32>(motionType));
         }
@@ -269,22 +268,6 @@ private:
     void sub_4373B0();
     void sub_437AC0(FP a2, FP_Point* pPoint);
 
-    // TODO: remove these later
-    void SetPreviousMotion(eFlyingSligMotions motion)
-    {
-        mPreviousMotion = motion;
-    }
-
-    void SetCurrentMotion(eFlyingSligMotions motion)
-    {
-        mCurrentMotion = motion;
-    }
-
-    void SetNextMotion(eFlyingSligMotions motion)
-    {
-        mNextMotion = motion;
-    }
-
 private:
     relive::Path_FlyingSlig field_118_data;
     Guid field_148_tlvInfo;
@@ -331,10 +314,7 @@ private:
     FP field_284_bobbing_value = {};
     s16 field_28C_bobbing_values_table_index = 0;
     s32 field_290_bobbing_values_index = 0;
-    eFlyingSligMotions mPreviousMotion = eFlyingSligMotions::Motion_0_Idle;
     eFlyingSligMotions mCurrentMotion = eFlyingSligMotions::Motion_0_Idle;
-    eFlyingSligMotions mNextMotion = eFlyingSligMotions::Motion_0_Idle;
-    bool mbMotionChanged = false;
 
 public:
     FP field_294_nextXPos = {};

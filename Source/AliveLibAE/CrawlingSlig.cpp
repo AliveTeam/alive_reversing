@@ -205,7 +205,7 @@ void CrawlingSlig::CreateFromSaveState(SerializedObjectData& pBuffer)
 
         pCrawlingSlig->mRGB.SetRGB(pState->mR, pState->mG, pState->mB);
 
-        pCrawlingSlig->SetCurrentMotion(pState->mCurrentMotion);
+        pCrawlingSlig->mCurrentMotion = pState->mCurrentMotion;
 
         s16 idx = static_cast<s16>(pState->mCurrentMotion);
         pCrawlingSlig->GetAnimation().Set_Animation_Data(pCrawlingSlig->GetAnimRes(sCrawlingSligAnimIdTable[idx]));
@@ -224,8 +224,8 @@ void CrawlingSlig::CreateFromSaveState(SerializedObjectData& pBuffer)
         }
 
         pCrawlingSlig->mHealth = pState->mHealth;
-        pCrawlingSlig->SetCurrentMotion(pState->mCurrentMotion2);
-        pCrawlingSlig->SetNextMotion(pState->mNextMotion);
+        pCrawlingSlig->mCurrentMotion = pState->mCurrentMotion2;
+        pCrawlingSlig->mNextMotion = pState->mNextMotion;
         pCrawlingSlig->BaseAliveGameObjectLastLineYPos = FP_FromInteger(pState->mLastLineYPos);
         pCrawlingSlig->SetRestoredFromQuickSave(true);
         pCrawlingSlig->mMultiUseTimer = pState->mMultiUseTimer;
@@ -714,7 +714,7 @@ void SleepingBrain::VUpdate()
             return;
         }
 
-        mCrawlingSlig.SetNextMotion(CrawlingSligMotion::Motion_2_WakingUp);
+        mCrawlingSlig.mNextMotion = CrawlingSligMotion::Motion_2_WakingUp;
         mBrainState = eIsAwake;
         return;
     }
@@ -781,11 +781,11 @@ void PanicGetALockerBrain::VUpdate()
         case EState::eDetermineCrawlDirection:
             if ((mCrawlingSlig.mCrawlDirection != relive::Path_CrawlingSlig::CrawlDirection::eRight || !(mCrawlingSlig.GetAnimation().GetFlipX())) && (mCrawlingSlig.mCrawlDirection != relive::Path_CrawlingSlig::CrawlDirection::eLeft || mCrawlingSlig.GetAnimation().GetFlipX()))
             {
-                mCrawlingSlig.SetNextMotion(CrawlingSligMotion::Motion_3_Crawling);
+                mCrawlingSlig.mNextMotion = CrawlingSligMotion::Motion_3_Crawling;
                 mBrainState = EState::eSearchLocker;
                 return;
             }
-            mCrawlingSlig.SetNextMotion(CrawlingSligMotion::Motion_11_TurnAround);
+            mCrawlingSlig.mNextMotion = CrawlingSligMotion::Motion_11_TurnAround;
             mBrainState = EState::eTurnAroundForLocker;
             return;
 
@@ -801,7 +801,7 @@ void PanicGetALockerBrain::VUpdate()
             if (mCrawlingSlig.HandleEnemyStopper(mCrawlingSlig.mVelX))
             {
                 mCrawlingSlig.mMultiUseTimer = (Math_NextRandom() & 15) + BaseGameObject::MakeTimer(30);
-                mCrawlingSlig.SetNextMotion(CrawlingSligMotion::Motion_11_TurnAround);
+                mCrawlingSlig.mNextMotion = CrawlingSligMotion::Motion_11_TurnAround;
                 mBrainState = EState::eTurnAround;
                 return;
             }
@@ -819,7 +819,7 @@ void PanicGetALockerBrain::VUpdate()
                 {
                     return;
                 }
-                mCrawlingSlig.SetNextMotion(CrawlingSligMotion::Motion_8_Speaking);
+                mCrawlingSlig.mNextMotion = CrawlingSligMotion::Motion_8_Speaking;
                 mCrawlingSlig.mSayHelpTimer = BaseGameObject::MakeTimer(60);
                 mCrawlingSlig.mSpeak = SligSpeak::eHelp_10;
                 mBrainState = EState::eSearchLockerOrTurnAround;
@@ -832,7 +832,7 @@ void PanicGetALockerBrain::VUpdate()
             {
                 return;
             }
-            mCrawlingSlig.SetNextMotion(CrawlingSligMotion::Motion_3_Crawling);
+            mCrawlingSlig.mNextMotion = CrawlingSligMotion::Motion_3_Crawling;
             mBrainState = EState::eSearchLocker;
             return;
 
@@ -855,12 +855,12 @@ void PanicGetALockerBrain::VUpdate()
 
             if (!mCrawlingSlig.WallHit(FP_FromInteger(35), gridScale))
             {
-                mCrawlingSlig.SetNextMotion(CrawlingSligMotion::Motion_3_Crawling);
+                mCrawlingSlig.mNextMotion = CrawlingSligMotion::Motion_3_Crawling;
                 mBrainState = EState::eSearchLocker;
                 return;
             }
             mCrawlingSlig.mMultiUseTimer = (Math_NextRandom() & 15) + BaseGameObject::MakeTimer(30);
-            mCrawlingSlig.SetNextMotion(CrawlingSligMotion::Motion_11_TurnAround);
+            mCrawlingSlig.mNextMotion = CrawlingSligMotion::Motion_11_TurnAround;
             mBrainState = EState::eTurnAround;
             return;
         }
@@ -882,7 +882,7 @@ void PanicGetALockerBrain::VUpdate()
                 else
                 {
                     mCrawlingSlig.mMultiUseTimer = (Math_NextRandom() & 15) + BaseGameObject::MakeTimer(30);
-                    mCrawlingSlig.SetNextMotion(CrawlingSligMotion::Motion_11_TurnAround);
+                    mCrawlingSlig.mNextMotion = CrawlingSligMotion::Motion_11_TurnAround;
                     mBrainState = EState::eTurnAround;
                     return;
                 }
@@ -892,7 +892,7 @@ void PanicGetALockerBrain::VUpdate()
                 mCrawlingSlig.mTlvHeader->mTlvSpecificMeaning &= 0xFF;
                 mCrawlingSlig.mTlvHeader->mTlvSpecificMeaning |= 1;
 
-                mCrawlingSlig.SetNextMotion(CrawlingSligMotion::Motion_1_UsingButton);
+                mCrawlingSlig.mNextMotion = CrawlingSligMotion::Motion_1_UsingButton;
                 mCrawlingSlig.mMultiUseTimer = BaseGameObject::MakeTimer(20);
                 mBrainState = EState::eUsingButton;
                 return;
@@ -910,7 +910,7 @@ void PanicGetALockerBrain::VUpdate()
         case EState::eTurnAround:
             if (mCrawlingSlig.mCurrentMotion == CrawlingSligMotion::Motion_11_TurnAround && mCrawlingSlig.GetAnimation().GetIsLastFrame())
             {
-                mCrawlingSlig.SetNextMotion(CrawlingSligMotion::Motion_3_Crawling);
+                mCrawlingSlig.mNextMotion = CrawlingSligMotion::Motion_3_Crawling;
                 mBrainState = EState::eCrawling;
                 return;
             }
@@ -919,14 +919,14 @@ void PanicGetALockerBrain::VUpdate()
         case EState::eCrawling:
             if (mCrawlingSlig.HandleEnemyStopper(mCrawlingSlig.mVelX))
             {
-                mCrawlingSlig.SetNextMotion(CrawlingSligMotion::Motion_11_TurnAround);
+                mCrawlingSlig.mNextMotion = CrawlingSligMotion::Motion_11_TurnAround;
                 mBrainState = EState::eTurnAroundForLocker;
                 return;
             }
 
             if (static_cast<s32>(sGnFrame) > mCrawlingSlig.mMultiUseTimer)
             {
-                mCrawlingSlig.SetNextMotion(CrawlingSligMotion::Motion_11_TurnAround);
+                mCrawlingSlig.mNextMotion = CrawlingSligMotion::Motion_11_TurnAround;
                 mBrainState = EState::eTurnAroundForLocker;
                 return;
             }
@@ -936,7 +936,7 @@ void PanicGetALockerBrain::VUpdate()
                 return;
             }
 
-            mCrawlingSlig.SetNextMotion(CrawlingSligMotion::Motion_8_Speaking);
+            mCrawlingSlig.mNextMotion = CrawlingSligMotion::Motion_8_Speaking;
             mCrawlingSlig.mSayHelpTimer = BaseGameObject::MakeTimer(60);
             mCrawlingSlig.mSpeak = SligSpeak::eHelp_10;
             mBrainState = EState::eCheckIfWallHit;
@@ -961,13 +961,13 @@ void PanicGetALockerBrain::VUpdate()
 
             if (mCrawlingSlig.WallHit(FP_FromInteger(35), gridScale))
             {
-                mCrawlingSlig.SetNextMotion(CrawlingSligMotion::Motion_11_TurnAround);
+                mCrawlingSlig.mNextMotion = CrawlingSligMotion::Motion_11_TurnAround;
                 mBrainState = EState::eTurnAroundForLocker;
                 return;
             }
             else
             {
-                mCrawlingSlig.SetNextMotion(CrawlingSligMotion::Motion_3_Crawling);
+                mCrawlingSlig.mNextMotion = CrawlingSligMotion::Motion_3_Crawling;
                 mBrainState = EState::eCrawling;
                 return;
             }
@@ -1683,22 +1683,22 @@ void CrawlingSlig::HandleCommon()
         {
             if (GetAnimation().GetFlipX())
             {
-                SetNextMotion(CrawlingSligMotion::Motion_11_TurnAround);
+                mNextMotion = CrawlingSligMotion::Motion_11_TurnAround;
             }
             else
             {
-                SetNextMotion(CrawlingSligMotion::Motion_3_Crawling);
+                mNextMotion = CrawlingSligMotion::Motion_3_Crawling;
             }
         }
         else if (Input().IsAnyHeld(InputCommands::eLeft))
         {
             if (GetAnimation().GetFlipX())
             {
-                SetNextMotion(CrawlingSligMotion::Motion_3_Crawling);
+                mNextMotion = CrawlingSligMotion::Motion_3_Crawling;
             }
             else
             {
-                SetNextMotion(CrawlingSligMotion::Motion_11_TurnAround);
+                mNextMotion = CrawlingSligMotion::Motion_11_TurnAround;
             }
         }
         else if (Input().IsAnyPressed(InputCommands::eUp))
@@ -1710,7 +1710,7 @@ void CrawlingSlig::HandleCommon()
                 {
                     mTlvHeader->mTlvSpecificMeaning &= 0xFF;
                     mTlvHeader->mTlvSpecificMeaning |= 1;
-                    SetNextMotion(CrawlingSligMotion::Motion_1_UsingButton);
+                    mNextMotion = CrawlingSligMotion::Motion_1_UsingButton;
                     mMultiUseTimer = MakeTimer(20);
                 }
             }
@@ -1719,12 +1719,12 @@ void CrawlingSlig::HandleCommon()
                 auto pSligButton = FindSligButton();
                 if (pSligButton)
                 {
-                    SetNextMotion(CrawlingSligMotion::Motion_1_UsingButton);
+                    mNextMotion = CrawlingSligMotion::Motion_1_UsingButton;
                     mSligButtonId = pSligButton->mBaseGameObjectId;
                 }
                 else
                 {
-                    SetNextMotion(CrawlingSligMotion::Motion_8_Speaking);
+                    mNextMotion = CrawlingSligMotion::Motion_8_Speaking;
                     mSpeak = SligSpeak::eWhat_9;
                 }
             }
@@ -1764,7 +1764,7 @@ void CrawlingSlig::HandleCommon()
 
         if (mSpeak != SligSpeak::eNone)
         {
-            SetNextMotion(CrawlingSligMotion::Motion_8_Speaking);
+            mNextMotion = CrawlingSligMotion::Motion_8_Speaking;
         }
     }
 
@@ -1773,7 +1773,7 @@ void CrawlingSlig::HandleCommon()
         case CrawlingSligMotion::None: // TODO: None constant
             if (mCurrentMotion != CrawlingSligMotion::Motion_0_Idle)
             {
-                SetNextMotion(CrawlingSligMotion::Motion_0_Idle);
+                mNextMotion = CrawlingSligMotion::Motion_0_Idle;
                 Set_AnimAndMotion(mNextMotion, true);
                 break;
             }
@@ -1803,7 +1803,7 @@ void CrawlingSlig::HandleCommon()
             {
                 if (sControlledCharacter == this)
                 {
-                    SetNextMotion(CrawlingSligMotion::Motion_16_IdleToPushingWall);
+                    mNextMotion = CrawlingSligMotion::Motion_16_IdleToPushingWall;
                 }
             }
             Set_AnimAndMotion(mNextMotion, true);

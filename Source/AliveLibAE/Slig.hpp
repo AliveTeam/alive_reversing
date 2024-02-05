@@ -422,22 +422,6 @@ private:
     s16 FindLiftPoint();
     AnimId MotionToAnimId(eSligMotions motion);
 
-    // TODO: remove these later
-    void SetPreviousMotion(eSligMotions motion)
-    {
-        mPreviousMotion = motion;
-    }
-
-    void SetCurrentMotion(eSligMotions motion)
-    {
-        mCurrentMotion = motion;
-    }
-
-    void SetNextMotion(eSligMotions motion)
-    {
-        mNextMotion = motion;
-    }
-
 public:
     EReliveLevelIds mAbeLevel = EReliveLevelIds::eNone;
     s16 mAbePath = 0;

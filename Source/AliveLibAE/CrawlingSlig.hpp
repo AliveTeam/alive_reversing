@@ -268,7 +268,7 @@ public:
         switch (motionType)
         {
             case eMotionType::ePreviousMotion:
-                return static_cast<s16>(mPreviousMotion);
+                return 0;
             case eMotionType::eCurrentMotion:
                 return static_cast<s16>(mCurrentMotion);
             case eMotionType::eNextMotion:
@@ -318,22 +318,6 @@ private:
     void MoveOnLine();
     void PlatformCollide();
 
-    // TODO: remove these later
-    void SetPreviousMotion(CrawlingSligMotion motion)
-    {
-        mPreviousMotion = motion;
-    }
-
-    void SetCurrentMotion(CrawlingSligMotion motion)
-    {
-        mCurrentMotion = motion;
-    }
-
-    void SetNextMotion(CrawlingSligMotion motion)
-    {
-        mNextMotion = motion;
-    }
-
 private:
     std::shared_ptr<AnimationPal> field_11C_mPal;
     Guid mGuid;
@@ -372,8 +356,6 @@ private:
     GetKilledBrain mGetKilledBrain;
     TransformedBrain mTransformedBrain;
     ICrawlingSligBrain* mCurrentBrain = nullptr;
-    CrawlingSligMotion mPreviousMotion = CrawlingSligMotion::Motion_0_Idle;
     CrawlingSligMotion mCurrentMotion = CrawlingSligMotion::Motion_0_Idle;
     CrawlingSligMotion mNextMotion = CrawlingSligMotion::Motion_0_Idle;
-    bool mbMotionChanged = false;
 };

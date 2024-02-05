@@ -1852,7 +1852,6 @@ struct FlyingSligSaveState final
         d.field_2B_bDrawable = data.field_2B_bDrawable;
         d.field_2C_current_health = data.field_2C_current_health;
         d.field_30_current_state = static_cast<eFlyingSligMotions>(data.field_30_current_state); // TODO: enum conversion
-        d.field_32_delayed_state = static_cast<eFlyingSligMotions>(data.field_32_delayed_state); // TODO: enum conversion
         d.field_34_lastLineYPos = data.field_34_lastLineYPos;
         d.field_36_line_idx = data.field_36_line_idx;
         d.field_38_launch_switch_id = data.field_38_launch_switch_id;

@@ -128,7 +128,7 @@ void Elum::VOnTlvCollision(relive::Path_TLV* pTlv)
             }
             Elum_SFX(ElumSounds::eHowl_2, this);
             GetAnimation().SetRender(false);
-            SetCurrentMotion(eElumMotions::Motion_20_Fall);
+            mCurrentMotion = eElumMotions::Motion_20_Fall;
             mHealth = FP_FromInteger(0);
         }
 
@@ -155,11 +155,11 @@ bool Elum::VTakeDamage(BaseGameObject* pFrom)
 
                 if (gAbe->mHealth > FP_FromInteger(0))
                 {
-                    SetCurrentMotion(eElumMotions::Motion_20_Fall);
+                    mCurrentMotion = eElumMotions::Motion_20_Fall;
                 }
                 else
                 {
-                    SetCurrentMotion(eElumMotions::Motion_19_Dead);
+                    mCurrentMotion = eElumMotions::Motion_19_Dead;
                 }
 
                 relive_new Gibs(
@@ -202,7 +202,7 @@ bool Elum::VTakeDamage(BaseGameObject* pFrom)
 void Elum::ToKnockback()
 {
     mVelX = FP_FromInteger(0);
-    SetCurrentMotion(eElumMotions::Motion_50_Knockback);
+    mCurrentMotion = eElumMotions::Motion_50_Knockback;
 
     if (BaseAliveGameObjectCollisionLine)
     {
@@ -235,7 +235,7 @@ void Elum::MidWalkToNextMotion()
     {
         if (WallHit(GetSpriteScale() * FP_FromInteger(40), -ScaleToGridSize(GetSpriteScale())))
         {
-            SetCurrentMotion(eElumMotions::Motion_6_MidWalkToIdle);
+            mCurrentMotion = eElumMotions::Motion_6_MidWalkToIdle;
             return;
         }
     }
@@ -243,20 +243,20 @@ void Elum::MidWalkToNextMotion()
     {
         if (WallHit(GetSpriteScale() * FP_FromInteger(40), ScaleToGridSize(GetSpriteScale())))
         {
-            SetCurrentMotion(eElumMotions::Motion_6_MidWalkToIdle);
+            mCurrentMotion = eElumMotions::Motion_6_MidWalkToIdle;
             return;
         }
     }
 
     if ((mVelX > FP_FromInteger(0) && Input().IsAnyHeld(InputCommands::eLeft)) || (mVelX < FP_FromInteger(0) && Input().IsAnyHeld(InputCommands::eRight)) || !Input().IsAnyHeld(InputCommands::eRight | InputCommands::eLeft))
     {
-        SetCurrentMotion(eElumMotions::Motion_6_MidWalkToIdle);
+        mCurrentMotion = eElumMotions::Motion_6_MidWalkToIdle;
     }
     else
     {
         if (field_10E_pressed & InputCommands::eHop)
         {
-            SetCurrentMotion(eElumMotions::Motion_18_MidWalkToHop);
+            mCurrentMotion = eElumMotions::Motion_18_MidWalkToHop;
         }
     }
     field_10E_pressed = 0;
@@ -268,7 +268,7 @@ void Elum::WalkToNextMotion()
     {
         if (WallHit(GetSpriteScale() * FP_FromInteger(40), -ScaleToGridSize(GetSpriteScale())))
         {
-            SetCurrentMotion(eElumMotions::Motion_5_WalkToIdle);
+            mCurrentMotion = eElumMotions::Motion_5_WalkToIdle;
             return;
         }
     }
@@ -276,21 +276,21 @@ void Elum::WalkToNextMotion()
     {
         if (WallHit(GetSpriteScale() * FP_FromInteger(40), ScaleToGridSize(GetSpriteScale())))
         {
-            SetCurrentMotion(eElumMotions::Motion_5_WalkToIdle);
+            mCurrentMotion = eElumMotions::Motion_5_WalkToIdle;
             return;
         }
     }
 
     if ((mVelX > FP_FromInteger(0) && Input().IsAnyHeld(InputCommands::eLeft)) || (mVelX < FP_FromInteger(0) && Input().IsAnyHeld(InputCommands::eRight)) || !Input().IsAnyHeld(InputCommands::eRight | InputCommands::eLeft))
     {
-        SetCurrentMotion(eElumMotions::Motion_5_WalkToIdle);
+        mCurrentMotion = eElumMotions::Motion_5_WalkToIdle;
         field_10E_pressed = 0;
     }
     else
     {
         if (field_10E_pressed & InputCommands::eHop)
         {
-            SetCurrentMotion(eElumMotions::Motion_17_WalkToHop);
+            mCurrentMotion = eElumMotions::Motion_17_WalkToHop;
         }
         field_10E_pressed = 0;
     }
@@ -380,7 +380,7 @@ void Elum::MoveOnLine(s16 xLookAhead)
     else
     {
         VOnTrapDoorOpen();
-        SetCurrentMotion(eElumMotions::Motion_23_WalkOffEdge);
+        mCurrentMotion = eElumMotions::Motion_23_WalkOffEdge;
         BaseAliveGameObjectLastLineYPos = mYPos;
         mXPos = mVelX + oldX;
     }
@@ -440,41 +440,41 @@ bool Elum::ToNextMotion()
 
             if (field_124_bShould_IdleToWalk1)
             {
-                SetCurrentMotion(eElumMotions::Motion_7_IdleToWalk1);
+                mCurrentMotion = eElumMotions::Motion_7_IdleToWalk1;
                 field_124_bShould_IdleToWalk1 = field_124_bShould_IdleToWalk1 == 0;
             }
             else
             {
-                SetCurrentMotion(eElumMotions::Motion_8_IdleToWalk2);
+                mCurrentMotion = eElumMotions::Motion_8_IdleToWalk2;
                 field_124_bShould_IdleToWalk1 = 1;
             }
 
-            SetNextMotion(eElumMotions::None_m1);
+            mNextMotion = eElumMotions::None_m1;
             return true;
 
         case eElumMotions::Motion_29_BeesStruggling:
             Elum_SFX(ElumSounds::eBeesStruggle_3, 0);
-            SetCurrentMotion(eElumMotions::Motion_29_BeesStruggling);
+            mCurrentMotion = eElumMotions::Motion_29_BeesStruggling;
             field_110_timer = MakeTimer(25);
-            SetNextMotion(eElumMotions::None_m1);
+            mNextMotion = eElumMotions::None_m1;
             return true;
 
         case eElumMotions::Motion_4_Turn:
         case eElumMotions::Motion_14_Speak:
         case eElumMotions::Motion_15_Speak:
         case eElumMotions::Motion_16_Speak:
-            SetCurrentMotion(mNextMotion);
-            SetNextMotion(eElumMotions::None_m1);
+            mCurrentMotion = mNextMotion;
+            mNextMotion = eElumMotions::None_m1;
             return true;
 
         case eElumMotions::Motion_10_Yell:
-            SetCurrentMotion(eElumMotions::Motion_9_ToYell);
-            SetNextMotion(eElumMotions::None_m1);
+            mCurrentMotion = eElumMotions::Motion_9_ToYell;
+            mNextMotion = eElumMotions::None_m1;
             return true;
 
         case eElumMotions::Motion_45_ScratchLoop:
-            SetCurrentMotion(eElumMotions::Motion_44_ScratchBegin);
-            SetNextMotion(eElumMotions::None_m1);
+            mCurrentMotion = eElumMotions::Motion_44_ScratchBegin;
+            mNextMotion = eElumMotions::None_m1;
             return true;
 
         default:
@@ -502,7 +502,7 @@ bool Elum::ToNextMotionAbeControlled()
 
             if (GetAnimation().GetFlipX())
             {
-                SetCurrentMotion(eElumMotions::Motion_4_Turn);
+                mCurrentMotion = eElumMotions::Motion_4_Turn;
                 return true;
             }
         }
@@ -512,7 +512,7 @@ bool Elum::ToNextMotionAbeControlled()
 
             if (!GetAnimation().GetFlipX())
             {
-                SetCurrentMotion(eElumMotions::Motion_4_Turn);
+                mCurrentMotion = eElumMotions::Motion_4_Turn;
                 return true;
             }
         }
@@ -525,12 +525,12 @@ bool Elum::ToNextMotionAbeControlled()
         if (Input().IsAnyHeld(InputCommands::eRun))
         {
             mVelX = gridSize / FP_FromInteger(4);
-            SetCurrentMotion(eElumMotions::Motion_39_IdleToRun);
+            mCurrentMotion = eElumMotions::Motion_39_IdleToRun;
         }
         else
         {
             mVelX = gridSize / FP_FromInteger(9);
-            SetCurrentMotion(eElumMotions::Motion_8_IdleToWalk2);
+            mCurrentMotion = eElumMotions::Motion_8_IdleToWalk2;
         }
         return true;
     }
@@ -551,7 +551,7 @@ bool Elum::ToNextMotionAbeControlled()
             mVelX = GetSpriteScale() * FP_FromInteger(15);
         }
 
-        SetCurrentMotion(eElumMotions::Motion_30_HopBegin);
+        mCurrentMotion = eElumMotions::Motion_30_HopBegin;
         return true;
     }
 }
@@ -796,7 +796,7 @@ s16 Elum::Brain_0_WithoutAbe()
 
     if (mStrugglingWithBees)
     {
-        SetNextMotion(eElumMotions::Motion_1_Idle);
+        mNextMotion = eElumMotions::Motion_1_Idle;
         mBrainIdx = 1;
         return 0;
     }
@@ -816,7 +816,7 @@ s16 Elum::Brain_0_WithoutAbe()
             const FP xd = gAbe->mXPos - mXPos;
             if (FP_Abs(xd) < (kGridSize * FP_FromInteger(2)))
             {
-                SetNextMotion(eElumMotions::Motion_1_Idle);
+                mNextMotion = eElumMotions::Motion_1_Idle;
                 return 2;
             }
 
@@ -824,7 +824,7 @@ s16 Elum::Brain_0_WithoutAbe()
             {
                 if (mVelX < FP_FromInteger(0))
                 {
-                    SetNextMotion(eElumMotions::Motion_1_Idle);
+                    mNextMotion = eElumMotions::Motion_1_Idle;
                     return 2;
                 }
             }
@@ -832,7 +832,7 @@ s16 Elum::Brain_0_WithoutAbe()
             {
                 if (mVelX > FP_FromInteger(0))
                 {
-                    SetNextMotion(eElumMotions::Motion_1_Idle);
+                    mNextMotion = eElumMotions::Motion_1_Idle;
                     return 2;
                 }
             }
@@ -841,7 +841,7 @@ s16 Elum::Brain_0_WithoutAbe()
             {
                 if (Check_IsOnEndOfLine(1, 1))
                 {
-                    SetNextMotion(eElumMotions::Motion_1_Idle);
+                    mNextMotion = eElumMotions::Motion_1_Idle;
                     return 2;
                 }
             }
@@ -849,7 +849,7 @@ s16 Elum::Brain_0_WithoutAbe()
             {
                 if (Check_IsOnEndOfLine(0, 1))
                 {
-                    SetNextMotion(eElumMotions::Motion_1_Idle);
+                    mNextMotion = eElumMotions::Motion_1_Idle;
                     return 2;
                 }
             }
@@ -868,12 +868,12 @@ s16 Elum::Brain_0_WithoutAbe()
             const FP xd = gAbe->mXPos - mXPos;
             if (xd > (kGridSize / FP_FromInteger(2)) && GetAnimation().GetFlipX())
             {
-                SetNextMotion(eElumMotions::Motion_4_Turn);
+                mNextMotion = eElumMotions::Motion_4_Turn;
                 return 4;
             }
             else if (xd < -(kGridSize / FP_FromInteger(2)) && !GetAnimation().GetFlipX())
             {
-                SetNextMotion(eElumMotions::Motion_4_Turn);
+                mNextMotion = eElumMotions::Motion_4_Turn;
                 return 4;
             }
 
@@ -890,18 +890,18 @@ s16 Elum::Brain_0_WithoutAbe()
 
                     if (VIsFacingMe(gAbe))
                     {
-                        SetNextMotion(eElumMotions::Motion_3_WalkLoop);
+                        mNextMotion = eElumMotions::Motion_3_WalkLoop;
                         return 3;
                     }
 
-                    SetNextMotion(eElumMotions::Motion_4_Turn);
+                    mNextMotion = eElumMotions::Motion_4_Turn;
                     return 4;
                 }
             }
 
             if (gAbe->mCurrentMotion == eAbeMotions::Motion_139_ElumMountBegin)
             {
-                SetCurrentMotion(eElumMotions::Motion_48_AbeMoutingBegin);
+                mCurrentMotion = eElumMotions::Motion_48_AbeMoutingBegin;
                 return 16;
             }
 
@@ -961,7 +961,7 @@ s16 Elum::Brain_0_WithoutAbe()
                     {
                         if (!WallHit(GetSpriteScale() * FP_FromInteger(25), -kGridSize))
                         {
-                            SetNextMotion(eElumMotions::Motion_3_WalkLoop);
+                            mNextMotion = eElumMotions::Motion_3_WalkLoop;
                             return 1;
                         }
                     }
@@ -972,7 +972,7 @@ s16 Elum::Brain_0_WithoutAbe()
                     {
                         if (!WallHit(GetSpriteScale() * FP_FromInteger(25), kGridSize))
                         {
-                            SetNextMotion(eElumMotions::Motion_3_WalkLoop);
+                            mNextMotion = eElumMotions::Motion_3_WalkLoop;
                             return 1;
                         }
                     }
@@ -984,7 +984,7 @@ s16 Elum::Brain_0_WithoutAbe()
         case 3:
             if (mCurrentMotion == eElumMotions::Motion_3_WalkLoop)
             {
-                SetNextMotion(eElumMotions::Motion_1_Idle);
+                mNextMotion = eElumMotions::Motion_1_Idle;
             }
 
             if (mCurrentMotion != eElumMotions::Motion_1_Idle)
@@ -997,7 +997,7 @@ s16 Elum::Brain_0_WithoutAbe()
                 return 2;
             }
 
-            SetNextMotion(eElumMotions::Motion_3_WalkLoop);
+            mNextMotion = eElumMotions::Motion_3_WalkLoop;
             return mBrainSubState;
 
         case 4:
@@ -1012,7 +1012,7 @@ s16 Elum::Brain_0_WithoutAbe()
             {
                 return mBrainSubState;
             }
-            SetNextMotion(eElumMotions::Motion_16_Speak);
+            mNextMotion = eElumMotions::Motion_16_Speak;
             return 6;
 
         case 6:
@@ -1027,18 +1027,18 @@ s16 Elum::Brain_0_WithoutAbe()
             const FP xd_1 = gAbe->mXPos - mXPos;
             if (xd_1 > (kGridSize / FP_FromInteger(2)) && GetAnimation().GetFlipX())
             {
-                SetNextMotion(eElumMotions::Motion_4_Turn);
+                mNextMotion = eElumMotions::Motion_4_Turn;
                 return 7;
             }
             else if (xd_1 < -(kGridSize / FP_FromInteger(2)) && !GetAnimation().GetFlipX())
             {
-                SetNextMotion(eElumMotions::Motion_4_Turn);
+                mNextMotion = eElumMotions::Motion_4_Turn;
                 return 7;
             }
 
             if (gAbe->mCurrentMotion == eAbeMotions::Motion_139_ElumMountBegin)
             {
-                SetCurrentMotion(eElumMotions::Motion_48_AbeMoutingBegin);
+                mCurrentMotion = eElumMotions::Motion_48_AbeMoutingBegin;
                 return 16;
             }
 
@@ -1093,7 +1093,7 @@ s16 Elum::Brain_0_WithoutAbe()
             {
                 return mBrainSubState;
             }
-            SetNextMotion(eElumMotions::Motion_1_Idle);
+            mNextMotion = eElumMotions::Motion_1_Idle;
             return 2;
         }
 
@@ -1110,7 +1110,7 @@ s16 Elum::Brain_0_WithoutAbe()
             {
                 return mBrainSubState;
             }
-            SetNextMotion(eElumMotions::Motion_14_Speak);
+            mNextMotion = eElumMotions::Motion_14_Speak;
             return 6;
 
         case 9:
@@ -1118,7 +1118,7 @@ s16 Elum::Brain_0_WithoutAbe()
             {
                 return mBrainSubState;
             }
-            SetNextMotion(eElumMotions::Motion_14_Speak);
+            mNextMotion = eElumMotions::Motion_14_Speak;
             return 2;
 
         case 10:
@@ -1126,7 +1126,7 @@ s16 Elum::Brain_0_WithoutAbe()
             {
                 return mBrainSubState;
             }
-            SetNextMotion(eElumMotions::Motion_15_Speak);
+            mNextMotion = eElumMotions::Motion_15_Speak;
             return 6;
 
         case 11:
@@ -1134,7 +1134,7 @@ s16 Elum::Brain_0_WithoutAbe()
             {
                 return mBrainSubState;
             }
-            SetNextMotion(eElumMotions::Motion_15_Speak);
+            mNextMotion = eElumMotions::Motion_15_Speak;
             return 2;
 
         case 12:
@@ -1142,14 +1142,14 @@ s16 Elum::Brain_0_WithoutAbe()
             {
                 return mBrainSubState;
             }
-            SetNextMotion(eElumMotions::Motion_14_Speak);
+            mNextMotion = eElumMotions::Motion_14_Speak;
             return 13;
 
         case 13:
         {
             if (mCurrentMotion == eElumMotions::Motion_1_Idle)
             {
-                SetNextMotion(eElumMotions::Motion_14_Speak);
+                mNextMotion = eElumMotions::Motion_14_Speak;
             }
 
             if (mCurrentMotion != eElumMotions::Motion_14_Speak || !GetAnimation().GetIsLastFrame())
@@ -1162,7 +1162,7 @@ s16 Elum::Brain_0_WithoutAbe()
             {
                 if (xd >= (kGridSize / FP_FromInteger(2)))
                 {
-                    SetNextMotion(eElumMotions::Motion_3_WalkLoop);
+                    mNextMotion = eElumMotions::Motion_3_WalkLoop;
                     return 14;
                 }
             }
@@ -1170,11 +1170,11 @@ s16 Elum::Brain_0_WithoutAbe()
             {
                 if (-xd >= (kGridSize / FP_FromInteger(2)))
                 {
-                    SetNextMotion(eElumMotions::Motion_3_WalkLoop);
+                    mNextMotion = eElumMotions::Motion_3_WalkLoop;
                     return 14;
                 }
             }
-            SetNextMotion(eElumMotions::Motion_1_Idle);
+            mNextMotion = eElumMotions::Motion_1_Idle;
             return 2;
         }
 
@@ -1183,7 +1183,7 @@ s16 Elum::Brain_0_WithoutAbe()
             if (last_event_v2 == GameSpeakEvents::eAbe_Wait)
             {
                 mDontFollowAbe = 1;
-                SetNextMotion(eElumMotions::Motion_1_Idle);
+                mNextMotion = eElumMotions::Motion_1_Idle;
                 field_114_respond_timer = MakeTimer(14);
                 return 5;
             }
@@ -1191,7 +1191,7 @@ s16 Elum::Brain_0_WithoutAbe()
             const FP xd = gAbe->mXPos - mXPos;
             if (FP_Abs(xd) < (kGridSize / FP_FromInteger(2)))
             {
-                SetNextMotion(eElumMotions::Motion_1_Idle);
+                mNextMotion = eElumMotions::Motion_1_Idle;
                 return 2;
             }
 
@@ -1199,7 +1199,7 @@ s16 Elum::Brain_0_WithoutAbe()
             {
                 if (mVelX < FP_FromInteger(0))
                 {
-                    SetNextMotion(eElumMotions::Motion_4_Turn);
+                    mNextMotion = eElumMotions::Motion_4_Turn;
                     return 15;
                 }
             }
@@ -1207,7 +1207,7 @@ s16 Elum::Brain_0_WithoutAbe()
             {
                 if (mVelX > FP_FromInteger(0))
                 {
-                    SetNextMotion(eElumMotions::Motion_4_Turn);
+                    mNextMotion = eElumMotions::Motion_4_Turn;
                     return 15;
                 }
             }
@@ -1216,7 +1216,7 @@ s16 Elum::Brain_0_WithoutAbe()
             {
                 if (Check_IsOnEndOfLine(0, 1))
                 {
-                    SetNextMotion(eElumMotions::Motion_1_Idle);
+                    mNextMotion = eElumMotions::Motion_1_Idle;
                     return 2;
                 }
             }
@@ -1225,7 +1225,7 @@ s16 Elum::Brain_0_WithoutAbe()
             {
                 if (Check_IsOnEndOfLine(1, 1))
                 {
-                    SetNextMotion(eElumMotions::Motion_1_Idle);
+                    mNextMotion = eElumMotions::Motion_1_Idle;
                     return 2;
                 }
             }
@@ -1241,11 +1241,11 @@ s16 Elum::Brain_0_WithoutAbe()
 
             if (FP_Abs(gAbe->mXPos - mXPos) < (kGridSize / FP_FromInteger(2)))
             {
-                SetNextMotion(eElumMotions::Motion_1_Idle);
+                mNextMotion = eElumMotions::Motion_1_Idle;
                 return 2;
             }
 
-            SetNextMotion(eElumMotions::Motion_3_WalkLoop);
+            mNextMotion = eElumMotions::Motion_3_WalkLoop;
             return 14;
         }
 
@@ -1282,7 +1282,7 @@ s16 Elum::Brain_1_HoneyAddiction()
             if (mStrugglingWithBees)
             {
                 mFoundHoney = false;
-                SetNextMotion(eElumMotions::Motion_29_BeesStruggling);
+                mNextMotion = eElumMotions::Motion_29_BeesStruggling;
                 return 5;
             }
 
@@ -1293,14 +1293,14 @@ s16 Elum::Brain_1_HoneyAddiction()
                 {
                     if (honey_xd >= (kGridSize * FP_FromInteger(2)))
                     {
-                        SetNextMotion(eElumMotions::Motion_3_WalkLoop);
+                        mNextMotion = eElumMotions::Motion_3_WalkLoop;
                         Elum_SFX(ElumSounds::eSpottedHoney_6, 0);
                         return 2;
                     }
                     else
                     {
                         Elum_SFX(ElumSounds::eSpottedHoney_6, 0);
-                        SetNextMotion(eElumMotions::Motion_25_LickingHoney);
+                        mNextMotion = eElumMotions::Motion_25_LickingHoney;
                         if (sControlledCharacter == this)
                         {
                             KnockAbeOffElum();
@@ -1308,7 +1308,7 @@ s16 Elum::Brain_1_HoneyAddiction()
                         return 3;
                     }
                 }
-                SetNextMotion(eElumMotions::Motion_4_Turn);
+                mNextMotion = eElumMotions::Motion_4_Turn;
                 return 1;
             }
             else
@@ -1317,14 +1317,14 @@ s16 Elum::Brain_1_HoneyAddiction()
                 {
                     if (honey_xd <= -(kGridSize * FP_FromInteger(2)))
                     {
-                        SetNextMotion(eElumMotions::Motion_3_WalkLoop);
+                        mNextMotion = eElumMotions::Motion_3_WalkLoop;
                         Elum_SFX(ElumSounds::eSpottedHoney_6, 0);
                         return 2;
                     }
                     else
                     {
                         Elum_SFX(ElumSounds::eSpottedHoney_6, 0);
-                        SetNextMotion(eElumMotions::Motion_25_LickingHoney);
+                        mNextMotion = eElumMotions::Motion_25_LickingHoney;
                         if (sControlledCharacter == this)
                         {
                             KnockAbeOffElum();
@@ -1332,7 +1332,7 @@ s16 Elum::Brain_1_HoneyAddiction()
                         return 3;
                     }
                 }
-                SetNextMotion(eElumMotions::Motion_4_Turn);
+                mNextMotion = eElumMotions::Motion_4_Turn;
                 return 1;
             }
             break;
@@ -1352,7 +1352,7 @@ s16 Elum::Brain_1_HoneyAddiction()
                 if (honey_xd_1 < (kGridSize * FP_FromInteger(2)))
                 {
                     Elum_SFX(ElumSounds::eSpottedHoney_6, 0);
-                    SetNextMotion(eElumMotions::Motion_25_LickingHoney);
+                    mNextMotion = eElumMotions::Motion_25_LickingHoney;
                     if (sControlledCharacter == this)
                     {
                         KnockAbeOffElum();
@@ -1365,7 +1365,7 @@ s16 Elum::Brain_1_HoneyAddiction()
                 if (honey_xd_1 > -(kGridSize * FP_FromInteger(2)))
                 {
                     Elum_SFX(ElumSounds::eSpottedHoney_6, 0);
-                    SetNextMotion(eElumMotions::Motion_25_LickingHoney);
+                    mNextMotion = eElumMotions::Motion_25_LickingHoney;
                     if (sControlledCharacter == this)
                     {
                         KnockAbeOffElum();
@@ -1373,7 +1373,7 @@ s16 Elum::Brain_1_HoneyAddiction()
                     return 3;
                 }
             }
-            SetNextMotion(eElumMotions::Motion_3_WalkLoop);
+            mNextMotion = eElumMotions::Motion_3_WalkLoop;
             Elum_SFX(ElumSounds::eSpottedHoney_6, 0);
             return 2;
         }
@@ -1381,7 +1381,7 @@ s16 Elum::Brain_1_HoneyAddiction()
         case 2:
             if (!NearHoney())
             {
-                SetNextMotion(eElumMotions::Motion_1_Idle);
+                mNextMotion = eElumMotions::Motion_1_Idle;
                 mBrainIdx = 0;
                 return 0;
             }
@@ -1397,13 +1397,13 @@ s16 Elum::Brain_1_HoneyAddiction()
                 KnockAbeOffElum();
             }
 
-            SetNextMotion(eElumMotions::Motion_25_LickingHoney);
+            mNextMotion = eElumMotions::Motion_25_LickingHoney;
             return 3;
 
         case 3:
             if (!BaseAliveGameObjectCollisionLine)
             {
-                SetNextMotion(eElumMotions::Motion_1_Idle);
+                mNextMotion = eElumMotions::Motion_1_Idle;
                 mBrainIdx = 0;
                 return 0;
             }
@@ -1422,12 +1422,12 @@ s16 Elum::Brain_1_HoneyAddiction()
 
             if (GetAnimation().GetFlipX())
             {
-                SetNextMotion(eElumMotions::Motion_4_Turn);
+                mNextMotion = eElumMotions::Motion_4_Turn;
                 return 4;
             }
             else
             {
-                SetNextMotion(eElumMotions::Motion_29_BeesStruggling);
+                mNextMotion = eElumMotions::Motion_29_BeesStruggling;
 
                 mStrugglingWithBees = false;
                 return 5;
@@ -1438,7 +1438,7 @@ s16 Elum::Brain_1_HoneyAddiction()
             if (mCurrentMotion == eElumMotions::Motion_4_Turn && GetAnimation().GetIsLastFrame())
             {
                 mStrugglingWithBees = false;
-                SetNextMotion(eElumMotions::Motion_29_BeesStruggling);
+                mNextMotion = eElumMotions::Motion_29_BeesStruggling;
                 return 5;
             }
             return mBrainSubState;
@@ -1448,7 +1448,7 @@ s16 Elum::Brain_1_HoneyAddiction()
             {
                 return mBrainSubState;
             }
-            SetNextMotion(eElumMotions::Motion_44_ScratchBegin);
+            mNextMotion = eElumMotions::Motion_44_ScratchBegin;
             return 6;
 
         case 6:
@@ -1460,7 +1460,7 @@ s16 Elum::Brain_1_HoneyAddiction()
 
             if (!mStrugglingWithBees)
             {
-                SetNextMotion(eElumMotions::Motion_1_Idle);
+                mNextMotion = eElumMotions::Motion_1_Idle;
                 mBrainIdx = 0;
                 return 0;
             }
@@ -1470,7 +1470,7 @@ s16 Elum::Brain_1_HoneyAddiction()
                 if (Check_IsOnEndOfLine(0, 2))
                 {
                     mStrugglingWithBees = false;
-                    SetNextMotion(eElumMotions::Motion_29_BeesStruggling);
+                    mNextMotion = eElumMotions::Motion_29_BeesStruggling;
                     return 5;
                 }
             }
@@ -1479,7 +1479,7 @@ s16 Elum::Brain_1_HoneyAddiction()
                 if (Check_IsOnEndOfLine(1, 2))
                 {
                     mStrugglingWithBees = false;
-                    SetNextMotion(eElumMotions::Motion_29_BeesStruggling);
+                    mNextMotion = eElumMotions::Motion_29_BeesStruggling;
                     return 5;
                 }
             }
@@ -1497,13 +1497,13 @@ s16 Elum::Brain_1_HoneyAddiction()
             if (WallHit(GetSpriteScale() * FP_FromInteger(25), gridSizeDirected))
             {
                 mStrugglingWithBees = false;
-                SetNextMotion(eElumMotions::Motion_29_BeesStruggling);
+                mNextMotion = eElumMotions::Motion_29_BeesStruggling;
                 return 5;
             }
             else
             {
                 mStrugglingWithBees = false;
-                SetNextMotion(eElumMotions::Motion_3_WalkLoop);
+                mNextMotion = eElumMotions::Motion_3_WalkLoop;
                 return 7;
             }
             break;
@@ -1514,7 +1514,7 @@ s16 Elum::Brain_1_HoneyAddiction()
             {
                 if (Check_IsOnEndOfLine(0, 1))
                 {
-                    SetNextMotion(eElumMotions::Motion_29_BeesStruggling);
+                    mNextMotion = eElumMotions::Motion_29_BeesStruggling;
                     field_110_timer = MakeTimer(40);
                     return 5;
                 }
@@ -1524,7 +1524,7 @@ s16 Elum::Brain_1_HoneyAddiction()
             {
                 if (Check_IsOnEndOfLine(1, 1))
                 {
-                    SetNextMotion(eElumMotions::Motion_29_BeesStruggling);
+                    mNextMotion = eElumMotions::Motion_29_BeesStruggling;
                     field_110_timer = MakeTimer(40);
                     return 5;
                 }
@@ -1532,7 +1532,7 @@ s16 Elum::Brain_1_HoneyAddiction()
 
             if (mCurrentMotion == eElumMotions::Motion_3_WalkLoop && GetAnimation().GetCurrentFrame() == 11)
             {
-                SetNextMotion(eElumMotions::Motion_44_ScratchBegin);
+                mNextMotion = eElumMotions::Motion_44_ScratchBegin;
                 return 9;
             }
 
@@ -1541,7 +1541,7 @@ s16 Elum::Brain_1_HoneyAddiction()
                 return mBrainSubState;
             }
 
-            SetNextMotion(eElumMotions::Motion_29_BeesStruggling);
+            mNextMotion = eElumMotions::Motion_29_BeesStruggling;
             field_110_timer = MakeTimer(40);
             return 5;
 
@@ -1553,7 +1553,7 @@ s16 Elum::Brain_1_HoneyAddiction()
 
             if (!mStrugglingWithBees)
             {
-                SetNextMotion(eElumMotions::Motion_1_Idle);
+                mNextMotion = eElumMotions::Motion_1_Idle;
                 mBrainIdx = 0;
                 return 0;
             }
@@ -1563,7 +1563,7 @@ s16 Elum::Brain_1_HoneyAddiction()
                 if (Check_IsOnEndOfLine(0, 2))
                 {
                     mStrugglingWithBees = false;
-                    SetNextMotion(eElumMotions::Motion_44_ScratchBegin);
+                    mNextMotion = eElumMotions::Motion_44_ScratchBegin;
                     return 9;
                 }
             }
@@ -1572,12 +1572,12 @@ s16 Elum::Brain_1_HoneyAddiction()
                 if (Check_IsOnEndOfLine(1, 2))
                 {
                     mStrugglingWithBees = false;
-                    SetNextMotion(eElumMotions::Motion_44_ScratchBegin);
+                    mNextMotion = eElumMotions::Motion_44_ScratchBegin;
                     return 9;
                 }
             }
             mStrugglingWithBees = false;
-            SetNextMotion(eElumMotions::Motion_3_WalkLoop);
+            mNextMotion = eElumMotions::Motion_3_WalkLoop;
             return 10;
 
         case 9:
@@ -1585,7 +1585,7 @@ s16 Elum::Brain_1_HoneyAddiction()
             {
                 return mBrainSubState;
             }
-            SetNextMotion(eElumMotions::Motion_29_BeesStruggling);
+            mNextMotion = eElumMotions::Motion_29_BeesStruggling;
             return 8;
 
         case 10:
@@ -1593,7 +1593,7 @@ s16 Elum::Brain_1_HoneyAddiction()
             {
                 if (Check_IsOnEndOfLine(0, 1))
                 {
-                    SetNextMotion(eElumMotions::Motion_29_BeesStruggling);
+                    mNextMotion = eElumMotions::Motion_29_BeesStruggling;
                     field_110_timer = MakeTimer(40);
                     return 8;
                 }
@@ -1602,7 +1602,7 @@ s16 Elum::Brain_1_HoneyAddiction()
             {
                 if (Check_IsOnEndOfLine(1, 1))
                 {
-                    SetNextMotion(eElumMotions::Motion_29_BeesStruggling);
+                    mNextMotion = eElumMotions::Motion_29_BeesStruggling;
                     field_110_timer = MakeTimer(40);
                     return 8;
                 }
@@ -1612,7 +1612,7 @@ s16 Elum::Brain_1_HoneyAddiction()
             {
                 if (mCurrentMotion == eElumMotions::Motion_1_Idle)
                 {
-                    SetNextMotion(eElumMotions::Motion_29_BeesStruggling);
+                    mNextMotion = eElumMotions::Motion_29_BeesStruggling;
                     field_110_timer = MakeTimer(40);
                     return 8;
                 }
@@ -1622,7 +1622,7 @@ s16 Elum::Brain_1_HoneyAddiction()
                 }
             }
 
-            SetNextMotion(eElumMotions::Motion_29_BeesStruggling);
+            mNextMotion = eElumMotions::Motion_29_BeesStruggling;
             return 5;
 
         default:
@@ -1643,15 +1643,15 @@ void Elum::Motion_1_Idle()
     {
         if (gAbe->mCurrentMotion == eAbeMotions::Motion_150_Chant && sControlledCharacter == gAbe)
         {
-            SetCurrentMotion(eElumMotions::Motion_9_ToYell);
+            mCurrentMotion = eElumMotions::Motion_9_ToYell;
         }
         else if (gAbe->mCurrentMotion == eAbeMotions::Motion_137_ElumUnmountBegin)
         {
-            SetCurrentMotion(eElumMotions::Motion_49_AbeUnmountingBegin);
+            mCurrentMotion = eElumMotions::Motion_49_AbeUnmountingBegin;
         }
         else if (sGnFrame - field_110_timer > 200 && sControlledCharacter != this)
         {
-            SetCurrentMotion(eElumMotions::Motion_44_ScratchBegin);
+            mCurrentMotion = eElumMotions::Motion_44_ScratchBegin;
         }
     }
 }
@@ -1676,7 +1676,7 @@ void Elum::Motion_3_WalkLoop()
         {
             if (mNextMotion == eElumMotions::Motion_25_LickingHoney)
             {
-                SetCurrentMotion(eElumMotions::Motion_6_MidWalkToIdle);
+                mCurrentMotion = eElumMotions::Motion_6_MidWalkToIdle;
             }
             else
             {
@@ -1692,7 +1692,7 @@ void Elum::Motion_3_WalkLoop()
 
                 if (WallHit(GetSpriteScale() * FP_FromInteger(25), offX_directed))
                 {
-                    SetCurrentMotion(eElumMotions::Motion_6_MidWalkToIdle);
+                    mCurrentMotion = eElumMotions::Motion_6_MidWalkToIdle;
                 }
                 else if (sControlledCharacter == this && !mFoundHoney)
                 {
@@ -1701,19 +1701,19 @@ void Elum::Motion_3_WalkLoop()
                 /*
                 else if (field_104_pending_resource_count > 0)
                 {
-                    SetCurrentMotion(eElumMotions::Motion_6_MidWalkToIdle);
+                    mCurrentMotion = eElumMotions::Motion_6_MidWalkToIdle;
                 }
                 */
                 else
                 {
                     if (mNextMotion == eElumMotions::Motion_1_Idle)
                     {
-                        SetCurrentMotion(eElumMotions::Motion_6_MidWalkToIdle);
-                        SetNextMotion(eElumMotions::None_m1);
+                        mCurrentMotion = eElumMotions::Motion_6_MidWalkToIdle;
+                        mNextMotion = eElumMotions::None_m1;
                     }
                     else if (mNextMotion == eElumMotions::Motion_4_Turn)
                     {
-                        SetCurrentMotion(eElumMotions::Motion_6_MidWalkToIdle);
+                        mCurrentMotion = eElumMotions::Motion_6_MidWalkToIdle;
                     }
                 }
             }
@@ -1734,7 +1734,7 @@ void Elum::Motion_3_WalkLoop()
 
             if (Input().IsAnyHeld(InputCommands::eRun))
             {
-                SetCurrentMotion(eElumMotions::Motion_41_MidWalkToRun);
+                mCurrentMotion = eElumMotions::Motion_41_MidWalkToRun;
             }
 
             field_10E_pressed = 0;
@@ -1744,7 +1744,7 @@ void Elum::Motion_3_WalkLoop()
         {
             if (mNextMotion == eElumMotions::Motion_25_LickingHoney)
             {
-                SetCurrentMotion(eElumMotions::Motion_6_MidWalkToIdle);
+                mCurrentMotion = eElumMotions::Motion_6_MidWalkToIdle;
             }
             else
             {
@@ -1760,7 +1760,7 @@ void Elum::Motion_3_WalkLoop()
 
                 if (WallHit(GetSpriteScale() * FP_FromInteger(25), offX_directed))
                 {
-                    SetCurrentMotion(eElumMotions::Motion_5_WalkToIdle);
+                    mCurrentMotion = eElumMotions::Motion_5_WalkToIdle;
                 }
                 else if (sControlledCharacter == this && !mFoundHoney)
                 {
@@ -1769,21 +1769,21 @@ void Elum::Motion_3_WalkLoop()
                 /*
                 else if (field_104_pending_resource_count)
                 {
-                    SetCurrentMotion(eElumMotions::Motion_5_WalkToIdle);
+                    mCurrentMotion = eElumMotions::Motion_5_WalkToIdle;
                 }
                 */
                 else
                 {
                     if (mNextMotion == eElumMotions::Motion_1_Idle)
                     {
-                        SetCurrentMotion(eElumMotions::Motion_5_WalkToIdle);
-                        SetNextMotion(eElumMotions::None_m1);
+                        mCurrentMotion = eElumMotions::Motion_5_WalkToIdle;
+                        mNextMotion = eElumMotions::None_m1;
                     }
                     else if (mNextMotion == eElumMotions::Motion_4_Turn
                              || mNextMotion == eElumMotions::Motion_44_ScratchBegin
                              || mNextMotion == eElumMotions::Motion_29_BeesStruggling)
                     {
-                        SetCurrentMotion(eElumMotions::Motion_5_WalkToIdle);
+                        mCurrentMotion = eElumMotions::Motion_5_WalkToIdle;
                     }
                 }
             }
@@ -1804,7 +1804,7 @@ void Elum::Motion_3_WalkLoop()
 
             if (Input().IsAnyHeld(InputCommands::eRun))
             {
-                SetCurrentMotion(eElumMotions::Motion_40_WalkToRun);
+                mCurrentMotion = eElumMotions::Motion_40_WalkToRun;
             }
 
             field_10E_pressed = 0;
@@ -1834,8 +1834,8 @@ void Elum::Motion_4_Turn()
         if (mNextMotion == eElumMotions::Motion_29_BeesStruggling)
         {
             Elum_SFX(ElumSounds::eBeesStruggle_3, 0);
-            SetCurrentMotion(eElumMotions::Motion_29_BeesStruggling);
-            SetNextMotion(eElumMotions::None_m1);
+            mCurrentMotion = eElumMotions::Motion_29_BeesStruggling;
+            mNextMotion = eElumMotions::None_m1;
             field_110_timer = MakeTimer(25);
         }
         else if (ToNextMotion())
@@ -1871,14 +1871,14 @@ void Elum::Motion_5_WalkToIdle()
         if (mNextMotion == eElumMotions::Motion_29_BeesStruggling)
         {
             Elum_SFX(ElumSounds::eBeesStruggle_3, 0);
-            SetCurrentMotion(eElumMotions::Motion_29_BeesStruggling);
+            mCurrentMotion = eElumMotions::Motion_29_BeesStruggling;
             field_110_timer = MakeTimer(25);
-            SetNextMotion(eElumMotions::None_m1);
+            mNextMotion = eElumMotions::None_m1;
         }
         else if (mNextMotion == eElumMotions::Motion_44_ScratchBegin)
         {
-            SetCurrentMotion(eElumMotions::Motion_44_ScratchBegin);
-            SetNextMotion(eElumMotions::None_m1);
+            mCurrentMotion = eElumMotions::Motion_44_ScratchBegin;
+            mNextMotion = eElumMotions::None_m1;
         }
         else
         {
@@ -1886,15 +1886,15 @@ void Elum::Motion_5_WalkToIdle()
             /*
             if (field_104_pending_resource_count > 0)
             {
-                SetCurrentMotion(eElumMotions::Motion_2_Unknown);
+                mCurrentMotion = eElumMotions::Motion_2_Unknown;
             }
             else
             */
             {
                 if (mNextMotion == eElumMotions::Motion_4_Turn || mNextMotion == eElumMotions::Motion_25_LickingHoney)
                 {
-                    SetCurrentMotion(mNextMotion);
-                    SetNextMotion(eElumMotions::None_m1);
+                    mCurrentMotion = mNextMotion;
+                    mNextMotion = eElumMotions::None_m1;
                 }
             }
         }
@@ -1922,15 +1922,15 @@ void Elum::Motion_6_MidWalkToIdle()
         /*
         if (field_104_pending_resource_count)
         {
-            SetCurrentMotion(eElumMotions::Motion_2_Unknown);
+            mCurrentMotion = eElumMotions::Motion_2_Unknown;
         }
         else
         */
         {
             if (mNextMotion == eElumMotions::Motion_4_Turn || mNextMotion == eElumMotions::Motion_25_LickingHoney)
             {
-                SetCurrentMotion(mNextMotion);
-                SetNextMotion(eElumMotions::None_m1);
+                mCurrentMotion = mNextMotion;
+                mNextMotion = eElumMotions::None_m1;
             }
         }
     }
@@ -1945,7 +1945,7 @@ void Elum::Motion_7_IdleToWalk2()
 
     if (GetAnimation().GetIsLastFrame())
     {
-        SetPreviousMotion(eElumMotions::Motion_3_WalkLoop);
+        mPreviousMotion = eElumMotions::Motion_3_WalkLoop;
         mBaseAliveGameObjectLastAnimFrame = 9;
         field_120_bUnknown = 1;
     }
@@ -1962,7 +1962,7 @@ void Elum::Motion_8_IdleToWalk1()
 
     if (GetAnimation().GetIsLastFrame())
     {
-        SetCurrentMotion(eElumMotions::Motion_3_WalkLoop);
+        mCurrentMotion = eElumMotions::Motion_3_WalkLoop;
     }
 
     MoveOnLine(0);
@@ -1974,7 +1974,7 @@ void Elum::Motion_9_ToYell()
 
     if (GetAnimation().GetIsLastFrame())
     {
-        SetCurrentMotion(eElumMotions::Motion_10_Yell);
+        mCurrentMotion = eElumMotions::Motion_10_Yell;
     }
 }
 
@@ -2021,7 +2021,7 @@ void Elum::Motion_12_RunTurn()
     const FP offY = (sControlledCharacter == this) ? GetSpriteScale() * FP_FromInteger(40) : GetSpriteScale() * FP_FromInteger(25);
     if (WallHit(offY, mVelX))
     {
-        SetCurrentMotion(eElumMotions::Motion_50_Knockback);
+        mCurrentMotion = eElumMotions::Motion_50_Knockback;
         if (BaseAliveGameObjectCollisionLine)
         {
             mVelX = -mVelX;
@@ -2048,11 +2048,11 @@ void Elum::Motion_12_RunTurn()
         if (Input().IsAnyHeld(InputCommands::eRun))
         {
             mVelX = gridSize / FP_FromInteger(4);
-            SetCurrentMotion(eElumMotions::Motion_38_RunTurnToRun);
+            mCurrentMotion = eElumMotions::Motion_38_RunTurnToRun;
             return;
         }
         mVelX = gridSize / FP_FromInteger(9);
-        SetCurrentMotion(eElumMotions::Motion_13_RunTurnToWalk);
+        mCurrentMotion = eElumMotions::Motion_13_RunTurnToWalk;
     }
 }
 
@@ -2065,7 +2065,7 @@ void Elum::Motion_13_RunTurnToWalk()
 
     if (GetAnimation().GetIsLastFrame())
     {
-        SetCurrentMotion(eElumMotions::Motion_3_WalkLoop);
+        mCurrentMotion = eElumMotions::Motion_3_WalkLoop;
         GetAnimation().ToggleFlipX();
     }
 }
@@ -2086,7 +2086,7 @@ void Elum::Speak(EnvironmentSfx speak, bool setYellMotion)
     {
         if (setYellMotion)
         {
-            SetNextMotion(eElumMotions::Motion_10_Yell);
+            mNextMotion = eElumMotions::Motion_10_Yell;
         }
 
         if (!ToNextMotion())
@@ -2131,7 +2131,7 @@ void Elum::Motion_17_Unknown()
             mVelX = (GetSpriteScale() * FP_FromInteger(15));
         }
 
-        SetCurrentMotion(eElumMotions::Motion_30_HopBegin);
+        mCurrentMotion = eElumMotions::Motion_30_HopBegin;
     }
 }
 
@@ -2182,8 +2182,8 @@ void Elum::Motion_19_Dead()
             GetAnimation().SetRender(true);
 
             BaseAliveGameObjectLastLineYPos = mYPos;
-            SetCurrentMotion(eElumMotions::Motion_0_Respawn);
-            SetNextMotion(eElumMotions::None_m1);
+            mCurrentMotion = eElumMotions::Motion_0_Respawn;
+            mNextMotion = eElumMotions::None_m1;
             BaseAliveGameObjectCollisionLine = nullptr;
             mHealth = FP_FromInteger(1);
 
@@ -2206,7 +2206,7 @@ void Elum::Motion_20_Fall()
 {
     if (gAbe->mHealth <= FP_FromInteger(0))
     {
-        SetCurrentMotion(eElumMotions::Motion_19_Dead);
+        mCurrentMotion = eElumMotions::Motion_19_Dead;
     }
 }
 
@@ -2255,11 +2255,11 @@ void Elum::Motion_21_Land()
                 BaseAliveGameObjectCollisionLine = pLine;
                 if (mYPos - BaseAliveGameObjectLastLineYPos >= FP_FromInteger(20))
                 {
-                    SetCurrentMotion(eElumMotions::Motion_22_RunOffEdge);
+                    mCurrentMotion = eElumMotions::Motion_22_RunOffEdge;
                 }
                 else
                 {
-                    SetCurrentMotion(eElumMotions::Motion_1_Idle);
+                    mCurrentMotion = eElumMotions::Motion_1_Idle;
                 }
 
                 mXPos = hitX;
@@ -2324,7 +2324,7 @@ void Elum::Motion_24_JumpToFall()
 
     if (GetAnimation().GetIsLastFrame())
     {
-        SetCurrentMotion(eElumMotions::Motion_21_Land);
+        mCurrentMotion = eElumMotions::Motion_21_Land;
     }
 
     Motion_21_Land();
@@ -2361,7 +2361,7 @@ void Elum::Motion_25_LickingHoney()
     {
         if (mNextMotion == eElumMotions::Motion_4_Turn || mNextMotion == eElumMotions::Motion_29_BeesStruggling)
         {
-            SetCurrentMotion(eElumMotions::Motion_26_LickingToStruggling);
+            mCurrentMotion = eElumMotions::Motion_26_LickingToStruggling;
             /*
             if (!field_174_resources.res[30])
             {
@@ -2398,8 +2398,8 @@ void Elum::Motion_29_BeesStruggling()
 
     if (mNextMotion == eElumMotions::Motion_44_ScratchBegin)
     {
-        SetCurrentMotion(eElumMotions::Motion_44_ScratchBegin);
-        SetNextMotion(eElumMotions::None_m1);
+        mCurrentMotion = eElumMotions::Motion_44_ScratchBegin;
+        mNextMotion = eElumMotions::None_m1;
         return;
     }
 
@@ -2408,7 +2408,7 @@ void Elum::Motion_29_BeesStruggling()
         if (mNextMotion == eElumMotions::Motion_1_Idle)
         {
             ToIdle();
-            SetNextMotion(eElumMotions::None_m1);
+            mNextMotion = eElumMotions::None_m1;
         }
         return;
     }
@@ -2418,19 +2418,19 @@ void Elum::Motion_29_BeesStruggling()
             ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(GetAnimation().GetFlipX() != 0 ? -1 : 1)))
     {
         ToIdle();
-        SetNextMotion(eElumMotions::None_m1);
+        mNextMotion = eElumMotions::None_m1;
         return;
     }
 
-    SetCurrentMotion(eElumMotions::Motion_8_IdleToWalk2);
+    mCurrentMotion = eElumMotions::Motion_8_IdleToWalk2;
     if (GetAnimation().GetFlipX())
     {
-        SetNextMotion(eElumMotions::None_m1);
+        mNextMotion = eElumMotions::None_m1;
         mVelX = -(ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(9));
     }
     else
     {
-        SetNextMotion(eElumMotions::None_m1);
+        mNextMotion = eElumMotions::None_m1;
         mVelX = (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(9));
     }
 }
@@ -2473,7 +2473,7 @@ void Elum::Motion_30_HopBegin()
     mYPos += mVelY;
 
     VOnTrapDoorOpen();
-    SetCurrentMotion(eElumMotions::Motion_31_HopMid);
+    mCurrentMotion = eElumMotions::Motion_31_HopMid;
     BaseAliveGameObjectCollisionLine = nullptr;
 }
 
@@ -2516,14 +2516,14 @@ void Elum::RunJumpMidAndHopMid(MidType midType)
                         case MidType::eRunJumpMid:
                             mXPos = hitX;
                             mYPos = hitY;
-                            SetCurrentMotion(eElumMotions::Motion_35_RunJumpLand);
+                            mCurrentMotion = eElumMotions::Motion_35_RunJumpLand;
                             MapFollowMe(true);
                             break;
 
                         case MidType::eHopMid:
                             mVelY = FP_FromInteger(0);
                             mVelX = FP_FromInteger(0);
-                            SetCurrentMotion(eElumMotions::Motion_32_HopLand);
+                            mCurrentMotion = eElumMotions::Motion_32_HopLand;
                             mXPos = hitX;
                             mYPos = hitY;
                             break;
@@ -2541,7 +2541,7 @@ void Elum::RunJumpMidAndHopMid(MidType midType)
         if (mYPos - BaseAliveGameObjectLastLineYPos > FP_FromInteger(2))
         {
             field_118_jump_velx = jump_velx;
-            SetCurrentMotion(eElumMotions::Motion_24_JumpToFall);
+            mCurrentMotion = eElumMotions::Motion_24_JumpToFall;
         }
     }
 }
@@ -2608,7 +2608,7 @@ void Elum::Motion_33_RunJumpBegin()
         mYPos += GetSpriteScale() * FP_FromInteger(-4);
 
         VOnTrapDoorOpen();
-        SetCurrentMotion(eElumMotions::Motion_34_RunJumpMid);
+        mCurrentMotion = eElumMotions::Motion_34_RunJumpMid;
         BaseAliveGameObjectCollisionLine = nullptr;
     }
 }
@@ -2652,7 +2652,7 @@ void Elum::Motion_35_RunJumpLand()
             }
             else
             {
-                SetPreviousMotion(eElumMotions::Motion_36_RunLoop);
+                mPreviousMotion = eElumMotions::Motion_36_RunLoop;
                 mBaseAliveGameObjectLastAnimFrame = 4;
                 field_120_bUnknown = 1;
                 if (GetAnimation().GetFlipX())
@@ -2670,7 +2670,7 @@ void Elum::Motion_35_RunJumpLand()
         else
         {
             mVelX = (mVelX >= FP_FromInteger(0)) ? FP_FromDouble(13.3) : FP_FromDouble(-13.3);
-            SetCurrentMotion(eElumMotions::Motion_12_RunTurn);
+            mCurrentMotion = eElumMotions::Motion_12_RunTurn;
         }
     }
 }
@@ -2720,22 +2720,22 @@ void Elum::Motion_36_RunLoop()
         {
             if (InputCommands::eHop & field_10E_pressed)
             {
-                SetCurrentMotion(eElumMotions::Motion_33_RunJumpBegin);
+                mCurrentMotion = eElumMotions::Motion_33_RunJumpBegin;
                 field_10E_pressed = 0;
             }
             else if (Input().IsAnyHeld(InputCommands::eRight) && mVelX < FP_FromInteger(0))
             {
-                SetCurrentMotion(eElumMotions::Motion_12_RunTurn);
+                mCurrentMotion = eElumMotions::Motion_12_RunTurn;
                 mVelX = GetSpriteScale() * FP_FromDouble(-13.3);
             }
             else if (Input().IsAnyHeld(InputCommands::eLeft) && mVelX > FP_FromInteger(0))
             {
-                SetCurrentMotion(eElumMotions::Motion_12_RunTurn);
+                mCurrentMotion = eElumMotions::Motion_12_RunTurn;
                 mVelX = GetSpriteScale() * FP_FromDouble(13.3);
             }
             else if (!Input().IsAnyHeld(InputCommands::eRight | InputCommands::eLeft))
             {
-                SetCurrentMotion(eElumMotions::Motion_37_RunSlideStop);
+                mCurrentMotion = eElumMotions::Motion_37_RunSlideStop;
 
                 if (mVelX >= FP_FromInteger(0))
                 {
@@ -2750,18 +2750,18 @@ void Elum::Motion_36_RunLoop()
             {
                 if (GetAnimation().GetCurrentFrame() == 0)
                 {
-                    SetCurrentMotion(eElumMotions::Motion_42_RunToWalk);
+                    mCurrentMotion = eElumMotions::Motion_42_RunToWalk;
                 }
                 else
                 {
-                    SetCurrentMotion(eElumMotions::Motion_43_MidRunToWalk);
+                    mCurrentMotion = eElumMotions::Motion_43_MidRunToWalk;
                 }
             }
             return;
         }
         else
         {
-            SetCurrentMotion(eElumMotions::Motion_12_RunTurn);
+            mCurrentMotion = eElumMotions::Motion_12_RunTurn;
 
             if (mVelX >= FP_FromInteger(0))
             {
@@ -2779,7 +2779,7 @@ void Elum::Motion_36_RunLoop()
 
 void Elum::RunSlideStopKnockback()
 {
-    SetCurrentMotion(eElumMotions::Motion_50_Knockback);
+    mCurrentMotion = eElumMotions::Motion_50_Knockback;
     if (BaseAliveGameObjectCollisionLine)
     {
         mVelX = -mVelX;
@@ -2818,7 +2818,7 @@ void Elum::Motion_37_RunSlideStop()
     {
         if ((GetAnimation().GetFlipX() && Input().IsAnyHeld(InputCommands::eRight)) || (!GetAnimation().GetFlipX() && Input().IsAnyHeld(InputCommands::eLeft)))
         {
-            SetPreviousMotion(eElumMotions::Motion_12_RunTurn);
+            mPreviousMotion = eElumMotions::Motion_12_RunTurn;
             mBaseAliveGameObjectLastAnimFrame = GetAnimation().GetCurrentFrame();
             field_120_bUnknown = 1;
         }
@@ -2832,7 +2832,7 @@ void Elum::Motion_37_RunSlideStop()
             field_118_jump_velx = FP_FromInteger(0);
             mVelX = FP_FromInteger(0);
             mVelY = FP_FromInteger(0);
-            SetCurrentMotion(eElumMotions::Motion_1_Idle);
+            mCurrentMotion = eElumMotions::Motion_1_Idle;
             field_110_timer = sGnFrame;
             field_10E_pressed = 0;
             MapFollowMe(true);
@@ -2849,7 +2849,7 @@ void Elum::Motion_38_RunTurnToRun()
 
     if (GetAnimation().GetIsLastFrame())
     {
-        SetCurrentMotion(eElumMotions::Motion_36_RunLoop);
+        mCurrentMotion = eElumMotions::Motion_36_RunLoop;
         GetAnimation().ToggleFlipX();
     }
 }
@@ -2863,7 +2863,7 @@ void Elum::Motion_39_IdleToRun()
 
     if (GetAnimation().GetIsLastFrame())
     {
-        SetCurrentMotion(eElumMotions::Motion_36_RunLoop);
+        mCurrentMotion = eElumMotions::Motion_36_RunLoop;
     }
 
     MoveOnLine(0);
@@ -2887,7 +2887,7 @@ void Elum::Motion_40_WalkToRun()
 
     if (GetAnimation().GetIsLastFrame())
     {
-        SetCurrentMotion(eElumMotions::Motion_36_RunLoop);
+        mCurrentMotion = eElumMotions::Motion_36_RunLoop;
     }
 
     MoveOnLine(0);
@@ -2911,7 +2911,7 @@ void Elum::Motion_41_MidWalkToRun()
 
     if (GetAnimation().GetIsLastFrame())
     {
-        SetPreviousMotion(eElumMotions::Motion_36_RunLoop);
+        mPreviousMotion = eElumMotions::Motion_36_RunLoop;
         mBaseAliveGameObjectLastAnimFrame = 4;
         field_120_bUnknown = 1;
     }
@@ -2940,7 +2940,7 @@ void Elum::Motion_42_RunToWalk()
 
     if (GetAnimation().GetIsLastFrame())
     {
-        SetCurrentMotion(eElumMotions::Motion_3_WalkLoop);
+        mCurrentMotion = eElumMotions::Motion_3_WalkLoop;
         VCheckCollisionLineStillValid(10);
 
         PSX_Point xy{FP_GetExponent(mXPos - FP_FromInteger(10)), FP_GetExponent(mYPos - FP_FromInteger(10))};
@@ -3041,7 +3041,7 @@ void Elum::Motion_44_ScratchBegin()
 
     if (GetAnimation().GetIsLastFrame())
     {
-        SetCurrentMotion(eElumMotions::Motion_45_ScratchLoop);
+        mCurrentMotion = eElumMotions::Motion_45_ScratchLoop;
         if (gMap.GetDirection(mCurrentLevel, mCurrentPath, mXPos, mYPos) == CameraPos::eCamCurrent_0)
         {
             SND_SEQ_PlaySeq(SeqId::Unknown_15, 1, 1);
@@ -3055,7 +3055,7 @@ void Elum::Motion_45_ScratchLoop()
 
     if (GetAnimation().GetIsLastFrame())
     {
-        SetCurrentMotion(eElumMotions::Motion_46_ScratchEnd);
+        mCurrentMotion = eElumMotions::Motion_46_ScratchEnd;
     }
 }
 
@@ -3072,8 +3072,8 @@ void Elum::Motion_46_ScratchEnd()
                 if (!WallHit(GetSpriteScale() * FP_FromInteger(40), -ScaleToGridSize(GetSpriteScale())))
                 {
                     mVelX = -(ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(9));
-                    SetCurrentMotion(eElumMotions::Motion_8_IdleToWalk2);
-                    SetNextMotion(eElumMotions::None_m1);
+                    mCurrentMotion = eElumMotions::Motion_8_IdleToWalk2;
+                    mNextMotion = eElumMotions::None_m1;
                     return;
                 }
             }
@@ -3082,21 +3082,21 @@ void Elum::Motion_46_ScratchEnd()
                 if (!WallHit(GetSpriteScale() * FP_FromInteger(40), ScaleToGridSize(GetSpriteScale())))
                 {
                     mVelX = (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(9));
-                    SetCurrentMotion(eElumMotions::Motion_8_IdleToWalk2);
-                    SetNextMotion(eElumMotions::None_m1);
+                    mCurrentMotion = eElumMotions::Motion_8_IdleToWalk2;
+                    mNextMotion = eElumMotions::None_m1;
                     return;
                 }
             }
-            SetNextMotion(eElumMotions::None_m1);
+            mNextMotion = eElumMotions::None_m1;
             return;
         }
 
         if (mNextMotion == eElumMotions::Motion_29_BeesStruggling)
         {
             Elum_SFX(ElumSounds::eBeesStruggle_3, 0);
-            SetCurrentMotion(eElumMotions::Motion_29_BeesStruggling);
+            mCurrentMotion = eElumMotions::Motion_29_BeesStruggling;
             field_110_timer = MakeTimer(25);
-            SetNextMotion(eElumMotions::None_m1);
+            mNextMotion = eElumMotions::None_m1;
             return;
         }
 
@@ -3110,7 +3110,7 @@ void Elum::ToIdle()
     field_110_timer = sGnFrame;
     mVelX = FP_FromInteger(0);
     mVelY = FP_FromInteger(0);
-    SetCurrentMotion(eElumMotions::Motion_1_Idle);
+    mCurrentMotion = eElumMotions::Motion_1_Idle;
     field_10E_pressed = 0;
     MapFollowMe(true);
 }
@@ -3134,7 +3134,7 @@ void Elum::Motion_48_AbeMoutingBegin()
 {
     if (gAbe->mCurrentMotion == eAbeMotions::Motion_136_ElumMountEnd)
     {
-        SetCurrentMotion(eElumMotions::Motion_27_AbeMountingEnd);
+        mCurrentMotion = eElumMotions::Motion_27_AbeMountingEnd;
     }
 }
 
@@ -3142,7 +3142,7 @@ void Elum::Motion_49_AbeUnmountingBegin()
 {
     if (gAbe->mCurrentMotion != eAbeMotions::Motion_137_ElumUnmountBegin)
     {
-        SetCurrentMotion(eElumMotions::Motion_28_AbeUnmountingEnd);
+        mCurrentMotion = eElumMotions::Motion_28_AbeUnmountingEnd;
     }
 }
 
@@ -3156,7 +3156,7 @@ void Elum::Motion_50_Knockback()
         Motion_21_Land();
         if (mCurrentMotion == eElumMotions::Motion_1_Idle)
         {
-            SetCurrentMotion(eElumMotions::Motion_50_Knockback);
+            mCurrentMotion = eElumMotions::Motion_50_Knockback;
             field_110_timer = MakeTimer(10);
         }
     }
@@ -3179,7 +3179,7 @@ void Elum::VUpdate()
     {
         VOnTrapDoorOpen();
 
-        SetCurrentMotion(eElumMotions::Motion_21_Land);
+        mCurrentMotion = eElumMotions::Motion_21_Land;
         BaseAliveGameObjectCollisionLine = nullptr;
 
         static s32 sElum_velx_table_4FF968[] = {
@@ -3288,7 +3288,7 @@ void Elum::VUpdate()
             else
             {
                 BaseAliveGameObjectCollisionLine = nullptr;
-                SetCurrentMotion(eElumMotions::Motion_21_Land);
+                mCurrentMotion = eElumMotions::Motion_21_Land;
             }
             mChangedPathMounted = false;
         }
@@ -3341,7 +3341,7 @@ void Elum::VUpdate()
         {
             if (field_120_bUnknown)
             {
-                SetCurrentMotion(mPreviousMotion);
+                mCurrentMotion = mPreviousMotion;
 
                 GetAnimation().Set_Animation_Data(GetAnimRes(gElumMotionAnimIds[static_cast<u32>(mCurrentMotion)]));
                 GetAnimation().SetFrame(mBaseAliveGameObjectLastAnimFrame);
@@ -3382,7 +3382,7 @@ void Elum::VUpdate()
             }
 
             GetAnimation().SetRender(false);
-            SetCurrentMotion(eElumMotions::Motion_19_Dead);
+            mCurrentMotion = eElumMotions::Motion_19_Dead;
             VOnTrapDoorOpen();
         }
 
@@ -3512,7 +3512,7 @@ Elum::Elum(const Guid& tlvInfo)
 
     gElum = this;
 
-    SetCurrentMotion(eElumMotions::Motion_21_Land);
+    mCurrentMotion = eElumMotions::Motion_21_Land;
     field_120_bUnknown = 0;
 
     mHoneyYPos = 0;

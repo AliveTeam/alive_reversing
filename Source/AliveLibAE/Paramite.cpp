@@ -114,8 +114,8 @@ Paramite::Paramite(relive::Path_Paramite* pTlv, const Guid& tlvId)
     mPullRingRopeGuid = Guid{};
     field_130_timer = 0;
     mBrainSubState = 0;
-    SetNextMotion(eParamiteMotions::Motion_0_Idle);
-    SetCurrentMotion(eParamiteMotions::Motion_0_Idle);
+    mNextMotion = eParamiteMotions::Motion_0_Idle;
+    mCurrentMotion = eParamiteMotions::Motion_0_Idle;
     field_154_input = 0;
     mXPos = FP_FromInteger(pTlv->mTopLeftX + 12);
     mYPos = FP_FromInteger(pTlv->mTopLeftY);
@@ -202,7 +202,7 @@ Paramite::Paramite(relive::Path_Paramite* pTlv, const Guid& tlvId)
     {
         BaseAliveGameObjectLastLineYPos = hitY;
         mYPos = hitY;
-        SetCurrentMotion(eParamiteMotions::Motion_0_Idle);
+        mCurrentMotion = eParamiteMotions::Motion_0_Idle;
         CheckForPlatform();
     }
 
@@ -246,7 +246,7 @@ void Paramite::CreateFromSaveState(SerializedObjectData& pBuffer)
 
     pParamite->mRGB.SetRGB(pState->mR, pState->mG, pState->mB);
 
-    pParamite->SetCurrentMotion(pState->field_24_current_motion);
+    pParamite->mCurrentMotion = pState->field_24_current_motion;
     pParamite->GetAnimation().Set_Animation_Data(pParamite->GetAnimRes(sParamiteMotionAnimIds[static_cast<u32>(pParamite->mCurrentMotion)]));
 
     pParamite->GetAnimation().SetCurrentFrame(pState->mAnimCurrentFrame);
@@ -263,8 +263,8 @@ void Paramite::CreateFromSaveState(SerializedObjectData& pBuffer)
     }
 
     pParamite->mHealth = pState->mHealth;
-    pParamite->SetCurrentMotion(pState->field_30_current_motion);
-    pParamite->SetNextMotion(pState->field_32_next_motion);
+    pParamite->mCurrentMotion = pState->field_30_current_motion;
+    pParamite->mNextMotion = pState->field_32_next_motion;
     pParamite->BaseAliveGameObjectLastLineYPos = FP_FromInteger(pState->field_34_last_line_ypos);
     pParamite->SetRestoredFromQuickSave(true);
     pParamite->BaseAliveGameObjectCollisionLineType = pState->field_36_line_type;
@@ -528,7 +528,7 @@ s16 Paramite::Brain_0_Patrol()
             {
                 return mBrainSubState;
             }
-            SetNextMotion(eParamiteMotions::Motion_0_Idle);
+            mNextMotion = eParamiteMotions::Motion_0_Idle;
             return ParamiteEnums::Brain_0_Patrol::eBrain0_IdleForAbe_1;
 
         case ParamiteEnums::Brain_0_Patrol::eBrain0_IdleForAbe_1:
@@ -551,7 +551,7 @@ s16 Paramite::Brain_0_Patrol()
             {
                 return mBrainSubState;
             }
-            SetNextMotion(eParamiteMotions::Motion_0_Idle);
+            mNextMotion = eParamiteMotions::Motion_0_Idle;
             return ParamiteEnums::Brain_0_Patrol::eBrain0_IdleForAbe_1;
 
         case ParamiteEnums::Brain_0_Patrol::eBrain0_HittingAbe_7:
@@ -559,7 +559,7 @@ s16 Paramite::Brain_0_Patrol()
             {
                 return mBrainSubState;
             }
-            SetNextMotion(eParamiteMotions::Motion_20_GameSpeakBegin);
+            mNextMotion = eParamiteMotions::Motion_20_GameSpeakBegin;
             return ParamiteEnums::Brain_0_Patrol::eBrain0_StuckToWall_8;
 
         case ParamiteEnums::Brain_0_Patrol::eBrain0_StuckToWall_8:
@@ -570,7 +570,7 @@ s16 Paramite::Brain_0_Patrol()
             {
                 return mBrainSubState;
             }
-            SetNextMotion(eParamiteMotions::Motion_0_Idle);
+            mNextMotion = eParamiteMotions::Motion_0_Idle;
             if (pObj->mHealth > FP_FromInteger(0))
             {
                 return ParamiteEnums::Brain_0_Patrol::eBrain0_IdleForAbe_1;
@@ -583,7 +583,7 @@ s16 Paramite::Brain_0_Patrol()
             {
                 return mBrainSubState;
             }
-            SetNextMotion(eParamiteMotions::Motion_4_Turn);
+            mNextMotion = eParamiteMotions::Motion_4_Turn;
             return ParamiteEnums::Brain_0_Patrol::eBrain0_TurningAfterLoosingSight_11;
 
         case ParamiteEnums::Brain_0_Patrol::eBrain0_TurningAfterLoosingSight_11:
@@ -601,7 +601,7 @@ s16 Paramite::Brain_0_Patrol()
             {
                 return mBrainSubState;
             }
-            SetNextMotion(eParamiteMotions::Motion_0_Idle);
+            mNextMotion = eParamiteMotions::Motion_0_Idle;
             field_138_depossession_timer = MakeTimer(Math_RandomRange(45, 135));
             return ParamiteEnums::Brain_0_Patrol::eBrain0_Idle_12;
 
@@ -614,7 +614,7 @@ s16 Paramite::Brain_0_Patrol()
             return ParamiteEnums::Brain_0_Patrol::eBrain0_Idle_12;
 
         case ParamiteEnums::Brain_0_Patrol::eBrain0_LookingForInvisibleAbe_15:
-            SetNextMotion(eParamiteMotions::Motion_0_Idle);
+            mNextMotion = eParamiteMotions::Motion_0_Idle;
             if (mCurrentMotion != eParamiteMotions::Motion_0_Idle)
             {
                 return mBrainSubState;
@@ -624,10 +624,10 @@ s16 Paramite::Brain_0_Patrol()
         case ParamiteEnums::Brain_0_Patrol::eBrain0_Panic_16:
             if (!EventGet(kEventAbeOhm))
             {
-                SetNextMotion(eParamiteMotions::Motion_0_Idle);
+                mNextMotion = eParamiteMotions::Motion_0_Idle;
                 return ParamiteEnums::Brain_0_Patrol::eBrain0_Idle_12;
             }
-            SetNextMotion(eParamiteMotions::Motion_22_Hiss1);
+            mNextMotion = eParamiteMotions::Motion_22_Hiss1;
             return mBrainSubState;
 
         default:
@@ -654,7 +654,7 @@ s16 Paramite::Brain_Patrol_State_12_Idle(BaseAliveGameObject* pObj)
 
     if (EventGet(kEventAbeOhm))
     {
-        SetNextMotion(eParamiteMotions::Motion_22_Hiss1);
+        mNextMotion = eParamiteMotions::Motion_22_Hiss1;
         return ParamiteEnums::Brain_0_Patrol::eBrain0_Panic_16;
     }
 
@@ -665,7 +665,7 @@ s16 Paramite::Brain_Patrol_State_12_Idle(BaseAliveGameObject* pObj)
     {
         if (gAbe->GetInvisible())
         {
-            SetNextMotion(sParamitePatrolMotionTable[Math_RandomRange(0, 4)]);
+            mNextMotion = sParamitePatrolMotionTable[Math_RandomRange(0, 4)];
             return ParamiteEnums::Brain_0_Patrol::eBrain0_LookingForInvisibleAbe_15;
         }
     }
@@ -683,7 +683,7 @@ s16 Paramite::Brain_Patrol_State_12_Idle(BaseAliveGameObject* pObj)
     auto pFleech = static_cast<BaseAliveGameObject*>(FindObjectOfType(ReliveTypes::eFleech, gridBlockAHead, mYPos));
     if (pFleech && VIsFacingMe(pFleech))
     {
-        SetNextMotion(eParamiteMotions::Motion_43_Attack);
+        mNextMotion = eParamiteMotions::Motion_43_Attack;
         return ParamiteEnums::Brain_0_Patrol::eBrain0_LookingForInvisibleAbe_15;
     }
 
@@ -721,7 +721,7 @@ s16 Paramite::Brain_Patrol_State_12_Idle(BaseAliveGameObject* pObj)
                 {
                     mTargetGuid = pControlledParamite->mTargetGuid;
                     Sound(ParamiteSpeak::Howdy_5, 0);
-                    SetNextMotion(eParamiteMotions::Motion_0_Idle);
+                    mNextMotion = eParamiteMotions::Motion_0_Idle;
                     SetBrain(&Paramite::Brain_2_ChasingAbe);
                     field_148_timer = MakeTimer(mGroupChaseDelay);
                     return ParamiteEnums::Brain_2_ChasingAbe::eBrain2_Inactive_0;
@@ -745,12 +745,12 @@ s16 Paramite::Brain_Patrol_State_12_Idle(BaseAliveGameObject* pObj)
 
     if (Math_NextRandom() >= 6u)
     {
-        SetNextMotion(eParamiteMotions::Motion_4_Turn);
+        mNextMotion = eParamiteMotions::Motion_4_Turn;
         return ParamiteEnums::Brain_0_Patrol::eBrain0_Turning_14;
     }
     else
     {
-        SetNextMotion(eParamiteMotions::Motion_20_GameSpeakBegin);
+        mNextMotion = eParamiteMotions::Motion_20_GameSpeakBegin;
         return ParamiteEnums::Brain_0_Patrol::eBrain0_IdleAnimation_13;
     }
 }
@@ -761,14 +761,14 @@ s16 Paramite::Brain_Patrol_State_5_StopApproachingAbe(BaseAliveGameObject* pObj)
 
     if (!pObj || !VOnSameYLevel(pObj) || GetSpriteScale() != pObj->GetSpriteScale())
     {
-        SetNextMotion(eParamiteMotions::Motion_0_Idle);
+        mNextMotion = eParamiteMotions::Motion_0_Idle;
         return ParamiteEnums::Brain_0_Patrol::eBrain0_IdleForAbe_1;
     }
 
     if (pObj->GetInvisible())
     {
         mTargetGuid = Guid{};
-        SetNextMotion(eParamiteMotions::Motion_4_Turn);
+        mNextMotion = eParamiteMotions::Motion_4_Turn;
         field_130_timer = MakeTimer(Math_RandomRange(45, 60));
         return ParamiteEnums::Brain_0_Patrol::eBrain0_LostInvisibleAbeSight_10;
     }
@@ -776,7 +776,7 @@ s16 Paramite::Brain_Patrol_State_5_StopApproachingAbe(BaseAliveGameObject* pObj)
     if (AnotherParamiteNear())
     {
         Sound(ParamiteSpeak::Howdy_5, 0);
-        SetNextMotion(eParamiteMotions::Motion_0_Idle);
+        mNextMotion = eParamiteMotions::Motion_0_Idle;
         SetBrain(&Paramite::Brain_2_ChasingAbe);
         field_148_timer = MakeTimer(mGroupChaseDelay);
         return ParamiteEnums::Brain_2_ChasingAbe::eBrain2_Inactive_0;
@@ -786,12 +786,12 @@ s16 Paramite::Brain_Patrol_State_5_StopApproachingAbe(BaseAliveGameObject* pObj)
     {
         if (HandleEnemyStopper(-2))
         {
-            SetNextMotion(eParamiteMotions::Motion_0_Idle);
+            mNextMotion = eParamiteMotions::Motion_0_Idle;
             return ParamiteEnums::Brain_0_Patrol::eBrain0_IdleForAbe_1;
         }
         if (WallHit(GetSpriteScale() * FP_FromInteger(20), -kGridSize) || Check_IsOnEndOfLine(1, 3))
         {
-            SetNextMotion(eParamiteMotions::Motion_0_Idle);
+            mNextMotion = eParamiteMotions::Motion_0_Idle;
             return ParamiteEnums::Brain_0_Patrol::eBrain0_IdleForAbe_1;
         }
     }
@@ -800,13 +800,13 @@ s16 Paramite::Brain_Patrol_State_5_StopApproachingAbe(BaseAliveGameObject* pObj)
     {
         if (HandleEnemyStopper(2))
         {
-            SetNextMotion(eParamiteMotions::Motion_0_Idle);
+            mNextMotion = eParamiteMotions::Motion_0_Idle;
             return ParamiteEnums::Brain_0_Patrol::eBrain0_IdleForAbe_1;
         }
 
         if (WallHit(GetSpriteScale() * FP_FromInteger(20), kGridSize) || Check_IsOnEndOfLine(0, 3))
         {
-            SetNextMotion(eParamiteMotions::Motion_0_Idle);
+            mNextMotion = eParamiteMotions::Motion_0_Idle;
             return ParamiteEnums::Brain_0_Patrol::eBrain0_IdleForAbe_1;
         }
     }
@@ -818,7 +818,7 @@ s16 Paramite::Brain_Patrol_State_5_StopApproachingAbe(BaseAliveGameObject* pObj)
 
     if (VIsObjNearby(kGridSize * FP_FromInteger(8), pObj))
     {
-        SetNextMotion(eParamiteMotions::Motion_0_Idle);
+        mNextMotion = eParamiteMotions::Motion_0_Idle;
         return ParamiteEnums::Brain_0_Patrol::eBrain0_IdleForAbe_1;
     }
 
@@ -826,7 +826,7 @@ s16 Paramite::Brain_Patrol_State_5_StopApproachingAbe(BaseAliveGameObject* pObj)
     {
         return mBrainSubState;
     }
-    SetNextMotion(eParamiteMotions::Motion_2_Walking);
+    mNextMotion = eParamiteMotions::Motion_2_Walking;
     return ParamiteEnums::Brain_0_Patrol::eBrain0_ApproachingAbe_4;
 }
 
@@ -836,14 +836,14 @@ s16 Paramite::Brain_Patrol_State_4_ApproachingAbe(BaseAliveGameObject* pObj)
 
     if (!pObj || !VOnSameYLevel(pObj) || GetSpriteScale() != pObj->GetSpriteScale())
     {
-        SetNextMotion(eParamiteMotions::Motion_0_Idle);
+        mNextMotion = eParamiteMotions::Motion_0_Idle;
         return ParamiteEnums::Brain_0_Patrol::eBrain0_IdleForAbe_1;
     }
 
     if (pObj->GetInvisible())
     {
         mTargetGuid = Guid{};
-        SetNextMotion(eParamiteMotions::Motion_4_Turn);
+        mNextMotion = eParamiteMotions::Motion_4_Turn;
         field_130_timer = MakeTimer(Math_RandomRange(45, 60));
         return ParamiteEnums::Brain_0_Patrol::eBrain0_LostInvisibleAbeSight_10;
     }
@@ -851,7 +851,7 @@ s16 Paramite::Brain_Patrol_State_4_ApproachingAbe(BaseAliveGameObject* pObj)
     if (AnotherParamiteNear())
     {
         Sound(ParamiteSpeak::Howdy_5, 0);
-        SetNextMotion(eParamiteMotions::Motion_0_Idle);
+        mNextMotion = eParamiteMotions::Motion_0_Idle;
         SetBrain(&Paramite::Brain_2_ChasingAbe);
         field_148_timer = MakeTimer(mGroupChaseDelay);
         return ParamiteEnums::Brain_2_ChasingAbe::eBrain2_Inactive_0;
@@ -861,13 +861,13 @@ s16 Paramite::Brain_Patrol_State_4_ApproachingAbe(BaseAliveGameObject* pObj)
     {
         if (HandleEnemyStopper(-2))
         {
-            SetNextMotion(eParamiteMotions::Motion_0_Idle);
+            mNextMotion = eParamiteMotions::Motion_0_Idle;
             return ParamiteEnums::Brain_0_Patrol::eBrain0_IdleForAbe_1;
         }
 
         if (WallHit(GetSpriteScale() * FP_FromInteger(20), -kGridSize) || Check_IsOnEndOfLine(1, 2))
         {
-            SetNextMotion(eParamiteMotions::Motion_0_Idle);
+            mNextMotion = eParamiteMotions::Motion_0_Idle;
             return ParamiteEnums::Brain_0_Patrol::eBrain0_IdleForAbe_1;
         }
     }
@@ -876,13 +876,13 @@ s16 Paramite::Brain_Patrol_State_4_ApproachingAbe(BaseAliveGameObject* pObj)
     {
         if (HandleEnemyStopper(2))
         {
-            SetNextMotion(eParamiteMotions::Motion_0_Idle);
+            mNextMotion = eParamiteMotions::Motion_0_Idle;
             return ParamiteEnums::Brain_0_Patrol::eBrain0_IdleForAbe_1;
         }
 
         if (WallHit(GetSpriteScale() * FP_FromInteger(20), kGridSize) || Check_IsOnEndOfLine(0, 2))
         {
-            SetNextMotion(eParamiteMotions::Motion_0_Idle);
+            mNextMotion = eParamiteMotions::Motion_0_Idle;
             return ParamiteEnums::Brain_0_Patrol::eBrain0_IdleForAbe_1;
         }
     }
@@ -897,11 +897,11 @@ s16 Paramite::Brain_Patrol_State_4_ApproachingAbe(BaseAliveGameObject* pObj)
         {
             return mBrainSubState;
         }
-        SetNextMotion(eParamiteMotions::Motion_0_Idle);
+        mNextMotion = eParamiteMotions::Motion_0_Idle;
         return ParamiteEnums::Brain_0_Patrol::eBrain0_IdleForAbe_1;
     }
 
-    SetNextMotion(eParamiteMotions::Motion_3_Running);
+    mNextMotion = eParamiteMotions::Motion_3_Running;
     return ParamiteEnums::Brain_0_Patrol::eBrain0_StopApproachingAbe_5;
 }
 
@@ -911,14 +911,14 @@ s16 Paramite::Brain_Patrol_State_3_RunningFromAbe(BaseAliveGameObject* pObj)
 
     if (!pObj || !VOnSameYLevel(pObj) || GetSpriteScale() != pObj->GetSpriteScale())
     {
-        SetNextMotion(eParamiteMotions::Motion_0_Idle);
+        mNextMotion = eParamiteMotions::Motion_0_Idle;
         return ParamiteEnums::Brain_0_Patrol::eBrain0_IdleForAbe_1;
     }
 
     if (pObj->GetInvisible())
     {
         mTargetGuid = Guid{};
-        SetNextMotion(eParamiteMotions::Motion_4_Turn);
+        mNextMotion = eParamiteMotions::Motion_4_Turn;
         field_130_timer = MakeTimer(Math_RandomRange(45, 60));
         return ParamiteEnums::Brain_0_Patrol::eBrain0_LostInvisibleAbeSight_10;
     }
@@ -927,7 +927,7 @@ s16 Paramite::Brain_Patrol_State_3_RunningFromAbe(BaseAliveGameObject* pObj)
     {
         if ((WallHit(GetSpriteScale() * FP_FromInteger(20), -kGridSize) || Check_IsOnEndOfLine(1, 3)))
         {
-            SetNextMotion(eParamiteMotions::Motion_4_Turn);
+            mNextMotion = eParamiteMotions::Motion_4_Turn;
             return ParamiteEnums::Brain_0_Patrol::eBrain0_HittingAbe_7;
         }
     }
@@ -936,7 +936,7 @@ s16 Paramite::Brain_Patrol_State_3_RunningFromAbe(BaseAliveGameObject* pObj)
     {
         if ((WallHit(GetSpriteScale() * FP_FromInteger(20), kGridSize) || Check_IsOnEndOfLine(0, 3)))
         {
-            SetNextMotion(eParamiteMotions::Motion_4_Turn);
+            mNextMotion = eParamiteMotions::Motion_4_Turn;
             return ParamiteEnums::Brain_0_Patrol::eBrain0_HittingAbe_7;
         }
     }
@@ -944,7 +944,7 @@ s16 Paramite::Brain_Patrol_State_3_RunningFromAbe(BaseAliveGameObject* pObj)
     if (AnotherParamiteNear())
     {
         Sound(ParamiteSpeak::Howdy_5, 0);
-        SetNextMotion(eParamiteMotions::Motion_0_Idle);
+        mNextMotion = eParamiteMotions::Motion_0_Idle;
         SetBrain(&Paramite::Brain_2_ChasingAbe);
         field_148_timer = MakeTimer(mGroupChaseDelay);
         return ParamiteEnums::Brain_2_ChasingAbe::eBrain2_Inactive_0;
@@ -960,7 +960,7 @@ s16 Paramite::Brain_Patrol_State_3_RunningFromAbe(BaseAliveGameObject* pObj)
         return mBrainSubState;
     }
 
-    SetNextMotion(eParamiteMotions::Motion_2_Walking);
+    mNextMotion = eParamiteMotions::Motion_2_Walking;
     return ParamiteEnums::Brain_0_Patrol::eBrain0_FearingAbe_2;
 }
 
@@ -978,33 +978,33 @@ s16 Paramite::Brain_Patrol_State_8_StuckToWall(BaseAliveGameObject* pObj)
 
     if (!pObj || !VOnSameYLevel(pObj) || GetSpriteScale() != pObj->GetSpriteScale())
     {
-        SetNextMotion(eParamiteMotions::Motion_0_Idle);
+        mNextMotion = eParamiteMotions::Motion_0_Idle;
         return ParamiteEnums::Brain_0_Patrol::eBrain0_IdleForAbe_1;
     }
 
     if (pObj->GetInvisible())
     {
         mTargetGuid = Guid{};
-        SetNextMotion(eParamiteMotions::Motion_4_Turn);
+        mNextMotion = eParamiteMotions::Motion_4_Turn;
         field_130_timer = MakeTimer(Math_RandomRange(45, 60));
         return ParamiteEnums::Brain_0_Patrol::eBrain0_LostInvisibleAbeSight_10;
     }
 
     if (VIsObjNearby(kGridSize * FP_FromInteger(3), pObj))
     {
-        SetNextMotion(eParamiteMotions::Motion_31_RunningAttack);
+        mNextMotion = eParamiteMotions::Motion_31_RunningAttack;
         return ParamiteEnums::Brain_0_Patrol::eBrain0_Attacking_9;
     }
 
     if (VIsObj_GettingNear_On_X(pObj))
     {
-        SetNextMotion(eParamiteMotions::Motion_22_Hiss1);
+        mNextMotion = eParamiteMotions::Motion_22_Hiss1;
     }
     else
     {
         if (!VIsObjNearby(kGridSize * FP_FromInteger(8), pObj))
         {
-            SetNextMotion(eParamiteMotions::Motion_2_Walking);
+            mNextMotion = eParamiteMotions::Motion_2_Walking;
             return ParamiteEnums::Brain_0_Patrol::eBrain0_ApproachingAbe_4;
         }
     }
@@ -1019,7 +1019,7 @@ s16 Paramite::Brain_Patrol_State_8_StuckToWall(BaseAliveGameObject* pObj)
         return mBrainSubState;
     }
 
-    SetNextMotion(eParamiteMotions::Motion_22_Hiss1);
+    mNextMotion = eParamiteMotions::Motion_22_Hiss1;
     return mBrainSubState;
 }
 
@@ -1048,14 +1048,14 @@ s16 Paramite::Brain_Patrol_State_1_IdleForAbe(BaseAliveGameObject* pObj)
     if (pObj && pObj->GetInvisible())
     {
         mTargetGuid = Guid{};
-        SetNextMotion(eParamiteMotions::Motion_4_Turn);
+        mNextMotion = eParamiteMotions::Motion_4_Turn;
         field_130_timer = MakeTimer(Math_RandomRange(45, 60));
         return ParamiteEnums::Brain_0_Patrol::eBrain0_LostInvisibleAbeSight_10;
     }
 
     if (EventGet(kEventAbeOhm) && VIsFacingMe(pObj))
     {
-        SetNextMotion(eParamiteMotions::Motion_22_Hiss1);
+        mNextMotion = eParamiteMotions::Motion_22_Hiss1;
         return ParamiteEnums::Brain_0_Patrol::eBrain0_Panic_16;
     }
 
@@ -1067,7 +1067,7 @@ s16 Paramite::Brain_Patrol_State_1_IdleForAbe(BaseAliveGameObject* pObj)
     if ((AnotherParamiteNear() || pObj->mHealth <= FP_FromInteger(0)) && GetSpriteScale() == pObj->GetSpriteScale())
     {
         Sound(ParamiteSpeak::Howdy_5, 0);
-        SetNextMotion(eParamiteMotions::Motion_0_Idle);
+        mNextMotion = eParamiteMotions::Motion_0_Idle;
         SetBrain(&Paramite::Brain_2_ChasingAbe);
         field_148_timer = MakeTimer(mGroupChaseDelay);
         return ParamiteEnums::Brain_2_ChasingAbe::eBrain2_Inactive_0;
@@ -1082,17 +1082,17 @@ s16 Paramite::Brain_Patrol_State_1_IdleForAbe(BaseAliveGameObject* pObj)
             {
                 if (Check_IsOnEndOfLine(1, 2))
                 {
-                    SetNextMotion(eParamiteMotions::Motion_20_GameSpeakBegin);
+                    mNextMotion = eParamiteMotions::Motion_20_GameSpeakBegin;
                     return ParamiteEnums::Brain_0_Patrol::eBrain0_StuckToWall_8;
                 }
             }
             else if (Check_IsOnEndOfLine(0, 2))
             {
-                SetNextMotion(eParamiteMotions::Motion_20_GameSpeakBegin);
+                mNextMotion = eParamiteMotions::Motion_20_GameSpeakBegin;
                 return ParamiteEnums::Brain_0_Patrol::eBrain0_StuckToWall_8;
             }
             Sound(ParamiteSpeak::Howdy_5, 0);
-            SetNextMotion(eParamiteMotions::Motion_4_Turn);
+            mNextMotion = eParamiteMotions::Motion_4_Turn;
             return ParamiteEnums::Brain_0_Patrol::eBrain0_TurningForAbe_6;
         }
 
@@ -1101,22 +1101,22 @@ s16 Paramite::Brain_Patrol_State_1_IdleForAbe(BaseAliveGameObject* pObj)
         {
             if ((!GetAnimation().GetFlipX() || !Check_IsOnEndOfLine(1, 2)) && (GetAnimation().GetFlipX() || !Check_IsOnEndOfLine(0, 2)))
             {
-                SetNextMotion(eParamiteMotions::Motion_3_Running);
+                mNextMotion = eParamiteMotions::Motion_3_Running;
                 return ParamiteEnums::Brain_0_Patrol::eBrain0_RunningFromAbe_3;
             }
-            SetNextMotion(eParamiteMotions::Motion_4_Turn);
+            mNextMotion = eParamiteMotions::Motion_4_Turn;
             return ParamiteEnums::Brain_0_Patrol::eBrain0_HittingAbe_7;
         }
         else
         {
             if ((GetAnimation().GetFlipX() && Check_IsOnEndOfLine(1, 2)) || (!GetAnimation().GetFlipX() && Check_IsOnEndOfLine(0, 2)))
             {
-                SetNextMotion(eParamiteMotions::Motion_4_Turn);
+                mNextMotion = eParamiteMotions::Motion_4_Turn;
                 return ParamiteEnums::Brain_0_Patrol::eBrain0_HittingAbe_7;
             }
             else
             {
-                SetNextMotion(eParamiteMotions::Motion_2_Walking);
+                mNextMotion = eParamiteMotions::Motion_2_Walking;
                 return ParamiteEnums::Brain_0_Patrol::eBrain0_FearingAbe_2;
             }
         }
@@ -1129,13 +1129,13 @@ s16 Paramite::Brain_Patrol_State_1_IdleForAbe(BaseAliveGameObject* pObj)
         {
             if ((GetAnimation().GetFlipX() && !Check_IsOnEndOfLine(0, 2)) || (!GetAnimation().GetFlipX() && !Check_IsOnEndOfLine(1, 2)))
             {
-                SetNextMotion(eParamiteMotions::Motion_4_Turn);
+                mNextMotion = eParamiteMotions::Motion_4_Turn;
                 return ParamiteEnums::Brain_0_Patrol::eBrain0_TurningForAbe_6;
             }
         }
         else if ((GetAnimation().GetFlipX() && !Check_IsOnEndOfLine(1, 2)) || (!GetAnimation().GetFlipX() && !Check_IsOnEndOfLine(0, 2)))
         {
-            SetNextMotion(eParamiteMotions::Motion_2_Walking);
+            mNextMotion = eParamiteMotions::Motion_2_Walking;
             return ParamiteEnums::Brain_0_Patrol::eBrain0_ApproachingAbe_4;
         }
     }
@@ -1144,7 +1144,7 @@ s16 Paramite::Brain_Patrol_State_1_IdleForAbe(BaseAliveGameObject* pObj)
     {
         return mBrainSubState;
     }
-    SetNextMotion(eParamiteMotions::Motion_4_Turn);
+    mNextMotion = eParamiteMotions::Motion_4_Turn;
     return ParamiteEnums::Brain_0_Patrol::eBrain0_TurningForAbe_6;
 }
 
@@ -1154,14 +1154,14 @@ s16 Paramite::Brain_Patrol_State_2_FearingAbe(BaseAliveGameObject* pObj)
 
     if (!pObj || !VOnSameYLevel(pObj) || GetSpriteScale() != pObj->GetSpriteScale())
     {
-        SetNextMotion(eParamiteMotions::Motion_0_Idle);
+        mNextMotion = eParamiteMotions::Motion_0_Idle;
         return ParamiteEnums::Brain_0_Patrol::eBrain0_IdleForAbe_1;
     }
 
     if (pObj->GetInvisible())
     {
         mTargetGuid = Guid{};
-        SetNextMotion(eParamiteMotions::Motion_4_Turn);
+        mNextMotion = eParamiteMotions::Motion_4_Turn;
         field_130_timer = MakeTimer(Math_RandomRange(45, 60));
         return ParamiteEnums::Brain_0_Patrol::eBrain0_LostInvisibleAbeSight_10;
     }
@@ -1170,7 +1170,7 @@ s16 Paramite::Brain_Patrol_State_2_FearingAbe(BaseAliveGameObject* pObj)
     {
         if ((WallHit(GetSpriteScale() * FP_FromInteger(20), -kGridSize) || Check_IsOnEndOfLine(1, 2)))
         {
-            SetNextMotion(eParamiteMotions::Motion_4_Turn);
+            mNextMotion = eParamiteMotions::Motion_4_Turn;
             return ParamiteEnums::Brain_0_Patrol::eBrain0_HittingAbe_7;
         }
     }
@@ -1179,7 +1179,7 @@ s16 Paramite::Brain_Patrol_State_2_FearingAbe(BaseAliveGameObject* pObj)
     {
         if ((WallHit(GetSpriteScale() * FP_FromInteger(20), kGridSize) || Check_IsOnEndOfLine(0, 2)))
         {
-            SetNextMotion(eParamiteMotions::Motion_4_Turn);
+            mNextMotion = eParamiteMotions::Motion_4_Turn;
             return ParamiteEnums::Brain_0_Patrol::eBrain0_HittingAbe_7;
         }
     }
@@ -1187,7 +1187,7 @@ s16 Paramite::Brain_Patrol_State_2_FearingAbe(BaseAliveGameObject* pObj)
     if (AnotherParamiteNear())
     {
         Sound(ParamiteSpeak::Howdy_5, 0);
-        SetNextMotion(eParamiteMotions::Motion_0_Idle);
+        mNextMotion = eParamiteMotions::Motion_0_Idle;
         SetBrain(&Paramite::Brain_2_ChasingAbe);
         field_148_timer = MakeTimer(mGroupChaseDelay);
         return ParamiteEnums::Brain_2_ChasingAbe::eBrain2_Inactive_0;
@@ -1195,7 +1195,7 @@ s16 Paramite::Brain_Patrol_State_2_FearingAbe(BaseAliveGameObject* pObj)
 
     if (VIsObj_GettingNear_On_X(pObj) && VIsObjNearby(kGridSize * FP_FromInteger(4), pObj))
     {
-        SetNextMotion(eParamiteMotions::Motion_3_Running);
+        mNextMotion = eParamiteMotions::Motion_3_Running;
         return ParamiteEnums::Brain_0_Patrol::eBrain0_RunningFromAbe_3;
     }
 
@@ -1209,7 +1209,7 @@ s16 Paramite::Brain_Patrol_State_2_FearingAbe(BaseAliveGameObject* pObj)
         return mBrainSubState;
     }
 
-    SetNextMotion(eParamiteMotions::Motion_0_Idle);
+    mNextMotion = eParamiteMotions::Motion_0_Idle;
     return ParamiteEnums::Brain_0_Patrol::eBrain0_IdleForAbe_1;
 }
 
@@ -1307,7 +1307,7 @@ s16 Paramite::Brain_2_ChasingAbe()
 
             if (EventGet(kEventAbeOhm))
             {
-                SetNextMotion(eParamiteMotions::Motion_22_Hiss1);
+                mNextMotion = eParamiteMotions::Motion_22_Hiss1;
                 return ParamiteEnums::Brain_2_ChasingAbe::eBrain2_Panic_15;
             }
 
@@ -1355,7 +1355,7 @@ s16 Paramite::Brain_2_ChasingAbe()
         mTargetGuid = Guid{};
     }
 
-    SetNextMotion(eParamiteMotions::Motion_0_Idle);
+    mNextMotion = eParamiteMotions::Motion_0_Idle;
     SetBrain(&Paramite::Brain_0_Patrol);
     return ParamiteEnums::Brain_0_Patrol::eBrain0_Inactive_0;
 }
@@ -1366,7 +1366,7 @@ s16 Paramite::Brain_ChasingAbe_State_15_Panic()
     {
         return mBrainSubState;
     }
-    SetNextMotion(eParamiteMotions::Motion_0_Idle);
+    mNextMotion = eParamiteMotions::Motion_0_Idle;
     return ParamiteEnums::Brain_2_ChasingAbe::eBrain2_Inactive_0;
 }
 
@@ -1376,7 +1376,7 @@ s16 Paramite::Brain_ChasingAbe_State_14_Idle()
     {
         return mBrainSubState;
     }
-    SetNextMotion(eParamiteMotions::Motion_40_Eating);
+    mNextMotion = eParamiteMotions::Motion_40_Eating;
     field_130_timer = MakeTimer(28);
     return ParamiteEnums::Brain_2_ChasingAbe::eBrain2_Eating_13;
 }
@@ -1387,7 +1387,7 @@ s16 Paramite::Brain_ChasingAbe_State_9_TurningWhileChasing()
     {
         return mBrainSubState;
     }
-    SetNextMotion(eParamiteMotions::Motion_0_Idle);
+    mNextMotion = eParamiteMotions::Motion_0_Idle;
     return ParamiteEnums::Brain_2_ChasingAbe::eBrain2_ToChasing_5;
 }
 
@@ -1397,7 +1397,7 @@ s16 Paramite::Brain_ChasingAbe_State_13_Eating()
     {
         return mBrainSubState;
     }
-    SetNextMotion(eParamiteMotions::Motion_0_Idle);
+    mNextMotion = eParamiteMotions::Motion_0_Idle;
     field_130_timer = MakeTimer(15);
     return ParamiteEnums::Brain_2_ChasingAbe::eBrain2_Idle_14;
 }
@@ -1420,7 +1420,7 @@ s16 Paramite::Brain_ChasingAbe_State_6_QuickAttack()
 
     if (mHissBeforeAttack)
     {
-        SetNextMotion(eParamiteMotions::Motion_22_Hiss1);
+        mNextMotion = eParamiteMotions::Motion_22_Hiss1;
     }
     return ParamiteEnums::Brain_2_ChasingAbe::eBrain2_ToChasing_5;
 }
@@ -1459,7 +1459,7 @@ s16 Paramite::Brain_ChasingAbe_State_2_ToWarning()
     {
         return mBrainSubState;
     }
-    SetNextMotion(eParamiteMotions::Motion_22_Hiss1);
+    mNextMotion = eParamiteMotions::Motion_22_Hiss1;
     field_130_timer = MakeTimer(mAloneChaseDelay);
     return ParamiteEnums::Brain_2_ChasingAbe::eBrain2_Warning_3;
 }
@@ -1468,20 +1468,20 @@ s16 Paramite::Brain_ChasingAbe_State_11_Walking(BaseAliveGameObject* pObj)
 {
     if (!VIsFacingMe(pObj))
     {
-        SetNextMotion(eParamiteMotions::Motion_4_Turn);
+        mNextMotion = eParamiteMotions::Motion_4_Turn;
         return ParamiteEnums::Brain_2_ChasingAbe::eBrain2_Turning_10;
     }
 
     if (!VOnSameYLevel(pObj))
     {
-        SetNextMotion(eParamiteMotions::Motion_0_Idle);
+        mNextMotion = eParamiteMotions::Motion_0_Idle;
         return ParamiteEnums::Brain_2_ChasingAbe::eBrain2_Walking_11;
     }
 
     const FP kGridSize = ScaleToGridSize(GetSpriteScale());
     if (VIsObjNearby(kGridSize, pObj))
     {
-        SetNextMotion(eParamiteMotions::Motion_40_Eating);
+        mNextMotion = eParamiteMotions::Motion_40_Eating;
         field_130_timer = MakeTimer(28);
         return ParamiteEnums::Brain_2_ChasingAbe::eBrain2_Eating_13;
     }
@@ -1511,14 +1511,14 @@ s16 Paramite::Brain_ChasingAbe_State_7_Chasing(BaseAliveGameObject* pObj)
 {
     if (!VOnSameYLevel(pObj) || WallHit(GetSpriteScale() * FP_FromInteger(20), pObj->mXPos - mXPos))
     {
-        SetNextMotion(eParamiteMotions::Motion_0_Idle);
+        mNextMotion = eParamiteMotions::Motion_0_Idle;
         return ParamiteEnums::Brain_2_ChasingAbe::eBrain2_Inactive_0;
     }
     else
     {
         if (!VIsFacingMe(pObj))
         {
-            SetNextMotion(eParamiteMotions::Motion_4_Turn);
+            mNextMotion = eParamiteMotions::Motion_4_Turn;
             return ParamiteEnums::Brain_2_ChasingAbe::eBrain2_TurningWhileChasing_9;
         }
 
@@ -1527,7 +1527,7 @@ s16 Paramite::Brain_ChasingAbe_State_7_Chasing(BaseAliveGameObject* pObj)
         {
             if (HandleEnemyStopper(-2))
             {
-                SetNextMotion(eParamiteMotions::Motion_0_Idle);
+                mNextMotion = eParamiteMotions::Motion_0_Idle;
                 return ParamiteEnums::Brain_2_ChasingAbe::eBrain2_ToChasing_5;
             }
 
@@ -1545,7 +1545,7 @@ s16 Paramite::Brain_ChasingAbe_State_7_Chasing(BaseAliveGameObject* pObj)
         {
             if (HandleEnemyStopper(2))
             {
-                SetNextMotion(eParamiteMotions::Motion_0_Idle);
+                mNextMotion = eParamiteMotions::Motion_0_Idle;
                 return ParamiteEnums::Brain_2_ChasingAbe::eBrain2_ToChasing_5;
             }
 
@@ -1569,12 +1569,12 @@ s16 Paramite::Brain_ChasingAbe_State_7_Chasing(BaseAliveGameObject* pObj)
 
         if (WallHit(GetSpriteScale() * FP_FromInteger(20), pObj->mXPos - mXPos))
         {
-            SetNextMotion(eParamiteMotions::Motion_0_Idle);
+            mNextMotion = eParamiteMotions::Motion_0_Idle;
             return ParamiteEnums::Brain_2_ChasingAbe::eBrain2_ToChasing_5;
         }
         else
         {
-            SetNextMotion(eParamiteMotions::Motion_31_RunningAttack);
+            mNextMotion = eParamiteMotions::Motion_31_RunningAttack;
             return ParamiteEnums::Brain_2_ChasingAbe::eBrain2_Attacking_1;
         }
     }
@@ -1593,19 +1593,19 @@ s16 Paramite::Brain_ChasingAbe_State_12_WalkingToHop(BaseAliveGameObject* pObj)
 
         if (VIsObjNearby(kGridSize, pObj))
         {
-            SetNextMotion(eParamiteMotions::Motion_40_Eating);
+            mNextMotion = eParamiteMotions::Motion_40_Eating;
             field_130_timer = MakeTimer(28);
             return ParamiteEnums::Brain_2_ChasingAbe::eBrain2_Eating_13;
         }
         else
         {
-            SetNextMotion(eParamiteMotions::Motion_2_Walking);
+            mNextMotion = eParamiteMotions::Motion_2_Walking;
             return ParamiteEnums::Brain_2_ChasingAbe::eBrain2_Walking_11;
         }
     }
     else
     {
-        SetNextMotion(eParamiteMotions::Motion_4_Turn);
+        mNextMotion = eParamiteMotions::Motion_4_Turn;
         return ParamiteEnums::Brain_2_ChasingAbe::eBrain2_Turning_10;
     }
 }
@@ -1621,7 +1621,7 @@ s16 Paramite::Brain_ChasingAbe_State_10_Turning(BaseAliveGameObject* pObj)
 
     if (VIsObjNearby(kGridSize, pObj))
     {
-        SetNextMotion(eParamiteMotions::Motion_40_Eating);
+        mNextMotion = eParamiteMotions::Motion_40_Eating;
         field_130_timer = MakeTimer(28);
         return ParamiteEnums::Brain_2_ChasingAbe::eBrain2_Eating_13;
     }
@@ -1630,7 +1630,7 @@ s16 Paramite::Brain_ChasingAbe_State_10_Turning(BaseAliveGameObject* pObj)
     {
         if (!Check_IsOnEndOfLine(0, 1))
         {
-            SetNextMotion(eParamiteMotions::Motion_2_Walking);
+            mNextMotion = eParamiteMotions::Motion_2_Walking;
             return ParamiteEnums::Brain_2_ChasingAbe::eBrain2_Walking_11;
         }
     }
@@ -1638,12 +1638,12 @@ s16 Paramite::Brain_ChasingAbe_State_10_Turning(BaseAliveGameObject* pObj)
     {
         if (!Check_IsOnEndOfLine(1, 1))
         {
-            SetNextMotion(eParamiteMotions::Motion_2_Walking);
+            mNextMotion = eParamiteMotions::Motion_2_Walking;
             return ParamiteEnums::Brain_2_ChasingAbe::eBrain2_Walking_11;
         }
     }
 
-    SetNextMotion(eParamiteMotions::Motion_5_Hop);
+    mNextMotion = eParamiteMotions::Motion_5_Hop;
     return ParamiteEnums::Brain_2_ChasingAbe::eBrain2_Jumping_8;
 }
 
@@ -1656,7 +1656,7 @@ s16 Paramite::Brain_ChasingAbe_State_5_ToChasing(BaseAliveGameObject* pObj)
 
     if (!VIsFacingMe(pObj))
     {
-        SetNextMotion(eParamiteMotions::Motion_4_Turn);
+        mNextMotion = eParamiteMotions::Motion_4_Turn;
         return ParamiteEnums::Brain_2_ChasingAbe::eBrain2_QuickAttack_6;
     }
 
@@ -1679,7 +1679,7 @@ s16 Paramite::Brain_ChasingAbe_State_5_ToChasing(BaseAliveGameObject* pObj)
 
     if (VIsObjNearby(kGridSize, pObj))
     {
-        SetNextMotion(eParamiteMotions::Motion_16_CloseAttack);
+        mNextMotion = eParamiteMotions::Motion_16_CloseAttack;
         return ParamiteEnums::Brain_2_ChasingAbe::eBrain2_Inactive_0;
     }
 
@@ -1687,12 +1687,12 @@ s16 Paramite::Brain_ChasingAbe_State_5_ToChasing(BaseAliveGameObject* pObj)
     {
         if (WallHit(GetSpriteScale() * FP_FromInteger(20), pObj->mXPos - mXPos))
         {
-            SetNextMotion(eParamiteMotions::Motion_0_Idle);
+            mNextMotion = eParamiteMotions::Motion_0_Idle;
             return ParamiteEnums::Brain_2_ChasingAbe::eBrain2_ToChasing_5;
         }
         else
         {
-            SetNextMotion(eParamiteMotions::Motion_31_RunningAttack);
+            mNextMotion = eParamiteMotions::Motion_31_RunningAttack;
             return ParamiteEnums::Brain_2_ChasingAbe::eBrain2_Attacking_1;
         }
     }
@@ -1706,7 +1706,7 @@ s16 Paramite::Brain_ChasingAbe_State_5_ToChasing(BaseAliveGameObject* pObj)
     {
         if (Check_IsOnEndOfLine(1, 1))
         {
-            SetNextMotion(eParamiteMotions::Motion_5_Hop);
+            mNextMotion = eParamiteMotions::Motion_5_Hop;
             return ParamiteEnums::Brain_2_ChasingAbe::eBrain2_Jumping_8;
         }
     }
@@ -1714,12 +1714,12 @@ s16 Paramite::Brain_ChasingAbe_State_5_ToChasing(BaseAliveGameObject* pObj)
     {
         if (Check_IsOnEndOfLine(0, 1))
         {
-            SetNextMotion(eParamiteMotions::Motion_5_Hop);
+            mNextMotion = eParamiteMotions::Motion_5_Hop;
             return ParamiteEnums::Brain_2_ChasingAbe::eBrain2_Jumping_8;
         }
     }
 
-    SetNextMotion(eParamiteMotions::Motion_3_Running);
+    mNextMotion = eParamiteMotions::Motion_3_Running;
     return ParamiteEnums::Brain_2_ChasingAbe::eBrain2_Chasing_7;
 }
 
@@ -1753,12 +1753,12 @@ s16 Paramite::Brain_ChasingAbe_State_1_Attacking(BaseAliveGameObject* pObj)
             {
                 if (WallHit(GetSpriteScale() * FP_FromInteger(20), pObj->mXPos - mXPos))
                 {
-                    SetNextMotion(eParamiteMotions::Motion_0_Idle);
+                    mNextMotion = eParamiteMotions::Motion_0_Idle;
                     return ParamiteEnums::Brain_2_ChasingAbe::eBrain2_ToChasing_5;
                 }
                 else
                 {
-                    SetNextMotion(eParamiteMotions::Motion_31_RunningAttack);
+                    mNextMotion = eParamiteMotions::Motion_31_RunningAttack;
                     return ParamiteEnums::Brain_2_ChasingAbe::eBrain2_Attacking_1;
                 }
             }
@@ -1767,7 +1767,7 @@ s16 Paramite::Brain_ChasingAbe_State_1_Attacking(BaseAliveGameObject* pObj)
             {
                 if (Check_IsOnEndOfLine(1, 1))
                 {
-                    SetNextMotion(eParamiteMotions::Motion_5_Hop);
+                    mNextMotion = eParamiteMotions::Motion_5_Hop;
                     return ParamiteEnums::Brain_2_ChasingAbe::eBrain2_Jumping_8;
                 }
             }
@@ -1775,17 +1775,17 @@ s16 Paramite::Brain_ChasingAbe_State_1_Attacking(BaseAliveGameObject* pObj)
             {
                 if (Check_IsOnEndOfLine(0, 1))
                 {
-                    SetNextMotion(eParamiteMotions::Motion_5_Hop);
+                    mNextMotion = eParamiteMotions::Motion_5_Hop;
                     return ParamiteEnums::Brain_2_ChasingAbe::eBrain2_Jumping_8;
                 }
             }
 
-            SetNextMotion(eParamiteMotions::Motion_3_Running);
+            mNextMotion = eParamiteMotions::Motion_3_Running;
             return ParamiteEnums::Brain_2_ChasingAbe::eBrain2_Chasing_7;
         }
         else
         {
-            SetNextMotion(eParamiteMotions::Motion_4_Turn);
+            mNextMotion = eParamiteMotions::Motion_4_Turn;
             return ParamiteEnums::Brain_2_ChasingAbe::eBrain2_QuickAttack_6;
         }
     }
@@ -1795,7 +1795,7 @@ s16 Paramite::Brain_ChasingAbe_State_1_Attacking(BaseAliveGameObject* pObj)
         {
             if (VIsObjNearby(kGridSize, pObj))
             {
-                SetNextMotion(eParamiteMotions::Motion_40_Eating);
+                mNextMotion = eParamiteMotions::Motion_40_Eating;
                 field_130_timer = MakeTimer(28);
                 return ParamiteEnums::Brain_2_ChasingAbe::eBrain2_Eating_13;
             }
@@ -1804,7 +1804,7 @@ s16 Paramite::Brain_ChasingAbe_State_1_Attacking(BaseAliveGameObject* pObj)
             {
                 if (Check_IsOnEndOfLine(1, 1))
                 {
-                    SetNextMotion(eParamiteMotions::Motion_5_Hop);
+                    mNextMotion = eParamiteMotions::Motion_5_Hop;
                     return ParamiteEnums::Brain_2_ChasingAbe::eBrain2_Jumping_8;
                 }
             }
@@ -1812,16 +1812,16 @@ s16 Paramite::Brain_ChasingAbe_State_1_Attacking(BaseAliveGameObject* pObj)
             {
                 if (Check_IsOnEndOfLine(0, 1))
                 {
-                    SetNextMotion(eParamiteMotions::Motion_5_Hop);
+                    mNextMotion = eParamiteMotions::Motion_5_Hop;
                     return ParamiteEnums::Brain_2_ChasingAbe::eBrain2_Jumping_8;
                 }
             }
-            SetNextMotion(eParamiteMotions::Motion_2_Walking);
+            mNextMotion = eParamiteMotions::Motion_2_Walking;
             return ParamiteEnums::Brain_2_ChasingAbe::eBrain2_Walking_11;
         }
         else
         {
-            SetNextMotion(eParamiteMotions::Motion_4_Turn);
+            mNextMotion = eParamiteMotions::Motion_4_Turn;
             return ParamiteEnums::Brain_2_ChasingAbe::eBrain2_Turning_10;
         }
     }
@@ -1856,7 +1856,7 @@ s16 Paramite::Brain_ChasingAbe_State_0_Inactive(BaseAliveGameObject* pObj)
         }
         else
         {
-            SetNextMotion(eParamiteMotions::Motion_4_Turn);
+            mNextMotion = eParamiteMotions::Motion_4_Turn;
             return ParamiteEnums::Brain_2_ChasingAbe::eBrain2_CloseAttack_4;
         }
     }
@@ -1868,7 +1868,7 @@ s16 Paramite::Brain_ChasingAbe_State_0_Inactive(BaseAliveGameObject* pObj)
 
             if (VIsObjNearby(kGridSize, pObj))
             {
-                SetNextMotion(eParamiteMotions::Motion_40_Eating);
+                mNextMotion = eParamiteMotions::Motion_40_Eating;
                 field_130_timer = MakeTimer(28);
                 return ParamiteEnums::Brain_2_ChasingAbe::eBrain2_Eating_13;
             }
@@ -1877,7 +1877,7 @@ s16 Paramite::Brain_ChasingAbe_State_0_Inactive(BaseAliveGameObject* pObj)
             {
                 if (Check_IsOnEndOfLine(1, 1))
                 {
-                    SetNextMotion(eParamiteMotions::Motion_5_Hop);
+                    mNextMotion = eParamiteMotions::Motion_5_Hop;
                     return ParamiteEnums::Brain_2_ChasingAbe::eBrain2_Jumping_8;
                 }
             }
@@ -1885,16 +1885,16 @@ s16 Paramite::Brain_ChasingAbe_State_0_Inactive(BaseAliveGameObject* pObj)
             {
                 if (Check_IsOnEndOfLine(0, 1))
                 {
-                    SetNextMotion(eParamiteMotions::Motion_5_Hop);
+                    mNextMotion = eParamiteMotions::Motion_5_Hop;
                     return ParamiteEnums::Brain_2_ChasingAbe::eBrain2_Jumping_8;
                 }
             }
-            SetNextMotion(eParamiteMotions::Motion_2_Walking);
+            mNextMotion = eParamiteMotions::Motion_2_Walking;
             return ParamiteEnums::Brain_2_ChasingAbe::eBrain2_Walking_11;
         }
         else
         {
-            SetNextMotion(eParamiteMotions::Motion_4_Turn);
+            mNextMotion = eParamiteMotions::Motion_4_Turn;
             return ParamiteEnums::Brain_2_ChasingAbe::eBrain2_Turning_10;
         }
     }
@@ -1913,7 +1913,7 @@ s16 Paramite::Brain_3_SurpriseWeb()
         case ParamiteEnums::Brain_3_SurpriseWeb::eBrain3_Loading_0:
             if (gNumCamSwappers <= 0)
             {
-                SetCurrentMotion(eParamiteMotions::Motion_0_Idle);
+                mCurrentMotion = eParamiteMotions::Motion_0_Idle;
                 MapFollowMe(true);
             }
             return ParamiteEnums::Brain_3_SurpriseWeb::eBrain3_Appearing_1;
@@ -1937,7 +1937,7 @@ s16 Paramite::Brain_3_SurpriseWeb()
             if (field_130_timer <= static_cast<s32>(sGnFrame))
             {
                 mVelY = FP_FromInteger(0);
-                SetCurrentMotion(eParamiteMotions::Motion_33_SurpriseWeb);
+                mCurrentMotion = eParamiteMotions::Motion_33_SurpriseWeb;
                 return ParamiteEnums::Brain_3_SurpriseWeb::eBrain3_StateLoop1_3;
             }
             break;
@@ -2005,12 +2005,12 @@ s16 Paramite::Brain_4_Unused()
 
     if (mCurrentMotion == eParamiteMotions::Motion_4_Turn)
     {
-        SetNextMotion(eParamiteMotions::Motion_0_Idle);
+        mNextMotion = eParamiteMotions::Motion_0_Idle;
     }
     else
     {
-        SetCurrentMotion(eParamiteMotions::Motion_0_Idle);
-        SetNextMotion(eParamiteMotions::eNone_m1);
+        mCurrentMotion = eParamiteMotions::Motion_0_Idle;
+        mNextMotion = eParamiteMotions::eNone_m1;
     }
 
     SetBrain(&Paramite::Brain_0_Patrol);
@@ -2030,7 +2030,7 @@ s16 Paramite::Brain_5_SpottedMeat()
     {
         Sound(ParamiteSpeak::DetectedMeat_7, 0);
         mMeatGuid = Guid{};
-        SetNextMotion(eParamiteMotions::Motion_0_Idle);
+        mNextMotion = eParamiteMotions::Motion_0_Idle;
         SetBrain(&Paramite::Brain_0_Patrol);
         return ParamiteEnums::Brain_0_Patrol::eBrain0_Inactive_0;
     }
@@ -2040,7 +2040,7 @@ s16 Paramite::Brain_5_SpottedMeat()
         if (FP_Abs(pMeat->mYPos - mYPos) > FP_FromInteger(20))
         {
             mMeatGuid = Guid{};
-            SetNextMotion(eParamiteMotions::Motion_0_Idle);
+            mNextMotion = eParamiteMotions::Motion_0_Idle;
             SetBrain(&Paramite::Brain_0_Patrol);
             return ParamiteEnums::Brain_0_Patrol::eBrain0_Inactive_0;
         }
@@ -2076,7 +2076,7 @@ s16 Paramite::Brain_SpottedMeat_State_6_Eating(Meat* pMeat)
 {
     if (!VIsObjNearby(GetSpriteScale() * FP_FromInteger(40), pMeat))
     {
-        SetNextMotion(eParamiteMotions::Motion_2_Walking);
+        mNextMotion = eParamiteMotions::Motion_2_Walking;
         return ParamiteEnums::Brain_5_SpottedMeat::eBrain5_Walking_2;
     }
 
@@ -2085,7 +2085,7 @@ s16 Paramite::Brain_SpottedMeat_State_6_Eating(Meat* pMeat)
         if (FP_Abs(pMeat->mXPos - mXPos) > FP_FromInteger(5))
         {
             Sound(ParamiteSpeak::DetectedMeat_7, 0);
-            SetNextMotion(eParamiteMotions::Motion_4_Turn);
+            mNextMotion = eParamiteMotions::Motion_4_Turn;
             return ParamiteEnums::Brain_5_SpottedMeat::eBrain5_Turning_4;
         }
     }
@@ -2097,7 +2097,7 @@ s16 Paramite::Brain_SpottedMeat_State_6_Eating(Meat* pMeat)
 
     pMeat->SetDead(true);
     mMeatGuid = Guid{};
-    SetNextMotion(eParamiteMotions::Motion_0_Idle);
+    mNextMotion = eParamiteMotions::Motion_0_Idle;
     SetBrain(&Paramite::Brain_0_Patrol);
     return ParamiteEnums::Brain_0_Patrol::eBrain0_Inactive_0;
 }
@@ -2107,7 +2107,7 @@ s16 Paramite::Brain_SpottedMeat_State_5_AttentiveToMeat(Meat* pMeat)
     if (!VIsFacingMe(pMeat))
     {
         Sound(ParamiteSpeak::DetectedMeat_7, 0);
-        SetNextMotion(eParamiteMotions::Motion_4_Turn);
+        mNextMotion = eParamiteMotions::Motion_4_Turn;
         return ParamiteEnums::Brain_5_SpottedMeat::eBrain5_Turning_4;
     }
 
@@ -2137,13 +2137,13 @@ s16 Paramite::Brain_SpottedMeat_State_5_AttentiveToMeat(Meat* pMeat)
     const FP kGridSize = ScaleToGridSize(GetSpriteScale());
     if (!VIsObjNearby(kGridSize * FP_FromInteger(3), pMeat))
     {
-        SetNextMotion(eParamiteMotions::Motion_3_Running);
+        mNextMotion = eParamiteMotions::Motion_3_Running;
         return ParamiteEnums::Brain_5_SpottedMeat::eBrain5_Running_1;
     }
 
     if (!VIsObjNearby(GetSpriteScale() * FP_FromInteger(40), pMeat))
     {
-        SetNextMotion(eParamiteMotions::Motion_2_Walking);
+        mNextMotion = eParamiteMotions::Motion_2_Walking;
         return ParamiteEnums::Brain_5_SpottedMeat::eBrain5_Walking_2;
     }
 
@@ -2152,7 +2152,7 @@ s16 Paramite::Brain_SpottedMeat_State_5_AttentiveToMeat(Meat* pMeat)
         return ParamiteEnums::Brain_5_SpottedMeat::eBrain5_AttentiveToMeat_5;
     }
 
-    SetNextMotion(eParamiteMotions::Motion_40_Eating);
+    mNextMotion = eParamiteMotions::Motion_40_Eating;
     field_130_timer = MakeTimer(mMeatEatingTime);
     return ParamiteEnums::Brain_5_SpottedMeat::eBrain5_Eating_6;
 }
@@ -2166,19 +2166,19 @@ s16 Paramite::Brain_SpottedMeat_State_4_Turning(Meat* pMeat)
 
     if (!VIsFacingMe(pMeat))
     {
-        SetNextMotion(eParamiteMotions::Motion_0_Idle);
+        mNextMotion = eParamiteMotions::Motion_0_Idle;
         return ParamiteEnums::Brain_5_SpottedMeat::eBrain5_Idle_0;
     }
 
     if (FP_Abs(pMeat->mXPos - mXPos) > FP_FromInteger(5))
     {
         Sound(ParamiteSpeak::DetectedMeat_7, 0);
-        SetNextMotion(eParamiteMotions::Motion_4_Turn);
+        mNextMotion = eParamiteMotions::Motion_4_Turn;
         return ParamiteEnums::Brain_5_SpottedMeat::eBrain5_Turning_4;
     }
     else
     {
-        SetNextMotion(eParamiteMotions::Motion_0_Idle);
+        mNextMotion = eParamiteMotions::Motion_0_Idle;
         return ParamiteEnums::Brain_5_SpottedMeat::eBrain5_Idle_0;
     }
 }
@@ -2220,7 +2220,7 @@ s16 Paramite::Brain_SpottedMeat_State_2_Walking(Meat* pMeat)
         if (FP_Abs(pMeat->mXPos - mXPos) > FP_FromInteger(5))
         {
             Sound(ParamiteSpeak::DetectedMeat_7, 0);
-            SetNextMotion(eParamiteMotions::Motion_4_Turn);
+            mNextMotion = eParamiteMotions::Motion_4_Turn;
             return ParamiteEnums::Brain_5_SpottedMeat::eBrain5_Turning_4;
         }
     }
@@ -2232,7 +2232,7 @@ s16 Paramite::Brain_SpottedMeat_State_2_Walking(Meat* pMeat)
 
     if (pMeat->mPathLine)
     {
-        SetNextMotion(eParamiteMotions::Motion_40_Eating);
+        mNextMotion = eParamiteMotions::Motion_40_Eating;
         field_130_timer = MakeTimer(mMeatEatingTime);
         return ParamiteEnums::Brain_5_SpottedMeat::eBrain5_Eating_6;
     }
@@ -2269,7 +2269,7 @@ s16 Paramite::Brain_SpottedMeat_State_1_Running(Meat* pMeat)
         if (FP_Abs(pMeat->mXPos - mXPos) > FP_FromInteger(5))
         {
             Sound(ParamiteSpeak::DetectedMeat_7, 0);
-            SetNextMotion(eParamiteMotions::Motion_4_Turn);
+            mNextMotion = eParamiteMotions::Motion_4_Turn;
             return ParamiteEnums::Brain_5_SpottedMeat::eBrain5_Turning_4;
         }
     }
@@ -2278,7 +2278,7 @@ s16 Paramite::Brain_SpottedMeat_State_1_Running(Meat* pMeat)
     {
         if (pMeat->mPathLine)
         {
-            SetNextMotion(eParamiteMotions::Motion_40_Eating);
+            mNextMotion = eParamiteMotions::Motion_40_Eating;
             field_130_timer = MakeTimer(mMeatEatingTime);
             return ParamiteEnums::Brain_5_SpottedMeat::eBrain5_Eating_6;
         }
@@ -2290,7 +2290,7 @@ s16 Paramite::Brain_SpottedMeat_State_1_Running(Meat* pMeat)
         return mBrainSubState;
     }
 
-    SetNextMotion(eParamiteMotions::Motion_2_Walking);
+    mNextMotion = eParamiteMotions::Motion_2_Walking;
     return ParamiteEnums::Brain_5_SpottedMeat::eBrain5_Walking_2;
 }
 
@@ -2301,14 +2301,14 @@ s16 Paramite::Brain_SpottedMeat_State_0_Idle(Meat* pMeat)
         if (FP_Abs(pMeat->mXPos - mXPos) > FP_FromInteger(5))
         {
             Sound(ParamiteSpeak::DetectedMeat_7, 0);
-            SetNextMotion(eParamiteMotions::Motion_4_Turn);
+            mNextMotion = eParamiteMotions::Motion_4_Turn;
             return ParamiteEnums::Brain_5_SpottedMeat::eBrain5_Turning_4;
         }
     }
 
     if (VIsObj_GettingNear_On_X(pMeat))
     {
-        SetNextMotion(eParamiteMotions::Motion_0_Idle);
+        mNextMotion = eParamiteMotions::Motion_0_Idle;
         return ParamiteEnums::Brain_5_SpottedMeat::eBrain5_AttentiveToMeat_5;
     }
 
@@ -2332,7 +2332,7 @@ s16 Paramite::Brain_SpottedMeat_State_0_Idle(Meat* pMeat)
 
     if (!VIsObjNearby(kGridSize * FP_FromInteger(3), pMeat))
     {
-        SetNextMotion(eParamiteMotions::Motion_3_Running);
+        mNextMotion = eParamiteMotions::Motion_3_Running;
         return ParamiteEnums::Brain_5_SpottedMeat::eBrain5_Running_1;
     }
 
@@ -2340,22 +2340,22 @@ s16 Paramite::Brain_SpottedMeat_State_0_Idle(Meat* pMeat)
     {
         if (mXPos == pMeat->mXPos)
         {
-            SetNextMotion(eParamiteMotions::Motion_2_Walking);
+            mNextMotion = eParamiteMotions::Motion_2_Walking;
             return ParamiteEnums::Brain_5_SpottedMeat::eBrain5_Walking_2;
         }
 
         if (!pMeat->mPathLine || !BaseAliveGameObjectCollisionLine)
         {
-            SetNextMotion(eParamiteMotions::Motion_0_Idle);
+            mNextMotion = eParamiteMotions::Motion_0_Idle;
             return ParamiteEnums::Brain_5_SpottedMeat::eBrain5_AttentiveToMeat_5;
         }
 
-        SetNextMotion(eParamiteMotions::Motion_40_Eating);
+        mNextMotion = eParamiteMotions::Motion_40_Eating;
         field_130_timer = MakeTimer(mMeatEatingTime);
         return ParamiteEnums::Brain_5_SpottedMeat::eBrain5_Eating_6;
     }
 
-    SetNextMotion(eParamiteMotions::Motion_2_Walking);
+    mNextMotion = eParamiteMotions::Motion_2_Walking;
     return ParamiteEnums::Brain_5_SpottedMeat::eBrain5_Walking_2;
 }
 
@@ -2454,7 +2454,7 @@ s16 Paramite::Brain_8_ControlledByGameSpeak()
             {
                 mTargetGuid = pControlledParamite->mTargetGuid;
                 Sound(ParamiteSpeak::Howdy_5, 0);
-                SetNextMotion(eParamiteMotions::Motion_0_Idle);
+                mNextMotion = eParamiteMotions::Motion_0_Idle;
                 SetBrain(&Paramite::Brain_2_ChasingAbe);
                 field_148_timer = MakeTimer(mGroupChaseDelay);
                 return ParamiteEnums::Brain_2_ChasingAbe::eBrain2_Inactive_0;
@@ -2470,7 +2470,7 @@ s16 Paramite::Brain_8_ControlledByGameSpeak()
             s16 result = VIsFacingMe(sControlledCharacter);
             if (result)
             {
-                SetNextMotion(eParamiteMotions::Motion_24_Empty);
+                mNextMotion = eParamiteMotions::Motion_24_Empty;
                 field_158_next_brain_ret = 9;
                 result = ParamiteEnums::Brain_8_ControlledByGameSpeak::eBrain8_Speaking_11;
             }
@@ -2482,7 +2482,7 @@ s16 Paramite::Brain_8_ControlledByGameSpeak()
                 }
                 else
                 {
-                    SetNextMotion(eParamiteMotions::Motion_4_Turn);
+                    mNextMotion = eParamiteMotions::Motion_4_Turn;
                 }
             }
             return result;
@@ -2504,7 +2504,7 @@ s16 Paramite::Brain_8_ControlledByGameSpeak()
                 auto pFleech = static_cast<BaseAliveGameObject*>(FindObjectOfType(ReliveTypes::eFleech, gridBlock, mYPos));
                 if (pFleech && VIsFacingMe(pFleech))
                 {
-                    SetNextMotion(eParamiteMotions::Motion_43_Attack);
+                    mNextMotion = eParamiteMotions::Motion_43_Attack;
                     field_158_next_brain_ret = 1;
                     return ParamiteEnums::Brain_8_ControlledByGameSpeak::eBrain8_Speaking_11;
                 }
@@ -2545,7 +2545,7 @@ s16 Paramite::Brain_8_ControlledByGameSpeak()
                                     }
                                     if (!Check_IsOnEndOfLine(1, 4) && VOnSameYLevel(sControlledCharacter))
                                     {
-                                        SetNextMotion(eParamiteMotions::Motion_5_Hop);
+                                        mNextMotion = eParamiteMotions::Motion_5_Hop;
                                         return ParamiteEnums::Brain_8_ControlledByGameSpeak::eBrain8_Jumping_3;
                                     }
                                 }
@@ -2563,7 +2563,7 @@ s16 Paramite::Brain_8_ControlledByGameSpeak()
 
                                 if (!Check_IsOnEndOfLine(0, 4) && VOnSameYLevel(sControlledCharacter))
                                 {
-                                    SetNextMotion(eParamiteMotions::Motion_5_Hop);
+                                    mNextMotion = eParamiteMotions::Motion_5_Hop;
                                     return ParamiteEnums::Brain_8_ControlledByGameSpeak::eBrain8_Jumping_3;
                                 }
                             }
@@ -2595,7 +2595,7 @@ s16 Paramite::Brain_8_ControlledByGameSpeak()
             {
                 if (mCurrentMotion != eParamiteMotions::Motion_4_Turn)
                 {
-                    SetNextMotion(eParamiteMotions::Motion_4_Turn);
+                    mNextMotion = eParamiteMotions::Motion_4_Turn;
                 }
                 return ParamiteEnums::Brain_8_ControlledByGameSpeak::eBrain8_FollowingIdle_1;
             }
@@ -2604,24 +2604,24 @@ s16 Paramite::Brain_8_ControlledByGameSpeak()
         case ParamiteEnums::Brain_8_ControlledByGameSpeak::eBrain8_Falling_2:
             if (!VIsFacingMe(sControlledCharacter))
             {
-                SetNextMotion(eParamiteMotions::Motion_0_Idle);
+                mNextMotion = eParamiteMotions::Motion_0_Idle;
                 return ParamiteEnums::Brain_8_ControlledByGameSpeak::eBrain8_FollowingIdle_1;
             }
 
             if (mCurrentMotion != eParamiteMotions::Motion_2_Walking)
             {
-                SetNextMotion(eParamiteMotions::Motion_2_Walking);
+                mNextMotion = eParamiteMotions::Motion_2_Walking;
                 return ParamiteEnums::Brain_8_ControlledByGameSpeak::eBrain8_Falling_2;
             }
 
             if (mVelX < FP_FromInteger(0) && (WallHit(GetSpriteScale() * FP_FromInteger(20), -ScaleToGridSize(GetSpriteScale())) || Check_IsOnEndOfLine(1, 2)))
             {
-                SetNextMotion(eParamiteMotions::Motion_0_Idle);
+                mNextMotion = eParamiteMotions::Motion_0_Idle;
                 return ParamiteEnums::Brain_8_ControlledByGameSpeak::eBrain8_FollowingIdle_1;
             }
             else if (mVelX > FP_FromInteger(0) && (WallHit(GetSpriteScale() * FP_FromInteger(20), ScaleToGridSize(GetSpriteScale())) || Check_IsOnEndOfLine(0, 2)))
             {
-                SetNextMotion(eParamiteMotions::Motion_0_Idle);
+                mNextMotion = eParamiteMotions::Motion_0_Idle;
                 return ParamiteEnums::Brain_8_ControlledByGameSpeak::eBrain8_FollowingIdle_1;
             }
             else if (!VIsObjNearby(ScaleToGridSize(GetSpriteScale()), sControlledCharacter))
@@ -2630,7 +2630,7 @@ s16 Paramite::Brain_8_ControlledByGameSpeak()
             }
             else
             {
-                SetNextMotion(eParamiteMotions::Motion_0_Idle);
+                mNextMotion = eParamiteMotions::Motion_0_Idle;
                 return ParamiteEnums::Brain_8_ControlledByGameSpeak::eBrain8_FollowingIdle_1;
             }
             break;
@@ -2647,13 +2647,13 @@ s16 Paramite::Brain_8_ControlledByGameSpeak()
             {
                 return mBrainSubState;
             }
-            SetNextMotion(eParamiteMotions::Motion_2_Walking);
+            mNextMotion = eParamiteMotions::Motion_2_Walking;
             return ParamiteEnums::Brain_8_ControlledByGameSpeak::eBrain8_FollowingWalking_5;
 
         case ParamiteEnums::Brain_8_ControlledByGameSpeak::eBrain8_FollowingWalking_5:
             if (!VIsFacingMe(sControlledCharacter))
             {
-                SetNextMotion(eParamiteMotions::Motion_0_Idle);
+                mNextMotion = eParamiteMotions::Motion_0_Idle;
                 return ParamiteEnums::Brain_8_ControlledByGameSpeak::eBrain8_FollowingIdle_1;
             }
 
@@ -2661,7 +2661,7 @@ s16 Paramite::Brain_8_ControlledByGameSpeak()
             {
                 if (WallHit(GetSpriteScale() * FP_FromInteger(20), -ScaleToGridSize(GetSpriteScale())) || Check_IsOnEndOfLine(1, 2))
                 {
-                    SetNextMotion(eParamiteMotions::Motion_0_Idle);
+                    mNextMotion = eParamiteMotions::Motion_0_Idle;
                     return ParamiteEnums::Brain_8_ControlledByGameSpeak::eBrain8_FollowingIdle_1;
                 }
             }
@@ -2669,14 +2669,14 @@ s16 Paramite::Brain_8_ControlledByGameSpeak()
             {
                 if (WallHit(GetSpriteScale() * FP_FromInteger(20), ScaleToGridSize(GetSpriteScale())) || Check_IsOnEndOfLine(0, 2))
                 {
-                    SetNextMotion(eParamiteMotions::Motion_0_Idle);
+                    mNextMotion = eParamiteMotions::Motion_0_Idle;
                     return ParamiteEnums::Brain_8_ControlledByGameSpeak::eBrain8_FollowingIdle_1;
                 }
             }
 
             if (VIsObjNearby(ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(3), sControlledCharacter))
             {
-                SetNextMotion(eParamiteMotions::Motion_0_Idle);
+                mNextMotion = eParamiteMotions::Motion_0_Idle;
                 return ParamiteEnums::Brain_8_ControlledByGameSpeak::eBrain8_FollowingIdle_1;
             }
 
@@ -2707,32 +2707,32 @@ s16 Paramite::Brain_8_ControlledByGameSpeak()
                     }
                 }
             }
-            SetNextMotion(eParamiteMotions::Motion_3_Running);
+            mNextMotion = eParamiteMotions::Motion_3_Running;
             return ParamiteEnums::Brain_8_ControlledByGameSpeak::eBrain8_FollowingRunning_6;
 
         case ParamiteEnums::Brain_8_ControlledByGameSpeak::eBrain8_FollowingRunning_6:
             if (!VIsFacingMe(sControlledCharacter))
             {
-                SetNextMotion(eParamiteMotions::Motion_0_Idle);
+                mNextMotion = eParamiteMotions::Motion_0_Idle;
                 return ParamiteEnums::Brain_8_ControlledByGameSpeak::eBrain8_FollowingIdle_1;
             }
             if (mVelX < FP_FromInteger(0) && (WallHit(GetSpriteScale() * FP_FromInteger(20), -ScaleToGridSize(GetSpriteScale())) || Check_IsOnEndOfLine(1, 3)))
             {
-                SetNextMotion(eParamiteMotions::Motion_0_Idle);
+                mNextMotion = eParamiteMotions::Motion_0_Idle;
                 return ParamiteEnums::Brain_8_ControlledByGameSpeak::eBrain8_FollowingIdle_1;
             }
             else
             {
                 if (mVelX > FP_FromInteger(0) && ((WallHit(GetSpriteScale() * FP_FromInteger(20), ScaleToGridSize(GetSpriteScale()))) || Check_IsOnEndOfLine(0, 3)))
                 {
-                    SetNextMotion(eParamiteMotions::Motion_0_Idle);
+                    mNextMotion = eParamiteMotions::Motion_0_Idle;
                     return ParamiteEnums::Brain_8_ControlledByGameSpeak::eBrain8_FollowingIdle_1;
                 }
                 else
                 {
                     if (VIsObjNearby(ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(3), sControlledCharacter))
                     {
-                        SetNextMotion(eParamiteMotions::Motion_0_Idle);
+                        mNextMotion = eParamiteMotions::Motion_0_Idle;
                         return ParamiteEnums::Brain_8_ControlledByGameSpeak::eBrain8_FollowingIdle_1;
                     }
                     else
@@ -2741,7 +2741,7 @@ s16 Paramite::Brain_8_ControlledByGameSpeak()
                         {
                             return mBrainSubState;
                         }
-                        SetNextMotion(eParamiteMotions::Motion_2_Walking);
+                        mNextMotion = eParamiteMotions::Motion_2_Walking;
                         return ParamiteEnums::Brain_8_ControlledByGameSpeak::eBrain8_FollowingWalking_5;
                     }
                 }
@@ -2753,7 +2753,7 @@ s16 Paramite::Brain_8_ControlledByGameSpeak()
             {
                 return ParamiteEnums::Brain_8_ControlledByGameSpeak::eBrain8_Working_8;
             }
-            SetNextMotion(eParamiteMotions::Motion_12_JumpUpBegin);
+            mNextMotion = eParamiteMotions::Motion_12_JumpUpBegin;
             return ParamiteEnums::Brain_8_ControlledByGameSpeak::eBrain8_IdleToWorking_7;
 
         case ParamiteEnums::Brain_8_ControlledByGameSpeak::eBrain8_Working_8:
@@ -2766,7 +2766,7 @@ s16 Paramite::Brain_8_ControlledByGameSpeak()
             {
                 if (mCurrentMotion == eParamiteMotions::Motion_15_RopePull)
                 {
-                    SetNextMotion(eParamiteMotions::Motion_11_Falling);
+                    mNextMotion = eParamiteMotions::Motion_11_Falling;
                 }
                 return mBrainSubState;
             }
@@ -2811,7 +2811,7 @@ s16 Paramite::Brain_8_ControlledByGameSpeak()
             {
                 if (mCurrentMotion != eParamiteMotions::Motion_4_Turn)
                 {
-                    SetNextMotion(eParamiteMotions::Motion_4_Turn);
+                    mNextMotion = eParamiteMotions::Motion_4_Turn;
                 }
                 return ParamiteEnums::Brain_8_ControlledByGameSpeak::eBrain8_Idle_9;
             }
@@ -2824,7 +2824,7 @@ s16 Paramite::Brain_8_ControlledByGameSpeak()
             }
             else
             {
-                SetNextMotion(mParamiteGamespeakNextMotion);
+                mNextMotion = mParamiteGamespeakNextMotion;
                 mParamiteGamespeakNextMotion = eParamiteMotions::eNone_m1;
             }
             return ParamiteEnums::Brain_8_ControlledByGameSpeak::eBrain8_Speaking_11;
@@ -2832,7 +2832,7 @@ s16 Paramite::Brain_8_ControlledByGameSpeak()
         case ParamiteEnums::Brain_8_ControlledByGameSpeak::eBrain8_Speaking_11:
             if (mCurrentMotion == eParamiteMotions::Motion_23_Hiss2 || mCurrentMotion == eParamiteMotions::Motion_22_Hiss1 || mCurrentMotion == eParamiteMotions::Motion_26_Hiss3)
             {
-                SetNextMotion(eParamiteMotions::Motion_0_Idle);
+                mNextMotion = eParamiteMotions::Motion_0_Idle;
             }
 
             if (mCurrentMotion != eParamiteMotions::Motion_0_Idle)
@@ -2884,7 +2884,7 @@ s16 Paramite::Brain_9_ParamiteSpawn()
                 if (!BaseAliveGameObjectCollisionLine)
                 {
                     mVelY = FP_FromInteger(0);
-                    SetCurrentMotion(eParamiteMotions::Motion_33_SurpriseWeb);
+                    mCurrentMotion = eParamiteMotions::Motion_33_SurpriseWeb;
                     auto pWeb = relive_new ParamiteWeb(mXPos, FP_GetExponent(mYPos) - 20,
                                                     FP_GetExponent(mYPos) - 10,
                                                     GetSpriteScale());
@@ -2928,7 +2928,7 @@ s16 Paramite::Brain_9_ParamiteSpawn()
                 {
                     GetAnimation().SetRender(true);
                     mVelY = FP_FromInteger(0);
-                    SetCurrentMotion(eParamiteMotions::Motion_33_SurpriseWeb);
+                    mCurrentMotion = eParamiteMotions::Motion_33_SurpriseWeb;
                     auto pWeb = relive_new ParamiteWeb(mXPos, FP_GetExponent(mYPos) - 20,
                                                     FP_GetExponent(mYPos) - 10,
                                                     GetSpriteScale());
@@ -2999,33 +2999,33 @@ void Paramite::Motion_0_Idle()
 
     if (Input_IsChanting() && !mPreventDepossession)
     {
-        SetCurrentMotion(eParamiteMotions::Motion_29_GetDepossessedBegin);
+        mCurrentMotion = eParamiteMotions::Motion_29_GetDepossessedBegin;
         field_138_depossession_timer = MakeTimer(30);
         SfxPlayMono(relive::SoundEffects::PossessEffect, 0);
     }
     else if (Input().IsAnyPressed(InputCommands::eGameSpeak1))
     {
-        SetCurrentMotion(eParamiteMotions::Motion_20_GameSpeakBegin);
-        SetNextMotion(eParamiteMotions::Motion_24_Empty);
+        mCurrentMotion = eParamiteMotions::Motion_20_GameSpeakBegin;
+        mNextMotion = eParamiteMotions::Motion_24_Empty;
     }
     else if (Input().IsAnyPressed(InputCommands::eGameSpeak2))
     {
-        SetCurrentMotion(eParamiteMotions::Motion_20_GameSpeakBegin);
-        SetNextMotion(eParamiteMotions::Motion_23_Hiss2);
+        mCurrentMotion = eParamiteMotions::Motion_20_GameSpeakBegin;
+        mNextMotion = eParamiteMotions::Motion_23_Hiss2;
     }
     else if (Input().IsAnyPressed(InputCommands::eGameSpeak3))
     {
-        SetCurrentMotion(eParamiteMotions::Motion_20_GameSpeakBegin);
-        SetNextMotion(eParamiteMotions::Motion_22_Hiss1);
+        mCurrentMotion = eParamiteMotions::Motion_20_GameSpeakBegin;
+        mNextMotion = eParamiteMotions::Motion_22_Hiss1;
     }
     else if (Input().IsAnyPressed(InputCommands::eGameSpeak4))
     {
-        SetCurrentMotion(eParamiteMotions::Motion_20_GameSpeakBegin);
-        SetNextMotion(eParamiteMotions::Motion_26_Hiss3);
+        mCurrentMotion = eParamiteMotions::Motion_20_GameSpeakBegin;
+        mNextMotion = eParamiteMotions::Motion_26_Hiss3;
     }
     else if (Input().IsAnyPressed(InputCommands::eGameSpeak6))
     {
-        SetCurrentMotion(eParamiteMotions::Motion_25_AllOYaGameSpeakBegin);
+        mCurrentMotion = eParamiteMotions::Motion_25_AllOYaGameSpeakBegin;
     }
     else
     {
@@ -3061,7 +3061,7 @@ void Paramite::Motion_1_WalkBegin()
         MoveOnLine();
         if (GetAnimation().GetIsLastFrame())
         {
-            SetCurrentMotion(eParamiteMotions::Motion_2_Walking);
+            mCurrentMotion = eParamiteMotions::Motion_2_Walking;
         }
     }
 }
@@ -3134,7 +3134,7 @@ void Paramite::Motion_2_Walking()
 
                 if (WallHit(GetSpriteScale() * FP_FromInteger(20), gridBlock * FP_FromInteger(1)))
                 {
-                    SetCurrentMotion(eParamiteMotions::Motion_8_WalkEnd);
+                    mCurrentMotion = eParamiteMotions::Motion_8_WalkEnd;
                     return;
                 }
 
@@ -3152,7 +3152,7 @@ void Paramite::Motion_2_Walking()
                     mNextMotion == eParamiteMotions::Motion_22_Hiss1 ||
                     mNextMotion == eParamiteMotions::Motion_40_Eating)
                 {
-                    SetCurrentMotion(eParamiteMotions::Motion_8_WalkEnd);
+                    mCurrentMotion = eParamiteMotions::Motion_8_WalkEnd;
                 }
                 return;
             }
@@ -3164,7 +3164,7 @@ void Paramite::Motion_2_Walking()
                     if (Input().IsAnyHeld(InputCommands::eRun))
                     {
                         mRunning = true;
-                        SetPreviousMotion(eParamiteMotions::Motion_3_Running);
+                        mPreviousMotion = eParamiteMotions::Motion_3_Running;
                         mBaseAliveGameObjectLastAnimFrame = 11;
                     }
 
@@ -3182,9 +3182,9 @@ void Paramite::Motion_2_Walking()
                 if (mNextMotion == eParamiteMotions::Motion_3_Running)
                 {
                     mRunning = true;
-                    SetPreviousMotion(eParamiteMotions::Motion_3_Running);
+                    mPreviousMotion = eParamiteMotions::Motion_3_Running;
                     mBaseAliveGameObjectLastAnimFrame = 11;
-                    SetNextMotion(eParamiteMotions::eNone_m1);
+                    mNextMotion = eParamiteMotions::eNone_m1;
                     if (!mHissedOrLeftScreen)
                     {
                         UpdateSlurgWatchPoints();
@@ -3195,8 +3195,8 @@ void Paramite::Motion_2_Walking()
                 }
                 else if (mNextMotion == eParamiteMotions::Motion_31_RunningAttack)
                 {
-                    SetCurrentMotion(eParamiteMotions::Motion_31_RunningAttack);
-                    SetNextMotion(eParamiteMotions::eNone_m1);
+                    mCurrentMotion = eParamiteMotions::Motion_31_RunningAttack;
+                    mNextMotion = eParamiteMotions::eNone_m1;
 
                     if (GetAnimation().GetFlipX())
                     {
@@ -3288,8 +3288,8 @@ void Paramite::Motion_3_Running()
                     {
                         if (mNextMotion == eParamiteMotions::Motion_31_RunningAttack)
                         {
-                            SetCurrentMotion(eParamiteMotions::Motion_31_RunningAttack);
-                            SetNextMotion(eParamiteMotions::eNone_m1);
+                            mCurrentMotion = eParamiteMotions::Motion_31_RunningAttack;
+                            mNextMotion = eParamiteMotions::eNone_m1;
 
                             if (GetAnimation().GetFlipX())
                             {
@@ -3310,13 +3310,13 @@ void Paramite::Motion_3_Running()
                     }
                     else
                     {
-                        SetCurrentMotion(eParamiteMotions::Motion_10_RunEnd);
+                        mCurrentMotion = eParamiteMotions::Motion_10_RunEnd;
                     }
                 }
                 else
                 {
-                    SetCurrentMotion(eParamiteMotions::Motion_7_WalkRunTransition);
-                    SetNextMotion(eParamiteMotions::eNone_m1);
+                    mCurrentMotion = eParamiteMotions::Motion_7_WalkRunTransition;
+                    mNextMotion = eParamiteMotions::eNone_m1;
                 }
 
                 if (!mHissedOrLeftScreen)
@@ -3428,7 +3428,7 @@ void Paramite::Motion_5_Hop()
         if (BaseAliveGameObjectCollisionLine)
         {
             mVelX = FP_FromInteger(0);
-            SetCurrentMotion(eParamiteMotions::Motion_38_WebGrab);
+            mCurrentMotion = eParamiteMotions::Motion_38_WebGrab;
             auto pWeb = static_cast<ParamiteWebLine*>(FindObjectOfType(ReliveTypes::eWebLine, mXPos, mYPos));
             if (pWeb)
             {
@@ -3479,7 +3479,7 @@ void Paramite::Motion_5_Hop()
             if (mYPos - BaseAliveGameObjectLastLineYPos > FP_FromInteger(5))
             {
                 field_13C_velx_offset = FP_FromDouble(0.75);
-                SetCurrentMotion(eParamiteMotions::Motion_11_Falling);
+                mCurrentMotion = eParamiteMotions::Motion_11_Falling;
                 if (GetAnimation().GetFlipX())
                 {
                     mVelX = (GetSpriteScale() * FP_FromInteger(-5));
@@ -3527,7 +3527,7 @@ void Paramite::Motion_6_Unused()
     if (GetAnimation().GetIsLastFrame())
     {
         mRunning = true;
-        SetPreviousMotion(eParamiteMotions::Motion_3_Running);
+        mPreviousMotion = eParamiteMotions::Motion_3_Running;
         mBaseAliveGameObjectLastAnimFrame = 2;
     }
 
@@ -3562,7 +3562,7 @@ void Paramite::Motion_7_WalkRunTransition()
 
     if (GetAnimation().GetIsLastFrame())
     {
-        SetCurrentMotion(eParamiteMotions::Motion_2_Walking);
+        mCurrentMotion = eParamiteMotions::Motion_2_Walking;
     }
 
     if (WallHit(GetSpriteScale() * FP_FromInteger(20), mVelX))
@@ -3629,7 +3629,7 @@ void Paramite::Motion_9_RunBegin()
     if (GetAnimation().GetIsLastFrame())
     {
         mRunning = true;
-        SetPreviousMotion(eParamiteMotions::Motion_3_Running);
+        mPreviousMotion = eParamiteMotions::Motion_3_Running;
         mBaseAliveGameObjectLastAnimFrame = 2;
     }
 
@@ -3700,7 +3700,7 @@ void Paramite::Motion_11_Falling()
     if (BaseAliveGameObjectCollisionLine)
     {
         mVelX = FP_FromInteger(0);
-        SetCurrentMotion(eParamiteMotions::Motion_38_WebGrab);
+        mCurrentMotion = eParamiteMotions::Motion_38_WebGrab;
         auto pWeb = static_cast<ParamiteWebLine*>(FindObjectOfType(ReliveTypes::eWebLine, mXPos, mYPos));
         if (pWeb)
         {
@@ -3730,7 +3730,7 @@ void Paramite::Motion_11_Falling()
                     BaseAliveGameObjectCollisionLine = pLine;
                     mYPos = hitY;
                     mXPos = hitX;
-                    SetCurrentMotion(eParamiteMotions::Motion_17_Landing);
+                    mCurrentMotion = eParamiteMotions::Motion_17_Landing;
 
                     CheckForPlatform();
                     UpdateSlurgWatchPoints();
@@ -3740,7 +3740,7 @@ void Paramite::Motion_11_Falling()
                         EventBroadcast(kScrabOrParamiteDied, this);
                         mHealth = FP_FromInteger(0);
                         SetBrain(&Paramite::Brain_1_Death);
-                        SetCurrentMotion(eParamiteMotions::Motion_41_Death);
+                        mCurrentMotion = eParamiteMotions::Motion_41_Death;
                         field_130_timer = MakeTimer(90);
 
                         relive_new Blood(mXPos, mYPos, FP_FromInteger(0), FP_FromInteger(5), GetSpriteScale(), 50);
@@ -3773,7 +3773,7 @@ void Paramite::Motion_12_JumpUpBegin()
         mVelY = FP_FromInteger(-10) * GetSpriteScale();
         mYPos += mVelY;
         VOnTrapDoorOpen();
-        SetCurrentMotion(eParamiteMotions::Motion_13_JumpUpMidair);
+        mCurrentMotion = eParamiteMotions::Motion_13_JumpUpMidair;
         BaseAliveGameObjectCollisionLine = nullptr;
     }
     else if (GetAnimation().GetCurrentFrame() == 3)
@@ -3814,7 +3814,7 @@ void Paramite::Motion_13_JumpUpMidair()
                 ToIdle();
                 CheckForPlatform();
                 UpdateSlurgWatchPoints();
-                SetCurrentMotion(eParamiteMotions::Motion_14_JumpUpLand);
+                mCurrentMotion = eParamiteMotions::Motion_14_JumpUpLand;
                 GetAnimation().ToggleFlipX();
                 return;
 
@@ -3838,9 +3838,9 @@ void Paramite::Motion_13_JumpUpMidair()
         {
             if (pRope->VPull(this))
             {
-                SetCurrentMotion(eParamiteMotions::Motion_15_RopePull);
+                mCurrentMotion = eParamiteMotions::Motion_15_RopePull;
                 mPullRingRopeGuid = pRope->mBaseGameObjectId;
-                SetNextMotion(eParamiteMotions::Motion_0_Idle);
+                mNextMotion = eParamiteMotions::Motion_0_Idle;
                 return;
             }
             mPullRingRopeGuid = Guid{};
@@ -3865,7 +3865,7 @@ void Paramite::Motion_13_JumpUpMidair()
                 if (BaseAliveGameObjectCollisionLine)
                 {
                     mVelX = FP_FromInteger(0);
-                    SetCurrentMotion(eParamiteMotions::Motion_38_WebGrab);
+                    mCurrentMotion = eParamiteMotions::Motion_38_WebGrab;
 
                     auto pWeb = static_cast<ParamiteWebLine*>(FindObjectOfType(ReliveTypes::eWebLine, mXPos, mYPos));
                     if (pWeb)
@@ -3891,7 +3891,7 @@ void Paramite::Motion_13_JumpUpMidair()
     if ((mYPos - BaseAliveGameObjectLastLineYPos) > FP_FromInteger(5))
     {
         field_13C_velx_offset = FP_FromDouble(0.75);
-        SetCurrentMotion(eParamiteMotions::Motion_11_Falling);
+        mCurrentMotion = eParamiteMotions::Motion_11_Falling;
     }
 }
 
@@ -3919,8 +3919,8 @@ void Paramite::Motion_15_RopePull()
         }
         mPullRingRopeGuid = Guid{};
         mVelY = FP_FromInteger(0);
-        SetCurrentMotion(eParamiteMotions::Motion_13_JumpUpMidair);
-        SetNextMotion(eParamiteMotions::eNone_m1);
+        mCurrentMotion = eParamiteMotions::Motion_13_JumpUpMidair;
+        mNextMotion = eParamiteMotions::eNone_m1;
         GetAnimation().ToggleFlipX();
     }
 }
@@ -4005,7 +4005,7 @@ void Paramite::Motion_19_Knockback()
         Motion_11_Falling();
         if (mCurrentMotion == eParamiteMotions::Motion_41_Death || mCurrentMotion == eParamiteMotions::Motion_17_Landing)
         {
-            SetCurrentMotion(eParamiteMotions::Motion_19_Knockback);
+            mCurrentMotion = eParamiteMotions::Motion_19_Knockback;
             Environment_SFX(EnvironmentSfx::eHitGroundSoft_6, 80, -200, this);
         }
     }
@@ -4020,7 +4020,7 @@ void Paramite::Motion_19_Knockback()
             }
             else
             {
-                SetCurrentMotion(eParamiteMotions::Motion_41_Death);
+                mCurrentMotion = eParamiteMotions::Motion_41_Death;
                 SetBrain(&Paramite::Brain_1_Death);
                 field_130_timer = MakeTimer(90);
             }
@@ -4058,7 +4058,7 @@ void Paramite::Motion_20_GameSpeakBegin()
 
     if (GetAnimation().GetIsLastFrame())
     {
-        SetCurrentMotion(eParamiteMotions::Motion_21_PreHiss);
+        mCurrentMotion = eParamiteMotions::Motion_21_PreHiss;
     }
 }
 
@@ -4090,13 +4090,13 @@ void Paramite::Motion_21_PreHiss()
         case eParamiteMotions::Motion_22_Hiss1:
         case eParamiteMotions::Motion_23_Hiss2:
         case eParamiteMotions::Motion_26_Hiss3:
-            SetCurrentMotion(mNextMotion);
-            SetNextMotion(eParamiteMotions::eNone_m1);
+            mCurrentMotion = mNextMotion;
+            mNextMotion = eParamiteMotions::eNone_m1;
             break;
 
         case eParamiteMotions::Motion_24_Empty:
-            SetCurrentMotion(eParamiteMotions::Motion_28_GameSpeakEnd);
-            SetNextMotion(eParamiteMotions::eNone_m1);
+            mCurrentMotion = eParamiteMotions::Motion_28_GameSpeakEnd;
+            mNextMotion = eParamiteMotions::eNone_m1;
             Sound(ParamiteSpeak::Howdy_5, 0);
 
             if (sControlledCharacter == this)
@@ -4106,8 +4106,8 @@ void Paramite::Motion_21_PreHiss()
             break;
 
         case eParamiteMotions::Motion_31_RunningAttack:
-            SetCurrentMotion(eParamiteMotions::Motion_31_RunningAttack);
-            SetNextMotion(eParamiteMotions::eNone_m1);
+            mCurrentMotion = eParamiteMotions::Motion_31_RunningAttack;
+            mNextMotion = eParamiteMotions::eNone_m1;
 
             if (GetAnimation().GetFlipX())
             {
@@ -4123,7 +4123,7 @@ void Paramite::Motion_21_PreHiss()
         default:
             if (mNextMotion != eParamiteMotions::eNone_m1 || sControlledCharacter == this)
             {
-                SetCurrentMotion(eParamiteMotions::Motion_28_GameSpeakEnd);
+                mCurrentMotion = eParamiteMotions::Motion_28_GameSpeakEnd;
             }
             break;
     }
@@ -4170,8 +4170,8 @@ void Paramite::Motion_22_Hiss1()
 
     if (mNextMotion == eParamiteMotions::Motion_31_RunningAttack)
     {
-        SetCurrentMotion(eParamiteMotions::Motion_31_RunningAttack);
-        SetNextMotion(eParamiteMotions::eNone_m1);
+        mCurrentMotion = eParamiteMotions::Motion_31_RunningAttack;
+        mNextMotion = eParamiteMotions::eNone_m1;
 
         if (GetAnimation().GetFlipX())
         {
@@ -4184,7 +4184,7 @@ void Paramite::Motion_22_Hiss1()
     }
     else if (GetAnimation().GetIsLastFrame())
     {
-        SetCurrentMotion(eParamiteMotions::Motion_27_PostHiss);
+        mCurrentMotion = eParamiteMotions::Motion_27_PostHiss;
     }
 }
 
@@ -4206,7 +4206,7 @@ void Paramite::Motion_23_Hiss2()
 
     if (GetAnimation().GetIsLastFrame())
     {
-        SetCurrentMotion(eParamiteMotions::Motion_27_PostHiss);
+        mCurrentMotion = eParamiteMotions::Motion_27_PostHiss;
     }
 }
 
@@ -4227,7 +4227,7 @@ void Paramite::Motion_25_AllOYaGameSpeakBegin()
     }
     else if (GetAnimation().GetIsLastFrame())
     {
-        SetCurrentMotion(eParamiteMotions::Motion_28_GameSpeakEnd);
+        mCurrentMotion = eParamiteMotions::Motion_28_GameSpeakEnd;
     }
 }
 
@@ -4250,7 +4250,7 @@ void Paramite::Motion_26_Hiss3()
 
     if (GetAnimation().GetIsLastFrame())
     {
-        SetCurrentMotion(eParamiteMotions::Motion_27_PostHiss);
+        mCurrentMotion = eParamiteMotions::Motion_27_PostHiss;
     }
 }
 
@@ -4279,7 +4279,7 @@ void Paramite::Motion_27_PostHiss()
 
     if (GetAnimation().GetIsLastFrame())
     {
-        SetCurrentMotion(eParamiteMotions::Motion_21_PreHiss);
+        mCurrentMotion = eParamiteMotions::Motion_21_PreHiss;
     }
 }
 
@@ -4323,7 +4323,7 @@ void Paramite::Motion_29_GetDepossessedBegin()
         {
             if (!Input_IsChanting())
             {
-                SetCurrentMotion(eParamiteMotions::Motion_30_GetDepossessedEnd);
+                mCurrentMotion = eParamiteMotions::Motion_30_GetDepossessedEnd;
             }
         }
 
@@ -4341,7 +4341,7 @@ void Paramite::Motion_29_GetDepossessedBegin()
         {
             sControlledCharacter = gAbe;
             SetPossessed(false);
-            SetCurrentMotion(eParamiteMotions::Motion_30_GetDepossessedEnd);
+            mCurrentMotion = eParamiteMotions::Motion_30_GetDepossessedEnd;
             SetBrain(&Paramite::Brain_0_Patrol);
             mBrainSubState = 0;
             gMap.SetActiveCam(mAbeLevel, mAbePath, mAbeCamera, CameraSwapEffects::eInstantChange_0, 0, 0);
@@ -4381,7 +4381,7 @@ void Paramite::Motion_31_RunningAttack()
         if (pWebLine)
         {
             mVelX = FP_FromInteger(0);
-            SetCurrentMotion(eParamiteMotions::Motion_38_WebGrab);
+            mCurrentMotion = eParamiteMotions::Motion_38_WebGrab;
             BaseAliveGameObjectCollisionLine = pWebLine;
             return;
         }
@@ -4465,7 +4465,7 @@ void Paramite::Motion_33_SurpriseWeb()
     {
         mYPos = hitY;
         BaseAliveGameObjectLastLineYPos = hitY;
-        SetCurrentMotion(eParamiteMotions::Motion_34_WebLeaveDown);
+        mCurrentMotion = eParamiteMotions::Motion_34_WebLeaveDown;
         if (BaseAliveGameObjectCollisionLine->mLineType == eLineTypes::eDynamicCollision_32 || BaseAliveGameObjectCollisionLine->mLineType == eLineTypes::eBackgroundDynamicCollision_36)
         {
             CheckForPlatform();
@@ -4501,13 +4501,13 @@ void Paramite::Motion_35_WebIdle()
     // Go down web
     if (Input().IsAnyHeld(InputCommands::eDown))
     {
-        SetCurrentMotion(eParamiteMotions::Motion_37_WebGoingDown);
+        mCurrentMotion = eParamiteMotions::Motion_37_WebGoingDown;
     }
 
     // Go up web
     if (Input().IsAnyHeld(InputCommands::eUp))
     {
-        SetCurrentMotion(eParamiteMotions::Motion_36_WebGoingUp);
+        mCurrentMotion = eParamiteMotions::Motion_36_WebGoingUp;
     }
 
     // Try to leave to the left
@@ -4535,7 +4535,7 @@ void Paramite::Motion_35_WebIdle()
             mXPos = hitX;
             mYPos = hitY;
             BaseAliveGameObjectCollisionLine = pLine;
-            SetCurrentMotion(eParamiteMotions::Motion_34_WebLeaveDown);
+            mCurrentMotion = eParamiteMotions::Motion_34_WebLeaveDown;
         }
     }
 
@@ -4564,7 +4564,7 @@ void Paramite::Motion_35_WebIdle()
             mXPos = hitX;
             mYPos = hitY;
             BaseAliveGameObjectCollisionLine = pLine;
-            SetCurrentMotion(eParamiteMotions::Motion_34_WebLeaveDown);
+            mCurrentMotion = eParamiteMotions::Motion_34_WebLeaveDown;
         }
     }
 }
@@ -4578,7 +4578,7 @@ void Paramite::Motion_36_WebGoingUp()
     else
     {
         mVelY = FP_FromInteger(0);
-        SetCurrentMotion(eParamiteMotions::Motion_35_WebIdle);
+        mCurrentMotion = eParamiteMotions::Motion_35_WebIdle;
     }
 
     const auto oldYPos = mYPos;
@@ -4627,7 +4627,7 @@ void Paramite::Motion_36_WebGoingUp()
                 mXPos = hitX;
                 mYPos = hitY;
                 BaseAliveGameObjectCollisionLine = pLine;
-                SetCurrentMotion(eParamiteMotions::Motion_39_WebLeaveUp);
+                mCurrentMotion = eParamiteMotions::Motion_39_WebLeaveUp;
 
                 auto pWeb = static_cast<ParamiteWebLine*>(FindObjectOfType(ReliveTypes::eWebLine, mXPos, mYPos));
                 if (pWeb)
@@ -4655,11 +4655,11 @@ void Paramite::Motion_36_WebGoingUp()
                     mXPos = hitX;
                     mYPos = hitY;
                     BaseAliveGameObjectCollisionLine = pLine;
-                    SetCurrentMotion(eParamiteMotions::Motion_39_WebLeaveUp);
+                    mCurrentMotion = eParamiteMotions::Motion_39_WebLeaveUp;
                 }
                 else
                 {
-                    SetCurrentMotion(eParamiteMotions::Motion_11_Falling);
+                    mCurrentMotion = eParamiteMotions::Motion_11_Falling;
                     BaseAliveGameObjectLastLineYPos = mYPos;
                     mXOffset = field_15C_paramite_xOffset;
                 }
@@ -4687,7 +4687,7 @@ void Paramite::Motion_37_WebGoingDown()
     else
     {
         mVelY = FP_FromInteger(0);
-        SetCurrentMotion(eParamiteMotions::Motion_35_WebIdle);
+        mCurrentMotion = eParamiteMotions::Motion_35_WebIdle;
     }
 
     if (BaseAliveGameObjectCollisionLine)
@@ -4714,7 +4714,7 @@ void Paramite::Motion_37_WebGoingDown()
         }
         BaseAliveGameObjectCollisionLine = nullptr;
         BaseAliveGameObjectLastLineYPos = mYPos;
-        SetCurrentMotion(eParamiteMotions::Motion_11_Falling);
+        mCurrentMotion = eParamiteMotions::Motion_11_Falling;
 
         FP gridSize = {};
         if (GetAnimation().GetFlipX())
@@ -4743,7 +4743,7 @@ void Paramite::Motion_37_WebGoingDown()
             mXPos = (gridSize * FP_FromDouble(0.5)) + mXPos;
             BaseAliveGameObjectCollisionLine = pLine;
             mYPos = hitY;
-            SetCurrentMotion(eParamiteMotions::Motion_34_WebLeaveDown);
+            mCurrentMotion = eParamiteMotions::Motion_34_WebLeaveDown;
             GetAnimation().ToggleFlipX();
         }
         else
@@ -4762,7 +4762,7 @@ void Paramite::Motion_37_WebGoingDown()
                 mXPos = (invertedGridSize * FP_FromDouble(0.5)) + mXPos;
                 mYPos = hitY;
                 BaseAliveGameObjectCollisionLine = pLine;
-                SetCurrentMotion(eParamiteMotions::Motion_34_WebLeaveDown);
+                mCurrentMotion = eParamiteMotions::Motion_34_WebLeaveDown;
             }
             else
             {
@@ -4779,7 +4779,7 @@ void Paramite::Motion_38_WebGrab()
     if (GetAnimation().GetIsLastFrame())
     {
         mXOffset = 0;
-        SetCurrentMotion(eParamiteMotions::Motion_35_WebIdle);
+        mCurrentMotion = eParamiteMotions::Motion_35_WebIdle;
         auto pWeb = static_cast<ParamiteWebLine*>(FindObjectOfType(ReliveTypes::eWebLine, mXPos, mYPos));
         if (pWeb)
         {
@@ -4981,7 +4981,7 @@ Paramite::~Paramite()
 void Paramite::HandleDDCheat()
 {
     VOnTrapDoorOpen();
-    SetCurrentMotion(eParamiteMotions::Motion_11_Falling);
+    mCurrentMotion = eParamiteMotions::Motion_11_Falling;
     BaseAliveGameObjectLastLineYPos = mYPos;
     BaseAliveGameObjectCollisionLine = nullptr;
 
@@ -5100,15 +5100,15 @@ void Paramite::HandleBrainsAndMotions()
     {
         ToKnockBack();
         mbGotShot = false;
-        SetCurrentMotion(mNextMotion);
-        SetNextMotion(eParamiteMotions::eNone_m1);
+        mCurrentMotion = mNextMotion;
+        mNextMotion = eParamiteMotions::eNone_m1;
     }
 
     if (oldMotion == mCurrentMotion)
     {
         if (mRunning)
         {
-            SetCurrentMotion(mPreviousMotion);
+            mCurrentMotion = mPreviousMotion;
             vUpdateAnim();
             GetAnimation().SetFrame(mBaseAliveGameObjectLastAnimFrame);
             mRunning = false;
@@ -5195,7 +5195,7 @@ void Paramite::VUpdate()
             if (pMeat->VIsFalling() || pMeat->GetDead())
             {
                 mMeatGuid = Guid{};
-                SetNextMotion(eParamiteMotions::Motion_0_Idle);
+                mNextMotion = eParamiteMotions::Motion_0_Idle;
                 SetBrain(&Paramite::Brain_0_Patrol);
                 mBrainSubState = 0;
             }
@@ -5307,7 +5307,7 @@ bool Paramite::VOnSameYLevel(BaseAnimatedWithPhysicsGameObject* pOther)
 
 void Paramite::VUnPosses()
 {
-    SetNextMotion(eParamiteMotions::Motion_0_Idle);
+    mNextMotion = eParamiteMotions::Motion_0_Idle;
     SetPossessed(false);
     field_130_timer = MakeTimer(180);
     SetBrain(&Paramite::Brain_0_Patrol);
@@ -5319,7 +5319,7 @@ void Paramite::VPossessed()
     SetPossessed(true);
     mPreventDepossession = true;
     SetBrain(&Paramite::Brain_6_Possessed);
-    SetNextMotion(eParamiteMotions::Motion_0_Idle);
+    mNextMotion = eParamiteMotions::Motion_0_Idle;
     mBrainSubState = 0;
     field_130_timer = MakeTimer(30);
     mAbeLevel = gMap.mCurrentLevel;
@@ -5384,7 +5384,7 @@ bool Paramite::VTakeDamage(BaseGameObject* pFrom)
             EventBroadcast(kScrabOrParamiteDied, this);
             SetBrain(&Paramite::Brain_1_Death);
             field_130_timer = MakeTimer(90);
-            SetCurrentMotion(eParamiteMotions::Motion_41_Death);
+            mCurrentMotion = eParamiteMotions::Motion_41_Death;
             vUpdateAnim();
 
             relive_new Blood(mXPos, mYPos, FP_FromInteger(0), FP_FromInteger(5), GetSpriteScale(), 50);
@@ -5407,7 +5407,7 @@ bool Paramite::VTakeDamage(BaseGameObject* pFrom)
             mHealth = FP_FromInteger(0);
             SetBrain(&Paramite::Brain_1_Death);
             field_130_timer = MakeTimer(90);
-            SetCurrentMotion(eParamiteMotions::Motion_41_Death);
+            mCurrentMotion = eParamiteMotions::Motion_41_Death;
             vUpdateAnim();
 
             relive_new Blood(mXPos, mYPos, FP_FromInteger(0), FP_FromInteger(5), GetSpriteScale(), 50);
@@ -5470,7 +5470,7 @@ void Paramite::VOnTlvCollision(relive::Path_TLV* pTlv)
                 SetBrain(&Paramite::Brain_7_DeathDrop);
                 mVelY = FP_FromInteger(0);
                 mVelX = FP_FromInteger(0);
-                SetCurrentMotion(eParamiteMotions::Motion_41_Death);
+                mCurrentMotion = eParamiteMotions::Motion_41_Death;
                 EventBroadcast(kScrabOrParamiteDied, this);
             }
         }
@@ -5534,8 +5534,8 @@ void Paramite::VRender(OrderingTable& ot)
 void Paramite::ToHop()
 {
     VOnTrapDoorOpen();
-    SetCurrentMotion(eParamiteMotions::Motion_5_Hop);
-    SetNextMotion(eParamiteMotions::eNone_m1);
+    mCurrentMotion = eParamiteMotions::Motion_5_Hop;
+    mNextMotion = eParamiteMotions::eNone_m1;
     BaseAliveGameObjectLastLineYPos = mYPos;
     mVelY = FP_FromDouble(-6.3) * GetSpriteScale();
     mYPos += mVelY;
@@ -5664,7 +5664,7 @@ s16 Paramite::NextPlayerInputMotion()
     {
         if (GetAnimation().GetFlipX())
         {
-            SetCurrentMotion(eParamiteMotions::Motion_4_Turn);
+            mCurrentMotion = eParamiteMotions::Motion_4_Turn;
             return 1;
         }
         else
@@ -5677,12 +5677,12 @@ s16 Paramite::NextPlayerInputMotion()
             if (Input().IsAnyHeld(InputCommands::eRun))
             {
                 mVelX = (kGridSize / FP_FromDouble(3.5));
-                SetCurrentMotion(eParamiteMotions::Motion_9_RunBegin);
+                mCurrentMotion = eParamiteMotions::Motion_9_RunBegin;
             }
             else
             {
                 mVelX = (kGridSize / FP_FromInteger(7));
-                SetCurrentMotion(eParamiteMotions::Motion_1_WalkBegin);
+                mCurrentMotion = eParamiteMotions::Motion_1_WalkBegin;
             }
             return 1;
         }
@@ -5691,7 +5691,7 @@ s16 Paramite::NextPlayerInputMotion()
     {
         if (!(GetAnimation().GetFlipX()))
         {
-            SetCurrentMotion(eParamiteMotions::Motion_4_Turn);
+            mCurrentMotion = eParamiteMotions::Motion_4_Turn;
             return 1;
         }
         else
@@ -5704,12 +5704,12 @@ s16 Paramite::NextPlayerInputMotion()
             if (Input().IsAnyHeld(InputCommands::eRun))
             {
                 mVelX = -(kGridSize / FP_FromDouble(3.5));
-                SetCurrentMotion(eParamiteMotions::Motion_9_RunBegin);
+                mCurrentMotion = eParamiteMotions::Motion_9_RunBegin;
             }
             else
             {
                 mVelX = -(kGridSize / FP_FromInteger(7));
-                SetCurrentMotion(eParamiteMotions::Motion_1_WalkBegin);
+                mCurrentMotion = eParamiteMotions::Motion_1_WalkBegin;
             }
             return 1;
         }
@@ -5718,7 +5718,7 @@ s16 Paramite::NextPlayerInputMotion()
     {
         if (Input().IsAnyPressed(InputCommands::eUp))
         {
-            SetCurrentMotion(eParamiteMotions::Motion_12_JumpUpBegin);
+            mCurrentMotion = eParamiteMotions::Motion_12_JumpUpBegin;
             return 1;
         }
         else if (Input().IsAnyHeld(InputCommands::eDown))
@@ -5736,12 +5736,12 @@ s16 Paramite::NextPlayerInputMotion()
             PathLine* pLine = WebCollision(GetSpriteScale() * FP_FromInteger(20), xCheck);
             if (pLine)
             {
-                SetCurrentMotion(eParamiteMotions::Motion_38_WebGrab);
+                mCurrentMotion = eParamiteMotions::Motion_38_WebGrab;
                 BaseAliveGameObjectCollisionLine = pLine;
             }
             else
             {
-                SetCurrentMotion(eParamiteMotions::Motion_40_Eating);
+                mCurrentMotion = eParamiteMotions::Motion_40_Eating;
             }
             return 1;
         }
@@ -5757,13 +5757,13 @@ s16 Paramite::NextPlayerInputMotion()
                         mTargetGuid = Guid{};
                         if (VIsObjNearby(kGridSize * FP_FromDouble(0.5), pTarget))
                         {
-                            SetCurrentMotion(eParamiteMotions::Motion_16_CloseAttack);
+                            mCurrentMotion = eParamiteMotions::Motion_16_CloseAttack;
                             return 1;
                         }
                     }
                 }
 
-                SetCurrentMotion(eParamiteMotions::Motion_43_Attack);
+                mCurrentMotion = eParamiteMotions::Motion_43_Attack;
                 return 1;
             }
             else
@@ -5859,22 +5859,22 @@ s16 Paramite::ToNextMotion()
         case eParamiteMotions::Motion_43_Attack:
         case eParamiteMotions::Motion_16_CloseAttack:
         case eParamiteMotions::Motion_20_GameSpeakBegin:
-            SetCurrentMotion(mNextMotion);
-            SetNextMotion(eParamiteMotions::eNone_m1);
+            mCurrentMotion = mNextMotion;
+            mNextMotion = eParamiteMotions::eNone_m1;
             return 1;
 
         case eParamiteMotions::Motion_3_Running:
             if (GetAnimation().GetFlipX())
             {
                 mVelX = -(kGridSize / FP_FromDouble(3.5));
-                SetCurrentMotion(eParamiteMotions::Motion_9_RunBegin);
+                mCurrentMotion = eParamiteMotions::Motion_9_RunBegin;
             }
             else
             {
                 mVelX = (kGridSize / FP_FromDouble(3.5));
-                SetCurrentMotion(eParamiteMotions::Motion_9_RunBegin);
+                mCurrentMotion = eParamiteMotions::Motion_9_RunBegin;
             }
-            SetNextMotion(eParamiteMotions::eNone_m1);
+            mNextMotion = eParamiteMotions::eNone_m1;
             return 1;
 
         case eParamiteMotions::Motion_2_Walking:
@@ -5886,25 +5886,25 @@ s16 Paramite::ToNextMotion()
             {
                 mVelX = (kGridSize / FP_FromInteger(7));
             }
-            SetCurrentMotion(eParamiteMotions::Motion_1_WalkBegin);
-            SetNextMotion(eParamiteMotions::eNone_m1);
+            mCurrentMotion = eParamiteMotions::Motion_1_WalkBegin;
+            mNextMotion = eParamiteMotions::eNone_m1;
             return 1;
 
         case eParamiteMotions::Motion_22_Hiss1:
         case eParamiteMotions::Motion_24_Empty:
         case eParamiteMotions::Motion_23_Hiss2:
         case eParamiteMotions::Motion_26_Hiss3:
-            SetCurrentMotion(eParamiteMotions::Motion_20_GameSpeakBegin);
+            mCurrentMotion = eParamiteMotions::Motion_20_GameSpeakBegin;
             return 1;
 
         case eParamiteMotions::Motion_25_AllOYaGameSpeakBegin:
-            SetCurrentMotion(eParamiteMotions::Motion_25_AllOYaGameSpeakBegin);
-            SetNextMotion(eParamiteMotions::eNone_m1);
+            mCurrentMotion = eParamiteMotions::Motion_25_AllOYaGameSpeakBegin;
+            mNextMotion = eParamiteMotions::eNone_m1;
             return 1;
 
         case eParamiteMotions::Motion_31_RunningAttack:
-            SetCurrentMotion(eParamiteMotions::Motion_31_RunningAttack);
-            SetNextMotion(eParamiteMotions::eNone_m1);
+            mCurrentMotion = eParamiteMotions::Motion_31_RunningAttack;
+            mNextMotion = eParamiteMotions::eNone_m1;
             if (GetAnimation().GetFlipX())
             {
                 mVelX = -(kGridSize / FP_FromInteger(4));
@@ -5929,7 +5929,7 @@ void Paramite::ToIdle()
     field_13C_velx_offset = FP_FromInteger(0);
     mVelX = FP_FromInteger(0);
     mVelY = FP_FromInteger(0);
-    SetCurrentMotion(eParamiteMotions::Motion_0_Idle);
+    mCurrentMotion = eParamiteMotions::Motion_0_Idle;
     MapFollowMe(true);
     field_154_input = 0;
 }
@@ -5946,7 +5946,7 @@ void Paramite::ToKnockBack()
         mVelY = FP_FromInteger(0);
     }
 
-    SetCurrentMotion(eParamiteMotions::Motion_19_Knockback);
+    mCurrentMotion = eParamiteMotions::Motion_19_Knockback;
 }
 
 void Paramite::MoveOnLine()
@@ -5954,7 +5954,7 @@ void Paramite::MoveOnLine()
     if (!BaseAliveGameObjectCollisionLine)
     {
         BaseAliveGameObjectLastLineYPos = mYPos;
-        SetCurrentMotion(eParamiteMotions::Motion_11_Falling);
+        mCurrentMotion = eParamiteMotions::Motion_11_Falling;
         return;
     }
 
@@ -5970,7 +5970,7 @@ void Paramite::MoveOnLine()
             mVelX = FP_FromInteger(0);
             mXPos = FP_FromInteger(BaseAliveGameObjectCollisionLine->mRect.x);
             mYPos = FP_FromInteger(BaseAliveGameObjectCollisionLine->mRect.y) + (GetSpriteScale() * FP_FromInteger(20));
-            SetCurrentMotion(eParamiteMotions::Motion_38_WebGrab);
+            mCurrentMotion = eParamiteMotions::Motion_38_WebGrab;
         }
         else if (pPlatform)
         {
@@ -5978,7 +5978,7 @@ void Paramite::MoveOnLine()
             {
                 const auto savedMotion = mCurrentMotion;
                 VOnTrapDoorOpen();
-                SetCurrentMotion(savedMotion);
+                mCurrentMotion = savedMotion;
             }
         }
         else if (BaseAliveGameObjectCollisionLine->mLineType == eLineTypes::eDynamicCollision_32 || BaseAliveGameObjectCollisionLine->mLineType == eLineTypes::eBackgroundDynamicCollision_36)
@@ -5997,14 +5997,14 @@ void Paramite::MoveOnLine()
             if (BaseAliveGameObjectCollisionLine)
             {
                 mVelX = FP_FromInteger(0);
-                SetCurrentMotion(eParamiteMotions::Motion_38_WebGrab);
+                mCurrentMotion = eParamiteMotions::Motion_38_WebGrab;
                 return;
             }
         }
 
         // Otherwise just fall
         VOnTrapDoorOpen();
-        SetCurrentMotion(eParamiteMotions::Motion_11_Falling);
+        mCurrentMotion = eParamiteMotions::Motion_11_Falling;
         BaseAliveGameObjectLastLineYPos = mYPos;
         field_13C_velx_offset = FP_FromDouble(0.3);
         mXPos = oldXPos + mVelX;
@@ -6030,7 +6030,7 @@ void Paramite::HandleStopWalking()
     // Pressing opposite direction of movement or not pressing any direction
     if ((mVelX > FP_FromInteger(0) && Input().IsAnyHeld(InputCommands::eLeft)) || (mVelX < FP_FromInteger(0) && Input().IsAnyHeld(InputCommands::eRight)) || !Input().IsAnyHeld(InputCommands::eLeft | InputCommands::eRight))
     {
-        SetCurrentMotion(eParamiteMotions::Motion_8_WalkEnd);
+        mCurrentMotion = eParamiteMotions::Motion_8_WalkEnd;
     }
 }
 
@@ -6038,7 +6038,7 @@ void Paramite::HandleInputRunning()
 {
     if ((mVelX > FP_FromInteger(0) && Input().IsAnyHeld(InputCommands::eLeft)) || (mVelX < FP_FromInteger(0) && Input().IsAnyHeld(InputCommands::eRight)) || !Input().IsAnyHeld(InputCommands::eLeft | InputCommands::eRight))
     {
-        SetCurrentMotion(eParamiteMotions::Motion_10_RunEnd);
+        mCurrentMotion = eParamiteMotions::Motion_10_RunEnd;
     }
     else if (Input().IsAnyHeld(InputCommands::eRun))
     {
@@ -6048,7 +6048,7 @@ void Paramite::HandleInputRunning()
         }
         else if ((InputCommands::eThrowItem | InputCommands::eDoAction) & field_154_input)
         {
-            SetCurrentMotion(eParamiteMotions::Motion_31_RunningAttack);
+            mCurrentMotion = eParamiteMotions::Motion_31_RunningAttack;
             if (GetAnimation().GetFlipX())
             {
                 mVelX = -(ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(4));
@@ -6061,7 +6061,7 @@ void Paramite::HandleInputRunning()
     }
     else
     {
-        SetCurrentMotion(eParamiteMotions::Motion_7_WalkRunTransition);
+        mCurrentMotion = eParamiteMotions::Motion_7_WalkRunTransition;
     }
 }
 
@@ -6226,6 +6226,6 @@ void Paramite::VOnTrapDoorOpen()
     {
         pPlatform->VRemove(this);
         BaseAliveGameObject_PlatformId = Guid{};
-        SetCurrentMotion(eParamiteMotions::Motion_11_Falling);
+        mCurrentMotion = eParamiteMotions::Motion_11_Falling;
     }
 }

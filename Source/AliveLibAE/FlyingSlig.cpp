@@ -166,7 +166,7 @@ FlyingSlig::FlyingSlig(relive::Path_FlyingSlig* pTlv, const Guid& tlvId)
 
     SetBrain(&FlyingSlig::Brain_0_Inactive);
 
-    SetCurrentMotion(eFlyingSligMotions::Motion_0_Idle);
+    mCurrentMotion = eFlyingSligMotions::Motion_0_Idle;
 
     if (field_118_data.mSpawnDelayState == relive::Path_FlyingSlig::SpawnDelayStates::eUseCustomSpawnMoveDelay)
     {
@@ -256,7 +256,7 @@ void FlyingSlig::CreateFromSaveState(SerializedObjectData& pBuffer)
 
         pFlyingSlig->mRGB.SetRGB(pSaveState->field_1C_oldr, pSaveState->field_1E_oldg, pSaveState->field_20_oldb);
 
-        pFlyingSlig->SetCurrentMotion(pSaveState->field_24_current_state);
+        pFlyingSlig->mCurrentMotion = pSaveState->field_24_current_state;
 
         pFlyingSlig->GetAnimation().Set_Animation_Data(pFlyingSlig->GetAnimRes(sFlyingSligAnimIdTable[static_cast<u32>(pFlyingSlig->mCurrentMotion)]));
 
@@ -274,8 +274,7 @@ void FlyingSlig::CreateFromSaveState(SerializedObjectData& pBuffer)
         }
 
         pFlyingSlig->mHealth = pSaveState->field_2C_current_health;
-        pFlyingSlig->SetCurrentMotion(pSaveState->field_30_current_state);
-        pFlyingSlig->mNextMotion = pSaveState->field_32_delayed_state;
+        pFlyingSlig->mCurrentMotion = pSaveState->field_30_current_state;
         pFlyingSlig->BaseAliveGameObjectLastLineYPos = FP_FromInteger(pSaveState->field_34_lastLineYPos);
         pFlyingSlig->SetRestoredFromQuickSave(true);
         pFlyingSlig->BaseAliveGameObjectCollisionLineType = -1;
@@ -371,7 +370,6 @@ void FlyingSlig::VGetSaveState(SerializedObjectData& pSaveBuffer)
     data.field_2A_bAnimRender = GetAnimation().GetRender();
     data.field_2C_current_health = mHealth;
     data.field_30_current_state = mCurrentMotion;
-    data.field_32_delayed_state = mNextMotion;
 
     data.field_34_lastLineYPos = FP_GetExponent(BaseAliveGameObjectLastLineYPos);
 
@@ -2832,7 +2830,7 @@ void FlyingSlig::sub_4373B0()
 
 void FlyingSlig::VSetMotion(eFlyingSligMotions newMotion)
 {
-    SetCurrentMotion(newMotion);
+    mCurrentMotion = newMotion;
     vUpdateAnimRes_4350A0();
 }
 

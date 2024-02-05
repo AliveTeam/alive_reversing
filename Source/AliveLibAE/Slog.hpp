@@ -179,7 +179,7 @@ public:
         switch (motionType)
         {
             case eMotionType::ePreviousMotion:
-                return static_cast<s16>(mPreviousMotion);
+                return 0;
             case eMotionType::eCurrentMotion:
                 return static_cast<s16>(mCurrentMotion);
             case eMotionType::eNextMotion:
@@ -274,22 +274,6 @@ private:
     s16 HandleEnemyStopper();
     s16 Facing(FP xpos);
 
-    // TODO: remove these later
-    void SetPreviousMotion(eSlogMotions motion)
-    {
-        mPreviousMotion = motion;
-    }
-
-    void SetCurrentMotion(eSlogMotions motion)
-    {
-        mCurrentMotion = motion;
-    }
-
-    void SetNextMotion(eSlogMotions motion)
-    {
-        mNextMotion = motion;
-    }
-
 public:
     Guid mTargetId;
     bool mBitingTarget = false;
@@ -326,10 +310,8 @@ private:
     bool mHitByAbilityRing = false;
     bool mListenToSligs = false;
     bool mAsleep = false;
-    eSlogMotions mPreviousMotion = eSlogMotions::Motion_0_Idle;
     eSlogMotions mCurrentMotion = eSlogMotions::Motion_0_Idle;
     eSlogMotions mNextMotion = eSlogMotions::Motion_0_Idle;
-    bool mbMotionChanged = false;
 };
 
 extern s16 sSlogCount;

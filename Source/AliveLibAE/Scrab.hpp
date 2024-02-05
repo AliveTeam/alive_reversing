@@ -294,22 +294,6 @@ private:
     s16 Handle_SlamDoor_or_EnemyStopper(FP velX, s16 bCheckLeftRightBounds);
     GameSpeakEvents LastSpeak();
 
-    // TODO: remove these later
-    void SetPreviousMotion(eScrabMotions motion)
-    {
-        mPreviousMotion = motion;
-    }
-
-    void SetCurrentMotion(eScrabMotions motion)
-    {
-        mCurrentMotion = motion;
-    }
-
-    void SetNextMotion(eScrabMotions motion)
-    {
-        mNextMotion = motion;
-    }
-
 private:
     TScrabBrainFn mBrainState = nullptr;
     s16 mBrainSubState = 0;
@@ -356,5 +340,4 @@ public:
     eScrabMotions mPreviousMotion = eScrabMotions::Motion_0_Stand;
     eScrabMotions mCurrentMotion = eScrabMotions::Motion_0_Stand;
     eScrabMotions mNextMotion = eScrabMotions::Motion_0_Stand;
-    bool mbMotionChanged = false;
 };

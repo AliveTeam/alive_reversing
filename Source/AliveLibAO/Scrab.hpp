@@ -204,7 +204,6 @@ public:
     eScrabMotions mPreviousMotion = eScrabMotions::Motion_0_Empty;
     eScrabMotions mCurrentMotion = eScrabMotions::Motion_0_Empty;
     eScrabMotions mNextMotion = eScrabMotions::Motion_0_Empty;
-    bool mbMotionChanged = false;
 };
 
 } // namespace AO

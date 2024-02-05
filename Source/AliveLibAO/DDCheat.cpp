@@ -150,7 +150,7 @@ void DDCheat::VUpdate()
                         {
                             case ReliveTypes::eElum:
                             {
-                                static_cast<Elum*>(sControlledCharacter)->SetCurrentMotion(eElumMotions::Motion_21_Land);
+                                static_cast<Elum*>(sControlledCharacter)->mCurrentMotion = eElumMotions::Motion_21_Land;
                                 break;
                             }
                             case ReliveTypes::eAbe:

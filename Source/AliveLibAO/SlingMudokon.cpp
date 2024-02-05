@@ -57,7 +57,7 @@ SlingMudokon::SlingMudokon(relive::Path_SlingMudokon* pTlv, const Guid& tlvId)
     
     Animation_Init(GetAnimRes(AnimId::Mudokon_Sling_Idle));
 
-    SetCurrentMotion(eSlingMudMotions::Motion_0_Idle);
+    mCurrentMotion = eSlingMudMotions::Motion_0_Idle;
 
     GetAnimation().SetAnimate(false);
     GetAnimation().SetRender(false);
@@ -201,12 +201,12 @@ void SlingMudokon::Motion_0_Idle()
 {
     if (mNextMotion == eSlingMudMotions::Motion_1_Angry)
     {
-        SetCurrentMotion(eSlingMudMotions::Motion_1_Angry);
+        mCurrentMotion = eSlingMudMotions::Motion_1_Angry;
         mNextMotion = eSlingMudMotions::None_m1;
     }
     else if (!GetAnimation().GetCurrentFrame() && mNextMotion == eSlingMudMotions::Motion_2_Speak)
     {
-        SetCurrentMotion(eSlingMudMotions::Motion_2_Speak);
+        mCurrentMotion = eSlingMudMotions::Motion_2_Speak;
         mNextMotion = eSlingMudMotions::None_m1;
     }
 }
@@ -220,12 +220,12 @@ void SlingMudokon::Motion_1_Angry()
 
     if (mNextMotion == eSlingMudMotions::Motion_3_ShootStart)
     {
-        SetCurrentMotion(eSlingMudMotions::Motion_3_ShootStart);
+        mCurrentMotion = eSlingMudMotions::Motion_3_ShootStart;
         mNextMotion = eSlingMudMotions::None_m1;
     }
     else if (mNextMotion == eSlingMudMotions::Motion_5_AngryToIdle)
     {
-        SetCurrentMotion(eSlingMudMotions::Motion_5_AngryToIdle);
+        mCurrentMotion = eSlingMudMotions::Motion_5_AngryToIdle;
         mNextMotion = eSlingMudMotions::None_m1;
     }
 }
@@ -236,7 +236,7 @@ void SlingMudokon::Motion_2_Speak()
     {
         if (GetAnimation().mAnimRes.mId == AnimId::Mudokon_Sling_Speak)
         {
-            SetCurrentMotion(eSlingMudMotions::Motion_0_Idle);
+            mCurrentMotion = eSlingMudMotions::Motion_0_Idle;
         }
     }
 }
@@ -276,7 +276,7 @@ void SlingMudokon::Motion_3_ShootStart()
                 xDistance,
                 GetSpriteScale(),
                 0);
-            SetCurrentMotion(eSlingMudMotions::Motion_4_ShootEnd);
+            mCurrentMotion = eSlingMudMotions::Motion_4_ShootEnd;
         }
     }
 }
@@ -285,7 +285,7 @@ void SlingMudokon::Motion_4_ShootEnd()
 {
     if (GetAnimation().GetIsLastFrame())
     {
-        SetCurrentMotion(eSlingMudMotions::Motion_0_Idle);
+        mCurrentMotion = eSlingMudMotions::Motion_0_Idle;
     }
 }
 
@@ -293,7 +293,7 @@ void SlingMudokon::Motion_5_AngryToIdle()
 {
     if (GetAnimation().GetIsLastFrame())
     {
-        SetCurrentMotion(eSlingMudMotions::Motion_0_Idle);
+        mCurrentMotion = eSlingMudMotions::Motion_0_Idle;
     }
 }
 
@@ -473,7 +473,7 @@ void GiveCodeBrain::VUpdate()
             mSlingMudokon.SetBrain(ISlingMudokonBrain::EBrainTypes::Spawn);
             mSlingMudokon.mSpawnBrain.SetState(SpawnBrain::EState::ObserveAbe);
 
-            mSlingMudokon.SetNextMotion(eSlingMudMotions::Motion_2_Speak);
+            mSlingMudokon.mNextMotion = eSlingMudMotions::Motion_2_Speak;
             return;
 
         default:
@@ -514,7 +514,7 @@ void SpawnBrain::VUpdate()
             {
                 mSlingMudokon.GetAnimation().SetAnimate(true);
                 mSlingMudokon.GetAnimation().SetRender(true);
-                mSlingMudokon.SetCurrentMotion(eSlingMudMotions::Motion_0_Idle);
+                mSlingMudokon.mCurrentMotion = eSlingMudMotions::Motion_0_Idle;
 
                 relive_new Flash(Layer::eLayer_Above_FG1_39, 255u, 0, 255u);
 
@@ -531,7 +531,7 @@ void SpawnBrain::VUpdate()
         case EState::GetAngry:
             if (mSlingMudokon.VIsObj_GettingNear_On_X(gAbe))
             {
-                mSlingMudokon.SetNextMotion(eSlingMudMotions::Motion_1_Angry);
+                mSlingMudokon.mNextMotion = eSlingMudMotions::Motion_1_Angry;
                 mSlingMudokon.field_140_timer = BaseGameObject::MakeTimer(40);
                 Mudokon_SFX(MudSounds::eAngry_5, 0, 300, &mSlingMudokon);
                 mBrainState = EState::PrepareToShoot;
@@ -557,7 +557,7 @@ void SpawnBrain::VUpdate()
             }
             else if (mSlingMudokon.mAbeGettingCloser)
             {
-                mSlingMudokon.SetNextMotion(eSlingMudMotions::Motion_1_Angry);
+                mSlingMudokon.mNextMotion = eSlingMudMotions::Motion_1_Angry;
                 mSlingMudokon.field_140_timer = BaseGameObject::MakeTimer(40);
                 Mudokon_SFX(MudSounds::eAngry_5, 0, 300, &mSlingMudokon);
                 mBrainState = EState::PrepareToShoot;
@@ -575,7 +575,7 @@ void SpawnBrain::VUpdate()
             if (mSlingMudokon.VIsObjNearby((ScaleToGridSize(mSlingMudokon.GetSpriteScale()) * FP_FromInteger(4)), gAbe))
             {
                 mSlingMudokon.mDontSetDestroyed = true;
-                mSlingMudokon.SetNextMotion(eSlingMudMotions::Motion_3_ShootStart);
+                mSlingMudokon.mNextMotion = eSlingMudMotions::Motion_3_ShootStart;
                 mSlingMudokon.field_140_timer = BaseGameObject::MakeTimer(15);
                 mBrainState = EState::Shoot;
                 return;
@@ -591,7 +591,7 @@ void SpawnBrain::VUpdate()
                 {
                     mSlingMudokon.mAbeGettingCloser = false;
                     mSlingMudokon.field_140_timer = BaseGameObject::MakeTimer(40);
-                    mSlingMudokon.SetNextMotion(eSlingMudMotions::Motion_5_AngryToIdle);
+                    mSlingMudokon.mNextMotion = eSlingMudMotions::Motion_5_AngryToIdle;
                     mBrainState = EState::GetAngry;
                     return;
                 }
@@ -692,7 +692,7 @@ void AskForPasswordBrain::VUpdate()
 
                 mSlingMudokon.field_140_timer = BaseGameObject::MakeTimer(30);
 
-                mSlingMudokon.SetCurrentMotion(eSlingMudMotions::Motion_0_Idle);
+                mSlingMudokon.mCurrentMotion = eSlingMudMotions::Motion_0_Idle;
                 if (mSlingMudokon.mXPos > gAbe->mXPos)
                 {
                     mSlingMudokon.GetAnimation().SetFlipX(true);
@@ -707,7 +707,7 @@ void AskForPasswordBrain::VUpdate()
         case EState::Unknown_3:
             if (mSlingMudokon.VIsObj_GettingNear_On_X(gAbe))
             {
-                mSlingMudokon.SetNextMotion(eSlingMudMotions::Motion_1_Angry);
+                mSlingMudokon.mNextMotion = eSlingMudMotions::Motion_1_Angry;
                 mSlingMudokon.field_140_timer = BaseGameObject::MakeTimer(40);
                 Mudokon_SFX(MudSounds::eAngry_5, 0, 300, &mSlingMudokon);
                 mBrainState = EState::Unknown_7;
@@ -719,14 +719,14 @@ void AskForPasswordBrain::VUpdate()
                 return;
             }
             Mudokon_SFX(MudSounds::ePassword_9, 0, 300, &mSlingMudokon);
-            mSlingMudokon.SetNextMotion(eSlingMudMotions::Motion_2_Speak);
+            mSlingMudokon.mNextMotion = eSlingMudMotions::Motion_2_Speak;
             mBrainState = EState::Unknown_4;
             return;
 
         case EState::Unknown_4:
             if (mSlingMudokon.VIsObj_GettingNear_On_X(gAbe))
             {
-                mSlingMudokon.SetNextMotion(eSlingMudMotions::Motion_1_Angry);
+                mSlingMudokon.mNextMotion = eSlingMudMotions::Motion_1_Angry;
                 mSlingMudokon.field_140_timer = BaseGameObject::MakeTimer(40);
                 Mudokon_SFX(MudSounds::eAngry_5, 0, 300, &mSlingMudokon);
                 mBrainState = EState::Unknown_7;
@@ -821,7 +821,7 @@ void AskForPasswordBrain::VUpdate()
                 return;
             }
 
-            mSlingMudokon.SetNextMotion(eSlingMudMotions::Motion_1_Angry);
+            mSlingMudokon.mNextMotion = eSlingMudMotions::Motion_1_Angry;
             mSlingMudokon.field_140_timer = BaseGameObject::MakeTimer(40);
             Mudokon_SFX(MudSounds::eAngry_5, 0, 300, &mSlingMudokon);
             mBrainState = EState::Unknown_7;
@@ -861,7 +861,7 @@ void AskForPasswordBrain::VUpdate()
             if (mSlingMudokon.VIsObjNearby((ScaleToGridSize(mSlingMudokon.GetSpriteScale()) * FP_FromInteger(4)), gAbe))
             {
                 mSlingMudokon.mDontSetDestroyed = true;
-                mSlingMudokon.SetNextMotion(eSlingMudMotions::Motion_3_ShootStart);
+                mSlingMudokon.mNextMotion = eSlingMudMotions::Motion_3_ShootStart;
                 mSlingMudokon.field_140_timer = BaseGameObject::MakeTimer(15);
                 mBrainState = EState::Unknown_8;
                 return;
@@ -872,7 +872,7 @@ void AskForPasswordBrain::VUpdate()
                 return;
             }
 
-            mSlingMudokon.SetNextMotion(eSlingMudMotions::Motion_5_AngryToIdle);
+            mSlingMudokon.mNextMotion = eSlingMudMotions::Motion_5_AngryToIdle;
             mSlingMudokon.field_140_timer = BaseGameObject::MakeTimer(30);
             mBrainState = EState::Unknown_3;
             return;

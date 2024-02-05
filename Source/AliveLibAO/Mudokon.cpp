@@ -277,7 +277,7 @@ Mudokon::Mudokon(relive::Path_TLV* pTlv, const Guid& tlvId)
             break;
     }
 
-    SetCurrentMotion(eMudMotions::Motion_0_Idle);
+    mCurrentMotion = eMudMotions::Motion_0_Idle;
 
     if (scale == relive::reliveScale::eHalf)
     {
@@ -466,7 +466,7 @@ void Mudokon::VUpdate()
     }
     else if (field_1BC)
     {
-        SetCurrentMotion(mPreviousMotion);
+        mCurrentMotion = mPreviousMotion;
         VUpdateResBlock();
         GetAnimation().SetFrame(mBaseAliveGameObjectLastAnimFrame);
         field_1BC = 0;
@@ -628,7 +628,7 @@ bool Mudokon::VTakeDamage(BaseGameObject* pFrom)
                 mHealth = FP_FromInteger(0);
                 field_1B8_brain_state = 11;
                 field_1C0_timer = MakeTimer(90);
-                SetCurrentMotion(eMudMotions::Motion_46_FallLandDie);
+                mCurrentMotion = eMudMotions::Motion_46_FallLandDie;
                 VUpdateResBlock();
             }
             return true;
@@ -650,7 +650,7 @@ bool Mudokon::VTakeDamage(BaseGameObject* pFrom)
                     mHealth = FP_FromInteger(0);
                     field_1B8_brain_state = 11;
                     field_1C0_timer = MakeTimer(90);
-                    SetCurrentMotion(eMudMotions::Motion_46_FallLandDie);
+                    mCurrentMotion = eMudMotions::Motion_46_FallLandDie;
                     mNextMotion = eMudMotions::None_m1;
                     VUpdateResBlock();
                 }
@@ -662,7 +662,7 @@ bool Mudokon::VTakeDamage(BaseGameObject* pFrom)
             {
                 Mudokon_SFX(Math_RandomRange(0, 127) >= 64 ? MudSounds::eBeesStruggle_18 : MudSounds::eKnockbackOuch_10, 127, 2 * Math_NextRandom() - 256, 0);
                 mHealth -= FP_FromDouble(0.06);
-                SetCurrentMotion(eMudMotions::Motion_46_FallLandDie);
+                mCurrentMotion = eMudMotions::Motion_46_FallLandDie;
                 mNextMotion = eMudMotions::None_m1;
                 field_1C0_timer = MakeTimer(30);
                 VUpdateResBlock();
@@ -690,7 +690,7 @@ bool Mudokon::DoSmashDamage()
         field_1C0_timer = MakeTimer(90);
         mHealth = FP_FromInteger(0);
         field_1B8_brain_state = 11;
-        SetCurrentMotion(eMudMotions::Motion_46_FallLandDie);
+        mCurrentMotion = eMudMotions::Motion_46_FallLandDie;
         mNextMotion = eMudMotions::None_m1;
         VUpdateResBlock();
         Mudokon_SFX(MudSounds::eKnockbackOuch_10, 0, Math_RandomRange(-127, 127), this);
@@ -851,7 +851,7 @@ void Mudokon::ToStand()
     field_11C = FP_FromInteger(0);
     mVelX = FP_FromInteger(0);
     mVelY = FP_FromInteger(0);
-    SetCurrentMotion(eMudMotions::Motion_0_Idle);
+    mCurrentMotion = eMudMotions::Motion_0_Idle;
 }
 
 void Mudokon::CheckFloorGone()
@@ -909,7 +909,7 @@ void Mudokon::ToKnockback()
     }
 
     Environment_SFX(EnvironmentSfx::eKnockback_13, 0, 0x7FFF, this);
-    SetCurrentMotion(eMudMotions::Motion_47_Knockback);
+    mCurrentMotion = eMudMotions::Motion_47_Knockback;
 }
 
 void Mudokon::ReduceXVelocityBy(FP amount)
@@ -979,7 +979,7 @@ void Mudokon::MoveOnLine()
     {
         field_11C = FP_FromInteger(0); // TODO: is 0 wrong? AE sets 0.3 - check IDA/OG bug in AO?
         BaseAliveGameObjectLastLineYPos = mYPos;
-        SetCurrentMotion(eMudMotions::Motion_49_WalkOffEdge);
+        mCurrentMotion = eMudMotions::Motion_49_WalkOffEdge;
         mXPos = old_xpos + mVelX;
     }
 }
@@ -1169,7 +1169,7 @@ void Mudokon::Motion_0_Idle()
             {
                 mVelX = (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(9));
             }
-            SetCurrentMotion(eMudMotions::Motion_7_WalkBegin);
+            mCurrentMotion = eMudMotions::Motion_7_WalkBegin;
             mNextMotion = eMudMotions::None_m1;
             break;
 
@@ -1182,7 +1182,7 @@ void Mudokon::Motion_0_Idle()
             {
                 mVelX = (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(10));
             }
-            SetCurrentMotion(eMudMotions::Motion_40_SneakBegin);
+            mCurrentMotion = eMudMotions::Motion_40_SneakBegin;
             mNextMotion = eMudMotions::None_m1;
             break;
 
@@ -1195,35 +1195,35 @@ void Mudokon::Motion_0_Idle()
             {
                 mVelX = ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(4);
             }
-            SetCurrentMotion(eMudMotions::Motion_45_StandToRun);
+            mCurrentMotion = eMudMotions::Motion_45_StandToRun;
             mNextMotion = eMudMotions::None_m1;
             break;
 
         case eMudMotions::Motion_52_Chant:
             SND_SEQ_PlaySeq(SeqId::eMudokonChant_12, 0, 1);
-            SetCurrentMotion(eMudMotions::Motion_52_Chant);
+            mCurrentMotion = eMudMotions::Motion_52_Chant;
             mNextMotion = eMudMotions::None_m1;
             break;
 
         case eMudMotions::Motion_23_CrouchIdle:
-            SetCurrentMotion(eMudMotions::Motion_25_StandToCrouch);
+            mCurrentMotion = eMudMotions::Motion_25_StandToCrouch;
             mNextMotion = eMudMotions::None_m1;
             break;
 
         case eMudMotions::Motion_59_CrouchChant:
-            SetCurrentMotion(eMudMotions::Motion_58_StruggleToCrouchChant);
+            mCurrentMotion = eMudMotions::Motion_58_StruggleToCrouchChant;
             mNextMotion = eMudMotions::None_m1;
             break;
 
         case eMudMotions::Motion_16_StandScrubLoop:
-            SetCurrentMotion(eMudMotions::Motion_20_IdleToStandScrub);
+            mCurrentMotion = eMudMotions::Motion_20_IdleToStandScrub;
             mNextMotion = eMudMotions::None_m1;
             break;
 
         default:
             if (mNextMotion != eMudMotions::None_m1)
             {
-                SetCurrentMotion(mNextMotion);
+                mCurrentMotion = mNextMotion;
                 mNextMotion = eMudMotions::None_m1;
             }
             break;
@@ -1251,7 +1251,7 @@ void Mudokon::Motion_1_WalkLoop()
                 case 2:
                     if (mNextMotion == eMudMotions::Motion_0_Idle)
                     {
-                        SetCurrentMotion(eMudMotions::Motion_9_MidWalkToIdle);
+                        mCurrentMotion = eMudMotions::Motion_9_MidWalkToIdle;
                         mNextMotion = eMudMotions::None_m1;
                     }
                     break;
@@ -1266,12 +1266,12 @@ void Mudokon::Motion_1_WalkLoop()
 
                     if (mNextMotion == eMudMotions::Motion_29_RunLoop)
                     {
-                        SetCurrentMotion(eMudMotions::Motion_28_MidWalkToRun);
+                        mCurrentMotion = eMudMotions::Motion_28_MidWalkToRun;
                         mNextMotion = eMudMotions::None_m1;
                     }
                     else if (mNextMotion == eMudMotions::Motion_35_SneakLoop)
                     {
-                        SetCurrentMotion(eMudMotions::Motion_36_MidWalkToSneak);
+                        mCurrentMotion = eMudMotions::Motion_36_MidWalkToSneak;
                         mNextMotion = eMudMotions::None_m1;
                     }
                     break;
@@ -1279,7 +1279,7 @@ void Mudokon::Motion_1_WalkLoop()
                 case 11:
                     if (mNextMotion == eMudMotions::Motion_0_Idle)
                     {
-                        SetCurrentMotion(eMudMotions::Motion_8_WalkToIdle);
+                        mCurrentMotion = eMudMotions::Motion_8_WalkToIdle;
                         mNextMotion = eMudMotions::None_m1;
                     }
                     break;
@@ -1294,12 +1294,12 @@ void Mudokon::Motion_1_WalkLoop()
 
                     if (mNextMotion == eMudMotions::Motion_29_RunLoop)
                     {
-                        SetCurrentMotion(eMudMotions::Motion_27_WalkToRun);
+                        mCurrentMotion = eMudMotions::Motion_27_WalkToRun;
                         mNextMotion = eMudMotions::None_m1;
                     }
                     else if (mNextMotion == eMudMotions::Motion_35_SneakLoop)
                     {
-                        SetCurrentMotion(eMudMotions::Motion_38_WalkToSneak);
+                        mCurrentMotion = eMudMotions::Motion_38_WalkToSneak;
                         mNextMotion = eMudMotions::None_m1;
                     }
                     break;
@@ -1323,7 +1323,7 @@ void Mudokon::Motion_2_StandingTurn()
 
     if (GetAnimation().GetIsLastFrame())
     {
-        SetCurrentMotion(eMudMotions::Motion_0_Idle);
+        mCurrentMotion = eMudMotions::Motion_0_Idle;
         GetAnimation().ToggleFlipX();
     }
 }
@@ -1337,7 +1337,7 @@ void Mudokon::Motion_3_Speak()
 
     if (GetAnimation().GetIsLastFrame())
     {
-        SetCurrentMotion(eMudMotions::Motion_0_Idle);
+        mCurrentMotion = eMudMotions::Motion_0_Idle;
     }
 }
 
@@ -1371,7 +1371,7 @@ void Mudokon::Motion_7_WalkBegin()
     {
         if (GetAnimation().GetIsLastFrame())
         {
-            SetCurrentMotion(eMudMotions::Motion_1_WalkLoop);
+            mCurrentMotion = eMudMotions::Motion_1_WalkLoop;
         }
         MoveOnLine();
     }
@@ -1415,7 +1415,7 @@ void Mudokon::Motion_10_Unused()
 {
     if (gNumCamSwappers <= 0)
     {
-        SetCurrentMotion(mPreviousMotion);
+        mCurrentMotion = mPreviousMotion;
         if (BaseAliveGameObject_PlatformId != Guid{})
         {
             mXPos = FP_FromInteger((BaseAliveGameObjectCollisionLine->mRect.x + BaseAliveGameObjectCollisionLine->mRect.w) / 2);
@@ -1439,8 +1439,8 @@ void Mudokon::Motion_12_LiftUse()
     else
     {
         pLiftPoint->Move(FP_FromInteger(0), FP_FromInteger(0));
-        SetCurrentMotion(eMudMotions::Motion_14_LiftGrabEnd);
-        SetNextMotion(eMudMotions::Motion_0_Idle);
+        mCurrentMotion = eMudMotions::Motion_14_LiftGrabEnd;
+        mNextMotion = eMudMotions::Motion_0_Idle;
     }
 }
 
@@ -1448,7 +1448,7 @@ void Mudokon::Motion_13_LiftGrabBegin()
 {
     if (GetAnimation().GetIsLastFrame())
     {
-        SetCurrentMotion(mNextMotion);
+        mCurrentMotion = mNextMotion;
         field_194_pLiftPoint->mKeepOnMiddleFloor = true;
     }
 }
@@ -1457,7 +1457,7 @@ void Mudokon::Motion_14_LiftGrabEnd()
 {
     if (GetAnimation().GetIsLastFrame())
     {
-        SetCurrentMotion(mNextMotion);
+        mCurrentMotion = mNextMotion;
     }
 }
 
@@ -1465,7 +1465,7 @@ void Mudokon::Motion_15_LeverUse()
 {
     if (GetAnimation().GetIsLastFrame())
     {
-        SetCurrentMotion(eMudMotions::Motion_0_Idle);
+        mCurrentMotion = eMudMotions::Motion_0_Idle;
     }
 }
 
@@ -1497,11 +1497,11 @@ void Mudokon::Motion_16_StandScrubLoop()
         {
             if (mNextMotion != eMudMotions::Motion_0_Idle)
             {
-                SetCurrentMotion(mNextMotion);
+                mCurrentMotion = mNextMotion;
             }
             else
             {
-                SetCurrentMotion(eMudMotions::Motion_21_StandScrubToIdle);
+                mCurrentMotion = eMudMotions::Motion_21_StandScrubToIdle;
             }
             mNextMotion = eMudMotions::None_m1;
         }
@@ -1512,7 +1512,7 @@ void Mudokon::Motion_17_StandScrubLoopToPause()
 {
     if (GetAnimation().GetIsLastFrame())
     {
-        SetCurrentMotion(eMudMotions::Motion_19_StandScrubPause);
+        mCurrentMotion = eMudMotions::Motion_19_StandScrubPause;
     }
 }
 
@@ -1520,7 +1520,7 @@ void Mudokon::Motion_18_StandScrubPauseToLoop()
 {
     if (GetAnimation().GetIsLastFrame())
     {
-        SetCurrentMotion(eMudMotions::Motion_16_StandScrubLoop);
+        mCurrentMotion = eMudMotions::Motion_16_StandScrubLoop;
     }
 }
 
@@ -1530,7 +1530,7 @@ void Mudokon::Motion_19_StandScrubPause()
     {
         if (GetAnimation().GetIsLastFrame())
         {
-            SetCurrentMotion(eMudMotions::Motion_18_StandScrubPauseToLoop);
+            mCurrentMotion = eMudMotions::Motion_18_StandScrubPauseToLoop;
             mNextMotion = eMudMotions::None_m1;
         }
     }
@@ -1540,7 +1540,7 @@ void Mudokon::Motion_20_IdleToStandScrub()
 {
     if (GetAnimation().GetIsLastFrame())
     {
-        SetCurrentMotion(eMudMotions::Motion_16_StandScrubLoop);
+        mCurrentMotion = eMudMotions::Motion_16_StandScrubLoop;
     }
 }
 
@@ -1548,7 +1548,7 @@ void Mudokon::Motion_21_StandScrubToIdle()
 {
     if (GetAnimation().GetIsLastFrame())
     {
-        SetCurrentMotion(eMudMotions::Motion_0_Idle);
+        mCurrentMotion = eMudMotions::Motion_0_Idle;
     }
 }
 
@@ -1573,7 +1573,7 @@ void Mudokon::Motion_22_CrouchScrub()
 
     if (GetAnimation().GetIsLastFrame())
     {
-        SetCurrentMotion(eMudMotions::Motion_23_CrouchIdle);
+        mCurrentMotion = eMudMotions::Motion_23_CrouchIdle;
     }
 }
 
@@ -1583,17 +1583,17 @@ void Mudokon::Motion_23_CrouchIdle()
 
     if (mNextMotion == eMudMotions::Motion_55_Duck)
     {
-        SetCurrentMotion(eMudMotions::Motion_54_ToDuck);
+        mCurrentMotion = eMudMotions::Motion_54_ToDuck;
         mNextMotion = eMudMotions::None_m1;
     }
     else if (mNextMotion == eMudMotions::Motion_0_Idle)
     {
-        SetCurrentMotion(eMudMotions::Motion_26_CrouchToStand);
+        mCurrentMotion = eMudMotions::Motion_26_CrouchToStand;
         mNextMotion = eMudMotions::None_m1;
     }
     else if (mNextMotion != eMudMotions::None_m1)
     {
-        SetCurrentMotion(mNextMotion);
+        mCurrentMotion = mNextMotion;
         mNextMotion = eMudMotions::None_m1;
     }
 }
@@ -1604,7 +1604,7 @@ void Mudokon::Motion_24_CrouchTurn()
 
     if (GetAnimation().GetIsLastFrame())
     {
-        SetCurrentMotion(eMudMotions::Motion_23_CrouchIdle);
+        mCurrentMotion = eMudMotions::Motion_23_CrouchIdle;
         GetAnimation().ToggleFlipX();
     }
 }
@@ -1615,7 +1615,7 @@ void Mudokon::Motion_25_StandToCrouch()
 
     if (GetAnimation().GetIsLastFrame())
     {
-        SetCurrentMotion(eMudMotions::Motion_23_CrouchIdle);
+        mCurrentMotion = eMudMotions::Motion_23_CrouchIdle;
     }
 }
 
@@ -1625,7 +1625,7 @@ void Mudokon::Motion_26_CrouchToStand()
 
     if (GetAnimation().GetIsLastFrame())
     {
-        SetCurrentMotion(eMudMotions::Motion_0_Idle);
+        mCurrentMotion = eMudMotions::Motion_0_Idle;
     }
 }
 
@@ -1645,7 +1645,7 @@ void Mudokon::Motion_27_WalkToRun()
 
     if (GetAnimation().GetIsLastFrame())
     {
-        SetCurrentMotion(eMudMotions::Motion_29_RunLoop);
+        mCurrentMotion = eMudMotions::Motion_29_RunLoop;
     }
 
     if (WallHit(GetSpriteScale() * FP_FromInteger(50), mVelX))
@@ -1674,7 +1674,7 @@ void Mudokon::Motion_28_MidWalkToRun()
 
     if (GetAnimation().GetIsLastFrame())
     {
-        SetPreviousMotion(eMudMotions::Motion_29_RunLoop);
+        mPreviousMotion = eMudMotions::Motion_29_RunLoop;
         mBaseAliveGameObjectLastAnimFrame = 8;
         field_1BC = 1;
     }
@@ -1714,7 +1714,7 @@ void Mudokon::Motion_29_RunLoop()
 
             if (mNextMotion == eMudMotions::Motion_44_RunJumpMid)
             {
-                SetCurrentMotion(eMudMotions::Motion_43_RunJumpBegin);
+                mCurrentMotion = eMudMotions::Motion_43_RunJumpBegin;
                 mNextMotion = eMudMotions::None_m1;
             }
         }
@@ -1732,7 +1732,7 @@ void Mudokon::Motion_29_RunLoop()
                 case eMudMotions::Motion_1_WalkLoop:
                     if (GetAnimation().GetCurrentFrame() == 4)
                     {
-                        SetCurrentMotion(eMudMotions::Motion_30_RunToWalk);
+                        mCurrentMotion = eMudMotions::Motion_30_RunToWalk;
                         mNextMotion = eMudMotions::None_m1;
                     }
                     return;
@@ -1743,25 +1743,25 @@ void Mudokon::Motion_29_RunLoop()
                     /*case eMudMotions::Motion_29_RunLoop_43DB10:
                 if (mAnim.mCurrentFrame == 12)
                 {
-                    SetCurrentMotion(eMudMotions::Motion_28_MidWalkToRun_43DA40);
+                    mCurrentMotion = eMudMotions::Motion_28_MidWalkToRun_43DA40;
                     field_FE_next_state = -1;
                 }
                 return;*/
 
                 case eMudMotions::Motion_0_Idle:
-                    SetCurrentMotion(eMudMotions::Motion_32_RunSlideStop);
+                    mCurrentMotion = eMudMotions::Motion_32_RunSlideStop;
                     mNextMotion = eMudMotions::None_m1;
                     Environment_SFX(EnvironmentSfx::eRunSlide_4, 0, 0x7FFF, this);
                     return;
 
                 case eMudMotions::Motion_33_RunSlideTurn:
-                    SetCurrentMotion(eMudMotions::Motion_33_RunSlideTurn);
+                    mCurrentMotion = eMudMotions::Motion_33_RunSlideTurn;
                     mNextMotion = eMudMotions::None_m1;
                     Environment_SFX(EnvironmentSfx::eRunSlide_4, 0, 0x7FFF, this);
                     return;
 
                 case eMudMotions::Motion_44_RunJumpMid:
-                    SetCurrentMotion(eMudMotions::Motion_43_RunJumpBegin);
+                    mCurrentMotion = eMudMotions::Motion_43_RunJumpBegin;
                     mNextMotion = eMudMotions::None_m1;
                     return;
             }
@@ -1789,7 +1789,7 @@ void Mudokon::Motion_30_RunToWalk()
 
     if (GetAnimation().GetIsLastFrame())
     {
-        SetCurrentMotion(eMudMotions::Motion_1_WalkLoop);
+        mCurrentMotion = eMudMotions::Motion_1_WalkLoop;
     }
 
     if (WallHit(GetSpriteScale() * FP_FromInteger(50), mVelX))
@@ -1818,7 +1818,7 @@ void Mudokon::Motion_31_MidRunToWalk()
 
     if (GetAnimation().GetIsLastFrame())
     {
-        SetPreviousMotion(eMudMotions::Motion_1_WalkLoop);
+        mPreviousMotion = eMudMotions::Motion_1_WalkLoop;
         mBaseAliveGameObjectLastAnimFrame = 9;
         field_1BC = 1;
     }
@@ -1880,12 +1880,12 @@ void Mudokon::Motion_33_RunSlideTurn()
                 if (GetAnimation().GetFlipX())
                 {
                     mVelX = ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(4);
-                    SetCurrentMotion(eMudMotions::Motion_34_RunTurnToRun);
+                    mCurrentMotion = eMudMotions::Motion_34_RunTurnToRun;
                 }
                 else
                 {
                     mVelX = -(ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(4));
-                    SetCurrentMotion(eMudMotions::Motion_34_RunTurnToRun);
+                    mCurrentMotion = eMudMotions::Motion_34_RunTurnToRun;
                 }
             }
         }
@@ -1906,7 +1906,7 @@ void Mudokon::Motion_34_RunTurnToRun()
         MoveOnLine();
         if (GetAnimation().GetIsLastFrame())
         {
-            SetCurrentMotion(eMudMotions::Motion_29_RunLoop);
+            mCurrentMotion = eMudMotions::Motion_29_RunLoop;
             GetAnimation().ToggleFlipX();
         }
     }
@@ -1928,7 +1928,7 @@ void Mudokon::Motion_35_SneakLoop()
                 case 3:
                     if (mNextMotion == eMudMotions::Motion_0_Idle)
                     {
-                        SetCurrentMotion(eMudMotions::Motion_41_SneakToIdle);
+                        mCurrentMotion = eMudMotions::Motion_41_SneakToIdle;
                         mNextMotion = eMudMotions::None_m1;
                     }
                     break;
@@ -1939,7 +1939,7 @@ void Mudokon::Motion_35_SneakLoop()
 
                     if (mNextMotion == eMudMotions::Motion_1_WalkLoop || mNextMotion == eMudMotions::Motion_29_RunLoop)
                     {
-                        SetCurrentMotion(eMudMotions::Motion_37_SneakToWalk);
+                        mCurrentMotion = eMudMotions::Motion_37_SneakToWalk;
                         mNextMotion = eMudMotions::None_m1;
                     }
                     break;
@@ -1947,7 +1947,7 @@ void Mudokon::Motion_35_SneakLoop()
                 case 13:
                     if (mNextMotion == eMudMotions::Motion_0_Idle)
                     {
-                        SetCurrentMotion(eMudMotions::Motion_42_MidSneakToIdle);
+                        mCurrentMotion = eMudMotions::Motion_42_MidSneakToIdle;
                         mNextMotion = eMudMotions::None_m1;
                     }
                     break;
@@ -1958,7 +1958,7 @@ void Mudokon::Motion_35_SneakLoop()
 
                     if (mNextMotion == eMudMotions::Motion_1_WalkLoop || mNextMotion == eMudMotions::Motion_29_RunLoop)
                     {
-                        SetCurrentMotion(eMudMotions::Motion_39_MidSneakToWalk);
+                        mCurrentMotion = eMudMotions::Motion_39_MidSneakToWalk;
                         mNextMotion = eMudMotions::None_m1;
                     }
                     break;
@@ -1980,7 +1980,7 @@ void Mudokon::Motion_36_MidWalkToSneak()
 
     if (GetAnimation().GetIsLastFrame())
     {
-        SetCurrentMotion(eMudMotions::Motion_35_SneakLoop);
+        mCurrentMotion = eMudMotions::Motion_35_SneakLoop;
     }
 
     if (WallHit(GetSpriteScale() * FP_FromInteger(50), mVelX))
@@ -2006,7 +2006,7 @@ void Mudokon::Motion_37_SneakToWalk()
 
     if (GetAnimation().GetIsLastFrame())
     {
-        SetCurrentMotion(eMudMotions::Motion_1_WalkLoop);
+        mCurrentMotion = eMudMotions::Motion_1_WalkLoop;
     }
 
     if (WallHit(GetSpriteScale() * FP_FromInteger(50), mVelX))
@@ -2032,7 +2032,7 @@ void Mudokon::Motion_38_WalkToSneak()
 
     if (GetAnimation().GetIsLastFrame())
     {
-        SetPreviousMotion(eMudMotions::Motion_35_SneakLoop);
+        mPreviousMotion = eMudMotions::Motion_35_SneakLoop;
         mBaseAliveGameObjectLastAnimFrame = 10;
         field_1BC = 1;
     }
@@ -2060,7 +2060,7 @@ void Mudokon::Motion_39_MidSneakToWalk()
 
     if (GetAnimation().GetIsLastFrame())
     {
-        SetPreviousMotion(eMudMotions::Motion_1_WalkLoop);
+        mPreviousMotion = eMudMotions::Motion_1_WalkLoop;
         mBaseAliveGameObjectLastAnimFrame = 9;
         field_1BC = 1;
     }
@@ -2079,7 +2079,7 @@ void Mudokon::Motion_40_SneakBegin()
 {
     if (GetAnimation().GetIsLastFrame())
     {
-        SetCurrentMotion(eMudMotions::Motion_35_SneakLoop);
+        mCurrentMotion = eMudMotions::Motion_35_SneakLoop;
     }
 
     if (WallHit(GetSpriteScale() * FP_FromInteger(50), mVelX))
@@ -2144,7 +2144,7 @@ void Mudokon::Motion_43_RunJumpBegin()
         mVelY = (GetSpriteScale() * FP_FromDouble(-9.6));
         mYPos += mVelY;
         VOnTrapDoorOpen();
-        SetCurrentMotion(eMudMotions::Motion_44_RunJumpMid);
+        mCurrentMotion = eMudMotions::Motion_44_RunJumpMid;
         BaseAliveGameObjectCollisionLine = nullptr;
     }
 }
@@ -2197,7 +2197,7 @@ void Mudokon::Motion_45_StandToRun()
 {
     if (GetAnimation().GetIsLastFrame())
     {
-        SetCurrentMotion(eMudMotions::Motion_29_RunLoop);
+        mCurrentMotion = eMudMotions::Motion_29_RunLoop;
     }
 
     EventBroadcast(kEventNoise, this);
@@ -2232,7 +2232,7 @@ void Mudokon::Motion_46_FallLandDie()
 
     if (mNextMotion != eMudMotions::None_m1)
     {
-        SetCurrentMotion(mNextMotion);
+        mCurrentMotion = mNextMotion;
         mNextMotion = eMudMotions::None_m1;
     }
 }
@@ -2256,7 +2256,7 @@ void Mudokon::Motion_47_Knockback()
 
         if (mCurrentMotion == eMudMotions::Motion_46_FallLandDie || mCurrentMotion == eMudMotions::Motion_50_LandSoft)
         {
-            SetCurrentMotion(eMudMotions::Motion_47_Knockback);
+            mCurrentMotion = eMudMotions::Motion_47_Knockback;
         }
     }
 
@@ -2264,7 +2264,7 @@ void Mudokon::Motion_47_Knockback()
     {
         if (BaseAliveGameObjectCollisionLine)
         {
-            SetCurrentMotion(eMudMotions::Motion_48_KnockbackGetUp);
+            mCurrentMotion = eMudMotions::Motion_48_KnockbackGetUp;
         }
     }
 }
@@ -2286,7 +2286,7 @@ void Mudokon::Motion_49_WalkOffEdge()
 {
     if (GetAnimation().GetIsLastFrame())
     {
-        SetCurrentMotion(eMudMotions::Motion_51_Fall);
+        mCurrentMotion = eMudMotions::Motion_51_Fall;
     }
     Motion_51_Fall();
 }
@@ -2354,7 +2354,7 @@ void Mudokon::Motion_51_Fall()
 
                 if (mYPos - BaseAliveGameObjectLastLineYPos < (GetSpriteScale() * FP_FromInteger(180)) && (mHealth > FP_FromInteger(0) || gAbeInvulnerableCheat))
                 {
-                    SetCurrentMotion(eMudMotions::Motion_50_LandSoft);
+                    mCurrentMotion = eMudMotions::Motion_50_LandSoft;
                 }
                 else
                 {
@@ -2363,10 +2363,10 @@ void Mudokon::Motion_51_Fall()
                     mPersist = false;
                     field_1B8_brain_state = 11;
                     field_1C0_timer = MakeTimer(90);
-                    SetCurrentMotion(eMudMotions::Motion_46_FallLandDie);
+                    mCurrentMotion = eMudMotions::Motion_46_FallLandDie;
                 }
 
-                SetPreviousMotion(eMudMotions::Motion_51_Fall);
+                mPreviousMotion = eMudMotions::Motion_51_Fall;
 
                 PSX_Point xy;
                 xy.x = FP_GetExponent(mXPos - FP_FromInteger(10));
@@ -2421,7 +2421,7 @@ void Mudokon::Motion_52_Chant()
         if (GetAnimation().GetIsLastFrame())
         {
             SND_SEQ_Stop(SeqId::eMudokonChant_12);
-            SetCurrentMotion(eMudMotions::Motion_53_ChantEnd);
+            mCurrentMotion = eMudMotions::Motion_53_ChantEnd;
             mNextMotion = eMudMotions::None_m1;
         }
     }
@@ -2431,7 +2431,7 @@ void Mudokon::Motion_53_ChantEnd()
 {
     if (GetAnimation().GetIsLastFrame())
     {
-        SetCurrentMotion(eMudMotions::Motion_0_Idle);
+        mCurrentMotion = eMudMotions::Motion_0_Idle;
     }
 }
 
@@ -2439,7 +2439,7 @@ void Mudokon::Motion_54_ToDuck()
 {
     if (GetAnimation().GetIsLastFrame())
     {
-        SetCurrentMotion(eMudMotions::Motion_55_Duck);
+        mCurrentMotion = eMudMotions::Motion_55_Duck;
     }
 }
 
@@ -2450,7 +2450,7 @@ void Mudokon::Motion_55_Duck()
         if (mNextMotion == eMudMotions::Motion_23_CrouchIdle)
         {
             mNextMotion = eMudMotions::None_m1;
-            SetCurrentMotion(eMudMotions::Motion_56_DuckToCrouch);
+            mCurrentMotion = eMudMotions::Motion_56_DuckToCrouch;
         }
     }
 }
@@ -2459,7 +2459,7 @@ void Mudokon::Motion_56_DuckToCrouch()
 {
     if (GetAnimation().GetIsLastFrame())
     {
-        SetCurrentMotion(eMudMotions::Motion_23_CrouchIdle);
+        mCurrentMotion = eMudMotions::Motion_23_CrouchIdle;
     }
 }
 
@@ -2469,7 +2469,7 @@ void Mudokon::Motion_57_Struggle()
     {
         if (mNextMotion == eMudMotions::Motion_0_Idle)
         {
-            SetCurrentMotion(eMudMotions::Motion_0_Idle);
+            mCurrentMotion = eMudMotions::Motion_0_Idle;
         }
     }
 }
@@ -2478,7 +2478,7 @@ void Mudokon::Motion_58_StruggleToCrouchChant()
 {
     if (GetAnimation().GetIsLastFrame())
     {
-        SetCurrentMotion(eMudMotions::Motion_59_CrouchChant);
+        mCurrentMotion = eMudMotions::Motion_59_CrouchChant;
     }
 }
 
@@ -2489,7 +2489,7 @@ void Mudokon::Motion_59_CrouchChant()
         if (mNextMotion != eMudMotions::None_m1)
         {
             mNextMotion = eMudMotions::None_m1;
-            SetCurrentMotion(eMudMotions::Motion_60_CrouchChantToStruggle);
+            mCurrentMotion = eMudMotions::Motion_60_CrouchChantToStruggle;
         }
     }
 
@@ -2522,7 +2522,7 @@ void Mudokon::Motion_60_CrouchChantToStruggle()
 {
     if (GetAnimation().GetIsLastFrame())
     {
-        SetCurrentMotion(eMudMotions::Motion_0_Idle);
+        mCurrentMotion = eMudMotions::Motion_0_Idle;
     }
 }
 
@@ -2537,7 +2537,7 @@ void Mudokon::Motion_61_DuckKnockback()
 
     if (GetAnimation().GetIsLastFrame())
     {
-        SetCurrentMotion(eMudMotions::Motion_55_Duck);
+        mCurrentMotion = eMudMotions::Motion_55_Duck;
         mNextMotion = eMudMotions::None_m1;
     }
 }
@@ -2566,7 +2566,7 @@ s16 Mudokon::Brain_0_ComingIn()
     {
         if (static_cast<s32>(sGnFrame) > field_1C0_timer)
         {
-            SetNextMotion(eMudMotions::Motion_1_WalkLoop);
+            mNextMotion = eMudMotions::Motion_1_WalkLoop;
             field_190 = field_18C_how_far_to_walk;
             return 2;
         }
@@ -2584,7 +2584,7 @@ s16 Mudokon::Brain_0_ComingIn()
 
         if (field_190 < FP_FromInteger(0))
         {
-            SetCurrentMotion(eMudMotions::Motion_0_Idle);
+            mCurrentMotion = eMudMotions::Motion_0_Idle;
             field_1B8_brain_state = 2;
             return 0;
         }
@@ -2598,8 +2598,8 @@ s16 Mudokon::Brain_1_ComingOut()
     {
         if (mCurrentMotion == eMudMotions::Motion_0_Idle)
         {
-            SetCurrentMotion(eMudMotions::Motion_2_StandingTurn);
-            SetNextMotion(eMudMotions::Motion_1_WalkLoop);
+            mCurrentMotion = eMudMotions::Motion_2_StandingTurn;
+            mNextMotion = eMudMotions::Motion_1_WalkLoop;
             return 1;
         }
     }
@@ -2626,7 +2626,7 @@ s16 Mudokon::Brain_1_ComingOut()
         if (field_190 < FP_FromInteger(0))
         {
             SetDead(true);
-            SetCurrentMotion(eMudMotions::Motion_0_Idle);
+            mCurrentMotion = eMudMotions::Motion_0_Idle;
             return 3;
         }
     }
@@ -2654,7 +2654,7 @@ s16 Mudokon::Brain_2_SingSequenceIdle()
             if (static_cast<s32>(sGnFrame) > field_1C0_timer)
             {
                 Mudokon_SFX(MudSounds::eHello_3, 0, 300, this);
-                SetNextMotion(eMudMotions::Motion_4_Speak);
+                mNextMotion = eMudMotions::Motion_4_Speak;
                 return 2;
             }
             break;
@@ -2723,27 +2723,27 @@ s16 Mudokon::Brain_3_SingSequenceSing()
             switch (Code_LookUp(field_1A4_code_converted, field_19E_code_idx, field_1A8_code_length))
             {
                 case GameSpeakEvents::eAbe_WhistleHigh:
-                    SetNextMotion(eMudMotions::Motion_4_Speak);
+                    mNextMotion = eMudMotions::Motion_4_Speak;
                     Mudokon_SFX(MudSounds::eWhistleHigh_1, 0, 0, this);
                     break;
 
                 case GameSpeakEvents::eAbe_WhistleLow:
-                    SetNextMotion(eMudMotions::Motion_5_Speak);
+                    mNextMotion = eMudMotions::Motion_5_Speak;
                     Mudokon_SFX(MudSounds::eWhistleLow_2, 0, 0, this);
                     break;
 
                 case GameSpeakEvents::eAbe_Fart:
-                    SetNextMotion(eMudMotions::Motion_6_Speak);
+                    mNextMotion = eMudMotions::Motion_6_Speak;
                     Mudokon_SFX(MudSounds::eFart_7, 0, 300, this);
                     break;
 
                 case GameSpeakEvents::eAbe_Laugh:
-                    SetNextMotion(eMudMotions::Motion_3_Speak);
+                    mNextMotion = eMudMotions::Motion_3_Speak;
                     Mudokon_SFX(MudSounds::eLaugh1_8, 0, 300, this);
                     break;
 
                 default:
-                    SetNextMotion(eMudMotions::Motion_3_Speak);
+                    mNextMotion = eMudMotions::Motion_3_Speak;
                     break;
             }
 
@@ -2921,7 +2921,7 @@ s16 Mudokon::Brain_4_SingSequencePassword()
     switch (field_1BA_brain_sub_state)
     {
         case 0:
-            SetNextMotion(eMudMotions::Motion_3_Speak);
+            mNextMotion = eMudMotions::Motion_3_Speak;
             Mudokon_SFX(MudSounds::ePassword_9, 0, 300, this);
             field_13C = GameSpeak::FillBuffer(field_1A4_code_converted, field_12C);
             return 1;
@@ -3016,7 +3016,7 @@ s16 Mudokon::Brain_4_SingSequencePassword()
                 if (field_1A0)
                 {
                     Mudokon_SFX(MudSounds::eOkay_13, 0, 300, this);
-                    SetNextMotion(eMudMotions::Motion_3_Speak);
+                    mNextMotion = eMudMotions::Motion_3_Speak;
                 }
                 else
                 {
@@ -3028,7 +3028,7 @@ s16 Mudokon::Brain_4_SingSequencePassword()
                     {
                         Mudokon_SFX(MudSounds::eRefuse_14, 0, 300, this);
                     }
-                    SetNextMotion(eMudMotions::Motion_6_Speak);
+                    mNextMotion = eMudMotions::Motion_6_Speak;
                 }
                 return 5;
             }
@@ -3082,8 +3082,8 @@ s16 Mudokon::Brain_5_LiftUse()
     }
     else if (mCurrentMotion == eMudMotions::Motion_0_Idle)
     {
-        SetCurrentMotion(eMudMotions::Motion_13_LiftGrabBegin);
-        SetNextMotion(eMudMotions::Motion_12_LiftUse);
+        mCurrentMotion = eMudMotions::Motion_13_LiftGrabBegin;
+        mNextMotion = eMudMotions::Motion_12_LiftUse;
         field_194_pLiftPoint = nullptr;
         for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
         {
@@ -3116,7 +3116,7 @@ s16 Mudokon::Brain_6_LeverUse()
         return field_1BA_brain_sub_state;
     }
 
-    SetNextMotion(eMudMotions::Motion_15_LeverUse);
+    mNextMotion = eMudMotions::Motion_15_LeverUse;
 
     FP directedGridSize = {};
     if (GetAnimation().GetFlipX())
@@ -3144,7 +3144,7 @@ s16 Mudokon::Brain_7_GiveRings()
         case 0:
             if (gAbe->field_168_ring_pulse_timer <= 0)
             {
-                SetNextMotion(eMudMotions::Motion_52_Chant);
+                mNextMotion = eMudMotions::Motion_52_Chant;
                 field_1C0_timer = MakeTimer(30);
                 return 1;
             }
@@ -3198,7 +3198,7 @@ s16 Mudokon::Brain_7_GiveRings()
                     gAbe->field_168_ring_pulse_timer = MakeTimer(200000);
                 }
 
-                SetNextMotion(eMudMotions::Motion_0_Idle);
+                mNextMotion = eMudMotions::Motion_0_Idle;
                 gAbe->field_16C_bHaveShrykull = 0;
                 return 4;
             }
@@ -3239,7 +3239,7 @@ s16 Mudokon::Brain_8_StandScrub()
     switch (field_1BA_brain_sub_state)
     {
         case 0:
-            SetCurrentMotion(eMudMotions::Motion_16_StandScrubLoop);
+            mCurrentMotion = eMudMotions::Motion_16_StandScrubLoop;
             mNextMotion = eMudMotions::None_m1;
             field_1C0_timer = (Math_NextRandom() % 64) + MakeTimer(35);
             return 1;
@@ -3248,7 +3248,7 @@ s16 Mudokon::Brain_8_StandScrub()
             if (last_speak == GameSpeakEvents::eAbe_Hello && sAlertedMudCount_507B90 == 0 && IAmNearestToAbe())
             {
                 AddAlerted();
-                SetNextMotion(eMudMotions::Motion_21_StandScrubToIdle);
+                mNextMotion = eMudMotions::Motion_21_StandScrubToIdle;
                 field_1C0_timer = MakeTimer(15);
                 return 3;
             }
@@ -3256,7 +3256,7 @@ s16 Mudokon::Brain_8_StandScrub()
             if (static_cast<s32>(sGnFrame) > field_1C0_timer
                 && mCurrentMotion == eMudMotions::Motion_16_StandScrubLoop)
             {
-                SetNextMotion(eMudMotions::Motion_17_StandScrubLoopToPause);
+                mNextMotion = eMudMotions::Motion_17_StandScrubLoopToPause;
             }
 
             if (mCurrentMotion == eMudMotions::Motion_19_StandScrubPause)
@@ -3270,14 +3270,14 @@ s16 Mudokon::Brain_8_StandScrub()
             if (last_speak == GameSpeakEvents::eAbe_Hello && sAlertedMudCount_507B90 == 0 && IAmNearestToAbe())
             {
                 AddAlerted();
-                SetNextMotion(eMudMotions::Motion_21_StandScrubToIdle);
+                mNextMotion = eMudMotions::Motion_21_StandScrubToIdle;
                 field_1C0_timer = MakeTimer(15);
                 return 3;
             }
 
             if (static_cast<s32>(sGnFrame) > field_1C0_timer)
             {
-                SetNextMotion(eMudMotions::Motion_18_StandScrubPauseToLoop);
+                mNextMotion = eMudMotions::Motion_18_StandScrubPauseToLoop;
                 field_1C0_timer = (Math_NextRandom() % 64) + MakeTimer(35);
                 return 1;
             }
@@ -3290,7 +3290,7 @@ s16 Mudokon::Brain_8_StandScrub()
                 {
                     return field_1BA_brain_sub_state;
                 }
-                SetNextMotion(eMudMotions::Motion_21_StandScrubToIdle);
+                mNextMotion = eMudMotions::Motion_21_StandScrubToIdle;
                 return field_1BA_brain_sub_state;
             }
             field_1B8_brain_state = 10;
@@ -3300,16 +3300,16 @@ s16 Mudokon::Brain_8_StandScrub()
             switch (mCurrentMotion)
             {
                 case eMudMotions::Motion_0_Idle:
-                    SetNextMotion(eMudMotions::Motion_23_CrouchIdle);
+                    mNextMotion = eMudMotions::Motion_23_CrouchIdle;
                     return field_1BA_brain_sub_state;
 
                 case eMudMotions::Motion_16_StandScrubLoop:
                 case eMudMotions::Motion_19_StandScrubPause:
-                    SetNextMotion(eMudMotions::Motion_0_Idle);
+                    mNextMotion = eMudMotions::Motion_0_Idle;
                     return field_1BA_brain_sub_state;
 
                 case eMudMotions::Motion_23_CrouchIdle:
-                    SetNextMotion(eMudMotions::Motion_55_Duck);
+                    mNextMotion = eMudMotions::Motion_55_Duck;
                     field_1C0_timer = MakeTimer(60);
                     return 5;
 
@@ -3321,7 +3321,7 @@ s16 Mudokon::Brain_8_StandScrub()
         case 5:
             if (static_cast<s32>(sGnFrame) > field_1C0_timer)
             {
-                SetNextMotion(eMudMotions::Motion_23_CrouchIdle);
+                mNextMotion = eMudMotions::Motion_23_CrouchIdle;
                 return 6;
             }
             return field_1BA_brain_sub_state;
@@ -3329,7 +3329,7 @@ s16 Mudokon::Brain_8_StandScrub()
         case 6:
             if (mCurrentMotion == eMudMotions::Motion_0_Idle)
             {
-                SetNextMotion(eMudMotions::Motion_16_StandScrubLoop);
+                mNextMotion = eMudMotions::Motion_16_StandScrubLoop;
             }
             else
             {
@@ -3340,7 +3340,7 @@ s16 Mudokon::Brain_8_StandScrub()
 
                 if (mCurrentMotion == eMudMotions::Motion_23_CrouchIdle)
                 {
-                    SetNextMotion(eMudMotions::Motion_0_Idle);
+                    mNextMotion = eMudMotions::Motion_0_Idle;
                 }
             }
             return field_1BA_brain_sub_state;
@@ -3362,7 +3362,7 @@ s16 Mudokon::Brain_9_CrouchScrub()
     const GameSpeakEvents last_speak = LastGameSpeak();
     if (last_speak == GameSpeakEvents::eSlig_LookOut)
     {
-        SetNextMotion(eMudMotions::Motion_55_Duck);
+        mNextMotion = eMudMotions::Motion_55_Duck;
         field_1C0_timer = MakeTimer(60);
         return 5;
     }
@@ -3370,7 +3370,7 @@ s16 Mudokon::Brain_9_CrouchScrub()
     switch (field_1BA_brain_sub_state)
     {
         case 0:
-            SetCurrentMotion(eMudMotions::Motion_22_CrouchScrub);
+            mCurrentMotion = eMudMotions::Motion_22_CrouchScrub;
             mNextMotion = eMudMotions::None_m1;
             field_1C0_timer = (Math_NextRandom() % 64) + 15;
             field_114 = (Math_NextRandom() % 64) + 240;
@@ -3386,13 +3386,13 @@ s16 Mudokon::Brain_9_CrouchScrub()
 
             if (mCurrentMotion == eMudMotions::Motion_23_CrouchIdle && static_cast<s32>(sGnFrame) > field_114)
             {
-                SetNextMotion(eMudMotions::Motion_24_CrouchTurn);
+                mNextMotion = eMudMotions::Motion_24_CrouchTurn;
                 field_114 = (Math_NextRandom() % 64) + MakeTimer(240);
             }
 
             if (mCurrentMotion == eMudMotions::Motion_23_CrouchIdle && static_cast<s32>(sGnFrame) > field_1C0_timer)
             {
-                SetNextMotion(eMudMotions::Motion_22_CrouchScrub);
+                mNextMotion = eMudMotions::Motion_22_CrouchScrub;
                 field_1C0_timer = (Math_NextRandom() % 64) + MakeTimer(35);
             }
 
@@ -3412,7 +3412,7 @@ s16 Mudokon::Brain_9_CrouchScrub()
                         field_1C0_timer = (Math_NextRandom() % 64) + MakeTimer(15);
                         return 1;
                     }
-                    SetCurrentMotion(eMudMotions::Motion_22_CrouchScrub);
+                    mCurrentMotion = eMudMotions::Motion_22_CrouchScrub;
                 }
 
                 if (IsEventInRange(
@@ -3438,7 +3438,7 @@ s16 Mudokon::Brain_9_CrouchScrub()
             {
                 if (mCurrentMotion == eMudMotions::Motion_23_CrouchIdle)
                 {
-                    SetNextMotion(eMudMotions::Motion_26_CrouchToStand);
+                    mNextMotion = eMudMotions::Motion_26_CrouchToStand;
                 }
 
                 if (mCurrentMotion == eMudMotions::Motion_0_Idle)
@@ -3471,7 +3471,7 @@ s16 Mudokon::Brain_9_CrouchScrub()
         case 5:
             if (static_cast<s32>(sGnFrame) > field_1C0_timer)
             {
-                SetNextMotion(eMudMotions::Motion_23_CrouchIdle);
+                mNextMotion = eMudMotions::Motion_23_CrouchIdle;
 
                 field_1C0_timer = (Math_NextRandom() % 64) + MakeTimer(15);
                 field_114 = (Math_NextRandom() % 64) + MakeTimer(240);
@@ -3487,7 +3487,7 @@ s16 Mudokon::Brain_9_CrouchScrub()
         case 6:
             if (static_cast<s32>(sGnFrame) > field_1C0_timer)
             {
-                SetNextMotion(eMudMotions::Motion_61_DuckKnockback);
+                mNextMotion = eMudMotions::Motion_61_DuckKnockback;
                 field_1C0_timer = MakeTimer(60);
                 return 5;
             }
@@ -3505,7 +3505,7 @@ s16 Mudokon::Brain_10_ListeningToAbe()
     if (FindBirdPortal())
     {
         field_1B8_brain_state = 12;
-        SetNextMotion(eMudMotions::Motion_0_Idle);
+        mNextMotion = eMudMotions::Motion_0_Idle;
         return 0;
     }
 
@@ -3514,7 +3514,7 @@ s16 Mudokon::Brain_10_ListeningToAbe()
         case 0:
             mPersist = true;
             mNextMotion = eMudMotions::None_m1;
-            SetCurrentMotion(eMudMotions::Motion_0_Idle);
+            mCurrentMotion = eMudMotions::Motion_0_Idle;
             field_1B0 = -1;
             return 1;
 
@@ -3526,23 +3526,23 @@ s16 Mudokon::Brain_10_ListeningToAbe()
 
             if (!VIsFacingMe(gAbe))
             {
-                SetNextMotion(eMudMotions::Motion_2_StandingTurn);
+                mNextMotion = eMudMotions::Motion_2_StandingTurn;
                 return field_1BA_brain_sub_state;
             }
             Mudokon_SFX(MudSounds::eHello_3, 0, field_124_voice_pitch, this);
-            SetNextMotion(eMudMotions::Motion_4_Speak);
+            mNextMotion = eMudMotions::Motion_4_Speak;
             return 6;
 
         case 2:
             if (mCurrentMotion == eMudMotions::Motion_0_Idle)
             {
-                SetNextMotion(eMudMotions::Motion_1_WalkLoop);
+                mNextMotion = eMudMotions::Motion_1_WalkLoop;
                 return field_1BA_brain_sub_state;
             }
 
             if (mCurrentMotion == eMudMotions::Motion_1_WalkLoop)
             {
-                SetNextMotion(eMudMotions::Motion_0_Idle);
+                mNextMotion = eMudMotions::Motion_0_Idle;
                 return 3;
             }
             return field_1BA_brain_sub_state;
@@ -3564,7 +3564,7 @@ s16 Mudokon::Brain_10_ListeningToAbe()
             if (mCurrentMotion != eMudMotions::Motion_0_Idle)
             {
                 const s16 oldState = field_1BA_brain_sub_state;
-                SetNextMotion(eMudMotions::Motion_0_Idle);
+                mNextMotion = eMudMotions::Motion_0_Idle;
                 field_1B4_idle_time = 0;
                 return oldState;
             }
@@ -3575,7 +3575,7 @@ s16 Mudokon::Brain_10_ListeningToAbe()
             {
                 if (!VIsFacingMe(gAbe))
                 {
-                    SetNextMotion(eMudMotions::Motion_2_StandingTurn);
+                    mNextMotion = eMudMotions::Motion_2_StandingTurn;
                     return field_1BA_brain_sub_state;
                 }
 
@@ -3674,11 +3674,11 @@ s16 Mudokon::Brain_10_ListeningToAbe()
                 {
                     if (CanAbeSneak(this))
                     {
-                        SetNextMotion(eMudMotions::Motion_35_SneakLoop);
+                        mNextMotion = eMudMotions::Motion_35_SneakLoop;
                     }
                     else
                     {
-                        SetNextMotion(eMudMotions::Motion_1_WalkLoop);
+                        mNextMotion = eMudMotions::Motion_1_WalkLoop;
                     }
                     return 4;
                 }
@@ -3687,11 +3687,11 @@ s16 Mudokon::Brain_10_ListeningToAbe()
             {
                 if (!field_148_res_array.res[12])
                 {
-                    SetNextMotion(eMudMotions::Motion_23_CrouchIdle);
+                    mNextMotion = eMudMotions::Motion_23_CrouchIdle;
                 }
                 else
                 {
-                    SetNextMotion(eMudMotions::Motion_59_CrouchChant);
+                    mNextMotion = eMudMotions::Motion_59_CrouchChant;
                 }
                 return 19;
             }
@@ -3724,19 +3724,19 @@ s16 Mudokon::Brain_10_ListeningToAbe()
 
             if (Check_IsOnEndOfLine(GetAnimation().GetFlipX(), 1) || bHitWall)
             {
-                SetNextMotion(eMudMotions::Motion_0_Idle);
+                mNextMotion = eMudMotions::Motion_0_Idle;
                 return 3;
             }
 
             if (!VIsFacingMe(gAbe))
             {
-                SetNextMotion(eMudMotions::Motion_0_Idle);
+                mNextMotion = eMudMotions::Motion_0_Idle;
                 return 3;
             }
 
             if (VIsObjNearby(ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(2), gAbe))
             {
-                SetNextMotion(eMudMotions::Motion_0_Idle);
+                mNextMotion = eMudMotions::Motion_0_Idle;
                 return 3;
             }
 
@@ -3761,26 +3761,26 @@ s16 Mudokon::Brain_10_ListeningToAbe()
             if (last_speak == GameSpeakEvents::eAbe_Wait
                 && BetweenCameras_418500() == BetweenCamPos::None_0)
             {
-                SetNextMotion(eMudMotions::Motion_0_Idle);
+                mNextMotion = eMudMotions::Motion_0_Idle;
                 return 8;
             }
 
             if (gAbe->mCurrentMotion == eAbeMotions::Motion_35_RunLoop
                 || gAbe->mCurrentMotion == eAbeMotions::Motion_25_RollLoop)
             {
-                SetNextMotion(eMudMotions::Motion_29_RunLoop);
+                mNextMotion = eMudMotions::Motion_29_RunLoop;
                 return 5;
             }
 
             if (gAbe->mCurrentMotion == eAbeMotions::Motion_42_SneakLoop
                 && mCurrentMotion == eMudMotions::Motion_1_WalkLoop)
             {
-                SetNextMotion(eMudMotions::Motion_35_SneakLoop);
+                mNextMotion = eMudMotions::Motion_35_SneakLoop;
             }
 
             if (gAbe->mCurrentMotion == eAbeMotions::Motion_1_WalkLoop && mCurrentMotion == eMudMotions::Motion_35_SneakLoop)
             {
-                SetNextMotion(eMudMotions::Motion_1_WalkLoop);
+                mNextMotion = eMudMotions::Motion_1_WalkLoop;
             }
 
             return field_1BA_brain_sub_state;
@@ -3793,7 +3793,7 @@ s16 Mudokon::Brain_10_ListeningToAbe()
                 return 3;
             }
 
-            SetNextMotion(eMudMotions::Motion_29_RunLoop);
+            mNextMotion = eMudMotions::Motion_29_RunLoop;
             if (mCurrentMotion != eMudMotions::Motion_29_RunLoop)
             {
                 return field_1BA_brain_sub_state;
@@ -3813,14 +3813,14 @@ s16 Mudokon::Brain_10_ListeningToAbe()
             if (Check_IsOnEndOfLine(GetAnimation().GetFlipX() ? 1 : 0, 4)
                 || bHitWall)
             {
-                SetNextMotion(eMudMotions::Motion_0_Idle);
+                mNextMotion = eMudMotions::Motion_0_Idle;
                 return 3;
             }
 
             switch (gAbe->mCurrentMotion)
             {
                 case eAbeMotions::Motion_1_WalkLoop:
-                    SetNextMotion(eMudMotions::Motion_1_WalkLoop);
+                    mNextMotion = eMudMotions::Motion_1_WalkLoop;
                     return 4;
 
                 case eAbeMotions::Motion_70_Knockback:
@@ -3835,12 +3835,12 @@ s16 Mudokon::Brain_10_ListeningToAbe()
 
                     if (VIsObjNearby(ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(2), gAbe))
                     {
-                        SetNextMotion(eMudMotions::Motion_0_Idle);
+                        mNextMotion = eMudMotions::Motion_0_Idle;
                         return 3;
                     }
                     else
                     {
-                        SetNextMotion(eMudMotions::Motion_1_WalkLoop);
+                        mNextMotion = eMudMotions::Motion_1_WalkLoop;
                         return 4;
                     }
                     break;
@@ -3848,7 +3848,7 @@ s16 Mudokon::Brain_10_ListeningToAbe()
                 default:
                     if (!VIsFacingMe(gAbe))
                     {
-                        SetNextMotion(eMudMotions::Motion_33_RunSlideTurn);
+                        mNextMotion = eMudMotions::Motion_33_RunSlideTurn;
                         return 7;
                     }
                     return field_1BA_brain_sub_state;
@@ -3876,7 +3876,7 @@ s16 Mudokon::Brain_10_ListeningToAbe()
             {
                 if (!VIsFacingMe(gAbe))
                 {
-                    SetNextMotion(eMudMotions::Motion_2_StandingTurn);
+                    mNextMotion = eMudMotions::Motion_2_StandingTurn;
                     return field_1BA_brain_sub_state;
                 }
 
@@ -3937,11 +3937,11 @@ s16 Mudokon::Brain_10_ListeningToAbe()
             {
                 if (field_148_res_array.res[12])
                 {
-                    SetNextMotion(eMudMotions::Motion_59_CrouchChant);
+                    mNextMotion = eMudMotions::Motion_59_CrouchChant;
                 }
                 else
                 {
-                    SetNextMotion(eMudMotions::Motion_23_CrouchIdle);
+                    mNextMotion = eMudMotions::Motion_23_CrouchIdle;
                 }
             }
             return 19;
@@ -3966,7 +3966,7 @@ s16 Mudokon::Brain_10_ListeningToAbe()
             if (static_cast<s32>(sGnFrame) > field_1C0_timer)
             {
                 Mudokon_SFX(MudSounds::eRefuse_14, 0, field_124_voice_pitch, this);
-                SetNextMotion(eMudMotions::Motion_6_Speak);
+                mNextMotion = eMudMotions::Motion_6_Speak;
                 return 3;
             }
             return field_1BA_brain_sub_state;
@@ -3975,7 +3975,7 @@ s16 Mudokon::Brain_10_ListeningToAbe()
             if (static_cast<s32>(sGnFrame) > field_1C0_timer)
             {
                 Mudokon_SFX(MudSounds::eOkay_13, 0, field_124_voice_pitch, this);
-                SetNextMotion(eMudMotions::Motion_3_Speak);
+                mNextMotion = eMudMotions::Motion_3_Speak;
                 return field_1B0;
             }
             return field_1BA_brain_sub_state;
@@ -3984,7 +3984,7 @@ s16 Mudokon::Brain_10_ListeningToAbe()
             if (static_cast<s32>(sGnFrame) > field_1C0_timer)
             {
                 Mudokon_SFX(MudSounds::eHello_3, 0, field_124_voice_pitch, this);
-                SetNextMotion(eMudMotions::Motion_4_Speak);
+                mNextMotion = eMudMotions::Motion_4_Speak;
                 return field_1B0;
             }
             return field_1BA_brain_sub_state;
@@ -3993,7 +3993,7 @@ s16 Mudokon::Brain_10_ListeningToAbe()
             if (static_cast<s32>(sGnFrame) > field_1C0_timer)
             {
                 Mudokon_SFX(MudSounds::eLaugh1_8, 0, field_124_voice_pitch, this);
-                SetNextMotion(eMudMotions::Motion_4_Speak);
+                mNextMotion = eMudMotions::Motion_4_Speak;
                 return field_1B0;
             }
             return field_1BA_brain_sub_state;
@@ -4002,7 +4002,7 @@ s16 Mudokon::Brain_10_ListeningToAbe()
             if (static_cast<s32>(sGnFrame) > field_1C0_timer)
             {
                 Mudokon_SFX(MudSounds::eLaugh2_11, 0, field_124_voice_pitch, this);
-                SetNextMotion(eMudMotions::Motion_6_Speak);
+                mNextMotion = eMudMotions::Motion_6_Speak;
                 return field_1B0;
             }
             return field_1BA_brain_sub_state;
@@ -4012,7 +4012,7 @@ s16 Mudokon::Brain_10_ListeningToAbe()
             if (static_cast<s32>(sGnFrame) > field_1C0_timer)
             {
                 Mudokon_SFX(MudSounds::eDunno_15, 0, field_124_voice_pitch, this);
-                SetNextMotion(eMudMotions::Motion_6_Speak);
+                mNextMotion = eMudMotions::Motion_6_Speak;
                 return field_1B0;
             }
             return field_1BA_brain_sub_state;
@@ -4021,7 +4021,7 @@ s16 Mudokon::Brain_10_ListeningToAbe()
             if (static_cast<s32>(sGnFrame) > field_1C0_timer)
             {
                 Mudokon_SFX(MudSounds::eAngry_5, 0, field_124_voice_pitch, this);
-                SetNextMotion(eMudMotions::Motion_6_Speak);
+                mNextMotion = eMudMotions::Motion_6_Speak;
                 return field_1B0;
             }
             return field_1BA_brain_sub_state;
@@ -4030,7 +4030,7 @@ s16 Mudokon::Brain_10_ListeningToAbe()
             if (static_cast<s32>(sGnFrame) > field_1C0_timer)
             {
                 Mudokon_SFX(MudSounds::eFart_7, 0, field_124_voice_pitch, this);
-                SetNextMotion(eMudMotions::Motion_3_Speak);
+                mNextMotion = eMudMotions::Motion_3_Speak;
                 if (!gEnableFartGasCheat)
                 {
                     return field_1B0;
@@ -4058,7 +4058,7 @@ s16 Mudokon::Brain_10_ListeningToAbe()
             if (static_cast<s32>(sGnFrame) > field_1C0_timer)
             {
                 Mudokon_SFX(MudSounds::eWhistleHigh_1, 0, 0, this);
-                SetNextMotion(eMudMotions::Motion_4_Speak);
+                mNextMotion = eMudMotions::Motion_4_Speak;
                 return field_1B0;
             }
             break;
@@ -4067,7 +4067,7 @@ s16 Mudokon::Brain_10_ListeningToAbe()
             if (static_cast<s32>(sGnFrame) > field_1C0_timer)
             {
                 Mudokon_SFX(MudSounds::eWhistleLow_2, 0, 0, this);
-                SetNextMotion(eMudMotions::Motion_5_Speak);
+                mNextMotion = eMudMotions::Motion_5_Speak;
                 return field_1B0;
             }
             break;
@@ -4138,7 +4138,7 @@ s16 Mudokon::Brain_12_Escape()
 
         mPersist = true;
         field_1AC_pBirdPortal = nullptr;
-        SetNextMotion(eMudMotions::Motion_0_Idle);
+        mNextMotion = eMudMotions::Motion_0_Idle;
         field_1B8_brain_state = 10;
         return 6;
     }
@@ -4167,28 +4167,28 @@ s16 Mudokon::Brain_12_Escape()
         case 2:
             if (mCurrentMotion == eMudMotions::Motion_23_CrouchIdle)
             {
-                SetNextMotion(eMudMotions::Motion_26_CrouchToStand);
+                mNextMotion = eMudMotions::Motion_26_CrouchToStand;
             }
 
             if (mCurrentMotion == eMudMotions::Motion_16_StandScrubLoop)
             {
-                SetNextMotion(eMudMotions::Motion_21_StandScrubToIdle);
+                mNextMotion = eMudMotions::Motion_21_StandScrubToIdle;
             }
 
             if (mCurrentMotion == eMudMotions::Motion_19_StandScrubPause)
             {
-                SetNextMotion(eMudMotions::Motion_18_StandScrubPauseToLoop);
+                mNextMotion = eMudMotions::Motion_18_StandScrubPauseToLoop;
             }
 
             if (mCurrentMotion == eMudMotions::Motion_0_Idle || mCurrentMotion == eMudMotions::Motion_1_WalkLoop)
             {
                 if (FacingBirdPortal(pPortal))
                 {
-                    SetNextMotion(eMudMotions::Motion_29_RunLoop);
+                    mNextMotion = eMudMotions::Motion_29_RunLoop;
                 }
                 else
                 {
-                    SetNextMotion(eMudMotions::Motion_2_StandingTurn);
+                    mNextMotion = eMudMotions::Motion_2_StandingTurn;
                 }
             }
 
@@ -4196,14 +4196,14 @@ s16 Mudokon::Brain_12_Escape()
             {
                 if (!FacingBirdPortal(field_1AC_pBirdPortal))
                 {
-                    SetNextMotion(eMudMotions::Motion_33_RunSlideTurn);
+                    mNextMotion = eMudMotions::Motion_33_RunSlideTurn;
                 }
                 else
                 {
                     if (VIntoBirdPortal(3))
                     {
                         field_1BA_brain_sub_state = 3;
-                        SetNextMotion(eMudMotions::Motion_44_RunJumpMid);
+                        mNextMotion = eMudMotions::Motion_44_RunJumpMid;
                     }
                 }
             }
@@ -4212,28 +4212,28 @@ s16 Mudokon::Brain_12_Escape()
         case 4:
             if (mCurrentMotion == eMudMotions::Motion_23_CrouchIdle)
             {
-                SetNextMotion(eMudMotions::Motion_26_CrouchToStand);
+                mNextMotion = eMudMotions::Motion_26_CrouchToStand;
             }
 
             if (mCurrentMotion == eMudMotions::Motion_16_StandScrubLoop)
             {
-                SetNextMotion(eMudMotions::Motion_21_StandScrubToIdle);
+                mNextMotion = eMudMotions::Motion_21_StandScrubToIdle;
             }
 
             if (mCurrentMotion == eMudMotions::Motion_19_StandScrubPause)
             {
-                SetNextMotion(eMudMotions::Motion_18_StandScrubPauseToLoop);
+                mNextMotion = eMudMotions::Motion_18_StandScrubPauseToLoop;
             }
 
             if (mCurrentMotion == eMudMotions::Motion_0_Idle || mCurrentMotion == eMudMotions::Motion_1_WalkLoop)
             {
                 if ((pPortal->mEnterSide == relive::Path_BirdPortal::PortalSide::eRight) == GetAnimation().GetFlipX())
                 {
-                    SetNextMotion(eMudMotions::Motion_2_StandingTurn);
+                    mNextMotion = eMudMotions::Motion_2_StandingTurn;
                 }
                 else
                 {
-                    SetNextMotion(eMudMotions::Motion_29_RunLoop);
+                    mNextMotion = eMudMotions::Motion_29_RunLoop;
                 }
             }
 
@@ -4294,7 +4294,7 @@ s16 Mudokon::Brain_14_Chant()
     const GameSpeakEvents lastSpeak = LastGameSpeak();
     if (lastSpeak == GameSpeakEvents::eSlig_LookOut)
     {
-        SetNextMotion(eMudMotions::Motion_55_Duck);
+        mNextMotion = eMudMotions::Motion_55_Duck;
         field_1C0_timer = MakeTimer(60);
         return 5;
     }
@@ -4302,14 +4302,14 @@ s16 Mudokon::Brain_14_Chant()
     switch (field_1BA_brain_sub_state)
     {
         case 0:
-            SetCurrentMotion(eMudMotions::Motion_59_CrouchChant);
+            mCurrentMotion = eMudMotions::Motion_59_CrouchChant;
             mNextMotion = eMudMotions::None_m1;
             return 1;
 
         case 1:
             if (field_1B6)
             {
-                SetNextMotion(eMudMotions::Motion_0_Idle);
+                mNextMotion = eMudMotions::Motion_0_Idle;
                 return 3;
             }
 
@@ -4337,7 +4337,7 @@ s16 Mudokon::Brain_14_Chant()
                 field_1C0_timer = MakeTimer(32);
                 return 4;
             }
-            SetNextMotion(eMudMotions::Motion_57_Struggle);
+            mNextMotion = eMudMotions::Motion_57_Struggle;
             break;
 
         case 4:
@@ -4345,7 +4345,7 @@ s16 Mudokon::Brain_14_Chant()
             {
                 if (field_1B6 == 0)
                 {
-                    SetNextMotion(eMudMotions::Motion_0_Idle);
+                    mNextMotion = eMudMotions::Motion_0_Idle;
                     return 5;
                 }
                 field_1B6 = 0;
@@ -4356,7 +4356,7 @@ s16 Mudokon::Brain_14_Chant()
         case 5:
             if (mCurrentMotion == eMudMotions::Motion_0_Idle)
             {
-                SetNextMotion(eMudMotions::Motion_59_CrouchChant);
+                mNextMotion = eMudMotions::Motion_59_CrouchChant;
                 return 1;
             }
             break;
@@ -4371,7 +4371,7 @@ s16 Mudokon::Brain_15_Choke()
 {
     if (mCurrentMotion != eMudMotions::Motion_62_PoisonGasDeath)
     {
-        SetNextMotion(eMudMotions::Motion_62_PoisonGasDeath);
+        mNextMotion = eMudMotions::Motion_62_PoisonGasDeath;
     }
     return 0;
 }

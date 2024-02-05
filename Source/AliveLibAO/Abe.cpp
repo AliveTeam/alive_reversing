@@ -6351,13 +6351,13 @@ void Abe::Motion_62_LoadedSaveSpawn()
                             CollisionMask(static_cast<eLineTypes>(pSaveData->mElum_LineType))))
                         {
                             gElum->BaseAliveGameObjectCollisionLine = pLine;
-                            gElum->SetCurrentMotion(eElumMotions::Motion_1_Idle);
-                            gElum->SetPreviousMotion(eElumMotions::Motion_1_Idle);
+                            gElum->mCurrentMotion = eElumMotions::Motion_1_Idle;
+                            gElum->mPreviousMotion = eElumMotions::Motion_1_Idle;
                         }
                         else
                         {
-                            gElum->SetCurrentMotion(eElumMotions::Motion_21_Land);
-                            gElum->SetPreviousMotion(eElumMotions::Motion_21_Land);
+                            gElum->mCurrentMotion = eElumMotions::Motion_21_Land;
+                            gElum->mPreviousMotion = eElumMotions::Motion_21_Land;
                         }
                     }
                 }
@@ -6369,8 +6369,8 @@ void Abe::Motion_62_LoadedSaveSpawn()
 
                 if (gElum->mFoundHoney)
                 {
-                    gElum->SetCurrentMotion(eElumMotions::Motion_25_LickingHoney);
-                    gElum->SetPreviousMotion(eElumMotions::Motion_25_LickingHoney);
+                    gElum->mCurrentMotion = eElumMotions::Motion_25_LickingHoney;
+                    gElum->mPreviousMotion = eElumMotions::Motion_25_LickingHoney;
                 }
                 gElum->MapFollowMe(true);
                 gElum->SetUpdatable(true);

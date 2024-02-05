@@ -155,7 +155,7 @@ public:
         switch (motionType)
         {
             case eMotionType::ePreviousMotion:
-                return static_cast<s16>(mPreviousMotion);
+                return 0;
             case eMotionType::eCurrentMotion:
                 return static_cast<s16>(mCurrentMotion);
             case eMotionType::eNextMotion:
@@ -180,22 +180,6 @@ public:
 private:
     void SetBrain(ISlingMudokonBrain::EBrainTypes brain);
 
-    // TODO: remove these later
-    void SetPreviousMotion(eSlingMudMotions motion)
-    {
-        mPreviousMotion = motion;
-    }
-
-    void SetCurrentMotion(eSlingMudMotions motion)
-    {
-        mCurrentMotion = motion;
-    }
-
-    void SetNextMotion(eSlingMudMotions motion)
-    {
-        mNextMotion = motion;
-    }
-
 public:
     Guid mTlvId;
     s32 mCodeConverted = 0;
@@ -219,10 +203,8 @@ public:
     AskForPasswordBrain mAskForPasswordBrain;
 
     ISlingMudokonBrain* mCurrentBrain = nullptr;
-    eSlingMudMotions mPreviousMotion = eSlingMudMotions::Motion_0_Idle;
     eSlingMudMotions mCurrentMotion = eSlingMudMotions::Motion_0_Idle;
     eSlingMudMotions mNextMotion = eSlingMudMotions::Motion_0_Idle;
-    bool mbMotionChanged = false;
 };
 
 } // namespace AO

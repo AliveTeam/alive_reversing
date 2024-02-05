@@ -927,7 +927,6 @@ inline void to_json(nlohmann::json& j, const FlyingSligSaveState& p)
         {"drawable", p.field_2B_bDrawable},
         {"current_health", p.field_2C_current_health},
         {"current_state", p.field_30_current_state},
-        {"delayed_state", p.field_32_delayed_state},
         {"last_line_y_pos", p.field_34_lastLineYPos},
         {"line_idx", p.field_36_line_idx},
         {"launch_switch_id", p.field_38_launch_switch_id},
@@ -990,7 +989,6 @@ inline void from_json(const nlohmann::json& j, FlyingSligSaveState& p)
     j.at("drawable").get_to(p.field_2B_bDrawable);
     j.at("current_health").get_to(p.field_2C_current_health);
     j.at("current_state").get_to(p.field_30_current_state);
-    j.at("delayed_state").get_to(p.field_32_delayed_state);
     j.at("last_line_y_pos").get_to(p.field_34_lastLineYPos);
     j.at("line_idx").get_to(p.field_36_line_idx);
     j.at("launch_switch_id").get_to(p.field_38_launch_switch_id);

@@ -187,7 +187,7 @@ void Glukkon::CreateFromSaveState(SerializedObjectData& pSaveBuffer)
         pGlukkon->mGreen = pSaveState->mGreen;
         pGlukkon->mBlue = pSaveState->mBlue;
 
-        pGlukkon->SetCurrentMotion(pSaveState->mCurrentMotion);
+        pGlukkon->mCurrentMotion = pSaveState->mCurrentMotion;
 
         relive::Path_Glukkon::GlukkonTypes glukType = pGlukkon->mTlvData.mGlukkonType;
         // TODO: This should really be a switch rather than comparing values
@@ -210,8 +210,8 @@ void Glukkon::CreateFromSaveState(SerializedObjectData& pSaveBuffer)
         }
 
         pGlukkon->mHealth = pSaveState->mHealth;
-        pGlukkon->SetCurrentMotion(pSaveState->mCurrentMotion2);
-        pGlukkon->SetNextMotion(pSaveState->mNextMotion);
+        pGlukkon->mCurrentMotion = pSaveState->mCurrentMotion2;
+        pGlukkon->mNextMotion = pSaveState->mNextMotion;
         pGlukkon->BaseAliveGameObjectLastLineYPos = FP_FromInteger(pSaveState->field_38_last_line_ypos);
         pGlukkon->SetRestoredFromQuickSave(true);
         pGlukkon->field_1D4_timer = pSaveState->field_54_timer;
@@ -1045,7 +1045,7 @@ s16 Glukkon::Brain_0_Calm_WalkAround()
         pLiftPoint = static_cast<LiftPoint*>(pObj);
         if (!pLiftPoint->OnAnyFloor() && mBrainSubState != Brain_0_Calm_WalkAround::eBrain0_OnMovingLift7)
         {
-            SetNextMotion(eGlukkonMotions::Motion_0_Idle);
+            mNextMotion = eGlukkonMotions::Motion_0_Idle;
             return Brain_0_Calm_WalkAround::eBrain0_OnMovingLift7;
         }
     }
@@ -1106,15 +1106,15 @@ s16 Glukkon::Brain_0_Calm_WalkAround()
             {
                 if (Check_IsOnEndOfLine(GetAnimation().GetFlipX(), 1) || PathBlocked(mVelX, 1))
                 {
-                    SetNextMotion(eGlukkonMotions::Motion_2_Turn);
+                    mNextMotion = eGlukkonMotions::Motion_2_Turn;
                     return Brain_0_Calm_WalkAround::eBrain0_Unknown2;
                 }
-                SetNextMotion(eGlukkonMotions::Motion_14_BeginWalk);
+                mNextMotion = eGlukkonMotions::Motion_14_BeginWalk;
                 return Brain_0_Calm_WalkAround::eBrain0_Unknown1;
             }
             else
             {
-                SetNextMotion(eGlukkonMotions::Motion_0_Idle);
+                mNextMotion = eGlukkonMotions::Motion_0_Idle;
                 return Brain_0_Calm_WalkAround::eBrain0_Unknown1;
             }
             break;
@@ -1158,7 +1158,7 @@ s16 Glukkon::Brain_0_Calm_WalkAround()
                     {
                         if (static_cast<s32>(sGnFrame) <= mRandomishSpeakTimer)
                         {
-                            SetNextMotion(eGlukkonMotions::Motion_0_Idle);
+                            mNextMotion = eGlukkonMotions::Motion_0_Idle;
                             field_1D4_timer = MakeTimer(Math_RandomRange(30, 120));
                             return Brain_0_Calm_WalkAround::eBrain0_Unknown4;
                         }
@@ -1175,7 +1175,7 @@ s16 Glukkon::Brain_0_Calm_WalkAround()
                     if (Math_NextRandom() < 5 && static_cast<s32>(sGnFrame) > mTurnOrHelpTimer)
                     {
                         mTurnOrHelpTimer = MakeTimer(120);
-                        SetNextMotion(eGlukkonMotions::Motion_2_Turn);
+                        mNextMotion = eGlukkonMotions::Motion_2_Turn;
                         return Brain_0_Calm_WalkAround::eBrain0_Unknown2;
                     }
                 }
@@ -1243,7 +1243,7 @@ s16 Glukkon::Brain_0_Calm_WalkAround()
                 {
                     return mBrainSubState;
                 }
-                SetNextMotion(eGlukkonMotions::Motion_2_Turn);
+                mNextMotion = eGlukkonMotions::Motion_2_Turn;
                 return Brain_0_Calm_WalkAround::eBrain0_Unknown2;
             }
             break;
@@ -1343,7 +1343,7 @@ s16 Glukkon::Brain_1_Panic()
     auto pLiftPoint = static_cast<LiftPoint*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
     if (pLiftPoint && pLiftPoint->Type() == ReliveTypes::eLiftPoint && !pLiftPoint->OnAnyFloor() && mBrainSubState != Brain_1_Panic::eBrain1_OnMovingLift6)
     {
-        SetNextMotion(eGlukkonMotions::Motion_0_Idle);
+        mNextMotion = eGlukkonMotions::Motion_0_Idle;
         return Brain_1_Panic::eBrain1_OnMovingLift6;
     }
 
@@ -1391,14 +1391,14 @@ s16 Glukkon::Brain_1_Panic()
             {
                 if (Check_IsOnEndOfLine(GetAnimation().GetFlipX(), 1) || PathBlocked(mVelX, 1))
                 {
-                    SetNextMotion(eGlukkonMotions::Motion_2_Turn);
+                    mNextMotion = eGlukkonMotions::Motion_2_Turn;
                     return Brain_1_Panic::eBrain1_WaitUntilIdleMotion3;
                 }
-                SetNextMotion(eGlukkonMotions::Motion_14_BeginWalk);
+                mNextMotion = eGlukkonMotions::Motion_14_BeginWalk;
             }
             else
             {
-                SetNextMotion(eGlukkonMotions::Motion_0_Idle);
+                mNextMotion = eGlukkonMotions::Motion_0_Idle;
             }
             return Brain_1_Panic::eBrain1_ScreamForHelp2;
 
@@ -1447,7 +1447,7 @@ s16 Glukkon::Brain_1_Panic()
             {
                 return mBrainSubState;
             }
-            SetNextMotion(eGlukkonMotions::Motion_2_Turn);
+            mNextMotion = eGlukkonMotions::Motion_2_Turn;
             return Brain_1_Panic::eBrain1_WaitUntilIdleMotion3;
 
         case Brain_1_Panic::eBrain1_OnMovingLift6:
@@ -1538,12 +1538,12 @@ s16 Glukkon::Brain_2_Slapped()
 
             if ((BaseAliveGameObjectCollisionLine && Check_IsOnEndOfLine(GetAnimation().GetFlipX(), 4)) || PathBlocked(mVelX, 0))
             {
-                SetNextMotion(eGlukkonMotions::Motion_2_Turn);
+                mNextMotion = eGlukkonMotions::Motion_2_Turn;
                 return Brain_2_Slapped::eBrain2_Unknown2;
             }
             else
             {
-                SetNextMotion(eGlukkonMotions::Motion_4_Jump);
+                mNextMotion = eGlukkonMotions::Motion_4_Jump;
                 return Brain_2_Slapped::eBrain2_Unknown1;
             }
             break;
@@ -1555,7 +1555,7 @@ s16 Glukkon::Brain_2_Slapped()
             }
             else if (static_cast<s32>(sGnFrame - mPanicTimer) > mTlvData.mToCalmDelay)
             {
-                SetNextMotion(eGlukkonMotions::Motion_0_Idle);
+                mNextMotion = eGlukkonMotions::Motion_0_Idle;
                 return Brain_2_Slapped::eBrain2_Unknown0;
             }
 
@@ -1570,7 +1570,7 @@ s16 Glukkon::Brain_2_Slapped()
                 return mBrainSubState;
             }
 
-            SetNextMotion(eGlukkonMotions::Motion_2_Turn);
+            mNextMotion = eGlukkonMotions::Motion_2_Turn;
             return Brain_2_Slapped::eBrain2_Unknown2;
 
         case Brain_2_Slapped::eBrain2_Unknown2:
@@ -2197,7 +2197,7 @@ void Glukkon::SetAnim(eGlukkonMotions currentMotion, s16 bClearNextMotion)
     s16 motionIdx = static_cast<s16>(currentMotion);
     GetAnimation().Set_Animation_Data(GetAnimRes(sGlukkonsAnimIdTable[typeIndex][motionIdx]));
 
-    SetCurrentMotion(currentMotion);
+    mCurrentMotion = currentMotion;
     if (bClearNextMotion)
     {
         mNextMotion = eGlukkonMotions::eNone_m1;
@@ -2212,12 +2212,12 @@ void Glukkon::Speak(GlukkonSpeak speak)
         case GlukkonSpeak::DoIt_1:
         case GlukkonSpeak::Heh_5:
         case GlukkonSpeak::Help_6:
-            SetNextMotion(eGlukkonMotions::Motion_11_Speak1);
+            mNextMotion = eGlukkonMotions::Motion_11_Speak1;
             mSpeak = speak;
             break;
 
         case GlukkonSpeak::StayHere_2:
-            SetNextMotion(eGlukkonMotions::Motion_23_Speak3);
+            mNextMotion = eGlukkonMotions::Motion_23_Speak3;
             mSpeak = speak;
             break;
 
@@ -2225,12 +2225,12 @@ void Glukkon::Speak(GlukkonSpeak speak)
         case GlukkonSpeak::AllOYa_4:
         case GlukkonSpeak::KillEm_8:
         case GlukkonSpeak::Unused_9:
-            SetNextMotion(eGlukkonMotions::Motion_12_Speak2);
+            mNextMotion = eGlukkonMotions::Motion_12_Speak2;
             mSpeak = speak;
             break;
 
         case GlukkonSpeak::Laugh_7:
-            SetNextMotion(eGlukkonMotions::Motion_13_LongLaugh);
+            mNextMotion = eGlukkonMotions::Motion_13_LongLaugh;
             mSpeak = speak;
             break;
 
@@ -2298,22 +2298,22 @@ void Glukkon::HandleInput()
             {
                 if (GetAnimation().GetFlipX())
                 {
-                    SetNextMotion(eGlukkonMotions::Motion_2_Turn);
+                    mNextMotion = eGlukkonMotions::Motion_2_Turn;
                 }
                 else
                 {
-                    SetNextMotion(eGlukkonMotions::Motion_14_BeginWalk);
+                    mNextMotion = eGlukkonMotions::Motion_14_BeginWalk;
                 }
             }
             else if (held & InputCommands::eLeft)
             {
                 if (GetAnimation().GetFlipX())
                 {
-                    SetNextMotion(eGlukkonMotions::Motion_14_BeginWalk);
+                    mNextMotion = eGlukkonMotions::Motion_14_BeginWalk;
                 }
                 else
                 {
-                    SetNextMotion(eGlukkonMotions::Motion_2_Turn);
+                    mNextMotion = eGlukkonMotions::Motion_2_Turn;
                 }
             }
 
@@ -2321,13 +2321,13 @@ void Glukkon::HandleInput()
             {
                 if (mNextMotion == eGlukkonMotions::Motion_1_Walk)
                 {
-                    SetNextMotion(eGlukkonMotions::Motion_4_Jump);
+                    mNextMotion = eGlukkonMotions::Motion_4_Jump;
                 }
             }
 
             if (held & InputCommands::eHop)
             {
-                SetNextMotion(eGlukkonMotions::Motion_4_Jump);
+                mNextMotion = eGlukkonMotions::Motion_4_Jump;
             }
         }
     }
@@ -2339,7 +2339,7 @@ void Glukkon::HandleInput()
             {
                 return;
             }
-            SetNextMotion(eGlukkonMotions::Motion_0_Idle);
+            mNextMotion = eGlukkonMotions::Motion_0_Idle;
             SetAnim(mNextMotion, true);
             break;
 

@@ -116,7 +116,7 @@ Slog::Slog(FP xpos, FP ypos, FP scale, s16 bListenToSligs, s16 chaseDelay)
     mWakeUpAnger = 0;
     mChaseDelay = chaseDelay;
     mAngerSwitchId = 0;
-    SetCurrentMotion(eSlogMotions::Motion_0_Idle);
+    mCurrentMotion = eSlogMotions::Motion_0_Idle;
     mTotalAnger = 10;
     mChaseAnger = 20;
     mBoneEatingTime = 60;
@@ -173,12 +173,12 @@ Slog::Slog(relive::Path_Slog* pTlv, const Guid& tlvId)
 
     if (mAsleep)
     {
-        SetCurrentMotion(eSlogMotions::Motion_15_Sleeping);
+        mCurrentMotion = eSlogMotions::Motion_15_Sleeping;
         SetAnimFrame();
     }
     else
     {
-        SetCurrentMotion(eSlogMotions::Motion_0_Idle);
+        mCurrentMotion = eSlogMotions::Motion_0_Idle;
     }
 
     VUpdate();
@@ -335,7 +335,7 @@ void Slog::CreateFromSaveState(SerializedObjectData& pBuffer)
         pSlog->SetSpriteScale(pState->mSpriteScale);
         pSlog->mRGB.SetRGB(pState->mR, pState->mG, pState->mB);
 
-        pSlog->SetCurrentMotion(pState->mCurrentMotion);
+        pSlog->mCurrentMotion = pState->mCurrentMotion;
         pSlog->GetAnimation().Set_Animation_Data(pSlog->GetAnimRes(sSlogAnimIdTable[static_cast<u32>(pSlog->mCurrentMotion)]));
         
         pSlog->GetAnimation().SetCurrentFrame(pState->mCurrentFrame);
@@ -352,8 +352,8 @@ void Slog::CreateFromSaveState(SerializedObjectData& pBuffer)
         }
 
         pSlog->mHealth = pState->mHealth;
-        pSlog->SetCurrentMotion(pState->mCurrentMotion2);
-        pSlog->SetNextMotion(pState->mNextMotion);
+        pSlog->mCurrentMotion = pState->mCurrentMotion2;
+        pSlog->mNextMotion = pState->mNextMotion;
         pSlog->BaseAliveGameObjectLastLineYPos = FP_FromInteger(pState->mLastLineYPos);
         pSlog->SetRestoredFromQuickSave(true);
         pSlog->BaseAliveGameObjectCollisionLineType = pState->mCollisionLineType;
@@ -426,8 +426,8 @@ void Slog::Motion_0_Idle()
         }
         else
         {
-            SetCurrentMotion(mNextMotion);
-            SetNextMotion(eSlogMotions::m1);
+            mCurrentMotion = mNextMotion;
+            mNextMotion = eSlogMotions::m1;
         }
     }
 }
@@ -489,12 +489,12 @@ void Slog::Motion_1_Walk()
             {
                 if (mNextMotion == eSlogMotions::Motion_0_Idle)
                 {
-                    SetCurrentMotion(eSlogMotions::Motion_9_EndWalking);
-                    SetNextMotion(eSlogMotions::m1);
+                    mCurrentMotion = eSlogMotions::Motion_9_EndWalking;
+                    mNextMotion = eSlogMotions::m1;
                 }
                 if (mNextMotion == eSlogMotions::Motion_3_TurnAround)
                 {
-                    SetCurrentMotion(eSlogMotions::Motion_9_EndWalking);
+                    mCurrentMotion = eSlogMotions::Motion_9_EndWalking;
                 }
             }
             else if (GetAnimation().GetCurrentFrame() == 5 || GetAnimation().GetCurrentFrame() == 14)
@@ -509,8 +509,8 @@ void Slog::Motion_1_Walk()
 
                 if (mNextMotion == eSlogMotions::Motion_2_Run)
                 {
-                    SetCurrentMotion(eSlogMotions::Motion_2_Run);
-                    SetNextMotion(eSlogMotions::m1);
+                    mCurrentMotion = eSlogMotions::Motion_2_Run;
+                    mNextMotion = eSlogMotions::m1;
                 }
             }
             else
@@ -580,18 +580,18 @@ void Slog::Motion_2_Run()
 
                 if (mNextMotion == eSlogMotions::Motion_0_Idle)
                 {
-                    SetCurrentMotion(eSlogMotions::Motion_6_StopRunning);
-                    SetNextMotion(eSlogMotions::m1);
+                    mCurrentMotion = eSlogMotions::Motion_6_StopRunning;
+                    mNextMotion = eSlogMotions::m1;
                 }
                 else if (mNextMotion == eSlogMotions::Motion_18_JumpForwards)
                 {
                     ToJump();
-                    SetNextMotion(eSlogMotions::m1);
+                    mNextMotion = eSlogMotions::m1;
                 }
                 else if (mNextMotion != eSlogMotions::m1)
                 {
-                    SetCurrentMotion(mNextMotion);
-                    SetNextMotion(eSlogMotions::m1);
+                    mCurrentMotion = mNextMotion;
+                    mNextMotion = eSlogMotions::m1;
                 }
             }
             else
@@ -688,7 +688,7 @@ void Slog::Motion_4_Fall()
                         wh,
                         gPlatformsArray);
                 }
-                SetCurrentMotion(eSlogMotions::Motion_10_Land);
+                mCurrentMotion = eSlogMotions::Motion_10_Land;
                 break;
 
             case eLineTypes::eWallLeft_1:
@@ -821,7 +821,7 @@ void Slog::Motion_7_SlideTurn()
                     GetAnimation().SetFlipX(true);
                     mVelX = -(ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(3));
                 }
-                SetCurrentMotion(eSlogMotions::Motion_2_Run);
+                mCurrentMotion = eSlogMotions::Motion_2_Run;
             }
         }
     }
@@ -831,7 +831,7 @@ void Slog::Motion_8_StartWalking()
 {
     if (GetAnimation().GetIsLastFrame())
     {
-        SetCurrentMotion(eSlogMotions::Motion_1_Walk);
+        mCurrentMotion = eSlogMotions::Motion_1_Walk;
     }
 
     MoveOnLine();
@@ -864,7 +864,7 @@ void Slog::Motion_11_Unused()
 {
     if (GetAnimation().GetIsLastFrame())
     {
-        SetCurrentMotion(eSlogMotions::Motion_12_StartFastBarking);
+        mCurrentMotion = eSlogMotions::Motion_12_StartFastBarking;
     }
 }
 
@@ -880,7 +880,7 @@ void Slog::Motion_12_StartFastBarking()
     {
         if (GetAnimation().GetIsLastFrame())
         {
-            SetCurrentMotion(eSlogMotions::Motion_13_EndFastBarking);
+            mCurrentMotion = eSlogMotions::Motion_13_EndFastBarking;
         }
     }
 }
@@ -904,8 +904,8 @@ void Slog::Motion_14_AngryBark()
     {
         if (GetAnimation().GetIsLastFrame())
         {
-            SetCurrentMotion(mNextMotion);
-            SetNextMotion(eSlogMotions::m1);
+            mCurrentMotion = mNextMotion;
+            mNextMotion = eSlogMotions::m1;
         }
     }
 }
@@ -914,8 +914,8 @@ void Slog::Motion_15_Sleeping()
 {
     if (mNextMotion != eSlogMotions::m1 && GetAnimation().GetIsLastFrame())
     {
-        SetCurrentMotion(mNextMotion);
-        SetNextMotion(eSlogMotions::m1);
+        mCurrentMotion = mNextMotion;
+        mNextMotion = eSlogMotions::m1;
         return;
     }
 
@@ -960,8 +960,8 @@ void Slog::Motion_16_MoveHeadDownwards()
     {
         if (GetAnimation().GetIsLastFrame())
         {
-            SetCurrentMotion(mNextMotion);
-            SetNextMotion(eSlogMotions::m1);
+            mCurrentMotion = mNextMotion;
+            mNextMotion = eSlogMotions::m1;
         }
     }
 
@@ -988,8 +988,8 @@ void Slog::Motion_17_WakeUp()
     {
         if (GetAnimation().GetIsLastFrame())
         {
-            SetCurrentMotion(mNextMotion);
-            SetNextMotion(eSlogMotions::m1);
+            mCurrentMotion = mNextMotion;
+            mNextMotion = eSlogMotions::m1;
             Sfx(SlogSound::IdleGrrAlt_4);
         }
     }
@@ -1031,8 +1031,8 @@ void Slog::Motion_18_JumpForwards()
                 if (mVelY > FP_FromInteger(0))
                 {
                     BaseAliveGameObjectCollisionLine = pLine;
-                    SetNextMotion(eSlogMotions::m1);
-                    SetCurrentMotion(eSlogMotions::Motion_2_Run);
+                    mNextMotion = eSlogMotions::m1;
+                    mCurrentMotion = eSlogMotions::Motion_2_Run;
                     mYPos = hitY;
                     mVelY = FP_FromInteger(0);
                 }
@@ -1063,7 +1063,7 @@ void Slog::Motion_18_JumpForwards()
     {
         mFallingVelxScaleFactor = FP_FromDouble(0.3);
         BaseAliveGameObjectLastLineYPos = mYPos;
-        SetCurrentMotion(eSlogMotions::Motion_4_Fall);
+        mCurrentMotion = eSlogMotions::Motion_4_Fall;
     }
 }
 
@@ -1106,8 +1106,8 @@ void Slog::Motion_19_JumpUpwards()
 
     if (GetAnimation().GetIsLastFrame())
     {
-        SetCurrentMotion(eSlogMotions::Motion_0_Idle);
-        SetNextMotion(eSlogMotions::m1);
+        mCurrentMotion = eSlogMotions::Motion_0_Idle;
+        mNextMotion = eSlogMotions::m1;
     }
 }
 
@@ -1119,7 +1119,7 @@ void Slog::Motion_20_Eating()
         GetAnimation().SetLoopBackwards(false);
         if (mNextMotion != eSlogMotions::m1 && mNextMotion != eSlogMotions::Motion_20_Eating)
         {
-            SetCurrentMotion(eSlogMotions::Motion_0_Idle);
+            mCurrentMotion = eSlogMotions::Motion_0_Idle;
             return;
         }
     }
@@ -1157,7 +1157,7 @@ void Slog::Motion_21_Dying()
     if (!BaseAliveGameObjectCollisionLine)
     {
         Motion_4_Fall();
-        SetCurrentMotion(eSlogMotions::Motion_21_Dying);
+        mCurrentMotion = eSlogMotions::Motion_21_Dying;
     }
 }
 
@@ -1172,8 +1172,8 @@ void Slog::Motion_22_Scratch()
     {
         if (GetAnimation().GetIsLastFrame())
         {
-            SetCurrentMotion(mNextMotion);
-            SetNextMotion(eSlogMotions::m1);
+            mCurrentMotion = mNextMotion;
+            mNextMotion = eSlogMotions::m1;
         }
     }
 }
@@ -1200,8 +1200,8 @@ void Slog::Motion_23_Growl()
     {
         if (GetAnimation().GetIsLastFrame())
         {
-            SetCurrentMotion(mNextMotion);
-            SetNextMotion(eSlogMotions::m1);
+            mCurrentMotion = mNextMotion;
+            mNextMotion = eSlogMotions::m1;
         }
     }
 }
@@ -1301,11 +1301,11 @@ s16 Slog::Brain_ListeningToSlig_6_Responding()
     }
 
     mMultiUseTimer = MakeTimer(10);
-    SetNextMotion(sSlogResponseMotion[mResponseIdx][mResponsePart++]);
+    mNextMotion = sSlogResponseMotion[mResponseIdx][mResponsePart++];
 
     if (mNextMotion == eSlogMotions::m2)
     {
-        SetNextMotion(eSlogMotions::Motion_0_Idle);
+        mNextMotion = eSlogMotions::Motion_0_Idle;
         return 2;
     }
     else
@@ -1321,7 +1321,7 @@ s16 Slog::Brain_ListeningToSlig_5_Waiting()
         return mBrainSubState;
     }
     mWaitingCounter--;
-    SetNextMotion(eSlogMotions::Motion_5_MoveHeadUpwards);
+    mNextMotion = eSlogMotions::Motion_5_MoveHeadUpwards;
     return 2;
 }
 
@@ -1343,12 +1343,12 @@ s16 Slog::Brain_ListeningToSlig_4_Running(const FP xpos1GridAHead)
         {
             return mBrainSubState;
         }
-        SetNextMotion(eSlogMotions::Motion_0_Idle);
+        mNextMotion = eSlogMotions::Motion_0_Idle;
         return 2;
     }
     else
     {
-        SetNextMotion(eSlogMotions::Motion_7_SlideTurn);
+        mNextMotion = eSlogMotions::Motion_7_SlideTurn;
         return mBrainSubState;
     }
 }
@@ -1367,13 +1367,13 @@ s16 Slog::Brain_ListeningToSlig_3_Walking(const FP xpos1GridAHead)
 
     if (!Facing(xpos1GridAHead))
     {
-        SetNextMotion(eSlogMotions::Motion_3_TurnAround);
+        mNextMotion = eSlogMotions::Motion_3_TurnAround;
         return 2;
     }
 
     if (FP_Abs(xpos1GridAHead - mXPos) > (ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(4)))
     {
-        SetNextMotion(eSlogMotions::Motion_2_Run);
+        mNextMotion = eSlogMotions::Motion_2_Run;
         return 4;
     }
 
@@ -1382,7 +1382,7 @@ s16 Slog::Brain_ListeningToSlig_3_Walking(const FP xpos1GridAHead)
         return mBrainSubState;
     }
 
-    SetNextMotion(eSlogMotions::Motion_0_Idle);
+    mNextMotion = eSlogMotions::Motion_0_Idle;
     return 2;
 }
 
@@ -1479,7 +1479,7 @@ s16 Slog::Brain_ListeningToSlig_2_Listening(const FP xpos1GridAHead, IBaseAliveG
     {
         if (!Facing(xpos1GridAHead))
         {
-            SetNextMotion(eSlogMotions::Motion_3_TurnAround);
+            mNextMotion = eSlogMotions::Motion_3_TurnAround;
             return mBrainSubState;
         }
 
@@ -1495,7 +1495,7 @@ s16 Slog::Brain_ListeningToSlig_2_Listening(const FP xpos1GridAHead, IBaseAliveG
 
         if (!CollisionCheck(GetSpriteScale() * FP_FromInteger(20), gridSize2 * FP_FromInteger(2)))
         {
-            SetNextMotion(eSlogMotions::Motion_2_Run);
+            mNextMotion = eSlogMotions::Motion_2_Run;
             return 4;
         }
     }
@@ -1504,7 +1504,7 @@ s16 Slog::Brain_ListeningToSlig_2_Listening(const FP xpos1GridAHead, IBaseAliveG
     {
         if (!Facing(xpos1GridAHead))
         {
-            SetNextMotion(eSlogMotions::Motion_3_TurnAround);
+            mNextMotion = eSlogMotions::Motion_3_TurnAround;
             return mBrainSubState;
         }
 
@@ -1520,14 +1520,14 @@ s16 Slog::Brain_ListeningToSlig_2_Listening(const FP xpos1GridAHead, IBaseAliveG
 
         if (!CollisionCheck(GetSpriteScale() * FP_FromInteger(20), gridSize3 * FP_FromInteger(2)))
         {
-            SetNextMotion(eSlogMotions::Motion_1_Walk);
+            mNextMotion = eSlogMotions::Motion_1_Walk;
             return 3;
         }
     }
 
     if (pObj->GetAnimation().GetFlipX() != GetAnimation().GetFlipX())
     {
-        SetNextMotion(eSlogMotions::Motion_3_TurnAround);
+        mNextMotion = eSlogMotions::Motion_3_TurnAround;
     }
 
     return mBrainSubState;
@@ -1542,7 +1542,7 @@ s16 Slog::Brain_ListeningToSlig_1_Idle(const FP xpos1GridAHead)
 
     if (!Facing(xpos1GridAHead))
     {
-        SetNextMotion(eSlogMotions::Motion_3_TurnAround);
+        mNextMotion = eSlogMotions::Motion_3_TurnAround;
         return mBrainSubState;
     }
 
@@ -1550,13 +1550,13 @@ s16 Slog::Brain_ListeningToSlig_1_Idle(const FP xpos1GridAHead)
     {
         return mBrainSubState;
     }
-    SetNextMotion(eSlogMotions::Motion_5_MoveHeadUpwards);
+    mNextMotion = eSlogMotions::Motion_5_MoveHeadUpwards;
     return 2;
 }
 
 s16 Slog::Brain_ListeningToSlig_0_Init()
 {
-    SetNextMotion(eSlogMotions::Motion_0_Idle);
+    mNextMotion = eSlogMotions::Motion_0_Idle;
     mWaitingCounter = 0;
     mMultiUseTimer = MakeTimer(15);
     return 1;
@@ -1598,7 +1598,7 @@ s16 Slog::Brain_1_Idle()
         case 0:
             if (mCurrentMotion != eSlogMotions::Motion_15_Sleeping && mCurrentMotion != eSlogMotions::Motion_0_Idle)
             {
-                SetNextMotion(eSlogMotions::Motion_0_Idle);
+                mNextMotion = eSlogMotions::Motion_0_Idle;
                 return mBrainSubState;
             }
 
@@ -1639,7 +1639,7 @@ s16 Slog::Brain_1_Idle()
                 return mBrainSubState;
             }
 
-            SetNextMotion(eSlogMotions::Motion_17_WakeUp);
+            mNextMotion = eSlogMotions::Motion_17_WakeUp;
             return 2;
 
         case 2:
@@ -1648,7 +1648,7 @@ s16 Slog::Brain_1_Idle()
                 return mBrainSubState;
             }
 
-            SetNextMotion(eSlogMotions::Motion_5_MoveHeadUpwards);
+            mNextMotion = eSlogMotions::Motion_5_MoveHeadUpwards;
             mScratchTimer = Math_NextRandom() % 32 + MakeTimer(120);
             mGrowlTimer = Math_NextRandom() % 32 + MakeTimer(60);
             return 4;
@@ -1658,13 +1658,13 @@ s16 Slog::Brain_1_Idle()
             {
                 if (mNextMotion != eSlogMotions::Motion_16_MoveHeadDownwards)
                 {
-                    SetNextMotion(eSlogMotions::Motion_16_MoveHeadDownwards);
+                    mNextMotion = eSlogMotions::Motion_16_MoveHeadDownwards;
                 }
 
                 return mBrainSubState;
             }
 
-            SetNextMotion(eSlogMotions::Motion_15_Sleeping);
+            mNextMotion = eSlogMotions::Motion_15_Sleeping;
             return 1;
 
         case 4:
@@ -1696,14 +1696,14 @@ s16 Slog::Brain_1_Idle()
 
             if (!(Slog_NextRandom() % 64) && mCurrentMotion == eSlogMotions::Motion_0_Idle)
             {
-                SetCurrentMotion(eSlogMotions::Motion_5_MoveHeadUpwards);
+                mCurrentMotion = eSlogMotions::Motion_5_MoveHeadUpwards;
                 return mBrainSubState;
             }
 
             if (static_cast<s32>(sGnFrame) > mGrowlTimer && mCurrentMotion == eSlogMotions::Motion_0_Idle)
             {
-                SetCurrentMotion(eSlogMotions::Motion_23_Growl);
-                SetNextMotion(eSlogMotions::Motion_0_Idle);
+                mCurrentMotion = eSlogMotions::Motion_23_Growl;
+                mNextMotion = eSlogMotions::Motion_0_Idle;
 
                 mGrowlTimer = Math_NextRandom() % 32 + MakeTimer(60);
             }
@@ -1711,13 +1711,13 @@ s16 Slog::Brain_1_Idle()
             if (static_cast<s32>(sGnFrame) > mScratchTimer && mCurrentMotion == eSlogMotions::Motion_0_Idle)
             {
                 mScratchTimer = Math_NextRandom() % 32 + MakeTimer(120);
-                SetCurrentMotion(eSlogMotions::Motion_22_Scratch);
-                SetNextMotion(eSlogMotions::Motion_0_Idle);
+                mCurrentMotion = eSlogMotions::Motion_22_Scratch;
+                mNextMotion = eSlogMotions::Motion_0_Idle;
             }
 
             if (mAngerLevel > mTotalAnger)
             {
-                SetNextMotion(eSlogMotions::Motion_14_AngryBark);
+                mNextMotion = eSlogMotions::Motion_14_AngryBark;
                 mAngerLevel = mAngerLevel + Slog_NextRandom() % 8;
                 return 5;
             }
@@ -1727,7 +1727,7 @@ s16 Slog::Brain_1_Idle()
                 return mBrainSubState;
             }
 
-            SetNextMotion(eSlogMotions::Motion_16_MoveHeadDownwards);
+            mNextMotion = eSlogMotions::Motion_16_MoveHeadDownwards;
             return 3;
 
         case 5:
@@ -1769,7 +1769,7 @@ s16 Slog::Brain_1_Idle()
             }
             else
             {
-                SetCurrentMotion(eSlogMotions::Motion_0_Idle);
+                mCurrentMotion = eSlogMotions::Motion_0_Idle;
                 mScratchTimer = Math_NextRandom() % 32 + MakeTimer(120);
                 mGrowlTimer = Math_NextRandom() % 32 + MakeTimer(60);
                 return 4;
@@ -1807,7 +1807,7 @@ s16 Slog::Brain_2_ChasingAbe()
             mTargetId = Guid{};
             mAngerLevel = 0;
             mBrainState = eSlogBrains::Brain_1_Idle;
-            SetNextMotion(eSlogMotions::Motion_0_Idle);
+            mNextMotion = eSlogMotions::Motion_0_Idle;
             return 0;
         }
         updateTarget = true;
@@ -1829,7 +1829,7 @@ s16 Slog::Brain_2_ChasingAbe()
                         mTargetId = Guid{};
                         mAngerLevel = 0;
                         mBrainState = eSlogBrains::Brain_1_Idle;
-                        SetNextMotion(eSlogMotions::Motion_0_Idle);
+                        mNextMotion = eSlogMotions::Motion_0_Idle;
                         return 0;
                     }
                 }
@@ -1907,7 +1907,7 @@ s16 Slog::Brain_ChasingAbe_State_19_AboutToCollide(IBaseAliveGameObject* pTarget
         {
             if (pTarget->mHealth > FP_FromInteger(0) && VOnSameYLevel(pTarget))
             {
-                SetNextMotion(eSlogMotions::Motion_18_JumpForwards);
+                mNextMotion = eSlogMotions::Motion_18_JumpForwards;
                 return 4;
             }
         }
@@ -1915,7 +1915,7 @@ s16 Slog::Brain_ChasingAbe_State_19_AboutToCollide(IBaseAliveGameObject* pTarget
 
     if (!(Slog_NextRandom() % 64))
     {
-        SetCurrentMotion(eSlogMotions::Motion_5_MoveHeadUpwards);
+        mCurrentMotion = eSlogMotions::Motion_5_MoveHeadUpwards;
         return mBrainSubState;
     }
     return Brain_ChasingAbe_State_20_Collided(pTarget);
@@ -1934,7 +1934,7 @@ s16 Slog::Brain_ChasingAbe_State_18_WaitingToJump(IBaseAliveGameObject* pTarget)
     {
         return 15;
     }
-    SetNextMotion(eSlogMotions::Motion_2_Run);
+    mNextMotion = eSlogMotions::Motion_2_Run;
     return 2;
 }
 
@@ -1944,12 +1944,12 @@ s16 Slog::Brain_ChasingAbe_State_17_WaitingToChase(IBaseAliveGameObject* pTarget
     {
         if (!VIsFacingMe(pTarget))
         {
-            SetNextMotion(eSlogMotions::Motion_3_TurnAround);
+            mNextMotion = eSlogMotions::Motion_3_TurnAround;
             return mBrainSubState;
         }
         else
         {
-            SetNextMotion(eSlogMotions::Motion_5_MoveHeadUpwards);
+            mNextMotion = eSlogMotions::Motion_5_MoveHeadUpwards;
         }
     }
 
@@ -1960,7 +1960,7 @@ s16 Slog::Brain_ChasingAbe_State_17_WaitingToChase(IBaseAliveGameObject* pTarget
 
     if (!VIsObjNearby(ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(3), pTarget))
     {
-        SetNextMotion(eSlogMotions::Motion_2_Run);
+        mNextMotion = eSlogMotions::Motion_2_Run;
     }
     return 2;
 }
@@ -1979,7 +1979,7 @@ s16 Slog::Brain_ChasingAbe_State_15_ChasingAfterTarget(IBaseAliveGameObject* pTa
 {
     if (mVelX > FP_FromInteger(0) && HandleEnemyStopper())
     {
-        SetNextMotion(eSlogMotions::Motion_6_StopRunning);
+        mNextMotion = eSlogMotions::Motion_6_StopRunning;
         mStopRunning = mVelX < FP_FromInteger(0) ? true : false;
         mScratchTimer = Math_NextRandom() % 32 + MakeTimer(120);
         mGrowlTimer = Math_NextRandom() % 32 + MakeTimer(60);
@@ -1988,7 +1988,7 @@ s16 Slog::Brain_ChasingAbe_State_15_ChasingAfterTarget(IBaseAliveGameObject* pTa
 
     if (!VIsFacingMe(pTarget) && mCurrentMotion == eSlogMotions::Motion_2_Run)
     {
-        SetNextMotion(eSlogMotions::Motion_7_SlideTurn);
+        mNextMotion = eSlogMotions::Motion_7_SlideTurn;
     }
 
     if (VIsObjNearby(ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(3), pTarget))
@@ -1997,14 +1997,14 @@ s16 Slog::Brain_ChasingAbe_State_15_ChasingAfterTarget(IBaseAliveGameObject* pTa
         {
             if (VIsFacingMe(pTarget))
             {
-                SetNextMotion(eSlogMotions::Motion_6_StopRunning);
+                mNextMotion = eSlogMotions::Motion_6_StopRunning;
             }
         }
     }
 
     if (mCurrentMotion == eSlogMotions::Motion_7_SlideTurn)
     {
-        SetNextMotion(eSlogMotions::Motion_2_Run);
+        mNextMotion = eSlogMotions::Motion_2_Run;
     }
 
     if (mYPos >= pTarget->mYPos + FP_FromInteger(50))
@@ -2030,20 +2030,20 @@ s16 Slog::Brain_ChasingAbe_State_15_ChasingAfterTarget(IBaseAliveGameObject* pTa
         {
             if (mJumpCounter < 100 && VIsObjNearby(ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(3), pTarget))
             {
-                SetNextMotion(eSlogMotions::Motion_19_JumpUpwards);
+                mNextMotion = eSlogMotions::Motion_19_JumpUpwards;
                 return 16;
             }
 
             if (Math_RandomRange(0, 100) < 20)
             {
-                SetCurrentMotion(eSlogMotions::Motion_23_Growl);
+                mCurrentMotion = eSlogMotions::Motion_23_Growl;
             }
 
-            SetNextMotion(eSlogMotions::Motion_5_MoveHeadUpwards);
+            mNextMotion = eSlogMotions::Motion_5_MoveHeadUpwards;
             return 18;
         }
 
-        SetNextMotion(eSlogMotions::Motion_3_TurnAround);
+        mNextMotion = eSlogMotions::Motion_3_TurnAround;
         return mBrainSubState;
     }
 
@@ -2064,7 +2064,7 @@ s16 Slog::Brain_ChasingAbe_State_14_CheckingIfBoneNearby()
         if (pBone->VIsFalling())
         {
             mBoneId = Guid{};
-            SetNextMotion(eSlogMotions::Motion_0_Idle);
+            mNextMotion = eSlogMotions::Motion_0_Idle;
             return 2;
         }
 
@@ -2082,11 +2082,11 @@ s16 Slog::Brain_ChasingAbe_State_14_CheckingIfBoneNearby()
 
             if (CollisionCheck(GetSpriteScale() * FP_FromInteger(20), gridSize * FP_FromInteger(2)))
             {
-                SetNextMotion(eSlogMotions::Motion_3_TurnAround);
+                mNextMotion = eSlogMotions::Motion_3_TurnAround;
             }
             else
             {
-                SetNextMotion(eSlogMotions::Motion_1_Walk);
+                mNextMotion = eSlogMotions::Motion_1_Walk;
             }
         }
 
@@ -2107,7 +2107,7 @@ s16 Slog::Brain_ChasingAbe_State_13_EatingBone()
     if (!pBone || pBone->VIsFalling())
     {
         mBoneId = Guid{};
-        SetNextMotion(eSlogMotions::Motion_0_Idle);
+        mNextMotion = eSlogMotions::Motion_0_Idle;
         return 2;
     }
 
@@ -2117,7 +2117,7 @@ s16 Slog::Brain_ChasingAbe_State_13_EatingBone()
         {
             if (mCurrentMotion == eSlogMotions::Motion_0_Idle)
             {
-                SetNextMotion(eSlogMotions::Motion_20_Eating);
+                mNextMotion = eSlogMotions::Motion_20_Eating;
             }
 
             if (mMultiUseTimer > static_cast<s32>(sGnFrame))
@@ -2126,12 +2126,12 @@ s16 Slog::Brain_ChasingAbe_State_13_EatingBone()
             }
 
             pBone->SetDead(true);
-            SetNextMotion(eSlogMotions::Motion_0_Idle);
+            mNextMotion = eSlogMotions::Motion_0_Idle;
             mBoneId = Guid{};
             return 2;
         }
 
-        SetNextMotion(eSlogMotions::Motion_3_TurnAround);
+        mNextMotion = eSlogMotions::Motion_3_TurnAround;
         return 12;
     }
 
@@ -2150,13 +2150,13 @@ s16 Slog::Brain_ChasingAbe_State_12_WalkingToBone()
     if (!pBone || pBone->VIsFalling())
     {
         mBoneId = Guid{};
-        SetNextMotion(eSlogMotions::Motion_0_Idle);
+        mNextMotion = eSlogMotions::Motion_0_Idle;
         return 2;
     }
 
     if (mCurrentMotion == eSlogMotions::Motion_0_Idle)
     {
-        SetNextMotion(eSlogMotions::Motion_1_Walk);
+        mNextMotion = eSlogMotions::Motion_1_Walk;
     }
 
     if (FP_Abs(mYPos - pBone->mYPos) <= FP_FromInteger(50) || pBone->VCanBeEaten())
@@ -2165,7 +2165,7 @@ s16 Slog::Brain_ChasingAbe_State_12_WalkingToBone()
         {
             if (!VIsObjNearby(ScaleToGridSize(GetSpriteScale()) * FP_FromDouble(1.5), pBone))
             {
-                SetNextMotion(eSlogMotions::Motion_1_Walk);
+                mNextMotion = eSlogMotions::Motion_1_Walk;
             }
 
             if (!VIsObjNearby(ScaleToGridSize(GetSpriteScale()) * FP_FromDouble(1.5), pBone) || pBone->mVelX > FP_FromInteger(0))
@@ -2173,12 +2173,12 @@ s16 Slog::Brain_ChasingAbe_State_12_WalkingToBone()
                 return mBrainSubState;
             }
 
-            SetNextMotion(eSlogMotions::Motion_0_Idle);
+            mNextMotion = eSlogMotions::Motion_0_Idle;
             mMultiUseTimer = MakeTimer(mBoneEatingTime);
             return 13;
         }
 
-        SetNextMotion(eSlogMotions::Motion_3_TurnAround);
+        mNextMotion = eSlogMotions::Motion_3_TurnAround;
         return mBrainSubState;
     }
 
@@ -2192,7 +2192,7 @@ s16 Slog::Brain_ChasingAbe_State_11_ChasingAfterBone()
     if (!pBone || pBone->VIsFalling())
     {
         mBoneId = Guid{};
-        SetNextMotion(eSlogMotions::Motion_0_Idle);
+        mNextMotion = eSlogMotions::Motion_0_Idle;
         return 2;
     }
 
@@ -2200,26 +2200,26 @@ s16 Slog::Brain_ChasingAbe_State_11_ChasingAfterBone()
     {
         if (!VIsFacingMe(pBone) && mCurrentMotion == eSlogMotions::Motion_2_Run)
         {
-            SetNextMotion(eSlogMotions::Motion_7_SlideTurn);
+            mNextMotion = eSlogMotions::Motion_7_SlideTurn;
         }
 
         if (VIsObjNearby(ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(4), pBone))
         {
             if (FP_Abs(mYPos - pBone->mYPos) < FP_FromInteger(50) && mCurrentMotion == eSlogMotions::Motion_2_Run)
             {
-                SetNextMotion(eSlogMotions::Motion_6_StopRunning);
+                mNextMotion = eSlogMotions::Motion_6_StopRunning;
                 return 12;
             }
         }
 
         if (mCurrentMotion == eSlogMotions::Motion_7_SlideTurn)
         {
-            SetNextMotion(eSlogMotions::Motion_2_Run);
+            mNextMotion = eSlogMotions::Motion_2_Run;
         }
 
         if (mCurrentMotion == eSlogMotions::Motion_1_Walk)
         {
-            SetNextMotion(eSlogMotions::Motion_2_Run);
+            mNextMotion = eSlogMotions::Motion_2_Run;
         }
 
         if (mCurrentMotion == eSlogMotions::Motion_4_Fall)
@@ -2264,19 +2264,19 @@ s16 Slog::Brain_ChasingAbe_State_11_ChasingAfterBone()
                     {
                         return mBrainSubState;
                     }
-                    SetCurrentMotion(eSlogMotions::Motion_5_MoveHeadUpwards);
+                    mCurrentMotion = eSlogMotions::Motion_5_MoveHeadUpwards;
                     return mBrainSubState;
                 }
 
-                SetNextMotion(eSlogMotions::Motion_1_Walk);
+                mNextMotion = eSlogMotions::Motion_1_Walk;
                 return 12;
             }
 
-            SetNextMotion(eSlogMotions::Motion_2_Run);
+            mNextMotion = eSlogMotions::Motion_2_Run;
             return mBrainSubState;
         }
 
-        SetNextMotion(eSlogMotions::Motion_3_TurnAround);
+        mNextMotion = eSlogMotions::Motion_3_TurnAround;
         return mBrainSubState;
     }
 
@@ -2316,8 +2316,8 @@ s16 Slog::Brain_ChasingAbe_State_20_Collided(IBaseAliveGameObject* pTarget)
     if (static_cast<s32>(sGnFrame) > mGrowlTimer)
     {
         mGrowlTimer = Math_NextRandom() % 32 + MakeTimer(60);
-        SetCurrentMotion(eSlogMotions::Motion_23_Growl);
-        SetNextMotion(eSlogMotions::Motion_0_Idle);
+        mCurrentMotion = eSlogMotions::Motion_23_Growl;
+        mNextMotion = eSlogMotions::Motion_0_Idle;
     }
 
     if (static_cast<s32>(sGnFrame) <= mScratchTimer)
@@ -2326,8 +2326,8 @@ s16 Slog::Brain_ChasingAbe_State_20_Collided(IBaseAliveGameObject* pTarget)
     }
 
     mScratchTimer = Math_NextRandom() % 32 + MakeTimer(120);
-    SetCurrentMotion(eSlogMotions::Motion_22_Scratch);
-    SetNextMotion(eSlogMotions::Motion_0_Idle);
+    mCurrentMotion = eSlogMotions::Motion_22_Scratch;
+    mNextMotion = eSlogMotions::Motion_0_Idle;
     return mBrainSubState;
 }
 
@@ -2335,7 +2335,7 @@ s16 Slog::Brain_ChasingAbe_State_10_HungryForBone()
 {
     if (mCurrentMotion == eSlogMotions::Motion_0_Idle)
     {
-        SetNextMotion(eSlogMotions::Motion_19_JumpUpwards);
+        mNextMotion = eSlogMotions::Motion_19_JumpUpwards;
     }
 
     if (static_cast<s32>(sGnFrame) <= mMultiUseTimer)
@@ -2343,7 +2343,7 @@ s16 Slog::Brain_ChasingAbe_State_10_HungryForBone()
         auto pBone = FindBone();
         if (pBone)
         {
-            SetNextMotion(eSlogMotions::Motion_2_Run);
+            mNextMotion = eSlogMotions::Motion_2_Run;
             mBoneId = pBone->mBaseGameObjectId;
             return 11;
         }
@@ -2363,12 +2363,12 @@ s16 Slog::Brain_ChasingAbe_State_10_HungryForBone()
             return mBrainSubState;
         }
 
-        SetNextMotion(eSlogMotions::Motion_5_MoveHeadUpwards);
+        mNextMotion = eSlogMotions::Motion_5_MoveHeadUpwards;
         return mBrainSubState;
     }
 
     mHungry = false;
-    SetNextMotion(eSlogMotions::Motion_2_Run);
+    mNextMotion = eSlogMotions::Motion_2_Run;
     return 2;
 }
 
@@ -2378,7 +2378,7 @@ s16 Slog::Brain_ChasingAbe_State_9_Falling()
     {
         return mBrainSubState;
     }
-    SetCurrentMotion(eSlogMotions::Motion_2_Run);
+    mCurrentMotion = eSlogMotions::Motion_2_Run;
     return 2;
 }
 
@@ -2403,11 +2403,11 @@ s16 Slog::Brain_ChasingAbe_State_7_EatingTarget(IBaseAliveGameObject* pTarget)
             return mBrainSubState;
         }
 
-        SetCurrentMotion(eSlogMotions::Motion_20_Eating);
+        mCurrentMotion = eSlogMotions::Motion_20_Eating;
         return mBrainSubState;
     }
 
-    SetNextMotion(eSlogMotions::Motion_0_Idle);
+    mNextMotion = eSlogMotions::Motion_0_Idle;
     return 8;
 }
 
@@ -2435,13 +2435,13 @@ s16 Slog::Brain_ChasingAbe_State_4_LungingAtTarget(IBaseAliveGameObject* pTarget
 
         if (VIsFacingMe(pTarget))
         {
-            SetCurrentMotion(eSlogMotions::Motion_20_Eating);
-            SetNextMotion(eSlogMotions::m1);
+            mCurrentMotion = eSlogMotions::Motion_20_Eating;
+            mNextMotion = eSlogMotions::m1;
         }
         else
         {
-            SetCurrentMotion(eSlogMotions::Motion_3_TurnAround);
-            SetNextMotion(eSlogMotions::Motion_20_Eating);
+            mCurrentMotion = eSlogMotions::Motion_3_TurnAround;
+            mNextMotion = eSlogMotions::Motion_20_Eating;
         }
 
         mMultiUseTimer = MakeTimer(90);
@@ -2460,7 +2460,7 @@ s16 Slog::Brain_ChasingAbe_State_3_GrowlOrScratch(IBaseAliveGameObject* pTarget)
 {
     if (mCurrentMotion != eSlogMotions::Motion_0_Idle)
     {
-        SetNextMotion(eSlogMotions::Motion_0_Idle);
+        mNextMotion = eSlogMotions::Motion_0_Idle;
         return mBrainSubState;
     }
 
@@ -2469,15 +2469,15 @@ s16 Slog::Brain_ChasingAbe_State_3_GrowlOrScratch(IBaseAliveGameObject* pTarget)
         if (static_cast<s32>(sGnFrame) > mGrowlTimer)
         {
             mGrowlTimer = Math_NextRandom() % 32 + MakeTimer(60);
-            SetCurrentMotion(eSlogMotions::Motion_23_Growl);
-            SetNextMotion(eSlogMotions::Motion_0_Idle);
+            mCurrentMotion = eSlogMotions::Motion_23_Growl;
+            mNextMotion = eSlogMotions::Motion_0_Idle;
         }
 
         if (static_cast<s32>(sGnFrame) > mScratchTimer)
         {
             mScratchTimer = Math_NextRandom() % 32 + MakeTimer(120);
-            SetCurrentMotion(eSlogMotions::Motion_22_Scratch);
-            SetNextMotion(eSlogMotions::Motion_0_Idle);
+            mCurrentMotion = eSlogMotions::Motion_22_Scratch;
+            mNextMotion = eSlogMotions::Motion_0_Idle;
         }
 
         if (pTarget->GetSpriteScale() != FP_FromInteger(1))
@@ -2487,7 +2487,7 @@ s16 Slog::Brain_ChasingAbe_State_3_GrowlOrScratch(IBaseAliveGameObject* pTarget)
         return 2;
     }
 
-    SetCurrentMotion(eSlogMotions::Motion_5_MoveHeadUpwards);
+    mCurrentMotion = eSlogMotions::Motion_5_MoveHeadUpwards;
     return mBrainSubState;
 }
 
@@ -2495,7 +2495,7 @@ s16 Slog::Brain_ChasingAbe_State_2_Thinking(IBaseAliveGameObject* pTarget)
 {
     if (mVelX > FP_FromInteger(0) && HandleEnemyStopper())
     {
-        SetNextMotion(eSlogMotions::Motion_6_StopRunning);
+        mNextMotion = eSlogMotions::Motion_6_StopRunning;
         mStopRunning = mVelX < FP_FromInteger(0) ? true : false;
         mScratchTimer = Math_NextRandom() % 32 + MakeTimer(120);
         mGrowlTimer = Math_NextRandom() % 32 + MakeTimer(60);
@@ -2504,7 +2504,7 @@ s16 Slog::Brain_ChasingAbe_State_2_Thinking(IBaseAliveGameObject* pTarget)
 
     if (CollisionCheck(GetSpriteScale() * FP_FromInteger(20), mVelX * FP_FromInteger(4)))
     {
-        SetNextMotion(eSlogMotions::Motion_6_StopRunning);
+        mNextMotion = eSlogMotions::Motion_6_StopRunning;
         mStopRunning = mVelX < FP_FromInteger(0) ? true : false;
         mScratchTimer = Math_NextRandom() % 32 + MakeTimer(120);
         mGrowlTimer = Math_NextRandom() % 32 + MakeTimer(60);
@@ -2513,7 +2513,7 @@ s16 Slog::Brain_ChasingAbe_State_2_Thinking(IBaseAliveGameObject* pTarget)
 
     if (!VIsFacingMe(pTarget) && mCurrentMotion == eSlogMotions::Motion_2_Run)
     {
-        SetNextMotion(eSlogMotions::Motion_7_SlideTurn);
+        mNextMotion = eSlogMotions::Motion_7_SlideTurn;
     }
 
     if (VIsObjNearby(ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(3), pTarget))
@@ -2526,11 +2526,11 @@ s16 Slog::Brain_ChasingAbe_State_2_Thinking(IBaseAliveGameObject* pTarget)
                 {
                     if (pTarget->mHealth <= FP_FromInteger(0))
                     {
-                        SetNextMotion(eSlogMotions::Motion_0_Idle);
+                        mNextMotion = eSlogMotions::Motion_0_Idle;
                     }
                     else
                     {
-                        SetNextMotion(eSlogMotions::Motion_18_JumpForwards);
+                        mNextMotion = eSlogMotions::Motion_18_JumpForwards;
                     }
                 }
             }
@@ -2539,7 +2539,7 @@ s16 Slog::Brain_ChasingAbe_State_2_Thinking(IBaseAliveGameObject* pTarget)
 
     if (mCurrentMotion == eSlogMotions::Motion_7_SlideTurn)
     {
-        SetNextMotion(eSlogMotions::Motion_2_Run);
+        mNextMotion = eSlogMotions::Motion_2_Run;
     }
 
     auto pBone = FindBone();
@@ -2592,12 +2592,12 @@ s16 Slog::Brain_ChasingAbe_State_2_Thinking(IBaseAliveGameObject* pTarget)
             mGrowlTimer = Math_NextRandom() % 32 + MakeTimer(60);
             return 19;
         }
-        SetCurrentMotion(eSlogMotions::Motion_3_TurnAround);
+        mCurrentMotion = eSlogMotions::Motion_3_TurnAround;
     }
 
     if (mHungry && IsAbe(pTarget) && pTarget->GetScale() == GetScale() && (gAbe->mCurrentMotion == eAbeMotions::Motion_104_RockThrowStandingHold || gAbe->mCurrentMotion == eAbeMotions::Motion_107_RockThrowCrouchingHold))
     {
-        SetNextMotion(eSlogMotions::Motion_6_StopRunning);
+        mNextMotion = eSlogMotions::Motion_6_StopRunning;
         mMultiUseTimer = MakeTimer(90);
         return 10;
     }
@@ -2632,7 +2632,7 @@ s16 Slog::Brain_ChasingAbe_State_1_Waiting()
     {
         return mBrainSubState;
     }
-    SetNextMotion(eSlogMotions::Motion_2_Run);
+    mNextMotion = eSlogMotions::Motion_2_Run;
     return 2;
 }
 
@@ -2710,7 +2710,7 @@ void Slog::Init()
     GetAnimation().SetFnPtrArray(gSlog_Anim_Frame_Fns);
     mMultiUseTimer = 0;
     mBrainSubState = 0;
-    SetNextMotion(eSlogMotions::m1);
+    mNextMotion = eSlogMotions::m1;
 
     BaseAliveGameObject_PlatformId = Guid{};
     mListeningToSligId = Guid{};
@@ -2864,8 +2864,8 @@ void Slog::ToIdle()
     mFallingVelxScaleFactor = FP_FromInteger(0);
     mVelX = FP_FromInteger(0);
     mVelY = FP_FromInteger(0);
-    SetCurrentMotion(eSlogMotions::Motion_0_Idle);
-    SetNextMotion(eSlogMotions::m1);
+    mCurrentMotion = eSlogMotions::Motion_0_Idle;
+    mNextMotion = eSlogMotions::m1;
 }
 
 const relive::SfxDefinition& getSfxDef(SlogSound effectId)
@@ -2949,7 +2949,7 @@ void Slog::ToJump()
 
     VOnTrapDoorOpen();
 
-    SetCurrentMotion(eSlogMotions::Motion_18_JumpForwards);
+    mCurrentMotion = eSlogMotions::Motion_18_JumpForwards;
     BaseAliveGameObjectCollisionLine = nullptr;
 
     Sfx(SlogSound::AttackGrowl_8);
@@ -2966,8 +2966,8 @@ s16 Slog::ToNextMotion()
     switch (slogMotion)
     {
         case eSlogMotions::Motion_3_TurnAround:
-            SetCurrentMotion(eSlogMotions::Motion_3_TurnAround);
-            SetNextMotion(eSlogMotions::m1);
+            mCurrentMotion = eSlogMotions::Motion_3_TurnAround;
+            mNextMotion = eSlogMotions::m1;
             return 1;
 
         case eSlogMotions::Motion_1_Walk:
@@ -2982,8 +2982,8 @@ s16 Slog::ToNextMotion()
 
             if (!CollisionCheck(GetSpriteScale() * FP_FromInteger(20), (mVelX * FP_FromInteger(9)) * FP_FromInteger(2)))
             {
-                SetCurrentMotion(eSlogMotions::Motion_8_StartWalking);
-                SetNextMotion(eSlogMotions::m1);
+                mCurrentMotion = eSlogMotions::Motion_8_StartWalking;
+                mNextMotion = eSlogMotions::m1;
                 return 1;
             }
             ToIdle();
@@ -3001,8 +3001,8 @@ s16 Slog::ToNextMotion()
 
             if (!CollisionCheck(GetSpriteScale() * FP_FromInteger(20), mVelX * FP_FromInteger(4)))
             {
-                SetCurrentMotion(eSlogMotions::Motion_2_Run);
-                SetNextMotion(eSlogMotions::m1);
+                mCurrentMotion = eSlogMotions::Motion_2_Run;
+                mNextMotion = eSlogMotions::m1;
                 return 1;
             }
             ToIdle();
@@ -3055,7 +3055,7 @@ void Slog::MoveOnLine()
     {
         mFallingVelxScaleFactor = FP_FromDouble(0.3);
         BaseAliveGameObjectLastLineYPos = mYPos;
-        SetCurrentMotion(eSlogMotions::Motion_4_Fall);
+        mCurrentMotion = eSlogMotions::Motion_4_Fall;
     }
 }
 
@@ -3205,7 +3205,7 @@ void Slog::VOnTrapDoorOpen()
     {
         pPlatform->VRemove(this);
         BaseAliveGameObject_PlatformId = Guid{};
-        SetCurrentMotion(eSlogMotions::Motion_4_Fall);
+        mCurrentMotion = eSlogMotions::Motion_4_Fall;
     }
 }
 
@@ -3274,7 +3274,7 @@ bool Slog::VTakeDamage(BaseGameObject* pFrom)
             Sfx(SlogSound::DeathWhine_9);
             mHealth = FP_FromInteger(0);
             mBrainState = eSlogBrains::Brain_3_Death;
-            SetCurrentMotion(eSlogMotions::Motion_21_Dying);
+            mCurrentMotion = eSlogMotions::Motion_21_Dying;
             mMultiUseTimer = MakeTimer(90);
             SetAnimFrame();
             GetAnimation().SetAnimate(true);
@@ -3311,7 +3311,7 @@ bool Slog::VTakeDamage(BaseGameObject* pFrom)
             Sfx(SlogSound::DeathWhine_9);
             mHealth = FP_FromInteger(0);
             mBrainState = eSlogBrains::Brain_3_Death;
-            SetCurrentMotion(eSlogMotions::Motion_21_Dying);
+            mCurrentMotion = eSlogMotions::Motion_21_Dying;
             mMultiUseTimer = MakeTimer(90);
             SetAnimFrame();
             GetAnimation().SetAnimate(true);

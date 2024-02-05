@@ -162,7 +162,7 @@ public:
         switch (motionType)
         {
             case eMotionType::ePreviousMotion:
-                return static_cast<s16>(mPreviousMotion);
+                return 0;
             case eMotionType::eCurrentMotion:
                 return static_cast<s16>(mCurrentMotion);
             case eMotionType::eNextMotion:
@@ -234,22 +234,6 @@ private:
     void SetBrain(TGlukkonBrainFn fn);
     bool BrainIs(TGlukkonBrainFn fn);
 
-    // TODO: remove these later
-    void SetPreviousMotion(eGlukkonMotions motion)
-    {
-        mPreviousMotion = motion;
-    }
-
-    void SetCurrentMotion(eGlukkonMotions motion)
-    {
-        mCurrentMotion = motion;
-    }
-
-    void SetNextMotion(eGlukkonMotions motion)
-    {
-        mNextMotion = motion;
-    }
-
 private:
     std::shared_ptr<AnimationPal> mPal;
     s16 mRed = 0;
@@ -279,8 +263,6 @@ private:
 
 
 public:
-    eGlukkonMotions mPreviousMotion = eGlukkonMotions::Motion_0_Idle;
     eGlukkonMotions mCurrentMotion = eGlukkonMotions::Motion_0_Idle;
     eGlukkonMotions mNextMotion = eGlukkonMotions::Motion_0_Idle;
-    bool mbMotionChanged = false;
 };

@@ -277,17 +277,17 @@ AnimId Slig::MotionToAnimId(eSligMotions motion)
 
     if (motion == eSligMotions::Motion_44_Smash && mSligTlv.mData.mDeathMode == relive::Path_Slig_Data::DeathMode::StandIdle)
     {
-        SetCurrentMotion(eSligMotions::Motion_0_StandIdle);
+        mCurrentMotion = eSligMotions::Motion_0_StandIdle;
         return AnimId::Slig_Idle;
     }
     else if (motion == eSligMotions::Motion_51_Beat && !mSligTlv.mData.mCanBeat)
     {
-        SetCurrentMotion(eSligMotions::Motion_0_StandIdle);
+        mCurrentMotion = eSligMotions::Motion_0_StandIdle;
         return AnimId::Slig_Idle;
     }
     else if (motion == eSligMotions::Motion_42_ShootZ && !mSligTlv.mData.mCanZShoot)
     {
-        SetCurrentMotion(eSligMotions::Motion_0_StandIdle);
+        mCurrentMotion = eSligMotions::Motion_0_StandIdle;
         return AnimId::Slig_Idle;
     }
 
@@ -343,7 +343,7 @@ Slig::Slig(relive::Path_Slig* pTlv, const Guid& tlvId)
 
     field_120_timer = 0;
     field_11E_pitch_min = 45 * (Math_NextRandom() % 5 - 2);
-    SetNextMotion(eSligMotions::Motion_0_StandIdle);
+    mNextMotion = eSligMotions::Motion_0_StandIdle;
     mReturnToPreviousMotion = false;
     field_150_explode_timer = 0;
     field_14C_death_by_being_shot_timer = 0;
@@ -353,7 +353,7 @@ Slig::Slig(relive::Path_Slig* pTlv, const Guid& tlvId)
 
     BaseAliveGameObject_PlatformId = Guid{};
 
-    SetCurrentMotion(eSligMotions::Motion_7_Falling);
+    mCurrentMotion = eSligMotions::Motion_7_Falling;
 
     mXPos = FP_FromInteger(pTlv->mTopLeftX);
     mYPos = FP_FromInteger(pTlv->mTopLeftY);
@@ -400,7 +400,7 @@ Slig::Slig(relive::Path_Slig* pTlv, const Guid& tlvId)
             GetScale() == Scale::Fg ? kFgFloor : kBgFloor)
         == 1)
     {
-        SetCurrentMotion(eSligMotions::Motion_0_StandIdle);
+        mCurrentMotion = eSligMotions::Motion_0_StandIdle;
         mYPos = hitY;
     }
 
@@ -682,7 +682,7 @@ void Slig::CreateFromSaveState(SerializedObjectData& pBuffer)
 
         pSlig->mRGB.SetRGB(pState->field_1E_r, pState->field_20_g, pState->field_22_b);
 
-        pSlig->SetCurrentMotion(pState->field_26_current_motion);
+        pSlig->mCurrentMotion = pState->field_26_current_motion;
         pSlig->GetAnimation().Set_Animation_Data(pSlig->GetAnimRes(pSlig->MotionToAnimId(pState->field_26_current_motion)));
 
 
@@ -700,8 +700,8 @@ void Slig::CreateFromSaveState(SerializedObjectData& pBuffer)
         }
 
         pSlig->mHealth = pState->field_30_health;
-        pSlig->SetCurrentMotion(pState->field_34_current_motion);
-        pSlig->SetNextMotion(pState->field_36_next_motion);
+        pSlig->mCurrentMotion = pState->field_34_current_motion;
+        pSlig->mNextMotion = pState->field_36_next_motion;
         pSlig->BaseAliveGameObjectLastLineYPos = FP_FromInteger(pState->field_38_last_line_ypos);
 
         pSlig->SetRestoredFromQuickSave(true);
@@ -778,7 +778,7 @@ void Slig::Motion_0_StandIdle()
             GetScale() == Scale::Fg ? kFgFloor : kBgFloor))
     {
         VOnTrapDoorOpen();
-        SetCurrentMotion(eSligMotions::Motion_39_FallingInitiate);
+        mCurrentMotion = eSligMotions::Motion_39_FallingInitiate;
         BaseAliveGameObjectLastLineYPos = mYPos;
         mFallingVelxScaleFactor = FP_FromDouble(0.3);
         return;
@@ -792,7 +792,7 @@ void Slig::Motion_0_StandIdle()
             {
                 if (!(mPreventDepossession & 1))
                 {
-                    SetCurrentMotion(eSligMotions::Motion_36_Depossessing);
+                    mCurrentMotion = eSligMotions::Motion_36_Depossessing;
                     field_12C_timer = MakeTimer(30);
                     SfxPlayMono(relive::SoundEffects::PossessEffect, 0);
                     return;
@@ -806,7 +806,7 @@ void Slig::Motion_0_StandIdle()
                 if (pressed & gameSpeakCmds)
                 {
                     mInput = pressed;
-                    SetCurrentMotion(eSligMotions::Motion_17_GameSpeak);
+                    mCurrentMotion = eSligMotions::Motion_17_GameSpeak;
                     return;
                 }
             }
@@ -814,7 +814,7 @@ void Slig::Motion_0_StandIdle()
 
         if (static_cast<s32>(sGnFrame) >= field_12C_timer)
         {
-            SetCurrentMotion(eSligMotions::Motion_12_ReloadGun);
+            mCurrentMotion = eSligMotions::Motion_12_ReloadGun;
         }
     }
 }
@@ -824,7 +824,7 @@ void Slig::Motion_1_StandToWalk()
     mInput |= Input().GetPressed();
     if (GetAnimation().GetIsLastFrame())
     {
-        SetCurrentMotion(eSligMotions::Motion_2_Walking);
+        mCurrentMotion = eSligMotions::Motion_2_Walking;
     }
     MoveOnLine();
 }
@@ -878,7 +878,7 @@ void Slig::Motion_2_Walking()
                 if (Input().IsAnyHeld(InputCommands::eRun))
                 {
                     mReturnToPreviousMotion = true;
-                    SetPreviousMotion(eSligMotions::Motion_4_Running);
+                    mPreviousMotion = eSligMotions::Motion_4_Running;
                     mBaseAliveGameObjectLastAnimFrame = (GetAnimation().GetCurrentFrame() - 5) != 0 ? 13 : 5;
                     if (GetAnimation().GetFlipX())
                     {
@@ -905,18 +905,18 @@ void Slig::Motion_2_Walking()
 
             if (WallHit(GetSpriteScale() * FP_FromInteger(45), gridSize * FP_FromDouble(2.5)))
             {
-                SetCurrentMotion(eSligMotions::Motion_18_WalkToStand);
+                mCurrentMotion = eSligMotions::Motion_18_WalkToStand;
             }
             else if (sControlledCharacter != this || mHealth <= FP_FromInteger(0))
             {
                 if (mNextMotion == eSligMotions::Motion_6_Shoot)
                 {
-                    SetCurrentMotion(eSligMotions::Motion_18_WalkToStand);
+                    mCurrentMotion = eSligMotions::Motion_18_WalkToStand;
                     field_12C_timer = MakeTimer(60);
                 }
                 else if (mNextMotion != eSligMotions::eNone_m1)
                 {
-                    SetCurrentMotion(eSligMotions::Motion_18_WalkToStand);
+                    mCurrentMotion = eSligMotions::Motion_18_WalkToStand;
                 }
             }
             else
@@ -936,7 +936,7 @@ void Slig::Motion_3_StandToRun()
     mInput |= Input().mPads[sCurrentControllerIndex].mPressed;
     if (GetAnimation().GetIsLastFrame())
     {
-        SetCurrentMotion(eSligMotions::Motion_4_Running);
+        mCurrentMotion = eSligMotions::Motion_4_Running;
     }
 
     EventBroadcast(kEventNoise, this);
@@ -1006,7 +1006,7 @@ void Slig::Motion_4_Running()
                 {
                     if (mNextMotion == eSligMotions::Motion_2_Walking)
                     {
-                        SetCurrentMotion(eSligMotions::Motion_2_Walking);
+                        mCurrentMotion = eSligMotions::Motion_2_Walking;
                         mNextMotion = eSligMotions::eNone_m1;
                         if (GetAnimation().GetFlipX())
                         {
@@ -1019,7 +1019,7 @@ void Slig::Motion_4_Running()
                     }
                     else if (mNextMotion == eSligMotions::Motion_6_Shoot)
                     {
-                        SetCurrentMotion(eSligMotions::Motion_6_Shoot);
+                        mCurrentMotion = eSligMotions::Motion_6_Shoot;
                         mNextMotion = eSligMotions::eNone_m1;
                         field_12C_timer = MakeTimer(60);
                     }
@@ -1034,7 +1034,7 @@ void Slig::Motion_4_Running()
                             mVelX = (GetSpriteScale() * FP_FromDouble(-13.2));
                         }
 
-                        SetCurrentMotion(eSligMotions::Motion_8_SlidingToStand);
+                        mCurrentMotion = eSligMotions::Motion_8_SlidingToStand;
                     }
                 }
             }
@@ -1108,7 +1108,7 @@ void Slig::Motion_6_Shoot()
                         return;
                     }
                     mVelX = (kGridSize / k8);
-                    SetCurrentMotion(eSligMotions::Motion_19_Recoil);
+                    mCurrentMotion = eSligMotions::Motion_19_Recoil;
                     return;
                 }
 
@@ -1140,7 +1140,7 @@ void Slig::Motion_6_Shoot()
                         return;
                     }
                     mVelX = -(kGridSize / k8);
-                    SetCurrentMotion(eSligMotions::Motion_19_Recoil);
+                    mCurrentMotion = eSligMotions::Motion_19_Recoil;
                     return;
                 }
 
@@ -1186,7 +1186,7 @@ void Slig::Motion_6_Shoot()
                     }
                     else
                     {
-                        SetCurrentMotion(eSligMotions::Motion_19_Recoil);
+                        mCurrentMotion = eSligMotions::Motion_19_Recoil;
                     }
                     return;
                 }
@@ -1194,7 +1194,7 @@ void Slig::Motion_6_Shoot()
             else
             {
                 SND_SEQ_PlaySeq(SeqId::HitBottomOfDeathPit_9, 1, 1);
-                SetCurrentMotion(eSligMotions::Motion_13_ShootToStand);
+                mCurrentMotion = eSligMotions::Motion_13_ShootToStand;
                 return;
             }
         }
@@ -1202,7 +1202,7 @@ void Slig::Motion_6_Shoot()
         if (mNextMotion == eSligMotions::Motion_0_StandIdle)
         {
             SND_SEQ_PlaySeq(SeqId::HitBottomOfDeathPit_9, 1, 1);
-            SetCurrentMotion(eSligMotions::Motion_13_ShootToStand);
+            mCurrentMotion = eSligMotions::Motion_13_ShootToStand;
             mNextMotion = eSligMotions::eNone_m1;
             return;
         }
@@ -1210,7 +1210,7 @@ void Slig::Motion_6_Shoot()
         if (mNextMotion != eSligMotions::eNone_m1 && mNextMotion != eSligMotions::Motion_6_Shoot)
         {
             SND_SEQ_PlaySeq(SeqId::HitBottomOfDeathPit_9, 1, 1);
-            SetCurrentMotion(eSligMotions::Motion_13_ShootToStand);
+            mCurrentMotion = eSligMotions::Motion_13_ShootToStand;
             return;
         }
     }
@@ -1267,7 +1267,7 @@ void Slig::Motion_7_Falling()
                 MapFollowMe(true);
                 ToStand();
                 PlatformCollide();
-                SetCurrentMotion(eSligMotions::Motion_40_LandingSoft);
+                mCurrentMotion = eSligMotions::Motion_40_LandingSoft;
                 break;
             case eLineTypes::eWallLeft_1:
             case eLineTypes::eWallRight_2:
@@ -1300,7 +1300,7 @@ void Slig::Motion_8_SlidingToStand()
                 if ((GetAnimation().GetFlipX() && Input().IsAnyHeld(InputCommands::eRight)) || ((!(GetAnimation().GetFlipX()) && Input().IsAnyHeld(InputCommands::eLeft))))
                 {
                     mBaseAliveGameObjectLastAnimFrame = GetAnimation().GetCurrentFrame();
-                    SetPreviousMotion(eSligMotions::Motion_9_SlidingTurn);
+                    mPreviousMotion = eSligMotions::Motion_9_SlidingTurn;
                     mReturnToPreviousMotion = true;
                 }
             }
@@ -1336,23 +1336,23 @@ void Slig::Motion_9_SlidingTurn()
                 {
                     if (Input().IsAnyHeld(InputCommands::eRun))
                     {
-                        SetNextMotion(eSligMotions::Motion_4_Running);
+                        mNextMotion = eSligMotions::Motion_4_Running;
                     }
                     else
                     {
-                        SetNextMotion(eSligMotions::Motion_2_Walking);
+                        mNextMotion = eSligMotions::Motion_2_Walking;
                     }
                 }
 
                 if (mNextMotion == eSligMotions::Motion_4_Running)
                 {
                     mVelX = -(ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(4));
-                    SetCurrentMotion(eSligMotions::Motion_11_SlidingTurnToRun);
+                    mCurrentMotion = eSligMotions::Motion_11_SlidingTurnToRun;
                 }
                 else
                 {
                     mVelX = -(ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(9));
-                    SetCurrentMotion(eSligMotions::Motion_10_SlidingTurnToWalk);
+                    mCurrentMotion = eSligMotions::Motion_10_SlidingTurnToWalk;
                 }
 
                 if (GetAnimation().GetFlipX())
@@ -1372,7 +1372,7 @@ void Slig::Motion_10_SlidingTurnToWalk()
     if (GetAnimation().GetIsLastFrame())
     {
         GetAnimation().ToggleFlipX();
-        SetCurrentMotion(eSligMotions::Motion_2_Walking);
+        mCurrentMotion = eSligMotions::Motion_2_Walking;
     }
 }
 
@@ -1384,7 +1384,7 @@ void Slig::Motion_11_SlidingTurnToRun()
     if (GetAnimation().GetIsLastFrame())
     {
         GetAnimation().ToggleFlipX();
-        SetCurrentMotion(eSligMotions::Motion_4_Running);
+        mCurrentMotion = eSligMotions::Motion_4_Running;
     }
 }
 
@@ -1444,17 +1444,17 @@ void Slig::Motion_15_StandingToStep()
     {
         if (Input().IsAnyHeld(InputCommands::eLeft | InputCommands::eRight))
         {
-            SetCurrentMotion(eSligMotions::Motion_1_StandToWalk);
+            mCurrentMotion = eSligMotions::Motion_1_StandToWalk;
         }
         else if (GetAnimation().GetFlipX())
         {
-            SetCurrentMotion(eSligMotions::Motion_14_SteppingToStand);
+            mCurrentMotion = eSligMotions::Motion_14_SteppingToStand;
             mVelX = -(ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(6));
         }
         else
         {
             mVelX = (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(6));
-            SetCurrentMotion(eSligMotions::Motion_14_SteppingToStand);
+            mCurrentMotion = eSligMotions::Motion_14_SteppingToStand;
         }
     }
 }
@@ -1472,7 +1472,7 @@ void Slig::Motion_17_GameSpeak()
     mInput |= Input().mPads[sCurrentControllerIndex].mPressed;
     if (GetAnimation().GetIsLastFrame())
     {
-        SetCurrentMotion(GetNextMotionIncGameSpeak(mInput));
+        mCurrentMotion = GetNextMotionIncGameSpeak(mInput);
         if (mCurrentMotion == eSligMotions::eNone_m1)
         {
             ToStand();
@@ -1517,7 +1517,7 @@ void Slig::Motion_19_Recoil()
                 if (Input().IsAnyHeld(InputCommands::eThrowItem))
                 {
                     mVelX = FP_FromInteger(0);
-                    SetPreviousMotion(eSligMotions::Motion_6_Shoot);
+                    mPreviousMotion = eSligMotions::Motion_6_Shoot;
                     field_12C_timer = MakeTimer(60);
                     mBaseAliveGameObjectLastAnimFrame = 2;
                     mReturnToPreviousMotion = true;
@@ -1525,13 +1525,13 @@ void Slig::Motion_19_Recoil()
                 else
                 {
                     SND_SEQ_PlaySeq(SeqId::HitBottomOfDeathPit_9, 1, 1);
-                    SetCurrentMotion(eSligMotions::Motion_13_ShootToStand);
+                    mCurrentMotion = eSligMotions::Motion_13_ShootToStand;
                 }
             }
             else if (mNextMotion != eSligMotions::eNone_m1)
             {
                 SND_SEQ_PlaySeq(SeqId::HitBottomOfDeathPit_9, 1, 1);
-                SetCurrentMotion(eSligMotions::Motion_13_ShootToStand);
+                mCurrentMotion = eSligMotions::Motion_13_ShootToStand;
                 mNextMotion = eSligMotions::eNone_m1;
             }
         }
@@ -1551,7 +1551,7 @@ void Slig::Motion_20_SpeakHereBoy()
     mInput |= Input().mPads[sCurrentControllerIndex].mPressed;
     if (GetAnimation().GetIsLastFrame())
     {
-        SetCurrentMotion(GetNextMotionIncGameSpeak(mInput));
+        mCurrentMotion = GetNextMotionIncGameSpeak(mInput);
         if (mCurrentMotion == eSligMotions::eNone_m1)
         {
             ToStand();
@@ -1628,7 +1628,7 @@ void Slig::Motion_32_Sleeping()
     if (mNextMotion == eSligMotions::Motion_33_SleepingToStand)
     {
         // Out of sleep
-        SetCurrentMotion(eSligMotions::Motion_33_SleepingToStand);
+        mCurrentMotion = eSligMotions::Motion_33_SleepingToStand;
         mNextMotion = eSligMotions::eNone_m1;
     }
     else if (static_cast<s32>(sGnFrame % 60))
@@ -1775,7 +1775,7 @@ void Slig::Motion_34_Knockback()
 
         if (mCurrentMotion == eSligMotions::Motion_40_LandingSoft)
         {
-            SetCurrentMotion(eSligMotions::Motion_34_Knockback);
+            mCurrentMotion = eSligMotions::Motion_34_Knockback;
             field_12C_timer = MakeTimer(10);
             if (mYPos - BaseAliveGameObjectLastLineYPos > FP_FromInteger(180)
                 && !gPathInfo->VTLV_Get_At_Of_Type(
@@ -1785,7 +1785,7 @@ void Slig::Motion_34_Knockback()
                     FP_GetExponent(mYPos),
                     ReliveTypes::eSoftLanding))
             {
-                SetCurrentMotion(eSligMotions::Motion_41_LandingFatal);
+                mCurrentMotion = eSligMotions::Motion_41_LandingFatal;
                 field_12C_timer = MakeTimer(30);
                 mHealth = FP_FromInteger(0);
                 EventBroadcast(kEventMudokonComfort, this);
@@ -1807,7 +1807,7 @@ void Slig::Motion_34_Knockback()
 
             if (mHealth > FP_FromInteger(0) && field_12C_timer <= static_cast<s32>(sGnFrame) && gAbe->mHealth > FP_FromInteger(0))
             {
-                SetCurrentMotion(eSligMotions::Motion_35_KnockbackToStand);
+                mCurrentMotion = eSligMotions::Motion_35_KnockbackToStand;
             }
         }
     }
@@ -1875,7 +1875,7 @@ void Slig::Motion_36_Depossessing()
         {
             if (!Input_IsChanting())
             {
-                SetCurrentMotion(eSligMotions::Motion_16_DepossessingAbort);
+                mCurrentMotion = eSligMotions::Motion_16_DepossessingAbort;
             }
         }
 
@@ -1904,7 +1904,7 @@ void Slig::Motion_37_Possess()
         Motion_7_Falling();
         if (mCurrentMotion != eSligMotions::Motion_37_Possess)
         {
-            SetCurrentMotion(eSligMotions::Motion_37_Possess);
+            mCurrentMotion = eSligMotions::Motion_37_Possess;
         }
     }
 
@@ -1946,7 +1946,7 @@ void Slig::Motion_37_Possess()
             }
 
             GetAnimation().SetRender(false);
-            SetCurrentMotion(eSligMotions::Motion_0_StandIdle);
+            mCurrentMotion = eSligMotions::Motion_0_StandIdle;
             mVelY = FP_FromInteger(0);
             mVelX = FP_FromInteger(0);
             mHealth = FP_FromInteger(0);
@@ -1963,14 +1963,14 @@ void Slig::Motion_37_Possess()
         {
             if (GetAnimation().GetFlipX())
             {
-                SetCurrentMotion(eSligMotions::Motion_34_Knockback);
+                mCurrentMotion = eSligMotions::Motion_34_Knockback;
             }
         }
         else if (!GetAnimation().GetFlipX())
         {
-            SetCurrentMotion(eSligMotions::Motion_34_Knockback);
+            mCurrentMotion = eSligMotions::Motion_34_Knockback;
         }
-        SetCurrentMotion(eSligMotions::Motion_44_Smash);
+        mCurrentMotion = eSligMotions::Motion_44_Smash;
     }
 }
 
@@ -1987,7 +1987,7 @@ void Slig::Motion_38_OutToFall()
 
     if (mCurrentMotion == eSligMotions::Motion_40_LandingSoft && fallDepth > FP_FromInteger(180) && !gPathInfo->VTLV_Get_At_Of_Type(FP_GetExponent(mXPos), FP_GetExponent(mYPos), FP_GetExponent(mXPos), FP_GetExponent(mYPos), ReliveTypes::eSoftLanding))
     {
-        SetCurrentMotion(eSligMotions::Motion_41_LandingFatal);
+        mCurrentMotion = eSligMotions::Motion_41_LandingFatal;
         field_12C_timer = MakeTimer(30);
         mHealth = FP_FromInteger(0);
         EventBroadcast(kEventMudokonComfort, this);
@@ -2000,7 +2000,7 @@ void Slig::Motion_39_FallingInitiate()
 
     if (GetAnimation().GetIsLastFrame())
     {
-        SetCurrentMotion(eSligMotions::Motion_38_OutToFall);
+        mCurrentMotion = eSligMotions::Motion_38_OutToFall;
     }
 
     Motion_7_Falling();
@@ -2046,14 +2046,14 @@ void Slig::Motion_42_ShootZ()
         if (sControlledCharacter == this && (!Input().IsAnyHeld(InputCommands::eThrowItem) || !Input().IsAnyHeld(InputCommands::eDown)))
         {
             SND_SEQ_PlaySeq(SeqId::HitBottomOfDeathPit_9, 1, 1);
-            SetCurrentMotion(eSligMotions::Motion_43_ShootZtoStand);
+            mCurrentMotion = eSligMotions::Motion_43_ShootZtoStand;
         }
         // Controlled by AI and need to leave Z-shoot motion
         else if (mNextMotion != eSligMotions::eNone_m1)
         {
             SND_SEQ_PlaySeq(SeqId::HitBottomOfDeathPit_9, 1, 1);
             mNextMotion = eSligMotions::eNone_m1;
-            SetCurrentMotion(eSligMotions::Motion_43_ShootZtoStand);
+            mCurrentMotion = eSligMotions::Motion_43_ShootZtoStand;
         }
     }
     else if (GetAnimation().GetCurrentFrame() == 7)
@@ -2119,7 +2119,7 @@ void Slig::Motion_44_Smash()
 
         if (mCurrentMotion != eSligMotions::Motion_44_Smash)
         {
-            SetCurrentMotion(eSligMotions::Motion_44_Smash);
+            mCurrentMotion = eSligMotions::Motion_44_Smash;
         }
     }
 }
@@ -2131,7 +2131,7 @@ void Slig::Motion_45_PullLever()
         if (GetTeleporting())
         {
             Slig_GameSpeak_SFX(SligSpeak::eBlurgh_11, 0, field_11E_pitch_min, this);
-            SetCurrentMotion(eSligMotions::Motion_31_Blurgh);
+            mCurrentMotion = eSligMotions::Motion_31_Blurgh;
         }
         else
         {
@@ -2155,11 +2155,11 @@ void Slig::Motion_46_LiftGrip()
                 {
                     if (pLiftPoint->OnTopFloor())
                     {
-                        SetCurrentMotion(eSligMotions::Motion_48_LiftGripping);
+                        mCurrentMotion = eSligMotions::Motion_48_LiftGripping;
                     }
                     else
                     {
-                        SetCurrentMotion(eSligMotions::Motion_49_LiftUp);
+                        mCurrentMotion = eSligMotions::Motion_49_LiftUp;
                     }
                     return;
                 }
@@ -2168,27 +2168,27 @@ void Slig::Motion_46_LiftGrip()
                 {
                     if (pLiftPoint->OnBottomFloor())
                     {
-                        SetCurrentMotion(eSligMotions::Motion_48_LiftGripping);
+                        mCurrentMotion = eSligMotions::Motion_48_LiftGripping;
                     }
                     else
                     {
-                        SetCurrentMotion(eSligMotions::Motion_50_LiftDown);
+                        mCurrentMotion = eSligMotions::Motion_50_LiftDown;
                     }
                     return;
                 }
 
-                SetCurrentMotion(eSligMotions::Motion_48_LiftGripping);
+                mCurrentMotion = eSligMotions::Motion_48_LiftGripping;
             }
             else
             {
                 if (pLiftPoint->OnTopFloor())
                 {
-                    SetCurrentMotion(eSligMotions::Motion_50_LiftDown);
+                    mCurrentMotion = eSligMotions::Motion_50_LiftDown;
                 }
 
                 if (pLiftPoint->OnBottomFloor())
                 {
-                    SetCurrentMotion(eSligMotions::Motion_49_LiftUp);
+                    mCurrentMotion = eSligMotions::Motion_49_LiftUp;
                 }
             }
         }
@@ -2219,31 +2219,31 @@ void Slig::Motion_48_LiftGripping()
         {
             if (!pLiftPoint->OnTopFloor())
             {
-                SetCurrentMotion(eSligMotions::Motion_49_LiftUp);
+                mCurrentMotion = eSligMotions::Motion_49_LiftUp;
             }
         }
         else if (Input().IsAnyHeld(InputCommands::eDown))
         {
             if (!pLiftPoint->OnBottomFloor())
             {
-                SetCurrentMotion(eSligMotions::Motion_50_LiftDown);
+                mCurrentMotion = eSligMotions::Motion_50_LiftDown;
             }
         }
         else if (pLiftPoint->OnAnyFloor())
         {
-            SetCurrentMotion(eSligMotions::Motion_47_LiftUngrip);
+            mCurrentMotion = eSligMotions::Motion_47_LiftUngrip;
         }
     }
 }
 
 void Slig::Motion_49_LiftUp()
 {
-    SetCurrentMotion(MoveLift(FP_FromInteger(-4)));
+    mCurrentMotion = MoveLift(FP_FromInteger(-4));
 }
 
 void Slig::Motion_50_LiftDown()
 {
-    SetCurrentMotion(MoveLift(FP_FromInteger(4)));
+    mCurrentMotion = MoveLift(FP_FromInteger(4));
 }
 
 
@@ -2324,7 +2324,7 @@ void Slig::Motion_51_Beat()
 
     if (GetAnimation().GetIsLastFrame())
     {
-        SetCurrentMotion(eSligMotions::Motion_0_StandIdle);
+        mCurrentMotion = eSligMotions::Motion_0_StandIdle;
     }
 }
 
@@ -2421,7 +2421,7 @@ s16 Slig::Brain_2_Possessed()
             Slig_GameSpeak_SFX(SligSpeak::eHelp_10, 0, field_11E_pitch_min, this);
             mBrainSubState = 1;
             mHealth = FP_FromInteger(0);
-            SetCurrentMotion(eSligMotions::Motion_37_Possess);
+            mCurrentMotion = eSligMotions::Motion_37_Possess;
             field_120_timer = MakeTimer(30);
             field_150_explode_timer = MakeTimer(1000);
             if (field_14C_death_by_being_shot_timer == 0)
@@ -2435,7 +2435,7 @@ s16 Slig::Brain_2_Possessed()
             {
                 mBrainSubState = Brain_2_Possessed::eBrain2_PossessionInactive_2;
                 field_120_timer = MakeTimer(20);
-                SetCurrentMotion(eSligMotions::Motion_0_StandIdle);
+                mCurrentMotion = eSligMotions::Motion_0_StandIdle;
                 return mBrainSubState;
             }
             break;
@@ -2446,13 +2446,13 @@ s16 Slig::Brain_2_Possessed()
                 if (Math_NextRandom() & 1)
                 {
                     field_120_timer = MakeTimer(20);
-                    SetCurrentMotion(eSligMotions::Motion_21_SpeakHi);
+                    mCurrentMotion = eSligMotions::Motion_21_SpeakHi;
                     Slig_GameSpeak_SFX(SligSpeak::eHi_0, 0, field_11E_pitch_min, this);
                 }
                 else
                 {
                     field_120_timer = MakeTimer(20);
-                    SetCurrentMotion(eSligMotions::Motion_24_SpeakLaugh);
+                    mCurrentMotion = eSligMotions::Motion_24_SpeakLaugh;
                     Slig_GameSpeak_SFX(SligSpeak::eLaugh_3, 0, field_11E_pitch_min, this);
                 }
                 mBrainSubState = Brain_2_Possessed::eBrain2_PossessionSpeak_3;
@@ -2618,7 +2618,7 @@ s16 Slig::Brain_4_ListeningToGlukkon()
     if (!pGlukkonObj || !pGlukkonObj->GetDrawable())
     {
         PauseALittle();
-        SetNextMotion(eSligMotions::Motion_24_SpeakLaugh);
+        mNextMotion = eSligMotions::Motion_24_SpeakLaugh;
         mFollowGlukkon = false;
         --sSligsUnderControlCount_BAF7E8;
         return Brain_ListeningToGlukkon_States::GettingAttention_0;
@@ -2663,7 +2663,7 @@ s16 Slig::Brain_ListeningToGlukkon_Shooting()
     LastGlukkonSpeak();
     if (static_cast<s32>(sGnFrame) == field_120_timer - 15)
     {
-        SetNextMotion(eSligMotions::Motion_6_Shoot);
+        mNextMotion = eSligMotions::Motion_6_Shoot;
     }
 
     if (static_cast<s32>(sGnFrame) <= field_120_timer)
@@ -2680,7 +2680,7 @@ s16 Slig::Brain_ListeningToGlukkon_StoppingOnLift(PlatformBase* pPlatformObj)
 
     if (mCurrentMotion == eSligMotions::Motion_34_Knockback)
     {
-        SetNextMotion(eSligMotions::Motion_0_StandIdle);
+        mNextMotion = eSligMotions::Motion_0_StandIdle;
         return Brain_ListeningToGlukkon_States::IdleListening_1;
     }
 
@@ -2707,7 +2707,7 @@ s16 Slig::Brain_ListeningToGlukkon_StoppingOnLift(PlatformBase* pPlatformObj)
         {
             return Brain_ListeningToGlukkon_States::IdleListening_1;
         }
-        SetNextMotion(eSligMotions::Motion_14_SteppingToStand);
+        mNextMotion = eSligMotions::Motion_14_SteppingToStand;
         mVelX = -(gridSize / FP_FromInteger(6));
         return mBrainSubState;
     }
@@ -2731,7 +2731,7 @@ s16 Slig::Brain_ListeningToGlukkon_StoppingOnLift(PlatformBase* pPlatformObj)
         return Brain_ListeningToGlukkon_States::IdleListening_1;
     }
     mVelX = (gridSize / FP_FromInteger(6));
-    SetNextMotion(eSligMotions::Motion_14_SteppingToStand);
+    mNextMotion = eSligMotions::Motion_14_SteppingToStand;
     return mBrainSubState;
 }
 
@@ -2754,18 +2754,18 @@ s16 Slig::Brain_ListeningToGlukkon_PullingLever()
         if (mCurrentMotion == eSligMotions::Motion_45_PullLever)
         {
             pLever->VPull(mXPos < pLever->mXPos);
-            SetNextMotion(eSligMotions::Motion_0_StandIdle);
+            mNextMotion = eSligMotions::Motion_0_StandIdle;
             return Brain_ListeningToGlukkon_States::IdleListening_1;
         }
         else
         {
-            SetNextMotion(eSligMotions::Motion_45_PullLever);
+            mNextMotion = eSligMotions::Motion_45_PullLever;
             return mBrainSubState;
         }
     }
     else
     {
-        SetNextMotion(eSligMotions::Motion_5_TurnAroundStanding);
+        mNextMotion = eSligMotions::Motion_5_TurnAroundStanding;
         return mBrainSubState;
     }
 }
@@ -2776,7 +2776,7 @@ s16 Slig::Brain_ListenToGlukkon_StoppingNextToLever()
 
     if (mCurrentMotion == eSligMotions::Motion_34_Knockback)
     {
-        SetNextMotion(eSligMotions::Motion_0_StandIdle);
+        mNextMotion = eSligMotions::Motion_0_StandIdle;
         return Brain_ListeningToGlukkon_States::IdleListening_1;
     }
 
@@ -2791,12 +2791,12 @@ s16 Slig::Brain_ListenToGlukkon_StoppingNextToLever()
         {
             if (GetAnimation().GetFlipX())
             {
-                SetNextMotion(eSligMotions::Motion_14_SteppingToStand);
+                mNextMotion = eSligMotions::Motion_14_SteppingToStand;
                 mVelX = -(ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(6));
                 return mBrainSubState;
             }
             mVelX = (gridSize / FP_FromInteger(6));
-            SetNextMotion(eSligMotions::Motion_14_SteppingToStand);
+            mNextMotion = eSligMotions::Motion_14_SteppingToStand;
             return mBrainSubState;
         }
     }
@@ -2806,7 +2806,7 @@ s16 Slig::Brain_ListenToGlukkon_StoppingNextToLever()
         return Brain_ListeningToGlukkon_States::IdleListening_1;
     }
 
-    SetNextMotion(eSligMotions::Motion_5_TurnAroundStanding);
+    mNextMotion = eSligMotions::Motion_5_TurnAroundStanding;
     return mBrainSubState;
 }
 
@@ -2824,7 +2824,7 @@ s16 Slig::Brain_ListenToGlukkon_Speaking()
 
     field_120_timer = MakeTimer(8);
 
-    SetNextMotion(sGlukkonResponseTable_560768[field_212_next_command_arg1][field_214_cmd_idx]);
+    mNextMotion = sGlukkonResponseTable_560768[field_212_next_command_arg1][field_214_cmd_idx];
 
     // keeps going till it hits -1
     field_214_cmd_idx++;
@@ -2841,7 +2841,7 @@ s16 Slig::Brain_ListenToGlukkon_NextLever(BaseAliveGameObject* pGlukkonObj)
 {
     if (!VIsFacingMe(pGlukkonObj))
     {
-        SetNextMotion(eSligMotions::Motion_5_TurnAroundStanding);
+        mNextMotion = eSligMotions::Motion_5_TurnAroundStanding;
         return mBrainSubState;
     }
 
@@ -2859,7 +2859,7 @@ s16 Slig::Brain_ListenToGlukkon_NextLever(BaseAliveGameObject* pGlukkonObj)
         mVelX = (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(6));
     }
 
-    SetNextMotion(eSligMotions::Motion_14_SteppingToStand);
+    mNextMotion = eSligMotions::Motion_14_SteppingToStand;
     return Brain_ListeningToGlukkon_States::IdleListening_1;
 }
 
@@ -2873,7 +2873,7 @@ s16 Slig::Brain_ListenToGlukkon_Moving(BaseAliveGameObject* pGlukkonObj)
 
     if (WallHit(GetSpriteScale() * FP_FromInteger(45), xOffset))
     {
-        SetNextMotion(eSligMotions::Motion_0_StandIdle);
+        mNextMotion = eSligMotions::Motion_0_StandIdle;
         return Brain_ListeningToGlukkon_States::IdleListening_1;
     }
 
@@ -2887,7 +2887,7 @@ s16 Slig::Brain_ListenToGlukkon_Moving(BaseAliveGameObject* pGlukkonObj)
 
     if (mCurrentMotion == eSligMotions::Motion_34_Knockback)
     {
-        SetNextMotion(eSligMotions::Motion_0_StandIdle);
+        mNextMotion = eSligMotions::Motion_0_StandIdle;
         return Brain_ListeningToGlukkon_States::IdleListening_1;
     }
 
@@ -2898,7 +2898,7 @@ s16 Slig::Brain_ListenToGlukkon_Moving(BaseAliveGameObject* pGlukkonObj)
 
     if (mCurrentMotion != eSligMotions::Motion_4_Running && FindLever())
     {
-        SetNextMotion(eSligMotions::Motion_0_StandIdle);
+        mNextMotion = eSligMotions::Motion_0_StandIdle;
         mFollowGlukkon = false;
         mStoppedForLeverOrLift = true;
         return Brain_ListeningToGlukkon_States::StoppingNextToLever_5;
@@ -2906,7 +2906,7 @@ s16 Slig::Brain_ListenToGlukkon_Moving(BaseAliveGameObject* pGlukkonObj)
 
     if (mCurrentMotion != eSligMotions::Motion_4_Running && FindLiftPoint())
     {
-        SetNextMotion(eSligMotions::Motion_0_StandIdle);
+        mNextMotion = eSligMotions::Motion_0_StandIdle;
         mFollowGlukkon = false;
         mStoppedForLeverOrLift = true;
         return Brain_ListeningToGlukkon_States::StoppingOnLift_7;
@@ -2914,13 +2914,13 @@ s16 Slig::Brain_ListenToGlukkon_Moving(BaseAliveGameObject* pGlukkonObj)
 
     if (!VIsFacingMe(pGlukkonObj))
     {
-        SetNextMotion(eSligMotions::Motion_0_StandIdle);
+        mNextMotion = eSligMotions::Motion_0_StandIdle;
         return Brain_ListeningToGlukkon_States::IdleListening_1;
     }
 
     if (VIsObjNearby(ScaleToGridSize(GetSpriteScale()), pGlukkonObj))
     {
-        SetNextMotion(eSligMotions::Motion_0_StandIdle);
+        mNextMotion = eSligMotions::Motion_0_StandIdle;
         return Brain_ListeningToGlukkon_States::IdleListening_1;
     }
 
@@ -2939,7 +2939,7 @@ s16 Slig::Brain_ListenToGlukkon_Moving(BaseAliveGameObject* pGlukkonObj)
     {
         if (mCurrentMotion == eSligMotions::Motion_2_Walking)
         {
-            SetNextMotion(eSligMotions::Motion_4_Running);
+            mNextMotion = eSligMotions::Motion_4_Running;
             return Brain_ListeningToGlukkon_States::Moving_2;
         }
     }
@@ -2949,7 +2949,7 @@ s16 Slig::Brain_ListenToGlukkon_Moving(BaseAliveGameObject* pGlukkonObj)
         return mBrainSubState;
     }
 
-    SetNextMotion(eSligMotions::Motion_2_Walking);
+    mNextMotion = eSligMotions::Motion_2_Walking;
     return Brain_ListeningToGlukkon_States::Moving_2;
 }
 
@@ -2989,7 +2989,7 @@ s16 Slig::Brain_ListenToGlukkon_IdleListen(BaseAliveGameObject* pGlukkonObj, Pla
             {
                 if (!VIsFacingMe(pGlukkonObj))
                 {
-                    SetNextMotion(eSligMotions::Motion_5_TurnAroundStanding);
+                    mNextMotion = eSligMotions::Motion_5_TurnAroundStanding;
                     return mBrainSubState;
                 }
 
@@ -3035,7 +3035,7 @@ s16 Slig::Brain_ListenToGlukkon_IdleListen(BaseAliveGameObject* pGlukkonObj, Pla
                 {
                     if (pOtherSlig != this && !VIsFacingMe(pOtherSlig) && pOtherSlig->mCurrentMotion != eSligMotions::Motion_5_TurnAroundStanding)
                     {
-                        SetNextMotion(eSligMotions::Motion_5_TurnAroundStanding);
+                        mNextMotion = eSligMotions::Motion_5_TurnAroundStanding;
                         return mBrainSubState;
                     }
                 }
@@ -3074,7 +3074,7 @@ s16 Slig::Brain_ListenToGlukkon_IdleListen(BaseAliveGameObject* pGlukkonObj, Pla
                     case GameSpeakEvents::eGlukkon_Hey:
                         if (!VIsFacingMe(pGlukkonObj))
                         {
-                            SetNextMotion(eSligMotions::Motion_5_TurnAroundStanding);
+                            mNextMotion = eSligMotions::Motion_5_TurnAroundStanding;
                         }
                         NextGlukkonCommand(Brain_ListeningToGlukkon_GlukkonCommands::HeyOrAllYa_0, Brain_ListeningToGlukkon_States::IdleListening_1);
                         break;
@@ -3087,7 +3087,7 @@ s16 Slig::Brain_ListenToGlukkon_IdleListen(BaseAliveGameObject* pGlukkonObj, Pla
                             const FP v33 = mXPos - lineMidX >= FP_FromInteger(0) ? mXPos - lineMidX : lineMidX - mXPos;
                             if (v33 < scaled_2 && (static_cast<LiftPoint*>(pPlatformObj)->OnTopFloor() || static_cast<LiftPoint*>(pPlatformObj)->OnBottomFloor()))
                             {
-                                SetNextMotion(eSligMotions::Motion_46_LiftGrip);
+                                mNextMotion = eSligMotions::Motion_46_LiftGrip;
 
                                 for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
                                 {
@@ -3099,7 +3099,7 @@ s16 Slig::Brain_ListenToGlukkon_IdleListen(BaseAliveGameObject* pGlukkonObj, Pla
 
                                     if (pFoundSlig->Type() == ReliveTypes::eSlig && pFoundSlig != this && static_cast<Slig*>(pFoundSlig)->mNextMotion == eSligMotions::Motion_46_LiftGrip)
                                     {
-                                        SetNextMotion(eSligMotions::Motion_0_StandIdle);
+                                        mNextMotion = eSligMotions::Motion_0_StandIdle;
                                     }
                                 }
 
@@ -3130,7 +3130,7 @@ s16 Slig::Brain_ListenToGlukkon_IdleListen(BaseAliveGameObject* pGlukkonObj, Pla
                             }
                         }
 
-                        SetNextMotion(eSligMotions::Motion_51_Beat);
+                        mNextMotion = eSligMotions::Motion_51_Beat;
 
                         mBrainSubState = Brain_ListeningToGlukkon_States::IdleListening_1;
                         mGlukkonCalledAllOYa = glukkonSpeak == GameSpeakEvents::eGlukkon_AllOYa ? true : false;
@@ -3169,7 +3169,7 @@ s16 Slig::Brain_ListenToGlukkon_IdleListen(BaseAliveGameObject* pGlukkonObj, Pla
                         {
                             if (!VIsFacingMe(pGlukkonObj))
                             {
-                                SetNextMotion(eSligMotions::Motion_5_TurnAroundStanding);
+                                mNextMotion = eSligMotions::Motion_5_TurnAroundStanding;
                             }
                             NextGlukkonCommand(Brain_ListeningToGlukkon_GlukkonCommands::Stay_2, Brain_ListeningToGlukkon_States::IdleListening_1);
                         }
@@ -3200,13 +3200,13 @@ s16 Slig::Brain_ListenToGlukkon_IdleListen(BaseAliveGameObject* pGlukkonObj, Pla
 
 s16 Slig::Brain_ListenToGlukkon_GettingAttention(BaseAliveGameObject* pGlukkonObj)
 {
-    SetNextMotion(eSligMotions::Motion_0_StandIdle);
+    mNextMotion = eSligMotions::Motion_0_StandIdle;
     field_20E_attention_timeout = 0;
     mFollowGlukkon = false;
     mStoppedForLeverOrLift = false;
     if (!VIsFacingMe(pGlukkonObj))
     {
-        SetNextMotion(eSligMotions::Motion_5_TurnAroundStanding);
+        mNextMotion = eSligMotions::Motion_5_TurnAroundStanding;
     }
     NextGlukkonCommand(Brain_ListeningToGlukkon_GlukkonCommands::HeyOrAllYa_0, Brain_ListeningToGlukkon_States::IdleListening_1);
     return Brain_ListeningToGlukkon_States::Speaking_4;
@@ -3272,7 +3272,7 @@ s16 Slig::Brain_10_EnemyDead()
         // Say this often
         if (rnd < 25)
         {
-            SetNextMotion(eSligMotions::Motion_25_SpeakBullshit1);
+            mNextMotion = eSligMotions::Motion_25_SpeakBullshit1;
             field_120_timer = MakeTimer(15);
             return 113;
         }
@@ -3280,7 +3280,7 @@ s16 Slig::Brain_10_EnemyDead()
         // Say this less often
         if (rnd < 50)
         {
-            SetNextMotion(eSligMotions::Motion_27_SpeakBullshit2);
+            mNextMotion = eSligMotions::Motion_27_SpeakBullshit2;
             field_120_timer = MakeTimer(15);
             return 113;
         }
@@ -3326,7 +3326,7 @@ s16 Slig::Brain_12_PanicTurning()
     {
         if (GetAnimation().GetIsLastFrame())
         {
-            SetNextMotion(eSligMotions::Motion_5_TurnAroundStanding);
+            mNextMotion = eSligMotions::Motion_5_TurnAroundStanding;
             return 107;
         }
         checkTurn = true;
@@ -3442,7 +3442,7 @@ s16 Slig::Brain_14_PanicYelling()
     {
         if (mNextMotion != eSligMotions::Motion_28_SpeakPanic)
         {
-            SetNextMotion(eSligMotions::Motion_28_SpeakPanic);
+            mNextMotion = eSligMotions::Motion_28_SpeakPanic;
         }
 
         if (mCurrentMotion != eSligMotions::Motion_28_SpeakPanic)
@@ -3575,7 +3575,7 @@ s16 Slig::Brain_16_StopChasing()
     {
         if (HandleEnemyStopper(4))
         {
-            SetNextMotion(eSligMotions::Motion_0_StandIdle);
+            mNextMotion = eSligMotions::Motion_0_StandIdle;
             SetBrain(&Slig::Brain_15_Idle);
             field_120_timer = MakeTimer(1);
         }
@@ -3611,7 +3611,7 @@ s16 Slig::Brain_17_Chasing()
 
     if (HandleEnemyStopper(4))
     {
-        SetNextMotion(eSligMotions::Motion_0_StandIdle);
+        mNextMotion = eSligMotions::Motion_0_StandIdle;
         SetBrain(&Slig::Brain_15_Idle);
         field_120_timer = MakeTimer(1);
         return 118;
@@ -3659,7 +3659,7 @@ s16 Slig::Brain_18_StartChasing()
         }
 
         field_15C_force_alive_state = 1;
-        SetNextMotion(eSligMotions::Motion_4_Running);
+        mNextMotion = eSligMotions::Motion_4_Running;
         SetBrain(&Slig::Brain_17_Chasing);
         field_120_timer = mSligTlv.mData.mPauseTime;
     }
@@ -3741,16 +3741,16 @@ s16 Slig::Brain_20_StoppingNextToMudokon()
     {
         if (Math_NextRandom() & 1)
         {
-            SetNextMotion(eSligMotions::Motion_25_SpeakBullshit1);
+            mNextMotion = eSligMotions::Motion_25_SpeakBullshit1;
         }
         else
         {
-            SetNextMotion(eSligMotions::Motion_27_SpeakBullshit2);
+            mNextMotion = eSligMotions::Motion_27_SpeakBullshit2;
         }
     }
     else
     {
-        SetNextMotion(eSligMotions::Motion_51_Beat);
+        mNextMotion = eSligMotions::Motion_51_Beat;
         SetBrain(&Slig::Brain_24_BeatingUp);
     }
 
@@ -3859,7 +3859,7 @@ s16 Slig::Brain_21_Walking()
             {
                 if (Math_NextRandom() < mSligTlv.mData.mPercentBeatMud && FindBeatTarget(2) && mCurrentMotion != eSligMotions::Motion_0_StandIdle)
                 {
-                    SetNextMotion(eSligMotions::Motion_0_StandIdle);
+                    mNextMotion = eSligMotions::Motion_0_StandIdle;
                     SetBrain(&Slig::Brain_20_StoppingNextToMudokon);
                     field_120_timer = MakeTimer(30);
                 }
@@ -3924,7 +3924,7 @@ s16 Slig::Brain_22_GetAlertedTurn()
     }
     else
     {
-        SetNextMotion(eSligMotions::Motion_5_TurnAroundStanding);
+        mNextMotion = eSligMotions::Motion_5_TurnAroundStanding;
     }
     return 123;
 }
@@ -3940,7 +3940,7 @@ s16 Slig::Brain_23_GetAlerted()
     }
     else
     {
-        SetNextMotion(eSligMotions::Motion_29_SpeakWhat);
+        mNextMotion = eSligMotions::Motion_29_SpeakWhat;
     }
 
     // Check if we should be killing Abe
@@ -4028,19 +4028,19 @@ s16 Slig::Brain_24_BeatingUp()
 
     if (Math_NextRandom() < 100)
     {
-        SetNextMotion(eSligMotions::Motion_51_Beat);
+        mNextMotion = eSligMotions::Motion_51_Beat;
         return 129;
     }
 
     if (Math_NextRandom() < 64)
     {
-        SetNextMotion(eSligMotions::Motion_25_SpeakBullshit1);
+        mNextMotion = eSligMotions::Motion_25_SpeakBullshit1;
         return 129;
     }
 
     if (Math_NextRandom() < 64)
     {
-        SetNextMotion(eSligMotions::Motion_27_SpeakBullshit2);
+        mNextMotion = eSligMotions::Motion_27_SpeakBullshit2;
         return 129;
     }
 
@@ -4111,7 +4111,7 @@ s16 Slig::Brain_29_Shooting()
 
         if (field_158_num_times_to_shoot < mSligTlv.mData.mNumTimesToShoot)
         {
-            SetNextMotion(eSligMotions::Motion_6_Shoot);
+            mNextMotion = eSligMotions::Motion_6_Shoot;
             return 111;
         }
 
@@ -4155,7 +4155,7 @@ s16 Slig::Brain_30_ZSpottedEnemy()
     {
         return 126;
     }
-    SetNextMotion(eSligMotions::Motion_42_ShootZ);
+    mNextMotion = eSligMotions::Motion_42_ShootZ;
     SetBrain(&Slig::Brain_28_ZShooting);
     return 126;
 }
@@ -4302,7 +4302,7 @@ s16 Slig::Brain_35_ChaseAndDisappear()
             return mBrainSubState;
         }
 
-        SetCurrentMotion(eSligMotions::Motion_0_StandIdle);
+        mCurrentMotion = eSligMotions::Motion_0_StandIdle;
         field_120_timer = sGnFrame + mSligTlv.mData.mPauseTime;
         return Brain_35_ChaseAndDisappear::eBrain35_Running_1;
     }
@@ -4313,7 +4313,7 @@ s16 Slig::Brain_35_ChaseAndDisappear()
             return mBrainSubState;
         }
 
-        SetNextMotion(eSligMotions::Motion_4_Running);
+        mNextMotion = eSligMotions::Motion_4_Running;
         return Brain_35_ChaseAndDisappear::eBrain35_ReachedDestination_2;
     }
     else
@@ -4353,7 +4353,7 @@ void Slig::Init()
             else
             {
                 SetBrain(&Slig::Brain_34_Sleeping);
-                SetCurrentMotion(eSligMotions::Motion_32_Sleeping);
+                mCurrentMotion = eSligMotions::Motion_32_Sleeping;
                 VUpdateAnimData();
             }
             break;
@@ -4711,7 +4711,7 @@ void Slig::VPossessed()
     mPreventDepossession |= 1u;
     if (mNextMotion != eSligMotions::Motion_35_KnockbackToStand && mNextMotion != eSligMotions::Motion_34_Knockback)
     {
-        SetNextMotion(eSligMotions::Motion_0_StandIdle);
+        mNextMotion = eSligMotions::Motion_0_StandIdle;
     }
     SetBrain(&Slig::Brain_2_Possessed);
     mBrainSubState = Brain_2_Possessed::eBrain2_StartPossession_0;
@@ -4725,7 +4725,7 @@ void Slig::VPossessed()
 
 void Slig::VUnPosses()
 {
-    SetNextMotion(eSligMotions::Motion_0_StandIdle);
+    mNextMotion = eSligMotions::Motion_0_StandIdle;
     field_120_timer = MakeTimer(180);
     MusicController::static_PlayMusic(MusicController::MusicTypes::eNone_0, this, 0, 0);
 }
@@ -4756,11 +4756,11 @@ void Slig::VShot()
 {
     if (field_136_shot_motion != eSligMotions::eNone_m1)
     {
-        SetCurrentMotion(field_136_shot_motion);
+        mCurrentMotion = field_136_shot_motion;
     }
 
     mbGotShot = false;
-    SetNextMotion(eSligMotions::eNone_m1);
+    mNextMotion = eSligMotions::eNone_m1;
     field_136_shot_motion = eSligMotions::eNone_m1;
     SetBrain(&Slig::Brain_0_Death);
     field_120_timer = MakeTimer(60);
@@ -4780,7 +4780,7 @@ bool Slig::vUnderGlukkonCommand_4B1760()
 
 void Slig::WakeUp()
 {
-    SetNextMotion(eSligMotions::Motion_33_SleepingToStand);
+    mNextMotion = eSligMotions::Motion_33_SleepingToStand;
     SetBrain(&Slig::Brain_31_WakingUp);
 
     MusicController::static_PlayMusic(MusicController::MusicTypes::eTension_4, this, 0, 0);
@@ -4860,7 +4860,7 @@ void Slig::ShouldStillBeAlive()
 
 void Slig::ToTurn()
 {
-    SetNextMotion(eSligMotions::Motion_5_TurnAroundStanding);
+    mNextMotion = eSligMotions::Motion_5_TurnAroundStanding;
     SetBrain(&Slig::Brain_19_Turning);
 }
 
@@ -4869,18 +4869,18 @@ void Slig::RespondWithWhat()
     field_120_timer = MakeTimer(20);
     if (VIsFacingMe(sControlledCharacter))
     {
-        SetNextMotion(eSligMotions::Motion_0_StandIdle);
+        mNextMotion = eSligMotions::Motion_0_StandIdle;
     }
     else
     {
-        SetNextMotion(eSligMotions::Motion_5_TurnAroundStanding);
+        mNextMotion = eSligMotions::Motion_5_TurnAroundStanding;
     }
     SetBrain(&Slig::Brain_25_DiscussionWhat);
 }
 
 void Slig::ToShoot()
 {
-    SetNextMotion(eSligMotions::Motion_6_Shoot);
+    mNextMotion = eSligMotions::Motion_6_Shoot;
     SetBrain(&Slig::Brain_29_Shooting);
     field_158_num_times_to_shoot = 0;
     MusicController::static_PlayMusic(MusicController::MusicTypes::eSoftChase_8, this, 0, 0);
@@ -4888,7 +4888,7 @@ void Slig::ToShoot()
 
 void Slig::ToZShoot()
 {
-    SetNextMotion(eSligMotions::Motion_0_StandIdle);
+    mNextMotion = eSligMotions::Motion_0_StandIdle;
     field_120_timer = sGnFrame + mSligTlv.mData.mZShootDelay;
     SetBrain(&Slig::Brain_30_ZSpottedEnemy);
     MusicController::static_PlayMusic(MusicController::MusicTypes::eSoftChase_8, this, 0, 0);
@@ -4912,7 +4912,7 @@ void Slig::PauseALittle()
             field_120_timer += Math_NextRandom() % (mSligTlv.mData.mPauseRightMax - mSligTlv.mData.mPauseRightMin);
         }
     }
-    SetNextMotion(eSligMotions::Motion_0_StandIdle);
+    mNextMotion = eSligMotions::Motion_0_StandIdle;
     SetBrain(&Slig::Brain_15_Idle);
 }
 
@@ -4921,7 +4921,7 @@ void Slig::ToStand()
     mFallingVelxScaleFactor = FP_FromInteger(0);
     mVelX = FP_FromInteger(0);
     mVelY = FP_FromInteger(0);
-    SetCurrentMotion(eSligMotions::Motion_0_StandIdle);
+    mCurrentMotion = eSligMotions::Motion_0_StandIdle;
     mInput = 0;
     field_12C_timer = Math_RandomRange(0, 60) + MakeTimer(120);
     MapFollowMe(true);
@@ -4966,7 +4966,7 @@ void Slig::BlowToGibs()
 
     GetAnimation().SetRender(false);
 
-    SetCurrentMotion(eSligMotions::Motion_0_StandIdle);
+    mCurrentMotion = eSligMotions::Motion_0_StandIdle;
     mVelY = FP_FromInteger(0);
     mVelX = FP_FromInteger(0);
     mHealth = FP_FromInteger(0);
@@ -4986,7 +4986,7 @@ s16 Slig::MainMovement()
 
     if (mNextMotion == eSligMotions::Motion_5_TurnAroundStanding)
     {
-        SetCurrentMotion(eSligMotions::Motion_5_TurnAroundStanding);
+        mCurrentMotion = eSligMotions::Motion_5_TurnAroundStanding;
         mNextMotion = eSligMotions::eNone_m1;
         return 1;
     }
@@ -5003,7 +5003,7 @@ s16 Slig::MainMovement()
             {
                 mVelX = (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(4));
             }
-            SetCurrentMotion(eSligMotions::Motion_3_StandToRun);
+            mCurrentMotion = eSligMotions::Motion_3_StandToRun;
             mNextMotion = eSligMotions::eNone_m1;
             return 1;
         }
@@ -5024,7 +5024,7 @@ s16 Slig::MainMovement()
                 if (mNextMotion == eSligMotions::Motion_12_ReloadGun || mNextMotion == eSligMotions::Motion_45_PullLever || mNextMotion == eSligMotions::Motion_14_SteppingToStand || mNextMotion == eSligMotions::Motion_46_LiftGrip || mNextMotion == eSligMotions::Motion_51_Beat)
                 {
                     mCurrentMotion = mNextMotion;
-                    SetNextMotion(eSligMotions::eNone_m1);
+                    mNextMotion = eSligMotions::eNone_m1;
                     return 1;
                 }
                 else
@@ -5034,7 +5034,7 @@ s16 Slig::MainMovement()
                 }
             }
 
-            SetCurrentMotion(GetNextMotionIncGameSpeak(0));
+            mCurrentMotion = GetNextMotionIncGameSpeak(0);
             if (mCurrentMotion == eSligMotions::eNone_m1)
             {
                 ToStand();
@@ -5067,7 +5067,7 @@ s16 Slig::MainMovement()
         mVelX = (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(9));
     }
 
-    SetCurrentMotion(eSligMotions::Motion_1_StandToWalk);
+    mCurrentMotion = eSligMotions::Motion_1_StandToWalk;
     mNextMotion = eSligMotions::eNone_m1;
 
     return 1;
@@ -5105,21 +5105,21 @@ s16 Slig::LeftRigtMovement(MovementDirection direction)
 
     if ((direction == MovementDirection::eLeft && !GetAnimation().GetFlipX()) || (direction == MovementDirection::eRight && GetAnimation().GetFlipX()))
     {
-        SetCurrentMotion(eSligMotions::Motion_5_TurnAroundStanding);
+        mCurrentMotion = eSligMotions::Motion_5_TurnAroundStanding;
         return 1;
     }
 
     if (Input().IsAnyHeld(InputCommands::eRun))
     {
         mVelX = StandToRunVelX;
-        SetCurrentMotion(eSligMotions::Motion_3_StandToRun);
+        mCurrentMotion = eSligMotions::Motion_3_StandToRun;
         return 1;
     }
 
     if (!WallHit(GetSpriteScale() * FP_FromInteger(45), offX1))
     {
         mVelX = StandingToStepVelX;
-        SetCurrentMotion(eSligMotions::Motion_15_StandingToStep);
+        mCurrentMotion = eSligMotions::Motion_15_StandingToStep;
         return 1;
     }
 
@@ -5129,7 +5129,7 @@ s16 Slig::LeftRigtMovement(MovementDirection direction)
     }
 
     mVelX = SteppingToStandVelX;
-    SetCurrentMotion(eSligMotions::Motion_14_SteppingToStand);
+    mCurrentMotion = eSligMotions::Motion_14_SteppingToStand;
     return 1;
 }
 
@@ -5152,19 +5152,19 @@ void Slig::PullLever()
     if (pSwitch && !GetTeleporting())
     {
         pSwitch->VPull(mXPos < pSwitch->mXPos);
-        SetCurrentMotion(eSligMotions::Motion_45_PullLever);
+        mCurrentMotion = eSligMotions::Motion_45_PullLever;
         return;
     }
 
     Slig_GameSpeak_SFX(SligSpeak::eWhat_9, 0, field_11E_pitch_min, this);
-    SetCurrentMotion(eSligMotions::Motion_29_SpeakWhat);
+    mCurrentMotion = eSligMotions::Motion_29_SpeakWhat;
 }
 
 s16 Slig::ToShootZ()
 {
     if (Input().IsAnyHeld(InputCommands::eThrowItem) && GetSpriteScale() == FP_FromDouble(0.5) && !GetTeleporting())
     {
-        SetCurrentMotion(eSligMotions::Motion_42_ShootZ);
+        mCurrentMotion = eSligMotions::Motion_42_ShootZ;
         mNextMotion = eSligMotions::eNone_m1;
         field_12C_timer = MakeTimer(60);
         return 1;
@@ -5176,11 +5176,11 @@ void Slig::ShootOrShootZ()
 {
     if (!Input().IsAnyHeld(InputCommands::eDown) || GetSpriteScale() != FP_FromDouble(0.5) || GetTeleporting())
     {
-        SetCurrentMotion(eSligMotions::Motion_6_Shoot);
+        mCurrentMotion = eSligMotions::Motion_6_Shoot;
     }
     else
     {
-        SetCurrentMotion(eSligMotions::Motion_42_ShootZ);
+        mCurrentMotion = eSligMotions::Motion_42_ShootZ;
     }
 
     mNextMotion = eSligMotions::eNone_m1;
@@ -5197,7 +5197,7 @@ s16 Slig::GrabNearbyLift()
         const FP distToSwitchMid = (mXPos - midSwitchX) >= FP_FromInteger(0) ? mXPos - midSwitchX : midSwitchX - mXPos;
         if (distToSwitchMid < halfGrid)
         {
-            SetCurrentMotion(eSligMotions::Motion_46_LiftGrip);
+            mCurrentMotion = eSligMotions::Motion_46_LiftGrip;
             return 1;
         }
     }
@@ -5230,7 +5230,7 @@ s16 Slig::HandlePlayerControlled()
 
     if (Input().IsAnyHeld(InputCommands::eFartOrRoll))
     {
-        SetCurrentMotion(eSligMotions::Motion_51_Beat);
+        mCurrentMotion = eSligMotions::Motion_51_Beat;
         field_12C_timer = MakeTimer(60);
         return 1;
     }
@@ -5260,14 +5260,14 @@ s16 Slig::HandlePlayerControlled()
         if (Input().IsAnyPressed(InputCommands::eUp))
         {
             Slig_GameSpeak_SFX(SligSpeak::eWhat_9, 0, field_11E_pitch_min, this);
-            SetCurrentMotion(eSligMotions::Motion_29_SpeakWhat);
+            mCurrentMotion = eSligMotions::Motion_29_SpeakWhat;
             return 1;
         }
     }
     else if (Input().IsAnyPressed(InputCommands::eFartOrRoll | InputCommands::eHop))
     {
         Slig_GameSpeak_SFX(SligSpeak::eBlurgh_11, 0, field_11E_pitch_min, this);
-        SetCurrentMotion(eSligMotions::Motion_31_Blurgh);
+        mCurrentMotion = eSligMotions::Motion_31_Blurgh;
         return 1;
     }
     ToStand();
@@ -5291,49 +5291,49 @@ eSligMotions Slig::GetNextMotionIncGameSpeak(s32 input)
 
         if (InputCommands::eGameSpeak2 & input)
         {
-            SetNextMotion(eSligMotions::Motion_20_SpeakHereBoy);
+            mNextMotion = eSligMotions::Motion_20_SpeakHereBoy;
         }
         else if (input & InputCommands::eGameSpeak1)
         {
-            SetNextMotion(eSligMotions::Motion_21_SpeakHi);
+            mNextMotion = eSligMotions::Motion_21_SpeakHi;
         }
         else if (input & InputCommands::eGameSpeak3)
         {
             if (Input().Is_Demo_Playing_45F220() != 0)
             {
-                SetNextMotion(eSligMotions::Motion_23_SpeakGetHim);
+                mNextMotion = eSligMotions::Motion_23_SpeakGetHim;
             }
             else
             {
-                SetNextMotion(eSligMotions::Motion_22_SpeakFreeze);
+                mNextMotion = eSligMotions::Motion_22_SpeakFreeze;
             }
         }
         else if (input & InputCommands::eGameSpeak4)
         {
             if (Input().Is_Demo_Playing_45F220() != 0)
             {
-                SetNextMotion(eSligMotions::Motion_22_SpeakFreeze);
+                mNextMotion = eSligMotions::Motion_22_SpeakFreeze;
             }
             else
             {
-                SetNextMotion(eSligMotions::Motion_23_SpeakGetHim);
+                mNextMotion = eSligMotions::Motion_23_SpeakGetHim;
             }
         }
         else if (input & InputCommands::eGameSpeak8)
         {
-            SetNextMotion(eSligMotions::Motion_24_SpeakLaugh);
+            mNextMotion = eSligMotions::Motion_24_SpeakLaugh;
         }
         else if (input & InputCommands::eGameSpeak6)
         {
-            SetNextMotion(eSligMotions::Motion_25_SpeakBullshit1);
+            mNextMotion = eSligMotions::Motion_25_SpeakBullshit1;
         }
         else if (input & InputCommands::eGameSpeak7)
         {
-            SetNextMotion(eSligMotions::Motion_26_SpeakLookOut);
+            mNextMotion = eSligMotions::Motion_26_SpeakLookOut;
         }
         else if (input & InputCommands::eGameSpeak5)
         {
-            SetNextMotion(eSligMotions::Motion_27_SpeakBullshit2);
+            mNextMotion = eSligMotions::Motion_27_SpeakBullshit2;
         }
         else
         {
@@ -5418,7 +5418,7 @@ eSligMotions Slig::GetNextMotionIncGameSpeak(s32 input)
 
         Slig_GameSpeak_SFX(speak, 0, field_11E_pitch_min, this);
         mCurrentMotion = mNextMotion;
-        SetNextMotion(eSligMotions::eNone_m1);
+        mNextMotion = eSligMotions::eNone_m1;
         return mCurrentMotion;
     }
 
@@ -5427,7 +5427,7 @@ eSligMotions Slig::GetNextMotionIncGameSpeak(s32 input)
 
 void Slig::WaitOrWalk()
 {
-    SetNextMotion(eSligMotions::Motion_2_Walking);
+    mNextMotion = eSligMotions::Motion_2_Walking;
     SetBrain(&Slig::Brain_21_Walking);
 
     // Right rect bound
@@ -5452,7 +5452,7 @@ void Slig::WaitOrWalk()
 
 void Slig::ToAbeDead()
 {
-    SetNextMotion(eSligMotions::Motion_24_SpeakLaugh);
+    mNextMotion = eSligMotions::Motion_24_SpeakLaugh;
     SetBrain(&Slig::Brain_10_EnemyDead);
     field_120_timer = MakeTimer(45);
 }
@@ -5465,7 +5465,7 @@ void Slig::ToUnderGlukkonCommand()
 
 void Slig::ToKilledAbe()
 {
-    SetNextMotion(eSligMotions::Motion_0_StandIdle);
+    mNextMotion = eSligMotions::Motion_0_StandIdle;
     SetBrain(&Slig::Brain_11_KilledEnemy);
     field_120_timer = MakeTimer(15);
 }
@@ -5605,7 +5605,7 @@ void Slig::ToKnockBack()
         mVelY = FP_FromInteger(0);
     }
 
-    SetCurrentMotion(eSligMotions::Motion_34_Knockback);
+    mCurrentMotion = eSligMotions::Motion_34_Knockback;
     field_12C_timer = MakeTimer(10);
 }
 
@@ -5618,7 +5618,7 @@ void Slig::TurnOrSayWhat()
     }
     else
     {
-        SetNextMotion(eSligMotions::Motion_5_TurnAroundStanding);
+        mNextMotion = eSligMotions::Motion_5_TurnAroundStanding;
         SetBrain(&Slig::Brain_22_GetAlertedTurn);
     }
 }
@@ -5724,7 +5724,7 @@ void Slig::GoAlertedOrSayWhat()
     }
     else
     {
-        SetNextMotion(eSligMotions::Motion_0_StandIdle);
+        mNextMotion = eSligMotions::Motion_0_StandIdle;
         field_294_next_gamespeak_motion = eSligMotions::Motion_29_SpeakWhat;
         SetBrain(&Slig::Brain_23_GetAlerted);
         field_120_timer = sGnFrame + mSligTlv.mData.mAlertedListenTime;
@@ -5777,7 +5777,7 @@ void Slig::MoveOnLine()
             VOnTrapDoorOpen();
             mXPos = xpos + mVelX;
             BaseAliveGameObjectLastLineYPos = mYPos;
-            SetCurrentMotion(eSligMotions::Motion_39_FallingInitiate);
+            mCurrentMotion = eSligMotions::Motion_39_FallingInitiate;
             mFallingVelxScaleFactor = FP_FromDouble(0.3);
 
             if (mVelX > (FP_FromInteger(6) * GetSpriteScale()))
@@ -5794,7 +5794,7 @@ void Slig::MoveOnLine()
     else
     {
         VOnTrapDoorOpen();
-        SetCurrentMotion(eSligMotions::Motion_38_OutToFall);
+        mCurrentMotion = eSligMotions::Motion_38_OutToFall;
         BaseAliveGameObjectLastLineYPos = mYPos;
     }
 }
@@ -5805,7 +5805,7 @@ void Slig::PlayerControlStopWalkingIfRequired()
     if ((mVelX > FP_FromInteger(0) && Input().IsAnyHeld(InputCommands::eLeft)) || (mVelX < FP_FromInteger(0) && Input().IsAnyHeld(InputCommands::eRight)) || !Input().IsAnyHeld(InputCommands::eLeft | InputCommands::eRight))
     {
         // Then go to standing
-        SetCurrentMotion(eSligMotions::Motion_18_WalkToStand);
+        mCurrentMotion = eSligMotions::Motion_18_WalkToStand;
     }
     mInput = 0;
 }
@@ -5948,7 +5948,7 @@ void Slig::ToChase()
         GetAnimation().ToggleFlipX();
     }
 
-    SetNextMotion(eSligMotions::Motion_0_StandIdle);
+    mNextMotion = eSligMotions::Motion_0_StandIdle;
     SetBrain(&Slig::Brain_18_StartChasing);
     MusicController::static_PlayMusic(MusicController::MusicTypes::eSoftChase_8, this, 0, 0);
 }
@@ -6000,13 +6000,13 @@ s16 Slig::HandleEnemyStopper(s32 gridBlocks)
 
 void Slig::ToPanic()
 {
-    SetNextMotion(eSligMotions::Motion_28_SpeakPanic);
+    mNextMotion = eSligMotions::Motion_28_SpeakPanic;
     SetBrain(&Slig::Brain_14_PanicYelling);
 }
 
 void Slig::ToPanicTurn()
 {
-    SetNextMotion(eSligMotions::Motion_5_TurnAroundStanding);
+    mNextMotion = eSligMotions::Motion_5_TurnAroundStanding;
     SetBrain(&Slig::Brain_12_PanicTurning);
 }
 
@@ -6037,7 +6037,7 @@ void Slig::PlayerControlRunningSlideStopOrTurnFrame12()
     if (curVelX > FP_FromInteger(0) && Input().IsAnyHeld(InputCommands::eLeft))
     {
         mVelX = GetSpriteScale() * FP_FromDouble(13.2);
-        SetCurrentMotion(eSligMotions::Motion_9_SlidingTurn);
+        mCurrentMotion = eSligMotions::Motion_9_SlidingTurn;
         mInput = 0;
         return;
     }
@@ -6045,7 +6045,7 @@ void Slig::PlayerControlRunningSlideStopOrTurnFrame12()
     if (curVelX < FP_FromInteger(0) && Input().IsAnyHeld(InputCommands::eRight))
     {
         mVelX = (GetSpriteScale() * -FP_FromDouble(13.2));
-        SetCurrentMotion(eSligMotions::Motion_9_SlidingTurn);
+        mCurrentMotion = eSligMotions::Motion_9_SlidingTurn;
         mInput = 0;
         return;
     }
@@ -6060,7 +6060,7 @@ void Slig::PlayerControlRunningSlideStopOrTurnFrame12()
         {
             mVelX = (GetSpriteScale() * -FP_FromDouble(13.2));
         }
-        SetCurrentMotion(eSligMotions::Motion_8_SlidingToStand);
+        mCurrentMotion = eSligMotions::Motion_8_SlidingToStand;
         mInput = 0;
         return;
     }
@@ -6071,7 +6071,7 @@ void Slig::PlayerControlRunningSlideStopOrTurnFrame12()
         return;
     }
 
-    SetPreviousMotion(eSligMotions::Motion_2_Walking);
+    mPreviousMotion = eSligMotions::Motion_2_Walking;
     mBaseAliveGameObjectLastAnimFrame = 15;
     mReturnToPreviousMotion = true;
 
@@ -6093,7 +6093,7 @@ void Slig::PlayerControlRunningSlideStopOrTurnFrame4()
     if (curVelX > FP_FromInteger(0) && Input().IsAnyHeld(InputCommands::eLeft))
     {
         mVelX = (GetSpriteScale() * FP_FromDouble(13.2));
-        SetCurrentMotion(eSligMotions::Motion_9_SlidingTurn);
+        mCurrentMotion = eSligMotions::Motion_9_SlidingTurn;
         mInput = 0;
         return;
     }
@@ -6101,7 +6101,7 @@ void Slig::PlayerControlRunningSlideStopOrTurnFrame4()
     if (curVelX < FP_FromInteger(0) && Input().IsAnyHeld(InputCommands::eRight))
     {
         mVelX = (GetSpriteScale() * -FP_FromDouble(13.2));
-        SetCurrentMotion(eSligMotions::Motion_9_SlidingTurn);
+        mCurrentMotion = eSligMotions::Motion_9_SlidingTurn;
         mInput = 0;
         return;
     }
@@ -6116,7 +6116,7 @@ void Slig::PlayerControlRunningSlideStopOrTurnFrame4()
         {
             mVelX = (GetSpriteScale() * -FP_FromDouble(13.2));
         }
-        SetCurrentMotion(eSligMotions::Motion_8_SlidingToStand);
+        mCurrentMotion = eSligMotions::Motion_8_SlidingToStand;
         mInput = 0;
         return;
     }
@@ -6127,7 +6127,7 @@ void Slig::PlayerControlRunningSlideStopOrTurnFrame4()
         return;
     }
 
-    SetPreviousMotion(eSligMotions::Motion_2_Walking);
+    mPreviousMotion = eSligMotions::Motion_2_Walking;
     mBaseAliveGameObjectLastAnimFrame = 6;
     mReturnToPreviousMotion = true;
 
@@ -6203,7 +6203,7 @@ void Slig::TurnOrWalk()
 
 void Slig::ToPanicRunning()
 {
-    SetNextMotion(eSligMotions::Motion_4_Running);
+    mNextMotion = eSligMotions::Motion_4_Running;
     SetBrain(&Slig::Brain_13_PanicRunning);
     Brain_13_PanicRunning();
     MusicController::static_PlayMusic(MusicController::MusicTypes::eSoftChase_8, this, 0, 0);
@@ -6217,7 +6217,7 @@ void Slig::RespondToEnemyOrPatrol()
             mSligTlv.mData.mShootPossessedSligs != relive::reliveChoice::eNo)
         {
             SetBrain(&Slig::Brain_7_SpottedEnemy);
-            SetNextMotion(eSligMotions::Motion_30_SpeakAIFreeze);
+            mNextMotion = eSligMotions::Motion_30_SpeakAIFreeze;
             field_120_timer = sGnFrame + mSligTlv.mData.mShootOnSightDelay;
         }
         else
@@ -6466,7 +6466,7 @@ bool Slig::VTakeDamage(BaseGameObject* pFrom)
 
                 if (mCurrentMotion != eSligMotions::Motion_37_Possess && mCurrentMotion != eSligMotions::Motion_44_Smash && mCurrentMotion != eSligMotions::Motion_34_Knockback)
                 {
-                    SetNextMotion(eSligMotions::Motion_37_Possess);
+                    mNextMotion = eSligMotions::Motion_37_Possess;
                     field_136_shot_motion = eSligMotions::Motion_37_Possess;
                     field_150_explode_timer = MakeTimer(20);
                     VShot();
@@ -6503,7 +6503,7 @@ bool Slig::VTakeDamage(BaseGameObject* pFrom)
             GetAnimation().SetRender(false);
             SetUpdateDelay(40);
             SetBrain(&Slig::Brain_1_ReturnControlToAbeAndDie);
-            SetCurrentMotion(eSligMotions::Motion_0_StandIdle);
+            mCurrentMotion = eSligMotions::Motion_0_StandIdle;
             VUpdateAnimData();
             EventBroadcast(kEventMudokonComfort, this);
             return true;
@@ -6581,13 +6581,13 @@ bool Slig::VTakeDamage(BaseGameObject* pFrom)
 
                 mbMotionChanged = true;
                 field_12C_timer = MakeTimer(10);
-                SetCurrentMotion(eSligMotions::Motion_34_Knockback);
-                SetNextMotion(eSligMotions::Motion_34_Knockback);
+                mCurrentMotion = eSligMotions::Motion_34_Knockback;
+                mNextMotion = eSligMotions::Motion_34_Knockback;
                 field_136_shot_motion = eSligMotions::Motion_34_Knockback;
             }
             else
             {
-                SetNextMotion(eSligMotions::Motion_44_Smash);
+                mNextMotion = eSligMotions::Motion_44_Smash;
                 field_136_shot_motion = eSligMotions::Motion_44_Smash;
             }
             return true;
@@ -6620,7 +6620,7 @@ bool Slig::VTakeDamage(BaseGameObject* pFrom)
 
     mbGotShot = true;
     mHealth = FP_FromInteger(0);
-    SetNextMotion(eSligMotions::Motion_44_Smash);
+    mNextMotion = eSligMotions::Motion_44_Smash;
     field_136_shot_motion = eSligMotions::Motion_44_Smash;
     EventBroadcast(kEventMudokonComfort, this);
     return true;

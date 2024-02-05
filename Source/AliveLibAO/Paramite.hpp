@@ -176,22 +176,6 @@ public:
     void Motion_24_Struggle();
     void Motion_25_Death();
 
-    // TODO: remove these later
-    void SetPreviousMotion(eParamiteMotions motion)
-    {
-        mPreviousMotion = motion;
-    }
-
-    void SetCurrentMotion(eParamiteMotions motion)
-    {
-        mCurrentMotion = motion;
-    }
-
-    void SetNextMotion(eParamiteMotions motion)
-    {
-        mNextMotion = motion;
-    }
-
     TParamiteBrain mBrainState = nullptr;
     s16 mBrainSubState = 0;
     s16 mSurpriseWebDelayTimer = 0;
@@ -214,7 +198,6 @@ public:
     eParamiteMotions mPreviousMotion = eParamiteMotions::Motion_0_Idle;
     eParamiteMotions mCurrentMotion = eParamiteMotions::Motion_0_Idle;
     eParamiteMotions mNextMotion = eParamiteMotions::Motion_0_Idle;
-    bool mbMotionChanged = false;
 };
 
 } // namespace AO
