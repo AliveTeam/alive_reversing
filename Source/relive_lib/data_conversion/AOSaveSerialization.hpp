@@ -1,3 +1,5 @@
+#pragma once
+
 #include "nlohmann/json.hpp"
 #include "CommonTypesSerialization.hpp"
 #include "../../AliveLibAO/SaveGame.hpp"

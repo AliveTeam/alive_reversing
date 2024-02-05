@@ -1405,11 +1405,11 @@ void Menu::To_Load_Update()
         if (pMenuTrans->field_16_bDone)
         {
             sSaveIdx = 0;
-            IO_EnumerateDirectory("*.sav", [](const char_type* fileName, u32 /*lastWriteTime*/)
+            IO_EnumerateDirectory("*.json", [](const char_type* fileName, u32 /*lastWriteTime*/)
                                   {
                                       if (sSaveIdx < 128) // TODO: Array len
                                       {
-                                          size_t saveNameLen = strlen(fileName) - 4;
+                                          size_t saveNameLen = strlen(fileName) - 5; // remove .json
 
                                           // Limit length to prevent buffer overflow
                                           if (saveNameLen > 19)

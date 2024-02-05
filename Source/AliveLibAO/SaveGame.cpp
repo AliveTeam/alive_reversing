@@ -9,6 +9,9 @@
 #include "MusicController.hpp"
 #include "ResourceManager.hpp"
 #include "../AliveLibAE/GasCountDown.hpp"
+#include "nlohmann/json.hpp"
+#include "../relive_lib/data_conversion/AOSaveSerialization.hpp"
+#include "../relive_lib/data_conversion/data_conversion.hpp"
 
 namespace AO {
 
@@ -292,19 +295,18 @@ s16 SaveGame::LoadFromFile(const char_type* name)
     strcpy(buffer, name);
     strcat(buffer, ".json");
 
-    const auto file = fopen(buffer, "rb");
-    if (!file)
+    FileSystem fs;
+    std::string jsonStr = fs.LoadToString(buffer);
+
+    if (jsonStr.empty())
     {
-        return 0;
-    }
-    const auto readVar = fread(&sSaveToLoadBuffer, 1, sizeof(SaveData), file);
-    fclose(file);
-    if (readVar != sizeof(SaveData))
-    {
-        return 0;
+        ALIVE_FATAL("Save file is empty");
     }
 
+    nlohmann::json j = nlohmann::json::parse(jsonStr);
+    from_json(j, sSaveToLoadBuffer);
     gSaveBuffer = sSaveToLoadBuffer;
+
     LoadFromMemory(&gSaveBuffer, 1);
     gSaveBuffer.mCurrentCamera = gSaveBuffer.mContinuePoint_Camera;
     Input().SetCurrentController(InputObject::PadIndex::First);
@@ -319,15 +321,12 @@ bool SaveGame::SaveToFile(const char_type* name)
 
     strcpy(buffer, name);
     strcat(buffer, ".json");
-    const auto file = fopen(buffer, "wb");
-    if (!file)
-    {
-        return 0;
-    }
-    const auto written = fwrite(&gSaveBuffer, 1, sizeof(SaveData), file);
-    fclose(file);
 
-    return written == sizeof(SaveData) ? 1 : 0;
+    nlohmann::json j;
+    to_json(j, gSaveBuffer);
+
+    FileSystem fs;
+    return SaveJson(j, fs, buffer);
 }
 
 } // namespace AO

@@ -2,13 +2,13 @@
 #include "../MapWrapper.hpp"
 
 // serialization support for each relive tlv type and any supporting nested types
-static void to_json(nlohmann::json& j, const Guid& p)
+inline void to_json(nlohmann::json& j, const Guid& p)
 {
     j = nlohmann::json{
         {"guid", p.ToString()},
     };
 }
-static void from_json(const nlohmann::json& j, Guid& p)
+inline void from_json(const nlohmann::json& j, Guid& p)
 {
     // Pull the json value into the string
     std::string tmp;
