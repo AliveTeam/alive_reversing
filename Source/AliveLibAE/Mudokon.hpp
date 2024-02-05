@@ -36,8 +36,9 @@ enum Mud_Brain_State : u16
 
 // Note can't use the macro magic here because there are duplicate names because
 // speak generic appears 3 times :(
-enum eMudMotions : s16
+enum class eMudMotions
 {
+    None_m1 = -1,
     Motion_0_Idle,
     Motion_1_WalkLoop,
     Motion_2_StandingTurn,
@@ -268,14 +269,6 @@ public:
 
 
 private:
-    eMudMotions GetNextMotion() const
-    {
-        return static_cast<eMudMotions>(mNextMotion);
-    }
-    eMudMotions GetCurrentMotion() const
-    {
-        return static_cast<eMudMotions>(mCurrentMotion);
-    }
 
     void SetPal(Mud_Emotion emotion);
     s16 FacingBirdPortal(BirdPortal* pTarget);
@@ -452,8 +445,13 @@ private:
     eMudMotions field_184_next_motion2 = eMudMotions::Motion_0_Idle;
     const struct MudEmotionTableEntry* field_188_pTblEntry = nullptr;
 
+
 public:
     Mud_Brain_State mBrainState = Mud_Brain_State::Brain_0_GiveRings;
+    eMudMotions mPreviousMotion = eMudMotions::Motion_0_Idle;
+    eMudMotions mCurrentMotion = eMudMotions::Motion_0_Idle;
+    eMudMotions mNextMotion = eMudMotions::Motion_0_Idle;
+    bool mbMotionChanged = false;
 
 private:
     s16 mBrainSubState = 0;

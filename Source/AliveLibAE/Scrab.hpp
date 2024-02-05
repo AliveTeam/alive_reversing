@@ -258,14 +258,6 @@ public:
 
 
 private:
-    eScrabMotions GetNextMotion() const
-    {
-        return static_cast<eScrabMotions>(mNextMotion);
-    }
-    eScrabMotions GetCurrentMotion() const
-    {
-        return static_cast<eScrabMotions>(mCurrentMotion);
-    }
 
     void ToPatrol();
     void ToStand();
@@ -286,6 +278,22 @@ private:
     Scrab* FindScrabToFight();
     s16 Handle_SlamDoor_or_EnemyStopper(FP velX, s16 bCheckLeftRightBounds);
     GameSpeakEvents LastSpeak();
+
+    // TODO: remove these later
+    void SetPreviousMotion(eScrabMotions motion)
+    {
+        mPreviousMotion = motion;
+    }
+
+    void SetCurrentMotion(eScrabMotions motion)
+    {
+        mCurrentMotion = motion;
+    }
+
+    void SetNextMotion(eScrabMotions motion)
+    {
+        mNextMotion = motion;
+    }
 
 private:
     TScrabBrainFn mBrainState = nullptr;
@@ -328,4 +336,9 @@ private:
     bool mForceUpdateAnimation = false;
     bool mRoarRandomly = false;
     bool mPersistant = false;
+
+    eScrabMotions mPreviousMotion = eScrabMotions::Motion_0_Stand;
+    eScrabMotions mCurrentMotion = eScrabMotions::Motion_0_Stand;
+    eScrabMotions mNextMotion = eScrabMotions::Motion_0_Stand;
+    bool mbMotionChanged = false;
 };

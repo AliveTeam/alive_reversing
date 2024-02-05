@@ -4,142 +4,140 @@
 #include "MudokonEnums.hpp"
 #include "../relive_lib/SaveStateBase.hpp"
 
-#define ABE_MOTIONS_ENUM(ENTRY)                      \
-    ENTRY(Motion_0_Idle_44EEB0)                      \
-    ENTRY(Motion_1_WalkLoop_44FBA0)                  \
-    ENTRY(Motion_2_StandingTurn_451830)              \
-    ENTRY(Motion_3_Fall_459B60)                      \
-    ENTRY(Motion_4_WalkToIdle_44FFC0)                \
-    ENTRY(Motion_5_MidWalkToIdle_450080)             \
-    ENTRY(Motion_6_WalkBegin_44FEE0)                 \
-    ENTRY(Motion_7_Speak_45B140)                     \
-    ENTRY(Motion_8_Speak_45B160)                     \
-    ENTRY(Motion_9_Speak_45B180)                     \
-    ENTRY(Motion_10_Fart_45B1A0)                     \
-    ENTRY(Motion_11_Speak_45B0A0)                    \
-    ENTRY(Motion_12_Null_4569C0)                     \
-    ENTRY(Motion_13_HoistBegin_452B20)               \
-    ENTRY(Motion_14_HoistIdle_452440)                \
-    ENTRY(Motion_15_HoistLand_452BA0)                \
-    ENTRY(Motion_16_LandSoft_45A360)                 \
-    ENTRY(Motion_17_CrouchIdle_456BC0)               \
-    ENTRY(Motion_18_CrouchToStand_454600)            \
-    ENTRY(Motion_19_StandToCrouch_453DC0)            \
-    ENTRY(Motion_20_CrouchSpeak_454550)              \
-    ENTRY(jMotion_21_ToCrouchSpeak_4545E0)           \
-    ENTRY(Motion_22_RollBegin_4539A0)                \
-    ENTRY(Motion_23_RollLoop_453A90)                 \
-    ENTRY(Motion_24_453D00)                          \
-    ENTRY(Motion_25_RunSlideStop_451330)             \
-    ENTRY(Motion_26_RunTurn_451500)                  \
-    ENTRY(Motion_27_HopBegin_4521C0)                 \
-    ENTRY(Motion_28_HopMid_451C50)                   \
-    ENTRY(Motion_29_HopLand_4523D0)                  \
-    ENTRY(Motion_30_RunJumpBegin_4532E0)             \
-    ENTRY(Motion_31_RunJumpMid_452C10)               \
-    ENTRY(Motion_32_RunJumpLand_453460)              \
-    ENTRY(Motion_33_RunLoop_4508E0)                  \
-    ENTRY(Motion_34_DunnoBegin_44ECF0)               \
-    ENTRY(Motion_35_DunnoEnd_44ED10)                 \
-    ENTRY(Motion_36_Null_45BC50)                     \
-    ENTRY(Motion_37_CrouchTurn_454390)               \
-    ENTRY(jMotion_38_RunToRoll_453A70)               \
-    ENTRY(Motion_39_StandingToRun_450D40)            \
-    ENTRY(Motion_40_SneakLoop_450550)                \
-    ENTRY(Motion_41_WalkToSneak_450250)              \
-    ENTRY(Motion_42_SneakToWalk_4503D0)              \
-    ENTRY(Motion_43_MidWalkToSneak_450380)           \
-    ENTRY(Motion_44_MidSneakToWalk_450500)           \
-    ENTRY(Motion_45_SneakBegin_4507A0)               \
-    ENTRY(Motion_46_SneakToIdle_450870)              \
-    ENTRY(jMotion_47_MidSneakToIdle_4508C0)          \
-    ENTRY(Motion_48_WalkToRun_4500A0)                \
-    ENTRY(Motion_49_MidWalkToRun_450200)             \
-    ENTRY(Motion_50_RunToWalk_450E20)                \
-    ENTRY(Motion_51_MidRunToWalk_450F50)             \
-    ENTRY(Motion_52_RunTurnToRun_451710)             \
-    ENTRY(Motion_53_RunTurnToWalk_451800)            \
-    ENTRY(Motion_54_RunJumpLandRun_4538F0)           \
-    ENTRY(Motion_55_RunJumpLandWalk_453970)          \
-    ENTRY(Motion_56_DeathDropFall_4591F0)            \
-    ENTRY(Motion_57_Dead_4589A0)                     \
-    ENTRY(Motion_58_DeadPre_4593E0)                  \
-    ENTRY(Motion_59_Null_459450)                     \
-    ENTRY(Motion_60_Unused_4A3200)                          \
-    ENTRY(Motion_61_TurnToRun_456530)                \
-    ENTRY(Motion_62_Punch_454750)                    \
-    ENTRY(Motion_63_Sorry_454670)                    \
-    ENTRY(Motion_64_AfterSorry_454730)               \
-    ENTRY(Motion_65_LedgeAscend_4548E0)              \
-    ENTRY(Motion_66_LedgeDescend_454970)             \
-    ENTRY(Motion_67_LedgeHang_454E20)                \
-    ENTRY(Motion_68_ToOffScreenHoist_454B80)         \
-    ENTRY(Motion_69_LedgeHangWobble_454EF0)          \
-    ENTRY(Motion_70_RingRopePullHang_455AF0)         \
-    ENTRY(Motion_71_Knockback_455090)                \
-    ENTRY(Motion_72_KnockbackGetUp_455340)           \
-    ENTRY(Motion_73_PushWall_4553A0)                 \
-    ENTRY(Motion_74_RollingKnockback_455290)         \
-    ENTRY(Motion_75_JumpIntoWell_45C7B0)             \
-    ENTRY(Motion_76_ToInsideOfAWellLocal_45CA40)     \
-    ENTRY(Motion_77_ToWellShotOut_45D130)            \
-    ENTRY(Motion_78_WellBegin_45C810)                \
-    ENTRY(Motion_79_InsideWellLocal_45CA60)          \
-    ENTRY(Motion_80_WellShotOut_45D150)              \
-    ENTRY(jMotion_81_WellBegin_45C7F0)               \
-    ENTRY(Motion_82_InsideWellExpress_45CC80)        \
-    ENTRY(Motion_83_WellExpressShotOut_45CF70)       \
-    ENTRY(Motion_84_FallLandDie_45A420)              \
-    ENTRY(jMotion_85_Fall_455070)                    \
-    ENTRY(Motion_86_HandstoneBegin)           \
-    ENTRY(Motion_87_HandstoneEnd)             \
-    ENTRY(Motion_88_GrenadeMachineUse)        \
-    ENTRY(Motion_89_BrewMachineBegin)         \
-    ENTRY(Motion_90_BrewMachineEnd)           \
-    ENTRY(Motion_91_FallingFromGrab)          \
-    ENTRY(Motion_92_ForceDownFromHoist)       \
-    ENTRY(Motion_93_WalkOffEdge)              \
-    ENTRY(Motion_94_RunOffEdge)               \
-    ENTRY(Motion_95_SneakOffEdge)             \
-    ENTRY(Motion_96_HopToFall)                \
-    ENTRY(Motion_97_RunJumpToFall)            \
-    ENTRY(Motion_98_RollOffEdge)              \
-    ENTRY(Motion_99_LeverUse)                 \
-    ENTRY(Motion_100_SlapBomb)                \
-    ENTRY(Motion_101_KnockForward)            \
-    ENTRY(Motion_102_RollingKnockForward)     \
-    ENTRY(jMotion_103_KnockForwardGetUp)      \
-    ENTRY(Motion_104_RockThrowStandingHold)   \
-    ENTRY(Motion_105_RockThrowStandingThrow)  \
-    ENTRY(Motion_106_RockThrowStandingEnd)    \
-    ENTRY(Motion_107_RockThrowCrouchingHold)  \
-    ENTRY(Motion_108_RockThrowCrouchingThrow) \
-    ENTRY(Motion_109_ZShotRolling)            \
-    ENTRY(Motion_110_ZShot)                   \
-    ENTRY(Motion_111_PickupItem)              \
-    ENTRY(Motion_112_Chant)                   \
-    ENTRY(Motion_113_ChantEnd)                \
-    ENTRY(Motion_114_DoorEnter)               \
-    ENTRY(Motion_115_DoorExit)                \
-    ENTRY(Motion_116_MineCarEnter)            \
-    ENTRY(Motion_117_InMineCar)               \
-    ENTRY(Motion_118_MineCarExit)             \
-    ENTRY(Motion_119_ToShrykull)              \
-    ENTRY(Motion_120_EndShrykull)             \
-    ENTRY(Motion_121_LiftGrabBegin)           \
-    ENTRY(Motion_122_LiftGrabEnd)             \
-    ENTRY(Motion_123_LiftGrabIdle)            \
-    ENTRY(Motion_124_LiftUseUp)               \
-    ENTRY(Motion_125_LiftUseDown)             \
-    ENTRY(Motion_126_TurnWheelBegin)          \
-    ENTRY(Motion_127_TurnWheelLoop)           \
-    ENTRY(Motion_128_TurnWheelEnd)            \
-    ENTRY(Motion_129_PoisonGasDeath)
 
-#define MAKE_ENUM(VAR) VAR,
-enum eAbeMotions : s32
+enum class eAbeMotions
 {
-    ABE_MOTIONS_ENUM(MAKE_ENUM)
+    None_m1 = -1,
+    Motion_0_Idle_44EEB0                  ,
+    Motion_1_WalkLoop_44FBA0              ,
+    Motion_2_StandingTurn_451830          ,
+    Motion_3_Fall_459B60                  ,
+    Motion_4_WalkToIdle_44FFC0            ,
+    Motion_5_MidWalkToIdle_450080         ,
+    Motion_6_WalkBegin_44FEE0             ,
+    Motion_7_Speak_45B140                 ,
+    Motion_8_Speak_45B160                 ,
+    Motion_9_Speak_45B180                 ,
+    Motion_10_Fart_45B1A0                 ,
+    Motion_11_Speak_45B0A0                ,
+    Motion_12_Null_4569C0                 ,
+    Motion_13_HoistBegin_452B20           ,
+    Motion_14_HoistIdle_452440            ,
+    Motion_15_HoistLand_452BA0            ,
+    Motion_16_LandSoft_45A360             ,
+    Motion_17_CrouchIdle_456BC0           ,
+    Motion_18_CrouchToStand_454600        ,
+    Motion_19_StandToCrouch_453DC0        ,
+    Motion_20_CrouchSpeak_454550          ,
+    jMotion_21_ToCrouchSpeak_4545E0       ,
+    Motion_22_RollBegin_4539A0            ,
+    Motion_23_RollLoop_453A90             ,
+    Motion_24_453D00                      ,
+    Motion_25_RunSlideStop_451330         ,
+    Motion_26_RunTurn_451500              ,
+    Motion_27_HopBegin_4521C0             ,
+    Motion_28_HopMid_451C50               ,
+    Motion_29_HopLand_4523D0              ,
+    Motion_30_RunJumpBegin_4532E0         ,
+    Motion_31_RunJumpMid_452C10           ,
+    Motion_32_RunJumpLand_453460          ,
+    Motion_33_RunLoop_4508E0              ,
+    Motion_34_DunnoBegin_44ECF0           ,
+    Motion_35_DunnoEnd_44ED10             ,
+    Motion_36_Null_45BC50                 ,
+    Motion_37_CrouchTurn_454390           ,
+    jMotion_38_RunToRoll_453A70           ,
+    Motion_39_StandingToRun_450D40        ,
+    Motion_40_SneakLoop_450550            ,
+    Motion_41_WalkToSneak_450250          ,
+    Motion_42_SneakToWalk_4503D0          ,
+    Motion_43_MidWalkToSneak_450380       ,
+    Motion_44_MidSneakToWalk_450500       ,
+    Motion_45_SneakBegin_4507A0           ,
+    Motion_46_SneakToIdle_450870          ,
+    jMotion_47_MidSneakToIdle_4508C0      ,
+    Motion_48_WalkToRun_4500A0            ,
+    Motion_49_MidWalkToRun_450200         ,
+    Motion_50_RunToWalk_450E20            ,
+    Motion_51_MidRunToWalk_450F50         ,
+    Motion_52_RunTurnToRun_451710         ,
+    Motion_53_RunTurnToWalk_451800        ,
+    Motion_54_RunJumpLandRun_4538F0       ,
+    Motion_55_RunJumpLandWalk_453970      ,
+    Motion_56_DeathDropFall_4591F0        ,
+    Motion_57_Dead_4589A0                 ,
+    Motion_58_DeadPre_4593E0              ,
+    Motion_59_Null_459450                 ,
+    Motion_60_Unused_4A3200                      ,
+    Motion_61_TurnToRun_456530            ,
+    Motion_62_Punch_454750                ,
+    Motion_63_Sorry_454670                ,
+    Motion_64_AfterSorry_454730           ,
+    Motion_65_LedgeAscend_4548E0          ,
+    Motion_66_LedgeDescend_454970         ,
+    Motion_67_LedgeHang_454E20            ,
+    Motion_68_ToOffScreenHoist_454B80     ,
+    Motion_69_LedgeHangWobble_454EF0      ,
+    Motion_70_RingRopePullHang_455AF0     ,
+    Motion_71_Knockback_455090            ,
+    Motion_72_KnockbackGetUp_455340       ,
+    Motion_73_PushWall_4553A0             ,
+    Motion_74_RollingKnockback_455290     ,
+    Motion_75_JumpIntoWell_45C7B0         ,
+    Motion_76_ToInsideOfAWellLocal_45CA40 ,
+    Motion_77_ToWellShotOut_45D130        ,
+    Motion_78_WellBegin_45C810            ,
+    Motion_79_InsideWellLocal_45CA60      ,
+    Motion_80_WellShotOut_45D150          ,
+    jMotion_81_WellBegin_45C7F0           ,
+    Motion_82_InsideWellExpress_45CC80    ,
+    Motion_83_WellExpressShotOut_45CF70   ,
+    Motion_84_FallLandDie_45A420          ,
+    jMotion_85_Fall_455070                ,
+    Motion_86_HandstoneBegin       ,
+    Motion_87_HandstoneEnd         ,
+    Motion_88_GrenadeMachineUse    ,
+    Motion_89_BrewMachineBegin     ,
+    Motion_90_BrewMachineEnd       ,
+    Motion_91_FallingFromGrab      ,
+    Motion_92_ForceDownFromHoist   ,
+    Motion_93_WalkOffEdge          ,
+    Motion_94_RunOffEdge           ,
+    Motion_95_SneakOffEdge         ,
+    Motion_96_HopToFall            ,
+    Motion_97_RunJumpToFall        ,
+    Motion_98_RollOffEdge          ,
+    Motion_99_LeverUse             ,
+    Motion_100_SlapBomb            ,
+    Motion_101_KnockForward        ,
+    Motion_102_RollingKnockForward ,
+    jMotion_103_KnockForwardGetUp  ,
+    Motion_104_RockThrowStandingHold,
+    Motion_105_RockThrowStandingThrow,
+    Motion_106_RockThrowStandingEnd,
+    Motion_107_RockThrowCrouchingHold,
+    Motion_108_RockThrowCrouchingThrow,
+    Motion_109_ZShotRolling        ,
+    Motion_110_ZShot               ,
+    Motion_111_PickupItem          ,
+    Motion_112_Chant               ,
+    Motion_113_ChantEnd            ,
+    Motion_114_DoorEnter           ,
+    Motion_115_DoorExit            ,
+    Motion_116_MineCarEnter        ,
+    Motion_117_InMineCar           ,
+    Motion_118_MineCarExit         ,
+    Motion_119_ToShrykull          ,
+    Motion_120_EndShrykull         ,
+    Motion_121_LiftGrabBegin       ,
+    Motion_122_LiftGrabEnd         ,
+    Motion_123_LiftGrabIdle        ,
+    Motion_124_LiftUseUp           ,
+    Motion_125_LiftUseDown         ,
+    Motion_126_TurnWheelBegin      ,
+    Motion_127_TurnWheelLoop       ,
+    Motion_128_TurnWheelEnd        ,
+    Motion_129_PoisonGasDeath
 };
 
 class PullRingRope;
@@ -246,7 +244,7 @@ struct AbeSaveState final : public SaveStateBase
     u16 mGreen;
     u16 mBlue;
     u16 bAnimFlipX;
-    u16 mCurrentMotion;
+    eAbeMotions mCurrentMotion;
     u16 mCurrentFrame;
     u16 mFrameChangeCounter;
     s8 mRenderLayer;
@@ -254,8 +252,8 @@ struct AbeSaveState final : public SaveStateBase
     s8 mIsDrawable;
     s8 field_2F_padding;
     FP mHealth;
-    u16 mCurrentMotion2; // the same as mCurrentMotion
-    u16 mNextMotion;
+    eAbeMotions mCurrentMotion2; // the same as mCurrentMotion
+    eAbeMotions mNextMotion;
     u16 mLastLineYPos;
     eLineTypes mCollisionLineType;
     Guid mPlatformId;
@@ -277,7 +275,7 @@ struct AbeSaveState final : public SaveStateBase
     s8 bHaveInvisiblity;
     u16 mPrevInput;
     u16 mReleasedButtons;
-    u16 mKnockdownMotion;
+    eAbeMotions mKnockdownMotion;
     s16 field_76_padding;
     u32 mRollingMotionTimer;
     Guid mDeathFadeOutId;
@@ -504,7 +502,10 @@ public:
     s32 mAutoSayTimer = 0;
     s16 mHaveInvisibility = 0;
     s16 mInvisibilityDuration = 0;
-
+    eAbeMotions mPreviousMotion = eAbeMotions::Motion_0_Idle_44EEB0;
+    eAbeMotions mCurrentMotion = eAbeMotions::Motion_0_Idle_44EEB0;
+    eAbeMotions mNextMotion = eAbeMotions::Motion_0_Idle_44EEB0;
+    bool mbMotionChanged = false;
 
 private:
     void LoadAnimations();
@@ -662,7 +663,7 @@ private:
     static void Create_Fart_421D20();
     s16 TryEnterMineCar_4569E0();
     s32 NearDoorIsOpen_44EE10();
-    s16 HandleDoAction_455BD0();
+    eAbeMotions HandleDoAction_455BD0();
     void PushWall_44E890();
     void MoveForward_44E9A0();
     s16 CrouchingGameSpeak_453E10();
@@ -671,7 +672,7 @@ private:
     s16 RunTryEnterDoor_451220();
     s16 RunTryEnterWell_451060();
     void ToDieFinal_458910();
-    s16 DoGameSpeak_45AB70(s32 input);
+    eAbeMotions DoGameSpeak_45AB70(s32 input);
     void FallOnBombs_44EC10();
     s16 ForceDownIfHoisting_44BA30();
     void BulletDamage_44C980(Bullet* pObj);
@@ -681,14 +682,14 @@ private:
     void Calc_Well_Velocity_45C530(s16 xPosSource, s16 yPosSource, s16 XPosDest, s16 yPosDest);
     void FollowLift_45A500();
 
-    s16 MoveLiftUpOrDown_45A7E0(FP yVelocity);
+    eAbeMotions MoveLiftUpOrDown_45A7E0(FP yVelocity);
     s16 GetEvilFart_4585F0(s16 bDontLoad);
     void HandleDDCheat();
 
     s32 mPrevInput = 0;
     s32 mReleasedButtons = 0;
     AllInternalStates field_120_state = {};
-    s16 mKnockdownMotion = -1;
+    eAbeMotions mKnockdownMotion = eAbeMotions::None_m1;
     Guid mFadeId;
     Guid mCircularFadeId;
     Guid mOrbWhirlWindId;

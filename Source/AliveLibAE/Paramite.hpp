@@ -55,7 +55,7 @@ namespace relive
     ENTRY(Motion_43_Attack)
 
 #define MAKE_ENUM(VAR) VAR,
-enum class eParamiteMotions : s32
+enum class eParamiteMotions
 {
     eNone_m1 = -1,
     PARAMITE_MOTIONS_ENUM_AE(MAKE_ENUM)
@@ -310,21 +310,6 @@ private:
     void SetBrain(TParamiteBrainFn fn);
     bool BrainIs(TParamiteBrainFn fn);
 
-    template<class T>
-    inline void SetGamespeakNextMotion(T motion)
-    {
-        mParamiteGamespeakNextMotion = static_cast<s16>(motion);
-    }
-
-    eParamiteMotions GetNextMotion() const
-    {
-        return static_cast<eParamiteMotions>(mNextMotion);
-    }
-    eParamiteMotions GetCurrentMotion() const
-    {
-        return static_cast<eParamiteMotions>(mCurrentMotion);
-    }
-
 private:
 
     s16 Find_Paramite();
@@ -352,6 +337,21 @@ private:
     void UpdateSlurgWatchPoints();
     GameSpeakEvents LastSpeak();
 
+    // TODO: remove these later
+    void SetPreviousMotion(eParamiteMotions motion)
+    {
+        mPreviousMotion = motion;
+    }
+
+    void SetCurrentMotion(eParamiteMotions motion)
+    {
+        mCurrentMotion = motion;
+    }
+
+    void SetNextMotion(eParamiteMotions motion)
+    {
+        mNextMotion = motion;
+    }
 
 private:
     Guid mMeatGuid;
@@ -375,7 +375,7 @@ private:
     s16 mAbeCamera = 0;
     s32 field_154_input = 0;
     s16 field_158_next_brain_ret = 0;
-    s16 mParamiteGamespeakNextMotion = 0;
+    eParamiteMotions mParamiteGamespeakNextMotion = eParamiteMotions::Motion_0_Idle;
     s16 field_15C_paramite_xOffset = 0;
     s32 field_160_last_event_index = 0;
     bool mHissBeforeAttack = false;
@@ -387,4 +387,10 @@ private:
     bool mAlerted = false;
     bool mAttackFleeches = false;
     bool mOutOfSight = false;
+
+public:
+    eParamiteMotions mPreviousMotion = eParamiteMotions::Motion_0_Idle;
+    eParamiteMotions mCurrentMotion = eParamiteMotions::Motion_0_Idle;
+    eParamiteMotions mNextMotion = eParamiteMotions::Motion_0_Idle;
+    bool mbMotionChanged = false;
 };

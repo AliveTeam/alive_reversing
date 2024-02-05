@@ -43,24 +43,6 @@ public:
     bool WallHit(FP offY, FP offX);
     bool Check_IsOnEndOfLine(s16 direction, s16 distance);
 
-    template <class T>
-    inline void SetCurrentMotion(T motion)
-    {
-        mCurrentMotion = static_cast<s16>(motion);
-    }
-
-    template <class T>
-    inline void SetPreviousMotion(T motion)
-    {
-        mPreviousMotion = static_cast<s16>(motion);
-    }
-
-    template <class T>
-    inline void SetNextMotion(T motion)
-    {
-        mNextMotion = static_cast<s16>(motion);
-    }
-
     template <class BaseAliveGameObjectClass, class FnArray, class BrainState>
     static auto InvokeMemberFunction(BaseAliveGameObjectClass caller, const FnArray& fnArray, BrainState brainState)
     {
@@ -91,15 +73,11 @@ public:
 
     FP mHealth = FP_FromInteger(1);
     PathLine* BaseAliveGameObjectCollisionLine = nullptr;
-    s16 mCurrentMotion = 0;
-    s16 mNextMotion = 0;
-    s16 mPreviousMotion = 0;
     FP BaseAliveGameObjectLastLineYPos = {};
     bool mbGotShot = false;
     FP_RECT mCollectionRect = {};
     s32 mBaseAliveGameObjectLastAnimFrame = 0;
     relive::Path_TLV* BaseAliveGameObjectPathTLV = nullptr;
-    bool mbMotionChanged = false;
     Guid BaseAliveGameObject_PlatformId = Guid{};
 
 protected:

@@ -577,7 +577,7 @@ void Abe::CreateFromSaveState(const AbeSaveState& pData)
         animFromState = gAbe->mBaseGameObjectResArray.ItemAt(gAbe->field_10_resource_index);
     }*/
 
-    gAbe->GetAnimation().Set_Animation_Data(gAbe->GetAnimRes(sAbeAnimIdTable[gAbe->mCurrentMotion]));
+    gAbe->GetAnimation().Set_Animation_Data(gAbe->GetAnimRes(sAbeAnimIdTable[static_cast<u32>(gAbe->mCurrentMotion)])); // TODO: remove cast later
     // gAbe->mAnim.Set_Animation_Data_409C80(sAbeAnimIdTable[gAbe->mCurrentMotion], animFromState);
 
     gAbe->GetAnimation().SetCurrentFrame(pData.mCurrentFrame);
@@ -863,7 +863,7 @@ void Abe::VUpdate()
         
         GetAnimation().SetAnimate(true);
 
-        s16 motion_idx = mCurrentMotion;
+        eAbeMotions motion_idx = mCurrentMotion;
 
         // Execute the current motion
         const FP oldXPos = mXPos;
@@ -898,12 +898,12 @@ void Abe::VUpdate()
         {
             motion_idx = mKnockdownMotion;
             ToKnockback_44E700(1, 1);
-            if (motion_idx != -1)
+            if (motion_idx != eAbeMotions::None_m1)
             {
                 mCurrentMotion = motion_idx;
             }
 
-            mNextMotion = 0;
+            mNextMotion = eAbeMotions::Motion_0_Idle_44EEB0;
             mReturnToPreviousMotion = false;
             mKnockdownMotion = eAbeMotions::Motion_0_Idle_44EEB0;
             mbGotShot = false;
@@ -978,7 +978,7 @@ void Abe::VUpdate()
             mbMotionChanged = false;
             if (mCurrentMotion != eAbeMotions::Motion_12_Null_4569C0 && !mShrivel)
             {
-                GetAnimation().Set_Animation_Data(GetAnimRes(sAbeAnimIdTable[mCurrentMotion]));
+                GetAnimation().Set_Animation_Data(GetAnimRes(sAbeAnimIdTable[static_cast<u32>(mCurrentMotion)]));
 
                 mRollingMotionTimer = sGnFrame;
 
@@ -993,7 +993,7 @@ void Abe::VUpdate()
         {
             mCurrentMotion = mPreviousMotion;
 
-            GetAnimation().Set_Animation_Data(GetAnimRes(sAbeAnimIdTable[mCurrentMotion]));
+            GetAnimation().Set_Animation_Data(GetAnimRes(sAbeAnimIdTable[static_cast<u32>(mCurrentMotion)]));
             mRollingMotionTimer = sGnFrame;
             GetAnimation().SetFrame(mBaseAliveGameObjectLastAnimFrame);
             mReturnToPreviousMotion = false;
@@ -1129,7 +1129,8 @@ void Abe::VOnTrapDoorOpen()
     {
         if (!mShrivel)
         {
-            VSetMotion(eAbeMotions::Motion_93_WalkOffEdge);
+            mCurrentMotion = eAbeMotions::Motion_93_WalkOffEdge;
+            mbMotionChanged = true;
         }
 
         pPlatform->VRemove(this);
@@ -2720,10 +2721,10 @@ void Abe::Motion_2_StandingTurn_451830()
         if (GetAnimation().GetIsLastFrame())
         {
             GetAnimation().ToggleFlipX();
-            if (mNextMotion)
+            if (mNextMotion != eAbeMotions::Motion_0_Idle_44EEB0) // Note: used to be if (mNextMotion)
             {
                 mCurrentMotion = mNextMotion;
-                mNextMotion = 0;
+                mNextMotion = eAbeMotions::Motion_0_Idle_44EEB0;
             }
             else
             {
@@ -3043,7 +3044,7 @@ void Abe::Motion_11_ToSpeak_45B0A0()
     if (GetAnimation().GetIsLastFrame())
     {
         mCurrentMotion = DoGameSpeak_45AB70(mPrevInput);
-        if (mCurrentMotion == -1)
+        if (mCurrentMotion == eAbeMotions::None_m1)
         {
             ToIdle_44E6B0();
         }
@@ -4384,10 +4385,10 @@ void Abe::Motion_37_CrouchTurn_454390()
         if (GetAnimation().GetIsLastFrame())
         {
             GetAnimation().ToggleFlipX();
-            if (mNextMotion)
+            if (mNextMotion != eAbeMotions::Motion_0_Idle_44EEB0)
             {
                 mCurrentMotion = mNextMotion;
-                mNextMotion = 0;
+                mNextMotion = eAbeMotions::Motion_0_Idle_44EEB0;
             }
             else
             {
@@ -5630,7 +5631,7 @@ void Abe::Motion_79_InsideWellLocal_45CA60()
 
         SfxPlayMono(relive::SoundEffects::WellExit, 0, GetSpriteScale());
 
-        ++mCurrentMotion;
+        mCurrentMotion = eAbeMotions::Motion_80_WellShotOut_45D150; // Note: used to be mCurrentMotion++
         BaseAliveGameObjectLastLineYPos = mYPos;
 
         if (GetSpriteScale() == FP_FromDouble(0.5))
@@ -7734,7 +7735,7 @@ s32 Abe::NearDoorIsOpen_44EE10()
     return true;
 }
 
-s16 Abe::HandleDoAction_455BD0()
+eAbeMotions Abe::HandleDoAction_455BD0()
 {
     relive::Path_TLV* pTlv = gPathInfo->TLV_Get_At(
         nullptr,
@@ -8146,9 +8147,9 @@ void Abe::ToDieFinal_458910()
     MusicController::static_PlayMusic(MusicController::MusicTypes::eDeathLong_11, this, 1, 0);
 }
 
-s16 Abe::DoGameSpeak_45AB70(s32 input)
+eAbeMotions Abe::DoGameSpeak_45AB70(s32 input)
 {
-    s16 nextMotion = -1;
+    eAbeMotions nextMotion = eAbeMotions::None_m1;
     if (Input_IsChanting())
     {
         // Fixes an OG bug where Abe doesn't transform into Shrykull when you immediately chant after using GameSpeak.
@@ -8767,7 +8768,7 @@ void Abe::FollowLift_45A500()
     }
 }
 
-s16 Abe::MoveLiftUpOrDown_45A7E0(FP yVelocity)
+eAbeMotions Abe::MoveLiftUpOrDown_45A7E0(FP yVelocity)
 {
     LiftPoint* pLiftPoint = static_cast<LiftPoint*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
     if (!pLiftPoint)
