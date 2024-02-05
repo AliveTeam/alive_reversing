@@ -148,10 +148,7 @@ void EvilFart::VGetSaveState(SerializedObjectData& pSaveBuffer)
     data.mGreen = mRGB.g;
     data.mBlue = mRGB.b;
 
-    if (sControlledCharacter == this)
-    {
-        data.mControlled = true;
-    }
+    data.mControlled = sControlledCharacter == this;
 
     data.mCurrentFrame = static_cast<s16>(GetAnimation().GetCurrentFrame());
     data.mFrameChangeCounter = static_cast<s16>(GetAnimation().GetFrameChangeCounter());

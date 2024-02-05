@@ -531,7 +531,7 @@ inline void from_json(const nlohmann::json& j, CrawlingSligSaveState& p)
     j.at("abe_camera").get_to(p.mAbeCamera);
     j.at("slig_button_tlv_id").get_to(p.mSligButtonTlvId);
     j.at("70_obj_id").get_to(p.field_70_obj_id);
-    j.at("transformerd_slig_id").get_to(p.mTransformedSligId);
+    j.at("transformed_slig_id").get_to(p.mTransformedSligId);
     j.at("speak").get_to(p.mSpeak);
     j.at("say_help_timer").get_to(p.mSayHelpTimer);
 }
@@ -984,7 +984,7 @@ inline void from_json(const nlohmann::json& j, FlyingSligSaveState& p)
     j.at("anim_flip_x").get_to(p.field_22_bAnimFlipX);
     j.at("current_state").get_to(p.field_24_current_state);
     j.at("current_frame").get_to(p.field_26_current_frame);
-    j.at("frame_change_death_counter").get_to(p.field_28_frame_change_counter);
+    j.at("frame_change_counter").get_to(p.field_28_frame_change_counter);
     j.at("anim_render").get_to(p.field_2A_bAnimRender);
     j.at("drawable").get_to(p.field_2B_bDrawable);
     j.at("current_health").get_to(p.field_2C_current_health);
@@ -1011,7 +1011,7 @@ inline void from_json(const nlohmann::json& j, FlyingSligSaveState& p)
     j.at("next_speak").get_to(p.field_54_next_speak);
     j.at("voice_pitch_min").get_to(p.field_56_voice_pitch_min);
     j.at("obj_id").get_to(p.field_58_obj_id);
-    j.at("field_5C").get_to(p.field_5C);
+    j.at("field_5c").get_to(p.field_5C);
     j.at("field_60").get_to(p.field_60);
     j.at("field_64").get_to(p.field_64);
     j.at("line_length").get_to(p.field_68_line_length);
