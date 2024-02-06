@@ -15,8 +15,8 @@
 
 namespace AO {
 
-extern s16 sRescuedMudokons;
-extern s16 sKilledMudokons;
+extern s16 gRescuedMudokons;
+extern s16 gKilledMudokons;
 
 static SaveData sSaveToLoadBuffer = {};
 
@@ -78,8 +78,8 @@ void SaveGame::LoadFromMemory(SaveData* pData, s32 bKillObjects)
     gAbe->field_168_ring_pulse_timer = pData->field_254_ring_pulse_timer;
     gAbe->field_16C_bHaveShrykull = pData->mActiveHero_HaveShrykull;
 
-    sRescuedMudokons = pData->mRescuedMudokons;
-    sKilledMudokons = pData->mKilledMudokons;
+    gRescuedMudokons = pData->mRescuedMudokons;
+    gKilledMudokons = pData->mKilledMudokons;
 
     gRestartRuptureFarmsSavedMuds = pData->field_2A4_restartRuptureFarmsSavedMudokons;
     gRestartRuptureFarmsKilledMuds = pData->mRestartRuptureFarmsKilledMuds;
@@ -210,12 +210,12 @@ void SaveGame::SaveToMemory(SaveData* pSaveData)
     pSaveData->mContinuePoint_Path = gAbe->mContinuePath;
     pSaveData->field_254_ring_pulse_timer = gAbe->field_168_ring_pulse_timer;
     pSaveData->mContinuePoint_SpriteScale = gAbe->mContinueSpriteScale;
-    pSaveData->mRescuedMudokons = sRescuedMudokons;
+    pSaveData->mRescuedMudokons = gRescuedMudokons;
     pSaveData->mActiveHero_SavedHaveShrykull = gAbe->field_154_bSavedHaveShrykull;
     pSaveData->field_2A4_restartRuptureFarmsSavedMudokons = gRestartRuptureFarmsSavedMuds;
     pSaveData->mActiveHero_HaveShrykull = gAbe->field_16C_bHaveShrykull;
     pSaveData->mCurrentPath = gMap.mCurrentPath;
-    pSaveData->mKilledMudokons = sKilledMudokons;
+    pSaveData->mKilledMudokons = gKilledMudokons;
     pSaveData->mCurrentCamera = gMap.mCurrentCamera;
     pSaveData->mRestartRuptureFarmsKilledMuds = gRestartRuptureFarmsKilledMuds;
     pSaveData->mActiveHero_CurrentFrame = static_cast<u16>(gAbe->GetAnimation().GetCurrentFrame());

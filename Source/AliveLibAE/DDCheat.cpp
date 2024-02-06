@@ -27,29 +27,28 @@ static u16 sTeleport_Cam = 0;
 
 bool gDDCheat_FlyingEnabled = false;
 bool gDDCheat_ShowAI_Info = false;
+
 static bool sDDCheat_AlwaysShow = false;
 static u32 sDDCheat_PrevDebugInput = 0;
 static s32 sDDCheat_DebugInputDelay = 0;
 
-using TDDCheatMenu = decltype(&DDCheat::Menu_Teleport);
+static s16 sDDCheat_MovieSelectIdx = 0;
 
-#define DDCHEAT_MENU_COUNT 2
-static TDDCheatMenu sDDCheat_FnTable[DDCHEAT_MENU_COUNT] = {
-    &DDCheat::Menu_Teleport,
+using TDDCheatFn = decltype(&DDCheat::Teleport);
+
+#define DDCHEAT_FN_COUNT 2
+static TDDCheatFn sDDCheat_FnCheatsTable[DDCHEAT_FN_COUNT] = {
+    &DDCheat::Teleport,
     &DDCheat::Menu_Movies,
 };
-
-static s16 sDDCheat_MovieSelectIdx = 0;
 
 struct DDCheatProperties final
 {
     DDCheatProperty props[10];
 };
+static DDCheatProperties sDDCheatProperties = {};
 
-
-DDCheatProperties DDCheatProperties_5BBF78 = {};
-
-const char_type* sTeleportLevelNameTable_550F64[17] = {
+static const char_type* sTeleportLevelNameTable[17] = {
     "Start screen",
     "Mines",
     "Necrum",
@@ -66,14 +65,14 @@ const char_type* sTeleportLevelNameTable_550F64[17] = {
     "Barracks Ender",
     "Bonewerks Ender",
     "Test Level",
-    "Credits",
+    "Credits"
 };
 
 
-void DDCheat::Menu_Teleport()
+void DDCheat::Teleport()
 {
     DebugStr("\n[Teleport]\n");
-    DebugStr("Level (1,2):         %s\n", sTeleportLevelNameTable_550F64[sTeleport_Level]);
+    DebugStr("Level (1,2):         %s\n", sTeleportLevelNameTable[sTeleport_Level]);
     DebugStr("Path    (Up/Down):   %d\n", sTeleport_Path);
     DebugStr("Camera (Left/Right): %d\n", sTeleport_Cam);
     DebugStr("Teleport = Enter Reset = Alt\n");
@@ -81,36 +80,38 @@ void DDCheat::Menu_Teleport()
     if (mInputPressed & InputCommands::eGameSpeak1)
     {
         if (sTeleport_Level)
-            --sTeleport_Level;
+        {
+            sTeleport_Level--;
+        }
     }
     else if (mInputPressed & InputCommands::eGameSpeak2)
     {
         if (sTeleport_Level < static_cast<s32>(LevelIds::eCredits_16))
         {
-            ++sTeleport_Level;
+            sTeleport_Level++;
         }
     }
     else if (mInputPressed & InputCommands::eUp)
     {
-        ++sTeleport_Path;
+        sTeleport_Path++;
     }
     else if (mInputPressed & InputCommands::eDown)
     {
         if (sTeleport_Path > 1)
         {
-            --sTeleport_Path;
+            sTeleport_Path--;
         }
     }
     else if (mInputPressed & InputCommands::eLeft)
     {
         if (sTeleport_Cam > 1)
         {
-            --sTeleport_Cam;
+            sTeleport_Cam--;
         }
     }
     else if (mInputPressed & InputCommands::eRight)
     {
-        ++sTeleport_Cam;
+        sTeleport_Cam++;
     }
     else if (mInputPressed & InputCommands::eSneak)
     {
@@ -183,7 +184,7 @@ DDCheat::DDCheat()
 
 void DDCheat::AddPropertyEntry(const char_type* text, DDCheatValueType valueType, DDCheatValue valuePtr)
 {
-    for (auto& prop : DDCheatProperties_5BBF78.props)
+    for (auto& prop : sDDCheatProperties.props)
     {
         if (prop.Name == nullptr)
         {
@@ -197,7 +198,7 @@ void DDCheat::AddPropertyEntry(const char_type* text, DDCheatValueType valueType
 
 void DDCheat::ClearProperties()
 {
-    DDCheatProperties_5BBF78 = {};
+    sDDCheatProperties = {};
 }
 
 void DDCheat::DebugStr(const char_type* pFormatStr, ...)
@@ -212,172 +213,166 @@ void DDCheat::DebugStr(const char_type* pFormatStr, ...)
 
 void DDCheat::VUpdate()
 {
-    if (!gAbe)
+    if (!gDDCheatOn || !gAbe)
     {
         return;
     }
 
     auto activePadPressed = Input().mPads[sCurrentControllerIndex].mPressed;
 
-    if (gDDCheatOn)
+    if (mTeleporting)
     {
-        if (mTeleporting)
+        mTeleporting = false;
+        PSX_Point pos;
+        gMap.GetCurrentCamCoords(&pos);
+        gAbe->mXPos = FP_FromInteger(pos.x + 184);
+        gAbe->mYPos = FP_FromInteger(pos.y + 60);
+        gAbe->mCurrentMotion = eAbeMotions::Motion_3_Fall_459B60;
+        gAbe->mLandSoftly = true;
+        gAbe->mCurrentLevel = MapWrapper::FromAE(static_cast<LevelIds>(sTeleport_Level));
+        gAbe->mCurrentPath = sTeleport_Path;
+        gDDCheat_FlyingEnabled = false;
+        sControlledCharacter->BaseAliveGameObjectCollisionLine = nullptr;
+        sControlledCharacter->BaseAliveGameObjectLastLineYPos = sControlledCharacter->mYPos;
+        mUnknown1 = false;
+    }
+
+    if ((gMap.mCurrentLevel != EReliveLevelIds::eMenu && gMap.mCurrentLevel != EReliveLevelIds::eNone) && activePadPressed & InputCommands::eCheatMode)
+    {
+        switch (sControlledCharacter->Type())
         {
-            mTeleporting = false;
-            if (gAbe)
+            case ReliveTypes::eSlig:
+                static_cast<Slig*>(sControlledCharacter)->mCurrentMotion = eSligMotions::Motion_7_Falling;
+                break;
+            case ReliveTypes::eAbe:
+                static_cast<Abe*>(sControlledCharacter)->mCurrentMotion = eAbeMotions::Motion_3_Fall_459B60;
+                break;
+            case ReliveTypes::eScrab:
+                static_cast<Scrab*>(sControlledCharacter)->mCurrentMotion = eScrabMotions::Motion_8_JumpToFall;
+                break;
+            default:
+                LOG_INFO("ddcheat for this controlled character not implemented");
+                return;
+        }
+
+        gDDCheat_FlyingEnabled = !gDDCheat_FlyingEnabled;
+        if (!gDDCheat_FlyingEnabled)
+        {
+            if (IsAbe(sControlledCharacter))
             {
-                PSX_Point pos;
-                gMap.GetCurrentCamCoords(&pos);
-                gAbe->mXPos = FP_FromInteger(pos.x + 184);
-                gAbe->mYPos = FP_FromInteger(pos.y + 60);
-                gAbe->mCurrentMotion = eAbeMotions::Motion_3_Fall_459B60;
                 gAbe->mLandSoftly = true;
-                gAbe->mCurrentLevel = MapWrapper::FromAE(static_cast<LevelIds>(sTeleport_Level));
-                gAbe->mCurrentPath = sTeleport_Path;
-                gDDCheat_FlyingEnabled = false;
-                sControlledCharacter->BaseAliveGameObjectCollisionLine = nullptr;
-                sControlledCharacter->BaseAliveGameObjectLastLineYPos = sControlledCharacter->mYPos;
-                mUnknown1 = false;
             }
+            sControlledCharacter->BaseAliveGameObjectCollisionLine = nullptr;
+            sControlledCharacter->BaseAliveGameObjectLastLineYPos = sControlledCharacter->mYPos;
         }
 
-        if ((gMap.mCurrentLevel != EReliveLevelIds::eMenu && gMap.mCurrentLevel != EReliveLevelIds::eNone) && gAbe && activePadPressed & InputCommands::eCheatMode)
+        gDDCheat_ShowAI_Info = false;
+    }
+
+    if (gDDCheat_FlyingEnabled || gDDCheat_ShowAI_Info || sDDCheat_AlwaysShow)
+    {
+        DebugStr(
+            "\n%sP%dC%d gnframe=%5d",
+            Path_Get_Lvl_Name(gMap.mCurrentLevel),
+            gMap.mCurrentPath,
+            gMap.mCurrentCamera,
+            sGnFrame);
+
+        DebugStr(
+            "\nheroxy=%4d,%4d",
+            FP_GetExponent(gAbe->mXPos),
+            FP_GetExponent(gAbe->mYPos));
+
+        if (gDDCheat_FlyingEnabled)
         {
-            switch (sControlledCharacter->Type())
+            if (activePadPressed & InputCommands::eDoAction)
             {
-                case ReliveTypes::eSlig:
-                    static_cast<Slig*>(sControlledCharacter)->mCurrentMotion = eSligMotions::Motion_7_Falling;
-                    break;
-                case ReliveTypes::eAbe:
-                    static_cast<Abe*>(sControlledCharacter)->mCurrentMotion = eAbeMotions::Motion_3_Fall_459B60;
-                    break;
-                case ReliveTypes::eScrab:
-                    static_cast<Scrab*>(sControlledCharacter)->mCurrentMotion = eScrabMotions::Motion_8_JumpToFall;
-                    break;
-                default:
-                    LOG_INFO("ddcheat for this controlled character not implemented");
-                    return;
+                gDDCheat_ShowAI_Info = !gDDCheat_ShowAI_Info;
             }
 
-            gDDCheat_FlyingEnabled = !gDDCheat_FlyingEnabled;
-            if (!gDDCheat_FlyingEnabled)
+            if (activePadPressed & InputCommands::eHop)
             {
-                if (IsAbe(sControlledCharacter))
-                {
-                    gAbe->mLandSoftly = true;
-                }
-                sControlledCharacter->BaseAliveGameObjectCollisionLine = nullptr;
-                sControlledCharacter->BaseAliveGameObjectLastLineYPos = sControlledCharacter->mYPos;
+                sDDCheat_AlwaysShow = !sDDCheat_AlwaysShow;
             }
 
-            gDDCheat_ShowAI_Info = false;
+            if (IsAbe(sControlledCharacter))
+            {
+                gAbe->mLandSoftly = true;
+            }
+
+            sControlledCharacter->BaseAliveGameObjectCollisionLine = nullptr;
+            sControlledCharacter->BaseAliveGameObjectLastLineYPos = sControlledCharacter->mYPos;
         }
 
-        if (gDDCheat_FlyingEnabled || gDDCheat_ShowAI_Info || sDDCheat_AlwaysShow)
+        /*DebugStr_4F5560("\n[Memory]");
+        DebugStr_4F5560("\nUsed: %ikb", sManagedMemoryUsedSize_AB4A04 / 1024);
+        DebugStr_4F5560("\nPeak: %ikb", sPeakedManagedMemUsage_AB4A08 / 1024);*/
+    }
+
+    mInputPressed = Input().mPads[sCurrentControllerIndex == 0].mPressed;
+    if (sDDCheat_PrevDebugInput == Input().mPads[sCurrentControllerIndex == 0].mRawInput
+        && sDDCheat_PrevDebugInput)
+    {
+        if (!--sDDCheat_DebugInputDelay)
         {
-            DebugStr(
-                "\n%sP%dC%d gnframe=%5d",
-                Path_Get_Lvl_Name(gMap.mCurrentLevel),
-                gMap.mCurrentPath,
-                gMap.mCurrentCamera,
-                sGnFrame);
+            mInputPressed = sDDCheat_PrevDebugInput;
+            sDDCheat_DebugInputDelay = 2;
+        }
+    }
+    else
+    {
+        sDDCheat_PrevDebugInput = Input().mPads[sCurrentControllerIndex == 0].mRawInput;
+        sDDCheat_DebugInputDelay = 10;
+    }
 
-            DebugStr(
-                "\nheroxy=%4d,%4d",
-                FP_GetExponent(gAbe->mXPos),
-                FP_GetExponent(gAbe->mYPos));
+    if (mInputPressed & InputCommands::ePause)
+    {
+        mUnknown1 = !mUnknown1;
+    }
 
-            if (gDDCheat_FlyingEnabled)
-            {
-                if (activePadPressed & InputCommands::eDoAction)
-                {
-                    gDDCheat_ShowAI_Info = !gDDCheat_ShowAI_Info;
-                }
-
-                if (activePadPressed & InputCommands::eHop)
-                {
-                    sDDCheat_AlwaysShow = !sDDCheat_AlwaysShow;
-                }
-
-                if (IsAbe(sControlledCharacter))
-                {
-                    gAbe->mLandSoftly = true;
-                }
-
-                sControlledCharacter->BaseAliveGameObjectCollisionLine = nullptr;
-                sControlledCharacter->BaseAliveGameObjectLastLineYPos = sControlledCharacter->mYPos;
-            }
-
-            /*DebugStr_4F5560("\n[Memory]");
-            DebugStr_4F5560("\nUsed: %ikb", sManagedMemoryUsedSize_AB4A04 / 1024);
-            DebugStr_4F5560("\nPeak: %ikb", sPeakedManagedMemUsage_AB4A08 / 1024);*/
+    if (mUnknown1)
+    {
+        if (Input().mPads[sCurrentControllerIndex == 0].mRawInput & InputCommands::eCheatMode)
+        {
+            mCheatFnIdx = 0;
+        }
+        else if (mInputPressed & InputCommands::eCheatMode)
+        {
+            mNextFnIdx = mCheatFnIdx;
         }
 
-        mInputPressed = Input().mPads[sCurrentControllerIndex == 0].mPressed;
-        if (sDDCheat_PrevDebugInput == Input().mPads[sCurrentControllerIndex == 0].mRawInput
-            && sDDCheat_PrevDebugInput)
+        // Using hop instead looks like the only way to actually change the menu properly
+        if (Input().mPads[sCurrentControllerIndex == 0].mRawInput & InputCommands::eHop /*field_3C_flags & 2*/)
         {
-            if (!--sDDCheat_DebugInputDelay)
+            if (mInputPressed & InputCommands::eDown)
             {
-                mInputPressed = sDDCheat_PrevDebugInput;
-                sDDCheat_DebugInputDelay = 2;
+                mNextFnIdx++;
             }
+            else if (mInputPressed & InputCommands::eUp)
+            {
+                mNextFnIdx--;
+            }
+
+            if (mInputPressed & InputCommands::eUnPause_OrConfirm)
+            {
+                //mCheatFnIdx = mNextFnIdx; TODO
+            }
+
+            if (mNextFnIdx < 0)
+            {
+                mNextFnIdx = DDCHEAT_FN_COUNT - 1;
+            }
+
+            if (mNextFnIdx >= DDCHEAT_FN_COUNT)
+            {
+                mNextFnIdx = 0;
+            }
+
+            mCheatFnIdx = mNextFnIdx; // Always set new func index
         }
         else
         {
-            sDDCheat_PrevDebugInput = Input().mPads[sCurrentControllerIndex == 0].mRawInput;
-            sDDCheat_DebugInputDelay = 10;
-        }
-
-        if (mInputPressed & InputCommands::ePause)
-        {
-            mUnknown1 = !mUnknown1;
-        }
-
-        if (mUnknown1)
-        {
-            if (Input().mPads[sCurrentControllerIndex == 0].mRawInput & InputCommands::eCheatMode)
-            {
-                mFnIdx = 0;
-            }
-            else if (mInputPressed & InputCommands::eCheatMode)
-            {
-                mNextFnIdx = mFnIdx;
-            }
-
-            // Using hop instead looks like the only way to actually change the menu properly
-            if (Input().mPads[sCurrentControllerIndex == 0].mRawInput & InputCommands::eHop /*field_3C_flags & 2*/)
-            {
-                if (mInputPressed & InputCommands::eDown)
-                {
-                    mNextFnIdx++;
-                }
-                else if (mInputPressed & InputCommands::eUp)
-                {
-                    mNextFnIdx--;
-                }
-
-                if (mInputPressed & InputCommands::eUnPause_OrConfirm)
-                {
-                    //mFnIdx = mNextFnIdx; TODO
-                }
-
-                if (mNextFnIdx < 0)
-                {
-                    mNextFnIdx = DDCHEAT_MENU_COUNT - 1;
-                }
-
-                if (mNextFnIdx >= DDCHEAT_MENU_COUNT)
-                {
-                    mNextFnIdx = 0;
-                }
-
-                mFnIdx = mNextFnIdx; // Always set new func index
-            }
-            else
-            {
-                (*this.*(sDDCheat_FnTable)[mFnIdx])();
-            }
+            (*this.*(sDDCheat_FnCheatsTable)[mCheatFnIdx])();
         }
     }
 }

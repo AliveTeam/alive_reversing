@@ -1605,7 +1605,7 @@ static void Factory_KillUnsavedMuds(relive::Path_TLV* /*pTlv*/, Map* pMap, const
             pMap->mMapChanged)
         {
             gbKillUnsavedMudsDone = true;
-            sKilledMudokons = 28 - sRescuedMudokons;
+            gKilledMudokons = 28 - gRescuedMudokons;
             Path::TLV_Delete(tlvId);
         }
     }

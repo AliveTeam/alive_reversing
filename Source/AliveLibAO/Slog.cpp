@@ -323,7 +323,7 @@ void Slog::VUpdate()
         //LOG_INFO("brain changed from " << GetOriginalFn(oldBrain, sSlogBrainTable).fnName << " to " << GetOriginalFn(sSlog_fns_brain_4CFE00[mBrainState], sSlogBrainTable).fnName);
     }
 
-    if (showDebugCreatureInfo_5076E0)
+    if (gDDCheat_ShowAI_Info)
     {
         DDCheat::DebugStr("Slog:  Motion=%d  BrainState=%d\n", mCurrentMotion, mBrainSubState);
     }

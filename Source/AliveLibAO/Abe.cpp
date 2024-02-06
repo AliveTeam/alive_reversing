@@ -2333,8 +2333,8 @@ void Abe::VOnTlvCollision(relive::Path_TLV* pTlv)
 
                 if (gRestartRuptureFarmsSavedMuds == 0 && gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarmsReturn && gMap.mCurrentPath == 19 && gMap.mCurrentCamera == 3)
                 {
-                    gRestartRuptureFarmsKilledMuds = sKilledMudokons;
-                    gRestartRuptureFarmsSavedMuds = sRescuedMudokons;
+                    gRestartRuptureFarmsKilledMuds = gKilledMudokons;
+                    gRestartRuptureFarmsSavedMuds = gRescuedMudokons;
                 }
 
                 SaveGame::SaveToMemory(&gSaveBuffer);

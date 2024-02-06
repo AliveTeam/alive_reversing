@@ -571,7 +571,7 @@ void Slig::VUpdate()
             VShot();
         }
 
-        if (showDebugCreatureInfo_5076E0)
+        if (gDDCheat_ShowAI_Info)
         {
             DDCheat::DebugStr(
                 "Slig %d %d %d %d\n",

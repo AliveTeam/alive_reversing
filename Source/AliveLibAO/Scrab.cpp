@@ -207,7 +207,7 @@ void Scrab::VUpdate()
 
         mBrainSubState = (this->*mBrainState)();
 
-        if (showDebugCreatureInfo_5076E0)
+        if (gDDCheat_ShowAI_Info)
         {
             DDCheat::DebugStr(
                 "Scrab %d %d %d %d\n",

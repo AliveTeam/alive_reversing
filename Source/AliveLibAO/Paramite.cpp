@@ -393,7 +393,7 @@ void Paramite::VUpdate()
         }
         oldBrain = mBrainState;
 
-        if (showDebugCreatureInfo_5076E0)
+        if (gDDCheat_ShowAI_Info)
         {
             DDCheat::DebugStr(
                 "Paramite %d %d %d %d\n",

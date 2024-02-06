@@ -8,9 +8,9 @@ using FP = FixedPoint;
 
 namespace AO {
 
-enum class DDCheatValueType : s32
+enum class DDCheatValueType
 {
-    eShort_1 = 1,
+    eShort = 1,
     eInt_2 = 2,
     eShort_4 = 4,
     eInt_6 = 6,
@@ -49,34 +49,35 @@ struct DDCheatProperty final
     DDCheatValueType ValueType;
     DDCheatValue ValuePtr;
 };
-ALIVE_ASSERT_SIZEOF(DDCheatProperty, 12);
 
 class DDCheat final : public ::BaseGameObject
 {
 public:
     DDCheat();
 
-    static void ClearProperties();
-
     virtual void VScreenChanged() override;
-    void AddPropertyEntry(const char_type* text, DDCheatValueType valueType, DDCheatValue valuePtr);
 
+    static void ClearProperties();
+    static s32 DebugStr(const char_type* pStr, ...);
+    static s32 DebugFont_Printf(s32 idx, const char_type* formatStr, ...);
+
+    void Misc();
+    void Teleport();
+
+private:
     void VUpdate() override;
 
-    void Teleport();
-    void Misc();
-    static s32 DebugFont_Printf(s32 idx, const char_type* formatStr, ...);
-    static s32 DebugStr(const char_type* pStr, ...);
+    void AddPropertyEntry(const char_type* text, DDCheatValueType valueType, DDCheatValue valuePtr);
 
-    s32 field_14_SelectedCheat = 0;
+    s32 mCheatFnIdx = 0;
     s32 field_18_backInputPressed = 0;
-    s32 field_20_bTeleportCheatActive = 0;
+    bool mTeleporting = false;
     s32 field_24_input = 0;
 };
 
-extern s16 sRescuedMudokons;
-extern s16 sKilledMudokons;
-extern s16 showDebugCreatureInfo_5076E0;
+extern s16 gRescuedMudokons;
+extern s16 gKilledMudokons;
+extern bool gDDCheat_ShowAI_Info;
 extern bool gDDCheat_FlyingEnabled;
 
 } // namespace AO

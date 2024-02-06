@@ -51,7 +51,7 @@ void LCDStatusBoard::VUpdate()
 void LCDStatusBoard::VRender(OrderingTable& ot)
 {
     char_type text[12] = {};
-    sprintf(text, "%02d", Path_GetTotalMuds(gMap.mCurrentLevel, gMap.mCurrentPath) - sRescuedMudokons - sKilledMudokons);
+    sprintf(text, "%02d", Path_GetTotalMuds(gMap.mCurrentLevel, gMap.mCurrentPath) - gRescuedMudokons - gKilledMudokons);
 
     const s16 w1 = static_cast<s16>(mEmployeesFont.MeasureTextWidth(text));
     const s16 colourRange = gDisableFontFlicker ? 0 : 50;
@@ -72,7 +72,7 @@ void LCDStatusBoard::VRender(OrderingTable& ot)
         w1 + mXPos,
         colourRange);
 
-    sprintf(text, "%02d", sKilledMudokons);
+    sprintf(text, "%02d", gKilledMudokons);
     const s16 w2 = static_cast<s16>(mKilledMudsFont.MeasureTextWidth(text));
     mKilledMudsFont.DrawString(
         ot,
@@ -91,7 +91,7 @@ void LCDStatusBoard::VRender(OrderingTable& ot)
         w2 + mXPos,
         colourRange);
 
-    sprintf(text, "%02d", sRescuedMudokons);
+    sprintf(text, "%02d", gRescuedMudokons);
     s16 w3 = static_cast<s16>(mRescuedMudsFont.MeasureTextWidth(text));
     mRescuedMudsFont.DrawString(
         ot,

@@ -78,7 +78,7 @@ void GameEnderController::VUpdate()
                         }
                     }
 
-                    if (sRescuedMudokons >= Path_GoodEndingMuds(gMap.mCurrentLevel, gMap.mCurrentPath))
+                    if (gRescuedMudokons >= Path_GoodEndingMuds(gMap.mCurrentLevel, gMap.mCurrentPath))
                     {
                         // Stop the death timer
                         gDeathGasTimer = 0;
@@ -93,7 +93,7 @@ void GameEnderController::VUpdate()
                             gPauseMenu = nullptr;
                         }
 
-                        if (sRescuedMudokons >= Path_GetTotalMuds(gMap.mCurrentLevel, gMap.mCurrentPath))
+                        if (gRescuedMudokons >= Path_GetTotalMuds(gMap.mCurrentLevel, gMap.mCurrentPath))
                         {
                             // Perfect ending
                             gAbe->SetDead(true);
@@ -109,7 +109,7 @@ void GameEnderController::VUpdate()
                     }
                     else
                     {
-                        if (sKilledMudokons >= Path_BadEndingMuds(gMap.mCurrentLevel, gMap.mCurrentPath))
+                        if (gKilledMudokons >= Path_BadEndingMuds(gMap.mCurrentLevel, gMap.mCurrentPath))
                         {
                             // Very bad ending
                             gInfiniteGrenades = true;
@@ -123,8 +123,8 @@ void GameEnderController::VUpdate()
                                 }
                             }
 
-                            sKilledMudokons = gRestartRuptureFarmsKilledMuds;
-                            sRescuedMudokons = gRestartRuptureFarmsSavedMuds;
+                            gKilledMudokons = gRestartRuptureFarmsKilledMuds;
+                            gRescuedMudokons = gRestartRuptureFarmsSavedMuds;
                             gAbe->SetDead(true);
 
                             gMap.SetActiveCam(EReliveLevelIds::eBoardRoom, 6, 9, CameraSwapEffects::eUnknown_11, 304, 0);
@@ -140,8 +140,8 @@ void GameEnderController::VUpdate()
 
                             gMap.SetActiveCam(EReliveLevelIds::eBoardRoom, 6, 10, CameraSwapEffects::eUnknown_11, 304, 0);
                             mState = GameEnderControllerStates::eBadEnding_3;
-                            sRescuedMudokons = gRestartRuptureFarmsSavedMuds;
-                            sKilledMudokons = gRestartRuptureFarmsKilledMuds;
+                            gRescuedMudokons = gRestartRuptureFarmsSavedMuds;
+                            gKilledMudokons = gRestartRuptureFarmsKilledMuds;
                         }
                     }
                 }

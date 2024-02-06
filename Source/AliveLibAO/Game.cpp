@@ -51,8 +51,8 @@ s16 gAttract = 0;
 
 void Init_GameStates()
 {
-    sKilledMudokons = gRestartRuptureFarmsKilledMuds;
-    sRescuedMudokons = gRestartRuptureFarmsSavedMuds;
+    gKilledMudokons = gRestartRuptureFarmsKilledMuds;
+    gRescuedMudokons = gRestartRuptureFarmsSavedMuds;
 
     gDeathGasOn = false;
     gDeathGasTimer = 0;

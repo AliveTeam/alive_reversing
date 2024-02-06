@@ -15,25 +15,48 @@ extern bool gDDCheatOn;
 
 namespace AO {
 
+static s32 sDoorsOpen = 0;
+s16 gRescuedMudokons = 0;
+s16 gKilledMudokons = 0;
+
+static u16 sTeleport_Level = 3;
+static u16 sTeleport_Path = 1;
+static u16 sTeleport_Cam = 1;
+
+bool gDDCheat_FlyingEnabled = false;
+bool gDDCheat_ShowAI_Info = false;
+
+using TDDCheatFn = decltype(&DDCheat::Teleport);
+
+#define DDCHEAT_FN_COUNT 2
+const TDDCheatFn sDDCheat_FnCheatsTable[DDCHEAT_FN_COUNT] = {
+    &DDCheat::Teleport,
+    &DDCheat::Misc};
+
 struct DDCheatProperties final
 {
     DDCheatProperty props[10];
 };
-DDCheatProperties DDCheatProperties_4FF7D8 = {};
+static DDCheatProperties sDDCheatProperties = {};
 
-s32 gDoorsOpen_5076FC = 0;
-
-s16 sRescuedMudokons = 0;
-s16 sKilledMudokons = 0;
-
-s16 showDebugCreatureInfo_5076E0 = 0;
-bool gDDCheat_FlyingEnabled = false;
-
-using TDDCheatFn = decltype(&DDCheat::Teleport);
-
-const TDDCheatFn CheatsFn_4C3150[] = {
-    &DDCheat::Teleport,
-    &DDCheat::Misc};
+static const char_type* sTeleportLevelNameTable[16] = {
+    "Start screen",
+    "Rupture 1",
+    "Lines 1",
+    "Forest Outside",
+    "Forest Inside",
+    "Escape 1",
+    "Escape 2",
+    "(removed)",
+    "Desert Outside",
+    "Desert Inside",
+    "Credits",
+    "(removed)",
+    "Game Ender",
+    "Rupture 2",
+    "Forest Level Ender",
+    "Desert Level Ender"
+};
 
 DDCheat::DDCheat()
     : BaseGameObject(true, 0)
@@ -42,24 +65,21 @@ DDCheat::DDCheat()
     SetUpdateDuringCamSwap(true);
 
     SetType(ReliveTypes::eDDCheat);
-    field_14_SelectedCheat = 0;
-    field_18_backInputPressed = 0;
-    field_20_bTeleportCheatActive = 0;
 
     ClearProperties();
 
-    AddPropertyEntry("Doors Open ", DDCheatValueType::eShort_4, &gDoorsOpen_5076FC);
-    AddPropertyEntry("RescuedMudokons ", DDCheatValueType::eShort_4, &sRescuedMudokons);
+    AddPropertyEntry("Doors Open ", DDCheatValueType::eShort_4, &sDoorsOpen);
+    AddPropertyEntry("RescuedMudokons ", DDCheatValueType::eShort_4, &gRescuedMudokons);
 }
 
 void DDCheat::ClearProperties()
 {
-    DDCheatProperties_4FF7D8 = {};
+    sDDCheatProperties = {};
 }
 
 void DDCheat::AddPropertyEntry(const char_type* text, DDCheatValueType valueType, DDCheatValue valuePtr)
 {
-    for (auto& prop : DDCheatProperties_4FF7D8.props)
+    for (auto& prop : sDDCheatProperties.props)
     {
         if (prop.Name == nullptr)
         {
@@ -77,13 +97,6 @@ void DDCheat::VScreenChanged()
     // Empty
 }
 
-s32 level_4C315C = 3;
-u16 path_4C3160 = 1;
-u32 gVox_4FF864 = 0;
-u16 doNothing_4FF860 = 0;
-
-
-u32 dword_9F0E40 = 0;
 u32 dword_9F0E44 = 1;
 
 u32 currentlyPressedButtons_4FF854 = 0;
@@ -103,302 +116,256 @@ s32 sub_49AD50(s32 /*a1*/)
 
 void DDCheat::VUpdate()
 {
-    if (gDDCheatOn)
+    if (!gDDCheatOn || !gAbe)
     {
-        const InputObject::PadIndex otherController = Input().CurrentController() == InputObject::PadIndex::First ? InputObject::PadIndex::Second : InputObject::PadIndex::First;
-        Abe* pAbe = gAbe;
-        bool cheat_enabled = false;
+        return;
+    }
 
-        if (field_20_bTeleportCheatActive == 0)
+    const InputObject::PadIndex otherController = Input().CurrentController() == InputObject::PadIndex::First ? InputObject::PadIndex::Second : InputObject::PadIndex::First;
+    bool cheat_enabled = false;
+
+    if (mTeleporting == 0)
+    {
+        cheat_enabled = gDDCheat_FlyingEnabled;
+    }
+    else
+    {
+        mTeleporting = 0;
+        PSX_Point point = {};
+        gMap.GetCurrentCamCoords(&point);
+        cheat_enabled = true;
+        gAbe->mXPos = FP_FromInteger(point.x + 448);
+        gAbe->mYPos = FP_FromInteger(point.y + 180);
+        gAbe->mCurrentMotion = eAbeMotions::Motion_3_Fall;
+        gAbe->mLandSoft = true;
+        gAbe->mCurrentLevel = MapWrapper::FromAO(static_cast<LevelIds>(sTeleport_Level));
+        gAbe->mCurrentPath = static_cast<s16>(sTeleport_Path);
+        gDDCheat_FlyingEnabled = true;
+        field_18_backInputPressed = 0;
+    }
+
+    if (gMap.mCurrentLevel != EReliveLevelIds::eMenu)
+    {
+        if (Input().IsAnyPressed(InputCommands::eCheatMode))
         {
-            cheat_enabled = gDDCheat_FlyingEnabled;
-        }
-        else
-        {
-            field_20_bTeleportCheatActive = 0;
-            if (pAbe)
+            gDDCheat_FlyingEnabled = cheat_enabled == false;
+            if (gDDCheat_FlyingEnabled)
             {
-                PSX_Point point = {};
-                gMap.GetCurrentCamCoords(&point);
-                pAbe = gAbe;
-                cheat_enabled = true;
-                pAbe->mXPos = FP_FromInteger(point.x + 448);
-                pAbe->mYPos = FP_FromInteger(point.y + 180);
-                pAbe->mCurrentMotion = eAbeMotions::Motion_3_Fall;
-                pAbe->mLandSoft = true;
-                pAbe->mCurrentLevel = MapWrapper::FromAO(static_cast<LevelIds>(level_4C315C));
-                pAbe->mCurrentPath = static_cast<s16>(path_4C3160);
-                gDDCheat_FlyingEnabled = true;
-                field_18_backInputPressed = 0;
-            }
-        }
-
-        if (gMap.mCurrentLevel != EReliveLevelIds::eMenu)
-        {
-            if (pAbe)
-            {
-                if (Input().IsAnyPressed(InputCommands::eCheatMode))
-                {
-                    gDDCheat_FlyingEnabled = cheat_enabled == false;
-                    if (gDDCheat_FlyingEnabled)
-                    {
-                        pAbe->mLandSoft = true;
-                        showDebugCreatureInfo_5076E0 = 0;
-                        sControlledCharacter->BaseAliveGameObjectCollisionLine = nullptr;
-                        sControlledCharacter->BaseAliveGameObjectLastLineYPos = sControlledCharacter->mYPos;
-                        switch (sControlledCharacter->Type())
-                        {
-                            case ReliveTypes::eElum:
-                            {
-                                static_cast<Elum*>(sControlledCharacter)->mCurrentMotion = eElumMotions::Motion_21_Land;
-                                break;
-                            }
-                            case ReliveTypes::eAbe:
-                            {
-                                static_cast<Abe*>(sControlledCharacter)->mCurrentMotion = eAbeMotions::Motion_3_Fall;
-                                break;
-                            }
-                            case ReliveTypes::eSlig:
-                            {
-                                static_cast<Slig*>(sControlledCharacter)->mCurrentMotion = eSligMotions::Motion_7_Falling;
-                                break;
-                            }
-                            default:
-                                break;
-                        }
-                    }
-                }
-            }
-        }
-
-
-        if (cheat_enabled)
-        {
-            if (pAbe)
-            {
-                pAbe->mLandSoft = true;
-            }
-
-            if (sControlledCharacter)
-            {
+                gAbe->mLandSoft = true;
+                gDDCheat_ShowAI_Info = 0;
                 sControlledCharacter->BaseAliveGameObjectCollisionLine = nullptr;
                 sControlledCharacter->BaseAliveGameObjectLastLineYPos = sControlledCharacter->mYPos;
-            }
-        }
-
-        if (!(sGnFrame % 10))
-        {
-            gVox_4FF864 = 0;
-            auto counter = 0;
-            while (counter < 24)
-            {
-                if (sub_49AD50(1 << counter))
+                switch (sControlledCharacter->Type())
                 {
-                    gVox_4FF864++;
-                }
-                counter++;
-            }
-            cheat_enabled = gDDCheat_FlyingEnabled;
-        }
-
-        if (cheat_enabled || showDebugCreatureInfo_5076E0 || doNothing_4FF860)
-        {
-            DebugStr(
-                "\n%sP%dC%d %6d",
-                Path_Get_Lvl_Name(gMap.mCurrentLevel),
-                gMap.mCurrentPath,
-                gMap.mCurrentCamera,
-                sGnFrame);
-
-            if (gAbe)
-            {
-                DebugStr(
-                    "\nheroxy=%4d,%4d\n",
-                    FP_GetExponent(gAbe->mXPos),
-                    FP_GetExponent(gAbe->mYPos));
-            }
-
-            cheat_enabled = gDDCheat_FlyingEnabled;
-        }
-
-        if (cheat_enabled)
-        {
-            auto isHeld = Input().GetPressed();
-            if (isHeld & InputCommands::eDoAction)
-            {
-                showDebugCreatureInfo_5076E0 = showDebugCreatureInfo_5076E0 == 0;
-            }
-            if (isHeld & InputCommands::eThrowItem)
-            {
-                dword_9F0E44 = dword_9F0E40;
-            }
-            if (isHeld & InputCommands::eHop)
-            {
-                doNothing_4FF860 = doNothing_4FF860 == 0;
-            }
-        }
-        field_24_input = Input().GetPressed(otherController);
-        auto isPressed = Input().GetHeld(otherController);
-        if (currentlyPressedButtons_4FF854 == isPressed && currentlyPressedButtons_4FF854)
-        {
-            dword_4C31A8--;
-            if (dword_4C31A8 == 0)
-            {
-                field_24_input = currentlyPressedButtons_4FF854;
-                dword_4C31A8 = 2;
-            }
-        }
-        else
-        {
-            currentlyPressedButtons_4FF854 = isPressed;
-            dword_4C31A8 = 10;
-        }
-
-        if (field_24_input & InputCommands::eBack)
-        {
-            field_18_backInputPressed = field_18_backInputPressed == 0;
-        }
-
-        if (field_18_backInputPressed)
-        {
-            if (isPressed & InputCommands::eSneak && isPressed & InputCommands::eCheatMode)
-            {
-                field_14_SelectedCheat = 0;
-            }
-            else if (field_24_input & InputCommands::eCheatMode)
-            {
-                field_14_SelectedCheat++;
-                if (field_14_SelectedCheat >= 2)
-                {
-                    field_14_SelectedCheat = 0;
+                    case ReliveTypes::eElum:
+                    {
+                        static_cast<Elum*>(sControlledCharacter)->mCurrentMotion = eElumMotions::Motion_21_Land;
+                        break;
+                    }
+                    case ReliveTypes::eAbe:
+                    {
+                        static_cast<Abe*>(sControlledCharacter)->mCurrentMotion = eAbeMotions::Motion_3_Fall;
+                        break;
+                    }
+                    case ReliveTypes::eSlig:
+                    {
+                        static_cast<Slig*>(sControlledCharacter)->mCurrentMotion = eSligMotions::Motion_7_Falling;
+                        break;
+                    }
+                    default:
+                        break;
                 }
             }
-            IBaseAliveGameObject::InvokeMemberFunction(this, CheatsFn_4C3150, field_14_SelectedCheat);
         }
     }
+
+
+    if (cheat_enabled)
+    {
+        gAbe->mLandSoft = true;
+
+        if (sControlledCharacter)
+        {
+            sControlledCharacter->BaseAliveGameObjectCollisionLine = nullptr;
+            sControlledCharacter->BaseAliveGameObjectLastLineYPos = sControlledCharacter->mYPos;
+        }
+    }
+
+    if (!(sGnFrame % 10))
+    {
+        cheat_enabled = gDDCheat_FlyingEnabled;
+    }
+
+    if (cheat_enabled || gDDCheat_ShowAI_Info)
+    {
+        DebugStr(
+            "\n%sP%dC%d %6d",
+            Path_Get_Lvl_Name(gMap.mCurrentLevel),
+            gMap.mCurrentPath,
+            gMap.mCurrentCamera,
+            sGnFrame);
+
+        DebugStr(
+            "\nheroxy=%4d,%4d\n",
+            FP_GetExponent(gAbe->mXPos),
+            FP_GetExponent(gAbe->mYPos));
+
+        cheat_enabled = gDDCheat_FlyingEnabled;
+    }
+
+    if (cheat_enabled)
+    {
+        auto isHeld = Input().GetPressed();
+        if (isHeld & InputCommands::eDoAction)
+        {
+            gDDCheat_ShowAI_Info = gDDCheat_ShowAI_Info == 0;
+        }
+        if (isHeld & InputCommands::eThrowItem)
+        {
+            dword_9F0E44 = 0;
+        }
+    }
+    field_24_input = Input().GetPressed(otherController);
+    auto isPressed = Input().GetHeld(otherController);
+    if (currentlyPressedButtons_4FF854 == isPressed && currentlyPressedButtons_4FF854)
+    {
+        dword_4C31A8--;
+        if (dword_4C31A8 == 0)
+        {
+            field_24_input = currentlyPressedButtons_4FF854;
+            dword_4C31A8 = 2;
+        }
+    }
+    else
+    {
+        currentlyPressedButtons_4FF854 = isPressed;
+        dword_4C31A8 = 10;
+    }
+
+    if (field_24_input & InputCommands::eBack)
+    {
+        field_18_backInputPressed = field_18_backInputPressed == 0;
+    }
+
+    if (field_18_backInputPressed)
+    {
+        if (isPressed & InputCommands::eSneak && isPressed & InputCommands::eCheatMode)
+        {
+            mCheatFnIdx = 0;
+        }
+        else if (field_24_input & InputCommands::eCheatMode)
+        {
+            mCheatFnIdx++;
+            if (mCheatFnIdx >= 2)
+            {
+                mCheatFnIdx = 0;
+            }
+        }
+        IBaseAliveGameObject::InvokeMemberFunction(this, sDDCheat_FnCheatsTable, mCheatFnIdx);
+    }
 }
-
-const char_type* lvl_names_4C3168[16] = {
-    "Start screen",
-    "Rupture 1",
-    "Lines 1",
-    "Forest Outside",
-    "Forest Inside",
-    "Escape 1",
-    "Escape 2",
-    "(removed)",
-    "Desert Outside",
-    "Desert Inside",
-    "Credits",
-    "(removed)",
-    "Game Ender",
-    "Rupture 2",
-    "Forest Level Ender",
-    "Desert Level Ender"};
-
-s16 camera_4C3164 = 1;
 
 void DDCheat::Teleport()
 {
     DebugStr("\n[Teleport]\n");
-    DebugStr("Level    (L,R):      %s \n", lvl_names_4C3168[level_4C315C]);
-    DebugStr("Path    (Up/Down):   %d \n", path_4C3160);
-    DebugStr("Camera (Left/Right): %d \n", static_cast<u16>(camera_4C3164));
+    DebugStr("Level    (L,R):      %s \n", sTeleportLevelNameTable[sTeleport_Level]);
+    DebugStr("Path    (Up/Down):   %d \n", sTeleport_Path);
+    DebugStr("Camera (Left/Right): %d \n", sTeleport_Cam);
     DebugStr("Teleport = [] Reset = O\n"); //TODO don't display PSX buttons
     s32 input = field_24_input;
     if (input & InputCommands::eSneak)
     {
-        if (level_4C315C)
+        if (sTeleport_Level)
         {
-            --level_4C315C;
+            --sTeleport_Level;
         }
     }
     else if (input & InputCommands::eCheatMode)
     {
-        if (level_4C315C < 15u)
+        if (sTeleport_Level < 15u)
         {
-            ++level_4C315C;
+            ++sTeleport_Level;
         }
     }
     else if (input & InputCommands::eUp)
     {
-        ++path_4C3160;
+        ++sTeleport_Path;
     }
     else if (input & InputCommands::eDown)
     {
-        if (path_4C3160 > 1u)
+        if (sTeleport_Path > 1u)
         {
-            --path_4C3160;
+            --sTeleport_Path;
         }
     }
     else if (input & InputCommands::eLeft)
     {
-        if (camera_4C3164 > 1)
+        if (sTeleport_Cam > 1)
         {
-            --camera_4C3164;
+            --sTeleport_Cam;
         }
     }
     else if (input & InputCommands::eRight)
     {
-        ++camera_4C3164;
+        ++sTeleport_Cam;
     }
     else if (input & InputCommands::eThrowItem)
     {
-        path_4C3160 = gMap.mCurrentPath;
-        level_4C315C = static_cast<s32>(MapWrapper::ToAO(gMap.mCurrentLevel));
-        camera_4C3164 = gMap.mCurrentCamera;
+        sTeleport_Path = gMap.mCurrentPath;
+        sTeleport_Level = static_cast<s32>(MapWrapper::ToAO(gMap.mCurrentLevel));
+        sTeleport_Cam = gMap.mCurrentCamera;
     }
     else if (input & InputCommands::eDoAction)
     {
-        if (path_4C3160 <= 21u)
+        if (sTeleport_Path <= 21u)
         {
-            const auto pPathRec = Path_Get_Bly_Record(MapWrapper::FromAO(static_cast<LevelIds>(level_4C315C)), path_4C3160);
+            const auto pPathRec = Path_Get_Bly_Record(MapWrapper::FromAO(static_cast<LevelIds>(sTeleport_Level)), sTeleport_Path);
             if (pPathRec && pPathRec->field_0_blyName && pPathRec->field_4_pPathData && pPathRec->field_8_pCollisionData)
             {
-                if (camera_4C3164 <= 21)
+                if (sTeleport_Cam <= 21)
                 {
                     gDDCheat_FlyingEnabled = true;
                     gMap.SetActiveCam(
-                        MapWrapper::FromAO(static_cast<LevelIds>(level_4C315C)),
-                        path_4C3160,
-                        camera_4C3164,
+                        MapWrapper::FromAO(static_cast<LevelIds>(sTeleport_Level)),
+                        sTeleport_Path,
+                        sTeleport_Cam,
                         CameraSwapEffects::eInstantChange_0,
                         0,
                         0);
-                    field_20_bTeleportCheatActive = 1;
+                    mTeleporting = true;
                 }
             }
         }
     }
 }
 
-u32 gScale_4C3158 = 100;
+static u32 sScaleMultiplicator = 100;
 
 void DDCheat::Misc()
 {
     if (field_24_input & InputCommands::eLeft)
     {
-        gScale_4C3158 = 100;
+        sScaleMultiplicator = 100;
         sControlledCharacter->SetSpriteScale(FP_FromInteger(1));
         sControlledCharacter->SetScale(Scale::Fg);
         sControlledCharacter->GetAnimation().SetRenderLayer(Layer::eLayer_AbeMenu_32);
     }
     else if (field_24_input & InputCommands::eRight)
     {
-        gScale_4C3158 = 50;
+        sScaleMultiplicator = 50;
         sControlledCharacter->SetSpriteScale(FP_FromDouble(0.5));
         sControlledCharacter->SetScale(Scale::Bg);
         sControlledCharacter->GetAnimation().SetRenderLayer(Layer::eLayer_AbeMenu_Half_13);
     }
     else if (field_24_input & InputCommands::eDown)
     {
-        gScale_4C3158 -= 5;
-        sControlledCharacter->SetSpriteScale(FP_FromInteger(gScale_4C3158) * FP_FromDouble(0.01));
+        sScaleMultiplicator -= 5;
+        sControlledCharacter->SetSpriteScale(FP_FromInteger(sScaleMultiplicator) * FP_FromDouble(0.01));
     }
     else if (field_24_input & InputCommands::eUp)
     {
-        gScale_4C3158 += 5;
-        sControlledCharacter->SetSpriteScale(FP_FromInteger(gScale_4C3158) * FP_FromDouble(0.01));
+        sScaleMultiplicator += 5;
+        sControlledCharacter->SetSpriteScale(FP_FromInteger(sScaleMultiplicator) * FP_FromDouble(0.01));
     }
     else if (field_24_input & InputCommands::eHop)
     {
@@ -409,7 +376,7 @@ void DDCheat::Misc()
         gAbeInvisibleCheat = gAbeInvisibleCheat == 0;
     }
     DebugStr("\nScale: up=+5 down=-5 left=100 right=50\n");
-    DebugStr("Scale: %d\n\n", gScale_4C3158);
+    DebugStr("Scale: %d\n\n", sScaleMultiplicator);
 
     const char_type* invulnerableDisplayText = "on";
     if (!gAbeInvulnerableCheat)
