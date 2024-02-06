@@ -258,11 +258,11 @@ public:
     s16 mBrainIdx = 0;
     bool mStrugglingWithBees = false;
     s16 mRespawnOnDead = 0;
-    PSX_RECT mContinueRect = {};
-    s16 mPreviousContinueZoneNumber = 0;
+    PSX_RECT mContinuePointRect = {};
+    s16 mPreviousContinuePointZoneNumber = 0;
     s16 mAbeZoneNumber = 0;
-    EReliveLevelIds mContinueLevel = EReliveLevelIds::eNone;
-    s16 mContinuePath = 0;
+    EReliveLevelIds mContinuePointLevel = EReliveLevelIds::eNone;
+    s16 mContinuePointPath = 0;
     s16 mContinueCamera = 0;
     s16 mHoneyXPos = 0;
     s16 mDontFollowAbe = 0;
@@ -270,7 +270,7 @@ public:
     bool mFoundHoney = false;
     s16 field_120_bUnknown = 0;
     s16 mBrainSubState = 0;
-    FP mContinueSpriteScale = {};
+    FP mContinuePointSpriteScale = {};
     bool mFalling = false; // falling straight down?
     s16 mHoneyCamera = 0;
     eElumMotions mPreviousMotion = eElumMotions::Motion_0_Respawn;

@@ -102,20 +102,20 @@ void Elum::VOnTlvCollision(relive::Path_TLV* pTlv)
         if (pTlv->mTlvType == ReliveTypes::eContinuePoint)
         {
             auto pContinueTlv = static_cast<relive::Path_ContinuePoint*>(pTlv);
-            if (mPreviousContinueZoneNumber != pContinueTlv->mZoneNumber &&
+            if (mPreviousContinuePointZoneNumber != pContinueTlv->mZoneNumber &&
                 pContinueTlv->mZoneNumber > mAbeZoneNumber &&
                 pContinueTlv->mElumRestarts == relive::reliveChoice::eYes)
             {
-                mPreviousContinueZoneNumber = pContinueTlv->mZoneNumber;
-                mContinueRect.x = pContinueTlv->mTopLeftX;
-                mContinueRect.y = pContinueTlv->mTopLeftY;
-                mContinueRect.w = pContinueTlv->mBottomRightX;
-                mContinueRect.h = pContinueTlv->mBottomRightY;
+                mPreviousContinuePointZoneNumber = pContinueTlv->mZoneNumber;
+                mContinuePointRect.x = pContinueTlv->mTopLeftX;
+                mContinuePointRect.y = pContinueTlv->mTopLeftY;
+                mContinuePointRect.w = pContinueTlv->mBottomRightX;
+                mContinuePointRect.h = pContinueTlv->mBottomRightY;
 
-                mContinuePath = gMap.mCurrentPath;
+                mContinuePointPath = gMap.mCurrentPath;
                 mContinueCamera = gMap.mCurrentCamera;
-                mContinueLevel = gMap.mCurrentLevel;
-                mContinueSpriteScale = GetSpriteScale();
+                mContinuePointLevel = gMap.mCurrentLevel;
+                mContinuePointSpriteScale = GetSpriteScale();
 
                 mRespawnOnDead = 1;
             }
@@ -2146,21 +2146,21 @@ void Elum::Motion_19_Dead()
     {
         if (!gAbe->mShrivel && gAbe->mLandSoft /* && field_104_pending_resource_count == 0*/)
         {
-            mXPos = FP_FromInteger(mContinueRect.x);
-            mYPos = FP_FromInteger(mContinueRect.y);
+            mXPos = FP_FromInteger(mContinuePointRect.x);
+            mYPos = FP_FromInteger(mContinuePointRect.y);
 
             mVelY = FP_FromInteger(0);
             mVelX = FP_FromInteger(0);
 
-            mCurrentLevel = mContinueLevel;
-            mCurrentPath = mContinuePath;
-            SetSpriteScale(mContinueSpriteScale);
+            mCurrentLevel = mContinuePointLevel;
+            mCurrentPath = mContinuePointPath;
+            SetSpriteScale(mContinuePointSpriteScale);
 
             mBrainIdx = 0;
             mBrainSubState = 6;
             mDontFollowAbe = 1;
 
-            if (!gMap.Is_Point_In_Current_Camera(mContinueLevel, mContinuePath, mXPos, mYPos, 0))
+            if (!gMap.Is_Point_In_Current_Camera(mContinuePointLevel, mContinuePointPath, mXPos, mYPos, 0))
             {
                 Elum_SFX(ElumSounds::eHowl_2, this);
             }
@@ -3365,7 +3365,7 @@ void Elum::VUpdate()
         {
             if (!field_154_bAbeForcedDownFromElum)
             {
-                if (gAbe->mContinueZoneNumber != mPreviousContinueZoneNumber)
+                if (gAbe->mContinuePointZoneNumber != mPreviousContinuePointZoneNumber)
                 {
                     mBrainIdx = 0;
                     mBrainSubState = 6;
@@ -3530,8 +3530,8 @@ Elum::Elum(const Guid& tlvInfo)
     SetCanBeesChase(true);
     mBaseAliveGameObjectLastAnimFrame = 0;
 
-    mPreviousContinueZoneNumber = 0;
-    mAbeZoneNumber = gAbe->mContinueZoneNumber;
+    mPreviousContinuePointZoneNumber = 0;
+    mAbeZoneNumber = gAbe->mContinuePointZoneNumber;
 
     field_154_bAbeForcedDownFromElum = 0;
     mBrainIdx = 0;

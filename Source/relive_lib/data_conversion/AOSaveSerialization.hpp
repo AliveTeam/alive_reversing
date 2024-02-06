@@ -235,36 +235,36 @@ NLOHMANN_JSON_SERIALIZE_ENUM(eElumMotions, {
 inline void to_json(nlohmann::json& j, const SaveData& p)
 {
     j = nlohmann::json{
-        {"continue_point_zone_number", p.mContinuePoint_ZoneNumber},
-        {"continue_point_clear_from_id", p.mContinuePoint_ClearFromId},
-        {"continue_point_clear_to_id", p.mContinuePoint_ClearToId},
-        {"continue_point_top_left", p.mContinuePoint_TopLeft},
-        {"continue_point_bottom_right", p.mContinuePoint_BottomRight},
-        {"continue_point_level", p.mContinuePoint_Level},
-        {"continue_point_path", p.mContinuePoint_Path},
-        {"continue_point_camera", p.mContinuePoint_Camera},
-        {"continue_point_sprite_scale", p.mContinuePoint_SpriteScale},
-        {"saved_ring_timer", p.field_21C_saved_ring_timer},
-        {"active_hero_saved_have_shrykull", p.mActiveHero_SavedHaveShrykull},
-        {"active_hero_xpos", p.mActiveHero_XPos},
-        {"active_hero_ypos", p.mActiveHero_YPos},
-        {"active_hero_health", p.mActiveHero_Health},
-        {"active_hero_sprite_scale", p.mActiveHero_SpriteScale},
+        {"abe_continue_point_zone_number", p.mAbe_ContinuePointZoneNumber},
+        {"abe_continue_point_clear_from_id", p.mAbe_ContinuePointClearFromId},
+        {"abe_continue_point_clear_to_id", p.mAbe_ContinuePointClearToId},
+        {"abe_continue_point_top_left", p.mAbe_ContinuePointTopLeft},
+        {"abe_continue_point_bottom_right", p.mAbe_ContinuePointBottomRight},
+        {"abe_continue_point_level", p.mAbe_ContinuePointLevel},
+        {"abe_continue_point_path", p.mAbe_ContinuePointPath},
+        {"abe_continue_point_camera", p.mAbe_ContinuePoint_Camera},
+        {"abe_continue_point_sprite_scale", p.mAbe_ContinuePointSpriteScale},
+        {"abe_saved_ring_timer", p.mAbe_SavedRingTimer},
+        {"abe_saved_have_shrykull", p.mAbe_SavedHaveShrykull},
+        {"abe_xpos", p.mAbe_XPos},
+        {"abe_ypos", p.mAbe_YPos},
+        {"abe_health", p.mAbe_Health},
+        {"abe_sprite_scale", p.mAbe_SpriteScale},
         {"current_level", p.mCurrentLevel},
         {"current_path", p.mCurrentPath},
         {"current_camera", p.mCurrentCamera},
-        {"mode_mask", p.field_23A_mode_mask},
-        {"active_hero_flip_x", p.mActiveHero_FlipX},
-        {"active_hero_current_motion", p.mActiveHero_CurrentMotion},
-        {"active_hero_current_frame", p.mActiveHero_CurrentFrame},
-        {"stone_state", p.field_244_stone_state},
-        {"gnframe", p.field_248_gnFrame},
-        {"field_24C_field_118", p.field_24C_field_118},
-        {"throwable_count", p.field_250_throwable_count},
-        {"active_hero_paramonia_done", p.mActiveHero_ParamoniaDone},
-        {"active_hero_scrabania_done", p.mActiveHero_ScrabaniaDone},
-        {"ring_pulse_timer", p.field_254_ring_pulse_timer},
-        {"active_hero_have_shrykull", p.mActiveHero_HaveShrykull},
+        {"abe_line_type", p.mAbe_LineType},
+        {"abe_flip_x", p.mAbe_FlipX},
+        {"abe_current_motion", p.mAbe_CurrentMotion},
+        {"abe_current_frame", p.mAbe_CurrentFrame},
+        {"abe_stone_state", p.mAbe_StoneState},
+        {"abe_gnframe", p.mAbe_GnFrame},
+        {"abe_timer", p.mAbe_Timer},
+        {"abe_throwable_count", p.mAbe_ThrowableCount},
+        {"abe_paramonia_done", p.mAbe_ParamoniaDone},
+        {"abe_scrabania_done", p.mAbe_ScrabaniaDone},
+        {"abe_ring_pulse_timer", p.mAbe_RingPulseTimer},
+        {"abe_have_shrykull", p.mAbe_HaveShrykull},
         {"elum_exists", p.mElumExists},
         {"controlling_elum", p.mControllingElum},
         {"elum_respawn_on_dead", p.mElum_RespawnOnDead},
@@ -285,18 +285,17 @@ inline void to_json(nlohmann::json& j, const SaveData& p)
         {"elum_stung_by_bees", p.mElum_StungByBees},
         {"elum_falling", p.mElum_Falling},
         {"elum_found_honey", p.mElum_FoundHoney},
-        {"elum_continue_rect", p.mElum_ContinueRect},
-        {"elum_previous_continue_zone_number", p.mElum_PreviousContinueZoneNumber},
+        {"elum_continue_point_rect", p.mElum_ContinuePointRect},
+        {"elum_previous_continue_point_zone_number", p.mElum_PreviousContinueZonePointNumber},
         {"elum_abe_zone_number", p.mElum_AbeZoneNumber},
-        {"elum_continue_path", p.mElum_ContinuePath},
-        {"elum_continue_level", p.mElum_ContinueLevel},
-        {"elum_continue_sprite_scale", p.mElum_ContinueSpriteScale},
+        {"elum_continue_point_path", p.mElum_ContinuePointPath},
+        {"elum_continue_point_level", p.mElum_ContinuePointLevel},
+        {"elum_continue_point_sprite_scale", p.mElum_ContinuePointSpriteScale},
         {"rescued_mudokons", p.mRescuedMudokons},
         {"killed_mudokons", p.mKilledMudokons},
         {"restart_rupture_farms_saved_mudokons", p.field_2A4_restartRuptureFarmsSavedMudokons},
         {"restart_rupture_farms_killed_muds", p.mRestartRuptureFarmsKilledMuds},
-        {"gas_timer", p.field_2A8_gasTimer},
-        {"use_alt_save_header", p.field_2AC_bUseAltSaveHeader},
+        {"death_gas_timer", p.mDeathGasTimer},
         {"current_controller_idx", p.mCurrentControllerIdx},
         {"save_buffer", p.field_2B0_pSaveBuffer},
     };
@@ -304,36 +303,36 @@ inline void to_json(nlohmann::json& j, const SaveData& p)
 
 inline void from_json(const nlohmann::json& j, SaveData& p)
 {
-    j.at("continue_point_zone_number").get_to(p.mContinuePoint_ZoneNumber);
-    j.at("continue_point_clear_from_id").get_to(p.mContinuePoint_ClearFromId);
-    j.at("continue_point_clear_to_id").get_to(p.mContinuePoint_ClearToId);
-    j.at("continue_point_top_left").get_to(p.mContinuePoint_TopLeft);
-    j.at("continue_point_bottom_right").get_to(p.mContinuePoint_BottomRight);
-    j.at("continue_point_level").get_to(p.mContinuePoint_Level);
-    j.at("continue_point_path").get_to(p.mContinuePoint_Path);
-    j.at("continue_point_camera").get_to(p.mContinuePoint_Camera);
-    j.at("continue_point_sprite_scale").get_to(p.mContinuePoint_SpriteScale);
-    j.at("saved_ring_timer").get_to(p.field_21C_saved_ring_timer);
-    j.at("active_hero_saved_have_shrykull").get_to(p.mActiveHero_SavedHaveShrykull);
-    j.at("active_hero_xpos").get_to(p.mActiveHero_XPos);
-    j.at("active_hero_ypos").get_to(p.mActiveHero_YPos);
-    j.at("active_hero_health").get_to(p.mActiveHero_Health);
-    j.at("active_hero_sprite_scale").get_to(p.mActiveHero_SpriteScale);
+    j.at("abe_continue_point_zone_number").get_to(p.mAbe_ContinuePointZoneNumber);
+    j.at("abe_continue_point_clear_from_id").get_to(p.mAbe_ContinuePointClearFromId);
+    j.at("abe_continue_point_clear_to_id").get_to(p.mAbe_ContinuePointClearToId);
+    j.at("abe_continue_point_top_left").get_to(p.mAbe_ContinuePointTopLeft);
+    j.at("abe_continue_point_bottom_right").get_to(p.mAbe_ContinuePointBottomRight);
+    j.at("abe_continue_point_level").get_to(p.mAbe_ContinuePointLevel);
+    j.at("abe_continue_point_path").get_to(p.mAbe_ContinuePointPath);
+    j.at("abe_continue_point_camera").get_to(p.mAbe_ContinuePoint_Camera);
+    j.at("abe_continue_point_sprite_scale").get_to(p.mAbe_ContinuePointSpriteScale);
+    j.at("abe_saved_ring_timer").get_to(p.mAbe_SavedRingTimer);
+    j.at("abe_saved_have_shrykull").get_to(p.mAbe_SavedHaveShrykull);
+    j.at("abe_xpos").get_to(p.mAbe_XPos);
+    j.at("abe_ypos").get_to(p.mAbe_YPos);
+    j.at("abe_health").get_to(p.mAbe_Health);
+    j.at("abe_sprite_scale").get_to(p.mAbe_SpriteScale);
     j.at("current_level").get_to(p.mCurrentLevel);
     j.at("current_path").get_to(p.mCurrentPath);
     j.at("current_camera").get_to(p.mCurrentCamera);
-    j.at("mode_mask").get_to(p.field_23A_mode_mask);
-    j.at("active_hero_flip_x").get_to(p.mActiveHero_FlipX);
-    j.at("active_hero_current_motion").get_to(p.mActiveHero_CurrentMotion);
-    j.at("active_hero_current_frame").get_to(p.mActiveHero_CurrentFrame);
-    j.at("stone_state").get_to(p.field_244_stone_state);
-    j.at("gnframe").get_to(p.field_248_gnFrame);
-    j.at("field_24C_field_118").get_to(p.field_24C_field_118);
-    j.at("throwable_count").get_to(p.field_250_throwable_count);
-    j.at("active_hero_paramonia_done").get_to(p.mActiveHero_ParamoniaDone);
-    j.at("active_hero_scrabania_done").get_to(p.mActiveHero_ScrabaniaDone);
-    j.at("ring_pulse_timer").get_to(p.field_254_ring_pulse_timer);
-    j.at("active_hero_have_shrykull").get_to(p.mActiveHero_HaveShrykull);
+    j.at("abe_line_type").get_to(p.mAbe_LineType);
+    j.at("abe_flip_x").get_to(p.mAbe_FlipX);
+    j.at("abe_current_motion").get_to(p.mAbe_CurrentMotion);
+    j.at("abe_current_frame").get_to(p.mAbe_CurrentFrame);
+    j.at("abe_stone_state").get_to(p.mAbe_StoneState);
+    j.at("abe_gnframe").get_to(p.mAbe_GnFrame);
+    j.at("abe_timer").get_to(p.mAbe_Timer);
+    j.at("abe_throwable_count").get_to(p.mAbe_ThrowableCount);
+    j.at("abe_paramonia_done").get_to(p.mAbe_ParamoniaDone);
+    j.at("abe_scrabania_done").get_to(p.mAbe_ScrabaniaDone);
+    j.at("abe_ring_pulse_timer").get_to(p.mAbe_RingPulseTimer);
+    j.at("abe_have_shrykull").get_to(p.mAbe_HaveShrykull);
     j.at("elum_exists").get_to(p.mElumExists);
     j.at("controlling_elum").get_to(p.mControllingElum);
     j.at("elum_respawn_on_dead").get_to(p.mElum_RespawnOnDead);
@@ -354,18 +353,17 @@ inline void from_json(const nlohmann::json& j, SaveData& p)
     j.at("elum_stung_by_bees").get_to(p.mElum_StungByBees);
     j.at("elum_falling").get_to(p.mElum_Falling);
     j.at("elum_found_honey").get_to(p.mElum_FoundHoney);
-    j.at("elum_continue_rect").get_to(p.mElum_ContinueRect);
-    j.at("elum_previous_continue_zone_number").get_to(p.mElum_PreviousContinueZoneNumber);
+    j.at("elum_continue_point_rect").get_to(p.mElum_ContinuePointRect);
+    j.at("elum_previous_continue_point_zone_number").get_to(p.mElum_PreviousContinueZonePointNumber);
     j.at("elum_abe_zone_number").get_to(p.mElum_AbeZoneNumber);
-    j.at("elum_continue_path").get_to(p.mElum_ContinuePath);
-    j.at("elum_continue_level").get_to(p.mElum_ContinueLevel);
-    j.at("elum_continue_sprite_scale").get_to(p.mElum_ContinueSpriteScale);
+    j.at("elum_continue_point_path").get_to(p.mElum_ContinuePointPath);
+    j.at("elum_continue_point_level").get_to(p.mElum_ContinuePointLevel);
+    j.at("elum_continue_point_sprite_scale").get_to(p.mElum_ContinuePointSpriteScale);
     j.at("rescued_mudokons").get_to(p.mRescuedMudokons);
     j.at("killed_mudokons").get_to(p.mKilledMudokons);
     j.at("restart_rupture_farms_saved_mudokons").get_to(p.field_2A4_restartRuptureFarmsSavedMudokons);
     j.at("restart_rupture_farms_killed_muds").get_to(p.mRestartRuptureFarmsKilledMuds);
-    j.at("gas_timer").get_to(p.field_2A8_gasTimer);
-    j.at("use_alt_save_header").get_to(p.field_2AC_bUseAltSaveHeader);
+    j.at("death_gas_timer").get_to(p.mDeathGasTimer);
     j.at("current_controller_idx").get_to(p.mCurrentControllerIdx);
     j.at("save_buffer").get_to(p.field_2B0_pSaveBuffer);
 }

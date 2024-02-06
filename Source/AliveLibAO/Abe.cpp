@@ -541,8 +541,8 @@ Abe::Abe()
     GetAnimation().SetRenderLayer(Layer::eLayer_AbeMenu_32);
     SetCanSetOffExplosives(true);
 
-    mContinueSpriteScale = GetSpriteScale();
-    mContinueLevel = gMap.mCurrentLevel;
+    mContinuePointSpriteScale = GetSpriteScale();
+    mContinuePointLevel = gMap.mCurrentLevel;
 
     // Changes Abe's "default" colour depending on the level we are in
     SetTint(sAbeTintTable, gMap.mCurrentLevel);
@@ -2309,17 +2309,17 @@ void Abe::VOnTlvCollision(relive::Path_TLV* pTlv)
         {
             relive::Path_ContinuePoint* pContinuePointTlv = static_cast<relive::Path_ContinuePoint*>(pTlv);
 
-            if ((pContinuePointTlv->mZoneNumber != mContinueZoneNumber || mContinueLevel != gMap.mCurrentLevel) && !GetElectrocuted() && mCurrentMotion != eAbeMotions::Motion_156_DoorEnter)
+            if ((pContinuePointTlv->mZoneNumber != mContinuePointZoneNumber || mContinuePointLevel != gMap.mCurrentLevel) && !GetElectrocuted() && mCurrentMotion != eAbeMotions::Motion_156_DoorEnter)
             {
-                mContinueZoneNumber = pContinuePointTlv->mZoneNumber;
-                mContinueClearFromId = pContinuePointTlv->mClearFromId;
-                mContinueClearToId = pContinuePointTlv->mClearToId;
+                mContinuePointZoneNumber = pContinuePointTlv->mZoneNumber;
+                mContinuePointClearFromId = pContinuePointTlv->mClearFromId;
+                mContinuePointClearToId = pContinuePointTlv->mClearToId;
 
-                mContinueTopLeft.x = pContinuePointTlv->mTopLeftX;
-                mContinueTopLeft.y = pContinuePointTlv->mTopLeftY;
-                mContinueBottomRight.x = pContinuePointTlv->mBottomRightX;
-                mContinueBottomRight.y = pContinuePointTlv->mBottomRightY;
-                mContinueSpriteScale = GetSpriteScale();
+                mContinuePointTopLeft.x = pContinuePointTlv->mTopLeftX;
+                mContinuePointTopLeft.y = pContinuePointTlv->mTopLeftY;
+                mContinuePointBottomRight.x = pContinuePointTlv->mBottomRightX;
+                mContinuePointBottomRight.y = pContinuePointTlv->mBottomRightY;
+                mContinuePointSpriteScale = GetSpriteScale();
 
                 mAbeRespawnFlipX = pContinuePointTlv->mAbeSpawnDir == relive::Path_ContinuePoint::spawnDirection::eLeft;
 
@@ -2327,9 +2327,9 @@ void Abe::VOnTlvCollision(relive::Path_TLV* pTlv)
                 field_150_saved_ring_timer = bHaveShry < 0 ? 0 : bHaveShry;
                 field_154_bSavedHaveShrykull = field_16C_bHaveShrykull;
 
-                mContinueLevel = gMap.mCurrentLevel;
-                mContinuePath = gMap.mCurrentPath;
-                mContinueCamera = gMap.mCurrentCamera;
+                mContinuePointLevel = gMap.mCurrentLevel;
+                mContinuePointPath = gMap.mCurrentPath;
+                mContinuePointCamera = gMap.mCurrentCamera;
 
                 if (gRestartRuptureFarmsSavedMuds == 0 && gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarmsReturn && gMap.mCurrentPath == 19 && gMap.mCurrentCamera == 3)
                 {
@@ -6028,7 +6028,7 @@ void Abe::Motion_60_Dead()
                 {
 
                 }
-                else if (mContinueLevel != EReliveLevelIds::eRuptureFarmsReturn || mContinuePath != 6)
+                else if (mContinuePointLevel != EReliveLevelIds::eRuptureFarmsReturn || mContinuePointPath != 6)
                 {
                     field_168_ring_pulse_timer = 0;
                 }
@@ -6088,16 +6088,16 @@ void Abe::Motion_61_Respawn()
                         BaseAliveGameObject_PlatformId = Guid{};
                     }
                 }
-                if (mContinueCamera > 300u)
+                if (mContinuePointCamera > 300u)
                 {
-                    mContinueCamera = gMap.mCurrentCamera;
-                    mContinuePath = gMap.mCurrentPath;
-                    mContinueLevel = gMap.mCurrentLevel;
+                    mContinuePointCamera = gMap.mCurrentCamera;
+                    mContinuePointPath = gMap.mCurrentPath;
+                    mContinuePointLevel = gMap.mCurrentLevel;
 
                     PSX_Point camPos = {};
                     gMap.GetCurrentCamCoords(&camPos);
-                    mContinueTopLeft.x = camPos.x + 512;
-                    mContinueTopLeft.y = camPos.y + 240;
+                    mContinuePointTopLeft.x = camPos.x + 512;
+                    mContinuePointTopLeft.y = camPos.y + 240;
                 }
                 SaveGame::LoadFromMemory(&gSaveBuffer, 0);
                 if (field_19C_throwable_count)
@@ -6116,10 +6116,10 @@ void Abe::Motion_61_Respawn()
         }
         case 1:
         {
-            mCurrentLevel = mContinueLevel;
-            mCurrentPath = mContinuePath;
-            mXPos = FP_FromInteger(mContinueTopLeft.x);
-            mYPos = FP_FromInteger(mContinueTopLeft.y) + GetSpriteScale() * FP_FromInteger(30);
+            mCurrentLevel = mContinuePointLevel;
+            mCurrentPath = mContinuePointPath;
+            mXPos = FP_FromInteger(mContinuePointTopLeft.x);
+            mYPos = FP_FromInteger(mContinuePointTopLeft.y) + GetSpriteScale() * FP_FromInteger(30);
 
             BaseAliveGameObjectLastLineYPos = mYPos;
 
@@ -6243,8 +6243,8 @@ void Abe::Motion_62_LoadedSaveSpawn()
     if (field_114_gnFrame)
     {
         auto pSaveData = field_2AC_pSaveData;
-        mYPos = FP_FromInteger(pSaveData->mActiveHero_YPos);
-        mXPos = FP_FromInteger(pSaveData->mActiveHero_XPos);
+        mYPos = FP_FromInteger(pSaveData->mAbe_YPos);
+        mXPos = FP_FromInteger(pSaveData->mAbe_XPos);
 
         PathLine* pLine2 = nullptr;
         FP hitX2 = {};
@@ -6257,7 +6257,7 @@ void Abe::Motion_62_LoadedSaveSpawn()
                 &pLine2,
                 &hitX2,
                 &hitY2,
-                CollisionMask(static_cast<eLineTypes>(pSaveData->field_23A_mode_mask))))
+                CollisionMask(static_cast<eLineTypes>(pSaveData->mAbe_LineType))))
         {
             gAbe->BaseAliveGameObjectCollisionLine = pLine2;
             gAbe->mYPos = hitY2;
@@ -6269,10 +6269,10 @@ void Abe::Motion_62_LoadedSaveSpawn()
         }
         gAbe->mLandSoft = false;
         gAbe->BaseAliveGameObjectLastLineYPos = gAbe->mYPos;
-        gAbe->field_110_state.raw = static_cast<s16>(pSaveData->field_244_stone_state);
-        gAbe->field_114_gnFrame = pSaveData->field_248_gnFrame;
-        gAbe->mBaseAliveGameObjectLastAnimFrame = pSaveData->mActiveHero_CurrentFrame;
-        gAbe->GetAnimation().SetFlipX(pSaveData->mActiveHero_FlipX & 1);
+        gAbe->field_110_state.raw = static_cast<s16>(pSaveData->mAbe_StoneState);
+        gAbe->field_114_gnFrame = pSaveData->mAbe_GnFrame;
+        gAbe->mBaseAliveGameObjectLastAnimFrame = pSaveData->mAbe_CurrentFrame;
+        gAbe->GetAnimation().SetFlipX(pSaveData->mAbe_FlipX & 1);
         gAbe->MapFollowMe(true);
         gAbe->GetAnimation().SetRender(true);
         if (gAbe->field_19C_throwable_count)
@@ -6310,12 +6310,12 @@ void Abe::Motion_62_LoadedSaveSpawn()
             {
                 gElum->SetUpdatable(false);
                 gElum->GetAnimation().SetRender(false);
-                gElum->mContinueRect = pSaveData->mElum_ContinueRect;
-                gElum->mPreviousContinueZoneNumber = pSaveData->mElum_PreviousContinueZoneNumber;
+                gElum->mContinuePointRect = pSaveData->mElum_ContinuePointRect;
+                gElum->mPreviousContinuePointZoneNumber = pSaveData->mElum_PreviousContinueZonePointNumber;
                 gElum->mAbeZoneNumber = pSaveData->mElum_AbeZoneNumber;
-                gElum->mContinuePath = pSaveData->mElum_ContinuePath;
-                gElum->mContinueLevel = pSaveData->mElum_ContinueLevel;
-                gElum->mContinueSpriteScale = pSaveData->mElum_ContinueSpriteScale;
+                gElum->mContinuePointPath = pSaveData->mElum_ContinuePointPath;
+                gElum->mContinuePointLevel = pSaveData->mElum_ContinuePointLevel;
+                gElum->mContinuePointSpriteScale = pSaveData->mElum_ContinuePointSpriteScale;
                 gElum->mRespawnOnDead = pSaveData->mElum_RespawnOnDead;
                 gElum->mCurrentLevel = pSaveData->mElum_CurrentLevel;
                 gElum->mCurrentPath = pSaveData->mElum_CurrentPath;

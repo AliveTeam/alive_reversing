@@ -4,31 +4,6 @@
 #include "nlohmann/json.hpp"
 #include "CommonTypesSerialization.hpp"
 
-NLOHMANN_JSON_SERIALIZE_ENUM(eLineTypes, {
-    {eLineTypes::eNone_m1, "none"},
-    {eLineTypes::eFloor_0, "floor"},
-    {eLineTypes::eWallLeft_1, "wall_left"},
-    {eLineTypes::eWallRight_2, "wall_right"},
-    {eLineTypes::eCeiling_3, "ceiling"},
-    {eLineTypes::eBackgroundFloor_4, "background_floor"},
-    {eLineTypes::eBackgroundWallLeft_5, "background_wall_left"},
-    {eLineTypes::eBackgroundWallRight_6, "background_wall_right"},
-    {eLineTypes::eBackgroundCeiling_7, "background_ceiling"},
-    {eLineTypes::eTrackLine_8, "trackline"},
-    {eLineTypes::eArt_9, "art"},
-    {eLineTypes::eBulletWall_10, "bullet_wall"},
-    {eLineTypes::eMineCarFloor_11, "minecar_floor"},
-    {eLineTypes::eMineCarWall_12, "minecar_wall"},
-    {eLineTypes::eMineCarCeiling_13, "minecar_ceiling"},
-    {eLineTypes::eBackgroundMineCarFloor_14, "background_minecar_floor"},
-    {eLineTypes::eBackgroundMineCarWall_15, "background_minecar_wall"},
-    {eLineTypes::eBackgroundMineCarCeiling_16, "background_minecar_ceiling"},
-    {eLineTypes::eFlyingObjectWall_17, "flying_object_wall"},
-    {eLineTypes::eBackgroundFlyingObjectWall_18, "background_flying_object_wall"},
-    {eLineTypes::eDynamicCollision_32, "dynamic_collision"},
-    {eLineTypes::eBackgroundDynamicCollision_36, "background_dynamic_collision"},
-})
-
 inline void to_json(nlohmann::json& j, const PathLine& p)
 {
     j = nlohmann::json{

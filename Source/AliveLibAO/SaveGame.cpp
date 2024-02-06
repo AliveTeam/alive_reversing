@@ -64,19 +64,19 @@ void SaveGame::LoadFromMemory(SaveData* pData, s32 bKillObjects)
 
     sControlledCharacter = gAbe;
 
-    gAbe->mContinueZoneNumber = pData->mContinuePoint_ZoneNumber;
-    gAbe->mContinueClearFromId = pData->mContinuePoint_ClearFromId;
-    gAbe->mContinueClearToId = pData->mContinuePoint_ClearToId;
-    gAbe->mContinueTopLeft = pData->mContinuePoint_TopLeft;
-    gAbe->mContinueBottomRight = pData->mContinuePoint_BottomRight;
-    gAbe->mContinueLevel = pData->mContinuePoint_Level;
-    gAbe->mContinuePath = pData->mContinuePoint_Path;
-    gAbe->mContinueCamera = pData->mContinuePoint_Camera;
-    gAbe->mContinueSpriteScale = pData->mContinuePoint_SpriteScale;
-    gAbe->field_150_saved_ring_timer = pData->field_21C_saved_ring_timer;
-    gAbe->field_154_bSavedHaveShrykull = pData->mActiveHero_SavedHaveShrykull;
-    gAbe->field_168_ring_pulse_timer = pData->field_254_ring_pulse_timer;
-    gAbe->field_16C_bHaveShrykull = pData->mActiveHero_HaveShrykull;
+    gAbe->mContinuePointZoneNumber = pData->mAbe_ContinuePointZoneNumber;
+    gAbe->mContinuePointClearFromId = pData->mAbe_ContinuePointClearFromId;
+    gAbe->mContinuePointClearToId = pData->mAbe_ContinuePointClearToId;
+    gAbe->mContinuePointTopLeft = pData->mAbe_ContinuePointTopLeft;
+    gAbe->mContinuePointBottomRight = pData->mAbe_ContinuePointBottomRight;
+    gAbe->mContinuePointLevel = pData->mAbe_ContinuePointLevel;
+    gAbe->mContinuePointPath = pData->mAbe_ContinuePointPath;
+    gAbe->mContinuePointCamera = pData->mAbe_ContinuePoint_Camera;
+    gAbe->mContinuePointSpriteScale = pData->mAbe_ContinuePointSpriteScale;
+    gAbe->field_150_saved_ring_timer = pData->mAbe_SavedRingTimer;
+    gAbe->field_154_bSavedHaveShrykull = pData->mAbe_SavedHaveShrykull;
+    gAbe->field_168_ring_pulse_timer = pData->mAbe_RingPulseTimer;
+    gAbe->field_16C_bHaveShrykull = pData->mAbe_HaveShrykull;
 
     gRescuedMudokons = pData->mRescuedMudokons;
     gKilledMudokons = pData->mKilledMudokons;
@@ -86,16 +86,16 @@ void SaveGame::LoadFromMemory(SaveData* pData, s32 bKillObjects)
 
     gAbe->mHealth = FP_FromInteger(1);
     gAbe->field_11C_regen_health_timer = sGnFrame;
-    gAbe->SetSpriteScale(pData->mActiveHero_SpriteScale);
-    gAbe->field_118_timer = pData->field_24C_field_118;
-    gAbe->field_19C_throwable_count = static_cast<s8>(pData->field_250_throwable_count); // TODO: Type check when other save func done
+    gAbe->SetSpriteScale(pData->mAbe_SpriteScale);
+    gAbe->field_118_timer = pData->mAbe_Timer;
+    gAbe->field_19C_throwable_count = static_cast<s8>(pData->mAbe_ThrowableCount); // TODO: Type check when other save func done
     gAbe->mbGotShot = 0;
 
     gAbe->mShrivel = false;
-    gAbe->mParamoniaDone = pData->mActiveHero_ParamoniaDone & 1;
-    gAbe->mScrabaniaDone = pData->mActiveHero_ScrabaniaDone & 1;
+    gAbe->mParamoniaDone = pData->mAbe_ParamoniaDone & 1;
+    gAbe->mScrabaniaDone = pData->mAbe_ScrabaniaDone & 1;
 
-    gAbe->GetAnimation().SetFlipX(pData->mActiveHero_FlipX & 1);
+    gAbe->GetAnimation().SetFlipX(pData->mAbe_FlipX & 1);
 
     gAbe->GetAnimation().SetRender(false);
 
@@ -121,9 +121,9 @@ void SaveGame::LoadFromMemory(SaveData* pData, s32 bKillObjects)
         }
     }
 
-    if (pData->field_2A8_gasTimer)
+    if (pData->mDeathGasTimer)
     {
-        gDeathGasTimer = sGnFrame - pData->field_2A8_gasTimer;
+        gDeathGasTimer = sGnFrame - pData->mDeathGasTimer;
     }
     else
     {
@@ -199,70 +199,75 @@ s16 SaveGame::GetPathId(s16 pathToFind, s16* outFoundPathRow)
 void SaveGame::SaveToMemory(SaveData* pSaveData)
 {
     pSaveData->mCurrentLevel = gMap.mCurrentLevel;
-    pSaveData->mContinuePoint_ClearFromId = gAbe->mContinueClearFromId;
-    pSaveData->mContinuePoint_TopLeft = gAbe->mContinueTopLeft;
-    pSaveData->mContinuePoint_BottomRight = gAbe->mContinueBottomRight;
-    pSaveData->mContinuePoint_ZoneNumber = gAbe->mContinueZoneNumber;
-    pSaveData->mContinuePoint_Level = gAbe->mContinueLevel;
-    pSaveData->mContinuePoint_ClearToId = gAbe->mContinueClearToId;
-    pSaveData->mContinuePoint_Camera = gAbe->mContinueCamera;
-    pSaveData->field_21C_saved_ring_timer = gAbe->field_150_saved_ring_timer;
-    pSaveData->mContinuePoint_Path = gAbe->mContinuePath;
-    pSaveData->field_254_ring_pulse_timer = gAbe->field_168_ring_pulse_timer;
-    pSaveData->mContinuePoint_SpriteScale = gAbe->mContinueSpriteScale;
+    pSaveData->mAbe_ContinuePointClearFromId = gAbe->mContinuePointClearFromId;
+    pSaveData->mAbe_ContinuePointTopLeft = gAbe->mContinuePointTopLeft;
+    pSaveData->mAbe_ContinuePointBottomRight = gAbe->mContinuePointBottomRight;
+    pSaveData->mAbe_ContinuePointZoneNumber = gAbe->mContinuePointZoneNumber;
+    pSaveData->mAbe_ContinuePointLevel = gAbe->mContinuePointLevel;
+    pSaveData->mAbe_ContinuePointClearToId = gAbe->mContinuePointClearToId;
+    pSaveData->mAbe_ContinuePoint_Camera = gAbe->mContinuePointCamera;
+    pSaveData->mAbe_SavedRingTimer = gAbe->field_150_saved_ring_timer;
+    pSaveData->mAbe_ContinuePointPath = gAbe->mContinuePointPath;
+    pSaveData->mAbe_RingPulseTimer = gAbe->field_168_ring_pulse_timer;
+    pSaveData->mAbe_ContinuePointSpriteScale = gAbe->mContinuePointSpriteScale;
     pSaveData->mRescuedMudokons = gRescuedMudokons;
-    pSaveData->mActiveHero_SavedHaveShrykull = gAbe->field_154_bSavedHaveShrykull;
+    pSaveData->mAbe_SavedHaveShrykull = gAbe->field_154_bSavedHaveShrykull;
     pSaveData->field_2A4_restartRuptureFarmsSavedMudokons = gRestartRuptureFarmsSavedMuds;
-    pSaveData->mActiveHero_HaveShrykull = gAbe->field_16C_bHaveShrykull;
+    pSaveData->mAbe_HaveShrykull = gAbe->field_16C_bHaveShrykull;
     pSaveData->mCurrentPath = gMap.mCurrentPath;
     pSaveData->mKilledMudokons = gKilledMudokons;
     pSaveData->mCurrentCamera = gMap.mCurrentCamera;
     pSaveData->mRestartRuptureFarmsKilledMuds = gRestartRuptureFarmsKilledMuds;
-    pSaveData->mActiveHero_CurrentFrame = static_cast<u16>(gAbe->GetAnimation().GetCurrentFrame());
-    pSaveData->mActiveHero_CurrentMotion = gAbe->mCurrentMotion;
-    pSaveData->mActiveHero_XPos = FP_GetExponent(gAbe->mXPos);
-    pSaveData->mActiveHero_YPos = FP_GetExponent(gAbe->mYPos);
+    pSaveData->mAbe_CurrentFrame = static_cast<u16>(gAbe->GetAnimation().GetCurrentFrame());
+    pSaveData->mAbe_CurrentMotion = gAbe->mCurrentMotion;
+    pSaveData->mAbe_XPos = FP_GetExponent(gAbe->mXPos);
+    pSaveData->mAbe_YPos = FP_GetExponent(gAbe->mYPos);
+
     if (gAbe->BaseAliveGameObjectCollisionLine)
     {
-        pSaveData->field_23A_mode_mask = gAbe->BaseAliveGameObjectCollisionLine->mLineType;
+        pSaveData->mAbe_LineType = gAbe->BaseAliveGameObjectCollisionLine->mLineType;
     }
     else
     {
-        pSaveData->field_23A_mode_mask = 0;
+        pSaveData->mAbe_LineType = eLineTypes::eFloor_0;
     }
-    pSaveData->mActiveHero_Health = gAbe->mHealth;
-    pSaveData->mActiveHero_FlipX = gAbe->GetAnimation().GetFlipX();
-    pSaveData->mActiveHero_SpriteScale = gAbe->GetSpriteScale();
-    pSaveData->field_244_stone_state = static_cast<s32>(gAbe->field_110_state.raw);
-    pSaveData->field_248_gnFrame = gAbe->field_114_gnFrame;
-    pSaveData->field_24C_field_118 = gAbe->field_118_timer;
-    pSaveData->field_250_throwable_count = gAbe->field_19C_throwable_count;
-    pSaveData->mActiveHero_ScrabaniaDone = gAbe->mScrabaniaDone;
+
+    pSaveData->mAbe_Health = gAbe->mHealth;
+    pSaveData->mAbe_FlipX = gAbe->GetAnimation().GetFlipX();
+    pSaveData->mAbe_SpriteScale = gAbe->GetSpriteScale();
+    pSaveData->mAbe_StoneState = static_cast<s32>(gAbe->field_110_state.raw);
+    pSaveData->mAbe_GnFrame = gAbe->field_114_gnFrame;
+    pSaveData->mAbe_Timer = gAbe->field_118_timer;
+    pSaveData->mAbe_ThrowableCount = gAbe->field_19C_throwable_count;
+    pSaveData->mAbe_ScrabaniaDone = gAbe->mScrabaniaDone;
     pSaveData->mInfiniteGrenades = gInfiniteGrenades ? -1 : 0;
-    pSaveData->mActiveHero_ParamoniaDone = gAbe->mParamoniaDone;
+    pSaveData->mAbe_ParamoniaDone = gAbe->mParamoniaDone;
     pSaveData->mElumExists = gElum != nullptr;
-    if (gElum != 0)
+
+    if (gElum)
     {
         pSaveData->mControllingElum = sControlledCharacter == gElum;
         pSaveData->mElum_RespawnOnDead = gElum->mRespawnOnDead;
-        pSaveData->mElum_ContinueRect = gElum->mContinueRect;
-        pSaveData->mElum_PreviousContinueZoneNumber = gElum->mPreviousContinueZoneNumber;
+        pSaveData->mElum_ContinuePointRect = gElum->mContinuePointRect;
+        pSaveData->mElum_PreviousContinueZonePointNumber = gElum->mPreviousContinuePointZoneNumber;
         pSaveData->mElum_AbeZoneNumber = gElum->mAbeZoneNumber;
-        pSaveData->mElum_ContinuePath = gElum->mContinuePath;
-        pSaveData->mElum_ContinueLevel = gElum->mContinueLevel;
-        pSaveData->mElum_ContinueSpriteScale = gElum->mContinueSpriteScale;
+        pSaveData->mElum_ContinuePointPath = gElum->mContinuePointPath;
+        pSaveData->mElum_ContinuePointLevel = gElum->mContinuePointLevel;
+        pSaveData->mElum_ContinuePointSpriteScale = gElum->mContinuePointSpriteScale;
         pSaveData->mElum_CurrentLevel = gElum->mCurrentLevel;
         pSaveData->mElum_CurrentPath = gElum->mCurrentPath;
         pSaveData->mElum_XPos = FP_GetExponent(gElum->mXPos);
         pSaveData->mElum_YPos = FP_GetExponent(gElum->mYPos);
+
         if (gElum->BaseAliveGameObjectCollisionLine)
         {
             pSaveData->mElum_LineType = gElum->BaseAliveGameObjectCollisionLine->mLineType;
         }
         else
         {
-            pSaveData->mElum_LineType = -1;
+            pSaveData->mElum_LineType = eLineTypes::eNone_m1;
         }
+
         pSaveData->mElum_CurrentMotion = gElum->mCurrentMotion;
         pSaveData->mElum_FlipX = gElum->GetAnimation().GetFlipX();
         pSaveData->mElum_BrainIdx = gElum->mBrainIdx;
@@ -275,13 +280,14 @@ void SaveGame::SaveToMemory(SaveData* pSaveData)
         pSaveData->mElum_Falling = gElum->mFalling;
         pSaveData->mElum_FoundHoney = gElum->mFoundHoney;
     }
+
     if (gDeathGasTimer)
     {
-        pSaveData->field_2A8_gasTimer = (sGnFrame - gDeathGasTimer <= 1) ? 1 : sGnFrame - gDeathGasTimer;
+        pSaveData->mDeathGasTimer = (sGnFrame - gDeathGasTimer <= 1) ? 1 : sGnFrame - gDeathGasTimer;
     }
     else
     {
-        pSaveData->field_2A8_gasTimer = 0;
+        pSaveData->mDeathGasTimer = 0;
     }
     pSaveData->mCurrentControllerIdx = Input().CurrentController() == InputObject::PadIndex::First ? 0 : 1;
     gMap.SaveBlyData(pSaveData->field_2B0_pSaveBuffer);
@@ -308,10 +314,10 @@ s16 SaveGame::LoadFromFile(const char_type* name)
     gSaveBuffer = sSaveToLoadBuffer;
 
     LoadFromMemory(&gSaveBuffer, 1);
-    gSaveBuffer.mCurrentCamera = gSaveBuffer.mContinuePoint_Camera;
+    gSaveBuffer.mCurrentCamera = gSaveBuffer.mAbe_ContinuePoint_Camera;
     Input().SetCurrentController(InputObject::PadIndex::First);
-    gSaveBuffer.mCurrentLevel = gSaveBuffer.mContinuePoint_Level;
-    gSaveBuffer.mCurrentPath = gSaveBuffer.mContinuePoint_Path;
+    gSaveBuffer.mCurrentLevel = gSaveBuffer.mAbe_ContinuePointLevel;
+    gSaveBuffer.mCurrentPath = gSaveBuffer.mAbe_ContinuePointPath;
     return 1;
 }
 
