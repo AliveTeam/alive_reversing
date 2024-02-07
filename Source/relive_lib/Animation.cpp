@@ -8,6 +8,7 @@
 #include "ResourceManagerWrapper.hpp"
 #include "AnimResources.hpp"
 #include <algorithm>
+#include "FatalError.hpp"
 
 const AnimRecord PerGameAnimRec(AnimId id)
 {
@@ -416,6 +417,11 @@ const PerFrameInfo* Animation::Get_FrameHeader(s32 frame)
     if (frame < -1 || frame == -1)
     {
         frame = mCurrentFrame != -1 ? mCurrentFrame : 0;
+    }
+
+    if (frame > mAnimRes.mJsonPtr->mFrames.size())
+    {
+        ALIVE_FATAL("Animation frame out of bounds");
     }
 
     return &mAnimRes.mJsonPtr->mFrames[frame];
