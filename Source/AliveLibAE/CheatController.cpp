@@ -5,6 +5,8 @@
 #include "Game.hpp"
 #include "Map.hpp"
 #include "QuikSave.hpp"
+#include "../relive_lib/data_conversion/file_system.hpp"
+#include "../relive_lib/data_conversion/AESaveSerialization.hpp"
 
 CheatController* gCheatController = nullptr;
 
@@ -60,10 +62,20 @@ void CheatController_Cheat_PathSkip()
     char_type nameBuffer[20];
 
     DestroyObjects();
-    sprintf(nameBuffer, "NXTP%04d.SAV", QuikSave::gActiveQuicksaveData.mWorldInfo.mSaveFileId);
+    sprintf(nameBuffer, "NXTP%04d.SAV.json", QuikSave::gActiveQuicksaveData.mWorldInfo.mSaveFileId);
 
-    // TODO: Fix path skip with json saves - need to load the converted json save here
-    //memcpy(&gActiveQuicksaveData, res.data(), sizeof(gActiveQuicksaveData));
+    FileSystem fs;
+    std::string jsonStr = fs.LoadToString(nameBuffer);
+
+    if (jsonStr.empty())
+    {
+        ALIVE_FATAL("Save file is empty");
+    }
+
+    nlohmann::json j = nlohmann::json::parse(jsonStr);
+    QuikSave::gActiveQuicksaveData = {};
+    from_json(j, QuikSave::gActiveQuicksaveData);
+
     QuikSave::LoadActive();
 }
 
