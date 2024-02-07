@@ -81,7 +81,7 @@ struct GlukkonSaveState final : public SaveStateBase
     u16 mBlue;
     u16 mFlipX;
     eGlukkonMotions mCurrentMotion;
-    u16 mCurrentFrame;
+    s32 mCurrentFrame;
     u16 mFrameChangeCounter;
     u8 mRender;
     u8 mDrawable;

@@ -245,12 +245,11 @@ struct AbeSaveState final : public SaveStateBase
     u16 mBlue;
     u16 bAnimFlipX;
     eAbeMotions mCurrentMotion;
-    u16 mCurrentFrame;
+    s32 mCurrentFrame;
     u16 mFrameChangeCounter;
     s8 mRenderLayer;
     s8 mAnimRender;
     s8 mIsDrawable;
-    s8 field_2F_padding;
     FP mHealth;
     eAbeMotions mCurrentMotion2; // the same as mCurrentMotion
     eAbeMotions mNextMotion;

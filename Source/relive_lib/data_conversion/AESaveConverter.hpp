@@ -2306,7 +2306,7 @@ struct GlukkonSaveState final
     u16 mBlue;
     u16 mFlipX;
     eGlukkonMotions mCurrentMotion;
-    u16 mCurrentFrame;
+    s16 mCurrentFrame;
     u16 mFrameChangeCounter;
     u8 mRender;
     u8 mDrawable;
@@ -2535,7 +2535,7 @@ struct AbeSaveState final
     u16 mBlue;
     u16 bAnimFlipX;
     u16 mCurrentMotion;
-    u16 mCurrentFrame;
+    s16 mCurrentFrame;
     u16 mFrameChangeCounter;
     s8 mRenderLayer;
     s8 mAnimRender;
