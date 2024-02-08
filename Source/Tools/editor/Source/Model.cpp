@@ -19,56 +19,56 @@ static std::optional<std::string> LoadFileToString(const std::string& fileName)
 
 static nlohmann::json ReadArray(nlohmann::json& o, const std::string& key)
 {
-    if (!o.contains(key) || !o[key].is_array())
+    if (!o.contains(key) || !o.at(key).is_array())
     {
         throw Model::JsonKeyNotFoundException(key);
     }
-    return o[key];
+    return o.at(key);
 }
 
 static nlohmann::json ReadObject(nlohmann::json& o, const std::string& key)
 {
-    if (!o.contains(key) || !o[key].is_object())
+    if (!o.contains(key) || !o.at(key).is_object())
     {
         throw Model::JsonKeyNotFoundException(key);
     }
-    return o[key];
+    return o.at(key);
 }
 
 static int ReadNumber(nlohmann::json& o, const std::string& key)
 {
-    if (!o.contains(key) || !o[key].is_number())
+    if (!o.contains(key) || !o.at(key).is_number())
     {
         throw Model::JsonKeyNotFoundException(key);
     }
-    return static_cast<int>(o[key]);
+    return o.at(key).get<s32>();
 }
 
 static std::string ReadString(nlohmann::json& o, const std::string& key)
 {
-    if (!o.contains(key) || !o[key].is_string())
+    if (!o.contains(key) || !o.at(key).is_string())
     {
         throw Model::JsonKeyNotFoundException(key);
     }
-    return o[key];
+    return o.at(key);   
 }
 
 static std::string ReadStringOptional(nlohmann::json& o, const std::string& key)
 {
-    if (!o.contains(key))
+    if (!o.contains(key) || !o.at(key).is_string())
     {
         return "";
     }
-    return o[key];
+    return o.at(key);
 }
 
 static bool ReadBool(nlohmann::json& o, const std::string& key)
 {
-    if (!o.contains(key) || !o[key].is_boolean())
+    if (!o.contains(key) || !o.at(key).is_boolean())
     {
         throw Model::JsonKeyNotFoundException(key);
     }
-    return o[key];
+    return o.at(key);
 }
 
 Model::Camera* Model::GetContainingCamera(MapObjectBase* pMapObject)
