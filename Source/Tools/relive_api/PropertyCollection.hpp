@@ -60,7 +60,7 @@ public:
     template <class T>
     void ReadBasicType(T& field, const nlohmann::json& properties) const
     {
-        field = properties.at(PropName(&field)).get<T>();
+        field = properties.at(PropName(&field)).template get<T>();
     }
 
     template <class T>
