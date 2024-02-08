@@ -419,7 +419,7 @@ const PerFrameInfo* Animation::Get_FrameHeader(s32 frame)
         frame = mCurrentFrame != -1 ? mCurrentFrame : 0;
     }
 
-    if (frame > mAnimRes.mJsonPtr->mFrames.size())
+    if (frame > static_cast<s32>(mAnimRes.mJsonPtr->mFrames.size()))
     {
         ALIVE_FATAL("Animation frame out of bounds");
     }
