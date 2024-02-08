@@ -66,7 +66,6 @@ set(relive_api_src
     TypesCollectionBase.hpp
 )
 add_library(relive_api ${relive_api_src})
-target_link_libraries(relive_api jsonxx)
 set_property(TARGET relive_api PROPERTY FOLDER "ReliveAPI")
 export(TARGETS relive_api FILE relive_api.cmake)
 

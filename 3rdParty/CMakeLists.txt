@@ -196,15 +196,3 @@ set_property(TARGET modplug PROPERTY FOLDER "3rdParty")
 if (MSVC)
     target_compile_options(modplug PRIVATE /MDd)
 endif()
-
-# Used only by the editor
-include_directories(jsonxx)
-add_library(jsonxx jsonxx/jsonxx.cc)
-target_include_directories(jsonxx PUBLIC
-    $<BUILD_INTERFACE:
-    ${CMAKE_CURRENT_SOURCE_DIR}/jsonxx)
-export(TARGETS jsonxx FILE jsonxx.cmake)
-set_property(TARGET jsonxx PROPERTY FOLDER "3rdParty")
-if (MSVC)
-    target_compile_options(jsonxx PRIVATE /MDd)
-endif()
