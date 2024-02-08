@@ -9,8 +9,6 @@
 #include "../../AliveLibAO/Path.hpp"
 #include "../../relive_lib/data_conversion/PathTlvsAE.hpp"
 
-#include <jsonxx/jsonxx.h>
-
 namespace ReliveAPI {
 template <typename TlvEnumType, typename PathTlvType>
 [[nodiscard]] std::unique_ptr<TlvObjectBase> TlvFactory<TlvEnumType, PathTlvType>::MakeTlvByEnum(TypesCollectionBase& typesCollection, TlvEnumType tlvType, PathTlvType* pTlv, s32 instanceCount) const
@@ -41,11 +39,11 @@ template <typename TlvEnumType, typename PathTlvType>
 }
 
 template <typename TlvEnumType, typename PathTlvType>
-void TlvFactory<TlvEnumType, PathTlvType>::AddTlvsToJsonArray(TypesCollectionBase& typesCollection, jsonxx::Array& array)
+void TlvFactory<TlvEnumType, PathTlvType>::AddTlvsToJsonArray(TypesCollectionBase& typesCollection, nlohmann::json& array)
 {
     for (auto& [key, value] : mTlvFactory)
     {
-        array << value(typesCollection, nullptr, 0)->StructureToJson();
+        array.push_back(value(typesCollection, nullptr, 0)->StructureToJson());
     }
 }
 

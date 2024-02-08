@@ -16,7 +16,7 @@ TypesCollectionRelive::TypesCollectionRelive()
     AddReliveTypes();
 }
 
-void TypesCollectionRelive::AddTlvsToJsonArray(jsonxx::Array& array)
+void TypesCollectionRelive::AddTlvsToJsonArray(nlohmann::json& array)
 {
     mTlvFactoryRelive.AddTlvsToJsonArray(*this, array);
 }

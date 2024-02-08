@@ -6,10 +6,7 @@
 #include <unordered_map>
 #include <memory>
 #include <string>
-
-namespace jsonxx {
-class Array;
-}
+#include <nlohmann/json_fwd.hpp>
 
 namespace ReliveAPI {
 class TlvObjectBase;
@@ -35,7 +32,7 @@ public:
     [[nodiscard]] std::unique_ptr<TlvObjectBase> MakeTlvByEnum(TypesCollectionBase& typesCollection, TlvEnumType tlvType, PathTlvType* pTlv, s32 instanceCount) const;
     [[nodiscard]] std::unique_ptr<TlvObjectBase> MakeTlvByName(TypesCollectionBase& typesCollection, const std::string& tlvTypeName, PathTlvType* pTlv) const;
 
-    void AddTlvsToJsonArray(TypesCollectionBase& typesCollection, jsonxx::Array& array);
+    void AddTlvsToJsonArray(TypesCollectionBase& typesCollection, nlohmann::json& array);
 
     template <typename TlvWrapperType>
     void DoRegisterType(TypesCollectionBase& constructingTypes)

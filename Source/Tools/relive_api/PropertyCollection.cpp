@@ -6,7 +6,7 @@
 
 #include "../../relive_lib/stdafx.h"
 
-#include <jsonxx/jsonxx.h>
+#include <nlohmann/json.hpp>
 
 namespace ReliveAPI {
 void PropertyCollection::ThrowOnAddPropertyError(const std::string& name, const std::string& typeName, void* key)
@@ -58,9 +58,9 @@ PropertyCollection::~PropertyCollection() = default;
     return it->second->Name();
 }
 
-[[nodiscard]] jsonxx::Array PropertyCollection::PropertiesToJson() const
+[[nodiscard]] nlohmann::json PropertyCollection::PropertiesToJson() const
 {
-    jsonxx::Array ret;
+    nlohmann::json array = nlohmann::json::array();
 
      // Create the json in the order that properties got added (else in the Editor things will be in some seemingly random order).
     for (const auto& insertedOrder : mPropertiesInsertionOrdering)
@@ -72,26 +72,26 @@ PropertyCollection::~PropertyCollection() = default;
             abort();
         }
 
-        jsonxx::Object property;
-        property << "Type" << it->second->TypeName();
-        property << "Visible" << it->second->IsVisibleToEditor();
+        nlohmann::json property = nlohmann::json::object();
+        property["Type"] = it->second->TypeName();
+        property["Visible"] = it->second->IsVisibleToEditor();
 
         // Bit of a hacky property the editor has special case handling for, idelaly we'd support sub struct fields.
         // Since we don't this string can be used to mark things as in/out switch ids, RGB linked values and so on.
         if (it->second->IdStr())
         {
-            property << "Identity_string" <<  std::string(it->second->IdStr());
+            property["Identity_string"] = std::string(it->second->IdStr());
         }
 
-        property << "name" << it->second->Name();
+        property["name"] = it->second->Name();
 
-        ret << property;
+        array.push_back(property);
     }
 
-    return ret;
+    return array;
 }
 
-void PropertyCollection::PropertiesFromJson(const TypesCollectionBase& types, const jsonxx::Object& properties, Context& context)
+void PropertyCollection::PropertiesFromJson(const TypesCollectionBase& types, const nlohmann::json& properties, Context& context)
 {
     for (auto& [Key, value] : mProperties)
     {
@@ -99,7 +99,7 @@ void PropertyCollection::PropertiesFromJson(const TypesCollectionBase& types, co
     }
 }
 
-void PropertyCollection::PropertiesToJson(const TypesCollectionBase& types, jsonxx::Object& properties, Context& context)
+void PropertyCollection::PropertiesToJson(const TypesCollectionBase& types, nlohmann::json& properties, Context& context)
 {
     for (auto& [Key, value] : mProperties)
     {

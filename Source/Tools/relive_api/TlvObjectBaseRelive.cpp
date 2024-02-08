@@ -4,7 +4,7 @@
 
 #include "../../relive_lib/Types.hpp"
 
-#include <jsonxx/jsonxx.h>
+#include <nlohmann/json.hpp>
 
 #include <cstring>
 #include <string>
@@ -45,18 +45,18 @@ void TlvObjectBaseRelive::ConvertXYPos()
     mPSelfTlv->mBottomRightY -= mPSelfTlv->mTopLeftY;
 }
 
-void TlvObjectBaseRelive::InstanceFromJsonBase(const jsonxx::Object& obj)
+void TlvObjectBaseRelive::InstanceFromJsonBase(const nlohmann::json& obj)
 {
-    mStructTypeName = obj.get<std::string>("name");
+    obj.at("name").get_to(mStructTypeName);
 
     mPSelfTlv->mBottomRightX += mPSelfTlv->mTopLeftX;
     mPSelfTlv->mBottomRightY += mPSelfTlv->mTopLeftY;
 }
 
-void TlvObjectBaseRelive::InstanceToJsonBase(jsonxx::Object& ret)
+void TlvObjectBaseRelive::InstanceToJsonBase(nlohmann::json& ret)
 {
-    ret << "name" << Name() + "_" + std::to_string(mInstanceNumber);
-    ret << "object_structures_type" << Name();
+    ret["name"] = Name() + "_" + std::to_string(mInstanceNumber);
+    ret["object_structures_type"] = Name();
 }
 
 [[nodiscard]] s16 TlvObjectBaseRelive::TlvLen() const

@@ -5,7 +5,7 @@
 
 #include "../../relive_lib/logger.hpp"
 
-#include <jsonxx/jsonxx.h>
+#include <nlohmann/json.hpp>
 
 #include <cstdlib>
 #include <map>
@@ -92,19 +92,19 @@ protected:
         return false;
     }
 
-    void ToJson(jsonxx::Array& obj) const override
+    void ToJson(nlohmann::json& obj) const override
     {
-        jsonxx::Array enumVals;
+        nlohmann::json enumVals = nlohmann::json::array();
         for (const auto& [key, value] : mValueToName)
         {
-            enumVals << value;
+            enumVals.push_back(value);
         }
 
-        jsonxx::Object enumObj;
-        enumObj << "name" << Name();
-        enumObj << "values" << enumVals;
+        nlohmann::json enumObj = nlohmann::json::object();
+        enumObj["name"] = Name();
+        enumObj["values"] = enumVals;
 
-        obj << enumObj;
+        obj.push_back(enumObj);
     }
 
 private:

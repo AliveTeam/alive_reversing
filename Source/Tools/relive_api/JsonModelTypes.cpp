@@ -1,43 +1,43 @@
 #include "JsonModelTypes.hpp"
-#include <jsonxx/jsonxx.h>
+#include <nlohmann/json.hpp>
 #include "CamConverter.hpp"
 #include "Base64.hpp"
 
 namespace ReliveAPI {
 
-[[nodiscard]] jsonxx::Object CameraObject::ToJsonObject(jsonxx::Array mapObjectsArray, const CameraImageAndLayers& cameraImageAndLayers) const
+[[nodiscard]] nlohmann::json CameraObject::ToJsonObject(nlohmann::json mapObjectsArray, const CameraImageAndLayers& cameraImageAndLayers) const
 {
-    jsonxx::Object obj;
+    nlohmann::json obj = nlohmann::json::object();
 
-    obj << "name" << mName;
-    obj << "x" << mX;
-    obj << "y" << mY;
-    obj << "id" << mId;
-    obj << "map_objects" << mapObjectsArray;
+    obj["name"] = mName;
+    obj["x"] = mX;
+    obj["y"] = mY;
+    obj["id"] = mId;
+    obj["map_objects"] = mapObjectsArray;
 
     if (!cameraImageAndLayers.mCameraImage.empty())
     {
-        obj << "image" << cameraImageAndLayers.mCameraImage;
+        obj["image"] = cameraImageAndLayers.mCameraImage;
     }
 
     if (!cameraImageAndLayers.mForegroundLayer.empty())
     {
-        obj << "foreground_layer" << cameraImageAndLayers.mForegroundLayer;
+        obj["foreground_layer"] = cameraImageAndLayers.mForegroundLayer; 
     }
 
     if (!cameraImageAndLayers.mForegroundWellLayer.empty())
     {
-        obj << "foreground_well_layer" << cameraImageAndLayers.mForegroundWellLayer;
+        obj["foreground_well_layer"] = cameraImageAndLayers.mForegroundWellLayer;
     }
 
     if (!cameraImageAndLayers.mBackgroundLayer.empty())
     {
-        obj << "background_layer" << cameraImageAndLayers.mBackgroundLayer;
+        obj["background_layer"] = cameraImageAndLayers.mBackgroundLayer;
     }
 
     if (!cameraImageAndLayers.mBackgroundWellLayer.empty())
     {
-        obj << "background_well_layer" << cameraImageAndLayers.mBackgroundWellLayer;
+        obj["background_well_layer"] = cameraImageAndLayers.mBackgroundWellLayer;
     }
 
     return obj;

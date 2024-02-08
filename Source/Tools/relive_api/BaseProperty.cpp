@@ -1,7 +1,5 @@
 #include "BaseProperty.hpp"
 
-#include <jsonxx/jsonxx.h>
-
 #include <string>
 
 namespace ReliveAPI {

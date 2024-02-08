@@ -17,7 +17,7 @@ class IJsonUpgrader
 public:
     virtual ~IJsonUpgrader()
     { }
-    virtual std::string Upgrade(JsonUpgraderBase& upgrader, nlohmann::basic_json<>& rootObj) = 0;
+    virtual std::string Upgrade(JsonUpgraderBase& upgrader, nlohmann::json& rootObj) = 0;
 };
 
 using TUpgradeFactoryFn = AddPointer_t<std::unique_ptr<IJsonUpgrader>()>;
@@ -43,17 +43,17 @@ private:
 
 public:
     // Rename an item at the top level under "map : { }"
-    void RenameMapLevelItem(nlohmann::basic_json<>& rootObj, const std::string& oldName, const std::string& newName);
+    void RenameMapLevelItem(nlohmann::json& rootObj, const std::string& oldName, const std::string& newName);
 
-    void RenameMapObjectStructure(nlohmann::basic_json<>& rootObj, const std::string& oldName, const std::string& newName);
-    void RenameMapObjectProperty(nlohmann::basic_json<>& rootObj, const std::string& structureName, const std::string& oldName, const std::string& newName);
+    void RenameMapObjectStructure(nlohmann::json& rootObj, const std::string& oldName, const std::string& newName);
+    void RenameMapObjectProperty(nlohmann::json& rootObj, const std::string& structureName, const std::string& oldName, const std::string& newName);
 
     template <typename MapType, typename DefaultValueType>
-    void RemapMapObjectPropertyValuesImpl(nlohmann::basic_json<>& rootObj, const std::string& structureName, const std::string& propertyName, const MapType& remapValues, DefaultValueType defaultVal = {});
+    void RemapMapObjectPropertyValuesImpl(nlohmann::json& rootObj, const std::string& structureName, const std::string& propertyName, const MapType& remapValues, DefaultValueType defaultVal = {});
 
-    void RemapMapObjectPropertyValues(nlohmann::basic_json<>& rootObj, const std::string& structureName, const std::string& propertyName, const RemapEnums& remapValues, typename RemapEnums::mapped_type defaultVal = {});
-    void RemapMapObjectPropertyValues(nlohmann::basic_json<>& rootObj, const std::string& structureName, const std::string& propertyName, const RemapNumbers& remapValues, typename RemapNumbers::mapped_type defaultVal = {});
-    void RemapMapObjectPropertyValues(nlohmann::basic_json<>& rootObj, const std::string& structureName, const std::string& propertyName, const RemapNumberToEnum& remapValues, typename RemapNumberToEnum::mapped_type defaultVal = {});
+    void RemapMapObjectPropertyValues(nlohmann::json& rootObj, const std::string& structureName, const std::string& propertyName, const RemapEnums& remapValues, typename RemapEnums::mapped_type defaultVal = {});
+    void RemapMapObjectPropertyValues(nlohmann::json& rootObj, const std::string& structureName, const std::string& propertyName, const RemapNumbers& remapValues, typename RemapNumbers::mapped_type defaultVal = {});
+    void RemapMapObjectPropertyValues(nlohmann::json& rootObj, const std::string& structureName, const std::string& propertyName, const RemapNumberToEnum& remapValues, typename RemapNumberToEnum::mapped_type defaultVal = {});
 
 protected:
     std::unordered_map<s32, TUpgradeFactoryFn> mUpgraders;

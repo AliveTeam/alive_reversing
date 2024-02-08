@@ -2,10 +2,7 @@
 
 #include <string>
 #include <typeindex>
-
-namespace jsonxx {
-class Array;
-}
+#include <nlohmann/json_fwd.hpp>
 
 namespace ReliveAPI {
 class ITypeBase
@@ -18,7 +15,7 @@ public:
 
     [[nodiscard]] virtual const std::type_index& TypeIndex() const = 0;
     [[nodiscard]] virtual bool IsBasicType() const = 0;
-    virtual void ToJson(jsonxx::Array& obj) const = 0;
+    virtual void ToJson(nlohmann::json& obj) const = 0;
 
 private:
     std::string mName;

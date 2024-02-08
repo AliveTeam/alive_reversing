@@ -1,11 +1,7 @@
 #pragma once
 
 #include <string>
-
-namespace jsonxx {
-class Object;
-}
-
+#include <nlohmann/json_fwd.hpp>
 
 namespace ReliveAPI {
 class TypesCollectionBase;
@@ -18,8 +14,8 @@ public:
     BaseProperty(const std::string& name, const std::string& typeName, const char* idStr, bool isVisibleToEditor);
     virtual ~BaseProperty();
 
-    virtual void Read(const PropertyCollection& propertyCollection, const TypesCollectionBase& types, const jsonxx::Object& properties, Context& context) = 0;
-    virtual void Write(const PropertyCollection& propertyCollection, const TypesCollectionBase& types, jsonxx::Object& properties, Context& context) = 0;
+    virtual void Read(const PropertyCollection& propertyCollection, const TypesCollectionBase& types, const nlohmann::json& properties, Context& context) = 0;
+    virtual void Write(const PropertyCollection& propertyCollection, const TypesCollectionBase& types, nlohmann::json& properties, Context& context) = 0;
 
     [[nodiscard]] const std::string& Name() const;
     [[nodiscard]] const std::string& TypeName() const;

@@ -11,10 +11,6 @@
 
 #include "../../relive_lib/data_conversion/relive_tlvs.hpp"
 
-namespace jsonxx {
-class Object;
-}
-
 namespace ReliveAPI {
 class TlvObjectBaseRelive : public TlvObjectBase
 {
@@ -27,8 +23,8 @@ public:
     TlvObjectBaseRelive(const TlvObjectBaseRelive&) = delete;
     TlvObjectBaseRelive(TlvObjectBaseRelive&&) = delete;
 
-    void InstanceFromJsonBase(const jsonxx::Object& obj) override;
-    void InstanceToJsonBase(jsonxx::Object& ret) override;
+    void InstanceFromJsonBase(const nlohmann::json& obj) override;
+    void InstanceToJsonBase(nlohmann::json& ret) override;
 
     [[nodiscard]] s16 TlvLen() const override;
     [[nodiscard]] std::vector<u8> GetTlvData(bool setTerminationFlag) override;

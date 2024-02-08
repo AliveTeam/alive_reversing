@@ -8,8 +8,8 @@ LoadedJsonRelive JsonReaderRelive::Load(IFileIO& fileIO, const std::string& file
     TypesCollectionRelive globalTypes;
     LoadedJsonBase loadedJsonBase = JsonReaderBase::Load(globalTypes, fileIO, fileName, context);
 
-    const jsonxx::Object& collisionsObject = ReadObject(loadedJsonBase.mMapJson, "collisions");
-    const jsonxx::Array& collisionsArray = ReadArray(collisionsObject, "items");
+    const nlohmann::json& collisionsObject = ReadObject(loadedJsonBase.mMapJson, "collisions");
+    const nlohmann::json& collisionsArray = ReadArray(collisionsObject, "items");
     std::vector<::PathLine> lines = ReadReliveLines(globalTypes, collisionsArray, context);
 
     LoadedJsonRelive ret;

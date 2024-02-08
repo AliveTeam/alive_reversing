@@ -5,7 +5,7 @@
 #include "TypedProperty.hpp"
 #include "ApiContext.hpp"
 
-#include <jsonxx/jsonxx.h>
+#include <nlohmann/json.hpp>
 
 #include <string>
 #include <unordered_set>
@@ -34,43 +34,43 @@ public:
     [[nodiscard]] const std::string& PropType(const void* key) const;
     [[nodiscard]] const std::string& PropName(const void* key) const;
 
-    [[nodiscard]] jsonxx::Array PropertiesToJson() const;
+    [[nodiscard]] nlohmann::json PropertiesToJson() const;
 
     template <class T>
-    void ReadEnumValue(const TypesCollectionBase& types, T& field, const jsonxx::Object& properties, Context& context) const
+    void ReadEnumValue(const TypesCollectionBase& types, T& field, const nlohmann::json& properties, Context& context) const
     {
         const std::string& propName = PropName(&field);
         const std::string& propType = PropType(&field);
 
-        if (!properties.has<std::string>(propName))
+        if (!properties.contains(propName))
         {
             LOG_ERROR("Missing json property %s", propName.c_str());
             context.MissingEnumType(propType, propName);
         }
 
-        field = types.EnumValueFromString<T>(propType, properties.get<std::string>(propName), context);
+        field = types.EnumValueFromString<T>(propType, properties.at(propName).get<std::string>(), context);
     }
 
     template <class T>
-    void WriteEnumValue(const TypesCollectionBase& types, jsonxx::Object& properties, const T& field, Context& context) const
+    void WriteEnumValue(const TypesCollectionBase& types, nlohmann::json& properties, const T& field, Context& context) const
     {
-        properties << PropName(&field) << types.EnumValueToString<T>(field, context);
+        properties[PropName(&field)] = types.EnumValueToString<T>(field, context);
     }
 
     template <class T>
-    void ReadBasicType(T& field, const jsonxx::Object& properties) const
+    void ReadBasicType(T& field, const nlohmann::json& properties) const
     {
-        field = static_cast<T>(properties.get<jsonxx::Number>(PropName(&field)));
+        field = properties.at(PropName(&field)).get<T>();
     }
 
     template <class T>
-    void WriteBasicType(const T& field, jsonxx::Object& properties) const
+    void WriteBasicType(const T& field, nlohmann::json& properties) const
     {
-        properties << PropName(&field) << static_cast<s32>(field);
+        properties[PropName(&field)] = static_cast<s32>(field);
     }
 
-    void PropertiesFromJson(const TypesCollectionBase& types, const jsonxx::Object& properties, Context& context);
-    void PropertiesToJson(const TypesCollectionBase& types, jsonxx::Object& properties, Context& context);
+    void PropertiesFromJson(const TypesCollectionBase& types, const nlohmann::json& properties, Context& context);
+    void PropertiesToJson(const TypesCollectionBase& types, nlohmann::json& properties, Context& context);
 
 protected:
     std::unordered_map<const void*, std::unique_ptr<BaseProperty>> mProperties;

@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include <set>
+#include <nlohmann/json_fwd.hpp>
 
 enum class AnimId;
 
@@ -15,12 +16,6 @@ enum class TlvTypes : s16;
 
 class PathLineAE;
 enum class TlvTypes : s16;
-
-namespace jsonxx {
-class Object;
-class Array;
-} // namespace jsonxx
-
 
 namespace ReliveAPI {
 enum class Game;
@@ -36,7 +31,7 @@ struct CameraObject final
     s32 mX = 0;
     s32 mY = 0;
 
-    [[nodiscard]] jsonxx::Object ToJsonObject(jsonxx::Array mapObjectsArray, const CameraImageAndLayers& cameraImageAndLayers) const;
+    [[nodiscard]] nlohmann::json ToJsonObject(nlohmann::json mapObjectsArray, const CameraImageAndLayers& cameraImageAndLayers) const;
 };
 
 struct PathInfo final

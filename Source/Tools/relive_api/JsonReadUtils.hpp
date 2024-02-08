@@ -1,70 +1,70 @@
 #pragma once
 
-#include <jsonxx/jsonxx.h>
+#include <nlohmann/json.hpp>
 #include "relive_api_exceptions.hpp"
 
 namespace ReliveAPI {
-[[nodiscard]] inline const jsonxx::Array& ReadArray(jsonxx::Object&&, const std::string&) = delete;
-[[nodiscard]] inline const jsonxx::Array& ReadArray(const jsonxx::Object& o, const std::string& key)
+[[nodiscard]] inline const nlohmann::json& ReadArray(nlohmann::json&&, const std::string&) = delete;
+[[nodiscard]] inline const nlohmann::json& ReadArray(const nlohmann::json& o, const std::string& key)
 {
-    if (!o.has<jsonxx::Array>(key))
+    if (!o.contains(key))
     {
         throw ReliveAPI::JsonKeyNotFoundException(key);
     }
 
-    return o.get<jsonxx::Array>(key);
+    return o.at(key);
 }
 
-[[nodiscard]] inline const jsonxx::Object& ReadObject(jsonxx::Object&&, const std::string&) = delete;
-[[nodiscard]] inline const jsonxx::Object& ReadObject(const jsonxx::Object& o, const std::string& key)
+[[nodiscard]] inline const nlohmann::json& ReadObject(nlohmann::json&&, const std::string&) = delete;
+[[nodiscard]] inline const nlohmann::json& ReadObject(const nlohmann::json& o, const std::string& key)
 {
-    if (!o.has<jsonxx::Object>(key))
+    if (!o.contains(key))
     {
         throw ReliveAPI::JsonKeyNotFoundException(key);
     }
 
-    return o.get<jsonxx::Object>(key);
+    return o.at(key);
 }
 
-[[nodiscard]] inline jsonxx::Object& ReadObject(jsonxx::Object& o, const std::string& key)
+[[nodiscard]] inline nlohmann::json& ReadObject(nlohmann::json& o, const std::string& key)
 {
-    if (!o.has<jsonxx::Object>(key))
+    if (!o.contains(key))
     {
         throw ReliveAPI::JsonKeyNotFoundException(key);
     }
 
-    return o.get<jsonxx::Object>(key);
+    return o.at(key);
 }
-[[nodiscard]] inline s32 ReadNumber(jsonxx::Object&&, const std::string&) = delete;
-[[nodiscard]] inline s32 ReadNumber(const jsonxx::Object& o, const std::string& key)
+[[nodiscard]] inline s32 ReadNumber(nlohmann::json&&, const std::string&) = delete;
+[[nodiscard]] inline s32 ReadNumber(const nlohmann::json& o, const std::string& key)
 {
-    if (!o.has<jsonxx::Number>(key))
+    if (!o.contains(key))
     {
         throw ReliveAPI::JsonKeyNotFoundException(key);
     }
 
-    return static_cast<s32>(o.get<jsonxx::Number>(key));
+    return o.at(key).get<s32>();
 }
 
-[[nodiscard]] inline const std::string& ReadString(jsonxx::Object&&, const std::string&) = delete;
-[[nodiscard]] inline const std::string& ReadString(const jsonxx::Object& o, const std::string& key)
+[[nodiscard]] inline const std::string ReadString(nlohmann::json&&, const std::string&) = delete;
+[[nodiscard]] inline const std::string ReadString(const nlohmann::json& o, const std::string& key)
 {
-    if (!o.has<jsonxx::String>(key))
+    if (!o.contains(key))
     {
         throw ReliveAPI::JsonKeyNotFoundException(key);
     }
 
-    return o.get<jsonxx::String>(key);
+    return o.at(key);
 }
 
-[[nodiscard]] inline std::string ReadOptionalString(const jsonxx::Object& o, const std::string& key)
+[[nodiscard]] inline std::string ReadOptionalString(const nlohmann::json& o, const std::string& key)
 {
-    if (!o.has<jsonxx::String>(key))
+    if (!o.contains(key))
     {
         return "";
     }
 
-    return o.get<jsonxx::String>(key);
+    return o.at(key);
 }
 
 } // namespace ReliveAPI

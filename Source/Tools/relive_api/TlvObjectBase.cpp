@@ -1,5 +1,6 @@
 #include "../../relive_lib/stdafx.h"
 #include "TlvObjectBase.hpp"
+#include <nlohmann/json.hpp>
 
 namespace ReliveAPI {
 TlvObjectBase::TlvObjectBase(const std::string& typeName)
@@ -22,29 +23,29 @@ void TlvObjectBase::SetInstanceNumber(s32 instanceNumber)
     return mStructTypeName;
 }
 
-[[nodiscard]] jsonxx::Object TlvObjectBase::StructureToJson()
+[[nodiscard]] nlohmann::json TlvObjectBase::StructureToJson()
 {
-    jsonxx::Object ret;
-    ret << "name" << Name();
-    ret << "enum_and_basic_type_properties" << PropertiesToJson();
+    nlohmann::json ret = nlohmann::json::object();
+    ret["name"] = Name();
+    ret["enum_and_basic_type_properties"] = PropertiesToJson();
     return ret;
 }
 
-void TlvObjectBase::InstanceFromJson(TypesCollectionBase& types, const jsonxx::Object& obj, Context& context)
+void TlvObjectBase::InstanceFromJson(TypesCollectionBase& types, const nlohmann::json& obj, Context& context)
 {
-    const jsonxx::Object& properties = obj.get<jsonxx::Object>("properties");
+    const nlohmann::json& properties = obj.at("properties");
     PropertiesFromJson(types, properties, context);
     InstanceFromJsonBase(obj);
 }
 
-[[nodiscard]] jsonxx::Object TlvObjectBase::InstanceToJson(TypesCollectionBase& types, Context& context)
+[[nodiscard]] nlohmann::json TlvObjectBase::InstanceToJson(TypesCollectionBase& types, Context& context)
 {
-    jsonxx::Object ret;
+    nlohmann::json ret = nlohmann::json::object();
     InstanceToJsonBase(ret);
 
-    jsonxx::Object properties;
+    nlohmann::json properties = nlohmann::json::object();
     PropertiesToJson(types, properties, context);
-    ret << "properties" << properties;
+    ret["properties"] = properties;
 
     return ret;
 }

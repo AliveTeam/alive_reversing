@@ -5,6 +5,7 @@
 #include "../../AliveLibAO/Map.hpp"
 #include "../../AliveLibAE/Path.hpp"
 #include <limits>
+#include <nlohmann/json.hpp>
 
 namespace ReliveAPI {
 TypesCollectionBase::TypesCollectionBase()
@@ -22,9 +23,9 @@ TypesCollectionBase::TypesCollectionBase()
 
 TypesCollectionBase::~TypesCollectionBase() = default;
 
-[[nodiscard]] jsonxx::Array TypesCollectionBase::EnumsToJson() const
+[[nodiscard]] nlohmann::json TypesCollectionBase::EnumsToJson() const
 {
-    jsonxx::Array ret;
+    nlohmann::json ret = nlohmann::json::array();
 
     for (const auto& basicType : mTypes)
     {
@@ -37,9 +38,9 @@ TypesCollectionBase::~TypesCollectionBase() = default;
     return ret;
 }
 
-[[nodiscard]] jsonxx::Array TypesCollectionBase::BasicTypesToJson() const
+[[nodiscard]] nlohmann::json TypesCollectionBase::BasicTypesToJson() const
 {
-    jsonxx::Array ret;
+    nlohmann::json ret = nlohmann::json::array();
 
     for (const auto& basicType : mTypes)
     {

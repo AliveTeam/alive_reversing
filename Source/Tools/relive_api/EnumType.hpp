@@ -3,8 +3,6 @@
 #include "EnumTypeBase.hpp"
 #include "ApiContext.hpp"
 
-#include <jsonxx/jsonxx.h>
-
 #include <map>
 #include <string>
 #include <typeinfo>

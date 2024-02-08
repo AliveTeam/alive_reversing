@@ -41,7 +41,7 @@ struct LoadedJsonBase final
 {
     std::vector<CameraNameAndTlvBlob> mPerCamData;
     std::set<AnimId> mResourcesRequiredInLvl;
-    jsonxx::Object mMapJson;
+    nlohmann::json mMapJson;
 };
 
 class JsonReaderBase
@@ -52,6 +52,6 @@ public:
 protected:
     LoadedJsonBase Load(TypesCollectionBase& types, IFileIO& fileIO, const std::string& fileName, Context& context);
 
-    std::vector<::PathLine> ReadReliveLines(TypesCollectionBase& types, const jsonxx::Array& collisionsArray, Context& context);
+    std::vector<::PathLine> ReadReliveLines(TypesCollectionBase& types, const nlohmann::json& collisionsArray, Context& context);
 };
 } // namespace ReliveAPI

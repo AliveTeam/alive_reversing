@@ -4,10 +4,6 @@
 
 #include <string>
 
-namespace jsonxx {
-class Object;
-}
-
 namespace ReliveAPI {
 class TypesCollectionBase;
 class PropertyCollection;
@@ -21,9 +17,9 @@ public:
         , m_data(data)
     { }
 
-    void Read(const PropertyCollection& propertyCollection, const TypesCollectionBase& types, const jsonxx::Object& properties, Context& context) override;
+    void Read(const PropertyCollection& propertyCollection, const TypesCollectionBase& types, const nlohmann::json& properties, Context& context) override;
 
-    void Write(const PropertyCollection& propertyCollection, const TypesCollectionBase& types, jsonxx::Object& properties, Context& context) override;
+    void Write(const PropertyCollection& propertyCollection, const TypesCollectionBase& types, nlohmann::json& properties, Context& context) override;
 
 private:
     T* m_data = nullptr;

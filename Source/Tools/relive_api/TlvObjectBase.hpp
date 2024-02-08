@@ -7,6 +7,7 @@
 #include <string>
 #include <type_traits>
 #include <vector>
+#include <nlohmann/json_fwd.hpp>
 
 enum class AnimId;
 
@@ -21,7 +22,7 @@ enum class AddResourceTo
 
 // Defined here as it depends on a full definition of PropertyCollection
 template <class T>
-void TypedProperty<T>::Read(const PropertyCollection& propertyCollection, const TypesCollectionBase& types, const jsonxx::Object& properties, Context& context)
+void TypedProperty<T>::Read(const PropertyCollection& propertyCollection, const TypesCollectionBase& types, const nlohmann::json& properties, Context& context)
 {
     if constexpr (std::is_enum_v<T>)
     {
@@ -36,7 +37,7 @@ void TypedProperty<T>::Read(const PropertyCollection& propertyCollection, const 
 }
 
 template <class T>
-void TypedProperty<T>::Write(const PropertyCollection& propertyCollection, const TypesCollectionBase& types, jsonxx::Object& properties, Context& context)
+void TypedProperty<T>::Write(const PropertyCollection& propertyCollection, const TypesCollectionBase& types, nlohmann::json& properties, Context& context)
 {
     if constexpr (std::is_enum_v<T>)
     {
@@ -63,13 +64,13 @@ public:
     void SetInstanceNumber(s32 instanceNumber);
 
     [[nodiscard]] const std::string& Name() const;
-    [[nodiscard]] jsonxx::Object StructureToJson();
+    [[nodiscard]] nlohmann::json StructureToJson();
 
-    void InstanceFromJson(TypesCollectionBase& types, const jsonxx::Object& obj, Context& context);
-    [[nodiscard]] jsonxx::Object InstanceToJson(TypesCollectionBase& types, Context& context);
+    void InstanceFromJson(TypesCollectionBase& types, const nlohmann::json& obj, Context& context);
+    [[nodiscard]] nlohmann::json InstanceToJson(TypesCollectionBase& types, Context& context);
 
-    virtual void InstanceFromJsonBase(const jsonxx::Object& obj) = 0;
-    virtual void InstanceToJsonBase(jsonxx::Object& ret) = 0;
+    virtual void InstanceFromJsonBase(const nlohmann::json& obj) = 0;
+    virtual void InstanceToJsonBase(nlohmann::json& ret) = 0;
 
     [[nodiscard]] s32 InstanceNumber() const;
 

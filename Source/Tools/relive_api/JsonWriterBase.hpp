@@ -23,16 +23,16 @@ public:
 
     void Save(std::vector<u8>& fileDataBuffer, LvlReader& lvlReader, const PathInfo& info, std::vector<u8>& pathResource, IFileIO& fileIO, const std::string& fileName, Context& context);
 
-    virtual jsonxx::Array ReadTlvStream(u8* ptr, Context& context) = 0;
-    virtual jsonxx::Array AddCollisionLineStructureJson() = 0;
+    virtual nlohmann::json ReadTlvStream(u8* ptr, Context& context) = 0;
+    virtual nlohmann::json AddCollisionLineStructureJson() = 0;
 
 protected:
-    void ProcessCamera(std::vector<u8>& fileDataBuffer, LvlReader& lvlReader, const PathInfo& info, const s32* indexTable, const CameraObject& tmpCamera, jsonxx::Array& cameraArray, u8* pPathData, Context& context);
+    void ProcessCamera(std::vector<u8>& fileDataBuffer, LvlReader& lvlReader, const PathInfo& info, const s32* indexTable, const CameraObject& tmpCamera, nlohmann::json& cameraArray, u8* pPathData, Context& context);
 
     static void DebugDumpTlv(IFileIO& fileIo, const std::string& prefix, s32 idx, const Path_TLV& tlv);
     static void DebugDumpTlv(IFileIO& fileIo, const std::string& prefix, s32 idx, const AO::Path_TLV& tlv);
 
-    virtual jsonxx::Array ReadCollisionStream(u8* ptr, s32 numItems, Context& context) = 0;
+    virtual nlohmann::json ReadCollisionStream(u8* ptr, s32 numItems, Context& context) = 0;
     virtual void ResetTypeCounterMap() = 0;
 
     MapRootInfo mMapRootInfo;

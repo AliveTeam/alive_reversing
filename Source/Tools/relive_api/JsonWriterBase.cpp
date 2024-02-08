@@ -1,7 +1,7 @@
 #include "JsonWriterBase.hpp"
 #include "TypesCollectionBase.hpp"
 #include "relive_api.hpp"
-#include <jsonxx/jsonxx.h>
+#include <nlohmann/json.hpp>
 #include "../../relive_lib/data_conversion/LvlReaderWriter.hpp"
 #include "CamConverter.hpp"
 #include "../../relive_lib/data_conversion/PathTlvsAE.hpp"
@@ -38,11 +38,11 @@ JsonWriterBase::JsonWriterBase(TypesCollectionBase& types, s32 pathId, const std
     mMapRootInfo.mVersion = ReliveAPI::GetApiVersion();
 }
 
-void JsonWriterBase::ProcessCamera(std::vector<u8>& fileDataBuffer, LvlReader& lvlReader, const PathInfo& info, const s32* indexTable, const CameraObject& tmpCamera, jsonxx::Array& cameraArray, u8* pPathData, Context& context)
+void JsonWriterBase::ProcessCamera(std::vector<u8>& fileDataBuffer, LvlReader& lvlReader, const PathInfo& info, const s32* indexTable, const CameraObject& tmpCamera, nlohmann::json& cameraArray, u8* pPathData, Context& context)
 {
     bool addCameraToJsonArray = false;
     const s32 indexTableEntryOffset = indexTable[To1dIndex(info.mWidth, tmpCamera.mX, tmpCamera.mY)];
-    jsonxx::Array mapObjects;
+    nlohmann::json mapObjects = nlohmann::json::array();
     if (indexTableEntryOffset == -1)
     {
         if (!tmpCamera.mName.empty())
@@ -79,7 +79,7 @@ void JsonWriterBase::ProcessCamera(std::vector<u8>& fileDataBuffer, LvlReader& l
 
     if (addCameraToJsonArray)
     {
-        cameraArray << tmpCamera.ToJsonObject(mapObjects, cameraImageAndLayers);
+        cameraArray.push_back(tmpCamera.ToJsonObject(mapObjects, cameraImageAndLayers));
     }
 }
 
@@ -87,59 +87,59 @@ void JsonWriterBase::Save(std::vector<u8>& fileDataBuffer, LvlReader& lvlReader,
 {
     ResetTypeCounterMap();
 
-    jsonxx::Object rootObject;
+    nlohmann::json rootObject = nlohmann::json::object();
 
-    rootObject << "api_version" << mMapRootInfo.mVersion;
+    rootObject["api_version"] = mMapRootInfo.mVersion;
 
-    rootObject << "game" << mMapRootInfo.mGame;
+    rootObject["game"] = mMapRootInfo.mGame;
 
-    jsonxx::Object rootMapObject;
-    rootMapObject << "path_bnd" << mMapInfo.mPathBnd;
-    rootMapObject << "path_id" << mMapInfo.mPathId;
+    nlohmann::json rootMapObject = nlohmann::json::object();
+    rootMapObject["path_bnd"] = mMapInfo.mPathBnd;
+    rootMapObject["path_id"] = mMapInfo.mPathId;
 
-    rootMapObject << "x_grid_size" << mMapInfo.mXGridSize;
-    rootMapObject << "x_size" << mMapInfo.mXSize;
+    rootMapObject["x_grid_size"] = mMapInfo.mXGridSize;
+    rootMapObject["x_size"] = mMapInfo.mXSize;
 
-    rootMapObject << "y_grid_size" << mMapInfo.mYGridSize;
-    rootMapObject << "y_size" << mMapInfo.mYSize;
+    rootMapObject["y_grid_size"] = mMapInfo.mYGridSize;
+    rootMapObject["y_size"] = mMapInfo.mYSize;
 
-    rootMapObject << "abe_start_xpos" << mMapInfo.mAbeStartXPos;
-    rootMapObject << "abe_start_ypos" << mMapInfo.mAbeStartYPos;
+    rootMapObject["abe_start_xpos"] = mMapInfo.mAbeStartXPos;
+    rootMapObject["abe_start_ypos"] = mMapInfo.mAbeStartYPos;
 
-    rootMapObject << "num_muds_in_path" << mMapInfo.mNumMudsInPath;
+    rootMapObject["num_muds_in_path"] = mMapInfo.mNumMudsInPath;
 
-    rootMapObject << "total_muds" << mMapInfo.mTotalMuds;
-    rootMapObject << "num_muds_for_bad_ending" << mMapInfo.mBadEndingMuds;
-    rootMapObject << "num_muds_for_good_ending" << mMapInfo.mGoodEndingMuds;
+    rootMapObject["total_muds"] = mMapInfo.mTotalMuds;
+    rootMapObject["num_muds_for_bad_ending"] = mMapInfo.mBadEndingMuds;
+    rootMapObject["num_muds_for_good_ending"] = mMapInfo.mGoodEndingMuds;
 
 
-    jsonxx::Array LCDScreenMessagesArray;
+    nlohmann::json LCDScreenMessagesArray = nlohmann::json::array();
     for (const auto& msg : mMapInfo.mLCDScreenMessages)
     {
-        LCDScreenMessagesArray << msg;
+        LCDScreenMessagesArray.push_back(msg);
     }
-    rootMapObject << "lcdscreen_messages" << LCDScreenMessagesArray;
+    rootMapObject["lcdscreen_messages"] = LCDScreenMessagesArray;
 
-    jsonxx::Array hintFlyMessagesArray;
+    nlohmann::json hintFlyMessagesArray = nlohmann::json::array();
     for (const auto& msg : mMapInfo.mHintFlyMessages)
     {
-        hintFlyMessagesArray << msg;
+        hintFlyMessagesArray.push_back(msg);
     }
-    rootMapObject << "hintfly_messages" << hintFlyMessagesArray;
+    rootMapObject["hintfly_messages"] = hintFlyMessagesArray;
 
     u8* pPathData = pathResource.data();
 
     u8* pLineIter = pPathData + info.mCollisionOffset;
-    jsonxx::Array collisionsArray = ReadCollisionStream(pLineIter, info.mNumCollisionItems, context);
-    jsonxx::Object colllisionObject;
-    colllisionObject << "structure" << AddCollisionLineStructureJson();
-    colllisionObject << "items" << collisionsArray;
+    nlohmann::json collisionsArray = ReadCollisionStream(pLineIter, info.mNumCollisionItems, context);
+    nlohmann::json colllisionObject;
+    colllisionObject["structure"] = AddCollisionLineStructureJson();
+    colllisionObject["items"] = collisionsArray;
 
-    rootMapObject << "collisions" << colllisionObject;
+    rootMapObject["collisions"] = colllisionObject;
 
     const s32* indexTable = reinterpret_cast<const s32*>(pPathData + info.mIndexTableOffset);
 
-    jsonxx::Array cameraArray;
+    nlohmann::json cameraArray = nlohmann::json::array();
     PathCamerasEnumerator cameraEnumerator(info.mWidth, info.mHeight, pathResource);
     cameraEnumerator.Enumerate([&](const CameraEntry& tmpCamera)
         { 
@@ -151,23 +151,23 @@ void JsonWriterBase::Save(std::vector<u8>& fileDataBuffer, LvlReader& lvlReader,
             ProcessCamera(fileDataBuffer, lvlReader, info, indexTable, camObj, cameraArray, pPathData, context);
         });
 
-    rootMapObject << "cameras" << cameraArray;
+    rootMapObject["cameras"] = cameraArray;
 
-    jsonxx::Object schemaObject;
-    schemaObject << "object_structure_property_basic_types" << mBaseTypesCollection.BasicTypesToJson();
-    schemaObject << "object_structure_property_enums" << mBaseTypesCollection.EnumsToJson();
+    nlohmann::json schemaObject;
+    schemaObject["object_structure_property_basic_types"] = mBaseTypesCollection.BasicTypesToJson();
+    schemaObject["object_structure_property_enums"] = mBaseTypesCollection.EnumsToJson();
 
-    jsonxx::Array objectStructuresArray;
+    nlohmann::json objectStructuresArray = nlohmann::json::array();
     mBaseTypesCollection.AddTlvsToJsonArray(objectStructuresArray);
-    schemaObject << "object_structures" << objectStructuresArray;
+    schemaObject["object_structures"] = objectStructuresArray;
 
-    rootObject << "map" << rootMapObject;
-    rootObject << "schema" << schemaObject;
+    rootObject["map"] = rootMapObject;
+    rootObject["schema"] = schemaObject;
 
     auto s = fileIO.Open(fileName, IFileIO::Mode::Write);
     if (s->IsOpen())
     {
-        s->Write(rootObject.json());
+        s->Write(rootObject.dump(4));
     }
     else
     {

@@ -1,6 +1,6 @@
 #include "JsonWriterRelive.hpp"
 #include "../../AliveLibAE/Path.hpp"
-#include <jsonxx/jsonxx.h>
+#include <nlohmann/json.hpp>
 #include "TypesCollectionRelive.hpp"
 #include "JsonReaderBase.hpp"
 #include "TlvObjectBase.hpp"
@@ -26,9 +26,9 @@ void JsonWriterRelive::ResetTypeCounterMap()
     mTypeCounterMap.clear();
 }
 
-[[nodiscard]] jsonxx::Array JsonWriterRelive::ReadCollisionStream(u8* ptr, s32 numItems, Context& context)
+[[nodiscard]] nlohmann::json JsonWriterRelive::ReadCollisionStream(u8* ptr, s32 numItems, Context& context)
 {
-    jsonxx::Array collisionsArray;
+    nlohmann::json collisionsArray = nlohmann::json::array();
     PathLine* pLineIter = reinterpret_cast<PathLine*>(ptr);
     TypesCollectionRelive types;
 
@@ -36,10 +36,10 @@ void JsonWriterRelive::ResetTypeCounterMap()
     {
         ReliveLine tmpLine(types, &pLineIter[i]);
 
-        jsonxx::Object properties;
+        nlohmann::json properties = nlohmann::json::object();
         tmpLine.PropertiesToJson(types, properties, context);
 
-        collisionsArray << properties;
+        collisionsArray.push_back(properties);
     }
     return collisionsArray;
 }
@@ -58,9 +58,9 @@ inline relive::Path_TLV* Next_TLV_Impl(relive::Path_TLV* pTlv)
     return reinterpret_cast<relive::Path_TLV*>(pNext);
 }
 
-[[nodiscard]] jsonxx::Array JsonWriterRelive::ReadTlvStream(u8* ptr, Context& context)
+[[nodiscard]] nlohmann::json JsonWriterRelive::ReadTlvStream(u8* ptr, Context& context)
 {
-    jsonxx::Array mapObjects;
+    nlohmann::json mapObjects = nlohmann::json::array();
 
     relive::Path_TLV* pPathTLV = reinterpret_cast<relive::Path_TLV*>(ptr);
     while (pPathTLV)
@@ -75,7 +75,7 @@ inline relive::Path_TLV* Next_TLV_Impl(relive::Path_TLV* pTlv)
                 throw ReliveAPI::WrongTLVLengthException();
             }
 
-            mapObjects << obj->InstanceToJson(*mTypesCollection, context);
+            mapObjects.push_back(obj->InstanceToJson(*mTypesCollection, context));
         }
         else
         {
@@ -88,7 +88,7 @@ inline relive::Path_TLV* Next_TLV_Impl(relive::Path_TLV* pTlv)
     return mapObjects;
 }
 
-[[nodiscard]] jsonxx::Array JsonWriterRelive::AddCollisionLineStructureJson()
+[[nodiscard]] nlohmann::json JsonWriterRelive::AddCollisionLineStructureJson()
 {
     ReliveLine tmpLine(*mTypesCollection);
     return tmpLine.PropertiesToJson();

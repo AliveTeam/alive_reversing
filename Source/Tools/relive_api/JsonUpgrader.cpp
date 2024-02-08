@@ -7,7 +7,7 @@
 #include "nlohmann/json.hpp"
 
 namespace ReliveAPI {
-void JsonUpgraderBase::RenameMapLevelItem(nlohmann::basic_json<>& rootObj, const std::string& oldName, const std::string& newName)
+void JsonUpgraderBase::RenameMapLevelItem(nlohmann::json& rootObj, const std::string& oldName, const std::string& newName)
 {
     auto map = rootObj["map"];
     if (map.contains(oldName))
@@ -19,7 +19,7 @@ void JsonUpgraderBase::RenameMapLevelItem(nlohmann::basic_json<>& rootObj, const
     rootObj["map"] = map;
 }
 
-void JsonUpgraderBase::RenameMapObjectStructure(nlohmann::basic_json<>& rootObj, const std::string& oldName, const std::string& newName)
+void JsonUpgraderBase::RenameMapObjectStructure(nlohmann::json& rootObj, const std::string& oldName, const std::string& newName)
 {
     bool anyCameraChanged = false;
     auto cameras = rootObj["map"]["cameras"];
@@ -50,7 +50,7 @@ void JsonUpgraderBase::RenameMapObjectStructure(nlohmann::basic_json<>& rootObj,
     }
 }
 
-void JsonUpgraderBase::RenameMapObjectProperty(nlohmann::basic_json<>& rootObj, const std::string& structureName, const std::string& oldName, const std::string& newName)
+void JsonUpgraderBase::RenameMapObjectProperty(nlohmann::json& rootObj, const std::string& structureName, const std::string& oldName, const std::string& newName)
 {
     auto cameras = rootObj["map"]["cameras"];
     bool anyCameraChanged = false;
@@ -128,21 +128,21 @@ std::string JsonUpgraderBase::Upgrade(TypesCollectionBase& baseTypesCollection, 
 
     // Replace/inject new schema - HACK using the old json lib for now and then parse the json string it creates with the new lib to add it
     {
-        jsonxx::Object schemaObject;
-        schemaObject << "object_structure_property_basic_types" << baseTypesCollection.BasicTypesToJson();
-        schemaObject << "object_structure_property_enums" << baseTypesCollection.EnumsToJson();
+        nlohmann::json schemaObject = nlohmann::json::object();
+        schemaObject["object_structure_property_basic_types"] = baseTypesCollection.BasicTypesToJson();
+        schemaObject["object_structure_property_enums"] = baseTypesCollection.EnumsToJson();
 
-        jsonxx::Array objectStructuresArray;
+        nlohmann::json objectStructuresArray = nlohmann::json::array();
         baseTypesCollection.AddTlvsToJsonArray(objectStructuresArray);
-        schemaObject << "object_structures" << objectStructuresArray;
+        schemaObject["object_structures"] = objectStructuresArray;
 
-        auto newSchema = nlohmann::json::parse(schemaObject.json());
+        nlohmann::json newSchema = nlohmann::json::parse(schemaObject.dump(4), nullptr, false);
         if (newSchema.is_discarded())
         {
             throw ReliveAPI::InvalidJsonException();
         }
 
-        auto rootObj = nlohmann::json::parse(jsonStr, nullptr, false);
+        nlohmann::json rootObj = nlohmann::json::parse(jsonStr, nullptr, false);
         if (rootObj.is_discarded())
         {
             throw ReliveAPI::InvalidJsonException();
@@ -174,7 +174,7 @@ void JsonUpgraderBase::UpgradeTargetIsValid(s32 currentJsonVersion, s32 targetAp
 }
 
 template <typename MapType, typename DefaultValueType>
-void JsonUpgraderBase::RemapMapObjectPropertyValuesImpl(nlohmann::basic_json<>& rootObj, const std::string& structureName, const std::string& propertyName, const MapType& remapValues, DefaultValueType defaultVal)
+void JsonUpgraderBase::RemapMapObjectPropertyValuesImpl(nlohmann::json& rootObj, const std::string& structureName, const std::string& propertyName, const MapType& remapValues, DefaultValueType defaultVal)
 {
     bool camerasChanged = false;
     auto cameras = rootObj["map"]["cameras"];
@@ -213,7 +213,7 @@ void JsonUpgraderBase::RemapMapObjectPropertyValuesImpl(nlohmann::basic_json<>& 
     }
 }
 
-void JsonUpgraderBase::RemapMapObjectPropertyValues(nlohmann::basic_json<>& rootObj, const std::string& structureName, const std::string& propertyName, const RemapEnums& remapValues, typename RemapEnums::mapped_type defaultVal)
+void JsonUpgraderBase::RemapMapObjectPropertyValues(nlohmann::json& rootObj, const std::string& structureName, const std::string& propertyName, const RemapEnums& remapValues, typename RemapEnums::mapped_type defaultVal)
 {
     // Map from A -> A_unique, B -> B_unique
     // and then map back from A_unique -> A and B_unique -> B after all replacements are done
@@ -236,7 +236,7 @@ void JsonUpgraderBase::RemapMapObjectPropertyValues(nlohmann::basic_json<>& root
     RemapMapObjectPropertyValuesImpl(rootObj, structureName, propertyName, fromUniqueNames, defaultVal);
 }
 
-void JsonUpgraderBase::RemapMapObjectPropertyValues(nlohmann::basic_json<>& rootObj, const std::string& structureName, const std::string& propertyName, const RemapNumbers& remapValues, typename RemapNumbers::mapped_type defaultVal)
+void JsonUpgraderBase::RemapMapObjectPropertyValues(nlohmann::json& rootObj, const std::string& structureName, const std::string& propertyName, const RemapNumbers& remapValues, typename RemapNumbers::mapped_type defaultVal)
 {
     // Map from A -> A_unique, B -> B_unique
     // and then map back from A_unique -> A and B_unique -> B after all replacements are done
@@ -259,7 +259,7 @@ void JsonUpgraderBase::RemapMapObjectPropertyValues(nlohmann::basic_json<>& root
     RemapMapObjectPropertyValuesImpl(rootObj, structureName, propertyName, fromUniqueNames, defaultVal);
 }
 
-void JsonUpgraderBase::RemapMapObjectPropertyValues(nlohmann::basic_json<>& rootObj, const std::string& structureName, const std::string& propertyName, const RemapNumberToEnum& remapValues, typename RemapNumberToEnum::mapped_type defaultVal)
+void JsonUpgraderBase::RemapMapObjectPropertyValues(nlohmann::json& rootObj, const std::string& structureName, const std::string& propertyName, const RemapNumberToEnum& remapValues, typename RemapNumberToEnum::mapped_type defaultVal)
 {
     // Map from A -> A_unique, B -> B_unique
     // and then map back from A_unique -> A and B_unique -> B after all replacements are done

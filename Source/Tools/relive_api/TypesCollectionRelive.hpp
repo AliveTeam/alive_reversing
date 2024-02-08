@@ -16,7 +16,7 @@ class TypesCollectionRelive final : public TypesCollectionBase
 public:
     TypesCollectionRelive();
 
-    void AddTlvsToJsonArray(jsonxx::Array& array) override;
+    void AddTlvsToJsonArray(nlohmann::json& array) override;
 
     [[nodiscard]] std::unique_ptr<TlvObjectBase> MakeTlvRelive(ReliveTypes tlvType, relive::Path_TLV* pTlv, s32 instanceCount);
     [[nodiscard]] std::unique_ptr<TlvObjectBase> MakeTlvRelive(const std::string& tlvTypeName, relive::Path_TLV* pTlv);

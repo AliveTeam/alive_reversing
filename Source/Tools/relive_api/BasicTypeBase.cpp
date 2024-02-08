@@ -2,7 +2,7 @@
 
 #include "../../relive_lib/Types.hpp"
 
-#include <jsonxx/jsonxx.h>
+#include <nlohmann/json.hpp>
 
 #include <string>
 #include <typeindex>
@@ -26,13 +26,13 @@ BasicTypeBase::BasicTypeBase(const std::type_index& typeIndex, const std::string
     return true;
 }
 
-void BasicTypeBase::ToJson(jsonxx::Array& obj) const
+void BasicTypeBase::ToJson(nlohmann::json& obj) const
 {
-    jsonxx::Object ret;
-    ret << "min_value" << mMinVal;
-    ret << "max_value" << mMaxVal;
-    ret << "name" << Name();
+    nlohmann::json ret = nlohmann::json::object();
+    ret["min_value"] = mMinVal;
+    ret["max_value"] = mMaxVal;
+    ret["name"] = Name();
 
-    obj << ret;
+    obj.push_back(ret);
 }
 } // namespace ReliveAPI

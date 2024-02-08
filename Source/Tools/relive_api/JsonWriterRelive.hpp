@@ -20,9 +20,9 @@ public:
 
 private:
     void ResetTypeCounterMap() override;
-    [[nodiscard]] jsonxx::Array ReadCollisionStream(u8* ptr, s32 numItems, Context& context) override;
-    [[nodiscard]] jsonxx::Array ReadTlvStream(u8* ptr, Context& context) override;
-    [[nodiscard]] jsonxx::Array AddCollisionLineStructureJson() override;
+    [[nodiscard]] nlohmann::json ReadCollisionStream(u8* ptr, s32 numItems, Context& context) override;
+    [[nodiscard]] nlohmann::json ReadTlvStream(u8* ptr, Context& context) override;
+    [[nodiscard]] nlohmann::json AddCollisionLineStructureJson() override;
 
     std::unordered_map<ReliveTypes, s32> mTypeCounterMap;
     std::unique_ptr<TypesCollectionRelive> mTypesCollection;

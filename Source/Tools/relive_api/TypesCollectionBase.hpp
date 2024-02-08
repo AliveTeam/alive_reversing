@@ -3,6 +3,7 @@
 #include "ITypeBase.hpp"
 #include "EnumType.hpp"
 #include "BasicType.hpp"
+#include <nlohmann/json_fwd.hpp>
 
 namespace ReliveAPI {
 class TlvObjectBase;
@@ -22,11 +23,11 @@ public:
     TypesCollectionBase(const TypesCollectionBase&) = delete;
     TypesCollectionBase(TypesCollectionBase&&) = delete;
 
-    virtual void AddTlvsToJsonArray(jsonxx::Array& array) = 0;
+    virtual void AddTlvsToJsonArray(nlohmann::json& array) = 0;
     virtual std::unique_ptr<TlvObjectBase> MakeTlvFromString(const std::string& tlvTypeName) = 0;
 
-    [[nodiscard]] jsonxx::Array EnumsToJson() const;
-    [[nodiscard]] jsonxx::Array BasicTypesToJson() const;
+    [[nodiscard]] nlohmann::json EnumsToJson() const;
+    [[nodiscard]] nlohmann::json BasicTypesToJson() const;
     [[nodiscard]] const std::string& TypeName(const std::type_index& typeIndex) const;
 
     template <class T>

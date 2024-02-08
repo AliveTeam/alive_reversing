@@ -1,7 +1,7 @@
 #include "JsonMapRootInfoReader.hpp"
 #include "relive_api_exceptions.hpp"
 #include "JsonMapRootInfoReader.hpp"
-#include <jsonxx/jsonxx.h>
+#include <nlohmann/json.hpp>
 #include "JsonReadUtils.hpp"
 #include "file_api.hpp"
 
@@ -17,8 +17,8 @@ void JsonMapRootInfoReader::Read(IFileIO& fileIO, const std::string& fileName)
     std::string& jsonStr = getStaticStringBuffer();
     readFileContentsIntoString(jsonStr, *inputFileStream);
 
-    jsonxx::Object rootObj;
-    if (!rootObj.parse(jsonStr))
+    nlohmann::json rootObj = nlohmann::json::parse(jsonStr);
+    if (rootObj.is_discarded())
     {
         throw ReliveAPI::InvalidJsonException();
     }
