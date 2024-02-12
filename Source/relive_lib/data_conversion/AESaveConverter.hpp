@@ -647,13 +647,13 @@ struct SligSpawnerSaveState final
     s16 padding2;
     s32 mSpawnedSligId;
 
-    static ::SligSpawnerSaveState From(const SligSpawnerSaveState& data)
+    static ::SligSpawnerSaveState From(const SligSpawnerSaveState& data, u32 pathOffset)
     {
         ::SligSpawnerSaveState d;
         d.mType = BaseGameObject::FromAE(data.mType);
-        d.mTlvId = Guid::NewGuidFromTlvInfo(data.mTlvInfo);
+        d.mTlvId = Guid::NewGuidFromTlvInfo(data.mTlvInfo + pathOffset);
         d.mState = From(data.mState);
-        d.mSpawnedSligId = Guid::NewGuidFromTlvInfo(data.mSpawnedSligId);
+        d.mSpawnedSligId = Guid::NewGuidFromTlvInfo(data.mSpawnedSligId + pathOffset);
         return d;
     }
 
@@ -687,11 +687,11 @@ struct LiftMoverSaveState final
     };
     LiftMoverStates mState;
 
-    static ::LiftMoverSaveState From(const LiftMoverSaveState& data)
+    static ::LiftMoverSaveState From(const LiftMoverSaveState& data, u32 pathOffset)
     {
         ::LiftMoverSaveState d;
         d.mType = BaseGameObject::FromAE(data.mType);
-        d.mTlvId = Guid::NewGuidFromTlvInfo(data.mTlvInfo);
+        d.mTlvId = Guid::NewGuidFromTlvInfo(data.mTlvInfo + pathOffset);
         d.mState = From(data.mState);
         return d;
     }
@@ -760,11 +760,11 @@ struct BoneSaveState final
     FP mInitialYPos;
     s32 mTimeToLiveTimer;
 
-    static ::BoneSaveState From(const BoneSaveState& data)
+    static ::BoneSaveState From(const BoneSaveState& data, u32 pathOffset)
     {
         ::BoneSaveState d;
         d.mType = BaseGameObject::FromAE(data.mType);
-        d.mBaseTlvId = Guid::NewGuidFromTlvInfo(data.mBaseTlvId);
+        d.mBaseTlvId = Guid::NewGuidFromTlvInfo(data.mBaseTlvId + pathOffset);
         d.mXPos = data.mXPos;
         d.mYPos = data.mYPos;
         d.mVelX = data.mVelX;
@@ -777,7 +777,7 @@ struct BoneSaveState final
         d.mLoop = data.field_20_flags.Get(BoneStateFlags::eBit3_bLoop);
         d.mInteractive = data.field_20_flags.Get(BoneStateFlags::eBit4_bInteractive);
         d.mHitObject = data.field_20_flags.Get(BoneStateFlags::eBit5_bHitObject);
-        d.mPlatformId = Guid::NewGuidFromTlvInfo(data.mPlatformTlvInfo);
+        d.mPlatformId = Guid::NewGuidFromTlvInfo(data.mPlatformTlvInfo + pathOffset);
         d.mCollisionLineType = AEData::From(data.mCollisionLineType);
         d.mThrowableCount = data.mBaseThrowableCount;
         d.mState = From(data.mState);
@@ -816,7 +816,7 @@ struct MinesAlarmSaveState final
     s16 field_2_pad;
     s32 mExplosionTimer;
 
-    static ::MinesAlarmSaveState From(const MinesAlarmSaveState& data)
+    static ::MinesAlarmSaveState From(const MinesAlarmSaveState& data, u32 /*pathOffset*/)
     {
         ::MinesAlarmSaveState d;
         d.mType = BaseGameObject::FromAE(data.mType);
@@ -953,11 +953,11 @@ struct CrawlingSligSaveState final
     s16 field_7A_unused_counter;
     s32 mSayHelpTimer;
 
-    static ::CrawlingSligSaveState From(const CrawlingSligSaveState& data)
+    static ::CrawlingSligSaveState From(const CrawlingSligSaveState& data, u32 pathOffset)
     {
         ::CrawlingSligSaveState d;
         d.mType = BaseGameObject::FromAE(data.mType);
-        d.mBaseTlvId = Guid::NewGuidFromTlvInfo(data.mBaseTlvId);
+        d.mBaseTlvId = Guid::NewGuidFromTlvInfo(data.mBaseTlvId + pathOffset);
         d.mXPos = data.mXPos;
         d.mYPos = data.mYPos;
         d.mVelX = data.mVelX;
@@ -980,7 +980,7 @@ struct CrawlingSligSaveState final
         d.mLastLineYPos = data.mLastLineYPos;
         d.mCollisionLineType = AEData::From(data.mCollisionLineType);
         d.mControlled = data.mControlled;
-        d.mCrawlingSligTlvId = Guid::NewGuidFromTlvInfo(data.mCrawlingSligTlvInfo);
+        d.mCrawlingSligTlvId = Guid::NewGuidFromTlvInfo(data.mCrawlingSligTlvInfo + pathOffset);
 
         const auto currentBrain = From(data.mBrainState);
         d.mBrainType = currentBrain;
@@ -1012,9 +1012,9 @@ struct CrawlingSligSaveState final
         d.mAbeLevel = MapWrapper::FromAESaveData(data.mAbeLevel);
         d.mAbePath = data.mAbePath;
         d.mAbeCamera = data.mAbeCamera;
-        d.mSligButtonTlvId = Guid::NewGuidFromTlvInfo(data.mSligButtonTlvInfo);
-        d.field_70_obj_id = Guid::NewGuidFromTlvInfo(data.field_70_obj_id); // TODO: seems unused
-        d.mTransformedSligId = Guid::NewGuidFromTlvInfo(data.mTransformedSligTlvInfo);
+        d.mSligButtonTlvId = Guid::NewGuidFromTlvInfo(data.mSligButtonTlvInfo + pathOffset);
+        d.field_70_obj_id = Guid::NewGuidFromTlvInfo(data.field_70_obj_id + pathOffset); // TODO: seems unused
+        d.mTransformedSligId = Guid::NewGuidFromTlvInfo(data.mTransformedSligTlvInfo + pathOffset);
         d.mSpeak = AEData::From(data.field_78_speak);
         d.mSayHelpTimer = data.mSayHelpTimer;
         return d;
@@ -1190,11 +1190,11 @@ struct DrillSaveState final
     DrillStates mState;
     s16 mXYOff;
 
-    static ::DrillSaveState From(const DrillSaveState& data)
+    static ::DrillSaveState From(const DrillSaveState& data, u32 pathOffset)
     {
         ::DrillSaveState d;
         d.mType = BaseGameObject::FromAE(data.mType);
-        d.mDrillTlvId = Guid::NewGuidFromTlvInfo(data.mDrillTlvInfo);
+        d.mDrillTlvId = Guid::NewGuidFromTlvInfo(data.mDrillTlvInfo + pathOffset);
         d.mOffTimer = data.mOffTimer;
         d.mState = From(data.mState);
         d.mXYOff = data.mXYOff;
@@ -1257,7 +1257,7 @@ struct EvilFartSaveState final
     s32 mUnpossessionTimer;
     s32 mBackToAbeTimer;
 
-    static ::EvilFartSaveState From(const EvilFartSaveState& data)
+    static ::EvilFartSaveState From(const EvilFartSaveState& data, u32 /*pathOffset*/)
     {
         ::EvilFartSaveState d;
         d.mType = BaseGameObject::FromAE(data.mType);
@@ -1479,11 +1479,11 @@ struct FleechSaveState final
     BitField16<FleechStateFlags> mFleechStateFlags;
     s16 field_B2;
 
-    static ::FleechSaveState From(const FleechSaveState& data)
+    static ::FleechSaveState From(const FleechSaveState& data, u32 pathOffset)
     {
         ::FleechSaveState d;
         d.mType = BaseGameObject::FromAE(data.mType);
-        d.field_4_obj_id = Guid::NewGuidFromTlvInfo(data.field_4_obj_id);
+        d.field_4_obj_id = Guid::NewGuidFromTlvInfo(data.field_4_obj_id + pathOffset);
         d.mXPos = data.mXPos;
         d.mYPos = data.mYPos;
         d.mVelX = data.mVelX;
@@ -1505,9 +1505,9 @@ struct FleechSaveState final
         d.mNextMotion = From(data.mNextMotion);
         d.mLastLineYPos = data.mLastLineYPos;
         d.mCollisionLineType = AEData::From(data.mCollisionLineType);
-        d.mPlatformId = Guid::NewGuidFromTlvInfo(data.mPlatformId);
-        d.mTlvInfo = Guid::NewGuidFromTlvInfo(data.mTlvInfo);
-        d.mFoodObjId = Guid::NewGuidFromTlvInfo(data.field_44_obj_id);
+        d.mPlatformId = Guid::NewGuidFromTlvInfo(data.mPlatformId + pathOffset);
+        d.mTlvInfo = Guid::NewGuidFromTlvInfo(data.mTlvInfo + pathOffset);
+        d.mFoodObjId = Guid::NewGuidFromTlvInfo(data.field_44_obj_id + pathOffset);
         d.mTongueState = data.mTongueState;
         d.mTongueSubState = data.mTongueSubState;
         d.mEnemyXPos = data.mEnemyXPos;
@@ -1568,8 +1568,8 @@ struct FleechSaveState final
         d.field_9F = data.field_9F;
         d.mHoistYDistance = data.field_A0_hoistY_distance;
         d.mHoistXDistance = data.field_A4_hoistX_distance;
-        d.mScrabOrParamite = Guid::NewGuidFromTlvInfo(data.field_A8);
-        d.field_AC_obj_id = Guid::NewGuidFromTlvInfo(data.field_AC_obj_id);
+        d.mScrabOrParamite = Guid::NewGuidFromTlvInfo(data.field_A8 + pathOffset);
+        d.field_AC_obj_id = Guid::NewGuidFromTlvInfo(data.field_AC_obj_id + pathOffset);
         d.mHoistDone = data.mFleechStateFlags.Get(FleechStateFlags::eHoistDone);
         d.mChasingOrScaredCrawlingLeft = data.mFleechStateFlags.Get(FleechStateFlags::eChasingOrScaredCrawlingLeft);
         d.mShrivelDeath = data.mFleechStateFlags.Get(FleechStateFlags::eShrivelDeath);
@@ -1830,7 +1830,7 @@ struct FlyingSligSaveState final
     s32 field_A4_bobbing_values_index;
     FP field_A8_bobbing_value;
 
-    static ::FlyingSligSaveState From(const FlyingSligSaveState& data)
+    static ::FlyingSligSaveState From(const FlyingSligSaveState& data, u32 pathOffset)
     {
         ::FlyingSligSaveState d;
         d.mType = BaseGameObject::FromAE(data.mType);
@@ -1865,7 +1865,7 @@ struct FlyingSligSaveState final
         d.mLastLine = data.field_3A.Get(Flags_3A::eBit8_bLastLine);
         d.mUnknown1 = data.field_3A.Get(Flags_3A::eBit9_unknown1);
         d.mUnknown2 = data.field_3A.Get(Flags_3A::eBit10_unknown2);
-        d.field_3C_tlvInfo = Guid::NewGuidFromTlvInfo(data.field_3C_tlvInfo);
+        d.field_3C_tlvInfo = Guid::NewGuidFromTlvInfo(data.field_3C_tlvInfo + pathOffset);
         d.field_40_timer = data.field_40_timer;
         d.field_44_grenade_delay = data.field_44_grenade_delay;
         d.field_48_collision_reaction_timer = data.field_48_collision_reaction_timer;
@@ -1873,7 +1873,7 @@ struct FlyingSligSaveState final
         d.field_50_ySpeed = data.field_50_ySpeed;
         d.field_54_next_speak = AEData::From(data.field_54_next_speak);
         d.field_56_voice_pitch_min = data.field_56_voice_pitch_min;
-        d.field_58_obj_id = Guid::NewGuidFromTlvInfo(data.field_58_obj_id);
+        d.field_58_obj_id = Guid::NewGuidFromTlvInfo(data.field_58_obj_id + pathOffset);
         d.field_5C = data.field_5C;
         d.field_60 = data.field_60;
         d.field_64 = data.field_64;
@@ -1903,13 +1903,13 @@ struct FlyingSligSpawnerSaveState final
     s32 field_8_bSpawned;
     s32 field_C_spawned_slig_obj_id;
 
-    static ::FlyingSligSpawnerSaveState From(const FlyingSligSpawnerSaveState& data)
+    static ::FlyingSligSpawnerSaveState From(const FlyingSligSpawnerSaveState& data, u32 pathOffset)
     {
         ::FlyingSligSpawnerSaveState d;
         d.mType = BaseGameObject::FromAE(data.mType);
-        d.field_4_tlvInfo = Guid::NewGuidFromTlvInfo(data.field_4_tlvInfo);
+        d.field_4_tlvInfo = Guid::NewGuidFromTlvInfo(data.field_4_tlvInfo + pathOffset);
         d.field_8_bSpawned = data.field_8_bSpawned;
-        d.field_C_spawned_slig_obj_id = Guid::NewGuidFromTlvInfo(data.field_C_spawned_slig_obj_id);
+        d.field_C_spawned_slig_obj_id = Guid::NewGuidFromTlvInfo(data.field_C_spawned_slig_obj_id + pathOffset);
         return d;
     }
 };
@@ -1937,11 +1937,11 @@ struct GameEnderControllerSaveState final
     GameEnderControllerStates field_C_state;
     s16 field_E_padding;
 
-    static ::GameEnderControllerSaveState From(const GameEnderControllerSaveState& data)
+    static ::GameEnderControllerSaveState From(const GameEnderControllerSaveState& data, u32 pathOffset)
     {
         ::GameEnderControllerSaveState d;
         d.mType = BaseGameObject::FromAE(data.mType);
-        d.mObjId = Guid::NewGuidFromTlvInfo(data.field_4_obj_id);
+        d.mObjId = Guid::NewGuidFromTlvInfo(data.field_4_obj_id + pathOffset);
         d.mTimer = data.field_8_timer;
         d.mState = From(data.field_C_state);
         return d;
@@ -1976,7 +1976,7 @@ struct SlapLockWhirlWindSaveState final
     AETypes mType;
     s16 mSwitchId;
 
-    static ::SlapLockWhirlWindSaveState From(const SlapLockWhirlWindSaveState& data)
+    static ::SlapLockWhirlWindSaveState From(const SlapLockWhirlWindSaveState& data, u32 /*pathOffset*/)
     {
         ::SlapLockWhirlWindSaveState d;
         d.mType = BaseGameObject::FromAE(data.mType);
@@ -2009,16 +2009,16 @@ struct SlapLockSaveState final
     s32 mAbilityRingId;
     s32 mShinyParticleTimer;
 
-    static ::SlapLockSaveState From(const SlapLockSaveState& data)
+    static ::SlapLockSaveState From(const SlapLockSaveState& data, u32 pathOffset)
     {
         ::SlapLockSaveState d;
         d.mType = BaseGameObject::FromAE(data.mType);
         d.mAnimRender = data.mAnimRender;
-        d.mTlvInfo = Guid::NewGuidFromTlvInfo(data.mTlvInfo);
+        d.mTlvInfo = Guid::NewGuidFromTlvInfo(data.mTlvInfo + pathOffset);
         d.mTlvState = data.mTlvState;
         d.mState = From(data.mState);
         d.mTimer1 = data.mTimer1;
-        d.mAbilityRingId = Guid::NewGuidFromTlvInfo(data.mAbilityRingId);
+        d.mAbilityRingId = Guid::NewGuidFromTlvInfo(data.mAbilityRingId + pathOffset);
         d.mShinyParticleTimer = data.mShinyParticleTimer;
         return d;
     }
@@ -2094,7 +2094,7 @@ struct GreeterSaveState final
     s16 field_4A_padding;
     FP mMotionLaserXPos;
 
-    static ::GreeterSaveState From(const GreeterSaveState& data)
+    static ::GreeterSaveState From(const GreeterSaveState& data, u32 pathOffset)
     {
         ::GreeterSaveState d;
         d.mType = BaseGameObject::FromAE(data.mType);
@@ -2112,7 +2112,7 @@ struct GreeterSaveState final
         d.mFrameChangeCounter = data.mFrameChangeCounter;
         d.mAnimRender = data.mAnimRender;
         d.mDrawable = data.mDrawable;
-        d.mTlvId = Guid::NewGuidFromTlvInfo(data.field_28_tlvInfo);
+        d.mTlvId = Guid::NewGuidFromTlvInfo(data.field_28_tlvInfo + pathOffset);
         d.field_30_last_turn_time = data.field_30_last_turn_time;
         d.field_34_timer = data.field_34_timer;
         d.mTimesShot = data.mTimesShot;
@@ -2200,11 +2200,11 @@ struct GrenadeSaveState final
     FP mPreviousXPos;
     FP mPreviousYPos;
 
-    static ::GrenadeSaveState From(const GrenadeSaveState& data)
+    static ::GrenadeSaveState From(const GrenadeSaveState& data, u32 pathOffset)
     {
         ::GrenadeSaveState d;
         d.mType = BaseGameObject::FromAE(data.mType);
-        d.mTlvInfo = Guid::NewGuidFromTlvInfo(data.mTlvInfo);
+        d.mTlvInfo = Guid::NewGuidFromTlvInfo(data.mTlvInfo + pathOffset);
         d.mXPos = data.mXPos;
         d.mYPos = data.mYPos;
         d.mVelX = data.mVelX;
@@ -2218,7 +2218,7 @@ struct GrenadeSaveState final
         d.mInteractive = data.field_20_flags.Get(Flags_20::eBit4_bInteractive);
         d.mExplodeNow = data.field_20_flags.Get(Flags_20::eBit6_bExplodeNow);
         d.mBlowUpOnCollision = data.field_20_flags.Get(Flags_20::eBit7_bBlowUpOnCollision);
-        d.mPlatformId = Guid::NewGuidFromTlvInfo(data.mPlatformId);
+        d.mPlatformId = Guid::NewGuidFromTlvInfo(data.mPlatformId + pathOffset);
         d.mCollisionLineType = AEData::From(data.mCollisionLineType);
         d.mThrowableCount = data.mThrowableCount;
         d.mState = From(data.mState);
@@ -2364,11 +2364,11 @@ struct GlukkonSaveState final
     s16 mCanBePossessed;
     AETypes mCurrentType;
 
-    static ::GlukkonSaveState From(const GlukkonSaveState& data)
+    static ::GlukkonSaveState From(const GlukkonSaveState& data, u32 pathOffset)
     {
         ::GlukkonSaveState d;
         d.mType = BaseGameObject::FromAE(data.mType);
-        d.field_4_object_id = Guid::NewGuidFromTlvInfo(data.field_4_object_id);
+        d.field_4_object_id = Guid::NewGuidFromTlvInfo(data.field_4_object_id + pathOffset);
         d.mXPos = data.mXPos;
         d.mYPos = data.mYPos;
         d.mVelX = data.mVelX;
@@ -2391,7 +2391,7 @@ struct GlukkonSaveState final
         d.field_38_last_line_ypos = data.field_38_last_line_ypos;
         d.mLineType = AEData::From(data.mLineType);
         d.mIsActiveChar = data.mIsActiveChar;
-        d.mTlvId = Guid::NewGuidFromTlvInfo(data.mTlvId);
+        d.mTlvId = Guid::NewGuidFromTlvInfo(data.mTlvId + pathOffset);
         d.mBrainStateIdx = data.mBrainStateIdx; // TODO: convert
         d.mBrainSubState = data.mBrainSubState; // dito
         d.field_54_timer = data.field_54_timer;
@@ -2409,7 +2409,7 @@ struct GlukkonSaveState final
         d.field_7C = data.field_7C;
         d.mKnockbackDelayAfterGettingShotTimer = data.mKnockbackDelayAfterGettingShotTimer;
         d.mGettingShotTimer = data.mGettingShotTimer;
-        d.mFadeId = Guid::NewGuidFromTlvInfo(data.mFadeId);
+        d.mFadeId = Guid::NewGuidFromTlvInfo(data.mFadeId + pathOffset);
         d.mCanBePossessed = data.mCanBePossessed;
         d.mCurrentType = BaseGameObject::FromAE(data.mCurrentType);
         return d;
@@ -2633,7 +2633,7 @@ struct AbeSaveState final
     };
     BitField16<Flags_D6> field_D6_flags;
 
-    static ::AbeSaveState From(const AbeSaveState& data)
+    static ::AbeSaveState From(const AbeSaveState& data, u32 pathOffset)
     {
         ::AbeSaveState d;
         d.mType = BaseGameObject::FromAE(data.mType);
@@ -2660,7 +2660,7 @@ struct AbeSaveState final
         d.mNextMotion = static_cast<eAbeMotions>(data.mNextMotion); // TODO: enum conversion
         d.mLastLineYPos = data.mLastLineYPos;
         d.mCollisionLineType = AEData::From(data.mCollisionLineType);
-        d.mPlatformId = Guid::NewGuidFromTlvInfo(data.mPlatformId);
+        d.mPlatformId = Guid::NewGuidFromTlvInfo(data.mPlatformId + pathOffset);
         d.mIsElectrocuted = data.mIsElectrocuted;
         d.mIsInvisible = data.mIsInvisible;
         d.mIsAbeControlled = data.mIsAbeControlled;
@@ -2681,14 +2681,14 @@ struct AbeSaveState final
         d.mReleasedButtons = data.mReleasedButtons;
         d.mKnockdownMotion = static_cast<eAbeMotions>(data.mKnockdownMotion); // TODO: enum conversion
         d.mRollingMotionTimer = data.mRollingMotionTimer;
-        d.mDeathFadeOutId = Guid::NewGuidFromTlvInfo(data.mDeathFadeOutId);
-        d.mCircularFadeId = Guid::NewGuidFromTlvInfo(data.mCircularFadeId);
-        d.mOrbWhirlWindId = Guid::NewGuidFromTlvInfo(data.mOrbWhirlWindId);
-        d.mPossessedObjectId = Guid::NewGuidFromTlvInfo(data.mPossessedObjectId);
-        d.mThrowableId = Guid::NewGuidFromTlvInfo(data.mThrowableId);
-        d.mPullRingRopeId = Guid::NewGuidFromTlvInfo(data.mPullRingRopeId);
-        d.mSlappableOrPickupId = Guid::NewGuidFromTlvInfo(data.mSlappableOrPickupId);
-        d.mWorkWheelId = Guid::NewGuidFromTlvInfo(data.mWorkWheelId);
+        d.mDeathFadeOutId = Guid::NewGuidFromTlvInfo(data.mDeathFadeOutId + pathOffset);
+        d.mCircularFadeId = Guid::NewGuidFromTlvInfo(data.mCircularFadeId + pathOffset);
+        d.mOrbWhirlWindId = Guid::NewGuidFromTlvInfo(data.mOrbWhirlWindId + pathOffset);
+        d.mPossessedObjectId = Guid::NewGuidFromTlvInfo(data.mPossessedObjectId + pathOffset);
+        d.mThrowableId = Guid::NewGuidFromTlvInfo(data.mThrowableId + pathOffset);
+        d.mPullRingRopeId = Guid::NewGuidFromTlvInfo(data.mPullRingRopeId + pathOffset);
+        d.mSlappableOrPickupId = Guid::NewGuidFromTlvInfo(data.mSlappableOrPickupId + pathOffset);
+        d.mWorkWheelId = Guid::NewGuidFromTlvInfo(data.mWorkWheelId + pathOffset);
         d.mInvisibilityTimer = data.mInvisibilityTimer;
         d.mInvisibilityDuration = data.mInvisibilityDuration;
         d.mHandStoneCamIdx = data.mHandStoneCamIdx;
@@ -2704,7 +2704,7 @@ struct AbeSaveState final
         d.door_id = data.door_id;
         d.mThrowDirection = data.mThrowDirection;
         d.mBirdPortalSubState = data.mBirdPortalSubState;
-        d.mBirdPortalId = Guid::NewGuidFromTlvInfo(data.mBirdPortalId);
+        d.mBirdPortalId = Guid::NewGuidFromTlvInfo(data.mBirdPortalId + pathOffset);
 
         if (data.field_D4_flags.Get(Flags_D4::eD4_Bit9_unused))
         {
@@ -2776,14 +2776,14 @@ struct LiftPointSaveState final
     };
     BitField16<Flags> field_1A;
 
-    static ::LiftPointSaveState From(const LiftPointSaveState& data)
+    static ::LiftPointSaveState From(const LiftPointSaveState& data, u32 pathOffset)
     {
         ::LiftPointSaveState d;
         d.mType = BaseGameObject::FromAE(data.mType);
         d.mXPos = data.field_4_xpos;
         d.mYPos = data.field_8_ypos;
-        d.mPlatformId = Guid::NewGuidFromTlvInfo(data.field_C_tlvInfo);
-        d.mTlvId = Guid::NewGuidFromTlvInfo(data.field_10_pTlv);
+        d.mPlatformId = Guid::NewGuidFromTlvInfo(data.field_C_tlvInfo + pathOffset);
+        d.mTlvId = Guid::NewGuidFromTlvInfo(data.field_10_pTlv + pathOffset);
         d.mFloorLevelY = data.field_14_floorYLevel;
         d.mLiftPointStopType = From(data.field_18_lift_point_stop_type);
         d.mMoving = data.field_1A.Get(Flags::eBit1_bMoving);
@@ -2937,7 +2937,7 @@ struct MudokonSaveState final
     s32 field_80_timer;
     s32 field_84_response_entry_idx;
 
-    static ::MudokonSaveState From(const MudokonSaveState& data)
+    static ::MudokonSaveState From(const MudokonSaveState& data, u32 pathOffset)
     {
         ::MudokonSaveState d;
         d.mType = BaseGameObject::FromAE(data.mType);
@@ -2964,14 +2964,14 @@ struct MudokonSaveState final
         d.field_36_line_type = AEData::From(data.field_36_line_type);
         d.field_3C_can_be_possessed = data.field_3C_can_be_possessed;
         d.field_3D_bIsPlayer = data.field_3D_bIsPlayer;
-        d.field_40_tlvInfo = Guid::NewGuidFromTlvInfo(data.field_40_tlvInfo);
+        d.field_40_tlvInfo = Guid::NewGuidFromTlvInfo(data.field_40_tlvInfo + pathOffset);
         d.field_44_velx_slow_by = data.field_44_velx_slow_by;
-        d.field_4C_portal_id = Guid::NewGuidFromTlvInfo(data.field_4C_portal_id);
+        d.field_4C_portal_id = Guid::NewGuidFromTlvInfo(data.field_4C_portal_id + pathOffset);
         d.field_50_angry_trigger = data.field_50_angry_trigger;
         d.field_54_laugh_and_crouch_timer = data.field_54_laugh_and_crouch_timer;
         d.field_58_angry_timer = data.field_58_angry_timer;
         d.field_5E_voice_pitch = data.field_5E_voice_pitch;
-        d.field_60_wheel_id = Guid::NewGuidFromTlvInfo(data.field_60_wheel_id);
+        d.field_60_wheel_id = Guid::NewGuidFromTlvInfo(data.field_60_wheel_id + pathOffset);
         d.field_68 = AEData::From(data.field_68);
         d.field_6A_maxXOffset = data.field_6A_maxXOffset;
         d.mNotRescued = data.field_6C.Get(Flags_6A::eBit4_not_rescued);
@@ -3250,11 +3250,11 @@ struct MeatSaveState final
     FP mPreviousYPos;
     s32 mDeadTimer;
 
-    static ::MeatSaveState From(const MeatSaveState& data)
+    static ::MeatSaveState From(const MeatSaveState& data, u32 pathOffset)
     {
         ::MeatSaveState d;
         d.mType = BaseGameObject::FromAE(data.mType);
-        d.mTlvId = Guid::NewGuidFromTlvInfo(data.mTlvId);
+        d.mTlvId = Guid::NewGuidFromTlvInfo(data.mTlvId + pathOffset);
         d.mXPos = data.mXPos;
         d.mYPos = data.mYPos;
         d.mVelX = data.mVelX;
@@ -3266,7 +3266,7 @@ struct MeatSaveState final
         d.mDrawable = data.field_20_flags.Get(MeatStateFlags::eBit2_bDrawable);
         d.mLoop = data.field_20_flags.Get(MeatStateFlags::eBit3_bLoop);
         d.mInteractive = data.field_20_flags.Get(MeatStateFlags::eBit4_bInteractive);
-        d.mPlatformId = Guid::NewGuidFromTlvInfo(data.mPlatformId);
+        d.mPlatformId = Guid::NewGuidFromTlvInfo(data.mPlatformId + pathOffset);
         d.mLineType = AEData::From(data.mLineType);
         d.mThrowableCount = data.mThrowableCount;
         d.mState = From(data.mState);
@@ -3359,7 +3359,7 @@ struct MineCarSaveState final
     s16 field_64_throw_item_key1;
     s16 field_66_continue_move_input;
 
-    static ::MineCarSaveState From(const MineCarSaveState& data)
+    static ::MineCarSaveState From(const MineCarSaveState& data, u32 pathOffset)
     {
         ::MineCarSaveState d;
         d.mType = BaseGameObject::FromAE(data.mType);
@@ -3383,7 +3383,7 @@ struct MineCarSaveState final
         d.field_3C_health = data.field_3C_health;
         d.field_44_last_line_ypos = data.field_44_last_line_ypos;
         d.field_46_collision_line_type = AEData::From(data.field_46_collision_line_type);
-        d.field_4C_tlvInfo = Guid::NewGuidFromTlvInfo(data.field_4C_tlvInfo);
+        d.field_4C_tlvInfo = Guid::NewGuidFromTlvInfo(data.field_4C_tlvInfo + pathOffset);
         d.field_50_state = From(data.field_50_state);
         d.field_52_turn_direction = From(data.field_52_turn_direction);
         d.field_58_falling_counter = data.field_58_falling_counter;
@@ -3539,7 +3539,7 @@ struct ParamiteSaveState final
 
     BitField16<Flags_76> field_76_flags;
 
-    static ::ParamiteSaveState From(const ParamiteSaveState& data)
+    static ::ParamiteSaveState From(const ParamiteSaveState& data, u32 pathOffset)
     {
         ::ParamiteSaveState d;
         d.mType = BaseGameObject::FromAE(data.mType);
@@ -3564,11 +3564,11 @@ struct ParamiteSaveState final
         d.field_32_next_motion = From(data.field_32_next_motion);
         d.field_34_last_line_ypos = data.field_34_last_line_ypos;
         d.field_36_line_type = AEData::From(data.field_36_line_type);
-        d.field_3C_tlvInfo = Guid::NewGuidFromTlvInfo(data.field_3C_tlvInfo);
-        d.field_40_meat_id = Guid::NewGuidFromTlvInfo(data.field_40_meat_id);
-        d.field_44_web_id = Guid::NewGuidFromTlvInfo(data.field_44_web_id);
-        d.field_48_obj_id = Guid::NewGuidFromTlvInfo(data.field_48_obj_id);
-        d.field_4C_pull_ring_rope_id = Guid::NewGuidFromTlvInfo(data.field_4C_pull_ring_rope_id);
+        d.field_3C_tlvInfo = Guid::NewGuidFromTlvInfo(data.field_3C_tlvInfo + pathOffset);
+        d.field_40_meat_id = Guid::NewGuidFromTlvInfo(data.field_40_meat_id + pathOffset);
+        d.field_44_web_id = Guid::NewGuidFromTlvInfo(data.field_44_web_id + pathOffset);
+        d.field_48_obj_id = Guid::NewGuidFromTlvInfo(data.field_48_obj_id + pathOffset);
+        d.field_4C_pull_ring_rope_id = Guid::NewGuidFromTlvInfo(data.field_4C_pull_ring_rope_id + pathOffset);
         d.mBrainIdx = data.mBrainIdx;
         d.mBrainSubState = data.mBrainSubState;
         d.field_5C_timer = data.field_5C_timer;
@@ -3725,13 +3725,13 @@ struct BirdPortalSaveState final
     u8 mMudCountForShrykull;
     s32 mTlvInfo;
 
-    static ::BirdPortalSaveState From(const BirdPortalSaveState& data)
+    static ::BirdPortalSaveState From(const BirdPortalSaveState& data, u32 pathOffset)
     {
         ::BirdPortalSaveState d;
         d.mType = BaseGameObject::FromAE(data.mType);
         d.mState = From(data.mState);
         d.mMudCountForShrykull = data.mMudCountForShrykull;
-        d.mTlvInfo = Guid::NewGuidFromTlvInfo(data.mTlvInfo);
+        d.mTlvInfo = Guid::NewGuidFromTlvInfo(data.mTlvInfo + pathOffset);
         return d;
     }
 
@@ -3798,7 +3798,7 @@ struct ThrowableArraySaveState final
     s16 field_0_unused;
     s16 field_2_item_count;
 
-    static ::ThrowableArraySaveState From(const ThrowableArraySaveState& data)
+    static ::ThrowableArraySaveState From(const ThrowableArraySaveState& data, u32 /*pathOffset*/)
     {
         ::ThrowableArraySaveState d;
         d.mCount = data.field_2_item_count;
@@ -3848,7 +3848,7 @@ struct AbilityRingSaveState final
     s16 mRingGreen;
     s16 mRingBlue;
 
-    static ::AbilityRingSaveState From(const AbilityRingSaveState& data)
+    static ::AbilityRingSaveState From(const AbilityRingSaveState& data, u32 pathOffset)
     {
         ::AbilityRingSaveState d;
         d.mType = BaseGameObject::FromAE(data.mRingObjectType);
@@ -3856,7 +3856,7 @@ struct AbilityRingSaveState final
         d.mRingYPos = data.mRingYPos;
         d.mRingType = From(data.mRingType);
         d.mRingScale = data.mRingScale;
-        d.mRingTlvInfo = Guid::NewGuidFromTlvInfo(data.mRingTlvInfo);
+        d.mRingTlvInfo = Guid::NewGuidFromTlvInfo(data.mRingTlvInfo + pathOffset);
         d.mRingRight = data.mRingRight;
         d.mRingCount = data.mRingCount;
         d.mRingRed = data.mRingRed;
@@ -3943,11 +3943,11 @@ struct RockSaveState final
     FP field_30_xpos;
     FP field_34_ypos;
 
-    static ::RockSaveState From(const RockSaveState& data)
+    static ::RockSaveState From(const RockSaveState& data, u32 pathOffset)
     {
         ::RockSaveState d;
         d.mType = BaseGameObject::FromAE(data.mType);
-        d.mTlvId = Guid::NewGuidFromTlvInfo(data.field_4_obj_id);
+        d.mTlvId = Guid::NewGuidFromTlvInfo(data.field_4_obj_id + pathOffset);
         d.mXPos = data.field_8_xpos;
         d.mYPos = data.field_C_ypos;
         d.mVelX = data.field_10_velx;
@@ -3959,7 +3959,7 @@ struct RockSaveState final
         d.mDrawable = data.field_20_flags.Get(RockStateFlags::eBit2_bDrawable);
         d.mLoop = data.field_20_flags.Get(RockStateFlags::eBit3_bLoop);
         d.mInteractive = data.field_20_flags.Get(RockStateFlags::eBit4_bInteractive);
-        d.mPlatformId = Guid::NewGuidFromTlvInfo(data.field_24_id);
+        d.mPlatformId = Guid::NewGuidFromTlvInfo(data.field_24_id + pathOffset);
         d.mCollisionLineType = AEData::From(data.field_28_line_type);
         d.mThrowableCount = data.field_2A_count;
         d.mState = From(data.field_2C_state);
@@ -4110,11 +4110,11 @@ struct ScrabSaveState final
     };
     BitField16<Flags_9E> field_9E_flags;
 
-    static ::ScrabSaveState From(const ScrabSaveState& data)
+    static ::ScrabSaveState From(const ScrabSaveState& data, u32 pathOffset)
     {
         ::ScrabSaveState d;
         d.mType = BaseGameObject::FromAE(data.mType);
-        d.field_4_obj_id = Guid::NewGuidFromTlvInfo(data.field_4_obj_id);
+        d.field_4_obj_id = Guid::NewGuidFromTlvInfo(data.field_4_obj_id + pathOffset);
         d.mXPos = data.field_8_xpos;
         d.mYPos = data.field_C_ypos;
         d.mVelX = data.field_10_velx;
@@ -4137,11 +4137,11 @@ struct ScrabSaveState final
         d.field_38_last_line_ypos = data.field_38_last_line_ypos;
         d.mLineType = AEData::From(data.field_3A_line_type);
         d.mIsControlled = data.field_40_bIsControlled;
-        d.field_44_tlvInfo = Guid::NewGuidFromTlvInfo(data.field_44_tlvInfo);
+        d.field_44_tlvInfo = Guid::NewGuidFromTlvInfo(data.field_44_tlvInfo + pathOffset);
         d.field_48_brain_idx = data.field_48_brain_idx;
         d.mBrainSubState = data.field_50_sub_state;
-        d.field_54_obj_id = Guid::NewGuidFromTlvInfo(data.field_54_obj_id);
-        d.field_58_target_obj_id = Guid::NewGuidFromTlvInfo(data.field_58_target_obj_id);
+        d.field_54_obj_id = Guid::NewGuidFromTlvInfo(data.field_54_obj_id + pathOffset);
+        d.field_58_target_obj_id = Guid::NewGuidFromTlvInfo(data.field_58_target_obj_id + pathOffset);
         d.field_5C_timer = data.field_5C_timer;
         d.field_60_depossession_timer = data.field_60_depossession_timer;
         d.field_64_falling_velx_scale_factor = data.field_64_falling_velx_scale_factor;
@@ -4273,13 +4273,13 @@ struct ScrabSpawnerSaveState final
     ScrabSpawnerStates field_8_state;
     s32 field_C_spawned_scrab_id;
 
-    static ::ScrabSpawnerSaveState From(const ScrabSpawnerSaveState& data)
+    static ::ScrabSpawnerSaveState From(const ScrabSpawnerSaveState& data, u32 pathOffset)
     {
         ::ScrabSpawnerSaveState d;
         d.mType = BaseGameObject::FromAE(data.mType);
-        d.field_4_tlvInfo = Guid::NewGuidFromTlvInfo(data.field_4_tlvInfo);
+        d.field_4_tlvInfo = Guid::NewGuidFromTlvInfo(data.field_4_tlvInfo + pathOffset);
         d.field_8_state = From(data.field_8_state);
-        d.field_C_spawned_scrab_id = Guid::NewGuidFromTlvInfo(data.field_C_spawned_scrab_id);
+        d.field_C_spawned_scrab_id = Guid::NewGuidFromTlvInfo(data.field_C_spawned_scrab_id + pathOffset);
         return d;
     }
 
@@ -4302,10 +4302,10 @@ struct SlamDoorSaveState final
     AETypes mType;
     TlvItemInfoUnion mTlvInfo;
 
-    static ::SlamDoorSaveState From(const SlamDoorSaveState& data)
+    static ::SlamDoorSaveState From(const SlamDoorSaveState& data, u32 pathOffset)
     {
         ::SlamDoorSaveState d;
-        d.mTlvInfo = Guid::NewGuidFromTlvInfo(data.mTlvInfo.all);
+        d.mTlvInfo = Guid::NewGuidFromTlvInfo(data.mTlvInfo.all + pathOffset);
         return d;
     }
 
@@ -4445,7 +4445,7 @@ struct SligSaveState final
     };
     BitField16<Flags_A2> field_A2_flags;
 
-    static ::SligSaveState From(const SligSaveState& data)
+    static ::SligSaveState From(const SligSaveState& data, u32 pathOffset)
     {
         ::SligSaveState d;
         d.mType = BaseGameObject::FromAE(data.mType);
@@ -4480,7 +4480,7 @@ struct SligSaveState final
         d.field_50_input = data.field_50_input;
         d.field_54_timer = data.field_54_timer;
         d.mFallingVelxScaleFactor = data.field_58_falling_velx_scale_factor;
-        d.field_5C_tlvInfo = Guid::NewGuidFromTlvInfo(data.field_5C_tlvInfo);
+        d.field_5C_tlvInfo = Guid::NewGuidFromTlvInfo(data.field_5C_tlvInfo + pathOffset);
         d.field_60_res_idx = data.field_60_res_idx;
         d.field_62_shot_motion = From(data.field_62_shot_motion);
         d.field_64_zone_rect = AEData::From(data.field_64_zone_rect);
@@ -4493,7 +4493,7 @@ struct SligSaveState final
         d.field_8C_num_times_to_shoot = data.field_8C_num_times_to_shoot;
         d.field_90_force_alive_state = data.field_90_force_alive_state;
         d.field_92_spotted_possessed_slig = data.field_92_spotted_possessed_slig;
-        d.field_94_glukkon_id = Guid::NewGuidFromTlvInfo(data.field_94_glukkon_id);
+        d.field_94_glukkon_id = Guid::NewGuidFromTlvInfo(data.field_94_glukkon_id + pathOffset);
         d.field_98_state_after_speak = data.field_98_state_after_speak;
         d.field_9A_attention_timeout = data.field_9A_attention_timeout;
         d.field_9E_next_command_arg1 = data.field_9E_next_command_arg1;
@@ -4723,11 +4723,11 @@ struct SlogSaveState final
     BitField16<Flags_74> field_74_flags;
     s16 field_76_padding;
 
-    static ::SlogSaveState From(const SlogSaveState& data)
+    static ::SlogSaveState From(const SlogSaveState& data, u32 pathOffset)
     {
         ::SlogSaveState d;
         d.mType = BaseGameObject::FromAE(data.mType);
-        d.mBaseTlvId = Guid::NewGuidFromTlvInfo(data.mBaseTlvInfo);
+        d.mBaseTlvId = Guid::NewGuidFromTlvInfo(data.mBaseTlvInfo + pathOffset);
         d.mXPos = data.mXPos;
         d.mYPos = data.mYPos;
         d.mVelX = data.mVelX;
@@ -4749,14 +4749,14 @@ struct SlogSaveState final
         d.mNextMotion = From(data.mNextMotion);
         d.mLastLineYPos = data.mLastLineYPos;
         d.mCollisionLineType = AEData::From(data.mCollisionLineType);
-        d.mPlatformId = Guid::NewGuidFromTlvInfo(data.mPlatformTlvInfo);
-        d.mSlogTlvId = Guid::NewGuidFromTlvInfo(data.mSlogTlvInfo);
-        d.mTargetId = Guid::NewGuidFromTlvInfo(data.mTargetId);
+        d.mPlatformId = Guid::NewGuidFromTlvInfo(data.mPlatformTlvInfo + pathOffset);
+        d.mSlogTlvId = Guid::NewGuidFromTlvInfo(data.mSlogTlvInfo + pathOffset);
+        d.mTargetId = Guid::NewGuidFromTlvInfo(data.mTargetId + pathOffset);
         d.mBrainState = From(data.mBrainState);
         d.mBrainSubState = data.mBrainSubState;
         d.mMultiUseTimer = data.mMultiUseTimer;
         d.mFallingVelxScaleFactor = data.mFallingVelxScaleFactor;
-        d.mListeningToSligId = Guid::NewGuidFromTlvInfo(data.mListeningToSligId);
+        d.mListeningToSligId = Guid::NewGuidFromTlvInfo(data.mListeningToSligId + pathOffset);
         d.mHasWoofed = data.mHasWoofed;
         d.mWaitingCounter = data.mWaitingCounter;
         d.mResponseIdx = data.mResponseIdx;
@@ -4765,7 +4765,7 @@ struct SlogSaveState final
         d.mJumpCounter = data.mJumpCounter;
         d.mScratchTimer = data.mScratchTimer;
         d.mGrowlTimer = data.mGrowlTimer;
-        d.mBoneId = Guid::NewGuidFromTlvInfo(data.mBoneId);
+        d.mBoneId = Guid::NewGuidFromTlvInfo(data.mBoneId + pathOffset);
         d.mChaseDelay = data.mChaseDelay;
         d.mSlogRandomIdx = data.mSlogRandomIdx;
         d.mBitingTarget = data.field_74_flags.Get(Flags_74::eBit1_BitingTarget);
@@ -4891,7 +4891,7 @@ struct SlurgSaveState final
     };
     BitField16<SlurgFlags> mSlurgFlags;
 
-    static ::SlurgSaveState From(const SlurgSaveState& data)
+    static ::SlurgSaveState From(const SlurgSaveState& data, u32 pathOffset)
     {
         ::SlurgSaveState d;
         d.mType = BaseGameObject::FromAE(data.mType);
@@ -4904,7 +4904,7 @@ struct SlurgSaveState final
         d.mFrameChangeCounter = data.mFrameChangeCounter;
         d.mDrawable = data.mDrawable;
         d.mRender = data.mRender;
-        d.mTlvId = Guid::NewGuidFromTlvInfo(data.mTlvInfo);
+        d.mTlvId = Guid::NewGuidFromTlvInfo(data.mTlvInfo + pathOffset);
         d.mSlurgState = From(data.mSlurgState);
         d.mGoingRight = data.mSlurgFlags.Get(SlurgFlags::eGoingRight);
         d.mMoving = data.mSlurgFlags.Get(SlurgFlags::eMoving);
@@ -4942,11 +4942,11 @@ struct TimerTriggerSaveState final
     TimerTriggerStates mState;
     s16 mStartingSwitchState;
 
-    static ::TimerTriggerSaveState From(const TimerTriggerSaveState& data)
+    static ::TimerTriggerSaveState From(const TimerTriggerSaveState& data, u32 pathOffset)
     {
         ::TimerTriggerSaveState d;
         d.mType = BaseGameObject::FromAE(data.mType);
-        d.mTlvId = Guid::NewGuidFromTlvInfo(data.mTlvInfo);
+        d.mTlvId = Guid::NewGuidFromTlvInfo(data.mTlvInfo + pathOffset);
         d.mActivationDelayTimer = data.mActivationDelayTimer;
         d.mState = From(data.mState);
         d.mStartingSwitchState = data.mStartingSwitchState;
@@ -4985,13 +4985,13 @@ struct TrapDoorSaveState final
     s32 mOpenTime;
     s32 mTlvInfo;
 
-    static ::TrapDoorSaveState From(const TrapDoorSaveState& data)
+    static ::TrapDoorSaveState From(const TrapDoorSaveState& data, u32 pathOffset)
     {
         ::TrapDoorSaveState d;
         d.mType = BaseGameObject::FromAE(data.mType);
         d.mState = From(data.mState);
         d.mOpenTime = data.mOpenTime;
-        d.mTlvId = Guid::NewGuidFromTlvInfo(data.mTlvInfo);
+        d.mTlvId = Guid::NewGuidFromTlvInfo(data.mTlvInfo + pathOffset);
         return d;
     }
 
@@ -5033,11 +5033,11 @@ struct UXBSaveState final
     u16 mRedBlinkCount;
     u16 mIsRed;
 
-    static ::UXBSaveState From(const UXBSaveState& data)
+    static ::UXBSaveState From(const UXBSaveState& data, u32 pathOffset)
     {
         ::UXBSaveState d;
         d.mType = BaseGameObject::FromAE(data.mType);
-        d.mTlvInfo = Guid::NewGuidFromTlvInfo(data.mTlvInfo.all);
+        d.mTlvInfo = Guid::NewGuidFromTlvInfo(data.mTlvInfo.all + pathOffset);
         d.mNextStateTimer = data.mNextStateTimer;
         d.mCurrentState = From(data.mCurrentState);
         d.mStartingState = From(data.mStartingState);
@@ -5080,11 +5080,11 @@ struct WorkWheelSaveState final
     WheelStates mState;
     s16 padding_3;
 
-    static ::WorkWheelSaveState From(const WorkWheelSaveState& data)
+    static ::WorkWheelSaveState From(const WorkWheelSaveState& data, u32 pathOffset)
     {
         ::WorkWheelSaveState d;
         d.mType = BaseGameObject::FromAE(data.mType);
-        d.mTlvId = Guid::NewGuidFromTlvInfo(data.mTlvInfo);
+        d.mTlvId = Guid::NewGuidFromTlvInfo(data.mTlvInfo + pathOffset);
         d.mTurningTime = data.mTurningTime;
         d.mState = From(data.mState);
         return d;
@@ -5204,7 +5204,8 @@ struct Quicksave final
         // data.field_200_accumulated_obj_count is never used
         d.mWorldInfo = Quicksave_WorldInfo::From(data.field_204_world_info);
         d.mRestartPathWorldInfo = Quicksave_WorldInfo::From(data.field_244_restart_path_world_info);
-        d.mRestartPathAbeState = AbeSaveState::From(data.field_284_restart_path_abe_state);
+        const PathBlyRec* pBlyRec = Path_Get_Bly_Record(MapWrapper::FromAE(data.field_204_world_info.mLevel), data.field_204_world_info.mPath);
+        d.mRestartPathAbeState = AbeSaveState::From(data.field_284_restart_path_abe_state, pBlyRec->field_4_pPathData->field_12_object_offset);
         d.mRestartPathSwitchStates = SwitchStates::From(data.field_35C_restart_path_switch_states);
         d.mSwitchStates = SwitchStates::From(data.field_45C_switch_states);
         return d;
@@ -5231,5 +5232,5 @@ private:
 
     void AddObjectState(nlohmann::json j, const ::SligSpawnerSaveState& d);
 
-    s32 ConvertObjectSaveStateData(nlohmann::json& j, AETypes type, const u8* pData);
+    s32 ConvertObjectSaveStateData(nlohmann::json& j, AETypes type, u32 pathOffset, const u8* pData);
 };
