@@ -92,6 +92,7 @@ ALIVE_ASSERT_SIZEOF(TlvItemInfoUnion, 4);
 
 enum eMudMotions : s16
 {
+    None_m1 = -1,
     Motion_0_Idle,
     Motion_1_WalkLoop,
     Motion_2_StandingTurn,
@@ -3081,6 +3082,8 @@ struct MudokonSaveState final
     {
         switch (motion)
         {
+            case eMudMotions::None_m1:
+                return ::eMudMotions::None_m1;
             case eMudMotions::Motion_0_Idle:
                 return ::eMudMotions::Motion_0_Idle;
             case eMudMotions::Motion_1_WalkLoop:
