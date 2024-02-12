@@ -370,7 +370,7 @@ void Glukkon::VGetSaveState(SerializedObjectData& pSaveBuffer)
     data.mGreen = mRGB.g;
     data.mBlue = mRGB.b;
     data.mCurrentMotion = mCurrentMotion;
-    data.mCurrentFrame = static_cast<u16>(GetAnimation().GetCurrentFrame());
+    data.mCurrentFrame = GetAnimation().GetCurrentFrame();
     data.mFrameChangeCounter = static_cast<u16>(GetAnimation().GetFrameChangeCounter());
     data.mFlipX = GetAnimation().GetFlipX();
     data.mRender = GetAnimation().GetRender();

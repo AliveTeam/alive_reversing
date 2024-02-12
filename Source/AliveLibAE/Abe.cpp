@@ -1350,7 +1350,7 @@ void Abe::GetSaveState(AbeSaveState& pSaveState)
 
     pSaveState.bAnimFlipX = GetAnimation().GetFlipX();
     pSaveState.mCurrentMotion = mCurrentMotion;
-    pSaveState.mCurrentFrame = static_cast<u16>(GetAnimation().GetCurrentFrame());
+    pSaveState.mCurrentFrame = GetAnimation().GetCurrentFrame();
     pSaveState.mFrameChangeCounter = static_cast<u16>(GetAnimation().GetFrameChangeCounter());
 
     if (GetAnimation().GetFrameChangeCounter() == 0)
