@@ -55,10 +55,9 @@ void ChangeBasicTypePropertyCommand::UpdateText()
    // setText(QString("Change property %1 from %2 to %3").arg(mLinkedProperty.mProperty->mName.c_str(), QString::number(mPropertyData.mOldValue), QString::number(mPropertyData.mNewValue)));
 }
 
-BasicTypeProperty::BasicTypeProperty(QUndoStack& undoStack, QTreeWidgetItem* pParent, QString propertyName, IGraphicsItem* pGraphicsItem, BasicType* pBasicType) 
+BasicTypeProperty::BasicTypeProperty(QUndoStack& undoStack, QTreeWidgetItem* pParent, QString propertyName, IGraphicsItem* pGraphicsItem)
     : PropertyTreeItemBase(pParent, QStringList{propertyName, ""})
     , mUndoStack(undoStack)
-    , mBasicType(pBasicType)
     , mGraphicsItem(pGraphicsItem)
 {
 

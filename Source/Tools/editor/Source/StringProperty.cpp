@@ -9,7 +9,7 @@ ReadOnlyStringProperty::ReadOnlyStringProperty(QTreeWidgetItem* pParent, QString
 }
 
 StringProperty::StringProperty(QUndoStack& undoStack, QTreeWidgetItem* pParent, QString propertyName, std::string* pProperty) 
-    : PropertyTreeItemBase(pParent, QStringList{ propertyName, pProperty->c_str() }), mUndoStack(undoStack), mProperty(pProperty)
+    : PropertyTreeItemBase(pParent, QStringList{ propertyName, pProperty->c_str() }), mProperty(pProperty),  mUndoStack(undoStack)
 {
     mPrevValue = mProperty->c_str();
 }

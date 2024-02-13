@@ -8,30 +8,8 @@
 #include "../../relive_lib/data_conversion/relive_tlvs.hpp"
 #include "../../relive_lib/Collisions.hpp"
 
-class MapObjectBase
-{
-public:
-    MapObjectBase(ReliveTypes tlvType)
-        : mType(tlvType)
-    {
+#include "../../Tools/relive_api/TlvsRelive.hpp"
 
-    }
-
-
-    ReliveTypes mType = ReliveTypes::eNone;
-};
-
-struct Path_TimedMine final : public MapObjectBase
-{
-    Path_TimedMine()
-        : MapObjectBase(ReliveTypes::eTimedMine)
-    {
-        //ADD("Scale", mTlv.mScale);
-        //ADD("Ticks Before Explosion", mTlv.mTicksUntilExplosion);
-    }
-
-    relive::Path_TimedMine mTlv = {};
-};
 
 using UP_MapObjectBase = std::unique_ptr<MapObjectBase>;
 
@@ -290,10 +268,25 @@ public:
         return -1;
     }
 
+    u32 XSize() const
+    {
+        return mXSize;
+    }
+
+    u32 YSize() const
+    {
+        return mYSize;
+    }
+
 private:
     void CreateEmptyCameras();
+    void CalculateMapSize();
 
     std::vector<UP_Camera> mCameras;
     std::vector<UP_CollisionObject> mCollisions;
+
+    // Not part of json data, calculated on load
+    u32 mXSize = 0;
+    u32 mYSize = 0;
 };
 using UP_Model = std::unique_ptr<Model>;

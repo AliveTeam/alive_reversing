@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include <QPoint>
+#include "Model.hpp"
 
 namespace Ui {
 class CameraManager;
@@ -10,7 +11,6 @@ class CameraManager;
 
 class EditorTab;
 class CameraGraphicsItem;
-struct Camera;
 
 class CameraManager : public QDialog
 {
@@ -20,8 +20,8 @@ public:
     CameraManager(QWidget *parent, EditorTab* pParentTab, const QPoint* openedPos);
     ~CameraManager();
 
-    void OnCameraSwapped(Camera* pOld, Camera* pNew);
-    void OnCameraIdChanged(Camera* pCam);
+    void OnCameraSwapped(Model::Camera* pOld, Model::Camera* pNew);
+    void OnCameraIdChanged(Model::Camera* pCam);
     void CreateCamera(bool dropEvent, QPixmap img);
 
 private slots:
@@ -45,7 +45,7 @@ private:
     int NextFreeCamId();
 
     CameraGraphicsItem* CameraGraphicsItemByPos(const QPoint& pos);
-    CameraGraphicsItem* CameraGraphicsItemByModelPtr(const Camera* cam);
+    CameraGraphicsItem* CameraGraphicsItemByModelPtr(const Model::Camera* cam);
 
     Ui::CameraManager *ui;
     EditorTab* mTab = nullptr;

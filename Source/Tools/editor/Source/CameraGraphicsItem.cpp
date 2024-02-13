@@ -4,7 +4,7 @@
 #include "Model.hpp"
 #include "IGraphicsItem.hpp"
 
-CameraGraphicsItem::CameraGraphicsItem(Camera* pCamera, int xpos, int ypos, int width, int height, int transparency) : QGraphicsRectItem(xpos, ypos, width, height), mCamera(pCamera)
+CameraGraphicsItem::CameraGraphicsItem(Model::Camera* pCamera, int xpos, int ypos, int width, int height, int transparency) : QGraphicsRectItem(xpos, ypos, width, height), mCamera(pCamera)
 {
     QPen pen;
     pen.setWidth(2);

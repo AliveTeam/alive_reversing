@@ -33,6 +33,36 @@
 
 namespace relive
 {
+struct TypeDescription;
+}
+
+// TODO: Move back to the editor src
+class MapObjectBase
+{
+public:
+    MapObjectBase(const relive::TypeDescription* pTypes, u32 count)
+     : mTypes(pTypes), mCount(count)
+    {
+
+    }
+
+    const relive::TypeDescription* mTypes = nullptr;
+    u32 mCount = 0;
+    /*
+    MapObjectBase(ReliveTypes tlvType)
+        : mType(tlvType)
+    {
+
+    }
+
+
+    ReliveTypes mType = ReliveTypes::eNone;
+    */
+
+};
+
+namespace relive
+{
 
 enum class FieldType
 {
@@ -71,7 +101,10 @@ constexpr FieldType FieldPointerToFieldType<relive::reliveScale*>()
 // 0x1 is an arbitary non nullptr address as subtracting a nullptr is apparently UB
 #define DEFINE_FIELD(editor_name,typeName,memberName) { editor_name, FieldPointerToFieldType<decltype(std::addressof(((typeName*)0x1)->memberName))>(), static_cast<u32>(std::addressof(((typeName*)0x1)->memberName) - ((decltype(std::addressof(((typeName*)0x1)->memberName)))0x1)) }
 
-struct Editor_TimedMine final
+
+
+
+struct Editor_TimedMine final : public MapObjectBase
 {
     /*
     CTOR_RELIVE(Editor_TimedMine, Path_TimedMine, ReliveTypes::eTimedMine)
@@ -81,19 +114,13 @@ struct Editor_TimedMine final
     }
     */
 
-    relive::Path_TimedMine mTlv;
+    Editor_TimedMine();
+
+    Path_TimedMine mTlv;
+
     static const TypeDescription mSaveData[];
 };
 
-
-const TypeDescription Editor_TimedMine::mSaveData[] =
-{
-    // TODO, some macro to insert all the base fields
-    //DEFINE_FIELD("Top left m8", relive::Path_TLV, mTopLeftX, FieldType::Field_U32 ),
-
-    DEFINE_FIELD("Scale", relive::Editor_TimedMine, mTlv.mScale ),
-    DEFINE_FIELD("Ticks Before Explosion", relive::Editor_TimedMine, mTlv.mTicksUntilExplosion ),
-};
 
 
 /*

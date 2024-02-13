@@ -349,21 +349,20 @@ private:
 class CameraListItem final : public QListWidgetItem
 {
 public:
-    CameraListItem(QListWidget* pParent, Camera* pCamera)
+    CameraListItem(QListWidget* pParent, Model::Camera* pCamera)
         : QListWidgetItem(pParent), mCamera(pCamera)
     {
         SetLabel();
     }
 
-    const Camera* GetCamera() const
+    const Model::Camera* GetCamera() const
     {
-       // return mCamera;
-        return nullptr;
+        return mCamera;
     }
 
-    void SetCamera(Camera* pNew)
+    void SetCamera(Model::Camera* pNew)
     {
-      //  mCamera = pNew;
+        mCamera = pNew;
         SetLabel();
     }
 
@@ -383,7 +382,7 @@ public:
     }
 
 private:
-    Camera* mCamera = nullptr;
+    Model::Camera* mCamera = nullptr;
 };
 
 CameraManager::CameraManager(QWidget *parent, EditorTab* pParentTab, const QPoint* openedPos) :
@@ -432,7 +431,7 @@ CameraManager::~CameraManager()
     delete ui;
 }
 
-void CameraManager::OnCameraSwapped(Camera* pOld, Camera* pNew)
+void CameraManager::OnCameraSwapped(Model::Camera* pOld, Model::Camera* pNew)
 {
     for (int i = 0; i < ui->lstCameras->count(); i++)
     {
@@ -447,7 +446,7 @@ void CameraManager::OnCameraSwapped(Camera* pOld, Camera* pNew)
     }
 }
 
-void CameraManager::OnCameraIdChanged(Camera* pCam)
+void CameraManager::OnCameraIdChanged(Model::Camera* pCam)
 {
     for (int i = 0; i < ui->lstCameras->count(); i++)
     {
@@ -616,7 +615,7 @@ CameraGraphicsItem* CameraManager::CameraGraphicsItemByPos(const QPoint& pos)
     return pCameraGraphicsItem;
 }
 
-CameraGraphicsItem* CameraManager::CameraGraphicsItemByModelPtr(const Camera* cam)
+CameraGraphicsItem* CameraManager::CameraGraphicsItemByModelPtr(const Model::Camera* cam)
 {
     QList<QGraphicsItem*> itemsAtPos = mTab->GetScene().items();
     for (int i = 0; i < itemsAtPos.count(); i++)

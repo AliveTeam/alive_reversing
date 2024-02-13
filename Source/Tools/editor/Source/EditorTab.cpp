@@ -388,15 +388,12 @@ EditorTab::EditorTab(QTabWidget* aParent, UP_Model model, QString jsonFileName, 
     ui->propertyDockWidget->setContextMenuPolicy(Qt::PreventContextMenu);
     ui->undoHistoryDockWidget->setContextMenuPolicy(Qt::PreventContextMenu);
 
-    /*
-    const MapInfo& mapInfo = mModel->GetMapInfo();
-
-    for (int x = 0; x < mapInfo.mXSize; x++)
+    for (u32 x = 0; x < mModel->XSize(); x++)
     {
-        for (int y = 0; y < mapInfo.mYSize; y++)
+        for (u32 y = 0; y < mModel->YSize(); y++)
         {
-            Camera* pCam = mModel->CameraAt(x, y);
-            auto pCameraGraphicsItem = MakeCameraGraphicsItem(pCam, mapInfo.mXGridSize * x, y *  mapInfo.mYGridSize, mapInfo.mXGridSize, mapInfo.mYGridSize);
+            Model::Camera* pCam = mModel->CameraAt(x, y);
+            auto pCameraGraphicsItem = MakeCameraGraphicsItem(pCam, mModel->XSize() * x, y *  mModel->YSize(), mModel->XSize(), mModel->YSize());
             mScene->addItem(pCameraGraphicsItem);
 
             if (pCam)
@@ -409,7 +406,7 @@ EditorTab::EditorTab(QTabWidget* aParent, UP_Model model, QString jsonFileName, 
             }
         }
     }
-    */
+
 
     for (auto& collision : mModel->CollisionItems())
     {
@@ -436,7 +433,7 @@ EditorTab::EditorTab(QTabWidget* aParent, UP_Model model, QString jsonFileName, 
     connect(&mUndoStack , &QUndoStack::cleanChanged, this, &EditorTab::UpdateTabTitle);
 }
 
-ResizeableRectItem* EditorTab::MakeResizeableRectItem(MapObject* pMapObject)
+ResizeableRectItem* EditorTab::MakeResizeableRectItem(MapObjectBase* pMapObject)
 {
     return new ResizeableRectItem(ui->graphicsView, pMapObject, *static_cast<PropertyTreeWidget*>(ui->treeWidget), mScene->GetTransparencySettings().MapObjectTransparency(), mSnapSettings, *this);
 }
@@ -446,7 +443,7 @@ ResizeableArrowItem* EditorTab::MakeResizeableArrowItem(Model::CollisionObject* 
     return new ResizeableArrowItem(ui->graphicsView, pCollisionObject, *static_cast<PropertyTreeWidget*>(ui->treeWidget), mScene->GetTransparencySettings().CollisionTransparency(), mSnapSettings, *this);
 }
 
-CameraGraphicsItem* EditorTab::MakeCameraGraphicsItem(Camera* pCamera, int x, int y, int w, int h)
+CameraGraphicsItem* EditorTab::MakeCameraGraphicsItem(Model::Camera* pCamera, int x, int y, int w, int h)
 {
     return new CameraGraphicsItem(pCamera, x, y, w, h, mScene->GetTransparencySettings().CameraTransparency());
 }

@@ -331,7 +331,7 @@ void ItemPositionData::Restore(Model& model)
 void ItemPositionData::AddRect(ResizeableRectItem* pItem, Model& model, bool recalculateParentCamera)
 {
     Camera* pContainingCamera = nullptr;
-    MapObject* pMapObject = pItem->GetMapObject();
+    MapObjectBase* pMapObject = pItem->GetMapObject();
 
     if (recalculateParentCamera)
     {

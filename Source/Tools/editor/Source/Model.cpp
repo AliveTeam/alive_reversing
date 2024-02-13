@@ -3,6 +3,22 @@
 #include <optional>
 #include <fstream>
 #include "../../relive_lib/data_conversion/relive_tlvs_serialization.hpp"
+#include <QDebug>
+
+const relive::TypeDescription relive::Editor_TimedMine::mSaveData[] =
+{
+    // TODO, some macro to insert all the base fields
+    //DEFINE_FIELD("Top left m8", relive::Path_TLV, mTopLeftX, FieldType::Field_U32 ),
+
+    DEFINE_FIELD("Scale", relive::Editor_TimedMine, mTlv.mScale ),
+    DEFINE_FIELD("Ticks Before Explosion", relive::Editor_TimedMine, mTlv.mTicksUntilExplosion ),
+};
+
+relive::Editor_TimedMine::Editor_TimedMine()
+ : MapObjectBase(mSaveData, ALIVE_COUNTOF(Editor_TimedMine::mSaveData))
+{
+
+}
 
 static std::optional<std::string> LoadFileToString(const std::string& fileName)
 {
@@ -169,18 +185,27 @@ void Model::LoadJsonFromString(const std::string& json)
             for (size_t j = 0; j < mapObjects.size(); j++)
             {
                 nlohmann::json mapObject = mapObjects.at(static_cast<unsigned int>(j));
-                auto tmpMapObject = std::make_unique<Path_TimedMine>(); // TODO: Create correct type based on the name
-                //tmpMapObject->mName = ReadString(mapObject, "name");
 
-                /*
-                if (mapObject.has<jsonxx::Object>("properties"))
+                const std::string objType = ReadString(mapObject, "tlv_type");
+                if (objType == "timed_mine")
                 {
-                    jsonxx::Object properties = ReadObject(mapObject, "properties");
-                    tmpMapObject->mProperties = ReadProperties(pObjStructure, properties);
+                    //qDebug() << "YES" << objType.c_str();
+                    auto tmpMapObject = std::make_unique<relive::Editor_TimedMine>(); // TODO: Create correct type based on the name
+                    //tmpMapObject->mName = ReadString(mapObject, "name");
+
+                    /*
+                    if (mapObject.has<jsonxx::Object>("properties"))
+                    {
+                        jsonxx::Object properties = ReadObject(mapObject, "properties");
+                        tmpMapObject->mProperties = ReadProperties(pObjStructure, properties);
+                    }
+                    */
+                    tmpCamera->mMapObjects.push_back(std::move(tmpMapObject));
                 }
-                */
-                tmpCamera->mMapObjects.push_back(std::move(tmpMapObject));
-                
+                else
+                {
+                    //qDebug() << "NO" << objType.c_str();
+                }
             }
         }
         mCameras.push_back(std::move(tmpCamera));
@@ -195,6 +220,7 @@ void Model::LoadJsonFromString(const std::string& json)
         mCollisions.push_back(std::move(tmpCollision));
     }
 
+    CalculateMapSize();
     CreateEmptyCameras();
 }
 
@@ -382,6 +408,24 @@ void Model::CreateEmptyCameras()
     */
 }
 
+void Model::CalculateMapSize()
+{
+    mXSize = 0;
+    mYSize = 0;
+
+    for (auto& cam : mCameras)
+    {
+        if (cam->mX > static_cast<s32>(mXSize))
+        {
+            mXSize = cam->mX;
+        }
+
+        if (cam->mY > static_cast<s32>(mYSize))
+        {
+            mYSize = cam->mY;
+        }
+    }
+}
 
 Model::CollisionObject::CollisionObject(int id, const Model::CollisionObject& rhs)
     : mId(id)

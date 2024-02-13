@@ -2,21 +2,20 @@
 
 #include <QGraphicsRectItem>
 #include <QPixmap>
-
-struct Camera;
+#include "Model.hpp"
 
 class CameraGraphicsItem final : public QGraphicsRectItem
 {
 public:
-    CameraGraphicsItem(Camera* pCamera, int xpos, int ypos, int width, int height, int transparency);
+    CameraGraphicsItem(Model::Camera* pCamera, int xpos, int ypos, int width, int height, int transparency);
     void paint(QPainter* aPainter, const QStyleOptionGraphicsItem* aOption, QWidget* aWidget) override;
 
-    const Camera* GetCamera() const
+    const Model::Camera* GetCamera() const
     {
         return mCamera;
     }
     
-    Camera* GetCamera()
+    Model::Camera* GetCamera()
     {
         return mCamera;
     }
@@ -33,7 +32,7 @@ public:
 private:
     void LoadImages();
 
-    Camera* mCamera = nullptr;
+    Model::Camera* mCamera = nullptr;
     struct Images final
     {
         QPixmap mCamera;

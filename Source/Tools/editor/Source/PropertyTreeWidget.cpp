@@ -31,9 +31,17 @@ void PropertyTreeWidget::Populate(Model& model, QUndoStack& undoStack, QGraphics
     QTreeWidgetItem* parent = nullptr;
     if (pRect)
     {
-        MapObject* pMapObject = pRect->GetMapObject();
+        MapObjectBase* pMapObject = pRect->GetMapObject();
 
-       // items.append(new StringProperty(undoStack, parent, kIndent + "Name", &pMapObject->mName));
+        //items.append(new StringProperty(undoStack, parent, kIndent + "Name", &pMapObject->mName));
+
+        for (u32 i = 0; i < pMapObject->mCount; i++)
+        {
+            items.append(new BasicTypeProperty(undoStack, parent, kIndent + pMapObject->mTypes[i].mFieldName, pRect));
+        }
+
+
+
       //  AddProperties(model, undoStack, items, pMapObject->mProperties, pRect);
     }
     else if (pLine)

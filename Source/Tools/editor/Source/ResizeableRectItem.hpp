@@ -4,7 +4,7 @@
 #include <QGraphicsView>
 #include "IGraphicsItem.hpp"
 
-struct MapObject;
+class MapObjectBase;
 class ISyncPropertiesToTree;
 class SnapSettings;
 class IPointSnapper;
@@ -12,12 +12,12 @@ class IPointSnapper;
 class ResizeableRectItem final : public IGraphicsItem, public QGraphicsItem
 {
 public:
-    ResizeableRectItem(QGraphicsView* pView, MapObject* pMapObject, ISyncPropertiesToTree& propSyncer, int transparency, SnapSettings& snapSettings, IPointSnapper& snapper);
+    ResizeableRectItem(QGraphicsView* pView, MapObjectBase* pMapObject, ISyncPropertiesToTree& propSyncer, int transparency, SnapSettings& snapSettings, IPointSnapper& snapper);
     enum { Type = UserType + 1 };
     int type() const override { return Type; }
     QRectF CurrentRect() const;
     void SetRect(const QRectF& rect);
-    MapObject* GetMapObject() const { return mMapObject; }
+    MapObjectBase* GetMapObject() const { return mMapObject; }
  
     void SyncInternalObject() override
     {
@@ -83,7 +83,7 @@ private:
     static const quint32 kMinRectSize;
     QPixmap m_Pixmap;
     QGraphicsView* mView = nullptr;
-    MapObject* mMapObject = nullptr;
+    MapObjectBase* mMapObject = nullptr;
     ISyncPropertiesToTree& mPropSyncer;
     int mWidth = 0;
     int mHeight = 0;

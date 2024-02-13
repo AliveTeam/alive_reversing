@@ -21,7 +21,7 @@ class EditorGraphicsScene;
 class ResizeableArrowItem;
 class ResizeableRectItem;
 class CameraGraphicsItem;
-struct MapObject;
+class MapObjectBase;
 class CollisionObject;
 class CameraManager;
 class ClipBoard;
@@ -74,9 +74,9 @@ public:
 
     void ConnectCollisions();
 
-    ResizeableRectItem* MakeResizeableRectItem(MapObject* pMapObject);
+    ResizeableRectItem* MakeResizeableRectItem(MapObjectBase* pMapObject);
     ResizeableArrowItem* MakeResizeableArrowItem(Model::CollisionObject* pCollisionObject);
-    CameraGraphicsItem* MakeCameraGraphicsItem(Camera* pCamera, int x, int y, int w, int h);
+    CameraGraphicsItem* MakeCameraGraphicsItem(Model::Camera* pCamera, int x, int y, int w, int h);
 
     CameraManager* GetCameraManagerDialog()
     {
