@@ -46,6 +46,7 @@ add_library(editor_glue_dynamic_crt
     ../../relive_lib/MapWrapper.cpp
     ../../relive_lib/data_conversion/PNGFile.cpp
     ../../relive_lib/data_conversion/file_system.cpp
+    ../../relive_lib/data_conversion/guid.cpp
 )
 target_include_directories(editor_glue_dynamic_crt PRIVATE
     ../../relive_lib

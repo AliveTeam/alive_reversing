@@ -193,6 +193,8 @@ void Model::LoadJsonFromString(const std::string& json)
                     auto tmpMapObject = std::make_unique<relive::Editor_TimedMine>(); // TODO: Create correct type based on the name
                     //tmpMapObject->mName = ReadString(mapObject, "name");
 
+                    from_json(mapObject, tmpMapObject->mTlv);
+
                     /*
                     if (mapObject.has<jsonxx::Object>("properties"))
                     {
