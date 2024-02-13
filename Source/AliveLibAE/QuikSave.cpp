@@ -363,18 +363,31 @@ void QuikSave::RestoreBlyData(Quicksave& pSaveData)
             {
                 if (pTlv->mAttribute == relive::QuiksaveAttribute::eClearTlvFlags_1 || pTlv->mAttribute == relive::QuiksaveAttribute::eKeepTlvFlags_2) // Type 0 ignored - actually it should never be written here anyway
                 {
+                    const bool isLastTlv = pTlv->mTlvFlags.Get(relive::TlvFlags::eBit3_End_TLV_List);
+
                     pTlv->mTlvFlags.Raw().all = pSaveData.mObjectBlyData.ReadU8();
+
+                    // OG bug: the bly data can overwrite the end tlv list flag so we restore it
+                    if (pTlv->mTlvFlags.Get(relive::TlvFlags::eBit3_End_TLV_List) != isLastTlv)
+                    {
+                        LOG_WARNING("Bly data load removed end list terminator flag, putting it back");
+                        pTlv->mTlvFlags.Set(relive::TlvFlags::eBit3_End_TLV_List);
+                    }
+
+
                     pTlv->mTlvSpecificMeaning = pSaveData.mObjectBlyData.ReadU8();
                     readFlagsCount++;
+
+                    // Note: We can't check for an exact match because some OG demo saves have flags
+                    // that are not being read
+                    if (readFlagsCount > flagsTotal)
+                    {
+                        ALIVE_FATAL("Save data contains %d sets of flags but read more than that", flagsTotal);
+                    }
                 }
                 pTlv = Path::Next_TLV(pTlv);
             }
         }
-    }
-
-    if (readFlagsCount != flagsTotal)
-    {
-        ALIVE_FATAL("Bly data flags count mismatch! Expected %d got %d", flagsTotal, readFlagsCount);
     }
     ResourceManagerWrapper::LoadingLoop(false);
 }
