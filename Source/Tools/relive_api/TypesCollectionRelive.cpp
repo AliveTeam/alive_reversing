@@ -39,7 +39,7 @@ void TypesCollectionRelive::AddTlvsToJsonArray(nlohmann::json& array)
 void TypesCollectionRelive::AddReliveTypes()
 {
 #define REGISTER_TYPE_RELIVE(TlvWrapperType) mTlvFactoryRelive.DoRegisterType<TlvWrapperType>(*this)
-    REGISTER_TYPE_RELIVE(relive::Editor_TimedMine);
+    //REGISTER_TYPE_RELIVE(relive::Editor_TimedMine);
     /* REGISTER_TYPE_RELIVE(relive::Path_ElectricWall);
     REGISTER_TYPE_RELIVE(relive::Path_Mudokon);
     REGISTER_TYPE_RELIVE(relive::Path_BirdPortal);

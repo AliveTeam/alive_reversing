@@ -5,6 +5,7 @@
 #include "../../relive_lib/data_conversion/relive_tlvs.hpp"
 #include "../../relive_lib/AnimResources.hpp"
 
+#include <type_traits>
 
 #define CTOR_RELIVE(editorClassName, pathClassName, tlvEnumType)\
     editorClassName() : TlvObjectBaseRelive(sizeof(relive::pathClassName), tlvEnumType, relive::pathClassName::kClassName, &mTlv)\
@@ -33,14 +34,67 @@
 namespace relive
 {
 
-struct Editor_TimedMine final : public ReliveAPI::TlvObjectBaseRelive
+enum class FieldType
 {
+    Field_U16,
+    Field_S16,
+};
+
+struct TypeDescription
+{
+    const char* mFieldName;
+    FieldType mFieldType;
+    u32 mFieldOffset;
+};
+
+template<typename T>
+constexpr FieldType FieldPointerToFieldType();
+
+template<>
+constexpr FieldType FieldPointerToFieldType<u16*>()
+{
+    return FieldType::Field_U16;
+}
+
+template<>
+constexpr FieldType FieldPointerToFieldType<s16*>()
+{
+    return FieldType::Field_S16;
+}
+
+template<>
+constexpr FieldType FieldPointerToFieldType<relive::reliveScale*>()
+{
+    return FieldPointerToFieldType<std::add_pointer_t<std::underlying_type_t<relive::reliveScale>>>();
+}
+
+// 0x1 is an arbitary non nullptr address as subtracting a nullptr is apparently UB
+#define DEFINE_FIELD(editor_name,typeName,memberName) { editor_name, FieldPointerToFieldType<decltype(std::addressof(((typeName*)0x1)->memberName))>(), static_cast<u32>(std::addressof(((typeName*)0x1)->memberName) - ((decltype(std::addressof(((typeName*)0x1)->memberName)))0x1)) }
+
+struct Editor_TimedMine final
+{
+    /*
     CTOR_RELIVE(Editor_TimedMine, Path_TimedMine, ReliveTypes::eTimedMine)
     {
         ADD("Scale", mTlv.mScale);
         ADD("Ticks Before Explosion", mTlv.mTicksUntilExplosion);
     }
+    */
+
+    relive::Path_TimedMine mTlv;
+    static const TypeDescription mSaveData[];
 };
+
+
+const TypeDescription Editor_TimedMine::mSaveData[] =
+{
+    // TODO, some macro to insert all the base fields
+    //DEFINE_FIELD("Top left m8", relive::Path_TLV, mTopLeftX, FieldType::Field_U32 ),
+
+    DEFINE_FIELD("Scale", relive::Editor_TimedMine, mTlv.mScale ),
+    DEFINE_FIELD("Ticks Before Explosion", relive::Editor_TimedMine, mTlv.mTicksUntilExplosion ),
+};
+
 
 /*
 struct Path_ElectricWall final : public ReliveAPI::TlvObjectBaseRelive
