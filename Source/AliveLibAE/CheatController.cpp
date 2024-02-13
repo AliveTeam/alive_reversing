@@ -72,6 +72,7 @@ void CheatController_Cheat_PathSkip()
         ALIVE_FATAL("Save file is empty");
     }
 
+    LOG_INFO("Loading path skip cheat save %s", nameBuffer);
     nlohmann::json j = nlohmann::json::parse(jsonStr);
     QuikSave::gActiveQuicksaveData = {};
     from_json(j, QuikSave::gActiveQuicksaveData);

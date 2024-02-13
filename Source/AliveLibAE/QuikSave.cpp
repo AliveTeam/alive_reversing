@@ -347,7 +347,6 @@ void QuikSave::RestoreBlyData(Quicksave& pSaveData)
     while (pSaveData.mObjectsStateData.CanRead())
     {
         const SaveStateBase* pSaveStateBase = pSaveData.mObjectsStateData.PeekTmpPtr<SaveStateBase>();
-        LOG_INFO("Restore type %d with size %d", pSaveStateBase->mType, pSaveStateBase->mSize);
         RestoreObjectState(pSaveStateBase->mType, pSaveData.mObjectsStateData);
     }
 
@@ -367,16 +366,16 @@ void QuikSave::RestoreBlyData(Quicksave& pSaveData)
                     pTlv->mTlvFlags.Raw().all = pSaveData.mObjectBlyData.ReadU8();
                     pTlv->mTlvSpecificMeaning = pSaveData.mObjectBlyData.ReadU8();
                     readFlagsCount++;
-                    if (readFlagsCount > flagsTotal)
-                    {
-                        ALIVE_FATAL("Data contains %d sets of flags but read more than that", flagsTotal);
-                    }
                 }
                 pTlv = Path::Next_TLV(pTlv);
             }
         }
     }
 
+    if (readFlagsCount != flagsTotal)
+    {
+        ALIVE_FATAL("Bly data flags count mismatch! Expected %d got %d", flagsTotal, readFlagsCount);
+    }
     ResourceManagerWrapper::LoadingLoop(false);
 }
 

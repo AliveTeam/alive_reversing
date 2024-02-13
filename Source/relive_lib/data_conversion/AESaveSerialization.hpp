@@ -3072,16 +3072,16 @@ static inline nlohmann::json WriteObjectBlyJson(const Quicksave& q)
     // TODO: This func is likely very slow
     const u32 flagsCount = q.mObjectBlyData.ReadU32();
 
-    std::vector<u8> tlvData;
-    // Flags and TLV specific meaning byte
-    tlvData.reserve(flagsCount * 2);
+    nlohmann::json j = nlohmann::json::array();
 
+    j.push_back(flagsCount);
+    // Flags and TLV specific meaning byte
     for (u32 i = 0; i < flagsCount * 2; i++)
     {
-        tlvData.emplace_back(q.mObjectBlyData.ReadU8());
+        j.push_back(q.mObjectBlyData.ReadU8());
     }
 
-    return tlvData;
+    return j;
 }
 
 inline void to_json(nlohmann::json& j, const Quicksave& p)
@@ -3269,12 +3269,14 @@ static inline void ReadObjectStateJson(const nlohmann::json& j, SerializedObject
 // TODO: Not AE specific move out of here
 static inline void ReadObjectBlyJson(const nlohmann::json& j, Quicksave& q)
 {
-    const u32 flagsCount = static_cast<u32>(j.at("object_bly_data").size());
+    // Remove the first element since it's the flags count and divide by 2 because 1 flag has 2 fields/elements
+    const u32 flagsCount = static_cast<u32>((j.at("object_bly_data").size() - 1) / 2);
 
     q.mObjectBlyData.WriteRewind();
     q.mObjectBlyData.WriteU32(flagsCount);
-    for (const auto& state : j["object_bly_data"])
+    for (s32 i = 1; i < j["object_bly_data"].size(); i++)
     {
+        const auto& state = j["object_bly_data"].at(i);
         q.mObjectBlyData.WriteU8(state);
     }
 }

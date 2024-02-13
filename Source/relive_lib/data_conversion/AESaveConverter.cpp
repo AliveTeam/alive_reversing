@@ -13,6 +13,9 @@ enum class LevelIds : s16;
 
 static void ConvertOGBlyData(nlohmann::json& j, std::vector<std::unique_ptr<BinaryPath>>& paths, const u8* pSrcFlags)
 {
+    u32 flagsCount = 0;
+    std::vector<u8> srcFlags;
+
     for (auto& binaryPath : paths)
     {
         for (auto& cam : binaryPath->GetCameras())
@@ -24,20 +27,12 @@ static void ConvertOGBlyData(nlohmann::json& j, std::vector<std::unique_ptr<Bina
                 {
                     // TODO: Obtain the guid
                     // Guid::NewGuidFromTlvInfo(pTlv->);
+                    flagsCount++;
 
-                    const bool terminatorFlagOn = pTlv->mTlvFlags.Get(relive::TlvFlags::eBit3_End_TLV_List);
-                    pTlv->mTlvFlags.Raw().all = *pSrcFlags;
-                    j.push_back(pTlv->mTlvFlags.Raw().all);
+                    srcFlags.push_back(*pSrcFlags); // mTlvFlags.Raw().all
                     pSrcFlags++;
                     
-                    if (terminatorFlagOn && !pTlv->mTlvFlags.Get(relive::TlvFlags::eBit3_End_TLV_List))
-                    {
-                        LOG_WARNING("Save data removed list terminator flag, putting it back");
-                        pTlv->mTlvFlags.Set(relive::TlvFlags::eBit3_End_TLV_List);
-                    }
-
-                    pTlv->mTlvSpecificMeaning = *pSrcFlags;
-                    j.push_back(pTlv->mTlvSpecificMeaning);
+                    srcFlags.push_back(*pSrcFlags); // mTlvSpecificMeaning
                     pSrcFlags++;
 
                     // TODO: Add an entry to the json with the object guid and the flags/specific meaning data
@@ -45,6 +40,12 @@ static void ConvertOGBlyData(nlohmann::json& j, std::vector<std::unique_ptr<Bina
                 pTlv = Path::Next_TLV(pTlv);
             }
         }
+    }
+
+    j.push_back(flagsCount);
+    for (const auto& flag : srcFlags)
+    {
+        j.push_back(flag);
     }
 }
 
