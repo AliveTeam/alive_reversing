@@ -40,25 +40,55 @@ struct TypeDescription;
 class MapObjectBase
 {
 public:
-    MapObjectBase(const relive::TypeDescription* pTypes, u32 count)
-     : mTypes(pTypes), mCount(count)
+    MapObjectBase(relive::Path_TLV* pTlv, const relive::TypeDescription* pTypes, u32 count)
+     : mBaseTlv(pTlv), mTypes(pTypes), mCount(count)
     {
 
     }
 
+    relive::Path_TLV* mBaseTlv = nullptr;
     const relive::TypeDescription* mTypes = nullptr;
     u32 mCount = 0;
-    /*
-    MapObjectBase(ReliveTypes tlvType)
-        : mType(tlvType)
+
+    void SetXPos(s32 xpos)
     {
 
     }
 
+    void SetYPos(s32 ypos)
+    {
 
-    ReliveTypes mType = ReliveTypes::eNone;
-    */
+    }
 
+    void SetWidth(s32 width)
+    {
+
+    }
+
+    void SetHeight(s32 height)
+    {
+
+    }
+
+    s32 XPos() const
+    {
+
+    }
+
+    s32 YPos() const
+    {
+
+    }
+
+    s32 Width() const
+    {
+
+    }
+
+    s32 Height() const
+    {
+
+    }
 };
 
 namespace relive

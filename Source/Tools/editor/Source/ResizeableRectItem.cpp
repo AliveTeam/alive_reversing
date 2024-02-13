@@ -377,25 +377,21 @@ void ResizeableRectItem::SetRect(const QRectF& rect)
 }
 
 void ResizeableRectItem::SyncFromMapObject()
-{ 
-    /*
+{
     setX(mMapObject->XPos());
     setY(mMapObject->YPos());
     setWidth(mMapObject->Width());
     setHeight(mMapObject->Height());
     UpdateIcon();
-    */
 }
 
 void ResizeableRectItem::SyncToMapObject()
 {
-    /*
     mMapObject->SetXPos(static_cast<int>(pos().x()));
     mMapObject->SetYPos(static_cast<int>(pos().y()));
     mMapObject->SetWidth(mWidth);
     mMapObject->SetHeight(mHeight);
     UpdateIcon();
-    */
 }
 
 void ResizeableRectItem::PosOrRectChanged()

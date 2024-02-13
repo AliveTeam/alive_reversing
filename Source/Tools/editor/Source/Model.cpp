@@ -15,7 +15,7 @@ const relive::TypeDescription relive::Editor_TimedMine::mSaveData[] =
 };
 
 relive::Editor_TimedMine::Editor_TimedMine()
- : MapObjectBase(mSaveData, ALIVE_COUNTOF(Editor_TimedMine::mSaveData))
+ : MapObjectBase(&mTlv, mSaveData, ALIVE_COUNTOF(Editor_TimedMine::mSaveData))
 {
 
 }
