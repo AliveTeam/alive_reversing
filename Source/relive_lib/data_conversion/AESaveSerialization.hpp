@@ -3274,7 +3274,7 @@ static inline void ReadObjectBlyJson(const nlohmann::json& j, Quicksave& q)
 
     q.mObjectBlyData.WriteRewind();
     q.mObjectBlyData.WriteU32(flagsCount);
-    for (s32 i = 1; i < j["object_bly_data"].size(); i++)
+    for (size_t i = 1; i < j["object_bly_data"].size(); i++)
     {
         const auto& state = j["object_bly_data"].at(i);
         q.mObjectBlyData.WriteU8(state);
