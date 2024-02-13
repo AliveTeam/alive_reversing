@@ -799,6 +799,32 @@ static void ConvertFont(const FileSystem::Path& dataDir, const std::string& file
      // TODO: Dump out the atlas for each char
 }
 
+static bool IsUnusedSaveFile(const std::string& saveName)
+{
+     static const char* unusedSaves[] = {
+                                         // Demo playback saves
+                                         "ATTR0011.SAV",
+                                         "ATTR0013.SAV",
+                                         "ATTR0020.SAV",
+                                         "ATTR0021.SAV",
+                                         "ATTR0026.SAV",
+                                         
+                                         // Path skip cheat saves
+                                         "NXTP0000.SAV",
+                                         "NXTP0001.SAV",
+                                         "NXTP0323.SAV",
+                                         "NXTP0422.SAV"};
+
+     for (const auto& unusedSave : unusedSaves)
+     {
+         if (unusedSave == saveName)
+         {
+             return true;
+         }
+     }
+     return false;
+}
+
 template<typename LevelIdType, typename TlvType>
 static void ConvertFilesInLvl(ThreadPool& tp, const FileSystem::Path& dataDir, FileSystem& fs, ReliveAPI::LvlReader& lvlReader, std::vector<u8>& fileBuffer, LevelIdType lvlIdxAsLvl, EReliveLevelIds reliveLvl, const DataConversion::DataVersions& dv, bool isAo, bool onlySaves)
 {
@@ -814,6 +840,11 @@ static void ConvertFilesInLvl(ThreadPool& tp, const FileSystem::Path& dataDir, F
                 // caller checks if save conv is enabled
                 if (endsWith(fileName, ".SAV"))
                 {
+                    if (IsUnusedSaveFile(fileName))
+                    {
+                        continue;
+                    }
+
                     if (ReadLvlFileInto(lvlReader, fileName.c_str(), fileBuffer))
                     {
                         if (!isAo)
