@@ -151,11 +151,9 @@ struct Editor_TimedMine final : public MapObjectBase
     static const TypeDescription mSaveData[];
 };
 
-
-
-/*
-struct Path_ElectricWall final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_ElectricWall final : public MapObjectBase
 {
+    /*
     void AddTypes(ReliveAPI::TypesCollectionBase& types) override
     {
         types.AddEnum<relive::Path_ElectricWall::ElectricWallStartState>("Enum_ElectricWallStartState",
@@ -171,10 +169,12 @@ struct Path_ElectricWall final : public ReliveAPI::TlvObjectBaseRelive
         ADD("Switch ID", mTlv.mSwitchId);
         ADD("Start State", mTlv.mStartState);
     }
+    */
 };
 
-struct Path_Mudokon final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_Mudokon final : public MapObjectBase
 {
+    /*
     void AddTypes(ReliveAPI::TypesCollectionBase& types) override
     {
         types.AddEnum<relive::Path_Mudokon::Mud_TLV_Emotion>("Enum_Mud_TLV_Emotion",
@@ -214,10 +214,12 @@ struct Path_Mudokon final : public ReliveAPI::TlvObjectBaseRelive
         ADD("Ring Pulse Interval", mTlv.mRingPulseInterval);
         ADD("Give RIng Without Password", mTlv.mGiveRingWithoutPassword);
     }
+    */
 };
 
-struct Path_BirdPortal final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_BirdPortal final : public MapObjectBase
 {
+    /*
     void AddTypes(ReliveAPI::TypesCollectionBase& types) override
     {
         types.AddEnum<relive::Path_BirdPortal::PortalType>("Enum_PortalType",
@@ -242,20 +244,24 @@ struct Path_BirdPortal final : public ReliveAPI::TlvObjectBaseRelive
         ADD("(AE) Create Portal Switch ID", mTlv.mCreatePortalSwitchId);
         ADD("(AE) Delete Portal Switch ID", mTlv.mDeletePortalSwitchId);
     }
+    */
 };
 
-struct Path_LCDStatusBoard final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_LCDStatusBoard final : public MapObjectBase
 {
+    /*
     CTOR_RELIVE(relive::Path_LCDStatusBoard, ReliveTypes::eLCDStatusBoard)
     {
         ADD("(AE) Number Of Mudokons", mTlv.mNumberOfMuds);
         ADD("(AE) Zulag Number", mTlv.mZulagNumber);
         ADD("(AE) Hide Board", mTlv.mHideBoard);
     }
+    */
 };
 
-struct Path_Door final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_Door final : public MapObjectBase
 {
+    /*
     void AddTypes(ReliveAPI::TypesCollectionBase& types) override
     {
         types.AddEnum<relive::Path_Door::DoorStates>("Enum_DoorStates",
@@ -300,9 +306,11 @@ struct Path_Door final : public ReliveAPI::TlvObjectBaseRelive
         ADD("(AE) Close On Exit", mTlv.mCloseOnExit);
         ADD("(AE) Clear Throwables", mTlv.mClearThrowables);
     }
+    */
 };
 
-struct Path_Lever final : public ReliveAPI::TlvObjectBaseRelive
+/*
+struct Editor_Lever final : public MapObjectBase
 {
     void AddTypes(ReliveAPI::TypesCollectionBase& types) override
     {
@@ -337,7 +345,7 @@ struct Path_Lever final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_Hoist final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_Hoist final : public MapObjectBase
 {
     void AddTypes(ReliveAPI::TypesCollectionBase& types) override
     {
@@ -363,7 +371,7 @@ struct Path_Hoist final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_BoomMachine final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_BoomMachine final : public MapObjectBase
 {
     void AddTypes(ReliveAPI::TypesCollectionBase& types) override
     {
@@ -382,7 +390,7 @@ struct Path_BoomMachine final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_Slig final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_Slig final : public MapObjectBase
 {
     CTOR_RELIVE(relive::Path_Slig, ReliveTypes::eSlig)
     {
@@ -421,7 +429,7 @@ struct Path_Slig final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_Fleech final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_Fleech final : public MapObjectBase
 {
     CTOR_RELIVE(relive::Path_Fleech, ReliveTypes::eFleech)
     {
@@ -440,7 +448,7 @@ struct Path_Fleech final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_EnemyStopper final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_EnemyStopper final : public MapObjectBase
 {
     void AddTypes(ReliveAPI::TypesCollectionBase& types) override
     {
@@ -459,7 +467,7 @@ struct Path_EnemyStopper final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_Teleporter final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_Teleporter final : public MapObjectBase
 {
     CTOR_RELIVE(relive::Path_Teleporter, ReliveTypes::eTeleporter)
     {
@@ -477,7 +485,7 @@ struct Path_Teleporter final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_UXB final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_UXB final : public MapObjectBase
 {
     void AddTypes(ReliveAPI::TypesCollectionBase& types) override
     {
@@ -497,7 +505,7 @@ struct Path_UXB final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_LCDScreen final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_LCDScreen final : public MapObjectBase
 {
     CTOR_RELIVE(relive::Path_LCDScreen, ReliveTypes::eLCDScreen)
     {
@@ -509,7 +517,7 @@ struct Path_LCDScreen final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_Edge final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_Edge final : public MapObjectBase
 {
     void AddTypes(ReliveAPI::TypesCollectionBase& types) override
     {
@@ -529,7 +537,7 @@ struct Path_Edge final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_StatusLight final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_StatusLight final : public MapObjectBase
 {
     CTOR_RELIVE(relive::Path_StatusLight, ReliveTypes::eStatusLight)
     {
@@ -544,7 +552,7 @@ struct Path_StatusLight final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_ShadowZone final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_ShadowZone final : public MapObjectBase
 {
     void AddTypes(ReliveAPI::TypesCollectionBase& types) override
     {
@@ -565,7 +573,7 @@ struct Path_ShadowZone final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_WorkWheel final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_WorkWheel final : public MapObjectBase
 {
     CTOR_RELIVE(relive::Path_WorkWheel, ReliveTypes::eWorkWheel)
     {
@@ -577,7 +585,7 @@ struct Path_WorkWheel final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_MusicTrigger final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_MusicTrigger final : public MapObjectBase
 {
     void AddTypes(ReliveAPI::TypesCollectionBase& types) override
     {
@@ -610,7 +618,7 @@ struct Path_MusicTrigger final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_AbeStart final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_AbeStart final : public MapObjectBase
 {
     CTOR_RELIVE(relive::Path_AbeStart, ReliveTypes::eAbeStart)
     {
@@ -618,7 +626,7 @@ struct Path_AbeStart final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_SoftLanding final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_SoftLanding final : public MapObjectBase
 {
     CTOR_RELIVE(relive::Path_SoftLanding, ReliveTypes::eSoftLanding)
     {
@@ -626,7 +634,7 @@ struct Path_SoftLanding final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_WellExpress final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_WellExpress final : public MapObjectBase
 {
     CTOR_RELIVE(relive::Path_WellExpress, ReliveTypes::eWellExpress)
     {
@@ -654,7 +662,7 @@ struct Path_WellExpress final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_SlamDoor final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_SlamDoor final : public MapObjectBase
 {
     CTOR_RELIVE(relive::Path_SlamDoor, ReliveTypes::eSlamDoor)
     {
@@ -666,7 +674,7 @@ struct Path_SlamDoor final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_HandStone final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_HandStone final : public MapObjectBase
 {
     CTOR_RELIVE(relive::Path_HandStone, ReliveTypes::eHandStone)
     {
@@ -685,7 +693,7 @@ struct Path_HandStone final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_LaughingGas final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_LaughingGas final : public MapObjectBase
 {
     CTOR_RELIVE(relive::Path_LaughingGas, ReliveTypes::eLaughingGas)
     {
@@ -697,7 +705,7 @@ struct Path_LaughingGas final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_InvisibleSwitch final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_InvisibleSwitch final : public MapObjectBase
 {
     void AddTypes(ReliveAPI::TypesCollectionBase& types) override
     {
@@ -719,7 +727,7 @@ struct Path_InvisibleSwitch final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_Water final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_Water final : public MapObjectBase
 {
     CTOR_RELIVE(relive::Path_Water, ReliveTypes::eWater)
     {
@@ -731,7 +739,7 @@ struct Path_Water final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_GasEmitter final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_GasEmitter final : public MapObjectBase
 {
     void AddTypes(ReliveAPI::TypesCollectionBase& types) override
     {
@@ -752,7 +760,7 @@ struct Path_GasEmitter final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_BackgroundAnimation final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_BackgroundAnimation final : public MapObjectBase
 {
     void AddTypes(ReliveAPI::TypesCollectionBase& types) override
     {
@@ -787,7 +795,7 @@ struct Path_BackgroundAnimation final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_LiftPoint final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_LiftPoint final : public MapObjectBase
 {
     void AddTypes(ReliveAPI::TypesCollectionBase& types) override
     {
@@ -811,7 +819,7 @@ struct Path_LiftPoint final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_PullRingRope final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_PullRingRope final : public MapObjectBase
 {
     void AddTypes(ReliveAPI::TypesCollectionBase& types) override
     {
@@ -843,7 +851,7 @@ struct Path_PullRingRope final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_MultiSwitchController final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_MultiSwitchController final : public MapObjectBase
 {
     CTOR_RELIVE(relive::Path_MultiSwitchController, ReliveTypes::eMultiSwitchController)
     {
@@ -859,7 +867,7 @@ struct Path_MultiSwitchController final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_SecurityOrb final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_SecurityOrb final : public MapObjectBase
 {
     CTOR_RELIVE(relive::Path_SecurityOrb, ReliveTypes::eSecurityOrb)
     {
@@ -867,7 +875,7 @@ struct Path_SecurityOrb final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_InvisibleZone final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_InvisibleZone final : public MapObjectBase
 {
     CTOR_RELIVE(relive::Path_InvisibleZone, ReliveTypes::eInvisibleZone)
     {
@@ -875,7 +883,7 @@ struct Path_InvisibleZone final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_ContinuePoint final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_ContinuePoint final : public MapObjectBase
 {
     void AddTypes(ReliveAPI::TypesCollectionBase& types) override
     {
@@ -899,7 +907,7 @@ struct Path_ContinuePoint final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_WheelSyncer final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_WheelSyncer final : public MapObjectBase
 {
     void AddTypes(ReliveAPI::TypesCollectionBase& types) override
     {
@@ -925,7 +933,7 @@ struct Path_WheelSyncer final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_LevelLoader final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_LevelLoader final : public MapObjectBase
 {
     CTOR_RELIVE(relive::Path_LevelLoader, ReliveTypes::eLevelLoader)
     {
@@ -937,7 +945,7 @@ struct Path_LevelLoader final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_Pulley final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_Pulley final : public MapObjectBase
 {
     CTOR_RELIVE(relive::Path_Pulley, ReliveTypes::ePulley)
     {
@@ -945,7 +953,7 @@ struct Path_Pulley final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_FlyingSlig final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_FlyingSlig final : public MapObjectBase
 {
     CTOR_RELIVE(relive::Path_FlyingSlig, ReliveTypes::eFlyingSlig)
     {
@@ -968,7 +976,7 @@ struct Path_FlyingSlig final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_FlyingSligSpawner final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_FlyingSligSpawner final : public MapObjectBase
 {
     CTOR_RELIVE(relive::Path_FlyingSligSpawner, ReliveTypes::eFlyingSligSpawner)
     {
@@ -991,7 +999,7 @@ struct Path_FlyingSligSpawner final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_DeathDrop final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_DeathDrop final : public MapObjectBase
 {
     CTOR_RELIVE(relive::Path_DeathDrop, ReliveTypes::eDeathDrop)
     {
@@ -999,7 +1007,7 @@ struct Path_DeathDrop final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_SligSpawner final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_SligSpawner final : public MapObjectBase
 {
     CTOR_RELIVE(relive::Path_SligSpawner, ReliveTypes::eSligSpawner)
     {
@@ -1038,7 +1046,7 @@ struct Path_SligSpawner final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_SligBoundLeft final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_SligBoundLeft final : public MapObjectBase
 {
     CTOR_RELIVE(relive::Path_SligBoundLeft, ReliveTypes::eSligBoundLeft)
     {
@@ -1046,7 +1054,7 @@ struct Path_SligBoundLeft final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_SligBoundRight final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_SligBoundRight final : public MapObjectBase
 {
     CTOR_RELIVE(relive::Path_SligBoundRight, ReliveTypes::eSligBoundRight)
     {
@@ -1054,7 +1062,7 @@ struct Path_SligBoundRight final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_SligPersist final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_SligPersist final : public MapObjectBase
 {
     CTOR_RELIVE(relive::Path_SligPersist, ReliveTypes::eSligPersist)
     {
@@ -1062,7 +1070,7 @@ struct Path_SligPersist final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_ZSligCover final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_ZSligCover final : public MapObjectBase
 {
     CTOR_RELIVE(relive::Path_ZSligCover, ReliveTypes::eZSligCover)
     {
@@ -1070,7 +1078,7 @@ struct Path_ZSligCover final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_WellLocal final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_WellLocal final : public MapObjectBase
 {
     CTOR_RELIVE(relive::Path_WellLocal, ReliveTypes::eWellLocal)
     {
@@ -1093,7 +1101,7 @@ struct Path_WellLocal final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_BrewMachine final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_BrewMachine final : public MapObjectBase
 {
     CTOR_RELIVE(relive::Path_BrewMachine, ReliveTypes::eBrewMachine)
     {
@@ -1101,7 +1109,7 @@ struct Path_BrewMachine final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_Drill final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_Drill final : public MapObjectBase
 {
     void AddTypes(ReliveAPI::TypesCollectionBase& types) override
     {
@@ -1137,7 +1145,7 @@ struct Path_Drill final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_Mine final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_Mine final : public MapObjectBase
 {
     CTOR_RELIVE(relive::Path_Mine, ReliveTypes::eMine)
     {
@@ -1146,7 +1154,7 @@ struct Path_Mine final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_Slog final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_Slog final : public MapObjectBase
 {
     CTOR_RELIVE(relive::Path_Slog, ReliveTypes::eSlog)
     {
@@ -1162,7 +1170,7 @@ struct Path_Slog final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_ResetPath final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_ResetPath final : public MapObjectBase
 {
     CTOR_RELIVE(relive::Path_ResetPath, ReliveTypes::eResetPath)
     {
@@ -1176,7 +1184,7 @@ struct Path_ResetPath final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_TrapDoor final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_TrapDoor final : public MapObjectBase
 {
     void AddTypes(ReliveAPI::TypesCollectionBase& types) override
     {
@@ -1197,7 +1205,7 @@ struct Path_TrapDoor final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_PathTransition final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_PathTransition final : public MapObjectBase
 {
     CTOR_RELIVE(relive::Path_PathTransition, ReliveTypes::ePathTransition)
     {
@@ -1210,7 +1218,7 @@ struct Path_PathTransition final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_LiftMover final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_LiftMover final : public MapObjectBase
 {
     void AddTypes(ReliveAPI::TypesCollectionBase& types) override
     {
@@ -1229,7 +1237,7 @@ struct Path_LiftMover final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_RockSack final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_RockSack final : public MapObjectBase
 {
     CTOR_RELIVE(relive::Path_RockSack, ReliveTypes::eRockSack)
     {
@@ -1241,7 +1249,7 @@ struct Path_RockSack final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_TimerTrigger final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_TimerTrigger final : public MapObjectBase
 {
     CTOR_RELIVE(relive::Path_TimerTrigger, ReliveTypes::eTimerTrigger)
     {
@@ -1254,7 +1262,7 @@ struct Path_TimerTrigger final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_MotionDetector final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_MotionDetector final : public MapObjectBase
 {
     void AddTypes(ReliveAPI::TypesCollectionBase& types) override
     {
@@ -1279,7 +1287,7 @@ struct Path_MotionDetector final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_MineCar final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_MineCar final : public MapObjectBase
 {
     CTOR_RELIVE(relive::Path_MineCar, ReliveTypes::eMineCar)
     {
@@ -1287,7 +1295,7 @@ struct Path_MineCar final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_ExplosionSet final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_ExplosionSet final : public MapObjectBase
 {
     CTOR_RELIVE(relive::Path_ExplosionSet, ReliveTypes::eExplosionSet)
     {
@@ -1303,7 +1311,7 @@ struct Path_ExplosionSet final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_ColourfulMeter final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_ColourfulMeter final : public MapObjectBase
 {
     CTOR_RELIVE(relive::Path_ColourfulMeter, ReliveTypes::eColourfulMeter)
     {
@@ -1314,7 +1322,7 @@ struct Path_ColourfulMeter final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_Alarm final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_Alarm final : public MapObjectBase
 {
     CTOR_RELIVE(relive::Path_Alarm, ReliveTypes::eAlarm)
     {
@@ -1323,7 +1331,7 @@ struct Path_Alarm final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_DemoSpawnPoint final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_DemoSpawnPoint final : public MapObjectBase
 {
     CTOR_RELIVE(relive::Path_DemoSpawnPoint, ReliveTypes::eDemoSpawnPoint)
     {
@@ -1331,7 +1339,7 @@ struct Path_DemoSpawnPoint final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_SlapLock final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_SlapLock final : public MapObjectBase
 {
     CTOR_RELIVE(relive::Path_SlapLock, ReliveTypes::eSlapLock)
     {
@@ -1345,7 +1353,7 @@ struct Path_SlapLock final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_Slurg final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_Slurg final : public MapObjectBase
 {
     CTOR_RELIVE(relive::Path_Slurg, ReliveTypes::eSlurg)
     {
@@ -1356,7 +1364,7 @@ struct Path_Slurg final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_DoorBlocker final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_DoorBlocker final : public MapObjectBase
 {
     CTOR_RELIVE(relive::Path_DoorBlocker, ReliveTypes::eDoorBlocker)
     {
@@ -1365,7 +1373,7 @@ struct Path_DoorBlocker final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_Dove final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_Dove final : public MapObjectBase
 {
     CTOR_RELIVE(relive::Path_Dove, ReliveTypes::eDove)
     {
@@ -1375,7 +1383,7 @@ struct Path_Dove final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_BirdPortalExit final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_BirdPortalExit final : public MapObjectBase
 {
     CTOR_RELIVE(relive::Path_BirdPortalExit, ReliveTypes::eBirdPortalExit)
     {
@@ -1384,7 +1392,7 @@ struct Path_BirdPortalExit final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_DoorFlame final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_DoorFlame final : public MapObjectBase
 {
     void AddTypes(ReliveAPI::TypesCollectionBase& types) override
     {
@@ -1405,7 +1413,7 @@ struct Path_DoorFlame final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_TrainDoor final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_TrainDoor final : public MapObjectBase
 {
     CTOR_RELIVE(relive::Path_TrainDoor, ReliveTypes::eTrainDoor)
     {
@@ -1413,7 +1421,7 @@ struct Path_TrainDoor final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_Greeter final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_Greeter final : public MapObjectBase
 {
     CTOR_RELIVE(relive::Path_Greeter, ReliveTypes::eGreeter)
     {
@@ -1423,7 +1431,7 @@ struct Path_Greeter final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_ScrabBoundLeft final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_ScrabBoundLeft final : public MapObjectBase
 {
     CTOR_RELIVE(relive::Path_ScrabBoundLeft, ReliveTypes::eScrabLeftBound)
     {
@@ -1431,7 +1439,7 @@ struct Path_ScrabBoundLeft final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_ScrabBoundRight final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_ScrabBoundRight final : public MapObjectBase
 {
     CTOR_RELIVE(relive::Path_ScrabBoundRight, ReliveTypes::eScrabRightBound)
     {
@@ -1439,7 +1447,7 @@ struct Path_ScrabBoundRight final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_CreditsController final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_CreditsController final : public MapObjectBase
 {
     CTOR_RELIVE(relive::Path_CreditsController, ReliveTypes::eCreditsController)
     {
@@ -1447,7 +1455,7 @@ struct Path_CreditsController final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_MovieStone final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_MovieStone final : public MapObjectBase
 {
     CTOR_RELIVE(relive::Path_MovieStone, ReliveTypes::eMovieHandStone)
     {
@@ -1457,7 +1465,7 @@ struct Path_MovieStone final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_MovingBomb final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_MovingBomb final : public MapObjectBase
 {
     CTOR_RELIVE(relive::Path_MovingBomb, ReliveTypes::eMovingBomb)
     {
@@ -1470,7 +1478,7 @@ struct Path_MovingBomb final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_MovingBombStopper final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_MovingBombStopper final : public MapObjectBase
 {
     CTOR_RELIVE(relive::Path_MovingBombStopper, ReliveTypes::eMovingBombStopper)
     {
@@ -1479,7 +1487,7 @@ struct Path_MovingBombStopper final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_SecurityDoor final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_SecurityDoor final : public MapObjectBase
 {
     CTOR_RELIVE(relive::Path_SecurityDoor, ReliveTypes::eSecurityDoor)
     {
@@ -1492,7 +1500,7 @@ struct Path_SecurityDoor final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_CrawlingSlig final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_CrawlingSlig final : public MapObjectBase
 {
     void AddTypes(ReliveAPI::TypesCollectionBase& types) override
     {
@@ -1520,7 +1528,7 @@ struct Path_CrawlingSlig final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_SligGetPants final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_SligGetPants final : public MapObjectBase
 {
     CTOR_RELIVE(relive::Path_SligGetPants, ReliveTypes::eSligGetPants)
     {
@@ -1559,7 +1567,7 @@ struct Path_SligGetPants final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_SligGetWings final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_SligGetWings final : public MapObjectBase
 {
     CTOR_RELIVE(relive::Path_SligGetWings, ReliveTypes::eSligGetWings)
     {
@@ -1582,7 +1590,7 @@ struct Path_SligGetWings final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_CrawlingSligButton final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_CrawlingSligButton final : public MapObjectBase
 {
     void AddTypes(ReliveAPI::TypesCollectionBase& types) override
     {
@@ -1610,7 +1618,7 @@ struct Path_CrawlingSligButton final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_Glukkon final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_Glukkon final : public MapObjectBase
 {
     void AddTypes(ReliveAPI::TypesCollectionBase& types) override
     {
@@ -1661,7 +1669,7 @@ struct Path_Glukkon final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_GlukkonSwitch final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_GlukkonSwitch final : public MapObjectBase
 {
     CTOR_RELIVE(relive::Path_GlukkonSwitch, ReliveTypes::eGlukkonSwitch)
     {
@@ -1673,7 +1681,7 @@ struct Path_GlukkonSwitch final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_GasCountDown final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_GasCountDown final : public MapObjectBase
 {
     CTOR_RELIVE(relive::Path_GasCountDown, ReliveTypes::eGasCountDown)
     {
@@ -1683,7 +1691,7 @@ struct Path_GasCountDown final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_FallingItem final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_FallingItem final : public MapObjectBase
 {
     CTOR_RELIVE(relive::Path_FallingItem, ReliveTypes::eFallingItem)
     {
@@ -1695,7 +1703,7 @@ struct Path_FallingItem final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_BoneBag final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_BoneBag final : public MapObjectBase
 {
     CTOR_RELIVE(relive::Path_BoneBag, ReliveTypes::eBoneBag)
     {
@@ -1707,7 +1715,7 @@ struct Path_BoneBag final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_SecurityClaw final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_SecurityClaw final : public MapObjectBase
 {
     CTOR_RELIVE(relive::Path_SecurityClaw, ReliveTypes::eSecurityClaw)
     {
@@ -1717,7 +1725,7 @@ struct Path_SecurityClaw final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_FootSwitch final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_FootSwitch final : public MapObjectBase
 {
     void AddTypes(ReliveAPI::TypesCollectionBase& types) override
     {
@@ -1737,7 +1745,7 @@ struct Path_FootSwitch final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_ZzzSpawner final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_ZzzSpawner final : public MapObjectBase
 {
     CTOR_RELIVE(relive::Path_ZzzSpawner, ReliveTypes::eZzzSpawner)
     {
@@ -1747,7 +1755,7 @@ struct Path_ZzzSpawner final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_SlogSpawner final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_SlogSpawner final : public MapObjectBase
 {
     void AddTypes(ReliveAPI::TypesCollectionBase& types) override
     {
@@ -1771,7 +1779,7 @@ struct Path_SlogSpawner final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_MainMenuController final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_MainMenuController final : public MapObjectBase
 {
     CTOR_RELIVE(relive::Path_MainMenuController, ReliveTypes::eMainMenuController)
     {
@@ -1779,7 +1787,7 @@ struct Path_MainMenuController final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_Scrab final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_Scrab final : public MapObjectBase
 {
     CTOR_RELIVE(relive::Path_Scrab, ReliveTypes::eScrab)
     {
@@ -1800,7 +1808,7 @@ struct Path_Scrab final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_ScrabSpawner final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_ScrabSpawner final : public MapObjectBase
 {
     void AddTypes(ReliveAPI::TypesCollectionBase& types) override
     {
@@ -1836,7 +1844,7 @@ struct Path_ScrabSpawner final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_SlurgSpawner final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_SlurgSpawner final : public MapObjectBase
 {
     CTOR_RELIVE(relive::Path_SlurgSpawner, ReliveTypes::eSlurgSpawner)
     {
@@ -1853,7 +1861,7 @@ struct Path_SlurgSpawner final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_Paramite final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_Paramite final : public MapObjectBase
 {
     void AddTypes(ReliveAPI::TypesCollectionBase& types) override
     {
@@ -1880,7 +1888,7 @@ struct Path_Paramite final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_ParamiteWebLine final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_ParamiteWebLine final : public MapObjectBase
 {
     CTOR_RELIVE(relive::Path_ParamiteWebLine, ReliveTypes::eParamiteWebLine)
     {
@@ -1888,7 +1896,7 @@ struct Path_ParamiteWebLine final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_MeatSack final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_MeatSack final : public MapObjectBase
 {
     CTOR_RELIVE(relive::Path_MeatSack, ReliveTypes::eMeatSack)
     {
@@ -1900,7 +1908,7 @@ struct Path_MeatSack final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_TorturedMudokon final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_TorturedMudokon final : public MapObjectBase
 {
     CTOR_RELIVE(relive::Path_TorturedMudokon, ReliveTypes::eTorturedMud)
     {
@@ -1909,7 +1917,7 @@ struct Path_TorturedMudokon final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_KillUnsavedMuds final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_KillUnsavedMuds final : public MapObjectBase
 {
     CTOR_RELIVE(relive::Path_KillUnsavedMuds, ReliveTypes::eKillUnsavedMuds)
     {
@@ -1917,7 +1925,7 @@ struct Path_KillUnsavedMuds final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_BackgroundGlukkon final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_BackgroundGlukkon final : public MapObjectBase
 {
     CTOR_RELIVE(relive::Path_BackgroundGlukkon, ReliveTypes::eBackgroundGlukkon)
     {
@@ -1926,7 +1934,7 @@ struct Path_BackgroundGlukkon final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_BellsongStone final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_BellsongStone final : public MapObjectBase
 {
     void AddTypes(ReliveAPI::TypesCollectionBase& types) override
     {
@@ -1947,7 +1955,7 @@ struct Path_BellsongStone final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_LightEffect final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_LightEffect final : public MapObjectBase
 {
     void AddTypes(ReliveAPI::TypesCollectionBase& types) override
     {
@@ -1971,7 +1979,7 @@ struct Path_LightEffect final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_StartController final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_StartController final : public MapObjectBase
 {
     CTOR_RELIVE(relive::Path_StartController, ReliveTypes::eStartController)
     {
@@ -1979,7 +1987,7 @@ struct Path_StartController final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_HintFly final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_HintFly final : public MapObjectBase
 {
     CTOR_RELIVE(relive::Path_HintFly, ReliveTypes::eHintFly)
     {
@@ -1987,7 +1995,7 @@ struct Path_HintFly final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_Bat final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_Bat final : public MapObjectBase
 {
     CTOR_RELIVE(relive::Path_Bat, ReliveTypes::eBat)
     {
@@ -1998,7 +2006,7 @@ struct Path_Bat final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_BellHammer final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_BellHammer final : public MapObjectBase
 {
     CTOR_RELIVE(relive::Path_BellHammer, ReliveTypes::eBellHammer)
     {
@@ -2009,7 +2017,7 @@ struct Path_BellHammer final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_ElumPathTrans final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_ElumPathTrans final : public MapObjectBase
 {
     CTOR_RELIVE(relive::Path_ElumPathTrans, ReliveTypes::eElumPathTrans)
     {
@@ -2019,7 +2027,7 @@ struct Path_ElumPathTrans final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_ElumStart final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_ElumStart final : public MapObjectBase
 {
     CTOR_RELIVE(relive::Path_ElumStart, ReliveTypes::eElumStart)
     {
@@ -2027,7 +2035,7 @@ struct Path_ElumStart final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_ElumWall final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_ElumWall final : public MapObjectBase
 {
     CTOR_RELIVE(relive::Path_ElumWall, ReliveTypes::eElumWall)
     {
@@ -2035,7 +2043,7 @@ struct Path_ElumWall final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_RingMudokon final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_RingMudokon final : public MapObjectBase
 {
     void AddTypes(ReliveAPI::TypesCollectionBase& types) override
     {
@@ -2060,7 +2068,7 @@ struct Path_RingMudokon final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_RingCancel final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_RingCancel final : public MapObjectBase
 {
     CTOR_RELIVE(relive::Path_RingCancel, ReliveTypes::eRingCancel)
     {
@@ -2068,7 +2076,7 @@ struct Path_RingCancel final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_MeatSaw final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_MeatSaw final : public MapObjectBase
 {
     void AddTypes(ReliveAPI::TypesCollectionBase& types) override
     {
@@ -2103,7 +2111,7 @@ struct Path_MeatSaw final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_ChimeLock final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_ChimeLock final : public MapObjectBase
 {
     CTOR_RELIVE(relive::Path_ChimeLock, ReliveTypes::eChimeLock)
     {
@@ -2115,7 +2123,7 @@ struct Path_ChimeLock final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_FlintLockFire final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_FlintLockFire final : public MapObjectBase
 {
     CTOR_RELIVE(relive::Path_FlintLockFire, ReliveTypes::eFlintLockFire)
     {
@@ -2124,7 +2132,7 @@ struct Path_FlintLockFire final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_MudokonPathTrans final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_MudokonPathTrans final : public MapObjectBase
 {
     CTOR_RELIVE(relive::Path_MudokonPathTrans, ReliveTypes::eMudokonPathTrans)
     {
@@ -2134,7 +2142,7 @@ struct Path_MudokonPathTrans final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_ScrabNoFall final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_ScrabNoFall final : public MapObjectBase
 {
     CTOR_RELIVE(relive::Path_ScrabNoFall, ReliveTypes::eScrabNoFall)
     {
@@ -2142,7 +2150,7 @@ struct Path_ScrabNoFall final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_LiftMudokon final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_LiftMudokon final : public MapObjectBase
 {
     void AddTypes(ReliveAPI::TypesCollectionBase& types) override
     {
@@ -2165,7 +2173,7 @@ struct Path_LiftMudokon final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_HoneySack final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_HoneySack final : public MapObjectBase
 {
     CTOR_RELIVE(relive::Path_HoneySack, ReliveTypes::eHoneySack)
     {
@@ -2174,7 +2182,7 @@ struct Path_HoneySack final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_SlingMudokon final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_SlingMudokon final : public MapObjectBase
 {
     CTOR_RELIVE(relive::Path_SlingMudokon, ReliveTypes::SlingMud)
     {
@@ -2185,7 +2193,7 @@ struct Path_SlingMudokon final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_BeeSwarmHole final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_BeeSwarmHole final : public MapObjectBase
 {
     void AddTypes(ReliveAPI::TypesCollectionBase& types) override
     {
@@ -2207,7 +2215,7 @@ struct Path_BeeSwarmHole final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_RollingBall final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_RollingBall final : public MapObjectBase
 {
     CTOR_RELIVE(relive::Path_RollingBall, ReliveTypes::eRollingBall)
     {
@@ -2219,7 +2227,7 @@ struct Path_RollingBall final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_RollingBallStopper final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_RollingBallStopper final : public MapObjectBase
 {
     CTOR_RELIVE(relive::Path_RollingBallStopper, ReliveTypes::eRollingBallStopper)
     {
@@ -2230,7 +2238,7 @@ struct Path_RollingBallStopper final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_BeeNest final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_BeeNest final : public MapObjectBase
 {
     CTOR_RELIVE(relive::Path_BeeNest, ReliveTypes::eBeeNest)
     {
@@ -2242,7 +2250,7 @@ struct Path_BeeNest final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_ZBall final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_ZBall final : public MapObjectBase
 {
     void AddTypes(ReliveAPI::TypesCollectionBase& types) override
     {
@@ -2269,7 +2277,7 @@ struct Path_ZBall final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_Honey final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_Honey final : public MapObjectBase
 {
     CTOR_RELIVE(relive::Path_Honey, ReliveTypes::eHoney)
     {
@@ -2277,7 +2285,7 @@ struct Path_Honey final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_HoneyDripTarget final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_HoneyDripTarget final : public MapObjectBase
 {
     CTOR_RELIVE(relive::Path_HoneyDripTarget, ReliveTypes::eHoneyDripTarget)
     {
@@ -2285,7 +2293,7 @@ struct Path_HoneyDripTarget final : public ReliveAPI::TlvObjectBaseRelive
     }
 };
 
-struct Path_Elum final : public ReliveAPI::TlvObjectBaseRelive
+struct Editor_Elum final : public MapObjectBase
 {
     CTOR_RELIVE(relive::Path_Elum, ReliveTypes::eElum)
     {
