@@ -257,12 +257,12 @@ void Model::CreateAsNewPath(int newPathId)
 
 std::string Model::ToJson() const
 {
-    nlohmann::json root;
+    nlohmann::json root = nlohmann::json::object();
 
    // root << "path_version" << mMapInfo.mPathVersion;
    // root << "game" << mMapInfo.mGame;
 
-    nlohmann::json map;
+    nlohmann::json map = nlohmann::json::object();
     /*
     map << "path_bnd" << mMapInfo.mPathBnd;
     map << "path_id" << mMapInfo.mPathId;
@@ -294,7 +294,7 @@ std::string Model::ToJson() const
     map << "hintfly_messages" << hintFlyMessages;
     */
 
-    nlohmann::json cameras;
+    nlohmann::json cameras = nlohmann::json::array();
     for (auto& camera : mCameras)
     {
        // if (!camera->mMapObjects.empty() || !camera->mCameraImageandLayers.mCameraImage.empty())
@@ -306,9 +306,6 @@ std::string Model::ToJson() const
             */
 
            
-           // camObj << "name" << camera->mName;
-
-
             /*/
             if (!camera->mCameraImageandLayers.mCameraImage.empty())
             {
@@ -336,43 +333,44 @@ std::string Model::ToJson() const
             }
             */
 
-            nlohmann::json mapObjects;
+            nlohmann::json mapObjects = nlohmann::json::array();
             for (auto& mapObject : camera->mMapObjects)
             {
-                //nlohmann::json mapObj{
-                //    {mapObjects, mapObj};
-               // mapObj << "name" << mapObject->mName;
-               // mapObj << "properties" << propertiesObject;
+                nlohmann::json mapObj = nlohmann::json::object();
+                if (mapObject->mBaseTlv->mTlvType == ReliveTypes::eTimedMine)
+                {
+                    to_json(mapObj, *static_cast<relive::Path_TimedMine*>(mapObject->mBaseTlv));
+                    qDebug() << mapObj.dump(4).c_str();
+                }
+                mapObjects.push_back(mapObj);
             }
 
             nlohmann::json camObj{
+                {"name", camera->mName},
                 {"id", camera->mId},
                 {"x", camera->mX},
                 {"y", camera->mY},
                 {"map_objects", mapObjects}
             };
 
-           // cameras << camObj;
+            cameras.push_back(camObj);
         }
     }
 
-    nlohmann::json collisionsObject;
-    nlohmann::json collisionItems;
+    nlohmann::json collisionsArray = nlohmann::json::array();
     for (auto& collision : mCollisions)
     {
-        nlohmann::json collisionObj;
-    //    collisionItems << collisionObj;
+        nlohmann::json collisionObj = nlohmann::json::object();
+        to_json(collisionObj, collision->mLine);
+        collisionsArray.push_back(collisionObj);
     }
 
-    /*
-    collisionsObject << "items" << collisionItems;
-    map << "collisions" << collisionsObject;
+    map["collisions"] = collisionsArray;
+    map["cameras"] = cameras;
 
-    map << "cameras" << cameras;
-    root << "map" << map;
-    */
+    root["map"] = map;
 
-    return root;
+    return root.dump(4);
 }
 
 Model::UP_CollisionObject Model::RemoveCollisionItem(Model::CollisionObject* pItem)
