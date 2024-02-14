@@ -7,6 +7,7 @@
 #include "../../relive_lib/ObjectTypes.hpp"
 #include "../../relive_lib/data_conversion/relive_tlvs.hpp"
 #include "../../relive_lib/Collisions.hpp"
+#include "../../relive_lib/GameType.hpp"
 
 #include "../../Tools/relive_api/TlvsRelive.hpp"
 
@@ -278,6 +279,26 @@ public:
         return mYSize;
     }
 
+    u32 CameraXGridSpacing() const
+    {
+
+    }
+
+    u32 CameraYGridSpacing() const
+    {
+
+    }
+
+    u32 CameraGridWidth() const
+    {
+
+    }
+
+    u32 CameraGridHeight() const
+    {
+
+    }
+
 private:
     void CreateEmptyCameras();
     void CalculateMapSize();
@@ -288,5 +309,7 @@ private:
     // Not part of json data, calculated on load
     u32 mXSize = 0;
     u32 mYSize = 0;
+
+    GameType mGame = GameType::eAo;
 };
 using UP_Model = std::unique_ptr<Model>;

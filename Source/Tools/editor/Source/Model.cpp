@@ -154,7 +154,19 @@ void Model::LoadJsonFromString(const std::string& json)
     nlohmann::json root = nlohmann::json::parse(json);
 
 
-   // mMapInfo.mGame = ReadString(root, "game");
+    const std::string game =  ReadString(root, "game");
+    if (game == "AO")
+    {
+        mGame = GameType::eAo;
+    }
+    else if (game == "AE")
+    {
+        mGame = GameType::eAe;
+    }
+    else
+    {
+        mGame = GameType::eAe;
+    }
 
     nlohmann::json map = ReadObject(root, "map");
 
@@ -166,7 +178,7 @@ void Model::LoadJsonFromString(const std::string& json)
 
         auto tmpCamera = std::make_unique<Camera>();
         tmpCamera->mId = ReadNumber(camera, "id");
-       // tmpCamera->mName = ReadString(camera, "name");
+        tmpCamera->mName = ReadString(camera, "name");
         tmpCamera->mX = ReadNumber(camera, "x");
         tmpCamera->mY = ReadNumber(camera, "y");
 
@@ -390,11 +402,10 @@ Model::UP_CollisionObject Model::RemoveCollisionItem(Model::CollisionObject* pIt
 
 void Model::CreateEmptyCameras()
 {
-    /*
     // Make sure every cell in the "map" has a camera object
-    for (int x = 0; x < mMapInfo.mXSize; x++)
+    for (u32 x = 0; x < XSize(); x++)
     {
-        for (int y = 0; y < mMapInfo.mYSize; y++)
+        for (u32 y = 0; y < YSize(); y++)
         {
             if (!CameraAt(x, y))
             {
@@ -405,7 +416,6 @@ void Model::CreateEmptyCameras()
             }
         }
     }
-    */
 }
 
 void Model::CalculateMapSize()

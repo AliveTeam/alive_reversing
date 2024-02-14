@@ -4,7 +4,8 @@
 #include "Model.hpp"
 #include "IGraphicsItem.hpp"
 
-CameraGraphicsItem::CameraGraphicsItem(Model::Camera* pCamera, int xpos, int ypos, int width, int height, int transparency) : QGraphicsRectItem(xpos, ypos, width, height), mCamera(pCamera)
+CameraGraphicsItem::CameraGraphicsItem(Model::Camera* pCamera, int xpos, int ypos, int width, int height, int transparency)
+    : QGraphicsRectItem(xpos, ypos, width, height), mCamera(pCamera)
 {
     QPen pen;
     pen.setWidth(2);
@@ -37,7 +38,6 @@ void CameraGraphicsItem::paint(QPainter* aPainter, const QStyleOptionGraphicsIte
     // Draw the rect outline of the camera
     QGraphicsRectItem::paint(aPainter, aOption, aWidget);
 
-    /*
     // Draw the camera name
     if (mCamera && !mCamera->mName.empty())
     {
@@ -48,7 +48,7 @@ void CameraGraphicsItem::paint(QPainter* aPainter, const QStyleOptionGraphicsIte
         const QRect textRect = QRect(rect().x() + 10, rect().y() + 10, 80, 20);
         aPainter->drawRect(textRect);
         aPainter->drawText(textRect, Qt::AlignCenter, mCamera->mName.c_str());
-    }*/
+    }
 }
 
 void CameraGraphicsItem::LoadImages()

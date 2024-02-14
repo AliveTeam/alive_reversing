@@ -393,7 +393,7 @@ EditorTab::EditorTab(QTabWidget* aParent, UP_Model model, QString jsonFileName, 
         for (u32 y = 0; y < mModel->YSize(); y++)
         {
             Model::Camera* pCam = mModel->CameraAt(x, y);
-            auto pCameraGraphicsItem = MakeCameraGraphicsItem(pCam, mModel->XSize() * x, y *  mModel->YSize(), mModel->XSize(), mModel->YSize());
+            auto pCameraGraphicsItem = MakeCameraGraphicsItem(pCam, mModel->CameraXGridSpacing() * x, y *  mModel->CameraYGridSpacing(), mModel->CameraGridWidth(), mModel->CameraGridHeight());
             mScene->addItem(pCameraGraphicsItem);
 
             if (pCam)
