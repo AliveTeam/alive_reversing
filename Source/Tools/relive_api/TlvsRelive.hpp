@@ -52,42 +52,42 @@ public:
 
     void SetXPos(s32 xpos)
     {
-
+        mBaseTlv->mTopLeftX = xpos;
     }
 
     void SetYPos(s32 ypos)
     {
-
+        mBaseTlv->mTopLeftY = ypos;
     }
 
     void SetWidth(s32 width)
     {
-
+        mBaseTlv->mBottomRightX = width;
     }
 
     void SetHeight(s32 height)
     {
-
+        mBaseTlv->mBottomRightY = height;
     }
 
     s32 XPos() const
     {
-
+        return mBaseTlv->mTopLeftX;
     }
 
     s32 YPos() const
     {
-
+        return mBaseTlv->mTopLeftY;
     }
 
     s32 Width() const
     {
-
+        return mBaseTlv->Width();
     }
 
     s32 Height() const
     {
-
+        return mBaseTlv->Height();
     }
 };
 
