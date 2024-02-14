@@ -8,13 +8,15 @@ class IGraphicsItem;
 
 struct LinkedProperty
 {
-    LinkedProperty(PropertyTreeWidget* pTreeWidget, IGraphicsItem* pGraphicsItem)
-        : mTreeWidget(pTreeWidget), mGraphicsItem(pGraphicsItem)
+    LinkedProperty(MapObjectBase* mapObject, u32 propertyIdx, PropertyTreeWidget* pTreeWidget, IGraphicsItem* pGraphicsItem)
+        : mMapObject(mapObject), mPropertyIdx(propertyIdx), mTreeWidget(pTreeWidget), mGraphicsItem(pGraphicsItem)
     {
 
     }
+
+    MapObjectBase* mMapObject = nullptr;
+    u32 mPropertyIdx =0;
     PropertyTreeWidget* mTreeWidget = nullptr;
-  //  ObjectProperty* mProperty = nullptr;
     IGraphicsItem* mGraphicsItem = nullptr;
 };
 

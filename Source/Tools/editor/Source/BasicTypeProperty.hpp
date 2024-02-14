@@ -3,18 +3,19 @@
 #include "PropertyTreeItemBase.hpp"
 #include <QUndoCommand>
 
-struct BasicType;
 class QUndoStack;
 class BigSpinBox;
 
 struct BasicTypePropertyChangeData
 {
-    BasicTypePropertyChangeData(BasicType* pBasicType, int oldValue, int newValue)
-        : mBasicType(pBasicType), mOldValue(oldValue), mNewValue(newValue)
+    BasicTypePropertyChangeData(MapObjectBase* mapObject,  u32 propertyIdx, int oldValue, int newValue)
+        : mMapObject(mapObject), mPropertyIdx(propertyIdx), mOldValue(oldValue), mNewValue(newValue)
     {
 
     }
-    BasicType* mBasicType = nullptr;
+
+    MapObjectBase* mMapObject = nullptr;
+    u32 mPropertyIdx =0;
     int mOldValue = 0;
     int mNewValue = 0;
 };
@@ -46,23 +47,22 @@ class BasicTypeProperty final : public QObject, public PropertyTreeItemBase
 {
     Q_OBJECT
 public:
-    BasicTypeProperty(QUndoStack& undoStack, QTreeWidgetItem* pParent, QString propertyName, IGraphicsItem* pGraphicsItem);
+    BasicTypeProperty(QUndoStack& undoStack, QTreeWidgetItem* pParent, MapObjectBase* pMapObject, u32 propertyIdx, IGraphicsItem* pGraphicsItem);
 
     QWidget* CreateEditorWidget(PropertyTreeWidget* pParent) override;
 
     const void* GetPropertyLookUpKey() const override
     {
-      //  return mProperty;
-        return nullptr;
+        return mMapObject->PropertyPtr(mPropertyIdx);
     }
 
     void Refresh() override;
 
 private:
+    MapObjectBase* mMapObject = nullptr;
+    u32 mPropertyIdx =0;
     QUndoStack& mUndoStack;
-   // ObjectProperty* mProperty = nullptr;
     IGraphicsItem* mGraphicsItem = nullptr;
-   // BasicType* mBasicType = nullptr;
     int mOldValue = 0;
     BigSpinBox* mSpinBox = nullptr;
 };

@@ -4,7 +4,6 @@
 #include "TlvObjectBaseMacros.hpp"
 #include "../../relive_lib/data_conversion/relive_tlvs.hpp"
 #include "../../relive_lib/AnimResources.hpp"
-
 #include <type_traits>
 
 #define CTOR_RELIVE(editorClassName, pathClassName, tlvEnumType)\
@@ -89,6 +88,14 @@ public:
     {
         return mBaseTlv->Height();
     }
+
+    // TODO qint64
+    const void* PropertyPtr(u32 propertyIdx) const;
+    void* PropertyPtr(u32 propertyIdx);
+    long long ReadBasicType(u32 propertyIdx) const;
+
+    void SetBasicType(u32 propertyIdx, long long value);
+
 };
 
 namespace relive

@@ -118,8 +118,17 @@ void ResizeableRectItem::paint( QPainter* aPainter, const QStyleOptionGraphicsIt
     // Draw the object name on the rect if no image is provided
     if (m_Pixmap.isNull())
     {
-        /*
-        const auto objectName = mMapObject->mObjectStructureType.c_str();
+        // TODO: reactor this to work in some sane way
+        QString objectName;
+        if (mMapObject->mBaseTlv->mTlvType == ReliveTypes::eTimedMine )
+        {
+            objectName = "timed mine";
+        }
+        else
+        {
+            objectName = "unknown";
+        }
+
         for (int sizeCandidate = 8; sizeCandidate > 1; sizeCandidate--)
         {
             QFont f = aPainter->font();
@@ -135,7 +144,6 @@ void ResizeableRectItem::paint( QPainter* aPainter, const QStyleOptionGraphicsIt
             }
         }
         aPainter->drawText(cRect, Qt::AlignCenter | Qt::TextWrapAnywhere, objectName);
-        */
     }
 }
 

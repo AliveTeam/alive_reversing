@@ -37,7 +37,7 @@ void PropertyTreeWidget::Populate(Model& model, QUndoStack& undoStack, QGraphics
 
         for (u32 i = 0; i < pMapObject->mCount; i++)
         {
-            items.append(new BasicTypeProperty(undoStack, parent, kIndent + pMapObject->mTypes[i].mFieldName, pRect));
+            items.append(new BasicTypeProperty(undoStack, parent, pMapObject, i, pRect));
         }
 
 
