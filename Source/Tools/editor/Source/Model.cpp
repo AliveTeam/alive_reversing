@@ -423,7 +423,7 @@ void Model::CalculateMapSize()
     mXSize = 0;
     mYSize = 0;
 
-    for (auto& cam : mCameras)
+    for (const auto& cam : mCameras)
     {
         if (cam->mX > static_cast<s32>(mXSize))
         {
@@ -435,6 +435,9 @@ void Model::CalculateMapSize()
             mYSize = cam->mY;
         }
     }
+
+    mXSize++;
+    mYSize++;
 }
 
 Model::CollisionObject::CollisionObject(int id, const Model::CollisionObject& rhs)

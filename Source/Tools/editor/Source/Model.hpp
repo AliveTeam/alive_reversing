@@ -279,24 +279,14 @@ public:
         return mYSize;
     }
 
-    u32 CameraXGridSpacing() const
-    {
-
-    }
-
-    u32 CameraYGridSpacing() const
-    {
-
-    }
-
     u32 CameraGridWidth() const
     {
-
+        return mGame == GameType::eAo ? 1024 : 375;
     }
 
     u32 CameraGridHeight() const
     {
-
+        return mGame == GameType::eAo ? 480 : 260;
     }
 
 private:

@@ -18,7 +18,6 @@ EditorGraphicsScene::EditorGraphicsScene(EditorTab* pTab)
 
 QList<ResizeableRectItem*> EditorGraphicsScene::MapObjectsForCamera(CameraGraphicsItem* pCameraGraphicsItem)
 {
-    /*
     const auto& modelMapObjects = pCameraGraphicsItem->GetCamera()->mMapObjects;
 
     QList<ResizeableRectItem*> graphicsItemMapObjects;
@@ -39,23 +38,19 @@ QList<ResizeableRectItem*> EditorGraphicsScene::MapObjectsForCamera(CameraGraphi
         }
     }
     return graphicsItemMapObjects;
-    */
-    return {};
 }
 
 void EditorGraphicsScene::UpdateSceneRect()
 {
-    /*
     const int kXMargin = 100;
     const int kYMargin = 100;
-    const auto& mapInfo = mTab->GetModel().GetMapInfo();
-    setSceneRect(-kXMargin, -kYMargin, (mapInfo.mXSize * mapInfo.mXGridSize) + (kXMargin * 2), (mapInfo.mYSize * mapInfo.mYGridSize) + (kYMargin * 2));
-    */
+    const auto& model = mTab->GetModel();
+    setSceneRect(-kXMargin, -kYMargin, (model.CameraGridWidth() * model.XSize()) + (kXMargin * 2), (model.CameraGridHeight() * model.YSize()) + (kYMargin * 2));
 }
 
 CameraGraphicsItem* EditorGraphicsScene::CameraAt(int x, int y)
 {
-    /*
+    
     QList<QGraphicsItem*> allItems = items();
     for (QGraphicsItem* item : allItems)
     {
@@ -68,7 +63,7 @@ CameraGraphicsItem* EditorGraphicsScene::CameraAt(int x, int y)
             }
         }
     }
-    */
+    
     return nullptr;
 }
 
@@ -256,36 +251,33 @@ void EditorGraphicsScene::keyPressEvent(QKeyEvent* keyEvent)
 }
 
 
-Camera* CalcContainingCamera(ResizeableRectItem* pItem, Model& model)
+Model::Camera* CalcContainingCamera(ResizeableRectItem* pItem, Model& model)
 {
-    /*
     QPoint midPoint = pItem->CurrentRect().center().toPoint();
 
-    int camX = midPoint.x() / model.GetMapInfo().mXGridSize;
+    int camX = midPoint.x() / model.CameraGridWidth();
     if (camX < 0)
     {
         camX = 0;
     }
 
-    if (camX >= model.GetMapInfo().mXSize)
+    if (camX >= model.XSize())
     {
-        camX = model.GetMapInfo().mXSize - 1;
+        camX = model.XSize() - 1;
     }
 
-    int camY = midPoint.y() / model.GetMapInfo().mYGridSize;
+    int camY = midPoint.y() / model.CameraGridHeight();
     if (camY < 0)
     {
         camY = 0;
     }
 
-    if (camY >= model.GetMapInfo().mYSize)
+    if (camY >= model.YSize())
     {
-        camY = model.GetMapInfo().mYSize - 1;
+        camY = model.YSize() - 1;
     }
 
     return model.CameraAt(camX, camY);
-    */
-    return nullptr;
 }
 
 
@@ -317,7 +309,7 @@ void ItemPositionData::Restore(Model& model)
     for (auto& [rect, pos] : mRects)
     {
         rect->SetRect(pos.rect);
-        //model.SwapContainingCamera(rect->GetMapObject(), pos.containingCamera);
+        model.SwapContainingCamera(rect->GetMapObject(), pos.containingCamera);
     }
 
     for (auto& [line, pos] : mLines)
@@ -330,18 +322,18 @@ void ItemPositionData::Restore(Model& model)
 
 void ItemPositionData::AddRect(ResizeableRectItem* pItem, Model& model, bool recalculateParentCamera)
 {
-    Camera* pContainingCamera = nullptr;
+    Model::Camera* pContainingCamera = nullptr;
     MapObjectBase* pMapObject = pItem->GetMapObject();
 
     if (recalculateParentCamera)
     {
         pContainingCamera = CalcContainingCamera(pItem, model);
 
-       //model.SwapContainingCamera(pMapObject, pContainingCamera);
+       model.SwapContainingCamera(pMapObject, pContainingCamera);
     }
     else
     {
-      //  pContainingCamera = model.GetContainingCamera(pMapObject);
+        pContainingCamera = model.GetContainingCamera(pMapObject);
     }
 
     mRects[pItem] = { pItem->CurrentRect(), pContainingCamera };
