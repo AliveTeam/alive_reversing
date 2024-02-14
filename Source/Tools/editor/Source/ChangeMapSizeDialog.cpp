@@ -11,7 +11,7 @@
 struct RemovedCamera final
 {
     // Item we've removed from the model
-   // UP_Camera mCameraModel;
+     Model::UP_Camera mCameraModel;
 
     // The graphics item for this camera
     CameraGraphicsItem* mCameraGraphicsItem = nullptr;
@@ -28,7 +28,6 @@ struct RemovedCamera final
 
     ~RemovedCamera()
     {
-        /*
         if (mCameraModel)
         {
             delete mCameraGraphicsItem;
@@ -36,13 +35,13 @@ struct RemovedCamera final
             {
                 delete mapObj;
             }
-        }*/
+        }
     }
 
     void redo(Model& model, EditorGraphicsScene* pScene)
     {
         // Remove it from the model now we have the model item
-       // mCameraModel = model.RemoveCamera(mCameraGraphicsItem->GetCamera());
+        mCameraModel = model.RemoveCamera(mCameraGraphicsItem->GetCamera());
 
         // Remove graphics items from the scene
         pScene->removeItem(mCameraGraphicsItem);
@@ -55,7 +54,7 @@ struct RemovedCamera final
     void undo(Model& model, EditorGraphicsScene* pScene)
     {
         // Add camera back to the model
-        //model.AddCamera(std::move(mCameraModel));
+        model.AddCamera(std::move(mCameraModel));
 
         // Add graphics items to the scene
         pScene->addItem(mCameraGraphicsItem);
@@ -258,17 +257,15 @@ struct AddedCamera final
     CameraGraphicsItem* mCameraGraphicsItem = nullptr;
 
     // New model item
-   // UP_Camera mCameraModel;
+    Model::UP_Camera mCameraModel;
 
     AddedCamera(EditorTab* pTab, int x, int y)
     {
-        /*
-        mCameraModel = std::make_unique<Camera>();
+        mCameraModel = std::make_unique<Model::Camera>();
         mCameraModel->mX = x;
         mCameraModel->mY = y;
-        const auto& mapInfo = pTab->GetModel().GetMapInfo();
-        mCameraGraphicsItem = pTab->MakeCameraGraphicsItem(mCameraModel.get(), mapInfo.mXGridSize * x, y * mapInfo.mYGridSize, mapInfo.mXGridSize, mapInfo.mYGridSize);
-        */
+        const auto& model = pTab->GetModel();
+        mCameraGraphicsItem = pTab->MakeCameraGraphicsItem(mCameraModel.get(), model.CameraGridWidth() * x, y * model.CameraGridHeight(), model.CameraGridWidth(), model.CameraGridHeight());
     }
 
     ~AddedCamera()
@@ -287,8 +284,8 @@ struct AddedCamera final
 
     void redo(Model& model, EditorGraphicsScene* pScene)
     {
-       // model.AddCamera(std::move(mCameraModel));
-        //pScene->addItem(mCameraGraphicsItem);
+        model.AddCamera(std::move(mCameraModel));
+        pScene->addItem(mCameraGraphicsItem);
     }
 };
 
@@ -302,9 +299,8 @@ public:
         mNewXSize(newXSize),
         mNewYSize(newYSize)
     {
-        /*
-        mOldXSize = mTab->GetModel().GetMapInfo().mXSize;
-        mOldYSize = mTab->GetModel().GetMapInfo().mYSize;
+        mOldXSize = mTab->GetModel().XSize();
+        mOldYSize = mTab->GetModel().YSize();
 
         setText("Change map size from " + 
             QString::number(mOldXSize) + "x" + QString::number(mOldYSize) + " to " +
@@ -324,14 +320,12 @@ public:
                 mAddedCameras.emplace_back(std::make_unique<AddedCamera>(mTab, edit.x, edit.y));
             }
         }
-        */
     }
 
     void undo() override
     {
-        /*
-        mTab->GetModel().GetMapInfo().mXSize = mOldXSize;
-        mTab->GetModel().GetMapInfo().mYSize = mOldYSize;
+        mTab->GetModel().SetXSize(mOldXSize);
+        mTab->GetModel().SetYSize(mOldYSize);
 
         // Fix scene rect
         mTab->GetScene().UpdateSceneRect();
@@ -349,16 +343,14 @@ public:
         }
 
         mSelectionSaver.undo();
-        */
     }
 
     void redo() override
     {
-        /*
         mSelectionSaver.redo();
 
-        mTab->GetModel().GetMapInfo().mXSize = mNewXSize;
-        mTab->GetModel().GetMapInfo().mYSize = mNewYSize;
+        mTab->GetModel().SetXSize(mNewXSize);
+        mTab->GetModel().SetYSize(mNewYSize);
 
         // Fix scene rect
         mTab->GetScene().UpdateSceneRect();
@@ -374,7 +366,6 @@ public:
         {
             added->redo(mTab->GetModel(), &mTab->GetScene());
         }
-        */
     }
 
 private:
@@ -402,8 +393,8 @@ ChangeMapSizeDialog::ChangeMapSizeDialog(QWidget *parent, EditorTab* pTab) :
     ui->spnXSize->setMinimum(1);
     ui->spnYSize->setMinimum(1);
 
-   // ui->spnXSize->setValue(mTab->GetModel().GetMapInfo().mXSize);
-   // ui->spnYSize->setValue(mTab->GetModel().GetMapInfo().mYSize);
+    ui->spnXSize->setValue(mTab->GetModel().XSize());
+    ui->spnYSize->setValue(mTab->GetModel().YSize());
 }
 
 ChangeMapSizeDialog::~ChangeMapSizeDialog()
@@ -413,10 +404,9 @@ ChangeMapSizeDialog::~ChangeMapSizeDialog()
 
 void ChangeMapSizeDialog::on_buttonBox_accepted()
 {
-    /*
-    if (mTab->GetModel().GetMapInfo().mXSize != ui->spnXSize->value() ||
-        mTab->GetModel().GetMapInfo().mYSize != ui->spnYSize->value())
+    if (mTab->GetModel().XSize() != ui->spnXSize->value() ||
+        mTab->GetModel().YSize() != ui->spnYSize->value())
     {
         mTab->AddCommand(new ChangeMapSizeCommand(mTab, ui->spnXSize->value(), ui->spnYSize->value()));
-    }*/
+    }
 }

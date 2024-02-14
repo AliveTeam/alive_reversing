@@ -3,7 +3,7 @@
 
 #include <QDialog>
 
-/*
+
 namespace Ui {
 class AddObjectDialog;
 }
@@ -29,6 +29,6 @@ private:
     Ui::AddObjectDialog *ui;
     EditorTab* mTab = nullptr;
 };
-*/
+
 
 #endif // ADDOBJECTDIALOG_HPP

@@ -231,22 +231,20 @@ public:
     DeleteCameraCommand(EditorTab* pTab, CameraGraphicsItem* pItem)
         : mSelectionSaver(pTab), mTab(pTab), mCameraOriginal(pItem)
     {
-        /*
         setText("Delete camera at " + QString::number(pItem->GetCamera()->mX) + "," + QString::number(pItem->GetCamera()->mY));
 
-        mEmptyCameraModel = std::make_unique<Camera>();
+        mEmptyCameraModel = std::make_unique<Model::Camera>();
         mEmptyCameraModel->mX = pItem->GetCamera()->mX;
         mEmptyCameraModel->mY = pItem->GetCamera()->mY;
 
         mEmptyCamera = mTab->MakeCameraGraphicsItem(
             mEmptyCameraModel.get(),
-            mTab->GetModel().GetMapInfo().mXGridSize * mEmptyCameraModel->mX,
-            mTab->GetModel().GetMapInfo().mYGridSize * mEmptyCameraModel->mY,
-            mTab->GetModel().GetMapInfo().mXGridSize,
-            mTab->GetModel().GetMapInfo().mYGridSize);
+            mTab->GetModel().CameraGridWidth() * mEmptyCameraModel->mX,
+            mTab->GetModel().CameraGridHeight() * mEmptyCameraModel->mY,
+            mTab->GetModel().CameraGridWidth(),
+            mTab->GetModel().CameraGridHeight());
 
         mGraphicsItemMapObjects = mTab->GetScene().MapObjectsForCamera(mCameraOriginal);
-        */
     }
 
     ~DeleteCameraCommand()
@@ -269,7 +267,6 @@ public:
 
     void undo() override
     {
-        /*
         // Remove "blank" graphics item
         mTab->GetScene().removeItem(mEmptyCamera);
         mEmptyCameraModel = mTab->GetModel().RemoveCamera(mEmptyCamera->GetCamera());
@@ -296,12 +293,10 @@ public:
         mSelectionSaver.undo();
 
         mAdded = true;
-        */
     }
 
     void redo() override
     {
-        /*
         // Remove original camera
         mCameraOriginalModel = mTab->GetModel().RemoveCamera(mCameraOriginal->GetCamera());
         mTab->GetScene().removeItem(mCameraOriginal);
@@ -328,7 +323,6 @@ public:
         mSelectionSaver.redo();
 
         mAdded = false;
-        */
     }
 
 private:
@@ -338,10 +332,10 @@ private:
     SelectionSaver mSelectionSaver;
     EditorTab* mTab = nullptr;
     CameraGraphicsItem* mCameraOriginal = nullptr;
-   // UP_Camera mCameraOriginalModel;
+    Model::UP_Camera mCameraOriginalModel;
 
     CameraGraphicsItem* mEmptyCamera = nullptr;
-   // UP_Camera mEmptyCameraModel;
+    Model::UP_Camera mEmptyCameraModel;
 
     bool mAdded = false;
 };
@@ -368,7 +362,6 @@ public:
 
     void SetLabel()
     {
-        /*
         QString camPos = QString::number(mCamera->mX) + "," + QString::number(mCamera->mY);
 
         if (!mCamera->mName.empty())
@@ -378,7 +371,7 @@ public:
         else
         {
             setText(camPos);
-        }*/
+        }
     }
 
 private:
@@ -391,10 +384,10 @@ CameraManager::CameraManager(QWidget *parent, EditorTab* pParentTab, const QPoin
     mTab(pParentTab)
 {
     ui->setupUi(this);
-    /*
-    const MapInfo& mapInfo = mTab->GetModel().GetMapInfo();
+    
+    const Model& model = mTab->GetModel();
 
-    const auto& cameras = mTab->GetModel().GetCameras();
+    const auto& cameras = model.GetCameras();
     for (const auto& cam : cameras)
     {
         ui->lstCameras->addItem(new CameraListItem(ui->lstCameras, cam.get()));
@@ -403,8 +396,8 @@ CameraManager::CameraManager(QWidget *parent, EditorTab* pParentTab, const QPoin
     if (openedPos)
     {
         // work out which camera x,y was clicked on
-        const int camX = openedPos->x() / mapInfo.mXGridSize;
-        const int camY = openedPos->y() / mapInfo.mYGridSize;
+        const int camX = openedPos->x() / model.CameraGridWidth();
+        const int camY = openedPos->y() / model.CameraGridHeight();
         qDebug() << "Looking for a camera at " << camX << " , " << camY;
 
         const auto pCamera = mTab->GetModel().CameraAt(camX, camY);
@@ -423,7 +416,6 @@ CameraManager::CameraManager(QWidget *parent, EditorTab* pParentTab, const QPoin
             }
         }
     }
-    */
 }
 
 CameraManager::~CameraManager()
@@ -480,7 +472,6 @@ void CameraManager::CreateCamera(bool dropEvent, QPixmap img)
         }
     }
 
-    /*
     if (!pItem->GetCamera()->mName.empty())
     {
         // Update image of existing camera
@@ -512,7 +503,6 @@ void CameraManager::CreateCamera(bool dropEvent, QPixmap img)
             UpdateTabImages(pCameraGraphicsItem);
         }
     }
-    */
 }
 
 void CameraManager::on_btnExportImage_clicked()
@@ -634,7 +624,6 @@ CameraGraphicsItem* CameraManager::CameraGraphicsItemByModelPtr(const Model::Cam
 
 void CameraManager::on_btnDeleteImage_clicked()
 {
-    /*
     if (!ui->lstCameras->selectedItems().empty())
     {
         auto pItem = static_cast<CameraListItem*>(ui->lstCameras->selectedItems()[0]);
@@ -652,7 +641,7 @@ void CameraManager::on_btnDeleteImage_clicked()
                 on_btnDeleteCamera_clicked();
             }
         }
-    }*/
+    }
 }
 
 class ChangeCameraIdCommand final : public QUndoCommand
@@ -716,7 +705,6 @@ private:
 
 int CameraManager::NextFreeCamId()
 {
-    /*
     for (int i = 0; i < 99; i++)
     {
         bool used = false;
@@ -733,13 +721,12 @@ int CameraManager::NextFreeCamId()
         {
             return i;
         }
-    }*/
+    }
     return -1;
 }
 
 void CameraManager::on_btnSetCameraId_clicked()
 {
-    /*
     if (!ui->lstCameras->selectedItems().empty())
     {
         auto pItem = static_cast<CameraListItem*>(ui->lstCameras->selectedItems()[0]);
@@ -763,7 +750,6 @@ void CameraManager::on_btnSetCameraId_clicked()
             }
         }
     }
-    */
 }
 
 void CameraManager::SetTabImage(int idx, QPixmap img)
@@ -790,7 +776,6 @@ void CameraManager::UpdateTabImages(CameraGraphicsItem* pItem)
 
 void CameraManager::on_btnDeleteCamera_clicked()
 {
-    /*
     if (!ui->lstCameras->selectedItems().isEmpty())
     {
         auto pItem = static_cast<CameraListItem*>(ui->lstCameras->selectedItems()[0]);
@@ -799,9 +784,8 @@ void CameraManager::on_btnDeleteCamera_clicked()
             CameraGraphicsItem* pCameraGraphicsItem = CameraGraphicsItemByModelPtr(pItem->GetCamera());
             mTab->AddCommand(new DeleteCameraCommand(mTab, pCameraGraphicsItem));
         }
-    }*/
+    }
 }
-
 
 void CameraManager::on_lstCameras_itemSelectionChanged()
 {

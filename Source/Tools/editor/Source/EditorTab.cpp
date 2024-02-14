@@ -921,15 +921,14 @@ int EditorTab::SnapX(bool enabled, int x)
 {
     if (enabled)
     {
-        /*
-        if (mModel->GetMapInfo().mXGridSize == 1024)
+        if (mModel->Game() == GameType::eAo)
         {
-            x = AO::SnapToXGrid(FP_FromInteger(1), x) + 13;
+            x = SnapToXGrid_AO(FP_FromInteger(1), x) + 13;
         }
         else
         {
-            x = SnapToXGrid(FP_FromInteger(1), x) + 13;
-        }*/
+            x = SnapToXGrid_AE(FP_FromInteger(1), x) + 13;
+        }
     }
     return x;
 }

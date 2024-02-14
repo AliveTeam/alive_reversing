@@ -26,13 +26,13 @@ private:
 
     struct PastedMapObject final
     {
-        //UP_MapObject mPastedMapObject;
-        Camera* mContainingCamera;
+        UP_MapObjectBase mPastedMapObject;
+        Model::Camera* mContainingCamera;
     };
     std::vector<PastedMapObject> mMapObjects;
     std::vector<ResizeableRectItem*> mMapGraphicsObjects;
 
-    //std::vector<UP_CollisionObject> mCollisions;
+    std::vector<Model::UP_CollisionObject> mCollisions;
     std::vector<ResizeableArrowItem*> mCollisionGraphicsObjects;
 
     SelectionSaver mSelectionSaver;
@@ -46,13 +46,13 @@ public:
     void Set(const QList<QGraphicsItem*>& items, Model& model);
     bool IsEmpty() const;
 
-    const std::string& SourceGame() const;
+    const GameType SourceGame() const;
 
-    //std::vector<UP_MapObject> CloneMapObjects(QPoint* pos) const;
-   // std::vector<UP_CollisionObject> CloneCollisions(QPoint* pos) const;
+    std::vector<UP_MapObjectBase> CloneMapObjects(QPoint* pos) const;
+    std::vector<Model::UP_CollisionObject> CloneCollisions(QPoint* pos) const;
 private:
-    std::string mSourceGame;
+    GameType mSourceGame;
 
-   // std::vector<UP_CollisionObject> mCollisions;
-   // std::vector<UP_MapObject> mMapObjects;
+    std::vector<Model::UP_CollisionObject> mCollisions;
+    std::vector<UP_MapObjectBase> mMapObjects;
 };

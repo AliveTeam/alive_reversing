@@ -26,10 +26,10 @@ public:
 private:
     const UP_ObjectStructure& mObj;
 };
-
+*/
 class AddNewObjectCommand : public QUndoCommand
 {
-public:
+public: /*
     AddNewObjectCommand(EditorTab* pTab, const UP_ObjectStructure& objStructure)
         : mTab(pTab),
         mObjStructure(objStructure),
@@ -38,7 +38,7 @@ public:
         MakeNewObject();
 
         setText(QString("Add new object ") + objStructure->mName.c_str());
-    }
+    }*/
 
     ~AddNewObjectCommand()
     {
@@ -75,7 +75,7 @@ public:
     void redo() override
     {
         // Add to model
-        mCamera->mMapObjects.emplace_back(std::unique_ptr<MapObject>(mNewItem->GetMapObject()));
+        mCamera->mMapObjects.emplace_back(std::unique_ptr<MapObjectBase>(mNewItem->GetMapObject()));
 
         // Add to scene
         mTab->GetScene().addItem(mNewItem);
@@ -96,28 +96,28 @@ private:
         QGraphicsView* pView = mTab->GetScene().views().at(0);
         QPoint viewPos = pView->mapToScene(pView->pos()).toPoint();
 
-        int camX = viewPos.x() / mTab->GetModel().GetMapInfo().mXGridSize;
+        int camX = viewPos.x() / mTab->GetModel().CameraGridWidth();
         if (camX < 0)
         {
             camX = 0;
         }
-        if (camX > mTab->GetModel().GetMapInfo().mXGridSize)
+        if (camX > mTab->GetModel().CameraGridWidth())
         {
-            camX = mTab->GetModel().GetMapInfo().mXGridSize;
+            camX = mTab->GetModel().CameraGridWidth();
         }
 
-        int camY = viewPos.y() / mTab->GetModel().GetMapInfo().mYGridSize;
+        int camY = viewPos.y() / mTab->GetModel().CameraGridHeight();
         if (camY < 0)
         {
             camY = 0;
         }
-        if (camY > mTab->GetModel().GetMapInfo().mYGridSize)
+        if (camY > mTab->GetModel().CameraGridHeight())
         {
-            camY = mTab->GetModel().GetMapInfo().mYGridSize;
+            camY = mTab->GetModel().CameraGridHeight();
         }
 
         mCamera = mTab->GetModel().CameraAt(camX, camY);
-
+        /*
         auto pNewMapObj = new MapObject();
 
         pNewMapObj->mObjectStructureType = mObjStructure->mName;
@@ -134,21 +134,22 @@ private:
 
             pNewMapObj->mProperties.emplace_back(std::move(newProp));
         }
-
+        
         pNewMapObj->SetXPos(viewPos.x());
         pNewMapObj->SetYPos(viewPos.y());
         pNewMapObj->SetWidth(24);
         pNewMapObj->SetHeight(24);
 
         mNewItem = mTab->MakeResizeableRectItem(pNewMapObj);
+        */
     }
 
     SelectionSaver mSelectionSaver;
-    Camera* mCamera = nullptr;
+    Model::Camera* mCamera = nullptr;
     bool mAdded = false;
     ResizeableRectItem* mNewItem = nullptr;
     EditorTab* mTab;
-    const UP_ObjectStructure& mObjStructure;
+    //const UP_ObjectStructure& mObjStructure;
 };
 
 AddObjectDialog::AddObjectDialog(QWidget *parent, EditorTab* pTab) :
@@ -174,7 +175,7 @@ void AddObjectDialog::on_txtSearch_textChanged(const QString &arg1)
 void AddObjectDialog::PopulateListFiltered(QString filter)
 {
     ui->lstObjects->clear();
-
+    /*
     const auto& structures = mTab->GetModel().GetObjectStructures();
     for (const auto& s : structures)
     {
@@ -182,16 +183,16 @@ void AddObjectDialog::PopulateListFiltered(QString filter)
         {
             ui->lstObjects->addItem(new ObjectListItem(s));
         }
-    }
+    }*/
 }
 
 void AddObjectDialog::on_buttonBox_accepted()
-{
+{ /*
     if (!ui->lstObjects->selectedItems().isEmpty())
     {
         auto pItem = static_cast<ObjectListItem*>(ui->lstObjects->selectedItems().at(0));
         const UP_ObjectStructure& objStructure = pItem->GetObjectStructure();
         mTab->AddCommand(new AddNewObjectCommand(mTab, objStructure));
-    }
+    }*/
 }
-*/
+

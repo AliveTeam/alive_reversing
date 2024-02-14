@@ -269,6 +269,16 @@ public:
         return -1;
     }
 
+    void SetXSize(u32 xsize)
+    {
+        mXSize = xsize;
+    }
+
+    void SetYSize(u32 ysize)
+    {
+        mYSize = ysize;
+    }
+
     u32 XSize() const
     {
         return mXSize;
@@ -287,6 +297,11 @@ public:
     u32 CameraGridHeight() const
     {
         return mGame == GameType::eAo ? 480 : 260;
+    }
+
+    GameType Game() const
+    {
+        return mGame;
     }
 
 private:
