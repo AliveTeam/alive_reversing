@@ -5,7 +5,6 @@
 #include "../../relive_lib/data_conversion/relive_tlvs_serialization.hpp"
 #include <QDebug>
 
-
 static std::optional<std::string> LoadFileToString(const std::string& fileName)
 {
     EditorFileIO fileIo;
@@ -133,6 +132,13 @@ void Model::SwapContainingCamera(MapObjectBase* pMapObject, Camera* pTargetCamer
     pTargetCamera->mMapObjects.push_back(TakeFromContainingCamera(pMapObject));
 }
 
+template<class T>
+static void AddObject(std::vector<UP_MapObjectBase>& objects, nlohmann::json& mapObject)
+{
+    auto tmpMapObject = std::make_unique<T>();
+    from_json(mapObject, tmpMapObject->mTlv);
+    objects.push_back(std::move(tmpMapObject));
+}
 
 void Model::LoadJsonFromString(const std::string& json)
 {
@@ -180,6 +186,8 @@ void Model::LoadJsonFromString(const std::string& json)
         {
             nlohmann::json mapObjects = ReadArray(camera, "map_objects");
 
+
+
             for (size_t j = 0; j < mapObjects.size(); j++)
             {
                 nlohmann::json mapObject = mapObjects.at(static_cast<unsigned int>(j));
@@ -187,24 +195,11 @@ void Model::LoadJsonFromString(const std::string& json)
                 const std::string objType = ReadString(mapObject, "tlv_type");
                 if (objType == "timed_mine")
                 {
-                    //qDebug() << "YES" << objType.c_str();
-                    auto tmpMapObject = std::make_unique<relive::Editor_TimedMine>(); // TODO: Create correct type based on the name
-                    //tmpMapObject->mName = ReadString(mapObject, "name");
-
-                    from_json(mapObject, tmpMapObject->mTlv);
-
-                    /*
-                    if (mapObject.has<jsonxx::Object>("properties"))
-                    {
-                        jsonxx::Object properties = ReadObject(mapObject, "properties");
-                        tmpMapObject->mProperties = ReadProperties(pObjStructure, properties);
-                    }
-                    */
-                    tmpCamera->mMapObjects.push_back(std::move(tmpMapObject));
+                    AddObject<relive::Editor_TimedMine>(tmpCamera->mMapObjects, mapObject);
                 }
-                else
+                else if (objType == "mudokon")
                 {
-                    //qDebug() << "NO" << objType.c_str();
+                    AddObject<relive::Editor_Mudokon>(tmpCamera->mMapObjects, mapObject);
                 }
             }
         }
