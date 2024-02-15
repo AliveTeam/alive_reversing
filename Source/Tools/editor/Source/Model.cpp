@@ -5,13 +5,12 @@
 #include "../../relive_lib/data_conversion/relive_tlvs_serialization.hpp"
 #include <QDebug>
 
-const relive::TypeDescription relive::Editor_TimedMine::mSaveData[] =
-{
-    // TODO, some macro to insert all the base fields
-    //DEFINE_FIELD("Top left m8", relive::Path_TLV, mTopLeftX, FieldType::Field_U32 ),
 
-    DEFINE_FIELD("Scale", relive::Editor_TimedMine, mTlv.mScale ),
-    DEFINE_FIELD("Ticks Before Explosion", relive::Editor_TimedMine, mTlv.mTicksUntilExplosion ),
+
+const relive::TypeDescription relive::Editor_TimedMine::mSaveData[] = {
+    DEFINE_BASE_FIELDS(relive::Path_TimedMine),
+    DEFINE_FIELD("scale", relive::Path_TimedMine, mScale),
+    DEFINE_FIELD("ticks until explosion", relive::Path_TimedMine, mTicksUntilExplosion)
 };
 
 relive::Editor_TimedMine::Editor_TimedMine()
@@ -39,15 +38,20 @@ const void* MapObjectBase::PropertyPtr(u32 propertyIdx) const
 long long MapObjectBase::ReadBasicType(u32 propertyIdx) const
 {
     const u8* propertyDataPtr = reinterpret_cast<const u8*>(PropertyPtr(propertyIdx));
+    qDebug() << "offset is " << mTypes[propertyIdx].mFieldOffset;
     switch(mTypes[propertyIdx].mFieldType)
     {
+    case relive::FieldType::Field_S8:
+        return *reinterpret_cast<const s8*>(propertyDataPtr);
     case relive::FieldType::Field_S16:
         return *reinterpret_cast<const s16*>(propertyDataPtr);
-
+    case relive::FieldType::Field_S32:
+        return *reinterpret_cast<const s32*>(propertyDataPtr);
     case relive::FieldType::Field_U16:
         return *reinterpret_cast<const u16*>(propertyDataPtr);
     }
 
+    return 0;
     //ALIVE_FATAL("Unknown type");
 }
 
@@ -56,11 +60,18 @@ void MapObjectBase::SetBasicType(u32 propertyIdx, long long value)
     u8* propertyDataPtr = reinterpret_cast<u8*>(PropertyPtr(propertyIdx));
     switch(mTypes[propertyIdx].mFieldType)
     {
+    case relive::FieldType::Field_S8:
+        *reinterpret_cast<s8*>(propertyDataPtr) = static_cast<s8>(value);
+        break;
     case relive::FieldType::Field_S16:
         *reinterpret_cast<s16*>(propertyDataPtr) = static_cast<s16>(value);
-
+        break;
+    case relive::FieldType::Field_S32:
+        *reinterpret_cast<s32*>(propertyDataPtr) = static_cast<s32>(value);
+        break;
     case relive::FieldType::Field_U16:
         *reinterpret_cast<u16*>(propertyDataPtr) = static_cast<u16>(value);
+        break;
     }
 }
 
@@ -317,7 +328,7 @@ std::string Model::ToJson() const
     nlohmann::json root = nlohmann::json::object();
 
    // root << "path_version" << mMapInfo.mPathVersion;
-   // root << "game" << mMapInfo.mGame;
+    root["game"] = mGame == GameType::eAo ? "AO" : "AE";
 
     nlohmann::json map = nlohmann::json::object();
     /*

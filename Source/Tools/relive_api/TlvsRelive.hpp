@@ -103,8 +103,10 @@ namespace relive
 
 enum class FieldType
 {
+    Field_S8,
     Field_U16,
     Field_S16,
+    Field_S32,
 };
 
 struct TypeDescription
@@ -123,10 +125,22 @@ constexpr FieldType FieldPointerToFieldType<u16*>()
     return FieldType::Field_U16;
 }
 
+template <>
+constexpr FieldType FieldPointerToFieldType<s8*>()
+{
+    return FieldType::Field_S8;
+}
+
 template<>
 constexpr FieldType FieldPointerToFieldType<s16*>()
 {
     return FieldType::Field_S16;
+}
+
+template <>
+constexpr FieldType FieldPointerToFieldType<s32*>()
+{
+    return FieldType::Field_S32;
 }
 
 template<>
@@ -135,11 +149,24 @@ constexpr FieldType FieldPointerToFieldType<relive::reliveScale*>()
     return FieldPointerToFieldType<std::add_pointer_t<std::underlying_type_t<relive::reliveScale>>>();
 }
 
-// 0x1 is an arbitary non nullptr address as subtracting a nullptr is apparently UB
-#define DEFINE_FIELD(editor_name,typeName,memberName) { editor_name, FieldPointerToFieldType<decltype(std::addressof(((typeName*)0x1)->memberName))>(), static_cast<u32>(std::addressof(((typeName*)0x1)->memberName) - ((decltype(std::addressof(((typeName*)0x1)->memberName)))0x1)) }
+#define DEFINE_FIELD(editor_name, typeName, memberName)                                                      \
+    {                                                                                                        \
+            editor_name,                                                                                     \
+            FieldPointerToFieldType<decltype(std::addressof(((typeName*) nullptr)->memberName))>(),          \
+            static_cast<u32>(reinterpret_cast<uintptr_t>(std::addressof(((typeName*) nullptr)->memberName))) \
+    }
 
-
-
+#define DEFINE_BASE_FIELDS(typeName)                                     \
+    DEFINE_FIELD("top left x", typeName, mTopLeftX),                     \
+    DEFINE_FIELD("top left y", typeName, mTopLeftY),                     \
+    DEFINE_FIELD("bottom right x", typeName, mBottomRightX),             \
+    DEFINE_FIELD("bottom right y", typeName, mBottomRightY),             \
+    DEFINE_FIELD("tlv specific meaning", typeName, mTlvSpecificMeaning), \
+    /* DEFINE_FIELD("tlv type", typeName, mTlvType),*/                        \
+    /* DEFINE_FIELD("tlv flags", typeName, mTlvFlags),*/                      \
+    DEFINE_FIELD("length", typeName, mLength)                           \
+    /* DEFINE_FIELD("id", typeName, mId),*/                                   \
+    /* DEFINE_FIELD("attribute", typeName, mAttribute)*/
 
 struct Editor_TimedMine final : public MapObjectBase
 {
