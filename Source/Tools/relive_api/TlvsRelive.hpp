@@ -102,7 +102,9 @@ public:
     virtual void Visit(IRefelector& r)
     {
         r.Visit("top left x", mBaseTlv->mTopLeftX);
-        // TODO: Others
+        r.Visit("top left y", mBaseTlv->mTopLeftY);
+        r.Visit("bottom right x", mBaseTlv->mBottomRightX);
+        r.Visit("bottom right y", mBaseTlv->mBottomRightY);
     }
 };
 

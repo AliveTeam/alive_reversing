@@ -395,10 +395,12 @@ void ResizeableRectItem::SyncFromMapObject()
 
 void ResizeableRectItem::SyncToMapObject()
 {
-    mMapObject->SetXPos(static_cast<int>(pos().x()));
-    mMapObject->SetYPos(static_cast<int>(pos().y()));
-    mMapObject->SetWidth(mWidth);
-    mMapObject->SetHeight(mHeight);
+    const auto xpos = static_cast<s32>(pos().x());
+    const auto ypos = static_cast<s32>(pos().y());
+    mMapObject->SetXPos(xpos);
+    mMapObject->SetYPos(ypos);
+    mMapObject->mBaseTlv->mBottomRightX = xpos + mWidth;
+    mMapObject->mBaseTlv->mBottomRightY = ypos + mHeight;
     UpdateIcon();
 }
 
