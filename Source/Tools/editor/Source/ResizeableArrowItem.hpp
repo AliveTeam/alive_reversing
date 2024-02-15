@@ -27,6 +27,7 @@ public:
         SyncToCollisionItem();
     }
 
+    void Visit(IRefelector& f) override;
 
 protected:
     void hoverLeaveEvent( QGraphicsSceneHoverEvent* aEvent ) override;

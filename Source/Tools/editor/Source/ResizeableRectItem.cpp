@@ -384,6 +384,11 @@ void ResizeableRectItem::SetRect(const QRectF& rect)
     UpdateIcon();
 }
 
+void ResizeableRectItem::Visit(IRefelector& f)
+{
+    mMapObject->Visit(f);
+}
+
 void ResizeableRectItem::SyncFromMapObject()
 {
     setX(mMapObject->XPos());

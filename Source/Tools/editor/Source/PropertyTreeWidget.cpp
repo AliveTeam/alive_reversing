@@ -54,6 +54,43 @@ private:
 };
 
 
+class PropertyFieldCollector final : public IRefelector
+{
+public:
+
+    void Visit(const char* fieldName, relive::reliveScale& field) override
+    {
+        // TODO:
+    }
+
+    void Visit(const char* , u16& field) override
+    {
+        mPropertyPointers.append(&field);
+    }
+
+    void Visit(const char* , s16& field) override
+    {
+        mPropertyPointers.append(&field);
+    }
+
+    void Visit(const char* , u32& field) override
+    {
+        mPropertyPointers.append(&field);
+    }
+
+    void Visit(const char* , s32& field) override
+    {
+        mPropertyPointers.append(&field);
+    }
+
+    QList<void*>& PropertyPointers()
+    {
+        return mPropertyPointers;
+    }
+private:
+    QList<void*> mPropertyPointers;
+};
+
 PropertyTreeItemBase* PropertyTreeWidget::FindObjectPropertyByKey(const void* pKey)
 {
     for (int i = 0; i < topLevelItemCount(); i++)
@@ -147,16 +184,18 @@ void PropertyTreeWidget::Init()
 
 void PropertyTreeWidget::Sync(IGraphicsItem* pItem)
 {
-    /*
-    auto& props = pItem->GetProperties();
+    PropertyFieldCollector pfc;
+    pItem->Visit(pfc);
+
+    auto& props = pfc.PropertyPointers();
     for (auto& prop : props)
     {
-        PropertyTreeItemBase* pTreeItem = FindObjectPropertyByKey(prop.get());
+        PropertyTreeItemBase* pTreeItem = FindObjectPropertyByKey(prop);
         if (pTreeItem)
         {
             pTreeItem->Refresh();
         }
-    }*/
+    }
 }
 
 //void PropertyTreeWidget::AddProperties(Model& model, QUndoStack& undoStack, QList<QTreeWidgetItem*>& items, std::vector<UP_ObjectProperty>& props, IGraphicsItem* pGraphicsItem)

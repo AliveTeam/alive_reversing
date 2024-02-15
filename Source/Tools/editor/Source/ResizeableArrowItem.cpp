@@ -7,6 +7,7 @@
 #include "Model.hpp"
 #include "PropertyTreeWidget.hpp"
 #include "SnapSettings.hpp"
+#include <QDebug>
 
 ResizeableArrowItem::ResizeableArrowItem(QGraphicsView* pView, Model::CollisionObject* pLine, ISyncPropertiesToTree& propSyncer, int transparency, SnapSettings& snapSettings, IPointSnapper& snapper)
     : QGraphicsLineItem(pLine->X2(), pLine->Y2(), pLine->X1(), pLine->Y1())
@@ -314,6 +315,13 @@ void ResizeableArrowItem::RestoreLine(const QLineF& line)
 {
     setLine(line);
     PosOrLineChanged();
+}
+
+void ResizeableArrowItem::Visit(IRefelector& f)
+{
+    qDebug() << "TODO ResizeableArrowItem::Visit";
+
+    // TODO: Have an Editor_PathLine or a helper in here that calls f.Visit() for each property
 }
 
 void ResizeableArrowItem::SyncToCollisionItem()

@@ -3,12 +3,14 @@
 #include "Model.hpp"
 #include <QGraphicsItem>
 
+class IRefelector;
+
 class IGraphicsItem
 {
 public:
     virtual ~IGraphicsItem() { }
     virtual void SyncInternalObject() = 0;
-    //virtual std::vector<UP_ObjectProperty>& GetProperties() = 0;
+    virtual void Visit(IRefelector& f) = 0;
 
     static void SetTransparency(QGraphicsItem* pItem, int transparency)
     {
