@@ -2,22 +2,32 @@
 
 #include "PropertyTreeItemBase.hpp"
 #include <QUndoCommand>
+#include <QtGlobal>
 
 class QUndoStack;
 class BigSpinBox;
 
+enum class IntegerType
+{
+    Int_S16,
+    Int_U16,
+    Int_S32,
+    Int_U32,
+};
+
 struct BasicTypePropertyChangeData
 {
-    BasicTypePropertyChangeData(MapObjectBase* mapObject,  u32 propertyIdx, int oldValue, int newValue)
-        : mMapObject(mapObject), mPropertyIdx(propertyIdx), mOldValue(oldValue), mNewValue(newValue)
+    BasicTypePropertyChangeData(MapObjectBase* mapObject, IntegerType intType, void* integerPtr, qint64 oldValue, qint64 newValue)
+        : mMapObject(mapObject), mIntType(intType), mIntegerPtr(integerPtr), mOldValue(oldValue), mNewValue(newValue)
     {
 
     }
 
     MapObjectBase* mMapObject = nullptr;
-    u32 mPropertyIdx =0;
-    int mOldValue = 0;
-    int mNewValue = 0;
+    IntegerType mIntType = IntegerType::Int_S16;
+    void* mIntegerPtr = nullptr;
+    qint64 mOldValue = 0;
+    qint64 mNewValue = 0;
 };
 
 class ChangeBasicTypePropertyCommand final : public QUndoCommand
@@ -47,22 +57,26 @@ class BasicTypeProperty final : public QObject, public PropertyTreeItemBase
 {
     Q_OBJECT
 public:
-    BasicTypeProperty(QUndoStack& undoStack, QTreeWidgetItem* pParent, MapObjectBase* pMapObject, u32 propertyIdx, IGraphicsItem* pGraphicsItem);
+
+    BasicTypeProperty(IntegerType intType, void* pInteger, const char* pPropertyName, QUndoStack& undoStack, MapObjectBase* pMapObject, IGraphicsItem* pGraphicsItem);
 
     QWidget* CreateEditorWidget(PropertyTreeWidget* pParent) override;
 
     const void* GetPropertyLookUpKey() const override
     {
-        return mMapObject->PropertyPtr(mPropertyIdx);
+        return mIntegerPtr;
     }
 
     void Refresh() override;
 
 private:
-    MapObjectBase* mMapObject = nullptr;
-    u32 mPropertyIdx =0;
+
+    IntegerType mIntType = IntegerType::Int_S16;
+    void* mIntegerPtr = nullptr;
+    const char* mPropertyName = nullptr;
     QUndoStack& mUndoStack;
+    MapObjectBase* mMapObject = nullptr;
     IGraphicsItem* mGraphicsItem = nullptr;
-    int mOldValue = 0;
     BigSpinBox* mSpinBox = nullptr;
+    qint64 mOldValue = 0;
 };

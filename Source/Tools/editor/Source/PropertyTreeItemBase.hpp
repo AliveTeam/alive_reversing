@@ -5,17 +5,20 @@
 #include "BigSpinBox.hpp"
 
 class IGraphicsItem;
+enum class IntegerType;
 
 struct LinkedProperty
 {
-    LinkedProperty(MapObjectBase* mapObject, u32 propertyIdx, PropertyTreeWidget* pTreeWidget, IGraphicsItem* pGraphicsItem)
-        : mMapObject(mapObject), mPropertyIdx(propertyIdx), mTreeWidget(pTreeWidget), mGraphicsItem(pGraphicsItem)
+    LinkedProperty(MapObjectBase* mapObject, const char* propertyName, IntegerType intType, void* pIntPtr, PropertyTreeWidget* pTreeWidget, IGraphicsItem* pGraphicsItem)
+        : mMapObject(mapObject), mPropertyName(propertyName), mIntegerType(intType), mIntPtr(pIntPtr), mTreeWidget(pTreeWidget), mGraphicsItem(pGraphicsItem)
     {
 
     }
 
     MapObjectBase* mMapObject = nullptr;
-    u32 mPropertyIdx =0;
+    const char* mPropertyName = nullptr;
+    IntegerType mIntegerType;
+    void* mIntPtr = nullptr;
     PropertyTreeWidget* mTreeWidget = nullptr;
     IGraphicsItem* mGraphicsItem = nullptr;
 };

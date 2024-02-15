@@ -8,6 +8,52 @@
 #include "EnumProperty.hpp"
 #include <QHeaderView>
 
+class PropertyCreator final : public IRefelector
+{
+public:
+    PropertyCreator(QUndoStack& undoStack, MapObjectBase* pMapObject, IGraphicsItem* pGraphicsItem)
+     : mUndoStack(undoStack), mMapObject(pMapObject), mGraphicsItem(pGraphicsItem)
+    {
+
+    }
+
+    void Visit(const char* fieldName, relive::reliveScale& field) override
+    {
+        // TODO: Generic enum property
+    }
+
+    void Visit(const char* fieldName, u16& field) override
+    {
+        mCreatedProperties.append(new BasicTypeProperty(IntegerType::Int_U16, &field, fieldName, mUndoStack, mMapObject, mGraphicsItem));
+    }
+
+    void Visit(const char* fieldName, s16& field) override
+    {
+        mCreatedProperties.append(new BasicTypeProperty(IntegerType::Int_S16, &field, fieldName, mUndoStack, mMapObject, mGraphicsItem));
+    }
+
+    void Visit(const char* fieldName, u32& field) override
+    {
+        mCreatedProperties.append(new BasicTypeProperty(IntegerType::Int_U32, &field, fieldName, mUndoStack, mMapObject, mGraphicsItem));
+    }
+
+    void Visit(const char* fieldName, s32& field) override
+    {
+        mCreatedProperties.append(new BasicTypeProperty(IntegerType::Int_S32, &field, fieldName, mUndoStack, mMapObject, mGraphicsItem));
+    }
+
+    QList<QTreeWidgetItem*>& CreatedProperties()
+    {
+        return mCreatedProperties;
+    }
+private:
+    QUndoStack& mUndoStack;
+    MapObjectBase* mMapObject = nullptr;
+    IGraphicsItem* mGraphicsItem = nullptr;
+    QList<QTreeWidgetItem*> mCreatedProperties;
+};
+
+
 PropertyTreeItemBase* PropertyTreeWidget::FindObjectPropertyByKey(const void* pKey)
 {
     for (int i = 0; i < topLevelItemCount(); i++)
@@ -24,39 +70,29 @@ PropertyTreeItemBase* PropertyTreeWidget::FindObjectPropertyByKey(const void* pK
 
 void PropertyTreeWidget::Populate(Model& model, QUndoStack& undoStack, QGraphicsItem* pItem)
 {
-    auto pLine = qgraphicsitem_cast<ResizeableArrowItem*>(pItem);
     auto pRect = qgraphicsitem_cast<ResizeableRectItem*>(pItem);
-
-    QList<QTreeWidgetItem*> items;
-    QTreeWidgetItem* parent = nullptr;
     if (pRect)
     {
         MapObjectBase* pMapObject = pRect->GetMapObject();
-
-        //items.append(new StringProperty(undoStack, parent, kIndent + "Name", &pMapObject->mName));
-
-        for (u32 i = 0; i < pMapObject->mCount; i++)
-        {
-            items.append(new BasicTypeProperty(undoStack, parent, pMapObject, i, pRect));
-        }
-
-
-
-      //  AddProperties(model, undoStack, items, pMapObject->mProperties, pRect);
+        PropertyCreator pc(undoStack, pMapObject, pRect);
+        pMapObject->Visit(pc);
+        insertTopLevelItems(0, pc.CreatedProperties());
     }
-    else if (pLine)
+
+    auto pLine = qgraphicsitem_cast<ResizeableArrowItem*>(pItem);
+    if (pLine)
     {
         Model::CollisionObject* pCollisionItem = pLine->GetCollisionItem();
 
-        items.append(new ReadOnlyStringProperty(parent, kIndent + "Id", &pCollisionItem->mId));
+        QList<QTreeWidgetItem*> items;
+        items.append(new ReadOnlyStringProperty(nullptr, kIndent + "Id", &pCollisionItem->mId));
 
         //items.append(new BasicTypeProperty(undoStack, parent, "X1", pCollisionItem, &bt);
 
         // TODO line properties
         //AddProperties(model, undoStack, items, pCollisionItem->mProperties, pLine);
+        insertTopLevelItems(0, items);
     }
-
-    insertTopLevelItems(0, items);
 }
 
 void PropertyTreeWidget::DePopulate()

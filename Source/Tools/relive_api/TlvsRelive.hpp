@@ -30,24 +30,34 @@
 
 #define EMPTY_CTOR_RELIVE() (void) globalTypes
 
-namespace relive
+class IRefelector
 {
-struct TypeDescription;
-}
+public:
+    virtual ~IRefelector() { }
+
+    virtual void Visit(const char* fieldName, relive::reliveScale& field) = 0;
+
+    virtual void Visit(const char* fieldName, u16& field) = 0;
+    virtual void Visit(const char* fieldName, s16& field) = 0;
+
+    virtual void Visit(const char* fieldName, u32& field) = 0;
+    virtual void Visit(const char* fieldName, s32& field) = 0;
+
+};
 
 // TODO: Move back to the editor src
 class MapObjectBase
 {
 public:
-    MapObjectBase(relive::Path_TLV* pTlv, const relive::TypeDescription* pTypes, u32 count)
-     : mBaseTlv(pTlv), mTypes(pTypes), mCount(count)
+    MapObjectBase(relive::Path_TLV* pTlv)
+     : mBaseTlv(pTlv)
     {
 
     }
 
+    virtual ~MapObjectBase() { }
+
     relive::Path_TLV* mBaseTlv = nullptr;
-    const relive::TypeDescription* mTypes = nullptr;
-    u32 mCount = 0;
 
     void SetXPos(s32 xpos)
     {
@@ -89,100 +99,30 @@ public:
         return mBaseTlv->Height();
     }
 
-    // TODO qint64
-    const void* PropertyPtr(u32 propertyIdx) const;
-    void* PropertyPtr(u32 propertyIdx);
-    long long ReadBasicType(u32 propertyIdx) const;
-
-    void SetBasicType(u32 propertyIdx, long long value);
-
+    virtual void Visit(IRefelector& r)
+    {
+        r.Visit("top left x", mBaseTlv->mTopLeftX);
+        // TODO: Others
+    }
 };
 
 namespace relive
 {
 
-enum class FieldType
+
+class Editor_TimedMine final : public MapObjectBase
 {
-    Field_S8,
-    Field_U16,
-    Field_S16,
-    Field_S32,
-};
+public:
+    Editor_TimedMine() : MapObjectBase(&mTlv) { }
 
-struct TypeDescription
-{
-    const char* mFieldName;
-    FieldType mFieldType;
-    u32 mFieldOffset;
-};
-
-template<typename T>
-constexpr FieldType FieldPointerToFieldType();
-
-template<>
-constexpr FieldType FieldPointerToFieldType<u16*>()
-{
-    return FieldType::Field_U16;
-}
-
-template <>
-constexpr FieldType FieldPointerToFieldType<s8*>()
-{
-    return FieldType::Field_S8;
-}
-
-template<>
-constexpr FieldType FieldPointerToFieldType<s16*>()
-{
-    return FieldType::Field_S16;
-}
-
-template <>
-constexpr FieldType FieldPointerToFieldType<s32*>()
-{
-    return FieldType::Field_S32;
-}
-
-template<>
-constexpr FieldType FieldPointerToFieldType<relive::reliveScale*>()
-{
-    return FieldPointerToFieldType<std::add_pointer_t<std::underlying_type_t<relive::reliveScale>>>();
-}
-
-#define DEFINE_FIELD(editor_name, typeName, memberName)                                                      \
-    {                                                                                                        \
-            editor_name,                                                                                     \
-            FieldPointerToFieldType<decltype(std::addressof(((typeName*) nullptr)->memberName))>(),          \
-            static_cast<u32>(reinterpret_cast<uintptr_t>(std::addressof(((typeName*) nullptr)->memberName))) \
-    }
-
-#define DEFINE_BASE_FIELDS(typeName)                                     \
-    DEFINE_FIELD("top left x", typeName, mTopLeftX),                     \
-    DEFINE_FIELD("top left y", typeName, mTopLeftY),                     \
-    DEFINE_FIELD("bottom right x", typeName, mBottomRightX),             \
-    DEFINE_FIELD("bottom right y", typeName, mBottomRightY),             \
-    DEFINE_FIELD("tlv specific meaning", typeName, mTlvSpecificMeaning), \
-    /* DEFINE_FIELD("tlv type", typeName, mTlvType),*/                        \
-    /* DEFINE_FIELD("tlv flags", typeName, mTlvFlags),*/                      \
-    DEFINE_FIELD("length", typeName, mLength)                           \
-    /* DEFINE_FIELD("id", typeName, mId),*/                                   \
-    /* DEFINE_FIELD("attribute", typeName, mAttribute)*/
-
-struct Editor_TimedMine final : public MapObjectBase
-{
-    /*
-    CTOR_RELIVE(Editor_TimedMine, Path_TimedMine, ReliveTypes::eTimedMine)
+    void Visit(IRefelector& r) override
     {
-        ADD("Scale", mTlv.mScale);
-        ADD("Ticks Before Explosion", mTlv.mTicksUntilExplosion);
+        MapObjectBase::Visit(r);
+        r.Visit("Scale", mTlv.mScale);
+        r.Visit("Ticks Before Explosion", mTlv.mTicksUntilExplosion);
     }
-    */
-
-    Editor_TimedMine();
 
     Path_TimedMine mTlv;
-
-    static const TypeDescription mSaveData[];
 };
 
 struct Editor_ElectricWall final : public MapObjectBase
