@@ -1,7 +1,5 @@
 #pragma once
 
-#include "../relive_lib/Function.hpp"
-#include "MainMenu.hpp"
 #include "../relive_lib/SwitchStates.hpp"
 #include "../relive_lib/FatalError.hpp"
 #include "Abe.hpp"

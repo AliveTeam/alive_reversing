@@ -26,11 +26,12 @@
 #include "Path.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
 #include "../relive_lib/GameObjects/ScreenManager.hpp"
-#include "ResourceManager.hpp"
+#include "../relive_lib/GameObjects/ResourceManager.hpp"
 #include "QuikSave.hpp"
 #include "DDCheat.hpp"
 #include "nlohmann/json.hpp"
 #include "../relive_lib/data_conversion/AESaveSerialization.hpp"
+#include "stdlib.hpp"
 
 MainMenuController* MainMenuController::gMainMenuController = nullptr;
 

@@ -1,12 +1,21 @@
 #pragma once
 
 #include "../relive_lib/GameObjects/BaseGameObject.hpp"
-#include "../AliveLibAE/Slurg.hpp"
-#include "../relive_lib/data_conversion/PathTlvsAE.hpp"
 
 // it reads the slurg spawned count from the TLV but never updates it.
 // Also it hasn't got quiksave support.
 // https://github.com/AliveTeam/alive_reversing/issues/1526
+
+namespace relive {
+struct Path_SlurgSpawner;
+}
+
+struct Slurg_Spawner_Path_Data final
+{
+    s16 mSpawnInterval;
+    s16 mMaxSlurgs;
+    s16 mSwitchId;
+};
 
 class SlurgSpawner final : public BaseGameObject
 {

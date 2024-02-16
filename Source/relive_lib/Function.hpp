@@ -1,7 +1,5 @@
 #pragma once
 
-#include <type_traits>
-
 #ifdef _MSC_VER
     #define CC __cdecl
     #if _WIN64

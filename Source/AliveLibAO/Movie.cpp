@@ -1,6 +1,5 @@
 #include "stdafx_ao.h"
 #include "Movie.hpp"
-#include "../AliveLibAE/stdlib.hpp"
 #include "../relive_lib/PSXADPCMDecoder.h"
 #include "../relive_lib/PSXMDECDecoder.h"
 #include "../relive_lib/Masher.hpp"
@@ -12,6 +11,7 @@
 #include "../relive_lib/Sound/SDLSoundBuffer.hpp"
 #include "GameAutoPlayer.hpp"
 #include "Midi.hpp"
+#include <FatalError.hpp>
 
 #define NO_WAVE
 #include "../relive_lib/Sound/Sound.hpp"

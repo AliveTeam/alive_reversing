@@ -2,7 +2,7 @@
 #include "PathData.hpp"
 #include "LCDScreen.hpp"
 #include "HintFly.hpp"
-#include "ResourceManager.hpp"
+#include "../relive_lib/GameObjects/ResourceManager.hpp"
 #include "../relive_lib/Collisions.hpp"
 #include "../relive_lib/PathDataExtensionsTypes.hpp"
 

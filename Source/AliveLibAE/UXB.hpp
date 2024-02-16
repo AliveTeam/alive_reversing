@@ -3,7 +3,7 @@
 #include "../relive_lib/GameObjects/BaseGameObject.hpp"
 #include "BaseAliveGameObject.hpp"
 #include "../relive_lib/Animation.hpp"
-#include "Sfx.hpp"
+#include "../relive_lib/Sfx.hpp"
 #include "../relive_lib/SaveStateBase.hpp"
 
 namespace relive

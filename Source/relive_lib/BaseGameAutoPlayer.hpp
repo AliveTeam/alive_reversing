@@ -1,8 +1,6 @@
 #pragma once
 
 #include <vector>
-#include <type_traits>
-#include "FatalError.hpp"
 #include "Types.hpp"
 #include "data_conversion/file_system.hpp"
 

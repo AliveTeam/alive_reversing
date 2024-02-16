@@ -44,6 +44,7 @@
 #include "../../AliveLibAE/Abe.hpp"
 #include "../../AliveLibAE/Mudokon.hpp"
 #include "../../AliveLibAE/Scrab.hpp"
+#include "../../AliveLibAE/Slig.hpp"
 
 #include "../../AliveLibAE/QuikSave.hpp"
 

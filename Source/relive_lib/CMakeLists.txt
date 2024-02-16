@@ -191,8 +191,6 @@ SET(AliveLibSrcAO
    ../AliveLibAO/PathData.cpp
    ../AliveLibAO/AnimationCallBacks.cpp
    ../AliveLibAO/AnimationCallBacks.hpp
-   ../AliveLibAO/ResourceManager.hpp
-   ../AliveLibAO/ResourceManager.cpp
    ../AliveLibAO/Factory.hpp
    ../AliveLibAO/Factory.cpp
    ../AliveLibAO/GasCountDown.hpp
@@ -244,8 +242,6 @@ SET(AliveLibAESrc
     ../AliveLibAE/Game.hpp
     ../AliveLibAE/stdlib.cpp
     ../AliveLibAE/stdlib.hpp
-    ../AliveLibAE/ResourceManager.cpp
-    ../AliveLibAE/ResourceManager.hpp
     ../AliveLibAE/BaseAliveGameObject.cpp
     ../AliveLibAE/BaseAliveGameObject.hpp
     ../AliveLibAE/CreditsController.cpp
@@ -582,6 +578,8 @@ SET(game_objects_src
     GameObjects/ThrowableTotalIndicator.cpp
     GameObjects/OrbWhirlWind.cpp
     GameObjects/OrbWhirlWind.hpp
+    GameObjects/ResourceManager.hpp
+    GameObjects/ResourceManager.cpp
 )
 
 SET(data_conversion_src

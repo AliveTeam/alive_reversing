@@ -1,6 +1,5 @@
 #pragma once
 
-#include "../relive_lib/Function.hpp"
 #include "PathData.hpp"
 #include "../relive_lib/Psx.hpp"
 #include "../relive_lib/Collisions.hpp"

@@ -2,15 +2,15 @@
 #include "SlurgSpawner.hpp"
 #include "DDCheat.hpp"
 #include "../relive_lib/Function.hpp"
-#include "stdlib.hpp"
 #include "../relive_lib/SwitchStates.hpp"
+#include "Slurg.hpp"
+#include "Path.hpp"
 
 static void SetData(const relive::Path_SlurgSpawner& tlv, Slurg_Spawner_Path_Data& data)
 {
     data.mSpawnInterval = tlv.mSpawnInterval;
     data.mMaxSlurgs = tlv.mMaxSlurgs;
     data.mSwitchId = tlv.mSpawnerSwitchId;
-    data.padding = 0;
 }
 
 SlurgSpawner::SlurgSpawner(relive::Path_SlurgSpawner* pTlv, const Guid& tlvId)

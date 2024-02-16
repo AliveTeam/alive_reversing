@@ -1,7 +1,6 @@
 #pragma once
 
 #include <QMainWindow>
-#include <memory>
 #include <QSettings>
 #include "EditorTab.hpp"
 #include "ClipBoard.hpp"

@@ -1,6 +1,7 @@
 #include "BaseGameAutoPlayer.hpp"
 #include "Sys.hpp"
 #include "CommandLineParser.hpp"
+#include <FatalError.hpp>
 
 constexpr u32 kVersion = 0x1997 + 2;
 

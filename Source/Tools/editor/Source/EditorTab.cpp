@@ -16,9 +16,7 @@
 #include "ResizeableRectItem.hpp"
 #include "CameraGraphicsItem.hpp"
 #include "EditorGraphicsScene.hpp"
-#include "BigSpinBox.hpp"
 #include <QLineEdit>
-#include "PropertyTreeItemBase.hpp"
 #include "StringProperty.hpp"
 #include "PropertyTreeWidget.hpp"
 #include <QFileInfo>

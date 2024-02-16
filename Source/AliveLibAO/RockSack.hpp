@@ -2,7 +2,10 @@
 
 #include "BaseAliveGameObject.hpp"
 #include "Map.hpp"
-#include "Path.hpp"
+
+namespace relive {
+struct Path_RockSack;
+}
 
 namespace AO {
 

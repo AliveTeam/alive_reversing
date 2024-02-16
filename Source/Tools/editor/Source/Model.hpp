@@ -3,9 +3,6 @@
 #include <string>
 #include <vector>
 #include <memory>
-#include "nlohmann/json.hpp"
-#include "../../relive_lib/ObjectTypes.hpp"
-#include "../../relive_lib/data_conversion/relive_tlvs.hpp"
 #include "../../relive_lib/Collisions.hpp"
 #include "../../relive_lib/GameType.hpp"
 

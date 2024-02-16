@@ -1,7 +1,7 @@
 #include "BasicTypeProperty.hpp"
-#include "Model.hpp"
 #include "IGraphicsItem.hpp"
 #include <QDateTime>
+#include "BigSpinBox.hpp"
 
 static qint64 ReadInt(IntegerType intType, void* intPtr)
 {

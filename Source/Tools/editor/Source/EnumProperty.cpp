@@ -1,5 +1,4 @@
 #include "EnumProperty.hpp"
-#include "Model.hpp"
 #include "IGraphicsItem.hpp"
 #include <QComboBox>
 

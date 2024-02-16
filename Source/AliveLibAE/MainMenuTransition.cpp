@@ -5,6 +5,7 @@
 #include "stdlib.hpp"
 #include "Map.hpp"
 #include "../relive_lib/GameObjects/BaseAnimatedWithPhysicsGameObject.hpp"
+#include "../relive_lib/Sfx.hpp"
 
 struct MainMenu_TransitionData final
 {

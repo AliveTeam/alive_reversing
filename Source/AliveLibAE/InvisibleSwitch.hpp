@@ -2,7 +2,7 @@
 
 #include "../relive_lib/GameObjects/BaseGameObject.hpp"
 #include "../relive_lib/Psx.hpp"
-#include "../relive_lib/SwitchStates.hpp"
+#include "../relive_lib/data_conversion/relive_tlvs.hpp"
 
 class InvisibleSwitch final : public BaseGameObject
 {

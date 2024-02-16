@@ -1,6 +1,5 @@
 #pragma once
 
-#include "../relive_lib/Function.hpp"
 #include "../relive_lib/GameObjects/BaseAnimatedWithPhysicsGameObject.hpp"
 #include "../relive_lib/Primitives.hpp"
 #include "Font.hpp"

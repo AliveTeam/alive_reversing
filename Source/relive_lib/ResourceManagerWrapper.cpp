@@ -2,8 +2,6 @@
 #include "ResourceManagerWrapper.hpp"
 #include "GameType.hpp"
 #include "Psx.hpp"
-#include "../AliveLibAE/ResourceManager.hpp"
-#include "../AliveLibAO/ResourceManager.hpp"
 #include "../AliveLibAE/PsxRender.hpp"
 
 #include "data_conversion/file_system.hpp"
@@ -19,6 +17,7 @@
 #include "nlohmann/json.hpp"
 #include "Sys.hpp"
 #include "ThreadPool.hpp"
+#include <FatalError.hpp>
 
 u32 UniqueResId::mGlobalId = 1;
 

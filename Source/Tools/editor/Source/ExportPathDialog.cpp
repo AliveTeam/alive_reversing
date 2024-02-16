@@ -3,7 +3,6 @@
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QUuid>
-#include "relive_api.hpp"
 #include <QProcess>
 #include "ShowContext.hpp"
 
@@ -17,7 +16,7 @@ ExportPathDialog::ExportPathDialog(QWidget *parent, bool exportAndPlay) :
     // If the dialog is being called for export & play then do it without any user interaction if the json/lvl/exe paths seem valid
     if (mExportAndPlay)
     {
-        if (QFileInfo(getJsonPath()).exists() && QFileInfo(getLvlName()).exists() && QFileInfo(getRelivePath()).exists())
+        if (QFileInfo::exists(getJsonPath()) && QFileInfo::exists(getLvlName()) && QFileInfo::exists(getRelivePath()))
         {
             ExportAndPlay();
             close();

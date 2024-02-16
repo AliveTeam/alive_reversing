@@ -3,6 +3,7 @@
 #include "../Types.hpp"
 #include "../../AliveLibAE/Path.hpp"
 #include "../Psx.hpp"
+#include "../Layer.hpp"
 
 // TODO: Don't use this directly in here, use AE type and convert to relive type
 enum class SwitchOp : s16;

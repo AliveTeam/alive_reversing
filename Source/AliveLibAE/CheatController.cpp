@@ -7,6 +7,7 @@
 #include "QuikSave.hpp"
 #include "../relive_lib/data_conversion/file_system.hpp"
 #include "../relive_lib/data_conversion/AESaveSerialization.hpp"
+#include "MainMenu.hpp" // gEnableCheatFMV and gEnableCheatLevelSelect globals
 
 CheatController* gCheatController = nullptr;
 

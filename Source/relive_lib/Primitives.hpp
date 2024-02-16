@@ -1,9 +1,6 @@
 #pragma once
 
-#include "Layer.hpp"
 #include "Psx.hpp"
-#include "Function.hpp"
-#include "RGB16.hpp"
 
 struct Poly_FT4;
 

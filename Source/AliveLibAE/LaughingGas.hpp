@@ -4,6 +4,7 @@
 #include "../relive_lib/GameObjects/BaseGameObject.hpp"
 #include "../relive_lib/Primitives.hpp"
 #include "Path.hpp" // only for Choice_short
+#include "../relive_lib/Layer.hpp"
 
 // TODO: These can be combined
 struct Path_LaughingGas_Data final

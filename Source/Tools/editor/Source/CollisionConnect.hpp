@@ -1,7 +1,6 @@
 #pragma once
 
 #include <QUndoCommand>
-#include "Model.hpp"
 #include "ResizeableArrowItem.hpp"
 
 struct CollisionConnectData

@@ -1,9 +1,9 @@
 #pragma once
 
-#include "stdlib.hpp"
 #include "Math.hpp"
 #include "../relive_lib/Primitives.hpp"
 #include "../relive_lib/ResourceManagerWrapper.hpp"
+#include "Layer.hpp"
 
 class OrderingTable;
 

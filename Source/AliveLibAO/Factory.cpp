@@ -2,7 +2,7 @@
 #include "Factory.hpp"
 #include "../relive_lib/Function.hpp"
 #include "GasCountDown.hpp"
-#include "ResourceManager.hpp"
+#include "../relive_lib/GameObjects/ResourceManager.hpp"
 #include "../AliveLibAE/stdlib.hpp"
 #include "RollingBallStopper.hpp"
 #include "Game.hpp"
@@ -72,6 +72,7 @@
 #include "LiftPoint.hpp"
 #include "RockSack.hpp"
 #include "MeatSack.hpp"
+#include "Path.hpp"
 
 namespace AO {
 

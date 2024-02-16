@@ -3,6 +3,7 @@
 #include "../relive_lib/GameObjects/BaseGameObject.hpp"
 #include "../relive_lib/Layer.hpp"
 #include "../relive_lib/Primitives.hpp"
+#include "../RGB16.hpp"
 
 enum class ThrowableTotalIndicatorState : s16
 {

@@ -3,7 +3,6 @@
 #include <QList>
 #include <QGraphicsItem>
 #include <QUndoCommand>
-#include <string>
 #include "Model.hpp"
 #include "SelectionSaver.hpp"
 #include "EditorGraphicsScene.hpp"

@@ -12,6 +12,7 @@
 #include <sstream>
 #include <algorithm>
 #include <SDL_gamecontroller.h>
+#include <FatalError.hpp>
 
 static SDL_GameController* pSDLController = nullptr;
 

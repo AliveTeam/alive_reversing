@@ -3,6 +3,7 @@
 #include "Types.hpp"
 #include "Function.hpp"
 #include "../AliveLibAE/Math.hpp"
+#include <type_traits>
 
 struct FixedPoint final
 {

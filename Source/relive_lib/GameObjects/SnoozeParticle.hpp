@@ -4,6 +4,7 @@
 #include "../Primitives.hpp"
 #include "../FixedPoint.hpp"
 #include "../Layer.hpp"
+#include "../RGB16.hpp"
 
 class SnoozeParticle final : public BaseGameObject
 {

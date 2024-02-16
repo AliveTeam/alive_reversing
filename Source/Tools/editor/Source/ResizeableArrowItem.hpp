@@ -3,6 +3,7 @@
 #include <QGraphicsLineItem>
 #include <QGraphicsView>
 #include "IGraphicsItem.hpp"
+#include "Model.hpp"
 
 class CollisionObject;
 class ISyncPropertiesToTree;

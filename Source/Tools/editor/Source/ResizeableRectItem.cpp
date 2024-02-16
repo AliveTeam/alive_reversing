@@ -10,10 +10,8 @@
 #include <QGraphicsScene>
 #include <QGraphicsView>
 #include <QPixmapCache>
-#include "Model.hpp"
 #include "PropertyTreeWidget.hpp"
 #include "SnapSettings.hpp"
-#include "../../../relive_lib/data_conversion/relive_tlvs_serialization.hpp"
 
 const quint32 ResizeableRectItem::kMinRectSize = 10;
 

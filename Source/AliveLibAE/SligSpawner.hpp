@@ -1,9 +1,8 @@
 #pragma once
 
 #include "../relive_lib/GameObjects/BaseGameObject.hpp"
-#include "../relive_lib/Psx.hpp"
-#include "Slig.hpp"
 #include "../relive_lib/SaveStateBase.hpp"
+#include "../relive_lib/data_conversion/relive_tlvs.hpp"
 
 enum class SpawnerStates : s16
 {

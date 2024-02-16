@@ -1,13 +1,12 @@
 #include "AnimationConverter.hpp"
 #include "nlohmann/json.hpp"
-#include "../BaseGameAutoPlayer.hpp"
 #include "../Compression.hpp"
 #include "../../AliveLibAE/Compression.hpp" // TODO: combine with common compression files
-#include "../PsxDisplay.hpp" // PsxToPCX
 #include "ResourceManagerWrapper.hpp"
 #include "Animation.hpp"
 #include "PNGFile.hpp"
 #include <mapbox/shelf-pack.hpp>
+#include <FatalError.hpp>
 
 inline void to_json(nlohmann::json&  j, const Point32& p)
 {

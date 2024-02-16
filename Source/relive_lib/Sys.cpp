@@ -1,8 +1,6 @@
 #include "stdafx.h"
 #include "Sys.hpp"
-#include "Function.hpp"
 #include "../AliveLibAE/Input.hpp"
-#include <assert.h>
 #include "../relive/resource.h"
 #include "Renderer/IRenderer.hpp"
 
@@ -11,6 +9,7 @@
 #include "../AliveLibAE/PauseMenu.hpp"
 #include "../AliveLibAE/GameAutoPlayer.hpp"
 #include "relive_config.h"
+#include <FatalError.hpp>
 
 static bool sAppIsActivated = false;
 static TWindowHandleType sHwnd = nullptr;

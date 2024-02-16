@@ -49,6 +49,7 @@
 #include "FlyingSligSpawner.hpp"
 #include "Scrab.hpp"
 #include "Game.hpp"
+#include "MainMenu.hpp" // only for global gSavedKilledMudsPerZulag
 
 #include "nlohmann/json.hpp" // TODO: temp
 #include "../relive_lib/data_conversion/AESaveSerialization.hpp"

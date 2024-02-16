@@ -1,6 +1,5 @@
 #pragma once
 
-#include "../relive_lib/Function.hpp"
 #include "BaseAliveGameObject.hpp"
 #include "../relive_lib/AnimResources.hpp"
 

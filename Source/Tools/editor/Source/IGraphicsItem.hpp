@@ -1,6 +1,5 @@
 #pragma once
 
-#include "Model.hpp"
 #include <QGraphicsItem>
 
 class IReflector;

@@ -1,10 +1,7 @@
 #pragma once
 
 #include "GameObjects/BaseGameObject.hpp"
-#include "DynamicArray.hpp"
 #include "Primitives.hpp"
-#include "MapWrapper.hpp"
-#include "Layer.hpp"
 
 class FG1 final : public BaseGameObject
 {

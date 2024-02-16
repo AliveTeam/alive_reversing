@@ -2,7 +2,6 @@
 
 #include <QTreeWidgetItem>
 #include "PropertyTreeWidget.hpp"
-#include "BigSpinBox.hpp"
 
 class IGraphicsItem;
 enum class IntegerType;

@@ -5,7 +5,7 @@
 #include "Map.hpp"
 #include "PathData.hpp"
 #include "Throwable.hpp"
-#include "ResourceManager.hpp"
+#include "../relive_lib/GameObjects/ResourceManager.hpp"
 #include "QuikSave.hpp"
 
 ThrowableArray* gThrowableArray = nullptr;

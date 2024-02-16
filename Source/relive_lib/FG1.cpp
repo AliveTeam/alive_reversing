@@ -2,6 +2,7 @@
 #include "FG1.hpp"
 #include "Primitives.hpp"
 #include "../AliveLibAE/PsxRender.hpp"
+#include "Layer.hpp"
 
 extern DynamicArrayT<BaseGameObject>* gObjListDrawables;
 

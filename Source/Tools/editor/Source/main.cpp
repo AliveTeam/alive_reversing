@@ -3,9 +3,7 @@
 #include <QFile>
 #include <QTranslator>
 #include <QDebug>
-#include <functional>
 #include <QtCore/qcommandlineparser.h>
-#include "ReliveApiWrapper.hpp"
 
 void DoMapSizeTests();
 

@@ -7,7 +7,7 @@
 #include "../relive_lib/DynamicArray.hpp"
 #include "../relive_lib/Sound/Sound.hpp" // for shut down func
 #include "AmbientSound.hpp"
-#include "ResourceManager.hpp"
+#include "../relive_lib/GameObjects/ResourceManager.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
 #include "Map.hpp"
 #include "../relive_lib/GameObjects/ScreenManager.hpp"
