@@ -24,7 +24,7 @@ public:
         SyncFromMapObject();
     }
 
-    void Visit(IRefelector& f) override;
+    void Visit(IReflector& f) override;
 
 private:  // From QGraphicsItem
     void mousePressEvent(QGraphicsSceneMouseEvent* aEvent) override;

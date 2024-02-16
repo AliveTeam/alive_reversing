@@ -8,7 +8,7 @@
 #include "EnumProperty.hpp"
 #include <QHeaderView>
 
-class PropertyCreator final : public IRefelector
+class PropertyCreator final : public IReflector
 {
 public:
     PropertyCreator(QUndoStack& undoStack, MapObjectBase* pMapObject, IGraphicsItem* pGraphicsItem)
@@ -54,7 +54,7 @@ private:
 };
 
 
-class PropertyFieldCollector final : public IRefelector
+class PropertyFieldCollector final : public IReflector
 {
 public:
 

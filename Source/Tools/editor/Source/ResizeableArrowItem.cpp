@@ -317,7 +317,7 @@ void ResizeableArrowItem::RestoreLine(const QLineF& line)
     PosOrLineChanged();
 }
 
-void ResizeableArrowItem::Visit(IRefelector& f)
+void ResizeableArrowItem::Visit(IReflector& f)
 {
     qDebug() << "TODO ResizeableArrowItem::Visit";
 

@@ -137,6 +137,11 @@ static void DeserializeObject(std::vector<UP_MapObjectBase>& objects, const nloh
 {
     auto tmpMapObject = std::make_unique<T>();
     from_json(mapObject, tmpMapObject->mTlv);
+
+    // Re-purpose to width/height for the editor
+    tmpMapObject->mTlv.mBottomRightX = tmpMapObject->mTlv.Width();
+    tmpMapObject->mTlv.mBottomRightY = tmpMapObject->mTlv.Height();
+
     objects.push_back(std::move(tmpMapObject));
 }
 
@@ -538,6 +543,10 @@ static void DeserializeObjectFactory(std::vector<UP_MapObjectBase>& mapObjects, 
 template<class T>
 static void SerializeObject(nlohmann::json& mapObjects, relive::Path_TLV* pTlv)
 {
+    // Re-purpose to mBottomRightX/mBottomRightY for ingame use
+    pTlv->mBottomRightX += pTlv->mTopLeftX;
+    pTlv->mBottomRightY += pTlv->mTopLeftY;
+
     nlohmann::json mapObj;
     to_json(mapObj, *static_cast<T*>(pTlv));
     mapObjects.push_back(mapObj);
@@ -1069,7 +1078,7 @@ std::string Model::ToJson() const
     nlohmann::json cameras = nlohmann::json::array();
     for (auto& camera : mCameras)
     {
-       // if (!camera->mMapObjects.empty() || !camera->mCameraImageandLayers.mCameraImage.empty())
+        if (!camera->mMapObjects.empty() /*||  !camera->mCameraImageandLayers.mCameraImage.empty()*/)
         {
 
             /*

@@ -30,10 +30,10 @@
 
 #define EMPTY_CTOR_RELIVE() (void) globalTypes
 
-class IRefelector
+class IReflector
 {
 public:
-    virtual ~IRefelector() { }
+    virtual ~IReflector() { }
 
     virtual void Visit(const char* fieldName, relive::reliveScale& field) = 0;
 
@@ -99,12 +99,12 @@ public:
         return mBaseTlv->Height();
     }
 
-    virtual void Visit(IRefelector& r)
+    virtual void Visit(IReflector& r)
     {
-        r.Visit("top left x", mBaseTlv->mTopLeftX);
-        r.Visit("top left y", mBaseTlv->mTopLeftY);
-        r.Visit("bottom right x", mBaseTlv->mBottomRightX);
-        r.Visit("bottom right y", mBaseTlv->mBottomRightY);
+        r.Visit("xpos", mBaseTlv->mTopLeftX);
+        r.Visit("ypos", mBaseTlv->mTopLeftY);
+        r.Visit("width", mBaseTlv->mBottomRightX);
+        r.Visit("height", mBaseTlv->mBottomRightY);
     }
 
     virtual std::string GetIconPath() const
@@ -122,7 +122,7 @@ class Editor_TimedMine final : public MapObjectBase
 public:
     Editor_TimedMine() : MapObjectBase(&mTlv) { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
         r.Visit("Scale", mTlv.mScale);
@@ -154,7 +154,7 @@ class Editor_ElectricWall final : public MapObjectBase
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
         r.Visit("Scale", mTlv.mScale);
@@ -200,7 +200,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
         r.Visit("Scale", mTlv.mScale);
@@ -275,7 +275,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
         //r.Visit("Enter Side", mTlv.mEnterSide);
@@ -316,7 +316,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
         r.Visit("(AE) Number of Mudokons", mTlv.mNumberOfMuds);
@@ -357,7 +357,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
         r.Visit("Next Path", mTlv.mNextPath);
@@ -425,7 +425,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
         //r.Visit("Action", mTlv.mAction);
@@ -469,7 +469,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
         //r.Visit("Hoist Type", mTlv.mHoistType);
@@ -510,7 +510,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
         r.Visit("Scale", mTlv.mScale);
@@ -533,7 +533,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
 
@@ -586,7 +586,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
 
@@ -631,7 +631,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
 
@@ -654,7 +654,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
 
@@ -696,7 +696,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
 
@@ -728,7 +728,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
 
@@ -766,7 +766,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
 
@@ -797,7 +797,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
 
@@ -838,7 +838,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
 
@@ -863,7 +863,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
 
@@ -912,7 +912,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
 
@@ -937,7 +937,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
     }
@@ -957,7 +957,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
 
@@ -979,7 +979,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
 
@@ -1021,7 +1021,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
 
@@ -1047,7 +1047,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
 
@@ -1080,7 +1080,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
 
@@ -1117,7 +1117,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
 
@@ -1143,7 +1143,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
 
@@ -1182,7 +1182,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
 
@@ -1230,7 +1230,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
 
@@ -1269,7 +1269,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
 
@@ -1314,7 +1314,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
 
@@ -1342,7 +1342,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
 
@@ -1372,7 +1372,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
 
@@ -1394,7 +1394,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
     }
@@ -1425,7 +1425,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
 
@@ -1466,7 +1466,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
 
@@ -1495,7 +1495,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
 
@@ -1521,7 +1521,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
     }
@@ -1541,7 +1541,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
 
@@ -1578,7 +1578,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
 
@@ -1615,7 +1615,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
     }
@@ -1635,7 +1635,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
 
@@ -1688,7 +1688,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
     }
@@ -1708,7 +1708,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
     }
@@ -1728,7 +1728,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
     }
@@ -1748,7 +1748,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
     }
@@ -1768,7 +1768,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
 
@@ -1805,7 +1805,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
 
@@ -1846,7 +1846,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
 
@@ -1887,7 +1887,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
 
@@ -1910,7 +1910,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
 
@@ -1940,7 +1940,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
 
@@ -1977,7 +1977,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
 
@@ -2005,7 +2005,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
 
@@ -2042,7 +2042,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
 
@@ -2066,7 +2066,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
 
@@ -2092,7 +2092,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
 
@@ -2129,7 +2129,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
 
@@ -2159,7 +2159,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
 
@@ -2181,7 +2181,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
 
@@ -2211,7 +2211,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
 
@@ -2236,7 +2236,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
 
@@ -2259,7 +2259,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
     }
@@ -2279,7 +2279,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
 
@@ -2307,7 +2307,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
 
@@ -2332,7 +2332,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
 
@@ -2355,7 +2355,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
 
@@ -2379,7 +2379,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
 
@@ -2414,7 +2414,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
 
@@ -2438,7 +2438,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
 
@@ -2460,7 +2460,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
 
@@ -2484,7 +2484,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
     }
@@ -2504,7 +2504,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
     }
@@ -2524,7 +2524,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
     }
@@ -2539,7 +2539,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
 
@@ -2563,7 +2563,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
 
@@ -2590,7 +2590,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
 
@@ -2613,7 +2613,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
 
@@ -2657,7 +2657,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
 
@@ -2683,7 +2683,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
 
@@ -2736,7 +2736,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
 
@@ -2791,7 +2791,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
 
@@ -2851,7 +2851,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
 
@@ -2885,7 +2885,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
 
@@ -2911,7 +2911,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
 
@@ -2935,7 +2935,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
 
@@ -2961,7 +2961,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
 
@@ -2987,7 +2987,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
 
@@ -3021,7 +3021,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
 
@@ -3046,7 +3046,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
 
@@ -3079,7 +3079,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
 
@@ -3108,7 +3108,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
     }
@@ -3123,7 +3123,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
 
@@ -3169,7 +3169,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
 
@@ -3209,7 +3209,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
 
@@ -3251,7 +3251,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
 
@@ -3282,7 +3282,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
 
@@ -3304,7 +3304,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
 
@@ -3330,7 +3330,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
 
@@ -3353,7 +3353,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
     }
@@ -3373,7 +3373,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
 
@@ -3406,7 +3406,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
 
@@ -3446,7 +3446,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
 
@@ -3471,7 +3471,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
     }
@@ -3491,7 +3491,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
 
@@ -3513,7 +3513,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
 
@@ -3538,7 +3538,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
 
@@ -3563,7 +3563,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
 
@@ -3587,7 +3587,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
     }
@@ -3607,7 +3607,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
     }
@@ -3637,7 +3637,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
 
@@ -3667,7 +3667,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
     }
@@ -3704,7 +3704,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
 
@@ -3737,7 +3737,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
 
@@ -3763,7 +3763,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
 
@@ -3786,7 +3786,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
 
@@ -3805,7 +3805,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
     }
@@ -3830,7 +3830,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
 
@@ -3858,7 +3858,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
 
@@ -3881,7 +3881,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
 
@@ -3917,7 +3917,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
 
@@ -3943,7 +3943,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
 
@@ -3969,7 +3969,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
 
@@ -3994,7 +3994,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
 
@@ -4038,7 +4038,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
 
@@ -4062,7 +4062,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
     }
@@ -4082,7 +4082,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
     }
@@ -4102,7 +4102,7 @@ public:
         : MapObjectBase(&mTlv)
     { }
 
-    void Visit(IRefelector& r) override
+    void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
     }

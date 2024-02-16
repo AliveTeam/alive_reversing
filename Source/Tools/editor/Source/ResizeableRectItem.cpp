@@ -379,7 +379,7 @@ void ResizeableRectItem::SetRect(const QRectF& rect)
     UpdateIcon();
 }
 
-void ResizeableRectItem::Visit(IRefelector& f)
+void ResizeableRectItem::Visit(IReflector& f)
 {
     mMapObject->Visit(f);
 }
@@ -388,8 +388,8 @@ void ResizeableRectItem::SyncFromMapObject()
 {
     setX(mMapObject->XPos());
     setY(mMapObject->YPos());
-    setWidth(mMapObject->Width());
-    setHeight(mMapObject->Height());
+    setWidth(mMapObject->mBaseTlv->mBottomRightX);
+    setHeight(mMapObject->mBaseTlv->mBottomRightY);
     UpdateIcon();
 }
 
@@ -399,8 +399,8 @@ void ResizeableRectItem::SyncToMapObject()
     const auto ypos = static_cast<s32>(pos().y());
     mMapObject->SetXPos(xpos);
     mMapObject->SetYPos(ypos);
-    mMapObject->mBaseTlv->mBottomRightX = xpos + mWidth;
-    mMapObject->mBaseTlv->mBottomRightY = ypos + mHeight;
+    mMapObject->mBaseTlv->mBottomRightX = mWidth;
+    mMapObject->mBaseTlv->mBottomRightY = mHeight;
     UpdateIcon();
 }
 
