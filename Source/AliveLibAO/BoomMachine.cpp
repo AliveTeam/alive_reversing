@@ -220,7 +220,7 @@ void BoomMachine::VScreenChanged()
 
 bool BoomMachine::VIsButtonOn()
 {
-    return mIsButtonOn == true;
+    return mIsButtonOn;
 }
 
 void BoomMachine::VHandleButton()

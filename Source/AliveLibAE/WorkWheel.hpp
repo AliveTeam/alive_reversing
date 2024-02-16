@@ -1,8 +1,12 @@
 #pragma once
 
 #include "../relive_lib/GameObjects/BaseAnimatedWithPhysicsGameObject.hpp"
-#include "../relive_lib/data_conversion/relive_tlvs.hpp"
 #include "../relive_lib/SaveStateBase.hpp"
+
+namespace relive
+{
+struct Path_WorkWheel;
+}
 
 enum class WheelStates : s16
 {
@@ -44,5 +48,5 @@ private:
     s16 mActivationTime = 0;
     u16 mTurningTime = 0;
     s16 mTurnOffTime = 0;
-    relive::reliveChoice mTurnOffWhenStopped = relive::reliveChoice::eNo;
+    bool mTurnOffWhenStopped = false;
 };

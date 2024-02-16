@@ -86,7 +86,7 @@ void InvisibleSwitch::VUpdate()
                 SwitchStates_Do_Operation(mSwitchId, mAction);
 
                 // Fire alarm if set
-                if (mSetOffAlarm == relive::reliveChoice::eYes)
+                if (mSetOffAlarm)
                 {
                     relive_new Alarm(150, 0, 30, Layer::eLayer_Above_FG1_39);
                 }

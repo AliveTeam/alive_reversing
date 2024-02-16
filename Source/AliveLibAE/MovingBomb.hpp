@@ -1,7 +1,11 @@
 #pragma once
 
 #include "BaseAliveGameObject.hpp"
-#include "../relive_lib/data_conversion/relive_tlvs.hpp" // reliveChoice only
+
+namespace relive
+{
+    struct Path_MovingBomb;
+}
 
 class MovingBomb final : public BaseAliveGameObject
 {
@@ -40,5 +44,5 @@ private:
     s16 mMinStopTime = 0;
     s16 mMaxStopTime = 0;
     s32 mChannelMask = 0;
-    relive::reliveChoice mPersistOffscreen = relive::reliveChoice::eNo;
+    bool mPersistOffscreen = false;
 };

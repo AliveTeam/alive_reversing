@@ -32,7 +32,7 @@ LaughingGas::LaughingGas(Layer layer, relive::Path_LaughingGas* pTlv, const Guid
 
     SetType(ReliveTypes::eLaughingGas);
     Path_LaughingGas_Data* pData = &field_48_tlv_data;
-    pData->field_0_bLaughing_gas = pTlv->mLaughingGas == relive::reliveChoice::eYes ? Choice_short::eYes_1 : Choice_short::eNo_0;
+    pData->field_0_bLaughing_gas = pTlv->mLaughingGas ? Choice_short::eYes_1 : Choice_short::eNo_0;
     pData->field_2_laughing_gas_switch_id = pTlv->mLaughingGasSwitchId;
 
     pData->field_4_red_percent = pTlv->mRedPercent;

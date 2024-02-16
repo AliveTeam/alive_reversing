@@ -5,6 +5,7 @@
 #include "Game.hpp"
 #include "../AliveLibAE/stdlib.hpp"
 #include "../relive_lib/FixedPoint.hpp"
+#include "../relive_lib/data_conversion/relive_tlvs.hpp"
 
 namespace AO {
 

@@ -108,7 +108,7 @@ MotionDetector::MotionDetector(relive::Path_MotionDetector* pTlv, const Guid& tl
 
     pMotionDetectors->GetAnimation().SetRender(SwitchStates_Get(mDisableSwitchId) == 0);
 
-    GetAnimation().SetRender(pTlv->mDrawFlare == relive::reliveChoice::eYes);
+    GetAnimation().SetRender(pTlv->mDrawFlare);
 
     mAlarmDuration = pTlv->mAlarmDuration;
 

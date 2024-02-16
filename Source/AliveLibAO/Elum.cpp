@@ -104,7 +104,7 @@ void Elum::VOnTlvCollision(relive::Path_TLV* pTlv)
             auto pContinueTlv = static_cast<relive::Path_ContinuePoint*>(pTlv);
             if (mPreviousContinuePointZoneNumber != pContinueTlv->mZoneNumber &&
                 pContinueTlv->mZoneNumber > mAbeZoneNumber &&
-                pContinueTlv->mElumRestarts == relive::reliveChoice::eYes)
+                pContinueTlv->mElumRestarts)
             {
                 mPreviousContinuePointZoneNumber = pContinueTlv->mZoneNumber;
                 mContinuePointRect.x = pContinueTlv->mTopLeftX;

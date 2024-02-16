@@ -375,7 +375,7 @@ void LiftPoint::VUpdate()
                     lineY + (GetSpriteScale() * FP_FromInteger(30)));
             }
 
-            if (pLiftTlv && pLiftTlv->mIsStartPoint == relive::reliveChoice::eYes)
+            if (pLiftTlv && pLiftTlv->mIsStartPoint)
             {
                 mIgnoreLiftMover = true;
             }

@@ -447,7 +447,7 @@ s16 CrawlingSlig::HandleEnemyStopper(FP /*velX*/)
         ReliveTypes::eSlamDoor));
     BaseAliveGameObjectPathTLV = pSlamDoor;
 
-    if (pSlamDoor && ((pSlamDoor->mStartClosed == relive::reliveChoice::eYes && !SwitchStates_Get(pSlamDoor->mSwitchId)) || (pSlamDoor->mStartClosed == relive::reliveChoice::eNo && SwitchStates_Get(pSlamDoor->mSwitchId))))
+    if (pSlamDoor && ((pSlamDoor->mStartClosed && !SwitchStates_Get(pSlamDoor->mSwitchId)) || (!pSlamDoor->mStartClosed && SwitchStates_Get(pSlamDoor->mSwitchId))))
     {
         return 1;
     }
@@ -661,7 +661,7 @@ CrawlingSlig::~CrawlingSlig()
                 0);
         }
     }
-    if (mHealth > FP_FromInteger(0) || mTlv.mRespawnOnDeath == relive::reliveChoice::eYes)
+    if (mHealth > FP_FromInteger(0) || mTlv.mRespawnOnDeath)
     {
         Path::TLV_Reset(mGuid);
     }

@@ -24,12 +24,9 @@ SligSpawner::SligSpawner(relive::Path_Slig* pTlv, const Guid& tlvId)
     mTlvInfo = tlvId;
     mPathTlv = *pTlv;
 
-    mDontDestroyTLV = true;
-
     mSligSpawnerSwitchId = pTlv->mData.mSligSpawnerSwitchId;
-    mFindSpawnedSlig = 0;
 
-    mUnlimitedSpawns = pTlv->mData.mUnlimitedSpawns == relive::reliveChoice::eYes ? true : false;
+    mUnlimitedSpawns = pTlv->mData.mUnlimitedSpawns;
 
     mState = SpawnerStates::eInactive_0;
     mSpawnedSligId = Guid{};

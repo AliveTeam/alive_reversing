@@ -583,9 +583,9 @@ void Abe::CreateFromSaveState(const AbeSaveState& pData)
     gAbe->GetAnimation().SetCurrentFrame(pData.mCurrentFrame);
     gAbe->GetAnimation().SetFrameChangeCounter(pData.mFrameChangeCounter);
 
-    gAbe->GetAnimation().SetFlipX(pData.bAnimFlipX & 1);
-    gAbe->GetAnimation().SetRender(pData.mAnimRender & 1);
-    gAbe->SetDrawable(pData.mIsDrawable & 1);
+    gAbe->GetAnimation().SetFlipX(pData.bAnimFlipX);
+    gAbe->GetAnimation().SetRender(pData.mAnimRender);
+    gAbe->SetDrawable(pData.mIsDrawable);
 
     gAbe->GetAnimation().SetRenderLayer(static_cast<Layer>(pData.mRenderLayer));
 
@@ -672,8 +672,8 @@ void Abe::CreateFromSaveState(const AbeSaveState& pData)
     gAbe->mBirdPortalSubState = static_cast<PortalSubStates>(pData.mBirdPortalSubState);
     gAbe->mBirdPortalId = pData.mBirdPortalId;
 
-    gAbe->SetElectrocuted(pData.mIsElectrocuted & 1);
-    gAbe->SetInvisible(pData.mIsInvisible & 1);
+    gAbe->SetElectrocuted(pData.mIsElectrocuted);
+    gAbe->SetInvisible(pData.mIsInvisible);
     gAbe->SetTeleporting(pData.mTeleporting);
 
     gAbe->mReturnToPreviousMotion = pData.mReturnToPreviousMotion;
@@ -1288,7 +1288,7 @@ void Abe::VScreenChanged()
         mRingPulseTimer = 0;
         if (gMap.mCurrentLevel != EReliveLevelIds::eNone)
         {
-            mHasEvilFart = 0;
+            mHasEvilFart = false;
         }
     }
 
@@ -1962,10 +1962,10 @@ void Abe::VOnTlvCollision(relive::Path_TLV* pTlv)
         else if (pTlv->mTlvType == ReliveTypes::eResetPath)
         {
             auto pResetSwitchRange = static_cast<relive::Path_ResetPath*>(pTlv);
-            if (pResetSwitchRange->mTlvSpecificMeaning == 0 || pResetSwitchRange->mEnabled == relive::reliveChoice::eYes)
+            if (pResetSwitchRange->mTlvSpecificMeaning == 0 || pResetSwitchRange->mEnabled)
             {
                 pResetSwitchRange->mTlvSpecificMeaning = 1;
-                if (pResetSwitchRange->mClearIds == relive::reliveChoice::eYes)
+                if (pResetSwitchRange->mClearIds)
                 {
                     for (s16 i = pResetSwitchRange->mFrom; i <= pResetSwitchRange->mTo; i++)
                     {
@@ -1975,7 +1975,7 @@ void Abe::VOnTlvCollision(relive::Path_TLV* pTlv)
                         }
                     }
                 }
-                if (pResetSwitchRange->mClearObjects == relive::reliveChoice::eYes)
+                if (pResetSwitchRange->mClearObjects)
                 {
                     Path::Reset_TLVs(pResetSwitchRange->mPath);
                 }
@@ -2879,7 +2879,7 @@ void Abe::Motion_3_Fall_459B60()
     bool tryToHang = false;
     if (pEdge)
     {
-        if (pEdge->mCanGrab == relive::reliveChoice::eYes && IsSameScaleAsEdge(pEdge, this) && (isEdgeGrabbable(pEdge, this)))
+        if (pEdge->mCanGrab && IsSameScaleAsEdge(pEdge, this) && (isEdgeGrabbable(pEdge, this)))
         {
             tryToHang = true;
         }
@@ -3394,7 +3394,7 @@ void Abe::Motion_17_CrouchIdle_456BC0()
 
             if (mHasEvilFart)
             {
-                mHasEvilFart = 0;
+                mHasEvilFart = false;
                 Create_Fart_421D20();
 
                 if (mBaseGameObjectResArray.ItemAt(22))
@@ -3836,7 +3836,7 @@ void Abe::Motion_28_HopMid_451C50()
 
         BaseAliveGameObjectPathTLV = pEdgeTlv;
 
-        if (pEdgeTlv && pEdgeTlv->mCanGrab == relive::reliveChoice::eYes && IsSameScaleAsEdge(pEdgeTlv, this) && ((isEdgeGrabbable(pEdgeTlv, this) && mVelX != FP_FromInteger(0))))
+        if (pEdgeTlv && pEdgeTlv->mCanGrab && IsSameScaleAsEdge(pEdgeTlv, this) && ((isEdgeGrabbable(pEdgeTlv, this) && mVelX != FP_FromInteger(0))))
         {
             mXPos = FP_FromInteger((pEdgeTlv->mTopLeftX + pEdgeTlv->mBottomRightX) / 2);
 
@@ -4023,7 +4023,7 @@ void Abe::Motion_31_RunJumpMid_452C10()
 
             BaseAliveGameObjectPathTLV = pEdgeTlv;
 
-            if (pEdgeTlv && pEdgeTlv->mCanGrab == relive::reliveChoice::eYes)
+            if (pEdgeTlv && pEdgeTlv->mCanGrab)
             {
                 if (IsSameScaleAsEdge(pEdgeTlv, this) && (isEdgeGrabbable(pEdgeTlv, this)))
                 {
@@ -6930,7 +6930,7 @@ void Abe::Motion_114_DoorEnter()
 
             BaseAliveGameObjectPathTLV = pDoorTlv;
 
-            if (pDoorTlv->mClearThrowables == relive::reliveChoice::eYes)
+            if (pDoorTlv->mClearThrowables)
             {
                 if (mBaseThrowableCount > 0 && gThrowableArray)
                 {
@@ -7127,7 +7127,7 @@ void Abe::Motion_115_DoorExit()
                                         FP_GetExponent(mXPos),
                                         FP_GetExponent(mYPos),
                                         ReliveTypes::eDoor))
-                ->mCloseOnExit == relive::reliveChoice::eYes)
+                ->mCloseOnExit)
         {
             // TODO: Ret ignored even in real ??
             FindObjectOfType(
@@ -8855,7 +8855,7 @@ s16 Abe::GetEvilFart_4585F0(s16 bDontLoad)
 
             const PSX_RECT bRect = pBrewMachine->VGetBoundingRect();
 
-            if (RectsOverlap(abeRect, bRect) && pBrewMachine->GetSpriteScale() == GetSpriteScale() && pBrewMachine->GetRemainingBrewCount() > 0 && mHasEvilFart == false)
+            if (RectsOverlap(abeRect, bRect) && pBrewMachine->GetSpriteScale() == GetSpriteScale() && pBrewMachine->GetRemainingBrewCount() > 0 && !mHasEvilFart)
             {
                 break;
             }

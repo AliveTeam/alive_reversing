@@ -18,12 +18,6 @@ enum class reliveScale : s16
     eHalf,
 };
 
-enum class reliveChoice : s16
-{
-    eNo,
-    eYes,
-};
-
 enum class reliveXDirection : s16
 {
     eLeft,
@@ -151,7 +145,7 @@ public:
     s16 mZoneNumber = 0;
     s16 mClearFromId = 0;
     s16 mClearToId = 0;
-    reliveChoice mElumRestarts = reliveChoice::eYes;
+    bool mElumRestarts = true;
     enum class spawnDirection : s16
     {
         eRight,
@@ -179,7 +173,7 @@ struct Path_LiftPoint final : public Path_TLV
         mAttribute = QuiksaveAttribute::eKeepTlvFlags_2;
     }
     s16 mLiftPointId = 0;
-    reliveChoice mIsStartPoint = reliveChoice::eNo;
+    bool mIsStartPoint = false;
     enum class LiftPointStopType : s16
     {
         eTopFloor,
@@ -190,7 +184,7 @@ struct Path_LiftPoint final : public Path_TLV
     };
     LiftPointStopType mLiftPointStopType = LiftPointStopType::eTopFloor;
     reliveScale mScale = reliveScale::eFull;
-    reliveChoice mIgnoreLiftMover = reliveChoice::eNo;
+    bool mIgnoreLiftMover = false;
     static constexpr char kClassName[] = "lift_point";
 };
 
@@ -202,7 +196,7 @@ struct Path_Dove final : public Path_TLV
         mAttribute = QuiksaveAttribute::eClearTlvFlags_1;
     }
     s16 mDoveCount = 0;
-    reliveChoice mPixelPerfect = reliveChoice::eNo;
+    bool mPixelPerfect = false;
     reliveScale mScale = reliveScale::eFull;
     static constexpr char kClassName[] = "dove";
 };
@@ -259,7 +253,7 @@ struct Path_FallingItem final : public Path_TLV
     reliveScale mScale = reliveScale::eFull;
     s16 mFallInterval = 0;
     s16 mMaxFallingItems = 0;
-    reliveChoice mResetSwitchIdAfterUse = reliveChoice::eYes;
+    bool mResetSwitchIdAfterUse = true;
     static constexpr char kClassName[] = "falling_item";
 };
 
@@ -348,7 +342,7 @@ struct Path_TrapDoor final : public Path_TLV
         eClosed,
     };
     StartState mStartState = StartState::eClosed;
-    reliveChoice mSelfClosing = reliveChoice::eNo;
+    bool mSelfClosing = false;
     reliveScale mScale = reliveScale::eFull;
     reliveXDirection mDirection = reliveXDirection::eLeft;
     s16 mXOff = 0;
@@ -383,7 +377,7 @@ struct Path_Mine final : public Path_TLV
         mAttribute = QuiksaveAttribute::eClearTlvFlags_1;
     }
     reliveScale mScale = reliveScale::eFull;
-    reliveChoice mPersistOffscreen = reliveChoice::eYes;
+    bool mPersistOffscreen = true;
     static constexpr char kClassName[] = "mine";
 };
 
@@ -397,7 +391,7 @@ struct Path_InvisibleSwitch final : public Path_TLV
     s16 mSwitchId = 0;
     reliveSwitchOp mAction = reliveSwitchOp::eSetTrue;
     s16 mActivationDelay = 0;
-    reliveChoice mSetOffAlarm = reliveChoice::eNo;
+    bool mSetOffAlarm = false;
     enum class InvisibleSwitchScale : s16
     {
         eHalf,
@@ -528,7 +522,7 @@ struct Path_Lever final : public Path_TLV
     s16 mSwitchId = 0;
 
     // AE only
-    reliveChoice mPersistOffscreen = reliveChoice::eYes;
+    bool mPersistOffscreen = true;
     static constexpr char kClassName[] = "lever";
 };
 
@@ -546,7 +540,7 @@ struct Path_Edge final : public Path_TLV
         eFacingAnyDirection,
     };
     GrabDirection mGrabDirection = GrabDirection::eFacingRight;
-    reliveChoice mCanGrab = reliveChoice::eYes;
+    bool mCanGrab = true;
 
     // AE only
     reliveScale mScale = reliveScale::eFull;
@@ -795,7 +789,7 @@ struct Path_MotionDetector final : public Path_TLV
         eLeft,
     };
     InitialMoveDirection mInitialMoveDirection = InitialMoveDirection::eRight;
-    reliveChoice mDrawFlare = reliveChoice::eNo;
+    bool mDrawFlare = false;
     s16 mDisableSwitchId = 0;
     s16 mAlarmSwitchId = 0;
     s16 mAlarmDuration = 0;
@@ -865,7 +859,7 @@ struct Path_BackgroundAnimation final : public Path_TLV
         mAttribute = QuiksaveAttribute::eDoNothing_0;
     }
     u16 mAnimId = 0;
-    reliveChoice mIsSemiTrans = reliveChoice::eNo;
+    bool mIsSemiTrans = false;
     enum class BgAnimSounds : s16
     {
         eNone,
@@ -1048,7 +1042,7 @@ struct Path_LCDStatusBoard final : public Path_TLV
     // AO has no fields
     s16 mNumberOfMuds = 0;
     s16 mZulagNumber = 0;
-    reliveChoice mHideBoard = reliveChoice::eNo;
+    bool mHideBoard = false;
     static constexpr char kClassName[] = "lcd_status_board";
 };
 
@@ -1070,15 +1064,15 @@ struct Path_ResetPath final : public Path_TLV
         mTlvType = ReliveTypes::eResetPath;
         mAttribute = QuiksaveAttribute::eKeepTlvFlags_2;
     }
-    reliveChoice mClearIds = reliveChoice::eYes;
+    bool mClearIds = true;
     s16 mFrom = 0;
     s16 mTo = 0;
     s16 mExclude = 0;
-    reliveChoice mClearObjects = reliveChoice::eYes;
+    bool mClearObjects = true;
     s16 mPath = 0;
 
     // AE only
-    reliveChoice mEnabled = reliveChoice::eYes;
+    bool mEnabled = true;
     static constexpr char kClassName[] = "reset_path";
 };
 
@@ -1261,7 +1255,7 @@ struct Path_Door final : public Path_TLV
     DoorTypes mDoorType = DoorTypes::eBasicDoor;
 
     // AO only
-    reliveChoice mDoorClosed = reliveChoice::eNo;
+    bool mDoorClosed = false;
 
     // AE only
     DoorStates mStartState = DoorStates::eOpen;
@@ -1281,8 +1275,8 @@ struct Path_Door final : public Path_TLV
     reliveXDirection mExitDirection = reliveXDirection::eRight;
 
     // AE only
-    reliveChoice mCloseOnExit = reliveChoice::eNo;
-    reliveChoice mClearThrowables = reliveChoice::eNo;
+    bool mCloseOnExit = false;
+    bool mClearThrowables = false;
     static constexpr char kClassName[] = "door";
 };
 
@@ -1378,16 +1372,16 @@ struct Path_Mudokon final : public Path_TLV
     reliveXDirection mFacing = reliveXDirection::eRight;
     s16 mVoicePitch = 0;
     s16 mRescueSwitchId = 0;
-    reliveChoice mDeaf = reliveChoice::eNo;
+    bool mDeaf = false;
     s16 mDisabledResources = 0;
-    reliveChoice mPersistAndResetOffscreen = reliveChoice::eNo; // check if this is the same in AO and AE
+    bool mPersistAndResetOffscreen = false; // check if this is the same in AO and AE
     Mud_TLV_Emotion mEmotion = Mud_TLV_Emotion::eNormal;
-    reliveChoice mBlind = reliveChoice::eNo;
+    bool mBlind = false;
     s16 mAngrySwitchId = 0;
-    reliveChoice mWorkAfterTurningWheel = reliveChoice::eYes;
-    reliveChoice mGetsDepressed = reliveChoice::eNo;
+    bool mWorkAfterTurningWheel = true;
+    bool mGetsDepressed = false;
     s16 mRingPulseInterval = 0;
-    reliveChoice mGiveRingWithoutPassword = reliveChoice::eNo;
+    bool mGiveRingWithoutPassword = false;
     static constexpr char kClassName[] = "mudokon";
 };
 
@@ -1400,10 +1394,10 @@ struct Path_MovingBomb final : public Path_TLV
     }
     u16 mSpeed = 0;
     s16 mStartMovingSwitchId = 0;
-    reliveChoice mTriggeredByAlarm = reliveChoice::eNo;
+    bool mTriggeredByAlarm = false;
     reliveScale mScale = reliveScale::eFull;
     u16 mStartSpeed = 0;
-    reliveChoice mPersistOffscreen = reliveChoice::eYes;
+    bool mPersistOffscreen = true;
     static constexpr char kClassName[] = "moving_bomb";
 };
 
@@ -1451,7 +1445,7 @@ struct Path_SlingMudokon final : public Path_TLV
         mTlvType = ReliveTypes::SlingMud;
     }
     reliveScale mScale =  reliveScale::eFull;
-    reliveChoice mDontWhistlePassword = reliveChoice::eYes;
+    bool mDontWhistlePassword = true;
     s16 mCode1 = 0;
     s16 mCode2 = 0;
     static constexpr char kClassName[] = "sling_mudokon";
@@ -1496,11 +1490,11 @@ struct Path_Paramite final : public Path_TLV
     s16 mMeatEatingTime = 0;
     u16 mGroupChaseDelay = 0;
     s16 mSurpriseWebSwitchId = 0;
-    reliveChoice mHissBeforeAttack = reliveChoice::eYes;
-    reliveChoice mDeleteWhenOutOfSight = reliveChoice::eNo;
+    bool mHissBeforeAttack = true;
+    bool mDeleteWhenOutOfSight = false;
 
     // AE only
-    reliveChoice mAttackFleeches = reliveChoice::eYes;
+    bool mAttackFleeches = true;
     static constexpr char kClassName[] = "paramite";
 };
 
@@ -1604,7 +1598,7 @@ struct Path_LiftMudokon final : public Path_TLV
         eLeft
     };
     Direction mFacing = Direction::eRight;
-    reliveChoice mGivePassword = reliveChoice::eNo;
+    bool mGivePassword = false;
     reliveScale mScale = reliveScale::eFull;
     s16 mCode1 = 0;
     s16 mCode2 = 0;
@@ -1625,12 +1619,12 @@ struct Path_RingMudokon final : public Path_TLV
     };
     MustFaceMud mAbeMustFaceMud = MustFaceMud::eYes;
     reliveScale mScale = reliveScale::eFull;
-    reliveChoice mGivePassword = reliveChoice::eYes;
+    bool mGivePassword = true;
     s16 mCode1 = 0;
     s16 mCode2 = 0;
     reliveSwitchOp mAction = reliveSwitchOp::eSetTrue;
     s16 mRingTimeout = 0;
-    reliveChoice mGiveRingWithoutPassword = reliveChoice::eYes;
+    bool mGiveRingWithoutPassword = true;
     static constexpr char kClassName[] = "ring_mudokon";
 };
 
@@ -1663,7 +1657,7 @@ struct Path_WellLocal final : public relive::Path_WellBase
     }
     s16 mOnDestX = 0;
     s16 mOnDestY = 0;
-    reliveChoice mEmitLeaves = reliveChoice::eNo;
+    bool mEmitLeaves = false;
     s16 mLeafX = 0;
     s16 mLeafY = 0;
     static constexpr char kClassName[] = "well_local";
@@ -1682,7 +1676,7 @@ struct Path_WellExpress final : public relive::Path_WellBase
     s16 mOnDestPath = 0;
     s16 mOnDestCamera = 0;
     s16 mOnOtherWellId = 0;
-    reliveChoice mEmitLeaves = reliveChoice::eNo;
+    bool mEmitLeaves = false;
     s16 mLeafX = 0;
     s16 mLeafY = 0;
     s16 mMovieId = 0;
@@ -1698,7 +1692,7 @@ struct Path_Slog final : public Path_TLV
     }
     reliveScale mScale = reliveScale::eFull;
     reliveXDirection mFacing = reliveXDirection::eRight;
-    reliveChoice mAsleep = reliveChoice::eNo;
+    bool mAsleep = false;
     s16 mWakeUpAnger = 0;
     s16 mBarkAnger = 0;
     s16 mChaseAnger = 0;
@@ -1730,7 +1724,7 @@ struct Path_SlogSpawner final : public Path_TLV
     s16 mSpawnerSwitchId = 0;
 
     // AE only
-    reliveChoice mListenToSligs = reliveChoice::eNo;
+    bool mListenToSligs = false;
     s16 mChaseDelay = 0;
     static constexpr char kClassName[] = "slog_spawner";
 };
@@ -1762,12 +1756,12 @@ struct Path_Scrab : public Path_TLV
     s16 mPauseRightMax = 0;
     u16 mPauseAfterChaseTime = 0;
     s16 mSpottingAbeDelay = 0; // TODO: check if the same field as below?
-    reliveChoice mRoarRandomly = reliveChoice::eNo;
+    bool mRoarRandomly = false;
 
     // AE only
-    reliveChoice mPersistant = reliveChoice::eYes;
+    bool mPersistant = true;
     s16 mPossessedMaxWhirlAttackDuration = 0;
-    reliveChoice mKillEnemy = reliveChoice::eYes;
+    bool mKillEnemy = true;
     static constexpr char kClassName[] = "scrab";
 };
 
@@ -1822,12 +1816,12 @@ struct Path_Slig_Data final
     s16 mPauseLeftMax = 0;
     s16 mPauseRightMin = 0;
     s16 mPauseRightMax = 0;
-    reliveChoice mShootPossessedSligs = reliveChoice::eYes;
+    bool mShootPossessedSligs = true;
     s16 mShootOnSightDelay = 0;
     s16 mNumTimesToShoot = 0;
     s16 mCode1 = 0;
     s16 mCode2 = 0;
-    reliveChoice mChaseAbeWhenSpotted = reliveChoice::eNo;
+    bool mChaseAbeWhenSpotted = false;
     reliveXDirection mFacing = reliveXDirection::eRight;
     s16 mPanicTimeout = 0;
     s16 mStopChaseDelay = 0;
@@ -1837,7 +1831,7 @@ struct Path_Slig_Data final
     s16 mPercentSayWhat = 0;
     s16 mPercentBeatMud = 0;
     s16 mZShootDelay = 0;
-    reliveChoice mStayAwake = reliveChoice::eYes;
+    bool mStayAwake = true;
     s16 mNoiseWakeUpDistance = 0;
     s16 mSligSpawnerSwitchId = 0;
 
@@ -1846,7 +1840,7 @@ struct Path_Slig_Data final
     s16 mDisabledResourcesAE = 0;
 
     // AE only
-    reliveChoice mUnlimitedSpawns = reliveChoice::eNo;
+    bool mUnlimitedSpawns = false;
 };
 
 struct Path_Slig final : public Path_TLV
@@ -1979,8 +1973,8 @@ struct Path_SlapLock final : public Path_TLV
     reliveScale mScale = reliveScale::eFull;
     s16 mTargetTombSwitchId1 = 0;
     s16 mTargetTombSwitchId2 = 0;
-    reliveChoice mHasGhost = reliveChoice::eNo;
-    reliveChoice mGiveInvisibilityPowerup = reliveChoice::eNo;
+    bool mHasGhost = false;
+    bool mGiveInvisibilityPowerup = false;
     s16 mInvisibilityDuration = 0;
     s16 mSlapOutputSwitchId = 0;
     static constexpr char kClassName[] = "slap_lock";
@@ -2000,7 +1994,7 @@ struct Path_StatusLight final : public Path_TLV
     s16 mLinkedStatusLightSwitchId3 = 0;
     s16 mLinkedStatusLightSwitchId4 = 0;
     s16 mLinkedStatusLightSwitchId5 = 0;
-    reliveChoice mIgnoreGridSnapping = reliveChoice::eNo;
+    bool mIgnoreGridSnapping = false;
     static constexpr char kClassName[] = "status_light";
 };
 
@@ -2030,9 +2024,9 @@ struct Path_ExplosionSet final : public Path_TLV
         mTlvType = ReliveTypes::eExplosionSet;
         mAttribute = QuiksaveAttribute::eClearTlvFlags_1;
     }
-    reliveChoice mStartEnabled = reliveChoice::eNo;
+    bool mStartEnabled = false;
     s16 mSwitchId = 0;
-    reliveChoice mSpawnAssets = reliveChoice::eNo;
+    bool mSpawnAssets = false;
     s16 mStartDelay = 0;
     reliveXDirection mStartDirection = reliveXDirection::eRight;
     s16 mAssetInterval = 0;
@@ -2078,7 +2072,7 @@ struct Path_ColourfulMeter final : public Path_TLV
     s16 mSwitchId = 0;
     s16 mNumberOfMeterBars = 0;
     s16 mMinesAlarmCountdown = 0;
-    reliveChoice mStartFilled = reliveChoice::eNo;
+    bool mStartFilled = false;
     static constexpr char kClassName[] = "colourful_meter";
 };
 
@@ -2115,11 +2109,11 @@ struct Path_SlamDoor final : public Path_TLV
         mTlvType = ReliveTypes::eSlamDoor;
         mAttribute = QuiksaveAttribute::eKeepTlvFlags_2;
     }
-    reliveChoice mStartClosed = reliveChoice::eNo;
+    bool mStartClosed = false;
     reliveScale mScale = reliveScale::eFull;
     s16 mSwitchId = 0;
-    reliveChoice mFlipY = reliveChoice::eNo;
-    reliveChoice mDelete = reliveChoice::eNo;
+    bool mFlipY = false;
+    bool mDelete = false;
     static constexpr char kClassName[] = "slam_door";
 };
 
@@ -2144,7 +2138,7 @@ struct Path_LaughingGas final : public Path_TLV
         mTlvType = ReliveTypes::eLaughingGas;
         mAttribute = QuiksaveAttribute::eClearTlvFlags_1;
     }
-    reliveChoice mLaughingGas = reliveChoice::eYes;
+    bool mLaughingGas = true;
     s16 mLaughingGasSwitchId = 0;
     s16 mRedPercent = 0;
     s16 mGreenPercent = 0;
@@ -2163,7 +2157,7 @@ struct Path_WorkWheel final : public Path_TLV
     s16 mSwitchId = 0;
     s16 mActivationTime = 0;
     s16 mTurnOffTime = 0;
-    reliveChoice mTurnOffWhenStopped = reliveChoice::eNo;
+    bool mTurnOffWhenStopped = false;
     static constexpr char kClassName[] = "work_wheel";
 };
 
@@ -2216,16 +2210,16 @@ struct Path_Fleech final : public Path_TLV
     }
     reliveScale mScale = reliveScale::eFull;
     reliveXDirection mFacing = reliveXDirection::eRight;
-    reliveChoice mAsleep = reliveChoice::eNo;
+    bool mAsleep = false;
     s16 mAttackAngerIncreaser = 0;
     s16 mWakeUpSwitchId = 0;
-    reliveChoice mHanging = reliveChoice::eNo;
+    bool mHanging = false;
     s16 mLostTargetTimeout = 0;
-    reliveChoice mGoesToSleep = reliveChoice::eNo;
+    bool mGoesToSleep = false;
     s16 mPatrolRangeInGrids = 0;
     s16 mWakeUpSwitchAngerValue = 0;
     s16 mCanWakeUpSwitchId = 0;
-    reliveChoice mPersistant = reliveChoice::eNo;
+    bool mPersistant = false;
     static constexpr char kClassName[] = "fleech";
 };
 
@@ -2268,11 +2262,11 @@ struct Path_Drill final : public Path_TLV
     s16 mSwitchId = 0;
     DrillBehavior mDrillBehavior = DrillBehavior::eNotInteractable;
     s16 mOnSpeed = 0;
-    reliveChoice mStartStateOn = reliveChoice::eNo;
+    bool mStartStateOn = false;
     s16 mOffSpeed = 0;
     s16 mOffMinPauseTime = 0;
     s16 mOffMaxPauseTime = 0;
-    reliveChoice mStartPositionBottom = reliveChoice::eNo;
+    bool mStartPositionBottom = false;
     DrillDirection mDrillDirection = DrillDirection::eRight;
     static constexpr char kClassName[] = "drill";
 };
@@ -2398,7 +2392,7 @@ struct Path_FlyingSlig final : public Path_TLV
     s16 mGrenadeDelay = 0;
     s16 mMaxVelocity = 0;
     s16 mLaunchGrenadeSwitchId = 0;
-    reliveChoice mPersistant = reliveChoice::eNo;
+    bool mPersistant = false;
     static constexpr char kClassName[] = "flying_slig";
 };
 
@@ -2424,7 +2418,7 @@ struct Path_FlyingSligSpawner final : public Path_TLV
     s16 mGrenadeDelay = 0;
     s16 mMaxVelocity = 0;
     s16 mLaunchGrenadeSwitchId = 0;
-    reliveChoice mPersistant = reliveChoice::eNo;
+    bool mPersistant = false;
     static constexpr char kClassName[] = "flying_slig_spawner";
 };
 
@@ -2451,7 +2445,7 @@ struct Path_CrawlingSlig final : public Path_TLV
     };
     CrawlDirection mCrawlDirection = CrawlDirection::eRight;
     s16 mPanicSwitchId = 0;
-    reliveChoice mRespawnOnDeath = reliveChoice::eNo;
+    bool mRespawnOnDeath = false;
     static constexpr char kClassName[] = "crawling_slig";
 };
 
@@ -2477,7 +2471,7 @@ struct Path_SligGetWings final : public Path_TLV
     s16 mGrenadeDelay = 0;
     s16 mMaxVelocity = 0;
     s16 mLaunchGrenadeSwitchId = 0;
-    reliveChoice mPersistant = reliveChoice::eNo;
+    bool mPersistant = false;
     static constexpr char kClassName[] = "slig_get_wings";
 };
 

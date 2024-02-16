@@ -74,7 +74,7 @@ DataConversionUI::DataConversionUI(GameType gameType)
     mLcdStatusBoardParams.mTopLeftX = 50;
     mLcdStatusBoardParams.mTopLeftY = 110;
     mLcdStatusBoardParams.mNumberOfMuds = 123;
-    mLcdStatusBoardParams.mHideBoard = relive::reliveChoice::eNo;
+    mLcdStatusBoardParams.mHideBoard = false;
     mLcdStatusBoard = std::make_unique<LCDStatusBoard>(&mLcdStatusBoardParams, g);
     */
 }

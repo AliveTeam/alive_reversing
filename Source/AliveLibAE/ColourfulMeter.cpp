@@ -45,7 +45,7 @@ ColourfulMeter::ColourfulMeter(relive::Path_ColourfulMeter* pTlv, const Guid& tl
     mStartFilled = pTlv->mStartFilled;
     mMinesAlarmCountdown = pTlv->mMinesAlarmCountdown;
 
-    if (mStartFilled == relive::reliveChoice::eYes)
+    if (mStartFilled)
     {
         if (mStartingSwitchState)
         {
@@ -91,7 +91,7 @@ void ColourfulMeter::VUpdate()
         gbDrawMeterCountDown = false;
     }
 
-    if (mStartFilled == relive::reliveChoice::eYes)
+    if (mStartFilled)
     {
         gbDrawMeterCountDown = false;
 

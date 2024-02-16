@@ -47,16 +47,7 @@ Lever::Lever(relive::Path_Lever* pTlv, const Guid& tlvId)
     GetAnimation().SetSemiTrans(true);
     mSwitchId = pTlv->mSwitchId;
     mAction = pTlv->mAction;
-    mPulledFromLeft = false;
-
-    if (pTlv->mPersistOffscreen == relive::reliveChoice::eYes)
-    {
-        mPersistOffscreen = true;
-    }
-    else
-    {
-        mPersistOffscreen = false;
-    }
+    mPersistOffscreen = pTlv->mPersistOffscreen;
 
     if (pTlv->mScale == relive::reliveScale::eHalf)
     {

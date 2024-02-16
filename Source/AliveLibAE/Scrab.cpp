@@ -160,12 +160,12 @@ Scrab::Scrab(relive::Path_Scrab* pTlv, const Guid& tlvId, relive::Path_ScrabSpaw
     mPauseRightMax = pTlv->mPauseRightMax;
     mPauseAfterChaseTime = pTlv->mPauseAfterChaseTime;
     mPossessedMaxWhirlAttackDuration = pTlv->mPossessedMaxWhirlAttackDuration;
-    mKillEnemy = pTlv->mKillEnemy == relive::reliveChoice::eYes ? Choice_short::eYes_1 : Choice_short::eNo_0;
+    mKillEnemy = pTlv->mKillEnemy ? Choice_short::eYes_1 : Choice_short::eNo_0;
 
     field_1A0_speak_max = 3;
 
-    mRoarRandomly = pTlv->mRoarRandomly == relive::reliveChoice::eYes ? true : false;
-    mPersistant = pTlv->mPersistant == relive::reliveChoice::eYes ? true : false;
+    mRoarRandomly = pTlv->mRoarRandomly;
+    mPersistant = pTlv->mPersistant;
 
     if (!OnFloor())
     {
@@ -4188,7 +4188,7 @@ s16 Scrab::Handle_SlamDoor_or_EnemyStopper(FP velX, s16 bCheckLeftRightBounds)
         ReliveTypes::eSlamDoor);
 
     auto pSlamDoorTlv = static_cast<relive::Path_SlamDoor*>(BaseAliveGameObjectPathTLV);
-    if (pSlamDoorTlv && ((pSlamDoorTlv->mStartClosed == relive::reliveChoice::eYes && !SwitchStates_Get(pSlamDoorTlv->mSwitchId)) || (pSlamDoorTlv->mStartClosed == relive::reliveChoice::eNo && SwitchStates_Get(pSlamDoorTlv->mSwitchId))))
+    if (pSlamDoorTlv && ((pSlamDoorTlv->mStartClosed && !SwitchStates_Get(pSlamDoorTlv->mSwitchId)) || (!pSlamDoorTlv->mStartClosed && SwitchStates_Get(pSlamDoorTlv->mSwitchId))))
     {
         return 1;
     }

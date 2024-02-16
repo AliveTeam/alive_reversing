@@ -1,7 +1,6 @@
 #pragma once
 
 #include "BaseAliveGameObject.hpp"
-#include "Path.hpp" // reliveChoice only
 #include "../relive_lib/SaveStateBase.hpp"
 
 namespace relive
@@ -61,7 +60,7 @@ private:
     Guid mTlvInfo;
     SlapLockStates mState = SlapLockStates::eShaking_0;
     s32 mTimer1 = 0;
-    relive::reliveChoice mHasGhost = relive::reliveChoice::eNo;
+    bool mHasGhost = false;
     Guid mAbilityRingId;
     Guid mPossessionFlickerId;
     s32 mShinyParticleTimer = 0;

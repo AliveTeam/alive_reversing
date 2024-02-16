@@ -121,7 +121,7 @@ void Start_Sounds_for_TLV(CameraPos direction, relive::Path_TLV* pTlv)
         case ReliveTypes::eSlog:
         {
             const auto pSlogTlv = static_cast<relive::Path_Slog*>(pTlv);
-            if (pSlogTlv->mAsleep == relive::reliveChoice::eYes)
+            if (pSlogTlv->mAsleep == true)
             {
                 if (!pAmbianceTbl[AmbienceId::eSlogSleeping].mScopedSeq)
                 {   
@@ -166,7 +166,7 @@ void Start_Sounds_for_TLV(CameraPos direction, relive::Path_TLV* pTlv)
         case ReliveTypes::eFleech:
         {
             auto pFleechTlv = static_cast<relive::Path_Fleech*>(pTlv);
-            if ((pFleechTlv->mAsleep == relive::reliveChoice::eYes || pFleechTlv->mHanging == relive::reliveChoice::eYes))
+            if ((pFleechTlv->mAsleep || pFleechTlv->mHanging))
             {
                 if (!pAmbianceTbl[AmbienceId::eFleechAsleep].mScopedSeq)
                 {

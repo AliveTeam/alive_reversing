@@ -88,24 +88,9 @@ SlamDoor::SlamDoor(relive::Path_SlamDoor* pTlv, const Guid& tlvId)
 
     mSwitchId = pTlv->mSwitchId;
 
-    mOpen = false;
-    mSlamDoorFlipY = false;
-    mDelete = false;
-
-    if (pTlv->mStartClosed == relive::reliveChoice::eNo)
-    {
-        mOpen = true;
-    }
-
-    if (pTlv->mFlipY == relive::reliveChoice::eYes)
-    {
-        mSlamDoorFlipY = true;
-    }
-
-    if (pTlv->mDelete == relive::reliveChoice::eYes)
-    {
-        mDelete = true;
-    }
+    mOpen = !pTlv->mStartClosed;
+    mSlamDoorFlipY = pTlv->mFlipY;
+    mDelete = pTlv->mDelete;
 
     const s32 currentLevelId = static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel));
 

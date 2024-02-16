@@ -24,6 +24,6 @@ private:
     relive::Path_SlogSpawner::StartDirection mStartDirection = relive::Path_SlogSpawner::StartDirection::eRight;
     s16 mSlogSpawnInterval = 0;
     s16 mSpawnerSwitchId = 0;
-    relive::reliveChoice mListenToSligs = relive::reliveChoice::eNo; // AE only
+    bool mListenToSligs = false; // AE only
     s16 mChaseDelay = 0; // AE only
 };

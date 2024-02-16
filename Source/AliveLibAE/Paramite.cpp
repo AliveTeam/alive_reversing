@@ -179,11 +179,11 @@ Paramite::Paramite(relive::Path_Paramite* pTlv, const Guid& tlvId)
     mGroupChaseDelay = pTlv->mGroupChaseDelay;
     mSurpriseWebSwitchId = pTlv->mSurpriseWebSwitchId;
 
-    mHissBeforeAttack = pTlv->mHissBeforeAttack == relive::reliveChoice::eYes ? true : false;
+    mHissBeforeAttack = pTlv->mHissBeforeAttack;
     mRunning = false;
-    mOutOfSight = pTlv->mDeleteWhenOutOfSight == relive::reliveChoice::eYes ? true : false;
+    mOutOfSight = pTlv->mDeleteWhenOutOfSight;
     mPreventDepossession = false;
-    mAttackFleeches = pTlv->mAttackFleeches == relive::reliveChoice::eYes ? true : false;
+    mAttackFleeches = pTlv->mAttackFleeches;
     mSpawned = false;
     mAlerted = false;
 

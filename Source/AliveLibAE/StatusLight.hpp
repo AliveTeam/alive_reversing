@@ -1,7 +1,11 @@
 #pragma once
 
 #include "../relive_lib/GameObjects/BaseAnimatedWithPhysicsGameObject.hpp"
-#include "../relive_lib/data_conversion/relive_tlvs.hpp"
+
+namespace relive
+{
+    struct Path_StatusLight;
+}
 
 class StatusLight final : public ::BaseAnimatedWithPhysicsGameObject
 {
@@ -24,7 +28,7 @@ private:
     s16 mLinkedStatusLightSwitchId3 = 0;
     s16 mLinkedStatusLightSwitchId4 = 0;
     s16 mLinkedStatusLightSwitchId5 = 0;
-    relive::reliveChoice mIgnoreGridSnapping = relive::reliveChoice::eNo;
+    bool mIgnoreGridSnapping = false;
     FP mUntweakedXPos = {};
     FP mUntweakedYPos = {};
 };

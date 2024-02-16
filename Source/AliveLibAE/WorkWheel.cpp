@@ -191,7 +191,7 @@ void WorkWheel::VStopTurning(s16 bResetSwitch)
         // Spin it.
         GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Work_Wheel_Idle));
 
-        if (mTurnOffWhenStopped == relive::reliveChoice::eYes)
+        if (mTurnOffWhenStopped)
         {
             if (bResetSwitch)
             {

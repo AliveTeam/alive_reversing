@@ -35,7 +35,7 @@ void PSX_Calc_FrameSkip()
     }
     else
     {
-        gDisplayRenderFrame = gDisplayRenderFrame == false;
+        gDisplayRenderFrame = !gDisplayRenderFrame;
     }
 
     sLastTicks_5CA4CC = ticks;

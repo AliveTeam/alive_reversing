@@ -243,21 +243,21 @@ struct AbeSaveState final : public SaveStateBase
     u16 mRed;
     u16 mGreen;
     u16 mBlue;
-    u16 bAnimFlipX;
+    bool bAnimFlipX;
     eAbeMotions mCurrentMotion;
     s32 mCurrentFrame;
     u16 mFrameChangeCounter;
     s8 mRenderLayer;
-    s8 mAnimRender;
-    s8 mIsDrawable;
+    bool mAnimRender;
+    bool mIsDrawable;
     FP mHealth;
     eAbeMotions mCurrentMotion2; // the same as mCurrentMotion
     eAbeMotions mNextMotion;
     u16 mLastLineYPos;
     eLineTypes mCollisionLineType;
     Guid mPlatformId;
-    u16 mIsElectrocuted;
-    u16 mIsInvisible;
+    bool mIsElectrocuted;
+    bool mIsInvisible;
     s8 mIsAbeControlled;
     FP field_48_x_vel_slow_by;
     u32 field_50_state;
@@ -293,7 +293,7 @@ struct AbeSaveState final : public SaveStateBase
     u16 mHandStoneCam1;
     u16 mHandStoneCam2;
     u16 mHandStoneCam3;
-    u16 mHasEvilFart;
+    bool mHasEvilFart;
     EReliveLevelIds mDstWellLevel;
     u16 mDstWellPath;
     u16 mDstWellCamera;
@@ -716,7 +716,7 @@ private:
     ReliveTypes mHandStoneType = {};
     s16 mFmvId = 0;
     s16 mHandStoneCams[3] = {};
-    s16 mHasEvilFart = 0;
+    bool mHasEvilFart = false;
     EReliveLevelIds mDstWellLevel = EReliveLevelIds::eNone;
     s16 mDstWellPath = 0;
     s16 mDstWellCamera = 0;

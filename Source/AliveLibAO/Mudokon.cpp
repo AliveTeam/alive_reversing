@@ -229,7 +229,7 @@ Mudokon::Mudokon(relive::Path_TLV* pTlv, const Guid& tlvId)
             field_1A4_code_converted = Code_Convert(ringMudTlv->mCode1, ringMudTlv->mCode2);
             field_1A8_code_length = Code_Length(field_1A4_code_converted);
 
-            mGiveRingWithoutPassword = ringMudTlv->mGiveRingWithoutPassword == relive::reliveChoice::eYes;
+            mGiveRingWithoutPassword = ringMudTlv->mGiveRingWithoutPassword;
             mSnapToGrid = false;
             mDeaf = false;
 
@@ -263,8 +263,8 @@ Mudokon::Mudokon(relive::Path_TLV* pTlv, const Guid& tlvId)
             GetAnimation().SetFlipX(mudTlv->mFacing == relive::reliveXDirection::eLeft);
 
             // TODO: Check these as well
-            mDeaf = mudTlv->mDeaf == relive::reliveChoice::eYes;
-            mPersist = mudTlv->mPersistAndResetOffscreen == relive::reliveChoice::eYes;
+            mDeaf = mudTlv->mDeaf;
+            mPersist = mudTlv->mPersistAndResetOffscreen;
             mSnapToGrid = true;
 
             field_1B4_idle_time = 0;
@@ -2692,7 +2692,7 @@ s16 Mudokon::Brain_2_SingSequenceIdle()
         case 3:
             if (field_1C0_timer <= static_cast<s32>(sGnFrame))
             {
-                if (mGivePassword == relive::reliveChoice::eYes)
+                if (mGivePassword)
                 {
                     field_1B8_brain_state = 4;
                 }

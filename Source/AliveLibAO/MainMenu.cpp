@@ -3351,7 +3351,7 @@ void Menu::Load_BackToMainScreen_Update()
     {
         if (pMenuTrans->field_16_bDone)
         {
-            if (mLoadSave == false)
+            if (!mLoadSave)
             {
                 gMap.SetActiveCam(EReliveLevelIds::eMenu, 1, CameraIds::Menu::eMainMenu_1, CameraSwapEffects::eInstantChange_0, 0, 0);
             }

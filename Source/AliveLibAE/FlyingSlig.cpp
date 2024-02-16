@@ -198,7 +198,7 @@ FlyingSlig::FlyingSlig(relive::Path_FlyingSlig* pTlv, const Guid& tlvId)
         SetScale(Scale::Fg);
     }
 
-    mPersistant = field_118_data.mPersistant == relive::reliveChoice::eYes;
+    mPersistant = field_118_data.mPersistant;
 
     field_17C_launch_switch_id |= field_118_data.mLaunchGrenadeSwitchId;
 

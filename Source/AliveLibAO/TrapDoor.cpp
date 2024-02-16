@@ -166,7 +166,7 @@ void TrapDoor::VScreenChanged()
     if (gMap.LevelChanged() || gMap.PathChanged())
     {
         SetDead(true);
-        if (mSelfClosing == relive::reliveChoice::eYes)
+        if (mSelfClosing)
         {
             SwitchStates_Set(mSwitchId, mStartState == 0);
         }
@@ -261,7 +261,7 @@ void TrapDoor::VUpdate()
 
         case TrapDoorState::eOpen_2:
             mStayOpenTimeTimer--;
-            if ((mSelfClosing == relive::reliveChoice::eYes && !mStayOpenTimeTimer) || SwitchStates_Get(mSwitchId) != SwitchStates_Get(mStartState))
+            if ((mSelfClosing && !mStayOpenTimeTimer) || SwitchStates_Get(mSwitchId) != SwitchStates_Get(mStartState))
             {
                 const s32 cur_lvl = static_cast<s32>(MapWrapper::ToAO(gMap.mCurrentLevel));
                 GetAnimation().Set_Animation_Data(

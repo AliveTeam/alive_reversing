@@ -3,7 +3,10 @@
 #include "../relive_lib/Function.hpp"
 #include "BaseAliveGameObject.hpp"
 #include "../relive_lib/AnimResources.hpp"
-#include "../relive_lib/data_conversion/relive_tlvs.hpp"
+
+namespace relive {
+struct Path_FallingItem;
+}
 
 namespace AO {
 
@@ -44,7 +47,7 @@ public:
     s16 mRemainingFallingItems = 0;
     s16 mFallInterval = 0;
     s32 mFallIntervalTimer = 0;
-    relive::reliveChoice mResetSwitchIdAfterUse = relive::reliveChoice::eNo;
+    bool mResetSwitchIdAfterUse = false;
     bool mDoAirStreamSound = false;
     FP mStartYPos = {};
     FP mTlvXPos = {};

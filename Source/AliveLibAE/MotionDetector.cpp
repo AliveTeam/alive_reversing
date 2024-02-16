@@ -101,14 +101,7 @@ MotionDetector::MotionDetector(relive::Path_MotionDetector* pTlv, const Guid& tl
             ALIVE_FATAL("couldn't find start move direction for motion detector");
         }
 
-        if (pTlv->mDrawFlare == relive::reliveChoice::eYes)
-        {
-            GetAnimation().SetRender(true);
-        }
-        else
-        {
-            GetAnimation().SetRender(false);
-        }
+        GetAnimation().SetRender(pTlv->mDrawFlare);
 
         if (pLaser)
         {

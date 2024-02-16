@@ -66,7 +66,7 @@ Drill::Drill(relive::Path_Drill* pTlv, const Guid& tlvId)
     SetTint(kDrillTints, gMap.mCurrentLevel);
     relive::Path_Drill tlvData = *pTlv;
 
-    mStartOff = tlvData.mStartStateOn == relive::reliveChoice::eYes ? false : true;
+    mStartOff = tlvData.mStartStateOn == true ? false : true;
     mDrillSwitchId = tlvData.mSwitchId;
 
     if (SwitchStates_Get(mDrillSwitchId) && mStartOff)
@@ -88,7 +88,7 @@ Drill::Drill(relive::Path_Drill* pTlv, const Guid& tlvId)
     }
 
     mDrillDirection = tlvData.mDrillDirection;
-    mStartPosIsBottom = tlvData.mStartPositionBottom == relive::reliveChoice::eYes ? true : false;
+    mStartPosIsBottom = tlvData.mStartPositionBottom;
 
     if (mToggleStartState_StartOn)
     {

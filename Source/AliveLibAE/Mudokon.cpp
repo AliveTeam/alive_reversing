@@ -460,7 +460,7 @@ Mudokon::Mudokon(relive::Path_Mudokon* pTlv, const Guid& tlvId)
 
     mPersistAndResetOffscreen = false;
     mAlerted = false;
-    mBlind = pTlv->mBlind == relive::reliveChoice::eYes ? true : false;
+    mBlind = pTlv->mBlind;
     mFollowingAbe = false;
     mStandingForSadOrAngry = false;
     mStoppedAtWheel = false;
@@ -506,7 +506,7 @@ Mudokon::Mudokon(relive::Path_Mudokon* pTlv, const Guid& tlvId)
                 field_168_ring_type = RingTypes::eHealing_Emit_Effect_11;
             }
             field_164_ring_pulse_interval = pTlv->mRingPulseInterval;
-            mGiveRingWithoutPassword = pTlv->mGiveRingWithoutPassword == relive::reliveChoice::eYes ? true : false;
+            mGiveRingWithoutPassword = pTlv->mGiveRingWithoutPassword;
             mAbeHasRing = false;
             mBrainState = Mud_Brain_State::Brain_0_GiveRings;
             break;
@@ -538,9 +538,9 @@ Mudokon::Mudokon(relive::Path_Mudokon* pTlv, const Guid& tlvId)
     field_13C_voice_pitch = pTlv->mVoicePitch;
     field_17A_rescue_switch_id = pTlv->mRescueSwitchId;
 
-    mPersistAndResetOffscreen = pTlv->mPersistAndResetOffscreen == relive::reliveChoice::eYes ? true : false;
-    mWorkAfterTurningWheel = pTlv->mWorkAfterTurningWheel == relive::reliveChoice::eYes ? true : false;
-    mGetDepressed = pTlv->mGetsDepressed == relive::reliveChoice::eYes ? true : false;
+    mPersistAndResetOffscreen = pTlv->mPersistAndResetOffscreen;
+    mWorkAfterTurningWheel = pTlv->mWorkAfterTurningWheel;
+    mGetDepressed = pTlv->mGetsDepressed;
     mRingAndAngryMudTimeout = pTlv->mRingPulseInterval ? true : false;
 
     field_17C_stand_idle_timer = 0;

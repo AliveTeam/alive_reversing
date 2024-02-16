@@ -1,7 +1,10 @@
 #pragma once
 
 #include "BaseAliveGameObject.hpp"
-#include "../relive_lib/data_conversion/relive_tlvs.hpp"
+
+namespace relive {
+class Path_TLV;
+}
 
 namespace AO {
 

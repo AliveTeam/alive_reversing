@@ -87,7 +87,7 @@ Scrab::Scrab(relive::Path_Scrab* pTlv, const Guid& tlvId)
     field_138_spotting_abe_delay = pTlv->mSpottingAbeDelay;
 
     // TODO: flags
-    field_188_flags = 32 * (pTlv->mRoarRandomly == relive::reliveChoice::eYes) | (((field_188_flags & ~0x11) | 4) & ~0x28);
+    field_188_flags = 32 * (pTlv->mRoarRandomly) | (((field_188_flags & ~0x11) | 4) & ~0x28);
 
     FP hitX = {};
     FP hitY = {};

@@ -14,6 +14,7 @@
 #include "../relive_lib/GameObjects/ParticleBurst.hpp"
 #include "Map.hpp"
 #include "QuikSave.hpp"
+#include "Path.hpp"
 
 void SlapLock::LoadAnimations()
 {
@@ -70,13 +71,13 @@ SlapLock::SlapLock(relive::Path_SlapLock* pTlv, const Guid& tlvId)
 
         if (pObj->Type() == ReliveTypes::eSlapLock_OrbWhirlWind && static_cast<SlapLockWhirlWind*>(pObj)->SwitchId() == mSlapLockTlv->mTargetTombSwitchId2)
         {
-            mHasGhost = relive::reliveChoice::eNo;
+            mHasGhost = false;
         }
     }
 
     if (SwitchStates_Get(pTlv->mTargetTombSwitchId2))
     {
-        mHasGhost = relive::reliveChoice::eNo;
+        mHasGhost = false;
     }
 
     if (pTlv->mTlvSpecificMeaning == 0)
@@ -89,7 +90,7 @@ SlapLock::SlapLock(relive::Path_SlapLock* pTlv, const Guid& tlvId)
     mTimer1 = MakeTimer(60);
     mShinyParticleTimer = MakeTimer(30);
 
-    if (mSlapLockTlv->mGiveInvisibilityPowerup == relive::reliveChoice::eYes)
+    if (mSlapLockTlv->mGiveInvisibilityPowerup)
     {
         mState = SlapLockStates::eEmitInvisibilityPowerupRing_4;
     }
@@ -219,7 +220,7 @@ void SlapLock::VUpdate()
         {
             case SlapLockStates::eShaking_0:
             {
-                if (mSlapLockTlv->mGiveInvisibilityPowerup == relive::reliveChoice::eYes)
+                if (mSlapLockTlv->mGiveInvisibilityPowerup)
                 {
                     if (!(sGnFrame & 63))
                     {
@@ -236,7 +237,7 @@ void SlapLock::VUpdate()
                     return;
                 }
 
-                if (mHasGhost == relive::reliveChoice::eNo)
+                if (!mHasGhost)
                 {
                     return;
                 }
@@ -249,7 +250,7 @@ void SlapLock::VUpdate()
             }
             case SlapLockStates::eIdle_1:
             {
-                if (mSlapLockTlv->mGiveInvisibilityPowerup == relive::reliveChoice::eYes)
+                if (mSlapLockTlv->mGiveInvisibilityPowerup)
                 {
                     if (!(sGnFrame & 63))
                     {
@@ -281,7 +282,7 @@ void SlapLock::VUpdate()
 
                 GetAnimation().SetRender(false);
 
-                if (mSlapLockTlv->mGiveInvisibilityPowerup == relive::reliveChoice::eNo)
+                if (!mSlapLockTlv->mGiveInvisibilityPowerup)
                 {
                     mShinyParticleTimer = MakeTimer(60);
                     mState = SlapLockStates::eBroken_3;
@@ -451,9 +452,9 @@ bool SlapLock::VTakeDamage(BaseGameObject* pFrom)
 
     gAbe->ToKnockback_44E700(1, 0);
 
-    if (mHasGhost == relive::reliveChoice::eYes)
+    if (mHasGhost)
     {
-        mHasGhost = relive::reliveChoice::eNo;
+        mHasGhost = false;
         relive_new SlapLockWhirlWind(
             mSlapLockTlv->mTargetTombSwitchId1,
             mSlapLockTlv->mTargetTombSwitchId2,
@@ -462,7 +463,7 @@ bool SlapLock::VTakeDamage(BaseGameObject* pFrom)
             GetSpriteScale());
     }
 
-    if (mSlapLockTlv->mGiveInvisibilityPowerup == relive::reliveChoice::eYes)
+    if (mSlapLockTlv->mGiveInvisibilityPowerup)
     {
         SetInvisibilityTarget();
     }

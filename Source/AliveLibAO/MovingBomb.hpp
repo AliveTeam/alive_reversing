@@ -1,7 +1,10 @@
 #pragma once
 
 #include "BaseAliveGameObject.hpp"
-#include "../relive_lib/data_conversion/relive_tlvs.hpp"
+
+namespace relive {
+struct Path_MovingBomb;
+}
 
 namespace AO {
 
@@ -39,7 +42,7 @@ public:
     s16 mMinStopTime = 0;
     s16 mMaxStopTime = 0;
     s32 mChannelMask = 0;
-    relive::reliveChoice mPersistOffscreen = relive::reliveChoice::eNo;
+    bool mPersistOffscreen = false;
 };
 
 } // namespace AO

@@ -81,29 +81,29 @@ inline void BaseConvert(relive::Path_TLV& r, const AO::Path_TLV& base, const Gui
         ALIVE_FATAL("Bad scale");
     }
 
-    static reliveChoice From(const ::Choice_short choice)
+    static bool From(const ::Choice_short choice)
     {
         switch (choice)
         {
             case Choice_short::eNo_0:
-                return reliveChoice::eNo;
+                return false;
             case Choice_short::eYes_1:
-                return reliveChoice::eYes;
+                return true;
 
             default:
                 LOG_WARNING("remapping invalid choice value %d to eYes", static_cast<s32>(choice));
-                return reliveChoice::eYes;
+                return true;
         }
     }
 
-    static reliveChoice From(const ::Choice_int choice)
+    static bool From(const ::Choice_int choice)
     {
         switch (choice)
         {
         case Choice_int::eNo_0:
-            return reliveChoice::eNo;
+            return false;
         case Choice_int::eYes_1:
-            return reliveChoice::eYes;
+            return true;
         }
         ALIVE_FATAL("Bad choice");
     }
@@ -2578,7 +2578,7 @@ public:
         r.mRescueSwitchId = tlv.mRescueSwitchId;
         r.mDeaf = relive::From(tlv.mDeaf);
         r.mDisabledResources = tlv.mDisabledResources;
-        r.mPersistAndResetOffscreen = static_cast<reliveChoice>(tlv.mPersistAndResetOffscreen); // TODO: enum
+        r.mPersistAndResetOffscreen = static_cast<bool>(tlv.mPersistAndResetOffscreen);
         return r;
     }
 
@@ -3494,32 +3494,32 @@ public:
         ALIVE_FATAL("Bad slig start state");
     }
 
-    static reliveChoice From(AO::Path_Slig::ShootPossessedSligs shootPossessedSligs)
+    static bool From(AO::Path_Slig::ShootPossessedSligs shootPossessedSligs)
     {
         switch (shootPossessedSligs)
         {
             case AO::Path_Slig::ShootPossessedSligs::eNo_0:
-                return reliveChoice::eNo;
+                return false;
             case AO::Path_Slig::ShootPossessedSligs::eYes_1:
             case AO::Path_Slig::ShootPossessedSligs::eYes_2:
-                return reliveChoice::eYes;
+                return true;
         }
         ALIVE_FATAL("Bad slig shoot possessed sligs value");
     }
 
-    static reliveChoice From(::Path_Slig::ShootPossessedSligs shootPossessedSligs)
+    static bool From(::Path_Slig::ShootPossessedSligs shootPossessedSligs)
     {
         switch (shootPossessedSligs)
         {
             case ::Path_Slig::ShootPossessedSligs::eYes_0:
             case ::Path_Slig::ShootPossessedSligs::eYes_1:
-                return reliveChoice::eYes;
+                return true;
             case ::Path_Slig::ShootPossessedSligs::eNo_3:
-                return reliveChoice::eNo;
+                return false;
 
             default:
                 LOG_WARNING("remapping invalid ShootPossessedSligs value %d to eYes", static_cast<s32>(shootPossessedSligs));
-                return reliveChoice::eYes;
+                return true;
         }
     }
 };
@@ -3666,28 +3666,28 @@ private:
         ALIVE_FATAL("Bad slig start state");
     }
 
-    static reliveChoice From(AO::Path_Slig::ShootPossessedSligs shootPossessedSligs)
+    static bool From(AO::Path_Slig::ShootPossessedSligs shootPossessedSligs)
     {
         switch (shootPossessedSligs)
         {
         case AO::Path_Slig::ShootPossessedSligs::eNo_0:
-            return reliveChoice::eNo;
+            return false;
         case AO::Path_Slig::ShootPossessedSligs::eYes_1:
         case AO::Path_Slig::ShootPossessedSligs::eYes_2:
-            return reliveChoice::eYes;
+            return true;
         }
         ALIVE_FATAL("Bad slig shoot possessed sligs value");
     }
 
-    static reliveChoice From(::Path_Slig::ShootPossessedSligs shootPossessedSligs)
+    static bool From(::Path_Slig::ShootPossessedSligs shootPossessedSligs)
     {
         switch (shootPossessedSligs)
         {
         case ::Path_Slig::ShootPossessedSligs::eYes_0:
         case ::Path_Slig::ShootPossessedSligs::eYes_1:
-            return reliveChoice::eYes;
+            return true;
         case ::Path_Slig::ShootPossessedSligs::eNo_3:
-            return reliveChoice::eNo;
+            return false;
         }
         ALIVE_FATAL("Bad slig shoot possessed sligs value");
     }

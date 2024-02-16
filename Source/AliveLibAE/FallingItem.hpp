@@ -2,7 +2,11 @@
 
 #include "BaseAliveGameObject.hpp"
 #include "../relive_lib/Function.hpp"
-#include "../relive_lib/data_conversion/relive_tlvs.hpp"
+
+namespace relive
+{
+    struct Path_FallingItem;
+}
 
 class FallingItem final : public BaseAliveGameObject
 {
@@ -39,7 +43,7 @@ public:
     s16 mFallInterval = 0;
     s16 mMaxFallingItems = 0;
     s16 mRemainingFallingItems = 0;
-    relive::reliveChoice mResetSwitchIdAfterUse = relive::reliveChoice::eNo;
+    bool mResetSwitchIdAfterUse = false;
     FP mTlvXPos = {};
     FP mTlvYPos = {};
     FP mStartYPos = {};

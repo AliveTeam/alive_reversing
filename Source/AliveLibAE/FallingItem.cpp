@@ -111,7 +111,7 @@ FallingItem::FallingItem(relive::Path_FallingItem* pTlv, const Guid& tlvId)
      mFallInterval(static_cast<s16>(fallInterval)),
      mMaxFallingItems(static_cast<s16>(numItems)),
      mRemainingFallingItems(static_cast<s16>(numItems)),
-     mResetSwitchIdAfterUse(static_cast<relive::reliveChoice>(bResetIdAfterUse)),
+     mResetSwitchIdAfterUse(static_cast<bool>(bResetIdAfterUse)),
      mTlvXPos(FP_FromInteger(xpos)),
      mTlvYPos(FP_FromInteger(ypos)),
      mStartYPos(FP_FromInteger(ypos))
@@ -360,7 +360,7 @@ void FallingItem::VUpdate()
 
             if (mSwitchId)
             {
-                if (mResetSwitchIdAfterUse == relive::reliveChoice::eYes)
+                if (mResetSwitchIdAfterUse)
                 {
                     SwitchStates_Do_Operation(mSwitchId, relive::reliveSwitchOp::eSetFalse);
                 }

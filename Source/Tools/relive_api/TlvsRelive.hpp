@@ -244,7 +244,7 @@ public:
             imagesPath += "MudNormal";
         }
 
-        if (mTlv.mBlind == reliveChoice::eYes)
+        if (mTlv.mBlind)
         {
             imagesPath += "B";
         }

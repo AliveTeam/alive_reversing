@@ -50,7 +50,7 @@ void ExplosionSet::Init(relive::Path_ExplosionSet* pTlv)
 
     mStartDelay = pTlv->mStartDelay;
 
-    mSpawnAssets = pTlv->mSpawnAssets == relive::reliveChoice::eYes ? true : false;
+    mSpawnAssets = pTlv->mSpawnAssets;
     mFlipX = pTlv->mStartDirection == relive::reliveXDirection::eRight ? true : false;
     mAssetInterval = pTlv->mAssetInterval;
     mGridSpacing = FP_GetExponent(FP_FromInteger(pTlv->mGridSpacing) * ScaleToGridSize(mSpriteScale));

@@ -36,10 +36,10 @@ public:
 private:
     Guid mTlvInfo;
     s16 mSligSpawnerSwitchId = 0;
-    bool mDontDestroyTLV = false;
+    bool mDontDestroyTLV = true;
     bool mUnlimitedSpawns = false;
     relive::Path_TLV mPathTlv = {};
     SpawnerStates mState = SpawnerStates::eInactive_0;
     Guid mSpawnedSligId;
-    s16 mFindSpawnedSlig = 0;
+    bool mFindSpawnedSlig = false;
 };

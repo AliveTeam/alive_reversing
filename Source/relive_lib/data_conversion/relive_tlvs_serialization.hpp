@@ -103,11 +103,6 @@ NLOHMANN_JSON_SERIALIZE_ENUM(reliveScale, {
     {reliveScale::eHalf, "half"},
 })
 
-NLOHMANN_JSON_SERIALIZE_ENUM(reliveChoice, {
-    {reliveChoice::eNo, "no"},
-    {reliveChoice::eYes, "yes"},
-})
-
 NLOHMANN_JSON_SERIALIZE_ENUM(reliveXDirection, {
     {reliveXDirection::eLeft, "left"},
     {reliveXDirection::eRight, "right"},

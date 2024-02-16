@@ -91,7 +91,7 @@ SlingMudokon::SlingMudokon(relive::Path_SlingMudokon* pTlv, const Guid& tlvId)
         SetScale(Scale::Fg);
     }
 
-    if (pTlv->mDontWhistlePassword == relive::reliveChoice::eYes)
+    if (pTlv->mDontWhistlePassword)
     {
         SetBrain(ISlingMudokonBrain::EBrainTypes::AskForPassword);
     }

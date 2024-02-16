@@ -90,10 +90,7 @@ Mine::Mine(relive::Path_Mine* pTlv, const Guid& tlvId)
     mFlashAnim.SetSpriteScale(GetSpriteScale());
     mFlashAnim.SetRGB(128, 128, 128);
 
-    if (pTlv->mPersistOffscreen == relive::reliveChoice::eYes)
-    {
-        mPersistOffscreen = true;
-    }
+    mPersistOffscreen = pTlv->mPersistOffscreen;
 
     if (GetMap().mCurrentLevel == EReliveLevelIds::eStockYards || GetMap().mCurrentLevel == EReliveLevelIds::eStockYardsReturn)
     {

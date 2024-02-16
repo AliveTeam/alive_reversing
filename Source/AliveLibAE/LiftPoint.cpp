@@ -426,12 +426,7 @@ void LiftPoint::VUpdate()
             if (pLiftTlv)
             {
                 mLiftPointStopType = pLiftTlv->mLiftPointStopType;
-
-                mIgnoreLiftMover = false;
-                if (pLiftTlv->mIgnoreLiftMover == relive::reliveChoice::eYes)
-                {
-                    mIgnoreLiftMover = true;
-                }
+                mIgnoreLiftMover = pLiftTlv->mIgnoreLiftMover;
             }
 
             // TODO: Also bugged because will always be true

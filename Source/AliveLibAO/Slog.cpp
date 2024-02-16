@@ -113,7 +113,7 @@ Slog::Slog(relive::Path_Slog* pTlv, const Guid& tlvId)
     mChaseDelay = pTlv->mChaseDelay;
     mAngerSwitchId = pTlv->mAngerSwitchId;
 
-    if (pTlv->mAsleep == relive::reliveChoice::eYes)
+    if (pTlv->mAsleep)
     {
         mCurrentMotion = eSlogMotions::Motion_16_Sleeping;
         GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Slog_Sleeping));
@@ -138,7 +138,7 @@ Slog::Slog(FP xpos, FP ypos, FP scale)
 
     mTarget = sControlledCharacter;
     sControlledCharacter->mBaseGameObjectRefCount++;
-    mAsleep = relive::reliveChoice::eNo;
+    mAsleep = false;
     mWakeUpAnger = 0;
 
     mAngerSwitchId = 0;
@@ -2056,7 +2056,7 @@ s16 Slog::Brain_1_Idle()
                 mNextMotion = eSlogMotions::Motion_0_Idle;
                 return mBrainSubState;
             }
-            else if (mAsleep == relive::reliveChoice::eYes)
+            else if (mAsleep)
             {
                 mAngerLevel = 0;
                 return 1;
@@ -2139,7 +2139,7 @@ s16 Slog::Brain_1_Idle()
             {
                 if (mAngerLevel)
                 {
-                    if (mAsleep == relive::reliveChoice::eYes)
+                    if (mAsleep)
                     {
                         mAngerLevel--;
                     }

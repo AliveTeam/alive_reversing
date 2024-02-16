@@ -108,11 +108,11 @@ public:
     private:
         // Bump this if any data format breaks are made so that OG/mod data is re-converted/upgraded
         static constexpr u32 kFmvVersion = 1;
-        static constexpr u32 kPathVersion = 5;
+        static constexpr u32 kPathVersion = 6;
         static constexpr u32 kPaletteVersion = 1;
         static constexpr u32 kAnimationVersion = 3;
         static constexpr u32 kCameraVersion = 3;
-        static constexpr u32 kSaveFileVersion = 1;
+        static constexpr u32 kSaveFileVersion = 2;
         static constexpr u32 kFontFileVersion = 1;
         static constexpr u32 kDemoFileVersion = 1;
 

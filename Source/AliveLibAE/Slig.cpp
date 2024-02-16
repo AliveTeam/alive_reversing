@@ -3214,7 +3214,7 @@ s16 Slig::Brain_ListenToGlukkon_GettingAttention(BaseAliveGameObject* pGlukkonOb
 
 s16 Slig::Brain_7_SpottedEnemy()
 {
-    if (gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) || mSligTlv.mData.mChaseAbeWhenSpotted == relive::reliveChoice::eNo)
+    if (gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) || !mSligTlv.mData.mChaseAbeWhenSpotted)
     {
         if (VOnSameYLevel(sControlledCharacter) && VIsObj_GettingNear_On_X(sControlledCharacter) && VIsObjNearby(ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(3), sControlledCharacter) && !EventGet(kEventResetting) && !sControlledCharacter->GetInvisible())
         {
@@ -4138,7 +4138,7 @@ s16 Slig::Brain_29_Shooting()
             return 111;
         }
 
-        if (!gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && mSligTlv.mData.mChaseAbeWhenSpotted == relive::reliveChoice::eYes)
+        if (!gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && mSligTlv.mData.mChaseAbeWhenSpotted)
         {
             ToChase();
             return 111;
@@ -4346,7 +4346,7 @@ void Slig::Init()
             break;
 
         case relive::Path_Slig_Data::StartState::Sleeping:
-            if (mSligTlv.mTlvSpecificMeaning && mSligTlv.mData.mStayAwake == relive::reliveChoice::eYes)
+            if (mSligTlv.mTlvSpecificMeaning && mSligTlv.mData.mStayAwake)
             {
                 SetBrain(&Slig::Brain_32_Inactive);
             }
@@ -6214,7 +6214,7 @@ void Slig::RespondToEnemyOrPatrol()
     if (mSligTlv.mData.mShootOnSightDelay || sControlledCharacter->GetInvisible())
     {
         if (sControlledCharacter->Type() != ReliveTypes::eSlig ||
-            mSligTlv.mData.mShootPossessedSligs != relive::reliveChoice::eNo)
+            mSligTlv.mData.mShootPossessedSligs != false)
         {
             SetBrain(&Slig::Brain_7_SpottedEnemy);
             mNextMotion = eSligMotions::Motion_30_SpeakAIFreeze;

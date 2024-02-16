@@ -108,7 +108,7 @@ Door::Door(relive::Path_Door* pTlv, const Guid& tlvId)
 
     LoadAnimations();
 
-    if (pTlv->mCloseOnExit == relive::reliveChoice::eYes)
+    if (pTlv->mCloseOnExit)
     {
         if (pTlv->mTlvSpecificMeaning)
         {

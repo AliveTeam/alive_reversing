@@ -30,6 +30,6 @@ private:
         eWaitForDelayTimer_1 = 1,
     };
     States mState = States::eWaitForTrigger_0;
-    relive::reliveChoice mSetOffAlarm = relive::reliveChoice::eNo;
+    bool mSetOffAlarm = false;
     relive::Path_InvisibleSwitch::InvisibleSwitchScale mScale = relive::Path_InvisibleSwitch::InvisibleSwitchScale::eHalf;
 };

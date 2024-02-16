@@ -373,7 +373,7 @@ void Slig::Init()
         }
         case relive::Path_Slig_Data::StartState::Sleeping:
         {
-            if (field_174_tlv->mTlvSpecificMeaning && field_174_tlv->mData.mStayAwake == relive::reliveChoice::eYes)
+            if (field_174_tlv->mTlvSpecificMeaning && field_174_tlv->mData.mStayAwake)
             {
                 SetBrain(&Slig::Brain_Inactive);
             }
@@ -1297,7 +1297,7 @@ void Slig::RespondToEnemyOrPatrol()
     if (field_174_tlv->mData.mShootOnSightDelay)
     {
         if (sControlledCharacter->Type() != ReliveTypes::eSlig
-            || field_174_tlv->mData.mShootPossessedSligs != relive::reliveChoice::eNo)
+            || field_174_tlv->mData.mShootPossessedSligs != false)
         {
             SetBrain(&Slig::Brain_SpottedEnemy);
             mNextMotion = eSligMotions::Motion_31_SpeakAIFreeze;
@@ -3837,7 +3837,7 @@ s16 Slig::Brain_SpottedEnemy()
             mXPos,
             mYPos,
             0)
-        || field_174_tlv->mData.mChaseAbeWhenSpotted == relive::reliveChoice::eNo)
+        || !field_174_tlv->mData.mChaseAbeWhenSpotted)
     {
         if (VOnSameYLevel(sControlledCharacter)
             && VIsObj_GettingNear_On_X(sControlledCharacter)
@@ -5371,7 +5371,7 @@ s16 Slig::Brain_Shooting()
                 mXPos,
                 mYPos,
                 0)
-            && field_174_tlv->mData.mChaseAbeWhenSpotted == relive::reliveChoice::eYes)
+            && field_174_tlv->mData.mChaseAbeWhenSpotted)
         {
             ToChase();
             return 111;

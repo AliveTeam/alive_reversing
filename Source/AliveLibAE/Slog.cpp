@@ -153,7 +153,7 @@ Slog::Slog(relive::Path_Slog* pTlv, const Guid& tlvId)
 
     mMovedOffScreen = false;
     mListenToSligs = true;
-    mAsleep = pTlv->mAsleep == relive::reliveChoice::eYes;
+    mAsleep = pTlv->mAsleep;
     mCommandedToAttack = false;
 
     SetCanExplode(true);

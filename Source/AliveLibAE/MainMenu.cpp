@@ -2962,7 +2962,7 @@ s32 MainMenuController::ChangeScreenAndIntroLogic_4CF640()
                 {
                     if (pMovie->GetUpdatable())
                     {
-                        if (pMovie->GetDead() == false && (!gNumCamSwappers || pMovie->GetUpdateDuringCamSwap()))
+                        if (!pMovie->GetDead() && (!gNumCamSwappers || pMovie->GetUpdateDuringCamSwap()))
                         {
                             pMovie->VUpdate();
                         }
@@ -2985,7 +2985,7 @@ s32 MainMenuController::ChangeScreenAndIntroLogic_4CF640()
                 {
                     if (pMovie->GetUpdatable())
                     {
-                        if (pMovie->GetDead() == false && (!gNumCamSwappers || pMovie->GetUpdateDuringCamSwap()))
+                        if (!pMovie->GetDead() && (!gNumCamSwappers || pMovie->GetUpdateDuringCamSwap()))
                         {
                             pMovie->VUpdate();
                         }

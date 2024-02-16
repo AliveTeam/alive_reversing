@@ -265,7 +265,7 @@ static void Factory_LiftPoint(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid&
             }
         }
 
-        if (pTlv->mTlvSpecificMeaning & 2 || (pTlv->mTlvSpecificMeaning == 0 && static_cast<relive::Path_LiftPoint*>(pTlv)->mIsStartPoint == relive::reliveChoice::eYes))
+        if (pTlv->mTlvSpecificMeaning & 2 || (pTlv->mTlvSpecificMeaning == 0 && static_cast<relive::Path_LiftPoint*>(pTlv)->mIsStartPoint))
         {
             relive_new LiftPoint(static_cast<relive::Path_LiftPoint*>(pTlv), tlvId);
         }
@@ -286,7 +286,7 @@ static void Factory_LiftPoint(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid&
                         const auto absX = pTlvIter->mTopLeftX - tlv_x >= 0 ? pTlvIter->mTopLeftX - tlv_x : tlv_x - pTlvIter->mTopLeftX;
                         if (absX < 5)
                         {
-                            if (pTlvIter->mTlvSpecificMeaning & 2 || (pTlvIter->mTlvSpecificMeaning == 0 && static_cast<relive::Path_LiftPoint*>(pTlvIter)->mIsStartPoint == relive::reliveChoice::eYes))
+                            if (pTlvIter->mTlvSpecificMeaning & 2 || (pTlvIter->mTlvSpecificMeaning == 0 && static_cast<relive::Path_LiftPoint*>(pTlvIter)->mIsStartPoint))
                             {
                                 relive_new LiftPoint(static_cast<relive::Path_LiftPoint*>(pTlvIter), tlvId);
                                 return;
@@ -337,7 +337,7 @@ static void Factory_Dove(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& tlvI
             if (pDove)
             {
                 s16 ypos = 0;
-                if (pDoveTlv->mPixelPerfect == relive::reliveChoice::eYes)
+                if (pDoveTlv->mPixelPerfect)
                 {
                     pDove->mXPos = FP_FromInteger(pDoveTlv->mTopLeftX);
                     ypos = pDoveTlv->mTopLeftY;

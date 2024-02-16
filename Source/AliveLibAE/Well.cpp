@@ -65,7 +65,7 @@ void Well::WellExpress_Init(relive::Path_WellExpress* pTlv, FP /*xpos*/, FP ypos
     mExitY = FP_FromInteger(pTlv->mExitY) / FP_FromInteger(100);
 
     mEmitLeaves = pTlv->mEmitLeaves;
-    if (mEmitLeaves == relive::reliveChoice::eYes)
+    if (mEmitLeaves)
     {
         PSX_Point abeSpawnPos = {};
         gMap.Get_Abe_Spawn_Pos(&abeSpawnPos);
@@ -107,7 +107,7 @@ void Well::WellLocal_Init(relive::Path_WellLocal* pTlv, FP /*xpos*/, FP ypos)
     mSwitchId = pTlv->mSwitchId;
 
     mEmitLeaves = pTlv->mEmitLeaves;
-    if (mEmitLeaves == relive::reliveChoice::eYes)
+    if (mEmitLeaves)
     {
         PSX_Point abeSpawnPos = {};
         gMap.Get_Abe_Spawn_Pos(&abeSpawnPos);
@@ -149,7 +149,7 @@ void Well::VUpdate()
         Path::TLV_Reset(mTlvInfo);
     }
 
-    if (mEmitLeaves == relive::reliveChoice::eYes)
+    if (mEmitLeaves)
     {
         // Always on or has been enabled?
         if (mSwitchId == 0 || SwitchStates_Get(mSwitchId))

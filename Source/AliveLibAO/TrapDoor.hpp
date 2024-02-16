@@ -5,6 +5,10 @@
 class PathLine;
 class Map;
 
+namespace relive {
+struct Path_TrapDoor;
+}
+
 namespace AO {
 
 enum class TrapDoorState : s16
@@ -37,7 +41,7 @@ public:
     TrapDoorState mState = TrapDoorState::eClosed_0;
     s16 mStartState = 0;
     s16 mTrapDoorXOffset = 0;
-    relive::reliveChoice mSelfClosing = relive::reliveChoice::eNo;
+    bool mSelfClosing = false;
     FP mTrapDoorX = {};
     FP mTrapDoorY = {};
     PSX_RECT mBoundingRect = {};

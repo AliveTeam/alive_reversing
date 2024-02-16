@@ -1,7 +1,10 @@
 #pragma once
 
 #include "../relive_lib/GameObjects/BaseAnimatedWithPhysicsGameObject.hpp"
-#include "../relive_lib/data_conversion/relive_tlvs.hpp"
+
+namespace relive {
+struct Path_Hoist;
+}
 
 namespace AO {
 

@@ -290,7 +290,7 @@ static void Factory_LiftPoint(relive::Path_TLV* pTlv, Path*, const Guid& tlvId, 
         }
 
         // TODO: Meaning of the data in mTlvSpecificMeaning for lift point
-        if (pLiftTlv->mTlvSpecificMeaning & 2 || (pLiftTlv->mTlvSpecificMeaning == 0 && pLiftTlv->mIsStartPoint == relive::reliveChoice::eYes))
+        if (pLiftTlv->mTlvSpecificMeaning & 2 || (pLiftTlv->mTlvSpecificMeaning == 0 && pLiftTlv->mIsStartPoint))
         {
             relive_new LiftPoint(pLiftTlv, tlvId);
             return;
@@ -314,7 +314,7 @@ static void Factory_LiftPoint(relive::Path_TLV* pTlv, Path*, const Guid& tlvId, 
                         const s32 tlvX = pTlv->mTopLeftX;
                         const s32 absX = pTlvIter->mTopLeftX - tlvX >= 0 ? pTlvIter->mTopLeftX - tlvX : tlvX - pTlvIter->mTopLeftX;
 
-                        if (absX < 5 && pLiftPointIter->mLiftPointId == pLiftTlv->mLiftPointId && (pLiftPointIter->mTlvSpecificMeaning & 2 || pLiftPointIter->mTlvSpecificMeaning == 0) && pLiftPointIter->mIsStartPoint == relive::reliveChoice::eYes)
+                        if (absX < 5 && pLiftPointIter->mLiftPointId == pLiftTlv->mLiftPointId && (pLiftPointIter->mTlvSpecificMeaning & 2 || pLiftPointIter->mTlvSpecificMeaning == 0) && pLiftPointIter->mIsStartPoint)
                         {
                             relive_new LiftPoint(pLiftPointIter, tlvId);
                             return;
@@ -364,7 +364,7 @@ static void Factory_Dove(relive::Path_TLV* pTlv, Path*, const Guid& tlvId, LoadM
                 pDoveTlv->mScale != relive::reliveScale::eFull ? FP_FromDouble(0.5) : FP_FromInteger(1));
 
             s16 ypos = 0;
-            if (pDoveTlv->mPixelPerfect == relive::reliveChoice::eYes)
+            if (pDoveTlv->mPixelPerfect)
             {
                 pDove->mXPos = FP_FromInteger(pTlv->mTopLeftX);
                 ypos = pTlv->mTopLeftY;

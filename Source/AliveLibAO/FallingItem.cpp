@@ -302,7 +302,7 @@ void FallingItem::VUpdate()
 
             if (mSwitchId)
             {
-                if (mResetSwitchIdAfterUse == relive::reliveChoice::eYes)
+                if (mResetSwitchIdAfterUse)
                 {
                     SwitchStates_Do_Operation(mSwitchId, relive::reliveSwitchOp::eSetFalse);
                 }

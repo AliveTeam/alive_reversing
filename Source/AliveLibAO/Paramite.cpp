@@ -351,7 +351,7 @@ void Paramite::VUpdate()
 
     if (FP_Abs(mXPos - gAbe->mXPos) > FP_FromInteger(1536) || FP_Abs(mYPos - gAbe->mYPos) > FP_FromInteger(480))
     {
-        if (mDeleteWhenOutOfSight == relive::reliveChoice::eYes)
+        if (mDeleteWhenOutOfSight)
         {
             SetDead(true);
         }
@@ -1641,7 +1641,7 @@ s16 Paramite::Brain_4_ChasingAbe()
             {
                 if (VIsFacingMe(gAbe))
                 {
-                    if (mHissBeforeAttack == relive::reliveChoice::eYes)
+                    if (mHissBeforeAttack)
                     {
                         field_114_timer = MakeTimer(Math_RandomRange(0, 6));
                         return Brain_4_ChasingAbe::eBrain4_ToWarning_2;
@@ -1807,7 +1807,7 @@ s16 Paramite::Brain_4_ChasingAbe()
                 return mBrainSubState;
             }
 
-            if (mHissBeforeAttack == relive::reliveChoice::eYes)
+            if (mHissBeforeAttack)
             {
                 field_114_timer = MakeTimer(Math_RandomRange(0, 6));
                 return Brain_4_ChasingAbe::eBrain4_ToWarning_2;
@@ -1865,7 +1865,7 @@ s16 Paramite::Brain_4_ChasingAbe()
                 }
             }
 
-            if (field_114_timer > static_cast<s32>(sGnFrame) && mHissBeforeAttack == relive::reliveChoice::eYes)
+            if (field_114_timer > static_cast<s32>(sGnFrame) && mHissBeforeAttack)
             {
                 return mBrainSubState;
             }
@@ -1897,7 +1897,7 @@ s16 Paramite::Brain_4_ChasingAbe()
                 return mBrainSubState;
             }
 
-            if (mHissBeforeAttack == relive::reliveChoice::eYes)
+            if (mHissBeforeAttack)
             {
                 mNextMotion = eParamiteMotions::Motion_15_Hiss;
             }

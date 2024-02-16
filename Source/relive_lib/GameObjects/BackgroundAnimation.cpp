@@ -34,7 +34,7 @@ BackgroundAnimation::BackgroundAnimation(relive::Path_BackgroundAnimation* pTlv,
 
     Animation_Init(res);
 
-    GetAnimation().SetSemiTrans(pTlv->mIsSemiTrans == relive::reliveChoice::eYes);
+    GetAnimation().SetSemiTrans(pTlv->mIsSemiTrans);
     GetAnimation().SetBlending(true);
 
     GetAnimation().SetBlendMode(pTlv->mSemiTransMode);

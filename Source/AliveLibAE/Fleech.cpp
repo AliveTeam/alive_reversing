@@ -136,17 +136,17 @@ Fleech::Fleech(relive::Path_Fleech* pTlv, const Guid& tlvId)
 
     GetAnimation().SetFlipX(pTlv->mFacing == relive::reliveXDirection::eLeft);
 
-    if (pTlv->mAsleep == relive::reliveChoice::eYes)
+    if (pTlv->mAsleep)
     {
         mAsleep = true;
     }
 
-    if (pTlv->mGoesToSleep == relive::reliveChoice::eYes)
+    if (pTlv->mGoesToSleep)
     {
         mGoesToSleep = true;
     }
 
-    if (pTlv->mPersistant == relive::reliveChoice::eYes)
+    if (pTlv->mPersistant)
     {
         mPersistant = true;
     }
@@ -155,7 +155,7 @@ Fleech::Fleech(relive::Path_Fleech* pTlv, const Guid& tlvId)
 
     InitTonguePolys();
 
-    if (pTlv->mHanging == relive::reliveChoice::eYes)
+    if (pTlv->mHanging)
     {
         mHoistX = (pTlv->mBottomRightX + pTlv->mTopLeftX) / 2;
         mAngle = Fleech_NextRandom();
@@ -2029,7 +2029,7 @@ s16 Fleech::HandleEnemyStopperOrSlamDoor(s32 velX)
         FP_GetExponent(mYPos),
         ReliveTypes::eSlamDoor));
 
-    return (pSlamDoor && ((pSlamDoor->mStartClosed == relive::reliveChoice::eYes && !SwitchStates_Get(pSlamDoor->mSwitchId)) || (pSlamDoor->mStartClosed == relive::reliveChoice::eNo && SwitchStates_Get(pSlamDoor->mSwitchId))));
+    return (pSlamDoor && ((pSlamDoor->mStartClosed && !SwitchStates_Get(pSlamDoor->mSwitchId)) || (!pSlamDoor->mStartClosed && SwitchStates_Get(pSlamDoor->mSwitchId))));
 }
 
 s32 Fleech::UpdateWakeUpSwitchValue()

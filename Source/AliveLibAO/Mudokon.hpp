@@ -1,8 +1,12 @@
 #pragma once
 
 #include "BaseAliveGameObject.hpp"
-#include "../relive_lib/data_conversion/relive_tlvs.hpp"
 #include "../relive_lib/FatalError.hpp"
+
+namespace {
+class Path_TLV;
+
+}
 
 namespace AO {
 
@@ -310,7 +314,7 @@ public:
     bool mDeaf = false;
     Mudokon_Resources field_148_res_array = {};
     s16 field_184 = 0;
-    relive::reliveChoice mGivePassword = relive::reliveChoice::eNo;
+    bool mGivePassword = false;
     s16 field_188 = 0;
     FP field_18C_how_far_to_walk = {};
     FP field_190 = {};

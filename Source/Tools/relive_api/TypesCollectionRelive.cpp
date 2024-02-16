@@ -212,12 +212,6 @@ void TypesCollectionRelive::AddReliveTypes()
         {relive::reliveXDirection::eRight, "Right"},
     });
 
-    AddEnum<relive::reliveChoice>("Enum_reliveChoice",
-    {
-        {relive::reliveChoice::eNo, "No"},
-        {relive::reliveChoice::eYes, "Yes"},
-    });
-
     AddEnum<relive::reliveSwitchOp>("Enum_reliveSwitchOp",
     {
         {relive::reliveSwitchOp::eSetTrue, "Set True"},

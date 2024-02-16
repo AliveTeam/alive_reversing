@@ -148,7 +148,7 @@ void DDCheat::VUpdate()
     {
         if (Input().IsAnyPressed(InputCommands::eCheatMode))
         {
-            gDDCheat_FlyingEnabled = cheat_enabled == false;
+            gDDCheat_FlyingEnabled = !cheat_enabled;
             if (gDDCheat_FlyingEnabled)
             {
                 gAbe->mLandSoft = true;

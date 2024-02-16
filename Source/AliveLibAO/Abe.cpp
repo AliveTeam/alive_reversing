@@ -3700,7 +3700,7 @@ void Abe::Motion_3_Fall()
 
     if (pEdge)
     {
-        if (pEdge->mCanGrab == relive::reliveChoice::eYes && isEdgeGrabbable(pEdge, this))
+        if (pEdge->mCanGrab && isEdgeGrabbable(pEdge, this))
         {
             tryToHang = true;
         }
@@ -4888,7 +4888,7 @@ void Abe::Motion_33_RunJumpMid()
                 FP_GetExponent(mYPos),
                 ReliveTypes::eEdge));
             BaseAliveGameObjectPathTLV = pEdgeTlv;
-            if (pEdgeTlv && pEdgeTlv->mCanGrab == relive::reliveChoice::eYes)
+            if (pEdgeTlv && pEdgeTlv->mCanGrab)
             {
                 if (isEdgeGrabbable(pEdgeTlv, this))
                 {
@@ -8718,7 +8718,7 @@ void Abe::Motion_156_DoorEnter()
                 BaseAliveGameObjectPathTLV = pTlv;
                 if (pTlv)
                 {
-                    if (pTlv->mClearIds == relive::reliveChoice::eYes)
+                    if (pTlv->mClearIds)
                     {
                         for (s16 i = pTlv->mFrom; i <= pTlv->mTo; i++)
                         {
@@ -8728,7 +8728,7 @@ void Abe::Motion_156_DoorEnter()
                             }
                         }
                     }
-                    if (pTlv->mClearObjects == relive::reliveChoice::eYes)
+                    if (pTlv->mClearObjects)
                     {
                         gMap.ResetPathObjects(pTlv->mPath);
                     }

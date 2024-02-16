@@ -1,8 +1,12 @@
 #pragma once
 
 #include "BaseAliveGameObject.hpp"
-#include "../relive_lib/data_conversion/relive_tlvs.hpp"
 #include "../relive_lib/FatalError.hpp"
+
+namespace relive {
+class Path_TLV;
+struct Path_Slog;
+}
 
 namespace AO {
 
@@ -180,7 +184,7 @@ private:
     s16 mListenToSligs = 0; // set to 1 in the tlv slog ctor but set to 0 in the other slog ctor
     s16 mShot = 0;
     s16 mHitByAbilityRing = 0;
-    relive::reliveChoice mAsleep = relive::reliveChoice::eNo;
+    bool mAsleep = false;
     eSlogMotions mPreviousMotion = eSlogMotions::Motion_0_Idle;
     eSlogMotions mCurrentMotion = eSlogMotions::Motion_0_Idle;
     eSlogMotions mNextMotion = eSlogMotions::Motion_0_Idle;

@@ -1,8 +1,12 @@
 #pragma once
 
 #include "PlatformBase.hpp"
-#include "../relive_lib/data_conversion/relive_tlvs.hpp"
 #include "../relive_lib/SaveStateBase.hpp"
+
+namespace relive
+{
+    struct Path_TrapDoor;
+}
 
 enum class TrapDoorState : s16
 {
@@ -56,7 +60,7 @@ private:
     s16 mStartState = 0;
     s16 mTrapDoorXOffset = 0;
     s16 mStayOpenTime = 0;
-    relive::reliveChoice mSelfClosing = relive::reliveChoice::eNo;
+    bool mSelfClosing = false;
     FP mTrapDoorX = {};
     FP mTrapDoorY = {};
     PSX_RECT mBoundingRect = {};

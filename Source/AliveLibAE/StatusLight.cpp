@@ -52,7 +52,7 @@ StatusLight::StatusLight(relive::Path_StatusLight* pTlv, const Guid& tlvId)
 
     mXPos = FP_FromInteger((pTlv->mTopLeftX + pTlv->mBottomRightX) / 2);
 
-    if (mIgnoreGridSnapping == relive::reliveChoice::eNo)
+    if (!mIgnoreGridSnapping)
     {
         mXPos = FP_FromInteger(SnapToXGrid_AE(GetSpriteScale(), FP_GetExponent(mXPos)));
     }
@@ -72,7 +72,7 @@ StatusLight::StatusLight(relive::Path_StatusLight* pTlv, const Guid& tlvId)
         &hitY,
         GetScale() == Scale::Fg ? kFgFloor : kBgFloor); // TODO: mouze check, 0xF1 : 0x10 seemed like it should be 0x1 : 0x10
 
-    if (mIgnoreGridSnapping == relive::reliveChoice::eNo)
+    if (!mIgnoreGridSnapping)
     {
         if (bCollision)
         {

@@ -78,7 +78,7 @@ void Well::WellExpress_Init(relive::Path_WellExpress* pTlv, FP /*xpos*/, FP ypos
 
     mEmitLeaves = pTlv->mEmitLeaves;
 
-    if (mEmitLeaves == relive::reliveChoice::eYes)
+    if (mEmitLeaves)
     {
         mLeafX = FP_FromInteger(pTlv->mLeafX);
         if (!FP_GetExponent(mLeafX))
@@ -124,7 +124,7 @@ void Well::WellLocal_Init(relive::Path_WellLocal* pTlv, FP /*xpos*/, FP ypos)
 
     mEmitLeaves = pTlv->mEmitLeaves;
 
-    if (mEmitLeaves == relive::reliveChoice::eYes)
+    if (mEmitLeaves)
     {
         mLeafX = FP_FromInteger(pTlv->mLeafX);
         if (!FP_GetExponent(mLeafX))
@@ -153,7 +153,7 @@ void Well::VUpdate()
         Path::TLV_Reset(mTlvInfo);
     }
 
-    if (mEmitLeaves == relive::reliveChoice::eYes)
+    if (mEmitLeaves)
     {
         // Always on or has been enabled?
         if (!mSwitchId || SwitchStates_Get(mSwitchId))

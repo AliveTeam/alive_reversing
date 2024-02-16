@@ -189,10 +189,10 @@ public:
     s32 mGroupChaseDelay = 0;
     s32 mAttackTimer = 0;
     s16 mSurpriseWebSwitchId = 0;
-    relive::reliveChoice mHissBeforeAttack = relive::reliveChoice::eNo;
+    bool mHissBeforeAttack = false;
     s16 field_140_use_prev_motion = 0;
     s16 field_142_bSnapped = 0;
-    relive::reliveChoice mDeleteWhenOutOfSight = relive::reliveChoice::eNo;
+    bool mDeleteWhenOutOfSight = false;
     Meat* mMeat = nullptr;
     ParamiteWeb* mParamiteWeb = nullptr;
     eParamiteMotions mPreviousMotion = eParamiteMotions::Motion_0_Idle;

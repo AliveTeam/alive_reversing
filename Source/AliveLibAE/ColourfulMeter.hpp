@@ -2,10 +2,14 @@
 
 #include "../relive_lib/GameObjects/BaseGameObject.hpp"
 #include "Font.hpp"
-#include "../relive_lib/data_conversion/relive_tlvs.hpp"
 #include "../relive_lib/Primitives.hpp"
 
 constexpr s16 kMeterBarsXCount = 20;
+
+namespace relive
+{
+    struct Path_ColourfulMeter;
+}
 
 class ColourfulMeter final : public BaseGameObject
 {
@@ -33,7 +37,7 @@ private:
     s16 mMinesAlarmCountdown = 0;
     s16 mStartingSwitchState = 0;
     s16 mBarCount = 0;
-    relive::reliveChoice mStartFilled = relive::reliveChoice::eNo;
+    bool mStartFilled = false;
     Poly_G4 mPolyG4s[kMeterBarsXCount] = {};
 };
 

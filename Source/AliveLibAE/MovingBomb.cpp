@@ -76,7 +76,7 @@ MovingBomb::MovingBomb(relive::Path_MovingBomb* pTlv, const Guid& tlvId)
     mTlvId = tlvId;
     mPersistOffscreen = pTlv->mPersistOffscreen;
 
-    if (pTlv->mTriggeredByAlarm == relive::reliveChoice::eYes)
+    if (pTlv->mTriggeredByAlarm)
     {
         mState = States::eTriggeredByAlarm_0;
         GetAnimation().SetRender(false);
@@ -153,7 +153,7 @@ void MovingBomb::VScreenChanged()
 {
     BaseGameObject::VScreenChanged();
 
-    if (mPersistOffscreen == relive::reliveChoice::eNo)
+    if (!mPersistOffscreen)
     {
         SetDead(true);
         return;

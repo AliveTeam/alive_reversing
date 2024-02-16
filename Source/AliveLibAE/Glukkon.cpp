@@ -2468,7 +2468,7 @@ s16 Glukkon::PathBlocked(FP /*a2*/, s16 checkBounds)
 
     auto pSlamDoorTlv = static_cast<relive::Path_SlamDoor*>(BaseAliveGameObjectPathTLV);
 
-    if (pSlamDoorTlv && ((pSlamDoorTlv->mStartClosed == relive::reliveChoice::eYes && !SwitchStates_Get(pSlamDoorTlv->mSwitchId)) || (pSlamDoorTlv->mStartClosed == relive::reliveChoice::eNo && SwitchStates_Get(pSlamDoorTlv->mSwitchId))))
+    if (pSlamDoorTlv && ((pSlamDoorTlv->mStartClosed && !SwitchStates_Get(pSlamDoorTlv->mSwitchId)) || (!pSlamDoorTlv->mStartClosed && SwitchStates_Get(pSlamDoorTlv->mSwitchId))))
     {
         return 1;
     }
