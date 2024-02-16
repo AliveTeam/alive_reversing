@@ -37,22 +37,18 @@ void DeleteItemsCommand::undo()
         mTab->GetScene().addItem(item);
     }
 
-    /*
     // add back to model
     for (auto& item : mRemovedCollisions)
     {
         mTab->GetModel().CollisionItems().emplace_back(std::move(item));
     }
     mRemovedCollisions.clear();
-    */
 
-    /*
     // add back to model
     for (auto& item : mRemovedMapObjects)
     {
         item.mContainingCamera->mMapObjects.push_back(std::move(item.mRemovedMapObject));
     }
-    */
 
     mRemovedMapObjects.clear();
 
@@ -70,7 +66,6 @@ void DeleteItemsCommand::undo()
 
 void DeleteItemsCommand::redo()
 {
-    /*
     // remove from scene
     for (auto& item : mGraphicsItemsToDelete)
     {
@@ -97,5 +92,4 @@ void DeleteItemsCommand::redo()
     mTab->GetScene().clearSelection();
     mTab->GetScene().update();
     mTab->SyncPropertyEditor();
-    */
 }
