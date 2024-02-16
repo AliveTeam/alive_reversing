@@ -13,6 +13,7 @@
 #include "Model.hpp"
 #include "PropertyTreeWidget.hpp"
 #include "SnapSettings.hpp"
+#include "../../../relive_lib/data_conversion/relive_tlvs_serialization.hpp"
 
 const quint32 ResizeableRectItem::kMinRectSize = 10;
 
@@ -118,16 +119,10 @@ void ResizeableRectItem::paint( QPainter* aPainter, const QStyleOptionGraphicsIt
     // Draw the object name on the rect if no image is provided
     if (m_Pixmap.isNull())
     {
-        // TODO: reactor this to work in some sane way
         QString objectName;
-        if (mMapObject->mBaseTlv->mTlvType == ReliveTypes::eTimedMine )
-        {
-            objectName = "timed mine";
-        }
-        else
-        {
-            objectName = "unknown";
-        }
+
+        nlohmann::json object = mMapObject->mBaseTlv->mTlvType;
+        objectName = QString::fromStdString(object);
 
         for (int sizeCandidate = 8; sizeCandidate > 1; sizeCandidate--)
         {
@@ -420,107 +415,10 @@ void ResizeableRectItem::PosOrRectChanged()
 void ResizeableRectItem::UpdateIcon()
 {
     QString images_path = ":/object_images/rsc/object_images/";
-    /*
-    QString object_name = mMapObject->mObjectStructureType.c_str();
-    
-    if( object_name == "BirdPortal" )
+    const auto lookupPath = images_path + QString::fromStdString(mMapObject->GetIconPath()) + ".png";
+    if (!QPixmapCache::find(lookupPath, &m_Pixmap))
     {
-        if( PropertyByName( "Portal Type", mMapObject->mProperties ))
-        {
-            if(PropertyByName("Portal Type",mMapObject->mProperties)->mEnumValue == "Abe")
-            {
-                object_name += "Abe";
-            }
-            else if(PropertyByName("Portal Type",mMapObject->mProperties)->mEnumValue == "Shrykull")
-            {
-                object_name += "Shrykull";
-            }
-        }
+        m_Pixmap = QPixmap(lookupPath);
+        QPixmapCache::insert(lookupPath, m_Pixmap);
     }
-    else if( object_name == "Drill" )
-    {
-        images_path = images_path + object_name + "/";
-        object_name += "_";
-        
-        if( mWidth > 25 )
-        {
-            object_name += QString::number(std::min( mWidth / 25, 9)) + "_1";
-        }
-        else
-        {
-            object_name += "1_" + QString::number(std::min( mHeight / 20, 9));
-        }
-    }
-    else if( object_name == "Edge" || object_name == "Hoist" )
-    {
-        images_path = images_path + object_name + "/";
-        
-        if( PropertyByName( "Grab Direction", mMapObject->mProperties ))
-        {
-            if( PropertyByName( "Grab Direction", mMapObject->mProperties )->mEnumValue == "Facing Right" )
-            {
-                object_name = "Right";
-            }
-            else
-            {
-                object_name = "Left";
-            }
-        }
-    }
-    else if( object_name == "MotionDetector" )
-    {
-        images_path = images_path + object_name + "/";
-        object_name = QString::number(std::max(std::min((mWidth / 26), 10), 0));
-    }
-    else if( object_name == "Mudokon" )
-    {
-        if( PropertyByName( "Emotion", mMapObject->mProperties ))
-        {
-            images_path = images_path + object_name + "/";
-            object_name = "Mud";
-            
-            if( PropertyByName( "Emotion", mMapObject->mProperties )->mEnumValue == "Angry" )
-            {
-                object_name += "Angry";
-            }
-            else if( PropertyByName( "Emotion", mMapObject->mProperties )->mEnumValue == "Sad" )
-            {
-                object_name += "Sad";
-            }
-            else if( PropertyByName( "Emotion", mMapObject->mProperties )->mEnumValue == "Sick" )
-            {
-                object_name += "Sick";
-            }
-            else if( PropertyByName( "Emotion", mMapObject->mProperties )->mEnumValue == "Wired" )
-            {
-                object_name += "Wired";
-            }
-            else
-            {
-                object_name += "Normal";
-            }
-            
-            if(PropertyByName("Blind",mMapObject->mProperties)->mEnumValue == "Yes")
-            {
-                object_name += "B";
-            }
-        }
-    }
-    else if( object_name == "UXB" )
-    {
-        if( PropertyByName( "Start State", mMapObject->mProperties ))
-        {
-            if(PropertyByName("Start State",mMapObject->mProperties)->mEnumValue == "Off")
-            {
-                object_name += "disarmed";
-            }
-        }
-    }
-    
-    if ( !QPixmapCache::find(images_path + object_name + ".png", &m_Pixmap ) )
-    {
-        m_Pixmap = QPixmap(images_path + object_name + ".png");
-        QPixmapCache::insert(images_path + object_name + ".png", m_Pixmap );
-    }
-    */
 }

@@ -106,6 +106,11 @@ public:
         r.Visit("bottom right x", mBaseTlv->mBottomRightX);
         r.Visit("bottom right y", mBaseTlv->mBottomRightY);
     }
+
+    virtual std::string GetIconPath() const
+    {
+        return "";
+    }
 };
 
 namespace relive
@@ -205,6 +210,38 @@ public:
         //r.Visit("Give Ring Without Password", mTlv.mGiveRingWithoutPassword);
     }
 
+    std::string GetIconPath() const override
+    {
+        std::string imagesPath = "Mudokon/";
+        if (mTlv.mEmotion == Path_Mudokon::Mud_TLV_Emotion::eAngry)
+        {
+            imagesPath += "MudAngry";
+        }
+        else if (mTlv.mEmotion == Path_Mudokon::Mud_TLV_Emotion::eSad)
+        {
+            imagesPath += "MudSad";
+        }
+        else if (mTlv.mEmotion == Path_Mudokon::Mud_TLV_Emotion::eSick)
+        {
+            imagesPath += "MudSick";
+        }
+        else if (mTlv.mEmotion == Path_Mudokon::Mud_TLV_Emotion::eWired)
+        {
+            imagesPath += "MudWired";
+        }
+        else
+        {
+            imagesPath += "MudNormal";
+        }
+
+        if (mTlv.mBlind == reliveChoice::eYes)
+        {
+            imagesPath += "B";
+        }
+        
+        return imagesPath;
+    }
+
     Path_Mudokon mTlv;
 };
 
@@ -241,6 +278,22 @@ public:
         r.Visit("Mudokon Amount For Shrykull", mTlv.mMudCountForShrykull);
         r.Visit("(AE) Create Portal Switch ID", mTlv.mCreatePortalSwitchId);
         r.Visit("(AE) Delete Portal Switch ID", mTlv.mDeletePortalSwitchId);
+    }
+
+    std::string GetIconPath() const override
+    {
+        if (mTlv.mPortalType == Path_BirdPortal::PortalType::eAbe)
+        {
+            return "BirdPortalAbe";
+        }
+        else if (mTlv.mPortalType == Path_BirdPortal::PortalType::eShrykull)
+        {
+            return "BirdPortalShrykull";
+        }
+        else
+        {
+            return "BirdPortal";
+        }
     }
 
     Path_BirdPortal mTlv;
@@ -397,6 +450,18 @@ public:
         //r.Visit("Hoist Type", mTlv.mHoistType);
         //r.Visit("Grab Direction", mTlv.mGrabDirection);
         r.Visit("(AE) Scale", mTlv.mScale);
+    }
+
+    std::string GetIconPath() const override
+    {
+        if (mTlv.mGrabDirection == Path_Hoist::GrabDirection::eFacingRight)
+        {
+            return "Hoist/Right";
+        }
+        else
+        {
+            return "Hoist/Right";
+        }
     }
 
     Path_Hoist mTlv;
@@ -591,6 +656,18 @@ public:
         //r.Visit("Start State", mTlv.mStartState);
     }
 
+    std::string GetIconPath() const override
+    {
+        if (mTlv.mStartState == Path_UXB::StartState::eOff)
+        {
+            return "UXBdisarmed";
+        }
+        else
+        {
+            return "UXB";
+        }
+    }
+
     Path_UXB mTlv;
 };
 
@@ -641,6 +718,18 @@ public:
         //r.Visit("Grab Direction", mTlv.mGrabDirection);
         //r.Visit("Can Grab", mTlv.mCanGrab);
         r.Visit("(AE) Scale", mTlv.mScale);
+    }
+
+    std::string GetIconPath() const override
+    {
+        if (mTlv.mGrabDirection == Path_Edge::GrabDirection::eFacingRight)
+        {
+            return "Edge/Right";
+        }
+        else
+        {
+            return "Edge/Right";
+        }
     }
 
     Path_Edge mTlv;
@@ -1555,6 +1644,19 @@ public:
         //r.Visit("Start Direction", mTlv.mDrillDirection);
     }
 
+    std::string GetIconPath() const override
+    {
+        std::string imagesPath = "Drill/Drill_";
+        if (mTlv.Width() > 25)
+        {
+            return imagesPath + std::to_string(std::min(mTlv.Width() / 25, 9)) + "_1";
+        }
+        else
+        {
+            return imagesPath + "1_" + std::to_string(std::min(mTlv.Height() / 20, 9));
+        }
+    }
+
     Path_Drill mTlv;
 };
 
@@ -1780,6 +1882,11 @@ public:
         r.Visit("Disable Switch ID", mTlv.mDisableSwitchId);
         r.Visit("Alarm Switch ID", mTlv.mAlarmSwitchId);
         r.Visit("Alarm Duration", mTlv.mAlarmDuration);
+    }
+
+    std::string GetIconPath() const override
+    {
+        return "MotionDetector/" + std::to_string(std::max(std::min((mTlv.Width() / 26), 10), 0));
     }
 
     Path_MotionDetector mTlv;
