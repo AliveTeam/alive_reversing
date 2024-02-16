@@ -94,7 +94,7 @@ private:
     {
         // Find the camera to add the object to
         QGraphicsView* pView = mTab->GetScene().views().at(0);
-        QPoint viewPos = pView->mapToScene(pView->pos()).toPoint();
+        QPoint viewPos = pView->mapToScene(pView->rect().center()).toPoint();
 
         int camX = viewPos.x() / mTab->GetModel().CameraGridWidth();
         if (camX < 0)
