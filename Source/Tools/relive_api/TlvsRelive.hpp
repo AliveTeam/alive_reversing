@@ -129,6 +129,11 @@ public:
         r.Visit("Ticks Before Explosion", mTlv.mTicksUntilExplosion);
     }
 
+    std::string GetIconPath() const override
+    {
+        return "TimedMine";
+    }
+
     Path_TimedMine mTlv;
 };
 
@@ -155,6 +160,11 @@ class Editor_ElectricWall final : public MapObjectBase
         r.Visit("Scale", mTlv.mScale);
         r.Visit("Switch ID", mTlv.mSwitchId);
         //r.Visit("Start State", mTlv.mStartState);
+    }
+
+    std::string GetIconPath() const override
+    {
+        return "ElectricWall";
     }
 
     Path_ElectricWall mTlv;
@@ -314,6 +324,11 @@ public:
         //r.Visit("(AE) Hide Board", mTlv.mHideBoard);
     }
 
+    std::string GetIconPath() const override
+    {
+        return "LCDStatusBoard";
+    }
+
     Path_LCDStatusBoard mTlv;
 };
 
@@ -372,6 +387,11 @@ public:
         //r.Visit("(AE) Clear Throwables", mTlv.mClearThrowables);
     }
 
+    std::string GetIconPath() const override
+    {
+        return "Door";
+    }
+
     Path_Door mTlv;
 };
 
@@ -415,6 +435,11 @@ public:
         //r.Visit("Sound Direction", mTlv.mSoundDirection);
         r.Visit("Switch ID", mTlv.mSwitchId);
         //r.Visit("(AE) Persist Offscreen", mTlv.mPersistOffscreen);
+    }
+
+    std::string GetIconPath() const override
+    {
+        return "Lever";
     }
 
     Path_Lever mTlv;
@@ -493,6 +518,11 @@ public:
         r.Visit("Number Of Grenades", mTlv.mGrenadeAmount);
     }
 
+    std::string GetIconPath() const override
+    {
+        return "BoomMachine";
+    }
+
     Path_BoomMachine mTlv;
 };
 
@@ -541,6 +571,11 @@ public:
         r.Visit("(AE) Disabled Resources", mTlv.mData.mDisabledResourcesAE);
     }
 
+    std::string GetIconPath() const override
+    {
+        return "Slig";
+    }
+
     Path_Slig mTlv;
 };
 
@@ -567,6 +602,11 @@ public:
         r.Visit("Wake Up Switch Anger Value", mTlv.mWakeUpSwitchAngerValue);
         r.Visit("Can Wake Up Switch ID", mTlv.mCanWakeUpSwitchId);
         //r.Visit("Persistant", mTlv.mPersistant);
+    }
+
+    std::string GetIconPath() const override
+    {
+        return "Fleech";
     }
 
     Path_Fleech mTlv;
@@ -599,6 +639,11 @@ public:
         r.Visit("Switch ID", mTlv.mSwitchId);
     }
 
+    std::string GetIconPath() const override
+    {
+        return "EnemyStopper";
+    }
+
     Path_EnemyStopper mTlv;
 };
 
@@ -624,6 +669,11 @@ public:
         r.Visit("Movie ID", mTlv.mMovieId);
         r.Visit("Electric X", mTlv.mElectricX);
         r.Visit("Electric Y", mTlv.mElectricY);
+    }
+
+    std::string GetIconPath() const override
+    {
+        return "Teleporter";
     }
 
     Path_Teleporter mTlv;
@@ -688,6 +738,11 @@ public:
 
         r.Visit("(AE) Message 2 ID", mTlv.mMessageId2);
         r.Visit("(AE) Toggle Message Switch ID", mTlv.mToggleMessageSwitchId);
+    }
+
+    std::string GetIconPath() const override
+    {
+        return "LCDScreen";
     }
 
     Path_LCDScreen mTlv;
@@ -756,6 +811,11 @@ public:
         //r.Visit("Ignore Grid Snapping", mTlv.mIgnoreGridSnapping);
     }
 
+    std::string GetIconPath() const override
+    {
+        return "StatusLight";
+    }
+
     Path_StatusLight mTlv;
 };
 
@@ -788,6 +848,11 @@ public:
         //r.Visit("Scale", mTlv.mScale);
     }
 
+    std::string GetIconPath() const override
+    {
+        return "ShadowZone";
+    }
+
     Path_ShadowZone mTlv;
 };
 
@@ -807,6 +872,11 @@ public:
         r.Visit("Activation Time", mTlv.mActivationTime);
         r.Visit("Turn Off Time", mTlv.mTurnOffTime);
         //r.Visit("Turn Off When Stopped", mTlv.mTurnOffWhenStopped);
+    }
+
+    std::string GetIconPath() const override
+    {
+        return "WorkWheel";
     }
 
     Path_WorkWheel mTlv;
@@ -852,6 +922,11 @@ public:
         r.Visit("Music Delay", mTlv.mMusicDelay);
     }
 
+    std::string GetIconPath() const override
+    {
+        return "MusicTrigger";
+    }
+
     Path_MusicTrigger mTlv;
 };
 
@@ -867,6 +942,11 @@ public:
         MapObjectBase::Visit(r);
     }
 
+
+    std::string GetIconPath() const override
+    {
+        return "AbeStart";
+    }
     Path_AbeStart mTlv;
 };
 
@@ -882,6 +962,11 @@ public:
         MapObjectBase::Visit(r);
 
         r.Visit("(AE) Switch ID", mTlv.mSwitchId);
+    }
+
+    std::string GetIconPath() const override
+    {
+        return "SoftLanding";
     }
 
     Path_SoftLanding mTlv;
@@ -921,6 +1006,11 @@ public:
         r.Visit("Movie ID", mTlv.mMovieId);
     }
 
+    std::string GetIconPath() const override
+    {
+        return "WellExpress";
+    }
+
     Path_WellExpress mTlv;
 };
 
@@ -940,6 +1030,11 @@ public:
         r.Visit("Switch ID", mTlv.mSwitchId);
         //r.Visit("Flip On Y Axis", mTlv.mFlipY);
         //r.Visit("Delete", mTlv.mDelete);
+    }
+
+    std::string GetIconPath() const override
+    {
+        return "SlamDoor";
     }
 
     Path_SlamDoor mTlv;
@@ -970,6 +1065,11 @@ public:
         r.Visit("(AO) Path 3", mTlv.mPath3);
     }
 
+    std::string GetIconPath() const override
+    {
+        return "HandStone";
+    }
+
     Path_HandStone mTlv;
 };
 
@@ -989,6 +1089,11 @@ public:
         r.Visit("Red %", mTlv.mRedPercent);
         r.Visit("Green %", mTlv.mGreenPercent);
         r.Visit("Blue %", mTlv.mBluePercent);
+    }
+
+    std::string GetIconPath() const override
+    {
+        return "LaughingGas";
     }
 
     Path_LaughingGas mTlv;
@@ -1023,6 +1128,11 @@ public:
         //r.Visit("Scale", mTlv.mScale);
     }
 
+    std::string GetIconPath() const override
+    {
+        return "InvisibleSwitch";
+    }
+
     Path_InvisibleSwitch mTlv;
 };
 
@@ -1042,6 +1152,11 @@ public:
         r.Visit("Splash Time", mTlv.mSplashTime);
         r.Visit("Splash X Velocity", mTlv.mSplashVelX);
         r.Visit("Water Duration", mTlv.mWaterDuration);
+    }
+
+    std::string GetIconPath() const override
+    {
+        return "Water";
     }
 
     Path_Water mTlv;
@@ -1073,6 +1188,11 @@ public:
 
         r.Visit("(AE) Switch ID", mTlv.mSwitchId);
         //r.Visit("(AE) Colour", mTlv.mColour);
+    }
+
+    std::string GetIconPath() const override
+    {
+        return "GasEmitter";
     }
 
     Path_GasEmitter mTlv;
@@ -1121,6 +1241,11 @@ public:
         //r.Visit("(AE) Layer", mTlv.mLayer);
     }
 
+    std::string GetIconPath() const override
+    {
+        return "BackgroundAnimation";
+    }
+
     Path_BackgroundAnimation mTlv;
 };
 
@@ -1153,6 +1278,11 @@ public:
         //r.Visit("Lift Point Stop Type", mTlv.mLiftPointStopType);
         r.Visit("Scale", mTlv.mScale);
         //r.Visit("Ignore Lift Mover", mTlv.mIgnoreLiftMover);
+    }
+
+    std::string GetIconPath() const override
+    {
+        return "LiftPoint";
     }
 
     Path_LiftPoint mTlv;
@@ -1197,6 +1327,11 @@ public:
         //r.Visit("Sound Direction", mTlv.mSoundDirection);
     }
 
+    std::string GetIconPath() const override
+    {
+        return "PullRingRope";
+    }
+
     Path_PullRingRope mTlv;
 };
 
@@ -1222,6 +1357,11 @@ public:
         r.Visit("Input Switch ID 6", mTlv.mInputSwitchId6);
     }
 
+    std::string GetIconPath() const override
+    {
+        return "MultiSwitchController";
+    }
+
     Path_MultiSwitchController mTlv;
 };
 
@@ -1239,6 +1379,11 @@ public:
         r.Visit("Scale", mTlv.mScale);
     }
 
+    std::string GetIconPath() const override
+    {
+        return "SecurityOrb";
+    }
+
     Path_SecurityOrb mTlv;
 };
 
@@ -1252,6 +1397,11 @@ public:
     void Visit(IRefelector& r) override
     {
         MapObjectBase::Visit(r);
+    }
+
+    std::string GetIconPath() const override
+    {
+        return "InvisibleZone";
     }
 
     Path_InvisibleZone mTlv;
@@ -1286,6 +1436,11 @@ public:
         //r.Visit("(AO) Abe Spawn Dir", mTlv.mAbeSpawnDir);
         //r.Visit("(AE) Scale", mTlv.mScale);
         r.Visit("(AE) Save File ID", mTlv.mSaveFileId);
+    }
+
+    std::string GetIconPath() const override
+    {
+        return "ContinuePoint";
     }
 
     Path_ContinuePoint mTlv;
@@ -1325,6 +1480,11 @@ public:
         r.Visit("Input Switch ID 6", mTlv.mInputSwitchId6);
     }
 
+    std::string GetIconPath() const override
+    {
+        return "WheelSyncer";
+    }
+
     Path_WheelSyncer mTlv;
 };
 
@@ -1346,6 +1506,11 @@ public:
         r.Visit("Movie ID", mTlv.mMovieId);
     }
 
+    std::string GetIconPath() const override
+    {
+        return "LevelLoader";
+    }
+
     Path_LevelLoader mTlv;
 };
 
@@ -1359,6 +1524,11 @@ public:
     void Visit(IRefelector& r) override
     {
         MapObjectBase::Visit(r);
+    }
+
+    std::string GetIconPath() const override
+    {
+        return "Pulley";
     }
 
     Path_Pulley mTlv;
@@ -1393,6 +1563,11 @@ public:
         //r.Visit("Persistant", mTlv.mPersistant);
     }
 
+    std::string GetIconPath() const override
+    {
+        return "FlyingSlig";
+    }
+
     Path_FlyingSlig mTlv;
 };
 
@@ -1425,6 +1600,11 @@ public:
         //r.Visit("Persistant", mTlv.mPersistant);
     }
 
+    std::string GetIconPath() const override
+    {
+        return "FlyingSligSpawner";
+    }
+
     Path_FlyingSligSpawner mTlv;
 };
 
@@ -1438,6 +1618,11 @@ public:
     void Visit(IRefelector& r) override
     {
         MapObjectBase::Visit(r);
+    }
+
+    std::string GetIconPath() const override
+    {
+        return "DeathDrop";
     }
 
     Path_DeathDrop mTlv;
@@ -1488,6 +1673,11 @@ public:
         r.Visit("(AE) Disabled Resources", mTlv.mData.mDisabledResourcesAE);
     }
 
+    std::string GetIconPath() const override
+    {
+        return "SligSpawner";
+    }
+
     Path_SligSpawner mTlv;
 };
 
@@ -1501,6 +1691,11 @@ public:
     void Visit(IRefelector& r) override
     {
         MapObjectBase::Visit(r);
+    }
+
+    std::string GetIconPath() const override
+    {
+        return "SligLeftBound";
     }
 
     Path_SligBoundLeft mTlv;
@@ -1518,6 +1713,11 @@ public:
         MapObjectBase::Visit(r);
     }
 
+    std::string GetIconPath() const override
+    {
+        return "SligRightBound";
+    }
+
     Path_SligBoundRight mTlv;
 };
 
@@ -1533,6 +1733,11 @@ public:
         MapObjectBase::Visit(r);
     }
 
+    std::string GetIconPath() const override
+    {
+        return "SligPersist";
+    }
+
     Path_SligPersist mTlv;
 };
 
@@ -1546,6 +1751,11 @@ public:
     void Visit(IRefelector& r) override
     {
         MapObjectBase::Visit(r);
+    }
+
+    std::string GetIconPath() const override
+    {
+        return "ZSligCover";
     }
 
     Path_ZSligCover mTlv;
@@ -1580,6 +1790,11 @@ public:
         r.Visit("Leaf YPos", mTlv.mLeafY);
     }
 
+    std::string GetIconPath() const override
+    {
+        return "WellLocal";
+    }
+
     Path_WellLocal mTlv;
 };
 
@@ -1595,6 +1810,11 @@ public:
         MapObjectBase::Visit(r);
 
         r.Visit("Brew Count", mTlv.mBrewCount);
+    }
+
+    std::string GetIconPath() const override
+    {
+        return "BrewMachine";
     }
 
     Path_BrewMachine mTlv;
@@ -1675,6 +1895,11 @@ public:
         //r.Visit("Persist Offscreen", mTlv.mPersistOffscreen);
     }
 
+    std::string GetIconPath() const override
+    {
+        return "Mine";
+    }
+
     Path_Mine mTlv;
 };
 
@@ -1700,6 +1925,11 @@ public:
         r.Visit("(AE) Bone Eating Time", mTlv.mBoneEatingTime);
     }
 
+    std::string GetIconPath() const override
+    {
+        return "Slog";
+    }
+
     Path_Slog mTlv;
 };
 
@@ -1721,6 +1951,11 @@ public:
         //r.Visit("Clear Objects", mTlv.mClearObjects);
         r.Visit("Path", mTlv.mPath);
         //r.Visit("(AE) Enabled", mTlv.mEnabled);
+    }
+
+    std::string GetIconPath() const override
+    {
+        return "ResetPath";
     }
 
     Path_ResetPath mTlv;
@@ -1755,6 +1990,11 @@ public:
         r.Visit("(AE) Stay Open Time", mTlv.mStayOpenTime);
     }
 
+    std::string GetIconPath() const override
+    {
+        return "TrapDoor";
+    }
+
     Path_TrapDoor mTlv;
 };
 
@@ -1775,6 +2015,11 @@ public:
         r.Visit("Movie ID", mTlv.mMovieId);
         r.Visit("Wipe Effect", mTlv.mWipeEffect);
         r.Visit("Next Path Scale", mTlv.mNextPathScale);
+    }
+
+    std::string GetIconPath() const override
+    {
+        return "PathTransition";
     }
 
     Path_PathTransition mTlv;
@@ -1806,6 +2051,11 @@ public:
         //r.Visit("Move Direction", mTlv.mMoveDirection);
     }
 
+    std::string GetIconPath() const override
+    {
+        return "LiftMover";
+    }
+
     Path_LiftMover mTlv;
 };
 
@@ -1825,6 +2075,11 @@ public:
         r.Visit("Y Velocity", mTlv.mVelY);
         r.Visit("Scale", mTlv.mScale);
         r.Visit("Rock Amount", mTlv.mRockAmount);
+    }
+
+    std::string GetIconPath() const override
+    {
+        return "RockSack";
     }
 
     Path_RockSack mTlv;
@@ -1847,6 +2102,11 @@ public:
         r.Visit("Output Switch ID 2", mTlv.mOutputSwitchId2);
         r.Visit("Output Switch ID 3", mTlv.mOutputSwitchId3);
         r.Visit("Output Switch ID 4", mTlv.mOutputSwitchId4);
+    }
+
+    std::string GetIconPath() const override
+    {
+        return "TimerTrigger";
     }
 
     Path_TimerTrigger mTlv;
@@ -1906,6 +2166,11 @@ public:
         r.Visit("Scale", mTlv.mScale);
     }
 
+    std::string GetIconPath() const override
+    {
+        return "MineCar";
+    }
+
     Path_MineCar mTlv;
 };
 
@@ -1931,6 +2196,11 @@ public:
         r.Visit("Scale", mTlv.mScale);
     }
 
+    std::string GetIconPath() const override
+    {
+        return "ExplosionSet";
+    }
+
     Path_ExplosionSet mTlv;
 };
 
@@ -1951,6 +2221,11 @@ public:
         //r.Visit("Start Filled", mTlv.mStartFilled);
     }
 
+    std::string GetIconPath() const override
+    {
+        return "ColourfulMeter";
+    }
+
     Path_ColourfulMeter mTlv;
 };
 
@@ -1969,6 +2244,11 @@ public:
         r.Visit("Duration", mTlv.mAlarmDuration);
     }
 
+    std::string GetIconPath() const override
+    {
+        return "Alarm";
+    }
+
     Path_Alarm mTlv;
 };
 
@@ -1982,6 +2262,11 @@ public:
     void Visit(IRefelector& r) override
     {
         MapObjectBase::Visit(r);
+    }
+
+    std::string GetIconPath() const override
+    {
+        return "DemoSpawnPoint";
     }
 
     Path_DemoSpawnPoint mTlv;
@@ -2007,6 +2292,11 @@ public:
         r.Visit("Toggle Switch ID", mTlv.mSlapOutputSwitchId);
     }
 
+    std::string GetIconPath() const override
+    {
+        return "SlapLock";
+    }
+
     Path_SlapLock mTlv;
 };
 
@@ -2027,6 +2317,11 @@ public:
         r.Visit("Switch ID (increment by 1 on death)", mTlv.mSlurgSwitchId);
     }
 
+    std::string GetIconPath() const override
+    {
+        return "Slurg";
+    }
+
     Path_Slurg mTlv;
 };
 
@@ -2043,6 +2338,11 @@ public:
 
         r.Visit("Scale", mTlv.mScale);
         r.Visit("Switch ID", mTlv.mSwitchId);
+    }
+
+    std::string GetIconPath() const override
+    {
+        return "DoorBlocker";
     }
 
     Path_DoorBlocker mTlv;
@@ -2064,6 +2364,11 @@ public:
         r.Visit("Scale", mTlv.mScale);
     }
 
+    std::string GetIconPath() const override
+    {
+        return "Dove";
+    }
+
     Path_Dove mTlv;
 };
 
@@ -2080,6 +2385,11 @@ public:
 
         //r.Visit("Exit Direction", mTlv.mExitSide);
         r.Visit("Scale", mTlv.mScale);
+    }
+
+    std::string GetIconPath() const override
+    {
+        return "BirdPortalExit";
     }
 
     Path_BirdPortalExit mTlv;
@@ -2113,6 +2423,11 @@ public:
         //r.Visit("Colour", mTlv.mColour);
     }
 
+    std::string GetIconPath() const override
+    {
+        return "DoorFlame";
+    }
+
     Path_DoorFlame mTlv;
 };
 
@@ -2128,6 +2443,11 @@ public:
         MapObjectBase::Visit(r);
 
         //r.Visit("Direction", mTlv.mDirection);
+    }
+
+    std::string GetIconPath() const override
+    {
+        return "TrainDoor";
     }
 
     Path_TrainDoor mTlv;
@@ -2149,6 +2469,11 @@ public:
         //r.Visit("Facing", mTlv.mFacing);
     }
 
+    std::string GetIconPath() const override
+    {
+        return "Greeter";
+    }
+
     Path_Greeter mTlv;
 };
 
@@ -2164,6 +2489,11 @@ public:
         MapObjectBase::Visit(r);
     }
 
+    std::string GetIconPath() const override
+    {
+        return "ScrabLeftBound";
+    }
+
     Path_ScrabBoundLeft mTlv;
 };
 
@@ -2177,6 +2507,11 @@ public:
     void Visit(IRefelector& r) override
     {
         MapObjectBase::Visit(r);
+    }
+
+    std::string GetIconPath() const override
+    {
+        return "ScrabRightBound";
     }
 
     Path_ScrabBoundRight mTlv;
@@ -2213,6 +2548,11 @@ public:
         r.Visit("(AE) Trigger Switch ID", mTlv.mTriggerSwitchId);
     }
 
+    std::string GetIconPath() const override
+    {
+        return "MovieStone";
+    }
+
     Path_MovieStone mTlv;
 };
 
@@ -2235,6 +2575,11 @@ public:
         //r.Visit("Persist Offscreen", mTlv.mPersistOffscreen);
     }
 
+    std::string GetIconPath() const override
+    {
+        return "MovingBomb";
+    }
+
     Path_MovingBomb mTlv;
 };
 
@@ -2251,6 +2596,11 @@ public:
 
         r.Visit("Min Stop Time", mTlv.mMinStopTime);
         r.Visit("Max Stop Time", mTlv.mMaxStopTime);
+    }
+
+    std::string GetIconPath() const override
+    {
+        return "MovingBombStopper";
     }
 
     Path_MovingBombStopper mTlv;
@@ -2273,6 +2623,11 @@ public:
         r.Visit("Code 2", mTlv.mCode2);
         r.Visit("X Position", mTlv.mXPos);
         r.Visit("Y Position", mTlv.mYPos);
+    }
+
+    std::string GetIconPath() const override
+    {
+        return "SecurityDoor";
     }
 
     Path_SecurityDoor mTlv;
@@ -2311,6 +2666,11 @@ public:
         //r.Visit("Crawl Direction", mTlv.mCrawlDirection);
         r.Visit("Panic Switch ID", mTlv.mPanicSwitchId);
         //r.Visit("Respawn On Death", mTlv.mRespawnOnDeath);
+    }
+
+    std::string GetIconPath() const override
+    {
+        return "CrawlingSlig";
     }
 
     Path_CrawlingSlig mTlv;
@@ -2361,6 +2721,11 @@ public:
         r.Visit("(AE) Disabled Resources", mTlv.mData.mDisabledResourcesAE);
     }
 
+    std::string GetIconPath() const override
+    {
+        return "SligGetPants";
+    }
+
     Path_SligGetPants mTlv;
 };
 
@@ -2391,6 +2756,11 @@ public:
         r.Visit("Max Velocity", mTlv.mMaxVelocity);
         r.Visit("Launch Grenade Switch ID", mTlv.mLaunchGrenadeSwitchId);
         //r.Visit("Persistant", mTlv.mPersistant);
+    }
+
+    std::string GetIconPath() const override
+    {
+        return "SligGetWings";
     }
 
     Path_SligGetWings mTlv;
@@ -2431,6 +2801,11 @@ public:
         //r.Visit("On Sound", mTlv.mOnSound);
         //r.Visit("Off Sound", mTlv.mOffSound);
         //r.Visit("Sound Direction", mTlv.mSoundDirection); // HIDDEN
+    }
+
+    std::string GetIconPath() const override
+    {
+        return "CrawlingSligButton";
     }
 
     Path_CrawlingSligButton mTlv;
@@ -2495,6 +2870,11 @@ public:
         r.Visit("Movie To Play (FMV ID)", mTlv.mMovieId);
     }
 
+    std::string GetIconPath() const override
+    {
+        return "Glukkon";
+    }
+
     Path_Glukkon mTlv;
 };
 
@@ -2516,6 +2896,11 @@ public:
         r.Visit("Y Position", mTlv.mYPos);
     }
 
+    std::string GetIconPath() const override
+    {
+        return "GlukkonSwitch";
+    }
+
     Path_GlukkonSwitch mTlv;
 };
 
@@ -2533,6 +2918,11 @@ public:
         r.Visit("Start Timer Switch ID", mTlv.mStartTimerSwitchId);
         r.Visit("(AE) Gas Countdown Time", mTlv.mGasCountdownTimer);
         r.Visit("(AE) Stop Timer Switch ID", mTlv.mStopTimerSwitchId);
+    }
+
+    std::string GetIconPath() const override
+    {
+        return "GasCountDown";
     }
 
     Path_GasCountDown mTlv;
@@ -2556,6 +2946,11 @@ public:
         //r.Visit("Reset Switch ID After Use", mTlv.mResetSwitchIdAfterUse);
     }
 
+    std::string GetIconPath() const override
+    {
+        return "FallingItem";
+    }
+
     Path_FallingItem mTlv;
 };
 
@@ -2577,6 +2972,11 @@ public:
         r.Visit("Bone Amount", mTlv.mBoneAmount);
     }
 
+    std::string GetIconPath() const override
+    {
+        return "BoneBag";
+    }
+
     Path_BoneBag mTlv;
 };
 
@@ -2594,6 +2994,11 @@ public:
         r.Visit("Scale", mTlv.mScale);
         r.Visit("Alarm Switch ID", mTlv.mAlarmSwitchId);
         r.Visit("Alarm Duration", mTlv.mAlarmDuration);
+    }
+
+    std::string GetIconPath() const override
+    {
+        return "SecurityClaw";
     }
 
     Path_SecurityClaw mTlv;
@@ -2626,6 +3031,11 @@ public:
         //r.Visit("Triggered By", mTlv.mTriggeredBy);
     }
 
+    std::string GetIconPath() const override
+    {
+        return "FootSwitch";
+    }
+
     Path_FootSwitch mTlv;
 };
 
@@ -2645,6 +3055,10 @@ public:
         r.Visit("Zzz Interval", mTlv.mZzzInterval);
     }
 
+    std::string GetIconPath() const override
+    {
+        return "SlogHut";
+    }
     Path_ZzzSpawner mTlv;
 };
 
@@ -2677,6 +3091,11 @@ public:
         r.Visit("Spawner Switch ID", mTlv.mSpawnerSwitchId);
         //r.Visit("(AE) Listen To Sligs", mTlv.mListenToSligs);
         r.Visit("(AE) Chase Delay", mTlv.mChaseDelay);
+    }
+
+    std::string GetIconPath() const override
+    {
+        return "SlogSpawner";
     }
 
     Path_SlogSpawner mTlv;
@@ -2722,6 +3141,11 @@ public:
         //r.Visit("(AE) Persistant", mTlv.mPersistant);
         r.Visit("(AE) Possessed Max Whirl Attack Duration", mTlv.mPossessedMaxWhirlAttackDuration);
         //r.Visit("(AE) Kill Enemy", mTlv.mKillEnemy);
+    }
+
+    std::string GetIconPath() const override
+    {
+        return "Scrab";
     }
 
     Path_Scrab mTlv;
@@ -2770,6 +3194,11 @@ public:
         //r.Visit("Facing", mTlv.mFacing);
     }
 
+    std::string GetIconPath() const override
+    {
+        return "ScrabSpawner";
+    }
+
     Path_ScrabSpawner mTlv;
 };
 
@@ -2794,6 +3223,11 @@ public:
         r.Visit("Spawn Interval", mTlv.mSpawnInterval);
         r.Visit("Max Slurgs", mTlv.mMaxSlurgs);
         r.Visit("Spawner Switch ID", mTlv.mSpawnerSwitchId);
+    }
+
+    std::string GetIconPath() const override
+    {
+        return "SlurgSpawner";
     }
 
     Path_SlurgSpawner mTlv;
@@ -2833,6 +3267,11 @@ public:
         //r.Visit("(AE) Attack Fleeches", mTlv.mAttackFleeches);
     }
 
+    std::string GetIconPath() const override
+    {
+        return "Paramite";
+    }
+
     Path_Paramite mTlv;
 };
 
@@ -2848,6 +3287,11 @@ public:
         MapObjectBase::Visit(r);
 
         r.Visit("Scale", mTlv.mScale);
+    }
+
+    std::string GetIconPath() const override
+    {
+        return "ParamiteWebLine";
     }
 
     Path_ParamiteWebLine mTlv;
@@ -2871,6 +3315,11 @@ public:
         r.Visit("Amount Of Meat", mTlv.mMeatAmount);
     }
 
+    std::string GetIconPath() const override
+    {
+        return "MeatSack";
+    }
+
     Path_MeatSack mTlv;
 };
 
@@ -2889,6 +3338,11 @@ public:
         r.Visit("Release Switch ID", mTlv.mReleaseSwitchId);
     }
 
+    std::string GetIconPath() const override
+    {
+        return "TorturedMudokon";
+    }
+
     Path_TorturedMudokon mTlv;
 };
 
@@ -2902,6 +3356,11 @@ public:
     void Visit(IRefelector& r) override
     {
         MapObjectBase::Visit(r);
+    }
+
+    std::string GetIconPath() const override
+    {
+        return "KillUnsavedMuds";
     }
 
     Path_KillUnsavedMuds mTlv;
@@ -2920,6 +3379,11 @@ public:
 
         r.Visit("Scale Percent", mTlv.mScalePercent);
         r.Visit("Pal ID", mTlv.mPalId);
+    }
+
+    std::string GetIconPath() const override
+    {
+        return "BackgroundGlukkon";
     }
 
     Path_BackgroundGlukkon mTlv;
@@ -2951,6 +3415,11 @@ public:
         r.Visit("Code 1", mTlv.mCode1);
         r.Visit("Code 2", mTlv.mCode2);
         r.Visit("Switch ID", mTlv.mSwitchId);
+    }
+
+    std::string GetIconPath() const override
+    {
+        return "BellSongStone";
     }
 
     Path_BellsongStone mTlv;
@@ -2987,6 +3456,11 @@ public:
         //r.Visit("Direction", mTlv.mDirection);
     }
 
+    std::string GetIconPath() const override
+    {
+        return "LightEffect";
+    }
+
     Path_LightEffect mTlv;
 };
 
@@ -3000,6 +3474,11 @@ public:
     void Visit(IRefelector& r) override
     {
         MapObjectBase::Visit(r);
+    }
+
+    std::string GetIconPath() const override
+    {
+        return "StartController";
     }
 
     Path_StartController mTlv;
@@ -3017,6 +3496,11 @@ public:
         MapObjectBase::Visit(r);
 
         r.Visit("Message ID", mTlv.mMessageId);
+    }
+
+    std::string GetIconPath() const override
+    {
+        return "HintFly";
     }
 
     Path_HintFly mTlv;
@@ -3039,6 +3523,11 @@ public:
         r.Visit("Attack Duration", mTlv.mAttackDuration);
     }
 
+    std::string GetIconPath() const override
+    {
+        return "Bat";
+    }
+
     Path_Bat mTlv;
 };
 
@@ -3057,6 +3546,11 @@ public:
         //r.Visit("Action", mTlv.mAction);
         r.Visit("Scale", mTlv.mScale);
         //r.Visit("Direction", mTlv.mDirection);
+    }
+
+    std::string GetIconPath() const override
+    {
+        return "BellHammer";
     }
 
     Path_BellHammer mTlv;
@@ -3078,6 +3572,11 @@ public:
         r.Visit("Next Camera", mTlv.mNextCamera);
     }
 
+    std::string GetIconPath() const override
+    {
+        return "ElumPathTrans";
+    }
+
     Path_ElumPathTrans mTlv;
 };
 
@@ -3093,6 +3592,11 @@ public:
         MapObjectBase::Visit(r);
     }
 
+    std::string GetIconPath() const override
+    {
+        return "ElumStart";
+    }
+
     Path_ElumStart mTlv;
 };
 
@@ -3106,6 +3610,11 @@ public:
     void Visit(IRefelector& r) override
     {
         MapObjectBase::Visit(r);
+    }
+
+    std::string GetIconPath() const override
+    {
+        return "ElumWall";
     }
 
     Path_ElumWall mTlv;
@@ -3143,6 +3652,11 @@ public:
         //r.Visit("Give Ring Without Password", mTlv.mGiveRingWithoutPassword);
     }
 
+    std::string GetIconPath() const override
+    {
+        return "RingMudokon";
+    }
+
     Path_RingMudokon mTlv;
 };
 
@@ -3156,6 +3670,11 @@ public:
     void Visit(IRefelector& r) override
     {
         MapObjectBase::Visit(r);
+    }
+
+    std::string GetIconPath() const override
+    {
+        return "RingCancel";
     }
 
     Path_RingCancel mTlv;
@@ -3203,6 +3722,11 @@ public:
         r.Visit("Start At Bottom", mTlv.mStartAtBottom);
     }
 
+    std::string GetIconPath() const override
+    {
+        return "MeatSaw";
+    }
+
     Path_MeatSaw mTlv;
 };
 
@@ -3224,6 +3748,11 @@ public:
         r.Visit("Password Switch ID", mTlv.mPasswordSwitchId);
     }
 
+    std::string GetIconPath() const override
+    {
+        return "ChimeLock";
+    }
+
     Path_ChimeLock mTlv;
 };
 
@@ -3240,6 +3769,11 @@ public:
 
         r.Visit("Scale", mTlv.mScale);
         r.Visit("Switch ID", mTlv.mSwitchId);
+    }
+
+    std::string GetIconPath() const override
+    {
+        return "FlintLockFire";
     }
 
     Path_FlintLockFire mTlv;
@@ -3309,6 +3843,11 @@ public:
         r.Visit("Code 2", mTlv.mCode2);
     }
 
+    std::string GetIconPath() const override
+    {
+        return "LiftMudokon";
+    }
+
     Path_LiftMudokon mTlv;
 };
 
@@ -3325,6 +3864,11 @@ public:
 
         r.Visit("Chase Time", mTlv.mChaseTime);
         r.Visit("Scale", mTlv.mScale);
+    }
+
+    std::string GetIconPath() const override
+    {
+        return "HoneySack";
     }
 
     Path_HoneySack mTlv;
@@ -3345,6 +3889,11 @@ public:
         //r.Visit("Don't Whistle Password", mTlv.mDontWhistlePassword);
         r.Visit("Code 1", mTlv.mCode1);
         r.Visit("Code 2", mTlv.mCode2);
+    }
+
+    std::string GetIconPath() const override
+    {
+        return "SlingMudokon";
     }
 
     Path_SlingMudokon mTlv;
@@ -3379,6 +3928,11 @@ public:
         r.Visit("Speed", mTlv.mSpeed);
     }
 
+    std::string GetIconPath() const override
+    {
+        return "BeeSwarmHole";
+    }
+
     Path_BeeSwarmHole mTlv;
 };
 
@@ -3398,6 +3952,11 @@ public:
         r.Visit("Release Switch ID", mTlv.mReleaseSwitchId);
         r.Visit("Max Speed", mTlv.mMaxSpeed);
         r.Visit("Acceleration", mTlv.mAcceleration);
+    }
+
+    std::string GetIconPath() const override
+    {
+        return "RollingBall";
     }
 
     Path_RollingBall mTlv;
@@ -3420,6 +3979,11 @@ public:
         //r.Visit("Stop Direction", mTlv.mStopDirection);
     }
 
+    std::string GetIconPath() const override
+    {
+        return "RollingBallStopper";
+    }
+
     Path_RollingBallStopper mTlv;
 };
 
@@ -3439,6 +4003,11 @@ public:
         r.Visit("Chase Time", mTlv.mChaseTime);
         r.Visit("Speed", mTlv.mSpeed);
         r.Visit("Amount Of Bees", mTlv.mBeesAmount);
+    }
+
+    std::string GetIconPath() const override
+    {
+        return "Bees";
     }
 
     Path_BeeNest mTlv;
@@ -3478,6 +4047,11 @@ public:
         //r.Visit("Speed", mTlv.mSpeed);
     }
 
+    std::string GetIconPath() const override
+    {
+        return "ZBall";
+    }
+
     Path_ZBall mTlv;
 };
 
@@ -3493,6 +4067,11 @@ public:
         MapObjectBase::Visit(r);
     }
 
+    std::string GetIconPath() const override
+    {
+        return "Honey";
+    }
+
     Path_Honey mTlv;
 };
 
@@ -3506,6 +4085,11 @@ public:
     void Visit(IRefelector& r) override
     {
         MapObjectBase::Visit(r);
+    }
+
+    std::string GetIconPath() const override
+    {
+        return "HoneyDripTarget";
     }
 
     Path_HoneyDripTarget mTlv;

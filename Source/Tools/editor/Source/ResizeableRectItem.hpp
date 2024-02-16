@@ -77,6 +77,7 @@ private:
     }
 
     void SyncToMapObject();
+    QString ObjectNameInTitleCase();
 
 private:
     eResize m_ResizeMode = eResize_None;
@@ -90,4 +91,6 @@ private:
 
     SnapSettings& mSnapSettings;
     IPointSnapper& mPointSnapper;
+
+    QString mNoIconObjectName = "";
 };

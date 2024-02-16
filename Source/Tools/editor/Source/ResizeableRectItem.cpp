@@ -119,10 +119,10 @@ void ResizeableRectItem::paint( QPainter* aPainter, const QStyleOptionGraphicsIt
     // Draw the object name on the rect if no image is provided
     if (m_Pixmap.isNull())
     {
-        QString objectName;
-
-        nlohmann::json object = mMapObject->mBaseTlv->mTlvType;
-        objectName = QString::fromStdString(object);
+        if (mNoIconObjectName.isEmpty())
+        {
+            mNoIconObjectName = ObjectNameInTitleCase();
+        }
 
         for (int sizeCandidate = 8; sizeCandidate > 1; sizeCandidate--)
         {
@@ -130,7 +130,7 @@ void ResizeableRectItem::paint( QPainter* aPainter, const QStyleOptionGraphicsIt
             f.setPointSize(sizeCandidate);
             aPainter->setFont(f);
             QFontMetricsF fm(f);
-            const auto textRect = fm.boundingRect(cRect, Qt::AlignCenter | Qt::TextWrapAnywhere, objectName);
+            const auto textRect = fm.boundingRect(cRect, Qt::AlignCenter | Qt::TextWrapAnywhere, mNoIconObjectName);
 
             if (textRect.width() < cRect.width() &&
                 textRect.height() < cRect.height())
@@ -138,7 +138,7 @@ void ResizeableRectItem::paint( QPainter* aPainter, const QStyleOptionGraphicsIt
                 break;
             }
         }
-        aPainter->drawText(cRect, Qt::AlignCenter | Qt::TextWrapAnywhere, objectName);
+        aPainter->drawText(cRect, Qt::AlignCenter | Qt::TextWrapAnywhere, mNoIconObjectName);
     }
 }
 
@@ -414,6 +414,14 @@ void ResizeableRectItem::PosOrRectChanged()
 
 void ResizeableRectItem::UpdateIcon()
 {
+    // No icon, object name will be shown instead
+    if (mMapObject->GetIconPath() == "")
+    {
+        nlohmann::json obj = mMapObject->mBaseTlv->mTlvType;
+        qDebug() << "map object " << QString::fromStdString(obj) << " has no icon, name will be shown instead";
+        return;
+    }
+
     QString images_path = ":/object_images/rsc/object_images/";
     const auto lookupPath = images_path + QString::fromStdString(mMapObject->GetIconPath()) + ".png";
     if (!QPixmapCache::find(lookupPath, &m_Pixmap))
@@ -421,4 +429,24 @@ void ResizeableRectItem::UpdateIcon()
         m_Pixmap = QPixmap(lookupPath);
         QPixmapCache::insert(lookupPath, m_Pixmap);
     }
+}
+
+QString ResizeableRectItem::ObjectNameInTitleCase()
+{
+    // e.g turn "my_object_name" into "My Object Name"
+    nlohmann::json object = mMapObject->mBaseTlv->mTlvType;
+    QString objectName = QString::fromStdString(object);
+
+    if (objectName.contains("_"))
+    {
+        objectName.replace("_", " ");
+    }
+
+    QStringList words = objectName.split(" ");
+    for (auto& word : words)
+    {
+        word.replace(0, 1, word[0].toUpper());
+    }
+
+    return words.join(" ");
 }
