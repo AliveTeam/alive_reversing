@@ -417,8 +417,6 @@ void ResizeableRectItem::UpdateIcon()
     // No icon, object name will be shown instead
     if (mMapObject->GetIconPath() == "")
     {
-        nlohmann::json obj = mMapObject->mBaseTlv->mTlvType;
-        qDebug() << "map object " << QString::fromStdString(obj) << " has no icon, name will be shown instead";
         return;
     }
 
