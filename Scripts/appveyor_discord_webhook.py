@@ -75,5 +75,6 @@ webhook_message = {
   "attachments": []
 }
 
-headers = {"Content-Type": "application/json"}
-req = urllib.request.Request(WEBHOOK_URL, json.dumps(webhook_message).encode(), headers)
+req = urllib.request.Request(WEBHOOK_URL, json.dumps(webhook_message).encode())
+req.add_header("Content-Type", "application/json")
+response = urllib.request.urlopen(req)
