@@ -119,7 +119,9 @@ void ResizeableRectItem::paint( QPainter* aPainter, const QStyleOptionGraphicsIt
     {
         if (mNoIconObjectName.isEmpty())
         {
-            mNoIconObjectName = ObjectNameInTitleCase();
+            // TODO: This seems like a huge hack, obj name should come from the object properties
+            // and be localised etc
+            //mNoIconObjectName = ObjectNameInTitleCase();
         }
 
         for (int sizeCandidate = 8; sizeCandidate > 1; sizeCandidate--)

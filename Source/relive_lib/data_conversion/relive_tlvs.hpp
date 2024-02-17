@@ -293,12 +293,13 @@ struct Path_TimedMine final : public Path_TLV
 {
     Path_TimedMine()
     {
-        mTlvType = ReliveTypes::eTimedMine;
+        mTlvType = kReliveType;
         mAttribute = QuiksaveAttribute::eClearTlvFlags_1;
     }
     reliveScale mScale = reliveScale::eFull;
     s16 mTicksUntilExplosion = 0;
     static constexpr char kClassName[] = "timed_mine";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eTimedMine;
 };
 
 struct Path_Hoist final : public Path_TLV
