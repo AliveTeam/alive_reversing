@@ -4,6 +4,7 @@
 #include "TlvObjectBaseMacros.hpp"
 #include "../../relive_lib/data_conversion/relive_tlvs.hpp"
 #include "../../relive_lib/AnimResources.hpp"
+
 #include <type_traits>
 
 class IReflector

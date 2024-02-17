@@ -22,8 +22,8 @@ private:
     }
 
 public:
-    PropertyCreator(QUndoStack& undoStack, MapObjectBase* pMapObject, IGraphicsItem* pGraphicsItem)
-     : mUndoStack(undoStack), mMapObject(pMapObject), mGraphicsItem(pGraphicsItem)
+    PropertyCreator(QUndoStack& undoStack, IGraphicsItem* pGraphicsItem)
+     : mUndoStack(undoStack), mGraphicsItem(pGraphicsItem)
     {
     }
 
@@ -34,22 +34,22 @@ public:
 
     void Visit(const char* fieldName, u16& field) override
     {
-        mCreatedProperties.append(new BasicTypeProperty(IntegerType::Int_U16, &field, fieldName, mUndoStack, mMapObject, mGraphicsItem));
+        mCreatedProperties.append(new BasicTypeProperty(IntegerType::Int_U16, &field, fieldName, mUndoStack, mGraphicsItem));
     }
 
     void Visit(const char* fieldName, s16& field) override
     {
-        mCreatedProperties.append(new BasicTypeProperty(IntegerType::Int_S16, &field, fieldName, mUndoStack, mMapObject, mGraphicsItem));
+        mCreatedProperties.append(new BasicTypeProperty(IntegerType::Int_S16, &field, fieldName, mUndoStack, mGraphicsItem));
     }
 
     void Visit(const char* fieldName, u32& field) override
     {
-        mCreatedProperties.append(new BasicTypeProperty(IntegerType::Int_U32, &field, fieldName, mUndoStack, mMapObject, mGraphicsItem));
+        mCreatedProperties.append(new BasicTypeProperty(IntegerType::Int_U32, &field, fieldName, mUndoStack, mGraphicsItem));
     }
 
     void Visit(const char* fieldName, s32& field) override
     {
-        mCreatedProperties.append(new BasicTypeProperty(IntegerType::Int_S32, &field, fieldName, mUndoStack, mMapObject, mGraphicsItem));
+        mCreatedProperties.append(new BasicTypeProperty(IntegerType::Int_S32, &field, fieldName, mUndoStack, mGraphicsItem));
     }
 
     QList<QTreeWidgetItem*>& CreatedProperties()
@@ -58,7 +58,6 @@ public:
     }
 private:
     QUndoStack& mUndoStack;
-    MapObjectBase* mMapObject = nullptr;
     IGraphicsItem* mGraphicsItem = nullptr;
     QList<QTreeWidgetItem*> mCreatedProperties;
 };
@@ -127,7 +126,7 @@ void PropertyTreeWidget::Populate(Model& model, QUndoStack& undoStack, QGraphics
     if (pRect)
     {
         MapObjectBase* pMapObject = pRect->GetMapObject();
-        PropertyCreator pc(undoStack, pMapObject, pRect);
+        PropertyCreator pc(undoStack, pRect);
         pMapObject->Visit(pc);
         insertTopLevelItems(0, pc.CreatedProperties());
     }
@@ -135,16 +134,9 @@ void PropertyTreeWidget::Populate(Model& model, QUndoStack& undoStack, QGraphics
     auto pLine = qgraphicsitem_cast<ResizeableArrowItem*>(pItem);
     if (pLine)
     {
-        Model::CollisionObject* pCollisionItem = pLine->GetCollisionItem();
-
-        QList<QTreeWidgetItem*> items;
-        items.append(new ReadOnlyStringProperty(nullptr, kIndent + "Id", &pCollisionItem->mId));
-
-        //items.append(new BasicTypeProperty(undoStack, parent, "X1", pCollisionItem, &bt);
-
-        // TODO line properties
-        //AddProperties(model, undoStack, items, pCollisionItem->mProperties, pLine);
-        insertTopLevelItems(0, items);
+        PropertyCreator pc(undoStack, pLine);
+        pLine->Visit(pc);
+        insertTopLevelItems(0, pc.CreatedProperties());
     }
 }
 

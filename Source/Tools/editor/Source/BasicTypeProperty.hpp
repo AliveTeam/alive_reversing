@@ -17,13 +17,12 @@ enum class IntegerType
 
 struct BasicTypePropertyChangeData
 {
-    BasicTypePropertyChangeData(MapObjectBase* mapObject, IntegerType intType, void* integerPtr, qint64 oldValue, qint64 newValue)
-        : mMapObject(mapObject), mIntType(intType), mIntegerPtr(integerPtr), mOldValue(oldValue), mNewValue(newValue)
+    BasicTypePropertyChangeData(IntegerType intType, void* integerPtr, qint64 oldValue, qint64 newValue)
+        : mIntType(intType), mIntegerPtr(integerPtr), mOldValue(oldValue), mNewValue(newValue)
     {
 
     }
 
-    MapObjectBase* mMapObject = nullptr;
     IntegerType mIntType = IntegerType::Int_S16;
     void* mIntegerPtr = nullptr;
     qint64 mOldValue = 0;
@@ -33,13 +32,12 @@ struct BasicTypePropertyChangeData
 // TODO: probably merge with BasicTypePropertyChangeData ??
 struct LinkedBasicTypeProperty
 {
-    LinkedBasicTypeProperty(MapObjectBase* mapObject, const char* propertyName, IntegerType intType, void* pIntPtr, PropertyTreeWidget* pTreeWidget, IGraphicsItem* pGraphicsItem)
-        : mMapObject(mapObject), mPropertyName(propertyName), mIntegerType(intType), mIntPtr(pIntPtr), mTreeWidget(pTreeWidget), mGraphicsItem(pGraphicsItem)
+    LinkedBasicTypeProperty(const char* propertyName, IntegerType intType, void* pIntPtr, PropertyTreeWidget* pTreeWidget, IGraphicsItem* pGraphicsItem)
+        : mPropertyName(propertyName), mIntegerType(intType), mIntPtr(pIntPtr), mTreeWidget(pTreeWidget), mGraphicsItem(pGraphicsItem)
     {
 
     }
 
-    MapObjectBase* mMapObject = nullptr;
     const char* mPropertyName = nullptr;
     IntegerType mIntegerType;
     void* mIntPtr = nullptr;
@@ -75,7 +73,7 @@ class BasicTypeProperty final : public QObject, public PropertyTreeItemBase
     Q_OBJECT
 public:
 
-    BasicTypeProperty(IntegerType intType, void* pInteger, const char* pPropertyName, QUndoStack& undoStack, MapObjectBase* pMapObject, IGraphicsItem* pGraphicsItem);
+    BasicTypeProperty(IntegerType intType, void* pInteger, const char* pPropertyName, QUndoStack& undoStack, IGraphicsItem* pGraphicsItem);
 
     QWidget* CreateEditorWidget(PropertyTreeWidget* pParent) override;
 
@@ -92,7 +90,6 @@ private:
     void* mIntegerPtr = nullptr;
     const char* mPropertyName = nullptr;
     QUndoStack& mUndoStack;
-    MapObjectBase* mMapObject = nullptr;
     IGraphicsItem* mGraphicsItem = nullptr;
     BigSpinBox* mSpinBox = nullptr;
     qint64 mOldValue = 0;

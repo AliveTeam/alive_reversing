@@ -92,13 +92,12 @@ void ChangeBasicTypePropertyCommand::UpdateText()
     setText(QString("Change property %1 from %2 to %3").arg(mLinkedProperty.mPropertyName, QString::number(mPropertyData.mOldValue), QString::number(mPropertyData.mNewValue)));
 }
 
-BasicTypeProperty::BasicTypeProperty(IntegerType intType, void* pInteger, const char* pPropertyName, QUndoStack& undoStack, MapObjectBase* pMapObject, IGraphicsItem* pGraphicsItem)
+BasicTypeProperty::BasicTypeProperty(IntegerType intType, void* pInteger, const char* pPropertyName, QUndoStack& undoStack, IGraphicsItem* pGraphicsItem)
     : PropertyTreeItemBase((QTreeWidgetItem*)nullptr)
     , mIntType(intType)
     , mIntegerPtr(pInteger)
     , mPropertyName(pPropertyName)
     , mUndoStack(undoStack)
-    , mMapObject(pMapObject)
     , mGraphicsItem(pGraphicsItem)
 {
     setText(0, mPropertyName); // TODO: Add text indent
@@ -141,8 +140,8 @@ QWidget* BasicTypeProperty::CreateEditorWidget(PropertyTreeWidget* pParent)
             if (mOldValue != newValue)
             {
                 mUndoStack.push(new ChangeBasicTypePropertyCommand(
-                    LinkedBasicTypeProperty(this->mMapObject, this->mPropertyName, this->mIntType, this->mIntegerPtr, pParent, this->mGraphicsItem),
-                    BasicTypePropertyChangeData(this->mMapObject, this->mIntType, this->mIntegerPtr, this->mOldValue, newValue)));
+                    LinkedBasicTypeProperty(this->mPropertyName, this->mIntType, this->mIntegerPtr, pParent, this->mGraphicsItem),
+                    BasicTypePropertyChangeData(this->mIntType, this->mIntegerPtr, this->mOldValue, newValue)));
             }
 
             mOldValue = newValue;
