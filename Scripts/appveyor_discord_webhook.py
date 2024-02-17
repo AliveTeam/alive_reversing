@@ -33,11 +33,11 @@ footer_url = ""
 embed_color = 1
 
 if BUILD_STATUS == "success":
-    footer_text = "Success"
+    footer_text = "Succeeded"
     footer_url = SMILE_SCRAB_EMOTE
     embed_color = COLOR_GREEN
 elif BUILD_STATUS == "failure":
-    footer_text = "Failure"
+    footer_text = "Failed"
     footer_url = ANNOYING_SLURG_EMOTE
     embed_color = COLOR_RED
 
@@ -52,11 +52,11 @@ webhook_message = {
           "name": "Commit",
           "value": f"[{COMMIT_MESSAGE}]({COMMIT_URL})"
         },
-        {
-          "name": "Duration",
-          "value": "DURATION_TIME",
-          "inline": True
-        },
+        #{
+        #  "name": "Duration",
+        #  "value": "DURATION_TIME",
+        #  "inline": True
+        #},
         {
           "name": "Build version",
           "value": BUILD_VERSION,
@@ -67,7 +67,7 @@ webhook_message = {
         "name": COMMIT_AUTHOR
       },
       "footer": {
-        "text": footer_text,
+        "text": f"{JOB_NAME} {footer_text}",
         "icon_url": footer_url
       }
     }
