@@ -77,4 +77,5 @@ webhook_message = {
 
 req = urllib.request.Request(WEBHOOK_URL, json.dumps(webhook_message).encode())
 req.add_header("Content-Type", "application/json")
+req.add_header("X-Author", "mouzedrift")
 response = urllib.request.urlopen(req)
