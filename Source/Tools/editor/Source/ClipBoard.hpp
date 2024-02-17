@@ -45,7 +45,7 @@ public:
     void Set(const QList<QGraphicsItem*>& items, Model& model);
     bool IsEmpty() const;
 
-    const GameType SourceGame() const;
+    GameType SourceGame() const;
 
     std::vector<UP_MapObjectBase> CloneMapObjects(QPoint* pos) const;
     std::vector<Model::UP_CollisionObject> CloneCollisions(QPoint* pos) const;

@@ -6,30 +6,6 @@
 #include "../../relive_lib/AnimResources.hpp"
 #include <type_traits>
 
-#define CTOR_RELIVE(editorClassName, pathClassName, tlvEnumType)\
-    editorClassName() : TlvObjectBaseRelive(sizeof(relive::pathClassName), tlvEnumType, relive::pathClassName::kClassName, &mTlv)\
-    {\
-    }\
-    \
-    editorClassName(ReliveAPI::TypesCollectionBase& globalTypes, const relive::Path_TLV* pTlvSrc = nullptr) \
-        : TlvObjectBaseRelive(sizeof(relive::pathClassName), globalTypes, tlvEnumType, relive::pathClassName::kClassName, &mTlv)\
-    {\
-        if (pTlvSrc)\
-        {\
-            mTlv = *static_cast<const ::relive::pathClassName*>(pTlvSrc);\
-            ConvertXYPos(); \
-        }\
-        else\
-        {\
-            mPSelfTlv->mLength = static_cast<s16>(mSizeOfT);\
-        }\
-        AddProperties(globalTypes);\
-    }\
-    relive::pathClassName mTlv = {};\
-    void AddProperties(ReliveAPI::TypesCollectionBase& globalTypes)
-
-#define EMPTY_CTOR_RELIVE() (void) globalTypes
-
 class IReflector
 {
 public:
@@ -101,6 +77,7 @@ public:
 
     virtual void Visit(IReflector& r)
     {
+        //r.Visit("Type", mBaseTlv->mTlvType);
         r.Visit("xpos", mBaseTlv->mTopLeftX);
         r.Visit("ypos", mBaseTlv->mTopLeftY);
         r.Visit("width", mBaseTlv->mBottomRightX);
@@ -4110,7 +4087,3 @@ public:
     Path_Elum mTlv;
 };
 } // namespace relive
-
-#undef EMPTY_CTOR_RELIVE
-#undef CTOR_RELIVE
-

@@ -167,7 +167,7 @@ bool ClipBoard::IsEmpty() const
     return true;
 }
 
-const GameType ClipBoard::SourceGame() const
+GameType ClipBoard::SourceGame() const
 {
     return mSourceGame;
 }
