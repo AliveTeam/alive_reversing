@@ -4,6 +4,7 @@
 #include "TlvObjectBaseMacros.hpp"
 #include "../../relive_lib/data_conversion/relive_tlvs.hpp"
 #include "../../relive_lib/AnimResources.hpp"
+#include "../../relive_lib/data_conversion/relive_tlvs_serialization.hpp"
 
 #include <type_traits>
 
@@ -121,8 +122,7 @@ struct MapObjectBaseInterface : public MapObjectBase
     static std::unique_ptr<MapObjectBase> EditorDeserializeFunc(const nlohmann::json& j)
     {
         auto tmpMapObject = std::make_unique<DerivedType>();
-        // TODO: include correct header so this werkz
-        //from_json(j, tmpMapObject->mTlv);
+        from_json(j, tmpMapObject->mTlv);
 
         // Re-purpose to width/height for the editor
         tmpMapObject->mTlv.mBottomRightX = tmpMapObject->mTlv.Width();
@@ -168,7 +168,7 @@ public:
     Path_TimedMine mTlv;
 };
 
-class Editor_ElectricWall final : public MapObjectBase
+class Editor_ElectricWall final : public MapObjectBaseInterface<Editor_ElectricWall, Path_ElectricWall::kReliveType>
 {
     /*
     void AddTypes(ReliveAPI::TypesCollectionBase& types) override
@@ -180,9 +180,9 @@ class Editor_ElectricWall final : public MapObjectBase
         });
     }
     */
-    public:
+public:
     Editor_ElectricWall()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_ElectricWall, Path_ElectricWall::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -201,7 +201,7 @@ class Editor_ElectricWall final : public MapObjectBase
     Path_ElectricWall mTlv;
 };
 
-struct Editor_Mudokon final : public MapObjectBase
+struct Editor_Mudokon final : public MapObjectBaseInterface<Editor_Mudokon, Path_Mudokon::kReliveType>
 {
     /*
     void AddTypes(ReliveAPI::TypesCollectionBase& types) override
@@ -228,7 +228,7 @@ struct Editor_Mudokon final : public MapObjectBase
 
 public:
     Editor_Mudokon()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_Mudokon, Path_Mudokon::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -286,7 +286,7 @@ public:
     Path_Mudokon mTlv;
 };
 
-struct Editor_BirdPortal final : public MapObjectBase
+struct Editor_BirdPortal final : public MapObjectBaseInterface<Editor_BirdPortal, Path_BirdPortal::kReliveType>
 {
     /*
     void AddTypes(ReliveAPI::TypesCollectionBase& types) override
@@ -303,7 +303,7 @@ struct Editor_BirdPortal final : public MapObjectBase
 
 public:
     Editor_BirdPortal()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_BirdPortal, Path_BirdPortal::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -340,11 +340,11 @@ public:
     Path_BirdPortal mTlv;
 };
 
-struct Editor_LCDStatusBoard final : public MapObjectBase
+struct Editor_LCDStatusBoard final : public MapObjectBaseInterface<Editor_LCDStatusBoard, Path_LCDStatusBoard::kReliveType>
 {
 public:
     Editor_LCDStatusBoard()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_LCDStatusBoard, Path_LCDStatusBoard::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -363,7 +363,7 @@ public:
     Path_LCDStatusBoard mTlv;
 };
 
-struct Editor_Door final : public MapObjectBase
+struct Editor_Door final : public MapObjectBaseInterface<Editor_Door, Path_Door::kReliveType>
 {
     /*
     void AddTypes(ReliveAPI::TypesCollectionBase& types) override
@@ -385,7 +385,7 @@ struct Editor_Door final : public MapObjectBase
 
 public:
     Editor_Door()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_Door, Path_Door::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -426,7 +426,7 @@ public:
     Path_Door mTlv;
 };
 
-struct Editor_Lever final : public MapObjectBase
+struct Editor_Lever final : public MapObjectBaseInterface<Editor_Lever, Path_Lever::kReliveType>
 {
     /*
     void AddTypes(ReliveAPI::TypesCollectionBase& types) override
@@ -453,7 +453,7 @@ struct Editor_Lever final : public MapObjectBase
 
 public:
     Editor_Lever()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_Lever, Path_Lever::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -476,7 +476,7 @@ public:
     Path_Lever mTlv;
 };
 
-struct Editor_Hoist final : public MapObjectBase
+struct Editor_Hoist final : public MapObjectBaseInterface<Editor_Hoist, Path_Hoist::kReliveType>
 {
     /*
     void AddTypes(ReliveAPI::TypesCollectionBase& types) override
@@ -497,7 +497,7 @@ struct Editor_Hoist final : public MapObjectBase
 
 public:
     Editor_Hoist()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_Hoist, Path_Hoist::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -523,7 +523,7 @@ public:
     Path_Hoist mTlv;
 };
 
-struct Editor_BoomMachine final : public MapObjectBase
+struct Editor_BoomMachine final : public MapObjectBaseInterface<Editor_BoomMachine, Path_BoomMachine::kReliveType>
 {
     /*
     void AddTypes(ReliveAPI::TypesCollectionBase& types) override
@@ -538,7 +538,7 @@ struct Editor_BoomMachine final : public MapObjectBase
 
 public:
     Editor_BoomMachine()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_BoomMachine, Path_BoomMachine::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -557,11 +557,11 @@ public:
     Path_BoomMachine mTlv;
 };
 
-struct Editor_Slig final : public MapObjectBase
+struct Editor_Slig final : public MapObjectBaseInterface<Editor_Slig, Path_Slig::kReliveType>
 {
 public:
     Editor_Slig()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_Slig, Path_Slig::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -610,11 +610,11 @@ public:
     Path_Slig mTlv;
 };
 
-struct Editor_Fleech final : public MapObjectBase
+struct Editor_Fleech final : public MapObjectBaseInterface<Editor_Fleech, Path_Fleech::kReliveType>
 {
 public:
     Editor_Fleech()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_Fleech, Path_Fleech::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -643,7 +643,7 @@ public:
     Path_Fleech mTlv;
 };
 
-struct Editor_EnemyStopper final : public MapObjectBase
+struct Editor_EnemyStopper final : public MapObjectBaseInterface<Editor_EnemyStopper, Path_EnemyStopper::kReliveType>
 {
     /*
     void AddTypes(ReliveAPI::TypesCollectionBase& types) override
@@ -659,7 +659,7 @@ struct Editor_EnemyStopper final : public MapObjectBase
 
 public:
     Editor_EnemyStopper()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_EnemyStopper, Path_EnemyStopper::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -678,11 +678,11 @@ public:
     Path_EnemyStopper mTlv;
 };
 
-struct Editor_Teleporter final : public MapObjectBase
+struct Editor_Teleporter final : public MapObjectBaseInterface<Editor_Teleporter, Path_Teleporter::kReliveType>
 {
 public:
     Editor_Teleporter()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_Teleporter, Path_Teleporter::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -710,7 +710,7 @@ public:
     Path_Teleporter mTlv;
 };
 
-struct Editor_UXB final : public MapObjectBase
+struct Editor_UXB final : public MapObjectBaseInterface<Editor_UXB, Path_UXB::kReliveType>
 {
     /*
     void AddTypes(ReliveAPI::TypesCollectionBase& types) override
@@ -724,7 +724,7 @@ struct Editor_UXB final : public MapObjectBase
     */
 public:
     Editor_UXB()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_UXB, Path_UXB::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -752,11 +752,11 @@ public:
     Path_UXB mTlv;
 };
 
-struct Editor_LCDScreen final : public MapObjectBase
+struct Editor_LCDScreen final : public MapObjectBaseInterface<Editor_LCDScreen, Path_LCDScreen::kReliveType>
 {
 public:
     Editor_LCDScreen()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_LCDScreen, Path_LCDScreen::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -779,7 +779,7 @@ public:
     Path_LCDScreen mTlv;
 };
 
-struct Editor_Edge final : public MapObjectBase
+struct Editor_Edge final : public MapObjectBaseInterface<Editor_Edge, Path_Edge::kReliveType>
 {
     /*
     void AddTypes(ReliveAPI::TypesCollectionBase& types) override
@@ -794,7 +794,7 @@ struct Editor_Edge final : public MapObjectBase
     */
 public:
     Editor_Edge()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_Edge, Path_Edge::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -821,11 +821,11 @@ public:
     Path_Edge mTlv;
 };
 
-struct Editor_StatusLight final : public MapObjectBase
+struct Editor_StatusLight final : public MapObjectBaseInterface<Editor_StatusLight, Path_StatusLight::kReliveType>
 {
 public:
     Editor_StatusLight()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_StatusLight, Path_StatusLight::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -850,7 +850,7 @@ public:
     Path_StatusLight mTlv;
 };
 
-struct Editor_ShadowZone final : public MapObjectBase
+struct Editor_ShadowZone final : public MapObjectBaseInterface<Editor_ShadowZone, Path_ShadowZone::kReliveType>
 {
     /*
     void AddTypes(ReliveAPI::TypesCollectionBase& types) override
@@ -866,7 +866,7 @@ struct Editor_ShadowZone final : public MapObjectBase
 
 public:
     Editor_ShadowZone()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_ShadowZone, Path_ShadowZone::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -887,11 +887,11 @@ public:
     Path_ShadowZone mTlv;
 };
 
-struct Editor_WorkWheel final : public MapObjectBase
+struct Editor_WorkWheel final : public MapObjectBaseInterface<Editor_WorkWheel, Path_WorkWheel::kReliveType>
 {
 public:
     Editor_WorkWheel()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_WorkWheel, Path_WorkWheel::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -913,7 +913,7 @@ public:
     Path_WorkWheel mTlv;
 };
 
-struct Editor_MusicTrigger final : public MapObjectBase
+struct Editor_MusicTrigger final : public MapObjectBaseInterface<Editor_MusicTrigger, Path_MusicTrigger::kReliveType>
 {
     /*
     void AddTypes(ReliveAPI::TypesCollectionBase& types) override
@@ -940,7 +940,7 @@ struct Editor_MusicTrigger final : public MapObjectBase
     */
 public:
     Editor_MusicTrigger()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_MusicTrigger, Path_MusicTrigger::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -961,11 +961,11 @@ public:
     Path_MusicTrigger mTlv;
 };
 
-struct Editor_AbeStart final : public MapObjectBase
+struct Editor_AbeStart final : public MapObjectBaseInterface<Editor_AbeStart, Path_AbeStart::kReliveType>
 {
 public:
     Editor_AbeStart()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_AbeStart, Path_AbeStart::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -981,11 +981,11 @@ public:
     Path_AbeStart mTlv;
 };
 
-struct Editor_SoftLanding final : public MapObjectBase
+struct Editor_SoftLanding final : public MapObjectBaseInterface<Editor_SoftLanding, Path_SoftLanding::kReliveType>
 {
 public:
     Editor_SoftLanding()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_SoftLanding, Path_SoftLanding::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -1003,11 +1003,11 @@ public:
     Path_SoftLanding mTlv;
 };
 
-struct Editor_WellExpress final : public MapObjectBase
+struct Editor_WellExpress final : public MapObjectBaseInterface<Editor_WellExpress, Path_WellExpress::kReliveType>
 {
 public:
     Editor_WellExpress()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_WellExpress, Path_WellExpress::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -1045,11 +1045,11 @@ public:
     Path_WellExpress mTlv;
 };
 
-struct Editor_SlamDoor final : public MapObjectBase
+struct Editor_SlamDoor final : public MapObjectBaseInterface<Editor_SlamDoor, Path_SlamDoor::kReliveType>
 {
 public:
     Editor_SlamDoor()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_SlamDoor, Path_SlamDoor::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -1071,11 +1071,11 @@ public:
     Path_SlamDoor mTlv;
 };
 
-struct Editor_HandStone final : public MapObjectBase
+struct Editor_HandStone final : public MapObjectBaseInterface<Editor_HandStone, Path_HandStone::kReliveType>
 {
 public:
     Editor_HandStone()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_HandStone, Path_HandStone::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -1104,11 +1104,11 @@ public:
     Path_HandStone mTlv;
 };
 
-struct Editor_LaughingGas final : public MapObjectBase
+struct Editor_LaughingGas final : public MapObjectBaseInterface<Editor_LaughingGas, Path_LaughingGas::kReliveType>
 {
 public:
     Editor_LaughingGas()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_LaughingGas, Path_LaughingGas::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -1130,7 +1130,7 @@ public:
     Path_LaughingGas mTlv;
 };
 
-struct Editor_InvisibleSwitch final : public MapObjectBase
+struct Editor_InvisibleSwitch final : public MapObjectBaseInterface<Editor_InvisibleSwitch, Path_InvisibleSwitch::kReliveType>
 {
     /*
     void AddTypes(ReliveAPI::TypesCollectionBase& types) override
@@ -1145,7 +1145,7 @@ struct Editor_InvisibleSwitch final : public MapObjectBase
 
 public:
     Editor_InvisibleSwitch()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_InvisibleSwitch, Path_InvisibleSwitch::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -1167,11 +1167,11 @@ public:
     Path_InvisibleSwitch mTlv;
 };
 
-struct Editor_Water final : public MapObjectBase
+struct Editor_Water final : public MapObjectBaseInterface<Editor_Water, Path_Water::kReliveType>
 {
 public:
     Editor_Water()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_Water, Path_Water::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -1193,7 +1193,7 @@ public:
     Path_Water mTlv;
 };
 
-struct Editor_GasEmitter final : public MapObjectBase
+struct Editor_GasEmitter final : public MapObjectBaseInterface<Editor_GasEmitter, Path_GasEmitter::kReliveType>
 {
     /*
     void AddTypes(ReliveAPI::TypesCollectionBase& types) override
@@ -1210,7 +1210,7 @@ struct Editor_GasEmitter final : public MapObjectBase
 
 public:
     Editor_GasEmitter()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_GasEmitter, Path_GasEmitter::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -1229,7 +1229,7 @@ public:
     Path_GasEmitter mTlv;
 };
 
-struct Editor_BackgroundAnimation final : public MapObjectBase
+struct Editor_BackgroundAnimation final : public MapObjectBaseInterface<Editor_BackgroundAnimation, Path_BackgroundAnimation::kReliveType>
 {
     /*
     void AddTypes(ReliveAPI::TypesCollectionBase& types) override
@@ -1258,7 +1258,7 @@ struct Editor_BackgroundAnimation final : public MapObjectBase
 
 public:
     Editor_BackgroundAnimation()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_BackgroundAnimation, Path_BackgroundAnimation::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -1280,7 +1280,7 @@ public:
     Path_BackgroundAnimation mTlv;
 };
 
-struct Editor_LiftPoint final : public MapObjectBase
+struct Editor_LiftPoint final : public MapObjectBaseInterface<Editor_LiftPoint, Path_LiftPoint::kReliveType>
 {
     /*
     void AddTypes(ReliveAPI::TypesCollectionBase& types) override
@@ -1297,7 +1297,7 @@ struct Editor_LiftPoint final : public MapObjectBase
 
 public:
     Editor_LiftPoint()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_LiftPoint, Path_LiftPoint::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -1319,7 +1319,7 @@ public:
     Path_LiftPoint mTlv;
 };
 
-struct Editor_PullRingRope final : public MapObjectBase
+struct Editor_PullRingRope final : public MapObjectBaseInterface<Editor_PullRingRope, Path_PullRingRope::kReliveType>
 {
     /*
     void AddTypes(ReliveAPI::TypesCollectionBase& types) override
@@ -1342,7 +1342,7 @@ struct Editor_PullRingRope final : public MapObjectBase
 
 public:
     Editor_PullRingRope()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_PullRingRope, Path_PullRingRope::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -1366,11 +1366,11 @@ public:
     Path_PullRingRope mTlv;
 };
 
-struct Editor_MultiSwitchController final : public MapObjectBase
+struct Editor_MultiSwitchController final : public MapObjectBaseInterface<Editor_MultiSwitchController, Path_MultiSwitchController::kReliveType>
 {
 public:
     Editor_MultiSwitchController()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_MultiSwitchController, Path_MultiSwitchController::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -1396,11 +1396,11 @@ public:
     Path_MultiSwitchController mTlv;
 };
 
-struct Editor_SecurityOrb final : public MapObjectBase
+struct Editor_SecurityOrb final : public MapObjectBaseInterface<Editor_SecurityOrb, Path_SecurityOrb::kReliveType>
 {
 public:
     Editor_SecurityOrb()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_SecurityOrb, Path_SecurityOrb::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -1418,11 +1418,11 @@ public:
     Path_SecurityOrb mTlv;
 };
 
-struct Editor_InvisibleZone final : public MapObjectBase
+struct Editor_InvisibleZone final : public MapObjectBaseInterface<Editor_InvisibleZone, Path_InvisibleZone::kReliveType>
 {
 public:
     Editor_InvisibleZone()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_InvisibleZone, Path_InvisibleZone::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -1438,7 +1438,7 @@ public:
     Path_InvisibleZone mTlv;
 };
 
-struct Editor_ContinuePoint final : public MapObjectBase
+struct Editor_ContinuePoint final : public MapObjectBaseInterface<Editor_ContinuePoint, Path_ContinuePoint::kReliveType>
 {
     /*
     void AddTypes(ReliveAPI::TypesCollectionBase& types) override
@@ -1453,7 +1453,7 @@ struct Editor_ContinuePoint final : public MapObjectBase
 
 public:
     Editor_ContinuePoint()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_ContinuePoint, Path_ContinuePoint::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -1477,7 +1477,7 @@ public:
     Path_ContinuePoint mTlv;
 };
 
-struct Editor_WheelSyncer final : public MapObjectBase
+struct Editor_WheelSyncer final : public MapObjectBaseInterface<Editor_WheelSyncer, Path_WheelSyncer::kReliveType>
 {
     /*
     void AddTypes(ReliveAPI::TypesCollectionBase& types) override
@@ -1494,7 +1494,7 @@ struct Editor_WheelSyncer final : public MapObjectBase
 
 public:
     Editor_WheelSyncer()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_WheelSyncer, Path_WheelSyncer::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -1519,11 +1519,11 @@ public:
     Path_WheelSyncer mTlv;
 };
 
-struct Editor_LevelLoader final : public MapObjectBase
+struct Editor_LevelLoader final : public MapObjectBaseInterface<Editor_LevelLoader, Path_LevelLoader::kReliveType>
 {
 public:
     Editor_LevelLoader()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_LevelLoader, Path_LevelLoader::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -1545,11 +1545,11 @@ public:
     Path_LevelLoader mTlv;
 };
 
-struct Editor_Pulley final : public MapObjectBase
+struct Editor_Pulley final : public MapObjectBaseInterface<Editor_Pulley, Path_Pulley::kReliveType>
 {
 public:
     Editor_Pulley()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_Pulley, Path_Pulley::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -1565,11 +1565,11 @@ public:
     Path_Pulley mTlv;
 };
 
-struct Editor_FlyingSlig final : public MapObjectBase
+struct Editor_FlyingSlig final : public MapObjectBaseInterface<Editor_FlyingSlig, Path_FlyingSlig::kReliveType>
 {
 public:
     Editor_FlyingSlig()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_FlyingSlig, Path_FlyingSlig::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -1602,11 +1602,11 @@ public:
     Path_FlyingSlig mTlv;
 };
 
-struct Editor_FlyingSligSpawner final : public MapObjectBase
+struct Editor_FlyingSligSpawner final : public MapObjectBaseInterface<Editor_FlyingSligSpawner, Path_FlyingSligSpawner::kReliveType>
 {
 public:
     Editor_FlyingSligSpawner()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_FlyingSligSpawner, Path_FlyingSligSpawner::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -1639,11 +1639,11 @@ public:
     Path_FlyingSligSpawner mTlv;
 };
 
-struct Editor_DeathDrop final : public MapObjectBase
+struct Editor_DeathDrop final : public MapObjectBaseInterface<Editor_DeathDrop, Path_DeathDrop::kReliveType>
 {
 public:
     Editor_DeathDrop()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_DeathDrop, Path_DeathDrop::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -1659,11 +1659,11 @@ public:
     Path_DeathDrop mTlv;
 };
 
-struct Editor_SligSpawner final : public MapObjectBase
+struct Editor_SligSpawner final : public MapObjectBaseInterface<Editor_SligSpawner, Path_SligSpawner::kReliveType>
 {
 public:
     Editor_SligSpawner()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_SligSpawner, Path_SligSpawner::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -1712,11 +1712,11 @@ public:
     Path_SligSpawner mTlv;
 };
 
-struct Editor_SligBoundLeft final : public MapObjectBase
+struct Editor_SligBoundLeft final : public MapObjectBaseInterface<Editor_SligBoundLeft, Path_SligBoundLeft::kReliveType>
 {
 public:
     Editor_SligBoundLeft()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_SligBoundLeft, Path_SligBoundLeft::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -1732,11 +1732,11 @@ public:
     Path_SligBoundLeft mTlv;
 };
 
-struct Editor_SligBoundRight final : public MapObjectBase
+struct Editor_SligBoundRight final : public MapObjectBaseInterface<Editor_SligBoundRight, Path_SligBoundRight::kReliveType>
 {
 public:
     Editor_SligBoundRight()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_SligBoundRight, Path_SligBoundRight::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -1752,11 +1752,11 @@ public:
     Path_SligBoundRight mTlv;
 };
 
-struct Editor_SligPersist final : public MapObjectBase
+struct Editor_SligPersist final : public MapObjectBaseInterface<Editor_SligPersist, Path_SligPersist::kReliveType>
 {
 public:
     Editor_SligPersist()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_SligPersist, Path_SligPersist::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -1772,11 +1772,11 @@ public:
     Path_SligPersist mTlv;
 };
 
-struct Editor_ZSligCover final : public MapObjectBase
+struct Editor_ZSligCover final : public MapObjectBaseInterface<Editor_ZSligCover, Path_ZSligCover::kReliveType>
 {
 public:
     Editor_ZSligCover()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_ZSligCover, Path_ZSligCover::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -1792,11 +1792,11 @@ public:
     Path_ZSligCover mTlv;
 };
 
-struct Editor_WellLocal final : public MapObjectBase
+struct Editor_WellLocal final : public MapObjectBaseInterface<Editor_WellLocal, Path_WellLocal::kReliveType>
 {
 public:
     Editor_WellLocal()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_WellLocal, Path_WellLocal::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -1829,11 +1829,11 @@ public:
     Path_WellLocal mTlv;
 };
 
-struct Editor_BrewMachine final : public MapObjectBase
+struct Editor_BrewMachine final : public MapObjectBaseInterface<Editor_BrewMachine, Path_BrewMachine::kReliveType>
 {
 public:
     Editor_BrewMachine()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_BrewMachine, Path_BrewMachine::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -1851,7 +1851,7 @@ public:
     Path_BrewMachine mTlv;
 };
 
-struct Editor_Drill final : public MapObjectBase
+struct Editor_Drill final : public MapObjectBaseInterface<Editor_Drill, Path_Drill::kReliveType>
 {
     /*
     void AddTypes(ReliveAPI::TypesCollectionBase& types) override
@@ -1874,7 +1874,7 @@ struct Editor_Drill final : public MapObjectBase
 
 public:
     Editor_Drill()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_Drill, Path_Drill::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -1911,11 +1911,11 @@ public:
     Path_Drill mTlv;
 };
 
-struct Editor_Mine final : public MapObjectBase
+struct Editor_Mine final : public MapObjectBaseInterface<Editor_Mine, Path_Mine::kReliveType>
 {
 public:
     Editor_Mine()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_Mine, Path_Mine::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -1934,11 +1934,11 @@ public:
     Path_Mine mTlv;
 };
 
-struct Editor_Slog final : public MapObjectBase
+struct Editor_Slog final : public MapObjectBaseInterface<Editor_Slog, Path_Slog::kReliveType>
 {
 public:
     Editor_Slog()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_Slog, Path_Slog::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -1964,11 +1964,11 @@ public:
     Path_Slog mTlv;
 };
 
-struct Editor_ResetPath final : public MapObjectBase
+struct Editor_ResetPath final : public MapObjectBaseInterface<Editor_ResetPath, Path_ResetPath::kReliveType>
 {
 public:
     Editor_ResetPath()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_ResetPath, Path_ResetPath::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -1992,7 +1992,7 @@ public:
     Path_ResetPath mTlv;
 };
 
-struct Editor_TrapDoor final : public MapObjectBase
+struct Editor_TrapDoor final : public MapObjectBaseInterface<Editor_TrapDoor, Path_TrapDoor::kReliveType>
 {
     /*
     void AddTypes(ReliveAPI::TypesCollectionBase& types) override
@@ -2005,7 +2005,7 @@ struct Editor_TrapDoor final : public MapObjectBase
 
 public:
     Editor_TrapDoor()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_TrapDoor, Path_TrapDoor::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -2029,11 +2029,11 @@ public:
     Path_TrapDoor mTlv;
 };
 
-struct Editor_PathTransition final : public MapObjectBase
+struct Editor_PathTransition final : public MapObjectBaseInterface<Editor_PathTransition, Path_PathTransition::kReliveType>
 {
 public:
     Editor_PathTransition()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_PathTransition, Path_PathTransition::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -2056,7 +2056,7 @@ public:
     Path_PathTransition mTlv;
 };
 
-struct Editor_LiftMover final : public MapObjectBase
+struct Editor_LiftMover final : public MapObjectBaseInterface<Editor_LiftMover, Path_LiftMover::kReliveType>
 {
     /*
     void AddTypes(ReliveAPI::TypesCollectionBase& types) override
@@ -2070,7 +2070,7 @@ struct Editor_LiftMover final : public MapObjectBase
 
 public:
     Editor_LiftMover()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_LiftMover, Path_LiftMover::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -2090,11 +2090,11 @@ public:
     Path_LiftMover mTlv;
 };
 
-struct Editor_RockSack final : public MapObjectBase
+struct Editor_RockSack final : public MapObjectBaseInterface<Editor_RockSack, Path_RockSack::kReliveType>
 {
 public:
     Editor_RockSack()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_RockSack, Path_RockSack::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -2116,11 +2116,11 @@ public:
     Path_RockSack mTlv;
 };
 
-struct Editor_TimerTrigger final : public MapObjectBase
+struct Editor_TimerTrigger final : public MapObjectBaseInterface<Editor_TimerTrigger, Path_TimerTrigger::kReliveType>
 {
 public:
     Editor_TimerTrigger()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_TimerTrigger, Path_TimerTrigger::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -2143,7 +2143,7 @@ public:
     Path_TimerTrigger mTlv;
 };
 
-struct Editor_MotionDetector final : public MapObjectBase
+struct Editor_MotionDetector final : public MapObjectBaseInterface<Editor_MotionDetector, Path_MotionDetector::kReliveType>
 {
     /*
     void AddTypes(ReliveAPI::TypesCollectionBase& types) override
@@ -2157,7 +2157,7 @@ struct Editor_MotionDetector final : public MapObjectBase
 
 public:
     Editor_MotionDetector()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_MotionDetector, Path_MotionDetector::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -2183,11 +2183,11 @@ public:
     Path_MotionDetector mTlv;
 };
 
-struct Editor_MineCar final : public MapObjectBase
+struct Editor_MineCar final : public MapObjectBaseInterface<Editor_MineCar, Path_MineCar::kReliveType>
 {
 public:
     Editor_MineCar()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_MineCar, Path_MineCar::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -2205,11 +2205,11 @@ public:
     Path_MineCar mTlv;
 };
 
-struct Editor_ExplosionSet final : public MapObjectBase
+struct Editor_ExplosionSet final : public MapObjectBaseInterface<Editor_ExplosionSet, Path_ExplosionSet::kReliveType>
 {
 public:
     Editor_ExplosionSet()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_ExplosionSet, Path_ExplosionSet::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -2235,11 +2235,11 @@ public:
     Path_ExplosionSet mTlv;
 };
 
-struct Editor_ColourfulMeter final : public MapObjectBase
+struct Editor_ColourfulMeter final : public MapObjectBaseInterface<Editor_ColourfulMeter, Path_ColourfulMeter::kReliveType>
 {
 public:
     Editor_ColourfulMeter()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_ColourfulMeter, Path_ColourfulMeter::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -2260,11 +2260,11 @@ public:
     Path_ColourfulMeter mTlv;
 };
 
-struct Editor_Alarm final : public MapObjectBase
+struct Editor_Alarm final : public MapObjectBaseInterface<Editor_Alarm, Path_Alarm::kReliveType>
 {
 public:
     Editor_Alarm()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_Alarm, Path_Alarm::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -2283,11 +2283,11 @@ public:
     Path_Alarm mTlv;
 };
 
-struct Editor_DemoSpawnPoint final : public MapObjectBase
+struct Editor_DemoSpawnPoint final : public MapObjectBaseInterface<Editor_DemoSpawnPoint, Path_DemoSpawnPoint::kReliveType>
 {
 public:
     Editor_DemoSpawnPoint()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_DemoSpawnPoint, Path_DemoSpawnPoint::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -2303,11 +2303,11 @@ public:
     Path_DemoSpawnPoint mTlv;
 };
 
-struct Editor_SlapLock final : public MapObjectBase
+struct Editor_SlapLock final : public MapObjectBaseInterface<Editor_SlapLock, Path_SlapLock::kReliveType>
 {
 public:
     Editor_SlapLock()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_SlapLock, Path_SlapLock::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -2331,11 +2331,11 @@ public:
     Path_SlapLock mTlv;
 };
 
-struct Editor_Slurg final : public MapObjectBase
+struct Editor_Slurg final : public MapObjectBaseInterface<Editor_Slurg, Path_Slurg::kReliveType>
 {
 public:
     Editor_Slurg()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_Slurg, Path_Slurg::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -2356,11 +2356,11 @@ public:
     Path_Slurg mTlv;
 };
 
-struct Editor_DoorBlocker final : public MapObjectBase
+struct Editor_DoorBlocker final : public MapObjectBaseInterface<Editor_DoorBlocker, Path_DoorBlocker::kReliveType>
 {
 public:
     Editor_DoorBlocker()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_DoorBlocker, Path_DoorBlocker::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -2379,11 +2379,11 @@ public:
     Path_DoorBlocker mTlv;
 };
 
-struct Editor_Dove final : public MapObjectBase
+struct Editor_Dove final : public MapObjectBaseInterface<Editor_Dove, Path_Dove::kReliveType>
 {
 public:
     Editor_Dove()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_Dove, Path_Dove::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -2403,11 +2403,11 @@ public:
     Path_Dove mTlv;
 };
 
-struct Editor_BirdPortalExit final : public MapObjectBase
+struct Editor_BirdPortalExit final : public MapObjectBaseInterface<Editor_BirdPortalExit, Path_BirdPortalExit::kReliveType>
 {
 public:
     Editor_BirdPortalExit()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_BirdPortalExit, Path_BirdPortalExit::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -2426,7 +2426,7 @@ public:
     Path_BirdPortalExit mTlv;
 };
 
-struct Editor_DoorFlame final : public MapObjectBase
+struct Editor_DoorFlame final : public MapObjectBaseInterface<Editor_DoorFlame, Path_DoorFlame::kReliveType>
 {
     /*
     void AddTypes(ReliveAPI::TypesCollectionBase& types) override
@@ -2442,7 +2442,7 @@ struct Editor_DoorFlame final : public MapObjectBase
 
 public:
     Editor_DoorFlame()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_DoorFlame, Path_DoorFlame::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -2462,11 +2462,11 @@ public:
     Path_DoorFlame mTlv;
 };
 
-struct Editor_TrainDoor final : public MapObjectBase
+struct Editor_TrainDoor final : public MapObjectBaseInterface<Editor_TrainDoor, Path_TrainDoor::kReliveType>
 {
 public:
     Editor_TrainDoor()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_TrainDoor, Path_TrainDoor::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -2484,11 +2484,11 @@ public:
     Path_TrainDoor mTlv;
 };
 
-struct Editor_Greeter final : public MapObjectBase
+struct Editor_Greeter final : public MapObjectBaseInterface<Editor_Greeter, Path_Greeter::kReliveType>
 {
 public:
     Editor_Greeter()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_Greeter, Path_Greeter::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -2508,11 +2508,11 @@ public:
     Path_Greeter mTlv;
 };
 
-struct Editor_ScrabBoundLeft final : public MapObjectBase
+struct Editor_ScrabBoundLeft final : public MapObjectBaseInterface<Editor_ScrabBoundLeft, Path_ScrabBoundLeft::kReliveType>
 {
 public:
     Editor_ScrabBoundLeft()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_ScrabBoundLeft, Path_ScrabBoundLeft::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -2528,11 +2528,11 @@ public:
     Path_ScrabBoundLeft mTlv;
 };
 
-struct Editor_ScrabBoundRight final : public MapObjectBase
+struct Editor_ScrabBoundRight final : public MapObjectBaseInterface<Editor_ScrabBoundRight, Path_ScrabBoundRight::kReliveType>
 {
 public:
     Editor_ScrabBoundRight()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_ScrabBoundRight, Path_ScrabBoundRight::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -2548,11 +2548,11 @@ public:
     Path_ScrabBoundRight mTlv;
 };
 
-struct Editor_CreditsController final : public MapObjectBase
+struct Editor_CreditsController final : public MapObjectBaseInterface<Editor_CreditsController, Path_CreditsController::kReliveType>
 {
 public:
     Editor_CreditsController()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_CreditsController, Path_CreditsController::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -2563,11 +2563,11 @@ public:
     Path_CreditsController mTlv;
 };
 
-struct Editor_MovieStone final : public MapObjectBase
+struct Editor_MovieStone final : public MapObjectBaseInterface<Editor_MovieStone, Path_MovieStone::kReliveType>
 {
 public:
     Editor_MovieStone()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_MovieStone, Path_MovieStone::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -2587,11 +2587,11 @@ public:
     Path_MovieStone mTlv;
 };
 
-struct Editor_MovingBomb final : public MapObjectBase
+struct Editor_MovingBomb final : public MapObjectBaseInterface<Editor_MovingBomb, Path_MovingBomb::kReliveType>
 {
 public:
     Editor_MovingBomb()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_MovingBomb, Path_MovingBomb::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -2614,11 +2614,11 @@ public:
     Path_MovingBomb mTlv;
 };
 
-struct Editor_MovingBombStopper final : public MapObjectBase
+struct Editor_MovingBombStopper final : public MapObjectBaseInterface<Editor_MovingBombStopper, Path_MovingBombStopper::kReliveType>
 {
 public:
     Editor_MovingBombStopper()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_MovingBombStopper, Path_MovingBombStopper::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -2637,11 +2637,11 @@ public:
     Path_MovingBombStopper mTlv;
 };
 
-struct Editor_SecurityDoor final : public MapObjectBase
+struct Editor_SecurityDoor final : public MapObjectBaseInterface<Editor_SecurityDoor, Path_SecurityDoor::kReliveType>
 {
 public:
     Editor_SecurityDoor()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_SecurityDoor, Path_SecurityDoor::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -2664,7 +2664,7 @@ public:
     Path_SecurityDoor mTlv;
 };
 
-struct Editor_CrawlingSlig final : public MapObjectBase
+struct Editor_CrawlingSlig final : public MapObjectBaseInterface<Editor_CrawlingSlig, Path_CrawlingSlig::kReliveType>
 {
     /*
     void AddTypes(ReliveAPI::TypesCollectionBase& types) override
@@ -2685,7 +2685,7 @@ struct Editor_CrawlingSlig final : public MapObjectBase
 
 public:
     Editor_CrawlingSlig()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_CrawlingSlig, Path_CrawlingSlig::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -2707,11 +2707,11 @@ public:
     Path_CrawlingSlig mTlv;
 };
 
-struct Editor_SligGetPants final : public MapObjectBase
+struct Editor_SligGetPants final : public MapObjectBaseInterface<Editor_SligGetPants, Path_SligGetPants::kReliveType>
 {
 public:
     Editor_SligGetPants()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_SligGetPants, Path_SligGetPants::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -2760,11 +2760,11 @@ public:
     Path_SligGetPants mTlv;
 };
 
-struct Editor_SligGetWings final : public MapObjectBase
+struct Editor_SligGetWings final : public MapObjectBaseInterface<Editor_SligGetWings, Path_SligGetWings::kReliveType>
 {
 public:
     Editor_SligGetWings()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_SligGetWings, Path_SligGetWings::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -2797,7 +2797,7 @@ public:
     Path_SligGetWings mTlv;
 };
 
-struct Editor_CrawlingSligButton final : public MapObjectBase
+struct Editor_CrawlingSligButton final : public MapObjectBaseInterface<Editor_CrawlingSligButton, Path_CrawlingSligButton::kReliveType>
 {
     /*
     void AddTypes(ReliveAPI::TypesCollectionBase& types) override
@@ -2819,7 +2819,7 @@ struct Editor_CrawlingSligButton final : public MapObjectBase
 
 public:
     Editor_CrawlingSligButton()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_CrawlingSligButton, Path_CrawlingSligButton::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -2842,7 +2842,7 @@ public:
     Path_CrawlingSligButton mTlv;
 };
 
-struct Editor_Glukkon final : public MapObjectBase
+struct Editor_Glukkon final : public MapObjectBaseInterface<Editor_Glukkon, Path_Glukkon::kReliveType>
 {
     /*
     void AddTypes(ReliveAPI::TypesCollectionBase& types) override
@@ -2879,7 +2879,7 @@ struct Editor_Glukkon final : public MapObjectBase
 
 public:
     Editor_Glukkon()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_Glukkon, Path_Glukkon::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -2909,11 +2909,11 @@ public:
     Path_Glukkon mTlv;
 };
 
-struct Editor_GlukkonSwitch final : public MapObjectBase
+struct Editor_GlukkonSwitch final : public MapObjectBaseInterface<Editor_GlukkonSwitch, Path_GlukkonSwitch::kReliveType>
 {
 public:
     Editor_GlukkonSwitch()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_GlukkonSwitch, Path_GlukkonSwitch::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -2935,11 +2935,11 @@ public:
     Path_GlukkonSwitch mTlv;
 };
 
-struct Editor_GasCountDown final : public MapObjectBase
+struct Editor_GasCountDown final : public MapObjectBaseInterface<Editor_GasCountDown, Path_GasCountDown::kReliveType>
 {
 public:
     Editor_GasCountDown()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_GasCountDown, Path_GasCountDown::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -2959,11 +2959,11 @@ public:
     Path_GasCountDown mTlv;
 };
 
-struct Editor_FallingItem final : public MapObjectBase
+struct Editor_FallingItem final : public MapObjectBaseInterface<Editor_FallingItem, Path_FallingItem::kReliveType>
 {
 public:
     Editor_FallingItem()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_FallingItem, Path_FallingItem::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -2985,11 +2985,11 @@ public:
     Path_FallingItem mTlv;
 };
 
-struct Editor_BoneBag final : public MapObjectBase
+struct Editor_BoneBag final : public MapObjectBaseInterface<Editor_BoneBag, Path_BoneBag::kReliveType>
 {
 public:
     Editor_BoneBag()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_BoneBag, Path_BoneBag::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -3011,11 +3011,11 @@ public:
     Path_BoneBag mTlv;
 };
 
-struct Editor_SecurityClaw final : public MapObjectBase
+struct Editor_SecurityClaw final : public MapObjectBaseInterface<Editor_SecurityClaw, Path_SecurityClaw::kReliveType>
 {
 public:
     Editor_SecurityClaw()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_SecurityClaw, Path_SecurityClaw::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -3035,7 +3035,7 @@ public:
     Path_SecurityClaw mTlv;
 };
 
-struct Editor_FootSwitch final : public MapObjectBase
+struct Editor_FootSwitch final : public MapObjectBaseInterface<Editor_FootSwitch, Path_FootSwitch::kReliveType>
 {
     /*
     void AddTypes(ReliveAPI::TypesCollectionBase& types) override
@@ -3049,7 +3049,7 @@ struct Editor_FootSwitch final : public MapObjectBase
 
 public:
     Editor_FootSwitch()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_FootSwitch, Path_FootSwitch::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -3070,11 +3070,11 @@ public:
     Path_FootSwitch mTlv;
 };
 
-struct Editor_ZzzSpawner final : public MapObjectBase
+struct Editor_ZzzSpawner final : public MapObjectBaseInterface<Editor_ZzzSpawner, Path_ZzzSpawner::kReliveType>
 {
 public:
     Editor_ZzzSpawner()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_ZzzSpawner, Path_ZzzSpawner::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -3093,7 +3093,7 @@ public:
     Path_ZzzSpawner mTlv;
 };
 
-struct Editor_SlogSpawner final : public MapObjectBase
+struct Editor_SlogSpawner final : public MapObjectBaseInterface<Editor_SlogSpawner, Path_SlogSpawner::kReliveType>
 {
     /*
     void AddTypes(ReliveAPI::TypesCollectionBase& types) override
@@ -3107,7 +3107,7 @@ struct Editor_SlogSpawner final : public MapObjectBase
 
 public:
     Editor_SlogSpawner()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_SlogSpawner, Path_SlogSpawner::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -3132,11 +3132,11 @@ public:
     Path_SlogSpawner mTlv;
 };
 
-struct Editor_MainMenuController final : public MapObjectBase
+struct Editor_MainMenuController final : public MapObjectBaseInterface<Editor_MainMenuController, Path_MainMenuController::kReliveType>
 {
 public:
     Editor_MainMenuController()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_MainMenuController, Path_MainMenuController::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -3147,11 +3147,11 @@ public:
     Path_MainMenuController mTlv;
 };
 
-struct Editor_Scrab final : public MapObjectBase
+struct Editor_Scrab final : public MapObjectBaseInterface<Editor_Scrab, Path_Scrab::kReliveType>
 {
 public:
     Editor_Scrab()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_Scrab, Path_Scrab::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -3182,7 +3182,7 @@ public:
     Path_Scrab mTlv;
 };
 
-struct Editor_ScrabSpawner final : public MapObjectBase
+struct Editor_ScrabSpawner final : public MapObjectBaseInterface<Editor_ScrabSpawner, Path_ScrabSpawner::kReliveType>
 {
     /*
     void AddTypes(ReliveAPI::TypesCollectionBase& types) override
@@ -3197,7 +3197,7 @@ struct Editor_ScrabSpawner final : public MapObjectBase
 
 public:
     Editor_ScrabSpawner()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_ScrabSpawner, Path_ScrabSpawner::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -3233,11 +3233,11 @@ public:
     Path_ScrabSpawner mTlv;
 };
 
-struct Editor_SlurgSpawner final : public MapObjectBase
+struct Editor_SlurgSpawner final : public MapObjectBaseInterface<Editor_SlurgSpawner, Path_SlurgSpawner::kReliveType>
 {
 public:
     Editor_SlurgSpawner()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_SlurgSpawner, Path_SlurgSpawner::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -3264,7 +3264,7 @@ public:
     Path_SlurgSpawner mTlv;
 };
 
-struct Editor_Paramite final : public MapObjectBase
+struct Editor_Paramite final : public MapObjectBaseInterface<Editor_Paramite, Path_Paramite::kReliveType>
 {
     /*
     void AddTypes(ReliveAPI::TypesCollectionBase& types) override
@@ -3279,7 +3279,7 @@ struct Editor_Paramite final : public MapObjectBase
 
 public:
     Editor_Paramite()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_Paramite, Path_Paramite::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -3306,11 +3306,11 @@ public:
     Path_Paramite mTlv;
 };
 
-struct Editor_ParamiteWebLine final : public MapObjectBase
+struct Editor_ParamiteWebLine final : public MapObjectBaseInterface<Editor_ParamiteWebLine, Path_ParamiteWebLine::kReliveType>
 {
 public:
     Editor_ParamiteWebLine()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_ParamiteWebLine, Path_ParamiteWebLine::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -3328,11 +3328,11 @@ public:
     Path_ParamiteWebLine mTlv;
 };
 
-struct Editor_MeatSack final : public MapObjectBase
+struct Editor_MeatSack final : public MapObjectBaseInterface<Editor_MeatSack, Path_MeatSack::kReliveType>
 {
 public:
     Editor_MeatSack()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_MeatSack, Path_MeatSack::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -3354,11 +3354,11 @@ public:
     Path_MeatSack mTlv;
 };
 
-struct Editor_TorturedMudokon final : public MapObjectBase
+struct Editor_TorturedMudokon final : public MapObjectBaseInterface<Editor_TorturedMudokon, Path_TorturedMudokon::kReliveType>
 {
 public:
     Editor_TorturedMudokon()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_TorturedMudokon, Path_TorturedMudokon::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -3377,11 +3377,11 @@ public:
     Path_TorturedMudokon mTlv;
 };
 
-struct Editor_KillUnsavedMuds final : public MapObjectBase
+struct Editor_KillUnsavedMuds final : public MapObjectBaseInterface<Editor_KillUnsavedMuds, Path_KillUnsavedMuds::kReliveType>
 {
 public:
     Editor_KillUnsavedMuds()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_KillUnsavedMuds, Path_KillUnsavedMuds::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -3397,11 +3397,11 @@ public:
     Path_KillUnsavedMuds mTlv;
 };
 
-struct Editor_BackgroundGlukkon final : public MapObjectBase
+struct Editor_BackgroundGlukkon final : public MapObjectBaseInterface<Editor_BackgroundGlukkon, Path_BackgroundGlukkon::kReliveType>
 {
 public:
     Editor_BackgroundGlukkon()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_BackgroundGlukkon, Path_BackgroundGlukkon::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -3420,7 +3420,7 @@ public:
     Path_BackgroundGlukkon mTlv;
 };
 
-struct Editor_BellsongStone final : public MapObjectBase
+struct Editor_BellsongStone final : public MapObjectBaseInterface<Editor_BellsongStone, Path_BellsongStone::kReliveType>
 {
     /*
     void AddTypes(ReliveAPI::TypesCollectionBase& types) override
@@ -3434,7 +3434,7 @@ struct Editor_BellsongStone final : public MapObjectBase
     */
 public:
     Editor_BellsongStone()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_BellsongStone, Path_BellsongStone::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -3456,7 +3456,7 @@ public:
     Path_BellsongStone mTlv;
 };
 
-struct Editor_LightEffect final : public MapObjectBase
+struct Editor_LightEffect final : public MapObjectBaseInterface<Editor_LightEffect, Path_LightEffect::kReliveType>
 {
     /*
     void AddTypes(ReliveAPI::TypesCollectionBase& types) override
@@ -3474,7 +3474,7 @@ struct Editor_LightEffect final : public MapObjectBase
     */
 public:
     Editor_LightEffect()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_LightEffect, Path_LightEffect::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -3495,11 +3495,11 @@ public:
     Path_LightEffect mTlv;
 };
 
-struct Editor_StartController final : public MapObjectBase
+struct Editor_StartController final : public MapObjectBaseInterface<Editor_StartController, Path_StartController::kReliveType>
 {
 public:
     Editor_StartController()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_StartController, Path_StartController::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -3515,11 +3515,11 @@ public:
     Path_StartController mTlv;
 };
 
-struct Editor_HintFly final : public MapObjectBase
+struct Editor_HintFly final : public MapObjectBaseInterface<Editor_HintFly, Path_HintFly::kReliveType>
 {
 public:
     Editor_HintFly()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_HintFly, Path_HintFly::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -3537,11 +3537,11 @@ public:
     Path_HintFly mTlv;
 };
 
-struct Editor_Bat final : public MapObjectBase
+struct Editor_Bat final : public MapObjectBaseInterface<Editor_Bat, Path_Bat::kReliveType>
 {
 public:
     Editor_Bat()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_Bat, Path_Bat::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -3562,11 +3562,11 @@ public:
     Path_Bat mTlv;
 };
 
-struct Editor_BellHammer final : public MapObjectBase
+struct Editor_BellHammer final : public MapObjectBaseInterface<Editor_BellHammer, Path_BellHammer::kReliveType>
 {
 public:
     Editor_BellHammer()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_BellHammer, Path_BellHammer::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -3587,11 +3587,11 @@ public:
     Path_BellHammer mTlv;
 };
 
-struct Editor_ElumPathTrans final : public MapObjectBase
+struct Editor_ElumPathTrans final : public MapObjectBaseInterface<Editor_ElumPathTrans, Path_ElumPathTrans::kReliveType>
 {
 public:
     Editor_ElumPathTrans()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_ElumPathTrans, Path_ElumPathTrans::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -3611,11 +3611,11 @@ public:
     Path_ElumPathTrans mTlv;
 };
 
-struct Editor_ElumStart final : public MapObjectBase
+struct Editor_ElumStart final : public MapObjectBaseInterface<Editor_ElumStart, Path_ElumStart::kReliveType>
 {
 public:
     Editor_ElumStart()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_ElumStart, Path_ElumStart::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -3631,11 +3631,11 @@ public:
     Path_ElumStart mTlv;
 };
 
-struct Editor_ElumWall final : public MapObjectBase
+struct Editor_ElumWall final : public MapObjectBaseInterface<Editor_ElumWall, Path_ElumWall::kReliveType>
 {
 public:
     Editor_ElumWall()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_ElumWall, Path_ElumWall::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -3651,7 +3651,7 @@ public:
     Path_ElumWall mTlv;
 };
 
-struct Editor_RingMudokon final : public MapObjectBase
+struct Editor_RingMudokon final : public MapObjectBaseInterface<Editor_RingMudokon, Path_RingMudokon::kReliveType>
 {
     /*
     void AddTypes(ReliveAPI::TypesCollectionBase& types) override
@@ -3665,7 +3665,7 @@ struct Editor_RingMudokon final : public MapObjectBase
 
 public:
     Editor_RingMudokon()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_RingMudokon, Path_RingMudokon::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -3691,11 +3691,11 @@ public:
     Path_RingMudokon mTlv;
 };
 
-struct Editor_RingCancel final : public MapObjectBase
+struct Editor_RingCancel final : public MapObjectBaseInterface<Editor_RingCancel, Path_RingCancel::kReliveType>
 {
 public:
     Editor_RingCancel()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_RingCancel, Path_RingCancel::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -3711,7 +3711,7 @@ public:
     Path_RingCancel mTlv;
 };
 
-struct Editor_MeatSaw final : public MapObjectBase
+struct Editor_MeatSaw final : public MapObjectBaseInterface<Editor_MeatSaw, Path_MeatSaw::kReliveType>
 {
     /*
     void AddTypes(ReliveAPI::TypesCollectionBase& types) override
@@ -3732,7 +3732,7 @@ struct Editor_MeatSaw final : public MapObjectBase
     */
 public:
     Editor_MeatSaw()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_MeatSaw, Path_MeatSaw::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -3761,11 +3761,11 @@ public:
     Path_MeatSaw mTlv;
 };
 
-struct Editor_ChimeLock final : public MapObjectBase
+struct Editor_ChimeLock final : public MapObjectBaseInterface<Editor_ChimeLock, Path_ChimeLock::kReliveType>
 {
 public:
     Editor_ChimeLock()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_ChimeLock, Path_ChimeLock::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -3787,11 +3787,11 @@ public:
     Path_ChimeLock mTlv;
 };
 
-struct Editor_FlintLockFire final : public MapObjectBase
+struct Editor_FlintLockFire final : public MapObjectBaseInterface<Editor_FlintLockFire, Path_FlintLockFire::kReliveType>
 {
 public:
     Editor_FlintLockFire()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_FlintLockFire, Path_FlintLockFire::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -3810,11 +3810,11 @@ public:
     Path_FlintLockFire mTlv;
 };
 
-struct Editor_MudokonPathTrans final : public MapObjectBase
+struct Editor_MudokonPathTrans final : public MapObjectBaseInterface<Editor_MudokonPathTrans, Path_MudokonPathTrans::kReliveType>
 {
 public:
     Editor_MudokonPathTrans()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_MudokonPathTrans, Path_MudokonPathTrans::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -3829,11 +3829,11 @@ public:
     Path_MudokonPathTrans mTlv;
 };
 
-struct Editor_ScrabNoFall final : public MapObjectBase
+struct Editor_ScrabNoFall final : public MapObjectBaseInterface<Editor_ScrabNoFall, Path_ScrabNoFall::kReliveType>
 {
 public:
     Editor_ScrabNoFall()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_ScrabNoFall, Path_ScrabNoFall::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -3844,7 +3844,7 @@ public:
     Path_ScrabNoFall mTlv;
 };
 
-struct Editor_LiftMudokon final : public MapObjectBase
+struct Editor_LiftMudokon final : public MapObjectBaseInterface<Editor_LiftMudokon, Path_LiftMudokon::kReliveType>
 {
     /*
     void AddTypes(ReliveAPI::TypesCollectionBase& types) override
@@ -3858,7 +3858,7 @@ struct Editor_LiftMudokon final : public MapObjectBase
     */
 public:
     Editor_LiftMudokon()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_LiftMudokon, Path_LiftMudokon::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -3882,11 +3882,11 @@ public:
     Path_LiftMudokon mTlv;
 };
 
-struct Editor_HoneySack final : public MapObjectBase
+struct Editor_HoneySack final : public MapObjectBaseInterface<Editor_HoneySack, Path_HoneySack::kReliveType>
 {
 public:
     Editor_HoneySack()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_HoneySack, Path_HoneySack::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -3905,11 +3905,11 @@ public:
     Path_HoneySack mTlv;
 };
 
-struct Editor_SlingMudokon final : public MapObjectBase
+struct Editor_SlingMudokon final : public MapObjectBaseInterface<Editor_SlingMudokon, Path_SlingMudokon::kReliveType>
 {
 public:
     Editor_SlingMudokon()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_SlingMudokon, Path_SlingMudokon::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -3930,7 +3930,7 @@ public:
     Path_SlingMudokon mTlv;
 };
 
-struct Editor_BeeSwarmHole final : public MapObjectBase
+struct Editor_BeeSwarmHole final : public MapObjectBaseInterface<Editor_BeeSwarmHole, Path_BeeSwarmHole::kReliveType>
 {
     /*
     void AddTypes(ReliveAPI::TypesCollectionBase& types) override
@@ -3945,7 +3945,7 @@ struct Editor_BeeSwarmHole final : public MapObjectBase
     */
 public:
     Editor_BeeSwarmHole()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_BeeSwarmHole, Path_BeeSwarmHole::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -3967,11 +3967,11 @@ public:
     Path_BeeSwarmHole mTlv;
 };
 
-struct Editor_RollingBall final : public MapObjectBase
+struct Editor_RollingBall final : public MapObjectBaseInterface<Editor_RollingBall, Path_RollingBall::kReliveType>
 {
 public:
     Editor_RollingBall()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_RollingBall, Path_RollingBall::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -3993,11 +3993,11 @@ public:
     Path_RollingBall mTlv;
 };
 
-struct Editor_RollingBallStopper final : public MapObjectBase
+struct Editor_RollingBallStopper final : public MapObjectBaseInterface<Editor_RollingBallStopper, Path_RollingBallStopper::kReliveType>
 {
 public:
     Editor_RollingBallStopper()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_RollingBallStopper, Path_RollingBallStopper::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -4018,11 +4018,11 @@ public:
     Path_RollingBallStopper mTlv;
 };
 
-struct Editor_BeeNest final : public MapObjectBase
+struct Editor_BeeNest final : public MapObjectBaseInterface<Editor_BeeNest, Path_BeeNest::kReliveType>
 {
 public:
     Editor_BeeNest()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_BeeNest, Path_BeeNest::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -4044,7 +4044,7 @@ public:
     Path_BeeNest mTlv;
 };
 
-struct Editor_ZBall final : public MapObjectBase
+struct Editor_ZBall final : public MapObjectBaseInterface<Editor_ZBall, Path_ZBall::kReliveType>
 {
     /*
     void AddTypes(ReliveAPI::TypesCollectionBase& types) override
@@ -4066,7 +4066,7 @@ struct Editor_ZBall final : public MapObjectBase
     */
 public:
     Editor_ZBall()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_ZBall, Path_ZBall::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -4086,11 +4086,11 @@ public:
     Path_ZBall mTlv;
 };
 
-struct Editor_Honey final : public MapObjectBase
+struct Editor_Honey final : public MapObjectBaseInterface<Editor_Honey, Path_Honey::kReliveType>
 {
 public:
     Editor_Honey()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_Honey, Path_Honey::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -4106,11 +4106,11 @@ public:
     Path_Honey mTlv;
 };
 
-struct Editor_HoneyDripTarget final : public MapObjectBase
+struct Editor_HoneyDripTarget final : public MapObjectBaseInterface<Editor_HoneyDripTarget, Path_HoneyDripTarget::kReliveType>
 {
 public:
     Editor_HoneyDripTarget()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_HoneyDripTarget, Path_HoneyDripTarget::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override
@@ -4126,11 +4126,11 @@ public:
     Path_HoneyDripTarget mTlv;
 };
 
-struct Editor_Elum final : public MapObjectBase
+struct Editor_Elum final : public MapObjectBaseInterface<Editor_Elum, Path_Elum::kReliveType>
 {
 public:
     Editor_Elum()
-        : MapObjectBase(&mTlv)
+        : MapObjectBaseInterface<Editor_Elum, Path_Elum::kReliveType>(&mTlv)
     { }
 
     void Visit(IReflector& r) override

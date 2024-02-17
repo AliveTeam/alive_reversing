@@ -119,6 +119,7 @@ public:
     RGB16 mRGB;
     Scale mScale = Scale::eFull;
     static constexpr char kClassName[] = "shadow_zone";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eShadowZone;
 };
 
 class Path_SecurityOrb final : public Path_TLV
@@ -131,6 +132,7 @@ public:
     }
     reliveScale mScale = reliveScale::eFull;
     static constexpr char kClassName[] = "security_orb";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eSecurityOrb;
 };
 
 class Path_ContinuePoint final : public Path_TLV
@@ -163,6 +165,7 @@ public:
     Scale mScale = Scale::eFull;
     s16 mSaveFileId = 0;
     static constexpr char kClassName[] = "continue_point";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eContinuePoint;
 };
 
 struct Path_LiftPoint final : public Path_TLV
@@ -186,6 +189,7 @@ struct Path_LiftPoint final : public Path_TLV
     reliveScale mScale = reliveScale::eFull;
     bool mIgnoreLiftMover = false;
     static constexpr char kClassName[] = "lift_point";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eLiftPoint;
 };
 
 struct Path_Dove final : public Path_TLV
@@ -199,6 +203,7 @@ struct Path_Dove final : public Path_TLV
     bool mPixelPerfect = false;
     reliveScale mScale = reliveScale::eFull;
     static constexpr char kClassName[] = "dove";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eDove;
 };
 
 struct Path_RockSack final : public Path_TLV
@@ -214,6 +219,7 @@ struct Path_RockSack final : public Path_TLV
     reliveScale mScale = reliveScale::eFull;
     s16 mRockAmount = 0;
     static constexpr char kClassName[] = "rock_sack";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eRockSack;
 };
 
 struct Path_ZBall final : public Path_TLV
@@ -240,6 +246,7 @@ struct Path_ZBall final : public Path_TLV
     reliveScale mScale = reliveScale::eFull;
     Speed mSpeed = Speed::eNormal;
     static constexpr char kClassName[] = "z_ball";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eZBall;
 };
 
 struct Path_FallingItem final : public Path_TLV
@@ -255,6 +262,7 @@ struct Path_FallingItem final : public Path_TLV
     s16 mMaxFallingItems = 0;
     bool mResetSwitchIdAfterUse = true;
     static constexpr char kClassName[] = "falling_item";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eFallingItem;
 };
 
 struct Path_PullRingRope final : public Path_TLV
@@ -287,6 +295,7 @@ struct Path_PullRingRope final : public Path_TLV
     PullRingSwitchSound mOffSound = PullRingSwitchSound::eNone;
     PullRingSoundDirection mSoundDirection = PullRingSoundDirection::eLeftAndRight;
     static constexpr char kClassName[] = "pull_ring_rope";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::ePullRingRope;
 };
 
 struct Path_TimedMine final : public Path_TLV
@@ -327,6 +336,7 @@ struct Path_Hoist final : public Path_TLV
     // AE only
     reliveScale mScale = reliveScale::eFull;
     static constexpr char kClassName[] = "hoist";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eHoist;
 };
 
 struct Path_TrapDoor final : public Path_TLV
@@ -351,6 +361,7 @@ struct Path_TrapDoor final : public Path_TLV
     // AE only
     s16 mStayOpenTime = 0;
     static constexpr char kClassName[] = "trap_door";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eTrapDoor;
 };
 
 struct Path_LCDScreen final : public Path_TLV
@@ -368,6 +379,7 @@ struct Path_LCDScreen final : public Path_TLV
     s16 mMessageId2 = 0;
     s32 mToggleMessageSwitchId = 0;
     static constexpr char kClassName[] = "lcd_screen";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eLCDScreen;
 };
 
 struct Path_Mine final : public Path_TLV
@@ -380,6 +392,7 @@ struct Path_Mine final : public Path_TLV
     reliveScale mScale = reliveScale::eFull;
     bool mPersistOffscreen = true;
     static constexpr char kClassName[] = "mine";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eMine;
 };
 
 struct Path_InvisibleSwitch final : public Path_TLV
@@ -401,6 +414,7 @@ struct Path_InvisibleSwitch final : public Path_TLV
     };
     InvisibleSwitchScale mScale = InvisibleSwitchScale::eFull;
     static constexpr char kClassName[] = "invisible_switch";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eInvisibleSwitch;
 };
 
 struct Path_ElectricWall final : public Path_TLV
@@ -419,6 +433,7 @@ struct Path_ElectricWall final : public Path_TLV
     };
     ElectricWallStartState mStartState = ElectricWallStartState::eOn;
     static constexpr char kClassName[] = "electric_wall";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eElectricWall;
 };
 
 struct Path_BoomMachine final : public Path_TLV
@@ -437,6 +452,7 @@ struct Path_BoomMachine final : public Path_TLV
     NozzleSide mNozzleSide = NozzleSide::eRight;
     s16 mGrenadeAmount = 0;
     static constexpr char kClassName[] = "boom_machine";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eBoomMachine;
 };
 
 struct Path_UXB final : public Path_TLV
@@ -456,6 +472,7 @@ struct Path_UXB final : public Path_TLV
     reliveScale mScale = reliveScale::eFull;
     StartState mStartState = StartState::eOn;
     static constexpr char kClassName[] = "uxb";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eUXB;
 };
 
 struct Path_MeatSaw final : public Path_TLV
@@ -488,6 +505,7 @@ struct Path_MeatSaw final : public Path_TLV
     s16 mAutomaticMaxTimeOff = 0;
     s16 mStartAtBottom = 0;
     static constexpr char kClassName[] = "meat_saw";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eMeatSaw;
 };
 
 struct Path_Lever final : public Path_TLV
@@ -525,6 +543,7 @@ struct Path_Lever final : public Path_TLV
     // AE only
     bool mPersistOffscreen = true;
     static constexpr char kClassName[] = "lever";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eLever;
 };
 
 struct Path_Edge final : public Path_TLV
@@ -546,6 +565,7 @@ struct Path_Edge final : public Path_TLV
     // AE only
     reliveScale mScale = reliveScale::eFull;
     static constexpr char kClassName[] = "edge";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eEdge;
 };
 
 struct Path_BirdPortal final : public Path_TLV
@@ -583,6 +603,7 @@ struct Path_BirdPortal final : public Path_TLV
     s16 mCreatePortalSwitchId = 0;
     s16 mDeletePortalSwitchId = 0;
     static constexpr char kClassName[] = "bird_portal";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eBirdPortal;
 };
 
 struct Path_BirdPortalExit final : public Path_TLV
@@ -595,6 +616,7 @@ struct Path_BirdPortalExit final : public Path_TLV
     Path_BirdPortal::PortalSide mExitSide = Path_BirdPortal::PortalSide::eRight;
     reliveScale mScale = reliveScale::eFull;
     static constexpr char kClassName[] = "bird_portal_exit";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eBirdPortalExit;
 };
 
 struct Path_LightEffect final : public Path_TLV
@@ -618,6 +640,7 @@ struct Path_LightEffect final : public Path_TLV
     s16 mSwitchId = 0;
     reliveXDirection mDirection = reliveXDirection::eRight;
     static constexpr char kClassName[] = "light_effect";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eLightEffect;
 };
 
 struct Path_MusicTrigger final : public Path_TLV
@@ -652,6 +675,7 @@ struct Path_MusicTrigger final : public Path_TLV
     s16 mSwitchId = 0; // AO only
     s16 mMusicDelay = 0;
     static constexpr char kClassName[] = "music_trigger";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eMusicTrigger;
 };
 
 struct Path_SoftLanding final : public Path_TLV
@@ -664,6 +688,7 @@ struct Path_SoftLanding final : public Path_TLV
     // AE only
     s32 mSwitchId = 0;
     static constexpr char kClassName[] = "soft_landing";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eSoftLanding;
 };
 
 struct Path_LiftMover final : public Path_TLV
@@ -682,6 +707,7 @@ struct Path_LiftMover final : public Path_TLV
     };
     YDirection mMoveDirection = YDirection::eDown;
     static constexpr char kClassName[] = "lift_mover";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eLiftMover;
 };
 
 struct Path_HintFly final : public Path_TLV
@@ -692,6 +718,7 @@ struct Path_HintFly final : public Path_TLV
     }
     s16 mMessageId = 0;
     static constexpr char kClassName[] = "hint_fly";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eHintFly;
 };
 
 struct Path_TimerTrigger final : public Path_TLV
@@ -708,6 +735,7 @@ struct Path_TimerTrigger final : public Path_TLV
     s16 mOutputSwitchId3 = 0;
     s16 mOutputSwitchId4 = 0;
     static constexpr char kClassName[] = "timer_trigger";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eTimerTrigger;
 };
 
 struct Path_FlintLockFire final : public Path_TLV
@@ -719,6 +747,7 @@ struct Path_FlintLockFire final : public Path_TLV
     reliveScale mScale = reliveScale::eFull;
     s16 mSwitchId = 0;
     static constexpr char kClassName[] = "flint_lock_fire";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eFlintLockFire;
 };
 
 struct Path_HoneySack final : public Path_TLV
@@ -730,6 +759,7 @@ struct Path_HoneySack final : public Path_TLV
     s16 mChaseTime = 0;
     reliveScale mScale = reliveScale::eFull;
     static constexpr char kClassName[] = "honey_sack";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eHoneySack;
 };
 
 struct Path_Bat final : public Path_TLV
@@ -743,6 +773,7 @@ struct Path_Bat final : public Path_TLV
     reliveScale mScale = reliveScale::eFull;
     s16 mAttackDuration = 0;
     static constexpr char kClassName[] = "bat";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eBat;
 };
 
 struct Path_RollingBallStopper final : public Path_TLV
@@ -756,6 +787,8 @@ struct Path_RollingBallStopper final : public Path_TLV
     s16 mBallSwitchId = 0;
     reliveXDirection mStopDirection = reliveXDirection::eRight;
     static constexpr char kClassName[] = "rolling_ball_stopper";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eRollingBallStopper;
+
 };
 
 struct Path_RollingBall final : public Path_TLV
@@ -771,6 +804,7 @@ struct Path_RollingBall final : public Path_TLV
     u16 mMaxSpeed = 0;
     u16 mAcceleration = 0;
     static constexpr char kClassName[] = "rolling_ball";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eRollingBall;
 };
 
 struct Path_MotionDetector final : public Path_TLV
@@ -795,6 +829,7 @@ struct Path_MotionDetector final : public Path_TLV
     s16 mAlarmSwitchId = 0;
     s16 mAlarmDuration = 0;
     static constexpr char kClassName[] = "motion_detector";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eMotionDetector;
 };
 
 struct Path_BellHammer final : public Path_TLV
@@ -808,6 +843,7 @@ struct Path_BellHammer final : public Path_TLV
     reliveScale mScale = reliveScale::eFull;
     reliveXDirection mDirection = reliveXDirection::eRight;
     static constexpr char kClassName[] = "bell_hammer";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eBellHammer;
 };
 
 struct Path_SligBound : public Path_TLV
@@ -828,6 +864,7 @@ struct Path_SligBoundLeft final : public Path_SligBound
     }
     // Empty
     static constexpr char kClassName[] = "slig_bound_left";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eSligBoundLeft;
 };
 
 struct Path_SligBoundRight final : public Path_SligBound
@@ -839,6 +876,7 @@ struct Path_SligBoundRight final : public Path_SligBound
     }
     // Empty
     static constexpr char kClassName[] = "slig_bound_right";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eScrabRightBound;
 };
 
 struct Path_SligPersist final : public Path_SligBound
@@ -850,6 +888,7 @@ struct Path_SligPersist final : public Path_SligBound
     }
     // Empty
     static constexpr char kClassName[] = "slig_persist";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eSligPersist;
 };
 
 struct Path_BackgroundAnimation final : public Path_TLV
@@ -880,6 +919,7 @@ struct Path_BackgroundAnimation final : public Path_TLV
     };
     Layer mLayer = Layer::eLayer0;
     static constexpr char kClassName[] = "background_animation";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eBackgroundAnimation;
 };
 
 struct Path_MainMenuController final : public Path_TLV
@@ -891,6 +931,7 @@ struct Path_MainMenuController final : public Path_TLV
         mAttribute = QuiksaveAttribute::eDoNothing_0;
     }
     static constexpr char kClassName[] = "main_menu_controller";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eMainMenuController;
 };
 
 struct Path_ElumWall final : public Path_TLV
@@ -901,6 +942,7 @@ struct Path_ElumWall final : public Path_TLV
         mTlvType = ReliveTypes::eElumWall;
     }
     static constexpr char kClassName[] = "elum_wall";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eElumWall;
 };
 
 struct Path_ElumStart final : public Path_TLV
@@ -911,6 +953,7 @@ struct Path_ElumStart final : public Path_TLV
         mTlvType = ReliveTypes::eElumStart;
     }
     static constexpr char kClassName[] = "elum_start";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eElumStart;
 };
 
 struct Path_Elum final : public Path_TLV
@@ -921,6 +964,7 @@ struct Path_Elum final : public Path_TLV
         mTlvType = ReliveTypes::eElum;
     }
     static constexpr char kClassName[] = "elum";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eElum;
 };
 
 struct Path_KillUnsavedMuds final : public Path_TLV
@@ -932,6 +976,7 @@ struct Path_KillUnsavedMuds final : public Path_TLV
         mAttribute = QuiksaveAttribute::eClearTlvFlags_1;
     }
     static constexpr char kClassName[] = "kill_unsaved_muds";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eKillUnsavedMuds;
 };
 
 struct Path_InvisibleZone final : public Path_TLV
@@ -943,6 +988,7 @@ struct Path_InvisibleZone final : public Path_TLV
         mAttribute = QuiksaveAttribute::eDoNothing_0;
     }
     static constexpr char kClassName[] = "invisible_zone";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eInvisibleZone;
 };
 
 struct Path_StartController final : public Path_TLV
@@ -953,6 +999,7 @@ struct Path_StartController final : public Path_TLV
         mTlvType = ReliveTypes::eStartController;
     }
     static constexpr char kClassName[] = "start_controller";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eStartController;
 };
 
 struct Path_ScrabNoFall final : public Path_TLV
@@ -963,6 +1010,7 @@ struct Path_ScrabNoFall final : public Path_TLV
         mTlvType = ReliveTypes::eScrabNoFall;
     }
     static constexpr char kClassName[] = "scrab_no_fall";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eScrabNoFall;
 };
 
 struct Path_ScrabBoundLeft final : public Path_TLV
@@ -974,6 +1022,7 @@ struct Path_ScrabBoundLeft final : public Path_TLV
         mAttribute = QuiksaveAttribute::eDoNothing_0;
     }
     static constexpr char kClassName[] = "scrab_bound_left";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eScrabLeftBound;
 };
 
 struct Path_ScrabBoundRight final : public Path_TLV
@@ -985,6 +1034,7 @@ struct Path_ScrabBoundRight final : public Path_TLV
         mAttribute = QuiksaveAttribute::eDoNothing_0;
     }
     static constexpr char kClassName[] = "scrab_bound_right";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eScrabRightBound;
 };
 
 struct Path_HoneyDripTarget final : public Path_TLV
@@ -995,6 +1045,7 @@ struct Path_HoneyDripTarget final : public Path_TLV
         mTlvType = ReliveTypes::eHoneyDripTarget;
     }
     static constexpr char kClassName[] = "honey_drip_target";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eHoneyDripTarget;
 };
 
 struct Path_ZSligCover final : public Path_TLV
@@ -1006,6 +1057,7 @@ struct Path_ZSligCover final : public Path_TLV
         mAttribute = QuiksaveAttribute::eDoNothing_0;
     }
     static constexpr char kClassName[] = "z_slig_cover";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eZSligCover;
 };
 
 struct Path_DeathDrop final : public Path_TLV
@@ -1017,6 +1069,7 @@ struct Path_DeathDrop final : public Path_TLV
         mAttribute = QuiksaveAttribute::eDoNothing_0;
     }
     static constexpr char kClassName[] = "death_drop";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eDeathDrop;
 };
 
 struct Path_ChimeLock final : public Path_TLV
@@ -1031,6 +1084,7 @@ struct Path_ChimeLock final : public Path_TLV
     s16 mCode2 = 0;
     s16 mPasswordSwitchId = 0;
     static constexpr char kClassName[] = "chime_lock";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eChimeLock;
 };
 
 struct Path_LCDStatusBoard final : public Path_TLV
@@ -1045,6 +1099,7 @@ struct Path_LCDStatusBoard final : public Path_TLV
     s16 mZulagNumber = 0;
     bool mHideBoard = false;
     static constexpr char kClassName[] = "lcd_status_board";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eLCDStatusBoard;
 };
 
 struct Path_CreditsController final : public Path_TLV
@@ -1056,6 +1111,7 @@ struct Path_CreditsController final : public Path_TLV
         mAttribute = QuiksaveAttribute::eDoNothing_0;
     }
     static constexpr char kClassName[] = "credits_controller";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eCreditsController;
 };
 
 struct Path_ResetPath final : public Path_TLV
@@ -1075,6 +1131,7 @@ struct Path_ResetPath final : public Path_TLV
     // AE only
     bool mEnabled = true;
     static constexpr char kClassName[] = "reset_path";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eResetPath;
 };
 
 struct Path_MeatSack final : public Path_TLV
@@ -1090,6 +1147,7 @@ struct Path_MeatSack final : public Path_TLV
     reliveScale mScale = reliveScale::eFull;
     s16 mMeatAmount = 0;
     static constexpr char kClassName[] = "meat_sack";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eMeatSack;
 };
 
 struct Path_BeeNest final : public Path_TLV
@@ -1104,6 +1162,7 @@ struct Path_BeeNest final : public Path_TLV
     s16 mSpeed = 0;
     s16 mBeesAmount = 0;
     static constexpr char kClassName[] = "bee_nest";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eBeeNest;
 };
 
 struct Path_BellsongStone final : public Path_TLV
@@ -1123,6 +1182,7 @@ struct Path_BellsongStone final : public Path_TLV
     s16 mCode2 = 0;
     s16 mSwitchId = 0;
     static constexpr char kClassName[] = "bellsong_stone";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eBellSongStone;
 };
 
 struct Path_MovieStone final : public Path_TLV
@@ -1138,6 +1198,7 @@ struct Path_MovieStone final : public Path_TLV
     // AE only
     s32 mTriggerSwitchId = 0;
     static constexpr char kClassName[] = "movie_stone";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eMovieHandStone;
 };
 
 struct Path_HandStone final : public Path_TLV
@@ -1163,6 +1224,7 @@ struct Path_HandStone final : public Path_TLV
     EReliveLevelIds mLevel3 = EReliveLevelIds::eNone;
     s16 mPath3 = 0;
     static constexpr char kClassName[] = "hand_stone";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eHandStone;
 };
 
 struct Path_PathTransition final : public Path_TLV
@@ -1179,6 +1241,7 @@ struct Path_PathTransition final : public Path_TLV
     s16 mWipeEffect = 0; // TODO: enum
     reliveScale mNextPathScale = reliveScale::eFull;
     static constexpr char kClassName[] = "path_transition";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::ePathTransition;
 };
 
 struct Path_Pulley final : public Path_TLV
@@ -1190,6 +1253,7 @@ struct Path_Pulley final : public Path_TLV
     }
     // No fields
     static constexpr char kClassName[] = "pulley";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::ePulley;
 };
 
 struct Path_Honey final : public Path_TLV
@@ -1200,6 +1264,7 @@ struct Path_Honey final : public Path_TLV
     }
     // No fields
     static constexpr char kClassName[] = "honey";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eHoney;
 };
 
 struct Path_BeeSwarmHole final : public Path_TLV
@@ -1220,6 +1285,7 @@ struct Path_BeeSwarmHole final : public Path_TLV
     s16 mChaseTime = 0;
     s16 mSpeed = 0;
     static constexpr char kClassName[] = "bee_swarm_hole";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eBeeSwarmHole;
 };
 
 struct Path_Door final : public Path_TLV
@@ -1279,6 +1345,7 @@ struct Path_Door final : public Path_TLV
     bool mCloseOnExit = false;
     bool mClearThrowables = false;
     static constexpr char kClassName[] = "door";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eDoor;
 };
 
 struct Path_AbeStart final : public Path_TLV
@@ -1291,6 +1358,7 @@ struct Path_AbeStart final : public Path_TLV
 
     // No fields
     static constexpr char kClassName[] = "abe_start";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eAbeStart;
 };
 
 struct Path_EnemyStopper final : public Path_TLV
@@ -1309,6 +1377,7 @@ struct Path_EnemyStopper final : public Path_TLV
     StopDirection mStopDirection = StopDirection::Both;
     s16 mSwitchId = 0;
     static constexpr char kClassName[] = "enemy_stopper";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eEnemyStopper;
 };
 
 struct Path_MovingBombStopper final : public Path_TLV
@@ -1321,6 +1390,7 @@ struct Path_MovingBombStopper final : public Path_TLV
     s16 mMinStopTime = 0;
     s16 mMaxStopTime = 0;
     static constexpr char kClassName[] = "moving_bomb_stopper";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eMovingBombStopper;
 };
 
 struct Path_DoorFlame final : public Path_TLV
@@ -1341,6 +1411,7 @@ struct Path_DoorFlame final : public Path_TLV
     reliveScale mScale = reliveScale::eFull;
     Colour mColour = Colour::eDefault;
     static constexpr char kClassName[] = "door_flame";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eDoorFlame;
 };
 
 struct Path_Mudokon final : public Path_TLV
@@ -1384,6 +1455,7 @@ struct Path_Mudokon final : public Path_TLV
     s16 mRingPulseInterval = 0;
     bool mGiveRingWithoutPassword = false;
     static constexpr char kClassName[] = "mudokon";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eMudokon;
 };
 
 struct Path_MovingBomb final : public Path_TLV
@@ -1400,6 +1472,7 @@ struct Path_MovingBomb final : public Path_TLV
     u16 mStartSpeed = 0;
     bool mPersistOffscreen = true;
     static constexpr char kClassName[] = "moving_bomb";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eMovingBomb;
 };
 
 struct Path_ElumPathTrans final : public Path_TLV
@@ -1412,6 +1485,7 @@ struct Path_ElumPathTrans final : public Path_TLV
     s16 mNextPath = 0;
     s16 mNextCamera = 0;
     static constexpr char kClassName[] = "elum_path_trans";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eElumPathTrans;
 };
 
 struct Path_MudokonPathTrans final : public Path_TLV
@@ -1424,6 +1498,7 @@ struct Path_MudokonPathTrans final : public Path_TLV
     s16 mNextPath = 0;
     s32 mNextCamera = 0;
     static constexpr char kClassName[] = "mudokon_path_trans";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eMudokonPathTrans;
 };
 
 struct Path_SecurityClaw final : public Path_TLV
@@ -1437,6 +1512,7 @@ struct Path_SecurityClaw final : public Path_TLV
     s16 mAlarmSwitchId = 0;
     s16 mAlarmDuration = 0;
     static constexpr char kClassName[] = "security_claw";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eSecurityClaw;
 };
 
 struct Path_SlingMudokon final : public Path_TLV
@@ -1450,6 +1526,7 @@ struct Path_SlingMudokon final : public Path_TLV
     s16 mCode1 = 0;
     s16 mCode2 = 0;
     static constexpr char kClassName[] = "sling_mudokon";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::SlingMud;
 };
 
 struct Path_FootSwitch final : public Path_TLV
@@ -1469,6 +1546,7 @@ struct Path_FootSwitch final : public Path_TLV
     reliveSwitchOp mAction = reliveSwitchOp::eSetTrue;
     FootSwitchTriggerBy mTriggeredBy = FootSwitchTriggerBy::eAbe;
     static constexpr char kClassName[] = "foot_switch";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eFootSwitch;
 };
 
 struct Path_Paramite final : public Path_TLV
@@ -1497,6 +1575,7 @@ struct Path_Paramite final : public Path_TLV
     // AE only
     bool mAttackFleeches = true;
     static constexpr char kClassName[] = "paramite";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eParamite;
 };
 
 struct Path_ZzzSpawner final : public Path_TLV
@@ -1510,6 +1589,7 @@ struct Path_ZzzSpawner final : public Path_TLV
     s16 mSwitchId = 0;
     s16 mZzzInterval = 0;
     static constexpr char kClassName[] = "zzz_spawner";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eZzzSpawner;
 };
 
 struct Path_BackgroundGlukkon final : public Path_TLV
@@ -1521,6 +1601,7 @@ struct Path_BackgroundGlukkon final : public Path_TLV
     s16 mScalePercent = 0;
     u16 mPalId = 0;
     static constexpr char kClassName[] = "background_glukkon";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eBackgroundGlukkon;
 };
 
 struct Path_GasEmitter final : public Path_TLV
@@ -1542,6 +1623,7 @@ struct Path_GasEmitter final : public Path_TLV
     s16 mSwitchId = 0;
     GasColour mColour = GasColour::eYellow;
     static constexpr char kClassName[] = "gas_emitter";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eGasEmitter;
 };
 
 struct Path_GasCountDown final : public Path_TLV
@@ -1557,6 +1639,7 @@ struct Path_GasCountDown final : public Path_TLV
     u16 mGasCountdownTimer = 0;
     s16 mStopTimerSwitchId = 0;
     static constexpr char kClassName[] = "gas_countdown";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eGasCountDown;
 };
 
 struct Path_RingCancel : public Path_TLV
@@ -1567,6 +1650,7 @@ struct Path_RingCancel : public Path_TLV
     }
     bool mRemovesShrykull = false;
     static constexpr char kClassName[] = "ring_cancel";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eRingCancel;
 };
 
 struct Path_SecurityDoor final : public Path_TLV
@@ -1583,6 +1667,7 @@ struct Path_SecurityDoor final : public Path_TLV
     s16 mXPos = 0;
     s16 mYPos = 0;
     static constexpr char kClassName[] = "security_door";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eSecurityDoor;
 };
 
 struct Path_LiftMudokon final : public Path_TLV
@@ -1604,6 +1689,7 @@ struct Path_LiftMudokon final : public Path_TLV
     s16 mCode1 = 0;
     s16 mCode2 = 0;
     static constexpr char kClassName[] = "lift_mudokon";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eLiftMudokon;
 };
 
 struct Path_RingMudokon final : public Path_TLV
@@ -1627,6 +1713,7 @@ struct Path_RingMudokon final : public Path_TLV
     s16 mRingTimeout = 0;
     bool mGiveRingWithoutPassword = true;
     static constexpr char kClassName[] = "ring_mudokon";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eRingMudokon;
 };
 
 struct Path_WellBase : public Path_TLV
@@ -1662,6 +1749,7 @@ struct Path_WellLocal final : public relive::Path_WellBase
     s16 mLeafX = 0;
     s16 mLeafY = 0;
     static constexpr char kClassName[] = "well_local";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eWellLocal;
 };
 
 struct Path_WellExpress final : public relive::Path_WellBase
@@ -1682,6 +1770,7 @@ struct Path_WellExpress final : public relive::Path_WellBase
     s16 mLeafY = 0;
     s16 mMovieId = 0;
     static constexpr char kClassName[] = "well_express";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eWellExpress;
 };
 
 struct Path_Slog final : public Path_TLV
@@ -1703,6 +1792,7 @@ struct Path_Slog final : public Path_TLV
     // AE only
     s16 mBoneEatingTime = 0;
     static constexpr char kClassName[] = "slog";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eSlog;
 };
 
 struct Path_SlogSpawner final : public Path_TLV
@@ -1728,6 +1818,7 @@ struct Path_SlogSpawner final : public Path_TLV
     bool mListenToSligs = false;
     s16 mChaseDelay = 0;
     static constexpr char kClassName[] = "slog_spawner";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eSlogSpawner;
 };
 
 
@@ -1764,6 +1855,7 @@ struct Path_Scrab : public Path_TLV
     s16 mPossessedMaxWhirlAttackDuration = 0;
     bool mKillEnemy = true;
     static constexpr char kClassName[] = "scrab";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eScrab;
 };
 
 
@@ -1784,6 +1876,7 @@ struct Path_ScrabSpawner : public Path_Scrab
     s16 mSpawnerSwitchId = 0;
     SpawnDirection mFacing = SpawnDirection::eNone;
     static constexpr char kClassName[] = "scrab_spawner";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eScrabSpawner;
 };
 
 struct Path_Slig_Data final
@@ -1853,6 +1946,7 @@ struct Path_Slig final : public Path_TLV
     }
     Path_Slig_Data mData;
     static constexpr char kClassName[] = "slig";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eSlig;
 };
 
 struct Path_SligSpawner final : public Path_TLV
@@ -1865,6 +1959,7 @@ struct Path_SligSpawner final : public Path_TLV
 
     Path_Slig_Data mData;
     static constexpr char kClassName[] = "slig_spawner";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eSligSpawner;
 };
 
 struct Path_TrainDoor final : public Path_TLV
@@ -1876,6 +1971,7 @@ struct Path_TrainDoor final : public Path_TLV
     }
     reliveXDirection mDirection = reliveXDirection::eRight;
     static constexpr char kClassName[] = "train_door";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eTrainDoor;
 };
 
 struct Path_TorturedMudokon final : public Path_TLV
@@ -1888,6 +1984,7 @@ struct Path_TorturedMudokon final : public Path_TLV
     s16 mKillSwitchId = 0;
     s16 mReleaseSwitchId = 0;
     static constexpr char kClassName[] = "tortured_mudokon";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eTorturedMud;
 };
 
 struct Path_DoorBlocker final : public Path_TLV
@@ -1900,6 +1997,7 @@ struct Path_DoorBlocker final : public Path_TLV
     reliveScale mScale = reliveScale::eFull;
     s16 mSwitchId = 0;
     static constexpr char kClassName[] = "door_blocker";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eDoorBlocker;
 };
 
 struct Path_GlukkonSwitch final : public Path_TLV
@@ -1915,6 +2013,7 @@ struct Path_GlukkonSwitch final : public Path_TLV
     u16 mXPos = 0;
     u16 mYPos = 0;
     static constexpr char kClassName[] = "glukkon_switch";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eGlukkonSwitch;
 };
 
 struct Path_Greeter final : public Path_TLV
@@ -1928,6 +2027,7 @@ struct Path_Greeter final : public Path_TLV
     s16 mMotionDetectorSpeed = 0;
     reliveXDirection mFacing = reliveXDirection::eRight;
     static constexpr char kClassName[] = "greeter";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eGreeter;
 };
 
 struct Path_BrewMachine final : public Path_TLV
@@ -1939,6 +2039,7 @@ struct Path_BrewMachine final : public Path_TLV
     }
     s16 mBrewCount = 0;
     static constexpr char kClassName[] = "brew_machine";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eBrewMachine;
 };
 
 struct Path_Alarm final : public Path_TLV
@@ -1951,6 +2052,7 @@ struct Path_Alarm final : public Path_TLV
     s16 mSwitchId = 0;
     u16 mAlarmDuration = 0;
     static constexpr char kClassName[] = "alarm";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eAlarm;
 };
 
 struct Path_ParamiteWebLine final : public Path_TLV
@@ -1962,6 +2064,7 @@ struct Path_ParamiteWebLine final : public Path_TLV
     }
     reliveScale mScale = reliveScale::eFull;
     static constexpr char kClassName[] = "paramite_web_line";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eParamiteWebLine;
 };
 
 struct Path_SlapLock final : public Path_TLV
@@ -1979,6 +2082,7 @@ struct Path_SlapLock final : public Path_TLV
     s16 mInvisibilityDuration = 0;
     s16 mSlapOutputSwitchId = 0;
     static constexpr char kClassName[] = "slap_lock";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eSlapLock;
 };
 
 struct Path_StatusLight final : public Path_TLV
@@ -1997,6 +2101,7 @@ struct Path_StatusLight final : public Path_TLV
     s16 mLinkedStatusLightSwitchId5 = 0;
     bool mIgnoreGridSnapping = false;
     static constexpr char kClassName[] = "status_light";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eStatusLight;
 };
 
 struct Path_MultiSwitchController final : public Path_TLV
@@ -2016,6 +2121,7 @@ struct Path_MultiSwitchController final : public Path_TLV
     u16 mInputSwitchId5 = 0;
     u16 mInputSwitchId6 = 0;
     static constexpr char kClassName[] = "multi_switch_controller";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eMultiSwitchController;
 };
 
 struct Path_ExplosionSet final : public Path_TLV
@@ -2035,6 +2141,7 @@ struct Path_ExplosionSet final : public Path_TLV
     s16 mIncreasingGridSpacing = 0;
     reliveScale mScale = reliveScale::eFull;
     static constexpr char kClassName[] = "explosion_set";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eExplosionSet;
 };
 
 struct Path_BoneBag final : public Path_TLV
@@ -2050,6 +2157,7 @@ struct Path_BoneBag final : public Path_TLV
     reliveScale mScale = reliveScale::eFull;
     s16 mBoneAmount = 0;
     static constexpr char kClassName[] = "bone_bag";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eBoneBag;
 };
 
 struct Path_MineCar final : public Path_TLV
@@ -2061,6 +2169,7 @@ struct Path_MineCar final : public Path_TLV
     }
     reliveScale mScale = reliveScale::eFull;
     static constexpr char kClassName[] = "mine_car";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eMineCar;
 };
 
 struct Path_ColourfulMeter final : public Path_TLV
@@ -2075,6 +2184,7 @@ struct Path_ColourfulMeter final : public Path_TLV
     s16 mMinesAlarmCountdown = 0;
     bool mStartFilled = false;
     static constexpr char kClassName[] = "colourful_meter";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eColourfulMeter;
 };
 
 struct Path_DemoSpawnPoint final : public Path_TLV
@@ -2086,6 +2196,7 @@ struct Path_DemoSpawnPoint final : public Path_TLV
     }
     // Empty
     static constexpr char kClassName[] = "demo_spawn_point";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eDemoSpawnPoint;
 };
 
 struct Path_LevelLoader final : public Path_TLV
@@ -2101,6 +2212,7 @@ struct Path_LevelLoader final : public Path_TLV
     s16 mDestCamera = 0;
     s16 mMovieId = 0;
     static constexpr char kClassName[] = "level_loader";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eLevelLoader;
 };
 
 struct Path_SlamDoor final : public Path_TLV
@@ -2116,6 +2228,7 @@ struct Path_SlamDoor final : public Path_TLV
     bool mFlipY = false;
     bool mDelete = false;
     static constexpr char kClassName[] = "slam_door";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eSlamDoor;
 };
 
 struct Path_Slurg : public Path_TLV
@@ -2130,6 +2243,7 @@ struct Path_Slurg : public Path_TLV
     reliveScale mScale = reliveScale::eFull;
     s16 mSlurgSwitchId = 0;
     static constexpr char kClassName[] = "annoying_slurg";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eSlurg;
 };
 
 struct Path_LaughingGas final : public Path_TLV
@@ -2145,6 +2259,7 @@ struct Path_LaughingGas final : public Path_TLV
     s16 mGreenPercent = 0;
     s16 mBluePercent = 0;
     static constexpr char kClassName[] = "laughing_gas";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eLaughingGas;
 };
 
 struct Path_WorkWheel final : public Path_TLV
@@ -2160,6 +2275,7 @@ struct Path_WorkWheel final : public Path_TLV
     s16 mTurnOffTime = 0;
     bool mTurnOffWhenStopped = false;
     static constexpr char kClassName[] = "work_wheel";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eWorkWheel;
 };
 
 struct Path_Water final : public Path_TLV
@@ -2175,6 +2291,7 @@ struct Path_Water final : public Path_TLV
     s16 mSplashVelX = 0;
     s16 mWaterDuration = 0;
     static constexpr char kClassName[] = "water";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eWater;
 };
 
 struct Path_WheelSyncer final : public Path_TLV
@@ -2200,6 +2317,7 @@ struct Path_WheelSyncer final : public Path_TLV
     s16 mInputSwitchId5 = 0;
     s16 mInputSwitchId6 = 0;
     static constexpr char kClassName[] = "wheel_syncer";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eWheelSyncer;
 };
 
 struct Path_Fleech final : public Path_TLV
@@ -2222,6 +2340,7 @@ struct Path_Fleech final : public Path_TLV
     s16 mCanWakeUpSwitchId = 0;
     bool mPersistant = false;
     static constexpr char kClassName[] = "fleech";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eFleech;
 };
 
 struct Path_SlurgSpawner final : public Path_Slurg
@@ -2235,6 +2354,7 @@ struct Path_SlurgSpawner final : public Path_Slurg
     s16 mMaxSlurgs = 0;
     s16 mSpawnerSwitchId = 0;
     static constexpr char kClassName[] = "slurg_spawner";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eSlurgSpawner;
 };
 
 struct Path_Drill final : public Path_TLV
@@ -2270,6 +2390,7 @@ struct Path_Drill final : public Path_TLV
     bool mStartPositionBottom = false;
     DrillDirection mDrillDirection = DrillDirection::eRight;
     static constexpr char kClassName[] = "drill";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eDrill;
 };
 
 struct Path_Teleporter final : public Path_TLV
@@ -2291,6 +2412,7 @@ struct Path_Teleporter final : public Path_TLV
     s16 mElectricX = 0;
     s16 mElectricY = 0;
     static constexpr char kClassName[] = "teleporter";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eTeleporter;
 };
 
 struct Path_Glukkon final : public Path_TLV
@@ -2338,6 +2460,7 @@ struct Path_Glukkon final : public Path_TLV
     s16 mPlayMovieSwitchId = 0;
     s16 mMovieId = 0;
     static constexpr char kClassName[] = "glukkon";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eGlukkon;
 };
 
 struct Path_CrawlingSligButton final : public Path_TLV
@@ -2364,6 +2487,7 @@ struct Path_CrawlingSligButton final : public Path_TLV
     ButtonSounds mOffSound = ButtonSounds::None;
     s16 mSoundDirection = 0;
     static constexpr char kClassName[] = "crawling_slig_button";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eCrawlingSligButton;
 };
 
 struct Path_FlyingSlig final : public Path_TLV
@@ -2395,6 +2519,8 @@ struct Path_FlyingSlig final : public Path_TLV
     s16 mLaunchGrenadeSwitchId = 0;
     bool mPersistant = false;
     static constexpr char kClassName[] = "flying_slig";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eFlyingSlig;
+
 };
 
 struct Path_FlyingSligSpawner final : public Path_TLV
@@ -2421,6 +2547,7 @@ struct Path_FlyingSligSpawner final : public Path_TLV
     s16 mLaunchGrenadeSwitchId = 0;
     bool mPersistant = false;
     static constexpr char kClassName[] = "flying_slig_spawner";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eFlyingSligSpawner;
 };
 
 struct Path_CrawlingSlig final : public Path_TLV
@@ -2448,6 +2575,7 @@ struct Path_CrawlingSlig final : public Path_TLV
     s16 mPanicSwitchId = 0;
     bool mRespawnOnDeath = false;
     static constexpr char kClassName[] = "crawling_slig";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eCrawlingSlig;
 };
 
 struct Path_SligGetWings final : public Path_TLV
@@ -2474,6 +2602,7 @@ struct Path_SligGetWings final : public Path_TLV
     s16 mLaunchGrenadeSwitchId = 0;
     bool mPersistant = false;
     static constexpr char kClassName[] = "slig_get_wings";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eSligGetWings;
 };
 
 struct Path_SligGetPants final : public Path_TLV
@@ -2486,6 +2615,7 @@ struct Path_SligGetPants final : public Path_TLV
     
     Path_Slig_Data mData;
     static constexpr char kClassName[] = "slig_get_pants";
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eSligGetPants;
 };
 
 } // namespace relive
