@@ -324,7 +324,7 @@ void ResizeableArrowItem::Visit(IReflector& f)
     f.Visit("w", mLine->mLine.mRect.w);
     f.Visit("h", mLine->mLine.mRect.h);
 
-    f.Visit("line type", mLine->mLine.mLineType);
+    //f.Visit("line type", mLine->mLine.mLineType);
 
     qDebug() << "TODO ResizeableArrowItem::Visit";
 }
