@@ -1,7 +1,7 @@
 import os
 import sys
 import json
-import requests
+import urllib.request
 
 BUILD_STATUS = sys.argv[1]
 
@@ -76,4 +76,4 @@ webhook_message = {
 }
 
 headers = {"Content-Type": "application/json"}
-requests.post(url=WEBHOOK_URL, data=json.dumps(webhook_message), headers=headers)
+req = urllib.request.Request(WEBHOOK_URL, json.dumps(webhook_message).encode(), headers)
