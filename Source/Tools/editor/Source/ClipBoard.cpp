@@ -148,7 +148,7 @@ void ClipBoard::Set(const QList<QGraphicsItem*>& items, Model& model)
         auto pResizeableRectItem = qgraphicsitem_cast<ResizeableRectItem*>(obj);
         if (pResizeableRectItem)
         {
-            mMapObjects.emplace_back(std::make_unique<MapObjectBase>(*pResizeableRectItem->GetMapObject()));
+            mMapObjects.emplace_back(pResizeableRectItem->GetMapObject()->Clone());
         }
         else
         {
@@ -184,7 +184,7 @@ std::vector<UP_MapObjectBase> ClipBoard::CloneMapObjects(QPoint* pos) const
     std::vector<UP_MapObjectBase> r;
     for (auto& obj : mMapObjects)
     {
-        auto copy = std::make_unique<MapObjectBase>(*obj);
+        auto copy = obj->Clone();
         copy->SetXPos(copy->XPos() + offset.x());
         copy->SetYPos(copy->YPos() + offset.y());
         r.emplace_back(std::move(copy));

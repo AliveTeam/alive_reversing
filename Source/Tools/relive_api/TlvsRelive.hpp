@@ -26,7 +26,18 @@ public:
 class MapObjectBase
 {
 public:
-    MapObjectBase(relive::Path_TLV* pTlv)
+    // Given some json make a derived MapObjectBase type
+    using TEditorDeserializeFunc = std::function<std::unique_ptr<MapObjectBase>(const nlohmann::json&)>;
+
+    static std::map<ReliveTypes, TEditorDeserializeFunc>& GetEditorFactoryRegistry()
+    {
+        static std::map<ReliveTypes, TEditorDeserializeFunc> registry;
+        return registry;
+    }
+
+    virtual void DoNotInheritFromSMapObjectBaseDirectlyButFromMapObjectBaseInterfaceInstead() = 0;
+
+    explicit MapObjectBase(relive::Path_TLV* pTlv)
      : mBaseTlv(pTlv)
     {
 
@@ -89,16 +100,58 @@ public:
     {
         return "";
     }
+
+    virtual std::unique_ptr<MapObjectBase> Clone() const = 0;
 };
+
+template<typename DerivedType, ReliveTypes ReliveEnumType>
+struct MapObjectBaseInterface : public MapObjectBase
+{
+    using MapObjectBase::MapObjectBase;
+
+    virtual ~MapObjectBaseInterface() { if(!registered_) std::cout << "bad" << std::endl; } // registerd_ needs to be accessed somewhere, otherwise it is opted away
+
+    static inline bool register_type()
+    {
+        auto& registry = GetEditorFactoryRegistry();
+        registry[ReliveEnumType] = DerivedType::EditorDeserializeFunc;
+        return true;
+    }
+
+    static std::unique_ptr<MapObjectBase> EditorDeserializeFunc(const nlohmann::json& j)
+    {
+        auto tmpMapObject = std::make_unique<DerivedType>();
+        // TODO: include correct header so this werkz
+        //from_json(j, tmpMapObject->mTlv);
+
+        // Re-purpose to width/height for the editor
+        tmpMapObject->mTlv.mBottomRightX = tmpMapObject->mTlv.Width();
+        tmpMapObject->mTlv.mBottomRightY = tmpMapObject->mTlv.Height();
+
+        return tmpMapObject;
+    }
+
+    std::unique_ptr<MapObjectBase> Clone() const final
+    {
+        return std::make_unique<DerivedType>(static_cast<const DerivedType&>(*this));
+    }
+
+    static const bool registered_;
+
+protected:
+    void DoNotInheritFromSMapObjectBaseDirectlyButFromMapObjectBaseInterfaceInstead() final {}
+};
+template<typename DerivedType, ReliveTypes ReliveEnumType>
+const bool MapObjectBaseInterface<DerivedType, ReliveEnumType>::registered_ = MapObjectBaseInterface<DerivedType, ReliveEnumType>::register_type();
 
 namespace relive
 {
 
 
-class Editor_TimedMine final : public MapObjectBase
+class Editor_TimedMine final : public MapObjectBaseInterface<Editor_TimedMine, Path_TimedMine::kReliveType>
 {
 public:
-    Editor_TimedMine() : MapObjectBase(&mTlv) { }
+    Editor_TimedMine() : MapObjectBaseInterface<Editor_TimedMine, Path_TimedMine::kReliveType>(&mTlv) { }
 
     void Visit(IReflector& r) override
     {

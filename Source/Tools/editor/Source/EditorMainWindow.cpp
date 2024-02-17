@@ -806,15 +806,14 @@ void EditorMainWindow::on_actionPaste_triggered()
         EditorTab* pTab = getActiveTab(m_ui->tabWidget);
         if (pTab)
         {
-            /*
-            if (mClipBoard.SourceGame() != pTab->GetModel().GetMapInfo().mGame)
+            if (mClipBoard.SourceGame() != pTab->GetModel().Game())
             {
                 QMessageBox::critical(this, "Error", "You can't cut/copy paste data between AO and AE");
             }
             else
             {
                 pTab->Paste(mClipBoard);
-            }*/
+            }
         }
     }
 }

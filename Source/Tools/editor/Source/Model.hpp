@@ -127,6 +127,8 @@ public:
 
         CollisionObject(const CollisionObject&) = delete;
 
+        // For when copied via the clipboard, id is always 0 in this case
+        // I guess because its set later on the "paste" (?)
         CollisionObject(int id, const CollisionObject& rhs);
 
         int X1() const
