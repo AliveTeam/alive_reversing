@@ -177,8 +177,5 @@ for:
 
 test: off
 
-on_success: 
-  - python3 ../Scripts/appveyor_discord_webhook.py success
-
 on_failure: 
   - python3 ../Scripts/appveyor_discord_webhook.py failure

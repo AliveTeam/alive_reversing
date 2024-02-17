@@ -79,5 +79,5 @@ webhook_message = {
 
 req = urllib.request.Request(WEBHOOK_URL, json.dumps(webhook_message).encode())
 req.add_header("Content-Type", "application/json")
-req.add_header("User-Agent", "Mozilla/5.0")
+req.add_header("User-Agent", "alive_reversing webhook/1.0")
 response = urllib.request.urlopen(req)
