@@ -7,19 +7,29 @@
 #include "BasicTypeProperty.hpp"
 #include "EnumProperty.hpp"
 #include <QHeaderView>
+#include <QDebug>
+
 
 class PropertyCreator final : public IReflector
 {
+private:
+    template<typename EnumType>
+    void AddEnumProperty(const char* fieldName, EnumType& field)
+    {
+        auto property = new EnumProperty<std::remove_reference_t<decltype(field)>>(field, fieldName, mUndoStack, mGraphicsItem);
+        property->Refresh();
+        mCreatedProperties.append(property);
+    }
+
 public:
     PropertyCreator(QUndoStack& undoStack, MapObjectBase* pMapObject, IGraphicsItem* pGraphicsItem)
      : mUndoStack(undoStack), mMapObject(pMapObject), mGraphicsItem(pGraphicsItem)
     {
-
     }
 
     void Visit(const char* fieldName, relive::reliveScale& field) override
     {
-        // TODO: Generic enum property
+        AddEnumProperty(fieldName, field);
     }
 
     void Visit(const char* fieldName, u16& field) override
@@ -60,27 +70,27 @@ public:
 
     void Visit(const char* fieldName, relive::reliveScale& field) override
     {
-        // TODO:
+        AddField(fieldName, field);
     }
 
-    void Visit(const char* , u16& field) override
+    void Visit(const char* fieldName, u16& field) override
     {
-        mPropertyPointers.append(&field);
+        AddField(fieldName, field);
     }
 
-    void Visit(const char* , s16& field) override
+    void Visit(const char* fieldName, s16& field) override
     {
-        mPropertyPointers.append(&field);
+        AddField(fieldName, field);
     }
 
-    void Visit(const char* , u32& field) override
+    void Visit(const char* fieldName, u32& field) override
     {
-        mPropertyPointers.append(&field);
+        AddField(fieldName, field);
     }
 
-    void Visit(const char* , s32& field) override
+    void Visit(const char* fieldName, s32& field) override
     {
-        mPropertyPointers.append(&field);
+        AddField(fieldName, field);
     }
 
     QList<void*>& PropertyPointers()
@@ -88,6 +98,12 @@ public:
         return mPropertyPointers;
     }
 private:
+    template<typename FieldType>
+    void AddField(const char*, FieldType& field)
+    {
+        mPropertyPointers.append(&field);
+    }
+
     QList<void*> mPropertyPointers;
 };
 
@@ -197,31 +213,3 @@ void PropertyTreeWidget::Sync(IGraphicsItem* pItem)
         }
     }
 }
-
-//void PropertyTreeWidget::AddProperties(Model& model, QUndoStack& undoStack, QList<QTreeWidgetItem*>& items, std::vector<UP_ObjectProperty>& props, IGraphicsItem* pGraphicsItem)
-//{
-    /*
-    QTreeWidgetItem* parent = nullptr;
-    for (UP_ObjectProperty& property : props)
-    {
-        if (property->mVisible)
-        {
-            switch (property->mType)
-            {
-            case ObjectProperty::Type::BasicType:
-            {
-                BasicType* pBasicType = model.FindBasicType(property->mTypeName);
-                items.append(new BasicTypeProperty(undoStack, parent, kIndent + property->mName.c_str(), property.get(), pGraphicsItem, pBasicType));
-            }
-                break;
-
-            case ObjectProperty::Type::Enumeration:
-            {
-                Enum* pEnum = model.FindEnum(property->mTypeName);
-                items.append(new EnumProperty(undoStack, parent, property.get(), pGraphicsItem, pEnum));
-            }
-                break;
-            }
-        }
-    }*/
-//}

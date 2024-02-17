@@ -30,10 +30,27 @@ struct BasicTypePropertyChangeData
     qint64 mNewValue = 0;
 };
 
+// TODO: probably merge with BasicTypePropertyChangeData ??
+struct LinkedBasicTypeProperty
+{
+    LinkedBasicTypeProperty(MapObjectBase* mapObject, const char* propertyName, IntegerType intType, void* pIntPtr, PropertyTreeWidget* pTreeWidget, IGraphicsItem* pGraphicsItem)
+        : mMapObject(mapObject), mPropertyName(propertyName), mIntegerType(intType), mIntPtr(pIntPtr), mTreeWidget(pTreeWidget), mGraphicsItem(pGraphicsItem)
+    {
+
+    }
+
+    MapObjectBase* mMapObject = nullptr;
+    const char* mPropertyName = nullptr;
+    IntegerType mIntegerType;
+    void* mIntPtr = nullptr;
+    PropertyTreeWidget* mTreeWidget = nullptr;
+    IGraphicsItem* mGraphicsItem = nullptr;
+};
+
 class ChangeBasicTypePropertyCommand final : public QUndoCommand
 {
 public:
-    ChangeBasicTypePropertyCommand(LinkedProperty linkedProperty, BasicTypePropertyChangeData propertyData);
+    ChangeBasicTypePropertyCommand(LinkedBasicTypeProperty linkedProperty, BasicTypePropertyChangeData propertyData);
 
     void undo() override;
 
@@ -48,7 +65,7 @@ public:
 
 private:
     void UpdateText();
-    LinkedProperty mLinkedProperty;
+    LinkedBasicTypeProperty mLinkedProperty;
     BasicTypePropertyChangeData mPropertyData;
     qint64 mTimeStamp = 0;
 };

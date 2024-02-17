@@ -45,7 +45,7 @@ static void WriteInt(IntegerType intType, void* intPtr, qint64 value)
     }
 }
 
-ChangeBasicTypePropertyCommand::ChangeBasicTypePropertyCommand(LinkedProperty linkedProperty, BasicTypePropertyChangeData propertyData) 
+ChangeBasicTypePropertyCommand::ChangeBasicTypePropertyCommand(LinkedBasicTypeProperty linkedProperty, BasicTypePropertyChangeData propertyData)
     : mLinkedProperty(linkedProperty), mPropertyData(propertyData)
 {
     UpdateText();
@@ -141,7 +141,7 @@ QWidget* BasicTypeProperty::CreateEditorWidget(PropertyTreeWidget* pParent)
             if (mOldValue != newValue)
             {
                 mUndoStack.push(new ChangeBasicTypePropertyCommand(
-                    LinkedProperty(this->mMapObject, this->mPropertyName, this->mIntType, this->mIntegerPtr, pParent, this->mGraphicsItem),
+                    LinkedBasicTypeProperty(this->mMapObject, this->mPropertyName, this->mIntType, this->mIntegerPtr, pParent, this->mGraphicsItem),
                     BasicTypePropertyChangeData(this->mMapObject, this->mIntType, this->mIntegerPtr, this->mOldValue, newValue)));
             }
 

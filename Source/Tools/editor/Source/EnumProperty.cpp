@@ -2,64 +2,57 @@
 #include "IGraphicsItem.hpp"
 #include <QComboBox>
 
-ChangeEnumPropertyCommand::ChangeEnumPropertyCommand(LinkedProperty linkedProperty, EnumPropertyChangeData propertyData)
+
+ChangeEnumPropertyCommand::ChangeEnumPropertyCommand(LinkedEnumProperty linkedProperty, EnumPropertyChangeData propertyData)
     : mLinkedProperty(linkedProperty), mPropertyData(propertyData)
 {
-    //setText(QString("Change property %1 from %2 to %3").arg(mLinkedProperty.mProperty->mName.c_str(), mPropertyData.mEnum->mValues[mPropertyData.mOldIdx].c_str(), mPropertyData.mEnum->mValues[mPropertyData.mNewIdx].c_str()));
+    setText(QString("Change property %1 from %2 to %3").arg(mLinkedProperty.mFieldName, mPropertyData.mOldEnumName, mPropertyData.mNewEnumName));
 }
 
 void ChangeEnumPropertyCommand::undo()
 {
-    /*
-    mLinkedProperty.mProperty->mEnumValue = mPropertyData.mEnum->mValues[mPropertyData.mOldIdx];
-    mLinkedProperty.mTreeWidget->FindObjectPropertyByKey(mLinkedProperty.mProperty)->Refresh();
+    auto pProperty = static_cast<EnumPropertyBase*>(mLinkedProperty.mTree->FindObjectPropertyByKey(mLinkedProperty.mEnumKey));
+    pProperty->VSetEnumFromIdx(mPropertyData.mOldIdx);
+    pProperty->Refresh();
     mLinkedProperty.mGraphicsItem->SyncInternalObject();
-    */
 }
 
 void ChangeEnumPropertyCommand::redo()
 {
-    /*
-    mLinkedProperty.mProperty->mEnumValue = mPropertyData.mEnum->mValues[mPropertyData.mNewIdx];
-    mLinkedProperty.mTreeWidget->FindObjectPropertyByKey(mLinkedProperty.mProperty)->Refresh();
+    auto pProperty = static_cast<EnumPropertyBase*>(mLinkedProperty.mTree->FindObjectPropertyByKey(mLinkedProperty.mEnumKey));
+    pProperty->VSetEnumFromIdx(mPropertyData.mNewIdx);
+    pProperty->Refresh();
     mLinkedProperty.mGraphicsItem->SyncInternalObject();
-    */
 }
 
-EnumProperty::EnumProperty(QUndoStack& undoStack, QTreeWidgetItem* pParent, IGraphicsItem* pGraphicsItem, Enum* pEnum) 
-    : PropertyTreeItemBase(pParent, QStringList{kIndent, "todo"})
+EnumPropertyBase::EnumPropertyBase(s32 oldIdx, void* pEnumValue, const char* fieldName, QUndoStack& undoStack, IGraphicsItem* pGraphicsItem)
+    : PropertyTreeItemBase()
+    , mOldIdx(oldIdx)
+    , mEnumVale(pEnumValue)
+    , mFieldName(fieldName)
     , mUndoStack(undoStack)
     , mGraphicsItem(pGraphicsItem)
-    , mEnum(pEnum)
 {
-
+    setText(0, mFieldName);
 }
 
-QWidget* EnumProperty::CreateEditorWidget(PropertyTreeWidget* pParent)
+QWidget* EnumPropertyBase::CreateEditorWidget(PropertyTreeWidget* pParent)
 {
-    /*
     mCombo = new QComboBox(pParent);
-    for (auto& item : mEnum->mValues)
-    {
-        mCombo->addItem(item.c_str());
-    }
-    SetPropertyIndexFromEnumValue();
+    VPopulateEnumCombo(mCombo);
     Refresh();
 
-    if (mOldIdx != -1)
-    {
-        mCombo->setCurrentIndex(mOldIdx);
-    }
-
-    connect(mCombo, QOverload<int>::of(&QComboBox::currentIndexChanged), this, [pParent, this](int index)
+    connect(mCombo, QOverload<int>::of(&QComboBox::currentIndexChanged), this, [pParent, this](int newIndex)
         {
-            if (index != -1 && mOldIdx != index)
+            if (newIndex != -1 && mOldIdx != newIndex)
             {
+                const auto savedOldIdx = mOldIdx;
+                mOldIdx = newIndex;
+
                 mUndoStack.push(new ChangeEnumPropertyCommand(
-                    LinkedProperty(pParent, this->mProperty, this->mGraphicsItem),
-                    EnumPropertyChangeData(this->mEnum, this->mOldIdx, index)));
+                    LinkedEnumProperty(pParent, mFieldName, mEnumVale, this->mGraphicsItem),
+                    EnumPropertyChangeData(VGetEnumName(savedOldIdx), VGetEnumName(newIndex), savedOldIdx, newIndex)));
             }
-            mOldIdx = index;
         });
 
     connect(mCombo, &QComboBox::destroyed, this, [this](QObject*)
@@ -67,17 +60,12 @@ QWidget* EnumProperty::CreateEditorWidget(PropertyTreeWidget* pParent)
             this->mCombo = nullptr;
         });
     return mCombo;
-    */
-    return nullptr;
 }
 
-void EnumProperty::Refresh()
+void EnumPropertyBase::Refresh()
 {
-    // Update the idx based on the enum value
-    SetPropertyIndexFromEnumValue();
-
     // Update the text to match the enum value via its index
-    //setText(1, mEnum->mValues[mOldIdx].c_str());
+    setText(1, VGetEnumName(mOldIdx));
 
     if (mCombo)
     {
@@ -86,19 +74,3 @@ void EnumProperty::Refresh()
     }
 }
 
-void EnumProperty::SetPropertyIndexFromEnumValue()
-{
-    /*
-    mOldIdx = -1;
-    int i = 0;
-    for (auto& item : mEnum->mValues)
-    {
-        if (mProperty->mEnumValue == item.c_str())
-        {
-            mOldIdx = i;
-            break;
-        }
-        i++;
-    }*/
-
-}
