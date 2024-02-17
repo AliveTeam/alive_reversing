@@ -798,7 +798,7 @@ class AddCollisionCommand final : public QUndoCommand
 {
 public:
     explicit AddCollisionCommand(EditorTab* pTab)
-
+     : mSelectionSaver(pTab), mTab(pTab)
     {
         MakeNewCollision();
 
@@ -809,14 +809,13 @@ public:
     {
         if (!mAdded)
         {
-            //delete mArrowItem->GetCollisionItem(); // not owned by the model as its removed during undo
+            delete mArrowItem->GetCollisionItem(); // not owned by the model as its removed during undo
             delete mArrowItem;
         }
     }
 
     void undo() override
     {
-        /*
         mTab->GetScene().removeItem(mArrowItem);
 
         mNewObject = mTab->GetModel().RemoveCollisionItem(mArrowItem->GetCollisionItem());
@@ -824,12 +823,10 @@ public:
         mAdded = false;
 
         mSelectionSaver.undo();
-        */
     }
 
     void redo() override
     {
-        /*
         mTab->GetScene().addItem(mArrowItem);
         mTab->GetModel().CollisionItems().push_back(std::move(mNewObject));
 
@@ -840,47 +837,29 @@ public:
         mAdded = true;
 
         mSelectionSaver.redo();
-        */
     }
 
 private:
     void MakeNewCollision()
     {
-        /*
-        mNewObject = std::make_unique<CollisionObject>(mTab->GetModel().NextCollisionId());
-        // TODO: Duplicated with AddNewObjectCommand::MakeNewObject
-        for (auto& prop : mTab->GetModel().CollisionStructure().mEnumAndBasicTypeProperties)
-        {
-            auto foundType = mTab->GetModel().FindType(prop.mType);
-
-            auto newProp = mTab->GetModel().MakeProperty(foundType, prop, &mTab->GetModel().CollisionStructure());
-            if (foundType.mEnum)
-            {
-                auto enumType = mTab->GetModel().FindEnum(prop.mType);
-                newProp->mEnumValue = enumType->mValues[0];
-            }
-
-            mNewObject->mProperties.emplace_back(std::move(newProp));
-        }
-        */
+        mNewObject = std::make_unique<Model::CollisionObject>(mTab->GetModel().NextCollisionId());
 
         QGraphicsView* pView = mTab->GetScene().views().at(0);
         QPoint scenePos = pView->mapToScene(pView->pos()).toPoint();
-        /*
+
         mNewObject->SetX1(scenePos.x() + 100);
         mNewObject->SetX2(scenePos.x() + 200);
 
         mNewObject->SetY1(scenePos.y() + 100);
         mNewObject->SetY2(scenePos.y() + 100);
-        */
 
-       // mArrowItem = mTab->MakeResizeableArrowItem(mNewObject.get());
+        mArrowItem = mTab->MakeResizeableArrowItem(mNewObject.get());
     }
 
-   // SelectionSaver mSelectionSaver;
+    SelectionSaver mSelectionSaver;
     bool mAdded = false;
     EditorTab* mTab = nullptr;
-   // UP_CollisionObject mNewObject;
+    Model::UP_CollisionObject mNewObject;
     ResizeableArrowItem* mArrowItem = nullptr;
 };
 

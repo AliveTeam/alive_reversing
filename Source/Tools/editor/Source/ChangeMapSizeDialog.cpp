@@ -270,16 +270,16 @@ struct AddedCamera final
 
     ~AddedCamera()
     {
-       // if (mCameraModel)
+        if (mCameraModel)
         {
-          //  delete mCameraGraphicsItem;
+            delete mCameraGraphicsItem;
         }
     }
 
     void undo(Model& model, EditorGraphicsScene* pScene)
     {
-        //mCameraModel = model.RemoveCamera(mCameraGraphicsItem->GetCamera());
-       // pScene->removeItem(mCameraGraphicsItem);
+        mCameraModel = model.RemoveCamera(mCameraGraphicsItem->GetCamera());
+        pScene->removeItem(mCameraGraphicsItem);
     }
 
     void redo(Model& model, EditorGraphicsScene* pScene)

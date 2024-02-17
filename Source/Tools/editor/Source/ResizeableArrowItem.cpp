@@ -319,9 +319,14 @@ void ResizeableArrowItem::RestoreLine(const QLineF& line)
 
 void ResizeableArrowItem::Visit(IReflector& f)
 {
-    qDebug() << "TODO ResizeableArrowItem::Visit";
+    f.Visit("x", mLine->mLine.mRect.x);
+    f.Visit("y", mLine->mLine.mRect.y);
+    f.Visit("w", mLine->mLine.mRect.w);
+    f.Visit("h", mLine->mLine.mRect.h);
 
-    // TODO: Have an Editor_PathLine or a helper in here that calls f.Visit() for each property
+    //f.Visit("line type", mLine->mLine.mLineType);
+
+    qDebug() << "TODO ResizeableArrowItem::Visit";
 }
 
 void ResizeableArrowItem::SyncToCollisionItem()
