@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "QuikSave.hpp"
 #include "../relive_lib/Function.hpp"
-#include "ResourceManager.hpp"
+#include "ResourceManagerWrapper.hpp"
 #include "PathData.hpp"
 #include "Map.hpp"
 #include "Abe.hpp"

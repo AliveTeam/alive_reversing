@@ -24,7 +24,7 @@
 #include "PNGFile.hpp"
 #include "AESaveConverter.hpp"
 #include "../BinaryPath.hpp"
-#include "../../AliveLibAE/ResourceManager.hpp"
+#include "../../relive_lib/ResourceManagerWrapper.hpp"
 #include "fmv_converter.hpp"
 #include "file_system.hpp"
 #include "ThreadPool.hpp"
