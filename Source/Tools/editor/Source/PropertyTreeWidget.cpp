@@ -27,6 +27,11 @@ public:
     {
     }
 
+    void Visit(const char* fieldName, relive::Path_Mudokon::Mud_TLV_Emotion& field) override
+    {
+        AddEnumProperty(fieldName, field);
+    }
+
     void Visit(const char* fieldName, bool& field) override
     {
         mCreatedProperties.append(new BoolProperty(mPropertyTree, field, fieldName, mUndoStack, mGraphicsItem));
@@ -72,6 +77,11 @@ private:
 class PropertyFieldCollector final : public IReflector
 {
 public:
+    void Visit(const char* fieldName, relive::Path_Mudokon::Mud_TLV_Emotion& field) override
+    {
+        AddField(fieldName, field);
+    }
+
     void Visit(const char* fieldName, bool& field) override
     {
         AddField(fieldName, field);

@@ -51,21 +51,18 @@ template<typename EnumType> struct EnumReflector final { };
 
 
 // TODO: Move to another header
-template<> struct EnumReflector<relive::reliveScale> final {
-    static_assert(std::is_enum<relive::reliveScale>::value, "relive::reliveScale" " must be an enum!"); struct EnumPair final {
-        relive::reliveScale mValue; const char* mName;
-    }; static s32 to_index(relive::reliveScale e) {
-        s32 idx = 0; for (auto& v : mArray) {
-            if (v.mValue == e) {
-                return idx;
-            } idx++;
-        } return -1;
-    } static const char* to_str(s32 idx) {
-        return mArray[idx].mName;
-    } static relive::reliveScale to_value(s32 idx) {
-        return mArray[idx].mValue;
-    } static constexpr EnumPair tmp[] = { { relive::reliveScale::eFull, "eFull" },{ relive::reliveScale::eHalf, "eHalf" } }; static constexpr std::array<EnumPair, (sizeof(tmp) / sizeof(*(tmp)))> mArray = { { { relive::reliveScale::eFull, "eFull" },{ relive::reliveScale::eHalf, "eHalf" } } };
-};
+REFLECT_ENUM(relive::reliveScale, {
+            {relive::reliveScale::eFull, "eFull"},
+            {relive::reliveScale::eHalf, "eHalf"}
+             })
+
+REFLECT_ENUM(relive::Path_Mudokon::Mud_TLV_Emotion, {
+                 {relive::Path_Mudokon::Mud_TLV_Emotion::eNormal, "Normal"},
+                             {relive::Path_Mudokon::Mud_TLV_Emotion::eAngry, "Angry"},
+                             {relive::Path_Mudokon::Mud_TLV_Emotion::eSad, "Sad"},
+                             {relive::Path_Mudokon::Mud_TLV_Emotion::eWired, "Wired"},
+                             {relive::Path_Mudokon::Mud_TLV_Emotion::eSick, "Sick"}})
+
 
 struct EnumPropertyChangeData
 {

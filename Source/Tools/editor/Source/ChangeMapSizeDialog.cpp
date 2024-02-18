@@ -295,8 +295,8 @@ class ChangeMapSizeCommand final : public QUndoCommand
 {
 public:
     ChangeMapSizeCommand(EditorTab* pTab, int newXSize, int newYSize)
-      : mSelectionSaver(pTab),
-        mTab(pTab),
+      : mTab(pTab),
+        mSelectionSaver(pTab),
         mNewXSize(newXSize),
         mNewYSize(newYSize)
     {

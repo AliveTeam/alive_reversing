@@ -425,10 +425,19 @@ void ResizeableRectItem::UpdateIcon()
 
     QString images_path = ":/object_images/rsc/object_images/";
     const auto lookupPath = images_path + QString::fromStdString(mMapObject->GetIconPath()) + ".png";
+
     if (!QPixmapCache::find(lookupPath, &m_Pixmap))
     {
         m_Pixmap = QPixmap(lookupPath);
         QPixmapCache::insert(lookupPath, m_Pixmap);
+    }
+
+    if (mIconPath != lookupPath)
+    {
+        mIconPath = lookupPath;
+
+        // repaint if icon changed
+        update();
     }
 }
 

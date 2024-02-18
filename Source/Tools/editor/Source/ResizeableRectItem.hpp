@@ -93,4 +93,5 @@ private:
     IPointSnapper& mPointSnapper;
 
     QString mNoIconObjectName = "";
+    QString mIconPath;
 };

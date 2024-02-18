@@ -9,6 +9,7 @@ class IReflector
 public:
     virtual ~IReflector() { }
 
+    virtual void Visit(const char* fieldName, relive::Path_Mudokon::Mud_TLV_Emotion& field) = 0;
     virtual void Visit(const char* fieldName, relive::reliveScale& field) = 0;
 
     virtual void Visit(const char* fieldName, bool& field) = 0;
@@ -108,7 +109,15 @@ struct MapObjectBaseInterface : public MapObjectBase
 {
     using MapObjectBase::MapObjectBase;
 
-    virtual ~MapObjectBaseInterface() { if(!registered_) s16 bad = 5; } // registerd_ needs to be accessed somewhere, otherwise it is opted away
+    virtual ~MapObjectBaseInterface()
+    {
+        if(!registered_)
+        {
+            // registerd_ needs to be accessed somewhere, otherwise it is opted away
+            // which also means the body of this if statement must have side effects (printing to stdout)
+            printf("\n");
+        }
+    }
 
     static inline bool register_type()
     {
@@ -204,14 +213,6 @@ struct Editor_Mudokon final : public MapObjectBaseInterface<Editor_Mudokon, Path
     /*
     void AddTypes(ReliveAPI::TypesCollectionBase& types) override
     {
-        types.AddEnum<relive::Path_Mudokon::Mud_TLV_Emotion>("Enum_Mud_TLV_Emotion",
-        {
-            {relive::Path_Mudokon::Mud_TLV_Emotion::eNormal, "Normal"},
-            {relive::Path_Mudokon::Mud_TLV_Emotion::eAngry, "Angry"},
-            {relive::Path_Mudokon::Mud_TLV_Emotion::eSad, "Sad"},
-            {relive::Path_Mudokon::Mud_TLV_Emotion::eWired, "Wired"},
-            {relive::Path_Mudokon::Mud_TLV_Emotion::eSick, "Sick"}
-        });
 
         types.AddEnum<relive::Path_Mudokon::MudJobs>("Enum_Mud_State",
         {
@@ -240,7 +241,7 @@ public:
         r.Visit("Deaf", mTlv.mDeaf);
         r.Visit("Disabled Resources", mTlv.mDisabledResources);
         //r.Visit("Persist & Reset Offscreen", mTlv.mPersistAndResetOffscreen);
-        //r.Visit("Emotion", mTlv.mEmotion);
+        r.Visit("Emotion", mTlv.mEmotion);
         //r.Visit("Blind", mTlv.mBlind);
         r.Visit("Angry Switch ID", mTlv.mAngrySwitchId);
         //r.Visit("Work After Turning Wheel", mTlv.mWorkAfterTurningWheel);
