@@ -1,3 +1,4 @@
+#include "stdafx_ao.h"
 #include "Path.hpp"
 #include "Map.hpp"
 #include "../relive_lib/MapWrapper.hpp"

@@ -12,6 +12,7 @@
 #include "nlohmann/json.hpp"
 #include "../relive_lib/data_conversion/AOSaveSerialization.hpp"
 #include "../relive_lib/data_conversion/data_conversion.hpp"
+#include "Map.hpp"
 
 namespace AO {
 

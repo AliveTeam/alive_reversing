@@ -134,3 +134,9 @@
 #include <unordered_map>
 #include <utility>
 #include <vector>
+#include <mutex>
+
+#include "SDL.h"
+
+#include "GameObjects/IBaseAliveGameObject.hpp"
+#include "data_conversion/relive_tlvs.hpp"

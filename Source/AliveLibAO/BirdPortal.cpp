@@ -21,6 +21,7 @@
 #include "AbilityRing.hpp"
 #include "Path.hpp"
 #include "../relive_lib/ObjectIds.hpp"
+#include "Map.hpp"
 
 namespace AO {
 

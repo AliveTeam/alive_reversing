@@ -1,3 +1,4 @@
+#include "stdafx_ao.h"
 #include "PathDataExtensions.hpp"
 #include "PathData.hpp"
 #include "LCDScreen.hpp"

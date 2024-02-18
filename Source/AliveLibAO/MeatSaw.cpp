@@ -12,6 +12,7 @@
 #include "../relive_lib/GameObjects/Blood.hpp"
 #include "../relive_lib/GameObjects/ScreenManager.hpp"
 #include "Path.hpp"
+#include "Map.hpp"
 
 namespace AO {
 

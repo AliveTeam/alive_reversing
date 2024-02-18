@@ -6,6 +6,8 @@
 #include <QGraphicsItem>
 #include "ResizeableRectItem.hpp"
 #include "SelectionSaver.hpp"
+#include "Model.hpp"
+#include "EditorTab.hpp"
 
 /*
 class ObjectListItem final : public QListWidgetItem
@@ -145,7 +147,7 @@ private:
     }
 
     SelectionSaver mSelectionSaver;
-    Model::Camera* mCamera = nullptr;
+    EditorCamera* mCamera = nullptr;
     bool mAdded = false;
     ResizeableRectItem* mNewItem = nullptr;
     EditorTab* mTab;

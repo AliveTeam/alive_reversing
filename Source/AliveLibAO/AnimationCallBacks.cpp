@@ -1,3 +1,4 @@
+#include "stdafx_ao.h"
 #include "Slig.hpp"
 #include "../relive_lib/GameObjects/Dove.hpp"
 #include "Bullet.hpp"

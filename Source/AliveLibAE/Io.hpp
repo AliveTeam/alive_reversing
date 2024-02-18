@@ -1,8 +1,8 @@
 #pragma once
 
+#include "../relive_lib/relive_config.h"
 #include "../relive_lib/Function.hpp"
 #include <atomic>
-#include "SDL.h"
 
 #if USE_SDL2_IO
 using IO_FileHandleType = struct SDL_RWops*;

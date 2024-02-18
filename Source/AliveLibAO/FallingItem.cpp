@@ -14,6 +14,7 @@
 #include "../relive_lib/SwitchStates.hpp"
 #include "Path.hpp"
 #include "../relive_lib/FixedPoint.hpp"
+#include "Map.hpp"
 
 namespace AO {
 

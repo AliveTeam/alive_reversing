@@ -3,15 +3,17 @@
 #include <QList>
 #include <QGraphicsItem>
 #include <QUndoCommand>
-#include "Model.hpp"
 #include "SelectionSaver.hpp"
 #include "EditorGraphicsScene.hpp"
+#include "../../../relive_lib/GameType.hpp"
 
 class EditorTab;
 class Model;
 class ClipBoard;
 class ResizeableRectItem;
 class ResizeableArrowItem;
+struct EditorCamera;
+class CollisionObject;
 
 class PasteItemsCommand final : public QUndoCommand
 {
@@ -25,13 +27,13 @@ private:
 
     struct PastedMapObject final
     {
-        UP_MapObjectBase mPastedMapObject;
-        Model::Camera* mContainingCamera;
+        std::unique_ptr<MapObjectBase> mPastedMapObject;
+        EditorCamera* mContainingCamera;
     };
     std::vector<PastedMapObject> mMapObjects;
     std::vector<ResizeableRectItem*> mMapGraphicsObjects;
 
-    std::vector<Model::UP_CollisionObject> mCollisions;
+    std::vector<std::unique_ptr<CollisionObject>> mCollisions;
     std::vector<ResizeableArrowItem*> mCollisionGraphicsObjects;
 
     SelectionSaver mSelectionSaver;
@@ -47,11 +49,11 @@ public:
 
     GameType SourceGame() const;
 
-    std::vector<UP_MapObjectBase> CloneMapObjects(QPoint* pos) const;
-    std::vector<Model::UP_CollisionObject> CloneCollisions(QPoint* pos) const;
+    std::vector<std::unique_ptr<MapObjectBase>> CloneMapObjects(QPoint* pos) const;
+    std::vector<std::unique_ptr<CollisionObject>> CloneCollisions(QPoint* pos) const;
 private:
     GameType mSourceGame;
 
-    std::vector<Model::UP_CollisionObject> mCollisions;
-    std::vector<UP_MapObjectBase> mMapObjects;
+    std::vector<std::unique_ptr<CollisionObject>> mCollisions;
+    std::vector<std::unique_ptr<MapObjectBase>> mMapObjects;
 };

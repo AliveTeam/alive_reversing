@@ -1,7 +1,6 @@
 #pragma once
 
 #include "BaseAliveGameObject.hpp"
-#include "Map.hpp"
 
 namespace relive {
 struct Path_RockSack;

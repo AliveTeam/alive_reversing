@@ -21,6 +21,7 @@
 #include "../relive_lib/data_conversion/relive_tlvs.hpp"
 #include "../relive_lib/FixedPoint.hpp"
 #include "Path.hpp"
+#include "Map.hpp"
 
 namespace AO {
 

@@ -11,6 +11,101 @@
 
 using UP_MapObjectBase = std::unique_ptr<MapObjectBase>;
 
+struct EditorCamera final
+{
+    std::string mName;
+    int mId = 0;
+    int mX = 0;
+    int mY = 0;
+    std::vector<UP_MapObjectBase> mMapObjects;
+
+    /*
+    class CameraImageAndLayers final
+    {
+    public:
+        std::string mCameraImage;
+        std::string mForegroundLayer;
+        std::string mBackgroundLayer;
+        std::string mForegroundWellLayer;
+        std::string mBackgroundWellLayer;
+    };
+    CameraImageAndLayers mCameraImageandLayers;
+    */
+};
+using UP_Camera = std::unique_ptr<EditorCamera>;
+
+class CollisionObject final
+{
+public:
+    explicit CollisionObject(int id)
+        : mId(id)
+    { }
+
+    CollisionObject(const CollisionObject&) = delete;
+
+    // For when copied via the clipboard, id is always 0 in this case
+    // I guess because its set later on the "paste" (?)
+    CollisionObject(int id, const CollisionObject& rhs);
+
+    int X1() const
+    {
+        return mLine.mRect.x;
+    }
+
+    void SetX1(int x1)
+    {
+        mLine.mRect.x = x1;
+    }
+
+    int Y1() const
+    {
+        return mLine.mRect.y;
+    }
+
+    void SetY1(int y1)
+    {
+        mLine.mRect.y = y1;
+    }
+
+    int X2() const
+    {
+        return mLine.mRect.w;
+    }
+
+    void SetX2(int x2)
+    {
+        mLine.mRect.w = x2;
+    }
+
+    int Y2() const
+    {
+        return mLine.mRect.h;
+    }
+
+    void SetY2(int y2)
+    {
+        mLine.mRect.h = y2;
+    }
+
+    int Next() const
+    {
+        return mLine.mNext;
+    }
+
+    int Previous() const
+    {
+        return mLine.mPrevious;
+    }
+
+    // The previous/next in the collision data is the index of the next/previous line. Removing or adding line
+    // will cause this to break so we remap to a generated Id that then gets normalized back to indicies on save
+    // by looking up the index of the line with the given Id.
+    int mId = 0;
+
+    PathLine mLine = {};
+};
+using UP_CollisionObject = std::unique_ptr<CollisionObject>;
+
 class Model final
 {
 public:
@@ -94,102 +189,6 @@ public:
         std::string mKey;
     };
 
-
-    struct Camera final
-    {
-        std::string mName;
-        int mId = 0;
-        int mX = 0;
-        int mY = 0;
-        std::vector<UP_MapObjectBase> mMapObjects;
-
-        /*
-        class CameraImageAndLayers final
-        {
-        public:
-            std::string mCameraImage;
-            std::string mForegroundLayer;
-            std::string mBackgroundLayer;
-            std::string mForegroundWellLayer;
-            std::string mBackgroundWellLayer;
-        };
-        CameraImageAndLayers mCameraImageandLayers;
-        */
-    };
-    using UP_Camera = std::unique_ptr<Camera>;
-
-    class CollisionObject final
-    {
-    public:
-        explicit CollisionObject(int id)
-            : mId(id)
-        { }
-
-        CollisionObject(const CollisionObject&) = delete;
-
-        // For when copied via the clipboard, id is always 0 in this case
-        // I guess because its set later on the "paste" (?)
-        CollisionObject(int id, const CollisionObject& rhs);
-
-        int X1() const
-        {
-            return mLine.mRect.x;
-        }
-
-        void SetX1(int x1)
-        {
-            mLine.mRect.x = x1;
-        }
-
-        int Y1() const
-        {
-            return mLine.mRect.y;
-        }
-
-        void SetY1(int y1)
-        {
-            mLine.mRect.y = y1;
-        }
-
-        int X2() const
-        {
-            return mLine.mRect.w;
-        }
-
-        void SetX2(int x2)
-        {
-            mLine.mRect.w = x2;
-        }
-
-        int Y2() const
-        {
-            return mLine.mRect.h;
-        }
-
-        void SetY2(int y2)
-        {
-            mLine.mRect.h = y2;
-        }
-
-        int Next() const
-        {
-            return mLine.mNext;
-        }
-
-        int Previous() const
-        {
-            return mLine.mPrevious;
-        }
-
-        // The previous/next in the collision data is the index of the next/previous line. Removing or adding line
-        // will cause this to break so we remap to a generated Id that then gets normalized back to indicies on save
-        // by looking up the index of the line with the given Id.
-        int mId = 0;
-
-        PathLine mLine = {};
-    };
-    using UP_CollisionObject = std::unique_ptr<CollisionObject>;
-
     struct Enum final
     {
         std::string mName;
@@ -203,21 +202,21 @@ public:
     void CreateAsNewPath(int newPathId);
     std::string ToJson() const;
 
-    Camera* GetContainingCamera(MapObjectBase* pMapObject);
+    EditorCamera* GetContainingCamera(MapObjectBase* pMapObject);
 
-    UP_MapObjectBase TakeFromContainingCamera(MapObjectBase* pMapObject);
+    std::unique_ptr<MapObjectBase> TakeFromContainingCamera(MapObjectBase* pMapObject);
 
-    UP_Camera RemoveCamera(Camera* pCamera);
+    std::unique_ptr<EditorCamera> RemoveCamera(EditorCamera* pCamera);
     void AddCamera(UP_Camera pCamera);
 
-    void SwapContainingCamera(MapObjectBase* pMapObject, Camera* pTargetCamera);
+    void SwapContainingCamera(MapObjectBase* pMapObject, EditorCamera* pTargetCamera);
 
     const std::vector<UP_Camera>& GetCameras() const 
     {
         return mCameras; 
     }
 
-    Camera* CameraAt(int x, int y) const
+    EditorCamera* CameraAt(int x, int y) const
     {
         for (auto& cam : mCameras)
         {

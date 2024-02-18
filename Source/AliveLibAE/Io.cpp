@@ -5,6 +5,7 @@
 #include "stdlib.hpp"
 #include "../relive_lib/Masher.hpp"
 #include "../relive_lib/FatalError.hpp"
+#include "SDL.h"
 
 #if !_WIN32
     #include <dirent.h>

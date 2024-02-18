@@ -251,7 +251,7 @@ void EditorGraphicsScene::keyPressEvent(QKeyEvent* keyEvent)
 }
 
 
-Model::Camera* CalcContainingCamera(ResizeableRectItem* pItem, Model& model)
+EditorCamera* CalcContainingCamera(ResizeableRectItem* pItem, Model& model)
 {
     QPoint midPoint = pItem->CurrentRect().center().toPoint();
 
@@ -322,7 +322,7 @@ void ItemPositionData::Restore(Model& model)
 
 void ItemPositionData::AddRect(ResizeableRectItem* pItem, Model& model, bool recalculateParentCamera)
 {
-    Model::Camera* pContainingCamera = nullptr;
+    EditorCamera* pContainingCamera = nullptr;
     MapObjectBase* pMapObject = pItem->GetMapObject();
 
     if (recalculateParentCamera)

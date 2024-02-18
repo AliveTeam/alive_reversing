@@ -14,6 +14,7 @@
 #include "GL/glew.h"
 #include "../../AliveLibAE/GameAutoPlayer.hpp"
 #include "../../relive_lib/data_conversion/file_system.hpp"
+#include "SDL.h"
 
 #include <string>
 

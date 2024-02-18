@@ -38,6 +38,7 @@
 #include "ClipBoard.hpp"
 #include "../../../relive_lib/Grid.hpp"
 #include "CollisionConnect.hpp"
+#include "Model.hpp"
 
 // Zoom by 10% each time.
 const float KZoomFactor = 0.10f;
@@ -329,7 +330,7 @@ private:
 };
 
 
-EditorTab::EditorTab(QTabWidget* aParent, UP_Model model, QString jsonFileName, bool isTempFile, QStatusBar* pStatusBar, SnapSettings& snapSettings)
+EditorTab::EditorTab(QTabWidget* aParent, std::unique_ptr<Model> model, QString jsonFileName, bool isTempFile, QStatusBar* pStatusBar, SnapSettings& snapSettings)
     : QMainWindow(aParent),
     ui(new Ui::EditorTab),
     mModel(std::move(model)),
@@ -390,7 +391,7 @@ EditorTab::EditorTab(QTabWidget* aParent, UP_Model model, QString jsonFileName, 
     {
         for (u32 y = 0; y < mModel->YSize(); y++)
         {
-            Model::Camera* pCam = mModel->CameraAt(x, y);
+            EditorCamera* pCam = mModel->CameraAt(x, y);
             auto pCameraGraphicsItem = MakeCameraGraphicsItem(pCam, mModel->CameraGridWidth() * x, y * mModel->CameraGridHeight(), mModel->CameraGridWidth(), mModel->CameraGridHeight());
             mScene->addItem(pCameraGraphicsItem);
 
@@ -436,12 +437,12 @@ ResizeableRectItem* EditorTab::MakeResizeableRectItem(MapObjectBase* pMapObject)
     return new ResizeableRectItem(ui->graphicsView, pMapObject, *static_cast<PropertyTreeWidget*>(ui->treeWidget), mScene->GetTransparencySettings().MapObjectTransparency(), mSnapSettings, *this);
 }
 
-ResizeableArrowItem* EditorTab::MakeResizeableArrowItem(Model::CollisionObject* pCollisionObject)
+ResizeableArrowItem* EditorTab::MakeResizeableArrowItem(CollisionObject* pCollisionObject)
 {
     return new ResizeableArrowItem(ui->graphicsView, pCollisionObject, *static_cast<PropertyTreeWidget*>(ui->treeWidget), mScene->GetTransparencySettings().CollisionTransparency(), mSnapSettings, *this);
 }
 
-CameraGraphicsItem* EditorTab::MakeCameraGraphicsItem(Model::Camera* pCamera, int x, int y, int w, int h)
+CameraGraphicsItem* EditorTab::MakeCameraGraphicsItem(EditorCamera* pCamera, int x, int y, int w, int h)
 {
     return new CameraGraphicsItem(pCamera, x, y, w, h, mScene->GetTransparencySettings().CameraTransparency());
 }
@@ -842,7 +843,7 @@ public:
 private:
     void MakeNewCollision()
     {
-        mNewObject = std::make_unique<Model::CollisionObject>(mTab->GetModel().NextCollisionId());
+        mNewObject = std::make_unique<CollisionObject>(mTab->GetModel().NextCollisionId());
 
         QGraphicsView* pView = mTab->GetScene().views().at(0);
         QPoint scenePos = pView->mapToScene(pView->pos()).toPoint();
@@ -859,7 +860,7 @@ private:
     SelectionSaver mSelectionSaver;
     bool mAdded = false;
     EditorTab* mTab = nullptr;
-    Model::UP_CollisionObject mNewObject;
+    std::unique_ptr<CollisionObject> mNewObject;
     ResizeableArrowItem* mArrowItem = nullptr;
 };
 

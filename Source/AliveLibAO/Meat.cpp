@@ -19,6 +19,7 @@
 #include "../relive_lib/ObjectIds.hpp"
 #include "../relive_lib/FixedPoint.hpp"
 #include "Path.hpp"
+#include "Map.hpp"
 
 namespace AO {
 

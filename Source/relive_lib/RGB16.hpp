@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Types.hpp"
+
 struct RGB16 final
 {
     s16 r = 0;

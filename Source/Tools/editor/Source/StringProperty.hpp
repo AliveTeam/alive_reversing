@@ -1,11 +1,10 @@
 #pragma once
 
 #include <QUndoCommand>
-#include <QLineEdit>
-#include <QUndoStack>
 #include "PropertyTreeItemBase.hpp"
 
 class PropertyTreeWidget;
+class QUndoStack;
 
 class ChangeStringPropertyCommand : public QUndoCommand
 {

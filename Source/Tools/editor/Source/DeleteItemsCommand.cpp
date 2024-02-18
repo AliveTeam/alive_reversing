@@ -3,6 +3,7 @@
 #include "ResizeableRectItem.hpp"
 #include "EditorTab.hpp"
 #include "EditorGraphicsScene.hpp"
+#include "Model.hpp"
 
 DeleteItemsCommand::DeleteItemsCommand(EditorTab* pTab, bool isCut, QList<QGraphicsItem*> graphicsItemsToDelete)
     : mTab(pTab), mGraphicsItemsToDelete(graphicsItemsToDelete)

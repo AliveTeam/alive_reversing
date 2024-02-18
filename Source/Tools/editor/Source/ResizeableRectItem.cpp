@@ -12,6 +12,9 @@
 #include <QPixmapCache>
 #include "PropertyTreeWidget.hpp"
 #include "SnapSettings.hpp"
+#include <nlohmann/json.hpp>
+#include "../../relive_lib/Types.hpp"
+#include "../../relive_api/TlvsRelive.hpp"
 
 const quint32 ResizeableRectItem::kMinRectSize = 10;
 

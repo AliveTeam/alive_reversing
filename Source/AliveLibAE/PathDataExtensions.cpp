@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "PathDataExtensions.hpp"
 #include "LCDScreen.hpp"
 #include "../relive_lib/PathDataExtensionsTypes.hpp"

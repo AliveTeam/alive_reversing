@@ -1,12 +1,8 @@
 #pragma once
 
-#include "TlvObjectBaseRelive.hpp"
-#include "TlvObjectBaseMacros.hpp"
 #include "../../relive_lib/data_conversion/relive_tlvs.hpp"
-#include "../../relive_lib/AnimResources.hpp"
 #include "../../relive_lib/data_conversion/relive_tlvs_serialization.hpp"
 
-#include <type_traits>
 
 class IReflector
 {
@@ -112,7 +108,7 @@ struct MapObjectBaseInterface : public MapObjectBase
 {
     using MapObjectBase::MapObjectBase;
 
-    virtual ~MapObjectBaseInterface() { if(!registered_) std::cout << "bad" << std::endl; } // registerd_ needs to be accessed somewhere, otherwise it is opted away
+    virtual ~MapObjectBaseInterface() { if(!registered_) s16 bad = 5; } // registerd_ needs to be accessed somewhere, otherwise it is opted away
 
     static inline bool register_type()
     {

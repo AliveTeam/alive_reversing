@@ -8,6 +8,7 @@
 #include "Elum.hpp"
 #include "Math.hpp"
 #include "GameAutoPlayer.hpp"
+#include "Map.hpp"
 
 namespace AO {
 

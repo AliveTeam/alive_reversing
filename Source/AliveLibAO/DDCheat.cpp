@@ -200,7 +200,7 @@ void DDCheat::VUpdate()
     {
         DebugStr(
             "\n%sP%dC%d %6d",
-            Path_Get_Lvl_Name(gMap.mCurrentLevel),
+            AO::Path_Get_Lvl_Name(gMap.mCurrentLevel),
             gMap.mCurrentPath,
             gMap.mCurrentCamera,
             sGnFrame);

@@ -1,7 +1,6 @@
 #pragma once
 
 #include "BaseAliveGameObject.hpp"
-#include "Map.hpp"
 #include "../relive_lib/FatalError.hpp"
 
 namespace relive

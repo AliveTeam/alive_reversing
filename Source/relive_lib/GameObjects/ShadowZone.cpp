@@ -1,4 +1,4 @@
-//#include "stdafx_ao.h"
+#include "stdafx.h"
 #include "ShadowZone.hpp"
 #include "../AliveLibAE/stdlib.hpp"
 #include "FixedPoint.hpp"

@@ -2,6 +2,7 @@
 #include "EditorTab.hpp"
 #include "ResizeableArrowItem.hpp"
 #include "ResizeableRectItem.hpp"
+#include "Model.hpp"
 
 PasteItemsCommand::PasteItemsCommand(EditorTab* pTab, ClipBoard& clipBoard)
     : mTab(pTab), mSelectionSaver(pTab)
@@ -22,7 +23,7 @@ PasteItemsCommand::PasteItemsCommand(EditorTab* pTab, ClipBoard& clipBoard)
         ResizeableRectItem* mapObjectGraphicsItem = mTab->MakeResizeableRectItem(obj.get());
 
         // Ensure map object is in the correct camera
-        Model::Camera* containingCamera = CalcContainingCamera(mapObjectGraphicsItem, mTab->GetModel());
+        EditorCamera* containingCamera = CalcContainingCamera(mapObjectGraphicsItem, mTab->GetModel());
 
         PastedMapObject pastedMapObject;
         pastedMapObject.mContainingCamera = containingCamera;
@@ -155,7 +156,7 @@ void ClipBoard::Set(const QList<QGraphicsItem*>& items, Model& model)
             auto pResizeableArrowItem = qgraphicsitem_cast<ResizeableArrowItem*>(obj);
             if (pResizeableArrowItem)
             {
-               mCollisions.emplace_back(std::make_unique<Model::CollisionObject>(0, *pResizeableArrowItem->GetCollisionItem()));
+               mCollisions.emplace_back(std::make_unique<CollisionObject>(0, *pResizeableArrowItem->GetCollisionItem()));
             }
         }
     }
@@ -172,7 +173,7 @@ GameType ClipBoard::SourceGame() const
     return mSourceGame;
 }
 
-std::vector<UP_MapObjectBase> ClipBoard::CloneMapObjects(QPoint* pos) const
+std::vector<std::unique_ptr<MapObjectBase>> ClipBoard::CloneMapObjects(QPoint* pos) const
 {
     QPoint offset(50, 50);
     if (pos)
@@ -181,7 +182,7 @@ std::vector<UP_MapObjectBase> ClipBoard::CloneMapObjects(QPoint* pos) const
     }
 
     // TODO: Position set or offsetting via pos
-    std::vector<UP_MapObjectBase> r;
+    std::vector<std::unique_ptr<MapObjectBase>> r;
     for (auto& obj : mMapObjects)
     {
         auto copy = obj->Clone();
@@ -192,14 +193,14 @@ std::vector<UP_MapObjectBase> ClipBoard::CloneMapObjects(QPoint* pos) const
     return r;
 }
 
-std::vector<Model::UP_CollisionObject> ClipBoard::CloneCollisions(QPoint* pos) const
+std::vector<std::unique_ptr<CollisionObject>> ClipBoard::CloneCollisions(QPoint* pos) const
 {
     // TODO: Position set or offsetting via pos
 
-    std::vector<Model::UP_CollisionObject> r;
+    std::vector<std::unique_ptr<CollisionObject>> r;
     for (auto& obj : mCollisions)
     {
-        r.emplace_back(std::make_unique<Model::CollisionObject>(0, *obj));
+        r.emplace_back(std::make_unique<CollisionObject>(0, *obj));
     }
     return r;
 }

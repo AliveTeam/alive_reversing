@@ -8,6 +8,7 @@
 #include "Input.hpp"
 #include "Abe.hpp"
 #include "MainMenu.hpp"
+#include "Map.hpp"
 
 extern u8 sRandomSeed; //Math.cpp
 

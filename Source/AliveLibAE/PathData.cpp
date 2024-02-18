@@ -1,10 +1,11 @@
-//#include "stdafx.h"
+#include "stdafx.h"
 #include "PathData.hpp"
 #include "../relive_lib/Function.hpp"
 #include "stdlib.hpp"
 #include <sstream>
 #include <assert.h>
 #include "../relive_lib/FatalError.hpp"
+#include "Collisions.hpp"
 
 const u32 kMaxPaths = 99;
 

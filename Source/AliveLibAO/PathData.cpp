@@ -1,4 +1,4 @@
-//#include "stdafx_ao.h"
+#include "stdafx_ao.h"
 #include "PathData.hpp"
 #include "../relive_lib/Function.hpp"
 #include "../relive_lib/Collisions.hpp"

@@ -1,3 +1,4 @@
+#include "stdafx_ao.h"
 #include "GameAutoPlayer.hpp"
 #include "../relive_lib/GameObjects/BaseGameObject.hpp"
 #include "BaseAliveGameObject.hpp"

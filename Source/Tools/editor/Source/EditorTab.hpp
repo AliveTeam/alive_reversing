@@ -9,7 +9,6 @@
 #include <QTreeWidget>
 #include <QApplication>
 #include <memory>
-#include "Model.hpp"
 #include "SnapSettings.hpp"
 
 namespace Ui
@@ -26,12 +25,14 @@ class CollisionObject;
 class CameraManager;
 class ClipBoard;
 class SnapSettings;
+struct EditorCamera;
+class Model;
 
 class EditorTab final : public QMainWindow, public IPointSnapper
 {
     Q_OBJECT
 public:
-    EditorTab(QTabWidget* aParent, UP_Model model, QString jsonFileName, bool isTempFile, QStatusBar* pStatusBar, SnapSettings& snapSettings);
+    EditorTab(QTabWidget* aParent, std::unique_ptr<Model> model, QString jsonFileName, bool isTempFile, QStatusBar* pStatusBar, SnapSettings& snapSettings);
     ~EditorTab();
     void ZoomIn();
     void ZoomOut();
@@ -75,8 +76,8 @@ public:
     void ConnectCollisions();
 
     ResizeableRectItem* MakeResizeableRectItem(MapObjectBase* pMapObject);
-    ResizeableArrowItem* MakeResizeableArrowItem(Model::CollisionObject* pCollisionObject);
-    CameraGraphicsItem* MakeCameraGraphicsItem(Model::Camera* pCamera, int x, int y, int w, int h);
+    ResizeableArrowItem* MakeResizeableArrowItem(CollisionObject* pCollisionObject);
+    CameraGraphicsItem* MakeCameraGraphicsItem(EditorCamera* pCamera, int x, int y, int w, int h);
 
     CameraManager* GetCameraManagerDialog()
     {
@@ -111,7 +112,7 @@ private:
 
     Ui::EditorTab* ui = nullptr;
     float iZoomLevel = 1.0f;
-    UP_Model mModel;
+    std::unique_ptr<Model> mModel;
     QUndoStack mUndoStack;
     std::unique_ptr<EditorGraphicsScene> mScene;
     QString mJsonFileName;

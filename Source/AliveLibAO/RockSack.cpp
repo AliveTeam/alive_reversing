@@ -1,4 +1,4 @@
-#include "../AliveLibAE/stdlib.hpp"
+#include "stdafx_ao.h"
 #include "../relive_lib/GameObjects/BaseGameObject.hpp"
 #include "../relive_lib/Events.hpp"
 #include "Math.hpp"
@@ -13,6 +13,7 @@
 #include "../relive_lib/Shadow.hpp"
 #include "../relive_lib/data_conversion/relive_tlvs.hpp"
 #include "Path.hpp"
+#include "Map.hpp"
 
 namespace AO {
 

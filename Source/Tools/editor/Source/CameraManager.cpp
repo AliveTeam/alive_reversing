@@ -10,6 +10,7 @@
 #include "CameraGraphicsItem.hpp"
 #include "SelectionSaver.hpp"
 #include "ResizeableRectItem.hpp"
+#include "Model.hpp"
 
 static QPixmap Base64ToPixmap(const std::string& s)
 {
@@ -233,7 +234,7 @@ public:
     {
         setText("Delete camera at " + QString::number(pItem->GetCamera()->mX) + "," + QString::number(pItem->GetCamera()->mY));
 
-        mEmptyCameraModel = std::make_unique<Model::Camera>();
+        mEmptyCameraModel = std::make_unique<EditorCamera>();
         mEmptyCameraModel->mX = pItem->GetCamera()->mX;
         mEmptyCameraModel->mY = pItem->GetCamera()->mY;
 
@@ -332,10 +333,10 @@ private:
     SelectionSaver mSelectionSaver;
     EditorTab* mTab = nullptr;
     CameraGraphicsItem* mCameraOriginal = nullptr;
-    Model::UP_Camera mCameraOriginalModel;
+    std::unique_ptr<EditorCamera> mCameraOriginalModel;
 
     CameraGraphicsItem* mEmptyCamera = nullptr;
-    Model::UP_Camera mEmptyCameraModel;
+    std::unique_ptr<EditorCamera> mEmptyCameraModel;
 
     bool mAdded = false;
 };
@@ -343,18 +344,18 @@ private:
 class CameraListItem final : public QListWidgetItem
 {
 public:
-    CameraListItem(QListWidget* pParent, Model::Camera* pCamera)
+    CameraListItem(QListWidget* pParent, EditorCamera* pCamera)
         : QListWidgetItem(pParent), mCamera(pCamera)
     {
         SetLabel();
     }
 
-    const Model::Camera* GetCamera() const
+    const EditorCamera* GetCamera() const
     {
         return mCamera;
     }
 
-    void SetCamera(Model::Camera* pNew)
+    void SetCamera(EditorCamera* pNew)
     {
         mCamera = pNew;
         SetLabel();
@@ -375,7 +376,7 @@ public:
     }
 
 private:
-    Model::Camera* mCamera = nullptr;
+    EditorCamera* mCamera = nullptr;
 };
 
 CameraManager::CameraManager(QWidget *parent, EditorTab* pParentTab, const QPoint* openedPos) :
@@ -423,7 +424,7 @@ CameraManager::~CameraManager()
     delete ui;
 }
 
-void CameraManager::OnCameraSwapped(Model::Camera* pOld, Model::Camera* pNew)
+void CameraManager::OnCameraSwapped(EditorCamera* pOld, EditorCamera* pNew)
 {
     for (int i = 0; i < ui->lstCameras->count(); i++)
     {
@@ -438,7 +439,7 @@ void CameraManager::OnCameraSwapped(Model::Camera* pOld, Model::Camera* pNew)
     }
 }
 
-void CameraManager::OnCameraIdChanged(Model::Camera* pCam)
+void CameraManager::OnCameraIdChanged(EditorCamera* pCam)
 {
     for (int i = 0; i < ui->lstCameras->count(); i++)
     {
@@ -605,7 +606,7 @@ CameraGraphicsItem* CameraManager::CameraGraphicsItemByPos(const QPoint& pos)
     return pCameraGraphicsItem;
 }
 
-CameraGraphicsItem* CameraManager::CameraGraphicsItemByModelPtr(const Model::Camera* cam)
+CameraGraphicsItem* CameraManager::CameraGraphicsItemByModelPtr(const EditorCamera* cam)
 {
     QList<QGraphicsItem*> itemsAtPos = mTab->GetScene().items();
     for (int i = 0; i < itemsAtPos.count(); i++)

@@ -2,6 +2,7 @@
 #include "IGraphicsItem.hpp"
 #include <QDateTime>
 #include "BigSpinBox.hpp"
+#include "../../relive_lib/Types.hpp"
 
 static qint64 ReadInt(IntegerType intType, void* intPtr)
 {

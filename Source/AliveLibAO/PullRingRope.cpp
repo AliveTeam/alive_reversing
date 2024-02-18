@@ -8,6 +8,7 @@
 #include "../relive_lib/Events.hpp"
 #include "Path.hpp"
 #include "../relive_lib/SwitchStates.hpp"
+#include "Map.hpp"
 
 namespace AO {
 

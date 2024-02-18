@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "AnimationCallBacks.hpp"
 #include "Abe.hpp"    // For anim call back table
 #include "Slig.hpp"   // For slig frame call back

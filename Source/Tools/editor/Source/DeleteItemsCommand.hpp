@@ -3,9 +3,11 @@
 #include <QUndoCommand>
 #include <QList>
 #include <QGraphicsItem>
-#include "Model.hpp"
+#include "../../relive_api/TlvsRelive.hpp"
 
 class EditorTab;
+struct EditorCamera;
+class CollisionObject;
 
 class DeleteItemsCommand final : public QUndoCommand
 {
@@ -19,11 +21,11 @@ public:
     void redo() override;
 
 private:
-    std::vector<Model::UP_CollisionObject> mRemovedCollisions;
+    std::vector<std::unique_ptr<CollisionObject>> mRemovedCollisions;
     struct DeletedMapObject final
     {
-        UP_MapObjectBase mRemovedMapObject;
-        Model::Camera* mContainingCamera;
+        std::unique_ptr<MapObjectBase> mRemovedMapObject;
+        EditorCamera* mContainingCamera;
     };
     std::vector<DeletedMapObject> mRemovedMapObjects;
 

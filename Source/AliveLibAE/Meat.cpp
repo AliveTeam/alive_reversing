@@ -17,6 +17,7 @@
 #include "../relive_lib/FixedPoint.hpp"
 #include "Math.hpp"
 #include "QuikSave.hpp"
+#include "../relive_lib/Collisions.hpp"
 
 Meat::Meat(FP xpos, FP ypos, s16 count)
     : BaseThrowable(0)

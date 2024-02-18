@@ -6,6 +6,7 @@
 #include "../BitField.hpp"
 #include "../../AliveLibAE/PathData.hpp"
 #include "../FatalError.hpp"
+#include "../Collisions.hpp"
 
 #include "relive_tlvs.hpp"
 

@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "MapWrapper.hpp"
 #include "../AliveLibAE/Map.hpp"
 #include "../AliveLibAO/Map.hpp"

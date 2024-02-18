@@ -7,11 +7,12 @@
 #include "ResizeableRectItem.hpp"
 #include "CameraGraphicsItem.hpp"
 #include <QDebug>
+#include "Model.hpp"
 
 struct RemovedCamera final
 {
     // Item we've removed from the model
-     Model::UP_Camera mCameraModel;
+     std::unique_ptr<EditorCamera> mCameraModel;
 
     // The graphics item for this camera
     CameraGraphicsItem* mCameraGraphicsItem = nullptr;
@@ -257,11 +258,11 @@ struct AddedCamera final
     CameraGraphicsItem* mCameraGraphicsItem = nullptr;
 
     // New model item
-    Model::UP_Camera mCameraModel;
+    std::unique_ptr<EditorCamera> mCameraModel;
 
     AddedCamera(EditorTab* pTab, int x, int y)
     {
-        mCameraModel = std::make_unique<Model::Camera>();
+        mCameraModel = std::make_unique<EditorCamera>();
         mCameraModel->mX = x;
         mCameraModel->mY = y;
         const auto& model = pTab->GetModel();

@@ -1,6 +1,5 @@
 #include "PropertyTreeWidget.hpp"
 #include "PropertyTreeItemBase.hpp"
-#include "Model.hpp"
 #include "ResizeableArrowItem.hpp"
 #include "ResizeableRectItem.hpp"
 #include "StringProperty.hpp"
@@ -9,7 +8,7 @@
 #include "EnumProperty.hpp"
 #include <QHeaderView>
 #include <QDebug>
-
+#include "../../Tools/relive_api/TlvsRelive.hpp"
 
 class PropertyCreator final : public IReflector
 {

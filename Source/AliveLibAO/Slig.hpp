@@ -1,6 +1,5 @@
 #pragma once
 
-#include "Map.hpp"
 #include "BaseAliveGameObject.hpp"
 #include "../relive_lib/FatalError.hpp"
 

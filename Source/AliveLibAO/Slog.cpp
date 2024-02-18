@@ -24,6 +24,7 @@
 #include "../relive_lib/ObjectIds.hpp"
 #include "Path.hpp"
 #include "../AliveLibAE/Game.hpp"
+#include "Map.hpp"
 
 namespace AO {
 

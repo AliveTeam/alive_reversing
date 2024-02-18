@@ -3,7 +3,6 @@
 #include <QGraphicsLineItem>
 #include <QGraphicsView>
 #include "IGraphicsItem.hpp"
-#include "Model.hpp"
 
 class CollisionObject;
 class ISyncPropertiesToTree;
@@ -13,12 +12,12 @@ class IPointSnapper;
 class ResizeableArrowItem final : public IGraphicsItem, public QGraphicsLineItem
 {
 public:
-    ResizeableArrowItem(QGraphicsView* pView, Model::CollisionObject* pLine, ISyncPropertiesToTree& propSyncer, int transparency, SnapSettings& snapSettings, IPointSnapper& snapper);
+    ResizeableArrowItem(QGraphicsView* pView, CollisionObject* pLine, ISyncPropertiesToTree& propSyncer, int transparency, SnapSettings& snapSettings, IPointSnapper& snapper);
     enum { Type = UserType + 2 };
     int type() const override { return Type; }
     QLineF SaveLine() const;
     void RestoreLine(const QLineF& line);
-    Model::CollisionObject* GetCollisionItem() const
+    CollisionObject* GetCollisionItem() const
     {
         return mLine;
     }
@@ -59,7 +58,7 @@ private:
     QLineF m_MouseDownLine;
     bool m_MouseIsDown = false;
     QGraphicsView* mView = nullptr;
-    Model::CollisionObject* mLine = nullptr;
+    CollisionObject* mLine = nullptr;
     ISyncPropertiesToTree& mPropSyncer;
 
     SnapSettings& mSnapSettings;

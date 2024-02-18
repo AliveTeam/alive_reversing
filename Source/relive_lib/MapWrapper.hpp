@@ -1,7 +1,7 @@
 #pragma once
 
-#include "stdafx.h"
-#include "Camera.hpp"
+#include "Types.hpp"
+#include "../AliveLibAE/Math.hpp"
 
 enum class CameraPos : s16
 {

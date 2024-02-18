@@ -3,12 +3,13 @@
 #include <QGraphicsScene>
 #include <QKeyEvent>
 #include <map>
-#include "Model.hpp"
 
 class ResizeableArrowItem;
 class ResizeableRectItem;
 class CameraGraphicsItem;
 class EditorTab;
+struct EditorCamera;
+class Model;
 
 class ItemPositionData final
 {
@@ -16,7 +17,7 @@ public:
     struct RectPos final
     {
         QRectF rect;
-        Model::Camera* containingCamera = nullptr;
+        EditorCamera* containingCamera = nullptr;
 
         bool operator == (const RectPos& rhs) const
         {
@@ -129,7 +130,7 @@ private:
     int mMapObjectTransparency = 60;
 };
 
-Model::Camera* CalcContainingCamera(ResizeableRectItem* pItem, Model& model);
+EditorCamera* CalcContainingCamera(ResizeableRectItem* pItem, Model& model);
 
 class EditorGraphicsScene final : public QGraphicsScene
 {

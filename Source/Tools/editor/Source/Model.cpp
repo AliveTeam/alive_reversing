@@ -71,9 +71,9 @@ static bool ReadBool(nlohmann::json& o, const std::string& key)
     return o.at(key);
 }
 
-Model::Camera* Model::GetContainingCamera(MapObjectBase* pMapObject)
+EditorCamera* Model::GetContainingCamera(MapObjectBase* pMapObject)
 {
-    Model::Camera* pContainingCamera = nullptr;
+    EditorCamera* pContainingCamera = nullptr;
     for (auto& camera : mCameras)
     {
         for (auto& mapObj : camera->mMapObjects)
@@ -106,7 +106,7 @@ UP_MapObjectBase Model::TakeFromContainingCamera(MapObjectBase* pMapObject)
     return nullptr;
 }
 
-Model::UP_Camera Model::RemoveCamera(Model::Camera* pCamera)
+std::unique_ptr<EditorCamera> Model::RemoveCamera(EditorCamera* pCamera)
 {
     for (auto it = mCameras.begin(); it != mCameras.end(); )
     {
@@ -126,7 +126,7 @@ void Model::AddCamera(UP_Camera pCamera)
     mCameras.push_back(std::move(pCamera));
 }
 
-void Model::SwapContainingCamera(MapObjectBase* pMapObject, Camera* pTargetCamera)
+void Model::SwapContainingCamera(MapObjectBase* pMapObject, EditorCamera* pTargetCamera)
 {
     pTargetCamera->mMapObjects.push_back(TakeFromContainingCamera(pMapObject));
 }
@@ -963,7 +963,7 @@ void Model::LoadJsonFromString(const std::string& json)
     {
         nlohmann::json camera = cameras.at(static_cast<unsigned int>(i));
 
-        auto tmpCamera = std::make_unique<Camera>();
+        auto tmpCamera = std::make_unique<EditorCamera>();
         tmpCamera->mId = ReadNumber(camera, "id");
         tmpCamera->mName = ReadString(camera, "name");
         tmpCamera->mX = ReadNumber(camera, "x");
@@ -1029,7 +1029,7 @@ void Model::CreateAsNewPath(int newPathId)
     mCameras.clear();
     mCollisions.clear();
 
-    auto cam = std::make_unique<Camera>();
+    auto cam = std::make_unique<EditorCamera>();
     cam->mX = 0;
     cam->mY = 0;
     mCameras.emplace_back(std::move(cam));
@@ -1147,7 +1147,7 @@ std::string Model::ToJson() const
     return root.dump(4);
 }
 
-Model::UP_CollisionObject Model::RemoveCollisionItem(Model::CollisionObject* pItem)
+std::unique_ptr<CollisionObject> Model::RemoveCollisionItem(CollisionObject* pItem)
 {
     for (auto it = mCollisions.begin(); it != mCollisions.end(); )
     {
@@ -1171,7 +1171,7 @@ void Model::CreateEmptyCameras()
         {
             if (!CameraAt(x, y))
             {
-                auto cam = std::make_unique<Camera>();
+                auto cam = std::make_unique<EditorCamera>();
                 cam->mX = x;
                 cam->mY = y;
                 mCameras.emplace_back(std::move(cam));
@@ -1202,7 +1202,7 @@ void Model::CalculateMapSize()
     mYSize++;
 }
 
-Model::CollisionObject::CollisionObject(int id, const Model::CollisionObject& rhs)
+CollisionObject::CollisionObject(int id, const CollisionObject& rhs)
     : mId(id)
 {
     mLine = rhs.mLine;

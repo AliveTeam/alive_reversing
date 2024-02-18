@@ -1,3 +1,4 @@
+#include "../../relive_lib/Types.hpp"
 #include "EnumProperty.hpp"
 #include "IGraphicsItem.hpp"
 #include <QComboBox>

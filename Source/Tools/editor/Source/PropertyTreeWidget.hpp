@@ -1,7 +1,6 @@
 #pragma once
 
 #include <QTreeWidget>
-#include "Model.hpp"
 
 class PropertyTreeItemBase;
 class IGraphicsItem;
@@ -9,7 +8,7 @@ struct MapObject;
 class CollisionObject;
 class QGraphicsItem;
 class QUndoStack;
-
+class Model;
 
 inline const QString kIndent("    ");
 
@@ -35,6 +34,5 @@ public:
 
 private:
     void Sync(IGraphicsItem* pItem) override;
-  //  void AddProperties(Model& model, QUndoStack& undoStack, QList<QTreeWidgetItem*>& items, std::vector<UP_ObjectProperty>& props, IGraphicsItem* pGraphicsItem);
 
 };

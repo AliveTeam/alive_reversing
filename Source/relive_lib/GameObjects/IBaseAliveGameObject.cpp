@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "IBaseAliveGameObject.hpp"
 #include "../GameType.hpp"
 #include "../ObjectIds.hpp"

@@ -12,6 +12,7 @@
 #include "../relive_lib/Grid.hpp"
 #include "../relive_lib/FixedPoint.hpp"
 #include "Path.hpp"
+#include "Map.hpp"
 
 namespace AO {
 

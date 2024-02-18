@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "GameAutoPlayer.hpp"
 #include "Input.hpp"
 #include "BaseAliveGameObject.hpp"
