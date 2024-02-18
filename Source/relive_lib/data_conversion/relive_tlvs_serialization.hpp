@@ -2,6 +2,7 @@
 
 #include "relive_tlvs.hpp"
 #include "nlohmann/json.hpp"
+#include "../../relive_lib/Collisions.hpp"
 #include "CommonTypesSerialization.hpp"
 
 inline void to_json(nlohmann::json& j, const PathLine& p)
