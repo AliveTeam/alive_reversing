@@ -5,6 +5,7 @@
 #include "ResizeableRectItem.hpp"
 #include "StringProperty.hpp"
 #include "BasicTypeProperty.hpp"
+#include "BoolProperty.hpp"
 #include "EnumProperty.hpp"
 #include <QHeaderView>
 #include <QDebug>
@@ -25,6 +26,11 @@ public:
     PropertyCreator(QUndoStack& undoStack, IGraphicsItem* pGraphicsItem)
      : mUndoStack(undoStack), mGraphicsItem(pGraphicsItem)
     {
+    }
+
+    void Visit(const char* fieldName, bool& field) override
+    {
+        mCreatedProperties.append(new BoolProperty(field, fieldName, mUndoStack, mGraphicsItem));
     }
 
     void Visit(const char* fieldName, relive::reliveScale& field) override
@@ -66,6 +72,10 @@ private:
 class PropertyFieldCollector final : public IReflector
 {
 public:
+    void Visit(const char* fieldName, bool& field) override
+    {
+        AddField(fieldName, field);
+    }
 
     void Visit(const char* fieldName, relive::reliveScale& field) override
     {

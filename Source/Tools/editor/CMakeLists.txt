@@ -128,8 +128,8 @@ set(PROJECT_SOURCES
         Source/PropertyTreeWidget.hpp
         Source/BasicTypeProperty.hpp
         Source/BasicTypeProperty.cpp
-        Source/BasicTypeProperty.hpp
-        Source/BasicTypeProperty.cpp
+        Source/BoolProperty.hpp
+        Source/BoolProperty.cpp
         Source/EnumProperty.cpp
         Source/EnumProperty.hpp
         Source/resources.qrc
