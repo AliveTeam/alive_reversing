@@ -270,24 +270,58 @@ public:
     void contextMenuEvent(QContextMenuEvent* pEvent) override
     {
         QMenu menu(this);
-        auto pEditCameraAction = new QAction("Edit camera", &menu);
-        connect(pEditCameraAction, &QAction::triggered, this, [&]()
+
+        const QPoint scenePos = mapToScene(pEvent->pos()).toPoint();
+        QList<QGraphicsItem*> itemsAtMousePos = items(scenePos);
+        qDebug() << "There are " << itemsAtMousePos.count() << " at the context menu";
+
+        bool cameraAtMenu = false;
+        for (s32 i = 0; i < itemsAtMousePos.count(); i++)
+        {
+            auto pCameraItem = qgraphicsitem_cast<CameraGraphicsItem*>(itemsAtMousePos[i]);
+            if (pCameraItem)
             {
-                const QPoint scenePos = mapToScene(pEvent->pos()).toPoint();
-                CameraManager cameraManager(this, mEditorTab, &scenePos);
-                mEditorTab->SetCameraManagerDialog(&cameraManager);
-                cameraManager.exec();
-                mEditorTab->SetCameraManagerDialog(nullptr);
-            });
-        menu.addAction(pEditCameraAction);
-        auto pConnectCollisionsAction = new QAction("Connect collisions", &menu);
-        connect(pConnectCollisionsAction, &QAction::triggered, this, [&]()
-            {
-                mEditorTab->ConnectCollisions();
+                cameraAtMenu = true;
+                break;
             }
-        );
-        menu.addAction(pConnectCollisionsAction);
-        menu.exec(pEvent->globalPos());
+        }
+
+        if (cameraAtMenu)
+        {
+            auto pEditCameraAction = new QAction("Edit camera", &menu);
+            connect(pEditCameraAction, &QAction::triggered, this, [&]()
+                {
+                    CameraManager cameraManager(this, mEditorTab, &scenePos);
+                    mEditorTab->SetCameraManagerDialog(&cameraManager);
+                    cameraManager.exec();
+                    mEditorTab->SetCameraManagerDialog(nullptr);
+                });
+            menu.addAction(pEditCameraAction);
+        }
+
+        if (scene()->selectedItems().count() > 0)
+        {
+            // TODO: Copy
+
+            // TODO: Cut
+
+            // TODO: Check if the selection has collision items
+            // If nothing is selected its impossible to connect collision items
+            auto pConnectCollisionsAction = new QAction("Connect collisions", &menu);
+            connect(pConnectCollisionsAction, &QAction::triggered, this, [&]()
+                {
+                    mEditorTab->ConnectCollisions();
+                }
+            );
+            menu.addAction(pConnectCollisionsAction);
+        }
+
+        // TODO: Show paste if the global clipboard object owned by MainWindow isn't empty
+
+        if (menu.actions().count() > 0)
+        {
+            menu.exec(pEvent->globalPos());
+        }
     }
 
     void dragEnterEvent(QDragEnterEvent* pEvent) override
