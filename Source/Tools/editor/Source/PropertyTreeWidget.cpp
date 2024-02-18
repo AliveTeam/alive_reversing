@@ -22,14 +22,14 @@ private:
     }
 
 public:
-    PropertyCreator(QUndoStack& undoStack, IGraphicsItem* pGraphicsItem)
-     : mUndoStack(undoStack), mGraphicsItem(pGraphicsItem)
+    PropertyCreator(PropertyTreeWidget* pTree, QUndoStack& undoStack, IGraphicsItem* pGraphicsItem)
+     : mPropertyTree(pTree), mUndoStack(undoStack), mGraphicsItem(pGraphicsItem)
     {
     }
 
     void Visit(const char* fieldName, bool& field) override
     {
-        mCreatedProperties.append(new BoolProperty(field, fieldName, mUndoStack, mGraphicsItem));
+        mCreatedProperties.append(new BoolProperty(mPropertyTree, field, fieldName, mUndoStack, mGraphicsItem));
     }
 
     void Visit(const char* fieldName, relive::reliveScale& field) override
@@ -57,14 +57,15 @@ public:
         mCreatedProperties.append(new BasicTypeProperty(IntegerType::Int_S32, &field, fieldName, mUndoStack, mGraphicsItem));
     }
 
-    QList<QTreeWidgetItem*>& CreatedProperties()
+    QList<PropertyTreeItemBase*>& CreatedProperties()
     {
         return mCreatedProperties;
     }
 private:
+    PropertyTreeWidget* mPropertyTree = nullptr;
     QUndoStack& mUndoStack;
     IGraphicsItem* mGraphicsItem = nullptr;
-    QList<QTreeWidgetItem*> mCreatedProperties;
+    QList<PropertyTreeItemBase*> mCreatedProperties;
 };
 
 
@@ -131,21 +132,33 @@ PropertyTreeItemBase* PropertyTreeWidget::FindObjectPropertyByKey(const void* pK
 
 void PropertyTreeWidget::Populate(Model& model, QUndoStack& undoStack, QGraphicsItem* pItem)
 {
+     QList<PropertyTreeItemBase*> createdProperties;
+
     auto pRect = qgraphicsitem_cast<ResizeableRectItem*>(pItem);
     if (pRect)
     {
         MapObjectBase* pMapObject = pRect->GetMapObject();
-        PropertyCreator pc(undoStack, pRect);
+        PropertyCreator pc(this, undoStack, pRect);
         pMapObject->Visit(pc);
-        insertTopLevelItems(0, pc.CreatedProperties());
+        createdProperties = pc.CreatedProperties();
     }
 
     auto pLine = qgraphicsitem_cast<ResizeableArrowItem*>(pItem);
     if (pLine)
     {
-        PropertyCreator pc(undoStack, pLine);
+        PropertyCreator pc(this, undoStack, pLine);
         pLine->Visit(pc);
-        insertTopLevelItems(0, pc.CreatedProperties());
+        createdProperties = pc.CreatedProperties();
+    }
+
+    for (s32 i=0; i < createdProperties.count(); i++)
+    {
+        auto item = createdProperties[i];
+        insertTopLevelItem(i, item);
+        if (item->PersistentEditorWidget())
+        {
+            setItemWidget(item, 1, item->CreateEditorWidget(this));
+        }
     }
 }
 
@@ -175,13 +188,18 @@ void PropertyTreeWidget::Init()
 
     setRootIsDecorated(false);
 
-    connect(this, &QTreeWidget::itemClicked, this, [&](QTreeWidgetItem* current, int col)
+
+    connect(this, &QTreeWidget::itemPressed, this, [&](QTreeWidgetItem* current, int col)
         {
             if (current && col == 1)
             {
                 if (!itemWidget(current, 1))
                 {
-                    setItemWidget(current, 1, static_cast<PropertyTreeItemBase*>(current)->CreateEditorWidget(this));
+                    auto pDerived = static_cast<PropertyTreeItemBase*>(current);
+                    if (!pDerived->PersistentEditorWidget())
+                    {
+                        setItemWidget(current, 1, pDerived->CreateEditorWidget(this));
+                    }
                 }
             }
         });
@@ -189,12 +207,20 @@ void PropertyTreeWidget::Init()
         {
             if (prev)
             {
-                setItemWidget(prev, 1, nullptr);
+                auto pDerived = static_cast<PropertyTreeItemBase*>(prev);
+                if (!pDerived->PersistentEditorWidget())
+                {
+                    setItemWidget(prev, 1, nullptr);
+                }
             }
 
             if (current)
             {
-                setItemWidget(current, 1, static_cast<PropertyTreeItemBase*>(current)->CreateEditorWidget(this));
+                auto pDerived = static_cast<PropertyTreeItemBase*>(current);
+                if (!pDerived->PersistentEditorWidget())
+                {
+                    setItemWidget(current, 1, static_cast<PropertyTreeItemBase*>(current)->CreateEditorWidget(this));
+                }
             }
         });
 }

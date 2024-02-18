@@ -57,9 +57,10 @@ class BoolProperty final : public QObject, public PropertyTreeItemBase
     Q_OBJECT
 public:
 
-    BoolProperty(bool& boolProperty, const char* pPropertyName, QUndoStack& undoStack, IGraphicsItem* pGraphicsItem);
+    BoolProperty(PropertyTreeWidget* pParent, bool& boolProperty, const char* pPropertyName, QUndoStack& undoStack, IGraphicsItem* pGraphicsItem);
 
     QWidget* CreateEditorWidget(PropertyTreeWidget* pParent) override;
+    bool PersistentEditorWidget() const override { return true; }
 
     const void* GetPropertyLookUpKey() const override
     {

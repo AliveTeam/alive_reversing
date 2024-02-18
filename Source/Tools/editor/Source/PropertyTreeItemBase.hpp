@@ -12,5 +12,9 @@ public:
 
     virtual void Refresh() = 0;
 
+    // Return true so that the editor widget always exists instead of only
+    // appears when the property tree row has focus.
+    virtual bool PersistentEditorWidget() const { return false; }
+
     virtual const void* GetPropertyLookUpKey() const = 0;
 };
