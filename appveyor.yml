@@ -179,8 +179,8 @@ test: off
 
 on_failure:
   - ps: |
-    if($env:APPVEYOR_BUILD_WORKER_IMAGE) -eq "Visual Studio 2022" {
-      python ../Scripts/appveyor_discord_webhook.py failure
-    } else {
-      python3 ../Scripts/appveyor_discord_webhook.py failure
-    }
+      if ($env:APPVEYOR_BUILD_WORKER_IMAGE) -eq "Visual Studio 2022" {
+        python ../Scripts/appveyor_discord_webhook.py failure
+      } else {
+        python3 ../Scripts/appveyor_discord_webhook.py failure
+      }
