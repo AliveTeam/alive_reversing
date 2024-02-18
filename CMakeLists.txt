@@ -152,16 +152,6 @@ target_precompile_headers(
     "${CMAKE_CURRENT_SOURCE_DIR}/Source/relive_lib/pch_shared.h"
 )
 
-#target_precompile_headers(
-#    AliveLibAE PRIVATE
-#    "${CMAKE_CURRENT_SOURCE_DIR}/Source/relive_lib/pch_shared.h"
-#)
-# AO needs its own PCH because of different `BEHAVIOUR_CHANGE_SUB_DATA_FOLDERS` defines with `AliveLibCommon`
-#target_precompile_headers(
-#    AliveLibAO PRIVATE
-#    "${CMAKE_CURRENT_SOURCE_DIR}/Source/relive_lib/pch_shared.h"
-#)
-
 #target_precompile_headers(relive_api_integration_test REUSE_FROM AliveLibAO)
 #target_precompile_headers(
 #    relive_api_integration_test PRIVATE
@@ -190,6 +180,11 @@ target_precompile_headers(
 target_precompile_headers(
     relive_lib PRIVATE
     "${CMAKE_CURRENT_SOURCE_DIR}/Source/relive_lib/pch_shared.h"
+)
+
+target_precompile_headers(
+    qt-editor PRIVATE
+    "${CMAKE_CURRENT_SOURCE_DIR}/Source/Tools/editor/Source/pch_editor.h"
 )
 
 #if(WIN32)
