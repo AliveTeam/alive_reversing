@@ -987,7 +987,13 @@ void Model::LoadJsonFromString(const std::string& json)
             {
                 const ReliveTypes objType = mapObject.at("tlv_type").template get<ReliveTypes>();
 
-                DeserializeObjectFactory(tmpCamera->mMapObjects, mapObject, objType);
+                auto it = MapObjectBase::GetEditorFactoryRegistry().find(objType);
+                if (it != std::end(MapObjectBase::GetEditorFactoryRegistry()))
+                {
+                    tmpCamera->mMapObjects.emplace_back(it->second(mapObject));
+                }
+
+                //DeserializeObjectFactory(tmpCamera->mMapObjects, mapObject, objType);
             }
         }
         mCameras.push_back(std::move(tmpCamera));
