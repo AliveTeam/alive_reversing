@@ -15,6 +15,8 @@ public:
 
     virtual void Visit(const char* fieldName, relive::reliveScale& field) = 0;
 
+    virtual void Visit(const char* fieldName, bool& field) = 0;
+
     virtual void Visit(const char* fieldName, u16& field) = 0;
     virtual void Visit(const char* fieldName, s16& field) = 0;
 
@@ -239,7 +241,7 @@ public:
         //r.Visit("Facing", mTlv.mFacing);
         r.Visit("Voice Pitch", mTlv.mVoicePitch);
         r.Visit("Rescue Switch ID", mTlv.mRescueSwitchId);
-        //r.Visit("Deaf", mTlv.mDeaf);
+        r.Visit("Deaf", mTlv.mDeaf);
         r.Visit("Disabled Resources", mTlv.mDisabledResources);
         //r.Visit("Persist & Reset Offscreen", mTlv.mPersistAndResetOffscreen);
         //r.Visit("Emotion", mTlv.mEmotion);

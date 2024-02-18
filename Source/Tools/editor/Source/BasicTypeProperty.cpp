@@ -93,7 +93,7 @@ void ChangeBasicTypePropertyCommand::UpdateText()
 }
 
 BasicTypeProperty::BasicTypeProperty(IntegerType intType, void* pInteger, const char* pPropertyName, QUndoStack& undoStack, IGraphicsItem* pGraphicsItem)
-    : PropertyTreeItemBase((QTreeWidgetItem*)nullptr)
+    : PropertyTreeItemBase()
     , mIntType(intType)
     , mIntegerPtr(pInteger)
     , mPropertyName(pPropertyName)
