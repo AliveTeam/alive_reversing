@@ -102,6 +102,7 @@ public:
     }
 
     virtual std::unique_ptr<MapObjectBase> Clone() const = 0;
+    virtual nlohmann::json SerializeObject() = 0;
 };
 
 template<typename DerivedType, ReliveTypes ReliveEnumType>
@@ -136,6 +137,17 @@ struct MapObjectBaseInterface : public MapObjectBase
         tmpMapObject->mTlv.mBottomRightY = tmpMapObject->mTlv.Height();
 
         return tmpMapObject;
+    }
+
+    nlohmann::json SerializeObject() final
+    {
+        // Re-purpose to mBottomRightX/mBottomRightY for ingame use
+        mBaseTlv->mBottomRightX += mBaseTlv->mTopLeftX;
+        mBaseTlv->mBottomRightY += mBaseTlv->mTopLeftY;
+
+        nlohmann::json mapObj;
+        to_json(mapObj, static_cast<DerivedType*>(this)->mTlv);
+        return mapObj;
     }
 
     std::unique_ptr<MapObjectBase> Clone() const final
