@@ -27,19 +27,83 @@ public:
     {
     }
 
-    void Visit(const char* fieldName, relive::Path_Mudokon::Mud_TLV_Emotion& field) override
-    {
-        AddEnumProperty(fieldName, field);
-    }
+    #define ENUM_VISIT_FUNC(enumName)                           \
+    void Visit(const char* fieldName, enumName& field) override \
+    {                                                           \
+        AddEnumProperty(fieldName, field);                      \
+    }                                                           \
+
+    ENUM_VISIT_FUNC(relive::reliveScale)
+    ENUM_VISIT_FUNC(relive::Path_Mudokon::Mud_TLV_Emotion)
+    ENUM_VISIT_FUNC(relive::Path_BirdPortal::PortalSide)
+    ENUM_VISIT_FUNC(relive::Path_FlyingSlig::SpawnDelayStates)
+    ENUM_VISIT_FUNC(relive::Path_Slig_Data::DeathMode)
+    ENUM_VISIT_FUNC(relive::Path_Slig_Data::StartState)
+    ENUM_VISIT_FUNC(relive::reliveXDirection)
+    ENUM_VISIT_FUNC(relive::reliveSwitchOp)
+    ENUM_VISIT_FUNC(eLineTypes)
+    ENUM_VISIT_FUNC(EReliveLevelIds)
+    ENUM_VISIT_FUNC(relive::reliveScreenChangeEffects)
+    ENUM_VISIT_FUNC(relive::Path_ElectricWall::ElectricWallStartState)
+    ENUM_VISIT_FUNC(relive::Path_Mudokon::MudJobs)
+    ENUM_VISIT_FUNC(relive::Path_BirdPortal::PortalType)
+    ENUM_VISIT_FUNC(relive::Path_Door::DoorStates)
+    ENUM_VISIT_FUNC(relive::Path_Door::DoorTypes)
+    ENUM_VISIT_FUNC(relive::Path_Lever::LeverSoundType)
+    ENUM_VISIT_FUNC(relive::Path_Lever::LeverSoundDirection)
+    ENUM_VISIT_FUNC(relive::Path_Hoist::Type)
+    ENUM_VISIT_FUNC(relive::Path_Hoist::GrabDirection)
+    ENUM_VISIT_FUNC(relive::Path_BoomMachine::NozzleSide)
+    ENUM_VISIT_FUNC(relive::Path_EnemyStopper::StopDirection)
+    ENUM_VISIT_FUNC(relive::Path_UXB::StartState)
+    ENUM_VISIT_FUNC(relive::Path_Edge::GrabDirection)
+    ENUM_VISIT_FUNC(relive::Path_ShadowZone::Scale)
+    ENUM_VISIT_FUNC(relive::Path_MusicTrigger::MusicTriggerMusicType)
+    ENUM_VISIT_FUNC(relive::Path_MusicTrigger::TriggeredBy)
+    ENUM_VISIT_FUNC(relive::Path_InvisibleSwitch::InvisibleSwitchScale)
+    ENUM_VISIT_FUNC(relive::Path_GasEmitter::GasColour)
+    ENUM_VISIT_FUNC(relive::Path_BackgroundAnimation::BgAnimSounds)
+    ENUM_VISIT_FUNC(relive::Path_BackgroundAnimation::Layer)
+    ENUM_VISIT_FUNC(relive::TBlendModes)
+    ENUM_VISIT_FUNC(relive::Path_LiftPoint::LiftPointStopType)
+    ENUM_VISIT_FUNC(relive::Path_PullRingRope::PullRingSwitchSound)
+    ENUM_VISIT_FUNC(relive::Path_PullRingRope::PullRingSoundDirection)
+    ENUM_VISIT_FUNC(relive::Path_ContinuePoint::Scale)
+    ENUM_VISIT_FUNC(relive::Path_ContinuePoint::spawnDirection)
+    ENUM_VISIT_FUNC(relive::Path_WheelSyncer::OutputRequirement)
+    ENUM_VISIT_FUNC(relive::Path_Drill::DrillBehavior)
+    ENUM_VISIT_FUNC(relive::Path_Drill::DrillDirection)
+    ENUM_VISIT_FUNC(relive::Path_TrapDoor::StartState)
+    ENUM_VISIT_FUNC(relive::Path_LiftMover::YDirection)
+    ENUM_VISIT_FUNC(relive::Path_MotionDetector::InitialMoveDirection)
+    ENUM_VISIT_FUNC(relive::Path_DoorFlame::Colour)
+    ENUM_VISIT_FUNC(relive::Path_CrawlingSlig::StartState)
+    ENUM_VISIT_FUNC(relive::Path_CrawlingSlig::CrawlDirection)
+    ENUM_VISIT_FUNC(relive::Path_CrawlingSligButton::ButtonSounds)
+    ENUM_VISIT_FUNC(relive::Path_Glukkon::GlukkonTypes)
+    ENUM_VISIT_FUNC(relive::Path_Glukkon::Facing)
+    ENUM_VISIT_FUNC(relive::Path_Glukkon::SpawnType)
+    ENUM_VISIT_FUNC(relive::Path_Glukkon::Behavior)
+    ENUM_VISIT_FUNC(relive::Path_FootSwitch::FootSwitchTriggerBy)
+    ENUM_VISIT_FUNC(relive::Path_SlogSpawner::StartDirection)
+    ENUM_VISIT_FUNC(relive::Path_Scrab::ScrabPatrolType)
+    ENUM_VISIT_FUNC(relive::Path_ScrabSpawner::SpawnDirection)
+    ENUM_VISIT_FUNC(relive::Path_Paramite::EntranceType)
+    ENUM_VISIT_FUNC(relive::Path_BellsongStone::BellsongTypes)
+    ENUM_VISIT_FUNC(relive::Path_LightEffect::Type)
+    ENUM_VISIT_FUNC(relive::Path_RingMudokon::MustFaceMud)
+    ENUM_VISIT_FUNC(relive::Path_MeatSaw::Type)
+    ENUM_VISIT_FUNC(relive::Path_MeatSaw::StartState)
+    ENUM_VISIT_FUNC(relive::Path_LiftMudokon::Direction)
+    ENUM_VISIT_FUNC(relive::Path_BeeSwarmHole::MovementType)
+    ENUM_VISIT_FUNC(relive::Path_ZBall::StartPos)
+    ENUM_VISIT_FUNC(relive::Path_ZBall::Speed)
+
+    #undef ENUM_VISIT_FUNC
 
     void Visit(const char* fieldName, bool& field) override
     {
         mCreatedProperties.append(new BoolProperty(mPropertyTree, field, fieldName, mUndoStack, mGraphicsItem));
-    }
-
-    void Visit(const char* fieldName, relive::reliveScale& field) override
-    {
-        AddEnumProperty(fieldName, field);
     }
 
     void Visit(const char* fieldName, u16& field) override
@@ -77,17 +141,82 @@ private:
 class PropertyFieldCollector final : public IReflector
 {
 public:
-    void Visit(const char* fieldName, relive::Path_Mudokon::Mud_TLV_Emotion& field) override
-    {
-        AddField(fieldName, field);
-    }
+
+    #define ENUM_VISIT_FUNC(enumName)                           \
+    void Visit(const char* fieldName, enumName& field) override \
+    {                                                           \
+        AddField(fieldName, field);                             \
+    }                                                           \
+
+    ENUM_VISIT_FUNC(relive::reliveScale)
+    ENUM_VISIT_FUNC(relive::Path_Mudokon::Mud_TLV_Emotion)
+    ENUM_VISIT_FUNC(relive::Path_BirdPortal::PortalSide)
+    ENUM_VISIT_FUNC(relive::Path_FlyingSlig::SpawnDelayStates)
+    ENUM_VISIT_FUNC(relive::Path_Slig_Data::DeathMode)
+    ENUM_VISIT_FUNC(relive::Path_Slig_Data::StartState)
+    ENUM_VISIT_FUNC(relive::reliveXDirection)
+    ENUM_VISIT_FUNC(relive::reliveSwitchOp)
+    ENUM_VISIT_FUNC(eLineTypes)
+    ENUM_VISIT_FUNC(EReliveLevelIds)
+    ENUM_VISIT_FUNC(relive::reliveScreenChangeEffects)
+    ENUM_VISIT_FUNC(relive::Path_ElectricWall::ElectricWallStartState)
+    ENUM_VISIT_FUNC(relive::Path_Mudokon::MudJobs)
+    ENUM_VISIT_FUNC(relive::Path_BirdPortal::PortalType)
+    ENUM_VISIT_FUNC(relive::Path_Door::DoorStates)
+    ENUM_VISIT_FUNC(relive::Path_Door::DoorTypes)
+    ENUM_VISIT_FUNC(relive::Path_Lever::LeverSoundType)
+    ENUM_VISIT_FUNC(relive::Path_Lever::LeverSoundDirection)
+    ENUM_VISIT_FUNC(relive::Path_Hoist::Type)
+    ENUM_VISIT_FUNC(relive::Path_Hoist::GrabDirection)
+    ENUM_VISIT_FUNC(relive::Path_BoomMachine::NozzleSide)
+    ENUM_VISIT_FUNC(relive::Path_EnemyStopper::StopDirection)
+    ENUM_VISIT_FUNC(relive::Path_UXB::StartState)
+    ENUM_VISIT_FUNC(relive::Path_Edge::GrabDirection)
+    ENUM_VISIT_FUNC(relive::Path_ShadowZone::Scale)
+    ENUM_VISIT_FUNC(relive::Path_MusicTrigger::MusicTriggerMusicType)
+    ENUM_VISIT_FUNC(relive::Path_MusicTrigger::TriggeredBy)
+    ENUM_VISIT_FUNC(relive::Path_InvisibleSwitch::InvisibleSwitchScale)
+    ENUM_VISIT_FUNC(relive::Path_GasEmitter::GasColour)
+    ENUM_VISIT_FUNC(relive::Path_BackgroundAnimation::BgAnimSounds)
+    ENUM_VISIT_FUNC(relive::Path_BackgroundAnimation::Layer)
+    ENUM_VISIT_FUNC(relive::TBlendModes)
+    ENUM_VISIT_FUNC(relive::Path_LiftPoint::LiftPointStopType)
+    ENUM_VISIT_FUNC(relive::Path_PullRingRope::PullRingSwitchSound)
+    ENUM_VISIT_FUNC(relive::Path_PullRingRope::PullRingSoundDirection)
+    ENUM_VISIT_FUNC(relive::Path_ContinuePoint::Scale)
+    ENUM_VISIT_FUNC(relive::Path_ContinuePoint::spawnDirection)
+    ENUM_VISIT_FUNC(relive::Path_WheelSyncer::OutputRequirement)
+    ENUM_VISIT_FUNC(relive::Path_Drill::DrillBehavior)
+    ENUM_VISIT_FUNC(relive::Path_Drill::DrillDirection)
+    ENUM_VISIT_FUNC(relive::Path_TrapDoor::StartState)
+    ENUM_VISIT_FUNC(relive::Path_LiftMover::YDirection)
+    ENUM_VISIT_FUNC(relive::Path_MotionDetector::InitialMoveDirection)
+    ENUM_VISIT_FUNC(relive::Path_DoorFlame::Colour)
+    ENUM_VISIT_FUNC(relive::Path_CrawlingSlig::StartState)
+    ENUM_VISIT_FUNC(relive::Path_CrawlingSlig::CrawlDirection)
+    ENUM_VISIT_FUNC(relive::Path_CrawlingSligButton::ButtonSounds)
+    ENUM_VISIT_FUNC(relive::Path_Glukkon::GlukkonTypes)
+    ENUM_VISIT_FUNC(relive::Path_Glukkon::Facing)
+    ENUM_VISIT_FUNC(relive::Path_Glukkon::SpawnType)
+    ENUM_VISIT_FUNC(relive::Path_Glukkon::Behavior)
+    ENUM_VISIT_FUNC(relive::Path_FootSwitch::FootSwitchTriggerBy)
+    ENUM_VISIT_FUNC(relive::Path_SlogSpawner::StartDirection)
+    ENUM_VISIT_FUNC(relive::Path_Scrab::ScrabPatrolType)
+    ENUM_VISIT_FUNC(relive::Path_ScrabSpawner::SpawnDirection)
+    ENUM_VISIT_FUNC(relive::Path_Paramite::EntranceType)
+    ENUM_VISIT_FUNC(relive::Path_BellsongStone::BellsongTypes)
+    ENUM_VISIT_FUNC(relive::Path_LightEffect::Type)
+    ENUM_VISIT_FUNC(relive::Path_RingMudokon::MustFaceMud)
+    ENUM_VISIT_FUNC(relive::Path_MeatSaw::Type)
+    ENUM_VISIT_FUNC(relive::Path_MeatSaw::StartState)
+    ENUM_VISIT_FUNC(relive::Path_LiftMudokon::Direction)
+    ENUM_VISIT_FUNC(relive::Path_BeeSwarmHole::MovementType)
+    ENUM_VISIT_FUNC(relive::Path_ZBall::StartPos)
+    ENUM_VISIT_FUNC(relive::Path_ZBall::Speed)
+
+    #undef ENUM_VISIT_FUNC
 
     void Visit(const char* fieldName, bool& field) override
-    {
-        AddField(fieldName, field);
-    }
-
-    void Visit(const char* fieldName, relive::reliveScale& field) override
     {
         AddField(fieldName, field);
     }

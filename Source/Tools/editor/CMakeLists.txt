@@ -132,6 +132,7 @@ set(PROJECT_SOURCES
         Source/BoolProperty.cpp
         Source/EnumProperty.cpp
         Source/EnumProperty.hpp
+        Source/ReflectedEnumProperties.hpp
         Source/resources.qrc
         ${TS_FILES}
 )

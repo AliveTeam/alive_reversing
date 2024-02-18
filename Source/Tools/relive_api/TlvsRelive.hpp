@@ -9,8 +9,71 @@ class IReflector
 public:
     virtual ~IReflector() { }
 
-    virtual void Visit(const char* fieldName, relive::Path_Mudokon::Mud_TLV_Emotion& field) = 0;
     virtual void Visit(const char* fieldName, relive::reliveScale& field) = 0;
+    virtual void Visit(const char* fieldName, relive::Path_Mudokon::Mud_TLV_Emotion& field) = 0;
+    virtual void Visit(const char* fieldName, relive::Path_BirdPortal::PortalSide& field) = 0;
+    virtual void Visit(const char* fieldName, relive::Path_FlyingSlig::SpawnDelayStates& field) = 0;
+    virtual void Visit(const char* fieldName, relive::Path_Slig_Data::DeathMode& field) = 0;
+    virtual void Visit(const char* fieldName, relive::Path_Slig_Data::StartState& field) = 0;
+    virtual void Visit(const char* fieldName, relive::reliveXDirection& field) = 0;
+    virtual void Visit(const char* fieldName, relive::reliveSwitchOp& field) = 0;
+    virtual void Visit(const char* fieldName, eLineTypes& field) = 0;
+    virtual void Visit(const char* fieldName, EReliveLevelIds& field) = 0;
+    virtual void Visit(const char* fieldName, relive::reliveScreenChangeEffects& field) = 0;
+    virtual void Visit(const char* fieldName, relive::Path_ElectricWall::ElectricWallStartState& field) = 0;
+    virtual void Visit(const char* fieldName, relive::Path_Mudokon::MudJobs& field) = 0;
+    virtual void Visit(const char* fieldName, relive::Path_BirdPortal::PortalType& field) = 0;
+    virtual void Visit(const char* fieldName, relive::Path_Door::DoorStates& field) = 0;
+    virtual void Visit(const char* fieldName, relive::Path_Door::DoorTypes& field) = 0;
+    virtual void Visit(const char* fieldName, relive::Path_Lever::LeverSoundType& field) = 0;
+    virtual void Visit(const char* fieldName, relive::Path_Lever::LeverSoundDirection& field) = 0;
+    virtual void Visit(const char* fieldName, relive::Path_Hoist::Type& field) = 0;
+    virtual void Visit(const char* fieldName, relive::Path_Hoist::GrabDirection& field) = 0;
+    virtual void Visit(const char* fieldName, relive::Path_BoomMachine::NozzleSide& field) = 0;
+    virtual void Visit(const char* fieldName, relive::Path_EnemyStopper::StopDirection& field) = 0;
+    virtual void Visit(const char* fieldName, relive::Path_UXB::StartState& field) = 0;
+    virtual void Visit(const char* fieldName, relive::Path_Edge::GrabDirection& field) = 0;
+    virtual void Visit(const char* fieldName, relive::Path_ShadowZone::Scale& field) = 0;
+    virtual void Visit(const char* fieldName, relive::Path_MusicTrigger::MusicTriggerMusicType& field) = 0;
+    virtual void Visit(const char* fieldName, relive::Path_MusicTrigger::TriggeredBy& field) = 0;
+    virtual void Visit(const char* fieldName, relive::Path_InvisibleSwitch::InvisibleSwitchScale& field) = 0;
+    virtual void Visit(const char* fieldName, relive::Path_GasEmitter::GasColour& field) = 0;
+    virtual void Visit(const char* fieldName, relive::Path_BackgroundAnimation::BgAnimSounds& field) = 0;
+    virtual void Visit(const char* fieldName, relive::Path_BackgroundAnimation::Layer& field) = 0;
+    virtual void Visit(const char* fieldName, relive::TBlendModes& field) = 0;
+    virtual void Visit(const char* fieldName, relive::Path_LiftPoint::LiftPointStopType& field) = 0;
+    virtual void Visit(const char* fieldName, relive::Path_PullRingRope::PullRingSwitchSound& field) = 0;
+    virtual void Visit(const char* fieldName, relive::Path_PullRingRope::PullRingSoundDirection& field) = 0;
+    virtual void Visit(const char* fieldName, relive::Path_ContinuePoint::Scale& field) = 0;
+    virtual void Visit(const char* fieldName, relive::Path_ContinuePoint::spawnDirection& field) = 0;
+    virtual void Visit(const char* fieldName, relive::Path_WheelSyncer::OutputRequirement& field) = 0;
+    virtual void Visit(const char* fieldName, relive::Path_Drill::DrillBehavior& field) = 0;
+    virtual void Visit(const char* fieldName, relive::Path_Drill::DrillDirection& field) = 0;
+    virtual void Visit(const char* fieldName, relive::Path_TrapDoor::StartState& field) = 0;
+    virtual void Visit(const char* fieldName, relive::Path_LiftMover::YDirection& field) = 0;
+    virtual void Visit(const char* fieldName, relive::Path_MotionDetector::InitialMoveDirection& field) = 0;
+    virtual void Visit(const char* fieldName, relive::Path_DoorFlame::Colour& field) = 0;
+    virtual void Visit(const char* fieldName, relive::Path_CrawlingSlig::StartState& field) = 0;
+    virtual void Visit(const char* fieldName, relive::Path_CrawlingSlig::CrawlDirection& field) = 0;
+    virtual void Visit(const char* fieldName, relive::Path_CrawlingSligButton::ButtonSounds& field) = 0;
+    virtual void Visit(const char* fieldName, relive::Path_Glukkon::GlukkonTypes& field) = 0;
+    virtual void Visit(const char* fieldName, relive::Path_Glukkon::Facing& field) = 0;
+    virtual void Visit(const char* fieldName, relive::Path_Glukkon::SpawnType& field) = 0;
+    virtual void Visit(const char* fieldName, relive::Path_Glukkon::Behavior& field) = 0;
+    virtual void Visit(const char* fieldName, relive::Path_FootSwitch::FootSwitchTriggerBy& field) = 0;
+    virtual void Visit(const char* fieldName, relive::Path_SlogSpawner::StartDirection& field) = 0;
+    virtual void Visit(const char* fieldName, relive::Path_Scrab::ScrabPatrolType& field) = 0;
+    virtual void Visit(const char* fieldName, relive::Path_ScrabSpawner::SpawnDirection& field) = 0;
+    virtual void Visit(const char* fieldName, relive::Path_Paramite::EntranceType& field) = 0;
+    virtual void Visit(const char* fieldName, relive::Path_BellsongStone::BellsongTypes& field) = 0;
+    virtual void Visit(const char* fieldName, relive::Path_LightEffect::Type& field) = 0;
+    virtual void Visit(const char* fieldName, relive::Path_RingMudokon::MustFaceMud& field) = 0;
+    virtual void Visit(const char* fieldName, relive::Path_MeatSaw::Type& field) = 0;
+    virtual void Visit(const char* fieldName, relive::Path_MeatSaw::StartState& field) = 0;
+    virtual void Visit(const char* fieldName, relive::Path_LiftMudokon::Direction& field) = 0;
+    virtual void Visit(const char* fieldName, relive::Path_BeeSwarmHole::MovementType& field) = 0;
+    virtual void Visit(const char* fieldName, relive::Path_ZBall::StartPos& field) = 0;
+    virtual void Visit(const char* fieldName, relive::Path_ZBall::Speed& field) = 0;
 
     virtual void Visit(const char* fieldName, bool& field) = 0;
 
@@ -189,16 +252,6 @@ public:
 
 class Editor_ElectricWall final : public MapObjectBaseInterface<Editor_ElectricWall, Path_ElectricWall::kReliveType>
 {
-    /*
-    void AddTypes(ReliveAPI::TypesCollectionBase& types) override
-    {
-        types.AddEnum<relive::Path_ElectricWall::ElectricWallStartState>("Enum_ElectricWallStartState",
-        {
-            {relive::Path_ElectricWall::ElectricWallStartState::eOff, "Off"},
-            {relive::Path_ElectricWall::ElectricWallStartState::eOn, "On"},
-        });
-    }
-    */
 public:
     Editor_ElectricWall()
         : MapObjectBaseInterface<Editor_ElectricWall, Path_ElectricWall::kReliveType>(&mTlv)
@@ -209,7 +262,7 @@ public:
         MapObjectBase::Visit(r);
         r.Visit("Scale", mTlv.mScale);
         r.Visit("Switch ID", mTlv.mSwitchId);
-        //r.Visit("Start State", mTlv.mStartState);
+        r.Visit("Start State", mTlv.mStartState);
     }
 
     std::string GetIconPath() const override
@@ -222,21 +275,6 @@ public:
 
 struct Editor_Mudokon final : public MapObjectBaseInterface<Editor_Mudokon, Path_Mudokon::kReliveType>
 {
-    /*
-    void AddTypes(ReliveAPI::TypesCollectionBase& types) override
-    {
-
-        types.AddEnum<relive::Path_Mudokon::MudJobs>("Enum_Mud_State",
-        {
-            {relive::Path_Mudokon::MudJobs::eChisle, "Chisle"},
-            {relive::Path_Mudokon::MudJobs::eSitScrub, "Scrub"},
-            {relive::Path_Mudokon::MudJobs::eAngryWorker, "Angry Worker"},
-            {relive::Path_Mudokon::MudJobs::eDamageRingGiver, "Damage Ring Giver"},
-            {relive::Path_Mudokon::MudJobs::eHealthRingGiver, "Health Ring Giver"},
-        });
-    }
-    */
-
 public:
     Editor_Mudokon()
         : MapObjectBaseInterface<Editor_Mudokon, Path_Mudokon::kReliveType>(&mTlv)
@@ -246,20 +284,20 @@ public:
     {
         MapObjectBase::Visit(r);
         r.Visit("Scale", mTlv.mScale);
-        //r.Visit("Job", mTlv.mJob);
-        //r.Visit("Facing", mTlv.mFacing);
+        r.Visit("Job", mTlv.mJob);
+        r.Visit("Facing", mTlv.mFacing);
         r.Visit("Voice Pitch", mTlv.mVoicePitch);
         r.Visit("Rescue Switch ID", mTlv.mRescueSwitchId);
         r.Visit("Deaf", mTlv.mDeaf);
         r.Visit("Disabled Resources", mTlv.mDisabledResources);
-        //r.Visit("Persist & Reset Offscreen", mTlv.mPersistAndResetOffscreen);
+        r.Visit("Persist & Reset Offscreen", mTlv.mPersistAndResetOffscreen);
         r.Visit("Emotion", mTlv.mEmotion);
-        //r.Visit("Blind", mTlv.mBlind);
+        r.Visit("Blind", mTlv.mBlind);
         r.Visit("Angry Switch ID", mTlv.mAngrySwitchId);
-        //r.Visit("Work After Turning Wheel", mTlv.mWorkAfterTurningWheel);
-        //r.Visit("Gets Depressed", mTlv.mGetsDepressed);
+        r.Visit("Work After Turning Wheel", mTlv.mWorkAfterTurningWheel);
+        r.Visit("Gets Depressed", mTlv.mGetsDepressed);
         r.Visit("Ring Pulse Interval", mTlv.mRingPulseInterval);
-        //r.Visit("Give Ring Without Password", mTlv.mGiveRingWithoutPassword);
+        r.Visit("Give Ring Without Password", mTlv.mGiveRingWithoutPassword);
     }
 
     std::string GetIconPath() const override
@@ -299,19 +337,6 @@ public:
 
 struct Editor_BirdPortal final : public MapObjectBaseInterface<Editor_BirdPortal, Path_BirdPortal::kReliveType>
 {
-    /*
-    void AddTypes(ReliveAPI::TypesCollectionBase& types) override
-    {
-        types.AddEnum<relive::Path_BirdPortal::PortalType>("Enum_PortalType",
-        {
-            {relive::Path_BirdPortal::PortalType::eAbe, "Abe"},
-            {relive::Path_BirdPortal::PortalType::eWorker, "Worker"},
-            {relive::Path_BirdPortal::PortalType::eShrykull, "Shrykull"},
-            {relive::Path_BirdPortal::PortalType::eMudTeleport, "Mud Teleport"},
-        });
-    }
-    */
-
 public:
     Editor_BirdPortal()
         : MapObjectBaseInterface<Editor_BirdPortal, Path_BirdPortal::kReliveType>(&mTlv)
@@ -320,13 +345,13 @@ public:
     void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
-        //r.Visit("Enter Side", mTlv.mEnterSide);
+        r.Visit("Enter Side", mTlv.mEnterSide);
         // r.Visit("BirdPortalExit Level", mTlv.mExitLevel);
          r.Visit("BirdPortalExit Path", mTlv.mExitPath);
         r.Visit("BirdPortalExit Camera", mTlv.mExitCamera);
         r.Visit("Scale", mTlv.mScale);
         r.Visit("Movie ID", mTlv.mMovieId);
-        //r.Visit("Portal Type", mTlv.mPortalType);
+        r.Visit("Portal Type", mTlv.mPortalType);
         r.Visit("Mudokon Amount For Shrykull", mTlv.mMudCountForShrykull);
         r.Visit("(AE) Create Portal Switch ID", mTlv.mCreatePortalSwitchId);
         r.Visit("(AE) Delete Portal Switch ID", mTlv.mDeletePortalSwitchId);
@@ -363,7 +388,7 @@ public:
         MapObjectBase::Visit(r);
         r.Visit("(AE) Number of Mudokons", mTlv.mNumberOfMuds);
         r.Visit("(AE) Zulag Number", mTlv.mZulagNumber);
-        //r.Visit("(AE) Hide Board", mTlv.mHideBoard);
+        r.Visit("(AE) Hide Board", mTlv.mHideBoard);
     }
 
     std::string GetIconPath() const override
@@ -376,24 +401,6 @@ public:
 
 struct Editor_Door final : public MapObjectBaseInterface<Editor_Door, Path_Door::kReliveType>
 {
-    /*
-    void AddTypes(ReliveAPI::TypesCollectionBase& types) override
-    {
-        types.AddEnum<relive::Path_Door::DoorStates>("Enum_DoorStates",
-        {{relive::Path_Door::DoorStates::eOpen, "Open"},
-        {relive::Path_Door::DoorStates::eClosed, "Closed"},
-        {relive::Path_Door::DoorStates::eOpening, "Opening"},
-        {relive::Path_Door::DoorStates::eClosing, "Closing"}});
-
-        types.AddEnum<relive::Path_Door::DoorTypes>("Enum_DoorTypes",
-        {{relive::Path_Door::DoorTypes::eBasicDoor, "Basic Door"},
-        {relive::Path_Door::DoorTypes::eTasksDoorWithSecretMusic, "Tasks Door With Secret Music"},
-        {relive::Path_Door::DoorTypes::eTasksDoor, "Tasks Door"},
-        {relive::Path_Door::DoorTypes::eTrialDoor, "(AO) Trial Door"},
-        {relive::Path_Door::DoorTypes::eHubDoor, "(AO) Hub Door"}});
-    }
-    */
-
 public:
     Editor_Door()
         : MapObjectBaseInterface<Editor_Door, Path_Door::kReliveType>(&mTlv)
@@ -403,15 +410,15 @@ public:
     {
         MapObjectBase::Visit(r);
         r.Visit("Next Path", mTlv.mNextPath);
-        //r.Visit("Next Level", mTlv.mNextLevel);
+        r.Visit("Next Level", mTlv.mNextLevel);
         r.Visit("Next Camera", mTlv.mNextCamera);
         r.Visit("Scale", mTlv.mScale);
         r.Visit("Door ID", mTlv.mDoorId);
         r.Visit("Switch ID", mTlv.mSwitchId);
         r.Visit("Target Door ID", mTlv.mTargetDoorId);
-        //r.Visit("Door Type", mTlv.mDoorType);
-        //r.Visit("(AO) Door Closed", mTlv.mDoorClosed);
-        //r.Visit("(AE) Start State", mTlv.mStartState);
+        r.Visit("Door Type", mTlv.mDoorType);
+        r.Visit("(AO) Door Closed", mTlv.mDoorClosed);
+        r.Visit("(AE) Start State", mTlv.mStartState);
         r.Visit("Hub 1 ID", mTlv.mHub1);
         r.Visit("Hub 2 ID", mTlv.mHub2);
         r.Visit("Hub 3 ID", mTlv.mHub3);
@@ -420,13 +427,13 @@ public:
         r.Visit("Hub 6 ID", mTlv.mHub6);
         r.Visit("Hub 7 ID", mTlv.mHub7);
         r.Visit("Hub 8 ID", mTlv.mHub8);
-        //r.Visit("Wipe Effect", mTlv.mWipeEffect);
+        r.Visit("Wipe Effect", mTlv.mWipeEffect);
         r.Visit("Movie ID", mTlv.mMovieId);
         r.Visit("X Offset", mTlv.mDoorOffsetX);
         r.Visit("Y Offset", mTlv.mDoorOffsetY);
-        //r.Visit("Abe Direction On Exit", mTlv.mExitDirection);
-        //r.Visit("(AE) Close On Exit", mTlv.mCloseOnExit);
-        //r.Visit("(AE) Clear Throwables", mTlv.mClearThrowables);
+        r.Visit("Abe Direction On Exit", mTlv.mExitDirection);
+        r.Visit("(AE) Close On Exit", mTlv.mCloseOnExit);
+        r.Visit("(AE) Clear Throwables", mTlv.mClearThrowables);
     }
 
     std::string GetIconPath() const override
@@ -439,29 +446,6 @@ public:
 
 struct Editor_Lever final : public MapObjectBaseInterface<Editor_Lever, Path_Lever::kReliveType>
 {
-    /*
-    void AddTypes(ReliveAPI::TypesCollectionBase& types) override
-    {
-        types.AddEnum<relive::Path_Lever::LeverSoundType>("Enum_LeverSoundType",
-        {
-            {relive::Path_Lever::LeverSoundType::eNone, "None"},
-            {relive::Path_Lever::LeverSoundType::eWell, "Well"},
-            {relive::Path_Lever::LeverSoundType::eSwitchBellHammer, "Switch Bell Hammer"},
-            {relive::Path_Lever::LeverSoundType::eDoor, "Door"},
-            {relive::Path_Lever::LeverSoundType::eElectricWall, "Electric Wall"},
-            {relive::Path_Lever::LeverSoundType::eSecurityOrb, "Security Orb"},
-            {relive::Path_Lever::LeverSoundType::eLift, "(AE) Lift"}
-        });
-
-        types.AddEnum<relive::Path_Lever::LeverSoundDirection>("Enum_LeverSoundDirection",
-        {
-            {relive::Path_Lever::LeverSoundDirection::eLeftAndRight, "Left And Right"},
-            {relive::Path_Lever::LeverSoundDirection::eLeft, "Left"},
-            {relive::Path_Lever::LeverSoundDirection::eRight, "Right"},
-        });
-    }
-    */
-
 public:
     Editor_Lever()
         : MapObjectBaseInterface<Editor_Lever, Path_Lever::kReliveType>(&mTlv)
@@ -470,13 +454,13 @@ public:
     void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
-        //r.Visit("Action", mTlv.mAction);
+        r.Visit("Action", mTlv.mAction);
         r.Visit("Scale", mTlv.mScale);
-        //r.Visit("On Sound", mTlv.mOnSound);
-        //r.Visit("Off Sound", mTlv.mOffSound);
-        //r.Visit("Sound Direction", mTlv.mSoundDirection);
+        r.Visit("On Sound", mTlv.mOnSound);
+        r.Visit("Off Sound", mTlv.mOffSound);
+        r.Visit("Sound Direction", mTlv.mSoundDirection);
         r.Visit("Switch ID", mTlv.mSwitchId);
-        //r.Visit("(AE) Persist Offscreen", mTlv.mPersistOffscreen);
+        r.Visit("(AE) Persist Offscreen", mTlv.mPersistOffscreen);
     }
 
     std::string GetIconPath() const override
@@ -489,23 +473,6 @@ public:
 
 struct Editor_Hoist final : public MapObjectBaseInterface<Editor_Hoist, Path_Hoist::kReliveType>
 {
-    /*
-    void AddTypes(ReliveAPI::TypesCollectionBase& types) override
-    {
-        types.AddEnum<relive::Path_Hoist::Type>("Enum_HoistType",
-        {
-            {relive::Path_Hoist::Type::eNextFloor, "Next Floor"},
-            {relive::Path_Hoist::Type::eOffScreen, "Off Screen"},
-        });
-
-        types.AddEnum<relive::Path_Hoist::GrabDirection>("Enum_HoistGrabDirection",
-        {
-            {relive::Path_Hoist::GrabDirection::eFacingLeft, "Facing Left"},
-            {relive::Path_Hoist::GrabDirection::eFacingRight, "Facing Right"},
-            {relive::Path_Hoist::GrabDirection::eFacingAnyDirection, "Facing Any Direction"},
-        });
-    }*/
-
 public:
     Editor_Hoist()
         : MapObjectBaseInterface<Editor_Hoist, Path_Hoist::kReliveType>(&mTlv)
@@ -514,8 +481,8 @@ public:
     void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
-        //r.Visit("Hoist Type", mTlv.mHoistType);
-        //r.Visit("Grab Direction", mTlv.mGrabDirection);
+        r.Visit("Hoist Type", mTlv.mHoistType);
+        r.Visit("Grab Direction", mTlv.mGrabDirection);
         r.Visit("(AE) Scale", mTlv.mScale);
     }
 
@@ -536,17 +503,6 @@ public:
 
 struct Editor_BoomMachine final : public MapObjectBaseInterface<Editor_BoomMachine, Path_BoomMachine::kReliveType>
 {
-    /*
-    void AddTypes(ReliveAPI::TypesCollectionBase& types) override
-    {
-        types.AddEnum<relive::Path_BoomMachine::NozzleSide>("Enum_BoomMachineNozzleSide",
-        {
-            {relive::Path_BoomMachine::NozzleSide::eRight, "Right"},
-            {relive::Path_BoomMachine::NozzleSide::eLeft, "Left"},
-        });
-    }
-    */
-
 public:
     Editor_BoomMachine()
         : MapObjectBaseInterface<Editor_BoomMachine, Path_BoomMachine::kReliveType>(&mTlv)
@@ -556,7 +512,7 @@ public:
     {
         MapObjectBase::Visit(r);
         r.Visit("Scale", mTlv.mScale);
-        //r.Visit("Nozzle Side", mTlv.mNozzleSide);
+        r.Visit("Nozzle Side", mTlv.mNozzleSide);
         r.Visit("Number Of Grenades", mTlv.mGrenadeAmount);
     }
 
@@ -580,23 +536,23 @@ public:
         MapObjectBase::Visit(r);
 
         r.Visit("Scale", mTlv.mData.mScale);
-        //r.Visit("Start State", mTlv.mData.mStartState);
-        //r.Visit("(AE) Death Mode", mTlv.mData.mDeathMode);
-        //r.Visit("(AE) Can Beat", mTlv.mData.mCanBeat);
-        //r.Visit("(AE) Can Z Shoot", mTlv.mData.mCanZShoot);
+        r.Visit("Start State", mTlv.mData.mStartState);
+        r.Visit("(AE) Death Mode", mTlv.mData.mDeathMode);
+        r.Visit("(AE) Can Beat", mTlv.mData.mCanBeat);
+        r.Visit("(AE) Can Z Shoot", mTlv.mData.mCanZShoot);
         r.Visit("Pause Time", mTlv.mData.mPauseTime);
         r.Visit("Pause Left Min", mTlv.mData.mPauseLeftMin);
         r.Visit("Pause Left Max", mTlv.mData.mPauseLeftMax);
         r.Visit("Pause Right Min", mTlv.mData.mPauseRightMin);
         r.Visit("Pause Right Max", mTlv.mData.mPauseRightMax);
-        //r.Visit("Shoot Possessed Sligs", mTlv.mData.mShootPossessedSligs);
+        r.Visit("Shoot Possessed Sligs", mTlv.mData.mShootPossessedSligs);
         r.Visit("Shoot On Sight Delay", mTlv.mData.mShootOnSightDelay);
         r.Visit("Bullet Shoot Count", mTlv.mData.mNumTimesToShoot);
 
         r.Visit("Code 1", mTlv.mData.mCode1);
         r.Visit("Code 2", mTlv.mData.mCode2);
-        //r.Visit("Chase Abe When Spotted", mTlv.mData.mChaseAbeWhenSpotted);
-        //r.Visit("Facing", mTlv.mData.mFacing);
+        r.Visit("Chase Abe When Spotted", mTlv.mData.mChaseAbeWhenSpotted);
+        r.Visit("Facing", mTlv.mData.mFacing);
         r.Visit("Panic Timeout", mTlv.mData.mPanicTimeout);
         r.Visit("Stop Chase Delay", mTlv.mData.mStopChaseDelay);
         r.Visit("Time To Wait Before Chase", mTlv.mData.mTimeToWaitBeforeChase);
@@ -605,10 +561,10 @@ public:
         r.Visit("Percent Say What", mTlv.mData.mPercentSayWhat);
         r.Visit("Percent Beat Mudokon", mTlv.mData.mPercentBeatMud);
         r.Visit("Z Shoot Delay", mTlv.mData.mZShootDelay);
-        //r.Visit("Stay Awake", mTlv.mData.mStayAwake);
+        r.Visit("Stay Awake", mTlv.mData.mStayAwake);
         r.Visit("Noise Wake Up Distance (Grids)", mTlv.mData.mNoiseWakeUpDistance);
         r.Visit("Slig Spawner Switch ID", mTlv.mData.mSligSpawnerSwitchId);
-        //r.Visit("(AE) Unlimited Spawns", mTlv.mData.mUnlimitedSpawns); // HIDDEN
+        r.Visit("(AE) Unlimited Spawns", mTlv.mData.mUnlimitedSpawns); // HIDDEN
         r.Visit("(AO) Disabled Resources", mTlv.mData.mDisabledResourcesAO.Raw().all);
         r.Visit("(AE) Disabled Resources", mTlv.mData.mDisabledResourcesAE);
     }
@@ -633,17 +589,17 @@ public:
         MapObjectBase::Visit(r);
 
         r.Visit("Scale", mTlv.mScale);
-        //r.Visit("Facing", mTlv.mFacing);
-        //r.Visit("Asleep", mTlv.mAsleep);
+        r.Visit("Facing", mTlv.mFacing);
+        r.Visit("Asleep", mTlv.mAsleep);
         r.Visit("Attack Anger Increaser", mTlv.mAttackAngerIncreaser);
         r.Visit("Wake Up Switch ID", mTlv.mWakeUpSwitchId);
-        //r.Visit("Hanging", mTlv.mHanging);
+        r.Visit("Hanging", mTlv.mHanging);
         r.Visit("Lost Target Timeout", mTlv.mLostTargetTimeout);
-        //r.Visit("Goes To Sleep", mTlv.mGoesToSleep);
+        r.Visit("Goes To Sleep", mTlv.mGoesToSleep);
         r.Visit("Patrol Range (Grids)", mTlv.mPatrolRangeInGrids);
         r.Visit("Wake Up Switch Anger Value", mTlv.mWakeUpSwitchAngerValue);
         r.Visit("Can Wake Up Switch ID", mTlv.mCanWakeUpSwitchId);
-        //r.Visit("Persistant", mTlv.mPersistant);
+        r.Visit("Persistant", mTlv.mPersistant);
     }
 
     std::string GetIconPath() const override
@@ -656,18 +612,6 @@ public:
 
 struct Editor_EnemyStopper final : public MapObjectBaseInterface<Editor_EnemyStopper, Path_EnemyStopper::kReliveType>
 {
-    /*
-    void AddTypes(ReliveAPI::TypesCollectionBase& types) override
-    {
-        types.AddEnum<relive::Path_EnemyStopper::StopDirection>("Enum_StopDirection",
-        {
-            {relive::Path_EnemyStopper::StopDirection::Left, "Left"},
-            {relive::Path_EnemyStopper::StopDirection::Right, "Right"},
-            {relive::Path_EnemyStopper::StopDirection::Both, "Both"},
-        });
-    }
-    */
-
 public:
     Editor_EnemyStopper()
         : MapObjectBaseInterface<Editor_EnemyStopper, Path_EnemyStopper::kReliveType>(&mTlv)
@@ -677,7 +621,7 @@ public:
     {
         MapObjectBase::Visit(r);
 
-        //r.Visit("Stop Direction", mTlv.mStopDirection);
+        r.Visit("Stop Direction", mTlv.mStopDirection);
         r.Visit("Switch ID", mTlv.mSwitchId);
     }
 
@@ -704,10 +648,10 @@ public:
         r.Visit("Other Teleporter Switch ID", mTlv.mOtherTeleporterId);
         r.Visit("Destination Camera", mTlv.mDestCamera);
         r.Visit("Destination Path", mTlv.mDestPath);
-        //r.Visit("Destination Level", mTlv.mDestLevel);
+        r.Visit("Destination Level", mTlv.mDestLevel);
         r.Visit("Switch ID", mTlv.mSwitchId);
         r.Visit("Scale", mTlv.mScale);
-        //r.Visit("Screen Change Effect", mTlv.mWipeEffect);
+        r.Visit("Screen Change Effect", mTlv.mWipeEffect);
         r.Visit("Movie ID", mTlv.mMovieId);
         r.Visit("Electric X", mTlv.mElectricX);
         r.Visit("Electric Y", mTlv.mElectricY);
@@ -723,16 +667,6 @@ public:
 
 struct Editor_UXB final : public MapObjectBaseInterface<Editor_UXB, Path_UXB::kReliveType>
 {
-    /*
-    void AddTypes(ReliveAPI::TypesCollectionBase& types) override
-    {
-        types.AddEnum<relive::Path_UXB::StartState>("Enum_Path_UXB_StartState",
-        {
-            {relive::Path_UXB::StartState::eOn, "On"},
-            {relive::Path_UXB::StartState::eOff, "Off"},
-        });
-    }
-    */
 public:
     Editor_UXB()
         : MapObjectBaseInterface<Editor_UXB, Path_UXB::kReliveType>(&mTlv)
@@ -745,7 +679,7 @@ public:
         r.Visit("Pattern Length (Max 4)", mTlv.mPatternLength);
         r.Visit("Pattern", mTlv.mPattern);
         r.Visit("Scale", mTlv.mScale);
-        //r.Visit("Start State", mTlv.mStartState);
+        r.Visit("Start State", mTlv.mStartState);
     }
 
     std::string GetIconPath() const override
@@ -792,17 +726,6 @@ public:
 
 struct Editor_Edge final : public MapObjectBaseInterface<Editor_Edge, Path_Edge::kReliveType>
 {
-    /*
-    void AddTypes(ReliveAPI::TypesCollectionBase& types) override
-    {
-        types.AddEnum<relive::Path_Edge::GrabDirection>("Enum_EdgeGrabDirection",
-        {
-            {relive::Path_Edge::GrabDirection::eFacingLeft, "Facing Left"},
-            {relive::Path_Edge::GrabDirection::eFacingRight, "Facing Right"},
-            {relive::Path_Edge::GrabDirection::eFacingAnyDirection, "Facing Any Direction"},
-        });
-    }
-    */
 public:
     Editor_Edge()
         : MapObjectBaseInterface<Editor_Edge, Path_Edge::kReliveType>(&mTlv)
@@ -812,8 +735,8 @@ public:
     {
         MapObjectBase::Visit(r);
 
-        //r.Visit("Grab Direction", mTlv.mGrabDirection);
-        //r.Visit("Can Grab", mTlv.mCanGrab);
+        r.Visit("Grab Direction", mTlv.mGrabDirection);
+        r.Visit("Can Grab", mTlv.mCanGrab);
         r.Visit("(AE) Scale", mTlv.mScale);
     }
 
@@ -850,7 +773,7 @@ public:
         r.Visit("Linked Status Light Switch ID 3", mTlv.mLinkedStatusLightSwitchId3);
         r.Visit("Linked Status Light Switch ID 4", mTlv.mLinkedStatusLightSwitchId4);
         r.Visit("Linked Status Light Switch ID 5", mTlv.mLinkedStatusLightSwitchId5);
-        //r.Visit("Ignore Grid Snapping", mTlv.mIgnoreGridSnapping);
+        r.Visit("Ignore Grid Snapping", mTlv.mIgnoreGridSnapping);
     }
 
     std::string GetIconPath() const override
@@ -863,18 +786,6 @@ public:
 
 struct Editor_ShadowZone final : public MapObjectBaseInterface<Editor_ShadowZone, Path_ShadowZone::kReliveType>
 {
-    /*
-    void AddTypes(ReliveAPI::TypesCollectionBase& types) override
-    {
-        types.AddEnum<relive::Path_ShadowZone::Scale>("Enum_ShadowZoneScale",
-        {
-            {relive::Path_ShadowZone::Scale::eBoth, "Both"},
-            {relive::Path_ShadowZone::Scale::eHalf, "Half"},
-            {relive::Path_ShadowZone::Scale::eFull, "Full"},
-        });
-    }
-    */
-
 public:
     Editor_ShadowZone()
         : MapObjectBaseInterface<Editor_ShadowZone, Path_ShadowZone::kReliveType>(&mTlv)
@@ -887,7 +798,7 @@ public:
         r.Visit("R", mTlv.mRGB.r);
         r.Visit("G", mTlv.mRGB.g);
         r.Visit("B", mTlv.mRGB.b);
-        //r.Visit("Scale", mTlv.mScale);
+        r.Visit("Scale", mTlv.mScale);
     }
 
     std::string GetIconPath() const override
@@ -913,7 +824,7 @@ public:
         r.Visit("Switch ID", mTlv.mSwitchId);
         r.Visit("Activation Time", mTlv.mActivationTime);
         r.Visit("Turn Off Time", mTlv.mTurnOffTime);
-        //r.Visit("Turn Off When Stopped", mTlv.mTurnOffWhenStopped);
+        r.Visit("Turn Off When Stopped", mTlv.mTurnOffWhenStopped);
     }
 
     std::string GetIconPath() const override
@@ -926,29 +837,6 @@ public:
 
 struct Editor_MusicTrigger final : public MapObjectBaseInterface<Editor_MusicTrigger, Path_MusicTrigger::kReliveType>
 {
-    /*
-    void AddTypes(ReliveAPI::TypesCollectionBase& types) override
-    {
-        types.AddEnum<relive::Path_MusicTrigger::MusicTriggerMusicType>("Enum_MusicTriggerMusicType",
-        {
-            {relive::Path_MusicTrigger::MusicTriggerMusicType::eDrumAmbience, "Drum Ambience"},
-            {relive::Path_MusicTrigger::MusicTriggerMusicType::eDeathDrumShort, "Death Drum Short"},
-            {relive::Path_MusicTrigger::MusicTriggerMusicType::eSecretAreaLong, "Secret Area Long"},
-            {relive::Path_MusicTrigger::MusicTriggerMusicType::eSoftChase, "Soft Chase"},
-            {relive::Path_MusicTrigger::MusicTriggerMusicType::eIntenseChase, "Intense Chase"},
-            {relive::Path_MusicTrigger::MusicTriggerMusicType::eChime, "Chime"},
-            {relive::Path_MusicTrigger::MusicTriggerMusicType::eSecretAreaShort, "Secret Area Short"},
-        });
-
-        types.AddEnum<relive::Path_MusicTrigger::TriggeredBy>("Enum_MusicTriggeredBy",
-        {
-            {relive::Path_MusicTrigger::TriggeredBy::eTimer, "Timer"},
-            {relive::Path_MusicTrigger::TriggeredBy::eTouching, "Touching"},
-            {relive::Path_MusicTrigger::TriggeredBy::eSwitchId, "(AO) Switch ID"},
-            {relive::Path_MusicTrigger::TriggeredBy::eUnknown, "(AO) Unknown"},
-        });
-    }
-    */
 public:
     Editor_MusicTrigger()
         : MapObjectBaseInterface<Editor_MusicTrigger, Path_MusicTrigger::kReliveType>(&mTlv)
@@ -958,8 +846,8 @@ public:
     {
         MapObjectBase::Visit(r);
 
-        //r.Visit("Music Type", mTlv.mMusicType);
-        //r.Visit("Triggered By", mTlv.mTriggeredBy);
+        r.Visit("Music Type", mTlv.mMusicType);
+        r.Visit("Triggered By", mTlv.mTriggeredBy);
         r.Visit("(AO) Switch ID", mTlv.mSwitchId);
         r.Visit("Music Delay", mTlv.mMusicDelay);
     }
@@ -1034,15 +922,15 @@ public:
         // Path_WellExpress
         r.Visit("Exit X", mTlv.mExitX);
         r.Visit("Exit Y", mTlv.mExitY);
-        //r.Visit("Disabled Well Level", mTlv.mOffDestLevel);
+        r.Visit("Disabled Well Level", mTlv.mOffDestLevel);
         r.Visit("Disabled Well Path", mTlv.mOffDestPath);
         r.Visit("Disabled Well Camera", mTlv.mOffDestCamera);
         r.Visit("Disabled Well ID", mTlv.mOffOtherWellId);
-        //r.Visit("Enabled Well Level", mTlv.mOnDestLevel);
+        r.Visit("Enabled Well Level", mTlv.mOnDestLevel);
         r.Visit("Enabled Well Path", mTlv.mOnDestPath);
         r.Visit("Enabled Well Camera", mTlv.mOnDestCamera);
         r.Visit("Enabled Well ID", mTlv.mOnOtherWellId);
-        //r.Visit("Emit Leaves", mTlv.mEmitLeaves);
+        r.Visit("Emit Leaves", mTlv.mEmitLeaves);
         r.Visit("Leaf X", mTlv.mLeafX);
         r.Visit("Leaf Y", mTlv.mLeafY);
         r.Visit("Movie ID", mTlv.mMovieId);
@@ -1067,11 +955,11 @@ public:
     {
         MapObjectBase::Visit(r);
 
-        //r.Visit("Start Shut", mTlv.mStartClosed);
+        r.Visit("Start Shut", mTlv.mStartClosed);
         r.Visit("Scale", mTlv.mScale);
         r.Visit("Switch ID", mTlv.mSwitchId);
-        //r.Visit("Flip On Y Axis", mTlv.mFlipY);
-        //r.Visit("Delete", mTlv.mDelete);
+        r.Visit("Flip On Y Axis", mTlv.mFlipY);
+        r.Visit("Delete", mTlv.mDelete);
     }
 
     std::string GetIconPath() const override
@@ -1099,11 +987,11 @@ public:
         r.Visit("Camera ID 3", mTlv.mCameraId3);
         r.Visit("(AE) Trigger Switch ID", mTlv.mTriggerSwitchId);
 
-        //r.Visit("(AO) Level 1", mTlv.mLevel1);
+        r.Visit("(AO) Level 1", mTlv.mLevel1);
         r.Visit("(AO) Path 1", mTlv.mPath1);
-        //r.Visit("(AO) Level 2", mTlv.mLevel2);
+        r.Visit("(AO) Level 2", mTlv.mLevel2);
         r.Visit("(AO) Path 2", mTlv.mPath2);
-        //r.Visit("(AO) Level 3", mTlv.mLevel3);
+        r.Visit("(AO) Level 3", mTlv.mLevel3);
         r.Visit("(AO) Path 3", mTlv.mPath3);
     }
 
@@ -1126,7 +1014,7 @@ public:
     {
         MapObjectBase::Visit(r);
 
-        //r.Visit("Is Laughing Gas", mTlv.mLaughingGas);
+        r.Visit("Is Laughing Gas", mTlv.mLaughingGas);
         r.Visit("Laughing Gas Switch ID", mTlv.mLaughingGasSwitchId);
         r.Visit("Red %", mTlv.mRedPercent);
         r.Visit("Green %", mTlv.mGreenPercent);
@@ -1143,17 +1031,6 @@ public:
 
 struct Editor_InvisibleSwitch final : public MapObjectBaseInterface<Editor_InvisibleSwitch, Path_InvisibleSwitch::kReliveType>
 {
-    /*
-    void AddTypes(ReliveAPI::TypesCollectionBase& types) override
-    {
-        types.AddEnum<relive::Path_InvisibleSwitch::InvisibleSwitchScale>("Enum_InvisibleSwitchScale",
-        {
-            {relive::Path_InvisibleSwitch::InvisibleSwitchScale::eHalf, "Half"},
-            {relive::Path_InvisibleSwitch::InvisibleSwitchScale::eFull, "Full"},
-            {relive::Path_InvisibleSwitch::InvisibleSwitchScale::eAny, "Any"},
-        });
-    }*/
-
 public:
     Editor_InvisibleSwitch()
         : MapObjectBaseInterface<Editor_InvisibleSwitch, Path_InvisibleSwitch::kReliveType>(&mTlv)
@@ -1164,10 +1041,10 @@ public:
         MapObjectBase::Visit(r);
 
         r.Visit("Switch ID", mTlv.mSwitchId);
-        //r.Visit("Action", mTlv.mAction);
+        r.Visit("Action", mTlv.mAction);
         r.Visit("Activation Delay", mTlv.mActivationDelay);
-        //r.Visit("Set Off Alarm", mTlv.mSetOffAlarm);
-        //r.Visit("Scale", mTlv.mScale);
+        r.Visit("Set Off Alarm", mTlv.mSetOffAlarm);
+        r.Visit("Scale", mTlv.mScale);
     }
 
     std::string GetIconPath() const override
@@ -1206,19 +1083,6 @@ public:
 
 struct Editor_GasEmitter final : public MapObjectBaseInterface<Editor_GasEmitter, Path_GasEmitter::kReliveType>
 {
-    /*
-    void AddTypes(ReliveAPI::TypesCollectionBase& types) override
-    {
-        types.AddEnum<relive::Path_GasEmitter::GasColour>("Enum_GasColour",
-        {
-            {relive::Path_GasEmitter::GasColour::eYellow, "Yellow"},
-            {relive::Path_GasEmitter::GasColour::eRed, "Red"},
-            {relive::Path_GasEmitter::GasColour::eGreen, "Green"},
-            {relive::Path_GasEmitter::GasColour::eBlue, "Blue"},
-            {relive::Path_GasEmitter::GasColour::eWhite, "White"},
-        });
-    }*/
-
 public:
     Editor_GasEmitter()
         : MapObjectBaseInterface<Editor_GasEmitter, Path_GasEmitter::kReliveType>(&mTlv)
@@ -1229,7 +1093,7 @@ public:
         MapObjectBase::Visit(r);
 
         r.Visit("(AE) Switch ID", mTlv.mSwitchId);
-        //r.Visit("(AE) Colour", mTlv.mColour);
+        r.Visit("(AE) Colour", mTlv.mColour);
     }
 
     std::string GetIconPath() const override
@@ -1242,31 +1106,6 @@ public:
 
 struct Editor_BackgroundAnimation final : public MapObjectBaseInterface<Editor_BackgroundAnimation, Path_BackgroundAnimation::kReliveType>
 {
-    /*
-    void AddTypes(ReliveAPI::TypesCollectionBase& types) override
-    {
-        types.AddEnum<::relive::Path_BackgroundAnimation::BgAnimSounds>("Enum_BackgroundAnimation_BgAnimSounds",
-        {
-            {relive::Path_BackgroundAnimation::BgAnimSounds::eNone, "None"},
-            {relive::Path_BackgroundAnimation::BgAnimSounds::eFire, "Fire"},
-        });
-
-        types.AddEnum<relive::Path_BackgroundAnimation::Layer>("Enum_Layer",
-        {
-            {relive::Path_BackgroundAnimation::Layer::eLayer0, "Layer 0"},
-            {relive::Path_BackgroundAnimation::Layer::eLayer2, "Layer 2"},
-        });
-
-        types.AddEnum<relive::TBlendModes>("Enum_relive::TBlendModes",
-        {
-            {relive::TBlendModes::eBlend_0, "Blend 0"},
-            {relive::TBlendModes::eBlend_1, "Blend 1"},
-            {relive::TBlendModes::eBlend_2, "Blend 2"},
-            {relive::TBlendModes::eBlend_3, "Blend 3"},
-        });
-    }
-    */
-
 public:
     Editor_BackgroundAnimation()
         : MapObjectBaseInterface<Editor_BackgroundAnimation, Path_BackgroundAnimation::kReliveType>(&mTlv)
@@ -1277,10 +1116,10 @@ public:
         MapObjectBase::Visit(r);
 
         r.Visit("Animation ID", mTlv.mAnimId);
-        //r.Visit("Is Semi Trans", mTlv.mIsSemiTrans);
-        //r.Visit("Semi Trans Mode", mTlv.mSemiTransMode);
-        //r.Visit("(AO) Sound Effect", mTlv.mSoundEffect);
-        //r.Visit("(AE) Layer", mTlv.mLayer);
+        r.Visit("Is Semi Trans", mTlv.mIsSemiTrans);
+        r.Visit("Semi Trans Mode", mTlv.mSemiTransMode);
+        r.Visit("(AO) Sound Effect", mTlv.mSoundEffect);
+        r.Visit("(AE) Layer", mTlv.mLayer);
     }
 
     std::string GetIconPath() const override
@@ -1293,19 +1132,6 @@ public:
 
 struct Editor_LiftPoint final : public MapObjectBaseInterface<Editor_LiftPoint, Path_LiftPoint::kReliveType>
 {
-    /*
-    void AddTypes(ReliveAPI::TypesCollectionBase& types) override
-    {
-        types.AddEnum<relive::Path_LiftPoint::LiftPointStopType>("Enum_LiftPointStopType",
-        {
-            {relive::Path_LiftPoint::LiftPointStopType::eTopFloor, "Top Floor"},
-            {relive::Path_LiftPoint::LiftPointStopType::eBottomFloor, "Bottom Floor"},
-            {relive::Path_LiftPoint::LiftPointStopType::eMiddleFloor, "Middle Floor"},
-            {relive::Path_LiftPoint::LiftPointStopType::eMiddleLockFloor, "Middle Lock Floor"},
-            {relive::Path_LiftPoint::LiftPointStopType::eStartPointOnly, "Start Point Only"},
-        });
-    }*/
-
 public:
     Editor_LiftPoint()
         : MapObjectBaseInterface<Editor_LiftPoint, Path_LiftPoint::kReliveType>(&mTlv)
@@ -1316,10 +1142,10 @@ public:
         MapObjectBase::Visit(r);
 
         r.Visit("Lift Point ID", mTlv.mLiftPointId);
-        //r.Visit("Start Point", mTlv.mIsStartPoint);
-        //r.Visit("Lift Point Stop Type", mTlv.mLiftPointStopType);
+        r.Visit("Start Point", mTlv.mIsStartPoint);
+        r.Visit("Lift Point Stop Type", mTlv.mLiftPointStopType);
         r.Visit("Scale", mTlv.mScale);
-        //r.Visit("Ignore Lift Mover", mTlv.mIgnoreLiftMover);
+        r.Visit("Ignore Lift Mover", mTlv.mIgnoreLiftMover);
     }
 
     std::string GetIconPath() const override
@@ -1332,25 +1158,6 @@ public:
 
 struct Editor_PullRingRope final : public MapObjectBaseInterface<Editor_PullRingRope, Path_PullRingRope::kReliveType>
 {
-    /*
-    void AddTypes(ReliveAPI::TypesCollectionBase& types) override
-    {
-        types.AddEnum<relive::Path_PullRingRope::PullRingSwitchSound>("Enum_PullRingSwitchSound",
-        {
-            {relive::Path_PullRingRope::PullRingSwitchSound::eNone, "None"},
-            {relive::Path_PullRingRope::PullRingSwitchSound::eWellExit, "Well Exit"},
-            {relive::Path_PullRingRope::PullRingSwitchSound::eRingBellHammer, "Ring Unknown Trigger"},
-            {relive::Path_PullRingRope::PullRingSwitchSound::eDoorEffect, "Door Effect"},
-        });
-
-        types.AddEnum<relive::Path_PullRingRope::PullRingSoundDirection>("Enum_PullRingSoundDirection",
-        {
-            {relive::Path_PullRingRope::PullRingSoundDirection::eLeftAndRight, "Left And Right"},
-            {relive::Path_PullRingRope::PullRingSoundDirection::eLeft, "Left"},
-            {relive::Path_PullRingRope::PullRingSoundDirection::eRight, "Right"},
-        });
-    }*/
-
 public:
     Editor_PullRingRope()
         : MapObjectBaseInterface<Editor_PullRingRope, Path_PullRingRope::kReliveType>(&mTlv)
@@ -1361,12 +1168,12 @@ public:
         MapObjectBase::Visit(r);
 
         r.Visit("Switch ID", mTlv.mSwitchId);
-        //r.Visit("Action", mTlv.mAction);
+        r.Visit("Action", mTlv.mAction);
         r.Visit("Rope Length", mTlv.mRopeLength);
         r.Visit("Scale", mTlv.mScale);
-        //r.Visit("On Sound", mTlv.mOnSound);
-        //r.Visit("Off Sound", mTlv.mOffSound);
-        //r.Visit("Sound Direction", mTlv.mSoundDirection);
+        r.Visit("On Sound", mTlv.mOnSound);
+        r.Visit("Off Sound", mTlv.mOffSound);
+        r.Visit("Sound Direction", mTlv.mSoundDirection);
     }
 
     std::string GetIconPath() const override
@@ -1389,7 +1196,7 @@ public:
         MapObjectBase::Visit(r);
 
         r.Visit("Output Switch ID", mTlv.mOutputSwitchId);
-        //r.Visit("Action", mTlv.mAction);
+        r.Visit("Action", mTlv.mAction);
         r.Visit("On/Off Delay", mTlv.mOnOffDelay);
         r.Visit("Input Switch ID 1", mTlv.mInputSwitchId1);
         r.Visit("Input Switch ID 2", mTlv.mInputSwitchId2);
@@ -1451,17 +1258,6 @@ public:
 
 struct Editor_ContinuePoint final : public MapObjectBaseInterface<Editor_ContinuePoint, Path_ContinuePoint::kReliveType>
 {
-    /*
-    void AddTypes(ReliveAPI::TypesCollectionBase& types) override
-    {
-        types.AddEnum<relive::Path_ContinuePoint::Scale>("Enum_ContinuePointScale",
-        {
-            {relive::Path_ContinuePoint::Scale::eNone, "None"},
-            {relive::Path_ContinuePoint::Scale::eHalf, "Half"},
-            {relive::Path_ContinuePoint::Scale::eFull, "Full"},
-        });
-    }*/
-
 public:
     Editor_ContinuePoint()
         : MapObjectBaseInterface<Editor_ContinuePoint, Path_ContinuePoint::kReliveType>(&mTlv)
@@ -1471,12 +1267,12 @@ public:
     {
         MapObjectBase::Visit(r);
 
-        //r.Visit("(AO) Zone Number", mTlv.mZoneNumber);
-        //r.Visit("(AO) Clear From ID", mTlv.mClearFromId);
-        //r.Visit("(AO) Clear To ID", mTlv.mClearToId);
-        //r.Visit("(AO) Elum Restarts", mTlv.mElumRestarts);
-        //r.Visit("(AO) Abe Spawn Dir", mTlv.mAbeSpawnDir);
-        //r.Visit("(AE) Scale", mTlv.mScale);
+        r.Visit("(AO) Zone Number", mTlv.mZoneNumber);
+        r.Visit("(AO) Clear From ID", mTlv.mClearFromId);
+        r.Visit("(AO) Clear To ID", mTlv.mClearToId);
+        r.Visit("(AO) Elum Restarts", mTlv.mElumRestarts);
+        r.Visit("(AO) Abe Spawn Dir", mTlv.mAbeSpawnDir);
+        r.Visit("(AE) Scale", mTlv.mScale);
         r.Visit("(AE) Save File ID", mTlv.mSaveFileId);
     }
 
@@ -1490,19 +1286,6 @@ public:
 
 struct Editor_WheelSyncer final : public MapObjectBaseInterface<Editor_WheelSyncer, Path_WheelSyncer::kReliveType>
 {
-    /*
-    void AddTypes(ReliveAPI::TypesCollectionBase& types) override
-    {
-        types.AddEnum<relive::Path_WheelSyncer::OutputRequirement>("Enum_WheelSyncerOutputRequirement",
-        {
-            {relive::Path_WheelSyncer::OutputRequirement::eAllOn, "All On"},
-            {relive::Path_WheelSyncer::OutputRequirement::e1OnAnd2Off, "1 On And 2 Off"},
-            {relive::Path_WheelSyncer::OutputRequirement::e1Or2On, "1 Or 2 On"},
-            {relive::Path_WheelSyncer::OutputRequirement::e1OnOr2Off, "1 On Or 2 Off"},
-        });
-    }
-    */
-
 public:
     Editor_WheelSyncer()
         : MapObjectBaseInterface<Editor_WheelSyncer, Path_WheelSyncer::kReliveType>(&mTlv)
@@ -1515,7 +1298,7 @@ public:
         r.Visit("Input Switch ID 1", mTlv.mInputSwitchId1);
         r.Visit("Input Switch ID 2", mTlv.mInputSwitchId2);
         r.Visit("Output Switch ID", mTlv.mOutputSwitchId);
-        //r.Visit("Output Requirement", mTlv.mOutputRequirement);
+        r.Visit("Output Requirement", mTlv.mOutputRequirement);
         r.Visit("Input Switch ID 3", mTlv.mInputSwitchId3);
         r.Visit("Input Switch ID 4", mTlv.mInputSwitchId4);
         r.Visit("Input Switch ID 5", mTlv.mInputSwitchId5);
@@ -1542,7 +1325,7 @@ public:
         MapObjectBase::Visit(r);
 
         r.Visit("Switch ID", mTlv.mSwitchId);
-        //r.Visit("Destination Level", mTlv.mDestLevel);
+        r.Visit("Destination Level", mTlv.mDestLevel);
         r.Visit("Destination Path", mTlv.mDestPath);
         r.Visit("Destination Camera", mTlv.mDestCamera);
         r.Visit("Movie ID", mTlv.mMovieId);
@@ -1588,11 +1371,11 @@ public:
         MapObjectBase::Visit(r);
 
         r.Visit("Scale", mTlv.mScale);
-        //r.Visit("Spawn Delay State", mTlv.mSpawnDelayState);
+        r.Visit("Spawn Delay State", mTlv.mSpawnDelayState);
         r.Visit("Spawn Move Delay", mTlv.mSpawnMoveDelay);
         r.Visit("Patrol Pause Min", mTlv.mPatrolPauseMin);
         r.Visit("Patrol Pause Max", mTlv.mPatrolPauseMax);
-        //r.Visit("Start Direction", mTlv.mFacing);
+        r.Visit("Start Direction", mTlv.mFacing);
         r.Visit("Panic Delay", mTlv.mPanicDelay);
         r.Visit("Give Up Chase Delay", mTlv.mGiveUpChaseDelay);
         r.Visit("Pre-chase Delay", mTlv.mPrechaseDelay);
@@ -1602,7 +1385,7 @@ public:
         r.Visit("Grenade Delay", mTlv.mGrenadeDelay);
         r.Visit("Max Velocity", mTlv.mMaxVelocity);
         r.Visit("Launch Grenade Switch ID", mTlv.mLaunchGrenadeSwitchId);
-        //r.Visit("Persistant", mTlv.mPersistant);
+        r.Visit("Persistant", mTlv.mPersistant);
     }
 
     std::string GetIconPath() const override
@@ -1625,11 +1408,11 @@ public:
         MapObjectBase::Visit(r);
 
         r.Visit("Scale", mTlv.mScale);
-        //r.Visit("Spawn Delay State", mTlv.mSpawnDelayState);
+        r.Visit("Spawn Delay State", mTlv.mSpawnDelayState);
         r.Visit("Spawn Move Delay", mTlv.mSpawnMoveDelay);
         r.Visit("Patrol Pause Min", mTlv.mPatrolPauseMin);
         r.Visit("Patrol Pause Max", mTlv.mPatrolPauseMax);
-        //r.Visit("Start Direction", mTlv.mFacing);
+        r.Visit("Start Direction", mTlv.mFacing);
         r.Visit("Panic Delay", mTlv.mPanicDelay);
         r.Visit("Give Up Chase Delay", mTlv.mGiveUpChaseDelay);
         r.Visit("Pre-chase Delay", mTlv.mPrechaseDelay);
@@ -1639,7 +1422,7 @@ public:
         r.Visit("Grenade Delay", mTlv.mGrenadeDelay);
         r.Visit("Max Velocity", mTlv.mMaxVelocity);
         r.Visit("Launch Grenade Switch ID", mTlv.mLaunchGrenadeSwitchId);
-        //r.Visit("Persistant", mTlv.mPersistant);
+        r.Visit("Persistant", mTlv.mPersistant);
     }
 
     std::string GetIconPath() const override
@@ -1682,23 +1465,23 @@ public:
         MapObjectBase::Visit(r);
 
         r.Visit("Scale", mTlv.mData.mScale);
-        //r.Visit("Start State", mTlv.mData.mStartState);
-        //r.Visit("(AE) Death Mode", mTlv.mData.mDeathMode);
-        //r.Visit("(AE) Can Beat", mTlv.mData.mCanBeat);
-        //r.Visit("(AE) Can Z Shoot", mTlv.mData.mCanZShoot);
+        r.Visit("Start State", mTlv.mData.mStartState);
+        r.Visit("(AE) Death Mode", mTlv.mData.mDeathMode);
+        r.Visit("(AE) Can Beat", mTlv.mData.mCanBeat);
+        r.Visit("(AE) Can Z Shoot", mTlv.mData.mCanZShoot);
         r.Visit("Pause Time", mTlv.mData.mPauseTime);
         r.Visit("Pause Left Min", mTlv.mData.mPauseLeftMin);
         r.Visit("Pause Left Max", mTlv.mData.mPauseLeftMax);
         r.Visit("Pause Right Min", mTlv.mData.mPauseRightMin);
         r.Visit("Pause Right Max", mTlv.mData.mPauseRightMax);
-        //r.Visit("Shoot Possessed Sligs", mTlv.mData.mShootPossessedSligs);
+        r.Visit("Shoot Possessed Sligs", mTlv.mData.mShootPossessedSligs);
         r.Visit("Shoot On Sight Delay", mTlv.mData.mShootOnSightDelay);
         r.Visit("Bullet Shoot Count", mTlv.mData.mNumTimesToShoot);
 
         r.Visit("Code 1", mTlv.mData.mCode1);
         r.Visit("Code 2", mTlv.mData.mCode2);
-        //r.Visit("Chase Abe When Spotted", mTlv.mData.mChaseAbeWhenSpotted);
-        //r.Visit("Facing", mTlv.mData.mFacing);
+        r.Visit("Chase Abe When Spotted", mTlv.mData.mChaseAbeWhenSpotted);
+        r.Visit("Facing", mTlv.mData.mFacing);
         r.Visit("Panic Timeout", mTlv.mData.mPanicTimeout);
         r.Visit("Stop Chase Delay", mTlv.mData.mStopChaseDelay);
         r.Visit("Time To Wait Before Chase", mTlv.mData.mTimeToWaitBeforeChase);
@@ -1707,10 +1490,10 @@ public:
         r.Visit("Percent Say What", mTlv.mData.mPercentSayWhat);
         r.Visit("Percent Beat Mudokon", mTlv.mData.mPercentBeatMud);
         r.Visit("Z Shoot Delay", mTlv.mData.mZShootDelay);
-        //r.Visit("Stay Awake", mTlv.mData.mStayAwake);
+        r.Visit("Stay Awake", mTlv.mData.mStayAwake);
         r.Visit("Noise Wake Up Distance (Grids)", mTlv.mData.mNoiseWakeUpDistance);
         r.Visit("Slig Spawner Switch ID", mTlv.mData.mSligSpawnerSwitchId);
-        //r.Visit("(AE) Unlimited Spawns", mTlv.mData.mUnlimitedSpawns); // HIDDEN
+        r.Visit("(AE) Unlimited Spawns", mTlv.mData.mUnlimitedSpawns); // HIDDEN
         r.Visit("(AO) Disabled Resources", mTlv.mData.mDisabledResourcesAO.Raw().all);
         r.Visit("(AE) Disabled Resources", mTlv.mData.mDisabledResourcesAE);
     }
@@ -1827,7 +1610,7 @@ public:
         r.Visit("(AO) Disabled YPos", mTlv.mOffDestY);
         r.Visit("Enabled XPos", mTlv.mOnDestX);
         r.Visit("Enabled YPos", mTlv.mOnDestY);
-        //r.Visit("Emit Leaves", mTlv.mEmitLeaves);
+        r.Visit("Emit Leaves", mTlv.mEmitLeaves);
         r.Visit("Leaf XPos", mTlv.mLeafX);
         r.Visit("Leaf YPos", mTlv.mLeafY);
     }
@@ -1864,25 +1647,6 @@ public:
 
 struct Editor_Drill final : public MapObjectBaseInterface<Editor_Drill, Path_Drill::kReliveType>
 {
-    /*
-    void AddTypes(ReliveAPI::TypesCollectionBase& types) override
-    {
-        types.AddEnum<relive::Path_Drill::DrillBehavior>("Enum_DrillBehavior",
-        {
-            {relive::Path_Drill::DrillBehavior::eNotInteractable, "Not Interactable"},
-            {relive::Path_Drill::DrillBehavior::eToggle, "Toggle"},
-            {relive::Path_Drill::DrillBehavior::eUse, "Use"},
-        });
-
-        types.AddEnum<relive::Path_Drill::DrillDirection>("Enum_DrillDirection",
-        {
-            {relive::Path_Drill::DrillDirection::eDown, "Down"},
-            {relive::Path_Drill::DrillDirection::eRight, "Right"},
-            {relive::Path_Drill::DrillDirection::eLeft, "Left"},
-        });
-    }
-    */
-
 public:
     Editor_Drill()
         : MapObjectBaseInterface<Editor_Drill, Path_Drill::kReliveType>(&mTlv)
@@ -1896,14 +1660,14 @@ public:
         r.Visit("Min Off Time", mTlv.mOnMinPauseTime);
         r.Visit("Max Off Time", mTlv.mOnMaxPauseTime);
         r.Visit("Switch ID", mTlv.mSwitchId);
-        //r.Visit("Behavior", mTlv.mDrillBehavior);
+        r.Visit("Behavior", mTlv.mDrillBehavior);
         r.Visit("Speed", mTlv.mOnSpeed);
-        //r.Visit("Start State On", mTlv.mStartStateOn);
+        r.Visit("Start State On", mTlv.mStartStateOn);
         r.Visit("Off Speed", mTlv.mOffSpeed);
         r.Visit("Min Off Time Speed Change", mTlv.mOffMinPauseTime);
         r.Visit("Max Off Time Speed Change", mTlv.mOffMaxPauseTime);
-        //r.Visit("Start Position Bottom", mTlv.mStartPositionBottom);
-        //r.Visit("Start Direction", mTlv.mDrillDirection);
+        r.Visit("Start Position Bottom", mTlv.mStartPositionBottom);
+        r.Visit("Start Direction", mTlv.mDrillDirection);
     }
 
     std::string GetIconPath() const override
@@ -1934,7 +1698,7 @@ public:
         MapObjectBase::Visit(r);
 
         r.Visit("Scale", mTlv.mScale);
-        //r.Visit("Persist Offscreen", mTlv.mPersistOffscreen);
+        r.Visit("Persist Offscreen", mTlv.mPersistOffscreen);
     }
 
     std::string GetIconPath() const override
@@ -1957,8 +1721,8 @@ public:
         MapObjectBase::Visit(r);
 
         r.Visit("Scale", mTlv.mScale);
-        //r.Visit("Start Direction", mTlv.mFacing);
-        //r.Visit("Asleep", mTlv.mAsleep);
+        r.Visit("Start Direction", mTlv.mFacing);
+        r.Visit("Asleep", mTlv.mAsleep);
         r.Visit("Wake Up Anger", mTlv.mWakeUpAnger);
         r.Visit("Bark Anger", mTlv.mBarkAnger);
         r.Visit("Chase Anger", mTlv.mChaseAnger);
@@ -1986,13 +1750,13 @@ public:
     {
         MapObjectBase::Visit(r);
 
-        //r.Visit("Clear Ids", mTlv.mClearIds);
+        r.Visit("Clear Ids", mTlv.mClearIds);
         r.Visit("From", mTlv.mFrom);
         r.Visit("To", mTlv.mTo);
         r.Visit("Exclude", mTlv.mExclude);
-        //r.Visit("Clear Objects", mTlv.mClearObjects);
+        r.Visit("Clear Objects", mTlv.mClearObjects);
         r.Visit("Path", mTlv.mPath);
-        //r.Visit("(AE) Enabled", mTlv.mEnabled);
+        r.Visit("(AE) Enabled", mTlv.mEnabled);
     }
 
     std::string GetIconPath() const override
@@ -2005,15 +1769,6 @@ public:
 
 struct Editor_TrapDoor final : public MapObjectBaseInterface<Editor_TrapDoor, Path_TrapDoor::kReliveType>
 {
-    /*
-    void AddTypes(ReliveAPI::TypesCollectionBase& types) override
-    {
-        types.AddEnum<relive::Path_TrapDoor::StartState>("Enum_TrapDoorStartState",
-        {{relive::Path_TrapDoor::StartState::eOpen, "Open"},
-        {relive::Path_TrapDoor::StartState::eClosed, "Closed"}});
-    }
-    */
-
 public:
     Editor_TrapDoor()
         : MapObjectBaseInterface<Editor_TrapDoor, Path_TrapDoor::kReliveType>(&mTlv)
@@ -2024,10 +1779,10 @@ public:
         MapObjectBase::Visit(r);
 
         r.Visit("Switch ID", mTlv.mSwitchId);
-        //r.Visit("Start State", mTlv.mStartState);
-        //r.Visit("Self Closing", mTlv.mSelfClosing);
+        r.Visit("Start State", mTlv.mStartState);
+        r.Visit("Self Closing", mTlv.mSelfClosing);
         r.Visit("Scale", mTlv.mScale);
-        //r.Visit("Direction", mTlv.mDirection);
+        r.Visit("Direction", mTlv.mDirection);
         r.Visit("X Offset", mTlv.mXOff);
         r.Visit("(AE) Stay Open Time", mTlv.mStayOpenTime);
     }
@@ -2051,7 +1806,7 @@ public:
     {
         MapObjectBase::Visit(r);
 
-        //r.Visit("Next Level", mTlv.mNextLevel);
+        r.Visit("Next Level", mTlv.mNextLevel);
         r.Visit("Next Path", mTlv.mNextPath);
         r.Visit("Next Camera", mTlv.mNextCamera);
         r.Visit("Movie ID", mTlv.mMovieId);
@@ -2069,16 +1824,6 @@ public:
 
 struct Editor_LiftMover final : public MapObjectBaseInterface<Editor_LiftMover, Path_LiftMover::kReliveType>
 {
-    /*
-    void AddTypes(ReliveAPI::TypesCollectionBase& types) override
-    {
-        types.AddEnum<relive::Path_LiftMover::YDirection>("Enum_LiftMoverYDirection",
-        {
-            {relive::Path_LiftMover::YDirection::eDown, "Down"},
-            {relive::Path_LiftMover::YDirection::eUp, "Up"},
-        });
-    }*/
-
 public:
     Editor_LiftMover()
         : MapObjectBaseInterface<Editor_LiftMover, Path_LiftMover::kReliveType>(&mTlv)
@@ -2090,7 +1835,7 @@ public:
 
         r.Visit("Lift Mover Switch ID", mTlv.mLiftMoverSwitchId);
         r.Visit("Target Lift Point ID", mTlv.mTargetLiftPointId);
-        //r.Visit("Move Direction", mTlv.mMoveDirection);
+        r.Visit("Move Direction", mTlv.mMoveDirection);
     }
 
     std::string GetIconPath() const override
@@ -2112,7 +1857,7 @@ public:
     {
         MapObjectBase::Visit(r);
 
-        //r.Visit("Rock Fall Direction", mTlv.mRockFallDirection);
+        r.Visit("Rock Fall Direction", mTlv.mRockFallDirection);
         r.Visit("X Velocity", mTlv.mVelX);
         r.Visit("Y Velocity", mTlv.mVelY);
         r.Visit("Scale", mTlv.mScale);
@@ -2156,16 +1901,6 @@ public:
 
 struct Editor_MotionDetector final : public MapObjectBaseInterface<Editor_MotionDetector, Path_MotionDetector::kReliveType>
 {
-    /*
-    void AddTypes(ReliveAPI::TypesCollectionBase& types) override
-    {
-        types.AddEnum<relive::Path_MotionDetector::InitialMoveDirection>("Enum_InitialMoveDirection",
-        {
-            {relive::Path_MotionDetector::InitialMoveDirection::eRight, "Right"},
-            {relive::Path_MotionDetector::InitialMoveDirection::eLeft, "Left"},
-        });
-    }*/
-
 public:
     Editor_MotionDetector()
         : MapObjectBaseInterface<Editor_MotionDetector, Path_MotionDetector::kReliveType>(&mTlv)
@@ -2179,8 +1914,8 @@ public:
         r.Visit("Device X", mTlv.mDeviceX);
         r.Visit("Device Y", mTlv.mDeviceY);
         r.Visit("Speed", mTlv.mSpeedx256); // Note the potential scaling factor of 256 based on field name
-        //r.Visit("Initial Move Direction", mTlv.mInitialMoveDirection);
-        //r.Visit("Draw Flare", mTlv.mDrawFlare);
+        r.Visit("Initial Move Direction", mTlv.mInitialMoveDirection);
+        r.Visit("Draw Flare", mTlv.mDrawFlare);
         r.Visit("Disable Switch ID", mTlv.mDisableSwitchId);
         r.Visit("Alarm Switch ID", mTlv.mAlarmSwitchId);
         r.Visit("Alarm Duration", mTlv.mAlarmDuration);
@@ -2227,11 +1962,11 @@ public:
     {
         MapObjectBase::Visit(r);
 
-        //r.Visit("Start Enabled", mTlv.mStartEnabled);
+        r.Visit("Start Enabled", mTlv.mStartEnabled);
         r.Visit("Switch ID", mTlv.mSwitchId);
-        //r.Visit("Spawn Assets", mTlv.mSpawnAssets);
+        r.Visit("Spawn Assets", mTlv.mSpawnAssets);
         r.Visit("Start Delay", mTlv.mStartDelay);
-        //r.Visit("Start Direction", mTlv.mStartDirection);
+        r.Visit("Start Direction", mTlv.mStartDirection);
         r.Visit("Asset Interval", mTlv.mAssetInterval);
         r.Visit("Grid Spacing", mTlv.mGridSpacing);
         r.Visit("Increasing Grid Spacing", mTlv.mIncreasingGridSpacing);
@@ -2260,7 +1995,7 @@ public:
         r.Visit("Switch ID", mTlv.mSwitchId);
         r.Visit("Number Of Meter Bars", mTlv.mNumberOfMeterBars);
         r.Visit("Mines Alarm Countdown (Seconds)", mTlv.mMinesAlarmCountdown);
-        //r.Visit("Start Filled", mTlv.mStartFilled);
+        r.Visit("Start Filled", mTlv.mStartFilled);
     }
 
     std::string GetIconPath() const override
@@ -2328,8 +2063,8 @@ public:
         r.Visit("Scale", mTlv.mScale);
         r.Visit("Target Tomb ID 1", mTlv.mTargetTombSwitchId1);
         r.Visit("Target Tomb ID 2", mTlv.mTargetTombSwitchId2);
-        //r.Visit("Has Ghost", mTlv.mHasGhost);
-        //r.Visit("Give Invisibility Power-up", mTlv.mGiveInvisibilityPowerup);
+        r.Visit("Has Ghost", mTlv.mHasGhost);
+        r.Visit("Give Invisibility Power-up", mTlv.mGiveInvisibilityPowerup);
         r.Visit("Invisibility Duration", mTlv.mInvisibilityDuration);
         r.Visit("Toggle Switch ID", mTlv.mSlapOutputSwitchId);
     }
@@ -2354,7 +2089,7 @@ public:
         MapObjectBase::Visit(r);
 
         r.Visit("Time Until Turning Around", mTlv.mMovingTimer);
-        //r.Visit("Start Direction", mTlv.mFacing);
+        r.Visit("Start Direction", mTlv.mFacing);
         r.Visit("Scale", mTlv.mScale);
         r.Visit("Switch ID (increment by 1 on death)", mTlv.mSlurgSwitchId);
     }
@@ -2402,7 +2137,7 @@ public:
         MapObjectBase::Visit(r);
 
         r.Visit("Dove Count", mTlv.mDoveCount);
-        //r.Visit("Pixel Perfect", mTlv.mPixelPerfect);
+        r.Visit("Pixel Perfect", mTlv.mPixelPerfect);
         r.Visit("Scale", mTlv.mScale);
     }
 
@@ -2425,7 +2160,7 @@ public:
     {
         MapObjectBase::Visit(r);
 
-        //r.Visit("Exit Direction", mTlv.mExitSide);
+        r.Visit("Exit Direction", mTlv.mExitSide);
         r.Visit("Scale", mTlv.mScale);
     }
 
@@ -2439,18 +2174,6 @@ public:
 
 struct Editor_DoorFlame final : public MapObjectBaseInterface<Editor_DoorFlame, Path_DoorFlame::kReliveType>
 {
-    /*
-    void AddTypes(ReliveAPI::TypesCollectionBase& types) override
-    {
-        types.AddEnum<relive::Path_DoorFlame::Colour>("Enum_DoorFlameColour",
-        {
-            {relive::Path_DoorFlame::Colour::eDefault, "Default"},
-            {relive::Path_DoorFlame::Colour::eRed, "Red"},
-            {relive::Path_DoorFlame::Colour::eGreen, "Green"},
-            {relive::Path_DoorFlame::Colour::eBlue, "Blue"},
-        });
-    }*/
-
 public:
     Editor_DoorFlame()
         : MapObjectBaseInterface<Editor_DoorFlame, Path_DoorFlame::kReliveType>(&mTlv)
@@ -2462,7 +2185,7 @@ public:
 
         r.Visit("Switch ID", mTlv.mSwitchId);
         r.Visit("Scale", mTlv.mScale);
-        //r.Visit("Colour", mTlv.mColour);
+        r.Visit("Colour", mTlv.mColour);
     }
 
     std::string GetIconPath() const override
@@ -2484,7 +2207,7 @@ public:
     {
         MapObjectBase::Visit(r);
 
-        //r.Visit("Direction", mTlv.mDirection);
+        r.Visit("Direction", mTlv.mDirection);
     }
 
     std::string GetIconPath() const override
@@ -2508,7 +2231,7 @@ public:
 
         r.Visit("Scale", mTlv.mScale);
         r.Visit("Motion Detector Speed", mTlv.mMotionDetectorSpeed);
-        //r.Visit("Facing", mTlv.mFacing);
+        r.Visit("Facing", mTlv.mFacing);
     }
 
     std::string GetIconPath() const override
@@ -2611,10 +2334,10 @@ public:
 
         r.Visit("Speed", mTlv.mSpeed);
         r.Visit("Start Moving Switch ID", mTlv.mStartMovingSwitchId);
-        //r.Visit("Triggered By Alarm", mTlv.mTriggeredByAlarm);
+        r.Visit("Triggered By Alarm", mTlv.mTriggeredByAlarm);
         r.Visit("Scale", mTlv.mScale);
         r.Visit("Start Speed", mTlv.mStartSpeed);
-        //r.Visit("Persist Offscreen", mTlv.mPersistOffscreen);
+        r.Visit("Persist Offscreen", mTlv.mPersistOffscreen);
     }
 
     std::string GetIconPath() const override
@@ -2677,23 +2400,6 @@ public:
 
 struct Editor_CrawlingSlig final : public MapObjectBaseInterface<Editor_CrawlingSlig, Path_CrawlingSlig::kReliveType>
 {
-    /*
-    void AddTypes(ReliveAPI::TypesCollectionBase& types) override
-    {
-        types.AddEnum<relive::Path_CrawlingSlig::StartState>("Enum_CrawlingSligState",
-        {
-            {relive::Path_CrawlingSlig::StartState::eSleeping, "Sleeping"},
-            {relive::Path_CrawlingSlig::StartState::eAwake, "Awake"},
-        });
-
-        types.AddEnum<relive::Path_CrawlingSlig::CrawlDirection>("Enum_CrawlDirection",
-        {
-            {relive::Path_CrawlingSlig::CrawlDirection::eLeft, "Left"},
-            {relive::Path_CrawlingSlig::CrawlDirection::eRight, "Right"},
-            {relive::Path_CrawlingSlig::CrawlDirection::eRandom, "Random"},
-        });
-    }*/
-
 public:
     Editor_CrawlingSlig()
         : MapObjectBaseInterface<Editor_CrawlingSlig, Path_CrawlingSlig::kReliveType>(&mTlv)
@@ -2704,10 +2410,10 @@ public:
         MapObjectBase::Visit(r);
 
         r.Visit("Scale", mTlv.mScale);
-        //r.Visit("Start State", mTlv.mStartState);
-        //r.Visit("Crawl Direction", mTlv.mCrawlDirection);
+        r.Visit("Start State", mTlv.mStartState);
+        r.Visit("Crawl Direction", mTlv.mCrawlDirection);
         r.Visit("Panic Switch ID", mTlv.mPanicSwitchId);
-        //r.Visit("Respawn On Death", mTlv.mRespawnOnDeath);
+        r.Visit("Respawn On Death", mTlv.mRespawnOnDeath);
     }
 
     std::string GetIconPath() const override
@@ -2730,23 +2436,23 @@ public:
         MapObjectBase::Visit(r);
 
         r.Visit("Scale", mTlv.mData.mScale);
-        //r.Visit("Start State", mTlv.mData.mStartState);
-        //r.Visit("(AE) Death Mode", mTlv.mData.mDeathMode);
-        //r.Visit("(AE) Can Beat", mTlv.mData.mCanBeat);
-        //r.Visit("(AE) Can Z Shoot", mTlv.mData.mCanZShoot);
+        r.Visit("Start State", mTlv.mData.mStartState);
+        r.Visit("(AE) Death Mode", mTlv.mData.mDeathMode);
+        r.Visit("(AE) Can Beat", mTlv.mData.mCanBeat);
+        r.Visit("(AE) Can Z Shoot", mTlv.mData.mCanZShoot);
         r.Visit("Pause Time", mTlv.mData.mPauseTime);
         r.Visit("Pause Left Min", mTlv.mData.mPauseLeftMin);
         r.Visit("Pause Left Max", mTlv.mData.mPauseLeftMax);
         r.Visit("Pause Right Min", mTlv.mData.mPauseRightMin);
         r.Visit("Pause Right Max", mTlv.mData.mPauseRightMax);
-        //r.Visit("Shoot Possessed Sligs", mTlv.mData.mShootPossessedSligs);
+        r.Visit("Shoot Possessed Sligs", mTlv.mData.mShootPossessedSligs);
         r.Visit("Shoot On Sight Delay", mTlv.mData.mShootOnSightDelay);
         r.Visit("Bullet Shoot Count", mTlv.mData.mNumTimesToShoot);
 
         r.Visit("Code 1", mTlv.mData.mCode1);
         r.Visit("Code 2", mTlv.mData.mCode2);
-        //r.Visit("Chase Abe When Spotted", mTlv.mData.mChaseAbeWhenSpotted);
-        //r.Visit("Facing", mTlv.mData.mFacing);
+        r.Visit("Chase Abe When Spotted", mTlv.mData.mChaseAbeWhenSpotted);
+        r.Visit("Facing", mTlv.mData.mFacing);
         r.Visit("Panic Timeout", mTlv.mData.mPanicTimeout);
         r.Visit("Stop Chase Delay", mTlv.mData.mStopChaseDelay);
         r.Visit("Time To Wait Before Chase", mTlv.mData.mTimeToWaitBeforeChase);
@@ -2755,10 +2461,10 @@ public:
         r.Visit("Percent Say What", mTlv.mData.mPercentSayWhat);
         r.Visit("Percent Beat Mudokon", mTlv.mData.mPercentBeatMud);
         r.Visit("Z Shoot Delay", mTlv.mData.mZShootDelay);
-        //r.Visit("Stay Awake", mTlv.mData.mStayAwake);
+        r.Visit("Stay Awake", mTlv.mData.mStayAwake);
         r.Visit("Noise Wake Up Distance (Grids)", mTlv.mData.mNoiseWakeUpDistance);
         r.Visit("Slig Spawner Switch ID", mTlv.mData.mSligSpawnerSwitchId);
-        //r.Visit("(AE) Unlimited Spawns", mTlv.mData.mUnlimitedSpawns); // HIDDEN
+        r.Visit("(AE) Unlimited Spawns", mTlv.mData.mUnlimitedSpawns); // HIDDEN
         r.Visit("(AO) Disabled Resources", mTlv.mData.mDisabledResourcesAO.Raw().all);
         r.Visit("(AE) Disabled Resources", mTlv.mData.mDisabledResourcesAE);
     }
@@ -2783,11 +2489,11 @@ public:
         MapObjectBase::Visit(r);
 
         r.Visit("Scale", mTlv.mScale);
-        //r.Visit("Spawn Delay State", mTlv.mSpawnDelayState);
+        r.Visit("Spawn Delay State", mTlv.mSpawnDelayState);
         r.Visit("Spawn Move Delay", mTlv.mSpawnMoveDelay);
         r.Visit("Patrol Pause Min", mTlv.mPatrolPauseMin);
         r.Visit("Patrol Pause Max", mTlv.mPatrolPauseMax);
-        //r.Visit("Start Direction", mTlv.mFacing);
+        r.Visit("Start Direction", mTlv.mFacing);
         r.Visit("Panic Delay", mTlv.mPanicDelay);
         r.Visit("Give Up Chase Delay", mTlv.mGiveUpChaseDelay);
         r.Visit("Pre-chase Delay", mTlv.mPrechaseDelay);
@@ -2797,7 +2503,7 @@ public:
         r.Visit("Grenade Delay", mTlv.mGrenadeDelay);
         r.Visit("Max Velocity", mTlv.mMaxVelocity);
         r.Visit("Launch Grenade Switch ID", mTlv.mLaunchGrenadeSwitchId);
-        //r.Visit("Persistant", mTlv.mPersistant);
+        r.Visit("Persistant", mTlv.mPersistant);
     }
 
     std::string GetIconPath() const override
@@ -2810,24 +2516,6 @@ public:
 
 struct Editor_CrawlingSligButton final : public MapObjectBaseInterface<Editor_CrawlingSligButton, Path_CrawlingSligButton::kReliveType>
 {
-    /*
-    void AddTypes(ReliveAPI::TypesCollectionBase& types) override
-    {
-        // this probably shouldn't be here since the sound/sound direction implementation is extremely scuffed
-        // but maybe someone wants to use it anyway
-        types.AddEnum<relive::Path_CrawlingSligButton::ButtonSounds>("Enum_CrawlingSligButtonSounds",
-        {
-            {relive::Path_CrawlingSligButton::ButtonSounds::None, "None"},
-            {relive::Path_CrawlingSligButton::ButtonSounds::SackHit1, "Sack Hit 1"},
-            {relive::Path_CrawlingSligButton::ButtonSounds::SackHit2, "Sack Hit 2"},
-            {relive::Path_CrawlingSligButton::ButtonSounds::FallingItemPresence2, "Falling Item Presence 2"},
-            {relive::Path_CrawlingSligButton::ButtonSounds::SecurityOrb, "Security Orb"},
-            {relive::Path_CrawlingSligButton::ButtonSounds::Bullet1, "Bullet 1"},
-            {relive::Path_CrawlingSligButton::ButtonSounds::AbeGenericMovement, "Abe Generic Movement"},
-        });
-    }
-    */
-
 public:
     Editor_CrawlingSligButton()
         : MapObjectBaseInterface<Editor_CrawlingSligButton, Path_CrawlingSligButton::kReliveType>(&mTlv)
@@ -2839,10 +2527,10 @@ public:
 
         r.Visit("Scale", mTlv.mScale);
         r.Visit("Switch ID", mTlv.mSwitchId);
-        //r.Visit("Action", mTlv.mAction);
-        //r.Visit("On Sound", mTlv.mOnSound);
-        //r.Visit("Off Sound", mTlv.mOffSound);
-        //r.Visit("Sound Direction", mTlv.mSoundDirection); // HIDDEN
+        r.Visit("Action", mTlv.mAction);
+        r.Visit("On Sound", mTlv.mOnSound);
+        r.Visit("Off Sound", mTlv.mOffSound);
+        r.Visit("Sound Direction", mTlv.mSoundDirection); // HIDDEN
     }
 
     std::string GetIconPath() const override
@@ -2855,39 +2543,6 @@ public:
 
 struct Editor_Glukkon final : public MapObjectBaseInterface<Editor_Glukkon, Path_Glukkon::kReliveType>
 {
-    /*
-    void AddTypes(ReliveAPI::TypesCollectionBase& types) override
-    {
-        types.AddEnum<relive::Path_Glukkon::GlukkonTypes>("Enum_GlukkonTypes",
-        {
-            {relive::Path_Glukkon::GlukkonTypes::eNormal, "Normal"},
-            {relive::Path_Glukkon::GlukkonTypes::eStoryAslik, "Story Aslik"},
-            {relive::Path_Glukkon::GlukkonTypes::eStoryDripik, "Story Dripik"},
-            {relive::Path_Glukkon::GlukkonTypes::eStoryPhleg, "Story Phleg"},
-        });
-
-        types.AddEnum<relive::Path_Glukkon::Facing>("Enum_GlukkonFacing",
-        {
-            {relive::Path_Glukkon::Facing::eRight, "Right"},
-            {relive::Path_Glukkon::Facing::eLeft, "Left"},
-        });
-
-        types.AddEnum<relive::Path_Glukkon::SpawnType>("Enum_GlukkonSpawnType",
-        {
-            {relive::Path_Glukkon::SpawnType::eRegularSpawn, "Regular Spawn"},
-            {relive::Path_Glukkon::SpawnType::eFacingLeft, "Facing Left"},
-            {relive::Path_Glukkon::SpawnType::eFacingRight, "Facing Right"},
-            {relive::Path_Glukkon::SpawnType::eFullSpawnEffects, "Full Spawn Effects"},
-        });
-
-        types.AddEnum<relive::Path_Glukkon::Behavior>("Enum_GlukkonBehavior",
-        {
-            {relive::Path_Glukkon::Behavior::eIgnoreWalls, "Ignore Walls"},
-            {relive::Path_Glukkon::Behavior::eCheckForWalls, "Check For Walls"},
-        });
-    }
-    */
-
 public:
     Editor_Glukkon()
         : MapObjectBaseInterface<Editor_Glukkon, Path_Glukkon::kReliveType>(&mTlv)
@@ -2898,15 +2553,15 @@ public:
         MapObjectBase::Visit(r);
 
         r.Visit("Scale", mTlv.mScale);
-        //r.Visit("Starting Direction", mTlv.mFacing);
-        //r.Visit("Behavior", mTlv.mBehavior);
+        r.Visit("Starting Direction", mTlv.mFacing);
+        r.Visit("Behavior", mTlv.mBehavior);
         r.Visit("Scream Help Delay", mTlv.mScreamHelpDelay);
         r.Visit("Help Switch ID", mTlv.mHelpSwitchId);
         r.Visit("To Calm Delay", mTlv.mToCalmDelay);
         r.Visit("Spawner Switch ID", mTlv.mSpawnSwitchId);
-        //r.Visit("Spawn Type", mTlv.mSpawnType);
+        r.Visit("Spawn Type", mTlv.mSpawnType);
         r.Visit("Spawn Delay", mTlv.mSpawnDelay);
-        //r.Visit("Glukkon Type", mTlv.mGlukkonType);
+        r.Visit("Glukkon Type", mTlv.mGlukkonType);
         r.Visit("Death Switch ID", mTlv.mDeathSwitchId);
         r.Visit("Play Movie Switch ID", mTlv.mPlayMovieSwitchId);
         r.Visit("Movie To Play (FMV ID)", mTlv.mMovieId);
@@ -2985,7 +2640,7 @@ public:
         r.Visit("Scale", mTlv.mScale);
         r.Visit("Fall Interval", mTlv.mFallInterval);
         r.Visit("Maximum Falling Items", mTlv.mMaxFallingItems);
-        //r.Visit("Reset Switch ID After Use", mTlv.mResetSwitchIdAfterUse);
+        r.Visit("Reset Switch ID After Use", mTlv.mResetSwitchIdAfterUse);
     }
 
     std::string GetIconPath() const override
@@ -3007,7 +2662,7 @@ public:
     {
         MapObjectBase::Visit(r);
 
-        //r.Visit("Bone Fall Direction", mTlv.mBoneFallDirection);
+        r.Visit("Bone Fall Direction", mTlv.mBoneFallDirection);
         r.Visit("X Velocity", mTlv.mVelX);
         r.Visit("Y Velocity", mTlv.mVelY);
         r.Visit("Scale", mTlv.mScale);
@@ -3048,16 +2703,6 @@ public:
 
 struct Editor_FootSwitch final : public MapObjectBaseInterface<Editor_FootSwitch, Path_FootSwitch::kReliveType>
 {
-    /*
-    void AddTypes(ReliveAPI::TypesCollectionBase& types) override
-    {
-        types.AddEnum<relive::Path_FootSwitch::FootSwitchTriggerBy>("Enum_FootSwitchTriggeredBy",
-        {
-            {relive::Path_FootSwitch::FootSwitchTriggerBy::eAbe, "Abe"},
-            {relive::Path_FootSwitch::FootSwitchTriggerBy::eAnyone, "Anyone"},
-        });
-    }*/
-
 public:
     Editor_FootSwitch()
         : MapObjectBaseInterface<Editor_FootSwitch, Path_FootSwitch::kReliveType>(&mTlv)
@@ -3069,8 +2714,8 @@ public:
 
         r.Visit("Switch ID", mTlv.mSwitchId);
         r.Visit("Scale", mTlv.mScale);
-        //r.Visit("Action", mTlv.mAction);
-        //r.Visit("Triggered By", mTlv.mTriggeredBy);
+        r.Visit("Action", mTlv.mAction);
+        r.Visit("Triggered By", mTlv.mTriggeredBy);
     }
 
     std::string GetIconPath() const override
@@ -3106,16 +2751,6 @@ public:
 
 struct Editor_SlogSpawner final : public MapObjectBaseInterface<Editor_SlogSpawner, Path_SlogSpawner::kReliveType>
 {
-    /*
-    void AddTypes(ReliveAPI::TypesCollectionBase& types) override
-    {
-        types.AddEnum<relive::Path_SlogSpawner::StartDirection>("Enum_SlogSpawnerStartDirection",
-        {
-            {relive::Path_SlogSpawner::StartDirection::eRight, "Right"},
-            {relive::Path_SlogSpawner::StartDirection::eLeft, "Left"},
-        });
-    }*/
-
 public:
     Editor_SlogSpawner()
         : MapObjectBaseInterface<Editor_SlogSpawner, Path_SlogSpawner::kReliveType>(&mTlv)
@@ -3128,10 +2763,10 @@ public:
         r.Visit("Scale", mTlv.mScale);
         r.Visit("Max Slogs", mTlv.mMaxSlogs);
         r.Visit("Max Slogs At A Time", mTlv.mMaxSlogsAtATime);
-        //r.Visit("Start Direction", mTlv.mStartDirection);
+        r.Visit("Start Direction", mTlv.mStartDirection);
         r.Visit("Slog Spawn Interval", mTlv.mSlogSpawnInterval);
         r.Visit("Spawner Switch ID", mTlv.mSpawnerSwitchId);
-        //r.Visit("(AE) Listen To Sligs", mTlv.mListenToSligs);
+        r.Visit("(AE) Listen To Sligs", mTlv.mListenToSligs);
         r.Visit("(AE) Chase Delay", mTlv.mChaseDelay);
     }
 
@@ -3172,17 +2807,17 @@ public:
         r.Visit("Scale", mTlv.mScale);
         r.Visit("Attack Delay", mTlv.mAttackDelay);
         r.Visit("(AE) Patrol Type Run Or Walk Chance (6 Max)", mTlv.mPatrolTypeRunOrWalkChance);
-        //r.Visit("(AO) Patrol Type", mTlv.mPatrolType);
+        r.Visit("(AO) Patrol Type", mTlv.mPatrolType);
         r.Visit("Left Min Delay", mTlv.mPauseLeftMin);
         r.Visit("Left Max Delay", mTlv.mPauseLeftMax);
         r.Visit("Right Min Delay", mTlv.mPauseRightMin);
         r.Visit("Right Max Delay", mTlv.mPauseRightMax);
         r.Visit("Pause After Chase Delay", mTlv.mPauseAfterChaseTime);
         r.Visit("Spotting Abe Delay", mTlv.mSpottingAbeDelay);
-        //r.Visit("Roar Randomly", mTlv.mRoarRandomly);
-        //r.Visit("(AE) Persistant", mTlv.mPersistant);
+        r.Visit("Roar Randomly", mTlv.mRoarRandomly);
+        r.Visit("(AE) Persistant", mTlv.mPersistant);
         r.Visit("(AE) Possessed Max Whirl Attack Duration", mTlv.mPossessedMaxWhirlAttackDuration);
-        //r.Visit("(AE) Kill Enemy", mTlv.mKillEnemy);
+        r.Visit("(AE) Kill Enemy", mTlv.mKillEnemy);
     }
 
     std::string GetIconPath() const override
@@ -3195,17 +2830,6 @@ public:
 
 struct Editor_ScrabSpawner final : public MapObjectBaseInterface<Editor_ScrabSpawner, Path_ScrabSpawner::kReliveType>
 {
-    /*
-    void AddTypes(ReliveAPI::TypesCollectionBase& types) override
-    {
-        types.AddEnum<relive::Path_ScrabSpawner::SpawnDirection>("Enum_ScrabSpawnDirection",
-        {
-            {relive::Path_ScrabSpawner::SpawnDirection::eNone, "None"},
-            {relive::Path_ScrabSpawner::SpawnDirection::eLeft, "Left"},
-            {relive::Path_ScrabSpawner::SpawnDirection::eRight, "Right"},
-        });
-    }*/
-
 public:
     Editor_ScrabSpawner()
         : MapObjectBaseInterface<Editor_ScrabSpawner, Path_ScrabSpawner::kReliveType>(&mTlv)
@@ -3219,21 +2843,21 @@ public:
         r.Visit("Scale", mTlv.mScale);
         r.Visit("Attack Delay", mTlv.mAttackDelay);
         r.Visit("(AE) Patrol Type Run Or Walk Chance (6 Max)", mTlv.mPatrolTypeRunOrWalkChance);
-        //r.Visit("(AO) Patrol Type", mTlv.mPatrolType);
+        r.Visit("(AO) Patrol Type", mTlv.mPatrolType);
         r.Visit("Left Min Delay", mTlv.mPauseLeftMin);
         r.Visit("Left Max Delay", mTlv.mPauseLeftMax);
         r.Visit("Right Min Delay", mTlv.mPauseRightMin);
         r.Visit("Right Max Delay", mTlv.mPauseRightMax);
         r.Visit("Pause After Chase Delay", mTlv.mPauseAfterChaseTime);
         r.Visit("Spotting Abe Delay", mTlv.mSpottingAbeDelay);
-        //r.Visit("Roar Randomly", mTlv.mRoarRandomly);
-        //r.Visit("(AE) Persistant", mTlv.mPersistant);
+        r.Visit("Roar Randomly", mTlv.mRoarRandomly);
+        r.Visit("(AE) Persistant", mTlv.mPersistant);
         r.Visit("(AE) Possessed Max Whirl Attack Duration", mTlv.mPossessedMaxWhirlAttackDuration);
-        //r.Visit("(AE) Kill Enemy", mTlv.mKillEnemy);
+        r.Visit("(AE) Kill Enemy", mTlv.mKillEnemy);
 
         // Spawner properties
         r.Visit("Spawner Switch ID", mTlv.mSpawnerSwitchId);
-        //r.Visit("Facing", mTlv.mFacing);
+        r.Visit("Facing", mTlv.mFacing);
     }
 
     std::string GetIconPath() const override
@@ -3257,7 +2881,7 @@ public:
 
         // Slurg properties
         r.Visit("Time Until Turning Around", mTlv.mMovingTimer);
-        //r.Visit("Facing", mTlv.mFacing);
+        r.Visit("Facing", mTlv.mFacing);
         r.Visit("Scale", mTlv.mScale);
         r.Visit("Switch ID (increment by 1 on death)", mTlv.mSlurgSwitchId);
 
@@ -3277,17 +2901,6 @@ public:
 
 struct Editor_Paramite final : public MapObjectBaseInterface<Editor_Paramite, Path_Paramite::kReliveType>
 {
-    /*
-    void AddTypes(ReliveAPI::TypesCollectionBase& types) override
-    {
-        types.AddEnum<relive::Path_Paramite::EntranceType>("Enum_ParamiteEntranceType",
-        {
-            {relive::Path_Paramite::EntranceType::ePatrol, "Patrol"},
-            {relive::Path_Paramite::EntranceType::eSurpriseWeb, "Surprise Web"},
-            {relive::Path_Paramite::EntranceType::eSlightlyHigherSpawnSurpriseWeb, "Slightly Higher Spawn Surprise Web"},
-        });
-    }*/
-
 public:
     Editor_Paramite()
         : MapObjectBaseInterface<Editor_Paramite, Path_Paramite::kReliveType>(&mTlv)
@@ -3298,15 +2911,15 @@ public:
         MapObjectBase::Visit(r);
 
         r.Visit("Scale", mTlv.mScale);
-        //r.Visit("Entrance Type", mTlv.mEntranceType);
+        r.Visit("Entrance Type", mTlv.mEntranceType);
         r.Visit("Alone - Chase Delay", mTlv.mAloneChaseDelay);
         r.Visit("Surprise Web Delay", mTlv.mSurpriseWebDelayTimer);
         r.Visit("Meat Eating Time", mTlv.mMeatEatingTime);
         r.Visit("Group - Chase Delay", mTlv.mGroupChaseDelay);
         r.Visit("Surprise Web Switch ID", mTlv.mSurpriseWebSwitchId);
-        //r.Visit("Hiss Before Attacking", mTlv.mHissBeforeAttack);
-        //r.Visit("Delete When Out Of Sight", mTlv.mDeleteWhenOutOfSight);
-        //r.Visit("(AE) Attack Fleeches", mTlv.mAttackFleeches);
+        r.Visit("Hiss Before Attacking", mTlv.mHissBeforeAttack);
+        r.Visit("Delete When Out Of Sight", mTlv.mDeleteWhenOutOfSight);
+        r.Visit("(AE) Attack Fleeches", mTlv.mAttackFleeches);
     }
 
     std::string GetIconPath() const override
@@ -3350,7 +2963,7 @@ public:
     {
         MapObjectBase::Visit(r);
 
-        //r.Visit("Meat Fall Direction", mTlv.mMeatFallDirection);
+        r.Visit("Meat Fall Direction", mTlv.mMeatFallDirection);
         r.Visit("X Velocity", mTlv.mVelX);
         r.Visit("Y Velocity", mTlv.mVelY);
         r.Visit("Scale", mTlv.mScale);
@@ -3433,16 +3046,6 @@ public:
 
 struct Editor_BellsongStone final : public MapObjectBaseInterface<Editor_BellsongStone, Path_BellsongStone::kReliveType>
 {
-    /*
-    void AddTypes(ReliveAPI::TypesCollectionBase& types) override
-    {
-        types.AddEnum<relive::Path_BellsongStone::BellsongTypes>("Enum_BellsongTypes",
-        {
-            {relive::Path_BellsongStone::BellsongTypes::eWhistle, "Whistle"},
-            {relive::Path_BellsongStone::BellsongTypes::eChimes, "Chimes"},
-        });
-    }
-    */
 public:
     Editor_BellsongStone()
         : MapObjectBaseInterface<Editor_BellsongStone, Path_BellsongStone::kReliveType>(&mTlv)
@@ -3453,7 +3056,7 @@ public:
         MapObjectBase::Visit(r);
 
         r.Visit("Scale", mTlv.mScale);
-        //r.Visit("Type", mTlv.mType);
+        r.Visit("Type", mTlv.mType);
         r.Visit("Code 1", mTlv.mCode1);
         r.Visit("Code 2", mTlv.mCode2);
         r.Visit("Switch ID", mTlv.mSwitchId);
@@ -3469,20 +3072,6 @@ public:
 
 struct Editor_LightEffect final : public MapObjectBaseInterface<Editor_LightEffect, Path_LightEffect::kReliveType>
 {
-    /*
-    void AddTypes(ReliveAPI::TypesCollectionBase& types) override
-    {
-        types.AddEnum<relive::Path_LightEffect::Type>("Enum_LightType",
-        {
-            {relive::Path_LightEffect::Type::Star, "Star"},
-            {relive::Path_LightEffect::Type::GoldGlow, "Gold Glow"},
-            {relive::Path_LightEffect::Type::GreenGlow, "Green Glow"},
-            {relive::Path_LightEffect::Type::FlintGlow, "Flint Glow"},
-            {relive::Path_LightEffect::Type::Switchable_RedGreenDoorLights, "RedGreen Door Light"},
-            {relive::Path_LightEffect::Type::Switchable_RedGreenHubLight, "RedGreen Hub Light"},
-        });
-    }
-    */
 public:
     Editor_LightEffect()
         : MapObjectBaseInterface<Editor_LightEffect, Path_LightEffect::kReliveType>(&mTlv)
@@ -3492,10 +3081,10 @@ public:
     {
         MapObjectBase::Visit(r);
 
-        //r.Visit("Type", mTlv.mType);
+        r.Visit("Type", mTlv.mType);
         r.Visit("Size", mTlv.mSize);
         r.Visit("Switch ID", mTlv.mSwitchId);
-        //r.Visit("Direction", mTlv.mDirection);
+        r.Visit("Direction", mTlv.mDirection);
     }
 
     std::string GetIconPath() const override
@@ -3585,9 +3174,9 @@ public:
         MapObjectBase::Visit(r);
 
         r.Visit("Switch ID", mTlv.mSwitchId);
-        //r.Visit("Action", mTlv.mAction);
+        r.Visit("Action", mTlv.mAction);
         r.Visit("Scale", mTlv.mScale);
-        //r.Visit("Direction", mTlv.mDirection);
+        r.Visit("Direction", mTlv.mDirection);
     }
 
     std::string GetIconPath() const override
@@ -3609,7 +3198,7 @@ public:
     {
         MapObjectBase::Visit(r);
 
-        //r.Visit("Next Level", mTlv.mNextLevel);
+        r.Visit("Next Level", mTlv.mNextLevel);
         r.Visit("Next Path", mTlv.mNextPath);
         r.Visit("Next Camera", mTlv.mNextCamera);
     }
@@ -3664,16 +3253,6 @@ public:
 
 struct Editor_RingMudokon final : public MapObjectBaseInterface<Editor_RingMudokon, Path_RingMudokon::kReliveType>
 {
-    /*
-    void AddTypes(ReliveAPI::TypesCollectionBase& types) override
-    {
-        types.AddEnum<relive::Path_RingMudokon::MustFaceMud>("Enum_RingMudokon_MustFaceMud",
-        {
-            {relive::Path_RingMudokon::MustFaceMud::eYes, "Yes"},
-            {relive::Path_RingMudokon::MustFaceMud::eNo, "No"},
-        });
-    }*/
-
 public:
     Editor_RingMudokon()
         : MapObjectBaseInterface<Editor_RingMudokon, Path_RingMudokon::kReliveType>(&mTlv)
@@ -3683,15 +3262,15 @@ public:
     {
         MapObjectBase::Visit(r);
 
-        //r.Visit("Facing", mTlv.mFacing);
-        //r.Visit("Abe Must Face Mudokon", mTlv.mAbeMustFaceMud);
+        r.Visit("Facing", mTlv.mFacing);
+        r.Visit("Abe Must Face Mudokon", mTlv.mAbeMustFaceMud);
         r.Visit("Scale", mTlv.mScale);
-        //r.Visit("Give Password", mTlv.mGivePassword);
+        r.Visit("Give Password", mTlv.mGivePassword);
         r.Visit("Code 1", mTlv.mCode1);
         r.Visit("Code 2", mTlv.mCode2);
-        //r.Visit("Action", mTlv.mAction);
+        r.Visit("Action", mTlv.mAction);
         r.Visit("Ring And Angry Mudokon Timeout", mTlv.mRingTimeout);
-        //r.Visit("Give Ring Without Password", mTlv.mGiveRingWithoutPassword);
+        r.Visit("Give Ring Without Password", mTlv.mGiveRingWithoutPassword);
     }
 
     std::string GetIconPath() const override
@@ -3724,23 +3303,6 @@ public:
 
 struct Editor_MeatSaw final : public MapObjectBaseInterface<Editor_MeatSaw, Path_MeatSaw::kReliveType>
 {
-    /*
-    void AddTypes(ReliveAPI::TypesCollectionBase& types) override
-    {
-        types.AddEnum<relive::Path_MeatSaw::Type>("Enum_MeatSawType",
-        {
-            {relive::Path_MeatSaw::Type::eAutomaticPersistOffscreen, "Automatic Persist Offscreen"},
-            {relive::Path_MeatSaw::Type::eAutomatic, "Automatic"},
-            {relive::Path_MeatSaw::Type::eSwitchId, "Switch ID"},
-        });
-
-        types.AddEnum<relive::Path_MeatSaw::StartState>("Enum_MeatSawStartState",
-        {
-            {relive::Path_MeatSaw::StartState::eOff, "Off"},
-            {relive::Path_MeatSaw::StartState::eOn, "On"},
-        });
-    }
-    */
 public:
     Editor_MeatSaw()
         : MapObjectBaseInterface<Editor_MeatSaw, Path_MeatSaw::kReliveType>(&mTlv)
@@ -3755,9 +3317,9 @@ public:
         r.Visit("Switch Max Time Off", mTlv.mSwitchMaxTimeOff);
         r.Visit("Y Travel Distance", mTlv.mYTravelDistance);
         r.Visit("Switch ID", mTlv.mSwitchId);
-        //r.Visit("Type", mTlv.mType);
+        r.Visit("Type", mTlv.mType);
         r.Visit("Switch Speed", mTlv.mSwitchSpeed);
-        //r.Visit("Start State", mTlv.mStartState);
+        r.Visit("Start State", mTlv.mStartState);
         r.Visit("Automatic Speed", mTlv.mAutomaticSpeed);
         r.Visit("Automatic Min Time Off", mTlv.mAutomaticMinTimeOff);
         r.Visit("Automatic Max Time Off", mTlv.mAutomaticMaxTimeOff);
@@ -3832,7 +3394,7 @@ public:
     {
         MapObjectBase::Visit(r);
 
-        //r.Visit("Next Level", mTlv.mNextLevel);
+        r.Visit("Next Level", mTlv.mNextLevel);
         r.Visit("Next Path", mTlv.mNextPath);
         r.Visit("Next Camera", mTlv.mNextCamera);
     }
@@ -3857,16 +3419,6 @@ public:
 
 struct Editor_LiftMudokon final : public MapObjectBaseInterface<Editor_LiftMudokon, Path_LiftMudokon::kReliveType>
 {
-    /*
-    void AddTypes(ReliveAPI::TypesCollectionBase& types) override
-    {
-        types.AddEnum<relive::Path_LiftMudokon::Direction>("Enum_LiftMudokonDirection",
-        {
-            {relive::Path_LiftMudokon::Direction::eRight, "Right"},
-            {relive::Path_LiftMudokon::Direction::eLeft, "Left"},
-        });
-    }
-    */
 public:
     Editor_LiftMudokon()
         : MapObjectBaseInterface<Editor_LiftMudokon, Path_LiftMudokon::kReliveType>(&mTlv)
@@ -3878,8 +3430,8 @@ public:
 
         r.Visit("How Far To Walk", mTlv.mHowFarToWalk);
         r.Visit("Lift Switch ID", mTlv.mLiftSwitchId);
-        //r.Visit("Facing", mTlv.mFacing);
-        //r.Visit("Give Password", mTlv.mGivePassword);
+        r.Visit("Facing", mTlv.mFacing);
+        r.Visit("Give Password", mTlv.mGivePassword);
         r.Visit("Scale", mTlv.mScale);
         r.Visit("Code 1", mTlv.mCode1);
         r.Visit("Code 2", mTlv.mCode2);
@@ -3928,7 +3480,7 @@ public:
         MapObjectBase::Visit(r);
 
         r.Visit("Scale", mTlv.mScale);
-        //r.Visit("Don't Whistle Password", mTlv.mDontWhistlePassword);
+        r.Visit("Don't Whistle Password", mTlv.mDontWhistlePassword);
         r.Visit("Code 1", mTlv.mCode1);
         r.Visit("Code 2", mTlv.mCode2);
     }
@@ -3943,17 +3495,6 @@ public:
 
 struct Editor_BeeSwarmHole final : public MapObjectBaseInterface<Editor_BeeSwarmHole, Path_BeeSwarmHole::kReliveType>
 {
-    /*
-    void AddTypes(ReliveAPI::TypesCollectionBase& types) override
-    {
-        types.AddEnum<relive::Path_BeeSwarmHole::MovementType>("Enum_BeeSwarmHoleMovementType",
-        {
-            {relive::Path_BeeSwarmHole::MovementType::eHover, "Hover"},
-            {relive::Path_BeeSwarmHole::MovementType::eAttack, "Attack"},
-            {relive::Path_BeeSwarmHole::MovementType::eFollowPath, "Follow Path"},
-        });
-    }
-    */
 public:
     Editor_BeeSwarmHole()
         : MapObjectBaseInterface<Editor_BeeSwarmHole, Path_BeeSwarmHole::kReliveType>(&mTlv)
@@ -3964,7 +3505,7 @@ public:
         MapObjectBase::Visit(r);
 
         r.Visit("Start Interval", mTlv.mStartInterval);
-        //r.Visit("Movement Type", mTlv.mMovementType);
+        r.Visit("Movement Type", mTlv.mMovementType);
         r.Visit("Bees Amount", mTlv.mBeesAmount);
         r.Visit("Chase Time", mTlv.mChaseTime);
         r.Visit("Speed", mTlv.mSpeed);
@@ -3990,7 +3531,7 @@ public:
         MapObjectBase::Visit(r);
 
         r.Visit("Scale", mTlv.mScale);
-        //r.Visit("Roll Direction", mTlv.mRollDirection);
+        r.Visit("Roll Direction", mTlv.mRollDirection);
         r.Visit("Release Switch ID", mTlv.mReleaseSwitchId);
         r.Visit("Max Speed", mTlv.mMaxSpeed);
         r.Visit("Acceleration", mTlv.mAcceleration);
@@ -4018,7 +3559,7 @@ public:
         r.Visit("Stopper Switch ID", mTlv.mStopperSwitchId);
         r.Visit("Scale", mTlv.mScale);
         r.Visit("Ball Switch ID", mTlv.mBallSwitchId);
-        //r.Visit("Stop Direction", mTlv.mStopDirection);
+        r.Visit("Stop Direction", mTlv.mStopDirection);
     }
 
     std::string GetIconPath() const override
@@ -4057,24 +3598,6 @@ public:
 
 struct Editor_ZBall final : public MapObjectBaseInterface<Editor_ZBall, Path_ZBall::kReliveType>
 {
-    /*
-    void AddTypes(ReliveAPI::TypesCollectionBase& types) override
-    {
-        types.AddEnum<relive::Path_ZBall::StartPos>("Enum_ZBallStartPos",
-        {
-            {relive::Path_ZBall::StartPos::eCenter, "Center"},
-            {relive::Path_ZBall::StartPos::eOut, "Out"},
-            {relive::Path_ZBall::StartPos::eIn, "In"},
-        });
-
-        types.AddEnum<relive::Path_ZBall::Speed>("Enum_ZBallSpeed",
-        {
-            {relive::Path_ZBall::Speed::eNormal, "Normal"},
-            {relive::Path_ZBall::Speed::eFast, "Fast"},
-            {relive::Path_ZBall::Speed::eSlow, "Slow"},
-        });
-    }
-    */
 public:
     Editor_ZBall()
         : MapObjectBaseInterface<Editor_ZBall, Path_ZBall::kReliveType>(&mTlv)
@@ -4084,9 +3607,9 @@ public:
     {
         MapObjectBase::Visit(r);
 
-        //r.Visit("Start Position", mTlv.mStartPos);
+        r.Visit("Start Position", mTlv.mStartPos);
         r.Visit("Scale", mTlv.mScale);
-        //r.Visit("Speed", mTlv.mSpeed);
+        r.Visit("Speed", mTlv.mSpeed);
     }
 
     std::string GetIconPath() const override

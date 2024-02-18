@@ -3,66 +3,9 @@
 #include "PropertyTreeItemBase.hpp"
 #include <QUndoCommand>
 #include <QComboBox>
-#include "../../../relive_lib/data_conversion/relive_tlvs.hpp"
-#include <array>
+#include "ReflectedEnumProperties.hpp"
 
 class QUndoStack;
-
-
-template<typename EnumType> struct EnumReflector final { };
-
-#define REFLECT_ENUM(ENUM_TYPE, ...)                                                    \
-   template<>                                                                           \
-   struct EnumReflector<ENUM_TYPE> final                                                \
-   {                                                                                    \
-        static_assert(std::is_enum<ENUM_TYPE>::value, #ENUM_TYPE " must be an enum!");  \
-        struct EnumPair final                                                           \
-        {                                                                               \
-           ENUM_TYPE mValue;                                                            \
-           const char* mName;                                                           \
-        };                                                                              \
-                                                                                        \
-        static s32 to_index(ENUM_TYPE e)                                                \
-        {                                                                               \
-            s32 idx = 0;                                                                \
-            for (auto& v : mArray)                                                      \
-            {                                                                           \
-                if (v.mValue == e)                                                      \
-                {                                                                       \
-                    return idx;                                                         \
-                }                                                                       \
-                idx++;                                                                  \
-            }                                                                           \
-            return -1;                                                                  \
-        }                                                                               \
-                                                                                        \
-        static const char* to_str(s32 idx)                                              \
-        {                                                                               \
-            return mArray[idx].mName;                                                   \
-        }                                                                               \
-                                                                                        \
-        static ENUM_TYPE to_value(s32 idx)                                              \
-        {                                                                               \
-            return mArray[idx].mValue;                                                  \
-        }                                                                               \
-       static constexpr EnumPair tmp[] = __VA_ARGS__;                                   \
-       static constexpr std::array<EnumPair, ALIVE_COUNTOF(tmp)> mArray = {__VA_ARGS__};\
-   };
-
-
-// TODO: Move to another header
-REFLECT_ENUM(relive::reliveScale, {
-            {relive::reliveScale::eFull, "eFull"},
-            {relive::reliveScale::eHalf, "eHalf"}
-             })
-
-REFLECT_ENUM(relive::Path_Mudokon::Mud_TLV_Emotion, {
-                 {relive::Path_Mudokon::Mud_TLV_Emotion::eNormal, "Normal"},
-                             {relive::Path_Mudokon::Mud_TLV_Emotion::eAngry, "Angry"},
-                             {relive::Path_Mudokon::Mud_TLV_Emotion::eSad, "Sad"},
-                             {relive::Path_Mudokon::Mud_TLV_Emotion::eWired, "Wired"},
-                             {relive::Path_Mudokon::Mud_TLV_Emotion::eSick, "Sick"}})
-
 
 struct EnumPropertyChangeData
 {
