@@ -822,11 +822,9 @@ void EditorTab::UpdateCleanState()
 
 void EditorTab::AddObject()
 {
-    /*
     auto pDlg = new AddObjectDialog(this, this);
     pDlg->exec();
     delete pDlg;
-    */
 }
 
 class AddCollisionCommand final : public QUndoCommand
@@ -844,7 +842,6 @@ public:
     {
         if (!mAdded)
         {
-            delete mArrowItem->GetCollisionItem(); // not owned by the model as its removed during undo
             delete mArrowItem;
         }
     }

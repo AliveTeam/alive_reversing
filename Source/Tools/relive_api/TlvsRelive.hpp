@@ -9,6 +9,7 @@ class IReflector
 public:
     virtual ~IReflector() { }
 
+    virtual void Visit(const char* fieldName, ReliveTypes& field) = 0;
     virtual void Visit(const char* fieldName, relive::reliveScale& field) = 0;
     virtual void Visit(const char* fieldName, relive::Path_Mudokon::Mud_TLV_Emotion& field) = 0;
     virtual void Visit(const char* fieldName, relive::Path_BirdPortal::PortalSide& field) = 0;
@@ -152,7 +153,7 @@ public:
 
     virtual void Visit(IReflector& r)
     {
-        //r.Visit("Type", mBaseTlv->mTlvType);
+        r.Visit("Type", mBaseTlv->mTlvType);
         r.Visit("xpos", mBaseTlv->mTopLeftX);
         r.Visit("ypos", mBaseTlv->mTopLeftY);
         r.Visit("width", mBaseTlv->mBottomRightX);

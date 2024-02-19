@@ -8,27 +8,29 @@
 #include "SelectionSaver.hpp"
 #include "Model.hpp"
 #include "EditorTab.hpp"
+#include "../../relive_api/TlvsRelive.hpp"
+#include "ReflectedEnumProperties.hpp"
+#include <QMessageBox>
 
-/*
 class ObjectListItem final : public QListWidgetItem
 {
 public:
-    ObjectListItem(const UP_ObjectStructure& obj)
-        : QListWidgetItem(obj->mName.c_str()),
-          mObj(obj)
+    ObjectListItem(QString objName)
+        : QListWidgetItem(objName)
     {
 
     }
 
+    /*
     const UP_ObjectStructure& GetObjectStructure() const
     {
         return mObj;
-    }
+    }*/
 
 private:
-    const UP_ObjectStructure& mObj;
+    //const UP_ObjectStructure& mObj;
 };
-*/
+
 class AddNewObjectCommand : public QUndoCommand
 {
 public: /*
@@ -177,15 +179,22 @@ void AddObjectDialog::on_txtSearch_textChanged(const QString &arg1)
 void AddObjectDialog::PopulateListFiltered(QString filter)
 {
     ui->lstObjects->clear();
-    /*
-    const auto& structures = mTab->GetModel().GetObjectStructures();
-    for (const auto& s : structures)
+
+    const auto& factory = MapObjectBase::GetEditorFactoryRegistry();
+    const auto& array = EnumReflector<ReliveTypes>::mArray;
+    for (auto it = array.begin(); it != array.end(); it++)
     {
-        if (filter.isEmpty() || QString(s->mName.c_str()).toLower().contains(filter.toLower()))
+        if (factory.find(it->mValue) == std::end(factory))
         {
-            ui->lstObjects->addItem(new ObjectListItem(s));
+            continue;
         }
-    }*/
+        
+        QString name = QString::fromUtf8(it->mName);
+        if (filter.isEmpty() || name.toLower().contains(filter.toLower()))
+        {
+            ui->lstObjects->addItem(new ObjectListItem(name));
+        }
+    }
 }
 
 void AddObjectDialog::on_buttonBox_accepted()
@@ -196,5 +205,6 @@ void AddObjectDialog::on_buttonBox_accepted()
         const UP_ObjectStructure& objStructure = pItem->GetObjectStructure();
         mTab->AddCommand(new AddNewObjectCommand(mTab, objStructure));
     }*/
+    QMessageBox::critical(this, "TODO", "add object not implemented");
 }
 

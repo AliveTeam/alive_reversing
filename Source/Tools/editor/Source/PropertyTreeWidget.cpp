@@ -33,6 +33,7 @@ public:
         AddEnumProperty(fieldName, field);                      \
     }                                                           \
 
+    ENUM_VISIT_FUNC(ReliveTypes)
     ENUM_VISIT_FUNC(relive::reliveScale)
     ENUM_VISIT_FUNC(relive::Path_Mudokon::Mud_TLV_Emotion)
     ENUM_VISIT_FUNC(relive::Path_BirdPortal::PortalSide)
@@ -148,6 +149,7 @@ public:
         AddField(fieldName, field);                             \
     }                                                           \
 
+    ENUM_VISIT_FUNC(ReliveTypes)
     ENUM_VISIT_FUNC(relive::reliveScale)
     ENUM_VISIT_FUNC(relive::Path_Mudokon::Mud_TLV_Emotion)
     ENUM_VISIT_FUNC(relive::Path_BirdPortal::PortalSide)
