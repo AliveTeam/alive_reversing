@@ -33,7 +33,6 @@ public:
         AddEnumProperty(fieldName, field);                      \
     }                                                           \
 
-    ENUM_VISIT_FUNC(ReliveTypes)
     ENUM_VISIT_FUNC(relive::reliveScale)
     ENUM_VISIT_FUNC(relive::Path_Mudokon::Mud_TLV_Emotion)
     ENUM_VISIT_FUNC(relive::Path_BirdPortal::PortalSide)
@@ -101,6 +100,11 @@ public:
     ENUM_VISIT_FUNC(relive::Path_ZBall::Speed)
 
     #undef ENUM_VISIT_FUNC
+
+    void Visit(const char* fieldName, ReliveTypes& field) override
+    {
+        mCreatedProperties.append(new ReadOnlyStringProperty(nullptr, fieldName, EnumReflector<ReliveTypes>::to_str(EnumReflector<ReliveTypes>::to_index(field))));
+    }
 
     void Visit(const char* fieldName, bool& field) override
     {

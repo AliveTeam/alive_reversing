@@ -25,7 +25,7 @@ private:
 class ReadOnlyStringProperty : public PropertyTreeItemBase
 {
 public:
-    ReadOnlyStringProperty(QTreeWidgetItem* pParent, QString propertyName, int* pProperty);
+    ReadOnlyStringProperty(QTreeWidgetItem* pParent, QString propertyName, QString propertyValue);
 
     virtual QWidget* CreateEditorWidget(PropertyTreeWidget* ) override
     {
@@ -34,16 +34,16 @@ public:
 
     void Refresh() override
     {
-        setText(1, QString::number(*mProperty));
+
     }
 
     const void* GetPropertyLookUpKey() const override
     {
-        return mProperty;
+        return nullptr;
     }
 
 private:
-    int* mProperty = nullptr;
+    void* mProperty = nullptr;
 };
 
 class StringProperty : public QObject, public PropertyTreeItemBase

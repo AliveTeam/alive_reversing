@@ -2,8 +2,8 @@
 #include <QComboBox>
 #include <QLineEdit>
 
-ReadOnlyStringProperty::ReadOnlyStringProperty(QTreeWidgetItem* pParent, QString propertyName, int* pProperty)
-    : PropertyTreeItemBase(pParent, QStringList{ propertyName, QString::number(*pProperty) }), mProperty(pProperty)
+ReadOnlyStringProperty::ReadOnlyStringProperty(QTreeWidgetItem* pParent, QString propertyName, QString propertyValue)
+    : PropertyTreeItemBase(pParent, QStringList{ propertyName, propertyValue })
 {
 
 }
