@@ -189,6 +189,154 @@ li.checked::marker { content: &quot;\2612&quot;; }
     </message>
 </context>
 <context>
+    <name>EReliveLevelIdsEnum</name>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="338"/>
+        <source>None</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="339"/>
+        <source>Menu</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="340"/>
+        <source>Mines</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="341"/>
+        <source>Necrum</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="342"/>
+        <source>Mudomo Vault</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="343"/>
+        <source>Mudanchee Vault</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="344"/>
+        <source>FeeCo Depot</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="345"/>
+        <source>Barracks</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="346"/>
+        <source>Mudanchee Vault Ender</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="347"/>
+        <source>Bonewerkz</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="348"/>
+        <source>Brewery</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="349"/>
+        <source>Brewery Ender</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="350"/>
+        <source>Mudomo Vault Ender</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="351"/>
+        <source>FeeCo Depot Ender</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="352"/>
+        <source>Barracks Ender</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="353"/>
+        <source>Bonewerkz Ender</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="354"/>
+        <source>Credits</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="355"/>
+        <source>Rupture Farms</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="356"/>
+        <source>Lines</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="357"/>
+        <source>Forest</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="358"/>
+        <source>Forest Temple</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="359"/>
+        <source>Stock Yards</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="360"/>
+        <source>Stock Yards Return</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="361"/>
+        <source>Desert</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="362"/>
+        <source>Desert Temple</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="363"/>
+        <source>Board Room</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="364"/>
+        <source>Rupture Farms Return</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="365"/>
+        <source>Forest Chase</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="366"/>
+        <source>Desert Escape</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>EditorGraphicsView</name>
     <message>
         <location filename="../../EditorTab.cpp" line="294"/>
@@ -942,6 +1090,1135 @@ li.checked::marker { content: &quot;\2612&quot;; }
     </message>
 </context>
 <context>
+    <name>Path_BackgroundAnimation_BgAnimSoundsEnum</name>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="524"/>
+        <source>None</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="525"/>
+        <source>Fire</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Path_BackgroundAnimation_LayerEnum</name>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="530"/>
+        <source>Layer 0</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="531"/>
+        <source>Layer 2</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Path_BeeSwarmHole_MovementTypeEnum</name>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="759"/>
+        <source>Hover</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="760"/>
+        <source>Attack</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="761"/>
+        <source>Follow Path</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Path_BellsongStone_BellsongTypesEnum</name>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="718"/>
+        <source>Whistle</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="719"/>
+        <source>Chimes</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Path_BirdPortal_PortalSideEnum</name>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="268"/>
+        <source>Right</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="269"/>
+        <source>Left</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Path_BirdPortal_PortalTypeEnum</name>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="400"/>
+        <source>Abe</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="401"/>
+        <source>Worker</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="402"/>
+        <source>Shrykull</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="403"/>
+        <source>Mud Teleport</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Path_BoomMachine_NozzleSideEnum</name>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="456"/>
+        <source>Right</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="457"/>
+        <source>Left</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Path_ContinuePoint_ScaleEnum</name>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="568"/>
+        <source>None</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="569"/>
+        <source>Half</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="570"/>
+        <source>Full</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Path_ContinuePoint_spawnDirectionEnum</name>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="575"/>
+        <source>Right</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="576"/>
+        <source>Left</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Path_CrawlingSligButton_ButtonSoundsEnum</name>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="644"/>
+        <source>None</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="645"/>
+        <source>Sack Hit 1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="646"/>
+        <source>Sack Hit 2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="647"/>
+        <source>Falling Item Presence 2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="648"/>
+        <source>Security Orb</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="649"/>
+        <source>Bullet 1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="650"/>
+        <source>Abe Generic Movement</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Path_CrawlingSlig_CrawlDirectionEnum</name>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="635"/>
+        <source>Left</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="636"/>
+        <source>Right</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="637"/>
+        <source>Random</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Path_CrawlingSlig_StartStateEnum</name>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="629"/>
+        <source>Sleeping</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="630"/>
+        <source>Awake</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Path_DoorFlame_ColourEnum</name>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="621"/>
+        <source>Default</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="622"/>
+        <source>Red</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="623"/>
+        <source>Green</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="624"/>
+        <source>Blue</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Path_Door_DoorStatesEnum</name>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="408"/>
+        <source>Open</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="409"/>
+        <source>Closed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="410"/>
+        <source>Opening</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="411"/>
+        <source>Closing</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Path_Door_DoorTypesEnum</name>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="416"/>
+        <source>Basic Door</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="417"/>
+        <source>Tasks Door With Secret Music</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="418"/>
+        <source>Tasks Door</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="419"/>
+        <source>(AO) Trial Door</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="420"/>
+        <source>(AO) Hub Door</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Path_Drill_DrillBehaviorEnum</name>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="589"/>
+        <source>Not Interactable</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="590"/>
+        <source>Toggle</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="591"/>
+        <source>Use</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Path_Drill_DrillDirectionEnum</name>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="596"/>
+        <source>Down</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="597"/>
+        <source>Right</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="598"/>
+        <source>Left</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Path_Edge_GrabDirectionEnum</name>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="475"/>
+        <source>Facing Left</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="476"/>
+        <source>Facing Right</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="477"/>
+        <source>Facing Any Direction</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Path_ElectricWall_ElectricWallStartStateEnum</name>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="385"/>
+        <source>Off</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="386"/>
+        <source>On</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Path_EnemyStopper_StopDirectionEnum</name>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="462"/>
+        <source>Left</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="463"/>
+        <source>Right</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="464"/>
+        <source>Both</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Path_FlyingSlig_SpawnDelayStatesEnum</name>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="274"/>
+        <source>Move Immediately</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="275"/>
+        <source>Use Custom Spawn Move Delay</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Path_FootSwitch_FootSwitchTriggerByEnum</name>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="683"/>
+        <source>Abe</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="684"/>
+        <source>Anyone</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Path_GasEmitter_GasColourEnum</name>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="515"/>
+        <source>Yellow</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="516"/>
+        <source>Red</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="517"/>
+        <source>Green</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="518"/>
+        <source>Blue</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="519"/>
+        <source>White</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Path_Glukkon_BehaviorEnum</name>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="677"/>
+        <source>Ignore Walls</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="678"/>
+        <source>Check For Walls</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Path_Glukkon_FacingEnum</name>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="663"/>
+        <source>Right</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="664"/>
+        <source>Left</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Path_Glukkon_GlukkonTypesEnum</name>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="655"/>
+        <source>Normal</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="656"/>
+        <source>Story Aslik</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="657"/>
+        <source>Story Dripik</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="658"/>
+        <source>Story Phleg</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Path_Glukkon_SpawnTypeEnum</name>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="669"/>
+        <source>Regular Spawn</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="670"/>
+        <source>Facing Left</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="671"/>
+        <source>Facing Right</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="672"/>
+        <source>Full Spawn Effects</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Path_Hoist_GrabDirectionEnum</name>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="449"/>
+        <source>Facing Left</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="450"/>
+        <source>Facing Right</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="451"/>
+        <source>Facing Any Direction</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Path_Hoist_TypeEnum</name>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="443"/>
+        <source>Next Floor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="444"/>
+        <source>Off Screen</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Path_InvisibleSwitch_InvisibleSwitchScaleEnum</name>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="508"/>
+        <source>Half</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="509"/>
+        <source>Full</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="510"/>
+        <source>Any</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Path_Lever_LeverSoundDirectionEnum</name>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="436"/>
+        <source>Left And Right</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="437"/>
+        <source>Left</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="438"/>
+        <source>Right</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Path_Lever_LeverSoundTypeEnum</name>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="425"/>
+        <source>None</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="426"/>
+        <source>Well</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="427"/>
+        <source>Switch Bell Hammer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="428"/>
+        <source>Door</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="429"/>
+        <source>Electric Wall</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="430"/>
+        <source>Security Orb</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="431"/>
+        <source>(AE) Lift</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Path_LiftMover_YDirectionEnum</name>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="609"/>
+        <source>Down</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="610"/>
+        <source>Up</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Path_LiftMudokon_DirectionEnum</name>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="753"/>
+        <source>Right</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="754"/>
+        <source>Left</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Path_LiftPoint_LiftPointStopTypeEnum</name>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="544"/>
+        <source>Top Floor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="545"/>
+        <source>Bottom Floor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="546"/>
+        <source>Middle Floor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="547"/>
+        <source>Middle Lock Floor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="548"/>
+        <source>Start Point Only</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Path_LightEffect_TypeEnum</name>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="724"/>
+        <source>Star</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="725"/>
+        <source>Gold Glow</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="726"/>
+        <source>Green Glow</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="727"/>
+        <source>Flint Glow</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="728"/>
+        <source>RedGreen Door Light</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="729"/>
+        <source>RedGreen Hub Light</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Path_MeatSaw_StartStateEnum</name>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="747"/>
+        <source>Off</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="748"/>
+        <source>On</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Path_MeatSaw_TypeEnum</name>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="740"/>
+        <source>Automatic Persist Offscreen</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="741"/>
+        <source>Automatic</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="742"/>
+        <source>Switch ID</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Path_MotionDetector_InitialMoveDirectionEnum</name>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="615"/>
+        <source>Right</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="616"/>
+        <source>Left</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Path_Mudokon_MudJobsEnum</name>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="391"/>
+        <source>Chisle</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="392"/>
+        <source>Scrub</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="393"/>
+        <source>Angry Worker</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="394"/>
+        <source>Damage Ring Giver</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="395"/>
+        <source>Health Ring Giver</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Path_Mudokon_Mud_TLV_EmotionEnum</name>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="259"/>
+        <source>Normal</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="260"/>
+        <source>Angry</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="261"/>
+        <source>Sad</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="262"/>
+        <source>Wired</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="263"/>
+        <source>Sick</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Path_MusicTrigger_MusicTriggerMusicTypeEnum</name>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="489"/>
+        <source>Drum Ambience</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="490"/>
+        <source>Death Drum Short</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="491"/>
+        <source>Secret Area Long</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="492"/>
+        <source>Soft Chase</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="493"/>
+        <source>Intense Chase</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="494"/>
+        <source>Chime</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="495"/>
+        <source>Secret Area Short</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Path_MusicTrigger_TriggeredByEnum</name>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="500"/>
+        <source>Timer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="501"/>
+        <source>Touching</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="502"/>
+        <source>(AO) Switch ID</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="503"/>
+        <source>(AO) Unknown</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Path_Paramite_EntranceTypeEnum</name>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="711"/>
+        <source>Patrol</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="712"/>
+        <source>Surprise Web</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="713"/>
+        <source>Slightly Higher Spawn Surprise Web</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Path_PullRingRope_PullRingSoundDirectionEnum</name>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="561"/>
+        <source>Left And Right</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="562"/>
+        <source>Left</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="563"/>
+        <source>Right</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Path_PullRingRope_PullRingSwitchSoundEnum</name>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="553"/>
+        <source>None</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="554"/>
+        <source>Well Exit</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="555"/>
+        <source>Ring Unknown Trigger</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="556"/>
+        <source>Door Effect</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Path_RingMudokon_MustFaceMudEnum</name>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="734"/>
+        <source>Yes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="735"/>
+        <source>No</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Path_ScrabSpawner_SpawnDirectionEnum</name>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="704"/>
+        <source>None</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="705"/>
+        <source>Left</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="706"/>
+        <source>Right</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Path_Scrab_ScrabPatrolTypeEnum</name>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="695"/>
+        <source>Walk</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="696"/>
+        <source>Run Or Walk 192</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="697"/>
+        <source>Run Or Walk 128</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="698"/>
+        <source>Run Or Walk 64</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="699"/>
+        <source>Run</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Path_ShadowZone_ScaleEnum</name>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="482"/>
+        <source>Both</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="483"/>
+        <source>Half</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="484"/>
+        <source>Full</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Path_Slig_Data_DeathModeEnum</name>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="280"/>
+        <source>Stand Idle</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="281"/>
+        <source>Fall Forward</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Path_Slig_Data_StartStateEnum</name>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="286"/>
+        <source>Listening</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="287"/>
+        <source>Patrol</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="288"/>
+        <source>Sleeping</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="289"/>
+        <source>Chase</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="290"/>
+        <source>Chase And Disappear</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="291"/>
+        <source>Falling To Chase</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="292"/>
+        <source>Listening To Glukkon</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Path_SlogSpawner_StartDirectionEnum</name>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="689"/>
+        <source>Right</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="690"/>
+        <source>Left</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Path_TrapDoor_StartStateEnum</name>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="603"/>
+        <source>Open</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="604"/>
+        <source>Closed</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Path_UXB_StartStateEnum</name>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="469"/>
+        <source>On</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="470"/>
+        <source>Off</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Path_WheelSyncer_OutputRequirementEnum</name>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="581"/>
+        <source>All On</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="582"/>
+        <source>1 On And 2 Off</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="583"/>
+        <source>1 Or 2 On</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="584"/>
+        <source>1 On Or 2 Off</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Path_ZBall_SpeedEnum</name>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="773"/>
+        <source>Normal</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="774"/>
+        <source>Fast</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="775"/>
+        <source>Slow</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Path_ZBall_StartPosEnum</name>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="766"/>
+        <source>Center</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="767"/>
+        <source>Out</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="768"/>
+        <source>In</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>PropertyTreeWidget</name>
     <message>
         <location filename="../../PropertyTreeWidget.cpp" line="322"/>
@@ -963,2039 +2240,995 @@ li.checked::marker { content: &quot;\2612&quot;; }
     </message>
 </context>
 <context>
-    <name>ReflectedEnumValues</name>
+    <name>ReliveTypesEnum</name>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="49"/>
-        <location filename="../../ReflectedEnumProperties.hpp" line="336"/>
-        <location filename="../../ReflectedEnumProperties.hpp" line="423"/>
-        <location filename="../../ReflectedEnumProperties.hpp" line="522"/>
-        <location filename="../../ReflectedEnumProperties.hpp" line="551"/>
-        <location filename="../../ReflectedEnumProperties.hpp" line="566"/>
-        <location filename="../../ReflectedEnumProperties.hpp" line="642"/>
-        <location filename="../../ReflectedEnumProperties.hpp" line="702"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="51"/>
         <source>None</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="50"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="52"/>
         <source>Crawling Slig Button</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="51"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="53"/>
         <source>Wheel Syncer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="52"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="54"/>
         <source>Demo Spawn Point</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="53"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="55"/>
         <source>Multi Switch Controller</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="54"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="56"/>
         <source>Status Light</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="55"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="57"/>
         <source>Slap Lock</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="56"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="58"/>
         <source>Paramite Web Line</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="57"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="59"/>
         <source>Glukkon Switch</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="58"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="60"/>
         <source>Door Blocker</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="59"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="61"/>
         <source>Train Door</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="60"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="62"/>
         <source>Level Loader</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="61"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="63"/>
         <source>Slig Get Wings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="62"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="64"/>
         <source>Slig Get Pants</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="63"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="65"/>
         <source>Teleporter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="64"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="66"/>
         <source>Water</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="65"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="67"/>
         <source>Work Wheel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="66"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="68"/>
         <source>LCD Screen</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="67"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="69"/>
         <source>Invisible Switch</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="68"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="70"/>
         <source>Door Flame</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="69"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="71"/>
         <source>Moving Bomb</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="70"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="72"/>
         <source>Main Menu Controller</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="71"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="73"/>
         <source>Hint Fly</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="72"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="74"/>
         <source>Security Door</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="73"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="75"/>
         <source>Credits Controller</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="74"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="76"/>
         <source>LCD Status Board</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="75"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="77"/>
         <source>Switch State Boolean Logic</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="76"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="78"/>
         <source>Light Effect</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="77"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="79"/>
         <source>Slog Spawner</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="78"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="80"/>
         <source>Gas Emitter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="79"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="81"/>
         <source>Ring Cancel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="80"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="82"/>
         <source>Elum Wall</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="81"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="83"/>
         <source>Abe Start</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="82"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="84"/>
         <source>Bee Swarm Hole</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="83"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="85"/>
         <source>Falling Item</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="84"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="86"/>
         <source>Shadow Zone</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="85"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="87"/>
         <source>Start Controller</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="86"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="88"/>
         <source>Bird Portal Exit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="87"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="89"/>
         <source>Honey Drip Target</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="88"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="90"/>
         <source>Path Transition</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="89"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="91"/>
         <source>Z Slig Cover</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="90"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="92"/>
         <source>Reset Path</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="91"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="93"/>
         <source>Elum Path Trans</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="92"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="94"/>
         <source>Scrab Left Bound</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="93"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="95"/>
         <source>Scrab Right Bound</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="94"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="96"/>
         <source>Scrab No Fall</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="95"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="97"/>
         <source>Moving Bomb Stopper</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="96"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="98"/>
         <source>Elum Start</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="97"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="99"/>
         <source>Edge</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="98"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="100"/>
         <source>Soft Landing</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="99"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="101"/>
         <source>Movie Hand Stone</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="100"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="102"/>
         <source>Bell Song Stone</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="101"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="103"/>
         <source>Demo Playback Stone</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="102"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="104"/>
         <source>Hand Stone</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="103"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="105"/>
         <source>Hoist</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="104"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="106"/>
         <source>Continue Point</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="105"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="107"/>
         <source>Well Local</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="106"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="108"/>
         <source>Well Express</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="107"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="109"/>
         <source>Mudokon Path Trans</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="108"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="110"/>
         <source>Ring Mudokon</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="109"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="111"/>
         <source>Lift Mudokon</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="110"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="112"/>
         <source>Invisible Zone</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="111"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="113"/>
         <source>Enemy Stopper</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="112"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="114"/>
         <source>Slig Bound Left</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="113"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="115"/>
         <source>Slig Boung Right</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="114"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="116"/>
         <source>Slig Persist</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="115"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="117"/>
         <source>Zzz Spawner</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="116"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="118"/>
         <source>Kill Unsaved Muds</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="117"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="119"/>
         <source>Death Drop</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="118"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="120"/>
         <source>Alarm</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="119"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="121"/>
         <source>Screen Manager</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="120"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="122"/>
         <source>Background Animation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="121"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="123"/>
         <source>Bat</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="122"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="124"/>
         <source>Lift Mover</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="123"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="125"/>
         <source>Timed Mine</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="124"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="126"/>
         <source>Bullet</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="125"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="127"/>
         <source>DDCheat</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="126"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="128"/>
         <source>Bells</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="127"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="129"/>
         <source>Chime Lock</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="128"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="130"/>
         <source>Gas Count Down</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="129"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="131"/>
         <source>Particle Burst</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="130"/>
-        <location filename="../../ReflectedEnumProperties.hpp" line="426"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="132"/>
         <source>Door</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="131"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="133"/>
         <source>Game Speak</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="132"/>
-        <location filename="../../ReflectedEnumProperties.hpp" line="427"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="134"/>
         <source>Electric Wall</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="133"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="135"/>
         <source>Elum</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="134"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="136"/>
         <source>Bell Hammer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="135"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="137"/>
         <source>Pal Overwritter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="136"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="138"/>
         <source>Ground Explosion</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="137"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="139"/>
         <source>Security Claw</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="138"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="140"/>
         <source>Rock Spawner</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="139"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="141"/>
         <source>Flint Lock Fire</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="140"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="142"/>
         <source>Throwable Total Indicator</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="141"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="143"/>
         <source>Foot Switch</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="142"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="144"/>
         <source>Game Ender Controller</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="143"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="145"/>
         <source>Death Bird</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="144"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="146"/>
         <source>Loading File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="145"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="147"/>
         <source>Grenade</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="146"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="148"/>
         <source>Boom Machine</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="147"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="149"/>
         <source>Background Glukkon</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="148"/>
-        <location filename="../../ReflectedEnumProperties.hpp" line="398"/>
-        <location filename="../../ReflectedEnumProperties.hpp" line="681"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="150"/>
         <source>Abe</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="149"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="151"/>
         <source>Main Menu Fade</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="150"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="152"/>
         <source>Honey Sack</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="151"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="153"/>
         <source>Honey</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="152"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="154"/>
         <source>Claw OR Bird Portal Terminator</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="153"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="155"/>
         <source>Mudokon</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="154"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="156"/>
         <source>Lift Point</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="155"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="157"/>
         <source>Meat</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="156"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="158"/>
         <source>Meat Sack</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="157"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="159"/>
         <source>Meat Saw</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="158"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="160"/>
         <source>Mine</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="159"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="161"/>
         <source>Rolling Ball Stopper Shaker</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="160"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="162"/>
         <source>Motion Detector</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="161"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="163"/>
         <source>Rolling Ball Stopper</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="162"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="164"/>
         <source>Pause Menu</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="163"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="165"/>
         <source>Paramite</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="164"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="166"/>
         <source>Demo Playback</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="165"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="167"/>
         <source>Bird Portal</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="166"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="168"/>
         <source>Bird Portal Terminator</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="167"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="169"/>
         <source>FG1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="168"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="170"/>
         <source>Ability Ring</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="169"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="171"/>
         <source>Rock</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="170"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="172"/>
         <source>Rock Sack</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="171"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="173"/>
         <source>Rolling Ball</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="172"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="174"/>
         <source>Rope</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="173"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="175"/>
         <source>Air Explosion</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="174"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="176"/>
         <source>Red Laser</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="175"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="177"/>
         <source>Scrab</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="176"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="178"/>
         <source>Screen Clipper</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="177"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="179"/>
         <source>Effect Base</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="178"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="180"/>
         <source>Fade</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="179"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="181"/>
         <source>Flash</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="180"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="182"/>
         <source>Screen Wave</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="181"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="183"/>
         <source>Unknown</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="182"/>
-        <location filename="../../ReflectedEnumProperties.hpp" line="400"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="184"/>
         <source>Shrykull</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="183"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="185"/>
         <source>Slig</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="184"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="186"/>
         <source>Slog</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="185"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="187"/>
         <source>Sling Mudokon</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="186"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="188"/>
         <source>Slig Spawner</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="187"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="189"/>
         <source>Z Ball</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="188"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="190"/>
         <source>Particle</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="189"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="191"/>
         <source>Zap Line</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="190"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="192"/>
         <source>Bee Swarm</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="191"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="193"/>
         <source>Bee Nest</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="192"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="194"/>
         <source>Lever</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="193"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="195"/>
         <source>Trap Door</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="194"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="196"/>
         <source>UXB</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="195"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="197"/>
         <source>Movie</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="196"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="198"/>
         <source>Camera Swapper</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="197"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="199"/>
         <source>Electrocute</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="198"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="200"/>
         <source>Timed Mine Or Moviing Bomb</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="199"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="201"/>
         <source>Bone</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="200"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="202"/>
         <source>Bone Bag</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="201"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="203"/>
         <source>Brew Machine</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="202"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="204"/>
         <source>Slig Button</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="203"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="205"/>
         <source>Explosion Set</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="204"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="206"/>
         <source>Zap Spark</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="205"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="207"/>
         <source>Metal</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="206"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="208"/>
         <source>Mines Alarm</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="207"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="209"/>
         <source>Crawling Slig</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="208"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="210"/>
         <source>Drill</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="209"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="211"/>
         <source>Laughing Gas</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="210"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="212"/>
         <source>Door Lock</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="211"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="213"/>
         <source>Dove</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="212"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="214"/>
         <source>Evil Fart</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="213"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="215"/>
         <source>Fleech</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="214"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="216"/>
         <source>Possession Flicker</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="215"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="217"/>
         <source>Flying Slig</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="216"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="218"/>
         <source>Flying Slig Spawner</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="217"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="219"/>
         <source>Colourful Meter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="218"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="220"/>
         <source>Slap Lock Orb Whirl WInd</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="219"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="221"/>
         <source>Greeter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="220"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="222"/>
         <source>Glukkon</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="221"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="223"/>
         <source>Help Phone</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="222"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="224"/>
         <source>Eye Orb Part</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="223"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="225"/>
         <source>Invisible Effect</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="224"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="226"/>
         <source>Pulley</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="225"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="227"/>
         <source>Resource Manager</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="226"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="228"/>
         <source>Slig Get Pants Or Wings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="227"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="229"/>
         <source>Ring Or Lift Mud</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="228"/>
-        <location filename="../../ReflectedEnumProperties.hpp" line="428"/>
-        <location filename="../../ReflectedEnumProperties.hpp" line="646"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="230"/>
         <source>Security Orb</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="229"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="231"/>
         <source>Text</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="230"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="232"/>
         <source>Mine Car</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="231"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="233"/>
         <source>Greeter Body</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="232"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="234"/>
         <source>Music Controller</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="233"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="235"/>
         <source>Music Trigger</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="234"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="236"/>
         <source>Pull RIng Rope</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="235"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="237"/>
         <source>Scrab Spawner</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="236"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="238"/>
         <source>Main Menu Transition</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="237"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="239"/>
         <source>Screen Shake</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="238"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="240"/>
         <source>Slam Door</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="239"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="241"/>
         <source>Snooze Particle</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="240"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="242"/>
         <source>Slurg Spawner</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="241"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="243"/>
         <source>Slurg</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="242"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="244"/>
         <source>Timer Trigger</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="243"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="245"/>
         <source>Tortured Mud</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="244"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="246"/>
         <source>Web Line</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="245"/>
-        <location filename="../../ReflectedEnumProperties.hpp" line="424"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="247"/>
         <source>Well</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="246"/>
+        <location filename="../../ReflectedEnumProperties.hpp" line="248"/>
         <source>Throwable Array</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="251"/>
-        <location filename="../../ReflectedEnumProperties.hpp" line="482"/>
-        <location filename="../../ReflectedEnumProperties.hpp" line="507"/>
-        <location filename="../../ReflectedEnumProperties.hpp" line="568"/>
-        <source>Full</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="252"/>
-        <location filename="../../ReflectedEnumProperties.hpp" line="481"/>
-        <location filename="../../ReflectedEnumProperties.hpp" line="506"/>
-        <location filename="../../ReflectedEnumProperties.hpp" line="567"/>
-        <source>Half</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="257"/>
-        <location filename="../../ReflectedEnumProperties.hpp" line="653"/>
-        <location filename="../../ReflectedEnumProperties.hpp" line="771"/>
-        <source>Normal</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="258"/>
-        <source>Angry</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="259"/>
-        <source>Sad</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="260"/>
-        <source>Wired</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="261"/>
-        <source>Sick</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="266"/>
-        <location filename="../../ReflectedEnumProperties.hpp" line="296"/>
-        <location filename="../../ReflectedEnumProperties.hpp" line="436"/>
-        <location filename="../../ReflectedEnumProperties.hpp" line="454"/>
-        <location filename="../../ReflectedEnumProperties.hpp" line="461"/>
-        <location filename="../../ReflectedEnumProperties.hpp" line="561"/>
-        <location filename="../../ReflectedEnumProperties.hpp" line="573"/>
-        <location filename="../../ReflectedEnumProperties.hpp" line="595"/>
-        <location filename="../../ReflectedEnumProperties.hpp" line="613"/>
-        <location filename="../../ReflectedEnumProperties.hpp" line="634"/>
-        <location filename="../../ReflectedEnumProperties.hpp" line="661"/>
-        <location filename="../../ReflectedEnumProperties.hpp" line="687"/>
-        <location filename="../../ReflectedEnumProperties.hpp" line="704"/>
-        <location filename="../../ReflectedEnumProperties.hpp" line="751"/>
-        <source>Right</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="267"/>
-        <location filename="../../ReflectedEnumProperties.hpp" line="295"/>
-        <location filename="../../ReflectedEnumProperties.hpp" line="435"/>
-        <location filename="../../ReflectedEnumProperties.hpp" line="455"/>
-        <location filename="../../ReflectedEnumProperties.hpp" line="460"/>
-        <location filename="../../ReflectedEnumProperties.hpp" line="560"/>
-        <location filename="../../ReflectedEnumProperties.hpp" line="574"/>
-        <location filename="../../ReflectedEnumProperties.hpp" line="596"/>
-        <location filename="../../ReflectedEnumProperties.hpp" line="614"/>
-        <location filename="../../ReflectedEnumProperties.hpp" line="633"/>
-        <location filename="../../ReflectedEnumProperties.hpp" line="662"/>
-        <location filename="../../ReflectedEnumProperties.hpp" line="688"/>
-        <location filename="../../ReflectedEnumProperties.hpp" line="703"/>
-        <location filename="../../ReflectedEnumProperties.hpp" line="752"/>
-        <source>Left</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="272"/>
-        <source>Move Immediately</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="273"/>
-        <source>Use Custom Spawn Move Delay</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="278"/>
-        <source>Stand Idle</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="279"/>
-        <source>Fall Forward</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="284"/>
-        <source>Listening</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="285"/>
-        <location filename="../../ReflectedEnumProperties.hpp" line="709"/>
-        <source>Patrol</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="286"/>
-        <location filename="../../ReflectedEnumProperties.hpp" line="627"/>
-        <source>Sleeping</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="287"/>
-        <source>Chase</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="288"/>
-        <source>Chase And Disappear</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="289"/>
-        <source>Falling To Chase</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="290"/>
-        <source>Listening To Glukkon</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="301"/>
-        <source>Set True</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="302"/>
-        <source>Set False</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="303"/>
-        <location filename="../../ReflectedEnumProperties.hpp" line="588"/>
-        <source>Toggle</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="304"/>
-        <source>Increment</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="305"/>
-        <source>Decrement</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="310"/>
-        <source>Floor</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="311"/>
-        <source>Wall Left</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="312"/>
-        <source>Wall Right</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="313"/>
-        <source>Ceiling</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="314"/>
-        <source>Background Floor</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="315"/>
-        <source>Background Wall Left</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="316"/>
-        <source>Background Wall Right</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="317"/>
-        <source>Background Ceiling</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="318"/>
-        <source>Track Line</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="319"/>
-        <source>Art</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="320"/>
-        <source>Bullet Wall</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="321"/>
-        <source>Mine Car Floor</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="322"/>
-        <source>Mine Car Wall</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="323"/>
-        <source>Mine Car Ceiling</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="324"/>
-        <source>Background Mine Car Floor</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="325"/>
-        <source>Background Mine Car Wall</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="326"/>
-        <source>Background Mine Car Ceiling</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="327"/>
-        <source>Flying Slig Ceiling</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="328"/>
-        <source>Background Flying Slig Ceiling</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="329"/>
-        <source>Dynamic Collision</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="330"/>
-        <source>Background Dynamic Collision</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="337"/>
-        <source>Menu</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="338"/>
-        <source>Mines</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="339"/>
-        <source>Necrum</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="340"/>
-        <source>Mudomo Vault</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="341"/>
-        <source>Mudanchee Vault</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="342"/>
-        <source>FeeCo Depot</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="343"/>
-        <source>Barracks</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="344"/>
-        <source>Mudanchee Vault Ender</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="345"/>
-        <source>Bonewerkz</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="346"/>
-        <source>Brewery</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="347"/>
-        <source>Brewery Ender</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="348"/>
-        <source>Mudomo Vault Ender</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="349"/>
-        <source>FeeCo Depot Ender</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="350"/>
-        <source>Barracks Ender</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="351"/>
-        <source>Bonewerkz Ender</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="352"/>
-        <source>Credits</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="353"/>
-        <source>Rupture Farms</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="354"/>
-        <source>Lines</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="355"/>
-        <source>Forest</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="356"/>
-        <source>Forest Temple</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="357"/>
-        <source>Stock Yards</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="358"/>
-        <source>Stock Yards Return</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="359"/>
-        <source>Desert</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="360"/>
-        <source>Desert Temple</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="361"/>
-        <source>Board Room</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="362"/>
-        <source>Rupture Farms Return</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="363"/>
-        <source>Forest Chase</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="364"/>
-        <source>Desert Escape</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="369"/>
-        <source>Play 1 FMV</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="370"/>
-        <source>Right To Left</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="371"/>
-        <source>Left To Right</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="372"/>
-        <source>Bottom To Top</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="373"/>
-        <source>Top To Bottom</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="374"/>
-        <source>Box Out</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="375"/>
-        <source>Vertical Split</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="376"/>
-        <source>Horizontal Split</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="377"/>
-        <source>Unknown8</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="378"/>
-        <source>Instant Change</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="383"/>
-        <location filename="../../ReflectedEnumProperties.hpp" line="468"/>
-        <location filename="../../ReflectedEnumProperties.hpp" line="745"/>
-        <source>Off</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="384"/>
-        <location filename="../../ReflectedEnumProperties.hpp" line="467"/>
-        <location filename="../../ReflectedEnumProperties.hpp" line="746"/>
-        <source>On</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="389"/>
-        <source>Chisle</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="390"/>
-        <source>Scrub</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="391"/>
-        <source>Angry Worker</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="392"/>
-        <source>Damage Ring Giver</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="393"/>
-        <source>Health Ring Giver</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="399"/>
-        <source>Worker</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="401"/>
-        <source>Mud Teleport</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="406"/>
-        <location filename="../../ReflectedEnumProperties.hpp" line="601"/>
-        <source>Open</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="407"/>
-        <location filename="../../ReflectedEnumProperties.hpp" line="602"/>
-        <source>Closed</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="408"/>
-        <source>Opening</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="409"/>
-        <source>Closing</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="414"/>
-        <source>Basic Door</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="415"/>
-        <source>Tasks Door With Secret Music</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="416"/>
-        <source>Tasks Door</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="417"/>
-        <source>(AO) Trial Door</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="418"/>
-        <source>(AO) Hub Door</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="425"/>
-        <source>Switch Bell Hammer</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="429"/>
-        <source>(AE) Lift</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="434"/>
-        <location filename="../../ReflectedEnumProperties.hpp" line="559"/>
-        <source>Left And Right</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="441"/>
-        <source>Next Floor</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="442"/>
-        <source>Off Screen</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="447"/>
-        <location filename="../../ReflectedEnumProperties.hpp" line="473"/>
-        <location filename="../../ReflectedEnumProperties.hpp" line="668"/>
-        <source>Facing Left</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="448"/>
-        <location filename="../../ReflectedEnumProperties.hpp" line="474"/>
-        <location filename="../../ReflectedEnumProperties.hpp" line="669"/>
-        <source>Facing Right</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="449"/>
-        <location filename="../../ReflectedEnumProperties.hpp" line="475"/>
-        <source>Facing Any Direction</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="462"/>
-        <location filename="../../ReflectedEnumProperties.hpp" line="480"/>
-        <source>Both</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="487"/>
-        <source>Drum Ambience</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="488"/>
-        <source>Death Drum Short</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="489"/>
-        <source>Secret Area Long</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="490"/>
-        <source>Soft Chase</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="491"/>
-        <source>Intense Chase</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="492"/>
-        <source>Chime</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="493"/>
-        <source>Secret Area Short</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="498"/>
-        <source>Timer</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="499"/>
-        <source>Touching</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="500"/>
-        <source>(AO) Switch ID</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="501"/>
-        <source>(AO) Unknown</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="508"/>
-        <source>Any</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="513"/>
-        <source>Yellow</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="514"/>
-        <location filename="../../ReflectedEnumProperties.hpp" line="620"/>
-        <source>Red</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="515"/>
-        <location filename="../../ReflectedEnumProperties.hpp" line="621"/>
-        <source>Green</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="516"/>
-        <location filename="../../ReflectedEnumProperties.hpp" line="622"/>
-        <source>Blue</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="517"/>
-        <source>White</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="523"/>
-        <source>Fire</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="528"/>
-        <source>Layer 0</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="529"/>
-        <source>Layer 2</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="534"/>
-        <source>Blend 0</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="535"/>
-        <source>Blend 1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="536"/>
-        <source>Blend 2</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="537"/>
-        <source>Blend 3</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="542"/>
-        <source>Top Floor</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="543"/>
-        <source>Bottom Floor</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="544"/>
-        <source>Middle Floor</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="545"/>
-        <source>Middle Lock Floor</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="546"/>
-        <source>Start Point Only</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="552"/>
-        <source>Well Exit</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="553"/>
-        <source>Ring Unknown Trigger</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="554"/>
-        <source>Door Effect</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="579"/>
-        <source>All On</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="580"/>
-        <source>1 On And 2 Off</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="581"/>
-        <source>1 Or 2 On</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="582"/>
-        <source>1 On Or 2 Off</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="587"/>
-        <source>Not Interactable</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="589"/>
-        <source>Use</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="594"/>
-        <location filename="../../ReflectedEnumProperties.hpp" line="607"/>
-        <source>Down</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="608"/>
-        <source>Up</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="619"/>
-        <source>Default</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="628"/>
-        <source>Awake</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="635"/>
-        <source>Random</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="643"/>
-        <source>Sack Hit 1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="644"/>
-        <source>Sack Hit 2</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="645"/>
-        <source>Falling Item Presence 2</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="647"/>
-        <source>Bullet 1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="648"/>
-        <source>Abe Generic Movement</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="654"/>
-        <source>Story Aslik</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="655"/>
-        <source>Story Dripik</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="656"/>
-        <source>Story Phleg</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="667"/>
-        <source>Regular Spawn</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="670"/>
-        <source>Full Spawn Effects</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="675"/>
-        <source>Ignore Walls</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="676"/>
-        <source>Check For Walls</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="682"/>
-        <source>Anyone</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="693"/>
-        <source>Walk</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="694"/>
-        <source>Run Or Walk 192</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="695"/>
-        <source>Run Or Walk 128</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="696"/>
-        <source>Run Or Walk 64</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="697"/>
-        <source>Run</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="710"/>
-        <source>Surprise Web</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="711"/>
-        <source>Slightly Higher Spawn Surprise Web</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="716"/>
-        <source>Whistle</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="717"/>
-        <source>Chimes</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="722"/>
-        <source>Star</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="723"/>
-        <source>Gold Glow</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="724"/>
-        <source>Green Glow</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="725"/>
-        <source>Flint Glow</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="726"/>
-        <source>RedGreen Door Light</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="727"/>
-        <source>RedGreen Hub Light</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="732"/>
-        <source>Yes</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="733"/>
-        <source>No</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="738"/>
-        <source>Automatic Persist Offscreen</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="739"/>
-        <source>Automatic</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="740"/>
-        <source>Switch ID</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="757"/>
-        <source>Hover</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="758"/>
-        <source>Attack</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="759"/>
-        <source>Follow Path</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="764"/>
-        <source>Center</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="765"/>
-        <source>Out</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="766"/>
-        <source>In</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="772"/>
-        <source>Fast</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="773"/>
-        <source>Slow</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3009,6 +3242,29 @@ li.checked::marker { content: &quot;\2612&quot;; }
     <message>
         <location filename="../../EditorTab.cpp" line="68"/>
         <source>Clear selection</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>TBlendModesEnum</name>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="536"/>
+        <source>Blend 0</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="537"/>
+        <source>Blend 1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="538"/>
+        <source>Blend 2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="539"/>
+        <source>Blend 3</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3032,6 +3288,221 @@ li.checked::marker { content: &quot;\2612&quot;; }
     <message>
         <location filename="../../TransparencyDialog.ui" line="60"/>
         <source>Camera transparency</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>eLineTypesEnum</name>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="312"/>
+        <source>Floor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="313"/>
+        <source>Wall Left</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="314"/>
+        <source>Wall Right</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="315"/>
+        <source>Ceiling</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="316"/>
+        <source>Background Floor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="317"/>
+        <source>Background Wall Left</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="318"/>
+        <source>Background Wall Right</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="319"/>
+        <source>Background Ceiling</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="320"/>
+        <source>Track Line</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="321"/>
+        <source>Art</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="322"/>
+        <source>Bullet Wall</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="323"/>
+        <source>Mine Car Floor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="324"/>
+        <source>Mine Car Wall</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="325"/>
+        <source>Mine Car Ceiling</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="326"/>
+        <source>Background Mine Car Floor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="327"/>
+        <source>Background Mine Car Wall</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="328"/>
+        <source>Background Mine Car Ceiling</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="329"/>
+        <source>Flying Slig Ceiling</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="330"/>
+        <source>Background Flying Slig Ceiling</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="331"/>
+        <source>Dynamic Collision</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="332"/>
+        <source>Background Dynamic Collision</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>reliveScaleEnum</name>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="253"/>
+        <source>Full</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="254"/>
+        <source>Half</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>reliveScreenChangeEffectsEnum</name>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="371"/>
+        <source>Play 1 FMV</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="372"/>
+        <source>Right To Left</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="373"/>
+        <source>Left To Right</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="374"/>
+        <source>Bottom To Top</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="375"/>
+        <source>Top To Bottom</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="376"/>
+        <source>Box Out</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="377"/>
+        <source>Vertical Split</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="378"/>
+        <source>Horizontal Split</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="379"/>
+        <source>Unknown8</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="380"/>
+        <source>Instant Change</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>reliveSwitchOpEnum</name>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="303"/>
+        <source>Set True</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="304"/>
+        <source>Set False</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="305"/>
+        <source>Toggle</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="306"/>
+        <source>Increment</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="307"/>
+        <source>Decrement</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>reliveXDirectionEnum</name>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="297"/>
+        <source>Left</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="298"/>
+        <source>Right</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
