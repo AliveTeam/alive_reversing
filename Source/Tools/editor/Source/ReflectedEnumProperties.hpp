@@ -2,6 +2,7 @@
 
 #include <QString>
 #include <array>
+#include <tuple>
 #include "../../../relive_lib/data_conversion/relive_tlvs.hpp"
 #include <QCoreApplication>
 
@@ -41,8 +42,8 @@ template<typename EnumType> struct EnumReflector final  { };
         {                                                                                 \
             return mArray[idx].mValue;                                                    \
         }                                                                                 \
-        static const inline EnumPair tmp[] = __VA_ARGS__;                                    \
-        static const inline std::array<EnumPair, ALIVE_COUNTOF(tmp)> mArray = {__VA_ARGS__}; \
+        static const inline EnumPair mArray[] = __VA_ARGS__; \
+        static const inline u32 mArraySize = ALIVE_COUNTOF(mArray);\
     };
 
 REFLECT_ENUM(ReliveTypes, {

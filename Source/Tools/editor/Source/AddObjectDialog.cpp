@@ -165,15 +165,16 @@ void AddObjectDialog::PopulateListFiltered(QString filter)
 
     const auto& factoryEntries = MapObjectBase::GetEditorFactoryRegistry();
     const auto& tlvEnumValues = EnumReflector<ReliveTypes>::mArray;
-    for (auto enumIterator = tlvEnumValues.begin(); enumIterator != tlvEnumValues.end(); enumIterator++)
+    const u32 tlvEnumValuesLen = EnumReflector<ReliveTypes>::mArraySize;
+    for (u32 i=0; i < tlvEnumValuesLen; i++)
     {
-        auto factoryEntry = factoryEntries.find(enumIterator->mValue);
+        auto factoryEntry = factoryEntries.find(tlvEnumValues[i].mValue);
         if (factoryEntry == std::end(factoryEntries))
         {
             continue;
         }
         
-        QString name = enumIterator->mName;
+        QString name = tlvEnumValues[i].mName;
         if (filter.isEmpty() || name.toLower().contains(filter.toLower()))
         {
             ui->lstObjects->addItem(new ObjectListItem(name, factoryEntry->second.mNewFunc));
