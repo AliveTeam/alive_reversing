@@ -92,10 +92,17 @@ class MapObjectBase
 public:
     // Given some json make a derived MapObjectBase type
     using TEditorDeserializeFunc = std::function<std::unique_ptr<MapObjectBase>(const nlohmann::json&)>;
+    using TEditorNewFunc = std::function<std::unique_ptr<MapObjectBase>()>;
 
-    static std::map<ReliveTypes, TEditorDeserializeFunc>& GetEditorFactoryRegistry()
+    struct FactoryFuncs final
     {
-        static std::map<ReliveTypes, TEditorDeserializeFunc> registry;
+        TEditorDeserializeFunc mDeserializeFunc = nullptr;
+        TEditorNewFunc mNewFunc = nullptr;
+    };
+
+    static std::map<ReliveTypes, FactoryFuncs>& GetEditorFactoryRegistry()
+    {
+        static std::map<ReliveTypes, FactoryFuncs> registry;
         return registry;
     }
 
@@ -187,7 +194,8 @@ struct MapObjectBaseInterface : public MapObjectBase
     static inline bool register_type()
     {
         auto& registry = GetEditorFactoryRegistry();
-        registry[ReliveEnumType] = DerivedType::EditorDeserializeFunc;
+        registry[ReliveEnumType].mDeserializeFunc = DerivedType::EditorDeserializeFunc;
+        registry[ReliveEnumType].mNewFunc = EditorNewFunc;
         return true;
     }
 
@@ -217,6 +225,11 @@ struct MapObjectBaseInterface : public MapObjectBase
     std::unique_ptr<MapObjectBase> Clone() const final
     {
         return std::make_unique<DerivedType>(static_cast<const DerivedType&>(*this));
+    }
+
+    static std::unique_ptr<MapObjectBase> EditorNewFunc()
+    {
+        return std::make_unique<DerivedType>();
     }
 
     static const bool registered_;

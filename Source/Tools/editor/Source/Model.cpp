@@ -174,7 +174,7 @@ void Model::LoadJsonFromString(const std::string& json)
                 auto it = MapObjectBase::GetEditorFactoryRegistry().find(objType);
                 if (it != std::end(MapObjectBase::GetEditorFactoryRegistry()))
                 {
-                    tmpCamera->mMapObjects.emplace_back(it->second(mapObject));
+                    tmpCamera->mMapObjects.emplace_back(it->second.mDeserializeFunc(mapObject));
                 }
             }
         }

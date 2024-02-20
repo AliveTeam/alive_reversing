@@ -15,34 +15,33 @@
 class ObjectListItem final : public QListWidgetItem
 {
 public:
-    ObjectListItem(QString objName)
-        : QListWidgetItem(objName)
+    ObjectListItem(QString objName, MapObjectBase::TEditorNewFunc objFunc)
+        : QListWidgetItem(objName), mNewFunc(objFunc)
     {
 
     }
 
-    /*
-    const UP_ObjectStructure& GetObjectStructure() const
+    const MapObjectBase::TEditorNewFunc NewFunc() const
     {
-        return mObj;
-    }*/
+        return mNewFunc;
+    }
 
 private:
-    //const UP_ObjectStructure& mObj;
+    MapObjectBase::TEditorNewFunc mNewFunc = nullptr;
 };
 
 class AddNewObjectCommand : public QUndoCommand
 {
-public: /*
-    AddNewObjectCommand(EditorTab* pTab, const UP_ObjectStructure& objStructure)
-        : mTab(pTab),
-        mObjStructure(objStructure),
-        mSelectionSaver(pTab)
+public:
+    AddNewObjectCommand(EditorTab* pTab, QString objectName, MapObjectBase::TEditorNewFunc newFunc)
+      : mSelectionSaver(pTab),
+        mTab(pTab),
+        mNewFunc(newFunc)
     {
         MakeNewObject();
 
-        setText(QString("Add new object ") + objStructure->mName.c_str());
-    }*/
+        setText(QString("Add new object ") + objectName);
+    }
 
     ~AddNewObjectCommand()
     {
@@ -121,39 +120,24 @@ private:
         }
 
         mCamera = mTab->GetModel().CameraAt(camX, camY);
-        /*
-        auto pNewMapObj = new MapObject();
 
-        pNewMapObj->mObjectStructureType = mObjStructure->mName;
-        for (auto& prop : mObjStructure->mEnumAndBasicTypeProperties)
-        {
-            auto foundType = mTab->GetModel().FindType(prop.mType);
-
-            auto newProp = mTab->GetModel().MakeProperty(foundType, prop, mObjStructure.get());
-            if (foundType.mEnum)
-            {
-                auto enumType = mTab->GetModel().FindEnum(prop.mType);
-                newProp->mEnumValue = enumType->mValues[0];
-            }
-
-            pNewMapObj->mProperties.emplace_back(std::move(newProp));
-        }
-        
+        auto pNewMapObj = mNewFunc();
         pNewMapObj->SetXPos(viewPos.x());
         pNewMapObj->SetYPos(viewPos.y());
         pNewMapObj->SetWidth(24);
         pNewMapObj->SetHeight(24);
 
-        mNewItem = mTab->MakeResizeableRectItem(pNewMapObj);
-        */
+        // NOTE: Inner pNewMapObj deleted in dtor if not given to the model
+        mNewItem = mTab->MakeResizeableRectItem(pNewMapObj.release());
+
     }
 
     SelectionSaver mSelectionSaver;
     EditorCamera* mCamera = nullptr;
     bool mAdded = false;
     ResizeableRectItem* mNewItem = nullptr;
-    EditorTab* mTab;
-    //const UP_ObjectStructure& mObjStructure;
+    EditorTab* mTab = nullptr;
+    MapObjectBase::TEditorNewFunc mNewFunc = nullptr;
 };
 
 AddObjectDialog::AddObjectDialog(QWidget *parent, EditorTab* pTab) :
@@ -180,31 +164,30 @@ void AddObjectDialog::PopulateListFiltered(QString filter)
 {
     ui->lstObjects->clear();
 
-    const auto& factory = MapObjectBase::GetEditorFactoryRegistry();
-    const auto& array = EnumReflector<ReliveTypes>::mArray;
-    for (auto it = array.begin(); it != array.end(); it++)
+    const auto& factoryEntries = MapObjectBase::GetEditorFactoryRegistry();
+    const auto& tlvEnumValues = EnumReflector<ReliveTypes>::mArray;
+    for (auto enumIterator = tlvEnumValues.begin(); enumIterator != tlvEnumValues.end(); enumIterator++)
     {
-        if (factory.find(it->mValue) == std::end(factory))
+        auto factoryEntry = factoryEntries.find(enumIterator->mValue);
+        if (factoryEntry == std::end(factoryEntries))
         {
             continue;
         }
         
-        QString name = QString::fromUtf8(it->mName);
+        QString name = QString::fromUtf8(enumIterator->mName);
         if (filter.isEmpty() || name.toLower().contains(filter.toLower()))
         {
-            ui->lstObjects->addItem(new ObjectListItem(name));
+            ui->lstObjects->addItem(new ObjectListItem(name, factoryEntry->second.mNewFunc));
         }
     }
 }
 
 void AddObjectDialog::on_buttonBox_accepted()
-{ /*
+{
     if (!ui->lstObjects->selectedItems().isEmpty())
     {
         auto pItem = static_cast<ObjectListItem*>(ui->lstObjects->selectedItems().at(0));
-        const UP_ObjectStructure& objStructure = pItem->GetObjectStructure();
-        mTab->AddCommand(new AddNewObjectCommand(mTab, objStructure));
-    }*/
-    QMessageBox::critical(this, "TODO", "add object not implemented");
+        mTab->AddCommand(new AddNewObjectCommand(mTab, pItem->text(), pItem->NewFunc()));
+    }
 }
 
