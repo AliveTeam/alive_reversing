@@ -3,6 +3,7 @@
 #include <QUndoCommand>
 #include <QList>
 #include <QGraphicsItem>
+#include <QCoreApplication>
 #include "../../relive_api/TlvsRelive.hpp"
 
 class EditorTab;
@@ -11,6 +12,8 @@ class CollisionObject;
 
 class DeleteItemsCommand final : public QUndoCommand
 {
+    Q_DECLARE_TR_FUNCTIONS(DeleteItemsCommand)
+
 public:
     DeleteItemsCommand(EditorTab* pTab, bool isCut, QList<QGraphicsItem*> graphicsItemsToDelete);
 

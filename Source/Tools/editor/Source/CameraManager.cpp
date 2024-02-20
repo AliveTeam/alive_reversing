@@ -228,11 +228,13 @@ private:
 
 class DeleteCameraCommand final : public QUndoCommand
 {
+    Q_DECLARE_TR_FUNCTIONS(DeleteCameraCommand)
+
 public:
     DeleteCameraCommand(EditorTab* pTab, CameraGraphicsItem* pItem)
         : mSelectionSaver(pTab), mTab(pTab), mCameraOriginal(pItem)
     {
-        setText("Delete camera at " + QString::number(pItem->GetCamera()->mX) + "," + QString::number(pItem->GetCamera()->mY));
+        setText(tr("Delete camera at %1,%2").arg(pItem->GetCamera()->mX).arg(pItem->GetCamera()->mY));
 
         mEmptyCameraModel = std::make_unique<EditorCamera>();
         mEmptyCameraModel->mX = pItem->GetCamera()->mX;
@@ -647,11 +649,12 @@ void CameraManager::on_btnDeleteImage_clicked()
 
 class ChangeCameraIdCommand final : public QUndoCommand
 {
+    Q_DECLARE_TR_FUNCTIONS(ChangeCameraIdCommand)
 public:
     ChangeCameraIdCommand(EditorTab* pTab, CameraGraphicsItem* pItem, int oldId, int newId)
         : mTab(pTab), mItem(pItem), mOldId(oldId), mNewId(newId)
     {
-        setText("Change camera id from " + QString::number(oldId) + " to " + QString::number(newId));
+        setText(tr("Change camera id from %1 to %2").arg(oldId).arg(newId));
         /*
         const int pathIdShifted = mTab->GetModel().GetMapInfo().mPathId * 100;
         mOldId += pathIdShifted;
@@ -743,7 +746,7 @@ void CameraManager::on_btnSetCameraId_clicked()
                     auto pItem = static_cast<CameraListItem*>(ui->lstCameras->item(i));
                     if (CamIdFromCamName(pItem->GetCamera()->mName) == newCamId)
                     {
-                        QMessageBox::warning(this, "Error", "Camera Id already in use");
+                        QMessageBox::warning(this, "Error", tr("Camera Id already in use"));
                         return;
                     }
                 }

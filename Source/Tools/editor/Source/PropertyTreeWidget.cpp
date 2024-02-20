@@ -319,8 +319,8 @@ void PropertyTreeWidget::Init()
 
     // Set the header text
     QStringList headerStrings;
-    headerStrings.append("Property");
-    headerStrings.append("Value");
+    headerStrings.append(tr("Property"));
+    headerStrings.append(tr("Value"));
     setHeaderLabels(headerStrings);
 
     setAlternatingRowColors(true);

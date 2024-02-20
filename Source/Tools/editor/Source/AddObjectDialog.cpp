@@ -10,7 +10,6 @@
 #include "EditorTab.hpp"
 #include "../../relive_api/TlvsRelive.hpp"
 #include "ReflectedEnumProperties.hpp"
-#include <QMessageBox>
 
 class ObjectListItem final : public QListWidgetItem
 {

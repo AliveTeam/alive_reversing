@@ -4,6 +4,7 @@
 #include <QTranslator>
 #include <QDebug>
 #include <QtCore/qcommandlineparser.h>
+#include <QLibraryInfo>
 
 void DoMapSizeTests();
 
@@ -27,8 +28,16 @@ int main(int argc, char *argv[])
         qDebug() << "Translator load failed";
     }
 
+    QTranslator qtBaseTranslator;
+    if (!qtBaseTranslator.load("qtbase_" + QLocale::system().name(),
+                              QLibraryInfo::location(QLibraryInfo::TranslationsPath)))
+    {
+        qDebug() << "qt base translator load failed";
+    }
+
     QApplication app(argc, argv);
     app.installTranslator(&translator);
+    app.installTranslator(&qtBaseTranslator);
 
     EditorMainWindow w;
 

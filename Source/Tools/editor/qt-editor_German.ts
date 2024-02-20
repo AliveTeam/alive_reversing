@@ -122,14 +122,27 @@ li.checked::marker { content: &quot;\2612&quot;; }
         <translation>Kamera id übernehmen</translation>
     </message>
     <message>
-        <location filename="Source/CameraManager.cpp" line="586"/>
+        <location filename="Source/CameraManager.cpp" line="588"/>
         <source>Open level</source>
         <translation>Level öffnen</translation>
     </message>
     <message>
-        <location filename="Source/CameraManager.cpp" line="586"/>
+        <location filename="Source/CameraManager.cpp" line="588"/>
         <source>PNG image files (*.png);;</source>
         <translation>PNG Bilder (*.png);;</translation>
+    </message>
+    <message>
+        <location filename="Source/CameraManager.cpp" line="749"/>
+        <source>Camera Id already in use</source>
+        <translation>Kamera Id bereits verwendet</translation>
+    </message>
+</context>
+<context>
+    <name>ChangeCameraIdCommand</name>
+    <message>
+        <location filename="Source/CameraManager.cpp" line="657"/>
+        <source>Change camera id from %1 to %2</source>
+        <translation>Kamera id von %1 nach %2 ändern</translation>
     </message>
 </context>
 <context>
@@ -151,11 +164,38 @@ li.checked::marker { content: &quot;\2612&quot;; }
     </message>
 </context>
 <context>
+    <name>DeleteCameraCommand</name>
+    <message>
+        <location filename="Source/CameraManager.cpp" line="237"/>
+        <source>Delete camera at %1,%2</source>
+        <oldsource>Delete camera at </oldsource>
+        <translation>Kamera bei %1,%2 löschen</translation>
+    </message>
+</context>
+<context>
+    <name>DeleteItemsCommand</name>
+    <message>
+        <location filename="Source/DeleteItemsCommand.cpp" line="13"/>
+        <source>Cut %1 item(s)</source>
+        <translation>%1 item(s) ausgeschnitten</translation>
+    </message>
+    <message>
+        <location filename="Source/DeleteItemsCommand.cpp" line="17"/>
+        <source>Delete %1 item(s)</source>
+        <translation>%1 item(s) gelöscht</translation>
+    </message>
+</context>
+<context>
     <name>EditorGraphicsView</name>
     <message>
-        <location filename="Source/EditorTab.cpp" line="291"/>
+        <location filename="Source/EditorTab.cpp" line="294"/>
         <source>Edit camera</source>
         <translation>Kamera bearbeiten</translation>
+    </message>
+    <message>
+        <location filename="Source/EditorTab.cpp" line="312"/>
+        <source>Connect collisions</source>
+        <translation>Kollisionen verbinden</translation>
     </message>
 </context>
 <context>
@@ -582,6 +622,26 @@ li.checked::marker { content: &quot;\2612&quot;; }
         <translation>Bereit</translation>
     </message>
     <message>
+        <location filename="Source/EditorMainWindow.cpp" line="212"/>
+        <source>Enter new path Id</source>
+        <translation>Neue Pfad Id eingeben</translation>
+    </message>
+    <message>
+        <location filename="Source/EditorMainWindow.cpp" line="212"/>
+        <source>Path Id</source>
+        <translation>Pfad Id</translation>
+    </message>
+    <message>
+        <location filename="Source/EditorMainWindow.cpp" line="346"/>
+        <source>Failed to load json</source>
+        <translation>Json konnte nicht geladen werden</translation>
+    </message>
+    <message>
+        <location filename="Source/EditorMainWindow.cpp" line="358"/>
+        <source>Close without saving changes?</source>
+        <translation>Schließen, ohne Änderungen zu speichern?</translation>
+    </message>
+    <message>
         <location filename="Source/EditorMainWindow.cpp" line="447"/>
         <source>Open level</source>
         <translation>Level öffnen</translation>
@@ -592,6 +652,21 @@ li.checked::marker { content: &quot;\2612&quot;; }
         <translation>Unterstützte Dateien (*.json *.lvl);; Json Dateien (*.json);;Level Dateien (*.lvl);;Alle Dateien (*)</translation>
     </message>
     <message>
+        <location filename="Source/EditorMainWindow.cpp" line="564"/>
+        <source>Oddysee/Exoddus editor by Relive Team [https://aliveteam.github.io]</source>
+        <translation>Oddysee/Exoddus editor vom Relive Team [https://aliveteam.github.io]</translation>
+    </message>
+    <message>
+        <location filename="Source/EditorMainWindow.cpp" line="601"/>
+        <source>Some paths have unsaved changes.</source>
+        <translation>Einige Pfade haben ungespeicherte Änderungen.</translation>
+    </message>
+    <message>
+        <location filename="Source/EditorMainWindow.cpp" line="603"/>
+        <source>Do you want to save your changes?</source>
+        <translation>Möchtest du deine Änderungen speichern?</translation>
+    </message>
+    <message>
         <location filename="Source/EditorMainWindow.cpp" line="704"/>
         <source>Open lvl (as template for new path)</source>
         <translation>Lvl öffnen (als vorlage für einen neuen Pfad)</translation>
@@ -600,6 +675,11 @@ li.checked::marker { content: &quot;\2612&quot;; }
         <location filename="Source/EditorMainWindow.cpp" line="704"/>
         <source>Level Files (*.lvl);;All Files (*)</source>
         <translation>Level Dateien (*.lvl);;Alle Dateien (*)</translation>
+    </message>
+    <message>
+        <location filename="Source/EditorMainWindow.cpp" line="811"/>
+        <source>You can&apos;t cut/copy paste data between AO and AE</source>
+        <translation>Du kannst keine Daten zwischen AO und AE ausschneiden/kopieren</translation>
     </message>
 </context>
 <context>
@@ -630,42 +710,42 @@ li.checked::marker { content: &quot;\2612&quot;; }
         <translation>Rückgängig-Verlauf</translation>
     </message>
     <message>
-        <location filename="Source/EditorTab.cpp" line="510"/>
+        <location filename="Source/EditorTab.cpp" line="505"/>
         <source>Selection cut</source>
         <translation>Auswahl ausgeschnitten</translation>
     </message>
     <message>
-        <location filename="Source/EditorTab.cpp" line="519"/>
+        <location filename="Source/EditorTab.cpp" line="514"/>
         <source>Selection copied</source>
         <translation>Auswahl kopiert</translation>
     </message>
     <message>
-        <location filename="Source/EditorTab.cpp" line="528"/>
+        <location filename="Source/EditorTab.cpp" line="523"/>
         <source>Items pasted</source>
         <translation>Items eingefügt</translation>
     </message>
     <message>
-        <location filename="Source/EditorTab.cpp" line="645"/>
+        <location filename="Source/EditorTab.cpp" line="640"/>
         <source>Save </source>
         <translation>Speichern </translation>
     </message>
     <message>
-        <location filename="Source/EditorTab.cpp" line="645"/>
+        <location filename="Source/EditorTab.cpp" line="640"/>
         <source>Json Files (*.json);;All Files (*)</source>
         <translation>Json Dateien (*.json);;Alle Dateien (*)</translation>
     </message>
     <message>
-        <location filename="Source/EditorTab.cpp" line="711"/>
+        <location filename="Source/EditorTab.cpp" line="706"/>
         <source>Saved</source>
         <translation>Gespeichert</translation>
     </message>
     <message>
-        <location filename="Source/EditorTab.cpp" line="717"/>
+        <location filename="Source/EditorTab.cpp" line="712"/>
         <source>Save failed</source>
         <translation>Speichern fehlgeschlagen</translation>
     </message>
     <message>
-        <location filename="Source/EditorTab.cpp" line="923"/>
+        <location filename="Source/EditorTab.cpp" line="918"/>
         <source>Connected collisions</source>
         <translation>Verbundene Kollisionen</translation>
     </message>
@@ -775,6 +855,44 @@ li.checked::marker { content: &quot;\2612&quot;; }
     </message>
 </context>
 <context>
+    <name>MoveItemsCommand</name>
+    <message>
+        <location filename="Source/EditorTab.cpp" line="131"/>
+        <source>Move and resize collision</source>
+        <translation>Kollision Größe geändert und bewegt</translation>
+    </message>
+    <message>
+        <location filename="Source/EditorTab.cpp" line="135"/>
+        <source>Move collision</source>
+        <translation>Kollision bewegt</translation>
+    </message>
+    <message>
+        <location filename="Source/EditorTab.cpp" line="139"/>
+        <source>Move collision point</source>
+        <translation>Kollisionspunkt bewegt</translation>
+    </message>
+    <message>
+        <location filename="Source/EditorTab.cpp" line="149"/>
+        <source>Move and resize map object</source>
+        <translation>Mapobjekt Größe geändert und bewegt</translation>
+    </message>
+    <message>
+        <location filename="Source/EditorTab.cpp" line="153"/>
+        <source>Move map object</source>
+        <translation>Mapobjekt bewegt</translation>
+    </message>
+    <message>
+        <location filename="Source/EditorTab.cpp" line="157"/>
+        <source>Resize map object</source>
+        <translation>Mapobjekt Größe geändert</translation>
+    </message>
+    <message>
+        <location filename="Source/EditorTab.cpp" line="163"/>
+        <source>Move %1 item(s)</source>
+        <translation>Bewege %1 item(s)</translation>
+    </message>
+</context>
+<context>
     <name>PathDataEditorDialog</name>
     <message>
         <location filename="Source/PathDataEditorDialog.ui" line="14"/>
@@ -818,6 +936,27 @@ li.checked::marker { content: &quot;\2612&quot;; }
         <location filename="Source/PathSelectionDialog.ui" line="14"/>
         <source>Select path to load</source>
         <translation>Pfad zum Laden auswählen</translation>
+    </message>
+</context>
+<context>
+    <name>PropertyTreeWidget</name>
+    <message>
+        <location filename="Source/PropertyTreeWidget.cpp" line="322"/>
+        <source>Property</source>
+        <translation>Eigenschaft</translation>
+    </message>
+    <message>
+        <location filename="Source/PropertyTreeWidget.cpp" line="323"/>
+        <source>Value</source>
+        <translation>Wert</translation>
+    </message>
+</context>
+<context>
+    <name>QMessageBox</name>
+    <message>
+        <location filename="Source/EditorMainWindow.cpp" line="24"/>
+        <source>Unrecoverable error</source>
+        <translation>Unbehebbarer Fehler</translation>
     </message>
 </context>
 <context>
@@ -2855,6 +2994,19 @@ li.checked::marker { content: &quot;\2612&quot;; }
         <location filename="Source/ReflectedEnumProperties.hpp" line="773"/>
         <source>Slow</source>
         <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>SetSelectionCommand</name>
+    <message>
+        <location filename="Source/EditorTab.cpp" line="64"/>
+        <source>Select %1 item(s)</source>
+        <translation>%1 item(s) ausgewählt</translation>
+    </message>
+    <message>
+        <location filename="Source/EditorTab.cpp" line="68"/>
+        <source>Clear selection</source>
+        <translation>Auswahl aufheben</translation>
     </message>
 </context>
 <context>

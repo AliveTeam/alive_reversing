@@ -22,7 +22,6 @@ struct EnumPropertyChangeData
 };
 
 // TODO: Merge with above ?
-class EnumPropertyBase;
 class LinkedEnumProperty
 {
 public:

@@ -49,6 +49,8 @@ const float KMaxZoomInLevels = 14.0f;
 
 class SetSelectionCommand final : public QUndoCommand
 {
+    Q_DECLARE_TR_FUNCTIONS(SetSelectionCommand)
+
 public:
     SetSelectionCommand(EditorTab* pTab, QGraphicsScene* pScene, QList<QGraphicsItem*>& oldSelection, QList<QGraphicsItem*>& newSelection) 
       : mTab(pTab),
@@ -59,11 +61,11 @@ public:
         mFirst = true;
         if (mNewSelection.count() > 0)
         {
-            setText(QString("Select %1 item(s)").arg(mNewSelection.count()));
+            setText(tr("Select %1 item(s)").arg(mNewSelection.count()));
         }
         else
         {
-            setText("Clear selection");
+            setText(tr("Clear selection"));
         }
     }
 
@@ -104,6 +106,8 @@ private:
 
 class MoveItemsCommand final : public QUndoCommand
 {
+    Q_DECLARE_TR_FUNCTIONS(MoveItemsCommand)
+
 public:
     MoveItemsCommand(QGraphicsScene* pScene, ItemPositionData oldPositions, ItemPositionData newPositions, Model& model)
         : mScene(pScene),
@@ -124,15 +128,15 @@ public:
                 const bool lineChanged = pOldLine->line != pNewLine->line;
                 if (posChange && lineChanged)
                 {
-                    setText(QString("Move and resize collision"));
+                    setText(tr("Move and resize collision"));
                 }
                 else if (posChange && !lineChanged)
                 {
-                    setText(QString("Move collision"));
+                    setText(tr("Move collision"));
                 }
                 else
                 {
-                    setText(QString("Move collision point"));
+                    setText(tr("Move collision point"));
                 }
             }
             else
@@ -142,21 +146,21 @@ public:
                 const bool wOrhChanged = pOldRect->rect.width() != pNewRect->rect.width() || pOldRect->rect.height() != pNewRect->rect.height();
                 if (xOryChanged && wOrhChanged)
                 {
-                    setText(QString("Move and resize map object"));
+                    setText(tr("Move and resize map object"));
                 }
                 else if (xOryChanged && !wOrhChanged)
                 {
-                    setText(QString("Move map object"));
+                    setText(tr("Move map object"));
                 }
                 else // only wOrhChanged
                 {
-                    setText(QString("Resize map object"));
+                    setText(tr("Resize map object"));
                 }
             }
         }
         else
         {
-            setText(QString("Move %1 item(s)").arg(mNewPositions.Count()));
+            setText(tr("Move %1 item(s)").arg(mNewPositions.Count()));
         }
     }
 
@@ -184,185 +188,175 @@ private:
     bool mFirst = false;
 };
 
-class EditorGraphicsView final : public QGraphicsView
+
+EditorGraphicsView::EditorGraphicsView(EditorTab* editorTab)
+    : mEditorTab(editorTab)
 {
-public:
-    EditorGraphicsView(EditorTab* editorTab)
-        : mEditorTab(editorTab)
+    setAcceptDrops(true);
+}
+
+void EditorGraphicsView::mousePressEvent(QMouseEvent* pEvent)
+{
+    if (pEvent->button() != Qt::LeftButton)
     {
-        setAcceptDrops(true);
+        // prevent band dragging on other buttons
+        qDebug() << "Ignore non left press";
+        pEvent->ignore();
+        return;
     }
 
-    void mousePressEvent(QMouseEvent* pEvent) override
-    {
-        if (pEvent->button() != Qt::LeftButton)
-        {
-            // prevent band dragging on other buttons
-            qDebug() << "Ignore non left press";
-            pEvent->ignore();
-            return;
-        }
+    qDebug() << "view mouse press (left)";
+    QGraphicsView::mousePressEvent(pEvent);
+}
 
-        qDebug() << "view mouse press (left)";
-        QGraphicsView::mousePressEvent(pEvent);
+void EditorGraphicsView::mouseReleaseEvent(QMouseEvent* pEvent)
+{
+    if (pEvent->button() != Qt::LeftButton)
+    {
+        qDebug() << "Ignore non left release";
+        pEvent->ignore();
+        return;
     }
 
-    void mouseReleaseEvent(QMouseEvent* pEvent) override
-    {
-        if (pEvent->button() != Qt::LeftButton)
-        {
-            qDebug() << "Ignore non left release";
-            pEvent->ignore();
-            return;
-        }
+    qDebug() << "view mouse release (left)";
+    QGraphicsView::mouseReleaseEvent(pEvent);
+}
 
-        qDebug() << "view mouse release (left)";
-        QGraphicsView::mouseReleaseEvent(pEvent);
+void EditorGraphicsView::wheelEvent(QWheelEvent* pEvent)
+{
+    if (pEvent->modifiers() == Qt::Modifier::CTRL)
+    {
+        pEvent->ignore();
+        return;
+    }
+    QGraphicsView::wheelEvent(pEvent);
+}
+
+
+// TODO: implement proper ScrollHandDrag mode.
+// you should be able to move around by pressing and holding the middle mouse button.
+void EditorGraphicsView::keyPressEvent(QKeyEvent* pEvent)
+{
+    if (pEvent->key() == Qt::Key::Key_Shift)
+    {
+        setDragMode(DragMode::ScrollHandDrag);
+        setInteractive(false);
+        pEvent->ignore();
+        return;
+    }
+    QGraphicsView::keyPressEvent(pEvent);
+}
+
+void EditorGraphicsView::keyReleaseEvent(QKeyEvent* pEvent)
+{
+    if (pEvent->key() == Qt::Key::Key_Shift)
+    {
+        setDragMode(DragMode::RubberBandDrag);
+        setInteractive(true);
+        pEvent->ignore();
+        return;
+    }
+    QGraphicsView::keyPressEvent(pEvent);
+}
+
+void EditorGraphicsView::focusOutEvent(QFocusEvent* pEvent)
+{
+    if (pEvent->lostFocus())
+    {
+        // prevents ScrollHandDrag getting "stuck" when losing focus while holding shift
+        setDragMode(DragMode::RubberBandDrag);
+        setInteractive(true);
+    }
+    QGraphicsView::focusOutEvent(pEvent);
+}
+
+void EditorGraphicsView::contextMenuEvent(QContextMenuEvent* pEvent)
+{
+    QMenu menu(this);
+
+    const QPoint scenePos = mapToScene(pEvent->pos()).toPoint();
+    QList<QGraphicsItem*> itemsAtMousePos = items(scenePos);
+    qDebug() << "There are " << itemsAtMousePos.count() << " at the context menu";
+
+    bool cameraAtMenu = false;
+    for (s32 i = 0; i < itemsAtMousePos.count(); i++)
+    {
+        auto pCameraItem = qgraphicsitem_cast<CameraGraphicsItem*>(itemsAtMousePos[i]);
+        if (pCameraItem)
+        {
+            cameraAtMenu = true;
+            break;
+        }
     }
 
-    void wheelEvent(QWheelEvent* pEvent) override
+    if (cameraAtMenu)
     {
-        if (pEvent->modifiers() == Qt::Modifier::CTRL)
-        {
-            pEvent->ignore();
-            return;
-        }
-        QGraphicsView::wheelEvent(pEvent);
-    }
-
-    // TODO: implement proper ScrollHandDrag mode.
-    // you should be able to move around by pressing and holding the middle mouse button.
-    void keyPressEvent(QKeyEvent* pEvent) override
-    {
-        if (pEvent->key() == Qt::Key::Key_Shift)
-        {
-            setDragMode(DragMode::ScrollHandDrag);
-            setInteractive(false);
-            pEvent->ignore();
-            return;
-        }
-        QGraphicsView::keyPressEvent(pEvent);
-    }
-
-    void keyReleaseEvent(QKeyEvent* pEvent) override
-    {
-        if (pEvent->key() == Qt::Key::Key_Shift)
-        {
-            setDragMode(DragMode::RubberBandDrag);
-            setInteractive(true);
-            pEvent->ignore();
-            return;
-        }
-        QGraphicsView::keyPressEvent(pEvent);
-    }
-
-    void focusOutEvent(QFocusEvent* pEvent) override
-    {
-        if (pEvent->lostFocus())
-        {
-            // prevents ScrollHandDrag getting "stuck" when losing focus while holding shift
-            setDragMode(DragMode::RubberBandDrag);
-            setInteractive(true);
-        }
-        QGraphicsView::focusOutEvent(pEvent);
-    }
-
-    void contextMenuEvent(QContextMenuEvent* pEvent) override
-    {
-        QMenu menu(this);
-
-        const QPoint scenePos = mapToScene(pEvent->pos()).toPoint();
-        QList<QGraphicsItem*> itemsAtMousePos = items(scenePos);
-        qDebug() << "There are " << itemsAtMousePos.count() << " at the context menu";
-
-        bool cameraAtMenu = false;
-        for (s32 i = 0; i < itemsAtMousePos.count(); i++)
-        {
-            auto pCameraItem = qgraphicsitem_cast<CameraGraphicsItem*>(itemsAtMousePos[i]);
-            if (pCameraItem)
-            {
-                cameraAtMenu = true;
-                break;
-            }
-        }
-
-        if (cameraAtMenu)
-        {
-            auto pEditCameraAction = new QAction(tr("Edit camera"), &menu);
-            connect(pEditCameraAction, &QAction::triggered, this, [&]()
+        auto pEditCameraAction = new QAction(tr("Edit camera"), &menu);
+        connect(pEditCameraAction, &QAction::triggered, this, [&]()
                 {
                     CameraManager cameraManager(this, mEditorTab, &scenePos);
                     mEditorTab->SetCameraManagerDialog(&cameraManager);
                     cameraManager.exec();
-                    mEditorTab->SetCameraManagerDialog(nullptr);
-                });
-            menu.addAction(pEditCameraAction);
-        }
-
-        if (scene()->selectedItems().count() > 0)
-        {
-            // TODO: Copy
-
-            // TODO: Cut
-
-            // TODO: Check if the selection has collision items
-            // If nothing is selected its impossible to connect collision items
-            auto pConnectCollisionsAction = new QAction("Connect collisions", &menu);
-            connect(pConnectCollisionsAction, &QAction::triggered, this, [&]()
-                {
-                    mEditorTab->ConnectCollisions();
-                }
-            );
-            menu.addAction(pConnectCollisionsAction);
-        }
-
-        // TODO: Show paste if the global clipboard object owned by MainWindow isn't empty
-
-        if (menu.actions().count() > 0)
-        {
-            menu.exec(pEvent->globalPos());
-        }
+                    mEditorTab->SetCameraManagerDialog(nullptr); });
+        menu.addAction(pEditCameraAction);
     }
 
-    void dragEnterEvent(QDragEnterEvent* pEvent) override
+    if (scene()->selectedItems().count() > 0)
     {
-        pEvent->acceptProposedAction();
+        // TODO: Copy
+
+        // TODO: Cut
+
+        // TODO: Check if the selection has collision items
+        // If nothing is selected its impossible to connect collision items
+        auto pConnectCollisionsAction = new QAction(tr("Connect collisions"), &menu);
+        connect(pConnectCollisionsAction, &QAction::triggered, this, [&]()
+                { mEditorTab->ConnectCollisions(); });
+        menu.addAction(pConnectCollisionsAction);
     }
 
-    void dragMoveEvent(QDragMoveEvent* pEvent) override
+    // TODO: Show paste if the global clipboard object owned by MainWindow isn't empty
+
+    if (menu.actions().count() > 0)
     {
-        pEvent->acceptProposedAction();
+        menu.exec(pEvent->globalPos());
     }
+}
 
-    void dropEvent(QDropEvent* pEvent) override
+void EditorGraphicsView::dragEnterEvent(QDragEnterEvent* pEvent)
+{
+    pEvent->acceptProposedAction();
+}
+
+void EditorGraphicsView::dragMoveEvent(QDragMoveEvent* pEvent)
+{
+    pEvent->acceptProposedAction();
+}
+
+void EditorGraphicsView::dropEvent(QDropEvent* pEvent)
+{
+    // Attempt to load the dropped image
+    QUrl imgUrl = pEvent->mimeData()->urls().first();
+    QPixmap img;
+
+    if (!imgUrl.isLocalFile())
     {
-        // Attempt to load the dropped image
-        QUrl imgUrl = pEvent->mimeData()->urls().first();
-        QPixmap img;
-
-        if (!imgUrl.isLocalFile())
-        {
-            QMessageBox::critical(this, "Error", "Reading from remote file systems is unsupported.");
-            return;
-        }
-
-        if (!img.load(imgUrl.toLocalFile()))
-        {
-            QMessageBox::critical(this, "Error", "The file dropped could not be understood as an image.");
-            return;
-        }
-
-        // Image is valid, continue
-        const QPoint scenePos = mapToScene(pEvent->pos()).toPoint();
-        CameraManager cameraManager(this, mEditorTab, &scenePos);
-        cameraManager.CreateCamera(true, img);
-        pEvent->acceptProposedAction();
+        QMessageBox::critical(this, "Error", "Reading from remote file systems is unsupported.");
+        return;
     }
 
-private:
-    EditorTab* mEditorTab = nullptr;
-};
+    if (!img.load(imgUrl.toLocalFile()))
+    {
+        QMessageBox::critical(this, "Error", "The file dropped could not be understood as an image.");
+        return;
+    }
 
+    // Image is valid, continue
+    const QPoint scenePos = mapToScene(pEvent->pos()).toPoint();
+    CameraManager cameraManager(this, mEditorTab, &scenePos);
+    cameraManager.CreateCamera(true, img);
+    pEvent->acceptProposedAction();
+}
 
 EditorTab::EditorTab(QTabWidget* aParent, std::unique_ptr<Model> model, QString jsonFileName, bool isTempFile, QStatusBar* pStatusBar, SnapSettings& snapSettings)
     : QMainWindow(aParent),
@@ -381,6 +375,7 @@ EditorTab::EditorTab(QTabWidget* aParent, std::unique_ptr<Model> model, QString 
     ui->graphicsView = new EditorGraphicsView(this);
     QGraphicsView* pView = ui->graphicsView;
     pView->setDragMode(QGraphicsView::RubberBandDrag);
+
 
     pView->setRenderHint(QPainter::SmoothPixmapTransform);
     pView->setRenderHint(QPainter::Antialiasing);

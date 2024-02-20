@@ -10,11 +10,11 @@ DeleteItemsCommand::DeleteItemsCommand(EditorTab* pTab, bool isCut, QList<QGraph
 {
     if (isCut)
     {
-        setText("Cut " + QString::number(mGraphicsItemsToDelete.count()) + " item(s)");
+        setText(tr("Cut %1 item(s)").arg(mGraphicsItemsToDelete.count()));
     }
     else
     {
-        setText("Delete " + QString::number(mGraphicsItemsToDelete.count()) + " item(s)");
+        setText(tr("Delete %1 item(s)").arg(mGraphicsItemsToDelete.count()));
     }
 }
 

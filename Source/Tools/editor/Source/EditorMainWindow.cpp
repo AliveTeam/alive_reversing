@@ -21,7 +21,7 @@
 
 static void FatalError(const char* msg)
 {
-    QMessageBox::critical(nullptr, "Unrecoverable error", msg);
+    QMessageBox::critical(nullptr, QMessageBox::tr("Unrecoverable error"), msg);
     exit(EXIT_FAILURE);
 }
 
@@ -209,7 +209,7 @@ bool EditorMainWindow::onOpenPath(QString fullFileName, bool createNewPath)
 
                 // And ask the user for the new path id
                 bool ok = false;
-                newPathId = QInputDialog::getInt(this, "Enter new path Id", "Path Id", 0, 0, 99, 1, &ok);
+                newPathId = QInputDialog::getInt(this, tr("Enter new path Id"), tr("Path Id"), 0, 0, 99, 1, &ok);
                 if (!ok)
                 {
                     // User bailed on picking a path id
@@ -343,7 +343,7 @@ bool EditorMainWindow::onOpenPath(QString fullFileName, bool createNewPath)
     }
     catch (const Model::ModelException&)
     {
-        QMessageBox::critical(this, "Error", "Failed to load json");
+        QMessageBox::critical(this, "Error", tr("Failed to load json"));
         return false;
     }
 }
@@ -355,7 +355,7 @@ void EditorMainWindow::onCloseTab(int index)
     bool close = true;
     if (!tab->IsClean())
     {
-        close = QMessageBox::question(this, "Confirm", "Close without saving changes?") == QMessageBox::Yes;
+        close = QMessageBox::question(this, "Confirm", tr("Close without saving changes?")) == QMessageBox::Yes;
     }
 
     if (close)
@@ -561,7 +561,7 @@ void EditorMainWindow::on_tabWidget_currentChanged(int /*index*/)
 void EditorMainWindow::UpdateWindowTitle()
 {
     EditorTab* pTab = getActiveTab(m_ui->tabWidget);
-    QString title = "Oddysee/Exoddus editor by Relive Team [https://aliveteam.github.io]";
+    QString title = tr("Oddysee/Exoddus editor by Relive Team [https://aliveteam.github.io]");
     if (pTab)
     {
         title += " (" + pTab->GetJsonFileName();
@@ -598,9 +598,9 @@ void EditorMainWindow::closeEvent(QCloseEvent* pEvent)
         }
 
         QMessageBox msgBox;
-        QString strToShow = QString("Some paths have unsaved changes.");
+        QString strToShow = tr("Some paths have unsaved changes.");
         msgBox.setText(strToShow);
-        msgBox.setInformativeText("Do you want to save your changes?");
+        msgBox.setInformativeText(tr("Do you want to save your changes?"));
         msgBox.setStandardButtons(QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel);
         msgBox.setDefaultButton(QMessageBox::Save);
 
@@ -808,7 +808,7 @@ void EditorMainWindow::on_actionPaste_triggered()
         {
             if (mClipBoard.SourceGame() != pTab->GetModel().Game())
             {
-                QMessageBox::critical(this, "Error", "You can't cut/copy paste data between AO and AE");
+                QMessageBox::critical(this, "Error", tr("You can't cut/copy paste data between AO and AE"));
             }
             else
             {

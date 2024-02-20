@@ -1,6 +1,7 @@
 #pragma once
 
 #include <QTreeWidget>
+#include <QCoreApplication>
 
 class PropertyTreeItemBase;
 class IGraphicsItem;
@@ -22,6 +23,8 @@ public:
 
 class PropertyTreeWidget : public ISyncPropertiesToTree, public QTreeWidget
 {
+    Q_DECLARE_TR_FUNCTIONS(PropertyTreeWidget)
+
 public:
     using QTreeWidget::QTreeWidget;
 
