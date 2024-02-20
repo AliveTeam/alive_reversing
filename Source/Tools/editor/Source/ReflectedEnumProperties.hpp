@@ -1,9 +1,11 @@
 #pragma once
 
+#include <QString>
+#include <QObject>
 #include <array>
 #include "../../../relive_lib/data_conversion/relive_tlvs.hpp"
 
-template<typename EnumType> struct EnumReflector final { };
+template<typename EnumType> struct EnumReflector final  { };
 
 #define REFLECT_ENUM(ENUM_TYPE, ...)                                                      \
     template <>                                                                           \
@@ -13,7 +15,7 @@ template<typename EnumType> struct EnumReflector final { };
         struct EnumPair final                                                             \
         {                                                                                 \
             ENUM_TYPE mValue;                                                             \
-            const char* mName;                                                            \
+            const QString mName;                                                            \
         };                                                                                \
                                                                                           \
         static s32 to_index(ENUM_TYPE e)                                                  \
@@ -30,7 +32,7 @@ template<typename EnumType> struct EnumReflector final { };
             return -1;                                                                    \
         }                                                                                 \
                                                                                           \
-        static const char* to_str(s32 idx)                                                \
+        static const QString to_str(s32 idx)                                                \
         {                                                                                 \
             return mArray[idx].mName;                                                     \
         }                                                                                 \
@@ -39,12 +41,12 @@ template<typename EnumType> struct EnumReflector final { };
         {                                                                                 \
             return mArray[idx].mValue;                                                    \
         }                                                                                 \
-        static constexpr EnumPair tmp[] = __VA_ARGS__;                                    \
-        static constexpr std::array<EnumPair, ALIVE_COUNTOF(tmp)> mArray = {__VA_ARGS__}; \
+        static const inline EnumPair tmp[] = __VA_ARGS__;                                    \
+        static const inline std::array<EnumPair, ALIVE_COUNTOF(tmp)> mArray = {__VA_ARGS__}; \
     };
 
 REFLECT_ENUM(ReliveTypes, {
-    {ReliveTypes::eNone, "None"},
+    {ReliveTypes::eNone, QObject::tr("None")},
     {ReliveTypes::eCrawlingSligButton, "Crawling Slig Button"},
     {ReliveTypes::eWheelSyncer, "Wheel Syncer"},
     {ReliveTypes::eDemoSpawnPoint, "Demo Spawn Point"},

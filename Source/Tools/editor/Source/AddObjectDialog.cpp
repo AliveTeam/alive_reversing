@@ -174,7 +174,7 @@ void AddObjectDialog::PopulateListFiltered(QString filter)
             continue;
         }
         
-        QString name = QString::fromUtf8(enumIterator->mName);
+        QString name = enumIterator->mName;
         if (filter.isEmpty() || name.toLower().contains(filter.toLower()))
         {
             ui->lstObjects->addItem(new ObjectListItem(name, factoryEntry->second.mNewFunc));

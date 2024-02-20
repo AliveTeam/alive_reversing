@@ -9,14 +9,14 @@ class QUndoStack;
 
 struct EnumPropertyChangeData
 {
-    EnumPropertyChangeData(const char* oldEnumName, const char* newEnumName, int oldIdx, int newIdx)
+    EnumPropertyChangeData(QString oldEnumName, QString newEnumName, int oldIdx, int newIdx)
         : mOldEnumName(oldEnumName), mNewEnumName(newEnumName), mOldIdx(oldIdx), mNewIdx(newIdx)
     {
 
     }
 
-    const char* mOldEnumName = nullptr;
-    const char* mNewEnumName = nullptr;
+    QString mOldEnumName;
+    QString mNewEnumName;
     int mOldIdx = 0;
     int mNewIdx = 0;
 };
@@ -67,7 +67,7 @@ public:
         return mEnumVale;
     }
 
-    virtual const char* VGetEnumName(s32 idx) const = 0;
+    virtual QString VGetEnumName(s32 idx) const = 0;
     virtual void VPopulateEnumCombo(QComboBox* pCombo) = 0;
     virtual void VSetEnumFromIdx(s32 idx) = 0;
 protected:
@@ -91,7 +91,7 @@ public:
 
     }
 
-    const char* VGetEnumName(s32 idx) const override
+    QString VGetEnumName(s32 idx) const override
     {
         return EnumReflector<EnumType>::to_str(idx);
     }
