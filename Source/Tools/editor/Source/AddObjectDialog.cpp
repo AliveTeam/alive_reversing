@@ -173,7 +173,7 @@ void AddObjectDialog::PopulateListFiltered(QString filter)
         {
             continue;
         }
-        
+
         QString name = tlvEnumValues[i].mName;
         if (filter.isEmpty() || name.toLower().contains(filter.toLower()))
         {
