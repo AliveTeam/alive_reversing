@@ -288,7 +288,7 @@ public:
 
         if (cameraAtMenu)
         {
-            auto pEditCameraAction = new QAction("Edit camera", &menu);
+            auto pEditCameraAction = new QAction(tr("Edit camera"), &menu);
             connect(pEditCameraAction, &QAction::triggered, this, [&]()
                 {
                     CameraManager cameraManager(this, mEditorTab, &scenePos);

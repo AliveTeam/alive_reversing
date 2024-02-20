@@ -21,7 +21,8 @@ AboutDialog::AboutDialog(QWidget *parent) :
     this->setMaximumSize( this->size() );
     this->setMinimumSize( this->size() );
 
-    setWindowTitle(windowTitle() + QString::fromStdString(" (Using Relive API v" + std::to_string(ReliveAPI::GetApiVersion()) + ")"));
+    QString usingReliveApiV = tr("Using Relive API v");
+    setWindowTitle(windowTitle() + " (" + usingReliveApiV + QString::number(ReliveAPI::GetApiVersion()) + ")");
 
     QTimer* timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(DoText()));
