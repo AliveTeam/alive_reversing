@@ -244,6 +244,7 @@ static FileSystem::Path PerLvlBasePath(EReliveLevelIds lvlId)
 static FileSystem::Path CamBaseName(EReliveLevelIds lvlId, u32 pathNumber, u32 camNumber)
 {
     FileSystem::Path filePath = PerLvlBasePath(lvlId);
+    filePath.Append("paths").Append(std::to_string(pathNumber));
 
     char buffer[128] = {};
     sprintf(buffer, "P%02dC%02d", pathNumber, camNumber);
@@ -374,8 +375,11 @@ std::vector<std::unique_ptr<BinaryPath>> ResourceManagerWrapper::LoadPaths(EReli
     const auto& paths = j["paths"];
     for (const auto& path : paths)
     {
+        const std::string pathId = path["path_id"];
+        const std::string jsonFile = path["file"];
+
         FileSystem::Path pathJsonFile = pathDir;
-        pathJsonFile.Append(path);
+        pathJsonFile.Append(pathId).Append(jsonFile);
         const std::string pathJsonStr = fs.LoadToString(pathJsonFile);
 
         // TODO: set the res ptrs to the parsed json data

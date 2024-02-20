@@ -279,7 +279,7 @@ static void ConvertPath(FileSystem& fs, const FileSystem::Path& path, const Reli
     };
 
     FileSystem::Path pathJsonFile = path;
-    pathJsonFile.Append(ToString(lvlIdx)).Append("paths");
+    pathJsonFile.Append(ToString(lvlIdx)).Append("paths").Append(std::to_string(pathBndChunk.Id()));
     fs.CreateDirectory(pathJsonFile);
     pathJsonFile.Append(std::to_string(pathBndChunk.Header().field_C_id) + ".json");
     SaveJson(j, fs, pathJsonFile);
@@ -481,8 +481,14 @@ static void SaveLevelInfoJson(const FileSystem::Path& dataDir, EReliveLevelIds /
         const ReliveAPI::LvlFileChunk& pathBndChunk = pathBndFile.ChunkAt(j);
         if (pathBndChunk.Header().mResourceType == ResourceManagerWrapper::Resource_Path)
         {
+            nlohmann::json pathInfoObj = nlohmann::json::object();
+
+            std::string pathId = std::to_string(pathBndChunk.Header().field_C_id);
+            pathInfoObj["file"] = pathId + ".json";
+            pathInfoObj["path_id"] = pathId;
+
             // Write out what paths exist so the game knows what files to load
-            jsonPathFilesArray.push_back(std::to_string(pathBndChunk.Header().field_C_id) + ".json");
+            jsonPathFilesArray.push_back(pathInfoObj);
         }
     }
 
@@ -718,12 +724,16 @@ static void ConvertCamera(ThreadPool& tp, const FileSystem::Path& dataDir, const
     FileSystem::Path dirToSaveConvertedCamIn = dataDir;
 
     dirToSaveConvertedCamIn.Append(ToString(lvlIdxAsLvl));
-    fs.CreateDirectory(dirToSaveConvertedCamIn);
+
+    // extract the path id from the cam name
+    std::string pathId = std::to_string(std::stoi(camNameWithoutExtension.substr(0, camNameWithoutExtension.length() - 3).substr(1)));
 
     FileSystem::Path jsonFileName = dirToSaveConvertedCamIn;
-    jsonFileName.Append(camNameWithoutExtension + ".json");
-
-    dirToSaveConvertedCamIn.Append(camNameWithoutExtension); 
+    jsonFileName.Append("paths").Append(pathId).Append(camNameWithoutExtension + ".json");
+    
+    dirToSaveConvertedCamIn.Append("paths").Append(pathId); 
+    fs.CreateDirectory(dirToSaveConvertedCamIn);
+    dirToSaveConvertedCamIn.Append(camNameWithoutExtension);
 
     tp.AddJob(std::make_unique<ConvertCameraJob>(dirToSaveConvertedCamIn, jsonFileName, camNameWithoutExtension, camFileData, isAo));
 }
@@ -833,74 +843,63 @@ static void ConvertFilesInLvl(ThreadPool& tp, const FileSystem::Path& dataDir, F
     for (s32 i = 0; i < lvlReader.FileCount(); i++)
     {
         auto fileName = lvlReader.FileNameAt(i);
-        if (!fileName.empty())
+        if (fileName.empty())
         {
-            if (onlySaves)
+            continue;
+        }
+
+        const bool bConvertLcdFont = endsWith(fileName, ".FNT") && dv.ConvertFonts() && fileName == "LCDFONT.FNT";
+        const bool bConvertMenuFonts = dv.ConvertFonts() && (fileName == "S1P01C01.CAM" || fileName == "STP01C06.CAM");
+        const bool bConvertDemos = endsWith(fileName, ".JOY") && dv.ConvertDemos();
+        const bool bConvertPaths = endsWith(fileName, "PATH.BND") && dv.ConvertPaths();
+        const bool bConvertCams = dv.ConvertCameras();
+
+        if (onlySaves)
+        {
+            // caller checks if save conv is enabled
+            if (!endsWith(fileName, ".SAV") || IsUnusedSaveFile(fileName) || isAo)
             {
-                // caller checks if save conv is enabled
-                if (endsWith(fileName, ".SAV"))
+                continue;
+            }
+
+            if (!ReadLvlFileInto(lvlReader, fileName.c_str(), fileBuffer))
+            {
+                continue;
+            }
+
+            // Remove the resource header
+            fileBuffer.erase(fileBuffer.begin(), fileBuffer.begin() + 16);
+
+            // TODO: Actually convert at some later point
+            AESaveConverter saveConverter;
+            saveConverter.Convert(fileBuffer, (fileName + ".json").c_str(), pathsCache);
+        }
+        else
+        {
+            if (bConvertLcdFont)
+            {
+                ConvertFont(dataDir, fileName, lvlReader, fileBuffer, false);
+            }
+            else if (endsWith(fileName, ".CAM"))
+            {
+                if (bConvertMenuFonts)
                 {
-                    if (IsUnusedSaveFile(fileName))
-                    {
-                        continue;
-                    }
+                    ConvertFont(dataDir, fileName, lvlReader, fileBuffer, true);
+                }
 
-                    if (ReadLvlFileInto(lvlReader, fileName.c_str(), fileBuffer))
-                    {
-                        if (!isAo)
-                        {
-                            // Remove the resource header
-                            fileBuffer.erase(fileBuffer.begin(), fileBuffer.begin() + 16);
-
-                            // TODO: Actually convert at some later point
-                            AESaveConverter saveConverter;
-                            saveConverter.Convert(fileBuffer, (fileName + ".json").c_str(), pathsCache);
-                        }
-                    }
+                if (bConvertCams)
+                {
+                    ConvertCamera(tp, dataDir, fileName, fs, fileBuffer, lvlReader, lvlIdxAsLvl, isAo);
                 }
             }
-            else
+            else if (bConvertDemos)
             {
-                if (endsWith(fileName, ".FNT"))
-                {
-                    if (dv.ConvertFonts())
-                    {
-                        if (fileName == "LCDFONT.FNT")
-                        {
-                            ConvertFont(dataDir, fileName, lvlReader, fileBuffer, false);
-                        }
-                    }
-                }
-                else if (endsWith(fileName, ".CAM"))
-                {
-                    if (dv.ConvertFonts())
-                    {
-                        if (fileName == "S1P01C01.CAM" || fileName == "STP01C06.CAM")
-                        {
-                            ConvertFont(dataDir, fileName, lvlReader, fileBuffer, true);
-                        }
-                    }
-
-                    if (dv.ConvertCameras())
-                    {
-                        ConvertCamera(tp, dataDir, fileName, fs, fileBuffer, lvlReader, lvlIdxAsLvl, isAo);
-                    }
-                }
-                else if (endsWith(fileName, ".JOY"))
-                {
-                    if (dv.ConvertDemos())
-                    {
-                        // TODO: Actually convert at some later point
-                        SaveFileFromLvlDirect(fileName.c_str(), dataDir, lvlReader, lvlIdxAsLvl, fileBuffer);
-                    }
-                }
-                else if (endsWith(fileName, "PATH.BND"))
-                {
-                    if (dv.ConvertPaths())
-                    {
-                        ConvertPathBND<LevelIdType, TlvType>(dataDir, fileName, fs, fileBuffer, lvlReader, lvlIdxAsLvl, reliveLvl, isAo);
-                    }
-                }
+                // TODO: Actually convert at some later point
+                SaveFileFromLvlDirect(fileName.c_str(), dataDir, lvlReader, lvlIdxAsLvl, fileBuffer);
+            }
+            else if (bConvertPaths)
+            {
+                ConvertPathBND<LevelIdType, TlvType>(dataDir, fileName, fs, fileBuffer, lvlReader, lvlIdxAsLvl, reliveLvl, isAo);
             }
         }
     }
