@@ -22,14 +22,16 @@ int main(int argc, char *argv[])
     }
 
     QTranslator translator;
-
-    if (!translator.load("qt-editor_German"))
+    
+    QString locale = QLocale::system().name();
+    if (!translator.load("qt-editor_" + locale))
     {
         qDebug() << "Translator load failed";
     }
 
     QTranslator qtBaseTranslator;
-    if (!qtBaseTranslator.load("qtbase_" + QLocale::system().name(),
+    std::string name = QLocale::system().name().toStdString();
+    if (!qtBaseTranslator.load("qtbase_" + locale,
                               QLibraryInfo::location(QLibraryInfo::TranslationsPath)))
     {
         qDebug() << "qt base translator load failed";

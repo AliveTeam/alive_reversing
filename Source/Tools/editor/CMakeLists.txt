@@ -25,7 +25,9 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(QT NAMES Qt6 Qt5 COMPONENTS Widgets Multimedia LinguistTools REQUIRED)
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets Multimedia LinguistTools REQUIRED)
 
-set(TS_FILES qt-editor_en_GB.ts qt-editor_German.ts)
+set(TS_FILES
+  Source/rsc/translations/qt-editor_en_GB.ts
+  Source/rsc/translations/qt-editor_de_DE.ts)
 
 include_directories(../../../3rdParty/libmodplug/src)
 include_directories(../../../3rdParty/EasyLogging++/EasyLogging/src)
@@ -138,10 +140,10 @@ set(PROJECT_SOURCES
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
-    qt_create_translation(QM_FILES "${CMAKE_CURRENT_SOURCE_DIR}/Source" ${TS_FILES})
+    qt_create_translation(QM_FILES "${CMAKE_CURRENT_SOURCE_DIR}/Source" ${TS_FILES} OPTIONS -no-obsolete)
     qt_add_executable(qt-editor ${PROJECT_SOURCES} ${QM_FILES})
 else()
-    qt5_create_translation(QM_FILES "${CMAKE_CURRENT_SOURCE_DIR}/Source" ${TS_FILES})
+    qt5_create_translation(QM_FILES "${CMAKE_CURRENT_SOURCE_DIR}/Source" ${TS_FILES} OPTIONS -no-obsolete)
     if(ANDROID)
         add_library(qt-editor SHARED ${PROJECT_SOURCES} ${QM_FILES})
     elseif(WIN32)
