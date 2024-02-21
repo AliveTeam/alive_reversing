@@ -334,6 +334,9 @@ void ResizeableArrowItem::Visit(IReflector& f)
 void ResizeableArrowItem::SyncToCollisionItem()
 {
     setLine(mLine->X2(), mLine->Y2(), mLine->X1(), mLine->Y1());
+
+    // Full repaint because the line type may have changed which changes the line colour
+    update();
 }
 
 void ResizeableArrowItem::PosOrLineChanged()
