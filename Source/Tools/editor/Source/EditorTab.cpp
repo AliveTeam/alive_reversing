@@ -880,6 +880,11 @@ private:
         mNewObject->SetY1(scenePos.y() + 100);
         mNewObject->SetY2(scenePos.y() + 100);
 
+        mNewObject->SetPrevious(-1);
+        mNewObject->SetNext(-1);
+
+        mNewObject->CalculateLength();
+
         mArrowItem = mTab->MakeResizeableArrowItem(mNewObject.get());
     }
 

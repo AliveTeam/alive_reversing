@@ -319,14 +319,16 @@ void ResizeableArrowItem::RestoreLine(const QLineF& line)
 
 void ResizeableArrowItem::Visit(IReflector& f)
 {
-    f.Visit("x", mLine->mLine.mRect.x);
-    f.Visit("y", mLine->mLine.mRect.y);
-    f.Visit("w", mLine->mLine.mRect.w);
-    f.Visit("h", mLine->mLine.mRect.h);
+    f.Visit("Id", mLine->mId);
+    f.Visit("x1", mLine->mLine.mRect.x);
+    f.Visit("y1", mLine->mLine.mRect.y);
+    f.Visit("x2", mLine->mLine.mRect.w);
+    f.Visit("y2", mLine->mLine.mRect.h);
 
-    //f.Visit("line type", mLine->mLine.mLineType);
-
-    qDebug() << "TODO ResizeableArrowItem::Visit";
+    f.Visit("Type", mLine->mLine.mLineType);
+    f.Visit("Next", mLine->mLine.mNext);
+    f.Visit("Previous", mLine->mLine.mPrevious);
+    f.Visit("Length", mLine->mLine.mLineLength);
 }
 
 void ResizeableArrowItem::SyncToCollisionItem()
@@ -343,6 +345,8 @@ void ResizeableArrowItem::PosOrLineChanged()
     mLine->SetY1(static_cast<int>(curLine.y2()));
     mLine->SetX2(static_cast<int>(curLine.x1()));
     mLine->SetY2(static_cast<int>(curLine.y1()));
+
+    mLine->CalculateLength();
 
     // Update the property tree view
     mPropSyncer.Sync(this);

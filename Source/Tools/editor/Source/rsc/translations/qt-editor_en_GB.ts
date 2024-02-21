@@ -896,7 +896,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../EditorTab.cpp" line="918"/>
+        <location filename="../../EditorTab.cpp" line="923"/>
         <source>Connected collisions</source>
         <translation type="unfinished"></translation>
     </message>

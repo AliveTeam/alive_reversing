@@ -1,6 +1,7 @@
 #include "CollisionConnect.hpp"
 
 #include <utility>
+#include "Model.hpp"
 
 CollisionConnectCommand::CollisionConnectCommand(std::vector<CollisionConnectData> collisionConnectData):
         mCollisionConnectData(std::move(collisionConnectData))
@@ -10,27 +11,24 @@ CollisionConnectCommand::CollisionConnectCommand(std::vector<CollisionConnectDat
 
 void CollisionConnectCommand::undo()
 {
-    /*
     for (auto& joinDatum : mCollisionConnectData)
     {
-        joinDatum.mObjectProperty->mBasicTypeValue = joinDatum.mOldValue;
-    }*/
+        *joinDatum.mCurrentValue = joinDatum.mOldValue;
+    }
 }
 
 void CollisionConnectCommand::redo()
 {
-    /*
     for (auto& joinDatum : mCollisionConnectData)
     {
-        joinDatum.mObjectProperty->mBasicTypeValue = joinDatum.mNewValue;
-    }*/
+        *joinDatum.mCurrentValue = joinDatum.mNewValue;
+    }
 }
 
 std::vector<CollisionConnectData> CollisionConnectCommand::getConnectCollisionsChanges(const std::vector<ResizeableArrowItem*> &collisions)
 {
     std::vector<CollisionConnectData> collisionConnectData;
 
-    /*
     for (int i = 0; i < collisions.size(); i++)
     {
         auto& collision = collisions[i];
@@ -59,26 +57,26 @@ std::vector<CollisionConnectData> CollisionConnectCommand::getConnectCollisionsC
             if (endX == otherStartX && endY == otherStartY)
             {
                 collisionConnectData.emplace_back(
-                        CollisionConnectData(PropertyByName("Next", collisionItem->mProperties), collisionItem->Next(), otherId)
+                    CollisionConnectData(&collisionItem->mLine.mNext, collisionItem->Next(), otherId)
                 );
 
                 collisionConnectData.emplace_back(
-                        CollisionConnectData(PropertyByName("Previous", otherCollisionItem->mProperties), otherCollisionItem->Previous(), id)
+                        CollisionConnectData(&otherCollisionItem->mLine.mPrevious, otherCollisionItem->Previous(), id)
                 );
             }
 
             if (startX == otherEndX && startY == otherEndY)
-            {
+            {   
                 collisionConnectData.emplace_back(
-                        CollisionConnectData(PropertyByName("Next", otherCollisionItem->mProperties), otherCollisionItem->Next(), id)
+                    CollisionConnectData(&otherCollisionItem->mLine.mNext, otherCollisionItem->Next(), id)
                 );
                 collisionConnectData.emplace_back(
-                        CollisionConnectData(PropertyByName("Previous", collisionItem->mProperties), collisionItem->Previous(), otherId)
+                    CollisionConnectData(&collisionItem->mLine.mPrevious, collisionItem->Previous(), otherId)
                 );
             }
 
         }
     }
-    */
+
     return collisionConnectData;
 }

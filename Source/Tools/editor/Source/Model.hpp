@@ -87,6 +87,11 @@ public:
         mLine.mRect.h = y2;
     }
 
+    void SetNext(int next)
+    {
+        mLine.mNext = next;
+    }
+
     int Next() const
     {
         return mLine.mNext;
@@ -95,6 +100,16 @@ public:
     int Previous() const
     {
         return mLine.mPrevious;
+    }
+
+    void SetPrevious(int previous)
+    {
+        mLine.mPrevious = previous;
+    }
+
+    void CalculateLength()
+    {
+        mLine.mLineLength = abs(X2() - X1() + Y2() - Y1());
     }
 
     // The previous/next in the collision data is the index of the next/previous line. Removing or adding line

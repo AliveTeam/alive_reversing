@@ -893,7 +893,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
         <translation>Speichern fehlgeschlagen</translation>
     </message>
     <message>
-        <location filename="../../EditorTab.cpp" line="918"/>
+        <location filename="../../EditorTab.cpp" line="923"/>
         <source>Connected collisions</source>
         <translation>Verbundene Kollisionen</translation>
     </message>

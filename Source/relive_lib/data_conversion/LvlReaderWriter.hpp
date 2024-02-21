@@ -287,12 +287,16 @@ class IFileIO;
 class LvlReader final
 {
 public:
-    explicit LvlReader(IFileIO& fileIO, const char_type* lvlFile)
+    explicit LvlReader(IFileIO& fileIO, const char_type* lvlFile, bool bThrowOnFail = true)
     {
         mFileHandle = fileIO.Open(lvlFile, IFileIO::Mode::ReadBinary);
         if (!mFileHandle)
         {
-            throw ReliveAPI::IOReadException(lvlFile);
+            if (bThrowOnFail)
+            {
+                throw ReliveAPI::IOReadException(lvlFile);
+            }
+            return;
         }
 
         if (!ReadTOC())

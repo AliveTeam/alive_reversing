@@ -174,39 +174,64 @@ static void SaveFileFromLvlDirect(const char_type* pFileName, const FileSystem::
     fs.Save(filePath, fileBuffer);
 }
 
+static void SetCollisionInfoFromPathExt(CollisionInfo& pColInfo, PerPathExtension* pathExt)
+{
+    pColInfo.mLeft = 0;
+    pColInfo.mRight = 0;
+    pColInfo.mTop = static_cast<s16>(pathExt->mXSize * pathExt->mGridWidth);
+    pColInfo.mBottom = static_cast<s16>(pathExt->mYSize * pathExt->mGridHeight);
+    pColInfo.mCollisionOffset = pathExt->mCollisionOffset;
+    pColInfo.mNumCollisionItems = pathExt->mNumCollisionLines;
+    pColInfo.mGridWidth = pathExt->mGridWidth;
+    pColInfo.mGridHeight = pathExt->mGridHeight;
+}
+
 template <typename TlvType, typename LevelIdType>
-static void ConvertPath(FileSystem& fs, const FileSystem::Path& path, const ReliveAPI::LvlFileChunk& pathBndChunk, EReliveLevelIds reliveLvl, LevelIdType lvlIdx, ReliveAPI::LvlReader& lvlReader, std::vector<u8>& fileBuffer, bool isAo)
+static void ConvertPath(FileSystem& fs, const FileSystem::Path& path, const ReliveAPI::LvlFileChunk& pathBndChunk, EReliveLevelIds reliveLvl, LevelIdType lvlIdx, ReliveAPI::LvlReader& lvlReader, std::vector<u8>& fileBuffer, bool isAo, PerPathExtension* pPathExt)
 {
     auto level = (isAo ? ToString(MapWrapper::ToAO(reliveLvl)) : ToString(MapWrapper::ToAE(reliveLvl)));
     LOG_INFO("Converting: %s; path %d", level, pathBndChunk.Id());
 
     s32 width = 0;
     s32 height = 0;
-    CollisionInfo* pCollisionInfo = nullptr;
+    CollisionInfo collisionInfo = {};
     s32 indexTableOffset = 0;
     s32 objectOffset = 0;
 
-    if (isAo)
+    if (pPathExt)
     {
-        const AO::PathBlyRec* pBlyRec = AO::Path_Get_Bly_Record(reliveLvl, static_cast<u16>(pathBndChunk.Id()));
+        width = pPathExt->mXSize;
+        height = pPathExt->mYSize;
 
-        // Save cameras and map objects
-        width = (pBlyRec->field_4_pPathData->field_8_bTop - pBlyRec->field_4_pPathData->field_4_bLeft) / pBlyRec->field_4_pPathData->field_C_grid_width;
-        height = (pBlyRec->field_4_pPathData->field_A_bBottom - pBlyRec->field_4_pPathData->field_6_bRight) / pBlyRec->field_4_pPathData->field_E_grid_height;
-        pCollisionInfo = pBlyRec->field_8_pCollisionData;
-        indexTableOffset = pBlyRec->field_4_pPathData->field_18_object_index_table_offset;
-        objectOffset = pBlyRec->field_4_pPathData->field_14_object_offset;
+        objectOffset = pPathExt->mObjectOffset;
+        indexTableOffset = pPathExt->mIndexTableOffset;
+
+        SetCollisionInfoFromPathExt(collisionInfo, pPathExt);
     }
     else
     {
-        const ::PathBlyRec* pBlyRec = ::Path_Get_Bly_Record(reliveLvl, static_cast<u16>(pathBndChunk.Id()));
+        if (isAo)
+        {
+            const AO::PathBlyRec* pBlyRec = AO::Path_Get_Bly_Record(reliveLvl, static_cast<u16>(pathBndChunk.Id()));
 
-        // Save cameras and map objects
-        width = (pBlyRec->field_4_pPathData->field_4_bTop - pBlyRec->field_4_pPathData->field_0_bLeft) / pBlyRec->field_4_pPathData->field_A_grid_width;
-        height = (pBlyRec->field_4_pPathData->field_6_bBottom - pBlyRec->field_4_pPathData->field_2_bRight) / pBlyRec->field_4_pPathData->field_C_grid_height;
-        pCollisionInfo = pBlyRec->field_8_pCollisionData;
-        indexTableOffset = pBlyRec->field_4_pPathData->field_16_object_indextable_offset;
-        objectOffset = pBlyRec->field_4_pPathData->field_12_object_offset;
+            // Save cameras and map objects
+            width = (pBlyRec->field_4_pPathData->field_8_bTop - pBlyRec->field_4_pPathData->field_4_bLeft) / pBlyRec->field_4_pPathData->field_C_grid_width;
+            height = (pBlyRec->field_4_pPathData->field_A_bBottom - pBlyRec->field_4_pPathData->field_6_bRight) / pBlyRec->field_4_pPathData->field_E_grid_height;
+            collisionInfo = *pBlyRec->field_8_pCollisionData;
+            indexTableOffset = pBlyRec->field_4_pPathData->field_18_object_index_table_offset;
+            objectOffset = pBlyRec->field_4_pPathData->field_14_object_offset;
+        }
+        else
+        {
+            const ::PathBlyRec* pBlyRec = ::Path_Get_Bly_Record(reliveLvl, static_cast<u16>(pathBndChunk.Id()));
+
+            // Save cameras and map objects
+            width = (pBlyRec->field_4_pPathData->field_4_bTop - pBlyRec->field_4_pPathData->field_0_bLeft) / pBlyRec->field_4_pPathData->field_A_grid_width;
+            height = (pBlyRec->field_4_pPathData->field_6_bBottom - pBlyRec->field_4_pPathData->field_2_bRight) / pBlyRec->field_4_pPathData->field_C_grid_height;
+            collisionInfo = *pBlyRec->field_8_pCollisionData;
+            indexTableOffset = pBlyRec->field_4_pPathData->field_16_object_indextable_offset;
+            objectOffset = pBlyRec->field_4_pPathData->field_12_object_offset;
+        }
     }
 
     nlohmann::json camerasArray = nlohmann::json::array();
@@ -231,7 +256,7 @@ static void ConvertPath(FileSystem& fs, const FileSystem::Path& path, const Reli
 
     // Save collisions
     nlohmann::json collisionsArray = nlohmann::json::array();
-    ConvertPathCollisions(collisionsArray, *pCollisionInfo, pathBndChunk.Data(), isAo);
+    ConvertPathCollisions(collisionsArray, collisionInfo, pathBndChunk.Data(), isAo);
 
     FileSystem::Path seqsDir = path;
     seqsDir.Append(ToString(lvlIdx));
@@ -287,7 +312,7 @@ static void ConvertPath(FileSystem& fs, const FileSystem::Path& path, const Reli
 
 
 template <typename LevelIdType>
-static void SaveLevelInfoJson(const FileSystem::Path& dataDir, EReliveLevelIds /*reliveLvl*/, LevelIdType lvlIdxAsLvl, FileSystem& fs, const ReliveAPI::ChunkedLvlFile& pathBndFile, bool isAo)
+static void SaveLevelInfoJson(const FileSystem::Path& dataDir, EReliveLevelIds /*reliveLvl*/, LevelIdType lvlIdxAsLvl, FileSystem& fs, const ReliveAPI::ChunkedLvlFile& pathBndFile, bool /* isAo*/)
 {
     FileSystem::Path pathDir = dataDir;
     pathDir.Append(ToString(lvlIdxAsLvl)).Append("paths");
@@ -297,183 +322,6 @@ static void SaveLevelInfoJson(const FileSystem::Path& dataDir, EReliveLevelIds /
     pathJsonFile.Append("level_info.json");
 
     nlohmann::json jsonPathFilesArray;
-
-    // TODO: Handle conversion of path extension blocks from custom lvls
-    std::optional<ReliveAPI::LvlFileChunk> extensionBlock = pathBndFile.ChunkByType(ResourceManagerWrapper::ResourceType::Resource_Pxtd);
-    if (extensionBlock)
-    {
-        auto dataCopy = extensionBlock->Data();
-        auto pExt = reinterpret_cast<PerPathExtension*>(dataCopy.data());
-        if (pExt->mSize != sizeof(PerPathExtension))
-        {
-            LOG_INFO("%s expected size %d but got %d", pExt->mBlyName, sizeof(PerPathExtension), pExt->mSize);
-        }
-        else
-        {
-            LOG_INFO("Applying %s", pExt->mBlyName);
-
-            const u32 lvlIdx = static_cast<u32>(lvlIdxAsLvl);
-            // AO data
-            if (isAo)
-            {
-                auto pChunkData = reinterpret_cast<u8*>(pExt);
-                pChunkData += sizeof(PerPathExtension);
-
-                // Apply LCD Screen messages
-                auto pLCDScreenMsgs = reinterpret_cast<StringTable*>(pChunkData);
-                pChunkData = StringTable::MakeTable(pLCDScreenMsgs);
-                //AO::SetLcdMessagesForLvl(*pLCDScreenMsgs, static_cast<LevelIds>(lvlIdx), pExt->mPathId);
-
-                // Apply hint fly messages
-                auto pHintFlyMsgs = reinterpret_cast<StringTable*>(pChunkData);
-                pChunkData = StringTable::MakeTable(pHintFlyMsgs);
-                //AO::SetHintFlyMessagesForLvl(*pHintFlyMsgs, static_cast<LevelIds>(lvlIdx), pExt->mPathId);
-
-                // Apply the data
-                AO::PathRoot& rPath = *AO::Path_Get_PathRoot(lvlIdx);
-                rPath.field_0_pBlyArrayPtr[pExt->mPathId].field_0_blyName = pExt->mBlyName;
-
-                AO::PathBlyRec& rBlyRec = rPath.field_0_pBlyArrayPtr[pExt->mPathId];
-                if (!rBlyRec.field_4_pPathData)
-                {
-                    rBlyRec.field_4_pPathData = &AO::GetPathData(lvlIdx)[pExt->mPathId];
-                    // HACK: Set throwable type in this path to grenades
-                    rBlyRec.mOverlayId = 3;
-                    rPath.field_18_num_paths++;
-                }
-                AO::PathData& rPathData = *rBlyRec.field_4_pPathData;
-
-               // rPathData.field_0 = sub_402560;
-                rPathData.field_4_bLeft = 0;
-                rPathData.field_6_bRight = 0;
-                /*
-                SetAndLog("top", rPathData.field_8_bTop, static_cast<s16>(pExt->mXSize * pExt->mGridWidth));
-                SetAndLog("bottom", rPathData.field_A_bBottom, static_cast<s16>(pExt->mYSize * pExt->mGridHeight));
-
-                SetAndLog("grid width", rPathData.field_C_grid_width, static_cast<s16>(pExt->mGridWidth));
-                SetAndLog("grid height", rPathData.field_E_grid_height, static_cast<s16>(pExt->mGridHeight));
-
-                SetAndLog("field_10", rPathData.field_10, static_cast<s16>(pExt->mGridWidth));
-                SetAndLog("field_12", rPathData.field_12, static_cast<s16>(pExt->mGridHeight));
-
-                SetAndLog<s32>("object offset", rPathData.field_14_object_offset, pExt->mObjectOffset);
-                SetAndLog<s32>("index table offset", rPathData.field_18_object_index_table_offset, pExt->mIndexTableOffset);
-                */
-                // rPathData.field_1C_object_funcs = kObjectFactory;
-
-                rBlyRec.field_8_pCollisionData = &AO::GetCollisions(lvlIdx)[pExt->mPathId];
-
-                CollisionInfo& rColInfo = *rBlyRec.field_8_pCollisionData;
-                rColInfo.mLeft = 0;
-                rColInfo.mRight = 0;
-                /*
-                SetAndLog("top", rColInfo.mTop, static_cast<s16>(pExt->mXSize * pExt->mGridWidth));
-                SetAndLog("bottom", rColInfo.mBottom, static_cast<s16>(pExt->mYSize * pExt->mGridHeight));
-                SetAndLog("collision offset", rColInfo.mCollisionOffset, pExt->mCollisionOffset);
-                SetAndLog("num collision items", rColInfo.mNumCollisionItems, pExt->mNumCollisionLines);
-                SetAndLog<u32>("grid width", rColInfo.mGridWidth, pExt->mGridWidth);
-                SetAndLog<u32>("grid height", rColInfo.mGridHeight, pExt->mGridHeight);
-
-                if (pExt->mTotalMuds != 0)
-                {
-                    SetAndLog("sTotalMuds", sMudExtData[lvlIdx][pExt->mPathId].mTotal, pExt->mTotalMuds);
-                }
-
-                if (pExt->mBadEndingMuds != 0)
-                {
-                    SetAndLog("sBadEndingMuds", sMudExtData[lvlIdx][pExt->mPathId].mBadEnding, pExt->mBadEndingMuds);
-                }
-
-                if (pExt->mGoodEndingMuds)
-                {
-                    SetAndLog("sGoodEndingMuds", sMudExtData[lvlIdx][pExt->mPathId].mGoodEnding, pExt->mGoodEndingMuds);
-                }
-                */
-            }
-            else
-            {
-                /*
-                pChunkData += sizeof(PerPathExtension);
-
-                // Apply LCD Screen messages
-                auto pLCDScreenMsgs = reinterpret_cast<StringTable*>(pChunkData);
-                pChunkData = StringTable::MakeTable(pLCDScreenMsgs);
-                SetLcdMessagesForLvl(*pLCDScreenMsgs, static_cast<LevelIds>(lvlIdx), pExt->mPathId);
-
-                // Will be empty for AE
-                auto pHintFlyMsgs = reinterpret_cast<StringTable*>(pChunkData);
-                pChunkData = StringTable::MakeTable(pHintFlyMsgs);
-
-                // Apply the data
-                PathRoot& rPath = *Path_Get_PathRoot(lvlIdx);
-                rPath.field_0_pBlyArrayPtr[pExt->mPathId].field_0_blyName = pExt->mBlyName;
-
-                PathBlyRec& rBlyRec = rPath.field_0_pBlyArrayPtr[pExt->mPathId];
-                if (!rBlyRec.field_4_pPathData)
-                {
-                    rBlyRec.field_4_pPathData = &GetPathData(lvlIdx)[pExt->mPathId];
-                    // HACK: Set throwable type in this path to grenades
-                    rBlyRec.mOverlayId = 100;
-                    rPath.field_18_num_paths++;
-                }
-                PathData& rPathData = *rBlyRec.field_4_pPathData;
-
-                rPathData.field_0_bLeft = 0;
-                rPathData.field_2_bRight = 0;
-                SetAndLog("top", rPathData.field_4_bTop, static_cast<s16>(pExt->mXSize * pExt->mGridWidth));
-                SetAndLog("bottom", rPathData.field_6_bBottom, static_cast<s16>(pExt->mYSize * pExt->mGridHeight));
-
-                SetAndLog("grid width", rPathData.field_A_grid_width, static_cast<s16>(pExt->mGridWidth));
-                SetAndLog("grid height", rPathData.field_C_grid_height, static_cast<s16>(pExt->mGridHeight));
-
-                SetAndLog("width", rPathData.field_E_width, static_cast<s16>(pExt->mGridWidth));
-                SetAndLog("height", rPathData.field_10_height, static_cast<s16>(pExt->mGridHeight));
-
-                SetAndLog("object offset", rPathData.field_12_object_offset, pExt->mObjectOffset);
-                SetAndLog("index table offset", rPathData.field_16_object_indextable_offset, pExt->mIndexTableOffset);
-
-                SetAndLog("abe start xpos", rPathData.field_1A_abe_start_xpos, static_cast<s16>(pExt->mAbeStartXPos));
-                SetAndLog("abe start ypos", rPathData.field_1C_abe_start_ypos, static_cast<s16>(pExt->mAbeStartYPos));
-
-                rBlyRec.field_8_pCollisionData = &GetCollisions(lvlIdx)[pExt->mPathId];
-
-                CollisionInfo& rColInfo = *rBlyRec.field_8_pCollisionData;
-                rColInfo.mLeft = 0;
-                rColInfo.mRight = 0;
-                SetAndLog("top", rColInfo.mTop, static_cast<s16>(pExt->mXSize * pExt->mGridWidth));
-                SetAndLog("bottom", rColInfo.mBottom, static_cast<s16>(pExt->mYSize * pExt->mGridHeight));
-                SetAndLog("collision offset", rColInfo.mCollisionOffset, pExt->mCollisionOffset);
-                SetAndLog("num collision items", rColInfo.mNumCollisionItems, pExt->mNumCollisionLines);
-                SetAndLog<u32>("grid width", rColInfo.mGridWidth, pExt->mGridWidth);
-                SetAndLog<u32>("grid height", rColInfo.mGridHeight, pExt->mGridHeight);
-
-                if (pExt->mTotalMuds != 0)
-                {
-                    SetAndLog("sTotalMuds", sMudExtData[lvlIdx][pExt->mPathId].mTotal, pExt->mTotalMuds);
-                }
-
-                if (pExt->mBadEndingMuds != 0)
-                {
-                    SetAndLog("sBadEndingMuds", sMudExtData[lvlIdx][pExt->mPathId].mBadEnding, pExt->mBadEndingMuds);
-                }
-
-                if (pExt->mGoodEndingMuds)
-                {
-                    SetAndLog("sGoodEndingMuds", sMudExtData[lvlIdx][pExt->mPathId].mGoodEnding, pExt->mGoodEndingMuds);
-                }
-
-                if (pExt->mNumMudsInPath != 0)
-                {
-                    if (pExt->mNumMudsInPath != Path_GetMudsInLevel(MapWrapper::FromAE(static_cast<LevelIds>(lvlIdx)), pExt->mPathId))
-                    {
-                        LOG_INFO("Set muds in lvl count to " << pExt->mNumMudsInPath);
-                        Path_SetMudsInLevel(MapWrapper::FromAE(static_cast<LevelIds>(lvlIdx)), pExt->mPathId, pExt->mNumMudsInPath);
-                    }
-                }
-                */
-            }
-        }
-    }
 
     // Convert hard coded path data json
     for (u32 j = 0; j < pathBndFile.ChunkCount(); j++)
@@ -638,12 +486,55 @@ static void ConvertPathBND(const FileSystem::Path& dataDir, const std::string& f
 {
     ReadLvlFileInto(lvlReader, fileName.c_str(), fileBuffer);
     ReliveAPI::ChunkedLvlFile pathBndFile(fileBuffer);
+
+    std::vector<PerPathExtension> pathsWithExt;
+    for (u32 i = 0; i < pathBndFile.ChunkCount(); i++)
+    {
+        const ReliveAPI::LvlFileChunk& pathBndChunk = pathBndFile.ChunkAt(i);
+        
+        if (pathBndChunk.Header().mResourceType == ResourceManagerWrapper::ResourceType::Resource_Pxtd)
+        {
+            auto dataCopy = pathBndChunk.Data();
+            auto pExt = reinterpret_cast<PerPathExtension*>(dataCopy.data());
+            if (pExt->mSize != sizeof(PerPathExtension))
+            {
+                LOG_INFO("%s expected size %d but got %d", pExt->mBlyName, sizeof(PerPathExtension), pExt->mSize);
+            }
+            else
+            {
+                pathsWithExt.push_back(*pExt);
+
+                auto pChunkData = reinterpret_cast<u8*>(pExt);
+                pChunkData += sizeof(PerPathExtension);
+
+                // TODO: do something with the strings
+                auto pLCDScreenMsgs = reinterpret_cast<StringTable*>(pChunkData);
+                pChunkData = StringTable::MakeTable(pLCDScreenMsgs);
+
+                // Will be empty for AE
+                auto pHintFlyMsgs = reinterpret_cast<StringTable*>(pChunkData);
+                pChunkData = StringTable::MakeTable(pHintFlyMsgs);
+            }
+        }
+    }
+
     for (u32 j = 0; j < pathBndFile.ChunkCount(); j++)
     {
         const ReliveAPI::LvlFileChunk& pathBndChunk = pathBndFile.ChunkAt(j);
+        PerPathExtension* pPathExt = nullptr;
+
         if (pathBndChunk.Header().mResourceType == ResourceManagerWrapper::Resource_Path)
         {
-            ConvertPath<TlvType, LevelIdType>(fs, dataDir, pathBndChunk, reliveLvl, lvlIdxAsLvl, lvlReader, fileBuffer, isAo);
+            for (PerPathExtension extPath : pathsWithExt)
+            {
+                if (pathBndChunk.Id() == extPath.mPathId)
+                {
+                    pPathExt = &extPath;
+                    break;
+                }
+            }
+
+            ConvertPath<TlvType, LevelIdType>(fs, dataDir, pathBndChunk, reliveLvl, lvlIdxAsLvl, lvlReader, fileBuffer, isAo, pPathExt);
         }
     }
 
@@ -1025,12 +916,14 @@ static void IterateAOLvls(FnOnLvl fnOnLvl)
 
         const EReliveLevelIds reliveLvl = MapWrapper::FromAO(lvlIdxAsLvl);
         ReliveAPI::FileIO fileIo;
-        ReliveAPI::LvlReader lvlReader(fileIo, (std::string(AO::Path_Get_Lvl_Name(reliveLvl)) + ".LVL").c_str());
+        ReliveAPI::LvlReader lvlReader(fileIo, (std::string(AO::Path_Get_Lvl_Name(reliveLvl)) + ".LVL").c_str(), false);
 
         if (!lvlReader.IsOpen())
         {
             // Fatal, missing LVL file
-            ALIVE_FATAL("Couldn't open lvl file");
+            //ALIVE_FATAL("Couldn't open lvl file");
+
+            LOG_WARNING("Couldn't open lvl file");
         }
 
         fnOnLvl(lvlReader, reliveLvl, lvlIdxAsLvl);

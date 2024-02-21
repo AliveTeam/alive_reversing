@@ -3,16 +3,21 @@
 #include <QUndoCommand>
 #include "ResizeableArrowItem.hpp"
 
+class CollisionObject;
+
 struct CollisionConnectData
 {
-    CollisionConnectData(int mOldValue, int mNewValue) : mOldValue(mOldValue), mNewValue(mNewValue)
+    CollisionConnectData(s16* mCurrentValue, int mOldValue, int mNewValue)
+        : mCurrentValue(mCurrentValue)
+        , mOldValue(mOldValue)
+        , mNewValue(mNewValue)
     {
 
     }
 
-  //  ObjectProperty* mObjectProperty;
-    int mOldValue;
-    int mNewValue;
+    s16* mCurrentValue;
+    s16 mOldValue;
+    s16 mNewValue;
 };
 
 class CollisionConnectCommand final : public QUndoCommand
