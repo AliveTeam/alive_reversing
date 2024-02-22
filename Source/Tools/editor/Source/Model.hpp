@@ -8,6 +8,8 @@
 
 #include "../../Tools/relive_api/TlvsRelive.hpp"
 
+#include <QPixmap> // TODO: Not sure if we wanted any Qt stuff in the model
+
 
 using UP_MapObjectBase = std::unique_ptr<MapObjectBase>;
 
@@ -19,18 +21,17 @@ struct EditorCamera final
     int mY = 0;
     std::vector<UP_MapObjectBase> mMapObjects;
 
-    /*
     class CameraImageAndLayers final
     {
     public:
-        std::string mCameraImage;
-        std::string mForegroundLayer;
-        std::string mBackgroundLayer;
-        std::string mForegroundWellLayer;
-        std::string mBackgroundWellLayer;
+        QPixmap mCameraImage;
+        QPixmap mForegroundLayer;
+        QPixmap mBackgroundLayer;
+        QPixmap mForegroundWellLayer;
+        QPixmap mBackgroundWellLayer;
     };
     CameraImageAndLayers mCameraImageandLayers;
-    */
+
 };
 using UP_Camera = std::unique_ptr<EditorCamera>;
 

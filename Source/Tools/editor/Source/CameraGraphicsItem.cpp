@@ -1,6 +1,9 @@
 #include "CameraGraphicsItem.hpp"
 #include <QPen>
 #include <QPainter>
+#include <QTextStream>
+#include <QFile>
+#include <QDebug>
 #include "Model.hpp"
 #include "IGraphicsItem.hpp"
 
@@ -12,14 +15,13 @@ CameraGraphicsItem::CameraGraphicsItem(EditorCamera* pCamera, int xpos, int ypos
     pen.setColor(QColor::fromRgb(120, 120, 120));
     setPen(pen);
     setZValue(1.0);
-    LoadImages();
     IGraphicsItem::SetTransparency(this, transparency);
 }
 
 void CameraGraphicsItem::paint(QPainter* aPainter, const QStyleOptionGraphicsItem* aOption, QWidget* aWidget)
 {
     // Draw the camera image if we have one
-    if (!mImages.mCamera.isNull())
+    if (!mCamera->mCameraImageandLayers.mCameraImage.isNull())
     {
         // Account for AOs whacky camera offset, should probably be part of the json schema
         int offX = 0;
@@ -32,7 +34,7 @@ void CameraGraphicsItem::paint(QPainter* aPainter, const QStyleOptionGraphicsIte
 
         QRect camImgRect = QRect(rect().x() + offX, rect().y() + offY, 368, 240);
 
-        aPainter->drawPixmap(camImgRect, mImages.mCamera);
+        aPainter->drawPixmap(camImgRect, mCamera->mCameraImageandLayers.mCameraImage);
     }
 
     // Draw the rect outline of the camera
@@ -51,15 +53,75 @@ void CameraGraphicsItem::paint(QPainter* aPainter, const QStyleOptionGraphicsIte
     }
 }
 
-void CameraGraphicsItem::LoadImages()
+static QByteArray ReadAll(QString fileName)
 {
-    /*/
-    if (mCamera)
+    QFile f(fileName);
+    if (!f.open(QFile::OpenModeFlag::ReadOnly))
     {
-        if (!mCamera->mCameraImageandLayers.mCameraImage.empty())
-        {
-            mImages.mCamera.loadFromData(QByteArray::fromBase64(QByteArray(mCamera->mCameraImageandLayers.mCameraImage.c_str(), static_cast<int>(mCamera->mCameraImageandLayers.mCameraImage.length()))));
-        }
-    }*/
+        // TODO handle error
+        return {};
+    }
+    return f.readAll();
+}
 
+void CameraGraphicsItem::SetImage(QPixmap image)
+{
+     mCamera->mCameraImageandLayers.mCameraImage = image;
+}
+
+QPixmap CameraGraphicsItem::GetImage()
+{
+    return mCamera->mCameraImageandLayers.mCameraImage;
+}
+
+void CameraGraphicsItem::Load(QString basePath)
+{
+    if (mCamera->mName.empty())
+    {
+        return;
+    }
+
+    QString baseCameraName = basePath + "/" + mCamera->mName.c_str(); // e.g barracks/paths/1/P01C04
+    qDebug() << baseCameraName;
+
+    mCamera->mCameraImageandLayers.mCameraImage.loadFromData(ReadAll(baseCameraName + ".png"));
+
+    QString fileName = baseCameraName + ".json";
+    QFile f(fileName);
+    if (!f.open(QFile::ReadOnly | QFile::Text))
+    {
+        // TODO: should prob be a fatal error or added to a list of "problems" to be shown
+        // when the path is loaded
+        return;
+    }
+
+    QTextStream in(&f);
+    const std::string jsonStr = in.readAll().toStdString();
+    if (!jsonStr.empty())
+    {
+        nlohmann::json j = nlohmann::json::parse(jsonStr);
+        // TODO
+        //newRes.mFg1ResBlockCount = j["fg1_block_count"];
+
+        for (auto& fg1File : j["layers"])
+        {
+            std::string s = fg1File;
+            if (s.find("fg_well") != std::string::npos)
+            {
+                mCamera->mCameraImageandLayers.mForegroundWellLayer.loadFromData(ReadAll(baseCameraName + "fg_well.png"));
+            }
+            else if (s.find("bg_well") != std::string::npos)
+            {
+                mCamera->mCameraImageandLayers.mBackgroundWellLayer.loadFromData(ReadAll(baseCameraName + "bg_well.png"));
+            }
+            else if (s.find("fg") != std::string::npos)
+            {
+                mCamera->mCameraImageandLayers.mForegroundLayer.loadFromData(ReadAll(baseCameraName + "fg.png"));
+            }
+            else if (s.find("bg") != std::string::npos)
+            {
+                mCamera->mCameraImageandLayers.mBackgroundLayer.loadFromData(ReadAll(baseCameraName + "bg.png"));
+            }
+        }
+    }
 }

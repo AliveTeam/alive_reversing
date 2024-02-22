@@ -416,12 +416,15 @@ EditorTab::EditorTab(QTabWidget* aParent, std::unique_ptr<Model> model, QString 
     ui->propertyDockWidget->setContextMenuPolicy(Qt::PreventContextMenu);
     ui->undoHistoryDockWidget->setContextMenuPolicy(Qt::PreventContextMenu);
 
+    QFileInfo fi(jsonFileName);
+
     for (u32 x = 0; x < mModel->XSize(); x++)
     {
         for (u32 y = 0; y < mModel->YSize(); y++)
         {
             EditorCamera* pCam = mModel->CameraAt(x, y);
             auto pCameraGraphicsItem = MakeCameraGraphicsItem(pCam, mModel->CameraGridWidth() * x, y * mModel->CameraGridHeight(), mModel->CameraGridWidth(), mModel->CameraGridHeight());
+            pCameraGraphicsItem->Load(fi.dir().absolutePath());
             mScene->addItem(pCameraGraphicsItem);
 
             if (pCam)

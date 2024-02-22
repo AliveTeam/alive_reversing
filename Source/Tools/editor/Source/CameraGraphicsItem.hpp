@@ -21,22 +21,11 @@ public:
         return mCamera;
     }
 
-    void SetImage(QPixmap image)
-    {
-        mImages.mCamera = image;
-    }
+    void SetImage(QPixmap image);
+    QPixmap GetImage();
 
-    QPixmap GetImage()
-    {
-        return mImages.mCamera;
-    }
+    void Load(QString basePath);
+
 private:
-    void LoadImages();
-
     EditorCamera* mCamera = nullptr;
-    struct Images final
-    {
-        QPixmap mCamera;
-    };
-    Images mImages;
 };
