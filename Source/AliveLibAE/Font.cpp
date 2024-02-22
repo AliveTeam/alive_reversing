@@ -743,6 +743,7 @@ s32 AliveFont::MeasureCharacterWidth(char_type character)
     s32 result = 0;
     s32 charIndex = 0;
 
+    /* TODO: Check is always false so removed it, lets see if everything is OK
     if (character <= 32 || character > 175)
     {
         if (character < 7 || character > 31)
@@ -751,7 +752,7 @@ s32 AliveFont::MeasureCharacterWidth(char_type character)
         }
         charIndex = character + 137;
     }
-    else
+    else*/
     {
         charIndex = character - 31;
     }

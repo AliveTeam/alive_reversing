@@ -97,8 +97,8 @@ static std::vector<CamToEdit> CalcMapChanges(int oldW, int newW, int oldH, int n
     const int maxX = std::max(oldW, newW);
     const int maxY = std::max(oldH, newH);
 
-    const int minX = std::min(oldW, newW);
-    const int minY = std::min(oldH, newH);
+    //const int minX = std::min(oldW, newW);
+    //const int minY = std::min(oldH, newH);
 
     std::vector<CamToEdit> edits;
     for (int x = 0; x < maxX; x++)
@@ -405,8 +405,8 @@ ChangeMapSizeDialog::~ChangeMapSizeDialog()
 
 void ChangeMapSizeDialog::on_buttonBox_accepted()
 {
-    if (mTab->GetModel().XSize() != ui->spnXSize->value() ||
-        mTab->GetModel().YSize() != ui->spnYSize->value())
+    if (static_cast<int>(mTab->GetModel().XSize()) != ui->spnXSize->value() ||
+        static_cast<int>(mTab->GetModel().YSize()) != ui->spnYSize->value())
     {
         mTab->AddCommand(new ChangeMapSizeCommand(mTab, ui->spnXSize->value(), ui->spnYSize->value()));
     }

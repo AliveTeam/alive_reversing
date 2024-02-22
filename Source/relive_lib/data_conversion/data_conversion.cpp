@@ -531,7 +531,7 @@ static void ConvertPathBND(const FileSystem::Path& dataDir, const std::string& f
 
         if (pathBndChunk.Header().mResourceType == ResourceManagerWrapper::Resource_Path)
         {
-            for (PerPathExtension extPath : pathsWithExt)
+            for (PerPathExtension& extPath : pathsWithExt)
             {
                 if (pathBndChunk.Id() == extPath.mPathId)
                 {

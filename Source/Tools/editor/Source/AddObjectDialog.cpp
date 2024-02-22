@@ -103,7 +103,7 @@ private:
         {
             camX = 0;
         }
-        if (camX > mTab->GetModel().CameraGridWidth())
+        if (camX > static_cast<int>(mTab->GetModel().CameraGridWidth()))
         {
             camX = mTab->GetModel().CameraGridWidth();
         }
@@ -113,7 +113,7 @@ private:
         {
             camY = 0;
         }
-        if (camY > mTab->GetModel().CameraGridHeight())
+        if (camY > static_cast<int>(mTab->GetModel().CameraGridHeight()))
         {
             camY = mTab->GetModel().CameraGridHeight();
         }

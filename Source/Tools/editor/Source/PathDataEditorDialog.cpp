@@ -79,6 +79,7 @@ PathDataEditorDialog::~PathDataEditorDialog()
 
 void PathDataEditorDialog::on_buttonBox_accepted()
 {
+    /*
     UndoRedoPathData pd = {};
     pd.mudsInLvl = ui->spnNumMudsInLvl->value();
     pd.abeXPos = ui->spnAbeStartXPos->value();
@@ -86,7 +87,8 @@ void PathDataEditorDialog::on_buttonBox_accepted()
     pd.badEndingMuds = ui->spnBadEndingMuds->value();
     pd.goodEndingMuds = ui->spnGoodEndingMuds->value();
     pd.totalMuds = ui->spnTotalMudsInGame->value();
-    
+    */
+
     /*
     MapInfo& info = mTab->GetModel().GetMapInfo();
 

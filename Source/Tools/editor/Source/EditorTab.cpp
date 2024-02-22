@@ -527,7 +527,7 @@ void EditorTab::Paste(ClipBoard& clipBoard)
     }
 }
 
-void EditorTab::cleanChanged(bool clean)
+void EditorTab::cleanChanged(bool /*clean*/)
 {
     UpdateCleanState();
 }
@@ -717,7 +717,7 @@ bool EditorTab::DoSave(QString fileName)
     }
 }
 
-void EditorTab::Export(bool exportAndPlay)
+void EditorTab::Export(bool /*exportAndPlay*/)
 {
     /*
     if (!IsClean())

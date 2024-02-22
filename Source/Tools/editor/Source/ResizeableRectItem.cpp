@@ -71,10 +71,10 @@ void ResizeableRectItem::mouseMoveEvent( QGraphicsSceneMouseEvent* aEvent )
     
     const auto w = curRect.width();
     const auto h = curRect.height();
-    curRect.setX(mPointSnapper.SnapX(mSnapSettings.MapObjectSnapping().mSnapX, curRect.x()));
+    curRect.setX(mPointSnapper.SnapX(mSnapSettings.MapObjectSnapping().mSnapX, static_cast<int>(curRect.x())));
     curRect.setWidth(w);
 
-    curRect.setY(mPointSnapper.SnapY(mSnapSettings.MapObjectSnapping().mSnapY, curRect.y()));
+    curRect.setY(mPointSnapper.SnapY(mSnapSettings.MapObjectSnapping().mSnapY, static_cast<int>(curRect.y())));
     curRect.setHeight(h);
 
     curRect = curRect.normalized();
@@ -90,7 +90,7 @@ void ResizeableRectItem::mouseReleaseEvent( QGraphicsSceneMouseEvent* aEvent )
     QGraphicsItem::mouseReleaseEvent( aEvent );
 }
 
-void ResizeableRectItem::paint( QPainter* aPainter, const QStyleOptionGraphicsItem* aOption, QWidget* aWidget)
+void ResizeableRectItem::paint( QPainter* aPainter, const QStyleOptionGraphicsItem* /*aOption*/, QWidget* /*aWidget*/)
 {
     QRectF cRect(0, 0, mWidth, mHeight);
 
@@ -375,9 +375,9 @@ QRectF ResizeableRectItem::CurrentRect() const
 void ResizeableRectItem::SetRect(const QRectF& rect)
 {
     setX(rect.x());
-    setWidth(rect.width());
+    setWidth(static_cast<int>(rect.width()));
     setY(rect.y());
-    setHeight(rect.height());
+    setHeight(static_cast<int>(rect.height()));
     PosOrRectChanged();
     UpdateIcon();
 }

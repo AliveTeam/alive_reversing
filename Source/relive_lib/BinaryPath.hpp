@@ -67,7 +67,7 @@ public:
     {
         for (auto& cam : mCameras)
         {
-            if (cam->mX == x && cam->mY == y)
+            if (cam && cam->mX == x && cam->mY == y)
             {
                 return cam->mName.c_str();
             }
@@ -81,7 +81,7 @@ public:
     {
         for (auto& cam : mCameras)
         {
-            if (cam->mX == x && cam->mY == y)
+            if (cam && cam->mX == x && cam->mY == y)
             {
                 return reinterpret_cast<relive::Path_TLV*>(cam->mBuffer.data() + tlvOffset);
             }

@@ -181,7 +181,7 @@ struct Path_TLV
     // Some strange self terminate check that is inlined everywhere
     void RangeCheck()
     {
-        if (mLength < 24u || mLength > 480u)
+        if (mLength < 24 || mLength > 480)
         {
             mTlvFlags.Set(eBit3_End_TLV_List);
         }

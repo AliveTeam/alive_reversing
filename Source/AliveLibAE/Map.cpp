@@ -481,7 +481,7 @@ void Map::Handle_PathTransition()
         const BinaryPath* pPathRes = GetPathResourceBlockPtr(mCurrentPath);
         auto pCameraName = pPathRes->CameraName(mCamIdxOnX, mCamIdxOnY);
 
-        std::string camId(pCameraName);
+        std::string camId(pCameraName ? pCameraName : "0");
 
         // Convert the 2 digit camera number string to an integer
         mNextCamera = static_cast<s16>(std::stoi(camId));
@@ -720,7 +720,7 @@ void Map::GoTo_Camera()
     BinaryPath* pNextPath = GetPathResourceBlockPtr(mNextPath);
     for (auto& cam : pNextPath->GetCameras())
     {
-        if (cam->mName == std::to_string(mNextCamera))
+        if (cam && cam->mName == std::to_string(mNextCamera))
         {
             mCamIdxOnX = static_cast<s16>(cam->mX);
             mCamIdxOnY = static_cast<s16>(cam->mY);
@@ -1081,7 +1081,7 @@ Camera* Map::Create_Camera(s16 xpos, s16 ypos, s32 /*a4*/)
 
     // Get a pointer to the camera name from the Path resource
     const BinaryPath* pPathData = GetPathResourceBlockPtr(mCurrentPath);
-    auto pCamName = pPathData->CameraName(xpos, ypos);
+    const char* pCamName = pPathData->CameraName(xpos, ypos);
 
     // Empty/blank camera in the map array
     if (!pCamName || !pCamName[0])
