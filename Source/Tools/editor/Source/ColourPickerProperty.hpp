@@ -1,6 +1,7 @@
 #pragma once
 
 #include <QUndoCommand>
+#include <QLabel>
 #include "PropertyTreeItemBase.hpp"
 #include "../../../relive_lib/RGB16.hpp"
 
@@ -23,24 +24,21 @@ private:
     RGB16 mNewValue;
 };
 
-class ColourPickerProperty : public QObject, public PropertyTreeItemBase
+class ColourPickerProperty final : public QObject, public PropertyTreeItemBase
 {
     Q_OBJECT
 public:
     ColourPickerProperty(PropertyTreeWidget* pParent, RGB16& pProperty, const char* pPropertyName, QUndoStack& undoStack, IGraphicsItem* pGraphicsItem);
 
-    virtual QWidget* CreateEditorWidget(PropertyTreeWidget* pParent) override;
+    QWidget* GetEditorWidget(PropertyTreeWidget* pParent) override;
+    QWidget* GetPersistentEditorWidget(PropertyTreeWidget* pParent) override;
+    bool HasBothWidgets() const override { return true; }
 
-    virtual void Refresh() override;
+    void Refresh() override;
 
     const void* GetPropertyLookUpKey() const override
     {
         return &mProperty;
-    }
-
-    virtual bool OpenInSeparateWindow() const override
-    {
-        return true;
     }
 
 private:
@@ -49,4 +47,5 @@ private:
     const char* mPropertyName = nullptr;
     QUndoStack& mUndoStack;
     IGraphicsItem* mGraphicsItem = nullptr;
+    QLabel* mLabel = nullptr;
 };

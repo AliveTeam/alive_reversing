@@ -105,7 +105,7 @@ BasicTypeProperty::BasicTypeProperty(IntegerType intType, void* pInteger, const 
     this->Refresh();
 }
 
-QWidget* BasicTypeProperty::CreateEditorWidget(PropertyTreeWidget* pParent)
+QWidget* BasicTypeProperty::GetEditorWidget(PropertyTreeWidget* pParent)
 {
     mSpinBox = new BigSpinBox(pParent);
 

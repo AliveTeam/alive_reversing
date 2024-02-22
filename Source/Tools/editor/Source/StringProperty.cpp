@@ -14,7 +14,7 @@ StringProperty::StringProperty(QUndoStack& undoStack, QTreeWidgetItem* pParent, 
     mPrevValue = mProperty->c_str();
 }
 
-QWidget* StringProperty::CreateEditorWidget(PropertyTreeWidget* pParent)
+QWidget* StringProperty::GetEditorWidget(PropertyTreeWidget* pParent)
 {
     auto edit = new QLineEdit(pParent);
     edit->setText(mProperty->c_str());

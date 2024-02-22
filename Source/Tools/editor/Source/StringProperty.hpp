@@ -27,7 +27,7 @@ class ReadOnlyStringProperty : public PropertyTreeItemBase
 public:
     ReadOnlyStringProperty(QTreeWidgetItem* pParent, QString propertyName, QString propertyValue);
 
-    virtual QWidget* CreateEditorWidget(PropertyTreeWidget* ) override
+    virtual QWidget* GetEditorWidget(PropertyTreeWidget* ) override
     {
         return nullptr;
     }
@@ -52,7 +52,7 @@ class StringProperty : public QObject, public PropertyTreeItemBase
 public:
     StringProperty(QUndoStack& undoStack, QTreeWidgetItem* pParent, QString propertyName, std::string* pProperty);
 
-    virtual QWidget* CreateEditorWidget(PropertyTreeWidget* pParent) override;
+    virtual QWidget* GetEditorWidget(PropertyTreeWidget* pParent) override;
 
     virtual void Refresh() override;
 

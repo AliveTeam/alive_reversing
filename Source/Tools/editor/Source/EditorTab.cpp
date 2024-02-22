@@ -613,7 +613,7 @@ void EditorTab::PopulatePropertyEditor(QGraphicsItem* pItem)
     ClearPropertyEditor();
 
     auto pTree = static_cast<PropertyTreeWidget*>(ui->treeWidget);
-    pTree->Populate(*mModel, mUndoStack, pItem);
+    pTree->Populate(mUndoStack, pItem);
 }
 
 void EditorTab::Undo()

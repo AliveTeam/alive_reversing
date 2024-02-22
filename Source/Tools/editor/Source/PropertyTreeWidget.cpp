@@ -286,7 +286,7 @@ PropertyTreeItemBase* PropertyTreeWidget::FindObjectPropertyByKey(const void* pK
     return nullptr;
 }
 
-void PropertyTreeWidget::Populate(Model& model, QUndoStack& undoStack, QGraphicsItem* pItem)
+void PropertyTreeWidget::Populate(QUndoStack& undoStack, QGraphicsItem* pItem)
 {
      QList<PropertyTreeItemBase*> createdProperties;
 
@@ -311,9 +311,10 @@ void PropertyTreeWidget::Populate(Model& model, QUndoStack& undoStack, QGraphics
     {
         auto item = createdProperties[i];
         insertTopLevelItem(i, item);
-        if (item->PersistentEditorWidget())
+        QWidget* pPersistentWidget = item->GetPersistentEditorWidget(this);
+        if (pPersistentWidget)
         {
-            setItemWidget(item, 1, item->CreateEditorWidget(this));
+            setItemWidget(item, 1, pPersistentWidget);
         }
     }
 }
@@ -344,33 +345,35 @@ void PropertyTreeWidget::Init()
 
     setRootIsDecorated(false);
 
+    connect(this, &QTreeWidget::itemPressed, this, [&](QTreeWidgetItem* current, int col)
+    {
+        if (current && col == 1)
+        {
+            auto pDerived = static_cast<PropertyTreeItemBase*>(current);
+            if (!itemWidget(current, 1))
+            {
+                auto pEditorWidget = pDerived->GetEditorWidget(this);
+                if (pEditorWidget)
+                {
+                    setItemWidget(current, 1, pEditorWidget);
+                }
+            }
+            else
+            {
+                if (pDerived->HasBothWidgets())
+                {
+                    pDerived->GetEditorWidget(this);
+                }
+            }
+        }
+    });
 
-    connect(this, &QTreeWidget::currentItemChanged, this, [&](QTreeWidgetItem* current, QTreeWidgetItem* prev)
+    connect(this, &QTreeWidget::currentItemChanged, this, [&](QTreeWidgetItem* /*current*/, QTreeWidgetItem* prev)
         {
             if (prev)
             {
                 auto pDerived = static_cast<PropertyTreeItemBase*>(prev);
-                if (!pDerived->PersistentEditorWidget())
-                {
-                    setItemWidget(prev, 1, nullptr);
-                }
-            }
-
-            if (current)
-            {
-                auto pDerived = static_cast<PropertyTreeItemBase*>(current);
-                if (!pDerived->PersistentEditorWidget())
-                {
-                    if (!pDerived->OpenInSeparateWindow())
-                    {
-                        setItemWidget(current, 1, pDerived->CreateEditorWidget(this));
-                    }
-                    else
-                    {
-                        pDerived->CreateEditorWidget(this);
-                    }
-                    
-                }
+                setItemWidget(prev, 1, pDerived->GetPersistentEditorWidget(this));
             }
         });
 }

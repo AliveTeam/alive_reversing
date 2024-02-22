@@ -51,9 +51,13 @@ BoolProperty::BoolProperty(PropertyTreeWidget* pParent, bool& boolProperty, cons
         });
 }
 
-QWidget* BoolProperty::CreateEditorWidget(PropertyTreeWidget* /*pParent*/)
+QWidget* BoolProperty::GetEditorWidget(PropertyTreeWidget* /*pParent*/)
 {
-    // Returning a persistent widget
+    return nullptr;
+}
+
+QWidget* BoolProperty::GetPersistentEditorWidget(PropertyTreeWidget* /*pParent*/)
+{
     return mCheckBox;
 }
 

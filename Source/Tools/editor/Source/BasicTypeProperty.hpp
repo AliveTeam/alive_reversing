@@ -75,7 +75,7 @@ public:
 
     BasicTypeProperty(IntegerType intType, void* pInteger, const char* pPropertyName, QUndoStack& undoStack, IGraphicsItem* pGraphicsItem);
 
-    QWidget* CreateEditorWidget(PropertyTreeWidget* pParent) override;
+    QWidget* GetEditorWidget(PropertyTreeWidget* pParent) override;
 
     const void* GetPropertyLookUpKey() const override
     {

@@ -1,6 +1,19 @@
 #include "ColourPickerProperty.hpp"
 #include <QColorDialog>
 
+static void UpdateLabelColour(QLabel* l, const RGB16& rgb)
+{
+    l->setStyleSheet("QLabel { background-color : rgba("+ QString("%1,%2,%3,255").arg(rgb.r).arg(rgb.g).arg(rgb.b) +"); }");
+}
+
+static QLabel* MakeLabel(QWidget* pParent, const RGB16& rgb)
+{
+    QLabel* l = new QLabel(pParent);
+    l->setAutoFillBackground(true);
+    UpdateLabelColour(l, rgb);
+    return l;
+}
+
 static RGB16 QColorToRGB16(const QColor& qcolor)
 {
     RGB16 rgb;
@@ -24,30 +37,33 @@ ColourPickerProperty::ColourPickerProperty(PropertyTreeWidget* pParent, RGB16& p
     , mGraphicsItem(pGraphicsItem)
 {
     setText(0, mPropertyName);
-    Refresh();
-
+    mLabel = MakeLabel(pParent, mProperty);
     mPrevValue = mProperty;
 }
 
-QWidget* ColourPickerProperty::CreateEditorWidget(PropertyTreeWidget* pParent)
+QWidget* ColourPickerProperty::GetEditorWidget(PropertyTreeWidget* pParent)
 {
-    setText(0, mPropertyName);
     auto colorDialog = new QColorDialog(pParent);
-    colorDialog->open();
-
-    connect(colorDialog, &QColorDialog::colorSelected, this, [this, colorDialog, pParent](const QColor& color)
+    connect(colorDialog, &QColorDialog::colorSelected, this, [this, pParent](const QColor& color)
     {
         mUndoStack.push(new ChangeColourPickerPropertyCommand(pParent, mProperty, text(0), mPrevValue, QColorToRGB16(color)));
         mPrevValue = mProperty;
-        pParent->setItemWidget(this, 1, nullptr);
     });
+    colorDialog->open(); // This opens a blocking dialog that is auto deleted when the user closes it
 
-    return colorDialog;
+    // Although we just created a blocking dialog we don't want to set it as the tree widget
+    return nullptr;
+}
+
+QWidget* ColourPickerProperty::GetPersistentEditorWidget(PropertyTreeWidget* /*pParent*/)
+{
+    // The persistent widget that shows the active colour
+    return mLabel;
 }
 
 void ColourPickerProperty::Refresh()
 {
-    setText(1, RGB16ToString(mProperty));
+    UpdateLabelColour(mLabel, mProperty);
 }
 
 ChangeColourPickerPropertyCommand::ChangeColourPickerPropertyCommand(PropertyTreeWidget* pTreeWidget, RGB16& pProperty, QString propertyName, RGB16 oldValue, RGB16 newValue)

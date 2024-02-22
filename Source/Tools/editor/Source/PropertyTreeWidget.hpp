@@ -30,7 +30,7 @@ public:
 
     PropertyTreeItemBase* FindObjectPropertyByKey(const void* pKey);
 
-    void Populate(Model& model, QUndoStack& undoStack, QGraphicsItem* pItem);
+    void Populate(QUndoStack& undoStack, QGraphicsItem* pItem);
     void DePopulate();
 
     void Init();

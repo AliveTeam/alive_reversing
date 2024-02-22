@@ -37,7 +37,7 @@ EnumPropertyBase::EnumPropertyBase(s32 oldIdx, void* pEnumValue, const char* fie
     setText(0, mFieldName);
 }
 
-QWidget* EnumPropertyBase::CreateEditorWidget(PropertyTreeWidget* pParent)
+QWidget* EnumPropertyBase::GetEditorWidget(PropertyTreeWidget* pParent)
 {
     mCombo = new QComboBox(pParent);
     VPopulateEnumCombo(mCombo);

@@ -57,7 +57,7 @@ class EnumPropertyBase : public QObject, public PropertyTreeItemBase
 public:
     EnumPropertyBase(s32 oldIdx, void* pEnumValue, const char* fieldName, QUndoStack& undoStack, IGraphicsItem* pGraphicsItem);
 
-    QWidget* CreateEditorWidget(PropertyTreeWidget* pParent) override;
+    QWidget* GetEditorWidget(PropertyTreeWidget* pParent) override;
 
     void Refresh() override;
 

@@ -59,8 +59,8 @@ public:
 
     BoolProperty(PropertyTreeWidget* pParent, bool& boolProperty, const char* pPropertyName, QUndoStack& undoStack, IGraphicsItem* pGraphicsItem);
 
-    QWidget* CreateEditorWidget(PropertyTreeWidget* pParent) override;
-    bool PersistentEditorWidget() const override { return true; }
+    QWidget* GetEditorWidget(PropertyTreeWidget* pParent) override;
+    QWidget* GetPersistentEditorWidget(PropertyTreeWidget* pParent) override;
 
     const void* GetPropertyLookUpKey() const override
     {
