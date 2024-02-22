@@ -858,42 +858,42 @@ li.checked::marker { content: &quot;\2612&quot;; }
         <translation>Rückgängig-Verlauf</translation>
     </message>
     <message>
-        <location filename="../../EditorTab.cpp" line="505"/>
+        <location filename="../../EditorTab.cpp" line="508"/>
         <source>Selection cut</source>
         <translation>Auswahl ausgeschnitten</translation>
     </message>
     <message>
-        <location filename="../../EditorTab.cpp" line="514"/>
+        <location filename="../../EditorTab.cpp" line="517"/>
         <source>Selection copied</source>
         <translation>Auswahl kopiert</translation>
     </message>
     <message>
-        <location filename="../../EditorTab.cpp" line="523"/>
+        <location filename="../../EditorTab.cpp" line="526"/>
         <source>Items pasted</source>
         <translation>Items eingefügt</translation>
     </message>
     <message>
-        <location filename="../../EditorTab.cpp" line="640"/>
+        <location filename="../../EditorTab.cpp" line="643"/>
         <source>Save </source>
         <translation>Speichern </translation>
     </message>
     <message>
-        <location filename="../../EditorTab.cpp" line="640"/>
+        <location filename="../../EditorTab.cpp" line="643"/>
         <source>Json Files (*.json);;All Files (*)</source>
         <translation>Json Dateien (*.json);;Alle Dateien (*)</translation>
     </message>
     <message>
-        <location filename="../../EditorTab.cpp" line="706"/>
+        <location filename="../../EditorTab.cpp" line="709"/>
         <source>Saved</source>
         <translation>Gespeichert</translation>
     </message>
     <message>
-        <location filename="../../EditorTab.cpp" line="712"/>
+        <location filename="../../EditorTab.cpp" line="715"/>
         <source>Save failed</source>
         <translation>Speichern fehlgeschlagen</translation>
     </message>
     <message>
-        <location filename="../../EditorTab.cpp" line="923"/>
+        <location filename="../../EditorTab.cpp" line="926"/>
         <source>Connected collisions</source>
         <translation>Verbundene Kollisionen</translation>
     </message>

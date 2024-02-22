@@ -861,42 +861,42 @@ li.checked::marker { content: &quot;\2612&quot;; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../EditorTab.cpp" line="505"/>
+        <location filename="../../EditorTab.cpp" line="508"/>
         <source>Selection cut</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../EditorTab.cpp" line="514"/>
+        <location filename="../../EditorTab.cpp" line="517"/>
         <source>Selection copied</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../EditorTab.cpp" line="523"/>
+        <location filename="../../EditorTab.cpp" line="526"/>
         <source>Items pasted</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../EditorTab.cpp" line="640"/>
+        <location filename="../../EditorTab.cpp" line="643"/>
         <source>Save </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../EditorTab.cpp" line="640"/>
+        <location filename="../../EditorTab.cpp" line="643"/>
         <source>Json Files (*.json);;All Files (*)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../EditorTab.cpp" line="706"/>
+        <location filename="../../EditorTab.cpp" line="709"/>
         <source>Saved</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../EditorTab.cpp" line="712"/>
+        <location filename="../../EditorTab.cpp" line="715"/>
         <source>Save failed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../EditorTab.cpp" line="923"/>
+        <location filename="../../EditorTab.cpp" line="926"/>
         <source>Connected collisions</source>
         <translation type="unfinished"></translation>
     </message>

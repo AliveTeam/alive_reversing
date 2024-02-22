@@ -689,8 +689,10 @@ void Map::Handle_PathTransition()
         const BinaryPath* pPathRes = GetPathResourceBlockPtr(mCurrentPath);
         auto pCameraName = pPathRes->CameraName(mCamIdxOnX, mCamIdxOnY);
 
+        std::string camId(pCameraName);
+
         // Convert the 2 digit camera number string to an integer
-        mNextCamera = 1 * (pCameraName[7] - '0') + 10 * (pCameraName[6] - '0');
+        mNextCamera = static_cast<s16>(std::stoi(camId));
 
         GoTo_Camera();
     }
@@ -900,16 +902,13 @@ void Map::GoTo_Camera()
     mMaxCamsX = (mPathData->field_8_bTop - mPathData->field_4_bLeft) / mPathData->field_C_grid_width;
     mMaxCamsY = (mPathData->field_A_bBottom - mPathData->field_6_bRight) / mPathData->field_E_grid_height;
 
-    char_type camNameBuffer[20] = {};
-    AO::Path_Format_CameraName(camNameBuffer, mNextLevel, mNextPath, mNextCamera);
-
     mCamIdxOnX = 0;
     mCamIdxOnY = 0;
 
     BinaryPath* pNextPath = GetPathResourceBlockPtr(mNextPath);
     for (auto& cam : pNextPath->GetCameras())
     {
-        if (!strncmp(cam->mName.c_str(), camNameBuffer, sizeof(CameraName)))
+        if (cam->mName == std::to_string(mNextCamera))
         {
             mCamIdxOnX = static_cast<s16>(cam->mX);
             mCamIdxOnY = static_cast<s16>(cam->mY);
@@ -1617,9 +1616,11 @@ Camera* Map::Create_Camera(s16 xpos, s16 ypos, s32 /*a4*/)
     //newCamera->field_10_resId = 1 * (pCamName[7] - '0') + 10 * (pCamName[6] - '0') + 100 * (pCamName[4] - '0') + 1000 * (pCamName[3] - '0');
 
     //newCamera->field_1C = mCurrentCamera;
+    
+    std::string camId(pCamName);
 
     // Convert the 2 digit camera number string to an integer
-    newCamera->mCamera = 1 * (pCamName[7] - '0') + 10 * (pCamName[6] - '0');
+    newCamera->mCamera = static_cast<s16>(std::stoi(camId));
 
     return newCamera;
 }

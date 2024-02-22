@@ -239,7 +239,12 @@ void PNGFile::Load(const char_type* pFileName, std::vector<u8>& pixelData, u32& 
 {
     FileSystem fs;
     std::vector<u8> buffer;
-    fs.LoadToVec(pFileName, buffer);
+
+    if (!fs.LoadToVec(pFileName, buffer))
+    {
+        ALIVE_FATAL("Failed to open %s", pFileName);
+    }
+
     Decode(pFileName, buffer, pixelData, width, height);
 }
 

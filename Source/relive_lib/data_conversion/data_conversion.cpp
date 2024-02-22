@@ -252,7 +252,7 @@ static void ConvertPath(FileSystem& fs, const FileSystem::Path& path, const Reli
             CameraEntry updatedName = tmpCamera;
             if (!updatedName.mName.empty())
             {
-                updatedName.mName = updatedName.mName.substr(6);
+                updatedName.mName = std::to_string(std::stoi(updatedName.mName.substr(6)));
             }
 
             nlohmann::json camJson;
@@ -313,7 +313,7 @@ static void ConvertPath(FileSystem& fs, const FileSystem::Path& path, const Reli
     FileSystem::Path pathJsonFile = path;
     pathJsonFile.Append(ToString(lvlIdx)).Append("paths").Append(std::to_string(pathBndChunk.Id()));
     fs.CreateDirectory(pathJsonFile);
-    pathJsonFile.Append(std::to_string(pathBndChunk.Header().field_C_id) + ".json");
+    pathJsonFile.Append("path.json");
     SaveJson(j, fs, pathJsonFile);
 }
 
@@ -339,7 +339,6 @@ static void SaveLevelInfoJson(const FileSystem::Path& dataDir, EReliveLevelIds /
             nlohmann::json pathInfoObj = nlohmann::json::object();
 
             std::string pathId = std::to_string(pathBndChunk.Header().field_C_id);
-            pathInfoObj["file"] = pathId + ".json";
             pathInfoObj["path_id"] = pathId;
 
             // Write out what paths exist so the game knows what files to load
@@ -617,14 +616,18 @@ static void ConvertCamera(ThreadPool& tp, const FileSystem::Path& dataDir, const
     ReliveAPI::ChunkedLvlFile camFileData(fileBuffer);
 
     std::string camNameWithoutExtension = fileName.substr(0, fileName.length() - 4); // chop off .CAM
+
+    // extract the path id from the cam name
+    std::string pathId = std::to_string(std::stoi(camNameWithoutExtension.substr(3, 2)));
+
     camNameWithoutExtension = camNameWithoutExtension.substr(6); // Chop off the MIP01C prefix of MIP01C36
+
+    // Convert 05 for example to 5
+    camNameWithoutExtension = std::to_string(std::stoi(camNameWithoutExtension));
 
     FileSystem::Path dirToSaveConvertedCamIn = dataDir;
 
     dirToSaveConvertedCamIn.Append(ToString(lvlIdxAsLvl));
-
-    // extract the path id from the cam name
-    std::string pathId = std::to_string(std::stoi(camNameWithoutExtension.substr(0, camNameWithoutExtension.length() - 3).substr(1)));
 
     FileSystem::Path jsonFileName = dirToSaveConvertedCamIn;
     jsonFileName.Append("paths").Append(pathId).Append(camNameWithoutExtension + ".json");

@@ -373,10 +373,9 @@ std::vector<std::unique_ptr<BinaryPath>> ResourceManagerWrapper::LoadPaths(EReli
     for (const auto& path : paths)
     {
         const std::string pathId = path["path_id"];
-        const std::string jsonFile = path["file"];
 
         FileSystem::Path pathJsonFile = pathDir;
-        pathJsonFile.Append(pathId).Append(jsonFile);
+        pathJsonFile.Append(pathId).Append("path.json");
         const std::string pathJsonStr = fs.LoadToString(pathJsonFile);
 
         // TODO: set the res ptrs to the parsed json data
