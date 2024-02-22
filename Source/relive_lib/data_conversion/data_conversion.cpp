@@ -247,9 +247,16 @@ static void ConvertPath(FileSystem& fs, const FileSystem::Path& path, const Reli
         // Its possible to have a camera with no objects (-1 index table)
         // But its also possible to have a blank camera with objects (blank camera name, non -1 index table)
         if (!tmpCamera.mName.empty() || !mapObjectsArray.empty())
-        { 
+        {
+            // Chop the camera name down to just the camera number MIP01C36 -> 36
+            CameraEntry updatedName = tmpCamera;
+            if (!updatedName.mName.empty())
+            {
+                updatedName.mName = updatedName.mName.substr(6);
+            }
+
             nlohmann::json camJson;
-            to_json(camJson, tmpCamera);
+            to_json(camJson, updatedName);
             camJson["map_objects"] = mapObjectsArray;
             camerasArray.push_back(camJson);
         } });
@@ -610,7 +617,7 @@ static void ConvertCamera(ThreadPool& tp, const FileSystem::Path& dataDir, const
     ReliveAPI::ChunkedLvlFile camFileData(fileBuffer);
 
     std::string camNameWithoutExtension = fileName.substr(0, fileName.length() - 4); // chop off .CAM
-    camNameWithoutExtension = camNameWithoutExtension.substr(2); // Chop off the 2 letter lvl prefix
+    camNameWithoutExtension = camNameWithoutExtension.substr(6); // Chop off the MIP01C prefix of MIP01C36
 
     FileSystem::Path dirToSaveConvertedCamIn = dataDir;
 

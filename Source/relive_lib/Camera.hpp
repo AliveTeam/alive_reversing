@@ -17,7 +17,6 @@ public:
     static void On_Loaded(Camera* pCamera);
 
     CamResource mCamRes;
-    s32 mCameraResourceId = 0;
     s16 mCamXOff = 0;
     s16 mCamYOff = 0;
     s16 mPath = 0;

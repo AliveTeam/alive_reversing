@@ -245,10 +245,7 @@ static FileSystem::Path CamBaseName(EReliveLevelIds lvlId, u32 pathNumber, u32 c
 {
     FileSystem::Path filePath = PerLvlBasePath(lvlId);
     filePath.Append("paths").Append(std::to_string(pathNumber));
-
-    char buffer[128] = {};
-    sprintf(buffer, "P%02dC%02d", pathNumber, camNumber);
-    filePath.Append(buffer);
+    filePath.Append(std::to_string(camNumber));
     return filePath;
 }
 

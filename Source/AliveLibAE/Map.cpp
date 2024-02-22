@@ -1097,6 +1097,7 @@ Camera* Map::Create_Camera(s16 xpos, s16 ypos, s32 /*a4*/)
     strncpy(newCamera->mCamName, pCamName, ALIVE_COUNTOF(CameraName::name));
     strcat(newCamera->mCamName, ".CAM");
 
+
     newCamera->mCamXOff = xpos;
     newCamera->mCamYOff = ypos;
 
@@ -1106,10 +1107,10 @@ Camera* Map::Create_Camera(s16 xpos, s16 ypos, s32 /*a4*/)
     newCamera->mPath = mCurrentPath;
 
     // Calculate hash/resource ID of the camera
-    newCamera->mCameraResourceId = 1 * (pCamName[7] - '0') + 10 * (pCamName[6] - '0') + 100 * (pCamName[4] - '0') + 1000 * (pCamName[3] - '0');
+   // newCamera->mCameraResourceId = 1 * (pCamName[7] - '0') + 10 * (pCamName[6] - '0') + 100 * (pCamName[4] - '0') + 1000 * (pCamName[3] - '0');
 
     // Convert the 2 digit camera number string to an integer
-    newCamera->mCamera = 1 * (pCamName[7] - '0') + 10 * (pCamName[6] - '0');
+    newCamera->mCamera = 1 * (pCamName[1] - '0') + 10 * (pCamName[0] - '0');
 
     return newCamera;
 }
