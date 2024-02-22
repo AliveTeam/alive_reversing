@@ -688,7 +688,7 @@ void Map::Handle_PathTransition()
 
         const BinaryPath* pPathRes = GetPathResourceBlockPtr(mCurrentPath);
         const char* pCameraName = pPathRes->CameraName(mCamIdxOnX, mCamIdxOnY);
-        mNextCamera = pPathRes->CameraNameAsInteger(pCameraName);
+        mNextCamera = static_cast<s16>(pPathRes->CameraNameAsInteger(pCameraName));
 
         GoTo_Camera();
     }
@@ -904,7 +904,7 @@ void Map::GoTo_Camera()
     BinaryPath* pNextPath = GetPathResourceBlockPtr(mNextPath);
     for (auto& cam : pNextPath->GetCameras())
     {
-        if (pNextPath->CameraNameAsInteger(cam->mName.c_str()) == mNextCamera)
+        if (pNextPath->CameraNameAsInteger(cam->mName.c_str()) == static_cast<u32>(mNextCamera))
         {
             mCamIdxOnX = static_cast<s16>(cam->mX);
             mCamIdxOnY = static_cast<s16>(cam->mY);
