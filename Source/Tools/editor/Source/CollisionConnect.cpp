@@ -29,7 +29,7 @@ std::vector<CollisionConnectData> CollisionConnectCommand::getConnectCollisionsC
 {
     std::vector<CollisionConnectData> collisionConnectData;
 
-    for (int i = 0; i < collisions.size(); i++)
+    for (std::size_t i = 0; i < collisions.size(); i++)
     {
         auto& collision = collisions[i];
         auto collisionItem = collision->GetCollisionItem();
@@ -42,7 +42,7 @@ std::vector<CollisionConnectData> CollisionConnectCommand::getConnectCollisionsC
         int endY = collisionItem->Y2();
 
 
-        for (int j = i + 1; j < collisions.size(); j++)
+        for (std::size_t j = i + 1; j < collisions.size(); j++)
         {
             auto& otherCollision = collisions[j];
             auto otherCollisionItem = otherCollision->GetCollisionItem();

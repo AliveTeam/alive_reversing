@@ -21,7 +21,6 @@ public:
     s16 mCamYOff = 0;
     s16 mPath = 0;
     EReliveLevelIds mLevel;
-    s16 mCamera = 0;
-    char_type mCamName[16] = {};
+    s16 mCameraNumber = 0;
     bool mCamResLoaded = false;
 };

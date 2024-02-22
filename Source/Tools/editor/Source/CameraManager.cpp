@@ -12,13 +12,16 @@
 #include "ResizeableRectItem.hpp"
 #include "Model.hpp"
 
+/*
 static QPixmap Base64ToPixmap(const std::string& s)
 {
     QPixmap tmp;
     tmp.loadFromData(QByteArray::fromBase64(QByteArray(s.c_str(), static_cast<int>(s.length()))));
     return tmp;
 }
+*/
 
+/*
 static std::string PixmapToBase64PngString(QPixmap img)
 {
     QPixmap pixmap;
@@ -30,8 +33,9 @@ static std::string PixmapToBase64PngString(QPixmap img)
 
     return bytes.toBase64().toStdString();
 }
+*/
 
-static std::string CameraNameFromId(Model& model, int camId)
+static std::string CameraNameFromId(Model& /*model*/, int /*camId*/)
 {
     /*
     std::string lvl = model.GetMapInfo().mPathBnd.substr(0, 2);
@@ -187,7 +191,7 @@ public:
     }
 
 private:
-    void UpdateImage(QPixmap img)
+    void UpdateImage(QPixmap /*img*/)
     {
         /*
         switch (mImgIdx)
@@ -694,7 +698,7 @@ void CameraManager::SetTabImage(int idx, QPixmap img)
     }
 }
 
-void CameraManager::UpdateTabImages(CameraGraphicsItem* pItem)
+void CameraManager::UpdateTabImages(CameraGraphicsItem* /*pItem*/)
 {
     /*
     SetTabImage(TabImageIdx::Main, pItem->GetImage());

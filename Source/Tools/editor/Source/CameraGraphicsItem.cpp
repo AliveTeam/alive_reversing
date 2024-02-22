@@ -32,7 +32,7 @@ void CameraGraphicsItem::paint(QPainter* aPainter, const QStyleOptionGraphicsIte
             offY = 114;
         }
 
-        QRect camImgRect = QRect(rect().x() + offX, rect().y() + offY, 368, 240);
+        QRect camImgRect = QRect(static_cast<int>(rect().x()) + offX, static_cast<int>(rect().y()) + offY, 368, 240);
 
         aPainter->drawPixmap(camImgRect, mCamera->mCameraImageandLayers.mCameraImage);
     }
@@ -47,7 +47,7 @@ void CameraGraphicsItem::paint(QPainter* aPainter, const QStyleOptionGraphicsIte
         aPainter->setPen(Qt::black);
         aPainter->setOpacity(0.8);
 
-        const QRect textRect = QRect(rect().x() + 10, rect().y() + 10, 80, 20);
+        const QRect textRect = QRect(static_cast<int>(rect().x()) + 10, static_cast<int>(rect().y()) + 10, 80, 20);
         aPainter->drawRect(textRect);
         aPainter->drawText(textRect, Qt::AlignCenter, QString::fromStdString(mCamera->mName));
     }

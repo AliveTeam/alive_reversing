@@ -193,7 +193,7 @@ std::vector<std::unique_ptr<MapObjectBase>> ClipBoard::CloneMapObjects(QPoint* p
     return r;
 }
 
-std::vector<std::unique_ptr<CollisionObject>> ClipBoard::CloneCollisions(QPoint* pos) const
+std::vector<std::unique_ptr<CollisionObject>> ClipBoard::CloneCollisions(QPoint* /*pos*/) const
 {
     // TODO: Position set or offsetting via pos
 

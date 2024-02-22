@@ -481,7 +481,7 @@ void Map::Handle_PathTransition()
         const BinaryPath* pPathRes = GetPathResourceBlockPtr(mCurrentPath);
         auto pCameraName = pPathRes->CameraName(mCamIdxOnX, mCamIdxOnY);
 
-        std::string camId(pCameraName);
+        std::string camId(pCameraName ? pCameraName : "0");
 
         // Convert the 2 digit camera number string to an integer
         mNextCamera = static_cast<s16>(std::stoi(camId));
@@ -720,7 +720,7 @@ void Map::GoTo_Camera()
     BinaryPath* pNextPath = GetPathResourceBlockPtr(mNextPath);
     for (auto& cam : pNextPath->GetCameras())
     {
-        if (cam->mName == std::to_string(mNextCamera))
+        if (cam && cam->mName == std::to_string(mNextCamera))
         {
             mCamIdxOnX = static_cast<s16>(cam->mX);
             mCamIdxOnY = static_cast<s16>(cam->mY);
@@ -1081,7 +1081,7 @@ Camera* Map::Create_Camera(s16 xpos, s16 ypos, s32 /*a4*/)
 
     // Get a pointer to the camera name from the Path resource
     const BinaryPath* pPathData = GetPathResourceBlockPtr(mCurrentPath);
-    auto pCamName = pPathData->CameraName(xpos, ypos);
+    const char* pCamName = pPathData->CameraName(xpos, ypos);
 
     // Empty/blank camera in the map array
     if (!pCamName || !pCamName[0])
@@ -1091,12 +1091,6 @@ Camera* Map::Create_Camera(s16 xpos, s16 ypos, s32 /*a4*/)
 
     Camera* newCamera = relive_new Camera();
 
-    // Copy in the camera name from the Path resource and append .CAM
-    memset(newCamera->mCamName, 0, sizeof(newCamera->mCamName));
-    strncpy(newCamera->mCamName, pCamName, ALIVE_COUNTOF(CameraName::name));
-    strcat(newCamera->mCamName, ".CAM");
-
-
     newCamera->mCamXOff = xpos;
     newCamera->mCamYOff = ypos;
 
@@ -1104,14 +1098,7 @@ Camera* Map::Create_Camera(s16 xpos, s16 ypos, s32 /*a4*/)
 
     newCamera->mLevel = mCurrentLevel;
     newCamera->mPath = mCurrentPath;
-
-    // Calculate hash/resource ID of the camera
-   // newCamera->mCameraResourceId = 1 * (pCamName[7] - '0') + 10 * (pCamName[6] - '0') + 100 * (pCamName[4] - '0') + 1000 * (pCamName[3] - '0');
-
-   std::string camId(pCamName);
-
-    // Convert the 2 digit camera number string to an integer
-    newCamera->mCamera = static_cast<s16>(std::stoi(camId));
+    newCamera->mCameraNumber = pPathData->CameraNameAsInteger(pCamName);
 
     return newCamera;
 }
@@ -1129,8 +1116,7 @@ void Map::Load_Path_Items(Camera* pCamera, LoadMode loadMode)
         if (loadMode == LoadMode::ConstructObject_0)
         {
             // Async camera load
-            // ResourceManager::LoadResourceFile_49C130(pCamera->mCamName, Camera::On_Loaded, pCamera, pCamera);
-            pCamera->mCamRes = ResourceManagerWrapper::LoadCam(pCamera->mLevel, pCamera->mPath, pCamera->mCamera);
+            pCamera->mCamRes = ResourceManagerWrapper::LoadCam(pCamera->mLevel, pCamera->mPath, pCamera->mCameraNumber);
 
             gPathInfo->Loader_4DB800(pCamera->mCamXOff, pCamera->mCamYOff, LoadMode::LoadResourceFromList_1, ReliveTypes::eNone); // none = load all
         }

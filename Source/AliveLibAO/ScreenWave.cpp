@@ -166,13 +166,6 @@ void ScreenWave::VRender(OrderingTable& ot)
         static_cast<s16>(gPsxDisplay.mWidth),
         static_cast<s16>(gPsxDisplay.mHeight)};
 
-    PSX_RECT clearRectSize = {};
-
-    clearRectSize.x = 0;
-    clearRectSize.y = 0;
-    clearRectSize.w = displaySize.x;
-    clearRectSize.h = displaySize.y;
-
     for (s32 i = 0; i < kMaxUVCount; i++)
     {
         const s32 i_inc = i + 1;

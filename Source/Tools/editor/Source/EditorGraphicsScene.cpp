@@ -261,7 +261,7 @@ EditorCamera* CalcContainingCamera(ResizeableRectItem* pItem, Model& model)
         camX = 0;
     }
 
-    if (camX >= model.XSize())
+    if (camX >= static_cast<int>(model.XSize()))
     {
         camX = model.XSize() - 1;
     }
@@ -272,7 +272,7 @@ EditorCamera* CalcContainingCamera(ResizeableRectItem* pItem, Model& model)
         camY = 0;
     }
 
-    if (camY >= model.YSize())
+    if (camY >= static_cast<int>(model.YSize()))
     {
         camY = model.YSize() - 1;
     }

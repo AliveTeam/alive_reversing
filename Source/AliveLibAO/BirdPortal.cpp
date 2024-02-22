@@ -89,12 +89,12 @@ BirdPortal::BirdPortal(relive::Path_BirdPortal* pTlv, const Guid& tlvId)
     : BaseGameObject(true, 0), 
     mPortalType(pTlv->mPortalType), 
     mEnterSide(pTlv->mEnterSide),
-    mExitLevel(pTlv->mExitLevel), 
-    mExitPath(pTlv->mExitPath), 
-    mExitCamera(pTlv->mExitCamera), 
+    mTlvInfo(tlvId),
     mMovieId(pTlv->mMovieId),
-    mMudCountForShrykull(pTlv->mMudCountForShrykull), 
-    mTlvInfo(tlvId)
+    mExitLevel(pTlv->mExitLevel),
+    mExitPath(pTlv->mExitPath),
+    mExitCamera(pTlv->mExitCamera),
+    mMudCountForShrykull(pTlv->mMudCountForShrykull)
 {
     SetType(ReliveTypes::eBirdPortal);
 

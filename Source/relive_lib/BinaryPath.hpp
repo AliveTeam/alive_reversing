@@ -67,12 +67,26 @@ public:
     {
         for (auto& cam : mCameras)
         {
-            if (cam->mX == x && cam->mY == y)
+            if (cam && cam->mX == x && cam->mY == y)
             {
                 return cam->mName.c_str();
             }
         }
         return nullptr;
+    }
+
+    u32 CameraNameAsInteger(const char* pCamName) const
+    {
+        if (pCamName[1] != 0)
+        {
+            // Handle 10-99
+            return 1 * (pCamName[1] - '0') + 10 * (pCamName[0] - '0');
+        }
+        else
+        {
+            // Handle 0-9
+            return 1 * (pCamName[0] - '0');
+        }
     }
 
     relive::Path_TLV* TlvsById(const Guid& id);
@@ -81,7 +95,7 @@ public:
     {
         for (auto& cam : mCameras)
         {
-            if (cam->mX == x && cam->mY == y)
+            if (cam && cam->mX == x && cam->mY == y)
             {
                 return reinterpret_cast<relive::Path_TLV*>(cam->mBuffer.data() + tlvOffset);
             }
