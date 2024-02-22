@@ -687,12 +687,8 @@ void Map::Handle_PathTransition()
         }
 
         const BinaryPath* pPathRes = GetPathResourceBlockPtr(mCurrentPath);
-        auto pCameraName = pPathRes->CameraName(mCamIdxOnX, mCamIdxOnY);
-
-        std::string camId(pCameraName);
-
-        // Convert the 2 digit camera number string to an integer
-        mNextCamera = static_cast<s16>(std::stoi(camId));
+        const char* pCameraName = pPathRes->CameraName(mCamIdxOnX, mCamIdxOnY);
+        mNextCamera = pPathRes->CameraNameAsInteger(pCameraName);
 
         GoTo_Camera();
     }
@@ -908,7 +904,7 @@ void Map::GoTo_Camera()
     BinaryPath* pNextPath = GetPathResourceBlockPtr(mNextPath);
     for (auto& cam : pNextPath->GetCameras())
     {
-        if (cam->mName == std::to_string(mNextCamera))
+        if (pNextPath->CameraNameAsInteger(cam->mName.c_str()) == mNextCamera)
         {
             mCamIdxOnX = static_cast<s16>(cam->mX);
             mCamIdxOnY = static_cast<s16>(cam->mY);
