@@ -1018,11 +1018,11 @@ struct Path_ScrabBoundLeft final : public Path_TLV
     // No fields
     Path_ScrabBoundLeft()
     {
-        mTlvType = ReliveTypes::eScrabLeftBound;
+        mTlvType = ReliveTypes::eScrabBoundLeft;
         mAttribute = QuiksaveAttribute::eDoNothing_0;
     }
     static constexpr char kClassName[] = "scrab_bound_left";
-    static constexpr ReliveTypes kReliveType = ReliveTypes::eScrabLeftBound;
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eScrabBoundLeft;
 };
 
 struct Path_ScrabBoundRight final : public Path_TLV
@@ -1030,11 +1030,11 @@ struct Path_ScrabBoundRight final : public Path_TLV
     // No fields
     Path_ScrabBoundRight()
     {
-        mTlvType = ReliveTypes::eScrabRightBound;
+        mTlvType = ReliveTypes::eScrabBoundRight;
         mAttribute = QuiksaveAttribute::eDoNothing_0;
     }
     static constexpr char kClassName[] = "scrab_bound_right";
-    static constexpr ReliveTypes kReliveType = ReliveTypes::eScrabRightBound;
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eScrabBoundRight;
 };
 
 struct Path_HoneyDripTarget final : public Path_TLV

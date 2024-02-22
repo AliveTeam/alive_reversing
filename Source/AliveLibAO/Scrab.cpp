@@ -3101,7 +3101,7 @@ s16 Scrab::Brain_Patrol()
                     FP_GetExponent(mYPos),
                     FP_GetExponent(mXPos),
                     FP_GetExponent(mYPos),
-                    ReliveTypes::eScrabLeftBound);
+                    ReliveTypes::eScrabBoundLeft);
                 if (BaseAliveGameObjectPathTLV)
                 {
                     mNextMotion = eScrabMotions::Motion_4_Turn;
@@ -3116,7 +3116,7 @@ s16 Scrab::Brain_Patrol()
                     FP_GetExponent(mYPos),
                     FP_GetExponent(mXPos),
                     FP_GetExponent(mYPos),
-                    ReliveTypes::eScrabRightBound);
+                    ReliveTypes::eScrabBoundRight);
                 if (BaseAliveGameObjectPathTLV)
                 {
                     mNextMotion = eScrabMotions::Motion_4_Turn;
@@ -3145,7 +3145,7 @@ s16 Scrab::Brain_Patrol()
                     FP_GetExponent(mYPos),
                     FP_GetExponent(mXPos - ScaleToGridSize(GetSpriteScale())),
                     FP_GetExponent(mYPos),
-                    ReliveTypes::eScrabLeftBound))
+                    ReliveTypes::eScrabBoundLeft))
             {
                 mNextMotion = eScrabMotions::Motion_4_Turn;
                 return 2;
@@ -3222,7 +3222,7 @@ s16 Scrab::Brain_Patrol()
                     FP_GetExponent(mYPos),
                     FP_GetExponent(ScaleToGridSize(GetSpriteScale()) + mXPos),
                     FP_GetExponent(mYPos),
-                    ReliveTypes::eScrabRightBound))
+                    ReliveTypes::eScrabBoundRight))
             {
                 mNextMotion = eScrabMotions::Motion_4_Turn;
                 return 5;

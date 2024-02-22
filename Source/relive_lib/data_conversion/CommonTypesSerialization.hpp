@@ -1,6 +1,7 @@
 #pragma once
 #include "../MapWrapper.hpp"
 #include "../ObjectTypes.hpp"
+#include "relive_tlvs.hpp"
 
 // serialization support for each relive tlv type and any supporting nested types
 inline void to_json(nlohmann::json& j, const Guid& p)
@@ -163,8 +164,8 @@ NLOHMANN_JSON_SERIALIZE_ENUM(ReliveTypes, {
     {ReliveTypes::eZSligCover, "z_slig_cover"},
     {ReliveTypes::eResetPath, "reset_path"},
     {ReliveTypes::eElumPathTrans, "elum_path_trans"},
-    {ReliveTypes::eScrabLeftBound, "scrab_left_bound"},
-    {ReliveTypes::eScrabRightBound, "scrab_right_bound"},
+    {ReliveTypes::eScrabBoundLeft, "scrab_left_bound"},
+    {ReliveTypes::eScrabBoundRight, "scrab_right_bound"},
     {ReliveTypes::eScrabNoFall, "scrab_no_fall"},
     {ReliveTypes::eMovingBombStopper, "moving_bomb_stopper"},
     {ReliveTypes::eElumStart, "elum_start"},
@@ -183,8 +184,8 @@ NLOHMANN_JSON_SERIALIZE_ENUM(ReliveTypes, {
     {ReliveTypes::eLiftMudokon, "lift_mudokon"},
     {ReliveTypes::eInvisibleZone, "invisible_zone"},
     {ReliveTypes::eEnemyStopper, "enemy_stopper"},
-    {ReliveTypes::eSligBoundLeft, "slig_left_bound"},
-    {ReliveTypes::eSligBoundRight, "slig_bound_right"},
+    {ReliveTypes::eSligBoundLeft, relive::Path_SligBoundLeft::kClassName},
+    {ReliveTypes::eSligBoundRight, relive::Path_SligBoundRight::kClassName},
     {ReliveTypes::eSligPersist, "slig_persist"},
     {ReliveTypes::eZzzSpawner, "zzz_spawner"},
     {ReliveTypes::eKillUnsavedMuds, "kill_unsaved_muds"},

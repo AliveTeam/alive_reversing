@@ -293,14 +293,14 @@ void Slurg::VOnTlvCollision(relive::Path_TLV* pTlv)
 {
     while (pTlv)
     {
-        if (pTlv->mTlvType == ReliveTypes::eScrabLeftBound)
+        if (pTlv->mTlvType == ReliveTypes::eScrabBoundLeft)
         {
             if (mGoingRight)
             {
                 GoLeft();
             }
         }
-        else if (pTlv->mTlvType == ReliveTypes::eScrabRightBound)
+        else if (pTlv->mTlvType == ReliveTypes::eScrabBoundRight)
         {
             if (!mGoingRight)
             {

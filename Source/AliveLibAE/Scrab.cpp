@@ -4165,13 +4165,13 @@ s16 Scrab::Handle_SlamDoor_or_EnemyStopper(FP velX, s16 bCheckLeftRightBounds)
     relive::Path_EnemyStopper::StopDirection stopDirection = relive::Path_EnemyStopper::StopDirection::Both;
     if (GetAnimation().GetFlipX())
     {
-        objectType = ReliveTypes::eScrabLeftBound;
+        objectType = ReliveTypes::eScrabBoundLeft;
         stopDirection = relive::Path_EnemyStopper::StopDirection::Left;
         gridSize = -gridSize;
     }
     else
     {
-        objectType = ReliveTypes::eScrabRightBound;
+        objectType = ReliveTypes::eScrabBoundRight;
         stopDirection = relive::Path_EnemyStopper::StopDirection::Right;
     }
 

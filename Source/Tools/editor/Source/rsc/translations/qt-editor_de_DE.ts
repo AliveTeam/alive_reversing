@@ -2434,16 +2434,6 @@ li.checked::marker { content: &quot;\2612&quot;; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="94"/>
-        <source>Scrab Left Bound</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ReflectedEnumProperties.hpp" line="95"/>
-        <source>Scrab Right Bound</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../../ReflectedEnumProperties.hpp" line="96"/>
         <source>Scrab No Fall</source>
         <translation type="unfinished"></translation>
@@ -2539,8 +2529,18 @@ li.checked::marker { content: &quot;\2612&quot;; }
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="94"/>
+        <source>Scrab Bound Left</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../ReflectedEnumProperties.hpp" line="95"/>
+        <source>Scrab Bound Right</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../../ReflectedEnumProperties.hpp" line="115"/>
-        <source>Slig Boung Right</source>
+        <source>Slig Bound Right</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

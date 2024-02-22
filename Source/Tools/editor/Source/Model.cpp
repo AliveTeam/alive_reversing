@@ -136,7 +136,6 @@ void Model::LoadJsonFromString(const std::string& json)
     // TODO: Handle exception on bad data
     nlohmann::json root = nlohmann::json::parse(json);
 
-
     const std::string game =  ReadString(root, "game");
     mGame = game == "AO" ? GameType::eAo : GameType::eAe;
     mPathVersion = ReadNumber(root, "path_version");
@@ -157,19 +156,9 @@ void Model::LoadJsonFromString(const std::string& json)
         tmpCamera->mX = ReadNumber(camera, "x");
         tmpCamera->mY = ReadNumber(camera, "y");
 
-        /*
-        tmpCamera->mCameraImageandLayers.mCameraImage = ReadStringOptional(camera, "image");
-        tmpCamera->mCameraImageandLayers.mForegroundLayer = ReadStringOptional(camera, "foreground_layer");
-        tmpCamera->mCameraImageandLayers.mBackgroundLayer = ReadStringOptional(camera, "background_layer");
-        tmpCamera->mCameraImageandLayers.mForegroundWellLayer = ReadStringOptional(camera, "foreground_well_layer");
-        tmpCamera->mCameraImageandLayers.mBackgroundWellLayer = ReadStringOptional(camera, "background_well_layer");
-        */
-
         if (camera.contains("map_objects") && camera["map_objects"].is_array())
         {
             nlohmann::json mapObjects = ReadArray(camera, "map_objects");
-
-
 
             for (const auto& mapObject : mapObjects)
             {
@@ -271,42 +260,9 @@ std::string Model::ToJson() const
     nlohmann::json cameras = nlohmann::json::array();
     for (auto& camera : mCameras)
     {
-        if (!camera->mMapObjects.empty() /*||  !camera->mCameraImageandLayers.mCameraImage.empty()*/)
+
+        if (!camera->mMapObjects.empty() || camera->mId != 0)
         {
-
-            /*
-            nlohmann::json{
-            {"continue_point_zone_number", p.mContinuePoint_ZoneNumber},
-            */
-
-           
-            /*/
-            if (!camera->mCameraImageandLayers.mCameraImage.empty())
-            {
-                camObj << "image" << camera->mCameraImageandLayers.mCameraImage;
-            }
-
-            if (!camera->mCameraImageandLayers.mForegroundLayer.empty())
-            {
-                camObj << "foreground_layer" << camera->mCameraImageandLayers.mForegroundLayer;
-            }
-
-            if (!camera->mCameraImageandLayers.mBackgroundLayer.empty())
-            {
-                camObj << "background_layer" << camera->mCameraImageandLayers.mBackgroundLayer;
-            }
-
-            if (!camera->mCameraImageandLayers.mForegroundWellLayer.empty())
-            {
-                camObj << "foreground_well_layer" << camera->mCameraImageandLayers.mForegroundWellLayer;
-            }
-
-            if (!camera->mCameraImageandLayers.mBackgroundWellLayer.empty())
-            {
-                camObj << "background_well_layer" << camera->mCameraImageandLayers.mBackgroundWellLayer;
-            }
-            */
-
             nlohmann::json mapObjects = nlohmann::json::array();
             for (auto& mapObject : camera->mMapObjects)
             {
@@ -318,8 +274,7 @@ std::string Model::ToJson() const
                 {"id", camera->mId},
                 {"x", camera->mX},
                 {"y", camera->mY},
-                {"map_objects", mapObjects}
-            };
+                {"map_objects", mapObjects}};
 
             cameras.push_back(camObj);
         }

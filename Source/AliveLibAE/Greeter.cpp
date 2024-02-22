@@ -315,14 +315,14 @@ void Greeter::HandleRollingAlong()
                 BlowUp();
                 break;
 
-            case ReliveTypes::eScrabLeftBound:
+            case ReliveTypes::eScrabBoundLeft:
                 if (!(GetAnimation().GetFlipX()) && mBrainState == GreeterBrainStates::eBrain_0_Patrol)
                 {
                     ChangeDirection();
                 }
                 break;
 
-            case ReliveTypes::eScrabRightBound:
+            case ReliveTypes::eScrabBoundRight:
                 if (GetAnimation().GetFlipX() && mBrainState == GreeterBrainStates::eBrain_0_Patrol)
                 {
                     ChangeDirection();
