@@ -82,57 +82,37 @@ li.checked::marker { content: &quot;\2612&quot;; }
         <translation>Halbe Brunnen Maske</translation>
     </message>
     <message>
-        <location filename="../../CameraManager.ui" line="203"/>
-        <source>Export settings</source>
-        <translation>Export-Einstellungen</translation>
-    </message>
-    <message>
-        <location filename="../../CameraManager.ui" line="215"/>
-        <source>640x480</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../../CameraManager.ui" line="225"/>
-        <source>640x240</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../../CameraManager.ui" line="235"/>
-        <source>Export image</source>
-        <translation>Bild exportieren</translation>
-    </message>
-    <message>
-        <location filename="../../CameraManager.ui" line="242"/>
+        <location filename="../../CameraManager.ui" line="191"/>
         <source>Delete selected camera</source>
         <translation>Ausgewählte Kamera löschen</translation>
     </message>
     <message>
-        <location filename="../../CameraManager.ui" line="249"/>
+        <location filename="../../CameraManager.ui" line="198"/>
         <source>Choose image...</source>
         <translation>Bild auswählen...</translation>
     </message>
     <message>
-        <location filename="../../CameraManager.ui" line="256"/>
+        <location filename="../../CameraManager.ui" line="205"/>
         <source>Remove image</source>
         <translation>Bild entfernen</translation>
     </message>
     <message>
-        <location filename="../../CameraManager.ui" line="263"/>
+        <location filename="../../CameraManager.ui" line="212"/>
         <source>Set camera id</source>
         <translation>Kamera id übernehmen</translation>
     </message>
     <message>
-        <location filename="../../CameraManager.cpp" line="588"/>
+        <location filename="../../CameraManager.cpp" line="515"/>
         <source>Open level</source>
         <translation>Level öffnen</translation>
     </message>
     <message>
-        <location filename="../../CameraManager.cpp" line="588"/>
+        <location filename="../../CameraManager.cpp" line="515"/>
         <source>PNG image files (*.png);;</source>
         <translation>PNG Bilder (*.png);;</translation>
     </message>
     <message>
-        <location filename="../../CameraManager.cpp" line="749"/>
+        <location filename="../../CameraManager.cpp" line="676"/>
         <source>Camera Id already in use</source>
         <translation>Kamera Id bereits verwendet</translation>
     </message>
@@ -140,7 +120,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
 <context>
     <name>ChangeCameraIdCommand</name>
     <message>
-        <location filename="../../CameraManager.cpp" line="657"/>
+        <location filename="../../CameraManager.cpp" line="584"/>
         <source>Change camera id from %1 to %2</source>
         <translation>Kamera id von %1 nach %2 ändern</translation>
     </message>

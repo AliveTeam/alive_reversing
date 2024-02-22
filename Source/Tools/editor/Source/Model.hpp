@@ -330,5 +330,8 @@ private:
     u32 mYSize = 0;
 
     GameType mGame = GameType::eAo;
+    s32 mPathId;
+    s32 mPathVersion;
+    nlohmann::json mSoundInfo;
 };
 using UP_Model = std::unique_ptr<Model>;

@@ -139,11 +139,14 @@ void Model::LoadJsonFromString(const std::string& json)
 
     const std::string game =  ReadString(root, "game");
     mGame = game == "AO" ? GameType::eAo : GameType::eAe;
+    mPathVersion = ReadNumber(root, "path_version");
 
     nlohmann::json map = ReadObject(root, "map");
-
+    mPathId = ReadNumber(map, "path_id");
+    mSoundInfo = ReadObject(map, "sound_info");
 
     nlohmann::json cameras = ReadArray(map, "cameras");
+
     for (size_t i = 0; i < cameras.size(); i++)
     {
         nlohmann::json camera = cameras.at(static_cast<unsigned int>(i));
@@ -227,10 +230,13 @@ std::string Model::ToJson() const
 {
     nlohmann::json root = nlohmann::json::object();
 
-   // root << "path_version" << mMapInfo.mPathVersion;
     root["game"] = mGame == GameType::eAo ? "AO" : "AE";
+    root["path_version"] = mPathVersion;
 
     nlohmann::json map = nlohmann::json::object();
+    map["path_id"] = mPathId;
+    map["sound_info"] = mSoundInfo;
+
     /*
     map << "path_bnd" << mMapInfo.mPathBnd;
     map << "path_id" << mMapInfo.mPathId;

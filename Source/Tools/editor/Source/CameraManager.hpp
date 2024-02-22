@@ -25,8 +25,6 @@ public:
     void CreateCamera(bool dropEvent, QPixmap img);
 
 private slots:
-    void on_btnExportImage_clicked();
-
     void on_btnSelectImage_clicked();
 
     void on_btnDeleteImage_clicked();

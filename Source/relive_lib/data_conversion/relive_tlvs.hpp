@@ -876,7 +876,7 @@ struct Path_SligBoundRight final : public Path_SligBound
     }
     // Empty
     static constexpr char kClassName[] = "slig_bound_right";
-    static constexpr ReliveTypes kReliveType = ReliveTypes::eScrabRightBound;
+    static constexpr ReliveTypes kReliveType = ReliveTypes::eSligBoundRight;
 };
 
 struct Path_SligPersist final : public Path_SligBound

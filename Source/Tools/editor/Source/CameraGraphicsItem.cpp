@@ -49,7 +49,7 @@ void CameraGraphicsItem::paint(QPainter* aPainter, const QStyleOptionGraphicsIte
 
         const QRect textRect = QRect(rect().x() + 10, rect().y() + 10, 80, 20);
         aPainter->drawRect(textRect);
-        aPainter->drawText(textRect, Qt::AlignCenter, mCamera->mName.c_str());
+        aPainter->drawText(textRect, Qt::AlignCenter, QString::fromStdString(mCamera->mName));
     }
 }
 

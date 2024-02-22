@@ -185,57 +185,6 @@
    </item>
    <item row="1" column="0">
     <layout class="QHBoxLayout" name="horizontalLayout_2">
-     <item>
-      <widget class="QGroupBox" name="groupBox">
-       <property name="minimumSize">
-        <size>
-         <width>200</width>
-         <height>0</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>200</width>
-         <height>16777215</height>
-        </size>
-       </property>
-       <property name="title">
-        <string>Export settings</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-       </property>
-       <property name="checkable">
-        <bool>false</bool>
-       </property>
-       <layout class="QGridLayout" name="gridLayout_3">
-        <item row="1" column="0">
-         <widget class="QRadioButton" name="radioButton_640x480">
-          <property name="text">
-           <string>640x480</string>
-          </property>
-          <property name="checked">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="0">
-         <widget class="QRadioButton" name="radioButton_640x240">
-          <property name="text">
-           <string>640x240</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </widget>
-     </item>
-     <item alignment="Qt::AlignBottom">
-      <widget class="QPushButton" name="btnExportImage">
-       <property name="text">
-        <string>Export image</string>
-       </property>
-      </widget>
-     </item>
      <item alignment="Qt::AlignBottom">
       <widget class="QPushButton" name="btnDeleteCamera">
        <property name="text">
