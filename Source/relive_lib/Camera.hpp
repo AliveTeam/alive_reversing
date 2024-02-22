@@ -21,6 +21,6 @@ public:
     s16 mCamYOff = 0;
     s16 mPath = 0;
     EReliveLevelIds mLevel;
-    s16 mCameraNumber = 0;
+    u32 mCameraNumber = 0;
     bool mCamResLoaded = false;
 };
