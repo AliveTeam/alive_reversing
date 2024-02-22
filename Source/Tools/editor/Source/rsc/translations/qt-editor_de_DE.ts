@@ -2218,12 +2218,12 @@ li.checked::marker { content: &quot;\2612&quot;; }
 <context>
     <name>PropertyTreeWidget</name>
     <message>
-        <location filename="../../PropertyTreeWidget.cpp" line="322"/>
+        <location filename="../../PropertyTreeWidget.cpp" line="333"/>
         <source>Property</source>
         <translation>Eigenschaft</translation>
     </message>
     <message>
-        <location filename="../../PropertyTreeWidget.cpp" line="323"/>
+        <location filename="../../PropertyTreeWidget.cpp" line="334"/>
         <source>Value</source>
         <translation>Wert</translation>
     </message>

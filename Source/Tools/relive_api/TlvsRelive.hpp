@@ -76,6 +76,8 @@ public:
     virtual void Visit(const char* fieldName, relive::Path_ZBall::StartPos& field) = 0;
     virtual void Visit(const char* fieldName, relive::Path_ZBall::Speed& field) = 0;
 
+    virtual void Visit(const char* fieldName, RGB16& field) = 0;
+
     virtual void Visit(const char* fieldName, bool& field) = 0;
 
     virtual void Visit(const char* fieldName, u16& field) = 0;
@@ -809,9 +811,7 @@ public:
     {
         MapObjectBase::Visit(r);
 
-        r.Visit("R", mTlv.mRGB.r);
-        r.Visit("G", mTlv.mRGB.g);
-        r.Visit("B", mTlv.mRGB.b);
+        r.Visit("RGB", mTlv.mRGB);
         r.Visit("Scale", mTlv.mScale);
     }
 

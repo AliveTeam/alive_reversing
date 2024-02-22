@@ -9,6 +9,7 @@
 #include <QHeaderView>
 #include <QDebug>
 #include "../../Tools/relive_api/TlvsRelive.hpp"
+#include "ColourPickerProperty.hpp"
 
 class PropertyCreator final : public IReflector
 {
@@ -100,6 +101,11 @@ public:
     ENUM_VISIT_FUNC(relive::Path_ZBall::Speed)
 
     #undef ENUM_VISIT_FUNC
+
+    void Visit(const char* fieldName, RGB16& field) override
+    {
+        mCreatedProperties.append(new ColourPickerProperty(mPropertyTree, field, fieldName, mUndoStack, mGraphicsItem));
+    }
 
     void Visit(const char* fieldName, ReliveTypes& field) override
     {
@@ -222,6 +228,11 @@ public:
 
     #undef ENUM_VISIT_FUNC
 
+    void Visit(const char* fieldName, RGB16& field) override
+    {
+        AddField(fieldName, field);
+    }
+
     void Visit(const char* fieldName, bool& field) override
     {
         AddField(fieldName, field);
@@ -334,20 +345,6 @@ void PropertyTreeWidget::Init()
     setRootIsDecorated(false);
 
 
-    connect(this, &QTreeWidget::itemPressed, this, [&](QTreeWidgetItem* current, int col)
-        {
-            if (current && col == 1)
-            {
-                if (!itemWidget(current, 1))
-                {
-                    auto pDerived = static_cast<PropertyTreeItemBase*>(current);
-                    if (!pDerived->PersistentEditorWidget())
-                    {
-                        setItemWidget(current, 1, pDerived->CreateEditorWidget(this));
-                    }
-                }
-            }
-        });
     connect(this, &QTreeWidget::currentItemChanged, this, [&](QTreeWidgetItem* current, QTreeWidgetItem* prev)
         {
             if (prev)
@@ -364,7 +361,15 @@ void PropertyTreeWidget::Init()
                 auto pDerived = static_cast<PropertyTreeItemBase*>(current);
                 if (!pDerived->PersistentEditorWidget())
                 {
-                    setItemWidget(current, 1, static_cast<PropertyTreeItemBase*>(current)->CreateEditorWidget(this));
+                    if (!pDerived->OpenInSeparateWindow())
+                    {
+                        setItemWidget(current, 1, pDerived->CreateEditorWidget(this));
+                    }
+                    else
+                    {
+                        pDerived->CreateEditorWidget(this);
+                    }
+                    
                 }
             }
         });

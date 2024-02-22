@@ -16,5 +16,7 @@ public:
     // appears when the property tree row has focus.
     virtual bool PersistentEditorWidget() const { return false; }
 
+    virtual bool OpenInSeparateWindow() const { return false; }
+
     virtual const void* GetPropertyLookUpKey() const = 0;
 };
