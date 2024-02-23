@@ -215,15 +215,25 @@ struct MapObjectBaseInterface : public MapObjectBase
 
     nlohmann::json SerializeObject() final
     {
-        // Re-purpose to mBottomRightX/mBottomRightY for ingame use
-        mBaseTlv->mBottomRightX += mBaseTlv->mTopLeftX;
-        mBaseTlv->mBottomRightY += mBaseTlv->mTopLeftY;
-
         // Clear end flag (the binary path will automatically set the end flag)
         mBaseTlv->mTlvFlags.Clear(relive::TlvFlags::eBit3_End_TLV_List);
 
         nlohmann::json mapObj;
         to_json(mapObj, static_cast<DerivedType*>(this)->mTlv);
+
+        // Re-purpose to mBottomRightX/mBottomRightY for ingame use.
+        // By modifying the json directly we prevent the in memory
+        // objects from being modified and appearing way too big
+        // after saving multiple times.
+        s32 bottomRightX = mapObj["base"]["bottom_right_x"];
+        s32 bottomRightY = mapObj["base"]["bottom_right_y"];
+
+        bottomRightX += mBaseTlv->mTopLeftX;
+        bottomRightY += mBaseTlv->mTopLeftY;
+
+        mapObj["base"]["bottom_right_x"] = bottomRightX;
+        mapObj["base"]["bottom_right_y"] = bottomRightY;
+
         return mapObj;
     }
 
