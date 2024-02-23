@@ -220,7 +220,7 @@ struct MapObjectBaseInterface : public MapObjectBase
         mBaseTlv->mBottomRightY += mBaseTlv->mTopLeftY;
 
         // Clear end flag (the binary path will automatically set the end flag)
-        mapObject->mBaseTlv->mTlvFlags.Clear(relive::TlvFlags::eBit3_End_TLV_List);
+        mBaseTlv->mTlvFlags.Clear(relive::TlvFlags::eBit3_End_TLV_List);
 
         nlohmann::json mapObj;
         to_json(mapObj, static_cast<DerivedType*>(this)->mTlv);
