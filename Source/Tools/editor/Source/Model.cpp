@@ -264,19 +264,8 @@ std::string Model::ToJson() const
         if (!camera->mMapObjects.empty() || camera->mId != 0)
         {
             nlohmann::json mapObjects = nlohmann::json::array();
-            for (size_t i = 0; i < camera->mMapObjects.size(); i++)
+            for (auto& mapObject : camera->mMapObjects)
             {
-                auto& mapObject = camera->mMapObjects.at(i);
-                const bool lastObject = i == (camera->mMapObjects.size() - 1);
-                if (!lastObject)
-                {
-                    mapObject->mBaseTlv->mTlvFlags.Clear(relive::TlvFlags::eBit3_End_TLV_List);
-                }
-                else
-                {
-                    mapObject->mBaseTlv->mTlvFlags.Set(relive::TlvFlags::eBit3_End_TLV_List);
-                }
-
                 mapObjects.push_back(mapObject->SerializeObject());
             }
 
