@@ -35,25 +35,10 @@ static std::string PixmapToBase64PngString(QPixmap img)
 }
 */
 
-static std::string CameraNameFromId(Model& /*model*/, int /*camId*/)
+static std::string CameraNameFromId(int camId)
 {
-    /*
-    std::string lvl = model.GetMapInfo().mPathBnd.substr(0, 2);
-    std::string path = std::to_string(model.GetMapInfo().mPathId);
-    if (path.length() != 2)
-    {
-        path = "0" + path;
-    }
-
     std::string strCamId = std::to_string(camId);
-    if (strCamId.length() != 2)
-    {
-        strCamId = "0" + strCamId;
-    }
-
-    return lvl + "P" + path + "C" + strCamId;
-    */
-    return "todo";
+    return strCamId;
 }
 
 static int CamIdFromCamName(const std::string camName)
@@ -62,9 +47,8 @@ static int CamIdFromCamName(const std::string camName)
     {
         return -1;
     }
-    std::string strCamId = camName.substr(6, 2);
 
-    return QString(strCamId.c_str()).toInt();
+    return QString(camName.c_str()).toInt();
 }
 
 enum TabImageIdx
@@ -82,23 +66,20 @@ public:
     NewCameraCommand(CameraGraphicsItem* pCameraGraphicsItem, QPixmap newImage, EditorTab* pEditorTab, const std::string& newCamName, int newCamId)
         : mItem(pCameraGraphicsItem), mCamImage(newImage), mTab(pEditorTab), mNewCamName(newCamName), mNewCamId(newCamId)
     {
-        /*
-        int pathIdShifted = mTab->GetModel().GetMapInfo().mPathId * 100;
+        int pathIdShifted = mTab->GetModel().GetPathId() * 100;
         mNewCamId += pathIdShifted;
         QString posStr = QString::number(pCameraGraphicsItem->GetCamera()->mX) + "," + QString::number(pCameraGraphicsItem->GetCamera()->mY);
 
         setText("Create new camera at " + posStr);
-        */
     }
     
     void redo() override
     {
-        /*
         mItem->GetCamera()->mId = mNewCamId;
         mItem->GetCamera()->mName = mNewCamName;
 
         mItem->SetImage(mCamImage);
-        mItem->GetCamera()->mCameraImageandLayers.mCameraImage = PixmapToBase64PngString(mCamImage);
+        mItem->GetCamera()->mCameraImageandLayers.mCameraImage = mCamImage;
 
         mTab->GetScene().update();
 
@@ -108,17 +89,15 @@ public:
         {
             pMgr->OnCameraIdChanged(mItem->GetCamera());
         }
-        */
     }
 
     void undo() override
     {
-        /*
         mItem->GetCamera()->mId = 0;
         mItem->GetCamera()->mName.clear();
 
         mItem->SetImage(QPixmap());
-        mItem->GetCamera()->mCameraImageandLayers.mCameraImage.clear();
+        mItem->GetCamera()->mCameraImageandLayers.mCameraImage = QPixmap();
 
         mTab->GetScene().update();
 
@@ -128,7 +107,6 @@ public:
         {
             pMgr->OnCameraIdChanged(mItem->GetCamera());
         }
-        */
     }
 
 private:
@@ -145,7 +123,6 @@ public:
     ChangeCameraImageCommand(CameraGraphicsItem* pCameraGraphicsItem, QPixmap newImage, TabImageIdx imgIdx, EditorTab* pEditorTab)
         : mCameraGraphicsItem(pCameraGraphicsItem), mEditorTab(pEditorTab),  mNewImage(newImage), mImgIdx(imgIdx)
     {
-        /*
         // todo: set correctly
         QString posStr = QString::number(mCameraGraphicsItem->GetCamera()->mX) + "," + QString::number(mCameraGraphicsItem->GetCamera()->mY);
 
@@ -158,26 +135,25 @@ public:
             break;
 
         case Foreground:
-            mOldImage = Base64ToPixmap(mCameraGraphicsItem->GetCamera()->mCameraImageandLayers.mForegroundLayer);
+            mOldImage = mCameraGraphicsItem->GetCamera()->mCameraImageandLayers.mForegroundLayer;
             setText("Change camera foreground image at " + posStr);
             break;
 
         case Background:
-            mOldImage = Base64ToPixmap(mCameraGraphicsItem->GetCamera()->mCameraImageandLayers.mBackgroundLayer);
+            mOldImage = mCameraGraphicsItem->GetCamera()->mCameraImageandLayers.mBackgroundLayer;
             setText("Change camera background image at " + posStr);
             break;
 
         case ForegroundWell:
-            mOldImage = Base64ToPixmap(mCameraGraphicsItem->GetCamera()->mCameraImageandLayers.mForegroundWellLayer);
+            mOldImage = mCameraGraphicsItem->GetCamera()->mCameraImageandLayers.mForegroundWellLayer;
             setText("Change camera foreground well image at " + posStr);
             break;
 
         case BackgroundWell:
-            mOldImage = Base64ToPixmap(mCameraGraphicsItem->GetCamera()->mCameraImageandLayers.mBackgroundWellLayer);
+            mOldImage = mCameraGraphicsItem->GetCamera()->mCameraImageandLayers.mBackgroundWellLayer;
             setText("Change camera background well image at " + posStr);
             break;
         }
-        */
     }
 
     void undo() override
@@ -191,34 +167,32 @@ public:
     }
 
 private:
-    void UpdateImage(QPixmap /*img*/)
+    void UpdateImage(QPixmap img)
     {
-        /*
         switch (mImgIdx)
         {
         case Main:
             mCameraGraphicsItem->SetImage(img);
             mEditorTab->GetScene().invalidate();
-            mCameraGraphicsItem->GetCamera()->mCameraImageandLayers.mCameraImage = PixmapToBase64PngString(img);
+            mCameraGraphicsItem->GetCamera()->mCameraImageandLayers.mCameraImage = img;
             break;
 
         case Foreground:
-            mCameraGraphicsItem->GetCamera()->mCameraImageandLayers.mForegroundLayer = PixmapToBase64PngString(img);
+            mCameraGraphicsItem->GetCamera()->mCameraImageandLayers.mForegroundLayer = img;
             break;
 
         case Background:
-            mCameraGraphicsItem->GetCamera()->mCameraImageandLayers.mBackgroundLayer = PixmapToBase64PngString(img);
+            mCameraGraphicsItem->GetCamera()->mCameraImageandLayers.mBackgroundLayer = img;
             break;
 
         case ForegroundWell:
-            mCameraGraphicsItem->GetCamera()->mCameraImageandLayers.mForegroundWellLayer = PixmapToBase64PngString(img);
+            mCameraGraphicsItem->GetCamera()->mCameraImageandLayers.mForegroundWellLayer = img;
             break;
 
         case BackgroundWell:
-            mCameraGraphicsItem->GetCamera()->mCameraImageandLayers.mBackgroundWellLayer = PixmapToBase64PngString(img);
+            mCameraGraphicsItem->GetCamera()->mCameraImageandLayers.mBackgroundWellLayer = img;
             break;
         };
-        */
     }
 
     CameraGraphicsItem* mCameraGraphicsItem = nullptr;
@@ -502,7 +476,7 @@ void CameraManager::CreateCamera(bool dropEvent, QPixmap img)
             return;
         }
 
-        const std::string newCamName = CameraNameFromId(mTab->GetModel(), camId);
+        const std::string newCamName = CameraNameFromId(camId);
         mTab->AddCommand(new NewCameraCommand(pCameraGraphicsItem, img, mTab, newCamName, camId));
 
         if (!dropEvent)
@@ -586,20 +560,17 @@ public:
         : mTab(pTab), mItem(pItem), mOldId(oldId), mNewId(newId)
     {
         setText(tr("Change camera id from %1 to %2").arg(oldId).arg(newId));
-        /*
-        const int pathIdShifted = mTab->GetModel().GetMapInfo().mPathId * 100;
+        const int pathIdShifted = mTab->GetModel().GetPathId() * 100;
         mOldId += pathIdShifted;
         mNewId += pathIdShifted;
-        */
     }
 
     void redo() override
     {
-        /*
         mItem->GetCamera()->mId = mNewId;
-        int pathIdShifted = mTab->GetModel().GetMapInfo().mPathId * 100;
+        int pathIdShifted = mTab->GetModel().GetPathId() * 100;
         const int id = mNewId - pathIdShifted;
-        mItem->GetCamera()->mName = CameraNameFromId(mTab->GetModel(), id);
+        mItem->GetCamera()->mName = CameraNameFromId(id);
         
         mTab->GetScene().update();
 
@@ -608,16 +579,15 @@ public:
         if (pMgr)
         {
             pMgr->OnCameraIdChanged(mItem->GetCamera());
-        }*/
+        }
     }
 
     void undo() override
     {
-        /*
         mItem->GetCamera()->mId = mOldId;
-        int pathIdShifted = mTab->GetModel().GetMapInfo().mPathId * 100;
+        int pathIdShifted = mTab->GetModel().GetPathId() * 100;
         const int id = mOldId - pathIdShifted;
-        mItem->GetCamera()->mName = CameraNameFromId(mTab->GetModel(), id);
+        mItem->GetCamera()->mName = CameraNameFromId(id);
 
         mTab->GetScene().update();
 
@@ -627,8 +597,6 @@ public:
         {
             pMgr->OnCameraIdChanged(mItem->GetCamera());
         }
-        */
-        
     }
 
 private:
@@ -698,15 +666,13 @@ void CameraManager::SetTabImage(int idx, QPixmap img)
     }
 }
 
-void CameraManager::UpdateTabImages(CameraGraphicsItem* /*pItem*/)
+void CameraManager::UpdateTabImages(CameraGraphicsItem* pItem)
 {
-    /*
     SetTabImage(TabImageIdx::Main, pItem->GetImage());
-    SetTabImage(TabImageIdx::Foreground, Base64ToPixmap(pItem->GetCamera()->mCameraImageandLayers.mForegroundLayer));
-    SetTabImage(TabImageIdx::Background, Base64ToPixmap(pItem->GetCamera()->mCameraImageandLayers.mBackgroundLayer));
-    SetTabImage(TabImageIdx::ForegroundWell, Base64ToPixmap(pItem->GetCamera()->mCameraImageandLayers.mForegroundWellLayer));
-    SetTabImage(TabImageIdx::BackgroundWell, Base64ToPixmap(pItem->GetCamera()->mCameraImageandLayers.mBackgroundWellLayer));
-    */
+    SetTabImage(TabImageIdx::Foreground, pItem->GetCamera()->mCameraImageandLayers.mForegroundLayer);
+    SetTabImage(TabImageIdx::Background, pItem->GetCamera()->mCameraImageandLayers.mBackgroundLayer);
+    SetTabImage(TabImageIdx::ForegroundWell, pItem->GetCamera()->mCameraImageandLayers.mForegroundWellLayer);
+    SetTabImage(TabImageIdx::BackgroundWell, pItem->GetCamera()->mCameraImageandLayers.mBackgroundWellLayer);
 }
 
 void CameraManager::on_btnDeleteCamera_clicked()

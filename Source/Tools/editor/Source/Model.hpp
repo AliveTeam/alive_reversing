@@ -317,6 +317,10 @@ public:
     {
         return mGame;
     }
+    s32 GetPathId() const
+    {
+        return mPathId;
+    }
 
 private:
     void CreateEmptyCameras();
