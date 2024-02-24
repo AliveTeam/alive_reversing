@@ -51,15 +51,6 @@ static int CamIdFromCamName(const std::string camName)
     return QString(camName.c_str()).toInt();
 }
 
-enum TabImageIdx
-{
-    Main = 0,
-    Foreground = 1,
-    Background = 2,
-    ForegroundWell = 3,
-    BackgroundWell = 4,
-};
-
 class NewCameraCommand final : public QUndoCommand
 {
 public:
@@ -351,7 +342,7 @@ public:
         }
         else
         {
-            setText(camPos);
+            setText(camPos + QString(" @ empty"));
         }
     }
 
@@ -392,6 +383,7 @@ CameraManager::CameraManager(QWidget *parent, EditorTab* pParentTab, const QPoin
                 {
                     ui->lstCameras->clearSelection();
                     pItem->setSelected(true);
+                    ui->lstCameras->scrollToItem(pItem);
                     break;
                 }
             }
@@ -439,7 +431,7 @@ void CameraManager::CreateCamera(bool dropEvent, QPixmap img)
 
     if (img.isNull())
     {
-        QMessageBox::critical(this, "Error", "Failed to load image");
+        QMessageBox::critical(this, "Error", tr("Failed to load image"));
         return;
     }
 
@@ -448,15 +440,20 @@ void CameraManager::CreateCamera(bool dropEvent, QPixmap img)
         img = img.scaled(640, 240);
         if (img.isNull())
         {
-            QMessageBox::critical(this, "Error", "Failed to resize image");
+            QMessageBox::critical(this, "Error", tr("Failed to resize image"));
             return;
         }
     }
 
     if (!pItem->GetCamera()->mName.empty())
     {
-        // Update image of existing camera
         auto index = dropEvent ? TabImageIdx::Main : static_cast<TabImageIdx>(ui->tabWidget->currentIndex());
+        if (!SaveCameraImage(img, mTab->GetPathDirectory(), pCameraGraphicsItem->GetCamera()->mName, index))
+        {
+            return;
+        }
+
+        // Update image of existing camera
         mTab->AddCommand(new ChangeCameraImageCommand(pCameraGraphicsItem, img, index, mTab));
         UpdateTabImages(pCameraGraphicsItem);
     }
@@ -466,17 +463,24 @@ void CameraManager::CreateCamera(bool dropEvent, QPixmap img)
         const int camId = NextFreeCamId();
         if (camId == -1)
         {
-            QMessageBox::critical(this, "Error", "No more free camera Ids (only 0-99 is valid)");
+            QMessageBox::critical(this, "Error", tr("No more free camera Ids (only 0-99 is valid)"));
             return;
         }
 
-        if (ui->tabWidget->currentIndex() != TabImageIdx::Main)
+        const TabImageIdx index = static_cast<TabImageIdx>(ui->tabWidget->currentIndex());
+        if (index != TabImageIdx::Main)
         {
-            QMessageBox::critical(this, "Error", "You need to set the main image first when creating a new camera");
+            QMessageBox::critical(this, "Error", tr("You need to set the main image first when creating a new camera"));
             return;
         }
 
         const std::string newCamName = CameraNameFromId(camId);
+
+        if (!SaveCameraImage(img, mTab->GetPathDirectory(), pItem->GetCamera()->mName, index))
+        {
+            return;
+        }
+
         mTab->AddCommand(new NewCameraCommand(pCameraGraphicsItem, img, mTab, newCamName, camId));
 
         if (!dropEvent)
@@ -698,4 +702,49 @@ void CameraManager::on_lstCameras_itemSelectionChanged()
         CameraGraphicsItem* pCameraGraphicsItem = CameraGraphicsItemByModelPtr(pItem->GetCamera());
         UpdateTabImages(pCameraGraphicsItem);
     }
+}
+
+bool CameraManager::SaveCameraImage(const QPixmap& camImage, const QString& pathDirectory, const std::string& camName, TabImageIdx imgIdx)
+{
+    QString savePath = pathDirectory + QString("/%1").arg(QString::fromStdString(camName));
+    switch (imgIdx)
+    {
+        case TabImageIdx::Main:
+            break;
+
+        case TabImageIdx::Foreground:
+            savePath += "fg";
+            break;
+
+        case TabImageIdx::ForegroundWell:
+            savePath += "fg_well";
+            break;
+
+        case TabImageIdx::Background:
+            savePath += "bg";
+            break;
+
+        case TabImageIdx::BackgroundWell:
+            savePath += "bg_well";
+            break;
+    }
+
+    savePath += ".png";
+
+    const bool fileExists = QFileInfo(savePath).exists();
+
+    if (!fileExists)
+    {
+        return camImage.save(savePath);
+    }
+
+    QString message = tr("There is an existing camera image at:\n%1 \n\nDo you want to overwrite it?");
+    message = message.arg(savePath);
+
+    auto answer = QMessageBox::warning(nullptr, "Warning", message, QMessageBox::Yes | QMessageBox::No);
+    if (answer == QMessageBox::Yes)
+    {
+        return camImage.save(savePath);
+    }
+    return false;
 }

@@ -96,6 +96,29 @@ li.checked::marker { content: &quot;\2612&quot;; }
         <source>Camera Id already in use</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>There is an existing camera image at:
+%1 
+
+Do you want to overwrite it?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Failed to load image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Failed to resize image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No more free camera Ids (only 0-99 is valid)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You need to set the main image first when creating a new camera</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ChangeCameraIdCommand</name>

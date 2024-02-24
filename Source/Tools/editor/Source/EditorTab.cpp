@@ -366,7 +366,8 @@ EditorTab::EditorTab(QTabWidget* aParent, std::unique_ptr<Model> model, QString 
     mParent(aParent),
     mIsTempFile(isTempFile),
     mStatusBar(pStatusBar),
-    mSnapSettings(snapSettings)
+    mSnapSettings(snapSettings),
+    mPathDirectory(QFileInfo(jsonFileName).path())
 {
     ui->setupUi(this);
 

@@ -98,6 +98,11 @@ public:
     void Copy(ClipBoard& clipBoard);
     void Paste(ClipBoard& clipBoard);
 
+    QString GetPathDirectory() const
+    {
+        return mPathDirectory;
+    }
+
 signals:
     void CleanChanged();
 
@@ -129,6 +134,7 @@ private:
     QStatusBar* mStatusBar = nullptr;
 
     SnapSettings& mSnapSettings;
+    QString mPathDirectory;
 };
 
 class EditorGraphicsView final : public QGraphicsView

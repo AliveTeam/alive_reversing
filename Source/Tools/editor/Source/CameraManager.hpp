@@ -12,6 +12,15 @@ class EditorTab;
 class CameraGraphicsItem;
 struct EditorCamera;
 
+enum TabImageIdx
+{
+    Main = 0,
+    Foreground = 1,
+    Background = 2,
+    ForegroundWell = 3,
+    BackgroundWell = 4,
+};
+
 class CameraManager : public QDialog
 {
     Q_OBJECT
@@ -41,6 +50,7 @@ private:
     void UpdateTabImages(CameraGraphicsItem* pItem);
     
     int NextFreeCamId();
+    bool SaveCameraImage(const QPixmap& camImage, const QString& pathDirectory, const std::string& camName, TabImageIdx imgIdx);
 
     CameraGraphicsItem* CameraGraphicsItemByPos(const QPoint& pos);
     CameraGraphicsItem* CameraGraphicsItemByModelPtr(const EditorCamera* cam);
