@@ -57,7 +57,16 @@ void BaseAliveGameObject::VCheckCollisionLineStillValid(s32 distance)
     FP hitX = {};
     FP hitY = {};
 
-    const CollisionMask mask = PerGameScale() == Scale::Fg ? kFgFloorCeilingOrWalls : kBgFloorCeilingOrWalls;
+    CollisionMask mask;
+    if (PerGameScale() == Scale::Fg)
+    {
+        mask = GetGameType() == GameType::eAe ? kFgFloorCeilingOrWalls : kFgWallsOrFloor;
+    }
+    else
+    {
+        mask = GetGameType() == GameType::eAe ? kBgFloorCeilingOrWalls : kBgWallsOrFloor;
+    }
+
     if (gCollisions->Raycast(
             mXPos,
             mYPos - FP_FromInteger(distance),
@@ -86,6 +95,24 @@ void BaseAliveGameObject::VCheckCollisionLineStillValid(s32 distance)
     else
     {
         BaseAliveGameObjectCollisionLine = nullptr;
+
+        BaseAliveGameObjectPathTLV = GetMap().TLV_First_Of_Type_In_Camera(ReliveTypes::eStartController, 0);
+        if (BaseAliveGameObjectPathTLV)
+        {
+            if (gCollisions->Raycast(
+                    mXPos,
+                    FP_FromInteger(BaseAliveGameObjectPathTLV->mTopLeftY),
+                    mXPos,
+                    FP_FromInteger(BaseAliveGameObjectPathTLV->mBottomRightY),
+                    &pLine,
+                    &hitX,
+                    &hitY,
+                    mask))
+            {
+                BaseAliveGameObjectCollisionLine = pLine;
+                mYPos = hitY;
+            }
+        }
     }
 }
 
@@ -262,14 +289,14 @@ void BaseAliveGameObject::VOnPathTransition(s32 camWorldX, s32 camWorldY, Camera
 
 bool BaseAliveGameObject::MapFollowMe(bool snapToGrid)
 {
+    PSX_Point currentCamCoords = {};
+    gMap.GetCurrentCamCoords(&currentCamCoords);
+
     const s32 xposSnapped = SnapToXGrid_AE(GetSpriteScale(), FP_GetExponent(mXPos));
     if (snapToGrid)
     {
         mXPos = FP_FromInteger(xposSnapped);
     }
-
-    PSX_Point currentCamCoords = {};
-    gMap.GetCurrentCamCoords(&currentCamCoords);
 
     // Gone off the left edge of the current screen
     if (xposSnapped < currentCamCoords.x && (GetAnimation().GetFlipX() || mVelX < FP_FromInteger(0)))
@@ -309,6 +336,16 @@ bool BaseAliveGameObject::InAirCollision(PathLine** ppLine, FP* hitX, FP* hitY, 
     mXPos += mVelX;
     mYPos += mVelY;
 
+    CollisionMask mask;
+    if (PerGameScale() == Scale::Fg)
+    {
+        mask = GetGameType() == GameType::eAe ? kFgFloorCeilingOrWalls : kFgWallsOrFloor;
+    }
+    else
+    {
+        mask = GetGameType() == GameType::eAe ? kBgFloorCeilingOrWalls : kBgWallsOrFloor;
+    }
+
     auto bCollision = gCollisions->Raycast(
         old_xpos,
         old_ypos,
@@ -317,9 +354,10 @@ bool BaseAliveGameObject::InAirCollision(PathLine** ppLine, FP* hitX, FP* hitY, 
         ppLine,
         hitX,
         hitY,
-        PerGameScale() == Scale::Fg ? kFgFloorCeilingOrWalls : kBgFloorCeilingOrWalls);
+        mask);
 
-    if (bCollision)
+    // AO doesn't clamp mudokon y velocity
+    if (bCollision || GetGameType() == GameType::eAo)
     {
         return bCollision;
     }

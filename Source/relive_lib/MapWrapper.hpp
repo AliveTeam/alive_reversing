@@ -159,6 +159,8 @@ public:
 
     virtual CameraPos GetDirection(EReliveLevelIds level, s32 path, FP xpos, FP ypos) = 0;
 
+    virtual relive::Path_TLV* TLV_First_Of_Type_In_Camera(ReliveTypes objectType, s16 camX) = 0;
+
 public:
     MapDirections mMapDirection = MapDirections::eMapLeft_0;
     IBaseAliveGameObject* mAliveObj = nullptr;

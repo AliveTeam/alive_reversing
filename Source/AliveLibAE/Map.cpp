@@ -1146,4 +1146,9 @@ relive::Path_TLV* Map::VTLV_Get_At_Of_Type(s16 xpos, s16 ypos, s16 width, s16 he
     return gPathInfo->VTLV_Get_At_Of_Type(xpos, ypos, width, height, typeToFind);
 }
 
+relive::Path_TLV* Map::TLV_First_Of_Type_In_Camera(ReliveTypes type, s16 camX)
+{
+    return gPathInfo->TLV_First_Of_Type_In_Camera(type, camX);
+}
+
 Map gMap = {};

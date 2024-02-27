@@ -1496,9 +1496,9 @@ void Map::ResetPathObjects(u16 pathNum)
     }
 }
 
-relive::Path_TLV* Map::TLV_First_Of_Type_In_Camera(ReliveTypes type, s32 camX)
+relive::Path_TLV* Map::TLV_First_Of_Type_In_Camera(ReliveTypes type, s16 camX)
 {
-    relive::Path_TLV* pTlvIter = Get_First_TLV_For_Offsetted_Camera(static_cast<s16>(camX), 0);
+    relive::Path_TLV* pTlvIter = Get_First_TLV_For_Offsetted_Camera(camX, 0);
     if (!pTlvIter)
     {
         return nullptr;

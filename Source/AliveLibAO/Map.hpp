@@ -93,7 +93,7 @@ public:
 
     void Load_Path_Items(Camera* pCamera, LoadMode loadMode);
 
-    relive::Path_TLV* TLV_First_Of_Type_In_Camera(ReliveTypes type, s32 camX);
+    virtual relive::Path_TLV* TLV_First_Of_Type_In_Camera(ReliveTypes type, s16 camX) override;
 
     relive::Path_TLV* VTLV_Get_At_Of_Type(s16 xpos, s16 ypos, s16 width, s16 height, ReliveTypes typeToFind) override;
 

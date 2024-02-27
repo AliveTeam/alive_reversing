@@ -28,14 +28,7 @@ BaseAliveGameObject::BaseAliveGameObject()
     SetTeleporting(false);
     SetElectrocuting(false);
 
-    BaseAliveGameObjectPathTLV = nullptr;
-    BaseAliveGameObjectCollisionLine = nullptr;
-    mHealth = FP_FromInteger(1);
-    BaseAliveGameObject_PlatformId = Guid{};
-    mbGotShot = false;
     SetCanBeesChase(false);
-    mBaseAliveGameObjectLastAnimFrame = 0;
-    BaseAliveGameObjectLastLineYPos = FP_FromInteger(0);
 
     gBaseAliveGameObjects->Push_Back(this);
 
@@ -183,7 +176,16 @@ void BaseAliveGameObject::VCheckCollisionLineStillValid(s32 distance)
     FP hitX = {};
     FP hitY = {};
 
-    const CollisionMask mask = PerGameScale() == Scale::Fg ? kFgWallsOrFloor : kBgWallsOrFloor;
+    CollisionMask mask;
+    if (PerGameScale() == Scale::Fg)
+    {
+        mask = GetGameType() == GameType::eAe ? kFgFloorCeilingOrWalls : kFgWallsOrFloor;
+    }
+    else
+    {
+        mask = GetGameType() == GameType::eAe ? kBgFloorCeilingOrWalls : kBgWallsOrFloor;
+    }
+
     if (gCollisions->Raycast(
             mXPos,
             mYPos - FP_FromInteger(distance),
@@ -196,7 +198,8 @@ void BaseAliveGameObject::VCheckCollisionLineStillValid(s32 distance)
     {
         BaseAliveGameObjectCollisionLine = pLine;
         mYPos = hitY;
-        if (pLine->mLineType == eLineTypes ::eDynamicCollision_32 || pLine->mLineType == eLineTypes::eBackgroundDynamicCollision_36)
+
+        if (pLine->mLineType == eLineTypes::eDynamicCollision_32 || pLine->mLineType == eLineTypes::eBackgroundDynamicCollision_36)
         {
             const PSX_RECT bRect = VGetBoundingRect();
 
@@ -210,7 +213,9 @@ void BaseAliveGameObject::VCheckCollisionLineStillValid(s32 distance)
     }
     else
     {
-        BaseAliveGameObjectPathTLV = gMap.TLV_First_Of_Type_In_Camera(ReliveTypes::eStartController, 0);
+        BaseAliveGameObjectCollisionLine = nullptr;
+
+        BaseAliveGameObjectPathTLV = GetMap().TLV_First_Of_Type_In_Camera(ReliveTypes::eStartController, 0);
         if (BaseAliveGameObjectPathTLV)
         {
             if (gCollisions->Raycast(
@@ -586,7 +591,17 @@ bool BaseAliveGameObject::InAirCollision(PathLine** ppLine, FP* hitX, FP* hitY, 
     mXPos += mVelX;
     mYPos += mVelY;
 
-    return gCollisions->Raycast(
+    CollisionMask mask;
+    if (PerGameScale() == Scale::Fg)
+    {
+        mask = GetGameType() == GameType::eAe ? kFgFloorCeilingOrWalls : kFgWallsOrFloor;
+    }
+    else
+    {
+        mask = GetGameType() == GameType::eAe ? kBgFloorCeilingOrWalls : kBgWallsOrFloor;
+    }
+
+    auto bCollision = gCollisions->Raycast(
         old_xpos,
         old_ypos,
         mXPos,
@@ -594,7 +609,56 @@ bool BaseAliveGameObject::InAirCollision(PathLine** ppLine, FP* hitX, FP* hitY, 
         ppLine,
         hitX,
         hitY,
-        PerGameScale() == Scale::Fg ? kFgWallsOrFloor : kBgWallsOrFloor);
+        mask);
+
+    // AO doesn't clamp mudokon y velocity
+    if (bCollision || GetGameType() == GameType::eAo)
+    {
+        return bCollision;
+    }
+
+    FP velYClamped = mVelY;
+    if (Type() == ReliveTypes::eMudokon && velYClamped >= FP_FromInteger(0) && velYClamped < FP_FromInteger(4))
+    {
+        velYClamped = FP_FromInteger(4);
+    }
+
+    bCollision = gCollisions->Raycast(
+        mXPos,
+        mYPos,
+        mXPos + mVelX,
+        velYClamped + mYPos,
+        ppLine,
+        hitX,
+        hitY,
+        PerGameScale() == Scale::Fg ? kFgFloor : kBgFloor);
+
+    if (bCollision)
+    {
+        if ((*ppLine)->mLineType == eLineTypes::eDynamicCollision_32 || (*ppLine)->mLineType == eLineTypes::eBackgroundDynamicCollision_36)
+        {
+            return bCollision;
+        }
+
+        bCollision = false;
+        *ppLine = nullptr;
+    }
+
+    if (!IsAbe(this))
+    {
+        return bCollision;
+    }
+
+    const FP k10Scaled = GetSpriteScale() * FP_FromInteger(10);
+    return gCollisions->Raycast(
+        old_xpos,
+        old_ypos - k10Scaled,
+        mXPos,
+        mYPos - k10Scaled,
+        ppLine,
+        hitX,
+        hitY,
+        PerGameScale() == Scale::Fg ? kFgWalls : kBgWalls);
 }
 
 BaseGameObject* BaseAliveGameObject::FindObjectOfType(ReliveTypes typeToFind, FP xpos, FP ypos)
