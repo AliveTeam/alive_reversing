@@ -1,7 +1,9 @@
 #pragma once
 
 #include <vector>
+#include "Sdl2Texture.hpp"
 #include "../IRenderer.hpp"
+#include "../TextureCache.hpp"
 
 class Sdl2Renderer final : public IRenderer
 {
@@ -21,11 +23,13 @@ public:
     void StartFrame() override;
 
 private:
+    std::shared_ptr<Sdl2Texture> PrepareTextureFromPoly(const Poly_FT4& poly);
     SDL_FPoint PointToViewport(const SDL_FPoint& point);
     void ScaleVertices(std::vector<SDL_Vertex>& vertices);
 
 private:
     SDL_Renderer* mRenderer;
-
     bool mRenderTargetSupported;
+
+    TextureCache<std::shared_ptr<Sdl2Texture>> mTextureCache;
 };

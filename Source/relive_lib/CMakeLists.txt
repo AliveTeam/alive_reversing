@@ -494,6 +494,8 @@ SET(renderer_src
     Renderer/OpenGL3/Shaders/ShaderPsx.cpp
     Renderer/SDL2/Sdl2Renderer.hpp
     Renderer/SDL2/Sdl2Renderer.cpp
+    Renderer/SDL2/Sdl2Texture.hpp
+    Renderer/SDL2/Sdl2Texture.cpp
 )
 
 SET(sound_src

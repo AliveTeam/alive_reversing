@@ -121,21 +121,7 @@ void Sdl2Renderer::Draw(const Poly_FT4& poly)
     {
         LOG("%s", "SDL2: Draw Poly_FT4 (CAM)");
 
-        tex =
-            SDL_CreateTexture(
-                mRenderer,
-                SDL_PIXELFORMAT_RGBA32,
-                SDL_TEXTUREACCESS_STATIC,
-                poly.mCam->mData.mWidth,
-                poly.mCam->mData.mHeight
-            );
-
-        SDL_UpdateTexture(
-            tex,
-            NULL,
-            poly.mCam->mData.mPixels->data(),
-            poly.mCam->mData.mWidth * 4
-        );
+        tex = PrepareTextureFromPoly(poly)->GetTexture();
     }
     else if (poly.mAnim)
     {
@@ -204,6 +190,8 @@ void Sdl2Renderer::EndFrame()
     LOG("%s", "SDL2: End frame");
 
     SDL_RenderPresent(mRenderer);
+
+    mTextureCache.DecreaseResourceLifetimes();
 }
 
 void Sdl2Renderer::SetClip(const Prim_ScissorRect& clipper)
@@ -229,6 +217,54 @@ void Sdl2Renderer::StartFrame()
 
     mOffsetX = 0;
     mOffsetY = 0;
+}
+
+std::shared_ptr<Sdl2Texture> Sdl2Renderer::PrepareTextureFromPoly(const Poly_FT4& poly)
+{
+    std::shared_ptr<Sdl2Texture> texture;
+
+    if (poly.mFg1)
+    {
+        // TODO: Implement this
+    }
+    else if (poly.mCam)
+    {
+        // FIXME: kCamLifetime should be in IRenderer ?
+        texture = mTextureCache.GetCachedTexture(poly.mCam->mUniqueId.Id(), 1);
+
+        if (!texture)
+        {
+            auto camTex =
+                std::make_shared<Sdl2Texture>(
+                    mRenderer,
+                    poly.mCam->mData.mWidth,
+                    poly.mCam->mData.mHeight,
+                    SDL_PIXELFORMAT_RGBA32,
+                    SDL_TEXTUREACCESS_STATIC
+                );
+
+            camTex->Update(NULL, poly.mCam->mData.mPixels->data());
+
+            texture =
+                mTextureCache.Add(
+                    poly.mCam->mUniqueId.Id(),
+                    1,
+                    camTex
+                );
+
+            LOG("SDL2 CAM cache miss %u", poly.mCam->mUniqueId.Id());
+        }
+    }
+    else if (poly.mAnim)
+    {
+        // TODO: Implement this
+    }
+    else if (poly.mFont)
+    {
+        // TODO: Implement this
+    }
+
+    return texture;
 }
 
 SDL_FPoint Sdl2Renderer::PointToViewport(const SDL_FPoint& point)
