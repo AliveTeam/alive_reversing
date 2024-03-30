@@ -14,12 +14,16 @@ Sdl2Renderer::~Sdl2Renderer()
 
 void Sdl2Renderer::Clear(u8 r, u8 g, u8 b)
 {
+    LOG("%s", "SDL2: Clear viewport");
+
     SDL_SetRenderDrawColor(mRenderer, r, g, b, 255);
     //SDL_RenderClear(mRenderer);
 }
 
 void Sdl2Renderer::Draw(const Prim_GasEffect& gasEffect)
 {
+    LOG("%s", "SDL2: Draw Prim_GasEffect");
+
     // TODO: Implement this
     const f32 x = static_cast<f32>(gasEffect.x);
     const f32 y = static_cast<f32>(gasEffect.y);
@@ -48,6 +52,8 @@ void Sdl2Renderer::Draw(const Prim_GasEffect& gasEffect)
 
 void Sdl2Renderer::Draw(const Line_G2& line)
 {
+    LOG("%s", "SDL2: Draw Line_G2");
+
     // FIXME: Handle thickness, and colour correctly (aka use a quad)
     SDL_SetRenderDrawColor(mRenderer, line.R0(), line.G0(), line.B0(), 255);
     SDL_RenderDrawLine(mRenderer, line.X0(), line.Y0(), line.X1(), line.Y1());
@@ -55,6 +61,8 @@ void Sdl2Renderer::Draw(const Line_G2& line)
 
 void Sdl2Renderer::Draw(const Line_G4& line)
 {
+    LOG("%s", "SDL2: Draw Line_G4");
+
     // FIXME: Handle thickness, and colour correctly (aka use a quad)
     SDL_Point points[] = {
         { line.X0(), line.Y0() },
@@ -69,6 +77,8 @@ void Sdl2Renderer::Draw(const Line_G4& line)
 
 void Sdl2Renderer::Draw(const Poly_G3& poly)
 {
+    LOG("%s", "SDL2: Draw Poly_G3");
+
     // FIXME: Obviously unfinished (no blending, etc.)
     std::vector<SDL_Vertex> vertices = {
         { { static_cast<f32>(poly.X0()), static_cast<f32>(poly.Y0()) }, { poly.R0(), poly.G0(), poly.B0(), 255 }, { 0, 0 } },
@@ -103,10 +113,14 @@ void Sdl2Renderer::Draw(const Poly_FT4& poly)
 
     if (poly.mFg1)
     {
+        LOG("%s", "SDL2: Draw Poly_FT4 (FG1)");
+
         // TODO: Implement this
     }
     else if (poly.mCam)
     {
+        LOG("%s", "SDL2: Draw Poly_FT4 (CAM)");
+
         tex =
             SDL_CreateTexture(
                 mRenderer,
@@ -125,6 +139,8 @@ void Sdl2Renderer::Draw(const Poly_FT4& poly)
     }
     else if (poly.mAnim)
     {
+        LOG("%s", "SDL2: Draw Poly_FT4 (ANIM)");
+
         // TODO: Handle palette
         tex =
             SDL_CreateTexture(
@@ -144,10 +160,14 @@ void Sdl2Renderer::Draw(const Poly_FT4& poly)
     }
     else if (poly.mFont)
     {
+        LOG("%s", "SDL2: Draw Poly_FT4 (Font)");
+
         // TODO: Implement this
     }
     else // Assume ScreenWave!
     {
+        LOG("%s", "SDL2: Draw Poly_FT4 (ScreenWave)");
+
         // TODO: Implement this
     }
 
@@ -161,6 +181,8 @@ void Sdl2Renderer::Draw(const Poly_FT4& poly)
 
 void Sdl2Renderer::Draw(const Poly_G4& poly)
 {
+    LOG("%s", "SDL2: Draw Poly_G4");
+
     // FIXME: Obviously unfinished (no blending, etc.)
     std::vector<SDL_Vertex> vertices = {
         { { static_cast<f32>(poly.X0()), static_cast<f32>(poly.Y0()) }, { poly.R0(), poly.G0(), poly.B0(), 255 }, { 0, 0 } },
@@ -179,11 +201,15 @@ void Sdl2Renderer::Draw(const Poly_G4& poly)
 
 void Sdl2Renderer::EndFrame()
 {
+    LOG("%s", "SDL2: End frame");
+
     SDL_RenderPresent(mRenderer);
 }
 
 void Sdl2Renderer::SetClip(const Prim_ScissorRect& clipper)
 {
+    LOG("%s", "SDL2: Set viewport clip");
+
     // FIXME: Implement this
     SDL_Rect rect;
 
@@ -197,6 +223,8 @@ void Sdl2Renderer::SetClip(const Prim_ScissorRect& clipper)
 
 void Sdl2Renderer::StartFrame()
 {
+    LOG("%s", "SDL2: Start frame");
+
     IRenderer::StartFrame();
 
     mOffsetX = 0;
