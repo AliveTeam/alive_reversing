@@ -83,20 +83,80 @@ void Sdl2Renderer::Draw(const Poly_G3& poly)
 
 void Sdl2Renderer::Draw(const Poly_FT4& poly)
 {
+    //
     // FIXME: Obviously unfinished (no blending, etc.)
+    //
+
+    constexpr s32 indexList[6] = { 0, 1, 2, 1, 2 , 3 };
     std::vector<SDL_Vertex> vertices = {
         { { static_cast<f32>(poly.X0()), static_cast<f32>(poly.Y0()) }, { poly.R0(), poly.G0(), poly.B0(), 255 }, { 0, 0 } },
-        { { static_cast<f32>(poly.X1()), static_cast<f32>(poly.Y1()) }, { poly.R1(), poly.G1(), poly.B1(), 255 }, { 0, 0 } },
-        { { static_cast<f32>(poly.X2()), static_cast<f32>(poly.Y2()) }, { poly.R2(), poly.G2(), poly.B2(), 255 }, { 0, 0 } },
-
-        { { static_cast<f32>(poly.X1()), static_cast<f32>(poly.Y1()) }, { poly.R1(), poly.G1(), poly.B1(), 255 }, { 0, 0 } },
-        { { static_cast<f32>(poly.X2()), static_cast<f32>(poly.Y2()) }, { poly.R2(), poly.G2(), poly.B2(), 255 }, { 0, 0 } },
-        { { static_cast<f32>(poly.X3()), static_cast<f32>(poly.Y3()) }, { poly.R3(), poly.G3(), poly.B3(), 255 }, { 0, 0 } },
+        { { static_cast<f32>(poly.X1()), static_cast<f32>(poly.Y1()) }, { poly.R0(), poly.G0(), poly.B0(), 255 }, { 1, 0 } },
+        { { static_cast<f32>(poly.X2()), static_cast<f32>(poly.Y2()) }, { poly.R0(), poly.G0(), poly.B0(), 255 }, { 0, 1 } },
+        { { static_cast<f32>(poly.X3()), static_cast<f32>(poly.Y3()) }, { poly.R0(), poly.G0(), poly.B0(), 255 }, { 1, 1 } },
     };
 
     ScaleVertices(vertices);
 
-    SDL_RenderGeometry(mRenderer, NULL, vertices.data(), 6, NULL, 0);
+    // TODO: Obviously temp - cache textures instead of creating every
+    //       call!
+    SDL_Texture* tex = NULL;
+
+    if (poly.mFg1)
+    {
+        // TODO: Implement this
+    }
+    else if (poly.mCam)
+    {
+        tex =
+            SDL_CreateTexture(
+                mRenderer,
+                SDL_PIXELFORMAT_RGBA32,
+                SDL_TEXTUREACCESS_STATIC,
+                poly.mCam->mData.mWidth,
+                poly.mCam->mData.mHeight
+            );
+
+        SDL_UpdateTexture(
+            tex,
+            NULL,
+            poly.mCam->mData.mPixels->data(),
+            poly.mCam->mData.mWidth * 4
+        );
+    }
+    else if (poly.mAnim)
+    {
+        // TODO: Handle palette
+        tex =
+            SDL_CreateTexture(
+                mRenderer,
+                SDL_PIXELFORMAT_INDEX8,
+                SDL_TEXTUREACCESS_STATIC,
+                poly.mAnim->mAnimRes.mPngPtr->mWidth,
+                poly.mAnim->mAnimRes.mPngPtr->mHeight
+            );
+
+        SDL_UpdateTexture(
+            tex,
+            NULL,
+            poly.mAnim->mAnimRes.mPngPtr->mPixels.data(),
+            poly.mAnim->mAnimRes.mPngPtr->mWidth
+        );
+    }
+    else if (poly.mFont)
+    {
+        // TODO: Implement this
+    }
+    else // Assume ScreenWave!
+    {
+        // TODO: Implement this
+    }
+
+    SDL_RenderGeometry(mRenderer, tex, vertices.data(), 4, indexList, 6);
+
+    if (tex)
+    {
+        SDL_DestroyTexture(tex);
+    }
 }
 
 void Sdl2Renderer::Draw(const Poly_G4& poly)
