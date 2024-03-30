@@ -115,7 +115,7 @@ void Sdl2Renderer::Draw(const Poly_FT4& poly)
     {
         LOG("%s", "SDL2: Draw Poly_FT4 (FG1)");
 
-        // TODO: Implement this
+        tex = PrepareTextureFromPoly(poly)->GetTexture();
     }
     else if (poly.mCam)
     {
@@ -221,14 +221,43 @@ void Sdl2Renderer::StartFrame()
 
 std::shared_ptr<Sdl2Texture> Sdl2Renderer::PrepareTextureFromPoly(const Poly_FT4& poly)
 {
+    static u32 lastTouchedCamId = 0;
+
     std::shared_ptr<Sdl2Texture> texture;
 
     if (poly.mFg1)
     {
         // TODO: Implement this
+        // FIXME: kCamLifetime should be in IRenderer ?
+        texture = mTextureCache.GetCachedTexture(poly.mFg1->mUniqueId.Id(), 1);
+
+        if (!texture)
+        {
+            auto fg1Tex =
+                std::make_shared<Sdl2Texture>(
+                    mRenderer,
+                    poly.mFg1->mImage.mWidth,
+                    poly.mFg1->mImage.mHeight,
+                    SDL_PIXELFORMAT_RGBA32,
+                    SDL_TEXTUREACCESS_STATIC
+                );
+
+            fg1Tex->Update(NULL, poly.mFg1->mImage.mPixels->data());
+
+            texture =
+                mTextureCache.Add(
+                    poly.mFg1->mUniqueId.Id(),
+                    1,
+                    fg1Tex
+                );
+
+            LOG("SDL2 FG1 cache miss %u", poly.mFg1->mUniqueId.Id());
+        }
     }
     else if (poly.mCam)
     {
+        lastTouchedCamId = poly.mCam->mUniqueId.Id();
+
         // FIXME: kCamLifetime should be in IRenderer ?
         texture = mTextureCache.GetCachedTexture(poly.mCam->mUniqueId.Id(), 1);
 
