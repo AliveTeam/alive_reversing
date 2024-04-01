@@ -173,7 +173,7 @@ void Sdl2Renderer::Draw(const Poly_FT4& poly)
 
     SDL_RenderGeometry(mContext.GetRenderer(), tex, vertices.data(), 4, indexList, 6);
 
-    if (tex)
+    if (poly.mAnim) // Anim is the only one not cached for now
     {
         SDL_DestroyTexture(tex);
     }
