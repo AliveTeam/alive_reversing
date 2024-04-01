@@ -263,16 +263,8 @@ std::shared_ptr<Sdl2Texture> Sdl2Renderer::PrepareTextureFromPoly(const Poly_FT4
 
         if (!texture)
         {
-            auto fg1Tex =
-                std::make_shared<Sdl2Texture>(
-                    mContext,
-                    poly.mFg1->mImage.mWidth,
-                    poly.mFg1->mImage.mHeight,
-                    SDL_PIXELFORMAT_RGBA32,
-                    SDL_TEXTUREACCESS_STATIC
-                );
-
-            fg1Tex->Update(NULL, poly.mFg1->mImage.mPixels->data());
+            std::shared_ptr<Sdl2Texture> camRefTex = mTextureCache.GetCachedTexture(lastTouchedCamId, 1);
+            std::shared_ptr<Sdl2Texture> fg1Tex = Sdl2Texture::FromMask(mContext, camRefTex, poly.mFg1->mImage.mPixels->data());
 
             texture =
                 mTextureCache.Add(

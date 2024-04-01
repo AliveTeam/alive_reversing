@@ -25,6 +25,18 @@ void Sdl2Context::Present()
     SDL_RenderPresent(mRenderer);
 }
 
+void Sdl2Context::RestoreFramebuffer()
+{
+    SDL_SetRenderTarget(mRenderer, mLastFramebuffer);
+    mLastFramebuffer = NULL;
+}
+
+void Sdl2Context::SaveFramebuffer()
+{
+    mLastFramebuffer = SDL_GetRenderTarget(mRenderer);
+    SDL_SetRenderTarget(mRenderer, NULL);
+}
+
 void Sdl2Context::UseScreenFramebuffer()
 {
     SDL_SetRenderTarget(mRenderer, NULL);

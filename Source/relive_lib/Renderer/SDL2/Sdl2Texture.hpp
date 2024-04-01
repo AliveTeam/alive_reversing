@@ -9,6 +9,8 @@ public:
     Sdl2Texture(Sdl2Context& context, u32 width, u32 height, SDL_PixelFormatEnum format, SDL_TextureAccess access);
     ~Sdl2Texture();
 
+    static std::shared_ptr<Sdl2Texture> FromMask(Sdl2Context& context, std::shared_ptr<Sdl2Texture> srcTex, const u8* maskPixels);
+
     SDL_Texture* GetTexture();
     void Update(const SDL_Rect* rect, const void* pixels);
 
