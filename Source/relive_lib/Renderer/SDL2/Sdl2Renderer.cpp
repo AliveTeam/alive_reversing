@@ -26,8 +26,12 @@ void Sdl2Renderer::Clear(u8 r, u8 g, u8 b)
 {
     LOG("%s", "SDL2: Clear viewport");
 
+    mContext.UseScreenFramebuffer();
+
     SDL_SetRenderDrawColor(mContext.GetRenderer(), r, g, b, 255);
-    //SDL_RenderClear(mContext.GetRenderer());
+    SDL_RenderClear(mContext.GetRenderer());
+
+    mContext.UseTextureFramebuffer(GetActiveFbTexture().GetTexture());
 }
 
 void Sdl2Renderer::Draw(const Prim_GasEffect& gasEffect)
