@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include "Sdl2Context.hpp"
 #include "Sdl2Texture.hpp"
 #include "../IRenderer.hpp"
 #include "../TextureCache.hpp"
@@ -23,13 +24,16 @@ public:
     void StartFrame() override;
 
 private:
+    Sdl2Texture& GetActiveFbTexture();
     std::shared_ptr<Sdl2Texture> PrepareTextureFromPoly(const Poly_FT4& poly);
     SDL_FPoint PointToViewport(const SDL_FPoint& point);
     void ScaleVertices(std::vector<SDL_Vertex>& vertices);
 
 private:
-    SDL_Renderer* mRenderer;
-    bool mRenderTargetSupported;
+    Sdl2Context mContext;
+
+    u8 mActiveFbTexture = 0;
+    Sdl2Texture mPsxFbTexture[2];
 
     TextureCache<std::shared_ptr<Sdl2Texture>> mTextureCache;
 };

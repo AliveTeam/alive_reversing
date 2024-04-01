@@ -1,19 +1,20 @@
 #pragma once
 
 #include <SDL.h>
+#include "Sdl2Context.hpp"
 
 class Sdl2Texture final
 {
 public:
-    Sdl2Texture(SDL_Renderer* renderer, u32 width, u32 height, SDL_PixelFormatEnum format, SDL_TextureAccess access);
+    Sdl2Texture(Sdl2Context& context, u32 width, u32 height, SDL_PixelFormatEnum format, SDL_TextureAccess access);
     ~Sdl2Texture();
 
     SDL_Texture* GetTexture();
     void Update(const SDL_Rect* rect, const void* pixels);
 
 private:
+    Sdl2Context& mContext;
     SDL_PixelFormatEnum mFormat;
-    SDL_Renderer* mRenderer = 0;
     SDL_Texture* mTexture = 0;
     u32 mHeight = 0;
     u32 mWidth = 0;

@@ -1,10 +1,10 @@
 #include "Sdl2Texture.hpp"
 #include "FatalError.hpp"
 
-Sdl2Texture::Sdl2Texture(SDL_Renderer* renderer, u32 width, u32 height, SDL_PixelFormatEnum format, SDL_TextureAccess access)
-    : mFormat(format), mRenderer(renderer), mHeight(height), mWidth(width)
+Sdl2Texture::Sdl2Texture(Sdl2Context& context, u32 width, u32 height, SDL_PixelFormatEnum format, SDL_TextureAccess access)
+    : mContext(context), mFormat(format), mHeight(height), mWidth(width)
 {
-    mTexture = SDL_CreateTexture(mRenderer, mFormat, access, mWidth, mHeight);
+    mTexture = SDL_CreateTexture(mContext.GetRenderer(), mFormat, access, mWidth, mHeight);
 }
 
 Sdl2Texture::~Sdl2Texture()

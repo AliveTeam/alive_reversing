@@ -1,11 +1,21 @@
 #include "../../../relive_lib/Primitives.hpp"
+#include "FatalError.hpp"
 #include "Sdl2Renderer.hpp"
 
 Sdl2Renderer::Sdl2Renderer(TWindowHandleType window)
-    : IRenderer(window)
+    : IRenderer(window),
+    mContext(window),
+    mPsxFbTexture{
+        Sdl2Texture(mContext, kPsxFramebufferWidth, kPsxFramebufferHeight, SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_TARGET),
+        Sdl2Texture(mContext, kPsxFramebufferWidth, kPsxFramebufferHeight, SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_TARGET)
+    }
 {
-    mRenderer = SDL_CreateRenderer(mWindow, -1, 0);
-    mRenderTargetSupported = SDL_RenderTargetSupported(mRenderer);
+    // Render target support is required for things like FG1 mask and
+    // framebuffer textures
+    if (!mContext.IsRenderTargetSupported())
+    {
+        ALIVE_FATAL("%s", "SDL2 renderer requires render target support.");
+    }
 }
 
 Sdl2Renderer::~Sdl2Renderer()
@@ -16,8 +26,8 @@ void Sdl2Renderer::Clear(u8 r, u8 g, u8 b)
 {
     LOG("%s", "SDL2: Clear viewport");
 
-    SDL_SetRenderDrawColor(mRenderer, r, g, b, 255);
-    //SDL_RenderClear(mRenderer);
+    SDL_SetRenderDrawColor(mContext.GetRenderer(), r, g, b, 255);
+    //SDL_RenderClear(mContext.GetRenderer());
 }
 
 void Sdl2Renderer::Draw(const Prim_GasEffect& gasEffect)
@@ -47,7 +57,7 @@ void Sdl2Renderer::Draw(const Prim_GasEffect& gasEffect)
 
     ScaleVertices(gasVerts);
 
-    SDL_RenderGeometry(mRenderer, NULL, gasVerts.data(), 6, NULL, 0);
+    SDL_RenderGeometry(mContext.GetRenderer(), NULL, gasVerts.data(), 6, NULL, 0);
 }
 
 void Sdl2Renderer::Draw(const Line_G2& line)
@@ -55,8 +65,8 @@ void Sdl2Renderer::Draw(const Line_G2& line)
     LOG("%s", "SDL2: Draw Line_G2");
 
     // FIXME: Handle thickness, and colour correctly (aka use a quad)
-    SDL_SetRenderDrawColor(mRenderer, line.R0(), line.G0(), line.B0(), 255);
-    SDL_RenderDrawLine(mRenderer, line.X0(), line.Y0(), line.X1(), line.Y1());
+    SDL_SetRenderDrawColor(mContext.GetRenderer(), line.R0(), line.G0(), line.B0(), 255);
+    SDL_RenderDrawLine(mContext.GetRenderer(), line.X0(), line.Y0(), line.X1(), line.Y1());
 }
 
 void Sdl2Renderer::Draw(const Line_G4& line)
@@ -71,8 +81,8 @@ void Sdl2Renderer::Draw(const Line_G4& line)
         { line.X3(), line.Y3() },
     };
 
-    SDL_SetRenderDrawColor(mRenderer, line.R0(), line.G0(), line.B0(), 255);
-    SDL_RenderDrawLines(mRenderer, points, 4);
+    SDL_SetRenderDrawColor(mContext.GetRenderer(), line.R0(), line.G0(), line.B0(), 255);
+    SDL_RenderDrawLines(mContext.GetRenderer(), points, 4);
 }
 
 void Sdl2Renderer::Draw(const Poly_G3& poly)
@@ -88,7 +98,7 @@ void Sdl2Renderer::Draw(const Poly_G3& poly)
 
     ScaleVertices(vertices);
 
-    SDL_RenderGeometry(mRenderer, NULL, vertices.data(), 3, NULL, 0);
+    SDL_RenderGeometry(mContext.GetRenderer(), NULL, vertices.data(), 3, NULL, 0);
 }
 
 void Sdl2Renderer::Draw(const Poly_FT4& poly)
@@ -130,7 +140,7 @@ void Sdl2Renderer::Draw(const Poly_FT4& poly)
         // TODO: Handle palette
         tex =
             SDL_CreateTexture(
-                mRenderer,
+                mContext.GetRenderer(),
                 SDL_PIXELFORMAT_INDEX8,
                 SDL_TEXTUREACCESS_STATIC,
                 poly.mAnim->mAnimRes.mPngPtr->mWidth,
@@ -157,7 +167,7 @@ void Sdl2Renderer::Draw(const Poly_FT4& poly)
         // TODO: Implement this
     }
 
-    SDL_RenderGeometry(mRenderer, tex, vertices.data(), 4, indexList, 6);
+    SDL_RenderGeometry(mContext.GetRenderer(), tex, vertices.data(), 4, indexList, 6);
 
     if (tex)
     {
@@ -182,16 +192,22 @@ void Sdl2Renderer::Draw(const Poly_G4& poly)
 
     ScaleVertices(vertices);
 
-    SDL_RenderGeometry(mRenderer, NULL, vertices.data(), 6, NULL, 0);
+    SDL_RenderGeometry(mContext.GetRenderer(), NULL, vertices.data(), 6, NULL, 0);
 }
 
 void Sdl2Renderer::EndFrame()
 {
     LOG("%s", "SDL2: End frame");
 
-    SDL_RenderPresent(mRenderer);
-
     mTextureCache.DecreaseResourceLifetimes();
+
+    mContext.UseScreenFramebuffer();
+
+    // FIXME: Just drawing the whole thing for now - handle this properly
+    //        with screen offset + aspect ratio (centred)
+    SDL_RenderCopy(mContext.GetRenderer(), GetActiveFbTexture().GetTexture(), NULL, NULL);
+
+    mContext.Present();
 }
 
 void Sdl2Renderer::SetClip(const Prim_ScissorRect& clipper)
@@ -217,6 +233,16 @@ void Sdl2Renderer::StartFrame()
 
     mOffsetX = 0;
     mOffsetY = 0;
+
+    // FIXME: Need to check if framebuffer textures require resizing here!
+
+    // Default back to render target
+    mContext.UseTextureFramebuffer(mPsxFbTexture[0].GetTexture());
+}
+
+Sdl2Texture& Sdl2Renderer::GetActiveFbTexture()
+{
+    return mPsxFbTexture[mActiveFbTexture];
 }
 
 std::shared_ptr<Sdl2Texture> Sdl2Renderer::PrepareTextureFromPoly(const Poly_FT4& poly)
@@ -235,7 +261,7 @@ std::shared_ptr<Sdl2Texture> Sdl2Renderer::PrepareTextureFromPoly(const Poly_FT4
         {
             auto fg1Tex =
                 std::make_shared<Sdl2Texture>(
-                    mRenderer,
+                    mContext,
                     poly.mFg1->mImage.mWidth,
                     poly.mFg1->mImage.mHeight,
                     SDL_PIXELFORMAT_RGBA32,
@@ -265,7 +291,7 @@ std::shared_ptr<Sdl2Texture> Sdl2Renderer::PrepareTextureFromPoly(const Poly_FT4
         {
             auto camTex =
                 std::make_shared<Sdl2Texture>(
-                    mRenderer,
+                    mContext,
                     poly.mCam->mData.mWidth,
                     poly.mCam->mData.mHeight,
                     SDL_PIXELFORMAT_RGBA32,
@@ -298,7 +324,7 @@ std::shared_ptr<Sdl2Texture> Sdl2Renderer::PrepareTextureFromPoly(const Poly_FT4
 
 SDL_FPoint Sdl2Renderer::PointToViewport(const SDL_FPoint& point)
 {
-    if (mRenderTargetSupported && !mUseOriginalResolution)
+    if (!mUseOriginalResolution)
     {
         return point;
     }
@@ -308,14 +334,6 @@ SDL_FPoint Sdl2Renderer::PointToViewport(const SDL_FPoint& point)
         point.x * (wndRect.w / kPsxFramebufferWidth),
         point.y * (wndRect.h / kPsxFramebufferHeight)
     };
-
-    // If there's no backbuffer, then drawing must use offsets immediately
-    // rather than in EndFrame()
-    if (!mRenderTargetSupported)
-    {
-        scaledPoint.x = scaledPoint.x + mOffsetX;
-        scaledPoint.y = scaledPoint.y + mOffsetY;
-    }
 
     return scaledPoint;
 }
