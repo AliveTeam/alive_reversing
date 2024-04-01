@@ -57,15 +57,16 @@ std::shared_ptr<Sdl2Texture> Sdl2Texture::FromMask(Sdl2Context& context, std::sh
     context.SaveFramebuffer();
     context.UseTextureFramebuffer(resultTex->GetTexture());
 
-    SDL_SetTextureBlendMode(srcTex->GetTexture(), SDL_BLENDMODE_NONE);
     SDL_RenderCopy(context.GetRenderer(), srcTex->GetTexture(), NULL, NULL);
 
     SDL_SetTextureBlendMode(maskTex, blendMode);
     SDL_RenderCopy(context.GetRenderer(), maskTex, NULL, NULL);
 
-    context.RestoreFramebuffer();
-
     SDL_SetTextureBlendMode(resultTex->GetTexture(), SDL_BLENDMODE_BLEND);
+
+    // Cleanup
+    context.RestoreFramebuffer();
+    SDL_DestroyTexture(maskTex);
 
     return resultTex;
 }
