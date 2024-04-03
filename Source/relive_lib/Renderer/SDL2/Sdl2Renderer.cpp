@@ -320,7 +320,7 @@ std::shared_ptr<Sdl2Texture> Sdl2Renderer::PrepareTextureFromPoly(const Poly_FT4
 
 SDL_FPoint Sdl2Renderer::PointToViewport(const SDL_FPoint& point)
 {
-    if (!mUseOriginalResolution)
+    if (mUseOriginalResolution)
     {
         return point;
     }
