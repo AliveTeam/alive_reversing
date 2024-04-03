@@ -18,8 +18,11 @@ public:
 private:
     Sdl2Context& mContext;
     SDL_PixelFormatEnum mFormat;
-    u8* mIndexedPixels = 0;
     SDL_Texture* mTexture = 0;
     u32 mHeight = 0;
     u32 mWidth = 0;
+
+    // Palette tex related
+    u8* mIndexedPixels = 0;
+    u32 mLastPaletteHash = 0;
 };

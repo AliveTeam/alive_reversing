@@ -1,5 +1,6 @@
 #include "Sdl2Texture.hpp"
 #include "FatalError.hpp"
+#include "Renderer/PaletteCache.hpp"
 #include "data_conversion/AnimationConverter.hpp"
 
 Sdl2Texture::Sdl2Texture(Sdl2Context& context, u32 width, u32 height, SDL_PixelFormatEnum format, SDL_TextureAccess access)
@@ -106,12 +107,19 @@ SDL_Texture* Sdl2Texture::GetTextureUsePalette(const std::shared_ptr<AnimationPa
         ALIVE_FATAL("%s", "SDL2 attempt to use palette on non-indexed tex");
     }
 
-    // (Re)create temp tex if exists
+    // (Re)create temp tex if necessary
     if (mTexture)
     {
+        if (PaletteCache::HashPalette(palette.get()) == mLastPaletteHash)
+        {
+            LOG("%s", "SDL2 palette tex cache hit");
+            return mTexture;
+        }
+
         SDL_DestroyTexture(mTexture);
     }
 
+    LOG("%s", "SDL2 palette tex cache miss");
     mTexture = SDL_CreateTexture(mContext.GetRenderer(), SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_STREAMING, mWidth, mHeight);
 
     // Lock both textures - write indexed colours to temp texture
@@ -119,8 +127,6 @@ SDL_Texture* Sdl2Texture::GetTextureUsePalette(const std::shared_ptr<AnimationPa
     s32 pitchTarget = 0;
 
     SDL_LockTexture(mTexture, NULL, (void**) &pixelsTarget, &pitchTarget);
-
-    LOG("%s", "SDL2 tex from palette");
 
     for (s32 i = 0; i < static_cast<s32>(mWidth * mHeight); i++)
     {
@@ -131,17 +137,15 @@ SDL_Texture* Sdl2Texture::GetTextureUsePalette(const std::shared_ptr<AnimationPa
 
         RGBA32 colour = palette->mPal[mIndexedPixels[i]];
 
-        //LOG("SDL2 colour index %u", mIndexedPixels[i]);
-
         pixelsTarget[r] = colour.r;
         pixelsTarget[g] = colour.g;
         pixelsTarget[b] = colour.b;
         pixelsTarget[a] = colour.a;
     }
 
-    LOG("%s", "SDL2 done tex from palette");
-
     SDL_UnlockTexture(mTexture);
+
+    mLastPaletteHash = PaletteCache::HashPalette(palette.get());
 
     return mTexture;
 }

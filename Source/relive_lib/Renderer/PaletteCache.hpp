@@ -89,8 +89,8 @@ public:
         mPaletteCache.clear();
     }
 
-private:
-    u32 HashPalette(const AnimationPal* pPal)
+public:
+    static u32 HashPalette(const AnimationPal* pPal)
     {
         // This is the 'djb2' algorithm
         u32 hash = 5381;
@@ -106,6 +106,7 @@ private:
         return hash;
     }
 
+private:
     struct PalCacheEntry final
     {
         u32 mIndex = 0;
