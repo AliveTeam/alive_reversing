@@ -1,15 +1,33 @@
 #include "Sdl2Texture.hpp"
 #include "FatalError.hpp"
+#include "data_conversion/AnimationConverter.hpp"
 
 Sdl2Texture::Sdl2Texture(Sdl2Context& context, u32 width, u32 height, SDL_PixelFormatEnum format, SDL_TextureAccess access)
     : mContext(context), mFormat(format), mHeight(height), mWidth(width)
 {
-    mTexture = SDL_CreateTexture(mContext.GetRenderer(), mFormat, access, mWidth, mHeight);
+    // SDL2 does not support palette textures, if we want to store indexed
+    // colour we have to handle that internally (using mIndexedPixels)
+    if (mFormat == SDL_PIXELFORMAT_INDEX8)
+    {
+        mIndexedPixels = (u8*) malloc(mWidth * mHeight);
+    }
+    else
+    {
+        mTexture = SDL_CreateTexture(mContext.GetRenderer(), mFormat, access, mWidth, mHeight);
+
+        if (!mTexture)
+        {
+            ALIVE_FATAL("%s", SDL_GetError());
+        }
+    }
 }
 
 Sdl2Texture::~Sdl2Texture()
 {
-    SDL_DestroyTexture(mTexture);
+    if (mTexture)
+    {
+        SDL_DestroyTexture(mTexture);
+    }
 }
 
 std::shared_ptr<Sdl2Texture> Sdl2Texture::FromMask(Sdl2Context& context, std::shared_ptr<Sdl2Texture> srcTex, const u8* maskPixels)
@@ -73,23 +91,82 @@ std::shared_ptr<Sdl2Texture> Sdl2Texture::FromMask(Sdl2Context& context, std::sh
 
 SDL_Texture* Sdl2Texture::GetTexture()
 {
+    if (mFormat == SDL_PIXELFORMAT_INDEX8)
+    {
+        ALIVE_FATAL("%s", "SDL2 use GetTextureUsePalette with INDEX8 tex");
+    }
+
+    return mTexture;
+}
+
+SDL_Texture* Sdl2Texture::GetTextureUsePalette(const std::shared_ptr<AnimationPal>& palette)
+{
+    if (mFormat != SDL_PIXELFORMAT_INDEX8)
+    {
+        ALIVE_FATAL("%s", "SDL2 attempt to use palette on non-indexed tex");
+    }
+
+    // (Re)create temp tex if exists
+    if (mTexture)
+    {
+        SDL_DestroyTexture(mTexture);
+    }
+
+    mTexture = SDL_CreateTexture(mContext.GetRenderer(), SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_STREAMING, mWidth, mHeight);
+
+    // Lock both textures - write indexed colours to temp texture
+    u8* pixelsTarget = NULL;
+    s32 pitchTarget = 0;
+
+    SDL_LockTexture(mTexture, NULL, (void**) &pixelsTarget, &pitchTarget);
+
+    LOG("%s", "SDL2 tex from palette");
+
+    for (s32 i = 0; i < static_cast<s32>(mWidth * mHeight); i++)
+    {
+        s32 r = (i * 4);
+        s32 g = (i * 4) + 1;
+        s32 b = (i * 4) + 2;
+        s32 a = (i * 4) + 3;
+
+        RGBA32 colour = palette->mPal[mIndexedPixels[i]];
+
+        //LOG("SDL2 colour index %u", mIndexedPixels[i]);
+
+        pixelsTarget[r] = colour.r;
+        pixelsTarget[g] = colour.g;
+        pixelsTarget[b] = colour.b;
+        pixelsTarget[a] = colour.a;
+    }
+
+    LOG("%s", "SDL2 done tex from palette");
+
+    SDL_UnlockTexture(mTexture);
+
     return mTexture;
 }
 
 void Sdl2Texture::Update(const SDL_Rect* rect, const void* pixels)
 {
-    u32 pitch = mWidth;
-
-    switch (mFormat)
+    if (mFormat == SDL_PIXELFORMAT_INDEX8)
     {
-        case SDL_PIXELFORMAT_RGBA32:
-            pitch *= 4;
-            break;
-
-        default:
-            ALIVE_FATAL("SDL2 - Unsupported texture format %d", mFormat);
-            break;
+        memcpy(mIndexedPixels, pixels, mWidth * mHeight);
     }
+    else
+    {
+        u32 pitch = 0;
 
-    SDL_UpdateTexture(mTexture, rect, pixels, pitch);
+        switch (mFormat)
+        {
+            case SDL_PIXELFORMAT_RGBA32:
+                pitch = mWidth * 4;
+                break;
+
+            default:
+                ALIVE_FATAL("SDL2 - Unsupported texture format %d", mFormat);
+                break;
+        }
+
+        SDL_UpdateTexture(mTexture, rect, pixels, pitch);
+    }
 }

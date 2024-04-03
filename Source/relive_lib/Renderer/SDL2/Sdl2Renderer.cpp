@@ -141,22 +141,7 @@ void Sdl2Renderer::Draw(const Poly_FT4& poly)
     {
         LOG("%s", "SDL2: Draw Poly_FT4 (ANIM)");
 
-        // TODO: Handle palette
-        tex =
-            SDL_CreateTexture(
-                mContext.GetRenderer(),
-                SDL_PIXELFORMAT_INDEX8,
-                SDL_TEXTUREACCESS_STATIC,
-                poly.mAnim->mAnimRes.mPngPtr->mWidth,
-                poly.mAnim->mAnimRes.mPngPtr->mHeight
-            );
-
-        SDL_UpdateTexture(
-            tex,
-            NULL,
-            poly.mAnim->mAnimRes.mPngPtr->mPixels.data(),
-            poly.mAnim->mAnimRes.mPngPtr->mWidth
-        );
+        tex = PrepareTextureFromPoly(poly)->GetTextureUsePalette(poly.mAnim->mAnimRes.mPngPtr->mPal);
     }
     else if (poly.mFont)
     {
@@ -172,11 +157,6 @@ void Sdl2Renderer::Draw(const Poly_FT4& poly)
     }
 
     SDL_RenderGeometry(mContext.GetRenderer(), tex, vertices.data(), 4, indexList, 6);
-
-    if (poly.mAnim) // Anim is the only one not cached for now
-    {
-        SDL_DestroyTexture(tex);
-    }
 }
 
 void Sdl2Renderer::Draw(const Poly_G4& poly)
@@ -308,7 +288,29 @@ std::shared_ptr<Sdl2Texture> Sdl2Renderer::PrepareTextureFromPoly(const Poly_FT4
     }
     else if (poly.mAnim)
     {
-        // TODO: Implement this
+        // FIXME: Temp bump amount
+        texture = mTextureCache.GetCachedTexture(poly.mAnim->mAnimRes.mUniqueId.Id(), 255);
+
+        if (!texture)
+        {
+            auto animTex =
+                std::make_shared<Sdl2Texture>(
+                    mContext,
+                    poly.mAnim->mAnimRes.mPngPtr->mWidth,
+                    poly.mAnim->mAnimRes.mPngPtr->mHeight,
+                    SDL_PIXELFORMAT_INDEX8,
+                    SDL_TEXTUREACCESS_STREAMING
+                );
+
+            animTex->Update(NULL, poly.mAnim->mAnimRes.mPngPtr->mPixels.data());
+
+            texture =
+                mTextureCache.Add(
+                    poly.mAnim->mAnimRes.mUniqueId.Id(),
+                    255,
+                    animTex
+                );
+        }
     }
     else if (poly.mFont)
     {
