@@ -110,6 +110,7 @@ void Sdl2Renderer::Draw(const Poly_FT4& poly)
     //
     // FIXME: Obviously unfinished (no blending, etc.)
     //
+    SDL_Texture* tex = NULL;
 
     constexpr s32 indexList[6] = { 0, 1, 2, 1, 2 , 3 };
     std::vector<SDL_Vertex> vertices = {
@@ -120,10 +121,6 @@ void Sdl2Renderer::Draw(const Poly_FT4& poly)
     };
 
     ScaleVertices(vertices);
-
-    // TODO: Obviously temp - cache textures instead of creating every
-    //       call!
-    SDL_Texture* tex = NULL;
 
     if (poly.mFg1)
     {
@@ -141,7 +138,39 @@ void Sdl2Renderer::Draw(const Poly_FT4& poly)
     {
         LOG("%s", "SDL2: Draw Poly_FT4 (ANIM)");
 
+        AnimResource& animRes = poly.mAnim->mAnimRes;
+        const PerFrameInfo* pHeader = poly.mAnim->Get_FrameHeader(-1);
+        std::shared_ptr<PngData> pPng = animRes.mPngPtr;
+
         tex = PrepareTextureFromPoly(poly)->GetTextureUsePalette(poly.mAnim->mAnimRes.mPngPtr->mPal);
+
+        // Fiddle with UVs...
+        f32 u0 = static_cast<f32>(pHeader->mSpriteSheetX) / pPng->mWidth;
+        f32 v0 = static_cast<f32>(pHeader->mSpriteSheetY) / pPng->mHeight;
+        f32 u1 = u0 + (static_cast<f32>(pHeader->mSpriteWidth) / pPng->mWidth);
+        f32 v1 = v0 + (static_cast<f32>(pHeader->mSpriteHeight) / pPng->mHeight);
+
+        if (poly.mFlipX)
+        {
+            std::swap(u0, u1);
+        }
+
+        if (poly.mFlipY)
+        {
+            std::swap(v0, v1);
+        }
+
+        vertices[0].tex_coord.x = u0;
+        vertices[0].tex_coord.y = v0;
+
+        vertices[1].tex_coord.x = u1;
+        vertices[1].tex_coord.y = v0;
+
+        vertices[2].tex_coord.x = u0;
+        vertices[2].tex_coord.y = v1;
+
+        vertices[3].tex_coord.x = u1;
+        vertices[3].tex_coord.y = v1;
     }
     else if (poly.mFont)
     {
