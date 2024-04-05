@@ -66,7 +66,7 @@ std::shared_ptr<Sdl2Texture> Sdl2Texture::FromMask(Sdl2Context& context, std::sh
     SDL_BlendMode blendMode =
         SDL_ComposeCustomBlendMode(
             SDL_BLENDFACTOR_ZERO,
-            SDL_BLENDFACTOR_DST_COLOR,
+            SDL_BLENDFACTOR_ONE,
             SDL_BLENDOPERATION_ADD,
             SDL_BLENDFACTOR_SRC_ALPHA,
             SDL_BLENDFACTOR_ZERO,
