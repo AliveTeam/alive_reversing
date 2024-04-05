@@ -71,7 +71,7 @@ ZapLine::ZapLine(FP xPosSource, FP yPosSource, FP xPosDest, FP yPosDest, s32 ali
             Poly_FT4* pSprt = &mSprites[(j * mNumberOfPiecesPerSegment) + k].mSprt;
 
             pSprt->SetSemiTransparent(true);
-            pSprt->DisableBlending(false);
+            pSprt->SetShadeTex(false);
 
             pSprt->SetBlendMode(blendMode);
 

@@ -334,7 +334,7 @@ void PauseMenu::VRender(OrderingTable& ot)
     // Draw a full screen polygon that "dims" out the screen while paused
     Poly_G4* pPolys = &mPolyG4;
     pPolys->SetSemiTransparent(true);
-    pPolys->DisableBlending(false);
+    pPolys->SetShadeTex(false);
     pPolys->SetRGB0(mActiveMenu.mBgRed, mActiveMenu.mBgGreen, mActiveMenu.mBgBlue);
     pPolys->SetRGB1(mActiveMenu.mBgRed, mActiveMenu.mBgGreen, mActiveMenu.mBgBlue);
     pPolys->SetRGB2(mActiveMenu.mBgRed, mActiveMenu.mBgGreen, mActiveMenu.mBgBlue);

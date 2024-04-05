@@ -71,10 +71,9 @@ struct BasePrimitive
         mSemiTransparent = bSemiTrans;
     }
 
-    void DisableBlending(bool disableBlending)
+    void SetShadeTex(bool disableShading)
     {
-        // TODO: HACK check whatever uses this, seems wrong
-        mDisableBlending = !disableBlending;
+        mIsShaded = !disableShading;
     }
 
     void SetRGB0(u8 r, u8 g, u8 b)
@@ -288,8 +287,8 @@ struct BasePrimitive
     PrimitivesTypes mType = {};
     relive::TBlendModes mBlendMode = {};
 
+    bool mIsShaded = true;
     bool mSemiTransparent = false;
-    bool mDisableBlending = false;
 
     Prim_RGB mRgbs[4];
     UV mUvs[4];

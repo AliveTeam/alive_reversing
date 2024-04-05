@@ -79,7 +79,7 @@ s32 AliveFont::DrawString(OrderingTable& ot, const char_type* text, s32 x, s16 y
         const s16 heightScaled = static_cast<s16>(charHeight * FP_GetDouble(scale));
 
         poly->SetSemiTransparent(bSemiTrans);
-        poly->DisableBlending(disableBlending);
+        poly->SetShadeTex(disableBlending);
 
         poly->SetRGB0(
             static_cast<u8>(r + Math_RandomRange(-colorRandomRange, colorRandomRange)),

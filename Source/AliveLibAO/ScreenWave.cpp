@@ -258,7 +258,7 @@ void ScreenWave::VRender(OrderingTable& ot)
                        static_cast<u8>(v3));
 
                 pPoly->SetSemiTransparent(false);
-                pPoly->DisableBlending(true);
+                pPoly->SetShadeTex(true);
 
                 ot.Add(field_10_layer, pPoly);
             }

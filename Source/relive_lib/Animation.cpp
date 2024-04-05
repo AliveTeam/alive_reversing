@@ -102,7 +102,7 @@ void Animation::VRender(s32 xpos, s32 ypos, OrderingTable& ot, s16 width, s32 he
     }
 
     mPoly.SetSemiTransparent(GetSemiTrans());
-    mPoly.DisableBlending(GetBlending());
+    mPoly.SetShadeTex(GetBlending());
 
     mPoly.SetRGB0(mRgb.r & 0xFF, mRgb.g & 0xFF, mRgb.b & 0xFF);
 

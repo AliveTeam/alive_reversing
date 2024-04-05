@@ -86,7 +86,7 @@ Water::Water(relive::Path_Water* pTlv, const Guid& tlvId)
             Poly_FT4* pPoly = &field_F8_pWaterRes[i].field_20_poly;
 
             pPoly->SetSemiTransparent(true);
-            pPoly->DisableBlending(true);
+            pPoly->SetShadeTex(true);
 
             pPoly->SetBlendMode(relive::TBlendModes::eBlend_3);
 

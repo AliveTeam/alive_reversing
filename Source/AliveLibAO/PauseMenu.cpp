@@ -610,7 +610,7 @@ void PauseMenu::DrawEntries(OrderingTable& ot, PauseEntry* entry, s16 selectedEn
     pPrim->SetXY3(640, 240);
     pPrim->SetBlendMode(relive::TBlendModes::eBlend_2);
     pPrim->SetSemiTransparent(true);
-    pPrim->DisableBlending(false);
+    pPrim->SetShadeTex(false);
     ot.Add(Layer::eLayer_Menu_41, pPrim);
 }
 

@@ -1404,7 +1404,7 @@ HintFly::HintFly(relive::Path_HintFly* pTlv, const Guid& tlvId)
             Poly_FT4* pSprt = &mHintFlyParticle[i].mSprt;
 
             pSprt->SetSemiTransparent(true);
-            pSprt->DisableBlending(true);
+            pSprt->SetShadeTex(true);
 
             pSprt->SetUV0(0, 0);
 

@@ -62,11 +62,11 @@ Blood::Blood(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s32 count)
 
             if (GetAnimation().GetBlending())
             {
-                pPoly->DisableBlending(true);
+                pPoly->SetShadeTex(true);
             }
             else
             {
-                pPoly->DisableBlending(false);
+                pPoly->SetShadeTex(false);
                 const auto rgb = GetAnimation().GetRgb();
                 pPoly->SetRGB0(rgb.r & 0xFF, rgb.g & 0xFF, rgb.b & 0xFF);
             }

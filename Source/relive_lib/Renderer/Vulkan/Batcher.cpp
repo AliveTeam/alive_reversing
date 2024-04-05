@@ -304,7 +304,7 @@ void Batcher<TextureType, RenderBatchType, kTextureBatchSize>::PushFont(const Po
     const f32 b = static_cast<f32>(poly.B0());
 
     const bool isSemiTrans = poly.mSemiTransparent;
-    const bool isShaded = poly.mDisableBlending;
+    const bool isShaded = poly.mIsShaded;
     const relive::TBlendModes blendMode = poly.mBlendMode;
 
     f32 u0 = 0.0f;
@@ -348,7 +348,7 @@ void Batcher<TextureType, RenderBatchType, kTextureBatchSize>::PushFG1(const Pol
     const f32 b = static_cast<f32>(poly.B0());
 
     const bool isSemiTrans = poly.mSemiTransparent;
-    const bool isShaded = poly.mDisableBlending;
+    const bool isShaded = poly.mIsShaded;
     const relive::TBlendModes blendMode = poly.mBlendMode;
 
     if (mUvMode == UvMode::UnNormalized)
@@ -381,7 +381,7 @@ void Batcher<TextureType, RenderBatchType, kTextureBatchSize>::PushCAM(const Pol
     const f32 g = static_cast<f32>(poly.G0());
     const f32 b = static_cast<f32>(poly.B0());
 
-    const u32 isShaded = poly.mDisableBlending;
+    const u32 isShaded = poly.mIsShaded;
     const u32 isSemiTrans = poly.mSemiTransparent;
     const relive::TBlendModes blendMode = poly.mBlendMode;
 
@@ -420,7 +420,7 @@ void Batcher<TextureType, RenderBatchType, kTextureBatchSize>::PushAnim(const Po
     const f32 g = static_cast<f32>(poly.G0());
     const f32 b = static_cast<f32>(poly.B0());
 
-    const u32 isShaded = poly.mDisableBlending;
+    const u32 isShaded = poly.mIsShaded;
     const u32 isSemiTrans = poly.mSemiTransparent;
     const relive::TBlendModes blendMode = poly.mBlendMode;
 
