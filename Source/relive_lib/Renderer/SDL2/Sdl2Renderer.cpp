@@ -114,10 +114,10 @@ void Sdl2Renderer::Draw(const Poly_FT4& poly)
 
     constexpr s32 indexList[6] = { 0, 1, 2, 1, 2 , 3 };
     std::vector<SDL_Vertex> vertices = {
-        { { static_cast<f32>(poly.X0()), static_cast<f32>(poly.Y0()) }, { poly.R0(), poly.G0(), poly.B0(), 255 }, { 0, 0 } },
-        { { static_cast<f32>(poly.X1()), static_cast<f32>(poly.Y1()) }, { poly.R0(), poly.G0(), poly.B0(), 255 }, { 1, 0 } },
-        { { static_cast<f32>(poly.X2()), static_cast<f32>(poly.Y2()) }, { poly.R0(), poly.G0(), poly.B0(), 255 }, { 0, 1 } },
-        { { static_cast<f32>(poly.X3()), static_cast<f32>(poly.Y3()) }, { poly.R0(), poly.G0(), poly.B0(), 255 }, { 1, 1 } },
+        { { static_cast<f32>(poly.X0()), static_cast<f32>(poly.Y0()) }, { 255, 255, 255, 255 }, { 0, 0 } },
+        { { static_cast<f32>(poly.X1()), static_cast<f32>(poly.Y1()) }, { 255, 255, 255, 255 }, { 1, 0 } },
+        { { static_cast<f32>(poly.X2()), static_cast<f32>(poly.Y2()) }, { 255, 255, 255, 255 }, { 0, 1 } },
+        { { static_cast<f32>(poly.X3()), static_cast<f32>(poly.Y3()) }, { 255, 255, 255, 255 }, { 1, 1 } },
     };
 
     ScaleVertices(vertices);
@@ -138,11 +138,29 @@ void Sdl2Renderer::Draw(const Poly_FT4& poly)
     {
         LOG("%s", "SDL2: Draw Poly_FT4 (ANIM)");
 
+        RGBA32 shading = {
+            poly.R0(),
+            poly.G0(),
+            poly.B0(),
+            255
+        };
+
+        if (poly.mDisableBlending)
+        {
+            shading.a = 0;
+        }
+
         AnimResource& animRes = poly.mAnim->mAnimRes;
         const PerFrameInfo* pHeader = poly.mAnim->Get_FrameHeader(-1);
         std::shared_ptr<PngData> pPng = animRes.mPngPtr;
 
-        tex = PrepareTextureFromPoly(poly)->GetTextureUsePalette(poly.mAnim->mAnimRes.mPngPtr->mPal);
+        tex =
+            PrepareTextureFromPoly(poly)->GetTextureUsePalette(
+                poly.mAnim->mAnimRes.mPngPtr->mPal,
+                shading,
+                poly.mSemiTransparent,
+                poly.mBlendMode
+            );
 
         // Fiddle with UVs...
         f32 u0 = static_cast<f32>(pHeader->mSpriteSheetX) / pPng->mWidth;

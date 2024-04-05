@@ -100,14 +100,14 @@ SDL_Texture* Sdl2Texture::GetTexture()
     return mTexture;
 }
 
-SDL_Texture* Sdl2Texture::GetTextureUsePalette(const std::shared_ptr<AnimationPal>& palette)
+SDL_Texture* Sdl2Texture::GetTextureUsePalette(const std::shared_ptr<AnimationPal>& palette, const RGBA32& shading, bool isSemiTrans, relive::TBlendModes blendMode)
 {
     if (mFormat != SDL_PIXELFORMAT_INDEX8)
     {
         ALIVE_FATAL("%s", "SDL2 attempt to use palette on non-indexed tex");
     }
 
-    // (Re)create temp tex if necessary
+    // (Re)create texture if necessary (palette/shading/blend changes)
     if (mTexture)
     {
         if (PaletteCache::HashPalette(palette.get()) == mLastPaletteHash)
@@ -122,7 +122,8 @@ SDL_Texture* Sdl2Texture::GetTextureUsePalette(const std::shared_ptr<AnimationPa
     LOG("%s", "SDL2 palette tex cache miss");
     mTexture = SDL_CreateTexture(mContext.GetRenderer(), SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_STREAMING, mWidth, mHeight);
 
-    // Lock both textures - write indexed colours to temp texture
+    // Lock target texture, all the per-pixel ops are handled here - sampling
+    // from palette + shading/blending
     u8* pixelsTarget = NULL;
     s32 pitchTarget = 0;
 
@@ -137,13 +138,98 @@ SDL_Texture* Sdl2Texture::GetTextureUsePalette(const std::shared_ptr<AnimationPa
 
         RGBA32 colour = palette->mPal[mIndexedPixels[i]];
 
-        pixelsTarget[r] = colour.r;
-        pixelsTarget[g] = colour.g;
-        pixelsTarget[b] = colour.b;
-        pixelsTarget[a] = colour.a;
+        // This logic is basically a mirror of the GLSL shader, but in
+        // software - see ShaderPsx.cpp, and the blend mode stuff in
+        // OpenGLRenderer.cpp::DrawBatches
+
+        if (colour.ToU32() == 0)
+        {
+            pixelsTarget[r] = 0;
+            pixelsTarget[g] = 0;
+            pixelsTarget[b] = 0;
+            pixelsTarget[a] = colour.a;
+
+            continue;
+        }
+
+        if (shading.a == 255) // Shading required
+        {
+            colour.r = HandleShading(colour.r, shading.r);
+            colour.g = HandleShading(colour.g, shading.g);
+            colour.b = HandleShading(colour.b, shading.b);
+        }
+
+        if (isSemiTrans && colour.a == 255)
+        {
+            switch (blendMode)
+            {
+                case relive::TBlendModes::eBlend_0: // HALF_DST_ADD_HALF_SRC
+                    pixelsTarget[r] = colour.r / 2;
+                    pixelsTarget[g] = colour.g / 2;
+                    pixelsTarget[b] = colour.b / 2;
+                    pixelsTarget[a] = 128;
+                    break;
+
+                case relive::TBlendModes::eBlend_1: // ONE_DST_ADD_ONE_SRC
+                case relive::TBlendModes::eBlend_2: // ONE_DST_SUB_ONE_SRC
+                    pixelsTarget[r] = colour.r;
+                    pixelsTarget[g] = colour.g;
+                    pixelsTarget[b] = colour.b;
+                    pixelsTarget[a] = 255;
+                    break;
+
+                case relive::TBlendModes::eBlend_3: // ONE_DST_ADD_QRT_SRC
+                    pixelsTarget[r] = colour.r / 4;
+                    pixelsTarget[g] = colour.g / 4;
+                    pixelsTarget[b] = colour.b / 4;
+                    pixelsTarget[a] = 255;
+                    break;
+
+                default:
+                    ALIVE_FATAL("SDL2 Invalid blend mode %u", blendMode);
+                    break;
+            }
+        }
+        else
+        {
+            pixelsTarget[r] = colour.r / 2;
+            pixelsTarget[g] = colour.g / 2;
+            pixelsTarget[b] = colour.b / 2;
+            pixelsTarget[a] = 0;
+        }
     }
 
     SDL_UnlockTexture(mTexture);
+
+    // Set up texture blend mode usage
+    SDL_BlendMode texBlendMode;
+
+    if (blendMode == relive::TBlendModes::eBlend_2)
+    {
+        texBlendMode =
+            SDL_ComposeCustomBlendMode(
+                SDL_BLENDFACTOR_SRC_ALPHA,
+                SDL_BLENDFACTOR_ONE,
+                SDL_BLENDOPERATION_REV_SUBTRACT,
+                SDL_BLENDFACTOR_ONE,
+                SDL_BLENDFACTOR_ONE,
+                SDL_BLENDOPERATION_ADD
+            );
+    }
+    else
+    {
+        texBlendMode =
+            SDL_ComposeCustomBlendMode(
+                SDL_BLENDFACTOR_ONE,
+                SDL_BLENDFACTOR_SRC_ALPHA,
+                SDL_BLENDOPERATION_ADD,
+                SDL_BLENDFACTOR_ONE,
+                SDL_BLENDFACTOR_ONE,
+                SDL_BLENDOPERATION_ADD
+            );
+    }
+
+    SDL_SetTextureBlendMode(mTexture, texBlendMode);
 
     mLastPaletteHash = PaletteCache::HashPalette(palette.get());
 
@@ -173,4 +259,16 @@ void Sdl2Texture::Update(const SDL_Rect* rect, const void* pixels)
 
         SDL_UpdateTexture(mTexture, rect, pixels, pitch);
     }
+}
+
+u8 Sdl2Texture::HandleShading(const u8 src, const u8 shade)
+{
+    f32 result = (src * (shade / 255.0f)) / 0.5f;
+
+    if (result > 255.0f)
+    {
+        return 255;
+    }
+
+    return static_cast<u8>(result);
 }

@@ -2,6 +2,7 @@
 
 #include <SDL.h>
 #include "Sdl2Context.hpp"
+#include "data_conversion/rgb_conversion.hpp"
 
 class Sdl2Texture final
 {
@@ -12,8 +13,11 @@ public:
     static std::shared_ptr<Sdl2Texture> FromMask(Sdl2Context& context, std::shared_ptr<Sdl2Texture> srcTex, const u8* maskPixels);
 
     SDL_Texture* GetTexture();
-    SDL_Texture* GetTextureUsePalette(const std::shared_ptr<AnimationPal>& palette);
+    SDL_Texture* GetTextureUsePalette(const std::shared_ptr<AnimationPal>& palette, const RGBA32& shading, bool isSemiTrans, relive::TBlendModes blendMode);
     void Update(const SDL_Rect* rect, const void* pixels);
+
+private:
+    u8 HandleShading(const u8 src, const u8 shade);
 
 private:
     Sdl2Context& mContext;
