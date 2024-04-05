@@ -28,5 +28,8 @@ private:
 
     // Palette tex related
     u8* mIndexedPixels = 0;
+    relive::TBlendModes mLastBlendMode = relive::TBlendModes::eBlend_0;
     u32 mLastPaletteHash = 0;
+    bool mLastSemiTransparent = false;
+    RGBA32 mLastShadeColor;
 };

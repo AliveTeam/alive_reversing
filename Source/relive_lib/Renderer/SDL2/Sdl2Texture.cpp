@@ -110,7 +110,12 @@ SDL_Texture* Sdl2Texture::GetTextureUsePalette(const std::shared_ptr<AnimationPa
     // (Re)create texture if necessary (palette/shading/blend changes)
     if (mTexture)
     {
-        if (PaletteCache::HashPalette(palette.get()) == mLastPaletteHash)
+        if (
+            PaletteCache::HashPalette(palette.get()) == mLastPaletteHash &&
+            mLastBlendMode == blendMode &&
+            mLastSemiTransparent == isSemiTrans &&
+            mLastShadeColor.ToU32() == shading.ToU32()
+        )
         {
             LOG("%s", "SDL2 palette tex cache hit");
             return mTexture;
@@ -147,7 +152,7 @@ SDL_Texture* Sdl2Texture::GetTextureUsePalette(const std::shared_ptr<AnimationPa
             pixelsTarget[r] = 0;
             pixelsTarget[g] = 0;
             pixelsTarget[b] = 0;
-            pixelsTarget[a] = colour.a;
+            pixelsTarget[a] = 255;
 
             continue;
         }
@@ -211,9 +216,9 @@ SDL_Texture* Sdl2Texture::GetTextureUsePalette(const std::shared_ptr<AnimationPa
                 SDL_BLENDFACTOR_SRC_ALPHA,
                 SDL_BLENDFACTOR_ONE,
                 SDL_BLENDOPERATION_REV_SUBTRACT,
+                SDL_BLENDFACTOR_SRC_ALPHA,
                 SDL_BLENDFACTOR_ONE,
-                SDL_BLENDFACTOR_ONE,
-                SDL_BLENDOPERATION_ADD
+                SDL_BLENDOPERATION_REV_SUBTRACT
             );
     }
     else
@@ -224,14 +229,18 @@ SDL_Texture* Sdl2Texture::GetTextureUsePalette(const std::shared_ptr<AnimationPa
                 SDL_BLENDFACTOR_SRC_ALPHA,
                 SDL_BLENDOPERATION_ADD,
                 SDL_BLENDFACTOR_ONE,
-                SDL_BLENDFACTOR_ONE,
+                SDL_BLENDFACTOR_SRC_ALPHA,
                 SDL_BLENDOPERATION_ADD
             );
     }
 
     SDL_SetTextureBlendMode(mTexture, texBlendMode);
 
+    // Update cache state
+    mLastBlendMode = blendMode;
     mLastPaletteHash = PaletteCache::HashPalette(palette.get());
+    mLastSemiTransparent = isSemiTrans;
+    mLastShadeColor = shading;
 
     return mTexture;
 }

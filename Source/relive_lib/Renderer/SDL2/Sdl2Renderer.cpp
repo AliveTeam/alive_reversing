@@ -145,7 +145,7 @@ void Sdl2Renderer::Draw(const Poly_FT4& poly)
             255
         };
 
-        if (poly.mDisableBlending)
+        if (!poly.mDisableBlending)
         {
             shading.a = 0;
         }
