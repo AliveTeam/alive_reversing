@@ -97,7 +97,7 @@ std::string ReadFileToString(std::string fileName)
     return buffer.str();
 }
 
-ExternalTexture LoadTextureCacheFile(std::string path)
+ExternalTexture LoadTextureCacheFile(const std::string& path)
 {
     int x = 0, y = 0, comp = 0;
 
@@ -145,8 +145,12 @@ ExternalTexture LoadTextureCacheFile(std::string path)
     return textureCache;
 }
 
-void LoadAllExternalTextures(std::string dir = "hd/sprites")
+void LoadAllExternalTextures(const std::string& dir = "hd/sprites")
 {
+    const std::string asset_suffix_emissive = "_emissive.png";
+    const std::string asset_suffix_flipped = "_flipped.png";
+    const std::string asset_suffix_flipped_emissive = "_flipped_emissive.png";
+
     for (const auto& rootDir : fs::directory_iterator(dir))
     {
         if (rootDir.is_directory())
@@ -155,18 +159,13 @@ void LoadAllExternalTextures(std::string dir = "hd/sprites")
 
             printf("External Dir: %s\n", folderName.c_str());
 
-            auto assetDirectory = dir + "/" + folderName + "/";
-
-            const std::string asset_suffix_emissive = "_emissive.png";
-            const std::string asset_suffix_flipped = "_flipped.png";
-            const std::string asset_suffix_flipped_emissive = "_flipped_emissive.png";
+            std::string assetDirectory = dir + "/" + folderName + "/";
 
             // check if with magic_enum if we have a valid enum
-            if (magic_enum::enum_cast<AnimId>(folderName) != magic_enum::enum_cast<AnimId>(-1))
+            static const auto invalidEnum = magic_enum::enum_cast<AnimId>(-1);
+            if (magic_enum::enum_cast<AnimId>(folderName) != invalidEnum)
             {
                 AnimId id = magic_enum::enum_cast<AnimId>(folderName).value();
-
-                gLoadedExternalTextures[id].textures = std::vector<ExternalTexture>();
 
                 if (!gLoadedExternalTextures[id].meta.LoadJSONFromFile(assetDirectory + "meta.json"))
                 {
@@ -174,17 +173,26 @@ void LoadAllExternalTextures(std::string dir = "hd/sprites")
                     ALIVE_FATAL("Failed to load animation meta json");
                 }
 
+                gLoadedExternalTextures[id].textures = std::vector<ExternalTexture>();
+                gLoadedExternalTextures[id].textures.reserve(gLoadedExternalTextures[id].meta.frame_count);
+
                 for (int i = 0; i < gLoadedExternalTextures[id].meta.frame_count; i++)
                 {
-                    gLoadedExternalTextures[id].textures.push_back(LoadTextureCacheFile(assetDirectory + std::to_string(i) + ".png"));
+                    std::string frameBaseName = assetDirectory + std::to_string(i);
+
+                    gLoadedExternalTextures[id].textures.push_back(LoadTextureCacheFile(frameBaseName + ".png"));
+
+                    std::string emissive = frameBaseName + asset_suffix_emissive;
+                    std::string flipped = frameBaseName + asset_suffix_flipped;
+                    std::string flippedEmissive = frameBaseName + asset_suffix_flipped_emissive;
 
                     // check for our alternative textures
-                    if (fs::exists(assetDirectory + std::to_string(i) + asset_suffix_emissive))
-                        gLoadedExternalTextures[id].textures_emissive[i] = LoadTextureCacheFile(assetDirectory + std::to_string(i) + asset_suffix_emissive);
-                    if (fs::exists(assetDirectory + std::to_string(i) + asset_suffix_flipped))
-                        gLoadedExternalTextures[id].textures_flipped[i] = LoadTextureCacheFile(assetDirectory + std::to_string(i) + asset_suffix_flipped);
-                    if (fs::exists(assetDirectory + std::to_string(i) + asset_suffix_flipped_emissive))
-                        gLoadedExternalTextures[id].textures_flipped_emissive[i] = LoadTextureCacheFile(assetDirectory + std::to_string(i) + asset_suffix_flipped_emissive);
+                    if (fs::exists(emissive))
+                        gLoadedExternalTextures[id].textures_emissive[i] = LoadTextureCacheFile(emissive);
+                    if (fs::exists(flipped))
+                        gLoadedExternalTextures[id].textures_flipped[i] = LoadTextureCacheFile(flipped);
+                    if (fs::exists(flippedEmissive))
+                        gLoadedExternalTextures[id].textures_flipped_emissive[i] = LoadTextureCacheFile(flippedEmissive);
                 }
             }
             else

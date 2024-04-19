@@ -12,7 +12,7 @@ public:
     int offset_y;
     int frame_count;
 
-    bool LoadJSONFromFile(std::string path)
+    bool LoadJSONFromFile(const std::string& path)
     {
         std::ifstream file;
         file.open(path);
