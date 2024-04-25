@@ -19,7 +19,8 @@ public:
     virtual void VScreenChanged() override;
 
     void AddToPlatform();
-    bool BlowUpAfterCountdown();
+    void BlowUp(bool bSmallExplosion);
+    bool TimeToBlowUp();
     bool OnCollision_BounceOff(BaseGameObject* pHit);
     bool InTheAir();
     
@@ -43,7 +44,7 @@ public:
     States mState = States::eFallingToBeCollected_0;
     s16 mExplodeCountdown = 0;
     s16 mBounceCount = 0;
-    BaseGameObject* mExplosionObj = nullptr;
+    Guid mExplosionId = {};
     FP mPreviousXPos = {};
     FP mPreviousYPos = {};
 };

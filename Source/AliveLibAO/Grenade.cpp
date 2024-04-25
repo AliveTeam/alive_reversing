@@ -55,7 +55,6 @@ Grenade::Grenade(FP xpos, FP ypos, s16 numGrenades)
     }
 
     mBounceCount = 0;
-    mExplosionObj = 0;
 }
 
 
@@ -92,6 +91,8 @@ void Grenade::VScreenChanged()
 
 void Grenade::VUpdate()
 {
+    auto pExplosion = sObjectIds.Find_Impl(mExplosionId);
+
     if (EventGet(kEventDeathReset))
     {
         SetDead(true);
@@ -180,13 +181,13 @@ void Grenade::VUpdate()
             break;
 
         case States::eCountingDown_3:
-            BlowUpAfterCountdown();
+            TimeToBlowUp();
             break;
 
         case States::eFalling_4:
             if (InTheAir())
             {
-                if (!BlowUpAfterCountdown())
+                if (!TimeToBlowUp())
                 {
                     const PSX_RECT bRect = VGetBoundingRect();
 
@@ -223,16 +224,15 @@ void Grenade::VUpdate()
                 mState = States::eFalling_4;
             }
 
-            BlowUpAfterCountdown();
+            TimeToBlowUp();
             break;
         }
 
         case States::eWaitForExplodeEnd_6:
-            if (mExplosionObj->GetDead())
+            if (!pExplosion || pExplosion->GetDead())
             {
                 mState = States::eExploded_7;
-                mExplosionObj->mBaseGameObjectRefCount--;
-                mExplosionObj = nullptr;
+                mExplosionId = Guid{};
             }
             break;
 
@@ -392,7 +392,7 @@ bool Grenade::OnCollision_BounceOff(BaseGameObject* pHit)
     return false;
 }
 
-bool Grenade::BlowUpAfterCountdown()
+bool Grenade::TimeToBlowUp()
 {
     mExplodeCountdown--;
     const s16 timer = mExplodeCountdown;
@@ -401,26 +401,30 @@ bool Grenade::BlowUpAfterCountdown()
         SfxPlayMono(relive::SoundEffects::GreenTick, 0);
     }
 
-    if (timer)
+    if (timer == 0)
     {
-        return false;
+        BlowUp(false);
+        return true;
     }
 
+    return false;
+}
+
+void Grenade::BlowUp(bool bSmallExplosion)
+{
     auto pExplosion = relive_new AirExplosion(
         mXPos,
         mYPos - (GetSpriteScale() * FP_FromInteger(5)),
         GetSpriteScale(),
-        false);
+        bSmallExplosion);
     if (pExplosion)
     {
+        mExplosionId = pExplosion->mBaseGameObjectId;
         GetAnimation().SetRender(false);
-        mExplosionObj = pExplosion;
-        pExplosion->mBaseGameObjectRefCount++;
         mState = States::eWaitForExplodeEnd_6;
     }
 
-    relive_new Gibs(GibType::eMetal, mXPos, mYPos, FP_FromInteger(0), FP_FromInteger(5), GetSpriteScale(), false);
-    return true;
+    relive_new Gibs(GibType::eMetal, mXPos, mYPos, FP_FromInteger(0), FP_FromInteger(5), GetSpriteScale(), bSmallExplosion);
 }
 
 bool Grenade::VCanThrow()
@@ -454,11 +458,6 @@ void Grenade::VOnTrapDoorOpen()
 
 Grenade::~Grenade()
 {
-    if (mExplosionObj)
-    {
-        mExplosionObj->mBaseGameObjectRefCount--;
-    }
-
     if (!gInfiniteGrenades && !mBaseThrowableDead)
     {
         auto pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));

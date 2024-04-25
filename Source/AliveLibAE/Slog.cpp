@@ -1251,6 +1251,11 @@ enum class Brain_0_ListeningToSligs : s16
 
 s16 Slog::Brain_0_ListeningToSlig()
 {
+    if (!mListeningToSligId.IsValid())
+    {
+        ALIVE_FATAL("Slog wants to listen to a slig, but we ain't got one");
+    }
+
     auto pObj = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(mListeningToSligId));
 
     // TODO: OG bug - return never used?
@@ -1799,9 +1804,12 @@ s16 Slog::Brain_2_ChasingAbe()
         }
     }
 
-    bool updateTarget = false;
+    bool oldTargetGoneGetNewTarget = false;
+
+    // Do we still have the target?
     if (!pTarget)
     {
+        // Did we have a target
         if (mTargetId != Guid{})
         {
             mTargetId = Guid{};
@@ -1810,10 +1818,10 @@ s16 Slog::Brain_2_ChasingAbe()
             mNextMotion = eSlogMotions::Motion_0_Idle;
             return 0;
         }
-        updateTarget = true;
+        oldTargetGoneGetNewTarget = true;
     }
 
-    if (updateTarget || !mCommandedToAttack || pTarget->GetSpriteScale() == FP_FromDouble(0.5))
+    if (oldTargetGoneGetNewTarget || !mCommandedToAttack || pTarget->GetSpriteScale() == FP_FromDouble(0.5))
     {
         if (!mBitingTarget)
         {
@@ -2837,7 +2845,7 @@ Slog::~Slog()
     mListeningToSligId = Guid{};
     mBoneId = Guid{};
 
-    if (mTlvId != Guid{})
+    if (mTlvId.IsValid())
     {
         if (mHealth <= FP_FromInteger(0))
         {

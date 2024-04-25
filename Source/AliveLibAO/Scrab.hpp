@@ -187,8 +187,8 @@ public:
     s16 mAttackDelay = 0;
     relive::Path_Scrab::ScrabPatrolType mPatrolType = relive::Path_Scrab::ScrabPatrolType::eWalk;
     s32 field_118_timer = 0;
-    Scrab* mScrabTarget = nullptr;
-    BaseAliveGameObject* mAbeOrMudTarget = nullptr;
+    Guid mScrabTargetId = {};
+    Guid mAbeOrMudTargetId = {};
     FP field_128 = {};
     FP field_12C = {};
     Guid field_134_tlvInfo;

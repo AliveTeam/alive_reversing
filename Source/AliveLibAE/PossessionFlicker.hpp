@@ -13,7 +13,7 @@ public:
     PossessionFlicker(IBaseAliveGameObject* pToApplyFlicker, s32 duration, s32 r, s32 g, s32 b);
     ~PossessionFlicker();
 
-    Guid ObjectId() const;
+    const Guid& ObjectId() const;
 
 private:
     s32 mTimeToFlicker = 0;

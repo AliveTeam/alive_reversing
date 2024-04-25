@@ -137,32 +137,23 @@ Slog::Slog(FP xpos, FP ypos, FP scale)
 
     mBrainSubState = 0;
 
-    mTarget = sControlledCharacter;
-    sControlledCharacter->mBaseGameObjectRefCount++;
+    mTargetId = sControlledCharacter->mBaseGameObjectId;
+
     mAsleep = false;
     mWakeUpAnger = 0;
 
     mAngerSwitchId = 0;
     mCurrentMotion = eSlogMotions::Motion_0_Idle;
     mTlvId = {};
-    mBrainState = 2;
+    mBrainState = 2; // Brain_2_ChasingAbe ?
     mTotalAnger = 10;
     mChaseAnger = 20;
 }
 
 Slog::~Slog()
 {
-    if (mTarget)
-    {
-        mTarget->mBaseGameObjectRefCount--;
-        mTarget = nullptr;
-    }
-
-    if (mListeningToSligId)
-    {
-        mListeningToSligId->mBaseGameObjectRefCount--;
-        mListeningToSligId = nullptr;
-    }
+    mTargetId = Guid{};
+    mListeningToSligId = Guid{};
 
     if (mTlvId.IsValid())
     {
@@ -433,8 +424,8 @@ void Slog::Init()
     SetType(ReliveTypes::eSlog);
     BaseAliveGameObject_PlatformId = Guid{};
     mHitByAbilityRing = 0;
-    mListeningToSligId = 0;
-    mTarget = 0;
+    mListeningToSligId = Guid{};
+    mTargetId = Guid{};
 
     SetCanSetOffExplosives(true);
     SetDoPurpleLightEffect(true);
@@ -689,6 +680,7 @@ IBaseAliveGameObject* Slog::FindAbeMudOrSlig()
         bRect.w += gPsxDisplay.mWidth;
     }
 
+    auto pSligBeingListendTo = static_cast<IBaseAliveGameObject*>(sObjectIds.Find_Impl(mListeningToSligId));
     for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
     {
         IBaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
@@ -697,7 +689,7 @@ IBaseAliveGameObject* Slog::FindAbeMudOrSlig()
             break;
         }
 
-        if (pObj != mListeningToSligId && pObj != this)
+        if (pObj != pSligBeingListendTo && pObj != this)
         {
             if (pObj->Type() == ReliveTypes::eAbe || pObj->Type() == ReliveTypes::eMudokon || pObj->Type() == ReliveTypes::eSlig)
             {
@@ -721,25 +713,6 @@ IBaseAliveGameObject* Slog::FindAbeMudOrSlig()
     return pResult;
 }
 
-void Slog::VScreenChanged()
-{
-    if (gMap.LevelChanged() || gMap.PathChanged())
-    {
-        SetDead(true);
-
-        if (mTarget)
-        {
-            mTarget->mBaseGameObjectRefCount--;
-            mTarget = nullptr;
-        }
-
-        if (mListeningToSligId)
-        {
-            mListeningToSligId->mBaseGameObjectRefCount--;
-            mListeningToSligId = nullptr;
-        }
-    }
-}
 
 void Slog::VRender(OrderingTable& ot)
 {
@@ -1703,36 +1676,30 @@ const eSlogMotions sSlogResponseMotion_4CFCF0[3][10] = {
 
 s16 Slog::Brain_0_ListeningToSlig()
 {
-    if (!mListeningToSligId)
+    if (!mListeningToSligId.IsValid())
     {
-        return 99;
+        ALIVE_FATAL("Slog wants to listen to a slig, but we ain't got one");
     }
 
-    if (mListeningToSligId->GetDead())
+    auto pObj = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(mListeningToSligId));
+    if (!pObj || pObj->GetDead())
     {
-        mListeningToSligId->mBaseGameObjectRefCount--;
-        mListeningToSligId = nullptr;
-
-        if (mTarget)
-        {
-            mTarget->mBaseGameObjectRefCount--;
-            mTarget = nullptr;
-        }
-
         mAngerLevel = 0;
-        mBrainState = 1;
+        mListeningToSligId = Guid{};
+        mTargetId = Guid{};
+        mBrainState = 1; // Brain_1_Idle ?
         return 0;
     }
 
     FP gridScale = ScaleToGridSize(GetSpriteScale());
     FP scaled1Directed = (gridScale * FP_FromInteger(1));
-    if (mListeningToSligId->GetAnimation().GetFlipX())
+    if (pObj->GetAnimation().GetFlipX())
     {
         scaled1Directed = -scaled1Directed;
     }
 
     u16 result = 0;
-    const FP xSkip = CamX_VoidSkipper(scaled1Directed + mListeningToSligId->mXPos, scaled1Directed, 0, &result);
+    const FP xSkip = CamX_VoidSkipper(scaled1Directed + pObj->mXPos, scaled1Directed, 0, &result);
 
     GameSpeakEvents speak = GameSpeakEvents::eNone;
     switch (mBrainSubState)
@@ -1893,15 +1860,12 @@ s16 Slog::Brain_0_ListeningToSlig()
 
         case GameSpeakEvents::eSlig_GetEm:
         {
-            mTarget = FindAbeMudOrSlig();
-            if (mTarget)
+            auto pTarget = FindAbeMudOrSlig();
+            if (pTarget)
             {
-                mTarget->mBaseGameObjectRefCount++;
-
-                mListeningToSligId->mBaseGameObjectRefCount--;
-                mListeningToSligId = nullptr;
-
-                mBrainState = 2;
+                mTargetId = pTarget->mBaseGameObjectId;
+                mListeningToSligId = Guid{};
+                mBrainState = 2; // Brain_2_ChasingAbe ?
                 return 0;
             }
 
@@ -1989,7 +1953,7 @@ s16 Slog::Brain_0_ListeningToSlig()
         }
     }
 
-    if (mListeningToSligId->GetAnimation().GetFlipX() != GetAnimation().GetFlipX())
+    if (pObj->GetAnimation().GetFlipX() != GetAnimation().GetFlipX())
     {
         return 3;
     }
@@ -1999,47 +1963,23 @@ s16 Slog::Brain_0_ListeningToSlig()
 
 s16 Slog::Brain_1_Idle()
 {
-    if (mTarget)
+    BaseGameObject* pTarget = sObjectIds.Find_Impl(mTargetId);
+
+    if (pTarget && pTarget->GetDead())
     {
-        if (mTarget->GetDead())
-        {
-            mTarget->mBaseGameObjectRefCount--;
-            mTarget = nullptr;
-        }
+        mTargetId = Guid{};
     }
 
-    GameSpeakEvents speak = GameSpeakEvents::eNone;
-
-    if (mLastGameSpeakEvent == gEventSystem->mLastEventIndex)
+    if (mLastGameSpeakEvent != gEventSystem->mLastEventIndex)
     {
-        if (gEventSystem->mLastEvent == GameSpeakEvents::eNone)
-        {
-            speak = GameSpeakEvents::eNone;
-        }
-        else
-        {
-            speak = GameSpeakEvents::eSameAsLast;
-        }
-    }
-    else
-    {
-        speak = gEventSystem->mLastEvent;
         mLastGameSpeakEvent = gEventSystem->mLastEventIndex;
-    }
-
-    if (speak == GameSpeakEvents::eSlig_HereBoy)
-    {
-        // Listen to slig
-        mBrainState = 0;
-        mListeningToSligId = sControlledCharacter;
-        mListeningToSligId->mBaseGameObjectRefCount++;
-
-        if (mTarget)
+        if (gEventSystem->mLastEvent == GameSpeakEvents::eSlig_HereBoy)
         {
-            mTarget->mBaseGameObjectRefCount--;
-            mTarget = nullptr;
+            mBrainState = 0; // Brain_0_ListeningToSlig ?
+            mTargetId = Guid{};
+            mListeningToSligId = sControlledCharacter->mBaseGameObjectId;
+            return 0;
         }
-        return 0;
     }
 
     if (SwitchStates_Get(mAngerSwitchId))
@@ -2241,49 +2181,28 @@ s16 Slog::Brain_1_Idle()
 
 s16 Slog::Brain_2_ChasingAbe()
 {
-    const s32 lastIdx = gEventSystem->mLastEventIndex;
-
-    GameSpeakEvents speak = GameSpeakEvents::eNone;
-
-    if (mLastGameSpeakEvent == lastIdx)
+    auto pTarget = static_cast<IBaseAliveGameObject*>(sObjectIds.Find_Impl(mTargetId));
+    if (mListenToSligs)
     {
-        if (gEventSystem->mLastEvent == GameSpeakEvents::eNone)
+        if (mLastGameSpeakEvent != gEventSystem->mLastEventIndex)
         {
-            speak = GameSpeakEvents::eNone;
-        }
-        else
-        {
-            speak = GameSpeakEvents::eSameAsLast;
+            mLastGameSpeakEvent = gEventSystem->mLastEventIndex;
+            if (gEventSystem->mLastEvent == GameSpeakEvents::eSlig_HereBoy)
+            {
+                // Listen to slig
+                mBrainState = 0; // Brain_0_ListeningToSlig ?
+                mTargetId = Guid{};
+                mListeningToSligId = sControlledCharacter->mBaseGameObjectId;
+                return 0;
+            }
         }
     }
-    else
-    {
-        mLastGameSpeakEvent = lastIdx;
-        speak = gEventSystem->mLastEvent;
-    }
 
-    if (mListenToSligs && speak == GameSpeakEvents::eSlig_HereBoy)
+    if (!pTarget)
     {
-        // Listen to slig
-        mBrainState = 0;
-        mListeningToSligId = sControlledCharacter;
-        mListeningToSligId->mBaseGameObjectRefCount++;
-
-        if (mTarget)
-        {
-            mTarget->mBaseGameObjectRefCount--;
-            mTarget = nullptr;
-        }
-        return 0;
-    }
-
-    if (mTarget && mTarget->GetDead())
-    {
-        // Idle
-        mTarget->mBaseGameObjectRefCount--;
-        mTarget = nullptr;
+        mTargetId = Guid {};
         mAngerLevel = 0;
-        mBrainState = 1;
+        mBrainState = 1; // Brain_1_Idle ?
         mNextMotion = eSlogMotions::Motion_0_Idle;
         return 0;
     }
@@ -2291,11 +2210,6 @@ s16 Slog::Brain_2_ChasingAbe()
     switch (mBrainSubState)
     {
         case 0:
-            if (!mTarget)
-            {
-                mTarget = gAbe;
-                mTarget->mBaseGameObjectRefCount++;
-            }
             mBitingTarget = 0;
             mJumpCounter = 0;
             mNextMotion = eSlogMotions::Motion_2_Run;
@@ -2313,18 +2227,18 @@ s16 Slog::Brain_2_ChasingAbe()
                 return 13;
             }
 
-            if (!VIsFacingMe(mTarget) && mCurrentMotion == eSlogMotions::Motion_2_Run)
+            if (!VIsFacingMe(pTarget) && mCurrentMotion == eSlogMotions::Motion_2_Run)
             {
                 mNextMotion = eSlogMotions::Motion_8_StopRunning;
             }
 
-            if (VIsObjNearby(ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(3), mTarget))
+            if (VIsObjNearby(ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(3), pTarget))
             {
-                if (VOnSameYLevel(mTarget))
+                if (VOnSameYLevel(pTarget))
                 {
-                    if (mTarget->GetSpriteScale() == GetSpriteScale())
+                    if (pTarget->GetSpriteScale() == GetSpriteScale())
                     {
-                        if (VIsFacingMe(mTarget))
+                        if (VIsFacingMe(pTarget))
                         {
                             mNextMotion = eSlogMotions::Motion_19_JumpForwards;
                         }
@@ -2339,7 +2253,7 @@ s16 Slog::Brain_2_ChasingAbe()
 
             if (mCurrentMotion == eSlogMotions::Motion_0_Idle)
             {
-                if (VIsFacingMe(mTarget))
+                if (VIsFacingMe(pTarget))
                 {
                     FP scaleDirected = {};
                     if (GetAnimation().GetFlipX())
@@ -2377,11 +2291,11 @@ s16 Slog::Brain_2_ChasingAbe()
             }
 
             const FP k10Scaled = GetSpriteScale() * FP_FromInteger(10);
-            if (mYPos <= mTarget->mYPos + k10Scaled)
+            if (mYPos <= pTarget->mYPos + k10Scaled)
             {
-                if (mTarget->GetSpriteScale() == GetSpriteScale())
+                if (pTarget->GetSpriteScale() == GetSpriteScale())
                 {
-                    if (mYPos >= (mTarget->mYPos - (k10Scaled * FP_FromInteger(3))))
+                    if (mYPos >= (pTarget->mYPos - (k10Scaled * FP_FromInteger(3))))
                     {
                         return mBrainSubState;
                     }
@@ -2389,7 +2303,7 @@ s16 Slog::Brain_2_ChasingAbe()
             }
             else
             {
-                if (mTarget->GetSpriteScale() == GetSpriteScale())
+                if (pTarget->GetSpriteScale() == GetSpriteScale())
                 {
                     return 9;
                 }
@@ -2429,7 +2343,7 @@ s16 Slog::Brain_2_ChasingAbe()
                 mNextMotion = eSlogMotions::Motion_0_Idle;
             }
 
-            if (mTarget->GetSpriteScale() != GetSpriteScale())
+            if (pTarget->GetSpriteScale() != GetSpriteScale())
             {
                 return mBrainSubState;
             }
@@ -2443,7 +2357,7 @@ s16 Slog::Brain_2_ChasingAbe()
                     return 1;
                 }
 
-                if (VIsObjNearby(GetSpriteScale() * FP_FromInteger(20), mTarget) || VIsFacingMe(mTarget))
+                if (VIsObjNearby(GetSpriteScale() * FP_FromInteger(20), pTarget) || VIsFacingMe(pTarget))
                 {
                     mCurrentMotion = eSlogMotions::Motion_21_Eating;
                     mNextMotion = eSlogMotions::None_m1;
@@ -2505,16 +2419,16 @@ s16 Slog::Brain_2_ChasingAbe()
                 return 13;
             }
 
-            if (!VIsFacingMe(mTarget) && mCurrentMotion == eSlogMotions::Motion_2_Run)
+            if (!VIsFacingMe(pTarget) && mCurrentMotion == eSlogMotions::Motion_2_Run)
             {
                 mNextMotion = eSlogMotions::Motion_8_StopRunning;
             }
 
-            if (VIsObjNearby(ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(3), mTarget))
+            if (VIsObjNearby(ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(3), pTarget))
             {
-                if (mTarget->GetSpriteScale() == GetSpriteScale() && mCurrentMotion == eSlogMotions::Motion_2_Run)
+                if (pTarget->GetSpriteScale() == GetSpriteScale() && mCurrentMotion == eSlogMotions::Motion_2_Run)
                 {
-                    if (VIsFacingMe(mTarget))
+                    if (VIsFacingMe(pTarget))
                     {
                         mNextMotion = eSlogMotions::Motion_7_SlideTurn;
                     }
@@ -2526,7 +2440,7 @@ s16 Slog::Brain_2_ChasingAbe()
                 mNextMotion = eSlogMotions::Motion_2_Run;
             }
 
-            if (mYPos < ((GetSpriteScale() * FP_FromInteger(10)) + mTarget->mYPos))
+            if (mYPos < ((GetSpriteScale() * FP_FromInteger(10)) + pTarget->mYPos))
             {
                 mMultiUseTimer = MakeTimer(mChaseDelay);
                 return 11;
@@ -2539,7 +2453,7 @@ s16 Slog::Brain_2_ChasingAbe()
 
             if (mCurrentMotion == eSlogMotions::Motion_0_Idle)
             {
-                if (VIsFacingMe(mTarget))
+                if (VIsFacingMe(pTarget))
                 {
                     if (mJumpCounter >= 100)
                     {
@@ -2576,7 +2490,7 @@ s16 Slog::Brain_2_ChasingAbe()
         case 11:
             if (mCurrentMotion == eSlogMotions::Motion_0_Idle)
             {
-                if (!VIsFacingMe(mTarget))
+                if (!VIsFacingMe(pTarget))
                 {
                     mNextMotion = eSlogMotions::Motion_3_TurnAround;
                     return mBrainSubState;
@@ -2607,14 +2521,14 @@ s16 Slog::Brain_2_ChasingAbe()
 
             if (mStopRunning)
             {
-                if (mTarget->mXPos > mXPos)
+                if (pTarget->mXPos > mXPos)
                 {
                     return 1;
                 }
             }
             else
             {
-                if (mTarget->mXPos < mXPos)
+                if (pTarget->mXPos < mXPos)
                 {
                     return 1;
                 }
@@ -2647,17 +2561,8 @@ s16 Slog::Brain_2_ChasingAbe()
 
 s16 Slog::Brain_3_Dead()
 {
-    if (mListeningToSligId)
-    {
-        mListeningToSligId->mBaseGameObjectRefCount--;
-        mListeningToSligId = nullptr;
-    }
-
-    if (mTarget)
-    {
-        mTarget->mBaseGameObjectRefCount--;
-        mTarget = nullptr;
-    }
+    mListeningToSligId = Guid{};
+    mTargetId = Guid{};
 
     if (mMultiUseTimer < static_cast<s32>(sGnFrame) + 80)
     {

@@ -32,8 +32,8 @@ public:
     State mState = State::eTransform_0;
     s32 mZapIntervalTimer = 0;
     s32 mFlashTimer = 0;
-    ZapLine* mZapLine = nullptr;
-    IBaseAliveGameObject* mZapTarget = nullptr;
+    Guid mZapLineId = {};
+    Guid mZapTargetId = {};
     bool mCanElectrocute = false;
     bool mResetRingTimer = false;
 };

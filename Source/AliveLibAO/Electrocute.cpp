@@ -2,6 +2,7 @@
 #include "../relive_lib/Function.hpp"
 #include "Electrocute.hpp"
 #include "BaseAliveGameObject.hpp"
+#include "../relive_lib/ObjectIds.hpp"
 #include "../AliveLibAE/stdlib.hpp"
 #include "Map.hpp"
 
@@ -94,12 +95,11 @@ public:
 };
 
 Electrocute::Electrocute(IBaseAliveGameObject* pTargetObj, s32 bExtraOverwriter)
-    : BaseGameObject(true, 0)
+    : BaseGameObject(true, 0),
+      field_20_target_obj_id(pTargetObj->mBaseGameObjectId)
 {
     SetType(ReliveTypes::eElectrocute);
 
-    pTargetObj->mBaseGameObjectRefCount++;
-    field_10_obj_target = pTargetObj;
     field_32_state = States::eSetNewColour_0;
     field_24_extraOverwriter = static_cast<s16>(bExtraOverwriter);
     field_14_overwriter_count = bExtraOverwriter ? 3 : 2;
@@ -134,19 +134,15 @@ Electrocute::~Electrocute()
         }
     }
 
-    if (field_10_obj_target)
-    {
-        field_10_obj_target->mBaseGameObjectRefCount--;
-    }
-
    // relive_delete[] field_28_pPalData;
 }
 
 void Electrocute::VScreenChanged()
 {
+    BaseAliveGameObject* pTargetObj = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(field_20_target_obj_id));
+
     // If the map has changed or target we are tracking has died then..
-    if (gMap.LevelChanged() || gMap.PathChanged()
-        || (field_10_obj_target && field_10_obj_target->GetDead()))
+    if (gMap.LevelChanged() || gMap.PathChanged() || (pTargetObj && pTargetObj->GetDead()))
     {
         Stop();
     }
@@ -163,9 +159,12 @@ void Electrocute::Stop()
         }
     }
 
-    if (field_10_obj_target)
+    SetDead(true);
+
+    auto pTarget = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(field_20_target_obj_id));
+    if (pTarget)
     {
-        if (field_10_obj_target->Type() == ReliveTypes::eAbe)
+        if (pTarget->Type() == ReliveTypes::eAbe)
         {
             /* TODO: Set anim
             Pal_Set(
@@ -173,16 +172,11 @@ void Electrocute::Stop()
                 field_10_obj_target->mAnim.mPalDepth,
                 reinterpret_cast<const u8*>(field_28_pPalData),
                 &field_38_pal_rect);*/
-            field_10_obj_target->mRGB.r = field_2C_r;
-            field_10_obj_target->mRGB.g = field_2E_g;
-            field_10_obj_target->mRGB.b = field_30_b;
+            pTarget->mRGB.SetRGB(field_2C_r, field_2E_g, field_30_b);
         }
 
-        field_10_obj_target->VTakeDamage(this);
-        field_10_obj_target->mBaseGameObjectRefCount--;
-        field_10_obj_target = nullptr;
-
-        SetDead(true);
+        pTarget->VTakeDamage(this);
+        field_20_target_obj_id = Guid{};
     }
 }
 
@@ -194,7 +188,8 @@ u32 Pal_Make_Colour(u8 r, u8 g, u8 b, s16 bOpaque)
 
 void Electrocute::VUpdate()
 {
-    if (field_10_obj_target && field_10_obj_target->GetDead())
+    BaseAliveGameObject* pTargetObj = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(field_20_target_obj_id));
+    if (!pTargetObj || pTargetObj->GetDead())
     {
         Stop();
         return;
@@ -203,22 +198,22 @@ void Electrocute::VUpdate()
     switch (field_32_state)
     {
         case States::eSetNewColour_0:
-            field_2C_r = field_10_obj_target->mRGB.r;
-            field_2E_g = field_10_obj_target->mRGB.g;
-            field_30_b = field_10_obj_target->mRGB.b;
+            field_2C_r = pTargetObj->mRGB.r;
+            field_2E_g = pTargetObj->mRGB.g;
+            field_30_b = pTargetObj->mRGB.b;
 
-            field_10_obj_target->mRGB.SetRGB(255, 255, 255);
+            pTargetObj->mRGB.SetRGB(255, 255, 255);
 
             field_32_state = States::eAlphaFadeout_1;
             return;
 
         case States::eAlphaFadeout_1:
             field_18_pPalOverwriters[0] = relive_new PalleteOverwriter(
-                *field_10_obj_target->GetAnimation().mAnimRes.mPngPtr->mPal,
+                *pTargetObj->GetAnimation().mAnimRes.mPngPtr->mPal,
                 static_cast<s16>(Pal_Make_Colour(255u, 255, 255, 1)));
 
             field_18_pPalOverwriters[1] = relive_new PalleteOverwriter(
-                *field_10_obj_target->GetAnimation().mAnimRes.mPngPtr->mPal,
+                *pTargetObj->GetAnimation().mAnimRes.mPngPtr->mPal,
                 static_cast<s16>(Pal_Make_Colour(64u, 64, 255, 1)));
             if (field_18_pPalOverwriters[1])
             {
@@ -228,7 +223,7 @@ void Electrocute::VUpdate()
             if (field_24_extraOverwriter)
             {
                 field_18_pPalOverwriters[2] = relive_new PalleteOverwriter(
-                    *field_10_obj_target->GetAnimation().mAnimRes.mPngPtr->mPal,
+                    *pTargetObj->GetAnimation().mAnimRes.mPngPtr->mPal,
 
                     static_cast<s16>(Pal_Make_Colour(0, 0, 0, 0)));
                 if (field_18_pPalOverwriters[2])
@@ -245,9 +240,9 @@ void Electrocute::VUpdate()
             PalleteOverwriter* pOverwritter = field_18_pPalOverwriters[field_14_overwriter_count - 1];
             if (pOverwritter && pOverwritter->field_BE_bDone)
             {
-                if (field_10_obj_target->Type() == ReliveTypes::eAbe)
+                if (pTargetObj->Type() == ReliveTypes::eAbe)
                 {
-                    field_10_obj_target->VTakeDamage(this);
+                    pTargetObj->VTakeDamage(this);
                     /* TODO: Set pal
                     Pal_Set(
                         field_10_obj_target->mAnim.mPalVramXY,
@@ -255,19 +250,16 @@ void Electrocute::VUpdate()
                         reinterpret_cast<const u8*>(field_28_pPalData),
                         &field_38_pal_rect);
                     */
-                    field_10_obj_target->mRGB.r = field_2C_r;
-                    field_10_obj_target->mRGB.g = field_2E_g;
-                    field_10_obj_target->mRGB.b = field_30_b;
+                    pTargetObj->mRGB.SetRGB(field_2C_r, field_2E_g, field_30_b);
 
-                    field_32_state = States::eKillElectrocute_3;
+
                 }
                 else
                 {
-                    field_10_obj_target->VTakeDamage(this);
-                    field_10_obj_target->mBaseGameObjectRefCount--;
-                    field_10_obj_target = nullptr;
-                    field_32_state = States::eKillElectrocute_3;
+                    field_20_target_obj_id = Guid{};
                 }
+
+                field_32_state = States::eKillElectrocute_3;
             }
         }
         break;

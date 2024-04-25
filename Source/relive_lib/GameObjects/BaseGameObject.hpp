@@ -96,8 +96,6 @@ public:
     std::vector<AnimResource> mLoadedAnims;
     std::vector<PalResource> mLoadedPals;
 
-    s8 mBaseGameObjectRefCount = 0; // AO
-
 private:
     ReliveTypes mBaseGameObjectTypeId = ReliveTypes::eNone;
     s32 mBaseGameObjectUpdateDelay = 0;

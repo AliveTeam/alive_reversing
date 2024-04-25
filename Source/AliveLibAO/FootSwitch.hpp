@@ -30,7 +30,7 @@ public:
     s16 mSwitchId = 0;
     relive::reliveSwitchOp mAction = relive::reliveSwitchOp::eSetTrue;
     relive::Path_FootSwitch::FootSwitchTriggerBy mTriggeredBy = relive::Path_FootSwitch::FootSwitchTriggerBy::eAbe;
-    BaseAliveGameObject* mStoodOnMe = nullptr;
+    Guid mStoodOnMeId = {};
 };
 
 

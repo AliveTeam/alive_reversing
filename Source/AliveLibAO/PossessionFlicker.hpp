@@ -15,8 +15,9 @@ public:
     PossessionFlicker(IBaseAliveGameObject* pToApplyFlicker, s32 duration, s32 r, s32 g, s32 b);
     ~PossessionFlicker();
 
+    const Guid& ObjectId() const;
 private:
-    IBaseAliveGameObject* mTargetObj = nullptr;
+    Guid mTargetObjId = {};
     s32 mTimeToFlicker = 0;
 
     s16 mNewRed = 0;

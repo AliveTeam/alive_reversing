@@ -375,7 +375,7 @@ void Grenade::VUpdate()
     }
 }
 
-s16 Grenade::InTheAir(s16 blowUpOnFloorTouch)
+bool Grenade::InTheAir(s16 blowUpOnFloorTouch)
 {
     sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId);
 
@@ -569,7 +569,7 @@ bool Grenade::OnCollision_BounceOff(BaseGameObject* pHit)
     return false;
 }
 
-s16 Grenade::TimeToBlowUp()
+bool Grenade::TimeToBlowUp()
 {
     mExplodeCountdown--;
     const s16 timer = mExplodeCountdown;
@@ -578,16 +578,16 @@ s16 Grenade::TimeToBlowUp()
         SfxPlayMono(relive::SoundEffects::GreenTick, 0);
     }
 
-    if (timer)
+    if (timer == 0)
     {
-        return 0;
+        BlowUp(false);
+        return true;
     }
 
-    BlowUp(0);
-    return 1;
+    return false;
 }
 
-void Grenade::BlowUp(s16 bSmallExplosion)
+void Grenade::BlowUp(bool bSmallExplosion)
 {
     auto pExplosion = relive_new AirExplosion(
         mXPos,
@@ -597,11 +597,9 @@ void Grenade::BlowUp(s16 bSmallExplosion)
     if (pExplosion)
     {
         mExplosionId = pExplosion->mBaseGameObjectId;
+        GetAnimation().SetRender(false);
+        mState = GrenadeStates::eWaitForExplodeEnd_6;
     }
-
-    GetAnimation().SetRender(false);
-
-    mState = GrenadeStates::eWaitForExplodeEnd_6;
 
     relive_new Gibs(GibType::eMetal, mXPos, mYPos, FP_FromInteger(0), FP_FromInteger(5), GetSpriteScale(), bSmallExplosion);
 }

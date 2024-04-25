@@ -80,9 +80,9 @@ public:
 
 private:
     void Init(FP xpos, FP ypos);
-    void BlowUp(s16 bSmallExplosion);
-    s16 TimeToBlowUp();
-    s16 InTheAir(s16 blowUpOnFloorTouch);
+    void BlowUp(bool bSmallExplosion);
+    bool TimeToBlowUp();
+    bool InTheAir(s16 blowUpOnFloorTouch);
     void AddToPlatform();
     bool OnCollision_BounceOff(BaseGameObject* pHit);
     bool OnCollision_InstantExplode(BaseGameObject* pHit);

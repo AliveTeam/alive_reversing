@@ -3459,15 +3459,14 @@ u8** Scrab::ResBlockForMotion(s16 /*motion*/)
 
 void Scrab::VScreenChanged()
 {
-    BaseGameObject* pChaseTarget = sObjectIds.Find_Impl(mTargetGuid);
-
     if (gMap.LevelChanged() || gMap.PathChanged())
     {
         SetDead(true);
     }
-    else if (pChaseTarget)
+    else
     {
-        if (pChaseTarget->GetDead())
+        BaseGameObject* pChaseTarget = sObjectIds.Find_Impl(mTargetGuid);
+        if (pChaseTarget && pChaseTarget->GetDead())
         {
             mTargetGuid = Guid{};
             mNextMotion = eScrabMotions::Motion_0_Stand;

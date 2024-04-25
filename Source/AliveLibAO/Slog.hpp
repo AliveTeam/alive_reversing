@@ -81,7 +81,6 @@ public:
 
     virtual bool VTakeDamage(BaseGameObject* pFrom) override;
     virtual void VOnTlvCollision(relive::Path_TLV* pTlv) override;
-    virtual void VScreenChanged() override;
     virtual void VRender(OrderingTable& ot) override;
     virtual void VOnThrowableHit(BaseGameObject* pFrom) override;
     virtual void VOnTrapDoorOpen() override;
@@ -156,7 +155,7 @@ private:
     void DelayedResponse(s16 responseIdx);
 
 public:
-    IBaseAliveGameObject* mTarget = nullptr;
+    Guid mTargetId = {};
     s16 mBitingTarget = 0;
 
 private:
@@ -167,7 +166,7 @@ private:
     Guid mTlvId;
     s32 mHasWoofed = 0;
     s32 mLastGameSpeakEvent = -1;
-    IBaseAliveGameObject* mListeningToSligId = nullptr;
+    Guid mListeningToSligId = {};
     s16 mWaitingCounter = 0;
     s16 mResponseIdx = 0;
     s16 mResponsePart = 0;

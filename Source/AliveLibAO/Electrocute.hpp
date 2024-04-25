@@ -21,7 +21,7 @@ public:
 
     void Stop();
 
-    IBaseAliveGameObject* field_10_obj_target = nullptr;
+    Guid field_20_target_obj_id = {};
     s16 field_14_overwriter_count = 0;
     PalleteOverwriter* field_18_pPalOverwriters[3] = {};
     s16 field_24_extraOverwriter = 0;

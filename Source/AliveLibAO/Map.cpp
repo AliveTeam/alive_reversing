@@ -305,11 +305,8 @@ void Map::ScreenChange()
             // Did the screen change kill the object?
             if (pItem->GetDead())
             {
-                if (pItem->mBaseGameObjectRefCount == 0)
-                {
-                    j = gBaseGameObjects->RemoveAt(j);
-                    delete pItem;
-                }
+                j = gBaseGameObjects->RemoveAt(j);
+                delete pItem;
             }
         }
     }
@@ -324,11 +321,8 @@ void Map::ScreenChange()
 
         if (pItem->GetDead())
         {
-            if (pItem->mBaseGameObjectRefCount == 0)
-            {
-                i = gBaseGameObjects->RemoveAt(i);
-                delete pItem;
-            }
+            i = gBaseGameObjects->RemoveAt(i);
+            delete pItem;
         }
     }
 
@@ -789,7 +783,7 @@ void Map::GoTo_Camera()
                 break;
             }
 
-            if (pBaseGameObj->GetDead() && pBaseGameObj->mBaseGameObjectRefCount == 0)
+            if (pBaseGameObj->GetDead())
             {
                 i = gBaseGameObjects->RemoveAt(i);
                 relive_delete pBaseGameObj;

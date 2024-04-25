@@ -54,7 +54,11 @@ public:
     Guid mClawId;
     PSX_Point mTlvTopLeft = {};
     PSX_Point mTlvBottomRight = {};
-    DynamicArrayT<MotionDetector>* mMotionDetectorArray;
+
+    // TODO: Refactor this
+    bool mAnimLoaded = false;
+    u32 mMotionDetectorArrayIdx = 0;
+    Guid mMotionDetectorArray[10] = {};
 };
 
 } // namespace AO

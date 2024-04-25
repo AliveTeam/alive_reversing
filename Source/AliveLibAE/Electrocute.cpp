@@ -164,8 +164,6 @@ Electrocute::~Electrocute()
         relive_delete pPalOverwriter;
     }
 
-    field_20_target_obj_id = Guid{};
-
     //relive_delete[] field_40_pPalData;
 }
 

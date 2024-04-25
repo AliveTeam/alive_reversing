@@ -1689,12 +1689,13 @@ void Menu::NewGameStart()
     if (gAttract)
     {
         // OG bug fix: the demo will load a save which will call Kill_Objects which will delete this object
-        // resulting in a crash when we try access any member vars at the end. Bump the ref count so we can kill ourselves instead.
-        mBaseGameObjectRefCount++;
+        // resulting in a crash when we try access any member vars at the end. Prevent it being deleted so we can kill ourselves instead.
+        const bool oldDeathReset = GetSurviveDeathReset();
+        SetSurviveDeathReset(true);
         // TODO: The ctor of the playback should load the demo res itself
         u8** ppRes = nullptr; //ResourceManager::GetLoadedResource(ResourceManager::Resource_Plbk, gJoyResId, 1, 0);
         relive_new DemoPlayback(ppRes);
-        mBaseGameObjectRefCount--;
+        SetSurviveDeathReset(oldDeathReset);
     }
     else
     {

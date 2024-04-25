@@ -6,6 +6,7 @@
 #include "Sfx.hpp"
 #include "Abe.hpp"
 #include "Path.hpp"
+#include "../relive_lib/ObjectIds.hpp"
 
 namespace AO {
 
@@ -47,23 +48,20 @@ FootSwitch::FootSwitch(relive::Path_FootSwitch* pTlv, const Guid& tlvId)
 
 FootSwitch::~FootSwitch()
 {
-    if (mStoodOnMe)
-    {
-        mStoodOnMe->mBaseGameObjectRefCount--;
-        mStoodOnMe = nullptr;
-    }
     Path::TLV_Reset(mTlvId);
 }
 
 void FootSwitch::VUpdate()
 {
+    auto pLastStoodOnMe = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(mStoodOnMeId));
+
     switch (mState)
     {
         case States::eWaitForStepOnMe_0:
-            mStoodOnMe = WhoIsStoodOnMe();
-            if (mStoodOnMe)
+            pLastStoodOnMe = WhoIsStoodOnMe();
+            if (pLastStoodOnMe)
             {
-                mStoodOnMe->mBaseGameObjectRefCount++;
+                mStoodOnMeId = pLastStoodOnMe->mBaseGameObjectId;
                 SwitchStates_Do_Operation(mSwitchId, mAction);
                 mState = States::eWaitForGetOffMe_1;
                 GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Foot_Switch_Temple_Pressed));
@@ -75,11 +73,11 @@ void FootSwitch::VUpdate()
         {
             const PSX_RECT bRect = VGetBoundingRect();
 
-            if (mStoodOnMe->mXPos < FP_FromInteger(bRect.x) || mStoodOnMe->mXPos > FP_FromInteger(bRect.w) || mStoodOnMe->GetDead())
+            if (!pLastStoodOnMe || pLastStoodOnMe->mXPos < FP_FromInteger(bRect.x) || pLastStoodOnMe->mXPos > FP_FromInteger(bRect.w) || pLastStoodOnMe->GetDead())
             {
                 mState = States::eWaitForStepOnMe_0;
                 GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Foot_Switch_Temple));
-                mStoodOnMe->mBaseGameObjectRefCount--;
+                mStoodOnMeId = Guid{};
             }
             break;
         }

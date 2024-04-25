@@ -1,5 +1,6 @@
 #include "stdafx_ao.h"
 #include "PossessionFlicker.hpp"
+#include "../relive_lib/ObjectIds.hpp"
 #include "../AliveLibAE/stdlib.hpp"
 #include "Game.hpp"
 #include "BaseAliveGameObject.hpp"
@@ -8,8 +9,25 @@ namespace AO {
 PossessionFlicker::PossessionFlicker(IBaseAliveGameObject* pToApplyFlicker, s32 duration, s32 r, s32 g, s32 b)
     : BaseGameObject(true, 0)
 {
-    mTargetObj = pToApplyFlicker;
-    mTargetObj->mBaseGameObjectRefCount++;
+    SetType(ReliveTypes::ePossessionFlicker);
+    mTargetObjId = pToApplyFlicker->mBaseGameObjectId;
+
+    // Check if another PossessionFlicker is already applying flicker to pToApplyFlicker
+    for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
+    {
+        BaseGameObject* pObj = gBaseGameObjects->ItemAt(i);
+        if (!pObj)
+        {
+            break;
+        }
+
+        if (pObj != this && pObj->Type() == ReliveTypes::ePossessionFlicker && static_cast<PossessionFlicker*>(pObj)->ObjectId() == mTargetObjId)
+        {
+            // It is so don't store the id as the first update will destroy this object
+            mTargetObjId = Guid{};
+            return;
+        }
+    }
 
     mNewRed = static_cast<s16>(r);
     mNewGreen = static_cast<s16>(g);
@@ -26,62 +44,48 @@ PossessionFlicker::PossessionFlicker(IBaseAliveGameObject* pToApplyFlicker, s32 
 
 PossessionFlicker::~PossessionFlicker()
 {
-    if (mTargetObj)
+    // Restore the original non flickering colour
+    BaseAnimatedWithPhysicsGameObject* pToApplyFlicker = static_cast<BaseAnimatedWithPhysicsGameObject*>(sObjectIds.Find_Impl(mTargetObjId));
+    if (pToApplyFlicker)
     {
-        mTargetObj->GetAnimation().SetBlendMode(relive::TBlendModes::eBlend_0);
-
-        mTargetObj->mRGB.r = mOldRed;
-        mTargetObj->mRGB.g = mOldGreen;
-        mTargetObj->mRGB.b = mOldBlue;
-
-        mTargetObj->mBaseGameObjectRefCount--;
+        pToApplyFlicker->GetAnimation().SetBlendMode(relive::TBlendModes::eBlend_0);
+        pToApplyFlicker->mRGB.SetRGB(mOldRed, mOldGreen, mOldBlue);
     }
+}
+
+const Guid& PossessionFlicker::ObjectId() const
+{
+    return mTargetObjId;
 }
 
 void PossessionFlicker::VScreenChanged()
 {
-    if (mTargetObj->GetDead())
+    if (!sObjectIds.Find_Impl(mTargetObjId))
     {
-        mTargetObj->mBaseGameObjectRefCount--;
-        mTargetObj = nullptr;
+        mTargetObjId = {};
         SetDead(true);
     }
 }
 
 void PossessionFlicker::VUpdate()
 {
-    bool bFlicker = false;
-    if (mTargetObj->GetDead())
+    BaseAnimatedWithPhysicsGameObject* pToApplyFlicker = static_cast<BaseAnimatedWithPhysicsGameObject*>(sObjectIds.Find_Impl(mTargetObjId));
+    if (!pToApplyFlicker || static_cast<s32>(sGnFrame) > mTimeToFlicker)
     {
-        mTargetObj->mBaseGameObjectRefCount--;
-        mTargetObj = nullptr;
         SetDead(true);
-        bFlicker = false;
+        return;
+    }
+
+    // TODO: Flipped in AE
+    if (sGnFrame % 2)
+    {
+        // Flicker to new colour
+        pToApplyFlicker->mRGB.SetRGB(mOldRed, mOldGreen, mOldBlue);
     }
     else
     {
-        bFlicker = true;
-    }
-
-    if (bFlicker)
-    {
-        if (sGnFrame % 2)
-        {
-            mTargetObj->mRGB.r = mOldRed;
-            mTargetObj->mRGB.g = mOldGreen;
-            mTargetObj->mRGB.b = mOldBlue;
-        }
-        else
-        {
-            mTargetObj->mRGB.r = mNewRed;
-            mTargetObj->mRGB.g = mNewGreen;
-            mTargetObj->mRGB.b = mNewBlue;
-        }
-
-        if (static_cast<s32>(sGnFrame) > mTimeToFlicker)
-        {
-            SetDead(true);
-        }
+        // Flicker to original colour
+        pToApplyFlicker->mRGB.SetRGB(mNewRed, mNewGreen, mNewBlue);
     }
 }
 

@@ -6,6 +6,7 @@
 #include "Abe.hpp"
 #include "../relive_lib/GameObjects/ZapLine.hpp"
 #include "../relive_lib/Shadow.hpp"
+#include "../relive_lib/ObjectIds.hpp"
 #include "Sfx.hpp"
 #include "PossessionFlicker.hpp"
 #include "../relive_lib/GameObjects/ParticleBurst.hpp"
@@ -19,16 +20,14 @@ namespace AO {
 
 Shrykull::~Shrykull()
 {
-    if (mZapLine)
+    BaseGameObject* pZapLine = sObjectIds.Find_Impl(mZapLineId);
+    if (pZapLine)
     {
-        mZapLine->mBaseGameObjectRefCount--;
-        mZapLine->SetDead(true);
+        pZapLine->SetDead(true);
+        mZapLineId = Guid{};
     }
 
-    if (mZapTarget)
-    {
-        mZapTarget->mBaseGameObjectRefCount--;
-    }
+    mZapTargetId = Guid{};
 }
 
 void Shrykull::VScreenChanged()
@@ -49,19 +48,19 @@ void Shrykull::LoadAnimations()
 Shrykull::Shrykull()
     : BaseAliveGameObject()
 {
-    SetCanExplode(true);
     SetType(ReliveTypes::eShrykull);
-    
+
     LoadAnimations();
 
+    SetCanExplode(true);
+
     Animation_Init(GetAnimRes(AnimId::ShrykullStart));
-    mZapLine = nullptr;
-    mZapTarget = nullptr;
 
     mXPos = gAbe->mXPos;
     mYPos = gAbe->mYPos;
     SetSpriteScale(gAbe->GetSpriteScale());
     SetScale(gAbe->GetScale());
+
     mState = State::eTransform_0;
 
     GetAnimation().SetFlipX(gAbe->GetAnimation().GetFlipX());
@@ -116,6 +115,9 @@ bool Shrykull::CanElectrocute(BaseGameObject* pObj) const
 
 void Shrykull::VUpdate()
 {
+    auto pExistingBeingZappedObj = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(mZapTargetId));
+    auto pExistingZapLine = static_cast<ZapLine*>(sObjectIds.Find_Impl(mZapLineId));
+
     switch (mState)
     {
         case State::eTransform_0:
@@ -156,15 +158,14 @@ void Shrykull::VUpdate()
 
                 if (CanKill(pObj) && !pObj->GetZappedByShrykull())
                 {
-                    pObj->mBaseGameObjectRefCount++;
-                    mZapTarget = pObj;
+                    mZapTargetId = pObj->mBaseGameObjectId;
 
                     const PSX_RECT objRect = pObj->VGetBoundingRect();
                     const PSX_RECT ourRect = VGetBoundingRect();
                     
-                    if (mZapLine)
+                    if (pExistingZapLine)
                     {
-                        mZapLine->CalculateSourceAndDestinationPositions(
+                        pExistingZapLine->CalculateSourceAndDestinationPositions(
                             FP_FromInteger((ourRect.x + ourRect.w) / 2),
                             FP_FromInteger((ourRect.y + ourRect.h) / 2),
                             FP_FromInteger((objRect.x + objRect.w) / 2),
@@ -181,8 +182,7 @@ void Shrykull::VUpdate()
                             Layer::eLayer_ZapLinesElumMuds_28);
                         if (pZapLine)
                         {
-                            pZapLine->mBaseGameObjectRefCount++;
-                            mZapLine = pZapLine;
+                            mZapLineId = pZapLine->mBaseGameObjectId;
                         }
                     }
 
@@ -198,7 +198,7 @@ void Shrykull::VUpdate()
                         }
                     }
 
-                    relive_new PossessionFlicker(mZapTarget, 8, 255, 255, 255);
+                    relive_new PossessionFlicker(pObj, 8, 255, 255, 255);
 
                     relive_new AbilityRing(
                         FP_FromInteger((objRect.x + objRect.w) / 2),
@@ -214,7 +214,7 @@ void Shrykull::VUpdate()
                         RingTypes::eShrykull_Pulse_Large_5,
                         FP_FromInteger(1));
 
-                    mZapTarget->SetZappedByShrykull(true);
+                    pObj->SetZappedByShrykull(true);
 
                     SFX_Play_Pitch(relive::SoundEffects::Respawn, 100, 2000);
                     SfxPlayMono(relive::SoundEffects::Zap1, 0);
@@ -226,11 +226,10 @@ void Shrykull::VUpdate()
                 }
             }
 
-            if (mZapLine)
+            if (pExistingZapLine)
             {
-                mZapLine->mBaseGameObjectRefCount--;
-                mZapLine->SetDead(true);
-                mZapLine = nullptr;
+                pExistingZapLine->SetDead(true);
+                mZapLineId = Guid{};
             }
             mState = State::eDetransform_2;
             break;
@@ -270,16 +269,15 @@ void Shrykull::VUpdate()
                 }
             }
 
-            if (mZapTarget)
+            if (pExistingBeingZappedObj)
             {
-                if (mZapTarget->GetDead())
+                if (pExistingBeingZappedObj->GetDead())
                 {
-                    mZapTarget->mBaseGameObjectRefCount--;
-                    mZapTarget = nullptr;
+                    mZapTargetId = Guid{};
                 }
                 else
                 {
-                    const PSX_RECT zapRect = mZapTarget->VGetBoundingRect();
+                    const PSX_RECT zapRect = pExistingBeingZappedObj->VGetBoundingRect();
                     const PSX_RECT ourRect = VGetBoundingRect();
                     if (static_cast<s32>(sGnFrame) == mFlashTimer)
                     {
@@ -292,7 +290,7 @@ void Shrykull::VUpdate()
 
                        relive_new Flash(Layer::eLayer_Above_FG1_39, 255u, 255u, 255u);
                     }
-                    mZapLine->CalculateSourceAndDestinationPositions(
+                    pExistingZapLine->CalculateSourceAndDestinationPositions(
                         FP_FromInteger((ourRect.x + ourRect.w) / 2),
                         FP_FromInteger((ourRect.y + ourRect.h) / 2),
                         FP_FromInteger((zapRect.x + zapRect.w) / 2),
@@ -304,15 +302,14 @@ void Shrykull::VUpdate()
             {
                 mState = State::eZapTargets_1;
 
-                if (mZapTarget)
+                if (pExistingBeingZappedObj)
                 {
                     if (!mCanElectrocute)
                     {
-                        mZapTarget->VTakeDamage(this);
+                        pExistingBeingZappedObj->VTakeDamage(this);
                     }
 
-                    mZapTarget->mBaseGameObjectRefCount--;
-                    mZapTarget = nullptr;
+                    mZapTargetId = Guid{};
                 }
             }
             break;

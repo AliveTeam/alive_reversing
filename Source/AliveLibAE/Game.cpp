@@ -354,7 +354,7 @@ void Game_Loop()
             break;
         }
 
-        if (pObjToKill->mBaseGameObjectRefCount == 0)
+        if (pObjToKill->GetDead())
         {
             i = gBaseGameObjects->RemoveAt(i);
             delete pObjToKill;

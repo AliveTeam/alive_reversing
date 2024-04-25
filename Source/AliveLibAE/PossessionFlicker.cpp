@@ -53,7 +53,7 @@ PossessionFlicker::~PossessionFlicker()
     }
 }
 
-Guid PossessionFlicker::ObjectId() const
+const Guid& PossessionFlicker::ObjectId() const
 {
     return mTargetObjId;
 }
@@ -62,6 +62,7 @@ void PossessionFlicker::VScreenChanged()
 {
     if (!sObjectIds.Find_Impl(mTargetObjId))
     {
+        mTargetObjId = {};
         SetDead(true);
     }
 }

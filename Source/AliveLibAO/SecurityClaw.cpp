@@ -116,7 +116,7 @@ SecurityClaw::SecurityClaw(relive::Path_SecurityClaw* pTlv, const Guid& tlvId)
     }
 
     SetUpdateDuringCamSwap(true);
-    mMotionDetectorArray = nullptr;
+
     mOrbSoundChannels = 0;
 }
 
@@ -138,18 +138,18 @@ SecurityClaw::~SecurityClaw()
         mClawId = {};
     }
 
-    if (mMotionDetectorArray)
+    if (mMotionDetectorArrayIdx > 0)
     {
-        for (s32 i = 0; i < mMotionDetectorArray->Size(); i++)
+        for (s32 i = 0; i < mMotionDetectorArrayIdx; i++)
         {
-            auto pObjIter = mMotionDetectorArray->ItemAt(i);
-
-            pObjIter->SetDontComeBack(mDetectorComeBack);
-            pObjIter->mBaseGameObjectRefCount--;
-            pObjIter->SetDead(true);
+            const Guid& detectorGuid = mMotionDetectorArray[i];
+            auto pDetector = static_cast<MotionDetector*>(sObjectIds.Find_Impl(detectorGuid));
+            if (pDetector)
+            {
+                pDetector->SetDontComeBack(mDetectorComeBack);
+                pDetector->SetDead(true);
+            }
         }
-
-        relive_delete mMotionDetectorArray;
     }
 
     if (mOrbSoundChannels)
@@ -261,18 +261,16 @@ void SecurityClaw::VUpdate()
     pClaw->mXPos = mXPos;
     pClaw->mYPos = mYPos;
 
-    if (mMotionDetectorArray)
-    {
-        for (s32 i = 0; i < mMotionDetectorArray->Size(); i++)
-        {
-            MotionDetector* pObj = mMotionDetectorArray->ItemAt(i);
-            if (!pObj)
-            {
-                break;
-            }
 
-            pObj->mXPos = mXPos - FP_FromInteger(1);
-            pObj->mYPos = mYPos - FP_FromInteger(11);
+    // Set lasers to be where the claw is (roughly)
+    for (s32 i = 0; i < mMotionDetectorArrayIdx; i++)
+    {
+        const Guid& detectorGuid = mMotionDetectorArray[i];
+        auto pDetector = static_cast<MotionDetector*>(sObjectIds.Find_Impl(detectorGuid));
+        if (pDetector)
+        {
+            pDetector->mXPos = mXPos - FP_FromInteger(1);
+            pDetector->mYPos = mYPos - FP_FromInteger(11);
         }
     }
 
@@ -290,16 +288,20 @@ void SecurityClaw::VUpdate()
                 if (pObjIter->Type() == ReliveTypes::eMotionDetector)
                 {
                     auto pDetector = static_cast<MotionDetector*>(pObjIter);
-                    if (!mMotionDetectorArray)
+                    if (!mAnimLoaded)
                     {
                         GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Security_Claw_Upper_NoRotation));
-                        mMotionDetectorArray = relive_new DynamicArrayT<MotionDetector>(10);
+                        mAnimLoaded = true;
                     }
 
                     pDetector->mXPos = mXPos - FP_FromInteger(1);
                     pDetector->mYPos = mYPos - FP_FromInteger(11);
-                    pDetector->mBaseGameObjectRefCount++;
-                    mMotionDetectorArray->Push_Back(pDetector);
+                    mMotionDetectorArray[mMotionDetectorArrayIdx] = pDetector->mBaseGameObjectId;
+                    mMotionDetectorArrayIdx++;
+                    if (mMotionDetectorArrayIdx > ALIVE_COUNTOF(mMotionDetectorArray))
+                    {
+                        ALIVE_FATAL("No more space for motion detectors");
+                    }
                 }
             }
             mState = SecurityClawStates::eIdle_1;

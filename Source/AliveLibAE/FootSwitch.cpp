@@ -111,15 +111,15 @@ FootSwitch::FootSwitch(relive::Path_FootSwitch* pTlv, const Guid& tlvId)
 
 FootSwitch::~FootSwitch()
 {
-    mStoodOnMeId = Guid{};
     Path::TLV_Reset(mTlvId);
 }
 
 void FootSwitch::VUpdate()
 {
-    auto pLastStoodOnMe = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(mStoodOnMeId));
+    BaseAliveGameObject* pLastStoodOnMe = nullptr;
     if (mFindStander)
     {
+        // TODO: Seems redundant
         mFindStander = false;
         pLastStoodOnMe = WhoIsStoodOnMe();
         if (pLastStoodOnMe)
@@ -128,6 +128,10 @@ void FootSwitch::VUpdate()
             GetAnimation().Set_Animation_Data(GetAnimRes(sFootSwitchAnimIds[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))][1]));
             mState = States::eWaitForGetOffMe;
         }
+    }
+    else
+    {
+        pLastStoodOnMe = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(mStoodOnMeId));
     }
 
     switch (mState)

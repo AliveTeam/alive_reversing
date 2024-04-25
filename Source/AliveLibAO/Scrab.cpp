@@ -346,15 +346,13 @@ void Scrab::VScreenChanged()
     }
     else
     {
-        if (mAbeOrMudTarget)
+        BaseGameObject* pChaseTarget = sObjectIds.Find_Impl(mAbeOrMudTargetId);
+        if (pChaseTarget && pChaseTarget->GetDead())
         {
-            if (mAbeOrMudTarget->GetDead())
-            {
-                SetTarget(nullptr);
-                mNextMotion = eScrabMotions::Motion_1_Stand;
-                SetBrain(&Scrab::Brain_WalkAround);
-                mBrainSubState = 0;
-            }
+            SetTarget(nullptr);
+            mNextMotion = eScrabMotions::Motion_1_Stand;
+            SetBrain(&Scrab::Brain_WalkAround);
+            mBrainSubState = 0;
         }
     }
 }
@@ -932,6 +930,8 @@ const FP sRunVelTable_4BC800[14] = {
 
 void Scrab::Motion_3_Run()
 {
+    auto pTarget = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(mAbeOrMudTargetId));
+
     switch (GetAnimation().GetCurrentFrame())
     {
         case 0:
@@ -965,23 +965,23 @@ void Scrab::Motion_3_Run()
 
         if (mCurrentMotion == eScrabMotions::Motion_3_Run)
         {
-            if (mAbeOrMudTarget == gAbe)
+            if (pTarget == gAbe)
             {
-                const PSX_RECT objRect = mAbeOrMudTarget->VGetBoundingRect();
+                const PSX_RECT objRect = pTarget->VGetBoundingRect();
                 const PSX_RECT bRect = VGetBoundingRect();
 
                 if (bRect.x <= objRect.w
                     && bRect.w >= objRect.x
                     && bRect.h >= objRect.y
                     && bRect.y <= objRect.h
-                    && mAbeOrMudTarget->GetSpriteScale() == GetSpriteScale())
+                    && pTarget->GetSpriteScale() == GetSpriteScale())
                 {
-                    if (VIsFacingMe(mAbeOrMudTarget))
+                    if (VIsFacingMe(pTarget))
                     {
-                        if (mAbeOrMudTarget->VTakeDamage(this))
+                        if (pTarget->VTakeDamage(this))
                         {
                             SfxPlayMono(relive::SoundEffects::KillEffect, 0);
-                            Mudokon_SFX(MudSounds::eKnockbackOuch_10, 0, 0, mAbeOrMudTarget);
+                            Mudokon_SFX(MudSounds::eKnockbackOuch_10, 0, 0, pTarget);
                         }
                     }
                 }
@@ -1094,23 +1094,24 @@ void Scrab::Motion_5_RunToStand()
 
     if (mCurrentMotion == eScrabMotions::Motion_5_RunToStand)
     {
-        if (mAbeOrMudTarget)
+        auto pTarget = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(mAbeOrMudTargetId));
+        if (pTarget)
         {
-            const PSX_RECT bObjRect = mAbeOrMudTarget->VGetBoundingRect();
+            const PSX_RECT bObjRect = pTarget->VGetBoundingRect();
             const PSX_RECT bRect = VGetBoundingRect();
 
             if (bObjRect.x <= bRect.w
                 && bObjRect.w >= bRect.x
                 && bObjRect.h >= bRect.y
                 && bObjRect.y <= bRect.h
-                && mAbeOrMudTarget->GetSpriteScale() == GetSpriteScale())
+                && pTarget->GetSpriteScale() == GetSpriteScale())
             {
-                if (VIsFacingMe(mAbeOrMudTarget))
+                if (VIsFacingMe(pTarget))
                 {
-                    if (mAbeOrMudTarget->VTakeDamage(this))
+                    if (pTarget->VTakeDamage(this))
                     {
                         SfxPlayMono(relive::SoundEffects::KillEffect, 0);
-                        Mudokon_SFX(MudSounds::eKnockbackOuch_10, 0, 0, mAbeOrMudTarget);
+                        Mudokon_SFX(MudSounds::eKnockbackOuch_10, 0, 0, pTarget);
                     }
                 }
             }
@@ -1837,26 +1838,27 @@ void Scrab::Motion_26_Feed()
 
 void Scrab::Motion_27_AttackLunge()
 {
-    if (mAbeOrMudTarget)
+    auto pTarget = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(mAbeOrMudTargetId));
+    if (pTarget)
     {
-        const PSX_RECT objRect = mAbeOrMudTarget->VGetBoundingRect();
+        const PSX_RECT objRect = pTarget->VGetBoundingRect();
         const PSX_RECT bRect = VGetBoundingRect();
 
         if (objRect.x <= bRect.w
             && objRect.w >= bRect.x
             && objRect.h >= bRect.y
             && objRect.y <= bRect.h
-            && mAbeOrMudTarget->GetSpriteScale() == GetSpriteScale())
+            && pTarget->GetSpriteScale() == GetSpriteScale())
         {
-            if (VIsFacingMe(mAbeOrMudTarget))
+            if (VIsFacingMe(pTarget))
             {
-                if (mAbeOrMudTarget->VTakeDamage(this))
+                if (pTarget->VTakeDamage(this))
                 {
                     SfxPlayMono(relive::SoundEffects::KillEffect, 0);
-                    Mudokon_SFX(MudSounds::eKnockbackOuch_10, 0, 0, mAbeOrMudTarget);
+                    Mudokon_SFX(MudSounds::eKnockbackOuch_10, 0, 0, pTarget);
                 }
 
-                mAbeOrMudTarget->VTakeDamage(this);
+                pTarget->VTakeDamage(this);
             }
         }
 
@@ -1932,8 +1934,8 @@ s16 Scrab::Brain_Fighting()
         SetDead(true);
     }
 
-    Scrab* pFighter = mScrabTarget;
-    if (pFighter && (pFighter->GetDead() || !VOnSameYLevel(mScrabTarget)))
+    auto pFighter = static_cast<Scrab*>(sObjectIds.Find(mScrabTargetId, ReliveTypes::eScrab));
+    if (pFighter && (pFighter->GetDead() || !VOnSameYLevel(pFighter)))
     {
         SetFightTarget(nullptr);
         field_188_flags &= ~1u;
@@ -1950,11 +1952,11 @@ s16 Scrab::Brain_Fighting()
                 return mBrainSubState;
             }
 
-            if (VIsFacingMe(mScrabTarget))
+            if (VIsFacingMe(pFighter))
             {
-                if (!VIsObjNearby(ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(8), mScrabTarget))
+                if (!VIsObjNearby(ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(8), pFighter))
                 {
-                    if (mScrabTarget->mCurrentMotion == eScrabMotions::Motion_20_HowlBegin)
+                    if (pFighter->mCurrentMotion == eScrabMotions::Motion_20_HowlBegin)
                     {
                         return mBrainSubState;
                     }
@@ -1990,9 +1992,9 @@ s16 Scrab::Brain_Fighting()
                 return mBrainSubState;
             }
 
-            if (mScrabTarget->mXPos != mXPos ||
-                (mScrabTarget->GetAnimation().GetFlipX() != GetAnimation().GetFlipX()) ||
-                mScrabTarget->mCurrentMotion != eScrabMotions::Motion_4_Turn)
+            if (pFighter->mXPos != mXPos ||
+                (pFighter->GetAnimation().GetFlipX() != GetAnimation().GetFlipX()) ||
+                pFighter->mCurrentMotion != eScrabMotions::Motion_4_Turn)
             {
                 mNextMotion = eScrabMotions::Motion_1_Stand;
                 return 0;
@@ -2040,7 +2042,7 @@ s16 Scrab::Brain_Fighting()
                     return 4;
                 }
 
-                if (!VIsObjNearby(ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(10), mScrabTarget))
+                if (!VIsObjNearby(ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(10), pFighter))
                 {
                     mNextMotion = eScrabMotions::Motion_4_Turn;
                     return 4;
@@ -2061,7 +2063,7 @@ s16 Scrab::Brain_Fighting()
                     return 4;
                 }
 
-                if (!VIsObjNearby(ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(10), mScrabTarget))
+                if (!VIsObjNearby(ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(10), pFighter))
                 {
                     mNextMotion = eScrabMotions::Motion_4_Turn;
                     return 4;
@@ -2151,7 +2153,7 @@ s16 Scrab::Brain_Fighting()
             return 10;
 
         case 10:
-            if (!(mScrabTarget->field_188_flags & 1))
+            if (!(pFighter->field_188_flags & 1))
             {
                 return mBrainSubState;
             }
@@ -2159,16 +2161,16 @@ s16 Scrab::Brain_Fighting()
             return 11;
 
         case 11:
-            if (!VIsObjNearby(ScaleToGridSize(GetSpriteScale()), mScrabTarget)
+            if (!VIsObjNearby(ScaleToGridSize(GetSpriteScale()), pFighter)
                 || !BaseAliveGameObjectCollisionLine
-                || !mScrabTarget->BaseAliveGameObjectCollisionLine)
+                || !pFighter->BaseAliveGameObjectCollisionLine)
             {
                 return mBrainSubState;
             }
 
             MapFollowMe(true);
 
-            if (mScrabTarget->GetAnimation().GetRender())
+            if (pFighter->GetAnimation().GetRender())
             {
                 GetAnimation().SetRender(false);
                 mHealth = FP_FromInteger(0);
@@ -2201,7 +2203,7 @@ s16 Scrab::Brain_Fighting()
             else
             {
                 GetAnimation().SetRender(true);
-                mXPos = mScrabTarget->mXPos;
+                mXPos = pFighter->mXPos;
                 SetFightTarget(nullptr);
                 SetBrain(&Scrab::Brain_Death);
                 mCurrentMotion = eScrabMotions::Motion_29_DeathBegin;
@@ -2330,11 +2332,6 @@ s16 Scrab::Brain_Death()
 s16 Scrab::Brain_ChasingEnemy()
 {
     // 0 to 17
-    if (mBrainSubState == 8)
-    {
-        //return Brain_ChasingEnemy_Real_45CC90();
-    }
-
     if (EventGet(kEventDeathReset))
     {
         SetDead(true);
@@ -2350,10 +2347,12 @@ s16 Scrab::Brain_ChasingEnemy()
         return 0;
     }
 
-    if (mAbeOrMudTarget->GetDead()
+    auto pTarget = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(mAbeOrMudTargetId));
+    // TODO: what if pTarget is null?
+    if (pTarget->GetDead()
         || (field_13C_spotting_timer <= static_cast<s32>(sGnFrame)
-            && !CanSeeAbe(mAbeOrMudTarget)
-            && mAbeOrMudTarget->mHealth > FP_FromInteger(0)
+            && !CanSeeAbe(pTarget)
+            && pTarget->mHealth > FP_FromInteger(0)
             && gMap.Is_Point_In_Current_Camera(
                 mCurrentLevel,
                 mCurrentPath,
@@ -2413,15 +2412,15 @@ s16 Scrab::Brain_ChasingEnemy()
 
         case 1:
         {
-            if ((!CanSeeAbe(mAbeOrMudTarget)
+            if ((!CanSeeAbe(pTarget)
                  && gMap.Is_Point_In_Current_Camera(
                      mCurrentLevel,
                      mCurrentPath,
                      mXPos,
                      mYPos,
                      0))
-                || WallHit(GetSpriteScale() * FP_FromInteger(30), mAbeOrMudTarget->mXPos - mXPos)
-                || mAbeOrMudTarget->mHealth <= FP_FromInteger(0))
+                || WallHit(GetSpriteScale() * FP_FromInteger(30), pTarget->mXPos - mXPos)
+                || pTarget->mHealth <= FP_FromInteger(0))
             {
                 if (mCurrentMotion == eScrabMotions::Motion_1_Stand && Math_NextRandom() < 26u && (field_188_flags & 0x20) && (sGnFrame - field_140_last_shriek_timer) > 60)
                 {
@@ -2433,7 +2432,7 @@ s16 Scrab::Brain_ChasingEnemy()
                 return 1;
             }
 
-            if (!VIsFacingMe(mAbeOrMudTarget))
+            if (!VIsFacingMe(pTarget))
             {
                 if (gMap.Is_Point_In_Current_Camera(
                         mCurrentLevel,
@@ -2461,7 +2460,7 @@ s16 Scrab::Brain_ChasingEnemy()
                 }
             }
 
-            if (VIsObjNearby(kGridSize, mAbeOrMudTarget) && VOnSameYLevel(mAbeOrMudTarget))
+            if (VIsObjNearby(kGridSize, pTarget) && VOnSameYLevel(pTarget))
             {
                 mNextMotion = eScrabMotions::Motion_28_LegKick;
                 return 10;
@@ -2501,8 +2500,8 @@ s16 Scrab::Brain_ChasingEnemy()
             BaseAliveGameObjectPathTLV = pTlv;
             if (pStopper)
             {
-                const bool bLeft = pStopper->mStopDirection == relive::Path_EnemyStopper::StopDirection::Left && mAbeOrMudTarget->mXPos < mXPos;
-                const bool bRight = pStopper->mStopDirection == relive::Path_EnemyStopper::StopDirection::Right && mAbeOrMudTarget->mXPos > mXPos;
+                const bool bLeft = pStopper->mStopDirection == relive::Path_EnemyStopper::StopDirection::Left && pTarget->mXPos < mXPos;
+                const bool bRight = pStopper->mStopDirection == relive::Path_EnemyStopper::StopDirection::Right && pTarget->mXPos > mXPos;
                 const bool bBoth = pStopper->mStopDirection == relive::Path_EnemyStopper::StopDirection::Both;
                 const bool bSwitchOn = SwitchStates_Get(pStopper->mSwitchId) ? true : false;
                 if ((bLeft || bRight || bBoth) && !bSwitchOn)
@@ -2517,7 +2516,7 @@ s16 Scrab::Brain_ChasingEnemy()
                 }
             }
 
-            if (VIsObjNearby(kGridSize * FP_FromDouble(1.5), mAbeOrMudTarget) && VOnSameYLevel(mAbeOrMudTarget))
+            if (VIsObjNearby(kGridSize * FP_FromDouble(1.5), pTarget) && VOnSameYLevel(pTarget))
             {
                 mNextMotion = eScrabMotions::Motion_27_AttackLunge;
                 return 10;
@@ -2554,7 +2553,7 @@ s16 Scrab::Brain_ChasingEnemy()
                 const s32 xSnapped = (x_exp & 0xFC00) + SnapToXGrid_AO(GetSpriteScale(), x_exp & 0x3FF);
                 if (abs(xSnapped - x_exp) < 6 && Check_IsOnEndOfLine(0, 1))
                 {
-                    if (mAbeOrMudTarget->mYPos - mYPos < FP_FromInteger(5)
+                    if (pTarget->mYPos - mYPos < FP_FromInteger(5)
                         || gMap.VTLV_Get_At_Of_Type(
                             FP_GetExponent(mXPos + kGridSize),
                             FP_GetExponent(mYPos + FP_FromInteger(10)),
@@ -2597,7 +2596,7 @@ s16 Scrab::Brain_ChasingEnemy()
                 const s32 xSnapped = (x_exp & 0xFC00) + SnapToXGrid_AO(GetSpriteScale(), x_exp & 0x3FF);
                 if (abs(xSnapped - x_exp) < 6 && Check_IsOnEndOfLine(1, 1))
                 {
-                    if ((mAbeOrMudTarget->mYPos - mYPos < FP_FromInteger(5))
+                    if ((pTarget->mYPos - mYPos < FP_FromInteger(5))
                         || gMap.VTLV_Get_At_Of_Type(
                             FP_GetExponent(mXPos - kGridSize),
                             FP_GetExponent(mYPos + FP_FromInteger(10)),
@@ -2635,7 +2634,7 @@ s16 Scrab::Brain_ChasingEnemy()
                 }
             }
 
-            if (!VIsFacingMe(mAbeOrMudTarget))
+            if (!VIsFacingMe(pTarget))
             {
                 if (gMap.Is_Point_In_Current_Camera(
                         mCurrentLevel,
@@ -2655,11 +2654,11 @@ s16 Scrab::Brain_ChasingEnemy()
                 return 2;
             }
 
-            if (VIsObjNearby(kGridSize * FP_FromInteger(3), mAbeOrMudTarget)
+            if (VIsObjNearby(kGridSize * FP_FromInteger(3), pTarget)
                 && mCurrentMotion == eScrabMotions::Motion_3_Run
-                && VOnSameYLevel(mAbeOrMudTarget))
+                && VOnSameYLevel(pTarget))
             {
-                if (WallHit(GetSpriteScale() * FP_FromInteger(30), mAbeOrMudTarget->mXPos - mXPos))
+                if (WallHit(GetSpriteScale() * FP_FromInteger(30), pTarget->mXPos - mXPos))
                 {
                     mNextMotion = eScrabMotions::Motion_1_Stand;
                     return 1;
@@ -2682,7 +2681,7 @@ s16 Scrab::Brain_ChasingEnemy()
         }
 
         case 4:
-            if (VIsObjNearby(kGridSize, mAbeOrMudTarget) && VOnSameYLevel(mAbeOrMudTarget))
+            if (VIsObjNearby(kGridSize, pTarget) && VOnSameYLevel(pTarget))
             {
                 mNextMotion = eScrabMotions::Motion_28_LegKick;
                 return 10;
@@ -2715,7 +2714,7 @@ s16 Scrab::Brain_ChasingEnemy()
 
         case 8:
         {
-            if (!CanSeeAbe(mAbeOrMudTarget)
+            if (!CanSeeAbe(pTarget)
                 && gMap.Is_Point_In_Current_Camera(
                     mCurrentLevel,
                     mCurrentPath,
@@ -2727,20 +2726,20 @@ s16 Scrab::Brain_ChasingEnemy()
                 return 1;
             }
 
-            if (!VIsFacingMe(mAbeOrMudTarget))
+            if (!VIsFacingMe(pTarget))
             {
                 mNextMotion = eScrabMotions::Motion_4_Turn;
                 return 9;
             }
 
-            if (VIsObjNearby(kGridSize * FP_FromDouble(1.5), mAbeOrMudTarget) && VOnSameYLevel(mAbeOrMudTarget))
+            if (VIsObjNearby(kGridSize * FP_FromDouble(1.5), pTarget) && VOnSameYLevel(pTarget))
             {
-                if (WallHit(GetSpriteScale() * FP_FromInteger(30), mAbeOrMudTarget->mXPos - mXPos))
+                if (WallHit(GetSpriteScale() * FP_FromInteger(30), pTarget->mXPos - mXPos))
                 {
                     return 1;
                 }
 
-                if (!VIsObjNearby(kGridSize, mAbeOrMudTarget))
+                if (!VIsObjNearby(kGridSize, pTarget))
                 {
                     mNextMotion = eScrabMotions::Motion_27_AttackLunge;
                     return 10;
@@ -2771,8 +2770,8 @@ s16 Scrab::Brain_ChasingEnemy()
 
             if (pStopper)
             {
-                const bool bLeft = pStopper->mStopDirection == relive::Path_EnemyStopper::StopDirection::Left && mAbeOrMudTarget->mXPos < mXPos;
-                const bool bRight = pStopper->mStopDirection == relive::Path_EnemyStopper::StopDirection::Right && mAbeOrMudTarget->mXPos > mXPos;
+                const bool bLeft = pStopper->mStopDirection == relive::Path_EnemyStopper::StopDirection::Left && pTarget->mXPos < mXPos;
+                const bool bRight = pStopper->mStopDirection == relive::Path_EnemyStopper::StopDirection::Right && pTarget->mXPos > mXPos;
                 const bool bBoth = pStopper->mStopDirection == relive::Path_EnemyStopper::StopDirection::Both;
                 const bool bSwitchOn = SwitchStates_Get(pStopper->mSwitchId) ? true : false;
                 if ((bLeft || bRight || bBoth) && !bSwitchOn)
@@ -2824,15 +2823,15 @@ s16 Scrab::Brain_ChasingEnemy()
         case 10:
             if ((mCurrentMotion == eScrabMotions::Motion_27_AttackLunge || mCurrentMotion == eScrabMotions::Motion_28_LegKick) && GetAnimation().GetIsLastFrame())
             {
-                if (mAbeOrMudTarget->mHealth <= FP_FromInteger(0))
+                if (pTarget->mHealth <= FP_FromInteger(0))
                 {
-                    if (!VIsFacingMe(mAbeOrMudTarget))
+                    if (!VIsFacingMe(pTarget))
                     {
                         mNextMotion = eScrabMotions::Motion_4_Turn;
                         return 14;
                     }
 
-                    if (!VIsObjNearby(kGridSize, mAbeOrMudTarget))
+                    if (!VIsObjNearby(kGridSize, pTarget))
                     {
                         mNextMotion = eScrabMotions::Motion_2_Walk;
                         return 13;
@@ -2844,7 +2843,7 @@ s16 Scrab::Brain_ChasingEnemy()
                     return 15;
                 }
 
-                if (!VIsFacingMe(mAbeOrMudTarget))
+                if (!VIsFacingMe(pTarget))
                 {
                     mNextMotion = eScrabMotions::Motion_4_Turn;
                     return 12;
@@ -2854,7 +2853,7 @@ s16 Scrab::Brain_ChasingEnemy()
             return mBrainSubState;
 
         case 11:
-            if (!CanSeeAbe(mAbeOrMudTarget)
+            if (!CanSeeAbe(pTarget)
                 && gMap.Is_Point_In_Current_Camera(
                     mCurrentLevel,
                     mCurrentPath,
@@ -2867,26 +2866,26 @@ s16 Scrab::Brain_ChasingEnemy()
                 return 0;
             }
 
-            if (mAbeOrMudTarget->mHealth <= FP_FromInteger(0))
+            if (pTarget->mHealth <= FP_FromInteger(0))
             {
                 mNextMotion = eScrabMotions::Motion_1_Stand;
                 return 1;
             }
 
-            if (!VIsFacingMe(mAbeOrMudTarget))
+            if (!VIsFacingMe(pTarget))
             {
                 mNextMotion = eScrabMotions::Motion_4_Turn;
                 return 12;
             }
 
-            if (VIsObjNearby(kGridSize * FP_FromDouble(1.5), mAbeOrMudTarget))
+            if (VIsObjNearby(kGridSize * FP_FromDouble(1.5), pTarget))
             {
-                if (WallHit(GetSpriteScale() * FP_FromInteger(30), mAbeOrMudTarget->mXPos - mXPos))
+                if (WallHit(GetSpriteScale() * FP_FromInteger(30), pTarget->mXPos - mXPos))
                 {
                     return 1;
                 }
 
-                if (VIsObjNearby(kGridSize, mAbeOrMudTarget))
+                if (VIsObjNearby(kGridSize, pTarget))
                 {
                     mNextMotion = eScrabMotions::Motion_28_LegKick;
                     return 10;
@@ -2919,7 +2918,7 @@ s16 Scrab::Brain_ChasingEnemy()
             return 11;
 
         case 13:
-            if (VIsObjNearby(kGridSize, mAbeOrMudTarget))
+            if (VIsObjNearby(kGridSize, pTarget))
             {
                 field_188_flags &= ~4u;
                 mNextMotion = eScrabMotions::Motion_16_Stamp;
@@ -2944,7 +2943,7 @@ s16 Scrab::Brain_ChasingEnemy()
                 return mBrainSubState;
             }
 
-            if (!VIsObjNearby(kGridSize, mAbeOrMudTarget))
+            if (!VIsObjNearby(kGridSize, pTarget))
             {
                 mNextMotion = eScrabMotions::Motion_2_Walk;
                 return 13;
@@ -2957,7 +2956,7 @@ s16 Scrab::Brain_ChasingEnemy()
         case 15:
             if (field_118_timer <= static_cast<s32>(sGnFrame))
             {
-                if (FP_Abs(mAbeOrMudTarget->mYPos - mYPos) >= FP_FromInteger(5))
+                if (FP_Abs(pTarget->mYPos - mYPos) >= FP_FromInteger(5))
                 {
                     mNextMotion = eScrabMotions::Motion_22_Shriek;
                     return 17;
@@ -3026,7 +3025,8 @@ s16 Scrab::Brain_Patrol()
 
     if (FindAbeOrMud())
     {
-        if (CanSeeAbe(mAbeOrMudTarget))
+        auto pTarget = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(mAbeOrMudTargetId));
+        if (pTarget && CanSeeAbe(pTarget))
         {
             mNextMotion = eScrabMotions::Motion_1_Stand;
             SetBrain(&Scrab::Brain_ChasingEnemy);
@@ -3353,7 +3353,8 @@ s16 Scrab::Brain_WalkAround()
 
     if (FindAbeOrMud())
     {
-        if (CanSeeAbe(mAbeOrMudTarget))
+        auto pTarget = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(mAbeOrMudTargetId));
+        if (pTarget && CanSeeAbe(pTarget))
         {
             mNextMotion = eScrabMotions::Motion_1_Stand;
             SetBrain(&Scrab::Brain_ChasingEnemy);
@@ -3636,18 +3637,11 @@ void Scrab::SetFightTarget(Scrab* pTarget)
 {
     if (!pTarget)
     {
-        if (mScrabTarget)
-        {
-            mScrabTarget->mBaseGameObjectRefCount--;
-            //LOG_INFO(this << " clear fight target " << mScrabTarget << " ref " << (u32) mScrabTarget->mBaseGameObjectRefCount);
-            mScrabTarget = nullptr;
-        }
+        mScrabTargetId = Guid{};
     }
     else
     {
-        mScrabTarget = pTarget;
-        mScrabTarget->mBaseGameObjectRefCount++;
-        //LOG_INFO(this << " set fight target " << mScrabTarget << " ref " << (u32) mScrabTarget->mBaseGameObjectRefCount);
+        mScrabTargetId = pTarget->mBaseGameObjectId;
     }
 }
 
@@ -3655,28 +3649,11 @@ void Scrab::SetTarget(BaseAliveGameObject* pTarget)
 {
     if (!pTarget)
     {
-        if (mAbeOrMudTarget)
-        {
-            mAbeOrMudTarget->mBaseGameObjectRefCount--;
-            //LOG_INFO(this << " clear target " << mAbeOrMudTarget << " ref " << (u32) mAbeOrMudTarget->mBaseGameObjectRefCount);
-            mAbeOrMudTarget = nullptr;
-        }
+        mAbeOrMudTargetId = Guid{};
     }
     else
     {
-        if (mAbeOrMudTarget != pTarget)
-        {
-            mAbeOrMudTarget = pTarget;
-            mAbeOrMudTarget->mBaseGameObjectRefCount++;
-            //LOG_INFO(this << " set target " << mAbeOrMudTarget << " ref " << (u32) mAbeOrMudTarget->mBaseGameObjectRefCount);
-        }
-        else
-        {
-            // Don't double ref count else the target will leak, this can be seen as abe not reappearing
-            // in RF return after the bad ending, but other bad things probably happen too.
-            LOG_INFO("Trying to set the same target - ignore");
-
-        }
+        mAbeOrMudTargetId = pTarget->mBaseGameObjectId;
     }
 }
 
@@ -3688,11 +3665,13 @@ s16 Scrab::HandleRunning()
         FP_GetExponent(mXPos),
         FP_GetExponent(mYPos),
         ReliveTypes::eEnemyStopper);
+
+    auto pTarget = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(mAbeOrMudTargetId));
     auto pStopper = static_cast<relive::Path_EnemyStopper*>(BaseAliveGameObjectPathTLV);
 
-    if (pStopper)
+    if (pStopper && pTarget)
     {
-        if ((pStopper->mStopDirection == relive::Path_EnemyStopper::StopDirection::Left && mAbeOrMudTarget->mXPos < mXPos) || (pStopper->mStopDirection == relive::Path_EnemyStopper::StopDirection::Right && mAbeOrMudTarget->mXPos > mXPos) || pStopper->mStopDirection == relive::Path_EnemyStopper::StopDirection::Both)
+        if ((pStopper->mStopDirection == relive::Path_EnemyStopper::StopDirection::Left && pTarget->mXPos < mXPos) || (pStopper->mStopDirection == relive::Path_EnemyStopper::StopDirection::Right && pTarget->mXPos > mXPos) || pStopper->mStopDirection == relive::Path_EnemyStopper::StopDirection::Both)
         {
             if (!SwitchStates_Get(pStopper->mSwitchId))
             {

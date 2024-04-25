@@ -32,9 +32,6 @@ Shrykull::Shrykull()
 
     SetCanExplode(true);
 
-    mZapTargetId = Guid{};
-    mZapLineId = Guid{};
-
     Animation_Init(GetAnimRes(AnimId::ShrykullStart));
 
     mXPos = gAbe->mXPos;

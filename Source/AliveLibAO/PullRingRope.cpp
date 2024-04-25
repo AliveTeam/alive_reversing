@@ -2,6 +2,7 @@
 #include "../relive_lib/Function.hpp"
 #include "PullRingRope.hpp"
 #include "../AliveLibAE/stdlib.hpp"
+#include "../relive_lib/ObjectIds.hpp"
 #include "Sfx.hpp"
 #include "BaseAliveGameObject.hpp"
 #include "Rope.hpp"
@@ -103,16 +104,14 @@ PullRingRope::PullRingRope(relive::Path_PullRingRope* pTlv, const Guid& tlvId)
     mOnSound = pTlv->mOnSound;
     mOffSound = pTlv->mOffSound;
 
-    mRingPuller = nullptr;
-
-    mRope = relive_new Rope(
+    auto pRope = relive_new Rope(
         FP_GetExponent(mXPos + FP_FromInteger((lvl_x_off + 1))),
         FP_GetExponent(mYPos) - pTlv->mRopeLength,
         FP_GetExponent(mYPos + (FP_FromInteger(mYOffset))),
         GetSpriteScale());
-    if (mRope)
+    if (pRope)
     {
-        mRope->mBaseGameObjectRefCount++;
+        mRopeId = pRope->mBaseGameObjectId;
     }
 }
 
@@ -120,32 +119,27 @@ PullRingRope::~PullRingRope()
 {
     Path::TLV_Reset(mTlvId);
 
-    if (mRingPuller)
+    BaseGameObject* pRope = sObjectIds.Find(mRopeId, ReliveTypes::eRope);
+    if (pRope)
     {
-        mRingPuller->mBaseGameObjectRefCount--;
-    }
-
-    if (mRope)
-    {
-        mRope->SetDead(true);
-        mRope->mBaseGameObjectRefCount--;
+        pRope->SetDead(true);
     }
 }
 
 void PullRingRope::VUpdate()
 {
+    auto pRingPuller = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(mRingPullerId));
+    auto pRope = static_cast<Rope*>(sObjectIds.Find(mRopeId, ReliveTypes::eRope));
+
     if (EventGet(kEventDeathReset))
     {
         SetDead(true);
     }
 
-    if (mRingPuller)
+    // Invalidate ring puller if they've died
+    if (pRingPuller && pRingPuller->GetDead())
     {
-        if (mRingPuller->GetDead())
-        {
-            mRingPuller->mBaseGameObjectRefCount--;
-            mRingPuller = nullptr;
-        }
+        mRingPullerId = Guid{};
     }
 
     switch (mState)
@@ -157,7 +151,7 @@ void PullRingRope::VUpdate()
             }
 
             mYPos += mVelY;
-            mRingPuller->mYPos += mVelY;
+            pRingPuller->mYPos += mVelY;
             mStayInStateTicks--;
 
             if (mStayInStateTicks == 0)
@@ -232,8 +226,7 @@ void PullRingRope::VUpdate()
         case States::eTriggerEvent_2:
             mVelY = FP_FromInteger(4);
             mState = States::eReturnToIdle_3;
-            mRingPuller->mBaseGameObjectRefCount--;
-            mRingPuller = nullptr;
+            mRingPullerId = Guid{};
 
             mStayInStateTicks = 3;
 
@@ -270,13 +263,16 @@ void PullRingRope::VUpdate()
             break;
     }
 
-    mRope->mYPos = FP_NoFractional(FP_FromInteger(mYOffset - 16) + mYPos);
+    if (pRope)
+    {
+        pRope->mYPos = FP_NoFractional(FP_FromInteger(mYOffset - 16) + mYPos);
+    }
 }
 
 void PullRingRope::VScreenChanged()
 {
     // If the person pulling the rope is gone then so are we
-    if (!mRingPuller)
+    if (!sObjectIds.Find_Impl(mRingPullerId))
     {
         SetDead(true);
     }
@@ -289,8 +285,7 @@ s16 PullRingRope::Pull(BaseAliveGameObject* pFrom)
         return 0;
     }
 
-    mRingPuller = pFrom;
-    mRingPuller->mBaseGameObjectRefCount++;
+    mRingPullerId = pFrom->mBaseGameObjectId;
 
     mState = States::eBeingPulled_1;
     mVelY = FP_FromInteger(2);
