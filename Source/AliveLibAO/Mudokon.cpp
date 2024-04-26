@@ -994,6 +994,7 @@ s16 Mudokon::FindBirdPortal()
         return 0;
     }
 
+    field_1AC_pBirdPortal = pBirdPortal->mBaseGameObjectId;
     if (FP_Abs(pBirdPortal->mXPos - mXPos) < FP_FromInteger(gPsxDisplay.mWidth) && FP_Abs(pBirdPortal->mHitY - mYPos) < FP_FromInteger(10))
     {
         if (pBirdPortal->mPortalType == relive::Path_BirdPortal::PortalType::eWorker || pBirdPortal->mPortalType == relive::Path_BirdPortal::PortalType::eShrykull)
