@@ -6,6 +6,7 @@
 #include "../relive_lib/SwitchStates.hpp"
 #include "Abe.hpp"
 #include "Path.hpp"
+#include "../relive_lib/ObjectIds.hpp"
 
 namespace AO {
 
@@ -26,8 +27,6 @@ BeeNest::BeeNest(relive::Path_BeeNest* pTlv, const Guid& tlvId)
     mTotalChaseTime = pTlv->mChaseTime;
     mSpeed = FP_FromRaw(pTlv->mSpeed << 8);
 
-    mBeeSwarm = nullptr;
-
     mState = BeeNestStates::eWaitForTrigger_0;
 
     // The "idle" swarm that hovers around the nest
@@ -36,22 +35,15 @@ BeeNest::BeeNest(relive::Path_BeeNest* pTlv, const Guid& tlvId)
 
 BeeNest::~BeeNest()
 {
-    if (mBeeSwarm)
-    {
-        mBeeSwarm->mBaseGameObjectRefCount--;
-    }
+
 }
 
 void BeeNest::VScreenChanged()
 {
-    if (gMap.LevelChanged() || gMap.PathChanged() || !mBeeSwarm)
+    if (gMap.LevelChanged() || gMap.PathChanged() || !mBeeSwarm.IsValid())
     {
         Path::TLV_Reset(mTlvInfo);
-        if (mBeeSwarm)
-        {
-            mBeeSwarm->mBaseGameObjectRefCount--;
-            mBeeSwarm = nullptr;
-        }
+        mBeeSwarm = Guid{};
         SetDead(true);
     }
 }
@@ -63,30 +55,33 @@ void BeeNest::VUpdate()
         case BeeNestStates::eWaitForTrigger_0:
             if (SwitchStates_Get(mSwitchId))
             {
-                mBeeSwarm = relive_new BeeSwarm(
+                auto pBeeSwarm = relive_new BeeSwarm(
                     mBeeSwarmX,
                     mBeeSwarmY,
                     mSpeed,
                     mSwarmSize,
                     mTotalChaseTime);
-                if (mBeeSwarm)
+
+                mBeeSwarm = pBeeSwarm->mBaseGameObjectId;
+                if (pBeeSwarm)
                 {
-                    mBeeSwarm->mBaseGameObjectRefCount++;
-                    mBeeSwarm->Chase(gAbe);
+                    pBeeSwarm->Chase(gAbe);
                     mState = BeeNestStates::eResetIfDead_1;
                 }
             }
             break;
 
         case BeeNestStates::eResetIfDead_1:
-            if (mBeeSwarm->GetDead())
+        {
+            auto pBeeSwarm = sObjectIds.Find(mBeeSwarm, ReliveTypes::eBeeSwarm);
+            if (pBeeSwarm->GetDead())
             {
                 mState = BeeNestStates::eWaitForTrigger_0;
-                mBeeSwarm->mBaseGameObjectRefCount--;
-                mBeeSwarm = nullptr;
+                mBeeSwarm = Guid{};
                 SwitchStates_Set(mSwitchId, 0);
             }
             break;
+        }
 
         default:
             break;

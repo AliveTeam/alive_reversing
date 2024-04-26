@@ -189,8 +189,7 @@ LiftPoint::LiftPoint(relive::Path_LiftPoint* pTlv, const Guid& tlvId)
             GetSpriteScale());
         if (pRopeMem)
         {
-            pRopeMem->mBaseGameObjectRefCount++;
-            mRope1 = pRopeMem;
+            mRope1 = pRopeMem->mBaseGameObjectId;
         }
 
         auto pRopeMem2 = relive_new Rope(
@@ -200,16 +199,15 @@ LiftPoint::LiftPoint(relive::Path_LiftPoint* pTlv, const Guid& tlvId)
             GetSpriteScale());;
         if (pRopeMem2)
         {
-            pRopeMem2->mBaseGameObjectRefCount++;
-            mRope2 = pRopeMem2;
+            mRope2 = pRopeMem2->mBaseGameObjectId;
         }
 
-        mRope2->mBottom = FP_GetExponent((FP_FromInteger(25) * GetSpriteScale()) + FP_FromInteger(mPlatformBaseCollisionLine->mRect.y));
-        mRope1->mBottom = FP_GetExponent((FP_FromInteger(25) * GetSpriteScale()) + FP_FromInteger(mPlatformBaseCollisionLine->mRect.y));
+        pRopeMem2->mBottom = FP_GetExponent((FP_FromInteger(25) * GetSpriteScale()) + FP_FromInteger(mPlatformBaseCollisionLine->mRect.y));
+        pRopeMem->mBottom = FP_GetExponent((FP_FromInteger(25) * GetSpriteScale()) + FP_FromInteger(mPlatformBaseCollisionLine->mRect.y));
 
-        const FP v29 = FP_FromRaw(FP_GetExponent((mYPos * FP_FromDouble(1.5)) * GetSpriteScale()) % FP_FromInteger(mRope2->mRopeLength).fpValue);
-        mRope2->mYPos = FP_NoFractional(mYPos + v29 + (FP_FromInteger(25) * GetSpriteScale()) + FP_FromInteger(mRope2->mRopeLength));
-        mRope1->mYPos = FP_NoFractional(mYPos + v29 - (FP_FromInteger(25) * GetSpriteScale()) + FP_FromInteger(mRope1->mRopeLength));
+        const FP v29 = FP_FromRaw(FP_GetExponent((mYPos * FP_FromDouble(1.5)) * GetSpriteScale()) % FP_FromInteger(pRopeMem2->mRopeLength).fpValue);
+        pRopeMem2->mYPos = FP_NoFractional(mYPos + v29 + (FP_FromInteger(25) * GetSpriteScale()) + FP_FromInteger(pRopeMem2->mRopeLength));
+        pRopeMem->mYPos = FP_NoFractional(mYPos + v29 - (FP_FromInteger(25) * GetSpriteScale()) + FP_FromInteger(pRopeMem->mRopeLength));
 
         mHasPulley = false;
 
@@ -513,8 +511,8 @@ void LiftPoint::VUpdate()
     const FP FP_25xScale = FP_FromInteger(25) * GetSpriteScale();
     const FP FP_m19xScale = FP_FromInteger(-19) * GetSpriteScale();
 
-    Rope* pRope2 = mRope2;
-    Rope* pRope1 = mRope1;
+    auto pRope1 = static_cast<Rope*>(sObjectIds.Find_Impl(mRope1));
+    auto pRope2 = static_cast<Rope*>(sObjectIds.Find_Impl(mRope2));
 
     const FP rope2_rope_length = FP_FromInteger(pRope2->mRopeLength);
     const FP rope1_rope_length = FP_FromInteger(pRope1->mRopeLength);
@@ -749,8 +747,11 @@ void LiftPoint::CreatePulleyIfExists(s16 camX, s16 camY)
         mPulleyAnim.SetSpriteScale(GetSpriteScale());
         mPulleyAnim.SetBlendMode(relive::TBlendModes::eBlend_0);
 
-        mRope2->mTop = FP_GetExponent(FP_FromInteger(mPulleyYPos) + (FP_FromInteger(-19) * mPulleyAnim.GetSpriteScale()));
-        mRope1->mTop = FP_GetExponent(FP_FromInteger(mPulleyYPos) + (FP_FromInteger(-19) * mPulleyAnim.GetSpriteScale()));
+        auto pRope1 = static_cast<Rope*>(sObjectIds.Find_Impl(mRope1));
+        auto pRope2 = static_cast<Rope*>(sObjectIds.Find_Impl(mRope2));
+
+        pRope2->mTop = FP_GetExponent(FP_FromInteger(mPulleyYPos) + (FP_FromInteger(-19) * mPulleyAnim.GetSpriteScale()));
+        pRope1->mTop = FP_GetExponent(FP_FromInteger(mPulleyYPos) + (FP_FromInteger(-19) * mPulleyAnim.GetSpriteScale()));
     }
 }
 
@@ -762,20 +763,21 @@ LiftPoint::~LiftPoint()
         return;
     }
 
-    if (mRope2)
+    auto pRope1 = static_cast<Rope*>(sObjectIds.Find_Impl(mRope1));
+    auto pRope2 = static_cast<Rope*>(sObjectIds.Find_Impl(mRope2));
+
+    if (pRope2)
     {
-        mRope2->mBaseGameObjectRefCount--;
-        mRope2->SetDead(true);
+        pRope2->SetDead(true);
     }
 
-    if (mRope1)
+    if (pRope1)
     {
-        mRope1->mBaseGameObjectRefCount--;
-        mRope1->SetDead(true);
+        pRope1->SetDead(true);
     }
 
-    mRope2 = nullptr;
-    mRope1 = nullptr;
+    mRope2 = Guid{};
+    mRope1 = Guid{};
 
     Path::TLV_Reset(mPlatformBaseTlvInfo);
 

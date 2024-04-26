@@ -3412,47 +3412,44 @@ void Elum::VScreenChanged()
     {
         SetDead(true);
     }
-    else
+    else if (gMap.PathChanged())
     {
-        if (gMap.PathChanged())
+        if (gMap.mCurrentLevel == EReliveLevelIds::eLines)
         {
-            if (gMap.mCurrentLevel == EReliveLevelIds::eLines)
-            {
-                SetDead(true);
-            }
-            else if (gMap.mCurrentLevel == EReliveLevelIds::eDesert && gMap.mNextPath == 9)
-            {
-                SetDead(true);
-            }
-            else if (mCurrentPath == gMap.mCurrentPath)
-            {
-                auto pElumPathTrans = static_cast<relive::Path_ElumPathTrans*>(gMap.VTLV_Get_At_Of_Type(
-                    FP_GetExponent(mXPos),
-                    FP_GetExponent(mYPos),
-                    FP_GetExponent(mXPos),
-                    FP_GetExponent(mYPos),
-                    ReliveTypes::eElumPathTrans));
+            SetDead(true);
+        }
+        else if (gMap.mCurrentLevel == EReliveLevelIds::eDesert && gMap.mNextPath == 9)
+        {
+            SetDead(true);
+        }
+        else if (mCurrentPath == gMap.mCurrentPath)
+        {
+            auto pElumPathTrans = static_cast<relive::Path_ElumPathTrans*>(gMap.VTLV_Get_At_Of_Type(
+                FP_GetExponent(mXPos),
+                FP_GetExponent(mYPos),
+                FP_GetExponent(mXPos),
+                FP_GetExponent(mYPos),
+                ReliveTypes::eElumPathTrans));
 
-                if (pElumPathTrans)
+            if (pElumPathTrans)
+            {
+                if (mDontFollowAbe != 1 && sControlledCharacter != this && pElumPathTrans->mNextLevel == gMap.mNextLevel && pElumPathTrans->mNextPath == gMap.mNextPath)
                 {
-                    if (mDontFollowAbe != 1 && sControlledCharacter != this && pElumPathTrans->mNextLevel == gMap.mNextLevel && pElumPathTrans->mNextPath == gMap.mNextPath)
-                    {
-                        mChangedPathNotMounted = true;
-                    }
+                    mChangedPathNotMounted = true;
                 }
             }
+        }
 
-            if (BaseAliveGameObject_PlatformId != Guid{})
-            {
-                VOnTrapDoorOpen();
-                mFalling = true;
-            }
+        if (BaseAliveGameObject_PlatformId != Guid{})
+        {
+            VOnTrapDoorOpen();
+            mFalling = true;
+        }
 
-            if (!mChangedPathNotMounted)
-            {
-                BaseAliveGameObjectCollisionLine = nullptr;
-                mChangedPathMounted = true;
-            }
+        if (!mChangedPathNotMounted)
+        {
+            BaseAliveGameObjectCollisionLine = nullptr;
+            mChangedPathMounted = true;
         }
     }
 }

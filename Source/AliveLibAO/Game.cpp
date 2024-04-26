@@ -217,7 +217,7 @@ void Game_Loop()
                 break;
             }
 
-            if (pObj->GetDead())
+            if (pObj->GetDead() && pObj->mChaseCounter == 0)
             {
                 idx = gBaseGameObjects->RemoveAt(idx);
                 delete pObj;

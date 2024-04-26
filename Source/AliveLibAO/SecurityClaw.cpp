@@ -101,7 +101,7 @@ SecurityClaw::SecurityClaw(relive::Path_SecurityClaw* pTlv, const Guid& tlvId)
     mAlarmSwitchId = pTlv->mAlarmSwitchId;
     mAlarmDuration = pTlv->mAlarmDuration;
 
-    mState = SecurityClawStates::eCamSwap_0;
+    mState = SecurityClawStates::eInit_0;
 
     auto pClaw = relive_new Claw();
     if (pClaw)
@@ -138,17 +138,14 @@ SecurityClaw::~SecurityClaw()
         mClawId = {};
     }
 
-    if (mMotionDetectorArrayIdx > 0)
+    for (u32 i = 0; i < mMotionDetectorArrayCount; i++)
     {
-        for (s32 i = 0; i < mMotionDetectorArrayIdx; i++)
+        const Guid& detectorGuid = mMotionDetectorArray[i];
+        auto pDetector = static_cast<MotionDetector*>(sObjectIds.Find(detectorGuid, ReliveTypes::eMotionDetector));
+        if (pDetector)
         {
-            const Guid& detectorGuid = mMotionDetectorArray[i];
-            auto pDetector = static_cast<MotionDetector*>(sObjectIds.Find_Impl(detectorGuid));
-            if (pDetector)
-            {
-                pDetector->SetDontComeBack(mDetectorComeBack);
-                pDetector->SetDead(true);
-            }
+            pDetector->SetDontComeBack(mDetectorComeBack);
+            pDetector->SetDead(true);
         }
     }
 
@@ -263,7 +260,7 @@ void SecurityClaw::VUpdate()
 
 
     // Set lasers to be where the claw is (roughly)
-    for (s32 i = 0; i < mMotionDetectorArrayIdx; i++)
+    for (u32 i = 0; i < mMotionDetectorArrayCount; i++)
     {
         const Guid& detectorGuid = mMotionDetectorArray[i];
         auto pDetector = static_cast<MotionDetector*>(sObjectIds.Find_Impl(detectorGuid));
@@ -276,7 +273,7 @@ void SecurityClaw::VUpdate()
 
     switch (mState)
     {
-        case SecurityClawStates::eCamSwap_0:
+        case SecurityClawStates::eInit_0:
             for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
             {
                 BaseGameObject* pObjIter = gBaseGameObjects->ItemAt(i);
@@ -296,9 +293,9 @@ void SecurityClaw::VUpdate()
 
                     pDetector->mXPos = mXPos - FP_FromInteger(1);
                     pDetector->mYPos = mYPos - FP_FromInteger(11);
-                    mMotionDetectorArray[mMotionDetectorArrayIdx] = pDetector->mBaseGameObjectId;
-                    mMotionDetectorArrayIdx++;
-                    if (mMotionDetectorArrayIdx > ALIVE_COUNTOF(mMotionDetectorArray))
+                    mMotionDetectorArray[mMotionDetectorArrayCount] = pDetector->mBaseGameObjectId;
+                    mMotionDetectorArrayCount++;
+                    if (mMotionDetectorArrayCount > ALIVE_COUNTOF(mMotionDetectorArray))
                     {
                         ALIVE_FATAL("No more space for motion detectors");
                     }

@@ -22,7 +22,7 @@ class MotionDetector;
 
 enum class SecurityClawStates : s16
 {
-    eCamSwap_0,
+    eInit_0,
     eIdle_1,
     eDoZapEffects_2,
     eAnimateClaw_DoFlashAndSound_3
@@ -42,7 +42,7 @@ public:
     virtual void VOnThrowableHit(BaseGameObject* pFrom) override;
 
     Guid mTlvInfo;
-    SecurityClawStates mState = SecurityClawStates::eCamSwap_0;
+    SecurityClawStates mState = SecurityClawStates::eInit_0;
     s32 mTimer = 0;
     s16 mAlarmSwitchId = 0;
     s16 mAlarmDuration = 0;
@@ -57,7 +57,7 @@ public:
 
     // TODO: Refactor this
     bool mAnimLoaded = false;
-    u32 mMotionDetectorArrayIdx = 0;
+    u32 mMotionDetectorArrayCount = 0;
     Guid mMotionDetectorArray[10] = {};
 };
 

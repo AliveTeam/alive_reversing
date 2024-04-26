@@ -12,6 +12,7 @@
 #include "Throwable.hpp"
 #include "../relive_lib/Collisions.hpp"
 #include "../relive_lib/FixedPoint.hpp"
+#include "../relive_lib/ObjectIds.hpp"
 
 namespace AO {
 
@@ -103,16 +104,18 @@ void Animation_OnFrame_ZBallSmacker(::BaseGameObject* pObj, u32& idx, const Inde
 void Slog_OnFrame(::BaseGameObject* pObj, u32&, const IndexedPoint& pData)
 {
     auto pSlog = static_cast<Slog*>(pObj);
-    if (pSlog->mTarget)
+
+    auto pTarget = static_cast<IBaseAliveGameObject*>(sObjectIds.Find_Impl(pSlog->mTargetId));
+    if (pTarget)
     {
-        const PSX_RECT targetRect = pSlog->mTarget->VGetBoundingRect();
+        const PSX_RECT targetRect = pTarget->VGetBoundingRect();
         const PSX_RECT slogRect = pSlog->VGetBoundingRect();
 
         if (RectsOverlap(slogRect, targetRect))
         {
-            if (pSlog->mTarget->GetSpriteScale() == pSlog->GetSpriteScale() && !pSlog->mBitingTarget)
+            if (pTarget->GetSpriteScale() == pSlog->GetSpriteScale() && !pSlog->mBitingTarget)
             {
-                if (pSlog->mTarget->VTakeDamage(pSlog))
+                if (pTarget->VTakeDamage(pSlog))
                 {
                     FP blood_xpos = {};
                     if (pSlog->GetAnimation().GetFlipX())
@@ -188,14 +191,14 @@ void Abe_OnFrame(::BaseGameObject* pObj, u32&, const IndexedPoint& pData)
         xVel = -xVel;
     }
 
-    if (gAbe->mThrowable)
+    auto pThrowable = static_cast<BaseThrowable*>(sObjectIds.Find_Impl(gAbe->mThrowable));
+    if (pThrowable)
     {
-        gAbe->mThrowable->mXPos = directed_x + gAbe->mXPos;
-        BaseThrowable* pThrowable = gAbe->mThrowable;
+        pThrowable->mXPos = directed_x + gAbe->mXPos;
         pThrowable->mYPos = (pAbe->GetSpriteScale() * data_y) + gAbe->mYPos;
         pThrowable->VThrow(xVel, yVel);
         pThrowable->SetSpriteScale(pAbe->GetSpriteScale());
-        gAbe->mThrowable = nullptr;
+        gAbe->mThrowable = Guid{};
     }
 }
 

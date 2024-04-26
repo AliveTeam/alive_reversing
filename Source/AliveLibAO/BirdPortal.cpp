@@ -163,7 +163,6 @@ BirdPortal::~BirdPortal()
             {
                 break;
             }
-            pObj->mBaseGameObjectRefCount--;
             pObj->SetDead(true);
         }
         mDovesArray->mUsedSize = 0;
@@ -205,7 +204,6 @@ void BirdPortal::CreateDovesAndShrykullNumber()
     {
         auto pDove = relive_new Dove(AnimId::Dove_Flying, mXPos, mYPos, mSpriteScale);
 
-        pDove->mBaseGameObjectRefCount++;
         if (mPortalType == relive::Path_BirdPortal::PortalType::eAbe)
         {
             pDove->AsAlmostACircle(mXPos, mYPos + (mSpriteScale * FP_FromInteger(30)), 42 * i);
@@ -276,7 +274,6 @@ void BirdPortal::VUpdate()
                         {
                             break;
                         }
-                        pDove->mBaseGameObjectRefCount--;
                         pDove->FlyAway(1);
                     }
                     mDovesArray->mUsedSize = 0;
@@ -338,7 +335,6 @@ void BirdPortal::VUpdate()
                     {
                         break;
                     }
-                    pDove->mBaseGameObjectRefCount--;
                     pDove->SetDead(true);
                 }
                 mDovesArray->mUsedSize = 0;

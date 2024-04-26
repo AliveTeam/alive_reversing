@@ -5160,7 +5160,6 @@ void Paramite::VUpdate()
         }
     }
 
-    auto pMeat = static_cast<BaseThrowable*>(sObjectIds.Find_Impl(mMeatGuid));
     if (mHealth > FP_FromInteger(0)
         && gMap.Is_Point_In_Current_Camera(
             mCurrentLevel,
@@ -5186,6 +5185,7 @@ void Paramite::VUpdate()
 
     if (xDelta > FP_FromInteger(750) || yDelta > FP_FromInteger(390))
     {
+        auto pMeat = static_cast<BaseThrowable*>(sObjectIds.Find_Impl(mMeatGuid));
         if (mOutOfSight && mSpawned)
         {
             SetDead(true);

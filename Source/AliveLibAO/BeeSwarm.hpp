@@ -68,7 +68,7 @@ public:
     FP mRectW = {};
     FP mRectH = {};
 
-    IBaseAliveGameObject* mChaseTarget = nullptr;
+    Guid mChaseTarget = {};
     s32 mAliveTimer = 0;
     s32 field_DA0_do_damage_or_pain_sound_timer = 0;
     s32 field_DA4_update_chase_timer = 0;

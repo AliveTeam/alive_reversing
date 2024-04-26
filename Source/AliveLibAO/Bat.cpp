@@ -12,6 +12,7 @@
 #include "../relive_lib/data_conversion/relive_tlvs.hpp"
 #include "Path.hpp"
 #include "../relive_lib/FixedPoint.hpp"
+#include "../relive_lib/ObjectIds.hpp"
 
 namespace AO {
 
@@ -71,15 +72,15 @@ Bat::Bat(relive::Path_Bat* pTlv, const Guid& tlvId)
     }
 
     mBatState = BatStates::eSetTimer_0;
-    mAttackTarget = nullptr;
     mAttackDuration = pTlv->mAttackDuration;
 }
 
 Bat::~Bat()
 {
-    if (mAttackTarget)
+    auto pAttackTarget = static_cast<IBaseAliveGameObject*>(sObjectIds.Find_Impl(mAttackTarget));
+    if (pAttackTarget)
     {
-        mAttackTarget->mBaseGameObjectRefCount--;
+        pAttackTarget->mChaseCounter--;
     }
     Path::TLV_Reset(mTlvInfo);
 }
@@ -240,8 +241,11 @@ void Bat::VUpdate()
                                 {
                                     auto pBat = static_cast<Bat*>(pMaybeBat);
 
-                                    pBat->mAttackTarget = pObjIter;
-                                    pBat->mAttackTarget->mBaseGameObjectRefCount++;
+                                    pBat->mAttackTarget = pObjIter->mBaseGameObjectId;
+
+                                    auto pAttackTarget = static_cast<IBaseAliveGameObject*>(sObjectIds.Find_Impl(pBat->mAttackTarget));
+
+                                    pAttackTarget->mChaseCounter++;
 
                                     pBat->mBatState = BatStates::eAttackTarget_4;
                                     pBat->GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Bat_Flying));
@@ -249,8 +253,8 @@ void Bat::VUpdate()
                                     pBat->mTimer = 0;
                                     pBat->mAttackDurationTimer = sGnFrame + pBat->mAttackDuration;
 
-                                    pBat->mEnemyXPos = pBat->mAttackTarget->mXPos;
-                                    pBat->mEnemyYPos = pBat->mAttackTarget->mYPos;
+                                    pBat->mEnemyXPos = pAttackTarget->mXPos;
+                                    pBat->mEnemyYPos = pAttackTarget->mYPos;
                                 }
                             }
                         }
@@ -261,13 +265,14 @@ void Bat::VUpdate()
 
         case BatStates::eAttackTarget_4:
         {
-            if (mAttackTarget->GetDead() || EventGet(kEventDeathReset))
+            auto pAttackTarget = static_cast<IBaseAliveGameObject*>(sObjectIds.Find_Impl(mAttackTarget));
+            if (pAttackTarget->GetDead() || EventGet(kEventDeathReset))
             {
                 SetDead(true);
                 return;
             }
 
-            const PSX_RECT bRect = mAttackTarget->VGetBoundingRect();
+            const PSX_RECT bRect = pAttackTarget->VGetBoundingRect();
             FlyTo(
                 FP_FromInteger((bRect.w + bRect.x) / 2),
                 FP_FromInteger((bRect.h + bRect.y) / 2),
@@ -278,7 +283,7 @@ void Bat::VUpdate()
             {
                 if (FP_Abs(ySpeed) < FP_FromInteger(20) && static_cast<s32>(sGnFrame) > mTimer)
                 {
-                    mAttackTarget->VTakeDamage(this);
+                    pAttackTarget->VTakeDamage(this);
                     mTimer = MakeTimer(30);
                     SND_SEQ_PlaySeq(SeqId::eBatSqueaking_18, 1, 1);
                 }
@@ -286,8 +291,8 @@ void Bat::VUpdate()
 
             if (mAttackDurationTimer <= static_cast<s32>(sGnFrame))
             {
-                mAttackTarget->mBaseGameObjectRefCount--;
-                mAttackTarget = nullptr;
+                pAttackTarget->mChaseCounter--;
+                mAttackTarget = {};
                 mBatState = BatStates::eFlyAwayAndDie_5;
             }
         }

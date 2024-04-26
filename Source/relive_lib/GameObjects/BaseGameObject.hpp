@@ -95,6 +95,7 @@ public:
     DynamicArrayT<u8*> mBaseGameObjectResArray; // AE
     std::vector<AnimResource> mLoadedAnims;
     std::vector<PalResource> mLoadedPals;
+    u32 mChaseCounter = 0;
 
 private:
     ReliveTypes mBaseGameObjectTypeId = ReliveTypes::eNone;

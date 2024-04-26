@@ -37,7 +37,7 @@ public:
     u16 mTotalChaseTime = 0;
     BeeNestStates mState = BeeNestStates::eWaitForTrigger_0;
     FP mSpeed = {};
-    BeeSwarm* mBeeSwarm = nullptr;
+    Guid mBeeSwarm = {};
 };
 
 

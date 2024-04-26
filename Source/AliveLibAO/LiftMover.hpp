@@ -36,7 +36,7 @@ public:
     u16 mLiftMoverSwitchId = 0;
     s16 mTargetLiftPointId = 0;
     Guid mTlvId;
-    BaseGameObject* mTargetLift = nullptr; // TODO: LiftPoint* or actually no because it can be a platform as well?
+    Guid mTargetLift = {};
     FP mLiftSpeed = {};
     LiftMoverStates mState = LiftMoverStates::eInactive_0;
 };

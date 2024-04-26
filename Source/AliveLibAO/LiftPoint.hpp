@@ -39,8 +39,8 @@ public:
 private:
 
     relive::Path_LiftPoint::LiftPointStopType mLiftPointStopType = relive::Path_LiftPoint::LiftPointStopType::eTopFloor;
-    Rope* mRope2 = nullptr;
-    Rope* mRope1 = nullptr;
+    Guid mRope2 = {};
+    Guid mRope1 = {};
     Animation mLiftWheelAnim;
     Animation mPulleyAnim;
     s16 mPulleyXPos = 0;

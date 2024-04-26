@@ -144,7 +144,6 @@ private:
     FP mSpriteScale = {};
     bool mApplyShadowZoneColour = false;
     bool mDoPurpleLightEffect = false;
-
 protected:
     Shadow* mShadow = nullptr;
 };

@@ -193,8 +193,8 @@ public:
     s16 field_140_use_prev_motion = 0;
     s16 field_142_bSnapped = 0;
     bool mDeleteWhenOutOfSight = false;
-    Meat* mMeat = nullptr;
-    ParamiteWeb* mParamiteWeb = nullptr;
+    Guid mMeat = {};
+    Guid mParamiteWeb = {};
     eParamiteMotions mPreviousMotion = eParamiteMotions::Motion_0_Idle;
     eParamiteMotions mCurrentMotion = eParamiteMotions::Motion_0_Idle;
     eParamiteMotions mNextMotion = eParamiteMotions::Motion_0_Idle;

@@ -572,19 +572,19 @@ Abe::~Abe()
         pFade->SetDead(true);
         mFadeId = Guid{};
     }
-
-    if (field_15C_pThrowable)
+    
+    auto pThrowable1 = sObjectIds.Find_Impl(field_15C_pThrowable);
+    if (pThrowable1)
     {
-        field_15C_pThrowable->mBaseGameObjectRefCount--;
-        field_15C_pThrowable->SetDead(true);
-        field_15C_pThrowable = nullptr;
+        pThrowable1->SetDead(true);
+        field_15C_pThrowable = Guid{};
     }
 
-    if (mPullRingRope)
+    auto pPullRingRope = sObjectIds.Find_Impl(mPullRingRope);
+    if (pPullRingRope)
     {
-        mPullRingRope->mBaseGameObjectRefCount--;
-        mPullRingRope->SetDead(true);
-        mPullRingRope = nullptr;
+        pPullRingRope->SetDead(true);
+        mPullRingRope = Guid{};
     }
 
     auto pCircularFade = sObjectIds.Find_Impl(mCircularFadeId);
@@ -601,18 +601,18 @@ Abe::~Abe()
         mOrbWhirlWindId = Guid{};
     }
 
-    if (field_18C_pObjToPossess)
+    auto pObjToPossess = sObjectIds.Find_Impl(field_18C_pObjToPossess);
+    if (pObjToPossess)
     {
-        field_18C_pObjToPossess->mBaseGameObjectRefCount--;
-        field_18C_pObjToPossess->SetDead(true);
-        field_18C_pObjToPossess = nullptr;
+        pObjToPossess->SetDead(true);
+        field_18C_pObjToPossess = Guid{};
     }
 
-    if (mThrowable)
+    auto pThrowable2 = sObjectIds.Find_Impl(mThrowable);
+    if (pThrowable2)
     {
-        mThrowable->mBaseGameObjectRefCount--;
-        mThrowable->SetDead(true);
-        mThrowable = nullptr;
+        pThrowable2->SetDead(true);
+        mThrowable = Guid{};
     }
 
     gAbe = nullptr;
@@ -1154,10 +1154,11 @@ void Abe::ToKnockback(s16 bKnockbackSound, s16 bDelayedAnger)
             field_134_auto_say_timer = MakeTimer(27);
         }
 
-        if (mThrowable)
+        auto pThrowable = static_cast<BaseThrowable*>(sObjectIds.Find_Impl(mThrowable));
+        if (pThrowable)
         {
-            mThrowable->VToDead();
-            mThrowable = nullptr;
+            pThrowable->VToDead();
+            mThrowable = Guid{};
             if (!gInfiniteGrenades)
             {
                 field_19C_throwable_count++;
@@ -1591,8 +1592,7 @@ void Abe::PickUpThrowabe_Or_PressBomb(FP fpX, s32 fpY, s16 bStandToCrouch)
                 if (yPos >= pAliveObj->mCollectionRect.y && yPos <= pAliveObj->mCollectionRect.h)
                 {
                     pSlapableOrCollectable = pAliveObj;
-                    pSlapableOrCollectable->mBaseGameObjectRefCount++;
-                    field_15C_pThrowable = pSlapableOrCollectable;
+                    field_15C_pThrowable = pSlapableOrCollectable->mBaseGameObjectId;
                     break;
                 }
             }
@@ -1611,8 +1611,7 @@ void Abe::PickUpThrowabe_Or_PressBomb(FP fpX, s32 fpY, s16 bStandToCrouch)
                 mCurrentMotion = eAbeMotions::Motion_127_SlapBomb;
                 if (bStandToCrouch)
                 {
-                    field_15C_pThrowable->mBaseGameObjectRefCount--;
-                    field_15C_pThrowable = nullptr;
+                    field_15C_pThrowable = Guid{};
                 }
                 tryToSlapOrCollect = true;
                 break;
@@ -1620,26 +1619,28 @@ void Abe::PickUpThrowabe_Or_PressBomb(FP fpX, s32 fpY, s16 bStandToCrouch)
             case ReliveTypes::eGrenade:
             case ReliveTypes::eMeat:
             case ReliveTypes::eRock:
+            {
                 mCurrentMotion = eAbeMotions::Motion_149_PickupItem;
-                field_19C_throwable_count += static_cast<s8>(static_cast<BaseThrowable*>(field_15C_pThrowable)->VGetCount());
+                auto pThrowable = static_cast<BaseThrowable*>(sObjectIds.Find_Impl(field_15C_pThrowable));
+                field_19C_throwable_count += static_cast<s8>(pThrowable->VGetCount());
 
                 if (!gThrowableIndicatorExists)
                 {
                     const FP v16 = (GetSpriteScale() * FP_FromInteger(-30)) + mYPos;
                     relive_new ThrowableTotalIndicator(
-                                                                          (GetSpriteScale() * FP_FromInteger(0)) + mXPos,
-                                                                               v16,
-                                                                               GetAnimation().GetRenderLayer(),
-                                                                               GetAnimation().GetSpriteScale(),
-                                                                               field_19C_throwable_count,
-                                                                               1);
+                        (GetSpriteScale() * FP_FromInteger(0)) + mXPos,
+                        v16,
+                        GetAnimation().GetRenderLayer(),
+                        GetAnimation().GetSpriteScale(),
+                        field_19C_throwable_count,
+                        1);
                 }
                 tryToSlapOrCollect = true;
                 break;
+            }
 
             case ReliveTypes::eMine:
-                field_15C_pThrowable->mBaseGameObjectRefCount--;
-                field_15C_pThrowable = nullptr;
+                field_15C_pThrowable = Guid{};
                 tryToSlapOrCollect = true;
                 break;
 
@@ -1653,10 +1654,11 @@ void Abe::PickUpThrowabe_Or_PressBomb(FP fpX, s32 fpY, s16 bStandToCrouch)
             {
                 if (bStandToCrouch)
                 {
+                    auto pThrowable = static_cast<BaseThrowable*>(sObjectIds.Find_Impl(field_15C_pThrowable));
+
                     SfxPlayMono(relive::SoundEffects::PickupItem, 0, GetSpriteScale());
-                    field_15C_pThrowable->mBaseGameObjectRefCount--;
-                    field_15C_pThrowable->VOnAbeInteraction();
-                    field_15C_pThrowable = nullptr;
+                    pThrowable->VOnAbeInteraction();
+                    field_15C_pThrowable = Guid{};
                     mCurrentMotion = eAbeMotions::Motion_19_CrouchIdle;
                 }
             }
@@ -2493,10 +2495,9 @@ bool Abe::VTakeDamage(BaseGameObject* pFrom)
         mOrbWhirlWindId = Guid{};
     }
 
-    if (field_18C_pObjToPossess)
+    if (field_18C_pObjToPossess.IsValid())
     {
-        field_18C_pObjToPossess->mBaseGameObjectRefCount--;
-        field_18C_pObjToPossess = nullptr;
+        field_18C_pObjToPossess = Guid{};
     }
 
     // CantBeDamaged_44BAB0() helper func in AE
@@ -2641,14 +2642,15 @@ bool Abe::VTakeDamage(BaseGameObject* pFrom)
             // The zap makes Abe drop his stuff everywhere
             for (s32 i = 0; i < field_19C_throwable_count; i++)
             {
-                mThrowable = Make_Throwable(mXPos, mYPos - FP_FromInteger(30), 0);
+                auto pThrowable = Make_Throwable(mXPos, mYPos - FP_FromInteger(30), 0);
+                mThrowable = pThrowable->mBaseGameObjectId;
 
                 const FP rand1 = FP_FromRaw((Math_NextRandom() - 127) << 11); // TODO: Wat?
                 const FP rand2 = (FP_FromDouble(0.03125) * FP_FromRaw(Math_NextRandom())) - FP_FromInteger(2);
-                mThrowable->VThrow(rand1, rand2);
-                mThrowable->SetSpriteScale(GetSpriteScale());
-                mThrowable->VTimeToExplodeRandom();
-                mThrowable = nullptr;
+                pThrowable->VThrow(rand1, rand2);
+                pThrowable->SetSpriteScale(GetSpriteScale());
+                pThrowable->VTimeToExplodeRandom();
+                mThrowable = Guid{};
             }
             field_19C_throwable_count = 0;
             break;
@@ -3253,11 +3255,13 @@ void Abe::Motion_0_Idle()
         {
             if (field_19C_throwable_count > 0 || gInfiniteGrenades)
             {
-                mThrowable = Make_Throwable(
+                auto pThrowable = Make_Throwable(
                     mXPos,
                     mYPos - FP_FromInteger(40),
                     0);
 
+                mThrowable = pThrowable->mBaseGameObjectId;
+                    
                 if (gThrowableIndicatorExists == 0)
                 {
                     const FP xOffSet = GetAnimation().GetFlipX() ? FP_FromInteger(15) : FP_FromInteger(-15) * GetSpriteScale();
@@ -3952,17 +3956,17 @@ void Abe::Motion_17_HoistIdle()
         return;
     }
 
-    mPullRingRope = GetPullRope();
-    if (mPullRingRope)
+    auto pPullRing = GetPullRope();
+    if (pPullRing)
     {
-        if (mPullRingRope->Pull(this))
+        mPullRingRope = pPullRing->mBaseGameObjectId;
+        if (pPullRing->Pull(this))
         {
             mCurrentMotion = eAbeMotions::Motion_69_RingRopePullHang;
             mNextMotion = eAbeMotions::Motion_0_Idle;
-            mPullRingRope->mBaseGameObjectRefCount++;
             return;
         }
-        mPullRingRope = nullptr;
+        mPullRingRope = Guid{};
     }
 
     if (mVelY >= FP_FromInteger(0))
@@ -4144,10 +4148,11 @@ void Abe::Motion_19_CrouchIdle()
         {
             if (field_19C_throwable_count > 0 || gInfiniteGrenades)
             {
-                mThrowable = Make_Throwable(
+                auto pThrowable = Make_Throwable(
                     mXPos,
                     mYPos - FP_FromInteger(40),
                     0);
+                mThrowable = pThrowable->mBaseGameObjectId;
 
                 if (!gThrowableIndicatorExists)
                 {
@@ -6568,11 +6573,11 @@ void Abe::Motion_68_LedgeHangWobble()
 
 void Abe::Motion_69_RingRopePullHang()
 {
-    if (mPullRingRope->vIsNotBeingPulled())
+    auto pPullRingRope = static_cast<PullRingRope*>(sObjectIds.Find_Impl(mPullRingRope));
+    if (pPullRingRope->vIsNotBeingPulled())
     {
         mCurrentMotion = eAbeMotions::Motion_91_FallingFromGrab;
-        mPullRingRope->mBaseGameObjectRefCount--;
-        mPullRingRope = nullptr;
+        mPullRingRope = Guid{};
         mVelY = FP_FromInteger(0);
     }
 }
@@ -7824,11 +7829,11 @@ void Abe::Motion_127_SlapBomb()
 {
     if (gAbe->GetAnimation().GetCurrentFrame() >= 6)
     {
-        if (field_15C_pThrowable)
+        auto pThrowable = static_cast<BaseThrowable*>(sObjectIds.Find_Impl(field_15C_pThrowable));
+        if (pThrowable)
         {
-            field_15C_pThrowable->mBaseGameObjectRefCount--;
-            field_15C_pThrowable->VOnAbeInteraction();
-            field_15C_pThrowable = nullptr;
+            pThrowable->VOnAbeInteraction();
+            field_15C_pThrowable = Guid{};
         }
     }
 
@@ -8252,8 +8257,9 @@ void Abe::Motion_142_RockThrowStandingHold()
 
     if (Input().IsAnyReleased(InputCommands::eThrowItem))
     {
-        mThrowable->VToDead();
-        mThrowable = nullptr;
+        auto pThrowable = static_cast<BaseThrowable*>(sObjectIds.Find_Impl(mThrowable));
+        pThrowable->VToDead();
+        mThrowable = Guid{};
         mCurrentMotion = eAbeMotions::Motion_144_RockThrowStandingEnd;
         if (!gInfiniteGrenades)
         {
@@ -8285,13 +8291,14 @@ void Abe::Motion_144_RockThrowStandingEnd()
 
 void Abe::Motion_145_RockThrowCrouchingHold()
 {
+    auto pThrowable = static_cast<BaseThrowable*>(sObjectIds.Find_Impl(mThrowable));
     if (GetAnimation().GetCurrentFrame() >= 4)
     {
         if (Input().IsAnyHeld(InputCommands::eRight | InputCommands::eLeft | InputCommands::eUp | InputCommands::eDown))
         {
             mThrowDirection = 4;
             mCurrentMotion = eAbeMotions::Motion_146_RockThrowCrouchingThrow;
-            if (mThrowable->Type() == ReliveTypes::eMeat)
+            if (pThrowable->Type() == ReliveTypes::eMeat)
             {
                 mThrowDirection = 5;
             }
@@ -8300,8 +8307,8 @@ void Abe::Motion_145_RockThrowCrouchingHold()
 
     if (Input().IsAnyReleased(InputCommands::eThrowItem))
     {
-        mThrowable->VToDead();
-        mThrowable = nullptr;
+        pThrowable->VToDead();
+        mThrowable = Guid{};
         mCurrentMotion = eAbeMotions::Motion_19_CrouchIdle;
         if (!gInfiniteGrenades)
         {
@@ -8403,11 +8410,11 @@ void Abe::Motion_149_PickupItem()
 
     if (gAbe->GetAnimation().GetCurrentFrame() >= 5)
     {
-        if (field_15C_pThrowable)
+        auto pThrowable = static_cast<BaseThrowable*>(sObjectIds.Find_Impl(field_15C_pThrowable));
+        if (pThrowable)
         {
-            field_15C_pThrowable->mBaseGameObjectRefCount--;
-            field_15C_pThrowable->VOnAbeInteraction();
-            field_15C_pThrowable = nullptr;
+            pThrowable->VOnAbeInteraction();
+            field_15C_pThrowable = Guid{};
         }
     }
 }
@@ -8421,6 +8428,7 @@ void Abe::Motion_150_Chant()
     }
 
     auto pOrbWhirlWind = static_cast<OrbWhirlWind*>(sObjectIds.Find_Impl(mOrbWhirlWindId));
+
     switch (field_110_state.chant)
     {
         case ChantStates::eIdleChanting_0:
@@ -8495,15 +8503,14 @@ void Abe::Motion_150_Chant()
 
             if (static_cast<s32>(sGnFrame) > field_114_gnFrame)
             {
-                field_18C_pObjToPossess = pObjToPossess;
-                if (field_18C_pObjToPossess)
+                field_18C_pObjToPossess = pObjToPossess->mBaseGameObjectId;
+                if (pObjToPossess)
                 {
-                    field_18C_pObjToPossess->mBaseGameObjectRefCount++;
                     SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 0, -600);
                     field_114_gnFrame = MakeTimer(30);
                     field_110_state.chant = ChantStates::ePossessVictim_1;
 
-                    const PSX_RECT rect = field_18C_pObjToPossess->VGetBoundingRect();
+                    const PSX_RECT rect = pObjToPossess->VGetBoundingRect();
                     pOrbWhirlWind->ToSpin(
                         FP_FromInteger((rect.w + rect.x) / 2),
                         FP_FromInteger((rect.h + rect.y) / 2),
@@ -8517,28 +8524,32 @@ void Abe::Motion_150_Chant()
         }
         case ChantStates::ePossessVictim_1:
         {
+            // TODO: refactor this switch case
+
             if (static_cast<s32>(sGnFrame) > field_114_gnFrame)
             {
                 field_110_state.chant = ChantStates::ePossessedVictim_2;
                 return;
             }
-            if (field_18C_pObjToPossess)
+
+            auto pObjToPossess = static_cast<IBaseAliveGameObject*>(sObjectIds.Find_Impl(field_18C_pObjToPossess));
+            if (pObjToPossess)
             {
-                if (field_18C_pObjToPossess->GetDead())
+                if (pObjToPossess->GetDead())
                 {
-                    field_18C_pObjToPossess->mBaseGameObjectRefCount--;
-                    field_18C_pObjToPossess = nullptr;
+                    field_18C_pObjToPossess = Guid{};
                 }
             }
-            if (field_18C_pObjToPossess)
+
+            pObjToPossess = static_cast<IBaseAliveGameObject*>(sObjectIds.Find_Impl(field_18C_pObjToPossess));
+            if (pObjToPossess)
             {
-                if (field_18C_pObjToPossess->Is_In_Current_Camera() == CameraPos::eCamCurrent_0)
+                if (pObjToPossess->Is_In_Current_Camera() == CameraPos::eCamCurrent_0)
                 {
                     return;
                 }
                 mCurrentMotion = eAbeMotions::Motion_151_ChantEnd;
-                field_18C_pObjToPossess->mBaseGameObjectRefCount--;
-                field_18C_pObjToPossess = nullptr;
+                field_18C_pObjToPossess = Guid{};
             }
             else
             {
@@ -8553,23 +8564,27 @@ void Abe::Motion_150_Chant()
         }
         case ChantStates::ePossessedVictim_2:
         {
+            // TODO: refactor this switch case
+
             EventBroadcast(kEventSpeaking, this);
             EventBroadcast(kEventAbeOhm, this);
             mOrbWhirlWindId = Guid{};
-            if (field_18C_pObjToPossess)
+
+            auto pObjToPossess = static_cast<IBaseAliveGameObject*>(sObjectIds.Find_Impl(field_18C_pObjToPossess));
+            if (pObjToPossess)
             {
-                if (field_18C_pObjToPossess->GetDead())
+                if (pObjToPossess->GetDead())
                 {
-                    field_18C_pObjToPossess->mBaseGameObjectRefCount--;
-                    field_18C_pObjToPossess = nullptr;
+                    field_18C_pObjToPossess = Guid{};
                 }
             }
-            if (field_18C_pObjToPossess)
+
+            pObjToPossess = static_cast<IBaseAliveGameObject*>(sObjectIds.Find_Impl(field_18C_pObjToPossess));
+            if (pObjToPossess)
             {
-                sControlledCharacter = field_18C_pObjToPossess;
-                field_18C_pObjToPossess->VPossessed();
-                field_18C_pObjToPossess->mBaseGameObjectRefCount--;
-                field_18C_pObjToPossess = nullptr;
+                sControlledCharacter = pObjToPossess;
+                pObjToPossess->VPossessed();
+                field_18C_pObjToPossess = Guid{};
                 if (sControlledCharacter->Type() == ReliveTypes::eSlig)
                 {
                     mLaughAtChantEnd = true;

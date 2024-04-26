@@ -730,8 +730,8 @@ public:
     s32 field_150_saved_ring_timer = 0; // todo: check
     s16 field_154_bSavedHaveShrykull = 0;
     Guid mFadeId = {};
-    BaseAliveGameObject* field_15C_pThrowable = nullptr;
-    PullRingRope* mPullRingRope = nullptr;
+    Guid field_15C_pThrowable = {};
+    Guid mPullRingRope = {};
     Guid mCircularFadeId = {};
     s32 field_168_ring_pulse_timer = 0;
     s16 field_16C_bHaveShrykull = 0;
@@ -741,12 +741,12 @@ public:
     relive::Path_MovieStone* mMovieStone = nullptr;
     relive::Path_BellsongStone* mBellsongStone = nullptr;
     Guid mOrbWhirlWindId = {};
-    IBaseAliveGameObject* field_18C_pObjToPossess = nullptr;
+    Guid field_18C_pObjToPossess = {};
     EReliveLevelIds field_190_level = EReliveLevelIds::eNone;
     s16 field_192_path = 0;
     s16 field_194_camera = 0;
     s16 field_196_door_id = 0;
-    BaseThrowable* mThrowable = nullptr;
+    Guid mThrowable = {};
     s8 field_19C_throwable_count = 0;
     s8 mThrowDirection = 0;
     PortalSubStates field_19E_portal_sub_state = PortalSubStates::eJumpingInsidePortal_0;

@@ -13,6 +13,7 @@
 #include "Sfx.hpp"
 #include "../relive_lib/Collisions.hpp"
 #include <algorithm>
+#include "../relive_lib/ObjectIds.hpp"
 
 #undef max
 #undef min
@@ -61,7 +62,6 @@ BeeSwarm::BeeSwarm(FP xpos, FP ypos, FP speed, s32 numBees, s32 totalChaseTime)
     mXPos = xpos;
     field_D6C_ypos = ypos;
     mSwarmState = BeeSwarmStates::eIdle_0;
-    mChaseTarget = 0;
     field_DA4_update_chase_timer = 0;
     mAliveTimer = 0;
     field_DA0_do_damage_or_pain_sound_timer = 0;
@@ -79,9 +79,10 @@ BeeSwarm::~BeeSwarm()
     gBeeInstanceCount--;
     gBeesNearAbe = 0;
 
-    if (mChaseTarget)
+    auto pChaseTarget = sObjectIds.Find_Impl(mChaseTarget);
+    if (pChaseTarget)
     {
-        mChaseTarget->mBaseGameObjectRefCount--;
+        pChaseTarget->mChaseCounter--;
     }
 }
 
@@ -92,20 +93,18 @@ void BeeSwarm::VScreenChanged()
         SetDead(true);
     }
 
-    if (mChaseTarget)
+    auto pChaseTarget = sObjectIds.Find_Impl(mChaseTarget);
+    if (pChaseTarget && pChaseTarget->GetDead())
     {
-        if (mChaseTarget->GetDead())
-        {
-            mSwarmState = BeeSwarmStates::eFlyAwayAndDie_3;
-            mChaseTargetY -= FP_FromInteger(240);
-            mAliveTimer = MakeTimer(120);
-            gBeesNearAbe = 0;
-            mChaseTarget->mBaseGameObjectRefCount--;
-            mChaseTarget = nullptr;
-        }
+        mSwarmState = BeeSwarmStates::eFlyAwayAndDie_3;
+        mChaseTargetY -= FP_FromInteger(240);
+        mAliveTimer = MakeTimer(120);
+        gBeesNearAbe = 0;
+        pChaseTarget->mChaseCounter--;
+        mChaseTarget = {};
     }
 
-    if (!gAbe || (mChaseTarget == gAbe && gAbe->mCurrentMotion == eAbeMotions::Motion_156_DoorEnter))
+    if (!gAbe || (pChaseTarget == gAbe && gAbe->mCurrentMotion == eAbeMotions::Motion_156_DoorEnter))
     {
         SetDead(true);
     }
@@ -118,22 +117,25 @@ void BeeSwarm::FollowLine(PathLine* pLine, FP target_x, FP target_y, FP speed)
     mSwarmState = BeeSwarmStates::eFollowPathLines_2;
     mChaseTargetX = target_x;
     mChaseTargetY = target_y;
-    mChaseTarget = nullptr;
+    mChaseTarget = Guid{};
 }
 
 void BeeSwarm::Chase(BaseAliveGameObject* pChaseTarget)
 {
-    if (mChaseTarget)
+    auto pOldChaseTarget = sObjectIds.Find_Impl(mChaseTarget);
+    if (pOldChaseTarget)
     {
-        mChaseTarget->mBaseGameObjectRefCount--;
+        pOldChaseTarget->mChaseCounter--;
     }
 
     mSwarmState = BeeSwarmStates::eAttackChase_1;
 
-    mChaseTarget = pChaseTarget;
+    auto pNewChaseTarget = pChaseTarget; 
+    mChaseTarget = pNewChaseTarget->mBaseGameObjectId;
+
     field_DA4_update_chase_timer = 0;
 
-    pChaseTarget->mBaseGameObjectRefCount++;
+    pNewChaseTarget->mChaseCounter++;
 
     mChaseTargetX = pChaseTarget->mXPos;
     mChaseTargetY = pChaseTarget->mYPos;
@@ -155,8 +157,10 @@ void BeeSwarm::VUpdate()
         return;
     }
 
+    auto pChaseTarget = static_cast<IBaseAliveGameObject*>(sObjectIds.Find_Impl(mChaseTarget));
+
     // Chase target has died
-    if (mChaseTarget && mChaseTarget->GetDead())
+    if (pChaseTarget && pChaseTarget->GetDead())
     {
         ToFlyAwayAndDie();
 
@@ -196,7 +200,7 @@ void BeeSwarm::VUpdate()
             else
             {
                 // Move far on X bees closer to target
-                const s32 toTargetXDelta = FP_GetExponent(mChaseTarget->mXPos - mChaseTargetX);
+                const s32 toTargetXDelta = FP_GetExponent(pChaseTarget->mXPos - mChaseTargetX);
                 if (abs(toTargetXDelta) > 368)
                 {
                     for (s32 i = 0; i < mCurrentBeesCount; i++)
@@ -207,7 +211,7 @@ void BeeSwarm::VUpdate()
                 }
 
                 // Move far on  Y bees closer to target
-                const s32 toTargetYDelta = FP_GetExponent(mChaseTarget->mYPos - mChaseTargetY);
+                const s32 toTargetYDelta = FP_GetExponent(pChaseTarget->mYPos - mChaseTargetY);
                 if (abs(toTargetYDelta) > 200)
                 {
                     for (s32 i = 0; i < mCurrentBeesCount; i++)
@@ -218,7 +222,7 @@ void BeeSwarm::VUpdate()
                 }
 
                 // Update target x/y to the mid of the target rect
-                const PSX_RECT targetRect = mChaseTarget->VGetBoundingRect();
+                const PSX_RECT targetRect = pChaseTarget->VGetBoundingRect();
                 mChaseTargetY = FP_FromInteger((targetRect.h + targetRect.y) / 2);
                 mChaseTargetX = FP_FromInteger((targetRect.w + targetRect.x) / 2);
 
@@ -228,7 +232,7 @@ void BeeSwarm::VUpdate()
                         FP_GetExponent(mChaseTargetX),
                         FP_GetExponent(mChaseTargetY))
                         < 60
-                    && mChaseTarget == gAbe)
+                    && pChaseTarget == gAbe)
                 {
                     gBeesNearAbe = true;
                 }
@@ -330,7 +334,7 @@ void BeeSwarm::VUpdate()
                     break;
                 }
 
-                if (pObjIter != mChaseTarget)
+                if (pObjIter != pChaseTarget)
                 {
                     if (pObjIter->GetCanBeesChase()) // can be chased
                     {
@@ -342,14 +346,16 @@ void BeeSwarm::VUpdate()
                             const auto oldChaseTimer = mAliveTimer;
 
                             // De-ref old target
-                            if (mChaseTarget)
+                            if (pChaseTarget)
                             {
-                                mChaseTarget->mBaseGameObjectRefCount--;
+                                pChaseTarget->mChaseCounter--;
                             }
 
                             // Set new target
-                            mChaseTarget = pObjIter;
-                            mChaseTarget->mBaseGameObjectRefCount++;
+                            mChaseTarget = pObjIter->mBaseGameObjectId;
+
+                            pChaseTarget = static_cast<IBaseAliveGameObject*>(sObjectIds.Find_Impl(mChaseTarget));
+                            pChaseTarget->mChaseCounter++;
 
                             mSwarmState = BeeSwarmStates::eAttackChase_1;
                             mChaseTargetX = pObjIter->mXPos;
@@ -434,9 +440,9 @@ void BeeSwarm::VUpdate()
         }
 
         FP xMove = {};
-        if (mChaseTarget)
+        if (pChaseTarget)
         {
-            if (FP_Abs(distToTargetX) > FP_FromInteger(20) || mChaseTarget->mVelX != FP_FromInteger(0))
+            if (FP_Abs(distToTargetX) > FP_FromInteger(20) || pChaseTarget->mVelX != FP_FromInteger(0))
             {
                 if (distToTargetX <= FP_FromInteger(0))
                 {
@@ -522,10 +528,11 @@ void BeeSwarm::ToFlyAwayAndDie()
 
     gBeesNearAbe = false;
 
-    if (mChaseTarget)
+    auto pChaseTarget = static_cast<IBaseAliveGameObject*>(sObjectIds.Find_Impl(mChaseTarget));
+    if (pChaseTarget)
     {
-        mChaseTarget->mBaseGameObjectRefCount--;
-        mChaseTarget = nullptr;
+        pChaseTarget->mChaseCounter--;
+        mChaseTarget = Guid{};
     }
 }
 

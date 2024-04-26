@@ -45,7 +45,7 @@ public:
     FP mBatVelX = {};
     FP mEnemyXPos = {};
     FP mEnemyYPos = {};
-    IBaseAliveGameObject* mAttackTarget = nullptr;
+    Guid mAttackTarget = {};
 };
 
 } // namespace AO

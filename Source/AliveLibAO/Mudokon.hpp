@@ -318,14 +318,14 @@ public:
     s16 field_188 = 0;
     FP field_18C_how_far_to_walk = {};
     FP field_190 = {};
-    LiftPoint* field_194_pLiftPoint = nullptr;
+    Guid field_194_pLiftPoint = {};
     s16 field_198_abe_must_face_mud = 0;
     s16 field_19E_code_idx = 0;
     s16 field_1A0 = 0;
     s32 field_1A4_code_converted = 0;
     s16 field_1A8_code_length = 0;
     u16 field_1AA_ring_timeout = 0;
-    BirdPortal* field_1AC_pBirdPortal = nullptr;
+    Guid field_1AC_pBirdPortal = {};
     s16 field_1B0 = 0;
     s16 field_1B2_rescue_switch_id = 0;
     s16 field_1B4_idle_time = 0;
