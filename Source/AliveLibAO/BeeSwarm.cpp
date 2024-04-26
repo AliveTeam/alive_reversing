@@ -101,7 +101,7 @@ void BeeSwarm::VScreenChanged()
         mAliveTimer = MakeTimer(120);
         gBeesNearAbe = 0;
         pChaseTarget->mChaseCounter--;
-        mChaseTarget = {};
+        mChaseTarget = Guid{};
     }
 
     if (!gAbe || (pChaseTarget == gAbe && gAbe->mCurrentMotion == eAbeMotions::Motion_156_DoorEnter))
@@ -328,17 +328,17 @@ void BeeSwarm::VUpdate()
         {
             for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
             {
-                IBaseAliveGameObject* pObjIter = gBaseAliveGameObjects->ItemAt(i);
-                if (!pObjIter)
+                IBaseAliveGameObject* pNewTarget = gBaseAliveGameObjects->ItemAt(i);
+                if (!pNewTarget)
                 {
                     break;
                 }
 
-                if (pObjIter != pChaseTarget)
+                if (pNewTarget != pChaseTarget)
                 {
-                    if (pObjIter->GetCanBeesChase()) // can be chased
+                    if (pNewTarget->GetCanBeesChase()) // can be chased
                     {
-                        const PSX_RECT objRect = pObjIter->VGetBoundingRect();
+                        const PSX_RECT objRect = pNewTarget->VGetBoundingRect();
                         if (FP_FromInteger(objRect.x) <= mRectW && FP_FromInteger(objRect.w) >= mRectX && FP_FromInteger(objRect.h) >= mRectY && FP_FromInteger(objRect.y) <= mRectH)
                         {
                             LOG_INFO("Got new target");
@@ -352,14 +352,13 @@ void BeeSwarm::VUpdate()
                             }
 
                             // Set new target
-                            mChaseTarget = pObjIter->mBaseGameObjectId;
+                            mChaseTarget = pNewTarget->mBaseGameObjectId;
 
-                            pChaseTarget = static_cast<IBaseAliveGameObject*>(sObjectIds.Find_Impl(mChaseTarget));
-                            pChaseTarget->mChaseCounter++;
+                            pNewTarget->mChaseCounter++;
 
                             mSwarmState = BeeSwarmStates::eAttackChase_1;
-                            mChaseTargetX = pObjIter->mXPos;
-                            mChaseTargetY = pObjIter->mYPos;
+                            mChaseTargetX = pNewTarget->mXPos;
+                            mChaseTargetY = pNewTarget->mYPos;
 
                             mAliveTimer = MakeTimer(mTotalChaseTime);
                             field_DA4_update_chase_timer = MakeTimer(60);

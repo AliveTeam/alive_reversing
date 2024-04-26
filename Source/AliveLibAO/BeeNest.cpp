@@ -74,7 +74,7 @@ void BeeNest::VUpdate()
         case BeeNestStates::eResetIfDead_1:
         {
             auto pBeeSwarm = sObjectIds.Find(mBeeSwarm, ReliveTypes::eBeeSwarm);
-            if (pBeeSwarm->GetDead())
+            if (!pBeeSwarm || pBeeSwarm->GetDead())
             {
                 mState = BeeNestStates::eWaitForTrigger_0;
                 mBeeSwarm = Guid{};

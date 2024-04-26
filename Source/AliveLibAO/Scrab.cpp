@@ -3635,25 +3635,51 @@ bool Scrab::BrainIs(TBrainType fn)
 
 void Scrab::SetFightTarget(Scrab* pTarget)
 {
+    auto pScrab = sObjectIds.Find(mScrabTargetId, ReliveTypes::eScrab);
     if (!pTarget)
     {
-        mScrabTargetId = Guid{};
+        if (pScrab)
+        {
+            pScrab->mChaseCounter--;
+            mScrabTargetId = Guid{};
+        }
     }
     else
     {
-        mScrabTargetId = pTarget->mBaseGameObjectId;
+        if (pScrab != pTarget)
+        {
+            mScrabTargetId = pTarget->mBaseGameObjectId;
+            pTarget->mChaseCounter++;
+        }
+        else
+        {
+            LOG_INFO("Trying to set the same target - ignore");
+        }
     }
 }
 
 void Scrab::SetTarget(BaseAliveGameObject* pTarget)
 {
+    auto pAbeOrMudTarget = sObjectIds.Find_Impl(mAbeOrMudTargetId);
     if (!pTarget)
     {
-        mAbeOrMudTargetId = Guid{};
+        if (pAbeOrMudTarget)
+        {
+            pAbeOrMudTarget->mChaseCounter--;
+            mAbeOrMudTargetId = Guid{};
+        }
     }
     else
     {
-        mAbeOrMudTargetId = pTarget->mBaseGameObjectId;
+        if (pAbeOrMudTarget != pTarget)
+        {
+            mAbeOrMudTargetId = pTarget->mBaseGameObjectId;
+            pTarget->mChaseCounter++;
+        }
+        else
+        {
+            LOG_INFO("Trying to set the same target - ignore");
+        }
     }
 }
 

@@ -303,10 +303,10 @@ void Map::ScreenChange()
             pItem->VScreenChanged();
 
             // Did the screen change kill the object?
-            if (pItem->GetDead())
+            if (pItem->GetDead() && pItem->mChaseCounter == 0)
             {
                 j = gBaseGameObjects->RemoveAt(j);
-                delete pItem;
+                relive_delete pItem;
             }
         }
     }
@@ -319,10 +319,10 @@ void Map::ScreenChange()
             break;
         }
 
-        if (pItem->GetDead())
+        if (pItem->GetDead() && pItem->mChaseCounter == 0)
         {
             i = gBaseGameObjects->RemoveAt(i);
-            delete pItem;
+            relive_delete pItem;
         }
     }
 

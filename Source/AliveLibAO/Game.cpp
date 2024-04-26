@@ -220,7 +220,7 @@ void Game_Loop()
             if (pObj->GetDead() && pObj->mChaseCounter == 0)
             {
                 idx = gBaseGameObjects->RemoveAt(idx);
-                delete pObj;
+                relive_delete pObj;
             }
         }
 
@@ -266,7 +266,7 @@ void Game_Loop()
         if (pObjToKill->GetDead())
         {
             i = gBaseGameObjects->RemoveAt(i);
-            delete pObjToKill;
+            relive_delete pObjToKill;
         }
     }
 }
