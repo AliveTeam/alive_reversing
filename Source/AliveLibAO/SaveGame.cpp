@@ -41,7 +41,7 @@ void Kill_Objects()
             //Debug_Print_Stub_48DD70("pTask = 0x%lx\n", pObjIter);
 
             // Kill during a reset and there are no references
-            if (!pObj->GetSurviveDeathReset() && pObj->GetDead() && pObj->mChaseCounter == 0)
+            if (!pObj->GetSurviveDeathReset() && pObj->mChaseCounter == 0)
             {
                 // So die
                 j = gBaseGameObjects->RemoveAt(j);

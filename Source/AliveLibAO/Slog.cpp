@@ -2198,7 +2198,7 @@ s16 Slog::Brain_2_ChasingAbe()
         }
     }
 
-    if (!pTarget)
+    if (pTarget && pTarget->GetDead())
     {
         mTargetId = Guid {};
         mAngerLevel = 0;
@@ -2210,6 +2210,11 @@ s16 Slog::Brain_2_ChasingAbe()
     switch (mBrainSubState)
     {
         case 0:
+            if (!pTarget)
+            {
+                mTargetId = gAbe->mBaseGameObjectId;
+            }
+
             mBitingTarget = 0;
             mJumpCounter = 0;
             mNextMotion = eSlogMotions::Motion_2_Run;

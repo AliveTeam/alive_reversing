@@ -240,9 +240,9 @@ void Electrocute::VUpdate()
             PalleteOverwriter* pOverwritter = field_18_pPalOverwriters[field_14_overwriter_count - 1];
             if (pOverwritter && pOverwritter->field_BE_bDone)
             {
+                pTargetObj->VTakeDamage(this);
                 if (pTargetObj->Type() == ReliveTypes::eAbe)
                 {
-                    pTargetObj->VTakeDamage(this);
                     /* TODO: Set pal
                     Pal_Set(
                         field_10_obj_target->mAnim.mPalVramXY,
