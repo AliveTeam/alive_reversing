@@ -48,18 +48,31 @@ Well::~Well()
     }
 }
 
-void Well::WellExpress_Init(relive::Path_WellExpress* pTlv, FP /*xpos*/, FP ypos)
+void Well::InitBgAnim(s16 bgAnimId)
 {
-    if (pTlv->mAnimId != 0)
+    if (bgAnimId != 0)
     {
-        const AnimRecord& anim = AO::BgAnimRec(pTlv->mAnimId);
+        const AnimRecord& anim = AO::BgAnimRec(bgAnimId);
 
         Animation_Init(ResourceManagerWrapper::LoadAnimation(anim.mId));
 
         GetAnimation().SetSemiTrans(false);
+        SetApplyShadowZoneColour(false);
     }
+    else
+    {
+        // NOTE: Prevents the game from crashing when a rock is thrown
+        // in a camera with an invisible well (D1P04C02).
+        // This isn't needed in AE because the Well doesn't inherit from BaseAnimatedWithPhysicsGameObject
+        // and the hacky animation support have been removed.
+        SetDrawable(false);
+        GetAnimation().SetRender(false);
+    }
+}
 
-    SetApplyShadowZoneColour(false);
+void Well::WellExpress_Init(relive::Path_WellExpress* pTlv, FP /*xpos*/, FP ypos)
+{
+    InitBgAnim(pTlv->mAnimId);
 
     if (pTlv->mScale == relive::reliveScale::eHalf)
     {
@@ -98,12 +111,7 @@ void Well::WellExpress_Init(relive::Path_WellExpress* pTlv, FP /*xpos*/, FP ypos
 
 void Well::WellLocal_Init(relive::Path_WellLocal* pTlv, FP /*xpos*/, FP ypos)
 {
-    const AnimRecord& anim = AO::BgAnimRec(pTlv->mAnimId);
-
-    Animation_Init(ResourceManagerWrapper::LoadAnimation(anim.mId));
-    GetAnimation().SetSemiTrans(false);
-
-    SetApplyShadowZoneColour(false);
+    InitBgAnim(pTlv->mAnimId);
 
     if (pTlv->mScale == relive::reliveScale::eHalf)
     {

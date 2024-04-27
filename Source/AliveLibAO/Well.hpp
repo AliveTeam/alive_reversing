@@ -23,7 +23,8 @@ public:
 private:
     void WellExpress_Init(relive::Path_WellExpress* pTlv, FP xpos, FP ypos);
     void WellLocal_Init(relive::Path_WellLocal* pTlv, FP xpos, FP ypos);
-
+    void InitBgAnim(s16 bgAnimId);
+    
 private:
     Guid mTlvInfo;
     s16 mSwitchId = 0;
