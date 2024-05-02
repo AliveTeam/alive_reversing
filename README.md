@@ -34,83 +34,46 @@ git clone --recursive https://github.com/AliveTeam/alive_reversing.git
 #### **Regardless of your platform, you need to create a folder called `build` in your repository root! `.gitignore` is configured to ignore this folder. This helps to prevent polluting the commits with binaries.**
 
 <details>
-<summary>Build on Windows using MSYS2 + MinGW</summary>
+<summary>Build on Windows using Visual Studio 2022</summary>
 
-1. Obtain [MSYS2](https://www.msys2.org/) and follow the installation instructions on the main page
-2. Open a MSYS2 shell, and install SDL2 via `pacman -S mingw-w64-SDL2 mingw-w64-x86_64-SDL2`
-3. Open a MinGW x64 shell and `cd build && cmake .. -G"MinGW Makefiles" && make -j$(nproc)`
+#### Prerequisites
+1. [CMake](https://cmake.org/)
+2. [SDL2](https://github.com/libsdl-org/SDL/releases)
+3. [Straweberry Perl](https://strawberryperl.com/)
+4. Qt 5.15.2
 
-</details>
-  
-  
 
-<details>
-<summary>Build on Windows using `msbuild`</summary>
+Optionally, install Qt 5.15.2 with [aqtinstall](https://github.com/miurahr/aqtinstall/releases) if you don't want to create an account on their website.
+`aqt install-qt windows desktop 5.15.2 win64_msvc2019_64`
 
-[SDL](https://libsdl.org/download-2.0.php) and [CMake](https://cmake.org/) is required to build the project.
-
+### Building
 1. `cd build`
-2. `cmake -S .. -B . -DSDL2_DIR=PATH_TO_YOUR_SDL2_DIRECTORY`
-3. `msbuild /p:Configuration=Debug;Platform=Win32 relive.sln /m`
- 
-</details>
-
-
-
-<details>
-<summary>Build on Windows using Visual Studio 2017</summary>
-
-[SDL](https://libsdl.org/download-2.0.php) is required to build the project.
-
-1. Launch VS2017.
-2. Goto `File` -> `Open` -> `CMake`. Then choose the `CMakeLists.txt` from the root of this cloned git repository.
-3. Select `CMake` -> `Change CMake settings` -> `CMakeLists.txt`.
-4. Choose `x86-debug` and click `select`.
-5. This will open `CMakeSettings.json`, edit the line `cmakeCommandArgs` to contain `-DSDL2_DIR=PATH_TO_YOUR_SDL2_DIRECTORY`, set your build directory to `build` and then click `generate` in the top yellow warning bar.
-6. Invoke `CMake` -> `Build all` to build the project.
-
+2. `cmake -S .. -B . -DSDL2_DIR=PATH_TO_YOUR_SDL2_DIRECTORY -DQT_DIR=C:\Qt\5.15.2\msvc2019_64\lib\cmake\Qt5 -DQt5_DIR=C:\Qt\5.15.2\msvc2019_64\lib\cmake\Qt5`
+3. Open the generated `relive.sln` file with VS2022
+4. Click on `Build` -> `Build Solution`
+4. You'll find the relive executable in `build/Source/relive/Debug` and the editor executable in `build/Source/Tools/editor/Debug`.
 </details>
 
 
 <details>
 <summary>Build on Linux</summary>
 
-1. Install SDL2 using your package manager.
-2. `cd build`
-3. `cmake -S .. -B .`
-4. `make -j$(nproc)`
-5. You'll find your executable in the `Source` folder under `relive`.
-6. You can optionally install the package using `make install` or create a Debian-compatible package using `cpack -G DEB`.
+#### Prerequisites
+
+1. [CMake](https://cmake.org/)
+2. [SDL2](https://www.libsdl.org/)
+3. [Perl](https://www.perl.org/)
+4. Qt 5.15.x
+
+#### Ubuntu
+```
+sudo apt install cmake libsdl2-dev perl qtdeclarative5-dev qtmultimedia5-dev qttools5-dev
+```
+
+1. `cd build`
+2. `cmake -S .. -B .`
+3. `make -j$(nproc)`
+4. You'll find the relive executable in `build/Source/relive/Debug` and the editor executable in `build/Source/Tools/editor/Debug`.
+5. You can optionally install the package using `make install` or create a Debian-compatible package using `cpack -G DEB`.
 
 </details>
-
-## Testing
-
-### Hook Manager
-
-For testing we provide an application called Hook Manager, which lets you freely change whether specific functions use the original code or the rewritten one. This lets you figure out whether bugs are the result of errors in the rewrite or whether they are part of the original game.
-
-The hook manager can be downloaded from [this](https://github.com/AliveTeam/AliveHookManager/releases/tag/1.0) link. You also need a patched executable for the game of your choice, which you can download [here](https://cdn.discordapp.com/attachments/505078398087987201/807014898717425674/patched_dlls.zip).
-
-To use the manager you need to do the following:
-
-You need to obtain the .map and .dll files for whichever game you want to debug. You can do this in one of two ways:
-
-- Set the `AO_ROOT` and `AE_ROOT` environment variables to their respective game's install folders.
-- Compile R.E.L.I.V.E. using the `msbuild` method.
-- Your .map and .dll files will be placed in the install folders.
-
-OR:
-
-- Download the .map and DLL files from AppVeyor:
-  - Visit [AppVeyor](https://ci.appveyor.com/project/paulsapps/alive-reversing?branch=master)
-  - Click on whichever platform you need.
-  - Click on Artifacts on the top right corner of the page.
-  - Download `build\RELIVE_Binaries_Full_Debug_[ARCHITECTURE]_[BUILDNUMBER].zip`.
-- Drop the .map and DLL files from the build folder into the respective game's installation folder.
-
-Regardless of which way you chose, this is how you finalize the process:
-- Drop the respective game's patched exe into their installation folder.
-- Start the hook manager.
-- Select the checkbox for the function(s) you want to check for bugs.
-- To start the game with the changes you've made you need to click on the "Save and Launch" icon.
