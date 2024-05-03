@@ -44,14 +44,29 @@ git clone --recursive https://github.com/AliveTeam/alive_reversing.git
 
 
 Optionally, install Qt 5.15.2 with [aqtinstall](https://github.com/miurahr/aqtinstall/releases) if you don't want to create an account on their website.
-`aqt install-qt windows desktop 5.15.2 win64_msvc2019_64`
+```
+aqt install-qt windows desktop 5.15.2 win64_msvc2019_64
+```
 
 ### Building
-1. `cd build`
-2. `cmake -S .. -B . -DSDL2_DIR=PATH_TO_YOUR_SDL2_DIRECTORY -DQT_DIR=C:\Qt\5.15.2\msvc2019_64\lib\cmake\Qt5 -DQt5_DIR=C:\Qt\5.15.2\msvc2019_64\lib\cmake\Qt5`
-3. Open the generated `relive.sln` file with VS2022
-4. Click on `Build` -> `Build Solution`
-4. You'll find the relive executable in `build/Source/relive/Debug` and the editor executable in `build/Source/Tools/editor/Debug`.
+1. Cd into the build directory:
+```
+cd build
+```
+
+2. Generate the solution file:
+```
+cmake -S .. -B . -DSDL2_DIR=YOUR_SDL2_PATH -DQT_DIR=YOUR_QT5_PATH -DQt5_DIR=YOUR_QT5_PATH
+```
+
+For example, if you installed Qt5 at `C:\Qt` and SDL2 at `C:\SDL2` you would run:
+```
+cmake -S .. -B . -DSDL2_DIR=C:\SDL2 -DQT_DIR=C:\Qt\5.15.2\msvc2019_64\lib\cmake\Qt5 -DQt5_DIR=C:\Qt\5.15.2\msvc2019_64\lib\cmake\Qt5
+```
+
+3. After cmake is done, open the generated `relive.sln` file within your `build` folder with Visual Studio 2022.
+4. To start the build, click on `Build` -> `Build Solution` and wait for the build to finish.
+5. Once the build has finished successfully, you'll find the relive executable in `build/Source/relive/Debug` and the editor executable in `build/Source/Tools/editor/Debug`.
 </details>
 
 
@@ -70,10 +85,22 @@ Optionally, install Qt 5.15.2 with [aqtinstall](https://github.com/miurahr/aqtin
 sudo apt install cmake libsdl2-dev perl qtdeclarative5-dev qtmultimedia5-dev qttools5-dev
 ```
 
-1. `cd build`
-2. `cmake -S .. -B .`
-3. `make -j$(nproc)`
-4. You'll find the relive executable in `build/Source/relive/Debug` and the editor executable in `build/Source/Tools/editor/Debug`.
+1. Cd into the build directory:
+```
+cd build
+```
+
+2. Generate the makefile:
+```
+cmake -S .. -B .
+```
+
+3. Build relive:
+```
+make -j$(nproc)
+```
+
+4. Once the build has finished successfully, you'll find the relive executable in `build/Source/relive/Debug` and the editor executable in `build/Source/Tools/editor/Debug`.
 5. You can optionally install the package using `make install` or create a Debian-compatible package using `cpack -G DEB`.
 
 </details>
