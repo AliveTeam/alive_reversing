@@ -160,6 +160,67 @@ static std::vector<std::string> ConvertBSQ(const FileSystem::Path& dataDir, cons
 }
 
 template <typename LevelIdType>
+static void ConvertDemo(const char_type* pFileName, const FileSystem::Path& dataDir, ReliveAPI::LvlReader& lvlReader, LevelIdType lvlIdxAsLvl, std::vector<u8>& fileBuffer, bool isAo)
+{
+    ReadLvlFileInto(lvlReader, pFileName, fileBuffer);
+
+    FileSystem::Path filePath = dataDir;
+    filePath.Append(ToString(lvlIdxAsLvl));
+
+    FileSystem fs;
+    fs.CreateDirectory(filePath);
+    filePath.Append(pFileName);
+
+    nlohmann::json commandsArray = nlohmann::json::array();
+
+    u32 defaultDemoCommandIdx;
+    if (isAo)
+    {
+        defaultDemoCommandIdx = 2051; // skip save game data in demo file + random seed?
+    }
+    else
+    {
+        defaultDemoCommandIdx = 2; // skip random seed data?
+    }
+
+    const u32* pData = reinterpret_cast<const u32*>(fileBuffer.data());
+
+    u32 idx = defaultDemoCommandIdx;
+    for (;;)
+    {
+        if (idx >= fileBuffer.size())
+        {
+            ALIVE_FATAL("Trying to read demo playback file buffer out of bounds. (expected command & 0x8000 before end)");
+        }
+
+        nlohmann::json commandObj = nlohmann::json::object();
+
+        u32 tmp = pData[idx++];
+
+        u32 command = tmp >> 16;
+        u32 commandDuration = tmp & 0xFFFF;
+
+        commandObj["command_bits"] = command;
+        commandObj["command_duration"] = commandDuration;
+
+        commandsArray.push_back(commandObj);
+
+        // End demo/quit command
+        if (command & 0x8000)
+        {
+            break;
+        }
+    }
+
+    nlohmann::json j =
+    {
+        {"commands", commandsArray}
+    };
+
+    SaveJson(j, fs, filePath);
+}
+
+template <typename LevelIdType>
 static void SaveFileFromLvlDirect(const char_type* pFileName, const FileSystem::Path& dataDir, ReliveAPI::LvlReader& lvlReader, LevelIdType lvlIdxAsLvl, std::vector<u8>& fileBuffer)
 {
     ReadLvlFileInto(lvlReader, pFileName, fileBuffer);
@@ -795,8 +856,7 @@ static void ConvertFilesInLvl(ThreadPool& tp, const FileSystem::Path& dataDir, F
             }
             else if (bConvertDemos)
             {
-                // TODO: Actually convert at some later point
-                SaveFileFromLvlDirect(fileName.c_str(), dataDir, lvlReader, lvlIdxAsLvl, fileBuffer);
+                ConvertDemo(fileName.c_str(), dataDir, lvlReader, lvlIdxAsLvl, fileBuffer, isAo);
             }
             else if (bConvertPaths)
             {
@@ -1086,7 +1146,7 @@ void DataConversion::DataVersions::Save(const FileSystem::Path& dataDir) const
         {"camera_version", mCameraVersion},
         {"save_file_version", mSaveFileVersion},
         {"font_file_version", mFontFileVersion},
-        {"demo_file_version", mDemoFileVersion},
+        {"demo_file_version", 0 /* mDemoFileVersion*/},
     };
     FileSystem fs;
     FileSystem::Path fileName = dataDir;
