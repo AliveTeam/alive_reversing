@@ -315,9 +315,7 @@ void Slig::LoadAnimations()
 Slig::Slig(relive::Path_Slig* pTlv, const Guid& tlvId)
     : BaseAliveGameObject(17)
 {
-    field_160_last_event_index = -1;
-
-    if (tlvId != Guid{})
+    if (tlvId.IsValid())
     {
         mBaseGameObjectTlvInfo = tlvId;
     }
@@ -2924,9 +2922,8 @@ s16 Slig::Brain_ListenToGlukkon_Moving(BaseAliveGameObject* pGlukkonObj)
         return Brain_ListeningToGlukkon_States::IdleListening_1;
     }
 
-    if (field_160_last_event_index != gEventSystem->mLastEventIndex)
+    if (mListener.LastEventChanged(*gEventSystem))
     {
-        field_160_last_event_index = gEventSystem->mLastEventIndex;
         if (gEventSystem->mLastEvent == GameSpeakEvents::eGlukkon_StayHere && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0))
         {
             mFollowGlukkon = false;
@@ -5494,22 +5491,7 @@ GameSpeakEvents Slig::LastGlukkonSpeak()
         return GameSpeakEvents::eNone;
     }
 
-    const s32 last_event_idx = gEventSystem->mLastEventIndex;
-    if (field_160_last_event_index == last_event_idx)
-    {
-        if (gEventSystem->mLastEvent == GameSpeakEvents::eNone)
-        {
-            return GameSpeakEvents::eNone;
-        }
-        else
-        {
-            return GameSpeakEvents::eSameAsLast;
-        }
-    }
-
-    field_160_last_event_index = last_event_idx;
-
-    return gEventSystem->mLastEvent;
+    return mListener.Get(*gEventSystem);
 }
 
 s16 Slig::ListenToGlukkonCommands()
@@ -5625,27 +5607,7 @@ void Slig::TurnOrSayWhat()
 
 void Slig::GameSpeakResponse()
 {
-    const s32 lastIdx = gEventSystem->mLastEventIndex;
-
-    GameSpeakEvents speak = GameSpeakEvents::eNone;
-
-    if (field_160_last_event_index == lastIdx)
-    {
-        if (gEventSystem->mLastEvent == GameSpeakEvents::eNone)
-        {
-            speak = GameSpeakEvents::eNone;
-        }
-        else
-        {
-            speak = GameSpeakEvents::eSameAsLast;
-        }
-    }
-    else
-    {
-        field_160_last_event_index = lastIdx;
-        speak = gEventSystem->mLastEvent;
-    }
-
+    const GameSpeakEvents speak = mListener.Get(*gEventSystem);
     switch (speak)
     {
         case GameSpeakEvents::eUnknown_1:

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../relive_lib/GameObjects/BaseAnimatedWithPhysicsGameObject.hpp"
+#include "GameSpeak.hpp"
 
 namespace relive
 {
@@ -38,7 +39,7 @@ private:
     State mState = State::eWaitUntilGlukkonNearby;
     s16 mOkSwitchId = 0;
     s16 mFailSwitchId = 0;
-    s32 mLastEventIdx = 0;
+    GameSpeakListener mListener;
     PSX_Point mTlvTopLeft = {};
     PSX_Point mTlvBottomRight = {};
     s32 mTimer = 0;

@@ -52,7 +52,6 @@ SlingMudokon::SlingMudokon(relive::Path_SlingMudokon* pTlv, const Guid& tlvId)
 
     LoadAnimations();
 
-    mLastEventIndex = -1;
     mBufferStart = 0;
     mBufferIdx = -1;
     
@@ -300,22 +299,7 @@ void SlingMudokon::Motion_5_AngryToIdle()
 
 GameSpeakEvents SlingMudokon::getLastIdx()
 {
-    if (mLastEventIndex == gEventSystem->mLastEventIndex)
-    {
-        if (gEventSystem->mLastEvent == GameSpeakEvents::eNone)
-        {
-            return GameSpeakEvents::eNone;
-        }
-        else
-        {
-            return GameSpeakEvents::eSameAsLast;
-        }
-    }
-    else
-    {
-        mLastEventIndex = gEventSystem->mLastEventIndex;
-        return gEventSystem->mLastEvent;
-    }
+    return mListener.Get(*gEventSystem);
 }
 
 void SlingMudokon::SetBrain(ISlingMudokonBrain::EBrainTypes brain)
@@ -427,7 +411,6 @@ void GiveCodeBrain::VUpdate()
                 GameSpeakEvents lastIdx = mSlingMudokon.getLastIdx();
                 if (lastIdx != GameSpeakEvents::eNone)
                 {
-                    mSlingMudokon.mLastEventIndex = BaseGameObject::MakeTimer(40);
                     mSlingMudokon.field_144_timer2 = BaseGameObject::MakeTimer(40);
                 }
 
@@ -735,24 +718,7 @@ void AskForPasswordBrain::VUpdate()
             }
             else
             {
-                GameSpeakEvents speak = {};
-                if (mSlingMudokon.mLastEventIndex == gEventSystem->mLastEventIndex)
-                {
-                    if (gEventSystem->mLastEvent == GameSpeakEvents::eNone)
-                    {
-                        speak = GameSpeakEvents::eNone;
-                    }
-                    else
-                    {
-                        speak = GameSpeakEvents::eSameAsLast;
-                    }
-                }
-                else
-                {
-                    mSlingMudokon.mLastEventIndex = gEventSystem->mLastEventIndex;
-                    speak = gEventSystem->mLastEvent;
-                }
-
+                const GameSpeakEvents speak = mSlingMudokon.getLastIdx();
                 if (speak == GameSpeakEvents::eNone)
                 {
                     return;
@@ -768,24 +734,7 @@ void AskForPasswordBrain::VUpdate()
         case EState::Unknown_5:
             if (!mSlingMudokon.VIsObj_GettingNear_On_X(gAbe))
             {
-                GameSpeakEvents speak = {};
-                if (mSlingMudokon.mLastEventIndex == gEventSystem->mLastEventIndex)
-                {
-                    if (gEventSystem->mLastEvent == GameSpeakEvents::eNone)
-                    {
-                        speak = GameSpeakEvents::eNone;
-                    }
-                    else
-                    {
-                        speak = GameSpeakEvents::eSameAsLast;
-                    }
-                }
-                else
-                {
-                    mSlingMudokon.mLastEventIndex = gEventSystem->mLastEventIndex;
-                    speak = gEventSystem->mLastEvent;
-                }
-
+                const GameSpeakEvents speak = mSlingMudokon.getLastIdx();
                 if (speak != GameSpeakEvents::eNone)
                 {
                     mSlingMudokon.field_144_timer2 = BaseGameObject::MakeTimer(40);

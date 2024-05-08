@@ -426,7 +426,7 @@ private:
     s32 field_128_angry_timer = 0;
     FP field_134_xVelSlowBy = {};
     s16 field_13C_voice_pitch = 0;
-    s32 field_140_last_event_index = 0;
+    GameSpeakListener mListener;
     Guid field_158_wheel_id;
     MudSounds field_160_delayed_speak = MudSounds::eEmpty_0;
     s16 field_162_maxXOffset = 0;

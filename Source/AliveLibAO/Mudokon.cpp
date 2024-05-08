@@ -139,7 +139,6 @@ s16 sMudRunningToPortalCount_507B94 = 0;
 Mudokon::Mudokon(relive::Path_TLV* pTlv, const Guid& tlvId)
     : BaseAliveGameObject()
 {
-    field_128 = -1;
     field_13E = -1;
     mNextMotion = eMudMotions::None_m1;
     field_13C = 0;
@@ -1038,21 +1037,7 @@ GameSpeakEvents Mudokon::LastGameSpeak()
         return GameSpeakEvents::eNone;
     }
 
-    if (field_128 == gEventSystem->mLastEventIndex)
-    {
-        if (gEventSystem->mLastEvent == GameSpeakEvents::eNone)
-        {
-            return GameSpeakEvents::eNone;
-        }
-        else
-        {
-            return GameSpeakEvents::eSameAsLast;
-        }
-    }
-
-    field_128 = gEventSystem->mLastEventIndex;
-
-    return gEventSystem->mLastEvent;
+    return mListener.Get(*gEventSystem);
 }
 
 void Mudokon::AddAlerted()
@@ -2663,24 +2648,7 @@ s16 Mudokon::Brain_2_SingSequenceIdle()
             if (!field_198_abe_must_face_mud
                 || gAbe->GetAnimation().GetFlipX() != GetAnimation().GetFlipX())
             {
-                GameSpeakEvents last_speak = {};
-                if (field_128 == gEventSystem->mLastEventIndex)
-                {
-                    if (gEventSystem->mLastEvent == GameSpeakEvents::eNone)
-                    {
-                        last_speak = GameSpeakEvents::eNone;
-                    }
-                    else
-                    {
-                        last_speak = GameSpeakEvents::eSameAsLast;
-                    }
-                }
-                else
-                {
-                    last_speak = gEventSystem->mLastEvent;
-                    field_128 = gEventSystem->mLastEventIndex;
-                }
-
+                const GameSpeakEvents last_speak = mListener.Get(*gEventSystem);
                 if (last_speak == GameSpeakEvents::eAbe_Hello)
                 {
                     field_1C0_timer = MakeTimer(20);
@@ -2762,24 +2730,7 @@ s16 Mudokon::Brain_3_SingSequenceSing()
 
         case 2:
         {
-            GameSpeakEvents last_speak = {};
-            if (field_128 == gEventSystem->mLastEventIndex)
-            {
-                if (gEventSystem->mLastEvent == GameSpeakEvents::eNone)
-                {
-                    last_speak = GameSpeakEvents::eNone;
-                }
-                else
-                {
-                    last_speak = GameSpeakEvents::eSameAsLast;
-                }
-            }
-            else
-            {
-                last_speak = gEventSystem->mLastEvent;
-                field_128 = gEventSystem->mLastEventIndex;
-            }
-
+            const GameSpeakEvents last_speak = mListener.Get(*gEventSystem);
             if (last_speak == GameSpeakEvents::eNone || last_speak == GameSpeakEvents::eSameAsLast)
             {
                 if (static_cast<s32>(sGnFrame) > field_1C0_timer)
@@ -2798,24 +2749,7 @@ s16 Mudokon::Brain_3_SingSequenceSing()
 
         case 3:
         {
-            GameSpeakEvents last_speak = {};
-            if (field_128 == gEventSystem->mLastEventIndex)
-            {
-                if (gEventSystem->mLastEvent == GameSpeakEvents::eNone)
-                {
-                    last_speak = GameSpeakEvents::eNone;
-                }
-                else
-                {
-                    last_speak = GameSpeakEvents::eSameAsLast;
-                }
-            }
-            else
-            {
-                field_128 = gEventSystem->mLastEventIndex;
-                last_speak = gEventSystem->mLastEvent;
-            }
-
+            const GameSpeakEvents last_speak = mListener.Get(*gEventSystem);
             if (last_speak != GameSpeakEvents::eNone && last_speak != GameSpeakEvents::eSameAsLast)
             {
                 field_13E = static_cast<s16>(gEventSystem->mLastEventIndex);
@@ -2827,25 +2761,7 @@ s16 Mudokon::Brain_3_SingSequenceSing()
 
         case 4:
         {
-            GameSpeakEvents last_speak = {};
-            if (field_128 == gEventSystem->mLastEventIndex)
-            {
-                if (gEventSystem->mLastEvent == GameSpeakEvents::eNone)
-                {
-                    last_speak = GameSpeakEvents::eNone;
-                }
-                else
-                {
-                    last_speak = GameSpeakEvents::eSameAsLast;
-                }
-            }
-            else
-            {
-                field_128 = gEventSystem->mLastEventIndex;
-                last_speak = gEventSystem->mLastEvent;
-            }
-
-
+            const GameSpeakEvents last_speak = mListener.Get(*gEventSystem);
             if (last_speak != GameSpeakEvents::eNone && last_speak != GameSpeakEvents::eSameAsLast)
             {
                 field_118 = MakeTimer(60);
@@ -2932,24 +2848,7 @@ s16 Mudokon::Brain_4_SingSequencePassword()
 
         case 2:
         {
-            GameSpeakEvents last_speak = {};
-            if (field_128 == gEventSystem->mLastEventIndex)
-            {
-                if (gEventSystem->mLastEvent == GameSpeakEvents::eNone)
-                {
-                    last_speak = GameSpeakEvents::eNone;
-                }
-                else
-                {
-                    last_speak = GameSpeakEvents::eSameAsLast;
-                }
-            }
-            else
-            {
-                field_128 = gEventSystem->mLastEventIndex;
-                last_speak = gEventSystem->mLastEvent;
-            }
-
+            const GameSpeakEvents last_speak = mListener.Get(*gEventSystem);
             if (last_speak != GameSpeakEvents::eNone && last_speak != GameSpeakEvents::eSameAsLast)
             {
                 field_13E = static_cast<s16>(gEventSystem->mLastEventIndex);
@@ -2961,24 +2860,7 @@ s16 Mudokon::Brain_4_SingSequencePassword()
 
         case 3:
         {
-            GameSpeakEvents last_speak = {};
-            if (field_128 == gEventSystem->mLastEventIndex)
-            {
-                if (gEventSystem->mLastEvent == GameSpeakEvents::eNone)
-                {
-                    last_speak = GameSpeakEvents::eNone;
-                }
-                else
-                {
-                    last_speak = GameSpeakEvents::eSameAsLast;
-                }
-            }
-            else
-            {
-                field_128 = gEventSystem->mLastEventIndex;
-                last_speak = gEventSystem->mLastEvent;
-            }
-
+            const GameSpeakEvents last_speak = mListener.Get(*gEventSystem);
             if (last_speak != GameSpeakEvents::eNone && last_speak != GameSpeakEvents::eSameAsLast)
             {
                 field_118 = MakeTimer(60);
@@ -3589,22 +3471,7 @@ s16 Mudokon::Brain_10_ListeningToAbe()
                     }
                     else
                     {
-                        if (field_128 == gEventSystem->mLastEventIndex)
-                        {
-                            if (gEventSystem->mLastEvent == GameSpeakEvents::eNone)
-                            {
-                                last_speak = GameSpeakEvents::eNone;
-                            }
-                            else
-                            {
-                                last_speak = GameSpeakEvents::eSameAsLast;
-                            }
-                        }
-                        else
-                        {
-                            last_speak = gEventSystem->mLastEvent;
-                            field_128 = gEventSystem->mLastEventIndex;
-                        }
+                        last_speak = mListener.Get(*gEventSystem);
                     }
 
                     if (EventGet(kEventMudokonComfort)
@@ -3739,24 +3606,7 @@ s16 Mudokon::Brain_10_ListeningToAbe()
                 return 3;
             }
 
-            GameSpeakEvents last_speak = {};
-            if (field_128 == gEventSystem->mLastEventIndex)
-            {
-                if (gEventSystem->mLastEvent == GameSpeakEvents::eNone)
-                {
-                    last_speak = GameSpeakEvents::eNone;
-                }
-                else
-                {
-                    last_speak = GameSpeakEvents::eSameAsLast;
-                }
-            }
-            else
-            {
-                last_speak = gEventSystem->mLastEvent;
-                field_128 = gEventSystem->mLastEventIndex;
-            }
-
+            const GameSpeakEvents last_speak = mListener.Get(*gEventSystem);
             if (last_speak == GameSpeakEvents::eAbe_Wait
                 && BetweenCameras_418500() == BetweenCamPos::None_0)
             {

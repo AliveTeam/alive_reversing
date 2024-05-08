@@ -167,8 +167,6 @@ public:
 
     void VUpdateAnimData();
 
-    GameSpeakEvents getLastIdx();
-
     // Motions
     void Motion_0_Idle();
     void Motion_1_Angry();
@@ -176,6 +174,8 @@ public:
     void Motion_3_ShootStart();
     void Motion_4_ShootEnd();
     void Motion_5_AngryToIdle();
+
+    GameSpeakEvents getLastIdx();
 
 private:
     void SetBrain(ISlingMudokonBrain::EBrainTypes brain);
@@ -186,7 +186,7 @@ public:
     s16 mCodeLength = 0;
     bool mDontSetDestroyed = false;
     bool mAbeGettingCloser = false;
-    s32 mLastEventIndex = 0;
+    GameSpeakListener mListener;
     u8 mCodeBuffer[16] = {};
     s16 mBufferStart = 0;
     s16 mBufferIdx = 0;

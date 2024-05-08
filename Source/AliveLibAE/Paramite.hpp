@@ -3,6 +3,7 @@
 #include "BaseAliveGameObject.hpp"
 #include "../relive_lib/SaveStateBase.hpp"
 #include "../relive_lib/FatalError.hpp"
+#include "GameSpeak.hpp"
 
 namespace relive
 {
@@ -376,7 +377,7 @@ private:
     s16 field_158_next_brain_ret = 0;
     eParamiteMotions mParamiteGamespeakNextMotion = eParamiteMotions::Motion_0_Idle;
     s16 field_15C_paramite_xOffset = 0;
-    s32 field_160_last_event_index = 0;
+    GameSpeakListener mListener;
     bool mHissBeforeAttack = false;
     bool mControlled = false;
     bool mRunning = false;

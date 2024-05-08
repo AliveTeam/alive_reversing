@@ -21,8 +21,6 @@ void GlukkonSwitch::LoadAnimations()
 GlukkonSwitch::GlukkonSwitch(relive::Path_GlukkonSwitch* pTlv, const Guid& tlvId)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
-    mLastEventIdx = -1;
-
     SetType(ReliveTypes::eHelpPhone);
 
     LoadAnimations();
@@ -119,25 +117,7 @@ void GlukkonSwitch::VUpdate()
         SetDead(true);
     }
 
-    const s32 lastEventIdx = gEventSystem->mLastEventIndex;
-    GameSpeakEvents lastEventIdx2 = GameSpeakEvents::eNone;
-    if (mLastEventIdx == lastEventIdx)
-    {
-        if (gEventSystem->mLastEvent == GameSpeakEvents::eNone)
-        {
-            lastEventIdx2 = GameSpeakEvents::eNone;
-        }
-        else
-        {
-            lastEventIdx2 = GameSpeakEvents::eSameAsLast;
-        }
-    }
-    else
-    {
-        mLastEventIdx = lastEventIdx;
-        lastEventIdx2 = gEventSystem->mLastEvent;
-    }
-
+    const GameSpeakEvents lastEventIdx2 = mListener.Get(*gEventSystem);
     switch (mState)
     {
         case State::eWaitUntilGlukkonNearby:

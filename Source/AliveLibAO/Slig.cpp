@@ -212,8 +212,6 @@ void Slig::LoadAnimations()
 Slig::Slig(relive::Path_Slig* pTlv, const Guid& tlvId)
     : BaseAliveGameObject()
 {
-    field_15C_last_event_index = -1;
-
     field_210_resources = {};
 
     LoadAnimations();
@@ -1683,26 +1681,7 @@ eSligMotions Slig::MoveLift(FP ySpeed)
 
 void Slig::GameSpeakResponse()
 {
-    GameSpeakEvents speak = GameSpeakEvents::eNone;
-
-    const s32 lastIdx = gEventSystem->mLastEventIndex;
-    if (field_15C_last_event_index == lastIdx)
-    {
-        if (gEventSystem->mLastEvent == GameSpeakEvents::eNone)
-        {
-            speak = GameSpeakEvents::eNone;
-        }
-        else
-        {
-            speak = GameSpeakEvents::eSameAsLast;
-        }
-    }
-    else
-    {
-        field_15C_last_event_index = lastIdx;
-        speak = gEventSystem->mLastEvent;
-    }
-
+    const GameSpeakEvents speak = mListener.Get(*gEventSystem);
     switch (speak)
     {
         case GameSpeakEvents::eAbe_WhistleHigh:

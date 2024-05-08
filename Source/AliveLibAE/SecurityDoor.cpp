@@ -22,7 +22,6 @@ SecurityDoor::SecurityDoor(relive::Path_SecurityDoor* pTlv, const Guid& tlvId)
 {
     LoadAnimations();
 
-    mLastEventIdx = -1;
     mMaxIdx = 0;
     mBufferStartIdx = -1;
 
@@ -166,9 +165,8 @@ void SecurityDoor::VUpdate()
             return;
         }
         case SecurityDoorStates::eListeningForHi_3:
-            if (mLastEventIdx != gEventSystem->mLastEventIndex)
+            if (mListener.LastEventChanged(*gEventSystem))
             {
-                mLastEventIdx = gEventSystem->mLastEventIndex;
                 if (gEventSystem->mLastEvent != GameSpeakEvents::eNone && gEventSystem->mLastEvent != GameSpeakEvents::eSameAsLast)
                 {
                     if (gEventSystem->mLastEvent == GameSpeakEvents::eSlig_Hi)
@@ -246,9 +244,8 @@ void SecurityDoor::VUpdate()
         case SecurityDoorStates::eListeningForPassword_9:
             if (static_cast<s32>(sGnFrame) <= mTimer)
             {
-                if (mLastEventIdx != gEventSystem->mLastEventIndex)
+                if (mListener.LastEventChanged(*gEventSystem))
                 {
-                    mLastEventIdx = gEventSystem->mLastEventIndex;
                     if (gEventSystem->mLastEvent != GameSpeakEvents::eNone && gEventSystem->mLastEvent != GameSpeakEvents::eSameAsLast)
                     {
                         mBufferStartIdx = static_cast<s16>(gEventSystem->mLastEventIndex);
@@ -278,10 +275,7 @@ void SecurityDoor::VUpdate()
                     break;
 
                 case GameSpeakMatch::ePartMatch:
-                    if (mLastEventIdx != gEventSystem->mLastEventIndex)
-                    {
-                        mLastEventIdx = gEventSystem->mLastEventIndex;
-                    }
+                    mListener.LastEventChanged(*gEventSystem); // called only for its side effects :|
 
                     if (gEventSystem->mLastEvent == GameSpeakEvents::eNone)
                     {

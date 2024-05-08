@@ -432,8 +432,6 @@ static Mud_Emotion TLV_Emo_To_Internal_Emo(relive::Path_Mudokon::Mud_TLV_Emotion
 Mudokon::Mudokon(relive::Path_Mudokon* pTlv, const Guid& tlvId)
     : BaseAliveGameObject(18)
 {
-    field_140_last_event_index = -1;
-
     field_11C_bird_portal_id = Guid{};
     field_158_wheel_id = Guid{};
     mBaseGameObjectTlvInfo = tlvId;
@@ -1585,14 +1583,7 @@ s16 Mudokon::Brain_0_GiveRings()
             }
             else
             {
-                const s32 lastEventIdx = gEventSystem->mLastEventIndex;
-                const bool bSameAsLastIdx = field_140_last_event_index == lastEventIdx;
-                if (!bSameAsLastIdx)
-                {
-                    field_140_last_event_index = lastEventIdx;
-                }
-
-                if (bSameAsLastIdx || gEventSystem->mLastEvent == GameSpeakEvents::eNone || gEventSystem->mLastEvent == GameSpeakEvents::eSameAsLast)
+                if (!mListener.LastEventChanged(*gEventSystem) || gEventSystem->mLastEvent == GameSpeakEvents::eNone || gEventSystem->mLastEvent == GameSpeakEvents::eSameAsLast)
                 {
                     if (!mAbeHasRing && static_cast<s32>(sGnFrame) > field_194_timer)
                     {
@@ -6648,44 +6639,23 @@ s16 Mudokon::FindBirdPortal()
 
 GameSpeakEvents Mudokon::LastGameSpeak()
 {
-    GameSpeakEvents actualEvent = GameSpeakEvents::eNone;
-
-    const s32 lastEventIdx = gEventSystem->mLastEventIndex;
-    if (field_140_last_event_index == lastEventIdx)
-    {
-        if (gEventSystem->mLastEvent == GameSpeakEvents::eNone)
-        {
-            actualEvent = GameSpeakEvents::eNone;
-        }
-        else
-        {
-            actualEvent = GameSpeakEvents::eSameAsLast;
-        }
-    }
-    else
-    {
-        field_140_last_event_index = lastEventIdx;
-        actualEvent = gEventSystem->mLastEvent;
-    }
+    const GameSpeakEvents actualEvent = mListener.Get(*gEventSystem);
 
     // Not valid if not in the same camera
-    if (Is_In_Current_Camera() != CameraPos::eCamCurrent_0)
+    if (Is_In_Current_Camera() == CameraPos::eCamCurrent_0)
     {
-        return GameSpeakEvents::eNone;
-    }
+        // Look out works on any scale
+        if (actualEvent == GameSpeakEvents::eSlig_LookOut)
+        {
+            return GameSpeakEvents::eSlig_LookOut;
+        }
 
-    // Look out works on any scale
-    if (actualEvent == GameSpeakEvents::eSlig_LookOut)
-    {
-        return GameSpeakEvents::eSlig_LookOut;
+        // Check in valid range and on same scale
+        if (actualEvent < GameSpeakEvents::eUnknown_1 || actualEvent > GameSpeakEvents::eAbe_Sorry || gAbe->GetSpriteScale() == GetSpriteScale())
+        {
+            return actualEvent;
+        }
     }
-
-    // Check in valid range and on same scale
-    if (actualEvent < GameSpeakEvents::eUnknown_1 || actualEvent > GameSpeakEvents::eAbe_Sorry || gAbe->GetSpriteScale() == GetSpriteScale())
-    {
-        return actualEvent;
-    }
-
     return GameSpeakEvents::eNone;
 }
 

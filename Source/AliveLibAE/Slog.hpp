@@ -3,6 +3,7 @@
 #include "BaseAliveGameObject.hpp"
 #include "../relive_lib/SaveStateBase.hpp"
 #include "../relive_lib/FatalError.hpp"
+#include "GameSpeak.hpp"
 
 class Bone;
 enum eLineTypes : s16;
@@ -285,7 +286,7 @@ private:
     FP mFallingVelxScaleFactor = {};
     Guid mTlvId;
     s16 mHasWoofed = 0;
-    s32 mLastGameSpeakEvent = -1;
+    GameSpeakListener mListener;
     Guid mListeningToSligId;
     s16 mWaitingCounter = 0;
     s16 mResponseIdx = 0;

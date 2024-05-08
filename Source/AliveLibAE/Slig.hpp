@@ -5,6 +5,7 @@
 #include "../relive_lib/data_conversion/relive_tlvs.hpp"
 #include "../relive_lib/SaveStateBase.hpp"
 #include "../relive_lib/FatalError.hpp"
+#include "GameSpeak.hpp"
 
 #define SLIG_MOTIONS_ENUM_AE(ENTRY)         \
     ENTRY(Motion_0_StandIdle)          \
@@ -449,7 +450,7 @@ private:
     s16 field_158_num_times_to_shoot = 0;
     s16 field_15C_force_alive_state = 0;
     s16 field_15E_spotted_possessed_slig = 0;
-    s32 field_160_last_event_index = 0;
+    GameSpeakListener mListener;
     std::shared_ptr<AnimationPal> field_178_mPal;
     s16 field_200_red = 0;
     s16 field_202_green = 0;

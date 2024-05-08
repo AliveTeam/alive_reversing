@@ -60,6 +60,40 @@ public:
     s8 mEventBuffer[32] = {};
 };
 
+class GameSpeakListener final
+{
+public:
+    bool LastEventChanged(GameSpeak& gs)
+    {
+        if (mLastEventIdx != gs.mLastEventIndex)
+        {
+            mLastEventIdx = gs.mLastEventIndex;
+            return true;
+        }
+        return false;
+    }
+
+    GameSpeakEvents Get(GameSpeak& gs)
+    {
+        if (LastEventChanged(gs))
+        {
+            // Event has changed
+            return gs.mLastEvent;
+        }
+
+        if (gs.mLastEvent != GameSpeakEvents::eNone)
+        {
+            // Its not none but it hasn't changed, therefore its the same event as last time
+            return GameSpeakEvents::eSameAsLast;
+        }
+
+        return GameSpeakEvents::eNone;
+    }
+
+private:
+    u32 mLastEventIdx = -1;
+};
+
 extern GameSpeak* gEventSystem;
 
 s16 Code_Length(u32 code);

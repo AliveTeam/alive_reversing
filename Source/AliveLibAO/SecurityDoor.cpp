@@ -35,7 +35,6 @@ SecurityDoor::SecurityDoor(relive::Path_SecurityDoor* pTlv, const Guid& tlvId)
 {
     LoadAnimations();
 
-    mLastEventIdx = -1;
     mMaxIdx = 0;
     mBufferStartIdx = -1;
 
@@ -148,24 +147,7 @@ void SecurityDoor::VUpdate()
 
         case SecurityDoorStates::eListeningForHi_3:
         {
-            GameSpeakEvents last_event = {};
-            if (mLastEventIdx == gEventSystem->mLastEventIndex)
-            {
-                if (gEventSystem->mLastEvent == GameSpeakEvents::eNone)
-                {
-                    last_event = GameSpeakEvents::eNone;
-                }
-                else
-                {
-                    last_event = GameSpeakEvents::eSameAsLast;
-                }
-            }
-            else
-            {
-                last_event = gEventSystem->mLastEvent;
-                mLastEventIdx = gEventSystem->mLastEventIndex;
-            }
-
+            const GameSpeakEvents last_event = mListener.Get(*gEventSystem);
             if (last_event == GameSpeakEvents::eSlig_Hi)
             {
                 mState = SecurityDoorStates::eWaitingToSayPassword_4;
@@ -245,24 +227,7 @@ void SecurityDoor::VUpdate()
                 mTimer = MakeTimer(15);
             }
 
-            GameSpeakEvents last_event = {};
-            if (mLastEventIdx == gEventSystem->mLastEventIndex)
-            {
-                if (gEventSystem->mLastEvent == GameSpeakEvents::eNone)
-                {
-                    last_event = GameSpeakEvents::eNone;
-                }
-                else
-                {
-                    last_event = GameSpeakEvents::eSameAsLast;
-                }
-            }
-            else
-            {
-                last_event = gEventSystem->mLastEvent;
-                mLastEventIdx = gEventSystem->mLastEventIndex;
-            }
-
+            const GameSpeakEvents last_event = mListener.Get(*gEventSystem);
             if (last_event != GameSpeakEvents::eNone)
             {
                 mState = SecurityDoorStates::eCheckingIfPasswordMatches_9;
@@ -272,24 +237,7 @@ void SecurityDoor::VUpdate()
 
         case SecurityDoorStates::eCheckingIfPasswordMatches_9:
         {
-            GameSpeakEvents last_event = {};
-            if (mLastEventIdx == gEventSystem->mLastEventIndex)
-            {
-                if (gEventSystem->mLastEvent == GameSpeakEvents::eNone)
-                {
-                    last_event = GameSpeakEvents::eNone;
-                }
-                else
-                {
-                    last_event = GameSpeakEvents::eSameAsLast;
-                }
-            }
-            else
-            {
-                mLastEventIdx = gEventSystem->mLastEventIndex;
-                last_event = gEventSystem->mLastEvent;
-            }
-
+            const GameSpeakEvents last_event = mListener.Get(*gEventSystem);
             if (last_event == GameSpeakEvents::eNone)
             {
                 const auto MatchBuffer = gEventSystem->MatchBuffer(mPasswordBuffer, mMaxIdx, mBufferStartIdx);

@@ -75,10 +75,46 @@ private:
     void PushEvent_Impl(GameSpeakEvents event);
 
 public:
+    friend class GameSpeakListener;
     GameSpeakEvents mLastEvent = GameSpeakEvents::eNone;
     u32 mLastEventFrame = 0;
     s32 mLastEventIndex = 0;
+private:
     s8 mEventBuffer[32] = {};
+};
+
+class GameSpeakListener final
+{
+public:
+    bool LastEventChanged(GameSpeak& gs)
+    {
+        if (mLastEventIdx != gs.mLastEventIndex)
+        {
+            mLastEventIdx = gs.mLastEventIndex;
+            return true;
+        }
+        return false;
+    }
+
+    GameSpeakEvents Get(GameSpeak& gs)
+    {
+        if (LastEventChanged(gs))
+        {
+            // Event has changed
+            return gs.mLastEvent;
+        }
+
+        if (gs.mLastEvent != GameSpeakEvents::eNone)
+        {
+            // Its not none but it hasn't changed, therefore its the same event as last time
+            return GameSpeakEvents::eSameAsLast;
+        }
+
+        return GameSpeakEvents::eNone;
+    }
+
+private:
+    u32 mLastEventIdx = -1;
 };
 
 extern GameSpeak* gEventSystem;

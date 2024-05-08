@@ -1736,22 +1736,8 @@ s16 Slog::Brain_0_ListeningToSlig()
                 return mBrainSubState;
             }
 
-            if (mLastGameSpeakEvent == gEventSystem->mLastEventIndex)
-            {
-                if (gEventSystem->mLastEvent == GameSpeakEvents::eNone)
-                {
-                    speak = GameSpeakEvents::eNone;
-                }
-                else
-                {
-                    speak = GameSpeakEvents::eSameAsLast;
-                }
-            }
-            else
-            {
-                mLastGameSpeakEvent = gEventSystem->mLastEventIndex;
-                speak = gEventSystem->mLastEvent;
-            }
+            speak = mListener.Get(*gEventSystem);
+
             // Down to game speak handler
             break;
 
@@ -1970,9 +1956,8 @@ s16 Slog::Brain_1_Idle()
         mTargetId = Guid{};
     }
 
-    if (mLastGameSpeakEvent != gEventSystem->mLastEventIndex)
+    if (mListener.LastEventChanged(*gEventSystem))
     {
-        mLastGameSpeakEvent = gEventSystem->mLastEventIndex;
         if (gEventSystem->mLastEvent == GameSpeakEvents::eSlig_HereBoy)
         {
             mBrainState = 0; // Brain_0_ListeningToSlig ?
@@ -2184,9 +2169,8 @@ s16 Slog::Brain_2_ChasingAbe()
     auto pTarget = static_cast<IBaseAliveGameObject*>(sObjectIds.Find_Impl(mTargetId));
     if (mListenToSligs)
     {
-        if (mLastGameSpeakEvent != gEventSystem->mLastEventIndex)
+        if (mListener.LastEventChanged(*gEventSystem))
         {
-            mLastGameSpeakEvent = gEventSystem->mLastEventIndex;
             if (gEventSystem->mLastEvent == GameSpeakEvents::eSlig_HereBoy)
             {
                 // Listen to slig

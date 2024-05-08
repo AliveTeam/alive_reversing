@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../relive_lib/GameObjects/BaseAnimatedWithPhysicsGameObject.hpp"
+#include "GameSpeak.hpp"
 
 namespace relive
 {
@@ -42,7 +43,7 @@ public:
     s16 mSwitchId = 0;
     s32 mCodeConverted = 0;
     s16 mCodeLength = 0;
-    s32 mLastEventIdx = 0;
+    GameSpeakListener mListener;
     u8 mPasswordBuffer[16] = {};
     s16 mMaxIdx = 0; // TODO: better name
     s16 mBufferStartIdx = 0;

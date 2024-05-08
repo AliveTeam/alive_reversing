@@ -92,8 +92,6 @@ void Scrab::LoadAnimations()
 Scrab::Scrab(relive::Path_Scrab* pTlv, const Guid& tlvId, relive::Path_ScrabSpawner::SpawnDirection spawnDirection)
     : BaseAliveGameObject(14)
 {
-    field_17C_last_event = -1;
-
     SetType(ReliveTypes::eScrab);
 
     if (tlvId != Guid{})
@@ -4227,20 +4225,5 @@ GameSpeakEvents Scrab::LastSpeak()
         return GameSpeakEvents::eNone;
     }
 
-    if (field_17C_last_event == gEventSystem->mLastEventIndex)
-    {
-        if (gEventSystem->mLastEvent == GameSpeakEvents::eNone)
-        {
-            return GameSpeakEvents::eNone;
-        }
-        else
-        {
-            return GameSpeakEvents::eSameAsLast;
-        }
-    }
-    else
-    {
-        field_17C_last_event = gEventSystem->mLastEventIndex;
-        return gEventSystem->mLastEvent;
-    }
+    return mListener.Get(*gEventSystem);
 }

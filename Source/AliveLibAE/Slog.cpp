@@ -1398,24 +1398,7 @@ s16 Slog::Brain_ListeningToSlig_2_Listening(const FP xpos1GridAHead, IBaseAliveG
         return mBrainSubState;
     }
 
-    GameSpeakEvents speakValue = GameSpeakEvents::eNone;
-    if (mLastGameSpeakEvent == gEventSystem->mLastEventIndex)
-    {
-        if (gEventSystem->mLastEvent == GameSpeakEvents::eNone)
-        {
-            speakValue = GameSpeakEvents::eNone;
-        }
-        else
-        {
-            speakValue = GameSpeakEvents::eSameAsLast;
-        }
-    }
-    else
-    {
-        mLastGameSpeakEvent = gEventSystem->mLastEventIndex;
-        speakValue = gEventSystem->mLastEvent;
-    }
-
+    const GameSpeakEvents speakValue = mListener.Get(*gEventSystem);
     switch (speakValue)
     {
         case GameSpeakEvents::eSlig_LookOut:
@@ -1579,9 +1562,8 @@ s16 Slog::Brain_1_Idle()
         mTargetId = Guid{};
     }
 
-    if (mLastGameSpeakEvent != gEventSystem->mLastEventIndex)
+    if (mListener.LastEventChanged(*gEventSystem))
     {
-        mLastGameSpeakEvent = gEventSystem->mLastEventIndex;
         if (gEventSystem->mLastEvent == GameSpeakEvents::eSlig_HereBoy && sControlledCharacter->Type() == ReliveTypes::eSlig)
         {
             mBrainState = eSlogBrains::Brain_0_ListeningToSlig;
@@ -1791,9 +1773,8 @@ s16 Slog::Brain_2_ChasingAbe()
     auto pTarget = static_cast<IBaseAliveGameObject*>(sObjectIds.Find_Impl(mTargetId));
     if (mListenToSligs)
     {
-        if (mLastGameSpeakEvent != gEventSystem->mLastEventIndex)
+        if (mListener.LastEventChanged(*gEventSystem))
         {
-            mLastGameSpeakEvent = gEventSystem->mLastEventIndex;
             if (gEventSystem->mLastEvent == GameSpeakEvents::eSlig_HereBoy && sControlledCharacter->Type() == ReliveTypes::eSlig)
             {
                 mBrainState = eSlogBrains::Brain_0_ListeningToSlig;

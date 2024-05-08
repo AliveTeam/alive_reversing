@@ -324,7 +324,7 @@ private:
     s32 field_16C_input = 0;
     s16 mPossessedMaxWhirlAttackDuration = 0;
     s16 mShredPowerActive = 0;
-    s32 field_17C_last_event = 0;
+    GameSpeakListener mListener;
     GameSpeakEvents field_194_speak = GameSpeakEvents::eUnknown_0;
     FP field_198_max_xpos = {};
     FP field_19C_max_ypos = {};

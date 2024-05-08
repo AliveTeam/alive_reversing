@@ -2,6 +2,7 @@
 
 #include "BaseAliveGameObject.hpp"
 #include "../relive_lib/FatalError.hpp"
+#include "GameSpeak.hpp"
 
 namespace relive
 {
@@ -365,7 +366,7 @@ public:
     s16 mAbeCamera = 0;
     s32 field_154_death_by_being_shot_timer = 0;
     s32 mExplodeTimer = 0;
-    s32 field_15C_last_event_index = 0;
+    GameSpeakListener mListener;
     relive::Path_Slig* field_174_tlv = {};
     PSX_Point field_1CC_points[10] = {};
     s16 field_1F4_points_count = 0;

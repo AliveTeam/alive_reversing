@@ -2,6 +2,7 @@
 
 #include "BaseAliveGameObject.hpp"
 #include "../relive_lib/FatalError.hpp"
+#include "GameSpeak.hpp"
 
 namespace {
 class Path_TLV;
@@ -300,7 +301,7 @@ public:
     FP field_11C = {};
     s16 field_124_voice_pitch = 0;
     s16 field_126_input = 0;
-    s32 field_128 = 0;
+    GameSpeakListener mListener;
     u8 field_12C[16] = {};
     s16 field_13C = 0;
     s16 field_13E = 0;

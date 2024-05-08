@@ -2,6 +2,7 @@
 
 #include "BaseAliveGameObject.hpp"
 #include "../relive_lib/FatalError.hpp"
+#include "GameSpeak.hpp"
 
 namespace AO {
 
@@ -284,9 +285,8 @@ private:
     s32 field_114_respond_timer = 0;
     FP field_118_jump_velx = {};
     s16 field_124_bShould_IdleToWalk1 = 0;
-    //s16 field_126_res_idx = 0;
     s16 mHoneyYPos = 0;
-    s32 field_158_last_event_idx = 0;
+    GameSpeakListener mListener;
     bool mChangedPathNotMounted = false;
     bool mCanSpeak = false;
     bool mChangedPathMounted = false;

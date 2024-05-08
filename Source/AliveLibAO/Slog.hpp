@@ -2,6 +2,7 @@
 
 #include "BaseAliveGameObject.hpp"
 #include "../relive_lib/FatalError.hpp"
+#include "GameSpeak.hpp"
 
 namespace relive {
 class Path_TLV;
@@ -165,7 +166,7 @@ private:
     s16 mMovedOffScreen = 0;
     Guid mTlvId;
     s32 mHasWoofed = 0;
-    s32 mLastGameSpeakEvent = -1;
+    GameSpeakListener mListener;
     Guid mListeningToSligId = {};
     s16 mWaitingCounter = 0;
     s16 mResponseIdx = 0;

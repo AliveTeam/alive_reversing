@@ -91,8 +91,6 @@ void Paramite::LoadAnimations()
 Paramite::Paramite(relive::Path_Paramite* pTlv, const Guid& tlvId)
     : BaseAliveGameObject(16)
 {
-    field_160_last_event_index = -1;
-
     SetType(ReliveTypes::eParamite);
 
     mBaseGameObjectTlvInfo = tlvId;
@@ -2907,9 +2905,8 @@ s16 Paramite::Brain_9_ParamiteSpawn()
             break;
 
         case ParamiteEnums::Brain_9_ParamiteSpawn::eBrain9_SlowDescend_2:
-            if (field_160_last_event_index != gEventSystem->mLastEventIndex)
+            if (mListener.LastEventChanged(*gEventSystem))
             {
-                field_160_last_event_index = gEventSystem->mLastEventIndex;
                 if (gEventSystem->mLastEvent == GameSpeakEvents::eParamite_Howdy)
                 {
                     GetAnimation().SetRender(true);
@@ -2920,10 +2917,8 @@ s16 Paramite::Brain_9_ParamiteSpawn()
             break;
 
         case ParamiteEnums::Brain_9_ParamiteSpawn::eBrain9_SlowerDescend_3:
-            if (field_160_last_event_index != gEventSystem->mLastEventIndex)
+            if (mListener.LastEventChanged(*gEventSystem))
             {
-                field_160_last_event_index = gEventSystem->mLastEventIndex;
-
                 if (gEventSystem->mLastEvent == GameSpeakEvents::eParamite_Howdy)
                 {
                     GetAnimation().SetRender(true);
@@ -6192,23 +6187,7 @@ void Paramite::UpdateSlurgWatchPoints()
 
 GameSpeakEvents Paramite::LastSpeak()
 {
-    GameSpeakEvents ret = GameSpeakEvents::eNone;
-    if (field_160_last_event_index == gEventSystem->mLastEventIndex)
-    {
-        if (gEventSystem->mLastEvent == GameSpeakEvents::eNone)
-        {
-            ret = GameSpeakEvents::eNone;
-        }
-        else
-        {
-            ret = GameSpeakEvents::eSameAsLast;
-        }
-    }
-    else
-    {
-        field_160_last_event_index = gEventSystem->mLastEventIndex;
-        ret = gEventSystem->mLastEvent;
-    }
+    const GameSpeakEvents ret = mListener.Get(*gEventSystem);
 
     if (gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 1))
     {
