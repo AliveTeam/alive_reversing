@@ -2,7 +2,6 @@
 #include "Map.hpp"
 #include "../relive_lib/Function.hpp"
 #include "../AliveLibAE/stdlib.hpp"
-#include "../relive_lib/GameObjects/ResourceManager.hpp"
 #include "../relive_lib/GameObjects/ScreenManager.hpp"
 #include "PathData.hpp"
 #include "Game.hpp"

@@ -26,7 +26,6 @@
 #include "Path.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
 #include "../relive_lib/GameObjects/ScreenManager.hpp"
-#include "../relive_lib/GameObjects/ResourceManager.hpp"
 #include "QuikSave.hpp"
 #include "DDCheat.hpp"
 #include "nlohmann/json.hpp"

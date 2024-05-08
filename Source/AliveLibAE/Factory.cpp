@@ -79,7 +79,6 @@
 #include "ColourfulMeter.hpp"
 #include "SecurityDoor.hpp"
 #include "LaughingGas.hpp"
-#include "../relive_lib/GameObjects/ResourceManager.hpp"
 #include "Game.hpp"
 #include "MeatSack.hpp"
 #include "BoneBag.hpp"

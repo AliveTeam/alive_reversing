@@ -584,8 +584,6 @@ SET(game_objects_src
     GameObjects/ThrowableTotalIndicator.cpp
     GameObjects/OrbWhirlWind.cpp
     GameObjects/OrbWhirlWind.hpp
-    GameObjects/ResourceManager.hpp
-    GameObjects/ResourceManager.cpp
 )
 
 SET(data_conversion_src

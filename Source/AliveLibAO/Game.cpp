@@ -37,6 +37,8 @@
 // Note: Using AE var
 //bool gDDCheatOn = false;
 
+extern bool gBreakGameLoop; // AE var
+
 namespace AO {
 
 bool gbKillUnsavedMudsDone = false;
@@ -44,9 +46,6 @@ bool gbKillUnsavedMudsDone = false;
 // TODO: Move to game ender controller for AO sync
 s16 gRestartRuptureFarmsKilledMuds = 0;
 s16 gRestartRuptureFarmsSavedMuds = 0;
-
-s16 sBreakGameLoop = 0;
-s16 gAttract = 0;
 
 
 void Init_GameStates()
@@ -127,7 +126,7 @@ void Game_Shutdown()
 
 void Game_Loop()
 {
-    sBreakGameLoop = 0;
+    gBreakGameLoop = false;
     bool bPauseMenuObjectFound = false;
     while (!gBaseGameObjects->IsEmpty())
     {
@@ -242,7 +241,7 @@ void Game_Loop()
             sGnFrame++;
         }
 
-        if (sBreakGameLoop)
+        if (gBreakGameLoop)
         {
             GetGameAutoPlayer().SyncPoint(SyncPoints::MainLoopExit);
             break;

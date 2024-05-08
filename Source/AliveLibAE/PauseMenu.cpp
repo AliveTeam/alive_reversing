@@ -18,7 +18,6 @@
 #include "../relive_lib/PsxDisplay.hpp"
 #include "DDCheat.hpp"
 #include "../relive_lib/Sound/Midi.hpp"
-#include "../relive_lib/GameObjects/ResourceManager.hpp"
 #include "../relive_lib/GameObjects/ScreenManager.hpp"
 #include "Game.hpp"
 #include "nlohmann/json.hpp"

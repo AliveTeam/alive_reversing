@@ -1,5 +1,4 @@
 #include "CamConverter.hpp"
-#include "../../relive_lib/GameObjects/ResourceManager.hpp"
 #include "../../relive_lib/data_conversion/LvlReaderWriter.hpp"
 #include "../../relive_lib/GameObjects/ScreenManager.hpp"
 #include "../../relive_lib/CamDecompressor.hpp"

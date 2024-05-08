@@ -2,7 +2,6 @@
 #include "Midi.hpp"
 #include "Sound.hpp"
 #include "../AliveLibAE/PathData.hpp"
-#include "../GameObjects/ResourceManager.hpp"
 #include "../AliveLibAE/stdlib.hpp"
 #include "../AliveLibAE/MusicController.hpp"
 #include "../GameObjects/BackgroundMusic.hpp"

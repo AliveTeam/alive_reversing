@@ -7,7 +7,6 @@
 #include "../relive_lib/DynamicArray.hpp"
 #include "../relive_lib/Sound/Sound.hpp" // for shut down func
 #include "AmbientSound.hpp"
-#include "../relive_lib/GameObjects/ResourceManager.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
 #include "Map.hpp"
 #include "../relive_lib/GameObjects/ScreenManager.hpp"
@@ -311,7 +310,7 @@ void Game_Loop()
             if (pObj->GetDead() && !pObj->GetCantKill() && pObj->mChaseCounter == 0)
             {
                 idx = gBaseGameObjects->RemoveAt(idx);
-                delete pObj;
+                relive_delete pObj;
             }
         }
 
@@ -386,9 +385,6 @@ void Game_Run()
 
     AnimationBase::CreateAnimationArray();
 
-    // AO doesn't have an instance, only statics
-    relive_new ResourceManager();
-
     if (GetGameAutoPlayer().IsPlaying())
     {
         // temp de-sync fix
@@ -435,7 +431,6 @@ void Game_Run()
     relive_delete gBaseAliveGameObjects;
     relive_delete gCollisions;
 
-    gMusicController = nullptr; // Note: OG bug - should have been set to nullptr after shutdown call?
     MusicController::Shutdown();
 
     SND_Reset_Ambiance();

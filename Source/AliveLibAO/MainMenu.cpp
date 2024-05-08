@@ -1200,7 +1200,7 @@ void Menu::GoToSelectedMenuPage()
 
             // Quit
             case MainMenuOptions::eQuit_2:
-                sBreakGameLoop = 1;
+                gBreakGameLoop = true;
                 exit(0);
                 break;
 

@@ -1,7 +1,6 @@
 #include "stdafx_ao.h"
 #include "ThrowableArray.hpp"
 #include "../AliveLibAE/stdlib.hpp"
-#include "../relive_lib/GameObjects/ResourceManager.hpp"
 #include "Map.hpp"
 #include "Throwable.hpp"
 #include "PathData.hpp"

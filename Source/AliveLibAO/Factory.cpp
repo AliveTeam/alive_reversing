@@ -2,7 +2,6 @@
 #include "Factory.hpp"
 #include "../relive_lib/Function.hpp"
 #include "GasCountDown.hpp"
-#include "../relive_lib/GameObjects/ResourceManager.hpp"
 #include "../AliveLibAE/stdlib.hpp"
 #include "RollingBallStopper.hpp"
 #include "Game.hpp"
