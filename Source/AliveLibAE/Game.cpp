@@ -52,9 +52,6 @@ s32 sFrameCount_5CA300 = 0;
 
 u16 gAttract = 0;
 
-Abe* gAbe = nullptr;
-
-
 void DestroyObjects()
 {
     ResourceManagerWrapper::LoadingLoop(false);
@@ -133,6 +130,33 @@ s32 Game_End_Frame(u32 flags)
     return 0;
 }
 
+void SYS_EventsPump()
+{
+    if (Sys_PumpMessages())
+    {
+        exit(0);
+    }
+}
+
+u32 SYS_GetTicks()
+{
+    // Using this instead of SDL_GetTicks resolves a weird x64 issue on windows where
+    // the tick returned is a lot faster on some machines.
+    return static_cast<u32>(SDL_GetPerformanceCounter() / (SDL_GetPerformanceFrequency() / 1000));
+}
+
+void Alive_Show_ErrorMsg(const char_type* fmt, ...)
+{
+    va_list args;
+    va_start(args, fmt);
+    char_type buf[2048] = {};
+    vsnprintf(buf, sizeof(buf) - 1, fmt, args);
+    va_end(args);
+
+    SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, ("R.E.L.I.V.E. " + BuildString()).c_str(), buf, nullptr);
+}
+
+
 void Init_GameStates()
 {
     gKilledMudokons = gFeeco_Restart_KilledMudCount;
@@ -170,14 +194,6 @@ void Init_Sound_DynamicArrays_And_Others()
     MusicController::Create();
 
     Init_GameStates(); // Init other vars + switch states
-}
-
-void SYS_EventsPump()
-{
-    if (Sys_PumpMessages())
-    {
-        exit(0);
-    }
 }
 
 void Game_Init_LoadingIcon()
@@ -436,24 +452,6 @@ void Game_Run()
     SND_Reset_Ambiance();
     SND_Shutdown();
     Input().ShutDown_45F020();
-}
-
-u32 SYS_GetTicks()
-{
-    // Using this instead of SDL_GetTicks resolves a weird x64 issue on windows where
-    // the tick returned is a lot faster on some machines.
-    return static_cast<u32>(SDL_GetPerformanceCounter() / (SDL_GetPerformanceFrequency() / 1000));
-}
-
-void Alive_Show_ErrorMsg(const char_type* fmt, ...)
-{
-    va_list args;
-    va_start(args, fmt);
-    char_type buf[2048] = {};
-    vsnprintf(buf, sizeof(buf) - 1, fmt, args);
-    va_end(args);
-
-    SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, ("R.E.L.I.V.E. " + BuildString()).c_str(), buf, nullptr);
 }
 
 void Game_Main()

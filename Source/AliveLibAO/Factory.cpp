@@ -1595,17 +1595,18 @@ static void Factory_BackgroundGlukkon(relive::Path_TLV* pTlv, Map* /*pMap*/, con
 }
 
 
-static void Factory_KillUnsavedMuds(relive::Path_TLV* /*pTlv*/, Map* pMap, const Guid& tlvId, LoadMode loadMode)
+static void Factory_KillUnsavedMuds(relive::Path_TLV* pTlv, Map* pMap, const Guid& tlvId, LoadMode loadMode)
 {
     if (loadMode != LoadMode::LoadResourceFromList_1 && loadMode != LoadMode::LoadResource_2)
     {
         // OG bug fix - added an extra check that checks if the map has changed
         // which prevents that the killed mudokon count becomes inaccurate or even negative.
-        if (!gbKillUnsavedMudsDone &&
+        auto pTlvKillMuds = static_cast<relive::Path_KillUnsavedMuds*>(pTlv);
+        if (!pTlvKillMuds->mTlvSpecificMeaning &&
             pMap->mMapChanged)
         {
-            gbKillUnsavedMudsDone = true;
-            gKilledMudokons = 28 - gRescuedMudokons;
+            gKilledMudokons = pTlvKillMuds->mMudsToKillCount - gRescuedMudokons;
+            pTlvKillMuds->mTlvSpecificMeaning = 1;
             Path::TLV_Delete(tlvId);
         }
     }

@@ -3038,6 +3038,7 @@ public:
     void Visit(IReflector& r) override
     {
         MapObjectBase::Visit(r);
+        r.Visit("Muds to kill count", mTlv.mMudsToKillCount);
     }
 
     std::string GetIconPath() const override

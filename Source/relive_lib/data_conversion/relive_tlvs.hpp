@@ -969,12 +969,12 @@ struct Path_Elum final : public Path_TLV
 
 struct Path_KillUnsavedMuds final : public Path_TLV
 {
-    // No fields
     Path_KillUnsavedMuds()
     {
         mTlvType = ReliveTypes::eKillUnsavedMuds;
         mAttribute = QuiksaveAttribute::eClearTlvFlags_1;
     }
+    u32 mMudsToKillCount = 0;
     static constexpr char kClassName[] = "kill_unsaved_muds";
     static constexpr ReliveTypes kReliveType = ReliveTypes::eKillUnsavedMuds;
 };

@@ -60,6 +60,8 @@
 #include "../relive_lib/GameObjects/ScreenManager.hpp"
 #include "../relive_lib/Collisions.hpp"
 
+Abe* gAbe = nullptr;
+
 const relive::SfxDefinition sAbeSFXList_555250[41] = {
     {0u, 0u, 0u, 0u, 0, 0},
     {0u, 0u, 0u, 0u, 0, 0},

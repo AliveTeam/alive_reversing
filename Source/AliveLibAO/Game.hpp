@@ -20,9 +20,6 @@ namespace AO {
 extern s16 gRestartRuptureFarmsKilledMuds;
 extern s16 gRestartRuptureFarmsSavedMuds;
 
-extern bool gbKillUnsavedMudsDone;
-
-
 
 void Init_GameStates();
 

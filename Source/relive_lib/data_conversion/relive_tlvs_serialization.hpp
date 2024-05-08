@@ -1254,13 +1254,15 @@ inline void to_json(nlohmann::json& j, const Path_KillUnsavedMuds& p)
 {
     j = nlohmann::json{
         {"tlv_type", "kill_unsaved_muds"},
-        {"base", ToBase(p)}
+        {"base", ToBase(p)},
+        {"kill_mud_count", p.mMudsToKillCount}
     };
 }
 
 inline void from_json(const nlohmann::json& j, Path_KillUnsavedMuds& p)
 {
     j.at("base").get_to(ToBase(p));
+    j.at("kill_mud_count").get_to(p.mMudsToKillCount);
 }
 
 // Path_InvisibleZone

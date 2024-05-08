@@ -41,8 +41,6 @@ extern bool gBreakGameLoop; // AE var
 
 namespace AO {
 
-bool gbKillUnsavedMudsDone = false;
-
 // TODO: Move to game ender controller for AO sync
 s16 gRestartRuptureFarmsKilledMuds = 0;
 s16 gRestartRuptureFarmsSavedMuds = 0;
@@ -57,7 +55,6 @@ void Init_GameStates()
     gDeathGasTimer = 0;
 
     gSwitchStates = {};
-    gbKillUnsavedMudsDone = false;
 }
 
 

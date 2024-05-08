@@ -1878,6 +1878,7 @@ public:
     {
         Path_KillUnsavedMuds r;
         BaseConvert(r, tlv, tlvId);
+        r.mMudsToKillCount = 28; // Hard coded data in OG, the 28 muds that die when you leave rupture farms
         return r;
     }
 };
