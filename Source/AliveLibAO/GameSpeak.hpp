@@ -47,17 +47,17 @@ public:
 
     void PushEvent(GameSpeakEvents event);
 
-    GameSpeakMatch MatchBuffer(u8* pBuffer, s16 bufferLen, s16 bufferStartIdx);
-    static s16 FillBuffer(s32 code, u8* pBuffer);
+    GameSpeakMatch MatchBuffer(GameSpeakEvents* pBuffer, s16 bufferLen, s16 bufferStartIdx);
+    static s16 FillBuffer(s32 code, GameSpeakEvents* pBuffer);
 
 private:
     void PushEvent_Impl(GameSpeakEvents event);
-
+    u32 mLastEventFrame = 0;
 public:
     GameSpeakEvents mLastEvent = GameSpeakEvents::eNone;
-    u32 mLastEventFrame = 0;
+
     s32 mLastEventIndex = 0;
-    s8 mEventBuffer[32] = {};
+    GameSpeakEvents mEventBuffer[32] = {};
 };
 
 class GameSpeakListener final

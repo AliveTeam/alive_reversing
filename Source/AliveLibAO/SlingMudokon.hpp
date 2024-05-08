@@ -187,7 +187,7 @@ public:
     bool mDontSetDestroyed = false;
     bool mAbeGettingCloser = false;
     GameSpeakListener mListener;
-    u8 mCodeBuffer[16] = {};
+    GameSpeakEvents mCodeBuffer[16] = {};
     s16 mBufferStart = 0;
     s16 mBufferIdx = 0;
     s32 field_140_timer = 0;

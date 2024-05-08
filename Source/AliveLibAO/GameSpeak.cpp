@@ -66,7 +66,7 @@ GameSpeak::GameSpeak()
     : BaseGameObject(true, 0)
 {
     SetSurviveDeathReset(true); // Dont destroy on loading save
-    mEventBuffer[0] = -1;
+    mEventBuffer[0] = GameSpeakEvents::eNone;
     SetType(ReliveTypes::eGameSpeak);
     mLastEventIndex = 0;
 }
@@ -97,12 +97,11 @@ void GameSpeak::PushEvent_Impl(GameSpeakEvents event)
         mLastEventIndex = 0;
     }
 
-    // TODO: This isn't ever used ??
-    mEventBuffer[mLastEventIndex] = static_cast<s8>(event);
+    mEventBuffer[mLastEventIndex] = event;
     mLastEvent = event;
 }
 
-GameSpeakMatch GameSpeak::MatchBuffer(u8* pBuffer, s16 bufferLen, s16 bufferStartIdx)
+GameSpeakMatch GameSpeak::MatchBuffer(GameSpeakEvents* pBuffer, s16 bufferLen, s16 bufferStartIdx)
 {
     if (bufferStartIdx == -1)
     {
@@ -116,7 +115,7 @@ GameSpeakMatch GameSpeak::MatchBuffer(u8* pBuffer, s16 bufferLen, s16 bufferStar
     s16 pBufferIdx = 0;
     while (1)
     {
-        if (mEventBuffer[bufferStartIdx] == static_cast<s8>(GameSpeakEvents::eNone))
+        if (mEventBuffer[bufferStartIdx] == GameSpeakEvents::eNone)
         {
             // Hit the end of events?
             if (bufferStartIdx == mLastEventIndex)
@@ -173,12 +172,12 @@ void GameSpeak::VUpdate()
     }
 }
 
-s16 GameSpeak::FillBuffer(s32 code, u8* pBuffer)
+s16 GameSpeak::FillBuffer(s32 code, GameSpeakEvents* pBuffer)
 {
     const s16 len = Code_Length(code);
     for (s16 idx = 0; idx < len; idx++)
     {
-        pBuffer[idx] = static_cast<u8>(Code_LookUp(code, idx, len));
+        pBuffer[idx] = Code_LookUp(code, idx, len);
     }
     return len;
 }

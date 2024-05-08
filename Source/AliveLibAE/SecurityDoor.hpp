@@ -46,7 +46,7 @@ private:
     s32 mCodeConverted = 0;
     s16 mCodeLength = 0;
     GameSpeakListener mListener;
-    u8 mPasswordBuffer[16] = {};
+    GameSpeakEvents mPasswordBuffer[16] = {};
     s16 mMaxIdx = 0; // TODO: better name
     s16 mBufferStartIdx = 0;
     PSX_Point mTlvTopLeft = {};
