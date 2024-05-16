@@ -255,6 +255,7 @@ s16 PullRingRope::VPull(BaseGameObject* pObj)
     }
 
     mRingPullerId = pObj->mBaseGameObjectId;
+
     mState = States::eBeingPulled_1;
     mVelY = FP_FromInteger(2) * GetSpriteScale();
     mStayInStateTicks = 6;

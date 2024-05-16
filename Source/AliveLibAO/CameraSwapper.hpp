@@ -20,18 +20,25 @@ public:
 
     void Init(CamResource& camRes, CameraSwapEffects changeEffect);
 
+
+private:
+    CamResource mCamRes;
+    ScreenClipper* mScreenClipper = nullptr;
+
+    CameraSwapEffects mCamChangeEffect = CameraSwapEffects::eInstantChange_0;
+
     const char_type* mFmvs[3] = {nullptr, nullptr, nullptr};
     bool mPutDispEnv[3] = {false, false, false};
 
-    CamResource mCamRes;
-    ScreenClipper* mScreenClipper = nullptr;
-    CameraSwapEffects mCamChangeEffect = CameraSwapEffects::eInstantChange_0;
     s16 mCurrentSlice = 0;
     s16 mSlicesPerTick = 0;
     s16 mTotalSlices = 0;
+
     bool mMoviePutDispEnv = false;
+
     s16 mXPosConverted = 0;
     s16 mYPosConverted = 0;
+
     s16 mXSlices = 0;
     s16 mYSlices = 0;
     s16 mSliceWidth = 0;

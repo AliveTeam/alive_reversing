@@ -28,6 +28,7 @@ FootSwitch::FootSwitch(relive::Path_FootSwitch* pTlv, const Guid& tlvId)
     GetAnimation().SetRenderLayer(Layer::eLayer_BeforeShadow_25);
 
     mSwitchId = pTlv->mSwitchId;
+
     if (pTlv->mScale == relive::reliveScale::eHalf)
     {
         SetSpriteScale(FP_FromDouble(0.5));
@@ -73,6 +74,7 @@ void FootSwitch::VUpdate()
         {
             const PSX_RECT bRect = VGetBoundingRect();
 
+            // Have they left the switch or died?
             if (!pLastStoodOnMe || pLastStoodOnMe->mXPos < FP_FromInteger(bRect.x) || pLastStoodOnMe->mXPos > FP_FromInteger(bRect.w) || pLastStoodOnMe->GetDead())
             {
                 mState = States::eWaitForStepOnMe_0;
@@ -125,6 +127,7 @@ BaseAliveGameObject* FootSwitch::WhoIsStoodOnMe()
     else if (mTriggeredBy == relive::Path_FootSwitch::FootSwitchTriggerBy::eAbe)
     {
         const PSX_RECT bRect = gAbe->VGetBoundingRect();
+
         const s32 xpos = FP_GetExponent(gAbe->mXPos);
 
         if (xpos > bRectSwitch.x && xpos < bRectSwitch.w && bRectSwitch.x <= bRect.w && bRectSwitch.w >= bRect.x && bRectSwitch.h >= bRect.y && bRectSwitch.y <= bRect.h && gAbe->GetSpriteScale() == GetSpriteScale())
@@ -132,6 +135,7 @@ BaseAliveGameObject* FootSwitch::WhoIsStoodOnMe()
             return gAbe;
         }
     }
+
     return nullptr;
 }
 

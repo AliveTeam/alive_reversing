@@ -71,136 +71,136 @@ AbilityRing::AbilityRing(FP xpos, FP ypos, RingTypes ringType, FP scale)
 
     switch (mRingType)
     {
-        case RingTypes::eExplosive_Emit_1:
-        case RingTypes::eHealing_Emit_12:
-            for (PSX_RECT& r : mRingCollideRects)
-            {
-                r = {};
-            }
-            [[fallthrough]];
+    case RingTypes::eExplosive_Emit_1:
+    case RingTypes::eHealing_Emit_12:
+        for (PSX_RECT& r : mRingCollideRects)
+        {
+            r = {};
+        }
+        [[fallthrough]];
 
-        case RingTypes::eExplosive_Emit_Effect_2:
-        case RingTypes::eInvisible_Pulse_Emit_9:
-        case RingTypes::eHealing_Emit_Effect_11:
-            mRingThickness = FP_FromInteger(8);
-            mRingSpeed = FP_FromInteger(6);
-            mRingRight = FP_FromInteger(6);
-            mRingLeft = FP_FromInteger(0);
+    case RingTypes::eExplosive_Emit_Effect_2:
+    case RingTypes::eInvisible_Pulse_Emit_9:
+    case RingTypes::eHealing_Emit_Effect_11:
+        mRingThickness = FP_FromInteger(8);
+        mRingSpeed = FP_FromInteger(6);
+        mRingRight = FP_FromInteger(6);
+        mRingLeft = FP_FromInteger(0);
 
-            if (mRingType == RingTypes::eInvisible_Pulse_Emit_9)
-            {
-                mRingRed = 0;
-                mRingGreen = 255;
-                mRingBlue = 32;
-            }
-            else
-            {
-                if (mRingType != RingTypes::eHealing_Emit_Effect_11 && mRingType != RingTypes::eHealing_Emit_12)
-                {
-                    mRingRed = 80;
-                    mRingGreen = 0;
-                    mRingBlue = 0;
-                }
-                else
-                {
-                    mRingRed = 255;
-                    mRingGreen = 255;
-                    mRingBlue = 32;
-                }
-            }
-
-            SfxPlayMono(relive::SoundEffects::IngameTransition, 0);
-            break;
-
-        case RingTypes::eExplosive_Give_3:
-        case RingTypes::eInvisible_Pulse_Give_10:
-        case RingTypes::eHealing_Give_13:
-            mRingThickness = FP_FromInteger(8);
-            mRingSpeed = FP_FromInteger(6);
-            mRingRight = FP_FromInteger(350);
-            mRingLeft = FP_FromInteger(342);
-            if (mRingType == RingTypes::eInvisible_Pulse_Give_10)
-            {
-                mRingRed = 0;
-                mRingGreen = 255;
-                mRingBlue = 32;
-            }
-            else if (mRingType == RingTypes::eHealing_Give_13)
-            {
-                mRingBlue = 32;
-                mRingRed = 255;
-                mRingGreen = 255;
-            }
-            else
+        if (mRingType == RingTypes::eInvisible_Pulse_Emit_9)
+        {
+            mRingRed = 0;
+            mRingGreen = 255;
+            mRingBlue = 32;
+        }
+        else
+        {
+            if (mRingType != RingTypes::eHealing_Emit_Effect_11 && mRingType != RingTypes::eHealing_Emit_12)
             {
                 mRingRed = 80;
                 mRingGreen = 0;
                 mRingBlue = 0;
             }
+            else
+            {
+                mRingRed = 255;
+                mRingGreen = 255;
+                mRingBlue = 32;
+            }
+        }
+
+        SfxPlayMono(relive::SoundEffects::IngameTransition, 0);
+        break;
+
+    case RingTypes::eExplosive_Give_3:
+    case RingTypes::eInvisible_Pulse_Give_10:
+    case RingTypes::eHealing_Give_13:
+        mRingThickness = FP_FromInteger(8);
+        mRingSpeed = FP_FromInteger(6);
+        mRingRight = FP_FromInteger(350);
+        mRingLeft = FP_FromInteger(342);
+        if (mRingType == RingTypes::eInvisible_Pulse_Give_10)
+        {
+            mRingRed = 0;
+            mRingGreen = 255;
+            mRingBlue = 32;
+        }
+        else if (mRingType == RingTypes::eHealing_Give_13)
+        {
+            mRingBlue = 32;
+            mRingRed = 255;
+            mRingGreen = 255;
+        }
+        else
+        {
+            mRingRed = 80;
+            mRingGreen = 0;
+            mRingBlue = 0;
+        }
+        break;
+
+    case RingTypes::eExplosive_Pulse_0:
+    case RingTypes::eShrykull_Pulse_Small_4:
+    case RingTypes::eInvisible_Pulse_Small_7:
+    case RingTypes::eHealing_Pulse_14:
+        SetTarget(gAbe);
+        [[fallthrough]];
+
+    case RingTypes::eShrykull_Pulse_Large_5:
+    case RingTypes::eShrykull_Pulse_Orange_6:
+    case RingTypes::eInvisible_Pulse_Large_8:
+        mRingThickness = FP_FromInteger(5);
+        mRingSpeed = FP_FromInteger(4);
+        mRingRight = FP_FromInteger(4);
+        mRingLeft = FP_FromInteger(0);
+        mRingFadeoutDistance = 50;
+
+        switch (mRingType)
+        {
+        case RingTypes::eExplosive_Pulse_0:
+            mRingRed = 255;
+            mRingGreen = 0;
+            mRingBlue = 0;
             break;
 
-        case RingTypes::eExplosive_Pulse_0:
         case RingTypes::eShrykull_Pulse_Small_4:
-        case RingTypes::eInvisible_Pulse_Small_7:
-        case RingTypes::eHealing_Pulse_14:
-            SetTarget(gAbe);
-            [[fallthrough]];
+            mRingRed = 0;
+            mRingGreen = 0;
+            mRingBlue = 255;
+            break;
 
         case RingTypes::eShrykull_Pulse_Large_5:
+            mRingRed = 0;
+            mRingGreen = 0;
+            mRingBlue = 80;
+            break;
+
         case RingTypes::eShrykull_Pulse_Orange_6:
+            mRingRed = 255;
+            mRingGreen = 128;
+            mRingBlue = 64;
+            break;
+
+        case RingTypes::eInvisible_Pulse_Small_7:
         case RingTypes::eInvisible_Pulse_Large_8:
-            mRingThickness = FP_FromInteger(5);
-            mRingSpeed = FP_FromInteger(4);
-            mRingRight = FP_FromInteger(4);
-            mRingLeft = FP_FromInteger(0);
-            mRingFadeoutDistance = 50;
+            mRingRed = 0;
+            mRingGreen = 255;
+            mRingBlue = 0;
+            break;
 
-            switch (mRingType)
-            {
-                case RingTypes::eExplosive_Pulse_0:
-                    mRingRed = 255;
-                    mRingGreen = 0;
-                    mRingBlue = 0;
-                    break;
-
-                case RingTypes::eShrykull_Pulse_Small_4:
-                    mRingRed = 0;
-                    mRingGreen = 0;
-                    mRingBlue = 255;
-                    break;
-
-                case RingTypes::eShrykull_Pulse_Large_5:
-                    mRingRed = 0;
-                    mRingGreen = 0;
-                    mRingBlue = 80;
-                    break;
-
-                case RingTypes::eShrykull_Pulse_Orange_6:
-                    mRingRed = 255;
-                    mRingGreen = 128;
-                    mRingBlue = 64;
-                    break;
-
-                case RingTypes::eInvisible_Pulse_Small_7:
-                case RingTypes::eInvisible_Pulse_Large_8:
-                    mRingRed = 0;
-                    mRingGreen = 255;
-                    mRingBlue = 0;
-                    break;
-
-                case RingTypes::eHealing_Pulse_14:
-                    mRingBlue = 32;
-                    mRingRed = 255;
-                    mRingGreen = 255;
-                    break;
-
-                default:
-                    break;
-            }
+        case RingTypes::eHealing_Pulse_14:
+            mRingBlue = 32;
+            mRingRed = 255;
+            mRingGreen = 255;
             break;
 
         default:
             break;
+        }
+        break;
+
+    default:
+        break;
     }
 
     mRingPath = gMap.mCurrentPath;

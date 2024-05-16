@@ -1,6 +1,7 @@
 #pragma once
 
 #include "BaseAliveGameObject.hpp"
+#include "../relive_lib/Sfx.hpp"
 
 namespace relive
 {
@@ -33,8 +34,9 @@ public:
     virtual bool VTakeDamage(BaseGameObject* pFrom) override;
 
 private:
-    void InitBlinkAnim();
-    s16 IsColliding();
+    void InitBlinkAnim(Animation* pAnimation);
+    void PlaySFX(relive::SoundEffects sfxIdx);
+    bool IsColliding();
 
 private:
     UXBState mCurrentState = UXBState::eDelay;

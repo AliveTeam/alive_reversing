@@ -4958,18 +4958,18 @@ struct TimerTriggerSaveState final
         return d;
     }
 
-    static ::TimerTriggerStates From(const TimerTriggerStates state)
+    static ::TimerTrigger::TimerTriggerStates From(const TimerTriggerStates state)
     {
         switch (state)
         {
             case TimerTriggerStates::eWaitForEnabled_0:
-                return ::TimerTriggerStates::eWaitForEnabled_0;
+                return ::TimerTrigger::TimerTriggerStates::eWaitForEnabled_0;
             case TimerTriggerStates::eWaitForFirstTrigger_1:
-                return ::TimerTriggerStates::eWaitForFirstTrigger_1;
+                return ::TimerTrigger::TimerTriggerStates::eWaitForFirstTrigger_1;
             case TimerTriggerStates::eCheckForStartAgain_2:
-                return ::TimerTriggerStates::eCheckForStartAgain_2;
+                return ::TimerTrigger::TimerTriggerStates::eCheckForStartAgain_2;
             case TimerTriggerStates::eWaitForSecondTrigger_3:
-                return ::TimerTriggerStates::eWaitForSecondTrigger_3;
+                return ::TimerTrigger::TimerTriggerStates::eWaitForSecondTrigger_3;
         }
         ALIVE_FATAL("Bad timer trigger state value");
     }

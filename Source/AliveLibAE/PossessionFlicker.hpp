@@ -14,8 +14,8 @@ public:
     ~PossessionFlicker();
 
     const Guid& ObjectId() const;
-
 private:
+    Guid mTargetObjId;
     s32 mTimeToFlicker = 0;
 
     s16 mNewRed = 0;
@@ -25,6 +25,4 @@ private:
     s16 mOldRed = 0;
     s16 mOldGreen = 0;
     s16 mOldBlue = 0;
-
-    Guid mTargetObjId;
 };

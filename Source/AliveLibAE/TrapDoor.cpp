@@ -86,14 +86,14 @@ TrapDoor::TrapDoor(relive::Path_TrapDoor* pTlv, const Guid& tlvId)
 
     LoadAnimations();
 
-    mStayOpenTimeTimer = mStayOpenTime;
     mSwitchId = pTlv->mSwitchId;
     mStartState = pTlv->mStartState;
+    mStayOpenTime = pTlv->mStayOpenTime;
 
     const s32 levelIdx = static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel));
 
     AnimId animId = AnimId::None;
-    if (mStartState == SwitchStates_Get(mSwitchId))
+    if (mStartState == SwitchStates_Get(pTlv->mSwitchId))
     {
         mState = TrapDoorState::eOpen_2;
         animId = sTrapDoorData[levelIdx].mOpen;
@@ -159,7 +159,6 @@ TrapDoor::TrapDoor(relive::Path_TrapDoor* pTlv, const Guid& tlvId)
     mBoundingRect.h = pTlv->mBottomRightY;
 
     SetDoPurpleLightEffect(true);
-    mStayOpenTime = pTlv->mStayOpenTime;
 }
 
 void TrapDoor::VRender(OrderingTable& ot)
@@ -271,8 +270,7 @@ void TrapDoor::VUpdate()
 
     case TrapDoorState::eOpen_2:
         mStayOpenTimeTimer--;
-
-        if ((mSelfClosing && mStayOpenTimeTimer + 1 <= 0) || SwitchStates_Get(mSwitchId) != mStartState)
+        if ((mSelfClosing && mStayOpenTimeTimer <= 0) || SwitchStates_Get(mSwitchId) != mStartState)
         {
             GetAnimation().Set_Animation_Data(GetAnimRes(sTrapDoorData[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))].mClosing));
 
@@ -299,6 +297,23 @@ void TrapDoor::VUpdate()
     default:
         return;
     }
+}
+
+void TrapDoor::Add_To_Collisions_Array()
+{
+    mPlatformBaseCollisionLine = gCollisions->Add_Dynamic_Collision_Line(
+        mBoundingRect.x,
+        mBoundingRect.y,
+        mBoundingRect.w,
+        mBoundingRect.y,
+        eLineTypes::eDynamicCollision_32);
+
+    if (GetSpriteScale() != FP_FromInteger(1))
+    {
+        mPlatformBaseCollisionLine->mLineType = eLineTypes::eBackgroundDynamicCollision_36;
+    }
+
+    gPlatformsArray->Push_Back(this);
 }
 
 void TrapDoor::CreateFromSaveState(SerializedObjectData& pData)
@@ -328,21 +343,4 @@ void TrapDoor::VGetSaveState(SerializedObjectData& pSaveBuffer)
     data.mState = mState;
     data.mTlvId = mPlatformBaseTlvInfo;
     pSaveBuffer.Write(data);
-}
-
-void TrapDoor::Add_To_Collisions_Array()
-{
-    mPlatformBaseCollisionLine = gCollisions->Add_Dynamic_Collision_Line(
-        mBoundingRect.x,
-        mBoundingRect.y,
-        mBoundingRect.w,
-        mBoundingRect.y,
-        eLineTypes::eDynamicCollision_32);
-
-    if (GetSpriteScale() != FP_FromInteger(1))
-    {
-        mPlatformBaseCollisionLine->mLineType = eLineTypes::eBackgroundDynamicCollision_36;
-    }
-
-    gPlatformsArray->Push_Back(this);
 }

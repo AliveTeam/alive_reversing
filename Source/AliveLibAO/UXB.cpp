@@ -1,6 +1,6 @@
 #include "stdafx_ao.h"
-#include "../relive_lib/Function.hpp"
 #include "UXB.hpp"
+#include "../relive_lib/Function.hpp"
 #include "Sfx.hpp"
 #include "../AliveLibAE/stdlib.hpp"
 #include "Game.hpp"
@@ -13,6 +13,7 @@
 #include "../relive_lib/data_conversion/relive_tlvs.hpp"
 #include "Map.hpp"
 #include "Path.hpp"
+#include "../relive_lib/Collisions.hpp"
 
 namespace AO {
 
@@ -23,6 +24,19 @@ void UXB::LoadAnimations()
     mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::UXB_Toggle));
     mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::UXB_Active));
     mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Bomb_Flash));
+}
+
+void UXB::PlaySFX(relive::SoundEffects sfxIdx)
+{
+    if (gMap.Is_Point_In_Current_Camera(
+            this->mCurrentLevel,
+            this->mCurrentPath,
+            this->mXPos,
+            this->mYPos,
+            0))
+    {
+        SfxPlayMono(sfxIdx, 35);
+    }
 }
 
 UXB::UXB(relive::Path_UXB* pTlv, const Guid& tlvId)
@@ -70,7 +84,7 @@ UXB::UXB(relive::Path_UXB* pTlv, const Guid& tlvId)
         SetScale(Scale::Fg);
     }
 
-    InitBlinkAnim();
+    InitBlinkAnim(&mFlashAnim);
 
     if (pTlv->mTlvSpecificMeaning) // Stores the activated/deactivated state for UXB
     {
@@ -81,16 +95,7 @@ UXB::UXB(relive::Path_UXB* pTlv, const Guid& tlvId)
             mIsRed = 0;
 
             mFlashAnim.Set_Animation_Data(GetAnimRes(AnimId::Bomb_RedGreenTick));
-
-            if (gMap.Is_Point_In_Current_Camera(
-                    mCurrentLevel,
-                    mCurrentPath,
-                    mXPos,
-                    mYPos,
-                    0))
-            {
-                SfxPlayMono(relive::SoundEffects::GreenTick, 35);
-            }
+            PlaySFX(relive::SoundEffects::GreenTick);
 
             GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::UXB_Disabled));
 
@@ -125,14 +130,25 @@ UXB::UXB(relive::Path_UXB* pTlv, const Guid& tlvId)
     mXPos = FP_FromInteger(pTlv->mTopLeftX + 12);
     mYPos = FP_FromInteger(pTlv->mTopLeftY + 24);
 
+    // Raycasts on ctor to place perfectly on the floor.
+    FP hitX = {};
+    FP hitY = {};
+    if (gCollisions->Raycast(
+            mXPos,
+            FP_FromInteger(pTlv->mTopLeftY),
+            mXPos,
+            FP_FromInteger(pTlv->mTopLeftY + 24),
+            &BaseAliveGameObjectCollisionLine,
+            &hitX,
+            &hitY,
+            GetScale() == Scale::Fg ? kFgFloor : kBgFloor)
+        == 1)
+    {
+        mYPos = hitY;
+    }
+
     mTlvInfo = tlvId;
     mNextStateTimer = sGnFrame;
-
-    if (gMap.mCurrentLevel == EReliveLevelIds::eStockYards || gMap.mCurrentLevel == EReliveLevelIds::eStockYardsReturn)
-    {
-        mIsRed = 0;
-        mRGB.SetRGB(80, 90, 110);
-    }
 
     const FP gridSnap = ScaleToGridSize(GetSpriteScale());
     SetInteractive(true);
@@ -143,17 +159,17 @@ UXB::UXB(relive::Path_UXB* pTlv, const Guid& tlvId)
     mCollectionRect.h = mYPos;
 }
 
-void UXB::InitBlinkAnim()
+void UXB::InitBlinkAnim(Animation* pAnimation)
 {
-    if (mFlashAnim.Init(GetAnimRes(AnimId::Bomb_RedGreenTick), this))
+    if (pAnimation->Init(GetAnimRes(AnimId::Bomb_RedGreenTick), this))
     {
-        mFlashAnim.SetSemiTrans(true);
-        mFlashAnim.SetBlending(true);
+        pAnimation->SetSemiTrans(true);
+        pAnimation->SetBlending(true);
 
-        mFlashAnim.SetRenderLayer(GetAnimation().GetRenderLayer());
-        mFlashAnim.SetSpriteScale(GetSpriteScale());
-        mFlashAnim.SetRGB(128, 128, 128);
-        mFlashAnim.SetBlendMode(relive::TBlendModes::eBlend_1);
+        pAnimation->SetRenderLayer(GetAnimation().GetRenderLayer());
+        pAnimation->SetSpriteScale(GetSpriteScale());
+        pAnimation->SetRGB(128, 128, 128);
+        pAnimation->SetBlendMode(relive::TBlendModes::eBlend_1);
     }
     else
     {
@@ -175,15 +191,8 @@ void UXB::VOnAbeInteraction()
             else
             {
                 mFlashAnim.Set_Animation_Data(GetAnimRes(AnimId::Bomb_RedGreenTick));
-                if (gMap.Is_Point_In_Current_Camera(
-                        mCurrentLevel,
-                        mCurrentPath,
-                        mXPos,
-                        mYPos,
-                        0))
-                {
-                    SfxPlayMono(relive::SoundEffects::GreenTick, 35);
-                }
+                PlaySFX(relive::SoundEffects::GreenTick);
+
                 GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::UXB_Toggle));
                 mCurrentState = UXBState::eDeactivated;
 
@@ -195,15 +204,7 @@ void UXB::VOnAbeInteraction()
             mCurrentState = UXBState::eDelay;
             SetUpdateDelay(6);
             GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::UXB_Active));
-            if (gMap.Is_Point_In_Current_Camera(
-                    mCurrentLevel,
-                    mCurrentPath,
-                    mXPos,
-                    mYPos,
-                    0))
-            {
-                SfxPlayMono(relive::SoundEffects::RedTick, 35);
-            }
+            PlaySFX(relive::SoundEffects::RedTick);
         }
     }
 }
@@ -262,6 +263,7 @@ bool UXB::VTakeDamage(BaseGameObject* pFrom)
             }
             break;
 
+        case ReliveTypes::eMineCar:
         case ReliveTypes::eAbilityRing:
         case ReliveTypes::eAirExplosion:
         case ReliveTypes::eShrykull:
@@ -307,6 +309,10 @@ void UXB::VUpdate()
             }
             break;
 
+        case UXBState::eDeactivated:
+            // Do nothing
+            break;
+
         case UXBState::eActive:
             if (IsColliding())
             {
@@ -346,24 +352,11 @@ void UXB::VUpdate()
               
                 if (mIsRed)
                 {
-                    if (gMap.Is_Point_In_Current_Camera(
-                            mCurrentLevel,
-                            mCurrentPath,
-                            mXPos,
-                            mYPos,
-                            0))
-                    {
-                        SfxPlayMono(relive::SoundEffects::RedTick, 35);
-                    }
+                    PlaySFX(relive::SoundEffects::RedTick);
                 }
-                else if (gMap.Is_Point_In_Current_Camera(
-                             mCurrentLevel,
-                             mCurrentPath,
-                             mXPos,
-                             mYPos,
-                             0))
+                else
                 {
-                    SfxPlayMono(relive::SoundEffects::GreenTick, 35);
+                    PlaySFX(relive::SoundEffects::GreenTick);
                 }
 
                 mCurrentState = UXBState::eDelay;
@@ -404,7 +397,7 @@ void UXB::VUpdate()
     }
 }
 
-s16 UXB::IsColliding()
+bool UXB::IsColliding()
 {
     const PSX_RECT uxbBound = VGetBoundingRect();
 
@@ -416,46 +409,47 @@ s16 UXB::IsColliding()
             break;
         }
 
-        if (pObj->GetCanSetOffExplosives())
+        if (pObj->GetCanSetOffExplosives() && pObj->GetAnimation().GetRender())
         {
-            if (pObj->GetAnimation().GetRender())
+            const PSX_RECT objBound = pObj->VGetBoundingRect();
+
+            const s32 objX = FP_GetExponent(pObj->mXPos);
+            const s32 objY = FP_GetExponent(pObj->mYPos);
+
+            if (objX > uxbBound.x && objX < uxbBound.w && objY < uxbBound.h + 5 && uxbBound.x <= objBound.w && uxbBound.w >= objBound.x && uxbBound.h >= objBound.y && uxbBound.y <= objBound.h && pObj->GetSpriteScale() == GetSpriteScale())
             {
-                const PSX_RECT objBound = pObj->VGetBoundingRect();
-
-                const s32 objX = FP_GetExponent(pObj->mXPos);
-                const s32 objY = FP_GetExponent(pObj->mYPos);
-
-                if (objX > uxbBound.x && objX < uxbBound.w && objY < uxbBound.h + 5 && uxbBound.x <= objBound.w && uxbBound.w >= objBound.x && uxbBound.h >= objBound.y && uxbBound.y <= objBound.h && pObj->GetSpriteScale() == GetSpriteScale())
-                {
-                    return 1;
-                }
+                return true;
             }
         }
     }
-    return 0;
+
+    return false;
 }
 
 void UXB::VRender(OrderingTable& ot)
 {
-    if (gMap.Is_Point_In_Current_Camera(
-            mCurrentLevel,
-            mCurrentPath,
-            mXPos,
-            mYPos,
-            0))
+    if (GetAnimation().GetRender())
     {
-        mFlashAnim.VRender(
-            FP_GetExponent(mXPos
+        if (gMap.Is_Point_In_Current_Camera(
+                mCurrentLevel,
+                mCurrentPath,
+                mXPos,
+                mYPos,
+                0))
+        {
+            mFlashAnim.VRender(
+                FP_GetExponent(mXPos
                            + FP_FromInteger(gScreenManager->mCamXOff)
                            - gScreenManager->mCamPos->x),
-            FP_GetExponent(mYPos
+                FP_GetExponent(mYPos
                            + (FP_FromInteger(gScreenManager->mCamYOff) - FP_NoFractional(GetSpriteScale() * FP_FromInteger(12)))
                            - gScreenManager->mCamPos->y),
-            ot,
-            0,
-            0);
+                ot,
+                0,
+                0);
 
-        BaseAnimatedWithPhysicsGameObject::VRender(ot);
+            BaseAnimatedWithPhysicsGameObject::VRender(ot);
+        }
     }
 }
 

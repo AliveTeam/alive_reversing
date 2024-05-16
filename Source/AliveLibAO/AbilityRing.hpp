@@ -75,7 +75,7 @@ private:
     EReliveLevelIds mRingLevel = EReliveLevelIds::eNone;
     s16 mRingPath = 0;
     RingTypes mRingType = RingTypes::eExplosive_Pulse_0;
-    Guid mRingTargetObjId = {};
+    Guid mRingTargetObjId;
     s32 mRingCount = 64;
     bool mRefreshTargetObjId = false;
 };

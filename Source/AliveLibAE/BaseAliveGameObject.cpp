@@ -274,7 +274,7 @@ void BaseAliveGameObject::VOnPathTransition(s32 camWorldX, s32 camWorldY, Camera
 
     if (GetSpriteScale() == FP_FromInteger(1) && GetAnimation().GetSpriteScale() == FP_FromDouble(0.5))
     {
-        // From 0.5 to 1 scale, f64 velx
+        // From 0.5 to 1 scale, double velx
         mVelX *= FP_FromInteger(2);
         return;
     }

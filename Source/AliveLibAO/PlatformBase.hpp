@@ -18,9 +18,11 @@ public:
     virtual void VAdd(BaseAliveGameObject* pObj);
     virtual void VRemove(BaseAliveGameObject* pObj);
 
+protected:
     void AddDynamicCollision(AnimId animId, relive::Path_TLV* pTlv, const Guid& tlvId);
     void SyncCollisionLinePosition();
 
+protected:
     s32 mPlatformBaseCount = 0;
     s16 mPlatformBaseXOffset = 0;
     s16 mPlatformBaseWidthOffset = 0;

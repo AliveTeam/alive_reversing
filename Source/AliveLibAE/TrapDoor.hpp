@@ -39,14 +39,14 @@ public:
 
     void LoadAnimations();
 
-    virtual void VUpdate() override;
-    virtual void VRender(OrderingTable& ot) override;
-    virtual void VScreenChanged() override;
-    virtual void VGetSaveState(SerializedObjectData& pSaveBuffer) override;
     virtual PSX_RECT VGetBoundingRect() override;
+    virtual void VScreenChanged() override;
     virtual void VAdd(BaseAliveGameObject* pObj) override;
     virtual void VRemove(BaseAliveGameObject* pObj) override;
+    virtual void VRender(OrderingTable& ot) override;
+    virtual void VUpdate() override;
 
+    virtual void VGetSaveState(SerializedObjectData& pSaveBuffer) override;
     static void CreateFromSaveState(SerializedObjectData& pData);
 
 private:

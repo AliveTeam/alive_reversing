@@ -73,6 +73,9 @@ void TimerTrigger::VUpdate()
                 mState = TimerTriggerStates::eWaitForEnabled_0;
             }
             break;
+
+        default:
+            break;
     }
 
     if (EventGet(kEventDeathReset))

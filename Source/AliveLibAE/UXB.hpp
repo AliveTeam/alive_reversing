@@ -55,7 +55,7 @@ public:
 private:
     void InitBlinkAnim(Animation* pAnimation);
     void PlaySFX(relive::SoundEffects sfxIdx);
-    s32 IsColliding();
+    bool IsColliding();
 
 private:
     UXBState mCurrentState = UXBState::eDelay;

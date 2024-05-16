@@ -13,7 +13,7 @@ TimerTrigger::TimerTrigger(relive::Path_TimerTrigger* pTlv, const Guid& tlvId)
     : BaseGameObject(true, 0)
 {
     mTlvInfo = tlvId;
-
+    SetType(ReliveTypes::eTimerTrigger);
     mActivationDelay = pTlv->mActivationDelay;
 
     mOutputSwitchIds[0] = pTlv->mOutputSwitchId1;
@@ -23,22 +23,14 @@ TimerTrigger::TimerTrigger(relive::Path_TimerTrigger* pTlv, const Guid& tlvId)
 
     mInputSwitchId = pTlv->mInputSwitchId;
     mState = TimerTriggerStates::eWaitForEnabled_0;
-
-    if (mInputSwitchId)
-    {
-        mStartingSwitchState = SwitchStates_Get(mInputSwitchId);
-    }
-    else
-    {
-        mStartingSwitchState = 0;
-    }
+    mStartingSwitchState = SwitchStates_Get(mInputSwitchId);
 }
 
 void TimerTrigger::ToggleAllIds()
 {
     for (const auto& id : mOutputSwitchIds)
     {
-        if (id > 1)
+        if (id != 0)
         {
             SwitchStates_Do_Operation(id, relive::reliveSwitchOp::eToggle);
         }

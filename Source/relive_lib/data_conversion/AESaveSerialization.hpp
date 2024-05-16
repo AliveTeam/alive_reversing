@@ -2878,11 +2878,11 @@ inline void from_json(const nlohmann::json& j, SlurgSaveState& p)
     j.at("moving").get_to(p.mMoving);
 }
 
-NLOHMANN_JSON_SERIALIZE_ENUM(TimerTriggerStates, {
-    {TimerTriggerStates::eWaitForEnabled_0, "wait_for_enabled"},
-    {TimerTriggerStates::eWaitForFirstTrigger_1, "wait_for_first_trigger"},
-    {TimerTriggerStates::eCheckForStartAgain_2, "check_for_start_again"},
-    {TimerTriggerStates::eWaitForSecondTrigger_3, "wait_for_second_trigger"},
+NLOHMANN_JSON_SERIALIZE_ENUM(TimerTrigger::TimerTriggerStates, {
+    {TimerTrigger::TimerTriggerStates::eWaitForEnabled_0, "wait_for_enabled"},
+    {TimerTrigger::TimerTriggerStates::eWaitForFirstTrigger_1, "wait_for_first_trigger"},
+    {TimerTrigger::TimerTriggerStates::eCheckForStartAgain_2, "check_for_start_again"},
+    {TimerTrigger::TimerTriggerStates::eWaitForSecondTrigger_3, "wait_for_second_trigger"},
 })
 
 inline void to_json(nlohmann::json& j, const TimerTriggerSaveState& p)

@@ -91,7 +91,7 @@ public:
     }
 
 private:
-    u32 mLastEventIdx = -1;
+    s32 mLastEventIdx = -1;
 };
 
 extern GameSpeak* gEventSystem;

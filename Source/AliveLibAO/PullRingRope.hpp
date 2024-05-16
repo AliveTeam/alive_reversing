@@ -23,8 +23,8 @@ public:
 
 private:
     s32 mStayInStateTicks = 0;
-    Guid mRopeId = {};
-    Guid mRingPullerId = {};
+    Guid mRopeId;
+    Guid mRingPullerId;
     enum class States : s16
     {
         eIdle_0 = 0,

@@ -11,18 +11,11 @@
 
 namespace AO {
 
-void SlogSpawner::VScreenChanged()
-{
-    Path::TLV_Reset(mTlvInfo, mSpawnedSlogsCount);
-    SetDead(true);
-}
 
 SlogSpawner::SlogSpawner(relive::Path_SlogSpawner* pTlv, const Guid& tlvId)
     : BaseGameObject(true, 0)
 {
     mTlvInfo = tlvId;
-    mSpawnTimer = 0;
-
     mScale = pTlv->mScale;
     mMaxSlogs = pTlv->mMaxSlogs;
     mMaxSlogsAtATime = pTlv->mMaxSlogsAtATime;
@@ -34,6 +27,13 @@ SlogSpawner::SlogSpawner(relive::Path_SlogSpawner* pTlv, const Guid& tlvId)
 
     mXPos = FP_FromInteger(pTlv->mTopLeftX);
     mYPos = FP_FromInteger(pTlv->mTopLeftY);
+    mSpawnTimer = 0;
+}
+
+void SlogSpawner::VScreenChanged()
+{
+    Path::TLV_Reset(mTlvInfo, mSpawnedSlogsCount);
+    SetDead(true);
 }
 
 void SlogSpawner::VUpdate()
@@ -47,14 +47,12 @@ void SlogSpawner::VUpdate()
     {
         if (SwitchStates_Get(mSpawnerSwitchId))
         {
-            mSpawnTimer = Math_NextRandom() % 8
-                                 + sGnFrame
-                                 + mSlogSpawnInterval;
+            mSpawnTimer = (sGnFrame + mSlogSpawnInterval) + Math_NextRandom() % 8;
 
             auto pSlog = relive_new Slog(
                     mXPos,
                     mYPos,
-                    mScale != relive::reliveScale::eFull ? FP_FromDouble(0.5) : FP_FromInteger(1));;
+                    mScale != relive::reliveScale::eFull ? FP_FromDouble(0.5) : FP_FromInteger(1));
             if (pSlog)
             {
                 pSlog->GetAnimation().SetFlipX(mStartDirection == relive::Path_SlogSpawner::StartDirection::eLeft);

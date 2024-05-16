@@ -27,8 +27,6 @@ public:
 
     void LoadAnimations();
 
-    void Open();
-
     virtual PSX_RECT VGetBoundingRect() override;
     virtual void VScreenChanged() override;
     virtual void VAdd(BaseAliveGameObject* pObj) override;
@@ -36,6 +34,11 @@ public:
     virtual void VRender(OrderingTable& ot) override;
     virtual void VUpdate() override;
 
+private:
+    void Add_To_Collisions_Array();
+    void Open();
+
+private:
     s32 mStayOpenTimeTimer = 0;
     s16 mSwitchId = 0;
     TrapDoorState mState = TrapDoorState::eClosed_0;

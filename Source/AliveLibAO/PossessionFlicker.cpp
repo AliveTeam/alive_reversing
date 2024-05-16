@@ -76,16 +76,15 @@ void PossessionFlicker::VUpdate()
         return;
     }
 
-    // TODO: Flipped in AE
     if (sGnFrame % 2)
-    {
-        // Flicker to new colour
-        pToApplyFlicker->mRGB.SetRGB(mOldRed, mOldGreen, mOldBlue);
-    }
-    else
     {
         // Flicker to original colour
         pToApplyFlicker->mRGB.SetRGB(mNewRed, mNewGreen, mNewBlue);
+    }
+    else
+    {
+        // Flicker to new colour
+        pToApplyFlicker->mRGB.SetRGB(mOldRed, mOldGreen, mOldBlue);
     }
 }
 

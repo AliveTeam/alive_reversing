@@ -17,7 +17,7 @@ public:
 
     const Guid& ObjectId() const;
 private:
-    Guid mTargetObjId = {};
+    Guid mTargetObjId;
     s32 mTimeToFlicker = 0;
 
     s16 mNewRed = 0;

@@ -35,7 +35,7 @@ private:
 
 public:
     Guid mTlvId;
-    Guid mNozzleId = {};
+    Guid mNozzleId;
     bool mIsButtonOn = false;
 };
 

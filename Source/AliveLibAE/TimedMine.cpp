@@ -111,7 +111,7 @@ TimedMine::TimedMine(relive::Path_TimedMine* pTlv, const Guid& tlvId)
     mTlvInfo = tlvId;
     mExplosionTimer = sGnFrame;
     SetBaseAnimPaletteTint(sTimedMineTint, gMap.mCurrentLevel, PalId::Default); // TODO: Bomb pal removed, check correct
- 
+
     SetInteractive(true);
 
     const FP gridSnap = ScaleToGridSize(GetSpriteScale());

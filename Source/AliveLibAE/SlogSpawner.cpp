@@ -14,7 +14,6 @@ SlogSpawner::SlogSpawner(relive::Path_SlogSpawner* pTlv, const Guid& tlvId)
     : BaseGameObject(true, 0)
 {
     mTlvInfo = tlvId;
-
     mScale = pTlv->mScale;
     mMaxSlogs = pTlv->mMaxSlogs;
     mMaxSlogsAtATime = pTlv->mMaxSlogsAtATime;
@@ -28,7 +27,6 @@ SlogSpawner::SlogSpawner(relive::Path_SlogSpawner* pTlv, const Guid& tlvId)
 
     mXPos = FP_FromInteger(pTlv->mTopLeftX);
     mYPos = FP_FromInteger(pTlv->mTopLeftY);
-
     mSpawnTimer = 0;
 }
 
@@ -49,14 +47,15 @@ void SlogSpawner::VUpdate()
     {
         if (SwitchStates_Get(mSpawnerSwitchId))
         {
-            mSpawnTimer = (mSlogSpawnInterval + sGnFrame) + Math_NextRandom() % 8;
+            mSpawnTimer = (sGnFrame + mSlogSpawnInterval) + Math_NextRandom() % 8;
+
             auto pSlog = relive_new Slog(mXPos, mYPos, mScale != relive::reliveScale::eFull ? FP_FromDouble(0.5) : FP_FromInteger(1), static_cast<s16>(mListenToSligs), mChaseDelay);
             if (pSlog)
             {
                 pSlog->GetAnimation().SetFlipX(mStartDirection == relive::Path_SlogSpawner::StartDirection::eLeft);
             }
 
-            ++mSpawnedSlogsCount;
+            mSpawnedSlogsCount++;
             SfxPlayMono(relive::SoundEffects::SlogSpawn, 0);
 
             if (mSpawnedSlogsCount >= mMaxSlogs)

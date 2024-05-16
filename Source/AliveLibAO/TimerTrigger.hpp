@@ -22,7 +22,7 @@ private:
     void ToggleAllIds();
 
 private:
-    u16 mInputSwitchId = 0;
+    s16 mInputSwitchId = 0;
 
     enum class TimerTriggerStates : s16
     {

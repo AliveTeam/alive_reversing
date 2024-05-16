@@ -77,7 +77,6 @@ FootSwitch::FootSwitch(relive::Path_FootSwitch* pTlv, const Guid& tlvId)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
     SetType(ReliveTypes::eFootSwitch);
-    mStoodOnMeId = Guid{};
 
     LoadAnimations();
 
@@ -98,12 +97,14 @@ FootSwitch::FootSwitch(relive::Path_FootSwitch* pTlv, const Guid& tlvId)
         GetAnimation().SetRenderLayer(Layer::eLayer_BeforeShadow_Half_6);
     }
 
+    mState = States::eWaitForStepOnMe;
     mAction = pTlv->mAction;
     mTriggeredBy = pTlv->mTriggeredBy;
+
     mXPos = FP_FromInteger((pTlv->mTopLeftX + pTlv->mBottomRightX) / 2);
-    mState = States::eWaitForStepOnMe;
-    SetDoPurpleLightEffect(true);
     mYPos = FP_FromInteger(pTlv->mBottomRightY);
+
+    SetDoPurpleLightEffect(true);
     mCreateSparks = false;
     mTlvId = tlvId;
     mFindStander = true;
@@ -204,8 +205,7 @@ void FootSwitch::VUpdate()
             const PSX_RECT bRect = VGetBoundingRect();
 
             // Have they left the switch or died?
-            if (!pLastStoodOnMe || // OG bug: If thing on the switch had died this would de-ref null and crash
-                pLastStoodOnMe->mXPos < FP_FromInteger(bRect.x) || pLastStoodOnMe->mXPos > FP_FromInteger(bRect.w) || pLastStoodOnMe->GetDead())
+            if (!pLastStoodOnMe || pLastStoodOnMe->mXPos < FP_FromInteger(bRect.x) || pLastStoodOnMe->mXPos > FP_FromInteger(bRect.w) || pLastStoodOnMe->GetDead())
             {
                 mState = States::eWaitForStepOnMe;
                 GetAnimation().Set_Animation_Data(GetAnimRes(sFootSwitchAnimIds[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))][0]));

@@ -12,10 +12,11 @@ public:
     CameraSwapper(CamResource& camRes, CameraSwapEffects changeEffect, s32 xpos, s32 ypos);
     ~CameraSwapper();
 
+    virtual void VScreenChanged() override;
+    virtual void VUpdate() override;
+
     void Init(CamResource& camRes, CameraSwapEffects changeEffect);
 
-    virtual void VUpdate() override;
-    virtual void VScreenChanged() override;
 
 private:
     CamResource mCamRes;

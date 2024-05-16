@@ -9,8 +9,8 @@ class SlogSpawner final : public BaseGameObject
 public:
     SlogSpawner(relive::Path_SlogSpawner* pTlv, const Guid& tlvId);
 
-    virtual void VUpdate() override;
     virtual void VScreenChanged() override;
+    virtual void VUpdate() override;
 
 private:
     Guid mTlvInfo;

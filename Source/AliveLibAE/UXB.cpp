@@ -107,14 +107,11 @@ UXB::UXB(relive::Path_UXB* pTlv, const Guid& tlvId)
     // Single out a single digit, and use that digit as the new amount of red blinks before a green one.
     mRedBlinkCount = (mPattern / static_cast<s32>(pow(10, mPatternLength - 1))) % 10;
 
-    if (pTlv->mScale != relive::reliveScale::eFull)
+    if (pTlv->mScale == relive::reliveScale::eHalf)
     {
-        if (pTlv->mScale == relive::reliveScale::eHalf)
-        {
-            SetSpriteScale(FP_FromDouble(0.5));
-            GetAnimation().SetRenderLayer(Layer::eLayer_RollingBallBombMineCar_Half_16);
-            SetScale(Scale::Bg);
-        }
+        SetSpriteScale(FP_FromDouble(0.5));
+        GetAnimation().SetRenderLayer(Layer::eLayer_RollingBallBombMineCar_Half_16);
+        SetScale(Scale::Bg);
     }
     else
     {
@@ -165,13 +162,12 @@ UXB::UXB(relive::Path_UXB* pTlv, const Guid& tlvId)
         }
     }
 
-    FP hitX = {};
-    FP hitY = {};
-
     mXPos = FP_FromInteger((pTlv->mTopLeftX + pTlv->mBottomRightX) / 2);
     mYPos = FP_FromInteger(pTlv->mTopLeftY);
 
     // Raycasts on ctor to place perfectly on the floor.
+    FP hitX = {};
+    FP hitY = {};
     if (gCollisions->Raycast(
             mXPos,
             FP_FromInteger(pTlv->mTopLeftY),
@@ -203,9 +199,10 @@ void UXB::InitBlinkAnim(Animation* pAnimation)
 {
     if (pAnimation->Init(GetAnimRes(AnimId::Bomb_RedGreenTick), this))
     {
-        pAnimation->SetRenderLayer(GetAnimation().GetRenderLayer());
         pAnimation->SetSemiTrans(true);
         pAnimation->SetBlending(true);
+
+        pAnimation->SetRenderLayer(GetAnimation().GetRenderLayer());
         pAnimation->SetSpriteScale(GetSpriteScale());
         pAnimation->SetRGB(128, 128, 128);
         pAnimation->SetBlendMode(relive::TBlendModes::eBlend_1);
@@ -270,18 +267,15 @@ void UXB::VScreenChanged()
 
     if (sControlledCharacter == nullptr || FP_Abs(sControlledCharacter->mYPos - mYPos) > FP_FromInteger(520) || FP_Abs(sControlledCharacter->mXPos - mXPos) > FP_FromInteger(750))
     {
-        if (mStartingState != UXBState::eDeactivated || mCurrentState == UXBState::eDeactivated)
+        if (mStartingState == UXBState::eDeactivated && mCurrentState != UXBState::eDeactivated)
         {
-            if (mStartingState != UXBState::eDelay || mCurrentState != UXBState::eDeactivated)
-            {
-                Path::TLV_Persist(mTlvInfo, 0);
-                SetDead(true);
-            }
-            else
-            {
-                Path::TLV_Persist(mTlvInfo, 1);
-                SetDead(true);
-            }
+            Path::TLV_Persist(mTlvInfo, 1);
+            SetDead(true);
+        }
+        else if (mStartingState != UXBState::eDelay || mCurrentState != UXBState::eDeactivated)
+        {
+            Path::TLV_Persist(mTlvInfo, 0);
+            SetDead(true);
         }
         else
         {
@@ -442,7 +436,7 @@ void UXB::VUpdate()
     }
 }
 
-s32 UXB::IsColliding()
+bool UXB::IsColliding()
 {
     const PSX_RECT uxbBound = VGetBoundingRect();
 
@@ -463,12 +457,12 @@ s32 UXB::IsColliding()
 
             if (objX > uxbBound.x && objX < uxbBound.w && objY < uxbBound.h + 5 && uxbBound.x <= objBound.w && uxbBound.w >= objBound.x && uxbBound.h >= objBound.y && uxbBound.y <= objBound.h && pObj->GetSpriteScale() == GetSpriteScale())
             {
-                return 1;
+                return true;
             }
         }
     }
 
-    return 0;
+    return false;
 }
 
 void UXB::VRender(OrderingTable& ot)
