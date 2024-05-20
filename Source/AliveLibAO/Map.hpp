@@ -97,7 +97,7 @@ public:
 
     relive::Path_TLV* VTLV_Get_At_Of_Type(s16 xpos, s16 ypos, s16 width, s16 height, ReliveTypes typeToFind) override;
 
-    relive::Path_TLV* TLV_Get_At(relive::Path_TLV* pTlv, FP xpos, FP ypos, FP width, FP height);
+    virtual relive::Path_TLV* TLV_Get_At(relive::Path_TLV* pTlv, FP xpos, FP ypos, FP width, FP height) override;
 
     void ResetPathObjects(u16 pathNum);
 

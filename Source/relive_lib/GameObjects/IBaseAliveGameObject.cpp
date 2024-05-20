@@ -4,6 +4,7 @@
 #include "../ObjectIds.hpp"
 #include "../Collisions.hpp"
 #include "../Grid.hpp"
+#include "../Events.hpp"
 
 #include "../../AliveLibAO/PlatformBase.hpp"
 
@@ -243,4 +244,51 @@ bool IBaseAliveGameObject::Check_IsOnEndOfLine(s16 direction, s16 distance)
                &hitY,
                usedMask)
         == 0;
+}
+
+bool IBaseAliveGameObject::IsInInvisibleZone(IBaseAliveGameObject* pObj)
+{
+    /* TODO: Not used in AE but might be possible to activate in AO
+    if (gAbeInvisibleCheat)
+    {
+        return true;
+    }
+    */
+
+    if (EventGet(kEventAbeOhm))
+    {
+        return false;
+    }
+
+    const PSX_RECT bRect = pObj->VGetBoundingRect();
+
+    relive::Path_TLV* pTlv = GetMap().VTLV_Get_At_Of_Type(
+        bRect.x,
+        bRect.y,
+        bRect.w,
+        bRect.h,
+        ReliveTypes::eInvisibleZone
+    );
+
+    while (pTlv)
+    {
+        if (pTlv->mTlvType == ReliveTypes::eInvisibleZone)
+        {
+            if (bRect.x >= pTlv->mTopLeftX && bRect.x <= pTlv->mBottomRightX && bRect.y >= pTlv->mTopLeftY)
+            {
+                if (bRect.y <= pTlv->mBottomRightY && bRect.w >= pTlv->mTopLeftX && bRect.w <= pTlv->mBottomRightX && bRect.h >= pTlv->mTopLeftY && bRect.h <= pTlv->mBottomRightY)
+                {
+                    return true;
+                }
+            }
+        }
+
+        // Check for stacked/overlaping TLV's
+        pTlv = GetMap().TLV_Get_At(pTlv,
+                                     FP_FromInteger(bRect.x),
+                                     FP_FromInteger(bRect.y),
+                                     FP_FromInteger(bRect.w),
+                                     FP_FromInteger(bRect.h));
+    }
+    return false;
 }

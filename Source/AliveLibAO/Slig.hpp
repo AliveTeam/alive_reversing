@@ -244,7 +244,6 @@ public:
     static s16 IsAbeEnteringDoor(IBaseAliveGameObject* pThis);
     static s16 IsWallBetween(Slig* pLeft, IBaseAliveGameObject* pRight);
     static void Slig_GameSpeak_SFX(SligSpeak effectId, s32 defaultVol, s32 pitch_min, IBaseAliveGameObject* pObj);
-    static s16 IsInInvisibleZone(BaseAnimatedWithPhysicsGameObject* pObj);
     void ToStand();
     static s16 IsInZCover(BaseAnimatedWithPhysicsGameObject* pObj);
     void CheckPlatformVanished();

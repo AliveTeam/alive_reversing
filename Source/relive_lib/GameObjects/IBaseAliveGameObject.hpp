@@ -62,6 +62,8 @@ public:
         return (caller->*function)();
     }
 
+    static bool IsInInvisibleZone(IBaseAliveGameObject* pObj);
+
     bool GetCanBePossessed() const { return mCanBePossessed; }
     void SetCanBePossessed(bool val) { mCanBePossessed = val; }
     bool GetPossessed() const { return mPossessed; }

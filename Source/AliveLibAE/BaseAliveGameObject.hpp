@@ -23,7 +23,6 @@ public:
     virtual void VOnPathTransition(s32 camWorldX, s32 camWorldY, CameraPos direction) override;
     virtual void VCheckCollisionLineStillValid(s32 distance);
 
-    static bool IsInInvisibleZone(IBaseAliveGameObject* pObj);
     virtual BirdPortal* VIntoBirdPortal(s16 gridBlocks);
     bool MapFollowMe(bool snapToGrid);
 

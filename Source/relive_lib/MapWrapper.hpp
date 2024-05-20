@@ -161,6 +161,8 @@ public:
 
     virtual relive::Path_TLV* TLV_First_Of_Type_In_Camera(ReliveTypes objectType, s16 camX) = 0;
 
+    virtual relive::Path_TLV* TLV_Get_At(relive::Path_TLV* pTlv, FP xpos, FP ypos, FP width, FP height) = 0;
+
 public:
     MapDirections mMapDirection = MapDirections::eMapLeft_0;
     IBaseAliveGameObject* mAliveObj = nullptr;

@@ -1235,7 +1235,7 @@ s16 Slig::FindBeatTarget(s32 gridBlocks)
         if (pTargetObj != this && pTargetObj->Type() == ReliveTypes::eMudokon)
         {
             const PSX_RECT bRect = pTargetObj->VGetBoundingRect();
-            if (hitRect.w <= bRect.w && hitRect.x >= bRect.x && hitRect.y >= bRect.y && hitRect.h <= bRect.h && !Slig::IsInInvisibleZone(pTargetObj))
+            if (hitRect.w <= bRect.w && hitRect.x >= bRect.x && hitRect.y >= bRect.y && hitRect.h <= bRect.h && !IsInInvisibleZone(pTargetObj))
             {
                 return 1;
             }
@@ -1548,37 +1548,6 @@ void Slig::Slig_GameSpeak_SFX(SligSpeak effectId, s32 defaultVol, s32 pitch_min,
         }
     }
     SFX_SfxDefinition_Play_Mono(sSligGameSpeakSounds[static_cast<s32>(effectId)], volume, pitch_min, pitch_min);
-}
-
-s16 Slig::IsInInvisibleZone(BaseAnimatedWithPhysicsGameObject* pObj)
-{
-    /* TODO: Not used in AE but might be possible to activate in AO
-    if (gAbeInvisibleCheat)
-    {
-        return true;
-    }
-    */
-
-    if (EventGet(kEventAbeOhm))
-    {
-        return false;
-    }
-
-    const PSX_RECT rect = pObj->VGetBoundingRect();
-
-    relive::Path_TLV* pTlv = gMap.VTLV_Get_At_Of_Type(rect.x, rect.y, rect.w, rect.h, ReliveTypes::eInvisibleZone);
-    if (pTlv)
-    {
-        if (rect.x >= pTlv->mTopLeftX && rect.x <= pTlv->mBottomRightX && rect.y >= pTlv->mTopLeftY)
-        {
-            if (rect.y <= pTlv->mBottomRightY && rect.w >= pTlv->mTopLeftX && rect.w <= pTlv->mBottomRightX && rect.h >= pTlv->mTopLeftY && rect.h <= pTlv->mBottomRightY)
-            {
-                return true;
-            }
-        }
-    }
-
-    return false;
 }
 
 void Slig::ToStand()
@@ -4843,7 +4812,7 @@ s16 Slig::Brain_Turning()
 
         const PSX_RECT hitRect = VGetBoundingRect();
 
-        if (!Slig::IsInInvisibleZone(sControlledCharacter)
+        if (!IsInInvisibleZone(sControlledCharacter)
             && !Slig::IsWallBetween(this, sControlledCharacter))
         {
             const PSX_RECT bRect = sControlledCharacter->VGetBoundingRect();
