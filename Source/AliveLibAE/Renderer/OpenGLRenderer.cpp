@@ -151,18 +151,30 @@ void LoadAllExternalTextures(const std::string& dir = "hd/sprites")
     const std::string asset_suffix_flipped = "_flipped.png";
     const std::string asset_suffix_flipped_emissive = "_flipped_emissive.png";
 
+    static const auto invalidEnum = magic_enum::enum_cast<AnimId>(-1);
+
+    u32 hdFoldersCount = 0;
+    for (const auto& rootDir : fs::directory_iterator(dir))
+    {
+        const std::string folderName = rootDir.path().lexically_relative(dir).string();
+        if (rootDir.is_directory() && magic_enum::enum_cast<AnimId>(folderName) != invalidEnum)
+        {
+            hdFoldersCount++;
+        }
+    }
+
+    u32 loadedHdFoldersCount = 0;
     for (const auto& rootDir : fs::directory_iterator(dir))
     {
         if (rootDir.is_directory())
         {
             const std::string folderName = rootDir.path().lexically_relative(dir).string();
 
-            printf("External Dir: %s\n", folderName.c_str());
+            printf("[%d/%d] Loading animation %s from external directory\n", loadedHdFoldersCount + 1, hdFoldersCount, folderName.c_str());
 
             std::string assetDirectory = dir + "/" + folderName + "/";
 
             // check if with magic_enum if we have a valid enum
-            static const auto invalidEnum = magic_enum::enum_cast<AnimId>(-1);
             if (magic_enum::enum_cast<AnimId>(folderName) != invalidEnum)
             {
                 AnimId id = magic_enum::enum_cast<AnimId>(folderName).value();
@@ -194,6 +206,8 @@ void LoadAllExternalTextures(const std::string& dir = "hd/sprites")
                     if (fs::exists(flippedEmissive))
                         gLoadedExternalTextures[id].textures_flipped_emissive[i] = LoadTextureCacheFile(flippedEmissive);
                 }
+
+                loadedHdFoldersCount++;
             }
             else
             {
