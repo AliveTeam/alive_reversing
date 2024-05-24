@@ -1606,6 +1606,7 @@ Camera* Map::Create_Camera_445BE0(s16 xpos, s16 ypos, s32 /*a4*/)
 
 void Map::Create_FG1s_4447D0()
 {
+    /*
     pScreenManager_4FF7C8->UnsetDirtyBits_FG1_406EF0();
 
     Camera* pCamera = field_34_camera_array[0];
@@ -1619,6 +1620,7 @@ void Map::Create_FG1s_4447D0()
 
         if (*ppRes)
         {
+            
             ResourceManager::Header* pHeader = ResourceManager::Get_Header_455620(ppRes);
             if (pHeader->field_8_type == ResourceManager::Resource_FG1)
             {
@@ -1627,6 +1629,7 @@ void Map::Create_FG1s_4447D0()
             }
         }
     }
+    */
 }
 
 // OG only allows for 30 paths, given the editor allows for the full 99 we have to use a bigger array in a non ABI breaking way
