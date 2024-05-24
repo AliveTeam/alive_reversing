@@ -239,8 +239,9 @@ EXPORT void CC Get_fmvs_sectors_44FEB0(const char_type* pMovieName1, const char_
     }
 }
 
-Movie* Movie::ctor_489C90(s32 id, s32 /*pos*/, s8 bUnknown, s32 /*flags*/, s16 volume)
+Movie* Movie::ctor_489C90(s32 /* id*/, s32 /*pos*/, s8 /* bUnknown*/, s32 /*flags*/, s16 /* volume*/)
 {
+    /*
     AE_IMPLEMENTED();
 
 
@@ -251,7 +252,7 @@ Movie* Movie::ctor_489C90(s32 id, s32 /*pos*/, s8 bUnknown, s32 /*flags*/, s16 v
     field_6_flags.Set(Options::eSurviveDeathReset_Bit9);
     field_6_flags.Set(Options::eUpdateDuringCamSwap_Bit10);
 
-    /*
+    
     // TODO: FIX MOI
     PSX_Pos_To_CdLoc_49B340(pos, &loc);
 
@@ -263,7 +264,7 @@ Movie* Movie::ctor_489C90(s32 id, s32 /*pos*/, s8 bUnknown, s32 /*flags*/, s16 v
     field_35 = BYTE1(sMovie_ref_count_9F309C);
     field_36 = sMovie_ref_count_9F309C;
     field_34_min = sMovie_ref_count_9F309C;
-    */
+    
 
     field_28 = id;
     field_4_typeId = Types::eMovie_100;
@@ -276,7 +277,9 @@ Movie* Movie::ctor_489C90(s32 id, s32 /*pos*/, s8 bUnknown, s32 /*flags*/, s16 v
     ResourceManager::Reclaim_Memory_455660(0);
 
     IO_Init_494230(); // Set up IO funcs
+    */
 
+    field_6_flags.Set(BaseGameObject::Options::eDead_Bit3);
     return this;
 }
 

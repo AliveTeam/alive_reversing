@@ -673,14 +673,18 @@ void Movie::Init_4DFF60(s32 id, CdlLOC* pCdPos, s16 bUnknown, s16 flags, s16 vol
     ResourceManager::Reclaim_Memory_49C470(0);
 }
 
-Movie* Movie::ctor_4DFDE0(s32 id, u32 pos, s16 bUnknown, s16 flags, s16 volume)
+Movie* Movie::ctor_4DFDE0(s32 /*id*/, u32 /*pos*/, s16 /*bUnknown*/, s16 /*flags*/, s16 /*volume*/)
 {
+    /*
     BaseGameObject_ctor_4DBFA0(TRUE, 0);
     SetVTable(this, 0x547EF4); // vTbl_Movie_547EF4
 
     CdlLOC cdLoc = {};
     PSX_Pos_To_CdLoc_4FADD0(pos, &cdLoc);
     Init_4DFF60(id, &cdLoc, bUnknown, flags, volume);
+    */
+
+    field_6_flags.Set(BaseGameObject::Options::eDead_Bit3);
     return this;
 }
 
