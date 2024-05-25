@@ -40,7 +40,7 @@ void UXB::PlaySFX(relive::SoundEffects sfxIdx)
 }
 
 UXB::UXB(relive::Path_UXB* pTlv, const Guid& tlvId)
-    : BaseAliveGameObject()
+    : BaseAliveGameObject(0)
 {
     SetType(ReliveTypes::eUXB);
 

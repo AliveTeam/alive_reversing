@@ -13,6 +13,7 @@ class Map;
 class PlatformBase : public BaseAliveGameObject
 {
 public:
+    PlatformBase();
     ~PlatformBase();
 
     virtual void VAdd(BaseAliveGameObject* pObj);

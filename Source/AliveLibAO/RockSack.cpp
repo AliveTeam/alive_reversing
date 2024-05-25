@@ -25,7 +25,7 @@ void RockSack::LoadAnimations()
 }
 
 RockSack::RockSack(relive::Path_RockSack* pTlv, const Guid& tlvId)
-    : BaseAliveGameObject()
+    : BaseAliveGameObject(0)
 {
     SetType(ReliveTypes::eRockSack);
 

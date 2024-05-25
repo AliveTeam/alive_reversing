@@ -7,6 +7,21 @@
 enum class LevelIds : s16;
 enum class CameraSwapEffects : s16;
 
+
+
+
+class BirdPortalTerminator final : public ::BaseAnimatedWithPhysicsGameObject
+{
+public:
+    BirdPortalTerminator(FP xpos, FP ypos, FP scale, relive::Path_BirdPortal::PortalType portalType);
+
+    void LoadAnimations();
+
+    virtual void VScreenChanged() override; 
+
+    void Fadeout();
+};
+
 enum class PortalStates : s16
 {
     CreatePortal_0 = 0,
@@ -42,17 +57,6 @@ struct BirdPortalSaveState final : public SaveStateBase
     PortalStates mState;
     u8 mMudCountForShrykull;
     Guid mTlvInfo;
-};
-
-class BirdPortalTerminator final : public ::BaseAnimatedWithPhysicsGameObject
-{
-public:
-    BirdPortalTerminator(FP xpos, FP ypos, FP scale, relive::Path_BirdPortal::PortalType portalType);
-    virtual void VScreenChanged() override;
-    
-    void LoadAnimations();
-
-    void Fadeout();
 };
 
 class OrbWhirlWind;
@@ -103,13 +107,14 @@ public:
     FP mExitY = {};
 
     FP mHitY = {};
-
+    Guid mTlvInfo;
 private:
     Guid mThrowableTotalIndicator = Guid{};
     Guid mDoveIds[6] = {};
     s32 mTimer = 0;
     FP mSpriteScale = {};
-    bool mDovesExist = false;
+    s16 mMovieId = 0;
+
     Guid mTerminatorId1 = Guid{};   // object pointer in AO
     Guid mTerminatorId2 = Guid{};   // object pointer in AO
     Guid mScreenClipperId1 = Guid{}; // object pointer in AO
@@ -117,13 +122,13 @@ private:
     EReliveLevelIds mExitLevel = EReliveLevelIds::eNone;
     s16 mExitPath = 0;
     s16 mExitCamera = 0;
-    s16 mMovieId = 0;
     s16 mMudCountForShrykull = 0;
     s16 mDeletePortalSwitchId = 0; // AE only
-    Guid mTlvInfo;
+
     s16 mReceivedDovesCount = 0;
     OrbWhirlWind* mOrbWhirlWind = nullptr;
     EReliveLevelIds mCurrentLevel = EReliveLevelIds::eNone;
     s16 mCurrentPath = 0;
     s32 mSfxPlaying = 0;
+    bool mDovesExist = false;
 };

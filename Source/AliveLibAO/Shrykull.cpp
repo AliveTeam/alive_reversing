@@ -46,7 +46,7 @@ void Shrykull::LoadAnimations()
 }
 
 Shrykull::Shrykull()
-    : BaseAliveGameObject()
+    : BaseAliveGameObject(0)
 {
     SetType(ReliveTypes::eShrykull);
 

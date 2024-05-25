@@ -137,7 +137,7 @@ s16 sAlertedMudCount_507B90 = 0;
 s16 sMudRunningToPortalCount_507B94 = 0;
 
 Mudokon::Mudokon(relive::Path_TLV* pTlv, const Guid& tlvId)
-    : BaseAliveGameObject()
+    : BaseAliveGameObject(0)
 {
     field_13E = -1;
     mNextMotion = eMudMotions::None_m1;

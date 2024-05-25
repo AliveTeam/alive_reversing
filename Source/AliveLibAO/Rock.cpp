@@ -16,7 +16,6 @@
 namespace AO {
 
 Rock::Rock(FP xpos, FP ypos, s16 count)
-    : BaseThrowable()
 {
     SetType(ReliveTypes::eRock);
 

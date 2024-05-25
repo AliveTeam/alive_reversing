@@ -35,6 +35,11 @@ BaseThrowable* Make_Throwable(FP xpos, FP ypos, s16 count)
     }
 }
 
+BaseThrowable::BaseThrowable()
+ : BaseAliveGameObject(0)
+{
+
+}
 
 void BaseThrowable::BaseAddToPlatform()
 {

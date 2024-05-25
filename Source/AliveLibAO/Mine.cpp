@@ -26,7 +26,7 @@ void Mine::LoadAnimations()
 }
 
 Mine::Mine(relive::Path_Mine* pTlv, const Guid& tlvId)
-    : BaseAliveGameObject()
+    : BaseAliveGameObject(0)
 {
     SetType(ReliveTypes::eMine);
 

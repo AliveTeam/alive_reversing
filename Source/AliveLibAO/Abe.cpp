@@ -521,6 +521,7 @@ void Abe::LoadAnimations()
 }
 
 Abe::Abe()
+ : BaseAliveGameObject(0)
 {
     SetType(ReliveTypes::eAbe);
     SetSurviveDeathReset(true);

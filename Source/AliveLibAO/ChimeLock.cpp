@@ -25,7 +25,7 @@ namespace AO {
 const s32 dword_4C5054[11] = {0, 1, 10, 100, 1000, 10000, 100000, 1000000, 10000000, 100000000, 1000000000};
 
 ChimeLock::ChimeLock(relive::Path_ChimeLock* pTlv, const Guid& tlvId)
-    : BaseAliveGameObject()
+    : BaseAliveGameObject(0)
 {
     SetType(ReliveTypes::eChimeLock);
 

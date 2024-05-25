@@ -3461,7 +3461,7 @@ void Elum::LoadAnimations()
 }
 
 Elum::Elum(const Guid& tlvInfo)
-    : BaseAliveGameObject()
+    : BaseAliveGameObject(0)
 {
     SetType(ReliveTypes::eElum);
 

@@ -43,7 +43,7 @@ void SlingMudokon::LoadAnimations()
 }
 
 SlingMudokon::SlingMudokon(relive::Path_SlingMudokon* pTlv, const Guid& tlvId)
-    : BaseAliveGameObject(),
+    : BaseAliveGameObject(0),
     mGiveCodeBrain(*this),
     mSpawnBrain(*this),
     mAskForPasswordBrain(*this)

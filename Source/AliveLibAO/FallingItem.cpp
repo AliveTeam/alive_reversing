@@ -66,7 +66,7 @@ void FallingItem::LoadAnimations()
 }
 
 FallingItem::FallingItem(relive::Path_FallingItem* pTlv, const Guid& tlvId)
-    : BaseAliveGameObject()
+    : BaseAliveGameObject(0)
 {
     SetCanExplode(true);
 

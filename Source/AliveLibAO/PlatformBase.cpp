@@ -10,6 +10,12 @@
 namespace AO {
 
 
+PlatformBase::PlatformBase()
+    : BaseAliveGameObject(0)
+{
+
+}
+
 void PlatformBase::VAdd(BaseAliveGameObject* /*pObj*/)
 {
     mPlatformBaseCount++;

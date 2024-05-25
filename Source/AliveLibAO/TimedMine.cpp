@@ -48,7 +48,7 @@ void TimedMine::LoadAnimations()
 }
 
 TimedMine::TimedMine(relive::Path_TimedMine* pTlv, const Guid& tlvId)
-    : BaseAliveGameObject()
+    : BaseAliveGameObject(0)
 {
     if (GetGameType() == GameType::eAe)
     {

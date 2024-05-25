@@ -210,7 +210,7 @@ void Slig::LoadAnimations()
 }
 
 Slig::Slig(relive::Path_Slig* pTlv, const Guid& tlvId)
-    : BaseAliveGameObject()
+    : BaseAliveGameObject(0)
 {
     field_210_resources = {};
 

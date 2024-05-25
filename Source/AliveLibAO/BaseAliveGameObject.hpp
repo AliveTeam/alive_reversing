@@ -14,15 +14,15 @@ class BirdPortal;
 class BaseAliveGameObject : public IBaseAliveGameObject
 {
 public:
-    BaseAliveGameObject();
+    explicit BaseAliveGameObject(s16 resourceArraySize);
     ~BaseAliveGameObject();
 
     virtual void VOnPathTransition(s32 camWorldX, s32 camWorldY, CameraPos direction) override;
     virtual void VCheckCollisionLineStillValid(s32 distance);
 
-    virtual void VSetXSpawn(s16 camWorldX, s32 screenXPos) override;
-    virtual void VSetYSpawn(s32 camWorldY, s16 bLeft) override;
-    virtual BirdPortal* VIntoBirdPortal(s16 distance);
+    virtual void VSetXSpawn(s16 camWorldX, s32 screenXPos) override; // AO
+    virtual void VSetYSpawn(s32 camWorldY, s16 bLeft) override; // AO
+    virtual BirdPortal* VIntoBirdPortal(s16 gridBlocks);
 
     bool MapFollowMe(bool snapToGrid);
 
@@ -33,7 +33,7 @@ protected:
     bool InAirCollision(PathLine** ppLine, FP* hitX, FP* hitY, FP velY);
     BaseGameObject* FindObjectOfType(ReliveTypes typeToFind, FP xpos, FP ypos);
 
-    void UsePathTransScale();
+    void UsePathTransScale(); // AO
 };
 
 } // namespace AO

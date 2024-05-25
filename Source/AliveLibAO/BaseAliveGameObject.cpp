@@ -15,8 +15,8 @@
 
 namespace AO {
 
-BaseAliveGameObject::BaseAliveGameObject()
-    : IBaseAliveGameObject(0)
+BaseAliveGameObject::BaseAliveGameObject(s16 resourceArraySize)
+    : IBaseAliveGameObject(resourceArraySize)
 {
     SetCanBePossessed(false);
     SetPossessed(false);
@@ -454,12 +454,14 @@ void BaseAliveGameObject::VOnPathTransition(s32 camWorldX, s32 camWorldY, Camera
 
     if (GetSpriteScale() == FP_FromInteger(1) && GetAnimation().GetSpriteScale() == FP_FromDouble(0.5))
     {
+        // From 0.5 to 1 scale, double velx
         mVelX *= FP_FromInteger(2);
         return;
     }
 
     if (GetSpriteScale() == FP_FromDouble(0.5) && GetAnimation().GetSpriteScale() == FP_FromInteger(1))
     {
+        // From 1 to 0.5 scale, halve velx
         mVelX *= FP_FromDouble(0.5);
         return;
     }
@@ -508,8 +510,8 @@ bool BaseAliveGameObject::MapFollowMe(bool snapToGrid)
             // Go to the right camera in under player control
             if (sControlledCharacter == this && gMap.SetActiveCameraDelayed(MapDirections::eMapRight_1, this, -1))
             {
-                mCurrentPath = gMap.mCurrentPath;
                 mCurrentLevel = gMap.mCurrentLevel;
+                mCurrentPath = gMap.mCurrentPath;
                 return true;
             }
             else
@@ -674,13 +676,16 @@ BaseGameObject* BaseAliveGameObject::FindObjectOfType(ReliveTypes typeToFind, FP
             break;
         }
 
-        if (pObj->Type() == typeToFind)
+        if (pObj->Type() == typeToFind && pObj != this)
         {
             auto pCasted = static_cast<BaseAnimatedWithPhysicsGameObject*>(pObj);
-            const PSX_RECT bRect = pCasted->VGetBoundingRect();
-            if (xpos_int >= bRect.x && xpos_int <= bRect.w && ypos_int >= bRect.y && ypos_int <= bRect.h)
+            if (pCasted->GetScale() == GetScale())
             {
-                return pObj;
+                const PSX_RECT bRect = pCasted->VGetBoundingRect();
+                if (xpos_int >= bRect.x && xpos_int <= bRect.w && ypos_int >= bRect.y && ypos_int <= bRect.h)
+                {
+                    return pObj;
+                }
             }
         }
     }

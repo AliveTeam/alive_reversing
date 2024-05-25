@@ -20,7 +20,6 @@ namespace AO {
 bool gInfiniteGrenades = false;
 
 Grenade::Grenade(FP xpos, FP ypos, s16 numGrenades)
-    : BaseThrowable()
 {
     mBaseThrowableDead = 0;
     SetType(ReliveTypes::eGrenade);

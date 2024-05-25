@@ -61,7 +61,7 @@ const TParamiteMotionFunction sParamiteMotionTable[] = {
 };
 
 Paramite::Paramite(relive::Path_Paramite* pTlv, const Guid& tlvId)
-    : BaseAliveGameObject()
+    : BaseAliveGameObject(0)
 {
     SetType(ReliveTypes::eParamite);
 

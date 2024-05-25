@@ -31,7 +31,7 @@ static const TintEntry kMovingBombTints[4] = {
 static MovingBomb* sMovingBomb = nullptr;
 
 MovingBomb::MovingBomb(relive::Path_MovingBomb* pTlv, const Guid& tlvId)
-    : BaseAliveGameObject()
+    : BaseAliveGameObject(0)
 {
     SetCanExplode(true);
     SetType(ReliveTypes::eTimedMine);

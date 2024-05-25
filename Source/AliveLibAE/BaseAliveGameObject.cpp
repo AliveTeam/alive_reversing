@@ -29,6 +29,8 @@ BaseAliveGameObject::BaseAliveGameObject(s16 resourceArraySize)
     SetTeleporting(false);
     SetElectrocuting(false);
 
+    SetCanBeesChase(false);
+
     gBaseAliveGameObjects->Push_Back(this);
 
     SetIsBaseAliveGameObject(true);
@@ -252,7 +254,7 @@ void BaseAliveGameObject::VOnPathTransition(s32 camWorldX, s32 camWorldY, Camera
         }
         else
         {
-            BaseAliveGameObjectLastLineYPos = mYPos - oldY + BaseAliveGameObjectLastLineYPos;
+            BaseAliveGameObjectLastLineYPos += mYPos - oldY;
             if (gCollisions->Raycast(
                     mXPos,
                     BaseAliveGameObjectLastLineYPos - FP_FromInteger(40),
@@ -263,7 +265,7 @@ void BaseAliveGameObject::VOnPathTransition(s32 camWorldX, s32 camWorldY, Camera
                     &hitY,
                     PerGameScale() == Scale::Fg ? kFgFloor : kBgFloor))
             {
-                mYPos = hitY - BaseAliveGameObjectLastLineYPos + mYPos;
+                mYPos += hitY - BaseAliveGameObjectLastLineYPos;
             }
             else
             {
@@ -443,9 +445,20 @@ bool BaseAliveGameObject::VOnPlatformIntersection(BaseAnimatedWithPhysicsGameObj
         return true;
     }
 
-    static_cast<PlatformBase*>(pPlatform)->VAdd(this);
+    // OG bug fix, when we call VCheckCollisionLineStillValid it can place us on a new lift
+    // but then we call OnCollisionWith which can sometimes add us to the same lift again
+    // result in the lift being leaked and then memory corruption/crash later.
+    BaseAliveGameObject* pCurrentPlatform = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
+    if (pCurrentPlatform != pPlatform)
+    {
+        static_cast<PlatformBase*>(pPlatform)->VAdd(this);
+        BaseAliveGameObject_PlatformId = pPlatform->mBaseGameObjectId;
+    }
+    else
+    {
+        LOG_WARNING("Trying to add to a platform we are already on");
+    }
 
-    BaseAliveGameObject_PlatformId = pPlatform->mBaseGameObjectId;
     return true;
 }
 

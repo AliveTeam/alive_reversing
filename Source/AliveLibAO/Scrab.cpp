@@ -35,7 +35,7 @@ const TScrabMotionFunction sScrabMotionTable[30] = {
 };
 
 Scrab::Scrab(relive::Path_Scrab* pTlv, const Guid& tlvId)
-    : BaseAliveGameObject()
+    : BaseAliveGameObject(0)
 {
     SetType(ReliveTypes::eScrab);
 

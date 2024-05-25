@@ -83,7 +83,7 @@ void Slog::LoadAnimations()
 }
 
 Slog::Slog(relive::Path_Slog* pTlv, const Guid& tlvId)
-    : BaseAliveGameObject()
+    : BaseAliveGameObject(0)
 {
     LoadAnimations();
     mXPos = FP_FromInteger(pTlv->mTopLeftX);
@@ -126,7 +126,7 @@ Slog::Slog(relive::Path_Slog* pTlv, const Guid& tlvId)
 }
 
 Slog::Slog(FP xpos, FP ypos, FP scale)
-    : BaseAliveGameObject()
+    : BaseAliveGameObject(0)
 {
     LoadAnimations();
     mXPos = xpos;

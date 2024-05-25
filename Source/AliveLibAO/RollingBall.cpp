@@ -42,7 +42,7 @@ RollingBall::~RollingBall()
 }
 
 RollingBall::RollingBall(relive::Path_RollingBall* pTlv, const Guid& tlvId)
-    : BaseAliveGameObject()
+    : BaseAliveGameObject(0)
 {
     SetType(ReliveTypes::eRollingBall);
     

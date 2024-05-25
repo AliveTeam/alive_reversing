@@ -8,14 +8,13 @@ class Path_TLV;
 
 class PathLine;
 
+enum class CameraPos : s16;
 class PlatformBase;
 class BirdPortal;
 
-enum class CameraPos : s16;
 
 class BaseAliveGameObject : public IBaseAliveGameObject
 {
-
 public:
     explicit BaseAliveGameObject(s16 resourceArraySize);
     ~BaseAliveGameObject();
@@ -30,10 +29,10 @@ public:
 
 protected:
 
-    bool InAirCollision(PathLine** ppPathLine, FP* hitX, FP* hitY, FP velY);
+    bool InAirCollision(PathLine** ppLine, FP* hitX, FP* hitY, FP velY);
     BaseGameObject* FindObjectOfType(ReliveTypes typeToFind, FP xpos, FP ypos);
 
-    BaseAliveGameObject* GetStackedSlapTarget(const Guid& idToFind, ReliveTypes typeToFind, FP xpos, FP ypos);
+    BaseAliveGameObject* GetStackedSlapTarget(const Guid& idToFind, ReliveTypes typeToFind, FP xpos, FP ypos); // AE
 public:
     s16 BaseAliveGameObjectCollisionLineType = 0; // AE only, quick save data
 };

@@ -60,7 +60,7 @@ void SecurityClaw::LoadAnimations()
 }
 
 SecurityClaw::SecurityClaw(relive::Path_SecurityClaw* pTlv, const Guid& tlvId)
-    : BaseAliveGameObject()
+    : BaseAliveGameObject(0)
 {
     SetType(ReliveTypes::eSecurityClaw);
 
