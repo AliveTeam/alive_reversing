@@ -845,7 +845,8 @@ void BirdPortal::VGetMapChange(EReliveLevelIds* level, u16* path, u16* camera, C
         return;
     }
 
-    // Negative cases - dead code ??
+    // Negative cases
+    // mMovieId -3 is for when you return from paramonia and -4 is for scrabania
     if (gAbe->mParamoniaDone && gAbe->mScrabaniaDone)
     {
         *movieId = 1617 - (10000 * mMovieId);

@@ -622,6 +622,7 @@ SET(data_conversion_src
     data_conversion/fmv_converter.hpp
     data_conversion/LvlReaderWriter.hpp
     data_conversion/CommonTypesSerialization.hpp
+    data_conversion/TLVConverter.hpp
 )
 
 source_group("Source Files/AE"               FILES ${AliveLibAESrc})

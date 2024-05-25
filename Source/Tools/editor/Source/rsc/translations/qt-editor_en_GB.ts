@@ -958,7 +958,7 @@ Do you want to overwrite it?</source>
     </message>
 </context>
 <context>
-    <name>Path_BoomMachine_NozzleSideEnum</name>
+    <name>Path_BoomMachine_PipeSideEnum</name>
     <message>
         <source>Right</source>
         <translation type="unfinished"></translation>
