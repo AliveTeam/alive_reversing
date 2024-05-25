@@ -58,7 +58,7 @@ public:
     virtual void VStopAudio() override;
     virtual void VGetSaveState(SerializedObjectData& pSaveBuffer) override;
 
-    virtual s16 VPortalClipper(s16 bUnknown);
+    virtual bool VPortalClipper(bool bIgnoreClipping);
     virtual void VKillPortalClipper();
     virtual void VMudSaved();
     virtual bool VActivePortal();
@@ -99,10 +99,10 @@ private:
     FP mSpriteScale = {};
     s16 mMovieId = 0;
 
-    Guid mTerminatorId1 = Guid{};   // object pointer in AO
-    Guid mTerminatorId2 = Guid{};   // object pointer in AO
-    Guid mScreenClipperId1 = Guid{}; // object pointer in AO
-    Guid mScreenClipperId2 = Guid{}; // object pointer in AO
+    Guid mTerminatorId1 = Guid{};
+    Guid mTerminatorId2 = Guid{};
+    Guid mScreenClipperId1 = Guid{};
+    Guid mScreenClipperId2 = Guid{};
     EReliveLevelIds mExitLevel = EReliveLevelIds::eNone;
     s16 mExitPath = 0;
     s16 mExitCamera = 0;

@@ -14,6 +14,7 @@ BirdPortalTerminator::BirdPortalTerminator(FP xpos, FP ypos, FP scale, relive::P
     SetType(ReliveTypes::eEyeOrbPart);
 
     LoadAnimations();
+
     Animation_Init(GetAnimRes(AnimId::BirdPortal_TerminatorGrow));
 
     GetAnimation().SetBlendMode(relive::TBlendModes::eBlend_1);

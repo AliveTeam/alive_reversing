@@ -52,7 +52,7 @@ public:
     virtual void VScreenChanged() override;
     virtual void VStopAudio() override;
 
-    virtual s16 VPortalClipper(s16 bUnknown);
+    virtual bool VPortalClipper(bool bIgnoreClipping);
     virtual void VKillPortalClipper();
     virtual void VMudSaved();
     virtual bool VActivePortal();
@@ -80,15 +80,15 @@ public:
     FP mHitY = {};
     Guid mTlvInfo;
 private:
-    ThrowableTotalIndicator* mThrowableTotalIndicator = nullptr;
-    DynamicArrayT<Dove>* mDovesArray = {};
+    Guid mThrowableTotalIndicator = Guid{};
+    Guid mDoveIds[6] = {};
     s32 mTimer = 0;
     FP mSpriteScale = {};
     s16 mMovieId = 0;
-    class BirdPortalTerminator* mTerminator1 = nullptr;
-    class BirdPortalTerminator* mTerminator2 = nullptr;
-    ScreenClipper* mScreenClipper1 = nullptr;
-    ScreenClipper* mScreenClipper2 = nullptr;
+    Guid mTerminatorId1 = Guid{};
+    Guid mTerminatorId2 = Guid{};
+    Guid mScreenClipperId1 = Guid{};
+    Guid mScreenClipperId2 = Guid{};
     EReliveLevelIds mExitLevel = EReliveLevelIds::eNone;
     s16 mExitPath = 0;
     s16 mExitCamera = 0;
