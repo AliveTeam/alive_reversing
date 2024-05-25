@@ -425,10 +425,10 @@ void BirdPortal::VUpdate()
         case PortalStates::GetShrykull_9:
             if (static_cast<s32>(sGnFrame) >= mTimer)
             {
-                gAbe->field_168_ring_pulse_timer = MakeTimer(32000);
-                gAbe->field_16C_bHaveShrykull = true;
+                gAbe->mRingPulseTimer = MakeTimer(32000);
+                gAbe->mHaveShrykull = true;
                 mState = PortalStates::CollapseTerminators_10;
-				if (gAbe->mCurrentMotion == eAbeMotions::Motion_150_Chant)
+                if (gAbe->mCurrentMotion == eAbeMotions::Motion_150_Chant)
                 {
                     gAbe->ChangeChantState(0);
                 }
@@ -675,7 +675,10 @@ void BirdPortal::VGiveShrykull(s16 bPlaySound)
 
 void BirdPortal::VScreenChanged()
 {
-    if (mState <= PortalStates::IdlePortal_1 || mState >= PortalStates::KillPortalClipper_21 || ((gMap.LevelChanged() || gMap.PathChanged()) && (mState != PortalStates::AbeInsidePortal_16 || mPortalType != relive::Path_BirdPortal::PortalType::eAbe || gMap.mNextLevel != mExitLevel || gMap.mNextPath != mExitPath)))
+    if (mState <= PortalStates::IdlePortal_1 ||
+        mState >= PortalStates::KillPortalClipper_21 ||
+        ((gMap.LevelChanged() || gMap.PathChanged()) &&
+        (mState != PortalStates::AbeInsidePortal_16 || mPortalType != relive::Path_BirdPortal::PortalType::eAbe || gMap.mNextLevel != mExitLevel || gMap.mNextPath != mExitPath)))
     {
         SetDead(true);
     }
@@ -760,8 +763,7 @@ void BirdPortal::VExitPortal()
     mCurrentPath = gMap.mCurrentPath;
     mCurrentLevel = gMap.mCurrentLevel;
 
-    auto pPortalExitTlv = static_cast<relive::Path_BirdPortalExit*>(gMap.TLV_First_Of_Type_In_Camera(ReliveTypes::eBirdPortalExit, 0));
-
+    auto pPortalExitTlv = static_cast<relive::Path_BirdPortalExit*>(GetMap().TLV_First_Of_Type_In_Camera(ReliveTypes::eBirdPortalExit, 0));
     if (pPortalExitTlv)
     {
         // TODO: Clean up this hack by having a better way to match "any" type of line
@@ -884,23 +886,26 @@ bool BirdPortal::VPortalClipper(bool bIgnoreClipping)
         return true;
     }
 
-    const s16 portalX = static_cast<s16>(PsxToPCX(gScreenManager->mCamXOff + FP_GetExponent(mXPos) - FP_GetExponent(gScreenManager->mCamPos->x), 11));
+    const s16 portalX = static_cast<s16>(PsxToPCX(FP_GetExponent(mXPos - gScreenManager->CamXPos()), 11));
 
     PSX_Point xy = {};
     PSX_Point wh = {};
-    if (mEnterSide != relive::Path_BirdPortal::PortalSide::eRight)
+    if (mEnterSide == relive::Path_BirdPortal::PortalSide::eLeft)
     {
         xy.x = 0;
+        xy.y = 0;
+
         wh.x = portalX;
+        wh.y = 240;
     }
     else
     {
         xy.x = portalX;
-        wh.x = 640;
-    }
+        xy.y = 0;
 
-    xy.y = 0;
-    wh.y = 240;
+        wh.x = 640;
+        wh.y = 240;
+    }
 
     // Clip objects entering portal?
     auto pClipper1 = relive_new ScreenClipper(xy, wh, Layer::eLayer_0);

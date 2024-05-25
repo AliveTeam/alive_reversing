@@ -782,11 +782,11 @@ void Abe::VUpdate()
                 mHealth = FP_FromInteger(1);
             }
 
-            if (field_168_ring_pulse_timer)
+            if (mRingPulseTimer)
             {
                 if (GetAnimation().GetRender())
                 {
-                    if (static_cast<s32>(sGnFrame) <= field_168_ring_pulse_timer || field_16C_bHaveShrykull)
+                    if (static_cast<s32>(sGnFrame) <= mRingPulseTimer || mHaveShrykull)
                     {
                         if (!(sGnFrame % 32))
                         {
@@ -794,14 +794,14 @@ void Abe::VUpdate()
                             AbilityRing::Factory(
                                 FP_FromInteger((bRect.w + bRect.x) / 2),
                                 FP_FromInteger((bRect.h + bRect.y) / 2),
-                                field_16C_bHaveShrykull != 0 ? RingTypes::eShrykull_Pulse_Small_4 : RingTypes::eExplosive_Pulse_0,
+                                mHaveShrykull != 0 ? RingTypes::eShrykull_Pulse_Small_4 : RingTypes::eExplosive_Pulse_0,
                                 FP_FromInteger(1));
                             SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 25, 2650);
                         }
                     }
                     else
                     {
-                        field_168_ring_pulse_timer = 0;
+                        mRingPulseTimer = 0;
                     }
                 }
             }
@@ -875,8 +875,8 @@ void Abe::VUpdate()
                 if (!mGotShrykullFromBigFace && gMap.mCurrentLevel == EReliveLevelIds::eLines)
                 {
                     LOG_INFO("Set mHaveShrykull true");
-                    field_16C_bHaveShrykull = true;
-                    field_168_ring_pulse_timer = MakeTimer(32000);
+                    mHaveShrykull = true;
+                    mRingPulseTimer = MakeTimer(32000);
                     mGotShrykullFromBigFace = true;
                 }
             }
@@ -1007,7 +1007,7 @@ void Abe::ExitShrykull(s16 bResetRingTimer)
 
     if (bResetRingTimer)
     {
-        field_168_ring_pulse_timer = 0;
+        mRingPulseTimer = 0;
     }
 }
 
@@ -2293,7 +2293,7 @@ void Abe::VScreenChanged()
             }
 
             field_19C_throwable_count = 0;
-            field_168_ring_pulse_timer = 0;
+            mRingPulseTimer = 0;
         }
 
         if (gMap.mNextLevel == EReliveLevelIds::eCredits || gMap.mNextLevel == EReliveLevelIds::eMenu)
@@ -2326,9 +2326,9 @@ void Abe::VOnTlvCollision(relive::Path_TLV* pTlv)
 
                 mAbeRespawnFlipX = pContinuePointTlv->mAbeSpawnDir == relive::Path_ContinuePoint::spawnDirection::eLeft;
 
-                const s32 bHaveShry = field_168_ring_pulse_timer - sGnFrame;
+                const s32 bHaveShry = mRingPulseTimer - sGnFrame;
                 field_150_saved_ring_timer = bHaveShry < 0 ? 0 : bHaveShry;
-                field_154_bSavedHaveShrykull = field_16C_bHaveShrykull;
+                field_154_bSavedHaveShrykull = mHaveShrykull;
 
                 mContinuePointLevel = gMap.mCurrentLevel;
                 mContinuePointPath = gMap.mCurrentPath;
@@ -3011,7 +3011,7 @@ void Abe::Motion_0_Idle()
     FollowLift();
     if (Input_IsChanting() && !mBlockChanting)
     {
-        if (field_168_ring_pulse_timer && field_16C_bHaveShrykull)
+        if (mRingPulseTimer && mHaveShrykull)
         {
             mCurrentMotion = eAbeMotions::Motion_162_ToShrykull;
         }
@@ -6030,13 +6030,13 @@ void Abe::Motion_60_Dead()
                 field_118_timer = MakeTimer(2);
                 field_114_gnFrame = 0;
                 MusicController::static_PlayMusic(MusicController::MusicTypes::eType0, this, 1, 0);
-                if (field_168_ring_pulse_timer && field_16C_bHaveShrykull)
+                if (mRingPulseTimer && mHaveShrykull)
                 {
 
                 }
                 else if (mContinuePointLevel != EReliveLevelIds::eRuptureFarmsReturn || mContinuePointPath != 6)
                 {
-                    field_168_ring_pulse_timer = 0;
+                    mRingPulseTimer = 0;
                 }
                 field_130_say = -1;
                 GetShadow()->mEnabled = false;
@@ -8437,9 +8437,9 @@ void Abe::Motion_150_Chant()
             EventBroadcast(kEventSpeaking, this);
             EventBroadcast(kEventAbeOhm, this);
             auto pObjToPossess = FindObjectToPossess();
-            if (field_168_ring_pulse_timer)
+            if (mRingPulseTimer)
             {
-                if (!field_16C_bHaveShrykull)
+                if (!mHaveShrykull)
                 {
                     const PSX_RECT rect = VGetBoundingRect();
                     AbilityRing::Factory(
@@ -8447,7 +8447,7 @@ void Abe::Motion_150_Chant()
                         FP_FromInteger((rect.h + rect.y) / 2),
                         RingTypes::eExplosive_Emit_1,
                         FP_FromInteger(1));
-                    field_168_ring_pulse_timer = 0;
+                    mRingPulseTimer = 0;
                 }
             }
 

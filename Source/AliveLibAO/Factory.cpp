@@ -1538,19 +1538,19 @@ static void Factory_RingCancel(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid
         auto pRingCancel = static_cast<relive::Path_RingCancel*>(pTlv);
         if (pRingCancel->mRemovesShrykull)
         {
-            if (gAbe->field_168_ring_pulse_timer)
+            if (gAbe->mRingPulseTimer)
             {
-                if (gAbe->field_16C_bHaveShrykull)
+                if (gAbe->mHaveShrykull)
                 {
-                    gAbe->field_168_ring_pulse_timer = 0;
+                    gAbe->mRingPulseTimer = 0;
                 }
             }
         }
         else
         {
-            if (!gAbe->field_16C_bHaveShrykull)
+            if (!gAbe->mHaveShrykull)
             {
-                gAbe->field_168_ring_pulse_timer = 0;
+                gAbe->mRingPulseTimer = 0;
             }
         }
         Path::TLV_Reset(tlvId);

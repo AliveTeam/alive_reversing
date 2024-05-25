@@ -76,8 +76,8 @@ void SaveGame::LoadFromMemory(SaveData* pData, s32 bKillObjects)
     gAbe->mContinuePointSpriteScale = pData->mAbe_ContinuePointSpriteScale;
     gAbe->field_150_saved_ring_timer = pData->mAbe_SavedRingTimer;
     gAbe->field_154_bSavedHaveShrykull = pData->mAbe_SavedHaveShrykull;
-    gAbe->field_168_ring_pulse_timer = pData->mAbe_RingPulseTimer;
-    gAbe->field_16C_bHaveShrykull = pData->mAbe_HaveShrykull;
+    gAbe->mRingPulseTimer = pData->mAbe_RingPulseTimer;
+    gAbe->mHaveShrykull = pData->mAbe_HaveShrykull;
 
     gRescuedMudokons = pData->mRescuedMudokons;
     gKilledMudokons = pData->mKilledMudokons;
@@ -102,9 +102,9 @@ void SaveGame::LoadFromMemory(SaveData* pData, s32 bKillObjects)
 
     gMap.mSaveData = pData->field_2B0_pSaveBuffer;
 
-    if (gAbe->field_168_ring_pulse_timer)
+    if (gAbe->mRingPulseTimer)
     {
-        if (gAbe->field_16C_bHaveShrykull)
+        if (gAbe->mHaveShrykull)
         {
             //if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbemorphAOResID, 0, 0))
             //{
@@ -209,12 +209,12 @@ void SaveGame::SaveToMemory(SaveData* pSaveData)
     pSaveData->mAbe_ContinuePoint_Camera = gAbe->mContinuePointCamera;
     pSaveData->mAbe_SavedRingTimer = gAbe->field_150_saved_ring_timer;
     pSaveData->mAbe_ContinuePointPath = gAbe->mContinuePointPath;
-    pSaveData->mAbe_RingPulseTimer = gAbe->field_168_ring_pulse_timer;
+    pSaveData->mAbe_RingPulseTimer = gAbe->mRingPulseTimer;
     pSaveData->mAbe_ContinuePointSpriteScale = gAbe->mContinuePointSpriteScale;
     pSaveData->mRescuedMudokons = gRescuedMudokons;
     pSaveData->mAbe_SavedHaveShrykull = gAbe->field_154_bSavedHaveShrykull;
     pSaveData->field_2A4_restartRuptureFarmsSavedMudokons = gRestartRuptureFarmsSavedMuds;
-    pSaveData->mAbe_HaveShrykull = gAbe->field_16C_bHaveShrykull;
+    pSaveData->mAbe_HaveShrykull = gAbe->mHaveShrykull;
     pSaveData->mCurrentPath = gMap.mCurrentPath;
     pSaveData->mKilledMudokons = gKilledMudokons;
     pSaveData->mCurrentCamera = gMap.mCurrentCamera;

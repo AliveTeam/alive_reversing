@@ -733,8 +733,8 @@ public:
     Guid field_15C_pThrowable = {};
     Guid mPullRingRope = {};
     Guid mCircularFadeId = {};
-    s32 field_168_ring_pulse_timer = 0;
-    s16 field_16C_bHaveShrykull = 0;
+    s32 mRingPulseTimer = 0;
+    s16 mHaveShrykull = 0;
     s16 field_16E_cameraIdx = 0;
     ReliveTypes mHandStoneType = {};
     relive::Path_HandStone* mHandStone = nullptr;

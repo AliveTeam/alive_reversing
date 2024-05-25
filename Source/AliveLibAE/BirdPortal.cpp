@@ -326,7 +326,7 @@ void BirdPortal::VUpdate()
                             pParticle->SetType(ReliveTypes::eBirdPortalTerminator);
                             pParticle->SetSpriteScale(mSpriteScale);
 
-                            if (static_cast<s32>(sGnFrame) % 2)
+                            if (sGnFrame % 2)
                             {
                                 pParticle->GetAnimation().SetLoopBackwards(true);
                                 pParticle->GetAnimation().SetFrame(pParticle->GetAnimation().Get_Frame_Count());
@@ -670,9 +670,10 @@ void BirdPortal::VGiveShrykull(s16 bPlaySound)
 
 void BirdPortal::VScreenChanged()
 {
-    if (mState <= PortalStates::IdlePortal_1 || mState >= PortalStates::KillPortalClipper_21 || ((gMap.LevelChanged() || gMap.PathChanged()) &&
-
-                                                                                                                 (mState != PortalStates::AbeInsidePortal_16 || mPortalType != relive::Path_BirdPortal::PortalType::eAbe || gMap.mNextLevel != mExitLevel || gMap.mNextPath != mExitPath)))
+    if (mState <= PortalStates::IdlePortal_1 ||
+        mState >= PortalStates::KillPortalClipper_21 ||
+        ((gMap.LevelChanged() || gMap.PathChanged()) &&
+        (mState != PortalStates::AbeInsidePortal_16 || mPortalType != relive::Path_BirdPortal::PortalType::eAbe || gMap.mNextLevel != mExitLevel || gMap.mNextPath != mExitPath)))
     {
         SetDead(true);
     }
@@ -757,7 +758,7 @@ void BirdPortal::VExitPortal()
     mCurrentPath = gMap.mCurrentPath;
     mCurrentLevel = gMap.mCurrentLevel;
 
-    auto pPortalExitTlv = static_cast<relive::Path_BirdPortalExit*>(gPathInfo->TLV_First_Of_Type_In_Camera(ReliveTypes::eBirdPortalExit, 0));
+    auto pPortalExitTlv = static_cast<relive::Path_BirdPortalExit*>(GetMap().TLV_First_Of_Type_In_Camera(ReliveTypes::eBirdPortalExit, 0));
     if (pPortalExitTlv)
     {
         // TODO: Clean up this hack by having a better way to match "any" type of line
@@ -865,6 +866,8 @@ bool BirdPortal::VPortalClipper(bool bIgnoreClipping)
         return true;
     }
 
+    const s16 portalX = static_cast<s16>(PsxToPCX(FP_GetExponent(mXPos - gScreenManager->CamXPos()), 11));
+
     PSX_Point xy = {};
     PSX_Point wh = {};
     if (mEnterSide == relive::Path_BirdPortal::PortalSide::eLeft)
@@ -872,12 +875,12 @@ bool BirdPortal::VPortalClipper(bool bIgnoreClipping)
         xy.x = 0;
         xy.y = 0;
 
-        wh.x = PsxToPCX(FP_GetExponent(mXPos - gScreenManager->CamXPos()), 11);
+        wh.x = portalX;
         wh.y = 240;
     }
     else
     {
-        xy.x = PsxToPCX(FP_GetExponent(mXPos - gScreenManager->CamXPos()), 11);
+        xy.x = portalX;
         xy.y = 0;
 
         wh.x = 640;

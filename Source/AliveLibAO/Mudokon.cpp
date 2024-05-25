@@ -382,13 +382,13 @@ Mudokon::~Mudokon()
     {
         if (field_1AA_ring_timeout)
         {
-            gAbe->field_168_ring_pulse_timer = field_1AA_ring_timeout + sGnFrame;
+            gAbe->mRingPulseTimer = field_1AA_ring_timeout + sGnFrame;
         }
         else
         {
-            gAbe->field_168_ring_pulse_timer = MakeTimer(200000);
+            gAbe->mRingPulseTimer = MakeTimer(200000);
         }
-        gAbe->field_16C_bHaveShrykull = false;
+        gAbe->mHaveShrykull = false;
     }
 
     if (mCurrentMotion == eMudMotions::Motion_52_Chant || mCurrentMotion == eMudMotions::Motion_59_CrouchChant)
@@ -3023,7 +3023,7 @@ s16 Mudokon::Brain_7_GiveRings()
     switch (field_1BA_brain_sub_state)
     {
         case 0:
-            if (gAbe->field_168_ring_pulse_timer <= 0)
+            if (gAbe->mRingPulseTimer <= 0)
             {
                 mNextMotion = eMudMotions::Motion_52_Chant;
                 field_1C0_timer = MakeTimer(30);
@@ -3072,21 +3072,21 @@ s16 Mudokon::Brain_7_GiveRings()
             {
                 if (field_1AA_ring_timeout)
                 {
-                    gAbe->field_168_ring_pulse_timer = field_1AA_ring_timeout + sGnFrame;
+                    gAbe->mRingPulseTimer = field_1AA_ring_timeout + sGnFrame;
                 }
                 else
                 {
-                    gAbe->field_168_ring_pulse_timer = MakeTimer(200000);
+                    gAbe->mRingPulseTimer = MakeTimer(200000);
                 }
 
                 mNextMotion = eMudMotions::Motion_0_Idle;
-                gAbe->field_16C_bHaveShrykull = 0;
+                gAbe->mHaveShrykull = 0;
                 return 4;
             }
             break;
 
         case 4:
-            if (gAbe->field_168_ring_pulse_timer <= 0)
+            if (gAbe->mRingPulseTimer <= 0)
             {
                 field_1B8_brain_state = 2;
                 return 0;
