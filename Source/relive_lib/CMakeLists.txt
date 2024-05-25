@@ -217,6 +217,8 @@ SET(AliveLibSrcAO
    ../AliveLibAO/RollingBallShaker.cpp
    ../AliveLibAO/Mine.hpp
    ../AliveLibAO/Mine.cpp
+   ../AliveLibAO/BirdPortalTerminator.hpp
+   ../AliveLibAO/BirdPortalTerminator.cpp
 )
 
 SET(AliveLibAESrc
@@ -463,6 +465,8 @@ SET(AliveLibAESrc
     ../AliveLibAE/MudokonEnums.hpp
     ../AliveLibAE/Mine.hpp
     ../AliveLibAE/Mine.cpp
+    ../AliveLibAE/BirdPortalTerminator.hpp
+    ../AliveLibAE/BirdPortalTerminator.cpp
 )
 
 SET(renderer_src

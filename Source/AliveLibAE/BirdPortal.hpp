@@ -1,26 +1,10 @@
 #pragma once
 
-#include "../relive_lib/GameObjects/BaseAnimatedWithPhysicsGameObject.hpp"
 #include "../relive_lib/data_conversion/relive_tlvs.hpp"
 #include "../relive_lib/SaveStateBase.hpp"
 
 enum class LevelIds : s16;
 enum class CameraSwapEffects : s16;
-
-
-
-
-class BirdPortalTerminator final : public ::BaseAnimatedWithPhysicsGameObject
-{
-public:
-    BirdPortalTerminator(FP xpos, FP ypos, FP scale, relive::Path_BirdPortal::PortalType portalType);
-
-    void LoadAnimations();
-
-    virtual void VScreenChanged() override; 
-
-    void Fadeout();
-};
 
 enum class PortalStates : s16
 {

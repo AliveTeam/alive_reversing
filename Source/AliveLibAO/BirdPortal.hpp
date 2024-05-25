@@ -14,19 +14,6 @@ namespace AO {
 
 enum class LevelIds : s16;
 
-
-class BirdPortalTerminator final : public BaseAnimatedWithPhysicsGameObject
-{
-public:
-    BirdPortalTerminator(FP xpos, FP ypos, FP scale, relive::Path_BirdPortal::PortalType portalType);
-
-    void LoadAnimations();
-
-    virtual void VScreenChanged() override;
-
-    void Fadeout();
-};
-
     enum class PortalStates : s16
     {
         CreatePortal_0 = 0,
@@ -98,8 +85,8 @@ private:
     s32 mTimer = 0;
     FP mSpriteScale = {};
     s16 mMovieId = 0;
-    BirdPortalTerminator* mTerminator1 = nullptr;
-    BirdPortalTerminator* mTerminator2 = nullptr;
+    class BirdPortalTerminator* mTerminator1 = nullptr;
+    class BirdPortalTerminator* mTerminator2 = nullptr;
     ScreenClipper* mScreenClipper1 = nullptr;
     ScreenClipper* mScreenClipper2 = nullptr;
     EReliveLevelIds mExitLevel = EReliveLevelIds::eNone;
