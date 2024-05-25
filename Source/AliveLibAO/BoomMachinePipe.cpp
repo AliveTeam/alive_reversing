@@ -57,9 +57,10 @@ void BoomMachinePipe::VUpdate()
             break;
 
         case BoomMachinePipeStates::eDropGrenade:
-            if (GetAnimation().GetIsLastFrame())
+            if (GetAnimation().GetForwardLoopCompleted())
             {
                 SFX_Play_Pitch(relive::SoundEffects::PickupItem, 127, -900);
+
                 if (!gThrowableArray)
                 {
                     gThrowableArray = relive_new ThrowableArray();
@@ -78,11 +79,11 @@ void BoomMachinePipe::VUpdate()
                 }
                 auto pGrenade = relive_new Grenade(
                     mXPos + (FP_FromInteger(6) * directedScale),
-                    mYPos + (-FP_FromInteger(6) * directedScale),
+                    mYPos + (-FP_FromInteger(6) * GetSpriteScale()),
                     mGrenadeCount);
                 if (pGrenade)
                 {
-                    pGrenade->VThrow(GetAnimation().GetFlipX() ? FP_FromDouble(-0.75) : FP_FromDouble(0.75), FP_FromInteger(3));
+                    pGrenade->VThrow(GetAnimation().GetFlipX() ? -FP_FromDouble(0.75) : FP_FromDouble(0.75), FP_FromInteger(3));
                 }
 
                 GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::BoomMachine_Pipe_Idle));

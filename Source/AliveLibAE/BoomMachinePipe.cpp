@@ -4,10 +4,6 @@
 #include "ThrowableArray.hpp"
 #include "Sfx.hpp"
 
-const static AnimId sBoomMachinePipeAnimIds[2] = {
-    AnimId::BoomMachine_Pipe_DropGrenade,
-    AnimId::BoomMachine_Pipe_Idle};
-
 BoomMachinePipe::BoomMachinePipe(FP xpos, FP ypos, FP scale, s16 numGrenades)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
@@ -29,10 +25,8 @@ BoomMachinePipe::BoomMachinePipe(FP xpos, FP ypos, FP scale, s16 numGrenades)
 
 void BoomMachinePipe::LoadAnimations()
 {
-    for (auto& animId : sBoomMachinePipeAnimIds)
-    {
-        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(animId));
-    }
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::BoomMachine_Pipe_DropGrenade));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::BoomMachine_Pipe_Idle));
 }
 
 void BoomMachinePipe::DropGrenadeAnimation()
@@ -106,7 +100,7 @@ void BoomMachinePipe::VUpdate()
                     nullptr);
                 if (pGrenade)
                 {
-                    pGrenade->VThrow((GetAnimation().GetFlipX()) != 0 ? -FP_FromDouble(0.75) : FP_FromDouble(0.75), FP_FromInteger(3));
+                    pGrenade->VThrow(GetAnimation().GetFlipX() ? -FP_FromDouble(0.75) : FP_FromDouble(0.75), FP_FromInteger(3));
                 }
 
                 GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::BoomMachine_Pipe_Idle));
