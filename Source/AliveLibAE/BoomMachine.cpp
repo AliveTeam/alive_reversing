@@ -13,18 +13,10 @@
 #include "../relive_lib/FixedPoint.hpp"
 #include "BoomMachinePipe.hpp"
 
-const static AnimId sBoomMachineAnimIds[2] =
-{
-    AnimId::BoomMachine_Button_Off,
-    AnimId::BoomMachine_Button_On
-};
-
 void BoomMachine::LoadAnimations()
 {
-    for (auto& animId : sBoomMachineAnimIds)
-    {
-        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(animId));
-    }
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::BoomMachine_Button_Off));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::BoomMachine_Button_On));
 }
 
 BoomMachine::BoomMachine(relive::Path_BoomMachine* pTlv, const Guid& tlvId)
@@ -52,8 +44,14 @@ BoomMachine::BoomMachine(relive::Path_BoomMachine* pTlv, const Guid& tlvId)
     mXPos = FP_FromInteger(pTlv->mTopLeftX) + (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(2));
     mYPos = FP_FromInteger(pTlv->mTopLeftY);
 
+    FP directedScale = GetSpriteScale();
+    if (pTlv->mPipeSide == relive::Path_BoomMachine::PipeSide::eLeft)
+    {
+        directedScale = -directedScale;
+    }
+
     auto pPipe = relive_new BoomMachinePipe(
-        ((pTlv->mPipeSide == relive::Path_BoomMachine::PipeSide::eLeft ? -GetSpriteScale() : GetSpriteScale()) * FP_FromInteger(30)) + mXPos,
+        directedScale * FP_FromInteger(30) + mXPos,
         (GetSpriteScale() * FP_FromInteger(-30)) + mYPos,
         GetSpriteScale(),
         pTlv->mGrenadeAmount);

@@ -23,16 +23,16 @@ void BoomMachine::LoadAnimations()
 }
 
 BoomMachine::BoomMachine(relive::Path_BoomMachine* pTlv, const Guid& tlvId)
-    : BaseAnimatedWithPhysicsGameObject(0)
+    : BaseAnimatedWithPhysicsGameObject(0),
+    mTlvId(tlvId)
 {
     SetType(ReliveTypes::eBoomMachine);
 
     LoadAnimations();
 
-    Animation_Init(GetAnimRes(AnimId::BoomMachine_Button_On));
+    Animation_Init(GetAnimRes(AnimId::BoomMachine_Button_Off));
 
     SetApplyShadowZoneColour(false);
-    mTlvId = tlvId;
     GetAnimation().SetBlendMode(relive::TBlendModes::eBlend_1);
 
     if (pTlv->mScale == relive::reliveScale::eHalf)
@@ -47,26 +47,20 @@ BoomMachine::BoomMachine(relive::Path_BoomMachine* pTlv, const Guid& tlvId)
     mXPos = FP_FromInteger(pTlv->mTopLeftX) + (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(2));
     mYPos = FP_FromInteger(pTlv->mTopLeftY);
 
-    auto pPipe = relive_new BoomMachinePipe();
+    FP directedScale = GetSpriteScale();
+    if (pTlv->mPipeSide == relive::Path_BoomMachine::PipeSide::eLeft)
+    {
+        directedScale = -directedScale;
+    }
+
+    auto pPipe = relive_new BoomMachinePipe(
+        directedScale * FP_FromInteger(30) + mXPos,
+        (GetSpriteScale() * FP_FromInteger(-30)) + mYPos,
+        GetSpriteScale(),
+        pTlv->mGrenadeAmount);
     if (pPipe)
     {
-        FP directedScale = GetSpriteScale();
-        if (pTlv->mPipeSide == relive::Path_BoomMachine::PipeSide::eLeft)
-        {
-            directedScale = -directedScale;
-        }
-
-        pPipe->Animation_Init(pPipe->GetAnimRes(AnimId::BoomMachine_Pipe_Idle));
-
-        pPipe->GetAnimation().SetSemiTrans(false);
-        pPipe->SetSpriteScale(GetSpriteScale());
-        pPipe->SetApplyShadowZoneColour(false);
-        pPipe->mState = BoomMachinePipeStates::eInactive;
-        pPipe->mXPos = mXPos + (directedScale * FP_FromInteger(30));
-        pPipe->mYPos = mYPos + (GetSpriteScale() * FP_FromInteger(-30));
-        pPipe->mGrenadeCount = static_cast<s16>(pTlv->mGrenadeAmount);
         pPipe->GetAnimation().SetFlipX(pTlv->mPipeSide == relive::Path_BoomMachine::PipeSide::eLeft);
-
         mPipeId = pPipe->mBaseGameObjectId;
     }
 

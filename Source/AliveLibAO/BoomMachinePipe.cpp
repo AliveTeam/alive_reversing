@@ -6,10 +6,23 @@
 
 namespace AO {
 
-BoomMachinePipe::BoomMachinePipe()
+BoomMachinePipe::BoomMachinePipe(FP xpos, FP ypos, FP scale, s16 numGrenades)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
     LoadAnimations();
+    Animation_Init(GetAnimRes(AnimId::BoomMachine_Pipe_Idle));
+
+    GetAnimation().SetSemiTrans(false);
+    SetApplyShadowZoneColour(false);
+
+    SetSpriteScale(scale);
+
+    mXPos = xpos;
+    mYPos = ypos;
+
+    mGrenadeCount = numGrenades;
+
+    mState = BoomMachinePipeStates::eInactive;
 }
 
 void BoomMachinePipe::LoadAnimations()
@@ -40,6 +53,9 @@ void BoomMachinePipe::VUpdate()
 {
     switch (mState)
     {
+        case BoomMachinePipeStates::eInactive:
+            // do nothing
+            break;
         case BoomMachinePipeStates::eAlreadyUsed:
             if (static_cast<s32>(sGnFrame) > mTimer)
             {

@@ -15,7 +15,7 @@ enum class BoomMachinePipeStates
 class BoomMachinePipe final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    BoomMachinePipe();
+    BoomMachinePipe(FP xpos, FP ypos, FP scale, s16 numGrenades);
 
     void LoadAnimations();
     void DropGrenadeAnimation();

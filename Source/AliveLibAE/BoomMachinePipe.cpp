@@ -47,7 +47,6 @@ void BoomMachinePipe::AlreadyUsed()
     }
 }
 
-
 void BoomMachinePipe::VUpdate()
 {
     switch (mState)
