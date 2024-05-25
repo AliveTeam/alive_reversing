@@ -832,6 +832,9 @@ static s32 sdl_key_to_win32_vkey(SDL_Scancode key)
 
 static bool bNeedToQuit = false;
 
+extern bool gDebugWindowEnabled;
+extern bool gExternalTexturesEnabled;
+
 static s32 Sys_EventFilter(void* /*userData*/, SDL_Event* event)
 {
     if (event->type == SDL_KEYDOWN)
@@ -898,7 +901,15 @@ static s32 Sys_EventFilter(void* /*userData*/, SDL_Event* event)
 
             Input_SetKeyState_4EDD80(vk, 1);
 
-            if (vk == VK_F5)
+            if (vk == VK_F1)
+            {
+                gDebugWindowEnabled = !gDebugWindowEnabled;
+            }
+            else if (vk == VK_F2)
+            {
+                gExternalTexturesEnabled = !gExternalTexturesEnabled;
+            }
+            else if (vk == VK_F5)
             {
                 LOG_INFO("Save next frame for " << VK_F5);
                 sQuicksave_SaveNextFrame_5CA4D8 = 1;

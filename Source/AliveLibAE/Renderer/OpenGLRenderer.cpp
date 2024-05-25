@@ -65,7 +65,7 @@ static bool gRenderEnable_F4 = true;
 static bool gRenderEnable_F3 = true;
 static bool gRenderEnable_F2 = true;
 
-static bool gExternalTexturesEnabled = true;
+bool gExternalTexturesEnabled = true;
 static bool gGLDebugInfo = false;
 static bool gShowAnimIDs = false;
 
@@ -1283,6 +1283,8 @@ void OpenGLRenderer::Clear(u8 /*r*/, u8 /*g*/, u8 /*b*/)
     
 }
 
+bool gDebugWindowEnabled = false;
+
 void OpenGLRenderer::StartFrame(s32 /*xOff*/, s32 /*yOff*/)
 {
     static s32 oldWidth = 0;
@@ -1304,7 +1306,10 @@ void OpenGLRenderer::StartFrame(s32 /*xOff*/, s32 /*yOff*/)
 
     //SDL_GL_SwapWindow(mWindow);
 
-    DebugWindow();
+    if (gDebugWindowEnabled)
+    {
+        DebugWindow();
+    }
 
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
