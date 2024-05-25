@@ -563,9 +563,9 @@ inline void from_json(const nlohmann::json& j, Path_ElectricWall& p)
 }
 
 // Path_BoomMachine
-NLOHMANN_JSON_SERIALIZE_ENUM(Path_BoomMachine::NozzleSide, {
-    {Path_BoomMachine::NozzleSide::eRight, "right"},
-    {Path_BoomMachine::NozzleSide::eLeft, "left"},
+NLOHMANN_JSON_SERIALIZE_ENUM(Path_BoomMachine::PipeSide, {
+    {Path_BoomMachine::PipeSide::eRight, "right"},
+    {Path_BoomMachine::PipeSide::eLeft, "left"},
 })
 
 inline void to_json(nlohmann::json& j, const Path_BoomMachine& p)
@@ -574,7 +574,7 @@ inline void to_json(nlohmann::json& j, const Path_BoomMachine& p)
         {"tlv_type", "boom_machine"},
         {"base", ToBase(p)},
         {"scale", p.mScale},
-        {"nozzle_side", p.mNozzleSide},
+        {"pipe_side", p.mPipeSide},
         {"grenade_amount", p.mGrenadeAmount},
     };
 }
@@ -583,7 +583,7 @@ inline void from_json(const nlohmann::json& j, Path_BoomMachine& p)
 {
     j.at("base").get_to(ToBase(p));
     j.at("scale").get_to(p.mScale);
-    j.at("nozzle_side").get_to(p.mNozzleSide);
+    j.at("pipe_side").get_to(p.mPipeSide);
     j.at("grenade_amount").get_to(p.mGrenadeAmount);
 }
 

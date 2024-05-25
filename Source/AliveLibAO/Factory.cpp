@@ -1351,8 +1351,8 @@ static void Factory_BoomMachine(relive::Path_TLV* pTlv, Map* /*pMap*/, const Gui
         ResourceManagerWrapper::PendAnims(kAbeGibs);
         ResourceManagerWrapper::PendAnimation(AnimId::Metal_Gib);
         ResourceManagerWrapper::PendAnims(kSlogGibs);
-        ResourceManagerWrapper::PendAnimation(AnimId::BoomMachine_Nozzle_DropGrenade);
-        ResourceManagerWrapper::PendAnimation(AnimId::BoomMachine_Nozzle_Idle);
+        ResourceManagerWrapper::PendAnimation(AnimId::BoomMachine_Pipe_DropGrenade);
+        ResourceManagerWrapper::PendAnimation(AnimId::BoomMachine_Pipe_Idle);
         ResourceManagerWrapper::PendAnimation(AnimId::BoomMachine_Button_Off);
         ResourceManagerWrapper::PendAnimation(AnimId::BoomMachine_Button_On);
         return;

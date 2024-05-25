@@ -30,7 +30,7 @@ public:
     virtual void Visit(const char* fieldName, relive::Path_Lever::LeverSoundDirection& field) = 0;
     virtual void Visit(const char* fieldName, relive::Path_Hoist::Type& field) = 0;
     virtual void Visit(const char* fieldName, relive::Path_Hoist::GrabDirection& field) = 0;
-    virtual void Visit(const char* fieldName, relive::Path_BoomMachine::NozzleSide& field) = 0;
+    virtual void Visit(const char* fieldName, relive::Path_BoomMachine::PipeSide& field) = 0;
     virtual void Visit(const char* fieldName, relive::Path_EnemyStopper::StopDirection& field) = 0;
     virtual void Visit(const char* fieldName, relive::Path_UXB::StartState& field) = 0;
     virtual void Visit(const char* fieldName, relive::Path_Edge::GrabDirection& field) = 0;
@@ -541,7 +541,7 @@ public:
     {
         MapObjectBase::Visit(r);
         r.Visit("Scale", mTlv.mScale);
-        r.Visit("Nozzle Side", mTlv.mNozzleSide);
+        r.Visit("Pipe Side", mTlv.mPipeSide);
         r.Visit("Number Of Grenades", mTlv.mGrenadeAmount);
     }
 

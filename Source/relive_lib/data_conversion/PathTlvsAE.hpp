@@ -365,12 +365,12 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_LCDStatusBoard, 0x18);
 struct Path_BoomMachine final : public Path_TLV
 {
     Scale_short mScale;
-    enum class NozzleSide : s16
+    enum class PipeSide : s16
     {
         eRight_0 = 0,
         eLeft_1 = 1
     };
-    NozzleSide mNozzleSide;
+    PipeSide mPipeSide;
     s16 mDisabledResources;
     s16 mGrenadeAmount;
 };

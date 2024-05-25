@@ -905,7 +905,7 @@ public:
         Path_BoomMachine r;
         BaseConvert(r, tlv, tlvId);
         r.mScale = relive::From(tlv.mScale);
-        r.mNozzleSide = From(tlv.mNozzleSide);
+        r.mPipeSide = From(tlv.mPipeSide);
         r.mGrenadeAmount = tlv.mGrenadeAmount;
         return r;
     }
@@ -915,34 +915,34 @@ public:
         Path_BoomMachine r;
         BaseConvert(r, tlv, tlvId);
         r.mScale = relive::From(tlv.mScale);
-        r.mNozzleSide = From(tlv.mNozzleSide);
+        r.mPipeSide = From(tlv.mPipeSide);
         r.mGrenadeAmount = tlv.mGrenadeAmount;
         return r;
     }
 
 private:
-    static relive::Path_BoomMachine::NozzleSide From(AO::Path_BoomMachine::NozzleSide nozzleSide)
+    static relive::Path_BoomMachine::PipeSide From(AO::Path_BoomMachine::PipeSide pipeSide)
     {
-        switch (nozzleSide)
+        switch (pipeSide)
         {
-            case AO::Path_BoomMachine::NozzleSide::eRight_0:
-                return relive::Path_BoomMachine::NozzleSide::eRight;
-            case AO::Path_BoomMachine::NozzleSide::eLeft_1:
-                return relive::Path_BoomMachine::NozzleSide::eLeft;
+            case AO::Path_BoomMachine::PipeSide::eRight_0:
+                return relive::Path_BoomMachine::PipeSide::eRight;
+            case AO::Path_BoomMachine::PipeSide::eLeft_1:
+                return relive::Path_BoomMachine::PipeSide::eLeft;
         }
-        ALIVE_FATAL("Bad boom machine nozzle side");
+        ALIVE_FATAL("Bad boom machine pipe side");
     }
 
-    static relive::Path_BoomMachine::NozzleSide From(::Path_BoomMachine::NozzleSide nozzleSide)
+    static relive::Path_BoomMachine::PipeSide From(::Path_BoomMachine::PipeSide pipeSide)
     {
-        switch (nozzleSide)
+        switch (pipeSide)
         {
-            case ::Path_BoomMachine::NozzleSide::eRight_0:
-                return relive::Path_BoomMachine::NozzleSide::eRight;
-            case ::Path_BoomMachine::NozzleSide::eLeft_1:
-                return relive::Path_BoomMachine::NozzleSide::eLeft;
+            case ::Path_BoomMachine::PipeSide::eRight_0:
+                return relive::Path_BoomMachine::PipeSide::eRight;
+            case ::Path_BoomMachine::PipeSide::eLeft_1:
+                return relive::Path_BoomMachine::PipeSide::eLeft;
         }
-        ALIVE_FATAL("Bad boom machine nozzle side");
+        ALIVE_FATAL("Bad boom machine pipe side");
     }
 };
 

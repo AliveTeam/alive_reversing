@@ -1,0 +1,119 @@
+#include "stdafx.h"
+#include "BoomMachinePipe.hpp"
+#include "Grenade.hpp"
+#include "ThrowableArray.hpp"
+#include "Sfx.hpp"
+
+const static AnimId sBoomMachinePipeAnimIds[2] = {
+    AnimId::BoomMachine_Pipe_DropGrenade,
+    AnimId::BoomMachine_Pipe_Idle};
+
+BoomMachinePipe::BoomMachinePipe(FP xpos, FP ypos, FP scale, s16 numGrenades)
+    : BaseAnimatedWithPhysicsGameObject(0)
+{
+    LoadAnimations();
+    Animation_Init(GetAnimRes(AnimId::BoomMachine_Pipe_Idle));
+
+    GetAnimation().SetSemiTrans(false);
+    SetApplyShadowZoneColour(false);
+
+    SetSpriteScale(scale);
+
+    mXPos = xpos;
+    mYPos = ypos;
+
+    mGrenadeCount = numGrenades;
+
+    mState = BoomMachinePipeStates::eInactive;
+}
+
+void BoomMachinePipe::LoadAnimations()
+{
+    for (auto& animId : sBoomMachinePipeAnimIds)
+    {
+        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(animId));
+    }
+}
+
+void BoomMachinePipe::DropGrenadeAnimation()
+{
+    if (mState == BoomMachinePipeStates::eInactive)
+    {
+        mState = BoomMachinePipeStates::eDropGrenadeAnimation;
+        mTimer = MakeTimer(10);
+    }
+}
+
+void BoomMachinePipe::AlreadyUsed()
+{
+    if (mState == BoomMachinePipeStates::eInactive)
+    {
+        mState = BoomMachinePipeStates::eAlreadyUsed;
+        mTimer = MakeTimer(10);
+    }
+}
+
+
+void BoomMachinePipe::VUpdate()
+{
+    switch (mState)
+    {
+        case BoomMachinePipeStates::eInactive:
+            // do nothing
+            break;
+        case BoomMachinePipeStates::eAlreadyUsed:
+            if (static_cast<s32>(sGnFrame) > mTimer)
+            {
+                SFX_Play_Pitch(relive::SoundEffects::ZPop, 60, -1800);
+                mState = BoomMachinePipeStates::eInactive;
+            }
+            break;
+
+        case BoomMachinePipeStates::eDropGrenadeAnimation:
+            if (static_cast<s32>(sGnFrame) > mTimer)
+            {
+                mState = BoomMachinePipeStates::eDropGrenade;
+                GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::BoomMachine_Pipe_DropGrenade));
+            }
+            break;
+
+        case BoomMachinePipeStates::eDropGrenade:
+            if (GetAnimation().GetForwardLoopCompleted())
+            {
+                SFX_Play_Pitch(relive::SoundEffects::PickupItem, 127, -900);
+
+                if (!gThrowableArray)
+                {
+                    gThrowableArray = relive_new ThrowableArray();
+                }
+
+                gThrowableArray->Add(mGrenadeCount);
+
+                FP directedScale = {};
+                if (GetAnimation().GetFlipX())
+                {
+                    directedScale = -GetSpriteScale();
+                }
+                else
+                {
+                    directedScale = GetSpriteScale();
+                }
+                auto pGrenade = relive_new Grenade(
+                    mXPos + (FP_FromInteger(6) * directedScale),
+                    mYPos + (-FP_FromInteger(6) * GetSpriteScale()),
+                    mGrenadeCount,
+                    0,
+                    nullptr);
+                if (pGrenade)
+                {
+                    pGrenade->VThrow((GetAnimation().GetFlipX()) != 0 ? -FP_FromDouble(0.75) : FP_FromDouble(0.75), FP_FromInteger(3));
+                }
+
+                GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::BoomMachine_Pipe_Idle));
+                mState = BoomMachinePipeStates::eInactive;
+            }
+            break;
+        default:
+            return;
+    }
+}

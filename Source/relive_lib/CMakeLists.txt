@@ -219,6 +219,8 @@ SET(AliveLibSrcAO
    ../AliveLibAO/Mine.cpp
    ../AliveLibAO/BirdPortalTerminator.hpp
    ../AliveLibAO/BirdPortalTerminator.cpp
+   ../AliveLibAO/BoomMachinePipe.hpp
+   ../AliveLibAO/BoomMachinePipe.cpp
 )
 
 SET(AliveLibAESrc
@@ -467,6 +469,8 @@ SET(AliveLibAESrc
     ../AliveLibAE/Mine.cpp
     ../AliveLibAE/BirdPortalTerminator.hpp
     ../AliveLibAE/BirdPortalTerminator.cpp
+    ../AliveLibAE/BoomMachinePipe.hpp
+    ../AliveLibAE/BoomMachinePipe.cpp
 )
 
 SET(renderer_src

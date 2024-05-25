@@ -451,10 +451,10 @@ REFLECT_ENUM(relive::Path_Hoist::GrabDirection,
     {relive::Path_Hoist::GrabDirection::eFacingAnyDirection, QT_TRANSLATE_NOOP("Path_Hoist_GrabDirectionEnum", "Facing Any Direction")},
 })
 
-REFLECT_ENUM(relive::Path_BoomMachine::NozzleSide,
+REFLECT_ENUM(relive::Path_BoomMachine::PipeSide,
 {
-    {relive::Path_BoomMachine::NozzleSide::eRight, QT_TRANSLATE_NOOP("Path_BoomMachine_NozzleSideEnum", "Right")},
-    {relive::Path_BoomMachine::NozzleSide::eLeft, QT_TRANSLATE_NOOP("Path_BoomMachine_NozzleSideEnum", "Left")},
+    {relive::Path_BoomMachine::PipeSide::eRight, QT_TRANSLATE_NOOP("Path_BoomMachine_PipeSideEnum", "Right")},
+    {relive::Path_BoomMachine::PipeSide::eLeft, QT_TRANSLATE_NOOP("Path_BoomMachine_PipeSideEnum", "Left")},
 })
 
 REFLECT_ENUM(relive::Path_EnemyStopper::StopDirection,

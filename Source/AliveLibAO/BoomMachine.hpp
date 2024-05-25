@@ -9,16 +9,6 @@ namespace relive
 
 namespace AO {
 
-class GrenadeMachineNozzle;
-
-enum class BoomMachineStates : s16
-{
-    eInactive_0,
-    eAlreadyUsed_1,
-    eDropGrenadeAnimation_2,
-    eDropGrenade_3
-};
-
 class BoomMachine final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
@@ -35,7 +25,7 @@ private:
 
 public:
     Guid mTlvId;
-    Guid mNozzleId;
+    Guid mPipeId;
     bool mIsButtonOn = false;
 };
 

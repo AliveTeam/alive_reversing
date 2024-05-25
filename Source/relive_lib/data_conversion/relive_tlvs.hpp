@@ -444,12 +444,12 @@ struct Path_BoomMachine final : public Path_TLV
         mAttribute = QuiksaveAttribute::eDoNothing_0;
     }
     reliveScale mScale = reliveScale::eFull;
-    enum class NozzleSide : s16
+    enum class PipeSide : s16
     {
         eRight,
         eLeft,
     };
-    NozzleSide mNozzleSide = NozzleSide::eRight;
+    PipeSide mPipeSide = PipeSide::eRight;
     s16 mGrenadeAmount = 0;
     static constexpr char kClassName[] = "boom_machine";
     static constexpr ReliveTypes kReliveType = ReliveTypes::eBoomMachine;
