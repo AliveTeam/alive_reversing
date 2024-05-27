@@ -247,7 +247,7 @@ void Mine::VUpdate()
     }
     if (!mDetonating)
     {
-        if (EventGet(kEventDeathReset) || mCurrentLevel != GetMap().mCurrentLevel || mCurrentPath != GetMap().mCurrentPath)
+        if (EventGet(Event::kEventDeathReset) || mCurrentLevel != GetMap().mCurrentLevel || mCurrentPath != GetMap().mCurrentPath)
         {
             SetDead(true);
         }

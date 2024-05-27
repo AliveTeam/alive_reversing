@@ -205,7 +205,7 @@ void Grenade::VUpdate()
     auto pExplosion = sObjectIds.Find_Impl(mExplosionId);
 
 
-    if (EventGet(kEventDeathReset))
+    if (EventGet(Event::kEventDeathReset))
     {
         SetDead(true);
     }
@@ -434,9 +434,9 @@ bool Grenade::InTheAir(s16 blowUpOnFloorTouch)
                 vol = 40;
             }
             SfxPlayMono(relive::SoundEffects::GrenadeBounce, vol);
-            EventBroadcast(kEventNoise, this);
-            EventBroadcast(kEventSuspiciousNoise, this);
-            EventBroadcast(kEventSpeaking, this);
+            EventBroadcast(Event::kEventNoise, this);
+            EventBroadcast(Event::kEventSuspiciousNoise, this);
+            EventBroadcast(Event::kEventSpeaking, this);
         }
         else
         {
@@ -471,9 +471,9 @@ bool Grenade::InTheAir(s16 blowUpOnFloorTouch)
                 SfxPlayMono(relive::SoundEffects::GrenadeBounce, vol);
                 mBounceCount++;
 
-                EventBroadcast(kEventNoise, this);
-                EventBroadcast(kEventSuspiciousNoise, this);
-                EventBroadcast(kEventSpeaking, this);
+                EventBroadcast(Event::kEventNoise, this);
+                EventBroadcast(Event::kEventSuspiciousNoise, this);
+                EventBroadcast(Event::kEventSpeaking, this);
             }
         }
     }
@@ -503,9 +503,9 @@ bool Grenade::InTheAir(s16 blowUpOnFloorTouch)
                         vol = 40;
                     }
                     SfxPlayMono(relive::SoundEffects::GrenadeBounce, vol);
-                    EventBroadcast(kEventNoise, this);
-                    EventBroadcast(kEventSuspiciousNoise, this);
-                    EventBroadcast(kEventSpeaking, this);
+                    EventBroadcast(Event::kEventNoise, this);
+                    EventBroadcast(Event::kEventSuspiciousNoise, this);
+                    EventBroadcast(Event::kEventSpeaking, this);
                 }
                 break;
 
@@ -523,9 +523,9 @@ bool Grenade::InTheAir(s16 blowUpOnFloorTouch)
                     }
 
                     SfxPlayMono(relive::SoundEffects::GrenadeBounce, vol);
-                    EventBroadcast(kEventNoise, this);
-                    EventBroadcast(kEventSuspiciousNoise, this);
-                    EventBroadcast(kEventSpeaking, this);
+                    EventBroadcast(Event::kEventNoise, this);
+                    EventBroadcast(Event::kEventSuspiciousNoise, this);
+                    EventBroadcast(Event::kEventSpeaking, this);
                 }
                 break;
 

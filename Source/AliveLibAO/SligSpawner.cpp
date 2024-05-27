@@ -30,7 +30,7 @@ void SligSpawner::VScreenChanged()
 
 void SligSpawner::VUpdate()
 {
-    if (EventGet(kEventDeathReset))
+    if (EventGet(Event::kEventDeathReset))
     {
         SetDead(true);
     }

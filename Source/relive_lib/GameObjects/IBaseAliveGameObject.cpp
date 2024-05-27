@@ -255,7 +255,7 @@ bool IBaseAliveGameObject::IsInInvisibleZone(IBaseAliveGameObject* pObj)
     }
     */
 
-    if (EventGet(kEventAbeOhm))
+    if (EventGet(Event::kEventAbeOhm))
     {
         return false;
     }

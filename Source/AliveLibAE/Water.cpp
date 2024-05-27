@@ -220,7 +220,7 @@ void Water::Add_Water_Particle()
 
 void Water::VUpdate()
 {
-    if (EventGet(kEventDeathReset))
+    if (EventGet(Event::kEventDeathReset))
     {
         SetDead(true);
     }

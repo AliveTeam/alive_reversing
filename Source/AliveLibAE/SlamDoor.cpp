@@ -246,7 +246,7 @@ SlamDoor::~SlamDoor()
 
 void SlamDoor::VUpdate()
 {
-    if (EventGet(kEventDeathReset))
+    if (EventGet(Event::kEventDeathReset))
     {
         SetDead(true);
     }

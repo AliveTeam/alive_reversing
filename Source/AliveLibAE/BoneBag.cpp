@@ -96,7 +96,7 @@ BoneBag::~BoneBag()
 
 void BoneBag::VUpdate()
 {
-    if (EventGet(kEventDeathReset))
+    if (EventGet(Event::kEventDeathReset))
     {
         SetDead(true);
     }

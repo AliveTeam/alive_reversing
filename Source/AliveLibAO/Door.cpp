@@ -347,7 +347,7 @@ void Door::PlaySound()
 
 void Door::VUpdate()
 {
-    if (EventGet(kEventDeathReset))
+    if (EventGet(Event::kEventDeathReset))
     {
         SetDead(true);
     }

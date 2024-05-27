@@ -4,7 +4,7 @@
 #include "GameObjects/BaseAnimatedWithPhysicsGameObject.hpp"
 
 // Note, names taken from Abe's Exoddus PC Demo
-enum Event : s16
+enum class Event : s16
 {
     kEventNoise,
     kEventSpeaking,

@@ -221,9 +221,9 @@ void BirdPortal::VUpdate()
             }
 
             auto pTarget = Abe::FindObjectToPossess();
-            if (!EventGet(kEventAbeOhm) || pTarget)
+            if (!EventGet(Event::kEventAbeOhm) || pTarget)
             {
-                if (IsScaredAway() || EventGet(kEventShooting) || (EventGet(kEventAbeOhm) && pTarget))
+                if (IsScaredAway() || EventGet(Event::kEventShooting) || (EventGet(Event::kEventAbeOhm) && pTarget))
                 {
                     for (const auto& id : mDoveIds)
                     {
@@ -264,14 +264,14 @@ void BirdPortal::VUpdate()
 
                 mTimer = MakeTimer(15);
                 mState = PortalStates::JoinDovesInCenter_2;
-                EventBroadcast(kEventPortalOpen, this);
+                EventBroadcast(Event::kEventPortalOpen, this);
                 SfxPlayMono(relive::SoundEffects::Dove, 70);
             }
         }
         break;
 
         case PortalStates::JoinDovesInCenter_2:
-            EventBroadcast(kEventPortalOpen, this);
+            EventBroadcast(Event::kEventPortalOpen, this);
             if (static_cast<s32>(sGnFrame) > mTimer)
             {
                 CreateTerminators();
@@ -281,7 +281,7 @@ void BirdPortal::VUpdate()
             break;
 
         case PortalStates::KillDoves_3:
-            EventBroadcast(kEventPortalOpen, this);
+            EventBroadcast(Event::kEventPortalOpen, this);
             if (static_cast<s32>(sGnFrame) > mTimer)
             {
                 for (const auto& id : mDoveIds)
@@ -297,7 +297,7 @@ void BirdPortal::VUpdate()
             break;
 
         case PortalStates::CreateTerminators_4:
-            EventBroadcast(kEventPortalOpen, this);
+            EventBroadcast(Event::kEventPortalOpen, this);
             if (pTerminator1->GetAnimation().GetIsLastFrame())
             {
                 pTerminator1->GetAnimation().Set_Animation_Data(pTerminator1->GetAnimRes(AnimId::BirdPortal_TerminatorIdle));
@@ -310,7 +310,7 @@ void BirdPortal::VUpdate()
             break;
 
         case PortalStates::ExpandTerminators_5:
-            EventBroadcast(kEventPortalOpen, this);
+            EventBroadcast(Event::kEventPortalOpen, this);
             pTerminator1->mYPos -= (FP_FromDouble(3.5) * mSpriteScale);
             pTerminator2->mYPos += (FP_FromDouble(3.5) * mSpriteScale);
             if (static_cast<s32>(sGnFrame) > mTimer)
@@ -320,8 +320,8 @@ void BirdPortal::VUpdate()
             break;
 
         case PortalStates::ActivePortal_6:
-            EventBroadcast(kEventPortalOpen, this);
-            if ((mPortalType != relive::Path_BirdPortal::PortalType::eWorker && mPortalType != relive::Path_BirdPortal::PortalType::eShrykull) || EventGet(kEventAbeOhm))
+            EventBroadcast(Event::kEventPortalOpen, this);
+            if ((mPortalType != relive::Path_BirdPortal::PortalType::eWorker && mPortalType != relive::Path_BirdPortal::PortalType::eShrykull) || EventGet(Event::kEventAbeOhm))
             {
                 if ((Math_NextRandom() % 8) == 0)
                 {
@@ -583,7 +583,7 @@ void BirdPortal::VUpdate()
             break;
     }
 
-    if (EventGet(kEventDeathReset))
+    if (EventGet(Event::kEventDeathReset))
     {
         SetDead(true);
     }

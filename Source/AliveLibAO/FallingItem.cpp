@@ -146,7 +146,7 @@ void FallingItem::VScreenChanged()
 
 void FallingItem::VUpdate()
 {
-    if (EventGet(kEventDeathReset))
+    if (EventGet(Event::kEventDeathReset))
     {
         SetDead(true);
     }

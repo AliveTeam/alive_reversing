@@ -72,7 +72,7 @@ void InvisibleEffect::BecomeInvisible()
 void InvisibleEffect::VUpdate()
 {
     auto pTarget = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(mTargetId));
-    if (EventGet(kEventDeathReset))
+    if (EventGet(Event::kEventDeathReset))
     {
         SetDead(true);
     }

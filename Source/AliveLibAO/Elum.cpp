@@ -1073,7 +1073,7 @@ s16 Elum::Brain_0_WithoutAbe()
                 return 10;
             }
 
-            if (EventGet(kEventDeathReset) == 0)
+            if (EventGet(Event::kEventDeathReset) == 0)
             {
                 return mBrainSubState;
             }
@@ -1649,8 +1649,8 @@ void Elum::Motion_3_WalkLoop()
 {
     field_10E_pressed |= Input().GetHeld();
 
-    EventBroadcast(kEventNoise, this);
-    EventBroadcast(kEventSuspiciousNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
+    EventBroadcast(Event::kEventSuspiciousNoise, this);
 
     MoveOnLine(0);
 
@@ -1839,8 +1839,8 @@ void Elum::Motion_4_Turn()
 
 void Elum::Motion_5_WalkToIdle()
 {
-    EventBroadcast(kEventNoise, this);
-    EventBroadcast(kEventSuspiciousNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
+    EventBroadcast(Event::kEventSuspiciousNoise, this);
 
     MoveOnLine(0);
 
@@ -1887,8 +1887,8 @@ void Elum::Motion_5_WalkToIdle()
 
 void Elum::Motion_6_MidWalkToIdle()
 {
-    EventBroadcast(kEventNoise, this);
-    EventBroadcast(kEventSuspiciousNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
+    EventBroadcast(Event::kEventSuspiciousNoise, this);
 
     MoveOnLine(0);
 
@@ -1924,8 +1924,8 @@ void Elum::Motion_7_IdleToWalk2()
 {
     field_10E_pressed |= Input().GetHeld();
 
-    EventBroadcast(kEventNoise, this);
-    EventBroadcast(kEventSuspiciousNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
+    EventBroadcast(Event::kEventSuspiciousNoise, this);
 
     if (GetAnimation().GetIsLastFrame())
     {
@@ -1941,8 +1941,8 @@ void Elum::Motion_8_IdleToWalk1()
 {
     field_10E_pressed |= Input().GetHeld();
 
-    EventBroadcast(kEventNoise, this);
-    EventBroadcast(kEventSuspiciousNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
+    EventBroadcast(Event::kEventSuspiciousNoise, this);
 
     if (GetAnimation().GetIsLastFrame())
     {
@@ -1964,7 +1964,7 @@ void Elum::Motion_9_ToYell()
 
 void Elum::Motion_10_Yell()
 {
-    EventBroadcast(kEventNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
 
     CheckLiftPointGoneAndSetCamera();
 
@@ -1994,8 +1994,8 @@ void Elum::Motion_11_Unknown()
 
 void Elum::Motion_12_RunTurn()
 {
-    EventBroadcast(kEventNoise, this);
-    EventBroadcast(kEventSuspiciousNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
+    EventBroadcast(Event::kEventSuspiciousNoise, this);
 
     if (!GetAnimation().GetCurrentFrame())
     {
@@ -2042,8 +2042,8 @@ void Elum::Motion_12_RunTurn()
 
 void Elum::Motion_13_RunTurnToWalk()
 {
-    EventBroadcast(kEventNoise, this);
-    EventBroadcast(kEventSuspiciousNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
+    EventBroadcast(Event::kEventSuspiciousNoise, this);
 
     MoveOnLine(0);
 
@@ -2099,8 +2099,8 @@ void Elum::Motion_17_Unknown()
 {
     MoveOnLine(0);
 
-    EventBroadcast(kEventNoise, this);
-    EventBroadcast(kEventSuspiciousNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
+    EventBroadcast(Event::kEventSuspiciousNoise, this);
 
     if (GetAnimation().GetIsLastFrame())
     {
@@ -2196,8 +2196,8 @@ void Elum::Motion_20_Fall()
 
 void Elum::Motion_21_Land()
 {
-    EventBroadcast(kEventNoise, this);
-    EventBroadcast(kEventSuspiciousNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
+    EventBroadcast(Event::kEventSuspiciousNoise, this);
 
     if (mVelX > FP_FromInteger(0))
     {
@@ -2283,8 +2283,8 @@ void Elum::Motion_21_Land()
 
 void Elum::Motion_22_RunOffEdge()
 {
-    EventBroadcast(kEventNoise, this);
-    EventBroadcast(kEventSuspiciousNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
+    EventBroadcast(Event::kEventSuspiciousNoise, this);
 
     if (GetAnimation().GetIsLastFrame())
     {
@@ -2303,8 +2303,8 @@ void Elum::Motion_23_WalkOffEdge()
 
 void Elum::Motion_24_JumpToFall()
 {
-    EventBroadcast(kEventNoise, this);
-    EventBroadcast(kEventSuspiciousNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
+    EventBroadcast(Event::kEventSuspiciousNoise, this);
 
     if (GetAnimation().GetIsLastFrame())
     {
@@ -2316,7 +2316,7 @@ void Elum::Motion_24_JumpToFall()
 
 void Elum::Motion_25_LickingHoney()
 {
-    EventBroadcast(kEventNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
 
     CheckLiftPointGoneAndSetCamera();
 
@@ -2378,7 +2378,7 @@ void Elum::Motion_28_AbeUnmountingEnd()
 
 void Elum::Motion_29_BeesStruggling()
 {
-    EventBroadcast(kEventNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
 
     if (mNextMotion == eElumMotions::Motion_44_ScratchBegin)
     {
@@ -2421,8 +2421,8 @@ void Elum::Motion_29_BeesStruggling()
 
 void Elum::Motion_30_HopBegin()
 {
-    EventBroadcast(kEventNoise, this);
-    EventBroadcast(kEventSuspiciousNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
+    EventBroadcast(Event::kEventSuspiciousNoise, this);
 
     CheckLiftPointGoneAndSetCamera();
 
@@ -2463,8 +2463,8 @@ void Elum::Motion_30_HopBegin()
 
 void Elum::RunJumpMidAndHopMid(MidType midType)
 {
-    EventBroadcast(kEventNoise, this);
-    EventBroadcast(kEventSuspiciousNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
+    EventBroadcast(Event::kEventSuspiciousNoise, this);
 
     if (WallHit(GetSpriteScale() * FP_FromInteger(40), mVelX))
     {
@@ -2537,8 +2537,8 @@ void Elum::Motion_31_HopMid()
 
 void Elum::Motion_32_HopLand()
 {
-    EventBroadcast(kEventNoise, this);
-    EventBroadcast(kEventSuspiciousNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
+    EventBroadcast(Event::kEventSuspiciousNoise, this);
 
     CheckLiftPointGoneAndSetCamera();
 
@@ -2562,8 +2562,8 @@ void Elum::Motion_32_HopLand()
 
 void Elum::Motion_33_RunJumpBegin()
 {
-    EventBroadcast(kEventNoise, this);
-    EventBroadcast(kEventSuspiciousNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
+    EventBroadcast(Event::kEventSuspiciousNoise, this);
 
     CheckLiftPointGoneAndSetCamera();
 
@@ -2604,8 +2604,8 @@ void Elum::Motion_34_RunJumpMid()
 
 void Elum::Motion_35_RunJumpLand()
 {
-    EventBroadcast(kEventNoise, this);
-    EventBroadcast(kEventSuspiciousNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
+    EventBroadcast(Event::kEventSuspiciousNoise, this);
 
     CheckLiftPointGoneAndSetCamera();
 
@@ -2663,8 +2663,8 @@ void Elum::Motion_36_RunLoop()
 {
     field_10E_pressed |= Input().GetHeld();
 
-    EventBroadcast(kEventNoise, this);
-    EventBroadcast(kEventSuspiciousNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
+    EventBroadcast(Event::kEventSuspiciousNoise, this);
 
     if (WallHit(GetSpriteScale() * FP_FromInteger(40), mVelX))
     {
@@ -2780,8 +2780,8 @@ void Elum::RunSlideStopKnockback()
 
 void Elum::Motion_37_RunSlideStop()
 {
-    EventBroadcast(kEventNoise, this);
-    EventBroadcast(kEventSuspiciousNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
+    EventBroadcast(Event::kEventSuspiciousNoise, this);
 
     if (GetAnimation().GetCurrentFrame() == 0)
     {
@@ -2826,8 +2826,8 @@ void Elum::Motion_37_RunSlideStop()
 
 void Elum::Motion_38_RunTurnToRun()
 {
-    EventBroadcast(kEventNoise, this);
-    EventBroadcast(kEventSuspiciousNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
+    EventBroadcast(Event::kEventSuspiciousNoise, this);
 
     MoveOnLine(0);
 
@@ -2840,8 +2840,8 @@ void Elum::Motion_38_RunTurnToRun()
 
 void Elum::Motion_39_IdleToRun()
 {
-    EventBroadcast(kEventNoise, this);
-    EventBroadcast(kEventSuspiciousNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
+    EventBroadcast(Event::kEventSuspiciousNoise, this);
 
     field_10E_pressed |= Input().GetHeld();
 
@@ -2857,8 +2857,8 @@ void Elum::Motion_40_WalkToRun()
 {
     field_10E_pressed |= Input().GetHeld();
 
-    EventBroadcast(kEventNoise, this);
-    EventBroadcast(kEventSuspiciousNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
+    EventBroadcast(Event::kEventSuspiciousNoise, this);
 
     if (GetAnimation().GetFlipX())
     {
@@ -2881,8 +2881,8 @@ void Elum::Motion_41_MidWalkToRun()
 {
     field_10E_pressed |= Input().GetHeld();
 
-    EventBroadcast(kEventNoise, this);
-    EventBroadcast(kEventSuspiciousNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
+    EventBroadcast(Event::kEventSuspiciousNoise, this);
 
     if (GetAnimation().GetFlipX())
     {
@@ -2905,8 +2905,8 @@ void Elum::Motion_41_MidWalkToRun()
 
 void Elum::Motion_42_RunToWalk()
 {
-    EventBroadcast(kEventNoise, this);
-    EventBroadcast(kEventSuspiciousNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
+    EventBroadcast(Event::kEventSuspiciousNoise, this);
 
     field_10E_pressed |= Input().GetHeld();
 
@@ -2962,8 +2962,8 @@ void Elum::Motion_42_RunToWalk()
 
 void Elum::Motion_43_MidRunToWalk()
 {
-    EventBroadcast(kEventNoise, this);
-    EventBroadcast(kEventSuspiciousNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
+    EventBroadcast(Event::kEventSuspiciousNoise, this);
 
     field_10E_pressed |= Input().GetHeld();
 
@@ -3101,7 +3101,7 @@ void Elum::ToIdle()
 
 void Elum::Motion_47_Unknown()
 {
-    EventBroadcast(kEventNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
 
     CheckLiftPointGoneAndSetCamera();
 
@@ -3132,8 +3132,8 @@ void Elum::Motion_49_AbeUnmountingBegin()
 
 void Elum::Motion_50_Knockback()
 {
-    EventBroadcast(kEventNoise, this);
-    EventBroadcast(kEventSuspiciousNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
+    EventBroadcast(Event::kEventSuspiciousNoise, this);
 
     if (!BaseAliveGameObjectCollisionLine)
     {
@@ -3345,7 +3345,7 @@ void Elum::VUpdate()
             }
         }
 
-        if (EventGet(kEventDeathReset))
+        if (EventGet(Event::kEventDeathReset))
         {
             if (!field_154_bAbeForcedDownFromElum)
             {

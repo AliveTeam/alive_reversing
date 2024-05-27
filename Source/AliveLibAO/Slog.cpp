@@ -301,7 +301,7 @@ void Slog::VOnTlvCollision(relive::Path_TLV* pTlv)
 
 void Slog::VUpdate()
 {
-    if (EventGet(kEventDeathReset))
+    if (EventGet(Event::kEventDeathReset))
     {
         SetDead(true);
     }
@@ -1992,7 +1992,7 @@ s16 Slog::Brain_1_Idle()
 
         case 1:
             if (IsEventInRange(
-                    kEventSuspiciousNoise,
+                    Event::kEventSuspiciousNoise,
                     mXPos,
                     mYPos,
                     GetSpriteScale()))
@@ -2001,7 +2001,7 @@ s16 Slog::Brain_1_Idle()
             }
 
             if (IsEventInRange(
-                    kEventSpeaking,
+                    Event::kEventSpeaking,
                     mXPos,
                     mYPos,
                     GetSpriteScale()))
@@ -2044,7 +2044,7 @@ s16 Slog::Brain_1_Idle()
 
         case 4:
             if (IsEventInRange(
-                    kEventSuspiciousNoise,
+                    Event::kEventSuspiciousNoise,
                     mXPos,
                     mYPos,
                     GetSpriteScale()))
@@ -2053,7 +2053,7 @@ s16 Slog::Brain_1_Idle()
             }
 
             if (IsEventInRange(
-                    kEventSpeaking,
+                    Event::kEventSpeaking,
                     mXPos,
                     mYPos,
                     GetSpriteScale()))
@@ -2114,7 +2114,7 @@ s16 Slog::Brain_1_Idle()
 
         case 5:
             if (IsEventInRange(
-                    kEventSuspiciousNoise,
+                    Event::kEventSuspiciousNoise,
                     mXPos,
                     mYPos,
                     GetSpriteScale()))
@@ -2123,7 +2123,7 @@ s16 Slog::Brain_1_Idle()
             }
 
             if (IsEventInRange(
-                    kEventSpeaking,
+                    Event::kEventSpeaking,
                     mXPos,
                     mYPos,
                     GetSpriteScale()))

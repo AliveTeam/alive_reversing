@@ -23,7 +23,7 @@ LevelLoader::LevelLoader(relive::Path_LevelLoader* pTlv, const Guid& tlvId)
 
 void LevelLoader::VUpdate()
 {
-    if (EventGet(kEventDeathReset))
+    if (EventGet(Event::kEventDeathReset))
     {
         SetDead(true);
     }

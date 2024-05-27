@@ -40,7 +40,7 @@ void ZzzSpawner::VScreenChanged()
 
 void ZzzSpawner::VUpdate()
 {
-    if (EventGet(kEventDeathReset))
+    if (EventGet(Event::kEventDeathReset))
     {
         SetDead(true);
     }

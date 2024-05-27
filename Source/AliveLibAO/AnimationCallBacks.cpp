@@ -93,8 +93,8 @@ void Animation_OnFrame_Slig(::BaseGameObject* pObj, u32&, const IndexedPoint& pD
         SfxPlayMono(relive::SoundEffects::SligShoot, 0);
     }
 
-    EventBroadcast(kEventShooting, pSlig);
-    EventBroadcast(kEventLoudNoise, pSlig);
+    EventBroadcast(Event::kEventShooting, pSlig);
+    EventBroadcast(Event::kEventLoudNoise, pSlig);
 
     Dove::All_FlyAway(false);
 }

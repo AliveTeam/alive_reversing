@@ -98,7 +98,7 @@ void ScrabSpawner::VUpdate()
     }
 
     auto pExistingSpawnedScrab = static_cast<Scrab*>(sObjectIds.Find_Impl(field_3C_spawned_scrab_id));
-    if (!EventGet(kEventDeathReset) && !(GetDead()))
+    if (!EventGet(Event::kEventDeathReset) && !(GetDead()))
     {
         if (field_38_state == ScrabSpawnerStates::eScrabSpawned_1)
         {

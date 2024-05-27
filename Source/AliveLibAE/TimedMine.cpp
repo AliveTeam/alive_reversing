@@ -281,7 +281,7 @@ void TimedMine::StickToLiftPoint()
 void TimedMine::VUpdate()
 {
     auto pPlatform = static_cast<LiftPoint*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
-    if (EventGet(kEventDeathReset))
+    if (EventGet(Event::kEventDeathReset))
     {
         SetDead(true);
     }

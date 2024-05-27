@@ -79,9 +79,9 @@ void GroundExplosion::VUpdate()
 {
     PSX_RECT rect = {};
 
-    EventBroadcast(kEventShooting, this);
-    EventBroadcast(kEventLoudNoise, this);
-    EventBroadcast(kEventSuspiciousNoise, this);
+    EventBroadcast(Event::kEventShooting, this);
+    EventBroadcast(Event::kEventLoudNoise, this);
+    EventBroadcast(Event::kEventSuspiciousNoise, this);
 
     switch (GetAnimation().GetCurrentFrame())
     {

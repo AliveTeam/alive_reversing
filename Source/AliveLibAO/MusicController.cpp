@@ -375,7 +375,7 @@ void MusicController::VUpdate()
 {
     MusicController::UpdateMusicTime();
 
-    if (EventGet(kEventDeathReset))
+    if (EventGet(Event::kEventDeathReset))
     {
         field_20 = 1;
         field_1C_pObj = gAbe;

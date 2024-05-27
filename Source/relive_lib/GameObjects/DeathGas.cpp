@@ -94,7 +94,7 @@ void DeathGas::VScreenChanged()
 
 void DeathGas::VUpdate()
 {
-    if (EventGet(kEventDeathReset))
+    if (EventGet(Event::kEventDeathReset))
     {
         SetDead(true);
     }

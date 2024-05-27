@@ -265,8 +265,8 @@ void LiftPoint::StayOnFloor(s16 floor, relive::Path_LiftPoint* pLiftTlv)
     pLiftTlv->mLiftPointId = mLiftPointId;
     mVelY = FP_FromInteger(0);
 
-    EventBroadcast(kEventNoise, this);
-    EventBroadcast(kEventSuspiciousNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
+    EventBroadcast(Event::kEventSuspiciousNoise, this);
 }
 
 
@@ -341,8 +341,8 @@ void LiftPoint::VUpdate()
                 mMoveToFloorLevel = false;
                 SfxPlayMono(relive::SoundEffects::LiftStop, 0);
                 SFX_Play_Pitch(relive::SoundEffects::LiftStop, 80, -2000);
-                EventBroadcast(kEventNoise, this);
-                EventBroadcast(kEventSuspiciousNoise, this);
+                EventBroadcast(Event::kEventNoise, this);
+                EventBroadcast(Event::kEventSuspiciousNoise, this);
             }
         }
         else
@@ -566,7 +566,7 @@ void LiftPoint::VUpdate()
         }
     }
 
-    if (mCurrentLevel != gMap.mCurrentLevel || mCurrentPath != gMap.mCurrentPath || EventGet(kEventDeathReset))
+    if (mCurrentLevel != gMap.mCurrentLevel || mCurrentPath != gMap.mCurrentPath || EventGet(Event::kEventDeathReset))
     {
         if (mPlatformBaseCount <= 0)
         {

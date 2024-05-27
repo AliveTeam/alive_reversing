@@ -207,7 +207,7 @@ static bool sExtraSeqStarted = false;
 
 void Dove::VUpdate()
 {
-    if (EventGet(kEventDeathReset))
+    if (EventGet(Event::kEventDeathReset))
     {
         SetDead(true);
     }
@@ -221,12 +221,12 @@ void Dove::VUpdate()
     switch (mDoveState)
     {
         case State::eOnGround_0:
-            if (EventGet(kEventSpeaking))
+            if (EventGet(Event::kEventSpeaking))
             {
                 Dove::All_FlyAway(false); // something is speaking, leg it
             }
 
-            if (EventGet(kEventNoise))
+            if (EventGet(Event::kEventNoise))
             {
                 if (GetGameType() == GameType::eAo)
                 {

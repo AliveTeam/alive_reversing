@@ -179,7 +179,7 @@ void SlapLock::VUpdate()
 {
     mSlapLockTlv = static_cast<relive::Path_SlapLock*>(gPathInfo->TLV_From_Offset_Lvl_Cam(mTlvInfo));
 
-    if (EventGet(kEventDeathReset))
+    if (EventGet(Event::kEventDeathReset))
     {
         SetDead(true);
     }
@@ -471,7 +471,7 @@ bool SlapLock::VTakeDamage(BaseGameObject* pFrom)
     mState = SlapLockStates::eSlapped_2;
     SwitchStates_Do_Operation(mSlapLockTlv->mSlapOutputSwitchId, relive::reliveSwitchOp::eToggle);
     SfxPlayMono(relive::SoundEffects::SpiritLockBreak, 0, GetSpriteScale());
-    EventBroadcast(kEventLoudNoise, this);
+    EventBroadcast(Event::kEventLoudNoise, this);
 
     relive_new ParticleBurst(
         mXPos,

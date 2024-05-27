@@ -84,7 +84,7 @@ void WheelSyncer::VUpdate()
 
     SwitchStates_Set(mOutputSwitchId, static_cast<s8>(switchValue));
 
-    if (EventGet(kEventDeathReset))
+    if (EventGet(Event::kEventDeathReset))
     {
         SetDead(true);
     }

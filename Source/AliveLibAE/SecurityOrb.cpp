@@ -136,7 +136,7 @@ bool SecurityOrb::VTakeDamage(BaseGameObject* pFrom)
 
 void SecurityOrb::VUpdate()
 {
-    if (EventGet(kEventDeathReset))
+    if (EventGet(Event::kEventDeathReset))
     {
         SetDead(true);
     }
@@ -161,7 +161,7 @@ void SecurityOrb::VUpdate()
                 }
             }
 
-            if (EventGet(kEventAbeOhm))
+            if (EventGet(Event::kEventAbeOhm))
             {
                 if (!gAbe->mRingPulseTimer || !gAbe->mHaveShrykull || gAbe->GetSpriteScale() != FP_FromInteger(1))
                 {

@@ -175,7 +175,7 @@ void FallingItem::VScreenChanged()
 
 void FallingItem::VUpdate()
 {
-    if (EventGet(kEventDeathReset))
+    if (EventGet(Event::kEventDeathReset))
     {
         SetDead(true);
     }
@@ -346,7 +346,7 @@ void FallingItem::VUpdate()
                 mAirStreamSndChannels = 0;
             }
 
-            EventBroadcast(kEventLoudNoise, this);
+            EventBroadcast(Event::kEventLoudNoise, this);
             SfxPlayMono(relive::SoundEffects::FallingItemLand, 0, GetSpriteScale());
 
             if (GetScale() == Scale::Fg)

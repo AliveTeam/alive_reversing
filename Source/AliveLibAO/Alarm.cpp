@@ -54,7 +54,7 @@ void Alarm::VRender(OrderingTable& ot)
 
 void Alarm::VUpdate()
 {
-    EventBroadcast(kEventAlarm, this);
+    EventBroadcast(Event::kEventAlarm, this);
 
     if (mEffectBasePathId != gMap.mCurrentPath || mEffectBaseLevelId != gMap.mCurrentLevel || static_cast<s32>(sGnFrame) > mAlarmDurationTimer)
     {
@@ -65,7 +65,7 @@ void Alarm::VUpdate()
     switch (mAlarmState)
     {
         case States::eAfterConstructed_0:
-            if (EventGet(kEventHeroDying))
+            if (EventGet(Event::kEventHeroDying))
             {
                 SetDead(true);
                 return;
@@ -115,7 +115,7 @@ void Alarm::VUpdate()
             break;
 
         case States::eDisabled_4:
-            if (EventGet(kEventHeroDying))
+            if (EventGet(Event::kEventHeroDying))
             {
                 SetDead(true);
                 return;

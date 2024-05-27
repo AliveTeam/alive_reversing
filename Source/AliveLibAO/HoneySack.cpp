@@ -120,7 +120,7 @@ void HoneySack::VOnThrowableHit(BaseGameObject* /*pFrom*/)
 
 void HoneySack::VUpdate()
 {
-    if (EventGet(kEventDeathReset))
+    if (EventGet(Event::kEventDeathReset))
     {
         SetDead(true);
     }

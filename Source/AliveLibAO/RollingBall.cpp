@@ -196,7 +196,7 @@ void RollingBall::VUpdate()
 
             CrushThingsInTheWay();
 
-            if (EventGet(kEventDeathReset))
+            if (EventGet(Event::kEventDeathReset))
             {
                 KillRollingBallShaker();
             }
@@ -257,7 +257,7 @@ void RollingBall::VUpdate()
                 return;
             }
 
-            if (EventGet(kEventDeathReset))
+            if (EventGet(Event::kEventDeathReset))
             {
                 SetDead(true);
                 CrushThingsInTheWay();
@@ -329,7 +329,7 @@ void RollingBall::VUpdate()
         }
 
         case States::eCrushedBees:
-            if (mCurrentLevel != gMap.mCurrentLevel || mCurrentPath != gMap.mCurrentPath || EventGet(kEventDeathReset))
+            if (mCurrentLevel != gMap.mCurrentLevel || mCurrentPath != gMap.mCurrentPath || EventGet(Event::kEventDeathReset))
             {
                 SetDead(true);
             }

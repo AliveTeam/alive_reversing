@@ -171,7 +171,7 @@ void MeatSaw::VScreenChanged()
 
 void MeatSaw::VUpdate()
 {
-    if (EventGet(kEventDeathReset))
+    if (EventGet(Event::kEventDeathReset))
     {
         SetDead(true);
     }

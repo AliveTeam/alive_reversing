@@ -80,13 +80,13 @@ void ColourfulMeter::VScreenChanged()
 
 void ColourfulMeter::VUpdate()
 {
-    if (EventGet(kEventDeathReset))
+    if (EventGet(Event::kEventDeathReset))
     {
         SetDead(true);
         gTotalMeterBars = 0;
     }
 
-    if (EventGet(kEventDeathResetEnd))
+    if (EventGet(Event::kEventDeathResetEnd))
     {
         gbDrawMeterCountDown = false;
     }

@@ -407,7 +407,7 @@ void Mudokon::KillLiftPoint_194()
 
 void Mudokon::VUpdate()
 {
-    if (EventGet(kEventDeathReset))
+    if (EventGet(Event::kEventDeathReset))
     {
         SetDead(true);
         return;
@@ -469,7 +469,7 @@ void Mudokon::VUpdate()
 
     if (GetElectrocuted())
     {
-        EventBroadcast(kEventMudokonDead, gAbe);
+        EventBroadcast(Event::kEventMudokonDead, gAbe);
     }
 }
 
@@ -564,7 +564,7 @@ bool Mudokon::VTakeDamage(BaseGameObject* pFrom)
                     false);
 
                 SetDead(true);
-                EventBroadcast(kEventMudokonDead, gAbe);
+                EventBroadcast(Event::kEventMudokonDead, gAbe);
             }
             return true;
 
@@ -594,14 +594,14 @@ bool Mudokon::VTakeDamage(BaseGameObject* pFrom)
                     GetSpriteScale(),
                     50);
 
-                EventBroadcast(kEventMudokonDead, gAbe);
-                EventBroadcast(kEventMudokonDead, gAbe);
+                EventBroadcast(Event::kEventMudokonDead, gAbe);
+                EventBroadcast(Event::kEventMudokonDead, gAbe);
                 return DoSmashDamage();
             }
             return true;
 
         case ReliveTypes::eRockSpawner:
-            EventBroadcast(kEventMudokonDead, gAbe);
+            EventBroadcast(Event::kEventMudokonDead, gAbe);
             return DoSmashDamage();
 
         case ReliveTypes::eScrab:
@@ -987,7 +987,7 @@ s16 Mudokon::FindBirdPortal()
         return 0;
     }
 
-    auto pBirdPortal = static_cast<BirdPortal*>(EventGet(kEventPortalOpen));
+    auto pBirdPortal = static_cast<BirdPortal*>(EventGet(Event::kEventPortalOpen));
     if (!pBirdPortal)
     {
         return 0;
@@ -1126,7 +1126,7 @@ void Mudokon::VOnTlvCollision(relive::Path_TLV* pTlv)
                     field_1BA_brain_sub_state = 0;
                     mHealth = FP_FromInteger(0);
                     field_1B8_brain_state = 13;
-                    EventBroadcast(kEventMudokonDead, gAbe);
+                    EventBroadcast(Event::kEventMudokonDead, gAbe);
                 }
             }
             pTlv = gMap.TLV_Get_At(pTlv, mXPos, mYPos, mXPos, mYPos);
@@ -1214,8 +1214,8 @@ void Mudokon::Motion_0_Idle()
 
 void Mudokon::Motion_1_WalkLoop()
 {
-    EventBroadcast(kEventNoise, this);
-    EventBroadcast(kEventSuspiciousNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
+    EventBroadcast(Event::kEventSuspiciousNoise, this);
 
     if (WallHit(
             GetSpriteScale() * FP_FromInteger(50),
@@ -1314,8 +1314,8 @@ void Mudokon::Motion_3_Speak()
 {
     CheckFloorGone();
 
-    EventBroadcast(kEventNoise, this);
-    EventBroadcast(kEventSuspiciousNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
+    EventBroadcast(Event::kEventSuspiciousNoise, this);
 
     if (GetAnimation().GetIsLastFrame())
     {
@@ -1340,8 +1340,8 @@ void Mudokon::Motion_6_Speak()
 
 void Mudokon::Motion_7_WalkBegin()
 {
-    EventBroadcast(kEventNoise, this);
-    EventBroadcast(kEventSuspiciousNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
+    EventBroadcast(Event::kEventSuspiciousNoise, this);
 
     if (WallHit(
             GetSpriteScale() * FP_FromInteger(50),
@@ -1361,8 +1361,8 @@ void Mudokon::Motion_7_WalkBegin()
 
 void Mudokon::Motion_8_WalkToIdle()
 {
-    EventBroadcast(kEventNoise, this);
-    EventBroadcast(kEventSuspiciousNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
+    EventBroadcast(Event::kEventSuspiciousNoise, this);
 
     if (WallHit(
             GetSpriteScale() * FP_FromInteger(50),
@@ -1615,8 +1615,8 @@ void Mudokon::Motion_26_CrouchToStand()
 
 void Mudokon::Motion_27_WalkToRun()
 {
-    EventBroadcast(kEventNoise, this);
-    EventBroadcast(kEventSuspiciousNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
+    EventBroadcast(Event::kEventSuspiciousNoise, this);
 
     if (GetAnimation().GetFlipX())
     {
@@ -1644,8 +1644,8 @@ void Mudokon::Motion_27_WalkToRun()
 
 void Mudokon::Motion_28_MidWalkToRun()
 {
-    EventBroadcast(kEventNoise, this);
-    EventBroadcast(kEventSuspiciousNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
+    EventBroadcast(Event::kEventSuspiciousNoise, this);
 
     if (GetAnimation().GetFlipX())
     {
@@ -1675,8 +1675,8 @@ void Mudokon::Motion_28_MidWalkToRun()
 
 void Mudokon::Motion_29_RunLoop()
 {
-    EventBroadcast(kEventNoise, this);
-    EventBroadcast(kEventSuspiciousNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
+    EventBroadcast(Event::kEventSuspiciousNoise, this);
 
     if (WallHit(GetSpriteScale() * FP_FromInteger(50), mVelX))
     {
@@ -1759,8 +1759,8 @@ void Mudokon::Motion_29_RunLoop()
 
 void Mudokon::Motion_30_RunToWalk()
 {
-    EventBroadcast(kEventNoise, this);
-    EventBroadcast(kEventSuspiciousNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
+    EventBroadcast(Event::kEventSuspiciousNoise, this);
 
     if (GetAnimation().GetFlipX())
     {
@@ -1788,8 +1788,8 @@ void Mudokon::Motion_30_RunToWalk()
 
 void Mudokon::Motion_31_MidRunToWalk()
 {
-    EventBroadcast(kEventNoise, this);
-    EventBroadcast(kEventSuspiciousNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
+    EventBroadcast(Event::kEventSuspiciousNoise, this);
 
     if (GetAnimation().GetFlipX())
     {
@@ -1819,8 +1819,8 @@ void Mudokon::Motion_31_MidRunToWalk()
 
 void Mudokon::Motion_32_RunSlideStop()
 {
-    EventBroadcast(kEventNoise, this);
-    EventBroadcast(kEventSuspiciousNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
+    EventBroadcast(Event::kEventSuspiciousNoise, this);
 
     if (WallHit(GetSpriteScale() * FP_FromInteger(50), mVelX))
     {
@@ -1844,8 +1844,8 @@ void Mudokon::Motion_32_RunSlideStop()
 
 void Mudokon::Motion_33_RunSlideTurn()
 {
-    EventBroadcast(kEventNoise, this);
-    EventBroadcast(kEventSuspiciousNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
+    EventBroadcast(Event::kEventSuspiciousNoise, this);
 
     if (WallHit(GetSpriteScale() * FP_FromInteger(50), mVelX))
     {
@@ -1878,8 +1878,8 @@ void Mudokon::Motion_33_RunSlideTurn()
 
 void Mudokon::Motion_34_RunTurnToRun()
 {
-    EventBroadcast(kEventNoise, this);
-    EventBroadcast(kEventSuspiciousNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
+    EventBroadcast(Event::kEventSuspiciousNoise, this);
 
     if (WallHit(GetSpriteScale() * FP_FromInteger(50), mVelX))
     {
@@ -2100,8 +2100,8 @@ void Mudokon::Motion_42_MidSneakToIdle()
 
 void Mudokon::Motion_43_RunJumpBegin()
 {
-    EventBroadcast(kEventNoise, this);
-    EventBroadcast(kEventSuspiciousNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
+    EventBroadcast(Event::kEventSuspiciousNoise, this);
 
     CheckFloorGone();
 
@@ -2135,8 +2135,8 @@ void Mudokon::Motion_43_RunJumpBegin()
 
 void Mudokon::Motion_44_RunJumpMid()
 {
-    EventBroadcast(kEventNoise, this);
-    EventBroadcast(kEventSuspiciousNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
+    EventBroadcast(Event::kEventSuspiciousNoise, this);
 
     if (GetAnimation().GetCurrentFrame() == 5)
     {
@@ -2185,8 +2185,8 @@ void Mudokon::Motion_45_StandToRun()
         mCurrentMotion = eMudMotions::Motion_29_RunLoop;
     }
 
-    EventBroadcast(kEventNoise, this);
-    EventBroadcast(kEventSuspiciousNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
+    EventBroadcast(Event::kEventSuspiciousNoise, this);
 
     if (WallHit(GetSpriteScale() * FP_FromInteger(50), mVelX))
     {
@@ -2224,8 +2224,8 @@ void Mudokon::Motion_46_FallLandDie()
 
 void Mudokon::Motion_47_Knockback()
 {
-    EventBroadcast(kEventNoise, this);
-    EventBroadcast(kEventSuspiciousNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
+    EventBroadcast(Event::kEventSuspiciousNoise, this);
 
     if ((gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarms
          || gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarmsReturn
@@ -2258,8 +2258,8 @@ void Mudokon::Motion_48_KnockbackGetUp()
 {
     CheckFloorGone();
 
-    EventBroadcast(kEventNoise, this);
-    EventBroadcast(kEventSuspiciousNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
+    EventBroadcast(Event::kEventSuspiciousNoise, this);
 
     if (GetAnimation().GetIsLastFrame())
     {
@@ -3297,7 +3297,7 @@ s16 Mudokon::Brain_9_CrouchScrub()
                 }
 
                 if (IsEventInRange(
-                        kEventSpeaking,
+                        Event::kEventSpeaking,
                         mXPos,
                         mYPos,
                         GetSpriteScale()))
@@ -3474,7 +3474,7 @@ s16 Mudokon::Brain_10_ListeningToAbe()
                         last_speak = mListener.Get(*gEventSystem);
                     }
 
-                    if (EventGet(kEventMudokonComfort)
+                    if (EventGet(Event::kEventMudokonComfort)
                         && gMap.Is_Point_In_Current_Camera(
                             mCurrentLevel,
                             mCurrentPath,
@@ -3729,7 +3729,7 @@ s16 Mudokon::Brain_10_ListeningToAbe()
                     return field_1BA_brain_sub_state;
                 }
 
-                if (EventGet(kEventMudokonComfort)
+                if (EventGet(Event::kEventMudokonComfort)
                     && gMap.Is_Point_In_Current_Camera(
                         mCurrentLevel,
                         mCurrentPath,
@@ -3970,7 +3970,7 @@ s16 Mudokon::Brain_11_ShrivelDeath()
 
 s16 Mudokon::Brain_12_Escape()
 {
-    if (EventGet(kEventDeathReset))
+    if (EventGet(Event::kEventDeathReset))
     {
         SetDead(true);
         return field_1BA_brain_sub_state;

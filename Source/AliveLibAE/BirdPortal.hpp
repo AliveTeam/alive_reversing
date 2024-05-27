@@ -44,7 +44,7 @@ struct BirdPortalSaveState final : public SaveStateBase
 };
 
 class OrbWhirlWind;
-enum Event : s16;
+enum class Event : s16;
 
 class BirdPortal final : public BaseGameObject
 {

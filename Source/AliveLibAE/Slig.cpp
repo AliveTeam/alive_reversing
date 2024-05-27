@@ -148,8 +148,8 @@ void Animation_OnFrame_Slig(BaseGameObject* pObj, u32&, const IndexedPoint& poin
         SfxPlayMono(relive::SoundEffects::SligShoot, 0);
     }
 
-    EventBroadcast(kEventShooting, pSlig);
-    EventBroadcast(kEventLoudNoise, pSlig);
+    EventBroadcast(Event::kEventShooting, pSlig);
+    EventBroadcast(Event::kEventLoudNoise, pSlig);
 
     Dove::All_FlyAway(false);
     return;
@@ -937,7 +937,7 @@ void Slig::Motion_3_StandToRun()
         mCurrentMotion = eSligMotions::Motion_4_Running;
     }
 
-    EventBroadcast(kEventNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
 
     if (WallHit(GetSpriteScale() * FP_FromInteger(45), mVelX))
     {
@@ -967,7 +967,7 @@ void Slig::Motion_4_Running()
 
     mInput |= Input().mPads[sCurrentControllerIndex].mPressed;
 
-    EventBroadcast(kEventNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
 
     if (WallHit(GetSpriteScale() * FP_FromInteger(45), mVelX))
     {
@@ -1283,7 +1283,7 @@ void Slig::Motion_7_Falling()
 
 void Slig::Motion_8_SlidingToStand()
 {
-    EventBroadcast(kEventNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
     if (WallHit(GetSpriteScale() * FP_FromInteger(45), mVelX))
     {
         ToKnockBack();
@@ -1314,7 +1314,7 @@ void Slig::Motion_8_SlidingToStand()
 
 void Slig::Motion_9_SlidingTurn()
 {
-    EventBroadcast(kEventNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
 
     if (WallHit(GetSpriteScale() * FP_FromInteger(45), mVelX))
     {
@@ -1364,7 +1364,7 @@ void Slig::Motion_9_SlidingTurn()
 
 void Slig::Motion_10_SlidingTurnToWalk()
 {
-    EventBroadcast(kEventNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
     MoveOnLine();
 
     if (GetAnimation().GetIsLastFrame())
@@ -1376,7 +1376,7 @@ void Slig::Motion_10_SlidingTurnToWalk()
 
 void Slig::Motion_11_SlidingTurnToRun()
 {
-    EventBroadcast(kEventNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
     MoveOnLine();
 
     if (GetAnimation().GetIsLastFrame())
@@ -1480,7 +1480,7 @@ void Slig::Motion_17_GameSpeak()
         {
             if (!BrainIs(&Slig::Brain_4_ListeningToGlukkon))
             {
-                EventBroadcast(kEventSpeaking, this);
+                EventBroadcast(Event::kEventSpeaking, this);
             }
             mInput = 0;
         }
@@ -1559,7 +1559,7 @@ void Slig::Motion_20_SpeakHereBoy()
         {
             if (!BrainIs(&Slig::Brain_4_ListeningToGlukkon))
             {
-                EventBroadcast(kEventSpeaking, this);
+                EventBroadcast(Event::kEventSpeaking, this);
             }
             mInput = 0;
         }
@@ -1786,12 +1786,12 @@ void Slig::Motion_34_Knockback()
                 mCurrentMotion = eSligMotions::Motion_41_LandingFatal;
                 field_12C_timer = MakeTimer(30);
                 mHealth = FP_FromInteger(0);
-                EventBroadcast(kEventMudokonComfort, this);
+                EventBroadcast(Event::kEventMudokonComfort, this);
             }
         }
     }
 
-    EventBroadcast(kEventNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
     if (GetAnimation().GetCurrentFrame() == 4)
     {
         Environment_SFX(EnvironmentSfx::eHitGroundSoft_6, 80, -200, this);
@@ -1813,7 +1813,7 @@ void Slig::Motion_34_Knockback()
 
 void Slig::Motion_35_KnockbackToStand()
 {
-    EventBroadcast(kEventNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
 
     if (GetAnimation().GetCurrentFrame() >= 2 && GetAnimation().GetCurrentFrame() <= 10)
     {
@@ -1988,13 +1988,13 @@ void Slig::Motion_38_OutToFall()
         mCurrentMotion = eSligMotions::Motion_41_LandingFatal;
         field_12C_timer = MakeTimer(30);
         mHealth = FP_FromInteger(0);
-        EventBroadcast(kEventMudokonComfort, this);
+        EventBroadcast(Event::kEventMudokonComfort, this);
     }
 }
 
 void Slig::Motion_39_FallingInitiate()
 {
-    EventBroadcast(kEventNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
 
     if (GetAnimation().GetIsLastFrame())
     {
@@ -2089,8 +2089,8 @@ void Slig::Motion_42_ShootZ()
         // The doves don't like bullets
         Dove::All_FlyAway(false);
 
-        EventBroadcast(kEventShooting, this);
-        EventBroadcast(kEventLoudNoise, this);
+        EventBroadcast(Event::kEventShooting, this);
+        EventBroadcast(Event::kEventLoudNoise, this);
     }
 }
 
@@ -2311,7 +2311,7 @@ void Slig::Motion_51_Beat()
                     if (pObj->mHealth > FP_FromInteger(0) && pObj->GetScale() == GetScale() && PSX_Rects_overlap_no_adjustment(&hitRect, &bRect))
                     {
                         pObj->VTakeDamage(this);
-                        EventBroadcast(kEventNoise, this);
+                        EventBroadcast(Event::kEventNoise, this);
                         SfxPlayMono(relive::SoundEffects::FallingItemHit, 60);
                         return;
                     }
@@ -2459,7 +2459,7 @@ s16 Slig::Brain_2_Possessed()
             break;
 
         case Brain_2_Possessed::eBrain2_PossessionSpeak_3:
-            if (EventGet(kEventDeathReset))
+            if (EventGet(Event::kEventDeathReset))
             {
                 if (sControlledCharacter != this)
                 {
@@ -2476,7 +2476,7 @@ s16 Slig::Brain_2_Possessed()
             break;
 
         case Brain_2_Possessed::eBrain2_ControlledByPlayer_4:
-            if (EventGet(kEventDeathReset))
+            if (EventGet(Event::kEventDeathReset))
             {
                 if (sControlledCharacter != this)
                 {
@@ -3213,12 +3213,12 @@ s16 Slig::Brain_7_SpottedEnemy()
 {
     if (gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) || !mSligTlv.mData.mChaseAbeWhenSpotted)
     {
-        if (VOnSameYLevel(sControlledCharacter) && VIsObj_GettingNear_On_X(sControlledCharacter) && VIsObjNearby(ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(3), sControlledCharacter) && !EventGet(kEventResetting) && !sControlledCharacter->GetInvisible())
+        if (VOnSameYLevel(sControlledCharacter) && VIsObj_GettingNear_On_X(sControlledCharacter) && VIsObjNearby(ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(3), sControlledCharacter) && !EventGet(Event::kEventResetting) && !sControlledCharacter->GetInvisible())
         {
             ToShoot();
         }
         else if (
-            VOnSameYLevel(sControlledCharacter) && EventGet(kEventAbeOhm) && VIsFacingMe(sControlledCharacter))
+            VOnSameYLevel(sControlledCharacter) && EventGet(Event::kEventAbeOhm) && VIsFacingMe(sControlledCharacter))
         {
             ToShoot();
         }
@@ -3252,7 +3252,7 @@ s16 Slig::Brain_7_SpottedEnemy()
 
 s16 Slig::Brain_10_EnemyDead()
 {
-    if (EventGet(kEventDeathReset) && !gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0))
+    if (EventGet(Event::kEventDeathReset) && !gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0))
     {
         SetDead(true);
         return 113;
@@ -3306,7 +3306,7 @@ s16 Slig::Brain_11_KilledEnemy()
 
 s16 Slig::Brain_12_PanicTurning()
 {
-    if (EventGet(kEventDeathReset) && !gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0))
+    if (EventGet(Event::kEventDeathReset) && !gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0))
     {
         SetDead(true);
         return 107;
@@ -3406,7 +3406,7 @@ s16 Slig::Brain_13_PanicRunning()
     {
         ToPanicRunning();
     }
-    else if (VOnSameYLevel(sControlledCharacter) && sControlledCharacter->Type() != ReliveTypes::eGlukkon && VIsFacingMe(sControlledCharacter) && !IsInInvisibleZone(sControlledCharacter) && !sControlledCharacter->GetInvisible() && !IsWallBetween(this, sControlledCharacter) && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && !EventGet(kEventResetting))
+    else if (VOnSameYLevel(sControlledCharacter) && sControlledCharacter->Type() != ReliveTypes::eGlukkon && VIsFacingMe(sControlledCharacter) && !IsInInvisibleZone(sControlledCharacter) && !sControlledCharacter->GetInvisible() && !IsWallBetween(this, sControlledCharacter) && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && !EventGet(Event::kEventResetting))
     {
         ToShoot();
     }
@@ -3451,7 +3451,7 @@ s16 Slig::Brain_14_PanicYelling()
 
     if (GetAnimation().GetIsLastFrame())
     {
-        EventBroadcast(kEventAlarm, this);
+        EventBroadcast(Event::kEventAlarm, this);
 
         const bool kFlipX = GetAnimation().GetFlipX();
         field_120_timer = sGnFrame + mSligTlv.mData.mPanicTimeout;
@@ -3473,7 +3473,7 @@ s16 Slig::Brain_14_PanicYelling()
 
 s16 Slig::Brain_15_Idle()
 {
-    if ((EventGet(kEventAbeOhm) || EventGet(kEventAlarm)) && !EventGet(kEventResetting) && mSligTlv.mData.mPanicTimeout)
+    if ((EventGet(Event::kEventAbeOhm) || EventGet(Event::kEventAlarm)) && !EventGet(Event::kEventResetting) && mSligTlv.mData.mPanicTimeout)
     {
         ToPanic();
         return 104;
@@ -3491,7 +3491,7 @@ s16 Slig::Brain_15_Idle()
         !sControlledCharacter->GetInvisible() &&
         !IsWallBetween(this, sControlledCharacter) && (!field_15E_spotted_possessed_slig || sControlledCharacter->Type() != ReliveTypes::eSlig) &&
         !IsAbeEnteringDoor(sControlledCharacter) &&
-        !EventGet(kEventResetting) &&
+        !EventGet(Event::kEventResetting) &&
         gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && sControlledCharacter->Type() != ReliveTypes::eGlukkon)
     {
         RespondToEnemyOrPatrol();
@@ -3504,8 +3504,8 @@ s16 Slig::Brain_15_Idle()
         return 104;
     }
 
-    auto pShooter = static_cast<BaseAnimatedWithPhysicsGameObject*>(EventGet(kEventShooting));
-    if (pShooter && pShooter->GetSpriteScale() == GetSpriteScale() && gMap.Is_Point_In_Current_Camera(pShooter->mCurrentLevel, pShooter->mCurrentPath, pShooter->mXPos, pShooter->mYPos, 0) && pShooter == sControlledCharacter && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && !EventGet(kEventResetting))
+    auto pShooter = static_cast<BaseAnimatedWithPhysicsGameObject*>(EventGet(Event::kEventShooting));
+    if (pShooter && pShooter->GetSpriteScale() == GetSpriteScale() && gMap.Is_Point_In_Current_Camera(pShooter->mCurrentLevel, pShooter->mCurrentPath, pShooter->mXPos, pShooter->mYPos, 0) && pShooter == sControlledCharacter && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && !EventGet(Event::kEventResetting))
     {
         if (VIsFacingMe(pShooter))
         {
@@ -3519,13 +3519,13 @@ s16 Slig::Brain_15_Idle()
         }
     }
 
-    auto pNoiseOrSpeaking = static_cast<BaseAnimatedWithPhysicsGameObject*>(EventGet(kEventSuspiciousNoise));
+    auto pNoiseOrSpeaking = static_cast<BaseAnimatedWithPhysicsGameObject*>(EventGet(Event::kEventSuspiciousNoise));
     if (!pNoiseOrSpeaking)
     {
-        pNoiseOrSpeaking = static_cast<BaseAnimatedWithPhysicsGameObject*>(EventGet(kEventSpeaking));
+        pNoiseOrSpeaking = static_cast<BaseAnimatedWithPhysicsGameObject*>(EventGet(Event::kEventSpeaking));
     }
 
-    if (pNoiseOrSpeaking && pNoiseOrSpeaking->GetSpriteScale() == GetSpriteScale() && gMap.Is_Point_In_Current_Camera(pNoiseOrSpeaking->mCurrentLevel, pNoiseOrSpeaking->mCurrentPath, pNoiseOrSpeaking->mXPos, pNoiseOrSpeaking->mYPos, 0) && pNoiseOrSpeaking != this && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && !EventGet(kEventResetting))
+    if (pNoiseOrSpeaking && pNoiseOrSpeaking->GetSpriteScale() == GetSpriteScale() && gMap.Is_Point_In_Current_Camera(pNoiseOrSpeaking->mCurrentLevel, pNoiseOrSpeaking->mCurrentPath, pNoiseOrSpeaking->mXPos, pNoiseOrSpeaking->mYPos, 0) && pNoiseOrSpeaking != this && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && !EventGet(Event::kEventResetting))
     {
         if (pNoiseOrSpeaking != sControlledCharacter)
         {
@@ -3547,7 +3547,7 @@ s16 Slig::Brain_15_Idle()
     }
     else
     {
-        if (sControlledCharacter->GetSpriteScale() > GetSpriteScale() && VIsFacingMe(sControlledCharacter) && !IsInInvisibleZone(sControlledCharacter) && !sControlledCharacter->GetInvisible() && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && !IsInZCover(sControlledCharacter) && !IsInZCover(this) && !EventGet(kEventResetting))
+        if (sControlledCharacter->GetSpriteScale() > GetSpriteScale() && VIsFacingMe(sControlledCharacter) && !IsInInvisibleZone(sControlledCharacter) && !sControlledCharacter->GetInvisible() && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && !IsInZCover(sControlledCharacter) && !IsInZCover(this) && !EventGet(Event::kEventResetting))
         {
             ToZShoot();
             return 104;
@@ -3598,7 +3598,7 @@ s16 Slig::Brain_17_Chasing()
         && !sControlledCharacter->GetInvisible() 
         && !IsWallBetween(this, sControlledCharacter) 
         && !InAnyWellRenderLayer(sControlledCharacter) 
-        && !EventGet(kEventResetting) 
+        && !EventGet(Event::kEventResetting)
         && sControlledCharacter->Type() != ReliveTypes::eGlukkon)
     {
         field_15C_force_alive_state = 0;
@@ -3614,7 +3614,7 @@ s16 Slig::Brain_17_Chasing()
         return 118;
     }
 
-    if (mCurrentPath != gMap.mCurrentPath || mCurrentLevel != gMap.mCurrentLevel || (EventGet(kEventDeathReset) && !gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0)))
+    if (mCurrentPath != gMap.mCurrentPath || mCurrentLevel != gMap.mCurrentLevel || (EventGet(Event::kEventDeathReset) && !gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0)))
     {
         SetDead(true);
     }
@@ -3665,7 +3665,7 @@ s16 Slig::Brain_18_StartChasing()
 
 s16 Slig::Brain_19_Turning()
 {
-    if (EventGet(kEventDeathReset) && !gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0))
+    if (EventGet(Event::kEventDeathReset) && !gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0))
     {
         SetDead(true);
         return 106;
@@ -3756,7 +3756,7 @@ s16 Slig::Brain_20_StoppingNextToMudokon()
 
 s16 Slig::Brain_21_Walking()
 {
-    if (EventGet(kEventAlarm) && mSligTlv.mData.mPanicTimeout)
+    if (EventGet(Event::kEventAlarm) && mSligTlv.mData.mPanicTimeout)
     {
         ToPanic();
         return 108;
@@ -3799,14 +3799,14 @@ s16 Slig::Brain_21_Walking()
         !IsWallBetween(this, sControlledCharacter) &&
         gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) &&
         gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && (!field_15E_spotted_possessed_slig || sControlledCharacter->Type() != ReliveTypes::eSlig) &&
-        !IsAbeEnteringDoor(sControlledCharacter) && !EventGet(kEventResetting) && sControlledCharacter->Type() != ReliveTypes::eGlukkon)
+        !IsAbeEnteringDoor(sControlledCharacter) && !EventGet(Event::kEventResetting) && sControlledCharacter->Type() != ReliveTypes::eGlukkon)
     {
         RespondToEnemyOrPatrol();
     }
     else
     {
-        auto pShooter = static_cast<BaseAnimatedWithPhysicsGameObject*>(EventGet(kEventShooting));
-        if (pShooter && pShooter->GetSpriteScale() == GetSpriteScale() && gMap.Is_Point_In_Current_Camera(pShooter->mCurrentLevel, pShooter->mCurrentPath, pShooter->mXPos, pShooter->mYPos, 0) && pShooter == sControlledCharacter && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && !EventGet(kEventResetting))
+        auto pShooter = static_cast<BaseAnimatedWithPhysicsGameObject*>(EventGet(Event::kEventShooting));
+        if (pShooter && pShooter->GetSpriteScale() == GetSpriteScale() && gMap.Is_Point_In_Current_Camera(pShooter->mCurrentLevel, pShooter->mCurrentPath, pShooter->mXPos, pShooter->mYPos, 0) && pShooter == sControlledCharacter && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && !EventGet(Event::kEventResetting))
         {
             if (VIsFacingMe(pShooter))
             {
@@ -3817,11 +3817,11 @@ s16 Slig::Brain_21_Walking()
                 ToTurn();
             }
         }
-        else if (VOnSameYLevel(sControlledCharacter) && VIsFacingMe(sControlledCharacter) && !IsWallBetween(this, sControlledCharacter) && EventGet(kEventAbeOhm) && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && !EventGet(kEventResetting))
+        else if (VOnSameYLevel(sControlledCharacter) && VIsFacingMe(sControlledCharacter) && !IsWallBetween(this, sControlledCharacter) && EventGet(Event::kEventAbeOhm) && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && !EventGet(Event::kEventResetting))
         {
             ToShoot();
         }
-        else if (EventGet(kEventAbeOhm) && !EventGet(kEventResetting) && mSligTlv.mData.mPanicTimeout)
+        else if (EventGet(Event::kEventAbeOhm) && !EventGet(Event::kEventResetting) && mSligTlv.mData.mPanicTimeout)
         {
             ToPanic();
         }
@@ -3831,13 +3831,13 @@ s16 Slig::Brain_21_Walking()
         }
         else
         {
-            auto pNoiseOrSpeaker = static_cast<BaseAnimatedWithPhysicsGameObject*>(EventGet(kEventSuspiciousNoise));
+            auto pNoiseOrSpeaker = static_cast<BaseAnimatedWithPhysicsGameObject*>(EventGet(Event::kEventSuspiciousNoise));
             if (!pNoiseOrSpeaker)
             {
-                pNoiseOrSpeaker = static_cast<BaseAnimatedWithPhysicsGameObject*>(EventGet(kEventSpeaking));
+                pNoiseOrSpeaker = static_cast<BaseAnimatedWithPhysicsGameObject*>(EventGet(Event::kEventSpeaking));
             }
 
-            if (pNoiseOrSpeaker && pNoiseOrSpeaker->GetSpriteScale() == GetSpriteScale() && gMap.Is_Point_In_Current_Camera(pNoiseOrSpeaker->mCurrentLevel, pNoiseOrSpeaker->mCurrentPath, pNoiseOrSpeaker->mXPos, pNoiseOrSpeaker->mYPos, 0) && pNoiseOrSpeaker != this && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && !EventGet(kEventResetting))
+            if (pNoiseOrSpeaker && pNoiseOrSpeaker->GetSpriteScale() == GetSpriteScale() && gMap.Is_Point_In_Current_Camera(pNoiseOrSpeaker->mCurrentLevel, pNoiseOrSpeaker->mCurrentPath, pNoiseOrSpeaker->mXPos, pNoiseOrSpeaker->mYPos, 0) && pNoiseOrSpeaker != this && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && !EventGet(Event::kEventResetting))
             {
                 if (VIsFacingMe(sControlledCharacter))
                 {
@@ -3848,7 +3848,7 @@ s16 Slig::Brain_21_Walking()
                     TurnOrSayWhat();
                 }
             }
-            else if (sControlledCharacter->GetSpriteScale() > GetSpriteScale() && VIsFacingMe(sControlledCharacter) && !IsInInvisibleZone(sControlledCharacter) && !sControlledCharacter->GetInvisible() && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && !IsInZCover(sControlledCharacter) && !IsInZCover(this) && !EventGet(kEventResetting))
+            else if (sControlledCharacter->GetSpriteScale() > GetSpriteScale() && VIsFacingMe(sControlledCharacter) && !IsInInvisibleZone(sControlledCharacter) && !sControlledCharacter->GetInvisible() && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && !IsInZCover(sControlledCharacter) && !IsInZCover(this) && !EventGet(Event::kEventResetting))
             {
                 ToZShoot();
             }
@@ -3947,20 +3947,20 @@ s16 Slig::Brain_23_GetAlerted()
         !sControlledCharacter->GetInvisible() &&
         !IsWallBetween(this, sControlledCharacter) &&
         gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && (sControlledCharacter->Type() != ReliveTypes::eSlig && !field_15E_spotted_possessed_slig) &&
-        !IsAbeEnteringDoor(sControlledCharacter) && !EventGet(kEventResetting) && sControlledCharacter->Type() != ReliveTypes::eGlukkon)
+        !IsAbeEnteringDoor(sControlledCharacter) && !EventGet(Event::kEventResetting) && sControlledCharacter->Type() != ReliveTypes::eGlukkon)
     {
         RespondToEnemyOrPatrol();
     }
     // Panic?
-    else if ((EventGet(kEventAbeOhm) || EventGet(kEventAlarm)) && !EventGet(kEventResetting) && mSligTlv.mData.mPanicTimeout)
+    else if ((EventGet(Event::kEventAbeOhm) || EventGet(Event::kEventAlarm)) && !EventGet(Event::kEventResetting) && mSligTlv.mData.mPanicTimeout)
     {
         ToPanic();
     }
     else
     {
         // If some fool is trying to shoot us then shoot back
-        auto pShootingSlig = static_cast<BaseAnimatedWithPhysicsGameObject*>(EventGet(kEventShooting));
-        if (pShootingSlig && pShootingSlig->GetSpriteScale() == GetSpriteScale() && gMap.Is_Point_In_Current_Camera(pShootingSlig->mCurrentLevel, pShootingSlig->mCurrentPath, pShootingSlig->mXPos, pShootingSlig->mYPos, 0) && pShootingSlig == sControlledCharacter && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && !EventGet(kEventResetting))
+        auto pShootingSlig = static_cast<BaseAnimatedWithPhysicsGameObject*>(EventGet(Event::kEventShooting));
+        if (pShootingSlig && pShootingSlig->GetSpriteScale() == GetSpriteScale() && gMap.Is_Point_In_Current_Camera(pShootingSlig->mCurrentLevel, pShootingSlig->mCurrentPath, pShootingSlig->mXPos, pShootingSlig->mYPos, 0) && pShootingSlig == sControlledCharacter && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && !EventGet(Event::kEventResetting))
         {
             if (VIsFacingMe(pShootingSlig))
             {
@@ -3974,28 +3974,28 @@ s16 Slig::Brain_23_GetAlerted()
         else
         {
             // Is a mud being noisy?
-            auto pNoisyMud = static_cast<BaseAnimatedWithPhysicsGameObject*>(EventGet(kEventSuspiciousNoise));
+            auto pNoisyMud = static_cast<BaseAnimatedWithPhysicsGameObject*>(EventGet(Event::kEventSuspiciousNoise));
             if (!pNoisyMud)
             {
-                pNoisyMud = static_cast<BaseAnimatedWithPhysicsGameObject*>(EventGet(kEventSpeaking));
+                pNoisyMud = static_cast<BaseAnimatedWithPhysicsGameObject*>(EventGet(Event::kEventSpeaking));
             }
 
             // Then kill them
-            if (pNoisyMud && gMap.Is_Point_In_Current_Camera(pNoisyMud->mCurrentLevel, pNoisyMud->mCurrentPath, pNoisyMud->mXPos, pNoisyMud->mYPos, 0) && (pNoisyMud == sControlledCharacter || pNoisyMud->Type() == ReliveTypes::eMudokon) && VOnSameYLevel(pNoisyMud) && VIsFacingMe(pNoisyMud) && (pNoisyMud != sControlledCharacter || (!sControlledCharacter->GetInvisible() && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && !EventGet(kEventResetting))))
+            if (pNoisyMud && gMap.Is_Point_In_Current_Camera(pNoisyMud->mCurrentLevel, pNoisyMud->mCurrentPath, pNoisyMud->mXPos, pNoisyMud->mYPos, 0) && (pNoisyMud == sControlledCharacter || pNoisyMud->Type() == ReliveTypes::eMudokon) && VOnSameYLevel(pNoisyMud) && VIsFacingMe(pNoisyMud) && (pNoisyMud != sControlledCharacter || (!sControlledCharacter->GetInvisible() && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && !EventGet(Event::kEventResetting))))
             {
                 ToShoot();
             }
             else
             {
                 // Is a slig being noisy?
-                auto pNoisySlig = static_cast<BaseAnimatedWithPhysicsGameObject*>(EventGet(kEventSuspiciousNoise));
+                auto pNoisySlig = static_cast<BaseAnimatedWithPhysicsGameObject*>(EventGet(Event::kEventSuspiciousNoise));
                 if (!pNoisySlig)
                 {
-                    pNoisySlig = static_cast<BaseAnimatedWithPhysicsGameObject*>(EventGet(kEventSpeaking));
+                    pNoisySlig = static_cast<BaseAnimatedWithPhysicsGameObject*>(EventGet(Event::kEventSpeaking));
                 }
 
                 // Then mSay what, stop walking to respond or try to kill them.
-                if (pNoisySlig && gMap.Is_Point_In_Current_Camera(pNoisySlig->mCurrentLevel, pNoisySlig->mCurrentPath, pNoisySlig->mXPos, pNoisySlig->mYPos, 0) && (pNoisySlig == sControlledCharacter || pNoisySlig->Type() != ReliveTypes::eSlig) && !VIsFacingMe(pNoisySlig) && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && !EventGet(kEventResetting))
+                if (pNoisySlig && gMap.Is_Point_In_Current_Camera(pNoisySlig->mCurrentLevel, pNoisySlig->mCurrentPath, pNoisySlig->mXPos, pNoisySlig->mYPos, 0) && (pNoisySlig == sControlledCharacter || pNoisySlig->Type() != ReliveTypes::eSlig) && !VIsFacingMe(pNoisySlig) && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && !EventGet(Event::kEventResetting))
                 {
                     TurnOrSayWhat();
                 }
@@ -4123,7 +4123,7 @@ s16 Slig::Brain_29_Shooting()
             ToKilledAbe();
             return 111;
         }
-        if (!VOnSameYLevel(sControlledCharacter) || !VIsFacingMe(sControlledCharacter) || IsInInvisibleZone(sControlledCharacter) || sControlledCharacter->GetInvisible() || IsWallBetween(this, sControlledCharacter) || !gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) || !gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) || EventGet(kEventResetting))
+        if (!VOnSameYLevel(sControlledCharacter) || !VIsFacingMe(sControlledCharacter) || IsInInvisibleZone(sControlledCharacter) || sControlledCharacter->GetInvisible() || IsWallBetween(this, sControlledCharacter) || !gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) || !gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) || EventGet(Event::kEventResetting))
         {
             PauseALittle();
             return 111;
@@ -4178,7 +4178,7 @@ s16 Slig::Brain_32_Inactive()
         {
             ToAbeDead();
         }
-        else if (VOnSameYLevel(sControlledCharacter) && VIsFacingMe(sControlledCharacter) && VIsObjNearby(ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(1), sControlledCharacter) && !IsInInvisibleZone(sControlledCharacter) && !sControlledCharacter->GetInvisible() && !IsWallBetween(this, sControlledCharacter) && !EventGet(kEventResetting) && sControlledCharacter->Type() != ReliveTypes::eGlukkon)
+        else if (VOnSameYLevel(sControlledCharacter) && VIsFacingMe(sControlledCharacter) && VIsObjNearby(ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(1), sControlledCharacter) && !IsInInvisibleZone(sControlledCharacter) && !sControlledCharacter->GetInvisible() && !IsWallBetween(this, sControlledCharacter) && !EventGet(Event::kEventResetting) && sControlledCharacter->Type() != ReliveTypes::eGlukkon)
         {
             ToShoot();
         }
@@ -4202,13 +4202,13 @@ s16 Slig::Brain_33_Paused()
         return 101;
     }
 
-    if (VOnSameYLevel(sControlledCharacter) && VIsFacingMe(sControlledCharacter) && !IsInInvisibleZone(sControlledCharacter) && !sControlledCharacter->GetInvisible() && !IsWallBetween(this, sControlledCharacter) && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && (!field_15E_spotted_possessed_slig || sControlledCharacter->Type() != ReliveTypes::eSlig) && !EventGet(kEventResetting) && sControlledCharacter->Type() != ReliveTypes::eGlukkon)
+    if (VOnSameYLevel(sControlledCharacter) && VIsFacingMe(sControlledCharacter) && !IsInInvisibleZone(sControlledCharacter) && !sControlledCharacter->GetInvisible() && !IsWallBetween(this, sControlledCharacter) && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && (!field_15E_spotted_possessed_slig || sControlledCharacter->Type() != ReliveTypes::eSlig) && !EventGet(Event::kEventResetting) && sControlledCharacter->Type() != ReliveTypes::eGlukkon)
     {
         RespondToEnemyOrPatrol();
         return 101;
     }
 
-    if (VOnSameYLevel(sControlledCharacter) && VIsFacingMe(sControlledCharacter) && !IsInInvisibleZone(sControlledCharacter) && !sControlledCharacter->GetInvisible() && !IsWallBetween(this, sControlledCharacter) && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && !EventGet(kEventResetting) && sControlledCharacter->Type() != ReliveTypes::eGlukkon)
+    if (VOnSameYLevel(sControlledCharacter) && VIsFacingMe(sControlledCharacter) && !IsInInvisibleZone(sControlledCharacter) && !sControlledCharacter->GetInvisible() && !IsWallBetween(this, sControlledCharacter) && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && !EventGet(Event::kEventResetting) && sControlledCharacter->Type() != ReliveTypes::eGlukkon)
     {
         ToShoot();
     }
@@ -4218,17 +4218,17 @@ s16 Slig::Brain_33_Paused()
     }
     else
     {
-        auto pNoiseOrSpeaking = static_cast<BaseAnimatedWithPhysicsGameObject*>(EventGet(kEventSuspiciousNoise));
+        auto pNoiseOrSpeaking = static_cast<BaseAnimatedWithPhysicsGameObject*>(EventGet(Event::kEventSuspiciousNoise));
         if (!pNoiseOrSpeaking)
         {
-            pNoiseOrSpeaking = static_cast<BaseAnimatedWithPhysicsGameObject*>(EventGet(kEventSpeaking));
+            pNoiseOrSpeaking = static_cast<BaseAnimatedWithPhysicsGameObject*>(EventGet(Event::kEventSpeaking));
         }
 
-        if (pNoiseOrSpeaking && pNoiseOrSpeaking->GetSpriteScale() == GetSpriteScale() && pNoiseOrSpeaking != this && field_120_timer <= static_cast<s32>(sGnFrame) && !EventGet(kEventResetting))
+        if (pNoiseOrSpeaking && pNoiseOrSpeaking->GetSpriteScale() == GetSpriteScale() && pNoiseOrSpeaking != this && field_120_timer <= static_cast<s32>(sGnFrame) && !EventGet(Event::kEventResetting))
         {
             ToTurn();
         }
-        else if (sControlledCharacter->GetSpriteScale() > GetSpriteScale() && VIsFacingMe(sControlledCharacter) && !IsInInvisibleZone(sControlledCharacter) && !sControlledCharacter->GetInvisible() && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && !IsInZCover(sControlledCharacter) && !IsInZCover(this) && !EventGet(kEventResetting))
+        else if (sControlledCharacter->GetSpriteScale() > GetSpriteScale() && VIsFacingMe(sControlledCharacter) && !IsInInvisibleZone(sControlledCharacter) && !sControlledCharacter->GetInvisible() && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && !IsInZCover(sControlledCharacter) && !IsInZCover(this) && !EventGet(Event::kEventResetting))
         {
             ToZShoot();
         }
@@ -4242,33 +4242,33 @@ s16 Slig::Brain_33_Paused()
 
 s16 Slig::Brain_34_Sleeping()
 {
-    auto pEvent = IsEventInRange(kEventSuspiciousNoise, mXPos, mYPos, AsEventScale(GetScale()));
+    auto pEvent = IsEventInRange(Event::kEventSuspiciousNoise, mXPos, mYPos, AsEventScale(GetScale()));
     if (pEvent)
     {
-        auto pNoise = IsEventInRange(kEventNoise, mXPos, mYPos, AsEventScale(GetScale()));
+        auto pNoise = IsEventInRange(Event::kEventNoise, mXPos, mYPos, AsEventScale(GetScale()));
         if (pNoise)
         {
             pEvent = pNoise;
         }
 
         const FP wakeUpDistance = ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(mSligTlv.mData.mNoiseWakeUpDistance);
-        if (VIsObjNearby(wakeUpDistance, static_cast<BaseAnimatedWithPhysicsGameObject*>(pEvent)) && field_120_timer <= static_cast<s32>(sGnFrame) && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && !EventGet(kEventResetting))
+        if (VIsObjNearby(wakeUpDistance, static_cast<BaseAnimatedWithPhysicsGameObject*>(pEvent)) && field_120_timer <= static_cast<s32>(sGnFrame) && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && !EventGet(Event::kEventResetting))
         {
             WakeUp();
             return 102;
         }
     }
 
-    if (EventGet(kEventSpeaking) || EventGet(kEventLoudNoise))
+    if (EventGet(Event::kEventSpeaking) || EventGet(Event::kEventLoudNoise))
     {
-        if (pEvent != this && field_120_timer <= static_cast<s32>(sGnFrame) && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && !EventGet(kEventResetting))
+        if (pEvent != this && field_120_timer <= static_cast<s32>(sGnFrame) && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && !EventGet(Event::kEventResetting))
         {
             WakeUp();
             return 102;
         }
     }
 
-    if (EventGet(kEventAlarm) && !EventGet(kEventResetting))
+    if (EventGet(Event::kEventAlarm) && !EventGet(Event::kEventResetting))
     {
         WakeUp();
         return 102;
@@ -4287,7 +4287,7 @@ s16 Slig::Brain_34_Sleeping()
 // A leftover function from Abe's Oddysee.
 s16 Slig::Brain_35_ChaseAndDisappear()
 {
-    if (EventGet(kEventDeathReset))
+    if (EventGet(Event::kEventDeathReset))
     {
         SetDead(true);
     }
@@ -4742,7 +4742,7 @@ void Slig::VOnTlvCollision(relive::Path_TLV* pTlv)
                 mVelX = FP_FromInteger(0);
                 mCurrentMotion = eSligMotions::Motion_7_Falling;
                 mbMotionChanged = true;
-                EventBroadcast(kEventMudokonComfort, this);
+                EventBroadcast(Event::kEventMudokonComfort, this);
             }
         }
         pTlv = gPathInfo->TLV_Get_At(pTlv, mXPos, mYPos, mXPos, mYPos);
@@ -4971,7 +4971,7 @@ void Slig::BlowToGibs()
     field_120_timer = MakeTimer(60);
     SetUpdateDelay(40);
     SetBrain(&Slig::Brain_0_Death);
-    EventBroadcast(kEventMudokonComfort, this);
+    EventBroadcast(Event::kEventMudokonComfort, this);
 }
 
 s16 Slig::MainMovement()
@@ -5040,7 +5040,7 @@ s16 Slig::MainMovement()
 
             if (!BrainIs(&Slig::Brain_4_ListeningToGlukkon))
             {
-                EventBroadcast(kEventSpeaking, this);
+                EventBroadcast(Event::kEventSpeaking, this);
                 return 1;
             }
         }
@@ -5593,7 +5593,7 @@ void Slig::ToKnockBack()
 
 void Slig::TurnOrSayWhat()
 {
-    if (EventGet(kEventSpeaking) && !IsInInvisibleZone(sControlledCharacter) && !sControlledCharacter->GetInvisible())
+    if (EventGet(Event::kEventSpeaking) && !IsInInvisibleZone(sControlledCharacter) && !sControlledCharacter->GetInvisible())
     {
         GameSpeakResponse();
         RespondWithWhat();
@@ -5677,7 +5677,7 @@ void Slig::GameSpeakResponse()
 
 void Slig::GoAlertedOrSayWhat()
 {
-    if (EventGet(kEventSpeaking)
+    if (EventGet(Event::kEventSpeaking)
         && !IsInInvisibleZone(sControlledCharacter)
         && !sControlledCharacter->GetInvisible())
     {
@@ -6437,7 +6437,7 @@ bool Slig::VTakeDamage(BaseGameObject* pFrom)
                     {
                         mVelX = FP_FromDouble(-0.001);
                         mHealth = FP_FromInteger(0);
-                        EventBroadcast(kEventMudokonComfort, this);
+                        EventBroadcast(Event::kEventMudokonComfort, this);
                         return true;
                     }
                     mVelX = FP_FromDouble(0.001);
@@ -6445,7 +6445,7 @@ bool Slig::VTakeDamage(BaseGameObject* pFrom)
             }
 
             mHealth = FP_FromInteger(0);
-            EventBroadcast(kEventMudokonComfort, this);
+            EventBroadcast(Event::kEventMudokonComfort, this);
             return true;
         }
 
@@ -6467,7 +6467,7 @@ bool Slig::VTakeDamage(BaseGameObject* pFrom)
             SetBrain(&Slig::Brain_1_ReturnControlToAbeAndDie);
             mCurrentMotion = eSligMotions::Motion_0_StandIdle;
             VUpdateAnimData();
-            EventBroadcast(kEventMudokonComfort, this);
+            EventBroadcast(Event::kEventMudokonComfort, this);
             return true;
         }
 
@@ -6528,7 +6528,7 @@ bool Slig::VTakeDamage(BaseGameObject* pFrom)
 
             Environment_SFX(EnvironmentSfx::eKnockback_13, 0, 0x7FFF, this);
 
-            EventBroadcast(kEventMudokonComfort, this);
+            EventBroadcast(Event::kEventMudokonComfort, this);
 
             if (VIsFacingMe(static_cast<BaseAliveGameObject*>(pFrom)))
             {
@@ -6562,7 +6562,7 @@ bool Slig::VTakeDamage(BaseGameObject* pFrom)
             }
             SetDead(true);
             mHealth = FP_FromInteger(0);
-            EventBroadcast(kEventMudokonComfort, this);
+            EventBroadcast(Event::kEventMudokonComfort, this);
             return true;
 
         default:
@@ -6584,7 +6584,7 @@ bool Slig::VTakeDamage(BaseGameObject* pFrom)
     mHealth = FP_FromInteger(0);
     mNextMotion = eSligMotions::Motion_44_Smash;
     field_136_shot_motion = eSligMotions::Motion_44_Smash;
-    EventBroadcast(kEventMudokonComfort, this);
+    EventBroadcast(Event::kEventMudokonComfort, this);
     return true;
 }
 

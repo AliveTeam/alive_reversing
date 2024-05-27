@@ -275,7 +275,7 @@ bool EvilFart::VTakeDamage(BaseGameObject* pFrom)
 
 void EvilFart::VUpdate()
 {
-    if (EventGet(kEventDeathReset))
+    if (EventGet(Event::kEventDeathReset))
     {
         SetDead(true);
     }

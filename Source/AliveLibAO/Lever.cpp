@@ -83,7 +83,7 @@ void Lever::LoadAnimations()
 
 void Lever::VUpdate()
 {
-    if (EventGet(kEventDeathReset))
+    if (EventGet(Event::kEventDeathReset))
     {
         SetDead(true);
     }
@@ -97,8 +97,8 @@ void Lever::VUpdate()
 
         if (GetAnimation().GetIsLastFrame())
         {
-            EventBroadcast(kEventNoise, this);
-            EventBroadcast(kEventSuspiciousNoise, this);
+            EventBroadcast(Event::kEventNoise, this);
+            EventBroadcast(Event::kEventSuspiciousNoise, this);
             const s32 lvl_idx = static_cast<s32>(MapWrapper::ToAO(gMap.mCurrentLevel));
             if (gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarms
                 || gMap.mCurrentLevel == EReliveLevelIds::eBoardRoom

@@ -42,7 +42,7 @@ DemoPlayback::~DemoPlayback()
 
 void DemoPlayback::VUpdate()
 {
-    if (EventGet(kEventDeathReset))
+    if (EventGet(Event::kEventDeathReset))
     {
         Input().UnsetDemoPlaying_45F240();
     }

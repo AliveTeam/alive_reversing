@@ -78,7 +78,7 @@ void TimerTrigger::VUpdate()
             break;
     }
 
-    if (EventGet(kEventDeathReset))
+    if (EventGet(Event::kEventDeathReset))
     {
         SetDead(true);
     }

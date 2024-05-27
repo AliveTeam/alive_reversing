@@ -141,7 +141,7 @@ s16 ShadowZone::ApplysToScale(Scale scale)
 
 void ShadowZone::VUpdate()
 {
-    if (EventGet(kEventDeathReset))
+    if (EventGet(Event::kEventDeathReset))
     {
         SetDead(true);
     }

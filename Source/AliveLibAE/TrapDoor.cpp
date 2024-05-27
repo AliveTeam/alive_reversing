@@ -235,7 +235,7 @@ void TrapDoor::Open()
 
 void TrapDoor::VUpdate()
 {
-    if (EventGet(kEventDeathReset))
+    if (EventGet(Event::kEventDeathReset))
     {
         SetDead(true);
     }

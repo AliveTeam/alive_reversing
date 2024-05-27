@@ -594,7 +594,7 @@ void Scrab::VUpdate()
         mFightTargetId = BaseGameObject::RefreshId(mFightTargetId);
     }
 
-    if (EventGet(kEventDeathReset))
+    if (EventGet(Event::kEventDeathReset))
     {
         SetDead(true);
         return;
@@ -844,7 +844,7 @@ s16 Scrab::Brain_0_Patrol()
         return Brain_1_ChasingEnemy::eBrain1_Inactive_0;
     }
 
-    if (IsEventInRange(kEventAbeOhm, mXPos, mYPos, EventScale::Both) && !gAbe->GetInvisible())
+    if (IsEventInRange(Event::kEventAbeOhm, mXPos, mYPos, EventScale::Both) && !gAbe->GetInvisible())
     {
         mNextMotion = eScrabMotions::Motion_26_HowlBegin;
         return Scrab_Brain_0_Patrol::eBrain0_Howling_4;
@@ -992,7 +992,7 @@ s16 Scrab::Brain_0_Patrol()
             break;
 
         case Scrab_Brain_0_Patrol::eBrain0_Howling_4:
-            if (IsEventInRange(kEventAbeOhm, mXPos, mYPos, EventScale::Both))
+            if (IsEventInRange(Event::kEventAbeOhm, mXPos, mYPos, EventScale::Both))
             {
                 return mBrainSubState;
             }
@@ -1123,7 +1123,7 @@ s16 Scrab::Brain_1_ChasingEnemy()
         field_14C_pause_after_chase_timer = MakeTimer(mPauseAfterChaseTime);
     }
 
-    if (IsEventInRange(kEventAbeOhm, mXPos, mYPos, EventScale::Both) && mBrainSubState != 26) //TODO OG bug? mNextMotion instead of field_11C_sub_state
+    if (IsEventInRange(Event::kEventAbeOhm, mXPos, mYPos, EventScale::Both) && mBrainSubState != 26) //TODO OG bug? mNextMotion instead of field_11C_sub_state
     {
         mNextMotion = eScrabMotions::Motion_26_HowlBegin;
         return Brain_1_ChasingEnemy::eBrain1_Panic_4;
@@ -1368,7 +1368,7 @@ s16 Scrab::Brain_1_ChasingEnemy()
             return mBrainSubState;
 
         case Brain_1_ChasingEnemy::eBrain1_Howl_13:
-            if (IsEventInRange(kEventAbeOhm, mXPos, mYPos, EventScale::Both))
+            if (IsEventInRange(Event::kEventAbeOhm, mXPos, mYPos, EventScale::Both))
             {
                 return mBrainSubState;
             }
@@ -1557,7 +1557,7 @@ s16 Scrab::Brain_2_Fighting()
         return Brain_2_Fighting::eBrain2_SpottedOpponent_1;
     }
 
-    if (EventGet(kEventAbeOhm))
+    if (EventGet(Event::kEventAbeOhm))
     {
         if (mBrainSubState != Brain_2_Fighting::eBrain2_Running_9 && mBrainSubState != Brain_2_Fighting::eBrain2_Battling_10)
         {
@@ -1801,7 +1801,7 @@ s16 Scrab::Brain_2_Fighting()
             return Scrab_Brain_0_Patrol::eBrain0_ToMoving_0;
 
         case Brain_2_Fighting::eBrain2_InterruptVictoryStates_14:
-            if (EventGet(kEventAbeOhm))
+            if (EventGet(Event::kEventAbeOhm))
             {
                 return mBrainSubState;
             }
@@ -2317,7 +2317,7 @@ const FP sScrabHopBeginVelX_546F24[4] = {
 
 void Scrab::Motion_5_HopBegin()
 {
-    EventBroadcast(kEventNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
 
     FP frameVelX = {};
     if (GetAnimation().GetFlipX())
@@ -2382,7 +2382,7 @@ const FP sScrabHopMidAirVelX_546F34[8] = {
 
 void Scrab::Motion_6_HopMidair()
 {
-    EventBroadcast(kEventNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
 
     FP frameVelX = {};
     if (GetAnimation().GetFlipX())
@@ -2467,7 +2467,7 @@ void Scrab::Motion_7_HopLand()
         Scrab_SFX(ScrabSounds::eHitCollision_4, 0, 0x7FFF, 1);
     }
 
-    EventBroadcast(kEventNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
 
     FP frameVelX = {};
     if (GetAnimation().GetFlipX())
@@ -2653,7 +2653,7 @@ void Scrab::Motion_12_RunJumpBegin()
         SFX_Play_Pitch(relive::SoundEffects::PickupItem, 50, -800);
     }
 
-    EventBroadcast(kEventNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
 
     FP velX = {};
     if (GetAnimation().GetFlipX())
@@ -2741,7 +2741,7 @@ const FP sEndRunJumpVels_546F84[21] = {
 
 void Scrab::Motion_13_RunJumpEnd()
 {
-    EventBroadcast(kEventNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
     mVelX = (GetSpriteScale() * sEndRunJumpVels_546F84[GetAnimation().GetCurrentFrame() & 21]); // TODO: Check size
     if (GetAnimation().GetFlipX())
     {
@@ -2933,7 +2933,7 @@ void Scrab::Motion_26_HowlBegin()
     {
         if (sGnFrame & 1)
         {
-            EventBroadcast(kEventLoudNoise, this);
+            EventBroadcast(Event::kEventLoudNoise, this);
             Scrab_SFX(ScrabSounds::eYell_8, 0, Math_RandomRange(-1600, -900), 1);
             if (BrainIs(&Scrab::Brain_5_Possessed))
             {
@@ -3031,7 +3031,7 @@ void Scrab::Motion_30_Shriek()
     {
         if (sGnFrame & 1)
         {
-            EventBroadcast(kEventLoudNoise, this);
+            EventBroadcast(Event::kEventLoudNoise, this);
             Scrab_SFX(ScrabSounds::eHowl_0, 0, 0x7FFF, 1);
             if (BrainIs(&Scrab::Brain_5_Possessed))
             {
@@ -3746,7 +3746,7 @@ bool Scrab::VTakeDamage(BaseGameObject* pFrom)
                 GetAnimation().SetFlipX(true);
             }
 
-            EventBroadcast(kScrabOrParamiteDied, this);
+            EventBroadcast(Event::kScrabOrParamiteDied, this);
             SetBrain(&Scrab::Brain_4_ShrinkDeath);
             mCurrentMotion = eScrabMotions::Motion_19_GetEaten;
             field_12C_timer = MakeTimer(90);
@@ -3771,7 +3771,7 @@ bool Scrab::VTakeDamage(BaseGameObject* pFrom)
             break;
     }
 
-    EventBroadcast(kScrabOrParamiteDied, this);
+    EventBroadcast(Event::kScrabOrParamiteDied, this);
     mHealth = FP_FromInteger(0);
     SetBrain(&Scrab::Brain_3_Death);
     field_12C_timer = MakeTimer(90);

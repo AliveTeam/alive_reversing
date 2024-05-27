@@ -361,7 +361,7 @@ s16 CrawlingSlig::NextRandom()
 
 void CrawlingSlig::VUpdate()
 {
-    if (EventGet(kEventDeathReset))
+    if (EventGet(Event::kEventDeathReset))
     {
         SetDead(true);
     }
@@ -506,7 +506,7 @@ void CrawlingSlig::VOnTlvCollision(relive::Path_TLV* pTlv)
                 mGetKilledBrain.SetState(GetKilledBrain::EState::eDeathDrop);
                 mVelY = FP_FromInteger(0);
                 mVelX = FP_FromInteger(0);
-                EventBroadcast(kEventMudokonComfort, this);
+                EventBroadcast(Event::kEventMudokonComfort, this);
                 Slig_GameSpeak_SFX(SligSpeak::eHelp_10, 0, 0, this);
                 mMultiUseTimer = MakeTimer(60);
             }
@@ -538,7 +538,7 @@ bool CrawlingSlig::VTakeDamage(BaseGameObject* pFrom)
                 {
                     SetBrain(ICrawlingSligBrain::EBrainTypes::GetKilled);
                     mGetKilledBrain.SetState(GetKilledBrain::EState::eGibsDeath);
-                    EventBroadcast(kEventMudokonComfort, this);
+                    EventBroadcast(Event::kEventMudokonComfort, this);
                 }
                 return true;
 
@@ -589,7 +589,7 @@ bool CrawlingSlig::VTakeDamage(BaseGameObject* pFrom)
                     MapFollowMe(true);
                     mMultiUseTimer = MakeTimer(15);
                     Set_AnimAndMotion(CrawlingSligMotion::Motion_13_Empty, true);
-                    EventBroadcast(kEventMudokonComfort, this);
+                    EventBroadcast(Event::kEventMudokonComfort, this);
                 }
                 return false;
 
@@ -601,7 +601,7 @@ bool CrawlingSlig::VTakeDamage(BaseGameObject* pFrom)
                     mMultiUseTimer = MakeTimer(1);
                     SetBrain(ICrawlingSligBrain::EBrainTypes::GetKilled);
                     mGetKilledBrain.SetState(GetKilledBrain::EState::eSetDead);
-                    EventBroadcast(kEventMudokonComfort, this);
+                    EventBroadcast(Event::kEventMudokonComfort, this);
                 }
                 return true;
 

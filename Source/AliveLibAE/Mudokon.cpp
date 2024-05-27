@@ -931,7 +931,7 @@ void Mudokon::VUpdate()
         }
     }
 
-    if (EventGet(kEventDeathReset))
+    if (EventGet(Event::kEventDeathReset))
     {
         SetDead(true);
         return;
@@ -1066,7 +1066,7 @@ void Mudokon::VOnTlvCollision(relive::Path_TLV* pTlv)
                 mBrainState = Mud_Brain_State::Brain_7_FallAndSmackDeath;
                 mBrainSubState = 0;
                 mHealth = FP_FromInteger(0);
-                EventBroadcast(kEventMudokonDied, this);
+                EventBroadcast(Event::kEventMudokonDied, this);
                 break;
             }
         }
@@ -1290,7 +1290,7 @@ bool Mudokon::VTakeDamage(BaseGameObject* pFrom)
             mNextMotion = eMudMotions::None_m1;
             field_194_timer = MakeTimer(90);
             VUpdateResBlock();
-            EventBroadcast(kEventMudokonDied, this);
+            EventBroadcast(Event::kEventMudokonDied, this);
             if (pFrom->Type() == ReliveTypes::eGasCountDown)
             {
                 SFX_Play_Pitch(relive::SoundEffects::Choke, 127, 128);
@@ -1333,12 +1333,12 @@ bool Mudokon::VTakeDamage(BaseGameObject* pFrom)
 
             SetDead(true);
             SetPal(Mud_Emotion::eNormal_0);
-            EventBroadcast(kEventMudokonDied, gAbe);
+            EventBroadcast(Event::kEventMudokonDied, gAbe);
             return true;
 
         case ReliveTypes::eElectricWall:
             Mudokon_SFX(MudSounds::eDeathDropScream_15, 0, 0, this);
-            EventBroadcast(kEventMudokonDied, this);
+            EventBroadcast(Event::kEventMudokonDied, this);
             return true;
 
         case ReliveTypes::eFleech:
@@ -1357,7 +1357,7 @@ bool Mudokon::VTakeDamage(BaseGameObject* pFrom)
                 field_194_timer = MakeTimer(90);
                 mCurrentMotion = eMudMotions::Motion_46_Knockback;
                 mNextMotion = eMudMotions::None_m1;
-                EventBroadcast(kEventMudokonDied, this);
+                EventBroadcast(Event::kEventMudokonDied, this);
                 SetPal(Mud_Emotion::eNormal_0);
 
                 const PSX_RECT bRect = VGetBoundingRect();
@@ -1418,7 +1418,7 @@ bool Mudokon::VTakeDamage(BaseGameObject* pFrom)
                 return true;
             }
             mHealth = FP_FromInteger(0);
-            EventBroadcast(kEventMudokonDied, this);
+            EventBroadcast(Event::kEventMudokonDied, this);
             SetPal(Mud_Emotion::eNormal_0);
             SetDead(true);
             return true;
@@ -1442,7 +1442,7 @@ bool Mudokon::VTakeDamage(BaseGameObject* pFrom)
             mBrainState = Mud_Brain_State::Brain_5_ShrivelDeath;
             field_194_timer = MakeTimer(90);
             mCurrentMotion = eMudMotions::Motion_45_KnockForward;
-            EventBroadcast(kEventMudokonDied, this);
+            EventBroadcast(Event::kEventMudokonDied, this);
             VUpdateResBlock();
             SetPal(Mud_Emotion::eNormal_0);
             return true;
@@ -1477,14 +1477,14 @@ bool Mudokon::VTakeDamage(BaseGameObject* pFrom)
                 mHealth -= FP_FromDouble(0.06);
                 if (mHealth > FP_FromInteger(0))
                 {
-                    EventBroadcast(kEventMudokonAbuse, this);
+                    EventBroadcast(Event::kEventMudokonAbuse, this);
                 }
                 else
                 {
                     mPersistAndResetOffscreen = false;
                     mBrainState = Mud_Brain_State::Brain_5_ShrivelDeath;
                     field_194_timer = MakeTimer(90);
-                    EventBroadcast(kEventMudokonDied, this);
+                    EventBroadcast(Event::kEventMudokonDied, this);
                 }
             }
             SetPal(Mud_Emotion::eNormal_0);
@@ -1786,7 +1786,7 @@ s16 Mudokon::Brain_1_Chisel()
     }
 
     const GameSpeakEvents lastSpeak = LastGameSpeak();
-    if (lastSpeak == GameSpeakEvents::eSlig_LookOut || EventGet(kEventShooting))
+    if (lastSpeak == GameSpeakEvents::eSlig_LookOut || EventGet(Event::kEventShooting))
     {
         if (mBrainSubState != Brain_1_Chisle::eBrain1_StandUp_3 && mBrainSubState != Brain_1_Chisle::eBrain1_Duck_5 && mBrainSubState != Brain_1_Chisle::eBrain1_DuckKnockback_8 && mBrainSubState != Brain_1_Chisle::eBrain1_OutOfDuck_6)
         {
@@ -1794,9 +1794,9 @@ s16 Mudokon::Brain_1_Chisel()
         }
     }
 
-    BaseAnimatedWithPhysicsGameObject* pAbuseEvent = IsEventInRange(kEventMudokonAbuse, mXPos, mYPos, AsEventScale(GetScale()));
-    BaseAnimatedWithPhysicsGameObject* pDeadMudEvent = IsEventInRange(kEventMudokonDied, mXPos, mYPos, AsEventScale(GetScale()));
-    BaseAnimatedWithPhysicsGameObject* pLoudNoiseEvent = IsEventInRange(kEventLoudNoise, mXPos, mYPos, AsEventScale(GetScale()));
+    BaseAnimatedWithPhysicsGameObject* pAbuseEvent = IsEventInRange(Event::kEventMudokonAbuse, mXPos, mYPos, AsEventScale(GetScale()));
+    BaseAnimatedWithPhysicsGameObject* pDeadMudEvent = IsEventInRange(Event::kEventMudokonDied, mXPos, mYPos, AsEventScale(GetScale()));
+    BaseAnimatedWithPhysicsGameObject* pLoudNoiseEvent = IsEventInRange(Event::kEventLoudNoise, mXPos, mYPos, AsEventScale(GetScale()));
 
     const bool reactToAbused = (pAbuseEvent && pAbuseEvent != this && mBrainSubState != Brain_1_Chisle::eBrain1_StandUp_3 && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0));
 
@@ -2159,7 +2159,7 @@ s16 Mudokon::Brain_2_CrouchScrub()
         }
     }
 
-    if (lastSpeak == GameSpeakEvents::eSlig_LookOut || EventGet(kEventShooting))
+    if (lastSpeak == GameSpeakEvents::eSlig_LookOut || EventGet(Event::kEventShooting))
     {
         mNextMotion = eMudMotions::Motion_53_Duck;
         field_194_timer = MakeTimer(60);
@@ -2167,7 +2167,7 @@ s16 Mudokon::Brain_2_CrouchScrub()
     }
 
     BaseAnimatedWithPhysicsGameObject* pAbuse = IsEventInRange(
-        kEventMudokonAbuse,
+        Event::kEventMudokonAbuse,
         mXPos,
         mYPos,
         AsEventScale(GetScale()));
@@ -2207,7 +2207,7 @@ s16 Mudokon::Brain_2_CrouchScrub()
     }
 
     BaseAnimatedWithPhysicsGameObject* pDied = IsEventInRange(
-        kEventMudokonDied,
+        Event::kEventMudokonDied,
         mXPos,
         mYPos,
         AsEventScale(GetScale()));
@@ -2247,7 +2247,7 @@ s16 Mudokon::Brain_2_CrouchScrub()
     }
 
     BaseAnimatedWithPhysicsGameObject* pLoudNoise = IsEventInRange(
-        kEventLoudNoise,
+        Event::kEventLoudNoise,
         mXPos,
         mYPos,
         AsEventScale(GetScale()));
@@ -2454,7 +2454,7 @@ s16 Mudokon::Brain_2_CrouchScrub()
 
             if (bUnknown)
             {
-                if (!IsEventInRange(kEventSpeaking, mXPos, mYPos, AsEventScale(GetScale())))
+                if (!IsEventInRange(Event::kEventSpeaking, mXPos, mYPos, AsEventScale(GetScale())))
                 {
                     return mBrainSubState;
                 }
@@ -2634,7 +2634,7 @@ s16 Mudokon::Brain_3_TurnWheel()
         }
     }
 
-    if (lastSpeak == GameSpeakEvents::eSlig_LookOut || EventGet(kEventShooting))
+    if (lastSpeak == GameSpeakEvents::eSlig_LookOut || EventGet(Event::kEventShooting))
     {
         if (mBrainSubState != Brain_3_TurnWheel::eBrain3_TurningWheelToDuck_3 && mBrainSubState != Brain_3_TurnWheel::eBrain3_Duck_4)
         {
@@ -2643,7 +2643,7 @@ s16 Mudokon::Brain_3_TurnWheel()
     }
 
     BaseAnimatedWithPhysicsGameObject* pMudAbuseEvent = IsEventInRange(
-        kEventMudokonAbuse,
+        Event::kEventMudokonAbuse,
         mXPos,
         mYPos,
         AsEventScale(GetScale()));
@@ -2682,7 +2682,7 @@ s16 Mudokon::Brain_3_TurnWheel()
     }
 
     BaseAnimatedWithPhysicsGameObject* pLoudNoiseEvent = IsEventInRange(
-        kEventLoudNoise,
+        Event::kEventLoudNoise,
         mXPos,
         mYPos,
         AsEventScale(GetScale()));
@@ -2897,7 +2897,7 @@ s16 Mudokon::Brain_4_ListeningToAbe()
     }
 
     if (IsEventInRange(
-            kEventMudokonAbuse,
+            Event::kEventMudokonAbuse,
             mXPos,
             mYPos,
             AsEventScale(GetScale())))
@@ -2906,7 +2906,7 @@ s16 Mudokon::Brain_4_ListeningToAbe()
     }
 
     if (IsEventInRange(
-            kEventMudokonDied,
+            Event::kEventMudokonDied,
             mXPos,
             mYPos,
             AsEventScale(GetScale())))
@@ -2915,7 +2915,7 @@ s16 Mudokon::Brain_4_ListeningToAbe()
     }
 
     if (IsEventInRange(
-            kEventMudokonComfort,
+            Event::kEventMudokonComfort,
             mXPos,
             mYPos,
             AsEventScale(GetScale())))
@@ -2924,7 +2924,7 @@ s16 Mudokon::Brain_4_ListeningToAbe()
     }
 
     if (IsEventInRange(
-            kEventMudokonLaugh,
+            Event::kEventMudokonLaugh,
             mXPos,
             mYPos,
             AsEventScale(GetScale())))
@@ -2932,7 +2932,7 @@ s16 Mudokon::Brain_4_ListeningToAbe()
         field_17E_delayed_speak = MudAction::eLaugh_12;
     }
 
-    if (IsEventInRange(kEventAbeDead,
+    if (IsEventInRange(Event::kEventAbeDead,
             mXPos,
             mYPos,
                                 AsEventScale(GetScale())))
@@ -2941,7 +2941,7 @@ s16 Mudokon::Brain_4_ListeningToAbe()
     }
 
     BaseAnimatedWithPhysicsGameObject* pNoiseEvent = IsEventInRange(
-        kEventLoudNoise,
+        Event::kEventLoudNoise,
         mXPos,
         mYPos,
         AsEventScale(GetScale()));
@@ -4621,7 +4621,7 @@ s16 Mudokon::Brain_5_ShrivelDeath()
 s16 Mudokon::Brain_6_Escape()
 {
     auto pBirdPortal = static_cast<BirdPortal*>(sObjectIds.Find_Impl(field_11C_bird_portal_id));
-    if (EventGet(kEventDeathReset))
+    if (EventGet(Event::kEventDeathReset))
     {
         SetDead(true);
     }
@@ -5024,7 +5024,7 @@ s16 Mudokon::Brain_9_Sick()
     }*/
 
     if (IsEventInRange(
-            kEventMudokonAbuse,
+            Event::kEventMudokonAbuse,
             mXPos,
             mYPos,
             AsEventScale(GetScale())))
@@ -5033,7 +5033,7 @@ s16 Mudokon::Brain_9_Sick()
     }
 
     if (IsEventInRange(
-            kEventMudokonComfort,
+            Event::kEventMudokonComfort,
             mXPos,
             mYPos,
             AsEventScale(GetScale())))
@@ -5042,7 +5042,7 @@ s16 Mudokon::Brain_9_Sick()
     }
 
     if (IsEventInRange(
-            kEventMudokonLaugh,
+            Event::kEventMudokonLaugh,
             mXPos,
             mYPos,
             AsEventScale(GetScale())))
@@ -5050,7 +5050,7 @@ s16 Mudokon::Brain_9_Sick()
         field_17E_delayed_speak = MudAction::eLaugh_12;
     }
 
-    if (IsEventInRange(kEventAbeDead,
+    if (IsEventInRange(Event::kEventAbeDead,
             mXPos,
             mYPos,
                                 AsEventScale(GetScale())))
@@ -5059,7 +5059,7 @@ s16 Mudokon::Brain_9_Sick()
     }
 
     if (IsEventInRange(
-            kEventShooting,
+            Event::kEventShooting,
             mXPos,
             mYPos,
             AsEventScale(GetScale())))
@@ -5321,7 +5321,7 @@ void Mudokon::Motion_0_Idle()
 
 void Mudokon::Motion_1_WalkLoop()
 {
-    EventBroadcast(kEventNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
     if (WallHit(GetSpriteScale() * FP_FromInteger(50), mVelX))
     {
         ToKnockback();
@@ -5418,8 +5418,8 @@ void Mudokon::Motion_Speak()
 
     if (mAlertEnemies)
     {
-        EventBroadcast(kEventNoise, this);
-        EventBroadcast(kEventSuspiciousNoise, this);
+        EventBroadcast(Event::kEventNoise, this);
+        EventBroadcast(Event::kEventSuspiciousNoise, this);
     }
 
     if (GetAnimation().GetIsLastFrame())
@@ -5432,7 +5432,7 @@ void Mudokon::Motion_Speak()
 
 void Mudokon::Motion_7_WalkBegin()
 {
-    EventBroadcast(kEventNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
     if (WallHit(GetSpriteScale() * FP_FromInteger(50), mVelX))
     {
         ToStand();
@@ -5449,7 +5449,7 @@ void Mudokon::Motion_7_WalkBegin()
 
 void Mudokon::Motion_8_WalkToIdle()
 {
-    EventBroadcast(kEventNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
     if (WallHit(GetSpriteScale() * FP_FromInteger(50), mVelX))
     {
         ToStand();
@@ -5643,7 +5643,7 @@ void Mudokon::Motion_18_CrouchToStand()
 
 void Mudokon::Motion_19_WalkToRun()
 {
-    EventBroadcast(kEventNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
     if (GetAnimation().GetFlipX())
     {
         mVelX = -(ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(4));
@@ -5683,11 +5683,11 @@ void Mudokon::Motion_20_MidWalkToRun()
 
 void Mudokon::Motion_21_RunLoop()
 {
-    EventBroadcast(kEventNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
 
     if (Is_In_Current_Camera() == CameraPos::eCamCurrent_0)
     {
-        EventBroadcast(kEventSuspiciousNoise, this);
+        EventBroadcast(Event::kEventSuspiciousNoise, this);
     }
 
     if (WallHit(GetSpriteScale() * FP_FromInteger(50), mVelX))
@@ -5752,7 +5752,7 @@ void Mudokon::Motion_21_RunLoop()
 
 void Mudokon::Motion_22_RunToWalk()
 {
-    EventBroadcast(kEventNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
     if (GetAnimation().GetFlipX())
     {
         mVelX = -(ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(9));
@@ -5792,7 +5792,7 @@ void Mudokon::Motion_23_MidRunToWalk()
 
 void Mudokon::Motion_24_RunSlideStop()
 {
-    EventBroadcast(kEventNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
     if (WallHit((GetSpriteScale() * FP_FromInteger(50)), mVelX))
     {
         ToKnockback();
@@ -5815,7 +5815,7 @@ void Mudokon::Motion_24_RunSlideStop()
 
 void Mudokon::Motion_25_RunSlideTurn()
 {
-    EventBroadcast(kEventNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
 
     if (WallHit((GetSpriteScale() * FP_FromInteger(50)), mVelX))
     {
@@ -5847,7 +5847,7 @@ void Mudokon::Motion_25_RunSlideTurn()
 
 void Mudokon::Motion_26_RunTurnToRun()
 {
-    EventBroadcast(kEventNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
 
     if (WallHit((GetSpriteScale() * FP_FromInteger(50)), mVelX))
     {
@@ -6012,7 +6012,7 @@ void Mudokon::Motion_34_MidSneakToIdle()
 
 void Mudokon::Motion_35_RunJumpBegin()
 {
-    EventBroadcast(kEventNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
 
     mXPos += mVelX;
 
@@ -6042,7 +6042,7 @@ void Mudokon::Motion_35_RunJumpBegin()
 
 void Mudokon::Motion_36_RunJumpMid()
 {
-    EventBroadcast(kEventNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
 
     auto pBirdPortal = static_cast<BirdPortal*>(sObjectIds.Find_Impl(field_11C_bird_portal_id));
     if (GetAnimation().GetCurrentFrame() == 5)
@@ -6096,7 +6096,7 @@ void Mudokon::Motion_37_StandToRun()
         mCurrentMotion = eMudMotions::Motion_21_RunLoop;
     }
 
-    EventBroadcast(kEventNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
 
     if (WallHit((GetSpriteScale() * FP_FromInteger(50)), mVelX))
     {
@@ -6283,7 +6283,7 @@ void Mudokon::Motion_46_Knockback()
         CheckKnockedOntoABomb();
     }
 
-    EventBroadcast(kEventNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
 
     if ((gMap.mCurrentLevel == EReliveLevelIds::eMines || gMap.mCurrentLevel == EReliveLevelIds::eBonewerkz || gMap.mCurrentLevel == EReliveLevelIds::eFeeCoDepot || gMap.mCurrentLevel == EReliveLevelIds::eBarracks || gMap.mCurrentLevel == EReliveLevelIds::eBrewery) && GetAnimation().GetCurrentFrame() == 7)
     {
@@ -6313,7 +6313,7 @@ void Mudokon::Motion_47_KnockbackGetUp()
 {
     CheckFloorGone();
 
-    EventBroadcast(kEventNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
     if (GetAnimation().GetIsLastFrame())
     {
         ToStand();
@@ -6499,7 +6499,7 @@ void Mudokon::Motion_56_SlapOwnHead()
     {
         Mudokon_SFX(MudSounds::eHurt2_9, 0, 1000, this);
         Environment_SFX(EnvironmentSfx::eDeathNoise_7, 0, 0x7FFF, this);
-        EventBroadcast(kEventMudokonDied, this);
+        EventBroadcast(Event::kEventMudokonDied, this);
         mPersistAndResetOffscreen = false;
         mHealth = FP_FromInteger(0);
         mBrainState = Mud_Brain_State::Brain_5_ShrivelDeath;
@@ -6588,7 +6588,7 @@ s16 Mudokon::FindBirdPortal()
 
     // TODO: Refactor duplication
 
-    auto pOpenPortal = static_cast<BirdPortal*>(EventGet(kEventPortalOpen));
+    auto pOpenPortal = static_cast<BirdPortal*>(EventGet(Event::kEventPortalOpen));
     if (pOpenPortal)
     {
         const FP xDist = pOpenPortal->mXPos - mXPos;
@@ -6611,7 +6611,7 @@ s16 Mudokon::FindBirdPortal()
         }
     }
 
-    auto pPortal20 = static_cast<BirdPortal*>(EventGet(kEventOtherPortalOpen));
+    auto pPortal20 = static_cast<BirdPortal*>(EventGet(Event::kEventOtherPortalOpen));
     if (pPortal20)
     {
         const FP xDist = pPortal20->mXPos - mXPos;
@@ -7117,7 +7117,7 @@ void Mudokon::TakeASlap(BaseGameObject* pFrom)
     {
         Mudokon_SFX(MudSounds::eHurt2_9, 0, 1000, this);
         Environment_SFX(EnvironmentSfx::eDeathNoise_7, 0, 32767, this);
-        EventBroadcast(kEventMudokonDied, gAbe);
+        EventBroadcast(Event::kEventMudokonDied, gAbe);
         mPersistAndResetOffscreen = false;
         mHealth = FP_FromInteger(0);
         mBrainState = Mud_Brain_State::Brain_5_ShrivelDeath;

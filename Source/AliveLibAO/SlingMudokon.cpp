@@ -583,7 +583,7 @@ void SpawnBrain::VUpdate()
             return;
 
         case EState::Shoot:
-            if (EventGet(kEventDeathReset))
+            if (EventGet(Event::kEventDeathReset))
             {
                 mSlingMudokon.SetDead(true);
             }
@@ -828,7 +828,7 @@ void AskForPasswordBrain::VUpdate()
             return;
 
         case EState::Unknown_8:
-            if (EventGet(kEventDeathReset))
+            if (EventGet(Event::kEventDeathReset))
             {
                 mSlingMudokon.SetDead(true);
             }

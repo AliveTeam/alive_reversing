@@ -76,7 +76,7 @@ CrawlingSligButton::~CrawlingSligButton()
 
 void CrawlingSligButton::VUpdate()
 {
-    if (EventGet(kEventDeathReset))
+    if (EventGet(Event::kEventDeathReset))
     {
         SetDead(true);
     }
@@ -84,8 +84,8 @@ void CrawlingSligButton::VUpdate()
     if (mInUse)
     {
         SfxPlayMono(relive::SoundEffects::LeverPull, 0);
-        EventBroadcast(kEventNoise, this);
-        EventBroadcast(kEventSuspiciousNoise, this);
+        EventBroadcast(Event::kEventNoise, this);
+        EventBroadcast(Event::kEventSuspiciousNoise, this);
 
         const s32 old_switch_state = SwitchStates_Get(mSwitchId);
         SwitchStates_Do_Operation(mSwitchId, mAction);

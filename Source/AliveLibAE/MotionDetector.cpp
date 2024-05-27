@@ -232,7 +232,7 @@ void MotionDetector::VUpdate()
     MotionDetectorLaser* pLaser = static_cast<MotionDetectorLaser*>(sObjectIds.Find(mLaserId, ReliveTypes::eRedLaser));
     Greeter* pOwner = static_cast<Greeter*>(sObjectIds.Find(mOwnerId, ReliveTypes::eGreeter));
 
-    if (EventGet(kEventDeathReset))
+    if (EventGet(Event::kEventDeathReset))
     {
         SetDead(true);
     }

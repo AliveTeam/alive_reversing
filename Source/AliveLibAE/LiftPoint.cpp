@@ -388,8 +388,8 @@ void LiftPoint::VUpdate()
                 mMoveToFloorLevel = false;
                 SfxPlayMono(relive::SoundEffects::LiftStop, 0);
                 SFX_Play_Pitch(relive::SoundEffects::LiftStop, 80, -2000);
-                EventBroadcast(kEventNoise, this);
-                EventBroadcast(kEventSuspiciousNoise, this);
+                EventBroadcast(Event::kEventNoise, this);
+                EventBroadcast(Event::kEventSuspiciousNoise, this);
             }
         }
         else
@@ -610,7 +610,7 @@ void LiftPoint::VUpdate()
         SfxPlayMono(relive::SoundEffects::WheelSqueak, 0);
     }
 
-    if ((mCurrentLevel != gMap.mCurrentLevel || mCurrentPath != gMap.mCurrentPath || EventGet(kEventDeathReset))
+    if ((mCurrentLevel != gMap.mCurrentLevel || mCurrentPath != gMap.mCurrentPath || EventGet(Event::kEventDeathReset))
         && mPlatformBaseCount <= 0)
     {
         SetDead(true);
@@ -784,8 +784,8 @@ void LiftPoint::StayOnFloor(bool floor, relive::Path_LiftPoint* pTlv)
     pTlv->mLiftPointId = mLiftPointId;
     mVelY = FP_FromInteger(0);
 
-    EventBroadcast(kEventNoise, this);
-    EventBroadcast(kEventSuspiciousNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
+    EventBroadcast(Event::kEventSuspiciousNoise, this);
 }
 
 void LiftPoint::VGetSaveState(SerializedObjectData& pSaveBuffer)

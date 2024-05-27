@@ -122,7 +122,7 @@ ZBall::ZBall(relive::Path_ZBall* pTlv, const Guid& tlvId)
 
 void ZBall::VUpdate()
 {
-    if (EventGet(kEventDeathReset))
+    if (EventGet(Event::kEventDeathReset))
     {
         SetDead(true);
     }

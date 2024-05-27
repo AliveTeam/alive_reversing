@@ -89,7 +89,7 @@ void GameEnderController::VGetSaveState(SerializedObjectData& pSaveBuffer)
 
 void GameEnderController::VUpdate()
 {
-    if (EventGet(kEventDeathReset))
+    if (EventGet(Event::kEventDeathReset))
     {
         SetDead(true);
     }

@@ -213,7 +213,7 @@ void BirdPortal::VUpdate()
                 mTimer = MakeTimer(Math_RandomRange(24, 40));
             }
 
-            if (EventGet(kEventAbeOhm))
+            if (EventGet(Event::kEventAbeOhm))
             {
                 BaseGameObject* pShrykullNumMuds = sObjectIds.Find(mThrowableTotalIndicator, ReliveTypes::eThrowableTotalIndicator);
                 if (pShrykullNumMuds)
@@ -235,7 +235,7 @@ void BirdPortal::VUpdate()
                 EventBroadcast(GetEvent(), this);
                 SfxPlayMono(relive::SoundEffects::Dove, 70, mSpriteScale);
             }
-            else if (IsScaredAway() || EventGet(kEventShooting))
+            else if (IsScaredAway() || EventGet(Event::kEventShooting))
             {
                 for (const auto& id : mDoveIds)
                 {
@@ -310,7 +310,7 @@ void BirdPortal::VUpdate()
 
         case PortalStates::ActivePortal_6:
             EventBroadcast(GetEvent(), this);
-            if ((mPortalType != relive::Path_BirdPortal::PortalType::eWorker && mPortalType != relive::Path_BirdPortal::PortalType::eShrykull) || EventGet(kEventAbeOhm))
+            if ((mPortalType != relive::Path_BirdPortal::PortalType::eWorker && mPortalType != relive::Path_BirdPortal::PortalType::eShrykull) || EventGet(Event::kEventAbeOhm))
             {
                 if ((Math_NextRandom() % 8) == 0)
                 {
@@ -583,7 +583,7 @@ void BirdPortal::VUpdate()
             break;
     }
 
-    if (EventGet(kEventDeathReset))
+    if (EventGet(Event::kEventDeathReset))
     {
         SetDead(true);
     }
@@ -935,15 +935,15 @@ Event BirdPortal::GetEvent()
         {
             if (pObj == this)
             {
-                return kEventPortalOpen;
+                return Event::kEventPortalOpen;
             }
             else
             {
-                return kEventOtherPortalOpen;
+                return Event::kEventOtherPortalOpen;
             }
         }
     }
-    return kEventPortalOpen;
+    return Event::kEventPortalOpen;
 }
 
 void BirdPortal::VGetSaveState(SerializedObjectData& pBuffer)

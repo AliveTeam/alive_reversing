@@ -38,7 +38,7 @@ void SlogSpawner::VScreenChanged()
 
 void SlogSpawner::VUpdate()
 {
-    if (EventGet(kEventDeathReset))
+    if (EventGet(Event::kEventDeathReset))
     {
         SetDead(true);
     }

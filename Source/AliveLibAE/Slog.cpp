@@ -1602,12 +1602,12 @@ s16 Slog::Brain_1_Idle()
             break;
 
         case 1:
-            if (IsEventInRange(kEventSuspiciousNoise, mXPos, mYPos, EventScale::Full))
+            if (IsEventInRange(Event::kEventSuspiciousNoise, mXPos, mYPos, EventScale::Full))
             {
                 mAngerLevel++;
             }
 
-            if (IsEventInRange(kEventSpeaking, mXPos, mYPos, EventScale::Full))
+            if (IsEventInRange(Event::kEventSpeaking, mXPos, mYPos, EventScale::Full))
             {
                 mAngerLevel += Slog_NextRandom() % 8 + 15;
             }
@@ -1655,12 +1655,12 @@ s16 Slog::Brain_1_Idle()
             return 1;
 
         case 4:
-            if (IsEventInRange(kEventSuspiciousNoise, mXPos, mYPos, EventScale::Full))
+            if (IsEventInRange(Event::kEventSuspiciousNoise, mXPos, mYPos, EventScale::Full))
             {
                 mAngerLevel++;
             }
 
-            if (IsEventInRange(kEventSpeaking, mXPos, mYPos, EventScale::Full))
+            if (IsEventInRange(Event::kEventSpeaking, mXPos, mYPos, EventScale::Full))
             {
                 mAngerLevel += Slog_NextRandom() % 8 + 15;
             }
@@ -1718,12 +1718,12 @@ s16 Slog::Brain_1_Idle()
             return 3;
 
         case 5:
-            if (IsEventInRange(kEventSuspiciousNoise, mXPos, mYPos, EventScale::Full))
+            if (IsEventInRange(Event::kEventSuspiciousNoise, mXPos, mYPos, EventScale::Full))
             {
                 mAngerLevel++;
             }
 
-            if (IsEventInRange(kEventSpeaking, mXPos, mYPos, EventScale::Full))
+            if (IsEventInRange(Event::kEventSpeaking, mXPos, mYPos, EventScale::Full))
             {
                 mAngerLevel += Math_NextRandom() % 8 + 15;
             }
@@ -2772,7 +2772,7 @@ void Slog::VUpdate()
         mBoneId = BaseGameObject::RefreshId(mBoneId);
     }
 
-    if (EventGet(kEventDeathReset))
+    if (EventGet(Event::kEventDeathReset))
     {
         SetDead(true);
     }

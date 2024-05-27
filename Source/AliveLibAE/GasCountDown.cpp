@@ -69,12 +69,12 @@ void GasCountDown::VScreenChanged()
 
 void GasCountDown::VUpdate()
 {
-    if (EventGet(kEventDeathReset))
+    if (EventGet(Event::kEventDeathReset))
     {
         SetDead(true);
     }
 
-    if (EventGet(kEventDeathResetEnd))
+    if (EventGet(Event::kEventDeathResetEnd))
     {
         gDeathGasTimer = 0;
         gDeathGasOn = false;
@@ -101,7 +101,7 @@ void GasCountDown::VUpdate()
             return;
         }
 
-        if (EventGet(kEventResetting))
+        if (EventGet(Event::kEventResetting))
         {
             gDeathGasTimer++;
         }

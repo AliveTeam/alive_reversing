@@ -116,7 +116,7 @@ void SnoozeParticle::VScreenChanged()
 
 void SnoozeParticle::VUpdate()
 {
-    if (EventGet(kEventDeathReset))
+    if (EventGet(Event::kEventDeathReset))
     {
         SetDead(true);
     }

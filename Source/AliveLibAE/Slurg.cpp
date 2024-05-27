@@ -179,7 +179,7 @@ void Slurg::Burst()
                                 mSlurgSpriteScale,
                                 20);
 
-    EventBroadcast(kEventLoudNoise, this);
+    EventBroadcast(Event::kEventLoudNoise, this);
     SfxPlayMono(relive::SoundEffects::SlurgKill, 127, mSlurgSpriteScale);
 
     if (mSlurgSwitchId > 1)
@@ -191,7 +191,7 @@ void Slurg::Burst()
 void Slurg::VUpdate()
 {
     const FP oldXPos = mXPos;
-    if (EventGet(kEventDeathReset))
+    if (EventGet(Event::kEventDeathReset))
     {
         SetDead(true);
     }

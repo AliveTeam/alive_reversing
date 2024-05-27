@@ -118,7 +118,7 @@ void WorkWheel::VGetSaveState(SerializedObjectData& pSaveBuffer)
 
 void WorkWheel::VUpdate()
 {
-    if (EventGet(kEventDeathReset))
+    if (EventGet(Event::kEventDeathReset))
     {
         SetDead(true);
     }

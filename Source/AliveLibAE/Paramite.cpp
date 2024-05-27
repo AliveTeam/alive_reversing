@@ -504,7 +504,7 @@ enum Brain_9_ParamiteSpawn
 s16 Paramite::Brain_0_Patrol()
 {
     auto pObj = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(mTargetGuid));
-    if (EventGet(kEventDeathReset))
+    if (EventGet(Event::kEventDeathReset))
     {
         SetDead(true);
     }
@@ -620,7 +620,7 @@ s16 Paramite::Brain_0_Patrol()
             return ParamiteEnums::Brain_0_Patrol::eBrain0_Idle_12;
 
         case ParamiteEnums::Brain_0_Patrol::eBrain0_Panic_16:
-            if (!EventGet(kEventAbeOhm))
+            if (!EventGet(Event::kEventAbeOhm))
             {
                 mNextMotion = eParamiteMotions::Motion_0_Idle;
                 return ParamiteEnums::Brain_0_Patrol::eBrain0_Idle_12;
@@ -650,14 +650,14 @@ s16 Paramite::Brain_Patrol_State_12_Idle(BaseAliveGameObject* pObj)
         return ParamiteEnums::Brain_0_Patrol::eBrain0_IdleForAbe_1;
     }
 
-    if (EventGet(kEventAbeOhm))
+    if (EventGet(Event::kEventAbeOhm))
     {
         mNextMotion = eParamiteMotions::Motion_22_Hiss1;
         return ParamiteEnums::Brain_0_Patrol::eBrain0_Panic_16;
     }
 
-    const auto pEventNoise = IsEventInRange(kEventNoise, mXPos, mYPos, AsEventScale(GetScale()));
-    const auto pEventSpeaking = IsEventInRange(kEventSpeaking, mXPos, mYPos, AsEventScale(GetScale()));
+    const auto pEventNoise = IsEventInRange(Event::kEventNoise, mXPos, mYPos, AsEventScale(GetScale()));
+    const auto pEventSpeaking = IsEventInRange(Event::kEventSpeaking, mXPos, mYPos, AsEventScale(GetScale()));
 
     if (IsAbe(pEventNoise) || IsAbe(pEventSpeaking))
     {
@@ -1051,7 +1051,7 @@ s16 Paramite::Brain_Patrol_State_1_IdleForAbe(BaseAliveGameObject* pObj)
         return ParamiteEnums::Brain_0_Patrol::eBrain0_LostInvisibleAbeSight_10;
     }
 
-    if (EventGet(kEventAbeOhm) && VIsFacingMe(pObj))
+    if (EventGet(Event::kEventAbeOhm) && VIsFacingMe(pObj))
     {
         mNextMotion = eParamiteMotions::Motion_22_Hiss1;
         return ParamiteEnums::Brain_0_Patrol::eBrain0_Panic_16;
@@ -1289,7 +1289,7 @@ s16 Paramite::Brain_2_ChasingAbe()
 {
     auto pObj = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(mTargetGuid));
 
-    if (EventGet(kEventDeathReset))
+    if (EventGet(Event::kEventDeathReset))
     {
         SetDead(true);
     }
@@ -1303,7 +1303,7 @@ s16 Paramite::Brain_2_ChasingAbe()
                 MusicController::static_PlayMusic(MusicController::MusicTypes::eSoftChase_8, this, 0, 0);
             }
 
-            if (EventGet(kEventAbeOhm))
+            if (EventGet(Event::kEventAbeOhm))
             {
                 mNextMotion = eParamiteMotions::Motion_22_Hiss1;
                 return ParamiteEnums::Brain_2_ChasingAbe::eBrain2_Panic_15;
@@ -1360,7 +1360,7 @@ s16 Paramite::Brain_2_ChasingAbe()
 
 s16 Paramite::Brain_ChasingAbe_State_15_Panic()
 {
-    if (EventGet(kEventAbeOhm))
+    if (EventGet(Event::kEventAbeOhm))
     {
         return mBrainSubState;
     }
@@ -1901,7 +1901,7 @@ s16 Paramite::Brain_ChasingAbe_State_0_Inactive(BaseAliveGameObject* pObj)
 s16 Paramite::Brain_3_SurpriseWeb()
 {
     auto pExistingWeb = static_cast<ParamiteWeb*>(sObjectIds.Find_Impl(mWebGuid));
-    if (EventGet(kEventDeathReset))
+    if (EventGet(Event::kEventDeathReset))
     {
         SetDead(true);
     }
@@ -1993,7 +1993,7 @@ s16 Paramite::Brain_3_SurpriseWeb()
 
 s16 Paramite::Brain_4_Unused()
 {
-    if (EventGet(kEventDeathReset))
+    if (EventGet(Event::kEventDeathReset))
     {
         SetDead(true);
     }
@@ -2019,7 +2019,7 @@ s16 Paramite::Brain_5_SpottedMeat()
 {
     auto pMeat = static_cast<Meat*>(sObjectIds.Find_Impl(mMeatGuid));
 
-    if (EventGet(kEventDeathReset))
+    if (EventGet(Event::kEventDeathReset))
     {
         SetDead(true);
     }
@@ -2366,7 +2366,7 @@ s16 Paramite::Brain_6_Possessed()
             MusicController::static_PlayMusic(MusicController::MusicTypes::ePossessed_9, this, 0, 0);
         }
 
-        if (EventGet(kEventDeathReset))
+        if (EventGet(Event::kEventDeathReset))
         {
             if (sControlledCharacter != this)
             {
@@ -3732,7 +3732,7 @@ void Paramite::Motion_11_Falling()
 
                     if (mYPos - BaseAliveGameObjectLastLineYPos > (GetSpriteScale() * FP_FromInteger(180)))
                     {
-                        EventBroadcast(kScrabOrParamiteDied, this);
+                        EventBroadcast(Event::kScrabOrParamiteDied, this);
                         mHealth = FP_FromInteger(0);
                         SetBrain(&Paramite::Brain_1_Death);
                         mCurrentMotion = eParamiteMotions::Motion_41_Death;
@@ -4154,7 +4154,7 @@ void Paramite::Motion_22_Hiss1()
     else
     {
         mHissedOrLeftScreen = true;
-        EventBroadcast(kEventLoudNoise, this);
+        EventBroadcast(Event::kEventLoudNoise, this);
         Sound(ParamiteSpeak::Stay_1, 0);
 
         if (sControlledCharacter == this)
@@ -4235,7 +4235,7 @@ void Paramite::Motion_26_Hiss3()
     else
     {
         mHissedOrLeftScreen = true;
-        EventBroadcast(kEventLoudNoise, this);
+        EventBroadcast(Event::kEventLoudNoise, this);
         Sound(ParamiteSpeak::DoIt_2, 0);
         if (sControlledCharacter == this)
         {
@@ -5170,7 +5170,7 @@ void Paramite::VUpdate()
         SND_SEQ_Stop(SeqId::ParamiteNearby_25);
     }
 
-    if (EventGet(kEventDeathReset))
+    if (EventGet(Event::kEventDeathReset))
     {
         SetDead(true);
     }
@@ -5337,7 +5337,7 @@ bool Paramite::VTakeDamage(BaseGameObject* pFrom)
         case ReliveTypes::eGroundExplosion:
         case ReliveTypes::eAirExplosion:
         {
-            EventBroadcast(kScrabOrParamiteDied, this);
+            EventBroadcast(Event::kScrabOrParamiteDied, this);
             relive_new Gibs(GibType::eSlog, mXPos, mYPos, mVelX, mVelY, GetSpriteScale(), 0);
             mHealth = FP_FromInteger(0);
             SetDead(true);
@@ -5376,7 +5376,7 @@ bool Paramite::VTakeDamage(BaseGameObject* pFrom)
                 return true;
             }
 
-            EventBroadcast(kScrabOrParamiteDied, this);
+            EventBroadcast(Event::kScrabOrParamiteDied, this);
             SetBrain(&Paramite::Brain_1_Death);
             field_130_timer = MakeTimer(90);
             mCurrentMotion = eParamiteMotions::Motion_41_Death;
@@ -5398,7 +5398,7 @@ bool Paramite::VTakeDamage(BaseGameObject* pFrom)
         {
             mVelY = FP_FromInteger(0);
             mVelX = FP_FromInteger(0);
-            EventBroadcast(kScrabOrParamiteDied, this);
+            EventBroadcast(Event::kScrabOrParamiteDied, this);
             mHealth = FP_FromInteger(0);
             SetBrain(&Paramite::Brain_1_Death);
             field_130_timer = MakeTimer(90);
@@ -5466,7 +5466,7 @@ void Paramite::VOnTlvCollision(relive::Path_TLV* pTlv)
                 mVelY = FP_FromInteger(0);
                 mVelX = FP_FromInteger(0);
                 mCurrentMotion = eParamiteMotions::Motion_41_Death;
-                EventBroadcast(kScrabOrParamiteDied, this);
+                EventBroadcast(Event::kScrabOrParamiteDied, this);
             }
         }
         pTlv = gPathInfo->TLV_Get_At(pTlv, mXPos, mYPos, mXPos, mYPos);

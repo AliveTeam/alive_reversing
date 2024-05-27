@@ -131,7 +131,7 @@ void Bat::FlyTo(FP xpos, FP ypos, FP* xSpeed, FP* ySpeed)
 
 void Bat::VUpdate()
 {
-    if (EventGet(kEventDeathReset))
+    if (EventGet(Event::kEventDeathReset))
     {
         SetDead(true);
     }
@@ -266,7 +266,7 @@ void Bat::VUpdate()
         case BatStates::eAttackTarget_4:
         {
             auto pAttackTarget = static_cast<IBaseAliveGameObject*>(sObjectIds.Find_Impl(mAttackTarget));
-            if (pAttackTarget->GetDead() || EventGet(kEventDeathReset))
+            if (pAttackTarget->GetDead() || EventGet(Event::kEventDeathReset))
             {
                 SetDead(true);
                 return;
@@ -301,7 +301,7 @@ void Bat::VUpdate()
         case BatStates::eFlyAwayAndDie_5:
         {
             FlyTo(mXPos, mYPos - FP_FromInteger(40), &xSpeed, &ySpeed);
-            if (EventGet(kEventDeathReset))
+            if (EventGet(Event::kEventDeathReset))
             {
                 SetDead(true);
             }

@@ -54,7 +54,7 @@ void DoorBlocker::LoadAnimations()
 
 void DoorBlocker::VUpdate()
 {
-    if (EventGet(kEventDeathReset))
+    if (EventGet(Event::kEventDeathReset))
     {
         SetDead(true);
     }

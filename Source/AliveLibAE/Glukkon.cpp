@@ -843,7 +843,7 @@ void Glukkon::Motion_11_Speak1()
         {
             if (field_1FC)
             {
-                EventBroadcast(kEventGlukkonUnknown, this);
+                EventBroadcast(Event::kEventGlukkonUnknown, this);
                 field_1FC = 0;
             }
 
@@ -1075,7 +1075,7 @@ s16 Glukkon::Brain_0_Calm_WalkAround()
             if (ShouldPanic(false))
             {
                 if (IsEventInRange(
-                        kEventAbeOhm,
+                        Event::kEventAbeOhm,
                         mXPos,
                         mYPos,
                         AsEventScale(GetScale())))
@@ -1092,7 +1092,7 @@ s16 Glukkon::Brain_0_Calm_WalkAround()
             }
 
             pEvent17 = IsEventInRange(
-                kEventGlukkonUnknown,
+                Event::kEventGlukkonUnknown,
                 mXPos,
                 mYPos,
                 AsEventScale(GetScale()));
@@ -1123,7 +1123,7 @@ s16 Glukkon::Brain_0_Calm_WalkAround()
             if (ShouldPanic(false))
             {
                 if (IsEventInRange(
-                        kEventAbeOhm,
+                        Event::kEventAbeOhm,
                         mXPos,
                         mYPos,
                         AsEventScale(GetScale())))
@@ -1142,7 +1142,7 @@ s16 Glukkon::Brain_0_Calm_WalkAround()
             else
             {
                 auto pEvent17_1 = IsEventInRange(
-                    kEventGlukkonUnknown,
+                    Event::kEventGlukkonUnknown,
                     mXPos,
                     mYPos,
                     AsEventScale(GetScale()));
@@ -1211,7 +1211,7 @@ s16 Glukkon::Brain_0_Calm_WalkAround()
             if (ShouldPanic(false))
             {
                 if (IsEventInRange(
-                        kEventAbeOhm,
+                        Event::kEventAbeOhm,
                         mXPos,
                         mYPos,
                         AsEventScale(GetScale())))
@@ -1228,7 +1228,7 @@ s16 Glukkon::Brain_0_Calm_WalkAround()
             }
 
             pEvent17 = IsEventInRange(
-                kEventGlukkonUnknown,
+                Event::kEventGlukkonUnknown,
                 mXPos,
                 mYPos,
                 AsEventScale(GetScale()));
@@ -1252,7 +1252,7 @@ s16 Glukkon::Brain_0_Calm_WalkAround()
             if (ShouldPanic(false))
             {
                 if (IsEventInRange(
-                        kEventAbeOhm,
+                        Event::kEventAbeOhm,
                         mXPos,
                         mYPos,
                         AsEventScale(GetScale())))
@@ -1270,7 +1270,7 @@ s16 Glukkon::Brain_0_Calm_WalkAround()
             else
             {
                 auto pEvent17_3 = IsEventInRange(
-                    kEventGlukkonUnknown,
+                    Event::kEventGlukkonUnknown,
                     mXPos,
                     mYPos,
                     AsEventScale(GetScale()));
@@ -2106,7 +2106,7 @@ void Glukkon::VUpdate()
         mFadeId = BaseGameObject::RefreshId(mFadeId);
     }
 
-    if (EventGet(kEventDeathReset))
+    if (EventGet(Event::kEventDeathReset))
     {
         SetDead(true);
     }
@@ -2389,7 +2389,7 @@ s16 Glukkon::ShouldPanic(s16 panicEvenIfNotFacingMe)
     if (IsLineOfSightBetween(this, sControlledCharacter)
         && !(sControlledCharacter->GetInvisible())
         && !BaseAliveGameObject::IsInInvisibleZone(sControlledCharacter)
-        && !EventGet(kEventResetting)
+        && !EventGet(Event::kEventResetting)
         && gMap.Is_Point_In_Current_Camera(
             mCurrentLevel,
             mCurrentPath,
@@ -2409,7 +2409,7 @@ s16 Glukkon::ShouldPanic(s16 panicEvenIfNotFacingMe)
 
     // Panic if Abe is chanting
     if (IsEventInRange(
-            kEventAbeOhm,
+            Event::kEventAbeOhm,
             mXPos,
             mYPos,
             AsEventScale(GetScale())))
@@ -2418,14 +2418,14 @@ s16 Glukkon::ShouldPanic(s16 panicEvenIfNotFacingMe)
     }
 
     // Panic if an alarm is on
-    if (EventGet(kEventAlarm))
+    if (EventGet(Event::kEventAlarm))
     {
         return 1;
     }
 
     // Panic if player is speaking (I guess it can be rather alarming?)
     auto pSpeakEvent = IsEventInRange(
-        kEventSpeaking,
+        Event::kEventSpeaking,
         mXPos,
         mYPos,
         AsEventScale(GetScale()));
@@ -2842,7 +2842,7 @@ void Glukkon::VOnTlvCollision(relive::Path_TLV* pTlv)
                 ToDead();
 
                 // Muds love it when people DIE
-                EventBroadcast(kEventMudokonComfort, this);
+                EventBroadcast(Event::kEventMudokonComfort, this);
             }
         }
 
@@ -3037,7 +3037,7 @@ bool Glukkon::VTakeDamage(BaseGameObject* pFrom)
             if (mCurrentMotion == eGlukkonMotions::Motion_21_GetShot)
             {
                 mHealth = FP_FromInteger(0);
-                EventBroadcast(kEventMudokonComfort, this);
+                EventBroadcast(Event::kEventMudokonComfort, this);
                 return true;
             }
 
@@ -3049,7 +3049,7 @@ bool Glukkon::VTakeDamage(BaseGameObject* pFrom)
                     mBrainSubState = Brain_4_Death::eBrain4_ToVaporize4;
                 }
                 mHealth = FP_FromInteger(0);
-                EventBroadcast(kEventMudokonComfort, this);
+                EventBroadcast(Event::kEventMudokonComfort, this);
                 return true;
             }
 
@@ -3068,7 +3068,7 @@ bool Glukkon::VTakeDamage(BaseGameObject* pFrom)
                 mVelX = -FP_FromDouble(0.001);
             }
             mHealth = FP_FromInteger(0);
-            EventBroadcast(kEventMudokonComfort, this);
+            EventBroadcast(Event::kEventMudokonComfort, this);
         }
         break;
 
@@ -3078,7 +3078,7 @@ bool Glukkon::VTakeDamage(BaseGameObject* pFrom)
         case ReliveTypes::eAirExplosion:
             SetBrain(&Glukkon::Brain_4_Death);
             mBrainSubState = Brain_4_Death::eBrain4_ShakeGibsDeath2;
-            EventBroadcast(kEventMudokonComfort, this);
+            EventBroadcast(Event::kEventMudokonComfort, this);
             break;
 
         case ReliveTypes::eElectricWall:
@@ -3090,7 +3090,7 @@ bool Glukkon::VTakeDamage(BaseGameObject* pFrom)
             SetAnim(eGlukkonMotions::Motion_8_DeathFall, true);
             SetBrain(&Glukkon::Brain_4_Death);
             mBrainSubState = Brain_4_Death::eBrain4_ToVaporizeDeath0;
-            EventBroadcast(kEventMudokonComfort, this);
+            EventBroadcast(Event::kEventMudokonComfort, this);
             break;
 
         case ReliveTypes::eAbe:
@@ -3118,7 +3118,7 @@ bool Glukkon::VTakeDamage(BaseGameObject* pFrom)
                 SetBrain(&Glukkon::Brain_4_Death);
                 mBrainSubState = Brain_4_Death::eBrain4_ToVaporizeKilledBySlog5;
                 Environment_SFX(EnvironmentSfx::eKnockback_13, 0, 32767, this);
-                EventBroadcast(kEventMudokonComfort, this);
+                EventBroadcast(Event::kEventMudokonComfort, this);
                 if (!VIsFacingMe(static_cast<BaseAnimatedWithPhysicsGameObject*>(pFrom)))
                 {
                     GetAnimation().ToggleFlipX();
@@ -3134,7 +3134,7 @@ bool Glukkon::VTakeDamage(BaseGameObject* pFrom)
             SetBrain(&Glukkon::Brain_4_Death);
             mBrainSubState = Brain_4_Death::eBrain4_DeathFinish3;
             field_1D4_timer = MakeTimer(1);
-            EventBroadcast(kEventMudokonComfort, this);
+            EventBroadcast(Event::kEventMudokonComfort, this);
             break;
 
         default:

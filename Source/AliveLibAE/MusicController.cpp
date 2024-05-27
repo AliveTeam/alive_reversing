@@ -541,7 +541,7 @@ void MusicController::VUpdate()
 {
     MusicController::UpdateMusicTime();
 
-    if (EventGet(kEventDeathReset))
+    if (EventGet(Event::kEventDeathReset))
     {
         mMusicDead = true;
         field_28_object_id = gAbe->mBaseGameObjectId;

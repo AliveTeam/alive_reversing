@@ -47,7 +47,7 @@ void MultiSwitchController::VScreenChanged()
 
 void MultiSwitchController::VUpdate()
 {
-    if (EventGet(kEventDeathReset))
+    if (EventGet(Event::kEventDeathReset))
     {
         SetDead(true);
     }

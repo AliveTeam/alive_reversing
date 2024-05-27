@@ -112,7 +112,7 @@ bool GlukkonSwitch::PlayerNearMe() const
 
 void GlukkonSwitch::VUpdate()
 {
-    if (EventGet(kEventDeathReset))
+    if (EventGet(Event::kEventDeathReset))
     {
         SetDead(true);
     }

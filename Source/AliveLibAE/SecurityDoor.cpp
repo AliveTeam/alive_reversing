@@ -125,7 +125,7 @@ s16 SecurityDoor::IsPlayerNear()
 
 void SecurityDoor::VUpdate()
 {
-    if (EventGet(kEventDeathReset))
+    if (EventGet(Event::kEventDeathReset))
     {
         SetDead(true);
     }

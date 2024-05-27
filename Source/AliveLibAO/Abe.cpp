@@ -743,7 +743,7 @@ void Abe::VUpdate()
 #endif
             }
 
-            if (EventGet(kEventScreenShake))
+            if (EventGet(Event::kEventScreenShake))
             {
                 if (IsStanding())
                 {
@@ -806,7 +806,7 @@ void Abe::VUpdate()
                 }
             }
 
-            if (EventGet(kEventMudokonDead))
+            if (EventGet(Event::kEventMudokonDead))
             {
                 field_130_say = 16;
                 field_134_auto_say_timer = MakeTimer(Math_RandomRange(22, 30));
@@ -846,7 +846,7 @@ void Abe::VUpdate()
                         }
                         if (field_130_say == 5)
                         {
-                            EventBroadcast(kEventMudokonComfort, gAbe);
+                            EventBroadcast(Event::kEventMudokonComfort, gAbe);
                         }
                         Mudokon_SFX(static_cast<MudSounds>(field_130_say), 0, 0, this);
                     }
@@ -2363,10 +2363,10 @@ void Abe::VOnTlvCollision(relive::Path_TLV* pTlv)
         {
             Mudokon_SFX(MudSounds::eDeathDropScream_17, 0, 0, this);
 
-            EventBroadcast(kEventNoise, this);
-            EventBroadcast(kEventSuspiciousNoise, this);
-            EventBroadcast(kEventLoudNoise, this);
-            EventBroadcast(kEventSpeaking, this);
+            EventBroadcast(Event::kEventNoise, this);
+            EventBroadcast(Event::kEventSuspiciousNoise, this);
+            EventBroadcast(Event::kEventLoudNoise, this);
+            EventBroadcast(Event::kEventSpeaking, this);
 
             if (mRidingElum && sControlledCharacter != this)
             {
@@ -3337,8 +3337,8 @@ void Abe::Motion_1_WalkLoop()
 {
     field_10C_prev_held |= Input().GetHeld();
 
-    EventBroadcast(kEventNoise, this);
-    EventBroadcast(kEventSuspiciousNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
+    EventBroadcast(Event::kEventSuspiciousNoise, this);
 
     MoveForward();
 
@@ -3764,8 +3764,8 @@ void Abe::Motion_3_Fall()
 
 void Abe::Motion_4_WalkToIdle()
 {
-    EventBroadcast(kEventNoise, this);
-    EventBroadcast(kEventSuspiciousNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
+    EventBroadcast(Event::kEventSuspiciousNoise, this);
 
     MoveForward();
 
@@ -3800,8 +3800,8 @@ void Abe::Motion_4_WalkToIdle()
 
 void Abe::Motion_5_MidWalkToIdle()
 {
-    EventBroadcast(kEventNoise, this);
-    EventBroadcast(kEventSuspiciousNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
+    EventBroadcast(Event::kEventSuspiciousNoise, this);
 
     MoveForward();
 
@@ -3836,8 +3836,8 @@ void Abe::Motion_6_WalkBegin()
 {
     field_10C_prev_held |= Input().GetHeld();
 
-    EventBroadcast(kEventNoise, this);
-    EventBroadcast(kEventSuspiciousNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
+    EventBroadcast(Event::kEventSuspiciousNoise, this);
 
     if (GetAnimation().GetIsLastFrame())
     {
@@ -4051,8 +4051,8 @@ void Abe::Motion_18_HoistLand()
 {
     FollowLift();
 
-    EventBroadcast(kEventNoise, this);
-    EventBroadcast(kEventSuspiciousNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
+    EventBroadcast(Event::kEventSuspiciousNoise, this);
 
     if (GetAnimation().GetCurrentFrame() == 2)
     {
@@ -4114,7 +4114,7 @@ void Abe::Motion_19_CrouchIdle()
 
     if (mCurrentMotion == eAbeMotions::Motion_22_CrouchSpeak || mCurrentMotion == eAbeMotions::Motion_23_CrouchSpeak)
     {
-        EventBroadcast(kEventSpeaking, this);
+        EventBroadcast(Event::kEventSpeaking, this);
         return;
     }
 
@@ -4284,7 +4284,7 @@ void Abe::Motion_23_CrouchSpeak()
 
         if (mCurrentMotion == eAbeMotions::Motion_22_CrouchSpeak || mCurrentMotion == eAbeMotions::Motion_23_CrouchSpeak)
         {
-            EventBroadcast(kEventSpeaking, this);
+            EventBroadcast(Event::kEventSpeaking, this);
         }
 
         field_10C_prev_held = 0;
@@ -4341,8 +4341,8 @@ bool Abe::Is_Celling_Above()
 
 void Abe::Motion_25_RollLoop()
 {
-    EventBroadcast(kEventNoise, this);
-    EventBroadcast(kEventSuspiciousNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
+    EventBroadcast(Event::kEventSuspiciousNoise, this);
 
     field_10E_released_buttons |= Input().GetReleased();
 
@@ -4404,8 +4404,8 @@ void Abe::Motion_25_RollLoop()
 
 void Abe::Motion_26_RollEnd()
 {
-    EventBroadcast(kEventNoise, this);
-    EventBroadcast(kEventSuspiciousNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
+    EventBroadcast(Event::kEventSuspiciousNoise, this);
 
     if (WallHit(GetSpriteScale() * FP_FromInteger(20), mVelX))
     {
@@ -4430,8 +4430,8 @@ void Abe::Motion_26_RollEnd()
 
 void Abe::Motion_27_RunSlideStop()
 {
-    EventBroadcast(kEventNoise, this);
-    EventBroadcast(kEventSuspiciousNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
+    EventBroadcast(Event::kEventSuspiciousNoise, this);
 
     if (WallHit(GetSpriteScale() * FP_FromInteger(50), mVelX))
     {
@@ -4469,8 +4469,8 @@ void Abe::Motion_27_RunSlideStop()
 
 void Abe::Motion_28_RunTurn()
 {
-    EventBroadcast(kEventNoise, this);
-    EventBroadcast(kEventSuspiciousNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
+    EventBroadcast(Event::kEventSuspiciousNoise, this);
 
     if (WallHit(GetSpriteScale() * FP_FromInteger(50), mVelX))
     {
@@ -4534,8 +4534,8 @@ void Abe::Motion_29_HopBegin()
         {
             if (WallHit(GetSpriteScale() * FP_FromInteger(50), mVelX))
             {
-                EventBroadcast(kEventNoise, this);
-                EventBroadcast(kEventSuspiciousNoise, this);
+                EventBroadcast(Event::kEventNoise, this);
+                EventBroadcast(Event::kEventSuspiciousNoise, this);
                 mVelX = FP_FromInteger(0);
                 ToKnockback(1, 1);
                 return;
@@ -4654,8 +4654,8 @@ void Abe::Motion_30_HopMid()
     {
         if (WallHit(GetSpriteScale() * FP_FromInteger(50), mVelX))
         {
-            EventBroadcast(kEventNoise, this);
-            EventBroadcast(kEventSuspiciousNoise, this);
+            EventBroadcast(Event::kEventNoise, this);
+            EventBroadcast(Event::kEventSuspiciousNoise, this);
             if (gMap.VTLV_Get_At_Of_Type(
                     FP_GetExponent(mVelX + mXPos),
                     FP_GetExponent(mYPos - GetSpriteScale() * FP_FromInteger(50)),
@@ -4682,8 +4682,8 @@ void Abe::Motion_30_HopMid()
 
             if (hasCollidedWithAir)
             {
-                EventBroadcast(kEventNoise, this);
-                EventBroadcast(kEventSuspiciousNoise, this);
+                EventBroadcast(Event::kEventNoise, this);
+                EventBroadcast(Event::kEventSuspiciousNoise, this);
                 switch (pLine->mLineType)
                 {
                     case eLineTypes::eFloor_0:
@@ -4762,8 +4762,8 @@ void Abe::Motion_31_HopLand()
 
 void Abe::Motion_32_RunJumpBegin()
 {
-    EventBroadcast(kEventNoise, this);
-    EventBroadcast(kEventSuspiciousNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
+    EventBroadcast(Event::kEventSuspiciousNoise, this);
 
     if (WallHit(GetSpriteScale() * FP_FromInteger(50), mVelX))
     {
@@ -4805,8 +4805,8 @@ void Abe::Motion_33_RunJumpMid()
 {
     BaseGameObject* pLiftPoint = sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId);
 
-    EventBroadcast(kEventNoise, this);
-    EventBroadcast(kEventSuspiciousNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
+    EventBroadcast(Event::kEventSuspiciousNoise, this);
 
     if (field_1A0_portal)
     {
@@ -4965,8 +4965,8 @@ void Abe::Motion_33_RunJumpMid()
 
 void Abe::Motion_34_RunJumpLand()
 {
-    EventBroadcast(kEventNoise, this);
-    EventBroadcast(kEventSuspiciousNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
+    EventBroadcast(Event::kEventSuspiciousNoise, this);
 
     if (GetAnimation().GetIsLastFrame())
     {
@@ -5109,8 +5109,8 @@ void Abe::Motion_35_RunLoop()
 {
     field_10C_prev_held |= Input().GetHeld();
 
-    EventBroadcast(kEventNoise, this);
-    EventBroadcast(kEventSuspiciousNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
+    EventBroadcast(Event::kEventSuspiciousNoise, this);
 
     if (WallHit(GetSpriteScale() * FP_FromInteger(50), mVelX))
     {
@@ -5294,8 +5294,8 @@ void Abe::Motion_39_CrouchTurn()
 
 void Abe::Motion_40_RunToRoll()
 {
-    EventBroadcast(kEventNoise, this);
-    EventBroadcast(kEventSuspiciousNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
+    EventBroadcast(Event::kEventSuspiciousNoise, this);
 
     if (GetAnimation().GetFlipX())
     {
@@ -5332,8 +5332,8 @@ void Abe::Motion_41_StandingToRun()
         mCurrentMotion = eAbeMotions::Motion_35_RunLoop;
     }
 
-    EventBroadcast(kEventNoise, this);
-    EventBroadcast(kEventSuspiciousNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
+    EventBroadcast(Event::kEventSuspiciousNoise, this);
 
     field_10C_prev_held |= Input().GetHeld();
 
@@ -5610,8 +5610,8 @@ void Abe::Motion_50_WalkToRun()
 {
     field_10C_prev_held |= Input().GetHeld();
 
-    EventBroadcast(kEventNoise, this);
-    EventBroadcast(kEventSuspiciousNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
+    EventBroadcast(Event::kEventSuspiciousNoise, this);
 
     if (GetAnimation().GetFlipX())
     {
@@ -5643,8 +5643,8 @@ void Abe::Motion_51_MidWalkToRun()
 {
     field_10C_prev_held |= Input().GetHeld();
 
-    EventBroadcast(kEventNoise, this);
-    EventBroadcast(kEventSuspiciousNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
+    EventBroadcast(Event::kEventSuspiciousNoise, this);
 
     if (GetAnimation().GetFlipX())
     {
@@ -5677,8 +5677,8 @@ void Abe::Motion_52_RunToWalk()
 {
     field_10C_prev_held |= Input().GetHeld();
 
-    EventBroadcast(kEventNoise, this);
-    EventBroadcast(kEventSuspiciousNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
+    EventBroadcast(Event::kEventSuspiciousNoise, this);
 
     if (GetAnimation().GetFlipX())
     {
@@ -5708,8 +5708,8 @@ void Abe::Motion_53_MidRunToWalk()
 {
     field_10C_prev_held |= Input().GetHeld();
 
-    EventBroadcast(kEventNoise, this);
-    EventBroadcast(kEventSuspiciousNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
+    EventBroadcast(Event::kEventSuspiciousNoise, this);
 
     if (GetAnimation().GetFlipX())
     {
@@ -5741,8 +5741,8 @@ void Abe::Motion_54_RunTurnToRun()
 {
     field_10C_prev_held |= Input().GetHeld();
 
-    EventBroadcast(kEventNoise, this);
-    EventBroadcast(kEventSuspiciousNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
+    EventBroadcast(Event::kEventSuspiciousNoise, this);
 
     if (WallHit(GetSpriteScale() * FP_FromInteger(50), mVelX))
     {
@@ -5764,8 +5764,8 @@ void Abe::Motion_55_RunTurnToWalk()
 {
     field_10C_prev_held |= Input().GetHeld();
 
-    EventBroadcast(kEventNoise, this);
-    EventBroadcast(kEventSuspiciousNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
+    EventBroadcast(Event::kEventSuspiciousNoise, this);
 
 
     if (WallHit(GetSpriteScale() * FP_FromInteger(50), mVelX))
@@ -5786,8 +5786,8 @@ void Abe::Motion_55_RunTurnToWalk()
 
 void Abe::Motion_56_RunJumpLandRun()
 {
-    EventBroadcast(kEventNoise, this);
-    EventBroadcast(kEventSuspiciousNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
+    EventBroadcast(Event::kEventSuspiciousNoise, this);
 
     if (WallHit(GetSpriteScale() * FP_FromInteger(50), mVelX))
     {
@@ -5806,8 +5806,8 @@ void Abe::Motion_56_RunJumpLandRun()
 
 void Abe::Motion_57_RunJumpLand_Walk()
 {
-    EventBroadcast(kEventNoise, this);
-    EventBroadcast(kEventSuspiciousNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
+    EventBroadcast(Event::kEventSuspiciousNoise, this);
 
     if (WallHit(GetSpriteScale() * FP_FromInteger(50), mVelX))
     {
@@ -5839,7 +5839,7 @@ void Abe::Motion_58_ToSpeak()
         }
         else
         {
-            EventBroadcast(kEventSpeaking, this);
+            EventBroadcast(Event::kEventSpeaking, this);
         }
         field_10C_prev_held = 0;
     }
@@ -5891,7 +5891,7 @@ void Abe::Motion_60_Dead()
     {
         case 0:
         {
-            EventBroadcast(kEventHeroDying, this);
+            EventBroadcast(Event::kEventHeroDying, this);
             field_118_timer = MakeTimer(30);
             field_120_x_vel_slow_by = FP_FromInteger(0);
             mVelX = FP_FromInteger(0);
@@ -5921,7 +5921,7 @@ void Abe::Motion_60_Dead()
         }
         case 1:
         {
-            EventBroadcast(kEventHeroDying, this);
+            EventBroadcast(Event::kEventHeroDying, this);
             if (!(sGnFrame % 4))
             {
                 auto aux = 0;
@@ -5964,7 +5964,7 @@ void Abe::Motion_60_Dead()
         }
         case 2:
         {
-            EventBroadcast(kEventHeroDying, this);
+            EventBroadcast(Event::kEventHeroDying, this);
             if (static_cast<s32>(sGnFrame) > field_118_timer)
             {
                 field_114_gnFrame++;
@@ -5973,7 +5973,7 @@ void Abe::Motion_60_Dead()
         }
         case 3:
         {
-            EventBroadcast(kEventHeroDying, this);
+            EventBroadcast(Event::kEventHeroDying, this);
             auto pFade = sObjectIds.Find(mFadeId, ReliveTypes::eFade);
             if (pFade)
             {
@@ -5997,7 +5997,7 @@ void Abe::Motion_60_Dead()
         }
         case 4:
         {
-            EventBroadcast(kEventHeroDying, this);
+            EventBroadcast(Event::kEventHeroDying, this);
             auto pFade = static_cast<Fade*>(sObjectIds.Find(mFadeId, ReliveTypes::eFade));
             if (pFade && pFade->mDone)
             {
@@ -6023,7 +6023,7 @@ void Abe::Motion_60_Dead()
         }
         case 5:
         {
-            EventBroadcast(kEventDeathReset, this);
+            EventBroadcast(Event::kEventDeathReset, this);
             if (static_cast<s32>(sGnFrame) > field_118_timer)
             {
                 mCurrentMotion = eAbeMotions::Motion_61_Respawn;
@@ -6068,7 +6068,7 @@ void Abe::Motion_61_Respawn()
 
     GetAnimation().SetAnimate(false);
     FollowLift();
-    EventBroadcast(kEventResetting, this);
+    EventBroadcast(Event::kEventResetting, this);
 
     switch (field_114_gnFrame)
     {
@@ -6157,7 +6157,7 @@ void Abe::Motion_61_Respawn()
                 }
             }
             GetAnimation().SetRender(false);
-            EventBroadcast(kEventDeathResetEnd, this);
+            EventBroadcast(Event::kEventDeathResetEnd, this);
 
             //TODO not used?
             //if (dword_507720)
@@ -6244,7 +6244,7 @@ void Abe::Motion_61_Respawn()
 
 void Abe::Motion_62_LoadedSaveSpawn()
 {
-    EventBroadcast(kEventResetting, this);
+    EventBroadcast(Event::kEventResetting, this);
 
     if (field_114_gnFrame)
     {
@@ -6392,8 +6392,8 @@ void Abe::Motion_62_LoadedSaveSpawn()
 
 void Abe::Motion_63_TurnToRun()
 {
-    EventBroadcast(kEventNoise, this);
-    EventBroadcast(kEventSuspiciousNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
+    EventBroadcast(Event::kEventSuspiciousNoise, this);
 
     if (WallHit(GetSpriteScale() * FP_FromInteger(50), mVelX))
     {
@@ -6540,8 +6540,8 @@ void Abe::Motion_68_LedgeHangWobble()
         mSfxPlaying = false;
     }
 
-    EventBroadcast(kEventNoise, this);
-    EventBroadcast(kEventSuspiciousNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
+    EventBroadcast(Event::kEventSuspiciousNoise, this);
 
     FollowLift();
 
@@ -6615,8 +6615,8 @@ void Abe::Motion_70_Knockback()
                 && GetAnimation().GetCurrentFrame() == 7)
             {
                 Environment_SFX(EnvironmentSfx::eHitGroundSoft_6, 80, -200, this);
-                EventBroadcast(kEventNoise, this);
-                EventBroadcast(kEventSuspiciousNoise, this);
+                EventBroadcast(Event::kEventNoise, this);
+                EventBroadcast(Event::kEventSuspiciousNoise, this);
             }
         }
         else
@@ -6658,8 +6658,8 @@ void Abe::Motion_70_Knockback()
 
 void Abe::Motion_71_KnockbackGetUp()
 {
-    EventBroadcast(kEventNoise, this);
-    EventBroadcast(kEventSuspiciousNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
+    EventBroadcast(Event::kEventSuspiciousNoise, this);
 
     if (GetAnimation().GetIsLastFrame())
     {
@@ -6669,8 +6669,8 @@ void Abe::Motion_71_KnockbackGetUp()
 
 void Abe::Motion_72_PushWall()
 {
-    EventBroadcast(kEventNoise, this);
-    EventBroadcast(kEventSuspiciousNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
+    EventBroadcast(Event::kEventSuspiciousNoise, this);
 
     if (GetAnimation().GetCurrentFrame() == 10)
     {
@@ -6693,8 +6693,8 @@ void Abe::Motion_73_RollingKnockback()
         FallOnBombs();
     }
 
-    EventBroadcast(kEventNoise, this);
-    EventBroadcast(kEventSuspiciousNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
+    EventBroadcast(Event::kEventSuspiciousNoise, this);
 
     if (GetAnimation().GetIsLastFrame())
     {
@@ -6740,7 +6740,7 @@ void Abe::Motion_76_ToWellShotOut()
 
 void Abe::Motion_77_WellBegin()
 {
-    EventBroadcast(kEventNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
     if (GetAnimation().GetCurrentFrame() > 10)
     {
         GetShadow()->mEnabled = false;
@@ -7133,8 +7133,8 @@ void Abe::Motion_85_ToWellShotOut()
 
 void Abe::Motion_86_FallLandDie()
 {
-    EventBroadcast(kEventNoise, this);
-    EventBroadcast(kEventSuspiciousNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
+    EventBroadcast(Event::kEventSuspiciousNoise, this);
 
     if (GetAnimation().GetCurrentFrame() == 0)
     {
@@ -7579,8 +7579,8 @@ void Abe::Motion_98_LandSoft()
     {
         if (!mLandSoft)
         {
-            EventBroadcast(kEventNoise, this);
-            EventBroadcast(kEventSuspiciousNoise, this);
+            EventBroadcast(Event::kEventNoise, this);
+            EventBroadcast(Event::kEventSuspiciousNoise, this);
         }
 
         mLandSoft = false;
@@ -7763,7 +7763,7 @@ void Abe::Motion_114_ElumRunLoop()
 
 void Abe::Motion_115_ElumSpeak()
 {
-    EventBroadcast(kEventSpeaking, this);
+    EventBroadcast(Event::kEventSpeaking, this);
 
     if (GetAnimation().GetIsLastFrame())
     {
@@ -7853,8 +7853,8 @@ void Abe::Motion_128_KnockForward()
         FallOnBombs();
     }
 
-    EventBroadcast(kEventNoise, this);
-    EventBroadcast(kEventSuspiciousNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
+    EventBroadcast(Event::kEventSuspiciousNoise, this);
 
     FollowLift();
 
@@ -7911,8 +7911,8 @@ void Abe::Motion_129_RollingKnockForward()
         FallOnBombs();
     }
 
-    EventBroadcast(kEventNoise, this);
-    EventBroadcast(kEventSuspiciousNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
+    EventBroadcast(Event::kEventSuspiciousNoise, this);
 
     if (GetAnimation().GetForwardLoopCompleted())
     {
@@ -7932,8 +7932,8 @@ void Abe::Motion_129_RollingKnockForward()
 
 void Abe::Motion_130_KnockForwardGetUp()
 {
-    EventBroadcast(kEventNoise, this);
-    EventBroadcast(kEventSuspiciousNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
+    EventBroadcast(Event::kEventSuspiciousNoise, this);
 
     if (GetAnimation().GetIsLastFrame())
     {
@@ -8337,8 +8337,8 @@ void Abe::Motion_147_ShotRolling()
 {
     ElumFree();
 
-    EventBroadcast(kEventNoise, this);
-    EventBroadcast(kEventSuspiciousNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
+    EventBroadcast(Event::kEventSuspiciousNoise, this);
 
     Motion_3_Fall();
 
@@ -8369,8 +8369,8 @@ void Abe::Motion_148_Shot()
 {
     ElumFree();
 
-    EventBroadcast(kEventNoise, this);
-    EventBroadcast(kEventSuspiciousNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
+    EventBroadcast(Event::kEventSuspiciousNoise, this);
 
     Motion_3_Fall();
 
@@ -8434,8 +8434,8 @@ void Abe::Motion_150_Chant()
     {
         case ChantStates::eIdleChanting_0:
         {
-            EventBroadcast(kEventSpeaking, this);
-            EventBroadcast(kEventAbeOhm, this);
+            EventBroadcast(Event::kEventSpeaking, this);
+            EventBroadcast(Event::kEventAbeOhm, this);
             auto pObjToPossess = FindObjectToPossess();
             if (mRingPulseTimer)
             {
@@ -8567,8 +8567,8 @@ void Abe::Motion_150_Chant()
         {
             // TODO: refactor this switch case
 
-            EventBroadcast(kEventSpeaking, this);
-            EventBroadcast(kEventAbeOhm, this);
+            EventBroadcast(Event::kEventSpeaking, this);
+            EventBroadcast(Event::kEventAbeOhm, this);
             mOrbWhirlWindId = Guid{};
 
             auto pObjToPossess = static_cast<IBaseAliveGameObject*>(sObjectIds.Find_Impl(field_18C_pObjToPossess));
@@ -8631,8 +8631,8 @@ void Abe::Motion_150_Chant()
         }
         case ChantStates::eChantingForBirdPortal_6:
         {
-            EventBroadcast(kEventSpeaking, this);
-            EventBroadcast(kEventAbeOhm, this);
+            EventBroadcast(Event::kEventSpeaking, this);
+            EventBroadcast(Event::kEventAbeOhm, this);
             if (!(sGnFrame % 4))
             {
                 New_RandomizedChant_Particle(this);

@@ -86,9 +86,9 @@ AirExplosion::AirExplosion(FP xpos, FP ypos, FP explosionScale, bool bSmall)
 
 void AirExplosion::VUpdate()
 {
-    EventBroadcast(kEventShooting, this);
-    EventBroadcast(kEventLoudNoise, this);
-    EventBroadcast(kEventSuspiciousNoise, this);
+    EventBroadcast(Event::kEventShooting, this);
+    EventBroadcast(Event::kEventLoudNoise, this);
+    EventBroadcast(Event::kEventSuspiciousNoise, this);
 
     PSX_RECT rect = {};
 

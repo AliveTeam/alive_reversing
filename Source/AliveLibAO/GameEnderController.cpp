@@ -40,7 +40,7 @@ void GameEnderController::VScreenChanged()
 
 void GameEnderController::VUpdate()
 {
-    if (EventGet(kEventDeathReset))
+    if (EventGet(Event::kEventDeathReset))
     {
         SetDead(true);
     }

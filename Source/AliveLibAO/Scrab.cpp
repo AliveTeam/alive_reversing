@@ -151,7 +151,7 @@ void Scrab::VRender(OrderingTable& ot)
 
 void Scrab::VUpdate()
 {
-    if (EventGet(kEventDeathReset))
+    if (EventGet(Event::kEventDeathReset))
     {
         SetDead(true);
     }
@@ -1137,7 +1137,7 @@ const FP sHopBeginVelTable_4BC860[4] = {
 
 void Scrab::Motion_6_HopBegin()
 {
-    EventBroadcast(kEventNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
 
     if (GetAnimation().GetFlipX())
     {
@@ -1188,7 +1188,7 @@ const FP sHopMidAirVelTable_4BC870[8] = {
 
 void Scrab::Motion_7_HopMidair()
 {
-    EventBroadcast(kEventNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
 
     if (GetAnimation().GetFlipX())
     {
@@ -1267,7 +1267,7 @@ void Scrab::Motion_8_HopLand()
         Scrab_SFX(ScrabSounds::eHitCollision_4, 0, 0x7FFF, 1);
     }
 
-    EventBroadcast(kEventNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
 
     if (GetAnimation().GetFlipX())
     {
@@ -1475,7 +1475,7 @@ void Scrab::Motion_13_RunJumpBegin()
         SFX_Play_Pitch(relive::SoundEffects::PickupItem, 50, -800);
     }
 
-    EventBroadcast(kEventNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
 
     if (GetAnimation().GetFlipX())
     {
@@ -1559,7 +1559,7 @@ const FP sRunJumpEndVelTable_4BC8C0[4] = {
 
 void Scrab::Motion_14_RunJumpEnd()
 {
-    EventBroadcast(kEventNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
 
     if (GetAnimation().GetFlipX())
     {
@@ -1929,7 +1929,7 @@ void Scrab::Motion_29_DeathBegin()
 
 s16 Scrab::Brain_Fighting()
 {
-    if (EventGet(kEventDeathReset))
+    if (EventGet(Event::kEventDeathReset))
     {
         SetDead(true);
     }
@@ -2246,7 +2246,7 @@ s16 Scrab::Brain_Fighting()
 
 s16 Scrab::Brain_BatDeath()
 {
-    if (EventGet(kEventDeathReset))
+    if (EventGet(Event::kEventDeathReset))
     {
         SetDead(true);
     }
@@ -2332,7 +2332,7 @@ s16 Scrab::Brain_Death()
 s16 Scrab::Brain_ChasingEnemy()
 {
     // 0 to 17
-    if (EventGet(kEventDeathReset))
+    if (EventGet(Event::kEventDeathReset))
     {
         SetDead(true);
     }
@@ -2385,7 +2385,7 @@ s16 Scrab::Brain_ChasingEnemy()
         }
     }
 
-    if (EventGet(kEventAbeOhm))
+    if (EventGet(Event::kEventAbeOhm))
     {
         mNextMotion = eScrabMotions::Motion_20_HowlBegin;
         return 18;
@@ -2995,7 +2995,7 @@ s16 Scrab::Brain_ChasingEnemy()
         }
 
         case 18:
-            if (EventGet(kEventAbeOhm))
+            if (EventGet(Event::kEventAbeOhm))
             {
                 return mBrainSubState;
             }
@@ -3009,7 +3009,7 @@ s16 Scrab::Brain_ChasingEnemy()
 
 s16 Scrab::Brain_Patrol()
 {
-    if (EventGet(kEventDeathReset))
+    if (EventGet(Event::kEventDeathReset))
     {
         SetDead(true);
     }
@@ -3035,7 +3035,7 @@ s16 Scrab::Brain_Patrol()
         SetTarget(nullptr);
     }
 
-    if (EventGet(kEventAbeOhm))
+    if (EventGet(Event::kEventAbeOhm))
     {
         mNextMotion = eScrabMotions::Motion_20_HowlBegin;
         return 9;
@@ -3323,7 +3323,7 @@ s16 Scrab::Brain_Patrol()
         }
 
         case 9:
-            if (!EventGet(kEventAbeOhm))
+            if (!EventGet(Event::kEventAbeOhm))
             {
                 mNextMotion = eScrabMotions::Motion_1_Stand;
                 return 0;
@@ -3337,7 +3337,7 @@ s16 Scrab::Brain_Patrol()
 
 s16 Scrab::Brain_WalkAround()
 {
-    if (EventGet(kEventDeathReset))
+    if (EventGet(Event::kEventDeathReset))
     {
         SetDead(true);
     }
@@ -3363,7 +3363,7 @@ s16 Scrab::Brain_WalkAround()
         SetTarget(nullptr);
     }
 
-    if (EventGet(kEventAbeOhm))
+    if (EventGet(Event::kEventAbeOhm))
     {
         mNextMotion = eScrabMotions::Motion_20_HowlBegin;
         return 6;
@@ -3611,7 +3611,7 @@ s16 Scrab::Brain_WalkAround()
         }
 
         case 6:
-            if (EventGet(kEventAbeOhm))
+            if (EventGet(Event::kEventAbeOhm))
             {
                 return mBrainSubState;
             }

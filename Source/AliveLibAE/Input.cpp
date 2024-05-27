@@ -259,7 +259,7 @@ void Input_GetJoyState_SDL(f32* pX1, f32* pY1, f32* pX2, f32* pY2, u32* pButtons
         {
             vibrationAmount = std::min(screenShake, 30) / 30.0f;
         }
-        else if (EventGet(kEventScreenShake))
+        else if (EventGet(Event::kEventScreenShake))
         {
             vibrationAmount = 1.0f;
         }

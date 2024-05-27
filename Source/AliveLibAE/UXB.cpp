@@ -414,7 +414,7 @@ void UXB::VUpdate()
 
     if (mCurrentState != UXBState::eExploding)
     {
-        if (EventGet(kEventDeathReset))
+        if (EventGet(Event::kEventDeathReset))
         {
             if (mStartingState != UXBState::eDeactivated || mCurrentState == UXBState::eDeactivated)
             {

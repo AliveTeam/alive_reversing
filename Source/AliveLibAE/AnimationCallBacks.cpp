@@ -142,7 +142,7 @@ void Animation_OnFrame_FlyingSlig(BaseGameObject* pObjPtr, u32&, const IndexedPo
     FP xpos = xOff + pObj->mXPos;
     FP ypos = (pObj->GetSpriteScale() * (FP_FromInteger(point.mPoint.y) + FP_FromInteger(25))) + pObj->mYPos;
 
-    if (EventGet(kEventDeathReset))
+    if (EventGet(Event::kEventDeathReset))
     {
         pObj->SetDead(true);
     }

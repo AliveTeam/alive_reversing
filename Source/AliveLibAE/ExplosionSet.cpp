@@ -113,7 +113,7 @@ void ExplosionSet::VRender(OrderingTable& ot)
 
 void ExplosionSet::VUpdate()
 {
-    if (EventGet(kEventDeathReset))
+    if (EventGet(Event::kEventDeathReset))
     {
         SetDead(true);
     }

@@ -552,7 +552,7 @@ IBaseAliveGameObject* Greeter::GetMudToZap()
 
 void Greeter::VUpdate()
 {
-    if (EventGet(kEventDeathReset))
+    if (EventGet(Event::kEventDeathReset))
     {
         SetDead(true);
     }

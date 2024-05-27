@@ -155,7 +155,7 @@ void Well::VScreenChanged()
 
 void Well::VUpdate()
 {
-    if (EventGet(kEventDeathReset))
+    if (EventGet(Event::kEventDeathReset))
     {
         SetDead(true);
         Path::TLV_Reset(mTlvInfo);

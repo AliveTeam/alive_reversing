@@ -529,7 +529,7 @@ void FlyingSlig::VUpdate()
         }
     }
 
-    if (EventGet(kEventDeathReset))
+    if (EventGet(Event::kEventDeathReset))
     {
         SetDead(true);
     }
@@ -924,7 +924,7 @@ void FlyingSlig::Brain_1_Death()
     if (static_cast<s32>(sGnFrame) >= field_14C_timer)
     {
         SetDead(true);
-        EventBroadcast(kEventMudokonComfort, this);
+        EventBroadcast(Event::kEventMudokonComfort, this);
     }
 }
 
@@ -961,13 +961,13 @@ void FlyingSlig::Brain_4_ChasingEnemy()
 {
     mUnknown1 = false;
 
-    if (EventGet(kEventHeroDying) && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0))
+    if (EventGet(Event::kEventHeroDying) && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0))
     {
         ToAbeDead();
         return;
     }
 
-    if (EventGet(kEventResetting) || sControlledCharacter->GetSpriteScale() != GetSpriteScale() || IsInInvisibleZone(sControlledCharacter) || sControlledCharacter->GetInvisible() || (!IsWallBetween(this, sControlledCharacter) && (!IsAbe(sControlledCharacter) || gAbe->mCurrentMotion != eAbeMotions::Motion_65_LedgeAscend_4548E0) && sControlledCharacter->Type() != ReliveTypes::eMineCar))
+    if (EventGet(Event::kEventResetting) || sControlledCharacter->GetSpriteScale() != GetSpriteScale() || IsInInvisibleZone(sControlledCharacter) || sControlledCharacter->GetInvisible() || (!IsWallBetween(this, sControlledCharacter) && (!IsAbe(sControlledCharacter) || gAbe->mCurrentMotion != eAbeMotions::Motion_65_LedgeAscend_4548E0) && sControlledCharacter->Type() != ReliveTypes::eMineCar))
     {
         PatrolDelay();
         return;
@@ -1028,7 +1028,7 @@ void FlyingSlig::Brain_7_PanicMoving()
         return;
     }
 
-    if (!IsEventInRange(kEventAbeOhm, mXPos, mYPos, AsEventScale(GetScale())))
+    if (!IsEventInRange(Event::kEventAbeOhm, mXPos, mYPos, AsEventScale(GetScale())))
     {
         ToMoving();
         return;
@@ -1052,7 +1052,7 @@ void FlyingSlig::Brain_8_PanicIdle()
     {
         ToChase();
     }
-    else if (IsEventInRange(kEventAbeOhm, mXPos, mYPos, AsEventScale(GetScale())))
+    else if (IsEventInRange(Event::kEventAbeOhm, mXPos, mYPos, AsEventScale(GetScale())))
     {
         if (static_cast<s32>(sGnFrame) >= field_14C_timer && mCurrentMotion != eFlyingSligMotions::Motion_8_GameSpeak)
         {
@@ -1508,7 +1508,7 @@ void FlyingSlig::Motion_8_GameSpeak()
             }
         }
         Slig_GameSpeak_SFX(field_17D_next_speak, 0, field_160_voice_pitch_min, this);
-        EventBroadcast(kEventSpeaking, this);
+        EventBroadcast(Event::kEventSpeaking, this);
     }
     else if (GetAnimation().GetIsLastFrame())
     {
@@ -1893,12 +1893,12 @@ s16 FlyingSlig::IsPossessed()
 
 s16 FlyingSlig::CanChase(IBaseAliveGameObject* pObj)
 {
-    if (!gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) || !gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) || EventGet(kEventResetting) || IsAbeEnteringDoor(pObj) || gAbe->GetSpriteScale() != GetSpriteScale() || !IsWallBetween(this, pObj))
+    if (!gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) || !gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) || EventGet(Event::kEventResetting) || IsAbeEnteringDoor(pObj) || gAbe->GetSpriteScale() != GetSpriteScale() || !IsWallBetween(this, pObj))
     {
         return 0;
     }
 
-    if (IsEventInRange(kEventAbeOhm, mXPos, mYPos, AsEventScale(GetScale())))
+    if (IsEventInRange(Event::kEventAbeOhm, mXPos, mYPos, AsEventScale(GetScale())))
     {
         return 1;
     }
@@ -2135,8 +2135,8 @@ void FlyingSlig::ThrowGrenade()
 
     New_ShootingFire_Particle(xpos + mXPos, ypos + mYPos, GetAnimation().GetFlipX(), GetSpriteScale());
     Slig_SoundEffect(SligSfx::eThrowGrenade_8, this);
-    EventBroadcast(kEventShooting, this);
-    EventBroadcast(kEventLoudNoise, this);
+    EventBroadcast(Event::kEventShooting, this);
+    EventBroadcast(Event::kEventLoudNoise, this);
 
     Dove::All_FlyAway(false);
 
@@ -2191,7 +2191,7 @@ s16 FlyingSlig::sub_436730()
         ToAlerted();
         return 1;
     }
-    else if (IsEventInRange(kEventAbeOhm, mXPos, mYPos, AsEventScale(GetScale())))
+    else if (IsEventInRange(Event::kEventAbeOhm, mXPos, mYPos, AsEventScale(GetScale())))
     {
         ToPanicMoving();
         return 1;
@@ -2209,7 +2209,7 @@ s16 FlyingSlig::sub_436730()
 
 s16 FlyingSlig::CanHearAbe()
 {
-    return IsAbe(IsEventInRange(kEventSuspiciousNoise, mXPos, mYPos, AsEventScale(GetScale()))) || IsAbe(IsEventInRange(kEventSpeaking, mXPos, mYPos, AsEventScale(GetScale())));
+    return IsAbe(IsEventInRange(Event::kEventSuspiciousNoise, mXPos, mYPos, AsEventScale(GetScale()))) || IsAbe(IsEventInRange(Event::kEventSpeaking, mXPos, mYPos, AsEventScale(GetScale())));
 }
 
 void FlyingSlig::ToSpottedEnemy()

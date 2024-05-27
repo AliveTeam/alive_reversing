@@ -195,8 +195,8 @@ void Meat::InTheAir()
                     mVelY = FP_FromInteger(0);
                     mVelX = FP_FromInteger(0);
                     SFX_Play_Pitch(relive::SoundEffects::MeatBounce, 0, -650);
-                    EventBroadcast(kEventNoise, this);
-                    EventBroadcast(kEventSuspiciousNoise, this);
+                    EventBroadcast(Event::kEventNoise, this);
+                    EventBroadcast(Event::kEventSuspiciousNoise, this);
                     AddToPlatform();
                 }
                 break;
@@ -209,8 +209,8 @@ void Meat::InTheAir()
                     mYPos = hitY;
                     mVelX = (-mVelX / FP_FromInteger(4));
                     SFX_Play_Pitch(relive::SoundEffects::MeatBounce, 0, -650);
-                    EventBroadcast(kEventNoise, this);
-                    EventBroadcast(kEventSuspiciousNoise, this);
+                    EventBroadcast(Event::kEventNoise, this);
+                    EventBroadcast(Event::kEventSuspiciousNoise, this);
                     if (mVelY < FP_FromInteger(0))
                     {
                         mVelY = FP_FromInteger(0);
@@ -227,8 +227,8 @@ void Meat::InTheAir()
                     mYPos = hitY;
                     mVelX = (-mVelX / FP_FromInteger(4));
                     SFX_Play_Pitch(relive::SoundEffects::MeatBounce, 0, -650);
-                    EventBroadcast(kEventNoise, this);
-                    EventBroadcast(kEventSuspiciousNoise, this);
+                    EventBroadcast(Event::kEventNoise, this);
+                    EventBroadcast(Event::kEventSuspiciousNoise, this);
                     if (mVelY < FP_FromInteger(0))
                     {
                         mVelY = FP_FromInteger(0);
@@ -245,8 +245,8 @@ void Meat::InTheAir()
                     mYPos = hitY + FP_FromInteger(1);
                     mVelY = FP_FromInteger(0);
                     SFX_Play_Pitch(relive::SoundEffects::MeatBounce, 0, -650);
-                    EventBroadcast(kEventNoise, this);
-                    EventBroadcast(kEventSuspiciousNoise, this);
+                    EventBroadcast(Event::kEventNoise, this);
+                    EventBroadcast(Event::kEventSuspiciousNoise, this);
                 }
                 break;
         }
@@ -292,7 +292,7 @@ void Meat::VUpdate()
     const auto pPlatform = sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId);
     if (gNumCamSwappers == 0)
     {
-        if (EventGet(kEventDeathReset))
+        if (EventGet(Event::kEventDeathReset))
         {
             SetDead(true);
         }

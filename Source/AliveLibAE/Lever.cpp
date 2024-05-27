@@ -107,7 +107,7 @@ void Lever::VScreenChanged()
 
 void Lever::VUpdate()
 {
-    if (EventGet(kEventDeathReset))
+    if (EventGet(Event::kEventDeathReset))
     {
         SetDead(true);
     }
@@ -175,26 +175,26 @@ void Lever::VUpdate()
                     {
                         case relive::Path_Lever::LeverSoundType::eWell:
                             SFX_Play_Stereo(relive::SoundEffects::WellExit, 80 * volLeft + 25, 80 * volRight + 25);
-                            EventBroadcast(kEventNoise, this);
-                            EventBroadcast(kEventSuspiciousNoise, this);
+                            EventBroadcast(Event::kEventNoise, this);
+                            EventBroadcast(Event::kEventSuspiciousNoise, this);
                             break;
 
                         case relive::Path_Lever::LeverSoundType::eSwitchBellHammer:
                             SFX_Play_Stereo(relive::SoundEffects::SwitchUnknownTrigger, 100 * volLeft + 25, 100 * volRight + 25);
-                            EventBroadcast(kEventNoise, this);
-                            EventBroadcast(kEventSuspiciousNoise, this);
+                            EventBroadcast(Event::kEventNoise, this);
+                            EventBroadcast(Event::kEventSuspiciousNoise, this);
                             break;
 
                         case relive::Path_Lever::LeverSoundType::eDoor:
                             SFX_Play_Stereo(relive::SoundEffects::DoorEffect, 75 * volLeft + 15, 75 * volRight + 15);
-                            EventBroadcast(kEventNoise, this);
-                            EventBroadcast(kEventSuspiciousNoise, this);
+                            EventBroadcast(Event::kEventNoise, this);
+                            EventBroadcast(Event::kEventSuspiciousNoise, this);
                             break;
 
                         case relive::Path_Lever::LeverSoundType::eElectricWall:
                             SFX_Play_Stereo(relive::SoundEffects::Zap1, 35 * volLeft + 25, 35 * volRight + 25);
-                            EventBroadcast(kEventNoise, this);
-                            EventBroadcast(kEventSuspiciousNoise, this);
+                            EventBroadcast(Event::kEventNoise, this);
+                            EventBroadcast(Event::kEventSuspiciousNoise, this);
                             break;
 
                         case relive::Path_Lever::LeverSoundType::eSecurityOrb:
@@ -203,8 +203,8 @@ void Lever::VUpdate()
 
                         case relive::Path_Lever::LeverSoundType::eLift:
                             SFX_Play_Stereo(relive::SoundEffects::LiftStop, 35 * volLeft + 25, 35 * volRight + 25);
-                            EventBroadcast(kEventNoise, this);
-                            EventBroadcast(kEventSuspiciousNoise, this);
+                            EventBroadcast(Event::kEventNoise, this);
+                            EventBroadcast(Event::kEventSuspiciousNoise, this);
                             break;
 
                         default:
@@ -217,26 +217,26 @@ void Lever::VUpdate()
                     {
                         case relive::Path_Lever::LeverSoundType::eWell:
                             SFX_Play_Stereo(relive::SoundEffects::WellExit, 80 * volLeft + 25, 80 * volRight + 25);
-                            EventBroadcast(kEventNoise, this);
-                            EventBroadcast(kEventSuspiciousNoise, this);
+                            EventBroadcast(Event::kEventNoise, this);
+                            EventBroadcast(Event::kEventSuspiciousNoise, this);
                             break;
 
                         case relive::Path_Lever::LeverSoundType::eSwitchBellHammer:
                             SFX_Play_Stereo(relive::SoundEffects::SwitchUnknownTrigger, 110 * volLeft + 25, 110 * volRight + 25);
-                            EventBroadcast(kEventNoise, this);
-                            EventBroadcast(kEventSuspiciousNoise, this);
+                            EventBroadcast(Event::kEventNoise, this);
+                            EventBroadcast(Event::kEventSuspiciousNoise, this);
                             break;
 
                         case relive::Path_Lever::LeverSoundType::eDoor:
                             SFX_Play_Stereo(relive::SoundEffects::DoorEffect, 75 * volLeft + 15, 75 * volRight + 15);
-                            EventBroadcast(kEventNoise, this);
-                            EventBroadcast(kEventSuspiciousNoise, this);
+                            EventBroadcast(Event::kEventNoise, this);
+                            EventBroadcast(Event::kEventSuspiciousNoise, this);
                             break;
 
                         case relive::Path_Lever::LeverSoundType::eElectricWall:
                             SFX_Play_Stereo(relive::SoundEffects::Zap1, 80 * volLeft + 25, 80 * volRight + 25);
-                            EventBroadcast(kEventNoise, this);
-                            EventBroadcast(kEventSuspiciousNoise, this);
+                            EventBroadcast(Event::kEventNoise, this);
+                            EventBroadcast(Event::kEventSuspiciousNoise, this);
                             break;
 
                         case relive::Path_Lever::LeverSoundType::eSecurityOrb:
@@ -245,8 +245,8 @@ void Lever::VUpdate()
 
                         case relive::Path_Lever::LeverSoundType::eLift:
                             SFX_Play_Stereo(relive::SoundEffects::LiftStop, 35 * volLeft + 25, 35 * volRight + 25);
-                            EventBroadcast(kEventNoise, this);
-                            EventBroadcast(kEventSuspiciousNoise, this);
+                            EventBroadcast(Event::kEventNoise, this);
+                            EventBroadcast(Event::kEventSuspiciousNoise, this);
                             break;
 
                         default:

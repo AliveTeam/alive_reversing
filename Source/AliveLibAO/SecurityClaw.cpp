@@ -216,7 +216,7 @@ void SecurityClaw::VUpdate()
 {
     auto pClaw = static_cast<Claw*>(sObjectIds.Find_Impl(mClawId));
 
-    if (EventGet(kEventDeathReset))
+    if (EventGet(Event::kEventDeathReset))
     {
         SetDead(true);
     }
@@ -306,7 +306,7 @@ void SecurityClaw::VUpdate()
             break;
 
         case SecurityClawStates::eIdle_1:
-            if (EventGet(kEventAbeOhm))
+            if (EventGet(Event::kEventAbeOhm))
             {
                 mTimer = MakeTimer(20);
                 mState = SecurityClawStates::eDoZapEffects_2;
@@ -315,7 +315,7 @@ void SecurityClaw::VUpdate()
                 SFX_Play_Pitch(relive::SoundEffects::IndustrialNoise3, 90, -1000);
             }
 
-            if (EventGet(kEventShooting))
+            if (EventGet(Event::kEventShooting))
             {
                 if (!gAlarmInstanceCount)
                 {

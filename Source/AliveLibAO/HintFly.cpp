@@ -1571,7 +1571,7 @@ void HintFly::UpdateParticles()
 
 void HintFly::VUpdate()
 {
-    if (EventGet(kEventDeathReset))
+    if (EventGet(Event::kEventDeathReset))
     {
         SetDead(true);
     }
@@ -1581,7 +1581,7 @@ void HintFly::VUpdate()
         case State::eIdleWaitForChanting_1:
             UpdateParticles();
 
-            if (EventGet(kEventAbeOhm))
+            if (EventGet(Event::kEventAbeOhm))
             {
                 mMsgIdx = 0;
                 mState = State::eState_3;
@@ -1594,7 +1594,7 @@ void HintFly::VUpdate()
             {
                 UpdateParticles();
 
-                if (!EventGet(kEventAbeOhm))
+                if (!EventGet(Event::kEventAbeOhm))
                 {
                     for (s32 i = 0; i < mCounter; i++)
                     {
@@ -1641,7 +1641,7 @@ void HintFly::VUpdate()
             // TODO: This block is duplicated above
             UpdateParticles();
 
-            if (!EventGet(kEventAbeOhm))
+            if (!EventGet(Event::kEventAbeOhm))
             {
                 for (s32 i = 0; i < mCounter; i++)
                 {
@@ -1667,7 +1667,7 @@ void HintFly::VUpdate()
         case State::eState_3:
             UpdateParticles();
 
-            if (!EventGet(kEventAbeOhm))
+            if (!EventGet(Event::kEventAbeOhm))
             {
                 for (s32 i = 0; i < mCounter; i++)
                 {
@@ -1700,7 +1700,7 @@ void HintFly::VUpdate()
         case State::eState_4:
             UpdateParticles();
 
-            if (EventGet(kEventAbeOhm))
+            if (EventGet(Event::kEventAbeOhm))
             {
                 if (static_cast<s32>(sGnFrame) > mTimer)
                 {
@@ -1734,7 +1734,7 @@ void HintFly::VUpdate()
         case State::eState_5:
             if (mCounter == 20)
             {
-                if (EventGet(kEventAbeOhm))
+                if (EventGet(Event::kEventAbeOhm))
                 {
                     mState = State::eIdleWaitForChanting_1;
                 }
@@ -1756,7 +1756,7 @@ void HintFly::VUpdate()
                 InitParticle(&mHintFlyParticle[mHintFlyIdx++]);
             }
 
-            if (mCounter == 20 && !EventGet(kEventAbeOhm))
+            if (mCounter == 20 && !EventGet(Event::kEventAbeOhm))
             {
                 mState = State::eIdleWaitForChanting_1;
             }

@@ -20,7 +20,7 @@ ScreenShake::ScreenShake(bool enableShakeEvent, bool softerShakes)
 
     if (mEnableShakeEvent && !mSofterShakes)
     {
-        EventBroadcast(kEventScreenShake, this);
+        EventBroadcast(Event::kEventScreenShake, this);
     }
 }
 
@@ -33,7 +33,7 @@ void ScreenShake::VUpdate()
 {
     if (mEnableShakeEvent && !mSofterShakes)
     {
-        EventBroadcast(kEventScreenShake, this);
+        EventBroadcast(Event::kEventScreenShake, this);
     }
 
     if (mShakeNumber > 0)

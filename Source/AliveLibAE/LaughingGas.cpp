@@ -227,7 +227,7 @@ s16 LaughingGas::CounterOver()
 
 void LaughingGas::VUpdate()
 {
-    if (EventGet(kEventDeathReset))
+    if (EventGet(Event::kEventDeathReset))
     {
         SetDead(true);
     }

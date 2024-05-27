@@ -142,8 +142,8 @@ void Meat::InTheAir()
                     mVelX = FP_FromInteger(0);
 
                     SFX_Play_Pitch(relive::SoundEffects::MeatBounce, 0, -650);
-                    EventBroadcast(kEventNoise, this);
-                    EventBroadcast(kEventSuspiciousNoise, this);
+                    EventBroadcast(Event::kEventNoise, this);
+                    EventBroadcast(Event::kEventSuspiciousNoise, this);
                     AddToPlatform();
                 }
                 break;
@@ -159,8 +159,8 @@ void Meat::InTheAir()
                 mVelX = (-mVelX / FP_FromInteger(2));
 
                 SFX_Play_Pitch(relive::SoundEffects::MeatBounce, 0, -650);
-                EventBroadcast(kEventNoise, this);
-                EventBroadcast(kEventSuspiciousNoise, this);
+                EventBroadcast(Event::kEventNoise, this);
+                EventBroadcast(Event::kEventSuspiciousNoise, this);
 
                 if (mVelY >= FP_FromInteger(0))
                 {
@@ -179,8 +179,8 @@ void Meat::InTheAir()
                     mVelX = (-mVelX / FP_FromInteger(4));
 
                     SFX_Play_Pitch(relive::SoundEffects::MeatBounce, 0, -650);
-                    EventBroadcast(kEventNoise, this);
-                    EventBroadcast(kEventSuspiciousNoise, this);
+                    EventBroadcast(Event::kEventNoise, this);
+                    EventBroadcast(Event::kEventSuspiciousNoise, this);
 
                     if (mVelY < FP_FromInteger(0))
                     {
@@ -201,7 +201,7 @@ void Meat::VUpdate()
 {
     if (gNumCamSwappers == 0)
     {
-        if (EventGet(kEventDeathReset))
+        if (EventGet(Event::kEventDeathReset))
         {
             SetDead(true);
         }

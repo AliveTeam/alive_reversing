@@ -80,7 +80,7 @@ Rock::~Rock()
 void Rock::VUpdate()
 {
     auto pObj = sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId);
-    if (EventGet(kEventDeathReset))
+    if (EventGet(Event::kEventDeathReset))
     {
         SetDead(true);
     }
@@ -320,8 +320,8 @@ void Rock::InTheAir()
                     }
 
                     SfxPlayMono(relive::SoundEffects::RockBounce, vol);
-                    EventBroadcast(kEventNoise, this);
-                    EventBroadcast(kEventSuspiciousNoise, this);
+                    EventBroadcast(Event::kEventNoise, this);
+                    EventBroadcast(Event::kEventSuspiciousNoise, this);
                     mBounceCount++;
                 }
                 break;
@@ -338,8 +338,8 @@ void Rock::InTheAir()
                         vol = 40;
                     }
                     SfxPlayMono(relive::SoundEffects::RockBounce, vol);
-                    EventBroadcast(kEventNoise, this);
-                    EventBroadcast(kEventSuspiciousNoise, this);
+                    EventBroadcast(Event::kEventNoise, this);
+                    EventBroadcast(Event::kEventSuspiciousNoise, this);
                 }
                 break;
         }
@@ -380,8 +380,8 @@ void Rock::BounceHorizontally( FP hitX, FP hitY )
         vol = 40;
     }
     SfxPlayMono(relive::SoundEffects::RockBounce, vol);
-    EventBroadcast(kEventNoise, this);
-    EventBroadcast(kEventSuspiciousNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
+    EventBroadcast(Event::kEventSuspiciousNoise, this);
 }
 
 //TODO Identical to AO - merge

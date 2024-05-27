@@ -79,7 +79,7 @@ void ElectricWall::VUpdate()
         mXPos,
         mYPos);
 
-    if (EventGet(kEventDeathReset))
+    if (EventGet(Event::kEventDeathReset))
     {
         SetDead(true);
     }

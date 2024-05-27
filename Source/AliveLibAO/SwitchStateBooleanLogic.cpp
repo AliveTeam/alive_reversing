@@ -93,7 +93,7 @@ void SwitchStateBooleanLogic::VUpdate()
 
     SwitchStates_Set(mOutput, id_value);
 
-    if (EventGet(kEventDeathReset))
+    if (EventGet(Event::kEventDeathReset))
     {
         SetDead(true);
     }

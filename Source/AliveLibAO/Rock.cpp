@@ -71,7 +71,7 @@ Rock::~Rock()
 
 void Rock::VUpdate()
 {
-    if (EventGet(kEventDeathReset))
+    if (EventGet(Event::kEventDeathReset))
     {
         SetDead(true);
     }
@@ -269,8 +269,8 @@ void Rock::InTheAir()
                                 vol = 40;
                             }
                             SfxPlayMono(relive::SoundEffects::RockBounce, vol);
-                            EventBroadcast(kEventNoise, this);
-                            EventBroadcast(kEventSuspiciousNoise, this);
+                            EventBroadcast(Event::kEventNoise, this);
+                            EventBroadcast(Event::kEventSuspiciousNoise, this);
                             mBounceCount++;
                         }
                         else
@@ -328,8 +328,8 @@ void Rock::BounceHorizontally( FP hitX, FP hitY )
     }
 
     SfxPlayMono(relive::SoundEffects::RockBounce, vol);
-    EventBroadcast(kEventNoise, this);
-    EventBroadcast(kEventSuspiciousNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
+    EventBroadcast(Event::kEventSuspiciousNoise, this);
 }
 
 //TODO Identical to AE - merge

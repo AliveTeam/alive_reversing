@@ -282,7 +282,7 @@ void ParticleBurst::VUpdate()
         SetDead(true);
     }
 
-    if (EventGet(kEventDeathReset))
+    if (EventGet(Event::kEventDeathReset))
     {
         SetDead(true);
     }

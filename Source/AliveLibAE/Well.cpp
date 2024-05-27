@@ -142,7 +142,7 @@ void Well::VScreenChanged()
 
 void Well::VUpdate()
 {
-    if (EventGet(kEventDeathReset))
+    if (EventGet(Event::kEventDeathReset))
     {
         SetDead(true);
         // Reset well state when Abe dies.

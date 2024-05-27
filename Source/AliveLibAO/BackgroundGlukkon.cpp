@@ -127,7 +127,7 @@ bool BackgroundGlukkon::VTakeDamage(BaseGameObject* pFrom)
 
 void BackgroundGlukkon::VUpdate()
 {
-    if (EventGet(kEventDeathReset))
+    if (EventGet(Event::kEventDeathReset))
     {
         SetDead(true);
     }

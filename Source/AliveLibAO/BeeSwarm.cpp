@@ -150,7 +150,7 @@ void BeeSwarm::VUpdate()
         return;
     }
 
-    if (EventGet(kEventDeathReset))
+    if (EventGet(Event::kEventDeathReset))
     {
         ToFlyAwayAndDie();
         SetDead(true);

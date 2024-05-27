@@ -112,7 +112,7 @@ bool SecurityOrb::VTakeDamage(BaseGameObject* pFrom)
 
 void SecurityOrb::VUpdate()
 {
-    if (EventGet(kEventDeathReset))
+    if (EventGet(Event::kEventDeathReset))
     {
         SetDead(true);
     }
@@ -137,7 +137,7 @@ void SecurityOrb::VUpdate()
                 }
             }
 
-            if (EventGet(kEventAbeOhm))
+            if (EventGet(Event::kEventAbeOhm))
             {
                 mState = States::eDoZapEffects_1;
                 mTimer = MakeTimer(20);

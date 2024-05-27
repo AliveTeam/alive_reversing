@@ -81,7 +81,7 @@ void Alarm::VUpdate()
 {
     if (mAlarmState != States::eWaitForSwitchEnable_0)
     {
-        EventBroadcast(kEventAlarm, this);
+        EventBroadcast(Event::kEventAlarm, this);
         if (static_cast<s32>(sGnFrame) > mAlarmDurationTimer)
         {
             SetDead(true);
@@ -92,7 +92,7 @@ void Alarm::VUpdate()
     switch (mAlarmState)
     {
         case States::eWaitForSwitchEnable_0:
-            if (EventGet(kEventDeathReset))
+            if (EventGet(Event::kEventDeathReset))
             {
                 SetDead(true);
             }
@@ -120,7 +120,7 @@ void Alarm::VUpdate()
             break;
 
         case States::eAfterConstructed_1: // When not created by a map TLV
-            if (EventGet(kEventHeroDying))
+            if (EventGet(Event::kEventHeroDying))
             {
                 SetDead(true);
             }
@@ -189,7 +189,7 @@ void Alarm::VUpdate()
             break;
 
         case States::eDisabled_5:
-            if (EventGet(kEventHeroDying))
+            if (EventGet(Event::kEventHeroDying))
             {
                 SetDead(true);
             }

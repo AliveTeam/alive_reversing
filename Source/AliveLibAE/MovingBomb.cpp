@@ -255,7 +255,7 @@ s16 MovingBomb::HitObject()
 
 void MovingBomb::VUpdate()
 {
-    if (EventGet(kEventDeathReset))
+    if (EventGet(Event::kEventDeathReset))
     {
         SetDead(true);
     }
@@ -319,7 +319,7 @@ void MovingBomb::VUpdate()
     switch (mState)
     {
         case States::eTriggeredByAlarm_0:
-            if (EventGet(kEventAlarm))
+            if (EventGet(Event::kEventAlarm))
             {
                 GetAnimation().SetRender(true);
                 mState = States::eMoving_2;

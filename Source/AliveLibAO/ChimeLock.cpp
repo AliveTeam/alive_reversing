@@ -310,7 +310,7 @@ s16 ChimeLock::UpdateBall()
 
 void ChimeLock::VUpdate()
 {
-    if (EventGet(kEventDeathReset))
+    if (EventGet(Event::kEventDeathReset))
     {
         SetDead(true);
     }

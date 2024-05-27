@@ -334,8 +334,8 @@ void Bone::InTheAir()
                         vol = 40;
                     }
                     SfxPlayMono(relive::SoundEffects::RockBounce, vol);
-                    EventBroadcast(kEventNoise, this);
-                    EventBroadcast(kEventSuspiciousNoise, this);
+                    EventBroadcast(Event::kEventNoise, this);
+                    EventBroadcast(Event::kEventSuspiciousNoise, this);
                     mBounceCount++;
                 }
                 break;
@@ -352,8 +352,8 @@ void Bone::InTheAir()
                         vol = 40;
                     }
                     SfxPlayMono(relive::SoundEffects::RockBounce, vol);
-                    EventBroadcast(kEventNoise, this);
-                    EventBroadcast(kEventSuspiciousNoise, this);
+                    EventBroadcast(Event::kEventNoise, this);
+                    EventBroadcast(Event::kEventSuspiciousNoise, this);
                 }
                 break;
         }
@@ -376,8 +376,8 @@ void Bone::InTheAir()
                         vol = 40;
                     }
                     SfxPlayMono(relive::SoundEffects::RockBounce, vol);
-                    EventBroadcast(kEventNoise, this);
-                    EventBroadcast(kEventSuspiciousNoise, this);
+                    EventBroadcast(Event::kEventNoise, this);
+                    EventBroadcast(Event::kEventSuspiciousNoise, this);
                 }
                 BaseAliveGameObjectCollisionLine = nullptr;
                 break;
@@ -395,8 +395,8 @@ void Bone::InTheAir()
                         vol = 40;
                     }
                     SfxPlayMono(relive::SoundEffects::RockBounce, vol);
-                    EventBroadcast(kEventNoise, this);
-                    EventBroadcast(kEventSuspiciousNoise, this);
+                    EventBroadcast(Event::kEventNoise, this);
+                    EventBroadcast(Event::kEventSuspiciousNoise, this);
                 }
                 BaseAliveGameObjectCollisionLine = nullptr;
                 break;
@@ -407,7 +407,7 @@ void Bone::InTheAir()
 void Bone::VUpdate()
 {
     auto pObj = sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId);
-    if (EventGet(kEventDeathReset))
+    if (EventGet(Event::kEventDeathReset))
     {
         SetDead(true);
     }

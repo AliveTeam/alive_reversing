@@ -1161,7 +1161,7 @@ void Fleech::VUpdate()
         BaseAliveGameObject_PlatformId = BaseGameObject::RefreshId(BaseAliveGameObject_PlatformId);
     }
 
-    if (EventGet(kEventDeathReset))
+    if (EventGet(Event::kEventDeathReset))
     {
         SetDead(true);
     }
@@ -2171,16 +2171,16 @@ void Fleech::IncreaseAnger()
 {
     if (gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0))
     {
-        BaseAnimatedWithPhysicsGameObject* pEvent = IsEventInRange(kEventSpeaking, mXPos, mYPos, AsEventScale(GetScale()));
+        BaseAnimatedWithPhysicsGameObject* pEvent = IsEventInRange(Event::kEventSpeaking, mXPos, mYPos, AsEventScale(GetScale()));
 
         if (!pEvent)
         {
-            pEvent = IsEventInRange(kEventAlarm, mXPos, mYPos, AsEventScale(GetScale()));
+            pEvent = IsEventInRange(Event::kEventAlarm, mXPos, mYPos, AsEventScale(GetScale()));
         }
 
         if (!pEvent)
         {
-            pEvent = IsEventInRange(kEventLoudNoise, mXPos, mYPos, AsEventScale(GetScale()));
+            pEvent = IsEventInRange(Event::kEventLoudNoise, mXPos, mYPos, AsEventScale(GetScale()));
         }
 
         if (pEvent)
@@ -2202,7 +2202,7 @@ void Fleech::IncreaseAnger()
             }
         }
 
-        pEvent = IsEventInRange(kEventNoise, mXPos, mYPos, AsEventScale(GetScale()));
+        pEvent = IsEventInRange(Event::kEventNoise, mXPos, mYPos, AsEventScale(GetScale()));
         if (pEvent)
         {
             if (VIsObjNearby(ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(6),static_cast<BaseAnimatedWithPhysicsGameObject*>(pEvent)))

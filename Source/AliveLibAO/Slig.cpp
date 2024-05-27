@@ -743,7 +743,7 @@ bool Slig::VTakeDamage(BaseGameObject* pFrom)
                 field_13A_shot_motion = eSligMotions::Motion_38_Possess;
             }
             mHealth = FP_FromInteger(0);
-            EventBroadcast(kEventMudokonComfort, gAbe);
+            EventBroadcast(Event::kEventMudokonComfort, gAbe);
             return true;
         }
 
@@ -773,7 +773,7 @@ bool Slig::VTakeDamage(BaseGameObject* pFrom)
                 SetBrain(&Slig::Brain_ReturnControlToAbeAndDie);
                 mCurrentMotion = eSligMotions::Motion_0_StandIdle;
                 VUpdateAnimData();
-                EventBroadcast(kEventMudokonComfort, gAbe);
+                EventBroadcast(Event::kEventMudokonComfort, gAbe);
             }
             return true;
 
@@ -833,7 +833,7 @@ bool Slig::VTakeDamage(BaseGameObject* pFrom)
             {
                 SetDead(true);
                 mHealth = FP_FromInteger(0);
-                EventBroadcast(kEventMudokonComfort, gAbe);
+                EventBroadcast(Event::kEventMudokonComfort, gAbe);
             }
             return true;
 
@@ -881,7 +881,7 @@ void Slig::VOnTlvCollision(relive::Path_TLV* pTlv)
                 mVelX = FP_FromInteger(0);
                 mCurrentMotion = eSligMotions::Motion_7_Falling;
                 mbMotionChanged = true;
-                EventBroadcast(kEventMudokonComfort, gAbe);
+                EventBroadcast(Event::kEventMudokonComfort, gAbe);
             }
         }
 
@@ -2198,7 +2198,7 @@ s16 Slig::MainMovement()
                 mCurrentMotion = GetNextMotionIncGameSpeak(0);
                 if (mCurrentMotion != -1)
                 {
-                    EventBroadcast(kEventSpeaking, this);
+                    EventBroadcast(Event::kEventSpeaking, this);
                     break;
                 }
             }
@@ -2441,7 +2441,7 @@ void Slig::Motion_3_StandToRun()
         mCurrentMotion = eSligMotions::Motion_4_Running;
     }
 
-    EventBroadcast(kEventNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
 
     if (WallHit(GetSpriteScale() * FP_FromInteger(35), mVelX))
     {
@@ -2468,7 +2468,7 @@ void Slig::Motion_4_Running()
 
     mInput |= Input().GetPressed();
 
-    EventBroadcast(kEventNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
 
     if (WallHit(GetSpriteScale() * FP_FromInteger(35), mVelX))
     {
@@ -2817,7 +2817,7 @@ void Slig::Motion_8_Unknown()
 
 void Slig::Motion_9_SlidingToStand()
 {
-    EventBroadcast(kEventNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
 
     if (WallHit(GetSpriteScale() * FP_FromInteger(35), mVelX))
     {
@@ -2850,7 +2850,7 @@ void Slig::Motion_9_SlidingToStand()
 
 void Slig::Motion_10_SlidingTurn()
 {
-    EventBroadcast(kEventNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
     if (WallHit(GetSpriteScale() * FP_FromInteger(35), mVelX))
     {
         ToKnockBack();
@@ -2914,7 +2914,7 @@ void Slig::Motion_10_SlidingTurn()
 
 void Slig::Motion_11_SlidingTurnToWalk()
 {
-    EventBroadcast(kEventNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
     MoveOnLine();
 
     if (GetAnimation().GetIsLastFrame())
@@ -2926,7 +2926,7 @@ void Slig::Motion_11_SlidingTurnToWalk()
 
 void Slig::Motion_12_SlidingTurnToRun()
 {
-    EventBroadcast(kEventNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
     MoveOnLine();
 
     if (GetAnimation().GetIsLastFrame())
@@ -3013,7 +3013,7 @@ void Slig::Motion_18_GameSpeak()
         }
         else
         {
-            EventBroadcast(kEventSpeaking, this);
+            EventBroadcast(Event::kEventSpeaking, this);
         }
         mInput = 0;
     }
@@ -3280,7 +3280,7 @@ void Slig::Motion_35_Knockback()
         }
     }
 
-    EventBroadcast(kEventNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
 
     if ((gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarms
          || gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarmsReturn
@@ -3306,7 +3306,7 @@ void Slig::Motion_35_Knockback()
 
 void Slig::Motion_36_KnockbackToStand()
 {
-    EventBroadcast(kEventNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
 
     if (GetAnimation().GetCurrentFrame() >= 2 && GetAnimation().GetCurrentFrame() <= 10)
     {
@@ -3508,14 +3508,14 @@ void Slig::Motion_39_OutToFall()
             mCurrentMotion = eSligMotions::Motion_42_LandingFatal;
             field_128_timer = MakeTimer(30);
             mHealth = FP_FromInteger(0);
-            EventBroadcast(kEventMudokonComfort, gAbe);
+            EventBroadcast(Event::kEventMudokonComfort, gAbe);
         }
     }
 }
 
 void Slig::Motion_40_FallingInitiate()
 {
-    EventBroadcast(kEventNoise, this);
+    EventBroadcast(Event::kEventNoise, this);
 
     if (GetAnimation().GetIsLastFrame())
     {
@@ -3596,8 +3596,8 @@ void Slig::Motion_43_ShootZ()
         // The doves don't like bullets
         Dove::All_FlyAway(false);
 
-        EventBroadcast(kEventShooting, this);
-        EventBroadcast(kEventLoudNoise, this);
+        EventBroadcast(Event::kEventShooting, this);
+        EventBroadcast(Event::kEventLoudNoise, this);
     }
 }
 
@@ -3763,7 +3763,7 @@ void Slig::Motion_52_Beat()
                     && PSX_Rects_overlap_no_adjustment(&hitRect, &bRect))
                 {
                     pObjIter->VTakeDamage(this);
-                    EventBroadcast(kEventNoise, this);
+                    EventBroadcast(Event::kEventNoise, this);
                     SfxPlayMono(relive::SoundEffects::FallingItemHit, 60);
                     return;
                 }
@@ -3789,12 +3789,12 @@ s16 Slig::Brain_SpottedEnemy()
     {
         if (VOnSameYLevel(sControlledCharacter)
             && VIsObj_GettingNear_On_X(sControlledCharacter)
-            && VIsObjNearby(ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(3), sControlledCharacter) && !EventGet(kEventResetting))
+            && VIsObjNearby(ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(3), sControlledCharacter) && !EventGet(Event::kEventResetting))
         {
             ToShoot();
         }
         else if (VOnSameYLevel(sControlledCharacter)
-                 && EventGet(kEventAbeOhm)
+                 && EventGet(Event::kEventAbeOhm)
                  && VIsFacingMe(sControlledCharacter))
         {
             ToShoot();
@@ -3840,7 +3840,7 @@ enum Brain_Paused
 
 s16 Slig::Brain_Paused()
 {
-    if (EventGet(kEventDeathReset))
+    if (EventGet(Event::kEventDeathReset))
     {
         SetDead(true);
     }
@@ -3928,7 +3928,7 @@ s16 Slig::Brain_Paused()
 
 s16 Slig::Brain_EnemyDead()
 {
-    if (EventGet(kEventDeathReset)
+    if (EventGet(Event::kEventDeathReset)
         && !gMap.Is_Point_In_Current_Camera(
             mCurrentLevel,
             mCurrentPath,
@@ -4003,7 +4003,7 @@ s16 Slig::Brain_Unknown()
             0)
         || (mSpottedPossessedSlig
             && sControlledCharacter->Type() == ReliveTypes::eSlig)
-        || EventGet(kEventResetting))
+        || EventGet(Event::kEventResetting))
     {
         if (!VOnSameYLevel(
                 sControlledCharacter)
@@ -4016,17 +4016,17 @@ s16 Slig::Brain_Unknown()
                 mXPos,
                 mYPos,
                 0)
-            || EventGet(kEventResetting))
+            || EventGet(Event::kEventResetting))
         {
             if (gAbe->mHealth > FP_FromInteger(0))
             {
-                BaseAnimatedWithPhysicsGameObject* pEvent = static_cast<BaseAnimatedWithPhysicsGameObject*>(EventGet(kEventSuspiciousNoise));
+                BaseAnimatedWithPhysicsGameObject* pEvent = static_cast<BaseAnimatedWithPhysicsGameObject*>(EventGet(Event::kEventSuspiciousNoise));
                 if (!pEvent)
                 {
-                    pEvent = static_cast<BaseAnimatedWithPhysicsGameObject*>(EventGet(kEventSpeaking));
+                    pEvent = static_cast<BaseAnimatedWithPhysicsGameObject*>(EventGet(Event::kEventSpeaking));
                 }
 
-                if (pEvent && pEvent->GetSpriteScale() == GetSpriteScale() && pEvent != this && field_114_timer <= static_cast<s32>(sGnFrame) && !EventGet(kEventResetting))
+                if (pEvent && pEvent->GetSpriteScale() == GetSpriteScale() && pEvent != this && field_114_timer <= static_cast<s32>(sGnFrame) && !EventGet(Event::kEventResetting))
                 {
                     ToTurn();
                 }
@@ -4043,7 +4043,7 @@ s16 Slig::Brain_Unknown()
                              0)
                          || IsInZCover(sControlledCharacter)
                          || IsInZCover(this)
-                         || EventGet(kEventResetting))
+                         || EventGet(Event::kEventResetting))
                 {
                     ShouldStillBeAlive();
                 }
@@ -4088,14 +4088,14 @@ void Slig::WakeUp()
 
 s16 Slig::Brain_Sleeping()
 {
-    const auto pEvent = static_cast<BaseAnimatedWithPhysicsGameObject*>(EventGet(kEventNoise));
+    const auto pEvent = static_cast<BaseAnimatedWithPhysicsGameObject*>(EventGet(Event::kEventNoise));
     if (pEvent)
     {
         if (pEvent->GetSpriteScale() == GetSpriteScale())
         {
             const auto kScaleGrid = ScaleToGridSize(GetSpriteScale());
             const auto wake_up_dist_scaled = kScaleGrid * FP_FromInteger(field_174_tlv->mData.mNoiseWakeUpDistance);
-            if (VIsObjNearby(wake_up_dist_scaled, pEvent) && field_114_timer <= static_cast<s32>(sGnFrame) && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && !EventGet(kEventResetting))
+            if (VIsObjNearby(wake_up_dist_scaled, pEvent) && field_114_timer <= static_cast<s32>(sGnFrame) && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && !EventGet(Event::kEventResetting))
             {
                 WakeUp();
                 return 102;
@@ -4103,16 +4103,16 @@ s16 Slig::Brain_Sleeping()
         }
     }
 
-    if (EventGet(kEventSpeaking) || EventGet(kEventAlarm) || EventGet(kEventLoudNoise))
+    if (EventGet(Event::kEventSpeaking) || EventGet(Event::kEventAlarm) || EventGet(Event::kEventLoudNoise))
     {
-        if (pEvent != this && field_114_timer <= static_cast<s32>(sGnFrame) && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && !EventGet(kEventResetting))
+        if (pEvent != this && field_114_timer <= static_cast<s32>(sGnFrame) && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && !EventGet(Event::kEventResetting))
         {
             WakeUp();
             return 102;
         }
     }
 
-    if (SwitchStates_Get(120) && field_114_timer <= static_cast<s32>(sGnFrame) && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && !EventGet(kEventResetting))
+    if (SwitchStates_Get(120) && field_114_timer <= static_cast<s32>(sGnFrame) && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && !EventGet(Event::kEventResetting))
     {
         LOG_WARNING("if this is a custom level consider changing all switch id's with the value 120"
                     " to something else. sleeping sligs will always wake up if this switch id is set.");
@@ -4153,7 +4153,7 @@ s16 Slig::Brain_Inactive()
                 || !VIsObjNearby(ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(1), sControlledCharacter)
                 || IsInInvisibleZone(sControlledCharacter)
                 || IsWallBetween(this, sControlledCharacter)
-                || EventGet(kEventResetting))
+                || EventGet(Event::kEventResetting))
             {
                 ShouldStillBeAlive();
             }
@@ -4219,7 +4219,7 @@ s16 Slig::Brain_Possessed()
             break;
 
         case Brain_Possessed::ePossessionSpeak_3:
-            if (EventGet(kEventDeathReset))
+            if (EventGet(Event::kEventDeathReset))
             {
                 if (sControlledCharacter != this)
                 {
@@ -4236,7 +4236,7 @@ s16 Slig::Brain_Possessed()
             break;
 
         case Brain_Possessed::eControlledByPlayer_4:
-            if (EventGet(kEventDeathReset))
+            if (EventGet(Event::kEventDeathReset))
             {
                 if (sControlledCharacter != this)
                 {
@@ -4394,7 +4394,7 @@ s16 Slig::Brain_ReturnControlToAbeAndDie()
 
 s16 Slig::Brain_PanicTurning()
 {
-    if (EventGet(kEventDeathReset)
+    if (EventGet(Event::kEventDeathReset)
         && !gMap.Is_Point_In_Current_Camera(
             mCurrentLevel,
             mCurrentPath,
@@ -4490,7 +4490,7 @@ s16 Slig::Brain_PanicRunning()
                 mXPos,
                 mYPos,
                 0)
-            && !EventGet(kEventResetting))
+            && !EventGet(Event::kEventResetting))
         {
             ToShoot();
         }
@@ -4525,7 +4525,7 @@ s16 Slig::Brain_PanicYelling()
     if (mCurrentMotion == eSligMotions::Motion_29_SpeakPanic
         && GetAnimation().GetIsLastFrame())
     {
-        EventBroadcast(kEventAlarm, this);
+        EventBroadcast(Event::kEventAlarm, this);
 
         const bool bFlipX = GetAnimation().GetFlipX();
         field_114_timer = sGnFrame + field_174_tlv->mData.mPanicTimeout;
@@ -4563,7 +4563,7 @@ s16 Slig::Brain_Chasing()
         && !IsInInvisibleZone(sControlledCharacter)
         && !IsWallBetween(this, sControlledCharacter)
         && !InAnyWellRenderLayer(sControlledCharacter)
-        && !EventGet(kEventResetting))
+        && !EventGet(Event::kEventResetting))
     {
         field_20C_force_alive_state = 0;
         RespondToEnemyOrPatrol();
@@ -4580,7 +4580,7 @@ s16 Slig::Brain_Chasing()
 
     if (mCurrentPath != gMap.mCurrentPath
         || mCurrentLevel != gMap.mCurrentLevel
-        || (EventGet(kEventDeathReset)
+        || (EventGet(Event::kEventDeathReset)
             && !gMap.Is_Point_In_Current_Camera(
                 mCurrentLevel,
                 mCurrentPath,
@@ -4660,7 +4660,7 @@ s16 Slig::Brain_StartChasing()
 
 s16 Slig::Brain_Idle()
 {
-    if (EventGet(kEventAbeOhm) && !EventGet(kEventResetting))
+    if (EventGet(Event::kEventAbeOhm) && !EventGet(Event::kEventResetting))
     {
         ToPanic();
         return 104;
@@ -4673,7 +4673,7 @@ s16 Slig::Brain_Idle()
         && (!mSpottedPossessedSlig
             || sControlledCharacter->Type() != ReliveTypes::eSlig)
         && !IsAbeEnteringDoor(sControlledCharacter)
-        && !EventGet(kEventResetting)
+        && !EventGet(Event::kEventResetting)
         && gMap.Is_Point_In_Current_Camera(
             mCurrentLevel,
             mCurrentPath,
@@ -4690,20 +4690,20 @@ s16 Slig::Brain_Idle()
         ToAbeDead();
         return 104;
     }
-    auto pEvent = static_cast<BaseAnimatedWithPhysicsGameObject*>(EventGet(kEventSuspiciousNoise));
+    auto pEvent = static_cast<BaseAnimatedWithPhysicsGameObject*>(EventGet(Event::kEventSuspiciousNoise));
 
     if (!pEvent)
     {
-        pEvent = static_cast<BaseAnimatedWithPhysicsGameObject*>(EventGet(kEventSpeaking));
+        pEvent = static_cast<BaseAnimatedWithPhysicsGameObject*>(EventGet(Event::kEventSpeaking));
     }
 
-    if (!pEvent || pEvent->GetSpriteScale() != GetSpriteScale() || pEvent == this || !gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) || EventGet(kEventResetting))
+    if (!pEvent || pEvent->GetSpriteScale() != GetSpriteScale() || pEvent == this || !gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) || EventGet(Event::kEventResetting))
     {
         if (sControlledCharacter->GetSpriteScale() > GetSpriteScale()
             && (sControlledCharacter == gAbe
                 || sControlledCharacter == gElum))
         {
-            if (VIsFacingMe(sControlledCharacter) && !IsInInvisibleZone(sControlledCharacter) && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && !IsInZCover(sControlledCharacter) && !IsInZCover(this) && !EventGet(kEventResetting))
+            if (VIsFacingMe(sControlledCharacter) && !IsInInvisibleZone(sControlledCharacter) && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && !IsInZCover(sControlledCharacter) && !IsInZCover(this) && !EventGet(Event::kEventResetting))
             {
                 ToZShoot();
                 return 104;
@@ -4739,7 +4739,7 @@ s16 Slig::Brain_Idle()
 
     if (VIsFacingMe(sControlledCharacter))
     {
-        if (!EventGet(kEventSpeaking) || IsInInvisibleZone(sControlledCharacter))
+        if (!EventGet(Event::kEventSpeaking) || IsInInvisibleZone(sControlledCharacter))
         {
             mNextMotion = eSligMotions::Motion_0_StandIdle;
             field_258_next_gamespeak_motion = eSligMotions::Motion_30_SpeakWhat;
@@ -4752,7 +4752,7 @@ s16 Slig::Brain_Idle()
     }
     else
     {
-        if (!EventGet(kEventSpeaking) || IsInInvisibleZone(sControlledCharacter))
+        if (!EventGet(Event::kEventSpeaking) || IsInInvisibleZone(sControlledCharacter))
         {
             mNextMotion = eSligMotions::Motion_5_TurnAroundStanding;
             SetBrain(&Slig::Brain_GetAlertedTurn);
@@ -4772,7 +4772,7 @@ s16 Slig::Brain_Idle()
 
 s16 Slig::Brain_Turning()
 {
-    if (EventGet(kEventDeathReset)
+    if (EventGet(Event::kEventDeathReset)
         && !gMap.Is_Point_In_Current_Camera(
             mCurrentLevel,
             mCurrentPath,
@@ -4865,7 +4865,7 @@ s16 Slig::Brain_Walking()
         if (!mSpottedPossessedSlig
             || sControlledCharacter->Type() != ReliveTypes::eSlig)
         {
-            if (!IsAbeEnteringDoor(sControlledCharacter) && !EventGet(kEventResetting))
+            if (!IsAbeEnteringDoor(sControlledCharacter) && !EventGet(Event::kEventResetting))
             {
                 RespondToEnemyOrPatrol();
                 return 108;
@@ -4873,12 +4873,12 @@ s16 Slig::Brain_Walking()
         }
     }
 
-    if (VOnSameYLevel(sControlledCharacter) && VIsFacingMe(sControlledCharacter) && !IsWallBetween(this, sControlledCharacter) && EventGet(kEventAbeOhm) && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && !EventGet(kEventResetting))
+    if (VOnSameYLevel(sControlledCharacter) && VIsFacingMe(sControlledCharacter) && !IsWallBetween(this, sControlledCharacter) && EventGet(Event::kEventAbeOhm) && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && !EventGet(Event::kEventResetting))
     {
         ToShoot();
         return 108;
     }
-    if (EventGet(kEventAbeOhm) && !EventGet(kEventResetting))
+    if (EventGet(Event::kEventAbeOhm) && !EventGet(Event::kEventResetting))
     {
         ToPanic();
         return 108;
@@ -4888,16 +4888,16 @@ s16 Slig::Brain_Walking()
         ToAbeDead();
         return 108;
     }
-    auto pEvent = static_cast<BaseAnimatedWithPhysicsGameObject*>(EventGet(kEventSuspiciousNoise));
+    auto pEvent = static_cast<BaseAnimatedWithPhysicsGameObject*>(EventGet(Event::kEventSuspiciousNoise));
     if (!pEvent)
     {
-        pEvent = static_cast<BaseAnimatedWithPhysicsGameObject*>(EventGet(kEventSpeaking));
+        pEvent = static_cast<BaseAnimatedWithPhysicsGameObject*>(EventGet(Event::kEventSpeaking));
     }
-    if (pEvent && pEvent->GetSpriteScale() == GetSpriteScale() && pEvent != this && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && !EventGet(kEventResetting))
+    if (pEvent && pEvent->GetSpriteScale() == GetSpriteScale() && pEvent != this && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && !EventGet(Event::kEventResetting))
     {
         if (VIsFacingMe(sControlledCharacter))
         {
-            if (!EventGet(kEventSpeaking) || IsInInvisibleZone(sControlledCharacter))
+            if (!EventGet(Event::kEventSpeaking) || IsInInvisibleZone(sControlledCharacter))
             {
                 mNextMotion = eSligMotions::Motion_0_StandIdle;
                 field_258_next_gamespeak_motion = eSligMotions::Motion_30_SpeakWhat;
@@ -4908,7 +4908,7 @@ s16 Slig::Brain_Walking()
         }
         else
         {
-            if (!EventGet(kEventSpeaking) || IsInInvisibleZone(sControlledCharacter))
+            if (!EventGet(Event::kEventSpeaking) || IsInInvisibleZone(sControlledCharacter))
             {
                 mNextMotion = eSligMotions::Motion_5_TurnAroundStanding;
                 SetBrain(&Slig::Brain_GetAlertedTurn);
@@ -4937,7 +4937,7 @@ s16 Slig::Brain_Walking()
                  0)
              || IsInZCover(sControlledCharacter)
              || IsInZCover(this)
-             || EventGet(kEventResetting))
+             || EventGet(Event::kEventResetting))
     {
         if (Math_NextRandom() < field_174_tlv->mData.mPercentBeatMud
             && FindBeatTarget(2))
@@ -4964,7 +4964,7 @@ s16 Slig::Brain_GetAlertedTurn()
 {
     if (mCurrentMotion == eSligMotions::Motion_5_TurnAroundStanding && GetAnimation().GetIsLastFrame())
     {
-        if (!EventGet(kEventSpeaking) || IsInInvisibleZone(sControlledCharacter))
+        if (!EventGet(Event::kEventSpeaking) || IsInInvisibleZone(sControlledCharacter))
         {
             mNextMotion = eSligMotions::Motion_0_StandIdle;
             field_258_next_gamespeak_motion = eSligMotions::Motion_30_SpeakWhat;
@@ -5048,14 +5048,14 @@ s16 Slig::Brain_GetAlerted()
             0)
         || (sControlledCharacter->Type() == ReliveTypes::eSlig && mSpottedPossessedSlig)
         || IsAbeEnteringDoor(sControlledCharacter)
-        || EventGet(kEventResetting))
+        || EventGet(Event::kEventResetting))
     {
-        if (!EventGet(kEventAbeOhm) || EventGet(kEventResetting))
+        if (!EventGet(Event::kEventAbeOhm) || EventGet(Event::kEventResetting))
         {
-            BaseAnimatedWithPhysicsGameObject* pEvent = static_cast<BaseAnimatedWithPhysicsGameObject*>(EventGet(kEventSuspiciousNoise));
+            BaseAnimatedWithPhysicsGameObject* pEvent = static_cast<BaseAnimatedWithPhysicsGameObject*>(EventGet(Event::kEventSuspiciousNoise));
             if (!pEvent)
             {
-                pEvent = static_cast<BaseAnimatedWithPhysicsGameObject*>(EventGet(kEventSpeaking));
+                pEvent = static_cast<BaseAnimatedWithPhysicsGameObject*>(EventGet(Event::kEventSpeaking));
             }
 
             if (pEvent && (pEvent == sControlledCharacter || pEvent->Type() == ReliveTypes::eMudokon)
@@ -5067,7 +5067,7 @@ s16 Slig::Brain_GetAlerted()
                     mXPos,
                     mYPos,
                     0)
-                && !EventGet(kEventResetting))
+                && !EventGet(Event::kEventResetting))
             {
                 ToShoot();
             }
@@ -5081,9 +5081,9 @@ s16 Slig::Brain_GetAlerted()
                         mXPos,
                         mYPos,
                         0)
-                    && !EventGet(kEventResetting))
+                    && !EventGet(Event::kEventResetting))
                 {
-                    if (!EventGet(kEventSpeaking) || IsInInvisibleZone(sControlledCharacter))
+                    if (!EventGet(Event::kEventSpeaking) || IsInInvisibleZone(sControlledCharacter))
                     {
                         mNextMotion = eSligMotions::Motion_5_TurnAroundStanding;
                         SetBrain(&Slig::Brain_GetAlertedTurn);
@@ -5214,7 +5214,7 @@ enum Brain_ChaseAndDisappear
 
 s16 Slig::Brain_ChaseAndDisappear()
 {
-    if (EventGet(kEventDeathReset))
+    if (EventGet(Event::kEventDeathReset))
     {
         SetDead(true);
     }
@@ -5301,7 +5301,7 @@ s16 Slig::Brain_Shooting()
                 mXPos,
                 mYPos,
                 0)
-            || EventGet(kEventResetting))
+            || EventGet(Event::kEventResetting))
         {
             PauseALittle();
             return 111;
@@ -5424,7 +5424,7 @@ void Slig::BlowToGibs()
     field_114_timer = MakeTimer(60);
     SetUpdateDelay(40);
     SetBrain(&Slig::Brain_Death);
-    EventBroadcast(kEventMudokonComfort, gAbe);
+    EventBroadcast(Event::kEventMudokonComfort, gAbe);
 }
 
 void Slig::SetBrain(Slig::TBrainFn fn)

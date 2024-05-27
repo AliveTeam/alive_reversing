@@ -62,7 +62,7 @@ void BrewMachine::VUpdate()
         pTlv->mTlvSpecificMeaning = 50;
     }
 
-    if (EventGet(kEventDeathReset))
+    if (EventGet(Event::kEventDeathReset))
     {
         SetDead(true);
     }

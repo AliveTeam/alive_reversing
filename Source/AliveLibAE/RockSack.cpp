@@ -75,7 +75,7 @@ void RockSack::VScreenChanged()
 
 void RockSack::VUpdate()
 {
-    if (EventGet(kEventDeathReset))
+    if (EventGet(Event::kEventDeathReset))
     {
         SetDead(true);
     }

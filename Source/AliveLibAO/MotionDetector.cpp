@@ -146,7 +146,7 @@ void MotionDetector::VScreenChanged()
 void MotionDetector::VUpdate()
 {
     MotionDetectorLaser* pLaser = static_cast<MotionDetectorLaser*>(sObjectIds.Find_Impl(mLaserId));
-    if (EventGet(kEventDeathReset))
+    if (EventGet(Event::kEventDeathReset))
     {
         SetDead(true);
     }

@@ -256,7 +256,7 @@ void Drill::CreateFromSaveState(SerializedObjectData& pData)
 
 void Drill::VUpdate()
 {
-    if (EventGet(kEventDeathReset))
+    if (EventGet(Event::kEventDeathReset))
     {
         SetDead(true);
     }

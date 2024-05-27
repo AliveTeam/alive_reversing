@@ -214,7 +214,7 @@ void ThrowableTotalIndicator::VScreenChanged()
 
 void ThrowableTotalIndicator::VUpdate()
 {
-    if (EventGet(kEventDeathReset))
+    if (EventGet(Event::kEventDeathReset))
     {
         SetDead(true);
     }

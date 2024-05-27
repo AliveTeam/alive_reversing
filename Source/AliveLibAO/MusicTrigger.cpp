@@ -128,7 +128,7 @@ void MusicTrigger::VScreenChanged()
 
 void MusicTrigger::VUpdate()
 {
-    if (EventGet(kEventHeroDying))
+    if (EventGet(Event::kEventHeroDying))
     {
         SetDead(true);
         if (mTlvId.IsValid())

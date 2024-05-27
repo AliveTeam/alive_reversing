@@ -6,7 +6,7 @@
 
 struct EventsArray final
 {
-    BaseGameObject* mEventPtrs[Event::kEventMax];
+    BaseGameObject* mEventPtrs[static_cast<u32>(Event::kEventMax)];
 };
 
 struct Events final
@@ -20,19 +20,19 @@ static Events sEventPtrs = {};
 
 void EventBroadcast(Event eventType, BaseGameObject* pObject)
 {
-    sEventPtrs.mEvents[!sEventsToUse].mEventPtrs[eventType] = pObject;
+    sEventPtrs.mEvents[!sEventsToUse].mEventPtrs[static_cast<u32>(eventType)] = pObject;
 }
 
 BaseGameObject* EventGet(Event eventType)
 {
-    return sEventPtrs.mEvents[sEventsToUse].mEventPtrs[eventType];
+    return sEventPtrs.mEvents[sEventsToUse].mEventPtrs[static_cast<u32>(eventType)];
 }
 
 void EventsReset()
 {
     for (s32 i = 0; i < 2; i++)
     {
-        for (s32 j = 0; j < Event::kEventMax; j++)
+        for (s32 j = 0; j < static_cast<u32>(Event::kEventMax); j++)
         {
             sEventPtrs.mEvents[i].mEventPtrs[j] = nullptr;
         }
@@ -42,7 +42,7 @@ void EventsReset()
 
 void EventsResetActive()
 {
-    for (s32 i = 0; i < Event::kEventMax; i++)
+    for (s32 i = 0; i < static_cast<u32>(Event::kEventMax); i++)
     {
         sEventPtrs.mEvents[sEventsToUse].mEventPtrs[i] = nullptr;
     }
@@ -55,7 +55,7 @@ const s32 kGridMapHeight = 260;
 
 BaseAnimatedWithPhysicsGameObject* IsEventInRange(Event eventType, FP xpos, FP ypos, EventScale scale)
 {
-    BaseGameObject* pObj = sEventPtrs.mEvents[sEventsToUse].mEventPtrs[eventType];
+    BaseGameObject* pObj = sEventPtrs.mEvents[sEventsToUse].mEventPtrs[static_cast<u32>(eventType)];
     if (!pObj)
     {
         return nullptr;
@@ -90,7 +90,7 @@ BaseAnimatedWithPhysicsGameObject* IsEventInRange(Event eventType, FP xpos, FP y
 
 BaseAnimatedWithPhysicsGameObject* IsEventInRange(Event eventType, FP xpos, FP ypos, FP scale)
 {
-    BaseGameObject* pObj = sEventPtrs.mEvents[sEventsToUse].mEventPtrs[eventType];
+    BaseGameObject* pObj = sEventPtrs.mEvents[sEventsToUse].mEventPtrs[static_cast<u32>(eventType)];
     if (!pObj)
     {
         return nullptr;
@@ -115,7 +115,7 @@ void EventCancelForObj(BaseGameObject* pObj)
 {
     for (s32 i = 0; i < 2; i++)
     {
-        for (s32 j = 0; j < Event::kEventMax; j++)
+        for (s32 j = 0; j < static_cast<u32>(Event::kEventMax); j++)
         {
             if (sEventPtrs.mEvents[i].mEventPtrs[j] == pObj)
             {
