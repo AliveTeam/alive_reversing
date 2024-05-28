@@ -54,6 +54,7 @@ public:
     Scale PerGameScale();
     bool WallHit(FP offY, FP offX);
     bool Check_IsOnEndOfLine(s16 direction, s16 distance);
+    virtual class IBirdPortal* VIntoBirdPortal(s16 numGridBlocks);
 
     template <class BaseAliveGameObjectClass, class FnArray, class BrainState>
     static auto InvokeMemberFunction(BaseAliveGameObjectClass caller, const FnArray& fnArray, BrainState brainState)

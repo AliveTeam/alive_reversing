@@ -488,7 +488,7 @@ public:
     virtual void VRender(OrderingTable& ot) override;
     virtual void VScreenChanged() override;
     virtual void VOnTlvCollision(relive::Path_TLV* pTlv) override;
-    BirdPortal* VIntoBirdPortal(s16 gridBlocks) override;
+    IBirdPortal* VIntoBirdPortal(s16 gridBlocks) override;
     virtual void VOnTrapDoorOpen() override;
     virtual bool VTakeDamage(BaseGameObject* pFrom) override;
     virtual s16 VGetMotion(eMotionType motionType) override
@@ -750,7 +750,7 @@ public:
     s8 field_19C_throwable_count = 0;
     s8 mThrowDirection = 0;
     PortalSubStates field_19E_portal_sub_state = PortalSubStates::eJumpingInsidePortal_0;
-    BirdPortal* field_1A0_portal = nullptr;
+    IBirdPortal* field_1A0_portal = nullptr;
     bool mReturnToPreviousMotion = false;
     bool mWalkToRun = false;
     bool mSnapAbe = false;

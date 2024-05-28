@@ -22,7 +22,6 @@ public:
 
     virtual void VSetXSpawn(s16 camWorldX, s32 screenXPos) override; // AO
     virtual void VSetYSpawn(s32 camWorldY, s16 bLeft) override; // AO
-    virtual BirdPortal* VIntoBirdPortal(s16 gridBlocks);
 
     bool MapFollowMe(bool snapToGrid);
 

@@ -217,8 +217,6 @@ SET(AliveLibSrcAO
    ../AliveLibAO/RollingBallShaker.cpp
    ../AliveLibAO/Mine.hpp
    ../AliveLibAO/Mine.cpp
-   ../AliveLibAO/BirdPortalTerminator.hpp
-   ../AliveLibAO/BirdPortalTerminator.cpp
    ../AliveLibAO/BoomMachinePipe.hpp
    ../AliveLibAO/BoomMachinePipe.cpp
 )
@@ -467,8 +465,6 @@ SET(AliveLibAESrc
     ../AliveLibAE/MudokonEnums.hpp
     ../AliveLibAE/Mine.hpp
     ../AliveLibAE/Mine.cpp
-    ../AliveLibAE/BirdPortalTerminator.hpp
-    ../AliveLibAE/BirdPortalTerminator.cpp
     ../AliveLibAE/BoomMachinePipe.hpp
     ../AliveLibAE/BoomMachinePipe.cpp
 )
@@ -592,6 +588,10 @@ SET(game_objects_src
     GameObjects/ThrowableTotalIndicator.cpp
     GameObjects/OrbWhirlWind.cpp
     GameObjects/OrbWhirlWind.hpp
+    GameObjects/IBirdPortal.cpp
+    GameObjects/IBirdPortal.hpp
+    GameObjects/BirdPortalTerminator.cpp
+    GameObjects/BirdPortalTerminator.hpp
 )
 
 SET(data_conversion_src

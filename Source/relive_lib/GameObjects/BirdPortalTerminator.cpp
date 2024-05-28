@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "BirdPortalTerminator.hpp"
+#include "../GameType.hpp"
 
 void BirdPortalTerminator::LoadAnimations()
 {
@@ -11,7 +12,15 @@ void BirdPortalTerminator::LoadAnimations()
 BirdPortalTerminator::BirdPortalTerminator(FP xpos, FP ypos, FP scale, relive::Path_BirdPortal::PortalType /*portalType*/)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
-    SetType(ReliveTypes::eEyeOrbPart);
+    // TODO: sort this out
+    if (GetGameType() == GameType::eAe)
+    {
+        SetType(ReliveTypes::eEyeOrbPart);
+    }
+    else
+    {
+        SetType(ReliveTypes::eClawOrBirdPortalTerminator);
+    }
 
     LoadAnimations();
 

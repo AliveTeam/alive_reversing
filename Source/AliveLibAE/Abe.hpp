@@ -461,7 +461,7 @@ public:
     void GetSaveState(AbeSaveState& pSaveBuffer);
     
     virtual void VOnTlvCollision(relive::Path_TLV* pTlv) override;
-    virtual BirdPortal* VIntoBirdPortal(s16 gridBlocks) override;
+    virtual IBirdPortal* VIntoBirdPortal(s16 gridBlocks) override;
     virtual void VOnTrapDoorOpen() override;
     virtual bool VTakeDamage(BaseGameObject* pFrom) override;
     virtual s16 VGetMotion(eMotionType motionType) override

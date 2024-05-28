@@ -22,7 +22,6 @@ public:
     virtual void VOnPathTransition(s32 camWorldX, s32 camWorldY, CameraPos direction) override;
     virtual void VCheckCollisionLineStillValid(s32 distance);
 
-    virtual BirdPortal* VIntoBirdPortal(s16 gridBlocks);
     bool MapFollowMe(bool snapToGrid);
 
     virtual bool VOnPlatformIntersection(BaseAnimatedWithPhysicsGameObject* pPlatform) override;

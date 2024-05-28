@@ -1,8 +1,8 @@
 #pragma once
 
-#include "../relive_lib/GameObjects/BaseAnimatedWithPhysicsGameObject.hpp"
+#include "BaseAnimatedWithPhysicsGameObject.hpp"
 
-class BirdPortalTerminator final : public ::BaseAnimatedWithPhysicsGameObject
+class BirdPortalTerminator final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
     BirdPortalTerminator(FP xpos, FP ypos, FP scale, relive::Path_BirdPortal::PortalType portalType);

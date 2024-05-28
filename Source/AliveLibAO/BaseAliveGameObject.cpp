@@ -235,64 +235,6 @@ void BaseAliveGameObject::VCheckCollisionLineStillValid(s32 distance)
     }
 }
 
-BirdPortal* BaseAliveGameObject::VIntoBirdPortal(s16 numGridBlocks)
-{
-    for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
-    {
-        BaseGameObject* pObjIter = gBaseGameObjects->ItemAt(i);
-        if (!pObjIter)
-        {
-            break;
-        }
-
-        if (pObjIter->Type() == ReliveTypes::eBirdPortal)
-        {
-            auto pPortal = static_cast<BirdPortal*>(pObjIter);
-            if (pPortal->mXPos >= mXPos)
-            {
-                if (pPortal->mEnterSide == relive::Path_BirdPortal::PortalSide::eLeft)
-                {
-                    if (pPortal->mXPos - mXPos <= (ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(numGridBlocks)))
-                    {
-                        if (!GetAnimation().GetFlipX())
-                        {
-                            if (FP_Abs(mYPos - pPortal->mHitY) < GetSpriteScale() * FP_FromInteger(10))
-                            {
-                                if (pPortal->VPortalClipper(1))
-                                {
-                                    GetAnimation().SetRenderLayer(GetSpriteScale() != FP_FromInteger(1) ? Layer::eLayer_InBirdPortal_Half_11 : Layer::eLayer_InBirdPortal_30);
-                                    return pPortal;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            else
-            {
-                if (pPortal->mEnterSide == relive::Path_BirdPortal::PortalSide::eRight)
-                {
-                    if (mXPos - pPortal->mXPos <= (ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(numGridBlocks)))
-                    {
-                        if (GetAnimation().GetFlipX())
-                        {
-                            if (FP_Abs(mYPos - pPortal->mHitY) < (GetSpriteScale() * FP_FromInteger(10)))
-                            {
-                                if (pPortal->VPortalClipper(1))
-                                {
-                                    GetAnimation().SetRenderLayer(GetSpriteScale() != FP_FromInteger(1) ? Layer::eLayer_InBirdPortal_Half_11 : Layer::eLayer_InBirdPortal_30);
-                                    return pPortal;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-    return nullptr;
-}
-
 void BaseAliveGameObject::VOnPathTransition(s32 camWorldX, s32 camWorldY, CameraPos direction)
 {
     const FP oldx = mXPos;

@@ -473,7 +473,7 @@ s32 Mudokon_SFX(MudSounds idx, s32 volume, s32 pitch, BaseAliveGameObject* pHero
     }
 }
 
-BirdPortal* Abe::VIntoBirdPortal(s16 gridBlocks)
+IBirdPortal* Abe::VIntoBirdPortal(s16 gridBlocks)
 {
     auto pPortal = BaseAliveGameObject::VIntoBirdPortal(gridBlocks);
     if (pPortal && pPortal->mPortalType == relive::Path_BirdPortal::PortalType::eAbe)
