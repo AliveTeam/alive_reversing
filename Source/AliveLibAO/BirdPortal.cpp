@@ -654,10 +654,9 @@ void BirdPortal::VExitPortal()
             &mExitY,
             allLinesHack);
 
-        mYPos = mExitY - FP_FromInteger(55);
-
         mExitX = FP_FromInteger(pPortalExitTlv->mTopLeftX);
         mXPos = mExitX;
+        mYPos = mExitY - FP_FromInteger(55);
         mEnterSide = pPortalExitTlv->mExitSide;
 
         if (pPortalExitTlv->mScale == relive::reliveScale::eHalf)

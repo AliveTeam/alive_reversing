@@ -702,7 +702,7 @@ void Mudokon::KillBirdPortal()
         sMudRunningToPortalCount_507B94--;
         if (sMudRunningToPortalCount_507B94 == 0)
         {
-            pBirdPortal->VKillPortalClipper();
+            pBirdPortal->DestroyPortalClippers();
             pBirdPortal->VGiveShrykull(1);
         }
 
@@ -2164,7 +2164,7 @@ void Mudokon::Motion_44_RunJumpMid()
 
         if (pBirdPortal)
         {
-            pBirdPortal->VMudSaved();
+            pBirdPortal->MudSaved();
         }
 
         if (field_1B2_rescue_switch_id)
@@ -3991,7 +3991,7 @@ s16 Mudokon::Brain_12_Escape()
     switch (field_1BA_brain_sub_state)
     {
         case 0:
-            if (pBirdPortal->VActivePortal())
+            if (pBirdPortal->IsActivePortalState())
             {
                 field_1C0_timer = sGnFrame + (Math_NextRandom() % 8);
                 return 1;

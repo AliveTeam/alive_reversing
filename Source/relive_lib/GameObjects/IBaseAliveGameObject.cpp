@@ -317,7 +317,7 @@ IBirdPortal* IBaseAliveGameObject::VIntoBirdPortal(s16 numGridBlocks)
                         {
                             if (FP_Abs(mYPos - pPortal->mHitY) < GetSpriteScale() * FP_FromInteger(10))
                             {
-                                if (pPortal->VPortalClipper(1))
+                                if (pPortal->ClipPortal(1))
                                 {
                                     GetAnimation().SetRenderLayer(GetSpriteScale() != FP_FromInteger(1) ? Layer::eLayer_InBirdPortal_Half_11 : Layer::eLayer_InBirdPortal_30);
                                     return pPortal;
@@ -337,7 +337,7 @@ IBirdPortal* IBaseAliveGameObject::VIntoBirdPortal(s16 numGridBlocks)
                         {
                             if (FP_Abs(mYPos - pPortal->mHitY) < (GetSpriteScale() * FP_FromInteger(10)))
                             {
-                                if (pPortal->VPortalClipper(1))
+                                if (pPortal->ClipPortal(1))
                                 {
                                     GetAnimation().SetRenderLayer(GetSpriteScale() != FP_FromInteger(1) ? Layer::eLayer_InBirdPortal_Half_11 : Layer::eLayer_InBirdPortal_30);
                                     return pPortal;

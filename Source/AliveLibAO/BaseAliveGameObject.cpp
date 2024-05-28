@@ -5,6 +5,7 @@
 #include "PlatformBase.hpp"
 #include "../relive_lib/Collisions.hpp"
 #include "../AliveLibAE/stdlib.hpp"
+#include "../AliveLibAE/Abe.hpp"
 #include "Game.hpp"
 #include "BirdPortal.hpp"
 #include "../relive_lib/Grid.hpp"
@@ -40,6 +41,7 @@ BaseAliveGameObject::~BaseAliveGameObject()
 
 }
 
+// AO
 void BaseAliveGameObject::VSetXSpawn(s16 camWorldX, s32 screenXPos)
 {
     BaseAliveGameObject* pLiftPoint = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
@@ -49,7 +51,7 @@ void BaseAliveGameObject::VSetXSpawn(s16 camWorldX, s32 screenXPos)
 
     mXPos = FP_FromInteger(camWorldX + XGrid_Index_To_XPos_AO(GetSpriteScale(), screenXPos));
 
-    BaseAliveGameObjectPathTLV = gMap.TLV_Get_At(0, mXPos, old_y, mXPos, old_y);
+    BaseAliveGameObjectPathTLV = GetMap().TLV_Get_At(0, mXPos, old_y, mXPos, old_y);
 
     if (pLiftPoint)
     {
@@ -82,7 +84,7 @@ void BaseAliveGameObject::VSetXSpawn(s16 camWorldX, s32 screenXPos)
             }
             else
             {
-                BaseAliveGameObjectPathTLV = gMap.TLV_First_Of_Type_In_Camera(ReliveTypes::eStartController, 0);
+                BaseAliveGameObjectPathTLV = GetMap().TLV_First_Of_Type_In_Camera(ReliveTypes::eStartController, 0);
                 if (BaseAliveGameObjectPathTLV
                     && gCollisions->Raycast(
                         mXPos,
@@ -121,6 +123,7 @@ void BaseAliveGameObject::VSetXSpawn(s16 camWorldX, s32 screenXPos)
     }
 }
 
+// AO
 void BaseAliveGameObject::VSetYSpawn(s32 camWorldY, s16 bLeft)
 {
     BaseAliveGameObject* pLiftPoint = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
@@ -139,7 +142,7 @@ void BaseAliveGameObject::VSetYSpawn(s32 camWorldY, s16 bLeft)
         mYPos = FP_FromInteger(camWorldY + 124);
     }
 
-    BaseAliveGameObjectPathTLV = gMap.TLV_Get_At(
+    BaseAliveGameObjectPathTLV = GetMap().TLV_Get_At(
         nullptr,
         mXPos,
         mYPos,
@@ -237,6 +240,133 @@ void BaseAliveGameObject::VCheckCollisionLineStillValid(s32 distance)
 
 void BaseAliveGameObject::VOnPathTransition(s32 camWorldX, s32 camWorldY, CameraPos direction)
 {
+    if (GetGameType() == GameType::eAe)
+    {
+        OnPathTransitionAE(camWorldX, camWorldY, direction);
+    }
+    else
+    {
+        OnPathTransitionAO(camWorldX, camWorldY, direction);
+    }
+}
+
+// AE
+void BaseAliveGameObject::OnPathTransitionAE(s32 camWorldX, s32 camWorldY, CameraPos direction)
+{
+    const FP oldY = mYPos;
+    switch (direction)
+    {
+        case CameraPos::eCamTop_1:
+        {
+            mXPos = FP_FromInteger(camWorldX + FP_GetExponent(mXPos) % 375);
+
+            // TODO: This is actually wrong!!
+            const u32 off = GetAnimation().Get_FrameHeader(-1)->mHeight;
+            mYPos = FP_FromInteger(off + camWorldY + 236);
+            break;
+        }
+
+        case CameraPos::eCamBottom_2:
+            mXPos = FP_FromInteger(camWorldX + FP_GetExponent(mXPos) % 375);
+            mYPos = FP_FromInteger(camWorldY + 4);
+            break;
+
+        case CameraPos::eCamLeft_3:
+            mXPos = FP_FromInteger(camWorldX + (XGrid_Index_To_XPos_AE(GetSpriteScale(), MaxGridBlocks(GetSpriteScale()) - 1)));
+            mYPos = FP_FromInteger(camWorldY + FP_GetExponent(mYPos) % 260);
+            break;
+
+        case CameraPos::eCamRight_4:
+            mXPos = FP_FromInteger(camWorldX + XGrid_Index_To_XPos_AE(GetSpriteScale(), 1));
+            mYPos = FP_FromInteger(camWorldY + FP_GetExponent(mYPos) % 260);
+            break;
+
+        default:
+            break;
+    }
+
+    mXPos = FP_FromInteger(SnapToXGrid_AE(GetSpriteScale(), FP_GetExponent(mXPos)));
+
+    ::Abe* pAbe = nullptr;
+    if (Type() == ReliveTypes::eAbe)
+    {
+        pAbe = reinterpret_cast<::Abe*>(this); // TODO: static_cast when base is common
+    }
+
+    if (pAbe && GetMap().mCurrentLevel == EReliveLevelIds::eNecrum && GetMap().mCurrentPath == 2 && (pAbe->mCurrentMotion == ::eAbeMotions::Motion_23_RollLoop_453A90 || pAbe->mCurrentMotion == ::eAbeMotions::Motion_17_CrouchIdle_456BC0))
+    {
+        // Yummy OWI hack - hard code Abe's location when path change to Necrum's first path after the Mines :)
+        BaseAliveGameObjectCollisionLine = nullptr;
+        mVelY = FP_FromInteger(0);
+        mVelX = FP_FromInteger(0);
+        mXPos = FP_FromInteger(1011);
+        mYPos = FP_FromInteger(784);
+    }
+    else
+    {
+        FP hitX = {};
+        FP hitY = {};
+        PathLine* pLine = nullptr;
+        if (BaseAliveGameObjectCollisionLine)
+        {
+            if (gCollisions->Raycast(
+                    mXPos,
+                    mYPos - FP_FromInteger(40),
+                    mXPos,
+                    mYPos + FP_FromInteger(40),
+                    &pLine,
+                    &hitX,
+                    &hitY,
+                    PerGameScale() == Scale::Fg ? kFgFloor : kBgFloor))
+            {
+                mYPos = hitY;
+                BaseAliveGameObjectCollisionLine = pLine;
+            }
+            else
+            {
+                BaseAliveGameObjectCollisionLine = nullptr;
+            }
+        }
+        else
+        {
+            BaseAliveGameObjectLastLineYPos += mYPos - oldY;
+            if (gCollisions->Raycast(
+                    mXPos,
+                    BaseAliveGameObjectLastLineYPos - FP_FromInteger(40),
+                    mXPos,
+                    BaseAliveGameObjectLastLineYPos + FP_FromInteger(40),
+                    &pLine,
+                    &hitX,
+                    &hitY,
+                    PerGameScale() == Scale::Fg ? kFgFloor : kBgFloor))
+            {
+                mYPos += hitY - BaseAliveGameObjectLastLineYPos;
+            }
+            else
+            {
+                // Not set to nullptr in this case ??
+            }
+        }
+    }
+
+    if (GetSpriteScale() == FP_FromInteger(1) && GetAnimation().GetSpriteScale() == FP_FromDouble(0.5))
+    {
+        // From 0.5 to 1 scale, double velx
+        mVelX *= FP_FromInteger(2);
+        return;
+    }
+
+    if (GetSpriteScale() == FP_FromDouble(0.5) && GetAnimation().GetSpriteScale() == FP_FromInteger(1))
+    {
+        // From 1 to 0.5 scale, halve velx
+        mVelX *= FP_FromDouble(0.5);
+        return;
+    }
+}
+
+// AO
+void BaseAliveGameObject::OnPathTransitionAO(s32 camWorldX, s32 camWorldY, CameraPos direction)
+{
     const FP oldx = mXPos;
     const FP oldy = mYPos;
 
@@ -296,11 +426,11 @@ void BaseAliveGameObject::VOnPathTransition(s32 camWorldX, s32 camWorldY, Camera
     }
 
     // Find the start controller at the position we will be at in the new map
-    BaseAliveGameObjectPathTLV = gMap.VTLV_Get_At_Of_Type(static_cast<s16>(xpos), static_cast<s16>(ypos), static_cast<s16>(width), static_cast<s16>(height), ReliveTypes::eStartController);
+    BaseAliveGameObjectPathTLV = GetMap().VTLV_Get_At_Of_Type(static_cast<s16>(xpos), static_cast<s16>(ypos), static_cast<s16>(width), static_cast<s16>(height), ReliveTypes::eStartController);
 
     if (!BaseAliveGameObjectPathTLV)
     {
-        BaseAliveGameObjectPathTLV = gMap.TLV_First_Of_Type_In_Camera(ReliveTypes::eStartController, 0);
+        BaseAliveGameObjectPathTLV = GetMap().TLV_First_Of_Type_In_Camera(ReliveTypes::eStartController, 0);
         LOG_INFO("Flip direction after the path trans as we are not touching the start controller");
         mVelX = -mVelX;
         GetAnimation().ToggleFlipX();
@@ -411,11 +541,24 @@ void BaseAliveGameObject::VOnPathTransition(s32 camWorldX, s32 camWorldY, Camera
 
 bool BaseAliveGameObject::MapFollowMe(bool snapToGrid)
 {
+    if (GetGameType() == GameType::eAe)
+    {
+        return MapFollowMeAE(snapToGrid);
+    }
+    else
+    {
+        return MapFollowMeAO(snapToGrid);
+    }
+}
+
+// AO
+bool BaseAliveGameObject::MapFollowMeAO(bool snapToGrid)
+{
     PSX_Point currentCamCoords = {};
     gMap.GetCurrentCamCoords(&currentCamCoords);
 
     // Are we "in" the current camera X bounds?
-    if (mCurrentLevel == gMap.mCurrentLevel && mCurrentPath == gMap.mCurrentPath && mXPos > FP_FromInteger(currentCamCoords.x) && mXPos < FP_FromInteger(currentCamCoords.x + 1024))
+    if (mCurrentLevel == GetMap().mCurrentLevel && mCurrentPath == GetMap().mCurrentPath && mXPos > FP_FromInteger(currentCamCoords.x) && mXPos < FP_FromInteger(currentCamCoords.x + 1024))
     {
         // Snapped XPos in camera space
         const s32 snappedXLocalCoords = SnapToXGrid_AO(GetSpriteScale(), FP_GetExponent(mXPos - FP_FromInteger(currentCamCoords.x)));
@@ -423,10 +566,10 @@ bool BaseAliveGameObject::MapFollowMe(bool snapToGrid)
         // In the left camera void and moving left?
         if (snappedXLocalCoords < 256 && mVelX < FP_FromInteger(0))
         {
-            if (sControlledCharacter == this && gMap.SetActiveCameraDelayed(MapDirections::eMapLeft_0, this, -1))
+            if (sControlledCharacter == this && GetMap().SetActiveCameraDelayed(MapDirections::eMapLeft_0, this, -1))
             {
-                mCurrentPath = gMap.mCurrentPath;
-                mCurrentLevel = gMap.mCurrentLevel;
+                mCurrentPath = GetMap().mCurrentPath;
+                mCurrentLevel = GetMap().mCurrentLevel;
                 return true;
             }
             else
@@ -450,10 +593,10 @@ bool BaseAliveGameObject::MapFollowMe(bool snapToGrid)
         else if (snappedXLocalCoords > 624 && mVelX > FP_FromInteger(0))
         {
             // Go to the right camera in under player control
-            if (sControlledCharacter == this && gMap.SetActiveCameraDelayed(MapDirections::eMapRight_1, this, -1))
+            if (sControlledCharacter == this && GetMap().SetActiveCameraDelayed(MapDirections::eMapRight_1, this, -1))
             {
-                mCurrentLevel = gMap.mCurrentLevel;
-                mCurrentPath = gMap.mCurrentPath;
+                mCurrentLevel = GetMap().mCurrentLevel;
+                mCurrentPath = GetMap().mCurrentPath;
                 return true;
             }
             else
@@ -518,6 +661,41 @@ bool BaseAliveGameObject::MapFollowMe(bool snapToGrid)
         }
         return false;
     }
+}
+
+// AE
+bool BaseAliveGameObject::MapFollowMeAE(bool snapToGrid)
+{
+    PSX_Point currentCamCoords = {};
+    gMap.GetCurrentCamCoords(&currentCamCoords);
+
+    const s32 xposSnapped = SnapToXGrid_AE(GetSpriteScale(), FP_GetExponent(mXPos));
+    if (snapToGrid)
+    {
+        mXPos = FP_FromInteger(xposSnapped);
+    }
+
+    // Gone off the left edge of the current screen
+    if (xposSnapped < currentCamCoords.x && (GetAnimation().GetFlipX() || mVelX < FP_FromInteger(0)))
+    {
+        if (sControlledCharacter == this && gMap.SetActiveCameraDelayed(MapDirections::eMapLeft_0, this, -1))
+        {
+            mCurrentLevel = gMap.mCurrentLevel;
+            mCurrentPath = gMap.mCurrentPath;
+            return true;
+        }
+    }
+    // Gone off the right edge of the current screen
+    else if (xposSnapped > currentCamCoords.x + 368 && (!(GetAnimation().GetFlipX()) || mVelX > FP_FromInteger(0)))
+    {
+        if (sControlledCharacter == this && gMap.SetActiveCameraDelayed(MapDirections::eMapRight_1, this, -1))
+        {
+            mCurrentLevel = gMap.mCurrentLevel;
+            mCurrentPath = gMap.mCurrentPath;
+            return true;
+        }
+    }
+    return false;
 }
 
 bool BaseAliveGameObject::InAirCollision(PathLine** ppLine, FP* hitX, FP* hitY, FP velY)
@@ -588,7 +766,7 @@ bool BaseAliveGameObject::InAirCollision(PathLine** ppLine, FP* hitX, FP* hitY, 
         *ppLine = nullptr;
     }
 
-    if (!IsAbe(this))
+    if (!AO::IsAbe(this))
     {
         return bCollision;
     }
@@ -659,6 +837,7 @@ bool BaseAliveGameObject::VOnPlatformIntersection(BaseAnimatedWithPhysicsGameObj
     return true;
 }
 
+// AO
 void BaseAliveGameObject::UsePathTransScale()
 {
     auto pPathTrans = static_cast<relive::Path_PathTransition*>(gMap.VTLV_Get_At_Of_Type(
@@ -690,5 +869,43 @@ void BaseAliveGameObject::UsePathTransScale()
         }
     }
 }
+
+// AE
+BaseAliveGameObject* BaseAliveGameObject::GetStackedSlapTarget(const Guid& idToFind, ReliveTypes typeToFind, FP xpos, FP ypos)
+{
+    const s16 xposD = FP_GetExponent(xpos);
+    const s16 yposD = FP_GetExponent(ypos);
+
+    bool bFound = false;
+    for (s32 idx = 0; idx < gBaseGameObjects->Size(); idx++)
+    {
+        BaseGameObject* pObj = gBaseGameObjects->ItemAt(idx);
+        if (!pObj)
+        {
+            break;
+        }
+
+        if (pObj->Type() == typeToFind && pObj != this)
+        {
+            if (pObj->mBaseGameObjectId == idToFind)
+            {
+                // So that we pick the one AFTER this
+                bFound = true;
+            }
+            else if (bFound)
+            {
+                BaseAliveGameObject* pAliveObj = static_cast<BaseAliveGameObject*>(pObj);
+                const PSX_RECT bRect = pAliveObj->VGetBoundingRect();
+                // TODO: Similar to PSX_Rects_overlap_no_adjustment
+                if (xposD >= bRect.x && xposD <= bRect.w && yposD >= bRect.y && yposD <= bRect.h)
+                {
+                    return pAliveObj;
+                }
+            }
+        }
+    }
+    return nullptr;
+}
+
 
 } // namespace AO

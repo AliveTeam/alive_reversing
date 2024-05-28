@@ -306,6 +306,7 @@ enum class EnvironmentSfx : u8
 
 struct SaveData;
 
+
 class Abe final : public BaseAliveGameObject
 {
 public:

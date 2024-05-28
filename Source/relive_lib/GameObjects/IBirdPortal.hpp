@@ -39,18 +39,25 @@ public:
 
     IBirdPortal();
 
-    void LoadAnimations();
-    void CreateDovesAndShrykullNumber();
+private:
     virtual void VScreenChanged() override;
     virtual void VStopAudio() override;
-    void VKillPortalClipper();
-    bool VActivePortal();
-    bool VAbeInsidePortal();
-    bool VPortalExit_AbeExitting();
-    void VIncreaseTimerAndKillPortalClipper();
-    void VMudSaved();
+
+protected:
+    void LoadAnimations();
+    void CreateDovesAndShrykullNumber();
     void CreateTerminators();
-    bool VPortalClipper(bool bIgnoreClipping);
+
+public:
+    
+    void MudSaved();
+    bool IsActivePortalState();
+    void DestroyPortalClippers();
+    bool IsAbeInsidePortalState();
+    bool IsAbExittingPortalState();
+    void RemovePortalClipperDelayed();
+
+    bool ClipPortal(bool bIgnoreClipping);
 
     virtual void VGiveShrykull(s16 bPlaySound) = 0;
     virtual void VExitPortal() = 0;

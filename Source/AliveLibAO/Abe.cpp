@@ -4583,7 +4583,7 @@ void Abe::IntoPortalStates()
                 GetAnimation().SetRender(false);
                 mVelY = FP_FromInteger(0);
                 mVelX = FP_FromInteger(0);
-                field_1A0_portal->VKillPortalClipper();
+                field_1A0_portal->DestroyPortalClippers();
                 field_1A0_portal->VGiveShrykull(true);
                 field_19E_portal_sub_state = PortalSubStates::eSetNewActiveCamera_1;
             }
@@ -4594,7 +4594,7 @@ void Abe::IntoPortalStates()
         }
         case PortalSubStates::eSetNewActiveCamera_1:
         {
-            if (field_1A0_portal->VAbeInsidePortal())
+            if (field_1A0_portal->IsAbeInsidePortalState())
             {
                 EReliveLevelIds level = {};
                 u16 path = 0;
@@ -4609,12 +4609,12 @@ void Abe::IntoPortalStates()
         }
         case PortalSubStates::eHopOutOfPortal_2:
         {
-            if (field_1A0_portal->VPortalExit_AbeExitting())
+            if (field_1A0_portal->IsAbExittingPortalState())
             {
-                field_1A0_portal->VPortalClipper(0);
+                field_1A0_portal->ClipPortal(0);
                 GetAnimation().SetRender(true);
                 mCurrentMotion = eAbeMotions::Motion_29_HopBegin;
-                field_1A0_portal->VIncreaseTimerAndKillPortalClipper();
+                field_1A0_portal->RemovePortalClipperDelayed();
                 field_1A0_portal = 0;
             }
             break;
@@ -6589,7 +6589,7 @@ void Abe::Motion_70_Knockback()
 
     if (field_1A0_portal)
     {
-        field_1A0_portal->VKillPortalClipper();
+        field_1A0_portal->DestroyPortalClippers();
         field_1A0_portal = nullptr;
     }
 

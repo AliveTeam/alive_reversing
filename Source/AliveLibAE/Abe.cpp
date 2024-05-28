@@ -8628,7 +8628,7 @@ void Abe::IntoPortalStates_451990()
                     GetAnimation().SetRender(false);
                     mVelY = FP_FromInteger(0);
                     mVelX = FP_FromInteger(0);
-                    pBirdPortal->VKillPortalClipper();
+                    pBirdPortal->DestroyPortalClippers();
                     pBirdPortal->VGiveShrykull(true);
                     mBirdPortalSubState = PortalSubStates::eSetNewActiveCamera_1;
                 }
@@ -8639,7 +8639,7 @@ void Abe::IntoPortalStates_451990()
                 return;
 
             case PortalSubStates::eSetNewActiveCamera_1:
-                if (pBirdPortal->VAbeInsidePortal())
+                if (pBirdPortal->IsAbeInsidePortalState())
                 {
                     EReliveLevelIds level = {};
                     u16 path = 0;
@@ -8654,12 +8654,12 @@ void Abe::IntoPortalStates_451990()
                 break;
 
             case PortalSubStates::eHopOutOfPortal_2:
-                if (pBirdPortal->VPortalExit_AbeExitting())
+                if (pBirdPortal->IsAbExittingPortalState())
                 {
-                    pBirdPortal->VPortalClipper(0);
+                    pBirdPortal->ClipPortal(0);
                     GetAnimation().SetRender(true);
                     mCurrentMotion = eAbeMotions::Motion_27_HopBegin_4521C0;
-                    pBirdPortal->VIncreaseTimerAndKillPortalClipper();
+                    pBirdPortal->RemovePortalClipperDelayed();
                     mBirdPortalId = Guid{};
                 }
                 break;

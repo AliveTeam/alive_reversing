@@ -113,7 +113,7 @@ void IBirdPortal::VStopAudio()
     }
 }
 
-void IBirdPortal::VKillPortalClipper()
+void IBirdPortal::DestroyPortalClippers()
 {
     BaseGameObject* pClipper1 = sObjectIds.Find_Impl(mScreenClipperId1);
     BaseGameObject* pClipper2 = sObjectIds.Find_Impl(mScreenClipperId2);
@@ -131,28 +131,28 @@ void IBirdPortal::VKillPortalClipper()
     }
 }
 
-bool IBirdPortal::VActivePortal()
+bool IBirdPortal::IsActivePortalState()
 {
     return mState == PortalStates::ActivePortal_6;
 }
 
-bool IBirdPortal::VAbeInsidePortal()
+bool IBirdPortal::IsAbeInsidePortalState()
 {
     return mState == PortalStates::AbeInsidePortal_16;
 }
 
-bool IBirdPortal::VPortalExit_AbeExitting()
+bool IBirdPortal::IsAbExittingPortalState()
 {
     return mState == PortalStates::PortalExit_AbeExitting_20;
 }
 
-void IBirdPortal::VIncreaseTimerAndKillPortalClipper()
+void IBirdPortal::RemovePortalClipperDelayed()
 {
     mState = PortalStates::KillPortalClipper_21;
     mTimer = MakeTimer(30);
 }
 
-void IBirdPortal::VMudSaved()
+void IBirdPortal::MudSaved()
 {
     mMudCountForShrykull--;
 }
@@ -172,7 +172,7 @@ void IBirdPortal::CreateTerminators()
     }
 }
 
-bool IBirdPortal::VPortalClipper(bool bIgnoreClipping)
+bool IBirdPortal::ClipPortal(bool bIgnoreClipping)
 {
     if (bIgnoreClipping && mState != PortalStates::ActivePortal_6)
     {

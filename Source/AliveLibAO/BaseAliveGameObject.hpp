@@ -28,11 +28,19 @@ public:
     virtual bool VOnPlatformIntersection(BaseAnimatedWithPhysicsGameObject* pPlatform) override;
 
 protected:
+    bool MapFollowMeAO(bool snapToGrid);
+    bool MapFollowMeAE(bool snapToGrid);
+
+    void OnPathTransitionAO(s32 camWorldX, s32 camWorldY, CameraPos direction);
+    void OnPathTransitionAE(s32 camWorldX, s32 camWorldY, CameraPos direction);
 
     bool InAirCollision(PathLine** ppLine, FP* hitX, FP* hitY, FP velY);
     BaseGameObject* FindObjectOfType(ReliveTypes typeToFind, FP xpos, FP ypos);
 
     void UsePathTransScale(); // AO
+    BaseAliveGameObject* GetStackedSlapTarget(const Guid& idToFind, ReliveTypes typeToFind, FP xpos, FP ypos); // AE
+public:
+    s16 BaseAliveGameObjectCollisionLineType = 0; // AE only, quick save data
 };
 
 } // namespace AO

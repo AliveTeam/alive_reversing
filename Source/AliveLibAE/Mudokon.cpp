@@ -903,7 +903,7 @@ void Mudokon::VUpdate()
                     mEscaping = true;
                     if (mBrainState == Mud_Brain_State::Brain_6_Escape && mBrainSubState == 3)
                     {
-                        static_cast<BirdPortal*>(pObj)->VPortalClipper(1);
+                        static_cast<BirdPortal*>(pObj)->ClipPortal(1);
                         GetAnimation().SetRenderLayer(GetSpriteScale() != FP_FromInteger(1) ? Layer::eLayer_InBirdPortal_Half_11 : Layer::eLayer_InBirdPortal_30);
                     }
                     break;
@@ -1127,7 +1127,7 @@ Mudokon::~Mudokon()
         {
             if (pBirdPortal)
             {
-                pBirdPortal->VKillPortalClipper();
+                pBirdPortal->DestroyPortalClippers();
                 pBirdPortal->VGiveShrykull(true);
             }
         }
@@ -1190,7 +1190,7 @@ void Mudokon::VScreenChanged()
             {
                 if (pBirdPortal)
                 {
-                    pBirdPortal->VKillPortalClipper();
+                    pBirdPortal->DestroyPortalClippers();
                     pBirdPortal->VGiveShrykull(true);
                 }
             }
@@ -4648,7 +4648,7 @@ s16 Mudokon::Brain_6_Escape()
             {
                 if (sGoingToBirdPortalMudCount_5C3012 == 0)
                 {
-                    pBirdPortal->VKillPortalClipper();
+                    pBirdPortal->DestroyPortalClippers();
                     pBirdPortal->VGiveShrykull(true);
                 }
                 field_11C_bird_portal_id = Guid{};
@@ -4663,7 +4663,7 @@ s16 Mudokon::Brain_6_Escape()
             switch (mBrainSubState)
             {
                 case Brain_6_Escape::eBrain6_PortalOppened_0:
-                    if (!pBirdPortal->VActivePortal())
+                    if (!pBirdPortal->IsActivePortalState())
                     {
                         return mBrainSubState;
                     }
@@ -6075,7 +6075,7 @@ void Mudokon::Motion_36_RunJumpMid()
 
         if (pBirdPortal)
         {
-            pBirdPortal->VMudSaved();
+            pBirdPortal->MudSaved();
         }
 
         if (field_17A_rescue_switch_id)
