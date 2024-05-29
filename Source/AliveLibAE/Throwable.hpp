@@ -1,6 +1,6 @@
 #pragma once
 
-#include "BaseAliveGameObject.hpp"
+#include "../relive_lib/GameObjects/BaseAliveGameObject.hpp"
 #include "../relive_lib/AddPointer.hpp"
 
 class BaseThrowable;

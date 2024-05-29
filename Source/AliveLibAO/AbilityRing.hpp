@@ -34,8 +34,6 @@ enum class RingTypes : s16
     eHealing_Pulse_14 = 14,
 };
 
-class BaseAliveGameObject;
-
 class AbilityRing final : public ::BaseGameObject
 {
 public:

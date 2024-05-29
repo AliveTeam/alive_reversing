@@ -9,7 +9,7 @@
 #include "Sfx.hpp"
 #include "Game.hpp"
 #include "../relive_lib/Events.hpp"
-#include "BaseAliveGameObject.hpp"
+#include "../relive_lib/GameObjects/BaseAliveGameObject.hpp"
 #include "Path.hpp"
 #include "Map.hpp"
 
@@ -120,7 +120,7 @@ void ElectricWall::VUpdate()
 
         for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
         {
-            IBaseAliveGameObject* pObjIter = gBaseAliveGameObjects->ItemAt(i);
+            ::BaseAliveGameObject* pObjIter = gBaseAliveGameObjects->ItemAt(i);
             if (!pObjIter)
             {
                 break;

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "BaseAliveGameObject.hpp"
+#include "../relive_lib/GameObjects/BaseAliveGameObject.hpp"
 
 namespace relive
 {
@@ -11,7 +11,7 @@ namespace AO {
 
 class Bells;
 
-class ChimeLock final : public BaseAliveGameObject
+class ChimeLock final : public ::BaseAliveGameObject
 {
 public:
     ChimeLock(relive::Path_ChimeLock* pTlv, const Guid& tlvId);

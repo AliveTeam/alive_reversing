@@ -285,7 +285,7 @@ void MeatSaw::GrindUpObjects()
 
     for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
     {
-        IBaseAliveGameObject* pObjIter = gBaseAliveGameObjects->ItemAt(i);
+        ::BaseAliveGameObject* pObjIter = gBaseAliveGameObjects->ItemAt(i);
         if (!pObjIter)
         {
             break;

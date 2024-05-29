@@ -1,6 +1,6 @@
 #pragma once
 
-#include "BaseAliveGameObject.hpp"
+#include "../relive_lib/GameObjects/BaseAliveGameObject.hpp"
 #include "../relive_lib/Sfx.hpp"
 
 namespace relive
@@ -18,7 +18,7 @@ enum class UXBState : u16
     eDeactivated = 3
 };
 
-class UXB final : public BaseAliveGameObject
+class UXB final : public ::BaseAliveGameObject
 {
 public:
     UXB(relive::Path_UXB* pTlv, const Guid& tlvId);

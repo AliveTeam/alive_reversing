@@ -15,7 +15,7 @@
 #include "Math.hpp"
 #include "Path.hpp"
 
-Bullet::Bullet(IBaseAliveGameObject* pParent, BulletType type, FP xpos, FP ypos, FP xDist, FP scale, s32 numberOfBullets)
+Bullet::Bullet(BaseAliveGameObject* pParent, BulletType type, FP xpos, FP ypos, FP xDist, FP scale, s32 numberOfBullets)
     : BaseGameObject(true, 0),
     mBulletType(type),
     mXPos(xpos),
@@ -68,7 +68,7 @@ void Bullet::VUpdate()
                 shootRect.y = FP_GetExponent(mYPos - FP_FromInteger(10));
             }
 
-            IBaseAliveGameObject* pShotObj = ShootObject(&shootRect);
+            BaseAliveGameObject* pShotObj = ShootObject(&shootRect);
 
             const s16 vol = mSpriteScale != FP_FromDouble(0.5) ? 90 : 60;
 
@@ -232,7 +232,7 @@ void Bullet::VUpdate()
             rect.w = static_cast<s16>(xSnapped - 25 + 50);
             rect.y = FP_GetExponent(gScreenManager->CamYPos());
             rect.h = static_cast<s16>(rect.y + 240);
-            IBaseAliveGameObject* pShootObj = ShootObject(&rect);
+            BaseAliveGameObject* pShootObj = ShootObject(&rect);
             if (pShootObj)
             {
                 if (pShootObj->VTakeDamage(this))
@@ -285,7 +285,7 @@ void Bullet::VUpdate()
             rect.w = rect.x + 2;
             rect.h = rect.h;
 
-            IBaseAliveGameObject* pShootObj = ShootObject(&rect);
+            BaseAliveGameObject* pShootObj = ShootObject(&rect);
             if (pShootObj && pShootObj->VTakeDamage(this) && pShootObj->Type() != ReliveTypes::eGreeter && pShootObj->Type() != ReliveTypes::eMineCar)
             {
                 PlayBulletSounds(90);
@@ -349,17 +349,17 @@ bool Bullet::InZBulletCover(FP xpos, FP ypos, const PSX_RECT& objRect)
     return false;
 }
 
-IBaseAliveGameObject* Bullet::ShootObject(PSX_RECT* pRect)
+BaseAliveGameObject* Bullet::ShootObject(PSX_RECT* pRect)
 {
     if (!gBaseAliveGameObjects)
     {
         return nullptr;
     }
 
-    IBaseAliveGameObject* pObjectToShoot = nullptr;
+    BaseAliveGameObject* pObjectToShoot = nullptr;
     for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
     {
-        IBaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
+        BaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
         if (!pObj)
         {
             break;

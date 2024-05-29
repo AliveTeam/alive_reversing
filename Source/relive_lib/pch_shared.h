@@ -138,5 +138,5 @@
 
 #include "SDL.h"
 
-#include "GameObjects/IBaseAliveGameObject.hpp"
+#include "GameObjects/BaseAliveGameObject.hpp"
 #include "data_conversion/relive_tlvs.hpp"

@@ -6,7 +6,7 @@
 namespace AO {
 
 class Rope;
-class BaseAliveGameObject;
+class ::BaseAliveGameObject;
 
 class PullRingRope final : public BaseAnimatedWithPhysicsGameObject
 {
@@ -18,7 +18,7 @@ public:
 
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
-    s16 Pull(BaseAliveGameObject* pFrom);
+    s16 Pull(::BaseAliveGameObject* pFrom);
     bool vIsNotBeingPulled();
 
 private:

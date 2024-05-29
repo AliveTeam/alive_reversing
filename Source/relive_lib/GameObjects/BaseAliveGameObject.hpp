@@ -11,13 +11,13 @@ enum class eMotionType
     eNextMotion
 };
 
-// Temp glue interface to make BaseAliveGameObject common piece by piece
-class IBaseAliveGameObject : public BaseAnimatedWithPhysicsGameObject
+class BaseAliveGameObject : public BaseAnimatedWithPhysicsGameObject
 {
 public:
     using BaseAnimatedWithPhysicsGameObject::BaseAnimatedWithPhysicsGameObject;
-    
-    ~IBaseAliveGameObject();
+
+    explicit BaseAliveGameObject(s16 resourceArraySize);
+    ~BaseAliveGameObject();
 
 
     virtual void VUnPosses();
@@ -34,22 +34,6 @@ public:
 
     void OnCollisionWith(PSX_Point xy, PSX_Point wh, DynamicArrayT<BaseGameObject>* pObjList);
 
-    // AO only currently
-    virtual void VSetXSpawn(s16 /*camWorldX*/, s32 /*screenXPos*/)
-    {
-
-    }
-
-    // AO only currently
-    virtual void VSetYSpawn(s32 /*camWorldY*/, s16 /*bLeft*/)
-    {
-
-    }
-
-    // TODO: Impl here after merge
-    virtual void VOnPathTransition(s32 camWorldX, s32 camWorldY, CameraPos direction) = 0;
-    virtual bool VOnPlatformIntersection(BaseAnimatedWithPhysicsGameObject* pPlatform) = 0;
-
     void SetActiveCameraDelayedFromDir();
     Scale PerGameScale();
     bool WallHit(FP offY, FP offX);
@@ -63,7 +47,7 @@ public:
         return (caller->*function)();
     }
 
-    static bool IsInInvisibleZone(IBaseAliveGameObject* pObj);
+    static bool IsInInvisibleZone(BaseAliveGameObject* pObj);
 
     bool GetCanBePossessed() const { return mCanBePossessed; }
     void SetCanBePossessed(bool val) { mCanBePossessed = val; }
@@ -110,7 +94,34 @@ private:
     bool mElectrocuting = false;
     bool mCanBeesChase = false;      // AO only: can the bees attack - can be above the value 1 but bee swarm only checks for non zero
 
+
+public:
+    virtual void VOnPathTransition(s32 camWorldX, s32 camWorldY, CameraPos direction);
+    virtual void VCheckCollisionLineStillValid(s32 distance);
+
+    // AO only currently
+    virtual void VSetXSpawn(s16 camWorldX, s32 screenXPos); // AO
+    virtual void VSetYSpawn(s32 camWorldY, s16 bLeft);      // AO
+
+    bool MapFollowMe(bool snapToGrid);
+
+    virtual bool VOnPlatformIntersection(BaseAnimatedWithPhysicsGameObject* pPlatform);
+
+protected:
+    bool MapFollowMeAO(bool snapToGrid);
+    bool MapFollowMeAE(bool snapToGrid);
+
+    void OnPathTransitionAO(s32 camWorldX, s32 camWorldY, CameraPos direction);
+    void OnPathTransitionAE(s32 camWorldX, s32 camWorldY, CameraPos direction);
+
+    bool InAirCollision(PathLine** ppLine, FP* hitX, FP* hitY, FP velY);
+    BaseGameObject* FindObjectOfType(ReliveTypes typeToFind, FP xpos, FP ypos);
+
+    void UsePathTransScale();                                                                                  // AO
+    BaseAliveGameObject* GetStackedSlapTarget(const Guid& idToFind, ReliveTypes typeToFind, FP xpos, FP ypos); // AE
+public:
+    s16 BaseAliveGameObjectCollisionLineType = 0; // AE only, quick save data
 };
 
-extern DynamicArrayT<IBaseAliveGameObject>* gBaseAliveGameObjects;
-extern IBaseAliveGameObject* sControlledCharacter;
+extern DynamicArrayT<BaseAliveGameObject>* gBaseAliveGameObjects;
+extern BaseAliveGameObject* sControlledCharacter;

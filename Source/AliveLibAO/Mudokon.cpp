@@ -137,7 +137,7 @@ s16 sAlertedMudCount_507B90 = 0;
 s16 sMudRunningToPortalCount_507B94 = 0;
 
 Mudokon::Mudokon(relive::Path_TLV* pTlv, const Guid& tlvId)
-    : BaseAliveGameObject(0)
+    : ::BaseAliveGameObject(0)
 {
     field_13E = -1;
     mNextMotion = eMudMotions::None_m1;
@@ -1063,7 +1063,7 @@ s16 Mudokon::IAmNearestToAbe()
 {
     for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
     {
-        IBaseAliveGameObject* pObjIter = gBaseAliveGameObjects->ItemAt(i);
+        ::BaseAliveGameObject* pObjIter = gBaseAliveGameObjects->ItemAt(i);
         if (!pObjIter)
         {
             break;
@@ -2969,7 +2969,7 @@ s16 Mudokon::Brain_5_LiftUse()
         field_194_pLiftPoint = Guid{};
         for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
         {
-            IBaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
+            ::BaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
             if (!pObj)
             {
                 break;

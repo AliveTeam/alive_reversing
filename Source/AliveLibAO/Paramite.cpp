@@ -10,7 +10,7 @@
 #include "ParamiteWeb.hpp"
 #include "MusicController.hpp"
 #include "Midi.hpp"
-#include "PlatformBase.hpp"
+#include "../relive_lib/GameObjects/PlatformBase.hpp"
 #include "../relive_lib/GameObjects/Gibs.hpp"
 #include "../relive_lib/GameObjects/Blood.hpp"
 #include "Game.hpp"
@@ -18,7 +18,6 @@
 #include "DDCheat.hpp"
 #include "Meat.hpp"
 #include "CameraSwapper.hpp"
-#include "PlatformBase.hpp"
 #include "../relive_lib/SwitchStates.hpp"
 #include "../relive_lib/Grid.hpp"
 #include "BeeSwarm.hpp"
@@ -61,7 +60,7 @@ const TParamiteMotionFunction sParamiteMotionTable[] = {
 };
 
 Paramite::Paramite(relive::Path_Paramite* pTlv, const Guid& tlvId)
-    : BaseAliveGameObject(0)
+    : ::BaseAliveGameObject(0)
 {
     SetType(ReliveTypes::eParamite);
 

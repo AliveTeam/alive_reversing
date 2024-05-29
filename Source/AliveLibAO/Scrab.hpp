@@ -1,6 +1,6 @@
 #pragma once
 
-#include "BaseAliveGameObject.hpp"
+#include "../relive_lib/GameObjects/BaseAliveGameObject.hpp"
 #include "../relive_lib/data_conversion/relive_tlvs.hpp"
 #include "../relive_lib/FatalError.hpp"
 
@@ -58,7 +58,7 @@ enum class ScrabSounds : u8
     eYell_8 = 8,
 };
 
-class Scrab final : public BaseAliveGameObject
+class Scrab final : public ::BaseAliveGameObject
 {
 public:
     static constexpr AnimId sScrabMotionAnimIds[30] = {

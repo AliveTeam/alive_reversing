@@ -5,7 +5,7 @@
 #include "../relive_lib/SwitchStates.hpp"
 #include "../relive_lib/GameObjects/ScreenManager.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
-#include "BaseAliveGameObject.hpp"
+#include "../relive_lib/GameObjects/BaseAliveGameObject.hpp"
 #include "DDCheat.hpp"
 #include "Abe.hpp"
 #include "../relive_lib/Events.hpp"
@@ -181,7 +181,7 @@ void MotionDetector::VScreenChanged()
     }
 }
 
-s16 MotionDetector::IsInLaser(IBaseAliveGameObject* pWho, IBaseAliveGameObject* pOwner)
+s16 MotionDetector::IsInLaser(BaseAliveGameObject* pWho, BaseAliveGameObject* pOwner)
 {
     if (pWho->Type() == ReliveTypes::eAbe)
     {
@@ -256,7 +256,7 @@ void MotionDetector::VUpdate()
 
         for (s32 idx = 0; idx < gBaseAliveGameObjects->Size(); idx++)
         {
-            IBaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(idx);
+            BaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(idx);
             if (!pObj)
             {
                 break;

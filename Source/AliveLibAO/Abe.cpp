@@ -300,7 +300,7 @@ bool IsAbe(BaseGameObject* pObj)
     return false;
 }
 
-s32 Environment_SFX(EnvironmentSfx sfxId, s32 volume, s32 pitchMin, BaseAliveGameObject* pAliveObj)
+s32 Environment_SFX(EnvironmentSfx sfxId, s32 volume, s32 pitchMin, ::BaseAliveGameObject* pAliveObj)
 {
     s16 sndIndex = 0;
     switch (sfxId)
@@ -433,7 +433,7 @@ s32 Environment_SFX(EnvironmentSfx sfxId, s32 volume, s32 pitchMin, BaseAliveGam
     return SFX_SfxDefinition_Play_Mono(sSFXList_4C6638[sndIndex], volume, pitchMin, 0x7FFF);
 }
 
-s32 Mudokon_SFX(MudSounds idx, s32 volume, s32 pitch, BaseAliveGameObject* pHero)
+s32 Mudokon_SFX(MudSounds idx, s32 volume, s32 pitch, ::BaseAliveGameObject* pHero)
 {
     if (idx == MudSounds::eLaugh1_8
         && pHero == gAbe
@@ -521,7 +521,7 @@ void Abe::LoadAnimations()
 }
 
 Abe::Abe()
- : BaseAliveGameObject(0)
+ : ::BaseAliveGameObject(0)
 {
     SetType(ReliveTypes::eAbe);
     SetSurviveDeathReset(true);
@@ -1068,11 +1068,11 @@ void Abe::ChangeChantState(bool bKeepChanting)
     }
 }
 
-IBaseAliveGameObject* Abe::FindObjectToPossess()
+::BaseAliveGameObject* Abe::FindObjectToPossess()
 {
     for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
     {
-        IBaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
+        BaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
         if (!pObj)
         {
             break;
@@ -1752,7 +1752,7 @@ void Abe::FallOnBombs()
     const PSX_RECT bOurRect = VGetBoundingRect();
     for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
     {
-        IBaseAliveGameObject* pObjIter = gBaseAliveGameObjects->ItemAt(i);
+        BaseAliveGameObject* pObjIter = gBaseAliveGameObjects->ItemAt(i);
         if (!pObjIter)
         {
             break;
@@ -2948,7 +2948,7 @@ bool Abe::VTakeDamage(BaseGameObject* pFrom)
     return oldHp > FP_FromInteger(0);
 }
 
-static bool IsSameScaleAsHoist(relive::Path_Hoist* pHoist, BaseAliveGameObject* pObj)
+static bool IsSameScaleAsHoist(relive::Path_Hoist* pHoist, ::BaseAliveGameObject* pObj)
 {
     auto width = pHoist->Width();
 
@@ -2963,7 +2963,7 @@ static bool IsSameScaleAsHoist(relive::Path_Hoist* pHoist, BaseAliveGameObject* 
     }
 }
 
-static bool IsFacingSameDirectionAsHoist(relive::Path_Hoist* pHoist, BaseAliveGameObject* pObj)
+static bool IsFacingSameDirectionAsHoist(relive::Path_Hoist* pHoist, ::BaseAliveGameObject* pObj)
 {
     if (pHoist->mGrabDirection == relive::Path_Hoist::GrabDirection::eFacingLeft && !pObj->GetAnimation().GetFlipX())
     {
@@ -3558,7 +3558,7 @@ void Abe::Motion_2_StandingTurn()
     }
 }
 
-static bool isEdgeGrabbable(relive::Path_Edge* pEdge, BaseAliveGameObject* pObj)
+static bool isEdgeGrabbable(relive::Path_Edge* pEdge, ::BaseAliveGameObject* pObj)
 {
     if (pEdge->mGrabDirection == relive::Path_Edge::GrabDirection::eFacingLeft && pObj->GetAnimation().GetFlipX())
     {
@@ -8533,7 +8533,7 @@ void Abe::Motion_150_Chant()
                 return;
             }
 
-            auto pObjToPossess = static_cast<IBaseAliveGameObject*>(sObjectIds.Find_Impl(field_18C_pObjToPossess));
+            auto pObjToPossess = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(field_18C_pObjToPossess));
             if (pObjToPossess)
             {
                 if (pObjToPossess->GetDead())
@@ -8542,7 +8542,7 @@ void Abe::Motion_150_Chant()
                 }
             }
 
-            pObjToPossess = static_cast<IBaseAliveGameObject*>(sObjectIds.Find_Impl(field_18C_pObjToPossess));
+            pObjToPossess = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(field_18C_pObjToPossess));
             if (pObjToPossess)
             {
                 if (pObjToPossess->Is_In_Current_Camera() == CameraPos::eCamCurrent_0)
@@ -8571,7 +8571,7 @@ void Abe::Motion_150_Chant()
             EventBroadcast(Event::kEventAbeOhm, this);
             mOrbWhirlWindId = Guid{};
 
-            auto pObjToPossess = static_cast<IBaseAliveGameObject*>(sObjectIds.Find_Impl(field_18C_pObjToPossess));
+            auto pObjToPossess = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(field_18C_pObjToPossess));
             if (pObjToPossess)
             {
                 if (pObjToPossess->GetDead())
@@ -8580,7 +8580,7 @@ void Abe::Motion_150_Chant()
                 }
             }
 
-            pObjToPossess = static_cast<IBaseAliveGameObject*>(sObjectIds.Find_Impl(field_18C_pObjToPossess));
+            pObjToPossess = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(field_18C_pObjToPossess));
             if (pObjToPossess)
             {
                 sControlledCharacter = pObjToPossess;

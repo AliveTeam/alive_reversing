@@ -1,6 +1,6 @@
 #pragma once
 
-#include "BaseAliveGameObject.hpp"
+#include "../relive_lib/GameObjects/BaseAliveGameObject.hpp"
 #include "GameSpeak.hpp"
 #include "Path.hpp"
 #include "../relive_lib/SaveStateBase.hpp"

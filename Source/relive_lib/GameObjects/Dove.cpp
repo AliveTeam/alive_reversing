@@ -10,7 +10,7 @@
 #include "../../AliveLibAO/Midi.hpp"
 #include "../GameType.hpp"
 #include "ScreenManager.hpp"
-#include "IBaseAliveGameObject.hpp"
+#include "BaseAliveGameObject.hpp"
 
 static bool bTheOneControllingTheMusic = false;
 static DynamicArrayT<Dove> gDovesArray{10};

@@ -2,7 +2,7 @@
 
 #include "../relive_lib/GameObjects/BaseGameObject.hpp"
 
-class IBaseAliveGameObject;
+class BaseAliveGameObject;
 
 class PossessionFlicker final : public BaseGameObject
 {
@@ -10,7 +10,7 @@ public:
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
 
-    PossessionFlicker(IBaseAliveGameObject* pToApplyFlicker, s32 duration, s32 r, s32 g, s32 b);
+    PossessionFlicker(BaseAliveGameObject* pToApplyFlicker, s32 duration, s32 r, s32 g, s32 b);
     ~PossessionFlicker();
 
     const Guid& ObjectId() const;

@@ -5,7 +5,7 @@
 
 namespace AO {
 
-class BaseAliveGameObject;
+class ::BaseAliveGameObject;
 
 class FootSwitch final : public BaseAnimatedWithPhysicsGameObject
 {
@@ -19,7 +19,7 @@ public:
     virtual void VUpdate() override;
 
 private:
-    BaseAliveGameObject* WhoIsStoodOnMe();
+    ::BaseAliveGameObject* WhoIsStoodOnMe();
 
 private:
     Guid mTlvId;

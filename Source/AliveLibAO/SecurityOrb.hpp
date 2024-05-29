@@ -1,6 +1,6 @@
 #pragma once
 
-#include "BaseAliveGameObject.hpp"
+#include "../relive_lib/GameObjects/BaseAliveGameObject.hpp"
 
 namespace relive
 {
@@ -9,7 +9,7 @@ namespace relive
 
 namespace AO {
 
-class SecurityOrb final : public BaseAliveGameObject
+class SecurityOrb final : public ::BaseAliveGameObject
 {
 public:
     SecurityOrb(relive::Path_SecurityOrb* pTlv, const Guid& tlvId);

@@ -187,7 +187,7 @@ void Init_Sound_DynamicArrays_And_Others()
 
     ShadowZone::MakeArray();
 
-    gBaseAliveGameObjects = relive_new DynamicArrayT<IBaseAliveGameObject>(20);
+    gBaseAliveGameObjects = relive_new DynamicArrayT<BaseAliveGameObject>(20);
 
     SND_Init();
     SND_Init_Ambiance();

@@ -1,7 +1,7 @@
 #include "stdafx_ao.h"
 #include "../relive_lib/Function.hpp"
 #include "Electrocute.hpp"
-#include "BaseAliveGameObject.hpp"
+#include "../relive_lib/GameObjects/BaseAliveGameObject.hpp"
 #include "../relive_lib/ObjectIds.hpp"
 #include "../AliveLibAE/stdlib.hpp"
 #include "Map.hpp"
@@ -94,7 +94,7 @@ public:
     s16 field_BE_bDone = 0;
 };
 
-Electrocute::Electrocute(IBaseAliveGameObject* pTargetObj, s32 bExtraOverwriter)
+Electrocute::Electrocute(BaseAliveGameObject* pTargetObj, s32 bExtraOverwriter)
     : BaseGameObject(true, 0),
       field_20_target_obj_id(pTargetObj->mBaseGameObjectId)
 {
@@ -139,7 +139,7 @@ Electrocute::~Electrocute()
 
 void Electrocute::VScreenChanged()
 {
-    BaseAliveGameObject* pTargetObj = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(field_20_target_obj_id));
+    ::BaseAliveGameObject* pTargetObj = static_cast<::BaseAliveGameObject*>(sObjectIds.Find_Impl(field_20_target_obj_id));
 
     // If the map has changed or target we are tracking has died then..
     if (gMap.LevelChanged() || gMap.PathChanged() || (pTargetObj && pTargetObj->GetDead()))
@@ -188,7 +188,7 @@ u32 Pal_Make_Colour(u8 r, u8 g, u8 b, s16 bOpaque)
 
 void Electrocute::VUpdate()
 {
-    BaseAliveGameObject* pTargetObj = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(field_20_target_obj_id));
+    ::BaseAliveGameObject* pTargetObj = static_cast<::BaseAliveGameObject*>(sObjectIds.Find_Impl(field_20_target_obj_id));
     if (!pTargetObj || pTargetObj->GetDead())
     {
         Stop();

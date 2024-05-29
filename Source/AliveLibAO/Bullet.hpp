@@ -6,7 +6,7 @@
 
 enum class EReliveLevelIds : s16;
 
-class IBaseAliveGameObject;
+class ::BaseAliveGameObject;
 class PathLine;
 struct PSX_RECT;
 
@@ -23,11 +23,11 @@ enum class BulletType : s16
 class Bullet final : public ::BaseGameObject
 {
 public:
-    Bullet(IBaseAliveGameObject* pParent, BulletType type, FP xpos, FP ypos, FP xDist, FP scale, s32 numberOfBullets);
+    Bullet(::BaseAliveGameObject* pParent, BulletType type, FP xpos, FP ypos, FP xDist, FP scale, s32 numberOfBullets);
 
     virtual void VUpdate() override;
 
-    IBaseAliveGameObject* ShootObject(PSX_RECT* pRect);
+    ::BaseAliveGameObject* ShootObject(PSX_RECT* pRect);
     static bool InZBulletCover(FP xpos, FP ypos, const PSX_RECT& objRect);
 
 private:
@@ -42,7 +42,7 @@ public:
     EReliveLevelIds mBulletLevel = EReliveLevelIds::eNone;
     s16 mBulletPath = 0;
     FP mSpriteScale = {};
-    IBaseAliveGameObject* mBulletParent = nullptr;
+    ::BaseAliveGameObject* mBulletParent = nullptr;
     s16 mNumberOfBullets = 0;
 };
 

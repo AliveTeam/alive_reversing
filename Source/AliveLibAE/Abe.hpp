@@ -1,6 +1,6 @@
 #pragma once
 
-#include "BaseAliveGameObject.hpp"
+#include "../relive_lib/GameObjects/BaseAliveGameObject.hpp"
 #include "MudokonEnums.hpp"
 #include "../relive_lib/SaveStateBase.hpp"
 #include "../relive_lib/FatalError.hpp"
@@ -525,7 +525,7 @@ private:
 
     void DoRunJump();
 
-    IBaseAliveGameObject* FindObjectToPossess_44B7B0();
+    BaseAliveGameObject* FindObjectToPossess_44B7B0();
     void Load_Basic_Resources_44D460();
     void Free_Resources_44D420();
     bool IsStanding_449D30();
@@ -863,7 +863,7 @@ private:
 bool IsAbe(BaseGameObject* pObj);
 
 extern Abe* gAbe;
-extern IBaseAliveGameObject* sControlledCharacter;
+extern BaseAliveGameObject* sControlledCharacter;
 
 extern bool gAbeInvincible;
 

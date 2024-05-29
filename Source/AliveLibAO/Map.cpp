@@ -6,7 +6,7 @@
 #include "PathData.hpp"
 #include "Game.hpp"
 #include "Midi.hpp"
-#include "BaseAliveGameObject.hpp"
+#include "../relive_lib/GameObjects/BaseAliveGameObject.hpp"
 #include "Abe.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
 #include "AmbientSound.hpp"
@@ -30,6 +30,7 @@
 #include "../AliveLibAE/PathData.hpp"
 #include "Path.hpp"
 #include "Factory.hpp"
+#include "../relive_lib/GameObjects/PlatformBase.hpp"
 
 class BaseGameObject;
 
@@ -924,7 +925,7 @@ void Map::GoTo_Camera()
 
                 if (pObjIter->GetIsBaseAliveGameObject())
                 {
-                    auto pBaseAliveGameObj = static_cast<BaseAliveGameObject*>(pObjIter);
+                    auto pBaseAliveGameObj = static_cast<::BaseAliveGameObject*>(pObjIter);
                     pBaseAliveGameObj->BaseAliveGameObjectCollisionLine = nullptr;
                 }
             }

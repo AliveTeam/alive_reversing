@@ -401,12 +401,12 @@ void Elum::KnockAbeOffElum()
 
     ResourceManager::LoadResourceFile(
         "ELMALONE.BAN",
-        BaseAliveGameObject::OnResourceLoaded,
+        ::BaseAliveGameObject::OnResourceLoaded,
         this);
 
     ResourceManager::LoadResourceFile(
         "ELMPRMNT.BAN",
-        BaseAliveGameObject::OnResourceLoaded,
+        ::BaseAliveGameObject::OnResourceLoaded,
         this);
     */
 }
@@ -3461,7 +3461,7 @@ void Elum::LoadAnimations()
 }
 
 Elum::Elum(const Guid& tlvInfo)
-    : BaseAliveGameObject(0)
+    : ::BaseAliveGameObject(0)
 {
     SetType(ReliveTypes::eElum);
 

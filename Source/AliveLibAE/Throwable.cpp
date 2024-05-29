@@ -7,7 +7,7 @@
 #include "Meat.hpp"
 #include "../relive_lib/Collisions.hpp"
 #include "stdlib.hpp"
-#include "PlatformBase.hpp"
+#include "../relive_lib/GameObjects/PlatformBase.hpp"
 #include "Game.hpp"
 #include "Map.hpp"
 

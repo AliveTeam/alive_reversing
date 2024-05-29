@@ -3,7 +3,7 @@
 #include "FootSwitch.hpp"
 #include "../relive_lib/SwitchStates.hpp"
 #include "stdlib.hpp"
-#include "BaseAliveGameObject.hpp"
+#include "../relive_lib/GameObjects/BaseAliveGameObject.hpp"
 #include "Sfx.hpp"
 #include "Abe.hpp"
 #include "../relive_lib/GameObjects/Spark.hpp"

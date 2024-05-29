@@ -3,7 +3,7 @@
 #include "../relive_lib/GameObjects/BaseAnimatedWithPhysicsGameObject.hpp"
 #include "../relive_lib/Layer.hpp"
 
-class IBaseAliveGameObject;
+class BaseAliveGameObject;
 
 namespace relive
 {
@@ -29,7 +29,7 @@ public:
     virtual void VScreenChanged() override;
 
 private:
-    s16 IsInLaser(IBaseAliveGameObject* pWho, IBaseAliveGameObject* pOwner);
+    s16 IsInLaser(BaseAliveGameObject* pWho, BaseAliveGameObject* pOwner);
 
 public:
     Guid mLaserId;

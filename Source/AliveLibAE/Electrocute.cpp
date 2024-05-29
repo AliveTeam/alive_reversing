@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "Electrocute.hpp"
-#include "BaseAliveGameObject.hpp"
+#include "../relive_lib/GameObjects/BaseAliveGameObject.hpp"
 #include "../relive_lib/ObjectIds.hpp"
 #include "stdlib.hpp"
 #include "../relive_lib/Function.hpp"
@@ -118,7 +118,7 @@ s32 Electrocute::VSub_4E6630()
     return vSub_4E6630();
 }
 
-Electrocute::Electrocute(IBaseAliveGameObject* pTargetObj, bool bExtraOverwriter, bool bKillTarget)
+Electrocute::Electrocute(BaseAliveGameObject* pTargetObj, bool bExtraOverwriter, bool bKillTarget)
     : BaseGameObject(true, 0),
     field_20_target_obj_id(pTargetObj->mBaseGameObjectId),
     field_3C_extraOverwriter(bExtraOverwriter),

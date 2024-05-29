@@ -3,13 +3,13 @@
 #include "../relive_lib/GameObjects/BaseGameObject.hpp"
 #include "../relive_lib/data_conversion/AnimationConverter.hpp"
 
-class IBaseAliveGameObject;
+class BaseAliveGameObject;
 class PalleteOverwriter;
 
 class Electrocute final : public BaseGameObject
 {
 public:
-    Electrocute(IBaseAliveGameObject* pTargetObj, bool bExtraOverwriter, bool bKillTarget);
+    Electrocute(BaseAliveGameObject* pTargetObj, bool bExtraOverwriter, bool bKillTarget);
     ~Electrocute();
 
     virtual void VUpdate() override;

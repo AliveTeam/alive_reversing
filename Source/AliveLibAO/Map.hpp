@@ -20,7 +20,7 @@ extern const CameraSwapEffects kPathChangeEffectToInternalScreenChangeEffect[10]
 namespace AO {
 
 struct PathData;
-class BaseAliveGameObject;
+class ::BaseAliveGameObject;
 class CameraSwapper;
 enum class LoadMode : s16;
 

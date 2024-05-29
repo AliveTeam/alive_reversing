@@ -1,6 +1,6 @@
 #pragma once
 
-#include "BaseAliveGameObject.hpp"
+#include "../relive_lib/GameObjects/BaseAliveGameObject.hpp"
 #include "../relive_lib/SaveStateBase.hpp"
 #include "../relive_lib/FatalError.hpp"
 
@@ -102,11 +102,11 @@ private:
     EState Brain_Patrol_State_1();
     EState Brain_Patrol_State_2();
     EState Brain_Patrol_State_3();
-    EState Brain_Patrol_State_4(IBaseAliveGameObject* pTarget);
+    EState Brain_Patrol_State_4(BaseAliveGameObject* pTarget);
     EState Brain_Patrol_State_5();
     EState Brain_Patrol_State_6();
     EState Brain_Patrol_State_7();
-    EState Brain_Patrol_State_8(IBaseAliveGameObject* pTarget);
+    EState Brain_Patrol_State_8(BaseAliveGameObject* pTarget);
     EState Brain_Patrol_State_9();
     EState Brain_Patrol_State_10();
 
@@ -148,13 +148,13 @@ public:
     EState State() { return mBrainState; }
 
 private:
-    EState Brain_ChasingAbe_State_0(IBaseAliveGameObject* pObj);
+    EState Brain_ChasingAbe_State_0(BaseAliveGameObject* pObj);
 
-    EState Brain_ChasingAbe_State_1(IBaseAliveGameObject* pObj);
-    EState Brain_ChasingAbe_State1_Helper(IBaseAliveGameObject* pObj);
+    EState Brain_ChasingAbe_State_1(BaseAliveGameObject* pObj);
+    EState Brain_ChasingAbe_State1_Helper(BaseAliveGameObject* pObj);
 
-    EState Brain_ChasingAbe_State_2(IBaseAliveGameObject* pObj);
-    EState Brain_ChasingAbe_State_9(IBaseAliveGameObject* pObj);
+    EState Brain_ChasingAbe_State_2(BaseAliveGameObject* pObj);
+    EState Brain_ChasingAbe_State_9(BaseAliveGameObject* pObj);
 
 private:
     Fleech& mFleech;
@@ -399,14 +399,14 @@ private:
     void sub_42B8C0();
     void SetTongueState1();
     void IncreaseAnger();
-    s16 AngerFleech(IBaseAliveGameObject* pObj);
+    s16 AngerFleech(BaseAliveGameObject* pObj);
     s32 TongueActive();
     void PullTargetIn();
     void sub_42BA10();
     void SetTongueState5();
-    IBaseAliveGameObject* FindMudOrAbe();
+    BaseAliveGameObject* FindMudOrAbe();
     void MoveAlongFloor(); // MoveOnLine?
-    s16 IsNear(IBaseAliveGameObject* pObj);
+    s16 IsNear(BaseAliveGameObject* pObj);
     bool Collision(s16 alwaysOne);
     relive::Path_Hoist* TryGetHoist(s32 xDistance, s16 bIgnoreDirection);
 

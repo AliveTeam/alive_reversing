@@ -1,6 +1,6 @@
 #pragma once
 
-#include "BaseAliveGameObject.hpp"
+#include "../relive_lib/GameObjects/BaseAliveGameObject.hpp"
 #include "../relive_lib/FatalError.hpp"
 #include "GameSpeak.hpp"
 
@@ -46,7 +46,7 @@ enum class eSlogMotions
     SLOG_STATES_ENUM_AO(MAKE_ENUM)
 };
 
-class Slog final : public BaseAliveGameObject
+class Slog final : public ::BaseAliveGameObject
 {
 public:
     static constexpr AnimId sSlogMotionAnimIds[25] = {
@@ -141,7 +141,7 @@ private:
     void ToJump();
     void Sfx(s32 idx);
     s16 IsPlayerNear();
-    IBaseAliveGameObject* FindAbeMudOrSlig();
+    ::BaseAliveGameObject* FindAbeMudOrSlig();
     void Init();
     s16 ToNextMotion();
     void ToIdle();

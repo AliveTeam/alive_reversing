@@ -1,6 +1,6 @@
 #pragma once
 
-#include "BaseAliveGameObject.hpp"
+#include "../relive_lib/GameObjects/BaseAliveGameObject.hpp"
 #include "../relive_lib/SaveStateBase.hpp"
 
 namespace relive
@@ -85,10 +85,10 @@ private:
     void ChangeDirection();
     void BounceBackFromShot();
     void HandleRollingAlong();
-    void ZapTarget(FP xpos, FP ypos, IBaseAliveGameObject* pTarget);
+    void ZapTarget(FP xpos, FP ypos, BaseAliveGameObject* pTarget);
     void RandomishSpeak(GreeterSpeak effect);
-    bool ZapIsNotBlocked(IBaseAliveGameObject* pUs, IBaseAliveGameObject* pThem);
-    IBaseAliveGameObject* GetMudToZap();
+    bool ZapIsNotBlocked(BaseAliveGameObject* pUs, BaseAliveGameObject* pThem);
+    BaseAliveGameObject* GetMudToZap();
 
 private:
     Guid mTlvId;

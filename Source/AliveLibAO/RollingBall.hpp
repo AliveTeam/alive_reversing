@@ -1,6 +1,6 @@
 #pragma once
 
-#include "BaseAliveGameObject.hpp"
+#include "../relive_lib/GameObjects/BaseAliveGameObject.hpp"
 
 class PathLine;
 
@@ -13,7 +13,7 @@ namespace AO {
 
 class RollingBallShaker;
 
-class RollingBall final : public BaseAliveGameObject
+class RollingBall final : public ::BaseAliveGameObject
 {
 public:
     RollingBall(relive::Path_RollingBall* pTlv, const Guid& tlvId);

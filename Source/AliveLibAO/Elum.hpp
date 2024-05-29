@@ -1,6 +1,6 @@
 #pragma once
 
-#include "BaseAliveGameObject.hpp"
+#include "../relive_lib/GameObjects/BaseAliveGameObject.hpp"
 #include "../relive_lib/FatalError.hpp"
 #include "GameSpeak.hpp"
 
@@ -81,7 +81,7 @@ enum class ElumSounds : u8
     eLickingHoney_8 = 8
 };
 
-class Elum final : public BaseAliveGameObject
+class Elum final : public ::BaseAliveGameObject
 {
 public:
     static constexpr AnimId gElumMotionAnimIds[52] = {
@@ -241,7 +241,7 @@ private:
     bool ToNextMotion();
     bool ToNextMotionAbeControlled();
     void HandleElumPathTrans();
-    static void Elum_SFX(ElumSounds soundId, BaseAliveGameObject* pObj);
+    static void Elum_SFX(ElumSounds soundId, ::BaseAliveGameObject* pObj);
     void FindHoney();
     bool NearHoney();
 

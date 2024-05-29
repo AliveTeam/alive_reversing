@@ -1,6 +1,6 @@
 #pragma once
 
-#include "BaseAliveGameObject.hpp"
+#include "../relive_lib/GameObjects/BaseAliveGameObject.hpp"
 #include "../relive_lib/FatalError.hpp"
 
 namespace relive
@@ -307,7 +307,7 @@ enum class EnvironmentSfx : u8
 struct SaveData;
 
 
-class Abe final : public BaseAliveGameObject
+class Abe final : public ::BaseAliveGameObject
 {
 public:
     static constexpr AnimId sAbeMotionAnimIds[166] = {
@@ -515,7 +515,7 @@ public:
     void ExitShrykull(s16 bResetRingTimer);
     s16 RunTryEnterWell();
     void ChangeChantState(bool bKeepChanting);
-    static IBaseAliveGameObject* FindObjectToPossess();
+    static ::BaseAliveGameObject* FindObjectToPossess();
     void ToDieFinal();
     void ToKnockback(s16 bUnknownSound, s16 bDelayedAnger);
     void ToIdle();
@@ -782,10 +782,10 @@ extern s16 gAbeInvisibleCheat;
 
 bool IsAbe(BaseGameObject* pObj);
 
-s32 Environment_SFX(EnvironmentSfx sfxId, s32 volume, s32 pitchMin, BaseAliveGameObject* pAliveObj);
+s32 Environment_SFX(EnvironmentSfx sfxId, s32 volume, s32 pitchMin, ::BaseAliveGameObject* pAliveObj);
 
-s32 Mudokon_SFX(MudSounds idx, s32 volume, s32 pitch, BaseAliveGameObject* pHero);
+s32 Mudokon_SFX(MudSounds idx, s32 volume, s32 pitch, ::BaseAliveGameObject* pHero);
 
 } // namespace AO
 
-extern IBaseAliveGameObject* sControlledCharacter;
+extern BaseAliveGameObject* sControlledCharacter;

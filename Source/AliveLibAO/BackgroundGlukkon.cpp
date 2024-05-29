@@ -37,7 +37,7 @@ void BackgroundGlukkon::LoadAnimations()
 }
 
 BackgroundGlukkon::BackgroundGlukkon(relive::Path_BackgroundGlukkon* pTlv, const Guid& tlvId)
-    : BaseAliveGameObject(0)
+    : ::BaseAliveGameObject(0)
 {
     SetType(ReliveTypes::eBackgroundGlukkon);
 

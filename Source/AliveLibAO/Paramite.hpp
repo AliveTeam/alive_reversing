@@ -1,6 +1,6 @@
 #pragma once
 
-#include "BaseAliveGameObject.hpp"
+#include "../relive_lib/GameObjects/BaseAliveGameObject.hpp"
 #include "../relive_lib/data_conversion/relive_tlvs.hpp"
 #include "../relive_lib/FatalError.hpp"
 
@@ -57,7 +57,7 @@ enum class eParamiteMotions
 class ParamiteWeb;
 class Meat;
 
-class Paramite final : public BaseAliveGameObject
+class Paramite final : public ::BaseAliveGameObject
 {
 public:
     static constexpr AnimId sParamiteMotionAnimIds[26] = {

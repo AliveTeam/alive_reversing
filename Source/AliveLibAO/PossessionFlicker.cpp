@@ -3,10 +3,10 @@
 #include "../relive_lib/ObjectIds.hpp"
 #include "../AliveLibAE/stdlib.hpp"
 #include "Game.hpp"
-#include "BaseAliveGameObject.hpp"
+#include "../relive_lib/GameObjects/BaseAliveGameObject.hpp"
 
 namespace AO {
-PossessionFlicker::PossessionFlicker(IBaseAliveGameObject* pToApplyFlicker, s32 duration, s32 r, s32 g, s32 b)
+PossessionFlicker::PossessionFlicker(::BaseAliveGameObject* pToApplyFlicker, s32 duration, s32 r, s32 g, s32 b)
     : BaseGameObject(true, 0)
 {
     SetType(ReliveTypes::ePossessionFlicker);

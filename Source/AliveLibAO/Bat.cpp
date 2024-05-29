@@ -77,7 +77,7 @@ Bat::Bat(relive::Path_Bat* pTlv, const Guid& tlvId)
 
 Bat::~Bat()
 {
-    auto pAttackTarget = static_cast<IBaseAliveGameObject*>(sObjectIds.Find_Impl(mAttackTarget));
+    auto pAttackTarget = static_cast<::BaseAliveGameObject*>(sObjectIds.Find_Impl(mAttackTarget));
     if (pAttackTarget)
     {
         pAttackTarget->mChaseCounter--;
@@ -218,7 +218,7 @@ void Bat::VUpdate()
             {
                 for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
                 {
-                    IBaseAliveGameObject* pObjIter = gBaseAliveGameObjects->ItemAt(i);
+                    ::BaseAliveGameObject* pObjIter = gBaseAliveGameObjects->ItemAt(i);
                     if (!pObjIter)
                     {
                         break;
@@ -243,7 +243,7 @@ void Bat::VUpdate()
 
                                     pBat->mAttackTarget = pObjIter->mBaseGameObjectId;
 
-                                    auto pAttackTarget = static_cast<IBaseAliveGameObject*>(sObjectIds.Find_Impl(pBat->mAttackTarget));
+                                    auto pAttackTarget = static_cast<::BaseAliveGameObject*>(sObjectIds.Find_Impl(pBat->mAttackTarget));
 
                                     pAttackTarget->mChaseCounter++;
 
@@ -265,7 +265,7 @@ void Bat::VUpdate()
 
         case BatStates::eAttackTarget_4:
         {
-            auto pAttackTarget = static_cast<IBaseAliveGameObject*>(sObjectIds.Find_Impl(mAttackTarget));
+            auto pAttackTarget = static_cast<::BaseAliveGameObject*>(sObjectIds.Find_Impl(mAttackTarget));
             if (pAttackTarget->GetDead() || EventGet(Event::kEventDeathReset))
             {
                 SetDead(true);

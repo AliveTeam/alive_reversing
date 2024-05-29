@@ -1,6 +1,6 @@
 #pragma once
 
-#include "BaseAliveGameObject.hpp"
+#include "../relive_lib/GameObjects/BaseAliveGameObject.hpp"
 #include "../relive_lib/SaveStateBase.hpp"
 
 namespace relive
@@ -34,7 +34,7 @@ public:
     static void CreateFromSaveState(SerializedObjectData&);
 
 private:
-    void ClearInsideSlamDoor(IBaseAliveGameObject* pObj, s16 xPosition, s16 width);
+    void ClearInsideSlamDoor(BaseAliveGameObject* pObj, s16 xPosition, s16 width);
 
 private:
     bool mClosed = false;

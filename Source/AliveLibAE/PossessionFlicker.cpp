@@ -1,12 +1,12 @@
 #include "stdafx.h"
 #include "PossessionFlicker.hpp"
-#include "BaseAliveGameObject.hpp"
+#include "../relive_lib/GameObjects/BaseAliveGameObject.hpp"
 #include "../relive_lib/ObjectIds.hpp"
 #include "Game.hpp"
 #include "stdlib.hpp"
 #include "../relive_lib/Function.hpp"
 
-PossessionFlicker::PossessionFlicker(IBaseAliveGameObject* pToApplyFlicker, s32 duration, s32 r, s32 g, s32 b)
+PossessionFlicker::PossessionFlicker(BaseAliveGameObject* pToApplyFlicker, s32 duration, s32 r, s32 g, s32 b)
  : BaseGameObject(true, 0)
 {
     SetType(ReliveTypes::ePossessionFlicker);

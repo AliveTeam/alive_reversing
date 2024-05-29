@@ -4,7 +4,7 @@
 #include "../AliveLibAE/stdlib.hpp"
 #include "../relive_lib/ObjectIds.hpp"
 #include "Sfx.hpp"
-#include "BaseAliveGameObject.hpp"
+#include "../relive_lib/GameObjects/BaseAliveGameObject.hpp"
 #include "Rope.hpp"
 #include "../relive_lib/Events.hpp"
 #include "Path.hpp"

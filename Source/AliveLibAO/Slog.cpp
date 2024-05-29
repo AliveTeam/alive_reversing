@@ -13,7 +13,7 @@
 #include "../relive_lib/GameObjects/Gibs.hpp"
 #include "Bullet.hpp"
 #include "../relive_lib/SwitchStates.hpp"
-#include "PlatformBase.hpp"
+#include "../relive_lib/GameObjects/PlatformBase.hpp"
 #include "../relive_lib/GameObjects/SnoozeParticle.hpp"
 #include "../relive_lib/Shadow.hpp"
 #include "../relive_lib/Events.hpp"
@@ -664,9 +664,9 @@ s16 Slog::IsPlayerNear()
     return 1;
 }
 
-IBaseAliveGameObject* Slog::FindAbeMudOrSlig()
+::BaseAliveGameObject* Slog::FindAbeMudOrSlig()
 {
-    IBaseAliveGameObject* pResult = nullptr;
+    ::BaseAliveGameObject* pResult = nullptr;
     FP minDist = FP_FromInteger(gPsxDisplay.mWidth);
 
     PSX_RECT bRect = VGetBoundingRect();
@@ -680,10 +680,10 @@ IBaseAliveGameObject* Slog::FindAbeMudOrSlig()
         bRect.w += gPsxDisplay.mWidth;
     }
 
-    auto pSligBeingListendTo = static_cast<IBaseAliveGameObject*>(sObjectIds.Find_Impl(mListeningToSligId));
+    auto pSligBeingListendTo = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(mListeningToSligId));
     for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
     {
-        IBaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
+        BaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
         if (!pObj)
         {
             break;
@@ -2166,7 +2166,7 @@ s16 Slog::Brain_1_Idle()
 
 s16 Slog::Brain_2_ChasingAbe()
 {
-    auto pTarget = static_cast<IBaseAliveGameObject*>(sObjectIds.Find_Impl(mTargetId));
+    auto pTarget = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(mTargetId));
     if (mListenToSligs)
     {
         if (mListener.LastEventChanged(*gEventSystem))

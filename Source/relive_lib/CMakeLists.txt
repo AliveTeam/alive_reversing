@@ -11,8 +11,6 @@ SET(AliveLibSrcAO
    ../AliveLibAO/Math.cpp
    ../AliveLibAO/StringFormatters.hpp
    ../AliveLibAO/StringFormatters.cpp
-   ../AliveLibAO/BaseAliveGameObject.hpp
-   ../AliveLibAO/BaseAliveGameObject.cpp
    ../AliveLibAO/GameAutoPlayer.cpp
    ../AliveLibAO/GameAutoPlayer.hpp
    ../AliveLibAO/PathDataExtensions.hpp
@@ -165,8 +163,6 @@ SET(AliveLibSrcAO
    ../AliveLibAO/ChimeLock.cpp
    ../AliveLibAO/Bullet.hpp
    ../AliveLibAO/Bullet.cpp
-   ../AliveLibAO/PlatformBase.hpp
-   ../AliveLibAO/PlatformBase.cpp
    ../AliveLibAO/LiftPoint.hpp
    ../AliveLibAO/LiftPoint.cpp
    ../AliveLibAO/TimedMine.hpp
@@ -244,8 +240,6 @@ SET(AliveLibAESrc
     ../AliveLibAE/Game.hpp
     ../AliveLibAE/stdlib.cpp
     ../AliveLibAE/stdlib.hpp
-    ../AliveLibAE/BaseAliveGameObject.cpp
-    ../AliveLibAE/BaseAliveGameObject.hpp
     ../AliveLibAE/CreditsController.cpp
     ../AliveLibAE/CreditsController.hpp
     ../AliveLibAE/PauseMenu.cpp
@@ -344,8 +338,6 @@ SET(AliveLibAESrc
     ../AliveLibAE/Water.cpp
     ../AliveLibAE/Rope.hpp
     ../AliveLibAE/Rope.cpp
-    ../AliveLibAE/PlatformBase.hpp
-    ../AliveLibAE/PlatformBase.cpp
     ../AliveLibAE/LiftPoint.cpp
     ../AliveLibAE/LiftPoint.hpp
     ../AliveLibAE/LiftMover.cpp
@@ -530,8 +522,8 @@ SET(game_objects_src
     GameObjects/BaseAnimatedWithPhysicsGameObject.cpp
     GameObjects/EffectBase.hpp
     GameObjects/EffectBase.cpp
-    GameObjects/IBaseAliveGameObject.hpp
-    GameObjects/IBaseAliveGameObject.cpp
+    GameObjects/BaseAliveGameObject.hpp
+    GameObjects/BaseAliveGameObject.cpp
     GameObjects/Flash.hpp
     GameObjects/Flash.cpp
     GameObjects/Particle.cpp
@@ -592,6 +584,8 @@ SET(game_objects_src
     GameObjects/IBirdPortal.hpp
     GameObjects/BirdPortalTerminator.cpp
     GameObjects/BirdPortalTerminator.hpp
+    GameObjects/PlatformBase.cpp
+    GameObjects/PlatformBase.hpp
 )
 
 SET(data_conversion_src

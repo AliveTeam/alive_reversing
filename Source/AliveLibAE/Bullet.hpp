@@ -9,7 +9,7 @@ class PathLine;
 
 enum class LevelIds : s16;
 
-class IBaseAliveGameObject;
+class BaseAliveGameObject;
 
 enum class BulletType : s16
 {
@@ -22,7 +22,7 @@ enum class BulletType : s16
 class Bullet final : public BaseGameObject
 {
 public:
-    Bullet(IBaseAliveGameObject* pParent, BulletType type, FP xpos, FP ypos, FP xDist, FP scale, s32 numberOfBullets);
+    Bullet(BaseAliveGameObject* pParent, BulletType type, FP xpos, FP ypos, FP xDist, FP scale, s32 numberOfBullets);
     
     virtual void VUpdate() override;
     static bool InZBulletCover(FP xpos, FP ypos, const PSX_RECT& objRect);
@@ -31,7 +31,7 @@ public:
     const FP& XDistance() const { return mXDistance; }
 
 private:
-    IBaseAliveGameObject* ShootObject(PSX_RECT* pRect);
+    BaseAliveGameObject* ShootObject(PSX_RECT* pRect);
     void PlayBulletSounds(s16 volume);
 
 public:
@@ -41,7 +41,7 @@ private:
     PathLine* mLine = nullptr;
     FP mXPos = {};
     FP mYPos = {};
-    IBaseAliveGameObject* mBulletParent = nullptr;
+    BaseAliveGameObject* mBulletParent = nullptr;
     FP mSpriteScale = {};
     s32 mNumberOfBullets = 0;
     FP mXDistance = {};

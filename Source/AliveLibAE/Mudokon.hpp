@@ -1,6 +1,6 @@
 #pragma once
 
-#include "BaseAliveGameObject.hpp"
+#include "../relive_lib/GameObjects/BaseAliveGameObject.hpp"
 #include "GameSpeak.hpp"
 #include "AbilityRing.hpp"
 #include "MudokonEnums.hpp"

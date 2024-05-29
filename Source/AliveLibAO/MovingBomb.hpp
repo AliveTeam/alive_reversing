@@ -1,6 +1,6 @@
 #pragma once
 
-#include "BaseAliveGameObject.hpp"
+#include "../relive_lib/GameObjects/BaseAliveGameObject.hpp"
 
 namespace relive {
 struct Path_MovingBomb;
@@ -8,7 +8,7 @@ struct Path_MovingBomb;
 
 namespace AO {
 
-class MovingBomb final : public BaseAliveGameObject
+class MovingBomb final : public ::BaseAliveGameObject
 {
 public:
     MovingBomb(relive::Path_MovingBomb* pTlv, const Guid& tlvId);

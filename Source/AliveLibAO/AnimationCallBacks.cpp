@@ -105,7 +105,7 @@ void Slog_OnFrame(::BaseGameObject* pObj, u32&, const IndexedPoint& pData)
 {
     auto pSlog = static_cast<Slog*>(pObj);
 
-    auto pTarget = static_cast<IBaseAliveGameObject*>(sObjectIds.Find_Impl(pSlog->mTargetId));
+    auto pTarget = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(pSlog->mTargetId));
     if (pTarget)
     {
         const PSX_RECT targetRect = pTarget->VGetBoundingRect();

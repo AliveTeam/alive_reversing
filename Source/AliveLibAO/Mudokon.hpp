@@ -1,6 +1,6 @@
 #pragma once
 
-#include "BaseAliveGameObject.hpp"
+#include "../relive_lib/GameObjects/BaseAliveGameObject.hpp"
 #include "../relive_lib/FatalError.hpp"
 #include "GameSpeak.hpp"
 
@@ -93,7 +93,7 @@ struct Mudokon_Resources final
 
 enum class GameSpeakEvents : s16;
 
-class Mudokon final : public BaseAliveGameObject
+class Mudokon final : public ::BaseAliveGameObject
 {
 public:
     static constexpr AnimId sMudMotionAnimIds[64] = {

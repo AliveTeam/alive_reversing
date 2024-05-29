@@ -13,7 +13,7 @@
 #include "../relive_lib/GameObjects/SnoozeParticle.hpp"
 #include "Input.hpp"
 #include "../relive_lib/ObjectIds.hpp"
-#include "PlatformBase.hpp"
+#include "../relive_lib/GameObjects/PlatformBase.hpp"
 #include "Sfx.hpp"
 #include "../relive_lib/GameObjects/Particle.hpp"
 #include "../relive_lib/GameObjects/Gibs.hpp"

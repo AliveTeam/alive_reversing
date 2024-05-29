@@ -1891,7 +1891,7 @@ s16 FlyingSlig::IsPossessed()
     return BrainIs(&FlyingSlig::Brain_12_Possessed) || BrainIs(&FlyingSlig::Brain_15_FlyingSligSpawn) || BrainIs(&FlyingSlig::Brain_17_FromCrawlingSlig) || BrainIs(&FlyingSlig::Brain_13_Possession) || BrainIs(&FlyingSlig::Brain_14_DePossession);
 }
 
-s16 FlyingSlig::CanChase(IBaseAliveGameObject* pObj)
+s16 FlyingSlig::CanChase(BaseAliveGameObject* pObj)
 {
     if (!gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) || !gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) || EventGet(Event::kEventResetting) || IsAbeEnteringDoor(pObj) || gAbe->GetSpriteScale() != GetSpriteScale() || !IsWallBetween(this, pObj))
     {
@@ -2083,12 +2083,12 @@ s16 FlyingSlig::sub_4374A0(s16 a2)
     return 0;
 }
 
-s16 FlyingSlig::IsAbeEnteringDoor(IBaseAliveGameObject* pThis)
+s16 FlyingSlig::IsAbeEnteringDoor(BaseAliveGameObject* pThis)
 {
     return Slig::IsAbeEnteringDoor(pThis);
 }
 
-bool FlyingSlig::IsWallBetween(IBaseAliveGameObject* pThis, IBaseAliveGameObject* pObj)
+bool FlyingSlig::IsWallBetween(BaseAliveGameObject* pThis, BaseAliveGameObject* pObj)
 {
     // TODO: Duplicated like IsAbeEnteringDoor ??
     const PSX_RECT bRect = pObj->VGetBoundingRect();

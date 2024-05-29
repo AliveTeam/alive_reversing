@@ -13,4 +13,3 @@ extern u16 gAttract;
 extern bool gSkipGameObjectUpdates;
 extern s16 gNumCamSwappers;
 extern bool gBreakGameLoop;
-extern DynamicArrayT<BaseGameObject>* gPlatformsArray;

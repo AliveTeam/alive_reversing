@@ -3,7 +3,7 @@
 #include "Grenade.hpp"
 #include "../AliveLibAE/stdlib.hpp"
 #include "ThrowableArray.hpp"
-#include "PlatformBase.hpp"
+#include "../relive_lib/GameObjects/PlatformBase.hpp"
 #include "Map.hpp"
 #include "Math.hpp"
 #include "Sfx.hpp"

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../relive_lib/Animation.hpp"
-#include "PlatformBase.hpp"
+#include "../relive_lib/GameObjects/PlatformBase.hpp"
 #include "Map.hpp"
 #include "../relive_lib/data_conversion/relive_tlvs.hpp"
 
@@ -9,7 +9,7 @@ namespace AO {
 
 class Rope;
 
-class LiftPoint final : public PlatformBase
+class LiftPoint final : public ::PlatformBase
 {
 public:
     LiftPoint(relive::Path_LiftPoint* pTlv, const Guid& tlvId);

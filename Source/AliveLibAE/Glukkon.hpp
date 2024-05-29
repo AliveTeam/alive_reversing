@@ -1,6 +1,6 @@
 #pragma once
 
-#include "BaseAliveGameObject.hpp"
+#include "../relive_lib/GameObjects/BaseAliveGameObject.hpp"
 #include "../relive_lib/MapWrapper.hpp"
 #include "../relive_lib/data_conversion/relive_tlvs.hpp"
 #include "../relive_lib/SaveStateBase.hpp"
@@ -228,7 +228,7 @@ private:
     void GetOnPlatforms();
     static void PlaySound(s32 sndIdx, Glukkon* pGlukkon);
     void ToDead();
-    static bool IsLineOfSightBetween(Glukkon* pGlukkon, IBaseAliveGameObject* pOther);
+    static bool IsLineOfSightBetween(Glukkon* pGlukkon, BaseAliveGameObject* pOther);
     void ToStand();
     void SlowDown(FP speed);
     void SetBrain(TGlukkonBrainFn fn);

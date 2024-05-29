@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../relive_lib/GameObjects/BaseGameObject.hpp"
-#include "BaseAliveGameObject.hpp"
+#include "../relive_lib/GameObjects/BaseAliveGameObject.hpp"
 #include "../relive_lib/Animation.hpp"
 #include "../relive_lib/Sfx.hpp"
 #include "../relive_lib/SaveStateBase.hpp"

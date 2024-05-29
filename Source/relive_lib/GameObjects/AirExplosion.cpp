@@ -11,7 +11,7 @@
 #include "../Sound/Midi.hpp"
 #include "../../AliveLibAE/ExplosionSet.hpp"
 #include "../FixedPoint.hpp"
-#include "IBaseAliveGameObject.hpp"
+#include "BaseAliveGameObject.hpp"
 #include "../GameType.hpp"
 #include "../AliveLibAO/Midi.hpp"
 #include "AmbientSound.hpp"
@@ -253,7 +253,7 @@ void AirExplosion::DealBlastDamage(PSX_RECT* pRect)
 
     for (s32 idx = 0; idx < gBaseAliveGameObjects->Size(); idx++)
     {
-        IBaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(idx);
+        BaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(idx);
         if (!pObj)
         {
             break;

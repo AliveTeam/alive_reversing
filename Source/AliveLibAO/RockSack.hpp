@@ -1,6 +1,6 @@
 #pragma once
 
-#include "BaseAliveGameObject.hpp"
+#include "../relive_lib/GameObjects/BaseAliveGameObject.hpp"
 
 namespace relive {
 struct Path_RockSack;
@@ -8,7 +8,7 @@ struct Path_RockSack;
 
 namespace AO {
 
-class RockSack final : public BaseAliveGameObject
+class RockSack final : public ::BaseAliveGameObject
 {
 public:
     RockSack(relive::Path_RockSack* pTlv, const Guid& tlvId);

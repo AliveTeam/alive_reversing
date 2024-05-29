@@ -3,7 +3,6 @@
 #include "../relive_lib/GameObjects/BaseAnimatedWithPhysicsGameObject.hpp"
 
 class PathLine;
-class IBaseAliveGameObject;
 
 namespace relive
 {

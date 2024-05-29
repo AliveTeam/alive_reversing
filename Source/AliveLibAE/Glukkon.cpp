@@ -2890,7 +2890,7 @@ void Glukkon::PlaySound_GameSpeak(GlukkonSpeak sndIdx, s16 volume, s16 pitch, Gl
     SFX_SfxDefinition_Play_Mono(gameSpeak_554858[sndIdxShort], calcedVolume, pitch, pitch);
 }
 
-bool Glukkon::IsLineOfSightBetween(Glukkon* pGlukkon, IBaseAliveGameObject* pOther)
+bool Glukkon::IsLineOfSightBetween(Glukkon* pGlukkon, BaseAliveGameObject* pOther)
 {
     FP hitX = {};
     FP hitY = {};

@@ -15,7 +15,7 @@
 #include "Meat.hpp"
 #include "../relive_lib/GameObjects/Gibs.hpp"
 #include "../relive_lib/GameObjects/Blood.hpp"
-#include "PlatformBase.hpp"
+#include "../relive_lib/GameObjects/PlatformBase.hpp"
 #include "../relive_lib/SwitchStates.hpp"
 #include "PullRingRope.hpp"
 #include "Sfx.hpp"
@@ -5229,7 +5229,7 @@ s16 Paramite::Find_Paramite()
 {
     for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
     {
-        IBaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
+        BaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
         if (!pObj)
         {
             break;
@@ -5552,7 +5552,7 @@ s16 Paramite::CanIAcceptAGameSpeakCommand()
 
     for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
     {
-        IBaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
+        BaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
         if (!pObj)
         {
             break;
@@ -5781,10 +5781,10 @@ s16 Paramite::FindTarget()
 {
     if (sControlledCharacter == this)
     {
-        IBaseAliveGameObject* pBestTarget = nullptr;
+        BaseAliveGameObject* pBestTarget = nullptr;
         for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
         {
-            IBaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
+            BaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
             if (!pObj)
             {
                 break;

@@ -4,7 +4,7 @@
 #include "ThrowableArray.hpp"
 #include "Game.hpp"
 #include "stdlib.hpp"
-#include "PlatformBase.hpp"
+#include "../relive_lib/GameObjects/PlatformBase.hpp"
 #include "Sfx.hpp"
 #include "../relive_lib/ObjectIds.hpp"
 #include "../relive_lib/Events.hpp"

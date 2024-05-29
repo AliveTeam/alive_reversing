@@ -1,6 +1,6 @@
 #pragma once
 
-#include "BaseAliveGameObject.hpp"
+#include "../relive_lib/GameObjects/BaseAliveGameObject.hpp"
 #include "../relive_lib/DynamicArray.hpp"
 
 namespace relive
@@ -28,7 +28,7 @@ enum class SecurityClawStates : s16
     eAnimateClaw_DoFlashAndSound_3
 };
 
-class SecurityClaw final : public BaseAliveGameObject
+class SecurityClaw final : public ::BaseAliveGameObject
 {
 public:
     SecurityClaw(relive::Path_SecurityClaw* pTlv, const Guid& tlvId);

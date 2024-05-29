@@ -1987,17 +1987,17 @@ void Abe::VOnTlvCollision(relive::Path_TLV* pTlv)
     }
 }
 
-IBaseAliveGameObject* Abe::FindObjectToPossess_44B7B0()
+BaseAliveGameObject* Abe::FindObjectToPossess_44B7B0()
 {
-    IBaseAliveGameObject* pTargetObj = nullptr;
-    IBaseAliveGameObject* pInRangeFart = nullptr;
-    IBaseAliveGameObject* pInRangeGlukkon = nullptr;
+    BaseAliveGameObject* pTargetObj = nullptr;
+    BaseAliveGameObject* pInRangeFart = nullptr;
+    BaseAliveGameObject* pInRangeGlukkon = nullptr;
 
     s16 maxDistance = 32767;
     FP lastScale = {};
     for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
     {
-        IBaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
+        BaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
         if (!pObj)
         {
             break;
@@ -2453,7 +2453,7 @@ void Abe::Motion_0_Idle_44EEB0()
                     bool bCanUseWheel = true;
                     for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
                     {
-                        IBaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
+                        BaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
                         if (!pObj)
                         {
                             break;
@@ -6594,7 +6594,7 @@ void Abe::Motion_112_Chant()
             EventBroadcast(Event::kEventSpeaking, this);
             EventBroadcast(Event::kEventAbeOhm, this);
 
-            IBaseAliveGameObject* pObj = FindObjectToPossess_44B7B0(); // Find a victim.
+            BaseAliveGameObject* pObj = FindObjectToPossess_44B7B0(); // Find a victim.
 
             if (mRingPulseTimer)
             {
@@ -6644,7 +6644,7 @@ void Abe::Motion_112_Chant()
                         bool bAliveMudIsInSameScreen = false;
                         for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
                         {
-                            IBaseAliveGameObject* pObjIter = gBaseAliveGameObjects->ItemAt(i);
+                            BaseAliveGameObject* pObjIter = gBaseAliveGameObjects->ItemAt(i);
                             if (!pObjIter)
                             {
                                 break;
@@ -7687,7 +7687,7 @@ s16 Abe::TryEnterMineCar_4569E0()
     {
         for (s32 idx = 0; idx < gBaseAliveGameObjects->Size(); idx++)
         {
-            IBaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(idx);
+            BaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(idx);
             if (!pObj)
             {
                 break;
@@ -8335,7 +8335,7 @@ void Abe::FallOnBombs_44EC10()
     const PSX_RECT bOurRect = VGetBoundingRect();
     for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
     {
-        IBaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
+        BaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
         if (!pObj)
         {
             break;

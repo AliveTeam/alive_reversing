@@ -7,12 +7,12 @@
 #include "stdlib.hpp"
 #include "../relive_lib/Sound/Midi.hpp"
 #include "../relive_lib/ObjectIds.hpp"
-#include "PlatformBase.hpp"
+#include "../relive_lib/GameObjects/PlatformBase.hpp"
 #include "Sfx.hpp"
 #include "Abe.hpp"
 #include "../relive_lib/GameObjects/AirExplosion.hpp"
 #include "../relive_lib/GameObjects/Gibs.hpp"
-#include "BaseAliveGameObject.hpp"
+#include "../relive_lib/GameObjects/BaseAliveGameObject.hpp"
 #include "../relive_lib/Events.hpp"
 #include "../relive_lib/SwitchStates.hpp"
 #include "Path.hpp"
@@ -229,7 +229,7 @@ s16 MovingBomb::HitObject()
     const PSX_RECT bRect = VGetBoundingRect();
     for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
     {
-        IBaseAliveGameObject* pObjIter = gBaseAliveGameObjects->ItemAt(i);
+        BaseAliveGameObject* pObjIter = gBaseAliveGameObjects->ItemAt(i);
         if (!pObjIter)
         {
             break;

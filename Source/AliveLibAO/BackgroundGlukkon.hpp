@@ -1,6 +1,6 @@
 #pragma once
 
-#include "BaseAliveGameObject.hpp"
+#include "../relive_lib/GameObjects/BaseAliveGameObject.hpp"
 
 namespace relive
 {
@@ -9,7 +9,7 @@ namespace relive
 
 namespace AO {
 
-class BackgroundGlukkon final : public BaseAliveGameObject
+class BackgroundGlukkon final : public ::BaseAliveGameObject
 {
 public:
     BackgroundGlukkon(relive::Path_BackgroundGlukkon* pTlv, const Guid& tlvId);

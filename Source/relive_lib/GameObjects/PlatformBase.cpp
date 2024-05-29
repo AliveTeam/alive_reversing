@@ -1,16 +1,15 @@
 #include "stdafx.h"
 #include "PlatformBase.hpp"
-#include "../relive_lib/Collisions.hpp"
-#include "Game.hpp"
-#include "stdlib.hpp"
-#include "Map.hpp"
-#include "../relive_lib/data_conversion/relive_tlvs.hpp"
-#include "../relive_lib/FixedPoint.hpp"
+#include "../MapWrapper.hpp"
+#include "../Collisions.hpp"
+#include "../AliveLibAE/stdlib.hpp"
+#include "../FixedPoint.hpp"
+#include "../data_conversion/relive_tlvs.hpp"
+#include "../GameType.hpp"
 
 PlatformBase::PlatformBase()
     : BaseAliveGameObject(0)
 {
-
 }
 
 void PlatformBase::VAdd(BaseAliveGameObject* /*pObj*/)
@@ -37,6 +36,11 @@ void PlatformBase::AddDynamicCollision(AnimId animId, relive::Path_TLV* pTlv, co
 
     mVelX = FP_FromInteger(0);
     mVelY = FP_FromInteger(0);
+
+    if (GetGameType() == GameType::eAo)
+    {
+        mYOffset = 0;
+    }
 
     mPlatformBaseCount = 0;
 
@@ -82,7 +86,7 @@ PlatformBase::~PlatformBase()
 
     if (mPlatformBaseCollisionLine)
     {
-        if (gMap.mCurrentLevel == mCurrentLevel && gMap.mCurrentPath == mCurrentPath)
+        if (GetMap().mCurrentLevel == mCurrentLevel && GetMap().mCurrentPath == mCurrentPath)
         {
             Rect_Clear(&mPlatformBaseCollisionLine->mRect);
         }

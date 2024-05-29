@@ -1,6 +1,6 @@
 #pragma once
 
-#include "BaseAliveGameObject.hpp"
+#include "../relive_lib/GameObjects/BaseAliveGameObject.hpp"
 #include "GameSpeak.hpp"
 #include "../relive_lib/FatalError.hpp"
 
@@ -129,7 +129,7 @@ private:
     EState mBrainState = EState::Unknown_0;
 };
 
-class SlingMudokon final : public BaseAliveGameObject
+class SlingMudokon final : public ::BaseAliveGameObject
 {
 public:
     static constexpr AnimId sSlingMudMotionAnimIds[6] = {

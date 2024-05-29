@@ -1,12 +1,12 @@
 #pragma once
 
-#include "BaseAliveGameObject.hpp"
+#include "../relive_lib/GameObjects/BaseAliveGameObject.hpp"
 
 class ZapLine;
 
 namespace AO {
 
-class Shrykull final : public BaseAliveGameObject
+class Shrykull final : public ::BaseAliveGameObject
 {
 public:
     Shrykull();

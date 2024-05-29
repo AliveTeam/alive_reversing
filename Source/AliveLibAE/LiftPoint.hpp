@@ -1,6 +1,6 @@
 #pragma once
 
-#include "PlatformBase.hpp"
+#include "../relive_lib/GameObjects/PlatformBase.hpp"
 #include "../relive_lib/data_conversion/relive_tlvs.hpp"
 #include "../relive_lib/SaveStateBase.hpp"
 

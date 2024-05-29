@@ -19,7 +19,7 @@ void MeatSack::LoadAnimations()
 }
 
 MeatSack::MeatSack(relive::Path_MeatSack* pTlv, const Guid& tlvId)
-    : BaseAliveGameObject(0)
+    : ::BaseAliveGameObject(0)
 {
     SetType(ReliveTypes::eMeatSack);
 

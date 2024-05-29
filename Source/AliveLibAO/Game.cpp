@@ -9,7 +9,7 @@
 #include "../relive_lib/Sys.hpp"
 #include "../AliveLibAE/Io.hpp"
 #include "../relive_lib/DynamicArray.hpp"
-#include "BaseAliveGameObject.hpp"
+#include "../relive_lib/GameObjects/BaseAliveGameObject.hpp"
 #include "../AliveLibAE/stdlib.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
 #include "Map.hpp"
@@ -33,6 +33,7 @@
 #include "GameAutoPlayer.hpp"
 #include "../AliveLibAE/VGA.hpp"
 #include "../AliveLibAE/GasCountDown.hpp"
+#include "../relive_lib/GameObjects/PlatformBase.hpp"
 
 // Note: Using AE var
 //bool gDDCheatOn = false;
@@ -72,7 +73,7 @@ void Init_Sound_DynamicArrays_And_Others()
 
     ShadowZone::MakeArray();
 
-    gBaseAliveGameObjects = relive_new DynamicArrayT<IBaseAliveGameObject>(20);
+    gBaseAliveGameObjects = relive_new DynamicArrayT<::BaseAliveGameObject>(20);
 
     SND_Init();
     SND_Init_Ambiance();

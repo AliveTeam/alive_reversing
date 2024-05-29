@@ -7,7 +7,7 @@
 #include "Sfx.hpp"
 #include "Map.hpp"
 #include "Abe.hpp"
-#include "BaseAliveGameObject.hpp"
+#include "../relive_lib/GameObjects/BaseAliveGameObject.hpp"
 #include "PossessionFlicker.hpp"
 #include "Math.hpp"
 #include "../AliveLibAE/stdlib.hpp"
@@ -465,7 +465,7 @@ void AbilityRing::CollideWithObjects(bool bDealDamage)
 
     for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
     {
-        IBaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
+        ::BaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
         if (!pObj)
         {
             break;
@@ -512,7 +512,7 @@ void AbilityRing::VScreenChanged()
     {
         for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
         {
-            IBaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
+            ::BaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
             if (!pObj)
             {
                 break;

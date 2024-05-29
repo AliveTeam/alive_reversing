@@ -5,7 +5,7 @@
 #include "../relive_lib/Events.hpp"
 #include "Sfx.hpp"
 #include "Game.hpp"
-#include "BaseAliveGameObject.hpp"
+#include "../relive_lib/GameObjects/BaseAliveGameObject.hpp"
 #include "../relive_lib/GameObjects/Flash.hpp"
 #include "Abe.hpp"
 #include "Electrocute.hpp"
@@ -124,7 +124,7 @@ void ElectricWall::VUpdate()
 
         for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
         {
-            IBaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
+            BaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
             if (!pObj)
             {
                 break;

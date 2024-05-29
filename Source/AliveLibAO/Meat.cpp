@@ -9,7 +9,7 @@
 #include "Sfx.hpp"
 #include "Math.hpp"
 #include "../relive_lib/Events.hpp"
-#include "PlatformBase.hpp"
+#include "../relive_lib/GameObjects/PlatformBase.hpp"
 #include "../relive_lib/Collisions.hpp"
 #include "Throwable.hpp"
 #include "../AliveLibAE/Game.hpp"

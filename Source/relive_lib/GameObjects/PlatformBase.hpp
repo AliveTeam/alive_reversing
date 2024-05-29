@@ -2,6 +2,12 @@
 
 #include "BaseAliveGameObject.hpp"
 
+namespace relive {
+class Path_TLV;
+}
+
+class Map;
+
 class PlatformBase : public BaseAliveGameObject
 {
 public:
@@ -24,3 +30,5 @@ protected:
     PathLine* mPlatformBaseCollisionLine = nullptr;
     Guid mPlatformBaseTlvInfo;
 };
+
+extern DynamicArrayT<BaseGameObject>* gPlatformsArray;

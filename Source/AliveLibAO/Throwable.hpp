@@ -1,6 +1,6 @@
 #pragma once
 
-#include "BaseAliveGameObject.hpp"
+#include "../relive_lib/GameObjects/BaseAliveGameObject.hpp"
 
 namespace AO {
 
@@ -12,7 +12,7 @@ BaseThrowable* Make_Throwable(FP xpos, FP ypos, s16 count);
 
 // NOTE: This base type must exist but seems to have been decimated by the compiler, so this contains pure virtuals for
 // non common virtuals, and virtuals for common virtuals.
-class BaseThrowable : public BaseAliveGameObject
+class BaseThrowable : public ::BaseAliveGameObject
 {
 public:
     BaseThrowable();

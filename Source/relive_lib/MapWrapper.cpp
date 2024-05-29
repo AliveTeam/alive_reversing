@@ -5,7 +5,7 @@
 #include "../AliveLibAO/PathData.hpp"
 #include "../AliveLibAE/PathData.hpp"
 #include "FatalError.hpp"
-#include "GameObjects/IBaseAliveGameObject.hpp"
+#include "GameObjects/BaseAliveGameObject.hpp"
 #include "data_conversion/relive_tlvs.hpp"
 
 bool gMap_bDoPurpleLightEffect = false;
@@ -202,7 +202,7 @@ LevelIds MapWrapper::ToAE(EReliveLevelIds levelId)
     }
 }
 
-s16 IMap::SetActiveCameraDelayed(MapDirections direction, IBaseAliveGameObject* pObj, s16 swapEffect)
+s16 IMap::SetActiveCameraDelayed(MapDirections direction, BaseAliveGameObject* pObj, s16 swapEffect)
 {
     relive::Path_PathTransition* pPathChangeTLV = nullptr;
     CameraSwapEffects convertedSwapEffect = CameraSwapEffects::eInstantChange_0;

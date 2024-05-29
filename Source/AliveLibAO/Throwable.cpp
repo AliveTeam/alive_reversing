@@ -8,7 +8,7 @@
 #include "Meat.hpp"
 #include "../relive_lib/Collisions.hpp"
 #include "Game.hpp"
-#include "PlatformBase.hpp"
+#include "../relive_lib/GameObjects/PlatformBase.hpp"
 
 namespace AO {
 

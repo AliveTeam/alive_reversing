@@ -1,7 +1,7 @@
 #include "stdafx_ao.h"
 #include "BeeSwarm.hpp"
 #include "Map.hpp"
-#include "BaseAliveGameObject.hpp"
+#include "../relive_lib/GameObjects/BaseAliveGameObject.hpp"
 #include "../AliveLibAE/stdlib.hpp"
 #include "Abe.hpp"
 #include "Game.hpp"
@@ -120,7 +120,7 @@ void BeeSwarm::FollowLine(PathLine* pLine, FP target_x, FP target_y, FP speed)
     mChaseTarget = Guid{};
 }
 
-void BeeSwarm::Chase(BaseAliveGameObject* pChaseTarget)
+void BeeSwarm::Chase(::BaseAliveGameObject* pChaseTarget)
 {
     auto pOldChaseTarget = sObjectIds.Find_Impl(mChaseTarget);
     if (pOldChaseTarget)
@@ -157,7 +157,7 @@ void BeeSwarm::VUpdate()
         return;
     }
 
-    auto pChaseTarget = static_cast<IBaseAliveGameObject*>(sObjectIds.Find_Impl(mChaseTarget));
+    auto pChaseTarget = static_cast<::BaseAliveGameObject*>(sObjectIds.Find_Impl(mChaseTarget));
 
     // Chase target has died
     if (pChaseTarget && pChaseTarget->GetDead())
@@ -249,7 +249,7 @@ void BeeSwarm::VUpdate()
                         // and play pain sounds if so and in the damage rect.
                         for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
                         {
-                            IBaseAliveGameObject* pObjIter = gBaseAliveGameObjects->ItemAt(i);
+                            ::BaseAliveGameObject* pObjIter = gBaseAliveGameObjects->ItemAt(i);
                             if (!pObjIter)
                             {
                                 break;
@@ -277,7 +277,7 @@ void BeeSwarm::VUpdate()
 
                     for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
                     {
-                        IBaseAliveGameObject* pObjIter = gBaseAliveGameObjects->ItemAt(i);
+                        ::BaseAliveGameObject* pObjIter = gBaseAliveGameObjects->ItemAt(i);
                         if (!pObjIter)
                         {
                             break;
@@ -328,7 +328,7 @@ void BeeSwarm::VUpdate()
         {
             for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
             {
-                IBaseAliveGameObject* pNewTarget = gBaseAliveGameObjects->ItemAt(i);
+                ::BaseAliveGameObject* pNewTarget = gBaseAliveGameObjects->ItemAt(i);
                 if (!pNewTarget)
                 {
                     break;
@@ -527,7 +527,7 @@ void BeeSwarm::ToFlyAwayAndDie()
 
     gBeesNearAbe = false;
 
-    auto pChaseTarget = static_cast<IBaseAliveGameObject*>(sObjectIds.Find_Impl(mChaseTarget));
+    auto pChaseTarget = static_cast<::BaseAliveGameObject*>(sObjectIds.Find_Impl(mChaseTarget));
     if (pChaseTarget)
     {
         pChaseTarget->mChaseCounter--;

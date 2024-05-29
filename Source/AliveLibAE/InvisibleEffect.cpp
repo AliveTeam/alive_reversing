@@ -5,7 +5,7 @@
 #include "../relive_lib/Clamp.hpp"
 #include "../relive_lib/Events.hpp"
 #include "../relive_lib/ObjectIds.hpp"
-#include "BaseAliveGameObject.hpp"
+#include "../relive_lib/GameObjects/BaseAliveGameObject.hpp"
 #include "stdlib.hpp"
 #include "../relive_lib/data_conversion/AnimationConverter.hpp"
 

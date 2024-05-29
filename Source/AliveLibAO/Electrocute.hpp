@@ -4,7 +4,7 @@
 #include "../relive_lib/Psx.hpp"
 #include "../relive_lib/data_conversion/AnimationConverter.hpp"
 
-class IBaseAliveGameObject;
+class ::BaseAliveGameObject;
 
 namespace AO {
 
@@ -13,7 +13,7 @@ class PalleteOverwriter;
 class Electrocute final : public ::BaseGameObject
 {
 public:
-    Electrocute(IBaseAliveGameObject* pTargetObj, s32 bExtraOverwriter);
+    Electrocute(::BaseAliveGameObject* pTargetObj, s32 bExtraOverwriter);
     ~Electrocute();
 
     virtual void VScreenChanged() override;

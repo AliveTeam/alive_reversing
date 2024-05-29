@@ -1,6 +1,6 @@
 #pragma once
 
-#include "PlatformBase.hpp"
+#include "../relive_lib/GameObjects/PlatformBase.hpp"
 
 class PathLine;
 class Map;

@@ -7,7 +7,7 @@
 #include "../relive_lib/SwitchStates.hpp"
 #include "../relive_lib/Sound/Midi.hpp"
 #include "../relive_lib/Function.hpp"
-#include "BaseAliveGameObject.hpp"
+#include "../relive_lib/GameObjects/BaseAliveGameObject.hpp"
 #include "../relive_lib/GameObjects/Dove.hpp"
 #include "../relive_lib/GameObjects/ThrowableTotalIndicator.hpp"
 #include "Game.hpp"
@@ -551,7 +551,7 @@ s16 BirdPortal::IsScaredAway()
 {
     for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
     {
-        IBaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
+        BaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
         if (!pObj)
         {
             return false;

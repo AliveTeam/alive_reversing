@@ -8,7 +8,7 @@
 #include "MusicController.hpp"
 #include "Abe.hpp"
 #include "../relive_lib/ObjectIds.hpp"
-#include "PlatformBase.hpp"
+#include "../relive_lib/GameObjects/PlatformBase.hpp"
 #include "../relive_lib/Events.hpp"
 #include "DDCheat.hpp"
 #include "../relive_lib/GameObjects/Particle.hpp"
@@ -3902,7 +3902,7 @@ void Scrab::KillTarget(BaseAliveGameObject* pTarget)
             if (!BrainIs(&Scrab::Brain_5_Possessed) || mCurrentMotion == eScrabMotions::Motion_38_LegKick || mCurrentMotion == eScrabMotions::Motion_21_Stamp || mCurrentMotion == eScrabMotions::Motion_32_AttackSpin)
             {
                 const PSX_RECT bOurRect = VGetBoundingRect();
-                IBaseAliveGameObject* pObj = pTarget;
+                BaseAliveGameObject* pObj = pTarget;
 
                 s32 list_idx = 0;
                 if (pTarget)

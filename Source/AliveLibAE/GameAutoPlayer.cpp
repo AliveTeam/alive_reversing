@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "GameAutoPlayer.hpp"
 #include "Input.hpp"
-#include "BaseAliveGameObject.hpp"
+#include "../relive_lib/GameObjects/BaseAliveGameObject.hpp"
 #include <algorithm>
 #include "Mudokon.hpp"
 #include "Slig.hpp"

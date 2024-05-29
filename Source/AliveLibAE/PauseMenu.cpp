@@ -957,7 +957,7 @@ void PauseMenu::Page_Load_Render(OrderingTable& ot, PauseMenuPage* pPage)
 void PauseMenu::VUpdate()
 {
     Abe* pHero = gAbe;
-    IBaseAliveGameObject* pControlledChar = nullptr;
+    BaseAliveGameObject* pControlledChar = nullptr;
 
     if (!pHero)
     {

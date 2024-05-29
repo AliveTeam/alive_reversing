@@ -19,7 +19,7 @@
 #include "../relive_lib/GameObjects/Particle.hpp"
 #include "../relive_lib/Sound/Midi.hpp"
 #include "../relive_lib/ObjectIds.hpp"
-#include "PlatformBase.hpp"
+#include "../relive_lib/GameObjects/PlatformBase.hpp"
 #include "../relive_lib/GameObjects/ScreenShake.hpp"
 #include "../relive_lib/GameObjects/ScreenManager.hpp"
 #include "LiftPoint.hpp"
@@ -2296,7 +2296,7 @@ void Slig::Motion_51_Beat()
 
         for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
         {
-            IBaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
+            BaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
             if (!pObj)
             {
                 break;
@@ -3088,7 +3088,7 @@ s16 Slig::Brain_ListenToGlukkon_IdleListen(BaseAliveGameObject* pGlukkonObj, Pla
 
                                 for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
                                 {
-                                    IBaseAliveGameObject* pFoundSlig = gBaseAliveGameObjects->ItemAt(i);
+                                    BaseAliveGameObject* pFoundSlig = gBaseAliveGameObjects->ItemAt(i);
                                     if (!pFoundSlig)
                                     {
                                         break;
@@ -3727,7 +3727,7 @@ s16 Slig::Brain_20_StoppingNextToMudokon()
         return 128;
     }
 
-    IBaseAliveGameObject* pBeatTarget = FindBeatTarget(1);
+    BaseAliveGameObject* pBeatTarget = FindBeatTarget(1);
     if (!pBeatTarget || pBeatTarget->mHealth <= FP_FromInteger(0))
     {
         WaitOrWalk();
@@ -5467,7 +5467,7 @@ void Slig::ToKilledAbe()
     field_120_timer = MakeTimer(15);
 }
 
-bool Slig::IsWallBetween(IBaseAliveGameObject* pLeft, IBaseAliveGameObject* pRight)
+bool Slig::IsWallBetween(BaseAliveGameObject* pLeft, BaseAliveGameObject* pRight)
 {
     const PSX_RECT thisBRect =  VGetBoundingRect();
     const PSX_RECT rightBRect = pRight->VGetBoundingRect();
@@ -6105,7 +6105,7 @@ void Slig::PlayerControlRunningSlideStopOrTurnFrame4()
     }
 }
 
-IBaseAliveGameObject* Slig::FindBeatTarget(s32 gridBlocks)
+BaseAliveGameObject* Slig::FindBeatTarget(s32 gridBlocks)
 {
     const FP kGridSize = ScaleToGridSize(GetSpriteScale());
     const FP k2Scaled = FP_FromInteger(2) * kGridSize;
@@ -6122,7 +6122,7 @@ IBaseAliveGameObject* Slig::FindBeatTarget(s32 gridBlocks)
 
     for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
     {
-        IBaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
+        BaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
         if (!pObj)
         {
             break;
@@ -6205,7 +6205,7 @@ void Slig::RespondToEnemyOrPatrol()
     }
 }
 
-s16 Slig::IsAbeEnteringDoor(IBaseAliveGameObject* pThis)
+s16 Slig::IsAbeEnteringDoor(BaseAliveGameObject* pThis)
 {
     if (pThis->Type() == ReliveTypes::eAbe)
     {
@@ -6241,7 +6241,7 @@ s16 Slig::FindLever()
         != 0;
 }
 
-s16 Slig::NearOrFacingActiveChar(IBaseAliveGameObject* pObj)
+s16 Slig::NearOrFacingActiveChar(BaseAliveGameObject* pObj)
 {
     if (pObj->VIsObjNearby(ScaleToGridSize(GetSpriteScale()) * FP_FromDouble(0.5), sControlledCharacter) || sControlledCharacter->VIsFacingMe(pObj))
     {
@@ -6270,13 +6270,13 @@ static s16 IsInZCover(relive::Path_TLV* pTlv, const PSX_RECT* pRect)
     return false;
 }
 
-s16 Slig::IsInZCover(IBaseAliveGameObject* pObj)
+s16 Slig::IsInZCover(BaseAliveGameObject* pObj)
 {
     const PSX_RECT bRect = pObj->VGetBoundingRect();
     return Bullet::InZBulletCover(pObj->mXPos, FP_FromInteger(bRect.y), bRect);
 }
 
-bool Slig::InAnyWellRenderLayer(IBaseAliveGameObject* pThis)
+bool Slig::InAnyWellRenderLayer(BaseAliveGameObject* pThis)
 {
     return pThis->GetAnimation().GetRenderLayer() == Layer::eLayer_BeforeWell_Half_3 || pThis->GetAnimation().GetRenderLayer() == Layer::eLayer_BeforeWell_22;
 }
@@ -6304,7 +6304,7 @@ s16 Slig::HeardGlukkonToListenTo(GameSpeakEvents glukkonSpeak)
 
     for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
     {
-        IBaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
+        BaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
         if (!pObj)
         {
             break;

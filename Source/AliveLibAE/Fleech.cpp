@@ -15,7 +15,7 @@
 #include "../relive_lib/GameObjects/ShadowZone.hpp"
 #include "../relive_lib/GameObjects/Gibs.hpp"
 #include "../relive_lib/ObjectIds.hpp"
-#include "PlatformBase.hpp"
+#include "../relive_lib/GameObjects/PlatformBase.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
 #include "Sfx.hpp"
 #include "../relive_lib/Sound/Midi.hpp"
@@ -2216,7 +2216,7 @@ void Fleech::IncreaseAnger()
     }
 }
 
-s16 Fleech::AngerFleech(IBaseAliveGameObject* pObj)
+s16 Fleech::AngerFleech(BaseAliveGameObject* pObj)
 {
     if (!pObj || (IsAbe(pObj) && gAbe->GetInvisible()))
     {
@@ -2292,9 +2292,9 @@ void Fleech::SetTongueState5()
     mTongueState = 5;
 }
 
-IBaseAliveGameObject* Fleech::FindMudOrAbe()
+BaseAliveGameObject* Fleech::FindMudOrAbe()
 {
-    IBaseAliveGameObject* pRet = nullptr;
+    BaseAliveGameObject* pRet = nullptr;
     FP lastDist = FP_FromInteger(gPsxDisplay.mWidth);
     for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
     {
@@ -2377,7 +2377,7 @@ void Fleech::MoveAlongFloor()
 }
 
 // attack radius?
-s16 Fleech::IsNear(IBaseAliveGameObject* pObj)
+s16 Fleech::IsNear(BaseAliveGameObject* pObj)
 {
     if (pObj && GetSpriteScale() == pObj->GetSpriteScale() &&
         FP_GetExponent(FP_Abs(mXPos - pObj->mXPos)) <= 750 &&
@@ -2760,7 +2760,7 @@ PatrolBrain::EState PatrolBrain::Brain_Patrol_State_3()
     return EState::eSleeping;
 }
 
-PatrolBrain::EState PatrolBrain::Brain_Patrol_State_4(IBaseAliveGameObject* pTarget)
+PatrolBrain::EState PatrolBrain::Brain_Patrol_State_4(BaseAliveGameObject* pTarget)
 {
     if (mFleech.mFoodObjId == Guid{})
     {
@@ -3036,7 +3036,7 @@ PatrolBrain::EState PatrolBrain::Brain_Patrol_State_7()
     return EState::eAlerted;
 }
 
-PatrolBrain::EState PatrolBrain::Brain_Patrol_State_8(IBaseAliveGameObject* pTarget)
+PatrolBrain::EState PatrolBrain::Brain_Patrol_State_8(BaseAliveGameObject* pTarget)
 {
     if (IsAbe(pTarget) && gAbe->GetInvisible())
     {
@@ -3081,7 +3081,7 @@ PatrolBrain::EState PatrolBrain::Brain_Patrol_State_10()
 
 void ChasingAbeBrain::VUpdate()
 {
-    auto pObj = static_cast<IBaseAliveGameObject*>(sObjectIds.Find_Impl(mFleech.mFoodObjId));
+    auto pObj = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(mFleech.mFoodObjId));
     if (pObj)
     {
         if (pObj->GetDead() || (IsAbe(pObj) && gAbe->GetInvisible()))
@@ -3128,7 +3128,7 @@ void ChasingAbeBrain::VUpdate()
                 return;
             }
 
-            IBaseAliveGameObject* pMudOrAbe = mFleech.FindMudOrAbe();
+            BaseAliveGameObject* pMudOrAbe = mFleech.FindMudOrAbe();
             if (pMudOrAbe)
             {
                 if (pMudOrAbe->mBaseGameObjectId != mFleech.mFoodObjId)
@@ -3346,7 +3346,7 @@ void ChasingAbeBrain::VUpdate()
     }
 }
 
-ChasingAbeBrain::EState ChasingAbeBrain::Brain_ChasingAbe_State_9(IBaseAliveGameObject* pObj)
+ChasingAbeBrain::EState ChasingAbeBrain::Brain_ChasingAbe_State_9(BaseAliveGameObject* pObj)
 {
     if (!mFleech.IsScrabOrParamiteNear(ScaleToGridSize(mFleech.GetSpriteScale()) * FP_FromInteger(6)))
     {
@@ -3420,7 +3420,7 @@ ChasingAbeBrain::EState ChasingAbeBrain::Brain_ChasingAbe_State_9(IBaseAliveGame
     return mBrainState;
 }
 
-ChasingAbeBrain::EState ChasingAbeBrain::Brain_ChasingAbe_State_2(IBaseAliveGameObject* pObj)
+ChasingAbeBrain::EState ChasingAbeBrain::Brain_ChasingAbe_State_2(BaseAliveGameObject* pObj)
 {
     if (!pObj || pObj->mHealth <= FP_FromInteger(0))
     {
@@ -3489,12 +3489,12 @@ ChasingAbeBrain::EState ChasingAbeBrain::Brain_ChasingAbe_State_2(IBaseAliveGame
     }
 }
 
-ChasingAbeBrain::EState ChasingAbeBrain::Brain_ChasingAbe_State_0(IBaseAliveGameObject* pObj)
+ChasingAbeBrain::EState ChasingAbeBrain::Brain_ChasingAbe_State_0(BaseAliveGameObject* pObj)
 {
     if (!pObj)
     {
         mFleech.mFoodObjId = Guid{};
-        IBaseAliveGameObject* pMudOrAbe = mFleech.FindMudOrAbe();
+        BaseAliveGameObject* pMudOrAbe = mFleech.FindMudOrAbe();
         if (!pMudOrAbe)
         {
             return EState::eBackToPatrol_13;
@@ -3507,7 +3507,7 @@ ChasingAbeBrain::EState ChasingAbeBrain::Brain_ChasingAbe_State_0(IBaseAliveGame
     return EState::eChasingAbe_1;
 }
 
-ChasingAbeBrain::EState ChasingAbeBrain::Brain_ChasingAbe_State_1(IBaseAliveGameObject* pObj)
+ChasingAbeBrain::EState ChasingAbeBrain::Brain_ChasingAbe_State_1(BaseAliveGameObject* pObj)
 {
     if (!pObj || pObj->mHealth <= FP_FromInteger(0))
     {
@@ -3599,7 +3599,7 @@ ChasingAbeBrain::EState ChasingAbeBrain::Brain_ChasingAbe_State_1(IBaseAliveGame
     }
 
     // Check for food object
-    IBaseAliveGameObject* pAbeOrMud = mFleech.FindMudOrAbe();
+    BaseAliveGameObject* pAbeOrMud = mFleech.FindMudOrAbe();
     if (pAbeOrMud)
     {
         if (pAbeOrMud->mBaseGameObjectId != mFleech.mFoodObjId)
@@ -3736,7 +3736,7 @@ ChasingAbeBrain::EState ChasingAbeBrain::Brain_ChasingAbe_State_1(IBaseAliveGame
     }
 }
 
-ChasingAbeBrain::EState ChasingAbeBrain::Brain_ChasingAbe_State1_Helper(IBaseAliveGameObject* pObj)
+ChasingAbeBrain::EState ChasingAbeBrain::Brain_ChasingAbe_State1_Helper(BaseAliveGameObject* pObj)
 {
     if (pObj->mYPos < mFleech.mYPos - FP_FromInteger((mFleech.GetSpriteScale() >= FP_FromInteger(1) ? 18 : 9)) && pObj->GetSpriteScale() == mFleech.GetSpriteScale() && mFleech.IsNear(pObj))
     {

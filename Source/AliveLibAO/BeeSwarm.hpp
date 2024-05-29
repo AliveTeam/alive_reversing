@@ -6,7 +6,7 @@
 #include "../relive_lib/AnimationUnknown.hpp"
 
 class PathLine;
-class IBaseAliveGameObject;
+class ::BaseAliveGameObject;
 
 namespace AO {
 
@@ -38,7 +38,7 @@ public:
     virtual void VRender(OrderingTable& ot) override;
 
     void FollowLine(PathLine* pLine, FP target_x, FP target_y, FP speed);
-    void Chase(BaseAliveGameObject* pChaseTarget);
+    void Chase(::BaseAliveGameObject* pChaseTarget);
     void ToFlyAwayAndDie();
 
     BeeSwarmParticles field_E4_bees = {};

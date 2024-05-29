@@ -1,6 +1,6 @@
 #pragma once
 
-#include "BaseAliveGameObject.hpp"
+#include "../relive_lib/GameObjects/BaseAliveGameObject.hpp"
 
 class PathLine;
 
@@ -11,7 +11,7 @@ namespace relive
 
 namespace AO {
 
-class RollingBallStopper final : public BaseAliveGameObject
+class RollingBallStopper final : public ::BaseAliveGameObject
 {
 public:
     RollingBallStopper(relive::Path_RollingBallStopper* pTlv, const Guid& tlvId);

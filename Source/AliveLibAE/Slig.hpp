@@ -1,6 +1,6 @@
 #pragma once
 
-#include "BaseAliveGameObject.hpp"
+#include "../relive_lib/GameObjects/BaseAliveGameObject.hpp"
 #include "../relive_lib/MapWrapper.hpp"
 #include "../relive_lib/data_conversion/relive_tlvs.hpp"
 #include "../relive_lib/SaveStateBase.hpp"
@@ -250,7 +250,7 @@ public:
         }
     }
     static void CreateFromSaveState(SerializedObjectData& pBuffer);
-    static s16 IsAbeEnteringDoor(IBaseAliveGameObject* pThis);
+    static s16 IsAbeEnteringDoor(BaseAliveGameObject* pThis);
 
     bool vUnderGlukkonCommand_4B1760();
     void SetBrain(TSligBrainFn fn);
@@ -318,13 +318,13 @@ public:
     s16 Brain_4_ListeningToGlukkon();
     s16 Brain_ListeningToGlukkon_LostAttention();
     s16 Brain_ListeningToGlukkon_Shooting();
-    s16 Brain_ListeningToGlukkon_StoppingOnLift(PlatformBase* pPlatformObj);
+    s16 Brain_ListeningToGlukkon_StoppingOnLift(class PlatformBase* pPlatformObj);
     s16 Brain_ListeningToGlukkon_PullingLever();
     s16 Brain_ListenToGlukkon_StoppingNextToLever();
     s16 Brain_ListenToGlukkon_Speaking();
     s16 Brain_ListenToGlukkon_NextLever(BaseAliveGameObject* pGlukkonObj);
     s16 Brain_ListenToGlukkon_Moving(BaseAliveGameObject* pGlukkonObj);
-    s16 Brain_ListenToGlukkon_IdleListen(BaseAliveGameObject* pGlukkonObj, PlatformBase* pPlatformObj);
+    s16 Brain_ListenToGlukkon_IdleListen(BaseAliveGameObject* pGlukkonObj, class PlatformBase* pPlatformObj);
     s16 Brain_ListenToGlukkon_GettingAttention(BaseAliveGameObject* pGlukkonObj);
 
     s16 Brain_7_SpottedEnemy();
@@ -386,7 +386,7 @@ private:
     void ToAbeDead();
     void ToUnderGlukkonCommand();
     void ToKilledAbe();
-    bool IsWallBetween(IBaseAliveGameObject* pLeft, IBaseAliveGameObject* pRight);
+    bool IsWallBetween(BaseAliveGameObject* pLeft, BaseAliveGameObject* pRight);
     GameSpeakEvents LastGlukkonSpeak();
     s16 ListenToGlukkonCommands();
     void PlatformCollide();
@@ -410,14 +410,14 @@ private:
     void PlayerControlRunningSlideStopOrTurnFrame12();
     void PlayerControlRunningSlideStopOrTurnFrame4();
 
-    IBaseAliveGameObject* FindBeatTarget(s32 gridBlocks);
+    BaseAliveGameObject* FindBeatTarget(s32 gridBlocks);
     void TurnOrWalk();
     void ToPanicRunning();
     void RespondToEnemyOrPatrol();
     s16 FindLever();
-    s16 NearOrFacingActiveChar(IBaseAliveGameObject* pObj);
-    static s16 IsInZCover(IBaseAliveGameObject* pObj);
-    static bool InAnyWellRenderLayer(IBaseAliveGameObject* pThis);
+    s16 NearOrFacingActiveChar(BaseAliveGameObject* pObj);
+    static s16 IsInZCover(BaseAliveGameObject* pObj);
+    static bool InAnyWellRenderLayer(BaseAliveGameObject* pThis);
     void NextGlukkonCommand(s16 speakTableIndex, s16 responseState);
     s16 HeardGlukkonToListenTo(GameSpeakEvents glukkonSpeak);
     s16 FindLiftPoint();

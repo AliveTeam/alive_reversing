@@ -3,7 +3,7 @@
 #include "../AliveLibAE/stdlib.hpp"
 #include "../relive_lib/Events.hpp"
 #include "Sfx.hpp"
-#include "BaseAliveGameObject.hpp"
+#include "../relive_lib/GameObjects/BaseAliveGameObject.hpp"
 #include "AnimationCallBacks.hpp"
 #include "Path.hpp"
 #include "../relive_lib/data_conversion/relive_tlvs.hpp"
@@ -29,7 +29,7 @@ void Animation_OnFrame_ZBallSmacker(::BaseGameObject* pObj, u32& idx, const Inde
         if (pBase->GetIsBaseAliveGameObject())
         {
             // If the object is within the ZBall rect then smack it
-            auto pAliveObj = static_cast<BaseAliveGameObject*>(pBase);
+            auto pAliveObj = static_cast<::BaseAliveGameObject*>(pBase);
 
             const PSX_RECT bRect = pAliveObj->VGetBoundingRect();
 

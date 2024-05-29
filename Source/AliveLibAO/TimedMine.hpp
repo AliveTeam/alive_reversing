@@ -1,6 +1,6 @@
 #pragma once
 
-#include "BaseAliveGameObject.hpp"
+#include "../relive_lib/GameObjects/BaseAliveGameObject.hpp"
 
 namespace relive
 {
@@ -9,7 +9,7 @@ namespace relive
 
 namespace AO {
 
-class TimedMine final : public BaseAliveGameObject
+class TimedMine final : public ::BaseAliveGameObject
 {
 public:
     TimedMine(relive::Path_TimedMine* pTlv, const Guid& tlvId);

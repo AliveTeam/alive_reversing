@@ -9,7 +9,7 @@
 #include "Flash.hpp"
 #include "Particle.hpp"
 #include "../FixedPoint.hpp"
-#include "IBaseAliveGameObject.hpp"
+#include "BaseAliveGameObject.hpp"
 #include "../GameType.hpp"
 #include "../../AliveLibAO/Midi.hpp"
 

@@ -261,7 +261,7 @@ void DDCheat::VUpdate()
                 mCheatFnIdx = 0;
             }
         }
-        IBaseAliveGameObject::InvokeMemberFunction(this, sDDCheat_FnCheatsTable, mCheatFnIdx);
+        ::BaseAliveGameObject::InvokeMemberFunction(this, sDDCheat_FnCheatsTable, mCheatFnIdx);
     }
 }
 

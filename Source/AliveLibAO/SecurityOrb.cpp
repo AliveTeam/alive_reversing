@@ -20,7 +20,7 @@
 namespace AO {
 
 SecurityOrb::SecurityOrb(relive::Path_SecurityOrb* pTlv, const Guid& tlvId)
-    : BaseAliveGameObject(0)
+    : ::BaseAliveGameObject(0)
 {
     SetType(ReliveTypes::eSecurityOrb);
     SetCanExplode(true);

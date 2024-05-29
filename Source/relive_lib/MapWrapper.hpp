@@ -56,7 +56,7 @@ namespace relive {
     class Path_TLV;
 }
 
-class IBaseAliveGameObject;
+class BaseAliveGameObject;
 
 class MapWrapper
 {
@@ -149,7 +149,7 @@ public:
 
     virtual CameraPos Rect_Location_Relative_To_Active_Camera(const PSX_RECT* pRect, s16 width = 0) = 0;
 
-    s16 SetActiveCameraDelayed(MapDirections direction, IBaseAliveGameObject* pObj, s16 swapEffect);
+    s16 SetActiveCameraDelayed(MapDirections direction, BaseAliveGameObject* pObj, s16 swapEffect);
 
     Camera* GetCamera(CameraPos pos);
 
@@ -165,7 +165,7 @@ public:
 
 public:
     MapDirections mMapDirection = MapDirections::eMapLeft_0;
-    IBaseAliveGameObject* mAliveObj = nullptr;
+    BaseAliveGameObject* mAliveObj = nullptr;
     CamChangeStates mCamState = CamChangeStates::eInactive_0;
 
     Camera* field_2C_camera_array[5] = {};

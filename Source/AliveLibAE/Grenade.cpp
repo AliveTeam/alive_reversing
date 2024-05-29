@@ -3,7 +3,7 @@
 #include "../relive_lib/Function.hpp"
 #include "ThrowableArray.hpp"
 #include "stdlib.hpp"
-#include "PlatformBase.hpp"
+#include "../relive_lib/GameObjects/PlatformBase.hpp"
 #include "Sfx.hpp"
 #include "../relive_lib/ObjectIds.hpp"
 #include "../relive_lib/Events.hpp"

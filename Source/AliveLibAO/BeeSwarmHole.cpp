@@ -59,7 +59,7 @@ void BeeSwarmHole::VUpdate()
 
         if (pObjIter->Type() == ReliveTypes::eRollingBall)
         {
-            BaseAliveGameObject* pAliveObj = static_cast<BaseAliveGameObject*>(pObjIter);
+            ::BaseAliveGameObject* pAliveObj = static_cast<::BaseAliveGameObject*>(pObjIter);
             const PSX_RECT bRect = pAliveObj->VGetBoundingRect();
             if (field_14_rect.x >= bRect.x && field_14_rect.x <= bRect.w)
             {

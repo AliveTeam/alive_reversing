@@ -8,7 +8,7 @@
 #include "../relive_lib/Shadow.hpp"
 #include "../AliveLibAE/stdlib.hpp"
 #include "MusicController.hpp"
-#include "PlatformBase.hpp"
+#include "../relive_lib/GameObjects/PlatformBase.hpp"
 #include "Math.hpp"
 #include "Sfx.hpp"
 #include "CameraSwapper.hpp"
@@ -35,7 +35,7 @@ const TScrabMotionFunction sScrabMotionTable[30] = {
 };
 
 Scrab::Scrab(relive::Path_Scrab* pTlv, const Guid& tlvId)
-    : BaseAliveGameObject(0)
+    : ::BaseAliveGameObject(0)
 {
     SetType(ReliveTypes::eScrab);
 
@@ -742,7 +742,7 @@ bool Scrab::FindAbeOrMud()
 
         if (pObjIter->GetIsBaseAliveGameObject())
         {
-            BaseAliveGameObject* pObj = static_cast<BaseAliveGameObject*>(pObjIter);
+            ::BaseAliveGameObject* pObj = static_cast<BaseAliveGameObject*>(pObjIter);
 
             if (pObj->Type() == ReliveTypes::eRingOrLiftMud || pObj->Type() == ReliveTypes::eMudokon || pObj->Type() == ReliveTypes::SlingMud)
             {

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "BaseAliveGameObject.hpp"
+#include "../relive_lib/GameObjects/BaseAliveGameObject.hpp"
 #include "../relive_lib/AnimResources.hpp"
 
 namespace relive {
@@ -15,7 +15,7 @@ struct FallingItem_Data final
     AnimId mWaitingAnimId;
 };
 
-class FallingItem final : public BaseAliveGameObject
+class FallingItem final : public ::BaseAliveGameObject
 {
 public:
     FallingItem(relive::Path_FallingItem* pTlv, const Guid& tlvId);

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "BaseAliveGameObject.hpp"
+#include "../relive_lib/GameObjects/BaseAliveGameObject.hpp"
 #include "Sfx.hpp"
 #include "../relive_lib/data_conversion/relive_tlvs.hpp"
 #include "../relive_lib/SaveStateBase.hpp"
@@ -249,10 +249,10 @@ private:
     s16 CollisionLeftRight(FP velX);
     void PullLever();
     s16 TryPullLever();
-    s16 CanChase(IBaseAliveGameObject* pObj);
+    s16 CanChase(BaseAliveGameObject* pObj);
     void Say(SligSpeak speak, s16 pitch);
-    static s16 IsAbeEnteringDoor(IBaseAliveGameObject* pThis);
-    static bool IsWallBetween(IBaseAliveGameObject* pThis, IBaseAliveGameObject* pObj);
+    static s16 IsAbeEnteringDoor(BaseAliveGameObject* pThis);
+    static bool IsWallBetween(BaseAliveGameObject* pThis, BaseAliveGameObject* pObj);
     void ThrowGrenade();
     void BlowUp();
     s16 IsPossessed();

@@ -1,23 +1,356 @@
 #include "stdafx.h"
 #include "BaseAliveGameObject.hpp"
-#include "../relive_lib/ObjectIds.hpp"
-#include "Map.hpp"
-#include "../relive_lib/Shadow.hpp"
-#include "stdlib.hpp"
-#include "Abe.hpp"
-#include "../relive_lib/Collisions.hpp"
+#include "../GameType.hpp"
+#include "../ObjectIds.hpp"
+#include "../Collisions.hpp"
+#include "../Grid.hpp"
+#include "../Events.hpp"
+
 #include "PlatformBase.hpp"
-#include "Game.hpp"
-#include "BirdPortal.hpp"
-#include "../relive_lib/Events.hpp"
-#include "../relive_lib/Grid.hpp"
-#include "Path.hpp"
-#include "../relive_lib/FatalError.hpp"
-#include "../relive_lib/FixedPoint.hpp"
-#include "../relive_lib/GameType.hpp"
+#include "IBirdPortal.hpp"
+
+#include "../../AliveLibAO/Map.hpp"
+#include "../../AliveLibAE/Map.hpp"
+#include "../FatalError.hpp"
+#include "../../AliveLibAE/Abe.hpp"
+
+DynamicArrayT<BaseAliveGameObject>* gBaseAliveGameObjects = nullptr;
+
+// TODO: Remove after abe.cpp merge
+BaseAliveGameObject* sControlledCharacter = nullptr;
+
+
+BaseAliveGameObject::~BaseAliveGameObject()
+{
+    BaseAliveGameObject* pLiftPoint = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
+    gBaseAliveGameObjects->Remove_Item(this);
+
+    if (pLiftPoint)
+    {
+        pLiftPoint->VOnTrapDoorOpen();
+        BaseAliveGameObject_PlatformId = Guid{};
+    }
+}
+
+void BaseAliveGameObject::VUnPosses()
+{
+    // Empty
+}
+
+void BaseAliveGameObject::VPossessed()
+{
+    // Empty
+}
+
+bool BaseAliveGameObject::VTakeDamage(BaseGameObject* /*pFrom*/)
+{
+    // Defaults to no damage.
+    return false;
+}
+
+void BaseAliveGameObject::VOnTlvCollision(relive::Path_TLV* /*pTlv*/)
+{
+    // Empty
+}
+
+void BaseAliveGameObject::VOnTrapDoorOpen()
+{
+    // Empty
+}
+
+void BaseAliveGameObject::OnCollisionWith(PSX_Point xy, PSX_Point wh, DynamicArrayT<BaseGameObject>* pObjList)
+{
+    if (pObjList)
+    {
+        for (s32 i = 0; i < pObjList->Size(); i++)
+        {
+            BaseGameObject* pObjIter = pObjList->ItemAt(i);
+            if (!pObjIter)
+            {
+                break;
+            }
+
+            if (pObjIter->GetIsBaseAnimatedWithPhysicsObj())
+            {
+                if (pObjIter->GetDrawable())
+                {
+                    BaseAnimatedWithPhysicsGameObject* pObj = static_cast<BaseAnimatedWithPhysicsGameObject*>(pObjIter);
+                    const PSX_RECT bRect = pObj->VGetBoundingRect();
+                    if (xy.x <= bRect.w && wh.x >= bRect.x && wh.y >= bRect.y && xy.y <= bRect.h)
+                    {
+                        // NOTE: AO ignored scale here
+                        if (GetGameType() == GameType::eAo || (GetGameType() == GameType::eAe && GetScale() == pObj->GetScale()))
+                        {
+                            if (!VOnPlatformIntersection(pObj))
+                            {
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+s16 BaseAliveGameObject::SetBaseAnimPaletteTint(const TintEntry* pTintArray, EReliveLevelIds level_id, PalId palId)
+{
+    // NOTE: in AO's SetBaseAnimPaletteTint() function we don't want to set the RGB values
+    // when we hit the end of the tint array
+    if (GetGameType() == GameType::eAe)
+    {
+        SetTint(pTintArray, level_id);
+    }
+    else
+    {
+        const TintEntry* pIter = pTintArray;
+        while (pIter->field_0_level != level_id)
+        {
+            if (pIter->field_0_level == EReliveLevelIds::eNone) // End of entries
+            {
+                return 0;
+            }
+            pIter++;
+        }
+
+        mRGB.SetRGB(pIter->field_1_r, pIter->field_2_g, pIter->field_3_b);
+    }
+
+    if (palId != PalId::Default)
+    {
+        PalResource res = ResourceManagerWrapper::LoadPal(palId);
+        GetAnimation().LoadPal(res);
+    }
+    return 1;
+}
+
+
+void BaseAliveGameObject::SetActiveCameraDelayedFromDir()
+{
+    if (sControlledCharacter == this)
+    {
+        switch (Is_In_Current_Camera())
+        {
+            case CameraPos::eCamTop_1:
+                if (mVelY < FP_FromInteger(0))
+                {
+                    GetMap().SetActiveCameraDelayed(MapDirections::eMapTop_2, this, -1);
+                }
+                break;
+
+            case CameraPos::eCamBottom_2:
+                if (mVelY > FP_FromInteger(0))
+                {
+                    GetMap().SetActiveCameraDelayed(MapDirections::eMapBottom_3, this, -1);
+                }
+                break;
+
+            case CameraPos::eCamLeft_3:
+                if (mVelX < FP_FromInteger(0))
+                {
+                    GetMap().SetActiveCameraDelayed(MapDirections::eMapLeft_0, this, -1);
+                }
+                break;
+
+            case CameraPos::eCamRight_4:
+                if (mVelX > FP_FromInteger(0))
+                {
+                    GetMap().SetActiveCameraDelayed(MapDirections::eMapRight_1, this, -1);
+                }
+                break;
+
+            case CameraPos::eCamCurrent_0:
+            case CameraPos::eCamNone_5:
+                return;
+
+            default:
+                return;
+        }
+    }
+}
+
+Scale BaseAliveGameObject::PerGameScale()
+{
+    if (GetGameType() == GameType::eAo)
+    {
+        return GetSpriteScale() != FP_FromDouble(0.5) ? Scale::Fg : Scale::Bg;
+    }
+    return GetScale();
+}
+
+bool BaseAliveGameObject::WallHit(FP offY, FP offX)
+{
+    PathLine* pLine = nullptr;
+    return gCollisions->Raycast(
+               mXPos,
+               mYPos - offY,
+               mXPos + offX,
+               mYPos - offY,
+               &pLine,
+               &offX,
+               &offY,
+               PerGameScale() == Scale::Fg ? kFgWalls : kBgWalls)
+        != 0;
+}
+
+bool BaseAliveGameObject::Check_IsOnEndOfLine(s16 direction, s16 distance)
+{
+    // Check if distance grid blocks from current snapped X is still on the line or not, if not then we are
+    // about to head off an edge.
+
+    const FP gridSize = ScaleToGridSize(GetSpriteScale());
+
+    FP xLoc = {};
+    if (direction == 1)
+    {
+        xLoc = -(gridSize * FP_FromInteger(distance));
+    }
+    else
+    {
+        xLoc = gridSize * FP_FromInteger(distance);
+    }
+
+    FP xPosSnapped = {};
+    CollisionMask usedMask;
+    if (GetGameType() == GameType::eAo)
+    {
+        const s16 xposRoundedAO = FP_GetExponent(mXPos) & 1023;
+        const FP xPosSnappedAO = FP_FromInteger((FP_GetExponent(mXPos) & 0xFC00) + SnapToXGrid_AO(GetSpriteScale(), xposRoundedAO));
+        if (xposRoundedAO < (240 + 16) || xposRoundedAO > (640 - 16))
+        {
+            return 0;
+        }
+        xPosSnapped = xPosSnappedAO;
+        usedMask = PerGameScale() == Scale::Fg ? kFgWallsOrFloor : kBgWallsOrFloor;
+    }
+    else
+    {
+        xPosSnapped = FP_FromInteger(SnapToXGrid_AE(GetSpriteScale(), FP_GetExponent(mXPos)));
+        usedMask = PerGameScale() == Scale::Fg ? kFgFloorCeilingOrWalls : kBgFloorCeilingOrWalls;
+    }
+
+    PathLine* pLine = nullptr;
+    FP hitX = {};
+    FP hitY = {};
+    return gCollisions->Raycast(
+               xLoc + xPosSnapped,
+               mYPos - FP_FromInteger(4),
+               xLoc + xPosSnapped,
+               mYPos + FP_FromInteger(4),
+               &pLine,
+               &hitX,
+               &hitY,
+               usedMask)
+        == 0;
+}
+
+bool BaseAliveGameObject::IsInInvisibleZone(BaseAliveGameObject* pObj)
+{
+    /* TODO: Not used in AE but might be possible to activate in AO
+    if (gAbeInvisibleCheat)
+    {
+        return true;
+    }
+    */
+
+    if (EventGet(Event::kEventAbeOhm))
+    {
+        return false;
+    }
+
+    const PSX_RECT bRect = pObj->VGetBoundingRect();
+
+    relive::Path_TLV* pTlv = GetMap().VTLV_Get_At_Of_Type(
+        bRect.x,
+        bRect.y,
+        bRect.w,
+        bRect.h,
+        ReliveTypes::eInvisibleZone
+    );
+
+    while (pTlv)
+    {
+        if (pTlv->mTlvType == ReliveTypes::eInvisibleZone)
+        {
+            if (bRect.x >= pTlv->mTopLeftX && bRect.x <= pTlv->mBottomRightX && bRect.y >= pTlv->mTopLeftY)
+            {
+                if (bRect.y <= pTlv->mBottomRightY && bRect.w >= pTlv->mTopLeftX && bRect.w <= pTlv->mBottomRightX && bRect.h >= pTlv->mTopLeftY && bRect.h <= pTlv->mBottomRightY)
+                {
+                    return true;
+                }
+            }
+        }
+
+        // Check for stacked/overlaping TLV's
+        pTlv = GetMap().TLV_Get_At(pTlv,
+                                     FP_FromInteger(bRect.x),
+                                     FP_FromInteger(bRect.y),
+                                     FP_FromInteger(bRect.w),
+                                     FP_FromInteger(bRect.h));
+    }
+    return false;
+}
+
+IBirdPortal* BaseAliveGameObject::VIntoBirdPortal(s16 numGridBlocks)
+{
+    for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
+    {
+        BaseGameObject* pObjIter = gBaseGameObjects->ItemAt(i);
+        if (!pObjIter)
+        {
+            break;
+        }
+
+        if (pObjIter->Type() == ReliveTypes::eBirdPortal)
+        {
+            auto pPortal = static_cast<IBirdPortal*>(pObjIter);
+            if (pPortal->mXPos >= mXPos)
+            {
+                if (pPortal->mEnterSide == relive::Path_BirdPortal::PortalSide::eLeft)
+                {
+                    if (pPortal->mXPos - mXPos <= (ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(numGridBlocks)))
+                    {
+                        if (!GetAnimation().GetFlipX())
+                        {
+                            if (FP_Abs(mYPos - pPortal->mHitY) < GetSpriteScale() * FP_FromInteger(10))
+                            {
+                                if (pPortal->ClipPortal(1))
+                                {
+                                    GetAnimation().SetRenderLayer(GetSpriteScale() != FP_FromInteger(1) ? Layer::eLayer_InBirdPortal_Half_11 : Layer::eLayer_InBirdPortal_30);
+                                    return pPortal;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            else
+            {
+                if (pPortal->mEnterSide == relive::Path_BirdPortal::PortalSide::eRight)
+                {
+                    if (mXPos - pPortal->mXPos <= (ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(numGridBlocks)))
+                    {
+                        if (GetAnimation().GetFlipX())
+                        {
+                            if (FP_Abs(mYPos - pPortal->mHitY) < (GetSpriteScale() * FP_FromInteger(10)))
+                            {
+                                if (pPortal->ClipPortal(1))
+                                {
+                                    GetAnimation().SetRenderLayer(GetSpriteScale() != FP_FromInteger(1) ? Layer::eLayer_InBirdPortal_Half_11 : Layer::eLayer_InBirdPortal_30);
+                                    return pPortal;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return nullptr;
+}
 
 BaseAliveGameObject::BaseAliveGameObject(s16 resourceArraySize)
-    : IBaseAliveGameObject(resourceArraySize)
+    : BaseAnimatedWithPhysicsGameObject(resourceArraySize)
 {
     SetCanBePossessed(false);
     SetPossessed(false);
@@ -34,11 +367,6 @@ BaseAliveGameObject::BaseAliveGameObject(s16 resourceArraySize)
     gBaseAliveGameObjects->Push_Back(this);
 
     SetIsBaseAliveGameObject(true);
-}
-
-BaseAliveGameObject::~BaseAliveGameObject()
-{
-
 }
 
 // AO
@@ -447,7 +775,7 @@ void BaseAliveGameObject::OnPathTransitionAO(s32 camWorldX, s32 camWorldY, Camer
     }
 
     PSX_Point camLoc = {};
-    gMap.GetCurrentCamCoords(&camLoc);
+    AO::gMap.GetCurrentCamCoords(&camLoc);
 
     mXPos = FP_FromInteger((BaseAliveGameObjectPathTLV->mBottomRightX + BaseAliveGameObjectPathTLV->mTopLeftX) / 2);
     mYPos = FP_FromInteger(BaseAliveGameObjectPathTLV->mTopLeftY);
@@ -555,7 +883,7 @@ bool BaseAliveGameObject::MapFollowMe(bool snapToGrid)
 bool BaseAliveGameObject::MapFollowMeAO(bool snapToGrid)
 {
     PSX_Point currentCamCoords = {};
-    gMap.GetCurrentCamCoords(&currentCamCoords);
+    AO::gMap.GetCurrentCamCoords(&currentCamCoords);
 
     // Are we "in" the current camera X bounds?
     if (mCurrentLevel == GetMap().mCurrentLevel && mCurrentPath == GetMap().mCurrentPath && mXPos > FP_FromInteger(currentCamCoords.x) && mXPos < FP_FromInteger(currentCamCoords.x + 1024))
@@ -604,7 +932,7 @@ bool BaseAliveGameObject::MapFollowMeAO(bool snapToGrid)
                 const s32 x_i = abs(FP_GetExponent(mXPos));
                 const s32 camXIndex = x_i % 1024;
 
-                gMap.Get_map_size(&currentCamCoords);
+                AO::gMap.Get_map_size(&currentCamCoords);
                 if (x_i < (currentCamCoords.x - 1024))
                 {
                     UsePathTransScale();
@@ -647,7 +975,7 @@ bool BaseAliveGameObject::MapFollowMeAO(bool snapToGrid)
         // In the right camera void and moving right?
         else if (camXIndex > 624 && mVelX > FP_FromInteger(0)) // Never hit as velx is < 0
         {
-            gMap.Get_map_size(&currentCamCoords);
+            AO::gMap.Get_map_size(&currentCamCoords);
             if (x_i < (currentCamCoords.x - 1024))
             {
                 UsePathTransScale();
@@ -840,7 +1168,7 @@ bool BaseAliveGameObject::VOnPlatformIntersection(BaseAnimatedWithPhysicsGameObj
 // AO
 void BaseAliveGameObject::UsePathTransScale()
 {
-    auto pPathTrans = static_cast<relive::Path_PathTransition*>(gMap.VTLV_Get_At_Of_Type(
+    auto pPathTrans = static_cast<relive::Path_PathTransition*>(GetMap().VTLV_Get_At_Of_Type(
         FP_GetExponent(mXPos),
         FP_GetExponent(mYPos),
         FP_GetExponent(mXPos),

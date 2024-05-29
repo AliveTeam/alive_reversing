@@ -1,6 +1,6 @@
 #pragma once
 
-#include "BaseAliveGameObject.hpp"
+#include "../relive_lib/GameObjects/BaseAliveGameObject.hpp"
 
 namespace relive
 {
@@ -10,7 +10,7 @@ namespace relive
 namespace AO
 {
 
-class MeatSack final : public BaseAliveGameObject
+class MeatSack final : public ::BaseAliveGameObject
 {
 
 public:

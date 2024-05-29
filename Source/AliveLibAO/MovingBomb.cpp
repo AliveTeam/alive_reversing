@@ -6,7 +6,7 @@
 #include "Game.hpp"
 #include "../relive_lib/Shadow.hpp"
 #include "../relive_lib/Collisions.hpp"
-#include "PlatformBase.hpp"
+#include "../relive_lib/GameObjects/PlatformBase.hpp"
 #include "Midi.hpp"
 #include "../relive_lib/GameObjects/Gibs.hpp"
 #include "../relive_lib/GameObjects/AirExplosion.hpp"
@@ -31,7 +31,7 @@ static const TintEntry kMovingBombTints[4] = {
 static MovingBomb* sMovingBomb = nullptr;
 
 MovingBomb::MovingBomb(relive::Path_MovingBomb* pTlv, const Guid& tlvId)
-    : BaseAliveGameObject(0)
+    : ::BaseAliveGameObject(0)
 {
     SetCanExplode(true);
     SetType(ReliveTypes::eTimedMine);
@@ -193,7 +193,7 @@ s16 MovingBomb::HitObject()
     const PSX_RECT ourRect = VGetBoundingRect();
     for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
     {
-        IBaseAliveGameObject* pObjIter = gBaseAliveGameObjects->ItemAt(i);
+        ::BaseAliveGameObject* pObjIter = gBaseAliveGameObjects->ItemAt(i);
         if (!pObjIter)
         {
             break;

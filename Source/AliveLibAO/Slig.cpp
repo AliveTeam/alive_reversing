@@ -19,7 +19,7 @@
 #include "../relive_lib/GameObjects/Gibs.hpp"
 #include "Sfx.hpp"
 #include "CameraSwapper.hpp"
-#include "PlatformBase.hpp"
+#include "../relive_lib/GameObjects/PlatformBase.hpp"
 #include "LiftPoint.hpp"
 #include "../relive_lib/GameObjects/Dove.hpp"
 #include "Bullet.hpp"
@@ -210,7 +210,7 @@ void Slig::LoadAnimations()
 }
 
 Slig::Slig(relive::Path_Slig* pTlv, const Guid& tlvId)
-    : BaseAliveGameObject(0)
+    : ::BaseAliveGameObject(0)
 {
     field_210_resources = {};
 
@@ -1498,12 +1498,12 @@ eSligMotions Slig::GetNextMotionIncGameSpeak(u16 input)
     return eSligMotions::None_m1;
 }
 
-bool Slig::InAnyWellRenderLayer(IBaseAliveGameObject* pThis)
+bool Slig::InAnyWellRenderLayer(BaseAliveGameObject* pThis)
 {
     return pThis->GetAnimation().GetRenderLayer() == Layer::eLayer_BeforeWell_Half_3 || pThis->GetAnimation().GetRenderLayer() == Layer::eLayer_BeforeWell_22;
 }
 
-s16 Slig::IsAbeEnteringDoor(IBaseAliveGameObject* pThis)
+s16 Slig::IsAbeEnteringDoor(BaseAliveGameObject* pThis)
 {
     if (pThis->Type() == ReliveTypes::eAbe)
     {
@@ -1516,7 +1516,7 @@ s16 Slig::IsAbeEnteringDoor(IBaseAliveGameObject* pThis)
     return 0;
 }
 
-s16 Slig::IsWallBetween(Slig* pLeft, IBaseAliveGameObject* pRight)
+s16 Slig::IsWallBetween(Slig* pLeft, BaseAliveGameObject* pRight)
 {
     PathLine* pLine = nullptr;
     FP hitX = {};
@@ -1533,7 +1533,7 @@ s16 Slig::IsWallBetween(Slig* pLeft, IBaseAliveGameObject* pRight)
         == 1;
 }
 
-void Slig::Slig_GameSpeak_SFX(SligSpeak effectId, s32 defaultVol, s32 pitch_min, IBaseAliveGameObject* pObj)
+void Slig::Slig_GameSpeak_SFX(SligSpeak effectId, s32 defaultVol, s32 pitch_min, BaseAliveGameObject* pObj)
 {
     s32 volume = defaultVol;
     if (defaultVol == 0)

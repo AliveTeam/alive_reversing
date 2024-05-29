@@ -9,7 +9,7 @@
 #include "Abe.hpp"
 #include "AbilityRing.hpp"
 #include "../relive_lib/ObjectIds.hpp"
-#include "PlatformBase.hpp"
+#include "../relive_lib/GameObjects/PlatformBase.hpp"
 #include "DDCheat.hpp"
 #include "WorkWheel.hpp"
 #include "BirdPortal.hpp"
@@ -6726,7 +6726,7 @@ s16 Mudokon::IAmNearestToAbe()
 
     for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
     {
-        IBaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
+        BaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
         if (!pObj)
         {
             break;
@@ -7048,7 +7048,7 @@ void Mudokon::CheckKnockedOntoABomb()
 
     for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
     {
-        IBaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
+        BaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
         if (!pObj)
         {
             break;

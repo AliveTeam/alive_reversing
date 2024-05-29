@@ -418,7 +418,7 @@ void SlamDoor::VGetSaveState(SerializedObjectData& pSaveBuffer)
     pSaveBuffer.Write(data);
 }
 
-void SlamDoor::ClearInsideSlamDoor(IBaseAliveGameObject* pObj, s16 xPosition, s16 width)
+void SlamDoor::ClearInsideSlamDoor(BaseAliveGameObject* pObj, s16 xPosition, s16 width)
 {
     if (FP_GetExponent(pObj->mXPos) - xPosition >= width - FP_GetExponent(pObj->mXPos))
     {
