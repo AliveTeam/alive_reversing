@@ -12,10 +12,7 @@ public:
 
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
-    virtual void VOnThrowableHit(BaseGameObject*) override
-    {
-        // Empty
-    }
+    virtual void VOnThrowableHit(BaseGameObject*) override; 
 
 private:
     static bool CanElectrocute(BaseGameObject* pObj);

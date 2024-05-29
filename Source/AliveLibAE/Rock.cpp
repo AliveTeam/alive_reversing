@@ -135,12 +135,13 @@ void Rock::VUpdate()
                 {
                     mVelX = FP_FromInteger(0);
                     mCollectionRect.x = mXPos - (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(2));
-                    mCollectionRect.w = (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(2)) + mXPos;
+                    mCollectionRect.w = mXPos + (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(2));
                     SetInteractive(true);
-                    mCollectionRect.h = mYPos;
-                    mCollectionRect.y = mYPos - ScaleToGridSize(GetSpriteScale());
-                    mState = RockStates::eOnGround_3;
+
                     GetAnimation().SetLoop(false);
+                    mCollectionRect.y = mYPos - ScaleToGridSize(GetSpriteScale());
+                    mCollectionRect.h = mYPos;
+                    mState = RockStates::eOnGround_3;
                     mShimmerTimer = sGnFrame;
                     return;
                 }
@@ -374,11 +375,12 @@ void Rock::BounceHorizontally( FP hitX, FP hitY )
     mVelX = (-mVelX / FP_FromInteger(2));
     mXPos = hitX;
     mYPos = hitY;
-    s16 vol = 20 * (4 - mBounceCount);
+    s32 vol = 20 * (4 - mBounceCount);
     if (vol < 40)
     {
         vol = 40;
     }
+
     SfxPlayMono(relive::SoundEffects::RockBounce, vol);
     EventBroadcast(Event::kEventNoise, this);
     EventBroadcast(Event::kEventSuspiciousNoise, this);

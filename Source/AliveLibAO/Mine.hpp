@@ -9,7 +9,7 @@ namespace relive
 
 namespace AO {
 
-class Mine final : public ::BaseAliveGameObject
+class Mine final : public BaseAliveGameObject
 {
 public:
     Mine(relive::Path_Mine* pTlv, const Guid& tlvId);
@@ -17,15 +17,18 @@ public:
 
     void LoadAnimations();
 
-    virtual void VScreenChanged() override;
-    virtual bool VTakeDamage(BaseGameObject* pFrom) override;
-    virtual void VOnThrowableHit(BaseGameObject* pFrom) override;
-    virtual void VOnAbeInteraction() override;
-    virtual void VRender(OrderingTable& ot) override;
     virtual void VUpdate() override;
+    virtual void VRender(OrderingTable& ot) override;
 
+    virtual void VScreenChanged() override;
+    virtual void VOnAbeInteraction() override;
+    virtual void VOnThrowableHit(BaseGameObject* pFrom) override;
+    virtual bool VTakeDamage(BaseGameObject* pFrom) override;
+
+private:
     bool IsColliding();
 
+public:
     bool mDetonating = false;
     Guid mTlvId;
     u32 mExplosionTimer = 0;

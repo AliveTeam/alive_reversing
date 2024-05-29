@@ -195,12 +195,12 @@ void SecurityOrb::VUpdate()
         case States::eDoFlashAndSound_2:
             if (static_cast<s32>(sGnFrame) == mTimer - 5 || static_cast<s32>(sGnFrame) == mTimer - 1)
             {
-                relive_new Flash(Layer::eLayer_Above_FG1_39, 255u, 0, 0);
+                relive_new Flash(Layer::eLayer_Above_FG1_39, 255, 0, 0);
             }
 
             if (static_cast<s32>(sGnFrame) == mTimer - 4)
             {
-                relive_new Flash(Layer::eLayer_Above_FG1_39, 255u, 0, 0, relive::TBlendModes::eBlend_1, 1);
+                relive_new Flash(Layer::eLayer_Above_FG1_39, 255, 0, 0, relive::TBlendModes::eBlend_1, 1);
             }
 
             const s32 timerFrame = mTimer - sGnFrame;

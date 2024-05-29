@@ -14,12 +14,12 @@ public:
 
     void LoadAnimations();
 
+    virtual void VUpdate() override;
     virtual void VScreenChanged() override;
     virtual void VOnThrowableHit(BaseGameObject*) override;
-    virtual void VUpdate() override;
 
-    bool CanKill(BaseAnimatedWithPhysicsGameObject* pObj);
     bool CanElectrocute(BaseGameObject* pObj) const;
+    bool CanKill(BaseAnimatedWithPhysicsGameObject* pObj);
 
     enum class State : s16
     {
@@ -32,8 +32,8 @@ public:
     State mState = State::eTransform_0;
     s32 mZapIntervalTimer = 0;
     s32 mFlashTimer = 0;
-    Guid mZapLineId = {};
-    Guid mZapTargetId = {};
+    Guid mZapLineId;
+    Guid mZapTargetId;
     bool mCanElectrocute = false;
     bool mResetRingTimer = false;
 };

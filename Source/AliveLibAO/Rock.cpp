@@ -64,7 +64,7 @@ Rock::~Rock()
     {
         if (gThrowableArray)
         {
-            gThrowableArray->Remove(mBaseThrowableCount >= 1u ? mBaseThrowableCount : 1);
+            gThrowableArray->Remove(mBaseThrowableCount >= 1 ? mBaseThrowableCount : 1);
         }
     }
 }
@@ -194,6 +194,18 @@ void Rock::VScreenChanged()
     }
 }
 
+bool Rock::VIsFalling()
+{
+    // Same as meat falling func - compiler seems to have made them both
+    // use the same func, or should it go in the base ??
+    return mState == RockStates::eFallingOutOfWorld_5;
+}
+
+bool Rock::VCanThrow()
+{
+    return mState == RockStates::eBouncing_4;
+}
+
 //TODO Identical to AE - merge
 void Rock::VThrow(FP velX, FP velY)
 {
@@ -210,11 +222,6 @@ void Rock::VThrow(FP velX, FP velY)
     {
         mState = RockStates::eFallingOutOfRockSack_1;
     }
-}
-
-bool Rock::VCanThrow()
-{
-    return mState == RockStates::eBouncing_4;
 }
 
 void Rock::InTheAir()
@@ -359,12 +366,7 @@ bool Rock::OnCollision(BaseAnimatedWithPhysicsGameObject* pObj)
     return false;
 }
 
-bool Rock::VIsFalling()
-{
-    // Same as meat falling func - compiler seems to have made them both
-    // use the same func, or should it go in the base ??
-    return mState == RockStates::eFallingOutOfWorld_5;
-}
+
 
 void Rock::VTimeToExplodeRandom()
 {

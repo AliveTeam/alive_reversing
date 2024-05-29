@@ -6,10 +6,9 @@
 
 enum class EReliveLevelIds : s16;
 class BaseGameObject;
+class BaseAliveGameObject;
 
 namespace AO {
-
-class BaseAliveGameObject;
 
 class MusicController final : public ::BaseGameObject
 {

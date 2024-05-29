@@ -46,7 +46,7 @@ void Shrykull::LoadAnimations()
 }
 
 Shrykull::Shrykull()
-    : ::BaseAliveGameObject(0)
+    : BaseAliveGameObject(0)
 {
     SetType(ReliveTypes::eShrykull);
 
@@ -150,7 +150,7 @@ void Shrykull::VUpdate()
 
             for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
             {
-                ::BaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
+                BaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
                 if (!pObj)
                 {
                     break;
@@ -288,7 +288,7 @@ void Shrykull::VUpdate()
                             GetSpriteScale(),
                             BurstType::eBigPurpleSparks);
 
-                       relive_new Flash(Layer::eLayer_Above_FG1_39, 255u, 255u, 255u);
+                       relive_new Flash(Layer::eLayer_Above_FG1_39, 255, 255, 255);
                     }
                     pExistingZapLine->CalculateSourceAndDestinationPositions(
                         FP_FromInteger((ourRect.x + ourRect.w) / 2),
