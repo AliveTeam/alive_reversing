@@ -4,7 +4,6 @@
 #include "../relive_lib/FixedPoint.hpp"
 
 class BaseGameObject;
-class BaseAliveGameObject;
 class Camera;
 struct PathData;
 class BinaryPath;

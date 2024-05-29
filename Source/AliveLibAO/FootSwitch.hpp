@@ -5,7 +5,7 @@
 
 namespace AO {
 
-class ::BaseAliveGameObject;
+class BaseAliveGameObject;
 
 class FootSwitch final : public BaseAnimatedWithPhysicsGameObject
 {

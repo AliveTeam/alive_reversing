@@ -4,7 +4,7 @@
 #include "../relive_lib/Psx.hpp"
 #include "../relive_lib/data_conversion/AnimationConverter.hpp"
 
-class ::BaseAliveGameObject;
+class BaseAliveGameObject;
 
 namespace AO {
 

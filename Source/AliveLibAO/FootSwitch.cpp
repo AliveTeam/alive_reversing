@@ -54,7 +54,7 @@ FootSwitch::~FootSwitch()
 
 void FootSwitch::VUpdate()
 {
-    auto pLastStoodOnMe = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(mStoodOnMeId));
+    auto pLastStoodOnMe = static_cast<::BaseAliveGameObject*>(sObjectIds.Find_Impl(mStoodOnMeId));
 
     switch (mState)
     {
@@ -94,7 +94,7 @@ void FootSwitch::VScreenChanged()
     SetDead(true);
 }
 
-BaseAliveGameObject* FootSwitch::WhoIsStoodOnMe()
+::BaseAliveGameObject* FootSwitch::WhoIsStoodOnMe()
 {
     const PSX_RECT bRectSwitch = VGetBoundingRect();
     // NOTE: AE  y -= 3 not done in AO
@@ -111,7 +111,7 @@ BaseAliveGameObject* FootSwitch::WhoIsStoodOnMe()
 
             if (pObj->GetIsBaseAliveGameObject())
             {
-                auto pAliveObj = static_cast<BaseAliveGameObject*>(pObj);
+                auto pAliveObj = static_cast<::BaseAliveGameObject*>(pObj);
 
                 const PSX_RECT theirRect = pAliveObj->VGetBoundingRect();
 

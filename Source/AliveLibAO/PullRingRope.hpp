@@ -3,10 +3,11 @@
 #include "../relive_lib/GameObjects/BaseAnimatedWithPhysicsGameObject.hpp"
 #include "../relive_lib/data_conversion/relive_tlvs.hpp"
 
+class BaseAliveGameObject;
+
 namespace AO {
 
 class Rope;
-class ::BaseAliveGameObject;
 
 class PullRingRope final : public BaseAnimatedWithPhysicsGameObject
 {

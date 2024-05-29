@@ -6,7 +6,7 @@
 
 enum class EReliveLevelIds : s16;
 
-class ::BaseAliveGameObject;
+class BaseAliveGameObject;
 class PathLine;
 struct PSX_RECT;
 

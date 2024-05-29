@@ -2,7 +2,7 @@
 
 #include "../relive_lib/GameObjects/BaseGameObject.hpp"
 
-class ::BaseAliveGameObject;
+class BaseAliveGameObject;
 
 namespace AO {
 

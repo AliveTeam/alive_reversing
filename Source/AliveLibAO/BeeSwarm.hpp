@@ -6,7 +6,7 @@
 #include "../relive_lib/AnimationUnknown.hpp"
 
 class PathLine;
-class ::BaseAliveGameObject;
+class BaseAliveGameObject;
 
 namespace AO {
 
