@@ -160,8 +160,10 @@ void BirdPortal::VUpdate()
                 mTimer = MakeTimer(Math_RandomRange(24, 40));
             }
 
-            //auto pTarget = Abe::FindObjectToPossess();
-            if (EventGet(Event::kEventAbeOhm))
+            // In AO trying to open a portal with an enemy around scatters the birds
+            auto pSlig = Abe::FindObjectToPossess();
+            auto pOmm = EventGet(Event::kEventAbeOhm);
+            if (pOmm && !pSlig)
             {
                 BaseGameObject* pShrykullNumMuds = sObjectIds.Find(mThrowableTotalIndicator, ReliveTypes::eThrowableTotalIndicator);
                 if (pShrykullNumMuds)
@@ -182,8 +184,10 @@ void BirdPortal::VUpdate()
                 mTimer = MakeTimer(15);
                 EventBroadcast(GetEvent(), this);
                 SfxPlayMono(relive::SoundEffects::Dove, 70, mSpriteScale);
-             }
-             else if (IsScaredAway() || EventGet(Event::kEventShooting))
+            }
+            else
+            {
+                if ((pOmm && pSlig) || IsScaredAway() || EventGet(Event::kEventShooting))
                 {
                     for (const auto& id : mDoveIds)
                     {
@@ -202,7 +206,8 @@ void BirdPortal::VUpdate()
                         pThrowableIndicator->SetDead(true);
                     }
                     SfxPlayMono(relive::SoundEffects::Dove, 70, mSpriteScale);
-                    SetDead(true); 
+                    SetDead(true);
+                }
             }
         }
         break;
