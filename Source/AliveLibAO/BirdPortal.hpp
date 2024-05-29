@@ -6,10 +6,9 @@
 #include "../relive_lib/GameObjects/IBirdPortal.hpp"
 
 enum class EReliveLevelIds : s16;
+enum class Event : s16;
 
 namespace AO {
-
-enum class LevelIds : s16;
 
 class BirdPortal final : public IBirdPortal
 {
@@ -18,6 +17,7 @@ public:
     ~BirdPortal();
     
     virtual void VUpdate() override;
+    virtual void VRender(OrderingTable& ot) override;
 
     virtual void VGiveShrykull(s16 bPlaySound) override;
     virtual void VExitPortal() override;
@@ -25,6 +25,8 @@ public:
 
 private:
     s16 IsScaredAway();
+    void KillTerminators();
+    Event GetEvent();
 };
 
 } // namespace AO

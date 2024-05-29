@@ -323,7 +323,7 @@ void BirdPortal::VUpdate()
             break;
 
         case PortalStates::ShrykullGetDoves_7:
-            BirdPortal::KillTerminators();
+            KillTerminators();
             if (mReceivedDovesCount >= 7)
             {
                 mState = PortalStates::GetShrykull_9;
@@ -385,7 +385,7 @@ void BirdPortal::VUpdate()
             break;
 
         case PortalStates::CollapseTerminators_10:
-            BirdPortal::KillTerminators();
+            KillTerminators();
             pTerminator1->mYPos += (FP_FromDouble(3.5) * mSpriteScale);
             pTerminator2->mYPos -= (FP_FromDouble(3.5) * mSpriteScale);
 
@@ -721,24 +721,6 @@ Event BirdPortal::GetEvent()
     return Event::kEventPortalOpen;
 }
 
-void BirdPortal::VGetSaveState(SerializedObjectData& pBuffer)
-{
-    BirdPortalSaveState data = {};
-    auto pTlv = static_cast<relive::Path_BirdPortal*>(gPathInfo->TLV_From_Offset_Lvl_Cam(mTlvInfo));
-
-    s16 numMudsForShrykull = 0;
-    if (pTlv)
-    {
-        numMudsForShrykull = pTlv->mMudCountForShrykull;
-    }
-
-    data.mType = ReliveTypes::eBirdPortal;
-    data.mTlvInfo = mTlvInfo;
-    data.mState = mState;
-    data.mMudCountForShrykull = static_cast<u8>(numMudsForShrykull - mMudCountForShrykull);
-
-    pBuffer.Write(data);
-}
 
 void BirdPortal::VRender(OrderingTable& /*ot*/)
 {
@@ -760,6 +742,25 @@ void BirdPortal::KillTerminators()
             pObj->SetDead(true);
         }
     }
+}
+
+void BirdPortal::VGetSaveState(SerializedObjectData& pBuffer)
+{
+    BirdPortalSaveState data = {};
+    auto pTlv = static_cast<relive::Path_BirdPortal*>(gPathInfo->TLV_From_Offset_Lvl_Cam(mTlvInfo));
+
+    s16 numMudsForShrykull = 0;
+    if (pTlv)
+    {
+        numMudsForShrykull = pTlv->mMudCountForShrykull;
+    }
+
+    data.mType = ReliveTypes::eBirdPortal;
+    data.mTlvInfo = mTlvInfo;
+    data.mState = mState;
+    data.mMudCountForShrykull = static_cast<u8>(numMudsForShrykull - mMudCountForShrykull);
+
+    pBuffer.Write(data);
 }
 
 void BirdPortal::CreateFromSaveState(SerializedObjectData& pBuffer)
