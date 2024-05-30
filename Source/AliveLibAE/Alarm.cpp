@@ -6,30 +6,31 @@
 #include "../relive_lib/Events.hpp"
 #include "Sfx.hpp"
 #include "Path.hpp"
+#include "../relive_lib/GameType.hpp"
 
 s16 gAlarmInstanceCount = 0;
-Guid gAlarmObjId = Guid{};
+Guid gAlarmObjId = Guid{}; // Only used in AE to kill the alarm in the last level
 
 Alarm::Alarm(relive::Path_Alarm* pTlv, const Guid& tlvId)
-    : EffectBase(Layer::eLayer_Above_FG1_39, relive::TBlendModes::eBlend_3),
-    mAlarmTlvInfo(tlvId),
-    mAlarmState(States::eWaitForSwitchEnable_0),
-    mAlarmSwitchId(pTlv->mSwitchId), // This won't count as an alarm instance till this id is enabled
-    mAlarmDuration(pTlv->mAlarmDuration)
+    : EffectBase(Layer::eLayer_Above_FG1_39, relive::TBlendModes::eBlend_3)
+    , mAlarmTlvInfo(tlvId)
+    , mAlarmState(States::eWaitForSwitchEnable)
+    , mAlarmSwitchId(pTlv->mSwitchId) // This won't count as an alarm instance till this id is enabled
+    , mAlarmDuration(pTlv->mAlarmDuration)
 {
     SetType(ReliveTypes::eAlarm);
 }
 
-Alarm::Alarm(s32 durationOffset, u16 switchId, s32 timerOffset, Layer layer)
+Alarm::Alarm(s32 durationTimer, u16 switchId, s32 pauseTimer, Layer layer)
     : EffectBase(layer, relive::TBlendModes::eBlend_3),
     mAlarmTlvInfo(Guid{}),
-    mAlarmState(States::eAfterConstructed_1),
+    mAlarmState(States::eAfterConstructed),
     mAlarmSwitchId(switchId)
 {
     SetType(ReliveTypes::eAlarm);
 
-    mAlarmPauseTimer = MakeTimer(timerOffset);
-    mAlarmDurationTimer = mAlarmPauseTimer + durationOffset;
+    mAlarmPauseTimer = MakeTimer(pauseTimer);
+    mAlarmDurationTimer = mAlarmPauseTimer + durationTimer;
 
     gAlarmInstanceCount++;
 
@@ -42,11 +43,18 @@ Alarm::Alarm(s32 durationOffset, u16 switchId, s32 timerOffset, Layer layer)
     {
         gAlarmObjId = mBaseGameObjectId;
     }
+
+    // Disable red screen flashing in the stock yards
+    if (GetMap().mCurrentLevel == EReliveLevelIds::eStockYards || GetMap().mCurrentLevel == EReliveLevelIds::eStockYardsReturn)
+    {
+        gObjListDrawables->Remove_Item(this);
+        SetDrawable(false);
+    }
 }
 
 Alarm::~Alarm()
 {
-    if (mAlarmState != States::eWaitForSwitchEnable_0)
+    if (mAlarmState != States::eWaitForSwitchEnable)
     {
         gAlarmInstanceCount--;
     }
@@ -65,7 +73,7 @@ Alarm::~Alarm()
     }
     else
     {
-        Path::TLV_Reset(mAlarmTlvInfo);
+        GetMap().TLV_Reset(mAlarmTlvInfo);
     }
 }
 
@@ -79,7 +87,7 @@ void Alarm::VRender(OrderingTable& ot)
 
 void Alarm::VUpdate()
 {
-    if (mAlarmState != States::eWaitForSwitchEnable_0)
+    if (mAlarmState != States::eWaitForSwitchEnable)
     {
         EventBroadcast(Event::kEventAlarm, this);
         if (static_cast<s32>(sGnFrame) > mAlarmDurationTimer)
@@ -87,11 +95,22 @@ void Alarm::VUpdate()
             SetDead(true);
             return;
         }
+
+        // TODO: check if this can be removed
+        if (GetGameType() == GameType::eAo)
+        {
+            if (mEffectBasePathId != GetMap().mCurrentPath || mEffectBaseLevelId != GetMap().mCurrentLevel)
+            {
+                SetDead(true);
+                return;
+            }
+        }
     }
 
+    const auto alarmSound = GetGameType() == GameType::eAo ? relive::SoundEffects::Alarm : relive::SoundEffects::SecurityDoorDeny;
     switch (mAlarmState)
     {
-        case States::eWaitForSwitchEnable_0:
+        case States::eWaitForSwitchEnable:
             if (EventGet(Event::kEventDeathReset))
             {
                 SetDead(true);
@@ -113,67 +132,60 @@ void Alarm::VUpdate()
                 gAlarmObjId = mBaseGameObjectId;
             }
 
-            mAlarmState = States::eEnabling_2;
-            SfxPlayMono(relive::SoundEffects::SecurityDoorDeny, 0);
+            mAlarmState = States::eEnabling;
+            SfxPlayMono(alarmSound, 0);
             mAlarmDurationTimer = MakeTimer(mAlarmDuration);
             mEffectBaseRed = mAlarmRed;
             break;
 
-        case States::eAfterConstructed_1: // When not created by a map TLV
+        case States::eAfterConstructed: // When not created by a map TLV
             if (EventGet(Event::kEventHeroDying))
             {
                 SetDead(true);
-            }
-            else
-            {
-                if (static_cast<s32>(sGnFrame) <= mAlarmPauseTimer)
-                {
-                    mEffectBaseRed = mAlarmRed;
-                    return;
-                }
-
-                mAlarmState = States::eEnabling_2;
-                SfxPlayMono(relive::SoundEffects::SecurityDoorDeny, 0);
-                
-                if (!mAlarmSwitchId)
-                {
-                    mEffectBaseRed = mAlarmRed;
-                    return;
-                }
-
-                SwitchStates_Set(mAlarmSwitchId, 1);
-                mEffectBaseRed = mAlarmRed;
-            }
-            break;
-
-        case States::eEnabling_2:
-            mAlarmRed += 25;
-
-            if (mAlarmRed < 100)
-            {
-                mEffectBaseRed = mAlarmRed;
                 return;
             }
 
-            mAlarmRed = 100;
-            mAlarmState = States::eOnFlash_3;
-            mAlarmPauseTimer = MakeTimer(15);
-            SfxPlayMono(relive::SoundEffects::SecurityDoorDeny, 0);
             mEffectBaseRed = mAlarmRed;
-            break;
-
-        case States::eOnFlash_3:
             if (static_cast<s32>(sGnFrame) <= mAlarmPauseTimer)
             {
-                mEffectBaseRed = mAlarmRed;
                 return;
             }
 
-            mAlarmState = States::eDisabling_4;
-            mEffectBaseRed = mAlarmRed;
+            mAlarmState = States::eEnabling;
+            SfxPlayMono(alarmSound, 0);
+                
+            if (!mAlarmSwitchId)
+            {
+                return;
+            }
+
+            SwitchStates_Set(mAlarmSwitchId, 1);
             break;
 
-        case States::eDisabling_4:
+        case States::eEnabling:
+            mAlarmRed += 25;
+
+            mEffectBaseRed = mAlarmRed;
+            if (mAlarmRed >= 100)
+            {
+                mAlarmRed = 100;
+                mAlarmPauseTimer = MakeTimer(15);
+                mAlarmState = States::eOnFlash;
+                SfxPlayMono(alarmSound, 0);
+            }
+            break;
+
+        case States::eOnFlash:
+            mEffectBaseRed = mAlarmRed;
+            if (static_cast<s32>(sGnFrame) <= mAlarmPauseTimer)
+            {
+                return;
+            }
+
+            mAlarmState = States::eDisabling;
+            break;
+
+        case States::eDisabling:
             mAlarmRed -= 25;
 
             if (mAlarmRed > 0)
@@ -183,25 +195,24 @@ void Alarm::VUpdate()
             }
 
             mAlarmRed = 0;
+            mEffectBaseRed = 0;
             mAlarmPauseTimer = MakeTimer(15);
-            mAlarmState = States::eDisabled_5;
-            mEffectBaseRed = mAlarmRed;
+            mAlarmState = States::eDisabled;
             break;
 
-        case States::eDisabled_5:
+        case States::eDisabled:
             if (EventGet(Event::kEventHeroDying))
             {
                 SetDead(true);
+                return;
             }
-            else
+
+            if (static_cast<s32>(sGnFrame) > mAlarmPauseTimer)
             {
-                if (static_cast<s32>(sGnFrame) > mAlarmPauseTimer)
-                {
-                    mAlarmState = States::eEnabling_2;
-                    SfxPlayMono(relive::SoundEffects::SecurityDoorDeny, 0);
-                }
-                mEffectBaseRed = mAlarmRed;
+                mAlarmState = States::eEnabling;
+                SfxPlayMono(alarmSound, 0);
             }
+            mEffectBaseRed = mAlarmRed;
             break;
 
         default:
