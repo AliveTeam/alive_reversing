@@ -13,7 +13,7 @@
 #include "PauseMenu.hpp"
 #include "Game.hpp"
 #include "Grenade.hpp"
-#include "../AliveLibAE/GasCountDown.hpp"
+#include "../relive_lib/GameObjects/GasCountDown.hpp"
 #include "PathDataExtensions.hpp"
 
 namespace AO {

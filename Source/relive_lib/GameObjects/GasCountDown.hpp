@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../relive_lib/GameObjects/BaseGameObject.hpp"
-#include "Font.hpp"
+#include "../../AliveLibAE/Font.hpp"
 
 namespace relive
 {

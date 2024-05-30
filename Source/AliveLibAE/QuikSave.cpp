@@ -24,7 +24,7 @@
 #include "SlapLockWhirlWind.hpp"
 #include "AbilityRing.hpp"
 #include "Slurg.hpp"
-#include "GasCountDown.hpp"
+#include "../relive_lib/GameObjects/GasCountDown.hpp"
 #include "Rock.hpp"
 #include "Meat.hpp"
 #include "Bone.hpp"

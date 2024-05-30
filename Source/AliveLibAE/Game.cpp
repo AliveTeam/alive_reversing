@@ -29,7 +29,7 @@
 #include "../relive_lib/ResourceManagerWrapper.hpp"
 #include "GameEnderController.hpp"
 #include "ColourfulMeter.hpp"
-#include "GasCountDown.hpp"
+#include "../relive_lib/GameObjects/GasCountDown.hpp"
 #include "../relive_lib/SwitchStates.hpp"
 #include "../relive_lib/Collisions.hpp"
 

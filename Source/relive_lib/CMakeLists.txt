@@ -181,8 +181,6 @@ SET(AliveLibSrcAO
    ../AliveLibAO/AnimationCallBacks.hpp
    ../AliveLibAO/Factory.hpp
    ../AliveLibAO/Factory.cpp
-   ../AliveLibAO/GasCountDown.hpp
-   ../AliveLibAO/GasCountDown.cpp
    ../AliveLibAO/Movie.hpp
    ../AliveLibAO/Movie.cpp
    ../AliveLibAO/MusicController.hpp
@@ -386,8 +384,6 @@ SET(AliveLibAESrc
     ../AliveLibAE/Slog.cpp
     ../AliveLibAE/Slig.hpp
     ../AliveLibAE/Slig.cpp
-    ../AliveLibAE/GasCountDown.hpp
-    ../AliveLibAE/GasCountDown.cpp
     ../AliveLibAE/GlukkonSwitch.hpp
     ../AliveLibAE/GlukkonSwitch.cpp
     ../AliveLibAE/Bullet.hpp
@@ -576,6 +572,8 @@ SET(game_objects_src
     GameObjects/TimedMine.cpp
     GameObjects/Alarm.hpp
     GameObjects/Alarm.cpp
+    GameObjects/GasCountDown.hpp
+    GameObjects/GasCountDown.cpp
 )
 
 SET(data_conversion_src

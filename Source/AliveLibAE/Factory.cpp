@@ -62,7 +62,7 @@
 #include "Fleech.hpp"
 #include "Slog.hpp"
 #include "Slig.hpp"
-#include "GasCountDown.hpp"
+#include "../relive_lib/GameObjects/GasCountDown.hpp"
 #include "GlukkonSwitch.hpp"
 #include "CrawlingSligButton.hpp"
 #include "SligGetPantsAndWings.hpp"

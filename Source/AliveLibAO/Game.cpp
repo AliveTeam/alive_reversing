@@ -32,7 +32,7 @@
 #include "PathDataExtensions.hpp"
 #include "GameAutoPlayer.hpp"
 #include "../AliveLibAE/VGA.hpp"
-#include "../AliveLibAE/GasCountDown.hpp"
+#include "../relive_lib/GameObjects/GasCountDown.hpp"
 #include "../relive_lib/GameObjects/PlatformBase.hpp"
 
 // Note: Using AE var

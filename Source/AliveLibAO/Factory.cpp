@@ -1,7 +1,7 @@
 #include "stdafx_ao.h"
 #include "Factory.hpp"
 #include "../relive_lib/Function.hpp"
-#include "GasCountDown.hpp"
+#include "../relive_lib/GameObjects/GasCountDown.hpp"
 #include "../AliveLibAE/stdlib.hpp"
 #include "RollingBallStopper.hpp"
 #include "Game.hpp"

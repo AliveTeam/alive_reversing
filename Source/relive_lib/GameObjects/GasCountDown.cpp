@@ -2,18 +2,19 @@
 #include "GasCountDown.hpp"
 #include "../relive_lib/Function.hpp"
 #include "../relive_lib/GameObjects/Alarm.hpp"
-#include "Map.hpp"
 #include "../relive_lib/SwitchStates.hpp"
 #include "../relive_lib/Events.hpp"
-#include "Abe.hpp"
 #include "Sfx.hpp"
 #include "../relive_lib/GameObjects/DeathGas.hpp"
-#include "Path.hpp"
 #include "../relive_lib/GameObjects/ScreenManager.hpp"
+#include "../relive_lib/GameType.hpp"
 
-// NOTE: shared by AE and AO until GasCountDown is merged
 s32 gDeathGasTimer = 0;
 bool gDeathGasOn = false;
+
+// hardcoded values for the boardroom in AO
+constexpr u32 kGasCountDownSwitchIdAO = 70;
+constexpr u32 kGasCountdownTimeAO = 3600;
 
 GasCountDown::GasCountDown(relive::Path_GasCountDown* pTlv, const Guid& tlvInfo)
     : BaseGameObject(true, 0)
@@ -33,35 +34,44 @@ GasCountDown::GasCountDown(relive::Path_GasCountDown* pTlv, const Guid& tlvInfo)
     gDeathGasOn = false;
 
     mStartTimerSwitchId = pTlv->mStartTimerSwitchId;
-    mGasCountdownTimer = pTlv->mGasCountdownTimer;
-    mStopTimerSwitchId = pTlv->mStopTimerSwitchId;
 
-    if (gDeathGasTimer)
+    if (GetGameType() == GameType::eAo)
     {
-        mGasTimeLeftSecs = static_cast<s16>((mGasCountdownTimer - (sGnFrame - gDeathGasTimer)) / 30);
-        if (mGasTimeLeftSecs < 0)
-        {
-            mGasTimeLeftSecs = 0;
-        }
-
-        relive_new Alarm(mGasCountdownTimer, 0, 0, Layer::eLayer_Above_FG1_39);
+        mGasTimeLeftSecs = kGasCountdownTimeAO / 30;
+        mStopTimerSwitchId = kGasCountDownSwitchIdAO;
+        mGasCountdownTimer = kGasCountdownTimeAO;
     }
     else
     {
-        mGasTimeLeftSecs = mGasCountdownTimer / 30;
+        mGasCountdownTimer = pTlv->mGasCountdownTimer;
+        mStopTimerSwitchId = pTlv->mStopTimerSwitchId;
+        if (gDeathGasTimer)
+        {
+            mGasTimeLeftSecs = static_cast<s16>((mGasCountdownTimer - (sGnFrame - gDeathGasTimer)) / 30);
+            if (mGasTimeLeftSecs < 0)
+            {
+                mGasTimeLeftSecs = 0;
+            }
+
+            relive_new Alarm(mGasCountdownTimer, 0, 0, Layer::eLayer_Above_FG1_39);
+        }
+        else
+        {
+            mGasTimeLeftSecs = mGasCountdownTimer / 30;
+        }
     }
 }
 
 GasCountDown::~GasCountDown()
 {
     gObjListDrawables->Remove_Item(this);
-    Path::TLV_Reset(mTlvId);
+    GetMap().TLV_Reset(mTlvId);
 }
 
 void GasCountDown::VScreenChanged()
 {
     SetDead(true);
-    if (gMap.LevelChanged() || gMap.PathChanged())
+    if (GetMap().LevelChanged() || GetMap().PathChanged())
     {
         gDeathGasTimer = 0;
     }
@@ -107,7 +117,7 @@ void GasCountDown::VUpdate()
         }
 
         const s32 oldTimer = mGasTimeLeftSecs;
-        const s32 newTimer = (mGasCountdownTimer - static_cast<s32>(sGnFrame - gDeathGasTimer)) / 30;
+        const s32 newTimer = (mGasCountdownTimer - (static_cast<s32>(sGnFrame) - gDeathGasTimer)) / 30;
         mGasTimeLeftSecs = static_cast<s16>(newTimer);
         if (oldTimer != mGasTimeLeftSecs && mGasTimeLeftSecs > 0)
         {
@@ -120,23 +130,20 @@ void GasCountDown::VUpdate()
 
 void GasCountDown::DealDamage()
 {
-    if (mGasTimeLeftSecs < 0)
+    if (mGasTimeLeftSecs <= -3)
     {
-        if (-mGasTimeLeftSecs > 2)
+        GetAbe()->VTakeDamage(this);
+        for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
         {
-            gAbe->VTakeDamage(this);
-            for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
+            BaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
+            if (!pObj)
             {
-                BaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
-                if (!pObj)
-                {
-                    break;
-                }
+                break;
+            }
 
-                if (pObj->Type() == ReliveTypes::eMudokon)
-                {
-                    pObj->VTakeDamage(this);
-                }
+            if (pObj->Type() == ReliveTypes::eMudokon)
+            {
+                pObj->VTakeDamage(this);
             }
         }
         mGasTimeLeftSecs = 0;

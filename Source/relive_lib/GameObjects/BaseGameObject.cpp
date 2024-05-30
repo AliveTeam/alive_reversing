@@ -7,6 +7,8 @@
 #include "Events.hpp"
 #include "GameType.hpp"
 #include "FatalError.hpp"
+#include "../../AliveLibAO/Abe.hpp"
+#include "../../AliveLibAE/Abe.hpp"
 
 DynamicArrayT<BaseGameObject>* gBaseGameObjects = nullptr;
 
@@ -75,6 +77,18 @@ IMap& GetMap()
     else
     {
         return AO::gMap;
+    }
+}
+
+BaseAliveGameObject* GetAbe()
+{
+    if (GetGameType() == GameType::eAe)
+    {
+        return gAbe;
+    }
+    else
+    {
+        return AO::gAbe;
     }
 }
 

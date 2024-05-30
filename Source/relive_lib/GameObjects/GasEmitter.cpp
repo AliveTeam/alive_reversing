@@ -5,7 +5,7 @@
 #include "../SwitchStates.hpp"
 #include "Particle.hpp"
 #include "Sfx.hpp"
-#include "../../AliveLibAE/GasCountDown.hpp"
+#include "../relive_lib/GameObjects/GasCountDown.hpp"
 #include "../GameType.hpp"
 
 static GasEmitter* sMainGasEmitter = nullptr;
