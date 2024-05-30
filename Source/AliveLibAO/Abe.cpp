@@ -20,7 +20,7 @@
 #include "Movie.hpp"
 #include "../relive_lib/GameObjects/CircularFade.hpp"
 #include "../relive_lib/GameObjects/Fade.hpp"
-#include "Throwable.hpp"
+#include "../relive_lib/GameObjects/BaseThrowable.hpp"
 #include "../relive_lib/GameObjects/OrbWhirlWind.hpp"
 #include "../relive_lib/GameObjects/Particle.hpp"
 #include "PossessionFlicker.hpp"
@@ -1155,7 +1155,7 @@ void Abe::ToKnockback(s16 bKnockbackSound, s16 bDelayedAnger)
             field_134_auto_say_timer = MakeTimer(27);
         }
 
-        auto pThrowable = static_cast<BaseThrowable*>(sObjectIds.Find_Impl(mThrowable));
+        auto pThrowable = static_cast<::BaseThrowable*>(sObjectIds.Find_Impl(mThrowable));
         if (pThrowable)
         {
             pThrowable->VToDead();
@@ -1622,7 +1622,7 @@ void Abe::PickUpThrowabe_Or_PressBomb(FP fpX, s32 fpY, s16 bStandToCrouch)
             case ReliveTypes::eRock:
             {
                 mCurrentMotion = eAbeMotions::Motion_149_PickupItem;
-                auto pThrowable = static_cast<BaseThrowable*>(sObjectIds.Find_Impl(field_15C_pThrowable));
+                auto pThrowable = static_cast<::BaseThrowable*>(sObjectIds.Find_Impl(field_15C_pThrowable));
                 field_19C_throwable_count += static_cast<s8>(pThrowable->VGetCount());
 
                 if (!gThrowableIndicatorExists)
@@ -1655,7 +1655,7 @@ void Abe::PickUpThrowabe_Or_PressBomb(FP fpX, s32 fpY, s16 bStandToCrouch)
             {
                 if (bStandToCrouch)
                 {
-                    auto pThrowable = static_cast<BaseThrowable*>(sObjectIds.Find_Impl(field_15C_pThrowable));
+                    auto pThrowable = static_cast<::BaseThrowable*>(sObjectIds.Find_Impl(field_15C_pThrowable));
 
                     SfxPlayMono(relive::SoundEffects::PickupItem, 0, GetSpriteScale());
                     pThrowable->VOnAbeInteraction();
@@ -7830,7 +7830,7 @@ void Abe::Motion_127_SlapBomb()
 {
     if (gAbe->GetAnimation().GetCurrentFrame() >= 6)
     {
-        auto pThrowable = static_cast<BaseThrowable*>(sObjectIds.Find_Impl(field_15C_pThrowable));
+        auto pThrowable = static_cast<::BaseThrowable*>(sObjectIds.Find_Impl(field_15C_pThrowable));
         if (pThrowable)
         {
             pThrowable->VOnAbeInteraction();
@@ -8258,7 +8258,7 @@ void Abe::Motion_142_RockThrowStandingHold()
 
     if (Input().IsAnyReleased(InputCommands::eThrowItem))
     {
-        auto pThrowable = static_cast<BaseThrowable*>(sObjectIds.Find_Impl(mThrowable));
+        auto pThrowable = static_cast<::BaseThrowable*>(sObjectIds.Find_Impl(mThrowable));
         pThrowable->VToDead();
         mThrowable = Guid{};
         mCurrentMotion = eAbeMotions::Motion_144_RockThrowStandingEnd;
@@ -8292,7 +8292,7 @@ void Abe::Motion_144_RockThrowStandingEnd()
 
 void Abe::Motion_145_RockThrowCrouchingHold()
 {
-    auto pThrowable = static_cast<BaseThrowable*>(sObjectIds.Find_Impl(mThrowable));
+    auto pThrowable = static_cast<::BaseThrowable*>(sObjectIds.Find_Impl(mThrowable));
     if (GetAnimation().GetCurrentFrame() >= 4)
     {
         if (Input().IsAnyHeld(InputCommands::eRight | InputCommands::eLeft | InputCommands::eUp | InputCommands::eDown))
@@ -8411,7 +8411,7 @@ void Abe::Motion_149_PickupItem()
 
     if (gAbe->GetAnimation().GetCurrentFrame() >= 5)
     {
-        auto pThrowable = static_cast<BaseThrowable*>(sObjectIds.Find_Impl(field_15C_pThrowable));
+        auto pThrowable = static_cast<::BaseThrowable*>(sObjectIds.Find_Impl(field_15C_pThrowable));
         if (pThrowable)
         {
             pThrowable->VOnAbeInteraction();

@@ -97,375 +97,375 @@ void BaseGameObject::VGetSaveState(SerializedObjectData&)
     // Not used in AO yet so needs a default impl
 }
 
-ReliveTypes BaseGameObject::FromAO(AO::AOTypes aoType)
+ReliveTypes BaseGameObject::FromAO(AOTypes aoType)
 {
     switch (aoType)
     {
-        case AO::AOTypes::eNone_0:
+        case AOTypes::eNone_0:
             return ReliveTypes::eNone;
-        case AO::AOTypes::eAlarm_1:
+        case AOTypes::eAlarm_1:
             return ReliveTypes::eAlarm;
-        case AO::AOTypes::eScreenManager_4:
+        case AOTypes::eScreenManager_4:
             return ReliveTypes::eScreenManager;
-        case AO::AOTypes::eBackgroundAnimation_5:
+        case AOTypes::eBackgroundAnimation_5:
             return ReliveTypes::eBackgroundAnimation;
-        case AO::AOTypes::eBat_6:
+        case AOTypes::eBat_6:
             return ReliveTypes::eBat;
-        case AO::AOTypes::eLiftMover_7:
+        case AOTypes::eLiftMover_7:
             return ReliveTypes::eLiftMover;
-        case AO::AOTypes::eTimedMine_8:
+        case AOTypes::eTimedMine_8:
             return ReliveTypes::eTimedMine;
-        case AO::AOTypes::eBullet_10:
+        case AOTypes::eBullet_10:
             return ReliveTypes::eBullet;
-        case AO::AOTypes::eDDCheat_12:
+        case AOTypes::eDDCheat_12:
             return ReliveTypes::eDDCheat;
-        case AO::AOTypes::eBells_13:
+        case AOTypes::eBells_13:
             return ReliveTypes::eBells;
-        case AO::AOTypes::eChimeLock_14:
+        case AOTypes::eChimeLock_14:
             return ReliveTypes::eChimeLock;
-        case AO::AOTypes::eZapSpark_15:
+        case AOTypes::eZapSpark_15:
             return ReliveTypes::eZapSpark;
-        case AO::AOTypes::eGasClock_16:
+        case AOTypes::eGasClock_16:
             return ReliveTypes::eGasCountDown;
-        case AO::AOTypes::eParticleBurst_19:
+        case AOTypes::eParticleBurst_19:
             return ReliveTypes::eParticleBurst;
-        case AO::AOTypes::eDoor_21:
+        case AOTypes::eDoor_21:
             return ReliveTypes::eDoor;
-        case AO::AOTypes::eDove_22:
+        case AOTypes::eDove_22:
             return ReliveTypes::eDove;
-        case AO::AOTypes::eGameSpeak_24:
+        case AOTypes::eGameSpeak_24:
             return ReliveTypes::eGameSpeak;
-        case AO::AOTypes::eElectricWall_25:
+        case AOTypes::eElectricWall_25:
             return ReliveTypes::eElectricWall;
-        case AO::AOTypes::eElum_26:
+        case AOTypes::eElum_26:
             return ReliveTypes::eElum;
-        case AO::AOTypes::eBellHammer_27:
+        case AOTypes::eBellHammer_27:
             return ReliveTypes::eBellHammer;
-        case AO::AOTypes::ePalOverwriter_29:
+        case AOTypes::ePalOverwriter_29:
             return ReliveTypes::ePalOverwriter;
-        case AO::AOTypes::eBaseBomb_30:
+        case AOTypes::eBaseBomb_30:
             return ReliveTypes::eGroundExplosion;
-        case AO::AOTypes::eSecurityClaw_31:
+        case AOTypes::eSecurityClaw_31:
             return ReliveTypes::eSecurityClaw;
-        case AO::AOTypes::eRockSpawner_32:
+        case AOTypes::eRockSpawner_32:
             return ReliveTypes::eRockSpawner;
-        case AO::AOTypes::eFlintLockFire_34:
+        case AOTypes::eFlintLockFire_34:
             return ReliveTypes::eFlintLockFire;
-        case AO::AOTypes::eThrowableTotalIndicator_35:
+        case AOTypes::eThrowableTotalIndicator_35:
             return ReliveTypes::eThrowableTotalIndicator;
-        case AO::AOTypes::eFootSwitch36:
+        case AOTypes::eFootSwitch36:
             return ReliveTypes::eFootSwitch;
-        case AO::AOTypes::eGameEnderController_37:
+        case AOTypes::eGameEnderController_37:
             return ReliveTypes::eGameEnderController;
-        case AO::AOTypes::eDeathBird_38:
+        case AOTypes::eDeathBird_38:
             return ReliveTypes::eDeathBird;
-        case AO::AOTypes::eLoadingFile_39:
+        case AOTypes::eLoadingFile_39:
             return ReliveTypes::eLoadingFile;
-        case AO::AOTypes::eGrenade_40:
+        case AOTypes::eGrenade_40:
             return ReliveTypes::eGrenade;
-        case AO::AOTypes::eGrenadeMachine_41:
+        case AOTypes::eGrenadeMachine_41:
             return ReliveTypes::eBoomMachine;
-        case AO::AOTypes::eBackgroundGlukkon_42:
+        case AOTypes::eBackgroundGlukkon_42:
             return ReliveTypes::eBackgroundGlukkon;
-        case AO::AOTypes::eAbe_43:
+        case AOTypes::eAbe_43:
             return ReliveTypes::eAbe;
-        case AO::AOTypes::MainMenuFade_44:
+        case AOTypes::MainMenuFade_44:
             return ReliveTypes::MainMenuFade;
-        case AO::AOTypes::eHoneySack_45:
+        case AOTypes::eHoneySack_45:
             return ReliveTypes::eHoneySack;
-        case AO::AOTypes::eHoney_47:
+        case AOTypes::eHoney_47:
             return ReliveTypes::eHoney;
-        case AO::AOTypes::eClawOrBirdPortalTerminator_48:
+        case AOTypes::eClawOrBirdPortalTerminator_48:
             return ReliveTypes::eClawOrBirdPortalTerminator;
-        case AO::AOTypes::eRingOrLiftMud_52:
+        case AOTypes::eRingOrLiftMud_52:
             return ReliveTypes::eRingOrLiftMud;
-        case AO::AOTypes::eLiftPoint_51:
+        case AOTypes::eLiftPoint_51:
             return ReliveTypes::eLiftPoint;
-        case AO::AOTypes::SecurityOrb_53:
+        case AOTypes::SecurityOrb_53:
             return ReliveTypes::eSecurityOrb;
-        case AO::AOTypes::eMeat_54:
+        case AOTypes::eMeat_54:
             return ReliveTypes::eMeat;
-        case AO::AOTypes::eMeatStack_55:
+        case AOTypes::eMeatStack_55:
             return ReliveTypes::eMeatSack;
-        case AO::AOTypes::eMeatSaw_56:
+        case AOTypes::eMeatSaw_56:
             return ReliveTypes::eMeatSaw;
-        case AO::AOTypes::eMine_57:
+        case AOTypes::eMine_57:
             return ReliveTypes::eMine;
-        case AO::AOTypes::eRollingBallStopperShaker_58:
+        case AOTypes::eRollingBallStopperShaker_58:
             return ReliveTypes::eRollingBallStopperShaker;
-        case AO::AOTypes::eMotionDetector_59:
+        case AOTypes::eMotionDetector_59:
             return ReliveTypes::eMotionDetector;
-        case AO::AOTypes::eRollingBallStopper_60:
+        case AOTypes::eRollingBallStopper_60:
             return ReliveTypes::eRollingBallStopper;
-        case AO::AOTypes::ePauseMenu_61:
+        case AOTypes::ePauseMenu_61:
             return ReliveTypes::ePauseMenu;
-        case AO::AOTypes::eParamite_62:
+        case AOTypes::eParamite_62:
             return ReliveTypes::eParamite;
-        case AO::AOTypes::eDemoPlayback:
+        case AOTypes::eDemoPlayback:
             return ReliveTypes::eDemoPlayback;
-        case AO::AOTypes::eBirdPortal_65:
+        case AOTypes::eBirdPortal_65:
             return ReliveTypes::eBirdPortal;
-        case AO::AOTypes::eBirdPortalTerminator_66:
+        case AOTypes::eBirdPortalTerminator_66:
             return ReliveTypes::eBirdPortalTerminator;
-        case AO::AOTypes::eFG1_67:
+        case AOTypes::eFG1_67:
             return ReliveTypes::eFG1;
-        case AO::AOTypes::ePullRingRope_68:
+        case AOTypes::ePullRingRope_68:
             return ReliveTypes::ePullRingRope;
-        case AO::AOTypes::eAbilityRing_69:
+        case AOTypes::eAbilityRing_69:
             return ReliveTypes::eAbilityRing;
-        case AO::AOTypes::eRock_70:
+        case AOTypes::eRock_70:
             return ReliveTypes::eRock;
-        case AO::AOTypes::eRockSack_71:
+        case AOTypes::eRockSack_71:
             return ReliveTypes::eRockSack;
-        case AO::AOTypes::eRollingBall_72:
+        case AOTypes::eRollingBall_72:
             return ReliveTypes::eRollingBall;
-        case AO::AOTypes::eRope_73:
+        case AOTypes::eRope_73:
             return ReliveTypes::eRope;
-        case AO::AOTypes::eExplosion_74:
+        case AOTypes::eExplosion_74:
             return ReliveTypes::eAirExplosion;
-        case AO::AOTypes::eMudokon_75:
+        case AOTypes::eMudokon_75:
             return ReliveTypes::eMudokon;
-        case AO::AOTypes::eRedLaser_76:
+        case AOTypes::eRedLaser_76:
             return ReliveTypes::eRedLaser;
-        case AO::AOTypes::eScrab_77:
+        case AOTypes::eScrab_77:
             return ReliveTypes::eScrab;
-        case AO::AOTypes::eScreenClipper_78:
+        case AOTypes::eScreenClipper_78:
             return ReliveTypes::eScreenClipper;
-        case AO::AOTypes::eEffectBase_79:
+        case AOTypes::eEffectBase_79:
             return ReliveTypes::eEffectBase;
-        case AO::AOTypes::eDeathFadeOut_80:
+        case AOTypes::eDeathFadeOut_80:
             return ReliveTypes::eFade;
-        case AO::AOTypes::eFlash_81:
+        case AOTypes::eFlash_81:
             return ReliveTypes::eFlash;
-        case AO::AOTypes::ScreenShake_82:
+        case AOTypes::ScreenShake_82:
             return ReliveTypes::eScreenShake;
-        case AO::AOTypes::eScreenWave_83:
+        case AOTypes::eScreenWave_83:
             return ReliveTypes::eScreenWave;
-        case AO::AOTypes::eUnknown_84:
+        case AOTypes::eUnknown_84:
             return ReliveTypes::eUnknown;
-        case AO::AOTypes::eShrykull_85:
+        case AOTypes::eShrykull_85:
             return ReliveTypes::eShrykull;
-        case AO::AOTypes::eSnoozParticle_87:
+        case AOTypes::eSnoozParticle_87:
             return ReliveTypes::eSnoozeParticle;
-        case AO::AOTypes::eSlig_88:
+        case AOTypes::eSlig_88:
             return ReliveTypes::eSlig;
-        case AO::AOTypes::eSlog_89:
+        case AOTypes::eSlog_89:
             return ReliveTypes::eSlog;
-        case AO::AOTypes::SlingMud_90:
+        case AOTypes::SlingMud_90:
             return ReliveTypes::SlingMud;
-        case AO::AOTypes::eSligSpawner_91:
+        case AOTypes::eSligSpawner_91:
             return ReliveTypes::eSligSpawner;
-        case AO::AOTypes::eZBall_92:
+        case AOTypes::eZBall_92:
             return ReliveTypes::eZBall;
-        case AO::AOTypes::eParticle_93:
+        case AOTypes::eParticle_93:
             return ReliveTypes::eParticle;
-        case AO::AOTypes::eZapLine_94:
+        case AOTypes::eZapLine_94:
             return ReliveTypes::eZapLine;
-        case AO::AOTypes::eBeeSwarm_95:
+        case AOTypes::eBeeSwarm_95:
             return ReliveTypes::eBeeSwarm;
-        case AO::AOTypes::eBeeNest_96:
+        case AOTypes::eBeeNest_96:
             return ReliveTypes::eBeeNest;
-        case AO::AOTypes::eLever_97:
+        case AOTypes::eLever_97:
             return ReliveTypes::eLever;
-        case AO::AOTypes::eTrapDoor_98:
+        case AOTypes::eTrapDoor_98:
             return ReliveTypes::eTrapDoor;
-        case AO::AOTypes::eUXB_99:
+        case AOTypes::eUXB_99:
             return ReliveTypes::eUXB;
-        case AO::AOTypes::eMovie_100:
+        case AOTypes::eMovie_100:
             return ReliveTypes::eMovie;
-        case AO::AOTypes::eWell_101:
+        case AOTypes::eWell_101:
             return ReliveTypes::eWell;
-        case AO::AOTypes::eCameraSwapper_102:
+        case AOTypes::eCameraSwapper_102:
             return ReliveTypes::eCameraSwapper;
-        case AO::AOTypes::eElectrocute_103:
+        case AOTypes::eElectrocute_103:
             return ReliveTypes::eElectrocute;
         default:
             ALIVE_FATAL("Unknown AO type");
     }
 }
 
-AO::AOTypes BaseGameObject::ToAO(ReliveTypes reliveType)
+AOTypes BaseGameObject::ToAO(ReliveTypes reliveType)
 {
     switch (reliveType)
     {
         case ReliveTypes::eNone:
-            return AO::AOTypes::eNone_0;
+            return AOTypes::eNone_0;
         case ReliveTypes::eAlarm:
-            return AO::AOTypes::eAlarm_1;
+            return AOTypes::eAlarm_1;
         case ReliveTypes::eScreenManager:
-            return AO::AOTypes::eScreenManager_4;
+            return AOTypes::eScreenManager_4;
         case ReliveTypes::eBackgroundAnimation:
-            return AO::AOTypes::eBackgroundAnimation_5;
+            return AOTypes::eBackgroundAnimation_5;
         case ReliveTypes::eBat:
-            return AO::AOTypes::eBat_6;
+            return AOTypes::eBat_6;
         case ReliveTypes::eLiftMover:
-            return AO::AOTypes::eLiftMover_7;
+            return AOTypes::eLiftMover_7;
         case ReliveTypes::eTimedMine:
-            return AO::AOTypes::eTimedMine_8;
+            return AOTypes::eTimedMine_8;
         case ReliveTypes::eBullet:
-            return AO::AOTypes::eBullet_10;
+            return AOTypes::eBullet_10;
         case ReliveTypes::eDDCheat:
-            return AO::AOTypes::eDDCheat_12;
+            return AOTypes::eDDCheat_12;
         case ReliveTypes::eBells:
-            return AO::AOTypes::eBells_13;
+            return AOTypes::eBells_13;
         case ReliveTypes::eChimeLock:
-            return AO::AOTypes::eChimeLock_14;
+            return AOTypes::eChimeLock_14;
         case ReliveTypes::eZapSpark:
-            return AO::AOTypes::eZapSpark_15;
+            return AOTypes::eZapSpark_15;
         case ReliveTypes::eGasCountDown:
-            return AO::AOTypes::eGasClock_16;
+            return AOTypes::eGasClock_16;
         case ReliveTypes::eParticleBurst:
-            return AO::AOTypes::eParticleBurst_19;
+            return AOTypes::eParticleBurst_19;
         case ReliveTypes::eDoor:
-            return AO::AOTypes::eDoor_21;
+            return AOTypes::eDoor_21;
         case ReliveTypes::eDove:
-            return AO::AOTypes::eDove_22;
+            return AOTypes::eDove_22;
         case ReliveTypes::eGameSpeak:
-            return AO::AOTypes::eGameSpeak_24;
+            return AOTypes::eGameSpeak_24;
         case ReliveTypes::eElectricWall:
-            return AO::AOTypes::eElectricWall_25;
+            return AOTypes::eElectricWall_25;
         case ReliveTypes::eElum:
-            return AO::AOTypes::eElum_26;
+            return AOTypes::eElum_26;
         case ReliveTypes::eBellHammer:
-            return AO::AOTypes::eBellHammer_27;
+            return AOTypes::eBellHammer_27;
         case ReliveTypes::ePalOverwriter:
-            return AO::AOTypes::ePalOverwriter_29;
+            return AOTypes::ePalOverwriter_29;
         case ReliveTypes::eGroundExplosion:
-            return AO::AOTypes::eBaseBomb_30;
+            return AOTypes::eBaseBomb_30;
         case ReliveTypes::eSecurityClaw:
-            return AO::AOTypes::eSecurityClaw_31;
+            return AOTypes::eSecurityClaw_31;
         case ReliveTypes::eRockSpawner:
-            return AO::AOTypes::eRockSpawner_32;
+            return AOTypes::eRockSpawner_32;
         case ReliveTypes::eFlintLockFire:
-            return AO::AOTypes::eFlintLockFire_34;
+            return AOTypes::eFlintLockFire_34;
         case ReliveTypes::eThrowableTotalIndicator:
-            return AO::AOTypes::eThrowableTotalIndicator_35;
+            return AOTypes::eThrowableTotalIndicator_35;
         case ReliveTypes::eFootSwitch:
-            return AO::AOTypes::eFootSwitch36;
+            return AOTypes::eFootSwitch36;
         case ReliveTypes::eGameEnderController:
-            return AO::AOTypes::eGameEnderController_37;
+            return AOTypes::eGameEnderController_37;
         case ReliveTypes::eDeathBird:
-            return AO::AOTypes::eDeathBird_38;
+            return AOTypes::eDeathBird_38;
         case ReliveTypes::eLoadingFile:
-            return AO::AOTypes::eLoadingFile_39;
+            return AOTypes::eLoadingFile_39;
         case ReliveTypes::eGrenade:
-            return AO::AOTypes::eGrenade_40;
+            return AOTypes::eGrenade_40;
         case ReliveTypes::eBoomMachine:
-            return AO::AOTypes::eGrenadeMachine_41;
+            return AOTypes::eGrenadeMachine_41;
         case ReliveTypes::eBackgroundGlukkon:
-            return AO::AOTypes::eBackgroundGlukkon_42;
+            return AOTypes::eBackgroundGlukkon_42;
         case ReliveTypes::eAbe:
-            return AO::AOTypes::eAbe_43;
+            return AOTypes::eAbe_43;
         case ReliveTypes::MainMenuFade:
-            return AO::AOTypes::MainMenuFade_44;
+            return AOTypes::MainMenuFade_44;
         case ReliveTypes::eHoneySack:
-            return AO::AOTypes::eHoneySack_45;
+            return AOTypes::eHoneySack_45;
         case ReliveTypes::eHoney:
-            return AO::AOTypes::eHoney_47;
+            return AOTypes::eHoney_47;
         case ReliveTypes::eClawOrBirdPortalTerminator:
-            return AO::AOTypes::eClawOrBirdPortalTerminator_48;
+            return AOTypes::eClawOrBirdPortalTerminator_48;
         case ReliveTypes::eRingOrLiftMud:
-            return AO::AOTypes::eRingOrLiftMud_52;
+            return AOTypes::eRingOrLiftMud_52;
         case ReliveTypes::eLiftPoint:
-            return AO::AOTypes::eLiftPoint_51;
+            return AOTypes::eLiftPoint_51;
         case ReliveTypes::eSecurityOrb:
-            return AO::AOTypes::SecurityOrb_53;
+            return AOTypes::SecurityOrb_53;
         case ReliveTypes::eMeat:
-            return AO::AOTypes::eMeat_54;
+            return AOTypes::eMeat_54;
         case ReliveTypes::eMeatSack:
-            return AO::AOTypes::eMeatStack_55;
+            return AOTypes::eMeatStack_55;
         case ReliveTypes::eMeatSaw:
-            return AO::AOTypes::eMeatSaw_56;
+            return AOTypes::eMeatSaw_56;
         case ReliveTypes::eMine:
-            return AO::AOTypes::eMine_57;
+            return AOTypes::eMine_57;
         case ReliveTypes::eRollingBallStopperShaker:
-            return AO::AOTypes::eRollingBallStopperShaker_58;
+            return AOTypes::eRollingBallStopperShaker_58;
         case ReliveTypes::eMotionDetector:
-            return AO::AOTypes::eMotionDetector_59;
+            return AOTypes::eMotionDetector_59;
         case ReliveTypes::eRollingBallStopper:
-            return AO::AOTypes::eRollingBallStopper_60;
+            return AOTypes::eRollingBallStopper_60;
         case ReliveTypes::ePauseMenu:
-            return AO::AOTypes::ePauseMenu_61;
+            return AOTypes::ePauseMenu_61;
         case ReliveTypes::eParamite:
-            return AO::AOTypes::eParamite_62;
+            return AOTypes::eParamite_62;
         case ReliveTypes::eDemoPlayback:
-            return AO::AOTypes::eDemoPlayback;
+            return AOTypes::eDemoPlayback;
         case ReliveTypes::eBirdPortal:
-            return AO::AOTypes::eBirdPortal_65;
+            return AOTypes::eBirdPortal_65;
         case ReliveTypes::eBirdPortalTerminator:
-            return AO::AOTypes::eBirdPortalTerminator_66;
+            return AOTypes::eBirdPortalTerminator_66;
         case ReliveTypes::eFG1:
-            return AO::AOTypes::eFG1_67;
+            return AOTypes::eFG1_67;
         case ReliveTypes::ePullRingRope:
-            return AO::AOTypes::ePullRingRope_68;
+            return AOTypes::ePullRingRope_68;
         case ReliveTypes::eAbilityRing:
-            return AO::AOTypes::eAbilityRing_69;
+            return AOTypes::eAbilityRing_69;
         case ReliveTypes::eRock:
-            return AO::AOTypes::eRock_70;
+            return AOTypes::eRock_70;
         case ReliveTypes::eRockSack:
-            return AO::AOTypes::eRockSack_71;
+            return AOTypes::eRockSack_71;
         case ReliveTypes::eRollingBall:
-            return AO::AOTypes::eRollingBall_72;
+            return AOTypes::eRollingBall_72;
         case ReliveTypes::eRope:
-            return AO::AOTypes::eRope_73;
+            return AOTypes::eRope_73;
         case ReliveTypes::eAirExplosion:
-            return AO::AOTypes::eExplosion_74;
+            return AOTypes::eExplosion_74;
         case ReliveTypes::eMudokon:
-            return AO::AOTypes::eMudokon_75;
+            return AOTypes::eMudokon_75;
         case ReliveTypes::eRedLaser:
-            return AO::AOTypes::eRedLaser_76;
+            return AOTypes::eRedLaser_76;
         case ReliveTypes::eScrab:
-            return AO::AOTypes::eScrab_77;
+            return AOTypes::eScrab_77;
         case ReliveTypes::eScreenClipper:
-            return AO::AOTypes::eScreenClipper_78;
+            return AOTypes::eScreenClipper_78;
         case ReliveTypes::eEffectBase:
-            return AO::AOTypes::eEffectBase_79;
+            return AOTypes::eEffectBase_79;
         case ReliveTypes::eFade:
-            return AO::AOTypes::eDeathFadeOut_80;
+            return AOTypes::eDeathFadeOut_80;
         case ReliveTypes::eFlash:
-            return AO::AOTypes::eFlash_81;
+            return AOTypes::eFlash_81;
         case ReliveTypes::eScreenShake:
-            return AO::AOTypes::ScreenShake_82;
+            return AOTypes::ScreenShake_82;
         case ReliveTypes::eScreenWave:
-            return AO::AOTypes::eScreenWave_83;
+            return AOTypes::eScreenWave_83;
         case ReliveTypes::eUnknown:
-            return AO::AOTypes::eUnknown_84;
+            return AOTypes::eUnknown_84;
         case ReliveTypes::eShrykull:
-            return AO::AOTypes::eShrykull_85;
+            return AOTypes::eShrykull_85;
         case ReliveTypes::eSnoozeParticle:
-            return AO::AOTypes::eSnoozParticle_87;
+            return AOTypes::eSnoozParticle_87;
         case ReliveTypes::eSlig:
-            return AO::AOTypes::eSlig_88;
+            return AOTypes::eSlig_88;
         case ReliveTypes::eSlog:
-            return AO::AOTypes::eSlog_89;
+            return AOTypes::eSlog_89;
         case ReliveTypes::SlingMud:
-            return AO::AOTypes::SlingMud_90;
+            return AOTypes::SlingMud_90;
         case ReliveTypes::eSligSpawner:
-            return AO::AOTypes::eSligSpawner_91;
+            return AOTypes::eSligSpawner_91;
         case ReliveTypes::eZBall:
-            return AO::AOTypes::eZBall_92;
+            return AOTypes::eZBall_92;
         case ReliveTypes::eParticle:
-            return AO::AOTypes::eParticle_93;
+            return AOTypes::eParticle_93;
         case ReliveTypes::eZapLine:
-            return AO::AOTypes::eZapLine_94;
+            return AOTypes::eZapLine_94;
         case ReliveTypes::eBeeSwarm:
-            return AO::AOTypes::eBeeSwarm_95;
+            return AOTypes::eBeeSwarm_95;
         case ReliveTypes::eBeeNest:
-            return AO::AOTypes::eBeeNest_96;
+            return AOTypes::eBeeNest_96;
         case ReliveTypes::eLever:
-            return AO::AOTypes::eLever_97;
+            return AOTypes::eLever_97;
         case ReliveTypes::eTrapDoor:
-            return AO::AOTypes::eTrapDoor_98;
+            return AOTypes::eTrapDoor_98;
         case ReliveTypes::eUXB:
-            return AO::AOTypes::eUXB_99;
+            return AOTypes::eUXB_99;
         case ReliveTypes::eMovie:
-            return AO::AOTypes::eMovie_100;
+            return AOTypes::eMovie_100;
         case ReliveTypes::eWell:
-            return AO::AOTypes::eWell_101;
+            return AOTypes::eWell_101;
         case ReliveTypes::eCameraSwapper:
-            return AO::AOTypes::eCameraSwapper_102;
+            return AOTypes::eCameraSwapper_102;
         case ReliveTypes::eElectrocute:
-            return AO::AOTypes::eElectrocute_103;
+            return AOTypes::eElectrocute_103;
         default:
             ALIVE_FATAL("No AO type for this relive type");
     }

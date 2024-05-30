@@ -9,7 +9,7 @@
 #include "../relive_lib/Events.hpp"
 #include "../relive_lib/GameObjects/Particle.hpp"
 #include "Abe.hpp"
-#include "Throwable.hpp"
+#include "../relive_lib/GameObjects/BaseThrowable.hpp"
 #include "../relive_lib/Collisions.hpp"
 #include "../relive_lib/FixedPoint.hpp"
 #include "../relive_lib/ObjectIds.hpp"
@@ -191,7 +191,7 @@ void Abe_OnFrame(::BaseGameObject* pObj, u32&, const IndexedPoint& pData)
         xVel = -xVel;
     }
 
-    auto pThrowable = static_cast<BaseThrowable*>(sObjectIds.Find_Impl(gAbe->mThrowable));
+    auto pThrowable = static_cast<::BaseThrowable*>(sObjectIds.Find_Impl(gAbe->mThrowable));
     if (pThrowable)
     {
         pThrowable->mXPos = directed_x + gAbe->mXPos;

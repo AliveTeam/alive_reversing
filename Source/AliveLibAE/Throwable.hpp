@@ -1,7 +1,6 @@
 #pragma once
 
 #include "../relive_lib/GameObjects/BaseAliveGameObject.hpp"
-#include "../relive_lib/AddPointer.hpp"
 
 class BaseThrowable;
 
@@ -12,8 +11,7 @@ BaseThrowable* Make_Throwable(FP xpos, FP ypos, s16 count);
 class BaseThrowable : public BaseAliveGameObject
 {
 public:
-    explicit BaseThrowable(s16 resourceArraySize);
-
+    BaseThrowable();
 
     // New virtuals for throwables
     virtual void VThrow(FP velX, FP velY) = 0;
@@ -25,8 +23,7 @@ public:
     virtual void VToDead();
     virtual void VOnAbeInteraction() override;
 
-    using FnTypeMatcher = AddPointer_t<bool(ReliveTypes type)>;
-    void BaseAddToPlatform(FnTypeMatcher cb);
+    void BaseAddToPlatform();
 
 protected:
     s16 mBaseThrowableCount = 0;
@@ -34,4 +31,5 @@ protected:
 };
 
 extern bool gInfiniteThrowables;
-extern const AETypes gThrowableFromOverlayId[252];
+extern const AOTypes gThrowableFromOverlayIdAO[54];
+extern const AETypes gThrowableFromOverlayIdAE[252];

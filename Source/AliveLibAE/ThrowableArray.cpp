@@ -4,7 +4,7 @@
 #include "stdlib.hpp"
 #include "Map.hpp"
 #include "PathData.hpp"
-#include "Throwable.hpp"
+#include "../relive_lib/GameObjects/BaseThrowable.hpp"
 #include "QuikSave.hpp"
 
 ThrowableArray* gThrowableArray = nullptr;
@@ -23,7 +23,7 @@ void LoadRockTypes(EReliveLevelIds levelNumber, u16 pathNumber)
     bool bDoLoadingLoop = false;
     const u8 throwableTypeIdx = Path_Get_Bly_Record(levelNumber, pathNumber)->mOverlayId & 0xFF;
 
-    switch (gThrowableFromOverlayId[throwableTypeIdx])
+    switch (gThrowableFromOverlayIdAE[throwableTypeIdx])
     {
         case AETypes::eBone_11:
             break;
@@ -108,7 +108,7 @@ void ThrowableArray::VScreenChanged()
 {
     if (gMap.mNextLevel != EReliveLevelIds::eMenu && gMap.mNextLevel != EReliveLevelIds::eCredits)
     {
-        if (gThrowableFromOverlayId[gMap.mOverlayId] != gThrowableFromOverlayId[gMap.GetOverlayId()])
+        if (gThrowableFromOverlayIdAE[gMap.mOverlayId] != gThrowableFromOverlayIdAE[gMap.GetOverlayId()])
         {
             if (!mThrowableTypeChanged)
             {
@@ -135,7 +135,7 @@ void ThrowableArray::Add(s16 count)
     {
         if (!mNewThrowableTypeLoaded)
         {
-            switch (gThrowableFromOverlayId[gMap.mOverlayId])
+            switch (gThrowableFromOverlayIdAE[gMap.mOverlayId])
             {
                 case AETypes::eBone_11:
                     break;

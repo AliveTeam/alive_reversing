@@ -169,7 +169,7 @@ void BaseAliveGameObject::SetActiveCameraDelayedFromDir()
     }
 }
 
-Scale BaseAliveGameObject::PerGameScale()
+Scale BaseAliveGameObject::PerGameScale() const
 {
     if (GetGameType() == GameType::eAo)
     {

@@ -1,10 +1,10 @@
 #pragma once
 
-#include "Throwable.hpp"
+#include "../relive_lib/GameObjects/BaseThrowable.hpp"
 
 namespace AO {
 
-class Meat final : public BaseThrowable
+class Meat final : public ::BaseThrowable
 {
 public:
     Meat(FP xpos, FP ypos, s16 count);

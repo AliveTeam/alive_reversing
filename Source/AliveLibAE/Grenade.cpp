@@ -104,7 +104,6 @@ void Grenade::VGetSaveState(SerializedObjectData& pSaveBuffer)
 }
 
 Grenade::Grenade(FP xpos, FP ypos, s32 numGrenades, bool bBlowUpOnCollision, BaseGameObject* pOwner)
-    : BaseThrowable(0)
 {
     mBaseThrowableDead = 0;
 
@@ -162,8 +161,7 @@ void Grenade::Init(FP xpos, FP ypos)
 
 void Grenade::AddToPlatform()
 {
-    BaseAddToPlatform([](ReliveTypes type)
-                      { return type == ReliveTypes::eLiftPoint || type == ReliveTypes::eTrapDoor; });
+    BaseAddToPlatform();
 }
 
 void Grenade::VTimeToExplodeRandom()

@@ -1,16 +1,17 @@
 #include "stdafx.h"
-#include "Throwable.hpp"
-#include "../relive_lib/Function.hpp"
-#include "Bone.hpp"
-#include "Grenade.hpp"
-#include "Rock.hpp"
-#include "Meat.hpp"
-#include "../relive_lib/Collisions.hpp"
-#include "stdlib.hpp"
-#include "../relive_lib/GameObjects/PlatformBase.hpp"
-#include "Game.hpp"
-#include "Map.hpp"
-#include "../relive_lib/GameType.hpp"
+#include "BaseThrowable.hpp"
+#include "../Function.hpp"
+#include "../../AliveLibAO/Grenade.hpp"
+#include "../../AliveLibAO/Rock.hpp"
+#include "../../AliveLibAO/Meat.hpp"
+#include "../../AliveLibAE/Bone.hpp"
+#include "../../AliveLibAE/Grenade.hpp"
+#include "../../AliveLibAE/Rock.hpp"
+#include "../../AliveLibAE/Meat.hpp"
+#include "../Collisions.hpp"
+#include "PlatformBase.hpp"
+#include "../MapWrapper.hpp"
+#include "../GameType.hpp"
 
 bool gInfiniteThrowables = false;
 
@@ -52,14 +53,14 @@ const AETypes gThrowableFromOverlayIdAE[252] = {
 
 static BaseThrowable* Make_Throwable_AO(FP xpos, FP ypos, s16 count)
 {
-    switch (gThrowableFromOverlayIdAO[gMap.mOverlayId])
+    switch (gThrowableFromOverlayIdAO[GetMap().mOverlayId])
     {
         case AOTypes::eGrenade_40:
-            return relive_new Grenade(xpos, ypos, count);
+            return relive_new AO::Grenade(xpos, ypos, count);
         case AOTypes::eMeat_54:
-            return relive_new Meat(xpos, ypos, count);
+            return relive_new AO::Meat(xpos, ypos, count);
         case AOTypes::eRock_70:
-            return relive_new Rock(xpos, ypos, count);
+            return relive_new AO::Rock(xpos, ypos, count);
         default:
             return nullptr;
     }
@@ -67,7 +68,7 @@ static BaseThrowable* Make_Throwable_AO(FP xpos, FP ypos, s16 count)
 
 static BaseThrowable* Make_Throwable_AE(FP xpos, FP ypos, s16 count)
 {
-    switch (gThrowableFromOverlayIdAE[gMap.mOverlayId])
+    switch (gThrowableFromOverlayIdAE[GetMap().mOverlayId])
     {
         case AETypes::eBone_11:
             return relive_new Bone(xpos, ypos, count);
@@ -99,7 +100,6 @@ BaseThrowable* Make_Throwable(FP xpos, FP ypos, s16 count)
 BaseThrowable::BaseThrowable()
     : BaseAliveGameObject(0)
 {
-
 }
 
 void BaseThrowable::BaseAddToPlatform()
@@ -131,8 +131,7 @@ void BaseThrowable::BaseAddToPlatform()
             &hitY,
             PerGameScale() == Scale::Fg ? fgMask : bgMask))
     {
-        if (pLine->mLineType == eLineTypes::eDynamicCollision_32 ||
-            pLine->mLineType == eLineTypes::eBackgroundDynamicCollision_36)
+        if (pLine->mLineType == eLineTypes::eDynamicCollision_32 || pLine->mLineType == eLineTypes::eBackgroundDynamicCollision_36)
         {
             if (gPlatformsArray)
             {

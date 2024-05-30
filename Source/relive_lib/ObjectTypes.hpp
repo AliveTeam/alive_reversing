@@ -316,9 +316,6 @@ enum class AETypes : s16
     eElectrocute_150 = 150,
 };
 
-
-namespace AO {
-
 enum class AOTypes : s16
 {
     eNone_0 = 0,
@@ -421,4 +418,3 @@ enum class AOTypes : s16
     eCameraSwapper_102 = 102,
     eElectrocute_103 = 103,
 };
-}

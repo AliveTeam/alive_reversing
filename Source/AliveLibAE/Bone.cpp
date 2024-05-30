@@ -19,8 +19,7 @@
 #include "Math.hpp"
 #include "QuikSave.hpp"
 
-Bone::Bone(FP xpos, FP ypos, s16 countId)
-    : BaseThrowable(0),
+Bone::Bone(FP xpos, FP ypos, s16 countId) :
     mPreviousXPos(xpos),
     mPreviousYPos(ypos)
 {
@@ -113,8 +112,7 @@ Bone::~Bone()
 
 void Bone::AddToPlatform()
 {
-    BaseAddToPlatform([](ReliveTypes type)
-                      { return type == ReliveTypes::eLiftPoint || type == ReliveTypes::eTrapDoor; });
+    BaseAddToPlatform();
 }
 
 void Bone::VThrow(FP velX, FP velY)

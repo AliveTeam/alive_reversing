@@ -95,8 +95,6 @@ SET(AliveLibSrcAO
    ../AliveLibAO/BirdPortal.cpp
    ../AliveLibAO/Well.hpp
    ../AliveLibAO/Well.cpp
-   ../AliveLibAO/Throwable.hpp
-   ../AliveLibAO/Throwable.cpp
    ../AliveLibAO/Rock.hpp
    ../AliveLibAO/Rock.cpp
    ../AliveLibAO/RockSack.hpp
@@ -298,8 +296,6 @@ SET(AliveLibAESrc
     ../AliveLibAE/MusicTrigger.hpp
     ../AliveLibAE/InvisibleEffect.cpp
     ../AliveLibAE/InvisibleEffect.hpp
-    ../AliveLibAE/Throwable.cpp
-    ../AliveLibAE/Throwable.hpp
     ../AliveLibAE/AbilityRing.cpp
     ../AliveLibAE/AbilityRing.hpp
     ../AliveLibAE/PullRingRope.hpp
@@ -586,6 +582,8 @@ SET(game_objects_src
     GameObjects/BirdPortalTerminator.hpp
     GameObjects/PlatformBase.cpp
     GameObjects/PlatformBase.hpp
+    GameObjects/BaseThrowable.cpp
+    GameObjects/BaseThrowable.hpp
 )
 
 SET(data_conversion_src

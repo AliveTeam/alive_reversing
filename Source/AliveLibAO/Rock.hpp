@@ -1,10 +1,10 @@
 #pragma once
 
-#include "Throwable.hpp"
+#include "../relive_lib/GameObjects/BaseThrowable.hpp"
 
 namespace AO {
 
-class Rock final : public BaseThrowable
+class Rock final : public ::BaseThrowable
 {
 public:
     Rock(FP xpos, FP ypos, s16 count);

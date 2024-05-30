@@ -35,7 +35,7 @@ public:
     void OnCollisionWith(PSX_Point xy, PSX_Point wh, DynamicArrayT<BaseGameObject>* pObjList);
 
     void SetActiveCameraDelayedFromDir();
-    Scale PerGameScale();
+    Scale PerGameScale() const;
     bool WallHit(FP offY, FP offX);
     bool Check_IsOnEndOfLine(s16 direction, s16 distance);
     virtual class IBirdPortal* VIntoBirdPortal(s16 numGridBlocks);

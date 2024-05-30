@@ -1,10 +1,10 @@
 #pragma once
 
-#include "Throwable.hpp"
+#include "../relive_lib/GameObjects/BaseThrowable.hpp"
 
 namespace AO {
 
-class Grenade final : public BaseThrowable
+class Grenade final : public ::BaseThrowable
 {
 public:
     Grenade(FP xpos, FP ypos, s16 numGrenades);

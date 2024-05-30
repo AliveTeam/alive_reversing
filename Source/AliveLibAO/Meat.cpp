@@ -11,7 +11,7 @@
 #include "../relive_lib/Events.hpp"
 #include "../relive_lib/GameObjects/PlatformBase.hpp"
 #include "../relive_lib/Collisions.hpp"
-#include "Throwable.hpp"
+#include "../relive_lib/GameObjects/BaseThrowable.hpp"
 #include "../AliveLibAE/Game.hpp"
 #include "../relive_lib/GameObjects/Particle.hpp"
 #include "../relive_lib/Grid.hpp"

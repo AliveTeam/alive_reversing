@@ -10,7 +10,7 @@
 #include "../relive_lib/Sound/Midi.hpp"
 #include "../relive_lib/Events.hpp"
 #include "DDCheat.hpp"
-#include "Throwable.hpp"
+#include "../relive_lib/GameObjects/BaseThrowable.hpp"
 #include "Map.hpp"
 #include "Meat.hpp"
 #include "../relive_lib/GameObjects/Gibs.hpp"

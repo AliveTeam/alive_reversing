@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Throwable.hpp"
+#include "../relive_lib/GameObjects/BaseThrowable.hpp"
 #include "../relive_lib/SaveStateBase.hpp"
 
 enum class MeatStates : s16

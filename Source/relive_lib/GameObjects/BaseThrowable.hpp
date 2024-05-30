@@ -1,16 +1,10 @@
 #pragma once
 
-#include "../relive_lib/GameObjects/BaseAliveGameObject.hpp"
-
-namespace AO {
-
-class BaseThrowable;
-
-BaseThrowable* Make_Throwable(FP xpos, FP ypos, s16 count);
+#include "BaseAliveGameObject.hpp"
 
 // NOTE: This base type must exist but seems to have been decimated by the compiler, so this contains pure virtuals for
 // non common virtuals, and virtuals for common virtuals.
-class BaseThrowable : public ::BaseAliveGameObject
+class BaseThrowable : public BaseAliveGameObject
 {
 public:
     BaseThrowable();
@@ -32,8 +26,8 @@ protected:
     s16 mBaseThrowableDead = 0;
 };
 
-} // namespace AO
+BaseThrowable* Make_Throwable(FP xpos, FP ypos, s16 count);
 
-extern bool gInfiniteThrowables;
+extern bool gInfiniteThrowables; // AE
 extern const AOTypes gThrowableFromOverlayIdAO[54];
 extern const AETypes gThrowableFromOverlayIdAE[252];

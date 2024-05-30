@@ -20,7 +20,6 @@
 #include "../relive_lib/Collisions.hpp"
 
 Meat::Meat(FP xpos, FP ypos, s16 count)
-    : BaseThrowable(0)
 {
     mBaseThrowableDead = 0;
 
@@ -111,9 +110,7 @@ void Meat::VScreenChanged()
 
 void Meat::AddToPlatform()
 {
-    // TODO: OG bug - why doesn't meat check for trap doors ??
-    BaseAddToPlatform([](ReliveTypes type)
-                      { return type == ReliveTypes::eLiftPoint; });
+    BaseAddToPlatform();
 }
 
 bool Meat::VIsFalling()

@@ -2,7 +2,7 @@
 #include "ThrowableArray.hpp"
 #include "../AliveLibAE/stdlib.hpp"
 #include "Map.hpp"
-#include "Throwable.hpp"
+#include "../relive_lib/GameObjects/BaseThrowable.hpp"
 #include "PathData.hpp"
 
 namespace AO {
@@ -14,7 +14,7 @@ void LoadRockTypes(EReliveLevelIds levelNumber, u16 path)
     bool bDoLoadingLoop = false;
     const u8 throwableTypeIdx = Path_Get_Bly_Record(levelNumber, path)->mOverlayId & 0xFF;
 
-    switch (gThrowableFromOverlayId[throwableTypeIdx])
+    switch (gThrowableFromOverlayIdAO[throwableTypeIdx])
     {
         case AOTypes::eGrenade_40:
             break;
@@ -70,7 +70,7 @@ void ThrowableArray::Remove(s16 count)
 
     if (mNewThrowableTypeLoaded)
     {
-        switch (gThrowableFromOverlayId[gMap.mOverlayId])
+        switch (gThrowableFromOverlayIdAO[gMap.mOverlayId])
         {
             case AOTypes::eGrenade_40:
                 break;
@@ -103,7 +103,7 @@ void ThrowableArray::VScreenChanged()
 {
     if (gMap.mNextLevel != EReliveLevelIds::eMenu && gMap.mNextLevel != EReliveLevelIds::eCredits)
     {
-        if (gThrowableFromOverlayId[gMap.mOverlayId] != gThrowableFromOverlayId[gMap.GetOverlayId()])
+        if (gThrowableFromOverlayIdAO[gMap.mOverlayId] != gThrowableFromOverlayIdAO[gMap.GetOverlayId()])
         {
             if (!mThrowableTypeChanged)
             {
@@ -125,7 +125,7 @@ void ThrowableArray::Add(s16 count)
     {
         if (!mNewThrowableTypeLoaded)
         {
-            switch (gThrowableFromOverlayId[gMap.mOverlayId])
+            switch (gThrowableFromOverlayIdAO[gMap.mOverlayId])
             {
                 case AOTypes::eGrenade_40:
                     break;

@@ -16,7 +16,6 @@
 #include "QuikSave.hpp"
 
 Rock::Rock(FP xpos, FP ypos, s16 count)
-    : BaseThrowable(0)
 {
     SetType(ReliveTypes::eRock);
 

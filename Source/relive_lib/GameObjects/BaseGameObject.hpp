@@ -31,8 +31,8 @@ public:
 
     virtual void VGetSaveState(SerializedObjectData& /*pSaveBuffer*/);
 
-    static ReliveTypes FromAO(AO::AOTypes aoType);
-    static AO::AOTypes ToAO(ReliveTypes reliveType);
+    static ReliveTypes FromAO(AOTypes aoType);
+    static AOTypes ToAO(ReliveTypes reliveType);
 
     static ReliveTypes FromAE(AETypes aeType);
 
