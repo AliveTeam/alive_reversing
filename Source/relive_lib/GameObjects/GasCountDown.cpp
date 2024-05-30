@@ -130,22 +130,29 @@ void GasCountDown::VUpdate()
 
 void GasCountDown::DealDamage()
 {
-    if (mGasTimeLeftSecs <= -3)
+    // This value will re-calc per frame becoming a larger and larger
+    // negative number eventually.
+    if (mGasTimeLeftSecs < 0)
     {
-        GetAbe()->VTakeDamage(this);
-        for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
+        // Ensure a few frames have passed before we gas everyone
+        if (mGasTimeLeftSecs <= -3)
         {
-            BaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
-            if (!pObj)
+            GetAbe()->VTakeDamage(this);
+            for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
             {
-                break;
-            }
+                BaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
+                if (!pObj)
+                {
+                    break;
+                }
 
-            if (pObj->Type() == ReliveTypes::eMudokon)
-            {
-                pObj->VTakeDamage(this);
+                if (pObj->Type() == ReliveTypes::eMudokon)
+                {
+                    pObj->VTakeDamage(this);
+                }
             }
         }
+        // Clamp to 0 anytime below 0
         mGasTimeLeftSecs = 0;
     }
 
