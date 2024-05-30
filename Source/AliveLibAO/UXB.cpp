@@ -14,8 +14,27 @@
 #include "Map.hpp"
 #include "Path.hpp"
 #include "../relive_lib/Collisions.hpp"
+#include "../relive_lib/GameType.hpp"
 
 namespace AO {
+
+static const TintEntry sUXBTints[16] = {
+    {EReliveLevelIds::eMenu, 127u, 127u, 127u},
+    {EReliveLevelIds::eMines, 127u, 127u, 127u},
+    {EReliveLevelIds::eNecrum, 137u, 137u, 137u},
+    {EReliveLevelIds::eMudomoVault, 127u, 127u, 127u},
+    {EReliveLevelIds::eMudancheeVault, 127u, 127u, 127u},
+    {EReliveLevelIds::eFeeCoDepot, 127u, 127u, 127u},
+    {EReliveLevelIds::eBarracks, 127u, 127u, 127u},
+    {EReliveLevelIds::eMudancheeVault_Ender, 127u, 127u, 127u},
+    {EReliveLevelIds::eBonewerkz, 127u, 127u, 127u},
+    {EReliveLevelIds::eBrewery, 127u, 127u, 127u},
+    {EReliveLevelIds::eBrewery_Ender, 127u, 127u, 127u},
+    {EReliveLevelIds::eMudomoVault_Ender, 127u, 127u, 127u},
+    {EReliveLevelIds::eFeeCoDepot_Ender, 127u, 127u, 127u},
+    {EReliveLevelIds::eBarracks_Ender, 127u, 127u, 127u},
+    {EReliveLevelIds::eBonewerkz_Ender, 127u, 127u, 127u},
+    {EReliveLevelIds::eCredits, 127u, 127u, 127u}};
 
 void UXB::LoadAnimations()
 {
@@ -50,6 +69,11 @@ UXB::UXB(relive::Path_UXB* pTlv, const Guid& tlvId)
 
     GetAnimation().SetSemiTrans(true);
     GetAnimation().SetBlendMode(relive::TBlendModes::eBlend_0);
+
+    if (GetGameType() == GameType::eAe)
+    {
+        SetTint(sUXBTints, gMap.mCurrentLevel);
+    }
 
     SetInteractive(true);
     mCurrentState = UXBState::eDelay;
@@ -127,8 +151,16 @@ UXB::UXB(relive::Path_UXB* pTlv, const Guid& tlvId)
         }
     }
 
-    mXPos = FP_FromInteger(pTlv->mTopLeftX + 12);
-    mYPos = FP_FromInteger(pTlv->mTopLeftY + 24);
+    if (GetGameType() == GameType::eAo)
+    {
+        mXPos = FP_FromInteger(pTlv->mTopLeftX + 12);
+        mYPos = FP_FromInteger(pTlv->mTopLeftY + 24);
+    }
+    else
+    {
+        mXPos = FP_FromInteger((pTlv->mTopLeftX + pTlv->mBottomRightX) / 2);
+        mYPos = FP_FromInteger(pTlv->mTopLeftY);
+    }
 
     // Raycasts on ctor to place perfectly on the floor.
     FP hitX = {};
@@ -152,6 +184,11 @@ UXB::UXB(relive::Path_UXB* pTlv, const Guid& tlvId)
 
     const FP gridSnap = ScaleToGridSize(GetSpriteScale());
     SetInteractive(true);
+
+    if (GetGameType() == GameType::eAe)
+    {
+        SetDoPurpleLightEffect(true);
+    }
 
     mCollectionRect.x = mXPos - (gridSnap / FP_FromInteger(2));
     mCollectionRect.y = mYPos - gridSnap;
@@ -232,18 +269,16 @@ void UXB::VScreenChanged()
         if (mStartingState == UXBState::eDeactivated && mCurrentState != UXBState::eDeactivated)
         {
             Path::TLV_Persist(mTlvInfo, 1);
-            SetDead(true);
         }
         else if (mStartingState != UXBState::eDelay || mCurrentState != UXBState::eDeactivated)
         {
             Path::TLV_Persist(mTlvInfo, 0);
-            SetDead(true);
         }
         else
         {
             Path::TLV_Persist(mTlvInfo, 1);
-            SetDead(true);
         }
+        SetDead(true);
     }
 }
 
@@ -257,6 +292,7 @@ bool UXB::VTakeDamage(BaseGameObject* pFrom)
     switch (pFrom->Type())
     {
         case ReliveTypes::eAbe:
+        case ReliveTypes::eMudokon:
             if (mCurrentState == UXBState::eDeactivated)
             {
                 return false;
@@ -437,13 +473,19 @@ void UXB::VRender(OrderingTable& ot)
                 mYPos,
                 0))
         {
+            FP yOffset;
+            if (GetGameType() == GameType::eAo)
+            {
+                yOffset = FP_FromInteger(12);
+            }
+            else
+            {
+                yOffset = FP_FromInteger(17);
+            }
+
             mFlashAnim.VRender(
-                FP_GetExponent(mXPos
-                           + FP_FromInteger(gScreenManager->mCamXOff)
-                           - gScreenManager->mCamPos->x),
-                FP_GetExponent(mYPos
-                           + (FP_FromInteger(gScreenManager->mCamYOff) - FP_NoFractional(GetSpriteScale() * FP_FromInteger(12)))
-                           - gScreenManager->mCamPos->y),
+                FP_GetExponent((mXPos - gScreenManager->CamXPos())),
+                FP_GetExponent((mYPos - gScreenManager->CamYPos() - FP_NoFractional(GetSpriteScale() * yOffset))),
                 ot,
                 0,
                 0);

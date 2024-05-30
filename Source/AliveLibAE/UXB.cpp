@@ -14,10 +14,11 @@
 #include "../relive_lib/Collisions.hpp"
 #include "../relive_lib/FixedPoint.hpp"
 #include "QuikSave.hpp"
+#include "../relive_lib/GameType.hpp"
 
 #include <math.h>
 
-const TintEntry sTintMap_UXB_563A3C[16] = {
+static const TintEntry sUXBTints[16] = {
     {EReliveLevelIds::eMenu, 127u, 127u, 127u},
     {EReliveLevelIds::eMines, 127u, 127u, 127u},
     {EReliveLevelIds::eNecrum, 137u, 137u, 137u},
@@ -85,7 +86,10 @@ UXB::UXB(relive::Path_UXB* pTlv, const Guid& tlvId)
     GetAnimation().SetSemiTrans(true);
     GetAnimation().SetBlendMode(relive::TBlendModes::eBlend_0);
 
-    SetTint(sTintMap_UXB_563A3C, gMap.mCurrentLevel);
+    if (GetGameType() == GameType::eAe)
+    {
+        SetTint(sUXBTints, gMap.mCurrentLevel);
+    }
 
     SetInteractive(true);
     mCurrentState = UXBState::eDelay;
@@ -162,8 +166,16 @@ UXB::UXB(relive::Path_UXB* pTlv, const Guid& tlvId)
         }
     }
 
-    mXPos = FP_FromInteger((pTlv->mTopLeftX + pTlv->mBottomRightX) / 2);
-    mYPos = FP_FromInteger(pTlv->mTopLeftY);
+    if (GetGameType() == GameType::eAo)
+    {
+        mXPos = FP_FromInteger(pTlv->mTopLeftX + 12);
+        mYPos = FP_FromInteger(pTlv->mTopLeftY + 24);
+    }
+    else
+    {
+        mXPos = FP_FromInteger((pTlv->mTopLeftX + pTlv->mBottomRightX) / 2);
+        mYPos = FP_FromInteger(pTlv->mTopLeftY);
+    }
 
     // Raycasts on ctor to place perfectly on the floor.
     FP hitX = {};
@@ -187,7 +199,11 @@ UXB::UXB(relive::Path_UXB* pTlv, const Guid& tlvId)
 
     const FP gridSnap = ScaleToGridSize(GetSpriteScale());
     SetInteractive(true);
-    SetDoPurpleLightEffect(true);
+
+    if (GetGameType() == GameType::eAe)
+    {
+        SetDoPurpleLightEffect(true);
+    }
 
     mCollectionRect.x = mXPos - (gridSnap / FP_FromInteger(2));
     mCollectionRect.y = mYPos - gridSnap;
@@ -270,18 +286,16 @@ void UXB::VScreenChanged()
         if (mStartingState == UXBState::eDeactivated && mCurrentState != UXBState::eDeactivated)
         {
             Path::TLV_Persist(mTlvInfo, 1);
-            SetDead(true);
         }
         else if (mStartingState != UXBState::eDelay || mCurrentState != UXBState::eDeactivated)
         {
             Path::TLV_Persist(mTlvInfo, 0);
-            SetDead(true);
         }
         else
         {
             Path::TLV_Persist(mTlvInfo, 1);
-            SetDead(true);
         }
+        SetDead(true);
     }
 }
 
@@ -476,9 +490,19 @@ void UXB::VRender(OrderingTable& ot)
                 mYPos,
                 0))
         {
+            FP yOffset;
+            if (GetGameType() == GameType::eAo)
+            {
+                yOffset = FP_FromInteger(12);
+            }
+            else
+            {
+                yOffset = FP_FromInteger(17);
+            }
+
             mFlashAnim.VRender(
                 FP_GetExponent((mXPos - gScreenManager->CamXPos())),
-                FP_GetExponent((mYPos - gScreenManager->CamYPos() - FP_NoFractional(GetSpriteScale() * FP_FromInteger(17)))),
+                FP_GetExponent((mYPos - gScreenManager->CamYPos() - FP_NoFractional(GetSpriteScale() * yOffset))),
                 ot,
                 0,
                 0);
