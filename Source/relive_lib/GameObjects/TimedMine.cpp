@@ -1,21 +1,22 @@
-#include "stdafx_ao.h"
-#include "../relive_lib/Function.hpp"
+#include "stdafx.h"
 #include "TimedMine.hpp"
-#include "Game.hpp"
-#include "../AliveLibAE/stdlib.hpp"
-#include "LiftPoint.hpp"
-#include "../relive_lib/GameObjects/GroundExplosion.hpp"
-#include "../relive_lib/GameObjects/ScreenManager.hpp"
-#include "../relive_lib/Events.hpp"
-#include "Sfx.hpp"
-#include "../relive_lib/Collisions.hpp"
+#include "../Function.hpp"
+#include "../Events.hpp"
+#include "../../AliveLibAE/Sfx.hpp"
+#include "ScreenManager.hpp"
+#include "../ObjectIds.hpp"
+#include "GroundExplosion.hpp"
 #include "../relive_lib/Grid.hpp"
-#include "../relive_lib/ObjectIds.hpp"
-#include "../relive_lib/FixedPoint.hpp"
-#include "Path.hpp"
-#include "../relive_lib/GameType.hpp"
+#include "MapWrapper.hpp"
+#include "../../AliveLibAE/Path.hpp"
+#include "../Collisions.hpp"
+#include "../FixedPoint.hpp"
+#include "../GameType.hpp"
+#include "../../AliveLibAO/LiftPoint.hpp"
 
-namespace AO {
+// TODO: merge LiftPoint and then use the shared LiftPoint instead the AO one.
+// this doesn't break the game right now because in the original game there aren't
+// any timed mines on lift points.
 
 static const TintEntry sTimedMineTint[19] = {
     {EReliveLevelIds::eMenu, 127u, 127u, 127u},
@@ -111,7 +112,7 @@ TimedMine::TimedMine(relive::Path_TimedMine* pTlv, const Guid& tlvId)
 
     mTlvInfo = tlvId;
     mExplosionTimer = sGnFrame;
-    SetBaseAnimPaletteTint(sTimedMineTint, gMap.mCurrentLevel, PalId::Default); // TODO: Bomb pal removed, check correct
+    SetBaseAnimPaletteTint(sTimedMineTint, GetMap().mCurrentLevel, PalId::Default); // TODO: Bomb pal removed, check correct
 
     SetInteractive(true);
 
@@ -125,7 +126,7 @@ TimedMine::TimedMine(relive::Path_TimedMine* pTlv, const Guid& tlvId)
 
 TimedMine::~TimedMine()
 {
-    auto pPlatform = static_cast<LiftPoint*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
+    auto pPlatform = static_cast<AO::LiftPoint*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
     if (!mSlappedMine || sGnFrame < mExplosionTimer)
     {
         Path::TLV_Reset(mTlvInfo);
@@ -148,7 +149,7 @@ TimedMine::~TimedMine()
 
 void TimedMine::VScreenChanged()
 {
-    if (gMap.LevelChanged() || gMap.PathChanged())
+    if (GetMap().LevelChanged() || GetMap().PathChanged())
     {
         SetDead(true);
     }
@@ -187,7 +188,7 @@ bool TimedMine::VTakeDamage(BaseGameObject* pFrom)
 
 void TimedMine::VRender(OrderingTable& ot)
 {
-    if (gMap.Is_Point_In_Current_Camera(
+    if (GetMap().Is_Point_In_Current_Camera(
             mCurrentLevel,
             mCurrentPath,
             mXPos,
@@ -264,7 +265,7 @@ void TimedMine::StickToLiftPoint()
 
                     if (pObj->Type() == ReliveTypes::eLiftPoint)
                     {
-                        auto pLiftPoint = static_cast<LiftPoint*>(pObj);
+                        auto pLiftPoint = static_cast<AO::LiftPoint*>(pObj);
                         const PSX_RECT bRect = pLiftPoint->VGetBoundingRect();
                         if (FP_GetExponent(mXPos) > bRect.x && FP_GetExponent(mXPos) < bRect.w && FP_GetExponent(mYPos) < bRect.h)
                         {
@@ -281,7 +282,7 @@ void TimedMine::StickToLiftPoint()
 
 void TimedMine::VUpdate()
 {
-    auto pPlatform = static_cast<LiftPoint*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
+    auto pPlatform = static_cast<AO::LiftPoint*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
     if (EventGet(Event::kEventDeathReset))
     {
         SetDead(true);
@@ -305,7 +306,7 @@ void TimedMine::VUpdate()
         if (sGnFrame > (mOldGnFrame + mSingleTickTimer))
         {
             mOldGnFrame = sGnFrame;
-            const CameraPos soundDir = gMap.GetDirection(
+            const CameraPos soundDir = GetMap().GetDirection(
                 mCurrentLevel,
                 mCurrentPath,
                 mXPos,
@@ -359,5 +360,3 @@ void TimedMine::VOnAbeInteraction()
         SfxPlayMono(relive::SoundEffects::GreenTick, 0);
     }
 }
-
-} // namespace AO

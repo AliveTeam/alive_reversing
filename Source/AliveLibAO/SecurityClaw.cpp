@@ -17,7 +17,7 @@
 #include "../relive_lib/ObjectIds.hpp"
 #include "Alarm.hpp"
 #include "../relive_lib/GameObjects/ScreenShake.hpp"
-#include "PossessionFlicker.hpp"
+#include "../relive_lib/GameObjects/PossessionFlicker.hpp"
 #include "../relive_lib/data_conversion/relive_tlvs.hpp"
 #include "../relive_lib/FixedPoint.hpp"
 #include "Path.hpp"

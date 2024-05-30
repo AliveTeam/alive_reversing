@@ -8,7 +8,7 @@
 #include "../relive_lib/Shadow.hpp"
 #include "../relive_lib/ObjectIds.hpp"
 #include "Sfx.hpp"
-#include "PossessionFlicker.hpp"
+#include "../relive_lib/GameObjects/PossessionFlicker.hpp"
 #include "../relive_lib/GameObjects/ParticleBurst.hpp"
 #include "../relive_lib/GameObjects/Flash.hpp"
 #include "Electrocute.hpp"

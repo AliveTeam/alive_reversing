@@ -23,7 +23,7 @@
 #include "../relive_lib/GameObjects/BaseThrowable.hpp"
 #include "../relive_lib/GameObjects/OrbWhirlWind.hpp"
 #include "../relive_lib/GameObjects/Particle.hpp"
-#include "PossessionFlicker.hpp"
+#include "../relive_lib/GameObjects/PossessionFlicker.hpp"
 #include "PullRingRope.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
 #include "../relive_lib/GameObjects/ScreenManager.hpp"

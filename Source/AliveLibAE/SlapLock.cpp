@@ -9,7 +9,7 @@
 #include "Sfx.hpp"
 #include "../relive_lib/ObjectIds.hpp"
 #include "AbilityRing.hpp"
-#include "PossessionFlicker.hpp"
+#include "../relive_lib/GameObjects/PossessionFlicker.hpp"
 #include "../relive_lib/GameObjects/Particle.hpp"
 #include "../relive_lib/GameObjects/ParticleBurst.hpp"
 #include "Map.hpp"

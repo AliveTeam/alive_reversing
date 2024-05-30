@@ -9,7 +9,7 @@
 #include "Sfx.hpp"
 #include "../relive_lib/GameObjects/ZapSpark.hpp"
 #include "Abe.hpp"
-#include "PossessionFlicker.hpp"
+#include "../relive_lib/GameObjects/PossessionFlicker.hpp"
 #include "../relive_lib/GameObjects/ScreenShake.hpp"
 #include "../relive_lib/GameObjects/Flash.hpp"
 #include "Game.hpp"

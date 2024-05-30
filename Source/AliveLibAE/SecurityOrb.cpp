@@ -7,7 +7,7 @@
 #include "../relive_lib/Events.hpp"
 #include "../relive_lib/GameObjects/Flash.hpp"
 #include "Abe.hpp"
-#include "PossessionFlicker.hpp"
+#include "../relive_lib/GameObjects/PossessionFlicker.hpp"
 #include "Game.hpp"
 #include "Sfx.hpp"
 #include "../relive_lib/GameObjects/AirExplosion.hpp"

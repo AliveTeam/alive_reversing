@@ -8,7 +8,7 @@
 #include "Map.hpp"
 #include "Abe.hpp"
 #include "../relive_lib/GameObjects/BaseAliveGameObject.hpp"
-#include "PossessionFlicker.hpp"
+#include "../relive_lib/GameObjects/PossessionFlicker.hpp"
 #include "Math.hpp"
 #include "../AliveLibAE/stdlib.hpp"
 #include "../relive_lib/ObjectIds.hpp"

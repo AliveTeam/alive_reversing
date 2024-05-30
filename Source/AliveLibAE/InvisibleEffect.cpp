@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "InvisibleEffect.hpp"
 #include "../relive_lib/Function.hpp"
-#include "PossessionFlicker.hpp"
+#include "../relive_lib/GameObjects/PossessionFlicker.hpp"
 #include "../relive_lib/Clamp.hpp"
 #include "../relive_lib/Events.hpp"
 #include "../relive_lib/ObjectIds.hpp"

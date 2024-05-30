@@ -21,7 +21,7 @@
 #include "../relive_lib/GameObjects/ScreenManager.hpp"
 #include "Lever.hpp"
 #include "../relive_lib/GameObjects/Particle.hpp"
-#include "PossessionFlicker.hpp"
+#include "../relive_lib/GameObjects/PossessionFlicker.hpp"
 #include "../relive_lib/GameObjects/ScreenShake.hpp"
 #include "MainMenu.hpp"
 #include "LCDStatusBoard.hpp"

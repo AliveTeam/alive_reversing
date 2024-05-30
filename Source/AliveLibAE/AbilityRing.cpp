@@ -7,7 +7,7 @@
 #include "Map.hpp"
 #include "Abe.hpp"
 #include "../relive_lib/ObjectIds.hpp"
-#include "PossessionFlicker.hpp"
+#include "../relive_lib/GameObjects/PossessionFlicker.hpp"
 #include "stdlib.hpp"
 #include <algorithm>
 #include "QuikSave.hpp"

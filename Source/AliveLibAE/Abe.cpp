@@ -27,7 +27,7 @@
 #include "../relive_lib/GameObjects/CircularFade.hpp"
 #include "../relive_lib/GameObjects/Fade.hpp"
 #include "Movie.hpp"
-#include "PossessionFlicker.hpp"
+#include "../relive_lib/GameObjects/PossessionFlicker.hpp"
 #include "Door.hpp"
 #include "QuikSave.hpp"
 #include "../relive_lib/GameObjects/DeathBirdParticle.hpp"

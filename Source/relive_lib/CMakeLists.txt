@@ -107,8 +107,6 @@ SET(AliveLibSrcAO
    ../AliveLibAO/Lever.cpp
    ../AliveLibAO/RollingBall.hpp
    ../AliveLibAO/RollingBall.cpp
-   ../AliveLibAO/PossessionFlicker.hpp
-   ../AliveLibAO/PossessionFlicker.cpp
    ../AliveLibAO/HoistRocksEffect.hpp
    ../AliveLibAO/HoistRocksEffect.cpp
    ../AliveLibAO/FootSwitch.hpp
@@ -163,8 +161,6 @@ SET(AliveLibSrcAO
    ../AliveLibAO/Bullet.cpp
    ../AliveLibAO/LiftPoint.hpp
    ../AliveLibAO/LiftPoint.cpp
-   ../AliveLibAO/TimedMine.hpp
-   ../AliveLibAO/TimedMine.cpp
    ../AliveLibAO/LightEffect.hpp
    ../AliveLibAO/LightEffect.cpp
    ../AliveLibAO/DoorLight.hpp
@@ -209,8 +205,6 @@ SET(AliveLibSrcAO
    ../AliveLibAO/ZBall.cpp
    ../AliveLibAO/RollingBallShaker.hpp
    ../AliveLibAO/RollingBallShaker.cpp
-   ../AliveLibAO/Mine.hpp
-   ../AliveLibAO/Mine.cpp
    ../AliveLibAO/BoomMachinePipe.hpp
    ../AliveLibAO/BoomMachinePipe.cpp
 )
@@ -288,8 +282,6 @@ SET(AliveLibAESrc
     ../AliveLibAE/ThrowableArray.hpp
     ../AliveLibAE/UXB.cpp
     ../AliveLibAE/UXB.hpp
-    ../AliveLibAE/TimedMine.cpp
-    ../AliveLibAE/TimedMine.hpp
     ../AliveLibAE/TrapDoor.cpp
     ../AliveLibAE/TrapDoor.hpp
     ../AliveLibAE/MusicTrigger.cpp
@@ -304,8 +296,6 @@ SET(AliveLibAESrc
     ../AliveLibAE/HoistRocksEffect.cpp
     ../AliveLibAE/Alarm.hpp
     ../AliveLibAE/Alarm.cpp
-    ../AliveLibAE/PossessionFlicker.hpp
-    ../AliveLibAE/PossessionFlicker.cpp
     ../AliveLibAE/Door.hpp
     ../AliveLibAE/Door.cpp
     ../AliveLibAE/WorkWheel.hpp
@@ -451,8 +441,6 @@ SET(AliveLibAESrc
     ../AliveLibAE/LaughingGas.cpp
     ../AliveLibAE/LaughingGas.hpp
     ../AliveLibAE/MudokonEnums.hpp
-    ../AliveLibAE/Mine.hpp
-    ../AliveLibAE/Mine.cpp
     ../AliveLibAE/BoomMachinePipe.hpp
     ../AliveLibAE/BoomMachinePipe.cpp
 )
@@ -584,6 +572,12 @@ SET(game_objects_src
     GameObjects/PlatformBase.hpp
     GameObjects/BaseThrowable.cpp
     GameObjects/BaseThrowable.hpp
+    GameObjects/PossessionFlicker.hpp
+    GameObjects/PossessionFlicker.cpp
+    GameObjects/Mine.hpp
+    GameObjects/Mine.cpp
+    GameObjects/TimedMine.hpp
+    GameObjects/TimedMine.cpp
 )
 
 SET(data_conversion_src

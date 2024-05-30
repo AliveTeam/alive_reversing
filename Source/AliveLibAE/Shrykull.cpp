@@ -9,7 +9,7 @@
 #include "Game.hpp"
 #include "../relive_lib/GameObjects/ParticleBurst.hpp"
 #include "../relive_lib/GameObjects/Flash.hpp"
-#include "PossessionFlicker.hpp"
+#include "../relive_lib/GameObjects/PossessionFlicker.hpp"
 #include "AbilityRing.hpp"
 #include "Electrocute.hpp"
 #include "../relive_lib/Function.hpp"
