@@ -175,8 +175,6 @@ SET(AliveLibSrcAO
    ../AliveLibAO/Slig.cpp
    ../AliveLibAO/SligSpawner.hpp
    ../AliveLibAO/SligSpawner.cpp
-   ../AliveLibAO/Alarm.hpp
-   ../AliveLibAO/Alarm.cpp
    ../AliveLibAO/PathData.hpp
    ../AliveLibAO/PathData.cpp
    ../AliveLibAO/AnimationCallBacks.cpp
@@ -294,8 +292,6 @@ SET(AliveLibAESrc
     ../AliveLibAE/PullRingRope.cpp
     ../AliveLibAE/HoistRocksEffect.hpp
     ../AliveLibAE/HoistRocksEffect.cpp
-    ../AliveLibAE/Alarm.hpp
-    ../AliveLibAE/Alarm.cpp
     ../AliveLibAE/Door.hpp
     ../AliveLibAE/Door.cpp
     ../AliveLibAE/WorkWheel.hpp
@@ -578,6 +574,8 @@ SET(game_objects_src
     GameObjects/Mine.cpp
     GameObjects/TimedMine.hpp
     GameObjects/TimedMine.cpp
+    GameObjects/Alarm.hpp
+    GameObjects/Alarm.cpp
 )
 
 SET(data_conversion_src

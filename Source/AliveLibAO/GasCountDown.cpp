@@ -8,7 +8,7 @@
 #include "../relive_lib/Events.hpp"
 #include "../relive_lib/SwitchStates.hpp"
 #include "Abe.hpp"
-#include "Alarm.hpp"
+#include "../relive_lib/GameObjects/Alarm.hpp"
 #include "Sfx.hpp"
 #include "../relive_lib/GameObjects/DeathGas.hpp"
 #include "Path.hpp"

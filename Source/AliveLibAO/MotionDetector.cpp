@@ -9,7 +9,7 @@
 #include "Abe.hpp"
 #include "DDCheat.hpp"
 #include "Game.hpp"
-#include "Alarm.hpp"
+#include "../relive_lib/GameObjects/Alarm.hpp"
 #include "../relive_lib/GameObjects/ScreenManager.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
 #include "../relive_lib/FatalError.hpp"

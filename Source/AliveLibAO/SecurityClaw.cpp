@@ -15,7 +15,7 @@
 #include "../relive_lib/GameObjects/Flash.hpp"
 #include "../relive_lib/Events.hpp"
 #include "../relive_lib/ObjectIds.hpp"
-#include "Alarm.hpp"
+#include "../relive_lib/GameObjects/Alarm.hpp"
 #include "../relive_lib/GameObjects/ScreenShake.hpp"
 #include "../relive_lib/GameObjects/PossessionFlicker.hpp"
 #include "../relive_lib/data_conversion/relive_tlvs.hpp"

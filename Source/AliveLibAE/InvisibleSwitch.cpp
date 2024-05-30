@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "InvisibleSwitch.hpp"
 #include "../relive_lib/Function.hpp"
-#include "Alarm.hpp"
+#include "../relive_lib/GameObjects/Alarm.hpp"
 #include "../relive_lib/Events.hpp"
 #include "stdlib.hpp"
 #include "Game.hpp"

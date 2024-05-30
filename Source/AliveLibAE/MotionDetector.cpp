@@ -11,7 +11,7 @@
 #include "../relive_lib/Events.hpp"
 #include "Greeter.hpp"
 #include "Sfx.hpp"
-#include "Alarm.hpp"
+#include "../relive_lib/GameObjects/Alarm.hpp"
 #include "../relive_lib/Function.hpp"
 #include "Map.hpp"
 #include "Path.hpp"

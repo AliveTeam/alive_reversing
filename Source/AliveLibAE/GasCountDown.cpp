@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "GasCountDown.hpp"
 #include "../relive_lib/Function.hpp"
-#include "Alarm.hpp"
+#include "../relive_lib/GameObjects/Alarm.hpp"
 #include "Map.hpp"
 #include "../relive_lib/SwitchStates.hpp"
 #include "../relive_lib/Events.hpp"

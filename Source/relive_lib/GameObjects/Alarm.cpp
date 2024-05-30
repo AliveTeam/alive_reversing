@@ -1,18 +1,16 @@
 #include "stdafx.h"
 #include "Alarm.hpp"
-#include "Game.hpp"
-#include "../relive_lib/SwitchStates.hpp"
-#include "stdlib.hpp"
-#include "../relive_lib/Events.hpp"
+#include "../SwitchStates.hpp"
+#include "../Events.hpp"
 #include "Sfx.hpp"
-#include "Path.hpp"
-#include "../relive_lib/GameType.hpp"
+#include "../GameType.hpp"
+#include "../../AliveLibAE/Game.hpp"
 
 s16 gAlarmInstanceCount = 0;
 Guid gAlarmObjId = Guid{}; // Only used in AE to kill the alarm in the last level
 
 Alarm::Alarm(relive::Path_Alarm* pTlv, const Guid& tlvId)
-    : EffectBase(Layer::eLayer_Above_FG1_39, relive::TBlendModes::eBlend_3)
+    : EffectBase(Layer::eLayer_Above_FG1_39, GetGameType() == GameType::eAo ? relive::TBlendModes::eBlend_1 : relive::TBlendModes::eBlend_3)
     , mAlarmTlvInfo(tlvId)
     , mAlarmState(States::eWaitForSwitchEnable)
     , mAlarmSwitchId(pTlv->mSwitchId) // This won't count as an alarm instance till this id is enabled
@@ -22,7 +20,7 @@ Alarm::Alarm(relive::Path_Alarm* pTlv, const Guid& tlvId)
 }
 
 Alarm::Alarm(s32 durationTimer, u16 switchId, s32 pauseTimer, Layer layer)
-    : EffectBase(layer, relive::TBlendModes::eBlend_3),
+    : EffectBase(layer, GetGameType() == GameType::eAo ? relive::TBlendModes::eBlend_1 : relive::TBlendModes::eBlend_3),
     mAlarmTlvInfo(Guid{}),
     mAlarmState(States::eAfterConstructed),
     mAlarmSwitchId(switchId)

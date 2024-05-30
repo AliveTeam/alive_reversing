@@ -10,7 +10,7 @@
 #include "LCDStatusBoard.hpp"
 #include "../relive_lib/GameObjects/BackgroundAnimation.hpp"
 #include "HoistRocksEffect.hpp"
-#include "Alarm.hpp"
+#include "../relive_lib/GameObjects/Alarm.hpp"
 #include "Door.hpp"
 #include "WorkWheel.hpp"
 #include "StatusLight.hpp"
