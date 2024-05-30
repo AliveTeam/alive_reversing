@@ -10,7 +10,6 @@
 #include "../Collisions.hpp"
 #include "../FixedPoint.hpp"
 #include "../GameType.hpp"
-#include "../../AliveLibAE/Path.hpp"
 
 static Mine* sMinePlayingSound = nullptr;
 
@@ -112,11 +111,11 @@ Mine::~Mine()
 {
     if (mDetonating)
     {
-        Path::TLV_Delete(mTlvId);
+        GetMap().TLV_Delete(mTlvId);
     }
     else
     {
-        Path::TLV_Reset(mTlvId);
+        GetMap().TLV_Reset(mTlvId);
     }
 
     mFlashAnim.VCleanUp();

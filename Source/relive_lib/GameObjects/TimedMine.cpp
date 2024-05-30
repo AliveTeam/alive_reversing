@@ -8,7 +8,6 @@
 #include "GroundExplosion.hpp"
 #include "../relive_lib/Grid.hpp"
 #include "MapWrapper.hpp"
-#include "../../AliveLibAE/Path.hpp"
 #include "../Collisions.hpp"
 #include "../FixedPoint.hpp"
 #include "../GameType.hpp"
@@ -129,11 +128,11 @@ TimedMine::~TimedMine()
     auto pPlatform = static_cast<AO::LiftPoint*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
     if (!mSlappedMine || sGnFrame < mExplosionTimer)
     {
-        Path::TLV_Reset(mTlvInfo);
+        GetMap().TLV_Reset(mTlvInfo);
     }
     else
     {
-        Path::TLV_Delete(mTlvInfo);
+        GetMap().TLV_Delete(mTlvInfo);
     }
 
     mTickAnim.VCleanUp();
