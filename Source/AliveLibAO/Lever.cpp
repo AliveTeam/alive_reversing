@@ -81,6 +81,57 @@ void Lever::LoadAnimations()
     }
 }
 
+Lever::Lever(relive::Path_Lever* pTlv, const Guid& tlvId)
+    : BaseAnimatedWithPhysicsGameObject(0)
+{
+    SetType(ReliveTypes::eLever);
+
+    LoadAnimations();
+
+    const s32 lvl_idx = static_cast<s32>(MapWrapper::ToAO(gMap.mCurrentLevel));
+    Animation_Init(GetAnimRes(sLeverData[lvl_idx].mIdleAnimId));
+
+    GetAnimation().SetSemiTrans(true);
+
+    mXPos = FP_FromInteger((pTlv->mBottomRightX
+                                    + pTlv->mTopLeftX)
+                                   / 2);
+
+    mSwitchId = pTlv->mSwitchId;
+    mYPos = FP_FromInteger(pTlv->mTopLeftY);
+    mAction = pTlv->mAction;
+
+    if (pTlv->mScale == relive::reliveScale::eHalf)
+    {
+        SetSpriteScale(FP_FromDouble(0.5));
+        GetAnimation().SetRenderLayer(Layer::eLayer_BeforeShadow_Half_6);
+        SetScale(Scale::Bg);
+    }
+    else
+    {
+        SetSpriteScale(FP_FromInteger(1));
+        GetAnimation().SetRenderLayer(Layer::eLayer_BeforeShadow_25);
+        SetScale(Scale::Fg);
+    }
+
+    mOnSound = pTlv->mOnSound;
+    mOffSound = pTlv->mOffSound;
+    mTlvId = tlvId;
+    mSoundDirection = pTlv->mSoundDirection;
+
+    mState = LeverState::eWaiting_0;
+}
+
+Lever::~Lever()
+{
+    Path::TLV_Reset(mTlvId);
+}
+
+void Lever::VScreenChanged()
+{
+    SetDead(true);
+}
+
 void Lever::VUpdate()
 {
     if (EventGet(Event::kEventDeathReset))
@@ -205,56 +256,8 @@ void Lever::VUpdate()
     }
 }
 
-void Lever::VScreenChanged()
-{
-    SetDead(true);
-}
 
-Lever::~Lever()
-{
-    Path::TLV_Reset(mTlvId);
-}
 
-Lever::Lever(relive::Path_Lever* pTlv, const Guid& tlvId)
-    : BaseAnimatedWithPhysicsGameObject(0)
-{
-    SetType(ReliveTypes::eLever);
-
-    LoadAnimations();
-
-    const s32 lvl_idx = static_cast<s32>(MapWrapper::ToAO(gMap.mCurrentLevel));
-    Animation_Init(GetAnimRes(sLeverData[lvl_idx].mIdleAnimId));
-
-    GetAnimation().SetSemiTrans(true);
-
-    mXPos = FP_FromInteger((pTlv->mBottomRightX
-                                    + pTlv->mTopLeftX)
-                                   / 2);
-
-    mSwitchId = pTlv->mSwitchId;
-    mYPos = FP_FromInteger(pTlv->mTopLeftY);
-    mAction = pTlv->mAction;
-
-    if (pTlv->mScale == relive::reliveScale::eHalf)
-    {
-        SetSpriteScale(FP_FromDouble(0.5));
-        GetAnimation().SetRenderLayer(Layer::eLayer_BeforeShadow_Half_6);
-        SetScale(Scale::Bg);
-    }
-    else
-    {
-        SetSpriteScale(FP_FromInteger(1));
-        GetAnimation().SetRenderLayer(Layer::eLayer_BeforeShadow_25);
-        SetScale(Scale::Fg);
-    }
-
-    mOnSound = pTlv->mOnSound;
-    mOffSound = pTlv->mOffSound;
-    mTlvId = tlvId;
-    mSoundDirection = pTlv->mSoundDirection;
-
-    mState = LeverState::eWaiting_0;
-}
 
 s32 Lever::VPull(s16 bLeftDirection)
 {

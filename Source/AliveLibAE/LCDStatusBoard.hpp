@@ -11,7 +11,7 @@ namespace relive
 class LCDStatusBoard final : public BaseGameObject
 {
 public:
-    LCDStatusBoard(relive::Path_LCDStatusBoard* params, const Guid& tlvId);
+    LCDStatusBoard(relive::Path_LCDStatusBoard* pTlv, const Guid& tlvId);
     ~LCDStatusBoard();
 
     virtual void VUpdate() override;

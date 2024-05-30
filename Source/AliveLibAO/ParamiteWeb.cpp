@@ -75,6 +75,7 @@ ParamiteWeb::~ParamiteWeb()
 {
     relive_delete[] mWebRes;
 }
+
 void ParamiteWeb::VUpdate()
 {
     if (mEnabled)

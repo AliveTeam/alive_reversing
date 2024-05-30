@@ -48,7 +48,7 @@ public:
     FP mStartYPos = {};
     s32 mFallIntervalTimer = 0;
     bool mDoAirStreamSound = true;
-    bool mHitDrillOrMineCar = false;
+    bool mHitDrillOrMineCar = false; // AE
     s32 mAirStreamSndChannels = 0;
     s32 mCreatedGnFrame = 0;
 };

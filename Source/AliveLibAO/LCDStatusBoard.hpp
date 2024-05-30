@@ -16,9 +16,9 @@ public:
     LCDStatusBoard(relive::Path_LCDStatusBoard* pTlv, const Guid& tlvId);
     ~LCDStatusBoard();
 
-    virtual void VScreenChanged() override;
     virtual void VUpdate() override;
     virtual void VRender(OrderingTable& ot) override;
+    virtual void VScreenChanged() override;
 
     PalResource mPal;
     FontContext mFontContext;

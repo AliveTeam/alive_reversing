@@ -97,7 +97,6 @@ void InvisibleSwitch::VUpdate()
             break;
     }
 
-
     if (EventGet(Event::kEventDeathReset))
     {
         SetDead(true);

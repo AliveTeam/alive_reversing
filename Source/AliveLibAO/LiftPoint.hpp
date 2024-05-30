@@ -16,24 +16,29 @@ public:
     ~LiftPoint();
 
     void LoadAnimations();
-    void Move(FP xSpeed, FP ySpeed);
-    void StayOnFloor(s16 floor, relive::Path_LiftPoint* pTlv);
-    void ClearTlvFlags(relive::Path_TLV* pTlv);
+    
+    virtual void VRender(OrderingTable& ot) override;
+    virtual void VUpdate() override;
+    virtual void VScreenChanged() override;
     bool OnTopFloor() const;
     bool OnBottomFloor() const;
     bool OnMiddleFloor() const;
     bool OnAnyFloor() const;
     bool OnAFloorLiftMoverCanUse() const;
 
-    virtual void VUpdate() override;
-    virtual void VRender(OrderingTable& ot) override;
-    virtual void VScreenChanged() override;
+    void Move(FP xSpeed, FP ySpeed);
 
-    void CreatePulleyIfExists(s16 camX, s16 camY);
+private:
+
     void MoveObjectsOnLift(FP xVelocity);
 
-    bool mMoving = false;
+    void ClearTlvFlags(relive::Path_TLV* pTlv);
+    void StayOnFloor(s16 floor, relive::Path_LiftPoint* pTlv);
+
+    void CreatePulleyIfExists(s16 camX, s16 camY);
+public:
     s16 mLiftPointId = 0;
+    bool mMoving = false;
     bool mKeepOnMiddleFloor = false;
     bool mIgnoreLiftMover = false;
 private:

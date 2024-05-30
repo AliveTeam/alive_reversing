@@ -82,7 +82,7 @@ MovingBomb::MovingBomb(relive::Path_MovingBomb* pTlv, const Guid& tlvId)
         GetAnimation().SetRender(false);
     }
 
-    SetTint(&kMovingBombTints[0], gMap.mCurrentLevel);
+    SetTint(kMovingBombTints, gMap.mCurrentLevel);
 
     FP hitX = {};
     FP hitY = {};
@@ -112,7 +112,7 @@ MovingBomb::~MovingBomb()
         BaseAliveGameObject_PlatformId = Guid{};
     }
 
-    if (mState >= States::eBlowingUp_6)
+    if (mState == States::eBlowingUp_6 || mState == States::eKillMovingBomb_7)
     {
         Path::TLV_Delete(mTlvId);
     }
@@ -141,13 +141,6 @@ void MovingBomb::BlowUp()
     SfxPlayMono(relive::SoundEffects::GreenTick, 100, GetSpriteScale());
 }
 
-void MovingBomb::VRender(OrderingTable& ot)
-{
-    if (GetAnimation().GetRender())
-    {
-        BaseAnimatedWithPhysicsGameObject::VRender(ot);
-    }
-}
 
 void MovingBomb::VScreenChanged()
 {
@@ -174,13 +167,6 @@ void MovingBomb::VScreenChanged()
     }
 }
 
-void MovingBomb::FollowLine()
-{
-    if (BaseAliveGameObjectCollisionLine)
-    {
-        BaseAliveGameObjectCollisionLine = BaseAliveGameObjectCollisionLine->MoveOnLine(&mXPos, &mYPos, mVelX);
-    }
-}
 
 bool MovingBomb::VTakeDamage(BaseGameObject* pFrom)
 {
@@ -213,6 +199,14 @@ bool MovingBomb::VTakeDamage(BaseGameObject* pFrom)
 
         default:
             return true;
+    }
+}
+
+void MovingBomb::VRender(OrderingTable& ot)
+{
+    if (GetAnimation().GetRender())
+    {
+        BaseAnimatedWithPhysicsGameObject::VRender(ot);
     }
 }
 
@@ -253,6 +247,13 @@ s16 MovingBomb::HitObject()
     return 0;
 }
 
+void MovingBomb::FollowLine()
+{
+    if (BaseAliveGameObjectCollisionLine)
+    {
+        BaseAliveGameObjectCollisionLine = BaseAliveGameObjectCollisionLine->MoveOnLine(&mXPos, &mYPos, mVelX);
+    }
+}
 void MovingBomb::VUpdate()
 {
     if (EventGet(Event::kEventDeathReset))
@@ -260,7 +261,7 @@ void MovingBomb::VUpdate()
         SetDead(true);
     }
 
-    if (mState < States::eBlowingUp_6)
+    if (mState == States::eTriggeredByAlarm_0 || mState == States::eTriggeredBySwitch_1 || mState == States::eMoving_2 || mState == States::eStopMoving_3 || mState == States::eWaitABit_4 || mState == States::eToMoving_5)
     {
         if (HitObject())
         {
@@ -286,8 +287,7 @@ void MovingBomb::VUpdate()
 
             if (VIsObjNearby(FP_FromInteger(700), gAbe))
             {
-                const FP yDelta = FP_Abs(gAbe->mYPos - mYPos);
-                if (yDelta <= FP_FromInteger(700))
+                if (FP_Abs(gAbe->mYPos - mYPos) <= FP_FromInteger(700))
                 {
                     if (mState == States::eWaitABit_4)
                     {

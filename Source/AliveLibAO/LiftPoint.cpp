@@ -297,7 +297,6 @@ bool LiftPoint::OnAnyFloor() const
     return OnBottomFloor() || OnTopFloor() || OnMiddleFloor();
 }
 
-
 bool LiftPoint::OnAFloorLiftMoverCanUse() const
 {
     return (OnMiddleFloor() && !mIgnoreLiftMover) || OnBottomFloor() || OnTopFloor();

@@ -20,12 +20,13 @@ public:
 
     void LoadAnimations();
 
-    virtual void VScreenChanged() override;
     virtual void VUpdate() override;
+    virtual void VScreenChanged() override;
 
     // New virtual
     virtual s32 VPull(s16 bLeftDirection);
 
+private:
     s16 mSwitchId = 0;
     LeverState mState = LeverState::eWaiting_0;
     Guid mTlvId;

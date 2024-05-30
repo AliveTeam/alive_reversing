@@ -14,14 +14,14 @@ public:
     MovingBomb(relive::Path_MovingBomb* pTlv, const Guid& tlvId);
     ~MovingBomb();
 
-    virtual void VScreenChanged() override;
-    virtual bool VTakeDamage(BaseGameObject* pFrom) override;
+    virtual void VUpdate() override;
     virtual void VRender(OrderingTable& ot) override;
     virtual void VOnThrowableHit(BaseGameObject* pFrom) override;
-    virtual void VUpdate() override;
+    virtual bool VTakeDamage(BaseGameObject* pFrom) override;
+    virtual void VScreenChanged() override;
 
-    s16 HitObject();
     void FollowLine();
+    s16 HitObject();
 
     enum class States : s16
     {

@@ -81,8 +81,6 @@ MeatSack::MeatSack(relive::Path_MeatSack* pTlv, const Guid& tlvId)
     CreateShadow();
 }
 
-
-
 MeatSack::~MeatSack()
 {
     Path::TLV_Reset(mTlvId);
@@ -128,7 +126,7 @@ void MeatSack::VUpdate()
         {
             if (gThrowableArray)
             {
-                if (gThrowableArray->mCount)
+                if (gThrowableArray->mCount > 0)
                 {
                     GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::MeatSack_Hit));
                     mHasBeenHit = true;

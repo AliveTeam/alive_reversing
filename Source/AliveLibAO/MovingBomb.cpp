@@ -123,6 +123,7 @@ MovingBomb::~MovingBomb()
     }
 }
 
+
 void MovingBomb::VScreenChanged()
 {
     if (!mPersistOffscreen || gMap.LevelChanged() || gMap.PathChanged())
@@ -133,15 +134,12 @@ void MovingBomb::VScreenChanged()
 
 bool MovingBomb::VTakeDamage(BaseGameObject* pFrom)
 {
-    if (GetDead())
+    if (GetDead() || mHealth <= FP_FromInteger(0))
     {
         return true;
     }
 
-    if (mHealth <= FP_FromInteger(0))
-    {
-        return true;
-    }
+
 
     if (pFrom->Type() != ReliveTypes::eAbilityRing && pFrom->Type() != ReliveTypes::eAirExplosion && pFrom->Type() != ReliveTypes::eShrykull)
     {
@@ -291,7 +289,7 @@ void MovingBomb::VUpdate()
         }
     }
 
-    if (!sMovingBomb || sMovingBomb == this)
+    if (sMovingBomb == nullptr || sMovingBomb == this)
     {
         if (GetAnimation().GetCurrentFrame() != 0 && GetAnimation().GetCurrentFrame() != 7)
         {

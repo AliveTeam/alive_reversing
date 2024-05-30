@@ -249,62 +249,43 @@ LiftPoint::LiftPoint(relive::Path_LiftPoint* pTlv, const Guid& tlvId)
     }
 }
 
-void LiftPoint::CreateFromSaveState(SerializedObjectData& pData)
+void LiftPoint::Move(FP xSpeed, FP ySpeed)
 {
-    const auto pState = pData.ReadTmpPtr<LiftPointSaveState>();
+    mVelX = xSpeed * GetSpriteScale();
+    mVelY = ySpeed * GetSpriteScale();
 
-    relive::Path_LiftPoint* pTlv = static_cast<relive::Path_LiftPoint*>(gPathInfo->TLV_From_Offset_Lvl_Cam(pState->mPlatformId));
-
-    auto pLiftPoint = relive_new LiftPoint(pTlv, pState->mPlatformId);
-    if (pLiftPoint)
+    if (FP_GetExponent(xSpeed) || FP_GetExponent(ySpeed))
     {
-        pLiftPoint->mXPos = pState->mXPos;
-        pLiftPoint->mYPos = pState->mYPos;
-        pLiftPoint->SyncCollisionLinePosition();
-
-        Rope* pRope2 = static_cast<Rope*>(sObjectIds.Find(pLiftPoint->mRopeId2, ReliveTypes::eRope));
-        Rope* pRope1 = static_cast<Rope*>(sObjectIds.Find(pLiftPoint->mRopeId1, ReliveTypes::eRope));
-
-        pRope2->mBottom = FP_GetExponent(FP_FromInteger(pLiftPoint->mPlatformBaseCollisionLine->mRect.y) + (FP_FromInteger(25) * pLiftPoint->GetSpriteScale()));
-        pRope1->mBottom = FP_GetExponent(FP_FromInteger(pLiftPoint->mPlatformBaseCollisionLine->mRect.y) + (FP_FromInteger(25) * pLiftPoint->GetSpriteScale()));
-
-        if (pLiftPoint->mHasPulley)
-        {
-            pRope2->mTop = FP_GetExponent(FP_FromInteger(pLiftPoint->mPulleyYPos) + FP_FromInteger(-19) * pLiftPoint->GetSpriteScale());
-            pRope1->mTop = FP_GetExponent(FP_FromInteger(pLiftPoint->mPulleyYPos) + FP_FromInteger(-19) * pLiftPoint->GetSpriteScale());
-        }
-
-        pLiftPoint->mPlatformBaseTlvInfo = pState->mPlatformId;
-        pLiftPoint->mTlvId = pState->mTlvId;
-        pLiftPoint->mFloorLevelY = pState->mFloorLevelY;
-        pLiftPoint->mLiftPointStopType = pState->mLiftPointStopType;
-
-        pLiftPoint->mMoving = pState->mMoving;
-        pLiftPoint->mTopFloor = pState->mTopFloor;
-        pLiftPoint->mMiddleFloor = pState->mMiddleFloor;
-        pLiftPoint->mBottomFloor = pState->mBottomFloor;
-        pLiftPoint->mMoveToFloorLevel = pState->mMoveToFloorLevel;
-        pLiftPoint->mKeepOnMiddleFloor = pState->mKeepOnMiddleFloor;
+        mMoving = true;
     }
-
-    if (pState->mTlvId == pState->mPlatformId)
-    {
-        return;
-    }
-
-    pTlv->mTlvSpecificMeaning = 1;
-    if (pState->mTlvId == Guid{})
-    {
-        return;
-    }
-
-    relive::Path_TLV* pTlv2 = gPathInfo->TLV_From_Offset_Lvl_Cam(pState->mTlvId);
-    pTlv2->mTlvSpecificMeaning = 3;
 }
 
-void LiftPoint::KeepOnMiddleFloor()
+
+void LiftPoint::StayOnFloor(bool floor, relive::Path_LiftPoint* pTlv)
 {
-    mKeepOnMiddleFloor = true;
+    if (!floor)
+    {
+        mYPos = FP_FromInteger(pTlv->mTopLeftY + -mPlatformBaseYOffset);
+        SfxPlayMono(relive::SoundEffects::LiftStop, 0);
+        SFX_Play_Pitch(relive::SoundEffects::LiftStop, 80, -2000);
+    }
+
+    mMoving = false;
+    pTlv->mTlvSpecificMeaning = 3;
+    mTlvId = gPathInfo->TLVInfo_From_TLVPtr(pTlv);
+    pTlv->mLiftPointId = mLiftPointId;
+    mVelY = FP_FromInteger(0);
+
+    EventBroadcast(Event::kEventNoise, this);
+    EventBroadcast(Event::kEventSuspiciousNoise, this);
+}
+ 
+
+void LiftPoint::ClearTlvFlags(relive::Path_TLV* pTlv)
+{
+    pTlv->mTlvFlags.Clear(relive::TlvFlags::eBit1_Created);
+    pTlv->mTlvFlags.Clear(relive::TlvFlags::eBit2_Destroyed);
+    pTlv->mTlvSpecificMeaning |= 1;
 }
 
 bool LiftPoint::OnTopFloor() const
@@ -312,14 +293,14 @@ bool LiftPoint::OnTopFloor() const
     return mTopFloor && !mMoveToFloorLevel;
 }
 
-bool LiftPoint::OnMiddleFloor() const
-{
-    return mMiddleFloor && !mMoveToFloorLevel;
-}
-
 bool LiftPoint::OnBottomFloor() const
 {
     return mBottomFloor && !mMoveToFloorLevel;
+}
+
+bool LiftPoint::OnMiddleFloor() const
+{
+    return mMiddleFloor && !mMoveToFloorLevel;
 }
 
 bool LiftPoint::OnAnyFloor() const
@@ -338,15 +319,9 @@ bool LiftPoint::MovingToFloorLevel() const
     return mMoveToFloorLevel;
 }
 
-void LiftPoint::Move(FP xSpeed, FP ySpeed)
+void LiftPoint::KeepOnMiddleFloor()
 {
-    mVelX = xSpeed * GetSpriteScale();
-    mVelY = ySpeed * GetSpriteScale();
-
-    if (FP_GetExponent(xSpeed) || FP_GetExponent(ySpeed))
-    {
-        mMoving = true;
-    }
+    mKeepOnMiddleFloor = true;
 }
 
 void LiftPoint::VUpdate()
@@ -762,53 +737,6 @@ void LiftPoint::VScreenChanged()
 }
 
 
-void LiftPoint::ClearTlvFlags(relive::Path_TLV* pTlv)
-{
-    pTlv->mTlvFlags.Clear(relive::TlvFlags::eBit1_Created);
-    pTlv->mTlvFlags.Clear(relive::TlvFlags::eBit2_Destroyed);
-    pTlv->mTlvSpecificMeaning |= 1;
-}
-
-void LiftPoint::StayOnFloor(bool floor, relive::Path_LiftPoint* pTlv)
-{
-    if (!floor)
-    {
-        mYPos = FP_FromInteger(pTlv->mTopLeftY + -mPlatformBaseYOffset);
-        SfxPlayMono(relive::SoundEffects::LiftStop, 0);
-        SFX_Play_Pitch(relive::SoundEffects::LiftStop, 80, -2000);
-    }
-
-    mMoving = false;
-    pTlv->mTlvSpecificMeaning = 3;
-    mTlvId = gPathInfo->TLVInfo_From_TLVPtr(pTlv);
-    pTlv->mLiftPointId = mLiftPointId;
-    mVelY = FP_FromInteger(0);
-
-    EventBroadcast(Event::kEventNoise, this);
-    EventBroadcast(Event::kEventSuspiciousNoise, this);
-}
-
-void LiftPoint::VGetSaveState(SerializedObjectData& pSaveBuffer)
-{
-    LiftPointSaveState data = {};
-
-    data.mType = ReliveTypes::eLiftPoint;
-    data.mXPos = mXPos;
-    data.mYPos = mYPos;
-    data.mPlatformId = mPlatformBaseTlvInfo;
-    data.mTlvId = mTlvId;
-    data.mFloorLevelY = mFloorLevelY;
-    data.mLiftPointStopType = mLiftPointStopType;
-
-    data.mMoving = mMoving;
-    data.mTopFloor = mTopFloor;
-    data.mMiddleFloor = mMiddleFloor;
-    data.mBottomFloor = mBottomFloor;
-    data.mMoveToFloorLevel = mMoveToFloorLevel;
-    data.mKeepOnMiddleFloor = mKeepOnMiddleFloor;
-
-    pSaveBuffer.Write(data);
-}
 
 void LiftPoint::CreatePulleyIfExists()
 {
@@ -925,4 +853,80 @@ LiftPoint::~LiftPoint()
     {
         mPulleyAnim.VCleanUp();
     }
+}
+
+
+void LiftPoint::VGetSaveState(SerializedObjectData& pSaveBuffer)
+{
+    LiftPointSaveState data = {};
+
+    data.mType = ReliveTypes::eLiftPoint;
+    data.mXPos = mXPos;
+    data.mYPos = mYPos;
+    data.mPlatformId = mPlatformBaseTlvInfo;
+    data.mTlvId = mTlvId;
+    data.mFloorLevelY = mFloorLevelY;
+    data.mLiftPointStopType = mLiftPointStopType;
+
+    data.mMoving = mMoving;
+    data.mTopFloor = mTopFloor;
+    data.mMiddleFloor = mMiddleFloor;
+    data.mBottomFloor = mBottomFloor;
+    data.mMoveToFloorLevel = mMoveToFloorLevel;
+    data.mKeepOnMiddleFloor = mKeepOnMiddleFloor;
+
+    pSaveBuffer.Write(data);
+}
+
+void LiftPoint::CreateFromSaveState(SerializedObjectData& pData)
+{
+    const auto pState = pData.ReadTmpPtr<LiftPointSaveState>();
+
+    relive::Path_LiftPoint* pTlv = static_cast<relive::Path_LiftPoint*>(gPathInfo->TLV_From_Offset_Lvl_Cam(pState->mPlatformId));
+
+    auto pLiftPoint = relive_new LiftPoint(pTlv, pState->mPlatformId);
+    if (pLiftPoint)
+    {
+        pLiftPoint->mXPos = pState->mXPos;
+        pLiftPoint->mYPos = pState->mYPos;
+        pLiftPoint->SyncCollisionLinePosition();
+
+        Rope* pRope2 = static_cast<Rope*>(sObjectIds.Find(pLiftPoint->mRopeId2, ReliveTypes::eRope));
+        Rope* pRope1 = static_cast<Rope*>(sObjectIds.Find(pLiftPoint->mRopeId1, ReliveTypes::eRope));
+
+        pRope2->mBottom = FP_GetExponent(FP_FromInteger(pLiftPoint->mPlatformBaseCollisionLine->mRect.y) + (FP_FromInteger(25) * pLiftPoint->GetSpriteScale()));
+        pRope1->mBottom = FP_GetExponent(FP_FromInteger(pLiftPoint->mPlatformBaseCollisionLine->mRect.y) + (FP_FromInteger(25) * pLiftPoint->GetSpriteScale()));
+
+        if (pLiftPoint->mHasPulley)
+        {
+            pRope2->mTop = FP_GetExponent(FP_FromInteger(pLiftPoint->mPulleyYPos) + FP_FromInteger(-19) * pLiftPoint->GetSpriteScale());
+            pRope1->mTop = FP_GetExponent(FP_FromInteger(pLiftPoint->mPulleyYPos) + FP_FromInteger(-19) * pLiftPoint->GetSpriteScale());
+        }
+
+        pLiftPoint->mPlatformBaseTlvInfo = pState->mPlatformId;
+        pLiftPoint->mTlvId = pState->mTlvId;
+        pLiftPoint->mFloorLevelY = pState->mFloorLevelY;
+        pLiftPoint->mLiftPointStopType = pState->mLiftPointStopType;
+
+        pLiftPoint->mMoving = pState->mMoving;
+        pLiftPoint->mTopFloor = pState->mTopFloor;
+        pLiftPoint->mMiddleFloor = pState->mMiddleFloor;
+        pLiftPoint->mBottomFloor = pState->mBottomFloor;
+        pLiftPoint->mMoveToFloorLevel = pState->mMoveToFloorLevel;
+        pLiftPoint->mKeepOnMiddleFloor = pState->mKeepOnMiddleFloor;
+    }
+
+    if (pState->mTlvId == pState->mPlatformId)
+    {
+        return;
+    }
+
+    pTlv->mTlvSpecificMeaning = 1;
+    if (pState->mTlvId == Guid{})
+    {
+        return;
+    }
+
+    relive::Path_TLV* pTlv2 = gPathInfo->TLV_From_Offset_Lvl_Cam(pState->mTlvId);
+    pTlv2->mTlvSpecificMeaning = 3;
 }
