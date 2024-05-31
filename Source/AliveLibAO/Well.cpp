@@ -64,7 +64,7 @@ void Well::InitBgAnim(s16 bgAnimId)
         // NOTE: Prevents the game from crashing when a rock is thrown
         // in a camera with an invisible well (D1P04C02).
         // This isn't needed in AE because the Well doesn't inherit from BaseAnimatedWithPhysicsGameObject
-        // and the hacky animation support have been removed.
+        // and the hacky animation support has been removed.
         SetDrawable(false);
         GetAnimation().SetRender(false);
     }

@@ -12,16 +12,27 @@
 #include "../relive_lib/MapWrapper.hpp"
 #include "Path.hpp"
 #include "QuikSave.hpp"
+#include "../relive_lib/GameType.hpp"
 
-struct TrapDoor_Data final
-{
-    AnimId mOpen;
-    AnimId mClosed;
-    AnimId mOpening;
-    AnimId mClosing;
-};
+static const TrapDoor_Data sTrapDoorDataAO[16] = {
+    {AnimId::Lines_TrapDoor_Open, AnimId::Lines_TrapDoor_Closed, AnimId::Lines_TrapDoor_Opening, AnimId::Lines_TrapDoor_Closing},      // menu
+    {AnimId::R1_TrapDoor_Open, AnimId::R1_TrapDoor_Closed, AnimId::R1_TrapDoor_Opening, AnimId::R1_TrapDoor_Closing},                  // rapture farms
+    {AnimId::Lines_TrapDoor_Open, AnimId::Lines_TrapDoor_Closed, AnimId::Lines_TrapDoor_Opening, AnimId::Lines_TrapDoor_Closing},      // lines
+    {AnimId::Lines_TrapDoor_Open, AnimId::Lines_TrapDoor_Closed, AnimId::Lines_TrapDoor_Opening, AnimId::Lines_TrapDoor_Closing},      // forest
+    {AnimId::Lines_TrapDoor_Open, AnimId::Lines_TrapDoor_Closed, AnimId::Lines_TrapDoor_Opening, AnimId::Lines_TrapDoor_Closing},      // forest temple
+    {AnimId::Lines_TrapDoor_Open, AnimId::Lines_TrapDoor_Closed, AnimId::Lines_TrapDoor_Opening, AnimId::Lines_TrapDoor_Closing},      // stock yards
+    {AnimId::Lines_TrapDoor_Open, AnimId::Lines_TrapDoor_Closed, AnimId::Lines_TrapDoor_Opening, AnimId::Lines_TrapDoor_Closing},      // stock yards return
+    {AnimId::Lines_TrapDoor_Open, AnimId::Lines_TrapDoor_Closed, AnimId::Lines_TrapDoor_Opening, AnimId::Lines_TrapDoor_Closing},      // removed
+    {AnimId::Desert_TrapDoor_Open, AnimId::Desert_TrapDoor_Closed, AnimId::Desert_TrapDoor_Opening, AnimId::Desert_TrapDoor_Closing},  // desert
+    {AnimId::Desert_TrapDoor_Open, AnimId::Desert_TrapDoor_Closed, AnimId::Desert_TrapDoor_Opening, AnimId::Desert_TrapDoor_Closing},  // desert temple
+    {AnimId::Desert_TrapDoor_Open, AnimId::Desert_TrapDoor_Closed, AnimId::Desert_TrapDoor_Opening, AnimId::Desert_TrapDoor_Closing},  // credits
+    {AnimId::Desert_TrapDoor_Open, AnimId::Desert_TrapDoor_Closed, AnimId::Desert_TrapDoor_Opening, AnimId::Desert_TrapDoor_Closing},  // removed
+    {AnimId::R1_TrapDoor_Open, AnimId::R1_TrapDoor_Closed, AnimId::R1_TrapDoor_Opening, AnimId::R1_TrapDoor_Closing},                  // board room
+    {AnimId::R1_TrapDoor_Open, AnimId::R1_TrapDoor_Closed, AnimId::R1_TrapDoor_Opening, AnimId::R1_TrapDoor_Closing},                  // rupture farms return
+    {AnimId::Lines_TrapDoor_Open, AnimId::Lines_TrapDoor_Closed, AnimId::Lines_TrapDoor_Opening, AnimId::Lines_TrapDoor_Closing},      // forest chase
+    {AnimId::Desert_TrapDoor_Open, AnimId::Desert_TrapDoor_Closed, AnimId::Desert_TrapDoor_Opening, AnimId::Desert_TrapDoor_Closing}}; // desert escape
 
-static const TrapDoor_Data sTrapDoorData[18] = {
+static const TrapDoor_Data sTrapDoorDataAE[18] = {
     {AnimId::Trap_Door_Open, AnimId::Trap_Door_Closed, AnimId::Trap_Door_Opening, AnimId::Trap_Door_Closing},
     {AnimId::Trap_Door_Open, AnimId::Trap_Door_Closed, AnimId::Trap_Door_Opening, AnimId::Trap_Door_Closing},
     {AnimId::Trap_Door_Open, AnimId::Trap_Door_Closed, AnimId::Trap_Door_Opening, AnimId::Trap_Door_Closing},
@@ -56,9 +67,45 @@ static const TintEntry sTrapDoorTints[16] = {
     {EReliveLevelIds::eBonewerkz_Ender, 127u, 127u, 127u},
     {EReliveLevelIds::eCredits, 127u, 127u, 127u}};
 
-void TrapDoor::LoadAnimations()
+void TrapDoor::LoadAnimationsAO()
 {
-    switch (gMap.mCurrentLevel)
+    switch (GetMap().mCurrentLevel)
+    {
+        case EReliveLevelIds::eRuptureFarms:
+        case EReliveLevelIds::eBoardRoom:
+        case EReliveLevelIds::eRuptureFarmsReturn:
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::R1_TrapDoor_Open));
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::R1_TrapDoor_Closed));
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::R1_TrapDoor_Opening));
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::R1_TrapDoor_Closing));
+            break;
+        case EReliveLevelIds::eLines:
+        case EReliveLevelIds::eStockYards:
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Lines_TrapDoor_Open));
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Lines_TrapDoor_Closed));
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Lines_TrapDoor_Opening));
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Lines_TrapDoor_Closing));
+            break;
+        case EReliveLevelIds::eDesert:
+        case EReliveLevelIds::eDesertTemple:
+        case EReliveLevelIds::eDesertEscape:
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Desert_TrapDoor_Open));
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Desert_TrapDoor_Closed));
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Desert_TrapDoor_Opening));
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Desert_TrapDoor_Closing));
+            break;
+        default:
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Lines_TrapDoor_Open));
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Lines_TrapDoor_Closed));
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Lines_TrapDoor_Opening));
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Lines_TrapDoor_Closing));
+            break;
+    }
+}
+
+void TrapDoor::LoadAnimationsAE()
+{
+    switch (GetMap().mCurrentLevel)
     {
         case EReliveLevelIds::eMudomoVault:
         case EReliveLevelIds::eMudancheeVault:
@@ -79,29 +126,57 @@ void TrapDoor::LoadAnimations()
     }
 }
 
+TrapDoor_Data TrapDoor::GetTrapDoorData() const
+{
+    if (GetGameType() == GameType::eAo)
+    {
+        const s32 levelIdx = static_cast<s32>(MapWrapper::ToAO(GetMap().mCurrentLevel));
+        return sTrapDoorDataAO[levelIdx];
+    }
+    else
+    {
+        const s32 levelIdx = static_cast<s32>(MapWrapper::ToAE(GetMap().mCurrentLevel));
+        return sTrapDoorDataAE[levelIdx];
+    }
+}
+
 TrapDoor::TrapDoor(relive::Path_TrapDoor* pTlv, const Guid& tlvId)
 {
     SetType(ReliveTypes::eTrapDoor);
     mBaseGameObjectTlvInfo = tlvId;
 
-    LoadAnimations();
+    if (GetGameType() == GameType::eAo)
+    {
+        LoadAnimationsAO();
+    }
+    else
+    {
+        LoadAnimationsAE();
+    }
 
     mSwitchId = pTlv->mSwitchId;
     mStartState = pTlv->mStartState;
-    mStayOpenTime = pTlv->mStayOpenTime;
 
-    const s32 levelIdx = static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel));
+    // TODO: Set AO mStayOpenTime to 20 during conversion and remove this
+    if (GetGameType() == GameType::eAo)
+    {
+        mStayOpenTime = 20;
+    }
+    else
+    {
+        mStayOpenTime = pTlv->mStayOpenTime;
+    }
 
     AnimId animId = AnimId::None;
     if (mStartState == SwitchStates_Get(pTlv->mSwitchId))
     {
         mState = TrapDoorState::eOpen_2;
-        animId = sTrapDoorData[levelIdx].mOpen;
+        animId = GetTrapDoorData().mOpen;
     }
     else
     {
         mState = TrapDoorState::eClosed_0;
-        animId = sTrapDoorData[levelIdx].mClosed;
+        animId = GetTrapDoorData().mClosed;
     }
 
     mSelfClosing = pTlv->mSelfClosing;
@@ -117,7 +192,7 @@ TrapDoor::TrapDoor(relive::Path_TrapDoor* pTlv, const Guid& tlvId)
     }
 
     AddDynamicCollision(
-        sTrapDoorData[levelIdx].mClosed,
+        GetTrapDoorData().mClosed,
         pTlv,
         tlvId);
 
@@ -130,8 +205,6 @@ TrapDoor::TrapDoor(relive::Path_TrapDoor* pTlv, const Guid& tlvId)
         GetAnimation().SetRenderLayer(Layer::eLayer_Shadow_Half_7);
         mPlatformBaseCollisionLine->mLineType = eLineTypes::eBackgroundDynamicCollision_36;
     }
-
-    SetTint(sTrapDoorTints, gMap.mCurrentLevel);
 
     mTrapDoorX = FP_FromInteger(pTlv->mTopLeftX);
     mTrapDoorY = FP_FromInteger(pTlv->mTopLeftY);
@@ -158,13 +231,17 @@ TrapDoor::TrapDoor(relive::Path_TrapDoor* pTlv, const Guid& tlvId)
     mBoundingRect.w = pTlv->mBottomRightX;
     mBoundingRect.h = pTlv->mBottomRightY;
 
-    SetDoPurpleLightEffect(true);
+    if (GetGameType() == GameType::eAe)
+    {
+        SetTint(sTrapDoorTints, GetMap().mCurrentLevel);
+        SetDoPurpleLightEffect(true);
+    }
 }
 
 void TrapDoor::VRender(OrderingTable& ot)
 {
     mXPos += FP_FromInteger(mTrapDoorXOffset);
-    BaseAliveGameObject::VRender(ot);
+    BaseAnimatedWithPhysicsGameObject::VRender(ot);
     mXPos -= FP_FromInteger(mTrapDoorXOffset);
 }
 
@@ -180,7 +257,7 @@ void TrapDoor::VAdd(BaseAliveGameObject* pObj)
 
 void TrapDoor::VScreenChanged()
 {
-    if (gMap.LevelChanged() || gMap.PathChanged())
+    if (GetMap().LevelChanged() || GetMap().PathChanged())
     {
         SetDead(true);
         if (mSelfClosing)
@@ -240,7 +317,7 @@ void TrapDoor::VUpdate()
         SetDead(true);
     }
 
-    const CameraPos direction = gMap.GetDirection(mCurrentLevel, mCurrentPath, mTrapDoorX, mTrapDoorY);
+    const CameraPos direction = GetMap().GetDirection(mCurrentLevel, mCurrentPath, mTrapDoorX, mTrapDoorY);
 
     switch (mState)
     {
@@ -249,9 +326,17 @@ void TrapDoor::VUpdate()
         {
             Open();
             mState = TrapDoorState::eOpening_1;
-            GetAnimation().Set_Animation_Data(GetAnimRes(sTrapDoorData[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))].mOpening));
+            GetAnimation().Set_Animation_Data(GetAnimRes(GetTrapDoorData().mOpening));
 
-            if (gMap.mCurrentLevel == EReliveLevelIds::eMines || gMap.mCurrentLevel == EReliveLevelIds::eBonewerkz || gMap.mCurrentLevel == EReliveLevelIds::eBonewerkz_Ender || gMap.mCurrentLevel == EReliveLevelIds::eFeeCoDepot || gMap.mCurrentLevel == EReliveLevelIds::eFeeCoDepot_Ender || gMap.mCurrentLevel == EReliveLevelIds::eBarracks || gMap.mCurrentLevel == EReliveLevelIds::eBarracks_Ender || gMap.mCurrentLevel == EReliveLevelIds::eBrewery || gMap.mCurrentLevel == EReliveLevelIds::eBrewery_Ender)
+            if (GetMap().mCurrentLevel == EReliveLevelIds::eMines ||
+                GetMap().mCurrentLevel == EReliveLevelIds::eBonewerkz ||
+                GetMap().mCurrentLevel == EReliveLevelIds::eBonewerkz_Ender ||
+                GetMap().mCurrentLevel == EReliveLevelIds::eFeeCoDepot ||
+                GetMap().mCurrentLevel == EReliveLevelIds::eFeeCoDepot_Ender ||
+                GetMap().mCurrentLevel == EReliveLevelIds::eBarracks ||
+                GetMap().mCurrentLevel == EReliveLevelIds::eBarracks_Ender ||
+                GetMap().mCurrentLevel == EReliveLevelIds::eBrewery ||
+                GetMap().mCurrentLevel == EReliveLevelIds::eBrewery_Ender)
             {
                 SFX_Play_Camera(relive::SoundEffects::IndustrialTrigger, 45, direction);
                 SFX_Play_Camera(relive::SoundEffects::IndustrialNoise1, 90, direction);
@@ -272,11 +357,19 @@ void TrapDoor::VUpdate()
         mStayOpenTimeTimer--;
         if ((mSelfClosing && mStayOpenTimeTimer <= 0) || SwitchStates_Get(mSwitchId) != mStartState)
         {
-            GetAnimation().Set_Animation_Data(GetAnimRes(sTrapDoorData[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))].mClosing));
+            GetAnimation().Set_Animation_Data(GetAnimRes(GetTrapDoorData().mClosing));
 
             mState = TrapDoorState::eClosing_3;
 
-            if (gMap.mCurrentLevel == EReliveLevelIds::eMines || gMap.mCurrentLevel == EReliveLevelIds::eBonewerkz || gMap.mCurrentLevel == EReliveLevelIds::eBonewerkz_Ender || gMap.mCurrentLevel == EReliveLevelIds::eFeeCoDepot || gMap.mCurrentLevel == EReliveLevelIds::eFeeCoDepot_Ender || gMap.mCurrentLevel == EReliveLevelIds::eBarracks || gMap.mCurrentLevel == EReliveLevelIds::eBarracks_Ender || gMap.mCurrentLevel == EReliveLevelIds::eBrewery || gMap.mCurrentLevel == EReliveLevelIds::eBrewery_Ender)
+            if (GetMap().mCurrentLevel == EReliveLevelIds::eMines ||
+                GetMap().mCurrentLevel == EReliveLevelIds::eBonewerkz ||
+                GetMap().mCurrentLevel == EReliveLevelIds::eBonewerkz_Ender ||
+                GetMap().mCurrentLevel == EReliveLevelIds::eFeeCoDepot ||
+                GetMap().mCurrentLevel == EReliveLevelIds::eFeeCoDepot_Ender ||
+                GetMap().mCurrentLevel == EReliveLevelIds::eBarracks ||
+                GetMap().mCurrentLevel == EReliveLevelIds::eBarracks_Ender ||
+                GetMap().mCurrentLevel == EReliveLevelIds::eBrewery ||
+                GetMap().mCurrentLevel == EReliveLevelIds::eBrewery_Ender)
             {
                 SFX_Play_Camera(relive::SoundEffects::IndustrialNoise3, 60, direction);
                 SFX_Play_Camera(relive::SoundEffects::IndustrialNoise2, 90, direction);

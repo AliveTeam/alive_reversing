@@ -8,6 +8,14 @@ namespace relive
     struct Path_TrapDoor;
 }
 
+struct TrapDoor_Data final
+{
+    AnimId mOpen;
+    AnimId mClosed;
+    AnimId mOpening;
+    AnimId mClosing;
+};
+
 enum class TrapDoorState : s16
 {
     eClosed_0 = 0,
@@ -37,7 +45,10 @@ public:
     TrapDoor(relive::Path_TrapDoor* pTlv, const Guid& tlvId);
     ~TrapDoor();
 
-    void LoadAnimations();
+    void LoadAnimationsAO();
+    void LoadAnimationsAE();
+
+    TrapDoor_Data GetTrapDoorData() const;
 
     virtual PSX_RECT VGetBoundingRect() override;
     virtual void VScreenChanged() override;

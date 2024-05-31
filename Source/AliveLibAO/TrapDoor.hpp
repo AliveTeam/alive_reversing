@@ -11,6 +11,14 @@ struct Path_TrapDoor;
 
 namespace AO {
 
+struct TrapDoor_Data final
+{
+    AnimId mOpen;
+    AnimId mClosed;
+    AnimId mOpening;
+    AnimId mClosing;
+};
+
 enum class TrapDoorState : s16
 {
     eClosed_0 = 0,
@@ -25,7 +33,10 @@ public:
     TrapDoor(relive::Path_TrapDoor* pTlv, const Guid& tlvId);
     ~TrapDoor();
 
-    void LoadAnimations();
+    TrapDoor_Data GetTrapDoorData() const;
+
+    void LoadAnimationsAO();
+    void LoadAnimationsAE();
 
     virtual PSX_RECT VGetBoundingRect() override;
     virtual void VScreenChanged() override;
@@ -44,6 +55,7 @@ private:
     TrapDoorState mState = TrapDoorState::eClosed_0;
     s16 mStartState = 0;
     s16 mTrapDoorXOffset = 0;
+    s16 mStayOpenTime = 0;
     bool mSelfClosing = false;
     FP mTrapDoorX = {};
     FP mTrapDoorY = {};
