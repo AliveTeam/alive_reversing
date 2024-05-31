@@ -47,15 +47,6 @@ Rope::Rope(s32 left, s32 top, s32 bottom, FP scale)
 
     mYOffset = 0;
 
-    if (scale == FP_FromInteger(1))
-    {
-        mRopeLength = 15;
-    }
-    else
-    {
-        mRopeLength = 7;
-    }
-
     switch (gMap.mCurrentLevel)
     {
         case EReliveLevelIds::eRuptureFarms:
@@ -79,25 +70,29 @@ Rope::Rope(s32 left, s32 top, s32 bottom, FP scale)
     }
     GetAnimation().SetSpriteScale(scale);
     SetSpriteScale(scale);
+
     if (scale == FP_FromInteger(1))
     {
+        mRopeLength = 15;
         GetAnimation().SetRenderLayer(Layer::eLayer_RopeWebDrillMeatSaw_24);
         SetScale(Scale::Fg);
     }
     else
     {
+        mRopeLength = 7;
         GetAnimation().SetRenderLayer(Layer::eLayer_RopeWebDrillMeatSaw_Half_5);
         SetScale(Scale::Bg);
     }
 
     GetAnimation().SetRGB(128, 128, 128);
 
+    mTop = static_cast<s16>(top);
     mBottom = static_cast<s16>(bottom);
-    mRopeSegmentCount = 240 / mRopeLength + 1;
 
     mXPos = FP_FromInteger(left);
     mYPos = FP_FromInteger(bottom);
-    mTop = static_cast<s16>(top);
+
+    mRopeSegmentCount = (240 / mRopeLength) + 1; // psx screen height
 
     mRopeAnim = relive_new AnimationUnknown[mRopeSegmentCount];
     if (mRopeAnim)
@@ -124,83 +119,75 @@ void Rope::VRender(OrderingTable& ot)
 {
     PSX_Point camPos = {};
     gMap.GetCurrentCamCoords(&camPos);
-    if (mCurrentLevel == gMap.mCurrentLevel)
+    // In the current level/map?
+    if (mCurrentLevel == gMap.mCurrentLevel && mCurrentPath == gMap.mCurrentPath)
     {
-        if (mCurrentPath == gMap.mCurrentPath)
+        // In the current camera x range?
+        if (mXPos >= FP_FromInteger(camPos.x) && mXPos <= FP_FromInteger(camPos.x + 1024))
         {
-            if (mXPos >= FP_FromInteger(camPos.x) && mXPos <= FP_FromInteger(camPos.x + 1024))
+            const FP camXPos = gScreenManager->CamXPos();
+            const FP camYPos = gScreenManager->CamYPos();
+
+            s16 minY = FP_GetExponent(FP_FromInteger(mTop) - camYPos);
+            s16 maxY = FP_GetExponent(FP_FromInteger(mBottom) - camYPos);
+
+            s16 ypos = FP_GetExponent(mYPos);
+            if (ypos > mBottom)
             {
-                const FP camYPos = gScreenManager->mCamPos->y;
+                ypos = mBottom + ((ypos - mBottom) % mRopeLength);
+            }
 
-                s32 minY = FP_GetExponent((FP_FromInteger(gScreenManager->mCamYOff + mTop))
-                                          - camYPos);
-                s32 maxY = FP_GetExponent((FP_FromInteger(gScreenManager->mCamYOff + mBottom))
-                                          - camYPos);
+            s16 screenX = PsxToPCX(FP_GetExponent(mXPos - camXPos), 11);
+            s16 screenY = ypos - FP_GetExponent(camYPos);
 
-                s16 ypos = FP_GetExponent(mYPos);
-                if (ypos > mBottom)
-                {
-                    ypos = mBottom + ((ypos - mBottom) % mRopeLength);
-                }
+            if (mYOffset + screenY > 240)
+            {
+                screenY = (screenY % mRopeLength) + 240;
+                ypos = FP_GetExponent(camYPos + (FP_FromInteger(screenY)));
+            }
 
-                s16 screenX = PsxToPCX(
-                    FP_GetExponent(mXPos + FP_FromInteger(gScreenManager->mCamXOff) - gScreenManager->mCamPos->x),
-                    11);
-                s16 screenY = FP_GetExponent(
-                    (FP_FromInteger(gScreenManager->mCamYOff + ypos))
-                    - camYPos);
+            if (minY < 0)
+            {
+                minY = 0;
+            }
 
-                if (mYOffset + screenY > 240)
-                {
-                    screenY = screenY % mRopeLength + 240;
-                    ypos = FP_GetExponent(gScreenManager->mCamPos->y
-                                          + FP_FromInteger(screenY - gScreenManager->mCamYOff));
-                }
-                if (minY < 0)
-                {
-                    minY = 0;
-                }
-                if (maxY > 240)
-                {
-                    maxY = 240;
-                }
+            if (maxY > 240)
+            {
+                maxY = 240;
+            }
 
-                GetAnimation().VRender(640, 240, ot, 0, 0);
-                if (screenY >= minY)
+            GetAnimation().VRender(640, 240, ot, 0, 0);
+            if (screenY >= minY)
+            {
+                for (s32 idx = 0; idx < mRopeSegmentCount; idx++)
                 {
-                    for (s32 idx = 0; idx < mRopeSegmentCount; idx++)
+                    // Apply shadow to the segments colour
+                    s16 r = 128;
+                    s16 g = 128;
+                    s16 b = 128;
+
+                    ShadowZone::ShadowZones_Calculate_Colour(
+                        FP_GetExponent(mXPos),
+                        ypos - (idx * mRopeLength),
+                        GetScale(),
+                        &r,
+                        &g,
+                        &b);
+
+                    mRopeAnim[idx].SetRGB(r, g, b);
+
+                    // Render the segment
+                    mRopeAnim[idx].VRender(screenX, mYOffset + screenY, ot, 0, 0);
+
+                    ClipPoly_Vertically(
+                        &mRopeAnim[idx].mPoly,
+                        minY + mYOffset,
+                        maxY + mYOffset);
+
+                    screenY -= mRopeLength;
+                    if (screenY < minY)
                     {
-                        s16 r = 128;
-                        s16 g = 128;
-                        s16 b = 128;
-                        ShadowZone::ShadowZones_Calculate_Colour(
-                            FP_GetExponent(mXPos),
-                            ypos - (idx * mRopeLength),
-                            GetScale(),
-                            &r,
-                            &g,
-                            &b);
-
-                        mRopeAnim[idx].SetRGB(r, g, b);
-
-                        mRopeAnim[idx].VRender(
-                            screenX,
-                            mYOffset + screenY,
-                            ot, 0, 0);
-
-                        PSX_RECT rect = {};
-                        mRopeAnim[idx].GetRenderedSize(&rect);
-
-                        ClipPoly_Vertically(
-                            &mRopeAnim[idx].mPoly,
-                            minY + mYOffset,
-                            maxY + mYOffset);
-
-                        screenY -= mRopeLength;
-                        if (screenY < minY)
-                        {
-                            break;
-                        }
+                        break;
                     }
                 }
             }

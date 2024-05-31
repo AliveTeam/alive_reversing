@@ -31,7 +31,7 @@ void ClipPoly_Vertically(Poly_FT4* pPoly, s32 minY, s32 maxY)
 {
     const s32 d1 = minY - pPoly->Y0();
     const s16 polyHeight = pPoly->Y3() - pPoly->Y0();
-    if (minY - pPoly->Y0() > 0 && d1 <= polyHeight)
+    if (d1 > 0 && d1 <= polyHeight)
     {
         pPoly->SetXY0(pPoly->X0(), pPoly->Y0() + (s16) d1);
         pPoly->SetXY1(pPoly->X1(), pPoly->Y1() + (s16) d1);
@@ -49,6 +49,11 @@ void ClipPoly_Vertically(Poly_FT4* pPoly, s32 minY, s32 maxY)
         pPoly->SetUV2(pPoly->U2(), pPoly->V2() - (u8) d2);
         pPoly->SetUV3(pPoly->U3(), pPoly->V3() - (u8) d2);
     }
+}
+
+Rope::~Rope()
+{
+    relive_delete[] mRopeAnim;
 }
 
 Rope::Rope(s32 left, s32 top, s32 bottom, FP scale)
@@ -89,7 +94,6 @@ Rope::Rope(s32 left, s32 top, s32 bottom, FP scale)
 
     mRopeSegmentCount = (240 / mRopeLength) + 1; // psx screen height
 
-
     mRopeAnim = relive_new AnimationUnknown[mRopeSegmentCount];
     if (mRopeAnim)
     {
@@ -108,12 +112,7 @@ Rope::Rope(s32 left, s32 top, s32 bottom, FP scale)
 
 void Rope::VUpdate()
 {
-    // nullsub@4A11E0
-}
-
-Rope::~Rope()
-{
-    relive_delete[] mRopeAnim;
+    // Empty
 }
 
 void Rope::VRender(OrderingTable& ot)
@@ -179,12 +178,7 @@ void Rope::VRender(OrderingTable& ot)
                     mRopeAnim[idx].SetRGB(r, g, b);
 
                     // Render the segment
-                    mRopeAnim[idx].VRender(
-                        screenX,
-                        screenY,
-                        ot,
-                        0,
-                        0);
+                    mRopeAnim[idx].VRender(screenX, screenY, ot, 0, 0);
 
                     ClipPoly_Vertically(
                         &mRopeAnim[idx].mPoly,
@@ -192,7 +186,6 @@ void Rope::VRender(OrderingTable& ot)
                         maxY);
 
                     screenY -= mRopeLength;
-
                     if (screenY < minY)
                     {
                         break;
