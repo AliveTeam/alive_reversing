@@ -203,6 +203,8 @@ SET(AliveLibSrcAO
    ../AliveLibAO/RollingBallShaker.cpp
    ../AliveLibAO/BoomMachinePipe.hpp
    ../AliveLibAO/BoomMachinePipe.cpp
+   ../AliveLibAO/PaletteOverwriter.hpp
+   ../AliveLibAO/PaletteOverwriter.cpp
 )
 
 SET(AliveLibAESrc
@@ -435,6 +437,8 @@ SET(AliveLibAESrc
     ../AliveLibAE/MudokonEnums.hpp
     ../AliveLibAE/BoomMachinePipe.hpp
     ../AliveLibAE/BoomMachinePipe.cpp
+    ../AliveLibAE/PaletteOverwriter.hpp
+    ../AliveLibAE/PaletteOverwriter.cpp
 )
 
 SET(renderer_src

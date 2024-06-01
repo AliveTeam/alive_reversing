@@ -5,94 +5,9 @@
 #include "../relive_lib/ObjectIds.hpp"
 #include "../AliveLibAE/stdlib.hpp"
 #include "Map.hpp"
-
-#define kPalDepth 64
+#include "PaletteOverwriter.hpp"
 
 namespace AO {
-
-class PalleteOverwriter final : public ::BaseGameObject
-{
-public:
-    PalleteOverwriter(AnimationPal& /*pal*/, s16 colour)
-        : BaseGameObject(true, 0)
-    {
-        SetType(ReliveTypes::ePalOverwriter);
-
-        gObjListDrawables->Push_Back(this);
-
-        SetDrawable(true);
-
-        for (auto& palBufferEntry : field_A8_palBuffer)
-        {
-            palBufferEntry = colour;
-        }
-
-        field_BA_pal_w = 8;
-        field_B8_pal_x_index = 1;
-        field_BC_bFirstUpdate = 1;
-        field_BE_bDone = false;
-    }
-
-    ~PalleteOverwriter()
-    {
-        gObjListDrawables->Remove_Item(this);
-    }
-
-    virtual void VScreenChanged() override
-    {
-        // Stayin' alive
-    }
-
-    virtual void VRender(OrderingTable& /*ot*/) override
-    {
-        if (!field_BE_bDone)
-        {
-            // TODO: FIX ME - abstraction break, the x value is used as an offset as to how much to overwrite, the width isn't isn't the pal depth in this case
-            /*
-            const IRenderer::PalRecord palRec{ static_cast<s16>(field_10_pal_xy.x + field_B8_pal_x_index), field_10_pal_xy.y, field_BA_pal_w };
-            IRenderer::GetRenderer()->PalSetData(palRec, reinterpret_cast<u8*>(&field_A8_palBuffer[0]));*/
-
-            // TODO: Set the next 8 pal entries + update anim
-        }
-    }
-
-    virtual void VUpdate() override
-    {
-        if (field_BC_bFirstUpdate || field_BE_bDone)
-        {
-            // First time round or when done do nothing
-            field_BC_bFirstUpdate = false;
-        }
-        else
-        {
-            if (field_B8_pal_x_index == kPalDepth - 1)
-            {
-                // Got to the end
-                field_BE_bDone = true;
-            }
-            else
-            {
-                field_B8_pal_x_index += 8;
-
-                if (field_B8_pal_x_index >= kPalDepth - 1)
-                {
-                    field_B8_pal_x_index = kPalDepth - 1;
-                }
-
-                if (field_BA_pal_w + field_B8_pal_x_index >= kPalDepth - 1)
-                {
-                    field_BA_pal_w = kPalDepth - field_B8_pal_x_index;
-                }
-            }
-        }
-    }
-
-    s16 field_A8_palBuffer[8] = {};
-    s16 field_B8_pal_x_index = 0;
-    s16 field_BA_pal_w = 0;
-    s16 field_BC_bFirstUpdate = 0;
-    s16 field_BE_bDone = 0;
-};
 
 Electrocute::Electrocute(BaseAliveGameObject* pTargetObj, s32 bExtraOverwriter)
     : BaseGameObject(true, 0),
