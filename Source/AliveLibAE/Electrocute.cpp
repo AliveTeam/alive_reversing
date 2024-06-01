@@ -138,7 +138,7 @@ void Electrocute::VUpdate()
             case States::eHandleDamage_2:
             {
                 PalleteOverwriter* pPalOverwriter = field_30_pPalOverwriters[field_2E_overwriter_count - 1];
-                if (!pPalOverwriter || pPalOverwriter->field_CE_bDone)
+                if (!pPalOverwriter || pPalOverwriter->mDone)
                 {
                     /* TODO: update the pal
                     if (field_40_pPalData)
@@ -226,7 +226,7 @@ s32 Electrocute::vSub_4E6630()
     }
 
     PalleteOverwriter** pIter = &field_30_pPalOverwriters[counter];
-    while (!*pIter || !(*pIter)->field_CE_bDone)
+    while (!*pIter || !(*pIter)->mDone)
     {
         --counter;
         --pIter;

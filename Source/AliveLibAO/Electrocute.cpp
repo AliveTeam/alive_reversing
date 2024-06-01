@@ -153,7 +153,7 @@ void Electrocute::VUpdate()
         case States::eHandleDamage_2:
         {
             PalleteOverwriter* pOverwritter = field_18_pPalOverwriters[field_14_overwriter_count - 1];
-            if (pOverwritter && pOverwritter->field_BE_bDone)
+            if (pOverwritter && pOverwritter->mDone)
             {
                 pTargetObj->VTakeDamage(this);
                 if (pTargetObj->Type() == ReliveTypes::eAbe)

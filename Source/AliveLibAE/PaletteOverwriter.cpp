@@ -24,15 +24,15 @@ PalleteOverwriter::PalleteOverwriter(AnimationPal& pal, s16 colour)
 
     SetDrawable(true);
 
-    for (auto& palBufferEntry : field_B8_palBuffer)
+    for (auto& palBufferEntry : mPalBuffer)
     {
         palBufferEntry = colour;
     }
 
-    field_CA_pal_w = 8;
-    field_C8_pal_x_index = 1;
-    field_CC_bFirstUpdate = 1;
-    field_CE_bDone = false;
+    mPalW = 8;
+    mPalXIndex = 1;
+    mFirstUpdate = true;
+    mDone = false;
 }
 
 PalleteOverwriter::~PalleteOverwriter()
@@ -45,50 +45,50 @@ void PalleteOverwriter::VScreenChanged()
     // Stayin' alive
 }
 
-void PalleteOverwriter::VUpdate()
-{
-    if (field_CC_bFirstUpdate || field_CE_bDone)
-    {
-        // First time round or when done do nothing
-        field_CC_bFirstUpdate = false;
-    }
-    else
-    {
-        if (field_C8_pal_x_index == kPalDepth - 1)
-        {
-            // Got to the end
-            field_CE_bDone = true;
-        }
-        else
-        {
-            field_C8_pal_x_index += 8;
-
-            if (field_C8_pal_x_index >= kPalDepth - 1)
-            {
-                field_C8_pal_x_index = kPalDepth - 1;
-            }
-
-            if (field_C8_pal_x_index + field_CA_pal_w >= kPalDepth - 1)
-            {
-                field_CA_pal_w = kPalDepth - field_C8_pal_x_index;
-            }
-        }
-    }
-}
-
 void PalleteOverwriter::VRender(OrderingTable& /*ot*/)
 {
-    if (!field_CE_bDone)
+    if (!mDone)
     {
         // TODO: FIX ME - abstraction break, the x value is used as an offset as to how much to overwrite, the width isn't isn't the pal depth in this case
         /*
-        const IRenderer::PalRecord palRec{ static_cast<s16>(field_20_pal_xy.x + field_C8_pal_x_index), field_20_pal_xy.y, field_CA_pal_w};
+        const IRenderer::PalRecord palRec{ static_cast<s16>(field_20_pal_xy.x + mPalXIndex), field_20_pal_xy.y, mPalW};
 
-        IRenderer::GetRenderer()->PalSetData(palRec, reinterpret_cast<u8*>(&field_B8_palBuffer[0]));
+        IRenderer::GetRenderer()->PalSetData(palRec, reinterpret_cast<u8*>(&mPalBuffer[0]));
         */
 
         // TODO: Copy in the 8 new entries
 
         // TODO: Actually set this pal back on the anim
+    }
+}
+
+void PalleteOverwriter::VUpdate()
+{
+    if (mFirstUpdate || mDone)
+    {
+        // First time round or when done do nothing
+        mFirstUpdate = false;
+    }
+    else
+    {
+        if (mPalXIndex == kPalDepth - 1)
+        {
+            // Got to the end
+            mDone = true;
+        }
+        else
+        {
+            mPalXIndex += 8;
+
+            if (mPalXIndex >= kPalDepth - 1)
+            {
+                mPalXIndex = kPalDepth - 1;
+            }
+
+            if (mPalXIndex + mPalW >= kPalDepth - 1)
+            {
+                mPalW = kPalDepth - mPalXIndex;
+            }
+        }
     }
 }

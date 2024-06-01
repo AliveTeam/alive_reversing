@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../relive_lib/GameObjects/BaseGameObject.hpp"
+#include "../relive_lib/data_conversion/AnimationConverter.hpp"
 
 namespace AO {
 
@@ -14,11 +15,15 @@ public:
     virtual void VRender(OrderingTable& /*ot*/) override;
     virtual void VUpdate() override;
 
-    s16 field_A8_palBuffer[8] = {};
-    s16 field_B8_pal_x_index = 0;
-    s16 field_BA_pal_w = 0;
-    s16 field_BC_bFirstUpdate = 0;
-    s16 field_BE_bDone = 0;
+private:
+    AnimationPal mPal;
+    s16 mPalBuffer[8] = {};
+    s16 mPalXIndex = 0;
+    s16 mPalW = 0;
+    bool mFirstUpdate = false;
+
+public:
+    bool mDone = false;
 };
 
 }
