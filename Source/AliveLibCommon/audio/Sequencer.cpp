@@ -492,8 +492,7 @@ bool SPUSeqIsDone(s32 seqId)
 
 s32 SPUOneShotPlay(s32 patchId, u8 note, s16 voll, s16 volr, s32 pitch, s32 pitchMin, s32 pitchMax)
 {
-    volr;
-    voll;
+
     // TODO -
     // - SoundEfx: apparently use sweeps and reuse the voice register (slig walking offscreen)
     // - OneShots: do not reuse voice regester (slig turning)
@@ -503,29 +502,6 @@ s32 SPUOneShotPlay(s32 patchId, u8 note, s16 voll, s16 volr, s32 pitch, s32 pitc
     if (!patch)
     {
         return 0;
-    }
-
-    char pan;
-    unsigned int volr_;
-    unsigned int voll_;
-
-    voll_ = voll;
-    volr_ = volr;
-    if (voll_ == volr_)
-    {
-        pan = 64;
-    }
-    else
-    {
-        if (volr_ < voll_)
-        {
-            pan = (char) ((volr_ << 6) / voll_);
-        }
-        else
-        {
-            pan = 127 - (char) ((voll_ << 6) / volr_);
-            voll = volr;
-        }
     }
 
     int ids = 0;
@@ -548,15 +524,16 @@ s32 SPUOneShotPlay(s32 patchId, u8 note, s16 voll, s16 volr, s32 pitch, s32 pitc
         }
 
         v->patchId = (u8) patchId;
+        v->sample = s;
         v->note = note;
-        v->velocity = voll;
-        v->pan = pan;
+        v->velocity = (voll + volr) / 2;
         v->pitch = pitch;
         v->pitchMin = pitchMin;
         v->pitchMax = pitchMax;
-        v->sample = s;
         v->RefreshNoteStep();
-        v->RefreshVolume();
+
+        v->aVoll = (voll / 128.0f) * (patch->_vol / 128.0f) * (v->sample->volume / 128.0f);
+        v->aVolr = (volr / 128.0f) * (patch->_vol / 128.0f) * (v->sample->volume / 128.0f);
         ids |= v->id;
     }
 
@@ -616,7 +593,7 @@ void SPUTick(void* udata, Uint8* stream, int len)
                 continue;
             }
 
-            std::tuple<s32, s32> s = v->Tick();
+            std::tuple<f32, f32> s = v->Tick();
             leftSample += std::get<0>(s);
             rightSample += std::get<1>(s);
 
@@ -627,8 +604,8 @@ void SPUTick(void* udata, Uint8* stream, int len)
             // 4 Reverb
             if (v->sample->reverb == 4)
             {
-                reverb_in_left += std::get<0>(s);
-                reverb_in_right += std::get<1>(s);
+                reverb_in_left += (s32) std::get<0>(s);
+                reverb_in_right += (s32) std::get<1>(s);
             }
         }
 
@@ -642,20 +619,91 @@ void SPUTick(void* udata, Uint8* stream, int len)
         leftSample += reverb_out_left;
         rightSample += reverb_out_right;
 
-        leftSample = (float) ApplyVolume(Clamp16((s32) leftSample), MAX_VOLUME); // master vol value
-        rightSample = (float) ApplyVolume(Clamp16((s32) rightSample), MAX_VOLUME);
+        //leftSample = (float) ApplyVolume(Clamp16((s32) leftSample), MAX_VOLUME); // master vol value
+        //rightSample = (float) ApplyVolume(Clamp16((s32) rightSample), MAX_VOLUME);
 
         // make value usable by SDL
         // It might make sense to increase the mix volume above MIX_MAXVOUME.
         // I think psx sounds like it runs a little hot, compressing audio a bit
-        leftSample = leftSample / 16383.0f; // 16383.0f  32767.0f
-        rightSample = rightSample / 16383.0f;
+        leftSample = leftSample / (32767.0f * 2); // 16383.0f  32767.0f
+        rightSample = rightSample / (32767.0f * 2);
         leftSample = leftSample > 1 ? 1 : leftSample;
         rightSample = rightSample > 1 ? 1 : rightSample;
         SDL_MixAudioFormat((Uint8*) (AudioStream + i), (const Uint8*) &leftSample, AUDIO_F32, sizeof(float), SDL_MIX_MAXVOLUME);
         SDL_MixAudioFormat((Uint8*) (AudioStream + i + 1), (const Uint8*) &rightSample, AUDIO_F32, sizeof(float), SDL_MIX_MAXVOLUME);
     }
 }
+
+
+
+
+USHORT panMergeTable[] = {
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x02, 0x03,
+    0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F, 0x10, 0x11, 0x12, 0x13,
+    0x14, 0x15, 0x16, 0x17, 0x18, 0x19, 0x1A, 0x1B, 0x1C, 0x1D, 0x1E, 0x1F, 0x20, 0x21, 0x22, 0x23,
+    0x24, 0x25, 0x26, 0x27, 0x28, 0x29, 0x2A, 0x2B, 0x2C, 0x2D, 0x2E, 0x2F, 0x30, 0x31, 0x32, 0x33,
+    0x34, 0x35, 0x36, 0x37, 0x38, 0x39, 0x3A, 0x3B, 0x3C, 0x3D, 0x3E, 0x3F, 0x40, 0x41, 0x42, 0x43,
+    0x44, 0x45, 0x46, 0x47, 0x48, 0x49, 0x4A, 0x4B, 0x4C, 0x4D, 0x4E, 0x4F, 0x50, 0x51, 0x52, 0x53,
+    0x54, 0x55, 0x56, 0x57, 0x58, 0x59, 0x5A, 0x5B, 0x5C, 0x5D, 0x5E, 0x5F, 0x60, 0x61, 0x62, 0x63,
+    0x64, 0x65, 0x66, 0x67, 0x68, 0x69, 0x6A, 0x5B, 0x6C, 0x6D, 0x6E, 0x6F, 0x70, 0x71, 0x72, 0x73,
+    0x74, 0x75, 0x76, 0x77, 0x78, 0x79, 0x7A, 0x7B, 0x7C, 0x7D, 0x7E, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F,
+    0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F,
+    0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F,
+    0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F,
+    0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F};
+
+
+static USHORT MergePan(USHORT pan1, USHORT pan2)
+{
+    return panMergeTable[pan1 + pan2];
+}
+
+static void CalculateVolume(f32* voll, f32* volr, s16 toneVol, s16 tonePan, s16 velocityVol)
+{
+    f32 panVolumes[0x80];
+
+    // PSX table with lerped inbeatween values
+    f32 panTable[0x80] = {
+        0x00, 0x02, 0x04, 0x06, 0x08, 0x0A, 0x0C, 0x0E,
+        0x10, 0x12, 0x14, 0x16, 0x18, 0x1A, 0x1C, 0x1E,
+        0x20, 0x22, 0x24, 0x26, 0x28, 0x2A, 0x2C, 0x2E,
+        0x30, 0x32, 0x34, 0x36, 0x38, 0x3A, 0x3C, 0x3E,
+        0x40, 0x42, 0x44, 0x46, 0x48, 0x4A, 0x4C, 0x4E,
+        0x50, 0x52, 0x54, 0x56, 0x58, 0x5A, 0x5C, 0x5E,
+        0x60, 0x62, 0x64, 0x66, 0x68, 0x6A, 0x6C, 0x6E,
+        0x70, 0x72, 0x74, 0x76, 0x78, 0x78, 0x78, 0x78,
+        0x78, 0x7A, 0x7C, 0x7E, 0x80, 0x80, 0x80, 0x80,
+        0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80,
+        0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80,
+        0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80,
+        0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80,
+        0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80,
+        0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80,
+        0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80};
+
+    for (size_t i = 0; i < 0x80; i++)
+    {
+        panVolumes[i] = panTable[i] / 128.0f;
+    }
+
+    //float volume = Channel.AdjustedVolume * Program.Volume * Tone.Volume * VelocityVolume;
+    float volume = (toneVol / 128.0f) * (velocityVol / 128.0f);
+
+    //(float panLeft, float panRight) = LookupTables.getPanVolumes(Channel.Pan, Program.Pan, Tone.Pan);
+    // MergePan(channelPan, MergePan(programPan, tonePan));
+    USHORT panIndex = MergePan(64, MergePan(64, tonePan));
+
+    *voll = volume * panVolumes[127 - panIndex];
+    *volr = volume * panVolumes[panIndex];
+}
+
+
+
+
+
 
 void SPUTickSequences()
 {
@@ -715,12 +763,17 @@ void SPUTickSequences()
                         v->note = message->note;
                         v->sample = sample;
                         v->velocity = message->velocity;
-                        v->pan = sample->pan;
                         v->hasSeqVol = true;
                         v->vollSeq = seq->voll;
                         v->volrSeq = seq->volr;
                         v->RefreshNoteStep();
-                        v->RefreshVolume();
+
+                        float voll;
+                        float volr;
+                        u8 patchVol = seq->channels[message->channelId]->patch->_vol;
+                        CalculateVolume(&voll, &volr, sample->volume, sample->pan, message->velocity);
+                        v->aVoll = voll * (seq->voll / 128.0f) * (patchVol / 128.0f) * (sample->volume / 128.0f);
+                        v->aVolr = volr * (seq->volr / 128.0f) * (patchVol / 128.0f) * (sample->volume / 128.0f);
                     }
 
                     break;
@@ -831,7 +884,7 @@ static constexpr ADSRTableEntries s_adsr_table = ComputeADSRTableEntries();
 
 //////////////////////////
 // Voice
-s32 Voice::Interpolate()
+float Voice::Interpolate()
 {
     static constexpr std::array<s16, 0x200> gauss = {{
         -0x001, -0x001, -0x001, -0x001, -0x001, -0x001, -0x001, -0x001, //
@@ -948,9 +1001,49 @@ s32 Voice::Interpolate()
         out += s32(gauss[0x000 + i]) * s32(sample->buffer[(int) (s) -0]); // new
     }
 
-
-    return out >> 15;
+    return (f32) (out >> 15);
 }
+
+
+//f32 Voice::Interpolate()
+//{
+//    const s32 InterpolationWindowSize = 1 << InterpolationBitDept;
+//    const s32 InterpolationWeightCount = 4;
+//    f32 weights[InterpolationWindowSize][4];
+//    for (size_t i = 0; i < InterpolationWeightCount; i++)
+//    {
+//        double pow1 = i / (double) InterpolationWindowSize;
+//        double pow2 = pow1 * pow1;
+//        double pow3 = pow2 * pow1;
+//
+//        weights[i][0] = static_cast<float>(0.5 * (-pow3 + 2 * pow2 - pow1));
+//        weights[i][1] = static_cast<float>(0.5 * (3 * pow3 - 5 * pow2 + 2));
+//        weights[i][2] = static_cast<float>(0.5 * (-3 * pow3 + 4 * pow2 + pow1));
+//        weights[i][3] = static_cast<float>(0.5 * (pow3 - pow2));
+//    }
+//
+//    //if (!this->HasSamples)
+//    //{
+//    //    // Copy end of the buffer to the front.
+//    //    memcpy(this->Samples, this->Samples + 28, 3);
+//    //    // TODO copy new samples and handle end of VAG
+//    //    this->HasSamples = true;
+//    //}
+//
+//    // the interpolation index is based on the source files sample rate
+//    const u32 InterpolationAnd = (1 << Voice::InterpolationBitDept) - 1;
+//    const u32 SampleRateBitDepth = 26;
+//    const u32 InterpolationShift = SampleRateBitDepth - InterpolationBitDept;
+//    const u8 sampleIndex = ((u32) f_SampleOffset) + ZeroExtend32(vounter.sample_index());
+//    const u32 interpolationIndex = (vounter.interpolation_index() >> InterpolationShift) & InterpolationAnd;
+//
+//
+//    // this->HasSamples = !this->Counter.NextSampleBlock(this->SampleRate);
+//    return weights[interpolationIndex][0] * sample->buffer[sampleIndex]
+//         + weights[interpolationIndex][1] * sample->buffer[sampleIndex + 1]
+//         + weights[interpolationIndex][2] * sample->buffer[sampleIndex + 2]
+//         + weights[interpolationIndex][3] * sample->buffer[sampleIndex + 3];
+//}
 
 USHORT _svm_ptable[] = {
     4096, 4110, 4125, 4140, 4155, 4170, 4185, 4200,
@@ -1058,77 +1151,11 @@ void Voice::RefreshNoteStep()
     // std::cout << ret << " " << (int) note << " " << noteStep << std::endl;
 }
 
-
-void Voice::RefreshVolume()
-{
-    // UPDATE - Using PSX vag attributes, this seems identical to duckstation
-    // 
-    // TODO - this logic may not be correct - duck station produces different
-    // values. Example for first organ in open theme (first note with velocity == 84)   
-    // velocity=84 sampleVol=70 seqVol=70
-    // Duckstation calculates=2176 | below logic calculates=661
-    // Possibly the PC sample data is bad? The left right synth does
-    // produce the correct 4977 value (same in PC as Duckstation...)
-    // Possibly just need to extract ps1 sample data...
-    // Interestingly, if the sampleVol is set to 127 for the first organ in theme,
-    // this calculates the same 2176 value as duckstation...
-    // 
-    // all volume types are
-    // velocity - sampleVol - (patchvol) - (masterVol=127) - seqVol
-    // PC version is missing patch and master? I think they are always 127
-    // The PSX version has an "instrument" (patch) at 109 - but may be unrelated
-    s32 sampleVol = sample->volume; // sample->volume - UPDATE: Setting this to 127 fixes it?
-    s32 uVar1 = (((velocity * 127 * 0x3fff) / 0x3f01) * 127 * sampleVol) / 0x3f01;
-
-    s32 left = uVar1;
-    if (hasSeqVol)
-    {
-        left = (uVar1 * vollSeq) / 127;
-        uVar1 = (uVar1 * volrSeq) / 127;
-    }
-
-    if (sample->pan < 64)
-    {
-        uVar1 = (uVar1 * sample->pan) / 63;
-    }
-    else
-    {
-        left = (left * (127 - sample->pan)) / 63;
-    }
-
-    //if (_svm_cur.field_B_patch_pan < 64)
-    //{
-    //    uVar1 = (uVar1 * _svm_cur.field_B_patch_pan) / 63;
-    //}
-    //else
-    //{
-    //    left = (left * (127 - 64)) / 63;
-    //}
-
-    if (pan < 64)
-    {
-        uVar1 = (uVar1 * pan) / 63;
-    }
-    else
-    {
-        left = (left * (127 - 64)) / 63;
-    }
-
-    s32 right = uVar1;
-    right;
-    left = (left * left) / 0x3fff;
-    right = (right * right) / 0x3fff;
-
-    leftReg = left;
-    rightReg = right;
-    //std::cout << left << " " << right << std::endl;
-}
-
-std::tuple<s32, s32> Voice::Tick()
+std::tuple<f32, f32> Voice::Tick()
 {
     if (!sample)
     {
-        return std::make_tuple(0, 0);
+        return std::make_tuple(0.0f, 0.0f);
     }
 
     // INTERPOLATION
@@ -1149,7 +1176,7 @@ std::tuple<s32, s32> Voice::Tick()
         if (!sample->loop)
         {
             complete = true;
-            return std::make_tuple(0, 0);
+            return std::make_tuple(0.0f, 0.0f);
         }
 
         // we can loop this sample
@@ -1159,7 +1186,7 @@ std::tuple<s32, s32> Voice::Tick()
     }
 
     s32 sampleData;
-    sampleData = Interpolate();
+    sampleData = (s32) Interpolate();
 
     // vounter.bits has two purposes 
     // 1. change how samples are skipped to change the samples note
@@ -1216,7 +1243,7 @@ std::tuple<s32, s32> Voice::Tick()
     else if (adsrPhase == RELEASE && adsrCurrentLevel <= adsrTargetLevel)
     {
         complete = true;
-        return std::make_tuple(0, 0);
+        return std::make_tuple(0.0f, 0.0f);
     }
 
     // UPDATE ADSR TICK STATE
@@ -1266,8 +1293,11 @@ std::tuple<s32, s32> Voice::Tick()
     // TODO - apply voll and volr as sweeps.tick()? (VolumeEnvelope)
     //  it would be similar to the ADSR tick
     //  I believe sligs walking offscreen use a vol sweep
-    s32 leftA = ApplyVolume(vol, (s16) leftReg);
-    s32 rightA = ApplyVolume(vol, (s16) rightReg);
+    f32 leftA = 0.0f;        // = ApplyVolume(vol, (s16) aVoll);
+    f32 rightA = 0.0f; //= ApplyVolume(vol, (s16) aVolr);
+    // 16383.0f  32767.0f
+    leftA = (vol) * aVoll;
+    rightA = (vol) * aVolr;
 
     return std::make_tuple(leftA, rightA);
 }

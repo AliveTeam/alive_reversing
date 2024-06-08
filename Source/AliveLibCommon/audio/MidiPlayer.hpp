@@ -99,7 +99,7 @@ namespace psx {
     struct ProgAtr final
     {
         u8 field_0_num_tones;
-        s8 field_1_vol;
+        u8 field_1_vol;
         s8 field_2_priority;
         s8 field_3_mode;
         s8 field_4_pan;

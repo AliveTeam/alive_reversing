@@ -91,8 +91,10 @@ public:
 class Patch
 {
 public:
-    Patch(const u8 id)
+    Patch(const u8 id, u8 vol, u8 pan)
         : _id(id)
+        , _vol(vol)
+        , _pan(pan)
     {
         for (int i = 0; i < SAMPLE_SIZE_LIMIT; i++)
         {
@@ -109,6 +111,8 @@ public:
     }
 
     const u8 _id;
+    const u8 _vol;
+    const u8 _pan;
 
     static const int SAMPLE_SIZE_LIMIT = 128;
     std::array<Sample*, SAMPLE_SIZE_LIMIT> samples;
@@ -236,6 +240,9 @@ public:
 class Voice
 {
 public:
+    static const u32 InterpolationBitDept = 9;
+    static const f32 InterpolationWeights[][4];
+
     s32 id;
 
     bool hasLooped = false;
@@ -249,8 +256,9 @@ public:
     s32 pitchMin = 0;
     s32 pitchMax = 127;
     s32 velocity = 127;
-    s16 pan = 64;
     bool inUse = false;
+    float aVoll;
+    float aVolr;
 
     bool hasSeqVol = false;
     s16 vollSeq;
@@ -271,17 +279,13 @@ public:
 
     Sample* sample;
 
-    std::tuple<s32, s32> Tick();
+    std::tuple<f32, f32> Tick();
 
     u16 noteStep;
     void RefreshNoteStep();
 
-    s32 leftReg;
-    s32 rightReg;
-    void RefreshVolume();
-
 private:
-    s32 Interpolate();
+    f32 Interpolate();
     s32 noteFromVgmTrans(); 
 };
 
