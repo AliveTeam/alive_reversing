@@ -59,9 +59,9 @@ public:
 
     }
 
-    s8 priority;
-    s16 volume;
-    s16 pan;
+    u8 priority;
+    u8 volume;
+    u8 pan;
 
     // reverb style - 0 is none
     s8 reverb;
@@ -91,10 +91,10 @@ public:
 class Patch
 {
 public:
-    Patch(const u8 id, u8 vol, u8 pan)
-        : _id(id)
-        , _vol(vol)
-        , _pan(pan)
+    Patch(const u8 _id, u8 _vol, u8 _pan)
+        : id(_id)
+        , vol(_vol)
+        , pan(_pan)
     {
         for (int i = 0; i < SAMPLE_SIZE_LIMIT; i++)
         {
@@ -110,9 +110,9 @@ public:
         }
     }
 
-    const u8 _id;
-    const u8 _vol;
-    const u8 _pan;
+    const u8 id;
+    const u8 vol;
+    const u8 pan;
 
     static const int SAMPLE_SIZE_LIMIT = 128;
     std::array<Sample*, SAMPLE_SIZE_LIMIT> samples;
@@ -149,6 +149,8 @@ struct Channel
 {   
     // channels may have volums and pans too, but not implemented
     Patch* patch;
+    u8 vol = 127;
+    u8 pan = 64;
 };
 
 /*
@@ -245,30 +247,33 @@ public:
 
     s32 id;
 
-    bool hasLooped = false;
+    Sequence* sequence = nullptr;
+    Channel* channel = nullptr;
+    Patch* patch = nullptr;
+    Sample* sample = nullptr;
+    MIDIMessage* message = nullptr;
 
-    u32 f_SampleOffset = 0;
-    Sequence* sequence = NULL;
-    u8 patchId;
-    u8 channelId;
-    s32 note;
-    s32 pitch;
-    s32 pitchMin = 0;
-    s32 pitchMax = 127;
-    s32 velocity = 127;
     bool inUse = false;
-    float aVoll;
-    float aVolr;
-
-    bool hasSeqVol = false;
-    s16 vollSeq;
-    s16 volrSeq;
-
     bool complete = false;
-    u64 offTime = 0;  // when the note was released
+    u64 offTime = 0; // when the note was released
 
-    VoiceCounter vounter;
+    std::tuple<f32, f32> Tick();
+    void Configure(MIDIMessage* message, Sequence* seq, Channel* channel, Patch* patch, Sample* sample);
+    void Configure(Patch* patch, Sample* sample);
+    void ConfigureNote(u8 note, u32 pitch);
+    void ConfigureVolume(u8 volLeft, u8 volRight);
+    void Reset();
+    u8 GetNote();
 
+    bool IsMatch(Sequence* seq, u8 channelId);
+    bool IsMatch(Sequence* seq, u8 channelId, u8 note);
+
+private:
+    // Volume modifer (multiple it by sample data)
+    f32 volumeLeftModifier;
+    f32 volumeRightModifier;
+
+    // ADSR calculations
     ADSRPhase adsrPhase = NONE;
     s32 adsrCounter = 0; // decremented each midi tick
     u32 adsrRate;
@@ -277,16 +282,17 @@ public:
     s16 adsrCurrentLevel = 0;
     s16 adsrTargetLevel = MAX_VOLUME; // attack we want to reach max
 
-    Sample* sample;
-
-    std::tuple<f32, f32> Tick();
-
+    // Interpolation/pitch Calculations
+    VoiceCounter vounter;
+    u8 note;
+    s32 pitch;
     u16 noteStep;
-    void RefreshNoteStep();
+    bool hasLooped = false;
+    u32 f_SampleOffset = 0;
 
-private:
+    std::tuple<f32, f32> CalculateVolume();
     f32 Interpolate();
-    s32 noteFromVgmTrans(); 
+    s16 TickAdsr();
 };
 
 

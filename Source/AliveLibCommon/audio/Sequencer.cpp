@@ -83,7 +83,7 @@ void SPU::StopAll()
 
 void PatchAdd(Patch* patch)
 {
-    if (patch->_id >= PATCH_SIZE_LIMIT)
+    if (patch->id >= PATCH_SIZE_LIMIT)
     {
         throw std::runtime_error("PatchId is above PATCH_SIZE_LIMIT");
     }
@@ -386,33 +386,16 @@ Voice* SPUObtainVoice(s8 priority, u8 note, u8 patchId)
 
 void SPUReleaseVoice(Voice* v)
 {
-    v->channelId = 0xFF;
-    v->offTime = 0;
-    v->pitch = 0;
-    v->adsrPhase = NONE;
-    v->adsrCounter = 0;
-    v->adsrCurrentLevel = 0;
-    v->adsrTargetLevel = MAX_VOLUME;
-    v->sequence = NULL;
-    v->f_SampleOffset = 0;
-    v->vounter.bits = 0;
-    v->complete = false;
-    v->velocity = 127;
-    //v->voll = 127;
-    //v->volr = 127;
-    v->hasSeqVol = false;
-    v->complete = false;
-    v->hasLooped = false;
-    v->inUse = false;
+    v->Reset();
 }
 
 void SPUPatchAdd(Patch* patch)
 {
-    if (patches[patch->_id])
+    if (patches[patch->id])
     {
         //delete patches[patch->_id];
     }
-    patches[patch->_id] = patch;
+    patches[patch->id] = patch;
 }
 
 void SPUSeqAdd(Sequence* seq)
@@ -471,8 +454,7 @@ void SPUSeqSetVolume(s32 seqId, s16 voll, s16 volr)
     {
         if (v->sequence && v->sequence->id == seqId)
         {
-            v->vollSeq = voll;
-            v->volrSeq = volr;
+            v->ConfigureVolume(127, 127); // max volume, just calling configure to calc again
         }
     }
 }
@@ -492,12 +474,9 @@ bool SPUSeqIsDone(s32 seqId)
 
 s32 SPUOneShotPlay(s32 patchId, u8 note, s16 voll, s16 volr, s32 pitch, s32 pitchMin, s32 pitchMax)
 {
-
-    // TODO -
     // - SoundEfx: apparently use sweeps and reuse the voice register (slig walking offscreen)
     // - OneShots: do not reuse voice regester (slig turning)
     // - Notes   : reuese register if possible (chanting)
-
     Patch* patch = patches[patchId];
     if (!patch)
     {
@@ -505,35 +484,28 @@ s32 SPUOneShotPlay(s32 patchId, u8 note, s16 voll, s16 volr, s32 pitch, s32 pitc
     }
 
     int ids = 0;
-    for (Sample* s : patch->samples)
+    for (Sample* sample : patch->samples)
     {
-        if (!s)
+        if (!sample)
         {
             continue;
         }
 
-        if (note > s->maxNote || note < s->minNote)
+        if (note > sample->maxNote || note < sample->minNote)
         {
             continue;
         }
 
-        Voice* v = SPUObtainVoice(s->priority, note, (u8) patchId);
+        Voice* v = SPUObtainVoice(sample->priority, note, (u8) patchId);
         if (!v)
         {
             return 0;
         }
 
-        v->patchId = (u8) patchId;
-        v->sample = s;
-        v->note = note;
-        v->velocity = (voll + volr) / 2;
-        v->pitch = pitch;
-        v->pitchMin = pitchMin;
-        v->pitchMax = pitchMax;
-        v->RefreshNoteStep();
-
-        v->aVoll = (voll / 128.0f) * (patch->_vol / 128.0f) * (v->sample->volume / 128.0f);
-        v->aVolr = (volr / 128.0f) * (patch->_vol / 128.0f) * (v->sample->volume / 128.0f);
+        pitchMax; // Not needed?
+        v->Configure(patch, sample);
+        v->ConfigureNote(note, pitch < pitchMin ? pitchMin : pitch);
+        v->ConfigureVolume((u8) voll, (u8) volr);
         ids |= v->id;
     }
 
@@ -619,91 +591,13 @@ void SPUTick(void* udata, Uint8* stream, int len)
         leftSample += reverb_out_left;
         rightSample += reverb_out_right;
 
-        //leftSample = (float) ApplyVolume(Clamp16((s32) leftSample), MAX_VOLUME); // master vol value
-        //rightSample = (float) ApplyVolume(Clamp16((s32) rightSample), MAX_VOLUME);
-
         // make value usable by SDL
-        // It might make sense to increase the mix volume above MIX_MAXVOUME.
-        // I think psx sounds like it runs a little hot, compressing audio a bit
-        leftSample = leftSample / (32767.0f * 2); // 16383.0f  32767.0f
-        rightSample = rightSample / (32767.0f * 2);
-        leftSample = leftSample > 1 ? 1 : leftSample;
-        rightSample = rightSample > 1 ? 1 : rightSample;
+        leftSample = leftSample / 32767.0f;
+        rightSample = rightSample / 32767.0f;
         SDL_MixAudioFormat((Uint8*) (AudioStream + i), (const Uint8*) &leftSample, AUDIO_F32, sizeof(float), SDL_MIX_MAXVOLUME);
         SDL_MixAudioFormat((Uint8*) (AudioStream + i + 1), (const Uint8*) &rightSample, AUDIO_F32, sizeof(float), SDL_MIX_MAXVOLUME);
     }
 }
-
-
-
-
-USHORT panMergeTable[] = {
-    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x02, 0x03,
-    0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F, 0x10, 0x11, 0x12, 0x13,
-    0x14, 0x15, 0x16, 0x17, 0x18, 0x19, 0x1A, 0x1B, 0x1C, 0x1D, 0x1E, 0x1F, 0x20, 0x21, 0x22, 0x23,
-    0x24, 0x25, 0x26, 0x27, 0x28, 0x29, 0x2A, 0x2B, 0x2C, 0x2D, 0x2E, 0x2F, 0x30, 0x31, 0x32, 0x33,
-    0x34, 0x35, 0x36, 0x37, 0x38, 0x39, 0x3A, 0x3B, 0x3C, 0x3D, 0x3E, 0x3F, 0x40, 0x41, 0x42, 0x43,
-    0x44, 0x45, 0x46, 0x47, 0x48, 0x49, 0x4A, 0x4B, 0x4C, 0x4D, 0x4E, 0x4F, 0x50, 0x51, 0x52, 0x53,
-    0x54, 0x55, 0x56, 0x57, 0x58, 0x59, 0x5A, 0x5B, 0x5C, 0x5D, 0x5E, 0x5F, 0x60, 0x61, 0x62, 0x63,
-    0x64, 0x65, 0x66, 0x67, 0x68, 0x69, 0x6A, 0x5B, 0x6C, 0x6D, 0x6E, 0x6F, 0x70, 0x71, 0x72, 0x73,
-    0x74, 0x75, 0x76, 0x77, 0x78, 0x79, 0x7A, 0x7B, 0x7C, 0x7D, 0x7E, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F,
-    0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F,
-    0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F,
-    0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F,
-    0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F};
-
-
-static USHORT MergePan(USHORT pan1, USHORT pan2)
-{
-    return panMergeTable[pan1 + pan2];
-}
-
-static void CalculateVolume(f32* voll, f32* volr, s16 toneVol, s16 tonePan, s16 velocityVol)
-{
-    f32 panVolumes[0x80];
-
-    // PSX table with lerped inbeatween values
-    f32 panTable[0x80] = {
-        0x00, 0x02, 0x04, 0x06, 0x08, 0x0A, 0x0C, 0x0E,
-        0x10, 0x12, 0x14, 0x16, 0x18, 0x1A, 0x1C, 0x1E,
-        0x20, 0x22, 0x24, 0x26, 0x28, 0x2A, 0x2C, 0x2E,
-        0x30, 0x32, 0x34, 0x36, 0x38, 0x3A, 0x3C, 0x3E,
-        0x40, 0x42, 0x44, 0x46, 0x48, 0x4A, 0x4C, 0x4E,
-        0x50, 0x52, 0x54, 0x56, 0x58, 0x5A, 0x5C, 0x5E,
-        0x60, 0x62, 0x64, 0x66, 0x68, 0x6A, 0x6C, 0x6E,
-        0x70, 0x72, 0x74, 0x76, 0x78, 0x78, 0x78, 0x78,
-        0x78, 0x7A, 0x7C, 0x7E, 0x80, 0x80, 0x80, 0x80,
-        0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80,
-        0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80,
-        0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80,
-        0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80,
-        0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80,
-        0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80,
-        0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80};
-
-    for (size_t i = 0; i < 0x80; i++)
-    {
-        panVolumes[i] = panTable[i] / 128.0f;
-    }
-
-    //float volume = Channel.AdjustedVolume * Program.Volume * Tone.Volume * VelocityVolume;
-    float volume = (toneVol / 128.0f) * (velocityVol / 128.0f);
-
-    //(float panLeft, float panRight) = LookupTables.getPanVolumes(Channel.Pan, Program.Pan, Tone.Pan);
-    // MergePan(channelPan, MergePan(programPan, tonePan));
-    USHORT panIndex = MergePan(64, MergePan(64, tonePan));
-
-    *voll = volume * panVolumes[127 - panIndex];
-    *volr = volume * panVolumes[panIndex];
-}
-
-
-
-
-
 
 void SPUTickSequences()
 {
@@ -737,7 +631,9 @@ void SPUTickSequences()
                         break;
                     }
 
-                    for (Sample* sample : seq->channels[message->channelId]->patch->samples)
+                    Channel* channel = seq->channels[message->channelId];
+                    Patch* patch = channel->patch;
+                    for (Sample* sample : patch->samples)
                     {
                         if (!sample)
                         {
@@ -755,25 +651,9 @@ void SPUTickSequences()
                             continue;
                         }
 
-                        v->sequence = seq;
-                        v->patchId = seq->channels[message->channelId]->patch->_id;
-                        v->channelId = message->channelId;
-                        v->pitchMin = 0;
-                        v->velocity = message->velocity;
-                        v->note = message->note;
-                        v->sample = sample;
-                        v->velocity = message->velocity;
-                        v->hasSeqVol = true;
-                        v->vollSeq = seq->voll;
-                        v->volrSeq = seq->volr;
-                        v->RefreshNoteStep();
-
-                        float voll;
-                        float volr;
-                        u8 patchVol = seq->channels[message->channelId]->patch->_vol;
-                        CalculateVolume(&voll, &volr, sample->volume, sample->pan, message->velocity);
-                        v->aVoll = voll * (seq->voll / 128.0f) * (patchVol / 128.0f) * (sample->volume / 128.0f);
-                        v->aVolr = volr * (seq->volr / 128.0f) * (patchVol / 128.0f) * (sample->volume / 128.0f);
+                        v->Configure(message, seq, channel, patch, sample);
+                        v->ConfigureVolume(127, 127); // max volume, seq message data has calculated volume data
+                        v->ConfigureNote(message->note, 0);
                     }
 
                     break;
@@ -782,9 +662,7 @@ void SPUTickSequences()
                 {
                     for (Voice* v : voices)
                     {
-                        if (v->inUse && v->sequence == seq 
-                            && v->channelId == message->channelId 
-                            && v->note == message->note)
+                        if (v->inUse && v->IsMatch(seq, message->channelId, message->note))
                         {
                             v->offTime = now;
                         }
@@ -805,11 +683,9 @@ void SPUTickSequences()
                 {
                     for (Voice* v : voices)
                     {
-                        if (v->inUse && v->sequence == seq
-                            && v->channelId == message->channelId)
+                        if (v->inUse && v->IsMatch(seq, message->channelId))
                         {
-                            v->pitch = message->bend;
-                            v->RefreshNoteStep();
+                            v->ConfigureNote(v->GetNote(), message->bend);
                         }
                     }
                     break;
@@ -884,6 +760,246 @@ static constexpr ADSRTableEntries s_adsr_table = ComputeADSRTableEntries();
 
 //////////////////////////
 // Voice
+USHORT panMergeTable[] = {
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x02, 0x03,
+    0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F, 0x10, 0x11, 0x12, 0x13,
+    0x14, 0x15, 0x16, 0x17, 0x18, 0x19, 0x1A, 0x1B, 0x1C, 0x1D, 0x1E, 0x1F, 0x20, 0x21, 0x22, 0x23,
+    0x24, 0x25, 0x26, 0x27, 0x28, 0x29, 0x2A, 0x2B, 0x2C, 0x2D, 0x2E, 0x2F, 0x30, 0x31, 0x32, 0x33,
+    0x34, 0x35, 0x36, 0x37, 0x38, 0x39, 0x3A, 0x3B, 0x3C, 0x3D, 0x3E, 0x3F, 0x40, 0x41, 0x42, 0x43,
+    0x44, 0x45, 0x46, 0x47, 0x48, 0x49, 0x4A, 0x4B, 0x4C, 0x4D, 0x4E, 0x4F, 0x50, 0x51, 0x52, 0x53,
+    0x54, 0x55, 0x56, 0x57, 0x58, 0x59, 0x5A, 0x5B, 0x5C, 0x5D, 0x5E, 0x5F, 0x60, 0x61, 0x62, 0x63,
+    0x64, 0x65, 0x66, 0x67, 0x68, 0x69, 0x6A, 0x5B, 0x6C, 0x6D, 0x6E, 0x6F, 0x70, 0x71, 0x72, 0x73,
+    0x74, 0x75, 0x76, 0x77, 0x78, 0x79, 0x7A, 0x7B, 0x7C, 0x7D, 0x7E, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F,
+    0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F,
+    0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F,
+    0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F,
+    0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F};
+
+
+static u16 MergePan(u16 pan1, u16 pan2)
+{
+    return panMergeTable[pan1 + pan2];
+}
+
+void Voice::Configure(MIDIMessage* msg, Sequence* seq, Channel* chan, Patch* pat, Sample* samp)
+{
+    this->message = msg;
+    this->sequence = seq;
+    this->channel = chan;
+    Configure(pat, samp);
+}
+
+void Voice::Configure(Patch* pat, Sample* samp)
+{
+    this->patch = pat;
+    this->sample = samp;
+}
+
+void Voice::Reset()
+{
+    message = nullptr;
+    sequence = nullptr;
+    channel = nullptr;
+    patch = nullptr;
+    sample = nullptr;
+
+    offTime = 0;
+    pitch = 0;
+    note = 0;
+
+    adsrPhase = NONE;
+    adsrCounter = 0;
+    adsrCurrentLevel = 0;
+    adsrTargetLevel = MAX_VOLUME;
+    f_SampleOffset = 0;
+    vounter.bits = 0;
+    complete = false;
+    complete = false;
+    hasLooped = false;
+    inUse = false;
+}
+
+USHORT _svm_ptable[] = {
+    4096, 4110, 4125, 4140, 4155, 4170, 4185, 4200,
+    4216, 4231, 4246, 4261, 4277, 4292, 4308, 4323,
+    4339, 4355, 4371, 4386, 4402, 4418, 4434, 4450,
+    4466, 4482, 4499, 4515, 4531, 4548, 4564, 4581,
+    4597, 4614, 4630, 4647, 4664, 4681, 4698, 4715,
+    4732, 4749, 4766, 4783, 4801, 4818, 4835, 4853,
+    4870, 4888, 4906, 4924, 4941, 4959, 4977, 4995,
+    5013, 5031, 5050, 5068, 5086, 5105, 5123, 5142,
+    5160, 5179, 5198, 5216, 5235, 5254, 5273, 5292,
+    5311, 5331, 5350, 5369, 5389, 5408, 5428, 5447,
+    5467, 5487, 5507, 5527, 5547, 5567, 5587, 5607,
+    5627, 5648, 5668, 5688, 5709, 5730, 5750, 5771,
+    5792, 5813, 5834, 5855, 5876, 5898, 5919, 5940,
+    5962, 5983, 6005, 6027, 6049, 6070, 6092, 6114,
+    6137, 6159, 6181, 6203, 6226, 6248, 6271, 6294,
+    6316, 6339, 6362, 6385, 6408, 6431, 6455, 6478,
+    6501, 6525, 6549, 6572, 6596, 6620, 6644, 6668,
+    6692, 6716, 6741, 6765, 6789, 6814, 6839, 6863,
+    6888, 6913, 6938, 6963, 6988, 7014, 7039, 7064,
+    7090, 7116, 7141, 7167, 7193, 7219, 7245, 7271,
+    7298, 7324, 7351, 7377, 7404, 7431, 7458, 7485,
+    7512, 7539, 7566, 7593, 7621, 7648, 7676, 7704,
+    7732, 7760, 7788, 7816, 7844, 7873, 7901, 7930,
+    7958, 7987, 8016, 8045, 8074, 8103, 8133, 8162}; // 192 total (0-191)
+// 8192}; This was originally here. Do we need?
+
+void Voice::ConfigureNote(u8 _note, u32 _pitch)
+{
+    this->note = _note;
+    this->pitch = _pitch;
+
+    // NOTE CALC FROM VgmTrans
+    // This code seems to be producing the same adpcm_sample_rate values
+    // as duckstation. Believe it or not, this code was found on pastebin
+    // by searching for "SsPitchFromNote" - I think this is from VGMTrans?
+    // https://pastebin.com/aq7wxDdr
+
+    // NOTE: This doesn't always produce correct pitches
+    // It creates values that go beyond _svm_ptable bounds; Examples
+    // 1. SecurityOrbs produce indexes >_svm_ptable.size (199, limit is 192)
+    // 2. Leaves coming out of wells produce indexes below 0 (-104, limit is 0)
+
+    u32 pitchA;
+    s16 calc, type;
+    s32 add, sfine; 
+    s32 fine = pitch;
+    sfine = fine + ((s32) sample->rootNotePitchShift);
+    if (sfine < 0)
+    {
+        sfine += 7;
+    }
+    sfine >>= 3;
+
+    add = 0;
+    if (sfine > 15)
+    {
+        add = 1;
+        sfine -= 16;
+    }
+
+    calc = (s16) (add + (note - (((s32) sample->rootNote) - 60))); //((center + 60) - note) + add;
+    int pos = (16 * (calc % 12) + sfine);
+
+    // START: ADDED
+    // Security Orbs, Pause menu, and well leaves had the
+    // wrong pitch. The values produced went beyond the
+    // table range. Try to correct them. Seems to work ok...
+    // I just messed around with what made sense and sounded right.
+    if (pos >= 192)
+    {
+        pitchA = _svm_ptable[pos % 192] << ((pos / 192));
+    }
+    else if (pos < 0)
+    {
+        pitchA = _svm_ptable[192 + pos] >> 1;
+    }
+    else
+    {
+        pitchA = _svm_ptable[pos];
+    }
+    // END: Added
+
+    type = calc / 12 - 5;
+
+    // regular shift
+    s32 ret = pitchA;
+    if (type > 0)
+    {
+        ret = pitchA << type;
+    }
+
+    // negative shift
+    if (type < 0)
+    {
+        ret = pitchA >> -type;
+    }
+
+    // freq = (ret * 44100) / 4096
+    // step seems to be calculated for 8000hz samples hence the division
+    noteStep = (u16) ((sample->SampleRate / 8000.0) * double(ret));
+    // std::cout << ret << " " << (int) note << " " << noteStep << std::endl;
+}
+
+u8 Voice::GetNote()
+{
+    return note;
+}
+
+void Voice::ConfigureVolume(u8 volLeft, u8 volRight)
+{
+    f32 panVolumes[0x80];
+
+    // PSX table with lerped inbeatween values
+    f32 panTable[0x80] = {
+        0x00, 0x02, 0x04, 0x06, 0x08, 0x0A, 0x0C, 0x0E,
+        0x10, 0x12, 0x14, 0x16, 0x18, 0x1A, 0x1C, 0x1E,
+        0x20, 0x22, 0x24, 0x26, 0x28, 0x2A, 0x2C, 0x2E,
+        0x30, 0x32, 0x34, 0x36, 0x38, 0x3A, 0x3C, 0x3E,
+        0x40, 0x42, 0x44, 0x46, 0x48, 0x4A, 0x4C, 0x4E,
+        0x50, 0x52, 0x54, 0x56, 0x58, 0x5A, 0x5C, 0x5E,
+        0x60, 0x62, 0x64, 0x66, 0x68, 0x6A, 0x6C, 0x6E,
+        0x70, 0x72, 0x74, 0x76, 0x78, 0x78, 0x78, 0x78,
+        0x78, 0x7A, 0x7C, 0x7E, 0x80, 0x80, 0x80, 0x80,
+        0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80,
+        0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80,
+        0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80,
+        0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80,
+        0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80,
+        0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80,
+        0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80};
+
+    for (size_t i = 0; i < 0x80; i++)
+    {
+        panVolumes[i] = panTable[i] / 128.0f;
+    }
+
+    u8 channelPan = 64;
+    u8 patchPan = patch->pan;
+    u8 tonePan = sample->pan;
+
+    f32 volumeLeft = 1.0f;
+    f32 volumeRight = 1.0f;
+
+    if (sequence)
+    {
+        channelPan = channel->pan;
+        f32 volume = (channel->vol / 128.0f) * (message->velocity / 128.0f);
+        volumeLeft = volume * (sequence->voll / 128.0f);
+        volumeRight = volume * (sequence->volr / 128.0f);
+    }
+    
+    u16 panIndex = MergePan(channelPan, MergePan(patchPan, tonePan));
+    volumeLeft = volumeLeft * panVolumes[127 - panIndex];
+    volumeRight = volumeRight * panVolumes[panIndex];
+
+    volumeLeftModifier = volumeLeft * (volLeft / 128.0f) * (patch->vol / 128.0f) * (sample->volume / 128.0f);
+    volumeRightModifier = volumeRight * (volRight / 128.0f) * (patch->vol / 128.0f) * (sample->volume / 128.0f);
+}
+
+bool Voice::IsMatch(Sequence* seq, u8 channelId)
+{
+    if (!this->sequence || !this->channel)
+    {
+        return false;
+    }
+    return this->sequence->id == seq->id && this->sequence->channels[channelId] == this->channel;
+}
+
+bool Voice::IsMatch(Sequence* seq, u8 channelId, u8 _note)
+{
+    if (!IsMatch(seq, channelId))
+    {
+        return false;
+    }
+    return this->note == _note;
+}
+
 float Voice::Interpolate()
 {
     static constexpr std::array<s16, 0x200> gauss = {{
@@ -953,214 +1069,6 @@ float Voice::Interpolate()
         0x5997, 0x599E, 0x59A4, 0x59A9, 0x59AD, 0x59B0, 0x59B2, 0x59B3  //
     }};
 
-    // the interpolation index is based on the source files sample rate
-    const u8 i = (u8) vounter.interpolation_index();
-    const u32 s = ((u32) f_SampleOffset) + ZeroExtend32(vounter.sample_index());
-
-    // TODO - remove these if statements
-    // interpolate on the 4 most recent samples from current position
-    // The below `if` statements are in case we loop
-    // we gauss the end of the sample with the beginning.
-    // Probably a better way to do it, but w/e for now...
-    s32 out = 0;
-    if (s == 0)
-    {
-        if (hasLooped)
-        {
-            out += s32(gauss[0x0FF - i]) * s32(sample->buffer[sample->len - 3]); // oldest
-            out += s32(gauss[0x1FF - i]) * s32(sample->buffer[sample->len - 2]); // older
-            out += s32(gauss[0x100 + i]) * s32(sample->buffer[sample->len - 1]); // old
-        }
-        out += s32(gauss[0x000 + i]) * s32(sample->buffer[s - 0]); // new
-    }
-    else if (s == 1)
-    {
-        if (hasLooped)
-        {
-            out += s32(gauss[0x0FF - i]) * s32(sample->buffer[sample->len - 2]); // oldest
-            out += s32(gauss[0x1FF - i]) * s32(sample->buffer[sample->len - 1]); // older
-        }
-        out += s32(gauss[0x100 + i]) * s32(sample->buffer[s - 1]); // old
-        out += s32(gauss[0x000 + i]) * s32(sample->buffer[s - 0]); // new
-    }
-    else if (s == 2)
-    {
-        if (hasLooped)
-        {
-            out += s32(gauss[0x0FF - i]) * s32(sample->buffer[sample->len - 1]); // oldest
-        }
-        out += s32(gauss[0x1FF - i]) * s32(sample->buffer[s - 2]); // older
-        out += s32(gauss[0x100 + i]) * s32(sample->buffer[s - 1]); // old
-        out += s32(gauss[0x000 + i]) * s32(sample->buffer[s - 0]); // new
-    }
-    else
-    {
-        out += s32(gauss[0x0FF - i]) * s32(sample->buffer[(int) (s) -3]); // oldest
-        out += s32(gauss[0x1FF - i]) * s32(sample->buffer[(int) (s) -2]); // older
-        out += s32(gauss[0x100 + i]) * s32(sample->buffer[(int) (s) -1]); // old
-        out += s32(gauss[0x000 + i]) * s32(sample->buffer[(int) (s) -0]); // new
-    }
-
-    return (f32) (out >> 15);
-}
-
-
-//f32 Voice::Interpolate()
-//{
-//    const s32 InterpolationWindowSize = 1 << InterpolationBitDept;
-//    const s32 InterpolationWeightCount = 4;
-//    f32 weights[InterpolationWindowSize][4];
-//    for (size_t i = 0; i < InterpolationWeightCount; i++)
-//    {
-//        double pow1 = i / (double) InterpolationWindowSize;
-//        double pow2 = pow1 * pow1;
-//        double pow3 = pow2 * pow1;
-//
-//        weights[i][0] = static_cast<float>(0.5 * (-pow3 + 2 * pow2 - pow1));
-//        weights[i][1] = static_cast<float>(0.5 * (3 * pow3 - 5 * pow2 + 2));
-//        weights[i][2] = static_cast<float>(0.5 * (-3 * pow3 + 4 * pow2 + pow1));
-//        weights[i][3] = static_cast<float>(0.5 * (pow3 - pow2));
-//    }
-//
-//    //if (!this->HasSamples)
-//    //{
-//    //    // Copy end of the buffer to the front.
-//    //    memcpy(this->Samples, this->Samples + 28, 3);
-//    //    // TODO copy new samples and handle end of VAG
-//    //    this->HasSamples = true;
-//    //}
-//
-//    // the interpolation index is based on the source files sample rate
-//    const u32 InterpolationAnd = (1 << Voice::InterpolationBitDept) - 1;
-//    const u32 SampleRateBitDepth = 26;
-//    const u32 InterpolationShift = SampleRateBitDepth - InterpolationBitDept;
-//    const u8 sampleIndex = ((u32) f_SampleOffset) + ZeroExtend32(vounter.sample_index());
-//    const u32 interpolationIndex = (vounter.interpolation_index() >> InterpolationShift) & InterpolationAnd;
-//
-//
-//    // this->HasSamples = !this->Counter.NextSampleBlock(this->SampleRate);
-//    return weights[interpolationIndex][0] * sample->buffer[sampleIndex]
-//         + weights[interpolationIndex][1] * sample->buffer[sampleIndex + 1]
-//         + weights[interpolationIndex][2] * sample->buffer[sampleIndex + 2]
-//         + weights[interpolationIndex][3] * sample->buffer[sampleIndex + 3];
-//}
-
-USHORT _svm_ptable[] = {
-    4096, 4110, 4125, 4140, 4155, 4170, 4185, 4200,
-    4216, 4231, 4246, 4261, 4277, 4292, 4308, 4323,
-    4339, 4355, 4371, 4386, 4402, 4418, 4434, 4450,
-    4466, 4482, 4499, 4515, 4531, 4548, 4564, 4581,
-    4597, 4614, 4630, 4647, 4664, 4681, 4698, 4715,
-    4732, 4749, 4766, 4783, 4801, 4818, 4835, 4853,
-    4870, 4888, 4906, 4924, 4941, 4959, 4977, 4995,
-    5013, 5031, 5050, 5068, 5086, 5105, 5123, 5142,
-    5160, 5179, 5198, 5216, 5235, 5254, 5273, 5292,
-    5311, 5331, 5350, 5369, 5389, 5408, 5428, 5447,
-    5467, 5487, 5507, 5527, 5547, 5567, 5587, 5607,
-    5627, 5648, 5668, 5688, 5709, 5730, 5750, 5771,
-    5792, 5813, 5834, 5855, 5876, 5898, 5919, 5940,
-    5962, 5983, 6005, 6027, 6049, 6070, 6092, 6114,
-    6137, 6159, 6181, 6203, 6226, 6248, 6271, 6294,
-    6316, 6339, 6362, 6385, 6408, 6431, 6455, 6478,
-    6501, 6525, 6549, 6572, 6596, 6620, 6644, 6668,
-    6692, 6716, 6741, 6765, 6789, 6814, 6839, 6863,
-    6888, 6913, 6938, 6963, 6988, 7014, 7039, 7064,
-    7090, 7116, 7141, 7167, 7193, 7219, 7245, 7271,
-    7298, 7324, 7351, 7377, 7404, 7431, 7458, 7485,
-    7512, 7539, 7566, 7593, 7621, 7648, 7676, 7704,
-    7732, 7760, 7788, 7816, 7844, 7873, 7901, 7930,
-    7958, 7987, 8016, 8045, 8074, 8103, 8133, 8162}; // 192 total (0-191)
-// 8192}; This was originally here. Do we need?
-
-s32 Voice::noteFromVgmTrans()
-{
-    // This code seems to be producing the same adpcm_sample_rate values
-    // as duckstation. Believe it or not, this code was found on pastebin
-    // by searching for "SsPitchFromNote" - I think this is from VGMTrans?
-    // https://pastebin.com/aq7wxDdr
-
-    // NOTE: This doesn't always produce correct pitches
-    // It creates values that go beyond _svm_ptable bounds; Examples
-    // 1. SecurityOrbs produce indexes >_svm_ptable.size (199, limit is 192)
-    // 2. Leaves coming out of wells produce indexes below 0 (-104, limit is 0)
-
-    unsigned int pitchA;
-    SHORT calc, type;
-    signed int add, sfine; //, ret;
-    signed int fine = pitch < pitchMin ? pitchMin : pitch;
-    sfine = fine + ((s32) sample->rootNotePitchShift);
-    if (sfine < 0)
-    {
-        sfine += 7;
-    }
-    sfine >>= 3;
-
-    add = 0;
-    if (sfine > 15)
-    {
-        add = 1;
-        sfine -= 16;
-    }
-
-    calc = (SHORT) (add + (note - (((s32) sample->rootNote) - 60))); //((center + 60) - note) + add;
-    int pos = (16 * (calc % 12) + sfine);
-
-    // START: ADDED
-    // Security Orbs, Pause menu, and well leaves had the 
-    // wrong pitch. The values produced went beyond the
-    // table range. Try to correct them. Seems to work ok...
-    // I just messed around with what made sense and sounded right.
-    if (pos >= 192)
-    {
-        pitchA = _svm_ptable[pos % 192] << ((pos / 192));
-    }
-    else if (pos < 0)
-    {
-        pitchA = _svm_ptable[192 + pos] >> 1;
-    }
-    else
-    {
-        pitchA = _svm_ptable[pos];
-    }
-    // END: Added
-
-    type = calc / 12 - 5;
-
-    // regular shift
-    s32 ret = pitchA;
-    if (type > 0)
-    {
-        ret = pitchA << type;
-    }
-
-    // negative shift
-    if (type < 0)
-    {
-        ret = pitchA >> -type;
-    }
-    return ret;
-}
-
-void Voice::RefreshNoteStep()
-{
-    s32 ret = noteFromVgmTrans();
-
-    // freq = (ret * 44100) / 4096
-    // step seems to be calculated for 8000hz samples hence the division
-    noteStep = (u16) ((sample->SampleRate / 8000.0) * double(ret));
-    // std::cout << ret << " " << (int) note << " " << noteStep << std::endl;
-}
-
-std::tuple<f32, f32> Voice::Tick()
-{
-    if (!sample)
-    {
-        return std::make_tuple(0.0f, 0.0f);
-    }
-
-    // INTERPOLATION
-
-
     // vounter (gauss interpolation table) runs at 28 byte blocks.
     // move the sample offset forward every 28 bytes
     if (vounter.sample_index() >= NUM_SAMPLES_PER_ADPCM_BLOCK)
@@ -1176,7 +1084,7 @@ std::tuple<f32, f32> Voice::Tick()
         if (!sample->loop)
         {
             complete = true;
-            return std::make_tuple(0.0f, 0.0f);
+            return 0;
         }
 
         // we can loop this sample
@@ -1185,15 +1093,23 @@ std::tuple<f32, f32> Voice::Tick()
         f_SampleOffset = 0;
     }
 
-    s32 sampleData;
-    sampleData = (s32) Interpolate();
+    // the interpolation index is based on the source files sample rate
+    const u8 i = (u8) vounter.interpolation_index();
+    const u32 s = ((u32) f_SampleOffset) + ZeroExtend32(vounter.sample_index());
 
-    // vounter.bits has two purposes 
+    // interpolate on the 4 most recent samples from current position
+    s32 out = 0;
+    out += s32(gauss[0x0FF - i]) * s32(sample->buffer[(int) (s)]); 
+    out += s32(gauss[0x1FF - i]) * s32(sample->buffer[((int) (s) + 1) % sample->len]); 
+    out += s32(gauss[0x100 + i]) * s32(sample->buffer[((int) (s) + 2) % sample->len]);
+    out += s32(gauss[0x000 + i]) * s32(sample->buffer[((int) (s) + 3) % sample->len]);
+
+    // vounter.bits has two purposes
     // 1. change how samples are skipped to change the samples note
     // 2. maintain gauss table positioning for correct interpolation
-    // RefreshNoteStep(); - called elsewhere to save CPU cycles
+    // noteStep is called in ConfigureNote() to save CPU cycles as this is called at 44100hz
     u16 step = noteStep;
-    // if (v->isPitchModulated) 
+    // if (v->isPitchModulated)
     // {
     //     const s32 factor = std::clamp<s32>(sampleData, -0x8000, 0x7FFF) + 0x8000;
     //     step = Truncate16(static_cast<u32>((SignExtend32(step) * factor) >> 15));
@@ -1201,6 +1117,11 @@ std::tuple<f32, f32> Voice::Tick()
     step = std::min<u16>(step, 0x3FFF);
     vounter.bits += step;
 
+    return (f32) (out >> 15);
+}
+
+s16 Voice::TickAdsr()
+{
     // UPDATE ADSR STATE - done at 441000hz
     if (adsrPhase == NONE)
     {
@@ -1243,7 +1164,7 @@ std::tuple<f32, f32> Voice::Tick()
     else if (adsrPhase == RELEASE && adsrCurrentLevel <= adsrTargetLevel)
     {
         complete = true;
-        return std::make_tuple(0.0f, 0.0f);
+        return 0;
     }
 
     // UPDATE ADSR TICK STATE
@@ -1285,20 +1206,27 @@ std::tuple<f32, f32> Voice::Tick()
             std::clamp<s32>(static_cast<s32>(adsrCurrentLevel) + this_step, MIN_VOLUME, MAX_VOLUME));
     }
 
-    // Set the volume of the sample
-    s32 vol = sampleData;
-    vol = ApplyVolume(vol, adsrCurrentLevel);
+    return adsrCurrentLevel;
+}
 
+std::tuple<f32, f32> Voice::Tick()
+{
+    if (!sample)
+    {
+        return std::make_tuple(0.0f, 0.0f);
+    }
+
+    // INTERPOLATION
+    s32 sampleData = (s32) Interpolate();
+
+    // Set the volume of the sample
+    s32 vol = ApplyVolume(sampleData, TickAdsr());
 
     // TODO - apply voll and volr as sweeps.tick()? (VolumeEnvelope)
     //  it would be similar to the ADSR tick
     //  I believe sligs walking offscreen use a vol sweep
-    f32 leftA = 0.0f;        // = ApplyVolume(vol, (s16) aVoll);
-    f32 rightA = 0.0f; //= ApplyVolume(vol, (s16) aVolr);
-    // 16383.0f  32767.0f
-    leftA = (vol) * aVoll;
-    rightA = (vol) * aVolr;
-
+    f32 leftA = vol * volumeLeftModifier;
+    f32 rightA = vol * volumeRightModifier; 
     return std::make_tuple(leftA, rightA);
 }
 

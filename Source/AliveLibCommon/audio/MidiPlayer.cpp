@@ -193,7 +193,9 @@ void MidiPlayer::SND_Load_VABS(SoundBlockInfo* pSoundBlockInfo, s32 reverb)
             ProgAtr progAtr = vabHeader->field_20_progs[pIdx];
             u8 progVol = progAtr.field_1_vol;
             progVol = progVol == 0 ? 127 : progVol;
-            SPU::Patch* patch = new SPU::Patch((u8) vagAttr->field_14_prog, progVol, progAtr.field_4_pan);
+            u8 progPan = progAtr.field_4_pan;
+            progPan = progPan == 0 ? 64 : progPan;
+            SPU::Patch* patch = new SPU::Patch((u8) vagAttr->field_14_prog, progVol, progPan);
             SPU::PatchAdd(patch);
 
             ///////////
