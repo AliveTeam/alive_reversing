@@ -206,23 +206,13 @@ namespace psx {
     {
     public:
         /* Read a file within the game, example a .VB file */
-        virtual ResourceData* readFile(char_type* name)
-        {
-            name;
-            throw std::invalid_argument("readFile is not overridden");
-        }
+        virtual ResourceData* readFile(char_type* name) = 0;
+
         /* AO reads sequence inline with data. AE reads from a sounds.dat file */
-        virtual ResourceData* readSeq(const char_type* fileName, const char_type* sequenceName)
-        { 
-            fileName;
-            sequenceName;
-            throw std::invalid_argument("readSeq is not overridden");
-        }
+        virtual ResourceData* readSeq(const char_type* fileName, const char_type* sequenceName) = 0;
+
         /* AO and AE seem to have different hardcoded sequence counts */
-        virtual s32 sequenceCount()
-        {
-            throw std::invalid_argument("sequenceCount is not overridden");
-        }
+        virtual s32 sequenceCount() = 0;
     };
 
     /*
@@ -235,20 +225,9 @@ namespace psx {
     class SoundSampleParser
     {
     public:
-        virtual std::vector<Sample*> parseSamples(VabHeader* vabHeader, u8* ppVabBody)
-        {
-            vabHeader;
-            ppVabBody;
-            std::vector<Sample*> empty;
-            throw std::invalid_argument("parseSamples is not overridden");
-        }
-        virtual void applyFix(char_type* headerName, s32 vag, s32 vagOffset, SPU::Sample* sample)
-        {
-            headerName;
-            vag;
-            vagOffset;
-            sample;
-        }
+        virtual std::vector<Sample*> parseSamples(VabHeader* vabHeader, u8* ppVabBody) = 0;
+
+        virtual void applyFix(char_type* headerName, s32 vag, s32 vagOffset, SPU::Sample* sample) = 0;
     };
 
     /*

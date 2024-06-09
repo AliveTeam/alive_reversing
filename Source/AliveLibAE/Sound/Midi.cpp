@@ -938,8 +938,6 @@ public:
     std::vector<psx::Sample*> parseSamples(psx::VabHeader* vabHeader, u8* ppVabBody)
     {
         std::vector<psx::Sample*> samples;
-        
-
         std::ifstream soundDatFile;
         soundDatFile.open("sounds.dat", std::ios::binary);
         if (!soundDatFile.is_open())
@@ -951,9 +949,9 @@ public:
         soundDatFile.seekg(0, std::ios::beg);
         char* soundData = new char[(s32) fileSize + 1]; // Plus one, just in case interpolating tries to go that one byte further!
 
-        if (soundDatFile.read(soundData, fileSize))
+        if (!soundDatFile.read(soundData, fileSize))
         {
-            // Tada!
+            throw std::invalid_argument("Could not read sounds.dat");
         }
 
         int pos = 0;
@@ -986,6 +984,16 @@ public:
 
         return samples;
     }
+
+    void applyFix(char_type* headerName, s32 vag, s32 vagOffset, SPU::Sample* sample)
+    {
+        // TODO - need to fix AE vag attrs similar to what is down for AO
+        //        The below lines are to get around compiler warnings of unused parameters
+        headerName;
+        vag;
+        vagOffset;
+        sample;
+    }
 };
 
 psx::MidiPlayer* player = new psx::MidiPlayer(new AEResourceProvider(), new AESoundSampleParser());
@@ -1009,7 +1017,6 @@ EXPORT void CC SND_Shutdown_4CA280()
 
 EXPORT void CC SND_Stop_Channels_Mask_4CA810(u32 bitMask)
 {
-    bitMask;
     player->SND_Stop_Channels_Mask(bitMask);
 }
 
@@ -1020,8 +1027,6 @@ EXPORT void SND_Reset_4C9FB0()
 
 EXPORT void CC SND_Load_VABS_4CA350(SoundBlockInfo* pSoundBlockInfo, s32 reverb)
 {
-    pSoundBlockInfo;
-    reverb;
     player->SND_Load_VABS(reinterpret_cast<psx::SoundBlockInfo*>(pSoundBlockInfo), reverb);
 }
 

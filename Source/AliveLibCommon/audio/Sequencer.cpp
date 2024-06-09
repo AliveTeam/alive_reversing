@@ -63,7 +63,9 @@ void SPU::Init()
 void SPU::DeInit()
 {
     mutex.lock();
-    // TODO - does it matter?
+    // This is called on AE quit and exit to desktop.
+    // We could gracefully stop SDL audio rendering,
+    // but AO never calls this on app exit, ignoring for now
     mutex.unlock();
 }
 
@@ -106,7 +108,6 @@ bool SeqPlay(s32 seqId, s32 repeats, bool stopDuplicateSeq)
     {
         SPUSeqStop(seqId);
     }
-    // SPUSeqSetVolume(seqId, 100, 100);
     bool res = SPUSeqPlay(seqId, repeats);
     mutex.unlock();
     return res;
@@ -180,8 +181,8 @@ void Sequence::Reset()
     play = false;
     actionPos = 0;
     trackStartTime = 0;
-    //voll = 127;
-    //volr = 127;
+    voll = 127;
+    volr = 127;
     repeats = 0;
     repeatLimit = 1;
 }
@@ -343,9 +344,6 @@ Voice* SPUObtainVoice(s8 priority, u8 note, u8 patchId)
     note;
     patchId;
 
-    // TODO - logic needs to be revisited, I think it's wrong 
-    // Go shoot slig in rupture farms non-stop and music stops playing
-    // 
     // 1. Always try to use a free voice
     // 2. If no voice can be found - try using a repeated note that has the furthest offset
     // 3. Reap voices that have 'x' many playing? Shooting with a slig non-stop uses too many voices
