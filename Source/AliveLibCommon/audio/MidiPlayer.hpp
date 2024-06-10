@@ -13,6 +13,11 @@ namespace psx {
     class Sample
     {
     public:
+        ~Sample()
+        {
+            delete m_SampleBuffer;
+        }
+
         s16* m_SampleBuffer;
         u32 i_SampleSize;
         u32 sampleRate;
@@ -194,6 +199,10 @@ namespace psx {
     */
     struct ResourceData final
     {
+        ~ResourceData()
+        {
+            delete data;
+        }
         u8* data;
         u32 size;
         s32 optionalHash;
@@ -267,6 +276,7 @@ namespace psx {
     private:
         ResourceProvider* mResourceProvider;
         SoundSampleParser* mSoundSampleParser;
+        std::vector<Sample*> mActiveSamples;
 
         void sanitizePitch(s32* src, s16 defaultPitch);
         void sanitizeVolume(s32* src, s32 low, s32 high);

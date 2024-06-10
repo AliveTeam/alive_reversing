@@ -162,6 +162,11 @@ void MidiPlayer::SND_Load_VABS(SoundBlockInfo* pSoundBlockInfo, s32 reverb)
     reverb; // TODO - what do we do with this? override the patch/sample?
 
     SPU::Reset();
+    for (auto s : mActiveSamples)
+    {
+        delete s;
+    }
+    mActiveSamples.clear();
 
     while (1)
     {
@@ -169,7 +174,6 @@ void MidiPlayer::SND_Load_VABS(SoundBlockInfo* pSoundBlockInfo, s32 reverb)
         {
             break;
         }
-
 
         // Read header
         ResourceData* vabHeaderResource = mResourceProvider->readFile(pSoundBlockInfo->header_name);
@@ -233,7 +237,12 @@ void MidiPlayer::SND_Load_VABS(SoundBlockInfo* pSoundBlockInfo, s32 reverb)
             }
         }
 
-        delete[] ppVabBody;
+        
+        for (auto s : samples)
+        {
+            mActiveSamples.push_back(s);
+        }
+        delete vabBodyResource;
         pSoundBlockInfo++;
     }
 }
@@ -267,6 +276,8 @@ void MidiPlayer::SND_Load_Seqs(OpenSeqHandle* pSeqTable, const char_type* bsqFil
             parseMidiStream(sequence, vec, i);
             SPU::SeqAdd(sequence);
         }
+
+        delete resource;
     }
 }
 

@@ -914,8 +914,11 @@ public:
         }
 
         u32 size = ResourceManager::Get_Header_49C410(ppSeq)->field_0_size;
-        resource->data = *ppSeq;
+        u8* data = new u8[size];
+        memcpy(data, *ppSeq, size);
+        resource->data = data;
         resource->size = size;
+        ResourceManager::FreeResource_49C330(ppSeq); 
         return resource;
     }
 
@@ -981,6 +984,7 @@ public:
         }
 
         soundDatFile.close();
+        delete soundData;
 
         return samples;
     }

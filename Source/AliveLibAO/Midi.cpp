@@ -1191,9 +1191,12 @@ public:
         }
 
         u32 size = ResourceManager::Get_Header_455620(ppSeq)->field_0_size;
-        resource->data = *ppSeq;
+        u8* data = new u8[size];
+        memcpy(data, *ppSeq, size);
+        resource->data = data;
         resource->size = size;
         resource->optionalHash = hash;
+        ResourceManager::FreeResource_455550(ppSeq); 
         return resource;
     }
 
