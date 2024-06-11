@@ -592,8 +592,8 @@ void SPUTick(void* udata, Uint8* stream, int len)
         // make value usable by SDL
         leftSample = leftSample / 32767.0f;
         rightSample = rightSample / 32767.0f;
-        SDL_MixAudioFormat((Uint8*) (AudioStream + i), (const Uint8*) &leftSample, AUDIO_F32, sizeof(float), SDL_MIX_MAXVOLUME);
-        SDL_MixAudioFormat((Uint8*) (AudioStream + i + 1), (const Uint8*) &rightSample, AUDIO_F32, sizeof(float), SDL_MIX_MAXVOLUME);
+        SDL_MixAudioFormat((Uint8*) (AudioStream + i), (const Uint8*) &leftSample, AUDIO_F32, sizeof(float), 100);
+        SDL_MixAudioFormat((Uint8*) (AudioStream + i + 1), (const Uint8*) &rightSample, AUDIO_F32, sizeof(float), 100);
     }
 }
 
@@ -757,6 +757,44 @@ static constexpr ADSRTableEntries s_adsr_table = ComputeADSRTableEntries();
 
 
 //////////////////////////
+// VoiceCounter
+
+// Interpolation window is centered and first 3 samples are from the previous block,
+// so the first block has to start at index 2.
+//const u32 VoiceCounter::StartOffset = 2 << Voice::InterpolationBitDept;
+//const u32 VoiceCounter::InterpolationShift = Voice::SampleRateBitDepth - Voice::InterpolationBitDept;
+//const u32 VoiceCounter::InterpolationAnd = (1 << Voice::InterpolationBitDept) - 1;
+//
+//u32 VoiceCounter::SampleIndex()
+//{
+//    return this->Counter >> Voice::SampleRateBitDepth;
+//}
+//
+//u32 VoiceCounter::InterpolationIndex()
+//{
+//    return (this->Counter >> VoiceCounter::InterpolationShift) & VoiceCounter::InterpolationAnd;
+//}
+//
+//bool VoiceCounter::NextSampleBlock(u32 sampleRate)
+//{
+//    this->Counter += sampleRate;
+//
+//    if (this->SampleIndex() >= 28)
+//    {
+//        this->Counter -= (28 << Voice::SampleRateBitDepth);
+//        return true;
+//    }
+//
+//    return false;
+//}
+//
+//void VoiceCounter::Reset()
+//{
+//    this->Counter = VoiceCounter::StartOffset;
+//}
+
+
+//////////////////////////
 // Voice
 USHORT panMergeTable[] = {
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
@@ -794,6 +832,13 @@ void Voice::Configure(Patch* pat, Sample* samp)
 {
     this->patch = pat;
     this->sample = samp;
+
+    // current sample block is 28 samples in this block + 3 from the next block
+    // to achieve interpolation without going out of bounds
+    currSamples[0] = 0;
+    currSamples[1] = 0;
+    currSamples[2] = 0;
+    memcpy(&currSamples[3], sample->buffer, NUM_SAMPLES_PER_ADPCM_BLOCK * sizeof(s16));
 }
 
 void Voice::Reset()
@@ -813,10 +858,9 @@ void Voice::Reset()
     adsrCurrentLevel = 0;
     adsrTargetLevel = MAX_VOLUME;
     f_SampleOffset = 0;
-    vounter.bits = 0;
+    vounter.Reset();
+    HasSamples = true;
     complete = false;
-    complete = false;
-    hasLooped = false;
     inUse = false;
 }
 
@@ -846,6 +890,30 @@ USHORT _svm_ptable[] = {
     7732, 7760, 7788, 7816, 7844, 7873, 7901, 7930,
     7958, 7987, 8016, 8045, 8074, 8103, 8133, 8162}; // 192 total (0-191)
 // 8192}; This was originally here. Do we need?
+
+//void Voice::ConfigureNote(u8 _note, u32 _pitch)
+//{
+//    this->note = _note;
+//    this->pitch = _pitch;
+//
+//    f32 fix = sample->SampleRate / 8000.0f;
+//    fix; // TODO - this needs to be used somewhere. PC version has some non 8000hz samples 
+//
+//    s32 fineOffset = (note - sample->rootNote) * 256 + sample->rootNotePitchShift + (pitch - 64) * 4;
+//
+//    u32 octaveOffset;
+//    u32 sampleRateOffset;
+//    if (fineOffset >= 0) {
+//        octaveOffset = fineOffset / 3072;
+//        sampleRateOffset = fineOffset - octaveOffset * 3072;
+//        noteStep = SampleRates[sampleRateOffset] << octaveOffset;
+//        return;
+//    }
+//
+//    octaveOffset = (fineOffset + 1) / -3072 + 1;
+//    sampleRateOffset = fineOffset + octaveOffset * 3072;
+//    noteStep = SampleRates[sampleRateOffset] >> octaveOffset;
+//}
 
 void Voice::ConfigureNote(u8 _note, u32 _pitch)
 {
@@ -1067,55 +1135,65 @@ float Voice::Interpolate()
         0x5997, 0x599E, 0x59A4, 0x59A9, 0x59AD, 0x59B0, 0x59B2, 0x59B3  //
     }};
 
-    // vounter (gauss interpolation table) runs at 28 byte blocks.
+    // vounter (gauss interpolation table) runs at 28 byte blocks (NUM_SAMPLES_PER_ADPCM_BLOCK).
     // move the sample offset forward every 28 bytes
-    if (vounter.sample_index() >= NUM_SAMPLES_PER_ADPCM_BLOCK)
+    if (!this->HasSamples)
     {
-        // vounter holds sample position shifted << 12
-        vounter.bits -= (NUM_SAMPLES_PER_ADPCM_BLOCK << 12);
         f_SampleOffset += NUM_SAMPLES_PER_ADPCM_BLOCK;
-    }
 
-    // Are we at the end of the sample?
-    if (f_SampleOffset + vounter.sample_index() >= sample->len)
-    {
-        if (!sample->loop)
+        // If it doesn't loop and we don't have enough in the last block, complete the voice
+        if (!sample->loop && f_SampleOffset + NUM_SAMPLES_PER_ADPCM_BLOCK >= sample->len)
         {
             complete = true;
             return 0;
         }
 
-        // we can loop this sample
-        hasLooped = true;
-        vounter.bits = 0;
-        f_SampleOffset = 0;
+        // if the new offset is greater than the audio data we are looping back to the front
+        if (f_SampleOffset >= sample->len)
+        {
+            f_SampleOffset = f_SampleOffset - sample->len;
+        }
+
+        // Copy the last 3 samples from the previous block to the front
+        memcpy(&currSamples[0], &currSamples[NUM_SAMPLES_PER_ADPCM_BLOCK], 3 * sizeof(u16));
+
+        s32 diff = f_SampleOffset + NUM_SAMPLES_PER_ADPCM_BLOCK - sample->len;
+        if (diff >= 0)
+        {
+            // the next block overflows, essentially the same as a for loop doing
+            // sample->buffer[(f_SampleOffset + i) % sample->len];
+            memcpy(&currSamples[3], &sample->buffer[f_SampleOffset], (NUM_SAMPLES_PER_ADPCM_BLOCK - diff) * sizeof(s16));
+            memcpy(&currSamples[3 + NUM_SAMPLES_PER_ADPCM_BLOCK - diff], &sample->buffer[0], (diff) * sizeof(s16));
+        }
+        else
+        {
+            memcpy(&currSamples[3], &sample->buffer[f_SampleOffset], NUM_SAMPLES_PER_ADPCM_BLOCK * sizeof(s16));
+        }
     }
 
     // the interpolation index is based on the source files sample rate
-    const u8 i = (u8) vounter.interpolation_index();
-    const u32 s = ((u32) f_SampleOffset) + ZeroExtend32(vounter.sample_index());
+    const u32 i = vounter.InterpolationIndex();
+    const u32 s = vounter.SampleIndex();
 
     // interpolate on the 4 most recent samples from current position
     s32 out = 0;
-    out += s32(gauss[0x0FF - i]) * s32(sample->buffer[(int) (s)]); 
-    out += s32(gauss[0x1FF - i]) * s32(sample->buffer[((int) (s) + 1) % sample->len]); 
-    out += s32(gauss[0x100 + i]) * s32(sample->buffer[((int) (s) + 2) % sample->len]);
-    out += s32(gauss[0x000 + i]) * s32(sample->buffer[((int) (s) + 3) % sample->len]);
+    out += s32(gauss[0x0FF - i]) * s32(currSamples[(int) (s + 3 - 3)]);
+    out += s32(gauss[0x1FF - i]) * s32(currSamples[(int) (s + 3 - 2)]);
+    out += s32(gauss[0x100 + i]) * s32(currSamples[(int) (s + 3 - 1)]);
+    out += s32(gauss[0x000 + i]) * s32(currSamples[(int) (s + 3 - 0)]);
+    out = out >> 15;
+
+    //f32 out = interpWeights[0][i] * currSamples[s]
+    //        + interpWeights[1][i] * currSamples[s + 1]
+    //        + interpWeights[1][InterpolationWindowLen - i] * currSamples[s + 2]
+    //        + interpWeights[0][InterpolationWindowLen - i] * currSamples[s + 3];
 
     // vounter.bits has two purposes
     // 1. change how samples are skipped to change the samples note
     // 2. maintain gauss table positioning for correct interpolation
     // noteStep is called in ConfigureNote() to save CPU cycles as this is called at 44100hz
-    u16 step = noteStep;
-    // if (v->isPitchModulated)
-    // {
-    //     const s32 factor = std::clamp<s32>(sampleData, -0x8000, 0x7FFF) + 0x8000;
-    //     step = Truncate16(static_cast<u32>((SignExtend32(step) * factor) >> 15));
-    // }
-    step = std::min<u16>(step, 0x3FFF);
-    vounter.bits += step;
-
-    return (f32) (out >> 15);
+    this->HasSamples = !this->vounter.NextSampleBlock(noteStep);
+    return (f32) (out);
 }
 
 s16 Voice::TickAdsr()

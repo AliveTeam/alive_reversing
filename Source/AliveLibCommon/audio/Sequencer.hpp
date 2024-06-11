@@ -211,21 +211,55 @@ enum ADSRPhase
     RELEASE
 };
 
+class VoiceCounter2
+{
+public:
+    u32 SampleIndex();
+    u32 InterpolationIndex();
+    bool NextSampleBlock(u32 sampleRate);
+    void Reset();
+
+private:
+    static const u32 StartOffset;
+    static const u32 InterpolationShift;
+    static const u32 InterpolationAnd;
+
+    u32 Counter = 0;
+};
+
 union VoiceCounter
 {
     // promoted to u32 because of overflow
     u32 bits = 0;
 
     //BitField<u32, u8, 4, 8> interpolation_index;
-    u32 interpolation_index()
+    u32 InterpolationIndex()
     {
         return (bits >> 4) & mask(8);
     }
 
     //BitField<u32, u8, 12, 5> sample_index;
-    u32 sample_index()
+    u32 SampleIndex()
     {
         return (bits >> 12) & mask(5);
+    }
+
+    bool NextSampleBlock(u32 step)
+    {
+        step = std::min<u32>(step, 0x3FFF);
+        bits += step;
+        if (this->SampleIndex() >= 28)
+        {
+            bits -= (NUM_SAMPLES_PER_ADPCM_BLOCK << 12);
+            return true;
+        }
+        
+        return false;
+    }
+
+    void Reset()
+    {
+        bits = 0;
     }
 };
 
@@ -243,7 +277,33 @@ class Voice
 {
 public:
     static const u32 InterpolationBitDept = 9;
+    static const u32 InterpolationWindowLen = 1 << InterpolationBitDept;
     static const f32 InterpolationWeights[][4];
+    static const u32 SampleRateBitDepth = 26;
+    static const u32 BaseSampleRate = 1 << Voice::SampleRateBitDepth;
+    f32 interpWeights[2][InterpolationWindowLen + 1];
+
+    static const s32 SampleRateCount = 256 * 12;
+    u32 SampleRates[SampleRateCount];
+
+    Voice()
+    { 
+        for (size_t i = 0; i < InterpolationWindowLen + 1; i++)
+        {
+            double pow1 = i / (double) InterpolationWindowLen;
+            double pow2 = pow1 * pow1;
+            double pow3 = pow2 * pow1;
+
+            interpWeights[0][i] = (f32) (0.5f * (-pow3 + 2 * pow2 - pow1));
+            interpWeights[1][i] = (f32) (0.5f * (3 * pow3 - 5 * pow2 + 2));
+        }
+
+       
+        for (size_t i = 0; i < SampleRateCount; i++)
+        {
+            SampleRates[i] = (u32) std::round(Voice::BaseSampleRate * std::pow(2, i / (double) SampleRateCount));
+        }
+    }
 
     s32 id;
 
@@ -284,11 +344,12 @@ private:
 
     // Interpolation/pitch Calculations
     VoiceCounter vounter;
+    s16 currSamples[31];
     u8 note;
     s32 pitch;
-    u16 noteStep;
-    bool hasLooped = false;
+    u32 noteStep;
     u32 f_SampleOffset = 0;
+    bool HasSamples;
 
     std::tuple<f32, f32> CalculateVolume();
     f32 Interpolate();
