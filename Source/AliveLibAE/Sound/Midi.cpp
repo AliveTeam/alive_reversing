@@ -984,7 +984,7 @@ public:
         }
 
         soundDatFile.close();
-        delete soundData;
+        delete[] soundData;
 
         return samples;
     }
