@@ -295,5 +295,4 @@ void SeqSetVolume(s32 seqId, s16 voll, s16 volr);
 void SeqStop(s32 seqId);
 bool SeqIsDone(s32 seqId);
 
-
 } // namespace
