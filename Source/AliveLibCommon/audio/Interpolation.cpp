@@ -282,10 +282,13 @@ const std::array<u32, IlleprihSampleRateCount> SampleRates = GenerateSampleRates
 
 u32 VoiceCounterIlleprih::CalculateNoteStep(s32 root, s32 rootFine, u32 srcRate, u8 note, u32 pitch)
 {
-    f32 fix = srcRate / 8000.0f;
-    fix; // TODO - this needs to be used somewhere. PC version has some non 8000hz samples
+    // TODO - this needs to be used somewhere. PC version has some non 8000hz samples
 
-    s32 fineOffset = (note - root) * IlleprihFinePitchResolution + rootFine + (pitch - 64) * 2;
+    f64 fix = (std::log(srcRate / 8000.0f) / std::log(2)) * 12;
+    f64 fixRoot = (u32) fix;
+    u32 fixPitch = (u32) ((std::modf(fix, &fixRoot)) * IlleprihFinePitchResolution);
+
+    s32 fineOffset = (note - root + ((s32) fixRoot)) * IlleprihFinePitchResolution + pitch + (rootFine + fixPitch - 64) * 2;
 
     u32 octaveOffset;
     u32 sampleRateOffset;

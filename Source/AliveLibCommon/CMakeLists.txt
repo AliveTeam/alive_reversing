@@ -42,9 +42,13 @@ SET(AliveLibSrcCommon
     audio/MidiPlayer.hpp
     audio/MidiPlayer.cpp
     audio/oddio.h
+    audio/Interpolation.hpp
+    audio/Interpolation.cpp
+    audio/Reverb.hpp
+    audio/Reverb.cpp
 )
 
-add_library(AliveLibCommon ${AliveLibSrcCommon}  )
+add_library(AliveLibCommon ${AliveLibSrcCommon})
 
 target_include_directories(AliveLibCommon PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>

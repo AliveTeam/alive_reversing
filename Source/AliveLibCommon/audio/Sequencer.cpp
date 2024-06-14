@@ -2,6 +2,7 @@
 
 #include "Sequencer.hpp"
 #include "SDL.h"
+#include "Reverb.hpp"
 
 namespace SPU {
 
@@ -21,6 +22,9 @@ std::vector<Sequence*> sequences;
 
 const int PATCH_SIZE_LIMIT = 128;
 std::array<Patch*, PATCH_SIZE_LIMIT> patches;
+
+//Reverb* reverb = new ReverbDuckstation();
+Reverb* reverb = new ReverbIlleprih();
 
 //////////////////////////
 // SPU Internal mangement methods
@@ -44,9 +48,6 @@ void SPUOneShotStop(s32 mask);
 
 void SPUTick(void* udata, Uint8* stream, int len);
 void SPUTickSequences();
-
-void ProcessReverb(s16 left_in, s16 right_in, s32* left_out, s32* right_out);
-static s16 ReverbRead(u32 address, s32 offset = 0);
 
 
 //////////////////////////
@@ -297,8 +298,8 @@ void SPUInit()
     int id = 1;
     for (int i = 0; i < VOICE_SIZE_LIMIT; i++)
     {
-        voices[i] = new Voice(new VoiceCounterDuckstation());
-        //voices[i] = new Voice(new VoiceCounterIlleprih());
+        //voices[i] = new Voice(new VoiceCounterDuckstation());
+        voices[i] = new Voice(new VoiceCounterIlleprih());
         voices[i]->id = id;
         id = id << 1;
     }
@@ -540,8 +541,8 @@ void SPUTick(void* udata, Uint8* stream, int len)
     float* AudioStream = (float*) stream;
     int StreamLength = len / sizeof(float);
 
-    s32 reverb_out_left = 0;
-    s32 reverb_out_right = 0;
+    f32 reverb_out_left = 0;
+    f32 reverb_out_right = 0;
 
     // Prepare voices for every position SDL is expecting
     for (int i = 0; i < StreamLength; i += 2)
@@ -550,10 +551,10 @@ void SPUTick(void* udata, Uint8* stream, int len)
         AudioStream[i] = 0;
         AudioStream[i + 1] = 0;
 
-        float leftSample = 0;
-        float rightSample = 0;
-        s32 reverb_in_left = 0;
-        s32 reverb_in_right = 0;
+        f32 leftSample = 0;
+        f32 rightSample = 0;
+        f32 reverb_in_left = 0;
+        f32 reverb_in_right = 0;
 
         // 1. Prepare all voices with reverb
         for (Voice* v : voices)
@@ -574,24 +575,25 @@ void SPUTick(void* udata, Uint8* stream, int len)
             // 4 Reverb
             if (v->sample->reverb == 4)
             {
-                reverb_in_left += (s32) std::get<0>(s);
-                reverb_in_right += (s32) std::get<1>(s);
+                reverb_in_left += std::get<0>(s);
+                reverb_in_right += std::get<1>(s);
             }
         }
 
-        // 2. Process and mix in the reverb
-        ProcessReverb(
-            static_cast<s16>(Clamp16((s32) (reverb_in_left))),
-            static_cast<s16>(Clamp16((s32) (reverb_in_right))),
-            &reverb_out_left,
-            &reverb_out_right);
-
-        leftSample += reverb_out_left;
-        rightSample += reverb_out_right;
-
         // make value usable by SDL
-        leftSample = leftSample / 32767.0f;
-        rightSample = rightSample / 32767.0f;
+        leftSample = leftSample / 32768.0f;
+        rightSample = rightSample / 32768.0f;
+
+        // 2. Process and mix in the reverb
+        std::tuple<f32, f32> r = reverb->Process(reverb_in_left, reverb_in_right);
+        reverb_out_left = std::get<0>(r);
+        reverb_out_right = std::get<1>(r);
+
+        //leftSample = reverb_out_left / 32768.0f;
+        //rightSample = reverb_out_right / 32768.0f;
+        leftSample += reverb_out_left / 32768.0f;
+        rightSample += reverb_out_right / 32768.0f;
+
         SDL_MixAudioFormat((Uint8*) (AudioStream + i), (const Uint8*) &leftSample, AUDIO_F32, sizeof(float), 80);
         SDL_MixAudioFormat((Uint8*) (AudioStream + i + 1), (const Uint8*) &rightSample, AUDIO_F32, sizeof(float), 80);
     }
@@ -1062,283 +1064,6 @@ std::tuple<f32, f32> Voice::Tick()
     f32 leftA = vol * volumeLeftModifier;
     f32 rightA = vol * volumeRightModifier; 
     return std::make_tuple(leftA, rightA);
-}
-
-
-//////////////////////////
-// REVERB - duckstation
-static const u32 NUM_REVERB_REGS = 32;
-struct ReverbRegisters
-{
-    s16 vLOUT;
-    s16 vROUT;
-    u16 mBASE;
-
-    union
-    {
-        struct
-        {
-            u16 FB_SRC_A;
-            u16 FB_SRC_B;
-            s16 IIR_ALPHA;
-            s16 ACC_COEF_A;
-            s16 ACC_COEF_B;
-            s16 ACC_COEF_C;
-            s16 ACC_COEF_D;
-            s16 IIR_COEF;
-            s16 FB_ALPHA;
-            s16 FB_X;
-            u16 IIR_DEST_A[2];
-            u16 ACC_SRC_A[2];
-            u16 ACC_SRC_B[2];
-            u16 IIR_SRC_A[2];
-            u16 IIR_DEST_B[2];
-            u16 ACC_SRC_C[2];
-            u16 ACC_SRC_D[2];
-            u16 IIR_SRC_B[2];
-            u16 MIX_DEST_A[2];
-            u16 MIX_DEST_B[2];
-            s16 IN_COEF[2];
-        }a;
-
-        u16 rev[NUM_REVERB_REGS];
-    };
-};
-
-// bit mask of voices with reverb
-static const u32 RAM_SIZE = 512 * 1024;
-static std::array<u8, RAM_SIZE> s_ram{};
-//static u32 s_reverb_on_register = 0;
-static u32 s_reverb_base_address = 0;
-static u32 s_reverb_current_address = 0;
-static ReverbRegisters s_reverb_registers{};
-static std::array<std::array<s16, 128>, 2> s_reverb_downsample_buffer;
-static std::array<std::array<s16, 64>, 2> s_reverb_upsample_buffer;
-static s32 s_reverb_resample_buffer_position = 0;
-
-
-// Zeroes optimized out; middle removed too(it's 16384)
-static constexpr std::array<s16, 20> s_reverb_resample_coefficients = {
-    -1,
-    2,
-    -10,
-    35,
-    -103,
-    266,
-    -616,
-    1332,
-    -2960,
-    10246,
-    10246,
-    -2960,
-    1332,
-    -616,
-    266,
-    -103,
-    35,
-    -10,
-    2,
-    -1,
-};
-static s16 s_last_reverb_input[2];
-static s32 s_last_reverb_output[2];
-
-static s32 Reverb4422(const s16* src)
-{
-    s32 out = 0; // 32-bits is adequate(it won't overflow)
-    for (u32 i = 0; i < 20; i++)
-        out += s_reverb_resample_coefficients[i] * src[i * 2];
-
-    // Middle non-zero
-    out += 0x4000 * src[19];
-    out >>= 15;
-    return std::clamp<s32>(out, -32768, 32767);
-}
-
-template <bool phase>
-static s32 Reverb2244(const s16* src)
-{
-    s32 out; // 32-bits is adequate(it won't overflow)
-    if (phase)
-    {
-        // Middle non-zero
-        out = src[9];
-    }
-    else
-    {
-        out = 0;
-        for (u32 i = 0; i < 20; i++)
-            out += s_reverb_resample_coefficients[i] * src[i];
-
-        out >>= 14;
-        out = std::clamp<s32>(out, -32768, 32767);
-    }
-
-    return out;
-}
-
-static s16 ReverbSat(s32 val)
-{
-    return static_cast<s16>(std::clamp<s32>(val, -0x8000, 0x7FFF));
-}
-
-static s16 ReverbNeg(s16 samp)
-{
-    if (samp == -32768)
-        return 0x7FFF;
-
-    return -samp;
-}
-
-static s32 IIASM(const s16 IIR_ALPHA, const s16 insamp)
-{
-    if (IIR_ALPHA == -32768)
-    {
-        if (insamp == -32768)
-            return 0;
-        else
-            return insamp * -65536;
-    }
-    else
-        return insamp * (32768 - IIR_ALPHA);
-}
-
-u32 ReverbMemoryAddress(u32 address)
-{
-    // Ensures address does not leave the reverb work area.
-    static constexpr u32 MASK = (RAM_SIZE - 1) / 2;
-    u32 offset = s_reverb_current_address + (address & MASK);
-    offset += s_reverb_base_address & ((s32) (offset << 13) >> 31);
-
-    // We address RAM in bytes. TODO: Change this to words.
-    return (offset & MASK) * 2u;
-}
-
-s16 ReverbRead(u32 address, s32 offset)
-{
-    // TODO: This should check interrupts.
-    const u32 real_address = ReverbMemoryAddress((address << 2) + offset);
-
-    s16 data;
-    std::memcpy(&data, &s_ram[real_address], sizeof(data));
-    return data;
-}
-
-void ReverbWrite(u32 address, s16 data)
-{
-    // TODO: This should check interrupts.
-    const u32 real_address = ReverbMemoryAddress(address << 2);
-    std::memcpy(&s_ram[real_address], &data, sizeof(data));
-}
-
-void ProcessReverb(s16 left_in, s16 right_in, s32* left_out, s32* right_out)
-{
-    s_last_reverb_input[0] = left_in;
-    s_last_reverb_input[1] = right_in;
-    s_reverb_downsample_buffer[0][s_reverb_resample_buffer_position | 0x00] = left_in;
-    s_reverb_downsample_buffer[0][s_reverb_resample_buffer_position | 0x40] = left_in;
-    s_reverb_downsample_buffer[1][s_reverb_resample_buffer_position | 0x00] = right_in;
-    s_reverb_downsample_buffer[1][s_reverb_resample_buffer_position | 0x40] = right_in;
-    std::array<std::array<s16, 128>, 2> test;
-    
-    // these values seem to be stable in duckstation - move them to be set once
-    s_reverb_registers.vLOUT = 4128;
-    s_reverb_registers.vROUT = 4128;
-    s_reverb_registers.mBASE = 61956;
-    s_reverb_registers.a.IIR_SRC_A[0] = 2905;
-    s_reverb_registers.a.IIR_SRC_A[1] = 2266;
-    s_reverb_registers.a.IIR_COEF = -22912;
-    s_reverb_registers.a.IN_COEF[0] = -32768;
-    s_reverb_registers.a.IN_COEF[1] = -32768;
-    s_reverb_registers.a.IIR_SRC_B[0] = 1514;
-    s_reverb_registers.a.IIR_SRC_B[1] = 797;
-    s_reverb_registers.a.IIR_ALPHA = 28512;
-    s_reverb_registers.a.IIR_DEST_A[0] = 3579;
-    s_reverb_registers.a.IIR_DEST_A[1] = 2904;
-    s_reverb_registers.a.IIR_DEST_B[0] = 2265;
-    s_reverb_registers.a.IIR_DEST_B[1] = 1513;
-    s_reverb_registers.a.ACC_SRC_A[0] = 3337;
-    s_reverb_registers.a.ACC_SRC_A[1] = 2620;
-    s_reverb_registers.a.ACC_SRC_B[0] = 3033;
-    s_reverb_registers.a.ACC_SRC_B[1] = 2419;
-    s_reverb_registers.a.ACC_SRC_C[0] = 2028;
-    s_reverb_registers.a.ACC_SRC_C[1] = 1200;
-    s_reverb_registers.a.ACC_SRC_D[0] = 1775;
-    s_reverb_registers.a.ACC_SRC_D[1] = 978;
-    s_reverb_registers.a.ACC_COEF_A = 20392;
-    s_reverb_registers.a.ACC_COEF_B = -17184;
-    s_reverb_registers.a.ACC_COEF_C = 17680;
-    s_reverb_registers.a.ACC_COEF_D = -16656;
-    s_reverb_registers.a.MIX_DEST_A[0] = 796;
-    s_reverb_registers.a.MIX_DEST_A[1] = 568;
-    s_reverb_registers.a.MIX_DEST_B[0] = 340;
-    s_reverb_registers.a.MIX_DEST_B[1] = 170;
-    s_reverb_registers.a.FB_SRC_A = 227;
-    s_reverb_registers.a.FB_SRC_B = 169;
-    s_reverb_registers.a.FB_ALPHA = 22144;
-    s_reverb_registers.a.FB_X = 21184;
-       
-     
-    test = s_reverb_downsample_buffer;
-    //std::cout << "L:" << left_in << " R:" << right_in << std::endl;
-    //std::cout << s_reverb_registers.a.IIR_SRC_A[0] << std::endl;
-
-    s32 out[2];
-    if (s_reverb_resample_buffer_position & 1u)
-    {
-        //std::cout << "here1" << std::endl;
-        std::array<s32, 2> downsampled;
-        for (unsigned lr = 0; lr < 2; lr++)
-            downsampled[lr] = Reverb4422(&s_reverb_downsample_buffer[lr][(s_reverb_resample_buffer_position - 38) & 0x3F]);
-
-        for (unsigned lr = 0; lr < 2; lr++)
-        {
-            //if (s_SPUCNT.a.reverb_master_enable)
-            {
-                const s16 IIR_INPUT_A = ReverbSat((((ReverbRead(s_reverb_registers.a.IIR_SRC_A[lr ^ 0]) * s_reverb_registers.a.IIR_COEF) >> 14) + ((downsampled[lr] * s_reverb_registers.a.IN_COEF[lr]) >> 14)) >> 1);
-                const s16 IIR_INPUT_B = ReverbSat((((ReverbRead(s_reverb_registers.a.IIR_SRC_B[lr ^ 1]) * s_reverb_registers.a.IIR_COEF) >> 14) + ((downsampled[lr] * s_reverb_registers.a.IN_COEF[lr]) >> 14)) >> 1);
-                const s16 IIR_A = ReverbSat((((IIR_INPUT_A * s_reverb_registers.a.IIR_ALPHA) >> 14) + (IIASM(s_reverb_registers.a.IIR_ALPHA, ReverbRead(s_reverb_registers.a.IIR_DEST_A[lr], -1)) >> 14)) >> 1);
-                const s16 IIR_B = ReverbSat((((IIR_INPUT_B * s_reverb_registers.a.IIR_ALPHA) >> 14) + (IIASM(s_reverb_registers.a.IIR_ALPHA, ReverbRead(s_reverb_registers.a.IIR_DEST_B[lr], -1)) >> 14)) >> 1);
-                ReverbWrite(s_reverb_registers.a.IIR_DEST_A[lr], IIR_A);
-                ReverbWrite(s_reverb_registers.a.IIR_DEST_B[lr], IIR_B);
-            }
-
-            const s32 ACC = ((ReverbRead(s_reverb_registers.a.ACC_SRC_A[lr]) * s_reverb_registers.a.ACC_COEF_A) >> 14) + ((ReverbRead(s_reverb_registers.a.ACC_SRC_B[lr]) * s_reverb_registers.a.ACC_COEF_B) >> 14) + ((ReverbRead(s_reverb_registers.a.ACC_SRC_C[lr]) * s_reverb_registers.a.ACC_COEF_C) >> 14) + ((ReverbRead(s_reverb_registers.a.ACC_SRC_D[lr]) * s_reverb_registers.a.ACC_COEF_D) >> 14);
-
-            const s16 FB_A = ReverbRead(s_reverb_registers.a.MIX_DEST_A[lr] - s_reverb_registers.a.FB_SRC_A);
-            const s16 FB_B = ReverbRead(s_reverb_registers.a.MIX_DEST_B[lr] - s_reverb_registers.a.FB_SRC_B);
-            const s16 MDA = ReverbSat((ACC + ((FB_A * ReverbNeg(s_reverb_registers.a.FB_ALPHA)) >> 14)) >> 1);
-            const s16 MDB = ReverbSat(
-                FB_A + ((((MDA * s_reverb_registers.a.FB_ALPHA) >> 14) + ((FB_B * ReverbNeg(s_reverb_registers.a.FB_X)) >> 14)) >> 1));
-            const s16 IVB = ReverbSat(FB_B + ((MDB * s_reverb_registers.a.FB_X) >> 15));
-
-            //if (s_SPUCNT.reverb_master_enable)
-            {
-                ReverbWrite(s_reverb_registers.a.MIX_DEST_A[lr], MDA);
-                ReverbWrite(s_reverb_registers.a.MIX_DEST_B[lr], MDB);
-            }
-
-            s_reverb_upsample_buffer[lr][(s_reverb_resample_buffer_position >> 1) | 0x20] = s_reverb_upsample_buffer[lr][s_reverb_resample_buffer_position >> 1] = IVB;
-        }
-
-        s_reverb_current_address = (s_reverb_current_address + 1) & 0x3FFFFu;
-        if (s_reverb_current_address == 0)
-            s_reverb_current_address = s_reverb_base_address;
-
-        for (unsigned lr = 0; lr < 2; lr++)
-            out[lr] = Reverb2244<false>(&s_reverb_upsample_buffer[lr][((s_reverb_resample_buffer_position >> 1) - 19) & 0x1F]);
-    }
-    else
-    {
-        //std::cout << "here2" << std::endl;
-        for (unsigned lr = 0; lr < 2; lr++)
-            out[lr] = Reverb2244<true>(&s_reverb_upsample_buffer[lr][((s_reverb_resample_buffer_position >> 1) - 19) & 0x1F]);
-    }
-
-    s_reverb_resample_buffer_position = (s_reverb_resample_buffer_position + 1) & 0x3F;
-
-    s_last_reverb_output[0] = *left_out = ApplyVolume(out[0], s_reverb_registers.vLOUT);
-    s_last_reverb_output[1] = *right_out = ApplyVolume(out[1], s_reverb_registers.vROUT);
 }
 
 } // namespace
