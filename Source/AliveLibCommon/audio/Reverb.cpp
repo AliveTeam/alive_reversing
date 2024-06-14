@@ -314,7 +314,9 @@ std::pair<f32, f32> ReverbDuckstation::Process(f32 _left_in, f32 _right_in)
 
 //////////////////////////
 // Illeprih's reverb
+#pragma warning(push) // anoying visual studio warnings about overflow u16
 #pragma warning(disable : 4838)
+#pragma warning(push)
 #pragma warning(disable : 4309)
 const ReverbType ReverbIlleprih::reverbTypes[10] = {
     {// OFF
@@ -367,6 +369,8 @@ const ReverbType ReverbIlleprih::reverbTypes[10] = {
      0x5F80, 0x54C0, 0x0371, 0x02AF, 0x02E5, 0x01DF, 0x02B0, 0x01D7,
      0x0358, 0x026A, 0x01D6, 0x011E, 0x012D, 0x00B1, 0x011F, 0x0059,
      0x01A0, 0x00E3, 0x0058, 0x0040, 0x0028, 0x0014, 0x8000, 0x8000}};
+#pragma warning(pop)
+#pragma warning(pop)
 
 ReverbIlleprih::ReverbIlleprih()
 {

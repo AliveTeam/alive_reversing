@@ -55,4 +55,32 @@ private:
     u32 Counter = 0;
 };
 
+/// <summary>
+/// A provider class for creating the different voice types
+/// </summary>
+class InterpolationProvider
+{
+public:
+    virtual std::unique_ptr<VoiceCounter> Create() = 0;
+};
+
+class InterpolationProviderDuckstation : public InterpolationProvider
+{
+public:
+    std::unique_ptr<VoiceCounter> Create() override
+    {
+        return std::make_unique<VoiceCounterDuckstation>();
+    }
+};
+
+class InterpolationProviderIlleprih : public InterpolationProvider
+{
+public:
+    std::unique_ptr<VoiceCounter> Create() override
+    {
+        return std::make_unique<VoiceCounterIlleprih>();
+    }
+};
+
+
 } // namespace

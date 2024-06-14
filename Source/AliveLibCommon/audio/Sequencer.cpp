@@ -23,8 +23,13 @@ std::vector<Sequence*> sequences;
 const int PATCH_SIZE_LIMIT = 128;
 std::array<Patch*, PATCH_SIZE_LIMIT> patches;
 
+// Can swap these out for testing.
+// We could make them dependencies and configurable in game
+// 
 //Reverb* reverb = new ReverbDuckstation();
 Reverb* reverb = new ReverbIlleprih();
+//InterpolationProvider* interpolation = new InterpolationProviderDuckstation();
+InterpolationProvider* interpolation = new InterpolationProviderIlleprih();
 
 //////////////////////////
 // SPU Internal mangement methods
@@ -298,8 +303,7 @@ void SPUInit()
     int id = 1;
     for (int i = 0; i < VOICE_SIZE_LIMIT; i++)
     {
-        //voices[i] = new Voice(new VoiceCounterDuckstation());
-        voices[i] = new Voice(new VoiceCounterIlleprih());
+        voices[i] = new Voice(interpolation);
         voices[i]->id = id;
         id = id << 1;
     }
@@ -573,8 +577,9 @@ void SPUTick(void* udata, Uint8* stream, int len)
             // 2 Portamento
             // 3 1 & 2(Portamento and Vibrate on)
             // 4 Reverb
-            if (v->sample->reverb == 4)
+            if (v->sample->reverb != 0)
             {
+                reverb->ChangeSetting(v->sample->reverb);
                 reverb_in_left += std::get<0>(s);
                 reverb_in_right += std::get<1>(s);
             }

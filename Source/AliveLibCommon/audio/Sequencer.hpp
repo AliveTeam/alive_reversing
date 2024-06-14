@@ -212,13 +212,9 @@ public:
 class Voice
 {
 public:
-    Voice(VoiceCounter* voiceCounter)
+    Voice(InterpolationProvider* provider)
     {
-        this->vounter = voiceCounter;
-    }
-    ~Voice()
-    {
-        delete vounter;
+        this->vounter = provider->Create();
     }
 
     s32 id;
@@ -259,7 +255,7 @@ private:
     s16 adsrTargetLevel = MAX_VOLUME; // attack we want to reach max
 
     // Interpolation/pitch Calculations
-    VoiceCounter* vounter;
+    std::unique_ptr<VoiceCounter> vounter;
     s16 currSamples[NUM_SAMPLES_FROM_LAST_ADPCM_BLOCK + NUM_SAMPLES_PER_ADPCM_BLOCK];
     u8 note;
     s32 pitch;
