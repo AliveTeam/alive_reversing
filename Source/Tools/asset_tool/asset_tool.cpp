@@ -1086,11 +1086,17 @@ static bool DumpAnim(std::string path, AnimRecord& rec)
         return false;
     }
 
+    std::vector<MetaFrameInfo> metaFrameInfo;
+
+    metaFrameInfo.reserve(pAnimHeader->field_2_num_frames);
+
     // We have to calculate the bounds first.
     for (int i = 0; i < pAnimHeader->field_2_num_frames; i++)
     {
         FrameInfoHeader* pFrameInfo = reinterpret_cast<FrameInfoHeader*>(*ppRes + pAnimHeader->mFrameOffsets[i]);
         const FrameHeader* pFrameHeader = reinterpret_cast<const FrameHeader*>(&(*ppRes)[pFrameInfo->field_0_frame_header_offset]);
+
+        metaFrameInfo.push_back(MetaFrameInfo{(int) pFrameHeader->field_4_width, (int) pFrameHeader->field_5_height, pFrameInfo->field_8_data.offsetAndRect.mOffset.x, pFrameInfo->field_8_data.offsetAndRect.mOffset.y});
 
         int width = static_cast<int>(ceil(pFrameHeader->field_4_width / 4.0f) * 4);
         int height = pFrameHeader->field_5_height;
@@ -1107,13 +1113,16 @@ static bool DumpAnim(std::string path, AnimRecord& rec)
     Bounds bounds = CalculateAnimationBounds(textureBoundList, 8);
     CheckDirectory(path);
     AssetMeta metaInfo = {
+        gIsAo ? "AO" : "AE", // game
+        2 * 8, // padding
+        metaFrameInfo,
         bounds.w, // width
         bounds.h * 2, // height
         (-bounds.x), // offset x
         ((-bounds.y) * 2), // offset y,
         static_cast<int>(pAnimHeader->field_2_num_frames) // frame count
     };
-    metaInfo.SaveJSONToFile(path + "/meta.json");
+    metaInfo.SaveJSONToFile(path + "/meta.json", true);
 
     // Now we start to convert stuff
     for (int i = 0; i < pAnimHeader->field_2_num_frames; i++)
