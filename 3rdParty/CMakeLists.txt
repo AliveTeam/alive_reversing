@@ -56,18 +56,16 @@ add_library(googletest
     )
 
 target_include_directories(googletest SYSTEM PUBLIC
-    $<BUILD_INTERFACE:
-    ${CMAKE_CURRENT_SOURCE_DIR}/googletest/googletest;
-    ${CMAKE_CURRENT_SOURCE_DIR}/googletest/googletest/include;
-    ${CMAKE_CURRENT_SOURCE_DIR}/googletest/googletest/include/gtest;
-    ${CMAKE_CURRENT_SOURCE_DIR}/googletest/googletest/include/gtest/internal;
-
-    ${CMAKE_CURRENT_SOURCE_DIR}/googletest/googlemock;
-    ${CMAKE_CURRENT_SOURCE_DIR}/googletest/googlemock/include;
-    ${CMAKE_CURRENT_SOURCE_DIR}/googletest/googlemock/include/gmock;
-    ${CMAKE_CURRENT_SOURCE_DIR}/googletest/googlemock/include/gmock/internal;
-    ${CMAKE_CURRENT_SOURCE_DIR}/googletest/googlemock/include/gmock/internal/custom>
-    $<INSTALL_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/googletest/googlemock/include/gmock>
+    "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/googletest/googletest>"
+    "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/googletest/googletest/include>"
+    "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/googletest/googletest/include/gtest>"
+    "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/googletest/googletest/include/gtest/internal>"
+    "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/googletest/googlemock>"
+    "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/googletest/googlemock/include>"
+    "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/googletest/googlemock/include/gmock>"
+    "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/googletest/googlemock/include/gmock/internal>"
+    "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/googletest/googlemock/include/gmock/internal/custom>"
+    "$<INSTALL_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/googletest/googlemock/include/gmock>"
     )
 
 export(TARGETS googletest FILE googletest.cmake)
@@ -89,9 +87,8 @@ target_link_libraries(imgui
     )
 
 target_include_directories(imgui SYSTEM PUBLIC
-    $<BUILD_INTERFACE:
-    ${CMAKE_CURRENT_SOURCE_DIR}/imgui;
-    ${CMAKE_CURRENT_SOURCE_DIR}/imgui/backends>
+    "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/imgui>"
+    "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/imgui/backends>"
     )
 add_compile_definitions(IMGUI_IMPL_OPENGL_LOADER_GLEW)
 export(TARGETS imgui FILE imgui.cmake)
@@ -106,8 +103,7 @@ export(TARGETS libglew_static FILE libglew_static.cmake)
 add_library(glm INTERFACE)
 
 target_include_directories(glm SYSTEM INTERFACE
-    $<BUILD_INTERFACE:
-    ${CMAKE_CURRENT_SOURCE_DIR}/glm>
+    "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/glm>"
     )
 export(TARGETS glm FILE glm.cmake)
 
@@ -118,9 +114,8 @@ add_library(miniz
     )
 
 target_include_directories(miniz SYSTEM PUBLIC
-    $<BUILD_INTERFACE:
-    ${CMAKE_CURRENT_SOURCE_DIR}/miniz;
-    $<INSTALL_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/miniz>
+    "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/miniz>"
+    "$<INSTALL_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/miniz>"
     )
 
 export(TARGETS miniz FILE miniz.cmake)
@@ -133,9 +128,8 @@ add_library(miniz_dynamic_crt
     )
 
 target_include_directories(miniz_dynamic_crt SYSTEM PUBLIC
-    $<BUILD_INTERFACE:
-    ${CMAKE_CURRENT_SOURCE_DIR}/miniz;
-    $<INSTALL_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/miniz>
+    "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/miniz>"
+    "$<INSTALL_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/miniz>"
     )
 if (MSVC)
     target_compile_options(miniz_dynamic_crt PRIVATE /MDd)
@@ -155,10 +149,9 @@ target_compile_definitions(spng PRIVATE SPNG_STATIC)
 target_compile_definitions(spng PUBLIC SPNG_STATIC)
 
 target_include_directories(spng SYSTEM PUBLIC
-    $<BUILD_INTERFACE:
-    ${CMAKE_CURRENT_SOURCE_DIR}/libspng;
-    ${CMAKE_CURRENT_SOURCE_DIR}/miniz;
-    $<INSTALL_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/libspng>
+    "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/libspng>"
+    "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/miniz>"
+    "$<INSTALL_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/libspng>"
     )
 
 export(TARGETS spng FILE spng.cmake)
@@ -175,10 +168,9 @@ target_compile_definitions(spng_dynamic_crt PRIVATE SPNG_STATIC)
 target_compile_definitions(spng_dynamic_crt PUBLIC SPNG_STATIC)
 
 target_include_directories(spng_dynamic_crt SYSTEM PUBLIC
-    $<BUILD_INTERFACE:
-    ${CMAKE_CURRENT_SOURCE_DIR}/libspng;
-    ${CMAKE_CURRENT_SOURCE_DIR}/miniz;
-    $<INSTALL_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/libspng>
+    "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/libspng>"
+    "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/miniz>"
+    "$<INSTALL_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/libspng>"
     )
 if (MSVC)
     target_compile_options(spng_dynamic_crt PRIVATE /MDd)

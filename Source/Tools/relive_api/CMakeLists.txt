@@ -74,11 +74,11 @@ if (MSVC)
 endif()
 
 target_include_directories(relive_api PUBLIC
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>/../../../3rdParty/EasyLogging++/EasyLogging/src
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>/../../../3rdParty/googletest/googlemock/include
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>/../../../3rdParty/googletest/googletest/include
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>/../../../3rdParty
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>/../../../3rdParty/json/include
-    $<INSTALL_INTERFACE:include>
+    "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>"
+    "$<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/3rdParty/EasyLogging++/EasyLogging/src>"
+    "$<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/3rdParty/googletest/googlemock/include>"
+    "$<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/3rdParty/googletest/googletest/include>"
+    "$<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/3rdParty>"
+    "$<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/3rdParty/json/include>"
+    "$<INSTALL_INTERFACE:include>"
     PRIVATE ${CMAKE_BINARY_DIR})
