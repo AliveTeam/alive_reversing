@@ -7,7 +7,7 @@
 #include "../AliveLibAE/stdlib.hpp"
 #include "Abe.hpp"
 #include "../relive_lib/Collisions.hpp"
-#include "ParamiteWeb.hpp"
+#include "../relive_lib/GameObjects/ParamiteWeb.hpp"
 #include "MusicController.hpp"
 #include "Midi.hpp"
 #include "../relive_lib/GameObjects/PlatformBase.hpp"

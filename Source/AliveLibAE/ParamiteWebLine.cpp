@@ -6,7 +6,7 @@
 #include "../relive_lib/GameObjects/ScreenManager.hpp"
 #include "Sfx.hpp"
 #include "../relive_lib/GameObjects/ShadowZone.hpp"
-#include "Rope.hpp"
+#include "../relive_lib/GameObjects/Rope.hpp"
 #include "Path.hpp"
 #include "../relive_lib/AnimationUnknown.hpp"
 #include "../relive_lib/PsxDisplay.hpp"

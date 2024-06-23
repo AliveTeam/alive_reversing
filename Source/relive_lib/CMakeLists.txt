@@ -79,8 +79,6 @@ SET(AliveLibSrcAO
    ../AliveLibAO/Paramite.cpp
    ../AliveLibAO/LCDStatusBoard.hpp
    ../AliveLibAO/LCDStatusBoard.cpp
-   ../AliveLibAO/ParamiteWeb.hpp
-   ../AliveLibAO/ParamiteWeb.cpp
    ../AliveLibAO/Shrykull.hpp
    ../AliveLibAO/Shrykull.cpp
    ../AliveLibAO/BoomMachine.hpp
@@ -115,8 +113,6 @@ SET(AliveLibSrcAO
    ../AliveLibAO/FallingItem.cpp
    ../AliveLibAO/InvisibleSwitch.hpp
    ../AliveLibAO/InvisibleSwitch.cpp
-   ../AliveLibAO/Rope.hpp
-   ../AliveLibAO/Rope.cpp
    ../AliveLibAO/PullRingRope.hpp
    ../AliveLibAO/PullRingRope.cpp
    ../AliveLibAO/TimerTrigger.hpp
@@ -318,8 +314,6 @@ SET(AliveLibAESrc
     ../AliveLibAE/Well.cpp
     ../AliveLibAE/Water.hpp
     ../AliveLibAE/Water.cpp
-    ../AliveLibAE/Rope.hpp
-    ../AliveLibAE/Rope.cpp
     ../AliveLibAE/LiftPoint.cpp
     ../AliveLibAE/LiftPoint.hpp
     ../AliveLibAE/LiftMover.cpp
@@ -420,8 +414,6 @@ SET(AliveLibAESrc
     ../AliveLibAE/GameEnderController.cpp
     ../AliveLibAE/Shrykull.hpp
     ../AliveLibAE/Shrykull.cpp
-    ../AliveLibAE/ParamiteWeb.hpp
-    ../AliveLibAE/ParamiteWeb.cpp
     ../AliveLibAE/ParamiteWebLine.hpp
     ../AliveLibAE/ParamiteWebLine.cpp
     ../AliveLibAE/ExplosionSet.hpp
@@ -578,6 +570,10 @@ SET(game_objects_src
     GameObjects/Alarm.cpp
     GameObjects/GasCountDown.hpp
     GameObjects/GasCountDown.cpp
+    GameObjects/ParamiteWeb.hpp
+    GameObjects/ParamiteWeb.cpp
+    GameObjects/Rope.hpp
+    GameObjects/Rope.cpp
 )
 
 SET(data_conversion_src

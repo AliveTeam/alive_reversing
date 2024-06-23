@@ -45,7 +45,7 @@ public:
     ~Map();
 
     void Get_map_size(PSX_Point* pPoint);
-    void GetCurrentCamCoords(PSX_Point* pPoint);
+    virtual void GetCurrentCamCoords(PSX_Point* pPoint) override;
     void Get_Abe_Spawn_Pos(PSX_Point* pPoint);
     s16 GetOverlayId() override;
     void Create_FG1s();

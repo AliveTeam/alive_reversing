@@ -1,10 +1,8 @@
 #pragma once
 
-#include "../relive_lib/GameObjects/BaseAnimatedWithPhysicsGameObject.hpp"
+#include "BaseAnimatedWithPhysicsGameObject.hpp"
 
 class AnimationUnknown;
-
-namespace AO {
 
 class ParamiteWeb final : public BaseAnimatedWithPhysicsGameObject
 {
@@ -24,5 +22,3 @@ public:
     AnimationUnknown* mWebRes = nullptr;
     bool mEnabled = false;
 };
-
-} // namespace AO

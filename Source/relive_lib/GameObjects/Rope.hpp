@@ -1,10 +1,8 @@
 #pragma once
 
-#include "../relive_lib/GameObjects/BaseAnimatedWithPhysicsGameObject.hpp"
+#include "BaseAnimatedWithPhysicsGameObject.hpp"
 
 class AnimationUnknown;
-
-namespace AO {
 
 class Rope final : public BaseAnimatedWithPhysicsGameObject
 {
@@ -15,13 +13,16 @@ public:
     virtual void VUpdate() override;
     virtual void VRender(OrderingTable& ot) override;
 
+    void InitRopeAnimation();
+
+private:
     s16 mRopeSegmentCount = 0;
+
+public:
     s16 mRopeLength = 0;
-    AnimationUnknown* mRopeAnim;
+    AnimationUnknown* mRopeAnim = nullptr;
     s16 mTop = 0;
     s16 mBottom = 0;
 };
 
 void ClipPoly_Vertically(Poly_FT4* pPoly, s32 minY, s32 maxY);
-
-} // namespace AO

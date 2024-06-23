@@ -4,7 +4,7 @@
 #include "Map.hpp"
 #include "../AliveLibAE/stdlib.hpp"
 #include "../relive_lib/Collisions.hpp"
-#include "Rope.hpp"
+#include "../relive_lib/GameObjects/Rope.hpp"
 #include "Sfx.hpp"
 #include "../relive_lib/Events.hpp"
 #include "../relive_lib/GameObjects/ShadowZone.hpp"

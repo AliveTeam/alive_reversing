@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "PullRingRope.hpp"
 #include "../relive_lib/GameObjects/BaseAliveGameObject.hpp"
-#include "Rope.hpp"
+#include "../relive_lib/GameObjects/Rope.hpp"
 #include "../relive_lib/Function.hpp"
 #include "../relive_lib/ObjectIds.hpp"
 #include "Sfx.hpp"

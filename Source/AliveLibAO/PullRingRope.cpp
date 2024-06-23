@@ -5,7 +5,7 @@
 #include "../relive_lib/ObjectIds.hpp"
 #include "Sfx.hpp"
 #include "../relive_lib/GameObjects/BaseAliveGameObject.hpp"
-#include "Rope.hpp"
+#include "../relive_lib/GameObjects/Rope.hpp"
 #include "../relive_lib/Events.hpp"
 #include "Path.hpp"
 #include "../relive_lib/SwitchStates.hpp"

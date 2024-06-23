@@ -79,7 +79,7 @@ public:
 
     void Get_map_size(PSX_Point* pPoint);
 
-    void GetCurrentCamCoords(PSX_Point* pPoint);
+    virtual void GetCurrentCamCoords(PSX_Point* pPoint) override;
     s16 GetOverlayId() override;
 
     static CameraSwapper* FMV_Camera_Change(CamResource& ppBits, Map* pMap, EReliveLevelIds levelId);

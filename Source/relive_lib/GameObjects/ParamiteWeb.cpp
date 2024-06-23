@@ -1,18 +1,20 @@
 #include "stdafx.h"
 #include "ParamiteWeb.hpp"
-#include "../relive_lib/Function.hpp"
-#include "stdlib.hpp"
-#include "../relive_lib/GameObjects/ShadowZone.hpp"
-#include "../relive_lib/GameObjects/ScreenManager.hpp"
+#include "../Function.hpp"
+#include "ShadowZone.hpp"
+#include "ScreenManager.hpp"
 #include "Rope.hpp"
-#include "Map.hpp"
-#include "../relive_lib/AnimationUnknown.hpp"
-#include "../relive_lib/PsxDisplay.hpp"
+#include "../MapWrapper.hpp"
+#include "../AnimationUnknown.hpp"
+#include "../PsxDisplay.hpp"
+#include "../GameType.hpp"
 
 ParamiteWeb::ParamiteWeb(FP xpos, s32 bottom, s32 top, FP scale)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
     SetType(ReliveTypes::eRope);
+
+    mYOffset = 0;
 
     if (scale == FP_FromInteger(1))
     {
@@ -30,16 +32,25 @@ ParamiteWeb::ParamiteWeb(FP xpos, s32 bottom, s32 top, FP scale)
     {
         GetAnimation().SetRenderLayer(Layer::eLayer_RopeWebDrillMeatSaw_24);
         SetScale(Scale::Fg);
-        GetAnimation().SetSpriteScale(FP_FromInteger(1));
-        SetSpriteScale(FP_FromInteger(1));
+        GetAnimation().SetSpriteScale(scale);
+        SetSpriteScale(scale);
     }
     else
     {
         GetAnimation().SetRenderLayer(Layer::eLayer_RopeWebDrillMeatSaw_Half_5);
-        GetAnimation().SetSpriteScale(FP_FromDouble(0.7));
-        SetSpriteScale(FP_FromDouble(0.7));
         SetScale(Scale::Bg);
-        xpos += FP_FromInteger(2);
+
+        if (GetGameType() == GameType::eAe)
+        {
+            GetAnimation().SetSpriteScale(FP_FromDouble(0.7));
+            SetSpriteScale(FP_FromDouble(0.7));
+            xpos += FP_FromInteger(2);
+        }
+        else
+        {
+            GetAnimation().SetSpriteScale(scale);
+            SetSpriteScale(scale);
+        }
     }
 
     GetAnimation().SetRGB(128, 128, 128);
@@ -88,7 +99,7 @@ void ParamiteWeb::VUpdate()
 
 void ParamiteWeb::VScreenChanged()
 {
-    if (gMap.LevelChanged() || gMap.PathChanged())
+    if (GetMap().LevelChanged() || GetMap().PathChanged())
     {
         SetDead(true);
     }
@@ -97,13 +108,13 @@ void ParamiteWeb::VScreenChanged()
 void ParamiteWeb::VRender(OrderingTable& ot)
 {
     PSX_Point camCoords = {};
-    gMap.GetCurrentCamCoords(&camCoords);
-    if (mCurrentLevel == gMap.mCurrentLevel && mCurrentPath == gMap.mCurrentPath)
+    GetMap().GetCurrentCamCoords(&camCoords);
+    if (mCurrentLevel == GetMap().mCurrentLevel && mCurrentPath == GetMap().mCurrentPath)
     {
         if (mXPos >= FP_FromInteger(camCoords.x) && mXPos <= FP_FromInteger(camCoords.x + 1024))
         {
-            const FP cam_y = gScreenManager->CamYPos();
             const FP cam_x = gScreenManager->CamXPos();
+            const FP cam_y = gScreenManager->CamYPos();
 
             s16 minY = FP_GetExponent(FP_FromInteger(mTtl) - cam_y);
             s16 maxY = FP_GetExponent(FP_FromInteger(mTtlRemainder) - cam_y);
@@ -114,7 +125,11 @@ void ParamiteWeb::VRender(OrderingTable& ot)
                 ypos_int = mTtlRemainder + (ypos_int - mTtlRemainder) % mSegmentLength;
             }
 
-            const s16 x_start = FP_GetExponent(mXPos - cam_x);
+            s16 x_start = FP_GetExponent(mXPos - cam_x);
+            if (GetGameType() == GameType::eAo)
+            {
+                x_start = PsxToPCX<s16>(x_start);
+            }
 
             s16 y_start = FP_GetExponent((FP_FromInteger(ypos_int)) - cam_y);
             if (y_start > 240)

@@ -22,7 +22,7 @@
 #include "Slurg.hpp"
 #include "../relive_lib/GameObjects/Particle.hpp"
 #include "GameSpeak.hpp"
-#include "ParamiteWeb.hpp"
+#include "../relive_lib/GameObjects/ParamiteWeb.hpp"
 #include "ParamiteWebLine.hpp"
 #include "../relive_lib/GameObjects/ScreenShake.hpp"
 #include "../relive_lib/Grid.hpp"
