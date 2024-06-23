@@ -5,9 +5,9 @@
 #include "Map.hpp"
 #include "../relive_lib/data_conversion/relive_tlvs.hpp"
 
-namespace AO {
-
 class Rope;
+
+namespace AO {
 
 class LiftPoint final : public ::PlatformBase
 {

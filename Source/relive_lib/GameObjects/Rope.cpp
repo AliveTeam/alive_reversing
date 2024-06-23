@@ -1,15 +1,13 @@
-#include "stdafx_ao.h"
-#include "../relive_lib/Function.hpp"
+#include "stdafx.h"
 #include "Rope.hpp"
-#include "../AliveLibAE/stdlib.hpp"
-#include "PathData.hpp"
-#include "../relive_lib/PsxDisplay.hpp"
-#include "../relive_lib/GameObjects/ScreenManager.hpp"
-#include "../relive_lib/GameObjects/ShadowZone.hpp"
-#include "Map.hpp"
-#include "../relive_lib/AnimationUnknown.hpp"
-
-namespace AO {
+#include "../Function.hpp"
+#include "../Animation.hpp"
+#include "ScreenManager.hpp"
+#include "ShadowZone.hpp"
+#include "../MapWrapper.hpp"
+#include "../AnimationUnknown.hpp"
+#include "../PsxDisplay.hpp"
+#include "../GameType.hpp"
 
 void ClipPoly_Vertically(Poly_FT4* pPoly, s32 minY, s32 maxY)
 {
@@ -35,39 +33,53 @@ void ClipPoly_Vertically(Poly_FT4* pPoly, s32 minY, s32 maxY)
     }
 }
 
+void Rope::InitRopeAnimation()
+{
+    if (GetGameType() == GameType::eAo)
+    {
+        switch (GetMap().mCurrentLevel)
+        {
+            case EReliveLevelIds::eRuptureFarms:
+            case EReliveLevelIds::eDesert:
+            case EReliveLevelIds::eDesertTemple:
+            case EReliveLevelIds::eBoardRoom:
+            case EReliveLevelIds::eRuptureFarmsReturn:
+            case EReliveLevelIds::eDesertEscape:
+            {
+                mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Rope_R1));
+                Animation_Init(GetAnimRes(AnimId::Rope_R1));
+                break;
+            }
+
+            default:
+            {
+                mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Rope_Lines));
+                Animation_Init(GetAnimRes(AnimId::Rope_Lines));
+                break;
+            }
+        }
+    }
+    else
+    {
+        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::AE_Rope));
+        Animation_Init(GetAnimRes(AnimId::AE_Rope));
+    }
+}
+
 Rope::~Rope()
 {
     relive_delete[] mRopeAnim;
 }
 
 Rope::Rope(s32 left, s32 top, s32 bottom, FP scale)
-    : BaseAnimatedWithPhysicsGameObject(0)
+    : ::BaseAnimatedWithPhysicsGameObject(0)
 {
     SetType(ReliveTypes::eRope);
 
     mYOffset = 0;
 
-    switch (gMap.mCurrentLevel)
-    {
-        case EReliveLevelIds::eRuptureFarms:
-        case EReliveLevelIds::eDesert:
-        case EReliveLevelIds::eDesertTemple:
-        case EReliveLevelIds::eBoardRoom:
-        case EReliveLevelIds::eRuptureFarmsReturn:
-        case EReliveLevelIds::eDesertEscape:
-        {
-            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Rope_R1));
-            Animation_Init(GetAnimRes(AnimId::Rope_R1));
-            break;
-        }
+    InitRopeAnimation();
 
-        default:
-        {
-            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Rope_Lines));
-            Animation_Init(GetAnimRes(AnimId::Rope_Lines));
-            break;
-        }
-    }
     GetAnimation().SetSpriteScale(scale);
     SetSpriteScale(scale);
 
@@ -82,9 +94,18 @@ Rope::Rope(s32 left, s32 top, s32 bottom, FP scale)
         mRopeLength = 7;
         GetAnimation().SetRenderLayer(Layer::eLayer_RopeWebDrillMeatSaw_Half_5);
         SetScale(Scale::Bg);
+
+        if (GetGameType() == GameType::eAe)
+        {
+            GetAnimation().SetSpriteScale(FP_FromDouble(0.7));
+            SetSpriteScale(FP_FromDouble(0.7));
+        }
     }
 
-    GetAnimation().SetRGB(128, 128, 128);
+    // here we have a very tragic diff
+    s16 rgb = GetGameType() == GameType::eAo ? 128 : 127;
+    mRGB.SetRGB(rgb, rgb, rgb);
+    GetAnimation().SetRGB(rgb, rgb, rgb);
 
     mTop = static_cast<s16>(top);
     mBottom = static_cast<s16>(bottom);
@@ -118,12 +139,14 @@ void Rope::VUpdate()
 void Rope::VRender(OrderingTable& ot)
 {
     PSX_Point camPos = {};
-    gMap.GetCurrentCamCoords(&camPos);
+    GetMap().GetCurrentCamCoords(&camPos);
     // In the current level/map?
-    if (mCurrentLevel == gMap.mCurrentLevel && mCurrentPath == gMap.mCurrentPath)
+    if (mCurrentLevel == GetMap().mCurrentLevel && mCurrentPath == GetMap().mCurrentPath)
     {
+        const s16 camXOffset = GetGameType() == GameType::eAo ? 1024 : 375;
+
         // In the current camera x range?
-        if (mXPos >= FP_FromInteger(camPos.x) && mXPos <= FP_FromInteger(camPos.x + 1024))
+        if (mXPos >= FP_FromInteger(camPos.x) && mXPos <= FP_FromInteger(camPos.x + camXOffset))
         {
             const FP camXPos = gScreenManager->CamXPos();
             const FP camYPos = gScreenManager->CamYPos();
@@ -137,10 +160,15 @@ void Rope::VRender(OrderingTable& ot)
                 ypos = mBottom + ((ypos - mBottom) % mRopeLength);
             }
 
-            s16 screenX = PsxToPCX(FP_GetExponent(mXPos - camXPos), 11);
+            s16 screenX = FP_GetExponent(mXPos - camXPos);
+            if (GetGameType() == GameType::eAo)
+            {
+                screenX = PsxToPCX(screenX, 11);
+            }
+
             s16 screenY = ypos - FP_GetExponent(camYPos);
 
-            if (mYOffset + screenY > 240)
+            if (screenY > 240)
             {
                 screenY = (screenY % mRopeLength) + 240;
                 ypos = FP_GetExponent(camYPos + (FP_FromInteger(screenY)));
@@ -157,14 +185,15 @@ void Rope::VRender(OrderingTable& ot)
             }
 
             GetAnimation().VRender(640, 240, ot, 0, 0);
+
             if (screenY >= minY)
             {
                 for (s32 idx = 0; idx < mRopeSegmentCount; idx++)
                 {
                     // Apply shadow to the segments colour
-                    s16 r = 128;
-                    s16 g = 128;
-                    s16 b = 128;
+                    s16 r = mRGB.r;
+                    s16 g = mRGB.g;
+                    s16 b = mRGB.b;
 
                     ShadowZone::ShadowZones_Calculate_Colour(
                         FP_GetExponent(mXPos),
@@ -177,12 +206,12 @@ void Rope::VRender(OrderingTable& ot)
                     mRopeAnim[idx].SetRGB(r, g, b);
 
                     // Render the segment
-                    mRopeAnim[idx].VRender(screenX, mYOffset + screenY, ot, 0, 0);
+                    mRopeAnim[idx].VRender(screenX, screenY, ot, 0, 0);
 
                     ClipPoly_Vertically(
                         &mRopeAnim[idx].mPoly,
-                        minY + mYOffset,
-                        maxY + mYOffset);
+                        minY,
+                        maxY);
 
                     screenY -= mRopeLength;
                     if (screenY < minY)
@@ -194,5 +223,3 @@ void Rope::VRender(OrderingTable& ot)
         }
     }
 }
-
-} // namespace AO

@@ -4,6 +4,8 @@
 #include "../relive_lib/data_conversion/relive_tlvs.hpp"
 #include "../relive_lib/FatalError.hpp"
 
+class ParamiteWeb;
+
 namespace AO {
 
 // TODO: check me, enum taken from AE
@@ -54,7 +56,6 @@ enum class eParamiteMotions
     Motion_25_Death
 };
 
-class ParamiteWeb;
 class Meat;
 
 class Paramite final : public ::BaseAliveGameObject

@@ -163,6 +163,8 @@ public:
 
     virtual relive::Path_TLV* TLV_Get_At(relive::Path_TLV* pTlv, FP xpos, FP ypos, FP width, FP height) = 0;
 
+    virtual void GetCurrentCamCoords(PSX_Point* pPoint) = 0;
+
 public:
     MapDirections mMapDirection = MapDirections::eMapLeft_0;
     BaseAliveGameObject* mAliveObj = nullptr;

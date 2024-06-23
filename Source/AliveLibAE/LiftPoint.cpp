@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "LiftPoint.hpp"
 #include "../relive_lib/Function.hpp"
-#include "Rope.hpp"
+#include "../relive_lib/GameObjects/Rope.hpp"
 #include "../relive_lib/Collisions.hpp"
 #include "stdlib.hpp"
 #include "Game.hpp"
