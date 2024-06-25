@@ -5,8 +5,6 @@ SET(AliveLibSrcAO
    ../AliveLibAO/Font.cpp
    ../AliveLibAO/Midi.hpp
    ../AliveLibAO/Midi.cpp
-   ../AliveLibAO/Sfx.hpp
-   ../AliveLibAO/Sfx.cpp
    ../AliveLibAO/Math.hpp
    ../AliveLibAO/Math.cpp
    ../AliveLibAO/StringFormatters.hpp
@@ -139,8 +137,6 @@ SET(AliveLibSrcAO
    ../AliveLibAO/SecurityOrb.cpp
    ../AliveLibAO/MusicTrigger.hpp
    ../AliveLibAO/MusicTrigger.cpp
-   ../AliveLibAO/ElectricWall.hpp
-   ../AliveLibAO/ElectricWall.cpp
    ../AliveLibAO/Meat.hpp
    ../AliveLibAO/Meat.cpp
    ../AliveLibAO/MeatSack.hpp
@@ -324,8 +320,6 @@ SET(AliveLibAESrc
     ../AliveLibAE/FallingItem.hpp
     ../AliveLibAE/MineCar.cpp
     ../AliveLibAE/MineCar.hpp
-    ../AliveLibAE/ElectricWall.cpp
-    ../AliveLibAE/ElectricWall.hpp
     ../AliveLibAE/EvilFart.cpp
     ../AliveLibAE/EvilFart.hpp
     ../AliveLibAE/DemoPlayback.cpp
@@ -570,6 +564,8 @@ SET(game_objects_src
     GameObjects/PaletteOverwriter.cpp
     GameObjects/Electrocute.cpp
     GameObjects/Electrocute.hpp
+    GameObjects/ElectricWall.cpp
+    GameObjects/ElectricWall.hpp
 )
 
 SET(data_conversion_src

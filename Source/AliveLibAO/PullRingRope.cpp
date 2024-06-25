@@ -194,13 +194,13 @@ void PullRingRope::VUpdate()
                         switch (mOnSound)
                         {
                             case relive::Path_PullRingRope::PullRingSwitchSound::eWellExit:
-                                SFX_Play_Stereo(relive::SoundEffects::WellExit, 60 * volLeft + 10, 60 * volRight + 10, nullptr);
+                                SFX_Play_Stereo(relive::SoundEffects::WellExit, 60 * volLeft + 10, 60 * volRight + 10);
                                 break;
                             case relive::Path_PullRingRope::PullRingSwitchSound::eRingBellHammer:
-                                SFX_Play_Stereo(relive::SoundEffects::RingBellHammer, 60 * volLeft + 10, 60 * volRight + 10, nullptr);
+                                SFX_Play_Stereo(relive::SoundEffects::RingBellHammer, 60 * volLeft + 10, 60 * volRight + 10);
                                 break;
                             case relive::Path_PullRingRope::PullRingSwitchSound::eDoorEffect:
-                                SFX_Play_Stereo(relive::SoundEffects::DoorEffect, 75 * volLeft + 15, 75 * volRight + 15, nullptr);
+                                SFX_Play_Stereo(relive::SoundEffects::DoorEffect, 75 * volLeft + 15, 75 * volRight + 15);
                                 break;
                         }
                     }
@@ -209,13 +209,13 @@ void PullRingRope::VUpdate()
                         switch (mOffSound)
                         {
                             case relive::Path_PullRingRope::PullRingSwitchSound::eWellExit:
-                                SFX_Play_Stereo(relive::SoundEffects::WellExit, 60 * volLeft + 10, 60 * volRight + 10, nullptr);
+                                SFX_Play_Stereo(relive::SoundEffects::WellExit, 60 * volLeft + 10, 60 * volRight + 10);
                                 break;
                             case relive::Path_PullRingRope::PullRingSwitchSound::eRingBellHammer:
-                                SFX_Play_Stereo(relive::SoundEffects::RingBellHammer, 60 * volLeft + 10, 60 * volRight + 10, nullptr);
+                                SFX_Play_Stereo(relive::SoundEffects::RingBellHammer, 60 * volLeft + 10, 60 * volRight + 10);
                                 break;
                             case relive::Path_PullRingRope::PullRingSwitchSound::eDoorEffect:
-                                SFX_Play_Stereo(relive::SoundEffects::DoorEffect, 75 * volLeft + 15, 75 * volRight + 15, nullptr);
+                                SFX_Play_Stereo(relive::SoundEffects::DoorEffect, 75 * volLeft + 15, 75 * volRight + 15);
                                 break;
                         }
                     }
