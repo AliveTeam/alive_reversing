@@ -4,7 +4,7 @@
 #include "../relive_lib/SwitchStates.hpp"
 #include "Math.hpp"
 #include "../AliveLibAE/stdlib.hpp"
-#include "Electrocute.hpp"
+#include "../relive_lib/GameObjects/Electrocute.hpp"
 #include "../relive_lib/GameObjects/Flash.hpp"
 #include "Sfx.hpp"
 #include "Game.hpp"
@@ -152,7 +152,7 @@ void ElectricWall::VUpdate()
                     if (!pObjIter->GetElectrocuted())
                     {
                         pObjIter->SetElectrocuted(true);
-                        relive_new Electrocute(pObjIter, 1);
+                        relive_new Electrocute(pObjIter, true, true);
 
                         pObjIter->VTakeDamage(this);
 

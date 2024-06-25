@@ -29,7 +29,7 @@
 #include "../relive_lib/GameObjects/BulletShell.hpp"
 #include "GameSpeak.hpp"
 #include "AmbientSound.hpp"
-#include "Electrocute.hpp"
+#include "../relive_lib/GameObjects/Electrocute.hpp"
 #include "../relive_lib/Grid.hpp"
 #include "AnimationCallBacks.hpp"
 #include "../relive_lib/FatalError.hpp"
@@ -555,11 +555,11 @@ void Slig::VGetSaveState(SerializedObjectData& pSaveBuffer)
             if (pObj->Type() == ReliveTypes::eElectrocute)
             {
                 auto pElectrocute = static_cast<Electrocute*>(pObj);
-                if (pElectrocute->field_20_target_obj_id == mBaseGameObjectId)
+                if (pElectrocute->mTargetObjId == mBaseGameObjectId)
                 {
-                    data.field_1E_r = pElectrocute->field_24_r;
-                    data.field_20_g = pElectrocute->field_26_g;
-                    data.field_22_b = pElectrocute->field_28_b;
+                    data.field_1E_r = pElectrocute->mTargetRed;
+                    data.field_20_g = pElectrocute->mTargetGreen;
+                    data.field_22_b = pElectrocute->mTargetBlue;
                     break;
                 }
             }

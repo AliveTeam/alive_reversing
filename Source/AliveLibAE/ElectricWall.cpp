@@ -8,7 +8,7 @@
 #include "../relive_lib/GameObjects/BaseAliveGameObject.hpp"
 #include "../relive_lib/GameObjects/Flash.hpp"
 #include "Abe.hpp"
-#include "Electrocute.hpp"
+#include "../relive_lib/GameObjects/Electrocute.hpp"
 #include "../relive_lib/Function.hpp"
 #include "Map.hpp"
 #include "Path.hpp"
