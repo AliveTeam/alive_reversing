@@ -182,6 +182,8 @@ SoundEffects RandomSfx(SoundEffects sfx1, SoundEffects sfx2);
 
 s32 SFX_Play_Pitch(relive::SoundEffects sfxId, s32 volume, s32 pitch, FP scale = FP_FromInteger(1));
 s32 SfxPlayMono(relive::SoundEffects sfxId, s32 volume, FP scale = FP_FromInteger(1));
+s32 SFX_Play_Stereo(relive::SoundEffects sfxId, s32 leftVol, s32 rightVol, FP scale = FP_FromInteger(1));
+s32 SFX_Play_Camera(relive::SoundEffects sfxId, s16 volume, CameraPos direction, FP scale = FP_FromInteger(1));
 
 } // namespace relive
 

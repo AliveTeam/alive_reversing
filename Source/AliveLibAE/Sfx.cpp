@@ -8,40 +8,6 @@
 #include "../relive_lib/FixedPoint.hpp"
 #include "../relive_lib/FixedPoint.hpp"
 
-s32 SFX_Play_Stereo(relive::SoundEffects sfxId, s32 leftVol, s32 rightVol, FP scale)
-{
-    if (scale == FP_FromDouble(0.5))
-    {
-        leftVol = 2 * leftVol / 3;
-        rightVol = 2 * rightVol / 3;
-    }
-    
-    return SFX_SfxDefinition_Play_Stereo(relive::GetSfx(sfxId), static_cast<s16>(leftVol), static_cast<s16>(rightVol), 0x7FFF, 0x7FFF);
-}
-
-s32 SFX_Play_Camera(relive::SoundEffects sfxId, s16 volume, CameraPos direction, FP scale)
-{
-    if (!volume)
-    {
-        volume = relive::GetSfx(sfxId).mDefaultVolume;
-    }
-
-    switch (direction)
-    {
-        case CameraPos::eCamCurrent_0:
-            return SfxPlayMono(sfxId, volume, scale);
-        case CameraPos::eCamTop_1:
-        case CameraPos::eCamBottom_2:
-            return SfxPlayMono(sfxId, 2 * volume / 3, scale);
-        case CameraPos::eCamLeft_3:
-            return SFX_Play_Stereo(sfxId, 2 * volume / 3, 2 * volume / 9, scale);
-        case CameraPos::eCamRight_4:
-            return SFX_Play_Stereo(sfxId, 2 * volume / 9, 2 * volume / 3, scale);
-        default:
-            return 0;
-    }
-}
-
 static const relive::SfxDefinition sSligGameSpeakEntries[21] = {
     {0u, 25u, 60u, 127u, 0, 0},
     {0u, 25u, 62u, 127u, 0, 0},

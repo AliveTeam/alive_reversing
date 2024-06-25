@@ -1,24 +1,21 @@
 #include "stdafx.h"
 #include "ElectricWall.hpp"
-#include "../relive_lib/SwitchStates.hpp"
-#include "stdlib.hpp"
-#include "../relive_lib/Events.hpp"
-#include "Sfx.hpp"
-#include "Game.hpp"
-#include "../relive_lib/GameObjects/BaseAliveGameObject.hpp"
-#include "../relive_lib/GameObjects/Flash.hpp"
-#include "Abe.hpp"
-#include "../relive_lib/GameObjects/Electrocute.hpp"
-#include "../relive_lib/Function.hpp"
-#include "Map.hpp"
-#include "Path.hpp"
+#include "../SwitchStates.hpp"
+#include "../Events.hpp"
+#include "../Sfx.hpp"
+#include "BaseAliveGameObject.hpp"
+#include "Flash.hpp"
+#include "Electrocute.hpp"
+#include "../Function.hpp"
+#include "MapWrapper.hpp"
 #include "Math.hpp"
+#include "../GameType.hpp"
 
-const s16 sElecticWallFrames_55165C[6] = {0, 6, 10, 18, 22, 0};
+const static s16 sElecticWallFrames[6] = {0, 6, 10, 18, 22, 0};
 
 ElectricWall::ElectricWall(relive::Path_ElectricWall* pTlv, const Guid& tlvId)
     : BaseAnimatedWithPhysicsGameObject(0),
-    mGuid(tlvId),
+    mTlvInfo(tlvId),
     mSwitchId(pTlv->mSwitchId),
     mStartState(pTlv->mStartState)
 {
@@ -26,16 +23,27 @@ ElectricWall::ElectricWall(relive::Path_ElectricWall* pTlv, const Guid& tlvId)
 
     mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Electric_Wall));
     Animation_Init(GetAnimRes(AnimId::Electric_Wall));
+
     GetAnimation().SetSemiTrans(true);
     GetAnimation().SetBlendMode(relive::TBlendModes::eBlend_1);
     GetAnimation().SetRenderLayer(Layer::eLayer_Foreground_36);
 
     if (GetAnimation().Get_Frame_Count() > 0)
     {
-        GetAnimation().SetFrame(sElecticWallFrames_55165C[Math_RandomRange(0, 4)]);
+        if (GetGameType() == GameType::eAe)
+        {
+            GetAnimation().SetFrame(sElecticWallFrames[Math_RandomRange(0, 4)]);
+        }
+        else
+        {
+            GetAnimation().SetFrame(Math_NextRandom() % GetAnimation().Get_Frame_Count());
+        }
     }
 
-    SetApplyShadowZoneColour(false);
+    if (GetGameType() == GameType::eAe)
+    {
+        SetApplyShadowZoneColour(false);
+    }
     mRGB.SetRGB(80, 80, 80);
 
     mXPos = FP_FromInteger(pTlv->mTopLeftX);
@@ -60,12 +68,12 @@ ElectricWall::ElectricWall(relive::Path_ElectricWall* pTlv, const Guid& tlvId)
 
 ElectricWall::~ElectricWall()
 {
-    Path::TLV_Reset(mGuid);
+    GetMap().TLV_Reset(mTlvInfo);
 }
 
 void ElectricWall::VScreenChanged()
 {
-    if (gMap.LevelChanged() || gMap.PathChanged() || gMap.GetDirection(mCurrentLevel, mCurrentPath, mXPos, mYPos) == CameraPos::eCamInvalid_m1)
+    if (GetMap().LevelChanged() || GetMap().PathChanged() || GetMap().GetDirection(mCurrentLevel, mCurrentPath, mXPos, mYPos) == CameraPos::eCamInvalid_m1)
     {
         SetDead(true);
     }
@@ -73,7 +81,7 @@ void ElectricWall::VScreenChanged()
 
 void ElectricWall::VUpdate()
 {
-    const CameraPos soundDirection = gMap.GetDirection(
+    const CameraPos soundDirection = GetMap().GetDirection(
         mCurrentLevel,
         mCurrentPath,
         mXPos,
@@ -90,12 +98,15 @@ void ElectricWall::VUpdate()
     }
     else
     {
-        // If we are about to become visible set a random starting frame
-        if (!(GetAnimation().GetRender()))
+        if (GetGameType() == GameType::eAe)
         {
-            if (GetAnimation().Get_Frame_Count() > 0)
+            // If we are about to become visible set a random starting frame
+            if (!GetAnimation().GetRender())
             {
-                GetAnimation().SetFrame(sElecticWallFrames_55165C[Math_RandomRange(0, 4)]);
+                if (GetAnimation().Get_Frame_Count() > 0)
+                {
+                    GetAnimation().SetFrame(sElecticWallFrames[Math_RandomRange(0, 4)]);
+                }
             }
         }
 
@@ -110,6 +121,7 @@ void ElectricWall::VUpdate()
         // Play sound every so often
         if (static_cast<s32>(sGnFrame) >= mSoundTimer)
         {
+            // set a random starting frame
             SFX_Play_Camera(relive::SoundEffects::BirdPortalSpark, 45, soundDirection, GetSpriteScale());
             mSoundTimer = MakeTimer(Math_RandomRange(24, 40));
         }
@@ -141,7 +153,9 @@ void ElectricWall::VUpdate()
                     break;
 
                 default:
-                    if (pObj->GetScale() == GetScale())
+                    // OG bug: scale ignored in AO.
+                    // TODO: fix this later (can't use GetScale() in AO yet)
+                    if (pObj->GetScale() == GetScale() || GetGameType() == GameType::eAo)
                     {
                         PSX_RECT objRect = pObj->VGetBoundingRect();
 
@@ -165,11 +179,11 @@ void ElectricWall::VUpdate()
                         else
                         {
                             // Touching the wall, rip
-                            if (!(pObj->GetElectrocuted()) && (!IsAbe(pObj) || !gAbeInvincible))
+                            // TODO: cheat can be restored after abe is common
+                            if (!pObj->GetElectrocuted() /*&& (!IsAbe(pObj) || !gAbeInvincible)*/)
                             {
                                 pObj->SetElectrocuted(true);
-
-                                relive_new Electrocute(pObj, 1, 1);
+                                relive_new Electrocute(pObj, true, true);
 
                                 pObj->VTakeDamage(this);
 

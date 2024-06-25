@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../relive_lib/GameObjects/BaseAnimatedWithPhysicsGameObject.hpp"
-#include "../relive_lib/data_conversion/relive_tlvs.hpp"
+#include "BaseAnimatedWithPhysicsGameObject.hpp"
+#include "../data_conversion/relive_tlvs.hpp"
 
 class ElectricWall final : public BaseAnimatedWithPhysicsGameObject
 {
@@ -13,7 +13,7 @@ public:
     virtual void VScreenChanged() override;
 
 private:
-    Guid mGuid;
+    Guid mTlvInfo;
     s16 mSwitchId = 0;
     relive::Path_ElectricWall::ElectricWallStartState mStartState = relive::Path_ElectricWall::ElectricWallStartState::eOff;
     s32 mSoundTimer = 0;

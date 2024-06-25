@@ -21,7 +21,7 @@
 #include "ChimeLock.hpp"
 #include "CreditsController.hpp"
 #include "Meat.hpp"
-#include "ElectricWall.hpp"
+#include "../relive_lib/GameObjects/ElectricWall.hpp"
 #include "../relive_lib/GameObjects/Dove.hpp"
 #include "Math.hpp"
 #include "MusicTrigger.hpp"
