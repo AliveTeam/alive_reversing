@@ -11,7 +11,7 @@
 #include "../relive_lib/GameObjects/Particle.hpp"
 #include "../relive_lib/GameObjects/Spark.hpp"
 #include "../relive_lib/GameObjects/ParticleBurst.hpp"
-#include "Electrocute.hpp"
+#include "../relive_lib/GameObjects/Electrocute.hpp"
 #include "Path.hpp"
 #include "../relive_lib/Collisions.hpp"
 #include "../relive_lib/FixedPoint.hpp"
@@ -104,7 +104,7 @@ void Teleporter::SpawnRingSparks(Relive_Path_Teleporter_Data* pTlvData)
 
 void Teleporter::VUpdate()
 {
-    Electrocute* pObj = static_cast<Electrocute*>(sObjectIds.Find(mElectrocuteId, ReliveTypes::eElectrocute));
+    Electrocute* pElectrocute = static_cast<Electrocute*>(sObjectIds.Find(mElectrocuteId, ReliveTypes::eElectrocute));
 
     switch (mState)
     {
@@ -149,11 +149,11 @@ void Teleporter::VUpdate()
 
         case TeleporterState::eIntoTeleporter_1:
         {
-            if (pObj)
+            if (pElectrocute)
             {
-                if (pObj->VSub_4E6630() || mEffectsCreated)
+                if (pElectrocute->IsLastOverwriterFinished() || mEffectsCreated)
                 {
-                    if (!pObj->GetDead())
+                    if (!pElectrocute->GetDead())
                     {
                         return;
                     }
@@ -200,7 +200,7 @@ void Teleporter::VUpdate()
                     mEffectsCreated = true;
                 }
 
-                if (!(pObj->GetDead()))
+                if (!(pElectrocute->GetDead()))
                 {
                     return;
                 }

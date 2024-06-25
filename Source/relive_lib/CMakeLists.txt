@@ -137,8 +137,6 @@ SET(AliveLibSrcAO
    ../AliveLibAO/SecurityClaw.cpp
    ../AliveLibAO/SecurityOrb.hpp
    ../AliveLibAO/SecurityOrb.cpp
-   ../AliveLibAO/Electrocute.hpp
-   ../AliveLibAO/Electrocute.cpp
    ../AliveLibAO/MusicTrigger.hpp
    ../AliveLibAO/MusicTrigger.cpp
    ../AliveLibAO/ElectricWall.hpp
@@ -199,8 +197,6 @@ SET(AliveLibSrcAO
    ../AliveLibAO/RollingBallShaker.cpp
    ../AliveLibAO/BoomMachinePipe.hpp
    ../AliveLibAO/BoomMachinePipe.cpp
-   ../AliveLibAO/PaletteOverwriter.hpp
-   ../AliveLibAO/PaletteOverwriter.cpp
 )
 
 SET(AliveLibAESrc
@@ -330,8 +326,6 @@ SET(AliveLibAESrc
     ../AliveLibAE/MineCar.hpp
     ../AliveLibAE/ElectricWall.cpp
     ../AliveLibAE/ElectricWall.hpp
-    ../AliveLibAE/Electrocute.cpp
-    ../AliveLibAE/Electrocute.hpp
     ../AliveLibAE/EvilFart.cpp
     ../AliveLibAE/EvilFart.hpp
     ../AliveLibAE/DemoPlayback.cpp
@@ -429,8 +423,6 @@ SET(AliveLibAESrc
     ../AliveLibAE/MudokonEnums.hpp
     ../AliveLibAE/BoomMachinePipe.hpp
     ../AliveLibAE/BoomMachinePipe.cpp
-    ../AliveLibAE/PaletteOverwriter.hpp
-    ../AliveLibAE/PaletteOverwriter.cpp
 )
 
 SET(renderer_src
@@ -574,6 +566,10 @@ SET(game_objects_src
     GameObjects/ParamiteWeb.cpp
     GameObjects/Rope.hpp
     GameObjects/Rope.cpp
+    GameObjects/PaletteOverwriter.hpp
+    GameObjects/PaletteOverwriter.cpp
+    GameObjects/Electrocute.cpp
+    GameObjects/Electrocute.hpp
 )
 
 SET(data_conversion_src

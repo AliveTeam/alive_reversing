@@ -11,7 +11,7 @@
 #include "Sfx.hpp"
 #include "../relive_lib/GameObjects/ScreenShake.hpp"
 #include "../relive_lib/GameObjects/ParticleBurst.hpp"
-#include "Electrocute.hpp"
+#include "../relive_lib/GameObjects/Electrocute.hpp"
 #include "../relive_lib/GameObjects/ZapLine.hpp"
 #include "../relive_lib/Events.hpp"
 #include "MotionDetector.hpp"

@@ -1,14 +1,12 @@
 #pragma once
 
-#include "../relive_lib/GameObjects/BaseGameObject.hpp"
-#include "../relive_lib/data_conversion/AnimationConverter.hpp"
+#include "BaseGameObject.hpp"
+#include "../data_conversion/AnimationConverter.hpp"
 
-namespace AO {
-
-class PalleteOverwriter final : public ::BaseGameObject
+class PalleteOverwriter final : public BaseGameObject
 {
 public:
-    PalleteOverwriter(AnimationPal& /*pal*/, s16 colour);
+    PalleteOverwriter(AnimationPal& pal, s16 colour);
     ~PalleteOverwriter();
 
     virtual void VScreenChanged() override;
@@ -25,5 +23,3 @@ private:
 public:
     bool mDone = false;
 };
-
-}

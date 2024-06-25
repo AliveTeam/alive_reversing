@@ -11,7 +11,7 @@
 #include "../relive_lib/GameObjects/PossessionFlicker.hpp"
 #include "../relive_lib/GameObjects/ParticleBurst.hpp"
 #include "../relive_lib/GameObjects/Flash.hpp"
-#include "Electrocute.hpp"
+#include "../relive_lib/GameObjects/Electrocute.hpp"
 #include "AbilityRing.hpp"
 #include "Math.hpp"
 #include "Game.hpp"
@@ -189,7 +189,7 @@ void Shrykull::VUpdate()
                     mCanElectrocute = CanElectrocute(pObj);
                     if (mCanElectrocute)
                     {
-                        relive_new Electrocute(pObj, 0);
+                        relive_new Electrocute(pObj, false, true);
                         mFlashTimer = MakeTimer(3);
 
                         if (pObj->Type() == ReliveTypes::eBackgroundGlukkon)

@@ -42,7 +42,7 @@
 #include "EvilFart.hpp"
 #include "../relive_lib/GameObjects/Particle.hpp"
 #include "Mudokon.hpp"
-#include "Electrocute.hpp"
+#include "../relive_lib/GameObjects/Electrocute.hpp"
 #include "BirdPortal.hpp"
 #include "BoomMachine.hpp"
 #include "Shrykull.hpp"
@@ -1340,11 +1340,11 @@ void Abe::GetSaveState(AbeSaveState& pSaveState)
             if (pObj->Type() == ReliveTypes::eElectrocute)
             {
                 auto pElectrocute = static_cast<const Electrocute*>(pObj);
-                if (pElectrocute->field_20_target_obj_id == mBaseGameObjectId)
+                if (pElectrocute->mTargetObjId == mBaseGameObjectId)
                 {
-                    pSaveState.mRed = pElectrocute->field_24_r;
-                    pSaveState.mGreen = pElectrocute->field_26_g;
-                    pSaveState.mBlue = pElectrocute->field_28_b;
+                    pSaveState.mRed = pElectrocute->mTargetRed;
+                    pSaveState.mGreen = pElectrocute->mTargetGreen;
+                    pSaveState.mBlue = pElectrocute->mTargetBlue;
                     break;
                 }
             }
