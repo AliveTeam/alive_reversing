@@ -123,16 +123,17 @@ void OpenGLRenderer::StartFrame()
 {
     IRenderer::StartFrame();
 
+    // Always reset stats and batcher states so we do not build up memory
+    // if the window is minimized
+    mStats.Reset();
+    mBatcher.StartFrame();
+
     if (SDL_GetWindowFlags(mWindow) & SDL_WINDOW_MINIMIZED)
     {
         return;
     }
 
-    mStats.Reset();
-
     mFrameStarted = true;
-
-    mBatcher.StartFrame();
 
     // Set offsets for the screen (this is for the screen shake effect)
     mOffsetX = 0;
