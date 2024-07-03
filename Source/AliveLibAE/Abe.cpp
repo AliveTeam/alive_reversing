@@ -1907,24 +1907,27 @@ bool Abe::VTakeDamage(BaseGameObject* pFrom)
                 mHealth = FP_FromInteger(0);
                 if (!ForceDownIfHoisting_44BA30())
                 {
-                    auto pAliveObj = static_cast<BaseAliveGameObject*>(pFrom);
+                    auto pRollingBall = static_cast<BaseAliveGameObject*>(pFrom);
+
                     ToKnockback_44E700(1, 1);
-                    if (pAliveObj->mXPos < mXPos)
+                    if (pRollingBall->mXPos < mXPos) // abe is facing left while the rolling ball approaches us from behind
                     {
                         if (!GetAnimation().GetFlipX())
                         {
                             mCurrentMotion = eAbeMotions::Motion_101_KnockForward;
                         }
                     }
-                    else if (pAliveObj->mXPos > mXPos)
+                    else if (pRollingBall->mXPos > mXPos) // abe is facing right while the rolling ball approaches us from behind
                     {
                         if (GetAnimation().GetFlipX())
                         {
                             mCurrentMotion = eAbeMotions::Motion_101_KnockForward;
                         }
                     }
+                    // if we're facing the rolling ball and it is in front of us,
+                    // keep the eAbeMotions::Motion_71_Knockback_455090 motion from the ToKnockback() call
 
-                    if (pAliveObj->mVelX >= FP_FromInteger(0))
+                    if (pRollingBall->mVelX >= FP_FromInteger(0))
                     {
                         mVelX = (GetSpriteScale() * FP_FromDouble(7.8));
                     }
