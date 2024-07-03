@@ -181,16 +181,12 @@ SET(AliveLibSrcAO
    ../AliveLibAO/GameSpeak.cpp
    ../AliveLibAO/Abe.hpp
    ../AliveLibAO/Abe.cpp
-   ../AliveLibAO/RollingBallStopper.hpp
-   ../AliveLibAO/RollingBallStopper.cpp
    ../AliveLibAO/ThrowableArray.hpp
    ../AliveLibAO/ThrowableArray.cpp
    ../AliveLibAO/Elum.hpp
    ../AliveLibAO/Elum.cpp
    ../AliveLibAO/ZBall.hpp
    ../AliveLibAO/ZBall.cpp
-   ../AliveLibAO/RollingBallShaker.hpp
-   ../AliveLibAO/RollingBallShaker.cpp
    ../AliveLibAO/BoomMachinePipe.hpp
    ../AliveLibAO/BoomMachinePipe.cpp
 )
@@ -566,6 +562,10 @@ SET(game_objects_src
     GameObjects/Electrocute.hpp
     GameObjects/ElectricWall.cpp
     GameObjects/ElectricWall.hpp
+    GameObjects/RollingBallShaker.hpp
+    GameObjects/RollingBallShaker.cpp
+    GameObjects/RollingBallStopper.hpp
+    GameObjects/RollingBallStopper.cpp
 )
 
 SET(data_conversion_src

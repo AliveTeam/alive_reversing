@@ -3,7 +3,7 @@
 #include "../relive_lib/Function.hpp"
 #include "../relive_lib/GameObjects/GasCountDown.hpp"
 #include "../AliveLibAE/stdlib.hpp"
-#include "RollingBallStopper.hpp"
+#include "../relive_lib/GameObjects/RollingBallStopper.hpp"
 #include "Game.hpp"
 #include "Abe.hpp"
 #include "Elum.hpp"

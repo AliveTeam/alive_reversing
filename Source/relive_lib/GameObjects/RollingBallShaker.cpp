@@ -1,13 +1,11 @@
-#include "stdafx_ao.h"
+#include "stdafx.h"
 #include "RollingBallShaker.hpp"
-#include "../relive_lib/Function.hpp"
-#include "../AliveLibAE/stdlib.hpp"
-#include "../relive_lib/PsxDisplay.hpp"
-#include "../relive_lib/Primitives.hpp"
-#include "../relive_lib/Primitives.hpp"
-#include "../relive_lib/GameObjects/BaseAnimatedWithPhysicsGameObject.hpp"
+#include "../Function.hpp"
+#include "../PsxDisplay.hpp"
+#include "../Primitives.hpp"
+#include "BaseAnimatedWithPhysicsGameObject.hpp"
 
-namespace AO {
+// NOTE: this is the AO code and hasn't been compared since it's unused in original AE levels
 
 const static PSX_Pos16 sRollingBallShakerScreenOffsets[18] = {
     {1, 0},
@@ -72,5 +70,3 @@ void RollingBallShaker::VRender(OrderingTable& ot)
         ot.Add(Layer::eLayer_0, &mPrimScreenOffset);
     }
 }
-
-} // namespace AO

@@ -9,9 +9,9 @@ namespace relive
     struct Path_RollingBall;
 }
 
-namespace AO {
-
 class RollingBallShaker;
+
+namespace AO {
 
 class RollingBall final : public ::BaseAliveGameObject
 {

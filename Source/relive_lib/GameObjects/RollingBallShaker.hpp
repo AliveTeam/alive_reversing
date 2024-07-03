@@ -1,9 +1,7 @@
 #pragma once
 
-#include "../relive_lib/GameObjects/BaseGameObject.hpp"
-#include "../relive_lib/Primitives.hpp"
-
-namespace AO {
+#include "BaseGameObject.hpp"
+#include "../Primitives.hpp"
 
 class RollingBallShaker final : public ::BaseGameObject
 {
@@ -18,5 +16,3 @@ public:
     s16 mShakeTableIdx = 0;
     bool mStopShaking = false;
 };
-
-} // namespace AO

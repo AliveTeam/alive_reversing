@@ -3,7 +3,7 @@
 #include "RollingBall.hpp"
 #include "../AliveLibAE/stdlib.hpp"
 #include "../relive_lib/Collisions.hpp"
-#include "RollingBallShaker.hpp"
+#include "../relive_lib/GameObjects/RollingBallShaker.hpp"
 #include "../relive_lib/Shadow.hpp"
 #include "../relive_lib/SwitchStates.hpp"
 #include "../relive_lib/GameObjects/ParticleBurst.hpp"

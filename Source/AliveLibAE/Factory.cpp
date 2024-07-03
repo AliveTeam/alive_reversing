@@ -83,6 +83,7 @@
 #include "MeatSack.hpp"
 #include "BoneBag.hpp"
 #include "../relive_lib/SwitchStates.hpp"
+#include "../relive_lib/GameObjects/RollingBallStopper.hpp"
 
 static constexpr AnimId kAbeGibs[3] = {
     AnimId::Abe_Head_Gib,
@@ -1571,6 +1572,18 @@ static void Factory_DoorBlocker(relive::Path_TLV* pTlv, Path*, const Guid& tlvId
     }
 }
 
+static void Factory_RollingBallStopper(relive::Path_TLV* pTlv, Path*, const Guid& tlvId, LoadMode loadMode)
+{
+    if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
+    {
+        ResourceManagerWrapper::PendAnimation(AnimId::Stone_Ball_Stopper);
+    }
+    else
+    {
+        relive_new RollingBallStopper(static_cast<relive::Path_RollingBallStopper*>(pTlv), tlvId);
+    }
+}
+
 static void Factory_TorturedMudokon(relive::Path_TLV* pTlv, Path*, const Guid& tlvId, LoadMode loadMode)
 {
     if (!pTlv->mTlvSpecificMeaning)
@@ -1600,6 +1613,20 @@ static void Factory_TrainDoor(relive::Path_TLV* pTlv, Path*, const Guid& tlvId, 
     else
     {
         relive_new TrainDoor(static_cast<relive::Path_TrainDoor*>(pTlv), tlvId);
+    }
+}
+
+static void Factory_RollingBall(relive::Path_TLV* /*pTlv*/, Path*, const Guid& /*tlvId*/, LoadMode loadMode)
+{
+    if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
+    {
+        ResourceManagerWrapper::PendAnimation(AnimId::Stone_Ball);
+        ResourceManagerWrapper::PendAnimation(AnimId::Stone_Ball_Rolling);
+        ResourceManagerWrapper::PendAnimation(AnimId::Explosion_Rock);
+    }
+    else
+    {
+        //relive_new RollingBall(static_cast<relive::Path_RollingBall*>(pTlv), tlvId);
     }
 }
 
@@ -1862,6 +1889,12 @@ void ConstructTLVObject(relive::Path_TLV* pTlv, Path* pPath, const Guid& tlvId, 
             break;
         case ReliveTypes::eTrainDoor:
             Factory_TrainDoor(pTlv, pPath, tlvId, loadMode);
+            break;
+        case ReliveTypes::eRollingBall:
+            Factory_RollingBall(pTlv, pPath, tlvId, loadMode);
+            break;
+        case ReliveTypes::eRollingBallStopper:
+            Factory_RollingBallStopper(pTlv, pPath, tlvId, loadMode);
             break;
     }
 }
