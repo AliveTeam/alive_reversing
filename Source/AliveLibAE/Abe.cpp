@@ -59,6 +59,7 @@
 #include "../relive_lib/PsxDisplay.hpp"
 #include "../relive_lib/GameObjects/ScreenManager.hpp"
 #include "../relive_lib/Collisions.hpp"
+#include "RollingBall.hpp"
 
 Abe* gAbe = nullptr;
 
@@ -1899,18 +1900,54 @@ bool Abe::VTakeDamage(BaseGameObject* pFrom)
             GetAnimation().SetRender(false);
             ToDieFinal_458910();
             break;
-
-        default:
-            if (pFrom->Type() != ReliveTypes::eBullet)
+        case ReliveTypes::eRollingBall:
+            if (mHealth > FP_FromInteger(0))
             {
-                LOG_ERROR("Expected default case to be bullets only but got: %d", static_cast<s32>(pFrom->Type()));
+                mbMotionChanged = true;
+                mHealth = FP_FromInteger(0);
+                if (!ForceDownIfHoisting_44BA30())
+                {
+                    auto pAliveObj = static_cast<BaseAliveGameObject*>(pFrom);
+                    ToKnockback_44E700(1, 1);
+                    if (pAliveObj->mXPos < mXPos)
+                    {
+                        if (!GetAnimation().GetFlipX())
+                        {
+                            mCurrentMotion = eAbeMotions::Motion_101_KnockForward;
+                        }
+                    }
+                    else if (pAliveObj->mXPos > mXPos)
+                    {
+                        if (GetAnimation().GetFlipX())
+                        {
+                            mCurrentMotion = eAbeMotions::Motion_101_KnockForward;
+                        }
+                    }
+
+                    if (pAliveObj->mVelX >= FP_FromInteger(0))
+                    {
+                        mVelX = (GetSpriteScale() * FP_FromDouble(7.8));
+                    }
+                    else
+                    {
+                        mVelX = (GetSpriteScale() * FP_FromDouble(-7.8));
+                    }
+
+                    SfxPlayMono(relive::SoundEffects::KillEffect, 127);
+                }
             }
+            break;
+        case ReliveTypes::eBullet:
+            // NOTE: This was in the default case! The type may not be bullet in there which would corrupt memory or crash
             BulletDamage_44C980(static_cast<Bullet*>(pFrom));
             if (!mbGotShot)
             {
                 ret = false;
                 mSay = oldSay;
             }
+            break;
+
+        default:
             break;
     }
 

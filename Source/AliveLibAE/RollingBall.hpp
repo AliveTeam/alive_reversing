@@ -4,14 +4,11 @@
 
 class PathLine;
 
-namespace relive
-{
-    struct Path_RollingBall;
+namespace relive {
+struct Path_RollingBall;
 }
 
 class RollingBallShaker;
-
-namespace AO {
 
 class RollingBall final : public ::BaseAliveGameObject
 {
@@ -25,6 +22,7 @@ public:
 
     void Accelerate();
     void CrushThingsInTheWay();
+    bool CollideWithWalls();
 
     Guid mTlvInfo;
     u16 mReleaseSwitchId = 0;
@@ -44,6 +42,3 @@ public:
 private:
     void KillRollingBallShaker();
 };
-
-
-} // namespace AO

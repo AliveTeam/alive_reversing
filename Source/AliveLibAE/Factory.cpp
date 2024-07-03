@@ -84,6 +84,7 @@
 #include "BoneBag.hpp"
 #include "../relive_lib/SwitchStates.hpp"
 #include "../relive_lib/GameObjects/RollingBallStopper.hpp"
+#include "RollingBall.hpp"
 
 static constexpr AnimId kAbeGibs[3] = {
     AnimId::Abe_Head_Gib,
@@ -1616,7 +1617,7 @@ static void Factory_TrainDoor(relive::Path_TLV* pTlv, Path*, const Guid& tlvId, 
     }
 }
 
-static void Factory_RollingBall(relive::Path_TLV* /*pTlv*/, Path*, const Guid& /*tlvId*/, LoadMode loadMode)
+static void Factory_RollingBall(relive::Path_TLV* pTlv, Path*, const Guid& tlvId, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -1626,7 +1627,7 @@ static void Factory_RollingBall(relive::Path_TLV* /*pTlv*/, Path*, const Guid& /
     }
     else
     {
-        //relive_new RollingBall(static_cast<relive::Path_RollingBall*>(pTlv), tlvId);
+        relive_new RollingBall(static_cast<relive::Path_RollingBall*>(pTlv), tlvId);
     }
 }
 

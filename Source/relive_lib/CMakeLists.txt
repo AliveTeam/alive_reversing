@@ -413,6 +413,8 @@ SET(AliveLibAESrc
     ../AliveLibAE/MudokonEnums.hpp
     ../AliveLibAE/BoomMachinePipe.hpp
     ../AliveLibAE/BoomMachinePipe.cpp
+    ../AliveLibAE/RollingBall.hpp
+    ../AliveLibAE/RollingBall.cpp
 )
 
 SET(renderer_src

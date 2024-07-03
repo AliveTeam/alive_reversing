@@ -1,4 +1,4 @@
-#include "stdafx_ao.h"
+#include "stdafx.h"
 #include "../relive_lib/Function.hpp"
 #include "RollingBall.hpp"
 #include "../AliveLibAE/stdlib.hpp"
@@ -12,14 +12,12 @@
 #include "../relive_lib/Events.hpp"
 #include "Sfx.hpp"
 #include "Abe.hpp"
-#include "Midi.hpp"
+#include "../relive_lib/Sound/Midi.hpp"
 #include "../relive_lib/Grid.hpp"
 #include "../relive_lib/ObjectIds.hpp"
 #include "Path.hpp"
 #include "../relive_lib/FixedPoint.hpp"
 #include "Map.hpp"
-
-namespace AO {
 
 void RollingBall::LoadAnimations()
 {
@@ -45,7 +43,7 @@ RollingBall::RollingBall(relive::Path_RollingBall* pTlv, const Guid& tlvId)
     : ::BaseAliveGameObject(0)
 {
     SetType(ReliveTypes::eRollingBall);
-    
+
     LoadAnimations();
 
     Animation_Init(GetAnimRes(AnimId::Stone_Ball));
@@ -106,15 +104,54 @@ RollingBall::RollingBall(relive::Path_RollingBall* pTlv, const Guid& tlvId)
     {
         return;
     }
+}
 
-    if (gMap.mCurrentLevel == EReliveLevelIds::eForestTemple && gMap.mCurrentPath == 2)
+bool RollingBall::CollideWithWalls()
+{
+    if (WallHit(FP_FromInteger(30), mVelX))
     {
-        GetAnimation().SetAnimate(false);
-        mXPos = FP_FromInteger(2522);
-        mYPos = FP_FromInteger(1300);
-        GetAnimation().SetRenderLayer(Layer::eLayer_RollingBallBombMineCar_35);
-        mState = States::eCrushedBees;
+        relive_new ParticleBurst(
+            mXPos,
+            mYPos - FP_FromInteger(30),
+            150,
+            GetSpriteScale(),
+            BurstType::eRocks);
+
+        relive_new Flash(Layer::eLayer_Above_FG1_39, 255, 255, 255, relive::TBlendModes::eBlend_1, 1);
+
+        relive_new ScreenShake(false, false);
+
+        SetDead(true);
+
+        const CameraPos direction = gMap.GetDirection(mCurrentLevel, mCurrentPath, mXPos, mYPos);
+        SFX_Play_Camera(relive::SoundEffects::IngameTransition, 50, direction);
+
+        switch (direction)
+        {
+            case CameraPos::eCamCurrent_0:
+                SND_SEQ_Play(SeqId::Explosion1_14, 1, 60, 60);
+                break;
+
+            case CameraPos::eCamTop_1:
+            case CameraPos::eCamBottom_2:
+                SND_SEQ_Play(SeqId::Explosion1_14, 1, 40, 40);
+                break;
+
+            case CameraPos::eCamLeft_3:
+                SND_SEQ_Play(SeqId::Explosion1_14, 1, 40, 13);
+                break;
+
+            case CameraPos::eCamRight_4:
+                SND_SEQ_Play(SeqId::Explosion1_14, 1, 13, 40);
+                break;
+
+            default:
+                break;
+        }
+        return true;
     }
+
+    return false;
 }
 
 void RollingBall::VUpdate()
@@ -133,22 +170,13 @@ void RollingBall::VUpdate()
                     mRollingBallShakerId = pRollingBallShaker->mBaseGameObjectId;
                 }
             }
-            else if (!gMap.Is_Point_In_Current_Camera(
-                         mCurrentLevel,
-                         mCurrentPath,
-                         mXPos,
-                         mYPos,
-                         0))
-            {
-                SetDead(true);
-            }
             return;
 
         case States::eStartRolling:
         {
             if (!(GetAnimation().GetCurrentFrame() % 3))
             {
-                SfxPlayMono(relive::RandomSfx(relive::SoundEffects::RollingBallNoise1, relive::SoundEffects::RollingBallNoise2), 0);
+                SfxPlayMono(relive::RandomSfx(relive::SoundEffects::AmbientEffect8, relive::SoundEffects::AmbientEffect9), 0);
             }
 
             Accelerate();
@@ -177,7 +205,7 @@ void RollingBall::VUpdate()
         {
             if (!(GetAnimation().GetCurrentFrame() % 3))
             {
-                SfxPlayMono(relive::RandomSfx(relive::SoundEffects::RollingBallNoise1, relive::SoundEffects::RollingBallNoise2), 0);
+                SfxPlayMono(relive::RandomSfx(relive::SoundEffects::AmbientEffect8, relive::SoundEffects::AmbientEffect9), 0);
             }
 
             Accelerate();
@@ -186,13 +214,6 @@ void RollingBall::VUpdate()
                 &mXPos,
                 &mYPos,
                 mVelX);
-
-            u16 result = 0;
-            CamX_VoidSkipper(mXPos, mVelX, 50, &result);
-            if (result == 1 || result == 2)
-            {
-                MapFollowMe(0);
-            }
 
             CrushThingsInTheWay();
 
@@ -209,51 +230,15 @@ void RollingBall::VUpdate()
                 mXPos += mVelX;
                 BaseAliveGameObjectLastLineYPos = mYPos;
             }
+
+            CollideWithWalls();
             return;
         }
 
         case States::eFallingAndHittingWall:
         {
-            if (WallHit(FP_FromInteger(30), mVelX))
+            if (CollideWithWalls())
             {
-                relive_new ParticleBurst(
-                    mXPos,
-                    mYPos - FP_FromInteger(30),
-                    150,
-                    GetSpriteScale(),
-                    BurstType::eRocks);
-
-                relive_new Flash(Layer::eLayer_Above_FG1_39, 255, 255, 255, relive::TBlendModes::eBlend_1, 1);
-
-                relive_new ScreenShake(false, false);
-
-                SetDead(true);
-
-                const CameraPos direction = gMap.GetDirection(mCurrentLevel, mCurrentPath, mXPos, mYPos);
-                SFX_Play_Camera(relive::SoundEffects::IngameTransition, 50, direction);
-
-                switch (direction)
-                {
-                    case CameraPos::eCamCurrent_0:
-                        SND_SEQ_Play(SeqId::eExplosion1_21, 1, 60, 60);
-                        break;
-
-                    case CameraPos::eCamTop_1:
-                    case CameraPos::eCamBottom_2:
-                        SND_SEQ_Play(SeqId::eExplosion1_21, 1, 40, 40);
-                        break;
-
-                    case CameraPos::eCamLeft_3:
-                        SND_SEQ_Play(SeqId::eExplosion1_21, 1, 40, 13);
-                        break;
-
-                    case CameraPos::eCamRight_4:
-                        SND_SEQ_Play(SeqId::eExplosion1_21, 1, 13, 40);
-                        break;
-
-                    default:
-                        return;
-                }
                 return;
             }
 
@@ -271,18 +256,6 @@ void RollingBall::VUpdate()
             {
                 if (mYPos - BaseAliveGameObjectLastLineYPos > FP_FromInteger(240))
                 {
-                    if (gMap.mCurrentLevel == EReliveLevelIds::eForestTemple
-                        && gMap.mCurrentPath == 2
-                        && !gAbe->mShrivel)
-                    {
-                        GetAnimation().SetAnimate(false);
-                        mXPos = FP_FromInteger(2522);
-                        mYPos = FP_FromInteger(1300);
-                        GetAnimation().SetRenderLayer(Layer::eLayer_RollingBallBombMineCar_35);
-                        mState = States::eCrushedBees;
-                        CrushThingsInTheWay();
-                        return;
-                    }
                     SetDead(true);
                 }
                 CrushThingsInTheWay();
@@ -301,23 +274,23 @@ void RollingBall::VUpdate()
             switch (direction)
             {
                 case CameraPos::eCamCurrent_0:
-                    SND_SEQ_Play(SeqId::eExplosion1_21, 1, 60, 60);
+                    SND_SEQ_Play(SeqId::Explosion1_14, 1, 60, 60);
                     CrushThingsInTheWay();
                     break;
 
                 case CameraPos::eCamTop_1:
                 case CameraPos::eCamBottom_2:
-                    SND_SEQ_Play(SeqId::eExplosion1_21, 1, 40, 40);
+                    SND_SEQ_Play(SeqId::Explosion1_14, 1, 40, 40);
                     CrushThingsInTheWay();
                     break;
 
                 case CameraPos::eCamLeft_3:
-                    SND_SEQ_Play(SeqId::eExplosion1_21, 1, 40, 13);
+                    SND_SEQ_Play(SeqId::Explosion1_14, 1, 40, 13);
                     CrushThingsInTheWay();
                     break;
 
                 case CameraPos::eCamRight_4:
-                    SND_SEQ_Play(SeqId::eExplosion1_21, 1, 13, 40);
+                    SND_SEQ_Play(SeqId::Explosion1_14, 1, 13, 40);
                     CrushThingsInTheWay();
                     break;
 
@@ -389,7 +362,7 @@ void RollingBall::CrushThingsInTheWay()
     }
 }
 
-void RollingBall::KillRollingBallShaker() 
+void RollingBall::KillRollingBallShaker()
 {
     if (mRollingBallShakerId.IsValid())
     {
@@ -399,6 +372,3 @@ void RollingBall::KillRollingBallShaker()
         mRollingBallShakerId = {};
     }
 }
-
-
-} // namespace AO
