@@ -1,14 +1,12 @@
-#include "stdafx_ao.h"
+#include "stdafx.h"
 #include "RollingBallStopper.hpp"
-#include "../relive_lib/SwitchStates.hpp"
-#include "../AliveLibAE/stdlib.hpp"
-#include "../relive_lib/Collisions.hpp"
+#include "../SwitchStates.hpp"
+#include "../Collisions.hpp"
 #include "Sfx.hpp"
-#include "../relive_lib/Grid.hpp"
-#include "../relive_lib/FixedPoint.hpp"
-#include "Path.hpp"
+#include "../Grid.hpp"
+#include "../FixedPoint.hpp"
 
-namespace AO {
+// NOTE: this is the AO code and hasn't been compared since it's unused in original AE levels
 
 RollingBallStopper::RollingBallStopper(relive::Path_RollingBallStopper* pTlv, const Guid& tlvId)
     : ::BaseAliveGameObject(0)
@@ -95,11 +93,11 @@ RollingBallStopper::~RollingBallStopper()
 {
     if (mState != States::eWaitForTrigger)
     {
-        Path::TLV_Reset(mTlvInfo, 1);
+        GetMap().TLV_Reset(mTlvInfo, 1);
     }
     else
     {
-        Path::TLV_Reset(mTlvInfo, 0);
+        GetMap().TLV_Reset(mTlvInfo, 0);
     }
 
     if (mCollisionLine)
@@ -147,5 +145,3 @@ void RollingBallStopper::VUpdate()
             break;
     }
 }
-
-} // namespace AO

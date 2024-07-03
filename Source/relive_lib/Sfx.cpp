@@ -429,8 +429,8 @@ enum SoundEffect : u8
     DoorEffect_57 = 57,
     PortalOpening_58 = 58,
     Fire_59 = 59,
-    AmbientEffect8_60 = 60,
-    AmbientEffect9_61 = 61,
+    AmbientEffect8_60 = 60, // rolling ball 1?
+    AmbientEffect9_61 = 61, // rolling ball 2?
     FallingItemLand_62 = 62,
     LeverPull_63 = 63,
     KillEffect_64 = 64,
