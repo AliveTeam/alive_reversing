@@ -9,7 +9,7 @@
 #include "../relive_lib/GameObjects/DeathBirdParticle.hpp"
 #include "Door.hpp"
 #include "../relive_lib/GameObjects/Dove.hpp"
-#include "ThrowableArray.hpp"
+#include "../relive_lib/GameObjects/ThrowableArray.hpp"
 #include "Elum.hpp"
 #include "../relive_lib/GameObjects/Flash.hpp"
 #include "LiftPoint.hpp"
@@ -40,7 +40,7 @@
 #include "MusicTrigger.hpp"
 #include "Math.hpp"
 #include "Input.hpp"
-#include "Grenade.hpp"
+#include "../relive_lib/GameObjects/Grenade.hpp"
 #include "../relive_lib/Collisions.hpp"
 #include "BirdPortal.hpp"
 #include "SaveGame.hpp"
@@ -1160,7 +1160,7 @@ void Abe::ToKnockback(s16 bKnockbackSound, s16 bDelayedAnger)
         {
             pThrowable->VToDead();
             mThrowable = Guid{};
-            if (!gInfiniteGrenades)
+            if (!gInfiniteThrowables)
             {
                 field_19C_throwable_count++;
             }
@@ -3255,7 +3255,7 @@ void Abe::Motion_0_Idle()
     {
         if (Input().IsAnyPressed(InputCommands::eThrowItem) && mCurrentMotion == eAbeMotions::Motion_0_Idle)
         {
-            if (field_19C_throwable_count > 0 || gInfiniteGrenades)
+            if (field_19C_throwable_count > 0 || gInfiniteThrowables)
             {
                 auto pThrowable = Make_Throwable(
                     mXPos,
@@ -3277,7 +3277,7 @@ void Abe::Motion_0_Idle()
                 }
                 mCurrentMotion = eAbeMotions::Motion_142_RockThrowStandingHold;
 
-                if (!gInfiniteGrenades)
+                if (!gInfiniteThrowables)
                 {
                     field_19C_throwable_count--;
                 }
@@ -4148,7 +4148,7 @@ void Abe::Motion_19_CrouchIdle()
     {
         if (mCurrentMotion == eAbeMotions::Motion_19_CrouchIdle)
         {
-            if (field_19C_throwable_count > 0 || gInfiniteGrenades)
+            if (field_19C_throwable_count > 0 || gInfiniteThrowables)
             {
                 auto pThrowable = Make_Throwable(
                     mXPos,
@@ -4170,7 +4170,7 @@ void Abe::Motion_19_CrouchIdle()
 
                 mCurrentMotion = eAbeMotions::Motion_145_RockThrowCrouchingHold;
 
-                if (!gInfiniteGrenades)
+                if (!gInfiniteThrowables)
                 {
                     field_19C_throwable_count--;
                 }
@@ -4179,7 +4179,7 @@ void Abe::Motion_19_CrouchIdle()
             }
         }
 
-        if (!field_19C_throwable_count && !gInfiniteGrenades)
+        if (!field_19C_throwable_count && !gInfiniteThrowables)
         {
             Mudokon_SFX(MudSounds::eDunno_15, 0, 0, this);
             mCurrentMotion = eAbeMotions::Motion_23_CrouchSpeak;
@@ -6300,11 +6300,11 @@ void Abe::Motion_62_LoadedSaveSpawn()
                 gThrowableArray = relive_new ThrowableArray();
             }
             gThrowableArray->Add(1);
-            gInfiniteGrenades = true;
+            gInfiniteThrowables = true;
         }
         else
         {
-            gInfiniteGrenades = false;
+            gInfiniteThrowables = false;
         }
         if (pSaveData->mElumExists)
         {
@@ -8263,7 +8263,7 @@ void Abe::Motion_142_RockThrowStandingHold()
         pThrowable->VToDead();
         mThrowable = Guid{};
         mCurrentMotion = eAbeMotions::Motion_144_RockThrowStandingEnd;
-        if (!gInfiniteGrenades)
+        if (!gInfiniteThrowables)
         {
             field_19C_throwable_count++;
         }
@@ -8312,7 +8312,7 @@ void Abe::Motion_145_RockThrowCrouchingHold()
         pThrowable->VToDead();
         mThrowable = Guid{};
         mCurrentMotion = eAbeMotions::Motion_19_CrouchIdle;
-        if (!gInfiniteGrenades)
+        if (!gInfiniteThrowables)
         {
             field_19C_throwable_count++;
         }

@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../relive_lib/GameObjects/BaseThrowable.hpp"
-#include "../relive_lib/SaveStateBase.hpp"
+#include "BaseThrowable.hpp"
+#include "../SaveStateBase.hpp"
 
 enum class GrenadeStates : s16
 {

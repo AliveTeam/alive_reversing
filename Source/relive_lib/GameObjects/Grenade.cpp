@@ -1,21 +1,19 @@
 #include "stdafx.h"
 #include "Grenade.hpp"
-#include "../relive_lib/Function.hpp"
+#include "../Function.hpp"
 #include "ThrowableArray.hpp"
-#include "stdlib.hpp"
-#include "../relive_lib/GameObjects/PlatformBase.hpp"
+#include "PlatformBase.hpp"
 #include "Sfx.hpp"
-#include "../relive_lib/ObjectIds.hpp"
-#include "../relive_lib/Events.hpp"
-#include "../relive_lib/GameObjects/Gibs.hpp"
-#include "../relive_lib/GameObjects/AirExplosion.hpp"
-#include "../relive_lib/Grid.hpp"
-#include "Map.hpp"
-#include "../relive_lib/Collisions.hpp"
-#include "Path.hpp"
-#include "../relive_lib/FixedPoint.hpp"
-#include "QuikSave.hpp"
-#include "../relive_lib/GameType.hpp"
+#include "../ObjectIds.hpp"
+#include "../Events.hpp"
+#include "Gibs.hpp"
+#include "AirExplosion.hpp"
+#include "../Grid.hpp"
+#include "../MapWrapper.hpp"
+#include "../Collisions.hpp"
+#include "../FixedPoint.hpp"
+#include "../../AliveLibAE/QuikSave.hpp"
+#include "../GameType.hpp"
 
 Grenade::Grenade(FP xpos, FP ypos, s16 numGrenades, bool bBlowUpOnCollision, BaseGameObject* pOwner)
 {
@@ -68,7 +66,6 @@ void Grenade::Init(FP xpos, FP ypos)
     mVelY = FP_FromInteger(0);
 }
 
-
 void Grenade::AddToPlatform()
 {
     BaseAddToPlatform();
@@ -101,7 +98,7 @@ void Grenade::VThrow(FP velX, FP velY)
 
 void Grenade::VScreenChanged()
 {
-    if (gMap.LevelChanged() || gMap.PathChanged())
+    if (GetMap().LevelChanged() || GetMap().PathChanged())
     {
         SetDead(true);
     }
@@ -153,6 +150,16 @@ void Grenade::VUpdate()
             break;
 
         case GrenadeStates::eWaitToBeCollected_1:
+            // for some reason this is needed in AO to prevent the
+            // grenade from moving to the left after a grenade machine dropped it
+            if (GetGameType() == GameType::eAo)
+            {
+                if (mVelX < FP_FromInteger(0))
+                {
+                    mVelX = FP_FromInteger(0);
+                }
+            }
+
             if (FP_Abs(mVelX) >= FP_FromInteger(1))
             {
                 if (mVelX <= FP_FromInteger(0))
@@ -164,7 +171,7 @@ void Grenade::VUpdate()
                     mVelX -= FP_FromDouble(0.01);
                 }
 
-                auto oldLine = BaseAliveGameObjectCollisionLine;
+                const auto oldLine = BaseAliveGameObjectCollisionLine;
                 BaseAliveGameObjectCollisionLine = BaseAliveGameObjectCollisionLine->MoveOnLine(&mXPos, &mYPos, mVelX);
                 if (BaseAliveGameObject_PlatformId != Guid{} && BaseAliveGameObjectCollisionLine != oldLine)
                 {
@@ -177,9 +184,9 @@ void Grenade::VUpdate()
                     mState = GrenadeStates::eFallingToBeCollected_0;
                 }
             }
-            else if (abs(SnapToXGrid_AE(GetSpriteScale(), FP_GetExponent(mXPos)) - FP_GetExponent(mXPos)) > 1)
+            else if (abs(SnapToXGrid(GetSpriteScale(), FP_GetExponent(mXPos), GetGameType() == GameType::eAo) - FP_GetExponent(mXPos)) > 1)
             {
-                auto oldLine = BaseAliveGameObjectCollisionLine;
+                const auto oldLine = BaseAliveGameObjectCollisionLine;
                 BaseAliveGameObjectCollisionLine = BaseAliveGameObjectCollisionLine->MoveOnLine(&mXPos, &mYPos, mVelX);
                 if (BaseAliveGameObject_PlatformId != Guid{} && BaseAliveGameObjectCollisionLine != oldLine)
                 {
@@ -343,18 +350,22 @@ bool Grenade::InTheAir(bool blowUpOnFloorTouch)
     {
         if (mVelY <= FP_FromInteger(0))
         {
-            mXPos = hitX;
-            mYPos = hitY;
-            mVelY = (-mVelY / FP_FromInteger(2));
-            s16 vol = 75 - 20 * mBounceCount;
-            if (vol < 40)
+            // In AO you can throw grenades through ceilings/floors from below
+            if (GetGameType() == GameType::eAe)
             {
-                vol = 40;
+                mXPos = hitX;
+                mYPos = hitY;
+                mVelY = (-mVelY / FP_FromInteger(2));
+                s16 vol = 75 - 20 * mBounceCount;
+                if (vol < 40)
+                {
+                    vol = 40;
+                }
+                SfxPlayMono(relive::SoundEffects::GrenadeBounce, vol);
+                EventBroadcast(Event::kEventNoise, this);
+                EventBroadcast(Event::kEventSuspiciousNoise, this);
+                EventBroadcast(Event::kEventSpeaking, this);
             }
-            SfxPlayMono(relive::SoundEffects::GrenadeBounce, vol);
-            EventBroadcast(Event::kEventNoise, this);
-            EventBroadcast(Event::kEventSuspiciousNoise, this);
-            EventBroadcast(Event::kEventSpeaking, this);
         }
         else
         {

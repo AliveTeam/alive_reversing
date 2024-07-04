@@ -4,7 +4,7 @@
 #include "../AliveLibAE/stdlib.hpp"
 #include "../relive_lib/Shadow.hpp"
 #include "Game.hpp"
-#include "ThrowableArray.hpp"
+#include "../relive_lib/GameObjects/ThrowableArray.hpp"
 #include "Abe.hpp"
 #include "Sfx.hpp"
 #include "Math.hpp"

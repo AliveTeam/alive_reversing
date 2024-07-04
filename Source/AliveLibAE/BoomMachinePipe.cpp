@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "BoomMachinePipe.hpp"
-#include "Grenade.hpp"
-#include "ThrowableArray.hpp"
+#include "../relive_lib/GameObjects/Grenade.hpp"
+#include "../relive_lib/GameObjects/ThrowableArray.hpp"
 #include "Sfx.hpp"
 
 BoomMachinePipe::BoomMachinePipe(FP xpos, FP ypos, FP scale, s16 numGrenades)

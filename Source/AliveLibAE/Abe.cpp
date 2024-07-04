@@ -11,7 +11,7 @@
 #include "../relive_lib/Events.hpp"
 #include "QuikSave.hpp"
 #include "MainMenu.hpp"
-#include "ThrowableArray.hpp"
+#include "../relive_lib/GameObjects/ThrowableArray.hpp"
 #include "MusicController.hpp"
 #include "GameSpeak.hpp"
 #include "MusicTrigger.hpp"

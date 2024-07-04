@@ -3,7 +3,7 @@
 #include "../relive_lib/Collisions.hpp"
 #include "Elum.hpp"
 #include "Game.hpp"
-#include "Grenade.hpp"
+#include "../relive_lib/GameObjects/Grenade.hpp"
 #include "Input.hpp"
 #include "SaveGame.hpp"
 #include "MusicController.hpp"
@@ -241,7 +241,7 @@ void SaveGame::SaveToMemory(SaveData* pSaveData)
     pSaveData->mAbe_Timer = gAbe->field_118_timer;
     pSaveData->mAbe_ThrowableCount = gAbe->field_19C_throwable_count;
     pSaveData->mAbe_ScrabaniaDone = gAbe->mScrabaniaDone;
-    pSaveData->mInfiniteGrenades = gInfiniteGrenades ? -1 : 0;
+    pSaveData->mInfiniteGrenades = gInfiniteThrowables ? -1 : 0;
     pSaveData->mAbe_ParamoniaDone = gAbe->mParamoniaDone;
     pSaveData->mElumExists = gElum != nullptr;
 

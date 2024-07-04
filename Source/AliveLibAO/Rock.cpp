@@ -1,8 +1,8 @@
 #include "stdafx_ao.h"
 #include "Rock.hpp"
 #include "../AliveLibAE/stdlib.hpp"
-#include "Grenade.hpp"
-#include "ThrowableArray.hpp"
+#include "../relive_lib/GameObjects/Grenade.hpp"
+#include "../relive_lib/GameObjects/ThrowableArray.hpp"
 #include "Math.hpp"
 #include "../relive_lib/Events.hpp"
 #include "Sfx.hpp"
@@ -60,7 +60,7 @@ Rock::Rock(FP xpos, FP ypos, s16 count)
 
 Rock::~Rock()
 {
-    if (!gInfiniteGrenades && !mBaseThrowableDead)
+    if (!gInfiniteThrowables && !mBaseThrowableDead)
     {
         if (gThrowableArray)
         {

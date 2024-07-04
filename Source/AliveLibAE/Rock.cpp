@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Rock.hpp"
 #include "../relive_lib/Function.hpp"
-#include "ThrowableArray.hpp"
+#include "../relive_lib/GameObjects/ThrowableArray.hpp"
 #include "Game.hpp"
 #include "stdlib.hpp"
 #include "Sfx.hpp"

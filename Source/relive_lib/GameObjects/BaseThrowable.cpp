@@ -1,11 +1,10 @@
 #include "stdafx.h"
 #include "BaseThrowable.hpp"
 #include "../Function.hpp"
-#include "../../AliveLibAO/Grenade.hpp"
 #include "../../AliveLibAO/Rock.hpp"
 #include "../../AliveLibAO/Meat.hpp"
 #include "../../AliveLibAE/Bone.hpp"
-#include "../../AliveLibAE/Grenade.hpp"
+#include "Grenade.hpp"
 #include "../../AliveLibAE/Rock.hpp"
 #include "../../AliveLibAE/Meat.hpp"
 #include "../Collisions.hpp"
@@ -56,7 +55,7 @@ static BaseThrowable* Make_Throwable_AO(FP xpos, FP ypos, s16 count)
     switch (gThrowableFromOverlayIdAO[GetMap().mOverlayId])
     {
         case AOTypes::eGrenade_40:
-            return relive_new AO::Grenade(xpos, ypos, count, false, nullptr);
+            return relive_new Grenade(xpos, ypos, count, false, nullptr);
         case AOTypes::eMeat_54:
             return relive_new AO::Meat(xpos, ypos, count);
         case AOTypes::eRock_70:
