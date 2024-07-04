@@ -7,7 +7,7 @@ namespace AO {
 class Grenade final : public ::BaseThrowable
 {
 public:
-    Grenade(FP xpos, FP ypos, s16 numGrenades);
+    Grenade(FP xpos, FP ypos, s16 numGrenades, bool bBlowUpOnCollision, BaseGameObject* pOwner);
     ~Grenade();
 
     virtual bool VCanThrow() override;
@@ -22,15 +22,24 @@ public:
     void BlowUp(bool bSmallExplosion);
     bool TimeToBlowUp();
     bool OnCollision_BounceOff(BaseGameObject* pHit);
-    bool InTheAir();
-    
+    bool OnCollision_InstantExplode(BaseGameObject* pHit);
+    bool InTheAir(bool blowUpOnFloorTouch);
+    void Init(FP xpos, FP ypos);
+
     virtual bool VOnPlatformIntersection(BaseAnimatedWithPhysicsGameObject* pPlatform) override
     {
-        return OnCollision_BounceOff(pPlatform);
+        if (mDoBounceOff)
+        {
+            return OnCollision_BounceOff(pPlatform);
+        }
+        else
+        {
+            return OnCollision_InstantExplode(pPlatform);
+        }
     }
 
 public:
-    enum class States : s16
+    enum class GrenadeStates : s16
     {
         eFallingToBeCollected_0 = 0,
         eWaitToBeCollected_1 = 1,
@@ -39,14 +48,20 @@ public:
         eFalling_4 = 4,
         eHitGround_5 = 5,
         eWaitForExplodeEnd_6 = 6,
-        eExploded_7 = 7
+        eExploded_7 = 7,
+        eDoesNothing_8 = 8,
+        eFallingBlowUpOnGround_9,
     };
-    States mState = States::eFallingToBeCollected_0;
+    GrenadeStates mState = GrenadeStates::eFallingToBeCollected_0;
     s16 mExplodeCountdown = 0;
     s16 mBounceCount = 0;
     Guid mExplosionId = {};
     FP mPreviousXPos = {};
     FP mPreviousYPos = {};
+    bool mBlowUpOnCollision = false;
+    bool mExplodeNow = false;
+    BaseGameObject* mGrenadeOwner = nullptr;
+    bool mDoBounceOff = false;
 };
 
 extern bool gInfiniteGrenades;

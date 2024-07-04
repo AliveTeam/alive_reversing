@@ -56,7 +56,7 @@ static BaseThrowable* Make_Throwable_AO(FP xpos, FP ypos, s16 count)
     switch (gThrowableFromOverlayIdAO[GetMap().mOverlayId])
     {
         case AOTypes::eGrenade_40:
-            return relive_new AO::Grenade(xpos, ypos, count);
+            return relive_new AO::Grenade(xpos, ypos, count, false, nullptr);
         case AOTypes::eMeat_54:
             return relive_new AO::Meat(xpos, ypos, count);
         case AOTypes::eRock_70:

@@ -51,7 +51,7 @@ struct GrenadeSaveState final : public SaveStateBase
 class Grenade final : public BaseThrowable
 {
 public:
-    Grenade(FP xpos, FP ypos, s32 numGrenades, bool bBlowUpOnCollision, BaseGameObject* pOwner);
+    Grenade(FP xpos, FP ypos, s16 numGrenades, bool bBlowUpOnCollision, BaseGameObject* pOwner);
     ~Grenade();
 
     virtual void VScreenChanged() override;
@@ -82,7 +82,7 @@ private:
     void Init(FP xpos, FP ypos);
     void BlowUp(bool bSmallExplosion);
     bool TimeToBlowUp();
-    bool InTheAir(s16 blowUpOnFloorTouch);
+    bool InTheAir(bool blowUpOnFloorTouch);
     void AddToPlatform();
     bool OnCollision_BounceOff(BaseGameObject* pHit);
     bool OnCollision_InstantExplode(BaseGameObject* pHit);

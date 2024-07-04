@@ -95,7 +95,7 @@ void BoomMachinePipe::VUpdate()
                     mXPos + (FP_FromInteger(6) * directedScale),
                     mYPos + (-FP_FromInteger(6) * GetSpriteScale()),
                     mGrenadeCount,
-                    0,
+                    false,
                     nullptr);
                 if (pGrenade)
                 {
