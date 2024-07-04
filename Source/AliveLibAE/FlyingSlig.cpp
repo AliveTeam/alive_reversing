@@ -13,7 +13,7 @@
 #include "Map.hpp"
 #include "MusicController.hpp"
 #include "Slig.hpp"
-#include "Grenade.hpp"
+#include "../relive_lib/GameObjects/Grenade.hpp"
 #include "../relive_lib/GameObjects/Dove.hpp"
 #include "CrawlingSlig.hpp"
 #include "../relive_lib/GameObjects/Particle.hpp"

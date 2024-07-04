@@ -13,7 +13,7 @@
 #include "CameraSwapper.hpp"
 #include "PauseMenu.hpp"
 #include "DemoPlayback.hpp"
-#include "Grenade.hpp"
+#include "../relive_lib/GameObjects/Grenade.hpp"
 #include "Movie.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
 #include "CreditsController.hpp"
@@ -1714,7 +1714,7 @@ void Menu::NewGameStart()
         else
         {
             // Start the game in the biggest meat processing plant
-            gInfiniteGrenades = false;
+            gInfiniteThrowables = false;
             gMap.SetActiveCam(EReliveLevelIds::eRuptureFarms, 15, 1, CameraSwapEffects::ePlay1FMV_5, 102, 0);
 
             // What if someone made a level editor and wanted to change where abe spawns on the first map? Well... hard luck pal

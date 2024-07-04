@@ -6,7 +6,7 @@
 #include "../relive_lib/Events.hpp"
 #include "Math.hpp"
 #include "Sfx.hpp"
-#include "ThrowableArray.hpp"
+#include "../relive_lib/GameObjects/ThrowableArray.hpp"
 #include "Abe.hpp"
 #include "Bone.hpp"
 

@@ -1,4 +1,4 @@
-#include "../relive_lib/Grid.hpp"
+#include "Grid.hpp"
 
 FP ScaleToGridSize(FP scale)
 {
@@ -172,4 +172,28 @@ s32 SnapToXGrid_AE(FP scale, s32 x)
         }
     }
     return x;
+}
+
+s32 SnapToXGrid(FP scale, s32 x, bool isAo)
+{
+    if (isAo)
+    {
+        return SnapToXGrid_AO(scale, x);
+    }
+    else
+    {
+        return SnapToXGrid_AE(scale, x);
+    }
+}
+
+s32 XGrid_Index_To_XPos(FP scale, s32 xGridIndex, bool isAo)
+{
+    if (isAo)
+    {
+        return XGrid_Index_To_XPos_AO(scale, xGridIndex);
+    }
+    else
+    {
+        return XGrid_Index_To_XPos_AE(scale, xGridIndex);
+    }
 }

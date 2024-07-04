@@ -4,7 +4,7 @@
 #include "../relive_lib/data_conversion/relive_tlvs.hpp"
 #include "Path.hpp"
 #include "../relive_lib/Events.hpp"
-#include "ThrowableArray.hpp"
+#include "../relive_lib/GameObjects/ThrowableArray.hpp"
 #include "Sfx.hpp"
 #include "Math.hpp"
 #include "Abe.hpp"

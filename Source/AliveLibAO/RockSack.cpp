@@ -5,7 +5,7 @@
 #include "Rock.hpp"
 #include "RockSack.hpp"
 #include "Sfx.hpp"
-#include "ThrowableArray.hpp"
+#include "../relive_lib/GameObjects/ThrowableArray.hpp"
 #include "../relive_lib/AnimResources.hpp"
 #include "../relive_lib/FixedPoint.hpp"
 #include "Abe.hpp"

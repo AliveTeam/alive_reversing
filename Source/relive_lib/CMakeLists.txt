@@ -59,8 +59,6 @@ SET(AliveLibSrcAO
    ../AliveLibAO/TrapDoor.cpp
    ../AliveLibAO/MeatSaw.hpp
    ../AliveLibAO/MeatSaw.cpp
-   ../AliveLibAO/Grenade.hpp
-   ../AliveLibAO/Grenade.cpp
    ../AliveLibAO/FlintLockFire.hpp
    ../AliveLibAO/FlintLockFire.cpp
    ../AliveLibAO/SlingMudokon.hpp
@@ -181,8 +179,6 @@ SET(AliveLibSrcAO
    ../AliveLibAO/GameSpeak.cpp
    ../AliveLibAO/Abe.hpp
    ../AliveLibAO/Abe.cpp
-   ../AliveLibAO/ThrowableArray.hpp
-   ../AliveLibAO/ThrowableArray.cpp
    ../AliveLibAO/Elum.hpp
    ../AliveLibAO/Elum.cpp
    ../AliveLibAO/ZBall.hpp
@@ -260,8 +256,6 @@ SET(AliveLibAESrc
     ../AliveLibAE/MainMenuTransition.cpp
     ../AliveLibAE/Text.cpp
     ../AliveLibAE/Text.hpp
-    ../AliveLibAE/ThrowableArray.cpp
-    ../AliveLibAE/ThrowableArray.hpp
     ../AliveLibAE/UXB.cpp
     ../AliveLibAE/UXB.hpp
     ../AliveLibAE/TrapDoor.cpp
@@ -378,8 +372,6 @@ SET(AliveLibAESrc
     ../AliveLibAE/Meat.cpp
     ../AliveLibAE/MeatSack.hpp
     ../AliveLibAE/MeatSack.cpp
-    ../AliveLibAE/Grenade.hpp
-    ../AliveLibAE/Grenade.cpp
     ../AliveLibAE/Bone.hpp
     ../AliveLibAE/Bone.cpp
     ../AliveLibAE/BoneBag.hpp
@@ -568,6 +560,10 @@ SET(game_objects_src
     GameObjects/RollingBallShaker.cpp
     GameObjects/RollingBallStopper.hpp
     GameObjects/RollingBallStopper.cpp
+    GameObjects/Grenade.hpp
+    GameObjects/Grenade.cpp
+    GameObjects/ThrowableArray.cpp
+    GameObjects/ThrowableArray.hpp
 )
 
 SET(data_conversion_src

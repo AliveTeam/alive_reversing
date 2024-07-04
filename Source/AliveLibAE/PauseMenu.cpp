@@ -8,7 +8,7 @@
 #include "Sfx.hpp"
 #include "../relive_lib/Sound/Sound.hpp"
 #include "MainMenu.hpp"
-#include "ThrowableArray.hpp"
+#include "../relive_lib/GameObjects/ThrowableArray.hpp"
 #include "QuikSave.hpp"
 #include "Mudokon.hpp"
 #include "../relive_lib/Sys.hpp"

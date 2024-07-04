@@ -1,7 +1,7 @@
 #include "stdafx_ao.h"
 #include "BoomMachinePipe.hpp"
-#include "Grenade.hpp"
-#include "ThrowableArray.hpp"
+#include "../relive_lib/GameObjects/Grenade.hpp"
+#include "../relive_lib/GameObjects/ThrowableArray.hpp"
 #include "Sfx.hpp"
 
 namespace AO {
@@ -96,7 +96,9 @@ void BoomMachinePipe::VUpdate()
                 auto pGrenade = relive_new Grenade(
                     mXPos + (FP_FromInteger(6) * directedScale),
                     mYPos + (-FP_FromInteger(6) * GetSpriteScale()),
-                    mGrenadeCount);
+                    mGrenadeCount,
+                    false,
+                    nullptr);
                 if (pGrenade)
                 {
                     pGrenade->VThrow(GetAnimation().GetFlipX() ? -FP_FromDouble(0.75) : FP_FromDouble(0.75), FP_FromInteger(3));

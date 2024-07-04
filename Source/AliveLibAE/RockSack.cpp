@@ -2,7 +2,7 @@
 #include "RockSack.hpp"
 #include "Rock.hpp"
 #include "../relive_lib/Function.hpp"
-#include "ThrowableArray.hpp"
+#include "../relive_lib/GameObjects/ThrowableArray.hpp"
 #include "stdlib.hpp"
 #include "../relive_lib/Shadow.hpp"
 #include "Sfx.hpp"

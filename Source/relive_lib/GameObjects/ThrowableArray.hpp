@@ -1,13 +1,12 @@
 #pragma once
 
-#include "../relive_lib/GameObjects/BaseGameObject.hpp"
-#include "../relive_lib/MapWrapper.hpp"
-#include "../relive_lib/SaveStateBase.hpp"
+#include "BaseGameObject.hpp"
+#include "../MapWrapper.hpp"
+#include "../SaveStateBase.hpp"
 
 enum class LevelIds : s16;
 
-void FreeResourceArray(DynamicArrayT<u8*>* pArray);
-void LoadRockTypes(EReliveLevelIds levelNumber, u16 pathNumber);
+void LoadRockTypes(EReliveLevelIds level, u16 path);
 
 struct ThrowableArraySaveState final : public SaveStateBase
 {
@@ -39,7 +38,6 @@ public:
 private:
     bool mThrowableTypeChanged = false;
     bool mNewThrowableTypeLoaded = false;
-    DynamicArrayT<u8*> field_24_throwables;
 };
 
 extern ThrowableArray* gThrowableArray;

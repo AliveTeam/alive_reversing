@@ -6,13 +6,13 @@
 #include "../relive_lib/Events.hpp"
 #include "Abe.hpp"
 #include "Input.hpp"
-#include "ThrowableArray.hpp"
+#include "../relive_lib/GameObjects/ThrowableArray.hpp"
 #include "../relive_lib/SwitchStates.hpp"
 #include "Input.hpp"
 #include "DDCheat.hpp"
 #include "PauseMenu.hpp"
 #include "Game.hpp"
-#include "Grenade.hpp"
+#include "../relive_lib/GameObjects/Grenade.hpp"
 #include "../relive_lib/GameObjects/GasCountDown.hpp"
 #include "PathDataExtensions.hpp"
 
@@ -83,7 +83,7 @@ void GameEnderController::VUpdate()
                         // Stop the death timer
                         gDeathGasTimer = 0;
 
-                        gInfiniteGrenades = false;
+                        gInfiniteThrowables = false;
                         gRestartRuptureFarmsKilledMuds = 0;
                         gRestartRuptureFarmsSavedMuds = 0;
 
@@ -112,7 +112,7 @@ void GameEnderController::VUpdate()
                         if (gKilledMudokons >= Path_BadEndingMuds(gMap.mCurrentLevel, gMap.mCurrentPath))
                         {
                             // Very bad ending
-                            gInfiniteGrenades = true;
+                            gInfiniteThrowables = true;
 
                             if (!gThrowableArray)
                             {
@@ -136,7 +136,7 @@ void GameEnderController::VUpdate()
                             // Bad ending
                             gAbe->SetDead(true);
 
-                            gInfiniteGrenades = false;
+                            gInfiniteThrowables = false;
 
                             gMap.SetActiveCam(EReliveLevelIds::eBoardRoom, 6, 10, CameraSwapEffects::eUnknown_11, 304, 0);
                             mState = GameEnderControllerStates::eBadEnding_3;

@@ -10,3 +10,6 @@ s32 XGrid_Index_To_XPos_AE(FP scale, s32 xGridIndex);
 
 s32 SnapToXGrid_AO(FP scale, s32 x);
 s32 SnapToXGrid_AE(FP scale, s32 x);
+
+s32 SnapToXGrid(FP scale, s32 x, bool isAo);
+s32 XGrid_Index_To_XPos(FP scale, s32 xGridIndex, bool isAo);
