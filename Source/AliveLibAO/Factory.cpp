@@ -46,7 +46,7 @@
 #include "BirdPortal.hpp"
 #include "SlogSpawner.hpp"
 #include "DoorFlame.hpp"
-#include "BoomMachine.hpp"
+#include "../relive_lib/GameObjects/BoomMachine.hpp"
 #include "../relive_lib/GameObjects/GasEmitter.hpp"
 #include "MotionDetector.hpp"
 #include "LCDStatusBoard.hpp"

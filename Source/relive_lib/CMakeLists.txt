@@ -77,8 +77,6 @@ SET(AliveLibSrcAO
    ../AliveLibAO/LCDStatusBoard.cpp
    ../AliveLibAO/Shrykull.hpp
    ../AliveLibAO/Shrykull.cpp
-   ../AliveLibAO/BoomMachine.hpp
-   ../AliveLibAO/BoomMachine.cpp
    ../AliveLibAO/DoorFlame.hpp
    ../AliveLibAO/DoorFlame.cpp
    ../AliveLibAO/SlogSpawner.hpp
@@ -183,8 +181,6 @@ SET(AliveLibSrcAO
    ../AliveLibAO/Elum.cpp
    ../AliveLibAO/ZBall.hpp
    ../AliveLibAO/ZBall.cpp
-   ../AliveLibAO/BoomMachinePipe.hpp
-   ../AliveLibAO/BoomMachinePipe.cpp
 )
 
 SET(AliveLibAESrc
@@ -366,8 +362,6 @@ SET(AliveLibAESrc
     ../AliveLibAE/CrawlingSligButton.cpp
     ../AliveLibAE/SligGetPantsAndWings.hpp
     ../AliveLibAE/SligGetPantsAndWings.cpp
-    ../AliveLibAE/BoomMachine.hpp
-    ../AliveLibAE/BoomMachine.cpp
     ../AliveLibAE/Meat.hpp
     ../AliveLibAE/Meat.cpp
     ../AliveLibAE/MeatSack.hpp
@@ -403,8 +397,6 @@ SET(AliveLibAESrc
     ../AliveLibAE/LaughingGas.cpp
     ../AliveLibAE/LaughingGas.hpp
     ../AliveLibAE/MudokonEnums.hpp
-    ../AliveLibAE/BoomMachinePipe.hpp
-    ../AliveLibAE/BoomMachinePipe.cpp
     ../AliveLibAE/RollingBall.hpp
     ../AliveLibAE/RollingBall.cpp
 )
@@ -564,6 +556,10 @@ SET(game_objects_src
     GameObjects/Grenade.cpp
     GameObjects/ThrowableArray.cpp
     GameObjects/ThrowableArray.hpp
+    GameObjects/BoomMachinePipe.hpp
+    GameObjects/BoomMachinePipe.cpp
+    GameObjects/BoomMachine.hpp
+    GameObjects/BoomMachine.cpp
 )
 
 SET(data_conversion_src

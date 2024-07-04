@@ -3,7 +3,7 @@
 #include "Abe.hpp"
 #include "BellSong.hpp"
 #include "../relive_lib/GameObjects/Blood.hpp"
-#include "BoomMachine.hpp"
+#include "../relive_lib/GameObjects/BoomMachine.hpp"
 #include "Bullet.hpp"
 #include "CheatController.hpp"
 #include "../relive_lib/GameObjects/DeathBirdParticle.hpp"

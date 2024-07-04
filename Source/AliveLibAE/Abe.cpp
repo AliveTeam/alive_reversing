@@ -44,7 +44,7 @@
 #include "Mudokon.hpp"
 #include "../relive_lib/GameObjects/Electrocute.hpp"
 #include "BirdPortal.hpp"
-#include "BoomMachine.hpp"
+#include "../relive_lib/GameObjects/BoomMachine.hpp"
 #include "Shrykull.hpp"
 #include "Bullet.hpp"
 #include "../relive_lib/GameObjects/Spark.hpp"

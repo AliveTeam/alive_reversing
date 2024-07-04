@@ -1,8 +1,6 @@
 #pragma once
 
-#include "../relive_lib/GameObjects/BaseAnimatedWithPhysicsGameObject.hpp"
-
-namespace AO {
+#include "BaseAnimatedWithPhysicsGameObject.hpp"
 
 enum class BoomMachinePipeStates
 {
@@ -12,7 +10,7 @@ enum class BoomMachinePipeStates
     eDropGrenade
 };
 
-class BoomMachinePipe final : public BaseAnimatedWithPhysicsGameObject
+class BoomMachinePipe final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
     BoomMachinePipe(FP xpos, FP ypos, FP scale, s16 numGrenades);
@@ -20,12 +18,11 @@ public:
     void LoadAnimations();
     void DropGrenadeAnimation();
     void AlreadyUsed();
+
+private:
     virtual void VUpdate() override;
-    virtual void VScreenChanged() override;
 
     BoomMachinePipeStates mState = BoomMachinePipeStates::eInactive;
     s32 mTimer = 0;
     s16 mGrenadeCount = 0;
 };
-
-} // namespace AO
