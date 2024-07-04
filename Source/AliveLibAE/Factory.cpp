@@ -66,7 +66,7 @@
 #include "GlukkonSwitch.hpp"
 #include "CrawlingSligButton.hpp"
 #include "SligGetPantsAndWings.hpp"
-#include "BoomMachine.hpp"
+#include "../relive_lib/GameObjects/BoomMachine.hpp"
 #include "Meat.hpp"
 #include "Bone.hpp"
 #include "RockSack.hpp"

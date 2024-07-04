@@ -1,16 +1,13 @@
 #include "stdafx.h"
 #include "BoomMachine.hpp"
-#include "../relive_lib/Function.hpp"
-#include "../relive_lib/ObjectIds.hpp"
-#include "stdlib.hpp"
-#include "../relive_lib/GameObjects/ThrowableArray.hpp"
-#include "Game.hpp"
-#include "../relive_lib/Events.hpp"
+#include "../Function.hpp"
+#include "../ObjectIds.hpp"
+#include "ThrowableArray.hpp"
+#include "../Events.hpp"
 #include "Sfx.hpp"
-#include "../relive_lib/GameObjects/Grenade.hpp"
-#include "../relive_lib/Grid.hpp"
-#include "Path.hpp"
-#include "../relive_lib/FixedPoint.hpp"
+#include "Grenade.hpp"
+#include "../Grid.hpp"
+#include "../FixedPoint.hpp"
 #include "BoomMachinePipe.hpp"
 
 void BoomMachine::LoadAnimations()
@@ -70,6 +67,8 @@ BoomMachine::BoomMachine(relive::Path_BoomMachine* pTlv, const Guid& tlvId)
     {
         mIsButtonOn = false;
     }
+
+    mYOffset = 0;
 }
 
 void BoomMachine::VUpdate()
@@ -135,5 +134,5 @@ BoomMachine::~BoomMachine()
     {
         pObj->SetDead(true);
     }
-    Path::TLV_Reset(mTlvId);
+    GetMap().TLV_Reset(mTlvId);
 }

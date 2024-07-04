@@ -1,10 +1,8 @@
-#include "stdafx_ao.h"
+#include "stdafx.h"
 #include "BoomMachinePipe.hpp"
-#include "../relive_lib/GameObjects/Grenade.hpp"
-#include "../relive_lib/GameObjects/ThrowableArray.hpp"
+#include "Grenade.hpp"
+#include "ThrowableArray.hpp"
 #include "Sfx.hpp"
-
-namespace AO {
 
 BoomMachinePipe::BoomMachinePipe(FP xpos, FP ypos, FP scale, s16 numGrenades)
     : BaseAnimatedWithPhysicsGameObject(0)
@@ -112,10 +110,3 @@ void BoomMachinePipe::VUpdate()
             return;
     }
 }
-
-void BoomMachinePipe::VScreenChanged()
-{
-    // Empty
-}
-
-} // namespace AO
