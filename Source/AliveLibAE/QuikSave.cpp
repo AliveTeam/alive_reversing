@@ -22,7 +22,7 @@
 #include "FlyingSlig.hpp"
 #include "SlapLock.hpp"
 #include "SlapLockWhirlWind.hpp"
-#include "AbilityRing.hpp"
+#include "../relive_lib/GameObjects/AbilityRing.hpp"
 #include "Slurg.hpp"
 #include "../relive_lib/GameObjects/GasCountDown.hpp"
 #include "Rock.hpp"

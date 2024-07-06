@@ -7,7 +7,7 @@
 #include "Game.hpp"
 #include "../relive_lib/Events.hpp"
 #include "Abe.hpp"
-#include "AbilityRing.hpp"
+#include "../relive_lib/GameObjects/AbilityRing.hpp"
 #include "../relive_lib/ObjectIds.hpp"
 #include "../relive_lib/GameObjects/PlatformBase.hpp"
 #include "DDCheat.hpp"

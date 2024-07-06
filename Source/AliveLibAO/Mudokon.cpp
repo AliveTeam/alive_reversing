@@ -25,7 +25,7 @@
 #include "../relive_lib/GameObjects/ScreenShake.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
 #include "../relive_lib/GameObjects/PossessionFlicker.hpp"
-#include "AbilityRing.hpp"
+#include "../relive_lib/GameObjects/AbilityRing.hpp"
 #include "CheatController.hpp"
 #include "../relive_lib/Grid.hpp"
 #include "../relive_lib/FatalError.hpp"

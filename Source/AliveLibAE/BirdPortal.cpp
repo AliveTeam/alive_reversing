@@ -20,7 +20,7 @@
 #include "../relive_lib/PsxDisplay.hpp"
 #include "../relive_lib/GameObjects/OrbWhirlWind.hpp"
 #include "../relive_lib/GameObjects/ScreenClipper.hpp"
-#include "AbilityRing.hpp"
+#include "../relive_lib/GameObjects/AbilityRing.hpp"
 #include "Map.hpp"
 #include "Path.hpp"
 #include "../relive_lib/FatalError.hpp"

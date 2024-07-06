@@ -2,7 +2,7 @@
 
 #include "../relive_lib/GameObjects/BaseAliveGameObject.hpp"
 #include "GameSpeak.hpp"
-#include "AbilityRing.hpp"
+#include "../relive_lib/GameObjects/AbilityRing.hpp"
 #include "MudokonEnums.hpp"
 #include "../relive_lib/SaveStateBase.hpp"
 #include "../relive_lib/FatalError.hpp"

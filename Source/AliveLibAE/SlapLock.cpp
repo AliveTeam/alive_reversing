@@ -8,7 +8,7 @@
 #include "../relive_lib/Events.hpp"
 #include "Sfx.hpp"
 #include "../relive_lib/ObjectIds.hpp"
-#include "AbilityRing.hpp"
+#include "../relive_lib/GameObjects/AbilityRing.hpp"
 #include "../relive_lib/GameObjects/PossessionFlicker.hpp"
 #include "../relive_lib/GameObjects/Particle.hpp"
 #include "../relive_lib/GameObjects/ParticleBurst.hpp"

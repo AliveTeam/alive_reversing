@@ -12,7 +12,7 @@
 #include "../relive_lib/GameObjects/ParticleBurst.hpp"
 #include "../relive_lib/GameObjects/Flash.hpp"
 #include "../relive_lib/GameObjects/Electrocute.hpp"
-#include "AbilityRing.hpp"
+#include "../relive_lib/GameObjects/AbilityRing.hpp"
 #include "Math.hpp"
 #include "Game.hpp"
 

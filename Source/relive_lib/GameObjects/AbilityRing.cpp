@@ -1,17 +1,14 @@
 #include "stdafx.h"
 #include "AbilityRing.hpp"
-#include "../relive_lib/Function.hpp"
-#include "../relive_lib/GameObjects/ScreenManager.hpp"
-#include "../relive_lib/PsxDisplay.hpp"
+#include "../Function.hpp"
+#include "ScreenManager.hpp"
+#include "../PsxDisplay.hpp"
 #include "Sfx.hpp"
-#include "Map.hpp"
-#include "Abe.hpp"
-#include "../relive_lib/ObjectIds.hpp"
-#include "../relive_lib/GameObjects/PossessionFlicker.hpp"
-#include "stdlib.hpp"
+#include "../ObjectIds.hpp"
+#include "PossessionFlicker.hpp"
 #include <algorithm>
-#include "QuikSave.hpp"
-#include "../relive_lib/GameType.hpp"
+#include "../../AliveLibAE/QuikSave.hpp"
+#include "../GameType.hpp"
 
 AbilityRing* AbilityRing::Factory(FP xpos, FP ypos, RingTypes ringType, FP scale)
 {
@@ -135,7 +132,7 @@ AbilityRing::AbilityRing(FP xpos, FP ypos, RingTypes ringType, FP scale)
     case RingTypes::eShrykull_Pulse_Small_4:
     case RingTypes::eInvisible_Pulse_Small_7:
     case RingTypes::eHealing_Pulse_14:
-        SetTarget(gAbe);
+        SetTarget(GetAbe());
         [[fallthrough]];
 
     case RingTypes::eShrykull_Pulse_Large_5:
@@ -195,9 +192,9 @@ AbilityRing::AbilityRing(FP xpos, FP ypos, RingTypes ringType, FP scale)
         break;
     }
 
-    mRingPath = gMap.mCurrentPath;
+    mRingPath = GetMap().mCurrentPath;
     mRingLayer = Layer::eLayer_Above_FG1_39;
-    mRingLevel = gMap.mCurrentLevel;
+    mRingLevel = GetMap().mCurrentLevel;
 
     if (mRingType == RingTypes::eShrykull_Pulse_Orange_6 && scale == FP_FromDouble(0.5))
     {
@@ -231,7 +228,7 @@ AbilityRing::~AbilityRing()
 
 void AbilityRing::VRender(OrderingTable& ot)
 {
-    if (gMap.Is_Point_In_Current_Camera(
+    if (GetMap().Is_Point_In_Current_Camera(
             mRingLevel,
             mRingPath,
             mRingXPos,
@@ -435,7 +432,7 @@ void AbilityRing::VUpdate()
                 SfxPlayMono(relive::SoundEffects::IngameTransition, 0);
                 if (mRingType == RingTypes::eExplosive_Give_3)
                 {
-                    relive_new PossessionFlicker(gAbe, 8, 255, 128, 128);
+                    relive_new PossessionFlicker(GetAbe(), 8, 255, 128, 128);
                 }
             }
             return;

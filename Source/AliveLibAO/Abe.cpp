@@ -36,7 +36,7 @@
 #include "../relive_lib/GameObjects/ScreenShake.hpp"
 #include "Sfx.hpp"
 #include "MusicController.hpp"
-#include "AbilityRing.hpp"
+#include "../relive_lib/GameObjects/AbilityRing.hpp"
 #include "MusicTrigger.hpp"
 #include "Math.hpp"
 #include "Input.hpp"
