@@ -79,8 +79,6 @@ SET(AliveLibSrcAO
    ../AliveLibAO/DoorFlame.cpp
    ../AliveLibAO/SlogSpawner.hpp
    ../AliveLibAO/SlogSpawner.cpp
-   ../AliveLibAO/AbilityRing.hpp
-   ../AliveLibAO/AbilityRing.cpp
    ../AliveLibAO/BirdPortal.hpp
    ../AliveLibAO/BirdPortal.cpp
    ../AliveLibAO/Well.hpp
@@ -254,8 +252,6 @@ SET(AliveLibAESrc
     ../AliveLibAE/MusicTrigger.hpp
     ../AliveLibAE/InvisibleEffect.cpp
     ../AliveLibAE/InvisibleEffect.hpp
-    ../AliveLibAE/AbilityRing.cpp
-    ../AliveLibAE/AbilityRing.hpp
     ../AliveLibAE/PullRingRope.hpp
     ../AliveLibAE/PullRingRope.cpp
     ../AliveLibAE/HoistRocksEffect.hpp
@@ -556,6 +552,8 @@ SET(game_objects_src
     GameObjects/TrapDoor.hpp
     GameObjects/TimerTrigger.cpp
     GameObjects/TimerTrigger.hpp
+    GameObjects/AbilityRing.cpp
+    GameObjects/AbilityRing.hpp
 )
 
 SET(data_conversion_src

@@ -20,7 +20,7 @@
 #include "../relive_lib/GameObjects/Gibs.hpp"
 #include "../relive_lib/GameObjects/BaseThrowable.hpp"
 #include "../relive_lib/GameObjects/ThrowableTotalIndicator.hpp"
-#include "AbilityRing.hpp"
+#include "../relive_lib/GameObjects/AbilityRing.hpp"
 #include "../relive_lib/GameObjects/OrbWhirlWind.hpp"
 #include "../relive_lib/GameObjects/Blood.hpp"
 #include "PullRingRope.hpp"

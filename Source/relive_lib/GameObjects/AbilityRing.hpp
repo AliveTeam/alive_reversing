@@ -1,10 +1,10 @@
 #pragma once
 
-#include "../relive_lib/GameObjects/BaseGameObject.hpp"
-#include "../relive_lib/Primitives.hpp"
-#include "../relive_lib/Layer.hpp"
-#include "../relive_lib/MapWrapper.hpp"
-#include "../relive_lib/SaveStateBase.hpp"
+#include "BaseGameObject.hpp"
+#include "../Primitives.hpp"
+#include "../Layer.hpp"
+#include "../MapWrapper.hpp"
+#include "../SaveStateBase.hpp"
 
 enum class RingTypes : s16
 {

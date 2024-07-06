@@ -18,7 +18,7 @@
 #include "Sfx.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
 #include "../relive_lib/GameObjects/BaseGameObject.hpp"
-#include "AbilityRing.hpp"
+#include "../relive_lib/GameObjects/AbilityRing.hpp"
 #include "Path.hpp"
 #include "../relive_lib/ObjectIds.hpp"
 #include "Map.hpp"

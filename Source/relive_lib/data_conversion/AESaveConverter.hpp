@@ -32,7 +32,7 @@
 #include "../../AliveLibAE/LiftPoint.hpp"
 #include "../../AliveLibAE/Slog.hpp"
 #include "../../AliveLibAE/Rock.hpp"
-#include "../../AliveLibAE/AbilityRing.hpp"
+#include "../relive_lib/GameObjects/AbilityRing.hpp"
 #include "../../AliveLibAE/Paramite.hpp"
 #include "../../AliveLibAE/MineCar.hpp"
 #include "../../AliveLibAE/Meat.hpp"
