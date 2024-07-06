@@ -1,13 +1,10 @@
 #include "stdafx.h"
 #include "TimerTrigger.hpp"
-#include "../relive_lib/Function.hpp"
-#include "../relive_lib/SwitchStates.hpp"
-#include "Game.hpp"
-#include "stdlib.hpp"
-#include "Map.hpp"
-#include "../relive_lib/Events.hpp"
-#include "Path.hpp"
-#include "QuikSave.hpp"
+#include "../Function.hpp"
+#include "../SwitchStates.hpp"
+#include "../MapWrapper.hpp"
+#include "../Events.hpp"
+#include "../../AliveLibAE/QuikSave.hpp"
 
 TimerTrigger::TimerTrigger(relive::Path_TimerTrigger* pTlv, const Guid& tlvId)
     : BaseGameObject(true, 0)
@@ -86,7 +83,7 @@ void TimerTrigger::VUpdate()
 
 void TimerTrigger::VScreenChanged()
 {
-    if (mState == TimerTriggerStates::eWaitForEnabled_0 || mState == TimerTriggerStates::eCheckForStartAgain_2 || gMap.LevelChanged() || gMap.PathChanged())
+    if (mState == TimerTriggerStates::eWaitForEnabled_0 || mState == TimerTriggerStates::eCheckForStartAgain_2 || GetMap().LevelChanged() || GetMap().PathChanged())
     {
         SetDead(true);
     }
@@ -94,14 +91,14 @@ void TimerTrigger::VScreenChanged()
 
 TimerTrigger::~TimerTrigger()
 {
-    Path::TLV_Reset(mTlvInfo);
+    GetMap().TLV_Reset(mTlvInfo);
 }
 
 void TimerTrigger::CreateFromSaveState(SerializedObjectData& pData)
 {
     const auto pState = pData.ReadTmpPtr<TimerTriggerSaveState>();
 
-    relive::Path_TimerTrigger* pTlv = static_cast<relive::Path_TimerTrigger*>(gPathInfo->TLV_From_Offset_Lvl_Cam(pState->mTlvId));
+    relive::Path_TimerTrigger* pTlv = static_cast<relive::Path_TimerTrigger*>(GetMap().TLV_From_Offset_Lvl_Cam(pState->mTlvId));
     auto pTimerTrigger = relive_new TimerTrigger(pTlv, pState->mTlvId);
     if (pTimerTrigger)
     {

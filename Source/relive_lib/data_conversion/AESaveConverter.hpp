@@ -24,8 +24,8 @@
 #include "../../AliveLibAE/BirdPortal.hpp"
 #include "../relive_lib/GameObjects/ThrowableArray.hpp"
 #include "../../AliveLibAE/ScrabSpawner.hpp"
-#include "../../AliveLibAE/TimerTrigger.hpp"
-#include "../../AliveLibAE/TrapDoor.hpp"
+#include "../relive_lib/GameObjects/TimerTrigger.hpp"
+#include "../relive_lib/GameObjects/TrapDoor.hpp"
 #include "../../AliveLibAE/UXB.hpp"
 #include "../../AliveLibAE/WorkWheel.hpp"
 #include "../../AliveLibAE/Slurg.hpp"
@@ -5005,13 +5005,13 @@ struct TrapDoorSaveState final
         switch (state)
         {
             case TrapDoorState::eClosed_0:
-                return ::TrapDoorState::eClosed_0;
+                return ::TrapDoorState::eClosed;
             case TrapDoorState::eOpening_1:
-                return ::TrapDoorState::eOpening_1;
+                return ::TrapDoorState::eOpening;
             case TrapDoorState::eOpen_2:
-                return ::TrapDoorState::eOpen_2;
+                return ::TrapDoorState::eOpen;
             case TrapDoorState::eClosing_3:
-                return ::TrapDoorState::eClosing_3;
+                return ::TrapDoorState::eClosing;
         }
         ALIVE_FATAL("Bad trap door state value");
     }

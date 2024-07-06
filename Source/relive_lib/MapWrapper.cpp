@@ -284,3 +284,9 @@ Camera* IMap::GetCamera(CameraPos pos)
 {
     return field_2C_camera_array[static_cast<s32>(pos)];
 }
+
+relive::Path_TLV* IMap::TLV_From_Offset_Lvl_Cam(const Guid& /*tlvId*/)
+{
+    LOG_WARNING("TLV_From_Offset_Lvl_Cam() not implmeneted in AO");
+    return nullptr;
+}

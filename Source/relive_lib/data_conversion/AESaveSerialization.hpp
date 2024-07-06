@@ -2906,10 +2906,10 @@ inline void from_json(const nlohmann::json& j, TimerTriggerSaveState& p)
 }
 
 NLOHMANN_JSON_SERIALIZE_ENUM(TrapDoorState, {
-    {TrapDoorState::eClosed_0, "closed"},
-    {TrapDoorState::eOpening_1, "opening"},
-    {TrapDoorState::eOpen_2, "open"},
-    {TrapDoorState::eClosing_3, "closing"},
+    {TrapDoorState::eClosed, "closed"},
+    {TrapDoorState::eOpening, "opening"},
+    {TrapDoorState::eOpen, "open"},
+    {TrapDoorState::eClosing, "closing"},
 })
 
 inline void to_json(nlohmann::json& j, const TrapDoorSaveState& p)

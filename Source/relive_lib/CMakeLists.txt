@@ -55,8 +55,6 @@ SET(AliveLibSrcAO
    ../AliveLibAO/Door.cpp
    ../AliveLibAO/HintFly.hpp
    ../AliveLibAO/HintFly.cpp
-   ../AliveLibAO/TrapDoor.hpp
-   ../AliveLibAO/TrapDoor.cpp
    ../AliveLibAO/MeatSaw.hpp
    ../AliveLibAO/MeatSaw.cpp
    ../AliveLibAO/FlintLockFire.hpp
@@ -109,8 +107,6 @@ SET(AliveLibSrcAO
    ../AliveLibAO/InvisibleSwitch.cpp
    ../AliveLibAO/PullRingRope.hpp
    ../AliveLibAO/PullRingRope.cpp
-   ../AliveLibAO/TimerTrigger.hpp
-   ../AliveLibAO/TimerTrigger.cpp
    ../AliveLibAO/BellSong.hpp
    ../AliveLibAO/BellSong.cpp
    ../AliveLibAO/HoneySack.hpp
@@ -254,8 +250,6 @@ SET(AliveLibAESrc
     ../AliveLibAE/Text.hpp
     ../AliveLibAE/UXB.cpp
     ../AliveLibAE/UXB.hpp
-    ../AliveLibAE/TrapDoor.cpp
-    ../AliveLibAE/TrapDoor.hpp
     ../AliveLibAE/MusicTrigger.cpp
     ../AliveLibAE/MusicTrigger.hpp
     ../AliveLibAE/InvisibleEffect.cpp
@@ -296,8 +290,6 @@ SET(AliveLibAESrc
     ../AliveLibAE/LiftPoint.hpp
     ../AliveLibAE/LiftMover.cpp
     ../AliveLibAE/LiftMover.hpp
-    ../AliveLibAE/TimerTrigger.cpp
-    ../AliveLibAE/TimerTrigger.hpp
     ../AliveLibAE/FootSwitch.cpp
     ../AliveLibAE/FootSwitch.hpp
     ../AliveLibAE/BrewMachine.cpp
@@ -560,6 +552,10 @@ SET(game_objects_src
     GameObjects/BoomMachinePipe.cpp
     GameObjects/BoomMachine.hpp
     GameObjects/BoomMachine.cpp
+    GameObjects/TrapDoor.cpp
+    GameObjects/TrapDoor.hpp
+    GameObjects/TimerTrigger.cpp
+    GameObjects/TimerTrigger.hpp
 )
 
 SET(data_conversion_src
