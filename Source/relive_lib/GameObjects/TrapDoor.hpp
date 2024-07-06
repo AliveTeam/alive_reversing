@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../relive_lib/GameObjects/PlatformBase.hpp"
-#include "../relive_lib/SaveStateBase.hpp"
+#include "PlatformBase.hpp"
+#include "../SaveStateBase.hpp"
 
 namespace relive
 {
@@ -16,12 +16,12 @@ struct TrapDoor_Data final
     AnimId mClosing;
 };
 
-enum class TrapDoorState : s16
+enum class TrapDoorState
 {
-    eClosed_0 = 0,
-    eOpening_1 = 1,
-    eOpen_2 = 2,
-    eClosing_3 = 3,
+    eClosed,
+    eOpening,
+    eOpen,
+    eClosing
 };
 
 struct TrapDoorSaveState final : public SaveStateBase
@@ -63,11 +63,12 @@ public:
 private:
     void Add_To_Collisions_Array();
     void Open();
+    bool InIndustrialLevel();
 
 private:
     s32 mStayOpenTimeTimer = 0;
     s16 mSwitchId = 0;
-    TrapDoorState mState = TrapDoorState::eClosed_0;
+    TrapDoorState mState = TrapDoorState::eClosed;
     s16 mStartState = 0;
     s16 mTrapDoorXOffset = 0;
     s16 mStayOpenTime = 0;

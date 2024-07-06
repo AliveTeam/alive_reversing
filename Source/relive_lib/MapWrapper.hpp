@@ -165,6 +165,8 @@ public:
 
     virtual void GetCurrentCamCoords(PSX_Point* pPoint) = 0;
 
+    virtual relive::Path_TLV* TLV_From_Offset_Lvl_Cam(const Guid& tlvId);
+
 public:
     MapDirections mMapDirection = MapDirections::eMapLeft_0;
     BaseAliveGameObject* mAliveObj = nullptr;

@@ -1156,4 +1156,9 @@ relive::Path_TLV* Map::TLV_Get_At(relive::Path_TLV* pTlv, FP xpos, FP ypos, FP w
     return gPathInfo->TLV_Get_At(pTlv, xpos, ypos, width, height);
 }
 
+relive::Path_TLV* Map::TLV_From_Offset_Lvl_Cam(const Guid& tlvId)
+{
+    return gPathInfo->mBinaryPath->TlvsById(tlvId);
+}
+
 Map gMap = {};
