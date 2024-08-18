@@ -34,17 +34,6 @@ git clone --recursive https://github.com/AliveTeam/alive_reversing.git
 #### **Regardless of your platform, you need to create a folder called `build` in your repository root! `.gitignore` is configured to ignore this folder. This helps to prevent polluting the commits with binaries.**
 
 <details>
-<summary>Build on Windows using MSYS2 + MinGW</summary>
-
-1. Obtain [MSYS2](https://www.msys2.org/) and follow the installation instructions on the main page
-2. Open a MSYS2 shell, and install SDL2 via `pacman -S mingw-w64-SDL2 mingw-w64-x86_64-SDL2`
-3. Open a MinGW x64 shell and `cd build && cmake .. -G"MinGW Makefiles" && make -j$(nproc)`
-
-</details>
-  
-  
-
-<details>
 <summary>Build on Windows using `msbuild`</summary>
 
 [SDL](https://libsdl.org/download-2.0.php) and [CMake](https://cmake.org/) is required to build the project.
@@ -58,16 +47,17 @@ git clone --recursive https://github.com/AliveTeam/alive_reversing.git
 
 
 <details>
-<summary>Build on Windows using Visual Studio 2017</summary>
+<summary>Build on Windows using Visual Studio 2022</summary>
 
-[SDL](https://libsdl.org/download-2.0.php) is required to build the project.
+[SDL](https://github.com/libsdl-org/SDL/releases/download/release-2.30.6/SDL2-devel-2.30.6-VC.zip) is required to build the project.
 
-1. Launch VS2017.
+1. Launch VS2022 and click on `Continue without code`.
 2. Goto `File` -> `Open` -> `CMake`. Then choose the `CMakeLists.txt` from the root of this cloned git repository.
-3. Select `CMake` -> `Change CMake settings` -> `CMakeLists.txt`.
-4. Choose `x86-debug` and click `select`.
-5. This will open `CMakeSettings.json`, edit the line `cmakeCommandArgs` to contain `-DSDL2_DIR=PATH_TO_YOUR_SDL2_DIRECTORY`, set your build directory to `build` and then click `generate` in the top yellow warning bar.
-6. Invoke `CMake` -> `Build all` to build the project.
+3. Select `Project` -> `CMake Settings` and click on `Edit JSON` in the top right corner.
+4. Change `generator` to `Visual Studio 17 2022` for `x86` or `Visual Studio 17 2022 Win64` for `x64`
+5. Change `inheritEnvironments` to `msvc_x86` for `x86` or `msvc_x64_x64` for `x64`
+6. Edit the line `cmakeCommandArgs` to contain `-DSDL2_DIR=PATH_TO_YOUR_SDL2_DIRECTORY`, and then press `ctrl+s` to save and generate your files.
+7. Invoke `Build` -> `Build all` to build the project.
 
 </details>
 
