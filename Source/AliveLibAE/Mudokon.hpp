@@ -390,7 +390,7 @@ private:
     s16 MudResponseDelay();
     s16 FindBirdPortal();
     GameSpeakEvents LastGameSpeak();
-    s16 LaughingGasInCurrentScreen();
+    bool LaughingGasInCurrentScreen();
     void MudEmotionSound(MudSounds idx);
     s16 IAmNearestToAbe();
 

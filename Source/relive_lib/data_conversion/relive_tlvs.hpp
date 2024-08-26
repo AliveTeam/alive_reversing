@@ -2253,11 +2253,7 @@ struct Path_LaughingGas final : public Path_TLV
         mTlvType = ReliveTypes::eLaughingGas;
         mAttribute = QuiksaveAttribute::eClearTlvFlags_1;
     }
-    bool mLaughingGas = true;
     s16 mLaughingGasSwitchId = 0;
-    s16 mRedPercent = 0;
-    s16 mGreenPercent = 0;
-    s16 mBluePercent = 0;
     static constexpr char kClassName[] = "laughing_gas";
     static constexpr ReliveTypes kReliveType = ReliveTypes::eLaughingGas;
 };

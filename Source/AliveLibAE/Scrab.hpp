@@ -330,7 +330,7 @@ private:
     FP field_19C_max_ypos = {};
     s16 field_1A0_speak_max = 0;
     s16 field_1A2_speak_counter = 0;
-    Choice_short mKillEnemy = Choice_short::eNo_0;
+    bool mKillEnemy = false;
     bool mAttacking = false;
     bool mForceUpdateAnimation = false;
     bool mRoarRandomly = false;

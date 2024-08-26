@@ -3996,11 +3996,7 @@ public:
     {
         Path_LaughingGas r;
         BaseConvert(r, tlv, tlvId);
-        r.mLaughingGas = relive::From(tlv.mLaughingGas);
         r.mLaughingGasSwitchId = tlv.mLaughingGasSwitchId;
-        r.mRedPercent = tlv.mRedPercent;
-        r.mGreenPercent = tlv.mGreenPercent;
-        r.mBluePercent = tlv.mBluePercent;
         return r;
     }
 };

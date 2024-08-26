@@ -79,11 +79,11 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_SlamDoor, 0x1C);
 
 struct Path_LaughingGas final : public Path_TLV
 {
-    Choice_short mLaughingGas;
+    Choice_short mLaughingGas; // Unused
     s16 mLaughingGasSwitchId;
-    s16 mRedPercent;
-    s16 mGreenPercent;
-    s16 mBluePercent;
+    s16 mRedPercent; // Unused
+    s16 mGreenPercent; // Unused
+    s16 mBluePercent; // Unused
     s16 padding;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_LaughingGas, 0x1C);

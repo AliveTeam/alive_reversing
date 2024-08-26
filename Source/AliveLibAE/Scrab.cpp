@@ -158,7 +158,7 @@ Scrab::Scrab(relive::Path_Scrab* pTlv, const Guid& tlvId, relive::Path_ScrabSpaw
     mPauseRightMax = pTlv->mPauseRightMax;
     mPauseAfterChaseTime = pTlv->mPauseAfterChaseTime;
     mPossessedMaxWhirlAttackDuration = pTlv->mPossessedMaxWhirlAttackDuration;
-    mKillEnemy = pTlv->mKillEnemy ? Choice_short::eYes_1 : Choice_short::eNo_0;
+    mKillEnemy = pTlv->mKillEnemy;
 
     field_1A0_speak_max = 3;
 
@@ -3941,7 +3941,7 @@ void Scrab::KillTarget(BaseAliveGameObject* pTarget)
                                         if (pObj->Type() != ReliveTypes::eScrab ||
                                             !pObj->GetPossessed() ||
                                             (static_cast<Scrab*>(pObj)->mCurrentMotion != eScrabMotions::Motion_32_AttackSpin &&
-                                            (pObj->Type() != ReliveTypes::eFleech || BrainIs(&Scrab::Brain_5_Possessed) || mKillEnemy == Choice_short::eYes_1)))
+                                            (pObj->Type() != ReliveTypes::eFleech || BrainIs(&Scrab::Brain_5_Possessed) || mKillEnemy)))
 
                                         {
                                             const PSX_RECT objRect = pObj->VGetBoundingRect();

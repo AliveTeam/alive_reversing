@@ -430,7 +430,7 @@ void DirectX9Renderer::Draw(const Prim_GasEffect& gasEffect)
     const u32 gasHeight = static_cast<u32>(std::floor((gasEffect.h - gasEffect.y) / 2));
     
     // TODO: Square texture
-    mGasTexture = MakeTexture16(gasEffect.pData, gasWidth, gasHeight, gasWidth, gasHeight);
+    mGasTexture = MakeTexture16(gasEffect.pGasPixels, gasWidth, gasHeight, gasWidth, gasHeight);
 
     // TODO: If there is more than 1 gas in a frame break the batch ?
     mBatcher.PushGas(gasEffect);

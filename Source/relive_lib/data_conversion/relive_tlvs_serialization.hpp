@@ -3040,22 +3040,14 @@ inline void to_json(nlohmann::json& j, const Path_LaughingGas& p)
     j = nlohmann::json{
         {"tlv_type", "laughing_gas"},
         {"base", ToBase(p)},
-        {"laughing_gas", p.mLaughingGas},
         {"laughing_gas_switch_id", p.mLaughingGasSwitchId},
-        {"red_percent", p.mRedPercent},
-        {"green_percent", p.mGreenPercent},
-        {"blue_percent", p.mBluePercent},
     };
 }
 
 inline void from_json(const nlohmann::json& j, Path_LaughingGas& p)
 {
     j.at("base").get_to(ToBase(p));
-    j.at("laughing_gas").get_to(p.mLaughingGas);
     j.at("laughing_gas_switch_id").get_to(p.mLaughingGasSwitchId);
-    j.at("red_percent").get_to(p.mRedPercent);
-    j.at("green_percent").get_to(p.mGreenPercent);
-    j.at("blue_percent").get_to(p.mBluePercent);
 }
 
 // Path_WorkWheel

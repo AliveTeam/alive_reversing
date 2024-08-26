@@ -1041,11 +1041,7 @@ public:
     {
         MapObjectBase::Visit(r);
 
-        r.Visit("Is Laughing Gas", mTlv.mLaughingGas);
         r.Visit("Laughing Gas Switch ID", mTlv.mLaughingGasSwitchId);
-        r.Visit("Red %", mTlv.mRedPercent);
-        r.Visit("Green %", mTlv.mGreenPercent);
-        r.Visit("Blue %", mTlv.mBluePercent);
     }
 
     std::string GetIconPath() const override
