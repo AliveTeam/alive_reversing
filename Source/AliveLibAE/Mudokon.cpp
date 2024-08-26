@@ -36,6 +36,7 @@
 #include "../relive_lib/FatalError.hpp"
 #include "../relive_lib/FixedPoint.hpp"
 #include "QuikSave.hpp"
+#include "Path.hpp"
 
 s16 sGoingToBirdPortalMudCount_5C3012 = 0;
 
@@ -6659,9 +6660,9 @@ GameSpeakEvents Mudokon::LastGameSpeak()
     return GameSpeakEvents::eNone;
 }
 
-s16 Mudokon::LaughingGasInCurrentScreen()
+bool Mudokon::LaughingGasInCurrentScreen()
 {
-    return gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) != 0 ? gLaughingGasOn_5C1BA4 : 0;
+    return gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) ? gLaughingGasOn : false;
 }
 
 void Mudokon::MudEmotionSound(MudSounds idx)

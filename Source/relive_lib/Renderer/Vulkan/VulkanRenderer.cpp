@@ -1724,7 +1724,7 @@ void VulkanRenderer::Draw(const Prim_GasEffect& gasEffect)
     const u32 gasWidth = static_cast<u32>(std::floor((gasEffect.w - gasEffect.x) / 4));
     const u32 gasHeight = static_cast<u32>(std::floor((gasEffect.h - gasEffect.y) / 2));
 
-    mGasTexture[mCurrentFrame] = std::make_shared<Texture>(*this, gasWidth, gasHeight, gasEffect.pData, Texture::Format::RGBA16);
+    mGasTexture[mCurrentFrame] = std::make_shared<Texture>(*this, gasWidth, gasHeight, gasEffect.pGasPixels, Texture::Format::RGBA16);
 
     // TODO: If there is more than 1 gas in a frame break the batch ?
     mBatcher[mCurrentFrame].PushGas(gasEffect);

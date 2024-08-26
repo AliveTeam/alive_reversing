@@ -328,7 +328,7 @@ struct Prim_GasEffect final : public BasePrimitive
     s32 y = 0;
     s32 w = 0;
     s32 h = 0;
-    u16* pData = nullptr;
+    u16* pGasPixels = nullptr;
 };
 
 struct Prim_ScreenOffset final : public BasePrimitive

@@ -262,7 +262,7 @@ void OpenGLRenderer::Draw(const Prim_GasEffect& gasEffect)
 
     const f32 gasWidth = std::floor(static_cast<f32>(gasEffect.w - gasEffect.x) / 4);
     const f32 gasHeight = std::floor(static_cast<f32>(gasEffect.h - gasEffect.y) / 2);
-    mCurGasTexture->LoadSubImage(0, 0, static_cast<GLsizei>(gasWidth), static_cast<GLsizei>(gasHeight), gasEffect.pData, GL_UNSIGNED_SHORT_5_6_5);
+    mCurGasTexture->LoadSubImage(0, 0, static_cast<GLsizei>(gasWidth), static_cast<GLsizei>(gasHeight), gasEffect.pGasPixels, GL_UNSIGNED_SHORT_5_6_5);
 
     // TODO: If there is more than 1 gas in a frame break the batch ?
     mBatcher.PushGas(gasEffect);

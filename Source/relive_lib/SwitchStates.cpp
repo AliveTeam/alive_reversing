@@ -6,15 +6,21 @@ SwitchStates gSwitchStates = {};
 
 void SwitchStates_ClearRange(u16 start, u16 end)
 {
-    if (start <= end)
+    if (end < ALIVE_COUNTOF(gSwitchStates.mData))
     {
-        memset(&gSwitchStates.mData[start], 0, end - start + 1);
+        if (start <= end)
+        {
+            memset(&gSwitchStates.mData[start], 0, end - start + 1);
+        }
     }
 }
 
 void SwitchStates_Set(u16 idx, s8 value)
 {
-    gSwitchStates.mData[idx] = value;
+    if (idx < ALIVE_COUNTOF(gSwitchStates.mData))
+    {
+        gSwitchStates.mData[idx] = value;
+    }
 }
 
 s32 SwitchStates_Get(u16 idx)
@@ -40,7 +46,10 @@ s32 SwitchStates_Get(u16 idx)
 
 void SwitchStates_Add(u16 idx, s8 value)
 {
-    gSwitchStates.mData[idx] += value;
+    if (idx < ALIVE_COUNTOF(gSwitchStates.mData))
+    {
+        gSwitchStates.mData[idx] += value;
+    }
 }
 
 void SwitchStates_Do_Operation(s16 idx, relive::reliveSwitchOp operation)

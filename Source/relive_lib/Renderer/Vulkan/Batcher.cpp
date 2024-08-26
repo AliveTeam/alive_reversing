@@ -192,7 +192,7 @@ void Batcher<TextureType, RenderBatchType, kTextureBatchSize>::SetScissor(const 
 template <typename TextureType, typename RenderBatchType, std::size_t kTextureBatchSize>
 void Batcher<TextureType, RenderBatchType, kTextureBatchSize>::PushGas(const Prim_GasEffect& gasEffect)
 {
-    if (gasEffect.pData == nullptr)
+    if (gasEffect.pGasPixels == nullptr)
     {
         return;
     }
