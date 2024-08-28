@@ -137,11 +137,11 @@ virtual void VScreenChanged() override
     line = line.replace("LOBYTE(field_6_flags) |= 4u", "field_6_flags.Set(BaseGameObject::eDead_Bit3)")
 
     line = line.replace("1835626049", "ResourceManager::Resource_Animation")
-    line = line.replace("0x746C6150", "ResourceManager::Resource_Animation")
+    line = line.replace("0x6D696E41", "ResourceManager::Resource_Animation")
     line = line.replace("'minA'", "ResourceManager::Resource_Animation")
 
     line = line.replace("1953259856", "ResourceManager::Resource_Palt")
-    line = line.replace("0x6D696E41", "ResourceManager::Resource_Animation")
+    line = line.replace("0x746C6150", "ResourceManager::Resource_Palt")
     line = line.replace("'tlaP'", "ResourceManager::Resource_Palt")
 
 

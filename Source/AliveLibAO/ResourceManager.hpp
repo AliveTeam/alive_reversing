@@ -46,6 +46,8 @@ public:
         Resource_End = 0x21646E45,
         Resource_Plbk = 0x6B626C50,
         Resource_Play = 0x79616C50,
+        Resource_Indx = 0x78646E49,
+        Resource_Seq = 0x20716553,
     };
 
     enum ResourceHeaderFlags : s16
@@ -154,7 +156,6 @@ public:
     static EXPORT s16 CC FreeResource_455550(u8** ppRes);
 
     static EXPORT void CC LoadResource_446C90(const char_type* pFileName, u32 type, u32 resourceId, LoadMode loadMode, s16 bDontLoad = FALSE);
-
 
     static EXPORT u8** CC GetLoadedResource_4554F0(u32 type, u32 resourceId, s16 addUseCount, s16 bLock);
 
