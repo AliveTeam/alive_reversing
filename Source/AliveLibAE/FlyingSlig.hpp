@@ -261,10 +261,10 @@ private:
 
     // TODO: names
     s16 sub_4374A0(s16 a2);
-    s16 sub_436730();
-    s16 sub_437C70(PathLine* pLine);
+    s16 ReactingToSomething();
+    s16 SetActiveLine(PathLine* pLine);
     s16 sub_436C60(PSX_RECT* pRect, s16 op1);
-    bool sub_436B20();
+    bool GotoNextOrPrevLine();
     void sub_4373B0();
     void sub_437AC0(FP a2, FP_Point* pPoint);
 
@@ -298,15 +298,15 @@ private:
     FP field_18C = {};
     FP field_190 = {};
     FP field_194 = {};
-    FP field_198_line_length = {};
-    FP_Rect field_1A4_rect = {};
+    FP mCurrentLineLength = {};
+    FP_Rect mCurrentLineRect = {};
     FP field_1BC = {};
     FP field_1C0 = {};
     FP field_1C4 = {};
     FP field_1C8_lever_pull_range_xpos = {};
     FP field_1CC_lever_pull_range_ypos = {};
-    PathLine* field_1EC_pNextLine = nullptr;
-    PathLine* field_1F0_pPrevLine = nullptr;
+    PathLine* mNextLine = nullptr;
+    PathLine* mPrevLine = nullptr;
     std::shared_ptr<AnimationPal> field_1F4_mPal;
     s16 field_27C_r = 0;
     s16 field_27E_g = 0;
