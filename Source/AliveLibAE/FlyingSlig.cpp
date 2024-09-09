@@ -319,7 +319,7 @@ void FlyingSlig::CreateFromSaveState(SerializedObjectData& pBuffer)
         pFlyingSlig->field_18C = pSaveState->field_5C;
         pFlyingSlig->field_190 = pSaveState->field_60;
         pFlyingSlig->field_194 = pSaveState->field_64;
-        pFlyingSlig->field_198_line_length = pSaveState->field_68_line_length;
+        pFlyingSlig->mCurrentLineLength = pSaveState->field_68_line_length;
         pFlyingSlig->field_1C4 = pSaveState->field_6C;
         pFlyingSlig->field_1C8_lever_pull_range_xpos = pSaveState->field_70_lever_pull_range_xpos;
         pFlyingSlig->field_1CC_lever_pull_range_ypos = pSaveState->field_74_lever_pull_range_ypos;
@@ -417,7 +417,7 @@ void FlyingSlig::VGetSaveState(SerializedObjectData& pSaveBuffer)
     data.field_5C = field_18C;
     data.field_60 = field_190;
     data.field_64 = field_194;
-    data.field_68_line_length = field_198_line_length;
+    data.field_68_line_length = mCurrentLineLength;
     data.field_6C = field_1C4;
     data.field_70_lever_pull_range_xpos = field_1C8_lever_pull_range_xpos;
     data.field_74_lever_pull_range_ypos = field_1CC_lever_pull_range_ypos;
@@ -560,9 +560,9 @@ void FlyingSlig::sub_4348A0()
     field_294_nextXPos = mXPos;
     field_18C = FP_FromInteger(0);
     field_190 = FP_FromInteger(0);
-    sub_437C70(BaseAliveGameObjectCollisionLine);
-    const s16 v5 = FP_GetExponent(mYPos - field_1A4_rect.y);
-    const s16 v6 = FP_GetExponent(mXPos - field_1A4_rect.x);
+    SetActiveLine(BaseAliveGameObjectCollisionLine);
+    const s16 v5 = FP_GetExponent(mYPos - mCurrentLineRect.y);
+    const s16 v6 = FP_GetExponent(mXPos - mCurrentLineRect.x);
     field_194 = FP_FromInteger(Math_SquareRoot_Int(v5 * v5 + v6 * v6));
     mUnknown2 = field_118_data.mFacing == relive::reliveXDirection::eLeft;
 }
@@ -930,7 +930,7 @@ void FlyingSlig::Brain_1_Death()
 
 void FlyingSlig::Brain_2_Moving()
 {
-    if (!sub_436730() && sub_4374A0(1) == 1)
+    if (!ReactingToSomething() && sub_4374A0(1) == 1)
     {
         mUnknown2 = !mUnknown2;
         PatrolDelay();
@@ -945,7 +945,7 @@ void FlyingSlig::Brain_3_GetAlerted()
     }
     else if (VIsFacingMe(sControlledCharacter))
     {
-        if (!sub_436730() && static_cast<s32>(sGnFrame) >= field_14C_timer)
+        if (!ReactingToSomething() && static_cast<s32>(sGnFrame) >= field_14C_timer)
         {
             ToMoving();
         }
@@ -996,7 +996,7 @@ void FlyingSlig::Brain_4_ChasingEnemy()
             }
         }
     }
-    else if (!sub_436B20())
+    else if (!GotoNextOrPrevLine())
     {
         sub_4373B0();
     }
@@ -1006,7 +1006,7 @@ void FlyingSlig::Brain_4_ChasingEnemy()
 
 void FlyingSlig::Brain_5_Idle()
 {
-    if (!sub_436730() && static_cast<s32>(sGnFrame) >= field_14C_timer)
+    if (!ReactingToSomething() && static_cast<s32>(sGnFrame) >= field_14C_timer)
     {
         ToMoving();
     }
@@ -1955,13 +1955,13 @@ s16 FlyingSlig::sub_4374A0(s16 a2)
             FP right = {};
             if (directedXMaxSpeedUp <= FP_FromInteger(0))
             {
-                left = field_1A4_rect.x;
-                right = field_1A4_rect.w;
+                left = mCurrentLineRect.x;
+                right = mCurrentLineRect.w;
             }
             else
             {
-                left = field_1A4_rect.w;
-                right = field_1A4_rect.x;
+                left = mCurrentLineRect.w;
+                right = mCurrentLineRect.x;
             }
 
             const FP width = left - right;
@@ -1984,7 +1984,7 @@ s16 FlyingSlig::sub_4374A0(s16 a2)
                     mLastLine = true;
 
                     const FP v65 = FP_Abs((((field_18C * field_18C) / field_2B4_max_slow_down) * FP_FromDouble(0.5)));
-                    const FP v27 = field_198_line_length - field_194;
+                    const FP v27 = mCurrentLineLength - field_194;
                     if (v27 < field_2A8_max_x_speed && field_18C == FP_FromInteger(0))
                     {
                         return 1;
@@ -2027,13 +2027,13 @@ s16 FlyingSlig::sub_4374A0(s16 a2)
             FP right = {};
             if (directedXMaxSpeed <= FP_FromInteger(0))
             {
-                left = field_1A4_rect.x;
-                right = field_1A4_rect.w;
+                left = mCurrentLineRect.x;
+                right = mCurrentLineRect.w;
             }
             else
             {
-                left = field_1A4_rect.w;
-                right = field_1A4_rect.x;
+                left = mCurrentLineRect.w;
+                right = mCurrentLineRect.x;
             }
 
             const FP width = left - right;
@@ -2071,13 +2071,13 @@ s16 FlyingSlig::sub_4374A0(s16 a2)
 
     if (field_190 > FP_FromInteger(0))
     {
-        field_184_xSpeed = field_1A4_rect.w - field_1A4_rect.x;
-        field_188_ySpeed = field_1A4_rect.h - field_1A4_rect.y;
+        field_184_xSpeed = mCurrentLineRect.w - mCurrentLineRect.x;
+        field_188_ySpeed = mCurrentLineRect.h - mCurrentLineRect.y;
     }
     else if (field_190 < FP_FromInteger(0))
     {
-        field_184_xSpeed = field_1A4_rect.x - field_1A4_rect.w;
-        field_188_ySpeed = field_1A4_rect.y - field_1A4_rect.h;
+        field_184_xSpeed = mCurrentLineRect.x - mCurrentLineRect.w;
+        field_188_ySpeed = mCurrentLineRect.y - mCurrentLineRect.h;
     }
 
     return 0;
@@ -2179,7 +2179,7 @@ void FlyingSlig::BlowUp()
     field_14C_timer = MakeTimer(40);
 }
 
-s16 FlyingSlig::sub_436730()
+s16 FlyingSlig::ReactingToSomething()
 {
     if (CanChase(sControlledCharacter))
     {
@@ -2450,7 +2450,7 @@ void FlyingSlig::HandlePlayerControls()
     }
 }
 
-s16 FlyingSlig::sub_437C70(PathLine* pLine)
+s16 FlyingSlig::SetActiveLine(PathLine* pLine)
 {
     BaseAliveGameObjectCollisionLine = pLine;
     if (!BaseAliveGameObjectCollisionLine)
@@ -2458,23 +2458,22 @@ s16 FlyingSlig::sub_437C70(PathLine* pLine)
         return 0;
     }
 
-    field_1A4_rect.x = FP_FromInteger(BaseAliveGameObjectCollisionLine->mRect.x);
-    field_1A4_rect.y = FP_FromInteger(BaseAliveGameObjectCollisionLine->mRect.y);
-    field_1A4_rect.w = FP_FromInteger(BaseAliveGameObjectCollisionLine->mRect.w);
-    field_1A4_rect.h = FP_FromInteger(BaseAliveGameObjectCollisionLine->mRect.h);
+    mCurrentLineRect.x = FP_FromInteger(BaseAliveGameObjectCollisionLine->mRect.x);
+    mCurrentLineRect.y = FP_FromInteger(BaseAliveGameObjectCollisionLine->mRect.y);
+    mCurrentLineRect.w = FP_FromInteger(BaseAliveGameObjectCollisionLine->mRect.w);
+    mCurrentLineRect.h = FP_FromInteger(BaseAliveGameObjectCollisionLine->mRect.h);
 
+    mNextLine = gCollisions->Get_Line_At_Idx(BaseAliveGameObjectCollisionLine->mNext);
+    mPrevLine = gCollisions->Get_Line_At_Idx(BaseAliveGameObjectCollisionLine->mPrevious);
 
-    field_1EC_pNextLine = gCollisions->Get_Line_At_Idx(BaseAliveGameObjectCollisionLine->mNext);
-    field_1F0_pPrevLine = gCollisions->Get_Line_At_Idx(BaseAliveGameObjectCollisionLine->mPrevious);
+    mCurrentLineLength = FP_FromInteger(BaseAliveGameObjectCollisionLine->mLineLength);
 
-    field_198_line_length = FP_FromInteger(BaseAliveGameObjectCollisionLine->mLineLength);
+    mNoPrevLine = mPrevLine == nullptr;
+    mNoNextLine = mNextLine == nullptr;
 
-    mNoPrevLine = field_1F0_pPrevLine == nullptr;
-    mNoNextLine = field_1EC_pNextLine == nullptr;
-
-    field_182_bound1 = FindLeftOrRightBound(field_1A4_rect.w, field_1A4_rect.h);
-    field_180_bound2 = FindLeftOrRightBound(field_1A4_rect.x, field_1A4_rect.y);
-    field_1BC = Math_Tan(field_1A4_rect.y - field_1A4_rect.h, field_1A4_rect.w - field_1A4_rect.x);
+    field_182_bound1 = FindLeftOrRightBound(mCurrentLineRect.w, mCurrentLineRect.h);
+    field_180_bound2 = FindLeftOrRightBound(mCurrentLineRect.x, mCurrentLineRect.y);
+    field_1BC = Math_Tan(mCurrentLineRect.y - mCurrentLineRect.h, mCurrentLineRect.w - mCurrentLineRect.x);
 
     field_1C0 = field_1BC + FP_FromInteger(128);
 
@@ -2589,8 +2588,8 @@ s16 FlyingSlig::sub_436C60(PSX_RECT* pRect, s16 arg_4)
             return 1;
         }
 
-        const FP v2 = (field_1A4_rect.h - field_1A4_rect.y) / (field_1A4_rect.w - field_1A4_rect.x);
-        const FP v3 = field_1A4_rect.y - (v2 * field_1A4_rect.x);
+        const FP v2 = (mCurrentLineRect.h - mCurrentLineRect.y) / (mCurrentLineRect.w - mCurrentLineRect.x);
+        const FP v3 = mCurrentLineRect.y - (v2 * mCurrentLineRect.x);
 
         FP yOff1 = {};
         if (bRightInRect)
@@ -2652,13 +2651,13 @@ s16 FlyingSlig::sub_436C60(PSX_RECT* pRect, s16 arg_4)
             if (bRightInRect)
             {
                 sqrt1 = FP_FromInteger(Math_SquareRoot_Int(
-                    FP_GetExponent(yOff1 - field_1A4_rect.y) * (FP_GetExponent(yOff1 - field_1A4_rect.y)) + FP_GetExponent(rRight - field_1A4_rect.x) * (FP_GetExponent(rRight - field_1A4_rect.x))));
+                    FP_GetExponent(yOff1 - mCurrentLineRect.y) * (FP_GetExponent(yOff1 - mCurrentLineRect.y)) + FP_GetExponent(rRight - mCurrentLineRect.x) * (FP_GetExponent(rRight - mCurrentLineRect.x))));
             }
 
             if (bLeftInRect)
             {
                 const s32 sqrt2_int = Math_SquareRoot_Int(
-                    FP_GetExponent(yOff2 - field_1A4_rect.y) * (FP_GetExponent(yOff2 - field_1A4_rect.y)) + FP_GetExponent(rLeft - field_1A4_rect.x) * (FP_GetExponent(rLeft - field_1A4_rect.x)));
+                    FP_GetExponent(yOff2 - mCurrentLineRect.y) * (FP_GetExponent(yOff2 - mCurrentLineRect.y)) + FP_GetExponent(rLeft - mCurrentLineRect.x) * (FP_GetExponent(rLeft - mCurrentLineRect.x)));
 
                 sqrt2 = FP_FromInteger(sqrt2_int);
             }
@@ -2732,14 +2731,14 @@ s16 FlyingSlig::sub_436C60(PSX_RECT* pRect, s16 arg_4)
 
         if (arg_4)
         {
-            field_1C4 = FP_Abs(yTop - field_1A4_rect.y);
+            field_1C4 = FP_Abs(yTop - mCurrentLineRect.y);
         }
 
         return 1;
     }
 }
 
-bool FlyingSlig::sub_436B20()
+bool FlyingSlig::GotoNextOrPrevLine()
 {
     PathLine* pLastNextOrPrevLine = nullptr;
 
@@ -3197,25 +3196,25 @@ void FlyingSlig::sub_437AC0(FP arg1, FP_Point* pPoint)
 
     if (arg1 > FP_FromInteger(0))
     {
-        if (field_194 + arg1 > field_198_line_length)
+        if (field_194 + arg1 > mCurrentLineLength)
         {
-            if (!mLastLine && field_1EC_pNextLine)
+            if (!mLastLine && mNextLine)
             {
-                unknown = field_194 + arg1 - field_198_line_length;
-                if (sub_437C70(field_1EC_pNextLine))
+                unknown = field_194 + arg1 - mCurrentLineLength;
+                if (SetActiveLine(mNextLine))
                 {
                     field_194 = FP_FromInteger(0);
                 }
                 else
                 {
                     unknown = FP_FromInteger(0);
-                    field_194 = field_198_line_length;
+                    field_194 = mCurrentLineLength;
                 }
             }
             else
             {
                 unknown = FP_FromInteger(0);
-                field_194 = field_198_line_length;
+                field_194 = mCurrentLineLength;
             }
         }
     }
@@ -3223,12 +3222,12 @@ void FlyingSlig::sub_437AC0(FP arg1, FP_Point* pPoint)
     {
         if (field_194 + arg1 < FP_FromInteger(0))
         {
-            if (!mLastLine && field_1F0_pPrevLine)
+            if (!mLastLine && mPrevLine)
             {
                 unknown = field_194 + arg1;
-                if (sub_437C70(field_1F0_pPrevLine))
+                if (SetActiveLine(mPrevLine))
                 {
-                    field_194 = field_198_line_length;
+                    field_194 = mCurrentLineLength;
                 }
                 else
                 {
@@ -3245,6 +3244,6 @@ void FlyingSlig::sub_437AC0(FP arg1, FP_Point* pPoint)
     }
 
     field_194 += unknown;
-    pPoint->x = (field_194 * ((field_1A4_rect.w - field_1A4_rect.x) / field_198_line_length)) + field_1A4_rect.x;
-    pPoint->y = (field_194 * ((field_1A4_rect.h - field_1A4_rect.y) / field_198_line_length)) + field_1A4_rect.y;
+    pPoint->x = (field_194 * ((mCurrentLineRect.w - mCurrentLineRect.x) / mCurrentLineLength)) + mCurrentLineRect.x;
+    pPoint->y = (field_194 * ((mCurrentLineRect.h - mCurrentLineRect.y) / mCurrentLineLength)) + mCurrentLineRect.y;
 }

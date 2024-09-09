@@ -275,7 +275,7 @@ void EditorGraphicsView::contextMenuEvent(QContextMenuEvent* pEvent)
     QMenu menu(this);
 
     const QPoint scenePos = mapToScene(pEvent->pos()).toPoint();
-    QList<QGraphicsItem*> itemsAtMousePos = items(scenePos);
+    QList<QGraphicsItem*> itemsAtMousePos = scene()->items(scenePos);
     qDebug() << "There are " << itemsAtMousePos.count() << " at the context menu";
 
     bool cameraAtMenu = false;
@@ -303,9 +303,7 @@ void EditorGraphicsView::contextMenuEvent(QContextMenuEvent* pEvent)
 
     if (scene()->selectedItems().count() > 0)
     {
-        // TODO: Copy
-
-        // TODO: Cut
+        // TODO: Cut, Copy, Paste, Delete
 
         // TODO: Check if the selection has collision items
         // If nothing is selected its impossible to connect collision items
