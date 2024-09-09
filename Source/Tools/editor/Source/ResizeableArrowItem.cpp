@@ -331,7 +331,7 @@ void ResizeableArrowItem::Visit(IReflector& f)
     f.Visit("Length", mLine->mLine.mLineLength);
 }
 
-void ResizeableArrowItem::SyncToCollisionItem()
+void ResizeableArrowItem::SyncFromCollisionItem()
 {
     setLine(mLine->X2(), mLine->Y2(), mLine->X1(), mLine->Y1());
 
@@ -339,17 +339,22 @@ void ResizeableArrowItem::SyncToCollisionItem()
     update();
 }
 
-void ResizeableArrowItem::PosOrLineChanged()
+void ResizeableArrowItem::SyncToCollisionItem()
 {
     QLineF curLine = line();
 
     // Sync the model to the graphics item
-    mLine->SetX1(static_cast<int>(curLine.x2()));
-    mLine->SetY1(static_cast<int>(curLine.y2()));
-    mLine->SetX2(static_cast<int>(curLine.x1()));
-    mLine->SetY2(static_cast<int>(curLine.y1()));
+    mLine->SetX1(static_cast<int>(curLine.x2() + pos().x()));
+    mLine->SetY1(static_cast<int>(curLine.y2() + pos().y()));
+    mLine->SetX2(static_cast<int>(curLine.x1() + pos().x()));
+    mLine->SetY2(static_cast<int>(curLine.y1() + pos().y()));
 
     mLine->CalculateLength();
+}
+
+void ResizeableArrowItem::PosOrLineChanged()
+{
+    SyncToCollisionItem();
 
     // Update the property tree view
     mPropSyncer.Sync(this);

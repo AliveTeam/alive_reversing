@@ -24,7 +24,7 @@ public:
 
     void SyncInternalObject() override
     {
-        SyncToCollisionItem();
+        SyncFromCollisionItem();
     }
 
     void Visit(IReflector& f) override;
@@ -43,6 +43,7 @@ private:
     void Init();
     void CalcWhichEndOfLineClicked( QPointF aPos, Qt::KeyboardModifiers aMods );
     void SetViewCursor(Qt::CursorShape cursor);
+    void SyncFromCollisionItem();
     void SyncToCollisionItem();
     void PosOrLineChanged();
 private:
