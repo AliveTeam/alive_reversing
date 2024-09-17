@@ -13,6 +13,9 @@
 #include "StringFormatters.hpp"
 #include "TouchController.hpp"
 #include "GameAutoPlayer.hpp"
+#if ORIGINAL_GAME_FIXES
+    #include "Mudokon.hpp"
+#endif // ORIGINAL_GAME_FIXES
 
 #if USE_SDL2
 static SDL_GameController* pSDLController = nullptr;
@@ -2005,6 +2008,9 @@ void InputObject::Update(BaseGameAutoPlayer& autoPlayer)
         if (field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed)
         {
             bLongerTimeoutToNextDemo_5C1B9A = 0;
+#if ORIGINAL_GAME_FIXES
+            sIsMudStandingUp_5C3018 = 0; // Fixes Mudokons not listening to Hello after quitting a demo mid-Hello
+#endif // ORIGINAL_GAME_FIXES
             UnsetDemoPlaying_45F240();
             return;
         }
