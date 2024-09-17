@@ -23,9 +23,8 @@
 #include "../AliveLibAE/Sound/Sound.hpp"
 #include "../AliveLibAE/PathData.hpp"
 
-
+#if !AUDIO_SPU_EMULATION
 namespace AO {
-
 const s32 kSeqTableSizeAO = 164;
 
 ALIVE_VAR(1, 0x9F12D8, SeqIds, sSeq_Ids_word_9F12D8, {});
@@ -507,7 +506,10 @@ EXPORT s32 CC MIDI_PlayerPlayMidiNote_49D730(s32 vabId, s32 program, s32 note, s
                         auto v29 = pVagOff->field_A_shift_cen;
                         pChannel->field_1C_adsr.field_2_note_byte1 = BYTE1(note) & 0x7F;
                         auto freq = pow(1.059463094359, (f64)(note - v29) * 0.00390625);
-                        pChannel->field_10_freq = (f32) freq;
+                        pChannel->field_10_freq = (f32) freq;                     
+
+                        // reuse a field that is never accessed for passing the samples pan
+                        GetSpuApiVars()->sSoundEntryTable16().table[vabId][vag_num].field_1F = pVagOff->field_11_pad;
                         SND_PlayEx_493040(
                             &GetSpuApiVars()->sSoundEntryTable16().table[vabId][vag_num],
                             panLeft,
@@ -1145,5 +1147,160 @@ EXPORT void CC SND_StopAll_4762D0()
 
     SsUtAllKeyOff_49EDE0(0);
 }
+}
+#else
+
+#include "../../AliveLibCommon/audio/MidiPlayer.hpp"
+
+namespace AO {
+
+class AOResourceProvider : public psx::ResourceProvider
+{
+public:
+    psx::ResourceData* readFile(char_type* name)
+    {
+        LvlFileRecord* fileRecord = sLvlArchive_4FFD60.Find_File_Record_41BED0(name);
+        s32 size = fileRecord->field_10_num_sectors << 11;
+        u8* data = new u8[size];
+        sLvlArchive_4FFD60.Read_File_41BE40(fileRecord, data);
+       
+        psx::ResourceData* resource = new psx::ResourceData();
+        resource->data = data;
+        resource->size = size;
+        return resource;
+    }
+
+    psx::ResourceData* readSeq(const char_type* fileName, const char_type* sequenceName)
+    {
+        psx::ResourceData* resource = new psx::ResourceData();
+        resource->data = NULL;
+        resource->size = 0;
+
+        // TODO - maybe this load should be stored in memory for faster access?
+        //  Need to check underlying implementation
+        if (mLoadedFileName != fileName)
+        {
+            mLoadedFileName = fileName;
+            ResourceManager::LoadResourceFileWrapper(fileName, nullptr);
+        }
+        s32 hash = ResourceManager::SEQ_HashName_454EA0(sequenceName);
+        u8** ppSeq = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Seq, hash, 1, 1);
+        if (!ppSeq)
+        {
+            return resource;
+        }
+
+        u32 size = ResourceManager::Get_Header_455620(ppSeq)->field_0_size;
+        u8* data = new u8[size];
+        memcpy(data, *ppSeq, size);
+        resource->data = data;
+        resource->size = size;
+        resource->optionalHash = hash;
+        ResourceManager::FreeResource_455550(ppSeq); 
+        return resource;
+    }
+
+    s32 sequenceCount()
+    {
+        return 164;
+    }
+
+private:
+    const char_type* mLoadedFileName = NULL;
+};
+
+static void SfxDefToPsxSfxDef(const SfxDefinition* src, psx::SfxDefinition* dst)
+{
+    dst->block_idx = s8(src->field_0_block_idx);
+    dst->note = s8(src->field_8_note);
+    dst->pitch_max = src->field_10_pitch_max;
+    dst->pitch_min = src->field_E_pitch_min;
+    dst->program = s8(src->field_4_program);
+    dst->volume = s8(src->field_C_default_volume);
+}
+
+psx::MidiPlayer* midiPlayer = new psx::MidiPlayer(new AOResourceProvider());
+
+EXPORT void CC SsUtAllKeyOff_49EDE0(s32 mode)
+{
+    midiPlayer->SsUtAllKeyOff(mode);
+}
+
+EXPORT void CC SND_Reset_476BA0()
+{
+    midiPlayer->SND_Reset();
+}
+
+EXPORT void CC SND_Load_VABS_477040(SoundBlockInfo* pSoundBlockInfo, s32 reverb)
+{
+    midiPlayer->SND_Load_VABS(reinterpret_cast<psx::SoundBlockInfo*>(pSoundBlockInfo), reverb);
+}
+
+EXPORT void CC SND_Stop_Channels_Mask_4774A0(s32 mask)
+{
+    midiPlayer->SND_Stop_Channels_Mask(mask);
+}
+
+EXPORT void CC SND_Load_Seqs_477AB0(OpenSeqHandleAE* pSeqTable, const char_type* bsqFileName)
+{
+    midiPlayer->SND_Load_Seqs(reinterpret_cast<psx::OpenSeqHandle*>(pSeqTable), bsqFileName);
+}
+
+EXPORT s16 CC SND_SEQ_PlaySeq_4775A0(SeqId idx, s32 repeatCount, s16 bDontStop)
+{
+    return midiPlayer->SND_SEQ_PlaySeq(s16(idx), repeatCount, bDontStop);
+}
+
+EXPORT void CC SND_Seq_Stop_477A60(SeqId idx)
+{
+    midiPlayer->SND_SEQ_Stop(s16(idx));
+}
+
+EXPORT s16 CC SND_SEQ_Play_477760(SeqId idx, s32 repeatCount, s16 volLeft, s16 volRight)
+
+{
+    return midiPlayer->SND_SEQ_Play(s16(idx), repeatCount, volLeft, volRight);
+}
+
+EXPORT s16 CC SND_SsIsEos_DeInlined_477930(SeqId idx)
+{
+    return midiPlayer->SND_SsIsEos_DeInlined(s16(idx));
+}
+
+EXPORT s32 CC SFX_SfxDefinition_Play_477330(const SfxDefinition* sfxDef, s16 volLeft, s16 volRight, s16 pitch_min, s16 pitch_max)
+{
+    psx::SfxDefinition* def = new psx::SfxDefinition();
+    SfxDefToPsxSfxDef(sfxDef, def);
+    return midiPlayer->SFX_SfxDefinition_Play(def, volLeft, volRight, pitch_min, pitch_max);
+}
+
+EXPORT s32 CC SFX_SfxDefinition_Play_4770F0(const SfxDefinition* sfxDef, s32 vol, s32 pitch_min, s32 pitch_max)
+{
+    psx::SfxDefinition* def = new psx::SfxDefinition();
+    SfxDefToPsxSfxDef(sfxDef, def);
+    return midiPlayer->SFX_SfxDefinition_Play(def, vol, pitch_min, pitch_max);
+}
+
+EXPORT void CC SND_Init_476E40()
+{
+    midiPlayer->SND_Init();
+}
+
+EXPORT void CC SND_Shutdown_476EC0()
+{
+    midiPlayer->SND_Shutdown();
+}
+
+EXPORT void CC SND_SEQ_SetVol_477970(SeqId idx, s16 volLeft, s16 volRight)
+{
+    midiPlayer->SND_SEQ_SetVol(s16(idx), volLeft, volRight);
+}
+
+EXPORT void CC SND_StopAll_4762D0()
+{
+    midiPlayer->SND_StopAll();
+}
 
 } // namespace AO
+#endif
+

@@ -19,7 +19,7 @@
 #include "PsxSpuApi.hpp"
 #include "AmbientSound.hpp"
 
-
+#if !AUDIO_SPU_EMULATION
 EXPORT void CC SFX_SetPitch_4CA510(const SfxDefinition* pSfx, s32 channelsBits, s16 pitch);
 
 const s32 kSeqTableSizeAE = 144;
@@ -867,3 +867,229 @@ EXPORT void CC SND_Restart_4CB0E0()
 
 // Next -> SND_Init_Ambiance_4CB480, SND_Reset_Ambiance_4CB4B0, Start_Sounds_for_TLV_4CB530, Start_Slig_sounds_4CB980
 // Stop_slig_sounds_4CBA70 Path::Start_Sounds_For_Objects_In_Camera_4CBAF0, Start_Sounds_For_Objects_In_Near_Cameras_4CBB60
+#else
+
+#include "../../AliveLibCommon/audio/MidiPlayer.hpp"
+
+class AEResourceProvider : public psx::ResourceProvider
+{
+public:
+    psx::ResourceData* readFile(char_type* name)
+    {
+        LvlFileRecord* fileRecord = sLvlArchive_5BC520.Find_File_Record_433160(name);
+        s32 size = fileRecord->field_10_num_sectors << 11;
+        u8* data = new u8[size];
+        sLvlArchive_5BC520.Read_File_4330A0(fileRecord, data);
+
+        psx::ResourceData* resource = new psx::ResourceData();
+        resource->data = data;
+        resource->size = size;
+        return resource;
+    }
+
+    psx::ResourceData* readSeq(const char_type* fileName, const char_type* sequenceName)
+    {
+        psx::ResourceData* resource = new psx::ResourceData();
+        resource->data = 0;
+        resource->size = 0;
+
+        if (!sequenceName || sequenceName == nullptr)
+        {
+            return resource;
+        }
+
+        // TODO - maybe this load should be stored in memory for faster access?
+        //  Need to check underlying implementation
+        if (mLoadedFile != fileName)
+        {
+            mLoadedFile = fileName;
+            ResourceManager::LoadResourceFile_49C170(fileName, nullptr);
+        }
+
+        s32 hash = ResourceManager::SEQ_HashName_49BE30(sequenceName);
+        u8** ppSeq = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Seq, hash, 1, 1);
+        if (!ppSeq)
+        {
+            return resource;
+        }
+
+        u32 size = ResourceManager::Get_Header_49C410(ppSeq)->field_0_size;
+        u8* data = new u8[size];
+        memcpy(data, *ppSeq, size);
+        resource->data = data;
+        resource->size = size;
+        ResourceManager::FreeResource_49C330(ppSeq); 
+        return resource;
+    }
+
+    s32 sequenceCount()
+    {
+        return 144;
+    }
+
+private:
+    const char_type* mLoadedFile = NULL;
+};
+
+/*
+    AE is different than AO. AE reads sample data from a separate
+    sounds.dat file whereas AO reads it inline of the vab body.
+*/
+class AESoundSampleParser : public psx::SoundSampleParser
+{
+public:
+    std::vector<psx::Sample*> parseSamples(psx::VabHeader* vabHeader, u8* ppVabBody)
+    {
+        std::vector<psx::Sample*> samples;
+        std::ifstream soundDatFile;
+        soundDatFile.open("sounds.dat", std::ios::binary);
+        if (!soundDatFile.is_open())
+        {
+            throw std::invalid_argument("Could not find sounds.dat");
+        }
+        soundDatFile.seekg(0, std::ios::end);
+        std::streamsize fileSize = soundDatFile.tellg();
+        soundDatFile.seekg(0, std::ios::beg);
+        char* soundData = new char[(s32) fileSize + 1]; // Plus one, just in case interpolating tries to go that one byte further!
+
+        if (!soundDatFile.read(soundData, fileSize))
+        {
+            throw std::invalid_argument("Could not read sounds.dat");
+        }
+
+        int pos = 0;
+        for (s32 i = 0; i < vabHeader->field_16_num_vags; i++)
+        {
+            u32 size = *reinterpret_cast<u32*>(&ppVabBody[pos]);
+            pos += sizeof(u32);
+
+            u32 sampleRate = *reinterpret_cast<u32*>(&ppVabBody[pos]);
+            pos += sizeof(u32);
+
+            // In AO the body is at this part.
+            // IN AE instead it's an offset in sounds.dat
+            u32 offset = *reinterpret_cast<u32*>(&ppVabBody[pos]);
+            pos += sizeof(u32);
+
+            // Read data from sounds.dat
+            u8* data = new u8[size];
+            memcpy(data, &soundData[offset], size);
+
+            psx::Sample* sample = new psx::Sample();
+            sample->m_SampleBuffer = reinterpret_cast<s16*>(data);
+            sample->i_SampleSize = size / 2;
+            sample->sampleRate = 8000;        // non standard? Doesn't use sampleRate field?
+            sample->loop = sampleRate > 44100; // non-standard?
+            samples.push_back(sample);
+        }
+
+        soundDatFile.close();
+        delete[] soundData;
+
+        return samples;
+    }
+
+    void applyFix(char_type* headerName, s32 vag, s32 vagOffset, SPU::Sample* sample)
+    {
+        // TODO - need to fix AE vag attrs similar to what is down for AO
+        //        The below lines are to get around compiler warnings of unused parameters
+        headerName;
+        vag;
+        vagOffset;
+        sample;
+    }
+};
+
+psx::MidiPlayer* player = new psx::MidiPlayer(new AEResourceProvider(), new AESoundSampleParser());
+
+EXPORT void CC SND_StopAll_4CB060()
+{
+    MusicController::EnableMusic_47FE10(FALSE);
+    BackgroundMusic::Stop_4CB000();
+    player->SND_StopAll();
+}
+
+EXPORT void CC SND_Init_4CA1F0()
+{
+    player->SND_Init();
+}
+
+EXPORT void CC SND_Shutdown_4CA280()
+{
+    player->SND_Shutdown();
+}
+
+EXPORT void CC SND_Stop_Channels_Mask_4CA810(u32 bitMask)
+{
+    player->SND_Stop_Channels_Mask(bitMask);
+}
+
+EXPORT void SND_Reset_4C9FB0()
+{
+    player->SND_Reset();
+}
+
+EXPORT void CC SND_Load_VABS_4CA350(SoundBlockInfo* pSoundBlockInfo, s32 reverb)
+{
+    player->SND_Load_VABS(reinterpret_cast<psx::SoundBlockInfo*>(pSoundBlockInfo), reverb);
+}
+
+EXPORT s32 CC SND_4CA5D0(s32 program, s32 vabId, s32 note, s16 vol, s16 min, s16 max)
+{
+    return player->SND(program, vabId, note, vol, min, max);
+}
+
+EXPORT void CC SND_Restart_4CB0E0()
+{
+    MusicController::EnableMusic_47FE10(TRUE);
+    BackgroundMusic::Play_4CB030();
+    Start_Sounds_For_Objects_In_Near_Cameras_4CBB60();
+    player->SND_Restart();
+}
+
+EXPORT void CC SND_Load_Seqs_4CAED0(OpenSeqHandle* pSeqTable, const char_type* bsqFileName)
+{
+    player->SND_Load_Seqs(reinterpret_cast<psx::OpenSeqHandle*>(pSeqTable), bsqFileName);
+}
+
+EXPORT void CC SND_SEQ_Stop_4CAE60(u16 idx)
+{
+    player->SND_SEQ_Stop(idx);
+}
+
+EXPORT s8 CC SND_Seq_Table_Valid_4CAFE0()
+{
+    return player->SND_Seq_Table_Valid();
+}
+
+EXPORT s16 CC SND_SEQ_PlaySeq_4CA960(u16 idx, s16 repeatCount, s16 bDontStop)
+{
+    return player->SND_SEQ_PlaySeq(idx, repeatCount, bDontStop);
+}
+
+EXPORT void CC SND_SEQ_SetVol_4CAD20(s32 idx, s16 volLeft, s16 volRight)
+{
+    player->SND_SEQ_SetVol(idx, volLeft, volRight);
+}
+
+EXPORT s16 CC SND_SEQ_Play_4CAB10(u16 idx, s16 repeatCount, s16 volLeft, s16 volRight)
+{
+    return player->SND_SEQ_Play(idx, repeatCount, volLeft, volRight);
+}
+
+EXPORT s32 CC SND_SsIsEos_DeInlined_4CACD0(u16 idx)
+{
+    return player->SND_SsIsEos_DeInlined(idx);
+}
+
+EXPORT s32 CC SFX_SfxDefinition_Play_4CA700(const SfxDefinition* sfxDef, s16 volLeft, s16 volRight, s16 pitch_min, s16 pitch_max)
+{
+    return player->SFX_SfxDefinition_Play(reinterpret_cast<psx::SfxDefinition*>(const_cast<SfxDefinition*>(sfxDef)), volLeft, volRight, pitch_min, pitch_max);
+}
+
+EXPORT s32 CC SFX_SfxDefinition_Play_4CA420(const SfxDefinition* sfxDef, s16 volume, s16 pitch_min, s16 pitch_max)
+{
+    return player->SFX_SfxDefinition_Play(reinterpret_cast<psx::SfxDefinition*>(const_cast<SfxDefinition*>(sfxDef)), volume, pitch_min, pitch_max);
+} 
+
+#endif
