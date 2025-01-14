@@ -42,7 +42,7 @@ std::string BuildAndBitnesString()
     std::string buildAndBitness;
     std::string buildStr = BuildString();
 
-    LOG_INFO("Build String is: %s", buildStr);
+    LOG_INFO("Build String is: %s", buildStr.c_str());
 
     if (!buildStr.empty())
     {
