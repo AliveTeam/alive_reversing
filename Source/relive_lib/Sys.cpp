@@ -8,7 +8,7 @@
 #include "Sound/Midi.hpp"
 #include "../AliveLibAE/PauseMenu.hpp"
 #include "../AliveLibAE/GameAutoPlayer.hpp"
-#include "../AliveLibCommon/relive_config.h"
+#include "relive_config.h"
 #include <FatalError.hpp>
 
 static bool sAppIsActivated = false;
