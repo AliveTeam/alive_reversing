@@ -30,7 +30,7 @@ void setSaveMenuOpen(bool val)
 std::string BuildString()
 {
 #ifdef BUILD_NUMBER
-    // Automated AppVeyor build title
+    // Automated CI build title
     return std::string("(") + CI_PROVIDER + " Build: " + std::to_string(BUILD_NUMBER) + ")";
 #else
     return "";
@@ -41,6 +41,9 @@ std::string BuildAndBitnesString()
 {
     std::string buildAndBitness;
     std::string buildStr = BuildString();
+
+    LOG_INFO("Build String is: %s", buildStr.c_str());
+
     if (!buildStr.empty())
     {
         buildAndBitness += " ";
@@ -680,8 +683,8 @@ static void QuitEvent(bool isRecordedEvent, bool isRecording)
     {
         forcedWindowMode = true;
         SDL_SetWindowFullscreen(Sys_GetWindowHandle(), 0);
-        //RECT rect = {0, 0, 640, 240};
-        //VGA_EndFrame(&rect);
+        // RECT rect = {0, 0, 640, 240};
+        // VGA_EndFrame(&rect);
     }
 
     bool actuallyQuit = false;
