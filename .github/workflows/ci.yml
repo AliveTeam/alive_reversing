@@ -1,0 +1,175 @@
+
+# TODO:
+# - relive macOS artifacts
+# - qt-editor artifacts
+# - actually set BUILD_NUMBER
+
+name: CI
+
+on:
+  push:
+    branches: [beta]
+  pull_request:
+    branches: [beta]
+
+# build setting(s)
+env:
+  CONFIGURATION: Debug
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-2019
+            name: Windows32
+          - os: windows-2019
+            name: Windows64
+          - os: ubuntu-latest
+            name: Linux
+          - os: macos-13
+            name: macOS
+
+    steps:
+    - name: Checkout repository recursively
+      uses: actions/checkout@v4
+      with:
+        submodules: recursive
+
+    - name: 'Windows: Install SDL2'
+      if: runner.os == 'Windows'
+      run: |
+        Invoke-WebRequest 'https://www.libsdl.org/release/SDL2-devel-2.0.22-VC.zip' -OutFile "$env:GITHUB_WORKSPACE\SDL2.zip"
+        7z x SDL2.zip
+
+    # ======================================
+    #      Windows32
+    # ======================================
+
+    - name: 'Windows32: Install Qt 5.15.2'
+      if: runner.os == 'Windows'
+      uses: jurplel/install-qt-action@v4
+      with:
+        version: '5.15.2'
+        arch: 'win32_msvc2019'
+
+    - name: 'Windows32: Build'
+      if: matrix.name == 'Windows32'
+      run: |
+        dir -s
+        mkdir build
+        cd build
+        cmake .. -G"Visual Studio 16 2019" -DSDL2_DIR="$env:GITHUB_WORKSPACE\SDL2-2.0.22" -DQt5_DIR="$env:QT_ROOT_DIR\lib\cmake\Qt5" -A Win32 -DCI_PROVIDER="GitHub" -DBUILD_NUMBER="0"
+        cmake --build . --config $env:CONFIGURATION
+        cpack -G ZIP -C $env:CONFIGURATION
+
+    # ======================================
+    #      Windows64
+    # ======================================
+
+    - name: 'Windows64: Install Qt 5.15.2'
+      if: runner.os == 'Windows'
+      uses: jurplel/install-qt-action@v4
+      with:
+        version: '5.15.2'
+        arch: 'win64_msvc2019_64'
+
+    - name: 'Windows64: Build'
+      if: matrix.name == 'Windows64'
+      run: |
+        mkdir build
+        cd build
+        cmake .. -G"Visual Studio 16 2019" -DSDL2_DIR="$env:GITHUB_WORKSPACE\SDL2-2.0.22" -DQt5_DIR="$env:QT_ROOT_DIR\lib\cmake\Qt5" -A x64 -DCI_PROVIDER="GitHub" -DBUILD_NUMBER="0"
+        cmake --build . --config $env:CONFIGURATION
+        cpack -G ZIP -C $env:CONFIGURATION
+        
+    # ======================================
+    #      Linux
+    # ======================================
+
+    - name: 'Linux: Install SDL2'
+      if: matrix.name == 'Linux'
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y libsdl2-dev
+
+    - name: 'Linux: Install Qt 5.15.2'
+      if: matrix.name == 'Linux'
+      uses: jurplel/install-qt-action@v4
+      with:
+        version: '5.15.2'
+        arch: 'gcc_64'
+
+    - name: 'Linux: Build'
+      if: matrix.name == 'Linux'
+      run: |
+        mkdir build
+        cd build
+        cmake .. -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=$CONFIGURATION -DCI_PROVIDER="GitHub" -DBUILD_NUMBER="0"
+        make -j$(nproc)
+        cpack -G DEB
+
+    # ======================================
+    #      macOS
+    # ======================================
+
+    - name: 'macOS: Install Qt 5.15.2'
+      if: matrix.name == 'macOS'
+      uses: jurplel/install-qt-action@v4
+      with:
+        version: '5.15.2'
+        arch: 'clang_64'
+
+    - name: 'macOS: Install SDL2, moltenvk'
+      if: matrix.name == 'macOS'
+      run: |
+        brew install sdl2 molten-vk
+
+    # TODO: mac artifacts
+    # mkdir Frameworks
+    # cp /usr/local/lib/libSDL2.dylib ./Frameworks/libSDL2.dylib
+    # cp /usr/local/lib/libMoltenVK.dylib ./Frameworks/libMoltenVK.dylib
+    # cpack -G DragNDrop
+
+    - name: 'macOS: Build'
+      if: matrix.name == 'macOS'
+      run: |
+        mkdir build
+        cd build
+        cmake .. -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=$CONFIGURATION -DQt5_DIR=$(brew --prefix qt5)/lib/cmake/Qt5 -DCI_PROVIDER="GitHub" -DBUILD_NUMBER="0"
+        make -j4
+
+    # ======================================
+    #      Artifacts
+    # ======================================
+
+    - name: 'Windows: Upload relive binaries'
+      if: runner.os == 'Windows'
+      uses: actions/upload-artifact@v4
+      with:
+        name: ${{ matrix.name }}-${{ env.CONFIGURATION }}-relive-binaries
+        path: |
+          build\Source\relive\${{ env.CONFIGURATION }}\relive.exe
+          build\Source\relive\${{ env.CONFIGURATION }}\SDL2.dll
+
+    - name: 'Windows: Upload relive symbols'
+      uses: actions/upload-artifact@v4
+      with:
+        name: ${{ matrix.name }}-${{ env.CONFIGURATION }}-relive-symbols
+        path: build\Source\relive\${{ env.CONFIGURATION }}\relive.pdb
+
+    - name: 'Linux: Upload relive deb'
+      if: matrix.name == 'Linux'
+      uses: actions/upload-artifact@v4
+      with:
+        name: ${{ matrix.name }}-${{ env.CONFIGURATION }}-relive.deb
+        path: build/relive-0.1-Linux.deb
+
+   # - name: 'macOS: Upload relive dmg'
+   #   if: matrix.name == 'macOS'
+   #   uses: actions/upload-artifact@v4
+   #   with:
+   #     name: ${{ matrix.name }}-${{ env.CONFIGURATION }}-relive.dmg
+   #     path: build/relive-0.1-Darwin.dmg
