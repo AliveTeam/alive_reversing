@@ -65,7 +65,7 @@ EXPORT void CC VGA_Shutdown_4F3170()
             Bmp_Free_4F1950(&sVGA_Bmp0_BD0BD0);
         }
 
-        //DD_Shutdown_4F0790(1);
+        // DD_Shutdown_4F0790(1);
         sDD_primary_surface_BBC3C8 = nullptr;
         sDD_surface_backbuffer_BBC3CC = nullptr;
     }
@@ -277,13 +277,9 @@ EXPORT s32 CC VGA_DisplaySet_4F32C0(u16 width, u16 height, u8 bpp, u8 backbuffer
 
         sVGA_Inited_BC0BB8 = 1;
 
-        //IRenderer::CreateRenderer(IRenderer::Renderers::DirectX9);
+        // IRenderer::CreateRenderer(IRenderer::Renderers::DirectX9);
 
-    #if RENDERER_OPENGL
-        IRenderer::CreateRenderer(IRenderer::Renderers::OpenGL);
-    #else
         IRenderer::CreateRenderer(IRenderer::Renderers::Software);
-    #endif
 
         if (!IRenderer::GetRenderer()->Create(Sys_GetHWnd_4F2C70()))
         {
@@ -493,7 +489,7 @@ EXPORT void CC VGA_CopyToFront_4F3730(Bitmap* pBmp, RECT* pRect, s32 screenMode)
                     v7 = 32;
                     break;
                 default:
-                    //v7 = v42;
+                    // v7 = v42;
                     break;
             }
 
@@ -530,7 +526,7 @@ EXPORT void CC VGA_CopyToFront_4F3730(Bitmap* pBmp, RECT* pRect, s32 screenMode)
 
         v50 = ((u32) pBitmapToUse->field_10_locked_pitch >> 1) - srcWidth;
         v22 = (u16*) ((s8*) pBitmapToUse->field_4_pLockedPixels
-                      + 2 * (srcX + ((u32)(srcY * pBitmapToUse->field_10_locked_pitch) >> 1)));
+                      + 2 * (srcX + ((u32) (srcY * pBitmapToUse->field_10_locked_pitch) >> 1)));
 
         if (sVGA_bmp_primary_BD2A20.field_14_bpp == 32)
         {

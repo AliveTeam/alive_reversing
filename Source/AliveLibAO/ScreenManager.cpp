@@ -60,12 +60,12 @@ void ScreenManager::MoveImage_406C40()
 
 void ScreenManager::DecompressCameraToVRam_407110(u16** ppBits)
 {
-    PSX_RECT rect = { 0, 0, 16, 240 };
+    PSX_RECT rect = {0, 0, 16, 240};
     u8** pRes = ResourceManager::Alloc_New_Resource_454F20(ResourceManager::Resource_VLC, 0, 0x7E00); // 4 KB
     if (pRes)
     {
         // Doesn't do anything since the images are not MDEC compressed in PC
-        //PSX_MDEC_rest_498C30(0);
+        // PSX_MDEC_rest_498C30(0);
 
         u16* pIter = *ppBits;
         for (s16 xpos = 0; xpos < 640; xpos += 16)
@@ -74,7 +74,7 @@ void ScreenManager::DecompressCameraToVRam_407110(u16** ppBits)
             pIter++; // Skip len
 
             // already in correct format - no need to convert
-            //rgb_conv_44FFE0(pIter, tmpBuffer, sizeof(tmpBuffer));
+            // rgb_conv_44FFE0(pIter, tmpBuffer, sizeof(tmpBuffer));
 
             rect.x = field_20_upos + xpos;
             rect.y = field_22_vpos;
@@ -242,15 +242,6 @@ void ScreenManager::VRender_406A60(PrimHeader** ppOt)
     {
         return;
     }
-
-#if RENDERER_OPENGL
-    // TODO: A custom sprite prim with magic numbers
-    // to trigger proper order rendering of our cam.
-    static Prim_Sprt MagicBackgroundPrim;
-    Sprt_Init(&MagicBackgroundPrim);
-    SetRGB0(&MagicBackgroundPrim, 255, 254, 253);
-    OrderingTable_Add_498A80(OtLayer(ppOt, Layer::eLayer_1), &MagicBackgroundPrim.mBase.header);
-#endif
 
     PSX_DrawSync_496750(0);
 

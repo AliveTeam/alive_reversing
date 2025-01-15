@@ -209,13 +209,6 @@ EXPORT void CC Vram_alloc_explicit_4955F0(s16 x, s16 y, s16 w, s16 h)
 
 EXPORT void CC Vram_free_495A60(PSX_Point xy, PSX_Point wh)
 {
-#if RENDERER_OPENGL
-    auto pRend = IRenderer::GetRenderer();
-    if (pRend)
-    {
-        pRend->PalFree(IRenderer::PalRecord{xy.field_0_x, xy.field_2_y, 0});
-    }
-#endif
     // Find the allocation
     for (s32 i = 0; i < sVramNumberOfAllocations_5CC888; i++)
     {

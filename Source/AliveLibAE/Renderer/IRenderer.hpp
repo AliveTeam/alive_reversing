@@ -14,7 +14,6 @@ public:
     {
         Software,
         DirectX9,
-        OpenGL,
     };
 
     enum class BitDepth

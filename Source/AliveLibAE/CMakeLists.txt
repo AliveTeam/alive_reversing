@@ -7,10 +7,6 @@ SET(AliveLibAESrc
     Renderer/SoftwareRenderer.cpp
     Renderer/DirectX9Renderer.hpp
     Renderer/DirectX9Renderer.cpp
-    Renderer/OpenGLRenderer.hpp
-    Renderer/OpenGLRenderer.cpp
-    Renderer/GLShader.hpp
-    Renderer/GLShader.cpp
     Grid.hpp
     Grid.cpp
     GameAutoPlayer.hpp
@@ -438,9 +434,6 @@ target_link_libraries(AliveLibAE
     EasyLogging++
     googletest
     Cinder
-    libglew_static
-    imgui
-    glm
     ${WIN32_LIBS}
     ${SDL2_LIBRARIES}
     project_warnings
