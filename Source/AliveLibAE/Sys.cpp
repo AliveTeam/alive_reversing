@@ -1064,7 +1064,7 @@ EXPORT s8 CC Sys_PumpMessages_4EE4F4()
     // inputs. Any attempt to quit while playing back is an instant quit to avoid desyncs.
     while (SDL_PollEvent(&event))
     {
- #if AUTO_SWITCH_CONTROLLER // OG Change - Automatically switches active controller (gamepad/keyboard)
+    #if AUTO_SWITCH_CONTROLLER // OG Change - Automatically switches active controller (gamepad/keyboard)
         // Auto switch off during recording or playback as reading the ini
         // file at random times will desync.
         const bool allowAutoSwitch = !isRecording && !isPlaying;
@@ -1092,7 +1092,7 @@ EXPORT s8 CC Sys_PumpMessages_4EE4F4()
                 }
             }
         }
-#endif  // AUTO_SWITCH_CONTROLLER
+    #endif // AUTO_SWITCH_CONTROLLER
 
         if (event.type == SDL_KEYDOWN)
         {
@@ -1164,7 +1164,7 @@ EXPORT s8 CC Sys_PumpMessages_4EE4F4()
             }
         }
     }
-    
+
     GetGameAutoPlayer().SyncPoint(SyncPoints::PumpEventsEnd);
 
     if (bNeedToQuit)
@@ -1234,9 +1234,6 @@ static s32 CC Sys_WindowClass_Register_SDL(LPCSTR /*lpClassName*/, LPCSTR lpWind
 {
     s32 sdlWindowAttributes = 0;
 
-    #if RENDERER_OPENGL
-    sdlWindowAttributes |= SDL_WINDOW_OPENGL;
-    #endif
     #if __ANDROID__
     SDL_Rect gScreenRect = {0, 0, 640, 480};
     SDL_DisplayMode displayMode;

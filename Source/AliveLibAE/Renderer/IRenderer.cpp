@@ -3,10 +3,6 @@
 #include "SoftwareRenderer.hpp"
 #include "DirectX9Renderer.hpp"
 
-#if RENDERER_OPENGL
-#include "OpenGLRenderer.hpp"
-#endif
-
 static IRenderer* gRenderer = nullptr;
 
 IRenderer* IRenderer::GetRenderer()
@@ -26,12 +22,6 @@ void IRenderer::CreateRenderer(Renderers type)
         case Renderers::Software:
             gRenderer = new SoftwareRenderer();
             break;
-
-#if RENDERER_OPENGL
-        case Renderers::OpenGL:
-            gRenderer = new OpenGLRenderer();
-            break;
-#endif
 
 #ifdef _WIN32
         // Windows only

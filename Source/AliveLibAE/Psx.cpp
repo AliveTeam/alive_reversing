@@ -64,7 +64,7 @@ EXPORT s32 CC PSX_CD_OpenFile_4FAE80(const char_type* pFileName, s32 bTryAllPath
     if (_strcmpi(sLastOpenedFileName_BD1898, pFileName) != 0)
     {
         PSX_CD_Normalize_FileName_4FAD90(pNormalizedName, (*pFileName == '\\') ? pFileName + 1 : pFileName);
-        //dword_578D5C = -1; // Note: Never read
+        // dword_578D5C = -1; // Note: Never read
         sCdReadPos_BD1894 = 0;
 
         s32 openMode = 1;
@@ -666,10 +666,6 @@ EXPORT s32 CC PSX_LoadImage_4F5FB0(const PSX_RECT* pRect, const u8* pData)
         return 0;
     }
 
-#if RENDERER_OPENGL
-    IRenderer::GetRenderer()->Upload(IRenderer::BitDepth::e8Bit, *pRect, pData);
-#endif
-
     if (!BMP_Lock_4F1FF0(&sPsxVram_C1D160))
     {
         Error_PushErrorRecord_4F2920(
@@ -707,10 +703,6 @@ EXPORT s32 CC PSX_StoreImage_4F5E90(const PSX_RECT* rect, u16* pData)
         return 0;
     }
 
-#if RENDERER_OPENGL
-    // TODO: This is actually download, but we have a copy of it stored in the pal cache
-    //IRenderer::GetRenderer()->Upload(IRenderer::BitDepth::e8Bit, *rect, reinterpret_cast<u8 * >(pData));
-#endif
     if (!BMP_Lock_4F1FF0(&sPsxVram_C1D160))
     {
         Error_PushErrorRecord_4F2920(
@@ -867,7 +859,7 @@ EXPORT void CC PSX_Prevent_Rendering_4945B0()
 // If mode is 1, game doesn't frame cap at all. If it is greater than 1, then it caps to (60 / mode) fps.
 EXPORT s32 CC PSX_VSync_4F6170(s32 mode)
 {
-    //mode = 1;
+    // mode = 1;
 
     sVSync_Unused_578325 = 0;
     SsSeqCalledTbyT_4FDC80();
@@ -888,7 +880,7 @@ EXPORT s32 CC PSX_VSync_4F6170(s32 mode)
     if (mode == 1) // Ignore Frame cap
     {
         sVSync_Unused_578325 = 1;
-        const s32 v3 = (s32)((s64)(1172812403ULL * (s32)(240 * (currentTime - sVSyncLastMillisecond_BD0F2C))) >> 32) >> 14;
+        const s32 v3 = (s32) ((s64) (1172812403ULL * (s32) (240 * (currentTime - sVSyncLastMillisecond_BD0F2C))) >> 32) >> 14;
         return (v3 >> 31) + v3;
     }
     else if (mode < 0) // Nope.

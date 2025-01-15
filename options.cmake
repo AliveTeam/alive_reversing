@@ -16,5 +16,4 @@ option(ORIGINAL_PS1_BEHAVIOR "Fixes bugs in the PSX Emu layer / Gameplay to matc
 option(ORIGINAL_GAME_FIXES "Fixes ALL known gameplay bugs" ON)
 option(ORIGINAL_GAME_FIX_AUTO_TURN "Fixes the auto-turn bug commonly used in speedruns" OFF)
 option(ORIGINAL_GAME_FIX_DEATH_DELAY_AO "Fixes the death delay glitch commonly used in speedruns" OFF)
-option(RENDERER_OPENGL "Use OpenGL hardware accelerated rendering." OFF)
 CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/Source/relive_config.h.in ${CMAKE_CURRENT_SOURCE_DIR}/Source/AliveLibCommon/relive_config.h)

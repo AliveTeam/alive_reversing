@@ -395,9 +395,6 @@ target_link_libraries(AliveLibAO
     EasyLogging++
     googletest
     Cinder
-    libglew_static
-    imgui
-    glm
     ${WIN32_LIBS}
     ${SDL2_LIBRARIES}
     project_warnings
