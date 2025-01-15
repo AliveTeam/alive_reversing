@@ -104,24 +104,32 @@ jobs:
     #      Artifacts
     # ======================================
 
+    # Move the artifacts to the same directory so when we upload them as a zip archive, all the files are in the same directory.
+    - name: 'Windows: Copy artifacts'
+      if: runner.os == 'Windows'
+      run: |
+        cd build
+        mkdir relive_binaries
+        Copy-Item Source\relive\$env:CONFIGURATION\relive.exe relive_binaries\relive.exe
+        Copy-Item Source\AliveDllAE\$env:CONFIGURATION\SDL2.dll relive_binaries\SDL2.dll
+        mkdir relive_symbols
+        Copy-Item Source\relive\$env:CONFIGURATION\relive.pdb relive_symbols\relive.pdb
+        Copy-Item Source\AliveDllAE\$env:CONFIGURATION\AliveDllAE.pdb relive_symbols\AliveDllAE.pdb
+        Copy-Item Source\AliveDllAO\$env:CONFIGURATION\AliveDllAO.pdb relive_symbols\AliveDllAO.pdb
+
     - name: 'Windows: Upload relive binaries'
       if: runner.os == 'Windows'
       uses: actions/upload-artifact@v4
       with:
         name: ${{ matrix.name }}-${{ env.CONFIGURATION }}-relive-binaries
-        path: |
-          build\Source\relive\${{ env.CONFIGURATION }}\relive.exe
-          build\Source\AliveDllAE\${{ env.CONFIGURATION }}\SDL2.dll
+        path: build\relive_binaries\
 
     - name: 'Windows: Upload relive symbols'
       uses: actions/upload-artifact@v4
       if: runner.os == 'Windows'
       with:
         name: ${{ matrix.name }}-${{ env.CONFIGURATION }}-relive-symbols
-        path: |
-          build\Source\relive\${{ env.CONFIGURATION }}\relive.pdb
-          build\Source\AliveDllAE\${{ env.CONFIGURATION }}\AliveDllAE.pdb
-          build\Source\AliveDllAO\${{ env.CONFIGURATION }}\AliveDllAO.pdb
+        path: build\relive_symbols\
 
     - name: 'Linux: Upload relive deb'
       if: matrix.name == 'Linux'
