@@ -507,7 +507,10 @@ EXPORT s32 CC MIDI_PlayerPlayMidiNote_49D730(s32 vabId, s32 program, s32 note, s
                         auto v29 = pVagOff->field_A_shift_cen;
                         pChannel->field_1C_adsr.field_2_note_byte1 = BYTE1(note) & 0x7F;
                         auto freq = pow(1.059463094359, (f64)(note - v29) * 0.00390625);
-                        pChannel->field_10_freq = (f32) freq;
+                        pChannel->field_10_freq = (f32) freq;                     
+
+                        // reuse a field that is never accessed for passing the samples pan
+                        GetSpuApiVars()->sSoundEntryTable16().table[vabId][vag_num].field_1F = pVagOff->field_11_pad;
                         SND_PlayEx_493040(
                             &GetSpuApiVars()->sSoundEntryTable16().table[vabId][vag_num],
                             panLeft,
