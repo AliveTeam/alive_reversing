@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.2 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.10 FATAL_ERROR)
 
 option(RENDER_TEST "Create test object that renders all prim types on boot" OFF)
 option(DEVELOPER_MODE "Boot direct to main selection screen, enable debug.sav loading" OFF)
