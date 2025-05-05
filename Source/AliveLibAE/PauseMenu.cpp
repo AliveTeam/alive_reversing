@@ -1018,6 +1018,10 @@ void PauseMenu::RestartPath()
     word12C_flags &= ~1;
     SFX_Play_46FBA0(SoundEffect::PossessEffect_17, 40, 3400);
     GetSoundAPI().SND_Restart();
+
+#if ORIGINAL_GAME_FIXES
+    sIsMudStandingUp_5C3018 = 0; // Fixes Mudokons not listening to Hello after restarting path mid-Hello
+#endif // ORIGINAL_GAME_FIXES
 }
 
 const char_type kArrowChar = 3;
