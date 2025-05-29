@@ -20,27 +20,8 @@ if (WIN32 AND CMAKE_SIZEOF_VOID_P EQUAL 4)
    target_link_libraries(AliveDllAE Detours)
 endif()
 
-# Note: Copy AE dll to AO dir as the AO dll depends on it
-if (WIN32)
-    add_custom_command(TARGET AliveDllAE
-                       POST_BUILD
-                       COMMENT "Copying to game dirs ${AE_PATH} ${AO_PATH}"
-                       COMMAND echo make "${CMAKE_COMMAND}" -E make_directory "${AE_PATH}"
-                       COMMAND "${CMAKE_COMMAND}" -E make_directory "${AE_PATH}"
-                       COMMAND echo make "${CMAKE_COMMAND}" -E make_directory "${AO_PATH}"
-                       COMMAND "${CMAKE_COMMAND}" -E make_directory "${AO_PATH}"
-                       COMMAND echo "${CMAKE_COMMAND}" -E copy "$<TARGET_FILE:AliveDllAE>" "${AE_PATH}/AliveDllAE.dll"
-                       COMMAND "${CMAKE_COMMAND}" -E copy "$<TARGET_FILE:AliveDllAE>" "${AE_PATH}/AliveDllAE.dll"
-                       COMMAND echo "${CMAKE_COMMAND}" -E copy "$<TARGET_FILE:AliveDllAE>" "${AO_PATH}/AliveDllAE.dll"
-                       COMMAND "${CMAKE_COMMAND}" -E copy "$<TARGET_FILE:AliveDllAE>" "${AO_PATH}/AliveDllAE.dll"
-                       COMMAND echo "${CMAKE_COMMAND}" -E copy "$<TARGET_FILE_DIR:AliveDllAE>/AliveDllAE.map" "${AE_PATH}/AliveDllAE.map"
-                       COMMAND "${CMAKE_COMMAND}" -E copy "$<TARGET_FILE_DIR:AliveDllAE>/AliveDllAE.map" "${AE_PATH}/AliveDllAE.map")
-endif()
-
 export(TARGETS AliveDllAE FILE AliveDllAE.cmake)
-install(TARGETS AliveDllAE DESTINATION ".")
-
-install(FILES "${AE_PATH}/AliveDllAE.map" DESTINATION ".")
+install(TARGETS AliveDllAE DESTINATION "${CMAKE_CURRENT_SOURCE_DIR}")
 
 if (WIN32)
     if (CMAKE_SIZEOF_VOID_P EQUAL 4)

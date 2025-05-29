@@ -127,21 +127,21 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: ${{ matrix.name }}-${{ env.CONFIGURATION }}-relive-binaries
-        path: build\relive_binaries\
+        path: "alive reversing\build\relive_binaries\"
 
     - name: 'Windows: Upload relive symbols'
       uses: actions/upload-artifact@v4
       if: runner.os == 'Windows'
       with:
         name: ${{ matrix.name }}-${{ env.CONFIGURATION }}-relive-symbols
-        path: build\relive_symbols\
+        path: "alive reversing\build\relive_symbols\"
 
     - name: 'Linux: Upload relive deb'
       if: matrix.name == 'Linux'
       uses: actions/upload-artifact@v4
       with:
         name: ${{ matrix.name }}-${{ env.CONFIGURATION }}-relive.deb
-        path: build/relive-0.1-Linux.deb
+        path: "alive reversing/build/relive-0.1-Linux.deb"
 
    # - name: 'macOS: Upload relive dmg'
    #   if: matrix.name == 'macOS'

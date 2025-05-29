@@ -57,22 +57,6 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 enable_testing()
 
-if (WIN32)
-    if (NOT DEFINED ENV{AE_ROOT})
-        set(AE_PATH "C:/GOG Games/Abes Exoddus")
-        message(WARNING "No AE_ROOT environment variable found, resorting to the default path: ${AE_PATH}")
-    else()
-        file(TO_CMAKE_PATH $ENV{AE_ROOT} AE_PATH)
-    endif()
-
-    if (NOT DEFINED ENV{AO_ROOT})
-        set(AO_PATH "C:/GOG Games/Abes Oddysee")
-        message(WARNING "No AO_ROOT environment variable found, resorting to the default path: ${AO_PATH}")
-    else()
-        file(TO_CMAKE_PATH $ENV{AO_ROOT} AO_PATH)
-    endif()
-endif()
-
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/3rdParty)
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Source/AliveLibCommon)
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Source/AliveLibAO)

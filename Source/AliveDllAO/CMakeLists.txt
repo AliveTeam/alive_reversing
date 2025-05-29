@@ -21,33 +21,19 @@ if (WIN32 AND CMAKE_SIZEOF_VOID_P EQUAL 4)
    target_link_libraries(AliveDllAO Detours)
 endif()
 
-if (WIN32)
-    add_custom_command(TARGET AliveDllAO
-                       POST_BUILD
-                       COMMENT "Copying to game dir ${AO_PATH}"
-                       COMMAND echo make "${CMAKE_COMMAND}" -E make_directory "${AO_PATH}"
-                       COMMAND "${CMAKE_COMMAND}" -E make_directory "${AO_PATH}"
-                       COMMAND echo "${CMAKE_COMMAND}" -E copy "$<TARGET_FILE:AliveDllAO>" "${AO_PATH}/AliveDllAO.dll"
-                       COMMAND "${CMAKE_COMMAND}" -E copy "$<TARGET_FILE:AliveDllAO>" "${AO_PATH}/AliveDllAO.dll"
-                       COMMAND echo "${CMAKE_COMMAND}" -E copy "$<TARGET_FILE_DIR:AliveDllAO>/AliveDllAO.map" "${AO_PATH}/AliveDllAO.map"
-                       COMMAND "${CMAKE_COMMAND}" -E copy "$<TARGET_FILE_DIR:AliveDllAO>/AliveDllAO.map" "${AO_PATH}/AliveDllAO.map")
-endif()
-
 export(TARGETS AliveDllAO FILE AliveDllAO.cmake)
-install(TARGETS AliveDllAO DESTINATION ".")
-
-install(FILES "${AO_PATH}/AliveDllAO.map" DESTINATION ".")
+install(TARGETS AliveDllAO DESTINATION "${CMAKE_CURRENT_SOURCE_DIR}")
 
 if (WIN32)
     if (CMAKE_SIZEOF_VOID_P EQUAL 4)
         add_custom_command(TARGET AliveDllAO POST_BUILD
             COMMAND echo copy "${SDL2_INCLUDE_DIR}/../lib/x86/SDL2.dll" "$<TARGET_FILE_DIR:AliveDllAO>/SDL2.dll"
             COMMAND "${CMAKE_COMMAND}" -E copy "${SDL2_INCLUDE_DIR}/../lib/x86/SDL2.dll" "$<TARGET_FILE_DIR:AliveDllAO>/SDL2.dll")
-        INSTALL(FILES "${SDL2_INCLUDE_DIR}/../lib/x86/SDL2.dll" DESTINATION ".")
+        INSTALL(FILES "${SDL2_INCLUDE_DIR}/../lib/x86/SDL2.dll" DESTINATION "${CMAKE_CURRENT_SOURCE_DIR}")
     else()
         add_custom_command(TARGET AliveDllAO POST_BUILD
             COMMAND echo copy "${SDL2_INCLUDE_DIR}/../lib/x64/SDL2.dll" "$<TARGET_FILE_DIR:AliveDllAO>/SDL2.dll"
             COMMAND "${CMAKE_COMMAND}" -E copy "${SDL2_INCLUDE_DIR}/../lib/x64/SDL2.dll" "$<TARGET_FILE_DIR:AliveDllAO>/SDL2.dll")
-        INSTALL(FILES "${SDL2_INCLUDE_DIR}/../lib/x64/SDL2.dll" DESTINATION ".")
+        INSTALL(FILES "${SDL2_INCLUDE_DIR}/../lib/x64/SDL2.dll" DESTINATION "${CMAKE_CURRENT_SOURCE_DIR}")
     endif()
 endif()
