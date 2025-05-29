@@ -20,40 +20,38 @@ if (WIN32 AND CMAKE_SIZEOF_VOID_P EQUAL 4)
    target_link_libraries(AliveDllAE Detours)
 endif()
 
-# Ninja will die when it sees $(OutDir) as it does not understand what it means, therefore if using msvc only
-# use these vars if its msvc and a native vcxproj.
 # Note: Copy AE dll to AO dir as the AO dll depends on it
-if (MSVC AND CMAKE_GENERATOR MATCHES "Visual Studio")
+if (WIN32)
     add_custom_command(TARGET AliveDllAE
                        POST_BUILD
                        COMMENT "Copying to game dirs ${AE_PATH} ${AO_PATH}"
-                       COMMAND echo make ${AE_PATH}
-                       COMMAND if not exist "${AE_PATH}" mkdir "${AE_PATH}"
-                       COMMAND echo make ${AO_PATH}
-                       COMMAND if not exist "${AO_PATH}" mkdir "${AO_PATH}"
-                       COMMAND echo copy $(OutDir)$(TargetName)$(TargetExt) to ${AE_PATH}\\AliveDllAE.dll
-                       COMMAND copy /y "$(OutDir)$(TargetName)$(TargetExt)" "${AE_PATH}\\AliveDllAE.dll"
-                       COMMAND echo copy $(OutDir)$(TargetName)$(TargetExt) to ${AO_PATH}\\AliveDllAE.dll
-                       COMMAND copy /y "$(OutDir)$(TargetName)$(TargetExt)" "${AO_PATH}\\AliveDllAE.dll"
-                       COMMAND echo copy $(OutDir)$(TargetName).map to ${AE_PATH}\\AliveDllAE.map
-                       COMMAND copy /y "$(OutDir)$(TargetName).map" "${AE_PATH}\\AliveDllAE.map")
+                       COMMAND echo make "${CMAKE_COMMAND}" -E make_directory "${AE_PATH}"
+                       COMMAND "${CMAKE_COMMAND}" -E make_directory "${AE_PATH}"
+                       COMMAND echo make "${CMAKE_COMMAND}" -E make_directory "${AO_PATH}"
+                       COMMAND "${CMAKE_COMMAND}" -E make_directory "${AO_PATH}"
+                       COMMAND echo "${CMAKE_COMMAND}" -E copy "$<TARGET_FILE:AliveDllAE>" "${AE_PATH}/AliveDllAE.dll"
+                       COMMAND "${CMAKE_COMMAND}" -E copy "$<TARGET_FILE:AliveDllAE>" "${AE_PATH}/AliveDllAE.dll"
+                       COMMAND echo "${CMAKE_COMMAND}" -E copy "$<TARGET_FILE:AliveDllAE>" "${AO_PATH}/AliveDllAE.dll"
+                       COMMAND "${CMAKE_COMMAND}" -E copy "$<TARGET_FILE:AliveDllAE>" "${AO_PATH}/AliveDllAE.dll"
+                       COMMAND echo "${CMAKE_COMMAND}" -E copy "$<TARGET_FILE_DIR:AliveDllAE>/AliveDllAE.map" "${AE_PATH}/AliveDllAE.map"
+                       COMMAND "${CMAKE_COMMAND}" -E copy "$<TARGET_FILE_DIR:AliveDllAE>/AliveDllAE.map" "${AE_PATH}/AliveDllAE.map")
 endif()
 
 export(TARGETS AliveDllAE FILE AliveDllAE.cmake)
-install(TARGETS AliveDllAE DESTINATION .)
+install(TARGETS AliveDllAE DESTINATION ".")
 
-install(FILES "${AE_PATH}\\AliveDllAE.map" DESTINATION ".")
+install(FILES "${AE_PATH}/AliveDllAE.map" DESTINATION ".")
 
-if (MSVC AND CMAKE_GENERATOR MATCHES "Visual Studio")
-    if (WIN32 AND CMAKE_SIZEOF_VOID_P EQUAL 4)
+if (WIN32)
+    if (CMAKE_SIZEOF_VOID_P EQUAL 4)
         add_custom_command(TARGET AliveDllAE POST_BUILD
-            COMMAND echo copy "${SDL2_INCLUDE_DIR}/../lib/x86/SDL2.dll" "$(OutDir)SDL2.dll"
-            COMMAND ${CMAKE_COMMAND} -E copy "${SDL2_INCLUDE_DIR}/../lib/x86/SDL2.dll" "$(OutDir)SDL2.dll")
-        INSTALL(FILES "${SDL2_INCLUDE_DIR}/../lib/x86/SDL2.dll" DESTINATION ".")
+            COMMAND echo copy "${SDL2_INCLUDE_DIR}/../lib/x86/SDL2.dll" "$<TARGET_FILE_DIR:AliveDllAE>/SDL2.dll"
+            COMMAND "${CMAKE_COMMAND}" -E copy "${SDL2_INCLUDE_DIR}/../lib/x86/SDL2.dll" "$<TARGET_FILE_DIR:AliveDllAE>/SDL2.dll")
+        INSTALL(FILES "${SDL2_INCLUDE_DIR}/../lib/x86/SDL2.dll" DESTINATION "${CMAKE_CURRENT_SOURCE_DIR}")
     else()
         add_custom_command(TARGET AliveDllAE POST_BUILD
-            COMMAND echo ${CMAKE_COMMAND} -E copy "${SDL2_INCLUDE_DIR}/../lib/x64/SDL2.dll" "$(OutDir)SDL2.dll"
-            COMMAND ${CMAKE_COMMAND} -E copy "${SDL2_INCLUDE_DIR}/../lib/x64/SDL2.dll" "$(OutDir)SDL2.dll")
-        INSTALL(FILES "${SDL2_INCLUDE_DIR}/../lib/x64/SDL2.dll" DESTINATION ".")
+            COMMAND echo "${CMAKE_COMMAND}" -E copy "${SDL2_INCLUDE_DIR}/../lib/x64/SDL2.dll" "$<TARGET_FILE_DIR:AliveDllAE>/SDL2.dll"
+            COMMAND "${CMAKE_COMMAND}" -E copy "${SDL2_INCLUDE_DIR}/../lib/x64/SDL2.dll" "$<TARGET_FILE_DIR:AliveDllAE>/SDL2.dll")
+        INSTALL(FILES "${SDL2_INCLUDE_DIR}/../lib/x64/SDL2.dll" DESTINATION "${CMAKE_CURRENT_SOURCE_DIR}")
     endif()
 endif()
