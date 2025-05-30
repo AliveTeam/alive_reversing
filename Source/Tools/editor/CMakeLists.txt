@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.10)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
@@ -158,7 +158,7 @@ endif()
 
 if (MSVC)
     target_compile_options(qt-editor PRIVATE /MDd)
-    set(MY_PATH "PATH=%PATH%;${QT_DIR}/../../../bin")
+    set(MY_PATH "PATH=%PATH%;${Qt5_DIR}/../../../bin")
     set_target_properties(qt-editor PROPERTIES VS_DEBUGGER_ENVIRONMENT "${MY_PATH}")
 endif()
 

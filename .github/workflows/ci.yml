@@ -60,7 +60,7 @@ jobs:
       run: |
         mkdir build
         cd build
-        cmake .. -G"Visual Studio 16 2019" -DSDL2_DIR="$env:GITHUB_WORKSPACE\SDL2-2.0.22" -DQt5_DIR="$env:QT_ROOT_DIR\lib\cmake\Qt5" -A Win32 -DCI_PROVIDER="GitHub" -DBUILD_NUMBER="$env:GITHUB_RUN_NUMBER"
+        cmake .. -G"Visual Studio 16 2019" -DSDL2_DIR="$env:GITHUB_WORKSPACE\SDL2-2.0.22" -DCMAKE_PREFIX_PATH="$env:QT_ROOT_DIR" -A Win32 -DCI_PROVIDER="GitHub" -DBUILD_NUMBER="$env:GITHUB_RUN_NUMBER"
         cmake --build . --config $env:CONFIGURATION
         cpack -G ZIP -C $env:CONFIGURATION
 
@@ -80,7 +80,7 @@ jobs:
       run: |
         mkdir build
         cd build
-        cmake .. -G"Visual Studio 16 2019" -DSDL2_DIR="$env:GITHUB_WORKSPACE\SDL2-2.0.22" -DQt5_DIR="$env:QT_ROOT_DIR\lib\cmake\Qt5" -A x64 -DCI_PROVIDER="GitHub" -DBUILD_NUMBER="$env:GITHUB_RUN_NUMBER"
+        cmake .. -G"Visual Studio 16 2019" -DSDL2_DIR="$env:GITHUB_WORKSPACE\SDL2-2.0.22" -DCMAKE_PREFIX_PATH="$env:QT_ROOT_DIR" -A x64 -DCI_PROVIDER="GitHub" -DBUILD_NUMBER="$env:GITHUB_RUN_NUMBER"
         cmake --build . --config $env:CONFIGURATION
         cpack -G ZIP -C $env:CONFIGURATION
         
@@ -137,7 +137,7 @@ jobs:
       run: |
         mkdir build
         cd build
-        cmake .. -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=$CONFIGURATION -DQt5_DIR=$(brew --prefix qt5)/lib/cmake/Qt5 -DCI_PROVIDER="GitHub" -DBUILD_NUMBER=$GITHUB_RUN_NUMBER
+        cmake .. -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=$CONFIGURATION -DCMAKE_PREFIX_PATH=$(brew --prefix qt5) -DCI_PROVIDER="GitHub" -DBUILD_NUMBER=$GITHUB_RUN_NUMBER
         make -j4
 
     # ======================================
