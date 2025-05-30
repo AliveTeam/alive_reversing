@@ -56,12 +56,12 @@ cd build
 
 2. Generate the solution file:
 ```
-cmake -S .. -B . -DSDL2_DIR=YOUR_SDL2_PATH -DQT_DIR=YOUR_QT5_PATH -DQt5_DIR=YOUR_QT5_PATH
+cmake -S .. -B . -DSDL2_DIR=YOUR_SDL2_PATH -DCMAKE_PREFIX_PATH=YOUR_QT5_PREFIX_PATH
 ```
 
 For example, if you installed Qt5 at `C:\Qt` and SDL2 at `C:\SDL2` you would run:
 ```
-cmake -S .. -B . -DSDL2_DIR=C:\SDL2 -DQT_DIR=C:\Qt\5.15.2\msvc2019_64\lib\cmake\Qt5 -DQt5_DIR=C:\Qt\5.15.2\msvc2019_64\lib\cmake\Qt5
+cmake -S .. -B . -DSDL2_DIR=C:\SDL2 -DCMAKE_PREFIX_PATH=C:\Qt\5.15.2\msvc2019_64
 ```
 
 3. After cmake is done, open the generated `relive.sln` file within your `build` folder with Visual Studio 2022.

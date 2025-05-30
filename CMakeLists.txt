@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.2 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.10 FATAL_ERROR)
 project(relive VERSION 0.1 LANGUAGES C CXX)
 
 set(CMAKE_CXX_STANDARD 17)
@@ -84,20 +84,6 @@ endif()
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 enable_testing()
-
-if (NOT DEFINED ENV{AE_ROOT})
-    message(WARNING "No AE_ROOT environment variable found, resorting to the default path")
-    set(AE_PATH "C:\\GOG Games\\Abes Exoddus" )
-else()
-    file(TO_CMAKE_PATH $ENV{AE_ROOT} AE_PATH)
-endif()
-
-if (NOT DEFINED ENV{AO_ROOT})
-    message(WARNING "No AO_ROOT environment variable found, resorting to the default path")
-    set(AO_PATH "C:\\GOG Games\\Abes Oddysee" )
-else()
-    file(TO_CMAKE_PATH $ENV{AO_ROOT} AO_PATH)
-endif()
 
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/3rdParty)
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Source/relive_lib)

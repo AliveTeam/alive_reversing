@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.2 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.10 FATAL_ERROR)
 
 option(BEHAVIOUR_CHANGE_SUB_DATA_FOLDERS "Allow the game to load ddv and lvl files from their own folders. (movies, levels)" ON)
 option(FORCE_DDCHEAT "Force ddcheat mode to be enabled" ON)
