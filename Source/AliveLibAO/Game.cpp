@@ -14,7 +14,7 @@
 #include "../relive_lib/PsxDisplay.hpp"
 #include "Map.hpp"
 #include "GameSpeak.hpp"
-#include "CheatController.hpp"
+#include "../relive_lib/GameObjects/CheatController.hpp"
 #include "DDCheat.hpp"
 #include "MusicController.hpp"
 #include "../AliveLibAE/VGA.hpp"

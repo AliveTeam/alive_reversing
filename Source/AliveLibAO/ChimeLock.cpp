@@ -7,7 +7,7 @@
 #include "Game.hpp"
 #include "Abe.hpp"
 #include "Sfx.hpp"
-#include "CheatController.hpp"
+#include "../relive_lib/GameObjects/CheatController.hpp"
 #include "Math.hpp"
 #include "../relive_lib/Collisions.hpp"
 #include "../relive_lib/Events.hpp"
@@ -180,7 +180,7 @@ void ChimeLock::VUnPosses()
 
 s16 ChimeLock::DoNote(s16 note)
 {
-    if ((mHasBellSong || gVoiceCheat) && field_124_code1 / dword_4C5054[field_120_max_idx - field_128_idx] % 10 == note)
+    if ((mHasBellSong || CheatController::gVoiceCheat) && field_124_code1 / dword_4C5054[field_120_max_idx - field_128_idx] % 10 == note)
     {
         field_128_idx++;
         if (field_128_idx >= field_120_max_idx)
@@ -190,7 +190,7 @@ s16 ChimeLock::DoNote(s16 note)
         return 0;
     }
 
-    if ((!mHasBellSong && !gVoiceCheat) || (field_124_code1 / dword_4C5054[field_120_max_idx]) != note)
+    if ((!mHasBellSong && !CheatController::gVoiceCheat) || (field_124_code1 / dword_4C5054[field_120_max_idx]) != note)
     {
         field_128_idx = 0;
         return 0;
@@ -476,7 +476,7 @@ void ChimeLock::VUpdate()
                 }
             }
 
-            if (!mHasBellSong && !gVoiceCheat)
+            if (!mHasBellSong && !CheatController::gVoiceCheat)
             {
                 if (!Input_IsChanting())
                 {

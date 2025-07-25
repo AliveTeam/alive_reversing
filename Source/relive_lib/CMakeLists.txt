@@ -165,8 +165,6 @@ SET(AliveLibSrcAO
    ../AliveLibAO/Movie.cpp
    ../AliveLibAO/MusicController.hpp
    ../AliveLibAO/MusicController.cpp
-   ../AliveLibAO/CheatController.hpp
-   ../AliveLibAO/CheatController.cpp
    ../AliveLibAO/GameSpeak.hpp
    ../AliveLibAO/GameSpeak.cpp
    ../AliveLibAO/Abe.hpp
@@ -234,8 +232,6 @@ SET(AliveLibAESrc
     ../AliveLibAE/LCDScreen.cpp
     ../AliveLibAE/LCDStatusBoard.hpp
     ../AliveLibAE/LCDStatusBoard.cpp
-    ../AliveLibAE/CheatController.hpp
-    ../AliveLibAE/CheatController.cpp
     ../AliveLibAE/Compression.hpp
     ../AliveLibAE/Compression.cpp
     ../AliveLibAE/Movie.hpp
@@ -448,6 +444,8 @@ SET(game_objects_src
     GameObjects/EffectBase.cpp
     GameObjects/BaseAliveGameObject.hpp
     GameObjects/BaseAliveGameObject.cpp
+    GameObjects/CheatController.hpp
+    GameObjects/CheatController.cpp 
     GameObjects/Flash.hpp
     GameObjects/Flash.cpp
     GameObjects/Particle.cpp

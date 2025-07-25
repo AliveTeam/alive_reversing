@@ -10,7 +10,7 @@
 #include "../relive_lib/Animation.hpp"
 #include "Sfx.hpp"
 #include "../relive_lib/SwitchStates.hpp"
-#include "CheatController.hpp"
+#include "../relive_lib/GameObjects/CheatController.hpp"
 #include "Path.hpp"
 
 namespace AO {
@@ -241,7 +241,7 @@ void SecurityDoor::VUpdate()
             if (last_event == GameSpeakEvents::eNone)
             {
                 const auto MatchBuffer = gEventSystem->MatchBuffer(mPasswordBuffer, mMaxIdx, mBufferStartIdx);
-                if (MatchBuffer == GameSpeakMatch::eFullMatch || gVoiceCheat)
+                if (MatchBuffer == GameSpeakMatch::eFullMatch || CheatController::gVoiceCheat)
                 {
                     GetAnimation().SetRender(false);
                     SwitchStates_Set(mSwitchId, 1);
