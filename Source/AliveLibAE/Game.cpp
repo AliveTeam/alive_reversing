@@ -20,7 +20,7 @@
 #include "../relive_lib/Events.hpp"
 #include "Abe.hpp"
 #include "MusicController.hpp"
-#include "CheatController.hpp"
+#include "../relive_lib/GameObjects/CheatController.hpp"
 #include "Slurg.hpp"
 #include "PathDataExtensions.hpp"
 #include "GameAutoPlayer.hpp"

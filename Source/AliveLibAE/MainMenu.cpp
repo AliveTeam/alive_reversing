@@ -11,6 +11,7 @@
 #include "../relive_lib/Sound/Midi.hpp"
 #include "Abe.hpp"
 #include "../relive_lib/GameObjects/Particle.hpp"
+#include "../relive_lib/GameObjects/CheatController.hpp"
 #include "Movie.hpp"
 #include "MainMenuTransition.hpp"
 #include "Text.hpp"
@@ -39,10 +40,6 @@ constexpr s32 kLongDemoTimer = 1500;
 MainMenuController* MainMenuController::gMainMenuController = nullptr;
 
 s32 sMainMenuObjectCounter_BB4400 = 0;
-
-bool gEnableCheatLevelSelect = false;
-bool gEnableCheatFMV = false;
-
 s16 sDemoIdChosenFromDemoMenu_5C1B9E = 0;
 
 s16 sMenuItemCount_561538 = 0;
@@ -524,8 +521,8 @@ MainMenuController::MainMenuController(relive::Path_TLV* /*pTlv*/, const Guid& t
 
     gSavedKilledMudsPerZulag = {};
 
-    gEnableCheatFMV = false;
-    gEnableCheatLevelSelect = false;
+    CheatController::gEnableCheatFMV = false;
+    CheatController::gEnableCheatLevelSelect = false;
     gKilledMudokons = 0;
     gRescuedMudokons = 0;
     gAttract = 0;
@@ -1288,8 +1285,8 @@ void MainMenuController::t_Load_AbeSpeak_Res_4D4A20()
 
 MainMenuNextCam MainMenuController::Page_FMV_Level_Update_4D4AB0(u32 input_held)
 {
-    gEnableCheatFMV = false;
-    gEnableCheatLevelSelect = false;
+    CheatController::gEnableCheatFMV = false;
+    CheatController::gEnableCheatLevelSelect = false;
 
     if (gMovieRefCount > 0)
     {
@@ -1567,10 +1564,10 @@ MainMenuNextCam MainMenuController::Page_Front_Update_4D0720(u32 input)
         }
     }
 
-    if (gEnableCheatFMV)
+    if (CheatController::gEnableCheatFMV)
     {
         // To FMV list menu
-        gEnableCheatFMV = false;
+        CheatController::gEnableCheatFMV = false;
         field_25C_Inside_FMV_Screen = 1;
         pDemosOrFmvs_BB4414.mFmvRec = &sFmvs_561540[0];
         sMenuItemCount_561538 = ALIVE_COUNTOF(sFmvs_561540);
@@ -1581,10 +1578,10 @@ MainMenuNextCam MainMenuController::Page_Front_Update_4D0720(u32 input)
         return MainMenuNextCam(MainMenuCams::eCheatMenu_SelectFMVCam, NO_SELECTABLE_BUTTONS);
     }
 
-    if (gEnableCheatLevelSelect)
+    if (CheatController::gEnableCheatLevelSelect)
     {
         // To level select menu
-        gEnableCheatLevelSelect = false;
+        CheatController::gEnableCheatLevelSelect = false;
         field_25E_Inside_CheatLevelSelect_Screen = 1;
         pDemosOrFmvs_BB4414.mDemoRec = &gPerLvlData_561700[0];
         sMenuItemCount_561538 = ALIVE_COUNTOF(gPerLvlData_561700) - 2; // exclude menu and credits levels

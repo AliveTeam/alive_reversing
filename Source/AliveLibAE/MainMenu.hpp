@@ -465,7 +465,4 @@ struct PerPathMudStats final
 };
 
 extern s32 sMainMenuObjectCounter_BB4400;
-
-extern bool gEnableCheatLevelSelect;
-extern bool gEnableCheatFMV;
 extern PerPathMudStats gSavedKilledMudsPerZulag;

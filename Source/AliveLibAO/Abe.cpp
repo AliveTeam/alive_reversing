@@ -5,7 +5,7 @@
 #include "../relive_lib/GameObjects/Blood.hpp"
 #include "../relive_lib/GameObjects/BoomMachine.hpp"
 #include "Bullet.hpp"
-#include "CheatController.hpp"
+#include "../relive_lib/GameObjects/CheatController.hpp"
 #include "../relive_lib/GameObjects/DeathBirdParticle.hpp"
 #include "Door.hpp"
 #include "../relive_lib/GameObjects/Dove.hpp"
@@ -1386,7 +1386,7 @@ eAbeMotions Abe::DoGameSpeak(u16 input)
         {
             gEventSystem->PushEvent(GameSpeakEvents::eAbe_Fart);
             Mudokon_SFX(MudSounds::eFart_7, 0, 0, this);
-            if (gEnableFartGasCheat)
+            if (CheatController::gEnableFartGasCheat)
             {
                 FP xPos = mXPos;
                 if (GetAnimation().GetFlipX())
@@ -1723,7 +1723,7 @@ void Abe::CrouchingGameSpeak()
         {
             gEventSystem->PushEvent(GameSpeakEvents::eAbe_Fart);
             Mudokon_SFX(MudSounds::eFart_7, 0, 0, this);
-            if (gEnableFartGasCheat)
+            if (CheatController::gEnableFartGasCheat)
             {
                 FP xPos = {};
                 if (GetAnimation().GetFlipX())

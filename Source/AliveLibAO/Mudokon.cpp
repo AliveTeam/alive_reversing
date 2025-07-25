@@ -26,7 +26,7 @@
 #include "../relive_lib/PsxDisplay.hpp"
 #include "../relive_lib/GameObjects/PossessionFlicker.hpp"
 #include "../relive_lib/GameObjects/AbilityRing.hpp"
-#include "CheatController.hpp"
+#include "../relive_lib/GameObjects/CheatController.hpp"
 #include "../relive_lib/Grid.hpp"
 #include "../relive_lib/FatalError.hpp"
 #include "../relive_lib/ObjectIds.hpp"
@@ -2782,7 +2782,7 @@ s16 Mudokon::Brain_3_SingSequenceSing()
                 }
             }
 
-            field_1A0 = gEventSystem->MatchBuffer(field_12C, field_13C, field_13E) == GameSpeakMatch::eFullMatch || gVoiceCheat;
+            field_1A0 = gEventSystem->MatchBuffer(field_12C, field_13C, field_13E) == GameSpeakMatch::eFullMatch || CheatController::gVoiceCheat;
             field_1C0_timer = MakeTimer(30);
             return 5;
         }
@@ -2886,7 +2886,7 @@ s16 Mudokon::Brain_4_SingSequencePassword()
                             field_13C,
                             field_13E)
                          == GameSpeakMatch::eFullMatch
-                     || gVoiceCheat;
+                     || CheatController::gVoiceCheat;
 
             field_1C0_timer = MakeTimer(30);
             return 4;
@@ -3880,7 +3880,7 @@ s16 Mudokon::Brain_10_ListeningToAbe()
             {
                 Mudokon_SFX(MudSounds::eFart_7, 0, field_124_voice_pitch, this);
                 mNextMotion = eMudMotions::Motion_3_Speak;
-                if (!gEnableFartGasCheat)
+                if (!CheatController::gEnableFartGasCheat)
                 {
                     return field_1B0;
                 }

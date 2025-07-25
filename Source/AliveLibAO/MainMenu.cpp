@@ -7,7 +7,7 @@
 #include "Game.hpp"
 #include "../relive_lib/Sfx.hpp"
 #include "DDCheat.hpp"
-#include "CheatController.hpp"
+#include "../relive_lib/GameObjects/CheatController.hpp"
 #include "Abe.hpp"
 #include "Math.hpp"
 #include "CameraSwapper.hpp"
@@ -436,10 +436,11 @@ Menu::Menu(relive::Path_TLV* /*pTlv*/, const Guid& tlvId)
     mToLevelSelect = false;
     mUsingLvlSelectCheat = false;
 
-    gEnableFartGasCheat = false;
-    gVoiceCheat = false;
-    gEnableCheatFMV = false;
-    gEnableCheatLevelSelect = false;
+    CheatController::gEnableFartGasCheat = false;
+    CheatController::gVoiceCheat = false;
+    CheatController::gEnableCheatFMV = false;
+    CheatController::gEnableCheatLevelSelect = false;
+
     gKilledMudokons = 0;
     gRescuedMudokons = 0;
     GameEnderController::gRestartRuptureFarmsKilledMuds = 0;
@@ -602,8 +603,8 @@ void Menu::CopyRight_Update()
 
 void Menu::FMV_Select_Update()
 {
-    gEnableCheatFMV = false;
-    gEnableCheatLevelSelect = false;
+    CheatController::gEnableCheatFMV = false;
+    CheatController::gEnableCheatLevelSelect = false;
 
     if (gMovieRefCount == 0)
     {
@@ -1070,9 +1071,9 @@ void Menu::MainScreen_Update()
         }
     }
 
-    if (gEnableCheatFMV)
+    if (CheatController::gEnableCheatFMV)
     {
-        gEnableCheatFMV = false;
+        CheatController::gEnableCheatFMV = false;
         mToFmvSelect = true;
         sActiveList = sFmvList;
         sListCount = ALIVE_COUNTOF(sFmvList);
@@ -1104,9 +1105,9 @@ void Menu::MainScreen_Update()
         }*/
     }
 
-    if (gEnableCheatLevelSelect)
+    if (CheatController::gEnableCheatLevelSelect)
     {
-        gEnableCheatLevelSelect = false;
+        CheatController::gEnableCheatLevelSelect = false;
         mToLevelSelect = true;
         sActiveList = sLevelList;
         sListCount = ALIVE_COUNTOF(sLevelList);

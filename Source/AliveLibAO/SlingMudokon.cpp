@@ -8,7 +8,7 @@
 #include "../AliveLibAE/stdlib.hpp"
 #include "Abe.hpp"
 #include "Game.hpp"
-#include "CheatController.hpp"
+#include "../relive_lib/GameObjects/CheatController.hpp"
 #include "../relive_lib/GameObjects/Particle.hpp"
 #include "../relive_lib/GameObjects/Flash.hpp"
 #include "../relive_lib/GameObjects/Dove.hpp"
@@ -425,7 +425,7 @@ void GiveCodeBrain::VUpdate()
                 }
 
                 const GameSpeakMatch MatchBuffer = gEventSystem->MatchBuffer(mSlingMudokon.mCodeBuffer, mSlingMudokon.mBufferStart, mSlingMudokon.mBufferIdx);
-                if (MatchBuffer == GameSpeakMatch::eFullMatch || gVoiceCheat)
+                if (MatchBuffer == GameSpeakMatch::eFullMatch || CheatController::gVoiceCheat)
                 {
                     mSlingMudokon.field_140_timer = BaseGameObject::MakeTimer(30);
                     mSlingMudokon.mCodeMatches = true;
@@ -764,7 +764,7 @@ void AskForPasswordBrain::VUpdate()
                                 mSlingMudokon.mBufferStart,
                                 mSlingMudokon.mBufferIdx)
                              == GameSpeakMatch::eFullMatch
-                         || gVoiceCheat;
+                         || CheatController::gVoiceCheat;
 
                 mSlingMudokon.field_140_timer = mSlingMudokon.mCodeMatches ? BaseGameObject::MakeTimer(30) : BaseGameObject::MakeTimer(10);
                 mBrainState = EState::Unknown_6;
