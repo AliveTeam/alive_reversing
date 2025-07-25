@@ -152,7 +152,7 @@ CheatController::~CheatController()
 
 void CheatController::VUpdate()
 {
-    const u16 held = Input().GetPressed();
+    const u32 held = Input().GetPressed();
 
     if (held)
     {
