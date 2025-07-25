@@ -71,6 +71,7 @@ struct ResourceHeader final
     u32 mResourceType;
     u32 field_C_id;
 };
+ALIVE_ASSERT_SIZEOF_ALWAYS(ResourceHeader, 16);
 
 class LvlFileChunk final
 {

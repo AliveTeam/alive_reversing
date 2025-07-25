@@ -4,6 +4,7 @@
 #include "../AliveLibAE/Input.hpp"
 #include "../relive_lib/BitField.hpp"
 #include "../relive_lib/BaseGameAutoPlayer.hpp"
+#include "nlohmann/json.hpp"
 
 namespace AO {
 
@@ -11,6 +12,7 @@ InputObject sInputObject = {};
 u16 sCurrentControllerIndex = 0;
 u8 sInputEnabled = 0;
 u32 sLastPressedKey = 0;
+static nlohmann::json sDemoData;
 
 void InputObject::InitPad(u32 /*padCount*/)
 {
@@ -283,14 +285,14 @@ void InputObject::Update(BaseGameAutoPlayer& gameAutoPlayer)
             return;
         }
 
-        if (static_cast<s32>(sGnFrame) >= mCommandDuration)
+        if (sGnFrame >= mCommandDuration)
         {
-            const u32 command = (*mpDemoRes)[mDemoCommandIndex++];
-            mCommand = command >> 16;
-            mCommandDuration = sGnFrame + (command & 0xFFFF);
+            const auto& command = sDemoData["commands"][mDemoCommandIndex];
+            mCommand = command["command_bits"].template get<u32>();
+            mCommandDuration = sGnFrame + command["command_duration"].template get<u32>();
 
             // End demo/quit command
-            if (command & 0x8000)
+            if (++mDemoCommandIndex > sDemoData["commands"].size() - 1)
             {
                 mbDemoPlaying &= ~1u;
             }
@@ -318,11 +320,15 @@ void InputObject::Shutdown()
 {
 }
 
-
-void InputObject::SetDemoRes(u32** ppDemoRes)
+void InputObject::InitDemo(const char_type* pDemoFileName)
 {
-    mDemoCommandIndex = 2051;
-    mpDemoRes = ppDemoRes;
+    mDemoCommandIndex = 0;
+
+    FileSystem fs;
+    auto file = fs.LoadToString(pDemoFileName);
+
+    sDemoData = nlohmann::json::parse(file);
+
     mbDemoPlaying |= 1u;
     mCommandDuration = 0;
 }

@@ -66,6 +66,7 @@ public:
     static AO::LevelIds ToAO(EReliveLevelIds levelId);
 
     static EReliveLevelIds FromAESaveData(LevelIds levelId);
+    static EReliveLevelIds FromAOSaveData(AO::LevelIds levelId);
     static EReliveLevelIds FromAE(LevelIds levelId);
     static LevelIds ToAE(EReliveLevelIds levelId);
 };

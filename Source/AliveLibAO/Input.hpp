@@ -132,17 +132,16 @@ public:
 
     static void Shutdown();
 
-    void SetDemoRes(u32** ppDemoRes);
+    void InitDemo(const char_type* pDemoFileName);
 
     s32 IsDemoPlaying();
 
     PSX_Pad mPads[2] = {};
-    u32** mpDemoRes = nullptr;
     u32 mDemoCommandIndex = 0;
     u16 mbDemoPlaying = 0;
     s16 field_22 = 0;
     u32 mCommand = 0;
-    s32 mCommandDuration = 0;
+    u32 mCommandDuration = 0;
     s32 field_2C = 0;
 
     // These use the active pad

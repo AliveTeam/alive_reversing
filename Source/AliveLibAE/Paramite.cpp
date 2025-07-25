@@ -286,7 +286,7 @@ void Paramite::CreateFromSaveState(SerializedObjectData& pBuffer)
     pParamite->mAbePath = pState->mAbePath;
     pParamite->mAbeCamera = pState->mAbeCamera;
 
-    pParamite->field_154_input = InputObject::PsxButtonsToKeyboardInput_45EE40(pState->field_72_input);
+    pParamite->field_154_input = InputObject::PsxButtonsToKeyboardInput(pState->field_72_input);
     pParamite->field_158_next_brain_ret = pState->field_74_next_brain_ret;
 
     pParamite->mRunning = pState->mRunning;

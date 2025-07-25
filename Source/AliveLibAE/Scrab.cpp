@@ -293,7 +293,7 @@ void Scrab::CreateFromSaveState(SerializedObjectData& pBuffer)
         pScrab->mAbeLevel = pState->mAbeLevel;
         pScrab->mAbePath = pState->mAbePath;
         pScrab->mAbeCamera = pState->mAbeCamera;
-        pScrab->field_16C_input = InputObject::PsxButtonsToKeyboardInput_45EE40(pState->field_84_input);
+        pScrab->field_16C_input = InputObject::PsxButtonsToKeyboardInput(pState->field_84_input);
         pScrab->mShredPowerActive = pState->field_8C_shred_power_active;
         pScrab->field_194_speak = pState->field_8E_speak;
         pScrab->field_198_max_xpos = pState->field_90_max_xpos;

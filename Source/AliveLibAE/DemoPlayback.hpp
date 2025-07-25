@@ -15,3 +15,4 @@ public:
 
 extern DemoPlayback* gActiveDemoPlayback;
 extern s16 gIsDemoStartedManually;
+extern char_type gActiveDemoName[32];

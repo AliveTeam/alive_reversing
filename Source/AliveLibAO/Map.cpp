@@ -1154,21 +1154,21 @@ void Map::RestoreBlyData(const u8* pSaveData)
                     relive::Path_TLV* pTlv = reinterpret_cast<relive::Path_TLV*>(cam->mBuffer.data());
                     while (pTlv)
                     {
+                        const bool isLastTlv = pTlv->mTlvFlags.Get(relive::eBit3_End_TLV_List);
+
                         pTlv->mTlvFlags.Raw().all = *pAfterSwitchStates;
                         pAfterSwitchStates++;
 
-                        pTlv->mTlvSpecificMeaning = *pAfterSwitchStates;
-                        pAfterSwitchStates++;
-                        if (pTlv->mTlvFlags.Get(relive::eBit3_End_TLV_List))
+                        // OG bug: the bly data can overwrite the end tlv list flag so we restore it
+                        if (pTlv->mTlvFlags.Get(relive::eBit3_End_TLV_List) != isLastTlv)
                         {
-                            break;
+                            LOG_WARNING("Bly data load removed end list terminator flag, putting it back");
+                            pTlv->mTlvFlags.Set(relive::eBit3_End_TLV_List);
                         }
 
-                        pTlv = Path_TLV::Next_NoCheck(pTlv);
-                        if (pTlv->mLength == 0)
-                        {
-                            break;
-                        }
+                        pTlv->mTlvSpecificMeaning = *pAfterSwitchStates;
+                        pAfterSwitchStates++;
+                        pTlv = Path_TLV::Next(pTlv);
                     }
                 }
             }

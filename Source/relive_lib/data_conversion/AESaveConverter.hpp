@@ -59,7 +59,7 @@ struct PSX_RECT final
 {
     s16 x, y, w, h;
 };
-ALIVE_ASSERT_SIZEOF(PSX_RECT, 8);
+ALIVE_ASSERT_SIZEOF_ALWAYS(PSX_RECT, 8);
 
 static ::PSX_RECT From(const PSX_RECT& data)
 {

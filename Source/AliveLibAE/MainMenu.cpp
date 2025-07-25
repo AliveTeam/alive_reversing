@@ -31,6 +31,10 @@
 #include "nlohmann/json.hpp"
 #include "../relive_lib/data_conversion/AESaveSerialization.hpp"
 #include "stdlib.hpp"
+#include "DemoPlayback.hpp"
+
+constexpr s32 kShortDemoTimer = 300;
+constexpr s32 kLongDemoTimer = 1500;
 
 MainMenuController* MainMenuController::gMainMenuController = nullptr;
 
@@ -1239,7 +1243,7 @@ void MainMenuController::Demo_And_FMV_List_Render_4D4F30(OrderingTable& ot)
         s32 idx = field_230_target_entry_index + loopCount;
         if (idx >= 0 && idx <= sMenuItemCount_561538 - 1)
         {
-            field_234_pStr = pDemosOrFmvs_BB4414.mDemoRec[idx].field_0_display_name;
+            field_234_pStr = pDemosOrFmvs_BB4414.mDemoRec[idx].displayName;
             s32 textWidth = field_120_font.MeasureScaledTextWidth(field_234_pStr, FP_FromInteger(1));
             s16 nextTextXPos = 0;
             if (textWidth >= 336)
@@ -1409,12 +1413,12 @@ MainMenuNextCam MainMenuController::Page_FMV_Level_Update_4D4AB0(u32 input_held)
 
     mCheatLevelSelectLoading = true;
 
-    field_244_lvl_id = pDemosOrFmvs_BB4414.mDemoRec[field_230_target_entry_index].field_4_level;
-    field_246_path_id = pDemosOrFmvs_BB4414.mDemoRec[field_230_target_entry_index].field_6_path;
-    field_248_camera = pDemosOrFmvs_BB4414.mDemoRec[field_230_target_entry_index].field_8_camera;
+    field_244_lvl_id = pDemosOrFmvs_BB4414.mDemoRec[field_230_target_entry_index].level;
+    field_246_path_id = pDemosOrFmvs_BB4414.mDemoRec[field_230_target_entry_index].path;
+    field_248_camera = pDemosOrFmvs_BB4414.mDemoRec[field_230_target_entry_index].camera;
     field_24A_abeXOff = pDemosOrFmvs_BB4414.mDemoRec[field_230_target_entry_index].field_C_abe_x_off;
     field_24C_abeYOff = pDemosOrFmvs_BB4414.mDemoRec[field_230_target_entry_index].field_E_abe_y_off;
-    field_24E_start_scale = pDemosOrFmvs_BB4414.mDemoRec[field_230_target_entry_index].field_A_id; // some how id and scale ??
+    field_24E_start_scale = pDemosOrFmvs_BB4414.mDemoRec[field_230_target_entry_index].demoId; // some how id and scale ??
 
     return MainMenuNextCam(MainMenuCams::eGameIsLoading_ShaddapCam, NO_SELECTABLE_BUTTONS);
 }
@@ -1528,7 +1532,7 @@ MainMenuNextCam MainMenuController::Page_Front_Update_4D0720(u32 input)
     }
 
     // Go to loading a demo screen if no input after time out, after one demo plays the next time out is lower if input isn't pressed
-    if (field_1F8_page_timeout > (bLongerTimeoutToNextDemo ? 300 : 1500))
+    if (field_1F8_page_timeout > (bLongerTimeoutToNextDemo ? kShortDemoTimer : kLongDemoTimer))
     {
         bLongerTimeoutToNextDemo = 1;
         field_1FC_button_index = 0;
@@ -1865,7 +1869,7 @@ MainMenuNextCam MainMenuController::LoadDemo_Update_4D1040(u32)
         char_type lvFilename[256] = {};
         strcpy(lvFilename, "ATTRACT");
         memset(&lvFilename[8], 0, 0xF8u);
-        strcpy(&lvFilename[7], CdLvlName((sDemos_5617F0[demoId].field_4_level)));
+        strcpy(&lvFilename[7], CdLvlName((sDemos_5617F0[demoId].level)));
         auto lvFilenameNoPrefix = &lvFilename[7];
 
         while (!MainMenuController::checkIfDemoFileExists_4D1430(lvFilenameNoPrefix) && !MainMenuController::checkIfDemoFileExists_4D1430(lvFilename))
@@ -1940,8 +1944,15 @@ MainMenuNextCam MainMenuController::LoadDemo_Update_4D1040(u32)
         }
 
         char_type file[32] = {};
-        sprintf(file, "ATTR%04d.SAV", sDemos_5617F0[demoId].field_A_id);
+        sprintf(file, "ATTR%04d.SAV.json", sDemos_5617F0[demoId].demoId);
+        sprintf(gActiveDemoName, "PLAYBK%02d.JOY.json", sDemos_5617F0[demoId].demoId);
 
+        FileSystem fs;
+        std::string jsonStr = fs.LoadToString(file);
+
+        nlohmann::json j = nlohmann::json::parse(jsonStr);
+        QuikSave::gActiveQuicksaveData = {};
+        from_json(j, QuikSave::gActiveQuicksaveData);
         QuikSave::LoadActive();
     }
     else

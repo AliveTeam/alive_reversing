@@ -570,6 +570,8 @@ SET(data_conversion_src
     data_conversion/AnimConversionInfo.cpp
     data_conversion/PNGFile.hpp
     data_conversion/PNGFile.cpp
+    data_conversion/AOSaveConverter.hpp
+    data_conversion/AOSaveConverter.cpp
     data_conversion/AESaveConverter.hpp
     data_conversion/AESaveConverter.cpp
     data_conversion/AESaveSerialization.hpp

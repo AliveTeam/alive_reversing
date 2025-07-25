@@ -113,6 +113,16 @@ EReliveLevelIds MapWrapper::FromAESaveData(LevelIds levelId)
     return MapWrapper::FromAE(levelId);
 }
 
+EReliveLevelIds MapWrapper::FromAOSaveData(AO::LevelIds levelId)
+{
+    if (levelId < AO::LevelIds::eNone || levelId > AO::LevelIds::eDesertEscape_15)
+    {
+        LOG_WARNING("converting invalid AO level id %d to 0", static_cast<s32>(levelId));
+        levelId = AO::LevelIds::eMenu_0;
+    }
+    return MapWrapper::FromAO(levelId);
+}
+
 EReliveLevelIds MapWrapper::FromAE(LevelIds levelId)
 {
     switch (levelId)

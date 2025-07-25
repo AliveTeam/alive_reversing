@@ -9,37 +9,46 @@
 #include "Abe.hpp"
 #include "MainMenu.hpp"
 #include "Map.hpp"
+#include "../relive_lib/data_conversion/file_system.hpp"
+#include "nlohmann/json.hpp"
+#include "../relive_lib/data_conversion/AOSaveSerialization.hpp"
 
 extern u8 sRandomSeed; //Math.cpp
 
 namespace AO {
 
-DemoPlayback::DemoPlayback(u8** ppPlaybackData)
+char_type gActiveDemoName[32];
+
+DemoPlayback::DemoPlayback()
     : BaseGameObject(true, 0)
 {
     SetDrawable(false);
     SetSurviveDeathReset(true);
     SetType(ReliveTypes::eDemoPlayback);
     gDDCheat_FlyingEnabled = false;
+    mSaveData = relive_new SaveData();
     if (gAttract == 0)
     {
-        mSaveData = relive_new SaveData();
         if (!mSaveData)
         {
             SetDead(false);
         }
         SaveGame::SaveToMemory(mSaveData);
     }
-    else
-    {
-        mSaveData = nullptr;
-    }
 
-    auto pd = reinterpret_cast<PlaybackData*>(*ppPlaybackData);
-    SaveGame::LoadFromMemory(&pd->saveData, 1);
-    sRandomSeed = pd->randomSeed;
+    //auto pd = reinterpret_cast<PlaybackData*>(*ppPlaybackData);
+
+    FileSystem fs;
+    char_type fileName[32];
+    sprintf(fileName, "ATTR%04d.SAV.json", gJoyResId);
+    auto jsonStr = fs.LoadToString(fileName);
+
+    nlohmann::json j = nlohmann::json::parse(jsonStr);
+    from_json(j, *mSaveData);
+    SaveGame::LoadFromMemory(mSaveData, 1);
+    // TODO: can probably be removed since rng in relive won't be in sync with OG anyway?
+    //sRandomSeed = pd->randomSeed;
     mState = States::eInit_0;
-    mDemoRes = ppPlaybackData;
     SetUpdateDelay(1);
 }
 
@@ -68,7 +77,9 @@ void DemoPlayback::VUpdate()
             gAbe->SetDrawable(true);
             gAbe->GetAnimation().SetRender(true);
 
-            Input().SetDemoRes(reinterpret_cast<u32**>(mDemoRes));
+            char_type fileName[32];
+            sprintf(fileName, "PLAYBK%02d.JOY", gJoyResId);
+            Input().InitDemo(fileName);
 
             SetDrawable(true);
             mState = States::ePlaying_1;

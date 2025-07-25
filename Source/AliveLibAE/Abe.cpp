@@ -642,8 +642,8 @@ void Abe::CreateFromSaveState(const AbeSaveState& pData)
     gAbe->mHaveInvisibility = pData.bHaveInvisiblity;
     gAbe->BaseAliveGameObjectCollisionLineType = pData.mCollisionLineType;
 
-    gAbe->mPrevInput = InputObject::PsxButtonsToKeyboardInput_45EE40(pData.mPrevInput);
-    gAbe->mReleasedButtons = InputObject::PsxButtonsToKeyboardInput_45EE40(pData.mReleasedButtons);
+    gAbe->mPrevInput = InputObject::PsxButtonsToKeyboardInput(pData.mPrevInput);
+    gAbe->mReleasedButtons = InputObject::PsxButtonsToKeyboardInput(pData.mReleasedButtons);
     gAbe->mKnockdownMotion = pData.mKnockdownMotion;
     gAbe->mRollingMotionTimer = sGnFrame - pData.mRollingMotionTimer;
 

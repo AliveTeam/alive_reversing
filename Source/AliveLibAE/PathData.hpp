@@ -99,11 +99,11 @@ struct PathRootContainer final
 
 struct PerLvlData final
 {
-    const char_type* field_0_display_name;
-    EReliveLevelIds field_4_level;
-    u16 field_6_path;
-    u16 field_8_camera;
-    u16 field_A_id;
+    const char_type* displayName;
+    EReliveLevelIds level;
+    u16 path;
+    u16 camera;
+    u16 demoId;
     u16 field_C_abe_x_off;
     u16 field_E_abe_y_off;
 };

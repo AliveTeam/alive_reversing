@@ -2370,11 +2370,11 @@ void FlyingSlig::HandlePlayerControls()
         }
         else if (Input().IsAnyPressed(InputCommands::eGameSpeak3))
         {
-            field_17D_next_speak = Input().Is_Demo_Playing_45F220() != 0 ? SligSpeak::eGetHim_2 : SligSpeak::eFreeze_8;
+            field_17D_next_speak = Input().IsDemoPlaying() != 0 ? SligSpeak::eGetHim_2 : SligSpeak::eFreeze_8;
         }
         else if (Input().IsAnyPressed(InputCommands::eGameSpeak4))
         {
-            field_17D_next_speak = Input().Is_Demo_Playing_45F220() != 0 ? SligSpeak::eFreeze_8 : SligSpeak::eGetHim_2;
+            field_17D_next_speak = Input().IsDemoPlaying() != 0 ? SligSpeak::eFreeze_8 : SligSpeak::eGetHim_2;
         }
         else if (Input().IsAnyPressed(InputCommands::eGameSpeak2))
         {

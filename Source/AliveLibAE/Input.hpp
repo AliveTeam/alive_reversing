@@ -144,11 +144,11 @@ class BaseGameAutoPlayer;
 class InputObject final
 {
 public:
-    s32 Is_Demo_Playing_45F220();
-    void UnsetDemoPlaying_45F240();
-    void SetDemoResource_45F1E0(u32** pDemoRes);
+    s32 IsDemoPlaying();
+    void UnsetDemoPlaying();
+    void InitDemo(const char_type* pDemoFileName);
     void Update(BaseGameAutoPlayer& gameAutoPlayer);
-    static u32 PsxButtonsToKeyboardInput_45EE40(u32 cmd);
+    static u32 PsxButtonsToKeyboardInput(u32 cmd);
     static s8 KeyboardInputToPsxButtons_45EF70(s32 cmd);
     void ShutDown_45F020();
 
@@ -156,10 +156,11 @@ public:
     PSX_Pad mPads[2] = {};
     u32** mpDemoRes = nullptr;
     u32 mDemoCommandIndex = 0;
-    u16 mbDemoPlaying = 0;
+    bool mbDemoPlaying = false;
     u16 field_3A_pad_idx = 0;
     u32 mCommand = 0;
     u32 mCommandDuration = 0;
+
     bool IsAnyHeld(u32 command);
     bool IsAnyPressed(u32 command);
     bool IsAnyReleased(u32 keys);
@@ -171,6 +172,9 @@ public:
     bool IsJoyStickAvailable();
     bool IsJoyStickEnabled() const;
     void SetJoyStickEnabled(bool enabled);
+
+private:
+
 };
 
 InputObject& Input();

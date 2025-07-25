@@ -13,7 +13,9 @@
 #include <algorithm>
 #include <SDL_gamecontroller.h>
 #include <FatalError.hpp>
+#include <nlohmann/json.hpp>
 
+static nlohmann::json sDemoData;
 static SDL_GameController* pSDLController = nullptr;
 
 // Bitmask for all menu-exclusive (navigation, entering, etc.) input commands
@@ -1615,21 +1617,26 @@ bool InputObject::IsJoyStickEnabled() const
     return sJoystickEnabled;
 }
 
-s32 InputObject::Is_Demo_Playing_45F220()
+s32 InputObject::IsDemoPlaying()
 {
-    return mbDemoPlaying & 1;
+    return mbDemoPlaying;
 }
 
-void InputObject::UnsetDemoPlaying_45F240()
+void InputObject::UnsetDemoPlaying()
 {
-    mbDemoPlaying &= ~1;
+    mbDemoPlaying = false;
 }
 
-void InputObject::SetDemoResource_45F1E0(u32** pDemoRes)
+void InputObject::InitDemo(const char_type* pDemoFileName)
 {
-    mDemoCommandIndex = 2;
-    mpDemoRes = pDemoRes;
-    mbDemoPlaying |= 1u;
+    mDemoCommandIndex = 0;
+    
+    FileSystem fs;
+    auto file = fs.LoadToString(pDemoFileName);
+
+    sDemoData = nlohmann::json::parse(file);
+    
+    mbDemoPlaying = true;
     mCommandDuration = 0;
 }
 #include <assert.h>
@@ -1662,33 +1669,33 @@ void InputObject::Update(BaseGameAutoPlayer& autoPlayer)
     mPads[0].mPreviousInput = mPads[0].mRawInput;
     mPads[0].mRawInput = autoPlayer.GetInput(0);
 
-    if (Is_Demo_Playing_45F220())
+    if (IsDemoPlaying())
     {
         // Stop if any button on any pad is pressed
         if (mPads[sCurrentControllerIndex].mRawInput)
         {
             bLongerTimeoutToNextDemo = 0;
-            UnsetDemoPlaying_45F240();
+            UnsetDemoPlaying();
             return;
         }
 
         if (sGnFrame >= mCommandDuration)
         {
-            const u32 command = (*mpDemoRes)[mDemoCommandIndex++];
-            mCommand = command >> 16;
-            mCommandDuration = sGnFrame + (command & 0xFFFF);
+            const auto& command = sDemoData["commands"][mDemoCommandIndex];
+            mCommand = command["command_bits"].template get<u32>();
+            mCommandDuration = sGnFrame + command["command_duration"].template get<u32>();
 
             // End demo/quit command
-            if (command & 0x8000)
+            if (++mDemoCommandIndex > sDemoData["commands"].size() - 1)
             {
-                UnsetDemoPlaying_45F240();
+                UnsetDemoPlaying();
             }
         }
 
         // Will do nothing if we hit the end command..
-        if (Is_Demo_Playing_45F220())
+        if (IsDemoPlaying())
         {
-            mPads[0].mRawInput = PsxButtonsToKeyboardInput_45EE40(mCommand);
+            mPads[0].mRawInput = PsxButtonsToKeyboardInput(mCommand);
         }
     }
 
@@ -1703,7 +1710,7 @@ void InputObject::Update(BaseGameAutoPlayer& autoPlayer)
     mPads[1].mDir = directionTable_545A4C[mPads[1].mRawInput & 0xF];
 }
 
-u32 InputObject::PsxButtonsToKeyboardInput_45EE40(u32 cmd)
+u32 InputObject::PsxButtonsToKeyboardInput(u32 cmd)
 {
     u32 shoulderButtonsPressedCount = 0;
 

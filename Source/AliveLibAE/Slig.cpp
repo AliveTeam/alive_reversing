@@ -711,7 +711,7 @@ void Slig::CreateFromSaveState(SerializedObjectData& pBuffer)
         pSlig->mReturnToPreviousMotion = pState->mReturnToPreviousMotion;
         pSlig->mCheckedIfOffScreen = pState->mCheckedIfOffScreen;
 
-        pSlig->mInput = InputObject::PsxButtonsToKeyboardInput_45EE40(pState->field_50_input);
+        pSlig->mInput = InputObject::PsxButtonsToKeyboardInput(pState->field_50_input);
 
         pSlig->field_12C_timer = pState->field_54_timer;
         pSlig->mFallingVelxScaleFactor = pState->mFallingVelxScaleFactor;
@@ -5281,7 +5281,7 @@ eSligMotions Slig::GetNextMotionIncGameSpeak(s32 input)
         }
         else if (input & InputCommands::eGameSpeak3)
         {
-            if (Input().Is_Demo_Playing_45F220() != 0)
+            if (Input().IsDemoPlaying() != 0)
             {
                 mNextMotion = eSligMotions::Motion_23_SpeakGetHim;
             }
@@ -5292,7 +5292,7 @@ eSligMotions Slig::GetNextMotionIncGameSpeak(s32 input)
         }
         else if (input & InputCommands::eGameSpeak4)
         {
-            if (Input().Is_Demo_Playing_45F220() != 0)
+            if (Input().IsDemoPlaying() != 0)
             {
                 mNextMotion = eSligMotions::Motion_22_SpeakFreeze;
             }

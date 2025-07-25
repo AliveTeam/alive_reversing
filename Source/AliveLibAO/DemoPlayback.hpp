@@ -15,7 +15,7 @@ struct PlaybackData final
 class DemoPlayback final : public ::BaseGameObject
 {
 public:
-    DemoPlayback(u8** ppPlaybackData);
+    DemoPlayback();
     ~DemoPlayback();
     
     virtual void VScreenChanged() override;
@@ -32,5 +32,7 @@ public:
     u8** mDemoRes = nullptr;
     SaveData* mSaveData = nullptr;
 };
+
+extern char_type gActiveDemoName[32];
 
 } // namespace AO
