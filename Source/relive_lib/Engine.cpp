@@ -39,16 +39,16 @@ void Engine::CmdLineRenderInit()
     IRenderer::Renderers rendererToCreate = IRenderer::Renderers::Sdl2;
     LOG_INFO("Default renderer is Sdl2");
 
-    char renderer[256] = {};
+    std::string renderer;
     if (mClp.ExtractNamePairArgument(renderer, "-renderer="))
     {
-        if (strcmpi(renderer, "gl") == 0 || strcmpi(renderer, "gl3") == 0 || strcmpi(renderer, "opengl") == 0 || strcmpi(renderer, "opengl3") == 0)
+        if (strcmpi(renderer.c_str(), "gl") == 0 || strcmpi(renderer.c_str(), "gl3") == 0 || strcmpi(renderer.c_str(), "opengl") == 0 || strcmpi(renderer.c_str(), "opengl3") == 0)
         {
             LOG_INFO("Command line set renderer to opengl3");
             rendererToCreate = IRenderer::Renderers::OpenGL;
         }
 
-        if (strcmpi(renderer, "sdl") == 0)
+        if (strcmpi(renderer.c_str(), "sdl") == 0)
         {
             LOG_INFO("Command line set renderer to sdl");
             rendererToCreate = IRenderer::Renderers::Sdl2;

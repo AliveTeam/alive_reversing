@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+
 class CommandLineParser final
 {
 public:
@@ -14,7 +16,7 @@ public:
         return strstr(mCmdLine, cmdSwitch) ? true : false;
     }
 
-    bool ExtractNamePairArgument(char* pOutArgument, const char* argumentPrefix)
+    bool ExtractNamePairArgument(std::string& pOutArgument, const char* argumentPrefix)
     {
         const char* pArg = strstr(mCmdLine, argumentPrefix);
         if (!pArg)
@@ -32,12 +34,7 @@ public:
             pArgIter++;
         }
 
-        if (len == 0 || len >= 254)
-        {
-            return false;
-        }
-
-        memcpy(pOutArgument, pArg, len);
+        pOutArgument = std::string(pArg, len);
         return true;
     }
 
