@@ -141,7 +141,7 @@ SecurityClaw::~SecurityClaw()
     for (u32 i = 0; i < mMotionDetectorArrayCount; i++)
     {
         const Guid& detectorGuid = mMotionDetectorArray[i];
-        auto pDetector = static_cast<MotionDetector*>(sObjectIds.Find(detectorGuid, ReliveTypes::eMotionDetector));
+        auto pDetector = sObjectIds.Find<MotionDetector>(detectorGuid, ReliveTypes::eMotionDetector);
         if (pDetector)
         {
             pDetector->SetDontComeBack(mDetectorComeBack);

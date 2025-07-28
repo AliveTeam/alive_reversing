@@ -677,6 +677,11 @@ void LiftPoint::MoveObjectsOnLift(FP xVelocity)
 
 void LiftPoint::VScreenChanged()
 {
+    if (!mHasPulley)
+    {
+        CreatePulleyIfExists(0, -1);
+    }
+
     if (gMap.LevelChanged())
     {
         SetDead(true);
@@ -734,8 +739,8 @@ void LiftPoint::CreatePulleyIfExists(s16 camX, s16 camY)
         mPulleyAnim.SetSpriteScale(GetSpriteScale());
         mPulleyAnim.SetBlendMode(relive::TBlendModes::eBlend_0);
 
-        auto pRope1 = static_cast<Rope*>(sObjectIds.Find_Impl(mRope1));
-        auto pRope2 = static_cast<Rope*>(sObjectIds.Find_Impl(mRope2));
+        auto pRope1 = sObjectIds.Find<Rope>(mRope1, ReliveTypes::eRope);
+        auto pRope2 = sObjectIds.Find<Rope>(mRope2, ReliveTypes::eRope);
 
         pRope2->mTop = FP_GetExponent(FP_FromInteger(mPulleyYPos) + (FP_FromInteger(-19) * mPulleyAnim.GetSpriteScale()));
         pRope1->mTop = FP_GetExponent(FP_FromInteger(mPulleyYPos) + (FP_FromInteger(-19) * mPulleyAnim.GetSpriteScale()));

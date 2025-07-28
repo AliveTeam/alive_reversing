@@ -125,7 +125,7 @@ void HoneySack::VUpdate()
         SetDead(true);
     }
 
-    auto pBeeSwarm = static_cast<BeeSwarm*>(sObjectIds.Find(mBeeSwarm, ReliveTypes::eBeeSwarm));
+    auto pBeeSwarm = sObjectIds.Find<BeeSwarm>(mBeeSwarm, ReliveTypes::eBeeSwarm);
     if (pBeeSwarm && pBeeSwarm->GetDead())
     {
         mBeeSwarm = Guid{};

@@ -340,7 +340,7 @@ void ChimeLock::VUpdate()
                 {
                     case BellPositions::eLeftBell_1:
                     {
-                        auto pLeftBell = static_cast<Bells*>(sObjectIds.Find(mLeftBell, ReliveTypes::eBells));
+                        auto pLeftBell = sObjectIds.Find<Bells>(mLeftBell, ReliveTypes::eBells);
                         if (pLeftBell)
                         {
                             pLeftBell->Ring();
@@ -355,7 +355,7 @@ void ChimeLock::VUpdate()
 
                     case BellPositions::eCenterBell_2:
                     {
-                        auto pCenterBell = static_cast<Bells*>(sObjectIds.Find(mCenterBell, ReliveTypes::eBells));
+                        auto pCenterBell = sObjectIds.Find<Bells>(mCenterBell, ReliveTypes::eBells);
                         if (pCenterBell)
                         {
                             pCenterBell->Ring();
@@ -370,7 +370,7 @@ void ChimeLock::VUpdate()
 
                     case BellPositions::eRightBell_3:
                     {
-                        auto pRightBell = static_cast<Bells*>(sObjectIds.Find(mRightBell, ReliveTypes::eBells));
+                        auto pRightBell = sObjectIds.Find<Bells>(mRightBell, ReliveTypes::eBells);
                         if (pRightBell)
                         {
                             pRightBell->Ring();
@@ -410,7 +410,7 @@ void ChimeLock::VUpdate()
                 {
                     case BellPositions::eLeftBell_1:
                     {
-                        auto pLeftBell = static_cast<Bells*>(sObjectIds.Find(mLeftBell, ReliveTypes::eBells));
+                        auto pLeftBell = sObjectIds.Find<Bells>(mLeftBell, ReliveTypes::eBells);
                         if (pLeftBell && pLeftBell->CanSmash())
                         {
                             SetBallTarget(
@@ -426,7 +426,7 @@ void ChimeLock::VUpdate()
 
                     case BellPositions::eCenterBell_2:
                     {
-                        auto pCenterBell = static_cast<Bells*>(sObjectIds.Find(mCenterBell, ReliveTypes::eBells));
+                        auto pCenterBell = sObjectIds.Find<Bells>(mCenterBell, ReliveTypes::eBells);
                         if (pCenterBell && pCenterBell->CanSmash())
                         {
                             SetBallTarget(
@@ -442,7 +442,7 @@ void ChimeLock::VUpdate()
 
                     case BellPositions::eRightBell_3:
                     {
-                        auto pRightBell = static_cast<Bells*>(sObjectIds.Find(mRightBell, ReliveTypes::eBells));
+                        auto pRightBell = sObjectIds.Find<Bells>(mRightBell, ReliveTypes::eBells);
                         if (pRightBell && pRightBell->CanSmash())
                         {
                             SetBallTarget(

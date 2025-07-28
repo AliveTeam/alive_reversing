@@ -1934,7 +1934,7 @@ s16 Scrab::Brain_Fighting()
         SetDead(true);
     }
 
-    auto pFighter = static_cast<Scrab*>(sObjectIds.Find(mScrabTargetId, ReliveTypes::eScrab));
+    auto pFighter = sObjectIds.Find<Scrab>(mScrabTargetId, ReliveTypes::eScrab);
     if (pFighter && (pFighter->GetDead() || !VOnSameYLevel(pFighter)))
     {
         SetFightTarget(nullptr);

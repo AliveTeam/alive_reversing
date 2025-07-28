@@ -527,10 +527,10 @@ void LiftPoint::VUpdate()
         MoveObjectsOnLift(mVelX);
     }
 
-    Rope* pRope2 = static_cast<Rope*>(sObjectIds.Find(mRopeId2, ReliveTypes::eRope));
+    Rope* pRope2 = sObjectIds.Find<Rope>(mRopeId2, ReliveTypes::eRope);
     pRope2->mBottom = FP_GetExponent((FP_FromInteger(mPlatformBaseCollisionLine->mRect.y) + (FP_FromInteger(25) * GetSpriteScale())));
 
-    Rope* pRope1 = static_cast<Rope*>(sObjectIds.Find(mRopeId1, ReliveTypes::eRope));
+    Rope* pRope1 = sObjectIds.Find<Rope>(mRopeId1, ReliveTypes::eRope);
     pRope1->mBottom = FP_GetExponent((FP_FromInteger(mPlatformBaseCollisionLine->mRect.y) + (FP_FromInteger(25) * GetSpriteScale())));
 
     if (mHasPulley)
@@ -801,8 +801,8 @@ void LiftPoint::CreatePulleyIfExists()
     mPulleyAnim.SetBlendMode(relive::TBlendModes::eBlend_0);
 
     // Set the top of the ropes to be the bottom of the pulley
-    Rope* pRope1 = static_cast<Rope*>(sObjectIds.Find(mRopeId2, ReliveTypes::eRope));
-    Rope* pRope2 = static_cast<Rope*>(sObjectIds.Find(mRopeId1, ReliveTypes::eRope));
+    Rope* pRope1 = sObjectIds.Find<Rope>(mRopeId2, ReliveTypes::eRope);
+    Rope* pRope2 = sObjectIds.Find<Rope>(mRopeId1, ReliveTypes::eRope);
 
     pRope1->mTop = FP_GetExponent(FP_FromInteger(mPulleyYPos) + (FP_FromInteger(-19) * GetSpriteScale()));
     pRope2->mTop = FP_GetExponent(FP_FromInteger(mPulleyYPos) + (FP_FromInteger(-19) * GetSpriteScale()));
@@ -883,8 +883,8 @@ void LiftPoint::CreateFromSaveState(SerializedObjectData& pData)
         pLiftPoint->mYPos = pState->mYPos;
         pLiftPoint->SyncCollisionLinePosition();
 
-        Rope* pRope2 = static_cast<Rope*>(sObjectIds.Find(pLiftPoint->mRopeId2, ReliveTypes::eRope));
-        Rope* pRope1 = static_cast<Rope*>(sObjectIds.Find(pLiftPoint->mRopeId1, ReliveTypes::eRope));
+        Rope* pRope2 = sObjectIds.Find<Rope>(pLiftPoint->mRopeId2, ReliveTypes::eRope);
+        Rope* pRope1 = sObjectIds.Find<Rope>(pLiftPoint->mRopeId1, ReliveTypes::eRope);
 
         pRope2->mBottom = FP_GetExponent(FP_FromInteger(pLiftPoint->mPlatformBaseCollisionLine->mRect.y) + (FP_FromInteger(25) * pLiftPoint->GetSpriteScale()));
         pRope1->mBottom = FP_GetExponent(FP_FromInteger(pLiftPoint->mPlatformBaseCollisionLine->mRect.y) + (FP_FromInteger(25) * pLiftPoint->GetSpriteScale()));

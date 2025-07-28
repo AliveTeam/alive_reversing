@@ -181,7 +181,7 @@ void BirdPortal::VUpdate()
 
                 for (const auto& id : mDoveIds)
                 {
-                    auto pDove = static_cast<Dove*>(sObjectIds.Find(id, ReliveTypes::eDove));
+                    auto pDove = sObjectIds.Find<Dove>(id, ReliveTypes::eDove);
                     if (pDove)
                     {
                         pDove->AsJoin(mXPos, mYPos + (mSpriteScale * FP_FromInteger(20)));
@@ -197,7 +197,7 @@ void BirdPortal::VUpdate()
             {
                 for (const auto& id : mDoveIds)
                 {
-                    Dove* pDove = static_cast<Dove*>(sObjectIds.Find(id, ReliveTypes::eDove));
+                    Dove* pDove = sObjectIds.Find<Dove>(id, ReliveTypes::eDove);
                     if (pDove)
                     {
                         pDove->FlyAway(1);
