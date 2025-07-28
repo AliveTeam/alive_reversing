@@ -45,7 +45,7 @@ public:
     bool mIgnoreLiftMover = true;
 private:
 
-    relive::Path_LiftPoint::LiftPointStopType mLiftPointStopType = relive::Path_LiftPoint::LiftPointStopType::eTopFloor;
+    relive::Path_LiftPoint::LiftPointStopType mLiftPointStopType = relive::Path_LiftPoint::LiftPointStopType::eStartPointOnly;
     Guid mRopeId2 = {};
     Guid mRopeId1 = {};
     Animation mLiftWheelAnim;
