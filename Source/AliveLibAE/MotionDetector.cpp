@@ -229,8 +229,8 @@ s16 MotionDetector::IsInLaser(BaseAliveGameObject* pWho, BaseAliveGameObject* pO
 
 void MotionDetector::VUpdate()
 {
-    MotionDetectorLaser* pLaser = static_cast<MotionDetectorLaser*>(sObjectIds.Find(mLaserId, ReliveTypes::eRedLaser));
-    Greeter* pOwner = static_cast<Greeter*>(sObjectIds.Find(mOwnerId, ReliveTypes::eGreeter));
+    MotionDetectorLaser* pLaser = sObjectIds.Find<MotionDetectorLaser>(mLaserId, ReliveTypes::eRedLaser);
+    Greeter* pOwner = sObjectIds.Find<Greeter>(mOwnerId, ReliveTypes::eGreeter);
 
     if (EventGet(Event::kEventDeathReset))
     {
@@ -406,7 +406,7 @@ void MotionDetector::VRender(OrderingTable& ot)
 
     if (GetAnimation().GetRender())
     {
-        auto pLaser = static_cast<MotionDetectorLaser*>(sObjectIds.Find(mLaserId, ReliveTypes::eRedLaser));
+        auto pLaser = sObjectIds.Find<MotionDetectorLaser>(mLaserId, ReliveTypes::eRedLaser);
         const PSX_RECT bLaserRect = pLaser->VGetBoundingRect();
 
         const FP camXFp = gScreenManager->CamXPos();

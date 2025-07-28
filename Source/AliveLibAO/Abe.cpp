@@ -6000,7 +6000,7 @@ void Abe::Motion_60_Dead()
         case 4:
         {
             EventBroadcast(Event::kEventHeroDying, this);
-            auto pFade = static_cast<Fade*>(sObjectIds.Find(mFadeId, ReliveTypes::eFade));
+            auto pFade = sObjectIds.Find<Fade>(mFadeId, ReliveTypes::eFade);
             if (pFade && pFade->mDone)
             {
                 VOnTrapDoorOpen();
@@ -6168,7 +6168,7 @@ void Abe::Motion_61_Respawn()
             //}
             SetElectrocuted(false);
 
-            auto pFade = static_cast<Fade*>(sObjectIds.Find(mFadeId, ReliveTypes::eFade));
+            auto pFade = sObjectIds.Find<Fade>(mFadeId, ReliveTypes::eFade);
             pFade->Init(Layer::eLayer_FadeFlash_40, FadeOptions::eFadeOut, 1, 8);
             mNextMotion = eAbeMotions::Motion_0_Idle;
             field_118_timer = MakeTimer(60);
@@ -7378,7 +7378,7 @@ void Abe::Motion_88_HandstoneBegin()
         }
         case StoneStates::eWaitForInput_6:
         {
-            auto pFade = static_cast<Fade*>(sObjectIds.Find(mFadeId, ReliveTypes::eFade));
+            auto pFade = sObjectIds.Find<Fade>(mFadeId, ReliveTypes::eFade);
             if (pFade && pFade->mDone)
             {
                 if (Input().IsAnyPressed(InputCommands::eHop | InputCommands::eThrowItem | InputCommands::eCrouchOrRoll | InputCommands::eDoAction))
@@ -7392,7 +7392,7 @@ void Abe::Motion_88_HandstoneBegin()
         }
         case StoneStates::eSetActiveCamToAbeOrWaitForInput_7:
         {
-            auto pFade = static_cast<Fade*>(sObjectIds.Find(mFadeId, ReliveTypes::eFade));
+            auto pFade = sObjectIds.Find<Fade>(mFadeId, ReliveTypes::eFade);
             if (pFade && pFade->mDone)
             {
                 Path_Stone_camera camera = {};
@@ -7437,7 +7437,7 @@ void Abe::Motion_88_HandstoneBegin()
         }
         case StoneStates::eSetActiveCamToAbe_12:
         {
-            auto pFade = static_cast<Fade*>(sObjectIds.Find(mFadeId, ReliveTypes::eFade));
+            auto pFade = sObjectIds.Find<Fade>(mFadeId, ReliveTypes::eFade);
             if (pFade && pFade->mDone)
             {
                 GetAnimation().SetRender(true);
@@ -7448,7 +7448,7 @@ void Abe::Motion_88_HandstoneBegin()
         }
         case StoneStates::eCircularFadeExit_13:
         {
-            auto pFade = static_cast<Fade*>(sObjectIds.Find(mFadeId, ReliveTypes::eFade));
+            auto pFade = sObjectIds.Find<Fade>(mFadeId, ReliveTypes::eFade);
             pFade->SetDead(true);
 
             auto pCircularFade = relive_new CircularFade(mXPos, mYPos, GetSpriteScale(), 0, 0);
@@ -8704,7 +8704,7 @@ void Abe::Motion_156_DoorEnter()
         }
         case AbeDoorStates::eUnused_1:
         {
-            auto pFade = static_cast<Fade*>(sObjectIds.Find(mFadeId, ReliveTypes::eFade));
+            auto pFade = sObjectIds.Find<Fade>(mFadeId, ReliveTypes::eFade);
             if (pFade && pFade->mDone)
             {
                 field_110_state.door = AbeDoorStates::eWaitABit_2;

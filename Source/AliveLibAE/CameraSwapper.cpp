@@ -88,13 +88,12 @@ void CameraSwapper::Init(CamResource& camRes, CameraSwapEffects changeEffect)
 
     if (gNumCamSwappers != 1)
     {
+        // There can only be 1 active at a time
         SetUpdatable(false);
         SetDead(true);
-
-        // There can only be 1 active at a time
-        ALIVE_FATAL("This can't happen?");
         return;
     }
+
     mCamChangeEffect = changeEffect;
 
     PSX_Point xy = {};

@@ -33,19 +33,21 @@ private:
     void MoveObjectsOnLift(FP xVelocity);
 
     void ClearTlvFlags(relive::Path_TLV* pTlv);
-    void StayOnFloor(s16 floor, relive::Path_LiftPoint* pTlv);
+    void StayOnFloor(bool bFloor, relive::Path_LiftPoint* pLiftTlv);
 
     void CreatePulleyIfExists(s16 camX, s16 camY);
+    void RenderPulley(OrderingTable& ot);
+
 public:
     s16 mLiftPointId = 0;
     bool mMoving = false;
     bool mKeepOnMiddleFloor = false;
-    bool mIgnoreLiftMover = false;
+    bool mIgnoreLiftMover = true;
 private:
 
-    relive::Path_LiftPoint::LiftPointStopType mLiftPointStopType = relive::Path_LiftPoint::LiftPointStopType::eTopFloor;
-    Guid mRope2 = {};
-    Guid mRope1 = {};
+    relive::Path_LiftPoint::LiftPointStopType mLiftPointStopType = relive::Path_LiftPoint::LiftPointStopType::eStartPointOnly;
+    Guid mRopeId2 = {};
+    Guid mRopeId1 = {};
     Animation mLiftWheelAnim;
     Animation mPulleyAnim;
     s16 mPulleyXPos = 0;

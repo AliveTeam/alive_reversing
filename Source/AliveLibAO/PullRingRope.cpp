@@ -129,7 +129,7 @@ PullRingRope::~PullRingRope()
 void PullRingRope::VUpdate()
 {
     auto pRingPuller = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(mRingPullerId));
-    auto pRope = static_cast<Rope*>(sObjectIds.Find(mRopeId, ReliveTypes::eRope));
+    auto pRope = sObjectIds.Find<Rope>(mRopeId, ReliveTypes::eRope);
 
     if (EventGet(Event::kEventDeathReset))
     {

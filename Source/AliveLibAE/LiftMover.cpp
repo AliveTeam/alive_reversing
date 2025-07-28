@@ -39,7 +39,7 @@ LiftMover::~LiftMover()
 
 void LiftMover::VUpdate()
 {
-    LiftPoint* pLift = static_cast<LiftPoint*>(sObjectIds.Find(mTargetLiftId, ReliveTypes::eLiftPoint));
+    LiftPoint* pLift = sObjectIds.Find<LiftPoint>(mTargetLiftId, ReliveTypes::eLiftPoint);
     if (mMoving)
     {
         pLift = GetLiftPoint();

@@ -104,7 +104,7 @@ void Teleporter::SpawnRingSparks(Relive_Path_Teleporter_Data* pTlvData)
 
 void Teleporter::VUpdate()
 {
-    Electrocute* pElectrocute = static_cast<Electrocute*>(sObjectIds.Find(mElectrocuteId, ReliveTypes::eElectrocute));
+    Electrocute* pElectrocute = sObjectIds.Find<Electrocute>(mElectrocuteId, ReliveTypes::eElectrocute);
 
     switch (mState)
     {

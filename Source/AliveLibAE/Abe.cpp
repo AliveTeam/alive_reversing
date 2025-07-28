@@ -1055,13 +1055,13 @@ void Abe::VUpdate()
         }
 
 
-        InvisibleEffect* pObj_field_178 = static_cast<InvisibleEffect*>(sObjectIds.Find(mInvisibleEffectId, ReliveTypes::eInvisibleEffect));
-        if (pObj_field_178 && mInvisibilityTimer > 0)
+        InvisibleEffect* pInvisibleEffect = sObjectIds.Find<InvisibleEffect>(mInvisibleEffectId, ReliveTypes::eInvisibleEffect);
+        if (pInvisibleEffect && mInvisibilityTimer > 0)
         {
             if (static_cast<s32>(sGnFrame) > mInvisibilityTimer)
             {
                 mInvisibilityTimer = 0;
-                pObj_field_178->BecomeVisible();
+                pInvisibleEffect->BecomeVisible();
             }
         }
 
@@ -1128,7 +1128,7 @@ void Abe::VOnTrapDoorOpen()
 {
     // Handles falling when previously was on a platform, stop turning a wheel if we where turning one etc.
     PlatformBase* pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
-    WorkWheel* pWheel = static_cast<WorkWheel*>(sObjectIds.Find(mWorkWheelId, ReliveTypes::eWorkWheel));
+    WorkWheel* pWheel = sObjectIds.Find<WorkWheel>(mWorkWheelId, ReliveTypes::eWorkWheel);
     if (pPlatform)
     {
         if (!mShrivel)
@@ -1153,7 +1153,7 @@ void Abe::ToKnockback_44E700(s16 bKnockbackSound, s16 bDelayedAnger)
 {
     OrbWhirlWind* pfield_150 = static_cast<OrbWhirlWind*>(sObjectIds.Find_Impl(mOrbWhirlWindId));
     BaseThrowable* pfield_158 = static_cast<BaseThrowable*>(sObjectIds.Find_Impl(mThrowableId));
-    WorkWheel* pfield_164 = static_cast<WorkWheel*>(sObjectIds.Find(mWorkWheelId, ReliveTypes::eWorkWheel));
+    WorkWheel* pfield_164 = sObjectIds.Find<WorkWheel>(mWorkWheelId, ReliveTypes::eWorkWheel);
     if (sControlledCharacter == this || mHealth <= FP_FromInteger(0))
     {
         // Chant music/orb kill ?
@@ -5369,7 +5369,7 @@ void Abe::Motion_69_LedgeHangWobble_454EF0()
 
 void Abe::Motion_70_RingRopePullHang_455AF0()
 {
-    PullRingRope* pPullRing = static_cast<PullRingRope*>(sObjectIds.Find(mPullRingRopeId, ReliveTypes::ePullRingRope));
+    PullRingRope* pPullRing = sObjectIds.Find<PullRingRope>(mPullRingRopeId, ReliveTypes::ePullRingRope);
     if (pPullRing)
     {
         if (!pPullRing->VIsNotBeingPulled())

@@ -399,9 +399,9 @@ Mudokon::~Mudokon()
 
 void Mudokon::KillLiftPoint_194()
 {
-    if (field_194_pLiftPoint.IsValid())
+    if (mLiftPointId.IsValid())
     {
-        field_194_pLiftPoint = {};
+        mLiftPointId = {};
     }
 }
 
@@ -696,7 +696,7 @@ bool Mudokon::DoSmashDamage()
 
 void Mudokon::KillBirdPortal()
 {
-    auto pBirdPortal = static_cast<BirdPortal*>(sObjectIds.Find(field_1AC_pBirdPortal, ReliveTypes::eBirdPortal));
+    auto pBirdPortal = sObjectIds.Find<BirdPortal>(mBirdPortalId, ReliveTypes::eBirdPortal);
     if (pBirdPortal)
     {
         sMudRunningToPortalCount_507B94--;
@@ -706,7 +706,7 @@ void Mudokon::KillBirdPortal()
             pBirdPortal->VGiveShrykull(1);
         }
 
-        field_1AC_pBirdPortal = Guid{};
+        mBirdPortalId = Guid{};
     }
 }
 
@@ -981,7 +981,7 @@ void Mudokon::MoveOnLine()
 
 s16 Mudokon::FindBirdPortal()
 {
-    auto pExistingBirdPortal = sObjectIds.Find(field_1AC_pBirdPortal, ReliveTypes::eBirdPortal);
+    auto pExistingBirdPortal = sObjectIds.Find(mBirdPortalId, ReliveTypes::eBirdPortal);
     if (pExistingBirdPortal)
     {
         return 0;
@@ -993,7 +993,7 @@ s16 Mudokon::FindBirdPortal()
         return 0;
     }
 
-    field_1AC_pBirdPortal = pBirdPortal->mBaseGameObjectId;
+    mBirdPortalId = pBirdPortal->mBaseGameObjectId;
     if (FP_Abs(pBirdPortal->mXPos - mXPos) < FP_FromInteger(gPsxDisplay.mWidth) && FP_Abs(pBirdPortal->mHitY - mYPos) < FP_FromInteger(10))
     {
         if (pBirdPortal->mPortalType == relive::Path_BirdPortal::PortalType::eWorker || pBirdPortal->mPortalType == relive::Path_BirdPortal::PortalType::eShrykull)
@@ -1003,7 +1003,7 @@ s16 Mudokon::FindBirdPortal()
             return 1;
         }
     }
-    field_1AC_pBirdPortal = {};
+    mBirdPortalId = {};
     return 0;
 }
 
@@ -1413,7 +1413,7 @@ void Mudokon::Motion_11_Null()
 
 void Mudokon::Motion_12_LiftUse()
 {
-    auto pLiftPoint = static_cast<LiftPoint*>(sObjectIds.Find(field_194_pLiftPoint, ReliveTypes::eLiftPoint));
+    auto pLiftPoint = sObjectIds.Find<LiftPoint>(mLiftPointId, ReliveTypes::eLiftPoint);
     if (!pLiftPoint->OnAnyFloor() || pLiftPoint->mIgnoreLiftMover)
     {
         pLiftPoint->Move(FP_FromInteger(0), FP_FromInteger(3));
@@ -1432,7 +1432,7 @@ void Mudokon::Motion_13_LiftGrabBegin()
     {
         mCurrentMotion = mNextMotion;
 
-        auto pLiftPoint = static_cast<LiftPoint*>(sObjectIds.Find(field_194_pLiftPoint, ReliveTypes::eLiftPoint));
+        auto pLiftPoint = sObjectIds.Find<LiftPoint>(mLiftPointId, ReliveTypes::eLiftPoint);
         pLiftPoint->mKeepOnMiddleFloor = true;
     }
 }
@@ -2145,7 +2145,7 @@ void Mudokon::Motion_44_RunJumpMid()
 
     const PSX_RECT bRect = VGetBoundingRect();
 
-    auto pBirdPortal = static_cast<BirdPortal*>(sObjectIds.Find(field_1AC_pBirdPortal, ReliveTypes::eBirdPortal));
+    auto pBirdPortal = sObjectIds.Find<BirdPortal>(mBirdPortalId, ReliveTypes::eBirdPortal);
     if ((mVelX > FP_FromInteger(0) && (FP_FromInteger(bRect.x) > pBirdPortal->mXPos)) || ((mVelX < FP_FromInteger(0) && FP_FromInteger(bRect.w) < pBirdPortal->mXPos)))
     {
         mBit2_Unknown = false;
@@ -2966,7 +2966,7 @@ s16 Mudokon::Brain_5_LiftUse()
     {
         mCurrentMotion = eMudMotions::Motion_13_LiftGrabBegin;
         mNextMotion = eMudMotions::Motion_12_LiftUse;
-        field_194_pLiftPoint = Guid{};
+        mLiftPointId = Guid{};
         for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
         {
             ::BaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
@@ -2980,7 +2980,7 @@ s16 Mudokon::Brain_5_LiftUse()
                 auto pLiftPoint = static_cast<LiftPoint*>(pObj);
                 if (field_110_lift_switch_id == pLiftPoint->mLiftPointId)
                 {
-                    field_194_pLiftPoint = pLiftPoint->mBaseGameObjectId;
+                    mLiftPointId = pLiftPoint->mBaseGameObjectId;
                     break;
                 }
             }
@@ -3976,13 +3976,13 @@ s16 Mudokon::Brain_12_Escape()
         return field_1BA_brain_sub_state;
     }
 
-    auto pBirdPortal = static_cast<BirdPortal*>(sObjectIds.Find(field_1AC_pBirdPortal, ReliveTypes::eBirdPortal));
+    auto pBirdPortal = sObjectIds.Find<BirdPortal>(mBirdPortalId, ReliveTypes::eBirdPortal);
     if (!pBirdPortal || pBirdPortal->GetDead())
     {
         sMudRunningToPortalCount_507B94--;
 
         mPersist = true;
-        field_1AC_pBirdPortal = Guid{};
+        mBirdPortalId = Guid{};
         mNextMotion = eMudMotions::Motion_0_Idle;
         field_1B8_brain_state = 10;
         return 6;

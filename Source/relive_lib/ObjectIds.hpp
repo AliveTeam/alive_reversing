@@ -1,6 +1,7 @@
 #pragma once
 
 #include "data_conversion/guid.hpp"
+#include "FatalError.hpp"
 
 class BaseGameObject;
 
@@ -22,7 +23,21 @@ public:
     BaseGameObject* Find_Impl(TObjectId_KeyType idToFind);
 
 public:
-    BaseGameObject* Find(TObjectId_KeyType idToFind, ReliveTypes type);
+    template <typename T>
+    T* Find(TObjectId_KeyType idToFind, ReliveTypes type)
+    {
+        BaseGameObject* pItem = Find_Impl(idToFind);
+        if (pItem && pItem->Type() != type)
+        {
+            ALIVE_FATAL("Expected type %d for object with id %s but got %d", static_cast<s32>(type), idToFind.ToString().c_str(), static_cast<s32>(pItem->Type()));
+        }
+        return static_cast<T*>(pItem);
+    }
+
+    BaseGameObject* Find(TObjectId_KeyType idToFind, ReliveTypes type)
+    {
+        return Find<BaseGameObject>(idToFind, type);
+    }
 
 private:
     std::map<TObjectId_KeyType, BaseGameObject*> mMap;
