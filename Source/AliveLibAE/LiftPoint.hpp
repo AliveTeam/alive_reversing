@@ -51,12 +51,13 @@ public:
 private:
     void MoveObjectsOnLift(FP xVelocity);
     static void ClearTlvFlags(relive::Path_TLV* pTlv);
-    void StayOnFloor(bool floor, relive::Path_LiftPoint* pTlv);
+    void StayOnFloor(bool bFloor, relive::Path_LiftPoint* pLiftTlv);
 
     void CreatePulleyIfExists();
+    void RenderPulley(OrderingTable& ot);
 
 public:
-    u8 mLiftPointId = 0;
+    s16 mLiftPointId = 0;
     bool mMoving = false;
 
 private:
