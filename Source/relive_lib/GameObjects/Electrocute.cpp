@@ -126,7 +126,7 @@ void Electrocute::VUpdate()
                     pTargetObj->GetAnimation().SetRender(false);
                 }
 
-                if (DeElectrocuteTarget())
+                if (DeElectrocuteTarget(false))
                 {
                     mState = States::eKillElectrocute;
                 }
@@ -157,7 +157,7 @@ void Electrocute::Stop()
 
     SetDead(true);
 
-    DeElectrocuteTarget();
+    DeElectrocuteTarget(true);
 }
 
 void Electrocute::KillPalOverwriters()
@@ -169,7 +169,7 @@ void Electrocute::KillPalOverwriters()
     }
 }
 
-bool Electrocute::DeElectrocuteTarget()
+bool Electrocute::DeElectrocuteTarget(bool dealDamage)
 {
     auto pTarget = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(mTargetObjId));
     if (pTarget)
@@ -184,7 +184,11 @@ bool Electrocute::DeElectrocuteTarget()
             pTarget->SetElectrocuting(false);
         }
 
-        pTarget->VTakeDamage(this);
+        if (dealDamage)
+        {
+            pTarget->VTakeDamage(this);
+        }
+
         mTargetObjId = Guid{};
         return true;
     }

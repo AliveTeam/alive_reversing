@@ -26,7 +26,7 @@ public:
 
 private:
     void KillPalOverwriters();
-    bool DeElectrocuteTarget();
+    bool DeElectrocuteTarget(bool dealDamage);
 
     bool mExtraOverwriter = false;
     bool mKillTarget = false;
