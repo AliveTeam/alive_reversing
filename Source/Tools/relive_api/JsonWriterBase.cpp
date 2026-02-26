@@ -67,7 +67,7 @@ void JsonWriterBase::ProcessCamera(std::vector<u8>& fileDataBuffer, LvlReader& l
         if (lvlReader.ReadFileInto(fileDataBuffer, cameraName.c_str()))
         {
             ChunkedLvlFile camFile(fileDataBuffer);
-            CamConverter converter(camFile, cameraImageAndLayers);
+            CamConverter converter(camFile, cameraImageAndLayers, mMapRootInfo.mGame == "AO");
         }
         else
         {
