@@ -11,7 +11,7 @@ class CameraImageAndLayers;
 class CamConverter final
 {
 public:
-    CamConverter(const ChunkedLvlFile& camFile, CameraImageAndLayers& outData);
+    CamConverter(const ChunkedLvlFile& camFile, CameraImageAndLayers& outData, bool isAo);
 
     static u32 CamBitsIdFromName(const std::string& pCamName);
 };

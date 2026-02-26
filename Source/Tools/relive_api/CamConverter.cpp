@@ -168,20 +168,29 @@ static void ConvertAOCamera(const LvlFileChunk& bitsRes, std::string& cameraPngB
     cameraPngBase64 = RGB565ToBase64PngString(camBuffer.data());
 }
 
-CamConverter::CamConverter(const ChunkedLvlFile& camFile, CameraImageAndLayers& outData)
+CamConverter::CamConverter(const ChunkedLvlFile& camFile, CameraImageAndLayers& outData, bool isAo)
 {
     std::optional<LvlFileChunk> bitsRes = camFile.ChunkByType(ResourceManager::Resource_Bits);
     if (bitsRes)
     {
+        const bool isAoCam = AEcamIsAOCam(*bitsRes);
+        BaseFG1Reader::FG1Format FG1Format = isAoCam ? BaseFG1Reader::FG1Format::AO : BaseFG1Reader::FG1Format::AE;
+
+        // The old editor saves AE levels with AO cams but still uses the AE FG1 format
+        if (isAoCam && !isAo)
+        {
+            FG1Format = BaseFG1Reader::FG1Format::AE;
+        }
+
         if (AEcamIsAOCam(*bitsRes))
         {
             ConvertAOCamera(*bitsRes, outData.mCameraImage);
-            MergeFG1BlocksAndConvertToPng(camFile, BaseFG1Reader::FG1Format::AO, outData);
+            MergeFG1BlocksAndConvertToPng(camFile, FG1Format, outData);
         }
         else
         {
             ConvertAECamera(*bitsRes, outData.mCameraImage);
-            MergeFG1BlocksAndConvertToPng(camFile, BaseFG1Reader::FG1Format::AE, outData);
+            MergeFG1BlocksAndConvertToPng(camFile, FG1Format, outData);
         }
     }
 }

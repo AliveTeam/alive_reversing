@@ -150,7 +150,7 @@ static void ForEachCamera(ReliveAPI::LvlReader& reader, FnOnCam onCam)
     }
 }
 
-static void TestCamAndFG1ExportImport(const std::string& strLvlName, bool allowFullFG1Blocks)
+static void TestCamAndFG1ExportImport(const std::string& strLvlName, bool allowFullFG1Blocks, bool isAo)
 {
     // Save all CAM/FG1 data + reimport it to a copy of the LVL
     ReliveAPI::FileIO fileIo;
@@ -172,7 +172,7 @@ static void TestCamAndFG1ExportImport(const std::string& strLvlName, bool allowF
                   {
                       // Write out camera image and FG1 layers
                       ReliveAPI::CameraImageAndLayers convertedData;
-                      ReliveAPI::CamConverter converter(camFile, convertedData);
+                      ReliveAPI::CamConverter converter(camFile, convertedData, isAo);
                       ReliveAPI::ApiFG1Reader::DebugSave(camName, convertedData);
 
                       // Re-create the CAM file from new using the Base64 PNG data
@@ -202,7 +202,7 @@ static void TestCamAndFG1ExportImport(const std::string& strLvlName, bool allowF
                   {
                       // Write out all cam and FG1s again (but this is our re-imported copy)
                       ReliveAPI::CameraImageAndLayers oldData;
-                      ReliveAPI::CamConverter converter(camFile, oldData);
+                      ReliveAPI::CamConverter converter(camFile, oldData, isAo);
                       ReliveAPI::ApiFG1Reader::DebugSave("resaved_" + camName, oldData);
 
                       // Compare the resaved pngs are equal to the original exported data
@@ -223,12 +223,12 @@ TEST(alive_api, CAMAndFG1Conversion)
 {
     for (const auto& lvl : kAOLvls)
     {
-        TestCamAndFG1ExportImport(AOPath(lvl), false);
+        TestCamAndFG1ExportImport(AOPath(lvl), false, true);
     }
 
     for (const auto& lvl : kAELvls)
     {
-        TestCamAndFG1ExportImport(AEPath(lvl), true);
+        TestCamAndFG1ExportImport(AEPath(lvl), true, false);
     }
 }
 
