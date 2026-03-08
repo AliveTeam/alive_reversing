@@ -74,7 +74,7 @@ void DestroyObjects()
     }
 }
 
-f64 Calculate_FPS_495250(s32 frameCount)
+static f64 Calculate_FPS_495250(s32 frameCount)
 {
     static u32 sLastTime_5CA338 = SYS_GetTicks() - 500;
     const u32 curTime = SYS_GetTicks();
@@ -93,17 +93,13 @@ f64 Calculate_FPS_495250(s32 frameCount)
     return sFps_55EFDC;
 }
 
-void DrawFps_4952F0(s32 /*x*/, s32 /*y*/, f32 fps)
+static void DrawFps_4952F0(f32 fps)
 {
     char_type strBuffer[125] = {};
-    sprintf(strBuffer, "%02.1f fps ", static_cast<f64>(fps));
-    //BMP_Draw_String_4F2230(pBmp, x, y, strBuffer);
+    snprintf(strBuffer, sizeof(strBuffer), "%02.1f fps ", static_cast<f64>(fps));
+    gPsxDisplay.mDebugFont.DebugFont_Printf(0, strBuffer);
 }
 
-void Draw_Debug_Strings_4F2800()
-{
-    // TODO
-}
 
 s32 Game_End_Frame(u32 flags)
 {
@@ -116,10 +112,9 @@ s32 Game_End_Frame(u32 flags)
     const f64 fps = Calculate_FPS_495250(sFrameCount_5CA300);
     if (sCommandLine_ShowFps)
     {
-        DrawFps_4952F0(10, 10, static_cast<f32>(fps));
+        DrawFps_4952F0(static_cast<f32>(fps));
     }
 
-    Draw_Debug_Strings_4F2800();
     ++sFrameCount_5CA300;
 
     if (Sys_PumpMessages())
@@ -172,7 +167,7 @@ void Init_GameStates()
     SwitchStates_ClearRange(0, 255);
 }
 
-void Init_Sound_DynamicArrays_And_Others()
+static void Init_Sound_DynamicArrays_And_Others()
 {
     gPauseMenu = nullptr; // PauseMenu
     gAbe = nullptr;
@@ -192,7 +187,7 @@ void Init_Sound_DynamicArrays_And_Others()
     Init_GameStates(); // Init other vars + switch states
 }
 
-void Game_Init_LoadingIcon()
+static void Game_Init_LoadingIcon()
 {
     /*
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kLoadingResID, 1u, 0);
@@ -205,7 +200,7 @@ void Game_Init_LoadingIcon()
     */
 }
 
-void Game_Free_LoadingIcon()
+static void Game_Free_LoadingIcon()
 {
     //gLoadingResource.Clear();
     /*
