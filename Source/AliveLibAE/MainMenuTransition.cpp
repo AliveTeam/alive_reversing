@@ -46,6 +46,38 @@ const MainMenu_TransitionData stru_55C038[24] = // 3 x 8's ?
         {65520U, 0, 256, 1},
 };
 
+
+void MainMenuTransition::VScreenChanged()
+{
+    if (gMap.LevelChanged() || gMap.PathChanged())
+    {
+        SetDead(true);
+    }
+}
+
+
+void MainMenuTransition::VUpdate()
+{
+    if (!mDone && !field_2A)
+    {
+        field_20_current_value += field_22_change_by_speed;
+        if (field_24_fade_direction)
+        {
+            if (field_20_current_value > 255)
+            {
+                field_colour_fade_value--;
+                field_20_current_value = 255;
+                return;
+            }
+        }
+        else if (field_20_current_value < 0)
+        {
+            field_20_current_value = 0;
+        }
+        field_colour_fade_value--;
+    }
+}
+
 MainMenuTransition::MainMenuTransition(Layer layer, s32 fadeDirection, bool killWhenDone, s32 fadeSpeed, relive::TBlendModes blendMode)
     : BaseGameObject(true, 0)
 {
@@ -79,11 +111,18 @@ MainMenuTransition::MainMenuTransition(Layer layer, s32 fadeDirection, bool kill
     StartTrans(layer, static_cast<s16>(fadeDirection), killWhenDone, static_cast<s16>(fadeSpeed));
 }
 
+MainMenuTransition::~MainMenuTransition()
+{
+    gObjListDrawables->Remove_Item(this);
+}
+
 void MainMenuTransition::StartTrans(Layer layer, s16 fadeDirection, bool killWhenDone, s16 speed)
 {
     mLayer = layer;
     field_24_fade_direction = fadeDirection;
     mDone = 0;
+
+    mKillWhenDone = killWhenDone;
 
     if (speed)
     {
@@ -91,12 +130,11 @@ void MainMenuTransition::StartTrans(Layer layer, s16 fadeDirection, bool killWhe
     }
     else
     {
-        field_2A = 1;
+        field_2A = 1; // never true
     }
 
-    mKillWhenDone = killWhenDone;
 
-    if (fadeDirection)
+    if (fadeDirection) // 1 = fade in, 0 = fade out
     {
         field_22_change_by_speed = speed;
         SfxPlayMono(relive::SoundEffects::MenuTransition, 0);
@@ -107,33 +145,12 @@ void MainMenuTransition::StartTrans(Layer layer, s16 fadeDirection, bool killWhe
     }
 }
 
-void MainMenuTransition::VUpdate()
-{
-    if (!mDone && !field_2A)
-    {
-        field_20_current_value += field_22_change_by_speed;
-        if (field_24_fade_direction)
-        {
-            if (field_20_current_value > 255)
-            {
-                field_colour_fade_value--;
-                field_20_current_value = 255;
-                return;
-            }
-        }
-        else if (field_20_current_value < 0)
-        {
-            field_20_current_value = 0;
-        }
-        field_colour_fade_value--;
-    }
-}
 
 void MainMenuTransition::VRender(OrderingTable& ot)
 {
     // TODO: The fixed point math/var needs cleaning up/refactoring in here
-
     s32 currentValue = field_20_current_value;
+
     s32 v4 = (currentValue + 1) >> 4;
     s32 v5 = v4 * v4 * v4 * v4 >> 8;
 
@@ -233,18 +250,5 @@ void MainMenuTransition::VRender(OrderingTable& ot)
         {
             SetDead(true);
         }
-    }
-}
-
-MainMenuTransition::~MainMenuTransition()
-{
-    gObjListDrawables->Remove_Item(this);
-}
-
-void MainMenuTransition::VScreenChanged()
-{
-    if (gMap.LevelChanged() || gMap.PathChanged())
-    {
-        SetDead(true);
     }
 }

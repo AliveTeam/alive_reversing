@@ -195,15 +195,15 @@ void BasePlayer::ValidateNextTypeIs(RecordTypes type)
 
 void BaseGameAutoPlayer::ProcessCommandLine(CommandLineParser& clp)
 {
-    char buffer[256] = {};
+    std::string buffer;
     if (clp.ExtractNamePairArgument(buffer, "-record="))
     {
-        mRecorder.Init(buffer, clp.SwitchExists("-flush"));
+        mRecorder.Init(buffer.c_str(), clp.SwitchExists("-flush"));
         mMode = Mode::Record;
     }
     else if (clp.ExtractNamePairArgument(buffer, "-play="))
     {
-        mPlayer.Init(buffer);
+        mPlayer.Init(buffer.c_str());
         mMode = Mode::Play;
 
         mNoFpsLimit = clp.SwitchExists("-fastest");
