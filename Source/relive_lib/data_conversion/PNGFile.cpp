@@ -276,6 +276,11 @@ void PNGFile::Load(const char_type* pFileName, AnimationPal& pal256, std::vector
         {
             alpha = trns.type3_alpha[i];
         }
+        else
+        {
+            // according to the tRNS spec all remaining alpha entries should be assumed to be 255
+            alpha = 255;
+        }
 
         if (alpha == 0)
         {
