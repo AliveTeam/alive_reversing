@@ -29,7 +29,7 @@ jobs:
             name: Windows64
           - os: ubuntu-latest
             name: Linux
-          - os: macos-13
+          - os: macos-latest-large
             name: macOS
 
     steps:
@@ -137,7 +137,7 @@ jobs:
       run: |
         mkdir build
         cd build
-        cmake .. -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=$CONFIGURATION -DCMAKE_PREFIX_PATH=$(brew --prefix qt5) -DCI_PROVIDER="GitHub" -DBUILD_NUMBER=$GITHUB_RUN_NUMBER
+        cmake .. -G"Unix Makefiles" -DCMAKE_POLICY_VERSION_MINIMUM=3.5 -DCMAKE_BUILD_TYPE=$CONFIGURATION -DCMAKE_PREFIX_PATH=$(brew --prefix qt@5) -DCI_PROVIDER="GitHub" -DBUILD_NUMBER=$GITHUB_RUN_NUMBER
         make -j4
 
     # ======================================
