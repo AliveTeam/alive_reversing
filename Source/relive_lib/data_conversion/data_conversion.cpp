@@ -1146,7 +1146,7 @@ void DataConversion::DataVersions::Save(const FileSystem::Path& dataDir) const
         {"camera_version", mCameraVersion},
         {"save_file_version", mSaveFileVersion},
         {"font_file_version", mFontFileVersion},
-        {"demo_file_version", 0 /* mDemoFileVersion*/},
+        {"demo_file_version", mDemoFileVersion},
     };
     FileSystem fs;
     FileSystem::Path fileName = dataDir;
