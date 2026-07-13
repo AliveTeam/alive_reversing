@@ -23,9 +23,9 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - os: windows-2025
+          - os: windows-2022
             name: Windows32
-          - os: windows-2025
+          - os: windows-2022
             name: Windows64
           - os: ubuntu-latest
             name: Linux
@@ -60,7 +60,7 @@ jobs:
       run: |
         mkdir build
         cd build
-        cmake .. -G"Visual Studio 18 2026" -DSDL2_DIR="$env:GITHUB_WORKSPACE\SDL2-2.0.22" -DCMAKE_PREFIX_PATH="$env:QT_ROOT_DIR" -A Win32 -DCI_PROVIDER="GitHub" -DBUILD_NUMBER="$env:GITHUB_RUN_NUMBER"
+        cmake .. -G"Visual Studio 17 2022" -DSDL2_DIR="$env:GITHUB_WORKSPACE\SDL2-2.0.22" -DCMAKE_PREFIX_PATH="$env:QT_ROOT_DIR" -A Win32 -DCI_PROVIDER="GitHub" -DBUILD_NUMBER="$env:GITHUB_RUN_NUMBER"
         cmake --build . --config $env:CONFIGURATION
         cpack -G ZIP -C $env:CONFIGURATION
 
@@ -80,7 +80,7 @@ jobs:
       run: |
         mkdir build
         cd build
-        cmake .. -G"Visual Studio 18 2026" -DSDL2_DIR="$env:GITHUB_WORKSPACE\SDL2-2.0.22" -DCMAKE_PREFIX_PATH="$env:QT_ROOT_DIR" -A x64 -DCI_PROVIDER="GitHub" -DBUILD_NUMBER="$env:GITHUB_RUN_NUMBER"
+        cmake .. -G"Visual Studio 17 2022" -DSDL2_DIR="$env:GITHUB_WORKSPACE\SDL2-2.0.22" -DCMAKE_PREFIX_PATH="$env:QT_ROOT_DIR" -A x64 -DCI_PROVIDER="GitHub" -DBUILD_NUMBER="$env:GITHUB_RUN_NUMBER"
         cmake --build . --config $env:CONFIGURATION
         cpack -G ZIP -C $env:CONFIGURATION
         
