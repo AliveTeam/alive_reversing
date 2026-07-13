@@ -247,12 +247,11 @@ bool Glukkon::BrainIs(TGlukkonBrainFn fn)
     return mBrainState == fn;
 }
 
-void Glukkon::LoadAnimations()
+void Glukkon::LoadAnimations(relive::Path_Glukkon::GlukkonTypes glukkonType)
 {
-    switch (gMap.mCurrentLevel)
+    switch (glukkonType)
     {
-        case EReliveLevelIds::eFeeCoDepot:
-        case EReliveLevelIds::eFeeCoDepot_Ender:
+        case relive::Path_Glukkon::GlukkonTypes::eStoryAslik:
             for (s32 i = 0; i < 25; i++)
             {
                 const auto& anim = Glukkon::sGlukkonsAnimIdTable[1][i];
@@ -260,8 +259,7 @@ void Glukkon::LoadAnimations()
             }
             break;
 
-        case EReliveLevelIds::eBarracks:
-        case EReliveLevelIds::eBarracks_Ender:
+        case relive::Path_Glukkon::GlukkonTypes::eStoryDripik:
             for (s32 i = 0; i < 25; i++)
             {
                 const auto& anim = Glukkon::sGlukkonsAnimIdTable[2][i];
@@ -269,8 +267,7 @@ void Glukkon::LoadAnimations()
             }
             break;
 
-        case EReliveLevelIds::eBonewerkz:
-        case EReliveLevelIds::eBonewerkz_Ender:
+        case relive::Path_Glukkon::GlukkonTypes::eStoryPhleg:
             for (s32 i = 0; i < 25; i++)
             {
                 const auto& anim = Glukkon::sGlukkonsAnimIdTable[3][i];
@@ -278,7 +275,7 @@ void Glukkon::LoadAnimations()
             }
             break;
 
-        default:
+        case relive::Path_Glukkon::GlukkonTypes::eNormal:
             for (s32 i = 0; i < 25; i++)
             {
                 const auto& anim = Glukkon::sGlukkonsAnimIdTable[0][i];
@@ -291,9 +288,9 @@ void Glukkon::LoadAnimations()
 Glukkon::Glukkon(relive::Path_Glukkon* pTlv, const Guid& tlvId)
     : BaseAliveGameObject(0)
 {
-    LoadAnimations();
-
     mTlvData = *pTlv;
+
+    LoadAnimations(mTlvData.mGlukkonType);
 
     SetCanSetOffExplosives(true);
 

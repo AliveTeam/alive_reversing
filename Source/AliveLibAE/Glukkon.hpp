@@ -145,7 +145,7 @@ public:
     Glukkon(relive::Path_Glukkon* pTlv, const Guid& tlvId);
     ~Glukkon();
 
-    void LoadAnimations();
+    void LoadAnimations(relive::Path_Glukkon::GlukkonTypes glukkonType);
 
     static void CreateFromSaveState(SerializedObjectData& pBuffer);
 
