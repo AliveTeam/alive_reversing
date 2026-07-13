@@ -23,9 +23,9 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - os: windows-latest
+          - os: windows-2022
             name: Windows32
-          - os: windows-latest
+          - os: windows-2022
             name: Windows64
           - os: ubuntu-latest
             name: Linux

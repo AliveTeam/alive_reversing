@@ -1036,12 +1036,12 @@ static void Factory_ZzzSpawner(relive::Path_TLV* pTlv, Path*, const Guid& tlvId,
 
 static void Factory_Glukkon(relive::Path_TLV* pTlv, Path*, const Guid& tlvId, LoadMode loadMode)
 {
+    relive::Path_Glukkon* pGlukkonTlv = static_cast<relive::Path_Glukkon*>(pTlv);
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
-        switch (gMap.mCurrentLevel)
+        switch (pGlukkonTlv->mGlukkonType)
         {
-            case EReliveLevelIds::eFeeCoDepot:
-            case EReliveLevelIds::eFeeCoDepot_Ender:
+            case relive::Path_Glukkon::GlukkonTypes::eStoryAslik:
                 for (s32 i = 0; i < 25; i++)
                 {
                     const auto& anim = Glukkon::sGlukkonsAnimIdTable[1][i];
@@ -1052,8 +1052,7 @@ static void Factory_Glukkon(relive::Path_TLV* pTlv, Path*, const Guid& tlvId, Lo
                 ResourceManagerWrapper::PendAnimation(AnimId::Aslik_Body_Gib);
                 break;
 
-            case EReliveLevelIds::eBarracks:
-            case EReliveLevelIds::eBarracks_Ender:
+            case relive::Path_Glukkon::GlukkonTypes::eStoryDripik:
                 for (s32 i = 0; i < 25; i++)
                 {
                     const auto& anim = Glukkon::sGlukkonsAnimIdTable[2][i];
@@ -1064,8 +1063,7 @@ static void Factory_Glukkon(relive::Path_TLV* pTlv, Path*, const Guid& tlvId, Lo
                 ResourceManagerWrapper::PendAnimation(AnimId::Dripik_Body_Gib);
                 break;
 
-            case EReliveLevelIds::eBonewerkz:
-            case EReliveLevelIds::eBonewerkz_Ender:
+            case relive::Path_Glukkon::GlukkonTypes::eStoryPhleg:
                 for (s32 i = 0; i < 25; i++)
                 {
                     const auto& anim = Glukkon::sGlukkonsAnimIdTable[3][i];
@@ -1076,7 +1074,7 @@ static void Factory_Glukkon(relive::Path_TLV* pTlv, Path*, const Guid& tlvId, Lo
                 ResourceManagerWrapper::PendAnimation(AnimId::Phleg_Body_Gib);
                 break;
 
-            default:
+            case relive::Path_Glukkon::GlukkonTypes::eNormal:
                 for (s32 i = 0; i < 25; i++)
                 {
                     const auto& anim = Glukkon::sGlukkonsAnimIdTable[0][i];
@@ -1090,7 +1088,7 @@ static void Factory_Glukkon(relive::Path_TLV* pTlv, Path*, const Guid& tlvId, Lo
     }
     else
     {
-        relive_new Glukkon(static_cast<relive::Path_Glukkon*>(pTlv), tlvId);
+        relive_new Glukkon(pGlukkonTlv, tlvId);
     }
 }
 
