@@ -35,8 +35,24 @@ public:
     }
 };
 
+class UpgraderAE4 final : public IJsonUpgrader
+{
+public:
+    std::string Upgrade(JsonUpgraderBase& upgrader, nlohmann::basic_json<>& rootObj) override
+    {
+        const RemapEnums directionToChoice =
+        {
+             {"Left", "No"},
+             {"Right", "Yes"}
+        };
+        upgrader.RemapMapObjectPropertyValues(rootObj, "SligSpawner", "Chase Abe When Spotted", directionToChoice);
+        return rootObj.dump(4);
+    }
+};
+
 void JsonUpgraderAE::AddUpgraders()
 {
     ADD_UPGRADE_STEP_FROM(3, UpgraderAE3);
+    ADD_UPGRADE_STEP_FROM(4, UpgraderAE4);
 }
 } // namespace ReliveAPI
