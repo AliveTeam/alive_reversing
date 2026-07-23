@@ -223,7 +223,7 @@ struct Path_SligSpawner final : public Path_TLV
     s16 unknown; // maybe number of times to shoot after spawning?
     s16 code_1;
     s16 code_2;
-    XDirection_short chase_abe_when_spotted;
+    Choice_short chase_abe_when_spotted;
     XDirection_short start_direction;
     s16 panic_timeout;
     s16 num_panic_sounds;
