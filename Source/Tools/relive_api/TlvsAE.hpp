@@ -167,10 +167,9 @@ struct Path_SligGetPants final : public Path_TLV
 
 struct Path_MovieHandstone final : public Path_TLV
 {
-    s16 padding;
-    Scale_short scale;
     s16 movie_number;
-    s16 trigger_switch_id;
+    Scale_short scale;
+    s32 trigger_switch_id;
 };
 
 struct Path_CreditsController final : public Path_TLV
@@ -1697,10 +1696,9 @@ struct Path_MovieHandstone final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_MovieHandstone, "MovieHandstone", TlvTypes::MovieHandStone_27)
     {
-        ADD("Scale", mTlv.scale);
         ADD("Movie Number", mTlv.movie_number);
+        ADD("Scale", mTlv.scale);
         ADD("Trigger Switch ID", mTlv.trigger_switch_id);
-        ADD("Padding", mTlv.padding);
     }
 };
 
