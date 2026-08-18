@@ -2,7 +2,7 @@
 
 #include "../relive_lib/GameObjects/BaseGameObject.hpp"
 
-void Game_Main();
+void Game_Main(EReliveLevelIds startLevel, s32 startPath, s32 startCamera);
 void DestroyObjects();
 void Init_GameStates();
 s32 Game_End_Frame(u32 flags);

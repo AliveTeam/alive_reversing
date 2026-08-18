@@ -267,7 +267,7 @@ void DDCheat_Allocate()
     relive_new DDCheat();
 }
 
-void Game_Run()
+void Game_Run(EReliveLevelIds startLevel, s32 startPath, s32 startCamera)
 {
     // Begin start up
     SYS_EventsPump();
@@ -288,8 +288,6 @@ void Game_Run()
     Input_Init();
     Init_Sound_DynamicArrays_And_Others();
     
-    gMap.Init(EReliveLevelIds::eMenu, 1, 10, CameraSwapEffects::eInstantChange_0, 0, 0);
-
     DDCheat_Allocate();
 
     gEventSystem = relive_new GameSpeak();
@@ -297,6 +295,8 @@ void Game_Run()
     gCheatController = relive_new CheatController();
 
     Game_Init_LoadingIcon();
+
+    gMap.Init(startLevel, startPath, startCamera, CameraSwapEffects::eInstantChange_0, 0, 0);
 
     // Main loop start
     Game_Loop();
@@ -322,10 +322,10 @@ void Game_Run()
 }
 
 
-void Game_Main()
+void Game_Main(EReliveLevelIds startLevel, s32 startPath, s32 startCamera)
 {
     // Only returns once the engine is shutting down
-    Game_Run();
+    Game_Run(startLevel, startPath, startCamera);
 
     Game_Shutdown();
 }

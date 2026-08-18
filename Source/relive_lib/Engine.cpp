@@ -107,11 +107,11 @@ void Engine::Run()
     if (mGameType == GameType::eAe)
     {
         LOG_INFO("AE standalone starting...");
-        Game_Main();
+        Game_Main(EReliveLevelIds::eMenu, 1, 25);
     }
     else
     {
         LOG_INFO("AO standalone starting...");
-        AO::Game_Main();
+        AO::Game_Main(EReliveLevelIds::eMenu, 1, 10);
     }
 }

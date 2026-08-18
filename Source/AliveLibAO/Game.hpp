@@ -16,6 +16,6 @@ namespace AO {
 
 void Init_GameStates();
 
-void Game_Main();
+void Game_Main(EReliveLevelIds startLevel, s32 startPath, s32 startCamera);
 
 } // namespace AO

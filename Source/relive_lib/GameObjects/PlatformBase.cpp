@@ -7,6 +7,7 @@
 #include "../data_conversion/relive_tlvs.hpp"
 #include "../GameType.hpp"
 #include "FatalError.hpp"
+
 DynamicArrayT<BaseGameObject>* PlatformBase::sPlatformsArray = nullptr;
 
 void PlatformBase::MakeArray()
