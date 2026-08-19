@@ -86,8 +86,8 @@ void Well::WellExpress_Init(relive::Path_WellExpress* pTlv, FP /*xpos*/, FP ypos
     }
 
     mSwitchId = pTlv->mSwitchId;
-    mExitX = FP_FromInteger(pTlv->mExitX) / FP_FromInteger(100);
-    mExitY = FP_FromInteger(pTlv->mExitY) / FP_FromInteger(100);
+    mLeafVelX = FP_FromInteger(pTlv->mExitX) / FP_FromInteger(100);
+    mLeafVelY = FP_FromInteger(pTlv->mExitY) / FP_FromInteger(100);
 
     mEmitLeaves = pTlv->mEmitLeaves;
 
@@ -127,8 +127,8 @@ void Well::WellLocal_Init(relive::Path_WellLocal* pTlv, FP /*xpos*/, FP ypos)
     }
 
     mSwitchId = pTlv->mSwitchId;
-    mExitX = FP_FromInteger(pTlv->mExitX) / FP_FromInteger(100);
-    mExitY = FP_FromInteger(pTlv->mExitY) / FP_FromInteger(100);
+    mLeafVelX = FP_FromInteger(pTlv->mExitX) / FP_FromInteger(100);
+    mLeafVelY = FP_FromInteger(pTlv->mExitY) / FP_FromInteger(100);
 
     mEmitLeaves = pTlv->mEmitLeaves;
 
@@ -172,11 +172,11 @@ void Well::VUpdate()
                 auto pLeaf = relive_new Leaf(
                     mLeafX,
                     mLeafY,
-                    mExitX,
-                    mExitY,
+                    mLeafVelX,
+                    mLeafVelY,
                     mLeafScale);
 
-                if (mExitY > FP_FromInteger(0))
+                if (mLeafVelY > FP_FromInteger(0))
                 {
                     if (pLeaf)
                     {
