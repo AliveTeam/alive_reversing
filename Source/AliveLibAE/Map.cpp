@@ -915,12 +915,6 @@ void Map::GetCurrentCamCoords(PSX_Point* pPoint)
     pPoint->y = mCamIdxOnY * mPathData->field_C_grid_height;
 }
 
-void Map::Get_Abe_Spawn_Pos(PSX_Point* pPoint)
-{
-    pPoint->x = mPathData->field_1A_abe_start_xpos;
-    pPoint->y = mPathData->field_1C_abe_start_ypos;
-}
-
 s16 Map::GetOverlayId()
 {
     // TODO: Probably need to redo field_C data as 1 bytes instead of a word

@@ -8732,18 +8732,14 @@ void Abe::IntoPortalStates_451990()
 
 void Abe::Calc_Well_Velocity_45C530(s16 xPosSource, s16 yPosSource, s16 xPosDest, s16 yPosDest)
 {
-    PSX_Point abeSpawnPos = {};
-    gMap.Get_Abe_Spawn_Pos(&abeSpawnPos);
-
     const FP gravity = GetSpriteScale() == FP_FromInteger(1) ? FP_FromDouble(1.8) : FP_FromDouble(0.9);
     const FP xPosDistance = FP_FromInteger(xPosDest - xPosSource);
     FP yPosRealDistance = {};
     if (yPosDest > 0)
     {
-        const s32 yPosSourceFull = abeSpawnPos.y + yPosSource;
-        if (yPosDest > yPosSourceFull)
+        if (yPosDest > yPosSource)
         {
-            const FP yPosDistance = FP_FromInteger(yPosDest - yPosSourceFull);
+            const FP yPosDistance = FP_FromInteger(yPosDest - yPosSource);
             FP yPosDistanceOffset = {};
             if (yPosDistance <= (FP_FromInteger(41) * GetSpriteScale()))
             {
@@ -8758,7 +8754,7 @@ void Abe::Calc_Well_Velocity_45C530(s16 xPosSource, s16 yPosSource, s16 xPosDest
             FP yPosDistanceCalc = (yPosDistanceOffset / spriteScaleFactor) + FP_FromDouble(20.01);
             if (xPosDest > 0)
             {
-                mVelX = (xPosDistance - FP_FromInteger(abeSpawnPos.x)) / yPosDistanceCalc;
+                mVelX = xPosDistance / yPosDistanceCalc;
             }
             else
             {
@@ -8768,14 +8764,14 @@ void Abe::Calc_Well_Velocity_45C530(s16 xPosSource, s16 yPosSource, s16 xPosDest
             return;
         }
 
-        const s32 yPosFullDistanceInverse = yPosSourceFull - yPosDest;
+        const s32 yPosFullDistanceInverse = yPosSource - yPosDest;
         if (yPosFullDistanceInverse >= 0)
         {
             yPosRealDistance = FP_FromInteger(yPosFullDistanceInverse);
         }
         else
         {
-            yPosRealDistance = FP_FromInteger(yPosDest - yPosSourceFull);
+            yPosRealDistance = FP_FromInteger(yPosDest - yPosSource);
         }
     }
     else
@@ -8793,7 +8789,7 @@ void Abe::Calc_Well_Velocity_45C530(s16 xPosSource, s16 yPosSource, s16 xPosDest
 
     if (xPosDest > 0)
     {
-        mVelX = (xPosDistance - FP_FromInteger(abeSpawnPos.x)) / (yVelocityAfterGravity + FP_FromDouble(8.9));
+        mVelX = xPosDistance / (yVelocityAfterGravity + FP_FromDouble(8.9));
     }
     else
     {

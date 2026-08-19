@@ -70,12 +70,10 @@ MotionDetector::MotionDetector(relive::Path_MotionDetector* pTlv, const Guid& tl
         mTopLeftY = FP_FromInteger(pTlv->mTopLeftY);
         mBottomRightY = FP_FromInteger(pTlv->mBottomRightY);
 
-        PSX_Point pos = {};
-        gMap.Get_Abe_Spawn_Pos(&pos);
-        if (pTlv->mDeviceX)
+        if (pTlv->mDeviceX != 0)
         {
-            mXPos = FP_FromInteger(pTlv->mDeviceX - pos.x);
-            mYPos = FP_FromInteger(pTlv->mDeviceY - pos.y);
+            mXPos = FP_FromInteger(pTlv->mDeviceX);
+            mYPos = FP_FromInteger(pTlv->mDeviceY);
         }
         else
         {

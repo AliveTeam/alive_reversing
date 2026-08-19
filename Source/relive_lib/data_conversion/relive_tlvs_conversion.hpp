@@ -1658,8 +1658,19 @@ public:
         Path_MotionDetector r;
         BaseConvert(r, tlv, tlvId);
         r.mScale = relive::From(tlv.mScale);
-        r.mDeviceX = tlv.mDeviceX;
-        r.mDeviceY = tlv.mDeviceY;
+
+        const PathData& pathData = GetPathData(static_cast<s32>(tlvId.GetTlvInfo().levelId))[tlvId.GetTlvInfo().pathId];
+        if (tlv.mDeviceX != 0)
+        {
+            r.mDeviceX = tlv.mDeviceX - pathData.field_1A_abe_start_xpos;
+            r.mDeviceY = tlv.mDeviceY - pathData.field_1C_abe_start_ypos;
+        }
+        else
+        {
+            r.mDeviceX = tlv.mDeviceX;
+            r.mDeviceY = tlv.mDeviceY;
+        }
+
         r.mSpeedx256 = tlv.mSpeedx256;
         r.mInitialMoveDirection = From(tlv.mInitialMoveDirection);
         r.mDrawFlare = relive::From(tlv.mDrawFlare);
@@ -3023,6 +3034,17 @@ public:
         r.mCode2 = tlv.mCode2;
         r.mXPos = tlv.mXPos;
         r.mYPos = tlv.mYPos;
+
+        const PathData& pathData = GetPathData(static_cast<s32>(tlvId.GetTlvInfo().levelId))[tlvId.GetTlvInfo().pathId];
+        if (tlv.mXPos > 0)
+        {
+            r.mXPos -= pathData.field_1A_abe_start_xpos;
+        }
+
+        if (tlv.mYPos > 0)
+        {
+            r.mYPos -= pathData.field_1C_abe_start_ypos;
+        }
         return r;
     }
 };
@@ -3104,14 +3126,36 @@ public:
         r.mAnimId = tlv.mAnimId;
         r.mExitX = tlv.mExitX;
         r.mExitY = tlv.mExitY;
-        r.mOffDestX = tlv.mOffLevelOrDestX.dx;
 
+        const PathData& pathData = GetPathData(static_cast<s32>(tlvId.GetTlvInfo().levelId))[tlvId.GetTlvInfo().pathId];
+        if (tlv.mExitX > 0)
+        {
+            r.mExitX -= pathData.field_1A_abe_start_xpos;
+        }
+
+        if (tlv.mExitY > 0)
+        {
+            r.mExitY -= pathData.field_1C_abe_start_ypos;
+        }
+
+        r.mOffDestX = tlv.mOffLevelOrDestX.dx;
         // TODO: union
         r.mOffDestY = tlv.mOffPathOrDestY;
+
+        if (tlv.mOffLevelOrDestX.dx > 0)
+        {
+            r.mOffDestX -= pathData.field_1A_abe_start_xpos;
+        }
+
+        if (tlv.mOffPathOrDestY > 0)
+        {
+            r.mOffDestY -= pathData.field_1C_abe_start_ypos;
+        }
 
         // Local well
         r.mOnDestX = tlv.mOnDestX;
         r.mOnDestY = tlv.mOnDestY;
+
         r.mEmitLeaves = relive::From(tlv.mEmitLeaves);
         r.mLeafX = tlv.mLeafX;
         r.mLeafY = tlv.mLeafY;
@@ -3128,15 +3172,48 @@ public:
         r.mSwitchId = tlv.mSwitchId;
         r.mOtherWellId = tlv.mOtherWellId;
         r.mAnimId = tlv.mAnimId;
+
         r.mOffDestX = tlv.field_18_off_dx;
         r.mOffDestY = tlv.field_1A_off_dy;
+
+        const PathData& pathData = GetPathData(static_cast<s32>(tlvId.GetTlvInfo().levelId))[tlvId.GetTlvInfo().pathId];
+        if (tlv.field_18_off_dx > 0)
+        {
+            r.mOffDestX -= pathData.field_1A_abe_start_xpos;
+        }
+
+        if (tlv.field_1A_off_dy > 0)
+        {
+            r.mOffDestY -= pathData.field_1C_abe_start_ypos;
+        }
 
         // Local well
         r.mOnDestX = tlv.mOnDestX;
         r.mOnDestY = tlv.mOnDestY;
+
+        if (tlv.mOnDestX > 0)
+        {
+            r.mOnDestX -= pathData.field_1A_abe_start_xpos;
+        }
+
+        if (tlv.mOnDestY > 0)
+        {
+            r.mOnDestY -= pathData.field_1C_abe_start_ypos;
+        }
+
         r.mEmitLeaves = relive::From(tlv.mEmitLeaves);
         r.mLeafX = tlv.mLeafX;
         r.mLeafY = tlv.mLeafY;
+
+        if (tlv.mLeafX > 0)
+        {
+            r.mLeafX += pathData.field_1A_abe_start_xpos;
+        }
+
+        if (tlv.mLeafY > 0)
+        {
+            r.mLeafX += pathData.field_1A_abe_start_xpos;
+        }
         return r;
     }
 };
@@ -3188,6 +3265,18 @@ public:
         r.mAnimId = tlv.mAnimId;
         r.mExitX = tlv.field_18_exit_x;
         r.mExitY = tlv.field_1A_exit_y;
+
+        const PathData& pathData = GetPathData(static_cast<s32>(tlvId.GetTlvInfo().levelId))[tlvId.GetTlvInfo().pathId];
+        if (tlv.field_18_exit_x > 0)
+        {
+            r.mExitX -= pathData.field_1A_abe_start_xpos;
+        }
+
+        if (tlv.field_1A_exit_y > 0)
+        {
+            r.mExitY -= pathData.field_1C_abe_start_ypos;
+        }
+
         r.mOffDestLevel = MapWrapper::FromAE(tlv.field_1C_disabled_well_level);
         r.mOffDestPath = tlv.field_1E_disabled_well_path;
 
@@ -3201,6 +3290,17 @@ public:
         r.mEmitLeaves = relive::From(tlv.mEmitLeaves);
         r.mLeafX = tlv.mLeafX;
         r.mLeafY = tlv.mLeafY;
+
+        if (tlv.mLeafX > 0)
+        {
+            r.mLeafX += pathData.field_1A_abe_start_xpos;
+        }
+
+        if (tlv.mLeafY > 0)
+        {
+            r.mLeafX += pathData.field_1A_abe_start_xpos;
+        }
+
         r.mMovieId = tlv.mMovieId;
         return r;
     }
@@ -3744,6 +3844,17 @@ public:
         r.mFailSwitchId = tlv.mFailSwitchId;
         r.mXPos = tlv.mXPos;
         r.mYPos = tlv.mYPos;
+
+        const PathData& pathData = GetPathData(static_cast<s32>(tlvId.GetTlvInfo().levelId))[tlvId.GetTlvInfo().pathId];
+        if (tlv.mXPos > 0)
+        {
+            r.mXPos -= pathData.field_1A_abe_start_xpos;
+        }
+
+        if (tlv.mYPos > 0)
+        {
+            r.mYPos -= pathData.field_1C_abe_start_ypos;
+        }
         return r;
     }
 private:
@@ -4178,8 +4289,10 @@ public:
         r.mScale = relive::From(tlv.mData.mScale);
         r.mWipeEffect = relive::From(tlv.mData.mWipeEffect);
         r.mMovieId = tlv.mData.mMovieId;
-        r.mElectricX = tlv.mData.mElectricX;
-        r.mElectricY = tlv.mData.mElectricY;
+
+        const PathData& pathData = GetPathData(static_cast<s32>(tlvId.GetTlvInfo().levelId))[tlvId.GetTlvInfo().pathId];
+        r.mElectricX = tlv.mData.mElectricY - pathData.field_1A_abe_start_xpos;
+        r.mElectricY = tlv.mData.mElectricY - pathData.field_1C_abe_start_ypos;
         return r;
     }
 };

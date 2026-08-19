@@ -6,15 +6,6 @@
 class Guid final
 {
 public:
-    static Guid NewGuidFromTlvInfo(u32 tlvInfo);
-    static Guid NewGuid();
-    static Guid FromString(const std::string& str);
-    std::string ToString() const;
-    bool IsValid() const;
-    bool operator<(const Guid& rhs) const;
-    bool operator==(const Guid& rhs) const;
-    bool operator!=(const Guid& rhs) const;
-
     struct TlvOffsetLevelIdPathId final
     {
         u16 tlvOffset;
@@ -22,6 +13,15 @@ public:
         u8 pathId;
     };
 
+    static Guid NewGuidFromTlvInfo(u32 tlvInfo);
+    static Guid NewGuid();
+    static Guid FromString(const std::string& str);
+    std::string ToString() const;
+    bool IsValid() const;
+    TlvOffsetLevelIdPathId GetTlvInfo() const;
+    bool operator<(const Guid& rhs) const;
+    bool operator==(const Guid& rhs) const;
+    bool operator!=(const Guid& rhs) const;
 
 private:
 

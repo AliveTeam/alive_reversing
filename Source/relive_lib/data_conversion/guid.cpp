@@ -74,6 +74,11 @@ bool Guid::IsValid() const
     return mGuid.mTlvInfoOrData1.mData != 0 || mGuid.mData2[0] != 0 || mGuid.mData2[1] != 0 || mGuid.mData2[2];
 }
 
+Guid::TlvOffsetLevelIdPathId Guid::GetTlvInfo() const
+{
+    return mGuid.mTlvInfoOrData1.mTlvInfo;
+}
+
 bool Guid::operator < (const Guid& rhs) const
 {
     return std::tie(mGuid.mTlvInfoOrData1.mData, mGuid.mData2[0], mGuid.mData2[1], mGuid.mData2[2]) < std::tie(rhs.mGuid.mTlvInfoOrData1.mData, rhs.mGuid.mData2[0], rhs.mGuid.mData2[1], rhs.mGuid.mData2[2]);
