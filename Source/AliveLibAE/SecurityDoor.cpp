@@ -54,23 +54,12 @@ SecurityDoor::SecurityDoor(relive::Path_SecurityDoor* pTlv, const Guid& tlvId)
     mXPos = FP_FromInteger(pTlv->mXPos);
     mYPos = FP_FromInteger(pTlv->mYPos);
 
-    PSX_Point point = {};
-    gMap.Get_Abe_Spawn_Pos(&point);
-
-    if (mXPos > FP_FromInteger(0))
-    {
-        mXPos -= FP_FromInteger(point.x);
-    }
-    else
+    if (mXPos <= FP_FromInteger(0))
     {
         mXPos = FP_FromInteger((pTlv->mTopLeftX + pTlv->mBottomRightX) / 2);
     }
 
-    if (mYPos > FP_FromInteger(0))
-    {
-        mYPos -= FP_FromInteger(point.y);
-    }
-    else
+    if (mYPos <= FP_FromInteger(0))
     {
         mYPos = FP_FromInteger((pTlv->mTopLeftY + pTlv->mBottomRightY) / 2);
     }

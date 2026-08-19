@@ -77,25 +77,19 @@ static const PSX_Point kSparkOffs[8] = {
 
 void Teleporter::SpawnRingSparks(Relive_Path_Teleporter_Data* pTlvData)
 {
-    PSX_Point abeSpawnPos = {};
-    gMap.Get_Abe_Spawn_Pos(&abeSpawnPos);
-
-    const s16 xOrg = pTlvData->mElectricX - abeSpawnPos.x;
-    const s16 yOrg = pTlvData->mElectricY - abeSpawnPos.y;
-
     for (auto& sparkOffs : kSparkOffs)
     {
         s32 sparkX = 0;
         s32 sparkY = 0;
         if (pTlvData->mScale != relive::reliveScale::eFull)
         {
-            sparkX = xOrg + (sparkOffs.x / 2);
-            sparkY = yOrg + (sparkOffs.y / 2);
+            sparkX = pTlvData->mElectricX + (sparkOffs.x / 2);
+            sparkY = pTlvData->mElectricY + (sparkOffs.y / 2);
         }
         else
         {
-            sparkX = xOrg + (sparkOffs.x);
-            sparkY = yOrg + (sparkOffs.y);
+            sparkX = pTlvData->mElectricX + (sparkOffs.x);
+            sparkY = pTlvData->mElectricY + (sparkOffs.y);
         }
 
         relive_new Spark(FP_FromInteger(sparkX), FP_FromInteger(sparkY), FP_FromInteger(1), 9, -31, 159, SparkType::eBigChantParticle_1);

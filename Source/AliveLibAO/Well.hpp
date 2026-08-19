@@ -29,8 +29,8 @@ private:
     Guid mTlvInfo;
     s16 mSwitchId = 0;
     FP mLeafScale = {};
-    FP mExitX = {};
-    FP mExitY = {};
+    FP mLeafVelX = {};
+    FP mLeafVelY = {};
     FP mLeafX = {};
     FP mLeafY = {};
     bool mEmitLeaves = false;

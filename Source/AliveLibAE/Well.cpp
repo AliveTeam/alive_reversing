@@ -67,26 +67,15 @@ void Well::WellExpress_Init(relive::Path_WellExpress* pTlv, FP /*xpos*/, FP ypos
     mEmitLeaves = pTlv->mEmitLeaves;
     if (mEmitLeaves)
     {
-        PSX_Point abeSpawnPos = {};
-        gMap.Get_Abe_Spawn_Pos(&abeSpawnPos);
-
         mLeafX = FP_FromInteger(pTlv->mLeafX);
-        if (pTlv->mLeafX > 0)
-        {
-            mLeafX += FP_FromInteger(abeSpawnPos.x);
-        }
-        else
+        if (pTlv->mLeafX <= 0)
         {
             const s32 pos = (PsxToPCX(pTlv->Width()) / 2) + pTlv->mTopLeftX;
             mLeafX = FP_FromInteger(pos);
         }
 
         mLeafY = FP_FromInteger(pTlv->mLeafY);
-        if (pTlv->mLeafY > 0)
-        {
-            mLeafY += FP_FromInteger(abeSpawnPos.y);
-        }
-        else
+        if (pTlv->mLeafY <= 0)
         {
             mLeafY = ypos;
         }
@@ -109,26 +98,16 @@ void Well::WellLocal_Init(relive::Path_WellLocal* pTlv, FP /*xpos*/, FP ypos)
     mEmitLeaves = pTlv->mEmitLeaves;
     if (mEmitLeaves)
     {
-        PSX_Point abeSpawnPos = {};
-        gMap.Get_Abe_Spawn_Pos(&abeSpawnPos);
         mLeafX = FP_FromInteger(pTlv->mLeafX);
 
-        if (pTlv->mLeafX > 0)
-        {
-            mLeafX += FP_FromInteger(abeSpawnPos.x);
-        }
-        else
+        if (pTlv->mLeafX <= 0)
         {
             const s32 pos = (PsxToPCX(pTlv->Width()) / 2) + pTlv->mTopLeftX;
             mLeafX = FP_FromInteger(pos);
         }
 
         mLeafY = FP_FromInteger(pTlv->mLeafY);
-        if (pTlv->mLeafY > 0)
-        {
-            mLeafY += FP_FromInteger(abeSpawnPos.y);
-        }
-        else
+        if (pTlv->mLeafY <= 0)
         {
             mLeafY = ypos;
         }
