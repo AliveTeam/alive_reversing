@@ -403,7 +403,7 @@ void Game_Run(EReliveLevelIds startLevel, s32 startPath, s32 startCamera)
 
     Game_Init_LoadingIcon();
 
-    gMap.Init(startLevel, startPath, startCamera, CameraSwapEffects::eInstantChange_0, 0, 0);
+    gMap.Init(startLevel, static_cast<s16>(startPath), static_cast<s16>(startCamera), CameraSwapEffects::eInstantChange_0, 0, 0);
 
     // Main loop start
     Game_Loop();

@@ -59,6 +59,19 @@ if (MSVC)
     target_compile_options(editor_glue_dynamic_crt PRIVATE /MDd)
 endif()
 
+
+add_library(relive_ipc_dynamic_crt
+    ../../relive_lib/Ipc/Ipc.cpp
+    ../../relive_lib/Ipc/Ipc.cpp
+)
+target_include_directories(relive_ipc_dynamic_crt PRIVATE
+    ../../relive_lib
+)
+
+if (MSVC)
+    target_compile_options(relive_ipc_dynamic_crt PRIVATE /MDd)
+endif()
+
 set(PROJECT_SOURCES
         Source/ReliveApiWrapper.hpp
         Source/SnapSettings.hpp
@@ -162,4 +175,4 @@ if (MSVC)
     set_target_properties(qt-editor PROPERTIES VS_DEBUGGER_ENVIRONMENT "${MY_PATH}")
 endif()
 
-target_link_libraries(qt-editor PUBLIC relive_api Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::Multimedia modplug editor_glue_dynamic_crt relive_ipc)
+target_link_libraries(qt-editor PUBLIC relive_api Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::Multimedia modplug editor_glue_dynamic_crt relive_ipc_dynamic_crt)

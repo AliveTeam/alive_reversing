@@ -710,7 +710,7 @@ bool EditorTab::DoSave(QString fileName)
         auto reliveIpc = relive::MakeIpcInterface();
         if (reliveIpc->Connect())
         {
-            reliveIpc->SendLevelChanged(fileName.toStdString());
+            reliveIpc->SendLevelChanged(QDir::toNativeSeparators(fileName).toStdString());
         }
 
         mUndoStack.setClean();

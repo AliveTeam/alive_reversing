@@ -6,9 +6,13 @@
 #include <functional>
 #include <vector>
 
-#include <sys/socket.h>
-#include <sys/un.h>
-#include <unistd.h>
+#ifdef _WIN32
+    #include <windows.h>
+#else
+    #include <sys/socket.h>
+    #include <sys/un.h>
+    #include <unistd.h>
+#endif
 
 struct PacketHeader final
 {
@@ -19,12 +23,18 @@ struct PacketHeader final
 
 #define PIPE_PATH L"\\\\.\\pipe\\relive_pipe"
 
+#ifdef _WIN32
 class [[nodiscard]] Win32PipeRAII final
 {
 public:
     Win32PipeRAII()
+        : mHandle(INVALID_HANDLE_VALUE)
     {
+    }
 
+    explicit Win32PipeRAII(HANDLE handle)
+        : mHandle(handle)
+    {
     }
 
     ~Win32PipeRAII()
@@ -36,16 +46,18 @@ public:
     {
         if (mHandle != INVALID_HANDLE_VALUE)
         {
+            ::FlushFileBuffers(mHandle);
+            ::DisconnectNamedPipe(mHandle);
             ::CloseHandle(mHandle);
             mHandle = INVALID_HANDLE_VALUE;
         }
     }
 
-    bool Connect(const std::string& socketPath)
+    bool Connect(const std::wstring& socketPath)
     {
         Close();
         mHandle = ::CreateFileW(
-            socketPath.c_str(), // TODO: to wstring
+            socketPath.c_str(),
             GENERIC_READ | GENERIC_WRITE,
             0,
             NULL,
@@ -62,23 +74,34 @@ public:
         return true;
     }
 
-    int Accept()
+    HANDLE Accept()
     {
-        // TODO: Requires Bind - and the mHandle is the client
-        if (::ConnectNamedPipe(mHandle, NULL) != 0)
+        if (mHandle == INVALID_HANDLE_VALUE)
         {
-            LOG_INFO("ConnectNamedPipe failed GLE %d", ::GetLastError());
-            return false;
+            return INVALID_HANDLE_VALUE;
         }
 
-        return true;
+        BOOL connected = ::ConnectNamedPipe(mHandle, NULL);
+        if (!connected)
+        {
+            DWORD error = ::GetLastError();
+            // If a client connected between CreateNamedPipe and ConnectNamedPipe,
+            // it's still a successful connection.
+            if (error != ERROR_PIPE_CONNECTED)
+            {
+                LOG_INFO("ConnectNamedPipe failed GLE %d", error);
+                return INVALID_HANDLE_VALUE;
+            }
+        }
+
+        return mHandle;
     }
 
-    bool Bind(const std::string& socketPath)
+    bool Bind(const std::wstring& socketPath)
     {
         Close();
         mHandle = ::CreateNamedPipeW(
-            socketPath.c_str(), // TODO: Convert to wstring
+            socketPath.c_str(),
             PIPE_ACCESS_DUPLEX,
             PIPE_TYPE_BYTE | PIPE_READMODE_BYTE | PIPE_WAIT,
             1,          // max instances
@@ -98,19 +121,169 @@ public:
 
     bool Listen()
     {
-        // Bind() already listens
+        // Named Pipes automatically listen once bound
+        return mHandle != INVALID_HANDLE_VALUE;
+    }
+
+    bool Write(const void* buffer, size_t bufferLenBytes) const
+    {
+        DWORD bytesWritten = 0;
+        if (!::WriteFile(mHandle, buffer, static_cast<DWORD>(bufferLenBytes), &bytesWritten, NULL) || bytesWritten != bufferLenBytes)
+        {
+            LOG_ERROR("WriteFile failed GLE %d", ::GetLastError());
+            return false;
+        }
         return true;
     }
 
-    // TODO: Write
+    bool Read(void* buffer, size_t bufferLenBytes) const
+    {
+        DWORD totalBytesRead = 0;
+        while (totalBytesRead < bufferLenBytes)
+        {
+            DWORD bytesRead = 0;
+            BOOL result = ::ReadFile(
+                mHandle,
+                static_cast<char*>(buffer) + totalBytesRead,
+                static_cast<DWORD>(bufferLenBytes - totalBytesRead),
+                &bytesRead,
+                NULL);
 
-    // TODO: Read
+            if (!result || bytesRead == 0)
+            {
+                LOG_ERROR("ReadFile failed GLE %d", ::GetLastError());
+                return false;
+            }
+            totalBytesRead += bytesRead;
+        }
+        return true;
+    }
 
 private:
     HANDLE mHandle = INVALID_HANDLE_VALUE;
 };
 
+class Win32Ipc final : public relive::IIpcInterface
+{
+public:
+    Win32Ipc()
+        : mAcceptConnections(false)
+        , mAcceptConnectionsThread(nullptr)
+    {
+    }
 
+    ~Win32Ipc()
+    {
+        Cancel();
+    }
+
+    void Listen(relive::TOnPacket fnOnPacket) final
+    {
+        mOnPacket = fnOnPacket;
+
+        mAcceptConnections = true;
+        mAcceptConnectionsThread = std::make_unique<std::thread>(&Win32Ipc::AcceptClientsThread, this);
+    }
+
+    void Cancel() final
+    {
+        mAcceptConnections = false;
+
+        // Unblock ConnectNamedPipe if it is listening
+        mListeningPipe.Close();
+
+        if (mAcceptConnectionsThread)
+        {
+            if (mAcceptConnectionsThread->joinable())
+            {
+                LOG_INFO("Wait for thread to exit...");
+                mAcceptConnectionsThread->join();
+                LOG_INFO("Thread exited");
+            }
+            mAcceptConnectionsThread.reset();
+        }
+    }
+
+    [[nodiscard]] bool Connect() final
+    {
+        return mClientPipe.Connect(PIPE_PATH);
+    }
+
+    void SendLevelChanged(const std::string& fileName) final
+    {
+        PacketHeader header;
+        header.mLength = static_cast<uint32_t>(fileName.size());
+        header.mType = relive::PacketTypes::LevelPathJsonChanged;
+
+        if (mClientPipe.Write(&header, sizeof(header)))
+        {
+            mClientPipe.Write(fileName.data(), fileName.size());
+        }
+    }
+
+private:
+    void AcceptClientsThread()
+    {
+        while (mAcceptConnections)
+        {
+            if (!mListeningPipe.Bind(PIPE_PATH))
+            {
+                LOG_ERROR("Failed to bind named pipe");
+                break;
+            }
+
+            if (mListeningPipe.Accept() == INVALID_HANDLE_VALUE)
+            {
+                continue;
+            }
+
+            PacketHeader header;
+            if (!mListeningPipe.Read(&header, sizeof(header)))
+            {
+                LOG_ERROR("Read header failed");
+                continue;
+            }
+
+            if (header.mMagic != 0x2A)
+            {
+                LOG_ERROR("Bad packet magic in header");
+                continue;
+            }
+
+            std::vector<u8> payload(header.mLength);
+            if (header.mLength > 0)
+            {
+                if (!mListeningPipe.Read(payload.data(), payload.size()))
+                {
+                    LOG_ERROR("Read payload failed");
+                    continue;
+                }
+            }
+
+            if (header.mType == relive::PacketTypes::LevelPathJsonChanged)
+            {
+                if (mOnPacket)
+                {
+                    mOnPacket(header.mType, payload);
+                }
+            }
+            else
+            {
+                LOG_ERROR("Unknown packet type %d", static_cast<u8>(header.mType));
+            }
+        }
+    }
+
+    std::atomic<bool> mAcceptConnections{false};
+    std::unique_ptr<std::thread> mAcceptConnectionsThread;
+    Win32PipeRAII mListeningPipe;
+    Win32PipeRAII mClientPipe;
+    relive::TOnPacket mOnPacket;
+};
+
+#endif
+
+#ifndef _WIN32
 class [[nodiscard]] UnixSocketRAII final
 {
 public:
@@ -383,11 +556,16 @@ private:
     std::unique_ptr<std::thread> mAcceptConnectionsThread;
     UnixSocketRAII mSocket;
 };
+#endif
 
 namespace relive
 {
     std::unique_ptr<IIpcInterface> MakeIpcInterface()
     {
-        return std::make_unique<LinuxIpc>();
+        #ifdef _WIN32
+            return std::make_unique<Win32Ipc>();
+        #else
+            return std::make_unique<LinuxIpc>();
+        #endif
     }
 }
