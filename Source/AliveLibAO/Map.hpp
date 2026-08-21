@@ -145,8 +145,6 @@ public:
     s16 mMapChanged = 0;
     bool mFreeAllAnimAndPalts = false;
     u8* mSaveData = nullptr;
-
-    std::vector<std::unique_ptr<class BinaryPath>> mLoadedPaths;
 };
 
 

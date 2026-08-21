@@ -872,6 +872,15 @@ s8 Sys_PumpMessages()
                 bNeedToQuit = true;
             }
         }
+        else if (event.type == Sys_BaseUserEventNumber())
+        {
+            std::string t(reinterpret_cast<const char*>(event.user.data1), reinterpret_cast<uintptr_t>(event.user.data2));
+            delete[] reinterpret_cast<const char*>(event.user.data1);
+
+            LOG_INFO("Reload path event %s", t.c_str());
+
+            GetMap().ReloadPathJsonRequest(t);
+        }
     }
 
     GetGameAutoPlayer().SyncPoint(SyncPoints::PumpEventsEnd);
@@ -883,6 +892,19 @@ s8 Sys_PumpMessages()
 
     return 0;
 }
+
+u32 Sys_BaseUserEventNumber()
+{
+    const static u32 eventBase = SDL_RegisterEvents(1);
+    static bool loggedEventBase = false;
+    if (!loggedEventBase)
+    {
+        LOG_INFO("Event base %d", eventBase);
+        loggedEventBase = true;
+    }
+    return eventBase;
+}
+
 
 TWindowHandleType Sys_GetWindowHandle()
 {

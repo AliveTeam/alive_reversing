@@ -51,8 +51,8 @@ public:
         u32 mLastAllocatedSize = 0;
     };
 
-    explicit BinaryPath(u32 pathId)
-        : mPathId(pathId)
+    BinaryPath(const std::string& jsonFileName, u32 pathId)
+        : mJsonFileName(jsonFileName), mPathId(pathId)
     {
     }
 
@@ -123,7 +123,13 @@ public:
         return mSoundInfo;
     }
 
+    const std::string& JsonFileName() const
+    {
+        return mJsonFileName;
+    }
+
 private:
+    std::string mJsonFileName;
     std::vector<std::unique_ptr<CamEntry>> mCameras;
     std::vector<PathLine> mCollisions;
 

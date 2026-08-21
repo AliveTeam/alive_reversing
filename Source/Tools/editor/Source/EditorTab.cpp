@@ -40,6 +40,8 @@
 #include "CollisionConnect.hpp"
 #include "Model.hpp"
 
+#include "../../../relive_lib/Ipc/Ipc.hpp"
+
 // Zoom by 10% each time.
 const float KZoomFactor = 0.10f;
 const float KMaxZoomOutLevels = 6.0f;
@@ -704,6 +706,13 @@ bool EditorTab::DoSave(QString fileName)
             return false;
         }))
     {
+
+        auto reliveIpc = relive::MakeIpcInterface();
+        if (reliveIpc->Connect())
+        {
+            reliveIpc->SendLevelChanged(fileName.toStdString());
+        }
+
         mUndoStack.setClean();
         mStatusBar->showMessage(tr("Saved"), 2000);
         return true;

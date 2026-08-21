@@ -44,6 +44,7 @@ TWindowHandleType Sys_GetWindowHandle();
 bool Sys_IsAnyKeyDown();
 bool Sys_IsAppActive();
 s8 Sys_PumpMessages();
+u32 Sys_BaseUserEventNumber();
 
 #if ORIGINAL_PS1_BEHAVIOR // OG Change - Allow for exiting save menu using controller
 void setSaveMenuOpen(bool val);

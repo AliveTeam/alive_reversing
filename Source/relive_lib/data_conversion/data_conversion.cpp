@@ -34,6 +34,7 @@
 #include "PathDataExtensionsTypes.hpp"
 #include "../../AliveLibAO/DemoPlayback.hpp"
 #include "AOSaveSerialization.hpp"
+#include "string_util.hpp"
 
 static bool ReadLvlFileInto(ReliveAPI::LvlReader& archive, const char_type* fileName, std::vector<u8>& fileBuffer)
 {
@@ -43,11 +44,6 @@ static bool ReadLvlFileInto(ReliveAPI::LvlReader& archive, const char_type* file
         return false;
     }
     return true;
-}
-
-static bool endsWith(const std::string& str, const std::string& suffix)
-{
-    return str.size() >= suffix.size() && 0 == str.compare(str.size() - suffix.size(), suffix.size(), suffix);
 }
 
 static void to_json(nlohmann::json& j, const CameraEntry& p)
@@ -830,16 +826,16 @@ static void ConvertFilesInLvl(ThreadPool& tp, const FileSystem::Path& dataDir, F
             continue;
         }
 
-        const bool bConvertLcdFont = endsWith(fileName, ".FNT") && dv.ConvertFonts() && fileName == "LCDFONT.FNT";
+        const bool bConvertLcdFont = string_util::endsWith(fileName, ".FNT") && dv.ConvertFonts() && fileName == "LCDFONT.FNT";
         const bool bConvertMenuFonts = dv.ConvertFonts() && (fileName == "S1P01C01.CAM" || fileName == "STP01C06.CAM");
-        const bool bConvertDemos = endsWith(fileName, ".JOY") && dv.ConvertDemos();
-        const bool bConvertPaths = endsWith(fileName, "PATH.BND") && dv.ConvertPaths();
+        const bool bConvertDemos = string_util::endsWith(fileName, ".JOY") && dv.ConvertDemos();
+        const bool bConvertPaths = string_util::endsWith(fileName, "PATH.BND") && dv.ConvertPaths();
         const bool bConvertCams = dv.ConvertCameras();
 
         if (onlySaves)
         {
             // caller checks if save conv is enabled
-            if (!endsWith(fileName, ".SAV") || IsUnusedSaveFile(fileName) || isAo)
+            if (!string_util::endsWith(fileName, ".SAV") || IsUnusedSaveFile(fileName) || isAo)
             {
                 continue;
             }
@@ -862,7 +858,7 @@ static void ConvertFilesInLvl(ThreadPool& tp, const FileSystem::Path& dataDir, F
             {
                 ConvertFont(dataDir, fileName, lvlReader, fileBuffer, false);
             }
-            else if (endsWith(fileName, ".CAM"))
+            else if (string_util::endsWith(fileName, ".CAM"))
             {
                 if (bConvertMenuFonts)
                 {

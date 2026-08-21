@@ -2,6 +2,7 @@
 
 #include "Types.hpp"
 #include "../AliveLibAE/Math.hpp"
+#include "BinaryPath.hpp"
 
 enum class CameraPos : s16
 {
@@ -168,6 +169,8 @@ public:
 
     virtual relive::Path_TLV* TLV_From_Offset_Lvl_Cam(const Guid& tlvId);
 
+    void ReloadPathJsonRequest(const std::string& pathJsonFileName);
+
 public:
     MapDirections mMapDirection = MapDirections::eMapLeft_0;
     BaseAliveGameObject* mAliveObj = nullptr;
@@ -175,4 +178,6 @@ public:
 
     Camera* field_2C_camera_array[5] = {};
     Camera* field_40_stru_5[5] = {};
+
+    std::vector<std::unique_ptr<BinaryPath>> mLoadedPaths;
 };

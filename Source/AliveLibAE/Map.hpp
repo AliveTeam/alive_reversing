@@ -98,8 +98,6 @@ public:
 
     const PathData* mPathData = nullptr;
     bool mRestoreMapObjectStates = false;
-
-    std::vector<std::unique_ptr<BinaryPath>> mLoadedPaths;
 };
 
 extern Map gMap;

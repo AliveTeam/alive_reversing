@@ -697,8 +697,14 @@ SET(relive_lib_src
     Grid.hpp
     Grid.cpp
 )
-
 add_library(relive_lib ${relive_lib_src})
+
+SET(relive_ipc_src
+    Ipc/Ipc.cpp
+    Ipc/Ipc.hpp
+)
+add_library(relive_ipc ${relive_ipc_src})
+
 
 if (MSVC)
 # for UuidCreate()

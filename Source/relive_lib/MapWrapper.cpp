@@ -7,6 +7,7 @@
 #include "FatalError.hpp"
 #include "GameObjects/BaseAliveGameObject.hpp"
 #include "data_conversion/relive_tlvs.hpp"
+#include "data_conversion/string_util.hpp"
 
 bool gMap_bDoPurpleLightEffect = false;
 
@@ -299,4 +300,16 @@ relive::Path_TLV* IMap::TLV_From_Offset_Lvl_Cam(const Guid& /*tlvId*/)
 {
     LOG_WARNING("TLV_From_Offset_Lvl_Cam() not implmeneted in AO");
     return nullptr;
+}
+
+void IMap::ReloadPathJsonRequest(const std::string& pathJsonFileName)
+{
+    for (auto& binaryPath : mLoadedPaths)
+    {
+        if (string_util::endsWith(pathJsonFileName, binaryPath->JsonFileName()))
+        {
+            // TODO: Impl reload
+            return;
+        }
+    }
 }

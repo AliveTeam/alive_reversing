@@ -20,7 +20,33 @@ Engine::Engine(GameType gameType, FileSystem& fs, CommandLineParser& clp)
     , mFs(fs)
     , mClp(clp)
 {
+    mIpcInterface = relive::MakeIpcInterface();
+    mIpcInterface->Listen([&](relive::PacketTypes packetType, const std::vector<unsigned char>& buffer)
+    {
+        // Process IPC packets (usually comes from level editor) on this worker thread, send to main
+        // thread via an SDL message which will end up in Sys_PumpMessages
+        LOG_INFO("On ipc packet type %d len %d", static_cast<u8>(packetType), buffer.size());
+        if (packetType == relive::PacketTypes::LevelPathJsonChanged)
+        {
 
+            SDL_Event e;
+            SDL_zero(e);
+            e.type = Sys_BaseUserEventNumber();
+            u8* tmp = new u8[buffer.size()];
+            memcpy(tmp, buffer.data(), buffer.size());
+            e.user.data1 = tmp;
+            e.user.data2 = reinterpret_cast<void*>(buffer.size());
+            SDL_PushEvent(&e);
+        }
+    });
+}
+
+Engine::~Engine()
+{
+    if (mIpcInterface)
+    {
+        mIpcInterface->Cancel();
+    }
 }
 
 void Engine::CmdLineRenderInit()
@@ -107,6 +133,7 @@ void Engine::Run()
     if (mGameType == GameType::eAe)
     {
         LOG_INFO("AE standalone starting...");
+        //Game_Main(EReliveLevelIds::eMines, 1, 4);
         Game_Main(EReliveLevelIds::eMenu, 1, 25);
     }
     else
