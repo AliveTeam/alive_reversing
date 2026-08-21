@@ -21,9 +21,11 @@ struct PacketHeader final
     u32 mLength = 0;
 };
 
-#define PIPE_PATH L"\\\\.\\pipe\\relive_pipe"
 
 #ifdef _WIN32
+
+#define PIPE_PATH L"\\\\.\\pipe\\relive_pipe"
+
 class [[nodiscard]] Win32PipeRAII final
 {
 public:

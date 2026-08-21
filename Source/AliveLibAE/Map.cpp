@@ -194,33 +194,6 @@ void Map::Shutdown()
     Reset();
 }
 
-
-s16 Map::SetActiveCam(EReliveLevelIds level, s16 path, s16 cam, CameraSwapEffects screenChangeEffect, s16 fmvBaseId, s16 forceChange)
-{
-    if (!forceChange && cam == mCurrentCamera && level == mCurrentLevel && path == mCurrentPath)
-    {
-        return 0;
-    }
-
-    mNextCamera = cam;
-    mFmvBaseId = fmvBaseId;
-    mNextPath = path;
-    mNextLevel = level;
-    mCameraSwapEffect = screenChangeEffect;
-    mCamState = CamChangeStates::eInstantChange_2;
-
-    if (screenChangeEffect == CameraSwapEffects::ePlay1FMV_5 || screenChangeEffect == CameraSwapEffects::eUnknown_11)
-    {
-        gMap_bDoPurpleLightEffect = true;
-    }
-    else
-    {
-        gMap_bDoPurpleLightEffect = false;
-    }
-
-    return 1;
-}
-
 void Map::FreePathResourceBlocks()
 {
     mLoadedPaths.clear();

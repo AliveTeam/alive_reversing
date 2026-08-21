@@ -105,6 +105,32 @@ Camera* BaseMap::GetCamera(CameraPos pos)
     return field_2C_camera_array[static_cast<s32>(pos)];
 }
 
+s16 BaseMap::SetActiveCam(EReliveLevelIds level, s16 path, s16 cam, CameraSwapEffects screenChangeEffect, s16 fmvBaseId, s16 forceChange)
+{
+    if (!forceChange && cam == mCurrentCamera && level == mCurrentLevel && path == mCurrentPath)
+    {
+        return 0;
+    }
+
+    mNextCamera = cam;
+    mFmvBaseId = fmvBaseId;
+    mNextPath = path;
+    mNextLevel = level;
+    mCameraSwapEffect = screenChangeEffect;
+    mCamState = CamChangeStates::eInstantChange_2;
+
+    if (screenChangeEffect == CameraSwapEffects::ePlay1FMV_5 || screenChangeEffect == CameraSwapEffects::eUnknown_11)
+    {
+        gMap_bDoPurpleLightEffect = true;
+    }
+    else
+    {
+        gMap_bDoPurpleLightEffect = false;
+    }
+
+    return 1;
+}
+
 relive::Path_TLV* BaseMap::TLV_From_Offset_Lvl_Cam(const Guid& /*tlvId*/)
 {
     LOG_WARNING("TLV_From_Offset_Lvl_Cam() not implmeneted in BaseMap");
@@ -122,6 +148,7 @@ void BaseMap::ReloadPathJsonRequest(const std::string& pathJsonFileName)
             EReliveLevelIds oldCurrentLevel = mCurrentLevel;
             mNextLevel = oldCurrentLevel;
             mCurrentLevel = EReliveLevelIds::eNone;
+            mCameraSwapEffect = CameraSwapEffects::eInstantChange_0; // prevent fmv playback
             DestroyObjects();
             GoTo_Camera();
             return;

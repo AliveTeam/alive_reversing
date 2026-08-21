@@ -88,6 +88,8 @@ public:
 
     Camera* GetCamera(CameraPos pos);
 
+    s16 SetActiveCam(EReliveLevelIds level, s16 path, s16 cam, CameraSwapEffects screenChangeEffect, s16 fmvBaseId, s16 forceChange);
+
     virtual relive::Path_TLV* VTLV_Get_At_Of_Type(s16 xpos, s16 ypos, s16 width, s16 height, ReliveTypes typeToFind) = 0;
 
     virtual s16 Is_Point_In_Current_Camera(EReliveLevelIds level, s32 path, FP xpos, FP ypos, s16 width) = 0;
@@ -107,6 +109,8 @@ public:
     void ReloadPathJsonRequest(const std::string& pathJsonFileName);
 
 public:
+    CameraSwapEffects mCameraSwapEffect = CameraSwapEffects::eInstantChange_0;
+    u16 mFmvBaseId = 0;
     MapDirections mMapDirection = MapDirections::eMapLeft_0;
     BaseAliveGameObject* mAliveObj = nullptr;
     CamChangeStates mCamState = CamChangeStates::eInactive_0;

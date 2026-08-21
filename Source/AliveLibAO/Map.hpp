@@ -60,8 +60,6 @@ public:
     void Shutdown();
     void Reset();
 
-    s16 SetActiveCam(EReliveLevelIds level, s16 path, s16 cam, CameraSwapEffects screenChangeEffect, s16 fmvBaseId, s16 forceChange);
-
     void ScreenChange();
 
     void FreePathResourceBlocks();
@@ -130,8 +128,6 @@ public:
     virtual void TLV_Delete(const Guid& tlvId, s16 hiFlags = -1) override;
     void Set_TLVData(const Guid& tlvId, s16 hiFlags, s8 bSetCreated, s8 bSetDestroyed) override;
 
-    CameraSwapEffects mCameraSwapEffect = CameraSwapEffects::eInstantChange_0;
-    s16 mFmvBaseId = 0;
     s16 field_1E_door = 0;
     s16 mCamIdxOnX = 0;
     s16 mCamIdxOnY = 0;
