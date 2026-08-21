@@ -4,6 +4,7 @@
 #include "../Collisions.hpp"
 #include "../FixedPoint.hpp"
 #include "../GameType.hpp"
+#include "BaseMap.hpp"
 
 static u8 sLeafRandIdx = 8;
 

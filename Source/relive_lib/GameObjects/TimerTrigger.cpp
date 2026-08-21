@@ -5,6 +5,7 @@
 #include "../MapWrapper.hpp"
 #include "../Events.hpp"
 #include "../../AliveLibAE/QuikSave.hpp"
+#include "BaseMap.hpp"
 
 TimerTrigger::TimerTrigger(relive::Path_TimerTrigger* pTlv, const Guid& tlvId)
     : BaseGameObject(true, 0)

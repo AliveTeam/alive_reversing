@@ -10,6 +10,7 @@
 #include "ShadowZone.hpp"
 #include "../AliveLibAE/Math.hpp"
 #include "FixedPoint.hpp"
+#include "BaseMap.hpp"
 
 DynamicArrayT<BaseGameObject>* gObjListDrawables;
 

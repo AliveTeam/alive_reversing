@@ -4,6 +4,7 @@
 #include "FixedPoint.hpp"
 #include "Events.hpp"
 #include "FixedPoint.hpp"
+#include "BaseMap.hpp"
 
 static DynamicArrayT<ShadowZone>* sShadowZoneArray;
 

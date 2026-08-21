@@ -9,6 +9,7 @@
 #include <algorithm>
 #include "../../AliveLibAE/QuikSave.hpp"
 #include "../GameType.hpp"
+#include "BaseMap.hpp"
 
 AbilityRing* AbilityRing::Factory(FP xpos, FP ypos, RingTypes ringType, FP scale)
 {

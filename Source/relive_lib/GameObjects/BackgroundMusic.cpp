@@ -3,6 +3,7 @@
 #include "../AliveLibAE/stdlib.hpp"
 #include "../MapWrapper.hpp"
 #include "../Sound/Midi.hpp"
+#include "BaseMap.hpp"
 
 s16 gBackgroundMusicSeqId = -1;
 

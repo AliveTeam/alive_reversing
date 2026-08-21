@@ -5,6 +5,7 @@
 #include "../../AliveLibAE/Abe.hpp"
 #include "../PsxDisplay.hpp"
 #include "../GameType.hpp"
+#include "BaseMap.hpp"
 
 struct Data_FP final
 {

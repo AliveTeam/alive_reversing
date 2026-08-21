@@ -4,6 +4,7 @@
 #include "BaseThrowable.hpp"
 #include "../../AliveLibAE/QuikSave.hpp"
 #include "../GameType.hpp"
+#include "BaseMap.hpp"
 
 ThrowableArray* gThrowableArray = nullptr;
 

@@ -9,6 +9,7 @@
 #include "../Primitives.hpp"
 #include <algorithm>
 #include "../GameType.hpp"
+#include "BaseMap.hpp"
 
 #undef min
 #undef max

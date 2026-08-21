@@ -111,7 +111,7 @@ private:
     bool mCantKill = false;
 };
 
-class IMap& GetMap();
+class BaseMap& GetMap();
 class BaseAliveGameObject* GetAbe();
 
 extern DynamicArrayT<BaseGameObject>* gBaseGameObjects;

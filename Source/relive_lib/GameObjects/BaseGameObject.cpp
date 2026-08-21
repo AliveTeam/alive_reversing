@@ -64,7 +64,7 @@ void BaseGameObject::VRender(OrderingTable& /*ot*/)
 
 }
 
-IMap& GetMap()
+BaseMap& GetMap()
 {
     if (GetGameType() == GameType::eAe)
     {

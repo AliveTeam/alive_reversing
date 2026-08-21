@@ -7,6 +7,7 @@
 #include "../FixedPoint.hpp"
 #include "../GameType.hpp"
 #include "../../AliveLibAE/Game.hpp"
+#include "BaseMap.hpp"
 
 static const TintEntry sAbeTintTable[21] = {
     {EReliveLevelIds::eMenu, 102u, 102u, 102u},

@@ -10,6 +10,7 @@
 #include "../Collisions.hpp"
 #include "../FixedPoint.hpp"
 #include "../GameType.hpp"
+#include "BaseMap.hpp"
 
 static Mine* sMinePlayingSound = nullptr;
 

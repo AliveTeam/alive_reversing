@@ -11,6 +11,7 @@
 #include "../GameType.hpp"
 #include "ScreenManager.hpp"
 #include "BaseAliveGameObject.hpp"
+#include "BaseMap.hpp"
 
 static bool bTheOneControllingTheMusic = false;
 static DynamicArrayT<Dove> gDovesArray{10};

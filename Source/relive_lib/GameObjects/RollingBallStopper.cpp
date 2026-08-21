@@ -5,6 +5,7 @@
 #include "Sfx.hpp"
 #include "../Grid.hpp"
 #include "../FixedPoint.hpp"
+#include "BaseMap.hpp"
 
 // NOTE: this is the AO code and hasn't been compared since it's unused in original AE levels
 

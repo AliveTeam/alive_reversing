@@ -14,6 +14,7 @@
 #include "../../AliveLibAO/Abe.hpp"
 #include "../../AliveLibAE/Abe.hpp"
 #include "../../AliveLibAE/Game.hpp"
+#include "BaseMap.hpp"
 
 Spark::Spark(FP xpos, FP ypos, FP scale, s32 count, s32 minAngle, s32 maxAngle, SparkType type)
     : BaseGameObject(true, 0)

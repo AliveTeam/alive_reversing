@@ -10,6 +10,7 @@
 #include "../AliveLibAE/GameAutoPlayer.hpp"
 #include "relive_config.h"
 #include <FatalError.hpp>
+#include "BaseMap.hpp"
 
 static bool sAppIsActivated = false;
 static TWindowHandleType sHwnd = nullptr;

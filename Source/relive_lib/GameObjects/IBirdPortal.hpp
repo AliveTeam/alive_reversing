@@ -2,6 +2,7 @@
 
 #include "BaseGameObject.hpp"
 #include "../MapWrapper.hpp"
+#include "BaseMap.hpp"
 #include "../relive_lib/data_conversion/relive_tlvs.hpp"
 #include "../SaveStateBase.hpp"
 

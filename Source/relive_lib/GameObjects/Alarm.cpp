@@ -5,6 +5,7 @@
 #include "Sfx.hpp"
 #include "../GameType.hpp"
 #include "../../AliveLibAE/Game.hpp"
+#include "BaseMap.hpp"
 
 s16 gAlarmInstanceCount = 0;
 Guid gAlarmObjId = Guid{}; // Only used in AE to kill the alarm in the last level

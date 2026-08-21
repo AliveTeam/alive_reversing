@@ -11,6 +11,7 @@
 #include "PlatformBase.hpp"
 #include "../MapWrapper.hpp"
 #include "../GameType.hpp"
+#include "BaseMap.hpp"
 
 bool gInfiniteThrowables = false;
 

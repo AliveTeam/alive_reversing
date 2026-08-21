@@ -2,6 +2,7 @@
 
 #include "../relive_lib/MapWrapper.hpp"
 #include "../relive_lib/FixedPoint.hpp"
+#include "../relive_lib/BaseMap.hpp"
 
 class BaseGameObject;
 class Camera;
@@ -26,7 +27,7 @@ ALIVE_ASSERT_SIZEOF(CameraName, 8);
 
 enum class LoadMode : s16;
 
-class Map final : public IMap
+class Map final : public BaseMap
 {
 public:
     void ScreenChange();
@@ -83,7 +84,6 @@ private:
 
 public:
 
-    s16 mForceLoad = 0;
 
     CameraSwapEffects mCameraSwapEffect = CameraSwapEffects::eInstantChange_0;
     u16 mFmvBaseId = 0;

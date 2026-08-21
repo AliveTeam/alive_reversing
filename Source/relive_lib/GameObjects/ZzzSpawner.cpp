@@ -6,6 +6,7 @@
 #include "../Events.hpp"
 #include "../SwitchStates.hpp"
 #include "../GameType.hpp"
+#include "BaseMap.hpp"
 
 ZzzSpawner::ZzzSpawner(relive::Path_ZzzSpawner* pTlv, const Guid& tlvId)
     : BaseGameObject(true, 0)

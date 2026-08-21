@@ -5,6 +5,7 @@
 #include "../../AliveLibAE/stdlib.hpp"
 #include "../FixedPoint.hpp"
 #include "../GameType.hpp"
+#include "BaseMap.hpp"
 
 void ZapSpark::LoadAnimationsAO()
 {

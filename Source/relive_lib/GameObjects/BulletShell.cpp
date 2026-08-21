@@ -7,6 +7,7 @@
 #include "Sfx.hpp"
 #include "../FixedPoint.hpp"
 #include "../GameType.hpp"
+#include "BaseMap.hpp"
 
 static s16 sShellCount = 0;
 

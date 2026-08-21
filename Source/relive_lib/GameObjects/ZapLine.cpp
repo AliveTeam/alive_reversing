@@ -6,6 +6,7 @@
 #include "../PsxDisplay.hpp"
 #include "ScreenManager.hpp"
 #include "Math.hpp"
+#include "BaseMap.hpp"
 
 ZapLine::~ZapLine()
 {

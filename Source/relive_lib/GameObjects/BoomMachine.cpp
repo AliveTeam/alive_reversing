@@ -9,6 +9,7 @@
 #include "../Grid.hpp"
 #include "../FixedPoint.hpp"
 #include "BoomMachinePipe.hpp"
+#include "BaseMap.hpp"
 
 void BoomMachine::LoadAnimations()
 {

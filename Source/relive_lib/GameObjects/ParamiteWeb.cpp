@@ -8,6 +8,7 @@
 #include "../AnimationUnknown.hpp"
 #include "../PsxDisplay.hpp"
 #include "../GameType.hpp"
+#include "BaseMap.hpp"
 
 ParamiteWeb::ParamiteWeb(FP xpos, s32 bottom, s32 top, FP scale)
     : BaseAnimatedWithPhysicsGameObject(0)

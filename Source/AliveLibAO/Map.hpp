@@ -2,6 +2,7 @@
 
 #include "../relive_lib/MapWrapper.hpp"
 #include "../relive_lib/FixedPoint.hpp"
+#include "../relive_lib/BaseMap.hpp"
 
 enum class ReliveTypes : s16;
 class CamResource;
@@ -49,7 +50,7 @@ namespace CameraIds::Menu
 }
 
 
-class Map final : public IMap
+class Map final : public BaseMap
 {
 public:
     Map();
@@ -128,9 +129,6 @@ public:
     virtual void TLV_Persist(const Guid& tlvId, s16 hiFlags = -1) override;
     virtual void TLV_Delete(const Guid& tlvId, s16 hiFlags = -1) override;
     void Set_TLVData(const Guid& tlvId, s16 hiFlags, s8 bSetCreated, s8 bSetDestroyed) override;
-
-
-    s16 mForceLoad = 0;
 
     CameraSwapEffects mCameraSwapEffect = CameraSwapEffects::eInstantChange_0;
     s16 mFmvBaseId = 0;

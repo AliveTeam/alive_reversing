@@ -13,6 +13,7 @@
 #include "../PsxDisplay.hpp"
 #include "../../AliveLibAE/Game.hpp"
 #include "../../AliveLibAE/Sfx.hpp"
+#include "BaseMap.hpp"
 
 struct ParticleBurst_Item final
 {

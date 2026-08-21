@@ -3,6 +3,7 @@
 #include "MapWrapper.hpp"
 #include "PsxDisplay.hpp"
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
+#include "BaseMap.hpp"
 
 EffectBase::EffectBase(Layer layer, relive::TBlendModes blendMode)
     : BaseGameObject(true, 0)

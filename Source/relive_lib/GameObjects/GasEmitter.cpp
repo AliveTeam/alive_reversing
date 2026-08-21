@@ -7,6 +7,7 @@
 #include "Sfx.hpp"
 #include "../relive_lib/GameObjects/GasCountDown.hpp"
 #include "../GameType.hpp"
+#include "BaseMap.hpp"
 
 static GasEmitter* sMainGasEmitter = nullptr;
 static u32 sGasEmitterAudioMask = 0;

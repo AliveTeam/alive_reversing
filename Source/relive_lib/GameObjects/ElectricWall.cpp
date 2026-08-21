@@ -10,6 +10,7 @@
 #include "MapWrapper.hpp"
 #include "Math.hpp"
 #include "../GameType.hpp"
+#include "BaseMap.hpp"
 
 const static s16 sElecticWallFrames[6] = {0, 6, 10, 18, 22, 0};
 

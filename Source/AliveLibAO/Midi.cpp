@@ -20,6 +20,7 @@
 
 #include "../relive_lib/BinaryPath.hpp"
 #include "../relive_lib/FatalError.hpp"
+#include "BaseMap.hpp"
 
 // TODO: Refactor + remove these
 #define BYTEn(x, n) (*((u8*) &(x) + n))

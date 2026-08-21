@@ -10,6 +10,7 @@
 #include "../../AliveLibAE/QuikSave.hpp"
 #include "../GameType.hpp"
 #include "../../AliveLibAE/Path.hpp"
+#include "BaseMap.hpp"
 
 static const TrapDoor_Data sTrapDoorDataAO[16] = {
     {AnimId::Lines_TrapDoor_Open, AnimId::Lines_TrapDoor_Closed, AnimId::Lines_TrapDoor_Opening, AnimId::Lines_TrapDoor_Closing},      // menu

@@ -8,6 +8,7 @@
 #include "../relive_lib/Events.hpp"
 #include <math.h>
 #include "../relive_lib/GameObjects/BaseAnimatedWithPhysicsGameObject.hpp"
+#include "BaseMap.hpp"
 
 s32 gLaughingGasInstanceCount = 0;
 bool gLaughingGasOn = false;

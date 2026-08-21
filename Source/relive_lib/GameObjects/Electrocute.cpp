@@ -6,6 +6,7 @@
 #include "MapWrapper.hpp"
 #include "PaletteOverwriter.hpp"
 #include "../GameType.hpp"
+#include "BaseMap.hpp"
 
 Electrocute::Electrocute(BaseAliveGameObject* pTargetObj, bool bExtraOverwriter, bool bKillTarget)
     : BaseGameObject(true, 0),

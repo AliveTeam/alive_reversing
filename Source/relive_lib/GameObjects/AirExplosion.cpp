@@ -16,6 +16,7 @@
 #include "../AliveLibAO/Midi.hpp"
 #include "AmbientSound.hpp"
 #include "../data_conversion/relive_tlvs.hpp"
+#include "BaseMap.hpp"
 
 #undef min
 #undef max

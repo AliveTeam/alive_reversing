@@ -14,6 +14,7 @@
 #include "../AmbientSound.hpp"
 #include "../../relive_lib/FatalError.hpp"
 #include "../Math.hpp"
+#include "BaseMap.hpp"
 
 void SFX_SetPitch_4CA510(const relive::SfxDefinition& pSfx, s32 channelsBits, s16 pitch);
 

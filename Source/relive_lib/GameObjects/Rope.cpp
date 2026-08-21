@@ -8,6 +8,7 @@
 #include "../AnimationUnknown.hpp"
 #include "../PsxDisplay.hpp"
 #include "../GameType.hpp"
+#include "BaseMap.hpp"
 
 void ClipPoly_Vertically(Poly_FT4* pPoly, s32 minY, s32 maxY)
 {

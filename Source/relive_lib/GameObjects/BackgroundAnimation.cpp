@@ -7,6 +7,7 @@
 #include "Sfx.hpp"
 #include "../MapWrapper.hpp"
 #include "../GameType.hpp"
+#include "BaseMap.hpp"
 
 void BackgroundAnimation::VStopAudio()
 {

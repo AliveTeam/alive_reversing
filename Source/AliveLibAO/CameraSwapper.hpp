@@ -2,6 +2,7 @@
 
 #include "../relive_lib/GameObjects/BaseGameObject.hpp"
 #include "../relive_lib/MapWrapper.hpp"
+#include "BaseMap.hpp"
 
 enum class CameraSwapEffects : s16;
 class ScreenClipper;

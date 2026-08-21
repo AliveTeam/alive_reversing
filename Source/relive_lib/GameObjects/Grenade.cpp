@@ -14,6 +14,7 @@
 #include "../FixedPoint.hpp"
 #include "../../AliveLibAE/QuikSave.hpp"
 #include "../GameType.hpp"
+#include "BaseMap.hpp"
 
 Grenade::Grenade(FP xpos, FP ypos, s16 numGrenades, bool bBlowUpOnCollision, BaseGameObject* pOwner)
 {
