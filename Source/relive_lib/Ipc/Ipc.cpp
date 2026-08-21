@@ -10,6 +10,107 @@
 #include <sys/un.h>
 #include <unistd.h>
 
+struct PacketHeader final
+{
+    u8 mMagic = 0x2A;
+    relive::PacketTypes mType = relive::PacketTypes::None;
+    u32 mLength = 0;
+};
+
+#define PIPE_PATH L"\\\\.\\pipe\\relive_pipe"
+
+class [[nodiscard]] Win32PipeRAII final
+{
+public:
+    Win32PipeRAII()
+    {
+
+    }
+
+    ~Win32PipeRAII()
+    {
+        Close();
+    }
+
+    void Close()
+    {
+        if (mHandle != INVALID_HANDLE_VALUE)
+        {
+            ::CloseHandle(mHandle);
+            mHandle = INVALID_HANDLE_VALUE;
+        }
+    }
+
+    bool Connect(const std::string& socketPath)
+    {
+        Close();
+        mHandle = ::CreateFileW(
+            socketPath.c_str(), // TODO: to wstring
+            GENERIC_READ | GENERIC_WRITE,
+            0,
+            NULL,
+            OPEN_EXISTING,
+            0,
+            NULL
+        );
+
+        if (mHandle == INVALID_HANDLE_VALUE)
+        {
+            LOG_INFO("CreateFileW failed GLE %d", ::GetLastError());
+            return false;
+        }
+        return true;
+    }
+
+    int Accept()
+    {
+        // TODO: Requires Bind - and the mHandle is the client
+        if (::ConnectNamedPipe(mHandle, NULL) != 0)
+        {
+            LOG_INFO("ConnectNamedPipe failed GLE %d", ::GetLastError());
+            return false;
+        }
+
+        return true;
+    }
+
+    bool Bind(const std::string& socketPath)
+    {
+        Close();
+        mHandle = ::CreateNamedPipeW(
+            socketPath.c_str(), // TODO: Convert to wstring
+            PIPE_ACCESS_DUPLEX,
+            PIPE_TYPE_BYTE | PIPE_READMODE_BYTE | PIPE_WAIT,
+            1,          // max instances
+            4096, 4096, // out/in buffer
+            0,
+            NULL
+        );
+
+        if (mHandle == INVALID_HANDLE_VALUE) 
+        {
+            LOG_ERROR("CreateNamedPipe failed GLE %d", ::GetLastError());
+            return false;
+        }
+
+        return true;
+    }
+
+    bool Listen()
+    {
+        // Bind() already listens
+        return true;
+    }
+
+    // TODO: Write
+
+    // TODO: Read
+
+private:
+    HANDLE mHandle = INVALID_HANDLE_VALUE;
+};
+
+
 class [[nodiscard]] UnixSocketRAII final
 {
 public:
@@ -45,6 +146,7 @@ public:
         if (mSocket)
         {
             ::close(mSocket);
+            mSocket = 0;
         }
     }
 
@@ -104,12 +206,15 @@ public:
         return true;
     }
 
+    // TODO: Read
+
 private:
     int mSocket = 0;
 };
 
 #define SOCKET_PATH "/tmp/relive_ipc.sock"
 
+// TODO: over kill remove this class
 class LinuxAutoFileDeleter final
 {
 public:
@@ -135,12 +240,6 @@ private:
     std::string mPath;
 };
 
-struct PacketHeader final
-{
-    u8 mMagic = 0x2A;
-    relive::PacketTypes mType = relive::PacketTypes::None;
-    u32 mLength = 0;
-};
 
 class LinuxIpc final : public relive::IIpcInterface
 {
