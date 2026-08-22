@@ -81,7 +81,7 @@ private:
 class Win32Server final : public IServer
 {
 public:
-    explicit Win32Client(const std::string& serverPath)
+    explicit Win32Server(const std::string& serverPath)
     {
         mServerPath = Utf8ToWide(serverPath);
     }

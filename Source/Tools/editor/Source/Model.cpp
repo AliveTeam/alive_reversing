@@ -2,6 +2,7 @@
 #include "ReliveApiWrapper.hpp"
 #include <optional>
 #include "../../relive_lib/data_conversion/relive_tlvs_serialization.hpp"
+#include "../../relive_lib/data_conversion/EnumSerialization.hpp"
 #include <QDebug>
 
 static std::optional<std::string> LoadFileToString(const std::string& fileName)

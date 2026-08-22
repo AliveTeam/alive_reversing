@@ -4,7 +4,7 @@
 #include "../MapWrapper.hpp"
 #include "../ObjectTypes.hpp"
 #include "relive_tlvs.hpp"
-#include "./Collisions.hpp"
+#include "../Collisions.hpp"
 
 // clang-format off
 

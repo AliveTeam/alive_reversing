@@ -13,6 +13,10 @@
 #include "Path.hpp"
 #include "Map.hpp"
 
+#ifdef GetMessage
+#undef GetMessage
+#endif
+
 namespace AO {
 
 static const char_type* sHintFlyMessages[36] = {
@@ -57,9 +61,9 @@ static const char_type* sHintFlyMessages[36] = {
 class HintFlyMessages final
 {
 public:
-    const char_type* GetMessage(EReliveLevelIds lvlId, u32 pathId, u32 msgId) const
+    const char_type* GetMessage(u32 msgId) const
     {
-         if (msgId < ALIVE_COUNTOF(sHintFlyMessages))
+        if (msgId < ALIVE_COUNTOF(sHintFlyMessages))
         {
             return sHintFlyMessages[msgId];
         }
@@ -1338,7 +1342,7 @@ HintFly::HintFly(relive::Path_HintFly* pTlv, const Guid& tlvId)
     mXPos = FP_FromInteger(pTlv->mTopLeftX);
     mYPos = FP_FromInteger(pTlv->mTopLeftY);
 
-    const char_type* pMsg = gHintFlyMessages.GetMessage(gMap.mCurrentLevel, gMap.mCurrentPath, pTlv->mMessageId);
+    const char_type* pMsg = gHintFlyMessages.GetMessage(pTlv->mMessageId);
 
     mCounter = 20;
     mMsgLength = 0;
@@ -1434,7 +1438,7 @@ HintFly::~HintFly()
 
 void HintFly::FormWordAndAdvanceToNextWord()
 {
-    const char_type* msgPtr = &gHintFlyMessages.GetMessage(gMap.mCurrentLevel, gMap.mCurrentPath, mMessageId)[mMsgIdx];
+    const char_type* msgPtr = &gHintFlyMessages.GetMessage(mMessageId)[mMsgIdx];
     LOG_INFO("Word is %s", msgPtr);
 
     // Find how long the word is
@@ -1665,7 +1669,7 @@ void HintFly::VUpdate()
             if (static_cast<s32>(sGnFrame) > mTimer)
             {
                 s16 len = 0;
-                const char_type* pMsgIter = gHintFlyMessages.GetMessage(gMap.mCurrentLevel, gMap.mCurrentPath, mMessageId) + mMsgIdx;
+                const char_type* pMsgIter = gHintFlyMessages.GetMessage(mMessageId) + mMsgIdx;
                 while (*pMsgIter != ' ' && *pMsgIter != '\0')
                 {
                     len += pHintFlyAlphabet_4C7268[(*pMsgIter) - 'A'][0];
