@@ -54,32 +54,12 @@ static const char_type* sHintFlyMessages[36] = {
     "THEY WONT CHASE WHAT THEY CANT SEE"};
 
 
-static const StringTable* sPerLvlMessages[static_cast<u32>(LevelIds::eDesertEscape_15) + 1][99] = {};
-
-void SetHintFlyMessagesForLvl(const StringTable& msgs, LevelIds lvl, u32 pathId)
-{
-    sPerLvlMessages[static_cast<u32>(lvl)][pathId] = &msgs;
-}
-
 class HintFlyMessages final
 {
 public:
     const char_type* GetMessage(EReliveLevelIds lvlId, u32 pathId, u32 msgId) const
     {
-        const StringTable* pTable = sPerLvlMessages[static_cast<u32>(MapWrapper::ToAO(lvlId))][pathId];
-        if (pTable)
-        {
-            if (msgId < pTable->mStringCount)
-            {
-                return pTable->mStrings[msgId].string_ptr;
-            }
-            else
-            {
-                LOG_WARNING("HintFly message out of bounds, using original game message for id: %d", msgId);
-            }
-        }
-
-        if (msgId < ALIVE_COUNTOF(sHintFlyMessages))
+         if (msgId < ALIVE_COUNTOF(sHintFlyMessages))
         {
             return sHintFlyMessages[msgId];
         }

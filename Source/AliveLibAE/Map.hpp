@@ -11,12 +11,12 @@ class BinaryPath;
 enum class LevelIds : s16;
 struct PSX_Point;
 enum class EReliveLevelIds : s16;
-enum class LoadMode : s16;
 class CamResource;
 
 namespace relive
 {
     class Path_TLV;
+    enum class LoadMode : s16;
 }
 
 struct CameraName final
@@ -25,7 +25,6 @@ struct CameraName final
 };
 ALIVE_ASSERT_SIZEOF(CameraName, 8);
 
-enum class LoadMode : s16;
 
 class Map final : public BaseMap
 {
@@ -52,9 +51,9 @@ public:
     virtual CameraPos Rect_Location_Relative_To_Active_Camera(const PSX_RECT* pRect, s16 width = 0) override;
     static BaseGameObject* FMV_Camera_Change(CamResource& ppBits, Map* pMap, EReliveLevelIds lvlId);
     Camera* Create_Camera(s16 xpos, s16 ypos, s32 a4);
-    static void Load_Path_Items(Camera* pCamera, LoadMode loadMode);
+    static void Load_Path_Items(Camera* pCamera, relive::LoadMode loadMode);
 
-    static void LoadResource(const char_type* pFileName, s32 type, s32 resourceId, LoadMode loadMode, s16 bDontLoad = 0);
+    static void LoadResource(const char_type* pFileName, s32 type, s32 resourceId, relive::LoadMode loadMode, s16 bDontLoad = 0);
 
     s16 Is_Point_In_Current_Camera(EReliveLevelIds level, s32 path, FP xpos, FP ypos, s16 width) override;
     virtual CameraPos GetDirection(EReliveLevelIds level, s32 path, FP xpos, FP ypos) override;

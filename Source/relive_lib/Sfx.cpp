@@ -1216,8 +1216,11 @@ static SoundEffect ToAe(relive::SoundEffects sfx)
 
         case relive::SoundEffects::GreeterKnockback:
             return SoundEffect::GreeterKnockback_121;
+
     }
-    ALIVE_FATAL("Unknown sound");
+
+    //LOG_WARNING("Unknown sound");
+    return SoundEffect::Empty_10;
 }
 
 const relive::SfxDefinition& relive::GetSfx(relive::SoundEffects sfx)
