@@ -341,7 +341,7 @@ void MeatSaw::GrindUpObjects()
 
 void MeatSaw::VRender(OrderingTable& ot)
 {
-    if (gMap.Is_Point_In_Current_Camera(
+    if (GetMap().Is_Point_In_Current_Camera(
             mCurrentLevel,
             mCurrentPath,
             mXPos,

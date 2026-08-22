@@ -1217,11 +1217,10 @@ static SoundEffect ToAe(relive::SoundEffects sfx)
         case relive::SoundEffects::GreeterKnockback:
             return SoundEffect::GreeterKnockback_121;
 
-        // AO only sfx map to something sane
-        case relive::SoundEffects::HintFly:
-            return SoundEffect::BrewMachineUseEmpty_118;
     }
-    ALIVE_FATAL("Unknown sound");
+
+    //LOG_WARNING("Unknown sound");
+    return SoundEffect::Empty_10;
 }
 
 const relive::SfxDefinition& relive::GetSfx(relive::SoundEffects sfx)
