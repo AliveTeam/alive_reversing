@@ -53,6 +53,7 @@ SET(AliveLibSrcAO
    ../AliveLibAO/MainMenuTransition.cpp
    ../AliveLibAO/Door.hpp
    ../AliveLibAO/Door.cpp
+   ../AliveLibAO/HintFlyData.hpp
    ../AliveLibAO/HintFly.hpp
    ../AliveLibAO/HintFly.cpp
    ../AliveLibAO/MeatSaw.hpp
