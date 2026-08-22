@@ -25,11 +25,11 @@ std::unique_ptr<ThreadPool> ResourceManagerWrapper::mThreadPool = std::make_uniq
 std::mutex ResourceManagerWrapper::mLoadedAnimationsMutex;
 std::map<AnimId, ResourceManagerWrapper::AnimCache> ResourceManagerWrapper::mLoadedAnimations;
 
-static FileSystem::Path BasePath()
+static FileSystem::Path BasePath(bool invertGame = false)
 {
     FileSystem::Path filePath;
     filePath.Append("relive_data");
-    if (GetGameType() == GameType::eAe)
+    if (GetGameType() == GameType::eAe && !invertGame)
     {
         filePath.Append("ae");
     }
@@ -42,6 +42,23 @@ static FileSystem::Path BasePath()
 
 class AnimationLoaderJob final : public IJob
 {
+private:
+    static std::string GetAnimPath(AnimId animId, bool invertGameType)
+    {
+        // One huge blocking func for now - needs to work like OG res man
+        FileSystem::Path filePath = BasePath(invertGameType);
+
+        filePath.Append("animations");
+
+        const char_type* groupName = AnimRecGroupName(animId);
+        filePath.Append(groupName);
+
+        const char_type* animName = AnimRecName(animId);
+        filePath.Append(animName);
+
+        return filePath.GetPath();
+    }
+
 public:
     explicit AnimationLoaderJob(AnimId anim)
         : mAnimId(anim)
@@ -52,29 +69,28 @@ public:
     void Execute() override
     {
         // One huge blocking func for now - needs to work like OG res man
-        FileSystem::Path filePath = BasePath();
-
-        filePath.Append("animations");
-
-        const char_type* groupName = AnimRecGroupName(mAnimId);
-        filePath.Append(groupName);
-
-        const char_type* animName = AnimRecName(mAnimId);
-        filePath.Append(animName);
+        std::string filePath = GetAnimPath(mAnimId, false);
 
         // TODO: fs instance should probably be shared and thread safe
         FileSystem fs;
-        const std::string jsonStr = fs.LoadToString((filePath.GetPath() + ".json").c_str());
+        std::string jsonStr = fs.LoadToString((filePath + ".json").c_str());
         if (jsonStr.empty())
         {
-            ALIVE_FATAL("Missing anim json for anim: %s", animName);
+            // If Ae try to find in Ao and vice versa
+            filePath = GetAnimPath(mAnimId, true);
+            jsonStr = fs.LoadToString((filePath + ".json").c_str());
+
+            if (jsonStr.empty())
+            {
+                ALIVE_FATAL("Missing anim json for anim: %s", (filePath + ".json").c_str());
+            }
         }
 
         // TODO: Use FS
         auto pPngData = std::make_shared<PngData>();
         PNGFile pngFile;
         pPngData->mPal = std::make_shared<AnimationPal>();
-        pngFile.Load((filePath.GetPath() + ".png").c_str(), *pPngData->mPal, pPngData->mPixels, pPngData->mWidth, pPngData->mHeight);
+        pngFile.Load((filePath + ".png").c_str(), *pPngData->mPal, pPngData->mPixels, pPngData->mWidth, pPngData->mHeight);
 
         auto pAnimationAttributesAndFrames = std::make_shared<AnimationAttributesAndFrames>(jsonStr);
 
