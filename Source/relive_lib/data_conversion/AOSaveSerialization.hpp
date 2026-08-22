@@ -1,8 +1,9 @@
 #pragma once
 
 #include "nlohmann/json.hpp"
-#include "CommonTypesSerialization.hpp"
 #include "../../AliveLibAO/SaveGame.hpp"
+#include "EnumSerialization.hpp"
+#include "CommonTypesSerialization.hpp"
 
 // clang-format off
 

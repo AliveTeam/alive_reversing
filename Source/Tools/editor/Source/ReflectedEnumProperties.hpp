@@ -4,6 +4,7 @@
 #include <array>
 #include <tuple>
 #include "../../../relive_lib/data_conversion/relive_tlvs.hpp"
+#include "../../../relive_lib/Collisions.hpp"
 #include <QCoreApplication>
 
 template<typename EnumType> struct EnumReflector final  { };

@@ -49,6 +49,8 @@ add_library(editor_glue_dynamic_crt
     ../../relive_lib/data_conversion/PNGFile.cpp
     ../../relive_lib/data_conversion/file_system.cpp
     ../../relive_lib/data_conversion/guid.cpp
+    ../../relive_lib/data_conversion/relive_tlvs_serialization.cpp
+    ../../relive_lib/data_conversion/CommonTypesSerialization.cpp
 )
 target_include_directories(editor_glue_dynamic_crt PRIVATE
     ../../relive_lib

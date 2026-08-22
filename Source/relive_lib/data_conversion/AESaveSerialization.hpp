@@ -1,8 +1,10 @@
 #pragma once
 
+#include <nlohmann/json.hpp>
 #include "AESaveConverter.hpp"
-#include "relive_tlvs_serialization.hpp" // needed for some common enum and struct serialization (should probably move those to a different file)
 #include "CommonTypesSerialization.hpp"
+#include "EnumSerialization.hpp" // needed for some common enum and struct serialization (should probably move those to a different file)
+
 
 // clang-format off
 

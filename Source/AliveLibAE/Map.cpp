@@ -85,16 +85,15 @@ void Map::Init(EReliveLevelIds level, s16 path, s16 camera, CameraSwapEffects sc
 {
     gPathInfo = relive_new Path();
 
-    field_2C_camera_array[0] = nullptr;
-    field_2C_camera_array[1] = nullptr;
-    field_2C_camera_array[2] = nullptr;
-    field_2C_camera_array[3] = nullptr;
-    field_2C_camera_array[4] = nullptr;
+    for (s32 i = 0; i < ALIVE_COUNTOF(field_2C_camera_array); i++)
+    {
+        field_2C_camera_array[i] = nullptr;
+    }
 
     mOverlayId = -1;
 
-    mCurrentCamera = static_cast<s16>(-1);
-    mCurrentPath = static_cast<s16>(-1);
+    mCurrentCamera = -1;
+    mCurrentPath = -1;
     mCurrentLevel = EReliveLevelIds::eNone;
 
     mForceLoad = 0;
@@ -112,7 +111,7 @@ void Map::ScreenChange()
         return;
     }
 
-    if (gMap_bDoPurpleLightEffect)
+    if (gMap_bDoPurpleLightEffect && mCurrentLevel != EReliveLevelIds::eBoardRoom)
     {
         RemoveObjectsWithPurpleLight(1);
     }
@@ -133,7 +132,7 @@ void Map::ScreenChange()
             if (pItem->GetDead())
             {
                 j = gBaseGameObjects->RemoveAt(j);
-                delete pItem;
+                relive_delete pItem;
             }
         }
     }

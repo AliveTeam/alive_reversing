@@ -2,7 +2,7 @@
 
 #include "../../relive_lib/data_conversion/relive_tlvs.hpp"
 #include "../../relive_lib/data_conversion/relive_tlvs_serialization.hpp"
-
+#include "../../relive_lib/Collisions.hpp"
 
 class IReflector
 {

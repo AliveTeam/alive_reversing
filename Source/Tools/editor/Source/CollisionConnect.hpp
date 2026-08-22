@@ -2,6 +2,7 @@
 
 #include <QUndoCommand>
 #include "ResizeableArrowItem.hpp"
+#include "../../relive_lib/Types.hpp"
 
 class CollisionObject;
 

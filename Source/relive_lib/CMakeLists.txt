@@ -561,7 +561,9 @@ SET(data_conversion_src
     data_conversion/AnimationConverter.cpp
     data_conversion/relive_tlvs.hpp
     data_conversion/relive_tlvs_conversion.hpp
+    data_conversion/relive_tlvs_serialization.cpp
     data_conversion/relive_tlvs_serialization.hpp
+    data_conversion/EnumSerialization.hpp
     data_conversion/PathTlvsAE.hpp
     data_conversion/PathTlvsAO.hpp
     data_conversion/AnimConversionInfo.hpp
@@ -580,6 +582,7 @@ SET(data_conversion_src
     data_conversion/fmv_converter.hpp
     data_conversion/LvlReaderWriter.hpp
     data_conversion/CommonTypesSerialization.hpp
+    data_conversion/CommonTypesSerialization.cpp
     data_conversion/TLVConverter.hpp
 )
 

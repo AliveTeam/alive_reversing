@@ -260,11 +260,10 @@ void Map::Reset()
 
 void Map::Init(EReliveLevelIds level, s16 path, s16 camera, CameraSwapEffects screenChangeEffect, s16 fmvBaseId, s16 forceChange)
 {
-    field_2C_camera_array[0] = nullptr;
-    field_2C_camera_array[1] = nullptr;
-    field_2C_camera_array[2] = nullptr;
-    field_2C_camera_array[3] = nullptr;
-    field_2C_camera_array[4] = nullptr;
+    for (s32 i = 0; i < ALIVE_COUNTOF(field_2C_camera_array); i++)
+    {
+        field_2C_camera_array[i] = nullptr;
+    }
 
     mOverlayId = -1;
 
