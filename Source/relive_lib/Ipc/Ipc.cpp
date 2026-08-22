@@ -14,9 +14,11 @@
     #include <unistd.h>
 #endif
 
+static constexpr u8 kPacketHeaderMagic = 0x2A;
+
 struct PacketHeader final
 {
-    u8 mMagic = 0x2A;
+    u8 mMagic = kPacketHeaderMagic;
     relive::PacketTypes mType = relive::PacketTypes::None;
     u32 mLength = 0;
 };
@@ -246,7 +248,7 @@ private:
                 continue;
             }
 
-            if (header.mMagic != 0x2A)
+            if (header.mMagic != kPacketHeaderMagic)
             {
                 LOG_ERROR("Bad packet magic in header");
                 continue;
@@ -352,7 +354,26 @@ public:
 
         if (::bind(mSocket, (sockaddr*)&addr, sizeof(addr)) < 0) 
         {
-            return false;
+            if (errno == EADDRINUSE)
+            {
+                if (::unlink(socketPath.c_str()) < 0 && errno != 2)
+                {
+                    LOG_ERROR("Delete of %s failed with %d", socketPath.c_str(), errno);
+                }
+                else
+                {
+                    if (::bind(mSocket, (sockaddr*)&addr, sizeof(addr)) < 0) 
+                    {
+                        LOG_ERROR("Socket bind attempt 2 failed %d", errno);
+                        return false;
+                    }
+                }
+            }
+            else
+            {
+                LOG_ERROR("Socket bind failed %d", errno);
+                return false;
+            }
         }
         return true;
     }
@@ -361,6 +382,7 @@ public:
     {
         if (listen(mSocket, 1) < 0) 
         {
+            LOG_ERROR("Socket listen failed %d", errno);
             return false;
         }
         return true;
@@ -381,40 +403,27 @@ public:
         return true;
     }
 
-    // TODO: Read
+    bool Read(void* buffer, size_t bufferLenBytes)
+    {
+        size_t totalBytesRead = 0;
+        while (totalBytesRead != bufferLenBytes)
+        {
+            const size_t readBytes = ::read(mSocket, reinterpret_cast<u8*>(buffer) + totalBytesRead, bufferLenBytes - totalBytesRead);
+            if (readBytes <= 0)
+            {
+                LOG_ERROR("Read payload failed %d", errno);
+                return false;
+            }
+            totalBytesRead += readBytes;
+        }
+        return true;
+    }
 
 private:
     int mSocket = 0;
 };
 
 #define SOCKET_PATH "/tmp/relive_ipc.sock"
-
-// TODO: over kill remove this class
-class LinuxAutoFileDeleter final
-{
-public:
-    explicit LinuxAutoFileDeleter(const std::string& filePath)
-     : mPath(filePath)
-    {
-
-    }
-
-    ~LinuxAutoFileDeleter()
-    {
-    }
-
-    void Delete()
-    {
-        if (::unlink(mPath.c_str()) < 0 && errno != 2)
-        {
-            LOG_ERROR("Delete of %s failed with %d", mPath.c_str(), errno);
-        }
-    }
-
-private:
-    std::string mPath;
-};
-
 
 class LinuxIpc final : public relive::IIpcInterface
 {
@@ -423,34 +432,24 @@ public:
     {
     }
 
+    ~LinuxIpc()
+    {
+        Cancel();
+    }
+
     void Listen(relive::TOnPacket fnOnPacket) final
     {
         mOnPacket = fnOnPacket;
 
         if (!mSocket.Bind(SOCKET_PATH))
         {
-            if (errno == 98)
-            {
-                LinuxAutoFileDeleter socketDeleter(SOCKET_PATH);
-                socketDeleter.Delete();
-                if (!mSocket.Bind(SOCKET_PATH))
-                {
-                    LOG_ERROR("Socket bind failed %d", errno);
-                    return;
-                }
-            }
-            else
-            {
-                LOG_ERROR("Socket bind failed %d", errno);
-                return;
-            }
+            return;
         }
 
         LOG_INFO("Socket bound");
 
         if (!mSocket.Listen())
         {
-            LOG_ERROR("Socket listen failed %d", errno);
             return;
         }
 
@@ -498,7 +497,6 @@ public:
     }
 
 private:
-
     void AcceptClientsThread()
     {
         while (mAcceptConnections)
@@ -507,14 +505,13 @@ private:
 
             // We expect 1 message from a client and then nothing - and only really support 1 client
             PacketHeader header;
-            const ssize_t n = read(client.GetSocket(), &header, sizeof(header));
-            if (n <= 0)
+            if (!client.Read(&header, sizeof(header)))
             {
-                LOG_ERROR("Read header failed %d", errno);
+                LOG_ERROR("Read header failed");
             }
             else
             {
-                if (header.mMagic != 0x2A)
+                if (header.mMagic != kPacketHeaderMagic)
                 {
                     LOG_ERROR("Bad packet magic in header");
                     continue;
@@ -522,33 +519,26 @@ private:
 
                 std::vector<u8> payload;
                 payload.resize(header.mLength);
-                size_t totalBytesRead = 0;
-                while (totalBytesRead < header.mLength)
-                {
-                    const size_t readBytes = read(client.GetSocket(), payload.data() + totalBytesRead, payload.size() - totalBytesRead);
-                    if (readBytes <= 0)
-                    {
-                        LOG_ERROR("Read payload failed %d", errno);
-                        break;
-                    }
-                    totalBytesRead += readBytes;
-                }
 
-                if (totalBytesRead >= header.mLength)
+                if (client.Read(payload.data(), payload.size()))
                 {
                     switch(header.mType)
                     {
                         case relive::PacketTypes::LevelPathJsonChanged:
-                        if (mOnPacket)
-                        {
-                            mOnPacket(header.mType, payload);
-                        }
+                            if (mOnPacket)
+                            {
+                                mOnPacket(header.mType, payload);
+                            }
                         break;
 
                         default:
-                        LOG_ERROR("Unknown packet type %d", static_cast<u8>(header.mType));
+                            LOG_ERROR("Unknown packet type %d", static_cast<u8>(header.mType));
                         break;
                     }
+                }
+                else
+                {
+                    LOG_ERROR("Read payload failed");
                 }
             }
         }
