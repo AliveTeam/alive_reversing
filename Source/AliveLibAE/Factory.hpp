@@ -6,7 +6,6 @@ namespace relive
 }
 
 class Guid;
-class Path;
 
 enum class LoadMode : s16
 {
@@ -15,4 +14,4 @@ enum class LoadMode : s16
     LoadResource_2 = 2
 };
 
-void ConstructTLVObject(relive::Path_TLV* pTlv, Path* pPath, const Guid& tlvId, LoadMode loadMode);
+void ConstructTLVObject(relive::Path_TLV* pTlv, const Guid& tlvId, LoadMode loadMode);
