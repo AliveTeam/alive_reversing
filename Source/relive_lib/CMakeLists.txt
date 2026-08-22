@@ -159,8 +159,6 @@ SET(AliveLibSrcAO
    ../AliveLibAO/PathData.cpp
    ../AliveLibAO/AnimationCallBacks.cpp
    ../AliveLibAO/AnimationCallBacks.hpp
-   ../AliveLibAO/Factory.hpp
-   ../AliveLibAO/Factory.cpp
    ../AliveLibAO/Movie.hpp
    ../AliveLibAO/Movie.cpp
    ../AliveLibAO/MusicController.hpp
@@ -224,8 +222,6 @@ SET(AliveLibAESrc
     ../AliveLibAE/Path.cpp
     ../AliveLibAE/QuikSave.hpp
     ../AliveLibAE/QuikSave.cpp
-    ../AliveLibAE/Factory.hpp
-    ../AliveLibAE/Factory.cpp
     ../AliveLibAE/MainMenu.hpp
     ../AliveLibAE/MainMenu.cpp
     ../AliveLibAE/LCDScreen.hpp
@@ -698,6 +694,8 @@ SET(relive_lib_src
     OrbWhirlWindParticle.cpp
     Grid.hpp
     Grid.cpp
+    Factory.hpp
+    Factory.cpp
 )
 add_library(relive_lib ${relive_lib_src})
 

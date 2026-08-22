@@ -748,12 +748,12 @@ void Map::GoTo_Camera()
         }
     }
 
-    Map::Load_Path_Items(field_2C_camera_array[0], LoadMode::ConstructObject_0);
+    Map::Load_Path_Items(field_2C_camera_array[0], relive::LoadMode::ConstructObject_0);
     ResourceManagerWrapper::LoadingLoop(bShowLoadingIcon);
-    Map::Load_Path_Items(field_2C_camera_array[3], LoadMode::ConstructObject_0);
-    Map::Load_Path_Items(field_2C_camera_array[4], LoadMode::ConstructObject_0);
-    Map::Load_Path_Items(field_2C_camera_array[1], LoadMode::ConstructObject_0);
-    Map::Load_Path_Items(field_2C_camera_array[2], LoadMode::ConstructObject_0);
+    Map::Load_Path_Items(field_2C_camera_array[3], relive::LoadMode::ConstructObject_0);
+    Map::Load_Path_Items(field_2C_camera_array[4], relive::LoadMode::ConstructObject_0);
+    Map::Load_Path_Items(field_2C_camera_array[1], relive::LoadMode::ConstructObject_0);
+    Map::Load_Path_Items(field_2C_camera_array[2], relive::LoadMode::ConstructObject_0);
 
     // Create the screen manager if it hasn't already been done (probably should have always been done by this point though?)
     if (!gScreenManager)
@@ -761,7 +761,7 @@ void Map::GoTo_Camera()
         gScreenManager = relive_new ScreenManager(field_2C_camera_array[0]->mCamRes, &mCameraOffset);
     }
 
-    gPathInfo->Loader_4DB800(mCamIdxOnX, mCamIdxOnY, LoadMode::ConstructObject_0, ReliveTypes::eNone); // none = load all
+    gPathInfo->Loader_4DB800(mCamIdxOnX, mCamIdxOnY, relive::LoadMode::ConstructObject_0, ReliveTypes::eNone); // none = load all
 
     if (prevPathId != mCurrentPath || prevLevelId != mCurrentLevel)
     {
@@ -1067,7 +1067,7 @@ Camera* Map::Create_Camera(s16 xpos, s16 ypos, s32 /*a4*/)
     return newCamera;
 }
 
-void Map::Load_Path_Items(Camera* pCamera, LoadMode loadMode)
+void Map::Load_Path_Items(Camera* pCamera, relive::LoadMode loadMode)
 {
     if (!pCamera)
     {
@@ -1077,12 +1077,12 @@ void Map::Load_Path_Items(Camera* pCamera, LoadMode loadMode)
     // Is camera resource loaded check
     if (!pCamera->mCamResLoaded)
     {
-        if (loadMode == LoadMode::ConstructObject_0)
+        if (loadMode == relive::LoadMode::ConstructObject_0)
         {
             // Async camera load
             pCamera->mCamRes = ResourceManagerWrapper::LoadCam(pCamera->mLevel, pCamera->mPath, pCamera->mCameraNumber);
 
-            gPathInfo->Loader_4DB800(pCamera->mCamXOff, pCamera->mCamYOff, LoadMode::LoadResourceFromList_1, ReliveTypes::eNone); // none = load all
+            gPathInfo->Loader_4DB800(pCamera->mCamXOff, pCamera->mCamYOff, relive::LoadMode::LoadResourceFromList_1, ReliveTypes::eNone); // none = load all
         }
         else
         {
@@ -1091,17 +1091,17 @@ void Map::Load_Path_Items(Camera* pCamera, LoadMode loadMode)
             pCamera->mCamResLoaded = true;
             // pCamera->mCamRes = ResourceManagerWrapper::LoadCam(pCamera->mLevel, pCamera->mPath, pCamera->mCamera);
 
-            gPathInfo->Loader_4DB800(pCamera->mCamXOff, pCamera->mCamYOff, LoadMode::LoadResource_2, ReliveTypes::eNone); // none = load all
+            gPathInfo->Loader_4DB800(pCamera->mCamXOff, pCamera->mCamYOff, relive::LoadMode::LoadResource_2, ReliveTypes::eNone); // none = load all
         }
 
     }
 }
 
-void Map::LoadResource(const char_type* /*pFileName*/, s32 /*type*/, s32 /*resourceId*/, LoadMode loadMode, s16 bDontLoad)
+void Map::LoadResource(const char_type* /*pFileName*/, s32 /*type*/, s32 /*resourceId*/, relive::LoadMode loadMode, s16 bDontLoad)
 {
     if (!bDontLoad)
     {
-        if (loadMode == LoadMode::LoadResource_2)
+        if (loadMode == relive::LoadMode::LoadResource_2)
         {
             ResourceManagerWrapper::LoadingLoop(0);
         }

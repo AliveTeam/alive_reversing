@@ -12,6 +12,7 @@ class BinaryPath;
 namespace relive
 {
     class Path_TLV;
+    enum class LoadMode : s16;
 }
 
 class Camera;
@@ -22,7 +23,6 @@ namespace AO {
 
 struct PathData;
 class CameraSwapper;
-enum class LoadMode : s16;
 
 struct CameraName final
 {
@@ -68,7 +68,7 @@ public:
 
     void GoTo_Camera();
 
-    void Loader(s16 camX, s16 camY, LoadMode loadMode, ReliveTypes typeToLoad);
+    void Loader(s16 camX, s16 camY, relive::LoadMode loadMode, ReliveTypes typeToLoad);
 
     void RemoveObjectsWithPurpleLight(s16 bMakeInvisible);
 
@@ -89,7 +89,7 @@ public:
 
     void RestoreBlyData(const u8* pSaveData);
 
-    void Load_Path_Items(Camera* pCamera, LoadMode loadMode);
+    void Load_Path_Items(Camera* pCamera, relive::LoadMode loadMode);
 
     virtual relive::Path_TLV* TLV_First_Of_Type_In_Camera(ReliveTypes type, s16 camX) override;
 

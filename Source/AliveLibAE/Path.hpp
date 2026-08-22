@@ -207,7 +207,11 @@ enum class Choice_short : s16
 
 enum class LevelIds : s16;
 enum class CameraPos : s16;
-enum class LoadMode : s16;
+
+namespace relive
+{
+    enum class LoadMode : s16;
+}
 
 class Path
 {
@@ -218,7 +222,7 @@ public:
     void Init(const PathData* pPathData, EReliveLevelIds level, s16 path, s16 cameraId, BinaryPath* ppPathRes);
 
 
-    void Loader_4DB800(s16 xpos, s16 ypos, LoadMode loadMode, ReliveTypes typeToLoad);
+    void Loader_4DB800(s16 xpos, s16 ypos, relive::LoadMode loadMode, ReliveTypes typeToLoad);
 
     relive::Path_TLV* Get_First_TLV_For_Offsetted_Camera(s16 cam_x_idx, s16 cam_y_idx);
     static relive::Path_TLV* Next_TLV(relive::Path_TLV* pTlv);
