@@ -703,7 +703,10 @@ add_library(relive_lib ${relive_lib_src})
 
 SET(relive_ipc_src
     Ipc/Ipc.cpp
+    Ipc/Win32Ipc.cpp
+    Ipc/UnixIpc.cpp
     Ipc/Ipc.hpp
+    Ipc/IpcTransportInterfaces.hpp
 )
 add_library(relive_ipc ${relive_ipc_src})
 

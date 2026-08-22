@@ -20,7 +20,6 @@ namespace relive
     public:
         virtual ~IIpcInterface() { }
         virtual void Listen(TOnPacket fnOnPacket) = 0;
-        virtual bool Connect() = 0;
         virtual void Cancel() = 0;
         virtual void SendLevelChanged(const std::string& fileName) = 0;
     protected:

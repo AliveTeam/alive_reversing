@@ -62,7 +62,8 @@ endif()
 
 add_library(relive_ipc_dynamic_crt
     ../../relive_lib/Ipc/Ipc.cpp
-    ../../relive_lib/Ipc/Ipc.cpp
+    ../../relive_lib/Ipc/Win32Ipc.cpp
+    ../../relive_lib/Ipc/UnixIpc.cpp
 )
 target_include_directories(relive_ipc_dynamic_crt PRIVATE
     ../../relive_lib
