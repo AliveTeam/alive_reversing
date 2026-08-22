@@ -94,7 +94,7 @@ static constexpr AnimId kSligGibs[3] = {
     AnimId::Slig_Arm_Gib,
     AnimId::Slig_Body_Gib};
 
-static void Factory_Hoist(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& tlvId, LoadMode loadMode)
+static void Factory_Hoist(relive::Path_TLV* pTlv, const Guid& tlvId, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -129,7 +129,7 @@ static void Factory_Hoist(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& tlv
     }
 }
 
-static void Factory_Edge(relive::Path_TLV* /*pTlv*/, Map* /*pMap*/, const Guid& tlvId, LoadMode loadMode)
+static void Factory_Edge(relive::Path_TLV* /*pTlv*/, const Guid& tlvId, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -141,7 +141,7 @@ static void Factory_Edge(relive::Path_TLV* /*pTlv*/, Map* /*pMap*/, const Guid& 
     }
 }
 
-static void Factory_Door(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& tlvId, LoadMode loadMode)
+static void Factory_Door(relive::Path_TLV* pTlv, const Guid& tlvId, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -186,7 +186,7 @@ static void Factory_Door(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& tlvI
     }
 }
 
-static void Factory_ShadowZone(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& tlvId, LoadMode loadMode)
+static void Factory_ShadowZone(relive::Path_TLV* pTlv, const Guid& tlvId, LoadMode loadMode)
 {
     if (loadMode != LoadMode::LoadResourceFromList_1 && loadMode != LoadMode::LoadResource_2)
     {
@@ -194,7 +194,7 @@ static void Factory_ShadowZone(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid
     }
 }
 
-static void Factory_LiftPoint(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& tlvId, LoadMode loadMode)
+static void Factory_LiftPoint(relive::Path_TLV* pTlv, const Guid& tlvId, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -303,7 +303,7 @@ static void Factory_LiftPoint(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid&
     }
 }
 
-static void Factory_Well(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& tlvId, LoadMode loadMode)
+static void Factory_Well(relive::Path_TLV* pTlv, const Guid& tlvId, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -317,7 +317,7 @@ static void Factory_Well(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& tlvI
     }
 }
 
-static void Factory_Dove(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& tlvId, LoadMode loadMode)
+static void Factory_Dove(relive::Path_TLV* pTlv, const Guid& tlvId, LoadMode loadMode)
 {
     if (loadMode != LoadMode::LoadResourceFromList_1 && loadMode != LoadMode::LoadResource_2)
     {
@@ -359,7 +359,7 @@ static void Factory_Dove(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& tlvI
     }
 }
 
-static void Factory_RockSack(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& tlvId, LoadMode loadMode)
+static void Factory_RockSack(relive::Path_TLV* pTlv, const Guid& tlvId, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -378,7 +378,7 @@ static void Factory_RockSack(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& 
     }
 }
 
-static void Factory_ZBall(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& tlvId, LoadMode loadMode)
+static void Factory_ZBall(relive::Path_TLV* pTlv, const Guid& tlvId, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -392,7 +392,7 @@ static void Factory_ZBall(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& tlv
     }
 }
 
-static void Factory_FallingItem(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& tlvId, LoadMode loadMode)
+static void Factory_FallingItem(relive::Path_TLV* pTlv, const Guid& tlvId, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -430,7 +430,7 @@ static void Factory_FallingItem(relive::Path_TLV* pTlv, Map* /*pMap*/, const Gui
     }
 }
 
-static void Factory_PullRingRope(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& tlvId, LoadMode loadMode)
+static void Factory_PullRingRope(relive::Path_TLV* pTlv, const Guid& tlvId, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -467,7 +467,7 @@ static void Factory_PullRingRope(relive::Path_TLV* pTlv, Map* /*pMap*/, const Gu
     }
 }
 
-static void Factory_BackgroundAnimation(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& tlvId, LoadMode loadMode)
+static void Factory_BackgroundAnimation(relive::Path_TLV* pTlv, const Guid& tlvId, LoadMode loadMode)
 {
     if (loadMode != LoadMode::LoadResourceFromList_1 && loadMode != LoadMode::LoadResource_2)
     {
@@ -477,7 +477,7 @@ static void Factory_BackgroundAnimation(relive::Path_TLV* pTlv, Map* /*pMap*/, c
     }
 }
 
-static void Factory_Honey(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& tlvId, LoadMode loadMode)
+static void Factory_Honey(relive::Path_TLV* pTlv, const Guid& tlvId, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -498,7 +498,7 @@ static void Factory_Honey(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& tlv
     }
 }
 
-static void Factory_TimedMine(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& tlvId, LoadMode loadMode)
+static void Factory_TimedMine(relive::Path_TLV* pTlv, const Guid& tlvId, LoadMode loadMode)
 {
     auto pTimedMineTlv = static_cast<relive::Path_TimedMine*>(pTlv);
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
@@ -575,7 +575,7 @@ static void LoadWalkingSligResources(LoadMode loadMode, BitField16<SligFlags_Dis
     }
 }
 
-static void Factory_Slig(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& tlvId, LoadMode loadMode)
+static void Factory_Slig(relive::Path_TLV* pTlv, const Guid& tlvId, LoadMode loadMode)
 {
     auto pSligTlv = static_cast<relive::Path_Slig*>(pTlv);
     LoadWalkingSligResources(loadMode, pSligTlv->mData.mDisabledResourcesAO);
@@ -591,7 +591,7 @@ static void Factory_Slig(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& tlvI
 }
 
 
-static void Factory_Slog(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& tlvId, LoadMode loadMode)
+static void Factory_Slog(relive::Path_TLV* pTlv, const Guid& tlvId, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -603,7 +603,7 @@ static void Factory_Slog(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& tlvI
     }
 }
 
-static void Factory_Lever(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& tlvId, LoadMode loadMode)
+static void Factory_Lever(relive::Path_TLV* pTlv, const Guid& tlvId, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -654,7 +654,7 @@ static void Factory_Lever(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& tlv
     }
 }
 
-static void Factory_BellHammer(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& tlvId, LoadMode loadMode)
+static void Factory_BellHammer(relive::Path_TLV* pTlv, const Guid& tlvId, LoadMode loadMode)
 {
     if (loadMode != LoadMode::LoadResourceFromList_1 && loadMode != LoadMode::LoadResource_2)
     {
@@ -668,7 +668,7 @@ static void Factory_BellHammer(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid
     }
 }
 
-static void Factory_SecurityOrb(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& tlvId, LoadMode loadMode)
+static void Factory_SecurityOrb(relive::Path_TLV* pTlv, const Guid& tlvId, LoadMode loadMode)
 {
     auto pSecurityOrbTlv = static_cast<relive::Path_SecurityOrb*>(pTlv);
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
@@ -688,7 +688,7 @@ static void Factory_SecurityOrb(relive::Path_TLV* pTlv, Map* /*pMap*/, const Gui
     }
 }
 
-static void Factory_LiftMud(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& tlvId, LoadMode loadMode)
+static void Factory_LiftMud(relive::Path_TLV* pTlv, const Guid& tlvId, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -700,7 +700,7 @@ static void Factory_LiftMud(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& t
     }
 }
 
-static void Factory_BeeSwarmHole(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& tlvId, LoadMode loadMode)
+static void Factory_BeeSwarmHole(relive::Path_TLV* pTlv, const Guid& tlvId, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -715,7 +715,7 @@ static void Factory_BeeSwarmHole(relive::Path_TLV* pTlv, Map* /*pMap*/, const Gu
     }
 }
 
-static void Factory_HoneySack(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& tlvId, LoadMode loadMode)
+static void Factory_HoneySack(relive::Path_TLV* pTlv, const Guid& tlvId, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -732,7 +732,7 @@ static void Factory_HoneySack(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid&
     }
 }
 
-static void Factory_AbeStart(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& /*tlvId*/, LoadMode loadMode)
+static void Factory_AbeStart(relive::Path_TLV* pTlv, const Guid& /*tlvId*/, LoadMode loadMode)
 {
     if (loadMode != LoadMode::LoadResourceFromList_1 && loadMode != LoadMode::LoadResource_2 && !gAttract)
     {
@@ -757,7 +757,7 @@ static void Factory_AbeStart(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& 
     }
 }
 
-static void Factory_ElumWall(relive::Path_TLV* /*pTlv*/, Map* /*pMap*/, const Guid& tlvId, LoadMode loadMode)
+static void Factory_ElumWall(relive::Path_TLV* /*pTlv*/, const Guid& tlvId, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -768,7 +768,7 @@ static void Factory_ElumWall(relive::Path_TLV* /*pTlv*/, Map* /*pMap*/, const Gu
     }
 }
 
-static void Factory_SlingMud(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& tlvId, LoadMode loadMode)
+static void Factory_SlingMud(relive::Path_TLV* pTlv, const Guid& tlvId, LoadMode loadMode)
 {
     if (loadMode != LoadMode::LoadResourceFromList_1 && loadMode != LoadMode::LoadResource_2)
     {
@@ -781,7 +781,7 @@ static void Factory_SlingMud(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& 
     }
 }
 
-static void Factory_BeeNest(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& tlvId, LoadMode loadMode)
+static void Factory_BeeNest(relive::Path_TLV* pTlv, const Guid& tlvId, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -793,7 +793,7 @@ static void Factory_BeeNest(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& t
     }
 }
 
-static void Factory_Mine(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& tlvId, LoadMode loadMode)
+static void Factory_Mine(relive::Path_TLV* pTlv, const Guid& tlvId, LoadMode loadMode)
 {
     auto pMineTlv = static_cast<relive::Path_Mine*>(pTlv);
 
@@ -816,7 +816,7 @@ static void Factory_Mine(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& tlvI
     }
 }
 
-static void Factory_Uxb(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& tlvId, LoadMode loadMode)
+static void Factory_Uxb(relive::Path_TLV* pTlv, const Guid& tlvId, LoadMode loadMode)
 {
     auto pUxbTlv = static_cast<relive::Path_UXB*>(pTlv);
 
@@ -842,7 +842,7 @@ static void Factory_Uxb(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& tlvId
     }
 }
 
-static void Factory_Paramite(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& tlvId, LoadMode loadMode)
+static void Factory_Paramite(relive::Path_TLV* pTlv, const Guid& tlvId, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -853,7 +853,7 @@ static void Factory_Paramite(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& 
     relive_new Paramite(static_cast<relive::Path_Paramite*>(pTlv), tlvId);
 }
 
-static void Factory_Bat(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& tlvId, LoadMode loadMode)
+static void Factory_Bat(relive::Path_TLV* pTlv, const Guid& tlvId, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -867,7 +867,7 @@ static void Factory_Bat(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& tlvId
     }
 }
 
-static void Factory_RingMud(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& tlvId, LoadMode loadMode)
+static void Factory_RingMud(relive::Path_TLV* pTlv, const Guid& tlvId, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -879,7 +879,7 @@ static void Factory_RingMud(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& t
     }
 }
 
-static void Factory_BirdPortal(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& tlvId, LoadMode loadMode)
+static void Factory_BirdPortal(relive::Path_TLV* pTlv, const Guid& tlvId, LoadMode loadMode)
 {
     auto pBirdPortalTlv = static_cast<relive::Path_BirdPortal*>(pTlv);
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
@@ -906,7 +906,7 @@ static void Factory_BirdPortal(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid
     }
 }
 
-static void Factory_BellSongStone(relive::Path_TLV* /*pTlv*/, Map* /*pMap*/, const Guid& tlvId, LoadMode loadMode)
+static void Factory_BellSongStone(relive::Path_TLV* /*pTlv*/, const Guid& tlvId, LoadMode loadMode)
 {
     if (loadMode != LoadMode::LoadResourceFromList_1 && loadMode != LoadMode::LoadResource_2)
     {
@@ -915,7 +915,7 @@ static void Factory_BellSongStone(relive::Path_TLV* /*pTlv*/, Map* /*pMap*/, con
 }
 
 
-static void Factory_TrapDoor(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& tlvId, LoadMode loadMode)
+static void Factory_TrapDoor(relive::Path_TLV* pTlv, const Guid& tlvId, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -959,7 +959,7 @@ static void Factory_TrapDoor(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& 
 }
 
 
-static void Factory_RollingBall(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& tlvId, LoadMode loadMode)
+static void Factory_RollingBall(relive::Path_TLV* pTlv, const Guid& tlvId, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -986,7 +986,7 @@ static relive::Path_TLV* FindMatchingSligTLV(relive::Path_TLV* pTlvIter, relive:
     return nullptr;
 }
 
-static void Factory_SligBoundLeft(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& tlvId, LoadMode loadMode)
+static void Factory_SligBoundLeft(relive::Path_TLV* pTlv, const Guid& tlvId, LoadMode loadMode)
 {
     auto pBound = static_cast<relive::Path_SligBound*>(pTlv);
     LoadWalkingSligResources(loadMode, pBound->mDisabledResourcesAO);
@@ -1016,7 +1016,7 @@ static void Factory_SligBoundLeft(relive::Path_TLV* pTlv, Map* /*pMap*/, const G
     }
 }
 
-static void Factory_RollingBallStopper(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& tlvId, LoadMode loadMode)
+static void Factory_RollingBallStopper(relive::Path_TLV* pTlv, const Guid& tlvId, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -1028,7 +1028,7 @@ static void Factory_RollingBallStopper(relive::Path_TLV* pTlv, Map* /*pMap*/, co
     }
 }
 
-static void Factory_FootSwitch(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& tlvId, LoadMode loadMode)
+static void Factory_FootSwitch(relive::Path_TLV* pTlv, const Guid& tlvId, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -1041,7 +1041,7 @@ static void Factory_FootSwitch(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid
     }
 }
 
-static void Factory_SecurityClaw(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& tlvId, LoadMode loadMode)
+static void Factory_SecurityClaw(relive::Path_TLV* pTlv, const Guid& tlvId, LoadMode loadMode)
 {
     auto pSecurityClawTlv = static_cast<relive::Path_SecurityClaw*>(pTlv);
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
@@ -1066,7 +1066,7 @@ static void Factory_SecurityClaw(relive::Path_TLV* pTlv, Map* /*pMap*/, const Gu
 }
 
 
-static void Factory_MotionDector(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& tlvId, LoadMode loadMode)
+static void Factory_MotionDector(relive::Path_TLV* pTlv, const Guid& tlvId, LoadMode loadMode)
 {
     if (loadMode != LoadMode::LoadResourceFromList_1 && loadMode != LoadMode::LoadResource_2)
     {
@@ -1079,7 +1079,7 @@ static void Factory_MotionDector(relive::Path_TLV* pTlv, Map* /*pMap*/, const Gu
     }
 }
 
-static void Factory_SligSpawner(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& tlvId, LoadMode loadMode)
+static void Factory_SligSpawner(relive::Path_TLV* pTlv, const Guid& tlvId, LoadMode loadMode)
 {
     auto pSligTlv = static_cast<relive::Path_SligSpawner*>(pTlv);
     LoadWalkingSligResources(loadMode, pSligTlv->mData.mDisabledResourcesAO);
@@ -1094,7 +1094,7 @@ static void Factory_SligSpawner(relive::Path_TLV* pTlv, Map* /*pMap*/, const Gui
     }
 }
 
-static void Factory_ElectricWall(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& tlvId, LoadMode loadMode)
+static void Factory_ElectricWall(relive::Path_TLV* pTlv, const Guid& tlvId, LoadMode loadMode)
 {
     if (loadMode != LoadMode::LoadResourceFromList_1 && loadMode != LoadMode::LoadResource_2)
     {
@@ -1107,7 +1107,7 @@ static void Factory_ElectricWall(relive::Path_TLV* pTlv, Map* /*pMap*/, const Gu
 }
 
 
-static void Factory_LiftMover(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& tlvId, LoadMode loadMode)
+static void Factory_LiftMover(relive::Path_TLV* pTlv, const Guid& tlvId, LoadMode loadMode)
 {
     if (loadMode != LoadMode::LoadResourceFromList_1 && loadMode != LoadMode::LoadResource_2)
     {
@@ -1116,7 +1116,7 @@ static void Factory_LiftMover(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid&
 }
 
 
-static void Factory_ChimeLock(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& tlvId, LoadMode loadMode)
+static void Factory_ChimeLock(relive::Path_TLV* pTlv, const Guid& tlvId, LoadMode loadMode)
 {
     if (loadMode != LoadMode::LoadResourceFromList_1 && loadMode != LoadMode::LoadResource_2)
     {
@@ -1134,7 +1134,7 @@ static void Factory_ChimeLock(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid&
     }
 }
 
-static void Factory_Elum(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& tlvId, LoadMode loadMode)
+static void Factory_Elum(relive::Path_TLV* pTlv, const Guid& tlvId, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -1149,7 +1149,7 @@ static void Factory_Elum(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& tlvI
 }
 
 
-static void Factory_MeatSack(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& tlvId, LoadMode loadMode)
+static void Factory_MeatSack(relive::Path_TLV* pTlv, const Guid& tlvId, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -1164,7 +1164,7 @@ static void Factory_MeatSack(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& 
 }
 
 
-static void Factory_Scrab(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& tlvId, LoadMode loadMode)
+static void Factory_Scrab(relive::Path_TLV* pTlv, const Guid& tlvId, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -1175,7 +1175,7 @@ static void Factory_Scrab(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& tlv
 }
 
 
-static void Factory_FlintLockFire(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& tlvId, LoadMode loadMode)
+static void Factory_FlintLockFire(relive::Path_TLV* pTlv, const Guid& tlvId, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -1190,12 +1190,12 @@ static void Factory_FlintLockFire(relive::Path_TLV* pTlv, Map* /*pMap*/, const G
     }
 }
 
-static void Factory_SligBoundRight(relive::Path_TLV* pTlv, Map* pMap, const Guid& tlvId, LoadMode loadMode)
+static void Factory_SligBoundRight(relive::Path_TLV* pTlv, const Guid& tlvId, LoadMode loadMode)
 {
-    Factory_SligBoundLeft(pTlv, pMap, tlvId, loadMode);
+    Factory_SligBoundLeft(pTlv, tlvId, loadMode);
 }
 
-static void Factory_InvisibleSwitch(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& tlvId, LoadMode loadMode)
+static void Factory_InvisibleSwitch(relive::Path_TLV* pTlv, const Guid& tlvId, LoadMode loadMode)
 {
     if (loadMode != LoadMode::LoadResourceFromList_1 && loadMode != LoadMode::LoadResource_2)
     {
@@ -1203,7 +1203,7 @@ static void Factory_InvisibleSwitch(relive::Path_TLV* pTlv, Map* /*pMap*/, const
     }
 }
 
-static void Factory_WorkerMudokon(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& tlvId, LoadMode loadMode)
+static void Factory_WorkerMudokon(relive::Path_TLV* pTlv, const Guid& tlvId, LoadMode loadMode)
 {
     auto pMudTlv = static_cast<relive::Path_Mudokon*>(pTlv);
     if (loadMode != LoadMode::LoadResourceFromList_1 && loadMode != LoadMode::LoadResource_2)
@@ -1242,7 +1242,7 @@ static void Factory_WorkerMudokon(relive::Path_TLV* pTlv, Map* /*pMap*/, const G
     }
 }
 
-static void Factory_DoorFlame(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& tlvId, LoadMode loadMode)
+static void Factory_DoorFlame(relive::Path_TLV* pTlv, const Guid& tlvId, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -1255,7 +1255,7 @@ static void Factory_DoorFlame(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid&
     }
 }
 
-static void Factory_MovingBomb(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& tlvId, LoadMode loadMode)
+static void Factory_MovingBomb(relive::Path_TLV* pTlv, const Guid& tlvId, LoadMode loadMode)
 {
     auto pMovingBombTlv = static_cast<relive::Path_MovingBomb*>(pTlv);
 
@@ -1277,7 +1277,7 @@ static void Factory_MovingBomb(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid
     }
 }
 
-static void Factory_MeatSaw(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& tlvId, LoadMode loadMode)
+static void Factory_MeatSaw(relive::Path_TLV* pTlv, const Guid& tlvId, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -1292,7 +1292,7 @@ static void Factory_MeatSaw(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& t
     }
 }
 
-static void Factory_MainMenuController(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& tlvId, LoadMode loadMode)
+static void Factory_MainMenuController(relive::Path_TLV* pTlv, const Guid& tlvId, LoadMode loadMode)
 {
     if (gMainMenuInstanceCount == 0)
     {
@@ -1307,7 +1307,7 @@ static void Factory_MainMenuController(relive::Path_TLV* pTlv, Map* /*pMap*/, co
     }
 }
 
-static void Factory_HintFly(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& tlvId, LoadMode loadMode)
+static void Factory_HintFly(relive::Path_TLV* pTlv, const Guid& tlvId, LoadMode loadMode)
 {
     if (loadMode != LoadMode::LoadResourceFromList_1 && loadMode != LoadMode::LoadResource_2)
     {
@@ -1319,7 +1319,7 @@ static void Factory_HintFly(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& t
     }
 }
 
-static void Factory_TimerTrigger(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& tlvId, LoadMode loadMode)
+static void Factory_TimerTrigger(relive::Path_TLV* pTlv, const Guid& tlvId, LoadMode loadMode)
 {
     if (loadMode != LoadMode::LoadResourceFromList_1 && loadMode != LoadMode::LoadResource_2)
     {
@@ -1328,7 +1328,7 @@ static void Factory_TimerTrigger(relive::Path_TLV* pTlv, Map* /*pMap*/, const Gu
 }
 
 
-static void Factory_SecurityDoor(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& tlvId, LoadMode loadMode)
+static void Factory_SecurityDoor(relive::Path_TLV* pTlv, const Guid& tlvId, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -1341,7 +1341,7 @@ static void Factory_SecurityDoor(relive::Path_TLV* pTlv, Map* /*pMap*/, const Gu
     }
 }
 
-static void Factory_BoomMachine(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& tlvId, LoadMode loadMode)
+static void Factory_BoomMachine(relive::Path_TLV* pTlv, const Guid& tlvId, LoadMode loadMode)
 {
     auto pBoomMachineTlv = static_cast<relive::Path_BoomMachine*>(pTlv);
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
@@ -1362,7 +1362,7 @@ static void Factory_BoomMachine(relive::Path_TLV* pTlv, Map* /*pMap*/, const Gui
 }
 
 
-static void Factory_LCDScreen(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& tlvId, LoadMode loadMode)
+static void Factory_LCDScreen(relive::Path_TLV* pTlv, const Guid& tlvId, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -1373,7 +1373,7 @@ static void Factory_LCDScreen(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid&
     }
 }
 
-static void Factory_HandStone(relive::Path_TLV* /*pTlv*/, Map* /*pMap*/, const Guid& tlvId, LoadMode loadMode)
+static void Factory_HandStone(relive::Path_TLV* /*pTlv*/, const Guid& tlvId, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -1386,7 +1386,7 @@ static void Factory_HandStone(relive::Path_TLV* /*pTlv*/, Map* /*pMap*/, const G
 }
 
 
-static void Factory_CreditsController(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& tlvId, LoadMode loadMode)
+static void Factory_CreditsController(relive::Path_TLV* pTlv, const Guid& tlvId, LoadMode loadMode)
 {
     if (loadMode != LoadMode::LoadResourceFromList_1 && loadMode != LoadMode::LoadResource_2)
     {
@@ -1397,7 +1397,7 @@ static void Factory_CreditsController(relive::Path_TLV* pTlv, Map* /*pMap*/, con
     }
 }
 
-static void Factory_LCDStatusBoard(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& tlvId, LoadMode loadMode)
+static void Factory_LCDStatusBoard(relive::Path_TLV* pTlv, const Guid& tlvId, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -1409,7 +1409,7 @@ static void Factory_LCDStatusBoard(relive::Path_TLV* pTlv, Map* /*pMap*/, const 
 }
 
 
-static void Factory_SwitchStateBooleanLogic(relive::Path_TLV* /*pTlv*/, Map* /*pMap*/, const Guid& /*tlvId*/, LoadMode loadMode)
+static void Factory_SwitchStateBooleanLogic(relive::Path_TLV* /*pTlv*/, const Guid& /*tlvId*/, LoadMode loadMode)
 {
     if (loadMode != LoadMode::LoadResourceFromList_1 && loadMode != LoadMode::LoadResource_2)
     {
@@ -1418,7 +1418,7 @@ static void Factory_SwitchStateBooleanLogic(relive::Path_TLV* /*pTlv*/, Map* /*p
     }
 }
 
-static void Factory_MusicTrigger(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& tlvId, LoadMode loadMode)
+static void Factory_MusicTrigger(relive::Path_TLV* pTlv, const Guid& tlvId, LoadMode loadMode)
 {
     if (loadMode != LoadMode::LoadResourceFromList_1 && loadMode != LoadMode::LoadResource_2)
     {
@@ -1426,7 +1426,7 @@ static void Factory_MusicTrigger(relive::Path_TLV* pTlv, Map* /*pMap*/, const Gu
     }
 }
 
-static void Factory_LightEffect(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& tlvId, LoadMode loadMode)
+static void Factory_LightEffect(relive::Path_TLV* pTlv, const Guid& tlvId, LoadMode loadMode)
 {
     auto pPathLightTlv = static_cast<relive::Path_LightEffect*>(pTlv);
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
@@ -1505,7 +1505,7 @@ static void Factory_LightEffect(relive::Path_TLV* pTlv, Map* /*pMap*/, const Gui
 }
 
 
-static void Factory_SlogSpawner(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& tlvId, LoadMode loadMode)
+static void Factory_SlogSpawner(relive::Path_TLV* pTlv, const Guid& tlvId, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -1518,7 +1518,7 @@ static void Factory_SlogSpawner(relive::Path_TLV* pTlv, Map* /*pMap*/, const Gui
 }
 
 
-static void Factory_GasCountDown(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& tlvId, LoadMode loadMode)
+static void Factory_GasCountDown(relive::Path_TLV* pTlv, const Guid& tlvId, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -1531,7 +1531,7 @@ static void Factory_GasCountDown(relive::Path_TLV* pTlv, Map* /*pMap*/, const Gu
 
 
 
-static void Factory_RingCancel(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& tlvId, LoadMode loadMode)
+static void Factory_RingCancel(relive::Path_TLV* pTlv, const Guid& tlvId, LoadMode loadMode)
 {
     if (loadMode != LoadMode::LoadResourceFromList_1 && loadMode != LoadMode::LoadResource_2)
     {
@@ -1558,7 +1558,7 @@ static void Factory_RingCancel(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid
 }
 
 
-static void Factory_GasEmitter(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& tlvId, LoadMode loadMode)
+static void Factory_GasEmitter(relive::Path_TLV* pTlv, const Guid& tlvId, LoadMode loadMode)
 {
     if (loadMode != LoadMode::LoadResourceFromList_1 && loadMode != LoadMode::LoadResource_2)
     {
@@ -1567,7 +1567,7 @@ static void Factory_GasEmitter(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid
 }
 
 
-static void Factory_ZzzSpawner(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& tlvId, LoadMode loadMode)
+static void Factory_ZzzSpawner(relive::Path_TLV* pTlv, const Guid& tlvId, LoadMode loadMode)
 {
     if (loadMode != LoadMode::LoadResourceFromList_1 && loadMode != LoadMode::LoadResource_2)
     {
@@ -1576,7 +1576,7 @@ static void Factory_ZzzSpawner(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid
 }
 
 
-static void Factory_BackgroundGlukkon(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& tlvId, LoadMode loadMode)
+static void Factory_BackgroundGlukkon(relive::Path_TLV* pTlv, const Guid& tlvId, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -1595,15 +1595,14 @@ static void Factory_BackgroundGlukkon(relive::Path_TLV* pTlv, Map* /*pMap*/, con
 }
 
 
-static void Factory_KillUnsavedMuds(relive::Path_TLV* pTlv, Map* pMap, const Guid& tlvId, LoadMode loadMode)
+static void Factory_KillUnsavedMuds(relive::Path_TLV* pTlv, const Guid& tlvId, LoadMode loadMode)
 {
     if (loadMode != LoadMode::LoadResourceFromList_1 && loadMode != LoadMode::LoadResource_2)
     {
-        // OG bug fix - added an extra check that checks if the map has changed
+        // TODO: Check removed OG bug fix - added an extra check that checks if the map has changed
         // which prevents that the killed mudokon count becomes inaccurate or even negative.
         auto pTlvKillMuds = static_cast<relive::Path_KillUnsavedMuds*>(pTlv);
-        if (!pTlvKillMuds->mTlvSpecificMeaning &&
-            pMap->mMapChanged)
+        if (!pTlvKillMuds->mTlvSpecificMeaning)
         {
             gKilledMudokons = static_cast<s16>(pTlvKillMuds->mMudsToKillCount - gRescuedMudokons);
             pTlvKillMuds->mTlvSpecificMeaning = 1;
@@ -1612,229 +1611,229 @@ static void Factory_KillUnsavedMuds(relive::Path_TLV* pTlv, Map* pMap, const Gui
     }
 }
 
-void ConstructTLVObject(relive::Path_TLV* pTlv, Map* pMap, const Guid& tlvInfo, LoadMode loadMode)
+void ConstructTLVObject(relive::Path_TLV* pTlv, const Guid& tlvInfo, LoadMode loadMode)
 {
     switch (pTlv->mTlvType)
     {
         case ReliveTypes::eKillUnsavedMuds:
-            Factory_KillUnsavedMuds(pTlv, pMap, tlvInfo, loadMode);
+            Factory_KillUnsavedMuds(pTlv, tlvInfo, loadMode);
             break;
         case ReliveTypes::eBackgroundAnimation:
-            Factory_BackgroundAnimation(pTlv, pMap, tlvInfo, loadMode);
+            Factory_BackgroundAnimation(pTlv, tlvInfo, loadMode);
             break;
         case ReliveTypes::eBat:
-            Factory_Bat(pTlv, pMap, tlvInfo, loadMode);
+            Factory_Bat(pTlv, tlvInfo, loadMode);
             break;
         case ReliveTypes::eLiftMover:
-            Factory_LiftMover(pTlv, pMap, tlvInfo, loadMode);
+            Factory_LiftMover(pTlv, tlvInfo, loadMode);
             break;
         case ReliveTypes::eTimedMine:
-            Factory_TimedMine(pTlv, pMap, tlvInfo, loadMode);
+            Factory_TimedMine(pTlv, tlvInfo, loadMode);
             break;
         case ReliveTypes::eChimeLock:
-            Factory_ChimeLock(pTlv, pMap, tlvInfo, loadMode);
+            Factory_ChimeLock(pTlv, tlvInfo, loadMode);
             break;
         case ReliveTypes::eGasCountDown:
-            Factory_GasCountDown(pTlv, pMap, tlvInfo, loadMode);
+            Factory_GasCountDown(pTlv, tlvInfo, loadMode);
             break;
         case ReliveTypes::eDoor:
-            Factory_Door(pTlv, pMap, tlvInfo, loadMode);
+            Factory_Door(pTlv, tlvInfo, loadMode);
             break;
         case ReliveTypes::eElectricWall:
-            Factory_ElectricWall(pTlv, pMap, tlvInfo, loadMode);
+            Factory_ElectricWall(pTlv, tlvInfo, loadMode);
             break;
         case ReliveTypes::eElum:
-            Factory_Elum(pTlv, pMap, tlvInfo, loadMode);
+            Factory_Elum(pTlv, tlvInfo, loadMode);
             break;
         case ReliveTypes::eBellHammer:
-            Factory_BellHammer(pTlv, pMap, tlvInfo, loadMode);
+            Factory_BellHammer(pTlv, tlvInfo, loadMode);
             break;
         case ReliveTypes::eSecurityClaw:
-            Factory_SecurityClaw(pTlv, pMap, tlvInfo, loadMode);
+            Factory_SecurityClaw(pTlv, tlvInfo, loadMode);
             break;
         case ReliveTypes::eFlintLockFire:
-            Factory_FlintLockFire(pTlv, pMap, tlvInfo, loadMode);
+            Factory_FlintLockFire(pTlv, tlvInfo, loadMode);
             break;
         case ReliveTypes::eBoomMachine:
-            Factory_BoomMachine(pTlv, pMap, tlvInfo, loadMode);
+            Factory_BoomMachine(pTlv, tlvInfo, loadMode);
             break;
         case ReliveTypes::eBackgroundGlukkon:
-            Factory_BackgroundGlukkon(pTlv, pMap, tlvInfo, loadMode);
+            Factory_BackgroundGlukkon(pTlv, tlvInfo, loadMode);
             break;
         case ReliveTypes::eHoneySack:
-            Factory_HoneySack(pTlv, pMap, tlvInfo, loadMode);
+            Factory_HoneySack(pTlv, tlvInfo, loadMode);
             break;
         case ReliveTypes::eHoney:
-            Factory_Honey(pTlv, pMap, tlvInfo, loadMode);
+            Factory_Honey(pTlv, tlvInfo, loadMode);
             break;
         case ReliveTypes::eMudokon:
-            Factory_WorkerMudokon(pTlv, pMap, tlvInfo, loadMode);
+            Factory_WorkerMudokon(pTlv, tlvInfo, loadMode);
             break;
         case ReliveTypes::eLiftPoint:
-            Factory_LiftPoint(pTlv, pMap, tlvInfo, loadMode);
+            Factory_LiftPoint(pTlv, tlvInfo, loadMode);
             break;
         case ReliveTypes::eSecurityOrb:
-            Factory_SecurityOrb(pTlv, pMap, tlvInfo, loadMode);
+            Factory_SecurityOrb(pTlv, tlvInfo, loadMode);
             break;
         case ReliveTypes::eMeatSack:
-            Factory_MeatSack(pTlv, pMap, tlvInfo, loadMode);
+            Factory_MeatSack(pTlv, tlvInfo, loadMode);
             break;
         case ReliveTypes::eMeatSaw:
-            Factory_MeatSaw(pTlv, pMap, tlvInfo, loadMode);
+            Factory_MeatSaw(pTlv, tlvInfo, loadMode);
             break;
         case ReliveTypes::eMine:
-            Factory_Mine(pTlv, pMap, tlvInfo, loadMode);
+            Factory_Mine(pTlv, tlvInfo, loadMode);
             break;
         case ReliveTypes::eMotionDetector:
-            Factory_MotionDector(pTlv, pMap, tlvInfo, loadMode);
+            Factory_MotionDector(pTlv, tlvInfo, loadMode);
             break;
         case ReliveTypes::eRollingBallStopper:
-            Factory_RollingBallStopper(pTlv, pMap, tlvInfo, loadMode);
+            Factory_RollingBallStopper(pTlv, tlvInfo, loadMode);
             break;
         case ReliveTypes::eParamite:
-            Factory_Paramite(pTlv, pMap, tlvInfo, loadMode);
+            Factory_Paramite(pTlv, tlvInfo, loadMode);
             break;
         case ReliveTypes::eBirdPortal:
-            Factory_BirdPortal(pTlv, pMap, tlvInfo, loadMode);
+            Factory_BirdPortal(pTlv, tlvInfo, loadMode);
             break;
         case ReliveTypes::ePullRingRope:
-            Factory_PullRingRope(pTlv, pMap, tlvInfo, loadMode);
+            Factory_PullRingRope(pTlv, tlvInfo, loadMode);
             break;
         case ReliveTypes::eRockSack:
-            Factory_RockSack(pTlv, pMap, tlvInfo, loadMode);
+            Factory_RockSack(pTlv, tlvInfo, loadMode);
             break;
         case ReliveTypes::eRollingBall:
-            Factory_RollingBall(pTlv, pMap, tlvInfo, loadMode);
+            Factory_RollingBall(pTlv, tlvInfo, loadMode);
             break;
         case ReliveTypes::eScrab:
-            Factory_Scrab(pTlv, pMap, tlvInfo, loadMode);
+            Factory_Scrab(pTlv, tlvInfo, loadMode);
             break;
         case ReliveTypes::eSlig:
-            Factory_Slig(pTlv, pMap, tlvInfo, loadMode);
+            Factory_Slig(pTlv, tlvInfo, loadMode);
             break;
         case ReliveTypes::eSlog:
-            Factory_Slog(pTlv, pMap, tlvInfo, loadMode);
+            Factory_Slog(pTlv, tlvInfo, loadMode);
             break;
         case ReliveTypes::SlingMud:
-            Factory_SlingMud(pTlv, pMap, tlvInfo, loadMode);
+            Factory_SlingMud(pTlv, tlvInfo, loadMode);
             break;
         case ReliveTypes::eSligSpawner:
-            Factory_SligSpawner(pTlv, pMap, tlvInfo, loadMode);
+            Factory_SligSpawner(pTlv, tlvInfo, loadMode);
             break;
         case ReliveTypes::eZBall:
-            Factory_ZBall(pTlv, pMap, tlvInfo, loadMode);
+            Factory_ZBall(pTlv, tlvInfo, loadMode);
             break;
         case ReliveTypes::eLever:
-            Factory_Lever(pTlv, pMap, tlvInfo, loadMode);
+            Factory_Lever(pTlv, tlvInfo, loadMode);
             break;
         case ReliveTypes::eTrapDoor:
-            Factory_TrapDoor(pTlv, pMap, tlvInfo, loadMode);
+            Factory_TrapDoor(pTlv, tlvInfo, loadMode);
             break;
         case ReliveTypes::eUXB:
-            Factory_Uxb(pTlv, pMap, tlvInfo, loadMode);
+            Factory_Uxb(pTlv, tlvInfo, loadMode);
             break;
         case ReliveTypes::eMusicTrigger:
-            Factory_MusicTrigger(pTlv, pMap, tlvInfo, loadMode);
+            Factory_MusicTrigger(pTlv, tlvInfo, loadMode);
             break;
         case ReliveTypes::eWellLocal:
         case ReliveTypes::eWellExpress:
-            Factory_Well(pTlv, pMap, tlvInfo, loadMode);
+            Factory_Well(pTlv, tlvInfo, loadMode);
             break;
         case ReliveTypes::eZzzSpawner:
-            Factory_ZzzSpawner(pTlv, pMap, tlvInfo, loadMode);
+            Factory_ZzzSpawner(pTlv, tlvInfo, loadMode);
             break;
         case ReliveTypes::eHoist:
-            Factory_Hoist(pTlv, pMap, tlvInfo, loadMode);
+            Factory_Hoist(pTlv, tlvInfo, loadMode);
             break;
         case ReliveTypes::eEdge:
-            Factory_Edge(pTlv, pMap, tlvInfo, loadMode);
+            Factory_Edge(pTlv, tlvInfo, loadMode);
             break;
         case ReliveTypes::eShadowZone:
-            Factory_ShadowZone(pTlv, pMap, tlvInfo, loadMode);
+            Factory_ShadowZone(pTlv, tlvInfo, loadMode);
             break;
         case ReliveTypes::eDove:
-            Factory_Dove(pTlv, pMap, tlvInfo, loadMode);
+            Factory_Dove(pTlv, tlvInfo, loadMode);
             break;
         case ReliveTypes::eFallingItem:
-            Factory_FallingItem(pTlv, pMap, tlvInfo, loadMode);
+            Factory_FallingItem(pTlv, tlvInfo, loadMode);
             break;
         case ReliveTypes::eLiftMudokon:
-            Factory_LiftMud(pTlv, pMap, tlvInfo, loadMode);
+            Factory_LiftMud(pTlv, tlvInfo, loadMode);
             break;
         case ReliveTypes::eBeeSwarmHole:
-            Factory_BeeSwarmHole(pTlv, pMap, tlvInfo, loadMode);
+            Factory_BeeSwarmHole(pTlv, tlvInfo, loadMode);
             break;
         case ReliveTypes::eAbeStart:
-            Factory_AbeStart(pTlv, pMap, tlvInfo, loadMode);
+            Factory_AbeStart(pTlv, tlvInfo, loadMode);
             break;
         case ReliveTypes::eElumWall:
-            Factory_ElumWall(pTlv, pMap, tlvInfo, loadMode);
+            Factory_ElumWall(pTlv, tlvInfo, loadMode);
             break;
         case ReliveTypes::eBeeNest:
-            Factory_BeeNest(pTlv, pMap, tlvInfo, loadMode);
+            Factory_BeeNest(pTlv, tlvInfo, loadMode);
             break;
         case ReliveTypes::eRingMudokon:
-            Factory_RingMud(pTlv, pMap, tlvInfo, loadMode);
+            Factory_RingMud(pTlv, tlvInfo, loadMode);
             break;
         case ReliveTypes::eFootSwitch:
-            Factory_FootSwitch(pTlv, pMap, tlvInfo, loadMode);
+            Factory_FootSwitch(pTlv, tlvInfo, loadMode);
             break;
         case ReliveTypes::eSligBoundRight:
-            Factory_SligBoundRight(pTlv, pMap, tlvInfo, loadMode);
+            Factory_SligBoundRight(pTlv, tlvInfo, loadMode);
             break;
         case ReliveTypes::eSligBoundLeft:
-            Factory_SligBoundLeft(pTlv, pMap, tlvInfo, loadMode);
+            Factory_SligBoundLeft(pTlv, tlvInfo, loadMode);
             break;
         case ReliveTypes::eGasEmitter:
-            Factory_GasEmitter(pTlv, pMap, tlvInfo, loadMode);
+            Factory_GasEmitter(pTlv, tlvInfo, loadMode);
             break;
         case ReliveTypes::eRingCancel:
-            Factory_RingCancel(pTlv, pMap, tlvInfo, loadMode);
+            Factory_RingCancel(pTlv, tlvInfo, loadMode);
             break;
         case ReliveTypes::eSlogSpawner:
-            Factory_SlogSpawner(pTlv, pMap, tlvInfo, loadMode);
+            Factory_SlogSpawner(pTlv, tlvInfo, loadMode);
             break;
         case ReliveTypes::eLightEffect:
-            Factory_LightEffect(pTlv, pMap, tlvInfo, loadMode);
+            Factory_LightEffect(pTlv, tlvInfo, loadMode);
             break;
         case ReliveTypes::eSwitchStateBooleanLogic:
-            Factory_SwitchStateBooleanLogic(pTlv, pMap, tlvInfo, loadMode);
+            Factory_SwitchStateBooleanLogic(pTlv, tlvInfo, loadMode);
             break;
         case ReliveTypes::eLCDStatusBoard:
-            Factory_LCDStatusBoard(pTlv, pMap, tlvInfo, loadMode);
+            Factory_LCDStatusBoard(pTlv, tlvInfo, loadMode);
             break;
         case ReliveTypes::eCreditsController:
-            Factory_CreditsController(pTlv, pMap, tlvInfo, loadMode);
+            Factory_CreditsController(pTlv, tlvInfo, loadMode);
             break;
         case ReliveTypes::eHandStone:
-            Factory_HandStone(pTlv, pMap, tlvInfo, loadMode);
+            Factory_HandStone(pTlv, tlvInfo, loadMode);
             break;
         case ReliveTypes::eSecurityDoor:
-            Factory_SecurityDoor(pTlv, pMap, tlvInfo, loadMode);
+            Factory_SecurityDoor(pTlv, tlvInfo, loadMode);
             break;
         case ReliveTypes::eHintFly:
-            Factory_HintFly(pTlv, pMap, tlvInfo, loadMode);
+            Factory_HintFly(pTlv, tlvInfo, loadMode);
             break;
         case ReliveTypes::eMainMenuController:
-            Factory_MainMenuController(pTlv, pMap, tlvInfo, loadMode);
+            Factory_MainMenuController(pTlv, tlvInfo, loadMode);
             break;
         case ReliveTypes::eMovingBomb:
-            Factory_MovingBomb(pTlv, pMap, tlvInfo, loadMode);
+            Factory_MovingBomb(pTlv, tlvInfo, loadMode);
             break;
         case ReliveTypes::eDoorFlame:
-            Factory_DoorFlame(pTlv, pMap, tlvInfo, loadMode);
+            Factory_DoorFlame(pTlv, tlvInfo, loadMode);
             break;
         case ReliveTypes::eInvisibleSwitch:
-            Factory_InvisibleSwitch(pTlv, pMap, tlvInfo, loadMode);
+            Factory_InvisibleSwitch(pTlv, tlvInfo, loadMode);
             break;
         case ReliveTypes::eTimerTrigger:
-            Factory_TimerTrigger(pTlv, pMap, tlvInfo, loadMode);
+            Factory_TimerTrigger(pTlv, tlvInfo, loadMode);
             break;
         case ReliveTypes::eLCDScreen:
-            Factory_LCDScreen(pTlv, pMap, tlvInfo, loadMode);
+            Factory_LCDScreen(pTlv, tlvInfo, loadMode);
             break;
         case ReliveTypes::eBellSongStone:
-            Factory_BellSongStone(pTlv, pMap, tlvInfo, loadMode);
+            Factory_BellSongStone(pTlv, tlvInfo, loadMode);
             break;
     }
 }
