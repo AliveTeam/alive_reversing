@@ -535,9 +535,6 @@ void Door::VScreenChanged()
 
 // ================================================================================================
 
-static FP sTrainDoorXPos = {};
-static FP sTrainDoorYPos = {};
-
 void TrainDoor::LoadAnimations()
 {
     for (auto& animId : sTrainDoorAnimIds)
@@ -557,9 +554,6 @@ TrainDoor::TrainDoor(relive::Path_TrainDoor* pTlv, const Guid& tlvId)
 
     mXPos = FP_FromInteger(pTlv->mTopLeftX + 12);
     mYPos = FP_FromInteger(pTlv->mTopLeftY + 24);
-
-    sTrainDoorXPos = mXPos;
-    sTrainDoorYPos = mYPos;
 
     if (pTlv->mTlvSpecificMeaning)
     {
@@ -601,7 +595,4 @@ void TrainDoor::VUpdate()
             mCurrentState = relive::Path_Door::DoorStates::eClosed;
         }
     }
-
-    mXPos = sTrainDoorXPos;
-    mYPos = sTrainDoorYPos;
 }
