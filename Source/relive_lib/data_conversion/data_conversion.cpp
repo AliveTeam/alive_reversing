@@ -274,6 +274,7 @@ static void ConvertPath(FileSystem& fs, const FileSystem::Path& path, const Reli
     CollisionInfo collisionInfo = {};
     s32 indexTableOffset = 0;
     s32 objectOffset = 0;
+    u8 overlayId = 0;
 
     if (pPathExt)
     {
@@ -297,6 +298,7 @@ static void ConvertPath(FileSystem& fs, const FileSystem::Path& path, const Reli
             collisionInfo = *pBlyRec->field_8_pCollisionData;
             indexTableOffset = pBlyRec->field_4_pPathData->field_18_object_index_table_offset;
             objectOffset = pBlyRec->field_4_pPathData->field_14_object_offset;
+            overlayId = pBlyRec->mOverlayId & 0xFF;
         }
         else
         {
@@ -308,6 +310,7 @@ static void ConvertPath(FileSystem& fs, const FileSystem::Path& path, const Reli
             collisionInfo = *pBlyRec->field_8_pCollisionData;
             indexTableOffset = pBlyRec->field_4_pPathData->field_16_object_indextable_offset;
             objectOffset = pBlyRec->field_4_pPathData->field_12_object_offset;
+            overlayId = pBlyRec->mOverlayId & 0xFF;
         }
     }
 
@@ -319,7 +322,7 @@ static void ConvertPath(FileSystem& fs, const FileSystem::Path& path, const Reli
         nlohmann::json mapObjectsArray = nlohmann::json::array();
         const u32 indexTableIdx = To1dIndex(width, tmpCamera.mX, tmpCamera.mY);
         //LOG_INFO(indexTableIdx);
-        ConvertPathTLVs<TlvType>(mapObjectsArray, pathBndChunk.Id(), lvlIdx, indexTableOffset, objectOffset, pathBndChunk.Data(), indexTableIdx);
+        ConvertPathTLVs<TlvType>(mapObjectsArray, pathBndChunk.Id(), lvlIdx, indexTableOffset, objectOffset, pathBndChunk.Data(), indexTableIdx, overlayId);
 
         // Its possible to have a camera with no objects (-1 index table)
         // But its also possible to have a blank camera with objects (blank camera name, non -1 index table)
@@ -520,10 +523,9 @@ void ConvertAnimations(const FileSystem::Path& dataDir, FileSystem& fs, std::vec
                     auto res = animFile.ChunkById(animDetails.mResourceId);
                     if (res)
                     {
-                        const char_type* animName = AnimRecName(rec.mAnimId);
+                        // Use the remapped anim id if we have one
+                        const char_type* animName = AnimRecName(rec.mThemeInfo.mAnimIdRemapTo != AnimId::None ? rec.mThemeInfo.mAnimIdRemapTo : rec.mAnimId);
                         const char_type* groupName = AnimRecGroupName(rec.mAnimId);
-
-                        LOG_INFO("Converting: %s", animName);
 
                         FileSystem::Path filePath = dataDir;
                         filePath.Append("animations");
@@ -531,11 +533,19 @@ void ConvertAnimations(const FileSystem::Path& dataDir, FileSystem& fs, std::vec
                         // e.g "abe"
                         filePath.Append(groupName);
 
+                        if (rec.mThemeInfo.mThemeName)
+                        {
+                            // e.g "RuptureFarms" (theme of a door/switch/lift etc)
+                            filePath.Append(rec.mThemeInfo.mThemeName);
+                        }
+
                         // Ensure the containing directory exists
                         fs.CreateDirectory(filePath);
 
                         // e.g "arm_gib"
                         filePath.Append(animName);
+
+                        LOG_INFO("Converting: %s", filePath.GetPath().c_str());
 
                         AnimationConverter animationConverter(filePath, animDetails, res->Data(), isAo);
 

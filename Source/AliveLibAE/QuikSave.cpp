@@ -359,8 +359,7 @@ void QuikSave::RestoreBlyData(Quicksave& pSaveData)
     {
         for (auto& cam : binaryPath->GetCameras())
         {
-            auto pTlv = reinterpret_cast<relive::Path_TLV*>(cam->mBuffer.data());
-            while (pTlv)
+            for (auto& pTlv : cam->mTlvs)
             {
                 if (pTlv->mAttribute == relive::QuiksaveAttribute::eClearTlvFlags_1 || pTlv->mAttribute == relive::QuiksaveAttribute::eKeepTlvFlags_2) // Type 0 ignored - actually it should never be written here anyway
                 {
@@ -386,7 +385,6 @@ void QuikSave::RestoreBlyData(Quicksave& pSaveData)
                         ALIVE_FATAL("Save data contains %d sets of flags but read more than that", flagsTotal);
                     }
                 }
-                pTlv = Path::Next_TLV(pTlv);
             }
         }
     }
@@ -431,8 +429,7 @@ static u32 Quicksave_SaveBlyData_CountOrSave(SerializedObjectData* pSaveBuffer)
     {
         for (auto& cam : binaryPath->GetCameras())
         {
-            auto pTlv = reinterpret_cast<relive::Path_TLV*>(cam->mBuffer.data());
-            while (pTlv)
+            for (auto& pTlv : cam->mTlvs)
             {
                 if (pTlv->mAttribute == relive::QuiksaveAttribute::eClearTlvFlags_1)
                 {
@@ -445,7 +442,7 @@ static u32 Quicksave_SaveBlyData_CountOrSave(SerializedObjectData* pSaveBuffer)
                             flags.Clear(relive::TlvFlags::eBit2_Destroyed);
                         }
 
-                        WriteFlags(*pSaveBuffer, pTlv, flags);
+                        WriteFlags(*pSaveBuffer, pTlv.get(), flags);
                     }
                     flagsTotal++;
                 }
@@ -453,7 +450,7 @@ static u32 Quicksave_SaveBlyData_CountOrSave(SerializedObjectData* pSaveBuffer)
                 {
                     if (pSaveBuffer)
                     {
-                        WriteFlags(*pSaveBuffer, pTlv, pTlv->mTlvFlags);
+                        WriteFlags(*pSaveBuffer, pTlv.get(), pTlv->mTlvFlags);
                     }
                     flagsTotal++;
                 }
@@ -461,7 +458,6 @@ static u32 Quicksave_SaveBlyData_CountOrSave(SerializedObjectData* pSaveBuffer)
                 {
                     // Type 0 ignored
                 }
-                pTlv = Path::Next_TLV(pTlv);
             }
         }
     }

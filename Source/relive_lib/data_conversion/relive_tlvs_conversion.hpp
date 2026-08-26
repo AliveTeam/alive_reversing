@@ -5,6 +5,7 @@
 #include "PathTlvsAE.hpp"
 #include "SwitchStates.hpp"
 #include "FatalError.hpp"
+#include "AnimConversionInfo.hpp"
 #include "../AliveLibAO/Path.hpp"
 #include "../AliveLibAE/Path.hpp"
 
@@ -2325,7 +2326,63 @@ private:
 class Path_Door_Converter final
 {
 public:
-    static Path_Door From(const AO::Path_Door& tlv, const Guid& tlvId)
+    static AnimId AnimationIdForLvlDoorTypeAO(AO::LevelIds lvlId, AO::Path_Door::DoorTypes doorType)
+    {
+        switch (lvlId)
+        {
+            case AO::LevelIds::eMenu_0:
+            case AO::LevelIds::eStockYards_5:
+            case AO::LevelIds::eStockYardsReturn_6:
+            case AO::LevelIds::eRemoved_7:
+            case AO::LevelIds::eCredits_10:
+            case AO::LevelIds::eRemoved_11:
+                // OG had no door resource for these levels which must have been a bug
+                return AnimId::Door_RuptureFarms_Closed;
+
+            case AO::LevelIds::eRuptureFarms_1:
+            case AO::LevelIds::eBoardRoom_12:
+            case AO::LevelIds::eRuptureFarmsReturn_13:
+                return AnimId::Door_RuptureFarms_Closed;
+
+            case AO::LevelIds::eLines_2:
+                return AnimId::Door_Lines_Closed;
+
+            case AO::LevelIds::eForest_3:
+            case AO::LevelIds::eForestTemple_4:
+            case AO::LevelIds::eForestChase_14:
+                switch (doorType)
+                {
+                    case AO::Path_Door::DoorTypes::eBasicDoor_0:
+                        return AnimId::Door_Forest_Closed;
+                    case AO::Path_Door::DoorTypes::eTrialDoor_1:
+                        return AnimId::HubDoor_Forest_Closed;
+                    case AO::Path_Door::DoorTypes::eHubDoor_2:
+                        return AnimId::FinalTestDoor_Forest_Closed;
+                }
+                break;
+
+            case AO::LevelIds::eDesert_8:
+            case AO::LevelIds::eDesertTemple_9:
+            case AO::LevelIds::eDesertEscape_15:
+                switch (doorType)
+                {
+                    case AO::Path_Door::DoorTypes::eBasicDoor_0:
+                        return AnimId::Door_Desert_Closed;
+                    case AO::Path_Door::DoorTypes::eTrialDoor_1:
+                        return AnimId::HubDoor_Desert_Closed;
+                    case AO::Path_Door::DoorTypes::eHubDoor_2:
+                        return AnimId::FinalTestDoor_Desert_Closed;
+                }
+                break;
+
+            default:
+                break;
+        }
+        return AnimId::Door_RuptureFarms_Closed;
+    }
+
+
+    static Path_Door From(const AO::Path_Door& tlv, const Guid& tlvId, AO::LevelIds lvlId)
     {
         Path_Door r;
         BaseConvert(r, tlv, tlvId);
@@ -2352,10 +2409,51 @@ public:
         r.mDoorOffsetX = tlv.mDoorOffsetX;
         r.mDoorOffsetY = tlv.mDoorOffsetY;
         r.mExitDirection = relive::From(tlv.mExitDirection);
+        r.mTheme = AnimRecThemeName(AnimationIdForLvlDoorTypeAO(lvlId, tlv.mDoorType));
         return r;
     }
 
-    static Path_Door From(const ::Path_Door& tlv, const Guid& tlvId)
+    static AnimId AnimationIdForLvlOverlayAE(::LevelIds lvlId, u8 overlayId)
+    {
+        switch (lvlId)
+        {
+            case ::LevelIds::eNecrum_2:
+            case ::LevelIds::eMudomoVault_3:
+            case ::LevelIds::eMudancheeVault_4:
+            case ::LevelIds::eMudomoVault_Ender_11:
+            case ::LevelIds::eMudancheeVault_Ender_7:            
+                return AnimId::Door_Temple_Closed;
+
+            case ::LevelIds::eBarracks_6:
+            case ::LevelIds::eBarracks_Ender_13:
+                if (overlayId == 108)
+                {
+                    return AnimId::Door_BarracksMetal_Closed;
+                }
+                return AnimId::Door_Barracks_Closed;
+
+            case ::LevelIds::eBrewery_9:
+            case ::LevelIds::eBrewery_Ender_10:
+                return AnimId::Door_Brewery_Closed;
+
+            case ::LevelIds::eFeeCoDepot_5:
+            case ::LevelIds::eFeeCoDepot_Ender_12:
+                return AnimId::Door_Feeco_Closed;
+
+            case ::LevelIds::eBonewerkz_8:
+            case ::LevelIds::eBonewerkz_Ender_14:
+                return AnimId::Door_Bonewerkz_Closed;
+
+            case ::LevelIds::eTestLevel_15:                
+            case ::LevelIds::eMenu_0:
+            case ::LevelIds::eMines_1:
+            default:
+                return AnimId::Door_Mines_Closed;
+        }
+    }
+
+
+    static Path_Door From(const ::Path_Door& tlv, const Guid& tlvId, ::LevelIds lvlId, u8 overlayId)
     {
         Path_Door r;
         BaseConvert(r, tlv, tlvId);
@@ -2383,6 +2481,7 @@ public:
         r.mExitDirection = relive::From(tlv.mExitDirection);
         r.mCloseOnExit = relive::From(tlv.mCloseOnExit);
         r.mClearThrowables = relive::From(tlv.mClearThrowables);
+        r.mTheme = AnimRecThemeName(AnimationIdForLvlOverlayAE(lvlId, overlayId));
         return r;
     }
 private:

@@ -224,7 +224,7 @@ public:
 
     void Loader_4DB800(s16 xpos, s16 ypos, relive::LoadMode loadMode, ReliveTypes typeToLoad);
 
-    relive::Path_TLV* Get_First_TLV_For_Offsetted_Camera(s16 cam_x_idx, s16 cam_y_idx);
+    std::vector<std::unique_ptr<relive::Path_TLV>>* Get_First_TLV_For_Offsetted_Camera(s16 cam_x_idx, s16 cam_y_idx);
     static relive::Path_TLV* Next_TLV(relive::Path_TLV* pTlv);
 
     // note: inline as used by the API

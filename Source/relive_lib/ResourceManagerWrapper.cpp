@@ -23,7 +23,7 @@ u32 UniqueResId::mGlobalId = 1;
 
 std::unique_ptr<ThreadPool> ResourceManagerWrapper::mThreadPool = std::make_unique<ThreadPool>();
 std::mutex ResourceManagerWrapper::mLoadedAnimationsMutex;
-std::map<AnimId, ResourceManagerWrapper::AnimCache> ResourceManagerWrapper::mLoadedAnimations;
+std::map<ResourceManagerWrapper::AnimCacheKey, ResourceManagerWrapper::AnimCache> ResourceManagerWrapper::mLoadedAnimations;
 
 static FileSystem::Path BasePath(bool invertGame = false)
 {
@@ -43,7 +43,7 @@ static FileSystem::Path BasePath(bool invertGame = false)
 class AnimationLoaderJob final : public IJob
 {
 private:
-    static std::string GetAnimPath(AnimId animId, bool invertGameType)
+    static std::string GetAnimPath(AnimId animId, const std::string& themeName, bool invertGameType)
     {
         // One huge blocking func for now - needs to work like OG res man
         FileSystem::Path filePath = BasePath(invertGameType);
@@ -53,6 +53,11 @@ private:
         const char_type* groupName = AnimRecGroupName(animId);
         filePath.Append(groupName);
 
+        if (!themeName.empty())
+        {
+            filePath.Append(themeName);
+        }
+
         const char_type* animName = AnimRecName(animId);
         filePath.Append(animName);
 
@@ -60,8 +65,8 @@ private:
     }
 
 public:
-    explicit AnimationLoaderJob(AnimId anim)
-        : mAnimId(anim)
+    explicit AnimationLoaderJob(AnimId anim, const std::string& themeName)
+        : mAnimId(anim), mThemeName(themeName)
     {
 
     }
@@ -69,7 +74,7 @@ public:
     void Execute() override
     {
         // One huge blocking func for now - needs to work like OG res man
-        std::string filePath = GetAnimPath(mAnimId, false);
+        std::string filePath = GetAnimPath(mAnimId, mThemeName, false);
 
         // TODO: fs instance should probably be shared and thread safe
         FileSystem fs;
@@ -77,7 +82,7 @@ public:
         if (jsonStr.empty())
         {
             // If Ae try to find in Ao and vice versa
-            filePath = GetAnimPath(mAnimId, true);
+            filePath = GetAnimPath(mAnimId, mThemeName, true);
             jsonStr = fs.LoadToString((filePath + ".json").c_str());
 
             if (jsonStr.empty())
@@ -102,12 +107,13 @@ public:
 
         std::unique_lock<std::mutex> lock(ResourceManagerWrapper::mLoadedAnimationsMutex);
 
-        ResourceManagerWrapper::mLoadedAnimations[mAnimId] = {pAnimationAttributesAndFrames, pPngData, {}};
+        ResourceManagerWrapper::mLoadedAnimations[std::make_pair(mThemeName, mAnimId)] = {pAnimationAttributesAndFrames, pPngData, {}};
     }
 
 private:
     ResourceManagerWrapper* mResMan = nullptr;
     AnimId mAnimId;
+    std::string mThemeName;
 };
 
 
@@ -171,49 +177,36 @@ AnimationAttributesAndFrames::AnimationAttributesAndFrames(const std::string& js
 s16 ResourceManagerWrapper::bHideLoadingIcon = 0;
 s32 ResourceManagerWrapper::loading_ticks = 0;
 
-void ResourceManagerWrapper::PendAnimation(AnimId anim)
+void ResourceManagerWrapper::PendAnimation(AnimId animId, const std::string& theme)
 {
-    std::map<AnimId, ResourceManagerWrapper::AnimCache>::iterator it;
+    if (!Exists(animId, theme))
     {
-        std::unique_lock<std::mutex> lock(mLoadedAnimationsMutex);
-        it = mLoadedAnimations.find(anim);
-    }
-
-    if (it == std::end(mLoadedAnimations))
-    {
-        auto job = std::make_unique<AnimationLoaderJob>(anim);
+        auto job = std::make_unique<AnimationLoaderJob>(animId, theme);
         mThreadPool->AddJob(std::move(job));
     }
 }
 
-AnimResource ResourceManagerWrapper::LoadAnimation(AnimId anim)
+AnimResource ResourceManagerWrapper::LoadAnimation(AnimId anim, const std::string& themeName)
 {
-    std::map<AnimId, ResourceManagerWrapper::AnimCache>::iterator it;
-    {
-        std::unique_lock<std::mutex> lock(mLoadedAnimationsMutex);
-        it = mLoadedAnimations.find(anim);
-    }
-
-    if (it == std::end(mLoadedAnimations))
+    // TODO: Remove this when all of factory etc is updated (since it will always already be loaded here)
+    if (!Exists(anim, themeName))
     {
         if (static_cast<s32>(anim) <= 908) // ignore background animations for now
         {
             LOG_ERROR("Animation %d wasn't loaded async before calling LoadAnimation, or didn't wait for async loading to finish", static_cast<s32>(anim));
         }
 
-        // TODO: Remove this when all of factory etc is updated
-        AnimationLoaderJob hack(anim);
+        AnimationLoaderJob hack(anim, themeName);
         hack.Execute();
-        std::unique_lock<std::mutex> lock(mLoadedAnimationsMutex);
-        it = mLoadedAnimations.find(anim);
     }
 
-    auto jsonPtr = it->second.mAnimAttributes;
-    auto pngPtr = it->second.mAnimPng;
+    AnimCache cache = LookUp(anim, themeName);
+    auto jsonPtr = cache.mAnimAttributes;
+    auto pngPtr = cache.mAnimPng;
     if (jsonPtr && pngPtr)
     {
         AnimResource res(anim, jsonPtr, pngPtr);
-        res.mUniqueId = it->second.mAnimUniqueId;
+        res.mUniqueId = cache.mAnimUniqueId;
         return res;
     }
 
@@ -519,4 +512,28 @@ void ResourceManagerWrapper::ShowLoadingIcon()
         pParticle->SetDead(true);
         ResourceManagerWrapper::bHideLoadingIcon = true;
     }
+}
+
+bool ResourceManagerWrapper::Exists(AnimId animId, const std::string& theme)
+{
+    std::unique_lock<std::mutex> lock(ResourceManagerWrapper::mLoadedAnimationsMutex);
+
+    auto it = mLoadedAnimations.find(std::make_pair(theme, animId));
+    if (it == std::end(mLoadedAnimations))
+    {
+        return false;
+    }
+    return true;
+}
+
+ResourceManagerWrapper::AnimCache ResourceManagerWrapper::LookUp(AnimId animId, const std::string& theme)
+{
+    std::unique_lock<std::mutex> lock(ResourceManagerWrapper::mLoadedAnimationsMutex);
+
+    auto it = mLoadedAnimations.find(std::make_pair(theme, animId));
+    if (it == std::end(mLoadedAnimations))
+    {
+        return {};
+    }
+    return it->second;
 }

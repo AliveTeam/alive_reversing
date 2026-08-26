@@ -80,6 +80,11 @@ public:
     Guid mId;
     QuiksaveAttribute mAttribute = QuiksaveAttribute::eDoNothing_0;
 
+    virtual ~Path_TLV() 
+    {
+        // Some derived types have std::string etc so correct dtor must be called
+    }
+
     s16 Width() const
     {
         return mBottomRightX - mTopLeftX;
@@ -1340,6 +1345,8 @@ struct Path_Door final : public Path_TLV
     s16 mDoorOffsetX = 0;
     s16 mDoorOffsetY = 0;
     reliveXDirection mExitDirection = reliveXDirection::eRight;
+
+    std::string mTheme;
 
     // AE only
     bool mCloseOnExit = false;

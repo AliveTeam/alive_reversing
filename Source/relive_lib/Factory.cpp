@@ -21,6 +21,7 @@
 #include "../relive_lib/GameObjects/GasEmitter.hpp"
 #include "../relive_lib/GameObjects/Dove.hpp"
 #include "../relive_lib/GameObjects/GasCountDown.hpp"
+#include "../relive_lib/GameObjects/Door.hpp"
 
 #include "../AliveLibAO/Game.hpp"
 #include "../AliveLibAO/Abe.hpp"
@@ -64,7 +65,6 @@
 #include "../AliveLibAO/MeatSaw.hpp"
 #include "../AliveLibAO/Mudokon.hpp"
 #include "../AliveLibAO/HintFly.hpp"
-#include "../AliveLibAO/Door.hpp"
 #include "../AliveLibAO/SlingMudokon.hpp"
 #include "../AliveLibAO/MainMenu.hpp"
 #include "../AliveLibAO/DDCheat.hpp"
@@ -85,7 +85,6 @@
 #include "../AliveLibAE/UXB.hpp"
 #include "../AliveLibAE/LCDStatusBoard.hpp"
 #include "../AliveLibAE/HoistRocksEffect.hpp"
-#include "../AliveLibAE/Door.hpp"
 #include "../AliveLibAE/WorkWheel.hpp"
 #include "../AliveLibAE/StatusLight.hpp"
 #include "../AliveLibAE/WheelSyncer.hpp"
@@ -214,51 +213,6 @@ static void Factory_Edge(relive::Path_TLV* /*pTlv*/, const Guid& tlvId, relive::
     else
     {
         Path::TLV_Reset(tlvId);
-    }
-}
-
-static void Factory_Door(relive::Path_TLV* pTlv, const Guid& tlvId, relive::LoadMode loadMode)
-{
-    if (loadMode == relive::LoadMode::LoadResourceFromList_1 || loadMode == relive::LoadMode::LoadResource_2)
-    {
-        switch (gMap.mCurrentLevel)
-        {
-            case EReliveLevelIds::eRuptureFarms:
-            case EReliveLevelIds::eBoardRoom:
-            case EReliveLevelIds::eRuptureFarmsReturn:
-                ResourceManagerWrapper::PendAnimation(AnimId::Door_RuptureFarms_Open);
-                ResourceManagerWrapper::PendAnimation(AnimId::Door_RuptureFarms_Closed);
-                break;
-
-            case EReliveLevelIds::eLines:
-                ResourceManagerWrapper::PendAnimation(AnimId::Door_Lines_Open);
-                ResourceManagerWrapper::PendAnimation(AnimId::Door_Lines_Closed);
-                break;
-
-            case EReliveLevelIds::eDesert:
-            case EReliveLevelIds::eDesertTemple:
-            case EReliveLevelIds::eDesertEscape:
-                ResourceManagerWrapper::PendAnimation(AnimId::Door_Desert_Open);
-                ResourceManagerWrapper::PendAnimation(AnimId::Door_Desert_Closed);
-                ResourceManagerWrapper::PendAnimation(AnimId::HubDoor_Desert_Open);
-                ResourceManagerWrapper::PendAnimation(AnimId::HubDoor_Desert_Closed);
-                ResourceManagerWrapper::PendAnimation(AnimId::FinalTestDoor_Desert_Open);
-                ResourceManagerWrapper::PendAnimation(AnimId::FinalTestDoor_Desert_Closed);
-                break;
-
-            default:
-                ResourceManagerWrapper::PendAnimation(AnimId::Door_Forest_Open);
-                ResourceManagerWrapper::PendAnimation(AnimId::Door_Forest_Closed);
-                ResourceManagerWrapper::PendAnimation(AnimId::HubDoor_Forest_Open);
-                ResourceManagerWrapper::PendAnimation(AnimId::HubDoor_Forest_Closed);
-                ResourceManagerWrapper::PendAnimation(AnimId::FinalTestDoor_Forest_Open);
-                ResourceManagerWrapper::PendAnimation(AnimId::FinalTestDoor_Forest_Closed);
-                break;
-        }
-    }
-    else
-    {
-        relive_new Door(static_cast<relive::Path_Door*>(pTlv), tlvId);
     }
 }
 
@@ -1771,54 +1725,9 @@ static void Factory_Door(relive::Path_TLV* pTlv, const Guid& tlvId, relive::Load
 {
     if (loadmode == relive::LoadMode::LoadResourceFromList_1 || loadmode == relive::LoadMode::LoadResource_2)
     {
-        switch (gMap.mCurrentLevel)
-        {
-            case EReliveLevelIds::eNecrum:
-            case EReliveLevelIds::eMudomoVault:
-            case EReliveLevelIds::eMudancheeVault:
-            case EReliveLevelIds::eMudancheeVault_Ender:
-            case EReliveLevelIds::eMudomoVault_Ender:
-                ResourceManagerWrapper::PendAnimation(AnimId::Door_Temple_Closed);
-                ResourceManagerWrapper::PendAnimation(AnimId::Door_Temple_Open);
-                break;
-
-            case EReliveLevelIds::eFeeCoDepot:
-            case EReliveLevelIds::eFeeCoDepot_Ender:
-                ResourceManagerWrapper::PendAnimation(AnimId::Door_Feeco_Closed);
-                ResourceManagerWrapper::PendAnimation(AnimId::Door_Feeco_Open);
-                break;
-
-            case EReliveLevelIds::eBarracks:
-            case EReliveLevelIds::eBarracks_Ender:
-                if (gMap.mOverlayId == 108)
-                {
-                    ResourceManagerWrapper::PendAnimation(AnimId::Door_BarracksMetal_Closed);
-                    ResourceManagerWrapper::PendAnimation(AnimId::Door_BarracksMetal_Open);
-                }
-                else
-                {
-                    ResourceManagerWrapper::PendAnimation(AnimId::Door_Barracks_Closed);
-                    ResourceManagerWrapper::PendAnimation(AnimId::Door_Barracks_Open);
-                }
-                break;
-
-            case EReliveLevelIds::eBonewerkz:
-            case EReliveLevelIds::eBonewerkz_Ender:
-                ResourceManagerWrapper::PendAnimation(AnimId::Door_Bonewerkz_Closed);
-                ResourceManagerWrapper::PendAnimation(AnimId::Door_Bonewerkz_Open);
-                break;
-
-            case EReliveLevelIds::eBrewery:
-            case EReliveLevelIds::eBrewery_Ender:
-                ResourceManagerWrapper::PendAnimation(AnimId::Door_Brewery_Closed);
-                ResourceManagerWrapper::PendAnimation(AnimId::Door_Brewery_Open);
-                break;
-
-            default:
-                ResourceManagerWrapper::PendAnimation(AnimId::Door_Mines_Closed);
-                ResourceManagerWrapper::PendAnimation(AnimId::Door_Mines_Open);
-                break;
-        }
+        auto pDoorTlv = static_cast<relive::Path_Door*>(pTlv);
+        ResourceManagerWrapper::PendAnimation(AnimId::Door_Themed_Closed, pDoorTlv->mTheme);
+        ResourceManagerWrapper::PendAnimation(AnimId::Door_Themed_Open, pDoorTlv->mTheme);
     }
     else
     {
@@ -3267,9 +3176,9 @@ void ConstructTLVObject(relive::Path_TLV* pTlv, const Guid& tlvInfo, relive::Loa
             AE::Factory_GasCountdown(pTlv, tlvInfo, loadMode);
             break;
         case ReliveTypes::eDoor:
-            if (GetGameType() == GameType::eAo)
-            AO::Factory_Door(pTlv, tlvInfo, loadMode);
-            else
+            //if (GetGameType() == GameType::eAo)
+            //AO::Factory_Door(pTlv, tlvInfo, loadMode);
+            //else
             AE::Factory_Door(pTlv, tlvInfo, loadMode);
             break;
         case ReliveTypes::eElectricWall:
@@ -3526,6 +3435,7 @@ void ConstructTLVObject(relive::Path_TLV* pTlv, const Guid& tlvInfo, relive::Loa
             AE::Factory_MovingBomb(pTlv, tlvInfo, loadMode);
             break;
         case ReliveTypes::eDoorFlame:
+            // TODO: Almost exactly the same - can be merged
             if (GetGameType() == GameType::eAo)
             AO::Factory_DoorFlame(pTlv, tlvInfo, loadMode);
             else

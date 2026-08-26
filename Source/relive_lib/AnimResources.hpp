@@ -742,6 +742,12 @@ enum class AnimId
     LiftPlatform_Necrum,
     LiftBottomWheel_Necrum,
     LiftTopWheel_Necrum,
+    
+    // Themed door is a single ID that can be used to load any door theme such as RuptureFarms, Temple etc
+    // this id and the theme makes the unique key.
+    Door_Themed_Closed,
+    Door_Themed_Open,
+
     Door_Barracks_Closed,
     Door_Barracks_Open,
     Door_BarracksMetal_Closed,

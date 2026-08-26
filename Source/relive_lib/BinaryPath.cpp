@@ -27,7 +27,9 @@ public:
 
     void Alloc(nlohmann::json& j, BinaryPath::CamEntry* pCamEntry) override
     {
-        j.get_to(*pCamEntry->AllocTLV<TlvType>());
+        auto tlv = std::make_unique<TlvType>();
+        j.get_to(tlv);
+        pCamEntry->AddTLV(std::move(tlv));
     }
 };
 
@@ -48,6 +50,7 @@ public:
         if (it != std::end(mTlvJsonMap))
         {
             it->second->Alloc(j, pCamEntry);
+            
         }
         else
         {
@@ -55,7 +58,7 @@ public:
         }
     }
 
-private :
+private:
     void PopulateTlvJsonMap()
     {
 #define InsertTlvType(x) {std::string(x::kClassName), std::make_unique<Allocator<x>>()}
@@ -243,19 +246,17 @@ relive::Path_TLV* BinaryPath::TlvsById(const Guid& id)
 {
     for (auto& cam : mCameras)
     {
-        auto pPathTLV = reinterpret_cast<relive::Path_TLV*>(cam->mBuffer.data());
-        while (pPathTLV)
+        for (auto& pPathTLV : cam.mTlvs)
         {
             if (pPathTLV->mId == id)
             {
-                return pPathTLV;
+                return pPathTLV.get();
             }
 
             if (pPathTLV->mTlvFlags.Get(relive::eBit3_End_TLV_List))
             {
                 break;
             }
-            pPathTLV = AO::Path_TLV::Next_446460(pPathTLV);
         }
     }
     return nullptr;

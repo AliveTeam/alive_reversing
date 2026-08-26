@@ -16,11 +16,11 @@ public:
     virtual void VScreenChanged() override;
     virtual void VUpdate() override;
 
-    bool vIsOpen_40E800();
-    void vOpen();
-    void vClose();
-    void vSetOpen();
-    void vSetClosed();
+    bool IsOpen();
+    void Open();
+    void Close();
+    void SetOpen();
+    void SetClosed();
     void PlaySound();
 
     Guid mTlvInfo;

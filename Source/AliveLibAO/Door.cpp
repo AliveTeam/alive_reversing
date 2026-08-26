@@ -16,6 +16,11 @@
 
 namespace AO {
 
+    // AO level id -> closed, open, ?, ?, ?, ?
+    // basic door
+    // trial door
+    // hub door
+    
 static const AnimId sDoorAnimdIdTable[16][6] = {
     {AnimId::None, AnimId::None, AnimId::None, AnimId::None, AnimId::None, AnimId::None}, // menu
     {AnimId::Door_RuptureFarms_Closed, AnimId::Door_RuptureFarms_Open, AnimId::Door_RuptureFarms_Closed, AnimId::Door_RuptureFarms_Open, AnimId::Door_RuptureFarms_Closed, AnimId::Door_RuptureFarms_Open}, // rupture farms
@@ -293,12 +298,12 @@ void Door::VScreenChanged()
     SetDead(true);
 }
 
-bool Door::vIsOpen_40E800()
+bool Door::IsOpen()
 {
     return mCurrentState == relive::Path_Door::DoorStates::eOpen;
 }
 
-void Door::vClose()
+void Door::Close()
 {
     if (mCurrentState != relive::Path_Door::DoorStates::eClosed)
     {
@@ -306,7 +311,7 @@ void Door::vClose()
     }
 }
 
-void Door::vOpen()
+void Door::Open()
 {
     if (mCurrentState != relive::Path_Door::DoorStates::eOpen)
     {
@@ -314,12 +319,12 @@ void Door::vOpen()
     }
 }
 
-void Door::vSetOpen()
+void Door::SetOpen()
 {
     mCurrentState = relive::Path_Door::DoorStates::eOpen;
 }
 
-void Door::vSetClosed()
+void Door::SetClosed()
 {
     mCurrentState = relive::Path_Door::DoorStates::eClosed;
 }

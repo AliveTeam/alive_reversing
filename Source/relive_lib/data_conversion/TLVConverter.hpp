@@ -14,7 +14,7 @@ static void convert_tlv(nlohmann::json& j, const ::Path_TLV& tlv, const Guid& tl
 }
 
 
-static void ConvertTLV(nlohmann::json& j, const ::Path_TLV& tlv, const Guid& tlvId, ::LevelIds /*lvlId*/, u32 /*pathId*/)
+static void ConvertTLV(nlohmann::json& j, const ::Path_TLV& tlv, const Guid& tlvId, ::LevelIds lvlId, u32 /*pathId*/, u8 overlayId)
 {
     switch (tlv.mTlvType32.mType)
     {
@@ -34,7 +34,7 @@ static void ConvertTLV(nlohmann::json& j, const ::Path_TLV& tlv, const Guid& tlv
             convert_tlv<relive::Path_DeathDrop_Converter, ::Path_DeathDrop>(j, tlv, tlvId);
             break;
         case ::TlvTypes::Door_5:
-            convert_tlv<relive::Path_Door_Converter, ::Path_Door>(j, tlv, tlvId);
+            j.push_back(relive::Path_Door_Converter::From(static_cast<const ::Path_Door&>(tlv), tlvId, lvlId, overlayId));
             break;
         case ::TlvTypes::ShadowZone_6:
             convert_tlv<relive::Path_ShadowZone_Converter, ::Path_ShadowZone>(j, tlv, tlvId);
@@ -350,7 +350,7 @@ static void ConvertTLV(nlohmann::json& j, const ::Path_TLV& tlv, const Guid& tlv
 }
 
 
-static void ConvertTLV(nlohmann::json& j, const AO::Path_TLV& tlv, const Guid& tlvId, AO::LevelIds lvlId, u32 pathId)
+static void ConvertTLV(nlohmann::json& j, const AO::Path_TLV& tlv, const Guid& tlvId, AO::LevelIds lvlId, u32 pathId, u8 /*overlayId*/)
 {
     switch (tlv.mTlvType32.mType)
     {
@@ -372,7 +372,7 @@ static void ConvertTLV(nlohmann::json& j, const AO::Path_TLV& tlv, const Guid& t
             convert_tlv<relive::Path_DeathDrop_Converter, AO::Path_DeathDrop>(j, tlv, tlvId);
             break;
         case AO::TlvTypes::Door_6:
-            convert_tlv<relive::Path_Door_Converter, AO::Path_Door>(j, tlv, tlvId);
+            j.push_back(relive::Path_Door_Converter::From(static_cast<const AO::Path_Door&>(tlv), tlvId, lvlId));
             break;
         case AO::TlvTypes::ShadowZone_7:
             convert_tlv<relive::Path_ShadowZone_Converter, AO::Path_ShadowZone>(j, tlv, tlvId);
@@ -661,7 +661,7 @@ static bool IsTlvEnd(const ::Path_TLV* Tlv)
 }
 
 template <typename TlvType, typename LevelIdType>
-static void ConvertPathTLVs(nlohmann::json& j, u32 pathId, LevelIdType levelId, s32 indexTableOffset, s32 objectOffset, const std::vector<u8>& pathResource, u32 indexTableIndex)
+static void ConvertPathTLVs(nlohmann::json& j, u32 pathId, LevelIdType levelId, s32 indexTableOffset, s32 objectOffset, const std::vector<u8>& pathResource, u32 indexTableIndex, u8 overlayId)
 {
     const u8* pData = pathResource.data();
     const s32* pIndexTable = reinterpret_cast<const s32*>(pData + indexTableOffset);
@@ -689,7 +689,7 @@ static void ConvertPathTLVs(nlohmann::json& j, u32 pathId, LevelIdType levelId, 
         tlvInfoUnion.mTlvInfo.levelId = static_cast<u8>(levelId);
 
         // Convert TLV to ReliveTLV
-        ConvertTLV(j, *pPathTLV, Guid::NewGuidFromTlvInfo(tlvInfoUnion.mData), levelId, pathId);
+        ConvertTLV(j, *pPathTLV, Guid::NewGuidFromTlvInfo(tlvInfoUnion.mData), levelId, pathId, overlayId);
 
         // End of TLVs for given camera
         if (IsTlvEnd(pPathTLV))

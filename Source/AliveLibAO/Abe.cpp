@@ -7,7 +7,7 @@
 #include "Bullet.hpp"
 #include "../relive_lib/GameObjects/CheatController.hpp"
 #include "../relive_lib/GameObjects/DeathBirdParticle.hpp"
-#include "Door.hpp"
+#include "../relive_lib/GameObjects/Door.hpp"
 #include "../relive_lib/GameObjects/Dove.hpp"
 #include "../relive_lib/GameObjects/ThrowableArray.hpp"
 #include "Elum.hpp"
@@ -2151,13 +2151,13 @@ bool Abe::NearDoorIsOpen()
 
         if (pObj->Type() == ReliveTypes::eDoor)
         {
-            auto pDoor = static_cast<Door*>(pObj);
+            auto pDoor = static_cast<::Door*>(pObj);
             PSX_RECT Rect = VGetBoundingRect();
             PSX_RECT Rect2 = pDoor->VGetBoundingRect();
 
             if (Rect.x <= Rect2.w && Rect.w >= Rect2.x && Rect.h >= Rect2.y && Rect.y <= Rect2.h)
             {
-                return pDoor->vIsOpen_40E800();
+                return pDoor->IsOpen();
             }
         }
     }

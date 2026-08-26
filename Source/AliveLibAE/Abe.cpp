@@ -28,7 +28,7 @@
 #include "../relive_lib/GameObjects/Fade.hpp"
 #include "Movie.hpp"
 #include "../relive_lib/GameObjects/PossessionFlicker.hpp"
-#include "Door.hpp"
+#include "../relive_lib/GameObjects/Door.hpp"
 #include "QuikSave.hpp"
 #include "../relive_lib/GameObjects/DeathBirdParticle.hpp"
 #include "WorkWheel.hpp"
@@ -7193,7 +7193,7 @@ void Abe::Motion_115_DoorExit()
                     if (pDoor->mDoorId == field_1A0_door_id)
                     {
                         // And close it
-                        pDoor->vClose();
+                        pDoor->Close();
                         break;
                     }
                 }
@@ -7774,7 +7774,7 @@ s32 Abe::NearDoorIsOpen_44EE10()
             auto pDoor = static_cast<Door*>(pObj);
             if (FP_Abs(mXPos - pDoor->mXPos) < FP_FromInteger(15) && FP_Abs(mYPos - pDoor->mYPos) < FP_FromInteger(20))
             {
-                return pDoor->vIsOpen();
+                return pDoor->IsOpen();
             }
         }
     }

@@ -35,20 +35,12 @@ public:
         s32 mId = 0;
         std::string mName;
 
-        template <typename TlvType>
-        TlvType* AllocTLV()
+        void AddTLV(std::unique_ptr<relive::Path_TLV> tlv)
         {
-            mBuffer.resize(mBuffer.size() + sizeof(TlvType));
-            TlvType* pTlv = reinterpret_cast<TlvType*>(mBuffer.data() + mBuffer.size() - sizeof(TlvType));
-            new (pTlv) TlvType(); // placement new
-            mLastAllocated = pTlv;
-            mLastAllocatedSize = sizeof(TlvType);
-            return pTlv;
+            mTlvs.emplace_back(std::move(tlv));
         }
 
-        std::vector<u8> mBuffer;
-        relive::Path_TLV* mLastAllocated = nullptr;
-        u32 mLastAllocatedSize = 0;
+        std::vector<std::unique_ptr<relive::Path_TLV>> mTlvs;
     };
 
     BinaryPath(const std::string& jsonFileName, u32 pathId)
@@ -91,13 +83,13 @@ public:
 
     relive::Path_TLV* TlvsById(const Guid& id);
 
-    relive::Path_TLV* TlvsForCamera(s32 x, s32 y, u32 tlvOffset = 0)
+    std::vector<std::unique_ptr<relive::Path_TLV>>* TlvsForCamera(s32 x, s32 y)
     {
         for (auto& cam : mCameras)
         {
             if (cam && cam->mX == x && cam->mY == y)
             {
-                return reinterpret_cast<relive::Path_TLV*>(cam->mBuffer.data() + tlvOffset);
+                return &cam->mTlvs;
             }
         }
         return nullptr;

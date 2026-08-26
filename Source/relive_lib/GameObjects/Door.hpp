@@ -3,26 +3,27 @@
 #include "../relive_lib/GameObjects/BaseAnimatedWithPhysicsGameObject.hpp"
 #include "../relive_lib/data_conversion/relive_tlvs.hpp"
 
-class Door : public ::BaseAnimatedWithPhysicsGameObject
+class Door : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    Door();
+    Door(); // Only exists for TrainDoor ctor
     Door(relive::Path_Door* pTlv, const Guid& tlvId);
     ~Door();
 
-    void LoadAnimations();
-
+    void LoadAnimations(const std::string& theme);
     bool IsOpen();
     void Open();
     void Close();
+    
+protected:
     void SetOpen();
     void SetClosed();
+
     void PlaySound();
 
     virtual void VScreenChanged() override;
     virtual void VUpdate() override;
 
-protected:
     Guid mTlvId;
     relive::Path_Door::DoorTypes mDoorType = relive::Path_Door::DoorTypes::eBasicDoor;
     relive::Path_Door::DoorStates mCurrentState = relive::Path_Door::DoorStates::eOpen;

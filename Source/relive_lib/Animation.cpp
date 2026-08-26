@@ -459,6 +459,11 @@ u32 Animation::Get_Frame_Count()
     return static_cast<u32>(mAnimRes.mJsonPtr->mFrames.size());
 }
 
+u32 Animation::MaxHeight()
+{
+    return static_cast<u32>(mAnimRes.mJsonPtr->mAttributes.mMaxHeight);
+}
+
 void Animation::LoadPal(std::shared_ptr<AnimationPal>& pal)
 {
     // Override the pal with another one

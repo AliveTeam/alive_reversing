@@ -51,8 +51,6 @@ SET(AliveLibSrcAO
    ../AliveLibAO/MainMenu.cpp
    ../AliveLibAO/MainMenuTransition.hpp
    ../AliveLibAO/MainMenuTransition.cpp
-   ../AliveLibAO/Door.hpp
-   ../AliveLibAO/Door.cpp
    ../AliveLibAO/HintFlyData.hpp
    ../AliveLibAO/HintFly.hpp
    ../AliveLibAO/HintFly.cpp
@@ -249,8 +247,6 @@ SET(AliveLibAESrc
     ../AliveLibAE/PullRingRope.cpp
     ../AliveLibAE/HoistRocksEffect.hpp
     ../AliveLibAE/HoistRocksEffect.cpp
-    ../AliveLibAE/Door.hpp
-    ../AliveLibAE/Door.cpp
     ../AliveLibAE/WorkWheel.hpp
     ../AliveLibAE/WorkWheel.cpp
     ../AliveLibAE/StatusLight.hpp
@@ -545,6 +541,8 @@ SET(game_objects_src
     GameObjects/TimerTrigger.hpp
     GameObjects/AbilityRing.cpp
     GameObjects/AbilityRing.hpp
+    GameObjects/Door.cpp
+    GameObjects/Door.hpp
 )
 
 SET(data_conversion_src

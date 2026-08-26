@@ -237,8 +237,8 @@ public:
 
 
     // TODO: needs to be async like og
-    static void PendAnimation(AnimId anim);
-    static AnimResource LoadAnimation(AnimId anim);
+    static void PendAnimation(AnimId anim, const std::string& theme = "");
+    static AnimResource LoadAnimation(AnimId anim, const std::string& themeName = "");
 
     static PalResource LoadPal(PalId pal);
 
@@ -287,10 +287,15 @@ private:
         UniqueResId mAnimUniqueId;
     };
 
+    static bool Exists(AnimId animId, const std::string& theme);
+    static AnimCache LookUp(AnimId animId, const std::string& theme);
+
 public:
     static std::mutex mLoadedAnimationsMutex;
     // TODO: Remove dead entries at some point
-    static std::map<AnimId, AnimCache> mLoadedAnimations;
+
+    using AnimCacheKey = std::pair<std::string, AnimId>;
+    static std::map<AnimCacheKey, AnimCache> mLoadedAnimations;
 
 private:
     // unique_ptr to avoid bringing the header in

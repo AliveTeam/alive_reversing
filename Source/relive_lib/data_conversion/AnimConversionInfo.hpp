@@ -79,6 +79,7 @@ enum class EAnimGroup
 
 const char_type* AnimRecName(AnimId anim);
 const char_type* AnimRecGroupName(AnimId anim);
+const char_type* AnimRecThemeName(AnimId anim);
 const char* ToString(EAnimGroup animGroup);
 
 struct PalRecConversionInfo final
@@ -87,10 +88,17 @@ struct PalRecConversionInfo final
     bool mConverted;
 };
 
+struct AnimRecThemeInfo final
+{
+    const char* mThemeName; // Theme name of the item, e.g if a door could be RuptureFarms, Feeco etc
+    AnimId mAnimIdRemapTo;  // Resulting AnimId e.g map a unique specific anim id to a generic one 
+};
+
 struct AnimRecConversionInfo final
 {
     AnimId mAnimId;         // which anim?
     EAnimGroup mGroup;      // abe, doors etc
+    AnimRecThemeInfo mThemeInfo;
     EReliveLevelIds mAeLvl; // LVL this anim exists in for AE
     EReliveLevelIds mAoLvl; // LVL this anim exists in for AO
     bool mConverted;
@@ -104,5 +112,5 @@ struct AnimRecNames final
 
 const char* ToString(PalId pal);
 
-extern AnimRecNames kAnimRecNames[1024];
+extern AnimRecNames kAnimRecNames[1026];
 extern AnimRecConversionInfo kAnimRecConversionInfo[1023];

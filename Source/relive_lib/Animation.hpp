@@ -24,6 +24,7 @@ public:
 
     void SetFrame(s32 newFrame);
     u32 Get_Frame_Count();
+    u32 MaxHeight();
     const PerFrameInfo* Get_FrameHeader(s32 frame);
     void LoadPal(std::shared_ptr<AnimationPal>& pal);
     void LoadPal(const PalResource& pal);
