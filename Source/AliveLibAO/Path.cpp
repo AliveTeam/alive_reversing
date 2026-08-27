@@ -27,7 +27,7 @@ void Path::Set_TLVData(const Guid& tlvId, s16 hiFlags, s8 bSetCreated, s8 bSetDe
     for (std::unique_ptr<BinaryPath>& pBinPath : paths)
     if (pBinPath)
     {
-        relive::Path_TLV* pTlv = pBinPath->TlvsById(tlvId);
+        relive::Path_TLV* pTlv = pBinPath->TlvById(tlvId);
         if (pTlv)
         {
             pTlv->mTlvFlags.Set(relive::TlvFlags::eBit2_Destroyed, bSetDestroyed & 1);

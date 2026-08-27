@@ -3198,7 +3198,7 @@ void Slog::VOnTrapDoorOpen()
     }
 }
 
-void Slog::VOnTlvCollision(relive::Path_TLV* pTlv)
+void Slog::VOnTlvCollision(TlvIterator tlvIterator)
 {
     while (pTlv)
     {

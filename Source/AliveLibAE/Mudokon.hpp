@@ -260,7 +260,7 @@ public:
 
     virtual void VPossessed() override;
     virtual bool VTakeDamage(BaseGameObject* pFrom) override;
-    virtual void VOnTlvCollision(relive::Path_TLV* pTlv) override;
+    virtual void VOnTlvCollision(TlvIterator tlvIterator) override;
     virtual void VOnTrapDoorOpen() override;
 
     // New virtuals

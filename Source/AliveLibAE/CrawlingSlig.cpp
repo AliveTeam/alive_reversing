@@ -493,7 +493,7 @@ void CrawlingSlig::VOnTrapDoorOpen()
     }
 }
 
-void CrawlingSlig::VOnTlvCollision(relive::Path_TLV* pTlv)
+void CrawlingSlig::VOnTlvCollision(TlvIterator tlvIterator)
 {
     while (pTlv)
     {

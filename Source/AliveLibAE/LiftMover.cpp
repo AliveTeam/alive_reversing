@@ -220,7 +220,7 @@ void LiftMover::CreateFromSaveState(SerializedObjectData& pData)
 {
     const auto pState = pData.ReadTmpPtr<LiftMoverSaveState>();
 
-    relive::Path_LiftMover* pTlv = static_cast<relive::Path_LiftMover*>(gPathInfo->TLV_From_Offset_Lvl_Cam(pState->mTlvId));
+    relive::Path_LiftMover* pTlv = static_cast<relive::Path_LiftMover*>(gPathInfo->TLV_From_Offset_Lvl_Cam(pState->mTlvId).GetTlv());
     auto pLiftMover = relive_new LiftMover(pTlv, pState->mTlvId);
     if (pLiftMover)
     {

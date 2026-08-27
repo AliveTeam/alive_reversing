@@ -2823,7 +2823,7 @@ void Glukkon::ToDead()
     }
 }
 
-void Glukkon::VOnTlvCollision(relive::Path_TLV* pTlv)
+void Glukkon::VOnTlvCollision(TlvIterator tlvIterator)
 {
     while (pTlv)
     {

@@ -1,12 +1,12 @@
 #pragma once
 
-// TODO: consider not using STL in her
 #include "Types.hpp"
 #include "nlohmann/json_fwd.hpp"
-
 #include "Collisions.hpp"
+#include "FatalError.hpp"
 
 class Guid;
+
 namespace relive
 {
     class Path_TLV;
@@ -24,10 +24,63 @@ struct PathSoundInfo final
     std::vector<u8> mBsqFileData;
 };
 
+using UP_Path_TLV = std::unique_ptr<relive::Path_TLV>;
+
+struct TlvIterator;
+struct TlvList final
+{
+    std::vector<UP_Path_TLV> mTlvs;
+    TlvIterator FirstIterator() const;
+};
+
+struct TlvIterator final
+{
+public:
+    TlvIterator(relive::Path_TLV* tlv, const TlvList* list, std::size_t index)
+     : mTlv(tlv), mTlvList(list), mIndex(index)
+    {
+
+    }
+
+    TlvIterator Next_TLV() const
+    {
+        if (mTlvList && mIndex + 1 < mTlvList->mTlvs.size())
+        {
+            return TlvIterator(mTlvList->mTlvs[mIndex + 1].get(), mTlvList, mIndex + 1);
+        }
+        return Invalid();
+    }
+
+    relive::Path_TLV* GetTlv() const 
+    {
+        return mTlv;
+    }
+
+    bool IsValid()
+    {
+        return mTlvList != nullptr;
+    }
+
+    static TlvIterator Invalid()
+    {
+        return TlvIterator(nullptr, nullptr, 0);
+    }
+
+private:
+    relive::Path_TLV* mTlv = nullptr;
+    const TlvList* mTlvList = nullptr;
+    u32 mIndex = 0;
+};
+
+TlvIterator TlvList::FirstIterator() const
+{
+    relive::Path_TLV* pTlv = mTlvs.empty() ? nullptr : mTlvs[0].get();
+    return TlvIterator(pTlv, this, 0);
+}
+
 class BinaryPath final
 {
 public:
-
     struct CamEntry final
     {
         s32 mX = 0;
@@ -35,12 +88,12 @@ public:
         s32 mId = 0;
         std::string mName;
 
-        void AddTLV(std::unique_ptr<relive::Path_TLV> tlv)
+        void AddTLV(UP_Path_TLV tlv)
         {
-            mTlvs.emplace_back(std::move(tlv));
+            mTlvs.mTlvs.emplace_back(std::move(tlv));
         }
-
-        std::vector<std::unique_ptr<relive::Path_TLV>> mTlvs;
+        TlvList mTlvs;
+        
     };
 
     BinaryPath(const std::string& jsonFileName, u32 pathId)
@@ -81,18 +134,18 @@ public:
         }
     }
 
-    relive::Path_TLV* TlvsById(const Guid& id);
+    TlvIterator TlvById(const Guid& id);
 
-    std::vector<std::unique_ptr<relive::Path_TLV>>* TlvsForCamera(s32 x, s32 y)
+    const TlvList& TlvsForCamera(s32 x, s32 y)
     {
         for (auto& cam : mCameras)
         {
             if (cam && cam->mX == x && cam->mY == y)
             {
-                return &cam->mTlvs;
+                return cam->mTlvs;
             }
         }
-        return nullptr;
+        ALIVE_FATAL("Camera X/Y out of bounds");
     }
 
     std::vector<std::unique_ptr<CamEntry>>& GetCameras()

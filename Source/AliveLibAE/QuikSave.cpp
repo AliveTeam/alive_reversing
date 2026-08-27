@@ -359,7 +359,7 @@ void QuikSave::RestoreBlyData(Quicksave& pSaveData)
     {
         for (auto& cam : binaryPath->GetCameras())
         {
-            for (auto& pTlv : cam->mTlvs)
+            for (auto& pTlv : cam->mTlvs.mTlvs)
             {
                 if (pTlv->mAttribute == relive::QuiksaveAttribute::eClearTlvFlags_1 || pTlv->mAttribute == relive::QuiksaveAttribute::eKeepTlvFlags_2) // Type 0 ignored - actually it should never be written here anyway
                 {
@@ -429,7 +429,7 @@ static u32 Quicksave_SaveBlyData_CountOrSave(SerializedObjectData* pSaveBuffer)
     {
         for (auto& cam : binaryPath->GetCameras())
         {
-            for (auto& pTlv : cam->mTlvs)
+            for (auto& pTlv : cam->mTlvs.mTlvs)
             {
                 if (pTlv->mAttribute == relive::QuiksaveAttribute::eClearTlvFlags_1)
                 {

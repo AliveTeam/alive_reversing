@@ -90,21 +90,16 @@ public:
 
     s16 SetActiveCam(EReliveLevelIds level, s16 path, s16 cam, CameraSwapEffects screenChangeEffect, s16 fmvBaseId, s16 forceChange);
 
-    virtual relive::Path_TLV* VTLV_Get_At_Of_Type(s16 xpos, s16 ypos, s16 width, s16 height, ReliveTypes typeToFind) = 0;
-
+    
     virtual s16 Is_Point_In_Current_Camera(EReliveLevelIds level, s32 path, FP xpos, FP ypos, s16 width) = 0;
-
     virtual CameraPos GetDirection(EReliveLevelIds level, s32 path, FP xpos, FP ypos) = 0;
-
-    virtual relive::Path_TLV* TLV_First_Of_Type_In_Camera(ReliveTypes objectType, s16 camX) = 0;
-
-    virtual relive::Path_TLV* TLV_Get_At(relive::Path_TLV* pTlv, FP xpos, FP ypos, FP width, FP height) = 0;
-
     virtual void GetCurrentCamCoords(PSX_Point* pPoint) = 0;
-
-    virtual relive::Path_TLV* TLV_From_Offset_Lvl_Cam(const Guid& tlvId);
-
     virtual void GoTo_Camera() = 0;
+    
+    virtual TlvIterator VTLV_Get_At_Of_Type(s16 xpos, s16 ypos, s16 width, s16 height, ReliveTypes typeToFind) = 0;
+    virtual TlvIterator TLV_First_Of_Type_In_Camera(ReliveTypes objectType, s16 camX) = 0;
+    virtual TlvIterator TLV_Get_At(TlvIterator pTlv, FP xpos, FP ypos, FP width, FP height) = 0;
+    virtual TlvIterator TLV_From_Offset_Lvl_Cam(const Guid& tlvId);
 
     void ReloadPathJsonRequest(const std::string& pathJsonFileName);
 

@@ -1113,7 +1113,7 @@ void Mudokon::VOnTrapDoorOpen()
     }
 }
 
-void Mudokon::VOnTlvCollision(relive::Path_TLV* pTlv)
+void Mudokon::VOnTlvCollision(TlvIterator tlvIterator)
 {
     if (pTlv)
     {

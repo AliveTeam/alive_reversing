@@ -1,6 +1,7 @@
 #pragma once
 
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
+#include "../BinaryPath.hpp"
 
 class PathLine;
 
@@ -23,7 +24,7 @@ public:
     virtual void VUnPosses();
     virtual void VPossessed();
     virtual bool VTakeDamage(BaseGameObject* pFrom);
-    virtual void VOnTlvCollision(relive::Path_TLV* pTlv);
+    virtual void VOnTlvCollision(TlvIterator tlvIterator);
     virtual void VOnTrapDoorOpen();
 
     // Note: this is only used for the GameAutoPlayer
@@ -76,7 +77,7 @@ public:
     bool mbGotShot = false;
     FP_RECT mCollectionRect = {};
     s32 mBaseAliveGameObjectLastAnimFrame = 0;
-    relive::Path_TLV* BaseAliveGameObjectPathTLV = nullptr;
+    TlvIterator BaseAliveGameObjectPathTLV = TlvIterator::Invalid();
     Guid BaseAliveGameObject_PlatformId = Guid{};
 
 protected:

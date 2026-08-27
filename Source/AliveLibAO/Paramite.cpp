@@ -262,7 +262,7 @@ bool Paramite::VTakeDamage(BaseGameObject* pFrom)
     return true;
 }
 
-void Paramite::VOnTlvCollision(relive::Path_TLV* pTlv)
+void Paramite::VOnTlvCollision(TlvIterator tlvIterator)
 {
     while (pTlv)
     {

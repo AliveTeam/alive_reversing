@@ -228,7 +228,7 @@ Drill::Drill(relive::Path_Drill* pTlv, const Guid& tlvId)
 void Drill::CreateFromSaveState(SerializedObjectData& pData)
 {
     const auto pState = pData.ReadTmpPtr<DrillSaveState>();
-    auto pTlv = static_cast<relive::Path_Drill*>(gPathInfo->TLV_From_Offset_Lvl_Cam(pState->mDrillTlvId));
+    auto pTlv = static_cast<relive::Path_Drill*>(gPathInfo->TLV_From_Offset_Lvl_Cam(pState->mDrillTlvId).GetTlv());
     auto pDrill = relive_new Drill(pTlv, pState->mDrillTlvId);
 
     if (pState->mState != DrillStates::eRestartCycle_0)

@@ -186,7 +186,7 @@ Scrab::Scrab(relive::Path_Scrab* pTlv, const Guid& tlvId, relive::Path_ScrabSpaw
     CreateShadow();
 }
 
-void Scrab::VOnTlvCollision(relive::Path_TLV* pTlv)
+void Scrab::VOnTlvCollision(TlvIterator tlvIterator)
 {
     while (pTlv != nullptr)
     {

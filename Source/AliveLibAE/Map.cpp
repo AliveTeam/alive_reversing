@@ -367,7 +367,7 @@ void Map::Handle_PathTransition()
             FP_GetExponent(mAliveObj->mYPos),
             FP_GetExponent(mAliveObj->mXPos),
             FP_GetExponent(mAliveObj->mYPos),
-            ReliveTypes::ePathTransition));
+            ReliveTypes::ePathTransition).GetTlv());
     }
 
     if (mAliveObj && pTlv)
@@ -798,13 +798,17 @@ void Map::GoTo_Camera()
             // TODO: Add template helpers
 
             // Door transition
-            relive::Path_Door* pDoorTlv = static_cast<relive::Path_Door*>(gPathInfo->TLV_First_Of_Type_In_Camera(ReliveTypes::eDoor, 0));
-            while (pDoorTlv->mDoorId != gAbe->field_1A0_door_id)
+            TlvIterator doorIterator = gPathInfo->TLV_First_Of_Type_In_Camera(ReliveTypes::eDoor, 0);
+            while (doorIterator.GetTlv())
             {
-                pDoorTlv = static_cast<relive::Path_Door*>(Path::TLV_Next_Of_Type(pDoorTlv, ReliveTypes::eDoor));
+                auto pDoorTlv = static_cast<relive::Path_Door*>(doorIterator.GetTlv());
+                if (pDoorTlv->mDoorId == gAbe->field_1A0_door_id)
+                {
+                    CreateScreenTransistionForTLV(doorIterator.GetTlv());
+                    break;                    
+                }
+                doorIterator = Path::TLV_Next_Of_Type(doorIterator, ReliveTypes::eDoor);
             }
-
-            CreateScreenTransistionForTLV(pDoorTlv);
         }
         else
         {
@@ -817,13 +821,17 @@ void Map::GoTo_Camera()
                 // TODO: Add template helpers
 
                 // Teleporter transition
-                relive::Path_Teleporter* pTeleporterTlv = static_cast<relive::Path_Teleporter*>(gPathInfo->TLV_First_Of_Type_In_Camera(ReliveTypes::eTeleporter, 0));
-                while (pTeleporterTlv->mTeleporterId != gAbe->field_1A0_door_id)
+                TlvIterator teleporterIterator = gPathInfo->TLV_First_Of_Type_In_Camera(ReliveTypes::eTeleporter, 0);
+                while (teleporterIterator.GetTlv())
                 {
-                    pTeleporterTlv = static_cast<relive::Path_Teleporter*>(Path::TLV_Next_Of_Type(pTeleporterTlv, ReliveTypes::eTeleporter));
+                    auto pTeleporterTlv = static_cast<relive::Path_Teleporter*>(teleporterIterator.GetTlv());
+                    if ((pTeleporterTlv->mTeleporterId == gAbe->field_1A0_door_id))
+                    {
+                        CreateScreenTransistionForTLV(pTeleporterTlv);
+                        break;
+                    }
+                    teleporterIterator = Path::TLV_Next_Of_Type(teleporterIterator, ReliveTypes::eTeleporter);
                 }
-
-                CreateScreenTransistionForTLV(pTeleporterTlv);
             }
         }
     }
@@ -1107,24 +1115,24 @@ void Map::LoadResource(const char_type* /*pFileName*/, s32 /*type*/, s32 /*resou
     }
 }
 
-relive::Path_TLV* Map::VTLV_Get_At_Of_Type(s16 xpos, s16 ypos, s16 width, s16 height, ReliveTypes typeToFind)
+TlvIterator Map::VTLV_Get_At_Of_Type(s16 xpos, s16 ypos, s16 width, s16 height, ReliveTypes typeToFind)
 {
     return gPathInfo->VTLV_Get_At_Of_Type(xpos, ypos, width, height, typeToFind);
 }
 
-relive::Path_TLV* Map::TLV_First_Of_Type_In_Camera(ReliveTypes type, s16 camX)
+TlvIterator Map::TLV_First_Of_Type_In_Camera(ReliveTypes type, s16 camX)
 {
     return gPathInfo->TLV_First_Of_Type_In_Camera(type, camX);
 }
 
-relive::Path_TLV* Map::TLV_Get_At(relive::Path_TLV* pTlv, FP xpos, FP ypos, FP width, FP height)
+TlvIterator Map::TLV_Get_At(TlvIterator pTlv, FP xpos, FP ypos, FP width, FP height)
 {
     return gPathInfo->TLV_Get_At(pTlv, xpos, ypos, width, height);
 }
 
-relive::Path_TLV* Map::TLV_From_Offset_Lvl_Cam(const Guid& tlvId)
+TlvIterator Map::TLV_From_Offset_Lvl_Cam(const Guid& tlvId)
 {
-    return gPathInfo->mBinaryPath->TlvsById(tlvId);
+    return gPathInfo->mBinaryPath->TlvById(tlvId);
 }
 
 Map gMap = {};

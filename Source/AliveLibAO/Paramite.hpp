@@ -94,7 +94,7 @@ public:
 
     virtual void VRender(OrderingTable& ot) override;
     virtual bool VTakeDamage(BaseGameObject* pFrom) override;
-    virtual void VOnTlvCollision(relive::Path_TLV* pTlv) override;
+    virtual void VOnTlvCollision(TlvIterator tlvIterator) override;
     virtual void VScreenChanged() override;
     virtual bool VOnSameYLevel(BaseAnimatedWithPhysicsGameObject* pOther) override;
     virtual void VOnTrapDoorOpen() override;

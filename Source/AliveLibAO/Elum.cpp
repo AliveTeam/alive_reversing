@@ -95,7 +95,7 @@ Elum::~Elum()
     VOnTrapDoorOpen();
 }
 
-void Elum::VOnTlvCollision(relive::Path_TLV* pTlv)
+void Elum::VOnTlvCollision(TlvIterator tlvIterator)
 {
     while (pTlv)
     {

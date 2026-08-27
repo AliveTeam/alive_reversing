@@ -114,7 +114,7 @@ const AnimId sMineCarAnimIdTable[7] = {
 void MineCar::CreateFromSaveState(SerializedObjectData& pBuffer)
 {
     const auto pState = pBuffer.ReadTmpPtr<MineCarSaveState>();
-    auto pTlv = static_cast<relive::Path_MineCar*>(gPathInfo->TLV_From_Offset_Lvl_Cam(pState->field_4C_tlvInfo));
+    auto pTlv = static_cast<relive::Path_MineCar*>(gPathInfo->TLV_From_Offset_Lvl_Cam(pState->field_4C_tlvInfo).GetTlv());
 
     auto pMineCar = relive_new MineCar(pTlv, pState->field_4C_tlvInfo, 0, 0, 0);
     if (pMineCar)
@@ -124,7 +124,7 @@ void MineCar::CreateFromSaveState(SerializedObjectData& pBuffer)
             sControlledCharacter = pMineCar;
         }
 
-        pMineCar->BaseAliveGameObjectPathTLV = nullptr;
+        pMineCar->BaseAliveGameObjectPathTLV = TlvIterator::Invalid();
         pMineCar->BaseAliveGameObjectCollisionLine = nullptr;
 
         pMineCar->mXPos = pState->field_4_xpos;

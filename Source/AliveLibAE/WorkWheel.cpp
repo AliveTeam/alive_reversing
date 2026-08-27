@@ -91,7 +91,7 @@ void WorkWheel::CreateFromSaveState(SerializedObjectData& pState)
 {
     const auto pData = pState.ReadTmpPtr<WorkWheelSaveState>();
 
-    relive::Path_WorkWheel* pTlv = static_cast<relive::Path_WorkWheel*>(gPathInfo->TLV_From_Offset_Lvl_Cam(pData->mTlvId));
+    relive::Path_WorkWheel* pTlv = static_cast<relive::Path_WorkWheel*>(gPathInfo->TLV_From_Offset_Lvl_Cam(pData->mTlvId).GetTlv());
 
     auto pWheel = relive_new WorkWheel(pTlv, pData->mTlvId);
     if (pWheel)

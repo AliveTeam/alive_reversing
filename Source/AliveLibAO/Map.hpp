@@ -91,11 +91,9 @@ public:
 
     void Load_Path_Items(Camera* pCamera, relive::LoadMode loadMode);
 
-    virtual relive::Path_TLV* TLV_First_Of_Type_In_Camera(ReliveTypes type, s16 camX) override;
-
-    relive::Path_TLV* VTLV_Get_At_Of_Type(s16 xpos, s16 ypos, s16 width, s16 height, ReliveTypes typeToFind) override;
-
-    virtual relive::Path_TLV* TLV_Get_At(relive::Path_TLV* pTlv, FP xpos, FP ypos, FP width, FP height) override;
+    TlvIterator TLV_First_Of_Type_In_Camera(ReliveTypes type, s16 camX) override;
+    TlvIterator VTLV_Get_At_Of_Type(s16 xpos, s16 ypos, s16 width, s16 height, ReliveTypes typeToFind) override;
+    TlvIterator TLV_Get_At(TlvIterator pTlv, FP xpos, FP ypos, FP width, FP height) override;
 
     void ResetPathObjects(u16 pathNum);
 

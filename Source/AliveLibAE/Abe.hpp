@@ -460,7 +460,7 @@ public:
     virtual void VGetSaveState(SerializedObjectData& pSaveBuffer) override;
     void GetSaveState(AbeSaveState& pSaveBuffer);
     
-    virtual void VOnTlvCollision(relive::Path_TLV* pTlv) override;
+    virtual void VOnTlvCollision(TlvIterator tlvIterator) override;
     virtual IBirdPortal* VIntoBirdPortal(s16 gridBlocks) override;
     virtual void VOnTrapDoorOpen() override;
     virtual bool VTakeDamage(BaseGameObject* pFrom) override;

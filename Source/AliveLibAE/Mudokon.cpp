@@ -1055,7 +1055,7 @@ void Mudokon::VOnTrapDoorOpen()
     }
 }
 
-void Mudokon::VOnTlvCollision(relive::Path_TLV* pTlv)
+void Mudokon::VOnTlvCollision(TlvIterator tlvIterator)
 {
     relive::Path_TLV* pTlvIter = pTlv;
     while (pTlvIter)
@@ -4841,8 +4841,8 @@ s16 Mudokon::Brain_8_AngryWorker()
                        FP_GetExponent(mYPos),
                        FP_GetExponent(mXPos),
                        FP_GetExponent(mYPos),
-                       ReliveTypes::eWorkWheel)
-                        != 0
+                       ReliveTypes::eWorkWheel).GetTlv()
+                        != nullptr
                      ? 4
                      : 1;
 
@@ -6372,7 +6372,7 @@ void Mudokon::Motion_49_Fall()
                          FP_GetExponent(mYPos),
                          FP_GetExponent(mXPos),
                          FP_GetExponent(mYPos),
-                         ReliveTypes::eSoftLanding)
+                         ReliveTypes::eSoftLanding).GetTlv()
                      && mHealth > FP_FromInteger(0))
                     || (mYPos - BaseAliveGameObjectLastLineYPos < (GetSpriteScale() * FP_FromInteger(180)) && (mHealth > FP_FromInteger(0) || gAbeInvincible)))
                 {
@@ -6785,7 +6785,7 @@ s16 Mudokon::FindWheel(FP xpos, FP ypos)
 {
     auto* pWheelTlv = static_cast<relive::Path_WorkWheel*>(
         gPathInfo->VTLV_Get_At_Of_Type(
-            FP_GetExponent(xpos), FP_GetExponent(ypos), FP_GetExponent(xpos), FP_GetExponent(ypos), ReliveTypes::eWorkWheel));
+            FP_GetExponent(xpos), FP_GetExponent(ypos), FP_GetExponent(xpos), FP_GetExponent(ypos), ReliveTypes::eWorkWheel).GetTlv());
 
     if (pWheelTlv)
     {

@@ -124,7 +124,7 @@ Slurg::Slurg(relive::Path_Slurg* pTlv, const Guid& tlvId)
 void Slurg::CreateFromSaveState(SerializedObjectData& pData)
 {
     const auto pState = pData.ReadTmpPtr<SlurgSaveState>();
-    auto pTlv = static_cast<relive::Path_Slurg*>(gPathInfo->TLV_From_Offset_Lvl_Cam(pState->mTlvId));
+    auto pTlv = static_cast<relive::Path_Slurg*>(gPathInfo->TLV_From_Offset_Lvl_Cam(pState->mTlvId).GetTlv());
 
     auto pSlurg = relive_new Slurg(pTlv, pState->mTlvId);
 
@@ -267,7 +267,7 @@ void Slurg::VUpdate()
     if (oldXPos != mXPos)
     {
         mSlurgTlv = gPathInfo->TLV_Get_At(
-            nullptr,
+            TlvIterator::Invalid(),
             mXPos,
             mYPos,
             mXPos,
@@ -289,25 +289,25 @@ bool Slurg::VTakeDamage(BaseGameObject* pFrom)
     return false;
 }
 
-void Slurg::VOnTlvCollision(relive::Path_TLV* pTlv)
+void Slurg::VOnTlvCollision(TlvIterator tlvIterator)
 {
-    while (pTlv)
+    while (tlvIterator.GetTlv())
     {
-        if (pTlv->mTlvType == ReliveTypes::eScrabBoundLeft)
+        if (tlvIterator.GetTlv()->mTlvType == ReliveTypes::eScrabBoundLeft)
         {
             if (mGoingRight)
             {
                 GoLeft();
             }
         }
-        else if (pTlv->mTlvType == ReliveTypes::eScrabBoundRight)
+        else if (tlvIterator.GetTlv()->mTlvType == ReliveTypes::eScrabBoundRight)
         {
             if (!mGoingRight)
             {
                 GoRight();
             }
         }
-        pTlv = gPathInfo->TLV_Get_At(pTlv, mXPos, mYPos, mXPos, mYPos);
+        tlvIterator = gPathInfo->TLV_Get_At(tlvIterator, mXPos, mYPos, mXPos, mYPos);
     }
 
     if (mGoingRight)

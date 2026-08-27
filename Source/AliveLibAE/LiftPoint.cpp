@@ -346,24 +346,24 @@ void LiftPoint::VUpdate()
             const FP lineY = FP_FromInteger(mPlatformBaseCollisionLine->mRect.y);
 
             relive::Path_LiftPoint* pLiftTlv = nullptr;
-            relive::Path_TLV* pTlvIter = GetMap().TLV_Get_At(
-                nullptr,
+            TlvIterator tlvIter = GetMap().TLV_Get_At(
+                TlvIterator::Invalid(),
                 mXPos,
                 lineY,
                 mXPos,
                 (GetSpriteScale() * FP_FromInteger(30)) + lineY);
 
-            while (pTlvIter)
+            while (tlvIter.GetTlv())
             {
-                if (pTlvIter->mTlvType == ReliveTypes::eLiftPoint)
+                if (tlvIter.GetTlv()->mTlvType == ReliveTypes::eLiftPoint)
                 {
-                    pLiftTlv = static_cast<relive::Path_LiftPoint*>(pTlvIter);
+                    pLiftTlv = static_cast<relive::Path_LiftPoint*>(tlvIter.GetTlv());
                     mLiftPointStopType = pLiftTlv->mLiftPointStopType;
                     break;
                 }
 
-                pTlvIter = GetMap().TLV_Get_At(
-                    pTlvIter,
+                tlvIter = GetMap().TLV_Get_At(
+                    tlvIter,
                     mXPos,
                     lineY,
                     mXPos,
@@ -728,23 +728,23 @@ void LiftPoint::CreatePulleyIfExists()
     {
         const s16 xCamIdx = (FP_GetExponent(mXPos) / pPathData->field_A_grid_width) - gMap.mCamIdxOnX;
         // Keep looking up 1 camera for any camera that has TLVs in it.
-        relive::Path_TLV* pTlvIter = gPathInfo->Get_First_TLV_For_Offsetted_Camera(xCamIdx, yCamIdx - gMap.mCamIdxOnY);
-        while (pTlvIter)
+        TlvIterator tlvIter = gPathInfo->Get_First_TLV_For_Offsetted_Camera(xCamIdx, yCamIdx - gMap.mCamIdxOnY);
+        while (tlvIter.GetTlv())
         {
-            if (pTlvIter->mTlvType == ReliveTypes::ePulley)
+            if (tlvIter.GetTlv()->mTlvType == ReliveTypes::ePulley)
             {
                 const FP left = FP_FromInteger(mPlatformBaseCollisionLine->mRect.x) + (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(2));
-                if (left <= FP_FromInteger(pTlvIter->mTopLeftX))
+                if (left <= FP_FromInteger(tlvIter.GetTlv()->mTopLeftX))
                 {
                     const FP right = FP_FromInteger(mPlatformBaseCollisionLine->mRect.w) - (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(2));
-                    if (FP_FromInteger(pTlvIter->mTopLeftX) <= right)
+                    if (FP_FromInteger(tlvIter.GetTlv()->mTopLeftX) <= right)
                     {
-                        pFound = pTlvIter;
+                        pFound = tlvIter.GetTlv();
                         break;
                     }
                 }
             }
-            pTlvIter = Path::TLV_Next_Of_Type(pTlvIter, ReliveTypes::ePulley);
+            tlvIter = Path::TLV_Next_Of_Type(tlvIter, ReliveTypes::ePulley);
         }
 
         if (pFound)
@@ -816,7 +816,7 @@ LiftPoint::~LiftPoint()
         FP_GetExponent(GetSpriteScale() * FP_FromInteger(30)),
         FP_GetExponent(mXPos),
         FP_GetExponent((GetSpriteScale() * FP_FromInteger(30)) + FP_FromInteger(mPlatformBaseCollisionLine->mRect.y)),
-        ReliveTypes::eLiftPoint);
+        ReliveTypes::eLiftPoint).GetTlv();
 
     if (pLiftPointTlv)
     {
@@ -859,7 +859,7 @@ void LiftPoint::CreateFromSaveState(SerializedObjectData& pData)
 {
     const auto pState = pData.ReadTmpPtr<LiftPointSaveState>();
 
-    relive::Path_LiftPoint* pTlv = static_cast<relive::Path_LiftPoint*>(gPathInfo->TLV_From_Offset_Lvl_Cam(pState->mPlatformId));
+    relive::Path_LiftPoint* pTlv = static_cast<relive::Path_LiftPoint*>(gPathInfo->TLV_From_Offset_Lvl_Cam(pState->mPlatformId).GetTlv());
 
     auto pLiftPoint = relive_new LiftPoint(pTlv, pState->mPlatformId);
     if (pLiftPoint)
@@ -904,6 +904,6 @@ void LiftPoint::CreateFromSaveState(SerializedObjectData& pData)
         return;
     }
 
-    relive::Path_TLV* pTlv2 = gPathInfo->TLV_From_Offset_Lvl_Cam(pState->mTlvId);
+    relive::Path_TLV* pTlv2 = gPathInfo->TLV_From_Offset_Lvl_Cam(pState->mTlvId).GetTlv();
     pTlv2->mTlvSpecificMeaning = 3;
 }

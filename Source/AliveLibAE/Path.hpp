@@ -3,6 +3,7 @@
 #include "../relive_lib/MapWrapper.hpp"
 #include "../relive_lib/data_conversion/relive_tlvs.hpp"
 #include "../relive_lib/Function.hpp"
+#include "../relive_lib/BinaryPath.hpp"
 
 struct PathData;
 struct FixedPoint;
@@ -224,31 +225,16 @@ public:
 
     void Loader_4DB800(s16 xpos, s16 ypos, relive::LoadMode loadMode, ReliveTypes typeToLoad);
 
-    std::vector<std::unique_ptr<relive::Path_TLV>>* Get_First_TLV_For_Offsetted_Camera(s16 cam_x_idx, s16 cam_y_idx);
-    static relive::Path_TLV* Next_TLV(relive::Path_TLV* pTlv);
+    TlvIterator Get_First_TLV_For_Offsetted_Camera(s16 cam_x_idx, s16 cam_y_idx);
 
-    // note: inline as used by the API
-    static relive::Path_TLV* Next_TLV_Impl(relive::Path_TLV* pTlv)
-    {
-        if (pTlv->mTlvFlags.Get(relive::TlvFlags::eBit3_End_TLV_List))
-        {
-            return nullptr;
-        }
-
-        // Skip length bytes to get to the start of the next TLV
-        u8* ptr = reinterpret_cast<u8*>(pTlv);
-        u8* pNext = ptr + pTlv->mLength;
-        return reinterpret_cast<relive::Path_TLV*>(pNext);
-    }
-
-    relive::Path_TLV* TLV_First_Of_Type_In_Camera(ReliveTypes objectType, s16 camX);
-    relive::Path_TLV* VTLV_Get_At_Of_Type(s16 xpos, s16 ypos, s16 width, s16 height, ReliveTypes objectType);
-    relive::Path_TLV* TLV_Get_At(relive::Path_TLV* pTlv, FP xpos, FP ypos, FP w, FP h);
-    relive::Path_TLV* TLV_From_Offset_Lvl_Cam(const Guid& tlvId);
+    TlvIterator TLV_First_Of_Type_In_Camera(ReliveTypes objectType, s16 camX);
+    TlvIterator VTLV_Get_At_Of_Type(s16 xpos, s16 ypos, s16 width, s16 height, ReliveTypes objectType);
+    TlvIterator TLV_Get_At(TlvIterator pTlv, FP xpos, FP ypos, FP w, FP h);
+    TlvIterator TLV_From_Offset_Lvl_Cam(const Guid& tlvId);
 
     Guid TLVInfo_From_TLVPtr(relive::Path_TLV* pTlv);
 
-    static relive::Path_TLV* TLV_Next_Of_Type(relive::Path_TLV* pTlv, ReliveTypes type);
+    static TlvIterator TLV_Next_Of_Type(TlvIterator pTlv, ReliveTypes type);
     static void TLV_Reset(const Guid& tlvId, s16 hiFlags = -1);
     static void TLV_Persist(const Guid& tlvId, s16 hiFlags = -1);
     static void TLV_Delete(const Guid& tlvId, s16 hiFlags = -1);

@@ -557,7 +557,7 @@ void Abe::CreateFromSaveState(const AbeSaveState& pData)
         sControlledCharacter = pAbe;
     }
 
-    gAbe->BaseAliveGameObjectPathTLV = nullptr;
+    gAbe->BaseAliveGameObjectPathTLV = TlvIterator::Invalid();
     gAbe->BaseAliveGameObjectCollisionLine = nullptr;
     gAbe->mXPos = pData.mXPos;
     gAbe->mYPos = pData.mYPos;
@@ -890,7 +890,7 @@ void Abe::VUpdate()
         {
             // Get the TLV we are on
             BaseAliveGameObjectPathTLV = gPathInfo->TLV_Get_At(
-                nullptr,
+                TlvIterator::Invalid(),
                 mXPos,
                 mYPos,
                 mXPos,
@@ -1967,18 +1967,18 @@ bool Abe::VTakeDamage(BaseGameObject* pFrom)
     return ret;
 }
 
-void Abe::VOnTlvCollision(relive::Path_TLV* pTlv)
+void Abe::VOnTlvCollision(TlvIterator tlvIterator)
 {
-    for (; pTlv; pTlv = gPathInfo->TLV_Get_At(
-                     pTlv,
+    for (; tlvIterator.GetTlv(); tlvIterator = gPathInfo->TLV_Get_At(
+                     tlvIterator,
                      mXPos,
                      mYPos,
                      mXPos,
                      mYPos))
     {
-        if (pTlv->mTlvType == ReliveTypes::eContinuePoint)
+        if (tlvIterator.GetTlv()->mTlvType == ReliveTypes::eContinuePoint)
         {
-            auto pContinuePoint = static_cast<relive::Path_ContinuePoint*>(pTlv);
+            auto pContinuePoint = static_cast<relive::Path_ContinuePoint*>(tlvIterator.GetTlv());
             if (pContinuePoint->mTlvSpecificMeaning == 0)
             {
                 if ((pContinuePoint->mScale != relive::Path_ContinuePoint::Scale::eHalf || GetSpriteScale() == FP_FromInteger(1)) && (pContinuePoint->mScale != relive::Path_ContinuePoint::Scale::eFull || GetSpriteScale() == FP_FromDouble(0.5))
@@ -1990,7 +1990,7 @@ void Abe::VOnTlvCollision(relive::Path_TLV* pTlv)
                 }
             }
         }
-        else if (pTlv->mTlvType == ReliveTypes::eDeathDrop)
+        else if (tlvIterator.GetTlv()->mTlvType == ReliveTypes::eDeathDrop)
         {
             if (sControlledCharacter->Type() != ReliveTypes::eMineCar || gMap.mCurrentLevel != EReliveLevelIds::eMines)
             {
@@ -2002,9 +2002,9 @@ void Abe::VOnTlvCollision(relive::Path_TLV* pTlv)
                 ToDie_4588D0();
             }
         }
-        else if (pTlv->mTlvType == ReliveTypes::eResetPath)
+        else if (tlvIterator.GetTlv()->mTlvType == ReliveTypes::eResetPath)
         {
-            auto pResetSwitchRange = static_cast<relive::Path_ResetPath*>(pTlv);
+            auto pResetSwitchRange = static_cast<relive::Path_ResetPath*>(tlvIterator.GetTlv());
             if (pResetSwitchRange->mTlvSpecificMeaning == 0 || pResetSwitchRange->mEnabled)
             {
                 pResetSwitchRange->mTlvSpecificMeaning = 1;
@@ -2298,7 +2298,7 @@ void Abe::Motion_0_Idle_44EEB0()
             FP_GetExponent(mYPos) + 16,
             FP_GetExponent(mXPos),
             FP_GetExponent(mYPos) + 16,
-            ReliveTypes::eHoist));
+            ReliveTypes::eHoist).GetTlv());
 
         if (pHoist)
         {
@@ -2395,22 +2395,22 @@ void Abe::Motion_0_Idle_44EEB0()
         }
 
         // Get the first TLV
-        relive::Path_TLV* pTlv = gPathInfo->TLV_Get_At(
-            nullptr,
+        TlvIterator tlvIterator = gPathInfo->TLV_Get_At(
+            TlvIterator::Invalid(),
             mXPos,
             mYPos,
             mXPos,
             mYPos);
 
         // Handle objects that accept "up"
-        while (pTlv)
+        while (tlvIterator.GetTlv())
         {
-            switch (pTlv->mTlvType)
+            switch (tlvIterator.GetTlv()->mTlvType)
             {
                 case ReliveTypes::eDoor:
                     if (NearDoorIsOpen_44EE10() && !GetElectrocuted())
                     {
-                        BaseAliveGameObjectPathTLV = pTlv;
+                        BaseAliveGameObjectPathTLV = tlvIterator.GetTlv();
                         field_120_state.door = AbeDoorStates::eAbeComesIn_0;
                         mCurrentMotion = eAbeMotions::Motion_114_DoorEnter;
                     }
@@ -2433,13 +2433,13 @@ void Abe::Motion_0_Idle_44EEB0()
                     }
 
                     // Bail if scale doesn't match
-                    relive::Path_WellLocal* pWell = static_cast<relive::Path_WellLocal*>(pTlv);
+                    relive::Path_WellLocal* pWell = static_cast<relive::Path_WellLocal*>(tlvIterator.GetTlv());
                     if ((pWell->mScale != relive::reliveScale::eFull || GetSpriteScale() != FP_FromDouble(1.0)) && (pWell->mScale != relive::reliveScale::eHalf || GetSpriteScale() != FP_FromDouble(0.5)))
                     {
                         break;
                     }
 
-                    BaseAliveGameObjectPathTLV = pTlv;
+                    BaseAliveGameObjectPathTLV = tlvIterator;
                     mCurrentMotion = eAbeMotions::Motion_78_WellBegin_45C810;
                 }
                     return;
@@ -2452,20 +2452,20 @@ void Abe::Motion_0_Idle_44EEB0()
                     }
 
                     // Bail if scale doesn't match
-                    relive::Path_WellBase* pWell = static_cast<relive::Path_WellBase*>(pTlv);
+                    relive::Path_WellBase* pWell = static_cast<relive::Path_WellBase*>(tlvIterator.GetTlv());
                     if ((pWell->mScale != relive::reliveScale::eFull || GetSpriteScale() != FP_FromDouble(1.0)) && (pWell->mScale != relive::reliveScale::eHalf || GetSpriteScale() != FP_FromDouble(0.5)))
                     {
                         break;
                     }
 
-                    BaseAliveGameObjectPathTLV = pTlv;
+                    BaseAliveGameObjectPathTLV = tlvIterator;
                     mCurrentMotion = eAbeMotions::jMotion_81_WellBegin_45C7F0;
                 }
                     return;
 
                 case ReliveTypes::eMovieHandStone:
                 case ReliveTypes::eHandStone:
-                    BaseAliveGameObjectPathTLV = pTlv;
+                    BaseAliveGameObjectPathTLV = tlvIterator;
                     mCurrentMotion = eAbeMotions::Motion_86_HandstoneBegin;
                     field_120_state.stone = StoneStates::eHandstoneBegin_0;
                     return;
@@ -2547,8 +2547,8 @@ void Abe::Motion_0_Idle_44EEB0()
             }
 
             // To next TLV (if any)
-            pTlv = gPathInfo->TLV_Get_At(
-                pTlv,
+            tlvIterator = gPathInfo->TLV_Get_At(
+                tlvIterator,
                 mXPos,
                 mYPos,
                 mXPos,
@@ -2810,7 +2810,7 @@ void Abe::Motion_3_Fall_459B60()
         FP_GetExponent(mYPos),
         ReliveTypes::eWellLocal);
 
-    if (!BaseAliveGameObjectPathTLV)
+    if (!BaseAliveGameObjectPathTLV.GetTlv())
     {
         // No, are we falling into an express well?
         BaseAliveGameObjectPathTLV = gPathInfo->VTLV_Get_At_Of_Type(
@@ -2822,14 +2822,14 @@ void Abe::Motion_3_Fall_459B60()
     }
 
     // Handle falling into a well
-    if (BaseAliveGameObjectPathTLV)
+    if (BaseAliveGameObjectPathTLV.GetTlv())
     {
         if (mHealth > FP_FromInteger(0))
         {
-            if (BaseAliveGameObjectPathTLV->mTlvType == ReliveTypes::eWellLocal || BaseAliveGameObjectPathTLV->mTlvType == ReliveTypes::eWellExpress)
+            if (BaseAliveGameObjectPathTLV.GetTlv()->mTlvType == ReliveTypes::eWellLocal || BaseAliveGameObjectPathTLV.GetTlv()->mTlvType == ReliveTypes::eWellExpress)
             {
                 // The well must be on the same scale/layer
-                relive::Path_WellBase* pWellBase = static_cast<relive::Path_WellBase*>(BaseAliveGameObjectPathTLV);
+                relive::Path_WellBase* pWellBase = static_cast<relive::Path_WellBase*>(BaseAliveGameObjectPathTLV.GetTlv());
                 if ((pWellBase->mScale == relive::reliveScale::eFull && GetSpriteScale() == FP_FromInteger(1))
                     || (pWellBase->mScale == relive::reliveScale::eHalf && GetSpriteScale() == FP_FromDouble(0.5)))
                 {
@@ -7047,20 +7047,15 @@ void Abe::Motion_114_DoorEnter()
             relive::Path_Door* pDoorTlv2 = static_cast<relive::Path_Door*>(gPathInfo->TLV_First_Of_Type_In_Camera(ReliveTypes::eDoor, 0));
             BaseAliveGameObjectPathTLV = pDoorTlv2;
             relive::Path_Door* pTargetDoorTlv = pDoorTlv2;
-            if (pTargetDoorTlv->mDoorId != field_1A0_door_id)
+            while (pTargetDoorTlv->mDoorId != field_1A0_door_id)
             {
-                do
+                relive::Path_Door* pDoorIter = static_cast<relive::Path_Door*>(Path::TLV_Next_Of_Type(BaseAliveGameObjectPathTLV, ReliveTypes::eDoor));
+                BaseAliveGameObjectPathTLV = pDoorIter;
+                pTargetDoorTlv = pDoorIter;
+                if (!pTargetDoorTlv)
                 {
-                    relive::Path_Door* pDoorIter = static_cast<relive::Path_Door*>(Path::TLV_Next_Of_Type(BaseAliveGameObjectPathTLV, ReliveTypes::eDoor));
-                    BaseAliveGameObjectPathTLV = pDoorIter;
-                    pTargetDoorTlv = pDoorIter;
-
-                    if (!pTargetDoorTlv)
-                    {
-                        ALIVE_FATAL("Couldn't find target door. If this is a custom level, check if the level, path and camera is correct.");
-                    }
+                    ALIVE_FATAL("Couldn't find target door. If this is a custom level, check if the level, path and camera is correct.");
                 }
-                while (pTargetDoorTlv->mDoorId != field_1A0_door_id);
             }
 
             if (pTargetDoorTlv->mScale == relive::reliveScale::eHalf)
@@ -7785,7 +7780,7 @@ s32 Abe::NearDoorIsOpen_44EE10()
 eAbeMotions Abe::HandleDoAction_455BD0()
 {
     relive::Path_TLV* pTlv = gPathInfo->TLV_Get_At(
-        nullptr,
+        TlvIterator::Invalid(),
         mXPos,
         mYPos,
         mXPos,
@@ -8132,38 +8127,40 @@ s16 Abe::RunTryEnterWell_451060()
         return 0;
     }
 
-    auto pWellLocal = static_cast<relive::Path_WellLocal*>(gPathInfo->VTLV_Get_At_Of_Type(
+    auto tlvIterator = gPathInfo->VTLV_Get_At_Of_Type(
         FP_GetExponent(mXPos),
         FP_GetExponent(mYPos),
         FP_GetExponent(mXPos),
         FP_GetExponent(mYPos),
-        ReliveTypes::eWellLocal));
-    if (pWellLocal)
+        ReliveTypes::eWellLocal);
+    if (tlvIterator.GetTlv())
     {
         if (!(GetTeleporting()))
         {
+            auto pWellLocal = static_cast<relive::Path_WellLocal*>(tlvIterator.GetTlv());
             if ((pWellLocal->mScale == relive::reliveScale::eFull && GetSpriteScale() == FP_FromInteger(1)) || (pWellLocal->mScale == relive::reliveScale::eHalf && GetSpriteScale() == FP_FromDouble(0.5)))
             {
-                BaseAliveGameObjectPathTLV = pWellLocal;
+                BaseAliveGameObjectPathTLV = tlvIterator;
                 mCurrentMotion = eAbeMotions::Motion_78_WellBegin_45C810;
                 return 1;
             }
         }
     }
-
-    auto pWellExpress = static_cast<relive::Path_WellExpress*>(gPathInfo->VTLV_Get_At_Of_Type(
+ 
+    tlvIterator = gPathInfo->VTLV_Get_At_Of_Type(
         FP_GetExponent(mXPos),
         FP_GetExponent(mYPos),
         FP_GetExponent(mXPos),
         FP_GetExponent(mYPos),
-        ReliveTypes::eWellExpress));
-    if (pWellExpress)
+        ReliveTypes::eWellExpress);
+    if (tlvIterator.GetTlv())
     {
         if (!(GetTeleporting()))
         {
+            auto pWellExpress = static_cast<relive::Path_WellExpress*>(tlvIterator.GetTlv());
             if ((pWellExpress->mScale == relive::reliveScale::eFull && GetSpriteScale() == FP_FromInteger(1)) || (pWellExpress->mScale == relive::reliveScale::eHalf && GetSpriteScale() == FP_FromDouble(0.5)))
             {
-                BaseAliveGameObjectPathTLV = pWellExpress;
+                BaseAliveGameObjectPathTLV = tlvIterator;
                 mCurrentMotion = eAbeMotions::jMotion_81_WellBegin_45C7F0;
                 return 1;
             }

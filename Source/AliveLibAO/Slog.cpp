@@ -286,7 +286,7 @@ bool Slog::VTakeDamage(BaseGameObject* pFrom)
     return true;
 }
 
-void Slog::VOnTlvCollision(relive::Path_TLV* pTlv)
+void Slog::VOnTlvCollision(TlvIterator tlvIterator)
 {
     while (pTlv)
     {

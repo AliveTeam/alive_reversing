@@ -1392,7 +1392,7 @@ void Fleech::VScreenChanged()
     }
 }
 
-void Fleech::VOnTlvCollision(relive::Path_TLV* pTlv)
+void Fleech::VOnTlvCollision(TlvIterator tlvIterator)
 {
     while (pTlv)
     {

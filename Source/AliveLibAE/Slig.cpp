@@ -4727,7 +4727,7 @@ void Slig::VUnPosses()
     MusicController::static_PlayMusic(MusicController::MusicTypes::eNone_0, this, 0, 0);
 }
 
-void Slig::VOnTlvCollision(relive::Path_TLV* pTlv)
+void Slig::VOnTlvCollision(TlvIterator tlvIterator)
 {
     while (pTlv)
     {

@@ -866,7 +866,7 @@ enum Brain_DeathDropDeath
     eSwitchCamToAbe_2 = 2
 };
 
-void Slig::VOnTlvCollision(relive::Path_TLV* pTlv)
+void Slig::VOnTlvCollision(TlvIterator tlvIterator)
 {
     while (pTlv)
     {

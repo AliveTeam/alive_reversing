@@ -207,7 +207,7 @@ public:
     virtual void VUnPosses() override;
     virtual void VPossessed() override;
     virtual bool VTakeDamage(BaseGameObject* pFrom) override;
-    virtual void VOnTlvCollision(relive::Path_TLV* pTlv) override;
+    virtual void VOnTlvCollision(TlvIterator tlvIterator) override;
     virtual void VOnTrapDoorOpen() override;
     virtual void VGetSaveState(SerializedObjectData& pSaveBuffer) override;
     virtual s16 VGetMotion(eMotionType motionType) override

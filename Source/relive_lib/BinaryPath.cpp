@@ -242,22 +242,24 @@ void BinaryPath::CreateFromJson(nlohmann::json& pathJson)
     from_json(pathJson["map"]["sound_info"], *mSoundInfo);
 }
 
-relive::Path_TLV* BinaryPath::TlvsById(const Guid& id)
+TlvIterator BinaryPath::TlvById(const Guid& id)
 {
     for (auto& cam : mCameras)
     {
-        for (auto& pPathTLV : cam.mTlvs)
+        u32 idx = 0;
+        for (auto& pTlvIter : cam.mTlvs)
         {
-            if (pPathTLV->mId == id)
+            if (pTlvIter->mId == id)
             {
-                return pPathTLV.get();
+                return TlvIterator(pTlvIter.get(), &cam.mTlvs, idx);
             }
 
-            if (pPathTLV->mTlvFlags.Get(relive::eBit3_End_TLV_List))
+            if (pTlvIter->mTlvFlags.Get(relive::eBit3_End_TLV_List))
             {
                 break;
             }
+            idx++;
         }
     }
-    return nullptr;
+    return TlvIterator::Invalid();
 }

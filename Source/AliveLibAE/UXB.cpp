@@ -526,7 +526,7 @@ void UXB::CreateFromSaveState(SerializedObjectData& __pSaveState)
 {
     const auto pSaveState = __pSaveState.ReadTmpPtr<UXBSaveState>();
 
-    relive::Path_UXB* uxbPath = reinterpret_cast<relive::Path_UXB*>(gPathInfo->TLV_From_Offset_Lvl_Cam(pSaveState->mTlvInfo));
+    relive::Path_UXB* uxbPath = reinterpret_cast<relive::Path_UXB*>(gPathInfo->TLV_From_Offset_Lvl_Cam(pSaveState->mTlvInfo).GetTlv());
 
     UXB* pUXB = relive_new UXB(uxbPath, pSaveState->mTlvInfo);
 

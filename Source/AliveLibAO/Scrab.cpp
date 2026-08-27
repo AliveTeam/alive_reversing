@@ -316,7 +316,7 @@ bool Scrab::VTakeDamage(BaseGameObject* pFrom)
     return true;
 }
 
-void Scrab::VOnTlvCollision(relive::Path_TLV* pTlv)
+void Scrab::VOnTlvCollision(TlvIterator tlvIterator)
 {
     while (pTlv)
     {

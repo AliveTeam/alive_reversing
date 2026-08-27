@@ -5452,7 +5452,7 @@ u8** Paramite::ResBlockForMotion(s16 motion)
     return mBaseGameObjectResArray.ItemAt(10);
 }
 
-void Paramite::VOnTlvCollision(relive::Path_TLV* pTlv)
+void Paramite::VOnTlvCollision(TlvIterator tlvIterator)
 {
     while (pTlv)
     {

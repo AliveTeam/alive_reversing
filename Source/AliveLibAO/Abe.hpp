@@ -488,7 +488,7 @@ public:
     virtual void VUpdate() override;
     virtual void VRender(OrderingTable& ot) override;
     virtual void VScreenChanged() override;
-    virtual void VOnTlvCollision(relive::Path_TLV* pTlv) override;
+    virtual void VOnTlvCollision(TlvIterator tlvIterator) override;
     IBirdPortal* VIntoBirdPortal(s16 gridBlocks) override;
     virtual void VOnTrapDoorOpen() override;
     virtual bool VTakeDamage(BaseGameObject* pFrom) override;

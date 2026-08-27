@@ -445,5 +445,5 @@ void SlamDoor::CreateFromSaveState(SerializedObjectData& pData)
 {
     const auto pSaveState = pData.ReadTmpPtr<SlamDoorSaveState>();
 
-    relive_new SlamDoor(static_cast<relive::Path_SlamDoor*>(gPathInfo->TLV_From_Offset_Lvl_Cam(pSaveState->mTlvInfo)), pSaveState->mTlvInfo);
+    relive_new SlamDoor(static_cast<relive::Path_SlamDoor*>(gPathInfo->TLV_From_Offset_Lvl_Cam(pSaveState->mTlvInfo).GetTlv()), pSaveState->mTlvInfo);
 }

@@ -2305,7 +2305,7 @@ void Abe::VScreenChanged()
     }
 }
 
-void Abe::VOnTlvCollision(relive::Path_TLV* pTlv)
+void Abe::VOnTlvCollision(TlvIterator tlvIterator)
 {
     while (pTlv)
     {

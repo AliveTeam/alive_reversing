@@ -148,7 +148,7 @@ public:
     ~Elum();
 
     void LoadAnimations();
-    virtual void VOnTlvCollision(relive::Path_TLV* pTlv) override;
+    virtual void VOnTlvCollision(TlvIterator tlvIterator) override;
     virtual bool VTakeDamage(BaseGameObject* pFrom) override;
     virtual void VOnTrapDoorOpen() override;
     virtual s16 VGetMotion(eMotionType motionType) override

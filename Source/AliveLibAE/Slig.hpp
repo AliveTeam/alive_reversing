@@ -228,7 +228,7 @@ public:
     virtual void VScreenChanged() override;
     virtual void VPossessed() override;
     virtual void VUnPosses() override;
-    virtual void VOnTlvCollision(relive::Path_TLV* pTlv) override;
+    virtual void VOnTlvCollision(TlvIterator tlvIterator) override;
     virtual void VOnTrapDoorOpen() override;
     virtual bool VTakeDamage(BaseGameObject* pFrom) override;
 

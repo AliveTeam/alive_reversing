@@ -121,7 +121,7 @@ void Teleporter::VUpdate()
                     FP_GetExponent(sControlledCharacter->mYPos),
                     FP_GetExponent(sControlledCharacter->mXPos),
                     FP_GetExponent(sControlledCharacter->mYPos),
-                    ReliveTypes::eTeleporter))
+                    ReliveTypes::eTeleporter).GetTlv())
             {
                 return;
             }
@@ -229,8 +229,9 @@ void Teleporter::VUpdate()
         {
             gMap.mTeleporterTransition = 0;
 
-            relive::Path_Teleporter* pTeleporterTlv = static_cast<relive::Path_Teleporter*>(gPathInfo->TLV_First_Of_Type_In_Camera(ReliveTypes::eTeleporter, 0));
             Relive_Path_Teleporter_Data tlvData = {};
+
+            relive::Path_Teleporter* pTeleporterTlv = static_cast<relive::Path_Teleporter*>(gPathInfo->TLV_First_Of_Type_In_Camera(ReliveTypes::eTeleporter, 0));
             SetData(tlvData, *pTeleporterTlv);
             if (tlvData.mTeleporterId != mTlvData.mOtherTeleporterId)
             {

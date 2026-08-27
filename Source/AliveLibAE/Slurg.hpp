@@ -63,7 +63,7 @@ public:
     virtual void VUpdate() override;
     virtual void VGetSaveState(SerializedObjectData& pSaveBuffer) override;
     virtual bool VTakeDamage(BaseGameObject* pFrom) override;
-    virtual void VOnTlvCollision(relive::Path_TLV* pTlv) override;
+    virtual void VOnTlvCollision(TlvIterator tlvIterator) override;
 
     static void CreateFromSaveState(SerializedObjectData& pData);
 
@@ -79,7 +79,7 @@ private:
     s16 mMovingTimer = 0;
     s16 mRngForMovingTimer = 0;
     PathLine* mSlurgLine = nullptr; // why not use the BaseAliveGameObject line?
-    relive::Path_TLV* mSlurgTlv = nullptr; // dito
+    TlvIterator SlurgTlv = TlvIterator::Invalid(); // dito
     Guid mTlvInfo;
     FP mSlurgSpriteScale = {}; // just use BaseAnimatedWithPhysicsGameObject sprite scale?
 };
