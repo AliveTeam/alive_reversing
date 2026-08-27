@@ -636,7 +636,7 @@ void MineCar::RunThingsOver()
                    (pAliveObj->Type() == ReliveTypes::eSlog && GetSpriteScale() != FP_FromDouble(0.5)))
                 {
                     const PSX_RECT targetRect = pAliveObj->VGetBoundingRect();
-                    if (PSX_Rects_overlap_no_adjustment(&ourRect, &targetRect))
+                    if (ourRect.Overlaps(targetRect))
                     {
                         // Get run over by the mine car
                         pAliveObj->VTakeDamage(this);
@@ -879,7 +879,7 @@ void MineCar::State_0_ParkedWithoutAbe()
 
     if (
         gAbe->mCurrentMotion == eAbeMotions::Motion_117_InMineCar &&
-        PSX_Rects_overlap_4FA0B0(&carRect, &abeRect) &&
+        carRect.Overlaps(abeRect) &&
         gAbe->GetSpriteScale() == GetSpriteScale()
     )
     {

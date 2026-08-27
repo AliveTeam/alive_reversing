@@ -426,10 +426,10 @@ void Slig::Init()
         for (s16 xCam = -2; xCam < 3; xCam++)
         {
             auto pTlvIter = gMap.Get_First_TLV_For_Offsetted_Camera(xCam, yCam);
-            while (pTlvIter)
+            while (pTlvIter.GetTlv())
             {
                 bool addPoint = false;
-                if (pTlvIter->mTlvType == ReliveTypes::eSligBoundLeft)
+                if (pTlvIter.GetTlv()->mTlvType == ReliveTypes::eSligBoundLeft)
                 {
                     if (static_cast<relive::Path_SligBoundLeft*>(pTlvIter)->mSligBoundId == field_174_tlv->mData.mSligBoundId)
                     {
@@ -438,7 +438,7 @@ void Slig::Init()
                         zoneRectSet = true;
                     }
                 }
-                else if (pTlvIter->mTlvType == ReliveTypes::eSligBoundRight)
+                else if (pTlvIter.GetTlv()->mTlvType == ReliveTypes::eSligBoundRight)
                 {
                     if (static_cast<relive::Path_SligBoundRight*>(pTlvIter)->mSligBoundId == field_174_tlv->mData.mSligBoundId)
                     {
@@ -459,8 +459,8 @@ void Slig::Init()
                 {
                     if (field_1F4_points_count < ALIVE_COUNTOF(field_1CC_points))
                     {
-                        field_1CC_points[field_1F4_points_count].x = pTlvIter->mTopLeftX;
-                        field_1CC_points[field_1F4_points_count].y = pTlvIter->mTopLeftY;
+                        field_1CC_points[field_1F4_points_count].x = pTlvIter.GetTlv()->mTopLeftX;
+                        field_1CC_points[field_1F4_points_count].y = pTlvIter.GetTlv()->mTopLeftY;
                         field_1F4_points_count++;
                     }
                 }
@@ -587,7 +587,7 @@ void Slig::VUpdate()
         if (new_x != mXPos || new_y != mYPos)
         {
             BaseAliveGameObjectPathTLV = gMap.TLV_Get_At(
-                nullptr,
+                TlvIterator::Invalid(),
                 mXPos,
                 mYPos,
                 mXPos,
@@ -868,9 +868,9 @@ enum Brain_DeathDropDeath
 
 void Slig::VOnTlvCollision(TlvIterator tlvIterator)
 {
-    while (pTlv)
+    while (tlvIterator.GetTlv())
     {
-        if (pTlv->mTlvType == ReliveTypes::eDeathDrop)
+        if (tlvIterator.GetTlv()->mTlvType == ReliveTypes::eDeathDrop)
         {
             if (mHealth > FP_FromInteger(0))
             {
@@ -882,11 +882,12 @@ void Slig::VOnTlvCollision(TlvIterator tlvIterator)
                 mCurrentMotion = eSligMotions::Motion_7_Falling;
                 mbMotionChanged = true;
                 EventBroadcast(Event::kEventMudokonComfort, gAbe);
+                break;
             }
         }
 
-        pTlv = gMap.TLV_Get_At(
-            pTlv,
+        tlvIterator = gMap.TLV_Get_At(
+            tlvIterator,
             mXPos,
             mYPos,
             mXPos,
@@ -1246,12 +1247,12 @@ s16 Slig::HandleEnemyStopper(s32 gridBlocks)
     }
 
     const auto dirScaled = ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(directedGirdBlocks) + mXPos;
-    auto pStopper = static_cast<relive::Path_EnemyStopper*>(gMap.VTLV_Get_At_Of_Type(
+    auto pStopper = gMap.VTLV_Get_At_Of_Type(
         FP_GetExponent(mXPos),
         FP_GetExponent(mYPos),
         FP_GetExponent(dirScaled),
         FP_GetExponent(mYPos),
-        ReliveTypes::eEnemyStopper));
+        ReliveTypes::eEnemyStopper).GetTlv<relive::Path_EnemyStopper>();
 
     if (!pStopper)
     {
@@ -1879,13 +1880,13 @@ s16 Slig::HandlePlayerControlled()
     {
         if (!Input_IsChanting())
         {
-            relive::Path_Lever* pTlv = static_cast<relive::Path_Lever*>(gMap.VTLV_Get_At_Of_Type(
+            BaseAliveGameObjectPathTLV = gMap.VTLV_Get_At_Of_Type(
                 FP_GetExponent(mXPos),
                 FP_GetExponent(mYPos),
                 FP_GetExponent(mXPos),
                 FP_GetExponent(mYPos),
-                ReliveTypes::eLever));
-            BaseAliveGameObjectPathTLV = pTlv;
+                ReliveTypes::eLever);
+            auto pTlv = BaseAliveGameObjectPathTLV.GetTlv<relive::Path_Lever>();
             if (pTlv)
             {
                 if (FP_FromInteger(FP_GetExponent(mXPos) - pTlv->mTopLeftX) < kScaleGrid)
@@ -3752,7 +3753,7 @@ void Slig::Motion_52_Beat()
                 const PSX_RECT bRect = pObjIter->VGetBoundingRect();
 
                 if (pObjIter->mHealth > FP_FromInteger(0)
-                    && PSX_Rects_overlap_no_adjustment(&hitRect, &bRect))
+                    && hitRect.Overlaps(bRect))
                 {
                     pObjIter->VTakeDamage(this);
                     EventBroadcast(Event::kEventNoise, this);
@@ -4066,12 +4067,12 @@ void Slig::WakeUp()
     mNextMotion = eSligMotions::Motion_34_SleepingToStand;
     SetBrain(&Slig::Brain_WakingUp);
     MusicController::static_PlayMusic(MusicController::MusicTypes::eChase_4, this, 0, 0);
-    auto pTlv = static_cast<relive::Path_Slig*>(gMap.VTLV_Get_At_Of_Type(
+    auto pTlv = gMap.VTLV_Get_At_Of_Type(
         field_174_tlv->mTopLeftX,
         field_174_tlv->mTopLeftY,
         field_174_tlv->mTopLeftX,
         field_174_tlv->mTopLeftY,
-        ReliveTypes::eSlig));
+        ReliveTypes::eSlig).GetTlv<relive::Path_Slig>();
     if (pTlv)
     {
         pTlv->mTlvSpecificMeaning = 1;
@@ -4809,7 +4810,7 @@ s16 Slig::Brain_Turning()
         {
             const PSX_RECT bRect = sControlledCharacter->VGetBoundingRect();
 
-            if (sControlledCharacter->mHealth > FP_FromInteger(0) && PSX_Rects_overlap_no_adjustment(&hitRect, &bRect) && sControlledCharacter->Type() != ReliveTypes::eSlig)
+            if (sControlledCharacter->mHealth > FP_FromInteger(0) && hitRect.Overlaps(bRect) && sControlledCharacter->Type() != ReliveTypes::eSlig)
             {
                 GetAnimation().ToggleFlipX();
                 return 106;
@@ -5001,7 +5002,7 @@ s16 Slig::Brain_GetAlertedTurn()
                 const PSX_RECT bRect = VGetBoundingRect();
                 const PSX_RECT bRectChar = sControlledCharacter->VGetBoundingRect();
 
-                if (PSX_Rects_overlap_no_adjustment(&bRectChar, &bRect))
+                if (bRectChar.Overlaps(bRect))
                 {
                     GetAnimation().ToggleFlipX();
                     return 123;

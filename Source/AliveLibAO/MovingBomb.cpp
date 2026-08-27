@@ -204,7 +204,7 @@ s16 MovingBomb::HitObject()
                 if (pObjIter->mHealth > FP_FromInteger(0))
                 {
                     const PSX_RECT objRect = pObjIter->VGetBoundingRect();
-                    if (RectsOverlap(ourRect, objRect) && pObjIter->GetSpriteScale() == GetSpriteScale())
+                    if (ourRect.Overlaps(objRect) && pObjIter->GetSpriteScale() == GetSpriteScale())
                     {
                         return 1;
                     }
@@ -364,9 +364,9 @@ void MovingBomb::VUpdate()
                 FP_GetExponent(mYPos),
                 ReliveTypes::eMovingBombStopper);
 
-            if (BaseAliveGameObjectPathTLV)
+            if (BaseAliveGameObjectPathTLV.GetTlv())
             {
-                auto pStopper = static_cast<relive::Path_MovingBombStopper*>(BaseAliveGameObjectPathTLV);
+                auto pStopper = BaseAliveGameObjectPathTLV.GetTlv<relive::Path_MovingBombStopper>();
                 mMinStopTime = pStopper->mMinStopTime;
                 mMaxStopTime = pStopper->mMaxStopTime;
                 mState = States::eStopMoving_3;
@@ -405,7 +405,7 @@ void MovingBomb::VUpdate()
                 FP_GetExponent(mXPos),
                 FP_GetExponent(mYPos),
                 ReliveTypes::eMovingBombStopper);
-            if (!BaseAliveGameObjectPathTLV)
+            if (!BaseAliveGameObjectPathTLV.GetTlv())
             {
                 mState = States::eMoving_2;
             }

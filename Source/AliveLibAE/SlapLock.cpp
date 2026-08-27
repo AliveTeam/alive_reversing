@@ -40,7 +40,8 @@ SlapLock::SlapLock(relive::Path_SlapLock* pTlv, const Guid& tlvId)
 
     Animation_Init(GetAnimRes(AnimId::SlapLock_Initiate));
 
-    if (mSlapLockTlv->mScale != relive::reliveScale::eFull)
+    auto pSlapLockTlv = mSlapLockTlv.GetTlv<relive::Path_SlapLock>();
+    if (pSlapLockTlv->mScale != relive::reliveScale::eFull)
     {
         GetAnimation().SetRenderLayer(Layer::eLayer_BeforeShadow_Half_6);
     }
@@ -59,7 +60,7 @@ SlapLock::SlapLock(relive::Path_SlapLock* pTlv, const Guid& tlvId)
     const FP ypos = FP_FromInteger(pTlv->mBottomRightY);
     mYPos = ypos;
 
-    mHasGhost = mSlapLockTlv->mHasGhost;
+    mHasGhost = pSlapLockTlv->mHasGhost;
 
     for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
     {
@@ -69,7 +70,7 @@ SlapLock::SlapLock(relive::Path_SlapLock* pTlv, const Guid& tlvId)
             break;
         }
 
-        if (pObj->Type() == ReliveTypes::eSlapLock_OrbWhirlWind && static_cast<SlapLockWhirlWind*>(pObj)->SwitchId() == mSlapLockTlv->mTargetTombSwitchId2)
+        if (pObj->Type() == ReliveTypes::eSlapLock_OrbWhirlWind && static_cast<SlapLockWhirlWind*>(pObj)->SwitchId() == pSlapLockTlv->mTargetTombSwitchId2)
         {
             mHasGhost = false;
         }
@@ -90,7 +91,7 @@ SlapLock::SlapLock(relive::Path_SlapLock* pTlv, const Guid& tlvId)
     mTimer1 = MakeTimer(60);
     mShinyParticleTimer = MakeTimer(30);
 
-    if (mSlapLockTlv->mGiveInvisibilityPowerup)
+    if (pSlapLockTlv->mGiveInvisibilityPowerup)
     {
         mState = SlapLockStates::eEmitInvisibilityPowerupRing_4;
     }
@@ -109,7 +110,7 @@ void SlapLock::CreateFromSaveState(SerializedObjectData& pBuffer)
 {
     const auto pState = pBuffer.ReadTmpPtr<SlapLockSaveState>();
 
-    auto pTlv = static_cast<relive::Path_SlapLock*>(gPathInfo->TLV_From_Offset_Lvl_Cam(pState->mTlvInfo));
+    auto pTlv = static_cast<relive::Path_SlapLock*>(gPathInfo->TLV_From_Offset_Lvl_Cam(pState->mTlvInfo).GetTlv());
 
     auto pSlapLock = relive_new SlapLock(pTlv, pState->mTlvInfo);
     if (pSlapLock)
@@ -138,10 +139,10 @@ void SlapLock::VScreenChanged()
 
 void SlapLock::GiveInvisibility()
 {
-    mSlapLockTlv = static_cast<relive::Path_SlapLock*>(gPathInfo->TLV_From_Offset_Lvl_Cam(mTlvInfo));
+    mSlapLockTlv = gPathInfo->TLV_From_Offset_Lvl_Cam(mTlvInfo);
     if (gAbe)
     {
-        gAbe->mInvisibilityDuration = mSlapLockTlv->mInvisibilityDuration;
+        gAbe->mInvisibilityDuration = mSlapLockTlv.GetTlv<relive::Path_SlapLock>()->mInvisibilityDuration;
         gAbe->mHaveShrykull = 0;
         gAbe->mHaveInvisibility = 1;
         gAbe->mRingPulseTimer = MakeTimer(200000);
@@ -155,7 +156,7 @@ void SlapLock::VGetSaveState(SerializedObjectData& pSaveBuffer)
     data.mType = ReliveTypes::eSlapLock;
     data.mAnimRender = GetAnimation().GetRender() & 1;
     data.mTlvInfo = mTlvInfo;
-    data.mTlvState = gPathInfo->TLV_From_Offset_Lvl_Cam(mTlvInfo)->mTlvSpecificMeaning;
+    data.mTlvState = gPathInfo->TLV_From_Offset_Lvl_Cam(mTlvInfo).GetTlv()->mTlvSpecificMeaning;
     data.mState = mState;
     data.mTimer1 = mTimer1;
     data.mShinyParticleTimer = mShinyParticleTimer;
@@ -177,227 +178,228 @@ void SlapLock::VGetSaveState(SerializedObjectData& pSaveBuffer)
 
 void SlapLock::VUpdate()
 {
-    mSlapLockTlv = static_cast<relive::Path_SlapLock*>(gPathInfo->TLV_From_Offset_Lvl_Cam(mTlvInfo));
+    mSlapLockTlv = gPathInfo->TLV_From_Offset_Lvl_Cam(mTlvInfo);
 
     if (EventGet(Event::kEventDeathReset))
     {
         SetDead(true);
+        return;
     }
-    else
+
+    auto pSlapLockTlv = mSlapLockTlv.GetTlv<relive::Path_SlapLock>();
+    if (GetRestoredFromQuickSave())
     {
-        if (GetRestoredFromQuickSave())
+        SetRestoredFromQuickSave(false);
+
+        if (pSlapLockTlv->mTlvSpecificMeaning)
         {
-            SetRestoredFromQuickSave(false);
+            SwitchStates_Do_Operation(pSlapLockTlv->mTargetTombSwitchId2, relive::reliveSwitchOp::eSetTrue);
+        }
 
-            if (mSlapLockTlv->mTlvSpecificMeaning)
+        if (mAbilityRingId != Guid{})
+        {
+            for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
             {
-                SwitchStates_Do_Operation(mSlapLockTlv->mTargetTombSwitchId2, relive::reliveSwitchOp::eSetTrue);
-            }
-
-            if (mAbilityRingId != Guid{})
-            {
-                for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
+                BaseGameObject* pObj = gBaseGameObjects->ItemAt(i);
+                if (!pObj)
                 {
-                    BaseGameObject* pObj = gBaseGameObjects->ItemAt(i);
-                    if (!pObj)
-                    {
-                        break;
-                    }
+                    break;
+                }
 
-                    if (pObj->Type() == ReliveTypes::eAbilityRing && pObj->mBaseGameObjectTlvInfo == mAbilityRingId)
-                    {
-                        mAbilityRingId = pObj->mBaseGameObjectId;
-                        break;
-                    }
+                if (pObj->Type() == ReliveTypes::eAbilityRing && pObj->mBaseGameObjectTlvInfo == mAbilityRingId)
+                {
+                    mAbilityRingId = pObj->mBaseGameObjectId;
+                    break;
                 }
             }
         }
+    }
 
-        BaseGameObject* pRingObj = sObjectIds.Find_Impl(mAbilityRingId);
-        BaseGameObject* pFlickerObj = sObjectIds.Find_Impl(mPossessionFlickerId);
+    BaseGameObject* pRingObj = sObjectIds.Find_Impl(mAbilityRingId);
+    BaseGameObject* pFlickerObj = sObjectIds.Find_Impl(mPossessionFlickerId);
 
-        switch (mState)
+    switch (mState)
+    {
+        case SlapLockStates::eShaking_0:
         {
-            case SlapLockStates::eShaking_0:
+            if (pSlapLockTlv->mGiveInvisibilityPowerup)
             {
-                if (mSlapLockTlv->mGiveInvisibilityPowerup)
+                if (!(sGnFrame & 63))
                 {
-                    if (!(sGnFrame & 63))
-                    {
-                        AbilityRing::Factory(
-                            mXPos,
-                            mYPos - (FP_FromInteger(40) * GetSpriteScale()),
-                            RingTypes::eInvisible_Pulse_Large_8,
-                            GetSpriteScale());
-                    }
+                    AbilityRing::Factory(
+                        mXPos,
+                        mYPos - (FP_FromInteger(40) * GetSpriteScale()),
+                        RingTypes::eInvisible_Pulse_Large_8,
+                        GetSpriteScale());
                 }
+            }
 
-                if (static_cast<s32>(sGnFrame) <= mTimer1)
-                {
-                    return;
-                }
-
-                if (!mHasGhost)
-                {
-                    return;
-                }
-
-                GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::SlapLock_Shaking));
-
-                mState = SlapLockStates::eIdle_1;
-                SfxPlayMono(relive::SoundEffects::SpiritLockShake, 0);
+            if (static_cast<s32>(sGnFrame) <= mTimer1)
+            {
                 return;
             }
-            case SlapLockStates::eIdle_1:
+
+            if (!mHasGhost)
             {
-                if (mSlapLockTlv->mGiveInvisibilityPowerup)
-                {
-                    if (!(sGnFrame & 63))
-                    {
-                        AbilityRing::Factory(
-                            mXPos,
-                            mYPos - (FP_FromInteger(40) * GetSpriteScale()),
-                            RingTypes::eInvisible_Pulse_Large_8,
-                            GetSpriteScale());
-                    }
-                }
-
-                if (!(GetAnimation().GetIsLastFrame()))
-                {
-                    return;
-                }
-
-                GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::SlapLock_Initiate));
-
-                mState = SlapLockStates::eShaking_0;
-                mTimer1 = Math_NextRandom() + MakeTimer(25);
                 return;
             }
-            case SlapLockStates::eSlapped_2:
+
+            GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::SlapLock_Shaking));
+
+            mState = SlapLockStates::eIdle_1;
+            SfxPlayMono(relive::SoundEffects::SpiritLockShake, 0);
+            return;
+        }
+        case SlapLockStates::eIdle_1:
+        {
+            if (pSlapLockTlv->mGiveInvisibilityPowerup)
             {
-                if (!(GetAnimation().GetIsLastFrame()))
+                if (!(sGnFrame & 63))
                 {
-                    return;
+                    AbilityRing::Factory(
+                        mXPos,
+                        mYPos - (FP_FromInteger(40) * GetSpriteScale()),
+                        RingTypes::eInvisible_Pulse_Large_8,
+                        GetSpriteScale());
                 }
+            }
 
-                GetAnimation().SetRender(false);
+            if (!(GetAnimation().GetIsLastFrame()))
+            {
+                return;
+            }
 
-                if (!mSlapLockTlv->mGiveInvisibilityPowerup)
+            GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::SlapLock_Initiate));
+
+            mState = SlapLockStates::eShaking_0;
+            mTimer1 = Math_NextRandom() + MakeTimer(25);
+            return;
+        }
+        case SlapLockStates::eSlapped_2:
+        {
+            if (!(GetAnimation().GetIsLastFrame()))
+            {
+                return;
+            }
+
+            GetAnimation().SetRender(false);
+
+            if (!pSlapLockTlv->mGiveInvisibilityPowerup)
+            {
+                mShinyParticleTimer = MakeTimer(60);
+                mState = SlapLockStates::eBroken_3;
+                break;
+            }
+            else
+            {
+                mState = SlapLockStates::eFlickerHero_5;
+                return;
+            }
+            break;
+        }
+        case SlapLockStates::eBroken_3:
+        {
+            if (static_cast<s32>(sGnFrame) <= mShinyParticleTimer)
+            {
+                return;
+            }
+
+            const FP y = (GetSpriteScale() * (FP_FromInteger(Math_RandomRange(-3, 3)) - FP_FromInteger(33))) + mYPos;
+            const FP x = (GetSpriteScale() * (FP_FromInteger(Math_RandomRange(-2, 2)) + FP_FromInteger(1))) + mXPos;
+            New_TintShiny_Particle(
+                x, y,
+                FP_FromDouble(0.3),
+                GetAnimation().GetRenderLayer());
+
+            mShinyParticleTimer = Math_RandomRange(-30, 30) + MakeTimer(60);
+            return;
+        }
+        case SlapLockStates::eEmitInvisibilityPowerupRing_4:
+        {
+            if (static_cast<s32>(sGnFrame) > mTimer1)
+            {
+                if (!gMap.Is_Point_In_Current_Camera(
+                        gAbe->mCurrentLevel,
+                        gAbe->mCurrentPath,
+                        gAbe->mXPos,
+                        gAbe->mYPos,
+                        1)
+                    || gAbe->mRingPulseTimer
+                    || gAbe->GetInvisible())
                 {
-                    mShinyParticleTimer = MakeTimer(60);
-                    mState = SlapLockStates::eBroken_3;
-                    break;
+                    AbilityRing::Factory(
+                        mXPos,
+                        mYPos - (FP_FromInteger(40) * GetSpriteScale()),
+                        RingTypes::eInvisible_Pulse_Large_8,
+                        GetSpriteScale());
+                    mTimer1 = Math_RandomRange(1, 10) + MakeTimer(55);
                 }
                 else
                 {
+                    SetInvisibilityTarget();
                     mState = SlapLockStates::eFlickerHero_5;
-                    return;
                 }
-                break;
             }
-            case SlapLockStates::eBroken_3:
-            {
-                if (static_cast<s32>(sGnFrame) <= mShinyParticleTimer)
-                {
-                    return;
-                }
 
-                const FP y = (GetSpriteScale() * (FP_FromInteger(Math_RandomRange(-3, 3)) - FP_FromInteger(33))) + mYPos;
-                const FP x = (GetSpriteScale() * (FP_FromInteger(Math_RandomRange(-2, 2)) + FP_FromInteger(1))) + mXPos;
-                New_TintShiny_Particle(
-                    x, y,
-                    FP_FromDouble(0.3),
-                    GetAnimation().GetRenderLayer());
-
-                mShinyParticleTimer = Math_RandomRange(-30, 30) + MakeTimer(60);
-                return;
-            }
-            case SlapLockStates::eEmitInvisibilityPowerupRing_4:
-            {
-                if (static_cast<s32>(sGnFrame) > mTimer1)
-                {
-                    if (!gMap.Is_Point_In_Current_Camera(
-                            gAbe->mCurrentLevel,
-                            gAbe->mCurrentPath,
-                            gAbe->mXPos,
-                            gAbe->mYPos,
-                            1)
-                        || gAbe->mRingPulseTimer
-                        || gAbe->GetInvisible())
-                    {
-                        AbilityRing::Factory(
-                            mXPos,
-                            mYPos - (FP_FromInteger(40) * GetSpriteScale()),
-                            RingTypes::eInvisible_Pulse_Large_8,
-                            GetSpriteScale());
-                        mTimer1 = Math_RandomRange(1, 10) + MakeTimer(55);
-                    }
-                    else
-                    {
-                        SetInvisibilityTarget();
-                        mState = SlapLockStates::eFlickerHero_5;
-                    }
-                }
-
-                if (static_cast<s32>(sGnFrame) <= mShinyParticleTimer)
-                {
-                    return;
-                }
-
-                const FP x = (GetSpriteScale() * (FP_FromInteger(Math_RandomRange(-2, 2)) + FP_FromInteger(1))) + mXPos;
-                const FP y = (GetSpriteScale() * (FP_FromInteger(Math_RandomRange(-3, 3)) - FP_FromInteger(33))) + mYPos;
-                New_TintShiny_Particle(
-                    x, y,
-                    FP_FromDouble(0.3),
-                    GetAnimation().GetRenderLayer());
-
-                mShinyParticleTimer = Math_RandomRange(-30, 30) + MakeTimer(60);
-                return;
-            }
-            case SlapLockStates::eFlickerHero_5:
-            {
-                if (pRingObj)
-                {
-                    return;
-                }
-
-                if (gAbe->GetInvisible())
-                {
-                    mState = SlapLockStates::eGiveInvisibility_7;
-                }
-                else
-                {
-                    auto pFlicker = relive_new PossessionFlicker(gAbe, 8, 128, 255, 128);
-                    if (pFlicker)
-                    {
-                        mPossessionFlickerId = pFlicker->mBaseGameObjectId;
-                    }
-                    mState = SlapLockStates::eGiveInvisibilityFromFlicker_6;
-                }
-                return;
-            }
-            case SlapLockStates::eGiveInvisibilityFromFlicker_6:
-            {
-                if (pFlickerObj)
-                {
-                    return;
-                }
-                GiveInvisibility();
-                mShinyParticleTimer = MakeTimer(60);
-                mState = SlapLockStates::eBroken_3;
-                break;
-            }
-            case SlapLockStates::eGiveInvisibility_7:
-            {
-                GiveInvisibility();
-                mShinyParticleTimer = MakeTimer(60);
-                mState = SlapLockStates::eBroken_3;
-                break;
-            }
-            default:
+            if (static_cast<s32>(sGnFrame) <= mShinyParticleTimer)
             {
                 return;
             }
+
+            const FP x = (GetSpriteScale() * (FP_FromInteger(Math_RandomRange(-2, 2)) + FP_FromInteger(1))) + mXPos;
+            const FP y = (GetSpriteScale() * (FP_FromInteger(Math_RandomRange(-3, 3)) - FP_FromInteger(33))) + mYPos;
+            New_TintShiny_Particle(
+                x, y,
+                FP_FromDouble(0.3),
+                GetAnimation().GetRenderLayer());
+
+            mShinyParticleTimer = Math_RandomRange(-30, 30) + MakeTimer(60);
+            return;
+        }
+        case SlapLockStates::eFlickerHero_5:
+        {
+            if (pRingObj)
+            {
+                return;
+            }
+
+            if (gAbe->GetInvisible())
+            {
+                mState = SlapLockStates::eGiveInvisibility_7;
+            }
+            else
+            {
+                auto pFlicker = relive_new PossessionFlicker(gAbe, 8, 128, 255, 128);
+                if (pFlicker)
+                {
+                    mPossessionFlickerId = pFlicker->mBaseGameObjectId;
+                }
+                mState = SlapLockStates::eGiveInvisibilityFromFlicker_6;
+            }
+            return;
+        }
+        case SlapLockStates::eGiveInvisibilityFromFlicker_6:
+        {
+            if (pFlickerObj)
+            {
+                return;
+            }
+            GiveInvisibility();
+            mShinyParticleTimer = MakeTimer(60);
+            mState = SlapLockStates::eBroken_3;
+            break;
+        }
+        case SlapLockStates::eGiveInvisibility_7:
+        {
+            GiveInvisibility();
+            mShinyParticleTimer = MakeTimer(60);
+            mState = SlapLockStates::eBroken_3;
+            break;
+        }
+
+        default:
+        {
+            break;
         }
     }
 }
@@ -426,7 +428,7 @@ void SlapLock::SetInvisibilityTarget()
 
 bool SlapLock::VTakeDamage(BaseGameObject* pFrom)
 {
-    mSlapLockTlv = static_cast<relive::Path_SlapLock*>(gPathInfo->TLV_From_Offset_Lvl_Cam(mTlvInfo));
+    mSlapLockTlv = gPathInfo->TLV_From_Offset_Lvl_Cam(mTlvInfo);
 
     if (pFrom->Type() != ReliveTypes::eAbe)
     {
@@ -452,24 +454,25 @@ bool SlapLock::VTakeDamage(BaseGameObject* pFrom)
 
     gAbe->ToKnockback_44E700(1, 0);
 
+    auto pSlapLockTlv = mSlapLockTlv.GetTlv<relive::Path_SlapLock>();
     if (mHasGhost)
     {
         mHasGhost = false;
         relive_new SlapLockWhirlWind(
-            mSlapLockTlv->mTargetTombSwitchId1,
-            mSlapLockTlv->mTargetTombSwitchId2,
+            pSlapLockTlv->mTargetTombSwitchId1,
+            pSlapLockTlv->mTargetTombSwitchId2,
             mXPos,
             mYPos - (FP_FromInteger(40) * GetSpriteScale()),
             GetSpriteScale());
     }
 
-    if (mSlapLockTlv->mGiveInvisibilityPowerup)
+    if (pSlapLockTlv->mGiveInvisibilityPowerup)
     {
         SetInvisibilityTarget();
     }
 
     mState = SlapLockStates::eSlapped_2;
-    SwitchStates_Do_Operation(mSlapLockTlv->mSlapOutputSwitchId, relive::reliveSwitchOp::eToggle);
+    SwitchStates_Do_Operation(pSlapLockTlv->mSlapOutputSwitchId, relive::reliveSwitchOp::eToggle);
     SfxPlayMono(relive::SoundEffects::SpiritLockBreak, 0, GetSpriteScale());
     EventBroadcast(Event::kEventLoudNoise, this);
 
@@ -483,6 +486,6 @@ bool SlapLock::VTakeDamage(BaseGameObject* pFrom)
 
     GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::SlapLock_Punched));
 
-    mSlapLockTlv->mTlvSpecificMeaning = 1;
+    pSlapLockTlv->mTlvSpecificMeaning = 1;
     return true;
 }

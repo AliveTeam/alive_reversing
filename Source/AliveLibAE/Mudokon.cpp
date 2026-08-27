@@ -633,7 +633,7 @@ void Mudokon::CreateFromSaveState(SerializedObjectData& pBuffer)
 {
     const auto pState = pBuffer.ReadTmpPtr<MudokonSaveState>();
 
-    auto pTlv = static_cast<relive::Path_Mudokon*>(gPathInfo->TLV_From_Offset_Lvl_Cam(pState->field_40_tlvInfo));
+    auto pTlv = gPathInfo->TLV_From_Offset_Lvl_Cam(pState->field_40_tlvInfo).GetTlv<relive::Path_Mudokon>();
 
     const auto oldCount = sAlertedMudCount_5C3010;
     auto pMud = relive_new Mudokon(pTlv, pState->field_40_tlvInfo);
@@ -651,7 +651,7 @@ void Mudokon::CreateFromSaveState(SerializedObjectData& pBuffer)
             sControlledCharacter = pMud;
         }
 
-        pMud->BaseAliveGameObjectPathTLV = nullptr;
+        pMud->BaseAliveGameObjectPathTLV = TlvIterator::Invalid();
         pMud->BaseAliveGameObjectCollisionLine = nullptr;
 
         pMud->mXPos = pState->field_4_xpos;
@@ -1057,10 +1057,9 @@ void Mudokon::VOnTrapDoorOpen()
 
 void Mudokon::VOnTlvCollision(TlvIterator tlvIterator)
 {
-    relive::Path_TLV* pTlvIter = pTlv;
-    while (pTlvIter)
+    while (tlvIterator.GetTlv())
     {
-        if (pTlvIter->mTlvType == ReliveTypes::eDeathDrop)
+        if (tlvIterator.GetTlv()->mTlvType == ReliveTypes::eDeathDrop)
         {
             if (mHealth > FP_FromInteger(0))
             {
@@ -1072,8 +1071,8 @@ void Mudokon::VOnTlvCollision(TlvIterator tlvIterator)
             }
         }
 
-        pTlvIter = gPathInfo->TLV_Get_At(
-            pTlvIter,
+        tlvIterator = gPathInfo->TLV_Get_At(
+            tlvIterator,
             mXPos,
             mYPos,
             mXPos,
@@ -1500,12 +1499,12 @@ s16 Mudokon::TurningWheelHelloOrAllYaResponse()
         return mBrainSubState;
     }
 
-    auto pWheelTlv = static_cast<relive::Path_WorkWheel*>(gPathInfo->VTLV_Get_At_Of_Type(
+    auto pWheelTlv = gPathInfo->VTLV_Get_At_Of_Type(
         FP_GetExponent(mXPos),
         FP_GetExponent(mYPos),
         FP_GetExponent(mXPos),
         FP_GetExponent(mYPos),
-        ReliveTypes::eWorkWheel));
+        ReliveTypes::eWorkWheel).GetTlv<relive::Path_WorkWheel>();
 
     if (SwitchStates_Get(pWheelTlv->mSwitchId))
     {
@@ -4934,8 +4933,8 @@ s16 Mudokon::Brain_8_AngryWorker()
                            FP_GetExponent(mYPos),
                            FP_GetExponent(mXPos),
                            FP_GetExponent(mYPos),
-                           ReliveTypes::eWorkWheel)
-                            != 0
+                           ReliveTypes::eWorkWheel).GetTlv()
+                            != nullptr
                          ? 4
                          : 1;
             }
@@ -6859,7 +6858,12 @@ s16 Mudokon::StopAtWheel()
             // Check if the other mud has already take the spot of this work wheel
             if (bRect.x <= ourRect.w && bRect.w >= ourRect.x && bRect.h >= ourRect.y && bRect.y <= ourRect.h)
             {
-                if (pOtherMud->mStoppedAtWheel || (gPathInfo->VTLV_Get_At_Of_Type(FP_GetExponent(pObj->mXPos), FP_GetExponent(pObj->mYPos), FP_GetExponent(pObj->mXPos), FP_GetExponent(pObj->mYPos), ReliveTypes::eWorkWheel) && pOtherMud->mVelX == FP_FromInteger(0)))
+                if (pOtherMud->mStoppedAtWheel || (
+                    gPathInfo->VTLV_Get_At_Of_Type(
+                        FP_GetExponent(pObj->mXPos), 
+                        FP_GetExponent(pObj->mYPos), 
+                        FP_GetExponent(pObj->mXPos), 
+                        FP_GetExponent(pObj->mYPos), ReliveTypes::eWorkWheel).GetTlv() && pOtherMud->mVelX == FP_FromInteger(0)))
                 {
                     // Another mud has stolen this wheel so don't stop
                     return 0;
@@ -7059,7 +7063,7 @@ void Mudokon::CheckKnockedOntoABomb()
         {
             const PSX_RECT bBombRect = pObj->VGetBoundingRect();
 
-            // TODO: Almost same as PSX_Rects_overlap_no_adjustment but checks < rather than <=
+            // TODO: Almost same as RectsOverlap but checks < rather than <=
             if (bMudRect.x <= bBombRect.w && bMudRect.w >= bBombRect.x && bMudRect.h >= bBombRect.y && bMudRect.y <= bBombRect.h)
             {
                 pObj->VTakeDamage(this);

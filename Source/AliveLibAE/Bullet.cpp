@@ -319,7 +319,7 @@ void Bullet::VUpdate()
 
 bool Bullet::InZBulletCover(FP xpos, FP ypos, const PSX_RECT& objRect)
 {
-    relive::Path_TLV* pZCover = nullptr;
+    TlvIterator pZCover = TlvIterator::Invalid();
     while (1)
     {
         // Go to the next entry (or first if first call).
@@ -331,19 +331,16 @@ bool Bullet::InZBulletCover(FP xpos, FP ypos, const PSX_RECT& objRect)
             ypos);
 
         // No more TLVs? Then no Z Cover.
-        if (!pZCover)
+        if (!pZCover.GetTlv())
         {
             break;
         }
 
         // Is it a Z Cover?
-        if (pZCover->mTlvType == ReliveTypes::eZSligCover)
+        if (pZCover.GetTlv()->mTlvType == ReliveTypes::eZSligCover)
         {
             // Within Z Cover?
-            if (objRect.x >= pZCover->mTopLeftX && objRect.x <= pZCover->mBottomRightX && objRect.y >= pZCover->mTopLeftY && objRect.y <= pZCover->mBottomRightY && objRect.w >= pZCover->mTopLeftX && objRect.w <= pZCover->mBottomRightX && objRect.h >= pZCover->mTopLeftY && objRect.h <= pZCover->mBottomRightY)
-            {
-                return true;
-            }
+            return objRect.Contains(pZCover.GetTlv()->GetRect());
         }
     }
     return false;

@@ -188,31 +188,34 @@ Scrab::Scrab(relive::Path_Scrab* pTlv, const Guid& tlvId, relive::Path_ScrabSpaw
 
 void Scrab::VOnTlvCollision(TlvIterator tlvIterator)
 {
-    while (pTlv != nullptr)
+    while (tlvIterator.GetTlv())
     {
-        if (pTlv->mTlvType == ReliveTypes::eDeathDrop)
+        if (tlvIterator.GetTlv()->mTlvType == ReliveTypes::eDeathDrop)
         {
             Scrab_SFX(ScrabSounds::eYell_8, 127, -1000, 0);
             SetDead(true);
             mHealth = FP_FromInteger(0);
         }
-        else if (pTlv->mTlvType == ReliveTypes::eEnemyStopper)
+        else if (tlvIterator.GetTlv()->mTlvType == ReliveTypes::eEnemyStopper)
         {
-            const auto enemyStopperPath = static_cast<relive::Path_EnemyStopper*>(BaseAliveGameObjectPathTLV); //TODO it should probably be pTlv, instead - OG bug?
-            const relive::Path_EnemyStopper::StopDirection stopDirection = enemyStopperPath->mStopDirection;
-            if ((stopDirection == relive::Path_EnemyStopper::StopDirection::Left && mXPos < field_198_max_xpos) || (stopDirection == relive::Path_EnemyStopper::StopDirection::Right && mXPos > field_198_max_xpos) || stopDirection == relive::Path_EnemyStopper::StopDirection::Both)
+            const auto enemyStopperPath = BaseAliveGameObjectPathTLV.GetTlv<relive::Path_EnemyStopper>();
+            if (enemyStopperPath)
             {
-                if (SwitchStates_Get(enemyStopperPath->mSwitchId))
+                const relive::Path_EnemyStopper::StopDirection stopDirection = enemyStopperPath->mStopDirection;
+                if ((stopDirection == relive::Path_EnemyStopper::StopDirection::Left && mXPos < field_198_max_xpos) || (stopDirection == relive::Path_EnemyStopper::StopDirection::Right && mXPos > field_198_max_xpos) || stopDirection == relive::Path_EnemyStopper::StopDirection::Both)
                 {
-                    if (sControlledCharacter != this)
+                    if (SwitchStates_Get(enemyStopperPath->mSwitchId))
                     {
-                        mXPos = field_198_max_xpos;
+                        if (sControlledCharacter != this)
+                        {
+                            mXPos = field_198_max_xpos;
+                        }
                     }
                 }
             }
         }
-        pTlv = gPathInfo->TLV_Get_At(
-            pTlv,
+        tlvIterator = gPathInfo->TLV_Get_At(
+            tlvIterator,
             mXPos,
             mYPos,
             mXPos,
@@ -224,7 +227,7 @@ void Scrab::CreateFromSaveState(SerializedObjectData& pBuffer)
 {
     const auto pState = pBuffer.ReadTmpPtr<ScrabSaveState>();
 
-    auto pTlv = static_cast<relive::Path_Scrab*>(gPathInfo->TLV_From_Offset_Lvl_Cam(pState->field_44_tlvInfo));
+    auto pTlv = gPathInfo->TLV_From_Offset_Lvl_Cam(pState->field_44_tlvInfo).GetTlv<relive::Path_Scrab>();
 
     auto pScrab = relive_new Scrab(pTlv, pState->field_44_tlvInfo, relive::Path_ScrabSpawner::SpawnDirection::eNone);
     if (pScrab)
@@ -236,7 +239,7 @@ void Scrab::CreateFromSaveState(SerializedObjectData& pBuffer)
             sControlledCharacter = pScrab;
         }
 
-        pScrab->BaseAliveGameObjectPathTLV = nullptr;
+        pScrab->BaseAliveGameObjectPathTLV = TlvIterator::Invalid();
         pScrab->BaseAliveGameObjectCollisionLine = nullptr;
 
         pScrab->mXPos = pState->mXPos;
@@ -655,7 +658,7 @@ void Scrab::VUpdate()
             if (field_198_max_xpos != mXPos || field_19C_max_ypos != mYPos)
             {
                 BaseAliveGameObjectPathTLV = gPathInfo->TLV_Get_At(
-                    nullptr,
+                    TlvIterator::Invalid(),
                     mXPos,
                     mYPos,
                     mXPos,
@@ -1466,7 +1469,7 @@ s16 Scrab::Brain_ChasingEnemy_State_2_Running(BaseAliveGameObject* pObj)
                 FP_GetExponent(mYPos + FP_FromInteger(10)),
                 FP_GetExponent(mXPos + xOffset),
                 FP_GetExponent(mYPos + FP_FromInteger(10)),
-                ReliveTypes::eElectricWall))
+                ReliveTypes::eElectricWall).GetTlv())
         && !Check_IsOnEndOfLine(mVelX < FP_FromInteger(0), 3))
     {
         ToJump();
@@ -3946,7 +3949,7 @@ void Scrab::KillTarget(BaseAliveGameObject* pTarget)
                                         {
                                             const PSX_RECT objRect = pObj->VGetBoundingRect();
 
-                                            if (PSX_Rects_overlap_no_adjustment(&objRect, &bOurRect))
+                                            if (objRect.Overlaps(bOurRect))
                                             {
                                                 if (pObj->VTakeDamage(this))
                                                 {
@@ -4184,7 +4187,7 @@ s16 Scrab::Handle_SlamDoor_or_EnemyStopper(FP velX, s16 bCheckLeftRightBounds)
         FP_GetExponent(mYPos - ScaleToGridSize(GetSpriteScale())),
         ReliveTypes::eSlamDoor);
 
-    auto pSlamDoorTlv = static_cast<relive::Path_SlamDoor*>(BaseAliveGameObjectPathTLV);
+    auto pSlamDoorTlv = BaseAliveGameObjectPathTLV.GetTlv<relive::Path_SlamDoor>();
     if (pSlamDoorTlv && ((pSlamDoorTlv->mStartClosed && !SwitchStates_Get(pSlamDoorTlv->mSwitchId)) || (!pSlamDoorTlv->mStartClosed && SwitchStates_Get(pSlamDoorTlv->mSwitchId))))
     {
         return 1;
@@ -4197,7 +4200,7 @@ s16 Scrab::Handle_SlamDoor_or_EnemyStopper(FP velX, s16 bCheckLeftRightBounds)
         FP_GetExponent(mYPos - ScaleToGridSize(GetSpriteScale())),
         ReliveTypes::eEnemyStopper);
 
-    auto pPathEnemyStopper = static_cast<relive::Path_EnemyStopper*>(BaseAliveGameObjectPathTLV);
+    auto pPathEnemyStopper = BaseAliveGameObjectPathTLV.GetTlv<relive::Path_EnemyStopper>();
     if (pPathEnemyStopper && (pPathEnemyStopper->mStopDirection == stopDirection || pPathEnemyStopper->mStopDirection == relive::Path_EnemyStopper::StopDirection::Both) && SwitchStates_Get(pPathEnemyStopper->mSwitchId))
     {
         return 1;
@@ -4210,7 +4213,7 @@ s16 Scrab::Handle_SlamDoor_or_EnemyStopper(FP velX, s16 bCheckLeftRightBounds)
                 FP_GetExponent(FP_Abs(mYPos)),
                 FP_GetExponent(mXPos + gridSize),
                 FP_GetExponent(mYPos - ScaleToGridSize(GetSpriteScale())),
-                objectType))
+                objectType).GetTlv())
         {
             return 1;
         }

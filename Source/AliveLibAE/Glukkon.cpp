@@ -155,7 +155,7 @@ enum Brain_5_WaitToSpawn
 void Glukkon::CreateFromSaveState(SerializedObjectData& pSaveBuffer)
 {
     const auto pSaveState = pSaveBuffer.ReadTmpPtr<GlukkonSaveState>();
-    auto pTlv = static_cast<relive::Path_Glukkon*>(gPathInfo->TLV_From_Offset_Lvl_Cam(pSaveState->mTlvId));
+    auto pTlv = gPathInfo->TLV_From_Offset_Lvl_Cam(pSaveState->mTlvId).GetTlv<relive::Path_Glukkon>();
 
     auto pGlukkon = relive_new Glukkon(pTlv, pSaveState->mTlvId);
     if (pGlukkon)
@@ -167,7 +167,7 @@ void Glukkon::CreateFromSaveState(SerializedObjectData& pSaveBuffer)
             sControlledCharacter = pGlukkon;
         }
 
-        pGlukkon->BaseAliveGameObjectPathTLV = nullptr;
+        pGlukkon->BaseAliveGameObjectPathTLV = TlvIterator::Invalid();
         pGlukkon->BaseAliveGameObjectCollisionLine = nullptr;
 
         pGlukkon->mXPos = pSaveState->mXPos;
@@ -2131,8 +2131,8 @@ void Glukkon::VUpdate()
 
         if (oldXPos != mXPos || oldYPos != mYPos)
         {
-            relive::Path_TLV* pTlv = gPathInfo->TLV_Get_At(
-                nullptr,
+            TlvIterator pTlv = gPathInfo->TLV_Get_At(
+                TlvIterator::Invalid(),
                 mXPos,
                 mYPos,
                 mXPos,
@@ -2463,7 +2463,7 @@ s16 Glukkon::PathBlocked(FP /*a2*/, s16 checkBounds)
         FP_GetExponent(mYPos - ScaleToGridSize(GetSpriteScale())),
         ReliveTypes::eSlamDoor);
 
-    auto pSlamDoorTlv = static_cast<relive::Path_SlamDoor*>(BaseAliveGameObjectPathTLV);
+    auto pSlamDoorTlv = BaseAliveGameObjectPathTLV.GetTlv<relive::Path_SlamDoor>();
 
     if (pSlamDoorTlv && ((pSlamDoorTlv->mStartClosed && !SwitchStates_Get(pSlamDoorTlv->mSwitchId)) || (!pSlamDoorTlv->mStartClosed && SwitchStates_Get(pSlamDoorTlv->mSwitchId))))
     {
@@ -2477,7 +2477,7 @@ s16 Glukkon::PathBlocked(FP /*a2*/, s16 checkBounds)
         FP_GetExponent(mYPos - ScaleToGridSize(GetSpriteScale())),
         ReliveTypes::eEnemyStopper);
 
-    auto pEnemyStopper = static_cast<relive::Path_EnemyStopper*>(BaseAliveGameObjectPathTLV);
+    auto pEnemyStopper = BaseAliveGameObjectPathTLV.GetTlv<relive::Path_EnemyStopper>();
     if (pEnemyStopper
         && (pEnemyStopper->mStopDirection == direction || pEnemyStopper->mStopDirection == relive::Path_EnemyStopper::StopDirection::Both)
         && SwitchStates_Get(pEnemyStopper->mSwitchId))
@@ -2495,7 +2495,7 @@ s16 Glukkon::PathBlocked(FP /*a2*/, s16 checkBounds)
             FP_GetExponent(mYPos), // TODO: Abs() ??
             FP_GetExponent(mXPos + gridSize),
             FP_GetExponent(mYPos - ScaleToGridSize(GetSpriteScale())),
-            boundType))
+            boundType).GetTlv())
     {
         return 1;
     }
@@ -2825,9 +2825,9 @@ void Glukkon::ToDead()
 
 void Glukkon::VOnTlvCollision(TlvIterator tlvIterator)
 {
-    while (pTlv)
+    while (tlvIterator.GetTlv())
     {
-        if (pTlv->mTlvType == ReliveTypes::eDeathDrop)
+        if (tlvIterator.GetTlv()->mTlvType == ReliveTypes::eDeathDrop)
         {
             if (mHealth > FP_FromInteger(0))
             {
@@ -2843,8 +2843,8 @@ void Glukkon::VOnTlvCollision(TlvIterator tlvIterator)
             }
         }
 
-        pTlv = gPathInfo->TLV_Get_At(
-            pTlv,
+        tlvIterator = gPathInfo->TLV_Get_At(
+            tlvIterator,
             mXPos,
             mYPos,
             mXPos,

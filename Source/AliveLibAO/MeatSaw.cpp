@@ -295,7 +295,7 @@ void MeatSaw::GrindUpObjects()
 
             const PSX_RECT objRect = pObjIter->VGetBoundingRect();
 
-            if (RectsOverlap(ourRect, objRect) &&
+            if (ourRect.Overlaps(objRect) &&
                 pObjIter->GetSpriteScale() == GetSpriteScale() &&
                 pObjIter->mHealth > FP_FromInteger(0))
             {

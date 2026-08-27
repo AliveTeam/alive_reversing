@@ -243,7 +243,7 @@ void AirExplosion::DealBlastDamage(PSX_RECT* pRect)
             }
 
             const PSX_RECT boundRect = pObj->VGetBoundingRect();
-            if (PSX_Rects_overlap_no_adjustment(&boundRect, &expandedRect) && scaleMatches)
+            if (RectsOverlap(&boundRect, &expandedRect) && scaleMatches)
             {
                 pObj->VTakeDamage(this);
             }

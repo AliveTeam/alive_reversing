@@ -302,14 +302,10 @@ void Greeter::BounceBackFromShot()
 
 void Greeter::HandleRollingAlong()
 {
-    for (relive::Path_TLV* pTlv = field_138_pTlv; pTlv;
-         pTlv = gPathInfo->TLV_Get_At(pTlv,
-                                                      mVelX + mXPos + mVelX,
-                                                      mVelY + mYPos + mVelY,
-                                                      mVelX + mXPos + mVelX,
-                                                      mVelY + mYPos + mVelY))
+    TlvIterator tlvIterator = field_138_pTlv;
+    while (tlvIterator.GetTlv())
     {
-        switch (pTlv->mTlvType)
+        switch (tlvIterator.GetTlv()->mTlvType)
         {
             case ReliveTypes::eDeathDrop:
                 BlowUp();
@@ -337,8 +333,14 @@ void Greeter::HandleRollingAlong()
                 break;
 
             default:
-                continue;
+                break;
         }
+
+        tlvIterator = gPathInfo->TLV_Get_At(tlvIterator,
+                                            mVelX + mXPos + mVelX,
+                                            mVelY + mYPos + mVelY,
+                                            mVelX + mXPos + mVelX,
+                                            mVelY + mYPos + mVelY);
     }
 
     if (mBrainState == GreeterBrainStates::eBrain_0_Patrol)

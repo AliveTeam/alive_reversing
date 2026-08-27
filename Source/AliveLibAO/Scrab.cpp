@@ -2620,7 +2620,7 @@ s16 Scrab::Brain_ChasingEnemy()
                     FP_GetExponent(mYPos),
                     ReliveTypes::eEnemyStopper);
 
-                auto pStopper = static_cast<relive::Path_EnemyStopper*>(BaseAliveGameObjectPathTLV);
+                auto pStopper = BaseAliveGameObjectPathTLV.GetTlv<relive::Path_EnemyStopper>();
                 if (pStopper)
                 {
                     if (pStopper->mStopDirection == relive::Path_EnemyStopper::StopDirection::Left || pStopper->mStopDirection == relive::Path_EnemyStopper::StopDirection::Both)
@@ -3063,14 +3063,14 @@ s16 Scrab::Brain_Patrol()
                 }
             }
 
-            auto pStopper = static_cast<relive::Path_EnemyStopper*>(gMap.VTLV_Get_At_Of_Type(
+            BaseAliveGameObjectPathTLV = gMap.VTLV_Get_At_Of_Type(
                 FP_GetExponent(mXPos),
                 FP_GetExponent(mYPos),
                 FP_GetExponent(mXPos),
                 FP_GetExponent(mYPos),
-                ReliveTypes::eEnemyStopper));
-            BaseAliveGameObjectPathTLV = pStopper;
-
+                ReliveTypes::eEnemyStopper);
+                
+            auto pStopper = BaseAliveGameObjectPathTLV.GetTlv<relive::Path_EnemyStopper>();
             if (pStopper)
             {
                 if (!SwitchStates_Get(pStopper->mSwitchId))
@@ -3102,7 +3102,7 @@ s16 Scrab::Brain_Patrol()
                     FP_GetExponent(mXPos),
                     FP_GetExponent(mYPos),
                     ReliveTypes::eScrabBoundLeft);
-                if (BaseAliveGameObjectPathTLV)
+                if (BaseAliveGameObjectPathTLV.GetTlv())
                 {
                     mNextMotion = eScrabMotions::Motion_4_Turn;
                     return 2;
@@ -3117,7 +3117,7 @@ s16 Scrab::Brain_Patrol()
                     FP_GetExponent(mXPos),
                     FP_GetExponent(mYPos),
                     ReliveTypes::eScrabBoundRight);
-                if (BaseAliveGameObjectPathTLV)
+                if (BaseAliveGameObjectPathTLV.GetTlv())
                 {
                     mNextMotion = eScrabMotions::Motion_4_Turn;
                     return 5;
@@ -3407,15 +3407,14 @@ s16 Scrab::Brain_WalkAround()
 
             if (GetAnimation().GetFlipX())
             {
-                auto pStopper = static_cast<relive::Path_EnemyStopper*>(gMap.VTLV_Get_At_Of_Type(
+                BaseAliveGameObjectPathTLV = gMap.VTLV_Get_At_Of_Type(
                     FP_GetExponent(mXPos),
                     FP_GetExponent(mYPos),
                     FP_GetExponent(mXPos),
                     FP_GetExponent(mYPos),
-                    ReliveTypes::eEnemyStopper));
-
-                BaseAliveGameObjectPathTLV = pStopper;
-
+                    ReliveTypes::eEnemyStopper);
+                    
+                auto pStopper = BaseAliveGameObjectPathTLV.GetTlv<relive::Path_EnemyStopper>();
                 if (pStopper)
                 {
                     if ((pStopper->mStopDirection == relive::Path_EnemyStopper::StopDirection::Left || pStopper->mStopDirection == relive::Path_EnemyStopper::StopDirection::Both) && !SwitchStates_Get(pStopper->mSwitchId))
@@ -3435,15 +3434,14 @@ s16 Scrab::Brain_WalkAround()
             }
             else
             {
-                auto pStopper = static_cast<relive::Path_EnemyStopper*>(gMap.VTLV_Get_At_Of_Type(
+                BaseAliveGameObjectPathTLV = gMap.VTLV_Get_At_Of_Type(
                     FP_GetExponent(mXPos),
                     FP_GetExponent(mYPos),
                     FP_GetExponent(mXPos),
                     FP_GetExponent(mYPos),
-                    ReliveTypes::eEnemyStopper));
-
-                BaseAliveGameObjectPathTLV = pStopper;
-
+                    ReliveTypes::eEnemyStopper);
+                    
+               auto pStopper = BaseAliveGameObjectPathTLV.GetTlv<relive::Path_EnemyStopper>();
                 if (pStopper)
                 {
                     if ((pStopper->mStopDirection == relive::Path_EnemyStopper::StopDirection::Right || pStopper->mStopDirection == relive::Path_EnemyStopper::StopDirection::Both) && !SwitchStates_Get(pStopper->mSwitchId))
@@ -3466,16 +3464,15 @@ s16 Scrab::Brain_WalkAround()
         }
 
         case 2:
-        {
-            auto pStopper = static_cast<relive::Path_EnemyStopper*>(gMap.VTLV_Get_At_Of_Type(
+        {            
+            BaseAliveGameObjectPathTLV = gMap.VTLV_Get_At_Of_Type(
                 FP_GetExponent(mXPos),
                 FP_GetExponent(mYPos),
                 FP_GetExponent(mXPos),
                 FP_GetExponent(mYPos),
-                ReliveTypes::eEnemyStopper));
-
-            BaseAliveGameObjectPathTLV = pStopper;
-
+                ReliveTypes::eEnemyStopper);
+                
+            auto pStopper = BaseAliveGameObjectPathTLV.GetTlv<relive::Path_EnemyStopper>();
             if (pStopper)
             {
                 if ((pStopper->mStopDirection == relive::Path_EnemyStopper::StopDirection::Left || pStopper->mStopDirection == relive::Path_EnemyStopper::StopDirection::Both) && !SwitchStates_Get(pStopper->mSwitchId))
@@ -3523,15 +3520,14 @@ s16 Scrab::Brain_WalkAround()
 
         case 3:
         {
-            auto pStopper = static_cast<relive::Path_EnemyStopper*>(gMap.VTLV_Get_At_Of_Type(
+            BaseAliveGameObjectPathTLV = gMap.VTLV_Get_At_Of_Type(
                 FP_GetExponent(mXPos),
                 FP_GetExponent(mYPos),
                 FP_GetExponent(mXPos),
                 FP_GetExponent(mYPos),
-                ReliveTypes::eEnemyStopper));
+                ReliveTypes::eEnemyStopper);
 
-            BaseAliveGameObjectPathTLV = pStopper;
-
+            auto pStopper = BaseAliveGameObjectPathTLV.GetTlv<relive::Path_EnemyStopper>();
             if (pStopper)
             {
                 if ((pStopper->mStopDirection == relive::Path_EnemyStopper::StopDirection::Right || pStopper->mStopDirection == relive::Path_EnemyStopper::StopDirection::Both) && !SwitchStates_Get(pStopper->mSwitchId))
@@ -3693,7 +3689,7 @@ s16 Scrab::HandleRunning()
         ReliveTypes::eEnemyStopper);
 
     auto pTarget = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(mAbeOrMudTargetId));
-    auto pStopper = static_cast<relive::Path_EnemyStopper*>(BaseAliveGameObjectPathTLV);
+    auto pStopper = BaseAliveGameObjectPathTLV.GetTlv<relive::Path_EnemyStopper>();
 
     if (pStopper && pTarget)
     {

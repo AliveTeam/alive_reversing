@@ -190,14 +190,14 @@ void Fleech::CreateFromSaveState(SerializedObjectData& pBuffer)
 {
     const auto pState = pBuffer.ReadTmpPtr<FleechSaveState>();
 
-    auto pTlv = static_cast<relive::Path_Fleech*>(gPathInfo->TLV_From_Offset_Lvl_Cam(pState->mTlvInfo));
+    auto pTlv = gPathInfo->TLV_From_Offset_Lvl_Cam(pState->mTlvInfo).GetTlv<relive::Path_Fleech>();
 
     auto pFleech = relive_new Fleech(pTlv, pState->mTlvInfo);
     if (pFleech)
     {
         pFleech->mBaseGameObjectTlvInfo = pState->field_4_obj_id;
 
-        pFleech->BaseAliveGameObjectPathTLV = nullptr;
+        pFleech->BaseAliveGameObjectPathTLV = TlvIterator::Invalid();
         pFleech->BaseAliveGameObjectCollisionLine = nullptr;
 
         pFleech->BaseAliveGameObject_PlatformId = pState->mPlatformId;
@@ -800,22 +800,22 @@ void Fleech::Motion_11_RaiseHead()
         mVelY = FP_FromInteger(-1);
 
         const s16 yOff = GetSpriteScale() >= FP_FromInteger(1) ? 0 : -10;
-        auto pHoist = static_cast<relive::Path_Hoist*>(gPathInfo->VTLV_Get_At_Of_Type(
+        auto pHoist = gPathInfo->VTLV_Get_At_Of_Type(
             mHoistX,
             FP_GetExponent(mYPos - FP_FromInteger((yOff + 20))),
             mHoistX,
             FP_GetExponent(mYPos - FP_FromInteger((yOff + 20))),
-            ReliveTypes::eHoist));
+            ReliveTypes::eHoist).GetTlv<relive::Path_Hoist>();
 
         if (pHoist->mHoistType == relive::Path_Hoist::Type::eOffScreen)
         {
             const FP doubleYOff = FP_FromInteger(yOff + 20) * FP_FromInteger(2);
-            pHoist = static_cast<relive::Path_Hoist*>(gPathInfo->VTLV_Get_At_Of_Type(
+            pHoist = gPathInfo->VTLV_Get_At_Of_Type(
                 mHoistX,
                 FP_GetExponent(FP_FromInteger(pHoist->mTopLeftY) - doubleYOff),
                 mHoistX,
                 FP_GetExponent(FP_FromInteger(pHoist->mTopLeftY) - doubleYOff),
-                ReliveTypes::eHoist));
+                ReliveTypes::eHoist).GetTlv<relive::Path_Hoist>();
 
             mHoistY = pHoist->mTopLeftY;
         }
@@ -1187,7 +1187,7 @@ void Fleech::VUpdate()
         if (oldX != mXPos || oldY != mYPos)
         {
             BaseAliveGameObjectPathTLV = gPathInfo->TLV_Get_At(
-                nullptr,
+                TlvIterator::Invalid(),
                 mXPos,
                 mYPos,
                 mXPos,
@@ -1394,14 +1394,15 @@ void Fleech::VScreenChanged()
 
 void Fleech::VOnTlvCollision(TlvIterator tlvIterator)
 {
-    while (pTlv)
+    while (tlvIterator.GetTlv())
     {
-        if (pTlv->mTlvType == ReliveTypes::eDeathDrop)
+        if (tlvIterator.GetTlv()->mTlvType == ReliveTypes::eDeathDrop)
         {
             mHealth = FP_FromInteger(0);
             SetDead(true);
+            break;
         }
-        pTlv = gPathInfo->TLV_Get_At(pTlv, mXPos, mYPos, mXPos, mYPos);
+        tlvIterator = gPathInfo->TLV_Get_At(tlvIterator, mXPos, mYPos, mXPos, mYPos);
     }
 }
 
@@ -1998,12 +1999,12 @@ s16 Fleech::HandleEnemyStopperOrSlamDoor(s32 velX)
         stopperXPos = mXPos;
     }
 
-    auto pStopper = static_cast<relive::Path_EnemyStopper*>(gPathInfo->VTLV_Get_At_Of_Type(
+    auto pStopper = gPathInfo->VTLV_Get_At_Of_Type(
         FP_GetExponent(stopperXPos),
         FP_GetExponent(mYPos),
         FP_GetExponent(stopperXPos),
         FP_GetExponent(mYPos),
-        ReliveTypes::eEnemyStopper));
+        ReliveTypes::eEnemyStopper).GetTlv<relive::Path_EnemyStopper>();
 
     if (pStopper && (pStopper->mStopDirection == (nextXPos >= mXPos ? relive::Path_EnemyStopper::StopDirection::Right : relive::Path_EnemyStopper::StopDirection::Left)) && SwitchStates_Get(pStopper->mSwitchId))
     {
@@ -2021,12 +2022,12 @@ s16 Fleech::HandleEnemyStopperOrSlamDoor(s32 velX)
         slamDoorXPos = nextXPos;
     }
 
-    auto pSlamDoor = static_cast<relive::Path_SlamDoor*>(gPathInfo->VTLV_Get_At_Of_Type(
+    auto pSlamDoor = gPathInfo->VTLV_Get_At_Of_Type(
         FP_GetExponent(slamDoorXPos),
         FP_GetExponent(mYPos),
         FP_GetExponent(slamDoorXPos),
         FP_GetExponent(mYPos),
-        ReliveTypes::eSlamDoor));
+        ReliveTypes::eSlamDoor).GetTlv<relive::Path_SlamDoor>();
 
     return (pSlamDoor && ((pSlamDoor->mStartClosed && !SwitchStates_Get(pSlamDoor->mSwitchId)) || (!pSlamDoor->mStartClosed && SwitchStates_Get(pSlamDoor->mSwitchId))));
 }
@@ -2448,12 +2449,12 @@ relive::Path_Hoist* Fleech::TryGetHoist(s32 xDistance, s16 bIgnoreDirection)
         xCheck = (ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(xDistance)) + xSnapped;
     }
 
-    auto pHoist = static_cast<relive::Path_Hoist*>(gPathInfo->VTLV_Get_At_Of_Type(
+    auto pHoist = gPathInfo->VTLV_Get_At_Of_Type(
         FP_GetExponent(std::min(xCheck, mXPos)),
         FP_GetExponent(y2),
         FP_GetExponent(std::max(xCheck, mXPos)),
         FP_GetExponent(y1),
-        ReliveTypes::eHoist));
+        ReliveTypes::eHoist).GetTlv<relive::Path_Hoist>();
 
     if (!pHoist)
     {
@@ -3564,7 +3565,7 @@ ChasingAbeBrain::EState ChasingAbeBrain::Brain_ChasingAbe_State_1(BaseAliveGameO
                 FP_GetExponent(mFleech.mYPos),
                 FP_GetExponent(slamDoorW),
                 FP_GetExponent(mFleech.mYPos),
-                ReliveTypes::eSlamDoor);
+                ReliveTypes::eSlamDoor).GetTlv();
 
             if (pSlamDoor)
             {

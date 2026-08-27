@@ -264,7 +264,7 @@ void MotionDetector::VUpdate()
             {
                 const PSX_RECT objRect = pObj->VGetBoundingRect();
 
-                // Can't use PSX_Rects_overlap_no_adjustment because its checking <= and adjusting x/y
+                // Can't use RectsOverlap because its checking <= and adjusting x/y
                 if (bLaserRect.x <= (objRect.w - 8)
                     && bLaserRect.w >= (objRect.x + 8)
                     && bLaserRect.h >= objRect.y

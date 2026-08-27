@@ -113,12 +113,12 @@ void ScrabSpawner::VUpdate()
         {
             if (SwitchStates_Get(field_24_spawner_switch_id))
             {
-                auto pTlv = static_cast<relive::Path_ScrabSpawner*>(gPathInfo->VTLV_Get_At_Of_Type(
+                auto pTlv = gPathInfo->VTLV_Get_At_Of_Type(
                     field_28_tlv_data.mTopLeftX,
                     field_28_tlv_data.mTopLeftY,
                     field_28_tlv_data.mTopLeftX,
                     field_28_tlv_data.mTopLeftY,
-                    ReliveTypes::eScrabSpawner));
+                    ReliveTypes::eScrabSpawner).GetTlv<relive::Path_ScrabSpawner>();
 
                 if (pTlv)
                 {

@@ -1838,9 +1838,9 @@ s16 Paramite::Brain_4_ChasingAbe()
                 FP_GetExponent(mXPos),
                 FP_GetExponent(mYPos),
                 ReliveTypes::eEnemyStopper);
-            if (BaseAliveGameObjectPathTLV)
+            if (BaseAliveGameObjectPathTLV.GetTlv())
             {
-                auto pStopper = static_cast<relive::Path_EnemyStopper*>(BaseAliveGameObjectPathTLV);
+                auto pStopper = BaseAliveGameObjectPathTLV.GetTlv<relive::Path_EnemyStopper>();
                 if ((pStopper->mStopDirection == relive::Path_EnemyStopper::StopDirection::Left && gAbe->mXPos < mXPos) || (pStopper->mStopDirection == relive::Path_EnemyStopper::StopDirection::Right && gAbe->mXPos > mXPos))
                 {
                     if (!SwitchStates_Get(pStopper->mSwitchId))
@@ -2463,10 +2463,10 @@ s16 Paramite::HandleEnemyStopper(s16 numGridBlocks, relive::Path_EnemyStopper::S
         FP_GetExponent(mYPos),
         ReliveTypes::eEnemyStopper);
 
-    if (BaseAliveGameObjectPathTLV)
+    if (BaseAliveGameObjectPathTLV.GetTlv())
     {
         // No stopper or its disabled
-        auto pEnemyStopper = static_cast<relive::Path_EnemyStopper*>(BaseAliveGameObjectPathTLV);
+        auto pEnemyStopper = BaseAliveGameObjectPathTLV.GetTlv<relive::Path_EnemyStopper>();
         if (!pEnemyStopper || !SwitchStates_Get(pEnemyStopper->mSwitchId))
         {
             return 0;

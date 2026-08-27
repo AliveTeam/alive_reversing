@@ -20,10 +20,6 @@ void PSX_VSync(VSyncMode mode);
 void PSX_PutDispEnv_4F5890();
 void PSX_EMU_SetCallBack_4F9430(TPsxEmuCallBack fnPtr);
 
-bool PSX_Rects_overlap_no_adjustment(const PSX_RECT* pRect1, const PSX_RECT* pRect2);
-
-bool PSX_Rects_overlap_4FA0B0(const PSX_RECT* pRect1, const PSX_RECT* pRect2);
-
 void PSX_Prevent_Rendering();
 
 struct CdlLOC final
@@ -46,6 +42,20 @@ ALIVE_ASSERT_SIZEOF(CdlFILE, 24);
 struct PSX_RECT final
 {
     s16 x, y, w, h;
+
+    bool Overlaps(const PSX_RECT& r2) const
+    {
+        return !(r2.x > w || r2.w < x || r2.y > h || r2.h < y);
+    }
+
+    inline bool Contains(const PSX_RECT& r) const
+    {
+        return (x >= r.x &&
+                w <= r.w &&
+                y >= r.y &&
+                h <= r.h);
+    }
+
 };
 ALIVE_ASSERT_SIZEOF(PSX_RECT, 8);
 
@@ -66,21 +76,11 @@ inline bool operator==(const PSX_RECT& lhs, const PSX_RECT& rhs)
     return (lhs.x == rhs.x) && (lhs.y == rhs.y) && (lhs.w == rhs.w) && (lhs.h == rhs.h);
 }
 
-inline bool RectsOverlap(const PSX_RECT& r1, const PSX_RECT& r2)
-{
-    return !(r2.x > r1.w || r2.w < r1.x || r2.y > r1.h || r2.h < r1.y);
-}
-
 struct PSX_Pos16 final
 {
     s16 x, y;
 };
 ALIVE_ASSERT_SIZEOF(PSX_Pos16, 0x4);
 
-
-inline bool PSX_Rects_overlap_no_adjustment(const PSX_RECT* pRect1, const PSX_RECT* pRect2)
-{
-    return (pRect1->x <= pRect2->w && pRect1->w >= pRect2->x && pRect1->y <= pRect2->h && pRect1->h >= pRect2->y);
-}
 
 extern bool gTurnOffRendering;

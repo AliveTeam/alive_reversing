@@ -52,7 +52,7 @@ void Path::Init(const PathData* pPathData, EReliveLevelIds level, s16 path, s16 
 
 void Path::Loader_4DB800(s16 xpos, s16 ypos, relive::LoadMode loadMode, ReliveTypes typeToLoad)
 {
-    const TlvList tlvs = mBinaryPath->TlvsForCamera(xpos, ypos);
+    const TlvList& tlvs = mBinaryPath->TlvsForCamera(xpos, ypos);
     for (auto& pPathTLV : tlvs.mTlvs)
     {
         if (typeToLoad == ReliveTypes::eNone || typeToLoad == pPathTLV->mTlvType)
@@ -186,12 +186,12 @@ TlvIterator Path::TLV_Get_At(TlvIterator tlvIterator, FP xpos, FP ypos, FP width
 
         if (camX >= mCamsOnX || camY >= mCamsOnY)
         {
-            return {nullptr, nullptr, 0};
+            return TlvIterator::Invalid();
         }
 
         if (camX < 0 || camY < 0)
         {
-            return {nullptr, nullptr, 0};
+            return TlvIterator::Invalid();
         }
 
         BinaryPath* pBinPath = gMap.GetPathResourceBlockPtr(gMap.mCurrentPath);
@@ -206,7 +206,7 @@ TlvIterator Path::TLV_Get_At(TlvIterator tlvIterator, FP xpos, FP ypos, FP width
 
     if (tlvIterator.GetTlv()->mTlvFlags.Get(relive::TlvFlags::eBit3_End_TLV_List))
     {
-        return {nullptr, nullptr, 0};
+        return TlvIterator::Invalid();
     }
 
     while (1)
@@ -219,7 +219,7 @@ TlvIterator Path::TLV_Get_At(TlvIterator tlvIterator, FP xpos, FP ypos, FP width
 
         if (tlvIterator.GetTlv()->mTlvFlags.Get(relive::TlvFlags::eBit3_End_TLV_List))
         {
-            return {nullptr, nullptr, 0};
+            return TlvIterator::Invalid();
         }
     }
 

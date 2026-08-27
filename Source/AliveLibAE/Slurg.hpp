@@ -79,7 +79,6 @@ private:
     s16 mMovingTimer = 0;
     s16 mRngForMovingTimer = 0;
     PathLine* mSlurgLine = nullptr; // why not use the BaseAliveGameObject line?
-    TlvIterator mSlurgTlv = TlvIterator::Invalid(); // dito
     Guid mTlvInfo;
     FP mSlurgSpriteScale = {}; // just use BaseAnimatedWithPhysicsGameObject sprite scale?
 };

@@ -614,7 +614,7 @@ s16 Drill::DamageTouchingObjects()
                 {
                     const PSX_RECT objRect = pObj->VGetBoundingRect();
 
-                    if (RectsOverlap(drillRect, objRect) && pObj->GetScale() == GetScale() && pObj->mHealth > FP_FromInteger(0))
+                    if (drillRect.Overlaps(objRect) && pObj->GetScale() == GetScale() && pObj->mHealth > FP_FromInteger(0))
                     {
                         if (pObj->mXPos + FP_FromInteger(3) >= FP_FromInteger(drillRect.x) && pObj->mXPos - FP_FromInteger(3) <= FP_FromInteger(drillRect.w))
                         {

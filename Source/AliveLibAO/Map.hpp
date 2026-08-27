@@ -112,7 +112,7 @@ public:
     void Start_Sounds_For_Objects_In_Camera(CameraPos direction, s16 cam_x_idx, s16 cam_y_idx);
 
     // NOTE: Part of Path object in AE
-    relive::Path_TLV* Get_First_TLV_For_Offsetted_Camera(s16 camX, s16 camY);
+    TlvIterator Get_First_TLV_For_Offsetted_Camera(s16 camX, s16 camY);
 
     void SaveBlyData(u8* pSaveBuffer);
 

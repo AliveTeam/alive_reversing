@@ -418,7 +418,7 @@ void FallingItem::DamageHitItems()
                         objRect.h += pAliveObj->mYOffset;
                     }
 
-                    if (PSX_Rects_overlap_no_adjustment(&fallingItemRect, &objRect))
+                    if (fallingItemRect.Overlaps(objRect))
                     {
                         if (pAliveObj->Type() == ReliveTypes::eDrill)
                         {

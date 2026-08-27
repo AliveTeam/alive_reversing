@@ -40,7 +40,7 @@ SligGetPantsAndWings::SligGetPantsAndWings(relive::Path_TLV* pTlv, const Guid& t
 
 void SligGetPantsAndWings::VUpdate()
 {
-    relive::Path_TLV* pTlv = gPathInfo->TLV_From_Offset_Lvl_Cam(mTlvInfo);
+    relive::Path_TLV* pTlv = gPathInfo->TLV_From_Offset_Lvl_Cam(mTlvInfo).GetTlv();
     if (EventGet(Event::kEventDeathReset))
     {
         SetDead(true);

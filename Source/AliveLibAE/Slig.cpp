@@ -642,7 +642,7 @@ void Slig::VGetSaveState(SerializedObjectData& pSaveBuffer)
 void Slig::CreateFromSaveState(SerializedObjectData& pBuffer)
 {
     const auto pState = pBuffer.ReadTmpPtr<SligSaveState>();
-    auto pTlv = static_cast<relive::Path_Slig*>(gPathInfo->TLV_From_Offset_Lvl_Cam(pState->field_5C_tlvInfo));
+    auto pTlv = gPathInfo->TLV_From_Offset_Lvl_Cam(pState->field_5C_tlvInfo).GetTlv<relive::Path_Slig>();
 
     auto pSlig = relive_new Slig(pTlv, pState->field_5C_tlvInfo);
     if (pSlig)
@@ -653,7 +653,7 @@ void Slig::CreateFromSaveState(SerializedObjectData& pBuffer)
             pSlig->SetPossessed(true);
         }
 
-        pSlig->BaseAliveGameObjectPathTLV = nullptr;
+        pSlig->BaseAliveGameObjectPathTLV = TlvIterator::Invalid();
         pSlig->BaseAliveGameObjectCollisionLine = nullptr;
         pSlig->mXPos = pState->field_4_xpos;
         pSlig->mYPos = pState->field_8_ypos;
@@ -1781,7 +1781,7 @@ void Slig::Motion_34_Knockback()
                     FP_GetExponent(mYPos),
                     FP_GetExponent(mXPos),
                     FP_GetExponent(mYPos),
-                    ReliveTypes::eSoftLanding))
+                    ReliveTypes::eSoftLanding).GetTlv())
             {
                 mCurrentMotion = eSligMotions::Motion_41_LandingFatal;
                 field_12C_timer = MakeTimer(30);
@@ -1983,7 +1983,7 @@ void Slig::Motion_38_OutToFall()
         SetDead(true);
     }
 
-    if (mCurrentMotion == eSligMotions::Motion_40_LandingSoft && fallDepth > FP_FromInteger(180) && !gPathInfo->VTLV_Get_At_Of_Type(FP_GetExponent(mXPos), FP_GetExponent(mYPos), FP_GetExponent(mXPos), FP_GetExponent(mYPos), ReliveTypes::eSoftLanding))
+    if (mCurrentMotion == eSligMotions::Motion_40_LandingSoft && fallDepth > FP_FromInteger(180) && !gPathInfo->VTLV_Get_At_Of_Type(FP_GetExponent(mXPos), FP_GetExponent(mYPos), FP_GetExponent(mXPos), FP_GetExponent(mYPos), ReliveTypes::eSoftLanding).GetTlv())
     {
         mCurrentMotion = eSligMotions::Motion_41_LandingFatal;
         field_12C_timer = MakeTimer(30);
@@ -2308,7 +2308,7 @@ void Slig::Motion_51_Beat()
                 {
                     const PSX_RECT bRect = pObj->VGetBoundingRect();
 
-                    if (pObj->mHealth > FP_FromInteger(0) && pObj->GetScale() == GetScale() && PSX_Rects_overlap_no_adjustment(&hitRect, &bRect))
+                    if (pObj->mHealth > FP_FromInteger(0) && pObj->GetScale() == GetScale() && hitRect.Overlaps(bRect))
                     {
                         pObj->VTakeDamage(this);
                         EventBroadcast(Event::kEventNoise, this);
@@ -3710,7 +3710,7 @@ s16 Slig::Brain_19_Turning()
     const PSX_RECT charRect = sControlledCharacter->VGetBoundingRect();
 
 
-    if (sControlledCharacter->Type() != ReliveTypes::eGlukkon && sControlledCharacter->GetScale() == GetScale() && !IsInInvisibleZone(sControlledCharacter) && !sControlledCharacter->GetInvisible() && !IsWallBetween(this, sControlledCharacter) && PSX_Rects_overlap_no_adjustment(&charRect, &bRect) && sControlledCharacter->Type() != ReliveTypes::eSlig)
+    if (sControlledCharacter->Type() != ReliveTypes::eGlukkon && sControlledCharacter->GetScale() == GetScale() && !IsInInvisibleZone(sControlledCharacter) && !sControlledCharacter->GetInvisible() && !IsWallBetween(this, sControlledCharacter) && charRect.Overlaps(bRect) && sControlledCharacter->Type() != ReliveTypes::eSlig)
     {
         GetAnimation().ToggleFlipX();
         return 106;
@@ -3906,7 +3906,7 @@ s16 Slig::Brain_22_GetAlertedTurn()
                 const PSX_RECT bRect = VGetBoundingRect();
                 const PSX_RECT bRectChar = sControlledCharacter->VGetBoundingRect();
 
-                if (PSX_Rects_overlap_no_adjustment(&bRectChar, &bRect))
+                if (bRectChar.Overlaps(bRect))
                 {
                     GetAnimation().ToggleFlipX();
                     return 123;
@@ -4420,29 +4420,29 @@ void Slig::Init()
     {
         for (s16 xCam = -3; xCam < 4; xCam++)
         {
-            relive::Path_TLV* pTlvIter = gPathInfo->Get_First_TLV_For_Offsetted_Camera(xCam, yCam);
-            while (pTlvIter)
+            TlvIterator pTlvIter = gPathInfo->Get_First_TLV_For_Offsetted_Camera(xCam, yCam);
+            while (pTlvIter.GetTlv())
             {
                 bool addPoint = false;
-                if (pTlvIter->mTlvType == ReliveTypes::eSligBoundLeft)
+                if (pTlvIter.GetTlv()->mTlvType == ReliveTypes::eSligBoundLeft)
                 {
-                    if (static_cast<relive::Path_SligBoundLeft*>(pTlvIter)->mSligBoundId == mSligTlv.mData.mSligBoundId)
+                    if (pTlvIter.GetTlv<relive::Path_SligBoundLeft>()->mSligBoundId == mSligTlv.mData.mSligBoundId)
                     {
-                        field_138_zone_rect.x = pTlvIter->mTopLeftX;
+                        field_138_zone_rect.x = pTlvIter.GetTlv()->mTopLeftX;
                         addPoint = true;
                     }
                 }
-                else if (pTlvIter->mTlvType == ReliveTypes::eSligBoundRight)
+                else if (pTlvIter.GetTlv()->mTlvType == ReliveTypes::eSligBoundRight)
                 {
-                    if (static_cast<relive::Path_SligBoundRight*>(pTlvIter)->mSligBoundId == mSligTlv.mData.mSligBoundId)
+                    if (pTlvIter.GetTlv<relive::Path_SligBoundRight>()->mSligBoundId == mSligTlv.mData.mSligBoundId)
                     {
-                        field_138_zone_rect.w = pTlvIter->mTopLeftX;
+                        field_138_zone_rect.w = pTlvIter.GetTlv()->mTopLeftX;
                         addPoint = true;
                     }
                 }
-                else if (pTlvIter->mTlvType == ReliveTypes::eSligPersist)
+                else if (pTlvIter.GetTlv()->mTlvType == ReliveTypes::eSligPersist)
                 {
-                    if (static_cast<relive::Path_SligPersist*>(pTlvIter)->mSligBoundId == mSligTlv.mData.mSligBoundId)
+                    if (pTlvIter.GetTlv<relive::Path_SligPersist>()->mSligBoundId == mSligTlv.mData.mSligBoundId)
                     {
                         addPoint = true;
                     }
@@ -4452,13 +4452,13 @@ void Slig::Init()
                 {
                     if (field_290_points_count < ALIVE_COUNTOF(field_268_points))
                     {
-                        field_268_points[field_290_points_count].x = pTlvIter->mTopLeftX;
-                        field_268_points[field_290_points_count].y = pTlvIter->mTopLeftY;
+                        field_268_points[field_290_points_count].x = pTlvIter.GetTlv()->mTopLeftX;
+                        field_268_points[field_290_points_count].y = pTlvIter.GetTlv()->mTopLeftY;
                         field_290_points_count++;
                     }
                 }
 
-                pTlvIter = Path::Next_TLV(pTlvIter);
+                pTlvIter = pTlvIter.Next_TLV();
             }
         }
     }
@@ -4484,7 +4484,7 @@ Slig::~Slig()
         }
     }
 
-    relive::Path_TLV* pTlv = gPathInfo->TLV_From_Offset_Lvl_Cam(field_118_tlvInfo);
+    relive::Path_TLV* pTlv = gPathInfo->TLV_From_Offset_Lvl_Cam(field_118_tlvInfo).GetTlv();
     if (pTlv)
     {
         if (pTlv->mTlvType != ReliveTypes::eSligGetPants && pTlv->mTlvType != ReliveTypes::eSligSpawner)
@@ -4671,7 +4671,7 @@ void Slig::VUpdate()
         if (oldXPos != mXPos || oldYPos != mYPos)
         {
             BaseAliveGameObjectPathTLV = gPathInfo->TLV_Get_At(
-                nullptr,
+                TlvIterator::Invalid(),
                 mXPos,
                 mYPos,
                 mXPos,
@@ -4729,9 +4729,9 @@ void Slig::VUnPosses()
 
 void Slig::VOnTlvCollision(TlvIterator tlvIterator)
 {
-    while (pTlv)
+    while (tlvIterator.GetTlv())
     {
-        if (pTlv->mTlvType == ReliveTypes::eDeathDrop)
+        if (tlvIterator.GetTlv()->mTlvType == ReliveTypes::eDeathDrop)
         {
             if (mHealth > FP_FromInteger(0))
             {
@@ -4743,9 +4743,10 @@ void Slig::VOnTlvCollision(TlvIterator tlvIterator)
                 mCurrentMotion = eSligMotions::Motion_7_Falling;
                 mbMotionChanged = true;
                 EventBroadcast(Event::kEventMudokonComfort, this);
+                break;
             }
         }
-        pTlv = gPathInfo->TLV_Get_At(pTlv, mXPos, mYPos, mXPos, mYPos);
+        tlvIterator = gPathInfo->TLV_Get_At(tlvIterator, mXPos, mYPos, mXPos, mYPos);
     }
 }
 
@@ -4786,7 +4787,7 @@ void Slig::WakeUp()
         mSligTlv.mTopLeftY,
         mSligTlv.mTopLeftX,
         mSligTlv.mTopLeftY,
-        ReliveTypes::eSlig);
+        ReliveTypes::eSlig).GetTlv();
     if (pTlv)
     {
         pTlv->mTlvSpecificMeaning = 1; // TODO: Keep track of these, 1 must keep slig awake ??
@@ -5910,12 +5911,12 @@ s16 Slig::HandleEnemyStopper(s32 gridBlocks)
     }
 
     const FP width = ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(directedGirdBlocks) + mXPos;
-    auto pTlv = static_cast<relive::Path_EnemyStopper*>(gPathInfo->VTLV_Get_At_Of_Type(
+    auto pTlv = gPathInfo->VTLV_Get_At_Of_Type(
         FP_GetExponent(mXPos),
         FP_GetExponent(mYPos),
         FP_GetExponent(width),
         FP_GetExponent(mYPos - ScaleToGridSize(GetSpriteScale())),
-        ReliveTypes::eEnemyStopper));
+        ReliveTypes::eEnemyStopper).GetTlv<relive::Path_EnemyStopper>();
 
     if (!pTlv)
     {
@@ -6206,7 +6207,7 @@ s16 Slig::IsAbeEnteringDoor(BaseAliveGameObject* pThis)
 s16 Slig::FindLever()
 {
     const s16 yPos = FP_GetExponent(mYPos - FP_FromInteger(5));
-    if (gPathInfo->VTLV_Get_At_Of_Type(FP_GetExponent(mXPos), yPos, FP_GetExponent(mXPos), yPos, ReliveTypes::eLever))
+    if (gPathInfo->VTLV_Get_At_Of_Type(FP_GetExponent(mXPos), yPos, FP_GetExponent(mXPos), yPos, ReliveTypes::eLever).GetTlv())
     {
         return 0;
     }
@@ -6222,8 +6223,8 @@ s16 Slig::FindLever()
                yPos,
                FP_GetExponent(FP_Abs(mXPos) + xOff),
                yPos,
-               ReliveTypes::eLever)
-        != 0;
+               ReliveTypes::eLever).GetTlv()
+        != nullptr;
 }
 
 s16 Slig::NearOrFacingActiveChar(BaseAliveGameObject* pObj)
@@ -6241,16 +6242,7 @@ static s16 IsInZCover(relive::Path_TLV* pTlv, const PSX_RECT* pRect)
 {
     if (pTlv->mTlvType == ReliveTypes::eZSligCover)
     {
-        if (pRect->x >= pTlv->mTopLeftX && pRect->x <= pTlv->mBottomRightX &&
-
-            pRect->y >= pTlv->mTopLeftY && pRect->y <= pTlv->mBottomRightY &&
-
-            pRect->w >= pTlv->mTopLeftX && pRect->w <= pTlv->mBottomRightX &&
-
-            pRect->h >= pTlv->mTopLeftY && pRect->h <= pTlv->mBottomRightY)
-        {
-            return true;
-        }
+        return pRect->Contains(pTlv->GetRect());
     }
     return false;
 }
@@ -6368,16 +6360,16 @@ bool Slig::VTakeDamage(BaseGameObject* pFrom)
                     const PSX_RECT myRect = VGetBoundingRect();
                     const FP rectY = FP_FromInteger(myRect.y);
 
-                    relive::Path_TLV* pTlvIter = nullptr;
+                    TlvIterator pTlvIter = TlvIterator::Invalid();
                     for (;;)
                     {
                         pTlvIter = gPathInfo->TLV_Get_At(pTlvIter, mXPos, rectY, mXPos, rectY);
-                        if (!pTlvIter)
+                        if (!pTlvIter.GetTlv())
                         {
                             break;
                         }
 
-                        if (::IsInZCover(pTlvIter, &myRect))
+                        if (::IsInZCover(pTlvIter.GetTlv(), &myRect))
                         {
                             mbGotShot = false;
                             mHealth = FP_FromInteger(1);

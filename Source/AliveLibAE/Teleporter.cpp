@@ -16,7 +16,7 @@
 #include "../relive_lib/Collisions.hpp"
 #include "../relive_lib/FixedPoint.hpp"
 
-void SetData(Relive_Path_Teleporter_Data& tlvData, const relive::Path_Teleporter& tlv)
+static void SetData(Relive_Path_Teleporter_Data& tlvData, const relive::Path_Teleporter& tlv)
 {
     tlvData.mTeleporterId = tlv.mTeleporterId;
     tlvData.mOtherTeleporterId = tlv.mOtherTeleporterId;
@@ -230,21 +230,21 @@ void Teleporter::VUpdate()
             gMap.mTeleporterTransition = 0;
 
             Relive_Path_Teleporter_Data tlvData = {};
-
-            relive::Path_Teleporter* pTeleporterTlv = static_cast<relive::Path_Teleporter*>(gPathInfo->TLV_First_Of_Type_In_Camera(ReliveTypes::eTeleporter, 0));
-            SetData(tlvData, *pTeleporterTlv);
-            if (tlvData.mTeleporterId != mTlvData.mOtherTeleporterId)
+            relive::Path_Teleporter* pTeleporterTlv = nullptr;
+            TlvIterator teleporterTlvIterator = gPathInfo->TLV_First_Of_Type_In_Camera(ReliveTypes::eTeleporter, 0);
+            while (teleporterTlvIterator.GetTlv())
             {
-                while (pTeleporterTlv)
+                pTeleporterTlv = static_cast<relive::Path_Teleporter*>(teleporterTlvIterator.GetTlv());
+                if (tlvData.mTeleporterId == mTlvData.mOtherTeleporterId)
                 {
-                    pTeleporterTlv = static_cast<relive::Path_Teleporter*>(gPathInfo->TLV_Next_Of_Type(pTeleporterTlv, ReliveTypes::eTeleporter));
                     SetData(tlvData, *pTeleporterTlv);
-
-                    if (tlvData.mTeleporterId == mTlvData.mOtherTeleporterId)
-                    {
-                        break;
-                    }
                 }
+                teleporterTlvIterator = gPathInfo->TLV_Next_Of_Type(teleporterTlvIterator, ReliveTypes::eTeleporter);
+            }
+
+            if (!pTeleporterTlv || tlvData.mTeleporterId != mTlvData.mOtherTeleporterId)
+            {
+                ALIVE_FATAL("Target teleporter not found");
             }
 
             SFX_Play_Pitch(relive::SoundEffects::Zap1, 60, -300, tlvData.mScale != relive::reliveScale::eFull ? FP_FromDouble(0.5) : FP_FromInteger(1));
@@ -276,8 +276,7 @@ void Teleporter::VUpdate()
             // XPos = TLV xpos + TLV middle point
             sControlledCharacter->mXPos = FP_FromInteger(pTeleporterTlv->mTopLeftX) + FP_FromInteger((pTeleporterTlv->Width()) / 2);
 
-            // HACK: Fix me when base class is merged
-            static_cast<BaseAliveGameObject*>(sControlledCharacter)->MapFollowMe(true);
+            sControlledCharacter->MapFollowMe(true);
 
             PathLine* pPathLine = nullptr;
             FP hitX = {};

@@ -29,7 +29,18 @@ using UP_Path_TLV = std::unique_ptr<relive::Path_TLV>;
 struct TlvIterator;
 struct TlvList final
 {
+    TlvList() = default;
+
+    // Prevent copying
+    TlvList(const TlvList&) = delete;
+    TlvList& operator=(const TlvList&) = delete;
+
+    // Allow moving
+    TlvList(TlvList&&) = default;
+    TlvList& operator=(TlvList&&) = default;
+
     std::vector<UP_Path_TLV> mTlvs;
+
     TlvIterator FirstIterator() const;
 };
 
@@ -56,6 +67,12 @@ public:
         return mTlv;
     }
 
+    template<typename T>
+    T* GetTlv() 
+    {
+        return static_cast<T*>(mTlv);
+    }
+
     bool IsValid()
     {
         return mTlvList != nullptr;
@@ -72,7 +89,7 @@ private:
     u32 mIndex = 0;
 };
 
-TlvIterator TlvList::FirstIterator() const
+inline TlvIterator TlvList::FirstIterator() const
 {
     relive::Path_TLV* pTlv = mTlvs.empty() ? nullptr : mTlvs[0].get();
     return TlvIterator(pTlv, this, 0);

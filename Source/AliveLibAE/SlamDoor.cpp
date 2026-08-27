@@ -350,7 +350,7 @@ void SlamDoor::VUpdate()
                         // Some hack that prevents Abe getting knocked back when rolling or falling near a closing slam door
                         bObjRect.x += 3;
 
-                        if (PSX_Rects_overlap_no_adjustment(&bRect, &bObjRect) && pObj->GetSpriteScale() == GetSpriteScale())
+                        if (bRect.Overlaps(bObjRect) && pObj->GetSpriteScale() == GetSpriteScale())
                         {
                             ClearInsideSlamDoor(pObj, bRect.x, bRect.w);
                         }
@@ -393,7 +393,7 @@ void SlamDoor::VUpdate()
                 {
                     const PSX_RECT bObjRect = pObj->VGetBoundingRect();
 
-                    if (FP_GetExponent(pObj->mXPos) > bRect.x && FP_GetExponent(pObj->mXPos) < bRect.w && PSX_Rects_overlap_no_adjustment(&bRect, &bObjRect))
+                    if (FP_GetExponent(pObj->mXPos) > bRect.x && FP_GetExponent(pObj->mXPos) < bRect.w && bRect.Overlaps(bObjRect))
                     {
                         if (pObj->GetSpriteScale() == GetSpriteScale() || (pObj->Type() == ReliveTypes::eSlog && GetSpriteScale() == FP_FromInteger(1)))
                         {

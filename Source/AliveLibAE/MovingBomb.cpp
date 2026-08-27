@@ -348,9 +348,9 @@ void MovingBomb::VUpdate()
                 FP_GetExponent(mYPos),
                 ReliveTypes::eMovingBombStopper);
 
-            if (BaseAliveGameObjectPathTLV)
+            if (BaseAliveGameObjectPathTLV.GetTlv())
             {
-                auto pStopper = static_cast<relive::Path_MovingBombStopper*>(BaseAliveGameObjectPathTLV);
+                auto pStopper = BaseAliveGameObjectPathTLV.GetTlv<relive::Path_MovingBombStopper>();
                 mMinStopTime = pStopper->mMinStopTime;
                 mMaxStopTime = pStopper->mMaxStopTime;
                 mState = States::eStopMoving_3;
@@ -390,7 +390,7 @@ void MovingBomb::VUpdate()
                 FP_GetExponent(mYPos),
                 ReliveTypes::eMovingBombStopper);
 
-            if (!BaseAliveGameObjectPathTLV)
+            if (!BaseAliveGameObjectPathTLV.GetTlv())
             {
                 mState = States::eMoving_2;
             }

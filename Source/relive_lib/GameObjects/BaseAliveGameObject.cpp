@@ -1221,7 +1221,7 @@ BaseAliveGameObject* BaseAliveGameObject::GetStackedSlapTarget(const Guid& idToF
             {
                 BaseAliveGameObject* pAliveObj = static_cast<BaseAliveGameObject*>(pObj);
                 const PSX_RECT bRect = pAliveObj->VGetBoundingRect();
-                // TODO: Similar to PSX_Rects_overlap_no_adjustment
+                // TODO: Similar to RectsOverlap
                 if (xposD >= bRect.x && xposD <= bRect.w && yposD >= bRect.y && yposD <= bRect.h)
                 {
                     return pAliveObj;

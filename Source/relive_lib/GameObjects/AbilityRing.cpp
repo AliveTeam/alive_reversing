@@ -467,7 +467,7 @@ void AbilityRing::CollideWithObjects(bool bDealDamage)
         {
             for (s32 j = 0; j < mRingCount; j++)
             {
-                if (PSX_Rects_overlap_no_adjustment(&mRingCollideRects[j], &bRect))
+                if (RectsOverlap(&mRingCollideRects[j], &bRect))
                 {
                     if (bDealDamage)
                     {

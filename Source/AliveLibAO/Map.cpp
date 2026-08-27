@@ -530,12 +530,12 @@ void Map::Handle_PathTransition()
     relive::Path_PathTransition* pTlv = nullptr;
     if (mAliveObj)
     {
-        pTlv = static_cast<relive::Path_PathTransition*>(VTLV_Get_At_Of_Type(
+        pTlv = VTLV_Get_At_Of_Type(
             FP_GetExponent(mAliveObj->mXPos),
             FP_GetExponent(mAliveObj->mYPos),
             FP_GetExponent(mAliveObj->mXPos),
             FP_GetExponent(mAliveObj->mYPos),
-            ReliveTypes::ePathTransition));
+            ReliveTypes::ePathTransition).GetTlv<relive::Path_PathTransition>();
     }
 
     if (mAliveObj && pTlv)
@@ -1026,18 +1026,18 @@ s16 Map::GetOverlayId()
     return AO::Path_Get_Bly_Record(mNextLevel, mNextPath)->mOverlayId;
 }
 
-relive::Path_TLV* Map::Get_First_TLV_For_Offsetted_Camera(s16 cam_x_idx, s16 cam_y_idx)
+TlvIterator Map::Get_First_TLV_For_Offsetted_Camera(s16 cam_x_idx, s16 cam_y_idx)
 {
     const auto camX = cam_x_idx + mCamIdxOnX;
     const auto camY = cam_y_idx + mCamIdxOnY;
 
     if (camX >= mMaxCamsX || camX < 0 || camY >= mMaxCamsY || camY < 0)
     {
-        return nullptr;
+        ALIVE_FATAL("Camera out of bounds");
     }
 
     BinaryPath* pPathData = GetPathResourceBlockPtr(mCurrentPath);
-    return pPathData->TlvsForCamera(camX, camY);
+    return pPathData->TlvsForCamera(camX, camY).FirstIterator();
 }
 
 void Map::Create_FG1s()
@@ -1060,8 +1060,7 @@ void Map::SaveBlyData(u8* pSaveBuffer)
 
             for (auto& cam : ppPathRes->GetCameras())
             {
-                relive::Path_TLV* pTlv = reinterpret_cast<relive::Path_TLV*>(cam->mBuffer.data());
-                while (pTlv)
+                for (auto& pTlv : cam->mTlvs.mTlvs)
                 {
                     BitField8<relive::TlvFlags> flags = pTlv->mTlvFlags;
                     if (flags.Get(relive::eBit1_Created))
@@ -1080,8 +1079,6 @@ void Map::SaveBlyData(u8* pSaveBuffer)
                     {
                         break;
                     }
-
-                    pTlv = Path_TLV::Next_446460(pTlv);
                 }
             }
         }
@@ -1364,15 +1361,15 @@ relive::Path_TLV* Map::VTLV_Get_At_Of_Type(s16 xpos, s16 ypos, s16 width, s16 he
     return pTlvIter;
 }
 
-relive::Path_TLV* Map::TLV_Get_At(relive::Path_TLV* pTlv, FP xpos, FP ypos, FP width, FP height)
+TlvIterator Map::TLV_Get_At(TlvIterator tlvIterator, FP xpos, FP ypos, FP width, FP height)
 {
-    bool bContinue = true;
-
+    
     const auto xpos_converted = FP_GetExponent(xpos);
     const auto ypos_converted = FP_GetExponent(ypos);
     auto width_converted = FP_GetExponent(width);
     auto height_converted = FP_GetExponent(height);
-
+    
+    bool bContinue = true;
     if (xpos_converted < 0 || ypos_converted < 0)
     {
         bContinue = false;
@@ -1384,7 +1381,7 @@ relive::Path_TLV* Map::TLV_Get_At(relive::Path_TLV* pTlv, FP xpos, FP ypos, FP w
         height_converted = FP_GetExponent(ypos);
     }
 
-    if (!pTlv)
+    if (!tlvIterator.GetTlv())
     {
         const PathData* pPathData = mPathData;
 
@@ -1393,47 +1390,44 @@ relive::Path_TLV* Map::TLV_Get_At(relive::Path_TLV* pTlv, FP xpos, FP ypos, FP w
 
         if (camX >= mMaxCamsX || camY >= mMaxCamsY)
         {
-            return nullptr;
+            return TlvIterator::Invalid();
         }
 
         if (camX < 0 || camY < 0)
         {
-            return nullptr;
+            return TlvIterator::Invalid();
         }
 
         BinaryPath* pBinPath = GetPathResourceBlockPtr(mCurrentPath);
-        pTlv = pBinPath->TlvsForCamera(camX, camY);
-        if (!pTlv)
-        {
-            return nullptr;
-        }
+        const TlvList& tlvs = pBinPath->TlvsForCamera(camX, camY);
+        tlvIterator = tlvs.FirstIterator();
 
-        if (!bContinue || (xpos_converted <= pTlv->mBottomRightX && width_converted >= pTlv->mTopLeftX && height_converted >= pTlv->mTopLeftY && ypos_converted <= pTlv->mBottomRightY))
+        if (!bContinue || (xpos_converted <= tlvIterator.GetTlv()->mBottomRightX && width_converted >= tlvIterator.GetTlv()->mTopLeftX && height_converted >= tlvIterator.GetTlv()->mTopLeftY && ypos_converted <= tlvIterator.GetTlv()->mBottomRightY))
         {
-            return pTlv;
+            return tlvIterator;
         }
     }
 
     if (pTlv->mTlvFlags.Get(relive::eBit3_End_TLV_List))
     {
-        return nullptr;
+        return TlvIterator::Invalid();
     }
 
     while (1)
     {
-        pTlv = Path_TLV::Next_446460(pTlv);
+        tlvIterator = tlvIterator.Next_TLV();
 
-        if (!bContinue || (xpos_converted <= pTlv->mBottomRightX && width_converted >= pTlv->mTopLeftX && height_converted >= pTlv->mTopLeftY && ypos_converted <= pTlv->mBottomRightY))
+        if (!bContinue || (xpos_converted <= tlvIterator.GetTlv()->mBottomRightX && width_converted >= tlvIterator.GetTlv()->mTopLeftX && height_converted >= tlvIterator.GetTlv()->mTopLeftY && ypos_converted <= tlvIterator.GetTlv()->mBottomRightY))
         {
             break;
         }
 
-        if (pTlv->mTlvFlags.Get(relive::eBit3_End_TLV_List))
+        if (tlvIterator.GetTlv()->mTlvFlags.Get(relive::eBit3_End_TLV_List))
         {
-            return 0;
+            return TlvIterator::Invalid();
         }
     }
-    return pTlv;
+    return tlvIterator;
 }
 
 void Map::ResetPathObjects(u16 pathNum)
@@ -1441,45 +1435,29 @@ void Map::ResetPathObjects(u16 pathNum)
     BinaryPath* pPathRes = GetPathResourceBlockPtr(pathNum);
     for (auto& cam : pPathRes->GetCameras())
     {
-        auto pTlv = reinterpret_cast<relive::Path_TLV*>(cam->mBuffer.data());
-        if (pTlv)
+        for (auto& pTlv : cam->mTlvs.mTlvs)
         {
             pTlv->mTlvFlags.Clear(relive::TlvFlags::eBit1_Created);
             pTlv->mTlvFlags.Clear(relive::TlvFlags::eBit2_Destroyed);
-            while (!pTlv->mTlvFlags.Get(relive::TlvFlags::eBit3_End_TLV_List))
+            if (pTlv->mTlvFlags.Get(relive::TlvFlags::eBit3_End_TLV_List))
             {
-                pTlv = Path_TLV::Next_NoCheck(pTlv);
-
-                if (pTlv->mLength == 0)
-                {
-                    break;
-                }
-
-                pTlv->mTlvFlags.Clear(relive::TlvFlags::eBit1_Created);
-                pTlv->mTlvFlags.Clear(relive::TlvFlags::eBit2_Destroyed);
+                break;
             }
         }
     }
 }
 
-relive::Path_TLV* Map::TLV_First_Of_Type_In_Camera(ReliveTypes type, s16 camX)
+TlvIterator Map::TLV_First_Of_Type_In_Camera(ReliveTypes objectType, s16 camX)
 {
-    relive::Path_TLV* pTlvIter = Get_First_TLV_For_Offsetted_Camera(camX, 0);
-    if (!pTlvIter)
+    TlvIterator tlvIterator = Get_First_TLV_For_Offsetted_Camera(camX, 0);
+    while(tlvIterator.GetTlv())
     {
-        return nullptr;
-    }
-
-    while (pTlvIter->mTlvType != type)
-    {
-        pTlvIter = Path_TLV::Next_446460(pTlvIter);
-        if (!pTlvIter)
+        if (tlvIterator.GetTlv()->mTlvType == objectType)
         {
-            return nullptr;
+            return tlvIterator;
         }
     }
-
-    return pTlvIter;
+    return TlvIterator::Invalid();
 }
 
 void Map::Load_Path_Items(Camera* pCamera, relive::LoadMode loadMode)
@@ -1602,38 +1580,29 @@ void Map::Loader(s16 camX, s16 camY, relive::LoadMode loadMode, ReliveTypes type
 {
     // Get TLVs for this cam
     BinaryPath* pPathRes = GetPathResourceBlockPtr(mCurrentPath);
-    relive::Path_TLV* pPathTLV = pPathRes->TlvsForCamera(camX, camY);
-    if (!pPathTLV)
+    const TlvList& tlvList = pPathRes->TlvsForCamera(camX, camY);
+    for (auto& pTlv : tlvList.mTlvs)
     {
-        return;
-    }
-
-    s32 tlvOffset = 0;
-    while (1)
-    {
-        if (typeToLoad == ReliveTypes::eNone || typeToLoad == pPathTLV->mTlvType)
+        if (typeToLoad == ReliveTypes::eNone || typeToLoad == pTlv->mTlvType)
         {
-            if (loadMode != relive::LoadMode::ConstructObject_0 || !(pPathTLV->mTlvFlags.Get(relive::TlvFlags::eBit1_Created) || pPathTLV->mTlvFlags.Get(relive::TlvFlags::eBit2_Destroyed)))
+            if (loadMode != relive::LoadMode::ConstructObject_0 || !(pTlv->mTlvFlags.Get(relive::TlvFlags::eBit1_Created) || pTlv->mTlvFlags.Get(relive::TlvFlags::eBit2_Destroyed)))
             {
                 // Call the factory to construct the item
-                relive::ConstructTLVObject(pPathTLV, pPathTLV->mId, loadMode);
+                relive::ConstructTLVObject(pTlv.get(), pTlv->mId, loadMode);
 
                 if (loadMode == relive::LoadMode::ConstructObject_0)
                 {
-                    pPathTLV->mTlvFlags.Set(relive::TlvFlags::eBit1_Created);
-                    pPathTLV->mTlvFlags.Set(relive::TlvFlags::eBit2_Destroyed);
+                    pTlv->mTlvFlags.Set(relive::TlvFlags::eBit1_Created);
+                    pTlv->mTlvFlags.Set(relive::TlvFlags::eBit2_Destroyed);
                 }
             }
         }
 
         // End of TLV list for current camera
-        if (pPathTLV->mTlvFlags.Get(relive::TlvFlags::eBit3_End_TLV_List))
+        if (pTlv->mTlvFlags.Get(relive::TlvFlags::eBit3_End_TLV_List))
         {
             break;
         }
-
-        tlvOffset += pPathTLV->mLength;
-        pPathTLV = Path_TLV::Next_446460(pPathTLV);
     }
 }
 

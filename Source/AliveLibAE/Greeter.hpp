@@ -99,7 +99,7 @@ private:
     s16 field_12E_bDontSetDestroyed = 0;
     bool mChasing = false;
     FP field_134_speed = {};
-    relive::Path_TLV* field_138_pTlv = nullptr;
+    TlvIterator field_138_pTlv = TlvIterator::Invalid();
 
 public:
     GreeterBrainStates mBrainState = GreeterBrainStates::eBrain_0_Patrol;

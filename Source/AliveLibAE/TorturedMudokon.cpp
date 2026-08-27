@@ -210,7 +210,7 @@ void TorturedMudokon::VUpdate()
         GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Tortured_Mudokon_Released));
         mTearsAnim.SetRender(false);
         mZapAnim.SetRender(false);
-        relive::Path_TLV* pTlv = gPathInfo->TLV_From_Offset_Lvl_Cam(mTlvInfo);
+        relive::Path_TLV* pTlv = gPathInfo->TLV_From_Offset_Lvl_Cam(mTlvInfo).GetTlv();
         if (pTlv)
         {
             pTlv->mTlvSpecificMeaning = 1;

@@ -232,12 +232,12 @@ void FlyingSlig::CreateFromSaveState(SerializedObjectData& pBuffer)
 {
     const auto pSaveState = pBuffer.ReadTmpPtr<FlyingSligSaveState>();
 
-    auto pTlv = static_cast<relive::Path_FlyingSlig*>(gPathInfo->TLV_From_Offset_Lvl_Cam(pSaveState->field_3C_tlvInfo));
+    auto pTlv = static_cast<relive::Path_FlyingSlig*>(gPathInfo->TLV_From_Offset_Lvl_Cam(pSaveState->field_3C_tlvInfo).GetTlv());
 
     auto pFlyingSlig = relive_new FlyingSlig(pTlv, pSaveState->field_3C_tlvInfo);
     if (pFlyingSlig)
     {
-        pFlyingSlig->BaseAliveGameObjectPathTLV = nullptr;
+        pFlyingSlig->BaseAliveGameObjectPathTLV = TlvIterator::Invalid();
         pFlyingSlig->BaseAliveGameObjectCollisionLine = nullptr;
 
         pFlyingSlig->mXPos = pSaveState->field_4_xpos;
@@ -465,7 +465,7 @@ FlyingSlig::~FlyingSlig()
         }
     }
 
-    relive::Path_TLV* pTlv = gPathInfo->TLV_From_Offset_Lvl_Cam(field_148_tlvInfo);
+    relive::Path_TLV* pTlv = gPathInfo->TLV_From_Offset_Lvl_Cam(field_148_tlvInfo).GetTlv();
     if (pTlv)
     {
         if (pTlv->mTlvType != ReliveTypes::eSligGetWings && pTlv->mTlvType != ReliveTypes::eFlyingSligSpawner)
@@ -833,32 +833,28 @@ bool FlyingSlig::VTakeDamage(BaseGameObject* pFrom)
             if (static_cast<Bullet*>(pFrom)->mBulletType == BulletType::eZBullet_3)
             {
                 const PSX_RECT bRect = VGetBoundingRect();
-                relive::Path_TLV* pTlv = nullptr;
+                TlvIterator tlvIterator = TlvIterator::Invalid();
                 do
                 {
-                    pTlv = gPathInfo->TLV_Get_At(pTlv,
+                    tlvIterator = gPathInfo->TLV_Get_At(tlvIterator,
                                                                  mXPos,
                                                                  FP_FromInteger(bRect.y),
                                                                  mXPos,
                                                                  FP_FromInteger(bRect.y));
-                    if (!pTlv)
+                    if (!tlvIterator.GetTlv())
                     {
                         break;
                     }
-                    if (pTlv->mTlvType == ReliveTypes::eZSligCover)
+                    if (tlvIterator.GetTlv()->mTlvType == ReliveTypes::eZSligCover)
                     {
-                        // Left/right in cover
-                        if (bRect.x >= pTlv->mTopLeftX && bRect.x <= pTlv->mBottomRightX && bRect.y >= pTlv->mTopLeftY && bRect.y <= pTlv->mBottomRightY)
+                        if (bRect.Contains(tlvIterator.GetTlv()->GetRect()))
                         {
-                            // Top/bottom in cover
-                            if (bRect.w >= pTlv->mTopLeftX && bRect.w <= pTlv->mBottomRightX && bRect.h >= pTlv->mTopLeftY && bRect.h <= pTlv->mBottomRightY)
-                            {
-                                return false;
-                            }
+                            // Don't die - slig is in zcover
+                            return false;
                         }
                     }
                 }
-                while (pTlv);
+                while (tlvIterator.GetTlv());
             }
             // Not in Z-Cover, fall through and be shot
             [[fallthrough]];

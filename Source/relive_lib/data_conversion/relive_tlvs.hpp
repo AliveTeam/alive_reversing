@@ -85,6 +85,16 @@ public:
         // Some derived types have std::string etc so correct dtor must be called
     }
 
+    PSX_RECT GetRect() const
+    {
+        PSX_RECT r;
+        r.x = mTopLeftX;
+        r.y = mTopLeftY;
+        r.w = mBottomRightX;
+        r.h = mBottomRightY;
+        return r;
+    }
+
     s16 Width() const
     {
         return mBottomRightX - mTopLeftX;

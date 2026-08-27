@@ -628,10 +628,11 @@ void BirdPortal::VGiveShrykull(s16 bPlaySound)
 
 void BirdPortal::VExitPortal()
 {
+    // If the bird port has changed us to another level/path update it
     mCurrentPath = gMap.mCurrentPath;
     mCurrentLevel = gMap.mCurrentLevel;
 
-    auto pPortalExitTlv = static_cast<relive::Path_BirdPortalExit*>(GetMap().TLV_First_Of_Type_In_Camera(ReliveTypes::eBirdPortalExit, 0));
+    auto pPortalExitTlv = GetMap().TLV_First_Of_Type_In_Camera(ReliveTypes::eBirdPortalExit, 0).GetTlv<relive::Path_BirdPortalExit>();
     if (pPortalExitTlv)
     {
         // TODO: Clean up this hack by having a better way to match "any" type of line
@@ -650,6 +651,8 @@ void BirdPortal::VExitPortal()
             allLinesHack);
 
         mExitX = FP_FromInteger((pPortalExitTlv->mTopLeftX + pPortalExitTlv->mBottomRightX) / 2);
+        
+        // Teleport the bird portal from the source level/path to where the portal exit is
         mXPos = mExitX;
         mYPos = mExitY - FP_FromInteger(55);
         mEnterSide = pPortalExitTlv->mExitSide;
@@ -675,7 +678,7 @@ void BirdPortal::VExitPortal()
     }
     else
     {
-        LOG_WARNING("Bird portal exit object not found!");
+        ALIVE_FATAL("Bird portal exit object not found!");
     }
 }
 
@@ -747,7 +750,7 @@ void BirdPortal::KillTerminators()
 void BirdPortal::VGetSaveState(SerializedObjectData& pBuffer)
 {
     BirdPortalSaveState data = {};
-    auto pTlv = static_cast<relive::Path_BirdPortal*>(gPathInfo->TLV_From_Offset_Lvl_Cam(mTlvInfo));
+    auto pTlv = gPathInfo->TLV_From_Offset_Lvl_Cam(mTlvInfo).GetTlv<relive::Path_BirdPortal>();
 
     s16 numMudsForShrykull = 0;
     if (pTlv)
@@ -766,7 +769,7 @@ void BirdPortal::VGetSaveState(SerializedObjectData& pBuffer)
 void BirdPortal::CreateFromSaveState(SerializedObjectData& pBuffer)
 {
     const auto pSaveState = pBuffer.ReadTmpPtr<BirdPortalSaveState>();
-    auto pTlv = static_cast<relive::Path_BirdPortal*>(gPathInfo->TLV_From_Offset_Lvl_Cam(pSaveState->mTlvInfo));
+    auto pTlv = gPathInfo->TLV_From_Offset_Lvl_Cam(pSaveState->mTlvInfo).GetTlv<relive::Path_BirdPortal>();
     if (!pTlv)
     {
         return;

@@ -56,7 +56,7 @@ private:
     void SetInvisibilityTarget();
 
 private:
-    relive::Path_SlapLock* mSlapLockTlv = nullptr;
+    TlvIterator mSlapLockTlv = TlvIterator::Invalid();
     Guid mTlvInfo;
     SlapLockStates mState = SlapLockStates::eShaking_0;
     s32 mTimer1 = 0;

@@ -59,8 +59,6 @@ Slurg::Slurg(relive::Path_Slurg* pTlv, const Guid& tlvId)
 {
     LoadAnimations();
 
-    mSlurgTlv = pTlv;
-
     mSlurgState = SlurgStates::eMoving_0;
 
     Animation_Init(GetAnimRes(AnimId::Slurg_Move));
@@ -266,14 +264,12 @@ void Slurg::VUpdate()
 
     if (oldXPos != mXPos)
     {
-        mSlurgTlv = gPathInfo->TLV_Get_At(
+        VOnTlvCollision(gPathInfo->TLV_Get_At(
             TlvIterator::Invalid(),
             mXPos,
             mYPos,
             mXPos,
-            mYPos);
-
-        VOnTlvCollision(mSlurgTlv);
+            mYPos));
     }
 }
 

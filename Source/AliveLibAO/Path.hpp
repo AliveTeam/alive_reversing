@@ -153,9 +153,6 @@ struct Path_TLV
     PSX_Point mTopLeft;
     PSX_Point mBottomRight;
 
-    // Note: Part of Path object in AE
-    static relive::Path_TLV* Next_446460(relive::Path_TLV* pTlv);
-
     // Note: must be inlined as its used by the api
     static relive::Path_TLV* Next(relive::Path_TLV* pTlv)
     {

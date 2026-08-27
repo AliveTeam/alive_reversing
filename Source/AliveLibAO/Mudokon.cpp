@@ -1115,22 +1115,20 @@ void Mudokon::VOnTrapDoorOpen()
 
 void Mudokon::VOnTlvCollision(TlvIterator tlvIterator)
 {
-    if (pTlv)
+    while (tlvIterator.GetTlv())
     {
-        while (pTlv)
+        if (tlvIterator.GetTlv()->mTlvType == ReliveTypes::eDeathDrop)
         {
-            if (pTlv->mTlvType == ReliveTypes::eDeathDrop)
+            if (mHealth > FP_FromInteger(0))
             {
-                if (mHealth > FP_FromInteger(0))
-                {
-                    field_1BA_brain_sub_state = 0;
-                    mHealth = FP_FromInteger(0);
-                    field_1B8_brain_state = 13;
-                    EventBroadcast(Event::kEventMudokonDead, gAbe);
-                }
+                field_1BA_brain_sub_state = 0;
+                mHealth = FP_FromInteger(0);
+                field_1B8_brain_state = 13;
+                EventBroadcast(Event::kEventMudokonDead, gAbe);
+                break;
             }
-            pTlv = gMap.TLV_Get_At(pTlv, mXPos, mYPos, mXPos, mYPos);
         }
+        tlvIterator = gMap.TLV_Get_At(tlvIterator, mXPos, mYPos, mXPos, mYPos);
     }
 }
 

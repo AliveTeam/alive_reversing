@@ -3874,15 +3874,16 @@ void Abe::Motion_28_HopMid_451C50()
         }
 
         // Check for an edge
-        relive::Path_Edge* pEdgeTlv = static_cast<relive::Path_Edge*>(gPathInfo->VTLV_Get_At_Of_Type(
+        TlvIterator tlvIterator = gPathInfo->VTLV_Get_At_Of_Type(
             FP_GetExponent(mXPos),
             FP_GetExponent(mYPos - (GetSpriteScale() * FP_FromInteger(75))),
             FP_GetExponent(mXPos),
             FP_GetExponent(mYPos),
-            ReliveTypes::eEdge).GetTlv());
+            ReliveTypes::eEdge);
 
-        BaseAliveGameObjectPathTLV = pEdgeTlv;
+        BaseAliveGameObjectPathTLV = tlvIterator;
 
+        relive::Path_Edge* pEdgeTlv = static_cast<relive::Path_Edge*>(tlvIterator.GetTlv());
         if (pEdgeTlv && pEdgeTlv->mCanGrab && IsSameScaleAsEdge(pEdgeTlv, this) && ((isEdgeGrabbable(pEdgeTlv, this) && mVelX != FP_FromInteger(0))))
         {
             mXPos = FP_FromInteger((pEdgeTlv->mTopLeftX + pEdgeTlv->mBottomRightX) / 2);
@@ -4912,7 +4913,7 @@ void Abe::Motion_57_Dead_4589A0()
             EventBroadcast(Event::kEventHeroDying, this);
             if (!(sGnFrame % 4))
             {
-                if (BaseAliveGameObjectPathTLV && BaseAliveGameObjectPathTLV->mTlvType == ReliveTypes::eDeathDrop)
+                if (BaseAliveGameObjectPathTLV.GetTlv() && BaseAliveGameObjectPathTLV.GetTlv()->mTlvType == ReliveTypes::eDeathDrop)
                 {
                     const FP ypos = FP_FromInteger(Math_NextRandom() % 10) + mYPos + FP_FromInteger(15);
                     const FP xpos = FP_FromInteger(((Math_NextRandom() % 64) - 32)) + mXPos;
@@ -5270,34 +5271,24 @@ void Abe::Motion_68_ToOffScreenHoist_454B80()
 {
     BaseGameObject* pLiftPoint = sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId);
 
-    // Get the current hoist - even though there is no need to?
-    TlvIterator hoistIterator = gPathInfo->VTLV_Get_At_Of_Type(
-        FP_GetExponent(mXPos),
-        FP_GetExponent(mYPos),
-        FP_GetExponent(mXPos),
-        FP_GetExponent(mYPos),
-        ReliveTypes::eHoist);
-    relive::Path_TLV* pHoist = hoistIterator.GetTlv();
-
-    // Find the hoist we are "connecting" to
-    BaseAliveGameObjectPathTLV = hoistIterator;
     mYPos -= GetSpriteScale() * FP_FromInteger(75);
     GetShadow()->mShadowAtBottom = true;
 
+    // Get the connecting to hoist (on the above screen - can only hoist up)
     const FP ypos = FP_FromInteger(BaseAliveGameObjectPathTLV.GetTlv()->mTopLeftY) - (FP_FromInteger(40) * GetSpriteScale());
-    pHoist = gPathInfo->VTLV_Get_At_Of_Type(
+    TlvIterator hoistIterator = gPathInfo->VTLV_Get_At_Of_Type(
         FP_GetExponent(mXPos),
         FP_GetExponent(ypos),
         FP_GetExponent(mXPos),
         FP_GetExponent(ypos),
-        ReliveTypes::eHoist).GetTlv();
+        ReliveTypes::eHoist);
 
-    BaseAliveGameObjectPathTLV = pHoist;
+    BaseAliveGameObjectPathTLV = hoistIterator;
 
     PathLine* pLine = nullptr;
     FP hitX = {};
     FP hitY = {};
-    if (pHoist && gCollisions->Raycast(mXPos, FP_FromInteger(pHoist->mTopLeftY - 10), mXPos, FP_FromInteger(pHoist->mTopLeftY + 10), &pLine, &hitX, &hitY, GetScale() == Scale::Fg ? kFgFloor : kBgFloor))
+    if (hoistIterator.GetTlv() && gCollisions->Raycast(mXPos, FP_FromInteger(hoistIterator.GetTlv()->mTopLeftY - 10), mXPos, FP_FromInteger(hoistIterator.GetTlv()->mTopLeftY + 10), &pLine, &hitX, &hitY, GetScale() == Scale::Fg ? kFgFloor : kBgFloor))
     {
         BaseAliveGameObjectCollisionLine = pLine;
         mYPos = FP_NoFractional(hitY + FP_FromDouble(0.5));
@@ -5552,7 +5543,7 @@ void Abe::Motion_78_WellBegin_45C810()
             FP_GetExponent(mYPos),
             ReliveTypes::eWellLocal);
 
-        if (!BaseAliveGameObjectPathTLV)
+        if (!BaseAliveGameObjectPathTLV.GetTlv())
         {
             // No local well, must be an express well
             BaseAliveGameObjectPathTLV = gPathInfo->VTLV_Get_At_Of_Type(
@@ -5830,39 +5821,25 @@ void Abe::Motion_82_InsideWellExpress_45CC80()
 
 void Abe::Motion_83_WellExpressShotOut_45CF70()
 {
-    PSX_Point camPos = {};
-    gMap.GetCurrentCamCoords(&camPos);
-
     GetAnimation().SetRender(true);
 
-    relive::Path_TLV* pTlvIter = nullptr;
     relive::Path_WellBase* pWell = nullptr;
-    for (;;)
+
+    TlvIterator tlvIter = gPathInfo->Get_First_TLV_For_Offsetted_Camera(0, 0);
+    while (tlvIter.GetTlv())
     {
-        pTlvIter = gPathInfo->TLV_Get_At(
-            pTlvIter,
-            FP_FromInteger(camPos.x),
-            FP_FromInteger(camPos.y),
-            FP_FromInteger(camPos.x + 368),
-            FP_FromInteger(camPos.y + 240));
-
-        // At the end, exit.
-        if (!pTlvIter)
-        {
-            break;
-        }
-
         // Is it a well?
-        if (pTlvIter->mTlvType == ReliveTypes::eWellLocal || pTlvIter->mTlvType == ReliveTypes::eWellExpress)
+        if (tlvIter.GetTlv()->mTlvType == ReliveTypes::eWellLocal || tlvIter.GetTlv()->mTlvType == ReliveTypes::eWellExpress)
         {
             // Is it the target of the previous well?
-            relive::Path_WellBase* pWellBase = static_cast<relive::Path_WellBase*>(pTlvIter);
+            auto pWellBase = tlvIter.GetTlv<relive::Path_WellBase>();
             if (pWellBase->mOtherWellId == field_1A0_door_id)
             {
                 pWell = pWellBase;
                 break;
             }
         }
+        tlvIter = tlvIter.Next_TLV();
     }
 
     mCurrentLevel = gMap.mCurrentLevel;
@@ -5884,12 +5861,15 @@ void Abe::Motion_83_WellExpressShotOut_45CF70()
         mXPos = FP_FromInteger((pWell->mTopLeftX + pWell->mBottomRightX) / 2);
         mYPos = FP_FromInteger(pWell->mBottomRightY);
 
-        BaseAliveGameObjectPathTLV = pWell;
+        BaseAliveGameObjectPathTLV = tlvIter;
 
         mCurrentMotion = eAbeMotions::Motion_79_InsideWellLocal_45CA60;
     }
     else
     {
+        // Shoot out of the same well if target not found
+        PSX_Point camPos = {};
+        gMap.GetCurrentCamCoords(&camPos);
         mXPos = FP_FromInteger(camPos.x + 184);
         mYPos = FP_FromInteger(camPos.y + 80);
         mVelX = GetSpriteScale() * FP_FromDouble(-2.68);
@@ -5976,8 +5956,8 @@ void Abe::Motion_86_HandstoneBegin()
                         FP_GetExponent(mXPos),
                         FP_GetExponent(mYPos),
                         ReliveTypes::eHandStone);
-                    relive::Path_HandStone* pHandStoneTlv = static_cast<relive::Path_HandStone*>(handStoneIterator);
                     BaseAliveGameObjectPathTLV = handStoneIterator;
+                    relive::Path_HandStone* pHandStoneTlv = handStoneIterator.GetTlv<relive::Path_HandStone>();
 
                     if (pHandStoneTlv)
                     {
@@ -6970,15 +6950,14 @@ void Abe::Motion_114_DoorEnter()
 
         case AbeDoorStates::eSetNewActiveCamera_4:
         {
-            relive::Path_Door* pDoorTlv = static_cast<relive::Path_Door*>(gPathInfo->VTLV_Get_At_Of_Type(
+            BaseAliveGameObjectPathTLV = gPathInfo->VTLV_Get_At_Of_Type(
                 FP_GetExponent(mXPos),
                 FP_GetExponent(mYPos),
                 FP_GetExponent(mXPos),
                 FP_GetExponent(mYPos),
-                ReliveTypes::eDoor));
+                ReliveTypes::eDoor);
 
-            BaseAliveGameObjectPathTLV = pDoorTlv;
-
+            auto pDoorTlv = BaseAliveGameObjectPathTLV.GetTlv<relive::Path_Door>();
             if (pDoorTlv->mClearThrowables)
             {
                 if (mBaseThrowableCount > 0 && gThrowableArray)
@@ -7050,18 +7029,17 @@ void Abe::Motion_114_DoorEnter()
             mCurrentLevel = gMap.mCurrentLevel;
             mCurrentPath = gMap.mCurrentPath;
 
-            relive::Path_Door* pDoorTlv2 = static_cast<relive::Path_Door*>(gPathInfo->TLV_First_Of_Type_In_Camera(ReliveTypes::eDoor, 0));
-            BaseAliveGameObjectPathTLV = pDoorTlv2;
-            relive::Path_Door* pTargetDoorTlv = pDoorTlv2;
-            while (pTargetDoorTlv->mDoorId != field_1A0_door_id)
+            TlvIterator doorTlvIterator = gPathInfo->TLV_First_Of_Type_In_Camera(ReliveTypes::eDoor, 0);
+            while (doorTlvIterator.GetTlv<relive::Path_Door>()->mDoorId != field_1A0_door_id)
             {
-                relive::Path_Door* pDoorIter = static_cast<relive::Path_Door*>(Path::TLV_Next_Of_Type(BaseAliveGameObjectPathTLV, ReliveTypes::eDoor));
-                BaseAliveGameObjectPathTLV = pDoorIter;
-                pTargetDoorTlv = pDoorIter;
-                if (!pTargetDoorTlv)
-                {
-                    ALIVE_FATAL("Couldn't find target door. If this is a custom level, check if the level, path and camera is correct.");
-                }
+                doorTlvIterator = Path::TLV_Next_Of_Type(doorTlvIterator, ReliveTypes::eDoor);
+            }
+            
+            auto pTargetDoorTlv = doorTlvIterator.GetTlv<relive::Path_Door>();
+            BaseAliveGameObjectPathTLV = doorTlvIterator;
+            if (!pTargetDoorTlv || pTargetDoorTlv->mDoorId != field_1A0_door_id)
+            {
+                ALIVE_FATAL("Couldn't find target door. If this is a custom level, check if the level, path and camera is correct.");
             }
 
             if (pTargetDoorTlv->mScale == relive::reliveScale::eHalf)
@@ -7173,12 +7151,6 @@ void Abe::Motion_115_DoorExit()
                                         ReliveTypes::eDoor).GetTlv())
                 ->mCloseOnExit)
         {
-            // TODO: Ret ignored even in real ??
-            FindObjectOfType(
-                ReliveTypes::eDoor,
-                mXPos,
-                mYPos - FP_FromInteger(5));
-
             // Yes, so find it
             for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
             {
@@ -7740,7 +7712,7 @@ s16 Abe::TryEnterMineCar_4569E0()
                 const PSX_RECT abeRect = VGetBoundingRect();
                 const PSX_RECT mineCarRect = pObj->VGetBoundingRect();
 
-                if (PSX_Rects_overlap_no_adjustment(&abeRect, &mineCarRect) && pObj->GetSpriteScale() == GetSpriteScale() && pObj->Type() == ReliveTypes::eMineCar)
+                if (abeRect.Overlaps(mineCarRect) && pObj->GetSpriteScale() == GetSpriteScale() && pObj->Type() == ReliveTypes::eMineCar)
                 {
                     const FP distanceCheck = ScaleToGridSize(GetSpriteScale()) * FP_FromDouble(0.5);
                     if (mXPos - pObj->mXPos < distanceCheck)
@@ -8898,7 +8870,7 @@ s16 Abe::GetEvilFart_4585F0(s16 bDontLoad)
 
             const PSX_RECT bRect = pBrewMachine->VGetBoundingRect();
 
-            if (RectsOverlap(abeRect, bRect) && pBrewMachine->GetSpriteScale() == GetSpriteScale() && pBrewMachine->GetRemainingBrewCount() > 0 && !mHasEvilFart)
+            if (abeRect.Overlaps(bRect) && pBrewMachine->GetSpriteScale() == GetSpriteScale() && pBrewMachine->GetRemainingBrewCount() > 0 && !mHasEvilFart)
             {
                 break;
             }

@@ -219,7 +219,7 @@ Paramite::Paramite(relive::Path_Paramite* pTlv, const Guid& tlvId)
 void Paramite::CreateFromSaveState(SerializedObjectData& pBuffer)
 {
     const auto pState = pBuffer.ReadTmpPtr<ParamiteSaveState>();
-    auto pTlv = static_cast<relive::Path_Paramite*>(gPathInfo->TLV_From_Offset_Lvl_Cam(pState->field_3C_tlvInfo));
+    auto pTlv = gPathInfo->TLV_From_Offset_Lvl_Cam(pState->field_3C_tlvInfo).GetTlv<relive::Path_Paramite>();
 
     auto pParamite = relive_new Paramite(pTlv, pState->field_3C_tlvInfo);
 
@@ -228,7 +228,7 @@ void Paramite::CreateFromSaveState(SerializedObjectData& pBuffer)
         sControlledCharacter = pParamite;
     }
 
-    pParamite->BaseAliveGameObjectPathTLV = nullptr;
+    pParamite->BaseAliveGameObjectPathTLV = TlvIterator::Invalid();
     pParamite->BaseAliveGameObjectCollisionLine = nullptr;
 
     pParamite->mXPos = pState->mXPos;
@@ -5083,7 +5083,7 @@ void Paramite::HandleBrainsAndMotions()
     if (oldXPos != mXPos || oldYPos != mYPos)
     {
         BaseAliveGameObjectPathTLV = gPathInfo->TLV_Get_At(
-            nullptr,
+            TlvIterator::Invalid(),
             mXPos,
             mYPos,
             mXPos,
@@ -5454,9 +5454,9 @@ u8** Paramite::ResBlockForMotion(s16 motion)
 
 void Paramite::VOnTlvCollision(TlvIterator tlvIterator)
 {
-    while (pTlv)
+    while (tlvIterator.GetTlv())
     {
-        if (pTlv->mTlvType == ReliveTypes::eDeathDrop)
+        if (tlvIterator.GetTlv()->mTlvType == ReliveTypes::eDeathDrop)
         {
             if (mHealth > FP_FromInteger(0))
             {
@@ -5467,9 +5467,10 @@ void Paramite::VOnTlvCollision(TlvIterator tlvIterator)
                 mVelX = FP_FromInteger(0);
                 mCurrentMotion = eParamiteMotions::Motion_41_Death;
                 EventBroadcast(Event::kScrabOrParamiteDied, this);
+                break;
             }
         }
-        pTlv = gPathInfo->TLV_Get_At(pTlv, mXPos, mYPos, mXPos, mYPos);
+        tlvIterator = gPathInfo->TLV_Get_At(tlvIterator, mXPos, mYPos, mXPos, mYPos);
     }
 }
 
@@ -5594,12 +5595,12 @@ s16 Paramite::CanIAcceptAGameSpeakCommand()
 
 s16 Paramite::HandleEnemyStopper(s16 numGridBlocks)
 {
-    auto pEnemyStopper = static_cast<relive::Path_EnemyStopper*>(gPathInfo->VTLV_Get_At_Of_Type(
+    auto pEnemyStopper = gPathInfo->VTLV_Get_At_Of_Type(
         FP_GetExponent(mXPos),
         FP_GetExponent(mYPos),
         FP_GetExponent(mXPos + (ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(numGridBlocks))),
         FP_GetExponent(mYPos),
-        ReliveTypes::eEnemyStopper));
+        ReliveTypes::eEnemyStopper).GetTlv<relive::Path_EnemyStopper>();
 
     // No stopper or its disabled
     if (!pEnemyStopper || !SwitchStates_Get(pEnemyStopper->mSwitchId))

@@ -301,7 +301,7 @@ void Slog::VGetSaveState(SerializedObjectData& pSaveBuffer)
 void Slog::CreateFromSaveState(SerializedObjectData& pBuffer)
 {
     const auto pState = pBuffer.ReadTmpPtr<SlogSaveState>();
-    auto pTlv = static_cast<relive::Path_Slog*>(gPathInfo->TLV_From_Offset_Lvl_Cam(pState->mSlogTlvId));
+    auto pTlv = gPathInfo->TLV_From_Offset_Lvl_Cam(pState->mSlogTlvId).GetTlv<relive::Path_Slog>();
 
     Slog* pSlog = nullptr;
     if (pState->mSlogTlvId == Guid{})
@@ -322,7 +322,7 @@ void Slog::CreateFromSaveState(SerializedObjectData& pBuffer)
 
     if (pSlog)
     {
-        pSlog->BaseAliveGameObjectPathTLV = nullptr;
+        pSlog->BaseAliveGameObjectPathTLV = TlvIterator::Invalid();
         pSlog->BaseAliveGameObjectCollisionLine = nullptr;
         pSlog->BaseAliveGameObject_PlatformId = pState->mPlatformId;
         pSlog->mXPos = pState->mXPos;
@@ -2805,7 +2805,7 @@ void Slog::VUpdate()
         if (oldXPos != mXPos || oldYPos != mYPos)
         {
             BaseAliveGameObjectPathTLV = gPathInfo->TLV_Get_At(
-                nullptr,
+                TlvIterator::Invalid(),
                 mXPos,
                 mYPos,
                 mXPos,
@@ -3200,14 +3200,15 @@ void Slog::VOnTrapDoorOpen()
 
 void Slog::VOnTlvCollision(TlvIterator tlvIterator)
 {
-    while (pTlv)
+    while (tlvIterator.GetTlv())
     {
-        if (pTlv->mTlvType == ReliveTypes::eDeathDrop)
+        if (tlvIterator.GetTlv()->mTlvType == ReliveTypes::eDeathDrop)
         {
             mHealth = FP_FromInteger(0);
             SetDead(true);
+            break;
         }
-        pTlv = gPathInfo->TLV_Get_At(pTlv, mXPos, mYPos, mXPos, mYPos);
+        tlvIterator = gPathInfo->TLV_Get_At(tlvIterator, mXPos, mYPos, mXPos, mYPos);
     }
 }
 
@@ -3387,10 +3388,9 @@ s16 Slog::HandleEnemyStopper()
         xToUse = mXPos;
     }
 
-    const auto stopperPath = static_cast<relive::Path_EnemyStopper*>(
-        gPathInfo->VTLV_Get_At_Of_Type(
-            FP_GetExponent(xToUse), FP_GetExponent(mYPos),
-            FP_GetExponent(width), FP_GetExponent(mYPos), ReliveTypes::eEnemyStopper));
+    auto stopperPath = gPathInfo->VTLV_Get_At_Of_Type(
+        FP_GetExponent(xToUse), FP_GetExponent(mYPos),
+        FP_GetExponent(width), FP_GetExponent(mYPos), ReliveTypes::eEnemyStopper).GetTlv<relive::Path_EnemyStopper>();
 
     return stopperPath != nullptr && stopperPath->mStopDirection == (mVelX > FP_FromInteger(0) ? relive::Path_EnemyStopper::StopDirection::Right : relive::Path_EnemyStopper::StopDirection::Left) && SwitchStates_Get(stopperPath->mSwitchId) > 0;
 }

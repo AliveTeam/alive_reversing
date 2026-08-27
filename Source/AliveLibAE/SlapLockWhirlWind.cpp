@@ -30,31 +30,34 @@ SlapLockWhirlWind::SlapLockWhirlWind(s16 doorNumber, s16 switchId, FP xpos, FP y
     {
         for (s16 x = 0; x < gPathInfo->mCamsOnX; x++)
         {
-            relive::Path_Door* pDoorTlv = static_cast<relive::Path_Door*>(gPathInfo->Get_First_TLV_For_Offsetted_Camera(
+            TlvIterator doorTlvIterator = gPathInfo->Get_First_TLV_For_Offsetted_Camera(
                 x - gMap.mCamIdxOnX,
-                y - gMap.mCamIdxOnY));
-            while (pDoorTlv)
+                y - gMap.mCamIdxOnY);
+            while (doorTlvIterator.GetTlv())
             {
-                if (pDoorTlv->mTlvType == ReliveTypes::eDoor && pDoorTlv->mDoorId == doorNumber)
+                if (doorTlvIterator.GetTlv()->mTlvType == ReliveTypes::eDoor)
                 {
-                    // For some reason once found we just keep on searching...
-                    bFoundTarget = true;
-
-                    mDoorX = FP_FromInteger((pDoorTlv->mTopLeftX + pDoorTlv->mBottomRightX) / 2);
-                    mDoorY = FP_FromInteger((pDoorTlv->mTopLeftY + pDoorTlv->mBottomRightY) / 2);
-
-                    if (pDoorTlv->mScale != relive::reliveScale::eFull)
+                    auto pDoorTlv = doorTlvIterator.GetTlv<relive::Path_Door>();
+                    if (pDoorTlv->mDoorId == doorNumber)
                     {
-                        mDoorSpriteScale = FP_FromDouble(0.5);
-                    }
-                    else
-                    {
-                        mDoorSpriteScale = FP_FromInteger(1);
-                    }
+                        mDoorX = FP_FromInteger((pDoorTlv->mTopLeftX + pDoorTlv->mBottomRightX) / 2);
+                        mDoorY = FP_FromInteger((pDoorTlv->mTopLeftY + pDoorTlv->mBottomRightY) / 2);
 
-                    mDoorY -= (FP_FromInteger(40) * mDoorSpriteScale);
+                        if (pDoorTlv->mScale != relive::reliveScale::eFull)
+                        {
+                            mDoorSpriteScale = FP_FromDouble(0.5);
+                        }
+                        else
+                        {
+                            mDoorSpriteScale = FP_FromInteger(1);
+                        }
+                        mDoorY -= (FP_FromInteger(40) * mDoorSpriteScale);
+
+                        bFoundTarget = true;
+                        break;
+                    }
                 }
-                pDoorTlv = static_cast<relive::Path_Door*>(gPathInfo->Next_TLV(pDoorTlv));
+                doorTlvIterator = doorTlvIterator.Next_TLV();
             }
         }
     }

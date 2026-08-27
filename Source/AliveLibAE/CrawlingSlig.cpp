@@ -173,7 +173,7 @@ void CrawlingSlig::CreateFromSaveState(SerializedObjectData& pBuffer)
 {
     const auto pState = pBuffer.ReadTmpPtr<CrawlingSligSaveState>();
 
-    auto pTlv = static_cast<relive::Path_CrawlingSlig*>(gPathInfo->TLV_From_Offset_Lvl_Cam(pState->mCrawlingSligTlvId));
+    auto pTlv = gPathInfo->TLV_From_Offset_Lvl_Cam(pState->mCrawlingSligTlvId).GetTlv<relive::Path_CrawlingSlig>();
 
     auto pCrawlingSlig = relive_new CrawlingSlig(pTlv, pState->mCrawlingSligTlvId);
     if (pCrawlingSlig)
@@ -185,7 +185,7 @@ void CrawlingSlig::CreateFromSaveState(SerializedObjectData& pBuffer)
             sControlledCharacter = pCrawlingSlig;
         }
 
-        pCrawlingSlig->BaseAliveGameObjectPathTLV = nullptr;
+        pCrawlingSlig->BaseAliveGameObjectPathTLV = TlvIterator::Invalid();
         pCrawlingSlig->BaseAliveGameObjectCollisionLine = nullptr;
 
         pCrawlingSlig->mXPos = pState->mXPos;
@@ -408,7 +408,7 @@ void CrawlingSlig::VUpdate()
         if (oldX != mXPos || oldY != mYPos)
         {
             auto pTlv = gPathInfo->TLV_Get_At(
-                nullptr,
+                TlvIterator::Invalid(),
                 mXPos,
                 mYPos,
                 mXPos,
@@ -439,38 +439,40 @@ s16 CrawlingSlig::HandleEnemyStopper(FP /*velX*/)
     }
 
     const FP gridSize = ScaleToGridSize(GetSpriteScale());
-    auto pSlamDoor = static_cast<relive::Path_SlamDoor*>(gPathInfo->VTLV_Get_At_Of_Type(
+    auto tlvIterator = gPathInfo->VTLV_Get_At_Of_Type(
         FP_GetExponent(mXPos),
         FP_GetExponent(mYPos),
         FP_GetExponent(mXPos + gridSizeDirected),
         FP_GetExponent(mYPos - gridSize),
-        ReliveTypes::eSlamDoor));
-    BaseAliveGameObjectPathTLV = pSlamDoor;
+        ReliveTypes::eSlamDoor);
+    BaseAliveGameObjectPathTLV = tlvIterator;
 
+    auto pSlamDoor = tlvIterator.GetTlv<relive::Path_SlamDoor>();
     if (pSlamDoor && ((pSlamDoor->mStartClosed && !SwitchStates_Get(pSlamDoor->mSwitchId)) || (!pSlamDoor->mStartClosed && SwitchStates_Get(pSlamDoor->mSwitchId))))
     {
         return 1;
     }
 
-    auto pStopper = static_cast<relive::Path_EnemyStopper*>(gPathInfo->VTLV_Get_At_Of_Type(
+    tlvIterator = (gPathInfo->VTLV_Get_At_Of_Type(
         FP_GetExponent(mXPos),
         FP_GetExponent(mYPos),
         FP_GetExponent(mXPos + gridSizeDirected),
         FP_GetExponent(mYPos - gridSize),
         ReliveTypes::eEnemyStopper));
-    BaseAliveGameObjectPathTLV = pStopper;
+    BaseAliveGameObjectPathTLV = tlvIterator;
 
+    auto pStopper = tlvIterator.GetTlv<relive::Path_EnemyStopper>();
     return pStopper && (pStopper->mStopDirection == direction || pStopper->mStopDirection == relive::Path_EnemyStopper::StopDirection::Both) && SwitchStates_Get(pStopper->mSwitchId);
 }
 
 relive::Path_TLV* CrawlingSlig::FindPantsOrWings()
 {
-    relive::Path_TLV* pTlvIter = gPathInfo->TLV_Get_At(nullptr, mXPos, mYPos, mXPos, mYPos);
-    while (pTlvIter)
+    TlvIterator pTlvIter = gPathInfo->TLV_Get_At(TlvIterator::Invalid(), mXPos, mYPos, mXPos, mYPos);
+    while (pTlvIter.GetTlv())
     {
-        if (pTlvIter->mTlvType == ReliveTypes::eSligGetPants || pTlvIter->mTlvType == ReliveTypes::eSligGetWings)
+        if (pTlvIter.GetTlv()->mTlvType == ReliveTypes::eSligGetPants || pTlvIter.GetTlv()->mTlvType == ReliveTypes::eSligGetWings)
         {
-            return pTlvIter;
+            return pTlvIter.GetTlv();
         }
         pTlvIter = gPathInfo->TLV_Get_At(pTlvIter, mXPos, mYPos, mXPos, mYPos);
     }
@@ -495,9 +497,9 @@ void CrawlingSlig::VOnTrapDoorOpen()
 
 void CrawlingSlig::VOnTlvCollision(TlvIterator tlvIterator)
 {
-    while (pTlv)
+    while (tlvIterator.GetTlv())
     {
-        if (pTlv->mTlvType == ReliveTypes::eDeathDrop)
+        if (tlvIterator.GetTlv()->mTlvType == ReliveTypes::eDeathDrop)
         {
             if (mHealth > FP_FromInteger(0))
             {
@@ -509,11 +511,12 @@ void CrawlingSlig::VOnTlvCollision(TlvIterator tlvIterator)
                 EventBroadcast(Event::kEventMudokonComfort, this);
                 Slig_GameSpeak_SFX(SligSpeak::eHelp_10, 0, 0, this);
                 mMultiUseTimer = MakeTimer(60);
+                break;
             }
         }
 
-        pTlv = gPathInfo->TLV_Get_At(
-            pTlv,
+        tlvIterator = gPathInfo->TLV_Get_At(
+            tlvIterator,
             mXPos,
             mYPos,
             mXPos,
