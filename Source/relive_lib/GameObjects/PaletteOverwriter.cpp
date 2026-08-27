@@ -10,16 +10,7 @@ PalleteOverwriter::PalleteOverwriter(AnimationPal& pal, const RGBA32& colour)
 
     //mPal = pal;
 
-    mPalDepth = 1; // account for the first array index which is 0
-    for (u32 i = 0; i < ALIVE_COUNTOF(mPal.mPal); i++)
-    {
-        if (*(reinterpret_cast<u32*>(&mPal.mPal[i])) != 0)
-        {
-            mPalDepth++;
-        }
-    }
-    LOG_INFO("pal depth %d", mPalDepth);
-
+    mPalDepth = 256;
 
     // This object was only ever given 64 color pals in the past, since the VUpdate would overwrite
     // 8 entries per loop it took 64/8=8 calls to VUpdate to complete the overwrite.
@@ -27,7 +18,7 @@ PalleteOverwriter::PalleteOverwriter(AnimationPal& pal, const RGBA32& colour)
     // we divide the depth by 8 in order to know how many colours to overwrite per VUpdate to finish in 8 iterations.
     // The reason we stick to 8 ticks is to keep the gaming logic timing the same without it being changed depending
     // on what assets are being used.
-    mColoursToUpdatePerIteration = mPalDepth / 8;
+    mColoursToUpdatePerIteration = 32;
 
     SetDrawable(true);
 
@@ -66,29 +57,28 @@ void PalleteOverwriter::VUpdate()
     {
         // First time round or when done do nothing
         mFirstUpdate = false;
+        return;
     }
-    else
+
+    if (mCurPalIndex == mPalDepth - 1)
     {
-        if (mCurPalIndex == mPalDepth - 1)
-        {
-            // Got to the end
-            mDone = true;
-        }
-        else
-        {
-            mCurPalIndex += mColoursToUpdatePerIteration;
+        // Got to the end
+        mDone = true;
+        LOG_INFO("pal overwriter done");
+        return;
+    }
 
-            // Don't go out of bounds (overflow)
-            if (mCurPalIndex >= mPalDepth - 1)
-            {
-                mCurPalIndex = mPalDepth - 1;
-            }
+    mCurPalIndex += mColoursToUpdatePerIteration;
 
-            // Don't let the amount of entries to overwrite go out of bounds (overflow)
-            if (mCurPalIndex + mNumEntriesToOverwrite >= mPalDepth - 1)
-            {
-                mNumEntriesToOverwrite = mPalDepth - mCurPalIndex;
-            }
-        }
+    // Don't go out of bounds (overflow)
+    if (mCurPalIndex >= mPalDepth - 1)
+    {
+        mCurPalIndex = mPalDepth - 1;
+    }
+
+    // Don't let the amount of entries to overwrite go out of bounds (overflow)
+    if (mCurPalIndex + mNumEntriesToOverwrite >= mPalDepth - 1)
+    {
+        mNumEntriesToOverwrite = mPalDepth - mCurPalIndex;
     }
 }
