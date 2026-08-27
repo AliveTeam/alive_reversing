@@ -113,7 +113,7 @@ Greeter::Greeter(relive::Path_Greeter* pTlv, const Guid& tlvId)
 void Greeter::CreateFromSaveState(SerializedObjectData& pBuffer)
 {
     const auto pState = pBuffer.ReadTmpPtr<GreeterSaveState>();
-    auto pTlv = static_cast<relive::Path_Greeter*>(gPathInfo->TLV_From_Offset_Lvl_Cam(pState->mTlvId));
+    auto pTlv = static_cast<relive::Path_Greeter*>(gPathInfo->TLV_From_Offset_Lvl_Cam(pState->mTlvId).GetTlv());
 
     auto pGreeter = relive_new Greeter(pTlv, pState->mTlvId);
     if (pGreeter)
@@ -773,7 +773,7 @@ void Greeter::VUpdate()
                           + mYPos
                           + mVelY;
 
-            field_138_pTlv = gPathInfo->TLV_Get_At(nullptr, xpos, ypos, xpos, ypos);
+            field_138_pTlv = gPathInfo->TLV_Get_At(TlvIterator::Invalid(), xpos, ypos, xpos, ypos);
             HandleRollingAlong();
         }
     }
@@ -782,7 +782,7 @@ void Greeter::VUpdate()
     if (mBrainState == GreeterBrainStates::eBrain_7_Fall)
     {
         field_138_pTlv = gPathInfo->TLV_Get_At(
-            nullptr,
+            TlvIterator::Invalid(),
             mXPos,
             mYPos,
             mXPos,

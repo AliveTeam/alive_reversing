@@ -974,7 +974,7 @@ void Mudokon::VUpdate()
     if (oldXPos != mXPos || oldYPos != mYPos)
     {
         BaseAliveGameObjectPathTLV = gPathInfo->TLV_Get_At(
-            nullptr,
+            TlvIterator::Invalid(),
             mXPos,
             mYPos,
             mXPos,
@@ -2992,7 +2992,7 @@ s16 Mudokon::Brain_4_ListeningToAbe()
                         FP_GetExponent(mYPos - FP_FromInteger(5)),
                         FP_GetExponent(mXPos),
                         FP_GetExponent(mYPos - FP_FromInteger(5)),
-                        ReliveTypes::eWater))
+                        ReliveTypes::eWater).GetTlv())
                 {
                     field_180_emo_tbl = Mud_Emotion::eAngry_1;
                     field_188_pTblEntry = ResponseTo_471730(Mud_Emotion::eAngry_1, MudAction::eSlapOrWater_7);

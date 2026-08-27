@@ -2496,11 +2496,11 @@ ReliveTypes FlyingSlig::FindLeftOrRightBound(FP xOrY, FP wOrH)
     // TODO: Check left is really Abs'd.
     ReliveTypes found_type = ReliveTypes::eNone;
 
-    if (gPathInfo->VTLV_Get_At_Of_Type(FP_GetExponent(FP_Abs(left)), FP_GetExponent(top), FP_GetExponent(right), FP_GetExponent(bottom), ReliveTypes::eSligBoundLeft))
+    if (gPathInfo->VTLV_Get_At_Of_Type(FP_GetExponent(FP_Abs(left)), FP_GetExponent(top), FP_GetExponent(right), FP_GetExponent(bottom), ReliveTypes::eSligBoundLeft).GetTlv())
     {
         found_type = ReliveTypes::eSligBoundLeft;
     }
-    else if (gPathInfo->VTLV_Get_At_Of_Type(FP_GetExponent(left), FP_GetExponent(top), FP_GetExponent(right), FP_GetExponent(bottom), ReliveTypes::eSligBoundRight))
+    else if (gPathInfo->VTLV_Get_At_Of_Type(FP_GetExponent(left), FP_GetExponent(top), FP_GetExponent(right), FP_GetExponent(bottom), ReliveTypes::eSligBoundRight).GetTlv())
     {
         found_type = ReliveTypes::eSligBoundRight;
     }

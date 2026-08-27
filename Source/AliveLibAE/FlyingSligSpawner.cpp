@@ -36,7 +36,7 @@ void FlyingSligSpawner::CreateFromSaveState(SerializedObjectData& pBuffer)
 {
     const auto pState = pBuffer.ReadTmpPtr<FlyingSligSpawnerSaveState>();
 
-    auto pTlv = static_cast<relive::Path_FlyingSligSpawner*>(gPathInfo->TLV_From_Offset_Lvl_Cam(pState->field_4_tlvInfo));
+    auto pTlv = static_cast<relive::Path_FlyingSligSpawner*>(gPathInfo->TLV_From_Offset_Lvl_Cam(pState->field_4_tlvInfo).GetTlv());
 
     auto pFlyingSligSpawner = relive_new FlyingSligSpawner(pTlv, pState->field_4_tlvInfo);
     if (pFlyingSligSpawner)
@@ -96,7 +96,7 @@ void FlyingSligSpawner::VUpdate()
                 field_2C_tlv_header->mTopLeftY,
                 field_2C_tlv_header->mTopLeftX + 25,
                 field_2C_tlv_header->mTopLeftY + 25,
-                ReliveTypes::eFlyingSligSpawner));
+                ReliveTypes::eFlyingSligSpawner).GetTlv());
 
             if (!pFlyingSligTlv)
             {
