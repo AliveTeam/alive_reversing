@@ -1,3 +1,4 @@
+#include "BinaryPath.hpp"
 #include "stdafx.h"
 #include "Factory.hpp"
 
@@ -2193,17 +2194,17 @@ static void Factory_TrapDoor(relive::Path_TLV* pTlv, const Guid& tlvId, relive::
     }
 }
 
-static relive::Path_TLV* FindMatchingSligTLV(relive::Path_TLV* pTlvIter, relive::Path_SligBound* pTlv)
+static TlvIterator FindMatchingSligTLV(TlvIterator pTlvIter, relive::Path_SligBound* pTlv)
 {
-    while (pTlvIter)
+    while (pTlvIter.GetTlv())
     {
-        if (pTlvIter->mTlvType == ReliveTypes::eSlig && pTlv->mSligBoundId == static_cast<relive::Path_Slig*>(pTlvIter)->mData.mSligBoundId && !pTlvIter->mTlvFlags.Get(relive::TlvFlags::eBit2_Destroyed))
+        if (pTlvIter.GetTlv()->mTlvType == ReliveTypes::eSlig && pTlv->mSligBoundId == pTlvIter.GetTlv<relive::Path_Slig>()->mData.mSligBoundId && !pTlvIter.GetTlv()->mTlvFlags.Get(relive::TlvFlags::eBit2_Destroyed))
         {
             return pTlvIter;
         }
-        pTlvIter = Path::Next_TLV(pTlvIter);
+        pTlvIter = pTlvIter.Next_TLV();
     }
-    return nullptr;
+    return TlvIterator::Invalid();
 }
 
 static void Factory_SligBoundLeft(relive::Path_TLV* pTlv,  const Guid& /*tlvId*/, relive::LoadMode loadMode)
@@ -2220,14 +2221,13 @@ static void Factory_SligBoundLeft(relive::Path_TLV* pTlv,  const Guid& /*tlvId*/
 
         for (s16 camX_idx = -2; camX_idx < 3; camX_idx++)
         {
-            relive::Path_TLV* pTlvIter = gPathInfo->Get_First_TLV_For_Offsetted_Camera(camX_idx, 0);
-            pTlvIter = FindMatchingSligTLV(pTlvIter, pBound);
-            if (pTlvIter)
+            TlvIterator pTlvIter = FindMatchingSligTLV( gPathInfo->Get_First_TLV_For_Offsetted_Camera(camX_idx, 0), pBound);
+            if (pTlvIter.GetTlv())
             {
-                pTlvIter->mTlvFlags.Set(relive::TlvFlags::eBit1_Created);
-                pTlvIter->mTlvFlags.Set(relive::TlvFlags::eBit2_Destroyed);
+                pTlvIter.GetTlv()->mTlvFlags.Set(relive::TlvFlags::eBit1_Created);
+                pTlvIter.GetTlv()->mTlvFlags.Set(relive::TlvFlags::eBit2_Destroyed);
 
-                relive_new Slig(static_cast<relive::Path_Slig*>(pTlvIter), pTlvIter->mId); // id of the slig to spawn at the bound, not the bound itself
+                relive_new Slig(pTlvIter.GetTlv<relive::Path_Slig>(), pTlvIter.GetTlv()->mId); // id of the slig to spawn at the bound, not the bound itself
 
                 return;
             }

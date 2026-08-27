@@ -1120,8 +1120,7 @@ void Map::RestoreBlyData(const u8* pSaveData)
             {
                 for (auto& cam : ppPathRes->GetCameras())
                 {
-                    relive::Path_TLV* pTlv = reinterpret_cast<relive::Path_TLV*>(cam->mBuffer.data());
-                    while (pTlv)
+                    for (auto& pTlv : cam->mTlvs.mTlvs)
                     {
                         const bool isLastTlv = pTlv->mTlvFlags.Get(relive::eBit3_End_TLV_List);
 
@@ -1137,7 +1136,6 @@ void Map::RestoreBlyData(const u8* pSaveData)
 
                         pTlv->mTlvSpecificMeaning = *pAfterSwitchStates;
                         pAfterSwitchStates++;
-                        pTlv = Path_TLV::Next(pTlv);
                     }
                 }
             }
@@ -1158,15 +1156,14 @@ void Map::Start_Sounds_For_Objects_In_Camera(CameraPos direction, s16 cam_x_idx,
 
     for (auto& cam : pPathData->GetCameras())
     {
-        relive::Path_TLV* pTlv = reinterpret_cast<relive::Path_TLV*>(cam->mBuffer.data());
         // Enumerate the TLVs
-        while (pTlv)
+        for (auto& pTlv : cam->mTlvs.mTlvs)
         {
             if (pTlv->mTopLeftX >= cam_global_left && pTlv->mTopLeftX <= cam_global_right)
             {
                 if (pTlv->mTopLeftY >= cam_y_grid_top && pTlv->mTopLeftY <= cam_y_grid_bottom && (!pTlv->mTlvFlags.Get(relive::eBit1_Created) && !pTlv->mTlvFlags.Get(relive::eBit2_Destroyed)))
                 {
-                    Start_Sounds_for_TLV(direction, pTlv);
+                    Start_Sounds_for_TLV(direction, pTlv.get());
                 }
             }
 
@@ -1174,8 +1171,6 @@ void Map::Start_Sounds_For_Objects_In_Camera(CameraPos direction, s16 cam_x_idx,
             {
                 break;
             }
-
-            pTlv = Path_TLV::Next_NoCheck(pTlv);
         }
     }
 }
@@ -1295,7 +1290,7 @@ CameraPos Map::Rect_Location_Relative_To_Active_Camera(const PSX_RECT* pRect, s1
     return CameraPos::eCamLeft_3;
 }
 
-relive::Path_TLV* Map::VTLV_Get_At_Of_Type(s16 xpos, s16 ypos, s16 width, s16 height, ReliveTypes typeToFind)
+TlvIterator Map::VTLV_Get_At_Of_Type(s16 xpos, s16 ypos, s16 width, s16 height, ReliveTypes typeToFind)
 {
     s32 right = 0;
     s32 left = 0;
@@ -1329,36 +1324,30 @@ relive::Path_TLV* Map::VTLV_Get_At_Of_Type(s16 xpos, s16 ypos, s16 width, s16 he
     // Check within map bounds
     if (grid_cell_x >= mMaxCamsX)
     {
-        return nullptr;
+        return TlvIterator::Invalid();
     }
 
     if (grid_cell_y >= mMaxCamsY)
     {
-        return nullptr;
+        return TlvIterator::Invalid();
     }
 
     // Get the offset to where the TLV list starts for this camera cell
     BinaryPath* pBinPath = GetPathResourceBlockPtr(mCurrentPath);
-    relive::Path_TLV* pTlvIter = pBinPath->TlvsForCamera(grid_cell_x, grid_cell_y);
-    if (!pTlvIter)
-    {
-        return nullptr;
-    }
+    TlvIterator tlvIterator = pBinPath->TlvsForCamera(grid_cell_x, grid_cell_y).FirstIterator();
 
-    while (right > pTlvIter->mBottomRightX
-           || left < pTlvIter->mTopLeftX
-           || bottom < pTlvIter->mTopLeftY
-           || top > pTlvIter->mBottomRightY
-           || pTlvIter->mTlvType != typeToFind)
+    while (right > tlvIterator.GetTlv()->mBottomRightX
+           || left < tlvIterator.GetTlv()->mTopLeftX
+           || bottom < tlvIterator.GetTlv()->mTopLeftY
+           || top > tlvIterator.GetTlv()->mBottomRightY
+           || tlvIterator.GetTlv()->mTlvType != typeToFind)
     {
-        if (pTlvIter->mTlvFlags.Get(relive::eBit3_End_TLV_List))
+        if (tlvIterator.GetTlv()->mTlvFlags.Get(relive::eBit3_End_TLV_List))
         {
-            return nullptr;
+            return TlvIterator::Invalid();
         }
-
-        pTlvIter = Path_TLV::Next_446460(pTlvIter);
     }
-    return pTlvIter;
+    return tlvIterator;
 }
 
 TlvIterator Map::TLV_Get_At(TlvIterator tlvIterator, FP xpos, FP ypos, FP width, FP height)

@@ -8727,13 +8727,13 @@ void Abe::Motion_156_DoorEnter()
             if (field_118_timer <= static_cast<s32>(sGnFrame))
             {
                 field_110_state.door = AbeDoorStates::eSetNewActiveCamera_4;
-                auto pTlv = static_cast<relive::Path_ResetPath*>(gMap.VTLV_Get_At_Of_Type(
+                BaseAliveGameObjectPathTLV = gMap.VTLV_Get_At_Of_Type(
                     FP_GetExponent(mXPos),
                     FP_GetExponent(mYPos),
                     FP_GetExponent(mXPos),
                     FP_GetExponent(mYPos),
-                    ReliveTypes::eResetPath));
-                BaseAliveGameObjectPathTLV = pTlv;
+                    ReliveTypes::eResetPath);
+                auto pTlv = BaseAliveGameObjectPathTLV.GetTlv<relive::Path_ResetPath>();
                 if (pTlv)
                 {
                     if (pTlv->mClearIds)

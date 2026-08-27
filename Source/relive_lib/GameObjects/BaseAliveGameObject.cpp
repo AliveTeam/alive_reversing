@@ -1,3 +1,4 @@
+#include "BinaryPath.hpp"
 #include "stdafx.h"
 #include "BaseAliveGameObject.hpp"
 #include "../GameType.hpp"
@@ -49,7 +50,7 @@ bool BaseAliveGameObject::VTakeDamage(BaseGameObject* /*pFrom*/)
     return false;
 }
 
-void BaseAliveGameObject::VOnTlvCollision(relive::Path_TLV* /*pTlv*/)
+void BaseAliveGameObject::VOnTlvCollision(TlvIterator /*pTlv*/)
 {
     // Empty
 }

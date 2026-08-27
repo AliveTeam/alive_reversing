@@ -227,12 +227,9 @@ void BinaryPath::CreateFromJson(nlohmann::json& pathJson)
             const auto& type = mapObjects.at(i)["tlv_type"];
 
             kTlvJsonTypeMap.DeseralizeTlvJsonType(type, mapObjects.at(i), camEntry.get());
-
-            camEntry->mLastAllocated->mLength = camEntry->mLastAllocatedSize;
-
             if (i == mapObjects.size() - 1)
             {
-                camEntry->mLastAllocated->mTlvFlags.Set(relive::TlvFlags::eBit3_End_TLV_List);
+                camEntry->mTlvs.mTlvs.back()->mTlvFlags.Set(relive::TlvFlags::eBit3_End_TLV_List);
             }
         }
         mCameras.emplace_back(std::move(camEntry));
@@ -247,11 +244,11 @@ TlvIterator BinaryPath::TlvById(const Guid& id)
     for (auto& cam : mCameras)
     {
         u32 idx = 0;
-        for (auto& pTlvIter : cam.mTlvs)
+        for (auto& pTlvIter : cam->mTlvs.mTlvs)
         {
             if (pTlvIter->mId == id)
             {
-                return TlvIterator(pTlvIter.get(), &cam.mTlvs, idx);
+                return TlvIterator(pTlvIter.get(), &cam->mTlvs, idx);
             }
 
             if (pTlvIter->mTlvFlags.Get(relive::eBit3_End_TLV_List))

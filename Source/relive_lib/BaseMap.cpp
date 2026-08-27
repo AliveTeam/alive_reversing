@@ -1,3 +1,4 @@
+#include "BinaryPath.hpp"
 #include "stdafx.h"
 #include "BaseMap.hpp"
 #include "../AliveLibAE/Game.hpp" // DestroyObjects
@@ -131,10 +132,10 @@ s16 BaseMap::SetActiveCam(EReliveLevelIds level, s16 path, s16 cam, CameraSwapEf
     return 1;
 }
 
-relive::Path_TLV* BaseMap::TLV_From_Offset_Lvl_Cam(const Guid& /*tlvId*/)
+TlvIterator BaseMap::TLV_From_Offset_Lvl_Cam(const Guid& /*tlvId*/)
 {
     LOG_WARNING("TLV_From_Offset_Lvl_Cam() not implmeneted in BaseMap");
-    return nullptr;
+    return TlvIterator::Invalid();
 }
 
 void BaseMap::ReloadPathJsonRequest(const std::string& pathJsonFileName)

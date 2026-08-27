@@ -20,8 +20,7 @@ static void ConvertOGBlyData(nlohmann::json& j, std::vector<std::unique_ptr<Bina
     {
         for (auto& cam : binaryPath->GetCameras())
         {
-            auto pTlv = reinterpret_cast<relive::Path_TLV*>(cam->mBuffer.data());
-            while (pTlv)
+            for (auto& pTlv : cam->mTlvs.mTlvs)
             {
                 if (pTlv->mAttribute == relive::QuiksaveAttribute::eClearTlvFlags_1 || pTlv->mAttribute == relive::QuiksaveAttribute::eKeepTlvFlags_2) // Type 0 ignored - actually it should never be written here anyway
                 {
@@ -37,7 +36,6 @@ static void ConvertOGBlyData(nlohmann::json& j, std::vector<std::unique_ptr<Bina
 
                     // TODO: Add an entry to the json with the object guid and the flags/specific meaning data
                 }
-                pTlv = Path::Next_TLV(pTlv);
             }
         }
     }
