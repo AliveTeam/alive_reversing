@@ -86,6 +86,7 @@ public:
     virtual void Visit(const char* fieldName, u32& field) = 0;
     virtual void Visit(const char* fieldName, s32& field) = 0;
 
+    virtual void Visit(const char* fieldName, std::string& field) = 0;
 };
 
 // TODO: Move back to the editor src
@@ -463,6 +464,7 @@ public:
         r.Visit("Abe Direction On Exit", mTlv.mExitDirection);
         r.Visit("(AE) Close On Exit", mTlv.mCloseOnExit);
         r.Visit("(AE) Clear Throwables", mTlv.mClearThrowables);
+        r.Visit("Theme", mTlv.mTheme);
     }
 
     std::string GetIconPath() const override

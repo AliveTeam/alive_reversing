@@ -10,6 +10,7 @@
 #include <QDebug>
 #include "../../Tools/relive_api/TlvsRelive.hpp"
 #include "ColourPickerProperty.hpp"
+#include "StringProperty.hpp"
 
 class PropertyCreator final : public IReflector
 {
@@ -137,6 +138,11 @@ public:
         mCreatedProperties.append(new BasicTypeProperty(IntegerType::Int_S32, &field, fieldName, mUndoStack, mGraphicsItem));
     }
 
+    void Visit(const char* fieldName, std::string& field) override
+    {
+        mCreatedProperties.append(new StringProperty(mUndoStack, nullptr, fieldName, &field));
+    }
+
     QList<PropertyTreeItemBase*>& CreatedProperties()
     {
         return mCreatedProperties;
@@ -254,6 +260,11 @@ public:
     }
 
     void Visit(const char* fieldName, s32& field) override
+    {
+        AddField(fieldName, field);
+    }
+
+    void Visit(const char* fieldName, std::string& field) override
     {
         AddField(fieldName, field);
     }
