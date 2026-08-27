@@ -426,7 +426,7 @@ void TrapDoor::Add_To_Collisions_Array()
 void TrapDoor::CreateFromSaveState(SerializedObjectData& pData)
 {
     const auto pState = pData.ReadTmpPtr<TrapDoorSaveState>();
-    auto pTlv = static_cast<relive::Path_TrapDoor*>(GetMap().TLV_From_Offset_Lvl_Cam(pState->mTlvId));
+    auto pTlv = GetMap().TLV_From_Offset_Lvl_Cam(pState->mTlvId).GetTlv<relive::Path_TrapDoor>();
 
     auto pTrapDoor = relive_new TrapDoor(pTlv, pState->mTlvId);
     if (pTrapDoor)

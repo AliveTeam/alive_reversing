@@ -249,7 +249,7 @@ TlvIterator Path::TLV_Next_Of_Type(TlvIterator tlvIterator, ReliveTypes type)
         }
         tlvIterator = tlvIterator.Next_TLV();
     }
-    return {nullptr, nullptr, 0};
+    return TlvIterator::Invalid();
 }
 
 void Path::TLV_Reset(const Guid& tlvId, s16 hiFlags)

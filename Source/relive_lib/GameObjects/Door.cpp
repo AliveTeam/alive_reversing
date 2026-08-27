@@ -281,7 +281,7 @@ void Door::Close()
     {
         mStartState = relive::Path_Door::DoorStates::eClosed;
         mCurrentState = relive::Path_Door::DoorStates::eClosing;
-        relive::Path_TLV* pTlv = gPathInfo->TLV_From_Offset_Lvl_Cam(mTlvId);
+        relive::Path_TLV* pTlv = gPathInfo->TLV_From_Offset_Lvl_Cam(mTlvId).GetTlv();
         pTlv->mTlvSpecificMeaning = 1;
     }
 }

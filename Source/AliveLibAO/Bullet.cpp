@@ -199,30 +199,30 @@ void Bullet::VUpdate()
 
 bool Bullet::InZBulletCover(FP xpos, FP ypos, const PSX_RECT& objRect)
 {
-    relive::Path_TLV* pZCover = nullptr;
+    TlvIterator zCoverIterator = TlvIterator::Invalid();
     while (1)
     {
         // Go to the next entry (or first if first call).
-        pZCover = gMap.TLV_Get_At(
-            pZCover,
+        zCoverIterator = gMap.TLV_Get_At(
+            zCoverIterator,
             xpos,
             ypos,
             xpos,
             ypos);
 
         // No more TLVs? Then no Z Cover.
-        if (!pZCover)
+        if (!zCoverIterator.GetTlv())
         {
             break;
         }
 
-        if (pZCover->mTlvType != ReliveTypes::eZSligCover)
+        if (zCoverIterator.GetTlv()->mTlvType != ReliveTypes::eZSligCover)
         {
             continue;
         }
 
-        if (objRect.x >= pZCover->mTopLeftX &&
-            objRect.x <= pZCover->mBottomRightX && objRect.y >= pZCover->mTopLeftY && objRect.y <= pZCover->mBottomRightY && objRect.w >= pZCover->mTopLeftX && objRect.w <= pZCover->mBottomRightX && objRect.h >= pZCover->mTopLeftY && objRect.h <= pZCover->mBottomRightY)
+        if (objRect.x >= zCoverIterator.GetTlv()->mTopLeftX &&
+            objRect.x <= zCoverIterator.GetTlv()->mBottomRightX && objRect.y >= zCoverIterator.GetTlv()->mTopLeftY && objRect.y <= zCoverIterator.GetTlv()->mBottomRightY && objRect.w >= zCoverIterator.GetTlv()->mTopLeftX && objRect.w <= zCoverIterator.GetTlv()->mBottomRightX && objRect.h >= zCoverIterator.GetTlv()->mTopLeftY && objRect.h <= zCoverIterator.GetTlv()->mBottomRightY)
         {
             return true;
         }

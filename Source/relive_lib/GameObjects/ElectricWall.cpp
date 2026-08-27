@@ -161,7 +161,7 @@ void ElectricWall::VUpdate()
                         PSX_RECT objRect = pObj->VGetBoundingRect();
 
                         // If touching rect then we are fried
-                        if (!RectsOverlap(bRectBigger, objRect))
+                        if (!bRectBigger.Overlaps(objRect))
                         {
                             // Not touching, so every so often check if we are near
                             if (!(sGnFrame % 3))
@@ -170,7 +170,7 @@ void ElectricWall::VUpdate()
                                 objRect.x -= 50;
                                 objRect.w += 50;
 
-                                if (RectsOverlap(bRectBigger, objRect) && pObj->mHealth > FP_FromInteger(0))
+                                if (bRectBigger.Overlaps(objRect) && pObj->mHealth > FP_FromInteger(0))
                                 {
                                     // When near play the buzzing sound
                                     SFX_Play_Camera(relive::SoundEffects::ElectricGateLoud, 45, soundDirection, GetSpriteScale());

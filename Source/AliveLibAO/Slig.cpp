@@ -318,7 +318,7 @@ Slig::~Slig()
         field_174_tlv->mTopLeftY,
         field_174_tlv->mTopLeftX,
         field_174_tlv->mTopLeftY,
-        field_174_tlv->mTlvType);
+        field_174_tlv->mTlvType).GetTlv();
 
     if (mHealth <= FP_FromInteger(0))
     {
@@ -431,25 +431,25 @@ void Slig::Init()
                 bool addPoint = false;
                 if (pTlvIter.GetTlv()->mTlvType == ReliveTypes::eSligBoundLeft)
                 {
-                    if (static_cast<relive::Path_SligBoundLeft*>(pTlvIter)->mSligBoundId == field_174_tlv->mData.mSligBoundId)
+                    if (pTlvIter.GetTlv<relive::Path_SligBoundLeft>()->mSligBoundId == field_174_tlv->mData.mSligBoundId)
                     {
-                        field_13C_zone_rect.x = pTlvIter->mTopLeftX;
+                        field_13C_zone_rect.x = pTlvIter.GetTlv()->mTopLeftX;
                         addPoint = true;
                         zoneRectSet = true;
                     }
                 }
                 else if (pTlvIter.GetTlv()->mTlvType == ReliveTypes::eSligBoundRight)
                 {
-                    if (static_cast<relive::Path_SligBoundRight*>(pTlvIter)->mSligBoundId == field_174_tlv->mData.mSligBoundId)
+                    if (pTlvIter.GetTlv<relive::Path_SligBoundRight>()->mSligBoundId == field_174_tlv->mData.mSligBoundId)
                     {
-                        field_13C_zone_rect.w = pTlvIter->mTopLeftX;
+                        field_13C_zone_rect.w = pTlvIter.GetTlv()->mTopLeftX;
                         addPoint = true;
                         zoneRectSet = true;
                     }
                 }
-                else if (pTlvIter->mTlvType == ReliveTypes::eSligPersist)
+                else if (pTlvIter.GetTlv()->mTlvType == ReliveTypes::eSligPersist)
                 {
-                    if (static_cast<relive::Path_SligPersist*>(pTlvIter)->mSligBoundId == field_174_tlv->mData.mSligBoundId)
+                    if (pTlvIter.GetTlv<relive::Path_SligPersist>()->mSligBoundId == field_174_tlv->mData.mSligBoundId)
                     {
                         addPoint = true;
                     }
@@ -465,7 +465,7 @@ void Slig::Init()
                     }
                 }
 
-                pTlvIter = Path_TLV::Next_446460(pTlvIter);
+                pTlvIter = pTlvIter.Next_TLV();
             }
         }
     }

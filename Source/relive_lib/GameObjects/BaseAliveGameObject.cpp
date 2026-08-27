@@ -258,20 +258,20 @@ bool BaseAliveGameObject::IsInInvisibleZone(BaseAliveGameObject* pObj)
 
     const PSX_RECT bRect = pObj->VGetBoundingRect();
 
-    relive::Path_TLV* pTlv = GetMap().VTLV_Get_At_Of_Type(
+    TlvIterator tlvIterator = GetMap().VTLV_Get_At_Of_Type(
         bRect.x,
         bRect.y,
         bRect.w,
         bRect.h,
         ReliveTypes::eInvisibleZone);
 
-    while (pTlv)
+    while (tlvIterator.GetTlv())
     {
-        if (pTlv->mTlvType == ReliveTypes::eInvisibleZone)
+        if (tlvIterator.GetTlv()->mTlvType == ReliveTypes::eInvisibleZone)
         {
-            if (bRect.x >= pTlv->mTopLeftX && bRect.x <= pTlv->mBottomRightX && bRect.y >= pTlv->mTopLeftY)
+            if (bRect.x >= tlvIterator.GetTlv()->mTopLeftX && bRect.x <= tlvIterator.GetTlv()->mBottomRightX && bRect.y >= tlvIterator.GetTlv()->mTopLeftY)
             {
-                if (bRect.y <= pTlv->mBottomRightY && bRect.w >= pTlv->mTopLeftX && bRect.w <= pTlv->mBottomRightX && bRect.h >= pTlv->mTopLeftY && bRect.h <= pTlv->mBottomRightY)
+                if (bRect.y <= tlvIterator.GetTlv()->mBottomRightY && bRect.w >= tlvIterator.GetTlv()->mTopLeftX && bRect.w <= tlvIterator.GetTlv()->mBottomRightX && bRect.h >= tlvIterator.GetTlv()->mTopLeftY && bRect.h <= tlvIterator.GetTlv()->mBottomRightY)
                 {
                     return true;
                 }
@@ -279,7 +279,7 @@ bool BaseAliveGameObject::IsInInvisibleZone(BaseAliveGameObject* pObj)
         }
 
         // Check for stacked/overlaping TLV's
-        pTlv = GetMap().TLV_Get_At(pTlv,
+        tlvIterator = GetMap().TLV_Get_At(tlvIterator,
                                    FP_FromInteger(bRect.x),
                                    FP_FromInteger(bRect.y),
                                    FP_FromInteger(bRect.w),
@@ -376,7 +376,7 @@ void BaseAliveGameObject::VSetXSpawn(s16 camWorldX, s32 screenXPos)
 
     mXPos = FP_FromInteger(camWorldX + XGrid_Index_To_XPos_AO(GetSpriteScale(), screenXPos));
 
-    BaseAliveGameObjectPathTLV = GetMap().TLV_Get_At(0, mXPos, old_y, mXPos, old_y);
+    BaseAliveGameObjectPathTLV = GetMap().TLV_Get_At(TlvIterator::Invalid(), mXPos, old_y, mXPos, old_y);
 
     if (pLiftPoint)
     {
@@ -410,12 +410,12 @@ void BaseAliveGameObject::VSetXSpawn(s16 camWorldX, s32 screenXPos)
             else
             {
                 BaseAliveGameObjectPathTLV = GetMap().TLV_First_Of_Type_In_Camera(ReliveTypes::eStartController, 0);
-                if (BaseAliveGameObjectPathTLV
+                if (BaseAliveGameObjectPathTLV.GetTlv()
                     && gCollisions->Raycast(
                         mXPos,
-                        FP_FromInteger(BaseAliveGameObjectPathTLV->mTopLeftY),
+                        FP_FromInteger(BaseAliveGameObjectPathTLV.GetTlv()->mTopLeftY),
                         mXPos,
-                        FP_FromInteger(BaseAliveGameObjectPathTLV->mBottomRightY),
+                        FP_FromInteger(BaseAliveGameObjectPathTLV.GetTlv()->mBottomRightY),
                         &pLine,
                         &hitX,
                         &hitY,
@@ -468,7 +468,7 @@ void BaseAliveGameObject::VSetYSpawn(s32 camWorldY, s16 bLeft)
     }
 
     BaseAliveGameObjectPathTLV = GetMap().TLV_Get_At(
-        nullptr,
+        TlvIterator::Invalid(),
         mXPos,
         mYPos,
         mXPos,
@@ -544,13 +544,13 @@ void BaseAliveGameObject::VCheckCollisionLineStillValid(s32 distance)
         BaseAliveGameObjectCollisionLine = nullptr;
 
         BaseAliveGameObjectPathTLV = GetMap().TLV_First_Of_Type_In_Camera(ReliveTypes::eStartController, 0);
-        if (BaseAliveGameObjectPathTLV)
+        if (BaseAliveGameObjectPathTLV.GetTlv())
         {
             if (gCollisions->Raycast(
                     mXPos,
-                    FP_FromInteger(BaseAliveGameObjectPathTLV->mTopLeftY),
+                    FP_FromInteger(BaseAliveGameObjectPathTLV.GetTlv()->mTopLeftY),
                     mXPos,
-                    FP_FromInteger(BaseAliveGameObjectPathTLV->mBottomRightY),
+                    FP_FromInteger(BaseAliveGameObjectPathTLV.GetTlv()->mBottomRightY),
                     &pLine,
                     &hitX,
                     &hitY,
@@ -753,7 +753,7 @@ void BaseAliveGameObject::OnPathTransitionAO(s32 camWorldX, s32 camWorldY, Camer
     // Find the start controller at the position we will be at in the new map
     BaseAliveGameObjectPathTLV = GetMap().VTLV_Get_At_Of_Type(static_cast<s16>(xpos), static_cast<s16>(ypos), static_cast<s16>(width), static_cast<s16>(height), ReliveTypes::eStartController);
 
-    if (!BaseAliveGameObjectPathTLV)
+    if (!BaseAliveGameObjectPathTLV.GetTlv())
     {
         BaseAliveGameObjectPathTLV = GetMap().TLV_First_Of_Type_In_Camera(ReliveTypes::eStartController, 0);
         LOG_INFO("Flip direction after the path trans as we are not touching the start controller");
@@ -765,17 +765,16 @@ void BaseAliveGameObject::OnPathTransitionAO(s32 camWorldX, s32 camWorldY, Camer
         LOG_INFO("Not changing direction in the new path trans as we are touching the start controller");
     }
 
-    if (!BaseAliveGameObjectPathTLV)
+    if (!BaseAliveGameObjectPathTLV.GetTlv())
     {
-        LOG_ERROR("Did a path transition to a camera with no start controller");
         ALIVE_FATAL("Did a path transition to a camera with no start controller (add one if this is an edited level)");
     }
 
     PSX_Point camLoc = {};
     AO::gMap.GetCurrentCamCoords(&camLoc);
 
-    mXPos = FP_FromInteger((BaseAliveGameObjectPathTLV->mBottomRightX + BaseAliveGameObjectPathTLV->mTopLeftX) / 2);
-    mYPos = FP_FromInteger(BaseAliveGameObjectPathTLV->mTopLeftY);
+    mXPos = FP_FromInteger((BaseAliveGameObjectPathTLV.GetTlv()->mBottomRightX + BaseAliveGameObjectPathTLV.GetTlv()->mTopLeftX) / 2);
+    mYPos = FP_FromInteger(BaseAliveGameObjectPathTLV.GetTlv()->mTopLeftY);
 
     mXPos = FP_FromInteger(camLoc.x + SnapToXGrid_AO(GetSpriteScale(), FP_GetExponent(mXPos - FP_FromInteger(camLoc.x))));
 
@@ -826,7 +825,7 @@ void BaseAliveGameObject::OnPathTransitionAO(s32 camWorldX, s32 camWorldY, Camer
         // If we still didn't get a line then look for a start controller
         if (!BaseAliveGameObjectCollisionLine)
         {
-            if (BaseAliveGameObjectPathTLV->mTlvType == ReliveTypes::eStartController)
+            if (BaseAliveGameObjectPathTLV.GetTlv()->mTlvType == ReliveTypes::eStartController)
             {
                 BaseAliveGameObjectLastLineYPos += mYPos - oldy;
             }
@@ -1165,12 +1164,12 @@ bool BaseAliveGameObject::VOnPlatformIntersection(BaseAnimatedWithPhysicsGameObj
 // AO
 void BaseAliveGameObject::UsePathTransScale()
 {
-    auto pPathTrans = static_cast<relive::Path_PathTransition*>(GetMap().VTLV_Get_At_Of_Type(
+    auto pPathTrans = GetMap().VTLV_Get_At_Of_Type(
         FP_GetExponent(mXPos),
         FP_GetExponent(mYPos),
         FP_GetExponent(mXPos),
         FP_GetExponent(mYPos),
-        ReliveTypes::ePathTransition));
+        ReliveTypes::ePathTransition).GetTlv<relive::Path_PathTransition>();
 
     if (pPathTrans)
     {

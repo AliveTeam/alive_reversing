@@ -28,12 +28,12 @@ s16 BaseMap::SetActiveCameraDelayed(MapDirections direction, BaseAliveGameObject
     CameraSwapEffects convertedSwapEffect = CameraSwapEffects::eInstantChange_0;
     if (pObj)
     {
-        pPathChangeTLV = static_cast<relive::Path_PathTransition*>(VTLV_Get_At_Of_Type(
+        pPathChangeTLV = VTLV_Get_At_Of_Type(
             FP_GetExponent(pObj->mXPos),
             FP_GetExponent(pObj->mYPos),
             FP_GetExponent(pObj->mXPos),
             FP_GetExponent(pObj->mYPos),
-            ReliveTypes::ePathTransition));
+            ReliveTypes::ePathTransition).GetTlv<relive::Path_PathTransition>();
     }
 
     if (pObj && pPathChangeTLV)

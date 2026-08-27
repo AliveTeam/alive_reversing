@@ -99,7 +99,7 @@ void TimerTrigger::CreateFromSaveState(SerializedObjectData& pData)
 {
     const auto pState = pData.ReadTmpPtr<TimerTriggerSaveState>();
 
-    relive::Path_TimerTrigger* pTlv = static_cast<relive::Path_TimerTrigger*>(GetMap().TLV_From_Offset_Lvl_Cam(pState->mTlvId));
+    relive::Path_TimerTrigger* pTlv = GetMap().TLV_From_Offset_Lvl_Cam(pState->mTlvId).GetTlv<relive::Path_TimerTrigger>();
     auto pTimerTrigger = relive_new TimerTrigger(pTlv, pState->mTlvId);
     if (pTimerTrigger)
     {

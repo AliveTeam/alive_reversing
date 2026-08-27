@@ -243,19 +243,19 @@ void AirExplosion::DealBlastDamage(PSX_RECT* pRect)
             }
 
             const PSX_RECT boundRect = pObj->VGetBoundingRect();
-            if (RectsOverlap(&boundRect, &expandedRect) && scaleMatches)
+            if (boundRect.Overlaps(expandedRect) && scaleMatches)
             {
                 pObj->VTakeDamage(this);
             }
         }
     }
 
-    auto pTlv = static_cast<relive::Path_Slig*>(GetMap().VTLV_Get_At_Of_Type(
+    auto pTlv = GetMap().VTLV_Get_At_Of_Type(
         expandedRect.x,
         expandedRect.y,
         expandedRect.w,
         expandedRect.h,
-        ReliveTypes::eSlig));
+        ReliveTypes::eSlig).GetTlv<relive::Path_Slig>();
 
     if (pTlv)
     {

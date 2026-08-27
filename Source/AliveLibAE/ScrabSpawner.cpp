@@ -37,7 +37,7 @@ ScrabSpawner::ScrabSpawner(relive::Path_ScrabSpawner* pTlv, const Guid& tlvId)
 void ScrabSpawner::CreateFromSaveState(SerializedObjectData& pBuffer)
 {
     const auto pState = pBuffer.ReadTmpPtr<ScrabSpawnerSaveState>();
-    auto pTlv = static_cast<relive::Path_ScrabSpawner*>(gPathInfo->TLV_From_Offset_Lvl_Cam(pState->field_4_tlvInfo));
+    auto pTlv = gPathInfo->TLV_From_Offset_Lvl_Cam(pState->field_4_tlvInfo).GetTlv<relive::Path_ScrabSpawner>();
     auto pScrabSpawner = relive_new ScrabSpawner(pTlv, pState->field_4_tlvInfo);
     if (pScrabSpawner)
     {

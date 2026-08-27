@@ -28,7 +28,7 @@ public:
     void Alloc(nlohmann::json& j, BinaryPath::CamEntry* pCamEntry) override
     {
         auto tlv = std::make_unique<TlvType>();
-        j.get_to(tlv);
+        j.get_to(*tlv);
         pCamEntry->AddTLV(std::move(tlv));
     }
 };

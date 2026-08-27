@@ -97,11 +97,11 @@ Elum::~Elum()
 
 void Elum::VOnTlvCollision(TlvIterator tlvIterator)
 {
-    while (pTlv)
+    while (tlvIterator.GetTlv())
     {
-        if (pTlv->mTlvType == ReliveTypes::eContinuePoint)
+        if (tlvIterator.GetTlv()->mTlvType == ReliveTypes::eContinuePoint)
         {
-            auto pContinueTlv = static_cast<relive::Path_ContinuePoint*>(pTlv);
+            auto pContinueTlv = tlvIterator.GetTlv<relive::Path_ContinuePoint>();
             if (mPreviousContinuePointZoneNumber != pContinueTlv->mZoneNumber &&
                 pContinueTlv->mZoneNumber > mAbeZoneNumber &&
                 pContinueTlv->mElumRestarts)
@@ -120,7 +120,7 @@ void Elum::VOnTlvCollision(TlvIterator tlvIterator)
                 mRespawnOnDead = 1;
             }
         }
-        else if (pTlv->mTlvType == ReliveTypes::eDeathDrop && mHealth > FP_FromInteger(0))
+        else if (tlvIterator.GetTlv()->mTlvType == ReliveTypes::eDeathDrop && mHealth > FP_FromInteger(0))
         {
             if (sControlledCharacter != this)
             {
@@ -132,8 +132,8 @@ void Elum::VOnTlvCollision(TlvIterator tlvIterator)
             mHealth = FP_FromInteger(0);
         }
 
-        pTlv = gMap.TLV_Get_At(
-            pTlv,
+        tlvIterator = gMap.TLV_Get_At(
+            tlvIterator,
             mXPos,
             mYPos,
             mXPos,
@@ -3313,7 +3313,7 @@ void Elum::VUpdate()
         if (old_x != mXPos || old_y != mYPos)
         {
             BaseAliveGameObjectPathTLV = gMap.TLV_Get_At(
-                nullptr,
+                TlvIterator::Invalid(),
                 mXPos,
                 mYPos,
                 mXPos,
@@ -3408,12 +3408,12 @@ void Elum::VScreenChanged()
         }
         else if (mCurrentPath == gMap.mCurrentPath)
         {
-            auto pElumPathTrans = static_cast<relive::Path_ElumPathTrans*>(gMap.VTLV_Get_At_Of_Type(
+            auto pElumPathTrans = gMap.VTLV_Get_At_Of_Type(
                 FP_GetExponent(mXPos),
                 FP_GetExponent(mYPos),
                 FP_GetExponent(mXPos),
                 FP_GetExponent(mYPos),
-                ReliveTypes::eElumPathTrans));
+                ReliveTypes::eElumPathTrans).GetTlv<relive::Path_ElumPathTrans>();
 
             if (pElumPathTrans)
             {

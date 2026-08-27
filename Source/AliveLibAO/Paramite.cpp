@@ -264,14 +264,15 @@ bool Paramite::VTakeDamage(BaseGameObject* pFrom)
 
 void Paramite::VOnTlvCollision(TlvIterator tlvIterator)
 {
-    while (pTlv)
+    while (tlvIterator.GetTlv())
     {
-        if (pTlv->mTlvType == ReliveTypes::eDeathDrop)
+        if (tlvIterator.GetTlv()->mTlvType == ReliveTypes::eDeathDrop)
         {
             SetDead(true);
             mHealth = FP_FromInteger(0);
+            break;
         }
-        pTlv = gMap.TLV_Get_At(pTlv, mXPos, mYPos, mXPos, mYPos);
+        tlvIterator = gMap.TLV_Get_At(tlvIterator, mXPos, mYPos, mXPos, mYPos);
     }
 }
 
@@ -400,7 +401,7 @@ void Paramite::VUpdate()
         if (oldx != mXPos || oldy != mYPos)
         {
             BaseAliveGameObjectPathTLV = gMap.TLV_Get_At(
-                nullptr,
+                TlvIterator::Invalid(),
                 mXPos,
                 mYPos,
                 mXPos,
@@ -848,9 +849,9 @@ s16 Paramite::Brain_0_Patrol()
                 FP_GetExponent(mXPos),
                 FP_GetExponent(mYPos),
                 ReliveTypes::eEnemyStopper);
-            if (BaseAliveGameObjectPathTLV)
+            if (BaseAliveGameObjectPathTLV.GetTlv())
             {
-                auto pStopper = static_cast<relive::Path_EnemyStopper*>(BaseAliveGameObjectPathTLV);
+                auto pStopper = BaseAliveGameObjectPathTLV.GetTlv<relive::Path_EnemyStopper>();
                 if ((pStopper->mStopDirection == relive::Path_EnemyStopper::StopDirection::Left && gAbe->mXPos < mXPos) || (pStopper->mStopDirection == relive::Path_EnemyStopper::StopDirection::Right && gAbe->mXPos > mXPos))
                 {
                     if (!SwitchStates_Get(pStopper->mSwitchId))

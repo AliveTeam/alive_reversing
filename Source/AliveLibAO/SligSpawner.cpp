@@ -37,12 +37,12 @@ void SligSpawner::VUpdate()
 
     if (SwitchStates_Get(mSligSpawnerSwitchId))
     {
-        auto pTlv = static_cast<relive::Path_Slig*>(gMap.VTLV_Get_At_Of_Type(
+        auto pTlv = gMap.VTLV_Get_At_Of_Type(
             mPathTlv.mTopLeftX,
             mPathTlv.mTopLeftY,
             mPathTlv.mTopLeftX,
             mPathTlv.mTopLeftY,
-            ReliveTypes::eSligSpawner));
+            ReliveTypes::eSligSpawner).GetTlv<relive::Path_Slig>();
 
         if (pTlv)
         {

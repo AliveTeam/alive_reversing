@@ -315,15 +315,15 @@ bool Grenade::InTheAir(bool blowUpOnFloorTouch)
 
     // Kill the nade if it hits a death drop
     BaseAliveGameObjectPathTLV = GetMap().TLV_Get_At(
-        nullptr,
+        TlvIterator::Invalid(),
         mXPos,
         mYPos,
         mXPos,
         mYPos);
 
-    while (BaseAliveGameObjectPathTLV)
+    while (BaseAliveGameObjectPathTLV.GetTlv())
     {
-        if (BaseAliveGameObjectPathTLV->mTlvType == ReliveTypes::eDeathDrop)
+        if (BaseAliveGameObjectPathTLV.GetTlv()->mTlvType == ReliveTypes::eDeathDrop)
         {
             SetDead(true);
             return true;

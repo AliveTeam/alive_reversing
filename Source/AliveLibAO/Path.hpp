@@ -153,6 +153,9 @@ struct Path_TLV
     PSX_Point mTopLeft;
     PSX_Point mBottomRight;
 
+    // Note: Part of Path object in AE
+    static relive::Path_TLV* Next_446460(relive::Path_TLV* pTlv);
+
     // Note: must be inlined as its used by the api
     static relive::Path_TLV* Next(relive::Path_TLV* pTlv)
     {
@@ -173,7 +176,7 @@ struct Path_TLV
         return reinterpret_cast<relive::Path_TLV*>(pNext);
     }
 
-    static relive::Path_TLV* TLV_Next_Of_Type_446500(relive::Path_TLV* pTlv, ReliveTypes type);
+    static TlvIterator TLV_Next_Of_Type_446500(TlvIterator tlvIterator, ReliveTypes type);
 
     // Some strange self terminate check that is inlined everywhere
     void RangeCheck()

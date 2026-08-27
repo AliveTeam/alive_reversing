@@ -104,7 +104,7 @@ void MeatSack::VUpdate()
     const PSX_RECT abeRect = gAbe->VGetBoundingRect();
     const PSX_RECT ourRect = VGetBoundingRect();
 
-    if (RectsOverlap(ourRect, abeRect))
+    if (ourRect.Overlaps(abeRect))
     {
         if (GetSpriteScale() == gAbe->GetSpriteScale())
         {

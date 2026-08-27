@@ -111,7 +111,7 @@ void Slog_OnFrame(::BaseGameObject* pObj, u32&, const IndexedPoint& pData)
         const PSX_RECT targetRect = pTarget->VGetBoundingRect();
         const PSX_RECT slogRect = pSlog->VGetBoundingRect();
 
-        if (RectsOverlap(slogRect, targetRect))
+        if (slogRect.Overlaps(targetRect))
         {
             if (pTarget->GetSpriteScale() == pSlog->GetSpriteScale() && !pSlog->mBitingTarget)
             {

@@ -627,7 +627,7 @@ void BirdPortal::VExitPortal()
     mCurrentPath = gMap.mCurrentPath;
     mCurrentLevel = gMap.mCurrentLevel;
 
-    auto pPortalExitTlv = static_cast<relive::Path_BirdPortalExit*>(GetMap().TLV_First_Of_Type_In_Camera(ReliveTypes::eBirdPortalExit, 0));
+    auto pPortalExitTlv = GetMap().TLV_First_Of_Type_In_Camera(ReliveTypes::eBirdPortalExit, 0).GetTlv<relive::Path_BirdPortalExit>();
     if (pPortalExitTlv)
     {
         // TODO: Clean up this hack by having a better way to match "any" type of line

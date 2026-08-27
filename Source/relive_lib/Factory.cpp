@@ -301,29 +301,29 @@ static void Factory_LiftPoint(relive::Path_TLV* pTlv, const Guid& tlvId, relive:
         }
         else
         {
-            relive::Path_TLV* pTlvIter = nullptr;
+            TlvIterator tlvIterator = TlvIterator::Invalid();
             s16 pointNumber = 1;
             while (pointNumber < 8)
             {
-                pTlvIter = gMap.Get_First_TLV_For_Offsetted_Camera(
+                tlvIterator = gMap.Get_First_TLV_For_Offsetted_Camera(
                     0,
                     pointNumber / 2 * (pointNumber % 2 != 0 ? -1 : 1));
-                while (pTlvIter)
+                while (tlvIterator.GetTlv())
                 {
-                    if (pTlvIter->mTlvType == ReliveTypes::eLiftPoint)
+                    if (tlvIterator.GetTlv()->mTlvType == ReliveTypes::eLiftPoint)
                     {
                         const auto tlv_x = pTlv->mTopLeftX;
-                        const auto absX = pTlvIter->mTopLeftX - tlv_x >= 0 ? pTlvIter->mTopLeftX - tlv_x : tlv_x - pTlvIter->mTopLeftX;
+                        const auto absX = tlvIterator.GetTlv()->mTopLeftX - tlv_x >= 0 ? tlvIterator.GetTlv()->mTopLeftX - tlv_x : tlv_x - tlvIterator.GetTlv()->mTopLeftX;
                         if (absX < 5)
                         {
-                            if (pTlvIter->mTlvSpecificMeaning & 2 || (pTlvIter->mTlvSpecificMeaning == 0 && static_cast<relive::Path_LiftPoint*>(pTlvIter)->mIsStartPoint))
+                            if (tlvIterator.GetTlv()->mTlvSpecificMeaning & 2 || (tlvIterator.GetTlv()->mTlvSpecificMeaning == 0 && tlvIterator.GetTlv<relive::Path_LiftPoint>()->mIsStartPoint))
                             {
-                                relive_new LiftPoint(static_cast<relive::Path_LiftPoint*>(pTlvIter), tlvId);
+                                relive_new LiftPoint(tlvIterator.GetTlv<relive::Path_LiftPoint>(), tlvId);
                                 return;
                             }
                         }
                     }
-                    pTlvIter = Path_TLV::Next_446460(pTlvIter);
+                    tlvIterator = tlvIterator.Next_TLV();
                 }
                 pointNumber++;
             }
@@ -1032,7 +1032,7 @@ static void Factory_SligBoundLeft(relive::Path_TLV* pTlv, const Guid& tlvId, rel
 
         for (s16 camX_idx = -2; camX_idx < 3; camX_idx++)
         {
-            relive::Path_TLV* pTlvIter = gMap.Get_First_TLV_For_Offsetted_Camera(camX_idx, 0);
+            relive::Path_TLV* pTlvIter = gMap.Get_First_TLV_For_Offsetted_Camera(camX_idx, 0).GetTlv();
             pTlvIter = FindMatchingSligTLV(pTlvIter, pBound);
             if (pTlvIter)
             {
@@ -1817,18 +1817,18 @@ static void Factory_LiftPoint(relive::Path_TLV* pTlv, const Guid& tlvId, relive:
             s16 pointNumber = 1;
             while (pointNumber < 8)
             {
-                relive::Path_TLV* pTlvIter = gPathInfo->Get_First_TLV_For_Offsetted_Camera(
+                TlvIterator tlvIterator = gPathInfo->Get_First_TLV_For_Offsetted_Camera(
                     0,
                     pointNumber / 2 * (pointNumber % 2 != 0 ? -1 : 1));
 
-                while (pTlvIter)
+                while (tlvIterator.GetTlv())
                 {
-                    if (pTlvIter->mTlvType == ReliveTypes::eLiftPoint)
+                    if (tlvIterator.GetTlv()->mTlvType == ReliveTypes::eLiftPoint)
                     {
-                        auto pLiftPointIter = static_cast<relive::Path_LiftPoint*>(pTlvIter);
+                        auto pLiftPointIter = tlvIterator.GetTlv<relive::Path_LiftPoint>();
 
                         const s32 tlvX = pTlv->mTopLeftX;
-                        const s32 absX = pTlvIter->mTopLeftX - tlvX >= 0 ? pTlvIter->mTopLeftX - tlvX : tlvX - pTlvIter->mTopLeftX;
+                        const s32 absX = tlvIterator.GetTlv()->mTopLeftX - tlvX >= 0 ? tlvIterator.GetTlv()->mTopLeftX - tlvX : tlvX - tlvIterator.GetTlv()->mTopLeftX;
 
                         if (absX < 5 && pLiftPointIter->mLiftPointId == pLiftTlv->mLiftPointId && (pLiftPointIter->mTlvSpecificMeaning & 2 || pLiftPointIter->mTlvSpecificMeaning == 0) && pLiftPointIter->mIsStartPoint)
                         {
@@ -1837,7 +1837,7 @@ static void Factory_LiftPoint(relive::Path_TLV* pTlv, const Guid& tlvId, relive:
                         }
                     }
 
-                    pTlvIter = Path::Next_TLV(pTlvIter);
+                    tlvIterator = tlvIterator.Next_TLV();
                 }
                 pointNumber++;
             }

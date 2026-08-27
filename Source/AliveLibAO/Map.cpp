@@ -997,15 +997,15 @@ void Map::GoTo_Camera()
     {
         if (field_1E_door)
         {
-            relive::Path_Door* pTlvIter = static_cast<relive::Path_Door*>(TLV_First_Of_Type_In_Camera(ReliveTypes::eDoor, 0));
-            while (pTlvIter->mDoorId != gAbe->field_196_door_id)
+            TlvIterator doorIterator = TLV_First_Of_Type_In_Camera(ReliveTypes::eDoor, 0);
+            while (doorIterator.GetTlv<relive::Path_Door>()->mDoorId != gAbe->field_196_door_id)
             {
-                pTlvIter = static_cast<relive::Path_Door*>(Path_TLV::TLV_Next_Of_Type_446500(pTlvIter, ReliveTypes::eDoor));
+                doorIterator = Path_TLV::TLV_Next_Of_Type_446500(doorIterator, ReliveTypes::eDoor);
             }
 
             const auto pCamPos = gScreenManager->mCamPos;
-            const auto xpos = gScreenManager->mCamXOff + ((pTlvIter->mTopLeftX + pTlvIter->mBottomRightX) / 2) - FP_GetExponent(pCamPos->x);
-            const auto ypos = gScreenManager->mCamYOff + pTlvIter->mTopLeftY - FP_GetExponent(pCamPos->y);
+            const auto xpos = gScreenManager->mCamXOff + doorIterator.GetTlv()->MidPointX() - FP_GetExponent(pCamPos->x);
+            const auto ypos = gScreenManager->mCamYOff + doorIterator.GetTlv()->mTopLeftY - FP_GetExponent(pCamPos->y);
             relive_new CameraSwapper(
                 field_2C_camera_array[0]->mCamRes,
                 mCameraSwapEffect,
@@ -1408,7 +1408,7 @@ TlvIterator Map::TLV_Get_At(TlvIterator tlvIterator, FP xpos, FP ypos, FP width,
         }
     }
 
-    if (pTlv->mTlvFlags.Get(relive::eBit3_End_TLV_List))
+    if (tlvIterator.GetTlv()->mTlvFlags.Get(relive::eBit3_End_TLV_List))
     {
         return TlvIterator::Invalid();
     }
@@ -1686,24 +1686,20 @@ relive::Path_TLV* Path_TLV::Next_446460(relive::Path_TLV* pTlv)
     return Next(pTlv);
 }
 
-relive::Path_TLV* Path_TLV::TLV_Next_Of_Type_446500(relive::Path_TLV* pTlv, ReliveTypes type)
+TlvIterator Path_TLV::TLV_Next_Of_Type_446500(TlvIterator tlvIterator, ReliveTypes type)
 {
-    pTlv = Path_TLV::Next_446460(pTlv);
-    if (!pTlv)
+    // Skip current which is already of type
+    tlvIterator = tlvIterator.Next_TLV();
+    while (tlvIterator.GetTlv())
     {
-        return nullptr;
-    }
-
-    while (pTlv->mTlvType != type)
-    {
-        pTlv = Path_TLV::Next_446460(pTlv);
-        if (!pTlv)
+        // Got the next of type
+        if (tlvIterator.GetTlv()->mTlvType == type)
         {
-            return nullptr;
+            return tlvIterator;
         }
+        tlvIterator = tlvIterator.Next_TLV();
     }
-
-    return pTlv;
+    return TlvIterator::Invalid();
 }
 
 } // namespace AO

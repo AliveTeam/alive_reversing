@@ -150,7 +150,7 @@ void SlingMudokon::VUpdate()
     if (old_x != mXPos || old_y != mYPos)
     {
         BaseAliveGameObjectPathTLV = gMap.TLV_Get_At(
-            nullptr,
+            TlvIterator::Invalid(),
             mXPos,
             mYPos,
             mXPos,

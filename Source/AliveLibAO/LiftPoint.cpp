@@ -334,18 +334,18 @@ void LiftPoint::VUpdate()
             const FP lineY = FP_FromInteger(mPlatformBaseCollisionLine->mRect.y);
 
             relive::Path_LiftPoint* pLiftTlv = nullptr;
-            relive::Path_TLV* pTlvIter = GetMap().TLV_Get_At(
-                nullptr,
+            TlvIterator pTlvIter = GetMap().TLV_Get_At(
+                TlvIterator::Invalid(),
                 mXPos,
                 lineY,
                 mXPos,
                 (GetSpriteScale() * FP_FromInteger(30)) + lineY);
 
-            while (pTlvIter)
+            while (pTlvIter.GetTlv())
             {
-                if (pTlvIter->mTlvType == ReliveTypes::eLiftPoint)
+                if (pTlvIter.GetTlv()->mTlvType == ReliveTypes::eLiftPoint)
                 {
-                    pLiftTlv = static_cast<relive::Path_LiftPoint*>(pTlvIter);
+                    pLiftTlv = pTlvIter.GetTlv<relive::Path_LiftPoint>();
                     mLiftPointStopType = pLiftTlv->mLiftPointStopType;
                     break;
                 }
@@ -662,24 +662,24 @@ void LiftPoint::VScreenChanged()
 
 void LiftPoint::CreatePulleyIfExists(s16 camX, s16 camY)
 {
-    auto pTlv = gMap.Get_First_TLV_For_Offsetted_Camera(camX, camY);
-    if (pTlv)
+    auto tlvIterator = gMap.Get_First_TLV_For_Offsetted_Camera(camX, camY);
+    if (tlvIterator.GetTlv())
     {
         while (1)
         {
-            mPulleyYPos = pTlv->mTopLeftY;
-            mPulleyXPos = pTlv->mTopLeftX;
+            mPulleyYPos = tlvIterator.GetTlv()->mTopLeftY;
+            mPulleyXPos = tlvIterator.GetTlv()->mTopLeftX;
 
-            if (pTlv->mTlvType == ReliveTypes::ePulley)
+            if (tlvIterator.GetTlv()->mTlvType == ReliveTypes::ePulley)
             {
-                if (mPlatformBaseCollisionLine->mRect.x <= pTlv->mTopLeftX && pTlv->mTopLeftX <= mPlatformBaseCollisionLine->mRect.w)
+                if (mPlatformBaseCollisionLine->mRect.x <= tlvIterator.GetTlv()->mTopLeftX && tlvIterator.GetTlv()->mTopLeftX <= mPlatformBaseCollisionLine->mRect.w)
                 {
                     break;
                 }
             }
 
-            pTlv = gMap.TLV_Get_At(pTlv, FP_FromInteger(-1), FP_FromInteger(-1), FP_FromInteger(-1), FP_FromInteger(-1));
-            if (!pTlv)
+            tlvIterator = gMap.TLV_Get_At(tlvIterator, FP_FromInteger(-1), FP_FromInteger(-1), FP_FromInteger(-1), FP_FromInteger(-1));
+            if (!tlvIterator.GetTlv())
             {
                 return;
             }
@@ -740,7 +740,7 @@ LiftPoint::~LiftPoint()
         FP_GetExponent(FP_FromInteger(mPlatformBaseCollisionLine->mRect.y)),
         FP_GetExponent(mXPos),
         FP_GetExponent((GetSpriteScale() * FP_FromInteger(30)) + FP_FromInteger(mPlatformBaseCollisionLine->mRect.y)),
-        ReliveTypes::eLiftPoint);
+        ReliveTypes::eLiftPoint).GetTlv();
 
     if (pLiftPointTlv)
     {

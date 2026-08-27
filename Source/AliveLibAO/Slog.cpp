@@ -288,14 +288,15 @@ bool Slog::VTakeDamage(BaseGameObject* pFrom)
 
 void Slog::VOnTlvCollision(TlvIterator tlvIterator)
 {
-    while (pTlv)
+    while (tlvIterator.GetTlv())
     {
-        if (pTlv->mTlvType == ReliveTypes::eDeathDrop)
+        if (tlvIterator.GetTlv()->mTlvType == ReliveTypes::eDeathDrop)
         {
             SetDead(true);
             mHealth = FP_FromInteger(0);
+            break;
         }
-        pTlv = gMap.TLV_Get_At(pTlv, mXPos, mYPos, mXPos, mYPos);
+        tlvIterator = gMap.TLV_Get_At(tlvIterator, mXPos, mYPos, mXPos, mYPos);
     }
 }
 
@@ -327,7 +328,7 @@ void Slog::VUpdate()
     if (old_x != mXPos || old_y != mYPos)
     {
         BaseAliveGameObjectPathTLV = gMap.TLV_Get_At(
-            nullptr,
+            TlvIterator::Invalid(),
             mXPos,
             mYPos,
             mXPos,

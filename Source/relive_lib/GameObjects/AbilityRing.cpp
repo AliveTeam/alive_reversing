@@ -461,29 +461,32 @@ void AbilityRing::CollideWithObjects(bool bDealDamage)
             break;
         }
 
-        const PSX_RECT bRect = pObj->VGetBoundingRect();
-
-        if (!pObj->GetDead())
+        if (pObj->GetDead())
         {
-            for (s32 j = 0; j < mRingCount; j++)
+            continue;
+        }
+
+        const PSX_RECT bRect = pObj->VGetBoundingRect();
+        for (s32 j = 0; j < mRingCount; j++)
+        {
+            if (!mRingCollideRects[j].Overlaps(bRect))
             {
-                if (RectsOverlap(&mRingCollideRects[j], &bRect))
+                continue;
+            }
+
+            if (bDealDamage)
+            {
+                pObj->VTakeDamage(this);
+            }
+            else if (pObj->Type() == ReliveTypes::eMudokon)
+            {
+                // is the mudokon sick?
+                if (pObj->GetCanBePossessed())
                 {
-                    if (bDealDamage)
+                    if (pObj->mHealth > FP_FromInteger(0))
                     {
-                        pObj->VTakeDamage(this);
-                    }
-                    else if (pObj->Type() == ReliveTypes::eMudokon)
-                    {
-                        // is the mudokon sick?
-                        if (pObj->GetCanBePossessed())
-                        {
-                            if (pObj->mHealth > FP_FromInteger(0))
-                            {
-                                // heal the sick mudokon
-                                pObj->VPossessed();
-                            }
-                        }
+                        // heal the sick mudokon
+                        pObj->VPossessed();
                     }
                 }
             }

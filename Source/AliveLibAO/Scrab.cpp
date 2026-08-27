@@ -226,7 +226,7 @@ void Scrab::VUpdate()
         if (old_x != mXPos || old_y != mYPos)
         {
             BaseAliveGameObjectPathTLV = gMap.TLV_Get_At(
-                nullptr,
+                TlvIterator::Invalid(),
                 mXPos,
                 mYPos,
                 mXPos,
@@ -318,17 +318,18 @@ bool Scrab::VTakeDamage(BaseGameObject* pFrom)
 
 void Scrab::VOnTlvCollision(TlvIterator tlvIterator)
 {
-    while (pTlv)
+    while (tlvIterator.GetTlv())
     {
-        if (pTlv->mTlvType == ReliveTypes::eDeathDrop)
+        if (tlvIterator.GetTlv()->mTlvType == ReliveTypes::eDeathDrop)
         {
             Scrab_SFX(ScrabSounds::eYell_8, 127, -1000, 0);
             SetDead(true);
             mHealth = FP_FromInteger(0);
+            break;
         }
 
-        pTlv = gMap.TLV_Get_At(
-            pTlv,
+        tlvIterator = gMap.TLV_Get_At(
+            tlvIterator,
             mXPos,
             mYPos,
             mXPos,
@@ -2466,10 +2467,10 @@ s16 Scrab::Brain_ChasingEnemy()
                 return 10;
             }
 
-            relive::Path_TLV* pTlv = nullptr;
+            TlvIterator tlvIterator = TlvIterator::Invalid();
             if (GetAnimation().GetFlipX())
             {
-                pTlv = gMap.VTLV_Get_At_Of_Type(
+                tlvIterator = gMap.VTLV_Get_At_Of_Type(
                     FP_GetExponent(mXPos - kGridSize),
                     FP_GetExponent(mYPos),
                     FP_GetExponent(mXPos - kGridSize),
@@ -2478,7 +2479,7 @@ s16 Scrab::Brain_ChasingEnemy()
             }
             else
             {
-                pTlv = gMap.VTLV_Get_At_Of_Type(
+                tlvIterator = gMap.VTLV_Get_At_Of_Type(
                     FP_GetExponent(mXPos + kGridSize),
                     FP_GetExponent(mYPos),
                     FP_GetExponent(mXPos + kGridSize),
@@ -2486,9 +2487,9 @@ s16 Scrab::Brain_ChasingEnemy()
                     ReliveTypes::eEnemyStopper);
             }
 
-            if (!pTlv)
+            if (!tlvIterator.GetTlv())
             {
-                pTlv = gMap.VTLV_Get_At_Of_Type(
+                tlvIterator = gMap.VTLV_Get_At_Of_Type(
                     FP_GetExponent(mXPos),
                     FP_GetExponent(mYPos),
                     FP_GetExponent(mXPos),
@@ -2496,8 +2497,8 @@ s16 Scrab::Brain_ChasingEnemy()
                     ReliveTypes::eEnemyStopper);
             }
 
-            auto pStopper = static_cast<relive::Path_EnemyStopper*>(pTlv);
-            BaseAliveGameObjectPathTLV = pTlv;
+            auto pStopper = tlvIterator.GetTlv<relive::Path_EnemyStopper>();
+            BaseAliveGameObjectPathTLV = tlvIterator;
             if (pStopper)
             {
                 const bool bLeft = pStopper->mStopDirection == relive::Path_EnemyStopper::StopDirection::Left && pTarget->mXPos < mXPos;
@@ -2559,7 +2560,7 @@ s16 Scrab::Brain_ChasingEnemy()
                             FP_GetExponent(mYPos + FP_FromInteger(10)),
                             FP_GetExponent(mXPos + kGridSize),
                             FP_GetExponent(mYPos + FP_FromInteger(10)),
-                            ReliveTypes::eScrabNoFall))
+                            ReliveTypes::eScrabNoFall).GetTlv())
                     {
                         if (!Check_IsOnEndOfLine(0, 4))
                         {
@@ -2577,7 +2578,7 @@ s16 Scrab::Brain_ChasingEnemy()
                     FP_GetExponent(mYPos),
                     ReliveTypes::eEnemyStopper);
 
-                auto pStopper = static_cast<relive::Path_EnemyStopper*>(BaseAliveGameObjectPathTLV);
+                auto pStopper = BaseAliveGameObjectPathTLV.GetTlv<relive::Path_EnemyStopper>();
                 if (pStopper)
                 {
                     if (pStopper->mStopDirection == relive::Path_EnemyStopper::StopDirection::Right || pStopper->mStopDirection == relive::Path_EnemyStopper::StopDirection::Both)
@@ -2602,7 +2603,7 @@ s16 Scrab::Brain_ChasingEnemy()
                             FP_GetExponent(mYPos + FP_FromInteger(10)),
                             FP_GetExponent(mXPos - kGridSize),
                             FP_GetExponent(mYPos + FP_FromInteger(10)),
-                            ReliveTypes::eScrabNoFall))
+                            ReliveTypes::eScrabNoFall).GetTlv())
                     {
                         if (!Check_IsOnEndOfLine(1, 4))
                         {
@@ -2766,7 +2767,7 @@ s16 Scrab::Brain_ChasingEnemy()
                 FP_GetExponent(mYPos),
                 ReliveTypes::eEnemyStopper);
 
-            auto pStopper = static_cast<relive::Path_EnemyStopper*>(BaseAliveGameObjectPathTLV);
+            auto pStopper = BaseAliveGameObjectPathTLV.GetTlv<relive::Path_EnemyStopper>();
 
             if (pStopper)
             {
@@ -3145,7 +3146,7 @@ s16 Scrab::Brain_Patrol()
                     FP_GetExponent(mYPos),
                     FP_GetExponent(mXPos - ScaleToGridSize(GetSpriteScale())),
                     FP_GetExponent(mYPos),
-                    ReliveTypes::eScrabBoundLeft))
+                    ReliveTypes::eScrabBoundLeft).GetTlv())
             {
                 mNextMotion = eScrabMotions::Motion_4_Turn;
                 return 2;
@@ -3222,7 +3223,7 @@ s16 Scrab::Brain_Patrol()
                     FP_GetExponent(mYPos),
                     FP_GetExponent(ScaleToGridSize(GetSpriteScale()) + mXPos),
                     FP_GetExponent(mYPos),
-                    ReliveTypes::eScrabBoundRight))
+                    ReliveTypes::eScrabBoundRight).GetTlv())
             {
                 mNextMotion = eScrabMotions::Motion_4_Turn;
                 return 5;

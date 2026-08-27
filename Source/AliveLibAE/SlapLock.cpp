@@ -27,7 +27,6 @@ SlapLock::SlapLock(relive::Path_SlapLock* pTlv, const Guid& tlvId)
     : BaseAliveGameObject(0)
 {
     SetType(ReliveTypes::eSlapLock);
-    mSlapLockTlv = pTlv;
     mTlvInfo = tlvId;
     mBaseGameObjectTlvInfo = tlvId;
 
@@ -40,8 +39,7 @@ SlapLock::SlapLock(relive::Path_SlapLock* pTlv, const Guid& tlvId)
 
     Animation_Init(GetAnimRes(AnimId::SlapLock_Initiate));
 
-    auto pSlapLockTlv = mSlapLockTlv.GetTlv<relive::Path_SlapLock>();
-    if (pSlapLockTlv->mScale != relive::reliveScale::eFull)
+    if (pTlv->mScale != relive::reliveScale::eFull)
     {
         GetAnimation().SetRenderLayer(Layer::eLayer_BeforeShadow_Half_6);
     }
@@ -60,7 +58,7 @@ SlapLock::SlapLock(relive::Path_SlapLock* pTlv, const Guid& tlvId)
     const FP ypos = FP_FromInteger(pTlv->mBottomRightY);
     mYPos = ypos;
 
-    mHasGhost = pSlapLockTlv->mHasGhost;
+    mHasGhost = pTlv->mHasGhost;
 
     for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
     {
@@ -70,7 +68,7 @@ SlapLock::SlapLock(relive::Path_SlapLock* pTlv, const Guid& tlvId)
             break;
         }
 
-        if (pObj->Type() == ReliveTypes::eSlapLock_OrbWhirlWind && static_cast<SlapLockWhirlWind*>(pObj)->SwitchId() == pSlapLockTlv->mTargetTombSwitchId2)
+        if (pObj->Type() == ReliveTypes::eSlapLock_OrbWhirlWind && static_cast<SlapLockWhirlWind*>(pObj)->SwitchId() == pTlv->mTargetTombSwitchId2)
         {
             mHasGhost = false;
         }
@@ -91,7 +89,7 @@ SlapLock::SlapLock(relive::Path_SlapLock* pTlv, const Guid& tlvId)
     mTimer1 = MakeTimer(60);
     mShinyParticleTimer = MakeTimer(30);
 
-    if (pSlapLockTlv->mGiveInvisibilityPowerup)
+    if (pTlv->mGiveInvisibilityPowerup)
     {
         mState = SlapLockStates::eEmitInvisibilityPowerupRing_4;
     }

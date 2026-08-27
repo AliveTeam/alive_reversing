@@ -441,7 +441,7 @@ void Mudokon::VUpdate()
     if (oldX != mXPos || oldY != mYPos)
     {
         BaseAliveGameObjectPathTLV = gMap.TLV_Get_At(
-            0,
+            TlvIterator::Invalid(),
             mXPos,
             mYPos,
             mXPos,
@@ -503,16 +503,16 @@ void Mudokon::VScreenChanged()
     if (gMap.PathChanged())
     {
         // See if we need to go to the next path
-        auto pTlv = gMap.TLV_Get_At(nullptr, mXPos, mYPos, mXPos, mYPos);
-        while (pTlv)
+        auto tlvIterator = gMap.TLV_Get_At(TlvIterator::Invalid(), mXPos, mYPos, mXPos, mYPos);
+        while (tlvIterator.GetTlv())
         {
-            if (pTlv->mTlvType == ReliveTypes::eMudokonPathTrans)
+            if (tlvIterator.GetTlv()->mTlvType == ReliveTypes::eMudokonPathTrans)
             {
                 // Gonna go to the next path
                 field_1C4_bDoPathTrans = true;
                 return;
             }
-            pTlv = gMap.TLV_Get_At(pTlv, mXPos, mYPos, mXPos, mYPos);
+            tlvIterator = gMap.TLV_Get_At(tlvIterator, mXPos, mYPos, mXPos, mYPos);
         }
 
         // Wasn't a path trans and path changed, die

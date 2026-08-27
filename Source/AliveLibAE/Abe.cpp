@@ -5759,7 +5759,7 @@ void Abe::Motion_82_InsideWellExpress_45CC80()
             ReliveTypes::eWellExpress);
     }
 
-    relive::Path_WellExpress* pExpressWell = static_cast<relive::Path_WellExpress*>(BaseAliveGameObjectPathTLV.GetTlv());
+    relive::Path_WellExpress* pExpressWell = BaseAliveGameObjectPathTLV.GetTlv<relive::Path_WellExpress>();
     if (SwitchStates_Get(pExpressWell->mSwitchId))
     {
         mDstWellLevel = pExpressWell->mOnDestLevel;
