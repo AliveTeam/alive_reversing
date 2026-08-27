@@ -198,6 +198,10 @@ TlvIterator Path::TLV_Get_At(TlvIterator tlvIterator, FP xpos, FP ypos, FP width
 
         BinaryPath* pBinPath = gMap.GetPathResourceBlockPtr(gMap.mCurrentPath);
         tlvIterator =  pBinPath->TlvsForCamera(camX, camY);
+        if (!tlvIterator.GetTlv())
+        {
+            return TlvIterator::Invalid();
+        }
 
         if (!xyPosValid || (xpos_converted <= tlvIterator.GetTlv()->mBottomRightX && width_converted >= tlvIterator.GetTlv()->mTopLeftX && height_converted >= tlvIterator.GetTlv()->mTopLeftY && ypos_converted <= tlvIterator.GetTlv()->mBottomRightY))
         {
