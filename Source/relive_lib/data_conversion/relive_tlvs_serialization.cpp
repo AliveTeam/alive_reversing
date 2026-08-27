@@ -1445,6 +1445,7 @@ void to_json(nlohmann::json& j, const Path_Door& p)
         {"exit_direction", p.mExitDirection},
         {"close_on_exit", p.mCloseOnExit},
         {"clear_throwables", p.mClearThrowables},
+        {"theme", p.mTheme}
     };
 }
 
@@ -1476,6 +1477,7 @@ void from_json(const nlohmann::json& j, Path_Door& p)
     j.at("exit_direction").get_to(p.mExitDirection);
     j.at("close_on_exit").get_to(p.mCloseOnExit);
     j.at("clear_throwables").get_to(p.mClearThrowables);
+    j.at("theme").get_to(p.mTheme);
 }
 
 // Path_AbeStart

@@ -153,16 +153,16 @@ public:
 
     TlvIterator TlvById(const Guid& id);
 
-    const TlvList& TlvsForCamera(s32 x, s32 y)
+    TlvIterator TlvsForCamera(s32 x, s32 y)
     {
         for (auto& cam : mCameras)
         {
             if (cam && cam->mX == x && cam->mY == y)
             {
-                return cam->mTlvs;
+                return cam->mTlvs.FirstIterator();
             }
         }
-        ALIVE_FATAL("Camera X/Y out of bounds");
+        return TlvIterator::Invalid();
     }
 
     std::vector<std::unique_ptr<CamEntry>>& GetCameras()

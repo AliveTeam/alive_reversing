@@ -345,7 +345,9 @@ Slig::Slig(relive::Path_Slig* pTlv, const Guid& tlvId)
     mReturnToPreviousMotion = false;
     field_150_explode_timer = 0;
     field_14C_death_by_being_shot_timer = 0;
-    BaseAliveGameObjectPathTLV = pTlv;
+
+    // TODO: doesn't seem to be used without being overwritten
+    //BaseAliveGameObjectPathTLV = pTlv;
 
     mSligTlv = *pTlv;
 

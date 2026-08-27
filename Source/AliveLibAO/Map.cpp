@@ -1033,11 +1033,11 @@ TlvIterator Map::Get_First_TLV_For_Offsetted_Camera(s16 cam_x_idx, s16 cam_y_idx
 
     if (camX >= mMaxCamsX || camX < 0 || camY >= mMaxCamsY || camY < 0)
     {
-        ALIVE_FATAL("Camera out of bounds");
+        return TlvIterator::Invalid();
     }
 
     BinaryPath* pPathData = GetPathResourceBlockPtr(mCurrentPath);
-    return pPathData->TlvsForCamera(camX, camY).FirstIterator();
+    return pPathData->TlvsForCamera(camX, camY);
 }
 
 void Map::Create_FG1s()
@@ -1334,7 +1334,7 @@ TlvIterator Map::VTLV_Get_At_Of_Type(s16 xpos, s16 ypos, s16 width, s16 height, 
 
     // Get the offset to where the TLV list starts for this camera cell
     BinaryPath* pBinPath = GetPathResourceBlockPtr(mCurrentPath);
-    TlvIterator tlvIterator = pBinPath->TlvsForCamera(grid_cell_x, grid_cell_y).FirstIterator();
+    TlvIterator tlvIterator = pBinPath->TlvsForCamera(grid_cell_x, grid_cell_y);
 
     while (right > tlvIterator.GetTlv()->mBottomRightX
            || left < tlvIterator.GetTlv()->mTopLeftX
@@ -1388,8 +1388,7 @@ TlvIterator Map::TLV_Get_At(TlvIterator tlvIterator, FP xpos, FP ypos, FP width,
         }
 
         BinaryPath* pBinPath = GetPathResourceBlockPtr(mCurrentPath);
-        const TlvList& tlvs = pBinPath->TlvsForCamera(camX, camY);
-        tlvIterator = tlvs.FirstIterator();
+        tlvIterator =  pBinPath->TlvsForCamera(camX, camY);
 
         if (!bContinue || (xpos_converted <= tlvIterator.GetTlv()->mBottomRightX && width_converted >= tlvIterator.GetTlv()->mTopLeftX && height_converted >= tlvIterator.GetTlv()->mTopLeftY && ypos_converted <= tlvIterator.GetTlv()->mBottomRightY))
         {
@@ -1445,6 +1444,7 @@ TlvIterator Map::TLV_First_Of_Type_In_Camera(ReliveTypes objectType, s16 camX)
         {
             return tlvIterator;
         }
+        tlvIterator = tlvIterator.Next_TLV();
     }
     return TlvIterator::Invalid();
 }
@@ -1569,15 +1569,16 @@ void Map::Loader(s16 camX, s16 camY, relive::LoadMode loadMode, ReliveTypes type
 {
     // Get TLVs for this cam
     BinaryPath* pPathRes = GetPathResourceBlockPtr(mCurrentPath);
-    const TlvList& tlvList = pPathRes->TlvsForCamera(camX, camY);
-    for (auto& pTlv : tlvList.mTlvs)
+    TlvIterator tlvIterator = pPathRes->TlvsForCamera(camX, camY);
+    while(tlvIterator.GetTlv())
     {
+        auto pTlv = tlvIterator.GetTlv();
         if (typeToLoad == ReliveTypes::eNone || typeToLoad == pTlv->mTlvType)
         {
             if (loadMode != relive::LoadMode::ConstructObject_0 || !(pTlv->mTlvFlags.Get(relive::TlvFlags::eBit1_Created) || pTlv->mTlvFlags.Get(relive::TlvFlags::eBit2_Destroyed)))
             {
                 // Call the factory to construct the item
-                relive::ConstructTLVObject(pTlv.get(), pTlv->mId, loadMode);
+                relive::ConstructTLVObject(pTlv, pTlv->mId, loadMode);
 
                 if (loadMode == relive::LoadMode::ConstructObject_0)
                 {
@@ -1592,6 +1593,7 @@ void Map::Loader(s16 camX, s16 camY, relive::LoadMode loadMode, ReliveTypes type
         {
             break;
         }
+        tlvIterator = tlvIterator.Next_TLV();
     }
 }
 

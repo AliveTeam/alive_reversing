@@ -235,9 +235,10 @@ void Teleporter::VUpdate()
             while (teleporterTlvIterator.GetTlv())
             {
                 pTeleporterTlv = static_cast<relive::Path_Teleporter*>(teleporterTlvIterator.GetTlv());
-                if (tlvData.mTeleporterId == mTlvData.mOtherTeleporterId)
+                if (pTeleporterTlv->mTeleporterId == mTlvData.mOtherTeleporterId)
                 {
                     SetData(tlvData, *pTeleporterTlv);
+                    break;
                 }
                 teleporterTlvIterator = gPathInfo->TLV_Next_Of_Type(teleporterTlvIterator, ReliveTypes::eTeleporter);
             }

@@ -235,7 +235,9 @@ Slig::Slig(relive::Path_Slig* pTlv, const Guid& tlvId)
 
     mGameSpeakPitchMin = 45 * ((Math_NextRandom() % 5) - 2);
 
-    BaseAliveGameObjectPathTLV = pTlv;
+    // TODO: doesn't seem to be used without being overwritten
+    //BaseAliveGameObjectPathTLV = pTlv;
+
     field_174_tlv = pTlv;
     mXPos = FP_FromInteger(pTlv->mTopLeftX);
     mYPos = FP_FromInteger(pTlv->mTopLeftY);
