@@ -1,4 +1,5 @@
 #include "BinaryPath.hpp"
+#include "MapWrapper.hpp"
 #include "stdafx.h"
 #include "Factory.hpp"
 
@@ -1004,17 +1005,17 @@ static void Factory_RollingBall(relive::Path_TLV* pTlv, const Guid& tlvId, reliv
     }
 }
 
-static relive::Path_TLV* FindMatchingSligTLV(relive::Path_TLV* pTlvIter, relive::Path_SligBound* pTlv)
+static TlvIterator FindMatchingSligTLV(TlvIterator pTlvIter, relive::Path_SligBound* pTlv)
 {
-    while (pTlvIter)
+    while (pTlvIter.GetTlv())
     {
-        if (pTlvIter->mTlvType == ReliveTypes::eSlig && pTlv->mSligBoundId == static_cast<relive::Path_Slig*>(pTlvIter)->mData.mSligBoundId && !pTlvIter->mTlvFlags.Get(relive::TlvFlags::eBit2_Destroyed))
+        if (pTlvIter.GetTlv()->mTlvType == ReliveTypes::eSlig && pTlv->mSligBoundId == pTlvIter.GetTlv<relive::Path_Slig>()->mData.mSligBoundId && !pTlvIter.GetTlv()->mTlvFlags.Get(relive::TlvFlags::eBit2_Destroyed))
         {
             return pTlvIter;
         }
-        pTlvIter = Path_TLV::Next_446460(pTlvIter);
+        pTlvIter = pTlvIter.Next_TLV();
     }
-    return nullptr;
+    return TlvIterator::Invalid();
 }
 
 static void Factory_SligBoundLeft(relive::Path_TLV* pTlv, const Guid& tlvId, relive::LoadMode loadMode)
@@ -1033,14 +1034,14 @@ static void Factory_SligBoundLeft(relive::Path_TLV* pTlv, const Guid& tlvId, rel
 
         for (s16 camX_idx = -2; camX_idx < 3; camX_idx++)
         {
-            relive::Path_TLV* pTlvIter = gMap.Get_First_TLV_For_Offsetted_Camera(camX_idx, 0).GetTlv();
-            pTlvIter = FindMatchingSligTLV(pTlvIter, pBound);
-            if (pTlvIter)
+            TlvIterator pTlvIter = gMap.Get_First_TLV_For_Offsetted_Camera(camX_idx, 0);
+            relive::Path_TLV* pSligTlv = FindMatchingSligTLV(pTlvIter, pBound).GetTlv();
+            if (pSligTlv)
             {
-                pTlvIter->mTlvFlags.Set(relive::TlvFlags::eBit1_Created);
-                pTlvIter->mTlvFlags.Set(relive::TlvFlags::eBit2_Destroyed);
+                pSligTlv->mTlvFlags.Set(relive::TlvFlags::eBit1_Created);
+                pSligTlv->mTlvFlags.Set(relive::TlvFlags::eBit2_Destroyed);
                 // AO OG bug tlvId not recalculated??
-                relive_new Slig(static_cast<relive::Path_Slig*>(pTlvIter), tlvId);
+                relive_new Slig(static_cast<relive::Path_Slig*>(pSligTlv), tlvId);
                 return;
             }
         }
