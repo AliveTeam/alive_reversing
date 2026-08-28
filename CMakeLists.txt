@@ -8,6 +8,11 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 set (CMAKE_MODULE_PATH "${CMAKE_MODULE_PATH}" "${CMAKE_CURRENT_LIST_DIR}/cmake")
 
+set(SANITIZER_FLAGS "-fsanitize=address")
+
+add_compile_options(${SANITIZER_FLAGS})
+add_link_options(${SANITIZER_FLAGS})
+
 find_program(CMAKE cmake)
 if(NOT CMAKE)
     message(FATAL_ERROR "CMake binary not found!")
