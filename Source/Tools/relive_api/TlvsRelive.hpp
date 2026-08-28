@@ -447,8 +447,7 @@ public:
         r.Visit("Switch ID", mTlv.mSwitchId);
         r.Visit("Target Door ID", mTlv.mTargetDoorId);
         r.Visit("Door Type", mTlv.mDoorType);
-        r.Visit("(AO) Door Closed", mTlv.mDoorClosed);
-        r.Visit("(AE) Start State", mTlv.mStartState);
+        r.Visit("Start State", mTlv.mStartState);
         r.Visit("Hub 1 ID", mTlv.mHub1);
         r.Visit("Hub 2 ID", mTlv.mHub2);
         r.Visit("Hub 3 ID", mTlv.mHub3);

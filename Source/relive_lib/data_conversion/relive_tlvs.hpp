@@ -1336,10 +1336,6 @@ struct Path_Door final : public Path_TLV
     s16 mTargetDoorId = 0;
     DoorTypes mDoorType = DoorTypes::eBasicDoor;
 
-    // AO only
-    bool mDoorClosed = false;
-
-    // AE only
     DoorStates mStartState = DoorStates::eOpen;
 
     s16 mHub1 = 0;

@@ -16,6 +16,8 @@ public:
     void Close();
     
 protected:
+    void HandleFeeCoDepotSwitches();
+
     void SetOpen();
     void SetClosed();
 

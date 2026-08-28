@@ -1429,7 +1429,6 @@ void to_json(nlohmann::json& j, const Path_Door& p)
         {"target_door_id", p.mTargetDoorId},
         {"door_type", p.mDoorType},
         {"start_state", p.mStartState},
-        {"door_closed", p.mDoorClosed},
         {"hub_1", p.mHub1},
         {"hub_2", p.mHub2},
         {"hub_3", p.mHub3},
@@ -1461,7 +1460,6 @@ void from_json(const nlohmann::json& j, Path_Door& p)
     j.at("target_door_id").get_to(p.mTargetDoorId);
     j.at("door_type").get_to(p.mDoorType);
     j.at("start_state").get_to(p.mStartState);
-    j.at("door_closed").get_to(p.mDoorClosed);
     j.at("hub_1").get_to(p.mHub1);
     j.at("hub_2").get_to(p.mHub2);
     j.at("hub_3").get_to(p.mHub3);

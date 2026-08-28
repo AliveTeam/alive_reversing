@@ -1,4 +1,5 @@
 #include "GameObjects/BaseAbe.hpp"
+#include "GameType.hpp"
 #include "stdafx.h"
 #include "Door.hpp"
 
@@ -46,11 +47,14 @@ Door::Door(relive::Path_Door* pTlv, const Guid& tlvId)
 
     LoadAnimations(pTlv->mTheme);
 
-    if (pTlv->mCloseOnExit)
+    if (GetGameType() == GameType::eAe)
     {
-        if (pTlv->mTlvSpecificMeaning)
+        if (pTlv->mCloseOnExit)
         {
-            mStartState = relive::Path_Door::DoorStates::eClosed;
+            if (pTlv->mTlvSpecificMeaning)
+            {
+                mStartState = relive::Path_Door::DoorStates::eClosed;
+            }
         }
     }
 
@@ -61,69 +65,7 @@ Door::Door(relive::Path_Door* pTlv, const Guid& tlvId)
 
     if (gMap.mCurrentLevel == EReliveLevelIds::eFeeCoDepot)
     {
-        switch (mDoorId)
-        {
-            case 30000:
-                if (gVisitedBonewerkz)
-                {
-                    mStartState = relive::Path_Door::DoorStates::eClosed;
-                }
-                break;
-
-            case 30001:
-            case 30004:
-                if (gVisitedBarracks)
-                {
-                    mStartState = relive::Path_Door::DoorStates::eClosed;
-                }
-                break;
-
-            case 30002:
-                if (gVisitedBonewerkz)
-                {
-                    SwitchStates_Set(255u, 1);
-                }
-
-                if (gVisitedBarracks)
-                {
-                    SwitchStates_Set(254u, 1);
-                }
-
-                if (gVisitedFeecoEnder)
-                {
-                    SwitchStates_Set(255u, 0);
-                    SwitchStates_Set(254u, 0);
-                }
-                break;
-
-            case 30003:
-                if (gVisitedBonewerkz)
-                {
-                    if (gVisitedBarracks)
-                    {
-                        if (gVisitedFeecoEnder)
-                        {
-                            mStartState = relive::Path_Door::DoorStates::eOpen;
-                        }
-                    }
-                    if (gVisitedBonewerkz)
-                    {
-                        SwitchStates_Set(250u, 1);
-                    }
-                }
-
-                if (gVisitedBarracks)
-                {
-                    SwitchStates_Set(251u, 1);
-                }
-                if (gVisitedFeecoEnder)
-                {
-                    SwitchStates_Set(253u, 1);
-                }
-                break;
-            default:
-                break;
-        }
+        HandleFeeCoDepotSwitches();
     }
 
     if (mDoorType == relive::Path_Door::DoorTypes::eTasksDoor)
@@ -282,10 +224,14 @@ void Door::Close()
 {
     if (mCurrentState != relive::Path_Door::DoorStates::eClosed)
     {
-        mStartState = relive::Path_Door::DoorStates::eClosed;
         mCurrentState = relive::Path_Door::DoorStates::eClosing;
-        relive::Path_TLV* pTlv = gPathInfo->TLV_From_Offset_Lvl_Cam(mTlvId).GetTlv();
-        pTlv->mTlvSpecificMeaning = 1;
+
+        if (GetGameType() == GameType::eAe)
+        {
+            mStartState = relive::Path_Door::DoorStates::eClosed;
+            relive::Path_TLV* pTlv = gPathInfo->TLV_From_Offset_Lvl_Cam(mTlvId).GetTlv();
+            pTlv->mTlvSpecificMeaning = 1;
+        }
     }
 }
 
@@ -294,6 +240,73 @@ void Door::Open()
     if (mCurrentState != relive::Path_Door::DoorStates::eOpen)
     {
         mCurrentState = relive::Path_Door::DoorStates::eOpening;
+    }
+}
+
+void Door::HandleFeeCoDepotSwitches()
+{
+    switch (mDoorId)
+    {
+        case 30000:
+            if (gVisitedBonewerkz)
+            {
+                mStartState = relive::Path_Door::DoorStates::eClosed;
+            }
+            break;
+
+        case 30001:
+        case 30004:
+            if (gVisitedBarracks)
+            {
+                mStartState = relive::Path_Door::DoorStates::eClosed;
+            }
+            break;
+
+        case 30002:
+            if (gVisitedBonewerkz)
+            {
+                SwitchStates_Set(255u, 1);
+            }
+
+            if (gVisitedBarracks)
+            {
+                SwitchStates_Set(254u, 1);
+            }
+
+            if (gVisitedFeecoEnder)
+            {
+                SwitchStates_Set(255u, 0);
+                SwitchStates_Set(254u, 0);
+            }
+            break;
+
+        case 30003:
+            if (gVisitedBonewerkz)
+            {
+                if (gVisitedBarracks)
+                {
+                    if (gVisitedFeecoEnder)
+                    {
+                        mStartState = relive::Path_Door::DoorStates::eOpen;
+                    }
+                }
+                if (gVisitedBonewerkz)
+                {
+                    SwitchStates_Set(250u, 1);
+                }
+            }
+
+            if (gVisitedBarracks)
+            {
+                SwitchStates_Set(251u, 1);
+            }
+            if (gVisitedFeecoEnder)
+            {
+                SwitchStates_Set(253u, 1);
+            }
+            break;
+        default:
+            break;
     }
 }
 
@@ -310,18 +323,41 @@ void Door::SetClosed()
 void Door::PlaySound()
 {
     s16 volume = 0;
-    if (mDoorType != relive::Path_Door::DoorTypes::eBasicDoor || GetSpriteScale() != FP_FromInteger(1))
+
+    const bool isRuptureFarms =
+        gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarms ||
+        gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarmsReturn;
+
+    if (isRuptureFarms)
     {
-        volume = 60;
+        if (GetScale() == Scale::Fg)
+        {
+            volume = 127;
+        }
+        else
+        {
+            volume = 90;
+        }
+        SND_SEQ_Play(SeqId::HitBottomOfDeathPit_9, 1, 75, 75);
     }
     else
     {
-        volume = 90;
+        // AE logic (also used by AO outside RuptureFarms)
+        if (mDoorType == relive::Path_Door::DoorTypes::eBasicDoor &&
+            GetScale() == Scale::Fg)
+        {
+            volume = 90;
+        }
+        else
+        {
+            volume = 60;
+        }
     }
 
     SFX_Play_Pitch(relive::SoundEffects::DoorEffect, volume, 900);
     SFX_Play_Pitch(relive::SoundEffects::DoorEffect, volume, 0);
 }
+
 
 Door::~Door()
 {

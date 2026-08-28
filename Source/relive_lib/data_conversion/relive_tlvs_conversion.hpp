@@ -2394,7 +2394,7 @@ public:
         r.mSwitchId = tlv.mSwitchId;
         r.mTargetDoorId = tlv.mTargetDoorId;
         r.mDoorType = From(tlv.mDoorType);
-        r.mDoorClosed = relive::From(tlv.mDoorClosed);
+        r.mStartState = relive::From(tlv.mDoorClosed) ? Path_Door::DoorStates::eClosed : Path_Door::DoorStates::eOpen;
         r.mHub1 = tlv.mHub1;
         r.mHub2 = tlv.mHub2;
         r.mHub3 = tlv.mHub3;
