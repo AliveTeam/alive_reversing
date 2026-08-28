@@ -69,7 +69,8 @@ Door::Door(relive::Path_Door* pTlv, const Guid& tlvId)
         HandleFeeCoDepotSwitches();
     }
 
-    if (mDoorType == relive::Path_Door::DoorTypes::eTasksDoor)
+    if (mDoorType == relive::Path_Door::DoorTypes::eTasksDoor ||
+        mDoorType == relive::Path_Door::DoorTypes::eTasksDoorWithSecretMusic)
     {
         mHubIds[0] = pTlv->mHub1;
         mHubIds[1] = pTlv->mHub2;
@@ -79,7 +80,10 @@ Door::Door(relive::Path_Door* pTlv, const Guid& tlvId)
         mHubIds[5] = pTlv->mHub6;
         mHubIds[6] = pTlv->mHub7;
         mHubIds[7] = pTlv->mHub8;
+    }
 
+    if (mDoorType == relive::Path_Door::DoorTypes::eTasksDoor)
+    {
         if (SwitchStates_Get(mHubIds[0]) && SwitchStates_Get(mHubIds[1]) && SwitchStates_Get(mHubIds[2]) && SwitchStates_Get(mHubIds[3]) && SwitchStates_Get(mHubIds[4]) && SwitchStates_Get(mHubIds[5]) && SwitchStates_Get(mHubIds[6]) && SwitchStates_Get(mHubIds[7]))
         {
             SwitchStates_Do_Operation(mSwitchId, relive::reliveSwitchOp::eSetTrue);
@@ -123,18 +127,6 @@ Door::Door(relive::Path_Door* pTlv, const Guid& tlvId)
         mCurrentState = relive::Path_Door::DoorStates::eOpen;
     }
 
-    if (mDoorType == relive::Path_Door::DoorTypes::eTasksDoorWithSecretMusic)
-    {
-        mHubIds[0] = pTlv->mHub1;
-        mHubIds[1] = pTlv->mHub2;
-        mHubIds[2] = pTlv->mHub3;
-        mHubIds[3] = pTlv->mHub4;
-        mHubIds[4] = pTlv->mHub5;
-        mHubIds[5] = pTlv->mHub6;
-        mHubIds[6] = pTlv->mHub7;
-        mHubIds[7] = pTlv->mHub8;
-    }
-
     if (mCurrentState == relive::Path_Door::DoorStates::eOpen)
     {
         Animation_Init(GetAnimRes(AnimId::Door_Themed_Open));
@@ -144,20 +136,17 @@ Door::Door(relive::Path_Door* pTlv, const Guid& tlvId)
         Animation_Init(GetAnimRes(AnimId::Door_Themed_Closed));
     }
 
-    if (pTlv->mScale != relive::reliveScale::eFull)
-    {
-        if (pTlv->mScale == relive::reliveScale::eHalf)
-        {
-            SetSpriteScale(FP_FromDouble(0.5));
-            SetScale(Scale::Bg);
-            GetAnimation().SetRenderLayer(Layer::eLayer_BeforeShadow_Half_6);
-        }
-    }
-    else
+    if (pTlv->mScale == relive::reliveScale::eFull)
     {
         SetSpriteScale(FP_FromInteger(1));
         SetScale(Scale::Fg);
         GetAnimation().SetRenderLayer(Layer::eLayer_BeforeShadow_25);
+    }
+    else if (pTlv->mScale == relive::reliveScale::eHalf)
+    {
+        SetSpriteScale(FP_FromDouble(0.5));
+        SetScale(Scale::Bg);
+        GetAnimation().SetRenderLayer(Layer::eLayer_BeforeShadow_Half_6);
     }
 
     SetDoorPosition(pTlv);
