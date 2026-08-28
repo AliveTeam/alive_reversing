@@ -70,7 +70,8 @@ Door::Door(relive::Path_Door* pTlv, const Guid& tlvId)
     }
 
     if (mDoorType == relive::Path_Door::DoorTypes::eTasksDoor ||
-        mDoorType == relive::Path_Door::DoorTypes::eTasksDoorWithSecretMusic)
+        mDoorType == relive::Path_Door::DoorTypes::eTasksDoorWithSecretMusic || 
+        mDoorType == relive::Path_Door::DoorTypes::eHubDoor) // AO
     {
         mHubIds[0] = pTlv->mHub1;
         mHubIds[1] = pTlv->mHub2;
@@ -266,7 +267,7 @@ void Door::SetDoorPosition(relive::Path_Door* pTlv)
     GetMap().GetCurrentCamCoords(&cam);
     
     // Bottom of *this* camera in world space
-    s32 screenHeight = 260;
+    s32 screenHeight = 260 + 240; // cam starts at off y=240 in AO 
     FP rayEndY = FP_FromInteger(cam.y + screenHeight);
     
     PathLine* pathLine = nullptr;
@@ -281,9 +282,25 @@ void Door::SetDoorPosition(relive::Path_Door* pTlv)
             (GetScale() == Scale::Fg) ? kFgFloorCeilingOrWalls : kBgFloorCeilingOrWalls))
     {        
         // Snap on X
-        *xOff = FP_FromInteger(SnapToXGrid_AE(GetSpriteScale(), FP_GetExponent(*xOff)));
-    
+        if (GetGameType() == GameType::eAe)
+        {
+            *xOff = FP_FromInteger(SnapToXGrid_AE(GetSpriteScale(), FP_GetExponent(*xOff)));
+        }
+        else
+        {
+            auto aux = SnapToXGrid_AO(GetSpriteScale(), FP_GetExponent(*xOff) - cam.x);
+            *xOff = FP_FromInteger((aux)+cam.x);
+        }
+
         *yOff -= FP_FromInteger(12) * GetSpriteScale();
+
+        // AO eTrialDoor
+        //  mYPos += FP_FromInteger(4);
+
+        // Cast down for eHubDoor in AO has werid rules:
+        // raycast only in RF
+        // else add some hard coded offset
+
     }
     else
     {
