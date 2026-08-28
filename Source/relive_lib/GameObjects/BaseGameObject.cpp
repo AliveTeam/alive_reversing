@@ -76,18 +76,6 @@ BaseMap& GetMap()
     }
 }
 
-BaseAliveGameObject* GetAbe()
-{
-    if (GetGameType() == GameType::eAe)
-    {
-        return gAbe;
-    }
-    else
-    {
-        return AO::gAbe;
-    }
-}
-
 void BaseGameObject::VScreenChanged()
 {
     auto& map = GetMap();

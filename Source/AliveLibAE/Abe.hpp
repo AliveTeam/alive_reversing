@@ -4,6 +4,7 @@
 #include "MudokonEnums.hpp"
 #include "../relive_lib/SaveStateBase.hpp"
 #include "../relive_lib/FatalError.hpp"
+#include "../relive_lib/GameObjects/BaseAbe.hpp"
 
 enum class eAbeMotions
 {
@@ -316,7 +317,7 @@ struct AbeSaveState final : public SaveStateBase
 
 class Bullet;
 
-class Abe final : public BaseAliveGameObject
+class Abe final : public BaseAbe
 {
 public:
     static constexpr AnimId sAbeAnimIdTable[130] = {
@@ -485,6 +486,9 @@ public:
     void SetAsDead();
     void FleechDeath_459350();
     void ExitShrykull(bool bResetRingTimer);
+
+    bool IsEnteringOrExitingDoor() const override;
+    s32 DoorId() const override;
 
     static void CreateFromSaveState(SerializedObjectData& pData);
     static void CreateFromSaveState(const AbeSaveState& pData);

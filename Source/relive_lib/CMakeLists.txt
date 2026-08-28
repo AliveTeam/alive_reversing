@@ -543,6 +543,8 @@ SET(game_objects_src
     GameObjects/AbilityRing.hpp
     GameObjects/Door.cpp
     GameObjects/Door.hpp
+    GameObjects/BaseAbe.cpp
+    GameObjects/BaseAbe.hpp
 )
 
 SET(data_conversion_src

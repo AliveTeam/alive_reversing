@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../relive_lib/GameObjects/BaseAliveGameObject.hpp"
+#include "../relive_lib/GameObjects/BaseAbe.hpp"
 #include "../relive_lib/FatalError.hpp"
 
 namespace relive
@@ -307,7 +308,7 @@ enum class EnvironmentSfx : u8
 struct SaveData;
 
 
-class Abe final : public ::BaseAliveGameObject
+class Abe final : public BaseAbe
 {
 public:
     static constexpr AnimId sAbeMotionAnimIds[166] = {
@@ -707,6 +708,9 @@ public:
     void Motion_162_ToShrykull();
     void Motion_163_ShrykullEnd();
     void Motion_164_PoisonGasDeath();
+
+    bool IsEnteringOrExitingDoor() const override;
+    s32 DoorId() const override;
 
     s16 field_10C_prev_held = 0;
     s16 field_10E_released_buttons = 0;

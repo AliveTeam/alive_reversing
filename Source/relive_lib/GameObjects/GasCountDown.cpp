@@ -7,6 +7,7 @@
 #include "Sfx.hpp"
 #include "../relive_lib/GameObjects/DeathGas.hpp"
 #include "../relive_lib/GameObjects/ScreenManager.hpp"
+#include "../relive_lib/GameObjects/BaseAbe.hpp"
 #include "../relive_lib/GameType.hpp"
 #include "BaseMap.hpp"
 

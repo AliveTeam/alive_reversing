@@ -424,7 +424,7 @@ void Abe::LoadAnimations()
 }
 
 Abe::Abe() :
-    BaseAliveGameObject(kResourceArraySize)
+    BaseAbe(kResourceArraySize)
 {
     SetType(ReliveTypes::eAbe);
 
@@ -8931,6 +8931,17 @@ void Abe::ExitShrykull(bool bResetRingTimer)
     {
         mRingPulseTimer = 0;
     }
+}
+
+bool Abe::IsEnteringOrExitingDoor() const
+{
+    return mCurrentMotion == eAbeMotions::Motion_114_DoorEnter || 
+           mCurrentMotion == eAbeMotions::Motion_115_DoorExit;
+}
+
+s32 Abe::DoorId() const
+{
+    return field_1A0_door_id;
 }
 
 static void playAbeSFX(MudSounds idx, s16 volume, s32 pitch)

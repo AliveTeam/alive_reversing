@@ -1,3 +1,4 @@
+#include "GameObjects/BaseAbe.hpp"
 #include "stdafx_ao.h"
 #include "../relive_lib/Function.hpp"
 #include "Abe.hpp"
@@ -522,7 +523,7 @@ void Abe::LoadAnimations()
 }
 
 Abe::Abe()
- : ::BaseAliveGameObject(0)
+ : BaseAbe(0)
 {
     SetType(ReliveTypes::eAbe);
     SetSurviveDeathReset(true);
@@ -8972,5 +8973,17 @@ void Abe::Motion_164_PoisonGasDeath()
         }
     }
 }
+
+bool Abe::IsEnteringOrExitingDoor() const
+{
+    return mCurrentMotion == eAbeMotions::Motion_156_DoorEnter || 
+           gAbe->mCurrentMotion == eAbeMotions::Motion_157_DoorExit;
+}
+
+s32 Abe::DoorId() const
+{
+    return gAbe->field_196_door_id;
+}
+
 
 } // namespace AO
