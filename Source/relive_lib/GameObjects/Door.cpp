@@ -162,49 +162,58 @@ Door::Door(relive::Path_Door* pTlv, const Guid& tlvId)
     FP* xOff = &mXPos;
     FP* yOff = &mYPos;
 
-    FP tlvXMid = FP_FromInteger((pTlv->mTopLeftX + pTlv->mBottomRightX) / 2);
+    FP tlvXMid = FP_FromInteger(pTlv->MidPointX());
+    
+    PSX_Point cam;
+    gMap.GetCurrentCamCoords(&cam);
+    
+    // Bottom of *this* camera in world space
+    s32 screenHeight = 260;
+    FP rayEndY = FP_FromInteger(cam.y + screenHeight);
+    
     PathLine* pathLine = nullptr;
-
     if (gCollisions->Raycast(
             tlvXMid,
-            FP_FromInteger(pTlv->mTopLeftY),
+            FP_FromInteger(pTlv->mTopLeftY),  // start at TLV top (no lines above)
             tlvXMid,
-            FP_FromInteger(pTlv->mBottomRightY),
+            rayEndY,                          // extend down to camera bottom
             &pathLine,
             xOff,
             yOff,
             (GetScale() == Scale::Fg) ? kFgFloorCeilingOrWalls : kBgFloorCeilingOrWalls))
-    {        // Move up off the line we hit
-        *yOff -= FP_FromInteger(12) * GetSpriteScale();
-
+    {        
         // Snap on X
         *xOff = FP_FromInteger(SnapToXGrid_AE(GetSpriteScale(), FP_GetExponent(*xOff)));
+    
+        *yOff -= FP_FromInteger(12) * GetSpriteScale();
     }
     else
     {
-        // Couldn't glue to the floor.. just use the TLV pos
-        *xOff = FP_FromInteger(pTlv->mTopLeftX + 12);
-        *yOff = FP_FromInteger(pTlv->mTopLeftY + 24);
+        ALIVE_FATAL("Door is floating in the void, ensure a collision line is below it");
     }
+
+    FP yAdjustHack = FP_FromInteger(0);
+
+    if ((gMap.mCurrentLevel == EReliveLevelIds::eBarracks ||
+        gMap.mCurrentLevel== EReliveLevelIds::eBarracks_Ender) &&
+        gMap.mOverlayId != 108)
+    {
+        // Barracks 14 (unless overlay 108)
+        yAdjustHack = FP_FromInteger(14) * GetSpriteScale();
+    }
+    else if (gMap.mCurrentLevel == EReliveLevelIds::eBonewerkz ||
+            gMap.mCurrentLevel == EReliveLevelIds::eBonewerkz_Ender)
+    {
+        // Bonewerkz 10
+        yAdjustHack = FP_FromInteger(10) * GetSpriteScale();
+    }
+
+
+    *yOff += yAdjustHack;
 
     // Add on the TLV offset
     *xOff += FP_FromInteger(pTlv->mDoorOffsetX);
     *yOff += FP_FromInteger(pTlv->mDoorOffsetY);
-
-    // Another OWI special
-    FP yAdjustHack = {};
-    if ((gMap.mCurrentLevel != EReliveLevelIds::eBarracks && gMap.mCurrentLevel != EReliveLevelIds::eBarracks_Ender) || gMap.mOverlayId == 108)
-    {
-        if (gMap.mCurrentLevel == EReliveLevelIds::eBonewerkz || gMap.mCurrentLevel == EReliveLevelIds::eBonewerkz_Ender)
-        {
-            yAdjustHack = FP_FromInteger(10) * GetSpriteScale();
-        }
-    }
-    else
-    {
-        yAdjustHack = FP_FromInteger(14) * GetSpriteScale();
-    }
-    *yOff += yAdjustHack;
 
     if (mCurrentState == relive::Path_Door::DoorStates::eOpen)
     {
