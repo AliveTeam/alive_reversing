@@ -1335,17 +1335,23 @@ TlvIterator Map::VTLV_Get_At_Of_Type(s16 xpos, s16 ypos, s16 width, s16 height, 
     // Get the offset to where the TLV list starts for this camera cell
     BinaryPath* pBinPath = GetPathResourceBlockPtr(mCurrentPath);
     TlvIterator tlvIterator = pBinPath->TlvsForCamera(grid_cell_x, grid_cell_y);
-
-    while (right > tlvIterator.GetTlv()->mBottomRightX
-           || left < tlvIterator.GetTlv()->mTopLeftX
-           || bottom < tlvIterator.GetTlv()->mTopLeftY
-           || top > tlvIterator.GetTlv()->mBottomRightY
-           || tlvIterator.GetTlv()->mTlvType != typeToFind)
+    if (!tlvIterator.GetTlv())
     {
-        if (tlvIterator.GetTlv()->mTlvFlags.Get(relive::eBit3_End_TLV_List))
+        return TlvIterator::Invalid();
+    }
+
+    while(tlvIterator.GetTlv())
+    {
+        auto pTlv = tlvIterator.GetTlv();
+        if (pTlv->mTlvType == typeToFind
+            && right <= pTlv->mBottomRightX
+            && left >= pTlv->mTopLeftX
+            && bottom >= pTlv->mTopLeftY
+            && top <= pTlv->mBottomRightY)
         {
-            return TlvIterator::Invalid();
+            return tlvIterator;
         }
+        tlvIterator = tlvIterator.Next_TLV();
     }
     return tlvIterator;
 }
