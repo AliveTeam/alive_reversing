@@ -1,4 +1,5 @@
 #include "GameObjects/BaseAbe.hpp"
+#include "GameObjects/BaseGameObject.hpp"
 #include "GameType.hpp"
 #include "stdafx.h"
 #include "Door.hpp"
@@ -63,7 +64,7 @@ Door::Door(relive::Path_Door* pTlv, const Guid& tlvId)
         mSwitchId = 0;
     }
 
-    if (gMap.mCurrentLevel == EReliveLevelIds::eFeeCoDepot)
+    if (GetMap().mCurrentLevel == EReliveLevelIds::eFeeCoDepot)
     {
         HandleFeeCoDepotSwitches();
     }
@@ -165,7 +166,7 @@ Door::Door(relive::Path_Door* pTlv, const Guid& tlvId)
     FP tlvXMid = FP_FromInteger(pTlv->MidPointX());
     
     PSX_Point cam;
-    gMap.GetCurrentCamCoords(&cam);
+    GetMap().GetCurrentCamCoords(&cam);
     
     // Bottom of *this* camera in world space
     s32 screenHeight = 260;
@@ -194,15 +195,15 @@ Door::Door(relive::Path_Door* pTlv, const Guid& tlvId)
 
     FP yAdjustHack = FP_FromInteger(0);
 
-    if ((gMap.mCurrentLevel == EReliveLevelIds::eBarracks ||
-        gMap.mCurrentLevel== EReliveLevelIds::eBarracks_Ender) &&
-        gMap.mOverlayId != 108)
+    if ((GetMap().mCurrentLevel == EReliveLevelIds::eBarracks ||
+        GetMap().mCurrentLevel== EReliveLevelIds::eBarracks_Ender) &&
+        GetMap().mOverlayId != 108)
     {
         // Barracks 14 (unless overlay 108)
         yAdjustHack = FP_FromInteger(14) * GetSpriteScale();
     }
-    else if (gMap.mCurrentLevel == EReliveLevelIds::eBonewerkz ||
-            gMap.mCurrentLevel == EReliveLevelIds::eBonewerkz_Ender)
+    else if (GetMap().mCurrentLevel == EReliveLevelIds::eBonewerkz ||
+            GetMap().mCurrentLevel == EReliveLevelIds::eBonewerkz_Ender)
     {
         // Bonewerkz 10
         yAdjustHack = FP_FromInteger(10) * GetSpriteScale();
@@ -334,8 +335,8 @@ void Door::PlaySound()
     s16 volume = 0;
 
     const bool isRuptureFarms =
-        gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarms ||
-        gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarmsReturn;
+        GetMap().mCurrentLevel == EReliveLevelIds::eRuptureFarms ||
+        GetMap().mCurrentLevel == EReliveLevelIds::eRuptureFarmsReturn;
 
     if (isRuptureFarms)
     {
