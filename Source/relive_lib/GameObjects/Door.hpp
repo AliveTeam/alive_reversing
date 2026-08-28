@@ -17,6 +17,7 @@ public:
     
 protected:
     void HandleFeeCoDepotSwitches();
+    void SetDoorPosition(relive::Path_Door* pTlv);
 
     void SetOpen();
     void SetClosed();

@@ -160,61 +160,7 @@ Door::Door(relive::Path_Door* pTlv, const Guid& tlvId)
         GetAnimation().SetRenderLayer(Layer::eLayer_BeforeShadow_25);
     }
 
-    FP* xOff = &mXPos;
-    FP* yOff = &mYPos;
-
-    FP tlvXMid = FP_FromInteger(pTlv->MidPointX());
-    
-    PSX_Point cam;
-    GetMap().GetCurrentCamCoords(&cam);
-    
-    // Bottom of *this* camera in world space
-    s32 screenHeight = 260;
-    FP rayEndY = FP_FromInteger(cam.y + screenHeight);
-    
-    PathLine* pathLine = nullptr;
-    if (gCollisions->Raycast(
-            tlvXMid,
-            FP_FromInteger(pTlv->mTopLeftY),  // start at TLV top (no lines above)
-            tlvXMid,
-            rayEndY,                          // extend down to camera bottom
-            &pathLine,
-            xOff,
-            yOff,
-            (GetScale() == Scale::Fg) ? kFgFloorCeilingOrWalls : kBgFloorCeilingOrWalls))
-    {        
-        // Snap on X
-        *xOff = FP_FromInteger(SnapToXGrid_AE(GetSpriteScale(), FP_GetExponent(*xOff)));
-    
-        *yOff -= FP_FromInteger(12) * GetSpriteScale();
-    }
-    else
-    {
-        ALIVE_FATAL("Door is floating in the void, ensure a collision line is below it");
-    }
-
-    FP yAdjustHack = FP_FromInteger(0);
-
-    if ((GetMap().mCurrentLevel == EReliveLevelIds::eBarracks ||
-        GetMap().mCurrentLevel== EReliveLevelIds::eBarracks_Ender) &&
-        GetMap().mOverlayId != 108)
-    {
-        // Barracks 14 (unless overlay 108)
-        yAdjustHack = FP_FromInteger(14) * GetSpriteScale();
-    }
-    else if (GetMap().mCurrentLevel == EReliveLevelIds::eBonewerkz ||
-            GetMap().mCurrentLevel == EReliveLevelIds::eBonewerkz_Ender)
-    {
-        // Bonewerkz 10
-        yAdjustHack = FP_FromInteger(10) * GetSpriteScale();
-    }
-
-
-    *yOff += yAdjustHack;
-
-    // Add on the TLV offset
-    *xOff += FP_FromInteger(pTlv->mDoorOffsetX);
-    *yOff += FP_FromInteger(pTlv->mDoorOffsetY);
+    SetDoorPosition(pTlv);
 
     if (mCurrentState == relive::Path_Door::DoorStates::eOpen)
     {
@@ -318,6 +264,65 @@ void Door::HandleFeeCoDepotSwitches()
         default:
             break;
     }
+}
+
+void Door::SetDoorPosition(relive::Path_Door* pTlv)
+{
+    FP* xOff = &mXPos;
+    FP* yOff = &mYPos;
+
+    FP tlvXMid = FP_FromInteger(pTlv->MidPointX());
+    
+    PSX_Point cam;
+    GetMap().GetCurrentCamCoords(&cam);
+    
+    // Bottom of *this* camera in world space
+    s32 screenHeight = 260;
+    FP rayEndY = FP_FromInteger(cam.y + screenHeight);
+    
+    PathLine* pathLine = nullptr;
+    if (gCollisions->Raycast(
+            tlvXMid,
+            FP_FromInteger(pTlv->mTopLeftY),  // start at TLV top (no lines above)
+            tlvXMid,
+            rayEndY,                          // extend down to camera bottom
+            &pathLine,
+            xOff,
+            yOff,
+            (GetScale() == Scale::Fg) ? kFgFloorCeilingOrWalls : kBgFloorCeilingOrWalls))
+    {        
+        // Snap on X
+        *xOff = FP_FromInteger(SnapToXGrid_AE(GetSpriteScale(), FP_GetExponent(*xOff)));
+    
+        *yOff -= FP_FromInteger(12) * GetSpriteScale();
+    }
+    else
+    {
+        ALIVE_FATAL("Door is floating in the void, ensure a collision line is below it");
+    }
+
+    FP yAdjustHack = FP_FromInteger(0);
+
+    if ((GetMap().mCurrentLevel == EReliveLevelIds::eBarracks ||
+        GetMap().mCurrentLevel== EReliveLevelIds::eBarracks_Ender) &&
+        GetMap().mOverlayId != 108)
+    {
+        // Barracks 14 (unless overlay 108)
+        yAdjustHack = FP_FromInteger(14) * GetSpriteScale();
+    }
+    else if (GetMap().mCurrentLevel == EReliveLevelIds::eBonewerkz ||
+            GetMap().mCurrentLevel == EReliveLevelIds::eBonewerkz_Ender)
+    {
+        // Bonewerkz 10
+        yAdjustHack = FP_FromInteger(10) * GetSpriteScale();
+    }
+
+
+    *yOff += yAdjustHack;
+
+    // Add on the TLV offset
+    *xOff += FP_FromInteger(pTlv->mDoorOffsetX);
+    *yOff += FP_FromInteger(pTlv->mDoorOffsetY);
 }
 
 void Door::SetOpen()
