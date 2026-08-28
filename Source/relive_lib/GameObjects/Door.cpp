@@ -1,3 +1,4 @@
+#include "GameObjects/BaseAbe.hpp"
 #include "stdafx.h"
 #include "Door.hpp"
 
@@ -171,7 +172,9 @@ Door::Door(relive::Path_Door* pTlv, const Guid& tlvId)
         }
     }
 
-    if ((gAbe->mCurrentMotion == eAbeMotions::Motion_114_DoorEnter || gAbe->mCurrentMotion == eAbeMotions::Motion_115_DoorExit) && mCurrentState == relive::Path_Door::DoorStates::eClosed && mDoorId == gAbe->field_1A0_door_id)
+    if (GetAbe()->IsEnteringOrExitingDoor() && 
+        mCurrentState == relive::Path_Door::DoorStates::eClosed && 
+        mDoorId == GetAbe()->DoorId())
     {
         // Force open is abe is in the door
         mCurrentState = relive::Path_Door::DoorStates::eOpen;
@@ -337,9 +340,9 @@ void Door::VUpdate()
         SetDead(true);
     }
 
-    if (gAbe->mCurrentMotion == eAbeMotions::Motion_114_DoorEnter || gAbe->mCurrentMotion == eAbeMotions::Motion_115_DoorExit)
+    if (GetAbe()->IsEnteringOrExitingDoor())
     {
-        if (mCurrentState == relive::Path_Door::DoorStates::eClosed && mDoorId == gAbe->field_1A0_door_id)
+        if (mCurrentState == relive::Path_Door::DoorStates::eClosed && mDoorId == GetAbe()->DoorId())
         {
             GetAnimation().SetRender(false);
             mCurrentState = relive::Path_Door::DoorStates::eOpen;
@@ -484,7 +487,7 @@ void TrainDoor::VUpdate()
     if (mCurrentState == relive::Path_Door::DoorStates::eOpen)
     {
         // Wait for Abe to GTFO
-        if (gAbe->mCurrentMotion != eAbeMotions::Motion_115_DoorExit && gAbe->mCurrentMotion != eAbeMotions::Motion_114_DoorEnter)
+        if (!GetAbe()->IsEnteringOrExitingDoor())
         {
             // Then close
             GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Door_Train_Closing));
