@@ -417,8 +417,11 @@ public:
             ALIVE_FATAL("Failed to open DDV '%s'", fName.c_str());
         }
 
-        const u32 width = 640;
-        const u32 height = 240;
+        const u32 width = mDDVReader.FrameWidth() > 0 ? mDDVReader.FrameWidth() : 640u;
+        const u32 height = mDDVReader.FrameHeight() > 0 ? mDDVReader.FrameHeight() : 240u;
+
+        LOG_INFO("DDV dimensions: %ux%u (header reported %ux%u)", width, height,
+                 mDDVReader.FrameWidth(), mDDVReader.FrameHeight());
 
         const u32 frameRate = mDDVReader.FrameRate();
         std::vector<RGBA32> frameBuffer(width * height);
@@ -539,7 +542,8 @@ public:
             };
 
             const u32 totalFrames = mDDVReader.TotalVideoFrames();
-            const bool useSyntheticPattern = true;
+            const bool useSyntheticPattern = false;
+            const bool saveMasherFrameDebug = true;
             const auto shouldSaveDebugFrame = [&](u32 idx)
             {
                 if (idx == 0 || idx == 1 || idx == 8 || idx == 32 || idx == 64)
@@ -570,7 +574,7 @@ public:
                     break;
                 }
 
-                if (shouldSaveDebugFrame(frame_index))
+                if (saveMasherFrameDebug && shouldSaveDebugFrame(frame_index))
                 {
                     SaveDebugFrame(frameBuffer, width, height, frame_index);
                 }
