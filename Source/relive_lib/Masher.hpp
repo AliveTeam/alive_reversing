@@ -141,7 +141,7 @@ public:
 private:
     void* field_40_video_frame_to_decode;
     u16* field_44_decoded_frame_data_buffer;
-    u8* field_48_sound_frame_to_decode;
+    s32* field_48_sound_frame_to_decode;
     void* field_4C_decoded_audio_buffer;
     s32 field_50_num_channels;
     s32 field_54_bits_per_sample;
@@ -154,7 +154,7 @@ private:
     s32 field_6C_frame_num;
     s32* field_70_frame_sizes_array;
     s32* field_74_pCurrentFrameSize;
-    u8* field_80_raw_frame_data;
+    s32* field_80_raw_frame_data;
     s32 field_84_max_frame_size;
     s32 field_88_audio_data_offset;
     void* field_8C_macro_block_buffer;

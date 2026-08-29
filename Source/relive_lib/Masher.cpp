@@ -268,33 +268,21 @@ static void SkipBits(u32& value, s8 numBits, s8& usedBitCount)
     usedBitCount += numBits;
 }
 
-static inline void GetBits(s8& usedBitCount, u16*& rawBitStreamPtr, const u16* rawBitStreamEnd, u32& rawWord4, u32& workBits)
+static inline void GetBits(s8& usedBitCount, u16*& rawBitStreamPtr, u32& rawWord4, u32& workBits)
 {
     // I think this is used as an escape code?
     if (usedBitCount & 16) // 0b10000 if bit 5 set
     {
-        if (rawBitStreamPtr >= rawBitStreamEnd)
-        {
-            return;
-        }
         usedBitCount &= 15;
         rawWord4 = *rawBitStreamPtr++ << usedBitCount;
         workBits |= rawWord4;
     }
 }
 
-static inline void OutputWordAndAdvance(u16*& rawBitStreamPtr, const u16* rawBitStreamEnd, u32& rawWord4, u16*& pOut, const u16* pOutEnd, s8& usedBitCount, u32& workBits)
+static inline void OutputWordAndAdvance(u16*& rawBitStreamPtr, u32& rawWord4, u16*& pOut, s8& usedBitCount, u32& workBits)
 {
-    if (pOut == nullptr || pOutEnd == nullptr || pOut >= pOutEnd)
-    {
-        return;
-    }
     *pOut++ = workBits >> (32 - 16);
 
-    if (rawBitStreamPtr >= rawBitStreamEnd)
-    {
-        return;
-    }
     rawWord4 = *rawBitStreamPtr++ << usedBitCount;
     workBits = rawWord4 | (workBits << 16);
 }
@@ -304,29 +292,8 @@ static inline void OutputWordAndAdvance(u16*& rawBitStreamPtr, const u16* rawBit
 #define MASK_13_BITS 0x1FFF
 #define MDEC_END 0xFE00u
 
-static s32 decode_bitstream(u16* pFrameData, u16* pOutput, u32 maxInputWords, u32 maxOutputWords)
+static s32 decode_bitstream(u16* pFrameData, u16* pOutput)
 {
-    if (pFrameData == nullptr || pOutput == nullptr || maxInputWords == 0 || maxOutputWords == 0)
-    {
-        return 0;
-    }
-
-    const u16* pFrameDataEnd = pFrameData + maxInputWords;
-    u16* pOutputEnd = pOutput + maxOutputWords;
-    const auto canWriteOutput = [&]() -> bool
-    {
-        return pOutput != nullptr && pOutputEnd != nullptr && pOutput < pOutputEnd;
-    };
-    const auto writeOutput = [&](u16 value) -> bool
-    {
-        if (!canWriteOutput())
-        {
-            return false;
-        }
-        *pOutput++ = value;
-        return true;
-    };
-
     u32 table_index_2 = 0;
     s32 ret = *pFrameData;
 
@@ -339,19 +306,11 @@ static s32 decode_bitstream(u16* pFrameData, u16* pOutput, u32 maxInputWords, u3
     s8 usedBitCount = 0;
     SkipBits(workBits, 11, usedBitCount);
 
-    if (!writeOutput(static_cast<u16>(rawWord4)))
-    {
-        return ret;
-    }
+    *pOutput++ = static_cast<u16>(rawWord4); // store in output 0x000007fc
 
     u16* rawBitStreamPtr = (pFrameData + 3); // 0x7f40
     while (1)
     {
-        if (rawBitStreamPtr >= pFrameDataEnd)
-        {
-            return ret;
-        }
-
         do
         {
             while (1)
@@ -379,29 +338,17 @@ static s32 decode_bitstream(u16* pFrameData, u16* pOutput, u32 maxInputWords, u3
 
                                     SkipBits(workBits, 8, usedBitCount);
 
-                                    GetBits(usedBitCount, rawBitStreamPtr, pFrameDataEnd, rawWord4, workBits);
+                                    GetBits(usedBitCount, rawBitStreamPtr, rawWord4, workBits);
 
-                                    if (rawBitStreamPtr > pFrameDataEnd)
-                                    {
-                                        return ret;
-                                    }
 
                                     const s8 bitsToShiftFromTbl = gTbl1[table_index_1].mBitsToShift;
 
                                     SkipBits(workBits, bitsToShiftFromTbl, usedBitCount);
 
-                                    GetBits(usedBitCount, rawBitStreamPtr, pFrameDataEnd, rawWord4, workBits);
-
-                                    if (rawBitStreamPtr > pFrameDataEnd)
-                                    {
-                                        return ret;
-                                    }
+                                    GetBits(usedBitCount, rawBitStreamPtr, rawWord4, workBits);
 
                                     // Everything in the table is 0's after 4266 bytes 4266/2=2133 to perhaps 2048/4096 is max?
-                                    if (!writeOutput(gTbl1[table_index_1].mOutputWord))
-                                    {
-                                        return ret;
-                                    }
+                                    *pOutput++ = gTbl1[table_index_1].mOutputWord;
 
                                 } // End while
 
@@ -410,12 +357,7 @@ static s32 decode_bitstream(u16* pFrameData, u16* pOutput, u32 maxInputWords, u3
 
                                 SkipBits(workBits, tblValueBits, usedBitCount);
 
-                                GetBits(usedBitCount, rawBitStreamPtr, pFrameDataEnd, rawWord4, workBits);
-
-                                if (rawBitStreamPtr > pFrameDataEnd)
-                                {
-                                    return ret;
-                                }
+                                GetBits(usedBitCount, rawBitStreamPtr, rawWord4, workBits);
 
                                 SetLoWord(rawWord4, gTbl2[table_index_2].mOutputWord1);
 
@@ -424,17 +366,10 @@ static s32 decode_bitstream(u16* pFrameData, u16* pOutput, u32 maxInputWords, u3
                                     break;
                                 }
 
-                                OutputWordAndAdvance(rawBitStreamPtr, pFrameDataEnd, rawWord4, pOutput, pOutputEnd, usedBitCount, workBits);
-                                if (rawBitStreamPtr > pFrameDataEnd || pOutput > pOutputEnd)
-                                {
-                                    return ret;
-                                }
+                                OutputWordAndAdvance(rawBitStreamPtr, rawWord4, pOutput, usedBitCount, workBits);
                             } // End while
 
-                            if (!writeOutput(static_cast<u16>(rawWord4)))
-                            {
-                                return ret;
-                            }
+                            *pOutput++ = static_cast<u16>(rawWord4);
 
                             if (static_cast<u16>(rawWord4) == MDEC_END)
                             {
@@ -447,16 +382,9 @@ static s32 decode_bitstream(u16* pFrameData, u16* pOutput, u32 maxInputWords, u3
                                 }
 
                                 rawWord4 = v15 & MASK_11_BITS;
-                                if (!writeOutput(static_cast<u16>(rawWord4)))
-                                {
-                                    return ret;
-                                }
+                                *pOutput++ = static_cast<u16>(rawWord4);
 
-                                GetBits(usedBitCount, rawBitStreamPtr, pFrameDataEnd, rawWord4, workBits);
-                                if (rawBitStreamPtr > pFrameDataEnd)
-                                {
-                                    return ret;
-                                }
+                                GetBits(usedBitCount, rawBitStreamPtr, rawWord4, workBits);
                             }
 
                             SetLoWord(rawWord4, gTbl2[table_index_2].mOutputWord2);
@@ -469,17 +397,10 @@ static s32 decode_bitstream(u16* pFrameData, u16* pOutput, u32 maxInputWords, u3
                             break;
                         }
 
-                        OutputWordAndAdvance(rawBitStreamPtr, pFrameDataEnd, rawWord4, pOutput, pOutputEnd, usedBitCount, workBits);
-                        if (rawBitStreamPtr > pFrameDataEnd || pOutput > pOutputEnd)
-                        {
-                            return ret;
-                        }
+                        OutputWordAndAdvance(rawBitStreamPtr, rawWord4, pOutput, usedBitCount, workBits);
                     } // End while
 
-                    if (!writeOutput(static_cast<u16>(rawWord4)))
-                    {
-                        return ret;
-                    }
+                    *pOutput++ = static_cast<u16>(rawWord4);
 
                     if (static_cast<u16>(rawWord4) == MDEC_END)
                     {
@@ -492,16 +413,9 @@ static s32 decode_bitstream(u16* pFrameData, u16* pOutput, u32 maxInputWords, u3
                         }
 
                         rawWord4 = t11Bits & MASK_11_BITS;
-                        if (!writeOutput(static_cast<u16>(rawWord4)))
-                        {
-                            return ret;
-                        }
+                        *pOutput++ = static_cast<u16>(rawWord4);
 
-                        GetBits(usedBitCount, rawBitStreamPtr, pFrameDataEnd, rawWord4, workBits);
-                        if (rawBitStreamPtr > pFrameDataEnd)
-                        {
-                            return ret;
-                        }
+                        GetBits(usedBitCount, rawBitStreamPtr, rawWord4, workBits);
                     }
 
                     SetLoWord(rawWord4, gTbl2[table_index_2].mOutputWord3);
@@ -515,17 +429,10 @@ static s32 decode_bitstream(u16* pFrameData, u16* pOutput, u32 maxInputWords, u3
                 }
 
 
-                OutputWordAndAdvance(rawBitStreamPtr, pFrameDataEnd, rawWord4, pOutput, pOutputEnd, usedBitCount, workBits);
-                if (rawBitStreamPtr > pFrameDataEnd || pOutput > pOutputEnd)
-                {
-                    return ret;
-                }
+                OutputWordAndAdvance(rawBitStreamPtr, rawWord4, pOutput, usedBitCount, workBits);
             } // End while
 
-            if (!writeOutput(static_cast<u16>(rawWord4)))
-            {
-                return ret;
-            }
+            *pOutput++ = static_cast<u16>(rawWord4);
         }
         while (static_cast<u16>(rawWord4) != MDEC_END);
 
@@ -537,16 +444,9 @@ static s32 decode_bitstream(u16* pFrameData, u16* pOutput, u32 maxInputWords, u3
             return ret;
         }
 
-        if (!writeOutput(static_cast<u16>(rawWord4)))
-        {
-            return ret;
-        }
+        *pOutput++ = static_cast<u16>(rawWord4);
 
-        GetBits(usedBitCount, rawBitStreamPtr, pFrameDataEnd, rawWord4, workBits);
-        if (rawBitStreamPtr > pFrameDataEnd)
-        {
-            return ret;
-        }
+        GetBits(usedBitCount, rawBitStreamPtr, rawWord4, workBits);
     }
 
     return ret;
@@ -621,75 +521,37 @@ u32 g_YTable[64] = {};
 
 // Return val becomes param 1
 
-static inline u32 ClampTableScale(u32 qScale, u32 remainingEntries)
-{
-    if (remainingEntries == 0)
-    {
-        return 0;
-    }
-
-    const u32 maxScaleForRemaining = remainingEntries - 1u;
-    qScale = std::min(qScale, maxScaleForRemaining);
-    return qScale;
-}
-
 // for Cr, Cb, Y1, Y2, Y3, Y4
-int16_t* RunLengthToBlock(int16_t* inPtr, int16_t* outputBlockPtr, bool isYBlock, const int16_t* inEnd)
+int16_t* RunLengthToBlock(int16_t* inPtr, int16_t* outputBlockPtr, bool isYBlock)
 {
-    if (inPtr == nullptr || outputBlockPtr == nullptr || inEnd == nullptr || inPtr >= inEnd)
-    {
-        return inPtr;
-    }
-
     const s32 v1 = isYBlock;
     const u32* pTable = isYBlock ? &g_YTable[1] : &g_CTable[1];
-    const u32* pTableEnd = isYBlock ? &g_YTable[64] : &g_CTable[64];
     u32 counter = 0;
     u16* pInput = reinterpret_cast<u16*>(inPtr);
-    const u16* pInputEnd = reinterpret_cast<const u16*>(inEnd);
     u32* pOutput = reinterpret_cast<u32*>(outputBlockPtr); // off 10 quantised coefficients
 
     // 0xFE00 == END_OF_BLOCK, hence this loop moves past the EOB
-    while (pInput < pInputEnd && *pInput == 0xFE00u)
+    while (*pInput == 0xFE00u)
     {
         pInput++;
-    }
-
-    if (pInput >= pInputEnd)
-    {
-        return reinterpret_cast<int16_t*>(pInput);
     }
 
     *pOutput = (v1 << 10) + 2 * (*pInput << 21 >> 22);
     pInput++;
 
-    if ((*(reinterpret_cast<const u16*>(pInput) - 1)) & 1)
+    if ((*(pInput - 1)) & 1)
     {
         do
         {
-            if (pInput >= pInputEnd)
-            {
-                break;
-            }
             const u32 macroBlockWord = *pInput++; // bail if end
             if (macroBlockWord == 0xFE00)
             {
                 break;
             }
 
-            const u32 remainingEntries = 64u - counter;
-            if (remainingEntries == 0 || pTable >= pTableEnd)
-            {
-                break;
-            }
+            const u32 q_scale = (macroBlockWord >> 10);
 
-            const u32 remainingTableEntries = static_cast<u32>(pTableEnd - pTable);
-            const u32 q_scale = ClampTableScale(macroBlockWord >> 10, std::min(remainingEntries, remainingTableEntries));
             counter += q_scale;
-            if (counter >= 64u)
-            {
-                break;
-            }
 
             const s32 lookedUpIndex = g_index_look_up_table[counter];
             s32 v24 = pOutput[lookedUpIndex] + (macroBlockWord << 22);
@@ -697,13 +559,11 @@ int16_t* RunLengthToBlock(int16_t* inPtr, int16_t* outputBlockPtr, bool isYBlock
             u32 v25 = 0;
             SetHiWord(v25, GetHiWord(v24));
             SetLoWord(v25, static_cast<u16>((pTable[q_scale] * (v24 >> 22) + 4) >> 3));
-            pTable += q_scale + 1u;
-            if (pTable > pTableEnd)
-            {
-                pTable = pTableEnd;
-            }
+            pTable += q_scale + 1;
 
             pOutput[lookedUpIndex] = v25;
+
+
             counter++;
         }
         while (counter < 63); // 63 AC values?
@@ -712,34 +572,19 @@ int16_t* RunLengthToBlock(int16_t* inPtr, int16_t* outputBlockPtr, bool isYBlock
     {
         while (1)
         {
-            if (pInput >= pInputEnd)
-            {
-                break;
-            }
             const u32 macroBlockWord = *pInput++; // bail if end
             if (macroBlockWord == 0xFE00)
             {
                 break;
             }
+            const u32 q_scale = (macroBlockWord >> 10);
 
-            const u32 remainingEntries = 64u - counter;
-            if (remainingEntries == 0 || pTable >= pTableEnd)
-            {
-                break;
-            }
-
-            const u32 remainingTableEntries = static_cast<u32>(pTableEnd - pTable);
-            const u32 q_scale = ClampTableScale(macroBlockWord >> 10, std::min(remainingEntries, remainingTableEntries));
             const s32 v24 = macroBlockWord << 22;
-            s32 k = static_cast<s32>(q_scale) + 1;
+            s32 k = q_scale + 1;
             s32 idx = 0;
             while (1)
             {
                 --k;
-                if (counter >= 64u)
-                {
-                    break;
-                }
                 idx = g_index_look_up_table[counter];
                 if (!k)
                 {
@@ -753,11 +598,7 @@ int16_t* RunLengthToBlock(int16_t* inPtr, int16_t* outputBlockPtr, bool isYBlock
             SetHiWord(outVal, GetHiWord(v24));
             SetLoWord(outVal, static_cast<u16>((pTable[q_scale] * (v24 >> 22) + 4) >> 3));
 
-            pTable += q_scale + 1u;
-            if (pTable > pTableEnd)
-            {
-                pTable = pTableEnd;
-            }
+            pTable += q_scale + 1;
             pOutput[idx] = outVal;
 
             ++counter;
@@ -771,20 +612,20 @@ int16_t* RunLengthToBlock(int16_t* inPtr, int16_t* outputBlockPtr, bool isYBlock
         {
             s32 counter3 = counter + 1;
 
-            if (counter3 < 64 && (counter3 & 3))
+            if (counter3 & 3)
             {
                 pOutput[RL_ZSCAN_MATRIX_2[counter3++]] = 0;
-                if (counter3 < 64 && (counter3 & 3))
+                if (counter3 & 3)
                 {
                     pOutput[RL_ZSCAN_MATRIX_2[counter3++]] = 0;
-                    if (counter3 < 64 && (counter3 & 3))
+                    if (counter3 & 3)
                     {
                         pOutput[RL_ZSCAN_MATRIX_2[counter3++]] = 0;
                     }
                 }
             }
 
-            while (counter3 < 64) // 63 AC values?
+            while (counter3 != 64) // 63 AC values?
             {
                 pOutput[RL_ZSCAN_MATRIX_2[counter3]] = 0;
                 pOutput[g_index_look_up_table[counter3]] = 0;
@@ -1011,7 +852,7 @@ s32 Masher::Init(const char_type* movieFileName)
 
     // Align the size
     field_84_max_frame_size = RoundUpPowerOf2(field_84_max_frame_size, 2);
-    field_80_raw_frame_data = static_cast<u8*>(malloc(2 * field_84_max_frame_size));
+    field_80_raw_frame_data = static_cast<s32*>(malloc(2 * field_84_max_frame_size));
     if (!field_80_raw_frame_data)
     {
         return 2;
@@ -1068,7 +909,7 @@ s32 Masher::ReadNextFrame()
         }
 
         if (frameSizeToRead > 0
-            && (!sMovie_IO_BBB314.mIO_Wait(field_0_file_handle) || !sMovie_IO_BBB314.mIO_Read(field_0_file_handle, field_80_raw_frame_data + field_88_audio_data_offset, frameSizeToRead)))
+            && (!sMovie_IO_BBB314.mIO_Wait(field_0_file_handle) || !sMovie_IO_BBB314.mIO_Read(field_0_file_handle, (u8*) field_80_raw_frame_data + field_88_audio_data_offset, frameSizeToRead)))
         {
             return 0;
         }
@@ -1080,7 +921,7 @@ s32 Masher::ReadNextFrame()
     // Audio with no video
     if (field_60_bHasAudio && !field_61_bHasVideo)
     {
-            field_48_sound_frame_to_decode = field_80_raw_frame_data + frameOffset;
+        field_48_sound_frame_to_decode = (s32*) ((s8*) field_80_raw_frame_data + frameOffset);
     }
     // Video with no audio
     else if (!field_60_bHasAudio && field_61_bHasVideo)
@@ -1090,12 +931,12 @@ s32 Masher::ReadNextFrame()
     // Audio and video
     else
     {
-            u8* pFrameData = field_80_raw_frame_data;
-            field_40_video_frame_to_decode = pFrameData + frameOffset + sizeof(u32);
+        u8* pFrameData = reinterpret_cast<u8*>(field_80_raw_frame_data);
+        field_40_video_frame_to_decode = reinterpret_cast<void*>(&pFrameData[frameOffset + sizeof(u32)]);
 
         // Skip video data + video data len to get start of sound data
         u32 videoDataSize = *reinterpret_cast<u32*>(&pFrameData[frameOffset]);
-            field_48_sound_frame_to_decode = pFrameData + frameOffset + sizeof(u32) + videoDataSize;
+        field_48_sound_frame_to_decode = reinterpret_cast<s32*>(&pFrameData[frameOffset + sizeof(u32) + videoDataSize]);
     }
     return ++field_68_frame_number < field_4_ddv_header.field_C_number_of_frames + 2;
 }
@@ -1105,7 +946,7 @@ s32 Masher::ReadNextFrameToMemory_4EAC30(Masher* pMasher)
     s32* pFrameSize = pMasher->field_74_pCurrentFrameSize;
     s32 sizeToRead = *pFrameSize;
     pMasher->field_74_pCurrentFrameSize = pFrameSize + 1;
-    if (!sMovie_IO_BBB314.mIO_Read(pMasher->field_0_file_handle, pMasher->field_80_raw_frame_data, sizeToRead) || !sMovie_IO_BBB314.mIO_Wait(pMasher->field_0_file_handle))
+    if (!sMovie_IO_BBB314.mIO_Read(pMasher->field_0_file_handle, reinterpret_cast<u8*>(pMasher->field_80_raw_frame_data), sizeToRead) || !sMovie_IO_BBB314.mIO_Wait(pMasher->field_0_file_handle))
     {
         return 0;
     }
@@ -1150,16 +991,11 @@ void Masher::VideoFrameDecode(RGBA32* pPixelBuffer)
         return;
     }
 
-    const s32 quantScale = decode_bitstream(
-        reinterpret_cast<u16*>(field_40_video_frame_to_decode),
-        field_44_decoded_frame_data_buffer,
-        static_cast<u32>(field_84_max_frame_size),
-        static_cast<u32>(field_14_video_header.field_10_max_video_frame_size));
+    const s32 quantScale = decode_bitstream((u16*) field_40_video_frame_to_decode, field_44_decoded_frame_data_buffer);
 
     Populate_Y_C_Tables(quantScale);
 
     int16_t* bitstreamCurPos = reinterpret_cast<int16_t*>(field_44_decoded_frame_data_buffer);
-    const int16_t* decodedFrameEnd = reinterpret_cast<int16_t*>(field_44_decoded_frame_data_buffer + field_14_video_header.field_10_max_video_frame_size);
     int16_t* block1Output = static_cast<int16_t*>(field_8C_macro_block_buffer);
 
     s32 xoff = 0;
@@ -1170,37 +1006,37 @@ void Masher::VideoFrameDecode(RGBA32* pPixelBuffer)
         {
             const s32 dataSizeBytes = field_90_64_or_0 * 2; // Convert to byte count 64*4=256
 
-            int16_t* afterBlock1Ptr = RunLengthToBlock(bitstreamCurPos, block1Output, 0, decodedFrameEnd);
+            int16_t* afterBlock1Ptr = RunLengthToBlock(bitstreamCurPos, block1Output, 0);
             idct(block1Output, Cr_block);
             int16_t* block2Output = dataSizeBytes + block1Output;
 
-            int16_t* afterBlock2Ptr = RunLengthToBlock(afterBlock1Ptr, block2Output, 0, decodedFrameEnd);
+            int16_t* afterBlock2Ptr = RunLengthToBlock(afterBlock1Ptr, block2Output, 0);
             idct(block2Output, Cb_block);
             int16_t* block3Output = dataSizeBytes + block2Output;
 
-            int16_t* afterBlock3Ptr = RunLengthToBlock(afterBlock2Ptr, block3Output, 1, decodedFrameEnd);
+            int16_t* afterBlock3Ptr = RunLengthToBlock(afterBlock2Ptr, block3Output, 1);
             idct(block3Output, Y1_block);
             int16_t* block4Output = dataSizeBytes + block3Output;
 
-            int16_t* afterBlock4Ptr = RunLengthToBlock(afterBlock3Ptr, block4Output, 1, decodedFrameEnd);
+            int16_t* afterBlock4Ptr = RunLengthToBlock(afterBlock3Ptr, block4Output, 1);
             idct(block4Output, Y2_block);
             int16_t* block5Output = dataSizeBytes + block4Output;
 
-            int16_t* afterBlock5Ptr = RunLengthToBlock(afterBlock4Ptr, block5Output, 1, decodedFrameEnd);
+            int16_t* afterBlock5Ptr = RunLengthToBlock(afterBlock4Ptr, block5Output, 1);
             idct(block5Output, Y3_block);
             int16_t* block6Output = dataSizeBytes + block5Output;
 
-            bitstreamCurPos = RunLengthToBlock(afterBlock5Ptr, block6Output, 1, decodedFrameEnd);
+            bitstreamCurPos = RunLengthToBlock(afterBlock5Ptr, block6Output, 1);
             idct(block6Output, Y4_block);
             block1Output = dataSizeBytes + block6Output;
 
             if (pPixelBuffer)
             {
-                // TODO: Should probably be using gMasher_pitch_bytes_BB4AF8 ??
+                // Decode into the actual DDV frame dimensions instead of a hardcoded 640x240 output.
                 ConvertYuvToRgbAndBlit(pPixelBuffer, xoff, yoff,
-                                       640,
-                                       240,
-                                       true,
+                                       static_cast<s32>(field_14_video_header.field_4_width),
+                                       static_cast<s32>(field_14_video_header.field_8_height),
+                                       false,
                                        false);
 
                 // pPixelBuffer += gMasher_pitch_bytes_BB4AF8;
@@ -1257,7 +1093,7 @@ void* Masher::GetDecompressedAudioFrame_4EAC60(Masher* pMasher)
     {
         DDV_Set_Channels_And_BitsPerSample_4ECFD0(pMasher->field_50_num_channels, pMasher->field_54_bits_per_sample);
         DDV_DecompressAudioFrame_4ECFF0(
-            reinterpret_cast<s32*>(pMasher->field_48_sound_frame_to_decode),
+            pMasher->field_48_sound_frame_to_decode,
             static_cast<u8*>(pMasher->field_4C_decoded_audio_buffer),
             pMasher->field_2C_audio_header.field_C_single_audio_frame_size);
         result = pMasher->field_4C_decoded_audio_buffer;
