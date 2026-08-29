@@ -57,6 +57,9 @@ public:
                  ddv.FrameWidth(), ddv.FrameHeight());
 
         const u32 frameRate = ddv.FrameRate();
+        const u32 audioSampleRate = ddv.AudioSampleRate() > 0 ? ddv.AudioSampleRate() : 44100u;
+        const u32 audioChannels = ddv.AudioChannels() > 0 ? ddv.AudioChannels() : 2u;
+        const u32 audioBitsPerSample = ddv.AudioBitsPerSample() > 0 ? ddv.AudioBitsPerSample() : 16u;
         std::vector<u8> frameBuffer(width * height * sizeof(u32));
 
         aom_codec_iface_t* encoder = &aom_codec_av1_cx_algo;
@@ -107,6 +110,9 @@ public:
         {
             mkvmuxer::MkvWriter writer(outFile);
             mkvmuxer::Segment segment;
+            mAudioSampleRate = audioSampleRate;
+            mAudioChannels = audioChannels;
+            mAudioBitsPerSample = audioBitsPerSample;
             mkv_init(&writer, &segment, &cfg, &codec);
 
             const auto clamp_to_u8 = [](s32 value) -> u8
@@ -183,6 +189,23 @@ public:
                     break;
                 }
                 frameBuffer = ddv.GetPixels();
+
+                const std::vector<u8> audioFrames = ddv.GetAudioFrames();
+                if (!audioFrames.empty() && mAudioTrackNumber != 0)
+                {
+                    const u32 bytesPerSampleFrame = (mAudioBitsPerSample / 8u) * mAudioChannels;
+                    if (bytesPerSampleFrame > 0 && (audioFrames.size() % bytesPerSampleFrame) == 0)
+                    {
+                        const u64 sampleFrameCount = static_cast<u64>(audioFrames.size() / bytesPerSampleFrame);
+                        const u64 audioPtsNs = (static_cast<u64>(mAudioFrameIndex) * sampleFrameCount * 1000000000ULL) / static_cast<u64>(mAudioSampleRate);
+                        const bool ok = segment.AddFrame(audioFrames.data(), static_cast<uint64_t>(audioFrames.size()), mAudioTrackNumber, audioPtsNs, false);
+                        if (!ok)
+                        {
+                            fprintf(stderr, "webmenc> AddAudioFrame failed.\n");
+                        }
+                        ++mAudioFrameIndex;
+                    }
+                }
 
                 // frameBuffer
 
@@ -262,6 +285,22 @@ private:
 
         segment->set_mode(mkvmuxer::Segment::kFile);
         segment->OutputCues(true);
+
+        if (mAudioSampleRate > 0 && mAudioChannels > 0 && mAudioBitsPerSample > 0)
+        {
+            const uint64_t audio_track_id = segment->AddAudioTrack(static_cast<int32_t>(mAudioSampleRate), static_cast<int32_t>(mAudioChannels), kAudioTrackNumber);
+            mkvmuxer::AudioTrack* const audio_track = static_cast<mkvmuxer::AudioTrack*>(segment->GetTrackByNumber(audio_track_id));
+            if (!audio_track)
+            {
+                fprintf(stderr, "webmenc> Audio track creation failed.\n");
+                return -1;
+            }
+            // Matroska PCM uses the standard codec ID for little-endian integer PCM.
+            // "A_PCM" by itself is not a recognized codec string for most players.
+            audio_track->set_codec_id("A_PCM/INT/LIT");
+            audio_track->set_bit_depth(mAudioBitsPerSample);
+            mAudioTrackNumber = audio_track_id;
+        }
 
         mkvmuxer::SegmentInfo* const info = segment->GetSegmentInfo();
         if (!info)
@@ -412,7 +451,13 @@ private:
 
 private:
     const int kVideoTrackNumber = 1;
+    const int kAudioTrackNumber = 2;
     int64_t mLast_pts_ns = 0;
+    uint64_t mAudioTrackNumber = 0;
+    uint64_t mAudioFrameIndex = 0;
+    uint32_t mAudioSampleRate = 0;
+    uint32_t mAudioChannels = 0;
+    uint32_t mAudioBitsPerSample = 0;
 };
 
 void ConvertFMVs(const FileSystem::Path& dataDir, bool isAo)
