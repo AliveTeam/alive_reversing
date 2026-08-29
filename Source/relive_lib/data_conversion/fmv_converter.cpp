@@ -1,8 +1,11 @@
 #include "fmv_converter.hpp"
 #include "../../AliveLibAE/PathData.hpp"
 #include "../FatalError.hpp"
+#include "PNGFile.hpp"
 
 #include <algorithm>
+#include <filesystem>
+#include <fstream>
 #include <thread>
 
 #ifdef _MSC_VER
@@ -358,6 +361,53 @@ public:
 
     }
 
+    static void FillSyntheticFrame(std::vector<RGBA32>& frameBuffer, u32 width, u32 height, u32 frameIndex)
+    {
+        const u32 stride = width;
+        for (u32 y = 0; y < height; ++y)
+        {
+            for (u32 x = 0; x < width; ++x)
+            {
+                const u32 idx = (y * stride) + x;
+                const bool checker = (((x / 16) + (y / 16) + frameIndex) % 2) == 0;
+                const u8 r = static_cast<u8>((x * 255u) / std::max(1u, width - 1u));
+                const u8 g = static_cast<u8>((y * 255u) / std::max(1u, height - 1u));
+                const u8 b = static_cast<u8>(((x + y + frameIndex * 3u) * 255u) / std::max(1u, width + height + 1u));
+                const u8 red = checker ? r : static_cast<u8>(255 - r);
+                const u8 green = checker ? g : static_cast<u8>(255 - g);
+                const u8 blue = checker ? b : static_cast<u8>(255 - b);
+
+                frameBuffer[idx] = RGBA32{red, green, blue, 255};
+            }
+        }
+    }
+
+    static void SaveDebugFrame(const std::vector<RGBA32>& frameBuffer, u32 width, u32 height, u32 frameIndex)
+    {
+        std::filesystem::create_directories("fmv_debug");
+
+        std::vector<u32> pixelData;
+        pixelData.reserve(frameBuffer.size());
+        for (const RGBA32& pixel : frameBuffer)
+        {
+            pixelData.push_back(pixel.ToU32());
+        }
+
+        PNGFile png;
+        const auto pngData = png.Encode(pixelData.data(), width, height);
+        const std::string path = "fmv_debug/masher_frame_" + std::to_string(frameIndex) + ".png";
+
+        std::ofstream out(path, std::ios::binary);
+        if (!out)
+        {
+            LOG_ERROR("Failed to open debug PNG '%s' for writing", path.c_str());
+            return;
+        }
+
+        out.write(reinterpret_cast<const char*>(pngData.data()), static_cast<std::streamsize>(pngData.size()));
+        LOG_INFO("Saved debug frame %u to '%s'", frameIndex, path.c_str());
+    }
+
     void Convert(std::string fName)
     {
         TRACE_ENTRYEXIT;
@@ -489,9 +539,42 @@ public:
             };
 
             const u32 totalFrames = mDDVReader.TotalVideoFrames();
-            u32 frame_index = 0;
-            while (mDDVReader.ReadVideoFrame(frameBuffer.data()))
+            const bool useSyntheticPattern = true;
+            const auto shouldSaveDebugFrame = [&](u32 idx)
             {
+                if (idx == 0 || idx == 1 || idx == 8 || idx == 32 || idx == 64)
+                {
+                    return true;
+                }
+
+                if (totalFrames > 0)
+                {
+                    const u32 quarter = std::max(1u, totalFrames / 4u);
+                    const u32 half = std::max(1u, totalFrames / 2u);
+                    const u32 last = totalFrames - 1u;
+                    return idx == quarter || idx == half || idx == last;
+                }
+
+                return false;
+            };
+
+            u32 frame_index = 0;
+            while (frame_index < (totalFrames > 0 ? totalFrames : 64u))
+            {
+                if (useSyntheticPattern)
+                {
+                    FillSyntheticFrame(frameBuffer, width, height, frame_index);
+                }
+                else if (!mDDVReader.ReadVideoFrame(frameBuffer.data()))
+                {
+                    break;
+                }
+
+                if (shouldSaveDebugFrame(frame_index))
+                {
+                    SaveDebugFrame(frameBuffer, width, height, frame_index);
+                }
+
                 convert_rgba_to_i420();
                 const int flags = (frame_index == 0) ? AOM_EFLAG_FORCE_KF : 0;
                 encode_frame(&segment, &cfg, &codec, &rawImageFrameData, static_cast<int>(frame_index), flags);
