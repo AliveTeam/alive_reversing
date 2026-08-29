@@ -20,7 +20,7 @@ Movie_IO& GetMovieIO();
 struct Masher_Header final
 {
     s32 field_0_ddv_version;
-    s32 field_4_contains;
+    u32 field_4_contains;
     s32 field_8_frame_rate;
     s32 field_C_number_of_frames;
 };
@@ -137,14 +137,15 @@ public:
     Masher_Header field_4_ddv_header;
     Masher_VideoHeader field_14_video_header;
     Masher_AudioHeader field_2C_audio_header;
-
+    s32 field_54_bits_per_sample;
+    s32 field_50_num_channels;
+  
 private:
     void* field_40_video_frame_to_decode;
     u16* field_44_decoded_frame_data_buffer;
     s32* field_48_sound_frame_to_decode;
     void* field_4C_decoded_audio_buffer;
-    s32 field_50_num_channels;
-    s32 field_54_bits_per_sample;
+
     s32 field_58_macro_blocks_x;
     s32 field_5C_macro_blocks_y;
     bool field_60_bHasAudio;
