@@ -577,6 +577,8 @@ SET(data_conversion_src
     data_conversion/data_conversion_ui.cpp
     data_conversion/fmv_converter.cpp
     data_conversion/fmv_converter.hpp
+    data_conversion/DDVAe.cpp
+    data_conversion/DDVAe.hpp
     data_conversion/LvlReaderWriter.hpp
     data_conversion/CommonTypesSerialization.hpp
     data_conversion/CommonTypesSerialization.cpp
