@@ -2,6 +2,9 @@
 #include "../../AliveLibAE/PathData.hpp"
 #include "../FatalError.hpp"
 
+#include <algorithm>
+#include <thread>
+
 #ifdef _MSC_VER
     #pragma warning(push)
     #pragma warning(disable : 4505)
@@ -19,26 +22,79 @@
 #include "aom/common/av1_config.h"
 
 #include "../Masher.hpp"
+#include "rgb_conversion.hpp"
+#include "file_system.hpp"
+
 
 // TODO: An interface around masher + mdec reading
 class IDDVReader
 {
 public:
-    IDDVReader()
-    {
+    IDDVReader() = default;
 
-    }
-
-    // TODO: Remove
     ~IDDVReader()
     {
-
+        delete mMasher;
     }
 
-    // TODO: Remove
-    virtual bool Open(const char_type* )
+    virtual bool Open(const char_type* ddvName)
     {
-        return false;
+        if (mMasher)
+        {
+            delete mMasher;
+            mMasher = nullptr;
+        }
+
+        mMasher = new Masher();
+        if (!mMasher)
+        {
+            return false;
+        }
+
+        if (mMasher->Init(ddvName) != 0)
+        {
+            delete mMasher;
+            mMasher = nullptr;
+            return false;
+        }
+
+        return true;
+    }
+
+    u32 FrameWidth() const
+    {
+        return mMasher ? mMasher->field_14_video_header.field_4_width : 0;
+    }
+
+    u32 FrameHeight() const
+    {
+        return mMasher ? mMasher->field_14_video_header.field_8_height : 0;
+    }
+
+    u32 FrameRate() const
+    {
+        return mMasher ? static_cast<u32>(mMasher->field_4_ddv_header.field_8_frame_rate) : 15u;
+    }
+
+    u32 TotalVideoFrames() const
+    {
+        return mMasher ? static_cast<u32>(mMasher->field_4_ddv_header.field_C_number_of_frames) : 0u;
+    }
+
+    bool ReadVideoFrame(RGBA32* pPixelBuffer)
+    {
+        if (!mMasher || !pPixelBuffer)
+        {
+            return false;
+        }
+
+        if (!mMasher->ReadNextFrame())
+        {
+            return false;
+        }
+
+        mMasher->VideoFrameDecode(pPixelBuffer);
+        return true;
     }
 
     s8 Mash_DecompressAudio()
@@ -306,15 +362,16 @@ public:
     {
         TRACE_ENTRYEXIT;
 
-        struct VideoInfo final
+        if (!mDDVReader.Open(fName.c_str()))
         {
-            u32 width = 0;
-            u32 height = 0;
-        };
+            ALIVE_FATAL("Failed to open DDV '%s'", fName.c_str());
+        }
 
-        VideoInfo info;
-        info.width = 320;//mDDVReader.FrameWidth();
-        info.height = 240; // mDDVReader.FrameHeight();
+        const u32 width = 640;
+        const u32 height = 240;
+
+        const u32 frameRate = mDDVReader.FrameRate();
+        std::vector<RGBA32> frameBuffer(width * height);
 
         aom_codec_iface_t* encoder = &aom_codec_av1_cx_algo;
         if (!encoder)
@@ -322,22 +379,25 @@ public:
             ALIVE_FATAL("Unsupported codec.");
         }
 
+        LOG_INFO("Encoding AV1 FMV: %ux%u @ %u fps (real-time settings)", width, height, frameRate > 0 ? frameRate : 15u);
+
         aom_image_t rawImageFrameData;
-        if (!aom_img_alloc(&rawImageFrameData, AOM_IMG_FMT_YV12, info.width, info.height, 1))
+        if (!aom_img_alloc(&rawImageFrameData, AOM_IMG_FMT_I420, width, height, 1))
         {
             ALIVE_FATAL("Failed to allocate image.");
         }
 
         aom_codec_enc_cfg_t cfg = {};
-        if (aom_codec_enc_config_default(encoder, &cfg, AOM_USAGE_GOOD_QUALITY))
+        if (aom_codec_enc_config_default(encoder, &cfg, AOM_USAGE_REALTIME))
         {
             ALIVE_FATAL("Failed to get default codec config.");
         }
-        cfg.g_w = info.width;
-        cfg.g_h = info.height;
+        cfg.g_w = width;
+        cfg.g_h = height;
         cfg.g_timebase.num = 1;
-        cfg.g_timebase.den = 30; // fps
-        // cfg.rc_target_bitrate = bitrate;
+        cfg.g_timebase.den = frameRate > 0 ? frameRate : 15; // fps
+        cfg.g_lag_in_frames = 0;
+        cfg.g_threads = std::max(1u, std::thread::hardware_concurrency() / 2u);
 
         aom_codec_ctx_t codec = {};
         if (aom_codec_enc_init(&codec, encoder, &cfg, 0))
@@ -345,60 +405,111 @@ public:
             ALIVE_FATAL("Failed to initialize encoder");
         }
 
-        const int speed = 2;
+        const int speed = 8;
         if (aom_codec_control(&codec, AOME_SET_CPUUSED, speed))
         {
             ALIVE_FATAL("Failed to set cpu-used");
         }
 
-        LOG_INFO("Opening");
-
-        FILE* outFile = fopen("test.webm", "wb");
+        const std::string outFileName = fName + ".webm";
+        FILE* outFile = fopen(outFileName.c_str(), "wb");
         if (!outFile)
         {
-            ALIVE_FATAL("File to open output file");
+            ALIVE_FATAL("Failed to open output file '%s'", outFileName.c_str());
         }
-
-        LOG_INFO("Output opened");
 
         {
             mkvmuxer::MkvWriter writer(outFile);
             mkvmuxer::Segment segment;
             mkv_init(&writer, &segment, &cfg, &codec);
 
-
-            //const u32 keyframe_interval = 30;
-            //u32 frame_count = 0;
-            //u32 frames_encoded = 0;
-           // u32 max_frames = 0; // TODO
-
-           
-            mDDVReader.ExportDDVThreadFunc(fName);
-
-            /*
-            while (true)
+            const auto clamp_to_u8 = [](s32 value) -> u8
             {
-                int flags = 0;
-                if (keyframe_interval > 0 && frame_count % keyframe_interval == 0)
+                if (value < 0)
                 {
-                    flags |= AOM_EFLAG_FORCE_KF;
+                    return 0;
+                }
+                if (value > 255)
+                {
+                    return 255;
+                }
+                return static_cast<u8>(value);
+            };
+
+            const auto convert_rgba_to_i420 = [&]()
+            {
+                for (u32 y = 0; y < height; ++y)
+                {
+                    u8* yPlane = rawImageFrameData.planes[0] + (y * rawImageFrameData.stride[0]);
+                    for (u32 x = 0; x < width; ++x)
+                    {
+                        const RGBA32& p = frameBuffer[(y * width) + x];
+                        const s32 r = p.r;
+                        const s32 g = p.g;
+                        const s32 b = p.b;
+                        const s32 yVal = (77 * r + 150 * g + 29 * b) >> 8;
+                        yPlane[x] = clamp_to_u8(yVal);
+                    }
                 }
 
-                // TODO: read yuv frame
-                mDDVReader.ReadVideoFrame();
-                //  rawImageFrameData.img_data
-
-                encode_frame(&segment, &cfg, &codec, &rawImageFrameData, frame_count++, flags);
-                frames_encoded++;
-                if (max_frames > 0 && frames_encoded >= max_frames)
+                const u32 chromaWidth = (width + 1) / 2;
+                const u32 chromaHeight = (height + 1) / 2;
+                for (u32 y = 0; y < chromaHeight; ++y)
                 {
-                    // break;
+                    u8* uPlane = rawImageFrameData.planes[1] + (y * rawImageFrameData.stride[1]);
+                    u8* vPlane = rawImageFrameData.planes[2] + (y * rawImageFrameData.stride[2]);
+                    for (u32 x = 0; x < chromaWidth; ++x)
+                    {
+                        const u32 sampleX = x * 2;
+                        const u32 sampleY = y * 2;
+                        s32 rTotal = 0;
+                        s32 gTotal = 0;
+                        s32 bTotal = 0;
+                        const u32 sampleCount = 4;
+                        for (u32 dy = 0; dy < 2 && sampleY + dy < height; ++dy)
+                        {
+                            for (u32 dx = 0; dx < 2 && sampleX + dx < width; ++dx)
+                            {
+                                const RGBA32& p = frameBuffer[((sampleY + dy) * width) + (sampleX + dx)];
+                                rTotal += p.r;
+                                gTotal += p.g;
+                                bTotal += p.b;
+                            }
+                        }
+
+                        const s32 rAvg = rTotal / sampleCount;
+                        const s32 gAvg = gTotal / sampleCount;
+                        const s32 bAvg = bTotal / sampleCount;
+                        const s32 uVal = (-43 * rAvg - 85 * gAvg + 128 * bAvg) >> 8;
+                        const s32 vVal = (128 * rAvg - 107 * gAvg - 21 * bAvg) >> 8;
+                        uPlane[x] = clamp_to_u8(uVal + 128);
+                        vPlane[x] = clamp_to_u8(vVal + 128);
+                    }
                 }
+            };
+
+            const u32 totalFrames = mDDVReader.TotalVideoFrames();
+            u32 frame_index = 0;
+            while (mDDVReader.ReadVideoFrame(frameBuffer.data()))
+            {
+                convert_rgba_to_i420();
+                const int flags = (frame_index == 0) ? AOM_EFLAG_FORCE_KF : 0;
+                encode_frame(&segment, &cfg, &codec, &rawImageFrameData, static_cast<int>(frame_index), flags);
+
+                if (totalFrames > 0)
+                {
+                    const double percentDone = (static_cast<double>(frame_index + 1u) / static_cast<double>(totalFrames)) * 100.0;
+                    LOG_INFO("Video frame %u/%u (%.2f%%)", frame_index + 1u, totalFrames, percentDone);
+                }
+                else
+                {
+                    LOG_INFO("Video frame %u (total unknown)", frame_index + 1u);
+                }
+
+                ++frame_index;
             }
-            */
 
-            // Flush encoder.
-            while (encode_frame(&segment, &cfg, &codec, NULL, -1, 0))
+            while (encode_frame(&segment, &cfg, &codec, nullptr, -1, 0))
             {
                 continue;
             }
@@ -565,10 +676,18 @@ private:
         bool got_pkts = false;
         aom_codec_iter_t iter = nullptr;
         const aom_codec_cx_pkt_t* pkt = nullptr;
+        const auto start = std::chrono::steady_clock::now();
         const aom_codec_err_t res = aom_codec_encode(codec, img, frame_index, 1, flags);
+        const auto elapsedMs = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - start).count();
+
         if (res != AOM_CODEC_OK)
         {
             ALIVE_FATAL("Failed to encode frame");
+        }
+
+        if (elapsedMs > 1000)
+        {
+            LOG_INFO("Encoding frame %d took %lld ms", frame_index, static_cast<long long>(elapsedMs));
         }
 
         while ((pkt = aom_codec_get_cx_data(codec, &iter)) != nullptr)
@@ -596,20 +715,31 @@ private:
     IDDVReader& mDDVReader;
 };
 
-void ConvertFMVs(const FileSystem::Path& /*dataDir*/, bool isAo)
+void ConvertFMVs(const FileSystem::Path& dataDir, bool isAo)
 {
-    // TODO: Conversion
-    if (!isAo)
+    if (isAo)
     {
-        const FmvInfo* pInfo = Path_Get_FMV_Record(EReliveLevelIds::eMines, 1);
-        if (pInfo)
-        {
-            IDDVReader reader;
-            if (reader.Open(pInfo->field_0_pName))
-            {
-                FmvConv fmvConv(reader);
-                fmvConv.Convert(pInfo->field_0_pName);
-            }
-        }
+        return;
+    }
+
+    const std::vector<std::string> movieNames =
+    {
+        "prophecy.ddv",
+        "INTRO.DDV",
+        "DDLOGO.DDV",
+        "GTILOGO.DDV"
+    };
+
+    for (const auto& movieName : movieNames)
+    {
+        FileSystem::Path moviePath = dataDir;
+        moviePath.Append(movieName);
+
+        IDDVReader reader;
+
+
+        FmvConv fmvConv(reader);
+        const std::string outPath = moviePath.GetPath() + ".webm";
+        fmvConv.Convert(movieName);
     }
 }
