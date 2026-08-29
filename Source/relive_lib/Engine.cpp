@@ -133,8 +133,8 @@ void Engine::Run()
     if (mGameType == GameType::eAe)
     {
         LOG_INFO("AE standalone starting...");
-        Game_Main(EReliveLevelIds::eMines, 1, 4);
-        //Game_Main(EReliveLevelIds::eMenu, 1, 25);
+        //Game_Main(EReliveLevelIds::eMines, 1, 4);
+        Game_Main(EReliveLevelIds::eMenu, 1, 25);
     }
     else
     {
