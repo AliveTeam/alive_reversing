@@ -69,10 +69,15 @@ public:
     u32 FrameHeight();
     u32 FrameRate();
     u32 TotalVideoFrames();
+    u32 AudioSampleRate();
+    u32 AudioChannels();
+    u32 AudioBitsPerSample();
     const std::vector<u8>& GetPixels() const { return mPixels; }
+    const std::vector<u8>& GetAudioFrames() const { return mAudioFrames; }
 private:
     std::string mDDvName;
     IDDVReaderCallBacks& mCallBacks;
     std::vector<u8> mPixels;
+    std::vector<u8> mAudioFrames;
 };
 }

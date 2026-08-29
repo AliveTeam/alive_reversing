@@ -180,7 +180,10 @@ bool DDVAe::StepFrame()
             void* pDecompressedAudioFrame = Masher::GetDecompressedAudioFrame_4EAC60(sMasherInstance);
             if (pDecompressedAudioFrame)
             {
-                mCallBacks.OnAudioFrame(pDecompressedAudioFrame, (sMasherInstance->field_54_bits_per_sample / 8) * sMasherInstance->field_50_num_channels, sFmvSingleAudioFrameSizeInSamples);
+                const u32 frameSizeBytes = (sMasherInstance->field_54_bits_per_sample / 8) * sMasherInstance->field_50_num_channels;
+                mAudioFrames.resize(frameSizeBytes * sFmvSingleAudioFrameSizeInSamples);
+                memcpy(mAudioFrames.data(), pDecompressedAudioFrame, mAudioFrames.size());
+                mCallBacks.OnAudioFrame(pDecompressedAudioFrame, frameSizeBytes, sFmvSingleAudioFrameSizeInSamples);
             }
         }
         return true;
@@ -212,6 +215,21 @@ u32 DDVAe::FrameRate()
 u32 DDVAe::TotalVideoFrames()
 {
     return sMasher_Header->field_C_number_of_frames;
+}
+
+u32 DDVAe::AudioSampleRate()
+{
+    return sMasher_AudioHeader ? sMasher_AudioHeader->field_4_samples_per_second : 0u;
+}
+
+u32 DDVAe::AudioChannels()
+{
+    return sMasherInstance ? static_cast<u32>(sMasherInstance->field_50_num_channels) : 0u;
+}
+
+u32 DDVAe::AudioBitsPerSample()
+{
+    return sMasherInstance ? static_cast<u32>(sMasherInstance->field_54_bits_per_sample) : 0u;
 }
 
 } // namespace
