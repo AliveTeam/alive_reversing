@@ -42,8 +42,8 @@ public:
     {
         TRACE_ENTRYEXIT;
 
-        relive::DDVDumper dumper;
-        relive::DDVAe ddv(fName.c_str(), dumper);
+//        relive::DDVDumper dumper;
+        relive::DDVAe ddv(fName.c_str(), nullptr);
 
         if (!ddv.ReadInfo())
         {
@@ -469,8 +469,8 @@ void ConvertFMVs(const FileSystem::Path& dataDir, bool isAo)
 
     const std::vector<std::string> movieNames =
     {
-        "prophecy.ddv",
         "INTRO.DDV",
+        "prophecy.ddv",
         "DDLOGO.DDV",
         "GTILOGO.DDV"
     };

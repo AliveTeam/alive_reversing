@@ -64,7 +64,7 @@ private:
 class DDVAe final
 {
 public:
-    DDVAe(const char_type* pDDVName, IDDVReaderCallBacks& callBacks);
+    DDVAe(const char_type* pDDVName, IDDVReaderCallBacks* callBacks);
     ~DDVAe();
     bool StepFrame();
     bool ReadInfo();
@@ -88,7 +88,7 @@ public:
     }
 private:
     std::string mDDvName;
-    IDDVReaderCallBacks& mCallBacks;
+    IDDVReaderCallBacks* mCallBacks = nullptr;
     std::vector<u8> mPixels;
 
     s8 DDV_StartAudio(bool sHasAudio);
