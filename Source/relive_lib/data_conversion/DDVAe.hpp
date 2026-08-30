@@ -88,6 +88,8 @@ private:
     std::string mDDvName;
     IDDVReaderCallBacks& mCallBacks;
     std::vector<u8> mPixels;
+
+    s8 DDV_StartAudio();
 public:
     std::deque<std::vector<u8>> mInterleaveAudioFrames;
     std::vector<u8> mAudioFrames;
