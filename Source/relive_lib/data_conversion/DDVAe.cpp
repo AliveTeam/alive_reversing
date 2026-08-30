@@ -121,7 +121,7 @@ bool DDVAe::ReadInfo()
     const bool sHasAudio = (sMasherInstance->field_4_ddv_header.field_4_contains >> 1) & 1;
     sFmvSingleAudioFrameSizeInSamples = sMasherInstance->field_2C_audio_header.field_C_single_audio_frame_size;
 
-    if (DDV_StartAudio(sHasAudio) && sMasherInstance->ReadNextFrame() && sMasherInstance->ReadNextFrame())
+    if (DDV_StartAudio(sHasAudio) && sMasherInstance->ReadNextFrame() )
     {
        
     }
