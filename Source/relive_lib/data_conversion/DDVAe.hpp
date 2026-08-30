@@ -4,6 +4,8 @@
 #include <fstream>
 #include <deque>
 
+class Masher;
+
 namespace relive
 {
 class IDDVReaderCallBacks
@@ -89,7 +91,9 @@ private:
     IDDVReaderCallBacks& mCallBacks;
     std::vector<u8> mPixels;
 
-    s8 DDV_StartAudio();
+    s8 DDV_StartAudio(bool sHasAudio);
+    s32 sFmvSingleAudioFrameSizeInSamples = 0;
+    Masher* sMasherInstance = nullptr;
 public:
     std::deque<std::vector<u8>> mInterleaveAudioFrames;
     std::vector<u8> mAudioFrames;

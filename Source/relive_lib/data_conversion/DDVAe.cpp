@@ -1,8 +1,6 @@
 #include "stdafx.h"
 #include "DDVAe.hpp"
 #include "../relive_lib/Function.hpp"
-#include "../relive_lib/Psx.hpp"
-#include "../relive_lib/Sound/Sound.hpp"
 #include "../relive_lib/Masher.hpp"
 #include "../relive_lib/data_conversion/rgb_conversion.hpp"
 
@@ -10,14 +8,6 @@
 
 namespace relive
 {
-    
-static bool sHasAudio = false;
-static s32 sFmvNumReadFrames = 0;
-static Masher_Header* sMasher_Header = nullptr;
-static bool sNoAudioOrAudioError = false;
-static Masher* sMasherInstance = nullptr;
-static s32 sFmvSingleAudioFrameSizeInSamples = 0;
-
 DDVAe::DDVAe(const char_type* pDDVName, IDDVReaderCallBacks& callBacks)
  : mDDvName(pDDVName), mCallBacks(callBacks)
 {
@@ -36,34 +26,30 @@ bool DDVAe::StepFrame()
 
     if (sMasherInstance->ReadNextFrame())
     {
-        sFmvNumReadFrames++;
-
         sMasherInstance->VideoFrameDecode(reinterpret_cast<RGBA32*>(mPixels.data()));
 
         mCallBacks.OnVideoFrame(reinterpret_cast<const u32*>(mPixels.data()), FrameWidth(), FrameHeight());
 
         mAudioFrames.clear();
-        if (!sNoAudioOrAudioError)
+        void* pDecompressedAudioFrame = Masher::GetDecompressedAudioFrame_4EAC60(sMasherInstance);
+        if (pDecompressedAudioFrame)
         {
-            void* pDecompressedAudioFrame = Masher::GetDecompressedAudioFrame_4EAC60(sMasherInstance);
-            if (pDecompressedAudioFrame)
-            {
-                const u32 frameSizeBytes = (sMasherInstance->field_54_bits_per_sample / 8) * sMasherInstance->field_50_num_channels;
-                mAudioFrames.resize(frameSizeBytes * sFmvSingleAudioFrameSizeInSamples);
-                memcpy(mAudioFrames.data(), pDecompressedAudioFrame, mAudioFrames.size());
+            const u32 frameSizeBytes = (sMasherInstance->field_54_bits_per_sample / 8) * sMasherInstance->field_50_num_channels;
+            mAudioFrames.resize(frameSizeBytes * sFmvSingleAudioFrameSizeInSamples);
+            memcpy(mAudioFrames.data(), pDecompressedAudioFrame, mAudioFrames.size());
 
-                mInterleaveAudioFrames.push_back(mAudioFrames);
+            mInterleaveAudioFrames.push_back(mAudioFrames);
 
-                mCallBacks.OnAudioFrame(pDecompressedAudioFrame, frameSizeBytes, sFmvSingleAudioFrameSizeInSamples);
-            }
+            mCallBacks.OnAudioFrame(pDecompressedAudioFrame, frameSizeBytes, sFmvSingleAudioFrameSizeInSamples);
         }
+
         return true;
     }
     return false;
 }
 
 
-s8 DDVAe::DDV_StartAudio()
+s8 DDVAe::DDV_StartAudio(bool sHasAudio)
 {
     if (!sHasAudio)
     {
@@ -71,6 +57,7 @@ s8 DDVAe::DDV_StartAudio()
     }
 
     // Keep reading frames till we have >= number of interleaved so that we have 1 full frame
+    s32 sFmvNumReadFrames = 0;
     if (sFmvNumReadFrames < sMasherInstance->field_2C_audio_header.field_10_num_frames_interleave)
     {
         while (Masher::ReadNextFrameToMemory_4EAC30(sMasherInstance))
@@ -122,13 +109,10 @@ bool DDVAe::ReadInfo()
         return false;
     }
 
-    sHasAudio = (sMasher_Header->field_4_contains >> 1) & 1;
+    const bool sHasAudio = (sMasherInstance->field_4_ddv_header.field_4_contains >> 1) & 1;
     sFmvSingleAudioFrameSizeInSamples = sMasherInstance->field_2C_audio_header.field_C_single_audio_frame_size;
 
-    sNoAudioOrAudioError = false;
-    sFmvNumReadFrames = 0;
-
-    if (DDV_StartAudio() && sMasherInstance->ReadNextFrame() && sMasherInstance->ReadNextFrame())
+    if (DDV_StartAudio(sHasAudio) && sMasherInstance->ReadNextFrame() && sMasherInstance->ReadNextFrame())
     {
        
     }
@@ -154,7 +138,7 @@ u32 DDVAe::FrameRate()
 
 u32 DDVAe::TotalVideoFrames()
 {
-    return sMasher_Header->field_C_number_of_frames;
+    return sMasherInstance->field_4_ddv_header.field_C_number_of_frames;
 }
 
 u32 DDVAe::AudioSampleRate()
