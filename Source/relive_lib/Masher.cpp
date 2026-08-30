@@ -1215,6 +1215,7 @@ void Masher::ConvertYuvToRgbAndBlit(RGBA32* pixelBuffer, s32 xoff, s32 yoff, s32
                 RGBA32 pixel = {Macroblock_RGB[x][y].Red, Macroblock_RGB[x][y].Green, Macroblock_RGB[x][y].Blue, 0};
                 // Actually is no alpha in FMVs
                 // pixelValue = (pixelValue << 8) + Macroblock_RGB[x][y].A
+                pixel.a = 255;
                 SetElement(xpos, ypos, width, height, pixelBuffer, pixel, doubleWidth, doubleHeight);
             }
         }

@@ -19,9 +19,10 @@ public:
 class DDVDumper final : public IDDVReaderCallBacks
 {
 public:
-    DDVDumper()
+    explicit DDVDumper(const std::string& outPath)
+     : mOutPath(outPath)
     {
-        audio = fopen("fmv_debug/Audio.dat", "wb");
+        audio = fopen((mOutPath + "/Audio.dat").c_str(), "wb");
     }
 
     ~DDVDumper()
@@ -37,8 +38,8 @@ public:
         frameIndex++;
 
         PNGFile png;
-        const auto pngData = png.Encode((const u32*)pixels, width, height);
-        const std::string path = "fmv_debug/masher_frame_" + std::to_string(frameIndex) + ".png";
+        const auto pngData = png.Encode(pixels, width, height);
+        const std::string path = mOutPath + "/masher_frame_" + std::to_string(frameIndex) + ".png";
 
         std::ofstream out(path, std::ios::binary);
         if (out)
@@ -57,6 +58,7 @@ public:
     }
 
 private:
+    std::string mOutPath;
     FILE* audio = nullptr;
     u32 frameIndex = 0;
 };
