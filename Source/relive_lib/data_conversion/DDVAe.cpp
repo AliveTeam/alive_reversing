@@ -10,8 +10,16 @@
 
 namespace relive
 {
+static bool sHasAudio = false;
+static s32 sFmvNumReadFrames = 0;
+static Masher_Header* sMasher_Header = nullptr;
+static Masher_VideoHeader* sMasher_VideoHeader = nullptr;
+static Masher_AudioHeader* sMasher_AudioHeader = nullptr;
+static bool sNoAudioOrAudioError = false;
+static Masher* sMasherInstance = nullptr;
+static s32 sFmvSingleAudioFrameSizeInSamples = 0;
 
-Masher* Masher_Alloc(
+static Masher* Masher_Alloc(
     const char_type* pFileName,
     Masher_Header** ppMasherHeader,
     Masher_VideoHeader** ppMasherVideoHeader,
@@ -42,31 +50,8 @@ Masher* Masher_Alloc(
     }
 }
 
-void Masher_DeAlloc(Masher* pMasher)
-{
-    relive_delete pMasher;
-}
 
-s32 Masher_ReadNextFrame(Masher* pMasher)
-{
-    return pMasher->ReadNextFrame();
-}
-
-void Masher_DecodeVideoFrame(Masher* pMasher, RGBA32* pSurface)
-{
-    pMasher->VideoFrameDecode(pSurface);
-}
-
-static bool sHasAudio = false;
-static s32 sFmvNumReadFrames = 0;
-static Masher_Header* sMasher_Header = nullptr;
-static Masher_VideoHeader* sMasher_VideoHeader = nullptr;
-static Masher_AudioHeader* sMasher_AudioHeader = nullptr;
-static bool sNoAudioOrAudioError = false;
-static Masher* sMasherInstance = nullptr;
-static s32 sFmvSingleAudioFrameSizeInSamples = 0;
-
-s8 DDV_StartAudio(DDVAe* pDDV, IDDVReaderCallBacks& callBacks)
+static s8 DDV_StartAudio(DDVAe* pDDV, IDDVReaderCallBacks& callBacks)
 {
     if (!sHasAudio)
     {
@@ -124,7 +109,7 @@ static Masher* Open_DDV(const char_type* pMovieName)
     return pMasher;
 }
 
-s8 DDV_Play_Impl(DDVAe* pDDV, const char_type* pMovieName, IDDVReaderCallBacks& callBacks)
+static s8 DDV_Play_Impl(DDVAe* pDDV, const char_type* pMovieName, IDDVReaderCallBacks& callBacks)
 {
     if (!*pMovieName)
     {
@@ -143,7 +128,7 @@ s8 DDV_Play_Impl(DDVAe* pDDV, const char_type* pMovieName, IDDVReaderCallBacks& 
     sNoAudioOrAudioError = false;
     sFmvNumReadFrames = 0;
 
-    if (DDV_StartAudio(pDDV, callBacks) && Masher_ReadNextFrame(sMasherInstance) && Masher_ReadNextFrame(sMasherInstance))
+    if (DDV_StartAudio(pDDV, callBacks) && sMasherInstance->ReadNextFrame() && sMasherInstance->ReadNextFrame())
     {
        
     }
@@ -151,13 +136,6 @@ s8 DDV_Play_Impl(DDVAe* pDDV, const char_type* pMovieName, IDDVReaderCallBacks& 
 
     return 0;
 }
-
-
-s8 DDV_Play(DDVAe* pDDV, const char_type* pDDVName, IDDVReaderCallBacks& callBacks)
-{
-    return relive::DDV_Play_Impl(pDDV, pDDVName, callBacks);
-}
-
 
 DDVAe::DDVAe(const char_type* pDDVName, IDDVReaderCallBacks& callBacks)
  : mDDvName(pDDVName), mCallBacks(callBacks)
@@ -167,7 +145,7 @@ DDVAe::DDVAe(const char_type* pDDVName, IDDVReaderCallBacks& callBacks)
 
 DDVAe::~DDVAe()
 {
-    Masher_DeAlloc(sMasherInstance);
+    relive_delete sMasherInstance;
     sMasherInstance = nullptr;
 }
 
@@ -175,12 +153,12 @@ bool DDVAe::StepFrame()
 {
     mPixels.resize(FrameWidth() * FrameHeight() * sizeof(u32));
 
-    /*while*/ if (Masher_ReadNextFrame(sMasherInstance))
+    if (sMasherInstance->ReadNextFrame())
     {
 
         sFmvNumReadFrames++;
 
-        Masher_DecodeVideoFrame(sMasherInstance, reinterpret_cast<RGBA32*>(mPixels.data()));
+        sMasherInstance->VideoFrameDecode(reinterpret_cast<RGBA32*>(mPixels.data()));
 
         mCallBacks.OnVideoFrame(reinterpret_cast<const u32*>(mPixels.data()), sMasher_VideoHeader->field_4_width, sMasher_VideoHeader->field_8_height);
 
@@ -206,7 +184,7 @@ bool DDVAe::StepFrame()
 
 bool DDVAe::ReadInfo()
 {
-    return !DDV_Play(this, mDDvName.c_str(), mCallBacks);
+    return !DDV_Play_Impl(this, mDDvName.c_str(), mCallBacks);
 }
 
 u32 DDVAe::FrameWidth()
