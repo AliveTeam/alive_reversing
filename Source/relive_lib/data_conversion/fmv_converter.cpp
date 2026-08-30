@@ -56,7 +56,7 @@ public:
         LOG_INFO("DDV dimensions: %ux%u (header reported %ux%u)", width, height,
                  ddv.FrameWidth(), ddv.FrameHeight());
 
-        const u32 frameRate = ddv.FrameRate();
+        const u32 frameRate =15; //ddv.FrameRate();
         const u32 audioSampleRate = ddv.AudioSampleRate() > 0 ? ddv.AudioSampleRate() : 44100u;
         const u32 audioChannels = ddv.AudioChannels() > 0 ? ddv.AudioChannels() : 2u;
         const u32 audioBitsPerSample = ddv.AudioBitsPerSample() > 0 ? ddv.AudioBitsPerSample() : 16u;

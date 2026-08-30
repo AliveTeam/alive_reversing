@@ -2,6 +2,7 @@
 
 #include "PNGFile.hpp"
 #include <fstream>
+#include <deque>
 
 namespace relive
 {
@@ -73,11 +74,22 @@ public:
     u32 AudioChannels();
     u32 AudioBitsPerSample();
     const std::vector<u8>& GetPixels() const { return mPixels; }
-    const std::vector<u8>& GetAudioFrames() const { return mAudioFrames; }
+    std::vector<u8> GetAudioFrames()
+    { 
+        if (!mInterleaveAudioFrames.empty())
+        {
+            auto tmp = mInterleaveAudioFrames.front();
+            mInterleaveAudioFrames.pop_front();
+            return tmp;
+        }
+        return mAudioFrames; 
+    }
 private:
     std::string mDDvName;
     IDDVReaderCallBacks& mCallBacks;
     std::vector<u8> mPixels;
+public:
+    std::deque<std::vector<u8>> mInterleaveAudioFrames;
     std::vector<u8> mAudioFrames;
 };
 }

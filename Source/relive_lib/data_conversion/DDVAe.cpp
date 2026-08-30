@@ -66,7 +66,7 @@ static bool sNoAudioOrAudioError = false;
 static Masher* sMasherInstance = nullptr;
 static s32 sFmvSingleAudioFrameSizeInSamples = 0;
 
-s8 DDV_StartAudio(IDDVReaderCallBacks& callBacks)
+s8 DDV_StartAudio(DDVAe* pDDV, IDDVReaderCallBacks& callBacks)
 {
     if (!sHasAudio)
     {
@@ -79,6 +79,15 @@ s8 DDV_StartAudio(IDDVReaderCallBacks& callBacks)
         while (Masher::ReadNextFrameToMemory_4EAC30(sMasherInstance))
         {
             void* pDecompressedAudioBuffer = Masher::GetDecompressedAudioFrame_4EAC60(sMasherInstance);             
+
+            const u32 frameSizeBytes = (sMasherInstance->field_54_bits_per_sample / 8) * sMasherInstance->field_50_num_channels;
+            std::vector<u8> data;
+            data.resize(frameSizeBytes * sFmvSingleAudioFrameSizeInSamples);
+            memcpy(data.data(), pDecompressedAudioBuffer, data.size());
+
+            pDDV->mInterleaveAudioFrames.push_back(data);
+
+
             callBacks.OnAudioFrame(pDecompressedAudioBuffer, (sMasherInstance->field_54_bits_per_sample / 8) * sMasherInstance->field_50_num_channels, sFmvSingleAudioFrameSizeInSamples);
 
             sFmvNumReadFrames++;
@@ -115,7 +124,7 @@ static Masher* Open_DDV(const char_type* pMovieName)
     return pMasher;
 }
 
-s8 DDV_Play_Impl(const char_type* pMovieName, IDDVReaderCallBacks& callBacks)
+s8 DDV_Play_Impl(DDVAe* pDDV, const char_type* pMovieName, IDDVReaderCallBacks& callBacks)
 {
     if (!*pMovieName)
     {
@@ -134,7 +143,7 @@ s8 DDV_Play_Impl(const char_type* pMovieName, IDDVReaderCallBacks& callBacks)
     sNoAudioOrAudioError = false;
     sFmvNumReadFrames = 0;
 
-    if (DDV_StartAudio(callBacks) && Masher_ReadNextFrame(sMasherInstance) && Masher_ReadNextFrame(sMasherInstance))
+    if (DDV_StartAudio(pDDV, callBacks) && Masher_ReadNextFrame(sMasherInstance) && Masher_ReadNextFrame(sMasherInstance))
     {
        
     }
@@ -144,9 +153,9 @@ s8 DDV_Play_Impl(const char_type* pMovieName, IDDVReaderCallBacks& callBacks)
 }
 
 
-s8 DDV_Play(const char_type* pDDVName, IDDVReaderCallBacks& callBacks)
+s8 DDV_Play(DDVAe* pDDV, const char_type* pDDVName, IDDVReaderCallBacks& callBacks)
 {
-    return relive::DDV_Play_Impl(pDDVName, callBacks);
+    return relive::DDV_Play_Impl(pDDV, pDDVName, callBacks);
 }
 
 
@@ -175,6 +184,7 @@ bool DDVAe::StepFrame()
 
         mCallBacks.OnVideoFrame(reinterpret_cast<const u32*>(mPixels.data()), sMasher_VideoHeader->field_4_width, sMasher_VideoHeader->field_8_height);
 
+        mAudioFrames.clear();
         if (!sNoAudioOrAudioError)
         {
             void* pDecompressedAudioFrame = Masher::GetDecompressedAudioFrame_4EAC60(sMasherInstance);
@@ -183,6 +193,9 @@ bool DDVAe::StepFrame()
                 const u32 frameSizeBytes = (sMasherInstance->field_54_bits_per_sample / 8) * sMasherInstance->field_50_num_channels;
                 mAudioFrames.resize(frameSizeBytes * sFmvSingleAudioFrameSizeInSamples);
                 memcpy(mAudioFrames.data(), pDecompressedAudioFrame, mAudioFrames.size());
+
+                mInterleaveAudioFrames.push_back(mAudioFrames);
+
                 mCallBacks.OnAudioFrame(pDecompressedAudioFrame, frameSizeBytes, sFmvSingleAudioFrameSizeInSamples);
             }
         }
@@ -193,8 +206,7 @@ bool DDVAe::StepFrame()
 
 bool DDVAe::ReadInfo()
 {
-    // TODO: Audio can be called here
-    return !DDV_Play(mDDvName.c_str(), mCallBacks);
+    return !DDV_Play(this, mDDvName.c_str(), mCallBacks);
 }
 
 u32 DDVAe::FrameWidth()
