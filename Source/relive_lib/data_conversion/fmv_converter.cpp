@@ -469,10 +469,14 @@ void ConvertFMVs(const FileSystem::Path& dataDir, bool isAo)
 
     const std::vector<std::string> movieNames =
     {
+        "SV160703.ddv",
+        "PHLEGINF.DDV",
+        "TRAIN1.DDV",
+        "vision.ddv",
         "INTRO.DDV",
         "prophecy.ddv",
-        "DDLOGO.DDV",
-        "GTILOGO.DDV"
+        //"DDLOGO.DDV",
+        //"GTILOGO.DDV"
     };
 
     for (const auto& movieName : movieNames)
@@ -480,8 +484,28 @@ void ConvertFMVs(const FileSystem::Path& dataDir, bool isAo)
         FileSystem::Path moviePath = dataDir;
         moviePath.Append(movieName);
 
-        FmvConv fmvConv;
+
+        /*
+        relive::DDVDumper dumper(moviePath.GetPath());
+        relive::DDVAe ddv(movieName.c_str(), &dumper);
+        if (ddv.ReadInfo())
+        {
+            s32 hack = 0;
+            while (ddv.StepFrame())
+            {
+                ddv.GetAudioFrames();
+
+                hack++;
+                if (hack > 50)
+                {
+                    break;
+                }
+            }
+        }
+        */
+
         const std::string outPath = moviePath.GetPath() + ".webm";
+        FmvConv fmvConv;
         fmvConv.Convert(movieName);
     }
 
