@@ -16,6 +16,7 @@
 #include "../relive_lib/data_conversion/rgb_conversion.hpp"
 
 #include <numeric>
+#include <deque>
 
 #include "aom/aom_decoder.h"
 #include "aom/aomdx.h"
@@ -45,6 +46,9 @@ namespace
         uint64_t mPtsNs = 0;
         std::vector<u8> mBuffer;
     };
+
+    static constexpr size_t kMaxBufferedVideoFrames = 30;
+    static constexpr size_t kMaxBufferedAudioBytes = 2u * 1024u * 1024u;
 
     inline void ClampToRGB(s32& value)
     {
@@ -138,14 +142,176 @@ namespace
             return false;
         }
 
-        const std::vector<MkvVideoFrame>& VideoFrames() const
+        std::deque<MkvVideoFrame>& VideoFrames()
         {
             return mVideoFrames;
         }
 
-        const std::vector<MkvAudioChunk>& AudioChunks() const
+        const std::deque<MkvVideoFrame>& VideoFrames() const
+        {
+            return mVideoFrames;
+        }
+
+        std::deque<MkvAudioChunk>& AudioChunks()
         {
             return mAudioChunks;
+        }
+
+        const std::deque<MkvAudioChunk>& AudioChunks() const
+        {
+            return mAudioChunks;
+        }
+
+        bool ParseMore(size_t maxVideoFrames = kMaxBufferedVideoFrames, size_t maxAudioBytes = kMaxBufferedAudioBytes)
+        {
+            if (!mSegment || mParsingComplete)
+            {
+                return !mVideoFrames.empty();
+            }
+
+            if (!mCurrentCluster)
+            {
+                mCurrentCluster = mSegment->GetFirst();
+                mCurrentBlockEntry = nullptr;
+            }
+
+            auto advanceToNextCluster = [&]() {
+                const mkvparser::Cluster* pNextCluster = mSegment->GetNext(mCurrentCluster);
+                if (pNextCluster == nullptr || pNextCluster->EOS())
+                {
+                    LOG_INFO("FMV parser: reached EOS cluster, queue=%zu, parsingComplete", mVideoFrames.size());
+                    mCurrentCluster = nullptr;
+                    mCurrentBlockEntry = nullptr;
+                    mParsingComplete = true;
+                    return false;
+                }
+
+                LOG_INFO("FMV parser: cluster advance to %p", pNextCluster);
+                mCurrentCluster = pNextCluster;
+                mCurrentBlockEntry = nullptr;
+                return true;
+            };
+
+            while (mCurrentCluster && !mCurrentCluster->EOS())
+            {
+                for (;;)
+                {
+                    if (mCurrentBlockEntry == nullptr)
+                    {
+                        const long status = mCurrentCluster->GetFirst(mCurrentBlockEntry);
+                        if (status != 0 || mCurrentBlockEntry == nullptr || mCurrentBlockEntry->EOS())
+                        {
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        const mkvparser::BlockEntry* pNextBlockEntry = nullptr;
+                        const long status = mCurrentCluster->GetNext(mCurrentBlockEntry, pNextBlockEntry);
+                        if (status != 0 || pNextBlockEntry == nullptr || pNextBlockEntry->EOS())
+                        {
+                            break;
+                        }
+                        mCurrentBlockEntry = pNextBlockEntry;
+                    }
+
+                    if (mCurrentBlockEntry == nullptr || mCurrentBlockEntry->EOS())
+                    {
+                        break;
+                    }
+
+                    const mkvparser::Block* pBlock = mCurrentBlockEntry->GetBlock();
+                    if (!pBlock)
+                    {
+                        continue;
+                    }
+
+                    const u64 ptsNs = static_cast<u64>(pBlock->GetTime(mCurrentCluster));
+                    for (int frameIdx = 0; frameIdx < pBlock->GetFrameCount(); ++frameIdx)
+                    {
+                        const mkvparser::Block::Frame& frame = pBlock->GetFrame(frameIdx);
+                        std::vector<u8> payload(static_cast<size_t>(frame.len));
+                        if (frame.Read(mReader, payload.data()) != 0)
+                        {
+                            Cleanup();
+                            return false;
+                        }
+
+                        if (pBlock->GetTrackNumber() == mVideoTrackNumber)
+                        {
+                            if (mVideoFrames.size() >= maxVideoFrames)
+                            {
+                                // Keep the parse cursor at the current block so playback resumes from the exact
+                                // same position after the consumer drains the queue instead of replaying stale data.
+                                return !mVideoFrames.empty();
+                            }
+
+                            MkvVideoFrame videoFrame;
+                            videoFrame.mPtsNs = ptsNs;
+                            if (!DecodeAv1Frame(payload, videoFrame.mPixels))
+                            {
+                                Cleanup();
+                                return false;
+                            }
+                            mVideoFrames.push_back(videoFrame);
+                        }
+                        else if (mAudioTrack != nullptr && pBlock->GetTrackNumber() == mAudioTrackNumber)
+                        {
+                            if (mAudioBytesBuffered + payload.size() > maxAudioBytes)
+                            {
+                                // Preserve the cursor at the current block until audio space is freed by the consumer.
+                                return !mVideoFrames.empty();
+                            }
+
+                            MkvAudioChunk audioChunk;
+                            audioChunk.mPtsNs = ptsNs;
+                            audioChunk.mBuffer = payload;
+                            mAudioBytesBuffered += audioChunk.mBuffer.size();
+                            mAudioChunks.push_back(audioChunk);
+                        }
+                    }
+                }
+
+                if (!advanceToNextCluster())
+                {
+                    return !mVideoFrames.empty();
+                }
+            }
+
+            mParsingComplete = true;
+            return !mVideoFrames.empty();
+        }
+
+        bool VideoFramesReady() const
+        {
+            return !mVideoFrames.empty();
+        }
+
+        bool AudioChunksReady() const
+        {
+            return !mAudioChunks.empty();
+        }
+
+        bool ParsingComplete() const
+        {
+            return mParsingComplete;
+        }
+
+        void PopVideoFrame()
+        {
+            if (!mVideoFrames.empty())
+            {
+                mVideoFrames.pop_front();
+            }
+        }
+
+        void PopAudioChunk()
+        {
+            if (!mAudioChunks.empty())
+            {
+                mAudioBytesBuffered -= mAudioChunks.front().mBuffer.size();
+                mAudioChunks.pop_front();
+            }
         }
 
         u32 Width() const
@@ -216,71 +382,13 @@ namespace
             }
             mCodecReady = true;
 
-            const mkvparser::Cluster* pCluster = mSegment->GetFirst();
-            while (pCluster && !pCluster->EOS())
+            mCurrentCluster = mSegment->GetFirst();
+            mCurrentBlockEntry = nullptr;
+            mParsingComplete = false;
+
+            if (!ParseMore(kMaxBufferedVideoFrames, kMaxBufferedAudioBytes))
             {
-                const mkvparser::BlockEntry* pBlockEntry = nullptr;
-                for (;;)
-                {
-                    if (pBlockEntry == nullptr)
-                    {
-                        const long status = pCluster->GetFirst(pBlockEntry);
-                        if (status != 0 || pBlockEntry == nullptr || pBlockEntry->EOS())
-                        {
-                            break;
-                        }
-                    }
-                    else
-                    {
-                        const mkvparser::BlockEntry* pNextBlockEntry = nullptr;
-                        const long status = pCluster->GetNext(pBlockEntry, pNextBlockEntry);
-                        if (status != 0 || pNextBlockEntry == nullptr)
-                        {
-                            break;
-                        }
-                        pBlockEntry = pNextBlockEntry;
-                    }
-
-                    const mkvparser::Block* pBlock = pBlockEntry->GetBlock();
-                    if (!pBlock)
-                    {
-                        continue;
-                    }
-
-                    const u64 ptsNs = static_cast<u64>(pBlock->GetTime(pCluster));
-                    for (int frameIdx = 0; frameIdx < pBlock->GetFrameCount(); ++frameIdx)
-                    {
-                        const mkvparser::Block::Frame& frame = pBlock->GetFrame(frameIdx);
-                        std::vector<u8> payload(static_cast<size_t>(frame.len));
-                        if (frame.Read(mReader, payload.data()) != 0)
-                        {
-                            Cleanup();
-                            return false;
-                        }
-
-                        if (pBlock->GetTrackNumber() == mVideoTrackNumber)
-                        {
-                            MkvVideoFrame videoFrame;
-                            videoFrame.mPtsNs = ptsNs;
-                            if (!DecodeAv1Frame(payload, videoFrame.mPixels))
-                            {
-                                Cleanup();
-                                return false;
-                            }
-                            mVideoFrames.push_back(videoFrame);
-                        }
-                        else if (mAudioTrack != nullptr && pBlock->GetTrackNumber() == mAudioTrackNumber)
-                        {
-                            MkvAudioChunk audioChunk;
-                            audioChunk.mPtsNs = ptsNs;
-                            audioChunk.mBuffer = payload;
-                            mAudioChunks.push_back(audioChunk);
-                        }
-                    }
-                }
-
-                const mkvparser::Cluster* pNextCluster = mSegment->GetNext(pCluster);
-                pCluster = (pNextCluster == nullptr || pNextCluster->EOS()) ? nullptr : pNextCluster;
+                return false;
             }
 
             return !mVideoFrames.empty();
@@ -395,8 +503,12 @@ namespace
             mAudioTrack = nullptr;
             mVideoTrackNumber = 0;
             mAudioTrackNumber = 0;
+            mCurrentCluster = nullptr;
+            mCurrentBlockEntry = nullptr;
+            mParsingComplete = false;
             mVideoFrames.clear();
             mAudioChunks.clear();
+            mAudioBytesBuffered = 0;
             mAudioSampleRate = 44100;
             mAudioChannels = 2;
             mAudioBitsPerSample = 16;
@@ -409,8 +521,12 @@ namespace
         mkvparser::Segment* mSegment = nullptr;
         const mkvparser::VideoTrack* mVideoTrack = nullptr;
         const mkvparser::AudioTrack* mAudioTrack = nullptr;
-        std::vector<MkvVideoFrame> mVideoFrames;
-        std::vector<MkvAudioChunk> mAudioChunks;
+        std::deque<MkvVideoFrame> mVideoFrames;
+        std::deque<MkvAudioChunk> mAudioChunks;
+        const mkvparser::Cluster* mCurrentCluster = nullptr;
+        const mkvparser::BlockEntry* mCurrentBlockEntry = nullptr;
+        bool mParsingComplete = false;
+        size_t mAudioBytesBuffered = 0;
         aom_codec_ctx_t mCodec = {};
         bool mCodecReady = false;
         int mVideoTrackNumber = 0;
@@ -448,8 +564,8 @@ s8 DDV_Play_Impl(const char_type* pMovieName)
         return 0;
     }
 
-    const std::vector<MkvVideoFrame>& videoFrames = movie.VideoFrames();
-    const std::vector<MkvAudioChunk>& audioChunks = movie.AudioChunks();
+    auto& videoFrames = movie.VideoFrames();
+    auto& audioChunks = movie.AudioChunks();
     const bool hasAudio = !audioChunks.empty();
 
     sNoAudioOrAudioError = false;
@@ -490,7 +606,7 @@ s8 DDV_Play_Impl(const char_type* pMovieName)
     fmvFrame.mData.mPixels->resize(fmvFrame.mData.mWidth * fmvFrame.mData.mHeight * sizeof(RGBA32));
 
     Poly_FT4 polyFT4 = {};
-    polyFT4.SetXYWH(0, 0, movie.Width(), movie.Height());
+    polyFT4.SetXYWH(0, 0, 640, 240);
     polyFT4.mCam = &fmvFrame;
 
     if (hasAudio && !sNoAudioOrAudioError)
@@ -532,14 +648,27 @@ s8 DDV_Play_Impl(const char_type* pMovieName)
             return total + chunk.mBuffer.size();
         }) / std::max<u32>(1u, blockAlign)));
 
-    for (size_t frameIndex = 0; frameIndex < videoFrames.size(); ++frameIndex)
+    while (!videoFrames.empty() || !movie.ParsingComplete())
     {
+        if (videoFrames.empty())
+        {
+            if (!movie.ParseMore(kMaxBufferedVideoFrames, kMaxBufferedAudioBytes))
+            {
+                break;
+            }
+            if (videoFrames.empty())
+            {
+                continue;
+            }
+        }
+
         if (AreMovieSkippingInputsHeld())
         {
             break;
         }
 
-        const auto& frame = videoFrames[frameIndex];
+        const auto& frame = videoFrames.front();
+        LOG_INFO("FMV playback: render frame pts=%llu queued=%zu", static_cast<unsigned long long>(frame.mPtsNs), videoFrames.size());
         std::memcpy(fmvFrame.mData.mPixels->data(), frame.mPixels.data(), frame.mPixels.size());
 
         if (!sNoAudioOrAudioError && hasAudio)
@@ -573,18 +702,15 @@ s8 DDV_Play_Impl(const char_type* pMovieName)
             }
         }
 
-        if (frameIndex == 0)
-        {
-            Input_IsVKPressed_4EDD40(VK_ESCAPE);
-            Input_IsVKPressed_4EDD40(VK_RETURN);
-        }
+        Input_IsVKPressed_4EDD40(VK_ESCAPE);
+        Input_IsVKPressed_4EDD40(VK_RETURN);
 
         polyFT4.mCam->mUniqueId = UniqueResId{};
         Render_DDV_Frame(&polyFT4);
 
-        if (frameIndex + 1 < videoFrames.size())
+        if (videoFrames.size() > 1)
         {
-            const u64 nextFrameMs = videoFrames[frameIndex + 1].mPtsNs / 1000000ULL;
+            const u64 nextFrameMs = videoFrames[1].mPtsNs / 1000000ULL;
             const u64 thisFrameMs = frame.mPtsNs / 1000000ULL;
             const s64 waitAhead = static_cast<s64>(nextFrameMs - thisFrameMs);
             const u64 targetTimestamp = movieStartTimeStamp + thisFrameMs;
@@ -595,8 +721,21 @@ s8 DDV_Play_Impl(const char_type* pMovieName)
             }
         }
 
+        LOG_INFO("FMV playback: pop front, remaining=%zu", videoFrames.size() - 1u);
+        movie.PopVideoFrame();
+        if (!movie.ParsingComplete() && videoFrames.size() < 4)
+        {
+            LOG_INFO("FMV playback: refilling queue, current size=%zu", videoFrames.size());
+            movie.ParseMore(kMaxBufferedVideoFrames, kMaxBufferedAudioBytes);
+        }
+
         SYS_EventsPump();
         PSX_VSync(VSyncMode::UncappedFps);
+
+        if (movie.ParsingComplete() && videoFrames.empty())
+        {
+            break;
+        }
     }
 
     if (sFmvSoundEntry.field_4_pDSoundBuffer)
