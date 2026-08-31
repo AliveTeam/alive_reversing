@@ -5,7 +5,7 @@
 #include "stdlib.hpp"
 #include "Error.hpp"
 
-#if !USE_SDL2_SOUND
+#if !USE_SDL3_SOUND
 
     #include <mmeapi.h>
     #include <timeapi.h>
@@ -78,7 +78,7 @@ s32 CC SND_CreateDS_DSound(u32 sampleRate, s32 bitsPerSample, s32 isStereo)
     {
         // TODO: HACK
         HWND hwnd;
-    #if USE_SDL2
+    #if USE_SDL3
         hwnd = Sys_Win32FromSDLWindow(Sys_GetHWnd_4F2C70());
     #else
         hwnd = Sys_GetHWnd_4F2C70();

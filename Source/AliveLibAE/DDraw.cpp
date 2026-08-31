@@ -6,7 +6,7 @@
 
 #if _WIN32
 
-    #if !USE_SDL2
+    #if !USE_SDL3
         #define DIRECTINPUT_VERSION 0x700
         #include <dinput.h>
         #define DIRECTDRAW_VERSION 0x700
@@ -501,7 +501,7 @@ EXPORT s32 CC DD_SetDisplayMode_4F0730(u32 width, u32 height, u32 bpp)
 {
     // TODO: HACK
     HWND hwnd;
-        #if USE_SDL2
+        #if USE_SDL3
     hwnd = Sys_Win32FromSDLWindow(Sys_GetHWnd_4F2C70());
         #else
     hwnd = Sys_GetHWnd_4F2C70();
@@ -869,7 +869,7 @@ EXPORT void CC DD_render_back_buffer_4F0D90(IDirectDrawSurface* pSurf, RECT* pRe
     {
         // TODO: HACK
         HWND hwnd;
-        #if USE_SDL2
+        #if USE_SDL3
         hwnd = Sys_Win32FromSDLWindow(Sys_GetHWnd_4F2C70());
         #else
         hwnd = Sys_GetHWnd_4F2C70();

@@ -9,7 +9,7 @@
     #pragma warning(pop)
     #include <tchar.h>
     #include <stdio.h>
-    #include "SDL.h"
+    #include <SDL3/SDL.h>
     #include "relive_config.h"
     #include "Sys_common.hpp"
 

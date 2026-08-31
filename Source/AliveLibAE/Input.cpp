@@ -11,11 +11,11 @@
 #include "Sys.hpp"
 #include "VGA.hpp"
 #include "StringFormatters.hpp"
-#include "TouchController.hpp"
 #include "GameAutoPlayer.hpp"
+#include <cmath>
 
-#if USE_SDL2
-static SDL_GameController* pSDLController = nullptr;
+#if USE_SDL3
+static SDL_Gamepad* pSDLController = nullptr;
 #elif _WIN32
     #include <joystickapi.h>
 #endif
@@ -65,7 +65,7 @@ ALIVE_VAR(1, 0x5c2edc, s32, sJoystickCapFlags_5C2EDC, 0);
 ALIVE_VAR(1, 0x5c2ee0, bool, sJoyStateIsInit_5C2EE0, 0);
 ALIVE_VAR(1, 0x5c2eec, s32, sJoyLastTick_5C2EEC, 0);
 ALIVE_VAR(1, 0x5C2EF8, s32, sGamepadCapFlags_5C2EF8, 0);
-#if !USE_SDL2 && _WIN32
+#if !USE_SDL3 && _WIN32
 ALIVE_VAR(1, 0x5c2d10, tagJOYCAPSA, sJoystickCaps_5C2D10, {});
 ALIVE_VAR(1, 0x5c2ea8, joyinfoex_tag, sJoystickInfo_5C2EA8, {});
 #endif
@@ -176,7 +176,7 @@ EXPORT void CC Input_StickControl_45FF60(f32 x, f32 y, u32* buttons)
     }
 }
 
-#if USE_SDL2
+#if USE_SDL3
 void Input_GetJoyState_SDL(f32* pX1, f32* pY1, f32* pX2, f32* pY2, u32* pButtons)
 {
     f32 deadzone = 0.2f;
@@ -189,14 +189,14 @@ void Input_GetJoyState_SDL(f32* pX1, f32* pY1, f32* pX2, f32* pY2, u32* pButtons
 
     if (pSDLController != nullptr)
     {
-        sJoystickNumButtons_5C2EFC = SDL_JoystickNumButtons(SDL_GameControllerGetJoystick(pSDLController));
+        sJoystickNumButtons_5C2EFC = SDL_GetNumJoystickButtons(SDL_GetGamepadJoystick(pSDLController));
         sGamepadCapFlags_5C2EF8 = 0xFFFF;
 
-        f32 f_LX = SDL_GameControllerGetAxis(pSDLController, SDL_CONTROLLER_AXIS_LEFTX) / 32767.0f;
-        f32 f_LY = SDL_GameControllerGetAxis(pSDLController, SDL_CONTROLLER_AXIS_LEFTY) / 32767.0f;
+        f32 f_LX = SDL_GetGamepadAxis(pSDLController, SDL_GAMEPAD_AXIS_LEFTX) / 32767.0f;
+        f32 f_LY = SDL_GetGamepadAxis(pSDLController, SDL_GAMEPAD_AXIS_LEFTY) / 32767.0f;
 
-        f32 f_RX = SDL_GameControllerGetAxis(pSDLController, SDL_CONTROLLER_AXIS_RIGHTX) / 32767.0f;
-        f32 f_RY = SDL_GameControllerGetAxis(pSDLController, SDL_CONTROLLER_AXIS_RIGHTY) / 32767.0f;
+        f32 f_RX = SDL_GetGamepadAxis(pSDLController, SDL_GAMEPAD_AXIS_RIGHTX) / 32767.0f;
+        f32 f_RY = SDL_GetGamepadAxis(pSDLController, SDL_GAMEPAD_AXIS_RIGHTY) / 32767.0f;
 
         // Joysticks
         if (abs(f_LX) > deadzone)
@@ -210,37 +210,37 @@ void Input_GetJoyState_SDL(f32* pX1, f32* pY1, f32* pX2, f32* pY2, u32* pButtons
             *pY2 = f_RY;
 
         // DPad Movement
-        if (SDL_GameControllerGetButton(pSDLController, SDL_CONTROLLER_BUTTON_DPAD_RIGHT))
+        if (SDL_GetGamepadButton(pSDLController, SDL_GAMEPAD_BUTTON_DPAD_RIGHT))
             *pX1 = 1;
-        else if (SDL_GameControllerGetButton(pSDLController, SDL_CONTROLLER_BUTTON_DPAD_LEFT))
+        else if (SDL_GetGamepadButton(pSDLController, SDL_GAMEPAD_BUTTON_DPAD_LEFT))
             *pX1 = -1;
-        if (SDL_GameControllerGetButton(pSDLController, SDL_CONTROLLER_BUTTON_DPAD_UP))
+        if (SDL_GetGamepadButton(pSDLController, SDL_GAMEPAD_BUTTON_DPAD_UP))
             *pY1 = -1;
-        else if (SDL_GameControllerGetButton(pSDLController, SDL_CONTROLLER_BUTTON_DPAD_DOWN))
+        else if (SDL_GetGamepadButton(pSDLController, SDL_GAMEPAD_BUTTON_DPAD_DOWN))
             *pY1 = 1;
 
 
     #define M_SDLGAMEPAD_BIND(BIT, PAD_BUTTON)                                \
         {                                                                     \
-            if (SDL_GameControllerGetButton(pSDLController, PAD_BUTTON) == 1) \
+            if (SDL_GetGamepadButton(pSDLController, PAD_BUTTON) == 1) \
             {                                                                 \
                 *pButtons |= (1 << BIT);                                      \
             }                                                                 \
         }
 
 
-        M_SDLGAMEPAD_BIND(0, SDL_CONTROLLER_BUTTON_X);
-        M_SDLGAMEPAD_BIND(1, SDL_CONTROLLER_BUTTON_A);
-        M_SDLGAMEPAD_BIND(2, SDL_CONTROLLER_BUTTON_B);
-        M_SDLGAMEPAD_BIND(3, SDL_CONTROLLER_BUTTON_Y);
-        M_SDLGAMEPAD_BIND(4, SDL_CONTROLLER_BUTTON_LEFTSHOULDER);
-        M_SDLGAMEPAD_BIND(5, SDL_CONTROLLER_BUTTON_RIGHTSHOULDER);
-        M_SDLGAMEPAD_BIND(8, SDL_CONTROLLER_BUTTON_BACK);
-        M_SDLGAMEPAD_BIND(9, SDL_CONTROLLER_BUTTON_START);
+        M_SDLGAMEPAD_BIND(0, SDL_GAMEPAD_BUTTON_WEST);
+        M_SDLGAMEPAD_BIND(1, SDL_GAMEPAD_BUTTON_SOUTH);
+        M_SDLGAMEPAD_BIND(2, SDL_GAMEPAD_BUTTON_EAST);
+        M_SDLGAMEPAD_BIND(3, SDL_GAMEPAD_BUTTON_NORTH);
+        M_SDLGAMEPAD_BIND(4, SDL_GAMEPAD_BUTTON_LEFT_SHOULDER);
+        M_SDLGAMEPAD_BIND(5, SDL_GAMEPAD_BUTTON_RIGHT_SHOULDER);
+        M_SDLGAMEPAD_BIND(8, SDL_GAMEPAD_BUTTON_BACK);
+        M_SDLGAMEPAD_BIND(9, SDL_GAMEPAD_BUTTON_START);
 
-        if (SDL_GameControllerGetAxis(pSDLController, SDL_CONTROLLER_AXIS_TRIGGERLEFT) > 32)
+        if (SDL_GetGamepadAxis(pSDLController, SDL_GAMEPAD_AXIS_LEFT_TRIGGER) > 32)
             *pButtons |= (1 << 6);
-        if (SDL_GameControllerGetAxis(pSDLController, SDL_CONTROLLER_AXIS_TRIGGERRIGHT) > 32)
+        if (SDL_GetGamepadAxis(pSDLController, SDL_GAMEPAD_AXIS_RIGHT_TRIGGER) > 32)
             *pButtons |= (1 << 7);
 
         // 0 Square
@@ -271,7 +271,7 @@ void Input_GetJoyState_SDL(f32* pX1, f32* pY1, f32* pX2, f32* pY2, u32* pButtons
         if (pSDLController)
         {
             const u16 amount = static_cast<u16>(vibrationAmount * 0xFFFF);
-            SDL_GameControllerRumble(pSDLController, amount, amount, 200);
+            SDL_RumbleGamepad(pSDLController, amount, amount, 200);
         }
 
         vibrationAmount -= 0.2f;
@@ -280,7 +280,7 @@ void Input_GetJoyState_SDL(f32* pX1, f32* pY1, f32* pX2, f32* pY2, u32* pButtons
 }
 #endif
 
-#if !USE_SDL2 && _WIN32
+#if !USE_SDL3 && _WIN32
 void Input_GetJoyState_Impl(f32* pX1, f32* pY1, f32* pX2, f32* pY2, u32* pButtons)
 {
     if (!sJoystickAvailable_5C2EF4)
@@ -498,7 +498,7 @@ EXPORT void CC Input_GetJoyState_460280(f32* pX1, f32* pY1, f32* pX2, f32* pY2, 
 #if XINPUT_SUPPORT
     Input_XINPUT(pX1, pY1, pX2, pY2, pButtons);
 #else
-    #if USE_SDL2
+    #if USE_SDL3
         #if MOBILE
     if (!gTouchController->GetGamePadData(pX1, pY1, pX2, pY2, pButtons))
     {
@@ -912,7 +912,7 @@ bool gLatencyHack = true;
 std::vector<IniCustomSaveEntry> gCustomSaveEntries = {
     {"keep_aspect", {&s_VGA_KeepAspectRatio}, true},
     {"filter_screen", {&s_VGA_FilterScreen}, true},
-#if USE_SDL2_SOUND
+#if USE_SDL3_SOUND
     {"reverb", {&gReverbEnabled}, true},
     {"audio_stereo", {&gAudioStereo}, true},
 #endif
@@ -1057,10 +1057,6 @@ void NewParseSettingsIni()
             }
         }
     }
-
-#if __ANDROID__ //TODO check/add support
-    sJoystickEnabled_5C9F70 = 1;
-#endif
 }
 
 EXPORT void Input_SaveSettingsIni_Common(bool isAo)
@@ -1583,30 +1579,35 @@ EXPORT void Input_InitJoyStick_460080()
     // Not too worried about this given all of this will be replaced with SDL2 at some point.
     TRACE_ENTRYEXIT;
 
-    SDL_GameControllerAddMappingsFromFile("gamecontrollerdb.txt");
+    SDL_AddGamepadMappingsFromFile("gamecontrollerdb.txt");
 
 #if MOBILE
     gTouchController->Init();
 #endif
 
     sJoystickAvailable_5C2EF4 = false;
-#if USE_SDL2
+#if USE_SDL3
 
     sGamepadCapFlags_5C2EF8 |= eDisableAutoRun;
- 
-    LOG_INFO("SDL_NumJoysticks: " << SDL_NumJoysticks());
-    for (s32 i = 0; i < SDL_NumJoysticks(); i++)
+
+    int joystickCount;
+    SDL_JoystickID* joysticks = SDL_GetJoysticks(&joystickCount);
+
+    LOG_INFO("SDL_NumJoysticks: " << joystickCount);
+    for (s32 i = 0; i < joystickCount; i++)
     {
-        if (SDL_IsGameController(i))
+        SDL_JoystickID id = joysticks[i];
+
+        if (SDL_IsGamepad(id))
         {
-            pSDLController = SDL_GameControllerOpen(i); // TODO: SDL_GameControllerClose is never called on this
+            pSDLController = SDL_OpenGamepad(id); // TODO: SDL_GameControllerClose is never called on this
             if (pSDLController)
             {
-                LOG_INFO("Controller name is " << SDL_GameControllerName(pSDLController));
+                LOG_INFO("Controller name is " << SDL_GetGamepadName(pSDLController));
 
                 sJoystickAvailable_5C2EF4 = true;
 
-                strncpy(sGamePadStr_55E85C, SDL_GameControllerName(pSDLController), 32u);
+                strncpy(sGamePadStr_55E85C, SDL_GetGamepadName(pSDLController), 32u);
 
                 //TODO add binding
                 break;
@@ -1621,6 +1622,8 @@ EXPORT void Input_InitJoyStick_460080()
             LOG_INFO("Item " << i << " is not a game controller");
         }
     }
+
+    SDL_free(joysticks);
 
 #elif _WIN32
     const u32 count = joyGetNumDevs();
@@ -1825,7 +1828,7 @@ EXPORT void CC Input_Init_491BC0()
     sJoyButtonNames_5C9908[8] = "";
     sJoyButtonNames_5C9908[9] = "";
 
-#elif USE_SDL2 //TODO Mlg hax
+#elif USE_SDL3 //TODO Mlg hax
     sJoyButtonNames_5C9908[0] = "X";
     sJoyButtonNames_5C9908[1] = "A";
     sJoyButtonNames_5C9908[2] = "B";

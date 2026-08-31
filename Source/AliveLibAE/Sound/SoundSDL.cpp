@@ -3,7 +3,7 @@
 #include "SDLSoundBuffer.hpp"
 #include "SDLSoundSystem.hpp"
 
-#if USE_SDL2_SOUND
+#if USE_SDL3_SOUND
 
 bool gReverbEnabled = false;
 bool gAudioStereo = true;

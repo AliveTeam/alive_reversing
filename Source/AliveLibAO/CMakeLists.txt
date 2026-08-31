@@ -396,7 +396,7 @@ target_link_libraries(AliveLibAO
     googletest
     Cinder
     ${WIN32_LIBS}
-    ${SDL2_LIBRARIES}
+    SDL3::SDL3
     project_warnings
     )
 

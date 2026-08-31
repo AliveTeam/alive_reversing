@@ -648,7 +648,7 @@ EXPORT void CC Game_Shutdown_4F2C30()
 
 EXPORT s32 TMR_Init_4EDE20()
 {
-#if USE_SDL2
+#if USE_SDL3
     return 0;
 #else
     struct timecaps_tag ptc = {};
@@ -708,7 +708,7 @@ EXPORT void CC Game_Main_4949F0()
 
     Game_SetExitCallBack_4F2BA0(Game_ExitGame_4954B0);
 #if _WIN32
-    #if !USE_SDL2
+    #if !USE_SDL3
     Sys_SetWindowProc_Filter_4EE197(Sys_WindowMessageHandler_494A40);
     #endif
 #endif

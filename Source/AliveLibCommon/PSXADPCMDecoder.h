@@ -6,7 +6,7 @@
 
 #include <stdint.h>
 #include <vector>
-#include "SDL_stdinc.h"
+#include <SDL3/SDL_stdinc.h>
 #include "Types.hpp"
 #include <array>
 

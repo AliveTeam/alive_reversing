@@ -336,27 +336,27 @@ s16 CC MusicController::Create_4436C0()
     return 1;
 }
 
-#if USE_SDL2
+#if USE_SDL3
 static u32 sMusicControllerBaseTimeStamp = 0;
 #endif
 
 void CC MusicController::SetBaseTimeStamp()
 {
-#if USE_SDL2
+#if USE_SDL3
     sMusicControllerBaseTimeStamp = GetGameAutoPlayer().SysGetTicks();
 #endif
 }
 
 void CC MusicController::UpdateMusicTime()
 {
-#if USE_SDL2
+#if USE_SDL3
     sMusicTime_507B9C = (3 * GetGameAutoPlayer().SysGetTicks() - 3 * sMusicControllerBaseTimeStamp) / 100;
 #endif
 }
 
 s32 MusicController::GetMusicTime()
 {
-#if USE_SDL2
+#if USE_SDL3
     return sMusicTime_507B9C;
 #else
     return sMusicTime_507B9C / 2;

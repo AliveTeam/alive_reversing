@@ -3,10 +3,10 @@
 #include "Sound.hpp"
 #include "Sound/Midi.hpp"
 
-#if USE_SDL2_SOUND
+#if USE_SDL3_SOUND
     #include "../AliveLibCommon/FunctionFwd.hpp"
     #include "stdlib.hpp"
-    #include "SDL.h"
+    #include <SDL3/SDL.h>
     #include <atomic>
 
     #define DSBSTATUS_PLAYING 0x00000001

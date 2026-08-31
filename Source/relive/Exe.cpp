@@ -10,7 +10,7 @@
 #include "../AliveLibAE/WinMain.hpp"
 #include "../AliveLibAO/WinMain.hpp"
 #include "W32CrashHandler.hpp"
-#include "SDL.h"
+#include <SDL3/SDL.h>
 #include "Sys_common.hpp"
 
 #include "../AliveLibAE/Map.hpp"
@@ -291,11 +291,7 @@ s32 WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     }
 }
 
-#if __ANDROID__
-extern "C" __attribute__((visibility("default"))) s32 SDL_main(s32 argc, s8** argv)
-#else
 s32 main(s32 argc, char_type** argv)
-#endif
 {
     std::string args;
     for (s32 i = 0; i < argc; i++)

@@ -7,10 +7,8 @@
 #include "Sys.hpp"
 #include "PsxRender.hpp"
 #include "Psx.hpp"
-#include "TouchController.hpp"
 #include "Renderer/IRenderer.hpp"
 #include "Renderer/SoftwareRenderer.hpp"
-#include "Renderer/DirectX9Renderer.hpp"
 
 void VGA_ForceLink()
 { }
@@ -38,7 +36,7 @@ ALIVE_VAR(1, 0xBD0BF4, LPVOID, sVgaLockBuffer_BD0BF4, 0);
 bool s_VGA_KeepAspectRatio = true;
 bool s_VGA_FilterScreen = false;
 
-#if USE_SDL2
+#if USE_SDL3
 
 EXPORT s32 CC VGA_FullScreenSet_4F31F0(bool /*bFullScreen*/)
 {
@@ -50,7 +48,7 @@ EXPORT s32 CC VGA_FullScreenSet_4F31F0(bool /*bFullScreen*/)
 EXPORT void CC VGA_Shutdown_4F3170()
 {
     #if _WIN32
-        #if !USE_SDL2
+        #if !USE_SDL3
     if (sDD_primary_surface_BBC3C8)
     {
         if (!sVGA_own_surfaces_BD0BFA)
@@ -120,9 +118,9 @@ EXPORT void CC VGA_CopyToFront_4F3730(Bitmap* pBmp, RECT* pRect, s32 /*screenMod
 
     SDL_Rect* pCopyRect = pRect ? &copyRect : nullptr;
 
-    if (SDL_BlitSurface(pBmp->field_0_pSurface, pCopyRect, sVGA_bmp_primary_BD2A20.field_0_pSurface, nullptr) == 0)
+    if (SDL_BlitSurface(pBmp->field_0_pSurface, pCopyRect, sVGA_bmp_primary_BD2A20.field_0_pSurface, nullptr))
     {
-        IRenderer::GetRenderer()->CreateBackBuffer(s_VGA_FilterScreen, pBmp->field_0_pSurface->format->format, pBmp->field_0_pSurface->w, pBmp->field_0_pSurface->h);
+        IRenderer::GetRenderer()->CreateBackBuffer(s_VGA_FilterScreen, pBmp->field_0_pSurface->format, pBmp->field_0_pSurface->w, pBmp->field_0_pSurface->h);
 
         static bool prevFilterScreenValue = !s_VGA_FilterScreen;
         static s32 prevWidth = pBmp->field_0_pSurface->w;
@@ -134,7 +132,7 @@ EXPORT void CC VGA_CopyToFront_4F3730(Bitmap* pBmp, RECT* pRect, s32 /*screenMod
             prevWidth = pBmp->field_0_pSurface->w;
             prevHeight = pBmp->field_0_pSurface->h;
 
-            IRenderer::GetRenderer()->CreateBackBuffer(s_VGA_FilterScreen, pBmp->field_0_pSurface->format->format, pBmp->field_0_pSurface->w, pBmp->field_0_pSurface->h);
+            IRenderer::GetRenderer()->CreateBackBuffer(s_VGA_FilterScreen, pBmp->field_0_pSurface->format, pBmp->field_0_pSurface->w, pBmp->field_0_pSurface->h);
         }
 
         if (IRenderer::GetRenderer()->UpdateBackBuffer(pBmp->field_0_pSurface->pixels, pBmp->field_0_pSurface->pitch))
@@ -198,12 +196,6 @@ EXPORT void CC VGA_CopyToFront_4F3730(Bitmap* pBmp, RECT* pRect, s32 /*screenMod
         LOG_ERROR("Blt failure");
     }
 
-    #if MOBILE
-    if (gTouchController != nullptr)
-    {
-        gTouchController->Render();
-    }
-    #endif
     IRenderer::GetRenderer()->EndFrame();
 }
 
@@ -259,7 +251,7 @@ EXPORT s32 CC VGA_DisplaySet_4F32C0(u16 width, u16 height, u8 bpp, u8 backbuffer
     if (sVGA_own_surfaces_BD0BFA /*|| DD_Init_4F0840(backbufferCount)*/)
     {
         // Create primary surface
-        sVGA_bmp_primary_BD2A20.field_0_pSurface = SDL_CreateRGBSurface(0, width, height, bpp, 0x7c00, 0x03e0, 0x001f, 0x0); // TODO
+        sVGA_bmp_primary_BD2A20.field_0_pSurface = SDL_CreateSurface(width, height, SDL_PIXELFORMAT_XRGB1555); // TODO
                                                                                                                              //        sVGA_bmp_primary_BD2A20.field_0_pSurface = SDL_GetWindowSurface(Sys_GetHWnd_4F2C70());
 
         sVGA_bmp_primary_BD2A20.field_8_width = width;
@@ -277,8 +269,6 @@ EXPORT s32 CC VGA_DisplaySet_4F32C0(u16 width, u16 height, u8 bpp, u8 backbuffer
 
         sVGA_Inited_BC0BB8 = 1;
 
-        // IRenderer::CreateRenderer(IRenderer::Renderers::DirectX9);
-
         IRenderer::CreateRenderer(IRenderer::Renderers::Software);
 
         if (!IRenderer::GetRenderer()->Create(Sys_GetHWnd_4F2C70()))
@@ -289,7 +279,7 @@ EXPORT s32 CC VGA_DisplaySet_4F32C0(u16 width, u16 height, u8 bpp, u8 backbuffer
 
         IRenderer::GetRenderer()->Clear(0, 0, 0);
 
-        switch (sVGA_bmp_primary_BD2A20.field_0_pSurface->format->BitsPerPixel)
+        switch (SDL_BITSPERPIXEL(sVGA_bmp_primary_BD2A20.field_0_pSurface->format))
         {
             case 1u:
                 sVGA_bmp_primary_BD2A20.field_15_pixel_format = 1;

@@ -11,7 +11,7 @@ void SoftwareRenderer::Destroy()
 
 bool SoftwareRenderer::Create(TWindowHandleType window)
 {
-    mRenderer = SDL_CreateRenderer(window, -1, 0);
+    mRenderer = SDL_CreateRenderer(window, nullptr);
     return mRenderer != nullptr;
 }
 
@@ -67,12 +67,29 @@ void SoftwareRenderer::EndFrame()
 
 void SoftwareRenderer::BltBackBuffer(const SDL_Rect* pCopyRect, const SDL_Rect* pDst)
 {
-    SDL_RenderCopy(mRenderer, mBackBufferTexture, pCopyRect, pDst);
+    SDL_FRect fcopyRect = {};
+    SDL_FRect fDst = {};
+
+    if (pCopyRect)
+    {
+        SDL_RectToFRect(pCopyRect, &fcopyRect);
+    }
+
+    if (pDst)
+    {
+        SDL_RectToFRect(pDst, &fDst);
+    }
+
+    SDL_RenderTexture(
+        mRenderer,
+        mBackBufferTexture,
+        pCopyRect ? &fcopyRect : nullptr,
+        pDst ? &fDst : nullptr);
 }
 
 void SoftwareRenderer::OutputSize(s32* w, s32* h)
 {
-    SDL_GetRendererOutputSize(mRenderer, w, h);
+    SDL_GetCurrentRenderOutputSize(mRenderer, w, h);
 }
 
 bool SoftwareRenderer::UpdateBackBuffer(const void* pPixels, s32 pitch)
@@ -89,20 +106,20 @@ void SoftwareRenderer::CreateBackBuffer(bool filter, s32 format, s32 w, s32 h)
 {
     if (!mBackBufferTexture || mLastW != w || mLastH != h)
     {
-        if (filter)
-        {
-            SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "2");
-        }
-        else
-        {
-            SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "0");
-        }
-
         if (mBackBufferTexture)
         {
             SDL_DestroyTexture(mBackBufferTexture);
         }
-        mBackBufferTexture = SDL_CreateTexture(mRenderer, format, SDL_TextureAccess::SDL_TEXTUREACCESS_STREAMING, w, h);
+        mBackBufferTexture = SDL_CreateTexture(mRenderer, static_cast<SDL_PixelFormat>(format), SDL_TextureAccess::SDL_TEXTUREACCESS_STREAMING, w, h);
+
+        if (filter)
+        {
+            SDL_SetTextureScaleMode(mBackBufferTexture, SDL_SCALEMODE_LINEAR);
+        }
+        else
+        {
+            SDL_SetTextureScaleMode(mBackBufferTexture, SDL_SCALEMODE_NEAREST);
+        }
 
         mLastH = w;
         mLastW = h;

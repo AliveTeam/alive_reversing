@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "IRenderer.hpp"
 #include "SoftwareRenderer.hpp"
-#include "DirectX9Renderer.hpp"
 
 static IRenderer* gRenderer = nullptr;
 
@@ -22,14 +21,6 @@ void IRenderer::CreateRenderer(Renderers type)
         case Renderers::Software:
             gRenderer = new SoftwareRenderer();
             break;
-
-#ifdef _WIN32
-        // Windows only
-        case Renderers::DirectX9:
-            gRenderer = new DirectX9Renderer();
-            break;
-#endif
-
         default:
             ALIVE_FATAL("Unknown or unsupported renderer type");
             break;

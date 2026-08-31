@@ -22,10 +22,10 @@ jobs:
             name: Windows32
           - os: windows-2022
             name: Windows64
-          - os: ubuntu-latest
+          - os: ubuntu-26.04
             name: Linux
-          - os: macos-13
-            name: macOS
+    #      - os: macos-latest-large
+    #        name: macOS
 
     steps:
     - name: Checkout repository recursively
@@ -33,11 +33,11 @@ jobs:
       with:
         submodules: recursive
 
-    - name: 'Windows: Install SDL2'
+    - name: 'Windows: Install SDL3'
       if: runner.os == 'Windows'
       run: |
-        Invoke-WebRequest 'https://www.libsdl.org/release/SDL2-devel-2.0.22-VC.zip' -OutFile "$env:GITHUB_WORKSPACE\SDL2.zip"
-        7z x SDL2.zip
+        Invoke-WebRequest 'https://www.libsdl.org/release/SDL3-devel-3.4.14-VC.zip' -OutFile "$env:GITHUB_WORKSPACE\SDL3.zip"
+        7z x SDL3.zip
 
     # ======================================
     #      Windows32
@@ -48,7 +48,7 @@ jobs:
       run: |
         mkdir build
         cd build
-        cmake .. -G"Visual Studio 17 2022" -DSDL2_DIR="$env:GITHUB_WORKSPACE\SDL2-2.0.22" -A Win32 -DCI_PROVIDER="GitHub" -DBUILD_NUMBER="$env:GITHUB_RUN_NUMBER"
+        cmake .. -G"Visual Studio 17 2022" -DSDL3_DIR="$env:GITHUB_WORKSPACE\SDL3-3.4.14\cmake" -A Win32 -DCI_PROVIDER="GitHub" -DBUILD_NUMBER="$env:GITHUB_RUN_NUMBER"
         cmake --build . --config $env:CONFIGURATION
         cpack -G ZIP -C $env:CONFIGURATION
 
@@ -61,7 +61,7 @@ jobs:
       run: |
         mkdir build
         cd build
-        cmake .. -G"Visual Studio 17 2022" -DSDL2_DIR="$env:GITHUB_WORKSPACE\SDL2-2.0.22" -A x64 -DCI_PROVIDER="GitHub" -DBUILD_NUMBER="$env:GITHUB_RUN_NUMBER"
+        cmake .. -G"Visual Studio 17 2022" -DSDL3_DIR="$env:GITHUB_WORKSPACE\SDL3-3.4.14\cmake" -A x64 -DCI_PROVIDER="GitHub" -DBUILD_NUMBER="$env:GITHUB_RUN_NUMBER"
         cmake --build . --config $env:CONFIGURATION
         cpack -G ZIP -C $env:CONFIGURATION
         
@@ -69,11 +69,11 @@ jobs:
     #      Linux
     # ======================================
 
-    - name: 'Linux: Install SDL2'
+    - name: 'Linux: Install SDL3'
       if: matrix.name == 'Linux'
       run: |
         sudo apt-get update
-        sudo apt-get install -y libsdl2-dev
+        sudo apt-get install -y libsdl3-dev
 
     - name: 'Linux: Build'
       if: matrix.name == 'Linux'
@@ -88,18 +88,18 @@ jobs:
     #      macOS
     # ======================================
 
-    - name: 'macOS: Install SDL2'
-      if: matrix.name == 'macOS'
-      run: |
-        brew install sdl2
+    #- name: 'macOS: Install SDL3'
+    #  if: matrix.name == 'macOS'
+    #  run: |
+    #    brew install sdl3
 
-    - name: 'macOS: Build'
-      if: matrix.name == 'macOS'
-      run: |
-        mkdir build
-        cd build
-        cmake .. -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=$CONFIGURATION -DCI_PROVIDER="GitHub" -DBUILD_NUMBER=$GITHUB_RUN_NUMBER
-        make -j4
+    #- name: 'macOS: Build'
+    #  if: matrix.name == 'macOS'
+    #  run: |
+    #    mkdir build
+    #    cd build
+    #    cmake .. -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=$CONFIGURATION -DCI_PROVIDER="GitHub" -DBUILD_NUMBER=$GITHUB_RUN_NUMBER
+    #    make -j4
 
     # ======================================
     #      Artifacts
@@ -112,7 +112,7 @@ jobs:
         cd build
         mkdir relive_binaries
         Copy-Item Source\relive\$env:CONFIGURATION\relive.exe relive_binaries\relive.exe
-        Copy-Item Source\AliveDllAE\$env:CONFIGURATION\SDL2.dll relive_binaries\SDL2.dll
+        Copy-Item Source\AliveDllAE\$env:CONFIGURATION\SDL3.dll relive_binaries\SDL3.dll
         mkdir relive_symbols
         Copy-Item Source\relive\$env:CONFIGURATION\relive.pdb relive_symbols\relive.pdb
         Copy-Item Source\AliveDllAE\$env:CONFIGURATION\AliveDllAE.pdb relive_symbols\AliveDllAE.pdb

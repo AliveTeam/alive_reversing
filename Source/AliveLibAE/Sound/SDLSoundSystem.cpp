@@ -3,6 +3,7 @@
 #include "SDLSoundBuffer.hpp"
 #include "Reverb.hpp"
 #include "Sys.hpp"
+#include <cmath>
 
 extern bool gLatencyHack;
 
@@ -10,7 +11,7 @@ void SDLSoundSystem::Init(u32 /*sampleRate*/, s32 /*bitsPerSample*/, s32 /*isSte
 {
     mCreated = false;
 
-    if (SDL_InitSubSystem(SDL_INIT_AUDIO) != 0)
+    if (!SDL_InitSubSystem(SDL_INIT_AUDIO))
     {
         LOG_ERROR("SDL_Init(SDL_INIT_AUDIO) failed " << SDL_GetError());
         return;
@@ -21,29 +22,27 @@ void SDLSoundSystem::Init(u32 /*sampleRate*/, s32 /*bitsPerSample*/, s32 /*isSte
         LOG_INFO("SDL Audio Driver " << i << " " << SDL_GetAudioDriver(i));
     }
 
-    mAudioDeviceSpec.callback = SDLSoundSystem::AudioCallBackStatic;
-    mAudioDeviceSpec.format = AUDIO_S16;
+    mAudioDeviceSpec.format = SDL_AUDIO_S16;
     mAudioDeviceSpec.channels = 2;
     mAudioDeviceSpec.freq = 44100;
-    mAudioDeviceSpec.samples = 2048;
-    mAudioDeviceSpec.userdata = this;
 
-    if (SDL_OpenAudio(&mAudioDeviceSpec, NULL) < 0)
+    mAudioStream = SDL_OpenAudioDeviceStream(SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK, &mAudioDeviceSpec, SDLSoundSystem::AudioCallBackStatic, this);
+    if (!mAudioStream)
     {
         LOG_ERROR("Couldn't open SDL audio: " << SDL_GetError());
         return;
     }
+
+    mAudioDevice = SDL_GetAudioStreamDevice(mAudioStream);
+
+    //SDL_SetAudioStreamGain(mAudioStream, 0.0f);
 
     LOG_INFO("-----------------------------");
     LOG_INFO("Audio Device opened, got specs:");
     LOG_INFO(
         "Channels: " << static_cast<s32>(mAudioDeviceSpec.channels) << " "
                      << "nFormat: " << mAudioDeviceSpec.format << " "
-                     << "nFreq: " << mAudioDeviceSpec.freq << " "
-                     << "nPadding: " << mAudioDeviceSpec.padding << " "
-                     << "nSamples: " << mAudioDeviceSpec.samples << " "
-                     << "nSize: " << mAudioDeviceSpec.size << " "
-                     << "nSilence: " << static_cast<s32>(mAudioDeviceSpec.silence));
+                     << "nFreq: " << mAudioDeviceSpec.freq);
     LOG_INFO("Driver: " << SDL_GetCurrentAudioDriver());
     LOG_INFO("-----------------------------");
 
@@ -69,7 +68,7 @@ void SDLSoundSystem::Init(u32 /*sampleRate*/, s32 /*bitsPerSample*/, s32 /*isSte
     mCreated = true;
 
     // Correctly size the lock free buffer on the main thread before any other threads start
-    mAudioRingBuffer.resize(mAudioDeviceSpec.samples * 2);
+    mAudioRingBuffer.resize(2048 * 2);
 
     // TODO: Test just running this on the main thread
     if (!gLatencyHack)
@@ -77,7 +76,7 @@ void SDLSoundSystem::Init(u32 /*sampleRate*/, s32 /*bitsPerSample*/, s32 /*isSte
         mRenderAudioThread.reset(new std::thread(std::bind(&SDLSoundSystem::RenderAudioThread, this)));
     }
 
-    SDL_PauseAudio(0);
+    SDL_ResumeAudioDevice(mAudioDevice);
 }
 
 
@@ -101,7 +100,7 @@ HRESULT SDLSoundSystem::Release()
     if (mCreated)
     {
         // Stop the audio call back
-        SDL_PauseAudio(1);
+        SDL_PauseAudioStreamDevice(mAudioStream);
 
         // Stop audio rendering thread
         mRenderAudioThreadQuit = true;
@@ -109,6 +108,13 @@ HRESULT SDLSoundSystem::Release()
         {
             mRenderAudioThread->join();
         }
+    }
+
+    if (mAudioStream)
+    {
+        SDL_DestroyAudioStream(mAudioStream);
+        mAudioStream = nullptr;
+        mAudioDevice = 0;
     }
 
     // Shutdown the sound system
@@ -128,33 +134,37 @@ SDLSoundSystem::~SDLSoundSystem()
     // TODO: Clean up outstanding samples in sAE_ActiveVoices
 }
 
-void SDLSoundSystem::AudioCallBack(Uint8* stream, s32 len)
+void SDLSoundSystem::AudioCallBack(SDL_AudioStream* stream, s32 additionalAmount)
 {
-    memset(stream, 0, len);
-    
+    if (additionalAmount <= 0)
+    {
+        return;
+    }
+
+    const s32 bufferLenSamples = additionalAmount / sizeof(StereoSample_S16);
+    std::vector<StereoSample_S16> buffer(bufferLenSamples);
+
     if (gLatencyHack)
     {
         // Calculate the audio in the callback instead of another thread with a busy loop to reduce CPU usage
         // this will probably cause audio glitching in a lot of cases
-        StereoSample_S16* pSampleBuffer = reinterpret_cast<StereoSample_S16*>(stream);
-        const s32 bufferLenSamples = len / sizeof(StereoSample_S16);
-        RenderAudio(pSampleBuffer, bufferLenSamples);
+        RenderAudio(buffer.data(), bufferLenSamples);
     }
     else
     {
-        StereoSample_S16* pSampleBuffer = reinterpret_cast<StereoSample_S16*>(stream);
-        const s32 bufferLenSamples = len / sizeof(StereoSample_S16);
         const s32 readAvilSamples = static_cast<s32>(mAudioRingBuffer.getAvailableRead());
         if (readAvilSamples > 0 && readAvilSamples < bufferLenSamples)
         {
             LOG_WARNING("Audio buffer underflow!");
         }
 
-        if (!mAudioRingBuffer.read(pSampleBuffer, bufferLenSamples))
+        if (!mAudioRingBuffer.read(buffer.data(), bufferLenSamples))
         {
             LOG_ERROR("Ring buffer read failure!");
         }
     }
+
+    SDL_PutAudioStreamData(stream, buffer.data(), additionalAmount);
 }
 
 
@@ -209,10 +219,10 @@ void SDLSoundSystem::RenderAudio(StereoSample_S16* pSampleBuffer, s32 sampleBuff
     // Do Reverb Pass
     if (gReverbEnabled)
     {
-        Reverb_Mix(pSampleBuffer, AUDIO_S16, sampleBufferCount * sizeof(StereoSample_S16), kMixVolume);
+        Reverb_Mix(pSampleBuffer, SDL_AUDIO_S16, sampleBufferCount * sizeof(StereoSample_S16), kMixVolume);
 
         // Mix our no reverb buffer
-        SDL_MixAudioFormat(reinterpret_cast<Uint8*>(pSampleBuffer), reinterpret_cast<Uint8*>(mNoReverbBuffer.data()), AUDIO_S16, sampleBufferCount * sizeof(StereoSample_S16), kMixVolume);
+        SDL_MixAudio(reinterpret_cast<Uint8*>(pSampleBuffer), reinterpret_cast<Uint8*>(mNoReverbBuffer.data()), SDL_AUDIO_S16, sampleBufferCount * sizeof(StereoSample_S16), kMixVolume);
     }
 }
 
@@ -283,11 +293,11 @@ void SDLSoundSystem::RenderSoundBuffer(SDLSoundBuffer& entry, StereoSample_S16* 
 
     if (reverbPass)
     {
-        SDL_MixAudioFormat(reinterpret_cast<Uint8*>(pSampleBuffer), reinterpret_cast<Uint8*>(mTempSoundBuffer.data()), AUDIO_S16, sampleBufferCount * sizeof(StereoSample_S16), 45);
+        SDL_MixAudio(reinterpret_cast<Uint8*>(pSampleBuffer), reinterpret_cast<Uint8*>(mTempSoundBuffer.data()), SDL_AUDIO_S16, sampleBufferCount * sizeof(StereoSample_S16), 0.35f);
     }
     else
     {
-        SDL_MixAudioFormat(reinterpret_cast<Uint8*>(mNoReverbBuffer.data()), reinterpret_cast<Uint8*>(mTempSoundBuffer.data()), AUDIO_S16, sampleBufferCount * sizeof(StereoSample_S16), 45);
+        SDL_MixAudio(reinterpret_cast<Uint8*>(mNoReverbBuffer.data()), reinterpret_cast<Uint8*>(mTempSoundBuffer.data()), SDL_AUDIO_S16, sampleBufferCount * sizeof(StereoSample_S16), 0.35f);
     }
 }
 
@@ -345,7 +355,7 @@ void SDLSoundSystem::RenderStereoSample(Sint16* pVoiceBufferPtr, SDLSoundBuffer*
     pVoice->mState.fPlaybackPosition += pVoice->mState.fFrequency;
 }
 
-void SDLSoundSystem::AudioCallBackStatic(void* userdata, Uint8* stream, s32 len)
+void SDLSoundSystem::AudioCallBackStatic(void* userdata, SDL_AudioStream* stream, s32 additionalAmount, s32 /*totalAmount*/)
 {
-    static_cast<SDLSoundSystem*>(userdata)->AudioCallBack(stream, len);
+    static_cast<SDLSoundSystem*>(userdata)->AudioCallBack(stream, additionalAmount);
 }

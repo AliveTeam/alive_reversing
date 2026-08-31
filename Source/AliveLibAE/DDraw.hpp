@@ -3,7 +3,7 @@
 #include "../AliveLibCommon/FunctionFwd.hpp"
 
 #if _WIN32
-    #if !USE_SDL2
+    #if !USE_SDL3
         #define DIRECTINPUT_VERSION 0x700
         #include <dinput.h>
         #define DIRECTDRAW_VERSION 0x700

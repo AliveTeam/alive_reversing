@@ -39,7 +39,7 @@ git clone --recursive https://github.com/AliveTeam/alive_reversing.git
 
 #### Prerequisites
 1. [CMake](https://cmake.org/)
-2. [SDL2](https://github.com/libsdl-org/SDL/releases)
+2. [SDL3](https://github.com/libsdl-org/SDL/releases)
 
 ### Building
 1. Cd into the build directory:
@@ -49,12 +49,12 @@ cd build
 
 2. Generate the solution file:
 ```
-cmake -S .. -B . -DSDL2_DIR=YOUR_SDL2_PATH
+cmake -S .. -B . -DSDL3_DIR=YOUR_SDL3_PATH
 ```
 
-For example, if you installed SDL2 at `C:\SDL2` you would run:
+For example, if you installed SDL3 at `C:\SDL3` you would run:
 ```
-cmake -S .. -B . -DSDL2_DIR=C:\SDL2
+cmake -S .. -B . -DSDL3_DIR=C:\SDL3\cmake
 ```
 
 3. After cmake is done, open the generated `relive.sln` file within your `build` folder with Visual Studio 2022.
@@ -70,11 +70,11 @@ cmake -S .. -B . -DSDL2_DIR=C:\SDL2
 #### Prerequisites
 
 1. [CMake](https://cmake.org/)
-2. [SDL2](https://github.com/libsdl-org/SDL/releases)
+2. [SDL3](https://github.com/libsdl-org/SDL/releases)
 
 #### Ubuntu
 ```
-sudo apt install cmake libsdl2-dev
+sudo apt install cmake libsdl3-dev
 ```
 
 1. Cd into the build directory:
