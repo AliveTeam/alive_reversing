@@ -1,3 +1,4 @@
+#include "data_conversion/guid.hpp"
 #include "stdafx.h"
 #include "Movie.hpp"
 #include "../relive_lib/Function.hpp"
@@ -8,192 +9,432 @@
 #include "../relive_lib/Sound/Midi.hpp"
 #include "../relive_lib/Sys.hpp"
 #include "../relive_lib/Sound/Sound.hpp"
-#include "../relive_lib/Masher.hpp"
 #include "VGA.hpp"
 #include "GameAutoPlayer.hpp"
 #include "Game.hpp"
 #include "../relive_lib/Renderer/IRenderer.hpp"
 #include "../relive_lib/data_conversion/rgb_conversion.hpp"
 
+#include <numeric>
+
+#include "aom/aom_decoder.h"
+#include "aom/aomdx.h"
+#include "aom/common/webmdec.h"
+#include "aom/third_party/libwebm/mkvparser/mkvparser.h"
+#include "aom/third_party/libwebm/mkvparser/mkvreader.h"
+
 // Inputs on the controller that can be used for aborting skippable movies
 const u32 MOVIE_SKIPPER_GAMEPAD_INPUTS = (InputCommands::eUnPause_OrConfirm | InputCommands::eBack | InputCommands::ePause);
 
 // Tells whether reverb was enabled before starting the FMV
 static bool wasReverbEnabled = false;
-
 static SoundEntry sFmvSoundEntry = {};
-
-Masher* Masher_Alloc(
-    const char_type* pFileName,
-    Masher_Header** ppMasherHeader,
-    Masher_VideoHeader** ppMasherVideoHeader,
-    Masher_AudioHeader** ppMasherAudioHeader,
-    s32* errCode)
-{
-    Masher* pMasher = relive_new Masher;
-    if (pMasher)
-    {
-        *errCode = pMasher->Init(pFileName);
-        if (*errCode)
-        {
-            relive_delete pMasher;
-            return nullptr;
-        }
-        else
-        {
-            *ppMasherHeader = &pMasher->field_4_ddv_header;
-            *ppMasherVideoHeader = &pMasher->field_14_video_header;
-            *ppMasherAudioHeader = &pMasher->field_2C_audio_header;
-            return pMasher;
-        }
-    }
-    else
-    {
-        *errCode = 2;
-        return nullptr;
-    }
-}
-
-void Masher_DeAlloc(Masher* pMasher)
-{
-    relive_delete pMasher;
-}
-
-s32 Masher_ReadNextFrame(Masher* pMasher)
-{
-    return pMasher->ReadNextFrame();
-}
-
-void Masher_DecodeVideoFrame(Masher* pMasher, RGBA32* pSurface)
-{
-    pMasher->VideoFrameDecode(pSurface);
-}
-
-static bool sHasAudio = false;
 static s32 sFmvAudioSampleOffset = 0;
-static s32 sFmvNumReadFrames = 0;
-static Masher_Header* sMasher_Header = nullptr;
-static Masher_VideoHeader* sMasher_VideoHeader = nullptr;
-static Masher_AudioHeader* sMasher_AudioHeader = nullptr;
 static bool sNoAudioOrAudioError = false;
-static Masher* sMasherInstance = nullptr;
-static s32 sFmvSingleAudioFrameSizeInSamples = 0;
-static s32 sCurrentAudioOffset = 0;
-static s32 sFmvNumPlayedAudioFrames = 0;
-static s32 sOldBufferPlayPos = 0;
 
-s8 DDV_StartAudio()
+namespace
 {
-    if (!sHasAudio)
+    struct MkvVideoFrame final
     {
-        return 1;
+        uint64_t mPtsNs = 0;
+        std::vector<u8> mPixels;
+    };
+
+    struct MkvAudioChunk final
+    {
+        uint64_t mPtsNs = 0;
+        std::vector<u8> mBuffer;
+    };
+
+    inline void ClampToRGB(s32& value)
+    {
+        if (value < 0)
+        {
+            value = 0;
+        }
+        else if (value > 255)
+        {
+            value = 255;
+        }
     }
 
-    #if USE_SDL2_SOUND
-    wasReverbEnabled = gReverbEnabled;
-
-    // disable reverb for cutscenes - it gets re-enabled in DeInit
-    gReverbEnabled = false;
-    #endif
-
-    u32 audioBufferStartOffset = 0;
-    sFmvAudioSampleOffset = 0;
-
-    // Keep reading frames till we have >= number of interleaved so that we have 1 full frame
-    if (sFmvNumReadFrames < sMasher_AudioHeader->field_10_num_frames_interleave)
+    void ConvertI420ToRGBA(const aom_image_t* pImage, std::vector<u8>& rgbaPixels)
     {
-        while (Masher::ReadNextFrameToMemory_4EAC30(sMasherInstance))
+        const u32 width = pImage->d_w;
+        const u32 height = pImage->d_h;
+        rgbaPixels.resize(static_cast<size_t>(width) * static_cast<size_t>(height) * 4u);
+
+        const u8* yPlane = pImage->planes[AOM_PLANE_Y];
+        const u8* uPlane = pImage->planes[AOM_PLANE_U];
+        const u8* vPlane = pImage->planes[AOM_PLANE_V];
+
+        const s32 yStride = pImage->stride[AOM_PLANE_Y];
+        const s32 uStride = pImage->stride[AOM_PLANE_U];
+        const s32 vStride = pImage->stride[AOM_PLANE_V];
+
+        for (u32 y = 0; y < height; ++y)
         {
-            if (!sNoAudioOrAudioError)
+            for (u32 x = 0; x < width; ++x)
             {
-                void* pDecompressedAudioBuffer = Masher::GetDecompressedAudioFrame_4EAC60(sMasherInstance);
-                if (GetSoundAPI().mSND_LoadSamples(
-                        &sFmvSoundEntry,
-                        sFmvAudioSampleOffset,
-                        (u8*) pDecompressedAudioBuffer,
-                        sFmvSingleAudioFrameSizeInSamples))
+                const s32 yVal = yPlane[y * yStride + x];
+                const s32 uVal = uPlane[(y / 2) * uStride + (x / 2)];
+                const s32 vVal = vPlane[(y / 2) * vStride + (x / 2)];
+
+                const s32 r = (298 * (yVal - 16) + 409 * (vVal - 128) + 128) >> 8;
+                const s32 g = (298 * (yVal - 16) - 100 * (uVal - 128) - 208 * (vVal - 128) + 128) >> 8;
+                const s32 b = (298 * (yVal - 16) + 516 * (uVal - 128) + 128) >> 8;
+
+                s32 rr = r;
+                s32 gg = g;
+                s32 bb = b;
+                ClampToRGB(rr);
+                ClampToRGB(gg);
+                ClampToRGB(bb);
+
+                const size_t dstIndex = (static_cast<size_t>(y) * width + x) * 4u;
+                rgbaPixels[dstIndex + 0] = static_cast<u8>(rr);
+                rgbaPixels[dstIndex + 1] = static_cast<u8>(gg);
+                rgbaPixels[dstIndex + 2] = static_cast<u8>(bb);
+                rgbaPixels[dstIndex + 3] = 255;
+            }
+        }
+    }
+
+    class WebmMoviePlayer final
+    {
+    public:
+        WebmMoviePlayer() = default;
+        ~WebmMoviePlayer()
+        {
+            Cleanup();
+        }
+
+        bool Open(const char_type* pMovieName)
+        {
+            Cleanup();
+
+            if (!pMovieName || !*pMovieName)
+            {
+                return false;
+            }
+
+            const std::vector<std::string> candidateNames =
+            {
+                std::string(pMovieName),
+                std::string(pMovieName) + ".webm",
+                std::string(pMovieName) + ".mkv",
+                std::string(pMovieName) + ".WEBM",
+                std::string(pMovieName) + ".MKV",
+            };
+
+            for (const auto& candidate : candidateNames)
+            {
+                if (TryOpenFile(candidate))
                 {
-                    sNoAudioOrAudioError = true;
+                    return true;
                 }
             }
 
-            sFmvAudioSampleOffset += sFmvSingleAudioFrameSizeInSamples;
-            audioBufferStartOffset = sFmvAudioSampleOffset;
-            sFmvNumReadFrames++;
-            
-            if (sFmvNumReadFrames >= sMasher_AudioHeader->field_10_num_frames_interleave)
-            {
-                break;
-            }
+            return false;
         }
-    }
 
-    if (sFmvNumReadFrames >= sMasher_AudioHeader->field_10_num_frames_interleave)
-    {
-        // Update the offset to the size of the first demuxed frame
-        sCurrentAudioOffset = audioBufferStartOffset;
-        if (!sNoAudioOrAudioError)
+        const std::vector<MkvVideoFrame>& VideoFrames() const
         {
-            // Sound entry is created and populated with 1 frame, play it
-            if (FAILED(SND_PlayEx(&sFmvSoundEntry, 116, 116, 1.0, 0, 1, 100)))
-            {
-                sNoAudioOrAudioError = true;
-            }
+            return mVideoFrames;
         }
-        sFmvNumPlayedAudioFrames = 0;
-        sOldBufferPlayPos = 0;
-        return 1;
-    }
 
-    return 0;
-}
+        const std::vector<MkvAudioChunk>& AudioChunks() const
+        {
+            return mAudioChunks;
+        }
 
-static Masher* Open_DDV(const char_type* pMovieName)
-{
-    s32 errCode = 0;
-    Masher* pMasher = Masher_Alloc(
-        pMovieName,
-        &sMasher_Header,
-        &sMasher_VideoHeader,
-        &sMasher_AudioHeader,
-        &errCode);
+        u32 Width() const
+        {
+            return mWidth;
+        }
 
-    if (errCode)
-    {
-        return nullptr;
-    }
-    return pMasher;
+        u32 Height() const
+        {
+            return mHeight;
+        }
+
+        bool Parse()
+        {
+            if (!mSegment)
+            {
+                return false;
+            }
+
+            const mkvparser::Tracks* pTracks = mSegment->GetTracks();
+            if (!pTracks)
+            {
+                return false;
+            }
+
+            for (unsigned long i = 0; i < pTracks->GetTracksCount(); ++i)
+            {
+                const mkvparser::Track* pTrack = pTracks->GetTrackByIndex(i);
+                if (!pTrack)
+                {
+                    continue;
+                }
+
+                if (pTrack->GetType() == mkvparser::Track::kVideo)
+                {
+                    mVideoTrack = static_cast<const mkvparser::VideoTrack*>(pTrack);
+                    mVideoTrackNumber = static_cast<int>(pTrack->GetNumber());
+                    if (mVideoTrack && mVideoTrack->GetWidth() > 0)
+                    {
+                        mWidth = static_cast<u32>(mVideoTrack->GetWidth());
+                    }
+                    if (mVideoTrack && mVideoTrack->GetHeight() > 0)
+                    {
+                        mHeight = static_cast<u32>(mVideoTrack->GetHeight());
+                    }
+                }
+                else if (pTrack->GetType() == mkvparser::Track::kAudio)
+                {
+                    mAudioTrack = static_cast<const mkvparser::AudioTrack*>(pTrack);
+                    mAudioTrackNumber = static_cast<int>(pTrack->GetNumber());
+                    if (mAudioTrack)
+                    {
+                        mAudioSampleRate = static_cast<u32>(mAudioTrack->GetSamplingRate());
+                        mAudioChannels = static_cast<u32>(mAudioTrack->GetChannels());
+                        mAudioBitsPerSample = static_cast<u32>(mAudioTrack->GetBitDepth());
+                    }
+                }
+            }
+
+            if (!mVideoTrack)
+            {
+                return false;
+            }
+
+            if (aom_codec_dec_init(&mCodec, aom_codec_av1_dx(), nullptr, 0) != AOM_CODEC_OK)
+            {
+                return false;
+            }
+            mCodecReady = true;
+
+            const mkvparser::Cluster* pCluster = mSegment->GetFirst();
+            while (pCluster && !pCluster->EOS())
+            {
+                const mkvparser::BlockEntry* pBlockEntry = nullptr;
+                for (;;)
+                {
+                    if (pBlockEntry == nullptr)
+                    {
+                        const long status = pCluster->GetFirst(pBlockEntry);
+                        if (status != 0 || pBlockEntry == nullptr || pBlockEntry->EOS())
+                        {
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        const mkvparser::BlockEntry* pNextBlockEntry = nullptr;
+                        const long status = pCluster->GetNext(pBlockEntry, pNextBlockEntry);
+                        if (status != 0 || pNextBlockEntry == nullptr)
+                        {
+                            break;
+                        }
+                        pBlockEntry = pNextBlockEntry;
+                    }
+
+                    const mkvparser::Block* pBlock = pBlockEntry->GetBlock();
+                    if (!pBlock)
+                    {
+                        continue;
+                    }
+
+                    const u64 ptsNs = static_cast<u64>(pBlock->GetTime(pCluster));
+                    for (int frameIdx = 0; frameIdx < pBlock->GetFrameCount(); ++frameIdx)
+                    {
+                        const mkvparser::Block::Frame& frame = pBlock->GetFrame(frameIdx);
+                        std::vector<u8> payload(static_cast<size_t>(frame.len));
+                        if (frame.Read(mReader, payload.data()) != 0)
+                        {
+                            Cleanup();
+                            return false;
+                        }
+
+                        if (pBlock->GetTrackNumber() == mVideoTrackNumber)
+                        {
+                            MkvVideoFrame videoFrame;
+                            videoFrame.mPtsNs = ptsNs;
+                            if (!DecodeAv1Frame(payload, videoFrame.mPixels))
+                            {
+                                Cleanup();
+                                return false;
+                            }
+                            mVideoFrames.push_back(videoFrame);
+                        }
+                        else if (mAudioTrack != nullptr && pBlock->GetTrackNumber() == mAudioTrackNumber)
+                        {
+                            MkvAudioChunk audioChunk;
+                            audioChunk.mPtsNs = ptsNs;
+                            audioChunk.mBuffer = payload;
+                            mAudioChunks.push_back(audioChunk);
+                        }
+                    }
+                }
+
+                const mkvparser::Cluster* pNextCluster = mSegment->GetNext(pCluster);
+                pCluster = (pNextCluster == nullptr || pNextCluster->EOS()) ? nullptr : pNextCluster;
+            }
+
+            return !mVideoFrames.empty();
+        }
+
+        u32 AudioSampleRate() const
+        {
+            return mAudioSampleRate;
+        }
+
+        u32 AudioChannels() const
+        {
+            return mAudioChannels;
+        }
+
+        u32 AudioBitsPerSample() const
+        {
+            return mAudioBitsPerSample;
+        }
+
+    private:
+        bool TryOpenFile(const std::string& path)
+        {
+            mMovieFile = fopen(path.c_str(), "rb");
+            if (!mMovieFile)
+            {
+                return false;
+            }
+
+            mReader = new mkvparser::MkvReader(mMovieFile);
+            if (!mReader)
+            {
+                fclose(mMovieFile);
+                mMovieFile = nullptr;
+                return false;
+            }
+
+            mkvparser::EBMLHeader header;
+            long long pos = 0;
+            if (header.Parse(mReader, pos) < 0)
+            {
+                Cleanup();
+                return false;
+            }
+
+            if (mkvparser::Segment::CreateInstance(mReader, pos, mSegment) != 0)
+            {
+                Cleanup();
+                return false;
+            }
+
+            if (mSegment->Load() < 0)
+            {
+                Cleanup();
+                return false;
+            }
+
+            return true;
+        }
+
+        bool DecodeAv1Frame(const std::vector<u8>& compressedFrame, std::vector<u8>& rgbaPixels)
+        {
+            if (compressedFrame.empty())
+            {
+                return false;
+            }
+
+            aom_codec_err_t status = aom_codec_decode(&mCodec, compressedFrame.data(), static_cast<unsigned int>(compressedFrame.size()), nullptr);
+            if (status != AOM_CODEC_OK)
+            {
+                return false;
+            }
+
+            aom_codec_iter_t iter = nullptr;
+            aom_image_t* pImage = nullptr;
+            while ((pImage = aom_codec_get_frame(&mCodec, &iter)) != nullptr)
+            {
+                ConvertI420ToRGBA(pImage, rgbaPixels);
+                return true;
+            }
+
+            return false;
+        }
+
+        void Cleanup()
+        {
+            if (mCodecReady)
+            {
+                aom_codec_destroy(&mCodec);
+                mCodecReady = false;
+            }
+
+            if (mSegment)
+            {
+                delete mSegment;
+                mSegment = nullptr;
+            }
+
+            if (mReader)
+            {
+                delete mReader;
+                mReader = nullptr;
+            }
+
+            if (mMovieFile)
+            {
+                fclose(mMovieFile);
+                mMovieFile = nullptr;
+            }
+
+            mVideoTrack = nullptr;
+            mAudioTrack = nullptr;
+            mVideoTrackNumber = 0;
+            mAudioTrackNumber = 0;
+            mVideoFrames.clear();
+            mAudioChunks.clear();
+            mAudioSampleRate = 44100;
+            mAudioChannels = 2;
+            mAudioBitsPerSample = 16;
+            mWidth = 640;
+            mHeight = 240;
+        }
+
+        FILE* mMovieFile = nullptr;
+        mkvparser::MkvReader* mReader = nullptr;
+        mkvparser::Segment* mSegment = nullptr;
+        const mkvparser::VideoTrack* mVideoTrack = nullptr;
+        const mkvparser::AudioTrack* mAudioTrack = nullptr;
+        std::vector<MkvVideoFrame> mVideoFrames;
+        std::vector<MkvAudioChunk> mAudioChunks;
+        aom_codec_ctx_t mCodec = {};
+        bool mCodecReady = false;
+        int mVideoTrackNumber = 0;
+        int mAudioTrackNumber = 0;
+        u32 mWidth = 640;
+        u32 mHeight = 240;
+        u32 mAudioSampleRate = 44100;
+        u32 mAudioChannels = 2;
+        u32 mAudioBitsPerSample = 16;
+    };
 }
 
 static void Render_DDV_Frame(Poly_FT4* poly)
 {
-    // Copy into the emulated vram - when FMV ends the "screen" still have the last video frame "stick"
-    // giving us a nice seamless transistion.
-    //SDL_Rect bufferSize = {0, 0, 640, 240};
-    //SDL_BlitScaled(tmpBmp.field_0_pSurface, nullptr, sPsxVram_C1D160.field_0_pSurface, &bufferSize);
-
     IRenderer::GetRenderer()->Draw(*poly);
-
-    // Copy to full window/primary buffer
     VGA_EndFrame();
-
-    // TODO: PHAT hax just to make FMV do something for now
-    IRenderer& renderer = *IRenderer::GetRenderer();
-
-    renderer.StartFrame();
+    IRenderer::GetRenderer()->StartFrame();
 }
 
 s8 DDV_Play_Impl(const char_type* pMovieName)
 {
-    if (!*pMovieName)
+    if (!pMovieName || !*pMovieName)
     {
         return 1;
-    }
-
-    sMasherInstance = Open_DDV(pMovieName);
-    if (!sMasherInstance)
-    {
-        return 0;
     }
 
     while (AreMovieSkippingInputsHeld())
@@ -201,198 +442,161 @@ s8 DDV_Play_Impl(const char_type* pMovieName)
         SYS_EventsPump();
     }
 
-    sHasAudio = ((u32) sMasher_Header->field_4_contains >> 1) & 1;
-    sFmvSingleAudioFrameSizeInSamples = sMasher_AudioHeader->field_C_single_audio_frame_size;
-    const auto fmv_sound_entry_size = sFmvSingleAudioFrameSizeInSamples * (sMasher_AudioHeader->field_10_num_frames_interleave + 6);
+    WebmMoviePlayer movie;
+    if (!movie.Open(pMovieName) || !movie.Parse())
+    {
+        return 0;
+    }
+
+    const std::vector<MkvVideoFrame>& videoFrames = movie.VideoFrames();
+    const std::vector<MkvAudioChunk>& audioChunks = movie.AudioChunks();
+    const bool hasAudio = !audioChunks.empty();
 
     sNoAudioOrAudioError = false;
-    if (sHasAudio && sMasher_AudioHeader->field_0_audio_format)
+    if (hasAudio)
     {
-        if (GetSoundAPI().mSND_New(
-                &sFmvSoundEntry,
-                fmv_sound_entry_size,
-                sMasher_AudioHeader->field_4_samples_per_second,
-                (sMasher_AudioHeader->field_0_audio_format & 2) != 0 ? 16 : 8,
-                (sMasher_AudioHeader->field_0_audio_format & 1) | 6)
-            < 0)
+        #if USE_SDL2_SOUND
+        wasReverbEnabled = gReverbEnabled;
+        gReverbEnabled = false;
+        #endif
+
+        const u32 sampleRate = movie.AudioSampleRate();
+        const u32 bitDepth = movie.AudioBitsPerSample();
+        const u32 channels = movie.AudioChannels();
+        const u32 blockAlign = (bitDepth / 8u) * channels;
+        const u32 audioBytes = static_cast<u32>(std::accumulate(audioChunks.begin(), audioChunks.end(), 0ull,
+            [](u64 total, const MkvAudioChunk& chunk)
+            {
+                return total + chunk.mBuffer.size();
+            }));
+        const u32 audioSamples = audioBytes / std::max<u32>(1u, blockAlign);
+        const s32 soundFlags = channels > 1 ? (bitDepth == 16 ? 6 : 4) : (bitDepth == 16 ? 2 : 0);
+
+        if (GetSoundAPI().mSND_New(&sFmvSoundEntry, static_cast<s32>(std::max<u64>(audioSamples + 4096u, 4096u)), sampleRate, bitDepth, soundFlags) < 0)
         {
-            // SND_New failed
             sFmvSoundEntry.field_4_pDSoundBuffer = nullptr;
             sNoAudioOrAudioError = true;
         }
     }
     else
     {
-        // Source DDV has no audio
         sNoAudioOrAudioError = true;
     }
 
-    // NOTE: Call to Masher_Tables_Init_4EA880 as the whole masher code for audio has been replaced
-    sFmvNumReadFrames = 0;
-
-    //Bitmap tmpBmp = {};
-    //BMP_New_4F1990(&tmpBmp, 640, 480, 15, 0);
-
     CamResource fmvFrame;
-    fmvFrame.mData.mWidth = 640;
-    fmvFrame.mData.mHeight = 240;
+    fmvFrame.mData.mWidth = movie.Width();
+    fmvFrame.mData.mHeight = movie.Height();
     fmvFrame.mData.mPixels = std::make_shared<std::vector<u8>>();
     fmvFrame.mData.mPixels->resize(fmvFrame.mData.mWidth * fmvFrame.mData.mHeight * sizeof(RGBA32));
 
     Poly_FT4 polyFT4 = {};
-    polyFT4.SetXYWH(0, 0, 640, 240);
+    polyFT4.SetXYWH(0, 0, movie.Width(), movie.Height());
     polyFT4.mCam = &fmvFrame;
 
-    if (DDV_StartAudio() && Masher_ReadNextFrame(sMasherInstance) && Masher_ReadNextFrame(sMasherInstance))
+    if (hasAudio && !sNoAudioOrAudioError)
     {
-        const s32 movieStartTimeStamp_5CA244 = SYS_GetTicks();
-        for (;;)
+        const u32 blockAlign = (movie.AudioBitsPerSample() / 8u) * movie.AudioChannels();
+        u32 audioSampleOffset = 0;
+        for (size_t i = 0; i < audioChunks.size() && i < 6; ++i)
         {
-            fmvFrame.mUniqueId = {};
-
-            sFmvNumReadFrames++;
-
-            // Lock the back buffer
-
-            // Decode the video frame to the bitmap pixel buffer
-            //SDL_LockSurface(tmpBmp.field_0_pSurface);
-            Masher_DecodeVideoFrame(sMasherInstance, reinterpret_cast<RGBA32*>(fmvFrame.mData.mPixels->data()));
-
-            //SDL_UnlockSurface(tmpBmp.field_0_pSurface);
-
-            if (!sNoAudioOrAudioError)
+            const auto& chunk = audioChunks[i];
+            if (!chunk.mBuffer.empty())
             {
-                void* pDecompressedAudioFrame = Masher::GetDecompressedAudioFrame_4EAC60(sMasherInstance);
-                if (pDecompressedAudioFrame)
+                const u32 chunkSampleCount = static_cast<u32>(chunk.mBuffer.size() / std::max<u32>(1u, blockAlign));
+                if (GetSoundAPI().mSND_LoadSamples(&sFmvSoundEntry, audioSampleOffset, const_cast<u8*>(chunk.mBuffer.data()), chunkSampleCount) < 0)
                 {
-                    // Push new samples into the buffer
-                    if (GetSoundAPI().mSND_LoadSamples(&sFmvSoundEntry, sFmvAudioSampleOffset, (u8*)pDecompressedAudioFrame, sFmvSingleAudioFrameSizeInSamples) < 0)
-                    {
-                        // Reload with data fail
-                        sNoAudioOrAudioError = true;
-                    }
-                }
-                else
-                {
-                    if (GetSoundAPI().mSND_Clear(&sFmvSoundEntry, sFmvAudioSampleOffset, sFmvSingleAudioFrameSizeInSamples) < 0)
-                    {
-                        // Reload with silence on failure or no data
-                        sNoAudioOrAudioError = true;
-                    }
-                }
-
-                sFmvAudioSampleOffset += sFmvSingleAudioFrameSizeInSamples;
-
-                // Loop back to the start of the audio buffer
-                if (sFmvAudioSampleOffset >= fmv_sound_entry_size)
-                {
-                    sFmvAudioSampleOffset = 0;
-                }
-            }
-
-            // Check for quitting video every 15 frames
-            if (sFmvNumReadFrames > 15)
-            {
-                if (AreMovieSkippingInputsHeld())
-                {
-                    // User quit video playback
-                    if (sFmvSoundEntry.field_4_pDSoundBuffer)
-                    {
-                        GetSoundAPI().mSND_Free(&sFmvSoundEntry);
-                    }
-
-                    Render_DDV_Frame(&polyFT4);
-
-                    while (AreMovieSkippingInputsHeld())
-                    {
-                        SYS_EventsPump();
-                    }
-
+                    sNoAudioOrAudioError = true;
                     break;
                 }
-            }
-            else
-            {
-                // This clears the pressed state to avoid the above check stopping the FMV too early.
-                // E.g user presses return before FMV starts, then after 15 frames it would quit without this call clearing the pressed flag.
-                Input_IsVKPressed_4EDD40(VK_ESCAPE);
-                Input_IsVKPressed_4EDD40(VK_RETURN);
-            }
-
-            Render_DDV_Frame(&polyFT4);
-
-            const s32 bMoreFrames = Masher_ReadNextFrame(sMasherInstance); // read audio and video frame
-            if (sNoAudioOrAudioError)
-            {
-                while ((s32)(SYS_GetTicks() - movieStartTimeStamp_5CA244) <= (1000 * sFmvNumReadFrames / sMasher_Header->field_8_frame_rate))
-                {
-                    // Wait for the amount of time the frame would take to display at the given framerate
-                }
-            }
-            else
-            {
-                // Sync on where the audio playback is up to
-                sCurrentAudioOffset += sFmvSingleAudioFrameSizeInSamples;
-                const u32 soundBufferPlayPos = SND_Get_Sound_Entry_Pos_4EF620(&sFmvSoundEntry);
-                if ((s32)(sOldBufferPlayPos - soundBufferPlayPos) > fmv_sound_entry_size / 2)
-                {
-                     sFmvNumPlayedAudioFrames++;
-                }
-
-                sOldBufferPlayPos = soundBufferPlayPos;
-
-                const s32 maxAudioSyncTimeWait = 1000 * sFmvNumReadFrames / sMasher_Header->field_8_frame_rate + 2000;
-                if (sCurrentAudioOffset >= 0)
-                {
-                    s32 counter = 0;
-                    for (;;)
-                    {
-                        const u32 fmv_cur_audio_pos = SND_Get_Sound_Entry_Pos_4EF620(&sFmvSoundEntry);
-                        const s32 fmv_audio_left_to_play = sOldBufferPlayPos - fmv_cur_audio_pos;
-                        if (fmv_audio_left_to_play > fmv_sound_entry_size / 2)
-                        {
-                            sFmvNumPlayedAudioFrames++;
-                        }
-
-                        sOldBufferPlayPos = fmv_cur_audio_pos;
-                        
-                        counter++;
-
-                        const s32 kTotalAudioToPlay = sFmvSingleAudioFrameSizeInSamples
-                            * sMasher_AudioHeader->field_10_num_frames_interleave
-                            + fmv_cur_audio_pos
-                            + (fmv_sound_entry_size * sFmvNumPlayedAudioFrames);
-
-                        if (counter > 10000)
-                        {
-                            counter = 0;
-                            if ((s32)(SYS_GetTicks() - movieStartTimeStamp_5CA244) > maxAudioSyncTimeWait)
-                            {
-                                // TODO: Unknown failure case
-                                sNoAudioOrAudioError = true;
-                                break;
-                            }
-                        }
-
-                        if (sCurrentAudioOffset < kTotalAudioToPlay)
-                        {
-                            break;
-                        }
-                    }
-                }
-            }
-
-            SYS_EventsPump();
-            PSX_VSync(VSyncMode::UncappedFps);
-
-            if (!bMoreFrames)
-            {
-                // End of stream
-                Render_DDV_Frame(&polyFT4);
-
-                break;
+                audioSampleOffset += chunkSampleCount;
             }
         }
+
+        if (!sNoAudioOrAudioError)
+        {
+            sFmvAudioSampleOffset = (audioSampleOffset + 1) & ~1u;
+            if (FAILED(SND_PlayEx(&sFmvSoundEntry, 116, 116, 1.0, 0, 1, 100)))
+            {
+                sNoAudioOrAudioError = true;
+            }
+        }
+    }
+
+    const s32 movieStartTimeStamp = SYS_GetTicks();
+    size_t nextAudioChunk = 0;
+    u32 audioWriteOffset = 0;
+    const u32 blockAlign = (movie.AudioBitsPerSample() / 8u) * movie.AudioChannels();
+    const u32 audioBufferSize = static_cast<u32>(std::max<u64>(1ull, std::accumulate(audioChunks.begin(), audioChunks.end(), 0ull,
+        [](u64 total, const MkvAudioChunk& chunk)
+        {
+            return total + chunk.mBuffer.size();
+        }) / std::max<u32>(1u, blockAlign)));
+
+    for (size_t frameIndex = 0; frameIndex < videoFrames.size(); ++frameIndex)
+    {
+        if (AreMovieSkippingInputsHeld())
+        {
+            break;
+        }
+
+        const auto& frame = videoFrames[frameIndex];
+        std::memcpy(fmvFrame.mData.mPixels->data(), frame.mPixels.data(), frame.mPixels.size());
+
+        if (!sNoAudioOrAudioError && hasAudio)
+        {
+            while (nextAudioChunk < audioChunks.size())
+            {
+                const auto& audioChunk = audioChunks[nextAudioChunk];
+                const u32 bytesToWrite = static_cast<u32>(audioChunk.mBuffer.size());
+                if (bytesToWrite == 0)
+                {
+                    ++nextAudioChunk;
+                    continue;
+                }
+
+                const u32 samplesToWrite = bytesToWrite / std::max<u32>(1u, blockAlign);
+                const u64 targetMs = frame.mPtsNs / 1000000ULL;
+                const u64 currentMs = static_cast<u64>(SYS_GetTicks() - movieStartTimeStamp);
+                if (currentMs < targetMs)
+                {
+                    break;
+                }
+
+                if (GetSoundAPI().mSND_LoadSamples(&sFmvSoundEntry, audioWriteOffset, const_cast<u8*>(audioChunk.mBuffer.data()), samplesToWrite) < 0)
+                {
+                    sNoAudioOrAudioError = true;
+                    break;
+                }
+
+                audioWriteOffset = (audioWriteOffset + samplesToWrite) % std::max<u32>(audioBufferSize, 1u);
+                ++nextAudioChunk;
+            }
+        }
+
+        if (frameIndex == 0)
+        {
+            Input_IsVKPressed_4EDD40(VK_ESCAPE);
+            Input_IsVKPressed_4EDD40(VK_RETURN);
+        }
+
+        polyFT4.mCam->mUniqueId = UniqueResId{};
+        Render_DDV_Frame(&polyFT4);
+
+        if (frameIndex + 1 < videoFrames.size())
+        {
+            const u64 nextFrameMs = videoFrames[frameIndex + 1].mPtsNs / 1000000ULL;
+            const u64 thisFrameMs = frame.mPtsNs / 1000000ULL;
+            const s64 waitAhead = static_cast<s64>(nextFrameMs - thisFrameMs);
+            const u64 targetTimestamp = movieStartTimeStamp + thisFrameMs;
+            while (static_cast<s64>(SYS_GetTicks()) < static_cast<s64>(targetTimestamp + waitAhead))
+            {
+                SYS_EventsPump();
+                PSX_VSync(VSyncMode::UncappedFps);
+            }
+        }
+
+        SYS_EventsPump();
+        PSX_VSync(VSyncMode::UncappedFps);
     }
 
     if (sFmvSoundEntry.field_4_pDSoundBuffer)
@@ -400,10 +604,6 @@ s8 DDV_Play_Impl(const char_type* pMovieName)
         GetSoundAPI().mSND_Free(&sFmvSoundEntry);
         sFmvSoundEntry.field_4_pDSoundBuffer = nullptr;
     }
-
-    Masher_DeAlloc(sMasherInstance);
-    sMasherInstance = nullptr;
-    //Bmp_Free_4F1950(&tmpBmp);
 
     return 1;
 }
@@ -434,20 +634,13 @@ void Movie::Init()
     ++gMovieRefCount;
 
     sMovie_Kill_SEQs_563A88 = 1;
-
-    /*
-    // TODO: never seemed to be used, compare with psx to check
-    if (flags & 0x4000)
-    {
-        sMovie_Kill_SEQs_563A88 = 0;
-    }
-    */
 }
 
 Movie::Movie(const char_type* pName)
     : BaseGameObject(true, 0)
     , mName(pName)
 {
+    mName = "PHLEGINF.DDV.webm";
     Init();
 }
 
@@ -455,7 +648,6 @@ void Movie::VUpdate()
 {
     if (GetGameAutoPlayer().IsPlaying() || GetGameAutoPlayer().IsRecording())
     {
-        // Skip FMVs in rec/playback mode
         SetDead(true);
     }
     else
@@ -481,7 +673,6 @@ void Movie::VUpdate()
     DeInit();
 }
 
-
 void Movie::DeInit()
 {
     PSX_VSync(VSyncMode::LimitTo30Fps);
@@ -499,7 +690,6 @@ bool AreMovieSkippingInputsHeld()
 {
     if (Input().IsJoyStickEnabled())
     {
-        // OG bugfix - previously controllers couldn't skip movies
         return (Input_Read_Pad(sCurrentControllerIndex) & MOVIE_SKIPPER_GAMEPAD_INPUTS) != 0;
     }
     else
