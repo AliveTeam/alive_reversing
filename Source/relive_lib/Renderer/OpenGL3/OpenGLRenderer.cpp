@@ -13,6 +13,7 @@
 #include "GLShaderProgram.hpp"
 #include "GLTexture2D.hpp"
 #include "OpenGLRenderer.hpp"
+#include <cmath>
 
 #define GL_TO_IMGUI_TEX(v) *reinterpret_cast<ImTextureID*>(&v)
 
@@ -187,7 +188,7 @@ void OpenGLRenderer::EndFrame()
 
     // Do ImGui
     ImGui_ImplOpenGL3_NewFrame();
-    ImGui_ImplSDL2_NewFrame(mWindow);
+    ImGui_ImplSDL3_NewFrame();
     ImGui::NewFrame();
 
     if (gDDCheat_FlyingEnabled || AO::gDDCheat_FlyingEnabled || GetGameAutoPlayer().IsPlaying())

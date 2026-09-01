@@ -85,9 +85,9 @@ bool Sys_IsMouseButtonDown(MouseButtons button)
 {
     if (button == MouseButtons::eRight)
     {
-        return !!(SDL_GetMouseState(nullptr, nullptr) & SDL_BUTTON(SDL_BUTTON_RIGHT));
+        return !!(SDL_GetMouseState(nullptr, nullptr) & SDL_BUTTON_MASK(SDL_BUTTON_RIGHT));
     }
-    return !!(SDL_GetMouseState(nullptr, nullptr) & SDL_BUTTON(SDL_BUTTON_LEFT));
+    return !!(SDL_GetMouseState(nullptr, nullptr) & SDL_BUTTON_MASK(SDL_BUTTON_LEFT));
 }
 
 SoundEntry* gMovieSoundEntry = nullptr;
@@ -486,25 +486,15 @@ static s32 sdl_key_to_win32_vkey(SDL_Scancode key)
             return VK_RWIN;
         case SDL_SCANCODE_MODE:
             return 0;
-        case SDL_SCANCODE_AUDIONEXT:
+        case SDL_SCANCODE_MEDIA_NEXT_TRACK:
             return 0;
-        case SDL_SCANCODE_AUDIOPREV:
+        case SDL_SCANCODE_MEDIA_PREVIOUS_TRACK:
             return 0;
-        case SDL_SCANCODE_AUDIOSTOP:
+        case SDL_SCANCODE_MEDIA_STOP:
             return 0;
-        case SDL_SCANCODE_AUDIOPLAY:
+        case SDL_SCANCODE_MEDIA_PLAY:
             return 0;
-        case SDL_SCANCODE_AUDIOMUTE:
-            return 0;
-        case SDL_SCANCODE_MEDIASELECT:
-            return 0;
-        case SDL_SCANCODE_WWW:
-            return 0;
-        case SDL_SCANCODE_MAIL:
-            return 0;
-        case SDL_SCANCODE_CALCULATOR:
-            return 0;
-        case SDL_SCANCODE_COMPUTER:
+        case SDL_SCANCODE_MEDIA_SELECT:
             return 0;
         case SDL_SCANCODE_AC_SEARCH:
             return 0;
@@ -520,23 +510,11 @@ static s32 sdl_key_to_win32_vkey(SDL_Scancode key)
             return 0;
         case SDL_SCANCODE_AC_BOOKMARKS:
             return 0;
-        case SDL_SCANCODE_BRIGHTNESSDOWN:
-            return 0;
-        case SDL_SCANCODE_BRIGHTNESSUP:
-            return 0;
-        case SDL_SCANCODE_DISPLAYSWITCH:
-            return 0;
-        case SDL_SCANCODE_KBDILLUMTOGGLE:
-            return 0;
-        case SDL_SCANCODE_KBDILLUMDOWN:
-            return 0;
-        case SDL_SCANCODE_KBDILLUMUP:
-            return 0;
-        case SDL_SCANCODE_EJECT:
+        case SDL_SCANCODE_MEDIA_EJECT:
             return 0;
         case SDL_SCANCODE_SLEEP:
             return 0;
-        case SDL_NUM_SCANCODES:
+        case SDL_SCANCODE_COUNT:
             return 0;
     }
 }
@@ -575,7 +553,7 @@ static void KeyDownEvent(SDL_Scancode scanCode)
         {
             sLastPressedKey -= 0x41;
 
-            if (SDL_GetModState() & (KMOD_SHIFT | KMOD_CAPS))
+            if (SDL_GetModState() & (SDL_KMOD_SHIFT | SDL_KMOD_CAPS))
             {
                 sLastPressedKey += 'A';
             }
@@ -589,7 +567,7 @@ static void KeyDownEvent(SDL_Scancode scanCode)
         {
             sLastPressedKey -= VK_NUMPAD0;
             LOG_INFO("%d", sLastPressedKey);
-            if (SDL_GetModState() & (KMOD_SHIFT) && sLastPressedKey == 1)
+            if (SDL_GetModState() & (SDL_KMOD_SHIFT) && sLastPressedKey == 1)
             {
                 sLastPressedKey = '!';
             }
@@ -638,14 +616,14 @@ static void KeyDownEvent(SDL_Scancode scanCode)
         }
         else if (vk == VK_F12)
         {
-            const Uint32 flags = SDL_GetWindowFlags(Sys_GetWindowHandle());
-            if (flags & SDL_WINDOW_FULLSCREEN_DESKTOP)
+            const SDL_WindowFlags flags = SDL_GetWindowFlags(Sys_GetWindowHandle());
+            if (flags & SDL_WINDOW_FULLSCREEN)
             {
-                SDL_SetWindowFullscreen(Sys_GetWindowHandle(), 0);
+                SDL_SetWindowFullscreen(Sys_GetWindowHandle(), false);
             }
             else
             {
-                SDL_SetWindowFullscreen(Sys_GetWindowHandle(), SDL_WINDOW_FULLSCREEN_DESKTOP);
+                SDL_SetWindowFullscreen(Sys_GetWindowHandle(), true);
             }
         }
     }
@@ -678,9 +656,9 @@ static void QuitEvent(bool isRecordedEvent, bool isRecording)
     }
 
     // Full screen message boxes act really strange.. so force window mode before we show it
-    const Uint32 flags = SDL_GetWindowFlags(Sys_GetWindowHandle());
+    const SDL_WindowFlags flags = SDL_GetWindowFlags(Sys_GetWindowHandle());
     bool forcedWindowMode = false;
-    if (flags & SDL_WINDOW_FULLSCREEN_DESKTOP)
+    if (flags & SDL_WINDOW_FULLSCREEN)
     {
         forcedWindowMode = true;
         SDL_SetWindowFullscreen(Sys_GetWindowHandle(), 0);
@@ -702,7 +680,7 @@ static void QuitEvent(bool isRecordedEvent, bool isRecording)
     if (isRecording)
     {
         RecordedEvent recEvent;
-        recEvent.mType = SDL_QUIT;
+        recEvent.mType = SDL_EVENT_QUIT;
         recEvent.mData = button == MessageBoxButton::eYes ? 1 : 0;
         GetGameAutoPlayer().RecordEvent(recEvent);
     }
@@ -728,7 +706,7 @@ static void QuitEvent(bool isRecordedEvent, bool isRecording)
     {
         if (forcedWindowMode)
         {
-            SDL_SetWindowFullscreen(Sys_GetWindowHandle(), SDL_WINDOW_FULLSCREEN_DESKTOP);
+            SDL_SetWindowFullscreen(Sys_GetWindowHandle(), true);
         }
     }
 }
@@ -750,11 +728,11 @@ s8 Sys_PumpMessages()
             // TODO: Recording SDL types directly might break across diff platforms/SDL2 versions/ports
             switch (recordedEvent.mType)
             {
-                case SDL_KEYDOWN:
+                case SDL_EVENT_KEY_DOWN:
                     KeyDownEvent(static_cast<SDL_Scancode>(recordedEvent.mData));
                     break;
 
-                case SDL_KEYUP:
+                case SDL_EVENT_KEY_UP:
                     KeyUpEvent(static_cast<SDL_Scancode>(recordedEvent.mData));
                     break;
 
@@ -780,14 +758,14 @@ s8 Sys_PumpMessages()
         const bool allowAutoSwitch = !isRecording && !isPlaying;
         if (allowAutoSwitch)
         {
-            if (event.type == SDL_JOYDEVICEADDED && !isRecording)
+            if (event.type == SDL_EVENT_JOYSTICK_ADDED && !isRecording)
             {
                 totalConnectedJoysticks++;
                 LOG_INFO("User just inserted joystick!");
                 Input_Init();
                 Input().SetJoyStickEnabled(true);
             }
-            else if (event.type == SDL_JOYDEVICEREMOVED && !isRecording)
+            else if (event.type == SDL_EVENT_JOYSTICK_REMOVED && !isRecording)
             {
                 totalConnectedJoysticks--;
                 LOG_INFO("User just removed joystick!");
@@ -804,53 +782,49 @@ s8 Sys_PumpMessages()
         }
 #endif // AUTO_SWITCH_CONTROLLER
 
-        if (event.type == SDL_KEYDOWN)
+        if (event.type == SDL_EVENT_KEY_DOWN)
         {
             if (!isPlaying)
             {
-                KeyDownEvent(event.key.keysym.scancode);
+                KeyDownEvent(event.key.scancode);
             }
 
             if (isRecording)
             {
                 RecordedEvent recEvent;
                 recEvent.mType = event.type;
-                recEvent.mData = static_cast<u32>(event.key.keysym.scancode);
+                recEvent.mData = static_cast<u32>(event.key.scancode);
                 GetGameAutoPlayer().RecordEvent(recEvent);
             }
         }
-        else if (event.type == SDL_KEYUP)
+        else if (event.type == SDL_EVENT_KEY_UP)
         {
             if (!isPlaying)
             {
-                KeyUpEvent(event.key.keysym.scancode);
+                KeyUpEvent(event.key.scancode);
             }
 
             if (isRecording)
             {
                 RecordedEvent recEvent;
                 recEvent.mType = event.type;
-                recEvent.mData = static_cast<u32>(event.key.keysym.scancode);
+                recEvent.mData = static_cast<u32>(event.key.scancode);
                 GetGameAutoPlayer().RecordEvent(recEvent);
             }
         }
-        else if (event.type == SDL_WINDOWEVENT)
+        else if (event.window.type == SDL_EVENT_WINDOW_FOCUS_GAINED)
         {
-            if (event.window.type == SDL_WINDOWEVENT_FOCUS_GAINED)
-            {
-                sAppIsActivated = true;
-            }
-            else if (event.window.type == SDL_WINDOWEVENT_FOCUS_LOST)
-            {
-                sAppIsActivated = false;
-            }
-            else if (event.window.type == SDL_WINDOWEVENT_EXPOSED)
-            {
-                // Add_Dirty_Area_4ED970(0, 0, 640, 240);
-            }
-            // SDL_WINDOWEVENT_SIZE_CHANGED
+            sAppIsActivated = true;
         }
-        else if (event.type == SDL_QUIT)
+        else if (event.window.type == SDL_EVENT_WINDOW_FOCUS_LOST)
+        {
+            sAppIsActivated = false;
+        }
+        else if (event.window.type == SDL_EVENT_WINDOW_EXPOSED)
+        {
+            // Add_Dirty_Area_4ED970(0, 0, 640, 240);
+        }
+        else if (event.type == SDL_EVENT_QUIT)
         {
             if (!isPlaying)
             {
@@ -931,14 +905,16 @@ bool Sys_WindowClass_Register(const char_type* lpWindowName, s32 x, s32 y, s32 n
 {
     TRACE_ENTRYEXIT;
 
-    sHwnd = SDL_CreateWindow(lpWindowName, x, y, nWidth, nHeight, SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI | SDL_WINDOW_HIDDEN | extraAttributes);
+    sHwnd = SDL_CreateWindow(lpWindowName, nWidth, nHeight, SDL_WINDOW_RESIZABLE | SDL_WINDOW_HIGH_PIXEL_DENSITY | extraAttributes);
     if (sHwnd)
     {
         LOG_INFO("Window created");
 
+        SDL_SetWindowPosition(sHwnd, x, y);
+
         Input_InitKeyStateArray_4EDD60();
 
-        SDL_ShowCursor(SDL_DISABLE);
+        SDL_HideCursor();
 
         // SDL will not send a window focused message on start up, so default to activated
         sAppIsActivated = true;

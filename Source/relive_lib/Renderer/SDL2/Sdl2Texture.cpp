@@ -3,7 +3,7 @@
 #include "Renderer/PaletteCache.hpp"
 #include "data_conversion/AnimationConverter.hpp"
 
-Sdl2Texture::Sdl2Texture(Sdl2Context& context, u32 width, u32 height, SDL_PixelFormatEnum format, SDL_TextureAccess access)
+Sdl2Texture::Sdl2Texture(Sdl2Context& context, u32 width, u32 height, SDL_PixelFormat format, SDL_TextureAccess access)
     : mContext(context), mFormat(format), mTextureAccess(access), mHeight(height), mWidth(width)
 {
     // SDL2 does not support palette textures, if we want to store indexed
@@ -76,10 +76,10 @@ std::shared_ptr<Sdl2Texture> Sdl2Texture::FromMask(Sdl2Context& context, std::sh
     context.SaveFramebuffer();
     context.UseTextureFramebuffer(resultTex->GetTexture());
 
-    SDL_RenderCopy(context.GetRenderer(), srcTex->GetTexture(), NULL, NULL);
+    SDL_RenderTexture(context.GetRenderer(), srcTex->GetTexture(), NULL, NULL);
 
     SDL_SetTextureBlendMode(maskTex, blendMode);
-    SDL_RenderCopy(context.GetRenderer(), maskTex, NULL, NULL);
+    SDL_RenderTexture(context.GetRenderer(), maskTex, NULL, NULL);
 
     SDL_SetTextureBlendMode(resultTex->GetTexture(), SDL_BLENDMODE_BLEND);
 
@@ -201,7 +201,7 @@ SDL_Texture* Sdl2Texture::GetTextureUsePalette(const std::shared_ptr<AnimationPa
                     break;
 
                 default:
-                    ALIVE_FATAL("SDL2 Invalid blend mode %u", blendMode);
+                    ALIVE_FATAL("SDL3 Invalid blend mode %u", blendMode);
                     break;
             }
         }
@@ -305,7 +305,7 @@ void Sdl2Texture::Update(const SDL_Rect* rect, const void* pixels)
                 break;
         }
 
-        if (SDL_UpdateTexture(mTexture, rect, pixels, pitch) < 0)
+        if (!SDL_UpdateTexture(mTexture, rect, pixels, pitch))
         {
             ALIVE_FATAL(SDL_GetError());
         }

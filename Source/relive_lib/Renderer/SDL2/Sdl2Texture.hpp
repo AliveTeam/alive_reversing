@@ -1,13 +1,13 @@
 #pragma once
 
-#include <SDL.h>
+#include <SDL3/SDL.h>
 #include "Sdl2Context.hpp"
 #include "data_conversion/rgb_conversion.hpp"
 
 class Sdl2Texture final
 {
 public:
-    Sdl2Texture(Sdl2Context& context, u32 width, u32 height, SDL_PixelFormatEnum format, SDL_TextureAccess access);
+    Sdl2Texture(Sdl2Context& context, u32 width, u32 height, SDL_PixelFormat format, SDL_TextureAccess access);
     ~Sdl2Texture();
 
     static std::shared_ptr<Sdl2Texture> FromMask(Sdl2Context& context, std::shared_ptr<Sdl2Texture> srcTex, const u8* maskPixels);
@@ -25,7 +25,7 @@ private:
 
 private:
     Sdl2Context& mContext;
-    SDL_PixelFormatEnum mFormat;
+    SDL_PixelFormat mFormat;
     SDL_Texture* mTexture = 0;
     SDL_TextureAccess mTextureAccess;
     u32 mHeight = 0;

@@ -3,6 +3,7 @@
 #include "Clamp.hpp"
 #include "FatalError.hpp"
 #include "Sdl2Renderer.hpp"
+#include <cmath>
 
 Sdl2Renderer::Sdl2Renderer(TWindowHandleType window)
     : IRenderer(window),
@@ -34,7 +35,7 @@ void Sdl2Renderer::Clear(u8 r, u8 g, u8 b)
     // Check and store the renderer's clipping state
     SDL_Rect clipRect;
 
-    SDL_RenderGetClipRect(mContext.GetRenderer(), &clipRect);
+    SDL_GetRenderClipRect(mContext.GetRenderer(), &clipRect);
 
     // Perform the clear now
     mContext.UseScreenFramebuffer();
@@ -47,8 +48,18 @@ void Sdl2Renderer::Clear(u8 r, u8 g, u8 b)
     // Restore clip rect if needed
     if (clipRect.x != 0 || clipRect.y != 0 || clipRect.w != 0 || clipRect.h != 0)
     {
-        SDL_RenderSetClipRect(mContext.GetRenderer(), &clipRect);
+        SDL_SetRenderClipRect(mContext.GetRenderer(), &clipRect);
     }
+}
+
+static SDL_FColor ToSDLColor(u8 r, u8 g, u8 b, u8 a)
+{
+    return {
+        static_cast<f32>(r) / 255.0f,
+        static_cast<f32>(g) / 255.0f,
+        static_cast<f32>(b) / 255.0f,
+        static_cast<f32>(a) / 255.0f
+    };
 }
 
 void Sdl2Renderer::Draw(const Prim_GasEffect& gasEffect)
@@ -65,7 +76,7 @@ void Sdl2Renderer::Draw(const Prim_GasEffect& gasEffect)
 
     mGasTexture.Update(&gasRect, gasEffect.pGasPixels);
 
-    SDL_Color c = { 127, 127, 127, 255 };
+    SDL_FColor c = { 0.5f, 0.5f, 0.5f, 1.0f };
 
     f32 u1 = gasWidth / kPsxFramebufferWidth;
     f32 v1 = gasHeight / kPsxFramebufferHeight;
@@ -120,9 +131,9 @@ void Sdl2Renderer::Draw(const Line_G4& line)
 void Sdl2Renderer::Draw(const Poly_G3& poly)
 {
     SDL_Vertex vertices[] = {
-        { { static_cast<f32>(poly.X0()), static_cast<f32>(poly.Y0()) }, { poly.R0(), poly.G0(), poly.B0(), 255 }, { 0, 0 } },
-        { { static_cast<f32>(poly.X1()), static_cast<f32>(poly.Y1()) }, { poly.R1(), poly.G1(), poly.B1(), 255 }, { 0, 0 } },
-        { { static_cast<f32>(poly.X2()), static_cast<f32>(poly.Y2()) }, { poly.R2(), poly.G2(), poly.B2(), 255 }, { 0, 0 } },
+        { { static_cast<f32>(poly.X0()), static_cast<f32>(poly.Y0()) }, { ToSDLColor(poly.R0(), poly.G0(), poly.B0(), 255) }, { 0.0f, 0.0f } },
+        { { static_cast<f32>(poly.X1()), static_cast<f32>(poly.Y1()) }, { ToSDLColor(poly.R1(), poly.G1(), poly.B1(), 255) }, { 0.0f, 0.0f } },
+        { { static_cast<f32>(poly.X2()), static_cast<f32>(poly.Y2()) }, { ToSDLColor(poly.R2(), poly.G2(), poly.B2(), 255) }, { 0.0f, 0.0f } },
     };
 
     DrawVertices(vertices, 3, nullptr, 0, nullptr, poly.mSemiTransparent, poly.mBlendMode);
@@ -134,10 +145,10 @@ void Sdl2Renderer::Draw(const Poly_FT4& poly)
 
     constexpr s32 indexList[6] = { 0, 1, 2, 1, 2 , 3 };
     SDL_Vertex vertices[] = {
-        { { static_cast<f32>(poly.X0()), static_cast<f32>(poly.Y0()) }, { 255, 255, 255, 255 }, { 0, 0 } },
-        { { static_cast<f32>(poly.X1()), static_cast<f32>(poly.Y1()) }, { 255, 255, 255, 255 }, { 1, 0 } },
-        { { static_cast<f32>(poly.X2()), static_cast<f32>(poly.Y2()) }, { 255, 255, 255, 255 }, { 0, 1 } },
-        { { static_cast<f32>(poly.X3()), static_cast<f32>(poly.Y3()) }, { 255, 255, 255, 255 }, { 1, 1 } },
+        { { static_cast<f32>(poly.X0()), static_cast<f32>(poly.Y0()) }, { 1.0f, 1.0f, 1.0f, 1.0f }, { 0.0f, 0.0f } },
+        { { static_cast<f32>(poly.X1()), static_cast<f32>(poly.Y1()) }, { 1.0f, 1.0f, 1.0f, 1.0f }, { 1.0f, 0.0f } },
+        { { static_cast<f32>(poly.X2()), static_cast<f32>(poly.Y2()) }, { 1.0f, 1.0f, 1.0f, 1.0f }, { 0.0f, 1.0f } },
+        { { static_cast<f32>(poly.X3()), static_cast<f32>(poly.Y3()) }, { 1.0f, 1.0f, 1.0f, 1.0f }, { 1.0f, 1.0f } },
     };
 
     if (poly.mFg1)
@@ -285,7 +296,7 @@ void Sdl2Renderer::Draw(const Poly_FT4& poly)
         // issue isn't noticable
         if (!mCopiedFbThisFrame)
         {
-            SDL_RenderCopy(mContext.GetRenderer(), fbSrcTex, nullptr, nullptr);
+            SDL_RenderTexture(mContext.GetRenderer(), fbSrcTex, nullptr, nullptr);
             mCopiedFbThisFrame = true;
         }
 
@@ -302,10 +313,10 @@ void Sdl2Renderer::Draw(const Poly_G4& poly)
 {
     constexpr s32 indexList[6] = { 0, 1, 2, 1, 2 , 3 };
     SDL_Vertex vertices[4] = {
-        { { static_cast<f32>(poly.X0()), static_cast<f32>(poly.Y0()) }, { poly.R0(), poly.G0(), poly.B0(), 255 }, { 0, 0 } },
-        { { static_cast<f32>(poly.X1()), static_cast<f32>(poly.Y1()) }, { poly.R1(), poly.G1(), poly.B1(), 255 }, { 0, 0 } },
-        { { static_cast<f32>(poly.X2()), static_cast<f32>(poly.Y2()) }, { poly.R2(), poly.G2(), poly.B2(), 255 }, { 0, 0 } },
-        { { static_cast<f32>(poly.X3()), static_cast<f32>(poly.Y3()) }, { poly.R3(), poly.G3(), poly.B3(), 255 }, { 0, 0 } },
+        { { static_cast<f32>(poly.X0()), static_cast<f32>(poly.Y0()) }, { ToSDLColor(poly.R0(), poly.G0(), poly.B0(), 255) }, { 0.0f, 0.0f } },
+        { { static_cast<f32>(poly.X1()), static_cast<f32>(poly.Y1()) }, { ToSDLColor(poly.R1(), poly.G1(), poly.B1(), 255) }, { 0.0f, 0.0f } },
+        { { static_cast<f32>(poly.X2()), static_cast<f32>(poly.Y2()) }, { ToSDLColor(poly.R2(), poly.G2(), poly.B2(), 255) }, { 0.0f, 0.0f } },
+        { { static_cast<f32>(poly.X3()), static_cast<f32>(poly.Y3()) }, { ToSDLColor(poly.R3(), poly.G3(), poly.B3(), 255) }, { 0.0f, 0.0f } },
     };
 
     DrawVertices(vertices, 4, indexList, 6, nullptr, poly.mSemiTransparent, poly.mBlendMode);
@@ -320,8 +331,11 @@ void Sdl2Renderer::EndFrame()
 
     // Copy framebuffer to screen
     SDL_Rect drawRect = GetTargetDrawRect();
+    SDL_FRect fdrawRect;
 
-    SDL_RenderCopy(mContext.GetRenderer(), GetActiveFbTexture().GetTexture(), nullptr, &drawRect);
+    SDL_RectToFRect(&drawRect, &fdrawRect);
+
+    SDL_RenderTexture(mContext.GetRenderer(), GetActiveFbTexture().GetTexture(), nullptr, &fdrawRect);
 
     mContext.Present();
 }
@@ -340,11 +354,11 @@ void Sdl2Renderer::SetClip(const Prim_ScissorRect& clipper)
 
     if (clipper.mRect.x == 0 && clipper.mRect.y == 0 && clipper.mRect.w == 1 && clipper.mRect.h == 1)
     {
-        SDL_RenderSetClipRect(mContext.GetRenderer(), nullptr);
+        SDL_SetRenderClipRect(mContext.GetRenderer(), nullptr);
     }
     else
     {
-        SDL_RenderSetClipRect(mContext.GetRenderer(), &rect);
+        SDL_SetRenderClipRect(mContext.GetRenderer(), &rect);
     }
 }
 
@@ -370,7 +384,18 @@ void Sdl2Renderer::StartFrame()
         mPsxFbTexture[1].Resize(desiredW, desiredH);
     }
 
-    SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, mFramebufferFilter ? "linear" : "nearest");
+    // TODO: sdl3 fix
+    //SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, mFramebufferFilter ? "linear" : "nearest");
+    /*
+    if (mFramebufferFilter)
+    {
+        SDL_SetTextureScaleMode(NULL, SDL_SCALEMODE_LINEAR);
+    }
+    else
+    {
+        SDL_SetTextureScaleMode(NULL, SDL_SCALEMODE_NEAREST);
+    }
+    */
 
     // Default back to render target
     mContext.UseTextureFramebuffer(mPsxFbTexture[0].GetTexture());
@@ -387,11 +412,12 @@ void Sdl2Renderer::DrawLines(const IRenderer::Point2D points[], s32 numPoints, R
 
         const IRenderer::Quad2D quad = IRenderer::LineToQuad(pointA, pointB);
 
+        // TODO: sdl3 fix
         SDL_Vertex vertices[4] = {
-            { { quad.verts[0].x, quad.verts[0].y }, {color.r, color.g, color.b, 255 }, { 0, 0 } },
-            { { quad.verts[1].x, quad.verts[1].y }, {color.r, color.g, color.b, 255 }, { 0, 0 } },
-            { { quad.verts[2].x, quad.verts[2].y }, {color.r, color.g, color.b, 255 }, { 0, 0 } },
-            { { quad.verts[3].x, quad.verts[3].y }, {color.r, color.g, color.b, 255 }, { 0, 0 } },
+            { { quad.verts[0].x, quad.verts[0].y }, {ToSDLColor(color.r, color.g, color.b, 255) }, { 0.0f, 0.0f } },
+            { { quad.verts[1].x, quad.verts[1].y }, {ToSDLColor(color.r, color.g, color.b, 255) }, { 0.0f, 0.0f } },
+            { { quad.verts[2].x, quad.verts[2].y }, {ToSDLColor(color.r, color.g, color.b, 255) }, { 0.0f, 0.0f } },
+            { { quad.verts[3].x, quad.verts[3].y }, {ToSDLColor(color.r, color.g, color.b, 255) }, { 0.0f, 0.0f } },
         };
 
         DrawVertices(vertices, 4, indexList, 6, nullptr, blendMode != relive::TBlendModes::None, blendMode);
@@ -424,8 +450,8 @@ void Sdl2Renderer::DrawVertices(SDL_Vertex vertices[], s32 numVertices, const s3
                 for (s32 i = 0; i < numVertices; i++)
                 {
                     dstVertices.push_back(vertices[i]);
-                    dstVertices[i].color = { 128, 128, 128, 255 };
-                    vertices[i].color.a = 128;
+                    dstVertices[i].color = { 0.5f, 0.5f, 0.5f, 1.0f };
+                    vertices[i].color.a = 0.5f;
                 }
 
                 SDL_SetRenderDrawBlendMode(mContext.GetRenderer(), SDL_BLENDMODE_MOD);
@@ -453,7 +479,7 @@ void Sdl2Renderer::DrawVertices(SDL_Vertex vertices[], s32 numVertices, const s3
                         SDL_BLENDOPERATION_ADD
                     );
 
-                if (SDL_SetRenderDrawBlendMode(mContext.GetRenderer(), customBlendMode) < 0)
+                if (SDL_SetRenderDrawBlendMode(mContext.GetRenderer(), customBlendMode))
                 {
                     // Not ideal... fallback to MOD, it's kind of close-ish, since the game
                     // mainly uses this blend mode to darken stuff uniformly, so MOD roughly ends
@@ -467,9 +493,9 @@ void Sdl2Renderer::DrawVertices(SDL_Vertex vertices[], s32 numVertices, const s3
                     // Inverting (1 - src) should solve the problem, so black is still black
                     for (s32 i = 0; i < numVertices; i++)
                     {
-                        vertices[i].color.r = ClampedSub((u8)127, vertices[i].color.r);
-                        vertices[i].color.g = ClampedSub((u8)127, vertices[i].color.g);
-                        vertices[i].color.b = ClampedSub((u8)127, vertices[i].color.b);
+                        vertices[i].color.r = ClampedSub(0.5f, vertices[i].color.r);
+                        vertices[i].color.g = ClampedSub(0.5f, vertices[i].color.g);
+                        vertices[i].color.b = ClampedSub(0.5f, vertices[i].color.b);
                     }
                 }
                 break;
@@ -479,7 +505,7 @@ void Sdl2Renderer::DrawVertices(SDL_Vertex vertices[], s32 numVertices, const s3
             case relive::TBlendModes::eBlend_3:
                 for (s32 i = 0; i < numVertices; i++)
                 {
-                    vertices[i].color.a = 64;
+                    vertices[i].color.a = 0.25f;
                 }
 
                 SDL_SetRenderDrawBlendMode(mContext.GetRenderer(), SDL_BLENDMODE_ADD);

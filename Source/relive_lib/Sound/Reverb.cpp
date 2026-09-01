@@ -92,7 +92,7 @@ inline void Reverb_Update(s32 index)
     }
 }
 
-void Reverb_Mix(StereoSample_S16* dst, SDL_AudioFormat format, Uint32 len, s32 volume)
+void Reverb_Mix(StereoSample_S16* dst, SDL_AudioFormat format, Uint32 len, f32 volume)
 {
     for (u32 i = 0; i < len / sizeof(StereoSample_S16); i++)
     {
@@ -100,7 +100,7 @@ void Reverb_Mix(StereoSample_S16* dst, SDL_AudioFormat format, Uint32 len, s32 v
         Reverb_Update(i);
     }
 
-    SDL_MixAudioFormat(reinterpret_cast<Uint8*>(dst), reinterpret_cast<Uint8*>(sReverbBuffer), format, len, volume);
+    SDL_MixAudio(reinterpret_cast<Uint8*>(dst), reinterpret_cast<Uint8*>(sReverbBuffer), format, len, volume);
     // memcpy(dst, sReverbBuffer, len); // Uncomment to hear only reverb
 }
 

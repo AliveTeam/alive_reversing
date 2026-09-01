@@ -1,14 +1,14 @@
 #include <GL/glew.h>
 
 #include "imgui.h"
-#include "imgui_impl_sdl.h"
+#include "imgui_impl_sdl3.h"
 #include "imgui_impl_opengl3.h"
 
 #include "../../../relive_lib/FatalError.hpp"
 #include "../../../relive_lib/logger.hpp"
 #include "../../../relive_lib/Types.hpp"
 #include "GLContext.hpp"
-#include "SDL.h"
+#include "SDL3/SDL.h"
 
 GLContext::GLContext(TWindowHandleType window)
 {
@@ -24,26 +24,19 @@ GLContext::GLContext(TWindowHandleType window)
     s32 index = -1;
     for (s32 i = 0; i < numDrivers; i++)
     {
-        SDL_RendererInfo info = {};
-        if (SDL_GetRenderDriverInfo(i, &info) < 0)
+        const char_type* rendererName = SDL_GetRenderDriver(i);
+        LOG_INFO("%d name %s", i, rendererName ? rendererName : "(null)");
+        if (rendererName && strstr(rendererName, "opengl"))
         {
-            LOG_WARNING("Failed to get render %d info %s", i, SDL_GetError());
-        }
-        else
-        {
-            LOG_INFO("%d name %s", i, info.name ? info.name : "(null)");
-            if (info.name && strstr(info.name, "opengl"))
-            {
-                index = i;
-                break;
-            }
+            index = i;
+            break;
         }
     }
 
     if (index == -1)
     {
         // FIXME: Throw exception?
-        ALIVE_FATAL("OpenGL SDL2 driver not found");
+        ALIVE_FATAL("OpenGL SDL3 driver not found");
     }
 
     // We should attempt to load OpenGL 3.2 first, because this is the minimum
@@ -94,7 +87,7 @@ GLContext::GLContext(TWindowHandleType window)
 
     // Use Vsync
     // FIXME: VSYNC disabled for now - remove before merge to master!
-    if (SDL_GL_SetSwapInterval(0) < 0)
+    if (!SDL_GL_SetSwapInterval(0))
     {
         LOG_ERROR("Warning: Unable to set VSync! SDL Error: %s", SDL_GetError());
     }
@@ -108,17 +101,17 @@ GLContext::GLContext(TWindowHandleType window)
     ImGui::CreateContext();
 
     // Setup IMGUI for texture debugging
-    ImGui_ImplSDL2_InitForOpenGL(window, mContext);
+    ImGui_ImplSDL3_InitForOpenGL(window, mContext);
     ImGui_ImplOpenGL3_Init(glslVer150Supported ? glslVer150 : glslVer140);
 }
 
 GLContext::~GLContext()
 {
-    ImGui_ImplSDL2_Shutdown();
+    ImGui_ImplSDL3_Shutdown();
 
     if (mContext)
     {
-        SDL_GL_DeleteContext(mContext);
+        SDL_GL_DestroyContext(mContext);
         mContext = nullptr;
     }
 }

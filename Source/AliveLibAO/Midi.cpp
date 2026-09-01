@@ -22,6 +22,8 @@
 #include "../relive_lib/FatalError.hpp"
 #include "BaseMap.hpp"
 
+#include <cmath>
+
 // TODO: Refactor + remove these
 #define BYTEn(x, n) (*((u8*) &(x) + n))
 #define BYTE1(x) BYTEn(x, 1)

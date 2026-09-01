@@ -3,7 +3,7 @@
 #include "../../../relive_lib/Types.hpp"
 #include "GLDebug.hpp"
 #include "GLFramebuffer.hpp"
-#include "SDL.h"
+#include "SDL3/SDL.h"
 
 GLFramebuffer::GLFramebuffer(s32 width, s32 height)
 {
@@ -93,7 +93,7 @@ void GLFramebuffer::BindScreenAsTarget(SDL_Window* wnd, s32* outWidth, s32* outH
 {
     s32 viewportW, viewportH;
 
-    SDL_GL_GetDrawableSize(wnd, &viewportW, &viewportH);
+    SDL_GetWindowSizeInPixels(wnd, &viewportW, &viewportH);
 
     GL_VERIFY(glBindFramebuffer(GL_FRAMEBUFFER, 0));
     GL_VERIFY(glViewport(0, 0, viewportW, viewportH));

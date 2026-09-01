@@ -773,7 +773,7 @@ target_link_libraries(relive_lib
     imgui
     glm
     ${WIN32_LIBS}
-    ${SDL2_LIBRARIES}
+    SDL3::SDL3
     )
 
 export(TARGETS relive_lib FILE relive_lib.cmake)

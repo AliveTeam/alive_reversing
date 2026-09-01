@@ -60,8 +60,8 @@ void Engine::CmdLineRenderInit()
     gDDCheatOn = mClp.SwitchExists("-ddcheat") || mClp.SwitchExists("-it_is_me_your_father");
 #endif
 
-    IRenderer::Renderers rendererToCreate = IRenderer::Renderers::Sdl2;
-    LOG_INFO("Default renderer is Sdl2");
+    IRenderer::Renderers rendererToCreate = IRenderer::Renderers::Sdl3;
+    LOG_INFO("Default renderer is Sdl3");
 
     std::string renderer;
     if (mClp.ExtractNamePairArgument(renderer, "-renderer="))
@@ -75,7 +75,7 @@ void Engine::CmdLineRenderInit()
         if (strcmpi(renderer.c_str(), "sdl") == 0)
         {
             LOG_INFO("Command line set renderer to sdl");
-            rendererToCreate = IRenderer::Renderers::Sdl2;
+            rendererToCreate = IRenderer::Renderers::Sdl3;
         }
     }
 

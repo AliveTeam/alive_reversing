@@ -4,6 +4,7 @@
 #include "../../FG1.hpp"
 #include "../../Animation.hpp"
 #include "../../../AliveLibAE/Font.hpp"
+#include <cmath>
 
 template <typename TextureType, typename RenderBatchType, std::size_t kTextureBatchSize>
 void Batcher<TextureType, RenderBatchType, kTextureBatchSize>::PushVertexData(IRenderer::PsxVertexData* pVertData, s32 count, std::shared_ptr<TextureType>& texture, u32 textureResId)

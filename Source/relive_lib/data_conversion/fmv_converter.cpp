@@ -462,6 +462,7 @@ private:
 
 void ConvertFMVs(const FileSystem::Path& dataDir, bool isAo)
 {
+    return;
     if (isAo)
     {
         return;
