@@ -9,6 +9,7 @@
 #include <assert.h>
 #include "../../relive_lib/FatalError.hpp"
 #include <algorithm>
+#include <cmath>
 
 // TODO: Refactor + remove these
 #define BYTEn(x, n) (*((u8*) &(x) + n))

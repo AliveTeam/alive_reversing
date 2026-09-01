@@ -136,7 +136,7 @@
 #include <vector>
 #include <mutex>
 
-#include "SDL.h"
+#include <SDL3/SDL.h>
 
 #include "GameObjects/BaseAliveGameObject.hpp"
 #include "data_conversion/relive_tlvs.hpp"

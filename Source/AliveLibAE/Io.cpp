@@ -5,7 +5,7 @@
 #include "stdlib.hpp"
 #include "../relive_lib/Masher.hpp"
 #include "../relive_lib/FatalError.hpp"
-#include "SDL.h"
+#include <SDL3/SDL.h>
 
 #if !_WIN32
     #include <dirent.h>
@@ -37,7 +37,7 @@ IO_FileHandleType IO_Open(const char_type* fileName, const char_type* mode)
     }
 
 #if USE_SDL2_IO
-    return SDL_RWFromFile(fileName, mode);
+    return SDL_IOFromFile(fileName, mode);
 #else
     return ::fopen(fileName, mode);
 #endif
@@ -46,7 +46,7 @@ IO_FileHandleType IO_Open(const char_type* fileName, const char_type* mode)
 s32 IO_Seek(IO_FileHandleType pHandle, s32 offset, s32 origin)
 {
 #if USE_SDL2_IO
-    return static_cast<s32>(pHandle->seek(pHandle, offset, origin));
+    return static_cast<s32>(SDL_SeekIO(pHandle, offset, static_cast<SDL_IOWhence>(origin)));
 #else
     return ::fseek(pHandle, offset, origin);
 #endif
@@ -55,7 +55,7 @@ s32 IO_Seek(IO_FileHandleType pHandle, s32 offset, s32 origin)
 s32 IO_Close(IO_FileHandleType pHandle)
 {
 #if USE_SDL2_IO
-    return pHandle->close(pHandle);
+    return SDL_CloseIO(pHandle) ? 0 : -1;
 #else
     return ::fclose(pHandle);
 #endif
@@ -64,7 +64,7 @@ s32 IO_Close(IO_FileHandleType pHandle)
 size_t IO_Read(IO_FileHandleType pHandle, void* ptr, size_t size, size_t maxnum)
 {
 #if USE_SDL2_IO
-    return pHandle->read(pHandle, ptr, size, maxnum);
+    return SDL_ReadIO(pHandle, ptr, size * maxnum);
 #else
     return ae_fread_520B5C(ptr, size, maxnum, pHandle);
 #endif

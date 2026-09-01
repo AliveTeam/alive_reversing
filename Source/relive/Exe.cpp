@@ -151,10 +151,9 @@ static std::string GetCwd()
     const char* answer = getcwd(buffer, sizeof(buffer));
     if (answer)
     {
-        char* pBasePath = SDL_GetBasePath();
+        const char* pBasePath = SDL_GetBasePath();
         LOG_INFO("Mac/Linux cwd is %s SDL_GetBasePath is %s SDL_GetPrefPath is %s", answer, pBasePath, GetPrefPath().c_str());
         std::string tmp(pBasePath);
-        SDL_free(pBasePath);
         return tmp;
     }
     else
@@ -173,20 +172,17 @@ static void ShowCwd()
 
 static void PrintSDL2Versions()
 {
-    SDL_version compiled = {};
-    SDL_version linked = {};
+    const int version = SDL_GetVersion();
 
-    SDL_VERSION(&compiled);
-    SDL_GetVersion(&linked);
-    LOG_INFO("Compiled with SDL2 ver %d.%d.%d", static_cast<int>(compiled.major), static_cast<int>(compiled.minor), static_cast<int>(compiled.patch));
-    LOG_INFO("Runtime SDL2 ver %d.%d.%d", static_cast<int>(linked.major), static_cast<int>(linked.minor), static_cast<int>(linked.patch));
+    LOG_INFO("Compiled with SDL3 ver %d.%d.%d", SDL_MAJOR_VERSION, SDL_MINOR_VERSION, SDL_MICRO_VERSION);
+    LOG_INFO("Runtime SDL3 ver %d.%d.%d", SDL_VERSIONNUM_MAJOR(version), SDL_VERSIONNUM_MINOR(version), SDL_VERSIONNUM_MICRO(version));
 }
 
 static void SDL2_Init()
 {
     PrintSDL2Versions(); // Ok to call before init
 
-    if (SDL_Init(SDL_INIT_TIMER | SDL_INIT_VIDEO | SDL_INIT_EVENTS | SDL_INIT_HAPTIC | SDL_INIT_JOYSTICK | SDL_INIT_GAMECONTROLLER) != 0)
+    if (!SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS | SDL_INIT_HAPTIC | SDL_INIT_JOYSTICK | SDL_INIT_GAMEPAD))
     {
         LOG_ERROR(SDL_GetError());
         ALIVE_FATAL(SDL_GetError());

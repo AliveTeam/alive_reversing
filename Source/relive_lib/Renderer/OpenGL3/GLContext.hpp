@@ -2,7 +2,7 @@
 
 #include "../../../relive_lib/Sys.hpp"
 
-typedef void* SDL_GLContext;
+//typedef void* SDL_GLContext;
 
 class GLContext final
 {

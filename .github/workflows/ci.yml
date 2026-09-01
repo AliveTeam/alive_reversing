@@ -27,7 +27,7 @@ jobs:
             name: Windows32
           - os: windows-2022
             name: Windows64
-          - os: ubuntu-latest
+          - os: ubuntu-26.04
             name: Linux
           # - os: macos-latest-large
           #   name: macOS
@@ -38,11 +38,11 @@ jobs:
       with:
         submodules: recursive
 
-    - name: 'Windows: Install SDL2'
+    - name: 'Windows: Install SDL3'
       if: runner.os == 'Windows'
       run: |
-        Invoke-WebRequest 'https://www.libsdl.org/release/SDL2-devel-2.0.22-VC.zip' -OutFile "$env:GITHUB_WORKSPACE\SDL2.zip"
-        7z x SDL2.zip
+        Invoke-WebRequest 'https://www.libsdl.org/release/SDL3-devel-3.4.14-VC.zip' -OutFile "$env:GITHUB_WORKSPACE\SDL3.zip"
+        7z x SDL3.zip
 
     # ======================================
     #      Windows32
@@ -60,7 +60,7 @@ jobs:
       run: |
         mkdir build
         cd build
-        cmake .. -G"Visual Studio 17 2022" -DSDL2_DIR="$env:GITHUB_WORKSPACE\SDL2-2.0.22" -DCMAKE_PREFIX_PATH="$env:QT_ROOT_DIR" -A Win32 -DCI_PROVIDER="GitHub" -DBUILD_NUMBER="$env:GITHUB_RUN_NUMBER"
+        cmake .. -G"Visual Studio 17 2022" -DSDL3_DIR="$env:GITHUB_WORKSPACE\SDL3-3.4.14\cmake" -DCMAKE_PREFIX_PATH="$env:QT_ROOT_DIR" -A Win32 -DCI_PROVIDER="GitHub" -DBUILD_NUMBER="$env:GITHUB_RUN_NUMBER"
         cmake --build . --config $env:CONFIGURATION
         cpack -G ZIP -C $env:CONFIGURATION
 
@@ -80,7 +80,7 @@ jobs:
       run: |
         mkdir build
         cd build
-        cmake .. -G"Visual Studio 17 2022" -DSDL2_DIR="$env:GITHUB_WORKSPACE\SDL2-2.0.22" -DCMAKE_PREFIX_PATH="$env:QT_ROOT_DIR" -A x64 -DCI_PROVIDER="GitHub" -DBUILD_NUMBER="$env:GITHUB_RUN_NUMBER"
+        cmake .. -G"Visual Studio 17 2022" -DSDL3_DIR="$env:GITHUB_WORKSPACE\SDL3-3.4.14\cmake" -DCMAKE_PREFIX_PATH="$env:QT_ROOT_DIR" -A x64 -DCI_PROVIDER="GitHub" -DBUILD_NUMBER="$env:GITHUB_RUN_NUMBER"
         cmake --build . --config $env:CONFIGURATION
         cpack -G ZIP -C $env:CONFIGURATION
         
@@ -88,11 +88,11 @@ jobs:
     #      Linux
     # ======================================
 
-    - name: 'Linux: Install SDL2'
+    - name: 'Linux: Install SDL3'
       if: matrix.name == 'Linux'
       run: |
         sudo apt-get update
-        sudo apt-get install -y libsdl2-dev
+        sudo apt-get install -y libsdl3-dev
 
     - name: 'Linux: Install Qt 5.15.2'
       if: matrix.name == 'Linux'
@@ -151,7 +151,7 @@ jobs:
         name: ${{ matrix.name }}-${{ env.CONFIGURATION }}-relive-binaries
         path: |
           build\Source\relive\${{ env.CONFIGURATION }}\relive.exe
-          build\Source\relive\${{ env.CONFIGURATION }}\SDL2.dll
+          build\Source\relive\${{ env.CONFIGURATION }}\SDL3.dll
 
     - name: 'Windows: Upload relive symbols'
       uses: actions/upload-artifact@v4

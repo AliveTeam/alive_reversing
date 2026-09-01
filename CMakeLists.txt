@@ -57,7 +57,7 @@ add_custom_target(
     WORKING_DIRECTORY "${CMAKE_CURRENT_LIST_DIR}"
 )
 
-find_package(SDL2 REQUIRED)
+find_package(SDL3 REQUIRED CONFIG)
 include_directories(${SDL2_INCLUDE_DIRS})
 
 set(CompilerFlags
@@ -200,7 +200,7 @@ endif()
 
 SET(CPACK_PACKAGE_CONTACT "nemin@oddwords.hu")
 SET(CPACK_DEBIAN_PACKAGE_HOMEPAGE "https://aliveteam.github.io/")
-SET(CPACK_DEBIAN_PACKAGE_DEPENDS "libsdl2-2.0-0, zenity")
+SET(CPACK_DEBIAN_PACKAGE_DEPENDS "libsdl3-0, zenity")
 
 # bash is required to run install hooks
 set(CPACK_RPM_RELIVE_REQUIRES_PRE "bash")

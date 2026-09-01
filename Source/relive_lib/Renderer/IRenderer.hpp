@@ -1,6 +1,6 @@
 #pragma once
 
-#include "SDL.h"
+#include <SDL3/SDL.h>
 
 struct BasePrimitive;
 struct Prim_ScissorRect;
@@ -86,7 +86,7 @@ public: // TODO: Make protected later
 public:
     enum class Renderers
     {
-        Sdl2,
+        Sdl3,
         OpenGL
     };
 

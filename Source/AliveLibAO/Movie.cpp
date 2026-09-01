@@ -245,24 +245,10 @@ public:
             mFrameW = width;
             mFrameH = height;
 
-            Uint32 rmask, gmask, bmask, amask;
-
-#if SDL_BYTEORDER == SDL_BIG_ENDIAN
-            rmask = 0xff000000;
-            gmask = 0x00ff0000;
-            bmask = 0x0000ff00;
-            amask = 0x000000ff;
-#else
-            rmask = 0x000000ff;
-            gmask = 0x0000ff00;
-            bmask = 0x00ff0000;
-            amask = 0xff000000;
-#endif
-
-            wholeImage = SDL_CreateRGBSurface(0, width, height, 32, rmask, gmask, bmask, amask);
+            wholeImage = SDL_CreateSurface(width, height, SDL_PIXELFORMAT_RGBA32);
             if (!wholeImage)
             {
-                ALIVE_FATAL("CreateRGBSurface failed: %s", SDL_GetError());
+                ALIVE_FATAL("SDL_CreateSurface failed: %s", SDL_GetError());
             }
             return true;
         }
@@ -271,7 +257,7 @@ public:
 
     void BlitScaledTo(SDL_Surface* pDst)
     {
-        SDL_BlitScaled(wholeImage, nullptr, pDst, nullptr);
+        SDL_BlitSurfaceScaled(wholeImage, nullptr, pDst, nullptr, SDL_SCALEMODE_NEAREST);
         //SDL_SaveBMP(wholeImage, "test.bmp");
     }
 
@@ -292,7 +278,7 @@ private:
     {
         if (wholeImage)
         {
-            SDL_FreeSurface(wholeImage);
+            SDL_DestroySurface(wholeImage);
             wholeImage = nullptr;
         }
     }

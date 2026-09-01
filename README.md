@@ -38,7 +38,7 @@ git clone --recursive https://github.com/AliveTeam/alive_reversing.git
 
 #### Prerequisites
 1. [CMake](https://cmake.org/)
-2. [SDL2](https://github.com/libsdl-org/SDL/releases)
+2. [SDL3](https://github.com/libsdl-org/SDL/releases)
 3. [Straweberry Perl](https://strawberryperl.com/)
 4. Qt 5.15.2
 
@@ -56,12 +56,12 @@ cd build
 
 2. Generate the solution file:
 ```
-cmake -S .. -B . -DSDL2_DIR=YOUR_SDL2_PATH -DCMAKE_PREFIX_PATH=YOUR_QT5_PREFIX_PATH
+cmake -S .. -B . -DSDL3_DIR=YOUR_SDL3_PATH -DCMAKE_PREFIX_PATH=YOUR_QT5_PREFIX_PATH
 ```
 
-For example, if you installed Qt5 at `C:\Qt` and SDL2 at `C:\SDL2` you would run:
+For example, if you installed Qt5 at `C:\Qt` and SDL3 at `C:\SDL3` you would run:
 ```
-cmake -S .. -B . -DSDL2_DIR=C:\SDL2 -DCMAKE_PREFIX_PATH=C:\Qt\5.15.2\msvc2019_64
+cmake -S .. -B . -DSDL3_DIR=C:\SDL3\cmake -DCMAKE_PREFIX_PATH=C:\Qt\5.15.2\msvc2019_64
 ```
 
 3. After cmake is done, open the generated `relive.sln` file within your `build` folder with Visual Studio 2022.
@@ -76,13 +76,13 @@ cmake -S .. -B . -DSDL2_DIR=C:\SDL2 -DCMAKE_PREFIX_PATH=C:\Qt\5.15.2\msvc2019_64
 #### Prerequisites
 
 1. [CMake](https://cmake.org/)
-2. [SDL2](https://www.libsdl.org/)
+2. [SDL3](https://www.libsdl.org/)
 3. [Perl](https://www.perl.org/)
 4. Qt 5.15.x
 
 #### Ubuntu
 ```
-sudo apt install cmake libsdl2-dev perl qtdeclarative5-dev qtmultimedia5-dev qttools5-dev
+sudo apt install cmake libsdl3-dev perl qtdeclarative5-dev qtmultimedia5-dev qttools5-dev
 ```
 
 1. Cd into the build directory:

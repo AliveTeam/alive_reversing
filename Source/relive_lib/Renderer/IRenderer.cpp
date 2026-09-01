@@ -6,6 +6,8 @@
 #include "../../relive_lib/FatalError.hpp"
 #include "../../relive_lib/Sys.hpp"
 
+#include <cmath>
+
 static IRenderer* gRenderer = nullptr;
 
 IRenderer* IRenderer::GetRenderer()
@@ -55,16 +57,16 @@ bool IRenderer::CreateRenderer(Renderers type, const std::string& windowTitle)
     }
 
     std::vector<Renderers> creationOrder{type};
-    AddRenderer(creationOrder, Renderers::Sdl2);
+    AddRenderer(creationOrder, Renderers::Sdl3);
     AddRenderer(creationOrder, Renderers::OpenGL);
 
     for (Renderers typeToCreate : creationOrder)
     {
         switch (typeToCreate)
         {
-            case Renderers::Sdl2:
-                LOG_INFO("Create SDL2 renderer");
-                MakeRenderer<Sdl2Renderer>(windowTitle + " [SDL2]", 0);
+            case Renderers::Sdl3:
+                LOG_INFO("Create SDL3 renderer");
+                MakeRenderer<Sdl2Renderer>(windowTitle + " [SDL3]", 0);
                 break;
 
             case Renderers::OpenGL:
@@ -118,7 +120,7 @@ SDL_Rect IRenderer::GetFramebufferRect()
         }
         else
         {
-            SDL_GL_GetDrawableSize(mWindow, &desiredW, &desiredH);
+            SDL_GetWindowSizeInPixels(mWindow, &desiredW, &desiredH);
         }
     }
 
