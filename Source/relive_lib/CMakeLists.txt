@@ -725,6 +725,7 @@ target_include_directories(relive_lib PUBLIC
     "$<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/3rdParty>"
     "$<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/3rdParty/aom>"
     "$<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/3rdParty/aom/third_party/libwebm>"
+    "$<BUILD_INTERFACE:${CMAKE_BINARY_DIR}/3rdParty/aom>"
     "$<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/3rdParty/json/single_include>"
     "$<INSTALL_INTERFACE:include>"
     PRIVATE src ${CMAKE_BINARY_DIR})

@@ -43,10 +43,8 @@ Engine::Engine(GameType gameType, FileSystem& fs, CommandLineParser& clp)
 
 Engine::~Engine()
 {
-    if (mIpcInterface)
-    {
-        mIpcInterface->Cancel();
-    }
+    TRACE_ENTRYEXIT;
+    mIpcInterface.reset();
 }
 
 void Engine::CmdLineRenderInit()

@@ -931,11 +931,14 @@ Movie::Movie(const char_type* pName)
     , mName(pName)
 {
     mName = "PHLEGINF.DDV.webm";
-    Init();
+   // Init();
 }
 
 void Movie::VUpdate()
 {
+    SetDead(true);
+
+    /*
     if (GetGameAutoPlayer().IsPlaying() || GetGameAutoPlayer().IsRecording())
     {
         SetDead(true);
@@ -961,6 +964,7 @@ void Movie::VUpdate()
         }
     }
     DeInit();
+    */
 }
 
 void Movie::DeInit()
