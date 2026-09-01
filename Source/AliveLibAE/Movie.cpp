@@ -35,14 +35,15 @@ const u32 MOVIE_SKIPPER_GAMEPAD_INPUTS = (InputCommands::eUnPause_OrConfirm | In
 // Tells whether reverb was enabled before starting the FMV
 static bool wasReverbEnabled = false;
 static SoundEntry sFmvSoundEntry = {};
-static s32 sFmvAudioSampleOffset = 0;
 static bool sNoAudioOrAudioError = false;
+static std::atomic<u32> sFmvPlaybackId = 0;
 
 namespace
 {
     struct MkvVideoFrame final
     {
         uint64_t mPtsNs = 0;
+        long long mFileOffset = 0;
         std::vector<u8> mPixels;
     };
 
@@ -52,14 +53,21 @@ namespace
         std::vector<u8> mBuffer;
     };
 
+    struct MkvEncodedPacket final
+    {
+        uint64_t mPtsNs = 0;
+        long long mFileOffset = 0;
+        int mTrackNumber = 0;
+        std::vector<u8> mPayload;
+    };
+
     static constexpr size_t kMaxBufferedVideoFrames = 30;
-    static constexpr size_t kMaxBufferedAudioBytes = 2u * 1024u * 1024u;
 
     template<class T, size_t Capacity>
     class AVQueue final
     {
     public:
-        bool TryPush(T value)
+        bool TryPush(T& value)
         {
             const size_t writeIndex = mWriteIndex.load(std::memory_order_relaxed);
             const size_t nextWriteIndex = (writeIndex + 1u) % Capacity;
@@ -208,31 +216,12 @@ namespace
             return false;
         }
 
-        std::deque<MkvVideoFrame>& VideoFrames()
+        bool DemuxNext(MkvEncodedPacket& packet)
         {
-            return mVideoFrames;
-        }
-
-        const std::deque<MkvVideoFrame>& VideoFrames() const
-        {
-            return mVideoFrames;
-        }
-
-        std::deque<MkvAudioChunk>& AudioChunks()
-        {
-            return mAudioChunks;
-        }
-
-        const std::deque<MkvAudioChunk>& AudioChunks() const
-        {
-            return mAudioChunks;
-        }
-
-        bool ParseMore(size_t maxVideoFrames = kMaxBufferedVideoFrames, size_t maxAudioBytes = kMaxBufferedAudioBytes)
-        {
+            packet = {};
             if (!mSegment || mParsingComplete)
             {
-                return !mVideoFrames.empty();
+                return false;
             }
 
             if (!mCurrentCluster)
@@ -245,9 +234,10 @@ namespace
                 const mkvparser::Cluster* pNextCluster = mSegment->GetNext(mCurrentCluster);
                 if (pNextCluster == nullptr || pNextCluster->EOS())
                 {
-                    LOG_INFO("FMV parser: reached EOS cluster, queue=%zu, parsingComplete", mVideoFrames.size());
+                    LOG_INFO("FMV parser: reached EOS cluster, parsingComplete");
                     mCurrentCluster = nullptr;
                     mCurrentBlockEntry = nullptr;
+                    mCurrentFrameIndex = 0;
                     mParsingComplete = true;
                     return false;
                 }
@@ -255,6 +245,7 @@ namespace
                 LOG_INFO("FMV parser: cluster advance to %p", pNextCluster);
                 mCurrentCluster = pNextCluster;
                 mCurrentBlockEntry = nullptr;
+                mCurrentFrameIndex = 0;
                 return true;
             };
 
@@ -270,7 +261,7 @@ namespace
                             break;
                         }
                     }
-                    else
+                    else if (mCurrentBlockEntry->GetBlock() && mCurrentFrameIndex >= mCurrentBlockEntry->GetBlock()->GetFrameCount())
                     {
                         const mkvparser::BlockEntry* pNextBlockEntry = nullptr;
                         const long status = mCurrentCluster->GetNext(mCurrentBlockEntry, pNextBlockEntry);
@@ -279,6 +270,7 @@ namespace
                             break;
                         }
                         mCurrentBlockEntry = pNextBlockEntry;
+                        mCurrentFrameIndex = 0;
                     }
 
                     if (mCurrentBlockEntry == nullptr || mCurrentBlockEntry->EOS())
@@ -292,70 +284,35 @@ namespace
                         continue;
                     }
 
-                    const u64 ptsNs = static_cast<u64>(pBlock->GetTime(mCurrentCluster));
-                    for (int frameIdx = 0; frameIdx < pBlock->GetFrameCount(); ++frameIdx)
+                    const mkvparser::Block::Frame& frame = pBlock->GetFrame(mCurrentFrameIndex++);
+                    std::vector<u8> payload(static_cast<size_t>(frame.len));
+                    if (frame.Read(mReader, payload.data()) != 0)
                     {
-                        const mkvparser::Block::Frame& frame = pBlock->GetFrame(frameIdx);
-                        std::vector<u8> payload(static_cast<size_t>(frame.len));
-                        if (frame.Read(mReader, payload.data()) != 0)
-                        {
-                            Cleanup();
-                            return false;
-                        }
-
-                        if (pBlock->GetTrackNumber() == mVideoTrackNumber)
-                        {
-                            if (mVideoFrames.size() >= maxVideoFrames)
-                            {
-                                // Keep the parse cursor at the current block so playback resumes from the exact
-                                // same position after the consumer drains the queue instead of replaying stale data.
-                                return !mVideoFrames.empty();
-                            }
-
-                            MkvVideoFrame videoFrame;
-                            videoFrame.mPtsNs = ptsNs;
-                            if (!DecodeAv1Frame(payload, videoFrame.mPixels))
-                            {
-                                Cleanup();
-                                return false;
-                            }
-                            mVideoFrames.push_back(videoFrame);
-                        }
-                        else if (mAudioTrack != nullptr && pBlock->GetTrackNumber() == mAudioTrackNumber)
-                        {
-                            if (mAudioBytesBuffered + payload.size() > maxAudioBytes)
-                            {
-                                // Preserve the cursor at the current block until audio space is freed by the consumer.
-                                return !mVideoFrames.empty();
-                            }
-
-                            MkvAudioChunk audioChunk;
-                            audioChunk.mPtsNs = ptsNs;
-                            audioChunk.mBuffer = payload;
-                            mAudioBytesBuffered += audioChunk.mBuffer.size();
-                            mAudioChunks.push_back(audioChunk);
-                        }
+                        mParsingComplete = true;
+                        return false;
                     }
+
+                    const int trackNumber = static_cast<int>(pBlock->GetTrackNumber());
+                    if (trackNumber != mVideoTrackNumber && trackNumber != mAudioTrackNumber)
+                    {
+                        continue;
+                    }
+
+                    packet.mPtsNs = static_cast<u64>(pBlock->GetTime(mCurrentCluster));
+                    packet.mFileOffset = frame.pos;
+                    packet.mTrackNumber = trackNumber;
+                    packet.mPayload = std::move(payload);
+                    return true;
                 }
 
                 if (!advanceToNextCluster())
                 {
-                    return !mVideoFrames.empty();
+                    return false;
                 }
             }
 
             mParsingComplete = true;
-            return !mVideoFrames.empty();
-        }
-
-        bool VideoFramesReady() const
-        {
-            return !mVideoFrames.empty();
-        }
-
-        bool AudioChunksReady() const
-        {
-            return !mAudioChunks.empty();
+            return false;
         }
 
         bool ParsingComplete() const
@@ -363,21 +320,9 @@ namespace
             return mParsingComplete;
         }
 
-        void PopVideoFrame()
+        int VideoTrackNumber() const
         {
-            if (!mVideoFrames.empty())
-            {
-                mVideoFrames.pop_front();
-            }
-        }
-
-        void PopAudioChunk()
-        {
-            if (!mAudioChunks.empty())
-            {
-                mAudioBytesBuffered -= mAudioChunks.front().mBuffer.size();
-                mAudioChunks.pop_front();
-            }
+            return mVideoTrackNumber;
         }
 
         u32 Width() const
@@ -452,12 +397,7 @@ namespace
             mCurrentBlockEntry = nullptr;
             mParsingComplete = false;
 
-            if (!ParseMore(kMaxBufferedVideoFrames, kMaxBufferedAudioBytes))
-            {
-                return false;
-            }
-
-            return !mVideoFrames.empty();
+            return true;
         }
 
         u32 AudioSampleRate() const
@@ -473,6 +413,18 @@ namespace
         u32 AudioBitsPerSample() const
         {
             return mAudioBitsPerSample;
+        }
+
+        bool HasAudio() const
+        {
+            return mAudioTrack != nullptr;
+        }
+
+        bool DecodeVideo(const MkvEncodedPacket& packet, MkvVideoFrame& frame)
+        {
+            frame.mPtsNs = packet.mPtsNs;
+            frame.mFileOffset = packet.mFileOffset;
+            return DecodeAv1Frame(packet.mPayload, frame.mPixels);
         }
 
     private:
@@ -571,10 +523,8 @@ namespace
             mAudioTrackNumber = 0;
             mCurrentCluster = nullptr;
             mCurrentBlockEntry = nullptr;
+            mCurrentFrameIndex = 0;
             mParsingComplete = false;
-            mVideoFrames.clear();
-            mAudioChunks.clear();
-            mAudioBytesBuffered = 0;
             mAudioSampleRate = 44100;
             mAudioChannels = 2;
             mAudioBitsPerSample = 16;
@@ -591,8 +541,8 @@ namespace
         std::deque<MkvAudioChunk> mAudioChunks;
         const mkvparser::Cluster* mCurrentCluster = nullptr;
         const mkvparser::BlockEntry* mCurrentBlockEntry = nullptr;
+        int mCurrentFrameIndex = 0;
         std::atomic_bool mParsingComplete = false;
-        size_t mAudioBytesBuffered = 0;
         aom_codec_ctx_t mCodec = {};
         bool mCodecReady = false;
         int mVideoTrackNumber = 0;
@@ -604,80 +554,127 @@ namespace
         u32 mAudioBitsPerSample = 16;
     };
 
+    using MkvPacketQueue = AVQueue<MkvEncodedPacket, 128u>;
     using MkvVideoQueue = AVQueue<MkvVideoFrame, kMaxBufferedVideoFrames + 1u>;
     using MkvAudioQueue = AVQueue<MkvAudioChunk, 128u>;
 
-    class MkvDemuxDecodeThread final
+    class MkvMoviePipeline final
     {
     public:
-        MkvDemuxDecodeThread(WebmMoviePlayer& movie, MkvVideoQueue& videoQueue, MkvAudioQueue& audioQueue)
+        MkvMoviePipeline(WebmMoviePlayer& movie, MkvVideoQueue& videoQueue, MkvAudioQueue& audioQueue)
             : mMovie(movie)
             , mVideoQueue(videoQueue)
             , mAudioQueue(audioQueue)
-            , mThread(&MkvDemuxDecodeThread::Run, this)
+            , mDemuxThread(&MkvMoviePipeline::DemuxRun, this)
+            , mVideoThread(&MkvMoviePipeline::VideoRun, this)
+            , mAudioThread(&MkvMoviePipeline::AudioRun, this)
         {
         }
 
-        ~MkvDemuxDecodeThread()
+        ~MkvMoviePipeline()
         {
-            if (mThread.joinable())
+            mStop = true;
+            Join(mDemuxThread);
+            Join(mVideoThread);
+            Join(mAudioThread);
+        }
+
+        MkvMoviePipeline(const MkvMoviePipeline&) = delete;
+        MkvMoviePipeline& operator=(const MkvMoviePipeline&) = delete;
+
+        bool VideoComplete() const
+        {
+            return mVideoComplete && mVideoQueue.Empty();
+        }
+
+        bool AudioComplete() const
+        {
+            return mAudioComplete && mAudioQueue.Empty();
+        }
+
+    private:
+        static void Join(std::thread& thread)
+        {
+            if (thread.joinable())
             {
-                mThread.join();
+                thread.join();
             }
         }
 
-        MkvDemuxDecodeThread(const MkvDemuxDecodeThread&) = delete;
-        MkvDemuxDecodeThread& operator=(const MkvDemuxDecodeThread&) = delete;
-
-    private:
-        void Run()
+        void DemuxRun()
         {
-            for (;;)
+            MkvEncodedPacket packet;
+            while (!mStop && mMovie.DemuxNext(packet))
             {
-                bool movedData = false;
-
-                while (!mMovie.VideoFrames().empty())
-                {
-                    MkvVideoFrame frame = std::move(mMovie.VideoFrames().front());
-                    mMovie.PopVideoFrame();
-                    movedData = true;
-                    mVideoQueue.TryPush(std::move(frame));
-                }
-
-                while (!mMovie.AudioChunks().empty())
-                {
-                    MkvAudioChunk chunk = std::move(mMovie.AudioChunks().front());
-                    mMovie.PopAudioChunk();
-                    movedData = true;
-                    mAudioQueue.TryPush(std::move(chunk));
-                }
-
-                if (!mMovie.ParsingComplete())
-                {
-                    mMovie.ParseMore(kMaxBufferedVideoFrames, kMaxBufferedAudioBytes);
-                    movedData = !mMovie.VideoFrames().empty() || !mMovie.AudioChunks().empty();
-                }
-
-                if (mMovie.ParsingComplete()
-                    && mMovie.VideoFrames().empty()
-                    && mMovie.AudioChunks().empty()
-                    && mVideoQueue.Empty()
-                    && mAudioQueue.Empty())
-                {
-                    return;
-                }
-
-                if (!movedData)
+                MkvPacketQueue& queue = packet.mTrackNumber == mMovie.VideoTrackNumber() ? mVideoPackets : mAudioPackets;
+                while (!mStop && !queue.TryPush(packet))
                 {
                     std::this_thread::sleep_for(std::chrono::milliseconds(1));
                 }
+                packet = {};
             }
+            mDemuxComplete = true;
+        }
+
+        void VideoRun()
+        {
+            MkvEncodedPacket packet;
+            while (!mStop && (!mDemuxComplete || !mVideoPackets.Empty()))
+            {
+                if (!mVideoPackets.TryPop(packet))
+                {
+                    std::this_thread::sleep_for(std::chrono::milliseconds(1));
+                    continue;
+                }
+
+                MkvVideoFrame frame;
+                if (mMovie.DecodeVideo(packet, frame))
+                {
+                    while (!mStop && !mVideoQueue.TryPush(frame))
+                    {
+                        std::this_thread::sleep_for(std::chrono::milliseconds(1));
+                    }
+                }
+                packet = {};
+            }
+            mVideoComplete = true;
+        }
+
+        void AudioRun()
+        {
+            MkvEncodedPacket packet;
+            while (!mStop && (!mDemuxComplete || !mAudioPackets.Empty()))
+            {
+                if (!mAudioPackets.TryPop(packet))
+                {
+                    std::this_thread::sleep_for(std::chrono::milliseconds(1));
+                    continue;
+                }
+
+                MkvAudioChunk chunk;
+                chunk.mPtsNs = packet.mPtsNs;
+                chunk.mBuffer = std::move(packet.mPayload);
+                while (!mStop && !mAudioQueue.TryPush(chunk))
+                {
+                    std::this_thread::sleep_for(std::chrono::milliseconds(1));
+                }
+                packet = {};
+            }
+            mAudioComplete = true;
         }
 
         WebmMoviePlayer& mMovie;
         MkvVideoQueue& mVideoQueue;
         MkvAudioQueue& mAudioQueue;
-        std::thread mThread;
+        MkvPacketQueue mVideoPackets;
+        MkvPacketQueue mAudioPackets;
+        std::atomic_bool mStop = false;
+        std::atomic_bool mDemuxComplete = false;
+        std::atomic_bool mVideoComplete = false;
+        std::atomic_bool mAudioComplete = false;
+        std::thread mDemuxThread;
+        std::thread mVideoThread;
+        std::thread mAudioThread;
     };
 }
 
@@ -706,9 +703,17 @@ s8 DDV_Play_Impl(const char_type* pMovieName)
         return 0;
     }
 
-    auto& videoFrames = movie.VideoFrames();
-    auto& audioChunks = movie.AudioChunks();
-    const bool hasAudio = !audioChunks.empty();
+    const u32 playbackId = ++sFmvPlaybackId;
+    u32 renderedFrameCount = 0;
+    u32 droppedFrameCount = 0;
+    u32 invalidDisplayedFrameCount = 0;
+    bool haveLastDisplayedOffset = false;
+    long long lastDisplayedOffset = 0;
+    u64 lastDisplayedPixelHash = 0;
+    u32 repeatedDisplayedPixelCount = 0;
+    LOG_INFO("FMV playback %u: started", playbackId);
+
+    const bool hasAudio = movie.HasAudio();
 
     sNoAudioOrAudioError = false;
     if (hasAudio)
@@ -721,16 +726,10 @@ s8 DDV_Play_Impl(const char_type* pMovieName)
         const u32 sampleRate = movie.AudioSampleRate();
         const u32 bitDepth = movie.AudioBitsPerSample();
         const u32 channels = movie.AudioChannels();
-        const u32 blockAlign = (bitDepth / 8u) * channels;
-        const u32 audioBytes = static_cast<u32>(std::accumulate(audioChunks.begin(), audioChunks.end(), 0ull,
-            [](u64 total, const MkvAudioChunk& chunk)
-            {
-                return total + chunk.mBuffer.size();
-            }));
-        const u32 audioSamples = audioBytes / std::max<u32>(1u, blockAlign);
         const s32 soundFlags = channels > 1 ? (bitDepth == 16 ? 6 : 4) : (bitDepth == 16 ? 2 : 0);
+        const u32 audioBufferSamples = std::max<u32>(sampleRate * 4u, 4096u);
 
-        if (GetSoundAPI().mSND_New(&sFmvSoundEntry, static_cast<s32>(std::max<u64>(audioSamples + 4096u, 4096u)), sampleRate, bitDepth, soundFlags) < 0)
+        if (GetSoundAPI().mSND_New(&sFmvSoundEntry, static_cast<s32>(audioBufferSamples), sampleRate, bitDepth, soundFlags) < 0)
         {
             sFmvSoundEntry.field_4_pDSoundBuffer = nullptr;
             sNoAudioOrAudioError = true;
@@ -751,55 +750,76 @@ s8 DDV_Play_Impl(const char_type* pMovieName)
     polyFT4.SetXYWH(0, 0, 640, 240);
     polyFT4.mCam = &fmvFrame;
 
-    if (hasAudio && !sNoAudioOrAudioError)
-    {
-        const u32 blockAlign = (movie.AudioBitsPerSample() / 8u) * movie.AudioChannels();
-        u32 audioSampleOffset = 0;
-        for (size_t i = 0; i < audioChunks.size() && i < 6; ++i)
-        {
-            const auto& chunk = audioChunks[i];
-            if (!chunk.mBuffer.empty())
-            {
-                const u32 chunkSampleCount = static_cast<u32>(chunk.mBuffer.size() / std::max<u32>(1u, blockAlign));
-                if (GetSoundAPI().mSND_LoadSamples(&sFmvSoundEntry, audioSampleOffset, const_cast<u8*>(chunk.mBuffer.data()), chunkSampleCount) < 0)
-                {
-                    sNoAudioOrAudioError = true;
-                    break;
-                }
-                audioSampleOffset += chunkSampleCount;
-            }
-        }
-
-        if (!sNoAudioOrAudioError)
-        {
-            sFmvAudioSampleOffset = (audioSampleOffset + 1) & ~1u;
-            if (FAILED(SND_PlayEx(&sFmvSoundEntry, 116, 116, 1.0, 0, 1, 100)))
-            {
-                sNoAudioOrAudioError = true;
-            }
-        }
-    }
-
     MkvVideoQueue videoQueue;
     MkvAudioQueue audioQueue;
-    auto demuxThread = std::make_unique<MkvDemuxDecodeThread>(movie, videoQueue, audioQueue);
+    auto moviePipeline = std::make_unique<MkvMoviePipeline>(movie, videoQueue, audioQueue);
 
-    const s32 movieStartTimeStamp = SYS_GetTicks();
+    s32 audioStartTimeStamp = 0;
     std::deque<MkvAudioChunk> pendingAudioChunks;
-    u32 audioWriteOffset = sFmvAudioSampleOffset;
     const u32 blockAlign = (movie.AudioBitsPerSample() / 8u) * movie.AudioChannels();
-    const u32 audioBufferSize = static_cast<u32>(std::max<u64>(1ull, std::accumulate(audioChunks.begin(), audioChunks.end(), 0ull,
-        [](u64 total, const MkvAudioChunk& chunk)
-        {
-            return total + chunk.mBuffer.size();
-        }) / std::max<u32>(1u, blockAlign)));
+    const u32 audioBufferSamples = std::max<u32>(movie.AudioSampleRate() * 4u, 4096u);
+    u32 audioWriteOffset = 0;
+    u32 audioSamplesSubmitted = 0;
+    bool audioStarted = false;
 
-    while (!videoQueue.Empty() || !movie.ParsingComplete())
+    while (!videoQueue.Empty() || !moviePipeline->VideoComplete())
     {
+        MkvAudioChunk audioChunk;
+        while (audioQueue.TryPop(audioChunk))
+        {
+            pendingAudioChunks.push_back(std::move(audioChunk));
+        }
+
+        const u32 playedSamples = audioStarted
+            ? std::min<u32>(audioSamplesSubmitted, static_cast<u32>((SYS_GetTicks() - audioStartTimeStamp) * movie.AudioSampleRate() / 1000))
+            : 0;
+        while (!sNoAudioOrAudioError && hasAudio && !pendingAudioChunks.empty()
+            && audioSamplesSubmitted - playedSamples < audioBufferSamples - std::min<u32>(audioBufferSamples / 4u, 1024u))
+        {
+            MkvAudioChunk& pendingChunk = pendingAudioChunks.front();
+            const u32 samplesToWrite = static_cast<u32>(pendingChunk.mBuffer.size() / std::max<u32>(1u, blockAlign));
+            if (samplesToWrite == 0)
+            {
+                pendingAudioChunks.pop_front();
+                continue;
+            }
+
+            if (GetSoundAPI().mSND_LoadSamples(&sFmvSoundEntry, audioWriteOffset, pendingChunk.mBuffer.data(), samplesToWrite) < 0)
+            {
+                sNoAudioOrAudioError = true;
+                break;
+            }
+            audioWriteOffset = (audioWriteOffset + samplesToWrite) % audioBufferSamples;
+            audioSamplesSubmitted += samplesToWrite;
+            pendingAudioChunks.pop_front();
+
+            if (!audioStarted && (audioSamplesSubmitted >= movie.AudioSampleRate() / 5u || moviePipeline->AudioComplete()))
+            {
+                if (FAILED(SND_PlayEx(&sFmvSoundEntry, 116, 116, 1.0, 0, 1, 100)))
+                {
+                    sNoAudioOrAudioError = true;
+                }
+                audioStartTimeStamp = SYS_GetTicks();
+                audioStarted = !sNoAudioOrAudioError;
+            }
+        }
+
+        if (hasAudio && !audioStarted && !sNoAudioOrAudioError)
+        {
+            if ((SYS_GetTicks() & 255) < 2)
+            {
+                LOG_INFO("FMV playback %u: waiting for audio preroll samples=%u pending=%zu", playbackId,
+                    audioSamplesSubmitted, pendingAudioChunks.size());
+            }
+            SYS_EventsPump();
+            PSX_VSync(VSyncMode::UncappedFps);
+            continue;
+        }
+
         MkvVideoFrame frame;
         if (!videoQueue.TryPop(frame))
         {
-            if (movie.ParsingComplete())
+            if (moviePipeline->VideoComplete())
             {
                 break;
             }
@@ -808,7 +828,34 @@ s8 DDV_Play_Impl(const char_type* pMovieName)
             continue;
         }
 
+        LOG_INFO("FMV playback %u: dequeued offset=%lld pts=%llu clock=%llu", playbackId, frame.mFileOffset,
+            static_cast<unsigned long long>(frame.mPtsNs),
+            static_cast<unsigned long long>(audioStarted ? SYS_GetTicks() - audioStartTimeStamp : 0));
+
         if (AreMovieSkippingInputsHeld())
+        {
+            break;
+        }
+
+        const u64 frameMs = frame.mPtsNs / 1000000ULL;
+        const u64 audioClockMs = audioStarted ? static_cast<u64>(SYS_GetTicks() - audioStartTimeStamp) : 0;
+        if (audioStarted && frameMs + 100 < audioClockMs)
+        {
+            ++droppedFrameCount;
+            continue;
+        }
+
+        while (audioStarted && frameMs > static_cast<u64>(SYS_GetTicks() - audioStartTimeStamp))
+        {
+            if (AreMovieSkippingInputsHeld())
+            {
+                moviePipeline.reset();
+                break;
+            }
+            SYS_EventsPump();
+            PSX_VSync(VSyncMode::UncappedFps);
+        }
+        if (!moviePipeline)
         {
             break;
         }
@@ -816,78 +863,48 @@ s8 DDV_Play_Impl(const char_type* pMovieName)
         LOG_INFO("FMV playback: render frame pts=%llu queued=%zu", static_cast<unsigned long long>(frame.mPtsNs), videoQueue.Size());
         std::memcpy(fmvFrame.mData.mPixels->data(), frame.mPixels.data(), frame.mPixels.size());
 
-        if (!sNoAudioOrAudioError && hasAudio)
-        {
-            MkvAudioChunk audioChunk;
-            while (audioQueue.TryPop(audioChunk))
-            {
-                pendingAudioChunks.push_back(std::move(audioChunk));
-            }
-
-            while (!pendingAudioChunks.empty())
-            {
-                const auto& pendingChunk = pendingAudioChunks.front();
-                const u32 bytesToWrite = static_cast<u32>(pendingChunk.mBuffer.size());
-                if (bytesToWrite == 0)
-                {
-                    pendingAudioChunks.pop_front();
-                    continue;
-                }
-
-                const u32 samplesToWrite = bytesToWrite / std::max<u32>(1u, blockAlign);
-                const u64 targetMs = frame.mPtsNs / 1000000ULL;
-                const u64 currentMs = static_cast<u64>(SYS_GetTicks() - movieStartTimeStamp);
-                if (currentMs < targetMs)
-                {
-                    break;
-                }
-
-                if (GetSoundAPI().mSND_LoadSamples(&sFmvSoundEntry, audioWriteOffset, const_cast<u8*>(pendingChunk.mBuffer.data()), samplesToWrite) < 0)
-                {
-                    sNoAudioOrAudioError = true;
-                    break;
-                }
-
-                audioWriteOffset = (audioWriteOffset + samplesToWrite) % std::max<u32>(audioBufferSize, 1u);
-                pendingAudioChunks.pop_front();
-            }
-        }
-
         Input_IsVKPressed_4EDD40(VK_ESCAPE);
         Input_IsVKPressed_4EDD40(VK_RETURN);
 
         polyFT4.mCam->mUniqueId = UniqueResId{};
         Render_DDV_Frame(&polyFT4);
-
-        if (!videoQueue.Empty())
+        ++renderedFrameCount;
+        u64 pixelHash = 1469598103934665603ULL;
+        for (const u8 pixel : frame.mPixels)
         {
-            MkvVideoFrame nextFrame;
-            if (!videoQueue.TryPeek(nextFrame))
-            {
-                continue;
-            }
-            const u64 nextFrameMs = nextFrame.mPtsNs / 1000000ULL;
-            const u64 thisFrameMs = frame.mPtsNs / 1000000ULL;
-            const s64 waitAhead = static_cast<s64>(nextFrameMs - thisFrameMs);
-            const u64 targetTimestamp = movieStartTimeStamp + thisFrameMs;
-            while (static_cast<s64>(SYS_GetTicks()) < static_cast<s64>(targetTimestamp + waitAhead))
-            {
-                SYS_EventsPump();
-                PSX_VSync(VSyncMode::UncappedFps);
-            }
-
+            pixelHash ^= pixel;
+            pixelHash *= 1099511628211ULL;
         }
+        if (renderedFrameCount > 1 && pixelHash == lastDisplayedPixelHash)
+        {
+            ++repeatedDisplayedPixelCount;
+            LOG_ERROR("FMV playback %u: repeated screen pixels frame=%u offset=%lld hash=%llu",
+                playbackId, renderedFrameCount, frame.mFileOffset,
+                static_cast<unsigned long long>(pixelHash));
+        }
+        lastDisplayedPixelHash = pixelHash;
+        if (haveLastDisplayedOffset && frame.mFileOffset <= lastDisplayedOffset)
+        {
+            ++invalidDisplayedFrameCount;
+            LOG_ERROR("FMV playback %u: non-increasing screen frame=%u offset=%lld previous=%lld pts=%llu",
+                playbackId, renderedFrameCount, frame.mFileOffset, lastDisplayedOffset,
+                static_cast<unsigned long long>(frame.mPtsNs));
+        }
+        haveLastDisplayedOffset = true;
+        lastDisplayedOffset = frame.mFileOffset;
+        LOG_INFO("FMV playback %u: screen frame=%u offset=%lld pts=%llu clock=%llu hash=%llu queued=%zu", playbackId, renderedFrameCount,
+            frame.mFileOffset, static_cast<unsigned long long>(frame.mPtsNs),
+            static_cast<unsigned long long>(audioStarted ? SYS_GetTicks() - audioStartTimeStamp : 0),
+            static_cast<unsigned long long>(pixelHash), videoQueue.Size());
 
         SYS_EventsPump();
         PSX_VSync(VSyncMode::UncappedFps);
-
-        if (movie.ParsingComplete() && videoQueue.Empty())
-        {
-            break;
-        }
     }
 
-    demuxThread.reset();
+    moviePipeline.reset();
+
+    LOG_INFO("FMV playback %u: finished rendered=%u dropped=%u invalidDisplayed=%u repeatedPixels=%u", playbackId,
+        renderedFrameCount, droppedFrameCount, invalidDisplayedFrameCount, repeatedDisplayedPixelCount);
 
     if (sFmvSoundEntry.field_4_pDSoundBuffer)
     {
@@ -928,15 +945,20 @@ Movie::Movie(const char_type* pName)
     , mName(pName)
 {
     mName = "PHLEGINF.DDV.webm";
-   // Init();
+    Init();
+
 }
+
+extern bool gBreakGameLoop;
 
 void Movie::VUpdate()
 {
-    SetDead(true);
-
-    /*
-    if (GetGameAutoPlayer().IsPlaying() || GetGameAutoPlayer().IsRecording())
+    LOG_INFO("Movie VUpdate begin break=%d", gBreakGameLoop ? 1 : 0);
+    if (gBreakGameLoop)
+    {
+        SetDead(true);
+    }
+    else if (GetGameAutoPlayer().IsPlaying() || GetGameAutoPlayer().IsRecording())
     {
         SetDead(true);
     }
@@ -958,7 +980,8 @@ void Movie::VUpdate()
         }
     }
     DeInit();
-    */
+    gBreakGameLoop = true;
+    LOG_INFO("Movie VUpdate complete break=%d", gBreakGameLoop ? 1 : 0);
 }
 
 void Movie::DeInit()
