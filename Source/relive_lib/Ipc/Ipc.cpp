@@ -27,6 +27,7 @@ public:
 
     ~CommonIpc()
     {
+        TRACE_ENTRYEXIT;
         Cancel();
     }
 
@@ -42,6 +43,8 @@ public:
 
     void Cancel()
     {
+        TRACE_ENTRYEXIT;
+
         mAcceptConnections = false;
 
         // Destroy server to unblock WaitForClient if it uses blocking primitives
@@ -93,14 +96,13 @@ private:
     {
         while (mAcceptConnections)
         {
+            LOG_INFO("Waiting for client connection...");
             auto conn = mServer->WaitForClient();
-            if (!conn)
+            LOG_INFO("Client connected or error");
+            if (conn)
             {
-                // Could be interrupted or failed; loop again
-                continue;
+                HandleConnection(*conn);
             }
-
-            HandleConnection(*conn);
         }
     }
 
