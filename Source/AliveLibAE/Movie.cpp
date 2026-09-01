@@ -726,7 +726,7 @@ s8 DDV_Play_Impl(const char_type* pMovieName)
         const u32 sampleRate = movie.AudioSampleRate();
         const u32 bitDepth = movie.AudioBitsPerSample();
         const u32 channels = movie.AudioChannels();
-        const s32 soundFlags = channels > 1 ? (bitDepth == 16 ? 6 : 4) : (bitDepth == 16 ? 2 : 0);
+        const s32 soundFlags = channels > 1 ? 7 : (bitDepth == 16 ? 2 : 0);
         const u32 audioBufferSamples = std::max<u32>(sampleRate * 4u, 4096u);
 
         if (GetSoundAPI().mSND_New(&sFmvSoundEntry, static_cast<s32>(audioBufferSamples), sampleRate, bitDepth, soundFlags) < 0)
@@ -761,6 +761,7 @@ s8 DDV_Play_Impl(const char_type* pMovieName)
     u32 audioWriteOffset = 0;
     u32 audioSamplesSubmitted = 0;
     bool audioStarted = false;
+    bool audioFinished = !hasAudio || sNoAudioOrAudioError;
 
     while (!videoQueue.Empty() || !moviePipeline->VideoComplete())
     {
@@ -773,14 +774,25 @@ s8 DDV_Play_Impl(const char_type* pMovieName)
         const u32 playedSamples = audioStarted
             ? std::min<u32>(audioSamplesSubmitted, static_cast<u32>((SYS_GetTicks() - audioStartTimeStamp) * movie.AudioSampleRate() / 1000))
             : 0;
+        const u32 maxBufferedSamples = audioBufferSamples - std::min<u32>(audioBufferSamples / 4u, 1024u);
         while (!sNoAudioOrAudioError && hasAudio && !pendingAudioChunks.empty()
-            && audioSamplesSubmitted - playedSamples < audioBufferSamples - std::min<u32>(audioBufferSamples / 4u, 1024u))
+            && audioSamplesSubmitted - playedSamples < maxBufferedSamples)
         {
             MkvAudioChunk& pendingChunk = pendingAudioChunks.front();
-            const u32 samplesToWrite = static_cast<u32>(pendingChunk.mBuffer.size() / std::max<u32>(1u, blockAlign));
-            if (samplesToWrite == 0)
+            const u32 pendingSamples = static_cast<u32>(pendingChunk.mBuffer.size() / std::max<u32>(1u, blockAlign));
+            if (pendingSamples == 0)
             {
                 pendingAudioChunks.pop_front();
+                continue;
+            }
+
+            const u32 bufferedSamples = audioSamplesSubmitted - playedSamples;
+            const u32 bufferSpaceSamples = maxBufferedSamples - bufferedSamples;
+            const u32 samplesUntilBufferEnd = audioBufferSamples - audioWriteOffset;
+            const u32 samplesToWrite = std::min({pendingSamples, bufferSpaceSamples, samplesUntilBufferEnd});
+            if (samplesToWrite == 0)
+            {
+                audioWriteOffset = 0;
                 continue;
             }
 
@@ -791,7 +803,11 @@ s8 DDV_Play_Impl(const char_type* pMovieName)
             }
             audioWriteOffset = (audioWriteOffset + samplesToWrite) % audioBufferSamples;
             audioSamplesSubmitted += samplesToWrite;
-            pendingAudioChunks.pop_front();
+            pendingChunk.mBuffer.erase(pendingChunk.mBuffer.begin(), pendingChunk.mBuffer.begin() + samplesToWrite * blockAlign);
+            if (pendingChunk.mBuffer.empty())
+            {
+                pendingAudioChunks.pop_front();
+            }
 
             if (!audioStarted && (audioSamplesSubmitted >= movie.AudioSampleRate() / 5u || moviePipeline->AudioComplete()))
             {
@@ -804,7 +820,16 @@ s8 DDV_Play_Impl(const char_type* pMovieName)
             }
         }
 
-        if (hasAudio && !audioStarted && !sNoAudioOrAudioError)
+        if (audioStarted && !audioFinished && moviePipeline->AudioComplete() && pendingAudioChunks.empty()
+            && playedSamples >= audioSamplesSubmitted)
+        {
+            SND_StopAll();
+            audioStarted = false;
+            audioFinished = true;
+            LOG_INFO("FMV playback %u: audio finished samples=%u", playbackId, audioSamplesSubmitted);
+        }
+
+        if (hasAudio && !audioStarted && !audioFinished && !sNoAudioOrAudioError)
         {
             if ((SYS_GetTicks() & 255) < 2)
             {
@@ -908,6 +933,7 @@ s8 DDV_Play_Impl(const char_type* pMovieName)
 
     if (sFmvSoundEntry.field_4_pDSoundBuffer)
     {
+        SND_StopAll();
         GetSoundAPI().mSND_Free(&sFmvSoundEntry);
         sFmvSoundEntry.field_4_pDSoundBuffer = nullptr;
     }
@@ -944,7 +970,7 @@ Movie::Movie(const char_type* pName)
     : BaseGameObject(true, 0)
     , mName(pName)
 {
-    mName = "PHLEGINF.DDV.webm";
+    mName = "vision.ddv.webm";
     Init();
 
 }
