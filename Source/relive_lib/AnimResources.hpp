@@ -1630,3 +1630,5 @@ enum AOResourceID
 };
 
 } // namespace AO
+
+const extern CombinedAnimRecord kAnimRecords[1027];

@@ -499,6 +499,35 @@ static void ConvertPals(const FileSystem::Path& dataDir, std::vector<u8>& fileBu
 
 void ConvertAnimations(const FileSystem::Path& dataDir, FileSystem& fs, std::vector<u8>& fileBuffer, ReliveAPI::LvlReader& lvlReader, EReliveLevelIds reliveLvl, bool isAo)
 {
+    std::map<std::string, u32> animBndToHighestFrameTableOffset;
+    for (auto& rec : kAnimRecords)
+    {
+        if (rec.mId == AnimId::None)
+        {
+            continue;
+        }
+
+       
+
+        const auto animDetails = isAo ? rec.mAOData: rec.mAEData;
+        if (animDetails.mBanName)
+        {
+            auto it = animBndToHighestFrameTableOffset.find(animDetails.mBanName);
+            if (it == animBndToHighestFrameTableOffset.end())
+            {
+                animBndToHighestFrameTableOffset[animDetails.mBanName] = animDetails.mFrameTableOffset;
+            }
+            else
+            {
+                u32 lastFrameTableOffset = it->second;
+                if (lastFrameTableOffset < animDetails.mFrameTableOffset)
+                {
+                    animBndToHighestFrameTableOffset[animDetails.mBanName] = animDetails.mFrameTableOffset;
+                }
+            }
+        }
+    }
+
     // Convert animations that exist in this LVL
     for (auto& rec : kAnimRecConversionInfo)
     {
@@ -518,11 +547,23 @@ void ConvertAnimations(const FileSystem::Path& dataDir, FileSystem& fs, std::vec
                 // Not every file is in every LVL - we might get it from a later LVL
                 if (ReadLvlFileInto(lvlReader, animDetails.mBanName, fileBuffer))
                 {
+                    if (std::string(animDetails.mBanName) == "ABEBLOW.BAN")
+                    {
+                        FILE* f = fopen(animDetails.mBanName, "wb");
+                        fwrite(fileBuffer.data(), 1, fileBuffer.size(), f);
+                        fclose(f);
+                    }
+
                     // A BAN/BND can have multiple chunks, make sure we pick the right one
                     ReliveAPI::ChunkedLvlFile animFile(fileBuffer);
+
                     auto res = animFile.ChunkById(animDetails.mResourceId);
                     if (res)
                     {
+                        auto firstAnim = animFile.ChunkByType(ResourceManagerWrapper::ResourceType::Resource_Animation);
+                        auto frameTableOffsetFirst = reinterpret_cast<const AnimationFileHeader*>(firstAnim->Data().data())->field_4_frame_table_offset;
+                        auto animHighestFrameTable = animBndToHighestFrameTableOffset.find(animDetails.mBanName)->second;
+
                         // Use the remapped anim id if we have one
                         const char_type* animName = AnimRecName(rec.mThemeInfo.mAnimIdRemapTo != AnimId::None ? rec.mThemeInfo.mAnimIdRemapTo : rec.mAnimId);
                         const char_type* groupName = AnimRecGroupName(rec.mAnimId);
@@ -547,7 +588,15 @@ void ConvertAnimations(const FileSystem::Path& dataDir, FileSystem& fs, std::vec
 
                         LOG_INFO("Converting: %s", filePath.GetPath().c_str());
 
-                        AnimationConverter animationConverter(filePath, animDetails, res->Data(), isAo);
+                        const auto frameDiff = std::abs(static_cast<s32>(frameTableOffsetFirst) - static_cast<s32>(animHighestFrameTable));
+
+                        auto fixedDetails = animDetails;
+                        if (std::string(fixedDetails.mBanName) == "ASLIK.BND")
+                        {
+                            fixedDetails.mFrameTableOffset -= frameDiff;
+                        }
+
+                        AnimationConverter animationConverter(filePath, fixedDetails, res->Data(), isAo);
 
                         // Track what is converted so we know what is missing at the end
                         rec.mConverted = true;
