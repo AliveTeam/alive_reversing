@@ -50,6 +50,7 @@ namespace
     struct MkvAudioChunk final
     {
         uint64_t mPtsNs = 0;
+        long long mFileOffset = 0;
         std::vector<u8> mBuffer;
     };
 
@@ -653,6 +654,7 @@ namespace
 
                 MkvAudioChunk chunk;
                 chunk.mPtsNs = packet.mPtsNs;
+                chunk.mFileOffset = packet.mFileOffset;
                 chunk.mBuffer = std::move(packet.mPayload);
                 while (!mStop && !mAudioQueue.TryPush(chunk))
                 {
@@ -760,6 +762,7 @@ s8 DDV_Play_Impl(const char_type* pMovieName)
     const u32 audioBufferSamples = std::max<u32>(movie.AudioSampleRate() * 4u, 4096u);
     u32 audioWriteOffset = 0;
     u32 audioSamplesSubmitted = 0;
+    u32 audioWriteCount = 0;
     bool audioStarted = false;
     bool audioFinished = !hasAudio || sNoAudioOrAudioError;
 
@@ -771,13 +774,20 @@ s8 DDV_Play_Impl(const char_type* pMovieName)
             pendingAudioChunks.push_back(std::move(audioChunk));
         }
 
-        const u32 playedSamples = audioStarted
-            ? std::min<u32>(audioSamplesSubmitted, static_cast<u32>((SYS_GetTicks() - audioStartTimeStamp) * movie.AudioSampleRate() / 1000))
-            : 0;
         const u32 maxBufferedSamples = audioBufferSamples - std::min<u32>(audioBufferSamples / 4u, 1024u);
-        while (!sNoAudioOrAudioError && hasAudio && !pendingAudioChunks.empty()
-            && audioSamplesSubmitted - playedSamples < maxBufferedSamples)
+        while (!sNoAudioOrAudioError && hasAudio && !pendingAudioChunks.empty())
         {
+            const u32 readOffset = audioStarted
+                ? GetSoundAPI().mSND_Get_Sound_Entry_Pos(&sFmvSoundEntry)
+                : 0;
+            const u32 bufferedSamples = audioStarted
+                ? (audioWriteOffset >= readOffset ? audioWriteOffset - readOffset : audioBufferSamples - readOffset + audioWriteOffset)
+                : audioSamplesSubmitted;
+            if (bufferedSamples >= maxBufferedSamples)
+            {
+                break;
+            }
+
             MkvAudioChunk& pendingChunk = pendingAudioChunks.front();
             const u32 pendingSamples = static_cast<u32>(pendingChunk.mBuffer.size() / std::max<u32>(1u, blockAlign));
             if (pendingSamples == 0)
@@ -786,7 +796,6 @@ s8 DDV_Play_Impl(const char_type* pMovieName)
                 continue;
             }
 
-            const u32 bufferedSamples = audioSamplesSubmitted - playedSamples;
             const u32 bufferSpaceSamples = maxBufferedSamples - bufferedSamples;
             const u32 samplesUntilBufferEnd = audioBufferSamples - audioWriteOffset;
             const u32 samplesToWrite = std::min({pendingSamples, bufferSpaceSamples, samplesUntilBufferEnd});
@@ -796,11 +805,24 @@ s8 DDV_Play_Impl(const char_type* pMovieName)
                 continue;
             }
 
+            u64 audioHash = 1469598103934665603ULL;
+            const size_t bytesToWrite = static_cast<size_t>(samplesToWrite) * blockAlign;
+            for (size_t byteIndex = 0; byteIndex < bytesToWrite; ++byteIndex)
+            {
+                audioHash ^= pendingChunk.mBuffer[byteIndex];
+                audioHash *= 1099511628211ULL;
+            }
+
             if (GetSoundAPI().mSND_LoadSamples(&sFmvSoundEntry, audioWriteOffset, pendingChunk.mBuffer.data(), samplesToWrite) < 0)
             {
                 sNoAudioOrAudioError = true;
                 break;
             }
+            ++audioWriteCount;
+            LOG_INFO("FMV playback %u: audio write=%u sourceOffset=%lld pts=%llu writeOffset=%u readOffset=%u samples=%u hash=%llu",
+                playbackId, audioWriteCount, pendingChunk.mFileOffset,
+                static_cast<unsigned long long>(pendingChunk.mPtsNs), audioWriteOffset, readOffset, samplesToWrite,
+                static_cast<unsigned long long>(audioHash));
             audioWriteOffset = (audioWriteOffset + samplesToWrite) % audioBufferSamples;
             audioSamplesSubmitted += samplesToWrite;
             pendingChunk.mBuffer.erase(pendingChunk.mBuffer.begin(), pendingChunk.mBuffer.begin() + samplesToWrite * blockAlign);
@@ -821,7 +843,7 @@ s8 DDV_Play_Impl(const char_type* pMovieName)
         }
 
         if (audioStarted && !audioFinished && moviePipeline->AudioComplete() && pendingAudioChunks.empty()
-            && playedSamples >= audioSamplesSubmitted)
+            && static_cast<u32>((SYS_GetTicks() - audioStartTimeStamp) * movie.AudioSampleRate() / 1000) >= audioSamplesSubmitted)
         {
             SND_StopAll();
             audioStarted = false;
