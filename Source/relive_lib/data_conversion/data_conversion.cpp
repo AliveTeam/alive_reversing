@@ -567,12 +567,25 @@ void ConvertAnimations(const FileSystem::Path& dataDir, FileSystem& fs, std::vec
                         auto fixedDetails = animDetails;
                         if (!isAo && std::string(fixedDetails.mBanName) == "ASLIK.BND")
                         {
-                            auto firstAnim = animFile.ChunkByType(ResourceManagerWrapper::ResourceType::Resource_Animation);
-                            auto frameTableOffsetFirst = reinterpret_cast<const AnimationFileHeader*>(firstAnim->Data().data())->field_4_frame_table_offset;
-                            auto animHighestFrameTable = GetHighestFrameTableOffset(animDetails.mBanName, isAo);
+                            bool skip = false;
+                            switch(fixedDetails.mId)
+                            {
+                                case AnimId::Aslik_Arm_Gib:
+                                case AnimId::Aslik_Head_Gib:
+                                case AnimId::Aslik_Body_Gib:
+                                    skip = true;
+                                    break;
+                            }
 
-                            const auto frameDiff = std::abs(static_cast<s32>(frameTableOffsetFirst) - static_cast<s32>(animHighestFrameTable));                          
-                            fixedDetails.mFrameTableOffset -= frameDiff;
+                            if (!skip)
+                            {
+                                auto firstAnim = animFile.ChunkByType(ResourceManagerWrapper::ResourceType::Resource_Animation);
+                                auto frameTableOffsetFirst = reinterpret_cast<const AnimationFileHeader*>(firstAnim->Data().data())->field_4_frame_table_offset;
+                                auto animHighestFrameTable = GetHighestFrameTableOffset(animDetails.mBanName, isAo);
+
+                                const auto frameDiff = std::abs(static_cast<s32>(frameTableOffsetFirst) - static_cast<s32>(animHighestFrameTable));                          
+                                fixedDetails.mFrameTableOffset -= frameDiff;
+                            }
                         }
 
                         AnimationConverter animationConverter(filePath, fixedDetails, res->Data(), isAo);
