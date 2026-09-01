@@ -141,6 +141,7 @@ private:
     {
         if (mSocket > 0)
         {
+            ::shutdown(mSocket, SHUT_RDWR);
             ::close(mSocket);
             mSocket = 0;
         }
