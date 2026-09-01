@@ -22,7 +22,7 @@
 #include "../AliveLibAE/Sound/Midi.hpp"
 #include "../AliveLibAE/Sound/Sound.hpp"
 #include "../AliveLibAE/PathData.hpp"
-
+#include <cmath>
 
 namespace AO {
 

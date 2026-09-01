@@ -12,9 +12,8 @@
 #include "PauseMenu.hpp"
 #include "GameAutoPlayer.hpp"
 
-#if USE_SDL2
-    #include "SDL.h"
-    #include "SDL_syswm.h"
+#if USE_SDL3
+    #include <SDL3/SDL.h>
     #include "VGA.hpp"
 #elif _WIN32
     #include <timeapi.h>
@@ -176,21 +175,18 @@ EXPORT LRESULT CALLBACK Sys_WindowProc_4EE32D(HWND hWnd, UINT msg, WPARAM wParam
 }
 #endif
 
-#if USE_SDL2
+#if USE_SDL3
     #if _WIN32
 HWND Sys_Win32FromSDLWindow(TWindowHandleType windowHandle)
 {
-    SDL_SysWMinfo wmInfo;
-    SDL_VERSION(&wmInfo.version);
-    SDL_GetWindowWMInfo(windowHandle, &wmInfo);
-    return wmInfo.info.win.window;
+    return static_cast<HWND>(SDL_GetPointerProperty(SDL_GetWindowProperties(windowHandle), SDL_PROP_WINDOW_WIN32_HWND_POINTER, nullptr));
 }
     #endif
 #endif
 
 void Sys_SetWindowText(TWindowHandleType windowHandle, const char_type* title)
 {
-#if USE_SDL2
+#if USE_SDL3
     SDL_SetWindowTitle(windowHandle, title);
 #else
     ::SetWindowText(windowHandle, title);
@@ -199,11 +195,11 @@ void Sys_SetWindowText(TWindowHandleType windowHandle, const char_type* title)
 
 POINT Sys_GetScreenMousePos()
 {
-#if USE_SDL2
-    s32 x = 0;
-    s32 y = 0;
+#if USE_SDL3
+    f32 x = 0;
+    f32 y = 0;
     SDL_GetMouseState(&x, &y);
-    return {x, y};
+    return {static_cast<s32>(x), static_cast<s32>(y)};
 #else
     HWND windowHandle = Sys_GetWindowHandle_4EE180();
     POINT mousePos;
@@ -219,9 +215,9 @@ bool Sys_IsMouseButtonDown(MouseButtons button)
 {
     if (button == MouseButtons::eRight)
     {
-        return !!(SDL_GetMouseState(nullptr, nullptr) & SDL_BUTTON(SDL_BUTTON_RIGHT));
+        return !!(SDL_GetMouseState(nullptr, nullptr) & SDL_BUTTON_MASK(SDL_BUTTON_RIGHT));
     }
-    return !!(SDL_GetMouseState(nullptr, nullptr) & SDL_BUTTON(SDL_BUTTON_LEFT));
+    return !!(SDL_GetMouseState(nullptr, nullptr) & SDL_BUTTON_MASK(SDL_BUTTON_LEFT));
 }
 
 void AE_Sys_Main(HINSTANCE hInstance, LPSTR lpCmdLine, s32 nShowCmd)
@@ -242,7 +238,7 @@ EXPORT void CC Sys_SetWindowProc_Filter_4EE197(TWindowProcFilter pFilter)
 ALIVE_VAR(1, 0x5CA230, SoundEntry*, sMovieSoundEntry_5CA230, nullptr);
 
 #if _WIN32
-    #if !USE_SDL2
+    #if !USE_SDL3
 EXPORT LRESULT CC Sys_WindowMessageHandler_494A40(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
     LRESULT ret = 0;
@@ -264,7 +260,7 @@ EXPORT LRESULT CC Sys_WindowMessageHandler_494A40(HWND hWnd, UINT msg, WPARAM wP
         case WM_CLOSE:
             sDDraw_BBC3D4->FlipToGDISurface();
 
-        #if !USE_SDL2_SOUND
+        #if !USE_SDL3_SOUND
             if (sMovieSoundEntry_5CA230)
             {
                 LPDIRECTSOUNDBUFFER pDSoundBuffer = sMovieSoundEntry_5CA230->field_4_pDSoundBuffer;
@@ -298,7 +294,7 @@ EXPORT LRESULT CC Sys_WindowMessageHandler_494A40(HWND hWnd, UINT msg, WPARAM wP
                 return ret;
             }
 
-        #if !USE_SDL2_SOUND
+        #if !USE_SDL3_SOUND
             sMovieSoundEntry_5CA230->field_4_pDSoundBuffer->Play(0, 0, 1);
         #endif
             return ret;
@@ -375,7 +371,7 @@ EXPORT LRESULT CC Sys_WindowMessageHandler_494A40(HWND hWnd, UINT msg, WPARAM wP
     #endif
 #endif
 
-#if USE_SDL2
+#if USE_SDL3
 static s32 sdl_key_to_win32_vkey(SDL_Scancode key)
 {
     switch (key)
@@ -770,25 +766,16 @@ static s32 sdl_key_to_win32_vkey(SDL_Scancode key)
             return VK_RWIN;
         case SDL_SCANCODE_MODE:
             return 0;
-        case SDL_SCANCODE_AUDIONEXT:
+        case SDL_SCANCODE_MEDIA_NEXT_TRACK:
             return 0;
-        case SDL_SCANCODE_AUDIOPREV:
+        case SDL_SCANCODE_MEDIA_PREVIOUS_TRACK:
             return 0;
-        case SDL_SCANCODE_AUDIOSTOP:
+        case SDL_SCANCODE_MEDIA_STOP:
             return 0;
-        case SDL_SCANCODE_AUDIOPLAY:
+        case SDL_SCANCODE_MEDIA_PLAY:
             return 0;
-        case SDL_SCANCODE_AUDIOMUTE:
-            return 0;
-        case SDL_SCANCODE_MEDIASELECT:
-            return 0;
-        case SDL_SCANCODE_WWW:
-            return 0;
-        case SDL_SCANCODE_MAIL:
-            return 0;
-        case SDL_SCANCODE_CALCULATOR:
-            return 0;
-        case SDL_SCANCODE_COMPUTER:
+
+        case SDL_SCANCODE_MEDIA_SELECT:
             return 0;
         case SDL_SCANCODE_AC_SEARCH:
             return 0;
@@ -804,23 +791,11 @@ static s32 sdl_key_to_win32_vkey(SDL_Scancode key)
             return 0;
         case SDL_SCANCODE_AC_BOOKMARKS:
             return 0;
-        case SDL_SCANCODE_BRIGHTNESSDOWN:
-            return 0;
-        case SDL_SCANCODE_BRIGHTNESSUP:
-            return 0;
-        case SDL_SCANCODE_DISPLAYSWITCH:
-            return 0;
-        case SDL_SCANCODE_KBDILLUMTOGGLE:
-            return 0;
-        case SDL_SCANCODE_KBDILLUMDOWN:
-            return 0;
-        case SDL_SCANCODE_KBDILLUMUP:
-            return 0;
-        case SDL_SCANCODE_EJECT:
+        case SDL_SCANCODE_MEDIA_EJECT:
             return 0;
         case SDL_SCANCODE_SLEEP:
             return 0;
-        case SDL_NUM_SCANCODES:
+        case SDL_SCANCODE_COUNT:
             return 0;
     }
 }
@@ -860,7 +835,7 @@ static void KeyDownEvent(SDL_Scancode scanCode)
         {
             sLastPressedKey_BD30A0 -= 0x41;
 
-            if (SDL_GetModState() & (KMOD_SHIFT | KMOD_CAPS))
+            if (SDL_GetModState() & (SDL_KMOD_SHIFT | SDL_KMOD_CAPS))
             {
                 sLastPressedKey_BD30A0 += 'A';
             }
@@ -874,7 +849,7 @@ static void KeyDownEvent(SDL_Scancode scanCode)
         {
             sLastPressedKey_BD30A0 -= VK_NUMPAD0;
             LOG_INFO(sLastPressedKey_BD30A0);
-            if (SDL_GetModState() & (KMOD_SHIFT) && sLastPressedKey_BD30A0 == 1)
+            if (SDL_GetModState() & (SDL_KMOD_SHIFT) && sLastPressedKey_BD30A0 == 1)
             {
                 sLastPressedKey_BD30A0 = '!';
             }
@@ -919,14 +894,14 @@ static void KeyDownEvent(SDL_Scancode scanCode)
         }
         else if (vk == VK_F12)
         {
-            const Uint32 flags = SDL_GetWindowFlags(Sys_GetWindowHandle_4EE180());
-            if (flags & SDL_WINDOW_FULLSCREEN_DESKTOP)
+            const SDL_WindowFlags flags = SDL_GetWindowFlags(Sys_GetWindowHandle_4EE180());
+            if (flags & SDL_WINDOW_FULLSCREEN)
             {
-                SDL_SetWindowFullscreen(Sys_GetWindowHandle_4EE180(), 0);
+                SDL_SetWindowFullscreen(Sys_GetWindowHandle_4EE180(), false);
             }
             else
             {
-                SDL_SetWindowFullscreen(Sys_GetWindowHandle_4EE180(), SDL_WINDOW_FULLSCREEN_DESKTOP);
+                SDL_SetWindowFullscreen(Sys_GetWindowHandle_4EE180(), true);
             }
         }
     }
@@ -945,7 +920,7 @@ static void QuitEvent(bool isRecordedEvent, bool isRecording)
 {
     if (sMovieSoundEntry_5CA230)
     {
-#if !USE_SDL2_SOUND
+#if !USE_SDL3_SOUND
         LPDIRECTSOUNDBUFFER pDSoundBuffer = sMovieSoundEntry_5CA230->field_4_pDSoundBuffer;
         if (pDSoundBuffer)
         {
@@ -959,9 +934,9 @@ static void QuitEvent(bool isRecordedEvent, bool isRecording)
     }
 
     // Full screen message boxes act really strange.. so force window mode before we show it
-    const Uint32 flags = SDL_GetWindowFlags(Sys_GetWindowHandle_4EE180());
+    const SDL_WindowFlags flags = SDL_GetWindowFlags(Sys_GetWindowHandle_4EE180());
     bool forcedWindowMode = false;
-    if (flags & SDL_WINDOW_FULLSCREEN_DESKTOP)
+    if (flags & SDL_WINDOW_FULLSCREEN)
     {
         forcedWindowMode = true;
         SDL_SetWindowFullscreen(Sys_GetWindowHandle_4EE180(), 0);
@@ -990,7 +965,7 @@ static void QuitEvent(bool isRecordedEvent, bool isRecording)
     if (isRecording)
     {
         RecordedEvent recEvent;
-        recEvent.mType = SDL_QUIT;
+        recEvent.mType = SDL_EVENT_QUIT;
         recEvent.mData = button == MessageBoxButton::eYes ? 1 : 0;
         GetGameAutoPlayer().RecordEvent(recEvent);
     }
@@ -1000,7 +975,7 @@ static void QuitEvent(bool isRecordedEvent, bool isRecording)
         GetSoundAPI().SND_Restart();
     }
 
-#if !USE_SDL2_SOUND
+#if !USE_SDL3_SOUND
     if (sMovieSoundEntry_5CA230 && sMovieSoundEntry_5CA230->field_4_pDSoundBuffer)
     {
         sMovieSoundEntry_5CA230->field_4_pDSoundBuffer->Play(0, 0, 1);
@@ -1016,14 +991,14 @@ static void QuitEvent(bool isRecordedEvent, bool isRecording)
     {
         if (forcedWindowMode)
         {
-            SDL_SetWindowFullscreen(Sys_GetWindowHandle_4EE180(), SDL_WINDOW_FULLSCREEN_DESKTOP);
+            SDL_SetWindowFullscreen(Sys_GetWindowHandle_4EE180(), true);
         }
     }
 }
 
 EXPORT s8 CC Sys_PumpMessages_4EE4F4()
 {
-#if USE_SDL2
+#if USE_SDL3
     GetGameAutoPlayer().SyncPoint(SyncPoints::PumpEventsStart);
 
     SDL_Event event = {};
@@ -1039,11 +1014,11 @@ EXPORT s8 CC Sys_PumpMessages_4EE4F4()
             // TODO: Recording SDL types directly might break across diff platforms/SDL2 versions/ports
             switch (recordedEvent.mType)
             {
-                case SDL_KEYDOWN:
+                case SDL_EVENT_KEY_DOWN:
                     KeyDownEvent(static_cast<SDL_Scancode>(recordedEvent.mData));
                     break;
 
-                case SDL_KEYUP:
+                case SDL_EVENT_KEY_UP:
                     KeyUpEvent(static_cast<SDL_Scancode>(recordedEvent.mData));
                     break;
 
@@ -1070,14 +1045,14 @@ EXPORT s8 CC Sys_PumpMessages_4EE4F4()
         const bool allowAutoSwitch = !isRecording && !isPlaying;
         if (allowAutoSwitch)
         {
-            if (event.type == SDL_JOYDEVICEADDED && !isRecording)
+            if (event.type == SDL_EVENT_JOYSTICK_ADDED && !isRecording)
             {
                 totalConnectedJoysticks++;
                 LOG_INFO("User just inserted joystick!");
                 Input_Init_491BC0();
                 sJoystickEnabled_5C9F70 = 1;
             }
-            else if (event.type == SDL_JOYDEVICEREMOVED && !isRecording)
+            else if (event.type == SDL_EVENT_JOYSTICK_REMOVED && !isRecording)
             {
                 totalConnectedJoysticks--;
                 LOG_INFO("User just removed joystick!");
@@ -1094,53 +1069,49 @@ EXPORT s8 CC Sys_PumpMessages_4EE4F4()
         }
     #endif // AUTO_SWITCH_CONTROLLER
 
-        if (event.type == SDL_KEYDOWN)
+        if (event.type == SDL_EVENT_KEY_DOWN)
         {
             if (!isPlaying)
             {
-                KeyDownEvent(event.key.keysym.scancode);
+                KeyDownEvent(event.key.scancode);
             }
 
             if (isRecording)
             {
                 RecordedEvent recEvent;
                 recEvent.mType = event.type;
-                recEvent.mData = static_cast<u32>(event.key.keysym.scancode);
+                recEvent.mData = static_cast<u32>(event.key.scancode);
                 GetGameAutoPlayer().RecordEvent(recEvent);
             }
         }
-        else if (event.type == SDL_KEYUP)
+        else if (event.type == SDL_EVENT_KEY_UP)
         {
             if (!isPlaying)
             {
-                KeyUpEvent(event.key.keysym.scancode);
+                KeyUpEvent(event.key.scancode);
             }
 
             if (isRecording)
             {
                 RecordedEvent recEvent;
                 recEvent.mType = event.type;
-                recEvent.mData = static_cast<u32>(event.key.keysym.scancode);
+                recEvent.mData = static_cast<u32>(event.key.scancode);
                 GetGameAutoPlayer().RecordEvent(recEvent);
             }
         }
-        else if (event.type == SDL_WINDOWEVENT)
+        else if (event.window.type == SDL_EVENT_WINDOW_FOCUS_GAINED)
         {
-            if (event.window.type == SDL_WINDOWEVENT_FOCUS_GAINED)
-            {
-                sAppIsActivated_BBBA00 = TRUE;
-            }
-            else if (event.window.type == SDL_WINDOWEVENT_FOCUS_LOST)
-            {
-                sAppIsActivated_BBBA00 = FALSE;
-            }
-            else if (event.window.type == SDL_WINDOWEVENT_EXPOSED)
-            {
-                Add_Dirty_Area_4ED970(0, 0, 640, 240);
-            }
-            // SDL_WINDOWEVENT_SIZE_CHANGED
+            sAppIsActivated_BBBA00 = TRUE;
         }
-        else if (event.type == SDL_QUIT)
+        else if (event.window.type == SDL_EVENT_WINDOW_FOCUS_LOST)
+        {
+            sAppIsActivated_BBBA00 = FALSE;
+        }
+        else if (event.window.type == SDL_EVENT_WINDOW_EXPOSED)
+        {
+            Add_Dirty_Area_4ED970(0, 0, 640, 240);
+        }
+        else if (event.type == SDL_EVENT_QUIT)
         {
             if (!isPlaying)
             {
@@ -1215,7 +1186,7 @@ EXPORT LPSTR CC Sys_GetCommandLine_4EE176()
 
 EXPORT void CC Sys_SetWindowPos_4EE1B1(s32 width, s32 height)
 {
-#if USE_SDL2
+#if USE_SDL3
     SDL_SetWindowSize(Sys_GetWindowHandle_4EE180(), width, height);
     SDL_SetWindowPosition(Sys_GetWindowHandle_4EE180(), 0, 0);
 #else
@@ -1229,28 +1200,17 @@ EXPORT void CC Sys_SetWindowPos_4EE1B1(s32 width, s32 height)
 #endif
 }
 
-#if USE_SDL2
+#if USE_SDL3
 static s32 CC Sys_WindowClass_Register_SDL(LPCSTR /*lpClassName*/, LPCSTR lpWindowName, s32 x, s32 y, s32 nWidth, s32 nHeight)
 {
     s32 sdlWindowAttributes = 0;
 
-    #if __ANDROID__
-    SDL_Rect gScreenRect = {0, 0, 640, 480};
-    SDL_DisplayMode displayMode;
-    if (SDL_GetCurrentDisplayMode(0, &displayMode) == 0)
-    {
-        gScreenRect.w = displayMode.w;
-        gScreenRect.h = displayMode.h;
-    }
-
-    sHwnd_BBB9F4 = SDL_CreateWindow(lpWindowName, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, gScreenRect.w, gScreenRect.h, SDL_WINDOW_SHOWN | SDL_WINDOW_FULLSCREEN | sdlWindowAttributes);
-    #else
-    sHwnd_BBB9F4 = SDL_CreateWindow(lpWindowName, x, y, nWidth, nHeight, SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI | sdlWindowAttributes);
-    #endif
+    sHwnd_BBB9F4 = SDL_CreateWindow(lpWindowName, nWidth, nHeight, SDL_WINDOW_RESIZABLE | SDL_WINDOW_HIGH_PIXEL_DENSITY | sdlWindowAttributes);
+    SDL_SetWindowPosition(sHwnd_BBB9F4, x, y);
 
     Input_InitKeyStateArray_4EDD60();
 
-    SDL_ShowCursor(SDL_DISABLE);
+    SDL_HideCursor();
 
     // Bring to front and give input focus
     SDL_RaiseWindow(sHwnd_BBB9F4);
@@ -1327,7 +1287,7 @@ static s32 CC Sys_WindowClass_Register_Win32(LPCSTR lpClassName, LPCSTR lpWindow
 
 EXPORT s32 CC Sys_WindowClass_Register_4EE22F(LPCSTR lpClassName, LPCSTR lpWindowName, s32 x, s32 y, s32 nWidth, s32 nHeight)
 {
-#if USE_SDL2
+#if USE_SDL3
     return Sys_WindowClass_Register_SDL(lpClassName, lpWindowName, x, y, nWidth, nHeight);
 #else
     return Sys_WindowClass_Register_Win32(lpClassName, lpWindowName, x, y, nWidth, nHeight);

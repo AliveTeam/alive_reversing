@@ -25,15 +25,13 @@ export(TARGETS AliveDllAO FILE AliveDllAO.cmake)
 install(TARGETS AliveDllAO DESTINATION "${CMAKE_CURRENT_SOURCE_DIR}")
 
 if (WIN32)
-    if (CMAKE_SIZEOF_VOID_P EQUAL 4)
-        add_custom_command(TARGET AliveDllAO POST_BUILD
-            COMMAND echo copy "${SDL2_INCLUDE_DIR}/../lib/x86/SDL2.dll" "$<TARGET_FILE_DIR:AliveDllAO>/SDL2.dll"
-            COMMAND "${CMAKE_COMMAND}" -E copy "${SDL2_INCLUDE_DIR}/../lib/x86/SDL2.dll" "$<TARGET_FILE_DIR:AliveDllAO>/SDL2.dll")
-        INSTALL(FILES "${SDL2_INCLUDE_DIR}/../lib/x86/SDL2.dll" DESTINATION "${CMAKE_CURRENT_SOURCE_DIR}")
-    else()
-        add_custom_command(TARGET AliveDllAO POST_BUILD
-            COMMAND echo copy "${SDL2_INCLUDE_DIR}/../lib/x64/SDL2.dll" "$<TARGET_FILE_DIR:AliveDllAO>/SDL2.dll"
-            COMMAND "${CMAKE_COMMAND}" -E copy "${SDL2_INCLUDE_DIR}/../lib/x64/SDL2.dll" "$<TARGET_FILE_DIR:AliveDllAO>/SDL2.dll")
-        INSTALL(FILES "${SDL2_INCLUDE_DIR}/../lib/x64/SDL2.dll" DESTINATION "${CMAKE_CURRENT_SOURCE_DIR}")
-    endif()
+    add_custom_command(TARGET AliveDllAO POST_BUILD
+        COMMAND "${CMAKE_COMMAND}" -E copy_if_different
+            "$<TARGET_FILE:SDL3::SDL3>"
+            "$<TARGET_FILE_DIR:AliveDllAO>")
+
+    install(FILES
+        "$<TARGET_FILE:SDL3::SDL3>"
+        DESTINATION .
+    )
 endif()

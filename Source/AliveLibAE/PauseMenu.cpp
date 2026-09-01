@@ -714,14 +714,14 @@ public:
     {
         optionMenuItems.clear();
 
-    #if USE_SDL2_SOUND
+    #if USE_SDL3_SOUND
         optionMenuStr_SoundStereo = "Sound Mode: " + std::string((gAudioStereo) ? "Stereo" : "Mono");
         optionMenuStr_SoundReverb = "Reverb: " + std::string((gReverbEnabled) ? "On" : "Off");
     #endif
         optionMenuStr_AspectRatio = "Aspect Ratio: " + std::string((s_VGA_KeepAspectRatio) ? "Keep" : "Stretch");
         optionMenuStr_WindowFilterMode = "Screen Filter: " + std::string((s_VGA_FilterScreen) ? "On" : "Off");
 
-    #if USE_SDL2_SOUND
+    #if USE_SDL3_SOUND
         optionMenuItems.push_back({optionMenuStr_SoundStereo.c_str(), [](CustomPauseMenu*)
                                    {
                                        gAudioStereo = !gAudioStereo;

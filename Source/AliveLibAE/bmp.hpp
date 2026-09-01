@@ -4,7 +4,7 @@
 #include "../AliveLibCommon/relive_config.h"
 
 #ifdef _WIN32
-    #if !USE_SDL2
+    #if !USE_SDL3
         #define DIRECTINPUT_VERSION 0x700
         #include <dinput.h>
         #define DIRECTDRAW_VERSION 0x700
@@ -18,8 +18,8 @@ namespace AETest::TestsBmp {
 void BmpTests();
 }
 
-#if USE_SDL2
-    #include "SDL.h"
+#if USE_SDL3
+    #include <SDL3/SDL.h>
 using TSurfaceType = SDL_Surface;
 #else
 using TSurfaceType = IDirectDrawSurface;

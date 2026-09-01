@@ -9,6 +9,7 @@
 #include "PathData.hpp" // SoundBlockInfo, SeqPathDataRecord
 #include "../AliveLibAE/Io.hpp"
 #include <assert.h>
+#include <cmath>
 
 struct VagAtr final
 {

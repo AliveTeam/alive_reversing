@@ -30,8 +30,8 @@ IO_FileHandleType IO_Open(const char_type* fileName, const char_type* mode)
         fileName += 2;
     }
 
-#if USE_SDL2_IO
-    return SDL_RWFromFile(fileName, mode);
+#if USE_SDL3_IO
+    return SDL_IOFromFile(fileName, mode);
 #else
     return ae_fopen_520C64(fileName, mode);
 #endif
@@ -39,8 +39,8 @@ IO_FileHandleType IO_Open(const char_type* fileName, const char_type* mode)
 
 s32 IO_Seek(IO_FileHandleType pHandle, s32 offset, s32 origin)
 {
-#if USE_SDL2_IO
-    return static_cast<s32>(pHandle->seek(pHandle, offset, origin));
+#if USE_SDL3_IO
+    return static_cast<s32>(SDL_SeekIO(pHandle, offset, static_cast<SDL_IOWhence>(origin)));
 #else
     return ae_fseek_521955(pHandle, offset, origin);
 #endif
@@ -48,8 +48,8 @@ s32 IO_Seek(IO_FileHandleType pHandle, s32 offset, s32 origin)
 
 s32 IO_Close(IO_FileHandleType pHandle)
 {
-#if USE_SDL2_IO
-    return pHandle->close(pHandle);
+#if USE_SDL3_IO
+    return SDL_CloseIO(pHandle) ? 0 : -1;
 #else
     return ae_fclose_520CBE(pHandle);
 #endif
@@ -57,8 +57,8 @@ s32 IO_Close(IO_FileHandleType pHandle)
 
 size_t IO_Read(IO_FileHandleType pHandle, void* ptr, size_t size, size_t maxnum)
 {
-#if USE_SDL2_IO
-    return pHandle->read(pHandle, ptr, size, maxnum);
+#if USE_SDL3_IO
+    return SDL_ReadIO(pHandle, ptr, size * maxnum);
 #else
     return ae_fread_520B5C(ptr, size, maxnum, pHandle);
 #endif
@@ -111,7 +111,7 @@ EXPORT IO_Handle* CC IO_Open_4F2320(const char_type* fileName, s32 modeFlag)
 
 EXPORT void CC IO_WaitForComplete_4F2510(IO_Handle* hFile)
 {
-#if _WIN32 && !USE_SDL2_IO
+#if _WIN32 && !USE_SDL3_IO
     if (hFile && hFile->field_10_bDone)
     {
         do
@@ -150,7 +150,7 @@ EXPORT void CC IO_fclose_4F24E0(IO_Handle* hFile)
     }
 }
 
-#if _WIN32 && !USE_SDL2_IO
+#if _WIN32 && !USE_SDL3_IO
 EXPORT u32 WINAPI FS_IOThread_4F25A0(LPVOID /*lpThreadParameter*/)
 {
     while (1)
@@ -218,7 +218,7 @@ EXPORT s32 CC IO_Read_4F23A0(IO_Handle* hFile, void* pBuffer, size_t bytesCount)
         return -1;
     }
 
-#if _WIN32 && !USE_SDL2_IO
+#if _WIN32 && !USE_SDL3_IO
     if (hFile->field_0_flags & 4) // ASync flag
     {
         IO_WaitForComplete_4F2510(hFile);
@@ -243,7 +243,7 @@ EXPORT s32 CC IO_Read_4F23A0(IO_Handle* hFile, void* pBuffer, size_t bytesCount)
 }
 
 
-#if _WIN32 && !USE_SDL2_IO
+#if _WIN32 && !USE_SDL3_IO
 EXPORT u32 CCSTD IO_ASync_Thread_4EAE20(LPVOID lpThreadParameter)
 {
     MSG msg = {};
@@ -398,7 +398,7 @@ EXPORT Bool32 CC IO_Seek_Sync_4EAFC0(void* pHandle, u32 offset, u32 origin)
 
 EXPORT void CC IO_Init_SyncOrASync_4EAC80(s32 bASync)
 {
-#if _WIN32 && !USE_SDL2_IO
+#if _WIN32 && !USE_SDL3_IO
     if (bASync)
     {
         sMovie_IO_BBB314.mIO_Open = IO_Open_ASync_4EADA0;
@@ -459,7 +459,7 @@ EXPORT void IO_Init_494230()
 
 EXPORT void CC IO_Stop_ASync_IO_Thread_4F26B0()
 {
-#if _WIN32 && !USE_SDL2_IO
+#if _WIN32 && !USE_SDL3_IO
     if (sIoThreadHandle_BBC55C)
     {
         ::CloseHandle(sIoThreadHandle_BBC55C);
@@ -470,7 +470,7 @@ EXPORT void CC IO_Stop_ASync_IO_Thread_4F26B0()
 
 bool IO_CreateThread()
 {
-#if _WIN32 && !USE_SDL2_IO
+#if _WIN32 && !USE_SDL3_IO
     if (!sIoThreadHandle_BBC55C)
     {
         sIoThreadHandle_BBC55C = ::CreateThread(

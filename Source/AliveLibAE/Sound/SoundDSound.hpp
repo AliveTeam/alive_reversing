@@ -3,7 +3,7 @@
 #include "../AliveLibCommon/FunctionFwd.hpp"
 #include "Sound/Sound.hpp"
 
-#if !USE_SDL2_SOUND
+#if !USE_SDL3_SOUND
 s32 CC SND_CreateDS_DSound(u32 sampleRate, s32 bitsPerSample, s32 isStereo);
 s32 CC SND_Clear_DSound(SoundEntry* pSoundEntry, u32 sampleOffset, u32 size);
 void SND_InitVolumeTable_DSound();

@@ -3,12 +3,12 @@
 #include "../AliveLibCommon/FunctionFwd.hpp"
 #include <atomic>
 
-#if USE_SDL2
-    #include "SDL.h"
+#if USE_SDL3
+    #include <SDL3/SDL.h>
 #endif
 
-#if USE_SDL2_IO
-using IO_FileHandleType = struct SDL_RWops*;
+#if USE_SDL3_IO
+using IO_FileHandleType = struct SDL_IOStream*;
 #else
 using IO_FileHandleType = struct FILE*;
 #endif

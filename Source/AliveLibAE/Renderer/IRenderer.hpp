@@ -3,7 +3,7 @@
 #include "../AliveLibCommon/Sys_common.hpp"
 #include "Primitives.hpp"
 #include "../AliveLibCommon/Psx_common.hpp"
-#include <SDL.h>
+#include <SDL3/SDL.h>
 
 struct PrimHeader;
 
@@ -13,7 +13,6 @@ public:
     enum class Renderers
     {
         Software,
-        DirectX9,
     };
 
     enum class BitDepth

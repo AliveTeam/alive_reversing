@@ -94,7 +94,7 @@ EXPORT s8 CC DDV_StartAudio_493DF0()
         return 1;
     }
 
-    #if USE_SDL2_SOUND
+    #if USE_SDL3_SOUND
     wasReverbEnabled = gReverbEnabled;
 
     // disable reverb for cutscenes - it gets re-enabled in DeInit
@@ -153,7 +153,7 @@ EXPORT s8 CC DDV_StartAudio_493DF0()
     return 0;
 }
 
-#if USE_SDL2
+#if USE_SDL3
 EXPORT void DDV_Null_493F30()
 {
     // Do nothing
@@ -304,7 +304,7 @@ static void Render_DDV_Frame(Bitmap& tmpBmp)
     // Copy into the emulated vram - when FMV ends the "screen" still have the last video frame "stick"
     // giving us a nice seamless transistion.
     SDL_Rect bufferSize = {0, 0, 640, 240};
-    SDL_BlitScaled(tmpBmp.field_0_pSurface, nullptr, sPsxVram_C1D160.field_0_pSurface, &bufferSize);
+    SDL_BlitSurfaceScaled(tmpBmp.field_0_pSurface, nullptr, sPsxVram_C1D160.field_0_pSurface, &bufferSize, SDL_SCALEMODE_NEAREST);
 
     if (sPsxEMU_show_vram_BD1465)
     {
@@ -364,7 +364,7 @@ EXPORT s8 CC DDV_Play_Impl_4932E0(const char_type* pMovieName)
     // NOTE: Call to Masher_Tables_Init_4EA880 as the whole masher code for audio has been replaced
     fmv_num_read_frames_5CA23C = 0;
 
-#if USE_SDL2
+#if USE_SDL3
     Bitmap tmpBmp = {};
     BMP_New_4F1990(&tmpBmp, 640, 480, 15, 0);
 #endif
@@ -377,7 +377,7 @@ EXPORT s8 CC DDV_Play_Impl_4932E0(const char_type* pMovieName)
             fmv_num_read_frames_5CA23C++;
 
             // Lock the back buffer
-#if USE_SDL2
+#if USE_SDL3
             // Decode the video frame to the bitmap pixel buffer
             SDL_LockSurface(tmpBmp.field_0_pSurface);
             Masher_DecodeVideoFrame_4EAC40(pMasherInstance_5CA1EC, tmpBmp.field_0_pSurface->pixels);
@@ -445,7 +445,7 @@ EXPORT s8 CC DDV_Play_Impl_4932E0(const char_type* pMovieName)
                     }
 
                     DDV_Null_493F30();
-#if USE_SDL2
+#if USE_SDL3
                     Render_DDV_Frame(tmpBmp);
 #else
                     DD_Flip_4F15D0();
@@ -468,7 +468,7 @@ EXPORT s8 CC DDV_Play_Impl_4932E0(const char_type* pMovieName)
                 Input_IsVKPressed_4EDD40(VK_RETURN);
             }
 
-#if USE_SDL2
+#if USE_SDL3
             Render_DDV_Frame(tmpBmp);
 #else
             DD_Flip_4F15D0();
@@ -542,7 +542,7 @@ EXPORT s8 CC DDV_Play_Impl_4932E0(const char_type* pMovieName)
             {
                 // End of stream
                 DDV_Null_493F30();
-#if USE_SDL2
+#if USE_SDL3
                 Render_DDV_Frame(tmpBmp);
 #else
                 DD_Flip_4F15D0();
@@ -564,7 +564,7 @@ EXPORT s8 CC DDV_Play_Impl_4932E0(const char_type* pMovieName)
 
     Masher_DeAlloc_4EAC00(pMasherInstance_5CA1EC);
     pMasherInstance_5CA1EC = nullptr;
-#if USE_SDL2
+#if USE_SDL3
     Bmp_Free_4F1950(&tmpBmp);
 #endif
     return 1;
@@ -750,7 +750,7 @@ void Movie::DeInit_4E0210()
     sbLoadingInProgress_5C1B96 = FALSE;
     --sMovie_ref_count_BB4AE4;
 
-    #if USE_SDL2_SOUND
+    #if USE_SDL3_SOUND
     gReverbEnabled = wasReverbEnabled;
     #endif
 

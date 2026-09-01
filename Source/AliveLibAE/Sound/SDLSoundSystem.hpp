@@ -26,12 +26,12 @@ public:
     HRESULT Release();
 
     // Called by audio thread - time critical
-    static void AudioCallBackStatic(void* userdata, Uint8* stream, s32 len);
+    static void AudioCallBackStatic(void* userdata, SDL_AudioStream* stream, s32 additionalAmount, s32 totalAmount);
 
 private:
     ~SDLSoundSystem();
 
-    void AudioCallBack(Uint8* stream, s32 len);
+    void AudioCallBack(SDL_AudioStream* stream, s32 additionalAmount);
 
     void RenderAudioThread();
 
@@ -46,7 +46,10 @@ private:
 
 private:
     SDL_AudioSpec mAudioDeviceSpec = {};
-    static constexpr s32 kMixVolume = 127;
+    SDL_AudioStream* mAudioStream = nullptr;
+    SDL_AudioDeviceID mAudioDevice = 0;
+
+    static constexpr f32 kMixVolume = 1.0f;
 
     s32 mCurrentSoundBufferSize = 0;
     AudioFilterMode mAudioFilterMode = AudioFilterMode::Linear;

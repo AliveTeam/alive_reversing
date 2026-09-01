@@ -5,8 +5,6 @@ SET(AliveLibAESrc
     Renderer/IRenderer.cpp
     Renderer/SoftwareRenderer.hpp
     Renderer/SoftwareRenderer.cpp
-    Renderer/DirectX9Renderer.hpp
-    Renderer/DirectX9Renderer.cpp
     Grid.hpp
     Grid.cpp
     GameAutoPlayer.hpp
@@ -374,8 +372,6 @@ SET(AliveLibAESrc
     LaughingGas.hpp
     DeathGas.cpp
     DeathGas.hpp
-    TouchController.cpp
-    TouchController.hpp
     ScopedSeq.cpp
     ScopedSeq.hpp
     Sparks.hpp
@@ -435,7 +431,7 @@ target_link_libraries(AliveLibAE
     googletest
     Cinder
     ${WIN32_LIBS}
-    ${SDL2_LIBRARIES}
+    SDL3::SDL3
     project_warnings
     )
 

@@ -28,6 +28,7 @@
 #include "QuikSave.hpp"
 #include "PauseMenu.hpp"
 #include "BaseBomb.hpp"
+#include <cmath>
 
 #include "Factory.hpp"
 
@@ -865,7 +866,7 @@ std::vector<DebugConsoleCommand> sDebugConsoleCommands = {
     {"fps", -1, [](const std::vector<std::string>& /*args*/)
      { Command_ToggleBool(&sCommandLine_ShowFps_5CA4D0, "FPS"); },
      "Toggle FPS"},
-#if USE_SDL2_SOUND
+#if USE_SDL3_SOUND
     {"reverb", -1, [](const std::vector<std::string>& /*args*/)
      { Command_ToggleBool(&gReverbEnabled, "Reverb"); },
      "Toggle Reverb (New Sound Engine)"},
@@ -1051,14 +1052,14 @@ public:
         }
 
 
-#if USE_SDL2
+#if USE_SDL3
         static Uint8 keyStatesPrev[256];
         auto keyStates = SDL_GetKeyboardState(nullptr);
 
 
         for (const auto& bind : gDebugKeyBinds)
         {
-            auto scanCode = SDL_GetScancodeFromKey(SDL_GetKeyFromName(bind.key.c_str()));
+            auto scanCode = SDL_GetScancodeFromKey(SDL_GetKeyFromName(bind.key.c_str()), nullptr);
             if (keyStates[scanCode] && !keyStatesPrev[scanCode])
             {
                 ParseCommand(bind.command);

@@ -7,7 +7,7 @@
 
 ALIVE_VAR(1, 0xBC0BB4, u8, gVGA_force_sys_memory_surfaces_BC0BB4, 0);
 
-#if USE_SDL2
+#if USE_SDL3
 
 EXPORT s32 CC BMP_Blt_4F1E50(Bitmap* pDstBmp, s32 xPos, s32 yPos, Bitmap* pSrcBmp, LPRECT pRect, s32 flags)
 {
@@ -18,7 +18,7 @@ EXPORT s32 CC BMP_Blt_4F1E50(Bitmap* pDstBmp, s32 xPos, s32 yPos, Bitmap* pSrcBm
 
     SDL_Rect destRect = {xPos, yPos, 0, 0};
     const SDL_Rect srcRect = {pRect->left, pRect->right, pRect->top, pRect->bottom};
-    if (SDL_BlitSurface(pSrcBmp->field_0_pSurface, &srcRect, pDstBmp->field_0_pSurface, &destRect) != 0)
+    if (SDL_BlitSurface(pSrcBmp->field_0_pSurface, &srcRect, pDstBmp->field_0_pSurface, &destRect))
     {
         return 0;
     }
@@ -28,7 +28,7 @@ EXPORT s32 CC BMP_Blt_4F1E50(Bitmap* pDstBmp, s32 xPos, s32 yPos, Bitmap* pSrcBm
 EXPORT s32 CC BMP_ClearRect_4F1EE0(Bitmap* pBmp, const RECT* pRect, u32 fillColour)
 {
     const SDL_Rect clearRect = {pRect->left, pRect->right, pRect->top, pRect->bottom};
-    if (SDL_FillRect(pBmp->field_0_pSurface, &clearRect, fillColour /*SDL_MapRGB(pBmp->field_0_pSurface->format, 255, 0, 0)*/) != 0)
+    if (!SDL_FillSurfaceRect(pBmp->field_0_pSurface, &clearRect, fillColour /*SDL_MapRGB(pBmp->field_0_pSurface->format, 255, 0, 0)*/))
     {
         return -1;
     }
@@ -139,7 +139,7 @@ EXPORT void CC Bmp_Free_4F1950(Bitmap* pBmp)
         {
             BMP_unlock_4F2100(pBmp);
         }
-        SDL_FreeSurface(pBmp->field_0_pSurface);
+        SDL_DestroySurface(pBmp->field_0_pSurface);
         memset(pBmp, 0, sizeof(Bitmap));
     }
 }
@@ -160,43 +160,31 @@ EXPORT s32 CC BMP_New_4F1990(Bitmap* pBitmap, s32 width, s32 height, s32 pixelFo
         return -1;
     }
 
-    u32 bMask = 0;
-    u32 rMask = 0;
-    u32 gMask = 0;
+    SDL_PixelFormat sdlPixelFormat;
 
     switch (bpp)
     {
         case 15:
-            rMask = 0x7C00;
-            gMask = 0x3E0;
-            bMask = 0x1F;
+            sdlPixelFormat = SDL_GetPixelFormatForMasks(bpp, 0x7C00, 0x3E0, 0x1F, 0);
             break;
         case 16:
-            rMask = 0xF800;
-            gMask = 0x7E0;
-            bMask = 0x1F;
+            sdlPixelFormat = SDL_GetPixelFormatForMasks(bpp, 0xF800, 0x7E0, 0x1F, 0);
             break;
         case 24:
         case 32:
-            rMask = 0xFF0000;
-            gMask = 0xFF00;
-            bMask = 0xFF;
+            sdlPixelFormat = SDL_GetPixelFormatForMasks(bpp, 0xFF0000, 0xFF00, 0xFF, 0);
             break;
         case 115:
-            rMask = 0x1F;
-            gMask = 0x3E0;
-            bMask = 0x7C00;
+            sdlPixelFormat = SDL_GetPixelFormatForMasks(bpp, 0x1F, 0x3E0, 0x7C00, 0);
             break;
         case 116:
-            rMask = 0x1F;
-            gMask = 0x7E0;
-            bMask = 0xF800;
+            sdlPixelFormat = SDL_GetPixelFormatForMasks(bpp, 0x1F, 0x7E0, 0xF800, 0);
             break;
         default:
             ALIVE_FATAL("bbp not supported");
     }
 
-    pBitmap->field_0_pSurface = SDL_CreateRGBSurface(0, width, height, bpp, rMask, gMask, bMask, 0x0);
+    pBitmap->field_0_pSurface = SDL_CreateSurface(width, height, sdlPixelFormat);
     pBitmap->field_C_height = height;
     pBitmap->field_8_width = width;
     pBitmap->field_14_bpp = static_cast<s8>(bpp);
@@ -1252,7 +1240,7 @@ const u8 sBitmapFont[] = {
 
 EXPORT void CC BMP_Draw_String_4F2230(Bitmap* pBmp, s32 x, s32 y, u32 /*fgColour*/, s32 /*bgColour*/, LPCSTR lpString)
 {
-    SDL_Surface* pFontBmp = SDL_LoadBMP_RW(SDL_RWFromConstMem(sBitmapFont, sizeof(sBitmapFont)), SDL_TRUE);
+    SDL_Surface* pFontBmp = SDL_LoadBMP_IO(SDL_IOFromConstMem(sBitmapFont, sizeof(sBitmapFont)), true);
 
     s32 xpos = 0;
     const s32 kLetterWidth = 8;
@@ -1267,7 +1255,7 @@ EXPORT void CC BMP_Draw_String_4F2230(Bitmap* pBmp, s32 x, s32 y, u32 /*fgColour
         if (letter == ' ')
         {
             xpos += kLetterWidth;
-            SDL_FillRect(pBmp->field_0_pSurface, &dstRect, 0x0000);
+            SDL_FillSurfaceRect(pBmp->field_0_pSurface, &dstRect, 0x0000);
             continue;
         }
 
@@ -1286,7 +1274,7 @@ EXPORT void CC BMP_Draw_String_4F2230(Bitmap* pBmp, s32 x, s32 y, u32 /*fgColour
 
         SDL_Rect srcRect = {kLetterWidth * letter, 0, kLetterWidth, kLetterHeight};
 
-        if (SDL_BlitSurface(pFontBmp, &srcRect, pBmp->field_0_pSurface, &dstRect) != 0)
+        if (!SDL_BlitSurface(pFontBmp, &srcRect, pBmp->field_0_pSurface, &dstRect))
         {
             const char_type* e = SDL_GetError();
             LOG_ERROR(e);
@@ -1295,7 +1283,7 @@ EXPORT void CC BMP_Draw_String_4F2230(Bitmap* pBmp, s32 x, s32 y, u32 /*fgColour
         xpos += kLetterWidth;
     }
 
-    SDL_FreeSurface(pFontBmp);
+    SDL_DestroySurface(pFontBmp);
 }
 
 namespace AETest::TestsBmp {

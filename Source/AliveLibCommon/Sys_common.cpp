@@ -1,8 +1,8 @@
 #include "stdafx_common.h"
 #include "Sys_common.hpp"
 
-#if USE_SDL2
-    #include "SDL.h"
+#if USE_SDL3
+    #include <SDL3/SDL.h>
 #else
     #include <windows.h>
 #endif
@@ -16,7 +16,7 @@
 
 u32 SYS_GetTicks()
 {
-#if USE_SDL2
+#if USE_SDL3
     // Using this instead of SDL_GetTicks resolves a weird x64 issue on windows where
     // the tick returned is a lot faster on some machines.
     return static_cast<u32>(SDL_GetPerformanceCounter() / (SDL_GetPerformanceFrequency() / 1000));
@@ -27,7 +27,7 @@ u32 SYS_GetTicks()
 
 MessageBoxButton CC Sys_MessageBox(TWindowHandleType windowHandle, const char_type* message, const char_type* title, MessageBoxType type)
 {
-#if USE_SDL2
+#if USE_SDL3
     SDL_MessageBoxData data = {};
     data.title = title;
     data.message = message;
@@ -112,25 +112,22 @@ MessageBoxButton CC Sys_MessageBox(TWindowHandleType windowHandle, const char_ty
 #endif
 }
 
-#if USE_SDL2
-static void PrintSDL2Versions()
+#if USE_SDL3
+static void PrintSDLVersions()
 {
-    SDL_version compiled = {};
-    SDL_version linked = {};
+    const int version = SDL_GetVersion();
 
-    SDL_VERSION(&compiled);
-    SDL_GetVersion(&linked);
-    LOG_INFO("Compiled with SDL2 ver " << static_cast<int>(compiled.major) << "." << static_cast<int>(compiled.minor) << "." << static_cast<int>(compiled.patch));
-    LOG_INFO("Runtime SDL2 ver " << static_cast<int>(linked.major) << "." << static_cast<int>(linked.minor) << "." << static_cast<int>(linked.patch));
+    LOG_INFO("Compiled with SDL3 ver " << SDL_MAJOR_VERSION << "." << SDL_MINOR_VERSION << "." << SDL_MICRO_VERSION);
+    LOG_INFO("Runtime SDL3 ver " << SDL_VERSIONNUM_MAJOR(version) << "." << SDL_VERSIONNUM_MINOR(version) << "." << SDL_VERSIONNUM_MICRO(version));
 }
 #endif
 
 void Sys_Main_Common()
 {
-#if USE_SDL2
-    PrintSDL2Versions(); // Ok to call before init
+#if USE_SDL3
+    PrintSDLVersions(); // Ok to call before init
 
-    if (SDL_Init(SDL_INIT_TIMER | SDL_INIT_VIDEO | SDL_INIT_EVENTS | SDL_INIT_HAPTIC | SDL_INIT_JOYSTICK | SDL_INIT_GAMECONTROLLER) != 0)
+    if (!SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS | SDL_INIT_HAPTIC | SDL_INIT_JOYSTICK | SDL_INIT_GAMEPAD))
     {
         LOG_ERROR(SDL_GetError());
         ALIVE_FATAL(SDL_GetError());
