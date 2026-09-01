@@ -906,8 +906,7 @@ s8 DDV_Play(const char_type* pDDVName)
     return ret;
 }
 
-s16 sMovie_Kill_SEQs_563A88 = 1;
-s32 gMovieRefCount = 0;
+s32 Movie::gMovieRefCount = 0;
 
 void Movie::VScreenChanged()
 {
@@ -921,9 +920,7 @@ void Movie::Init()
 
     SetType(ReliveTypes::eMovie);
 
-    ++gMovieRefCount;
-
-    sMovie_Kill_SEQs_563A88 = 1;
+    ++Movie::gMovieRefCount;
 }
 
 Movie::Movie(const char_type* pName)
@@ -945,10 +942,7 @@ void Movie::VUpdate()
     }
     else
     {
-        if (sMovie_Kill_SEQs_563A88)
-        {
-            SND_StopAll();
-        }
+        SND_StopAll();
 
         while (!DDV_Play(mName))
         {
@@ -971,7 +965,7 @@ void Movie::DeInit()
 {
     PSX_VSync(VSyncMode::LimitTo30Fps);
 
-    --gMovieRefCount;
+    --Movie::gMovieRefCount;
 
     #if USE_SDL2_SOUND
     gReverbEnabled = wasReverbEnabled;

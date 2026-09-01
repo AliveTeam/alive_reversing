@@ -1705,7 +1705,7 @@ s16 Glukkon::Brain_3_PlayerControlled()
         return Brain_3_PlayerControlled::eBrain3_WaitForMovieToFinish5;
 
         case Brain_3_PlayerControlled::eBrain3_WaitForMovieToFinish5:
-            if (gMovieRefCount)
+            if (Movie::gMovieRefCount)
             {
                 return mBrainSubState;
             }

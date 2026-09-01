@@ -7323,7 +7323,7 @@ void Abe::Motion_88_HandstoneBegin()
         }
         case StoneStates::eHandstoneMovieDone_2:
         {
-            if (gMovieRefCount == 0)
+            if (Movie::gMovieRefCount == 0)
             {
                 gPsxDisplay.PutCurrentDispEnv();
                 gScreenManager->DecompressCameraToVRam(gMap.field_2C_camera_array[0]->mCamRes);
