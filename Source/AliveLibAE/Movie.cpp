@@ -22,6 +22,7 @@
 #include <chrono>
 #include <thread>
 #include <utility>
+#include <algorithm>
 
 #include "aom/aom_decoder.h"
 #include "aom/aomdx.h"
