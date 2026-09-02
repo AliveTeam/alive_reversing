@@ -22,7 +22,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 #    endif()
 #endif()
 
-find_package(QT NAMES Qt6 Qt5 COMPONENTS Widgets Multimedia LinguistTools REQUIRED)
+find_package(QT NAMES Qt5 COMPONENTS Widgets Multimedia LinguistTools REQUIRED)
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets Multimedia LinguistTools REQUIRED)
 
 set(TS_FILES
@@ -157,10 +157,10 @@ set(PROJECT_SOURCES
         ${TS_FILES}
 )
 
-if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
-    qt_create_translation(QM_FILES "${CMAKE_CURRENT_SOURCE_DIR}/Source" ${TS_FILES} OPTIONS -no-obsolete -no-ui-lines -locations none)
-    qt_add_executable(qt-editor ${PROJECT_SOURCES} ${QM_FILES})
-else()
+#if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
+#    qt_create_translation(QM_FILES "${CMAKE_CURRENT_SOURCE_DIR}/Source" ${TS_FILES} OPTIONS -no-obsolete -no-ui-lines -locations none)
+#    qt_add_executable(qt-editor ${PROJECT_SOURCES} ${QM_FILES})
+#else()
     qt5_create_translation(QM_FILES "${CMAKE_CURRENT_SOURCE_DIR}/Source" ${TS_FILES} OPTIONS -no-obsolete -no-ui-lines -locations none)
     if(ANDROID)
         add_library(qt-editor SHARED ${PROJECT_SOURCES} ${QM_FILES})
@@ -170,7 +170,7 @@ else()
     else()
         add_executable(qt-editor ${PROJECT_SOURCES} ${QM_FILES})
     endif()
-endif()
+#endif()
 
 if (MSVC)
     target_compile_options(qt-editor PRIVATE /MDd)
