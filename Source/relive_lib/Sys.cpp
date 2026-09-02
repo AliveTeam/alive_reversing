@@ -886,12 +886,6 @@ TWindowHandleType Sys_GetWindowHandle()
     return sHwnd;
 }
 
-void Sys_SetWindowPos_4EE1B1(s32 width, s32 height)
-{
-    SDL_SetWindowSize(Sys_GetWindowHandle(), width, height);
-    SDL_SetWindowPosition(Sys_GetWindowHandle(), 0, 0);
-}
-
 void Sys_DestroyWindow()
 {
     if (sHwnd)
@@ -901,7 +895,7 @@ void Sys_DestroyWindow()
     }
 }
 
-bool Sys_WindowClass_Register(const char_type* lpWindowName, s32 x, s32 y, s32 nWidth, s32 nHeight, s32 extraAttributes)
+bool Sys_WindowClass_Register(const char_type* lpWindowName, s32 /*x*/, s32 /*y*/, s32 nWidth, s32 nHeight, s32 extraAttributes)
 {
     TRACE_ENTRYEXIT;
 
@@ -910,7 +904,11 @@ bool Sys_WindowClass_Register(const char_type* lpWindowName, s32 x, s32 y, s32 n
     {
         LOG_INFO("Window created");
 
-        SDL_SetWindowPosition(sHwnd, x, y);
+        if (!SDL_SetWindowPosition(sHwnd, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED))
+        {
+            // wayland doesn't allow setting the window pos
+            LOG_INFO("%s", SDL_GetError());
+        }
 
         Input_InitKeyStateArray_4EDD60();
 
