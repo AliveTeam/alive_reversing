@@ -55,7 +55,7 @@ add_library(editor_glue_dynamic_crt
 target_include_directories(editor_glue_dynamic_crt PRIVATE
     ../../relive_lib
 )
-target_link_libraries(editor_glue_dynamic_crt PUBLIC spng_dynamic_crt miniz_dynamic_crt)
+target_link_libraries(editor_glue_dynamic_crt PUBLIC spng_dynamic_crt miniz_dynamic_crt SDL3::SDL3)
 
 if (MSVC)
     target_compile_options(editor_glue_dynamic_crt PRIVATE /MDd)

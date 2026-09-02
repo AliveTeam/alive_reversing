@@ -78,7 +78,7 @@ add_library(imgui
 
 target_link_libraries(imgui
     libglew_static
-    ${SDL2_LIBRARIES}
+    SDL3::SDL3
     )
 
 target_include_directories(imgui SYSTEM PUBLIC

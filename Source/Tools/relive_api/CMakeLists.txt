@@ -69,6 +69,8 @@ add_library(relive_api ${relive_api_src})
 set_property(TARGET relive_api PROPERTY FOLDER "ReliveAPI")
 export(TARGETS relive_api FILE relive_api.cmake)
 
+target_link_libraries(relive_api PRIVATE SDL3::SDL3)
+
 if (MSVC)
     target_compile_options(relive_api PRIVATE /MDd)
 endif()
