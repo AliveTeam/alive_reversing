@@ -380,6 +380,35 @@ u32 SND_Get_Sound_Entry_Pos_4EF620(SoundEntry* pSoundEntry)
     return dwReadPos / pSoundEntry->field_1D_blockAlign;
 }
 
+void SND_Pause_Audio()
+{
+#if USE_SDL3_SOUND
+    if (sDSound_BBC344)
+    {
+        sDSound_BBC344->Pause();
+    }
+#endif
+}
+
+void SND_Resume_Audio()
+{
+#if USE_SDL3_SOUND
+    if (sDSound_BBC344)
+    {
+        sDSound_BBC344->Resume();
+    }
+#endif
+}
+
+u64 SND_Get_Generated_Audio_Samples()
+{
+#if USE_SDL3_SOUND
+    return sDSound_BBC344 ? sDSound_BBC344->GetGeneratedAudioSamples() : 0;
+#else
+    return 0;
+#endif
+}
+
 // Never seems to get called?
 // TODO: Clean up!
 u32* SND_4F00B0(u32* /*a1*/, u32 /*a2*/, s32 /*a3*/)

@@ -77,6 +77,27 @@ void SDLSoundSystem::Init(u32 /*sampleRate*/, s32 /*bitsPerSample*/, s32 /*isSte
     SDL_ResumeAudioDevice(mAudioDevice);
 }
 
+void SDLSoundSystem::Pause()
+{
+    if (mAudioDevice)
+    {
+        SDL_PauseAudioDevice(mAudioDevice);
+    }
+}
+
+void SDLSoundSystem::Resume()
+{
+    if (mAudioDevice)
+    {
+        SDL_ResumeAudioDevice(mAudioDevice);
+    }
+}
+
+u64 SDLSoundSystem::GetGeneratedAudioSamples() const
+{
+    return mGeneratedAudioSamples.load(std::memory_order_acquire);
+}
+
 
 HRESULT SDLSoundSystem::DuplicateSoundBuffer(TSoundBufferType* pDSBufferOriginal, TSoundBufferType** ppDSBufferDuplicate)
 {
@@ -163,6 +184,7 @@ void SDLSoundSystem::AudioCallBack(SDL_AudioStream* stream, s32 additionalAmount
     }
 
     SDL_PutAudioStreamData(stream, buffer.data(), additionalAmount);
+    mGeneratedAudioSamples.fetch_add(static_cast<u64>(bufferLenSamples), std::memory_order_release);
 }
 
 

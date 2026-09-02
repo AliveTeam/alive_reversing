@@ -757,7 +757,7 @@ s8 DDV_Play_Impl(const char_type* pMovieName)
     MkvAudioQueue audioQueue;
     auto moviePipeline = std::make_unique<MkvMoviePipeline>(movie, videoQueue, audioQueue);
 
-    s32 audioStartTimeStamp = 0;
+    u64 audioStartSample = 0;
     std::deque<MkvAudioChunk> pendingAudioChunks;
     const u32 blockAlign = (movie.AudioBitsPerSample() / 8u) * movie.AudioChannels();
     const u32 audioBufferSamples = std::max<u32>(movie.AudioSampleRate() * 4u, 4096u);
@@ -838,13 +838,13 @@ s8 DDV_Play_Impl(const char_type* pMovieName)
                 {
                     sNoAudioOrAudioError = true;
                 }
-                audioStartTimeStamp = SYS_GetTicks();
+                audioStartSample = SND_Get_Generated_Audio_Samples();
                 audioStarted = !sNoAudioOrAudioError;
             }
         }
 
         if (audioStarted && !audioFinished && moviePipeline->AudioComplete() && pendingAudioChunks.empty()
-            && static_cast<u32>((SYS_GetTicks() - audioStartTimeStamp) * movie.AudioSampleRate() / 1000) >= audioSamplesSubmitted)
+            && SND_Get_Generated_Audio_Samples() - audioStartSample >= audioSamplesSubmitted)
         {
             SND_StopAll();
             audioStarted = false;
@@ -878,7 +878,9 @@ s8 DDV_Play_Impl(const char_type* pMovieName)
 
         LOG_INFO("FMV playback %u: dequeued offset=%lld pts=%llu clock=%llu", playbackId, frame.mFileOffset,
             static_cast<unsigned long long>(frame.mPtsNs),
-            static_cast<unsigned long long>(audioStarted ? SYS_GetTicks() - audioStartTimeStamp : 0));
+            static_cast<unsigned long long>(audioStarted
+                ? (SND_Get_Generated_Audio_Samples() - audioStartSample) * 1000 / movie.AudioSampleRate()
+                : 0));
 
         if (AreMovieSkippingInputsHeld())
         {
@@ -886,14 +888,17 @@ s8 DDV_Play_Impl(const char_type* pMovieName)
         }
 
         const u64 frameMs = frame.mPtsNs / 1000000ULL;
-        const u64 audioClockMs = audioStarted ? static_cast<u64>(SYS_GetTicks() - audioStartTimeStamp) : 0;
+        const u64 audioClockMs = audioStarted
+            ? (SND_Get_Generated_Audio_Samples() - audioStartSample) * 1000 / movie.AudioSampleRate()
+            : 0;
         if (audioStarted && frameMs + 100 < audioClockMs)
         {
             ++droppedFrameCount;
             continue;
         }
 
-        while (audioStarted && frameMs > static_cast<u64>(SYS_GetTicks() - audioStartTimeStamp))
+        while (audioStarted
+               && frameMs > (SND_Get_Generated_Audio_Samples() - audioStartSample) * 1000 / movie.AudioSampleRate())
         {
             if (AreMovieSkippingInputsHeld())
             {
@@ -942,7 +947,9 @@ s8 DDV_Play_Impl(const char_type* pMovieName)
         lastDisplayedOffset = frame.mFileOffset;
         LOG_INFO("FMV playback %u: screen frame=%u offset=%lld pts=%llu clock=%llu hash=%llu queued=%zu", playbackId, renderedFrameCount,
             frame.mFileOffset, static_cast<unsigned long long>(frame.mPtsNs),
-            static_cast<unsigned long long>(audioStarted ? SYS_GetTicks() - audioStartTimeStamp : 0),
+            static_cast<unsigned long long>(audioStarted
+                ? (SND_Get_Generated_Audio_Samples() - audioStartSample) * 1000 / movie.AudioSampleRate()
+                : 0),
             static_cast<unsigned long long>(pixelHash), videoQueue.Size());
 
         SYS_EventsPump();
@@ -1029,8 +1036,8 @@ void Movie::VUpdate()
         }
     }
     DeInit();
-    gBreakGameLoop = true;
-    LOG_INFO("Movie VUpdate complete break=%d", gBreakGameLoop ? 1 : 0);
+    //gBreakGameLoop = true;
+    //LOG_INFO("Movie VUpdate complete break=%d", gBreakGameLoop ? 1 : 0);
 }
 
 void Movie::DeInit()

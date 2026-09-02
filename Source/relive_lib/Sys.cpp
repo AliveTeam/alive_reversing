@@ -640,6 +640,10 @@ static void KeyUpEvent(SDL_Scancode scanCode)
 
 static void QuitEvent(bool isRecordedEvent, bool isRecording)
 {
+#if USE_SDL3_SOUND
+    SND_Pause_Audio();
+#endif
+
     if (gMovieSoundEntry)
     {
 #if !USE_SDL3_SOUND
@@ -708,6 +712,9 @@ static void QuitEvent(bool isRecordedEvent, bool isRecording)
         {
             SDL_SetWindowFullscreen(Sys_GetWindowHandle(), true);
         }
+#if USE_SDL3_SOUND
+        SND_Resume_Audio();
+#endif
     }
 }
 

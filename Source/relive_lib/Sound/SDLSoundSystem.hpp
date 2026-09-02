@@ -19,6 +19,9 @@ class SDLSoundSystem final
 {
 public:
     void Init(u32 sampleRate, s32 bitsPerSample, s32 isStereo);
+    void Pause();
+    void Resume();
+    u64 GetGeneratedAudioSamples() const;
 
     HRESULT DuplicateSoundBuffer(TSoundBufferType* pDSBufferOriginal, TSoundBufferType** ppDSBufferDuplicate);
 
@@ -57,6 +60,7 @@ private:
     std::vector<StereoSample_S16> mNoReverbBuffer;
     cinder::audio::dsp::RingBufferT<StereoSample_S16> mAudioRingBuffer;
     std::atomic_bool mRenderAudioThreadQuit{false};
+    std::atomic<u64> mGeneratedAudioSamples{0};
     std::unique_ptr<std::thread> mRenderAudioThread;
 
 

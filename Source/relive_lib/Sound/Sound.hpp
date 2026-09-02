@@ -106,6 +106,9 @@ struct SoundBuffer final
 ALIVE_ASSERT_SIZEOF(SoundBuffer, 0x14);
 
 u32 SND_Get_Sound_Entry_Pos_4EF620(SoundEntry* pSoundEntry);
+void SND_Pause_Audio();
+void SND_Resume_Audio();
+u64 SND_Get_Generated_Audio_Samples();
 s32 SND_Clear_4EF350(SoundEntry* pSoundEntry, u32 sampleOffset, u32 size);
 void SND_SsQuit_4EFD50();
 s32 SND_CreateDS_4EEAA0(u32 sampleRate, s32 bitsPerSample, s32 isStereo);
