@@ -422,11 +422,13 @@ s32 DDCheat::DebugFont_Printf(s32 idx, const char_type* formatStr, ...)
     va_start(va, formatStr);
     if (idx < 0 || idx > 3)
     {
+        va_end(va);
         return -1;
     }
 
     char_type buffer[1024] = {};
     vsprintf(buffer, formatStr, va);
+    va_end(va);
 
     return gPsxDisplay.mDebugFont.DebugFont_Printf(idx, buffer);
 }

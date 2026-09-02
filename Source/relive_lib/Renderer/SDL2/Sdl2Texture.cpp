@@ -15,11 +15,12 @@ Sdl2Texture::Sdl2Texture(Sdl2Context& context, u32 width, u32 height, SDL_PixelF
     else
     {
         mTexture = SDL_CreateTexture(mContext.GetRenderer(), mFormat, mTextureAccess, mWidth, mHeight);
-
         if (!mTexture)
         {
             ALIVE_FATAL("%s", SDL_GetError());
         }
+
+        SDL_SetTextureBlendMode(mTexture, SDL_BLENDMODE_NONE);
     }
 }
 
@@ -29,6 +30,8 @@ Sdl2Texture::~Sdl2Texture()
     {
         SDL_DestroyTexture(mTexture);
     }
+
+    free(mIndexedPixels);
 }
 
 std::shared_ptr<Sdl2Texture> Sdl2Texture::FromMask(Sdl2Context& context, std::shared_ptr<Sdl2Texture> srcTex, const u8* maskPixels)
@@ -266,6 +269,7 @@ void Sdl2Texture::Resize(u32 width, u32 height)
     mHeight = height;
 
     mTexture = SDL_CreateTexture(mContext.GetRenderer(), mFormat, mTextureAccess, mWidth, mHeight);
+    SDL_SetTextureBlendMode(mTexture, SDL_BLENDMODE_NONE);
 
     if (!mTexture)
     {

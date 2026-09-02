@@ -139,11 +139,14 @@ s32 DebugFont::DebugFont_Printf(s32 idx, const char_type* formatStr, ...)
     va_start(va, formatStr);
     if (idx < 0 || idx > 3)
     {
+        va_end(va);
         return -1;
     }
 
     char_type buffer[1024] = {};
     vsprintf(buffer, formatStr, va);
+    va_end(va);
+
     strncat(sDebugTexts[idx].mText.mSrcTxt, buffer, sDebugTexts[idx].mMaxLength);
     return static_cast<s32>(strlen(sDebugTexts[idx].mText.mSrcTxt));
 }
