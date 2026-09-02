@@ -3,7 +3,7 @@
 #include "SoundSDL.hpp"
 #include "SDL3/SDL.h"
 
-#if USE_SDL2_SOUND
+#if USE_SDL3_SOUND
 
 void Reverb_Init(s32 sampleRate);
 void Reverb_DeInit();

@@ -2,11 +2,11 @@
 
 #include <SDL3/SDL.h>
 
-class Sdl2Context final
+class Sdl3Context final
 {
 public:
-    Sdl2Context(SDL_Window* window);
-    ~Sdl2Context();
+    Sdl3Context(SDL_Window* window);
+    ~Sdl3Context();
 
     SDL_Renderer* GetRenderer();
     bool IsRenderTargetSupported();

@@ -1,16 +1,15 @@
 #pragma once
 
-#include <vector>
-#include "Sdl2Context.hpp"
-#include "Sdl2Texture.hpp"
+#include "Sdl3Context.hpp"
+#include "Sdl3Texture.hpp"
 #include "../IRenderer.hpp"
 #include "../TextureCache.hpp"
 
-class Sdl2Renderer final : public IRenderer
+class Sdl3Renderer final : public IRenderer
 {
 public:
-    explicit Sdl2Renderer(TWindowHandleType window);
-    ~Sdl2Renderer() override;
+    explicit Sdl3Renderer(TWindowHandleType window);
+    ~Sdl3Renderer() override;
 
     void Clear(u8 r, u8 g, u8 b) override;
     void Draw(const Prim_GasEffect& gasEffect) override;
@@ -26,19 +25,19 @@ public:
 private:
     void DrawLines(const IRenderer::Point2D points[], s32 numPoints, RGBA32 color, relive::TBlendModes blendMode);
     void DrawVertices(SDL_Vertex vertices[], s32 numVertices, const s32 indices[], s32 numIndices, SDL_Texture* texture, bool isSemiTrans, relive::TBlendModes blendMode);
-    Sdl2Texture& GetActiveFbTexture();
-    std::shared_ptr<Sdl2Texture> PrepareTextureFromPoly(const Poly_FT4& poly);
+    Sdl3Texture& GetActiveFbTexture();
+    std::shared_ptr<Sdl3Texture> PrepareTextureFromPoly(const Poly_FT4& poly);
     SDL_FPoint PointToViewport(const SDL_FPoint& point);
     void ScaleVertices(SDL_Vertex vertices[], s32 numVertices);
     void SwitchActiveFbTexture();
 
 private:
-    Sdl2Context mContext;
+    Sdl3Context mContext;
 
     u8 mActiveFbTexture = 0;
     bool mCopiedFbThisFrame;
-    Sdl2Texture mPsxFbTexture[2];
+    Sdl3Texture mPsxFbTexture[2];
 
-    Sdl2Texture mGasTexture;
-    TextureCache<std::shared_ptr<Sdl2Texture>> mTextureCache;
+    Sdl3Texture mGasTexture;
+    TextureCache<std::shared_ptr<Sdl3Texture>> mTextureCache;
 };

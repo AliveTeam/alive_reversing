@@ -1,16 +1,17 @@
-#include "Sdl2Texture.hpp"
+#include "Sdl3Texture.hpp"
 #include "FatalError.hpp"
 #include "Renderer/PaletteCache.hpp"
 #include "data_conversion/AnimationConverter.hpp"
 
-Sdl2Texture::Sdl2Texture(Sdl2Context& context, u32 width, u32 height, SDL_PixelFormat format, SDL_TextureAccess access)
+Sdl3Texture::Sdl3Texture(Sdl3Context& context, u32 width, u32 height, SDL_PixelFormat format, SDL_TextureAccess access)
     : mContext(context), mFormat(format), mTextureAccess(access), mHeight(height), mWidth(width)
 {
     // SDL2 does not support palette textures, if we want to store indexed
     // colour we have to handle that internally (using mIndexedPixels)
+    // TODO: SDL now supports palette textures since version 3.4
     if (mFormat == SDL_PIXELFORMAT_INDEX8)
     {
-        mIndexedPixels = (u8*) malloc(mWidth * mHeight);
+        mIndexedPixels = static_cast<u8*>(malloc(mWidth * mHeight));
     }
     else
     {
@@ -24,7 +25,7 @@ Sdl2Texture::Sdl2Texture(Sdl2Context& context, u32 width, u32 height, SDL_PixelF
     }
 }
 
-Sdl2Texture::~Sdl2Texture()
+Sdl3Texture::~Sdl3Texture()
 {
     if (mTexture)
     {
@@ -34,9 +35,9 @@ Sdl2Texture::~Sdl2Texture()
     free(mIndexedPixels);
 }
 
-std::shared_ptr<Sdl2Texture> Sdl2Texture::FromMask(Sdl2Context& context, std::shared_ptr<Sdl2Texture> srcTex, const u8* maskPixels)
+std::shared_ptr<Sdl3Texture> Sdl3Texture::FromMask(Sdl3Context& context, std::shared_ptr<Sdl3Texture> srcTex, const u8* maskPixels)
 {
-    auto resultTex = std::make_shared<Sdl2Texture>(context, srcTex->mWidth, srcTex->mHeight, srcTex->mFormat, SDL_TEXTUREACCESS_TARGET);
+    auto resultTex = std::make_shared<Sdl3Texture>(context, srcTex->mWidth, srcTex->mHeight, srcTex->mFormat, SDL_TEXTUREACCESS_TARGET);
 
     // Create mask texture
     u8* texPixels;
@@ -93,31 +94,31 @@ std::shared_ptr<Sdl2Texture> Sdl2Texture::FromMask(Sdl2Context& context, std::sh
     return resultTex;
 }
 
-u32 Sdl2Texture::GetHeight()
+u32 Sdl3Texture::GetHeight()
 {
     return mHeight;
 }
 
-u32 Sdl2Texture::GetWidth()
+u32 Sdl3Texture::GetWidth()
 {
     return mWidth;
 }
 
-SDL_Texture* Sdl2Texture::GetTexture()
+SDL_Texture* Sdl3Texture::GetTexture()
 {
     if (mFormat == SDL_PIXELFORMAT_INDEX8)
     {
-        ALIVE_FATAL("%s", "SDL2 use GetTextureUsePalette with INDEX8 tex");
+        ALIVE_FATAL("%s", "SDL3 use GetTextureUsePalette with INDEX8 tex");
     }
 
     return mTexture;
 }
 
-SDL_Texture* Sdl2Texture::GetTextureUsePalette(const std::shared_ptr<AnimationPal>& palette, const RGBA32& shading, bool isSemiTrans, relive::TBlendModes blendMode)
+SDL_Texture* Sdl3Texture::GetTextureUsePalette(const std::shared_ptr<AnimationPal>& palette, const RGBA32& shading, bool isSemiTrans, relive::TBlendModes blendMode)
 {
     if (mFormat != SDL_PIXELFORMAT_INDEX8)
     {
-        ALIVE_FATAL("%s", "SDL2 attempt to use palette on non-indexed tex");
+        ALIVE_FATAL("%s", "SDL3 attempt to use palette on non-indexed tex");
     }
 
     // (Re)create texture if necessary (palette/shading/blend changes)
@@ -130,14 +131,14 @@ SDL_Texture* Sdl2Texture::GetTextureUsePalette(const std::shared_ptr<AnimationPa
             mLastShadeColor.ToU32() == shading.ToU32()
         )
         {
-            //LOG("%s", "SDL2 palette tex cache hit");
+            //LOG("%s", "SDL3 palette tex cache hit");
             return mTexture;
         }
 
         SDL_DestroyTexture(mTexture);
     }
 
-    //LOG("%s", "SDL2 palette tex cache miss");
+    //LOG("%s", "SDL3 palette tex cache miss");
     mTexture = SDL_CreateTexture(mContext.GetRenderer(), SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_STREAMING, mWidth, mHeight);
 
     // Lock target texture, all the per-pixel ops are handled here - sampling
@@ -258,7 +259,7 @@ SDL_Texture* Sdl2Texture::GetTextureUsePalette(const std::shared_ptr<AnimationPa
     return mTexture;
 }
 
-void Sdl2Texture::Resize(u32 width, u32 height)
+void Sdl3Texture::Resize(u32 width, u32 height)
 {
     if (mTexture)
     {
@@ -277,12 +278,12 @@ void Sdl2Texture::Resize(u32 width, u32 height)
     }
 }
 
-void Sdl2Texture::SetTextureBlendMode(SDL_BlendMode blendMode)
+void Sdl3Texture::SetTextureBlendMode(SDL_BlendMode blendMode)
 {
     SDL_SetTextureBlendMode(mTexture, blendMode);
 }
 
-void Sdl2Texture::Update(const SDL_Rect* rect, const void* pixels)
+void Sdl3Texture::Update(const SDL_Rect* rect, const void* pixels)
 {
     if (mFormat == SDL_PIXELFORMAT_INDEX8)
     {
@@ -305,7 +306,7 @@ void Sdl2Texture::Update(const SDL_Rect* rect, const void* pixels)
             }
 
             default:
-                ALIVE_FATAL("SDL2 - Unsupported texture format %d", mFormat);
+                ALIVE_FATAL("SDL3 - Unsupported texture format %d", mFormat);
                 break;
         }
 
@@ -316,7 +317,7 @@ void Sdl2Texture::Update(const SDL_Rect* rect, const void* pixels)
     }
 }
 
-u8 Sdl2Texture::HandleShading(const u8 src, const u8 shade)
+u8 Sdl3Texture::HandleShading(const u8 src, const u8 shade)
 {
     f32 result = (src * (shade / 255.0f)) / 0.5f;
 

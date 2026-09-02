@@ -1,7 +1,7 @@
 #include "../stdafx.h"
 #include "Reverb.hpp"
 
-#if USE_SDL2_SOUND
+#if USE_SDL3_SOUND
 
     #include <math.h>
     #include <iostream>

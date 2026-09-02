@@ -2,15 +2,15 @@
 #include "../../../AliveLibAE/Font.hpp"
 #include "Clamp.hpp"
 #include "FatalError.hpp"
-#include "Sdl2Renderer.hpp"
+#include "Sdl3Renderer.hpp"
 #include <cmath>
 
-Sdl2Renderer::Sdl2Renderer(TWindowHandleType window)
+Sdl3Renderer::Sdl3Renderer(TWindowHandleType window)
     : IRenderer(window),
     mContext(window),
     mPsxFbTexture{
-        Sdl2Texture(mContext, kPsxFramebufferWidth, kPsxFramebufferHeight, SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_TARGET),
-        Sdl2Texture(mContext, kPsxFramebufferWidth, kPsxFramebufferHeight, SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_TARGET)
+        Sdl3Texture(mContext, kPsxFramebufferWidth, kPsxFramebufferHeight, SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_TARGET),
+        Sdl3Texture(mContext, kPsxFramebufferWidth, kPsxFramebufferHeight, SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_TARGET)
     },
     mGasTexture(mContext, kPsxFramebufferWidth, kPsxFramebufferHeight, SDL_PIXELFORMAT_RGB565, SDL_TEXTUREACCESS_STREAMING)
 {
@@ -22,15 +22,15 @@ Sdl2Renderer::Sdl2Renderer(TWindowHandleType window)
     // framebuffer textures
     if (!mContext.IsRenderTargetSupported())
     {
-        ALIVE_FATAL("%s", "SDL2 renderer requires render target support.");
+        ALIVE_FATAL("%s", "SDL3 renderer requires render target support.");
     }
 }
 
-Sdl2Renderer::~Sdl2Renderer()
+Sdl3Renderer::~Sdl3Renderer()
 {
 }
 
-void Sdl2Renderer::Clear(u8 r, u8 g, u8 b)
+void Sdl3Renderer::Clear(u8 r, u8 g, u8 b)
 {
     // Check and store the renderer's clipping state
     SDL_Rect clipRect;
@@ -62,7 +62,7 @@ static SDL_FColor ToSDLColor(u8 r, u8 g, u8 b, u8 a)
     };
 }
 
-void Sdl2Renderer::Draw(const Prim_GasEffect& gasEffect)
+void Sdl3Renderer::Draw(const Prim_GasEffect& gasEffect)
 {
     const f32 x = static_cast<f32>(gasEffect.x);
     const f32 y = static_cast<f32>(gasEffect.y);
@@ -83,16 +83,16 @@ void Sdl2Renderer::Draw(const Prim_GasEffect& gasEffect)
 
     constexpr s32 indexList[6] = { 0, 1, 2, 1, 2 , 3 };
     SDL_Vertex gasVerts[] = {
-        { {x, y}, c, { 0,   0 } },
-        { {w, y}, c, { u1,  0 } },
-        { {x, h}, c, { 0,  v1 } },
+        { {x, y}, c, { 0.0f,   0.0f } },
+        { {w, y}, c, { u1,  0.0f } },
+        { {x, h}, c, { 0.0f,  v1 } },
         { {w, h}, c, { u1, v1 } },
     };
 
     DrawVertices(gasVerts, 4, indexList, 6, mGasTexture.GetTexture(), false, relive::TBlendModes::eBlend_0);
 }
 
-void Sdl2Renderer::Draw(const Line_G2& line)
+void Sdl3Renderer::Draw(const Line_G2& line)
 {
     const IRenderer::Point2D points[] = {
         IRenderer::Point2D(line.X0(), line.Y0()),
@@ -109,7 +109,7 @@ void Sdl2Renderer::Draw(const Line_G2& line)
     DrawLines(points, 2, color, line.mSemiTransparent ? line.mBlendMode : relive::TBlendModes::None);
 }
 
-void Sdl2Renderer::Draw(const Line_G4& line)
+void Sdl3Renderer::Draw(const Line_G4& line)
 {
     const IRenderer::Point2D points[] = {
         IRenderer::Point2D(line.X0(), line.Y0()),
@@ -128,7 +128,7 @@ void Sdl2Renderer::Draw(const Line_G4& line)
     DrawLines(points, 4, color, line.mSemiTransparent ? line.mBlendMode : relive::TBlendModes::None);
 }
 
-void Sdl2Renderer::Draw(const Poly_G3& poly)
+void Sdl3Renderer::Draw(const Poly_G3& poly)
 {
     SDL_Vertex vertices[] = {
         { { static_cast<f32>(poly.X0()), static_cast<f32>(poly.Y0()) }, { ToSDLColor(poly.R0(), poly.G0(), poly.B0(), 255) }, { 0.0f, 0.0f } },
@@ -139,7 +139,7 @@ void Sdl2Renderer::Draw(const Poly_G3& poly)
     DrawVertices(vertices, 3, nullptr, 0, nullptr, poly.mSemiTransparent, poly.mBlendMode);
 }
 
-void Sdl2Renderer::Draw(const Poly_FT4& poly)
+void Sdl3Renderer::Draw(const Poly_FT4& poly)
 {
     SDL_Texture* tex = nullptr;
 
@@ -153,7 +153,7 @@ void Sdl2Renderer::Draw(const Poly_FT4& poly)
 
     if (poly.mFg1)
     {
-        std::shared_ptr<Sdl2Texture> texFG1 = PrepareTextureFromPoly(poly);
+        std::shared_ptr<Sdl3Texture> texFG1 = PrepareTextureFromPoly(poly);
 
         if (texFG1)
         {
@@ -309,7 +309,7 @@ void Sdl2Renderer::Draw(const Poly_FT4& poly)
     DrawVertices(vertices, 4, indexList, 6, tex, poly.mSemiTransparent, poly.mBlendMode);
 }
 
-void Sdl2Renderer::Draw(const Poly_G4& poly)
+void Sdl3Renderer::Draw(const Poly_G4& poly)
 {
     constexpr s32 indexList[6] = { 0, 1, 2, 1, 2 , 3 };
     SDL_Vertex vertices[4] = {
@@ -322,7 +322,7 @@ void Sdl2Renderer::Draw(const Poly_G4& poly)
     DrawVertices(vertices, 4, indexList, 6, nullptr, poly.mSemiTransparent, poly.mBlendMode);
 }
 
-void Sdl2Renderer::EndFrame()
+void Sdl3Renderer::EndFrame()
 {
     mCopiedFbThisFrame = false;
     mTextureCache.DecreaseResourceLifetimes();
@@ -340,7 +340,7 @@ void Sdl2Renderer::EndFrame()
     mContext.Present();
 }
 
-void Sdl2Renderer::SetClip(const Prim_ScissorRect& clipper)
+void Sdl3Renderer::SetClip(const Prim_ScissorRect& clipper)
 {
     SDL_Rect rect = {};
 
@@ -362,7 +362,7 @@ void Sdl2Renderer::SetClip(const Prim_ScissorRect& clipper)
     }
 }
 
-void Sdl2Renderer::StartFrame()
+void Sdl3Renderer::StartFrame()
 {
     IRenderer::StartFrame();
 
@@ -401,7 +401,7 @@ void Sdl2Renderer::StartFrame()
     mContext.UseTextureFramebuffer(mPsxFbTexture[0].GetTexture());
 }
 
-void Sdl2Renderer::DrawLines(const IRenderer::Point2D points[], s32 numPoints, RGBA32 color, relive::TBlendModes blendMode)
+void Sdl3Renderer::DrawLines(const IRenderer::Point2D points[], s32 numPoints, RGBA32 color, relive::TBlendModes blendMode)
 {
     constexpr s32 indexList[6] = { 0, 1, 2, 1, 2 , 3 };
 
@@ -424,12 +424,12 @@ void Sdl2Renderer::DrawLines(const IRenderer::Point2D points[], s32 numPoints, R
     }
 }
 
-void Sdl2Renderer::DrawVertices(SDL_Vertex vertices[], s32 numVertices, const s32 indices[], s32 numIndices, SDL_Texture* texture, bool isSemiTrans, relive::TBlendModes blendMode)
+void Sdl3Renderer::DrawVertices(SDL_Vertex vertices[], s32 numVertices, const s32 indices[], s32 numIndices, SDL_Texture* texture, bool isSemiTrans, relive::TBlendModes blendMode)
 {
     ScaleVertices(vertices, numVertices);
 
     // This blend mode stuff is only needed for untextured polys, textures
-    // have their own blend modes set up in Sdl2Texture
+    // have their own blend modes set up in Sdl3Texture
     if (!texture && isSemiTrans)
     {
         switch (blendMode)
@@ -521,17 +521,17 @@ void Sdl2Renderer::DrawVertices(SDL_Vertex vertices[], s32 numVertices, const s3
     SDL_SetRenderDrawBlendMode(mContext.GetRenderer(), SDL_BLENDMODE_NONE);
 }
 
-Sdl2Texture& Sdl2Renderer::GetActiveFbTexture()
+Sdl3Texture& Sdl3Renderer::GetActiveFbTexture()
 {
     return mPsxFbTexture[mActiveFbTexture];
 }
 
-std::shared_ptr<Sdl2Texture> Sdl2Renderer::PrepareTextureFromPoly(const Poly_FT4& poly)
+std::shared_ptr<Sdl3Texture> Sdl3Renderer::PrepareTextureFromPoly(const Poly_FT4& poly)
 {
     static u32 fg1CamId = 0;
     static u32 lastTouchedCamId = 0;
 
-    std::shared_ptr<Sdl2Texture> texture;
+    std::shared_ptr<Sdl3Texture> texture;
 
     if (poly.mFg1)
     {
@@ -541,11 +541,11 @@ std::shared_ptr<Sdl2Texture> Sdl2Renderer::PrepareTextureFromPoly(const Poly_FT4
 
         if (!texture || fg1CamId != lastTouchedCamId)
         {
-            std::shared_ptr<Sdl2Texture> camRefTex = mTextureCache.GetCachedTexture(lastTouchedCamId, 1);
+            std::shared_ptr<Sdl3Texture> camRefTex = mTextureCache.GetCachedTexture(lastTouchedCamId, 1);
 
             if (camRefTex)
             {
-                std::shared_ptr<Sdl2Texture> fg1Tex = Sdl2Texture::FromMask(mContext, camRefTex, poly.mFg1->mImage.mPixels->data());
+                std::shared_ptr<Sdl3Texture> fg1Tex = Sdl3Texture::FromMask(mContext, camRefTex, poly.mFg1->mImage.mPixels->data());
 
                 texture = mTextureCache.Add(
                     poly.mFg1->mUniqueId.Id(),
@@ -554,11 +554,11 @@ std::shared_ptr<Sdl2Texture> Sdl2Renderer::PrepareTextureFromPoly(const Poly_FT4
 
                 fg1CamId = lastTouchedCamId;
 
-                LOG("SDL2 FG1 cache miss %u", poly.mFg1->mUniqueId.Id());
+                LOG("SDL3 FG1 cache miss %u", poly.mFg1->mUniqueId.Id());
             }
             else
             {
-                LOG("SDL2 FG1 with no CAM");
+                LOG("SDL3 FG1 with no CAM");
             }
         }
     }
@@ -572,7 +572,7 @@ std::shared_ptr<Sdl2Texture> Sdl2Renderer::PrepareTextureFromPoly(const Poly_FT4
         if (!texture)
         {
             auto camTex =
-                std::make_shared<Sdl2Texture>(
+                std::make_shared<Sdl3Texture>(
                     mContext,
                     poly.mCam->mData.mWidth,
                     poly.mCam->mData.mHeight,
@@ -589,7 +589,7 @@ std::shared_ptr<Sdl2Texture> Sdl2Renderer::PrepareTextureFromPoly(const Poly_FT4
                     camTex
                 );
 
-            LOG("SDL2 CAM cache miss %u", poly.mCam->mUniqueId.Id());
+            LOG("SDL3 CAM cache miss %u", poly.mCam->mUniqueId.Id());
         }
     }
     else if (poly.mAnim)
@@ -600,7 +600,7 @@ std::shared_ptr<Sdl2Texture> Sdl2Renderer::PrepareTextureFromPoly(const Poly_FT4
         if (!texture)
         {
             auto animTex =
-                std::make_shared<Sdl2Texture>(
+                std::make_shared<Sdl3Texture>(
                     mContext,
                     poly.mAnim->mAnimRes.mPngPtr->mWidth,
                     poly.mAnim->mAnimRes.mPngPtr->mHeight,
@@ -628,7 +628,7 @@ std::shared_ptr<Sdl2Texture> Sdl2Renderer::PrepareTextureFromPoly(const Poly_FT4
             std::shared_ptr<PngData> pPng = poly.mFont->mFntResource.mPngPtr;
 
             auto fontTex =
-                std::make_shared<Sdl2Texture>(
+                std::make_shared<Sdl3Texture>(
                     mContext,
                     pPng->mWidth,
                     pPng->mHeight,
@@ -650,7 +650,7 @@ std::shared_ptr<Sdl2Texture> Sdl2Renderer::PrepareTextureFromPoly(const Poly_FT4
     return texture;
 }
 
-SDL_FPoint Sdl2Renderer::PointToViewport(const SDL_FPoint& point)
+SDL_FPoint Sdl3Renderer::PointToViewport(const SDL_FPoint& point)
 {
     if (mUseOriginalResolution)
     {
@@ -668,7 +668,7 @@ SDL_FPoint Sdl2Renderer::PointToViewport(const SDL_FPoint& point)
     return scaledPoint;
 }
 
-void Sdl2Renderer::ScaleVertices(SDL_Vertex vertices[], s32 numVertices)
+void Sdl3Renderer::ScaleVertices(SDL_Vertex vertices[], s32 numVertices)
 {
     for (u8 i = 0; i < numVertices; i++)
     {
@@ -676,7 +676,7 @@ void Sdl2Renderer::ScaleVertices(SDL_Vertex vertices[], s32 numVertices)
     }
 }
 
-void Sdl2Renderer::SwitchActiveFbTexture()
+void Sdl3Renderer::SwitchActiveFbTexture()
 {
     mActiveFbTexture = mActiveFbTexture == 0 ? 1 : 0;
 

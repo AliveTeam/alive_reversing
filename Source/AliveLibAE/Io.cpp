@@ -36,7 +36,7 @@ IO_FileHandleType IO_Open(const char_type* fileName, const char_type* mode)
         fileName += 2;
     }
 
-#if USE_SDL2_IO
+#if USE_SDL3_IO
     return SDL_IOFromFile(fileName, mode);
 #else
     return ::fopen(fileName, mode);
@@ -45,7 +45,7 @@ IO_FileHandleType IO_Open(const char_type* fileName, const char_type* mode)
 
 s32 IO_Seek(IO_FileHandleType pHandle, s32 offset, s32 origin)
 {
-#if USE_SDL2_IO
+#if USE_SDL3_IO
     return static_cast<s32>(SDL_SeekIO(pHandle, offset, static_cast<SDL_IOWhence>(origin)));
 #else
     return ::fseek(pHandle, offset, origin);
@@ -54,7 +54,7 @@ s32 IO_Seek(IO_FileHandleType pHandle, s32 offset, s32 origin)
 
 s32 IO_Close(IO_FileHandleType pHandle)
 {
-#if USE_SDL2_IO
+#if USE_SDL3_IO
     return SDL_CloseIO(pHandle) ? 0 : -1;
 #else
     return ::fclose(pHandle);
@@ -63,7 +63,7 @@ s32 IO_Close(IO_FileHandleType pHandle)
 
 size_t IO_Read(IO_FileHandleType pHandle, void* ptr, size_t size, size_t maxnum)
 {
-#if USE_SDL2_IO
+#if USE_SDL3_IO
     return SDL_ReadIO(pHandle, ptr, size * maxnum);
 #else
     return ae_fread_520B5C(ptr, size, maxnum, pHandle);
@@ -114,7 +114,7 @@ IO_Handle* IO_Open_4F2320(const char_type* fileName, s32 modeFlag)
 
 void IO_WaitForComplete_4F2510(IO_Handle* hFile)
 {
-#if _WIN32 && !USE_SDL2_IO
+#if _WIN32 && !USE_SDL3_IO
     if (hFile && hFile->field_10_bDone)
     {
         do
@@ -153,7 +153,7 @@ void IO_fclose_4F24E0(IO_Handle* hFile)
     }
 }
 
-#if _WIN32 && !USE_SDL2_IO
+#if _WIN32 && !USE_SDL3_IO
 u32 WINAPI FS_IOThread_4F25A0(LPVOID /*lpThreadParameter*/)
 {
     while (1)
@@ -221,7 +221,7 @@ s32 IO_Read_4F23A0(IO_Handle* hFile, void* pBuffer, size_t bytesCount)
         return -1;
     }
 
-#if _WIN32 && !USE_SDL2_IO
+#if _WIN32 && !USE_SDL3_IO
     if (hFile->mTlvFlags & 4) // ASync flag
     {
         IO_WaitForComplete_4F2510(hFile);
@@ -246,7 +246,7 @@ s32 IO_Read_4F23A0(IO_Handle* hFile, void* pBuffer, size_t bytesCount)
 }
 
 
-#if _WIN32 && !USE_SDL2_IO
+#if _WIN32 && !USE_SDL3_IO
 u32 IO_ASync_Thread_4EAE20(LPVOID lpThreadParameter)
 {
     MSG msg = {};
@@ -401,7 +401,7 @@ bool IO_Seek_Sync_4EAFC0(void* pHandle, u32 offset, u32 origin)
 
 void IO_Init_SyncOrASync_4EAC80(s32 bASync)
 {
-#if _WIN32 && !USE_SDL2_IO
+#if _WIN32 && !USE_SDL3_IO
     if (bASync)
     {
         sMovie_IO_BBB314.mIO_Open = IO_Open_ASync_4EADA0;
@@ -462,7 +462,7 @@ void IO_Init_494230()
 
 void IO_Stop_ASync_IO_Thread_4F26B0()
 {
-#if _WIN32 && !USE_SDL2_IO
+#if _WIN32 && !USE_SDL3_IO
     if (sIoThreadHandle_BBC55C)
     {
         ::CloseHandle(sIoThreadHandle_BBC55C);

@@ -401,12 +401,12 @@ SET(renderer_src
     Renderer/OpenGL3/OpenGLRenderer.cpp
     Renderer/OpenGL3/Shaders/ShaderPassthru.cpp
     Renderer/OpenGL3/Shaders/ShaderPsx.cpp
-    Renderer/SDL2/Sdl2Context.hpp
-    Renderer/SDL2/Sdl2Context.cpp
-    Renderer/SDL2/Sdl2Renderer.hpp
-    Renderer/SDL2/Sdl2Renderer.cpp
-    Renderer/SDL2/Sdl2Texture.hpp
-    Renderer/SDL2/Sdl2Texture.cpp
+    Renderer/SDL3/Sdl3Context.hpp
+    Renderer/SDL3/Sdl3Context.cpp
+    Renderer/SDL3/Sdl3Renderer.hpp
+    Renderer/SDL3/Sdl3Renderer.cpp
+    Renderer/SDL3/Sdl3Texture.hpp
+    Renderer/SDL3/Sdl3Texture.cpp
 )
 
 SET(sound_src

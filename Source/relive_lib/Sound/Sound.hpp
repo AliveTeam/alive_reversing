@@ -4,7 +4,7 @@
 #include "../../relive_lib/relive_config.h"
 
 
-#if !USE_SDL2_SOUND
+#if !USE_SDL3_SOUND
 //#include <mmeapi.h>
 //#include <dsound.h>
 #else
@@ -63,7 +63,7 @@ typedef s32 HRESULT;
 #endif
 
 
-#if USE_SDL2_SOUND
+#if USE_SDL3_SOUND
 using TSoundBufferType = class SDLSoundBuffer;
 extern bool gReverbEnabled;
 extern bool gAudioStereo;
@@ -71,7 +71,7 @@ extern bool gAudioStereo;
 using TSoundBufferType = struct IDirectSoundBuffer;
 #endif
 
-#if USE_SDL2_SOUND
+#if USE_SDL3_SOUND
 class SDLSoundSystem;
 extern SDLSoundSystem* sDSound_BBC344;
 #else
@@ -144,11 +144,11 @@ struct SoundApi final
     decltype(&SND_HR_Err_To_String_4EEC70) mSND_HR_Err_To_String;
     decltype(&SND_Free_4EFA30) mSND_Free;
     decltype(&SND_Restart_4CB0E0) mSND_Restart;
-#if !USE_SDL2_SOUND
+#if !USE_SDL3_SOUND
     decltype(&SND_SetPrimarySoundBufferFormat_4EE990) SND_SetPrimarySoundBufferFormat;
 #endif
     decltype(&SND_InitVolumeTable_4EEF60) SND_InitVolumeTable;
-#if !USE_SDL2_SOUND
+#if !USE_SDL3_SOUND
     decltype(&SND_CreatePrimarySoundBuffer_4EEEC0) SND_CreatePrimarySoundBuffer;
 #endif
     decltype(&SND_Renew_4EEDD0) mSND_Renew;

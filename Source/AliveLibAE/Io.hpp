@@ -4,7 +4,7 @@
 #include "../relive_lib/Function.hpp"
 #include <atomic>
 
-#if USE_SDL2_IO
+#if USE_SDL3_IO
 using IO_FileHandleType = struct SDL_IOStream*;
 #else
 using IO_FileHandleType = struct FILE*;

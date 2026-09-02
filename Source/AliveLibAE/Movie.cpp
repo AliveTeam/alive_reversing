@@ -721,7 +721,7 @@ s8 DDV_Play_Impl(const char_type* pMovieName)
     sNoAudioOrAudioError = false;
     if (hasAudio)
     {
-        #if USE_SDL2_SOUND
+        #if USE_SDL3_SOUND
         wasReverbEnabled = gReverbEnabled;
         gReverbEnabled = false;
         #endif
@@ -1039,7 +1039,7 @@ void Movie::DeInit()
 
     --Movie::gMovieRefCount;
 
-    #if USE_SDL2_SOUND
+    #if USE_SDL3_SOUND
     gReverbEnabled = wasReverbEnabled;
     #endif
 

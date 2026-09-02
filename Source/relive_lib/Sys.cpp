@@ -642,7 +642,7 @@ static void QuitEvent(bool isRecordedEvent, bool isRecording)
 {
     if (gMovieSoundEntry)
     {
-#if !USE_SDL2_SOUND
+#if !USE_SDL3_SOUND
         LPDIRECTSOUNDBUFFER pDSoundBuffer = gMovieSoundEntry->field_4_pDSoundBuffer;
         if (pDSoundBuffer)
         {
@@ -690,7 +690,7 @@ static void QuitEvent(bool isRecordedEvent, bool isRecording)
         GetSoundAPI().mSND_Restart();
     }
 
-#if !USE_SDL2_SOUND
+#if !USE_SDL3_SOUND
     if (gMovieSoundEntry && gMovieSoundEntry->field_4_pDSoundBuffer)
     {
         gMovieSoundEntry->field_4_pDSoundBuffer->Play(0, 0, 1);

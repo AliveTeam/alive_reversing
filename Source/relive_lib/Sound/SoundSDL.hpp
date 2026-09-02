@@ -2,7 +2,7 @@
 
 #include "Sound.hpp"
 
-#if USE_SDL2_SOUND
+#if USE_SDL3_SOUND
     #include "../../AliveLibAE/stdlib.hpp"
 
     #define DSBSTATUS_PLAYING 0x00000001

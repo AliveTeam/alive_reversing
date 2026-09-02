@@ -27,7 +27,7 @@ SoundApi& GetSoundAPI()
     return sSoundApi;
 }
 
-#if USE_SDL2_SOUND
+#if USE_SDL3_SOUND
 SDLSoundSystem* sDSound_BBC344 = nullptr;
 #else
 LPDIRECTSOUND sDSound_BBC344 = nullptr;
@@ -35,7 +35,7 @@ LPDIRECTSOUND sDSound_BBC344 = nullptr;
 
 s32 SND_CreateDS_4EEAA0(u32 sampleRate, s32 bitsPerSample, s32 isStereo)
 {
-#if USE_SDL2_SOUND
+#if USE_SDL3_SOUND
     return SND_CreateDS_SDL(sampleRate, bitsPerSample, isStereo);
 #else
     return SND_CreateDS_DSound(sampleRate, bitsPerSample, isStereo);
@@ -44,7 +44,7 @@ s32 SND_CreateDS_4EEAA0(u32 sampleRate, s32 bitsPerSample, s32 isStereo)
 
 s32 SND_Clear_4EF350(SoundEntry* pSoundEntry, u32 sampleOffset, u32 size)
 {
-#if USE_SDL2_SOUND
+#if USE_SDL3_SOUND
     return SND_Clear_SDL(pSoundEntry, sampleOffset, size);
 #else
     return SND_Clear_DSound(pSoundEntry, sampleOffset, size);
@@ -53,7 +53,7 @@ s32 SND_Clear_4EF350(SoundEntry* pSoundEntry, u32 sampleOffset, u32 size)
 
 s32 SND_LoadSamples_4EF1C0(const SoundEntry* pSnd, u32 sampleOffset, u8* pSoundBuffer, u32 sampleCount)
 {
-#if USE_SDL2_SOUND
+#if USE_SDL3_SOUND
     return SND_LoadSamples_SDL(pSnd, sampleOffset, pSoundBuffer, sampleCount);
 #else
     return SND_LoadSamples_DSound(pSnd, sampleOffset, pSoundBuffer, sampleCount);
@@ -62,7 +62,7 @@ s32 SND_LoadSamples_4EF1C0(const SoundEntry* pSnd, u32 sampleOffset, u8* pSoundB
 
 const char_type* SND_HR_Err_To_String_4EEC70(HRESULT hr)
 {
-#if USE_SDL2_SOUND
+#if USE_SDL3_SOUND
     return SND_HR_Err_To_String_SDL(hr);
 #else
     return SND_HR_Err_To_String_DSound(hr);
@@ -71,7 +71,7 @@ const char_type* SND_HR_Err_To_String_4EEC70(HRESULT hr)
 
 void SND_InitVolumeTable_4EEF60()
 {
-#if USE_SDL2_SOUND
+#if USE_SDL3_SOUND
     return SND_InitVolumeTable_SDL();
 #else
     return SND_InitVolumeTable_DSound();
@@ -179,10 +179,10 @@ s32 SND_PlayEx(const SoundEntry* pSnd, s32 panLeft, s32 panRight, f32 freq, MIDI
             return -1;
         }
 
-        if (status & DSBSTATUS_PLAYING) // TODO: SDL2 didn't check this flag
+        if (status & DSBSTATUS_PLAYING) // TODO: SDL3 didn't check this flag
         {
             pDSoundBuffer->SetFrequency(static_cast<u32>((pSnd->field_18_sampleRate * freq) + 0.5f)); // This freq don't get clamped for some reason
-            pDSoundBuffer->SetVolume(sVolumeTable_BBBD38[panRightConverted]);                        // TODO: SDL2 / 10000.0f
+            pDSoundBuffer->SetVolume(sVolumeTable_BBBD38[panRightConverted]);                        // TODO: SDL3 / 10000.0f
             pDSoundBuffer->SetCurrentPosition(0);
             return 0;
         }
@@ -636,11 +636,11 @@ SoundApi::SoundApi()
     mSND_HR_Err_To_String = SND_HR_Err_To_String_4EEC70;
     mSND_Free = SND_Free_4EFA30;
     mSND_Restart = SND_Restart_4CB0E0;
-#if !USE_SDL2_SOUND
+#if !USE_SDL3_SOUND
     SND_SetPrimarySoundBufferFormat = SND_SetPrimarySoundBufferFormat_4EE990;
 #endif
     SND_InitVolumeTable = SND_InitVolumeTable_4EEF60;
-#if !USE_SDL2_SOUND
+#if !USE_SDL3_SOUND
     SND_CreatePrimarySoundBuffer = SND_CreatePrimarySoundBuffer_4EEEC0;
 #endif
     mSND_Renew = SND_Renew_4EEDD0;

@@ -1,7 +1,7 @@
 #include "../stdafx.h"
 #include "IRenderer.hpp"
 #include "OpenGL3/OpenGLRenderer.hpp"
-#include "SDL2/Sdl2Renderer.hpp"
+#include "SDL3/Sdl3Renderer.hpp"
 
 #include "../../relive_lib/FatalError.hpp"
 #include "../../relive_lib/Sys.hpp"
@@ -66,7 +66,7 @@ bool IRenderer::CreateRenderer(Renderers type, const std::string& windowTitle)
         {
             case Renderers::Sdl3:
                 LOG_INFO("Create SDL3 renderer");
-                MakeRenderer<Sdl2Renderer>(windowTitle + " [SDL3]", 0);
+                MakeRenderer<Sdl3Renderer>(windowTitle + " [SDL3]", 0);
                 break;
 
             case Renderers::OpenGL:
