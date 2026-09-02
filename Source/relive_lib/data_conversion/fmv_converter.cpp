@@ -215,7 +215,7 @@ public:
                     break;
                 }*/
 
-                
+
                 convert_rgba_to_i420();
                 const int flags = (frame_index == 0) ? AOM_EFLAG_FORCE_KF : 0;
                 encode_frame(&segment, &cfg, &codec, &rawImageFrameData, static_cast<int>(frame_index), flags);
@@ -462,7 +462,6 @@ private:
 
 void ConvertFMVs(const FileSystem::Path& dataDir, bool isAo)
 {
-    return;
     if (isAo)
     {
         return;

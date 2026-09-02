@@ -14,7 +14,8 @@ public:
     virtual void VScreenChanged() override;
 
     explicit Movie(const char_type* pName);
-
+    
+    static s32 gMovieRefCount;
 private:
     void Init();
     void DeInit();
@@ -22,4 +23,3 @@ private:
     const char_type* mName = nullptr;
 };
 
-extern s32 gMovieRefCount;

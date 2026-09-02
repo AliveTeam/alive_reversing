@@ -32,8 +32,8 @@ private:
     bool mKillTarget = false;
     s16 mPalOverwritersCount = 0;
     PalleteOverwriter* mPalOverwriters[3] = {};
-    AnimationPal mOldPalData;
-    AnimationPal mPalData;
+    PalResource mOldPal;
+    PalResource mPal;
     enum class States
     {
         eSetNewColour,

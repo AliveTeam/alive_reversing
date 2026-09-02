@@ -13,10 +13,10 @@ public:
     virtual void VScreenChanged() override;
     virtual void VUpdate() override;
 
+    static s32 gMovieRefCount;
 private:
     const char_type* mFmvName = nullptr;
 };
 
-extern s32 gMovieRefCount;
 
 } // namespace AO

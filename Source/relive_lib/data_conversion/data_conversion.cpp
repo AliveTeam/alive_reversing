@@ -496,6 +496,22 @@ static void ConvertPals(const FileSystem::Path& dataDir, std::vector<u8>& fileBu
     }
 }
 
+static u32 GetHighestFrameTableOffset(const std::string& bndName, bool isAo)
+{
+    u32 highestFrameTableOffset = 0;
+    for (auto& rec : kAnimRecords)
+    {
+        const auto animDetails = isAo ? rec.mAOData : rec.mAEData;
+        if (animDetails.mBanName && std::string(animDetails.mBanName) == bndName)
+        {
+            if (animDetails.mFrameTableOffset > highestFrameTableOffset)
+            {
+                highestFrameTableOffset = animDetails.mFrameTableOffset;
+            }
+        }
+    }
+    return highestFrameTableOffset;
+}
 
 void ConvertAnimations(const FileSystem::Path& dataDir, FileSystem& fs, std::vector<u8>& fileBuffer, ReliveAPI::LvlReader& lvlReader, EReliveLevelIds reliveLvl, bool isAo)
 {
@@ -520,6 +536,7 @@ void ConvertAnimations(const FileSystem::Path& dataDir, FileSystem& fs, std::vec
                 {
                     // A BAN/BND can have multiple chunks, make sure we pick the right one
                     ReliveAPI::ChunkedLvlFile animFile(fileBuffer);
+
                     auto res = animFile.ChunkById(animDetails.mResourceId);
                     if (res)
                     {
@@ -547,7 +564,31 @@ void ConvertAnimations(const FileSystem::Path& dataDir, FileSystem& fs, std::vec
 
                         LOG_INFO("Converting: %s", filePath.GetPath().c_str());
 
-                        AnimationConverter animationConverter(filePath, animDetails, res->Data(), isAo);
+                        auto fixedDetails = animDetails;
+                        if (!isAo && std::string(fixedDetails.mBanName) == "ASLIK.BND")
+                        {
+                            bool skip = false;
+                            switch(fixedDetails.mId)
+                            {
+                                case AnimId::Aslik_Arm_Gib:
+                                case AnimId::Aslik_Head_Gib:
+                                case AnimId::Aslik_Body_Gib:
+                                    skip = true;
+                                    break;
+                            }
+
+                            if (!skip)
+                            {
+                                auto firstAnim = animFile.ChunkByType(ResourceManagerWrapper::ResourceType::Resource_Animation);
+                                auto frameTableOffsetFirst = reinterpret_cast<const AnimationFileHeader*>(firstAnim->Data().data())->field_4_frame_table_offset;
+                                auto animHighestFrameTable = GetHighestFrameTableOffset(animDetails.mBanName, isAo);
+
+                                const auto frameDiff = std::abs(static_cast<s32>(frameTableOffsetFirst) - static_cast<s32>(animHighestFrameTable));                          
+                                fixedDetails.mFrameTableOffset -= frameDiff;
+                            }
+                        }
+
+                        AnimationConverter animationConverter(filePath, fixedDetails, res->Data(), isAo);
 
                         // Track what is converted so we know what is missing at the end
                         rec.mConverted = true;

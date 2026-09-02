@@ -29,7 +29,7 @@ constexpr CombinedPalRecord kPalRecords[] = {
 
 constexpr AnimDetails kNullAnimDetails = {};
 
-constexpr CombinedAnimRecord kAnimRecords[1027] = {
+const CombinedAnimRecord kAnimRecords[1027] = {
     {AnimId::None, kNullAnimDetails, kNullAnimDetails, false},
     {AnimId::Abe_Head_Gib,
     { "ABEBLOW.BAN", 7732, 50, 25, kAbeblowResID, PalId::Default},

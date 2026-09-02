@@ -1288,7 +1288,7 @@ MainMenuNextCam MainMenuController::Page_FMV_Level_Update_4D4AB0(u32 input_held)
     CheatController::gEnableCheatFMV = false;
     CheatController::gEnableCheatLevelSelect = false;
 
-    if (gMovieRefCount > 0)
+    if (Movie::gMovieRefCount > 0)
     {
         // Do nothing if a movie is playing
         return MainMenuNextCam(MainMenuCams::eNoChange);
@@ -1383,7 +1383,7 @@ MainMenuNextCam MainMenuController::Page_FMV_Level_Update_4D4AB0(u32 input_held)
 
             auto pMovie = relive_new Movie(pFmvRecord->field_0_pName);
 
-            while (gMovieRefCount)
+            while (Movie::gMovieRefCount)
             {
                 if (pMovie->GetUpdatable())
                 {
@@ -1764,7 +1764,7 @@ MainMenuNextCam MainMenuController::BackStory_Or_NewGame_Update_4D1C60(u32 input
 
             auto pMovie = relive_new Movie(pFmvRecord->field_0_pName);
 
-            while (gMovieRefCount)
+            while (Movie::gMovieRefCount)
             {
                 if (pMovie->GetUpdatable())
                 {
@@ -2966,7 +2966,7 @@ s32 MainMenuController::ChangeScreenAndIntroLogic_4CF640()
                 auto pMovie = relive_new Movie("GTILOGO.DDV");
 
                 // Run the movie till its done
-                while (gMovieRefCount > 0)
+                while (Movie::gMovieRefCount > 0)
                 {
                     if (pMovie->GetUpdatable())
                     {
@@ -2989,7 +2989,7 @@ s32 MainMenuController::ChangeScreenAndIntroLogic_4CF640()
                 pMovie = relive_new Movie("DDLOGO.DDV");
 
                 // Run the movie till its done
-                while (gMovieRefCount > 0)
+                while (Movie::gMovieRefCount > 0)
                 {
                     if (pMovie->GetUpdatable())
                     {

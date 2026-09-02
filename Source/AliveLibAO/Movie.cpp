@@ -18,7 +18,7 @@
 
 namespace AO {
 
-s32 gMovieRefCount = 0;
+s32 Movie::gMovieRefCount = 0;
 
 static SoundEntry sFmvSoundEntry;
 
@@ -208,13 +208,13 @@ Movie::Movie(const char_type* pFmvName)
 
     IO_Init_494230(); // Set up IO funcs
 
-    gMovieRefCount++;
+    Movie::gMovieRefCount++;
 }
 
 Movie::~Movie()
 {
     LOG_INFO("Destroy movie %s", mFmvName);
-    gMovieRefCount--;
+    Movie::gMovieRefCount--;
 }
 
 void Movie::VScreenChanged()

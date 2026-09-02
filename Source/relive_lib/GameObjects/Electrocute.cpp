@@ -17,17 +17,17 @@ Electrocute::Electrocute(BaseAliveGameObject* pTargetObj, bool bExtraOverwriter,
 {
     SetType(ReliveTypes::eElectrocute);
 
+    // Operate on a copy of the palette
+    mPal.mPal = std::make_shared<AnimationPal>(*pTargetObj->GetAnimation().mAnimRes.mPngPtr->mPal);
+    pTargetObj->GetAnimation().LoadPal(mPal);
+
     if (pTargetObj->Type() == ReliveTypes::eFlyingSlig ||
         pTargetObj->Type() == ReliveTypes::eGlukkon ||
         pTargetObj->Type() == ReliveTypes::eAbe ||
         (pTargetObj->Type() == ReliveTypes::eSlig && GetGameType() == GameType::eAe))
     {
-        // TODO: This probably isn't working, idea is that we take 2 copies of the pal
-        // set the animation to be using one of these copies that that overwrite updates
-        // then at the end set back the pal to be one we didn't mess with
-        mOldPalData = *pTargetObj->GetAnimation().mAnimRes.mPngPtr->mPal;
-        mPalData = *pTargetObj->GetAnimation().mAnimRes.mPngPtr->mPal;
-        *pTargetObj->GetAnimation().mAnimRes.mCurPal = mPalData;
+        // Take copy of pal to restore later in DeElectrocuteTarget
+        mOldPal.mPal = std::make_shared<AnimationPal>(*pTargetObj->GetAnimation().mAnimRes.mPngPtr->mPal);
     }
 }
 
@@ -46,13 +46,13 @@ void Electrocute::VScreenChanged()
     }
 }
 
-static RGBA32 Pal_Make_Colour(u8 r, u8 g, u8 b, bool bOpaque)
+static RGBA32 Pal_Make_Colour(u8 r, u8 g, u8 b, bool bBlend)
 {
     RGBA32 rgba;
     rgba.r = r;
     rgba.g = g;
     rgba.b = b;
-    rgba.a = bOpaque ? 254 : 0; // TODO: Wrong ?
+    rgba.a = bBlend ? 255 : 0; // STP bit
     return rgba;
 }
 
@@ -89,11 +89,11 @@ void Electrocute::VUpdate()
 
         case States::eAlphaFadeout:
             mPalOverwriters[0] = relive_new PalleteOverwriter(
-                mPalData,
+                *mPal.mPal,
                 Pal_Make_Colour(255u, 255, 255, true));
 
             mPalOverwriters[1] = relive_new PalleteOverwriter(
-                mPalData,
+                *mPal.mPal,
                 Pal_Make_Colour(64u, 64, 255, true));
             if (mPalOverwriters[1])
             {
@@ -102,7 +102,7 @@ void Electrocute::VUpdate()
 
             if (mExtraOverwriter)
             {
-                mPalOverwriters[2] = relive_new PalleteOverwriter(mPalData,
+                mPalOverwriters[2] = relive_new PalleteOverwriter(*mPal.mPal,
                     Pal_Make_Colour(0, 0, 0, false));
                 if (mPalOverwriters[2])
                 {
@@ -179,7 +179,10 @@ bool Electrocute::DeElectrocuteTarget(bool dealDamage)
             GetGameType() == GameType::eAe)
         {
             // Restore old pal
-            *pTarget->GetAnimation().mAnimRes.mPngPtr->mPal = mOldPalData;
+            if (mOldPal.mPal)
+            {
+                pTarget->GetAnimation().LoadPal(mOldPal);
+            }
 
             pTarget->mRGB.SetRGB(mTargetRed, mTargetGreen, mTargetBlue);
             pTarget->SetElectrocuting(false);

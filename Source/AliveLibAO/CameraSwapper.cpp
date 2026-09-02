@@ -377,7 +377,7 @@ void CameraSwapper::VUpdate()
 
         case CameraSwapEffects::ePlay1FMV_5:
         {
-            if (gMovieRefCount)
+            if (Movie::gMovieRefCount)
             {
                 // A movie is still playing
                 return;
@@ -411,7 +411,7 @@ void CameraSwapper::VUpdate()
             }
 
             // When no movie is playing start the next one
-            if (gMovieRefCount == 0)
+            if (Movie::gMovieRefCount == 0)
             {
                 relive_new Movie(mFmvs[1]);
                 mCamChangeEffect = CameraSwapEffects::ePlay1FMV_5;
@@ -430,7 +430,7 @@ void CameraSwapper::VUpdate()
             }
 
             // When no movie is playing start the next one
-            if (gMovieRefCount == 0)
+            if (Movie::gMovieRefCount == 0)
             {
                 relive_new Movie(mFmvs[2]);
                 mCamChangeEffect = CameraSwapEffects::ePlay2FMVs_9;
