@@ -68,7 +68,7 @@ void GasEmitter::VScreenChanged()
 
 void GasEmitter::VUpdate()
 {
-    if (gDeathGasOn && !((sGnFrame + mEmitPower) % 4) || (SwitchStates_Get(mSwitchId) && mDrawFlipper && Math_RandomRange(0, 1)))
+    if ((gDeathGasOn && !((sGnFrame + mEmitPower) % 4)) || (SwitchStates_Get(mSwitchId) && mDrawFlipper && Math_RandomRange(0, 1)))
     {
         switch (mGasColour)
         {

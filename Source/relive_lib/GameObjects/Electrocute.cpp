@@ -175,7 +175,7 @@ bool Electrocute::DeElectrocuteTarget(bool dealDamage)
     auto pTarget = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(mTargetObjId));
     if (pTarget)
     {
-        if (GetGameType() == GameType::eAo && pTarget->Type() == ReliveTypes::eAbe ||
+        if ((GetGameType() == GameType::eAo && pTarget->Type() == ReliveTypes::eAbe) ||
             GetGameType() == GameType::eAe)
         {
             // Restore old pal
