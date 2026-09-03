@@ -20,7 +20,12 @@ target_compile_features(relive
 target_compile_definitions(relive PRIVATE "_CRT_SECURE_NO_WARNINGS")
 target_link_libraries(relive relive_lib relive_ipc project_warnings)
 export(TARGETS relive FILE relive.cmake)
+
+if (UNIX)
+install(TARGETS relive DESTINATION "${BINPATH}" DESTINATION usr/bin)
+else()
 install(TARGETS relive DESTINATION "${BINPATH}" BUNDLE DESTINATION . RUNTIME DESTINATION .)
+endif()
 
 if (MSVC)
     target_compile_options(relive PRIVATE /W4 /wd4996 /WX /MP)
