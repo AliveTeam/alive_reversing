@@ -14,4 +14,4 @@ export GST_PLUGIN_PATH="$HERE/usr/lib/gstreamer-1.0"
 export GST_PLUGIN_SYSTEM_PATH="$HERE/usr/lib/gstreamer-1.0"
 
 # $@ will forward AppImage args to the binary
-exec "$HERE/usr/bin/relive" "$@"
+exec "$HERE/usr/bin/relive-editor" "$@"

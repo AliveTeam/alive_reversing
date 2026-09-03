@@ -23,7 +23,9 @@ add_custom_target(appimage
     COMMAND ${CMAKE_COMMAND} --install . --prefix "${APPDIR}"
     COMMAND chmod +x "${APPDIR}/AppRun"
     COMMAND chmod +x "${APPDIR}/usr/bin/relive"
-    COMMAND ${CMAKE_BINARY_DIR}/linuxdeployqt "${APPDIR}/usr/bin/relive" -unsupported-allow-new-glibc -bundle-non-qt-libs -appimage
+#    COMMAND ${CMAKE_BINARY_DIR}/linuxdeployqt "${APPDIR}/usr/bin/relive" -unsupported-allow-new-glibc -bundle-non-qt-libs -appimage
+    COMMAND ${CMAKE_BINARY_DIR}/linuxdeployqt "${APPDIR}/usr/bin/relive-editor" -unsupported-allow-new-glibc -bundle-non-qt-libs -appimage
+
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
     COMMENT "Building AppImage..."
 )
