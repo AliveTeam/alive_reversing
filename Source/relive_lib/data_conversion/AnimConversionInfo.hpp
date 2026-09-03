@@ -112,5 +112,5 @@ struct AnimRecNames final
 
 const char* ToString(PalId pal);
 
-extern AnimRecNames kAnimRecNames[1026];
-extern AnimRecConversionInfo kAnimRecConversionInfo[1023];
+extern AnimRecNames kAnimRecNames[1027];
+extern AnimRecConversionInfo kAnimRecConversionInfo[1024];

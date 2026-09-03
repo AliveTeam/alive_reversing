@@ -24,11 +24,14 @@
 #include <utility>
 #include <algorithm>
 
+#pragma warning(push)
+#pragma warning(disable: 4505)
 #include "aom/aom_decoder.h"
 #include "aom/aomdx.h"
 #include "aom/common/webmdec.h"
 #include "aom/third_party/libwebm/mkvparser/mkvparser.h"
 #include "aom/third_party/libwebm/mkvparser/mkvreader.h"
+#pragma warning(pop)
 
 // Inputs on the controller that can be used for aborting skippable movies
 const u32 MOVIE_SKIPPER_GAMEPAD_INPUTS = (InputCommands::eUnPause_OrConfirm | InputCommands::eBack | InputCommands::ePause);

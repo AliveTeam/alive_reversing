@@ -37,8 +37,8 @@ private:
     //PSX_RECT field_28_pal_rect1 = {};
     //u16* field_30_pPal2 = nullptr;
     //PSX_RECT field_34_pal_rect2 = {};
-    PalResource mPal1;
-    PalResource mPal2;
+    PalResource mOldPal;
+    PalResource mInvisPal;
 
     u8 mTransitionFrameCount = 0;
 

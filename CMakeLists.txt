@@ -8,11 +8,6 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 set (CMAKE_MODULE_PATH "${CMAKE_MODULE_PATH}" "${CMAKE_CURRENT_LIST_DIR}/cmake")
 
-set(SANITIZER_FLAGS "-fsanitize=address")
-
-add_compile_options(${SANITIZER_FLAGS})
-add_link_options(${SANITIZER_FLAGS})
-
 find_program(CMAKE cmake)
 if(NOT CMAKE)
     message(FATAL_ERROR "CMake binary not found!")
@@ -26,11 +21,15 @@ endif()
 option (FORCE_COLORED_OUTPUT "Always produce ANSI-colored output (GNU/Clang only)." FALSE)
 option ( "Build the Qt editor, override to false to avoid installing Qt etc if you only want to build the engine" TRUE)
 
-if (UNIX)
+if (MSVC)
+    #set(SANITIZER_FLAGS "/fsanitize=address")
+    #add_compile_options(${SANITIZER_FLAGS})
+elseif (UNIX)
     #add_compile_options(-ftime-trace)
 
-    #add_compile_options(-fsanitize=undefined,address)
-    #add_link_options(-fsanitize=undefined,address)
+    set(SANITIZER_FLAGS "-fsanitize=undefined,address")
+    add_compile_options(${SANITIZER_FLAGS})
+    add_link_options(${SANITIZER_FLAGS})
 endif()
 
 if (${FORCE_COLORED_OUTPUT})
@@ -82,8 +81,6 @@ if(MSVC)
     add_compile_options(/vmg)
     add_compile_options(/wd4121)
     add_compile_options(/permissive-)
-
-    #add_compile_options(/fsanitize=address)
 endif()
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
@@ -98,7 +95,6 @@ add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Source/relive)
 #if (${BUILD_EDITOR})
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Source/Tools/editor)
 #endif()
-add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Source/Tools/vab_tool)
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Source/Tools/relive_api)
 #add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Source/Tools/relive_api_integration_test)
 #add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Source/Tools/relive_api_unit_test)
@@ -178,9 +174,6 @@ target_precompile_headers(
     "${CMAKE_CURRENT_SOURCE_DIR}/Source/Tools/editor/Source/pch_editor.h"
 )
 
-#if(WIN32)
-#    target_precompile_headers(vab_tool REUSE_FROM AliveLibAO)
-#endif()
 # -----------------------------------------------------------------------------
 
 add_dependencies(relive_lib UpdateConfigHeader)

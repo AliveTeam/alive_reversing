@@ -3,7 +3,7 @@
 
 constexpr AnimRecThemeInfo kNoTheme = { nullptr, AnimId::None };
 
-AnimRecConversionInfo kAnimRecConversionInfo[1023] = {
+AnimRecConversionInfo kAnimRecConversionInfo[1024] = {
     { AnimId::Abe_Head_Gib, EAnimGroup::Gibs, kNoTheme, EReliveLevelIds::eMines, EReliveLevelIds::eRuptureFarms, false },
     { AnimId::Abe_Arm_Gib, EAnimGroup::Gibs, kNoTheme, EReliveLevelIds::eMines, EReliveLevelIds::eRuptureFarms, false },
     { AnimId::Abe_Body_Gib, EAnimGroup::Gibs, kNoTheme, EReliveLevelIds::eMines, EReliveLevelIds::eRuptureFarms, false },
@@ -36,6 +36,7 @@ AnimRecConversionInfo kAnimRecConversionInfo[1023] = {
     { AnimId::Slog_Head_Gib, EAnimGroup::Gibs, kNoTheme, EReliveLevelIds::eMines, EReliveLevelIds::eStockYards, false },
     { AnimId::Slog_Body_Gib, EAnimGroup::Gibs, kNoTheme, EReliveLevelIds::eMines, EReliveLevelIds::eStockYards, false },
     { AnimId::Explosion_Stick, EAnimGroup::Gibs, kNoTheme, EReliveLevelIds::eNone, EReliveLevelIds::eForestTemple, false },
+    { AnimId::Explosion_Bone, EAnimGroup::Gibs, kNoTheme, EReliveLevelIds::eBonewerkz, EReliveLevelIds::eNone, false },
 
     { AnimId::Mudokon_RunToRoll, EAnimGroup::Abe, kNoTheme, EReliveLevelIds::eMines, EReliveLevelIds::eRuptureFarms, false },
     { AnimId::Mudokon_CrouchSpeak, EAnimGroup::Abe, kNoTheme, EReliveLevelIds::eMines, EReliveLevelIds::eNone, false },
@@ -1139,7 +1140,7 @@ AnimRecConversionInfo kAnimRecConversionInfo[1023] = {
     { AnimId::BG_PinkFlame2, EAnimGroup::BackgroundAnimation, kNoTheme, EReliveLevelIds::eNone, EReliveLevelIds::eRuptureFarmsReturn, false },
 };
 
-AnimRecNames kAnimRecNames[1026] = {
+AnimRecNames kAnimRecNames[1027] = {
     {AnimId::None, "None"},
     {AnimId::Abe_Head_Gib, "Abe_Head_Gib"},
     {AnimId::Abe_Arm_Gib, "Abe_Arm_Gib"},
@@ -1832,8 +1833,7 @@ AnimRecNames kAnimRecNames[1026] = {
     {AnimId::SquibSmoke_Particle, "SquibSmoke_Particle"},
     {AnimId::Explosion_Rock, "Explosion_Rock"},
     {AnimId::Explosion_Stick, "Explosion_Stick"},
-    //{AnimId::Explosion_Skull, "Explosion_Skull"},
-    //{AnimId::Explosion_Bone, "Explosion_Bone"},
+    {AnimId::Explosion_Bone, "Explosion_Bone"},
     {AnimId::Mine_Flash, "Mine_Flash"},
     {AnimId::OptionChantOrb_Particle, "OptionChantOrb_Particle"},
     {AnimId::ShootingZFire_Particle, "ShootingZFire_Particle"},

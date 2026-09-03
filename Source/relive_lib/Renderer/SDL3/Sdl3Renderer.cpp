@@ -384,18 +384,16 @@ void Sdl3Renderer::StartFrame()
         mPsxFbTexture[1].Resize(desiredW, desiredH);
     }
 
-    // TODO: sdl3 fix
-    //SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, mFramebufferFilter ? "linear" : "nearest");
-    /*
     if (mFramebufferFilter)
     {
-        SDL_SetTextureScaleMode(NULL, SDL_SCALEMODE_LINEAR);
+        SDL_SetTextureScaleMode(mPsxFbTexture[0].GetTexture(), SDL_SCALEMODE_LINEAR);
+        SDL_SetTextureScaleMode(mPsxFbTexture[1].GetTexture(), SDL_SCALEMODE_LINEAR);
     }
     else
     {
-        SDL_SetTextureScaleMode(NULL, SDL_SCALEMODE_NEAREST);
+        SDL_SetTextureScaleMode(mPsxFbTexture[0].GetTexture(), SDL_SCALEMODE_NEAREST);
+        SDL_SetTextureScaleMode(mPsxFbTexture[1].GetTexture(), SDL_SCALEMODE_NEAREST);
     }
-    */
 
     // Default back to render target
     mContext.UseTextureFramebuffer(mPsxFbTexture[0].GetTexture());
