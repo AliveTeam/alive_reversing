@@ -1,7 +1,7 @@
 
 # TODO:
 # - relive macOS artifacts
-# - qt-editor artifacts
+# - relive-editor artifacts
 # - actually set BUILD_NUMBER
 
 name: CI

@@ -174,7 +174,7 @@ target_precompile_headers(
 )
 
 target_precompile_headers(
-    qt-editor PRIVATE
+    relive-editor PRIVATE
     "${CMAKE_CURRENT_SOURCE_DIR}/Source/Tools/editor/Source/pch_editor.h"
 )
 
