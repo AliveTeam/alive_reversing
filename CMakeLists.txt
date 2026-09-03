@@ -98,7 +98,6 @@ add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Source/relive)
 #if (${BUILD_EDITOR})
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Source/Tools/editor)
 #endif()
-add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Source/Tools/vab_tool)
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Source/Tools/relive_api)
 #add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Source/Tools/relive_api_integration_test)
 #add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Source/Tools/relive_api_unit_test)
@@ -178,9 +177,6 @@ target_precompile_headers(
     "${CMAKE_CURRENT_SOURCE_DIR}/Source/Tools/editor/Source/pch_editor.h"
 )
 
-#if(WIN32)
-#    target_precompile_headers(vab_tool REUSE_FROM AliveLibAO)
-#endif()
 # -----------------------------------------------------------------------------
 
 add_dependencies(relive_lib UpdateConfigHeader)
