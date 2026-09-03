@@ -18,7 +18,7 @@ target_compile_features(relive
     PRIVATE cxx_auto_type
     PRIVATE cxx_variadic_templates)
 target_compile_definitions(relive PRIVATE "_CRT_SECURE_NO_WARNINGS")
-target_link_libraries(relive relive_lib relive_ipc project_warnings)
+target_link_libraries(relive relive_lib relive_ipc project_warnings SDL3::SDL3)
 export(TARGETS relive FILE relive.cmake)
 install(TARGETS relive DESTINATION "${BINPATH}" BUNDLE DESTINATION . RUNTIME DESTINATION .)
 
@@ -28,7 +28,7 @@ endif()
 
 if (MSVC AND CMAKE_GENERATOR MATCHES "Visual Studio")
     if (WIN32)
-        add_custom_command(TARGET AliveDllAE POST_BUILD
+        add_custom_command(TARGET relive POST_BUILD
                 COMMAND "${CMAKE_COMMAND}" -E copy_if_different
                 "$<TARGET_FILE:SDL3::SDL3>"
                 "$<TARGET_FILE_DIR:relive>")

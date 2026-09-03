@@ -106,7 +106,7 @@ jobs:
       run: |
         mkdir build
         cd build
-        cmake .. -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=$CONFIGURATION -DCI_PROVIDER="GitHub" -DBUILD_NUMBER=$GITHUB_RUN_NUMBER
+        cmake .. -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=$CONFIGURATION -DCI_PROVIDER="GitHub" -DBUILD_NUMBER=$GITHUB_RUN_NUMBER -DCMAKE_POLICY_VERSION_MINIMUM=3.5
         make -j$(nproc)
         cpack -G DEB
 

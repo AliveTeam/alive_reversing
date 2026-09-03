@@ -29,6 +29,8 @@
 
 #include "../relive_lib/CommandLineParser.hpp"
 
+#include <SDL3/SDL_main.h>
+
 namespace AutoSplitterData {
 struct GuidStr
 {
