@@ -18,8 +18,8 @@ InvisibleEffect::InvisibleEffect(BaseAliveGameObject* pTarget)
 
     mTargetId = pTarget->mBaseGameObjectId;
 
-    mPal1.mPal = std::make_shared<AnimationPal>(*pTarget->GetAnimation().mAnimRes.mPngPtr->mPal);
-    mPal2.mPal = std::make_shared<AnimationPal>(*pTarget->GetAnimation().mAnimRes.mPngPtr->mPal);
+    mOldPal.mPal = std::make_shared<AnimationPal>(*pTarget->GetAnimation().mAnimRes.mPngPtr->mPal);
+    mInvisPal.mPal = std::make_shared<AnimationPal>(*pTarget->GetAnimation().mAnimRes.mPngPtr->mPal);
 
     mSemiTrans = false;
     mBlending = false;
@@ -80,186 +80,186 @@ void InvisibleEffect::VUpdate()
     if (!pTarget || pTarget->GetDead())
     {
         SetDead(true);
+        return;
     }
-    else
+
+    switch (mState)
     {
-        switch (mState)
+        case InvisibleState::eSetBlendMode1_0:
         {
-            case InvisibleState::eSetBlendMode1_0:
+            pTarget->GetAnimation().SetBlendMode(relive::TBlendModes::eBlend_1);
+            return;
+        }
+        case InvisibleState::eSetInvisibile_1:
+        {
+            for (s32 idx2 = 8; idx2 < 256; idx2++)
             {
-                pTarget->GetAnimation().SetBlendMode(relive::TBlendModes::eBlend_1);
-                return;
+                // Set transparent bit
+                mInvisPal.mPal->mPal[idx2].a = 255;
             }
-            case InvisibleState::eSetInvisibile_1:
+
+            pTarget->SetInvisible(true);
+
+            pTarget->GetAnimation().SetBlending(false);
+            pTarget->GetAnimation().SetSemiTrans(true);
+            pTarget->GetAnimation().SetBlendMode(relive::TBlendModes::eBlend_1);
+
+            SetUpdateDelay(1);
+            mState = InvisibleState::eBecomeInvisible_2;
+            if (mIsInvisible)
             {
-                for (s32 idx2 = 8; idx2 < 256; idx2++)
-                {
-                    // Set transparent bit
-                    mPal2.mPal->mPal[idx2].a = 255;
-                }
-
-                pTarget->SetInvisible(true);
-
-                pTarget->GetAnimation().SetBlending(false);
-                pTarget->GetAnimation().SetSemiTrans(true);
-                pTarget->GetAnimation().SetBlendMode(relive::TBlendModes::eBlend_1);
-
-                SetUpdateDelay(1);
-                mState = InvisibleState::eBecomeInvisible_2;
-                if (mIsInvisible)
-                {
-                    mState = InvisibleState::eUnknown_3;
-                }
-                return;
+                mState = InvisibleState::eUnknown_3;
             }
-            case InvisibleState::eBecomeInvisible_2:
+            return;
+        }
+        case InvisibleState::eBecomeInvisible_2:
+        {
+            /* - should never have been possible
+            if (pTarget->mAnim.mPalDepth <= 8)
             {
-                /* - should never have been possible
-                if (pTarget->mAnim.mPalDepth <= 8)
-                {
-                    mState = InvisibleState::eSetBlendMode1_0;
-                    return;
-                }*/
+                mState = InvisibleState::eSetBlendMode1_0;
+                return;
+            }*/
 
-                if (mTransitionFrameCount < TRANSITION_FRAMECOUNT)
+            if (mTransitionFrameCount < TRANSITION_FRAMECOUNT)
+            {
+                for (s32 idx = 8; idx < 256; idx++)
                 {
-                    for (s32 idx = 8; idx < 256; idx++)
+                    // Red
+                    if (mInvisPal.mPal->mPal[idx].r)
                     {
-                        // Red
-                        if (mPal2.mPal->mPal[idx].r)
-                        {
-                            mPal2.mPal->mPal[idx].r = ClampedSub(mPal2.mPal->mPal[idx].r, (u8)8);
-                        }
-
-                        // Green
-                        if (mPal2.mPal->mPal[idx].g)
-                        {
-                            mPal2.mPal->mPal[idx].g = ClampedSub(mPal2.mPal->mPal[idx].g, (u8)8);
-                        }
-
-                        // Blue
-                        if (mPal2.mPal->mPal[idx].b)
-                        {
-                            mPal2.mPal->mPal[idx].b = ClampedSub(mPal2.mPal->mPal[idx].b, (u8)8);
-                        }
-
-                        // Semi trans
-                        if (mPal2.mPal->mPal[idx].a == 255 && mPal2.mPal->mPal[idx].r == 0 && mPal2.mPal->mPal[idx].g == 0 && mPal2.mPal->mPal[idx].b == 0)
-                        {
-                            mPal2.mPal->mPal[idx].a = 0;
-                        }
+                        mInvisPal.mPal->mPal[idx].r = ClampedSub(mInvisPal.mPal->mPal[idx].r, (u8)8);
                     }
 
-                    // TODO: Allow setting anim
-                    pTarget->GetAnimation().LoadPal(mPal2);
-                    SetUpdateDelay(1);
+                    // Green
+                    if (mInvisPal.mPal->mPal[idx].g)
+                    {
+                        mInvisPal.mPal->mPal[idx].g = ClampedSub(mInvisPal.mPal->mPal[idx].g, (u8)8);
+                    }
 
-                    mTransitionFrameCount++;
-                }
-                else
-                {
-                    mTransitionFrameCount = 0;
-                    mState = InvisibleState::eSetBlendMode1_0;
+                    // Blue
+                    if (mInvisPal.mPal->mPal[idx].b)
+                    {
+                        mInvisPal.mPal->mPal[idx].b = ClampedSub(mInvisPal.mPal->mPal[idx].b, (u8)8);
+                    }
+
+                    // Semi trans
+                    if (mInvisPal.mPal->mPal[idx].a == 255 && mInvisPal.mPal->mPal[idx].r == 0 && mInvisPal.mPal->mPal[idx].g == 0 && mInvisPal.mPal->mPal[idx].b == 0)
+                    {
+                        mInvisPal.mPal->mPal[idx].a = 0;
+                    }
                 }
 
-                break;
+                // TODO: Allow setting anim
+                pTarget->GetAnimation().LoadPal(mInvisPal);
+                SetUpdateDelay(1);
+
+                mTransitionFrameCount++;
             }
-            case InvisibleState::eUnknown_3:
+            else
             {
-                LOG_ERROR("Unreachable case InvisibleState::eUnknown_3 hit");
-                for (s32 i = 8; i < 256; i++)
+                mTransitionFrameCount = 0;
+                mState = InvisibleState::eSetBlendMode1_0;
+            }
+
+            break;
+        }
+        case InvisibleState::eUnknown_3:
+        {
+            LOG_ERROR("Unreachable case InvisibleState::eUnknown_3 hit");
+            for (s32 i = 8; i < 256; i++)
+            {
+                // Clear transparent bit
+                mInvisPal.mPal->mPal[i].a = 0;
+            }
+            // TODO
+            pTarget->GetAnimation().LoadPal(mInvisPal);
+            //Pal_Set(pTarget->mAnim.mPalVramXY, pTarget->mAnim.mPalDepth, (u8*) field_30_pPal2, &field_34_pal_rect2);
+
+            mIsInvisible = false;
+            SetUpdateDelay(1);
+            mState = InvisibleState::eSetBlendMode1_0;
+            break;
+        }
+        case InvisibleState::eBecomeVisible_4:
+        {
+            /* TODO - shouldn't be possible
+            if (pTarget->mAnim.mPalDepth <= 1)
+            {
+                mState = InvisibleState::eClearInvisibility_5;
+                return;
+            }*/
+
+            if (mTransitionFrameCount < TRANSITION_FRAMECOUNT)
+            {
+                for (s32 idx4 = 1; idx4 < 256; idx4++)
                 {
-                    // Clear transparent bit
-                    mPal2.mPal->mPal[i].a = 0;
+                    if (mOldPal.mPal->mPal[idx4].r ^ mInvisPal.mPal->mPal[idx4].r)
+                    {
+                        mInvisPal.mPal->mPal[idx4].r = ClampedAdd<u8>(mInvisPal.mPal->mPal[idx4].r, 8,  0, mOldPal.mPal->mPal[idx4].r);
+                    }
+
+                    if (mOldPal.mPal->mPal[idx4].g ^ mInvisPal.mPal->mPal[idx4].g)
+                    {
+                        mInvisPal.mPal->mPal[idx4].g = ClampedAdd<u8>(mInvisPal.mPal->mPal[idx4].g, 8, 0, mOldPal.mPal->mPal[idx4].g);
+                    }
+
+                    if (mOldPal.mPal->mPal[idx4].b ^ mInvisPal.mPal->mPal[idx4].b)
+                    {
+                        mInvisPal.mPal->mPal[idx4].b = ClampedAdd<u8>(mInvisPal.mPal->mPal[idx4].b, 8, 0, mOldPal.mPal->mPal[idx4].b);
+                    }
                 }
+
                 // TODO
-                pTarget->GetAnimation().LoadPal(mPal2);
+                pTarget->GetAnimation().LoadPal(mInvisPal);
+
                 //Pal_Set(pTarget->mAnim.mPalVramXY, pTarget->mAnim.mPalDepth, (u8*) field_30_pPal2, &field_34_pal_rect2);
 
-                mIsInvisible = false;
-                SetUpdateDelay(1);
-                mState = InvisibleState::eSetBlendMode1_0;
+                pTarget->GetAnimation().SetBlendMode(relive::TBlendModes::eBlend_1);
+                SetUpdateDelay(5);
+
+                mTransitionFrameCount++;
                 break;
             }
-            case InvisibleState::eBecomeVisible_4:
+            else
             {
-                /* TODO - shouldn't be possible
-                if (pTarget->mAnim.mPalDepth <= 1)
-                {
-                    mState = InvisibleState::eClearInvisibility_5;
-                    return;
-                }*/
-
-                if (mTransitionFrameCount < TRANSITION_FRAMECOUNT)
-                {
-                    for (s32 idx4 = 1; idx4 < 256; idx4++)
-                    {
-                        if (mPal1.mPal->mPal[idx4].r ^ mPal2.mPal->mPal[idx4].r)
-                        {
-                            mPal2.mPal->mPal[idx4].r = ClampedAdd<u8>(mPal2.mPal->mPal[idx4].r, 8,  0, mPal1.mPal->mPal[idx4].r);
-                        }
-
-                        if (mPal1.mPal->mPal[idx4].g ^ mPal2.mPal->mPal[idx4].g)
-                        {
-                            mPal2.mPal->mPal[idx4].g = ClampedAdd<u8>(mPal2.mPal->mPal[idx4].g, 8, 0, mPal1.mPal->mPal[idx4].g);
-                        }
-
-                        if (mPal1.mPal->mPal[idx4].b ^ mPal2.mPal->mPal[idx4].b)
-                        {
-                            mPal2.mPal->mPal[idx4].b = ClampedAdd<u8>(mPal2.mPal->mPal[idx4].b, 8, 0, mPal1.mPal->mPal[idx4].b);
-                        }
-                    }
-
-                    // TODO
-                    pTarget->GetAnimation().LoadPal(mPal2);
-
-                    //Pal_Set(pTarget->mAnim.mPalVramXY, pTarget->mAnim.mPalDepth, (u8*) field_30_pPal2, &field_34_pal_rect2);
-
-                    pTarget->GetAnimation().SetBlendMode(relive::TBlendModes::eBlend_1);
-                    SetUpdateDelay(5);
-
-                    mTransitionFrameCount++;
-                }
-                else
-                {
-                    mTransitionFrameCount = 0;
-                    mState = InvisibleState::eClearInvisibility_5;
-                }
-
-                break;
+                mTransitionFrameCount = 0;
+                mState = InvisibleState::eClearInvisibility_5;
             }
-            case InvisibleState::eClearInvisibility_5:
-            {
-                // TODO
-                 pTarget->GetAnimation().LoadPal(mPal1);
 
-                //Pal_Set(pTarget->mAnim.mPalVramXY, pTarget->mAnim.mPalDepth, (u8*) field_24_pPal1, &field_28_pal_rect1);
+            break;
+        }
+        case InvisibleState::eClearInvisibility_5:
+        {
+            // TODO
+             pTarget->GetAnimation().LoadPal(mOldPal);
 
-                pTarget->GetAnimation().SetSemiTrans(mSemiTrans);
-                pTarget->GetAnimation().SetBlending(mBlending);
-                pTarget->GetAnimation().SetBlendMode(mOldRenderMode);
+            //Pal_Set(pTarget->mAnim.mPalVramXY, pTarget->mAnim.mPalDepth, (u8*) field_24_pPal1, &field_28_pal_rect1);
 
-                pTarget->SetInvisible(false);
+            pTarget->GetAnimation().SetSemiTrans(mSemiTrans);
+            pTarget->GetAnimation().SetBlending(mBlending);
+            pTarget->GetAnimation().SetBlendMode(mOldRenderMode);
 
-                SetUpdateDelay(1);
-                relive_new PossessionFlicker(pTarget, 16, 255, 128, 128);
-                mState = InvisibleState::eSetDead_6;
-                break;
-            }
-            case InvisibleState::eSetDead_6:
-            {
-                SetDead(true);
-                return;
-            }
-            default:
-            {
-                return;
-            }
+            pTarget->SetInvisible(false);
+
+            SetUpdateDelay(1);
+            relive_new PossessionFlicker(pTarget, 16, 255, 128, 128);
+            mState = InvisibleState::eSetDead_6;
+            break;
+        }
+        case InvisibleState::eSetDead_6:
+        {
+            SetDead(true);
+            return;
+        }
+        default:
+        {
+            return;
         }
     }
 }
 
 void InvisibleEffect::VScreenChanged()
 {
-    // Null @ 45F9C0
+
 }
