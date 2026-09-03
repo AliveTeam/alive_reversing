@@ -1,13 +1,17 @@
 
-get_target_property(SDL3_LIB SDL3::SDL3 LOCATION)
-message("SDL3 .so is at: ${SDL3_LIB}")
+message("SDL3_DIR at: ${SDL3_DIR}")
+file(GLOB SDL3_LIBS
+    "${SDL3_DIR}/../../libSDL3.so*"
+)
+message("SDL3_LIBS is: ${SDL3_LIBS}")
+
 
 if(UNIX AND NOT APPLE)
   SET(BINPATH "${CMAKE_BINARY_DIR}/AppDir")
   install(FILES "${CMAKE_CURRENT_SOURCE_DIR}/relive.png" DESTINATION .)
   install(FILES "${CMAKE_CURRENT_SOURCE_DIR}/relive.desktop" DESTINATION .)
   install(FILES AppRun DESTINATION .)
-  install(FILES ${SDL3_LIB} DESTINATION ./usr/lib)
+  install(FILES ${SDL3_LIBS} DESTINATION usr/lib)
   endif()
 set(APPDIR "${CMAKE_BINARY_DIR}/AppDir")
 

@@ -22,7 +22,7 @@ target_link_libraries(relive relive_lib relive_ipc project_warnings)
 export(TARGETS relive FILE relive.cmake)
 
 if (UNIX)
-install(TARGETS relive DESTINATION "${BINPATH}" DESTINATION usr/bin)
+install(TARGETS relive DESTINATION "${BINPATH}" DESTINATION ./usr/bin)
 else()
 install(TARGETS relive DESTINATION "${BINPATH}" BUNDLE DESTINATION . RUNTIME DESTINATION .)
 endif()
