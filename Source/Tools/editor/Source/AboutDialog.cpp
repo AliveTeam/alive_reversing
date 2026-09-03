@@ -3,12 +3,13 @@
 #include "FireWidget.hpp"
 #include <QLayout>
 #include <QTimer>
+#include <QMediaPlayer>
+#include <QUrl>
 #include "relive_api.hpp"
 
 AboutDialog::AboutDialog(QWidget *parent) :
     QDialog(parent, Qt::WindowSystemMenuHint | Qt::WindowTitleHint | Qt::WindowCloseButtonHint),
-    ui(new Ui::AboutDialog),
-    mThread( nullptr )
+    ui(new Ui::AboutDialog)
 {
     ui->setupUi(this);
 
@@ -49,21 +50,29 @@ AboutDialog::~AboutDialog()
 
 void AboutDialog::stopMusic()
 {
-    if ( mThread )
+    if (mPlayer)
     {
-        mThread->StopPlay();
-        mThread->exit( 0 );
-        mThread->wait(  );
-        delete mThread;
-        mThread = NULL;
+        mPlayer->stop();
+        delete mPlayer;
+        mPlayer = nullptr;
     }
 }
 
 void AboutDialog::startMusic()
 {
-    if ( !mThread )
+    if (!mPlayer)
     {
-        mThread = new ModThread( ":/about/rsc/about/tune.xm" );
-        mThread->start();
+        mPlayer = new QMediaPlayer();
+        mPlayer->setMedia(QUrl("qrc:/about/rsc/about/tune.ogg"));
+        connect(mPlayer, &QMediaPlayer::mediaStatusChanged,
+                this, [&](QMediaPlayer::MediaStatus status) 
+                {
+                    if (status == QMediaPlayer::EndOfMedia) 
+                    {
+                        mPlayer->setPosition(0);
+                        mPlayer->play();
+                    }
+                });
+        mPlayer->play();
     }
 }
