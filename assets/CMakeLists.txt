@@ -24,10 +24,10 @@ add_custom_target(appimage_tool DEPENDS ${APPIMAGE_TOOL})
 add_custom_target(appimage
     DEPENDS appimage_tool
     COMMAND ${CMAKE_COMMAND} --install . --prefix "${INSTAL_BINPATH}"
-#    COMMAND chmod +x "${INSTAL_BINPATH}/Relive/AppRun"
-#    COMMAND chmod +x "${INSTAL_BINPATH}/Relive/usr/bin/relive"
-#    COMMAND chmod +x "${INSTAL_BINPATH}/ReliveEditor/AppRun"
-#    COMMAND chmod +x "${INSTAL_BINPATH}/ReliveEditor/usr/bin/relive-editor"
+    COMMAND chmod +x "${INSTAL_BINPATH}/Relive/AppRun"
+    COMMAND chmod +x "${INSTAL_BINPATH}/Relive/usr/bin/relive"
+    COMMAND chmod +x "${INSTAL_BINPATH}/ReliveEditor/AppRun"
+    COMMAND chmod +x "${INSTAL_BINPATH}/ReliveEditor/usr/bin/relive-editor"
     COMMAND ${CMAKE_BINARY_DIR}/linuxdeployqt "${INSTAL_BINPATH}/Relive/usr/bin/relive" -unsupported-allow-new-glibc -bundle-non-qt-libs -appimage
     COMMAND ${CMAKE_BINARY_DIR}/linuxdeployqt "${INSTAL_BINPATH}/ReliveEditor/usr/bin/relive-editor" -unsupported-allow-new-glibc -bundle-non-qt-libs -appimage
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
