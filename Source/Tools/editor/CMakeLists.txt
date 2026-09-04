@@ -169,7 +169,8 @@ set(PROJECT_SOURCES
 #endif()
 
 if (UNIX)
-    install(TARGETS relive-editor DESTINATION "${BINPATH}" DESTINATION ./usr/bin)
+    SET(INSTAL_BINPATH "${CMAKE_BINARY_DIR}/CommonAppDir")
+    install(TARGETS relive-editor DESTINATION "${INSTAL_BINPATH}/ReliveEditor/usr/bin")
 endif()
 
 if (MSVC)
