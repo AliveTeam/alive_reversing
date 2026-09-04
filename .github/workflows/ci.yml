@@ -163,8 +163,8 @@ jobs:
       if: matrix.name == 'Linux'
       uses: actions/upload-artifact@v4
       with:
-        name: ${{ matrix.name }}-${{ env.CONFIGURATION }}-relive.AppImage
-        path: build/relive-x86_64.AppImage
+        name: ${{ matrix.name }}-${{ env.CONFIGURATION }}
+        path: build/*.AppImage
 
    # - name: 'macOS: Upload relive dmg'
    #   if: matrix.name == 'macOS'
