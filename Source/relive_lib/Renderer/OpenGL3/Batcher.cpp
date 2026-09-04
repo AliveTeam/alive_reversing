@@ -3,7 +3,7 @@
 #include "../../Primitives.hpp"
 #include "../../FG1.hpp"
 #include "../../Animation.hpp"
-#include "../../../AliveLibAE/Font.hpp"
+#include "../../../relive_lib/Font.hpp"
 #include <cmath>
 
 template <typename TextureType, typename RenderBatchType, std::size_t kTextureBatchSize>

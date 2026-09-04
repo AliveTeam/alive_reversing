@@ -1,28 +1,33 @@
-#include "stdafx_ao.h"
+#include "stdafx.h"
 #include "Font.hpp"
+#include "../relive_lib/Function.hpp"
+#include "../relive_lib/FixedPoint.hpp"
+#include "../relive_lib/FatalError.hpp"
+#include "../relive_lib/GameType.hpp"
 #include "../relive_lib/Primitives.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
-#include "../relive_lib/Function.hpp"
-#include "Math.hpp"
-#include "../relive_lib/FatalError.hpp"
+#include "../relive_lib/data_conversion/AnimationConverter.hpp"
+#include "FontResources.hpp"
 
-namespace AO {
+bool gDisableFontFlicker = false;
+bool gFontDrawScreenSpace = false;
 
 AliveFont::AliveFont()
 {
 }
 
-AliveFont::AliveFont(s32 maxCharLength, const PalResource& pal, FontContext* fontContext)
-{
-    Load(maxCharLength, pal, fontContext);
-}
-
 void AliveFont::Load(s32 maxCharLength, const PalResource& pal, FontContext* fontContext)
 {
+    if (mLoaded)
+    {
+        ALIVE_FATAL("AliveFont mFntPolyArray leaked");
+    }
+
     mFontContext = fontContext;
     mFontContext->mFntResource.mCurPal = pal.mPal;
     mPolyCount = maxCharLength;
     mFntPolyArray = relive_new Poly_FT4[maxCharLength];
+    mLoaded = true;
 }
 
 AliveFont::~AliveFont()
@@ -30,15 +35,25 @@ AliveFont::~AliveFont()
     relive_delete[] mFntPolyArray;
 }
 
-s32 AliveFont::DrawString(OrderingTable& ot, const char_type* text, s32 x, s16 y, relive::TBlendModes blendMode, s32 bSemiTrans, bool disableBlending, Layer layer, u8 r, u8 g, u8 b, s32 polyOffset, FP scale, s32 maxRenderWidth, s16 colorRandomRange)
+static s32 WorldSpaceToScreenSpace(s32 x)
+{
+    return GetGameType() == GameType::eAo ? PsxToPCX(x, 11) : static_cast<s32>(x / 0.575);
+}
+
+static s32 ScreenSpaceToWorldSpace(s32 x)
+{
+    return GetGameType() == GameType::eAo ? PCToPsxX(x, 20) : static_cast<s32>(x * 0.575);
+}
+
+s32 AliveFont::DrawString(OrderingTable& ot, const char_type* text, s32 x, s16 y, relive::TBlendModes blendMode, s32 bSemiTrans, s32 disableBlending, Layer layer, u8 r, u8 g, u8 b, s32 polyOffset, FP scale, s32 maxRenderWidth, s16 colorRandomRange)
 {
     if (!gFontDrawScreenSpace)
     {
-        x = PsxToPCX(x, 11);
+        x = WorldSpaceToScreenSpace(x);
     }
 
     s32 characterRenderCount = 0;
-    const s32 maxRenderX = PsxToPCX(maxRenderWidth, 11);
+    const s32 maxRenderX = WorldSpaceToScreenSpace(maxRenderWidth);
     s16 offsetX = static_cast<s16>(x);
     s32 charInfoIndex = 0;
     auto poly = &mFntPolyArray[polyOffset];
@@ -53,12 +68,18 @@ s32 AliveFont::DrawString(OrderingTable& ot, const char_type* text, s32 x, s16 y
         const u8 c = text[i];
         if (c <= 32 || c > 175)
         {
-            if (c < 8 || c > 31)
+            if (c < (GetGameType() == GameType::eAo ? 8 : 7) || c > 31)
             {
-                offsetX += mFontContext->mAtlasArray[0].mWidth + mFontContext->mAtlasArray[1].mWidth;
+                if (GetGameType() == GameType::eAo)
+                {
+                    offsetX += mFontContext->mAtlasArray[0].mWidth;
+                }
+
+                offsetX += mFontContext->mAtlasArray[1].mWidth;
                 continue;
             }
-            charInfoIndex = c + 84;
+
+            charInfoIndex = c + (GetGameType() == GameType::eAo ? 84 : 137);
         }
         else
         {
@@ -150,9 +171,12 @@ s32 AliveFont::MeasureTextWidth(const char_type* text)
 
     if (!gFontDrawScreenSpace)
     {
-        // sub 2??
-        result -= mFontContext->mAtlasArray[0].mWidth;
-        result = PCToPsxX(result, 20);
+        if (GetGameType() == GameType::eAo)
+        {
+            // sub 2??
+            result -= mFontContext->mAtlasArray[0].mWidth;
+        }
+        result = ScreenSpaceToWorldSpace(result);
     }
 
     return result;
@@ -171,13 +195,13 @@ s32 AliveFont::MeasureCharacterWidth(char_type character)
     s32 result = 0;
     s32 charIndex = 0;
 
-    if (character <= 32 /*|| character > 175*/) // character > 175 always false
+    if (character <= 32)
     {
-        if (character < 8 || character > 31)
+        if (character < (GetGameType() == GameType::eAo ? 8 : 7)  || character > 31)
         {
             return mFontContext->mAtlasArray[1].mWidth;
         }
-        charIndex = character + 84;
+        charIndex = character + (GetGameType() == GameType::eAo ? 84 : 137) ;
     }
     else
     {
@@ -187,6 +211,8 @@ s32 AliveFont::MeasureCharacterWidth(char_type character)
 
     if (!gFontDrawScreenSpace)
     {
+        // for some reason AO used the same calc as AE here?
+        //result = ScreenSpaceToWorldSpace(result);
         result = static_cast<s32>(result * 0.575); // Convert screen space to world space.
     }
 
@@ -197,7 +223,15 @@ s32 AliveFont::MeasureCharacterWidth(char_type character)
 const char_type* AliveFont::SliceText(const char_type* text, s32 left, FP scale, s32 right)
 {
     s32 xOff = 0;
-    s32 rightWorldSpace = PsxToPCX(right, 11);
+    s32 rightWorldSpace;
+    if (GetGameType() == GameType::eAo)
+    {
+        rightWorldSpace = PsxToPCX(left, 11);
+    }
+    else
+    {
+        rightWorldSpace = static_cast<s32>(right * 0.575);
+    }
 
     if (gFontDrawScreenSpace)
     {
@@ -205,9 +239,8 @@ const char_type* AliveFont::SliceText(const char_type* text, s32 left, FP scale,
     }
     else
     {
-        xOff = PsxToPCX(left, 11);
+        xOff = WorldSpaceToScreenSpace(left);
     }
-
 
     for (const char_type* strPtr = text; *strPtr; strPtr++)
     {
@@ -220,12 +253,12 @@ const char_type* AliveFont::SliceText(const char_type* text, s32 left, FP scale,
 
         if (character <= 32 || character > 122)
         {
-            if (character < 8 || character> 31)
+            if (character < (GetGameType() == GameType::eAo ? 8 : 7)  || character > 31)
             {
                 xOff += mFontContext->mAtlasArray[1].mWidth;
                 continue;
             }
-            atlasIdx = character + 84;
+            atlasIdx = character + (GetGameType() == GameType::eAo ? 84 : 137) ;
         }
         else
         {
@@ -238,4 +271,61 @@ const char_type* AliveFont::SliceText(const char_type* text, s32 left, FP scale,
     return text;
 }
 
-} // namespace AO
+void FontContext::LoadFontType(FontType resourceID)
+{
+    if (resourceID == FontType::Debug)
+    {
+        mAtlasArray = sDebugFontAtlas;
+
+        mFntResource.mId = resourceID;
+        mFntResource.mPngPtr = std::make_shared<PngData>();
+        mFntResource.mPngPtr->mPal = std::make_shared<AnimationPal>();
+
+        auto fontFile = reinterpret_cast<File_Font*>(sDebugFont);
+        for (s32 i = 0; i < fontFile->mPaletteSize; i++)
+        {
+            mFntResource.mPngPtr->mPal->mPal[i] = RGBConversion::RGBA555ToRGBA888Components(fontFile->mPalette[i]);
+        }
+    
+        std::vector<u8> newData(fontFile->mWidth * fontFile->mHeight); // TODO *2 was out of bounds?
+    
+        // Expand 4bit to 8bit
+        std::size_t src = 0;
+        std::size_t dst = 0;
+        while (dst < newData.size())
+        {
+            newData[dst++] = (fontFile->mPixelBuffer[src] & 0xF);
+            newData[dst++] = ((fontFile->mPixelBuffer[src++] & 0xF0) >> 4);
+        }
+        mFntResource.mPngPtr->mPixels = newData;
+
+        mFntResource.mPngPtr->mWidth = fontFile->mWidth;
+        mFntResource.mPngPtr->mHeight = fontFile->mHeight;
+        mFntResource.mPngPtr->mPixels.resize(fontFile->mWidth * fontFile->mHeight);
+    
+        mFntResource.mCurPal = mFntResource.mPngPtr->mPal;
+        return;
+    }
+
+
+    FontResource fontRes = ResourceManagerWrapper::LoadFont(resourceID);
+    mFntResource = fontRes;
+
+    // TODO: Will get moved to a json file in FontResource
+    // which will remove the need for GetGameType() in here also
+    switch (resourceID)
+    {
+        case FontType::PauseMenu:
+            mAtlasArray = GetGameType() == GameType::eAe ? sPauseMenuFontAtlas : AO::sPauseMenuFontAtlas;
+            break;
+        case FontType::LcdFont:
+            mAtlasArray = GetGameType() == GameType::eAe ? sLcdFontAtlas : AO::sLcdFontAtlas;
+            break;
+        default:
+            ALIVE_FATAL("Unknown font resource ID !!!");
+            break;
+    }
+}
+
+
+
