@@ -46,6 +46,8 @@ public:
         Resource_End = 0x21646E45,
         Resource_Plbk = 0x6B626C50,
         Resource_Play = 0x79616C50,
+        Resource_Indx = 0x78646E49,
+        Resource_Seq = 0x20716553,
     };
 
     enum ResourceHeaderFlags : s16

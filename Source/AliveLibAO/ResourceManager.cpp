@@ -295,7 +295,7 @@ void CC ResourceManager::On_Loaded_446C10(ResourceManager_FileRecord* pLoaded)
 
     // pLoaded is done with now, remove it
     ObjList_5009E0->Remove_Item(pLoaded);
-
+    
     if (pLoaded)
     {
         // And destruct/free it
@@ -407,7 +407,7 @@ void CC ResourceManager::LoadResourcesFromList_446E80(const char_type* pFileName
     bool allResourcesLoaded = true;
     for (s32 i = 0; i < pTypeAndIdList->field_0_count; i++)
     {
-        while (!ResourceManager::GetLoadedResource_4554F0(
+        if (!ResourceManager::GetLoadedResource_4554F0(
             pTypeAndIdList->field_4_items[i].field_0_type,
             pTypeAndIdList->field_4_items[i].field_4_res_id,
             0,
@@ -796,7 +796,7 @@ EXPORT u8** CC ResourceManager::Allocate_New_Block_454FE0(u32 sizeBytes, BlockAl
 {
     ResourceHeapItem* pListItem = sFirstLinkedListItem_50EE2C;
     ResourceHeapItem* pHeapMem = nullptr;
-    const u32 size = (sizeBytes + 3) & ~3u; // Rounding ??
+    const u32 size = (sizeBytes + 3) & ~3u; // Align to a multiple of 4
     Header* pHeaderToUse = nullptr;
     while (pListItem)
     {
@@ -939,19 +939,26 @@ s16 CC ResourceManager::Move_Resources_To_DArray_455430(u8** ppRes, DynamicArray
 {
     auto pItemToAdd = (ResourceHeapItem*) ppRes;
     Header* pHeader = Get_Header_455620(ppRes);
+    u8** pFoundResourceInList = nullptr;
     if (pHeader->field_8_type != Resource_End)
     {
         while (pHeader->field_8_type != Resource_Pend
                && pHeader->field_0_size
                && !(pHeader->field_0_size & 3))
         {
-            if (pArray)
+            if (pFoundResourceInList) // If we already found it in the list already and incremented the ref count, so mark this as free
+            {
+                pHeader->field_8_type = Resource_Free;
+            }
+            else if (pArray)
             {
                 pArray->Push_Back((u8**) pItemToAdd);
                 pHeader->field_4_ref_count++;
             }
 
             pHeader = (Header*) ((s8*) pHeader + pHeader->field_0_size);
+               
+            pFoundResourceInList = GetLoadedResource_4554F0(pHeader->field_8_type, pHeader->field_C_id, 1, 0);
 
             // Out of heap space
             if (pHeader->field_0_size >= kResHeapSize)
