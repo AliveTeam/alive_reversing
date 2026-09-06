@@ -40,8 +40,8 @@ SlapLockWhirlWind::SlapLockWhirlWind(s16 doorNumber, s16 switchId, FP xpos, FP y
                     auto pDoorTlv = doorTlvIterator.GetTlv<relive::Path_Door>();
                     if (pDoorTlv->mDoorId == doorNumber)
                     {
-                        mDoorX = FP_FromInteger((pDoorTlv->mTopLeftX + pDoorTlv->mBottomRightX) / 2);
-                        mDoorY = FP_FromInteger((pDoorTlv->mTopLeftY + pDoorTlv->mBottomRightY) / 2);
+                        mDoorX = FP_FromInteger(pDoorTlv->MidPointX());
+                        mDoorY = FP_FromInteger(pDoorTlv->MidPointY());
 
                         if (pDoorTlv->mScale != relive::reliveScale::eFull)
                         {
@@ -53,8 +53,9 @@ SlapLockWhirlWind::SlapLockWhirlWind(s16 doorNumber, s16 switchId, FP xpos, FP y
                         }
                         mDoorY -= (FP_FromInteger(40) * mDoorSpriteScale);
 
+                        // OG assumes that if we have more than 1 matching door the target door must be the last one in the list.
+                        // this behavior can be observed in SVP06C03 and maybe some others as well
                         bFoundTarget = true;
-                        break;
                     }
                 }
                 doorTlvIterator = doorTlvIterator.Next_TLV();

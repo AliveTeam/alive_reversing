@@ -4390,7 +4390,7 @@ public:
         r.mMovieId = tlv.mData.mMovieId;
 
         const PathData& pathData = GetPathData(static_cast<s32>(tlvId.GetTlvInfo().levelId))[tlvId.GetTlvInfo().pathId];
-        r.mElectricX = tlv.mData.mElectricY - pathData.field_1A_abe_start_xpos;
+        r.mElectricX = tlv.mData.mElectricX - pathData.field_1A_abe_start_xpos;
         r.mElectricY = tlv.mData.mElectricY - pathData.field_1C_abe_start_ypos;
         return r;
     }
