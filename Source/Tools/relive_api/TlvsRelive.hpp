@@ -14,8 +14,8 @@ public:
     virtual void Visit(const char* fieldName, relive::Path_Mudokon::Mud_TLV_Emotion& field) = 0;
     virtual void Visit(const char* fieldName, relive::Path_BirdPortal::PortalSide& field) = 0;
     virtual void Visit(const char* fieldName, relive::Path_FlyingSlig::SpawnDelayStates& field) = 0;
-    virtual void Visit(const char* fieldName, relive::Path_Slig_Data::DeathMode& field) = 0;
-    virtual void Visit(const char* fieldName, relive::Path_Slig_Data::StartState& field) = 0;
+    virtual void Visit(const char* fieldName, relive::Path_Slig::DeathMode& field) = 0;
+    virtual void Visit(const char* fieldName, relive::Path_Slig::StartState& field) = 0;
     virtual void Visit(const char* fieldName, relive::reliveXDirection& field) = 0;
     virtual void Visit(const char* fieldName, relive::reliveSwitchOp& field) = 0;
     virtual void Visit(const char* fieldName, eLineTypes& field) = 0;
@@ -565,38 +565,38 @@ public:
     {
         MapObjectBase::Visit(r);
 
-        r.Visit("Scale", mTlv.mData.mScale);
-        r.Visit("Start State", mTlv.mData.mStartState);
-        r.Visit("(AE) Death Mode", mTlv.mData.mDeathMode);
-        r.Visit("(AE) Can Beat", mTlv.mData.mCanBeat);
-        r.Visit("(AE) Can Z Shoot", mTlv.mData.mCanZShoot);
-        r.Visit("Pause Time", mTlv.mData.mPauseTime);
-        r.Visit("Pause Left Min", mTlv.mData.mPauseLeftMin);
-        r.Visit("Pause Left Max", mTlv.mData.mPauseLeftMax);
-        r.Visit("Pause Right Min", mTlv.mData.mPauseRightMin);
-        r.Visit("Pause Right Max", mTlv.mData.mPauseRightMax);
-        r.Visit("Shoot Possessed Sligs", mTlv.mData.mShootPossessedSligs);
-        r.Visit("Shoot On Sight Delay", mTlv.mData.mShootOnSightDelay);
-        r.Visit("Bullet Shoot Count", mTlv.mData.mNumTimesToShoot);
+        r.Visit("Scale", mTlv.mScale);
+        r.Visit("Start State", mTlv.mStartState);
+        r.Visit("(AE) Death Mode", mTlv.mDeathMode);
+        r.Visit("(AE) Can Beat", mTlv.mCanBeat);
+        r.Visit("(AE) Can Z Shoot", mTlv.mCanZShoot);
+        r.Visit("Pause Time", mTlv.mPauseTime);
+        r.Visit("Pause Left Min", mTlv.mPauseLeftMin);
+        r.Visit("Pause Left Max", mTlv.mPauseLeftMax);
+        r.Visit("Pause Right Min", mTlv.mPauseRightMin);
+        r.Visit("Pause Right Max", mTlv.mPauseRightMax);
+        r.Visit("Shoot Possessed Sligs", mTlv.mShootPossessedSligs);
+        r.Visit("Shoot On Sight Delay", mTlv.mShootOnSightDelay);
+        r.Visit("Bullet Shoot Count", mTlv.mNumTimesToShoot);
 
-        r.Visit("Code 1", mTlv.mData.mCode1);
-        r.Visit("Code 2", mTlv.mData.mCode2);
-        r.Visit("Chase Abe When Spotted", mTlv.mData.mChaseAbeWhenSpotted);
-        r.Visit("Facing", mTlv.mData.mFacing);
-        r.Visit("Panic Timeout", mTlv.mData.mPanicTimeout);
-        r.Visit("Stop Chase Delay", mTlv.mData.mStopChaseDelay);
-        r.Visit("Time To Wait Before Chase", mTlv.mData.mTimeToWaitBeforeChase);
-        r.Visit("Slig Bound/Persist ID", mTlv.mData.mSligBoundId);
-        r.Visit("Alerted Listen Time", mTlv.mData.mAlertedListenTime);
-        r.Visit("Percent Say What", mTlv.mData.mPercentSayWhat);
-        r.Visit("Percent Beat Mudokon", mTlv.mData.mPercentBeatMud);
-        r.Visit("Z Shoot Delay", mTlv.mData.mZShootDelay);
-        r.Visit("Stay Awake", mTlv.mData.mStayAwake);
-        r.Visit("Noise Wake Up Distance (Grids)", mTlv.mData.mNoiseWakeUpDistance);
-        r.Visit("Slig Spawner Switch ID", mTlv.mData.mSligSpawnerSwitchId);
-        r.Visit("(AE) Unlimited Spawns", mTlv.mData.mUnlimitedSpawns); // HIDDEN
-        r.Visit("(AO) Disabled Resources", mTlv.mData.mDisabledResourcesAO.Raw().all);
-        r.Visit("(AE) Disabled Resources", mTlv.mData.mDisabledResourcesAE);
+        r.Visit("Code 1", mTlv.mCode1);
+        r.Visit("Code 2", mTlv.mCode2);
+        r.Visit("Chase Abe When Spotted", mTlv.mChaseAbeWhenSpotted);
+        r.Visit("Facing", mTlv.mFacing);
+        r.Visit("Panic Timeout", mTlv.mPanicTimeout);
+        r.Visit("Stop Chase Delay", mTlv.mStopChaseDelay);
+        r.Visit("Time To Wait Before Chase", mTlv.mTimeToWaitBeforeChase);
+        r.Visit("Slig Bound/Persist ID", mTlv.mSligBoundId);
+        r.Visit("Alerted Listen Time", mTlv.mAlertedListenTime);
+        r.Visit("Percent Say What", mTlv.mPercentSayWhat);
+        r.Visit("Percent Beat Mudokon", mTlv.mPercentBeatMud);
+        r.Visit("Z Shoot Delay", mTlv.mZShootDelay);
+        r.Visit("Stay Awake", mTlv.mStayAwake);
+        r.Visit("Noise Wake Up Distance (Grids)", mTlv.mNoiseWakeUpDistance);
+        r.Visit("Slig Spawner Switch ID", mTlv.mSligSpawnerSwitchId);
+        r.Visit("(AE) Unlimited Spawns", mTlv.mUnlimitedSpawns); // HIDDEN
+        r.Visit("(AO) Disabled Resources", mTlv.mDisabledResourcesAO.Raw().all);
+        r.Visit("(AE) Disabled Resources", mTlv.mDisabledResourcesAE);
     }
 
     std::string GetIconPath() const override
@@ -1488,38 +1488,38 @@ public:
     {
         MapObjectBase::Visit(r);
 
-        r.Visit("Scale", mTlv.mData.mScale);
-        r.Visit("Start State", mTlv.mData.mStartState);
-        r.Visit("(AE) Death Mode", mTlv.mData.mDeathMode);
-        r.Visit("(AE) Can Beat", mTlv.mData.mCanBeat);
-        r.Visit("(AE) Can Z Shoot", mTlv.mData.mCanZShoot);
-        r.Visit("Pause Time", mTlv.mData.mPauseTime);
-        r.Visit("Pause Left Min", mTlv.mData.mPauseLeftMin);
-        r.Visit("Pause Left Max", mTlv.mData.mPauseLeftMax);
-        r.Visit("Pause Right Min", mTlv.mData.mPauseRightMin);
-        r.Visit("Pause Right Max", mTlv.mData.mPauseRightMax);
-        r.Visit("Shoot Possessed Sligs", mTlv.mData.mShootPossessedSligs);
-        r.Visit("Shoot On Sight Delay", mTlv.mData.mShootOnSightDelay);
-        r.Visit("Bullet Shoot Count", mTlv.mData.mNumTimesToShoot);
+        r.Visit("Scale", mTlv.mScale);
+        r.Visit("Start State", mTlv.mStartState);
+        r.Visit("(AE) Death Mode", mTlv.mDeathMode);
+        r.Visit("(AE) Can Beat", mTlv.mCanBeat);
+        r.Visit("(AE) Can Z Shoot", mTlv.mCanZShoot);
+        r.Visit("Pause Time", mTlv.mPauseTime);
+        r.Visit("Pause Left Min", mTlv.mPauseLeftMin);
+        r.Visit("Pause Left Max", mTlv.mPauseLeftMax);
+        r.Visit("Pause Right Min", mTlv.mPauseRightMin);
+        r.Visit("Pause Right Max", mTlv.mPauseRightMax);
+        r.Visit("Shoot Possessed Sligs", mTlv.mShootPossessedSligs);
+        r.Visit("Shoot On Sight Delay", mTlv.mShootOnSightDelay);
+        r.Visit("Bullet Shoot Count", mTlv.mNumTimesToShoot);
 
-        r.Visit("Code 1", mTlv.mData.mCode1);
-        r.Visit("Code 2", mTlv.mData.mCode2);
-        r.Visit("Chase Abe When Spotted", mTlv.mData.mChaseAbeWhenSpotted);
-        r.Visit("Facing", mTlv.mData.mFacing);
-        r.Visit("Panic Timeout", mTlv.mData.mPanicTimeout);
-        r.Visit("Stop Chase Delay", mTlv.mData.mStopChaseDelay);
-        r.Visit("Time To Wait Before Chase", mTlv.mData.mTimeToWaitBeforeChase);
-        r.Visit("Slig Bound/Persist ID", mTlv.mData.mSligBoundId);
-        r.Visit("Alerted Listen Time", mTlv.mData.mAlertedListenTime);
-        r.Visit("Percent Say What", mTlv.mData.mPercentSayWhat);
-        r.Visit("Percent Beat Mudokon", mTlv.mData.mPercentBeatMud);
-        r.Visit("Z Shoot Delay", mTlv.mData.mZShootDelay);
-        r.Visit("Stay Awake", mTlv.mData.mStayAwake);
-        r.Visit("Noise Wake Up Distance (Grids)", mTlv.mData.mNoiseWakeUpDistance);
-        r.Visit("Slig Spawner Switch ID", mTlv.mData.mSligSpawnerSwitchId);
-        r.Visit("(AE) Unlimited Spawns", mTlv.mData.mUnlimitedSpawns); // HIDDEN
-        r.Visit("(AO) Disabled Resources", mTlv.mData.mDisabledResourcesAO.Raw().all);
-        r.Visit("(AE) Disabled Resources", mTlv.mData.mDisabledResourcesAE);
+        r.Visit("Code 1", mTlv.mCode1);
+        r.Visit("Code 2", mTlv.mCode2);
+        r.Visit("Chase Abe When Spotted", mTlv.mChaseAbeWhenSpotted);
+        r.Visit("Facing", mTlv.mFacing);
+        r.Visit("Panic Timeout", mTlv.mPanicTimeout);
+        r.Visit("Stop Chase Delay", mTlv.mStopChaseDelay);
+        r.Visit("Time To Wait Before Chase", mTlv.mTimeToWaitBeforeChase);
+        r.Visit("Slig Bound/Persist ID", mTlv.mSligBoundId);
+        r.Visit("Alerted Listen Time", mTlv.mAlertedListenTime);
+        r.Visit("Percent Say What", mTlv.mPercentSayWhat);
+        r.Visit("Percent Beat Mudokon", mTlv.mPercentBeatMud);
+        r.Visit("Z Shoot Delay", mTlv.mZShootDelay);
+        r.Visit("Stay Awake", mTlv.mStayAwake);
+        r.Visit("Noise Wake Up Distance (Grids)", mTlv.mNoiseWakeUpDistance);
+        r.Visit("Slig Spawner Switch ID", mTlv.mSligSpawnerSwitchId);
+        r.Visit("(AE) Unlimited Spawns", mTlv.mUnlimitedSpawns); // HIDDEN
+        r.Visit("(AO) Disabled Resources", mTlv.mDisabledResourcesAO.Raw().all);
+        r.Visit("(AE) Disabled Resources", mTlv.mDisabledResourcesAE);
     }
 
     std::string GetIconPath() const override
@@ -2459,38 +2459,38 @@ public:
     {
         MapObjectBase::Visit(r);
 
-        r.Visit("Scale", mTlv.mData.mScale);
-        r.Visit("Start State", mTlv.mData.mStartState);
-        r.Visit("(AE) Death Mode", mTlv.mData.mDeathMode);
-        r.Visit("(AE) Can Beat", mTlv.mData.mCanBeat);
-        r.Visit("(AE) Can Z Shoot", mTlv.mData.mCanZShoot);
-        r.Visit("Pause Time", mTlv.mData.mPauseTime);
-        r.Visit("Pause Left Min", mTlv.mData.mPauseLeftMin);
-        r.Visit("Pause Left Max", mTlv.mData.mPauseLeftMax);
-        r.Visit("Pause Right Min", mTlv.mData.mPauseRightMin);
-        r.Visit("Pause Right Max", mTlv.mData.mPauseRightMax);
-        r.Visit("Shoot Possessed Sligs", mTlv.mData.mShootPossessedSligs);
-        r.Visit("Shoot On Sight Delay", mTlv.mData.mShootOnSightDelay);
-        r.Visit("Bullet Shoot Count", mTlv.mData.mNumTimesToShoot);
+        r.Visit("Scale", mTlv.mScale);
+        r.Visit("Start State", mTlv.mStartState);
+        r.Visit("(AE) Death Mode", mTlv.mDeathMode);
+        r.Visit("(AE) Can Beat", mTlv.mCanBeat);
+        r.Visit("(AE) Can Z Shoot", mTlv.mCanZShoot);
+        r.Visit("Pause Time", mTlv.mPauseTime);
+        r.Visit("Pause Left Min", mTlv.mPauseLeftMin);
+        r.Visit("Pause Left Max", mTlv.mPauseLeftMax);
+        r.Visit("Pause Right Min", mTlv.mPauseRightMin);
+        r.Visit("Pause Right Max", mTlv.mPauseRightMax);
+        r.Visit("Shoot Possessed Sligs", mTlv.mShootPossessedSligs);
+        r.Visit("Shoot On Sight Delay", mTlv.mShootOnSightDelay);
+        r.Visit("Bullet Shoot Count", mTlv.mNumTimesToShoot);
 
-        r.Visit("Code 1", mTlv.mData.mCode1);
-        r.Visit("Code 2", mTlv.mData.mCode2);
-        r.Visit("Chase Abe When Spotted", mTlv.mData.mChaseAbeWhenSpotted);
-        r.Visit("Facing", mTlv.mData.mFacing);
-        r.Visit("Panic Timeout", mTlv.mData.mPanicTimeout);
-        r.Visit("Stop Chase Delay", mTlv.mData.mStopChaseDelay);
-        r.Visit("Time To Wait Before Chase", mTlv.mData.mTimeToWaitBeforeChase);
-        r.Visit("Slig Bound/Persist ID", mTlv.mData.mSligBoundId);
-        r.Visit("Alerted Listen Time", mTlv.mData.mAlertedListenTime);
-        r.Visit("Percent Say What", mTlv.mData.mPercentSayWhat);
-        r.Visit("Percent Beat Mudokon", mTlv.mData.mPercentBeatMud);
-        r.Visit("Z Shoot Delay", mTlv.mData.mZShootDelay);
-        r.Visit("Stay Awake", mTlv.mData.mStayAwake);
-        r.Visit("Noise Wake Up Distance (Grids)", mTlv.mData.mNoiseWakeUpDistance);
-        r.Visit("Slig Spawner Switch ID", mTlv.mData.mSligSpawnerSwitchId);
-        r.Visit("(AE) Unlimited Spawns", mTlv.mData.mUnlimitedSpawns); // HIDDEN
-        r.Visit("(AO) Disabled Resources", mTlv.mData.mDisabledResourcesAO.Raw().all);
-        r.Visit("(AE) Disabled Resources", mTlv.mData.mDisabledResourcesAE);
+        r.Visit("Code 1", mTlv.mCode1);
+        r.Visit("Code 2", mTlv.mCode2);
+        r.Visit("Chase Abe When Spotted", mTlv.mChaseAbeWhenSpotted);
+        r.Visit("Facing", mTlv.mFacing);
+        r.Visit("Panic Timeout", mTlv.mPanicTimeout);
+        r.Visit("Stop Chase Delay", mTlv.mStopChaseDelay);
+        r.Visit("Time To Wait Before Chase", mTlv.mTimeToWaitBeforeChase);
+        r.Visit("Slig Bound/Persist ID", mTlv.mSligBoundId);
+        r.Visit("Alerted Listen Time", mTlv.mAlertedListenTime);
+        r.Visit("Percent Say What", mTlv.mPercentSayWhat);
+        r.Visit("Percent Beat Mudokon", mTlv.mPercentBeatMud);
+        r.Visit("Z Shoot Delay", mTlv.mZShootDelay);
+        r.Visit("Stay Awake", mTlv.mStayAwake);
+        r.Visit("Noise Wake Up Distance (Grids)", mTlv.mNoiseWakeUpDistance);
+        r.Visit("Slig Spawner Switch ID", mTlv.mSligSpawnerSwitchId);
+        r.Visit("(AE) Unlimited Spawns", mTlv.mUnlimitedSpawns); // HIDDEN
+        r.Visit("(AO) Disabled Resources", mTlv.mDisabledResourcesAO.Raw().all);
+        r.Visit("(AE) Disabled Resources", mTlv.mDisabledResourcesAE);
     }
 
     std::string GetIconPath() const override

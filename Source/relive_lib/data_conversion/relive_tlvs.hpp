@@ -1892,8 +1892,14 @@ struct Path_ScrabSpawner : public Path_Scrab
     static constexpr ReliveTypes kReliveType = ReliveTypes::eScrabSpawner;
 };
 
-struct Path_Slig_Data final
+struct Path_Slig : public Path_TLV
 {
+    Path_Slig()
+    {
+        mTlvType = ReliveTypes::eSlig;
+        mAttribute = QuiksaveAttribute::eKeepTlvFlags_2;
+    }
+
     enum class DeathMode
     {
         StandIdle,
@@ -1948,21 +1954,12 @@ struct Path_Slig_Data final
 
     // AE only
     bool mUnlimitedSpawns = false;
-};
 
-struct Path_Slig final : public Path_TLV
-{
-    Path_Slig()
-    {
-        mTlvType = ReliveTypes::eSlig;
-        mAttribute = QuiksaveAttribute::eKeepTlvFlags_2;
-    }
-    Path_Slig_Data mData;
     static constexpr char kClassName[] = "slig";
     static constexpr ReliveTypes kReliveType = ReliveTypes::eSlig;
 };
 
-struct Path_SligSpawner final : public Path_TLV
+struct Path_SligSpawner final : public Path_Slig
 {
     Path_SligSpawner()
     {
@@ -1970,7 +1967,6 @@ struct Path_SligSpawner final : public Path_TLV
         mAttribute = QuiksaveAttribute::eKeepTlvFlags_2;
     }
 
-    Path_Slig_Data mData;
     static constexpr char kClassName[] = "slig_spawner";
     static constexpr ReliveTypes kReliveType = ReliveTypes::eSligSpawner;
 };
@@ -2499,13 +2495,14 @@ struct Path_CrawlingSligButton final : public Path_TLV
     static constexpr ReliveTypes kReliveType = ReliveTypes::eCrawlingSligButton;
 };
 
-struct Path_FlyingSlig final : public Path_TLV
+struct Path_FlyingSlig : public Path_TLV
 {
     Path_FlyingSlig()
     {
         mTlvType = ReliveTypes::eFlyingSlig;
         mAttribute = QuiksaveAttribute::eKeepTlvFlags_2;
     }
+
     reliveScale mScale = reliveScale::eFull;
     enum class SpawnDelayStates : s16
     {
@@ -2527,34 +2524,19 @@ struct Path_FlyingSlig final : public Path_TLV
     s16 mMaxVelocity = 0;
     s16 mLaunchGrenadeSwitchId = 0;
     bool mPersistant = false;
+
     static constexpr char kClassName[] = "flying_slig";
     static constexpr ReliveTypes kReliveType = ReliveTypes::eFlyingSlig;
-
 };
 
-struct Path_FlyingSligSpawner final : public Path_TLV
+struct Path_FlyingSligSpawner final : public Path_FlyingSlig
 {
     Path_FlyingSligSpawner()
     {
         mTlvType = ReliveTypes::eFlyingSligSpawner;
         mAttribute = QuiksaveAttribute::eKeepTlvFlags_2;
     }
-    reliveScale mScale = reliveScale::eFull;
-    Path_FlyingSlig::SpawnDelayStates mSpawnDelayState = Path_FlyingSlig::SpawnDelayStates::eMoveImmediately;
-    s16 mSpawnMoveDelay = 0;
-    s16 mPatrolPauseMin = 0;
-    s16 mPatrolPauseMax = 0;
-    reliveXDirection mFacing = reliveXDirection::eRight;
-    s16 mPanicDelay = 0;
-    s16 mGiveUpChaseDelay = 0;
-    s16 mPrechaseDelay = 0;
-    s16 mSligBoundId = 0;
-    s16 mAlertedListenTime = 0;
-    s16 mSpawnerSwitchId = 0;
-    s16 mGrenadeDelay = 0;
-    s16 mMaxVelocity = 0;
-    s16 mLaunchGrenadeSwitchId = 0;
-    bool mPersistant = false;
+
     static constexpr char kClassName[] = "flying_slig_spawner";
     static constexpr ReliveTypes kReliveType = ReliveTypes::eFlyingSligSpawner;
 };
@@ -2587,42 +2569,26 @@ struct Path_CrawlingSlig final : public Path_TLV
     static constexpr ReliveTypes kReliveType = ReliveTypes::eCrawlingSlig;
 };
 
-struct Path_SligGetWings final : public Path_TLV
+struct Path_SligGetWings final : public Path_FlyingSlig
 {
     Path_SligGetWings()
     {
         mTlvType = ReliveTypes::eSligGetWings;
         mAttribute = QuiksaveAttribute::eClearTlvFlags_1;
     }
-    reliveScale mScale = reliveScale::eFull;
-    Path_FlyingSlig::SpawnDelayStates mSpawnDelayState = Path_FlyingSlig::SpawnDelayStates::eMoveImmediately;
-    s16 mSpawnMoveDelay = 0;
-    s16 mPatrolPauseMin = 0;
-    s16 mPatrolPauseMax = 0;
-    reliveXDirection mFacing = reliveXDirection::eRight;
-    s16 mPanicDelay = 0;
-    s16 mGiveUpChaseDelay = 0;
-    s16 mPrechaseDelay = 0;
-    s16 mSligBoundId = 0;
-    s16 mAlertedListenTime = 0;
-    s16 mSpawnerSwitchId = 0;
-    s16 mGrenadeDelay = 0;
-    s16 mMaxVelocity = 0;
-    s16 mLaunchGrenadeSwitchId = 0;
-    bool mPersistant = false;
+
     static constexpr char kClassName[] = "slig_get_wings";
     static constexpr ReliveTypes kReliveType = ReliveTypes::eSligGetWings;
 };
 
-struct Path_SligGetPants final : public Path_TLV
+struct Path_SligGetPants final : public Path_Slig
 {
     Path_SligGetPants()
     {
         mTlvType = ReliveTypes::eSligGetPants;
         mAttribute = QuiksaveAttribute::eClearTlvFlags_1;
     }
-    
-    Path_Slig_Data mData;
+
     static constexpr char kClassName[] = "slig_get_pants";
     static constexpr ReliveTypes kReliveType = ReliveTypes::eSligGetPants;
 };

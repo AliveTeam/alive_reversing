@@ -259,7 +259,7 @@ void AirExplosion::DealBlastDamage(PSX_RECT* pRect)
 
     if (pTlv)
     {
-        if (!pTlv->mTlvFlags.Get(relive::TlvFlags::eBit2_Destroyed) && pTlv->mData.mStartState == relive::Path_Slig_Data::StartState::Sleeping)
+        if (!pTlv->mTlvFlags.Get(relive::TlvFlags::eBit2_Destroyed) && pTlv->mStartState == relive::Path_Slig::StartState::Sleeping)
         {
             pTlv->mTlvFlags.Set(relive::TlvFlags::eBit2_Destroyed);
 

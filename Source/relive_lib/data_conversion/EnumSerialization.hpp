@@ -618,19 +618,19 @@ NLOHMANN_JSON_SERIALIZE_ENUM(Path_Scrab::ScrabPatrolType, {
 })
 
 // Path_Slig
-NLOHMANN_JSON_SERIALIZE_ENUM(Path_Slig_Data::StartState, {
-    {Path_Slig_Data::StartState::Listening, "listening"},
-    {Path_Slig_Data::StartState::Patrol, "patrol"},
-    {Path_Slig_Data::StartState::Sleeping, "sleeping"},
-    {Path_Slig_Data::StartState::Chase, "chase"},
-    {Path_Slig_Data::StartState::ChaseAndDisappear, "chase_and_disappear"},
-    {Path_Slig_Data::StartState::eFallingToChase, "falling_to_chase"},
-    {Path_Slig_Data::StartState::ListeningToGlukkon, "listening_to_glukkon"},
+NLOHMANN_JSON_SERIALIZE_ENUM(Path_Slig::StartState, {
+    {Path_Slig::StartState::Listening, "listening"},
+    {Path_Slig::StartState::Patrol, "patrol"},
+    {Path_Slig::StartState::Sleeping, "sleeping"},
+    {Path_Slig::StartState::Chase, "chase"},
+    {Path_Slig::StartState::ChaseAndDisappear, "chase_and_disappear"},
+    {Path_Slig::StartState::eFallingToChase, "falling_to_chase"},
+    {Path_Slig::StartState::ListeningToGlukkon, "listening_to_glukkon"},
 })
 
-NLOHMANN_JSON_SERIALIZE_ENUM(Path_Slig_Data::DeathMode, {
-    {Path_Slig_Data::DeathMode::FallForward, "fall_forward"},
-    {Path_Slig_Data::DeathMode::StandIdle, "stand_idle"},
+NLOHMANN_JSON_SERIALIZE_ENUM(Path_Slig::DeathMode, {
+    {Path_Slig::DeathMode::FallForward, "fall_forward"},
+    {Path_Slig::DeathMode::StandIdle, "stand_idle"},
 })
 
 // Path_WheelSyncer

@@ -103,7 +103,6 @@ struct Path_WellExpress;
 struct Path_Slog;
 struct Path_SlogSpawner;
 struct Path_Scrab;
-struct Path_Slig_Data;
 struct Path_Slig;
 struct Path_SligSpawner;
 struct Path_TrainDoor;
@@ -588,9 +587,6 @@ void from_json(const nlohmann::json& j, Path_SlogSpawner& p);
 
 void to_json(nlohmann::json& j, const Path_Scrab& p);
 void from_json(const nlohmann::json& j, Path_Scrab& p);
-
-void to_json(nlohmann::json& j, const Path_Slig_Data& p);
-void from_json(const nlohmann::json& j, Path_Slig_Data& p);
 
 void to_json(nlohmann::json& j, const Path_Slig& p);
 void from_json(const nlohmann::json& j, Path_Slig& p);

@@ -10,7 +10,7 @@ struct Path_Slig;
 class SligSpawner final : public ::BaseGameObject
 {
 public:
-    SligSpawner(relive::Path_TLV* pTlv, relive::Path_Slig_Data* pTlvData, const Guid& tlvId);
+    SligSpawner(relive::Path_TLV* pTlv, relive::Path_Slig* pTlvData, const Guid& tlvId);
     ~SligSpawner();
 
     virtual void VUpdate() override;

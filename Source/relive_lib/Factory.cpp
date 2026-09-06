@@ -610,7 +610,7 @@ static void LoadWalkingSligResources(relive::LoadMode loadMode, BitField16<SligF
 static void Factory_Slig(relive::Path_TLV* pTlv, const Guid& tlvId, relive::LoadMode loadMode)
 {
     auto pSligTlv = static_cast<relive::Path_Slig*>(pTlv);
-    LoadWalkingSligResources(loadMode, pSligTlv->mData.mDisabledResourcesAO);
+    LoadWalkingSligResources(loadMode, pSligTlv->mDisabledResourcesAO);
 
     if (loadMode == relive::LoadMode::LoadResourceFromList_1 || loadMode == relive::LoadMode::LoadResource_2)
     {
@@ -1009,7 +1009,7 @@ static TlvIterator FindMatchingSligTLV(TlvIterator pTlvIter, relive::Path_SligBo
 {
     while (pTlvIter.GetTlv())
     {
-        if (pTlvIter.GetTlv()->mTlvType == ReliveTypes::eSlig && pTlv->mSligBoundId == pTlvIter.GetTlv<relive::Path_Slig>()->mData.mSligBoundId && !pTlvIter.GetTlv()->mTlvFlags.Get(relive::TlvFlags::eBit2_Destroyed))
+        if (pTlvIter.GetTlv()->mTlvType == ReliveTypes::eSlig && pTlv->mSligBoundId == pTlvIter.GetTlv<relive::Path_Slig>()->mSligBoundId && !pTlvIter.GetTlv()->mTlvFlags.Get(relive::TlvFlags::eBit2_Destroyed))
         {
             return pTlvIter;
         }
@@ -1114,7 +1114,7 @@ static void Factory_MotionDector(relive::Path_TLV* pTlv, const Guid& tlvId, reli
 static void Factory_SligSpawner(relive::Path_TLV* pTlv, const Guid& tlvId, relive::LoadMode loadMode)
 {
     auto pSligTlv = static_cast<relive::Path_SligSpawner*>(pTlv);
-    LoadWalkingSligResources(loadMode, pSligTlv->mData.mDisabledResourcesAO);
+    LoadWalkingSligResources(loadMode, pSligTlv->mDisabledResourcesAO);
 
     if (loadMode == relive::LoadMode::LoadResourceFromList_1 || loadMode == relive::LoadMode::LoadResource_2)
     {
@@ -1122,7 +1122,7 @@ static void Factory_SligSpawner(relive::Path_TLV* pTlv, const Guid& tlvId, reliv
     }
     else
     {
-        relive_new SligSpawner(pTlv, &pSligTlv->mData, tlvId);
+        relive_new SligSpawner(pTlv, pSligTlv, tlvId);
     }
 }
 
@@ -2199,7 +2199,7 @@ static TlvIterator FindMatchingSligTLV(TlvIterator pTlvIter, relive::Path_SligBo
 {
     while (pTlvIter.GetTlv())
     {
-        if (pTlvIter.GetTlv()->mTlvType == ReliveTypes::eSlig && pTlv->mSligBoundId == pTlvIter.GetTlv<relive::Path_Slig>()->mData.mSligBoundId && !pTlvIter.GetTlv()->mTlvFlags.Get(relive::TlvFlags::eBit2_Destroyed))
+        if (pTlvIter.GetTlv()->mTlvType == ReliveTypes::eSlig && pTlv->mSligBoundId == pTlvIter.GetTlv<relive::Path_Slig>()->mSligBoundId && !pTlvIter.GetTlv()->mTlvFlags.Get(relive::TlvFlags::eBit2_Destroyed))
         {
             return pTlvIter;
         }
@@ -2287,7 +2287,7 @@ static void Factory_MotionDetector(relive::Path_TLV* pTlv, const Guid& tlvId, re
 
 static void Factory_SligSpawner(relive::Path_TLV* pTlv, const Guid& tlvId, relive::LoadMode loadMode)
 {
-    auto pSligTlv = static_cast<relive::Path_Slig*>(pTlv);
+    auto pSligTlv = static_cast<relive::Path_SligSpawner*>(pTlv);
     if (loadMode == relive::LoadMode::LoadResourceFromList_1 || loadMode == relive::LoadMode::LoadResource_2)
     {
         LoadWalkingSligResources();

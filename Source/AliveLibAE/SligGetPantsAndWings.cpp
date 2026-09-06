@@ -21,15 +21,27 @@ SligGetPantsAndWings::SligGetPantsAndWings(relive::Path_TLV* pTlv, const Guid& t
     LoadAnimations();
     Animation_Init(GetAnimRes(AnimId::CrawlingSligLocker_Closed));
 
-    // HACK: See header for details
-    auto pHack = static_cast<relive::Path_Slig*>(pTlv);
-    if (pHack->mData.mScale == relive::reliveScale::eHalf)
+    relive::reliveScale targetScale;
+    if (pTlv->mTlvType == ReliveTypes::eSligGetPants)
+    {
+        targetScale = static_cast<relive::Path_SligGetPants*>(pTlv)->mScale;
+    }
+    else if (pTlv->mTlvType == ReliveTypes::eSligGetWings)
+    {
+        targetScale = static_cast<relive::Path_SligGetWings*>(pTlv)->mScale;
+    }
+    else
+    {
+        ALIVE_FATAL("Unsupported relive type %d in SligGetPantsAndWings ctor!", static_cast<s32>(pTlv->mTlvType));
+    }
+
+    if (targetScale == relive::reliveScale::eHalf)
     {
         SetSpriteScale(FP_FromDouble(0.5));
         SetScale(Scale::Bg);
         GetAnimation().SetRenderLayer(Layer::eLayer_BeforeShadow_Half_6);
     }
-    else if (pHack->mData.mScale == relive::reliveScale::eFull)
+    else if (targetScale == relive::reliveScale::eFull)
     {
         GetAnimation().SetRenderLayer(Layer::eLayer_BeforeShadow_25);
     }

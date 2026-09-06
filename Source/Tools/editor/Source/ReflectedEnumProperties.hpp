@@ -276,21 +276,21 @@ REFLECT_ENUM(relive::Path_FlyingSlig::SpawnDelayStates,
     {relive::Path_FlyingSlig::SpawnDelayStates::eUseCustomSpawnMoveDelay, QT_TRANSLATE_NOOP("Path_FlyingSlig_SpawnDelayStatesEnum", "Use Custom Spawn Move Delay")}
 })
 
-REFLECT_ENUM(relive::Path_Slig_Data::DeathMode,
+REFLECT_ENUM(relive::Path_Slig::DeathMode,
 {
-    {relive::Path_Slig_Data::DeathMode::StandIdle, QT_TRANSLATE_NOOP("Path_Slig_Data_DeathModeEnum", "Stand Idle")},
-    {relive::Path_Slig_Data::DeathMode::FallForward, QT_TRANSLATE_NOOP("Path_Slig_Data_DeathModeEnum", "Fall Forward")}
+    {relive::Path_Slig::DeathMode::StandIdle, QT_TRANSLATE_NOOP("Path_Slig_DeathModeEnum", "Stand Idle")},
+    {relive::Path_Slig::DeathMode::FallForward, QT_TRANSLATE_NOOP("Path_Slig_DeathModeEnum", "Fall Forward")}
 })
 
-REFLECT_ENUM(relive::Path_Slig_Data::StartState,
+REFLECT_ENUM(relive::Path_Slig::StartState,
 {
-    {relive::Path_Slig_Data::StartState::Listening, QT_TRANSLATE_NOOP("Path_Slig_Data_StartStateEnum", "Listening")},
-    {relive::Path_Slig_Data::StartState::Patrol, QT_TRANSLATE_NOOP("Path_Slig_Data_StartStateEnum", "Patrol")},
-    {relive::Path_Slig_Data::StartState::Sleeping, QT_TRANSLATE_NOOP("Path_Slig_Data_StartStateEnum", "Sleeping")},
-    {relive::Path_Slig_Data::StartState::Chase, QT_TRANSLATE_NOOP("Path_Slig_Data_StartStateEnum", "Chase")},
-    {relive::Path_Slig_Data::StartState::ChaseAndDisappear, QT_TRANSLATE_NOOP("Path_Slig_Data_StartStateEnum", "Chase And Disappear")},
-    {relive::Path_Slig_Data::StartState::eFallingToChase, QT_TRANSLATE_NOOP("Path_Slig_Data_StartStateEnum", "Falling To Chase")},
-    {relive::Path_Slig_Data::StartState::ListeningToGlukkon, QT_TRANSLATE_NOOP("Path_Slig_Data_StartStateEnum", "Listening To Glukkon")},
+    {relive::Path_Slig::StartState::Listening, QT_TRANSLATE_NOOP("Path_Slig_StartStateEnum", "Listening")},
+    {relive::Path_Slig::StartState::Patrol, QT_TRANSLATE_NOOP("Path_Slig_StartStateEnum", "Patrol")},
+    {relive::Path_Slig::StartState::Sleeping, QT_TRANSLATE_NOOP("Path_Slig_StartStateEnum", "Sleeping")},
+    {relive::Path_Slig::StartState::Chase, QT_TRANSLATE_NOOP("Path_Slig_StartStateEnum", "Chase")},
+    {relive::Path_Slig::StartState::ChaseAndDisappear, QT_TRANSLATE_NOOP("Path_Slig_StartStateEnum", "Chase And Disappear")},
+    {relive::Path_Slig::StartState::eFallingToChase, QT_TRANSLATE_NOOP("Path_Slig_StartStateEnum", "Falling To Chase")},
+    {relive::Path_Slig::StartState::ListeningToGlukkon, QT_TRANSLATE_NOOP("Path_Slig_StartStateEnum", "Listening To Glukkon")},
 })
 
 REFLECT_ENUM(relive::reliveXDirection,

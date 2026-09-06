@@ -1691,7 +1691,7 @@ Do you want to overwrite it?</source>
     </message>
 </context>
 <context>
-    <name>Path_Slig_Data_DeathModeEnum</name>
+    <name>Path_Slig_DeathModeEnum</name>
     <message>
         <source>Stand Idle</source>
         <translation type="unfinished"></translation>
@@ -1702,7 +1702,7 @@ Do you want to overwrite it?</source>
     </message>
 </context>
 <context>
-    <name>Path_Slig_Data_StartStateEnum</name>
+    <name>Path_Slig_StartStateEnum</name>
     <message>
         <source>Listening</source>
         <translation type="unfinished"></translation>
