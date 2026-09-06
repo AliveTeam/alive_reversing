@@ -89,7 +89,7 @@ void Start_Sounds_for_TLV(CameraPos direction, relive::Path_TLV* pTlv)
         case ReliveTypes::eSlig:
         {
             const auto pSligTlv = static_cast<relive::Path_Slig*>(pTlv);
-            if (pSligTlv->mData.mStartState == relive::Path_Slig_Data::StartState::Patrol)
+            if (pSligTlv->mStartState == relive::Path_Slig::StartState::Patrol)
             {
                 if (!pAmbianceTbl[AmbienceId::eSligPatrol].mScopedSeq)
                 {
@@ -97,7 +97,7 @@ void Start_Sounds_for_TLV(CameraPos direction, relive::Path_TLV* pTlv)
                     bDangerMusic = true;
                 }
             }
-            else if (pSligTlv->mData.mStartState == relive::Path_Slig_Data::StartState::Sleeping)
+            else if (pSligTlv->mStartState == relive::Path_Slig::StartState::Sleeping)
             {
                 if (!pAmbianceTbl[AmbienceId::eSligSleeping].mScopedSeq)
                 {

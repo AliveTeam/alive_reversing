@@ -2096,11 +2096,9 @@ void from_json(const nlohmann::json& j, Path_SlogSpawner& p)
     j.at("chase_delay").get_to(p.mChaseDelay);
 }
 
-void to_json(nlohmann::json& j, const Path_Scrab& p)
+nlohmann::json ToScrabBase(const Path_Scrab& p)
 {
-    j = nlohmann::json{
-        {"tlv_type", "scrab"},
-        {"base", ToBase(p)},
+    return nlohmann::json{
         {"scale", p.mScale},
         {"attack_delay", p.mAttackDelay},
         {"patrol_type_run_or_walk_chance", p.mPatrolTypeRunOrWalkChance},
@@ -2118,9 +2116,8 @@ void to_json(nlohmann::json& j, const Path_Scrab& p)
     };
 }
 
-void from_json(const nlohmann::json& j, Path_Scrab& p)
+void FromScrabBase(const nlohmann::json& j, Path_Scrab& p)
 {
-    j.at("base").get_to(ToBase(p));
     j.at("scale").get_to(p.mScale);
     j.at("attack_delay").get_to(p.mAttackDelay);
     j.at("patrol_type_run_or_walk_chance").get_to(p.mPatrolTypeRunOrWalkChance);
@@ -2137,9 +2134,24 @@ void from_json(const nlohmann::json& j, Path_Scrab& p)
     j.at("kill_enemy").get_to(p.mKillEnemy);
 }
 
-void to_json(nlohmann::json& j, const Path_Slig_Data& p)
+void to_json(nlohmann::json& j, const Path_Scrab& p)
 {
     j = nlohmann::json{
+        {"tlv_type", "scrab"},
+        {"base", ToBase(p)},
+        {"scrab", ToScrabBase(p)}
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_Scrab& p)
+{
+    j.at("base").get_to(ToBase(p));
+    FromScrabBase(j.at("scrab"), p);
+}
+
+nlohmann::json ToSligBase(const Path_Slig& p)
+{
+    return nlohmann::json{
         {"scale", p.mScale},
         {"start_state", p.mStartState},
         {"pause_time", p.mPauseTime},
@@ -2174,7 +2186,7 @@ void to_json(nlohmann::json& j, const Path_Slig_Data& p)
     };
 }
 
-void from_json(const nlohmann::json& j, Path_Slig_Data& p)
+void FromSligBase(const nlohmann::json& j, Path_Slig& p)
 {
     j.at("scale").get_to(p.mScale);
     j.at("start_state").get_to(p.mStartState);
@@ -2214,14 +2226,14 @@ void to_json(nlohmann::json& j, const Path_Slig& p)
     j = nlohmann::json{
         {"tlv_type", "slig"},
         {"base", ToBase(p)},
-        {"slig_data", p.mData}
+        {"slig", ToSligBase(p)}
     };
 }
 
 void from_json(const nlohmann::json& j, Path_Slig& p)
 {
     j.at("base").get_to(ToBase(p));
-    j.at("slig_data").get_to(p.mData);
+    FromSligBase(j.at("slig"), p);
 }
 
 // Path_SligSpawner
@@ -2230,14 +2242,14 @@ void to_json(nlohmann::json& j, const Path_SligSpawner& p)
     j = nlohmann::json{
         {"tlv_type", "slig_spawner"},
         {"base", ToBase(p)},
-        {"slig_data", p.mData},
+        {"slig_data", ToSligBase(p)},
     };
 }
 
 void from_json(const nlohmann::json& j, Path_SligSpawner& p)
 {
     j.at("base").get_to(ToBase(p));
-    j.at("slig_data").get_to(p.mData);
+    FromSligBase(j.at("slig_data"), p);
 }
 
 // Path_TrainDoor
@@ -2951,6 +2963,48 @@ void from_json(const nlohmann::json& j, Path_CrawlingSligButton& p)
     j.at("sound_direction").get_to(p.mSoundDirection);
 }
 
+nlohmann::json ToFlyingSligBase(const Path_FlyingSlig& p)
+{
+    return nlohmann::json{
+        {"scale", p.mScale},
+        {"spawn_delay_state", p.mSpawnDelayState},
+        {"spawn_move_delay", p.mSpawnMoveDelay},
+        {"patrol_pause_min", p.mPatrolPauseMin},
+        {"patrol_pause_max", p.mPatrolPauseMax},
+        {"facing", p.mFacing},
+        {"panic_delay", p.mPanicDelay},
+        {"give_up_chase_delay", p.mGiveUpChaseDelay},
+        {"prechase_delay", p.mPrechaseDelay},
+        {"slig_bound_id", p.mSligBoundId},
+        {"alerted_listen_time", p.mAlertedListenTime},
+        {"spawner_switch_id", p.mSpawnerSwitchId},
+        {"grenade_delay", p.mGrenadeDelay},
+        {"max_velocity", p.mMaxVelocity},
+        {"launch_grenade_switch_id", p.mLaunchGrenadeSwitchId},
+        {"persistant", p.mPersistant},
+    };
+}
+
+void FromFlyingSligBase(const nlohmann::json& j, Path_FlyingSlig& p)
+{
+    j.at("scale").get_to(p.mScale);
+    j.at("spawn_delay_state").get_to(p.mSpawnDelayState);
+    j.at("spawn_move_delay").get_to(p.mSpawnMoveDelay);
+    j.at("patrol_pause_min").get_to(p.mPatrolPauseMin);
+    j.at("patrol_pause_max").get_to(p.mPatrolPauseMax);
+    j.at("facing").get_to(p.mFacing);
+    j.at("panic_delay").get_to(p.mPanicDelay);
+    j.at("give_up_chase_delay").get_to(p.mGiveUpChaseDelay);
+    j.at("prechase_delay").get_to(p.mPrechaseDelay);
+    j.at("slig_bound_id").get_to(p.mSligBoundId);
+    j.at("alerted_listen_time").get_to(p.mAlertedListenTime);
+    j.at("spawner_switch_id").get_to(p.mSpawnerSwitchId);
+    j.at("grenade_delay").get_to(p.mGrenadeDelay);
+    j.at("max_velocity").get_to(p.mMaxVelocity);
+    j.at("launch_grenade_switch_id").get_to(p.mLaunchGrenadeSwitchId);
+    j.at("persistant").get_to(p.mPersistant);
+}
+
 void to_json(nlohmann::json& j, const Path_FlyingSlig& p)
 {
     j = nlohmann::json{
@@ -3047,18 +3101,7 @@ void to_json(nlohmann::json& j, const Path_ScrabSpawner& p)
     j = nlohmann::json{
         {"tlv_type", "scrab_spawner"},
         {"base", ToBase(p)},
-        {"scale", p.mScale},
-        {"attack_delay", p.mAttackDelay},
-        {"patrol_type_run_or_walk_chance", p.mPatrolTypeRunOrWalkChance},
-        {"left_min_delay", p.mPauseLeftMin},
-        {"left_max_delay", p.mPauseLeftMax},
-        {"right_min_delay", p.mPauseRightMin},
-        {"right_max_delay", p.mPauseRightMax},
-        {"pause_after_chase_delay", p.mPauseAfterChaseTime},
-        {"roar_randomly", p.mRoarRandomly},
-        {"persistant", p.mPersistant},
-        {"possessed_max_whirl_attack_duration", p.mPossessedMaxWhirlAttackDuration},
-        {"kill_enemy", p.mKillEnemy},
+        {"scrab", ToScrabBase(p)},
         {"spawner_switch_id", p.mSpawnerSwitchId},
         {"facing", p.mFacing},
     };
@@ -3067,18 +3110,7 @@ void to_json(nlohmann::json& j, const Path_ScrabSpawner& p)
 void from_json(const nlohmann::json& j, Path_ScrabSpawner& p)
 {
     j.at("base").get_to(ToBase(p));
-    j.at("scale").get_to(p.mScale);
-    j.at("attack_delay").get_to(p.mAttackDelay);
-    j.at("patrol_type_run_or_walk_chance").get_to(p.mPatrolTypeRunOrWalkChance);
-    j.at("left_min_delay").get_to(p.mPauseLeftMin);
-    j.at("left_max_delay").get_to(p.mPauseLeftMax);
-    j.at("right_min_delay").get_to(p.mPauseRightMin);
-    j.at("right_max_delay").get_to(p.mPauseRightMax);
-    j.at("pause_after_chase_delay").get_to(p.mPauseAfterChaseTime);
-    j.at("roar_randomly").get_to(p.mRoarRandomly);
-    j.at("persistant").get_to(p.mPersistant);
-    j.at("possessed_max_whirl_attack_duration").get_to(p.mPossessedMaxWhirlAttackDuration);
-    j.at("kill_enemy").get_to(p.mKillEnemy);
+    FromScrabBase(j.at("scrab"), p);
     j.at("spawner_switch_id").get_to(p.mSpawnerSwitchId);
     j.at("facing").get_to(p.mFacing);
 }
@@ -3112,44 +3144,14 @@ void to_json(nlohmann::json& j, const Path_SligGetWings& p)
     j = nlohmann::json{
         {"tlv_type", "slig_get_wings"},
         {"base", ToBase(p)},
-        {"scale", p.mScale},
-        {"spawn_delay_state", p.mSpawnDelayState},
-        {"spawn_move_delay", p.mSpawnMoveDelay},
-        {"patrol_pause_min", p.mPatrolPauseMin},
-        {"patrol_pause_max", p.mPatrolPauseMax},
-        {"facing", p.mFacing},
-        {"panic_delay", p.mPanicDelay},
-        {"give_up_chase_delay", p.mGiveUpChaseDelay},
-        {"prechase_delay", p.mPrechaseDelay},
-        {"slig_bound_id", p.mSligBoundId},
-        {"alerted_listen_time", p.mAlertedListenTime},
-        {"spawner_switch_id", p.mSpawnerSwitchId},
-        {"grenade_delay", p.mGrenadeDelay},
-        {"max_velocity", p.mMaxVelocity},
-        {"launch_grenade_switch_id", p.mLaunchGrenadeSwitchId},
-        {"persistant", p.mPersistant},
+        {"flying_slig", ToFlyingSligBase(p)}
     };
 }
 
 void from_json(const nlohmann::json& j, Path_SligGetWings& p)
 {
     j.at("base").get_to(ToBase(p));
-    j.at("scale").get_to(p.mScale);
-    j.at("spawn_delay_state").get_to(p.mSpawnDelayState);
-    j.at("spawn_move_delay").get_to(p.mSpawnMoveDelay);
-    j.at("patrol_pause_min").get_to(p.mPatrolPauseMin);
-    j.at("patrol_pause_max").get_to(p.mPatrolPauseMax);
-    j.at("facing").get_to(p.mFacing);
-    j.at("panic_delay").get_to(p.mPanicDelay);
-    j.at("give_up_chase_delay").get_to(p.mGiveUpChaseDelay);
-    j.at("prechase_delay").get_to(p.mPrechaseDelay);
-    j.at("slig_bound_id").get_to(p.mSligBoundId);
-    j.at("alerted_listen_time").get_to(p.mAlertedListenTime);
-    j.at("spawner_switch_id").get_to(p.mSpawnerSwitchId);
-    j.at("grenade_delay").get_to(p.mGrenadeDelay);
-    j.at("max_velocity").get_to(p.mMaxVelocity);
-    j.at("launch_grenade_switch_id").get_to(p.mLaunchGrenadeSwitchId);
-    j.at("persistant").get_to(p.mPersistant);
+    FromFlyingSligBase(j.at("flying_slig"), p);
 }
 
 // Path_SligGetPants
@@ -3158,14 +3160,14 @@ void to_json(nlohmann::json& j, const Path_SligGetPants& p)
     j = nlohmann::json{
         {"tlv_type", "slig_get_pants"},
         {"base", ToBase(p)},
-        {"slig_data", p.mData}
+        {"slig", ToSligBase(p)}
     };
 }
 
 void from_json(const nlohmann::json& j, Path_SligGetPants& p)
 {
     j.at("base").get_to(ToBase(p));
-    j.at("slig_data").get_to(p.mData);
+    FromSligBase(j.at("slig"), p);
 }
 
 } // namespace relive

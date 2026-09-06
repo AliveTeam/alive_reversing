@@ -3560,32 +3560,32 @@ public:
     {
         Path_Slig r;
         BaseConvert(r, tlv, tlvId);
-        r.mData.mScale = relive::From(tlv.mScale);
-        r.mData.mStartState = From(tlv.mStartState);
-        r.mData.mPauseTime = tlv.mPauseTime;
-        r.mData.mPauseLeftMin = tlv.mPauseLeftMin;
-        r.mData.mPauseLeftMax = tlv.mPauseLeftMax;
-        r.mData.mPauseRightMin = tlv.mPauseRightMin;
-        r.mData.mPauseRightMax = tlv.mPauseRightMax;
-        r.mData.mShootPossessedSligs = From(tlv.mShootPossessedSligs);
-        r.mData.mShootOnSightDelay = tlv.mShootOnSightDelay;
-        r.mData.mNumTimesToShoot = tlv.mNumTimesToShoot;
-        r.mData.mCode1 = tlv.mCode1;
-        r.mData.mCode2 = tlv.mCode2;
-        r.mData.mChaseAbeWhenSpotted = relive::From(tlv.mChaseAbeWhenSpotted);
-        r.mData.mFacing = relive::From(tlv.mFacing);
-        r.mData.mPanicTimeout = tlv.mPanicTimeout;
-        r.mData.mStopChaseDelay = tlv.mStopChaseDelay;
-        r.mData.mTimeToWaitBeforeChase = tlv.mTimeToWaitBeforeChase;
-        r.mData.mSligBoundId = tlv.mSligBoundId;
-        r.mData.mAlertedListenTime = tlv.mAlertedListenTime;
-        r.mData.mPercentSayWhat = tlv.mPercentSayWhat;
-        r.mData.mPercentBeatMud = tlv.mPercentBeatMud;
-        r.mData.mZShootDelay = tlv.mZShootDelay;
-        r.mData.mStayAwake = relive::From(tlv.mStayAwake);
-        r.mData.mDisabledResourcesAO = tlv.mDisabledResources;
-        r.mData.mNoiseWakeUpDistance = tlv.mNoiseWakeUpDistance;
-        r.mData.mSligSpawnerSwitchId = tlv.mSligSpawnerSwitchId;
+        r.mScale = relive::From(tlv.mScale);
+        r.mStartState = From(tlv.mStartState);
+        r.mPauseTime = tlv.mPauseTime;
+        r.mPauseLeftMin = tlv.mPauseLeftMin;
+        r.mPauseLeftMax = tlv.mPauseLeftMax;
+        r.mPauseRightMin = tlv.mPauseRightMin;
+        r.mPauseRightMax = tlv.mPauseRightMax;
+        r.mShootPossessedSligs = From(tlv.mShootPossessedSligs);
+        r.mShootOnSightDelay = tlv.mShootOnSightDelay;
+        r.mNumTimesToShoot = tlv.mNumTimesToShoot;
+        r.mCode1 = tlv.mCode1;
+        r.mCode2 = tlv.mCode2;
+        r.mChaseAbeWhenSpotted = relive::From(tlv.mChaseAbeWhenSpotted);
+        r.mFacing = relive::From(tlv.mFacing);
+        r.mPanicTimeout = tlv.mPanicTimeout;
+        r.mStopChaseDelay = tlv.mStopChaseDelay;
+        r.mTimeToWaitBeforeChase = tlv.mTimeToWaitBeforeChase;
+        r.mSligBoundId = tlv.mSligBoundId;
+        r.mAlertedListenTime = tlv.mAlertedListenTime;
+        r.mPercentSayWhat = tlv.mPercentSayWhat;
+        r.mPercentBeatMud = tlv.mPercentBeatMud;
+        r.mZShootDelay = tlv.mZShootDelay;
+        r.mStayAwake = relive::From(tlv.mStayAwake);
+        r.mDisabledResourcesAO = tlv.mDisabledResources;
+        r.mNoiseWakeUpDistance = tlv.mNoiseWakeUpDistance;
+        r.mSligSpawnerSwitchId = tlv.mSligSpawnerSwitchId;
         return r;
     }
 
@@ -3593,103 +3593,103 @@ public:
     {
         Path_Slig r;
         BaseConvert(r, tlv, tlvId);
-        r.mData.mScale = relive::From(tlv.mScale);
-        r.mData.mStartState = From(tlv.mStartState);
-        r.mData.mPauseTime = tlv.mPauseTime;
-        r.mData.mPauseLeftMin = tlv.mPauseLeftMin;
-        r.mData.mPauseLeftMax = tlv.mPauseLeftMax;
-        r.mData.mPauseRightMin = tlv.mPauseRightMin;
-        r.mData.mPauseRightMax = tlv.mPauseRightMax;
-        r.mData.mShootPossessedSligs = From(tlv.mShootPossessedSligs);
-        r.mData.mShootOnSightDelay = tlv.mShootOnSightDelay;
-        r.mData.mNumTimesToShoot = tlv.mNumTimesToShoot;
-        r.mData.mCode1 = tlv.mCode1;
-        r.mData.mCode2 = tlv.mCode2;
-        r.mData.mChaseAbeWhenSpotted = relive::From(tlv.mChaseAbeWhenSpotted);
-        r.mData.mFacing = relive::From(tlv.mFacing);
-        r.mData.mPanicTimeout = tlv.mPanicTimeout;
-        r.mData.mStopChaseDelay = tlv.mStopChaseDelay;
-        r.mData.mTimeToWaitBeforeChase = tlv.mTimeToWaitBeforeChase;
-        r.mData.mSligBoundId = tlv.mSligBoundId;
-        r.mData.mAlertedListenTime = tlv.mAlertedListenTime;
-        r.mData.mPercentSayWhat = tlv.mPercentSayWhat;
-        r.mData.mPercentBeatMud = tlv.mPercentBeatMud;
-        r.mData.mZShootDelay = tlv.mZShootDelay;
-        r.mData.mStayAwake = relive::From(tlv.mStayAwake);
-        r.mData.mDisabledResourcesAE = tlv.mDisabledResources;
-        r.mData.mNoiseWakeUpDistance = tlv.mNoiseWakeUpDistance;
-        r.mData.mSligSpawnerSwitchId = tlv.mSligSpawnerSwitchId;
-        r.mData.mUnlimitedSpawns = relive::From(tlv.mUnlimitedSpawns);
+        r.mScale = relive::From(tlv.mScale);
+        r.mStartState = From(tlv.mStartState);
+        r.mPauseTime = tlv.mPauseTime;
+        r.mPauseLeftMin = tlv.mPauseLeftMin;
+        r.mPauseLeftMax = tlv.mPauseLeftMax;
+        r.mPauseRightMin = tlv.mPauseRightMin;
+        r.mPauseRightMax = tlv.mPauseRightMax;
+        r.mShootPossessedSligs = From(tlv.mShootPossessedSligs);
+        r.mShootOnSightDelay = tlv.mShootOnSightDelay;
+        r.mNumTimesToShoot = tlv.mNumTimesToShoot;
+        r.mCode1 = tlv.mCode1;
+        r.mCode2 = tlv.mCode2;
+        r.mChaseAbeWhenSpotted = relive::From(tlv.mChaseAbeWhenSpotted);
+        r.mFacing = relive::From(tlv.mFacing);
+        r.mPanicTimeout = tlv.mPanicTimeout;
+        r.mStopChaseDelay = tlv.mStopChaseDelay;
+        r.mTimeToWaitBeforeChase = tlv.mTimeToWaitBeforeChase;
+        r.mSligBoundId = tlv.mSligBoundId;
+        r.mAlertedListenTime = tlv.mAlertedListenTime;
+        r.mPercentSayWhat = tlv.mPercentSayWhat;
+        r.mPercentBeatMud = tlv.mPercentBeatMud;
+        r.mZShootDelay = tlv.mZShootDelay;
+        r.mStayAwake = relive::From(tlv.mStayAwake);
+        r.mDisabledResourcesAE = tlv.mDisabledResources;
+        r.mNoiseWakeUpDistance = tlv.mNoiseWakeUpDistance;
+        r.mSligSpawnerSwitchId = tlv.mSligSpawnerSwitchId;
+        r.mUnlimitedSpawns = relive::From(tlv.mUnlimitedSpawns);
 
         // TODO: Add flags/constants for these
         if (tlv.mDisabledResources & 0x80)
         {
             // When dead just shrink in the idle anim - happens in OG when
             // certain resources are turned off. Replicate to avoid de-syncs in playbacks
-            r.mData.mDeathMode = Path_Slig_Data::DeathMode::StandIdle;
+            r.mDeathMode = Path_Slig::DeathMode::StandIdle;
         }
         else
         {
-            r.mData.mDeathMode = Path_Slig_Data::DeathMode::FallForward;
+            r.mDeathMode = Path_Slig::DeathMode::FallForward;
         }
 
         if (tlv.mDisabledResources & 0x400)
         {
-            r.mData.mCanBeat = false;
+            r.mCanBeat = false;
         }
         else
         {
-            r.mData.mCanBeat = true;
+            r.mCanBeat = true;
         }
 
         if (tlv.mDisabledResources & 0x4)
         {
-            r.mData.mCanZShoot = false;
+            r.mCanZShoot = false;
         }
         else
         {
-            r.mData.mCanZShoot = true;
+            r.mCanZShoot = true;
         }
 
         return r;
     }
 
-    static Path_Slig_Data::StartState From(AO::Path_Slig::StartState startState)
+    static Path_Slig::StartState From(AO::Path_Slig::StartState startState)
     {
         switch (startState)
         {
             case AO::Path_Slig::StartState::Listening_0:
-                return Path_Slig_Data::StartState::Listening;
+                return Path_Slig::StartState::Listening;
             case AO::Path_Slig::StartState::Patrol_1:
-                return Path_Slig_Data::StartState::Patrol;
+                return Path_Slig::StartState::Patrol;
             case AO::Path_Slig::StartState::Sleeping_2:
-                return Path_Slig_Data::StartState::Sleeping;
+                return Path_Slig::StartState::Sleeping;
             case AO::Path_Slig::StartState::Chase_3:
-                return Path_Slig_Data::StartState::Chase;
+                return Path_Slig::StartState::Chase;
             case AO::Path_Slig::StartState::ChaseAndDisappear_4:
-                return Path_Slig_Data::StartState::ChaseAndDisappear;
+                return Path_Slig::StartState::ChaseAndDisappear;
             case AO::Path_Slig::StartState::FallingToChase_5:
-                return Path_Slig_Data::StartState::eFallingToChase;
+                return Path_Slig::StartState::eFallingToChase;
         }
         ALIVE_FATAL("Bad slig start state");
     }
 
-    static Path_Slig_Data::StartState From(::Path_Slig::StartState startState)
+    static Path_Slig::StartState From(::Path_Slig::StartState startState)
     {
         switch (startState)
         {
             case ::Path_Slig::StartState::Listening_0:
-                return Path_Slig_Data::StartState::Listening;
+                return Path_Slig::StartState::Listening;
             case ::Path_Slig::StartState::Patrol_1:
-                return Path_Slig_Data::StartState::Patrol;
+                return Path_Slig::StartState::Patrol;
             case ::Path_Slig::StartState::Sleeping_2:
-                return Path_Slig_Data::StartState::Sleeping;
+                return Path_Slig::StartState::Sleeping;
             case ::Path_Slig::StartState::Chase_3:
-                return Path_Slig_Data::StartState::Chase;
+                return Path_Slig::StartState::Chase;
             case ::Path_Slig::StartState::ChaseAndDisappear_4:
-                return Path_Slig_Data::StartState::ChaseAndDisappear;
+                return Path_Slig::StartState::ChaseAndDisappear;
             case ::Path_Slig::StartState::ListeningToGlukkon_6:
-                return Path_Slig_Data::StartState::ListeningToGlukkon;
+                return Path_Slig::StartState::ListeningToGlukkon;
         }
         ALIVE_FATAL("Bad slig start state");
     }
@@ -3731,32 +3731,32 @@ public:
     {
         Path_SligSpawner r;
         BaseConvert(r, tlv, tlvId);
-        r.mData.mScale = relive::From(tlv.mScale);
-        r.mData.mStartState = From(tlv.mStartState);
-        r.mData.mPauseTime = tlv.mPauseTime;
-        r.mData.mPauseLeftMin = tlv.mPauseLeftMin;
-        r.mData.mPauseLeftMax = tlv.mPauseLeftMax;
-        r.mData.mPauseRightMin = tlv.mPauseRightMin;
-        r.mData.mPauseRightMax = tlv.mPauseRightMax;
-        r.mData.mShootPossessedSligs = From(tlv.mShootPossessedSligs);
-        r.mData.mShootOnSightDelay = tlv.mShootOnSightDelay;
-        r.mData.mNumTimesToShoot = tlv.mNumTimesToShoot;
-        r.mData.mCode1 = tlv.mCode1;
-        r.mData.mCode2 = tlv.mCode2;
-        r.mData.mChaseAbeWhenSpotted = relive::From(tlv.mChaseAbeWhenSpotted);
-        r.mData.mFacing = relive::From(tlv.mFacing);
-        r.mData.mPanicTimeout = tlv.mPanicTimeout;
-        r.mData.mStopChaseDelay = tlv.mStopChaseDelay;
-        r.mData.mTimeToWaitBeforeChase = tlv.mTimeToWaitBeforeChase;
-        r.mData.mSligBoundId = tlv.mSligBoundId;
-        r.mData.mAlertedListenTime = tlv.mAlertedListenTime;
-        r.mData.mPercentSayWhat = tlv.mPercentSayWhat;
-        r.mData.mPercentBeatMud = tlv.mPercentBeatMud;
-        r.mData.mZShootDelay = tlv.mZShootDelay;
-        r.mData.mStayAwake = relive::From(tlv.mStayAwake);
-        r.mData.mDisabledResourcesAO.Raw().all = tlv.mDisabledResources; // TODO: Fix type
-        r.mData.mNoiseWakeUpDistance = tlv.mNoiseWakeUpDistance;
-        r.mData.mSligSpawnerSwitchId = static_cast<s16>(tlv.mSligSpawnerSwitchId);
+        r.mScale = relive::From(tlv.mScale);
+        r.mStartState = From(tlv.mStartState);
+        r.mPauseTime = tlv.mPauseTime;
+        r.mPauseLeftMin = tlv.mPauseLeftMin;
+        r.mPauseLeftMax = tlv.mPauseLeftMax;
+        r.mPauseRightMin = tlv.mPauseRightMin;
+        r.mPauseRightMax = tlv.mPauseRightMax;
+        r.mShootPossessedSligs = From(tlv.mShootPossessedSligs);
+        r.mShootOnSightDelay = tlv.mShootOnSightDelay;
+        r.mNumTimesToShoot = tlv.mNumTimesToShoot;
+        r.mCode1 = tlv.mCode1;
+        r.mCode2 = tlv.mCode2;
+        r.mChaseAbeWhenSpotted = relive::From(tlv.mChaseAbeWhenSpotted);
+        r.mFacing = relive::From(tlv.mFacing);
+        r.mPanicTimeout = tlv.mPanicTimeout;
+        r.mStopChaseDelay = tlv.mStopChaseDelay;
+        r.mTimeToWaitBeforeChase = tlv.mTimeToWaitBeforeChase;
+        r.mSligBoundId = tlv.mSligBoundId;
+        r.mAlertedListenTime = tlv.mAlertedListenTime;
+        r.mPercentSayWhat = tlv.mPercentSayWhat;
+        r.mPercentBeatMud = tlv.mPercentBeatMud;
+        r.mZShootDelay = tlv.mZShootDelay;
+        r.mStayAwake = relive::From(tlv.mStayAwake);
+        r.mDisabledResourcesAO.Raw().all = tlv.mDisabledResources; // TODO: Fix type
+        r.mNoiseWakeUpDistance = tlv.mNoiseWakeUpDistance;
+        r.mSligSpawnerSwitchId = static_cast<s16>(tlv.mSligSpawnerSwitchId);
         return r;
     }
 
@@ -3764,104 +3764,104 @@ public:
     {
         Path_SligSpawner r;
         BaseConvert(r, tlv, tlvId);
-        r.mData.mScale = relive::From(tlv.mScale);
-        r.mData.mStartState = From(tlv.mStartState);
-        r.mData.mPauseTime = tlv.mPauseTime;
-        r.mData.mPauseLeftMin = tlv.mPauseLeftMin;
-        r.mData.mPauseLeftMax = tlv.mPauseLeftMax;
-        r.mData.mPauseRightMin = tlv.mPauseRightMin;
-        r.mData.mPauseRightMax = tlv.mPauseRightMax;
-        r.mData.mShootPossessedSligs = From(tlv.mShootPossessedSligs);
-        r.mData.mShootOnSightDelay = tlv.mShootOnSightDelay;
-        r.mData.mNumTimesToShoot = tlv.mNumTimesToShoot;
-        r.mData.mCode1 = tlv.mCode1;
-        r.mData.mCode2 = tlv.mCode2;
-        r.mData.mChaseAbeWhenSpotted = relive::From(tlv.mChaseAbeWhenSpotted);
-        r.mData.mFacing = relive::From(tlv.mFacing);
-        r.mData.mPanicTimeout = tlv.mPanicTimeout;
-        r.mData.mStopChaseDelay = tlv.mStopChaseDelay;
-        r.mData.mTimeToWaitBeforeChase = tlv.mTimeToWaitBeforeChase;
-        r.mData.mSligBoundId = tlv.mSligBoundId;
-        r.mData.mAlertedListenTime = tlv.mAlertedListenTime;
-        r.mData.mPercentSayWhat = tlv.mPercentSayWhat;
-        r.mData.mPercentBeatMud = tlv.mPercentBeatMud;
-        r.mData.mZShootDelay = tlv.mZShootDelay;
-        r.mData.mStayAwake = relive::From(tlv.mStayAwake);
-        r.mData.mDisabledResourcesAE = tlv.mDisabledResources;
-        r.mData.mNoiseWakeUpDistance = tlv.mNoiseWakeUpDistance;
-        r.mData.mSligSpawnerSwitchId = tlv.mSligSpawnerSwitchId;
-        r.mData.mUnlimitedSpawns = relive::From(tlv.mUnlimitedSpawns);
+        r.mScale = relive::From(tlv.mScale);
+        r.mStartState = From(tlv.mStartState);
+        r.mPauseTime = tlv.mPauseTime;
+        r.mPauseLeftMin = tlv.mPauseLeftMin;
+        r.mPauseLeftMax = tlv.mPauseLeftMax;
+        r.mPauseRightMin = tlv.mPauseRightMin;
+        r.mPauseRightMax = tlv.mPauseRightMax;
+        r.mShootPossessedSligs = From(tlv.mShootPossessedSligs);
+        r.mShootOnSightDelay = tlv.mShootOnSightDelay;
+        r.mNumTimesToShoot = tlv.mNumTimesToShoot;
+        r.mCode1 = tlv.mCode1;
+        r.mCode2 = tlv.mCode2;
+        r.mChaseAbeWhenSpotted = relive::From(tlv.mChaseAbeWhenSpotted);
+        r.mFacing = relive::From(tlv.mFacing);
+        r.mPanicTimeout = tlv.mPanicTimeout;
+        r.mStopChaseDelay = tlv.mStopChaseDelay;
+        r.mTimeToWaitBeforeChase = tlv.mTimeToWaitBeforeChase;
+        r.mSligBoundId = tlv.mSligBoundId;
+        r.mAlertedListenTime = tlv.mAlertedListenTime;
+        r.mPercentSayWhat = tlv.mPercentSayWhat;
+        r.mPercentBeatMud = tlv.mPercentBeatMud;
+        r.mZShootDelay = tlv.mZShootDelay;
+        r.mStayAwake = relive::From(tlv.mStayAwake);
+        r.mDisabledResourcesAE = tlv.mDisabledResources;
+        r.mNoiseWakeUpDistance = tlv.mNoiseWakeUpDistance;
+        r.mSligSpawnerSwitchId = tlv.mSligSpawnerSwitchId;
+        r.mUnlimitedSpawns = relive::From(tlv.mUnlimitedSpawns);
 
         // TODO: Add flags/constants for these
         if (tlv.mDisabledResources & 0x80)
         {
             // When dead just shrink in the idle anim - happens in OG when
             // certain resources are turned off. Replicate to avoid de-syncs in playbacks
-            r.mData.mDeathMode = Path_Slig_Data::DeathMode::StandIdle;
+            r.mDeathMode = Path_Slig::DeathMode::StandIdle;
         }
         else
         {
-            r.mData.mDeathMode = Path_Slig_Data::DeathMode::FallForward;
+            r.mDeathMode = Path_Slig::DeathMode::FallForward;
         }
 
         if (tlv.mDisabledResources & 0x400)
         {
-            r.mData.mCanBeat = false;
+            r.mCanBeat = false;
         }
         else
         {
-            r.mData.mCanBeat = true;
+            r.mCanBeat = true;
         }
 
          if (tlv.mDisabledResources & 0x4)
         {
-            r.mData.mCanZShoot = false;
+            r.mCanZShoot = false;
         }
         else
         {
-            r.mData.mCanZShoot = true;
+            r.mCanZShoot = true;
         }
 
         return r;
     }
 
 private:
-    static Path_Slig_Data::StartState From(AO::Path_Slig::StartState startState)
+    static Path_Slig::StartState From(AO::Path_Slig::StartState startState)
     {
         switch (startState)
         {
         case AO::Path_Slig::StartState::Listening_0:
-                return Path_Slig_Data::StartState::Listening;
+            return Path_Slig::StartState::Listening;
         case AO::Path_Slig::StartState::Patrol_1:
-            return Path_Slig_Data::StartState::Patrol;
+            return Path_Slig::StartState::Patrol;
         case AO::Path_Slig::StartState::Sleeping_2:
-            return Path_Slig_Data::StartState::Sleeping;
+            return Path_Slig::StartState::Sleeping;
         case AO::Path_Slig::StartState::Chase_3:
-            return Path_Slig_Data::StartState::Chase;
+            return Path_Slig::StartState::Chase;
         case AO::Path_Slig::StartState::ChaseAndDisappear_4:
-            return Path_Slig_Data::StartState::ChaseAndDisappear;
+            return Path_Slig::StartState::ChaseAndDisappear;
         case AO::Path_Slig::StartState::FallingToChase_5:
-            return Path_Slig_Data::StartState::eFallingToChase;
+            return Path_Slig::StartState::eFallingToChase;
         }
         ALIVE_FATAL("Bad slig start state");
     }
 
-    static Path_Slig_Data::StartState From(::Path_Slig::StartState startState)
+    static Path_Slig::StartState From(::Path_Slig::StartState startState)
     {
         switch (startState)
         {
         case ::Path_Slig::StartState::Listening_0:
-            return Path_Slig_Data::StartState::Listening;
+            return Path_Slig::StartState::Listening;
         case ::Path_Slig::StartState::Patrol_1:
-            return Path_Slig_Data::StartState::Patrol;
+            return Path_Slig::StartState::Patrol;
         case ::Path_Slig::StartState::Sleeping_2:
-            return Path_Slig_Data::StartState::Sleeping;
+            return Path_Slig::StartState::Sleeping;
         case ::Path_Slig::StartState::Chase_3:
-            return Path_Slig_Data::StartState::Chase;
+            return Path_Slig::StartState::Chase;
         case ::Path_Slig::StartState::ChaseAndDisappear_4:
-            return Path_Slig_Data::StartState::ChaseAndDisappear;
+            return Path_Slig::StartState::ChaseAndDisappear;
         case ::Path_Slig::StartState::ListeningToGlukkon_6:
-            return Path_Slig_Data::StartState::ListeningToGlukkon;
+            return Path_Slig::StartState::ListeningToGlukkon;
         }
         ALIVE_FATAL("Bad slig start state");
     }
@@ -4700,61 +4700,61 @@ public:
     {
         Path_SligGetPants r;
         BaseConvert(r, tlv, tlvId);
-        r.mData.mScale = relive::From(tlv.Scale);
-        r.mData.mStartState = Path_Slig_Converter::From(tlv.start_state);
-        r.mData.mPauseTime = tlv.pause_time;
-        r.mData.mPauseLeftMin = tlv.pause_left_min;
-        r.mData.mPauseLeftMax = tlv.pause_left_max;
-        r.mData.mPauseRightMin = tlv.pause_right_min;
-        r.mData.mPauseRightMax = tlv.pause_right_max;
-        r.mData.mShootPossessedSligs = Path_Slig_Converter::From(tlv.shoot_possessed_sligs);
-        r.mData.mShootOnSightDelay = tlv.shoot_on_sight_delay;
-        r.mData.mNumTimesToShoot = tlv.num_times_to_shoot;
-        r.mData.mCode1 = tlv.code1;
-        r.mData.mCode2 = tlv.code2;
-        r.mData.mChaseAbeWhenSpotted = relive::From(tlv.chase_abe_when_spotted);
-        r.mData.mFacing = relive::From(tlv.start_direction);
-        r.mData.mPanicTimeout = tlv.panic_timeout;
-        r.mData.mStopChaseDelay = tlv.stop_chase_delay;
-        r.mData.mTimeToWaitBeforeChase = tlv.time_to_wait_before_chase;
-        r.mData.mSligBoundId = tlv.slig_bound_id;
-        r.mData.mAlertedListenTime = tlv.alerted_listen_time;
-        r.mData.mPercentSayWhat = tlv.percent_say_what;
-        r.mData.mPercentBeatMud = tlv.percent_beat_mud;
-        r.mData.mZShootDelay = tlv.z_shoot_delay;
-        r.mData.mStayAwake = relive::From(tlv.stay_awake);
-        r.mData.mDisabledResourcesAE = tlv.disable_resources;
-        r.mData.mNoiseWakeUpDistance = tlv.noise_wake_up_distance;
-        r.mData.mSligSpawnerSwitchId = tlv.mSligSpawnerSwitchId;
+        r.mScale = relive::From(tlv.Scale);
+        r.mStartState = Path_Slig_Converter::From(tlv.start_state);
+        r.mPauseTime = tlv.pause_time;
+        r.mPauseLeftMin = tlv.pause_left_min;
+        r.mPauseLeftMax = tlv.pause_left_max;
+        r.mPauseRightMin = tlv.pause_right_min;
+        r.mPauseRightMax = tlv.pause_right_max;
+        r.mShootPossessedSligs = Path_Slig_Converter::From(tlv.shoot_possessed_sligs);
+        r.mShootOnSightDelay = tlv.shoot_on_sight_delay;
+        r.mNumTimesToShoot = tlv.num_times_to_shoot;
+        r.mCode1 = tlv.code1;
+        r.mCode2 = tlv.code2;
+        r.mChaseAbeWhenSpotted = relive::From(tlv.chase_abe_when_spotted);
+        r.mFacing = relive::From(tlv.start_direction);
+        r.mPanicTimeout = tlv.panic_timeout;
+        r.mStopChaseDelay = tlv.stop_chase_delay;
+        r.mTimeToWaitBeforeChase = tlv.time_to_wait_before_chase;
+        r.mSligBoundId = tlv.slig_bound_id;
+        r.mAlertedListenTime = tlv.alerted_listen_time;
+        r.mPercentSayWhat = tlv.percent_say_what;
+        r.mPercentBeatMud = tlv.percent_beat_mud;
+        r.mZShootDelay = tlv.z_shoot_delay;
+        r.mStayAwake = relive::From(tlv.stay_awake);
+        r.mDisabledResourcesAE = tlv.disable_resources;
+        r.mNoiseWakeUpDistance = tlv.noise_wake_up_distance;
+        r.mSligSpawnerSwitchId = tlv.mSligSpawnerSwitchId;
 
         // TODO: Add flags/constants for these
         if (tlv.disable_resources & 0x80)
         {
             // When dead just shrink in the idle anim - happens in OG when
             // certain resources are turned off. Replicate to avoid de-syncs in playbacks
-            r.mData.mDeathMode = Path_Slig_Data::DeathMode::StandIdle;
+            r.mDeathMode = Path_Slig::DeathMode::StandIdle;
         }
         else
         {
-            r.mData.mDeathMode = Path_Slig_Data::DeathMode::FallForward;
+            r.mDeathMode = Path_Slig::DeathMode::FallForward;
         }
 
         if (tlv.disable_resources & 0x400)
         {
-            r.mData.mCanBeat = false;
+            r.mCanBeat = false;
         }
         else
         {
-            r.mData.mCanBeat = true;
+            r.mCanBeat = true;
         }
 
         if (tlv.disable_resources & 0x4)
         {
-            r.mData.mCanZShoot = false;
+            r.mCanZShoot = false;
         }
         else
         {
-            r.mData.mCanZShoot = true;
+            r.mCanZShoot = true;
         }
 
         return r;

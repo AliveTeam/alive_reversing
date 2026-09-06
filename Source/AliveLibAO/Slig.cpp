@@ -252,7 +252,7 @@ Slig::Slig(relive::Path_Slig* pTlv, const Guid& tlvId)
 
     GetAnimation().SetFnPtrArray(gSlig_Anim_Frame_Fns);
 
-    if (pTlv->mData.mScale == relive::reliveScale::eFull)
+    if (pTlv->mScale == relive::reliveScale::eFull)
     {
         SetSpriteScale(FP_FromInteger(1));
         GetAnimation().SetRenderLayer(Layer::eLayer_SligGreeterFartsBats_33);
@@ -362,18 +362,18 @@ void Slig::VScreenChanged()
 void Slig::Init()
 {
     mSpottedPossessedSlig = 0;
-    field_114_timer = sGnFrame + field_174_tlv->mData.mPauseTime;
+    field_114_timer = sGnFrame + field_174_tlv->mPauseTime;
 
-    switch (field_174_tlv->mData.mStartState)
+    switch (field_174_tlv->mStartState)
     {
-        case relive::Path_Slig_Data::StartState::Patrol:
+        case relive::Path_Slig::StartState::Patrol:
         {
             SetBrain(&Slig::Brain_Inactive);
             break;
         }
-        case relive::Path_Slig_Data::StartState::Sleeping:
+        case relive::Path_Slig::StartState::Sleeping:
         {
-            if (field_174_tlv->mTlvSpecificMeaning && field_174_tlv->mData.mStayAwake)
+            if (field_174_tlv->mTlvSpecificMeaning && field_174_tlv->mStayAwake)
             {
                 SetBrain(&Slig::Brain_Inactive);
             }
@@ -385,20 +385,20 @@ void Slig::Init()
             }
             break;
         }
-        case relive::Path_Slig_Data::StartState::Chase:
+        case relive::Path_Slig::StartState::Chase:
         {
             SetBrain(&Slig::Brain_StartChasing);
-            field_114_timer = sGnFrame + field_174_tlv->mData.mTimeToWaitBeforeChase;
+            field_114_timer = sGnFrame + field_174_tlv->mTimeToWaitBeforeChase;
             break;
         }
-        case relive::Path_Slig_Data::StartState::ChaseAndDisappear:
+        case relive::Path_Slig::StartState::ChaseAndDisappear:
         {
-            field_114_timer = sGnFrame + field_174_tlv->mData.mPauseTime;
+            field_114_timer = sGnFrame + field_174_tlv->mPauseTime;
             SetBrain(&Slig::Brain_ChaseAndDisappear);
-            mGameEnderPauseTime = field_174_tlv->mData.mPauseTime;
+            mGameEnderPauseTime = field_174_tlv->mPauseTime;
             break;
         }
-        case relive::Path_Slig_Data::StartState::eFallingToChase:
+        case relive::Path_Slig::StartState::eFallingToChase:
         {
             SetBrain(&Slig::Brain_Paused);
             break;
@@ -410,7 +410,7 @@ void Slig::Init()
         }
     }
 
-    if (field_174_tlv->mData.mFacing == relive::reliveXDirection::eLeft)
+    if (field_174_tlv->mFacing == relive::reliveXDirection::eLeft)
     {
         GetAnimation().SetFlipX(true);
     }
@@ -433,7 +433,7 @@ void Slig::Init()
                 bool addPoint = false;
                 if (pTlvIter.GetTlv()->mTlvType == ReliveTypes::eSligBoundLeft)
                 {
-                    if (pTlvIter.GetTlv<relive::Path_SligBoundLeft>()->mSligBoundId == field_174_tlv->mData.mSligBoundId)
+                    if (pTlvIter.GetTlv<relive::Path_SligBoundLeft>()->mSligBoundId == field_174_tlv->mSligBoundId)
                     {
                         field_13C_zone_rect.x = pTlvIter.GetTlv()->mTopLeftX;
                         addPoint = true;
@@ -442,7 +442,7 @@ void Slig::Init()
                 }
                 else if (pTlvIter.GetTlv()->mTlvType == ReliveTypes::eSligBoundRight)
                 {
-                    if (pTlvIter.GetTlv<relive::Path_SligBoundRight>()->mSligBoundId == field_174_tlv->mData.mSligBoundId)
+                    if (pTlvIter.GetTlv<relive::Path_SligBoundRight>()->mSligBoundId == field_174_tlv->mSligBoundId)
                     {
                         field_13C_zone_rect.w = pTlvIter.GetTlv()->mTopLeftX;
                         addPoint = true;
@@ -451,7 +451,7 @@ void Slig::Init()
                 }
                 else if (pTlvIter.GetTlv()->mTlvType == ReliveTypes::eSligPersist)
                 {
-                    if (pTlvIter.GetTlv<relive::Path_SligPersist>()->mSligBoundId == field_174_tlv->mData.mSligBoundId)
+                    if (pTlvIter.GetTlv<relive::Path_SligPersist>()->mSligBoundId == field_174_tlv->mSligBoundId)
                     {
                         addPoint = true;
                     }
@@ -1019,7 +1019,7 @@ void Slig::ToShoot()
 void Slig::ToZShoot()
 {
     mNextMotion = eSligMotions::Motion_0_StandIdle;
-    field_114_timer = sGnFrame + field_174_tlv->mData.mZShootDelay;
+    field_114_timer = sGnFrame + field_174_tlv->mZShootDelay;
     SetBrain(&Slig::Brain_ZSpottedEnemy);
     MusicController::static_PlayMusic(MusicController::MusicTypes::eSlogChase_5, this, 0, 0);
 }
@@ -1115,18 +1115,18 @@ void Slig::PauseALittle()
 {
     if (GetAnimation().GetFlipX())
     {
-        field_114_timer = sGnFrame + field_174_tlv->mData.mPauseLeftMin;
-        if (field_174_tlv->mData.mPauseLeftMax > field_174_tlv->mData.mPauseLeftMin)
+        field_114_timer = sGnFrame + field_174_tlv->mPauseLeftMin;
+        if (field_174_tlv->mPauseLeftMax > field_174_tlv->mPauseLeftMin)
         {
-            field_114_timer += Math_NextRandom() % (field_174_tlv->mData.mPauseLeftMax - field_174_tlv->mData.mPauseLeftMin);
+            field_114_timer += Math_NextRandom() % (field_174_tlv->mPauseLeftMax - field_174_tlv->mPauseLeftMin);
         }
     }
     else
     {
-        field_114_timer = sGnFrame + field_174_tlv->mData.mPauseRightMin;
-        if (field_174_tlv->mData.mPauseRightMax > field_174_tlv->mData.mPauseRightMin)
+        field_114_timer = sGnFrame + field_174_tlv->mPauseRightMin;
+        if (field_174_tlv->mPauseRightMax > field_174_tlv->mPauseRightMin)
         {
-            field_114_timer += Math_NextRandom() % (field_174_tlv->mData.mPauseRightMax - field_174_tlv->mData.mPauseRightMin);
+            field_114_timer += Math_NextRandom() % (field_174_tlv->mPauseRightMax - field_174_tlv->mPauseRightMin);
         }
     }
 
@@ -1156,7 +1156,7 @@ void Slig::ToPanic()
 
 void Slig::ToChase()
 {
-    field_114_timer = sGnFrame + field_174_tlv->mData.mTimeToWaitBeforeChase;
+    field_114_timer = sGnFrame + field_174_tlv->mTimeToWaitBeforeChase;
 
     if (!VIsFacingMe(sControlledCharacter))
     {
@@ -1287,14 +1287,14 @@ s16 Slig::HandleEnemyStopper(s32 gridBlocks)
 
 void Slig::RespondToEnemyOrPatrol()
 {
-    if (field_174_tlv->mData.mShootOnSightDelay)
+    if (field_174_tlv->mShootOnSightDelay)
     {
         if (sControlledCharacter->Type() != ReliveTypes::eSlig
-            || field_174_tlv->mData.mShootPossessedSligs != false)
+            || field_174_tlv->mShootPossessedSligs != false)
         {
             SetBrain(&Slig::Brain_SpottedEnemy);
             mNextMotion = eSligMotions::Motion_31_SpeakAIFreeze;
-            field_114_timer = field_174_tlv->mData.mShootOnSightDelay + sGnFrame;
+            field_114_timer = field_174_tlv->mShootOnSightDelay + sGnFrame;
         }
         else
         {
@@ -3572,7 +3572,7 @@ void Slig::Motion_43_ShootZ()
             mYPos - FP_FromInteger(12),
             FP_FromInteger(640),
             GetSpriteScale(),
-            field_174_tlv->mData.mNumTimesToShoot - mShootCount - 1);
+            field_174_tlv->mNumTimesToShoot - mShootCount - 1);
 
         New_ShootingZFire_Particle(
             mXPos,
@@ -3780,7 +3780,7 @@ s16 Slig::Brain_SpottedEnemy()
             mXPos,
             mYPos,
             0)
-        || !field_174_tlv->mData.mChaseAbeWhenSpotted)
+        || !field_174_tlv->mChaseAbeWhenSpotted)
     {
         if (VOnSameYLevel(sControlledCharacter)
             && VIsObj_GettingNear_On_X(sControlledCharacter)
@@ -4089,7 +4089,7 @@ s16 Slig::Brain_Sleeping()
         if (pEvent->GetSpriteScale() == GetSpriteScale())
         {
             const auto kScaleGrid = ScaleToGridSize(GetSpriteScale());
-            const auto wake_up_dist_scaled = kScaleGrid * FP_FromInteger(field_174_tlv->mData.mNoiseWakeUpDistance);
+            const auto wake_up_dist_scaled = kScaleGrid * FP_FromInteger(field_174_tlv->mNoiseWakeUpDistance);
             if (VIsObjNearby(wake_up_dist_scaled, pEvent) && field_114_timer <= static_cast<s32>(sGnFrame) && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && !EventGet(Event::kEventResetting))
             {
                 WakeUp();
@@ -4523,7 +4523,7 @@ s16 Slig::Brain_PanicYelling()
         EventBroadcast(Event::kEventAlarm, this);
 
         const bool bFlipX = GetAnimation().GetFlipX();
-        field_114_timer = sGnFrame + field_174_tlv->mData.mPanicTimeout;
+        field_114_timer = sGnFrame + field_174_tlv->mPanicTimeout;
         if ((!bFlipX
              || mXPos >= FP_FromInteger((field_13C_zone_rect.x + field_13C_zone_rect.w)
                                                 / 2))
@@ -4593,7 +4593,7 @@ s16 Slig::Brain_Chasing()
                  0))
     {
         SetBrain(&Slig::Brain_StopChasing);
-        field_114_timer = sGnFrame + field_174_tlv->mData.mStopChaseDelay;
+        field_114_timer = sGnFrame + field_174_tlv->mStopChaseDelay;
     }
     return 118;
 }
@@ -4648,7 +4648,7 @@ s16 Slig::Brain_StartChasing()
         field_20C_force_alive_state = 1;
         mNextMotion = eSligMotions::Motion_4_Running;
         SetBrain(&Slig::Brain_Chasing);
-        field_114_timer = field_174_tlv->mData.mPauseTime;
+        field_114_timer = field_174_tlv->mPauseTime;
     }
     return 122;
 }
@@ -4739,7 +4739,7 @@ s16 Slig::Brain_Idle()
             mNextMotion = eSligMotions::Motion_0_StandIdle;
             field_258_next_gamespeak_motion = eSligMotions::Motion_30_SpeakWhat;
             SetBrain(&Slig::Brain_GetAlerted);
-            field_114_timer = static_cast<s32>(sGnFrame) + field_174_tlv->mData.mAlertedListenTime;
+            field_114_timer = static_cast<s32>(sGnFrame) + field_174_tlv->mAlertedListenTime;
             return 104;
         }
         GameSpeakResponse();
@@ -4897,7 +4897,7 @@ s16 Slig::Brain_Walking()
                 mNextMotion = eSligMotions::Motion_0_StandIdle;
                 field_258_next_gamespeak_motion = eSligMotions::Motion_30_SpeakWhat;
                 SetBrain(&Slig::Brain_GetAlerted);
-                field_114_timer = static_cast<s32>(sGnFrame) + field_174_tlv->mData.mAlertedListenTime;
+                field_114_timer = static_cast<s32>(sGnFrame) + field_174_tlv->mAlertedListenTime;
                 return 108;
             }
         }
@@ -4934,7 +4934,7 @@ s16 Slig::Brain_Walking()
              || IsInZCover(this)
              || EventGet(Event::kEventResetting))
     {
-        if (Math_NextRandom() < field_174_tlv->mData.mPercentBeatMud
+        if (Math_NextRandom() < field_174_tlv->mPercentBeatMud
             && FindBeatTarget(2))
         {
             mNextMotion = eSligMotions::Motion_0_StandIdle;
@@ -4964,7 +4964,7 @@ s16 Slig::Brain_GetAlertedTurn()
             mNextMotion = eSligMotions::Motion_0_StandIdle;
             field_258_next_gamespeak_motion = eSligMotions::Motion_30_SpeakWhat;
             SetBrain(&Slig::Brain_GetAlerted);
-            field_114_timer = sGnFrame + field_174_tlv->mData.mAlertedListenTime;
+            field_114_timer = sGnFrame + field_174_tlv->mAlertedListenTime;
         }
         else
         {
@@ -5026,7 +5026,7 @@ s16 Slig::Brain_GetAlertedTurn()
 
 s16 Slig::Brain_GetAlerted()
 {
-    if (field_114_timer == field_174_tlv->mData.mAlertedListenTime + static_cast<s32>(sGnFrame) - 2 && Math_RandomRange(0, 100) < field_174_tlv->mData.mPercentSayWhat)
+    if (field_114_timer == field_174_tlv->mAlertedListenTime + static_cast<s32>(sGnFrame) - 2 && Math_RandomRange(0, 100) < field_174_tlv->mPercentSayWhat)
     {
         mNextMotion = eSligMotions::Motion_30_SpeakWhat;
     }
@@ -5258,7 +5258,7 @@ s16 Slig::Brain_Shooting()
     {
         mShootCount++;
 
-        if (mShootCount < field_174_tlv->mData.mNumTimesToShoot
+        if (mShootCount < field_174_tlv->mNumTimesToShoot
             || gAbe->mCurrentMotion == eAbeMotions::Motion_137_ElumUnmountBegin
             || gAbe->mCurrentMotion == eAbeMotions::Motion_139_ElumMountBegin
             || gAbe->mCurrentMotion == eAbeMotions::Motion_138_ElumUnmountEnd
@@ -5314,7 +5314,7 @@ s16 Slig::Brain_Shooting()
                 mXPos,
                 mYPos,
                 0)
-            && field_174_tlv->mData.mChaseAbeWhenSpotted)
+            && field_174_tlv->mChaseAbeWhenSpotted)
         {
             ToChase();
             return 111;
@@ -5347,7 +5347,7 @@ s16 Slig::Brain_ZShooting()
 
     mShootCount++;
 
-    if (mShootCount < field_174_tlv->mData.mNumTimesToShoot)
+    if (mShootCount < field_174_tlv->mNumTimesToShoot)
     {
         return 127;
     }

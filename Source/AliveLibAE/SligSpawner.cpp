@@ -24,9 +24,9 @@ SligSpawner::SligSpawner(relive::Path_Slig* pTlv, const Guid& tlvId)
     mTlvInfo = tlvId;
     mPathTlv = *pTlv;
 
-    mSligSpawnerSwitchId = pTlv->mData.mSligSpawnerSwitchId;
+    mSligSpawnerSwitchId = pTlv->mSligSpawnerSwitchId;
 
-    mUnlimitedSpawns = pTlv->mData.mUnlimitedSpawns;
+    mUnlimitedSpawns = pTlv->mUnlimitedSpawns;
 
     mState = SpawnerStates::eInactive_0;
     mSpawnedSligId = Guid{};
