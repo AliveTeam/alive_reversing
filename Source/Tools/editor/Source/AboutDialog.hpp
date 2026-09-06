@@ -1,7 +1,6 @@
 #pragma once
 
 #include <QDialog>
-#include "ModThread.hpp"
 
 namespace Ui
 {
@@ -21,6 +20,6 @@ private slots:
     void DoText();
 private:
     Ui::AboutDialog *ui;
-    ModThread* mThread = nullptr;
     std::string mScrollText;
+    class QMediaPlayer* mPlayer = nullptr;
 };

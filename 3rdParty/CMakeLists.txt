@@ -176,10 +176,3 @@ set_property(TARGET spng_dynamic_crt PROPERTY FOLDER "3rdParty")
 add_library(shelf-pack-cpp INTERFACE)
 target_include_directories(shelf-pack-cpp SYSTEM INTERFACE shelf-pack-cpp/include)
 export(TARGETS shelf-pack-cpp FILE shelf-pack-cpp.cmake)
-
-# Used only by the editor
-add_subdirectory(libmodplug)
-set_property(TARGET modplug PROPERTY FOLDER "3rdParty")
-if (MSVC)
-    target_compile_options(modplug PRIVATE /MDd)
-endif()

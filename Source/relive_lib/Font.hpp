@@ -1,15 +1,11 @@
 #pragma once
 
-#include "../relive_lib/FixedPoint.hpp"
+#include "Math.hpp"
 #include "../relive_lib/Primitives.hpp"
 #include "../relive_lib/ResourceManagerWrapper.hpp"
-#include "../AliveLibAE/Font.hpp"
+#include "Layer.hpp"
 
-struct BasePrimitive;
-class FontContext;
-
-namespace AO {
-
+class OrderingTable;
 
 struct File_Font final
 {
@@ -32,11 +28,21 @@ struct Font_AtlasEntry final
     std::string mCharName;
 };
 
+class FontContext final
+{
+public:
+    const Font_AtlasEntry* mAtlasArray = nullptr;
+    FontResource mFntResource;
+
+    void LoadFontType(FontType resourceID);
+
+};
+
+
 class AliveFont final
 {
 public:
     AliveFont();
-    AliveFont(s32 maxCharLength, const PalResource& pal, FontContext* fontContext);
     void Load(s32 maxCharLength, const PalResource& pal, FontContext* fontContext);
     ~AliveFont();
 	
@@ -44,7 +50,7 @@ public:
     s32 MeasureCharacterWidth(char_type character);
     s32 MeasureScaledTextWidth(const char_type* text, FP scale);
 
-    s32 DrawString(OrderingTable& ot, const char_type* text, s32 x, s16 y, relive::TBlendModes blendMode, s32 bSemiTrans, bool disableBlending, Layer layer, u8 r, u8 g, u8 b, s32 polyOffset, FP scale, s32 maxRenderWidth, s16 colorRandomRange);
+    s32 DrawString(OrderingTable& ot, const char_type* text, s32 x, s16 y, relive::TBlendModes blendMode, s32 bSemiTrans, s32 disableBlending, Layer layer, u8 r, u8 g, u8 b, s32 polyOffset, FP scale, s32 maxRenderWidth, s16 colorRandomRange);
 
     const char_type* SliceText(const char_type* text, s32 left, FP scale, s32 right);
 
@@ -52,9 +58,8 @@ public:
     Poly_FT4* mFntPolyArray = nullptr;
     s32 mPolyCount = 0;
     FontContext* mFontContext = nullptr;
+    bool mLoaded = false;
 };
-
-} // namespace AO
 
 extern bool gDisableFontFlicker;
 extern bool gFontDrawScreenSpace;

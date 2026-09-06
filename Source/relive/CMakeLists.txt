@@ -1,7 +1,7 @@
 if(UNIX)
-  SET(BINPATH "bin")
+  SET(INSTAL_BINPATH "bin")
 elseif(WIN32)
-  SET(BINPATH ".")
+  SET(INSTAL_BINPATH ".")
 endif()
 
 add_executable(relive MACOSX_BUNDLE WIN32
@@ -20,7 +20,13 @@ target_compile_features(relive
 target_compile_definitions(relive PRIVATE "_CRT_SECURE_NO_WARNINGS")
 target_link_libraries(relive relive_lib relive_ipc project_warnings SDL3::SDL3)
 export(TARGETS relive FILE relive.cmake)
-install(TARGETS relive DESTINATION "${BINPATH}" BUNDLE DESTINATION . RUNTIME DESTINATION .)
+
+if (UNIX)
+SET(INSTAL_BINPATH "${CMAKE_BINARY_DIR}/CommonAppDir")
+install(TARGETS relive DESTINATION "${INSTAL_BINPATH}/Relive/usr/bin")
+else()
+install(TARGETS relive DESTINATION "${INSTAL_BINPATH}" BUNDLE DESTINATION . RUNTIME DESTINATION .)
+endif()
 
 if (MSVC)
     target_compile_options(relive PRIVATE /W4 /wd4996 /WX /MP)

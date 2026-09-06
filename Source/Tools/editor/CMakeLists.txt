@@ -125,8 +125,6 @@ set(PROJECT_SOURCES
         Source/FireWidget.hpp
         Source/AboutDialog.cpp
         Source/AboutDialog.hpp
-        Source/ModThread.cpp
-        Source/ModThread.hpp
         Source/Model.cpp
         Source/Model.hpp
         Source/ResizeableArrowItem.cpp
@@ -159,23 +157,26 @@ set(PROJECT_SOURCES
 
 #if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
 #    qt_create_translation(QM_FILES "${CMAKE_CURRENT_SOURCE_DIR}/Source" ${TS_FILES} OPTIONS -no-obsolete -no-ui-lines -locations none)
-#    qt_add_executable(qt-editor ${PROJECT_SOURCES} ${QM_FILES})
+#    qt_add_executable(relive-editor ${PROJECT_SOURCES} ${QM_FILES})
 #else()
     qt5_create_translation(QM_FILES "${CMAKE_CURRENT_SOURCE_DIR}/Source" ${TS_FILES} OPTIONS -no-obsolete -no-ui-lines -locations none)
-    if(ANDROID)
-        add_library(qt-editor SHARED ${PROJECT_SOURCES} ${QM_FILES})
-    elseif(WIN32)
-        set(APP_ICON_RESOURCE_WINDOWS "${CMAKE_CURRENT_SOURCE_DIR}/Source/rsc/icons/qt-editor.rc")
-        add_executable(qt-editor ${PROJECT_SOURCES} ${QM_FILES} ${APP_ICON_RESOURCE_WINDOWS})
+    if(WIN32)
+        set(APP_ICON_RESOURCE_WINDOWS "${CMAKE_CURRENT_SOURCE_DIR}/Source/rsc/icons/relive-editor.rc")
+        add_executable(relive-editor ${PROJECT_SOURCES} ${QM_FILES} ${APP_ICON_RESOURCE_WINDOWS})
     else()
-        add_executable(qt-editor ${PROJECT_SOURCES} ${QM_FILES})
+        add_executable(relive-editor ${PROJECT_SOURCES} ${QM_FILES})
     endif()
 #endif()
 
-if (MSVC)
-    target_compile_options(qt-editor PRIVATE /MDd)
-    set(MY_PATH "PATH=%PATH%;${Qt5_DIR}/../../../bin")
-    set_target_properties(qt-editor PROPERTIES VS_DEBUGGER_ENVIRONMENT "${MY_PATH}")
+if (UNIX)
+    SET(INSTAL_BINPATH "${CMAKE_BINARY_DIR}/CommonAppDir")
+    install(TARGETS relive-editor DESTINATION "${INSTAL_BINPATH}/ReliveEditor/usr/bin")
 endif()
 
-target_link_libraries(qt-editor PUBLIC relive_api Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::Multimedia modplug editor_glue_dynamic_crt relive_ipc_dynamic_crt)
+if (MSVC)
+    target_compile_options(relive-editor PRIVATE /MDd)
+    set(MY_PATH "PATH=%PATH%;${Qt5_DIR}/../../../bin")
+    set_target_properties(relive-editor PROPERTIES VS_DEBUGGER_ENVIRONMENT "${MY_PATH}")
+endif()
+
+target_link_libraries(relive-editor PUBLIC relive_api Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::Multimedia editor_glue_dynamic_crt relive_ipc_dynamic_crt)

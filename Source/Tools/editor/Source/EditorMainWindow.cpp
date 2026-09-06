@@ -94,10 +94,10 @@ EditorMainWindow::EditorMainWindow(QWidget* aParent)
     QPixmapCache::setCacheLimit(1024 * 50);
 
     QStringList files;
-    files.append("C:/GitHub/qt-editor/build/Debug/level/OutputAE_ba.lvl_4.json");
-    files.append("C:/GitHub/qt-editor/build/Debug/level/OutputAO_f1.lvl_2.json");
-    files.append("C:\\Users\\paul\\Documents\\qt-editor\\OutputAE_mi.lvl_4.json");
-    files.append("C:\\Users\\paul\\Documents\\qt-editor\\OutputAO_r2.lvl_4.json");
+    files.append("C:/GitHub/relive-editor/build/Debug/level/OutputAE_ba.lvl_4.json");
+    files.append("C:/GitHub/relive-editor/build/Debug/level/OutputAO_f1.lvl_2.json");
+    files.append("C:\\Users\\paul\\Documents\\relive-editor\\OutputAE_mi.lvl_4.json");
+    files.append("C:\\Users\\paul\\Documents\\relive-editor\\OutputAO_r2.lvl_4.json");
 
     for (const auto& file : files)
     {

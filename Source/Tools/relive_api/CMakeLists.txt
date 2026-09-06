@@ -1,7 +1,7 @@
 if(UNIX)
-  SET(BINPATH "bin")
+  SET(INSTAL_BINPATH "bin")
 elseif(WIN32)
-  SET(BINPATH ".")
+  SET(INSTAL_BINPATH ".")
 endif()
 
 set(CMAKE_CXX_STANDARD 17)

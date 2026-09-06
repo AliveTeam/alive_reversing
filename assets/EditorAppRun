@@ -1,0 +1,17 @@
+#!/bin/sh
+
+WORKDIR="$(dirname "$(readlink -f "$APPIMAGE")")"
+HERE="$(dirname "$(readlink -f "$0")")"
+
+# cd into the game data directory
+cd "$WORKDIR" || exit 1
+
+export LD_LIBRARY_PATH="$HERE/usr/lib:${LD_LIBRARY_PATH:-}"
+export QT_PLUGIN_PATH="$HERE/usr/lib/qt/plugins"
+export QML2_IMPORT_PATH="$HERE/usr/lib/qt/qml"
+
+export GST_PLUGIN_PATH="$HERE/usr/lib/gstreamer-1.0"
+export GST_PLUGIN_SYSTEM_PATH="$HERE/usr/lib/gstreamer-1.0"
+
+# $@ will forward AppImage args to the binary
+exec "$HERE/usr/bin/relive-editor" "$@"

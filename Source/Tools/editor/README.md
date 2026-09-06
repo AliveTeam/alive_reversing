@@ -1,4 +1,4 @@
-# qt-editor
+# relive-editor
 
 What is this?
 

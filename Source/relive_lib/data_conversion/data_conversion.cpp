@@ -3,7 +3,7 @@
 #include "file_system.hpp"
 #include "../../AliveLibAO/PathData.hpp"
 #include "../../AliveLibAO/Path.hpp"
-#include "../../AliveLibAE/Font.hpp"
+#include "../../relive_lib/Font.hpp"
 #include "../AnimResources.hpp"
 #include "../Animation.hpp"
 #include "../MapWrapper.hpp"
@@ -35,6 +35,45 @@
 #include "../../AliveLibAO/DemoPlayback.hpp"
 #include "AOSaveSerialization.hpp"
 #include "string_util.hpp"
+
+// levels that have a different level id but are part of the same .lvl file
+static bool IsCombinedEnderLevel(::LevelIds levelId)
+{
+    return levelId == ::LevelIds::eMudancheeVault_Ender_7 ||
+           levelId == ::LevelIds::eMudomoVault_Ender_11 ||
+           levelId == ::LevelIds::eBarracks_Ender_13 ||
+           levelId == ::LevelIds::eBonewerkz_Ender_14 ||
+           levelId == ::LevelIds::eFeeCoDepot_Ender_12;
+}
+
+// couldn't come up with a better name but the idea is that we take a non ender level id
+// and convert it to the ender id if it's an ender path id.
+// this is needed during sound conversion so we can obtain the correct sound file for the current path.
+static EReliveLevelIds GetLevelIdFromPathId(EReliveLevelIds levelId, u32 pathId)
+{
+    if (levelId == EReliveLevelIds::eMudomoVault && pathId == 13)
+    {
+        return EReliveLevelIds::eMudomoVault_Ender;
+    }
+    else if (levelId == EReliveLevelIds::eMudancheeVault && (pathId == 9 || pathId == 10 || pathId == 11 || pathId == 14))
+    {
+        return EReliveLevelIds::eMudancheeVault_Ender;
+    }
+    else if (levelId == EReliveLevelIds::eFeeCoDepot && pathId == 11)
+    {
+        return EReliveLevelIds::eFeeCoDepot_Ender;
+    }
+    else if (levelId == EReliveLevelIds::eBarracks && (pathId == 11 || pathId == 16))
+    {
+        return EReliveLevelIds::eBarracks_Ender;
+    }
+    else if (levelId == EReliveLevelIds::eBonewerkz && (pathId == 14 || pathId == 9 || pathId == 12))
+    {
+        return EReliveLevelIds::eBonewerkz_Ender;
+    }
+
+    return levelId;
+}
 
 static bool ReadLvlFileInto(ReliveAPI::LvlReader& archive, const char_type* fileName, std::vector<u8>& fileBuffer)
 {
@@ -360,13 +399,14 @@ static void ConvertPath(FileSystem& fs, const FileSystem::Path& path, const Reli
     }
     else
     {
-        const SoundBlockInfo* pSoundBlock = Path_Get_MusicInfo(reliveLvl);
+        EReliveLevelIds soundLevel = GetLevelIdFromPathId(reliveLvl, pathBndChunk.Id());
+        const SoundBlockInfo* pSoundBlock = Path_Get_MusicInfo(soundLevel);
 
         // TODO: Convert to AO format instead of using sounds.dat for now (in the vh/vb/bsq copy)
         soundInfo.mVhFile = pSoundBlock->field_0_vab_header_name;
         soundInfo.mVbFile = pSoundBlock->field_4_vab_body_name;
 
-        soundInfo.mSeqFiles = ConvertBSQ(seqsDir, Path_Get_BsqFileName(reliveLvl), lvlReader, isAo);
+        soundInfo.mSeqFiles = ConvertBSQ(seqsDir, Path_Get_BsqFileName(soundLevel), lvlReader, isAo);
 
         // TODO
         //Path_Get_BackGroundMusicId(reliveLvl);
@@ -626,30 +666,31 @@ static void ConvertPathBND(const FileSystem::Path& dataDir, const std::string& f
     {
         const ReliveAPI::LvlFileChunk& pathBndChunk = pathBndFile.ChunkAt(i);
         
-        if (pathBndChunk.Header().mResourceType == ResourceManagerWrapper::ResourceType::Resource_Pxtd)
+        if (pathBndChunk.Header().mResourceType != ResourceManagerWrapper::ResourceType::Resource_Pxtd)
         {
-            auto dataCopy = pathBndChunk.Data();
-            auto pExt = reinterpret_cast<PerPathExtension*>(dataCopy.data());
-            if (pExt->mSize != sizeof(PerPathExtension))
-            {
-                LOG_INFO("%s expected size %d but got %d", pExt->mBlyName, sizeof(PerPathExtension), pExt->mSize);
-            }
-            else
-            {
-                pathsWithExt.push_back(*pExt);
-
-                auto pChunkData = reinterpret_cast<u8*>(pExt);
-                pChunkData += sizeof(PerPathExtension);
-
-                // TODO: do something with the strings
-                auto pLCDScreenMsgs = reinterpret_cast<StringTable*>(pChunkData);
-                pChunkData = StringTable::MakeTable(pLCDScreenMsgs);
-
-                // Will be empty for AE
-                auto pHintFlyMsgs = reinterpret_cast<StringTable*>(pChunkData);
-                pChunkData = StringTable::MakeTable(pHintFlyMsgs);
-            }
+            continue;
         }
+
+        auto dataCopy = pathBndChunk.Data();
+        auto pExt = reinterpret_cast<PerPathExtension*>(dataCopy.data());
+        if (pExt->mSize != sizeof(PerPathExtension))
+        {
+            LOG_INFO("%s expected size %d but got %d", pExt->mBlyName, sizeof(PerPathExtension), pExt->mSize);
+            continue;
+        }
+
+        pathsWithExt.push_back(*pExt);
+
+        auto pChunkData = reinterpret_cast<u8*>(pExt);
+        pChunkData += sizeof(PerPathExtension);
+
+        // TODO: do something with the strings
+        auto pLCDScreenMsgs = reinterpret_cast<StringTable*>(pChunkData);
+        pChunkData = StringTable::MakeTable(pLCDScreenMsgs);
+
+        // Will be empty for AE
+        auto pHintFlyMsgs = reinterpret_cast<StringTable*>(pChunkData);
+        pChunkData = StringTable::MakeTable(pHintFlyMsgs);
     }
 
     for (u32 j = 0; j < pathBndFile.ChunkCount(); j++)
@@ -657,19 +698,21 @@ static void ConvertPathBND(const FileSystem::Path& dataDir, const std::string& f
         const ReliveAPI::LvlFileChunk& pathBndChunk = pathBndFile.ChunkAt(j);
         PerPathExtension* pPathExt = nullptr;
 
-        if (pathBndChunk.Header().mResourceType == ResourceManagerWrapper::Resource_Path)
+        if (pathBndChunk.Header().mResourceType != ResourceManagerWrapper::Resource_Path)
         {
-            for (PerPathExtension& extPath : pathsWithExt)
-            {
-                if (pathBndChunk.Id() == extPath.mPathId)
-                {
-                    pPathExt = &extPath;
-                    break;
-                }
-            }
-
-            ConvertPath<TlvType, LevelIdType>(fs, dataDir, pathBndChunk, reliveLvl, lvlIdxAsLvl, lvlReader, fileBuffer, isAo, pPathExt);
+            continue;
         }
+
+        for (PerPathExtension& extPath : pathsWithExt)
+        {
+            if (pathBndChunk.Id() == extPath.mPathId)
+            {
+                pPathExt = &extPath;
+                break;
+            }
+        }
+
+        ConvertPath<TlvType, LevelIdType>(fs, dataDir, pathBndChunk, reliveLvl, lvlIdxAsLvl, lvlReader, fileBuffer, isAo, pPathExt);
     }
 
     SaveLevelInfoJson(dataDir, reliveLvl, lvlIdxAsLvl, fs, pathBndFile, isAo);
@@ -1018,7 +1061,7 @@ static void IterateAELvls(FnOnLvl fnOnLvl)
     {
         // Skip entries that have no data
         const ::LevelIds lvlIdxAsLvl = static_cast<::LevelIds>(lvlIdx);
-        if (lvlIdxAsLvl == ::LevelIds::eTestLevel_15)
+        if (lvlIdxAsLvl == ::LevelIds::eTestLevel_15 || IsCombinedEnderLevel(lvlIdxAsLvl))
         {
             continue;
         }

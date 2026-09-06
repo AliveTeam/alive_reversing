@@ -1,8 +1,6 @@
 project(relive_lib VERSION 0.1 LANGUAGES CXX)
 
 SET(AliveLibSrcAO
-   ../AliveLibAO/Font.hpp
-   ../AliveLibAO/Font.cpp
    ../AliveLibAO/Midi.hpp
    ../AliveLibAO/Midi.cpp
    ../AliveLibAO/Math.hpp
@@ -207,10 +205,6 @@ SET(AliveLibAESrc
     ../AliveLibAE/PathData.hpp
     ../AliveLibAE/Io.cpp
     ../AliveLibAE/Io.hpp
-    ../AliveLibAE/Resources.hpp
-    ../AliveLibAE/Resources.cpp
-    ../AliveLibAE/Font.hpp
-    ../AliveLibAE/Font.cpp
     ../AliveLibAE/StringFormatters.hpp
     ../AliveLibAE/StringFormatters.cpp
     ../AliveLibAE/Abe.hpp
@@ -702,6 +696,10 @@ SET(relive_lib_src
     Grid.cpp
     Factory.hpp
     Factory.cpp
+    FontResources.hpp
+    FontResources.cpp
+    Font.hpp
+    Font.cpp
 )
 add_library(relive_lib ${relive_lib_src})
 

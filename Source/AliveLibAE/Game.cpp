@@ -382,7 +382,6 @@ void Game_Run(EReliveLevelIds startLevel, s32 startPath, s32 startCamera)
 
     SYS_EventsPump();
 
-    gPsxDisplay.Init();
     Input_Pads_Reset_4FA960(); // starts card/pads on psx ver
     Input_EnableInput_4EDDD0();
 

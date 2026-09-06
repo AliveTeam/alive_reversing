@@ -63,29 +63,24 @@ inline const char* ToString(::LevelIds lvlId)
         case ::LevelIds::eNecrum_2:
             return "necrum";
         case ::LevelIds::eMudomoVault_3:
+        case ::LevelIds::eMudomoVault_Ender_11:
             return "mudomo_vault";
         case ::LevelIds::eMudancheeVault_4:
+        case ::LevelIds::eMudancheeVault_Ender_7:
             return "mudanchee_vault";
         case ::LevelIds::eFeeCoDepot_5:
+        case ::LevelIds::eFeeCoDepot_Ender_12:
             return "feeco_depot";
         case ::LevelIds::eBarracks_6:
+        case ::LevelIds::eBarracks_Ender_13:
             return "barracks";
-        case ::LevelIds::eMudancheeVault_Ender_7:
-            return "mudanchee_vault_ender";
         case ::LevelIds::eBonewerkz_8:
+        case ::LevelIds::eBonewerkz_Ender_14:
             return "bonewerkz";
         case ::LevelIds::eBrewery_9:
             return "brewery";
         case ::LevelIds::eBrewery_Ender_10:
             return "brewery_ender";
-        case ::LevelIds::eMudomoVault_Ender_11:
-            return "mudomo_vault_ender";
-        case ::LevelIds::eFeeCoDepot_Ender_12:
-            return "feeco_depot_ender";
-        case ::LevelIds::eBarracks_Ender_13:
-            return "barracks_ender";
-        case ::LevelIds::eBonewerkz_Ender_14:
-            return "bonewerkz_ender";
         case ::LevelIds::eTestLevel_15:
             return "test_level";
         case ::LevelIds::eCredits_16:
@@ -108,10 +103,10 @@ public:
     private:
         // Bump this if any data format breaks are made so that OG/mod data is re-converted/upgraded
         static constexpr u32 kFmvVersion = 1;
-        static constexpr u32 kPathVersion = 13;
+        static constexpr u32 kPathVersion = 14;
         static constexpr u32 kPaletteVersion = 1;
         static constexpr u32 kAnimationVersion = 4;
-        static constexpr u32 kCameraVersion = 6;
+        static constexpr u32 kCameraVersion = 7;
         static constexpr u32 kSaveFileVersion = 3;
         static constexpr u32 kFontFileVersion = 1;
         static constexpr u32 kDemoFileVersion = 1;
@@ -147,7 +142,8 @@ public:
 
         bool ConvertFmvs() const
         {
-            return mFmvVersion != kFmvVersion;
+            //return mFmvVersion != kFmvVersion;
+            return false;
         }
 
         bool ConvertPaths() const

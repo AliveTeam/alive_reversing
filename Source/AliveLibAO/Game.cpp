@@ -276,7 +276,6 @@ void Game_Run(EReliveLevelIds startLevel, s32 startPath, s32 startCamera)
 
     SYS_EventsPump();
 
-    gPsxDisplay.Init();
     Input().InitPad(1);
 
     gBaseGameObjects = relive_new DynamicArrayT<BaseGameObject>(90);

@@ -1,7 +1,7 @@
 
 # TODO:
 # - relive macOS artifacts
-# - qt-editor artifacts
+# - relive-editor artifacts
 # - actually set BUILD_NUMBER
 
 name: CI
@@ -108,7 +108,7 @@ jobs:
         cd build
         cmake .. -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=$CONFIGURATION -DCI_PROVIDER="GitHub" -DBUILD_NUMBER=$GITHUB_RUN_NUMBER -DCMAKE_POLICY_VERSION_MINIMUM=3.5
         make -j$(nproc)
-        cpack -G DEB
+        cmake --build . --target appimage
 
     # ======================================
     #      macOS
@@ -159,12 +159,12 @@ jobs:
         name: ${{ matrix.name }}-${{ env.CONFIGURATION }}-relive-symbols
         path: build\Source\relive\${{ env.CONFIGURATION }}\relive.pdb
 
-    - name: 'Linux: Upload relive deb'
+    - name: 'Linux: Upload relive AppImage'
       if: matrix.name == 'Linux'
       uses: actions/upload-artifact@v4
       with:
-        name: ${{ matrix.name }}-${{ env.CONFIGURATION }}-relive.deb
-        path: build/relive-0.1-Linux.deb
+        name: ${{ matrix.name }}-${{ env.CONFIGURATION }}
+        path: build/*.AppImage
 
    # - name: 'macOS: Upload relive dmg'
    #   if: matrix.name == 'macOS'
