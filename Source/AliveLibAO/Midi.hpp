@@ -1,13 +1,7 @@
 #pragma once
 
-namespace relive {
-struct SfxDefinition;
-}
-
-struct PathSoundInfo;
-struct OpenSeqHandle;
-class ResourceManagerWrapper;
-class BaseMap;
+// The game agnostic sound functions (SND_Reset, SND_Load_VABS, SND_Stop_Channels_Mask etc) live here
+#include "../relive_lib/Sound/Midi.hpp"
 
 namespace AO {
 
@@ -180,16 +174,6 @@ enum class SeqId : s16
     Unknown_163 = 163,
 };
 
-void SsUtAllKeyOff(s32 mode);
-
-void SND_Reset_476BA0();
-
-void SND_Load_VABS(std::shared_ptr<PathSoundInfo>& pSoundBlockInfo, s32 reverb, ResourceManagerWrapper& resMan, BaseMap& map);
-
-void SND_Stop_Channels_Mask(s32 mask);
-
-void SND_Load_Seqs_477AB0(OpenSeqHandle* pSeqTable, std::shared_ptr<PathSoundInfo>& bsqFileName, ResourceManagerWrapper& resMan, BaseMap& map);
-
 s16 SND_SEQ_PlaySeq(SeqId idx, s32 repeatCount, s16 bDontStop);
 
 void SND_SEQ_Stop(SeqId idx);
@@ -198,11 +182,7 @@ s16 SND_SEQ_Play(SeqId idx, s32 repeatCount, s16 volLeft, s16 volRight);
 
 s16 SND_SsIsEos_DeInlined(SeqId idx);
 
-s32 SFX_SfxDefinition_Play(const relive::SfxDefinition& sfxDef, s16 volLeft, s16 volRight, s16 pitch_min, s16 pitch_max);
-
 void SND_Init();
-
-void SND_Shutdown();
 
 void SND_SEQ_SetVol(SeqId idx, s16 volLeft, s16 volRight);
 

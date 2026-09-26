@@ -16,7 +16,8 @@
 #include "../Math.hpp"
 #include "BaseMap.hpp"
 
-void SFX_SetPitch_4CA510(const relive::SfxDefinition& pSfx, s32 channelsBits, s16 pitch);
+static void SND_SetChannelsPitch(s32 channelsBits, s32 note, s16 pitch);
+static s32 SFX_ApplyPitchVariation(const relive::SfxDefinition& sfxDef, s32 midiHandle, s16 pitch_min, s16 pitch_max);
 
 const s32 kSeqTableSizeAE = 144;
 
@@ -88,6 +89,11 @@ public:
         return kSeqTableSizeAE;
     }
 
+    virtual void SsVabTransBody(ResourceManagerWrapper& resMan, VabBodyRecord* pVabBody, s16 vabId) override
+    {
+        SsVabTransBody_4FC840(resMan.mFs, pVabBody, vabId);
+    }
+
 private:
     std::weak_ptr<PathSoundInfo> mLastLoadedSoundBlockInfo;
 };
@@ -157,7 +163,7 @@ s16 SND_VAB_Load_4C9FE0(PathSoundInfo& pSoundBlockInfo, ResourceManagerWrapper& 
     pSoundBlockInfo.mVabId = SsVabOpenHead(reinterpret_cast<VabHeader*>(pSoundBlockInfo.mVhFileData.data()));
 
     // Load actual sample data (copied, hence vec goes out of scope after this)
-    SsVabTransBody_4FC840(resMan.mFs, reinterpret_cast<VabBodyRecord*>(vbFileData.data()), static_cast<s16>(pSoundBlockInfo.mVabId));
+    GetMidiVars()->SsVabTransBody(resMan, reinterpret_cast<VabBodyRecord*>(vbFileData.data()), static_cast<s16>(pSoundBlockInfo.mVabId));
 
     SsVabTransCompleted(SS_WAIT_COMPLETED);
 
@@ -283,22 +289,12 @@ s32 SFX_SfxDefinition_Play_Mono(const relive::SfxDefinition& sfxDef, s32 volume,
         volume,
         volume);
 
-    if (!GetMidiVars()->sSFXPitchVariationEnabled())
-    {
-        return 0;
-    }
-
-    if (pitch_min || pitch_max)
-    {
-        // Note: Inlined in psx
-        SFX_SetPitch_4CA510(sfxDef, midiHandle, Math_RandomRange(static_cast<s16>(pitch_min), static_cast<s16>(pitch_max)));
-    }
-
-    return midiHandle;
+    return SFX_ApplyPitchVariation(sfxDef, midiHandle, static_cast<s16>(pitch_min), static_cast<s16>(pitch_max));
 }
 
 
-void SFX_SetPitch_4CA510(const relive::SfxDefinition& pSfx, s32 channelsBits, s16 pitch)
+// Note: Inlined in psx (SFX_SetPitch_4CA510 + the pitch code of SND_MIDI)
+static void SND_SetChannelsPitch(s32 channelsBits, s32 note, s16 pitch)
 {
     s32 v3 = 0;
     s16 v4 = 0;
@@ -314,15 +310,30 @@ void SFX_SetPitch_4CA510(const relive::SfxDefinition& pSfx, s32 channelsBits, s1
         v4 = 127 - (-(s8) pitch & 127);
     }
 
-    for (s16 i = 0; i < 24; i++) // TODO: use kNumChannels
+    for (s16 i = 0; i < kNumChannels; i++)
     {
         if ((1 << i) & channelsBits)
         {
             const s16 vabId = 0;   // Not used by target func
             const s16 program = 0; // Not used by target func
-            SsUtChangePitch_4FDF70(i, program, vabId, static_cast<s16>(pSfx.mNote), 0, static_cast<s16>(static_cast<s32>(pSfx.mNote) + v3), v4);
+            SsUtChangePitch_4FDF70(i, program, vabId, static_cast<s16>(note), 0, static_cast<s16>(note + v3), v4);
         }
     }
+}
+
+static s32 SFX_ApplyPitchVariation(const relive::SfxDefinition& sfxDef, s32 midiHandle, s16 pitch_min, s16 pitch_max)
+{
+    if (!GetMidiVars()->sSFXPitchVariationEnabled())
+    {
+        return 0;
+    }
+
+    if (pitch_min || pitch_max)
+    {
+        SND_SetChannelsPitch(midiHandle, sfxDef.mNote, Math_RandomRange(pitch_min, pitch_max));
+    }
+
+    return midiHandle;
 }
 
 s32 SND_MIDI(s32 program, s32 vabId, s32 note, s16 vol, s16 min, s16 max)
@@ -350,28 +361,7 @@ s32 SND_MIDI(s32 program, s32 vabId, s32 note, s16 vol, s16 min, s16 max)
 
     if (min || max)
     {
-        s16 randomValue = Math_RandomRange(min, max);
-
-        s32 v9;  // edi
-        s16 v10; // bx
-        if (randomValue >= 0)
-        {
-            v9 = (randomValue >> 7) & 0xFFFF;
-            v10 = randomValue & 127;
-        }
-        else
-        {
-            v9 = -1 - (-randomValue >> 7);
-            v10 = 127 - (-(s8) randomValue & 127);
-        }
-
-        for (s16 i = 0; i < 24; i++) // TODO: Use kNumChannels
-        {
-            if ((1 << i) & channelBits)
-            {
-                SsUtChangePitch_4FDF70(i, program, vabId, static_cast<s16>(note), 0, static_cast<s16>(v9 + note), v10);
-            }
-        }
+        SND_SetChannelsPitch(channelBits, note, Math_RandomRange(min, max));
     }
     return channelBits;
 }
@@ -413,17 +403,7 @@ s32 SFX_SfxDefinition_Play_Stereo(const relive::SfxDefinition& sfxDef, s16 volLe
         volLeft,
         volRight);
 
-    if (!GetMidiVars()->sSFXPitchVariationEnabled())
-    {
-        return 0;
-    }
-
-    if (pitch_min || pitch_max)
-    {
-        SFX_SetPitch_4CA510(sfxDef, midiHandle, Math_RandomRange(pitch_min, pitch_max));
-    }
-
-    return midiHandle;
+    return SFX_ApplyPitchVariation(sfxDef, midiHandle, pitch_min, pitch_max);
 }
 
 void SND_Stop_Channels_Mask(u32 bitMask)

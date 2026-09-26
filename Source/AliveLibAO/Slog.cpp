@@ -666,7 +666,7 @@ void Slog::Sfx(s32 soundId)
         default:
             return;
     }
-    SFX_SfxDefinition_Play(sndDef,
+    SFX_SfxDefinition_Play_Stereo(sndDef,
                                   static_cast<s16>(volumeLeft),
                                   static_cast<s16>(volumeRight),
                                   static_cast<s16>(sndDef.mPitchMin),

@@ -7,6 +7,7 @@
 #include "Engine.hpp"
 #include "Midi.hpp"
 #include "../relive_lib/Sound/Midi.hpp"
+#include "../relive_lib/Sound/PsxSpuApi.hpp"
 #include "../relive_lib/GameObjects/BaseAliveGameObject.hpp"
 #include "Abe.hpp"
 #include "QuikSave.hpp"
@@ -388,7 +389,7 @@ ScreenChangeResult Map::StartLoadCamera()
         {
             if (LevelChanged())
             {
-                SND_Reset_476BA0();
+                SND_Reset();
                 FreePathResourceBlocks();
             }
 
@@ -416,8 +417,8 @@ void Map::ContinueLoadCamera()
     if (LevelChanged())
     {
         // Sound files pended by LoadPathsAndPendSounds
-        AO::SND_Load_VABS(mLoadedPaths[0]->GetSoundInfo(), AO::Path_Get_Reverb(mNextLevel), mResourceManager, *this); // TODO: Remove hard coded data
-        SND_Load_Seqs_477AB0(g_SeqTable_4C9E70, mLoadedPaths[0]->GetSoundInfo(), mResourceManager, *this);
+        SND_Load_VABS(mLoadedPaths[0]->GetSoundInfo(), AO::Path_Get_Reverb(mNextLevel), mResourceManager, *this); // TODO: Remove hard coded data
+        SND_Load_Seqs(g_SeqTable_4C9E70, mLoadedPaths[0]->GetSoundInfo(), mResourceManager, *this);
 
         relive_new BackgroundMusic(AO::Path_Get_BackGroundMusicId(mNextLevel), mResourceManager, *this); // TODO: Remove hard coded data
 

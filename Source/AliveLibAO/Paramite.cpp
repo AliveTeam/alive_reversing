@@ -767,7 +767,7 @@ void Paramite::Sound(ParamiteSpeak idx)
             return;
     }
 
-    SFX_SfxDefinition_Play(stru_4CDD98[static_cast<s16>(idx)], volLeft, volRight, -520, -520);
+    SFX_SfxDefinition_Play_Stereo(stru_4CDD98[static_cast<s16>(idx)], volLeft, volRight, -520, -520);
 }
 
 void Paramite::SetMusic()

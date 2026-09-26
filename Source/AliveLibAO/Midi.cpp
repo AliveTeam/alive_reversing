@@ -43,6 +43,8 @@ s16 sNeedToHashSeqNames_4D0000 = 1;
 const PathSoundInfo soundBlock = {"MONK.VH", "MONK.VB", {}, "", {}, {}, {}};
 PathSoundInfo sMonkVh_Vb_4D0008 = soundBlock;
 
+void SsVabTransBody(VabBodyRecord* pVabBody, s16 vabId);
+
 class AOMidiVars final : public IMidiVars
 {
 public:
@@ -89,6 +91,11 @@ public:
     virtual s32 MidiTableSize() override
     {
         return kSeqTableSizeAO;
+    }
+
+    virtual void SsVabTransBody(ResourceManagerWrapper& /*resMan*/, VabBodyRecord* pVabBody, s16 vabId) override
+    {
+        AO::SsVabTransBody(pVabBody, vabId);
     }
 
 private:
@@ -232,46 +239,6 @@ private:
 
 static AOPsxSpuApiVars sAoSpuVars;
 
-void SND_Reset_476BA0()
-{
-    SND_Reset();
-}
-
-void SsUtAllKeyOff(s32 mode)
-{
-    ::SsUtAllKeyOff(mode);
-}
-
-void SND_Stop_All_Seqs()
-{
-    ::SND_Stop_All_Seqs();
-}
-
-void SsSeqCalledTbyT()
-{
-    ::SsSeqCalledTbyT();
-}
-
-s32 SND_New(SoundEntry* pSnd, s32 sampleLength, s32 sampleRate, s32 bitsPerSample, s32 isStereo)
-{
-    return ::SND_New(pSnd, sampleLength, sampleRate, bitsPerSample, isStereo);
-}
-
-s32 SND_Load(SoundEntry* pSnd, const void* pWaveData, s32 waveDataLen)
-{
-    return ::SND_Load(pSnd, pWaveData, waveDataLen);
-}
-
-s16 SsVabOpenHead(VabHeader* pVabHeader)
-{
-    return ::SsVabOpenHead(pVabHeader);
-}
-
-void SND_Stop_Channels_Mask(s32 mask)
-{
-    ::SND_Stop_Channels_Mask(mask);
-}
-
 s16 SND_SEQ_PlaySeq(SeqId idx, s32 repeatCount, s16 bDontStop)
 {
     return ::SND_SEQ_PlaySeq(static_cast<u16>(idx), static_cast<s16>(repeatCount), bDontStop);
@@ -284,43 +251,6 @@ void SND_SEQ_Stop(SeqId idx)
 s16 SND_SsIsEos_DeInlined(SeqId idx)
 {
     return static_cast<s16>(::SND_SsIsEos_DeInlined(static_cast<u16>(idx)));
-}
-
-s32 SND_PlayEx(const SoundEntry* pSnd, s32 panLeft, s32 panRight, f32 freq, MIDI_Channel* pMidiStru, s32 playFlags, s32 priority)
-{
-    return ::SND_PlayEx(pSnd, panLeft, panRight, freq, pMidiStru, playFlags, priority);
-}
-
-s32 SND_Get_Buffer_Status(s32 idx)
-{
-    return ::SND_Get_Buffer_Status(idx);
-}
-
-// TODO: Check correct one
-s32 SND_Buffer_Set_Frequency_493820(s32 idx, f32 freq)
-{
-    return SND_Buffer_Set_Frequency_4EFC00(idx, freq);
-}
-
-// TODO: Check is 2nd one
-s32 SND_Buffer_Set_Frequency_493790(s32 idx, f32 freq)
-{
-    return SND_Buffer_Set_Frequency_4EFC00(idx, freq);
-}
-
-void SsSeqStop(s16 idx)
-{
-    ::SsSeqStop(idx);
-}
-
-void MIDI_SetTempo(s16 idx, s16 kZero, s16 tempo)
-{
-    ::MIDI_SetTempo(idx, kZero, tempo);
-}
-
-s32 MIDI_Allocate_Channel(s32 not_used, s32 priority)
-{
-    return ::MIDI_Allocate_Channel(not_used, priority);
 }
 
 // NOTE: Impl is not the same as AE
@@ -474,7 +404,7 @@ s32 MIDI_PlayerPlayMidiNote(s32 vabId, s32 program, s32 note, s32 leftVolume, s3
                         pChannel->field_1C_adsr.field_2_note_byte1 = BYTE1(note) & 0x7F;
                         auto freq = pow(1.059463094359, (f64)(note - v29) * 0.00390625);
                         pChannel->field_10_freq = (f32) freq;
-                        AO::SND_PlayEx(
+                        SND_PlayEx(
                             &GetSpuApiVars()->sSoundEntryTable16().table[vabId][vag_num],
                             panLeft,
                             panRight,
@@ -510,11 +440,6 @@ s32 MIDI_PlayerPlayMidiNote_49DAD0(s32 vabId, s32 program, s32 note, s32 leftVol
     }
 }
 
-
-s32 SND_Stop_Sample_At_Idx(s32 idx)
-{
-    return ::SND_Stop_Sample_At_Idx(idx);
-}
 
 // NOTE!!! not the same as AE
 void SsUtKeyOffV(s16 idx)
@@ -719,7 +644,7 @@ s32 MIDI_ParseMidiMessage(s32 idx)
                             if (pChannel->field_1C_adsr.field_1_program == prog_num)
                             {
                                 const f32 freq_1 = freq_conv * pChannel->field_10_freq;
-                                SND_Buffer_Set_Frequency_493790(i, freq_1);
+                                SND_Buffer_Set_Frequency_4EFC00(i, freq_1); // TODO: Check this is the right one (was 0x493790)
                             }
                         }
                         break;
@@ -785,11 +710,6 @@ s32 MIDI_ParseMidiMessage(s32 idx)
         } // Loop end
     }
     return 1;
-}
-
-void SND_Shutdown()
-{
-    ::SND_Shutdown();
 }
 
 void SND_SEQ_SetVol(SeqId idx, s16 volLeft, s16 volRight)
@@ -865,25 +785,9 @@ void SsVabTransBody(VabBodyRecord* pVabBody, s16 vabId)
                 v10 = IterateVBRecords_GetUnused(pVabBody, i);
             }
 
-            const u8 unused_field = v10 >= 0 ? 0 : 4;
-            for (s32 prog = 0; prog < 128; prog++)
-            {
-                for (s32 tone = 0; tone < 16; tone++)
-                {
-                    auto pVag = &GetSpuApiVars()->sConvertedVagTable().table[vabId][prog][tone];
-                    if (pVag->field_10_vag == i)
-                    {
-                        pVag->field_C = unused_field;
+            SsExt_SetVagFlags(vabId, i, v10 >= 0 ? 0 : 4);
 
-                        if (!(unused_field & 4) && !pVag->field_0_adsr_attack && pVag->field_6_adsr_release)
-                        {
-                            pVag->field_6_adsr_release = 0;
-                        }
-                    }
-                }
-            }
-
-            if (!AO::SND_New(pEntry, sampleLen, 44100, 16u, 0))
+            if (!SND_New(pEntry, sampleLen, 44100, 16u, 0))
             {
                 auto pTempBuffer = (u32*) malloc(sampleLen * pEntry->field_1D_blockAlign);
                 if (pTempBuffer)
@@ -905,7 +809,7 @@ void SsVabTransBody(VabBodyRecord* pVabBody, s16 vabId)
 
                     if (sampleLen2)
                     {
-                        AO::SND_Load(pEntry, pTempBuffer, sampleLen2);
+                        SND_Load(pEntry, pTempBuffer, sampleLen2);
                     }
 
                     free(pTempBuffer);
@@ -913,56 +817,6 @@ void SsVabTransBody(VabBodyRecord* pVabBody, s16 vabId)
             }
         }
     }
-}
-
-s16 SND_VAB_Load_476CB0(PathSoundInfo& pSoundBlockInfo, ResourceManagerWrapper& resMan, BaseMap& /*map*/)
-{
-    // Find the VH file record
-    pSoundBlockInfo.mVhFileData = resMan.LoadSoundFile(pSoundBlockInfo.mVhFile.c_str(), pSoundBlockInfo.mSoundTheme);
-    pSoundBlockInfo.mVabId = AO::SsVabOpenHead(reinterpret_cast<VabHeader*>(pSoundBlockInfo.mVhFileData.data()));
-
-    // Load the VB file data
-    std::vector<u8> vbFileData = resMan.LoadSoundFile(pSoundBlockInfo.mVbFile.c_str(), pSoundBlockInfo.mSoundTheme);
-
-    SsVabTransBody(reinterpret_cast<VabBodyRecord*>(vbFileData.data()), static_cast<s16>(pSoundBlockInfo.mVabId));
-    SsVabTransCompleted(SS_WAIT_COMPLETED);
-
-
-    return 1;
-}
-
-void SND_Load_VABS(std::shared_ptr<PathSoundInfo>& pSoundBlockInfo, s32 reverb, ResourceManagerWrapper& resMan, BaseMap& map)
-{
-    GetMidiVars()->sSnd_ReloadAbeResources() = false;
-    auto oldPtr = GetMidiVars()->sLastLoadedSoundBlockInfo().lock();
-    if (oldPtr.get() != pSoundBlockInfo.get())
-    {
-        SsUtReverbOff_4FE350();
-        SsUtSetReverbDepth_4FE380(0, 0);
-        SpuClearReverbWorkArea_4FA690(4);
-
-        if (GetMidiVars()->sMonkVh_Vb().mVabId < 0)
-        {
-            SND_VAB_Load_476CB0(GetMidiVars()->sMonkVh_Vb(), resMan, map);
-        }
-
-        GetMidiVars()->sLastLoadedSoundBlockInfo() = pSoundBlockInfo;
-
-        SND_VAB_Load_476CB0(*pSoundBlockInfo, resMan, map);
-
-        if (GetMidiVars()->sSnd_ReloadAbeResources())
-        {
-            //ResourceManager::Reclaim_Memory_455660(0);
-        }
-
-        SsUtSetReverbDepth_4FE380(reverb, reverb);
-        SsUtReverbOn_4FE340();
-    }
-}
-
-void SND_Load_Seqs_477AB0(OpenSeqHandle* pSeqTable, std::shared_ptr<PathSoundInfo>& bsqFileName, ResourceManagerWrapper& resMan, BaseMap& map)
-{
-    SND_Load_Seqs_Impl(pSeqTable, *bsqFileName, resMan, map);
 }
 
 s16 SND_SEQ_Play(SeqId idx, s32 repeatCount, s16 volLeft, s16 volRight)
@@ -1006,22 +860,10 @@ s16 SND_SEQ_Play(SeqId idx, s32 repeatCount, s16 volLeft, s16 volRight)
     return ret;
 }
 
-s32 SFX_SfxDefinition_Play(const relive::SfxDefinition& sfxDef, s16 volLeft, s16 volRight, s16 pitch_min, s16 pitch_max)
-{
-    return ::SFX_SfxDefinition_Play_Stereo(sfxDef, volLeft, volRight, pitch_min, pitch_max);
-}
-
 void SND_Init()
 {
     SetSpuApiVars(&sAoSpuVars);
     SetMidiApiVars(&sAoMidiVars);
-
-    GetSoundAPI().mSND_Load = SND_Load;
-    GetSoundAPI().mSND_Get_Buffer_Status = SND_Get_Buffer_Status;
-    GetSoundAPI().mSND_Stop_Sample_At_Idx = SND_Stop_Sample_At_Idx;
-    GetSoundAPI().mSND_Buffer_Set_Frequency2 = SND_Buffer_Set_Frequency_493820;
-
-    // SND_Buffer_Set_Frequency1 SND_Buffer_Set_Frequency_493790
 
     ::SND_Init();
     SND_Restart_SetCallBack(SND_Restart);

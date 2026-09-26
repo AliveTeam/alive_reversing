@@ -682,7 +682,7 @@ void Elum::Elum_SFX(ElumSounds soundId, BaseAliveGameObject* pObj, BaseMap& map)
                     volRight = 80;
                     break;
             }
-            SFX_SfxDefinition_Play(sElumSfx_4C5398[3], (s16) volLeft, (s16) volRight, 0, 0);
+            SFX_SfxDefinition_Play_Stereo(sElumSfx_4C5398[3], (s16) volLeft, (s16) volRight, 0, 0);
             break;
         }
 

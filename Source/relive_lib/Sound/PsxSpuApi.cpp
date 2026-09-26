@@ -421,6 +421,26 @@ s16 SsVabOpenHead(VabHeader* pVabHeader)
     return static_cast<s16>(vab_id);
 }
 
+void SsExt_SetVagFlags(s16 vabId, s32 vagIdx, u8 flags)
+{
+    // Find matching converted vag to set field_C / field_6_adsr
+    for (s32 prog = 0; prog < 128; prog++)
+    {
+        for (s32 tone = 0; tone < 16; tone++)
+        {
+            Converted_Vag* pVag = &gSpuVars->sConvertedVagTable().table[vabId][prog][tone];
+            if (pVag->field_10_vag == vagIdx)
+            {
+                pVag->field_C = flags;
+                if (!(flags & 4) && !pVag->field_0_adsr_attack && pVag->field_6_adsr_release)
+                {
+                    pVag->field_6_adsr_release = 0;
+                }
+            }
+        }
+    }
+}
+
 // Loads sounds dat to memory
 void SsVabTransBody_4FC840(FileSystem& fs, VabBodyRecord* pVabBody, s16 vabId)
 {
@@ -454,24 +474,7 @@ void SsVabTransBody_4FC840(FileSystem& fs, VabBodyRecord* pVabBody, s16 vabId)
 
         if (sampleLen > 0)
         {
-            // Find matching converted vag to set field_C / field_6_adsr
-            const s32 unused_field = sub_4FC470(pVabHeader, pVabBody, i);
-            const u8 unused_copy = unused_field != 0 ? 4 : 0;
-            for (s32 prog = 0; prog < 128; prog++)
-            {
-                for (s32 tone = 0; tone < 16; tone++)
-                {
-                    Converted_Vag* pVag = &gSpuVars->sConvertedVagTable().table[vabId][prog][tone];
-                    if (pVag->field_10_vag == i)
-                    {
-                        pVag->field_C = unused_copy;
-                        if (!(unused_copy & 4) && !pVag->field_0_adsr_attack && pVag->field_6_adsr_release)
-                        {
-                            pVag->field_6_adsr_release = 0;
-                        }
-                    }
-                }
-            }
+            SsExt_SetVagFlags(vabId, i, sub_4FC470(pVabHeader, pVabBody, i) ? 4 : 0);
 
             // Allocate pEntry
             if (GetSoundAPI().mSND_New(pEntry, sampleLen, 44100, 16, 0) == 0)

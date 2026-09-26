@@ -245,3 +245,6 @@ void SsSeqCalledTbyT();
 void SsExt_CloseAllVabs();
 
 void SsExt_StopPlayingSamples();
+
+// Sets field_C of every converted vag that uses vagIdx, shared by the AE + AO SsVabTransBody
+void SsExt_SetVagFlags(s16 vabId, s32 vagIdx, u8 flags);
