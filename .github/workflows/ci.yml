@@ -8,7 +8,7 @@ name: CI
 
 on:
   push:
-    branches: [beta]
+    branches: [beta, claude/fix-remaining-warnings-pt2ai1]
   pull_request:
     branches: [beta]
 
