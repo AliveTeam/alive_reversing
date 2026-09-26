@@ -36,7 +36,7 @@ static s16 sDDCheat_MovieSelectIdx = 0;
 using TDDCheatFn = decltype(&DDCheat::Teleport);
 
 #define DDCHEAT_FN_COUNT 2
-static TDDCheatFn sDDCheat_FnCheatsTable[DDCHEAT_FN_COUNT] = {
+static const TDDCheatFn sDDCheat_FnCheatsTable[DDCHEAT_FN_COUNT] = {
     &DDCheat::Teleport,
     &DDCheat::Menu_Movies,
 };
@@ -373,7 +373,8 @@ void DDCheat::VUpdate()
         }
         else
         {
-            (*this.*(sDDCheat_FnCheatsTable)[mCheatFnIdx])();
+            const TDDCheatFn pCheatFn = sDDCheat_FnCheatsTable[mCheatFnIdx];
+            (this->*pCheatFn)();
         }
     }
 }
