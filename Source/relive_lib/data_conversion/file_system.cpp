@@ -10,7 +10,6 @@
     #include <dirent.h>
     #include <libgen.h>
     #include <string.h>
-    #include <regex>
 #endif
 
 #if _WIN32
@@ -91,7 +90,8 @@ std::string FileSystem::LoadToString(const char* path)
         ::fseek(pFile, 0, SEEK_SET);
         std::string r;
         r.resize(fsize);
-        ::fread(r.data(), 1, fsize, pFile);
+        // Drop anything we couldn't actually read rather than returning zero padding
+        r.resize(::fread(r.data(), 1, fsize, pFile));
         return r;
     }
     return {};
@@ -128,8 +128,9 @@ bool FileSystem::LoadToVec(const char* path, std::vector<u8>& buffer)
         const auto fsize = ftell(pFile);
         ::fseek(pFile, 0, SEEK_SET);
         buffer.resize(fsize);
-        ::fread(buffer.data(), 1, fsize, pFile);
-        return true;
+        const size_t bytesRead = ::fread(buffer.data(), 1, fsize, pFile);
+        buffer.resize(bytesRead);
+        return bytesRead == static_cast<size_t>(fsize);
     }
     return false;
 }
@@ -249,46 +250,47 @@ bool FileSystem::DirectoryExists(const char_type* pDirName)
 #if !_WIN32
 namespace
 {
-    void ReplaceAll(std::string& input, const std::string& find, const std::string& replace)
+    // Full match of text against a file name pattern where '*' matches any run of chars and '?' any single char
+    bool WildCardMatcher(const std::string& text, const std::string& wildcardPattern, bool caseSensitive)
     {
-        size_t pos = 0;
-        while ((pos = input.find(find, pos)) != std::string::npos)
+        const auto charsEqual = [caseSensitive](char a, char b)
         {
-            input.replace(pos, find.length(), replace);
-            pos += replace.length();
+            return caseSensitive ? a == b : std::tolower(static_cast<unsigned char>(a)) == std::tolower(static_cast<unsigned char>(b));
+        };
+
+        size_t t = 0;
+        size_t p = 0;
+        size_t starPos = std::string::npos; // position of the last '*' seen in the pattern
+        size_t starMatchEnd = 0;            // text position that '*' currently extends to
+        while (t < text.size())
+        {
+            if (p < wildcardPattern.size() && (wildcardPattern[p] == '?' || (wildcardPattern[p] != '*' && charsEqual(wildcardPattern[p], text[t]))))
+            {
+                t++;
+                p++;
+            }
+            else if (p < wildcardPattern.size() && wildcardPattern[p] == '*')
+            {
+                starPos = p++;
+                starMatchEnd = t;
+            }
+            else if (starPos != std::string::npos)
+            {
+                // Backtrack: let the last '*' swallow one more char
+                p = starPos + 1;
+                t = ++starMatchEnd;
+            }
+            else
+            {
+                return false;
+            }
         }
-    }
 
-    void EscapeRegex(std::string& regex)
-    {
-        ReplaceAll(regex, "\\", "\\\\");
-        ReplaceAll(regex, "^", "\\^");
-        ReplaceAll(regex, ".", "\\.");
-        ReplaceAll(regex, "$", "\\$");
-        ReplaceAll(regex, "|", "\\|");
-        ReplaceAll(regex, "(", "\\(");
-        ReplaceAll(regex, ")", "\\)");
-        ReplaceAll(regex, "[", "\\[");
-        ReplaceAll(regex, "]", "\\]");
-        ReplaceAll(regex, "*", "\\*");
-        ReplaceAll(regex, "+", "\\+");
-        ReplaceAll(regex, "?", "\\?");
-        ReplaceAll(regex, "/", "\\/");
-    }
-
-    bool WildCardMatcher(const std::string& text, std::string wildcardPattern, bool caseSensitive)
-    {
-        // Escape all regex special chars
-        EscapeRegex(wildcardPattern);
-
-        // Convert chars '*?' back to their regex equivalents
-        ReplaceAll(wildcardPattern, "\\?", ".");
-        ReplaceAll(wildcardPattern, "\\*", ".*");
-
-        std::regex pattern(wildcardPattern,
-                            caseSensitive ? std::regex_constants::ECMAScript : std::regex_constants::ECMAScript | std::regex_constants::icase);
-
-        return std::regex_match(text, pattern);
+        while (p < wildcardPattern.size() && wildcardPattern[p] == '*')
+        {
+            p++;
+        }
+        return p == wildcardPattern.size();
     }
 } // namespace
 #endif
