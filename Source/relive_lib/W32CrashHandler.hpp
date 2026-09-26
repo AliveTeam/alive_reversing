@@ -83,10 +83,9 @@ inline void Install_Crash_Handler()
 inline void crash_handler(int sig)
 {
     void* callStack[30];
-    size_t size;
 
     // get void*'s for all entries on the stack
-    size = backtrace(callStack, 30);
+    const int size = backtrace(callStack, 30);
 
     // print out all the frames to stderr
     fprintf(stderr, "Error: signal %d:\n", sig);

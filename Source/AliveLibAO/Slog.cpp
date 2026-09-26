@@ -2683,7 +2683,7 @@ void Slog::VGetSaveState(SerializedObjectData& pSaveBuffer)
         }
     }
 
-    data.mHasWoofed = mHasWoofed;
+    data.mHasWoofed = static_cast<s16>(mHasWoofed);
     data.mWaitingCounter = mWaitingCounter;
     data.mResponseIdx = mResponseIdx;
     data.mResponsePart = mResponsePart;
