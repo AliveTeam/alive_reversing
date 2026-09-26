@@ -732,7 +732,7 @@ static void ConvertPathBND(const FileSystem::Path& dataDir, const std::string& f
         auto pExt = reinterpret_cast<PerPathExtension*>(dataCopy.data());
         if (pExt->mSize != sizeof(PerPathExtension))
         {
-            LOG_INFO("%s expected size %d but got %d", pExt->mBlyName, sizeof(PerPathExtension), pExt->mSize);
+            LOG_INFO("%s expected size %zu but got %u", pExt->mBlyName, sizeof(PerPathExtension), pExt->mSize);
             continue;
         }
 

@@ -4662,7 +4662,7 @@ void Slig::VUpdate()
 
         if (gDDCheat_ShowAI_Info)
         {
-            DDCheat::DebugStr("Slig %d %d %d %d\n", mBrainSubState, field_120_timer, mCurrentMotion, mNextMotion);
+            DDCheat::DebugStr("Slig %d %d %d %d\n", mBrainSubState, field_120_timer, static_cast<s32>(mCurrentMotion), static_cast<s32>(mNextMotion));
         }
 
         const FP oldXPos = mXPos;

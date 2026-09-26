@@ -30,7 +30,7 @@ void SDLSoundSystem::Init(u32 /*sampleRate*/, s32 /*bitsPerSample*/, s32 /*isSte
     mAudioStream = SDL_OpenAudioDeviceStream(SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK, &mAudioDeviceSpec, SDLSoundSystem::AudioCallBackStatic, this);
     if (!mAudioStream)
     {
-        LOG_ERROR("Couldn't open SDL audio: %d", SDL_GetError());
+        LOG_ERROR("Couldn't open SDL audio: %s", SDL_GetError());
         return;
     }
 

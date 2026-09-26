@@ -198,7 +198,7 @@ s32 SND_PlayEx(const SoundEntry* pSnd, s32 panLeft, s32 panRight, f32 freq, MIDI
         HRESULT v15 = sDSound_BBC344->DuplicateSoundBuffer(pDSoundBuffer, &pSoundBuffer->field_0_pDSoundBuffer);
         if (FAILED(v15))
         {
-            ALIVE_FATAL(GetSoundAPI().mSND_HR_Err_To_String(v15));
+            ALIVE_FATAL("%s", GetSoundAPI().mSND_HR_Err_To_String(v15));
         }
 
         pDSoundBuffer = pSoundBuffer->field_0_pDSoundBuffer;

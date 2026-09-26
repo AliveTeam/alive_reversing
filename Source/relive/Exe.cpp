@@ -191,7 +191,7 @@ static void SDL2_Init()
 static void GameDirListing(FileSystem& fs)
 {
     fs.EnumerateDirectory("*.*", [](const char_type* fileName, u32)
-                           { LOG_INFO(fileName); });
+                           { LOG_INFO("%s", fileName); });
 }
 
 static bool CheckRequiredGameFilesExist(FileSystem& fs, GameType gameType, bool showError)
@@ -231,7 +231,7 @@ static bool CheckRequiredGameFilesExist(FileSystem& fs, GameType gameType, bool 
 
         SDL_Init(SDL_INIT_EVENTS);
         GameDirListing(fs);
-        Alive_Show_ErrorMsg(errorMessage.c_str());
+        Alive_Show_ErrorMsg("%s", errorMessage.c_str());
     }
     return false;
 }

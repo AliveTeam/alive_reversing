@@ -2,6 +2,7 @@
 
 #include <vector>
 #include "Types.hpp"
+#include "FixedPoint.hpp"
 #include "data_conversion/file_system.hpp"
 
 class CommandLineParser;
@@ -93,6 +94,17 @@ protected:
         file.Read(tmpValue);
     }
 
+    static long long ToLoggable(const FixedPoint& value)
+    {
+        return value.fpValue;
+    }
+
+    template <typename T>
+    static long long ToLoggable(const T& value)
+    {
+        return static_cast<long long>(value);
+    }
+
     template <typename TypeToValidate>
     static bool ValidField(AutoFILE& file, const TypeToValidate& expectedValue, const char* name)
     {
@@ -100,7 +112,7 @@ protected:
         file.Read(tmpValue);
         if (tmpValue != expectedValue)
         {
-            LOG_ERROR("Field %s de-synced, expected: %d, got: %d", name, tmpValue, expectedValue);
+            LOG_ERROR("Field %s de-synced, expected: %lld, got: %lld", name, ToLoggable(tmpValue), ToLoggable(expectedValue));
             return true;
         }
         return false;

@@ -21,7 +21,7 @@ GLShader::GLShader(const char_type* source, GLenum kind)
 
     if (infoLogLength)
     {
-        ALIVE_FATAL(infoLog);
+        ALIVE_FATAL("%s", infoLog);
     }
 }
 

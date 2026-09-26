@@ -34,7 +34,7 @@ void GLShaderProgram::LinkShaders(GLShader &vertexShader, GLShader &fragmentShad
 
     if (infoLogLength)
     {
-        ALIVE_FATAL(infoLog);
+        ALIVE_FATAL("%s", infoLog);
     }
 
     vertexShader.DetachFrom(mGLId);

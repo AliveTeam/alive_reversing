@@ -5071,8 +5071,8 @@ void Paramite::HandleBrainsAndMotions()
             "Paramite %d %d %d %d\n",
             mBrainSubState,
             field_130_timer,
-            mCurrentMotion,
-            mNextMotion);
+            static_cast<s32>(mCurrentMotion),
+            static_cast<s32>(mNextMotion));
     }
 
     const FP oldXPos = mXPos;

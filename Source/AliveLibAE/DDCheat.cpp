@@ -209,7 +209,7 @@ void DDCheat::DebugStr(const char_type* pFormatStr, ...)
     vsprintf(buffer, pFormatStr, va);
     va_end(va);
 
-    gPsxDisplay.mDebugFont.DebugFont_Printf(0, buffer);
+    gPsxDisplay.mDebugFont.DebugFont_Printf(0, "%s", buffer);
 }
 
 void DDCheat::VUpdate()

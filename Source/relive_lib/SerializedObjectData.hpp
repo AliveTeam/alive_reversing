@@ -102,7 +102,7 @@ private:
     {
         if (mBufferReadPos + readSize > mBuffer.size())
         {
-            ALIVE_FATAL("Attempted to read %d bytes from offset %d but total length is %d", readSize, mBufferReadPos, mBuffer.size());
+            ALIVE_FATAL("Attempted to read %u bytes from offset %u but total length is %zu", readSize, mBufferReadPos, mBuffer.size());
         }
     }
 

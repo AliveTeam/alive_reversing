@@ -2795,7 +2795,7 @@ void Slog::VUpdate()
         mBrainSubState = InvokeMemberFunction(this, sSlogBrainTable, mBrainState);
         if (gDDCheat_ShowAI_Info)
         {
-            DDCheat::DebugStr("Slog:  Motion=%d  BrainState=%d\n", mCurrentMotion, mBrainSubState);
+            DDCheat::DebugStr("Slog:  Motion=%d  BrainState=%d\n", static_cast<s32>(mCurrentMotion), mBrainSubState);
         }
 
         const FP oldXPos = mXPos;

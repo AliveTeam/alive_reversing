@@ -61,7 +61,7 @@ enum MenuResIds
     eAbeIntro = 2,
     eMenuDoor = 3,
     eOptionFlare = 4,
-    eUnknown_5 = 5,
+    eResUnknown_5 = 5,
     eResHighLite = 6,
     eSligSpeak = 7,
     eGlukkonSpeak = 8,

@@ -413,8 +413,8 @@ void Paramite::VUpdate()
                 "Paramite %d %d %d %d\n",
                 mBrainSubState,
                 field_114_timer,
-                mCurrentMotion,
-                mNextMotion);
+                static_cast<s32>(mCurrentMotion),
+                static_cast<s32>(mNextMotion));
         }
 
         const FP oldx = mXPos;

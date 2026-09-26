@@ -144,7 +144,7 @@ s32 DebugFont::DebugFont_Printf(s32 idx, const char_type* formatStr, ...)
 
 void DebugFont::DebugFont_Flush()
 {
-    DebugFont_Printf(mDebugTextIdx, mDebugFontTmpBuffer);
+    DebugFont_Printf(mDebugTextIdx, "%s", mDebugFontTmpBuffer);
     DebugFont_Update_Text_4F8BE0(mDebugTextIdx);
     mDebugFontTmpBuffer[0] = 0;
 }

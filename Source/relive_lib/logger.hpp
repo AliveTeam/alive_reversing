@@ -69,7 +69,7 @@ inline void log_impl(LogLevels logLevel, const char* funcName, const char* forma
 
 [[noreturn]] inline void HOOK_FATAL(const char_type* errMsg)
 {
-    LOG_ERROR(errMsg);
+    LOG_ERROR("%s", errMsg);
     abort();
 }
 

@@ -205,7 +205,7 @@ SDL_Texture* Sdl3Texture::GetTextureUsePalette(const std::shared_ptr<AnimationPa
                     break;
 
                 default:
-                    ALIVE_FATAL("SDL3 Invalid blend mode %u", blendMode);
+                    ALIVE_FATAL("SDL3 Invalid blend mode %u", static_cast<u32>(blendMode));
                     break;
             }
         }

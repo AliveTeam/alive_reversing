@@ -342,7 +342,7 @@ void ConvertObjectsStatesToJson(nlohmann::json& j, const SerializedObjectData& p
     while (pData.CanRead())
     {
         const SaveStateBase* pSaveStateBase = pData.PeekTmpPtr<SaveStateBase>();
-        LOG_INFO("Converting type %d with size %d", pSaveStateBase->mType, pSaveStateBase->mSize);
+        LOG_INFO("Converting type %d with size %u", static_cast<s32>(pSaveStateBase->mType), pSaveStateBase->mSize);
         ConvertObjectSaveStateDataToJson(j, pSaveStateBase->mType, pData);
     }
 }

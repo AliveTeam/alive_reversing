@@ -645,8 +645,8 @@ void Scrab::VUpdate()
                     "Scrab %d %d %d %d\n",
                     mBrainSubState,
                     field_12C_timer,
-                    mCurrentMotion,
-                    mNextMotion);
+                    static_cast<s32>(mCurrentMotion),
+                    static_cast<s32>(mNextMotion));
             }
 
             field_19C_max_ypos = mYPos;

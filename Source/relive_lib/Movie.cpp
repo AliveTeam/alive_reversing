@@ -456,7 +456,7 @@ namespace
                     return false;
                 }
 
-                LOG_INFO("FMV parser: cluster advance to %p", pNextCluster);
+                LOG_INFO("FMV parser: cluster advance to %p", static_cast<const void*>(pNextCluster));
                 mCurrentCluster = pNextCluster;
                 mCurrentBlockEntry = nullptr;
                 mCurrentFrameIndex = 0;

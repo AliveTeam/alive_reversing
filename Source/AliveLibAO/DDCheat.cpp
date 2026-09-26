@@ -429,7 +429,7 @@ s32 DDCheat::DebugFont_Printf(s32 idx, const char_type* formatStr, ...)
     vsprintf(buffer, formatStr, va);
     va_end(va);
 
-    return gPsxDisplay.mDebugFont.DebugFont_Printf(idx, buffer);
+    return gPsxDisplay.mDebugFont.DebugFont_Printf(idx, "%s", buffer);
 }
 
 s32 DDCheat::DebugStr(const char_type* pStr, ...)
@@ -439,7 +439,7 @@ s32 DDCheat::DebugStr(const char_type* pStr, ...)
 
     char_type strBuffer[1024];
     vsprintf(strBuffer, pStr, va);
-    DDCheat::DebugFont_Printf(0, strBuffer);
+    DDCheat::DebugFont_Printf(0, "%s", strBuffer);
     return 0;
 }
 

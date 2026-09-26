@@ -101,7 +101,7 @@ Engine::Engine(GameType gameType, FileSystem& fs, CommandLineParser& clp)
     {
         // Process IPC packets (usually comes from level editor) on this worker thread, send to main
         // thread via an SDL message which will end up in Sys_PumpMessages
-        LOG_INFO("On ipc packet type %d len %d", static_cast<u8>(packetType), buffer.size());
+        LOG_INFO("On ipc packet type %d len %zu", static_cast<u8>(packetType), buffer.size());
         if (packetType == relive::PacketTypes::LevelPathJsonChanged)
         {
 
@@ -151,7 +151,7 @@ static void DrawFps_4952F0(f32 fps)
 {
     char_type strBuffer[125] = {};
     snprintf(strBuffer, sizeof(strBuffer), "%02.1f fps ", static_cast<f64>(fps));
-    gPsxDisplay.mDebugFont.DebugFont_Printf(0, strBuffer);
+    gPsxDisplay.mDebugFont.DebugFont_Printf(0, "%s", strBuffer);
 }
 
 

@@ -237,7 +237,7 @@ void DeathGas::VRender(OrderingTable& ot)
                 pPoly->SetXY2( static_cast<s16>(x2), static_cast<s16>(y2 - yVal));
                 pPoly->SetXY3( static_cast<s16>(x3), static_cast<s16>(y3 - yVal));
 
-                LOG("adding death gas prim to OT: 0x%p", pPoly);
+                LOG("adding death gas prim to OT: 0x%p", static_cast<void*>(pPoly));
                 ot.Add(mLayer, pPoly);
             }
         }
